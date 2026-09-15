@@ -33,7 +33,6 @@ export const BASE_MESSAGE_PATHS = [
   "profession",
   "moreMenu",
   "contextHeader",
-  "factionMedia",
   "popularBooks",
   "musicPlayer",
   "content",
@@ -57,7 +56,6 @@ export const BASE_MESSAGE_PATHS = [
   // 헤더에서 어느 화면에서나 열 수 있는 CelebDetailModal의 공통 문구
   "home.ui",
   "celebPage.personGuide",
-  "celebPage.stopAudio",
   "celebPage.playGreetingVoice",
   "celebPage.dialogue_greeting",
   "celebPage.enlargePhoto",

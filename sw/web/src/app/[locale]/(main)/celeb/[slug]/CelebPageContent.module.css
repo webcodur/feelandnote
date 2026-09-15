@@ -316,25 +316,30 @@
 }
 
 @media (max-width: 767px) {
+  /* 모바일 전폭 처리 폭 = 화면 끝에서 본문까지의 좌우 여백. 바깥 틀(LayoutMain px-2, 8px)과
+     PageContainer(px-1, 4px)의 합이다. 둘 중 하나가 바뀌면 이 값도 같이 바꾼다 — 어긋나면 가로 스크롤이 생긴다. */
+  .page {
+    --celeb-mobile-bleed: 12px;
+  }
+
   .openingFrame {
     /* 본문 기둥과 같은 전폭 처리. 따로 놀면 좌우가 어긋나 보인다. */
-    width: calc(100% + 40px);
-    margin-inline: -20px;
+    width: calc(100% + 2 * var(--celeb-mobile-bleed));
+    margin-inline: calc(-1 * var(--celeb-mobile-bleed));
     border-inline-color: color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 72%, transparent);
     box-shadow: 0 18px 40px color-mix(in srgb, black 42%, transparent);
   }
 
   /* 머리말 제목도 프레임과 같은 폭으로. 스티키 범위는 부모 구획 그대로다. */
   .heroHeading {
-    width: calc(100% + 40px);
-    margin-inline: -20px;
+    width: calc(100% + 2 * var(--celeb-mobile-bleed));
+    margin-inline: calc(-1 * var(--celeb-mobile-bleed));
   }
 
   .recordsGrid {
-    /* 읽어보기부터는 PageContainer(12px)와 바깥 본문 패딩(8px)을 걷고
-       모바일 공통 프레임의 2px 테두리 안쪽까지 쓴다. */
-    width: calc(100% + 40px);
-    margin-inline: -20px;
+    /* 읽어보기부터도 본문 여백을 걷고 화면 끝까지 쓴다. */
+    width: calc(100% + 2 * var(--celeb-mobile-bleed));
+    margin-inline: calc(-1 * var(--celeb-mobile-bleed));
   }
 
   .identityPanel {
@@ -476,4 +481,10 @@
 
 .sourceWorksSurface {
   border: 0;
+}
+
+/* 서재(감상·창작) 구획 — 펼침 카드의 이전·다음 네비 아래에 남는 아래쪽 여백을 없앤다.
+   sectionSurface의 padding shorthand를 파일 끝의 같은 특이도 규칙으로 덮는다. */
+.librarySurface {
+  padding-bottom: 0;
 }

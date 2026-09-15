@@ -36,7 +36,6 @@ for (const locale of ["ko", "en"] as const) {
     const followLabel = (home.ui as AbstractIntlMessages | undefined)?.followLabel;
     const personGuide = celebPage.personGuide;
     const modalLabels = [
-      celebPage.stopAudio,
       celebPage.playGreetingVoice,
       celebPage.dialogue_greeting,
       celebPage.enlargePhoto,

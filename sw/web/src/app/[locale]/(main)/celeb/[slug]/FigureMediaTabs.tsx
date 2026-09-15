@@ -8,7 +8,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Info } from "lucide-react";
 
+import ContentTextModal from "@/components/ui/ContentTextModal";
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
 import DialogueSection from "./DialogueSection";
@@ -56,6 +58,7 @@ export default function FigureMediaTabs({
   const [tab, setTab] = useState<MediaTab>(
     () => visibleTabs[0]?.key ?? "dialogues",
   );
+  const [infoOpen, setInfoOpen] = useState(false);
   const active = visibleTabs.find(({ key }) => key === tab) ?? visibleTabs[0];
   if (!active) return null;
 
@@ -72,6 +75,22 @@ export default function FigureMediaTabs({
         onChange={setTab}
         columnsClassName={visibleTabs.length === 1 ? "grid-cols-1" : "grid-cols-2"}
         ariaLabel={t("media")}
+        endSlot={
+          /* 대사 안내는 탭 우단의 (i) 단추로 접어 모달로 연다 — 절대 배치라 탭 가운데 정렬이 안 흔들린다 */
+          activeKey === "dialogues" ? (
+            <button
+              type="button"
+              aria-label={t("dialogueDescriptionTitle")}
+              aria-haspopup="dialog"
+              aria-expanded={infoOpen}
+              title={t("dialogueDescriptionTitle")}
+              onClick={() => setInfoOpen(true)}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-text-tertiary hover:bg-white/[0.06] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+            >
+              <Info size={15} aria-hidden />
+            </button>
+          ) : null
+        }
       />
 
       <div
@@ -96,6 +115,15 @@ export default function FigureMediaTabs({
           <VideosSection longform={longform} shorts={shorts} />
         )}
       </div>
+
+      {infoOpen && (
+        <ContentTextModal
+          isOpen
+          onClose={() => setInfoOpen(false)}
+          title={t("mediaDialogues")}
+          text={t("dialogueDescription")}
+        />
+      )}
     </div>
   );
 }

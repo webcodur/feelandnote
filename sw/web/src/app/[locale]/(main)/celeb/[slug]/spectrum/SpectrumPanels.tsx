@@ -35,12 +35,10 @@ export function SectionHeader({ title }: { title: string }) {
 
 export function MetricPanel({
   title,
-  description,
   tone,
   children,
 }: {
   title: string;
-  description: string;
   tone: string;
   children: ReactNode;
 }) {
@@ -51,14 +49,11 @@ export function MetricPanel({
         tone,
       )}
     >
-      {/* 좁은 화면에서는 제목이 넘김 단추 줄에 이미 있어 설명만 남긴다 */}
-      <header className="border-b border-white/[0.06] pb-3 text-center md:min-h-20">
-        <h3 className="hidden font-serif text-base font-bold text-text-primary md:block">
+      {/* 좁은 화면에서는 제목이 넘김 단추 줄에 이미 있어 머리칸을 통째로 숨긴다 */}
+      <header className="hidden border-b border-white/[0.06] pb-3 text-center md:block">
+        <h3 className="font-serif text-base font-bold text-text-primary">
           {title}
         </h3>
-        <p className="text-balance break-keep text-sm leading-relaxed text-text-secondary md:mt-1">
-          {description}
-        </p>
       </header>
       {/* 넘길 때 아래 단추가 들썩이지 않도록 남는 높이를 본문이 먹는다 */}
       <div className="mt-4 flex flex-1 flex-col">{children}</div>

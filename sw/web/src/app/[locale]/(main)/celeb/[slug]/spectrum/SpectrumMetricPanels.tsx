@@ -28,6 +28,36 @@ import VirtueStatList from "../VirtueStatList";
 import { MetricPanel, MobileMatchButton } from "./SpectrumPanels";
 import { getReasonFromJsonb } from "./spectrumUtils";
 
+/* 분류 단추와 전체 유사 인물 단추를 한 줄에 나란히 둔다(좁은 화면 전용) */
+function matchButtonRow(
+  overallLabel: string,
+  hasOverall: boolean,
+  categories: SpectrumMatchCategory[],
+  label: string,
+  onOpenMobile: (categories: SpectrumMatchCategory[]) => void,
+) {
+  const hasCategory = categories.length > 0;
+  if (!hasCategory && !hasOverall) return null;
+  return (
+    <div className="mt-auto flex gap-2">
+      {hasCategory ? (
+        <MobileMatchButton
+          label={label}
+          onClick={() => onOpenMobile(categories)}
+          className="min-w-0 flex-1"
+        />
+      ) : null}
+      {hasOverall ? (
+        <MobileMatchButton
+          label={overallLabel}
+          onClick={() => onOpenMobile(["overall"])}
+          className="min-w-0 flex-1"
+        />
+      ) : null}
+    </div>
+  );
+}
+
 export function useSpectrumMetricPanels({
   spectrum,
   spectrumJsonb,
@@ -60,6 +90,8 @@ export function useSpectrumMetricPanels({
   const dispositionCompareCategories = (
     ["disposition", "opposite"] as SpectrumMatchCategory[]
   ).filter((category) => matchesByCategory[category].length > 0);
+  const hasOverall = matchesByCategory.overall.length > 0;
+  const overallLabel = t("spectrumMatchButton_overall");
 
   /* ── 2. 능력 패널 ── */
 
@@ -67,7 +99,6 @@ export function useSpectrumMetricPanels({
     () => (
       <MetricPanel
         title={t("ability")}
-        description={t("abilityDesc")}
         tone="border-t-emerald-300/35"
       >
       <div className="flex flex-1 flex-col gap-2">
@@ -83,18 +114,17 @@ export function useSpectrumMetricPanels({
             ),
           }))}
         />
-        {matchesByCategory.ability.length > 0 ? (
-          <div className="mt-auto">
-            <MobileMatchButton
-              label={t("spectrumMatchButton_ability")}
-              onClick={() => onOpenMobile(["ability"])}
-            />
-          </div>
-        ) : null}
+        {matchButtonRow(
+          overallLabel,
+          hasOverall,
+          matchesByCategory.ability.length > 0 ? ["ability"] : [],
+          t("spectrumMatchButton_ability"),
+          onOpenMobile,
+        )}
       </div>
       </MetricPanel>
     ),
-    [t, ts, isEn, spectrum, spectrumJsonb, locale, matchesByCategory.ability, onOpenMobile],
+    [t, ts, isEn, spectrum, spectrumJsonb, locale, hasOverall, overallLabel, matchesByCategory.ability, onOpenMobile],
   );
 
   /* ── 3. 성향 패널 ── */
@@ -103,7 +133,6 @@ export function useSpectrumMetricPanels({
     () => (
       <MetricPanel
         title={t("coreDisposition")}
-        description={t("coreDispositionDesc")}
         tone="border-t-blue-400/35"
       >
       <div className="flex flex-1 flex-col gap-2">
@@ -120,18 +149,17 @@ export function useSpectrumMetricPanels({
             ),
           }))}
         />
-        {dispositionCompareCategories.length > 0 ? (
-          <div className="mt-auto">
-            <MobileMatchButton
-              label={t("spectrumMatchButton_disposition")}
-              onClick={() => onOpenMobile(dispositionCompareCategories)}
-            />
-          </div>
-        ) : null}
+        {matchButtonRow(
+          overallLabel,
+          hasOverall,
+          dispositionCompareCategories,
+          t("spectrumMatchButton_disposition"),
+          onOpenMobile,
+        )}
       </div>
       </MetricPanel>
     ),
-    [t, isEn, spectrum, spectrumJsonb, locale, tendencyLabels, dispositionCompareCategories, onOpenMobile],
+    [t, isEn, spectrum, spectrumJsonb, locale, tendencyLabels, dispositionCompareCategories, hasOverall, overallLabel, onOpenMobile],
   );
 
   /* ── 4. 덕목 패널 ── */
@@ -140,7 +168,6 @@ export function useSpectrumMetricPanels({
     () => (
       <MetricPanel
         title={t("virtue")}
-        description={t("virtueDesc")}
         tone="border-t-amber-300/35"
       >
       <VirtueStatList
@@ -165,17 +192,16 @@ export function useSpectrumMetricPanels({
           ),
         }))}
       />
-      {matchesByCategory.virtue.length > 0 ? (
-        <div className="mt-auto">
-          <MobileMatchButton
-            label={t("spectrumMatchButton_virtue")}
-            onClick={() => onOpenMobile(["virtue"])}
-          />
-        </div>
-      ) : null}
+      {matchButtonRow(
+        overallLabel,
+        hasOverall,
+        matchesByCategory.virtue.length > 0 ? ["virtue"] : [],
+        t("spectrumMatchButton_virtue"),
+        onOpenMobile,
+      )}
       </MetricPanel>
     ),
-    [t, ts, spectrum, spectrumJsonb, locale, matchesByCategory.virtue, onOpenMobile],
+    [t, ts, spectrum, spectrumJsonb, locale, hasOverall, overallLabel, matchesByCategory.virtue, onOpenMobile],
   );
 
   /* ── 5. 모바일 넘김용 묶음 — 매 렌더 재생성하지 않는다 ── */

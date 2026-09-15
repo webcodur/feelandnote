@@ -128,11 +128,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const handleZoom = useCallback(() => {
     if (zoomImageUrl) setZoomOpen(true);
   }, [zoomImageUrl]);
-  const greetLabel = isVoiceActive
-    ? tCeleb("stopAudio")
-    : hasGreetingAudio
-      ? tCeleb("playGreetingVoice")
-      : tCeleb("dialogue_greeting");
+  const greetLabel = hasGreetingAudio
+    ? tCeleb("playGreetingVoice")
+    : tCeleb("dialogue_greeting");
 
   if (!isOpen || typeof document === "undefined") return null;
 
@@ -308,11 +306,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         <CelebQuote
           text={displayQuotes}
           hasVoice={hasVoice}
-          isVoiceActive={isVoiceActive}
           isQuoteActive={isQuoteActive}
           onPlay={handleQuotePlay}
           playLabel={tCeleb("playQuoteVoice")}
-          stopLabel={tCeleb("stopAudio")}
           variant="modal"
         />
       ) : null}

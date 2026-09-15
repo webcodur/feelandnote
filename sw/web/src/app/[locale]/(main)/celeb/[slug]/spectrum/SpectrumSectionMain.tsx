@@ -23,7 +23,6 @@ import { useCelebPreview } from "../useCelebPreview";
 import { SpectrumHighlights } from "./SpectrumHighlights";
 import { SpectrumMatchGroup } from "./SpectrumMatchGroup";
 import { SpectrumMatchGroupsModal } from "./SpectrumMatchGroupsModal";
-import { MobileMatchButton } from "./SpectrumPanels";
 import { useSpectrumMetricPanels } from "./SpectrumMetricPanels";
 
 /* ── 1. 구획 props ── */
@@ -105,16 +104,6 @@ export default function SpectrumSection({
             <div key={panel.key}>{panel.node}</div>
           ))}
         </Carousel>
-
-        {/* 어느 지표를 보고 있든 함께 뜬다 */}
-        {matchesByCategory.overall.length > 0 ? (
-          <div className="px-3">
-            <MobileMatchButton
-              label={t("spectrumMatchButton_overall")}
-              onClick={() => setMobileMatchCategories(["overall"])}
-            />
-          </div>
-        ) : null}
       </div>
 
       {/* ── 4. 넓은 화면 — 지표와 비교 인물을 나란히 ── */}

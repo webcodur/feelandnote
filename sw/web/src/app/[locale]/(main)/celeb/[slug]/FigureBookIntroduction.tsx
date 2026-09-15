@@ -2,7 +2,7 @@
  * [celeb 상세] sourceWorks — 원전 소개글(펼침 모달)
  * - 목차 위치: sourceWorks
  * - 넓은 화면(lg)은 줄 수를 박지 않고 FigureBookFeature가 준 칸을 채운다. 본문은 네 줄(min-h-28)을 바닥으로 늘어난다
- * - 좁은 화면은 네 줄(max-h-28)에서 접는다. 넘칠 때만 「전체 소개 보기」와 끝 흐림이 붙는다
+ * - 좁은 화면은 네 줄(max-h-28)에서 접는다. 넘칠 때만 끝 흐림이 붙고, 본문을 누르면 언제든 전체 소개 모달이 열린다
  * - 데이터: description/label/sourceTitle props
  * - 함께 보기: FigureBookFeature.tsx
  * ───────────────────────────────────────────── */
@@ -11,9 +11,9 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import FormattedText from "@/components/ui/FormattedText";
-import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
+import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import type { BookIntroductionAttribution } from "@/lib/utils/book-description";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import PendingMark from "@/components/ui/pending/PendingMark";
@@ -47,10 +47,17 @@ export default function FigureBookIntroduction({
   sourceTitleBadge,
 }: FigureBookIntroductionProps) {
   const t = useTranslations("celebPage");
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const locale = useLocale();
+  const triggerRef = useRef<HTMLParagraphElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   /* ── 1. 넘침 측정 — 로딩 중에는 본문이 없어 재지 않는다 ── */
   const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(description, !loading);
+  // 출처는 제목에 합쳐 「다음 작품 소개」처럼 한 덩어리로 읽는다
+  const providerName =
+    showSource && attribution?.provider
+      ? INTRO_PROVIDER_HEADING_NAME[attribution.provider]?.[locale === "en" ? "en" : "ko"]
+      : null;
+  const mergedLabel = providerName ? `${providerName} ${label}` : label;
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -69,37 +76,42 @@ export default function FigureBookIntroduction({
         </div>
       ) : (
         <>
-          <div className="flex flex-wrap items-center gap-2 lg:shrink-0">
-            <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
-            {showSource && <BookIntroductionSource attribution={attribution} />}
+          <div className="flex flex-wrap items-center justify-center gap-2 lg:shrink-0">
+            <p className="text-sm font-black tracking-[0.16em] text-accent">{mergedLabel}</p>
           </div>
+          {/* 본문 자체가 전체 보기를 연다 — 모달이 다른 읽기 화면이라 길이와 무관하게 항상 눌린다 */}
           <p
-            ref={previewRef}
-            className={isClipped ? `${PREVIEW_CLASS} ${PREVIEW_CLIPPED_CLASS}` : PREVIEW_CLASS}
+            ref={(node) => {
+              previewRef.current = node;
+              triggerRef.current = node;
+            }}
+            role="button"
+            tabIndex={0}
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+            aria-label={t("sourceWorkIntroductionOpen")}
+            title={t("sourceWorkIntroductionOpen")}
+            onClick={() => {
+              // 글을 긁으려던 클릭(드래그 선택)은 모달을 열지 않는다
+              if (!window.getSelection()?.toString()) setIsOpen(true);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsOpen(true);
+              }
+            }}
+            className={`${isClipped ? `${PREVIEW_CLASS} ${PREVIEW_CLIPPED_CLASS}` : PREVIEW_CLASS} cursor-pointer text-center hover:brightness-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
           >
             <FormattedText text={description} />
           </p>
-          {isClipped ? (
-            <button
-              ref={triggerRef}
-              type="button"
-              aria-haspopup="dialog"
-              aria-expanded={isOpen}
-              onClick={() => setIsOpen(true)}
-              className="mt-2 min-h-10 border-b border-accent-dim pb-1 text-sm font-black text-accent lg:shrink-0 hover:border-accent-hover hover:text-accent-hover active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              {t("sourceWorkIntroductionOpen")}
-            </button>
-          ) : null}
         </>
       )}
 
       {isOpen ? (
         <IntroductionModal
           description={description}
-          label={label}
-          attribution={attribution}
-          showSource={showSource}
+          label={mergedLabel}
           sourceTitle={sourceTitle}
           sourceTitleBadge={sourceTitleBadge}
           closeLabel={t("sourceWorkIntroductionClose")}
@@ -114,8 +126,6 @@ export default function FigureBookIntroduction({
 function IntroductionModal({
   description,
   label,
-  attribution,
-  showSource,
   sourceTitle,
   sourceTitleBadge,
   closeLabel,
@@ -123,8 +133,6 @@ function IntroductionModal({
 }: {
   description: string;
   label: string;
-  attribution?: BookIntroductionAttribution | null;
-  showSource: boolean;
   sourceTitle: string;
   sourceTitleBadge?: TitleBadge | null;
   closeLabel: string;
@@ -179,7 +187,6 @@ function IntroductionModal({
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
-              {showSource && <BookIntroductionSource attribution={attribution} />}
             </div>
             <h2 id={titleId} className="mt-1 text-xl font-black text-text-primary sm:text-2xl">
               <NoEditionBadge badge={sourceTitleBadge} className="align-middle" />

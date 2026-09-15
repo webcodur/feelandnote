@@ -40,17 +40,7 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
     setVoicePlayback(null);
   }, []);
 
-  const stopVoice = useCallback(() => {
-    setVoicePlayback(null);
-    setSubtitle(null);
-  }, [setSubtitle]);
-
   const handleGreetingPlay = useCallback(() => {
-    if (isVoiceActive) {
-      stopVoice();
-      return;
-    }
-
     if (hasGreetingAudio && !voiceMuted) {
       setVoicePlayback("greeting");
       trackEvent("celeb_voice_play", { kind: "greeting" });
@@ -65,19 +55,12 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
     handleVoiceEnd,
     handleVoiceStart,
     hasGreetingAudio,
-    isVoiceActive,
     nickname,
     profile,
-    stopVoice,
     voiceMuted,
   ]);
 
   const handleQuotePlay = useCallback(() => {
-    if (isVoiceActive) {
-      stopVoice();
-      return;
-    }
-
     if (!voiceMuted) {
       setVoicePlayback("quotes");
       trackEvent("celeb_voice_play", { kind: "quote" });
@@ -91,10 +74,8 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
     greeting,
     handleVoiceEnd,
     handleVoiceStart,
-    isVoiceActive,
     nickname,
     profile,
-    stopVoice,
     voiceMuted,
   ]);
 
@@ -108,6 +89,5 @@ export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebV
     isQuoteActive,
     handleGreetingPlay,
     handleQuotePlay,
-    stopVoice,
   };
 }

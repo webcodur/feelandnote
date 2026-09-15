@@ -57,12 +57,9 @@ export default function AbilityStatList({ items, isEn }: Props) {
         })}
       </div>
 
-      <StatReasonBox
-        hint={t("abilityReasonHint")}
-        empty={t("abilityReasonEmpty")}
-        reason={active?.reason}
-        active={Boolean(active)}
-      />
+      {active && (
+        <StatReasonBox empty={t("abilityReasonEmpty")} reason={active.reason} />
+      )}
     </div>
   );
 }

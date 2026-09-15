@@ -130,12 +130,9 @@ export default function DispositionStatList({ items, isEn }: Props) {
         })}
       </div>
 
-      <StatReasonBox
-        hint={t("dispositionReasonHint")}
-        empty={t("dispositionReasonEmpty")}
-        reason={active?.reason}
-        active={Boolean(active)}
-      />
+      {active && (
+        <StatReasonBox empty={t("dispositionReasonEmpty")} reason={active.reason} />
+      )}
     </div>
   );
 }

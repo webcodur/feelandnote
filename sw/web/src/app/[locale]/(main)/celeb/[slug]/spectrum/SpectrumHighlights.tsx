@@ -59,6 +59,13 @@ export function SpectrumHighlights({
     );
   };
 
+  /* 하위 구간은 드러낼 차별점이 아니므로 지문에서 뺀다(성향 축은 극 라벨로만 표기되므로 둘 다 유지) */
+  const visibleHighlights = highlights.filter(
+    (highlight) =>
+      TENDENCY_EVIDENCE_LABELS[highlight.axis as TendencyKey] !== undefined ||
+      highlight.direction !== "low",
+  );
+
   /* ── 2. 종합 해설과 인물 지문 ── */
 
   return (
@@ -73,13 +80,13 @@ export function SpectrumHighlights({
       )}
 
       {/* 인물 지문 — 전체 인물 중 이 사람이 유별난 지점. "인물 n명 중"은 줄을 따로 쓰고, 칩은 그 아래 한 줄로 놓는다 */}
-      {highlights.length > 0 && population > 0 ? (
+      {visibleHighlights.length > 0 && population > 0 ? (
         <div className="flex flex-col items-center gap-1.5 px-4">
           <span className="text-xs text-text-secondary">
             {t("spectrumHighlightAmong", { count: population })}
           </span>
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5">
-            {highlights.map((highlight) => (
+            {visibleHighlights.map((highlight) => (
               <SpectrumEvidenceChip
                 key={highlight.axis}
                 axis={highlight.axis}
