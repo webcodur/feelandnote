@@ -2,7 +2,9 @@
 
 | 문서 | 작업 |
 |---|---|
+| [`content-introductions.md`](content-introductions.md) | 작품 소개 잔여: SWE 원문·판본 조사 → Muse 번역 → 독립 검수·DB 반영. 완료 목록·보류 근거·로컬 백업 위치 |
 | [`celeb/README.md`](celeb/README.md) | 아바타 대기 인물·타임라인 죽은 컬럼 제거·각성모드 도입 판단·영향력·스펙트럼 잔여 검토(Claude·Kimi·SWE-2 안에서) |
+| [`curated-game-music.md`](curated-game-music.md) | 기관 선정에 게임(올해의 게임)·음악(빌보드) 목록 추가. DB·탭 이름은 준비됐고 후보 확정·적재 스크립트·카드 표지가 남았다 |
 | [`myth.md`](myth.md) | 신 이름 표기·대응 신격 안내 자리·신 계보 공백 |
 | [`myth-atlas-handoff.md`](myth-atlas-handoff.md) | 신화의 세계 화면·데이터 구조 인수인계. 명단·그룹·소개 정비와 전승 공개는 끝났고 미등록 인물 등록이 남았다 |
 | [`founding-myth.md`](founding-myth.md) | 건국신화 인물 427명 등록 이후의 소개·안내글·공개 판단 |
@@ -14,4 +16,4 @@
 | [`chatgpt-web-quota-test.md`](chatgpt-web-quota-test.md) | ChatGPT 일반 채팅 사용량으로 Codex·Work 소비를 줄이는지 실측 |
 | [`celeb-locale-fallback.md`](celeb-locale-fallback.md) | 셀럽 서가 한영 판본 표시 잔여. 논어 완료, 전수 조사 1·배포 대기 1·데이터 보완 2 |
 | [`faction-video-salvage.md`](faction-video-salvage.md) | 세력도감 영상 자산. 보관본은 D:\feelandnote-backups\faction-video. 영구 폐쇄·어록 기능 제거는 끝났고 회수(사진 538·로고 33·색 451)와 잔여물 폐기가 남았다 |
-| [`faction-video-stop.md`](faction-video-stop.md) | 세력도감 영상 제작 중단, 웹은 단체샷 없는 V1. 도감 전면 재편·전원 공개는 끝났고(테마 223·그룹 802·배정 3,943) 남은 웹 화면(모음·허브 표지), 영상 편집기 출간 경로 정리, 영상층 동결·철거 판단이 남았다 |
+| [`faction-video-stop.md`](faction-video-stop.md) | 세력도감 영상 제작 중단, 웹은 단체샷 없는 V1. 도감 전면 재편·전원 공개는 끝났고(테마 223·그룹 802·배정 3,943) 남은 웹 화면(허브 표지), 영상 편집기 출간 경로 정리, 세력도감 그룹 편집 칸(후순위), 영상층 동결·철거 판단이 남았다 |
