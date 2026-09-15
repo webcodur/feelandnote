@@ -50,3 +50,30 @@ export const TARGET_PRODUCTS: TargetProductMatch[] = [
     },
   },
 ]
+
+const normalizeGameText = (value: string | null | undefined) =>
+  String(value ?? '').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '')
+
+const BREATH_OF_THE_WILD_TITLES = new Set([
+  normalizeGameText('젤다의 전설 브레스 오브 더 와일드'),
+  normalizeGameText('The Legend of Zelda: Breath of the Wild'),
+])
+
+const NINTENDO_CREATORS = new Set([
+  normalizeGameText('Nintendo'),
+  normalizeGameText('닌텐도'),
+  normalizeGameText('Nintendo EPD'),
+  normalizeGameText('Nintendo Entertainment Planning & Development'),
+])
+
+/** 검색 결과가 아니라 현재 확인한 상품만 작품 카드에서 직접 연결한다. */
+export function getVerifiedGameProduct({ title, creator }: { title: string; creator?: string | null }) {
+  const normalizedCreator = normalizeGameText(creator)
+  if (
+    BREATH_OF_THE_WILD_TITLES.has(normalizeGameText(title))
+    && (!normalizedCreator || NINTENDO_CREATORS.has(normalizedCreator))
+  ) {
+    return TARGET_PRODUCTS.find((match) => match.product.id === 'breath-of-the-wild')?.product ?? null
+  }
+  return null
+}

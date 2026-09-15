@@ -8,8 +8,9 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import DeveloperWorkAction from "@/components/features/commerce/DeveloperWorkAction";
+import WorkPurchaseAction from "@/components/features/commerce/WorkPurchaseAction";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { Avatar, Carousel, ContentImage } from "@/components/ui";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
 import type {
@@ -70,7 +71,7 @@ function WorkTile({ work, isEn }: { work: AxisLibraryWork; isEn: boolean }) {
         </span>
       </span>
     </Link>
-    <DeveloperWorkAction target={{ title, contentId: work.content_id, type: work.type }} />
+    <WorkPurchaseAction target={{ title, contentId: work.content_id, type: work.type }} />
     </article>
   );
 }
@@ -153,6 +154,9 @@ export default function AxisLibraryPanel({
         <p className="text-xs text-text-secondary">
           {t("sub")}
         </p>
+        {!isEn && (
+          <BookPurchaseInfo className="ml-auto flex h-7 w-7 items-center justify-center self-center rounded-full border border-white/10" />
+        )}
       </div>
       <div
         className={cn(
