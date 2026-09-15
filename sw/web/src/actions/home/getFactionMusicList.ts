@@ -4,14 +4,14 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
 import { LIST_REVALIDATE } from '@/lib/cache'
-import { selectVisibleAtlasMembers } from '@/lib/faction-atlas-members'
 import { createStaticClient } from '@/lib/db/static'
 import { toFactionMusic } from '@/lib/faction-videos'
 
-export interface FactionMusicGroup {
+export interface FactionMusicTheme {
+  id: string
   name: string
   name_en: string | null
-  count: number
+  slug: string | null
 }
 
 export interface FactionMusicListItem {
@@ -21,7 +21,7 @@ export interface FactionMusicListItem {
   slug: string | null
   url: string
   file: string
-  factions: FactionMusicGroup[]
+  theme: FactionMusicTheme | null
 }
 
 interface TagRow {
@@ -33,12 +33,6 @@ interface TagRow {
   is_featured: boolean | null
   parent_id: string | null
   sort_order: number | null
-}
-
-interface AtlasMemberGroupRow {
-  tag_id: string
-  group_label: string | null
-  group_label_en: string | null
 }
 
 interface ThemeMusicLists {
@@ -57,23 +51,7 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
 
   const rows = (data ?? []) as TagRow[]
   const mythIds = mythBranchTagIds(rows)
-  const memberGroups = await selectVisibleAtlasMembers<AtlasMemberGroupRow>(
-    db,
-    'tag_id, group_label, group_label_en',
-  )
-  const groupsByTag = new Map<string, Map<string, FactionMusicGroup>>()
-  for (const member of memberGroups) {
-    const name = member.group_label?.trim()
-    if (!name) continue
-    const groups = groupsByTag.get(member.tag_id) ?? new Map<string, FactionMusicGroup>()
-    const current = groups.get(name)
-    groups.set(name, {
-      name,
-      name_en: member.group_label_en?.trim() || current?.name_en || null,
-      count: (current?.count ?? 0) + 1,
-    })
-    groupsByTag.set(member.tag_id, groups)
-  }
+  const tagById = new Map(rows.map((row) => [row.id, row]))
 
   const toMusicItem = (row: TagRow): FactionMusicListItem | null => {
       const music = toFactionMusic(row.theme_music)
@@ -85,7 +63,14 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
         slug: row.slug,
         url: music.url,
         file: music.file,
-        factions: [...(groupsByTag.get(row.id)?.values() ?? [])],
+        theme: row.parent_id
+          ? (() => {
+              const parent = tagById.get(row.parent_id)
+              return parent
+                ? { id: parent.id, name: parent.name, name_en: parent.name_en, slug: parent.slug }
+                : null
+            })()
+          : null,
       }
   }
 
