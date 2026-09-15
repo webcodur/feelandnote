@@ -1,19 +1,25 @@
 /*
   파일명: actions/home/getTagSharedLibrary.ts
   기능: 세력도감 태그 내 셀럽들의 공유 콘텐츠 조회
-  책임: 2명 이상이 공통으로 감상한 콘텐츠를 celebCount 내림차순으로 반환
+  책임: 2명 이상이 공통으로 감상한 콘텐츠를 celebCount 내림차순으로 반환한다.
+        도서에는 한국어 판매 판본(쿠팡 링크·판본 id)을 붙여 선반이 구매로 잇게 한다.
 */
 "use server";
 
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { selectAllPages } from "@feelandnote/shared/lib/paginate";
+import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
+import {
+  mapFigureBookPurchaseOptions,
+  type FigureBookPurchaseOptionRow,
+} from "@/actions/figure-books/figureBookLocale";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
 
 interface SharedContentCeleb {
   id: string;
+  slug: string | null;
   nickname: string;
   nickname_en: string | null;
   avatar_url: string | null;
@@ -31,12 +37,18 @@ export interface SharedContent {
   type: string;
   celebCount: number;
   celebs: SharedContentCeleb[];
+  /** 한국어 도서의 쿠팡 상품 주소 — 없으면 null */
+  coupangUrl: string | null;
+  /** 판매 판본 id — YES24 연결이 같은 판본을 찾는 데 쓴다 */
+  editionId?: number;
 }
+
+type LocaleRowWithAffiliate = ContentLocaleRow & { affiliate_url?: string | null };
 
 async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const db = createStaticClient();
 
-  // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
+  // 1. 태그에 속한 셀럽 ID 조회 — 뷰가 편성(숨김 제외)을 쥔다
   const { data: assignments, error: assignmentsError } = await db
     .from("faction_atlas_members")
     .select("celeb_id")
@@ -49,10 +61,10 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 
   const celebIds = assignments.map((a) => a.celeb_id);
 
-  // 2. 셀럽 프로필 조회 (닉네임, 아바타)
+  // 2. 셀럽 프로필 조회 (닉네임, 아바타, 주소)
   const { data: celebRows, error: celebsError } = await db
     .from("celebs")
-    .select("id, nickname, nickname_en, avatar_url")
+    .select("id, slug, nickname, nickname_en, avatar_url")
     .in("id", celebIds);
 
   throwOnQueryError('getTagSharedLibrary 인물 조회', celebsError);
@@ -61,6 +73,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   (celebRows ?? []).forEach((p) =>
     profileMap.set(p.id, {
       id: p.id,
+      slug: p.slug ?? null,
       nickname: p.nickname,
       nickname_en: p.nickname_en,
       avatar_url: p.avatar_url,
@@ -72,7 +85,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const data = await selectAllPages((from, to) => db
     .from("celeb_contents")
     .select(
-      `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
+      `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}))`
     )
     .in("celeb_id", celebIds)
     .eq("visibility", "public")
@@ -82,23 +95,13 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   // 4. content_id 기준 그룹화
   const contentMap = new Map<
     string,
-    {
-      title: string;
-      title_en: string | null;
-      titleBadge: TitleBadge | null;
-      titleBadgeEn: TitleBadge | null;
-      creator: string | null;
-      creator_en: string | null;
-      thumbnailUrl: string | null;
-      type: string;
-      celebIds: Set<string>;
-    }
+    Omit<SharedContent, "contentId" | "celebCount" | "celebs"> & { celebIds: Set<string> }
   >();
 
   for (const row of data) {
     const c = row.contents as unknown as {
       id: string; type: string | null;
-      content_locales: ContentLocaleRow[] | null;
+      content_locales: LocaleRowWithAffiliate[] | null;
     };
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
@@ -119,47 +122,52 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
         creator_en: en?.creator ?? null,
         thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
         type: c.type ?? "BOOK",
+        coupangUrl: ko?.affiliate_url?.startsWith("https://") ? ko.affiliate_url : null,
         celebIds: new Set([row.celeb_id]),
       });
     }
   }
 
-  // 5. 2명 이상 공유 콘텐츠만 필터 → celebCount 내림차순
-  const result: SharedContent[] = [];
+  // 5. 2명 이상 공유 콘텐츠만 남긴다
+  const shared = [...contentMap].filter(([, info]) => info.celebIds.size >= 2);
 
-  for (const [contentId, info] of contentMap) {
-    if (info.celebIds.size < 2) continue;
-
-    const celebs: SharedContentCeleb[] = [];
-    for (const cid of info.celebIds) {
-      const profile = profileMap.get(cid);
-      if (profile) celebs.push(profile);
-    }
-
-    result.push({
-      contentId,
-      title: info.title,
-      title_en: info.title_en,
-      titleBadge: info.titleBadge,
-      titleBadgeEn: info.titleBadgeEn,
-      creator: info.creator,
-      creator_en: info.creator_en,
-      thumbnailUrl: info.thumbnailUrl,
-      type: info.type,
-      celebCount: info.celebIds.size,
-      celebs,
-    });
+  // 6. 도서의 한국어 판매 판본 — 판본이 있으면 작품 주소보다 앞선다(인물 도서·신화 선반과 같은 원천)
+  const bookIds = shared.filter(([, info]) => info.type === "BOOK").map(([contentId]) => contentId);
+  const purchaseOptions = await selectInChunks<FigureBookPurchaseOptionRow>(bookIds, (ids) => db
+    .from("figure_book_purchase_options")
+    .select("edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url")
+    .in("content_id", ids)
+    .eq("locale", "ko")
+    .eq("platform", "coupang")
+    .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>());
+  const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>();
+  for (const option of purchaseOptions) {
+    optionsByContent.set(option.content_id, [...(optionsByContent.get(option.content_id) ?? []), option]);
   }
 
-  result.sort((a, b) => b.celebCount - a.celebCount);
+  const result: SharedContent[] = shared.map(([contentId, { celebIds: ids, ...info }]) => {
+    const edition = mapFigureBookPurchaseOptions(optionsByContent.get(contentId) ?? [], "ko")[0];
+    return {
+      ...info,
+      contentId,
+      thumbnailUrl: info.thumbnailUrl ?? edition?.thumbnailUrl ?? null,
+      coupangUrl: edition?.purchaseUrl ?? info.coupangUrl,
+      editionId: edition?.id,
+      celebCount: ids.size,
+      celebs: [...ids].flatMap((id) => profileMap.get(id) ?? []),
+    };
+  });
+
+  // 많이 함께 본 순, 같으면 살 수 있는 책을 앞에
+  result.sort((a, b) => b.celebCount - a.celebCount || Number(Boolean(b.coupangUrl)) - Number(Boolean(a.coupangUrl)));
 
   return result;
 }
 
 const getTagSharedLibraryCached = unstable_cache(
   fetchTagSharedLibrary,
-  ['tag-shared-library'],
-  // faction_atlas_members(편성) + celebs + celeb_contents
+  ['tag-shared-library-v2'],
+  // faction_atlas_members(편성) + celebs + celeb_contents + 판매 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 
