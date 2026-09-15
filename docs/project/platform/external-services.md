@@ -86,6 +86,7 @@ Oracle 이전은 Supabase Cloud를 떠나 Oracle VM에서 PostgreSQL·Auth·Post
 |------|--------|------|
 | BOOK (한국어판) | **카카오(다음) 도서 검색** | 정상 (`kakao-books.ts`). ~~네이버 도서 검색~~은 26.07.31 종료 |
 | BOOK (영문 원서) | OpenLibrary | 정상 |
+| BOOK 소개문 | Google Books | 소개문(`description`) 수집에만 예외로 허용(26.09.15 해제). 단일 키로 일일 무료 한도 안에서만 부르고 키 로테이션을 만들지 않는다. 메타·표지 원천으로는 계속 금지한다 |
 | VIDEO | TMDB | 정상 |
 | GAME | IGDB | 정상 |
 | MUSIC | **Apple iTunes Search API / Apple Music** | 정상 (`itunes-music.ts`) |

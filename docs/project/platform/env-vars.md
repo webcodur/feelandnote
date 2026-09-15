@@ -131,12 +131,14 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 | 이름 꼴 | 들어가는 곳 | 개수(실측) |
 |---------|------------|-----------|
 | `GOOGLE_GENAI_API_KEY0` ~ `20` | web | 21개(코드 미사용, `5`번은 폐기) |
-| `GOOGLE_GENAI_API_KEY_FREE1` ~ `99` | web-bo, remotion | 각 98개(`17`번은 무효 키라 폐기) |
-| `GEMINI_START_KEY` | web-bo | 몇 번 키부터 돌릴지 지정(1부터 셈) |
+| `GOOGLE_GENAI_API_KEY_FREE<n>` | web-bo, remotion | 각 100개. `FREE1~10` + `FREE20~99`는 AIza(legacy) 90개, `FREE100~109`는 AQ(Auth, ykj 묶음. 26.09.15 추가) 10개. `FREE11~19`는 무효·정지 키를 지워 비어 있다 |
+| `GEMINI_START_KEY` | web-bo | 몇 번 키부터 돌릴지 지정(1부터 셈. 정렬 배열에서의 순번) |
+
+> 키 풀 열거는 `packages/shared/src/lib/gemini-keys.ts` 한 곳만 안다. `GOOGLE_GENAI_API_KEY_FREE` 뒤 숫자 오름차순으로 돌리며 상한이 없으므로 번호를 늘려도 코드 수정이 필요 없다. AIza와 AQ. 형식을 함께 받는다. 로그의 `keyIndex`(1부터 셈)는 이 정렬 배열에서의 순번이라 변수 번호와 다를 수 있다 — `googleFreeKeyName(keyIndex)`로 변수명을 확인한다.
 
 > **Google 유료 키 금지**: 결제 계정이 붙은 GCP 프로젝트의 키는 `.env`에 두지 않는다. 2026-09-02에 `GOOGLE_GENAI_API_KEY_PAID1`을 콘솔에서 삭제하고 프로젝트 결제를 중지했으며, 쓰지 않던 `GOOGLE_VERTEX_API_KEY1`·`GOOGLE_CLOUD_TTS_KEY`도 `.env`에서 지웠다. 이미지·텍스트 생성이 월 1만 원 단위로 조용히 과금됐기 때문이다. Google 음성·이미지·텍스트는 무료 키 로테이션, agy·Gemini CLI 로그인, 또는 ElevenLabs로만 부른다.
 
-> **함정**: `web-bo`와 `remotion`의 `.env` 모두에 `GOOGLE_GENAI_API_KEY_FREE20`이 **두 번** 적혀 있다. 파일을 위에서 아래로 읽으므로 뒤쪽 값이 이긴다. 사고는 아니지만 키를 세거나 교체할 때 헷갈린다.
+> **이력**: `web-bo`의 `.env`에 `GOOGLE_GENAI_API_KEY_FREE20`이 두 번 적혀 있던 중복은 26.09.15에 정리했다(뒤쪽 유효값 하나만 남김). 파일을 위에서 아래로 읽으므로 뒤쪽 값이 이긴다는 점은 그대로 유효하다.
 
 ### 3-7. 크론·캐시 갱신
 
