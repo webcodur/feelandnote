@@ -23,7 +23,6 @@ interface TagRow {
   slug: string | null
   theme_music: unknown
   is_featured: boolean | null
-  atlas_published: boolean | null
   parent_id: string | null
   sort_order: number | null
 }
@@ -37,7 +36,7 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
   const db = createStaticClient()
   const { data, error } = await db
     .from('celeb_tags')
-    .select('id, name, name_en, slug, theme_music, is_featured, atlas_published, parent_id, sort_order')
+    .select('id, name, name_en, slug, theme_music, is_featured, parent_id, sort_order')
     .order('sort_order', { ascending: true })
 
   if (error) throw new Error(error.message)
@@ -64,7 +63,7 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
       .map(toMusicItem)
       .filter((row): row is FactionMusicListItem => row !== null),
     myth: rows
-      .filter((row) => row.atlas_published === true && mythIds.has(row.id))
+      .filter((row) => mythIds.has(row.id))
       .map(toMusicItem)
       .filter((row): row is FactionMusicListItem => row !== null),
   }

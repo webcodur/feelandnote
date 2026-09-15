@@ -320,16 +320,6 @@ export default function FloatingMusicPlayer() {
                   <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}</p>
                   {!isGamePlaying && currentTrack?.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
                 </div>
-                <button
-                  type="button"
-                  onClick={toggleCurrent}
-                  disabled={!currentPlayerPlayable}
-                  aria-label={currentPlayerLoading ? 'Loading' : isPlaying ? pauseLabel : playLabel}
-                  aria-busy={currentPlayerLoading || undefined}
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-bg-main hover:bg-accent/85 disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                >
-                  {currentPlayerLoading ? <Loader2 size={14} className="animate-spin" aria-hidden="true" /> : isPlaying ? <Pause size={13} fill="currentColor" aria-hidden="true" /> : <Play size={13} fill="currentColor" className="ms-0.5" aria-hidden="true" />}
-                </button>
               </div>
               <MusicTransport
                 isPlaying={isPlaying}
