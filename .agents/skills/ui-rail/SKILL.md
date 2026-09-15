@@ -12,7 +12,7 @@ description: 손으로 밀어 넘기는 가로 목록(인물 칸·작품 칸 줄
 | 모양 | 쓸 것 |
 |---|---|
 | 한두 장씩 넘기고 점·이름표로 위치를 알린다 | `sw/web/src/components/ui/SnapCarousel.tsx`의 `Carousel`. 새로 짜지 않는다 |
-| 이름이 긴 분류 칩 줄(모바일) | 옆으로 넘기며 찾기 어렵다. 모바일은 지금 고른 이름을 단 버튼으로 접고 누르면 `BottomSheet`에서 고른다. PC는 칩 줄 그대로. 선례 `sw/web/src/components/ui/FilterTabs.tsx`, `sw/web/src/components/features/user/explore/myth/MythMobilePicker.tsx` |
+| 이름이 긴 분류 칩 줄(모바일) | 옆으로 넘기며 찾기 어렵다. 모바일은 지금 고른 이름을 단 버튼으로 접고 누르면 `BottomSheet`에서 고른다. PC는 칩 줄 그대로. 묶음 → 항목 위계가 있는 줄은 공용 `sw/web/src/components/shared/AtlasNav.tsx`가 넓은 화면 칩 줄과 좁은 화면 선택 창(`AtlasPickerSheet.tsx`)을 함께 그린다. 창 하나에 묶음 제목과 항목 칩을 줄바꿈해 모두 펼친다(사용 예 신화 `MythAtlas.tsx`, 세력도감 `FactionAtlasNav.tsx`). 한 층짜리 선례는 `sw/web/src/components/ui/FilterTabs.tsx` |
 | 작은 칸·칩 여러 개를 자유롭게 민다(인물 칸 줄, 분류 칩 줄 등) | 아래 규칙. 마우스 끌기는 공용 훅 `sw/web/src/hooks/useMouseDragScroll.ts`를 쓴다(4·5·7번을 훅이 처리한다). 새로 짜지 않는다. 사용 예 `sw/web/src/components/features/user/explore/myth/MythAtlas.tsx`(지역·신화·인물 세 줄) |
 
 ## 핵심 규칙
