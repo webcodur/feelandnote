@@ -1,20 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { ArrowUpRight, Music, Pause, Play, X } from "lucide-react";
+import { ArrowUpRight, Play, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
-import { connectBgm } from "@/lib/audio-ducking";
 import type { FactionMusic, FactionVideo, FactionVideos } from "@/lib/faction-videos";
 
 /** 알약 단추 공통 모양 — 색 강조는 지연 없이 즉시 바뀐다(전 앱 상호작용 원칙 1) */
 const PILL =
   "inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 const PILL_IDLE = "border-white/15 bg-white/[0.04] text-white/85 hover:border-accent hover:bg-accent/10 hover:text-accent";
-const PILL_ON = "border-accent bg-accent/15 text-accent";
 
 /*
   테마를 다룬 세력도감 영상 보기 + 그 테마 구간에 흐르는 배경음악 듣기.
@@ -27,10 +25,8 @@ const PILL_ON = "border-accent bg-accent/15 text-accent";
 */
 export default function FactionMediaLinks({
   videos,
-  music,
   title,
   atlasLink,
-  musicPlacement = "inline",
   className,
 }: {
   videos: FactionVideos | null | undefined;
@@ -49,7 +45,7 @@ export default function FactionMediaLinks({
     ...(videos?.shorts ? [{ key: "shorts" as const, video: videos.shorts, label: t("watchShorts") }] : []),
   ];
 
-  if (choices.length === 0 && !music && !atlasLink) return null;
+  if (choices.length === 0 && !atlasLink) return null;
 
   return (
     <>
@@ -70,12 +66,6 @@ export default function FactionMediaLinks({
           </button>
         ))}
 
-        {music && (
-            <span className={musicPlacement === "global" ? "hidden" : undefined}>
-            <FactionMusicPill music={music} />
-          </span>
-        )}
-
         {atlasLink ? (
           <Link href={atlasLink.href} className={cn(PILL, PILL_IDLE)}>
             {atlasLink.label}
@@ -95,92 +85,6 @@ export default function FactionMediaLinks({
     </>
   );
 }
-
-/*
-  ── 배경음악 재생 ──
-
-  한 번에 한 곡만 흐른다. 서로를 모르는 여러 자리(테마 카드가 여러 장 있는 인물 화면)에서도
-  그래야 하므로, 현재 재생 중인 곡을 멈추는 방법을 모듈 한 곳에 모아 둔다.
-  테마를 바꾸면 이 부품이 화면에서 빠지고, 그때 소리도 함께 멈춘다.
-*/
-const stoppers = new Set<() => void>();
-
-function stopOthers(mine: () => void) {
-  for (const stop of stoppers) if (stop !== mine) stop();
-}
-
-function FactionMusicPill({ music }: { music: FactionMusic }) {
-  const t = useTranslations("factionMedia");
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [on, setOn] = useState(false);
-  const bgmConnectedRef = useRef(false);
-  const bgmDisconnectRef = useRef<(() => void) | null>(null);
-
-  // 다른 자리에서 재생을 시작하면 이 함수가 불려 여기 소리를 멈춘다
-  const stop = useCallback(() => {
-    audioRef.current?.pause();
-    setOn(false);
-  }, []);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    stoppers.add(stop);
-    // 화면에서 빠질 때(테마 전환·페이지 이동) 소리를 남기지 않는다
-    return () => {
-      stoppers.delete(stop);
-      audio?.pause();
-      bgmDisconnectRef.current?.();
-    };
-  }, [stop]);
-
-  const toggle = (event: React.MouseEvent) => {
-    // 카드 전체가 눌리는 자리에 놓여도 이 단추만 반응해야 한다
-    event.stopPropagation();
-    const el = audioRef.current;
-    if (!el) return;
-    if (on) {
-      el.pause();
-      setOn(false);
-      return;
-    }
-    stopOthers(stop);
-    // <audio>를 GainNode 경유로 연결해 덕킹 제어 아래 둔다 (한 번만)
-    if (!bgmConnectedRef.current) {
-      bgmConnectedRef.current = true;
-      bgmDisconnectRef.current = connectBgm(el);
-    }
-    // 재생은 브라우저가 거절할 수 있다(자동재생 정책) — 거절되면 켜진 상태로 두지 않는다
-    void el.play().then(() => setOn(true)).catch(() => setOn(false));
-  };
-
-  const label = on ? t("pauseMusic") : t("playMusic");
-
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-pressed={on}
-      title={label}
-      className={cn("group/music", PILL, on ? PILL_ON : PILL_IDLE)}
-    >
-      {on ? (
-        <Pause size={14} className="fill-current" />
-      ) : (
-        <Music size={14} className="transition-transform duration-150 group-hover/music:-translate-y-0.5" />
-      )}
-      {label}
-      {/* 곡은 눌렀을 때만 내려받는다 — 목록에 카드가 여러 장이어도 미리 받지 않는다 */}
-      <audio ref={audioRef} src={music.url} preload="none" loop={false} onEnded={() => setOn(false)} />
-    </button>
-  );
-}
-
-/*
-  재생 창.
-  세력도감 영상은 긴 것도 짧은 것도 모두 세로(9:16)라 세로 비율로 띄운다.
-  닫는 길은 셋 — 바깥 어두운 곳 누르기, 오른쪽 위 닫기 표시, Esc.
-  열려 있는 동안 뒤 화면이 따라 스크롤되지 않게 잠근다.
-*/
 function FactionVideoModal({
   video,
   title,

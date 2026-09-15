@@ -8,7 +8,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
-import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
@@ -95,15 +94,6 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
                 {t("mythOverviewStats", { people: memberCount, works: workCount })}
               </p>
             </div>
-
-            {tradition?.music && (
-              <FactionMediaLinks
-                videos={null}
-                music={tradition.music}
-                title={tradition.name}
-                className="mt-3"
-              />
-            )}
 
             <div className={layout.description}>
               <div className="space-y-5 break-keep text-[15px] leading-[1.9] text-text-secondary md:text-[16.5px] md:leading-[1.95]">
