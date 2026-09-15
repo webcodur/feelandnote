@@ -71,7 +71,7 @@ export default function FactionMediaLinks({
         ))}
 
         {music && (
-          <span className={musicPlacement === "global" ? "md:hidden" : undefined}>
+            <span className={musicPlacement === "global" ? "hidden" : undefined}>
             <FactionMusicPill music={music} />
           </span>
         )}

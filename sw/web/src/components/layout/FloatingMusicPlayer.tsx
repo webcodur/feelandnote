@@ -46,7 +46,7 @@ export default function FloatingMusicPlayer() {
         aria-label={label}
         aria-pressed={isPlaying}
         title={label}
-        className={`fixed bottom-4 end-4 flex size-11 items-center justify-center rounded-full border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+        className={`fixed bottom-20 end-4 flex size-11 items-center justify-center rounded-full border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:bottom-4 ${
           isPlaying
             ? 'border-accent bg-accent/20 text-accent hover:bg-accent/30'
             : 'border-accent/30 bg-bg-card/95 text-accent hover:border-accent hover:bg-accent/10'
