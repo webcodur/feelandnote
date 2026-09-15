@@ -160,7 +160,7 @@ pnpm voice:tts -- --engine elevenlabs --episode alexander-the-great --long --rol
 
 ## Gemini API 키 로테이션
 
-- 무료 티어: 키당 10회/일. `.env`에 `GOOGLE_GENAI_API_KEY_FREE1` ~ `GOOGLE_GENAI_API_KEY_FREE100` 등록.
+- 무료 티어: 키당 10회/일. `.env`에 `GOOGLE_GENAI_API_KEY_FREE<n>` 연번 등록(상한 없음. `FREE11~19`는 비어 있고 `FREE100~`부터 AQ Auth 키). 키 풀 열거는 `packages/shared/src/lib/gemini-keys.ts`만 안다.
 - 에러별 동작:
   - **429/403** (할당량/차단) → 다음 키로 전환
   - **400** (만료) → 다음 키로 전환

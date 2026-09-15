@@ -43,7 +43,7 @@ node --import tsx scripts/celeb/reading-voice.mjs --all-active --locales ko,en -
 
 ## 키 관리
 
-무료 키는 `sw/remotion/.env`와 `sw/web-bo/.env`의 `GOOGLE_GENAI_API_KEY_FREE<n>`이며 파이프라인은 이름을 숫자 정렬한 배열로 돌린다. 로그의 `key-disabled` 이벤트 `keyIndex`는 이 배열의 0부터 세는 순번이라, 무효 키(`API_KEY_INVALID`)는 같은 순서로 재구성해 변수 이름을 특정한 뒤 두 파일에서 지운다. 2026-09-11에 17번을, 2026-09-14에 무효 키 16번과 프로젝트가 정지(`CONSUMER_SUSPENDED`)돼 403을 내던 11~15·18·19번을 지워 90개가 남았다. 키 상태는 생성 호출 없이 모델 조회(`GET v1beta/models/<모델>`)로 가른다 — 한도를 쓰지 않고, 로그 순번을 변수 이름으로 되짚지 않아도 된다.
+무료 키는 `sw/remotion/.env`와 `sw/web-bo/.env`의 `GOOGLE_GENAI_API_KEY_FREE<n>`이며 파이프라인은 이름을 숫자 정렬한 배열로 돌린다. 로그의 `key-disabled` 이벤트 `keyIndex`는 이 배열의 0부터 세는 순번이라, 무효 키(`API_KEY_INVALID`)는 `googleFreeKeyName(keyIndex + 1)`로 변수 이름을 특정한 뒤 두 파일에서 지운다(순번과 변수 번호가 다를 수 있다 — `FREE11~19`가 비어 있다). 2026-09-11에 17번을, 2026-09-14에 무효 키 16번과 프로젝트가 정지(`CONSUMER_SUSPENDED`)돼 403을 내던 11~15·18·19번을 지워 90개가 남았다. 2026-09-15에 ykj 묶음 AQ(Auth) 키 10개를 `FREE100~109`로 양쪽에 추가해 100개가 됐다. `web-5`·`web-6`·`web-7` 묶음은 발급 즉시 정지라 적용하지 않았다. 같은 날 `web-bo`의 `FREE20` 중복 줄도 정리했다. 키 상태는 생성 호출 없이 모델 조회(`GET v1beta/models/<모델>`)로 가른다 — 한도를 쓰지 않고, 로그 순번을 변수 이름으로 되짚지 않아도 된다.
 
 ## 들숨·쉼 정리
 

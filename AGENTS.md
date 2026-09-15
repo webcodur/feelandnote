@@ -102,7 +102,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 ### 데이터·외부 서비스
 
 - 실행 규약·허용값·임계값은 코드 상수 하나를 SSoT로 두고 화면·서버 액션·스크립트가 import해 사용한다. 문서는 값을 복제하지 않는다.
-- BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 사용한다. 네이버 책 API와 Google Books를 되살리거나 신규 수집에 사용하지 않는다.
+- BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 쓴다. 네이버 책 API는 되살리지 않는다. Google Books는 소개문 수집에만 예외로 허용하며 조건은 `docs/project/platform/external-services.md`가 쥔다.
 - 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-08-01-avatar.md`를 따른다.
 - 팩션 이미지와 얼굴 REF의 출처·누락 처리·창조 권한은 `faction-image` 스킬이 전부 쥔다. 루트에서 별도 대안을 만들지 않는다.
 - Google API는 무료 키와 로그인 경로만 쓴다. 결제 계정이 붙은 GCP 프로젝트의 키를 `.env`나 코드에 두지 않고, 유료 Gemini·Vertex·Cloud TTS 호출 코드를 만들지 않는다.
