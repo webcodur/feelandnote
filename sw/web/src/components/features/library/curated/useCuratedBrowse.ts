@@ -99,9 +99,7 @@ export interface CuratedBrowse {
   useTopics: boolean;
   /** 고른 매체 안에서 다시 센 갈래 — 책↔영상 갈아탈 때 함께 갈린다 */
   kinds: string[];
-  kindCounts: Map<string, number>;
   topics: string[];
-  topicCounts: Map<string, number>;
   shown: ScopeCurator[];
   setMedia: (media: string | null) => void;
   setViewTopic: (view: boolean) => void;
@@ -216,9 +214,7 @@ export function useCuratedBrowse(
     activeTopic,
     useTopics,
     kinds,
-    kindCounts,
     topics,
-    topicCounts,
     shown: inMediaShown,
     setMedia,
     setViewTopic,

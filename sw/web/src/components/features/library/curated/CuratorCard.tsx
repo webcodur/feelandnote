@@ -110,7 +110,7 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
 
         {/* ── 선정 목록 — 하나하나가 링크다 (가로 스크롤) ── */}
         {shownLists.length > 0 && (
-          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide border-t border-white/[0.06] bg-black/30 px-3 py-2 touch-pan-x overscroll-x-contain sm:px-4 sm:py-2.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide border-t border-white/[0.06] bg-black/30 px-3 py-2 overscroll-x-contain sm:px-4 sm:py-2.5">
             {shownLists.map((list) => (
               <Link
                 key={list.slug}

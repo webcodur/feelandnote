@@ -13,8 +13,6 @@ import { Link } from "@/i18n/navigation";
 export interface CategoryTabOption<T extends string = string> {
   value: T;
   label: string;
-  /** 옆에 작게 붙는 수치(목록 수 등) — 없으면 안 붙는다 */
-  count?: number;
 }
 
 interface CategoryTabFilterProps<T extends string> {
@@ -28,6 +26,8 @@ interface CategoryTabFilterProps<T extends string> {
   subtle?: boolean;
   /** 작은 크기 — 세부 줄에서 pill이 눌릴 때 쓰면 된다 */
   size?: "md" | "sm";
+  /** 글자 크기는 그대로 두고 pill 안팎 여백만 줄인다 — 한 줄에 탭이 여럿 서는 구획용(기관 선정 매체: 책·영상·게임·음악) */
+  compact?: boolean;
   align?: "center" | "left";
   /** 칩이 많을 때 한 줄 스크롤 대신 여러 줄로 감싸 중앙에 모은다 (직군 필터 등) */
   wrap?: boolean;
@@ -57,6 +57,7 @@ export function CategoryTabFilter<T extends string>({
   linkTo,
   subtle = false,
   size = "md",
+  compact = false,
   align = "center",
   wrap = false,
   gridCols,
@@ -65,7 +66,10 @@ export function CategoryTabFilter<T extends string>({
 }: CategoryTabFilterProps<T>) {
   // 전체 모드(고른 값이 옵션에 없음)에서는 모든 칩을 은은한 선택 상태로 보여준다
   const showFaintAll = faintAllActive && !options.some((o) => o.value === value);
-  const pad = size === "sm" ? "px-3 py-1.5 text-xs sm:text-sm" : "px-4 sm:px-5 py-2 text-sm md:text-base";
+  const pad =
+    size === "sm"
+      ? compact ? "px-2 py-0.5 text-xs sm:text-sm" : "px-3 py-1.5 text-xs sm:text-sm"
+      : compact ? "px-2.5 sm:px-3 py-0.5 text-sm md:text-base" : "px-4 sm:px-5 py-2 text-sm md:text-base";
   const isGrid = !!gridCols;
   const justify = align === "left" ? "justify-start" : isGrid ? "justify-center" : "";
   const gridClass =
@@ -86,10 +90,10 @@ export function CategoryTabFilter<T extends string>({
       className={`flex min-w-0 max-w-full ${isGrid ? "pb-0" : wrap ? "flex-wrap pb-0" : "overflow-x-auto pb-1 scrollbar-hidden"} ${justify} ${className}`}
     >
       <div
-        className={`${isGrid ? `${gridClass} gap-1.5 p-1.5 max-w-md w-full` : wrap ? "flex flex-wrap justify-center gap-1.5 p-1.5 max-w-4xl" : "inline-flex min-w-max items-center gap-1 p-1"} ${align === "center" && !isGrid ? "mx-auto" : ""} ${
+        className={`${isGrid ? `${gridClass} gap-1.5 p-1.5 max-w-md w-full` : wrap ? "flex flex-wrap justify-center gap-1.5 p-1.5 max-w-4xl" : `inline-flex min-w-max items-center ${compact ? "gap-0.5 p-0.5" : "gap-1 p-1"}`} ${align === "center" && !isGrid ? "mx-auto" : ""} ${
           subtle
             ? "bg-neutral-950/60 backdrop-blur-sm border border-white/[0.08] rounded-xl shadow-inner"
-            : "bg-neutral-900/80 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg p-1.5"
+            : `bg-neutral-900/80 backdrop-blur-md border border-white/10 shadow-lg ${compact ? "rounded-xl" : "rounded-2xl p-1.5"}`
         }`}
       >
         {options.map((option) => {
@@ -98,7 +102,7 @@ export function CategoryTabFilter<T extends string>({
           const faint = showFaintAll;
 
           const cls = [
-            "rounded-xl whitespace-nowrap border",
+            `${compact ? "rounded-lg" : "rounded-xl"} whitespace-nowrap border`,
             pad,
             isActive
               ? subtle
@@ -113,14 +117,7 @@ export function CategoryTabFilter<T extends string>({
             .join(" ");
 
           const content = (
-            <span className={isActive && !subtle ? "font-serif" : undefined}>
-              {option.label}
-              {option.count !== undefined && (
-                <span className={`ml-1.5 text-xs ${isActive ? (subtle ? "text-accent/80" : "text-black/60") : faint ? "text-accent/40" : "text-text-tertiary"}`}>
-                  {option.count.toLocaleString()}
-                </span>
-              )}
-            </span>
+            <span className={isActive && !subtle ? "font-serif" : undefined}>{option.label}</span>
           );
 
           const href = linkTo ? linkTo(option.value) : undefined;
