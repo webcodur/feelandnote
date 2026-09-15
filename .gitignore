@@ -209,6 +209,10 @@ _tmp-*
 # 릴레이 스냅샷은 스크립트로 다시 뽑는다. 회차마다 7MB씩 쌓이므로 추적하지 않는다
 data/celeb/reading-relay/all-readings.json
 
+# 작품 소개 수집·검수·번역 작업 자료는 로컬 보존. 실행 코드는 추적한다.
+/data/celeb/book-introductions/**/*.json
+/data/celeb/book-introductions/**/*.jsonl
+
 # 회차 작업 폴더(묶음·레인 결과). 반영이 끝나면 원장에만 남는다
 data/celeb/reading-relay/wave/
 data/celeb/headline-rewrite/packs/
