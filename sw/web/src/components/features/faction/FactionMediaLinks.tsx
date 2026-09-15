@@ -7,7 +7,7 @@ import { ArrowUpRight, Play, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
-import type { FactionMusic, FactionVideo, FactionVideos } from "@/lib/faction-videos";
+import type { FactionVideo, FactionVideos } from "@/lib/faction-videos";
 
 /** 알약 단추 공통 모양 — 색 강조는 지연 없이 즉시 바뀐다(전 앱 상호작용 원칙 1) */
 const PILL =
@@ -30,11 +30,9 @@ export default function FactionMediaLinks({
   className,
 }: {
   videos: FactionVideos | null | undefined;
-  music?: FactionMusic | null;
   /** 재생 창 머리말에 쓸 이름(테마 이름) */
   title: string;
   atlasLink?: { href: string; label: string };
-  musicPlacement?: "inline" | "global";
   className?: string;
 }) {
   const t = useTranslations("factionMedia");
