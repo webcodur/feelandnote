@@ -10,6 +10,7 @@ import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
@@ -81,6 +82,9 @@ export default function FactionShowcase({
   const teamImages = toTeamImages(activeTag.team_images);
   const teamName = locale === "en" ? activeTag.name_en?.trim() || t("unnamedFaction") : activeTag.name;
   const teamDesc = locale === "en" ? activeTag.description_en : activeTag.description;
+  useRegisterFactionMusic(variant === "standalone" && activeTag.music
+    ? { id: activeTag.id, title: teamName, url: activeTag.music.url }
+    : null);
 
   /*
     목록은 「묶음 하나 + 그 묶음 사람들」을 한 덩어리로 세운다.
@@ -797,6 +801,7 @@ export default function FactionShowcase({
             videos={activeTag.videos}
             music={activeTag.music}
             title={teamName}
+            musicPlacement={variant === "standalone" ? "global" : "inline"}
             atlasLink={variant === "embedded" && activeTag.slug && atlasLinkLabel
               ? { href: `/explore/faction/${activeTag.slug}`, label: atlasLinkLabel }
               : undefined}
