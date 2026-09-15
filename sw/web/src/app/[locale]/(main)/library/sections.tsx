@@ -18,6 +18,9 @@ import CuratedHubBrowse from "@/components/features/library/hub/CuratedHubBrowse
 
 const EMPTY_CLASS = "text-sm text-text-secondary text-center py-8";
 
+/** 허브에 세우는 판매 순위 권수 — 나머지는 인기 작품 화면으로 안내한다 */
+const POPULAR_PREVIEW_COUNT = 5;
+
 export async function PopularSection() {
   let data: Awaited<ReturnType<typeof getBestsellers>>;
   try {
@@ -28,7 +31,13 @@ export async function PopularSection() {
     return <RetryBlock />;
   }
 
-  return <PopularPreview {...data} items={data.items.slice(0, 6)} />;
+  return (
+    <PopularPreview
+      {...data}
+      items={data.items.slice(0, POPULAR_PREVIEW_COUNT)}
+      restCount={Math.max(0, data.items.length - POPULAR_PREVIEW_COUNT)}
+    />
+  );
 }
 
 export async function CuratedSection() {

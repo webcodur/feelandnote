@@ -9,7 +9,7 @@ import type { LibraryContent } from './types'
 const getAppleChart = unstable_cache(() => fetchAppleBooksChart(rawFetch), ['library-apple-paid-books-v2'], {
   revalidate: CHART_CACHE_SECONDS.en,
 })
-const getYes24Chart = unstable_cache((basisDate: string) => fetchYes24Chart(rawFetch, process.env.YES24_API_KEY ?? '', basisDate), ['library-yes24-daily-books-v1'], {
+const getYes24Chart = unstable_cache((basisDate: string) => fetchYes24Chart(rawFetch, process.env.YES24_API_KEY ?? '', basisDate), ['library-yes24-daily-books-v2-addon'], {
   revalidate: CHART_CACHE_SECONDS.ko,
 })
 

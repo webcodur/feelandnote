@@ -72,6 +72,8 @@ export type StaticDatabaseClient = ReturnType<typeof createStaticClient>
 export interface BestsellerItem {
   id: string
   source_url?: string
+  /** 수수료가 붙는 서점 제휴 주소(YES24 애드온). 없으면 source_url로 연다 */
+  purchase_url?: string | null
   rank: number
   title: string
   creator: string

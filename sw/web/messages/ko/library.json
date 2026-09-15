@@ -408,6 +408,9 @@
       },
       "viewByKind": "기관별",
       "viewByTopic": "주제별",
+      "filterKind": "기관 종류",
+      "filterTopic": "주제",
+      "filterAll": "전체",
       "backToLibrary": "작품으로",
       "overview": "개요",
       "purchasePending": "구매 링크 없음"
@@ -437,9 +440,22 @@
       },
       "chartTitle": "지금 많이 팔리는 책",
       "chartEmpty": "판매 순위를 준비하고 있습니다.",
+      "previewRest": "나머지 {count}권은 인기 작품 화면에서 볼 수 있습니다.",
       "rank": "{rank}위",
       "viewAtStore": "서점에서 보기",
-      "newTab": "새 탭에서 열림"
+      "newTab": "새 탭에서 열림",
+      "detail": {
+        "publisher": "출판사",
+        "published": "출간일",
+        "pages": "쪽수",
+        "pageCount": "{count}쪽",
+        "price": "{price}원",
+        "rating": "평점 {score}",
+        "introduction": "책 소개",
+        "source": "정보 제공: 예스24",
+        "failed": "책 정보를 불러오지 못했습니다.",
+        "open": "책 정보"
+      }
     }
   }
 }

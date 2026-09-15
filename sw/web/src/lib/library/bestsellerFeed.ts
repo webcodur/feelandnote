@@ -1,4 +1,5 @@
 import type { BestsellerItem } from '@/actions/library/types'
+import { productUrl as yes24ProductUrl } from '../books/yes24Purchase'
 
 export const APPLE_BOOKS_FEED_URL = 'https://rss.marketingtools.apple.com/api/v2/us/books/top-paid/20/books.json'
 export const CHART_CACHE_SECONDS = { ko: 24 * 3600, en: 3600 } as const
@@ -87,6 +88,8 @@ export function parseYes24Chart(value: unknown, basisDate: string, now = Date.no
     return { ...baseItem, id: `yes24-${itemId}`, rank: Number(row.sortOrder), title: text(row.title), creator: creator(row.author), isbn,
       thumbnail_url: coverUrl(row.cover, url => url.hostname === 'image.yes24.com'),
       source_url: safeUrl(row.link, url => url.hostname === 'www.yes24.com' && url.pathname.toLowerCase() === `/product/goods/${itemId}`),
+      // 수수료가 붙는 애드온 주소 — 모양이 다르면 버리고 상품 주소로 연다
+      purchase_url: yes24ProductUrl(row.addOnLink, Number(itemId), true),
     }
   })
   if (items.some((item, index) => index > 0 && item.rank <= items[index - 1].rank)) throw new Error('Invalid chart order')

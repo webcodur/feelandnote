@@ -408,6 +408,9 @@
       },
       "viewByKind": "By institution",
       "viewByTopic": "By topic",
+      "filterKind": "Institution type",
+      "filterTopic": "Topic",
+      "filterAll": "All",
       "backToLibrary": "Back to Works",
       "overview": "Overview",
       "purchasePending": "Purchase link unavailable"
@@ -437,9 +440,22 @@
       },
       "chartTitle": "Popular paid ebooks",
       "chartEmpty": "The book chart is on its way.",
+      "previewRest": "The other {count, plural, one {# book is} other {# books are}} on the Popular Works page.",
       "rank": "Rank {rank}",
       "viewAtStore": "View in store",
-      "newTab": "Opens in a new tab"
+      "newTab": "Opens in a new tab",
+      "detail": {
+        "publisher": "Publisher",
+        "published": "Published",
+        "pages": "Pages",
+        "pageCount": "{count} pages",
+        "price": "₩{price}",
+        "rating": "Rating {score}",
+        "introduction": "About this book",
+        "source": "Details from YES24",
+        "failed": "Couldn't load book details.",
+        "open": "Book info"
+      }
     }
   }
 }
