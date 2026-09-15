@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
+import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFactionLongDescs";
 import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
@@ -265,6 +266,20 @@ export default function FactionShowcase({
   /** 소개가 실제로 잘렸는지. 다 보이는 글에까지 「더 보기」를 달면 눌러도 아무 일이 없다 */
   const [isIntroClipped, setIsIntroClipped] = useState(false);
   const introRef = useRef<HTMLParagraphElement | null>(null);
+  /* 긴 소개는 전 테마 명단에 싣지 않는다 — 이 테마 몫만 받고, 어느 테마의 결과인지 함께 쥔다 */
+  const [longDescs, setLongDescs] = useState<{ tagId: string; byCeleb: FactionLongDescs } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getFactionLongDescs(activeTag.id)
+      .then((byCeleb) => {
+        if (active) setLongDescs({ tagId: activeTag.id, byCeleb });
+      })
+      .catch((error) => console.error("[FactionShowcase] Failed to load long descriptions:", error));
+    return () => {
+      active = false;
+    };
+  }, [activeTag.id]);
 
   useEffect(() => {
     const listElement = listRef.current;
@@ -300,7 +315,7 @@ export default function FactionShowcase({
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [selectedIdx, locale, isInfoExpanded]);
+  }, [selectedIdx, locale, isInfoExpanded, longDescs]);
 
   if (!current) return null;
 
@@ -430,10 +445,11 @@ export default function FactionShowcase({
     gallery.move(next);
   };
 
-  const longDesc =
-    current.type === "celeb"
-      ? (locale === "en" ? current.celeb.long_desc_en : current.celeb.long_desc)
-      : null;
+  const longDescEntry =
+    current.type === "celeb" && longDescs?.tagId === activeTag.id
+      ? longDescs.byCeleb[current.celeb.id]
+      : undefined;
+  const longDesc = longDescEntry ? (locale === "en" ? longDescEntry.en : longDescEntry.ko) : null;
   const celebTitle = current.type === "celeb" ? roleOf(current.celeb) : null;
 
   const mobileInfo = variant !== "embedded" ? null : current.type === "team" ? (
@@ -799,9 +815,7 @@ export default function FactionShowcase({
           */}
           <FactionMediaLinks
             videos={activeTag.videos}
-            music={activeTag.music}
             title={teamName}
-            musicPlacement={variant === "standalone" ? "global" : "inline"}
             atlasLink={variant === "embedded" && activeTag.slug && atlasLinkLabel
               ? { href: `/explore/faction/${activeTag.slug}`, label: atlasLinkLabel }
               : undefined}
