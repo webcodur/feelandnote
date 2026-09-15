@@ -1,357 +1,74 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { useTranslations } from 'next-intl'
-import { ExternalLink, Music, X, Info } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Music } from 'lucide-react'
 import { Z_INDEX } from '@/constants/zIndex'
-import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
-import type { ContentStatus } from '@/types/database'
-import MusicTrackItem from './MusicTrackItem'
-import GameAudioPlayer from '@/components/shared/GameAudioPlayer'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
-import { createClient } from '@/lib/db/client'
 
-// #region Constants
-const DEFAULT_W = 320
-const DEFAULT_H = 420
-const MIN_W = 280
-const MIN_H = 260
-const MAX_W = 560
-const MAX_H = 700
-const HEADER_H = 32
-const SPLIT_H = 10
-const EMBED_SIZES = [80, 152, 352] as const
-const EMBED_DEFAULT = 152
-const LIST_MIN = 60
-
-const snapEmbed = (h: number) =>
-  EMBED_SIZES.reduce((a, b) => Math.abs(b - h) < Math.abs(a - h) ? b : a)
-const LS_KEY = 'fn-music-player-size'
-const LS_SPLIT_KEY = 'fn-music-split'
-const LS_NOTICE_KEY = 'fn-music-notice-dismissed'
-
-function NoticeItems({ t }: { t: (key: string, params?: Record<string, string>) => string }) {
-  const tStatus = useTranslations('status')
-  const items = [
-    <>{t('noticeWantStatus', { want: tStatus('want'), finished: tStatus('finished') })}</>,
-  ]
-  return <>{items.map((item, i) => <li key={i}>{item}</li>)}</>
-}
-// #endregion
-
-// #region Helpers
-const loadSavedSize = () => {
-  try {
-    const raw = localStorage.getItem(LS_KEY)
-    if (!raw) return null
-    const { w, h } = JSON.parse(raw)
-    if (typeof w === 'number' && typeof h === 'number') return { w, h }
-  } catch { /* 무시 */ }
-  return null
-}
-// #endregion
-
+/** 현재 화면의 BGM을 한 개 아이콘으로 재생·일시정지한다. */
 export default function FloatingMusicPlayer() {
-  const t = useTranslations('musicPlayer')
   const { controls: gameAudio } = useGameAudioContext()
   const { music: factionMusic } = useFactionMusicContext()
-  const [isOpen, setIsOpen] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
-  const [tracks, setTracks] = useState<MusicTrack[]>([])
-  const [currentIdx, setCurrentIdx] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [panelW, setPanelW] = useState(DEFAULT_W)
-  const [panelH, setPanelH] = useState(DEFAULT_H)
-  const [embedH, setEmbedH] = useState(EMBED_DEFAULT)
-  const [showNotice, setShowNotice] = useState(false)
-  const [showInfo, setShowInfo] = useState(false)
-  const loadedRef = useRef(false)
   const factionAudioRef = useRef<HTMLAudioElement | null>(null)
-  const previousFactionIdRef = useRef<string | null>(null)
-  const dragRef = useRef<{ x: number; y: number; w: number; h: number } | null>(null)
-  const sizeRef = useRef({ w: DEFAULT_W, h: DEFAULT_H })
-  const embedHRef = useRef(EMBED_DEFAULT)
+  const [playingFactionId, setPlayingFactionId] = useState<string | null>(null)
 
-  // 비로그인 시 뮤직 플레이어 FAB 숨김
+  // 팩션을 바꾸거나 화면을 떠나면 이전 음원을 즉시 멈춘다.
   useEffect(() => {
-    const db = createClient()
-    db.auth.getUser().then(({ data: { user } }) => {
-      setIsAuthenticated(!!user)
-    })
-  }, [])
+    const audio = factionAudioRef.current
+    return () => audio?.pause()
+  }, [factionMusic?.id, factionMusic?.url])
 
-  const handleDismissNotice = () => {
-    setShowNotice(false)
-    localStorage.setItem(LS_NOTICE_KEY, '1')
-    setLoading(true)
-    getMyMusicList().then((list) => { setTracks(list); setLoading(false) })
-  }
+  if (!gameAudio && !factionMusic) return null
 
-  const loadLibrary = useCallback(() => {
-    if (loadedRef.current) return
-    loadedRef.current = true
-    const saved = loadSavedSize()
-    if (saved) { setPanelW(saved.w); setPanelH(saved.h); sizeRef.current = saved }
-    const split = localStorage.getItem(LS_SPLIT_KEY)
-    if (split) { const h = Number(split); setEmbedH(h); embedHRef.current = h }
-    const dismissed = !!localStorage.getItem(LS_NOTICE_KEY)
-    setShowNotice(!dismissed)
-    if (dismissed) {
-      setLoading(true)
-      getMyMusicList().then((list) => { setTracks(list); setLoading(false) })
-    }
-  }, [])
+  const label = gameAudio?.trackLabel || factionMusic?.title || 'Music'
+  const isPlaying = gameAudio?.isPlaying ?? playingFactionId === factionMusic?.id
+  const zIndex = gameAudio ? Z_INDEX.floatingPlayerGame : Z_INDEX.floatingPlayer
 
-  useEffect(() => {
-    if (factionMusic) {
-      previousFactionIdRef.current = factionMusic.id
+  const toggle = () => {
+    if (gameAudio) {
+      gameAudio.togglePlay()
       return
     }
-    if (!previousFactionIdRef.current || !isOpen || gameAudio) return
-    previousFactionIdRef.current = null
-    const timer = window.setTimeout(loadLibrary, 0)
-    return () => window.clearTimeout(timer)
-  }, [factionMusic, gameAudio, isOpen, loadLibrary])
 
-  // #region Panel Resize (좌상단)
-  const handleResizeStart = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    dragRef.current = { x: e.clientX, y: e.clientY, w: sizeRef.current.w, h: sizeRef.current.h }
-    const onMove = (ev: MouseEvent) => {
-      if (!dragRef.current) return
-      const w = Math.min(MAX_W, Math.max(MIN_W, dragRef.current.w + (dragRef.current.x - ev.clientX)))
-      const h = Math.min(MAX_H, Math.max(MIN_H, dragRef.current.h + (dragRef.current.y - ev.clientY)))
-      sizeRef.current = { w, h }
-      setPanelW(w)
-      setPanelH(h)
+    const audio = factionAudioRef.current
+    if (!audio) return
+    if (audio.paused) {
+      void audio.play().catch(() => {})
+    } else {
+      audio.pause()
     }
-    const onUp = () => {
-      dragRef.current = null
-      localStorage.setItem(LS_KEY, JSON.stringify(sizeRef.current))
-      document.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseup', onUp)
-    }
-    document.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseup', onUp)
-  }, [])
-  // #endregion
-
-  // #region Split Resize (embed ↔ 트랙 목록)
-  const handleSplitStart = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    const startY = e.clientY
-    const startH = embedHRef.current
-    const maxEmbed = sizeRef.current.h - HEADER_H - LIST_MIN - SPLIT_H
-    const onMove = (ev: MouseEvent) => {
-      const h = Math.min(maxEmbed, Math.max(EMBED_SIZES[0], startH + (ev.clientY - startY)))
-      embedHRef.current = h
-      setEmbedH(h)
-    }
-    const onUp = () => {
-      const snapped = snapEmbed(embedHRef.current)
-      embedHRef.current = snapped
-      setEmbedH(snapped)
-      localStorage.setItem(LS_SPLIT_KEY, String(snapped))
-      document.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseup', onUp)
-    }
-    document.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseup', onUp)
-  }, [])
-  // #endregion
-
-  const handleStatusUpdate = (contentId: string, newStatus: ContentStatus) => {
-    setTracks((prev) => prev.map((t) => t.id === contentId ? { ...t, status: newStatus } : t))
   }
 
-  const handleRemove = (contentId: string) => {
-    setTracks((prev) => {
-      const next = prev.filter((t) => t.id !== contentId)
-      if (currentIdx >= next.length) setCurrentIdx(Math.max(0, next.length - 1))
-      return next
-    })
-  }
-
-  const handleOpen = () => {
-    setIsOpen(true)
-    if (gameAudio || factionMusic) {
-      setShowNotice(false)
-      return
-    }
-    loadLibrary()
-  }
-  const handleHide = () => setIsOpen(false)
-  const factionTrack: MusicTrack | null = factionMusic ? {
-    id: `faction:${factionMusic.id}`,
-    userContentId: '',
-    title: factionMusic.title,
-    creator: null,
-    thumbnailUrl: null,
-    status: 'WANT',
-    previewUrl: factionMusic.url,
-    appleMusicUrl: null,
-    entity: 'track',
-  } : null
-  const current = factionTrack ?? tracks[currentIdx]
-  const bodyH = panelH - HEADER_H
-  const maxEmbed = bodyH - LIST_MIN - SPLIT_H
-  const clamped = Math.min(Math.max(EMBED_SIZES[0], embedH), maxEmbed)
-  const listH = Math.max(0, bodyH - clamped - SPLIT_H)
-  const zStyle = { zIndex: Z_INDEX.floatingPlayer }
-  const showLibraryNotice = showNotice && !factionMusic
-
-  useEffect(() => {
-    if (!isOpen || !factionMusic) return
-    void factionAudioRef.current?.play().catch(() => {})
-  }, [factionMusic, isOpen])
-
-  // 비로그인 시 뮤직 플레이어 렌더링 안 함 (게임 모드는 예외)
-  if (!gameAudio && !factionMusic && isAuthenticated === false) return null
-
-  // ── 게임 모드: 게임 오디오 컨트롤로 전환 ──
-  if (gameAudio) {
-    const gameZStyle = { zIndex: Z_INDEX.floatingPlayerGame }
-    return (
-      <>
-        {!isOpen && (
-          <button type="button" onClick={handleOpen} className="fixed bottom-4 end-4 w-12 h-12 rounded-full flex items-center justify-center shadow-lg border bg-bg-card/90 backdrop-blur-sm border-accent/30 text-accent hover:bg-bg-card hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" style={gameZStyle} title={t('gameBgm')}>
-            <Music size={20} />
-          </button>
-        )}
-        <div className={`fixed bottom-4 end-4 bg-bg-card/95 backdrop-blur-sm border border-accent/20 rounded-xl shadow-2xl [&_*]:!font-sans transition-all ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...gameZStyle, width: Math.max(panelW, 420) }}>
-          <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/5">
-            <span className="text-[11px] font-medium text-accent/70 ps-1">{t('gameBgm')}</span>
-            <button type="button" onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" title={t('close')}>
-              <X size={13} />
-            </button>
-          </div>
-          <div className="px-3 py-2.5">
-            <GameAudioPlayer controls={gameAudio} />
-          </div>
-        </div>
-      </>
-    )
-  }
-
-  // ── 기본 모드: Apple Music 미리듣기 플레이어 ──
   return (
     <>
-        {!isOpen && (
-          <button type="button" onClick={handleOpen} className="fixed bottom-4 end-4 flex size-12 items-center justify-center rounded-full border border-white/15 bg-gradient-to-br from-[#fa2d48] via-[#d52d8c] to-[#7d3cff] text-white shadow-lg hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" style={zStyle} title={factionMusic?.title ?? t('title')}>
-          <Music size={20} fill="currentColor" />
-        </button>
+      <button
+        type="button"
+        onClick={toggle}
+        aria-label={label}
+        aria-pressed={isPlaying}
+        title={label}
+        className={`fixed bottom-4 end-4 flex size-11 items-center justify-center rounded-full border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+          isPlaying
+            ? 'border-accent bg-accent/20 text-accent hover:bg-accent/30'
+            : 'border-accent/30 bg-bg-card/95 text-accent hover:border-accent hover:bg-accent/10'
+        }`}
+        style={{ zIndex }}
+      >
+        <Music size={19} aria-hidden="true" />
+      </button>
+
+      {factionMusic && (
+        <audio
+          key={factionMusic.id}
+          ref={factionAudioRef}
+          src={factionMusic.url}
+          preload="none"
+          onPlay={() => setPlayingFactionId(factionMusic.id)}
+          onPause={() => setPlayingFactionId(null)}
+          onEnded={() => setPlayingFactionId(null)}
+        />
       )}
-
-
-        <div className={`fixed bottom-4 end-4 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden [&_*]:!font-sans ${isOpen ? '' : 'invisible opacity-0 pointer-events-none'}`} style={{ ...zStyle, width: panelW, height: panelH }}>
-          {/* 패널 리사이즈 핸들 */}
-          <div className="absolute top-0 start-0 w-5 h-5 cursor-nw-resize z-10 group" onMouseDown={handleResizeStart}>
-            <div className="absolute top-1.5 start-1.5 w-2 h-2 border-t-2 border-s-2 group-hover:border-text-secondary rounded-tl-sm" />
-          </div>
-
-          {/* 헤더 */}
-          <div className="flex items-center justify-between px-3 border-b border-border" style={{ height: HEADER_H }}>
-            <div className="flex items-center gap-1.5 ps-4">
-              <span className="flex size-4 items-center justify-center rounded bg-gradient-to-br from-[#fa2d48] via-[#d52d8c] to-[#7d3cff] text-white">
-                <Music size={9} fill="currentColor" />
-              </span>
-              <span className="text-[11px] font-medium">{factionMusic?.title ?? t('title')}</span>
-              {!showLibraryNotice && (
-                <button type="button" onClick={() => setShowInfo((v) => !v)} className={`${showInfo ? 'text-accent' : 'hover:text-text-secondary'} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}>
-                  <Info size={11} />
-                </button>
-              )}
-            </div>
-            <button type="button" onClick={handleHide} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" title={t('close')}>
-              <X size={13} />
-            </button>
-          </div>
-
-          {/* 최초 온보딩 */}
-          {showLibraryNotice && (
-            <div className="flex flex-col items-center justify-center px-6 text-center" style={{ height: bodyH }}>
-              <Info size={28} className="text-accent/60 mb-4" />
-              <p className="text-xs font-semibold text-text-primary mb-4">{t('playGuide')}</p>
-              <ol className="text-xs text-text-secondary leading-relaxed list-decimal list-inside space-y-2 text-start">
-                <NoticeItems t={t} />
-              </ol>
-              <button type="button" onClick={handleDismissNotice} className="mt-6 px-6 py-2 rounded-lg bg-accent/10 text-accent text-xs font-medium hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t('confirm')}</button>
-            </div>
-          )}
-
-          {/* 본문 */}
-          {!showLibraryNotice && (
-            <>
-              {showInfo && (
-                <div className="absolute top-8 start-0 end-0 p-3 bg-bg-secondary/95 border-b border-border z-20 backdrop-blur-sm">
-                  <ol className="text-xs text-text-secondary leading-relaxed list-decimal list-inside space-y-1.5">
-                    <NoticeItems t={t} />
-                  </ol>
-                </div>
-              )}
-
-              {/* Apple Music 미리듣기 음원을 직접 재생한다 */}
-              <div style={{ height: clamped }}>
-                {current && (
-                  current.previewUrl ? (
-                    <div className="flex h-full flex-col items-center justify-center gap-1 px-3 py-1">
-                    <audio ref={factionAudioRef} key={current.id} src={current.previewUrl} controls autoPlay={isOpen} preload="none" className="w-full" />
-                      <div className="flex w-full items-center justify-between gap-2 text-[11px] text-text-secondary">
-                        <span className="flex min-w-0 items-center gap-1.5 truncate">
-                          <span className="size-2 shrink-0 rounded-full bg-gradient-to-br from-[#fa2d48] via-[#d52d8c] to-[#7d3cff]" />
-                          {factionMusic?.title ?? t('previewNotice')}
-                        </span>
-                        {current.appleMusicUrl && (
-                          <a
-                            href={current.appleMusicUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 font-medium text-accent hover:bg-accent/10"
-                          >
-                            {t('listenOnApple')}
-                            <ExternalLink size={10} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center h-full">
-                      <span className="text-[11px] text-text-secondary">{t('previewUnavailable')}</span>
-                    </div>
-                  )
-                )}
-              </div>
-
-              {/* 스플릿 핸들 */}
-              <div className="flex items-center justify-center cursor-row-resize select-none group hover:bg-white/5" style={{ height: SPLIT_H }} onMouseDown={handleSplitStart}>
-                <div className="w-8 h-0.5 rounded-full group-hover:" />
-              </div>
-
-              {/* 트랙 목록 */}
-              <div className="overflow-y-auto" style={{ height: listH }}>
-                {loading && <div className="flex items-center justify-center h-12"><span className="text-xs">{t('loading')}</span></div>}
-                {!loading && tracks.length === 0 && <div className="flex flex-col items-center justify-center gap-1 h-16"><span className="text-xs">{t('empty')}</span><span className="text-[11px]">{t('emptyHint')}</span></div>}
-                {!loading && factionTrack && (
-                  <MusicTrackItem
-                    track={factionTrack}
-                    index={0}
-                    total={1}
-                    isActive
-                    readOnly
-                    onSelect={() => setCurrentIdx(0)}
-                    onUpdate={() => {}}
-                    onRemove={() => {}}
-                  />
-                )}
-                {!loading && !factionTrack && tracks.map((track, idx) => (
-                  <MusicTrackItem key={track.id} track={track} index={idx} total={tracks.length} isActive={idx === currentIdx} onSelect={() => setCurrentIdx(idx)} onUpdate={handleStatusUpdate} onRemove={handleRemove} />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
     </>
   )
 }
