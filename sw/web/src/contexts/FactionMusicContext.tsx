@@ -6,6 +6,7 @@ export interface FactionMusicSelection {
   id: string;
   title: string;
   url: string;
+  kind?: "faction" | "myth";
 }
 
 interface FactionMusicContextValue {
@@ -44,10 +45,11 @@ export function useRegisterFactionMusic(selection: FactionMusicSelection | null)
   const id = selection?.id ?? null;
   const title = selection?.title ?? null;
   const url = selection?.url ?? null;
+  const kind = selection?.kind ?? "faction";
 
   useEffect(() => {
     if (!id || !title || !url) return;
-    register({ id, title, url });
+    register({ id, title, url, kind });
     return () => unregister(id);
-  }, [id, register, title, unregister, url]);
+  }, [id, kind, register, title, unregister, url]);
 }
