@@ -7,6 +7,7 @@ function fixture(): MythAtlasData {
   const tradition = (id: string, isPublished: boolean, personIds: string[]): MythTradition => ({
     id, slug: id, name: id, isPublished, regionId: "region", personIds,
     description: `${id} overview`, images: [{ url: `${id}.jpg`, label: null }],
+    music: null,
     groups: [{ id: "group", name: "group", description: "group story", personIds }],
   });
   const person = (id: string, traditionIds: string[], sourceIds: string[]): MythPerson => ({

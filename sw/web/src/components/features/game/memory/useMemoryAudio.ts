@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import {
   useGameAudio,
+  type BgmTrack,
   type GameAudioConfig,
 } from "@/components/features/game/shared/hooks/useGameAudio";
 import { getMemoryFlipAudioPlan, MEMORY_SFX } from "./audioPlan";
@@ -11,9 +12,19 @@ import type { MemoryPairResult } from "./types";
 export { MEMORY_SFX } from "./audioPlan";
 
 const MEMORY_AUDIO_CONFIG: GameAudioConfig = {
-  basePath: "/assets/common",
+  basePath: "/assets/memory",
+  sfxBasePath: "/assets/common",
   sfxFiles: Object.values(MEMORY_SFX),
-  getBgmTracks: () => [],
+  getBgmTracks: (state: string): BgmTrack[] => {
+    switch (state) {
+      case "lobby":
+      case "playing":
+      case "result":
+        return [{ src: "/assets/memory/memory-main.mp3", label: "기억 — Main" }];
+      default:
+        return [];
+    }
+  },
   sfxVolume: 0.42,
 };
 

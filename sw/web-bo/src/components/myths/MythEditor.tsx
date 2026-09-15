@@ -9,16 +9,19 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { updateTag, type CelebTag, type CelebTagAssignment, type TagGroup } from '@/actions/admin/tags'
+import type { MythMusicCatalog } from '@/actions/admin/myth-music'
 import type { MythEditorData, MythSummary } from '@/actions/admin/myths'
 import type { ThemeEpisodeLink } from '@/actions/admin/factions/themes'
 import { MythGroupPanel } from './MythGroupPanel'
 import { MythMemberPanel } from './MythMemberPanel'
+import MythMusicPanel from './MythMusicPanel'
 import { MYTH_BUTTON, MYTH_CARD, MYTH_INPUT } from './styles'
 
-export default function MythEditor({ myths, selectedId, detail }: {
+export default function MythEditor({ myths, selectedId, detail, musicCatalog }: {
   myths: MythSummary[]
   selectedId: string | null
   detail: MythEditorData | null
+  musicCatalog: MythMusicCatalog
 }) {
   const router = useRouter()
   const [members, setMembers] = useState<CelebTagAssignment[]>(detail?.members ?? [])
@@ -57,6 +60,7 @@ export default function MythEditor({ myths, selectedId, detail }: {
       {detail ? (
         <div className="min-w-0 space-y-4">
           <MythInfoCard tag={detail.tag} episodes={detail.episodes} onSaved={refreshList} />
+          <MythMusicPanel catalog={musicCatalog} onSynced={refreshList} />
           <MythGroupPanel
             tagId={detail.tag.id}
             groups={groups}

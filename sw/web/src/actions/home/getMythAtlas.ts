@@ -14,11 +14,13 @@ import {
   type FigureBookPurchaseOptionRow,
 } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
+import { toFactionMusic } from "@/lib/faction-videos";
 import { MYTH_OTHER_GROUP_ID, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
 
 interface TagRow {
   id: string; parent_id: string | null; slug: string | null; name: string; name_en: string | null;
   description: string | null; description_en: string | null;
+  theme_music: unknown;
   /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 전승 하나를 잠그는 데도 배포가 필요했다 */
   atlas_published: boolean | null;
 }
@@ -160,13 +162,13 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: rootTagData, error: tagError } = await db
     .from("celeb_tags")
-    .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published")
+    .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published,theme_music")
     .eq("parent_id", parent.id).order("sort_order");
   if (tagError) throw new Error(`신화 목록 조회 실패: ${tagError.message}`);
   const rootTags = (rootTagData ?? []) as TagRow[];
   const { data: nestedTagData, error: nestedTagError } = rootTags.length > 0
     ? await db.from("celeb_tags")
-      .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published")
+      .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published,theme_music")
       .in("parent_id", rootTags.map((tag) => tag.id)).order("sort_order")
     : { data: [], error: null };
   if (nestedTagError) throw new Error(`Failed to load nested mythology tags: ${nestedTagError.message}`);
@@ -285,7 +287,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name,
       description: isEn ? tag.description_en || tag.description : tag.description,
       isPublished: tag.atlas_published === true,
-      regionId: region.id, images, personIds: ids,
+      regionId: region.id, images, personIds: ids, music: toFactionMusic(tag.theme_music),
       groups: groupsForTradition(members.filter((member) => member.tag_id === tag.id), ids, isEn,
         (label) => groupDescriptions.get(`${tag.id}/${label}`) ?? null) }];
   });
@@ -300,7 +302,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v18-purchase-edition"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v19-theme-music"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
