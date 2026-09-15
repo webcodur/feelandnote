@@ -64,6 +64,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
   };
 
   const renderBottomLeft = () => {
+    if (props.showStats === false) return null;
     if (effectiveCelebCount === undefined) return null;
     const handleStatsClick = onStatsClick || ((e: React.MouseEvent) => {
       e.preventDefault();
@@ -94,7 +95,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
 
   const cardContent = (
     <>
-      <CardHeader props={props} state={state} />
+      {props.showHeader !== false && <CardHeader props={props} state={state} />}
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
         {showImage ? (
           <ContentImage
@@ -137,7 +138,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
 
       {showInfo && (
         <div className="bg-black/20 border-t border-white/[0.04] text-center">
-          <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[36px] md:min-h-[42px]">
+          <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[44px] md:min-h-[52px]">
             <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
               {editionUnavailable ? title : displayTitle}
             </h3>

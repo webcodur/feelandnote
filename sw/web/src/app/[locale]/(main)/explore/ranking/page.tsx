@@ -10,7 +10,7 @@ import { Link } from "@/i18n/navigation";
 import { getCategoryByDbType } from "@/constants/categories";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
-import { CONTENT_TYPES, getRankingHref, resolveRankingType } from "./constants";
+import { CONTENT_TYPES, TYPE_COLORS, getRankingHref, resolveRankingType } from "./constants";
 import { TopByTypeMedia } from "./sections";
 
 /* 콜드 상태에서 봇이 받는 완성 HTML이 중간에 잘리지 않게 상한을 넉넉히 둔다 */
@@ -45,21 +45,23 @@ export default async function TopByTypePage({ searchParams }: PageProps) {
 
   return (
     <div className="space-y-10">
-      <nav aria-label={tr("metaTitle")} className="flex flex-wrap justify-center gap-2">
+      <nav aria-label={tr("metaTitle")} className="flex flex-wrap justify-center gap-1">
         {CONTENT_TYPES.map((entry) => {
           const Icon = getCategoryByDbType(entry)?.lucideIcon;
           const active = type === entry;
+          const color = TYPE_COLORS[entry];
           return <Link
             key={entry}
             href={getRankingHref(entry)}
             prefetch={false}
             scroll={false}
             aria-current={active ? "page" : undefined}
-            className={`inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-accent ${active
-              ? "border-accent/40 bg-accent/15 text-accent hover:bg-accent/25"
+            style={active ? { borderColor: `${color}66`, backgroundColor: `${color}1f`, color } : undefined}
+            className={`inline-flex items-center justify-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-accent sm:gap-1.5 sm:px-3.5 sm:py-1.5 sm:text-xs ${active
+              ? "hover:brightness-125"
               : "border-border/40 bg-bg-card/40 text-text-secondary hover:border-accent/40 hover:bg-bg-card hover:text-accent"}`}
           >
-            {Icon && <Icon size={16} aria-hidden />}
+            {Icon && <Icon size={12} aria-hidden />}
             {tc(entry.toLowerCase())}
           </Link>;
         })}

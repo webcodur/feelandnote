@@ -7,6 +7,14 @@
 export const CONTENT_TYPES = ["BOOK", "VIDEO", "GAME", "MUSIC"] as const;
 export type ContentTypeKey = (typeof CONTENT_TYPES)[number];
 
+/** 매체별 대표색 — 카테고리 필·랭킹 카드·공통 서재 지표가 같은 값을 쓴다 */
+export const TYPE_COLORS: Record<ContentTypeKey, string> = {
+  BOOK: "#3b82f6",
+  VIDEO: "#ef4444",
+  GAME: "#22c55e",
+  MUSIC: "#a855f7",
+};
+
 export function resolveRankingType(category: string | string[] | undefined): ContentTypeKey {
   return CONTENT_TYPES.find((type) => type.toLowerCase() === category) ?? "BOOK";
 }

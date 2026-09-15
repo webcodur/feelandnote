@@ -64,6 +64,10 @@ export interface ContentCardProps {
   // 하단 정보
   showInfo?: boolean;
   showGradient?: boolean;
+  /** false면 상단 크롬 바(카테고리·에디션 토글·액션)를 숨긴다. 기본 true. */
+  showHeader?: boolean;
+  /** false면 좌하단 인원 구성 뱃지를 숨기고 자동 조회도 하지 않는다. 기본 true. */
+  showStats?: boolean;
 
   // 리뷰 모드
   review?: string | null;
