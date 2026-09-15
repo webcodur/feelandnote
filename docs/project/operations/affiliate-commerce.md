@@ -13,6 +13,7 @@
 | 플랫폼 라벨·언어·고지 문구 | [affiliatePlatforms.ts](../../../sw/web/src/constants/affiliatePlatforms.ts) |
 | 인물 도서의 언어별 판매처 선택 | [figureBookLocale.ts](../../../sw/web/src/actions/figure-books/figureBookLocale.ts) |
 | 일반 제휴 도서 조회·순위 | [getAffiliateBooks.ts](../../../sw/web/src/actions/home/getAffiliateBooks.ts)와 [affiliateBookPicks.ts](../../../sw/web/src/constants/affiliateBookPicks.ts) |
+| 작품 카드 판매처 단추 | [WorkPurchaseAction.tsx](../../../sw/web/src/components/features/commerce/WorkPurchaseAction.tsx). 한국어 화면 전용. 도서는 `/api/books/purchase` 중계, 음반·게임은 판매처 검색 링크 |
 | 개발자모드 비도서 시안 | [targetProducts.ts](../../../sw/web/src/components/features/commerce/targetProducts.ts). DB 상품 운영 체계를 신설한 상태가 아니다 |
 
 일반 상품 상세 주소와 수수료를 추적하는 제휴 주소는 다르다. 링크가 열리거나 상품을 DB에 등록할 수 있다는 사실만으로
@@ -30,6 +31,8 @@
 한국어 작품 상세·실존 인물 서재 펼침·인물 도서의 판본 선택에서 현재 선택한 책만 ISBN으로 조회한다. 서버가 작품 유형과 판본 소속·언어를 확인해 저장 ISBN을 정하고, [공식 상품 상세 API](https://developers.yes24.com/api-doc/goods-item-detail)의 동일 ISBN·판매 중 상품만 구매 버튼으로 제공한다. 판본 ISBN이 없거나 절판·품절·미매칭·조회 실패이면 예스24 버튼을 만들지 않는다. 기존 쿠팡 링크와 작품 메타는 보존하며 외부 검색 결과로 다른 판본을 자동 지정하지 않는다.
 
 조회와 판매 상태 검증은 `sw/web/src/lib/books/yes24Purchase.ts`, 작품·판본 확인과 서버 캐시는 `sw/web/src/actions/contents/getYes24PurchaseLink.ts`가 담당한다. 구매 링크는 응답으로만 합치며 DB에 복사하지 않는다. 목록 전체를 미리 조회하지 않고, 화면의 모바일·데스크톱 중복 요청은 공유한다. 운영 활성화 조건은 [환경변수](../platform/env-vars.md)의 `YES24_PURCHASE_ENABLED`를 따른다.
+
+인물 화면 「연관 작품」은 고른 판본이 예스24에서 `판매중`일 때만 제목 아래에 판매지수·평점·판매가를 띄운다. 같은 판본 확인을 거쳐 상품 상세(`detail=Y`)를 조회하며, 서재 차트의 책 정보 모달과 `sw/web/src/lib/books/yes24DetailCache.ts`의 캐시를 나눠 쓴다. 한국어 화면 전용이다. 영어 화면의 Amazon은 가격·판매 정보를 받을 공식 경로가 없어 표시하지 않는다.
 
 바깥 도서 카드에는 하나의 테두리 안에 파란색 `YES24`와 빨간색 `쿠팡`을 붙여 표시한다. 쿠팡 상품이 없으면 `YES24에서 보기` 한 칸만 표시한다. 작품 상세에서는 같은 판매처 색상을 쓰되 버튼을 각각 분리한다. YES24 버튼은 `/api/books/purchase/[contentId]`에서 같은 ISBN의 판매 상품을 찾아 연결하고, 확인할 수 없으면 예스24 검색 결과를 연다. 다른 판매처로 자동 이동하지 않는다. 쿠팡 버튼은 기존 상품 주소로 직접 간다. 선택 판본은 `editionId`로 전달하며 다른 판본으로 대체하지 않는다. 중계 응답은 임시 이동·캐시 금지·비색인으로 처리하고, 링크를 미리 불러오지 않는다.
 

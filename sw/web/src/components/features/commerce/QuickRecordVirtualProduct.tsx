@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/commerce/QuickRecordVirtualProduct.tsx
-  기능: 빠른기록 편집기 옆 가상 상품 행 (시안)
-  책임: 쿠팡 전환 전 자리·문구·가시성만 검증한다. 외부 링크를 내지 않고 DB를 쓰지 않는다.
+  기능: 빠른기록 편집기 옆 쿠팡 상품
+  책임: 편집 흐름에 맞는 실제 상품 링크를 보여준다.
 */
 
 "use client";
@@ -11,7 +11,7 @@ import { QUICK_RECORD_VIRTUAL_PRODUCTS } from "./quickRecordProducts";
 
 export default function QuickRecordVirtualProduct() {
   const product = QUICK_RECORD_VIRTUAL_PRODUCTS[0];
-  if (!product) return null;
+  if (!product?.productUrl?.trim()) return null;
 
   return (
     <VirtualProductRow
@@ -19,6 +19,7 @@ export default function QuickRecordVirtualProduct() {
       name={product.name}
       spec={product.spec}
       label={product.label}
+      productUrl={product.productUrl}
     />
   );
 }
