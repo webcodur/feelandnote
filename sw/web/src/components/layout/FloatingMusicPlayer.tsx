@@ -745,7 +745,7 @@ function MusicListRow({
             : 'border-transparent text-text-primary hover:border-white/8 hover:bg-white/5'
       } ${!playable ? 'cursor-default opacity-50' : ''}`}
     >
-      <span className={`flex size-7 shrink-0 items-center justify-center rounded-full border ${active || recommended ? 'border-accent/35 bg-accent/10 text-accent' : 'border-white/10 bg-white/5 text-text-secondary group-hover/track:border-accent/30 group-hover/track:text-accent'}`}>
+      <span className={`flex size-7 shrink-0 items-center justify-center rounded-full border ${active || recommended ? 'border-accent/35 bg-accent/10 text-accent' : 'border-white/10 bg-white/5 text-text-secondary opacity-0 group-hover/track:border-accent/30 group-hover/track:text-accent group-hover/track:opacity-100 group-focus-visible/track:opacity-100'}`}>
         {active ? <Pause size={12} /> : <Play size={12} className="ms-0.5" />}
       </span>
       <span className="min-w-0 flex-1 truncate">
