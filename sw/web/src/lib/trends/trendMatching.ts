@@ -1,10 +1,15 @@
 import { load } from 'cheerio'
 import { parseTrendCountry, TREND_PERIOD_HOURS, type TrendCountry } from '../../constants/trendCountries'
+import { getCelebYear } from '../celeb/lifespan'
+
+/** Historic namesakes steal modern news searches (연암 박지원, 삼국지 법정); on 2026-09-16 every match born earlier was one. */
+export const TREND_MIN_BIRTH_YEAR = 1900
 
 export interface RegisteredTrendPerson {
   id: string
   nickname: string | null
   nickname_en: string | null
+  birth_date?: string | null
 }
 
 export interface CountryTrendingPeople {
@@ -12,9 +17,15 @@ export interface CountryTrendingPeople {
   available: boolean
 }
 
-/** Keep punctuation and accents: broad token matching can mistake companies or namesakes for people. */
+/** One trending search and the queries Google groups under it. */
+export interface TrendSearch {
+  title: string
+  related: string[]
+}
+
+/** Searches drop or add spaces ("런정 페이"), so spaces are ignored. Keep punctuation and accents: broad token matching can mistake companies or namesakes for people. */
 export function normalizeTrendName(value: string): string {
-  return value.normalize('NFKC').trim().replace(/\s+/gu, ' ').toLowerCase()
+  return value.normalize('NFKC').replace(/\s+/gu, '').toLowerCase()
 }
 
 /**
@@ -22,7 +33,7 @@ export function normalizeTrendName(value: string): string {
  * RSS contains just ten recently started searches and misses still-relevant people.
  * This is Google's page data, not a stable API: changed/missing structure must fail closed.
  */
-export function parseTrendPage(html: string, country: TrendCountry, now = Date.now()): string[] {
+export function parseTrendPage(html: string, country: TrendCountry, now = Date.now()): TrendSearch[] {
   if (html.length > 8_000_000 || !Number.isFinite(now)) throw new Error('Invalid Trends page')
   const $ = load(html)
   const datasets = $('script').toArray().map((script) => $(script).text()).filter((text) =>
@@ -42,20 +53,36 @@ export function parseTrendPage(html: string, country: TrendCountry, now = Date.n
     if (row[4] !== null && (!Array.isArray(row[4]) || !Number.isSafeInteger(row[4][0]) || row[4][0] < row[3][0])) {
       throw new Error('Invalid Trends end timestamp')
     }
-    return { title: row[0].trim(), volume: row[6] as number, started }
+    const related: unknown = row[9] ?? []
+    if (!Array.isArray(related) || related.some((query) => typeof query !== 'string')) throw new Error('Invalid Trends related queries')
+    return {
+      title: row[0].trim(),
+      related: (related as string[]).map((query) => query.trim()).filter(Boolean),
+      volume: row[6] as number,
+      started,
+    }
   })
   return rows
     .filter((row) => row.started >= now - TREND_PERIOD_HOURS * 3_600_000)
     .sort((a, b) => b.volume - a.volume || b.started - a.started || (a.title < b.title ? -1 : a.title > b.title ? 1 : 0))
-    .map((row) => row.title)
+    .map(({ title, related }) => ({ title, related }))
 }
 
-/** The directory must include every accessible registered person, before any UI filters. */
-export function matchTrendingPeople(titles: string[], directory: RegisteredTrendPerson[]): string[] {
+/**
+ * The directory must include every accessible registered person, before any UI filters.
+ * Related queries also name people around a story (a co-star, a founder's company), but one-word
+ * names (Cher, 준) collide with unrelated queries there, so only multi-word names match them.
+ */
+export function matchTrendingPeople(trends: TrendSearch[], directory: RegisteredTrendPerson[]): string[] {
   const peopleByName = new Map<string, Set<string>>()
+  const fullNameIds = new Set<string>()
   for (const person of directory) {
+    // Excluded before indexing, so a modern namesake stops counting as ambiguous.
+    const born = getCelebYear(person.birth_date)
+    if (born !== null && born < TREND_MIN_BIRTH_YEAR) continue
     for (const name of [person.nickname, person.nickname_en]) {
       if (!name) continue
+      if (/\S\s+\S/u.test(name)) fullNameIds.add(person.id)
       const key = normalizeTrendName(name)
       if (!key) continue
       const ids = peopleByName.get(key) ?? new Set<string>()
@@ -64,9 +91,15 @@ export function matchTrendingPeople(titles: string[], directory: RegisteredTrend
     }
   }
   const result = new Set<string>()
-  for (const title of titles) {
-    const ids = peopleByName.get(normalizeTrendName(title))
-    if (ids?.size === 1) result.add(ids.values().next().value!)
+  const add = (query: string, fullNameOnly: boolean) => {
+    const ids = peopleByName.get(normalizeTrendName(query))
+    if (ids?.size !== 1) return
+    const id = ids.values().next().value!
+    if (!fullNameOnly || fullNameIds.has(id)) result.add(id)
+  }
+  for (const trend of trends) {
+    add(trend.title, false)
+    for (const query of trend.related) add(query, true)
   }
   return [...result]
 }

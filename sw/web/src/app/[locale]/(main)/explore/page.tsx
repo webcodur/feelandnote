@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS, NAV_ITEMS } from "@/constants/navigation";
-import { parseTrendCountry } from "@/constants/trendCountries";
+import { getTrendCountryOptions, parseTrendCountry } from "@/constants/trendCountries";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
@@ -29,9 +29,10 @@ export default async function ExplorePage({ searchParams }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const filters = parseFilterParams(await searchParams);
-  if (!filters.trendCountry) {
-    filters.trendCountry = parseTrendCountry((await headers()).get("CF-IPCountry")) ?? "KR";
-  }
+  const visitorCountry = parseTrendCountry((await headers()).get("CF-IPCountry"));
+  const trendCountry = filters.trendCountry ?? visitorCountry ?? "KR";
+  filters.trendCountry = trendCountry;
+  const trendCountryOptions = getTrendCountryOptions(visitorCountry, trendCountry);
   const t = await getTranslations("explore.hub");
   const nav = await getTranslations("nav.sub");
   const pending = await getTranslations("pending");
@@ -41,7 +42,7 @@ export default async function ExplorePage({ searchParams }: {
   return (
     <div className="space-y-8 md:space-y-10">
       <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
-        <FiguresFilterResult params={filters} />
+        <FiguresFilterResult params={filters} trendCountryOptions={trendCountryOptions} />
       </Lane>
       <nav aria-label={t("quickNav")} className="border-t border-white/10 pt-6 md:pt-8">
         <h2 className="mb-4 text-sm font-semibold text-text-secondary md:mb-5">{t("quickNav")}</h2>
@@ -57,7 +58,7 @@ export default async function ExplorePage({ searchParams }: {
                   <ExploreCardArtwork variant={page.key!} />
                   <span className="absolute inset-x-0 bottom-0 h-6 bg-linear-to-t from-[#101112] to-transparent" aria-hidden />
                 </div>
-                <div className="flex flex-1 flex-col p-4 md:px-6 md:pb-6 md:pt-5">
+                <div className="flex flex-1 flex-col p-3 md:px-6 md:pb-6 md:pt-5">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="text-base font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">{nav(page.key!)}</h3>
                     <ArrowUpRight size={18} className="mt-0.5 shrink-0 text-accent/50 group-hover:text-accent" aria-hidden />
@@ -77,7 +78,7 @@ export default async function ExplorePage({ searchParams }: {
                 key={page.key}
                 href={page.href}
                 prefetch={false}
-                className="group flex items-start gap-3 rounded-xl border border-white/10 px-4 py-4 hover:border-accent/40 hover:bg-white/5 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:px-5 md:py-5"
+                className="group flex items-start gap-3 rounded-xl border border-white/10 px-3 py-3.5 hover:border-accent/40 hover:bg-white/5 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:px-5 md:py-5"
               >
                 <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-text-secondary group-hover:text-accent" aria-hidden />
                 <div className="min-w-0 flex-1">

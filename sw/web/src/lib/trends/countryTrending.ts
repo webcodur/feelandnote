@@ -21,11 +21,11 @@ const getRegisteredPeople = unstable_cache(async (): Promise<RegisteredTrendPers
   const signal = AbortSignal.timeout(TREND_REQUEST_TIMEOUT_MS)
   return selectAllPages<RegisteredTrendPerson>((from, to) => db
     .from('celebs')
-    .select('id,nickname,nickname_en')
+    .select('id,nickname,nickname_en,birth_date')
     .order('id')
     .range(from, to)
     .abortSignal(signal))
-}, ['country-trend-registered-names-v1'], {
+}, ['country-trend-registered-names-v2'], {
   revalidate: TREND_REVALIDATE_SECONDS,
   tags: [CACHE_TAGS.CELEBS],
 })
@@ -36,13 +36,13 @@ async function fetchCountryIds(country: TrendCountry): Promise<string[]> {
     headers: { Accept: 'text/html' },
   })
   if (!response.ok) throw new Error(`Trends page HTTP ${response.status}`)
-  const titles = parseTrendPage(await response.text(), country)
-  if (titles.length === 0) return []
-  return matchTrendingPeople(titles, await getRegisteredPeople())
+  const trends = parseTrendPage(await response.text(), country)
+  if (trends.length === 0) return []
+  return matchTrendingPeople(trends, await getRegisteredPeople())
 }
 
 // unstable_cache includes the country argument in its key; failed reads throw and aren't stored as an empty feed.
-const getCountryIds = unstable_cache(fetchCountryIds, ['country-trending-people-page-v2'], {
+const getCountryIds = unstable_cache(fetchCountryIds, ['country-trending-people-page-v4'], {
   revalidate: TREND_REVALIDATE_SECONDS,
   tags: [CACHE_TAGS.CELEBS],
 })

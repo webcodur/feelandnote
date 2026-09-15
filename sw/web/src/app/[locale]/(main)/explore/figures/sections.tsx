@@ -95,7 +95,7 @@ export interface FiguresFilterParams {
 
 /* 필터 결과(그리드 뷰) — 필터 줄과 목록이 같은 상호작용 상태(검색어·정렬·페이지)를 공유하는
    하나의 위젯이라 두 레인으로 쪼개지 않는다. 카운트 4종 + 목록을 함께 기다린다 */
-export async function FiguresFilterResult({ params }: { params: FiguresFilterParams }) {
+export async function FiguresFilterResult({ params, trendCountryOptions }: { params: FiguresFilterParams; trendCountryOptions?: readonly TrendCountry[] }) {
   let result: [
     Awaited<ReturnType<typeof getCelebs>>,
     Awaited<ReturnType<typeof getProfessionCounts>>,
@@ -142,6 +142,7 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
       initialTotalPages={celebsResult.totalPages}
       initialTrendCountry={params.trendCountry}
       initialTrend={celebsResult.trend}
+      trendCountryOptions={trendCountryOptions}
       professionCounts={professionCounts}
       nationalityCounts={nationalityCounts}
       contentTypeCounts={contentTypeCounts}
