@@ -1,13 +1,14 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Music, Pause, Play, X } from 'lucide-react'
+import { Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
 import { getFactionMusicList, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
+import { READING_PLAYBACK_RATES } from '@/hooks/useReadingNarration'
 
 interface FactionTrack {
   id: string
@@ -19,6 +20,7 @@ interface FactionTrack {
 
 type ListTrack = MusicTrack | FactionTrack
 type MusicMode = 'faction' | 'library'
+type AudioStatus = 'idle' | 'loading' | 'playing' | 'paused'
 
 const isFactionTrack = (track: ListTrack): track is FactionTrack => track.id.startsWith('faction:')
 
@@ -33,6 +35,10 @@ export default function FloatingMusicPlayer() {
   const [factionTracks, setFactionTracks] = useState<FactionMusicListItem[]>([])
   const [loading, setLoading] = useState(false)
   const [playingId, setPlayingId] = useState<string | null>(null)
+  const [audioStatus, setAudioStatus] = useState<AudioStatus>('idle')
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0)
+  const [audioDuration, setAudioDuration] = useState(0)
+  const [playbackRate, setPlaybackRate] = useState(1)
   const [selection, setSelection] = useState<{ contextKey: string | null; trackId: string | null }>({
     contextKey: null,
     trackId: null,
@@ -81,7 +87,13 @@ export default function FloatingMusicPlayer() {
       ? selection.trackId ?? factionTrack?.id ?? null
       : factionTrack?.id ?? selection.trackId
   const currentTrack = listTracks.find((track) => track.id === selectedId) ?? listTracks[0] ?? null
-  const isPlaying = gameAudio?.isPlaying ?? playingId === currentTrack?.id
+  const isTrackPlaying = playingId === currentTrack?.id
+  const isGamePlaying = Boolean(gameAudio?.isPlaying)
+  const isPlaying = isGamePlaying || isTrackPlaying
+  const currentPlayerTime = isGamePlaying && gameAudio ? gameAudio.currentTime : audioCurrentTime
+  const currentPlayerDuration = isGamePlaying && gameAudio ? gameAudio.duration : audioDuration
+  const currentPlayerLoading = !isGamePlaying && audioStatus === 'loading'
+  const currentPlayerPlayable = isGamePlaying || Boolean(currentTrack?.previewUrl)
   const label = gameAudio?.trackLabel || factionMusic?.title || (locale === 'ko' ? '음악' : 'Music')
   const playLabel = locale === 'ko' ? '재생' : 'Play'
   const pauseLabel = locale === 'ko' ? '일시정지' : 'Pause'
@@ -90,6 +102,12 @@ export default function FloatingMusicPlayer() {
   const recommendedLabel = locale === 'ko' ? '추천' : 'Recommended'
   const emptyLabel = locale === 'ko' ? '감상목록이 비어 있습니다.' : 'Your listening list is empty.'
   const loginLabel = locale === 'ko' ? '로그인하면 내 감상목록을 볼 수 있습니다.' : 'Sign in to see your listening list.'
+
+  const stopLabel = locale === 'ko' ? '정지' : 'Stop'
+  const backLabel = locale === 'ko' ? '10초 뒤로' : 'Back 10 seconds'
+  const forwardLabel = locale === 'ko' ? '10초 앞으로' : 'Forward 10 seconds'
+  const positionLabel = locale === 'ko' ? '재생 위치' : 'Playback position'
+  const speedLabel = locale === 'ko' ? '재생 속도' : 'Playback speed'
 
   const loadLibrary = useCallback(() => {
     if (loadedRef.current) return
@@ -140,7 +158,15 @@ export default function FloatingMusicPlayer() {
   useEffect(() => {
     if (!pendingPlayRef.current) return
     pendingPlayRef.current = false
-    void audioRef.current?.play().catch(() => {})
+    const audio = audioRef.current
+    if (!audio) return
+    if (audio.readyState >= 2) {
+      void audio.play().catch(() => {})
+      return
+    }
+    const playWhenReady = () => void audio.play().catch(() => {})
+    audio.addEventListener('canplay', playWhenReady, { once: true })
+    return () => audio.removeEventListener('canplay', playWhenReady)
   }, [selectedId])
 
   useEffect(() => {
@@ -150,6 +176,7 @@ export default function FloatingMusicPlayer() {
 
   const selectTrack = (track: ListTrack) => {
     if (!track.previewUrl) return
+    if (gameAudio?.isPlaying) gameAudio.togglePlay()
     if (selectedId === track.id) {
       if (audioRef.current?.paused) {
         void audioRef.current.play().catch(() => {})
@@ -158,12 +185,52 @@ export default function FloatingMusicPlayer() {
       }
       return
     }
+    setAudioStatus('loading')
+    setAudioCurrentTime(0)
+    setAudioDuration(0)
     pendingPlayRef.current = true
     setSelection({ contextKey: factionContextKey, trackId: track.id })
   }
 
   const selectGameAudio = () => {
+    const audio = audioRef.current
+    if (playingId && audio && !audio.paused) audio.pause()
     gameAudio?.togglePlay()
+  }
+
+  const seekCurrent = (time: number) => {
+    const nextTime = Math.max(0, Math.min(time, currentPlayerDuration || 0))
+    if (isGamePlaying && gameAudio) {
+      gameAudio.seek(nextTime)
+      return
+    }
+    const audio = audioRef.current
+    if (!audio || !Number.isFinite(nextTime)) return
+    audio.currentTime = nextTime
+    setAudioCurrentTime(nextTime)
+  }
+
+  const stopCurrent = () => {
+    if (isGamePlaying && gameAudio) {
+      gameAudio.seek(0)
+      if (gameAudio.isPlaying) gameAudio.togglePlay()
+      return
+    }
+    const audio = audioRef.current
+    if (!audio) return
+    audio.pause()
+    audio.currentTime = 0
+    setPlayingId(null)
+    setAudioStatus('idle')
+    setAudioCurrentTime(0)
+  }
+
+  const toggleCurrent = () => {
+    if (isGamePlaying) {
+      gameAudio?.togglePlay()
+      return
+    }
+    if (currentTrack) selectTrack(currentTrack)
   }
 
   const buttonZIndex = gameAudio ? Z_INDEX.floatingPlayerGame : Z_INDEX.floatingPlayer
@@ -211,25 +278,57 @@ export default function FloatingMusicPlayer() {
             </button>
           </div>
 
-          {currentTrack && (
-            <div className="mx-3 mt-3 flex items-center gap-3 rounded-xl border border-accent/20 bg-black/20 px-3 py-2.5">
-              <span className={`relative flex size-9 shrink-0 items-center justify-center rounded-lg border ${isPlaying ? 'border-accent/50 bg-accent/15 text-accent' : 'border-white/10 bg-white/5 text-text-secondary'}`}>
-                <Music size={16} aria-hidden="true" />
-                {isPlaying && <span className="absolute -right-1 -top-1 size-2 rounded-full bg-accent shadow-[0_0_10px_rgba(212,175,55,0.8)]" />}
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-accent/70">{isPlaying ? nowPlayingLabel : selectedLabel}</p>
-                <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{currentTrack.title}</p>
-                {currentTrack.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
+          {(currentTrack || isGamePlaying) && (
+            <div className="mx-3 mt-3 rounded-xl border border-accent/20 bg-black/20 p-3">
+              <div className="flex items-center gap-3">
+                <span className={`relative flex size-9 shrink-0 items-center justify-center rounded-lg border ${isPlaying ? 'border-accent/50 bg-accent/15 text-accent' : 'border-white/10 bg-white/5 text-text-secondary'}`}>
+                  <Music size={16} aria-hidden="true" />
+                  {isPlaying && <span className="absolute -right-1 -top-1 size-2 rounded-full bg-accent shadow-[0_0_10px_rgba(212,175,55,0.8)]" />}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-accent/70">{isPlaying ? nowPlayingLabel : selectedLabel}</p>
+                  <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}</p>
+                  {!isGamePlaying && currentTrack?.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleCurrent}
+                  disabled={!currentPlayerPlayable}
+                  aria-label={currentPlayerLoading ? 'Loading' : isPlaying ? pauseLabel : playLabel}
+                  aria-busy={currentPlayerLoading || undefined}
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-bg-main hover:bg-accent/85 disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  {currentPlayerLoading ? <Loader2 size={14} className="animate-spin" aria-hidden="true" /> : isPlaying ? <Pause size={13} fill="currentColor" aria-hidden="true" /> : <Play size={13} fill="currentColor" className="ms-0.5" aria-hidden="true" />}
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => selectTrack(currentTrack)}
-                aria-label={isPlaying ? pauseLabel : playLabel}
-                className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-bg-main hover:bg-accent/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                {isPlaying ? <Pause size={13} fill="currentColor" aria-hidden="true" /> : <Play size={13} fill="currentColor" className="ms-0.5" aria-hidden="true" />}
-              </button>
+              <MusicTransport
+                isPlaying={isPlaying}
+                loading={currentPlayerLoading}
+                currentTime={currentPlayerTime}
+                duration={currentPlayerDuration}
+                playbackRate={playbackRate}
+                playLabel={playLabel}
+                pauseLabel={pauseLabel}
+                stopLabel={stopLabel}
+                backLabel={backLabel}
+                forwardLabel={forwardLabel}
+                positionLabel={positionLabel}
+                speedLabel={speedLabel}
+                onToggle={toggleCurrent}
+                onStop={stopCurrent}
+                onBack={() => seekCurrent(currentPlayerTime - 10)}
+                onForward={() => seekCurrent(currentPlayerTime + 10)}
+                onSeek={seekCurrent}
+                onPlaybackRateChange={(rate) => {
+                  setPlaybackRate(rate)
+                  if (audioRef.current) {
+                    audioRef.current.defaultPlaybackRate = rate
+                    audioRef.current.playbackRate = rate
+                  }
+                }}
+                playable={currentPlayerPlayable}
+                showRate={!isGamePlaying}
+              />
             </div>
           )}
 
@@ -324,13 +423,177 @@ export default function FloatingMusicPlayer() {
           key={currentTrack.id}
           ref={audioRef}
           src={currentTrack.previewUrl}
-          preload="none"
+          preload="metadata"
+          onLoadStart={() => {
+            setAudioStatus('loading')
+            setAudioCurrentTime(0)
+            setAudioDuration(0)
+          }}
+          onLoadedMetadata={(event) => {
+            const audio = event.currentTarget
+            audio.defaultPlaybackRate = playbackRate
+            audio.playbackRate = playbackRate
+            setAudioDuration(Number.isFinite(audio.duration) ? audio.duration : 0)
+            setAudioStatus((status) => status === 'playing' ? status : 'idle')
+          }}
+          onDurationChange={(event) => setAudioDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)}
+          onTimeUpdate={(event) => setAudioCurrentTime(event.currentTarget.currentTime)}
+          onWaiting={() => setAudioStatus('loading')}
+          onPlaying={() => {
+            setPlayingId(currentTrack.id)
+            setAudioStatus('playing')
+          }}
           onPlay={() => setPlayingId(currentTrack.id)}
-          onPause={() => setPlayingId(null)}
-          onEnded={() => setPlayingId(null)}
+          onPause={() => {
+            setPlayingId(null)
+            setAudioStatus((status) => status === 'idle' ? status : 'paused')
+          }}
+          onEnded={(event) => {
+            event.currentTarget.currentTime = 0
+            setPlayingId(null)
+            setAudioStatus('idle')
+            setAudioCurrentTime(0)
+          }}
+          onError={() => {
+            setPlayingId(null)
+            setAudioStatus('idle')
+            setAudioDuration(0)
+          }}
         />
       )}
     </>
+  )
+}
+
+function formatTime(seconds: number) {
+  const value = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0
+  return `${Math.floor(value / 60)}:${String(value % 60).padStart(2, '0')}`
+}
+
+function MusicTransport({
+  isPlaying,
+  loading,
+  currentTime,
+  duration,
+  playbackRate,
+  playLabel,
+  pauseLabel,
+  stopLabel,
+  backLabel,
+  forwardLabel,
+  positionLabel,
+  speedLabel,
+  onToggle,
+  onStop,
+  onBack,
+  onForward,
+  onSeek,
+  onPlaybackRateChange,
+  playable,
+  showRate,
+}: {
+  isPlaying: boolean
+  loading: boolean
+  currentTime: number
+  duration: number
+  playbackRate: number
+  playLabel: string
+  pauseLabel: string
+  stopLabel: string
+  backLabel: string
+  forwardLabel: string
+  positionLabel: string
+  speedLabel: string
+  onToggle: () => void
+  onStop: () => void
+  onBack: () => void
+  onForward: () => void
+  onSeek: (time: number) => void
+  onPlaybackRateChange: (rate: number) => void
+  playable: boolean
+  showRate: boolean
+}) {
+  const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0
+  const safeTime = Math.max(0, Math.min(currentTime, safeDuration))
+  const progress = safeDuration ? (safeTime / safeDuration) * 100 : 0
+
+  return (
+    <div className="mt-3">
+      <div className="mx-auto grid w-fit grid-cols-5 items-center gap-1.5">
+        <PlayerButton label={stopLabel} onClick={onStop} disabled={!isPlaying && safeTime === 0}>
+          <Square size={14} aria-hidden="true" />
+        </PlayerButton>
+        <PlayerButton label={backLabel} onClick={onBack} disabled={safeTime <= 0}>
+          <RotateCcw size={14} strokeWidth={1.6} aria-hidden="true" />
+          <span className="text-[10px] font-medium leading-none tabular-nums">10</span>
+        </PlayerButton>
+        <PlayerButton label={loading ? 'Loading' : isPlaying ? pauseLabel : playLabel} onClick={onToggle} disabled={!playable} busy={loading} primary>
+          {loading ? <Loader2 size={17} className="animate-spin" aria-hidden="true" /> : isPlaying ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}
+        </PlayerButton>
+        <PlayerButton label={forwardLabel} onClick={onForward} disabled={!safeDuration || safeTime >= safeDuration}>
+          <RotateCw size={14} strokeWidth={1.6} aria-hidden="true" />
+          <span className="text-[10px] font-medium leading-none tabular-nums">10</span>
+        </PlayerButton>
+        {showRate ? (
+          <select
+            aria-label={speedLabel}
+            title={speedLabel}
+            value={playbackRate}
+            onChange={(event) => onPlaybackRateChange(Number(event.target.value))}
+            className="h-10 w-11 cursor-pointer appearance-none rounded-lg border border-white/20 bg-black/20 text-center text-[11px] font-medium tabular-nums text-text-secondary hover:border-accent/60 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            {READING_PLAYBACK_RATES.map((rate) => <option className="bg-bg-card" key={rate} value={rate}>{rate}×</option>)}
+          </select>
+        ) : <span className="h-10 w-11" aria-hidden="true" />}
+      </div>
+      <div className="mt-1.5 flex items-center gap-2 text-[10px] tabular-nums text-text-secondary">
+        <span className="min-w-7">{formatTime(safeTime)}</span>
+        <input
+          type="range"
+          min={0}
+          max={safeDuration}
+          step={0.1}
+          value={safeTime}
+          onChange={(event) => onSeek(Number(event.target.value))}
+          disabled={!safeDuration}
+          aria-label={positionLabel}
+          aria-valuetext={`${formatTime(safeTime)} / ${formatTime(safeDuration)}`}
+          style={{ background: `linear-gradient(to right, var(--color-accent) ${progress}%, var(--color-stone-light) ${progress}%) center / 100% 3px no-repeat` }}
+          className="h-5 min-w-0 flex-1 cursor-pointer appearance-none bg-transparent accent-accent hover:brightness-125 disabled:cursor-default disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-thumb]:-mt-[3px] [&::-webkit-slider-thumb]:size-[9px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent [&::-moz-range-thumb]:size-[9px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-accent"
+        />
+        <span className="min-w-7 text-right">{formatTime(safeDuration)}</span>
+      </div>
+    </div>
+  )
+}
+
+function PlayerButton({
+  label,
+  onClick,
+  children,
+  disabled = false,
+  busy = false,
+  primary = false,
+}: {
+  label: string
+  onClick: () => void
+  children: React.ReactNode
+  disabled?: boolean
+  busy?: boolean
+  primary?: boolean
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      aria-busy={busy || undefined}
+      title={label}
+      onClick={onClick}
+      disabled={disabled}
+      className={`relative flex h-10 w-11 shrink-0 items-center justify-center gap-1 rounded-lg border enabled:hover:border-accent/60 enabled:hover:bg-accent/15 enabled:hover:text-accent enabled:active:bg-accent/25 disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${primary ? 'border-accent/45 bg-accent/10 text-accent' : 'border-white/20 bg-black/20 text-text-secondary'}`}
+    >
+      {children}
+    </button>
   )
 }
 
