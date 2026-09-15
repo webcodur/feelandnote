@@ -51,31 +51,20 @@ export default function ExploreBanner() {
   const pageTitle = isSubpage ? hubT(subKey!) : hubTitle;
 
   // 세력도감 테마(slug) 진입 시 3단계 breadcrumb: 탐색 > 세력도감 > 테마명
-  const pathSlug = subSegment === "faction" && segments[2] ? segments[2] : undefined;
-  const [themeSlug, setThemeSlug] = useState<string | undefined>(pathSlug);
-  const [themeName, setThemeName] = useState<string | null>(null);
-
-  // 경로 변경(직접 진입) 반영
-  useEffect(() => { setThemeSlug(pathSlug); }, [pathSlug]);
-
-  // 앱 내 테마 전환(replaceState) 반영 — FeaturedFaction이 쏘는 이벤트 수신
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const slug = (e as CustomEvent<string | null>).detail;
-      setThemeSlug(slug || undefined);
-    };
-    window.addEventListener("faction:theme", handler);
-    return () => window.removeEventListener("faction:theme", handler);
-  }, []);
+  const themeSlug = subSegment === "faction" && segments[2] ? segments[2] : undefined;
+  /* 어느 테마의 이름인지 함께 쥔다 — 테마를 벗어나면 비우는 대신 slug가 어긋나 저절로 사라진다 */
+  const [loadedTheme, setLoadedTheme] = useState<{ slug: string; name: string | null } | null>(null);
 
   useEffect(() => {
-    if (!themeSlug) { setThemeName(null); return; }
+    if (!themeSlug) return;
     let active = true;
     getFactionTagName(themeSlug).then((r) => {
-      if (active) setThemeName(r ? (locale === "en" ? (r.name_en ?? r.name) : r.name) : null);
+      if (active) setLoadedTheme({ slug: themeSlug, name: r ? (locale === "en" ? (r.name_en ?? r.name) : r.name) : null });
     });
     return () => { active = false; };
   }, [themeSlug, locale]);
+
+  const themeName = themeSlug && loadedTheme?.slug === themeSlug ? loadedTheme.name : null;
 
   const hasTheme = !!(themeSlug && themeName);
 

@@ -3,8 +3,9 @@
 import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, LoaderCircle } from "lucide-react";
+import { ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
@@ -14,7 +15,6 @@ import { Z_INDEX } from "@/constants/zIndex";
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
-import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
 import FactionMobileInfoPanel from "./FactionMobileInfoPanel";
 import FactionRoster, { type FactionRosterEntry } from "./FactionRoster";
@@ -809,17 +809,18 @@ export default function FactionShowcase({
             </div>
           </div>
           {mobileInfo}
-          {/*
-            이 테마를 다룬 세력도감 영상과 그 구간에 흐르는 배경음악. 고른 항목이 사람이든 단체든
-            테마 자체의 것이라 선택과 무관하게 같은 자리에 둔다. 없으면 아무것도 뜨지 않는다.
-          */}
-          <FactionMediaLinks
-            videos={activeTag.videos}
-            title={teamName}
-            atlasLink={variant === "embedded" && activeTag.slug && atlasLinkLabel
-              ? { href: `/explore/faction/${activeTag.slug}`, label: atlasLinkLabel }
-              : undefined}
-          />
+          {/* 임베디드 화면은 이 테마의 세력도감 주소로 잇는다. 테마 영상 단추는 재편 뒤 명단과 영상 내용이 달라져 두지 않는다(26.09.15) */}
+          {variant === "embedded" && activeTag.slug && atlasLinkLabel && (
+            <div className="flex flex-wrap items-center gap-2">
+              <Link
+                href={`/explore/faction/${activeTag.slug}`}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white/85 hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {atlasLinkLabel}
+                <ArrowUpRight size={14} aria-hidden />
+              </Link>
+            </div>
+          )}
         </div>
         {/* 임베디드는 PC 좌측·모바일 상단, 독립 화면은 기존 우측 명단 */}
         <div

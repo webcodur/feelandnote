@@ -1,7 +1,7 @@
 /*
   파일명: /components/shared/CelebCard.tsx
   기능: 셀럽 카드 공통 컴포넌트
-  책임: 인물 사진과 이름은 상세페이지로 연결하고, 대사와 조회수는 별도 버튼으로 제공한다.
+  책임: 인물 사진과 이름은 상세페이지로 연결하고(onSelect를 주면 누를 때 그 함수를 부르고 주소는 남긴다), 대사와 조회수는 별도 버튼으로 제공한다.
 */
 "use client";
 
@@ -37,6 +37,11 @@ interface CelebCardProps {
   shape?: CardShape;
   /** 별도 대사 버튼에서 인사·한마디 자막을 표시한다. */
   onSubtitle?: (sub: DialogueSubtitleData) => void;
+  /** 있으면 카드를 눌러도 상세로 넘어가지 않고 이 함수를 부른다(모달 열기). 주소는 남아 새 탭 열기·검색 수집은 그대로다. */
+  onSelect?: (id: string) => void;
+  /** 탐색·세력도감 인물 격자처럼 카드가 늘어선 목록에서만 켠다 — 마우스를 올렸을 때 금빛 테두리·바탕·그림자·사진 빛·이름 칸으로 강조한다.
+      포커스에는 걸지 않는다(모달이 포커스를 옮길 때 켜진 채 남는다) */
+  emphasizeHover?: boolean;
 }
 
 export default function CelebCard({
@@ -52,6 +57,8 @@ export default function CelebCard({
   presentation = "default",
   shape = "circle",
   onSubtitle,
+  onSelect,
+  emphasizeHover = false,
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
   const locale = useLocale();
@@ -77,6 +84,10 @@ export default function CelebCard({
   const isCard = variant === "card";
   const isCircle = variant === "circle";
   const roundedClass = isCard && shape === "square" ? "rounded-md" : "rounded-full";
+  const emphasize = isCard && emphasizeHover;
+  const frameHover = emphasize
+    ? "group-hover:border-accent/70 group-hover:bg-accent/[0.07] group-hover:shadow-[0_12px_30px_-14px_rgba(212,175,55,0.55)]"
+    : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
   const config = isCard
     ? { container: "aspect-square w-full", fallbackSize: 32 }
     : isCircle
@@ -90,11 +101,18 @@ export default function CelebCard({
           href={profileHref}
           prefetch={false}
           aria-label={displayNickname}
+          aria-haspopup={onSelect ? "dialog" : undefined}
+          onClick={onSelect ? (event) => {
+            // 가운데 누름·보조키 누름은 새 탭 열기이므로 링크 그대로 둔다
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            onSelect(id);
+          } : undefined}
           className={`group flex flex-col items-center outline-none ${isCard ? "w-full" : isCircle ? "gap-2" : ""}`}
         >
           <div
             className={`relative shrink-0 ${config.container} ${roundedClass}
-              ${isQuiet ? "border border-white/10 bg-bg-card group-hover:border-white/30" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner group-hover:border-accent/60"}
+              ${isQuiet ? "border border-white/10 bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}
               group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
             `}
             style={isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
@@ -113,6 +131,8 @@ export default function CelebCard({
                 fallbackSize={config.fallbackSize}
                 className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} transition-transform duration-500 group-hover:scale-105`}
               />
+              {/* 올린 카드가 한눈에 보이게 — 사진 아래에서 금빛이 차오른다. 즉시 반응이라 전환을 걸지 않는다 */}
+              {emphasize && <span aria-hidden className="pointer-events-none absolute inset-0 z-[15] bg-[linear-gradient(to_top,rgba(212,175,55,0.24),rgba(212,175,55,0.06)_45%,transparent_70%)] opacity-0 group-hover:opacity-100" />}
             </div>
 
             {count !== undefined && count > 0 && (
@@ -131,7 +151,7 @@ export default function CelebCard({
           </div>
 
           {isCard ? (
-            <div className="mt-1.5 w-full text-center px-0.5">
+            <div className={`mt-1.5 w-full rounded-md px-0.5 py-0.5 text-center ${emphasize ? "group-hover:bg-white/[0.06]" : ""}`}>
               <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
               {displayTitle && (
                 <p className={`text-[10px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400/80"} truncate leading-tight mt-0.5`}>{displayTitle}</p>

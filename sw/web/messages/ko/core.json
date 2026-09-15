@@ -489,7 +489,7 @@
     "content": {
       "addToRecord": "기록하기",
       "viewDetails": "상세정보 보기",
-      "allReviews": "모든 감상",
+      "allReviews": "다른 이들의 리뷰",
       "bookDetails": "도서 정보",
       "unverified": "미확인",
       "listenOnApple": "Apple Music에서 듣기",
@@ -763,6 +763,19 @@
       "followers": "팔로워",
       "viewProfile": "프로필 보기",
       "loadError": "프로필을 불러올 수 없습니다"
+    },
+    "libraryShelf": {
+      "lead": "이 무리 {members}명 가운데 둘 이상이 함께 본 작품 {count}개입니다.",
+      "leadPlain": "여러 인물이 함께 본 작품 {count}개입니다.",
+      "typeLabel": "작품 종류",
+      "all": "전체",
+      "mostShared": "가장 많이 함께 본 작품",
+      "readerCount": "{count}명",
+      "readerRatio": "{members}명 중 {count}명이 감상",
+      "others": "외 {count}명",
+      "viewWork": "작품 보기",
+      "more": "{count}개 더 보기",
+      "purchaseInfo": "구매 안내"
     }
   },
   "notifications": {
@@ -797,9 +810,6 @@
     "headingRead": "이 인물이 읽은 책",
     "headingProfession": "같은 분야 인물들이 읽은 책",
     "headingOrigin": "이 인물이 등장하는 원전",
-    "headingFactionRead": "이 진영의 인물들이 읽은 책",
-    "headingFactionAbout": "이 진영을 다룬 책",
-    "headingFactionTopic": "이 진영과 관련된 책",
     "buy": "구매하기"
   },
   "share": {
@@ -807,13 +817,6 @@
     "chooseChannel": "공유",
     "copyLink": "링크 복사",
     "copied": "복사됨"
-  },
-  "factionMedia": {
-    "watchLongform": "영상으로 보기",
-    "watchShorts": "짧은 영상 보기",
-    "closeVideo": "영상 닫기",
-    "playMusic": "테마 음악",
-    "pauseMusic": "음악 멈춤"
   },
   "pending": {
     "loading": "불러오는 중",
