@@ -598,8 +598,7 @@ function MusicTransport({
           </select>
         ) : <span className="h-10 w-11" aria-hidden="true" />}
       </div>
-      <div className="mt-1.5 flex items-center gap-2 text-[10px] tabular-nums text-text-secondary">
-        <span className="min-w-7">{formatTime(safeTime)}</span>
+      <div className="relative mx-auto mt-1.5 h-7 w-full max-w-[15.25rem] text-[10px] tabular-nums text-text-secondary">
         <input
           type="range"
           min={0}
@@ -611,9 +610,10 @@ function MusicTransport({
           aria-label={positionLabel}
           aria-valuetext={`${formatTime(safeTime)} / ${formatTime(safeDuration)}`}
           style={{ background: `linear-gradient(to right, var(--color-accent) ${progress}%, var(--color-stone-light) ${progress}%) center / 100% 3px no-repeat` }}
-          className="h-5 min-w-0 flex-1 cursor-pointer appearance-none bg-transparent accent-accent hover:brightness-125 disabled:cursor-default disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-thumb]:-mt-[3px] [&::-webkit-slider-thumb]:size-[9px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent [&::-moz-range-thumb]:size-[9px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-accent"
+          className="absolute inset-0 h-7 w-full cursor-pointer appearance-none bg-transparent accent-accent hover:brightness-125 disabled:cursor-default disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-thumb]:-mt-[3px] [&::-webkit-slider-thumb]:size-[9px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent [&::-moz-range-thumb]:size-[9px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-accent"
         />
-        <span className="min-w-7 text-right">{formatTime(safeDuration)}</span>
+        <span className="pointer-events-none absolute start-1 top-1/2 z-10 -translate-y-1/2 text-text-secondary [text-shadow:0_1px_3px_rgba(0,0,0,.95)]">{formatTime(safeTime)}</span>
+        <span className="pointer-events-none absolute end-1 top-1/2 z-10 -translate-y-1/2 text-text-secondary [text-shadow:0_1px_3px_rgba(0,0,0,.95)]">{formatTime(safeDuration)}</span>
       </div>
     </div>
   )
