@@ -76,7 +76,7 @@
 
 허브와 `/library/popular`는 한국어에서 예스24 전일 베스트셀러, 영문에서 미국 Apple Books 유료 전자책 차트를 보여준다. 한국어는 순위 기준일, 영문은 확인 시각과 출처를 표시한다. 미국 전체 도서 시장이나 실시간 판매량으로 표현하지 않는다. 순위 카드는 원본 판매처로 이동하며, 외부 차트 메타를 DB에 등록하지 않는다. 불후의 명작은 기존 내부 작품 카드와 시대·직군·매체 필터를 유지한다.
 
-`actions/library/bestsellers.ts`가 공식 API·피드를 서버 캐시로 읽고 `lib/library/bestsellerFeed.ts`가 검증과 유효기간을 담당한다. 이용할 수 없는 목록은 준비 중으로 표시하며 오래된 수집 파일로 대체하지 않는다. `BookChartGrid`와 `BestsellerFreshness`를 허브·상세에서 공유한다. 예스24 활성화 조건과 발급처는 [환경변수](../platform/env-vars.md), 공급처 운영 조건은 [외부 서비스](../platform/external-services.md)를 따른다.
+`actions/library/bestsellers.ts`가 공식 API·피드를 서버 캐시로 읽고 `lib/library/bestsellerFeed.ts`가 검증과 유효기간을 담당한다. 이용할 수 없는 목록은 준비 중으로 표시하며 오래된 수집 파일로 대체하지 않는다. `BookChartGrid`와 `BestsellerFreshness`를 허브·상세에서 공유한다. 차트는 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 순위·표지·YES24 단추·「책 상세 보기」를 그린다. 차트 항목은 우리 작품이 아니므로 YES24 단추와 표지는 차트 API가 준 애드온 제휴 주소(`addOnLink` → `purchase_url`, 모양이 어긋나면 상품 주소)를, 작품 상세 대신 「책 정보」 단추(정보 아이콘·점선 금색 테두리로 다른 목록의 「책 상세 보기」와 구별)가 외부 페이지로 내보내지 않고 YES24 상품 상세 API(`getYes24BookDetail`, ISBN 단위 하루 캐시)로 받은 표지·서지·가격·평점·책 소개를 모달(`Yes24BookModal`)로 띄운다. Apple Books 차트는 차트가 준 정보와 서점 단추만 보인다. 예스24 활성화 조건과 발급처는 [환경변수](../platform/env-vars.md), 공급처 운영 조건은 [외부 서비스](../platform/external-services.md)를 따른다.
 
 ## 박물관 구조
 

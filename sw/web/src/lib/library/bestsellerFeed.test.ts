@@ -38,6 +38,21 @@ test('YES24 requests the explicit previous day and keeps response time separate'
   assert.equal(result.updatedAt, new Date(now).toISOString())
   assert.equal(result.items[0].source_url, 'https://www.yes24.com/product/goods/123')
 })
+test('YES24 chart carries only a verified add-on affiliate link', () => {
+  const withAddOn = yes24()
+  Object.assign(withAddOn.data.items[0], { addOnLink: 'https://apis.yes24.com/a/partner_1/goods/123' })
+  assert.equal(parseYes24Chart(withAddOn, basis, now).items[0].purchase_url, 'https://apis.yes24.com/a/partner_1/goods/123')
+  for (const addOnLink of [
+    'https://apis.yes24.com/a/partner_1/goods/999',
+    'https://example.com/a/partner_1/goods/123',
+    'https://apis.yes24.com/a/partner_1/goods/123?next=1',
+  ]) {
+    const wrong = yes24()
+    Object.assign(wrong.data.items[0], { addOnLink })
+    assert.equal(parseYes24Chart(wrong, basis, now).items[0].purchase_url, null)
+  }
+  assert.equal(parseYes24Chart(yes24(), basis, now).items[0].purchase_url, null)
+})
 test('missing keys, error payloads and mismatched dates are not successful charts', async () => {
   await assert.rejects(fetchYes24Chart(respond(yes24()), '', basis, now), /key missing/)
   assert.throws(() => parseYes24Chart({ success: false }, basis, now), /rejected/)

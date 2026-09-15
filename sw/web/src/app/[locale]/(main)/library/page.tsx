@@ -38,7 +38,7 @@ export default async function ScripturesPage() {
       <HubNav hubItems={hubNavItems(sections, tHub)} groupId={LIBRARY_GROUP_ID} />
 
       <div className="space-y-12 md:space-y-16 mt-4">
-        {/* 1/4 인기 작품 — 인물들이 많이 고른 작품 여섯 개를 그대로 보여준다 */}
+        {/* 1/4 인기 작품 — 서점 판매 순위 앞 다섯 권만 보이고 나머지 권수는 인기 작품 화면으로 안내한다 */}
         <HubSection {...section("popular")}>
           <Lane fallback={<PendingBlock variant="grid" count={6} label={tPending("loading")} />}>
             <PopularSection />
