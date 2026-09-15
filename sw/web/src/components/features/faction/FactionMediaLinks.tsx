@@ -30,6 +30,7 @@ export default function FactionMediaLinks({
   music,
   title,
   atlasLink,
+  musicPlacement = "inline",
   className,
 }: {
   videos: FactionVideos | null | undefined;
@@ -37,6 +38,7 @@ export default function FactionMediaLinks({
   /** 재생 창 머리말에 쓸 이름(테마 이름) */
   title: string;
   atlasLink?: { href: string; label: string };
+  musicPlacement?: "inline" | "global";
   className?: string;
 }) {
   const t = useTranslations("factionMedia");
@@ -68,7 +70,11 @@ export default function FactionMediaLinks({
           </button>
         ))}
 
-        {music && <FactionMusicPill music={music} />}
+        {music && (
+          <span className={musicPlacement === "global" ? "md:hidden" : undefined}>
+            <FactionMusicPill music={music} />
+          </span>
+        )}
 
         {atlasLink ? (
           <Link href={atlasLink.href} className={cn(PILL, PILL_IDLE)}>

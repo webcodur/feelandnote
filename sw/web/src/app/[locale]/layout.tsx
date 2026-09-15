@@ -14,6 +14,7 @@ import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
+import { FactionMusicProvider } from "@/contexts/FactionMusicContext";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import DeploymentNotice from "@/components/layout/DeploymentNotice";
 import UiXray from "@/components/shared/ui-xray/UiXray";
@@ -149,7 +150,8 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <GameAudioProvider>
-            <GlobalDialogueProvider>
+            <FactionMusicProvider>
+              <GlobalDialogueProvider>
               <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -162,7 +164,8 @@ export default async function LocaleLayout({
               {process.env.NODE_ENV === "production" && (
                 <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
               )}
-            </GlobalDialogueProvider>
+              </GlobalDialogueProvider>
+            </FactionMusicProvider>
           </GameAudioProvider>
         </NextIntlClientProvider>
       </body>

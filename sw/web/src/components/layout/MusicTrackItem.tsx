@@ -30,9 +30,10 @@ interface Props {
   onSelect: () => void
   onUpdate: (id: string, status: ContentStatus) => void
   onRemove: (id: string) => void
+  readOnly?: boolean
 }
 
-export default function MusicTrackItem({ track, index, total, isActive, onSelect, onUpdate, onRemove }: Props) {
+export default function MusicTrackItem({ track, index, total, isActive, onSelect, onUpdate, onRemove, readOnly = false }: Props) {
   const t = useTranslations('musicPlayer')
   const tStatus = useTranslations('status')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -81,7 +82,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
   return (
     <div className={`relative flex items-center gap-1 px-2 py-1.5 hover:bg-white/5 ${isActive ? 'bg-accent/10' : ''}`}>
       {/* 곡 선택 */}
-      <button onClick={onSelect} className="flex-1 flex items-center gap-2 text-start min-w-0">
+      <button type="button" onClick={onSelect} className="flex-1 flex items-center gap-2 text-start min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
         <span className="text-[10px] w-8 shrink-0 text-end tabular-nums">
           {index + 1}/{total}
         </span>
@@ -96,18 +97,21 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
         </div>
         <div className="flex flex-col items-end gap-0.5 shrink-0">
           <span className="text-[9px]">{t(track.entity)}</span>
-          {statusColor && <span className="text-[9px]" style={{ color: statusColor }}>{tStatus(track.status.toLowerCase())}</span>}
+          {!readOnly && statusColor && <span className="text-[9px]" style={{ color: statusColor }}>{tStatus(track.status.toLowerCase())}</span>}
         </div>
       </button>
 
       {/* 더보기 버튼 */}
-      <button
-        ref={btnRef}
-        onClick={toggleMenu}
-        className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 shrink-0"
-      >
-        <MoreVertical size={13} />
-      </button>
+      {!readOnly && (
+        <button
+          type="button"
+          ref={btnRef}
+          onClick={toggleMenu}
+          className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <MoreVertical size={13} />
+        </button>
+      )}
 
       {/* 드롭다운 (portal로 body에 렌더링하여 overflow 회피) */}
       {menuOpen && createPortal(
@@ -118,9 +122,10 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
         >
           {STATUS_OPTIONS.map((opt) => (
             <button
+              type="button"
               key={opt.status}
               onClick={() => handleStatusChange(opt.status)}
-              className={`w-full flex items-center gap-2 px-3 py-1.5 text-[11px] hover:bg-white/5 ${
+              className={`w-full flex items-center gap-2 px-3 py-1.5 text-[11px] hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
                 track.status === opt.status ? 'text-accent' : 'text-text-primary'
               }`}
             >
@@ -130,8 +135,9 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
           ))}
           <div className="border-t border-border my-0.5" />
           <button
+            type="button"
             onClick={handleRemove}
-            className="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-red-400 hover:bg-red-400/10"
+            className="w-full flex items-center gap-2 px-3 py-1.5 text-[11px] text-red-400 hover:bg-red-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
           >
             <Trash2 size={12} />
             {t('delete')}
