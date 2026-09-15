@@ -1,23 +1,25 @@
+import { ATLAS_NAV_LAYOUT } from "@/components/shared/atlasNavLayout";
+
 // Keep loading geometry tied to the atlas at every breakpoint.
 export const MYTH_LAYOUT = {
   atlas: "scroll-mt-20 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.045),transparent_30%),var(--color-bg-secondary)] [overflow-anchor:none]",
   container: "mx-auto max-w-[1040px]",
   navigationOuter: "px-4 pb-2 pt-4 md:px-6 md:pb-2 md:pt-6",
-  navigation: "mx-auto grid max-w-[1040px] overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.16] p-2",
+  navigation: ATLAS_NAV_LAYOUT.navigation,
   nav: "min-w-0 rounded-xl px-2 py-1.5 md:px-3",
-  /* 지역·신화 칩 줄은 PC 전용이다. 모바일은 버튼 두 개로 접고 누르면 아래에서 창이 올라온다 */
-  chipNav: "hidden min-w-0 rounded-xl px-2 py-1.5 md:block md:px-3",
-  mobilePicker: "grid grid-cols-2 gap-2 px-2 py-1.5 md:hidden",
+  /* 칩 줄·모바일 단추·밑줄 탭 모양은 세력도감과 함께 쓰는 공용 선택기(AtlasNav)의 값을 따른다 */
+  chipNav: ATLAS_NAV_LAYOUT.chipNav,
+  mobilePicker: ATLAS_NAV_LAYOUT.mobilePicker,
   /* 모바일 버튼은 둘 다 네모다 — 나란히 선 두 버튼의 모양이 갈리면 어색하다. PC 칩 줄만 알약·네모로 가른다 */
   mobilePickerButton: "flex min-w-0 items-center justify-between gap-1.5 rounded-lg border border-accent/50 bg-accent/10 px-3.5 py-2 text-sm font-semibold text-accent hover:border-accent",
   /* 지역·신화·인물 세 줄은 모두 한 줄짜리 가로 목록이다 — 접지 않고 손·마우스로 민다(ui-rail).
      칩이 적어 폭이 남으면 가운데 두되, 넘칠 때 앞머리가 잘리지 않게 safe 정렬을 쓴다 */
-  navList: "scrollbar-hide -mx-1 flex gap-1.5 overflow-x-auto overscroll-x-contain px-1 pb-1 select-none pointer-coarse:snap-x md:justify-center-safe",
+  navList: ATLAS_NAV_LAYOUT.navList,
   /* 지역은 알약, 신화는 네모 — 두 줄의 칩이 같은 모양이면 어느 줄을 고르는지 헷갈린다 */
-  regionChipShape: "rounded-full",
-  traditionChipShape: "rounded-lg",
+  regionChipShape: ATLAS_NAV_LAYOUT.pill,
+  traditionChipShape: ATLAS_NAV_LAYOUT.square,
   /* 그룹은 칩이 아니라 밑줄 탭 — 지역(알약)·신화(네모)보다 한 단계 아래라는 것이 모양으로 보인다 */
-  groupTab: "flex shrink-0 snap-start items-center border-b-2 px-2.5 py-1.5 text-sm font-semibold",
+  groupTab: ATLAS_NAV_LAYOUT.groupTab,
   memberList: "scrollbar-hide -mx-1 flex gap-2.5 overflow-x-auto overscroll-x-contain px-1 pb-1 select-none pointer-coarse:snap-x md:gap-3",
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
   railCardSize: "w-[96px] md:w-[108px]",

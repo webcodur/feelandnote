@@ -4,19 +4,20 @@ import { useLocale, useTranslations } from "next-intl";
 import { BookOpenText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Ghost, SkeletonFrame } from "../hub/ExploreSkeleton";
+import { ATLAS_NAV_LAYOUT } from "@/components/shared/atlasNavLayout";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
 // Approximate chip widths; each list stays on one line like the live rails.
 const CHIP_WIDTHS = {
-  ko: { regions: [58, 58, 58, 58, 103, 70, 108, 70, 70], traditions: [105, 118, 92, 174, 79, 92, 105, 92] },
-  en: { regions: [67, 69, 67, 61, 118, 67, 129, 72, 138], traditions: [126, 162, 104, 229, 85, 115, 141, 147] },
+  ko: { regions: [50, 50, 50, 50, 95, 62, 100, 62, 62], traditions: [97, 110, 84, 166, 71, 84, 97, 84] },
+  en: { regions: [59, 61, 59, 53, 110, 59, 121, 64, 130], traditions: [118, 154, 96, 221, 77, 107, 133, 139] },
 } as const;
 
 function NavChips({ widths, shape }: { widths: readonly number[]; shape: string }) {
   return (
     <div className={layout.navList}>
       {widths.map((width, index) => (
-        <div key={index} style={{ width }} className={cn("flex h-[34px] shrink-0 items-center justify-center border border-white/[0.08] px-3.5", shape)}>
+        <div key={index} style={{ width }} className={cn(ATLAS_NAV_LAYOUT.chip, "border-white/[0.08]", shape)}>
           <Ghost className="h-2.5 w-full" />
         </div>
       ))}
@@ -44,7 +45,7 @@ export default function MythAtlasSkeleton() {
             <div className={layout.chipNav}>
               <div className={layout.navList}>
                 {Array.from({ length: 5 }, (_, index) => (
-                  <div key={index} className={cn(layout.groupTab, "h-[34px] w-[96px] border-transparent")}><Ghost className="h-2.5 w-full" /></div>
+                  <div key={index} className={cn(layout.groupTab, "w-[96px] border-transparent")}><Ghost className="h-2.5 w-full" /></div>
                 ))}
               </div>
             </div>
