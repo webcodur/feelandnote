@@ -17,9 +17,6 @@ import { MYTH_LAYOUT as layout } from "./mythLayout";
 
 interface Props { data: MythAtlasData }
 
-/** 그룹 줄의 「전체」 항목 id — 그룹 id(uuid)와 겹치지 않는다 */
-const ALL_GROUPS = "__all__";
-
 function focusedTradition(data: MythAtlasData, personId: string | null) {
   const published = data.traditions.filter((item) => item.isPublished);
   const matches = published.filter((item) => personId && item.personIds.includes(personId));
@@ -71,7 +68,7 @@ export default function MythAtlas({ data }: Props) {
       .map((id) => byId.get(id))
       .filter((person): person is MythPerson => Boolean(person));
   }, [activeTradition, data.people]);
-  /* 그룹을 고르면 그 그룹의 인물만 인물 줄에 세운다. 고르지 않으면 「전체」 — 인물 줄은 전원,
+  /* 그룹을 고르면 그 그룹의 인물만 인물 줄에 세운다. 고르지 않으면 인물 줄은 전원,
      본문은 전승 개요다. 작품·인원 수는 늘 전승 전체 기준이다 */
   const activeGroup = activeTradition?.groups.find((group) => group.id === groupId) ?? null;
   const railPeople = useMemo(() => {
@@ -123,6 +120,7 @@ export default function MythAtlas({ data }: Props) {
     setSelectedPersonId(null);
   };
 
+  /** null이면 그룹 선택을 푼다 — 본문이 신화 개요로 돌아간다 */
   const chooseGroup = (nextId: string | null) => {
     setGroupId(nextId);
     setSelectedPersonId(null);
@@ -156,19 +154,21 @@ export default function MythAtlas({ data }: Props) {
       noticeLabel: t("comingSoon"),
     },
   ];
-  /* 그룹 — 인물이 많은 전승을 묶음별로 나눠 보인다. 묶음이 없는 전승은 줄을 숨긴다 */
+  /* 그룹 — 인물이 많은 전승을 묶음별로 나눠 보인다. 묶음이 없는 전승은 줄을 숨긴다.
+     「전체」 항목은 두지 않는다. 처음에는 아무 그룹도 고르지 않은 채 신화 개요를 보이고,
+     고른 그룹을 다시 누르면 선택을 풀어 신화 개요로 돌아간다 */
   if (hasContent && activeTradition && activeTradition.groups.length > 0) {
     rows.push({
       id: "groups",
       label: t("groupNav"),
       shape: "tab",
       wide: true,
-      activeId: activeGroup?.id ?? ALL_GROUPS,
-      items: [
-        { id: ALL_GROUPS, name: t("allGroups"), count: activePeople.length },
-        ...activeTradition.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
-      ],
-      onSelect: (id) => chooseGroup(id === ALL_GROUPS ? null : id),
+      activeId: activeGroup?.id ?? null,
+      emptyLabel: t("groupNav"),
+      items: activeTradition.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
+      onSelect: chooseGroup,
+      onClear: () => chooseGroup(null),
+      clearLabel: t("clearGroup"),
     });
   }
 
@@ -189,7 +189,7 @@ export default function MythAtlas({ data }: Props) {
         <>
           <div className={layout.overviewOuter}>
             <div className={layout.container}>
-              {/* 인물을 고르기 전 본문 — 「전체」면 전승 개요, 그룹을 고르면 그 그룹 개요다.
+              {/* 인물을 고르기 전 본문 — 그룹을 고르지 않았으면 전승 개요, 그룹을 고르면 그 그룹 개요다.
                   인물 상세에서 뒤로 가면 보던 그룹 개요로 돌아온다 */}
               {!selectedPerson && !activeGroup && (
                 <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />

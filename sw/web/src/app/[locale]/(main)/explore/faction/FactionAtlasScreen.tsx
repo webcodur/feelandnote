@@ -159,9 +159,6 @@ export default async function FactionAtlasScreen({ sections, section, theme, loc
       {/* 첫 진영부터 시작한다 — 테마를 옮기면 새 테마의 첫 진영으로 되돌린다 */}
       <FactionGroupProvider key={theme.id} initialKey={groups[0]?.key ?? null}>
         <div className="space-y-6 md:space-y-8">
-          {/* 글 영역은 가운데에 두고, 글은 그 안에서 왼쪽 정렬한다 */}
-          <p className="mx-auto max-w-3xl text-sm leading-7 text-text-secondary md:text-base">{t("lead")}</p>
-
           <FactionAtlasNav
             sections={sections.map((item) => ({
               key: factionSectionKey(item),

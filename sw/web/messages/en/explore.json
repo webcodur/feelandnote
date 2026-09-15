@@ -289,9 +289,9 @@
         "tapForNextLine": "Tap for next",
         "tapToCloseQuote": "Tap to close",
         "groupNav": "Choose a group",
+        "clearGroup": "Clear group selection",
         "otherGroup": "Others",
         "unnamedGroup": "Unnamed group",
-        "allGroups": "All",
         "groupOverview": "GROUP OVERVIEW",
         "groupMemberCount": "{count, plural, one {# figure} other {# figures}}",
         "groupDescriptionFallback": "A description of this group is on its way.",
@@ -428,7 +428,6 @@
     },
     "faction": {
       "metaTitle": "Faction | Figures",
-      "lead": "Figures connected by a shared field or event, grouped by theme.",
       "sectionNav": "Faction atlas sections",
       "themeNav": "Faction atlas themes",
       "figureCount": "{count, plural, one {# figure} other {# figures}}",
