@@ -5,6 +5,7 @@
 */ // ------------------------------
 
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Link } from "@/i18n/navigation";
 import { HUB_FACTION_CARD, HUB_FACTION_GRID } from "./ExploreSkeleton";
 
@@ -41,14 +42,16 @@ export default function FactionCard({ locale = "ko", tags = [] }: FactionCardPro
             {tag.cover ? (
               <>
                 {/* 단체샷 표지 — 카드 전체를 채우고 하단만 눌러 글자 가독성을 확보한다. */}
-                <Image
-                  src={tag.cover}
-                  alt=""
-                  fill
-                  unoptimized
-                  sizes="(max-width: 767px) 88vw, 50vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04] motion-reduce:transform-none motion-reduce:transition-none"
-                />
+                <BlurDissolve key={tag.cover} className="absolute inset-0">
+                  <Image
+                    src={tag.cover}
+                    alt=""
+                    fill
+                    unoptimized
+                    sizes="(max-width: 767px) 88vw, 50vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04] motion-reduce:transform-none motion-reduce:transition-none"
+                  />
+                </BlurDissolve>
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.03)_35%,rgba(0,0,0,0.24)_62%,rgba(0,0,0,0.92)_100%)]" />
               </>
             ) : (

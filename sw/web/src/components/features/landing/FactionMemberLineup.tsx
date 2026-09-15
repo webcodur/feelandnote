@@ -2,6 +2,7 @@
 
 import type { MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Users } from "lucide-react";
 
 /*
@@ -141,7 +142,7 @@ export default function FactionMemberLineup({
     >
       {logoUrl && (
         <div className="absolute right-5 top-5 z-10 aspect-square w-16 overflow-hidden rounded-xl ring-1 ring-white/15 md:right-7 md:top-7 md:w-20">
-          <Image src={logoUrl} alt="" fill unoptimized sizes="80px" className="object-cover" />
+          <BlurDissolve key={logoUrl} className="absolute inset-0"><Image src={logoUrl} alt="" fill unoptimized sizes="80px" className="object-cover" /></BlurDissolve>
         </div>
       )}
 
@@ -230,7 +231,7 @@ export default function FactionMemberLineup({
                 >
                   <span className="relative block size-6 shrink-0 overflow-hidden rounded-full bg-white/[0.08] ring-1 ring-white/15 group-hover/minor:ring-accent">
                     {member.avatarUrl ? (
-                      <Image src={member.avatarUrl} alt="" fill unoptimized sizes="24px" className="object-cover object-top" />
+                      <BlurDissolve key={member.avatarUrl} className="absolute inset-0"><Image src={member.avatarUrl} alt="" fill unoptimized sizes="24px" className="object-cover object-top" /></BlurDissolve>
                     ) : (
                       <span aria-hidden className="grid h-full place-items-center text-[10px] font-black text-white/50">{member.name[0]}</span>
                     )}
@@ -266,19 +267,21 @@ function Figure({
     >
       <span className="relative block aspect-square w-full">
         {member.avatarUrl ? (
-          <Image
-            src={member.avatarUrl}
-            alt=""
-            fill
-            unoptimized
-            sizes="(max-width: 768px) 45vw, 300px"
-            className="object-contain object-bottom group-hover/figure:brightness-110"
-            style={{
-              maskImage: "linear-gradient(to bottom, #000 70%, transparent 98%)",
-              WebkitMaskImage: "linear-gradient(to bottom, #000 70%, transparent 98%)",
-              filter: "drop-shadow(0 8px 18px rgba(0,0,0,0.55))",
-            }}
-          />
+          <BlurDissolve key={member.avatarUrl} className="absolute inset-0">
+            <Image
+              src={member.avatarUrl}
+              alt=""
+              fill
+              unoptimized
+              sizes="(max-width: 768px) 45vw, 300px"
+              className="object-contain object-bottom group-hover/figure:brightness-110"
+              style={{
+                maskImage: "linear-gradient(to bottom, #000 70%, transparent 98%)",
+                WebkitMaskImage: "linear-gradient(to bottom, #000 70%, transparent 98%)",
+                filter: "drop-shadow(0 8px 18px rgba(0,0,0,0.55))",
+              }}
+            />
+          </BlurDissolve>
         ) : (
           <span aria-hidden className="absolute inset-x-[18%] bottom-[12%] top-[10%] grid place-items-center rounded-full bg-white/[0.07] font-serif text-3xl font-black text-white/35">
             {member.name[0]}
