@@ -12,16 +12,51 @@ import type { ReactNode } from "react";
 
 import { useClippedText } from "@/hooks/useClippedText";
 
-export default function ReviewScrollBox({ children }: { children: ReactNode }) {
+interface ReviewScrollBoxProps {
+  children: ReactNode;
+  /** 눌러 전문을 여는 조작. 모달이 다른 읽기 화면이라 길이와 무관하게 항상 눌리게 한다 */
+  onOpen?: () => void;
+  openLabel?: string;
+}
+
+export default function ReviewScrollBox({ children, onOpen, openLabel }: ReviewScrollBoxProps) {
   const { ref, isClipped } = useClippedText<HTMLDivElement>(null);
+  const interactive = !!onOpen;
 
   return (
-    <div className="min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.02]">
+    <div
+      className={`min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.02] ${
+        interactive ? "hover:border-accent/50" : ""
+      }`}
+    >
       <div
         ref={ref}
         className={`custom-scrollbar max-h-[29.6em] min-w-0 w-full overflow-y-auto overscroll-y-auto whitespace-pre-line break-words px-4 py-3 font-sans text-[15px] leading-[1.85] text-text-secondary ${
           isClipped ? "clip-fade-end" : ""
-        }`}
+        } ${interactive ? "cursor-pointer hover:brightness-125 focus-visible:outline-none" : ""}`}
+        role={interactive ? "button" : undefined}
+        tabIndex={interactive ? 0 : undefined}
+        aria-haspopup={interactive ? "dialog" : undefined}
+        aria-label={interactive ? openLabel : undefined}
+        title={interactive ? openLabel : undefined}
+        onClick={
+          interactive
+            ? () => {
+                // 글을 긁으려던 클릭(드래그 선택)은 모달을 열지 않는다
+                if (!window.getSelection()?.toString()) onOpen?.();
+              }
+            : undefined
+        }
+        onKeyDown={
+          interactive
+            ? (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onOpen?.();
+                }
+              }
+            : undefined
+        }
       >
         {children}
       </div>

@@ -5,7 +5,6 @@
 */ // ------------------------------
 "use client";
 
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { memo, useState } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
@@ -37,7 +36,6 @@ interface ContentItemRendererProps {
   readOnly?: boolean;
   targetUserId?: string;
   ownerNickname?: string;
-  ownerAvatarUrl?: string | null;
   // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
   savedContentIds?: Set<string> | null;
   initialContentBrief?: ContentBrief | null;
@@ -61,7 +59,6 @@ function ContentItemRenderer({
   onAddContent,
   readOnly = false,
   ownerNickname,
-  ownerAvatarUrl,
   savedContentIds,
   initialContentBrief,
   initialContentRecord,
@@ -87,7 +84,7 @@ function ContentItemRenderer({
   const affiliateUrls = locale === "ko"
     ? items.map((item) => getCoupangAffiliateUrl(item.content))
     : items.map(() => null);
-  const hasAffiliateItem = locale === "ko" && items.some((item) => item.content.type === "BOOK");
+
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
 
@@ -103,7 +100,6 @@ function ContentItemRenderer({
       <ExpandDetailView
         items={items}
         ownerNickname={ownerNickname}
-        ownerAvatarUrl={ownerAvatarUrl}
         initialContentBrief={initialContentBrief}
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}
@@ -187,6 +183,7 @@ function ContentItemRenderer({
                   <AffiliateBookAction
                     contentId={item.content_id}
                     coupangUrl={affiliateUrls[index]}
+                    showNotice
                   />
                 )}
                 {locale === "en" && <BookPurchaseLinks links={englishPurchaseLinks} />}
@@ -196,10 +193,6 @@ function ContentItemRenderer({
           );
         })}
       </ContentGrid>
-
-      {hasAffiliateItem && (
-        <BookPurchaseInfo className="mt-2" />
-      )}
 
       {/* 별점 편집 모달 */}
       {ratingEditTarget && (

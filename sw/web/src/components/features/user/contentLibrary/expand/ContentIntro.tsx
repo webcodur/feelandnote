@@ -8,14 +8,14 @@
 "use client";
 
 import { useId, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import ContentReadingText from "@/components/ui/ContentReadingText";
-import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
-import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
+import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
+import ContentTextModal from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
-import { getCategoryById, type CategoryId } from "@/constants/categories";
+import type { CategoryId } from "@/constants/categories";
 import { useClippedText } from "@/hooks/useClippedText";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
@@ -50,6 +50,7 @@ interface ContentIntroProps {
 
 export default function ContentIntro({ brief, category, isLoading }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
+  const locale = useLocale();
   const headingId = useId();
   const [pickedProvider, setPickedProvider] = useState<ContentIntroSource["provider"] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,9 +58,15 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
   const headingCategory = brief?.category ?? category;
-  const showIntroductionSource = headingCategory === "book" && !isLoading && !!text;
-  // 아래 감상배경 제목에 인물 사진이 붙듯, 소개 제목에는 같은 규격의 매체 아이콘 배지를 붙인다
-  const CategoryIcon = getCategoryById(headingCategory)?.lucideIcon;
+  // 책 소개는 출처를 제목에 합쳐 「다음 책 소개」처럼 한 덩어리로 읽는다
+  const provider = headingCategory === "book" ? brief?.introductionAttribution?.provider : undefined;
+  const providerName =
+    !isLoading && provider
+      ? INTRO_PROVIDER_HEADING_NAME[provider]?.[locale === "en" ? "en" : "ko"]
+      : null;
+  const headingText = providerName
+    ? t("expandBookIntroFrom", { source: providerName })
+    : t(INTRO_HEADING_KEY[headingCategory]);
 
   // 바깥에서 받아 온 소개들. 앞선 작품에서 고른 탭이 남아 있으면 첫 번째로 되돌린다
   const sources = brief?.introSources ?? [];
@@ -71,30 +78,25 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const { ref: bodyRef, isClipped: isBodyClipped } = useClippedText(fullText, !isLoading);
   const isClipped = !isLoading && !!fullText && isBodyClipped;
   const bodyClass = isClipped ? `${INTRO_BODY_CLASS} ${INTRO_CLIPPED_CLASS}` : INTRO_BODY_CLASS;
+  const openModal = isClipped ? () => setIsModalOpen(true) : undefined;
+  // 책은 보존된 소개 출처로, 음악은 지금 고른 바깥 소개로 나간다
+  const modalSourceUrl = brief?.introductionAttribution?.url ?? active?.url ?? null;
 
   return (
     <section aria-labelledby={headingId} className="flex flex-col sm:h-full">
-      <div className="mb-4 flex shrink-0 items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-3">
-          {CategoryIcon && (
-            <span
-              aria-hidden
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-bg-secondary text-accent"
-            >
-              <CategoryIcon size={18} />
+      <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 shrink-0`}>
+        {providerName ? (
+          <>
+            {/* 출처는 제목 글자가 아니라 작은 칩으로 — 「다음 책 소개」의 '다음' 자리 */}
+            <span className="me-1.5 inline-flex -translate-y-0.5 items-center rounded-md border border-accent/35 bg-accent/10 px-1.5 py-px align-middle text-xs font-bold tracking-wide text-accent">
+              {providerName}
             </span>
-          )}
-          <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-            <h4 id={headingId} className={EXPAND_SECTION_HEADING_CLASS}>
-              {t(INTRO_HEADING_KEY[headingCategory])}
-            </h4>
-            {showIntroductionSource && <BookIntroductionSource attribution={brief?.introductionAttribution} />}
-          </div>
-        </div>
-        {isClipped && (
-          <ExpandTextButton label={t("expandIntroMore")} onClick={() => setIsModalOpen(true)} />
+            {t("expandBookIntro")}
+          </>
+        ) : (
+          headingText
         )}
-      </div>
+      </h4>
 
       {/* 영상 홍보 문구는 소개 위에 한 줄로 얹는다 */}
       {!isLoading && brief?.category === "video" && brief.metadata?.tagline && (
@@ -108,7 +110,15 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
           <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
         </div>
       ) : text ? (
-        <ContentReadingText ref={bodyRef} text={text} tone="secondary" size="compact" className={bodyClass} />
+        <ContentReadingText
+          ref={bodyRef}
+          text={text}
+          tone="secondary"
+          size="compact"
+          className={bodyClass}
+          onClick={openModal}
+          clickLabel={t("expandIntroMore")}
+        />
       ) : active ? (
         <div className="flex min-h-0 flex-1 flex-col">
           {sources.length > 1 && (
@@ -135,7 +145,15 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
             </div>
           )}
 
-          <ContentReadingText ref={bodyRef} text={activeText} tone="secondary" size="compact" className={bodyClass} />
+          <ContentReadingText
+            ref={bodyRef}
+            text={activeText}
+            tone="secondary"
+            size="compact"
+            className={bodyClass}
+            onClick={openModal}
+            clickLabel={t("expandIntroMore")}
+          />
 
           {active.url && (
             <a
@@ -144,7 +162,7 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
               rel="noopener noreferrer"
               className="mt-2 inline-block shrink-0 self-start text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline"
             >
-              {t("expandIntroSource", { source: PROVIDER_LABEL[active.provider] })}
+              {t("expandIntroSource")}
             </a>
           )}
         </div>
@@ -156,15 +174,11 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
         <ContentTextModal
           isOpen
           onClose={() => setIsModalOpen(false)}
-          title={t(INTRO_HEADING_KEY[headingCategory])}
+          title={headingText}
           text={fullText}
-          notice={showIntroductionSource ? <BookIntroductionSource attribution={brief?.introductionAttribution} className="mb-4" /> : undefined}
           source={
-            active?.url
-              ? {
-                  href: active.url,
-                  label: t("expandIntroSource", { source: PROVIDER_LABEL[active.provider] }),
-                }
+            modalSourceUrl
+              ? { href: modalSourceUrl, label: t("expandIntroSource") }
               : undefined
           }
         />
