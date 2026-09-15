@@ -281,12 +281,12 @@ export default function FloatingMusicPlayer() {
         title={label}
         className={`fixed bottom-20 end-4 flex size-11 items-center justify-center rounded-full border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:bottom-4 ${
           isOpen || isPlaying
-            ? 'border-accent bg-[#121212] text-accent hover:bg-[#1b1b1b]'
-            : 'border-accent/30 bg-[#121212] text-accent hover:border-accent hover:bg-[#1b1b1b]'
+            ? 'border-accent bg-bg-card text-accent hover:bg-[#242424]'
+            : 'border-accent/30 bg-bg-card text-accent hover:border-accent hover:bg-[#242424]'
         }`}
         style={{ zIndex: buttonZIndex }}
       >
-        <Music size={19} aria-hidden="true" />
+        <Music size={19} className="translate-x-px" aria-hidden="true" />
       </button>
 
       {isOpen && (
@@ -294,7 +294,7 @@ export default function FloatingMusicPlayer() {
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className="fixed left-1/2 top-1/2 max-h-[88vh] w-[min(90vw,23rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[#121212] shadow-[0_18px_60px_rgba(0,0,0,0.55)]"
+          className="fixed left-1/2 top-1/2 max-h-[88vh] w-[min(90vw,23rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[#121212] shadow-[0_18px_60px_rgba(0,0,0,0.55)] md:bottom-20 md:left-auto md:end-4 md:top-auto md:translate-x-0 md:translate-y-0"
           style={{ zIndex: panelZIndex }}
         >
           {(currentTrack || isGamePlaying) && (
