@@ -12,6 +12,7 @@ import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
+import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
@@ -60,6 +61,9 @@ export default function MythAtlas({ data }: Props) {
   const activeTradition = regionTraditions.find((tradition) => tradition.id === traditionId && tradition.isPublished)
     ?? regionTraditions.find((tradition) => tradition.isPublished)
     ?? null;
+  useRegisterFactionMusic(activeTradition?.music
+    ? { id: activeTradition.id, title: activeTradition.name, url: activeTradition.music.url, kind: "myth" }
+    : null);
   /* 전승이 정한 차례를 그대로 따른다. 인물 목록을 훑어 거르면 전승과 무관한 전역 차례가
      나오고, 한 인물이 여러 전승에 속할 때 각 전승에서 잡아 둔 자리도 잃는다 */
   const activePeople = useMemo(() => {

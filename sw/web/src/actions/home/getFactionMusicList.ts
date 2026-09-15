@@ -23,16 +23,21 @@ interface TagRow {
   slug: string | null
   theme_music: unknown
   is_featured: boolean | null
+  atlas_published: boolean | null
   parent_id: string | null
   sort_order: number | null
 }
 
-async function fetchFactionMusicList(): Promise<FactionMusicListItem[]> {
+interface ThemeMusicLists {
+  faction: FactionMusicListItem[]
+  myth: FactionMusicListItem[]
+}
+
+async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
   const db = createStaticClient()
   const { data, error } = await db
     .from('celeb_tags')
-    .select('id, name, name_en, slug, theme_music, is_featured, parent_id, sort_order')
-    .eq('is_featured', true)
+    .select('id, name, name_en, slug, theme_music, is_featured, atlas_published, parent_id, sort_order')
     .order('sort_order', { ascending: true })
 
   if (error) throw new Error(error.message)
@@ -40,9 +45,7 @@ async function fetchFactionMusicList(): Promise<FactionMusicListItem[]> {
   const rows = (data ?? []) as TagRow[]
   const mythIds = mythBranchTagIds(rows)
 
-  return rows
-    .filter((row) => !mythIds.has(row.id))
-    .map((row) => {
+  const toMusicItem = (row: TagRow): FactionMusicListItem | null => {
       const music = toFactionMusic(row.theme_music)
       if (!music) return null
       return {
@@ -53,16 +56,30 @@ async function fetchFactionMusicList(): Promise<FactionMusicListItem[]> {
         url: music.url,
         file: music.file,
       }
-    })
-    .filter((row): row is FactionMusicListItem => row !== null)
+  }
+
+  return {
+    faction: rows
+      .filter((row) => row.is_featured === true && !mythIds.has(row.id))
+      .map(toMusicItem)
+      .filter((row): row is FactionMusicListItem => row !== null),
+    myth: rows
+      .filter((row) => row.atlas_published === true && mythIds.has(row.id))
+      .map(toMusicItem)
+      .filter((row): row is FactionMusicListItem => row !== null),
+  }
 }
 
-const getCachedFactionMusicList = unstable_cache(
-  fetchFactionMusicList,
-  ['faction-music-list-v1'],
+const getCachedThemeMusicLists = unstable_cache(
+  fetchThemeMusicLists,
+  ['theme-music-lists-v2'],
   { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.TAGS] },
 )
 
 export async function getFactionMusicList(): Promise<FactionMusicListItem[]> {
-  return getCachedFactionMusicList()
+  return (await getCachedThemeMusicLists()).faction
+}
+
+export async function getMythMusicList(): Promise<FactionMusicListItem[]> {
+  return (await getCachedThemeMusicLists()).myth
 }

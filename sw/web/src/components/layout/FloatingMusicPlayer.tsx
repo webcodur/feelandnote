@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
-import { getFactionMusicList, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
+import { getFactionMusicList, getMythMusicList, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
@@ -19,20 +19,21 @@ interface FactionTrack {
 }
 
 type ListTrack = MusicTrack | FactionTrack
-type MusicMode = 'faction' | 'library'
+type MusicMode = 'faction' | 'myth' | 'library'
 type AudioStatus = 'idle' | 'loading' | 'playing' | 'paused'
 
-const isFactionTrack = (track: ListTrack): track is FactionTrack => track.id.startsWith('faction:')
+const isThemeTrack = (track: ListTrack): track is FactionTrack => track.id.startsWith('faction:') || track.id.startsWith('myth:')
 
 /** 우하단 아이콘에서 현재 테마곡과 사용자의 감상목록을 고르는 작은 음악 목록. */
 export default function FloatingMusicPlayer() {
   const locale = useLocale()
   const { controls: gameAudio } = useGameAudioContext()
-  const { music: factionMusic } = useFactionMusicContext()
+  const { music: contextMusic } = useFactionMusicContext()
   const [isOpen, setIsOpen] = useState(false)
-  const [mode, setMode] = useState<MusicMode>('faction')
+  const [mode, setMode] = useState<MusicMode | 'auto'>('auto')
   const [tracks, setTracks] = useState<MusicTrack[]>([])
   const [factionTracks, setFactionTracks] = useState<FactionMusicListItem[]>([])
+  const [mythTracks, setMythTracks] = useState<FactionMusicListItem[]>([])
   const [loading, setLoading] = useState(false)
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [audioStatus, setAudioStatus] = useState<AudioStatus>('idle')
@@ -49,6 +50,8 @@ export default function FloatingMusicPlayer() {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const panelRef = useRef<HTMLDivElement | null>(null)
 
+  const factionMusic = contextMusic?.kind === 'myth' ? null : contextMusic
+  const mythMusic = contextMusic?.kind === 'myth' ? contextMusic : null
   const factionTrack: FactionTrack | null = factionMusic
     ? {
         id: `faction:${factionMusic.id}`,
@@ -64,13 +67,32 @@ export default function FloatingMusicPlayer() {
     previewUrl: track.url,
     slug: track.slug,
   }))
-  const factionContextKey = factionTrack?.id ?? null
+  const catalogMythTracks: FactionTrack[] = mythTracks.map((track) => ({
+    id: `myth:${track.id}`,
+    title: locale === 'en' ? track.name_en?.trim() || track.name : track.name,
+    creator: null,
+    previewUrl: track.url,
+    slug: track.slug,
+  }))
+  const mythTrack: FactionTrack | null = mythMusic
+    ? {
+        id: `myth:${mythMusic.id}`,
+        title: mythMusic.title,
+        creator: null,
+        previewUrl: mythMusic.url,
+      }
+    : null
+  const contextTrack = mythTrack ?? factionTrack
+  const contextKey = contextTrack?.id ?? null
   const listTracks: ListTrack[] = [
     ...(factionTrack ? [factionTrack] : []),
     ...catalogFactionTracks,
+    ...(mythTrack ? [mythTrack] : []),
+    ...catalogMythTracks,
     ...tracks,
   ].filter((track, index, all) => all.findIndex((candidate) => candidate.id === track.id) === index)
-  const factionRows = listTracks.filter(isFactionTrack)
+  const factionRows = listTracks.filter((track) => track.id.startsWith('faction:'))
+  const mythRows = listTracks.filter((track) => track.id.startsWith('myth:'))
   const factionEmptyLabel = locale === 'ko' ? '등록된 세력도감 테마곡이 없습니다.' : 'No atlas theme music is registered.'
   const eyebrowLabel = locale === 'ko' ? '사운드 아카이브' : 'SOUND ARCHIVE'
   const nowPlayingLabel = locale === 'ko' ? '지금 재생 중' : 'NOW PLAYING'
@@ -83,10 +105,13 @@ export default function FloatingMusicPlayer() {
   )
   const selectedId = preservePlayingPersonalTrack
     ? playingId
-    : selection.contextKey === factionContextKey
-      ? selection.trackId ?? factionTrack?.id ?? null
-      : factionTrack?.id ?? selection.trackId
+    : selection.contextKey === contextKey
+      ? selection.trackId ?? contextTrack?.id ?? null
+      : contextTrack?.id ?? selection.trackId
   const currentTrack = listTracks.find((track) => track.id === selectedId) ?? listTracks[0] ?? null
+  const activeMode: MusicMode = mode === 'auto'
+    ? contextMusic?.kind === 'myth' ? 'myth' : 'faction'
+    : mode
   const isTrackPlaying = playingId === currentTrack?.id
   const isGamePlaying = Boolean(gameAudio?.isPlaying)
   const isPlaying = isGamePlaying || isTrackPlaying
@@ -94,7 +119,7 @@ export default function FloatingMusicPlayer() {
   const currentPlayerDuration = isGamePlaying && gameAudio ? gameAudio.duration : audioDuration
   const currentPlayerLoading = !isGamePlaying && audioStatus === 'loading'
   const currentPlayerPlayable = isGamePlaying || Boolean(currentTrack?.previewUrl)
-  const label = gameAudio?.trackLabel || factionMusic?.title || (locale === 'ko' ? '음악' : 'Music')
+  const label = gameAudio?.trackLabel || contextMusic?.title || (locale === 'ko' ? '음악' : 'Music')
   const playLabel = locale === 'ko' ? '재생' : 'Play'
   const pauseLabel = locale === 'ko' ? '일시정지' : 'Pause'
   const themeLabel = locale === 'ko' ? '세력도감 테마' : 'Atlas theme'
@@ -109,17 +134,22 @@ export default function FloatingMusicPlayer() {
   const positionLabel = locale === 'ko' ? '재생 위치' : 'Playback position'
   const speedLabel = locale === 'ko' ? '재생 속도' : 'Playback speed'
 
+  const mythLabel = locale === 'ko' ? '신화 테마' : 'Myth themes'
+  const mythEmptyLabel = locale === 'ko' ? '등록된 신화 테마곡이 없습니다.' : 'No mythology theme music is registered.'
+
   const loadLibrary = useCallback(() => {
     if (loadedRef.current) return
     loadedRef.current = true
     setLoading(true)
-    Promise.all([getFactionMusicList(), getMyMusicList()])
-      .then(([factionList, personalList]) => {
+    Promise.all([getFactionMusicList(), getMythMusicList(), getMyMusicList()])
+      .then(([factionList, mythList, personalList]) => {
         setFactionTracks(factionList)
+        setMythTracks(mythList)
         setTracks(personalList)
       })
       .catch(() => {
         setFactionTracks([])
+        setMythTracks([])
         setTracks([])
       })
       .finally(() => setLoading(false))
@@ -189,7 +219,7 @@ export default function FloatingMusicPlayer() {
     setAudioCurrentTime(0)
     setAudioDuration(0)
     pendingPlayRef.current = true
-    setSelection({ contextKey: factionContextKey, trackId: track.id })
+    setSelection({ contextKey, trackId: track.id })
   }
 
   const selectGameAudio = () => {
@@ -333,11 +363,15 @@ export default function FloatingMusicPlayer() {
           )}
 
           <div className="mx-3 mt-3 flex rounded-lg border border-white/8 bg-black/20 p-1">
-            <MusicModeChip active={mode === 'faction'} onClick={() => setMode('faction')}>
+            <MusicModeChip active={activeMode === 'faction'} onClick={() => setMode('faction')}>
               <span>{themeLabel}</span>
               <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
             </MusicModeChip>
-            <MusicModeChip active={mode === 'library'} onClick={() => setMode('library')}>
+            <MusicModeChip active={activeMode === 'myth'} onClick={() => setMode('myth')}>
+              <span>{mythLabel}</span>
+              <span className="ms-1.5 tabular-nums opacity-60">{mythRows.length}</span>
+            </MusicModeChip>
+            <MusicModeChip active={activeMode === 'library'} onClick={() => setMode('library')}>
               <span>{libraryLabel}</span>
               <span className="ms-1.5 tabular-nums opacity-60">{tracks.length}</span>
             </MusicModeChip>
@@ -361,7 +395,7 @@ export default function FloatingMusicPlayer() {
               </section>
             )}
 
-            {mode === 'faction' && (factionTrack || factionRows.length > 0) && (
+            {activeMode === 'faction' && (factionTrack || factionRows.length > 0) && (
               <section className={gameAudio ? 'mt-3' : undefined}>
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
                   {themeLabel}
@@ -381,15 +415,43 @@ export default function FloatingMusicPlayer() {
               </section>
             )}
 
-            {mode === 'faction' && !loading && factionRows.length === 0 && (
+            {activeMode === 'faction' && !loading && factionRows.length === 0 && (
               <p className="px-2 py-3 text-xs text-text-secondary">{factionEmptyLabel}</p>
             )}
 
-            {mode === 'faction' && loading && (
+            {activeMode === 'faction' && loading && (
               <p className="px-2 py-3 text-xs text-text-secondary">{locale === 'ko' ? '불러오는 중…' : 'Loading…'}</p>
             )}
 
-            {mode === 'library' && (
+            {activeMode === 'myth' && mythRows.length > 0 && (
+              <section className={gameAudio ? 'mt-3' : undefined}>
+                <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
+                  {mythLabel}
+                </p>
+                {mythRows.map((track) => (
+                  <MusicListRow
+                    key={track.id}
+                    track={track}
+                    active={selectedId === track.id && isPlaying}
+                    recommended={!!mythTrack && track.id === mythTrack.id && !isPlaying}
+                    recommendedLabel={recommendedLabel}
+                    playLabel={playLabel}
+                    pauseLabel={pauseLabel}
+                    onSelect={() => selectTrack(track)}
+                  />
+                ))}
+              </section>
+            )}
+
+            {activeMode === 'myth' && !loading && mythRows.length === 0 && (
+              <p className="px-2 py-3 text-xs text-text-secondary">{mythEmptyLabel}</p>
+            )}
+
+            {activeMode === 'myth' && loading && (
+              <p className="px-2 py-3 text-xs text-text-secondary">Loading...</p>
+            )}
+
+            {activeMode === 'library' && (
             <section className={gameAudio ? 'mt-3' : undefined}>
               <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
                 {libraryLabel}
@@ -639,7 +701,7 @@ function MusicListRow({
   pauseLabel: string
   onSelect: () => void
 }) {
-  const playable = isFactionTrack(track) || !!track.previewUrl
+  const playable = isThemeTrack(track) || !!track.previewUrl
   return (
     <button
       type="button"
