@@ -15,6 +15,7 @@ import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { ChevronRight } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+import { setGameFullScreenLayer } from "@/components/layout/musicPlayerSlots";
 
 export interface BreadcrumbItem {
   label: string;
@@ -91,6 +92,7 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
 
   return createPortal(
     <div
+      ref={setGameFullScreenLayer}
       className="fixed inset-0 bg-bg-main transition-opacity duration-200 ease-out"
       style={{ zIndex: Z_INDEX.top, opacity: visible ? 1 : 0, isolation: "isolate" }}
     >

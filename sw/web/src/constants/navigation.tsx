@@ -107,7 +107,8 @@ export const NAV_ITEMS: NavItem[] = [
     mobileLabel: "내 기록",
     icon: User,
     showInHeader: false,
-    showInBottomNav: true,
+    // 내 페이지 입구는 헤더 프로필 메뉴 하나로 모았다. 하단 내비 마지막 칸은 음악 재생기가 쓴다.
+    showInBottomNav: false,
     showInHomePage: true,
   },
 ];

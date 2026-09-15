@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
-import { CircleUserRound } from "lucide-react";
+import { ChevronRight, CircleUserRound } from "lucide-react";
 import { RomanGateIcon, BustIcon, TempleBellIcon, SacredFlameIcon, MessageTabletIcon, ScrollIcon, LaurelIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
@@ -24,6 +24,17 @@ interface UserProfile {
 interface HeaderProfileMenuProps {
   profile: UserProfile | null;
   isLoggedIn?: boolean;
+}
+
+// 머리 단추와 메뉴 속 프로필 칸이 같은 얼굴을 크기만 달리해 쓴다
+function ProfileAvatar({ url, alt, className }: { url: string | null | undefined; alt: string; className: string }) {
+  return url ? (
+    <div className={`relative shrink-0 overflow-hidden rounded-full ring-2 ring-white/10 ${className}`}>
+      <Image src={url} alt={alt} fill unoptimized className="object-cover" />
+    </div>
+  ) : (
+    <div className={`shrink-0 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10 ${className}`} />
+  );
 }
 
 export default function HeaderProfileMenu({ profile, isLoggedIn = true }: HeaderProfileMenuProps) {
@@ -109,13 +120,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
   return (
     <div className="relative" data-profile-dropdown>
       <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={tNotif("title")} className="relative flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
-        {profile?.avatar_url ? (
-          <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/10">
-            <Image src={profile.avatar_url} alt={t("avatar")} fill unoptimized className="object-cover" />
-          </div>
-        ) : (
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10" />
-        )}
+        <ProfileAvatar url={profile?.avatar_url} alt={t("avatar")} className="w-7 h-7" />
         {unreadCount > 0 && (
           <span className="absolute top-0 end-0 w-2.5 h-2.5 rounded-full bg-accent border-2 border-black" />
         )}
@@ -123,13 +128,28 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
 
       {showDropdown && (
         <div className="absolute end-0 top-11 w-72 max-w-[calc(100vw-24px)] bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
-          {/* 프로필 헤더 */}
-          <div className="px-4 py-3 border-b border-border">
-            <div className="flex items-center gap-2">
-              <p className="font-semibold text-sm truncate">{profile?.nickname || t("defaultName")}</p>
-              <TitleBadge title={profile?.selected_title ?? null} size="sm" />
+          {/* 프로필 — 누르면 내 페이지로 간다. 휴대폰에서도 내 페이지 입구는 여기 하나다 */}
+          {profile ? (
+            <Link
+              href={`/${profile.id}`}
+              onClick={() => setShowDropdown(false)}
+              className="flex items-center gap-3 px-4 py-3 border-b border-border no-underline text-text-primary hover:bg-white/5"
+            >
+              <ProfileAvatar url={profile.avatar_url} alt={t("avatar")} className="w-9 h-9" />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-sm truncate">{profile.nickname || t("defaultName")}</p>
+                  <TitleBadge title={profile.selected_title ?? null} size="sm" />
+                </div>
+                <p className="mt-0.5 text-xs text-text-secondary">{t("myPage")}</p>
+              </div>
+              <ChevronRight size={16} className="shrink-0 text-text-secondary" />
+            </Link>
+          ) : (
+            <div className="px-4 py-3 border-b border-border">
+              <p className="font-semibold text-sm truncate">{t("defaultName")}</p>
             </div>
-          </div>
+          )}
 
           {/* 알림 */}
           <div className="border-b border-border py-1">
@@ -185,20 +205,8 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
             )}
           </div>
 
-          {/* 내 페이지 링크 */}
-          <div className="py-1">
-            <Link
-              href={`/${profile?.id}`}
-              onClick={() => setShowDropdown(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-            >
-              <BustIcon size={16} className="text-text-secondary" />
-              {t("myPage")}
-            </Link>
-          </div>
-
           {/* 로그아웃 */}
-          <div className="border-t border-border py-1">
+          <div className="py-1">
             <Button unstyled onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 w-full">
               <RomanGateIcon size={16} />
               {t("logout")}
