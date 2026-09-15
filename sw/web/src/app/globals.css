@@ -117,6 +117,14 @@
     interpolate-size: allow-keywords;
   }
 
+  /* 모바일 폭에서는 페이지 스크롤바를 숨긴다. 휴대폰 스크롤바는 자리를 차지하지 않는데,
+     PC 창을 좁혀 보면 스크롤바 폭이 오른쪽 여백에만 더해져 좌우 여백이 어긋나 보인다. */
+  @media (max-width: 767px) {
+    html {
+      scrollbar-width: none;
+    }
+  }
+
   body {
     background-color: var(--color-bg-main);
     background-image: var(--pattern-noise);
