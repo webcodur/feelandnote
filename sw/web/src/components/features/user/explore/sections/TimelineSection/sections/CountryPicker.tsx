@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
+import { ATLAS_NAV_LAYOUT as atlas } from "@/components/shared/atlasNavLayout";
 import { MYTH_LAYOUT as layout } from "@/components/features/user/explore/myth/mythLayout";
 import { getTimelinePath } from "../pagination";
 import { getCountryContinent, groupTimelineCountries } from "../continents";
@@ -21,6 +22,8 @@ interface Props {
 }
 
 const focusClass = "outline-none focus-visible:ring-2 focus-visible:ring-accent";
+/** 아래 창 안의 칩 — 손가락으로 누르므로 넓은 화면 칩 줄(atlas.chip)보다 높게 둔다 */
+const SHEET_CHIP = "flex min-h-10 w-full items-center gap-1.5 rounded-lg border px-3 text-sm font-semibold";
 
 export default function CountryPicker({ countries, selectedCountry, countrySearch, onSearchChange, defaultCountry }: Props) {
   const t = useTranslations("explore.ui.timeline");
@@ -41,7 +44,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
     <Search size={16} aria-hidden className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" />
     <input type="text" value={countrySearch} onChange={(event) => onSearchChange(event.target.value)}
       aria-label={t("countrySearch")} placeholder={t("countrySearch")}
-      className="w-full rounded-lg border border-white/10 bg-bg-card py-2 pl-9 pr-8 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-accent/50" />
+      className="w-full rounded-lg border border-white/10 bg-bg-card py-1.5 pl-9 pr-8 text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-accent/50" />
     {countrySearch && <button type="button" aria-label={t("clearSearch")} onClick={() => onSearchChange("")}
       className={`absolute right-2 top-1/2 -translate-y-1/2 rounded text-text-secondary hover:text-accent ${focusClass}`}>
       <X size={14} aria-hidden />
@@ -53,9 +56,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
     return <Link key={group.id}
       href={getTimelinePath(isActive ? selectedCountry : group.countries[0].code, defaultCountry)}
       prefetch={false} aria-current={isActive ? "page" : undefined} onClick={() => setSheet(null)}
-      className={`flex shrink-0 snap-start items-center justify-center border px-3.5 py-2 text-sm font-semibold ${mobile ? "w-full rounded-lg" : layout.regionChipShape} ${focusClass} ${isActive
-        ? "border-accent bg-accent/10 text-accent hover:bg-accent/20"
-        : "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent"}`}>
+      className={`${mobile ? SHEET_CHIP : `${atlas.chip} ${layout.regionChipShape}`} ${focusClass} ${isActive ? atlas.chipSelected : atlas.chipIdle.pill}`}>
       {t(`continent.${group.id}`)}
     </Link>;
   });
@@ -64,9 +65,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
     const isActive = country.code === selectedCountry;
     return <Link key={country.code} href={getTimelinePath(country.code, defaultCountry)} prefetch={false}
       aria-current={isActive ? "page" : undefined} onClick={() => setSheet(null)}
-      className={`flex shrink-0 snap-start items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-semibold ${mobile ? "w-full" : "whitespace-nowrap"} ${focusClass} ${isActive
-        ? "border-accent bg-accent/10 text-accent hover:bg-accent/20"
-        : "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent"}`}>
+      className={`${mobile ? SHEET_CHIP : `${atlas.chip} ${atlas.square} whitespace-nowrap`} ${focusClass} ${isActive ? atlas.chipSelected : atlas.chipIdle.square}`}>
       <span aria-hidden>{getCountryFlag(country.code)}</span>
       <span className="min-w-0 truncate">{country.name}</span>
       <span className="ml-auto text-xs opacity-60">{country.count}</span>
@@ -89,7 +88,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
         {continentLinks()}
       </div>
     </nav>
-    <nav className={`${layout.chipNav} space-y-3 border-t border-white/[0.06]`} aria-label={t("countryNav")}>
+    <nav className={`${layout.chipNav} space-y-2 border-t border-white/[0.06]`} aria-label={t("countryNav")}>
       {searchField}
       <div ref={countryRef} {...countryDragProps} className={`${layout.navList} ${countryCursor}`}>
         {countryLinks()}

@@ -3,11 +3,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
+import AtlasNav, { type AtlasNavRow } from "@/components/shared/AtlasNav";
 import { mythGroupName } from "./mythGroupName";
 import MythGroupOverview from "./MythGroupOverview";
-import MythMobilePicker from "./MythMobilePicker";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
@@ -17,6 +16,9 @@ import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
 interface Props { data: MythAtlasData }
+
+/** 그룹 줄의 「전체」 항목 id — 그룹 id(uuid)와 겹치지 않는다 */
+const ALL_GROUPS = "__all__";
 
 function focusedTradition(data: MythAtlasData, personId: string | null) {
   const published = data.traditions.filter((item) => item.isPublished);
@@ -35,9 +37,6 @@ export default function MythAtlas({ data }: Props) {
   const [comingSoonId, setComingSoonId] = useState<string | null>(null);
   const [groupId, setGroupId] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const { ref: regionListRef, cursorClassName: regionCursor, dragProps: regionDragProps } = useMouseDragScroll();
-  const { ref: traditionListRef, cursorClassName: traditionCursor, dragProps: traditionDragProps } = useMouseDragScroll();
-  const { ref: groupListRef, cursorClassName: groupCursor, dragProps: groupDragProps } = useMouseDragScroll();
 
   useEffect(() => {
     if (!comingSoonId) return;
@@ -100,17 +99,6 @@ export default function MythAtlas({ data }: Props) {
     return ranked.find((work) => work.coupangUrl) ?? ranked[0] ?? null;
   }, [activeWorks, activeIds]);
 
-  /* 고른 칩을 줄 가운데로 옮긴다 — 지역·신화 줄은 한 줄짜리라 고른 칩이 화면 밖에 있을 수 있다 */
-  useEffect(() => {
-    [regionListRef.current, traditionListRef.current, groupListRef.current].forEach((scroller) => {
-      const selected = scroller?.querySelector<HTMLElement>('[aria-pressed="true"]');
-      if (!scroller || !selected) return;
-      const scrollerRect = scroller.getBoundingClientRect();
-      const selectedRect = selected.getBoundingClientRect();
-      scroller.scrollLeft += selectedRect.left - scrollerRect.left - (scrollerRect.width - selectedRect.width) / 2;
-    });
-  }, [activeRegion?.id, activeTradition?.id, activeGroup?.id, regionListRef, traditionListRef, groupListRef]);
-
   useEffect(() => {
     if (!selectedPersonId || !window.matchMedia("(max-width: 1023px)").matches) return;
     contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -145,113 +133,56 @@ export default function MythAtlas({ data }: Props) {
   if (!activeRegion) return null;
   const hasContent = Boolean(activeTradition) && activePeople.length > 0;
 
+  /* 지역(알약)·신화(네모)·그룹(밑줄 탭) — 세력도감과 같은 공용 선택기에 줄로 넘긴다 */
+  const rows: AtlasNavRow[] = [
+    {
+      id: "regions",
+      label: t("regionNav"),
+      shape: "pill",
+      activeId: activeRegion.id,
+      items: data.regions.map((region) => ({ id: region.id, name: region.name })),
+      onSelect: chooseRegion,
+    },
+    {
+      id: "traditions",
+      label: t("traditionNav"),
+      shape: "square",
+      activeId: activeTradition?.id ?? null,
+      emptyLabel: t("comingSoon"),
+      items: regionTraditions.map((tradition) => ({ id: tradition.id, name: tradition.name, disabled: !tradition.isPublished })),
+      onSelect: chooseTradition,
+      onDisabledSelect: setComingSoonId,
+      noticeId: comingSoonId,
+      noticeLabel: t("comingSoon"),
+    },
+  ];
+  /* 그룹 — 인물이 많은 전승을 묶음별로 나눠 보인다. 묶음이 없는 전승은 줄을 숨긴다 */
+  if (hasContent && activeTradition && activeTradition.groups.length > 0) {
+    rows.push({
+      id: "groups",
+      label: t("groupNav"),
+      shape: "tab",
+      wide: true,
+      activeId: activeGroup?.id ?? ALL_GROUPS,
+      items: [
+        { id: ALL_GROUPS, name: t("allGroups"), count: activePeople.length },
+        ...activeTradition.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
+      ],
+      onSelect: (id) => chooseGroup(id === ALL_GROUPS ? null : id),
+    });
+  }
+
   return (
     <section id="myth-atlas" aria-label={t("title")} className={layout.atlas}>
       <div className={layout.navigationOuter}>
-        <div className={layout.navigation}>
-          <MythMobilePicker
-            regions={data.regions}
-            activeRegion={activeRegion}
-            traditions={regionTraditions}
-            activeTradition={activeTradition}
-            comingSoonId={comingSoonId}
-            onChooseRegion={chooseRegion}
-            onChooseTradition={chooseTradition}
-            onComingSoon={setComingSoonId}
-            groups={hasContent && activeTradition ? activeTradition.groups : []}
-            activeGroup={activeGroup}
-            onChooseGroup={chooseGroup}
-          />
-
-          <nav className={layout.chipNav} aria-label={t("regionNav")}>
-            <div ref={regionListRef} {...regionDragProps} className={`${layout.navList} ${regionCursor}`}>
-              {data.regions.map((region) => {
-                const selected = region.id === activeRegion.id;
-                return (
-                  <button
-                    key={region.id}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => chooseRegion(region.id)}
-                    className={`flex shrink-0 snap-start items-center justify-center border px-3.5 py-1.5 text-sm font-semibold ${layout.regionChipShape} ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent"}`}
-                  >
-                    {region.name}
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
-
-          <nav className={layout.chipNav} aria-label={t("traditionNav")}>
-            <div ref={traditionListRef} {...traditionDragProps} className={`${layout.navList} ${traditionCursor}`}>
-              {regionTraditions.map((tradition) => {
-                const selected = tradition.id === activeTradition?.id;
-                const published = tradition.isPublished;
-                const showingComingSoon = comingSoonId === tradition.id;
-                return (
-                  <button
-                    key={tradition.id}
-                    type="button"
-                    aria-pressed={selected}
-                    aria-label={published ? tradition.name : `${tradition.name} · ${t("comingSoon")}`}
-                    onClick={() => (published ? chooseTradition(tradition.id) : setComingSoonId(tradition.id))}
-                    className={`flex shrink-0 snap-start items-center justify-center border px-3.5 py-1.5 text-center text-sm font-semibold ${layout.traditionChipShape} ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : published ? "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-white/[0.07] hover:text-text-primary" : showingComingSoon ? "cursor-not-allowed border-dashed border-white/25 bg-white/[0.05] text-text-secondary" : "cursor-not-allowed border-dashed border-white/[0.1] bg-transparent text-white/35"}`}
-                  >
-                    {published ? <span>{tradition.name}</span> : (
-                      /* 누르면 이름 자리에 잠깐 「준비 중」을 띄웠다 돌아온다. 두 글을 한 칸에 겹쳐 두어
-                         글이 바뀌어도 칩 폭이 그대로다 — 폭이 바뀌면 옆 칩들이 밀린다 */
-                      <span className="grid">
-                        <span className={`[grid-area:1/1] ${showingComingSoon ? "invisible" : ""}`}>{tradition.name}</span>
-                        <span aria-hidden className={`[grid-area:1/1] flex items-center justify-center gap-1 whitespace-nowrap ${showingComingSoon ? "" : "invisible"}`}>
-                          <Clock3 size={13} aria-hidden />{t("comingSoon")}
-                        </span>
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
-
-          {/* 그룹 — 인물이 많은 전승을 묶음별로 나눠 보인다. 묶음이 없는 전승은 줄을 숨긴다 */}
-          {hasContent && activeTradition && activeTradition.groups.length > 0 && (
-            <nav className={layout.chipNav} aria-label={t("groupNav")}>
-              <div ref={groupListRef} {...groupDragProps} className={`${layout.navList} ${groupCursor}`}>
-                <button
-                  type="button"
-                  aria-pressed={!activeGroup}
-                  onClick={() => chooseGroup(null)}
-                  className={`${layout.groupTab} ${!activeGroup ? "border-accent text-accent" : "border-transparent text-text-secondary hover:text-text-primary"}`}
-                >
-                  {t("allGroups")}
-                  <span className="ms-1.5 text-xs font-medium text-text-tertiary">{activePeople.length}</span>
-                </button>
-                {activeTradition.groups.map((group) => {
-                  const selected = group.id === activeGroup?.id;
-                  return (
-                    <button
-                      key={group.id}
-                      type="button"
-                      aria-pressed={selected}
-                      onClick={() => chooseGroup(group.id)}
-                      className={`${layout.groupTab} ${selected ? "border-accent text-accent" : "border-transparent text-text-secondary hover:text-text-primary"}`}
-                    >
-                      {mythGroupName(group, groupLabels)}
-                      <span className="ms-1.5 text-xs font-medium text-text-tertiary">{group.personIds.length}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </nav>
-          )}
-
+        <AtlasNav rows={rows}>
           {/* 마지막 줄 — 인물. 지역·신화·그룹 줄과 같은 상자에 같은 결로 쌓는다 */}
           {hasContent && (
             <div className={layout.nav}>
               <MythPersonPicker people={railPeople} selectedId={selectedPersonId} onSelect={choosePerson} />
             </div>
           )}
-        </div>
+        </AtlasNav>
       </div>
 
       {hasContent && activeTradition ? (

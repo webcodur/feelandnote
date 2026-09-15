@@ -18,6 +18,7 @@ import { getYear, getEraInfo, type EraInfo } from "./utils";
 import { getTimelineContemporaries } from "@/actions/home/getCelebTimeline";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { Link } from "@/i18n/navigation";
+import { ATLAS_NAV_LAYOUT as atlas } from "@/components/shared/atlasNavLayout";
 import CountryPicker from "./sections/CountryPicker";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import EraBanner from "./sections/EraBanner";
@@ -179,9 +180,9 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
       )}
 
       {eras.length > 1 && (
-        <nav className="flex flex-wrap justify-center gap-2">
+        <nav className="flex flex-wrap justify-center gap-1.5">
           {eras.map(({ era, href }) => (
-            <Link key={era.key} href={href} prefetch={false} className="rounded-full border border-white/15 px-3 py-1.5 text-sm hover:border-accent hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            <Link key={era.key} href={href} prefetch={false} className={`${atlas.chip} ${atlas.pill} ${atlas.chipIdle.pill} outline-none focus-visible:ring-2 focus-visible:ring-accent`}>
               {locale === "en" ? era.labelEn : era.label}
             </Link>
           ))}
