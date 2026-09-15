@@ -388,9 +388,6 @@ export default function FloatingMusicPlayer() {
 
             {activeMode === 'faction' && (factionTrack || factionRows.length > 0) && (
               <section className={gameAudio ? 'mt-3' : undefined}>
-                <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
-                  {factionThemeLabel}
-                </p>
                 {factionThemeGroups.map((group, index) => (
                   <div key={group.key} className={index > 0 ? 'mt-3' : undefined}>
                     <p className="border-s border-accent/35 px-2 pb-1 ps-3 text-[11px] font-semibold text-text-primary">
@@ -424,9 +421,6 @@ export default function FloatingMusicPlayer() {
 
             {activeMode === 'myth' && mythRows.length > 0 && (
               <section className={gameAudio ? 'mt-3' : undefined}>
-                <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
-                  {mythLabel}
-                </p>
                 {mythThemeGroups.map((group, index) => (
                   <div key={group.key} className={index > 0 ? 'mt-3' : undefined}>
                     <p className="border-s border-accent/35 px-2 pb-1 ps-3 text-[11px] font-semibold text-text-primary">
@@ -460,9 +454,6 @@ export default function FloatingMusicPlayer() {
 
             {activeMode === 'library' && (
             <section className={gameAudio ? 'mt-3' : undefined}>
-              <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
-                {libraryLabel}
-              </p>
               {loading && <p className="px-2 py-3 text-xs text-text-secondary">{locale === 'ko' ? '불러오는 중…' : 'Loading…'}</p>}
               {!loading && tracks.length === 0 && (
                 <p className="px-2 py-3 text-xs leading-relaxed text-text-secondary">
