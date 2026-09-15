@@ -312,6 +312,13 @@ export default function FloatingMusicPlayer() {
                   {isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}
                 </p>
                 {!isGamePlaying && currentTrack?.creator && <p className="mt-0.5 truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
+                {isPlaying && (
+                  <span className="mt-1 flex h-3 items-end justify-center gap-0.5 text-accent/80" aria-hidden="true">
+                    <span className="h-1.5 w-0.5 origin-bottom animate-eq-bar" style={{ animationDelay: '-0.18s' }} />
+                    <span className="h-2.5 w-0.5 origin-bottom animate-eq-bar" style={{ animationDelay: '-0.42s' }} />
+                    <span className="h-2 w-0.5 origin-bottom animate-eq-bar" style={{ animationDelay: '-0.3s' }} />
+                  </span>
+                )}
               </div>
               <MusicTransport
                 isPlaying={isPlaying}
