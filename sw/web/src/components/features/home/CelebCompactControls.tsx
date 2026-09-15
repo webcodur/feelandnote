@@ -5,7 +5,7 @@ import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
-import { TREND_COUNTRIES, TREND_PERIOD_HOURS } from "@/constants/trendCountries";
+import { PINNED_TREND_COUNTRIES, TREND_PERIOD_HOURS, type TrendCountry } from "@/constants/trendCountries";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
@@ -14,12 +14,13 @@ import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
 
 interface Props {
   filters: ReturnType<typeof useCelebFilters>;
+  trendCountryOptions?: readonly TrendCountry[];
   onInteraction?: () => void;
 }
 
 const controlClass = "flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/[0.025] px-2 py-2 md:px-3 text-sm font-medium text-text-primary hover:border-white/35 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50";
 
-export default function CelebCompactControls({ filters, onInteraction }: Props) {
+export default function CelebCompactControls({ filters, trendCountryOptions = PINNED_TREND_COUNTRIES, onInteraction }: Props) {
   const t = useTranslations("home.ui");
   const year = useTranslations("home.ui.birthYear");
   const getProfession = useProfessionLabel();
@@ -70,7 +71,7 @@ export default function CelebCompactControls({ filters, onInteraction }: Props) 
         <div className="space-y-2 rounded-md border border-white/10 px-3 py-2.5">
           <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("trends.country")}>
             <span className="mr-1 text-xs text-text-secondary">{t("trends.country")}</span>
-            {TREND_COUNTRIES.map(country => (
+            {trendCountryOptions.map(country => (
               <button key={country} type="button" disabled={filters.isLoading} aria-pressed={filters.trendCountry === country}
                 onClick={() => { onInteraction?.(); filters.handleTrendCountryChange(country); }}
                 className={`min-h-11 rounded px-3 py-1.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${filters.trendCountry === country ? "bg-accent/10 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
@@ -82,12 +83,12 @@ export default function CelebCompactControls({ filters, onInteraction }: Props) 
             {filters.isLoading ? t("trends.loading")
               : !filters.trend?.available ? t("trends.unavailable")
               : filters.trend.matchedCount === 0 ? t("trends.noMatches")
-              : t("trends.description", { country: getNationality(filters.trendCountry), count: filters.trend.matchedCount })}
+              : t("trends.description", { country: getNationality(filters.trendCountry) })}
           </p>
           <a href={`https://trends.google.com/trending?geo=${filters.trendCountry}&hl=en&hours=${TREND_PERIOD_HOURS}`}
             target="_blank" rel="noopener noreferrer"
             className="inline-flex min-h-9 items-center rounded text-xs text-text-secondary underline decoration-white/20 underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
-            {t("trends.source", { hours: TREND_PERIOD_HOURS })}
+            {t("trends.source", { days: TREND_PERIOD_HOURS / 24 })}
           </a>
         </div>
       )}
