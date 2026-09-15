@@ -289,9 +289,9 @@
         "tapForNextLine": "눌러서 다음",
         "tapToCloseQuote": "눌러서 닫기",
         "groupNav": "그룹 선택",
+        "clearGroup": "그룹 선택 해제",
         "otherGroup": "그 외",
         "unnamedGroup": "이름 없는 그룹",
-        "allGroups": "전체",
         "groupOverview": "그룹 개요",
         "groupMemberCount": "{count}명",
         "groupDescriptionFallback": "이 그룹의 설명을 준비하고 있습니다.",
@@ -428,7 +428,6 @@
     },
     "faction": {
       "metaTitle": "세력도감 | 인물",
-      "lead": "같은 분야나 사건으로 엮인 인물들을 테마별로 모았습니다.",
       "sectionNav": "세력도감 섹션",
       "themeNav": "세력도감 테마",
       "figureCount": "{count}명",

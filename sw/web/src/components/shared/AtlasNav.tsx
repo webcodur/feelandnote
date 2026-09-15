@@ -3,13 +3,14 @@
   기능: 탐색 도감 선택기 — 신화 탐색(지역·신화·그룹)과 세력도감(섹션·테마·진영)이 함께 쓴다
   책임: 줄 목록 하나로 넓은 화면의 칩 줄(알약·네모·밑줄 탭)과 좁은 화면의 줄별 선택 단추·창(AtlasPickerSheet)을 그린다.
         항목은 주소 이동(href)이나 화면 안 선택(onSelect) 둘 다 받고, 고를 수 없는 항목은 누르면 잠깐 안내를 띄운다.
+        선택을 풀 수 있는 줄(onClear)은 고른 항목 끝에 ×를 붙이고, 그 항목을 다시 누르면 선택을 푼다.
         고른 칩은 줄 가운데로 옮긴다. 상자 안에 덧붙는 줄(신화 인물 줄)은 children으로 받는다.
 */ // ------------------------------
 
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import { Clock3 } from "lucide-react";
+import { Clock3, X } from "lucide-react";
 import AtlasPickerSheet from "@/components/shared/AtlasPickerSheet";
 import { ATLAS_NAV_LAYOUT as layout } from "@/components/shared/atlasNavLayout";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
@@ -44,6 +45,10 @@ export interface AtlasNavRow {
   emptyLabel?: string;
   /** 좁은 화면 단추를 한 줄 전체 폭으로 — 기본은 반 폭 */
   wide?: boolean;
+  /** 있으면 고른 항목을 다시 눌러 선택을 푼다(신화 그룹 줄). 화면 안 선택(onSelect) 줄에서만 쓴다 */
+  onClear?: () => void;
+  /** 선택 풀기 안내 — 고른 칩의 제목·읽기 도구 이름에 붙는다 */
+  clearLabel?: string;
 }
 
 const DISABLED = "cursor-not-allowed border-dashed border-white/[0.1] bg-transparent text-white/35";
@@ -76,6 +81,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
       <div ref={ref} {...dragProps} className={cn(layout.navList, cursorClassName)}>
         {row.items.map((item) => {
           const selected = item.id === row.activeId;
+          const clears = selected && Boolean(row.onClear);
           const className = itemClass(row, item, selected);
           const showingNotice = row.noticeId === item.id;
           const content = item.disabled ? (
@@ -91,6 +97,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
             <>
               {item.name}
               {item.count !== undefined && <span className={cn(COUNT, row.shape === "tab" && "ms-1.5")}>{item.count}</span>}
+              {clears && <X size={12} aria-hidden className="ms-1 shrink-0" />}
             </>
           );
 
@@ -115,9 +122,14 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
               key={item.id}
               type="button"
               aria-pressed={selected}
-              aria-label={item.disabled && row.noticeLabel ? `${item.name} · ${row.noticeLabel}` : undefined}
+              aria-label={
+                item.disabled && row.noticeLabel ? `${item.name} · ${row.noticeLabel}`
+                  : clears && row.clearLabel ? `${item.name} · ${row.clearLabel}`
+                  : undefined
+              }
+              title={clears ? row.clearLabel : undefined}
               data-selected={selected || undefined}
-              onClick={() => (item.disabled ? row.onDisabledSelect?.(item.id) : row.onSelect?.(item.id))}
+              onClick={() => (item.disabled ? row.onDisabledSelect?.(item.id) : clears ? row.onClear?.() : row.onSelect?.(item.id))}
               className={className}
             >
               {content}
@@ -161,10 +173,12 @@ function MobileRow({ row }: { row: AtlasNavRow }) {
           count: item.count,
           href: item.href,
           disabled: item.disabled,
-          note: row.noticeId === item.id ? notice : undefined,
+          note: row.noticeId === item.id
+            ? notice
+            : row.onClear && item.id === row.activeId ? <X size={13} aria-hidden className="shrink-0" /> : undefined,
         })),
       }]}
-      onSelect={(_, id) => row.onSelect?.(id)}
+      onSelect={(_, id) => (row.onClear && id === row.activeId ? row.onClear() : row.onSelect?.(id))}
       onDisabledSelect={row.onDisabledSelect}
     />
   );
