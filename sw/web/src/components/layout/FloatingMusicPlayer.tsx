@@ -135,7 +135,7 @@ export default function FloatingMusicPlayer() {
   const positionLabel = locale === 'ko' ? '재생 위치' : 'Playback position'
   const speedLabel = locale === 'ko' ? '재생 속도' : 'Playback speed'
 
-  const mythLabel = locale === 'ko' ? '신화 테마' : 'Myth themes'
+  const mythLabel = locale === 'ko' ? '신화' : 'Myth'
   const mythEmptyLabel = locale === 'ko' ? '등록된 신화 테마곡이 없습니다.' : 'No mythology theme music is registered.'
 
   const loadLibrary = useCallback(() => {
@@ -347,23 +347,30 @@ export default function FloatingMusicPlayer() {
             </div>
           )}
 
-          <div className="mx-3 mt-3 flex gap-1 rounded-lg border border-white/8 bg-black/20 p-1">
-            <MusicModeChip active={activeMode === 'faction'} onClick={() => setMode('faction')}>
-              <span className="inline-flex items-center gap-1">
+          <div className="mx-3 mt-3 rounded-lg border border-white/8 bg-black/20 p-1">
+            <div className="flex gap-1">
+              <MusicModeChip
+                active={activeMode !== 'library'}
+                onClick={() => setMode(activeMode === 'library' ? 'faction' : activeMode)}
+              >
                 <span>{themeLabel}</span>
-                <span aria-hidden className="text-[9px] opacity-45">›</span>
-                <span className="text-accent/90">{factionLabel}</span>
-              </span>
-              <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
-            </MusicModeChip>
-            <MusicModeChip active={activeMode === 'myth'} onClick={() => setMode('myth')}>
-              <span>{mythLabel}</span>
-              <span className="ms-1.5 tabular-nums opacity-60">{mythRows.length}</span>
-            </MusicModeChip>
-            <MusicModeChip active={activeMode === 'library'} onClick={() => setMode('library')}>
-              <span>{libraryLabel}</span>
-              <span className="ms-1.5 tabular-nums opacity-60">{tracks.length}</span>
-            </MusicModeChip>
+                <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length + mythRows.length}</span>
+              </MusicModeChip>
+              <MusicModeChip active={activeMode === 'library'} onClick={() => setMode('library')}>
+                <span>{libraryLabel}</span>
+                <span className="ms-1.5 tabular-nums opacity-60">{tracks.length}</span>
+              </MusicModeChip>
+            </div>
+            <div className="mt-1 flex gap-1 border-t border-white/8 pt-1" role="group" aria-label={themeLabel}>
+              <MusicModeChip active={activeMode === 'faction'} onClick={() => setMode('faction')}>
+                <span>{factionLabel}</span>
+                <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
+              </MusicModeChip>
+              <MusicModeChip active={activeMode === 'myth'} onClick={() => setMode('myth')}>
+                <span>{mythLabel}</span>
+                <span className="ms-1.5 tabular-nums opacity-60">{mythRows.length}</span>
+              </MusicModeChip>
+            </div>
           </div>
 
           <div className="max-h-[min(56vh,22rem)] overflow-y-auto px-3 pb-3 pt-3">
@@ -387,11 +394,7 @@ export default function FloatingMusicPlayer() {
             {activeMode === 'faction' && (factionTrack || factionRows.length > 0) && (
               <section className={gameAudio ? 'mt-3' : undefined}>
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
-                  <span className="inline-flex items-center gap-1">
-                    <span>{themeLabel}</span>
-                    <span aria-hidden className="text-[9px] opacity-45">›</span>
-                    <span>{factionLabel}</span>
-                  </span>
+                  {factionLabel}
                 </p>
                 {factionRows.map((track) => (
                   <MusicListRow
