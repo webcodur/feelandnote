@@ -737,7 +737,7 @@ function MusicListRow({
       onClick={onSelect}
       disabled={!playable}
       aria-pressed={active}
-      className={`group/track flex w-full items-center gap-2 rounded-xl border px-2.5 py-2.5 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+      className={`group/track flex w-full items-center gap-1.5 rounded-lg border px-2 py-1 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
         active
           ? 'border-accent/25 bg-accent/12 text-accent'
           : recommended
@@ -745,16 +745,18 @@ function MusicListRow({
             : 'border-transparent text-text-primary hover:border-white/8 hover:bg-white/5'
       } ${!playable ? 'cursor-default opacity-50' : ''}`}
     >
-      <span className={`flex size-7 shrink-0 items-center justify-center rounded-full border ${active || recommended ? 'border-accent/35 bg-accent/10 text-accent' : 'border-white/10 bg-white/5 text-text-secondary opacity-0 group-hover/track:border-accent/30 group-hover/track:text-accent group-hover/track:opacity-100 group-focus-visible/track:opacity-100'}`}>
-        {active ? <Pause size={12} /> : <Play size={12} className="ms-0.5" />}
-      </span>
       <span className="min-w-0 flex-1 truncate">
         <span className="block truncate text-[12px] font-medium">{track.title}</span>
         {track.creator && <span className="block truncate text-[10px] text-text-secondary">{track.creator}</span>}
       </span>
-      {recommended && <span className="shrink-0 text-[10px] text-accent">{recommendedLabel}</span>}
-      {active && <span className="shrink-0 text-[10px] text-accent">{pauseLabel}</span>}
-      {!active && playable && !recommended && <span className="sr-only">{playLabel}</span>}
+      <span className="ms-auto flex shrink-0 items-center gap-1.5">
+        {recommended && <span className="text-[10px] text-accent">{recommendedLabel}</span>}
+        {active && <span className="text-[10px] text-accent">{pauseLabel}</span>}
+        <span className={`flex size-6 items-center justify-center ${active || recommended ? 'text-accent' : 'text-text-secondary opacity-0 group-hover/track:opacity-100 group-focus-visible/track:opacity-100'}`}>
+          {active ? <Pause size={14} /> : <Play size={14} className="ms-0.5" />}
+        </span>
+        {!active && playable && !recommended && <span className="sr-only">{playLabel}</span>}
+      </span>
     </button>
   )
 }
