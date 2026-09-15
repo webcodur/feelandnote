@@ -66,6 +66,9 @@ export default function FloatingMusicPlayer() {
   ].filter((track, index, all) => all.findIndex((candidate) => candidate.id === track.id) === index)
   const factionRows = listTracks.filter(isFactionTrack)
   const factionEmptyLabel = locale === 'ko' ? '등록된 세력도감 테마곡이 없습니다.' : 'No atlas theme music is registered.'
+  const eyebrowLabel = locale === 'ko' ? '사운드 아카이브' : 'SOUND ARCHIVE'
+  const nowPlayingLabel = locale === 'ko' ? '지금 재생 중' : 'NOW PLAYING'
+  const selectedLabel = locale === 'ko' ? '선택한 곡' : 'SELECTED TRACK'
   const preservePlayingPersonalTrack = Boolean(
     playingId &&
     playingId === selection.trackId &&
@@ -190,34 +193,58 @@ export default function FloatingMusicPlayer() {
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className="fixed bottom-36 end-3 w-[min(88vw,22rem)] overflow-hidden rounded-xl border border-border bg-bg-card/95 shadow-2xl backdrop-blur-xl md:bottom-20 md:end-4"
+          className="fixed bottom-36 end-3 w-[min(90vw,23rem)] overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.12),transparent_42%),rgba(18,18,18,0.97)] shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-xl md:bottom-20 md:end-4"
           style={{ zIndex: panelZIndex }}
         >
-          <div className="flex items-center justify-between border-b border-border px-3 py-2">
-            <span className="flex min-w-0 items-center gap-2 truncate text-xs font-semibold text-text-primary">
-              <Music size={14} className="shrink-0 text-accent" aria-hidden="true" />
-              {label}
-            </span>
+          <div className="flex items-start justify-between border-b border-white/8 px-4 pb-3 pt-3.5">
+            <div className="min-w-0">
+              <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-accent/70">{eyebrowLabel}</p>
+              <p className="truncate text-sm font-semibold tracking-tight text-text-primary">{label}</p>
+            </div>
             <button
               type="button"
               onClick={() => setIsOpen(false)}
               aria-label={locale === 'ko' ? '닫기' : 'Close'}
-              className="flex size-6 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="flex size-7 shrink-0 items-center justify-center rounded-full text-text-secondary hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <X size={14} aria-hidden="true" />
             </button>
           </div>
 
-          <div className="flex gap-1 border-b border-border px-2 py-1.5">
+          {currentTrack && (
+            <div className="mx-3 mt-3 flex items-center gap-3 rounded-xl border border-accent/20 bg-black/20 px-3 py-2.5">
+              <span className={`relative flex size-9 shrink-0 items-center justify-center rounded-lg border ${isPlaying ? 'border-accent/50 bg-accent/15 text-accent' : 'border-white/10 bg-white/5 text-text-secondary'}`}>
+                <Music size={16} aria-hidden="true" />
+                {isPlaying && <span className="absolute -right-1 -top-1 size-2 rounded-full bg-accent shadow-[0_0_10px_rgba(212,175,55,0.8)]" />}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-accent/70">{isPlaying ? nowPlayingLabel : selectedLabel}</p>
+                <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{currentTrack.title}</p>
+                {currentTrack.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
+              </div>
+              <button
+                type="button"
+                onClick={() => selectTrack(currentTrack)}
+                aria-label={isPlaying ? pauseLabel : playLabel}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-bg-main hover:bg-accent/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {isPlaying ? <Pause size={13} fill="currentColor" aria-hidden="true" /> : <Play size={13} fill="currentColor" className="ms-0.5" aria-hidden="true" />}
+              </button>
+            </div>
+          )}
+
+          <div className="mx-3 mt-3 flex rounded-lg border border-white/8 bg-black/20 p-1">
             <MusicModeChip active={mode === 'faction'} onClick={() => setMode('faction')}>
-              {themeLabel}
+              <span>{themeLabel}</span>
+              <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
             </MusicModeChip>
             <MusicModeChip active={mode === 'library'} onClick={() => setMode('library')}>
-              {libraryLabel}
+              <span>{libraryLabel}</span>
+              <span className="ms-1.5 tabular-nums opacity-60">{tracks.length}</span>
             </MusicModeChip>
           </div>
 
-          <div className="max-h-[min(60vh,24rem)] overflow-y-auto p-2">
+          <div className="max-h-[min(56vh,22rem)] overflow-y-auto px-3 pb-3 pt-3">
             {gameAudio && (
               <section>
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
@@ -321,9 +348,9 @@ function MusicModeChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full px-2.5 py-1 text-[11px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+      className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-md px-2.5 py-1.5 text-[11px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
         active
-          ? 'bg-accent/15 text-accent'
+          ? 'bg-accent/15 text-accent shadow-[0_1px_8px_rgba(212,175,55,0.08)]'
           : 'text-text-secondary hover:bg-white/8 hover:text-text-primary'
       }`}
     >
@@ -356,19 +383,19 @@ function MusicListRow({
       onClick={onSelect}
       disabled={!playable}
       aria-pressed={active}
-      className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+      className={`group/track flex w-full items-center gap-2 rounded-xl border px-2.5 py-2.5 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
         active
-          ? 'bg-accent/15 text-accent'
+          ? 'border-accent/25 bg-accent/12 text-accent'
           : recommended
-            ? 'bg-accent/10 text-text-primary ring-1 ring-inset ring-accent/40'
-            : 'text-text-primary hover:bg-white/8'
+            ? 'border-accent/25 bg-accent/8 text-text-primary'
+            : 'border-transparent text-text-primary hover:border-white/8 hover:bg-white/5'
       } ${!playable ? 'cursor-default opacity-50' : ''}`}
     >
-      <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white/8">
+      <span className={`flex size-7 shrink-0 items-center justify-center rounded-full border ${active || recommended ? 'border-accent/35 bg-accent/10 text-accent' : 'border-white/10 bg-white/5 text-text-secondary group-hover/track:border-accent/30 group-hover/track:text-accent'}`}>
         {active ? <Pause size={12} /> : <Play size={12} className="ms-0.5" />}
       </span>
       <span className="min-w-0 flex-1 truncate">
-        <span className="block truncate text-xs">{track.title}</span>
+        <span className="block truncate text-[12px] font-medium">{track.title}</span>
         {track.creator && <span className="block truncate text-[10px] text-text-secondary">{track.creator}</span>}
       </span>
       {recommended && <span className="shrink-0 text-[10px] text-accent">{recommendedLabel}</span>}
