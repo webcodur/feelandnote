@@ -122,7 +122,8 @@ export default function FloatingMusicPlayer() {
   const label = gameAudio?.trackLabel || contextMusic?.title || (locale === 'ko' ? '음악' : 'Music')
   const playLabel = locale === 'ko' ? '재생' : 'Play'
   const pauseLabel = locale === 'ko' ? '일시정지' : 'Pause'
-  const themeLabel = locale === 'ko' ? '세력도감 테마' : 'Atlas theme'
+  const themeLabel = locale === 'ko' ? '테마' : 'Theme'
+  const factionLabel = locale === 'ko' ? '세력' : 'Faction'
   const libraryLabel = locale === 'ko' ? '내 감상목록' : 'My listening list'
   const recommendedLabel = locale === 'ko' ? '추천' : 'Recommended'
   const emptyLabel = locale === 'ko' ? '감상목록이 비어 있습니다.' : 'Your listening list is empty.'
@@ -346,9 +347,13 @@ export default function FloatingMusicPlayer() {
             </div>
           )}
 
-          <div className="mx-3 mt-3 flex rounded-lg border border-white/8 bg-black/20 p-1">
+          <div className="mx-3 mt-3 flex gap-1 rounded-lg border border-white/8 bg-black/20 p-1">
             <MusicModeChip active={activeMode === 'faction'} onClick={() => setMode('faction')}>
-              <span>{themeLabel}</span>
+              <span className="inline-flex items-center gap-1">
+                <span>{themeLabel}</span>
+                <span aria-hidden className="text-[9px] opacity-45">›</span>
+                <span className="text-accent/90">{factionLabel}</span>
+              </span>
               <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
             </MusicModeChip>
             <MusicModeChip active={activeMode === 'myth'} onClick={() => setMode('myth')}>
@@ -382,7 +387,11 @@ export default function FloatingMusicPlayer() {
             {activeMode === 'faction' && (factionTrack || factionRows.length > 0) && (
               <section className={gameAudio ? 'mt-3' : undefined}>
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
-                  {themeLabel}
+                  <span className="inline-flex items-center gap-1">
+                    <span>{themeLabel}</span>
+                    <span aria-hidden className="text-[9px] opacity-45">›</span>
+                    <span>{factionLabel}</span>
+                  </span>
                 </p>
                 {factionRows.map((track) => (
                   <MusicListRow
