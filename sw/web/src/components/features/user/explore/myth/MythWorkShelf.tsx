@@ -1,8 +1,8 @@
 "use client";
 
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -48,7 +48,7 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
             <>
               <div className="relative aspect-[3/4] shrink-0 overflow-hidden bg-bg-secondary">
                 {work.thumbnailUrl ? (
-                  <Image src={work.thumbnailUrl} alt="" fill unoptimized sizes="176px" className="object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" />
+                  <BlurDissolve key={work.thumbnailUrl} className="absolute inset-0"><Image src={work.thumbnailUrl} alt="" fill unoptimized sizes="176px" className="object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none" /></BlurDissolve>
                 ) : (
                   <div className="flex h-full items-center justify-center p-4 text-center text-lg font-black text-accent/50">{work.title}</div>
                 )}
@@ -73,14 +73,11 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
               <Link href={workHref} className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-accent/70 hover:bg-accent/5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${selected ? "border-accent/60" : "border-stone-heavy"}`}>
                 {cardBody}
               </Link>
-              {showPurchase && <AffiliateBookAction contentId={work.id} editionId={work.editionId} coupangUrl={work.coupangUrl} compact className="mt-2" />}
+              {showPurchase && <AffiliateBookAction contentId={work.id} editionId={work.editionId} coupangUrl={work.coupangUrl} compact showNotice className="mt-2" />}
             </div>
           );
         })}
       </div>
-      {locale === "ko" && visible.some((work) => work.category === "book") && (
-        <BookPurchaseInfo className="mt-2" />
-      )}
     </section>
   );
 }

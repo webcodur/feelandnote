@@ -22,8 +22,8 @@ export default function BookPurchaseLinks({ links, className }: {
   const showPurchaseInfo = links.some((link) => link.linkKind !== "search" && (link.platform === "yes24" || link.platform === "coupang"));
 
   return (
-    <div className={cn("min-w-0 space-y-2", className)}>
-      <div className="flex flex-wrap gap-2">
+    <div className={cn("min-w-0", className)}>
+      <div className="relative flex flex-wrap gap-2">
         {links.map((link) => {
           const isYes24 = link.platform === "yes24";
           const sponsored = link.linkKind !== "search" && (!isYes24 || isYes24Affiliate(link.url));
@@ -48,8 +48,10 @@ export default function BookPurchaseLinks({ links, className }: {
             </div>
           );
         })}
+        {showPurchaseInfo && (
+          <BookPurchaseInfo className="flex w-8 shrink-0 items-center justify-center self-stretch" />
+        )}
       </div>
-      {showPurchaseInfo && <BookPurchaseInfo />}
     </div>
   );
 }
