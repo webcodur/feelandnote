@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
-import { getFactionMusicList, getMythMusicList, type FactionMusicGroup, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
+import { getFactionMusicList, getMythMusicList, type FactionMusicListItem, type FactionMusicTheme } from '@/actions/home/getFactionMusicList'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
@@ -16,7 +16,7 @@ interface FactionTrack {
   creator: string | null
   previewUrl: string
   slug?: string | null
-  factions?: FactionMusicGroup[]
+  theme?: FactionMusicTheme | null
 }
 
 type ListTrack = MusicTrack | FactionTrack
@@ -59,7 +59,7 @@ export default function FloatingMusicPlayer() {
         title: factionMusic.title,
         creator: null,
         previewUrl: factionMusic.url,
-        factions: factionTracks.find((track) => track.id === factionMusic.id)?.factions,
+        theme: factionTracks.find((track) => track.id === factionMusic.id)?.theme,
       }
     : null
   const catalogFactionTracks: FactionTrack[] = factionTracks.map((track) => ({
@@ -68,7 +68,7 @@ export default function FloatingMusicPlayer() {
     creator: null,
     previewUrl: track.url,
     slug: track.slug,
-    factions: track.factions,
+    theme: track.theme,
   }))
   const catalogMythTracks: FactionTrack[] = mythTracks.map((track) => ({
     id: `myth:${track.id}`,
@@ -76,7 +76,7 @@ export default function FloatingMusicPlayer() {
     creator: null,
     previewUrl: track.url,
     slug: track.slug,
-    factions: track.factions,
+    theme: track.theme,
   }))
   const mythTrack: FactionTrack | null = mythMusic
     ? {
@@ -84,7 +84,7 @@ export default function FloatingMusicPlayer() {
         title: mythMusic.title,
         creator: null,
         previewUrl: mythMusic.url,
-        factions: mythTracks.find((track) => track.id === mythMusic.id)?.factions,
+        theme: mythTracks.find((track) => track.id === mythMusic.id)?.theme,
       }
     : null
   const contextTrack = mythTrack ?? factionTrack
@@ -96,8 +96,10 @@ export default function FloatingMusicPlayer() {
     ...catalogMythTracks,
     ...tracks,
   ].filter((track, index, all) => all.findIndex((candidate) => candidate.id === track.id) === index)
-  const factionRows = listTracks.filter((track) => track.id.startsWith('faction:'))
-  const mythRows = listTracks.filter((track) => track.id.startsWith('myth:'))
+  const factionRows = listTracks.filter((track): track is FactionTrack => track.id.startsWith('faction:'))
+  const mythRows = listTracks.filter((track): track is FactionTrack => track.id.startsWith('myth:'))
+  const factionThemeGroups = groupThemeTracks(factionRows, locale)
+  const mythThemeGroups = groupThemeTracks(mythRows, locale)
   const factionEmptyLabel = locale === 'ko' ? '등록된 세력도감 테마곡이 없습니다.' : 'No atlas theme music is registered.'
   const eyebrowLabel = locale === 'ko' ? '사운드 아카이브' : 'SOUND ARCHIVE'
   const nowPlayingLabel = locale === 'ko' ? '지금 재생 중' : 'NOW PLAYING'
@@ -389,17 +391,25 @@ export default function FloatingMusicPlayer() {
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
                   {factionThemeLabel}
                 </p>
-                {factionRows.map((track) => (
-                  <MusicListRow
-                    key={track.id}
-                    track={track}
-                    active={selectedId === track.id && isPlaying}
-                    recommended={!!factionTrack && track.id === factionTrack.id && !isPlaying}
-                    recommendedLabel={recommendedLabel}
-                    playLabel={playLabel}
-                    pauseLabel={pauseLabel}
-                    onSelect={() => selectTrack(track)}
-                  />
+                {factionThemeGroups.map((group, index) => (
+                  <div key={group.key} className={index > 0 ? 'mt-3' : undefined}>
+                    <p className="border-s border-accent/35 px-2 pb-1 ps-3 text-[11px] font-semibold text-text-primary">
+                      {group.label}
+                      <span className="ms-1.5 text-[10px] font-normal tabular-nums text-text-tertiary">{group.tracks.length}</span>
+                    </p>
+                    {group.tracks.map((track) => (
+                      <MusicListRow
+                        key={track.id}
+                        track={track}
+                        active={selectedId === track.id && isPlaying}
+                        recommended={!!factionTrack && track.id === factionTrack.id && !isPlaying}
+                        recommendedLabel={recommendedLabel}
+                        playLabel={playLabel}
+                        pauseLabel={pauseLabel}
+                        onSelect={() => selectTrack(track)}
+                      />
+                    ))}
+                  </div>
                 ))}
               </section>
             )}
@@ -417,17 +427,25 @@ export default function FloatingMusicPlayer() {
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
                   {mythLabel}
                 </p>
-                {mythRows.map((track) => (
-                  <MusicListRow
-                    key={track.id}
-                    track={track}
-                    active={selectedId === track.id && isPlaying}
-                    recommended={!!mythTrack && track.id === mythTrack.id && !isPlaying}
-                    recommendedLabel={recommendedLabel}
-                    playLabel={playLabel}
-                    pauseLabel={pauseLabel}
-                    onSelect={() => selectTrack(track)}
-                  />
+                {mythThemeGroups.map((group, index) => (
+                  <div key={group.key} className={index > 0 ? 'mt-3' : undefined}>
+                    <p className="border-s border-accent/35 px-2 pb-1 ps-3 text-[11px] font-semibold text-text-primary">
+                      {group.label}
+                      <span className="ms-1.5 text-[10px] font-normal tabular-nums text-text-tertiary">{group.tracks.length}</span>
+                    </p>
+                    {group.tracks.map((track) => (
+                      <MusicListRow
+                        key={track.id}
+                        track={track}
+                        active={selectedId === track.id && isPlaying}
+                        recommended={!!mythTrack && track.id === mythTrack.id && !isPlaying}
+                        recommendedLabel={recommendedLabel}
+                        playLabel={playLabel}
+                        pauseLabel={pauseLabel}
+                        onSelect={() => selectTrack(track)}
+                      />
+                    ))}
+                  </div>
                 ))}
               </section>
             )}
@@ -519,6 +537,28 @@ export default function FloatingMusicPlayer() {
 function formatTime(seconds: number) {
   const value = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0
   return `${Math.floor(value / 60)}:${String(value % 60).padStart(2, '0')}`
+}
+
+interface ThemeTrackGroup {
+  key: string
+  label: string
+  tracks: FactionTrack[]
+}
+
+function groupThemeTracks(tracks: FactionTrack[], locale: string): ThemeTrackGroup[] {
+  const groups = new Map<string, ThemeTrackGroup>()
+  for (const track of tracks) {
+    const theme = track.theme
+    const key = theme?.id ?? '__unassigned__'
+    const group = groups.get(key) ?? {
+      key,
+      label: theme ? locale === 'en' ? theme.name_en?.trim() || theme.name : theme.name : locale === 'en' ? 'Unassigned theme' : '테마 미지정',
+      tracks: [],
+    }
+    group.tracks.push(track)
+    groups.set(key, group)
+  }
+  return [...groups.values()]
 }
 
 function MusicTransport({
@@ -691,7 +731,6 @@ function MusicListRow({
   onSelect: () => void
 }) {
   const playable = isThemeTrack(track) || !!track.previewUrl
-  const factions = isThemeTrack(track) ? track.factions ?? [] : []
   return (
     <button
       type="button"
@@ -712,15 +751,6 @@ function MusicListRow({
       <span className="min-w-0 flex-1 truncate">
         <span className="block truncate text-[12px] font-medium">{track.title}</span>
         {track.creator && <span className="block truncate text-[10px] text-text-secondary">{track.creator}</span>}
-        {factions.length > 0 && (
-          <span className="mt-1 flex flex-wrap gap-x-1.5 gap-y-1 border-s border-accent/25 ps-2 text-[10px] text-text-secondary">
-            {factions.map((faction) => (
-              <span key={faction.name} className="whitespace-nowrap rounded bg-white/5 px-1.5 py-0.5">
-                {faction.name} <span className="tabular-nums opacity-60">{faction.count}</span>
-              </span>
-            ))}
-          </span>
-        )}
       </span>
       {recommended && <span className="shrink-0 text-[10px] text-accent">{recommendedLabel}</span>}
       {active && <span className="shrink-0 text-[10px] text-accent">{pauseLabel}</span>}
