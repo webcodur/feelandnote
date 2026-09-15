@@ -290,7 +290,7 @@ export default function FloatingMusicPlayer() {
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className="fixed bottom-36 end-3 w-[min(90vw,23rem)] overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.12),transparent_42%),rgba(18,18,18,0.97)] shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-xl md:bottom-20 md:end-4"
+          className="fixed bottom-36 end-3 w-[min(90vw,23rem)] overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[#121212] shadow-[0_18px_60px_rgba(0,0,0,0.55)] md:bottom-20 md:end-4"
           style={{ zIndex: panelZIndex }}
         >
           <div className="flex items-start justify-between border-b border-white/8 px-4 pb-3 pt-3.5">
@@ -309,17 +309,11 @@ export default function FloatingMusicPlayer() {
           </div>
 
           {(currentTrack || isGamePlaying) && (
-            <div className="mx-3 mt-3 rounded-xl border border-accent/20 bg-black/20 p-3">
-              <div className="flex items-center gap-3">
-                <span className={`relative flex size-9 shrink-0 items-center justify-center rounded-lg border ${isPlaying ? 'border-accent/50 bg-accent/15 text-accent' : 'border-white/10 bg-white/5 text-text-secondary'}`}>
-                  <Music size={16} aria-hidden="true" />
-                  {isPlaying && <span className="absolute -right-1 -top-1 size-2 rounded-full bg-accent shadow-[0_0_10px_rgba(212,175,55,0.8)]" />}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-accent/70">{isPlaying ? nowPlayingLabel : selectedLabel}</p>
-                  <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}</p>
-                  {!isGamePlaying && currentTrack?.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
-                </div>
+            <div className="mx-3 mt-3 rounded-xl border border-accent/20 bg-[#0d0d0d] p-3">
+              <div className="min-w-0">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-accent/70">{isPlaying ? nowPlayingLabel : selectedLabel}</p>
+                <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}</p>
+                {!isGamePlaying && currentTrack?.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
               </div>
               <MusicTransport
                 isPlaying={isPlaying}
@@ -610,7 +604,7 @@ function MusicTransport({
           aria-label={positionLabel}
           aria-valuetext={`${formatTime(safeTime)} / ${formatTime(safeDuration)}`}
           style={{ background: `linear-gradient(to right, var(--color-accent) ${progress}%, var(--color-stone-light) ${progress}%) center / 100% 3px no-repeat` }}
-          className="absolute inset-0 h-7 w-full cursor-pointer appearance-none bg-transparent accent-accent hover:brightness-125 disabled:cursor-default disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-thumb]:-mt-[3px] [&::-webkit-slider-thumb]:size-[9px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent [&::-moz-range-thumb]:size-[9px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-accent"
+          className="absolute start-8 end-8 top-0 h-7 cursor-pointer appearance-none bg-transparent accent-accent hover:brightness-125 disabled:cursor-default disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-thumb]:-mt-[3px] [&::-webkit-slider-thumb]:size-[9px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent [&::-moz-range-thumb]:size-[9px] [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-accent"
         />
         <span className="pointer-events-none absolute start-1 top-1/2 z-10 -translate-y-1/2 text-text-secondary [text-shadow:0_1px_3px_rgba(0,0,0,.95)]">{formatTime(safeTime)}</span>
         <span className="pointer-events-none absolute end-1 top-1/2 z-10 -translate-y-1/2 text-text-secondary [text-shadow:0_1px_3px_rgba(0,0,0,.95)]">{formatTime(safeDuration)}</span>
