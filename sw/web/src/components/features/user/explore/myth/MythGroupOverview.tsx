@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythGroup, MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
@@ -55,7 +56,7 @@ export default function MythGroupOverview({ tradition, group, people, onSelectPe
                   <button type="button" onClick={() => onSelectPerson(person.id)} className="group block w-full text-start focus-visible:outline-none">
                     <span className="relative block aspect-[3/4] overflow-hidden rounded-xl bg-white/[0.04] ring-1 ring-white/10 group-hover:ring-accent group-focus-visible:ring-2 group-focus-visible:ring-accent">
                       {image ? (
-                        <Image src={image} alt="" fill unoptimized sizes="(max-width: 1024px) 33vw, 200px" className="object-cover object-top" />
+                        <BlurDissolve key={image} className="absolute inset-0"><Image src={image} alt="" fill unoptimized sizes="(max-width: 1024px) 33vw, 200px" className="object-cover object-top" /></BlurDissolve>
                       ) : (
                         <span aria-hidden className="grid h-full place-items-center font-serif text-3xl font-black text-white/30">{person.name[0]}</span>
                       )}

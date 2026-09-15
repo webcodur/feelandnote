@@ -2,6 +2,7 @@
 
 import type { RefObject } from "react";
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -85,7 +86,7 @@ export default function FactionRoster({
                         style={{ zIndex: ROSTER_FACE_LIMIT - index }}
                       >
                         {face.url ? (
-                          <Image src={face.url} alt="" fill unoptimized sizes="36px" className="object-cover" />
+                          <BlurDissolve key={face.url} className="absolute inset-0"><Image src={face.url} alt="" fill unoptimized sizes="36px" className="object-cover" /></BlurDissolve>
                         ) : (
                           <span className="grid h-full place-items-center text-[11px] font-black text-white/50">{face.name[0]}</span>
                         )}

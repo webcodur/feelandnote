@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { ArrowLeft, Maximize2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
@@ -43,7 +44,7 @@ export default function MythSigilHeader({ person, tradition, onClose, backLabel 
               aria-label={t("enlargeAvatar")}
               className="group relative block size-full overflow-hidden rounded-full border border-accent/30 shadow-[0_0_70px_rgba(217,181,78,.14)] hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <Image src={person.avatarUrl} alt="" fill unoptimized sizes="128px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} />
+              <BlurDissolve key={person.avatarUrl} className="absolute inset-0"><Image src={person.avatarUrl} alt="" fill unoptimized sizes="128px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} /></BlurDissolve>
             </button>
             <button
               type="button"

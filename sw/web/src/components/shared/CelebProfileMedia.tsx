@@ -108,17 +108,19 @@ export default function CelebProfileMedia({
               : ""
           } ${canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
         >
-          <Image
-            src={photoUrl}
-            alt={nickname}
-            fill
-            unoptimized
-            priority
-            fetchPriority="high"
-            sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
-            className="object-cover"
-            style={{ filter: "none" }}
-          />
+          <BlurDissolve key={photoUrl} className="absolute inset-0">
+            <Image
+              src={photoUrl}
+              alt={nickname}
+              fill
+              unoptimized
+              priority
+              fetchPriority="high"
+              sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
+              className="object-cover"
+              style={{ filter: "none" }}
+            />
+          </BlurDissolve>
         </button>
         {voiceBadge}
         {zoomButton}

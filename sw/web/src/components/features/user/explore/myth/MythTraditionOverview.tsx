@@ -129,7 +129,7 @@ function EntryWorkCard({ work, locale, label }: { work: MythWork; locale: string
     <>
       <div className="relative h-[68px] w-[52px] shrink-0 overflow-hidden rounded-lg bg-bg-secondary">
         {work.thumbnailUrl ? (
-          <Image src={work.thumbnailUrl} alt="" fill unoptimized sizes="52px" className="object-cover" />
+          <BlurDissolve key={work.thumbnailUrl} className="absolute inset-0"><Image src={work.thumbnailUrl} alt="" fill unoptimized sizes="52px" className="object-cover" /></BlurDissolve>
         ) : (
           <div className="grid h-full place-items-center px-1 text-center text-[10px] font-black leading-tight text-accent/50">{work.title}</div>
         )}
