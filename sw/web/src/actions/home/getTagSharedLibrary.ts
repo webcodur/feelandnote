@@ -16,6 +16,7 @@ import {
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
+import { findAffiliateLink } from "./affiliateLinks";
 
 interface SharedContentCeleb {
   id: string;
@@ -43,7 +44,8 @@ export interface SharedContent {
   editionId?: number;
 }
 
-type LocaleRowWithAffiliate = ContentLocaleRow & { affiliate_url?: string | null };
+// DB 원형은 JSON 배열([{ url, platform }])이다 — 문자열로 가정하면 링크 달린 책 하나에 진영 전체 조회가 죽는다
+type LocaleRowWithAffiliate = ContentLocaleRow & { affiliate_url?: unknown };
 
 async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const db = createStaticClient();
@@ -113,6 +115,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
     if (existing) {
       existing.celebIds.add(row.celeb_id);
     } else {
+      const coupangUrl = findAffiliateLink(ko?.affiliate_url, "coupang")?.url;
       contentMap.set(c.id, {
         title: ko?.title || en?.title || "",
         title_en: en?.title ?? null,
@@ -122,7 +125,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
         creator_en: en?.creator ?? null,
         thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
         type: c.type ?? "BOOK",
-        coupangUrl: ko?.affiliate_url?.startsWith("https://") ? ko.affiliate_url : null,
+        coupangUrl: coupangUrl?.startsWith("https://") ? coupangUrl : null,
         celebIds: new Set([row.celeb_id]),
       });
     }
