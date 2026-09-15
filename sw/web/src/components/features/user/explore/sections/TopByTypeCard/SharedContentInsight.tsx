@@ -1,130 +1,79 @@
 /*
   파일명: /components/features/user/explore/sections/TopByTypeCard/SharedContentInsight.tsx
   기능: 매체 하나의 공통 감상 콘텐츠 인사이트
-  책임: Top 10 기록가가 함께 감상한 작품을 순위와 함께 안내한다.
+  책임: 셀럽 상세와 같은 ContentCard로 작품을 감상 인원 순서대로 배치한다.
+        순번과 공유 인원 수만 표지 위 칩으로 얹고 별도 푸터는 두지 않는다.
 */ // ------------------------------
 
 "use client";
 
-import ContentImage from "@/components/ui/ContentImage";
-import { Link } from "@/i18n/navigation";
-import DeveloperWorkAction from "@/components/features/commerce/DeveloperWorkAction";
-import { Book, Sparkles, Star } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { Users } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { ContentCard } from "@/components/ui/cards";
 import type { SharedContent } from "@/actions/home/getSharedContents";
+import type { ContentType } from "@/types/database";
 
 export default function SharedContentInsight({
   items,
   color,
   totalCelebs,
+  type,
 }: {
   items: SharedContent[];
   color: string;
   totalCelebs: number;
+  type: string;
 }) {
   const t = useTranslations("explore.topByType");
+  const tc = useTranslations("content.category");
+  const locale = useLocale();
   if (items.length === 0) return null;
 
+  const fallbackTitle = locale === "en" ? "Untitled" : "제목 미상";
+  const ordered = [...items].sort((a, b) => b.celeb_count - a.celeb_count);
+
   return (
-    <div className="mb-6 rounded-xl border border-border/60 bg-bg-card/50 px-4 py-4 space-y-3">
-      {/* 헤더 */}
-      <div className="flex items-center gap-2 text-sm font-semibold text-text-primary">
-        <Sparkles size={15} style={{ color }} />
-        {t("sharedTitle")}
-      </div>
-      <p className="text-xs leading-relaxed">
-        {t("sharedDesc", { count: totalCelebs })}
-      </p>
-
-      {/* 콘텐츠 리스트 */}
-      <div className="space-y-2">
-        {items.map((item) => {
-          const ratio = totalCelebs > 0 ? item.celeb_count / totalCelebs : 0;
-          return (
-            <div
-              key={item.content_id}
-              className="flex flex-wrap items-center gap-3 rounded-lg bg-bg-main/40 px-3 py-2"
-            >
-              <Link href={`/content/${item.content_id}`} className="group flex min-w-0 flex-1 basis-36 items-center gap-3 rounded outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
-              {/* 썸네일 */}
-              <div className="w-9 h-12 rounded overflow-hidden bg-bg-card shrink-0 relative">
-                {item.thumbnail_url ? (
-                  <ContentImage
-                    src={item.thumbnail_url}
-                    alt={item.title ?? ""}
-                    sizes="36px"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Book size={14} />
-                  </div>
-                )}
-              </div>
-
-              {/* 제목 + 저자 */}
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-text-primary group-hover:text-accent truncate">
-                  {item.title ?? "—"}
-                </p>
-                <p className="text-[11px] truncate">
-                  {item.creator ?? ""}
-                </p>
-              </div>
-
-              </Link>
-              {/* 감상 인원 비율 바 */}
-              <div className="flex items-center gap-2 shrink-0">
-                {item.avg_rating && (
-                  <span className="flex items-center gap-0.5 text-[11px] text-amber-400">
-                    <Star size={10} className="fill-amber-400" />
-                    {item.avg_rating}
-                  </span>
-                )}
-                <div className="flex items-center gap-1.5">
-                  <div className="w-14 h-2 bg-bg-card rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${Math.max(ratio * 100, 10)}%`,
-                        backgroundColor: color,
-                      }}
-                    />
-                  </div>
-                  <span
-                    className="text-[11px] font-bold tabular-nums"
-                    style={{ color }}
-                  >
-                    {item.celeb_count}/{totalCelebs}
-                  </span>
-                </div>
-              </div>
-              <DeveloperWorkAction target={{ title: item.title ?? "", creator: item.creator, type: item.content_type, contentId: item.content_id }} />
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 참여 기록가 태그 (첫 번째 아이템 기준) */}
-      {items[0]?.celeb_nicknames && items[0].celeb_nicknames.length > 0 && (
-        <div className="pt-1">
-          <p className="text-[10px] mb-1.5">{t("sharedBy")}</p>
-          <div className="flex flex-wrap gap-1">
-            {items[0].celeb_nicknames.map((name) => (
-              <span
-                key={name}
-                className="px-2 py-0.5 rounded-full text-[10px] font-medium border"
-                style={{
-                  borderColor: `${color}40`,
-                  color,
-                  backgroundColor: `${color}10`,
-                }}
-              >
-                {name}
-              </span>
-            ))}
-          </div>
+    <section aria-labelledby="shared-content-title" className="mt-8 space-y-4 border-t border-white/[0.06] pt-7">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h3 id="shared-content-title" className="break-keep text-xl font-black tracking-tight text-text-primary sm:text-2xl">
+            {t("sharedTitle", { media: tc(type.toLowerCase()) })}
+          </h3>
+          <p className="mt-1 break-keep text-xs leading-relaxed text-text-secondary sm:text-sm">{t("sharedDesc", { count: totalCelebs })}</p>
         </div>
-      )}
-    </div>
+        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-bold tabular-nums text-text-secondary">{ordered.length}</span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:[grid-template-columns:repeat(auto-fill,minmax(150px,1fr))]">
+        {ordered.map((item, index) => (
+          <div key={item.content_id} className="min-w-0">
+            <ContentCard
+              contentId={item.content_id}
+              contentType={item.content_type as ContentType}
+              title={item.title ?? fallbackTitle}
+              creator={item.creator}
+              thumbnail={item.thumbnail_url}
+              href={`/content/${item.content_id}`}
+              showHeader={false}
+              showStats={false}
+              overlayTopLeft={
+                <span className="rounded-md bg-black/75 px-1.5 py-1 font-mono text-[10px] font-bold tabular-nums text-white">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              }
+              overlayTopRight={
+                <span
+                  className="flex items-center gap-1 rounded-md bg-black/75 px-1.5 py-1 text-[10px] font-bold tabular-nums text-white"
+                  title={t("sharedBy")}
+                >
+                  <Users size={10} style={{ color }} aria-hidden />
+                  {item.celeb_count}
+                </span>
+              }
+            />
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

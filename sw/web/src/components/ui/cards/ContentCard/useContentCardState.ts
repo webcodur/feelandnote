@@ -46,6 +46,7 @@ export function useContentCardState(props: ContentCardProps) {
     onClick,
     showInfo = true,
     showGradient = true,
+    showStats = true,
     effectsEnabled = true,
   } = props;
 
@@ -110,7 +111,7 @@ export function useContentCardState(props: ContentCardProps) {
   const [showSavedAction, setShowSavedAction] = useState(false);
 
   // 인원 구성: prop으로 전달되면 사용, 없으면 자동 조회
-  const shouldFetch = celebCount === undefined;
+  const shouldFetch = showStats && celebCount === undefined;
   const fetched = useContentCounts(effectsEnabled && shouldFetch ? contentId : undefined);
   const effectiveCelebCount = celebCount ?? fetched.celebCount;
   const effectiveUserCount = userCount ?? fetched.userCount ?? 0;
