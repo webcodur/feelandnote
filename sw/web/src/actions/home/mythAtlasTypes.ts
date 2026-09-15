@@ -1,4 +1,6 @@
 
+import type { FactionMusic } from "@/lib/faction-videos";
+
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";
 
@@ -20,6 +22,8 @@ export interface MythTradition {
   isPublished: boolean;
   regionId: string;
   images: Array<{ url: string; label: string | null }>;
+  /** 이 전승의 테마곡 */
+  music: FactionMusic | null;
   personIds: string[];
   /** 인물 묶음. 묶음이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다 */
   groups: MythGroup[];

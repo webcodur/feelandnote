@@ -8,6 +8,7 @@ assets/
 ├── hegemony/      ← 패권 BGM
 ├── dawn/          ← 여명 BGM
 ├── labyrinth/     ← 미궁 BGM
+├── memory/        ← 기억 BGM
 └── suikoden/      ← 천도 BGM
 ```
 
@@ -63,8 +64,14 @@ assets/
 
 | 파일명 | 역할 | 곡 제목 |
 |--------|------|---------|
-| `labyrinth-main--deliberation-of-stone.mp3` | 메인 | Deliberation of Stone |
+| `labyrinth-intro.mp3` | 인트로/로비 | — |
 | `labyrinth-gameplay.mp3` | 게임플레이 | — |
+
+### 기억 (memory) — 1곡
+
+| 파일명 | 역할 | 곡 제목 |
+|--------|------|---------|
+| `memory-main.mp3` | 메인 | — |
 
 ### 여명 (dawn) — 3곡
 
@@ -84,6 +91,7 @@ assets/
 | 천도 | `features/game/suikoden/hooks/useSuikodenAudio.ts` |
 | 미궁 | `features/game/labyrinth/hooks/useLabyrinthAudio.ts` |
 | 여명 | `features/game/dawn/hooks/useDawnAudio.ts` |
+| 기억 | `features/game/memory/useMemoryAudio.ts` |
 
 - `basePath`: BGM 경로 기준 (`/assets/{게임명}`)
 - `sfxBasePath`: SFX 경로 기준 (`/assets/common`). 미지정 시 `basePath` 사용.

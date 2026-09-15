@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
+import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import { createMemoryBoard } from "./engine";
 import MemoryBoard from "./MemoryBoard";
 import MemoryLobby from "./MemoryLobby";
@@ -34,7 +35,8 @@ export default function MemoryGame({
 }: Props) {
   const t = useTranslations("rest.arena.memory");
   const tGame = useTranslations("shared.game");
-  const { playSfx, playFlipSfx, playResultSfx } = useMemoryAudio();
+  const { setBgm, stopAll, audioControls, playSfx, playFlipSfx, playResultSfx } = useMemoryAudio();
+  useRegisterGameAudio(audioControls);
   const [phase, setPhase] = useState<GamePhase>("lobby");
   const [difficulty, setDifficulty] = useState<MemoryDifficulty>("easy");
   const [board, setBoard] = useState<MemoryCardData[]>([]);
@@ -52,6 +54,10 @@ export default function MemoryGame({
   const difficultyIndex = MEMORY_DIFFICULTIES.findIndex((item) => item.key === difficulty);
   const hasNextDifficulty = difficultyIndex < MEMORY_DIFFICULTIES.length - 1;
   const remainingPairs = Math.max(0, (board.length - matchedIds.size) / 2);
+
+  useEffect(() => {
+    setBgm(phase);
+  }, [phase, setBgm]);
 
   const clearTimeouts = useCallback(() => {
     for (const id of timeoutIds.current) window.clearTimeout(id);
@@ -238,7 +244,10 @@ export default function MemoryGame({
       breadcrumbs={breadcrumbs}
       reserveSubtitleSpace={false}
       onHome={() => setPhase("lobby")}
-      onExitFullScreen={onExitFullScreenExternal}
+      onExitFullScreen={() => {
+        stopAll();
+        onExitFullScreenExternal?.();
+      }}
       initialFullScreen={initialFullScreen}
       exitLabel={tGame("exit")}
       exitEscLabel={tGame("exitEsc")}

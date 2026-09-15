@@ -15,7 +15,7 @@ const LABYRINTH_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/labyrinth-main--deliberation-of-stone.mp3`, label: "Deliberation of Stone" }];
+        return [{ src: `${BASE}/labyrinth-intro.mp3`, label: "미궁 — Intro" }];
       case "loading":
       case "stage1":
       case "stage2":
