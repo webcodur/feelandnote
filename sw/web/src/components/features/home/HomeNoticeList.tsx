@@ -4,6 +4,7 @@
   책임: 홈에서 공지를 읽는 데 페이지 이동을 요구하지 않는다. 본문은 목록 조회가 이미 실어 온
         것이라 모달을 열 때 다시 조회하지 않는다. 조회수만 서버에 올리고 화면 숫자는 낙관적으로
         더한다 — 실제 숫자는 목록 캐시(1시간)가 다시 만들어질 때 맞춰진다.
+        모달의 메타 줄·본문은 공지 상세와 같은 부품(NoticeContent)으로 그린다.
 */
 
 'use client'
@@ -14,12 +15,10 @@ import { ChevronRight, Eye, MessageSquare } from 'lucide-react'
 import type { NoticeWithAuthor } from '@/types/database'
 import { incrementNoticeView } from '@/actions/board/notices'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
-import Modal from '@/components/ui/Modal'
+import Modal, { ModalBody } from '@/components/ui/Modal'
 import { Link } from '@/i18n/navigation'
-import {
-  formatBoardDateTime,
-  formatBoardRelativeTime,
-} from '@/lib/board/boardDate'
+import { formatBoardRelativeTime } from '@/lib/board/boardDate'
+import { Dot, NoticeBody, NoticeMeta } from '@/components/features/board/notices/NoticeContent'
 import { resolveLocale } from '@/types/locale'
 
 const isNew = (dateStr: string) =>
@@ -54,98 +53,95 @@ export default function HomeNoticeList({ notices }: Props) {
             key={notice.id}
             type="button"
             onClick={() => open(notice)}
-            /* 테두리·배경·제목색은 즉각 축이다(ui-hover). 모서리 장식만 연출 축으로 둔다 */
-            className="group relative block w-full text-left px-4 py-3 sm:px-5 sm:py-3.5 rounded-lg bg-bg-card/60 backdrop-blur-sm border border-accent-dim/20 hover:border-accent/45 hover:bg-bg-card/90 transition-none"
+            /* 테두리·배경·제목색은 즉각 축이다(ui-hover). 화살표 밀림만 연출 축으로 둔다 */
+            className="group flex w-full items-center gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-left hover:border-accent/50 hover:bg-white/[0.06] sm:px-5 sm:py-3.5"
           >
-            {/* 호버 시 코너 장식 */}
-            <span aria-hidden className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/0 group-hover:border-accent/40 transition-colors rounded-tl pointer-events-none" />
-            <span aria-hidden className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent/0 group-hover:border-accent/40 transition-colors rounded-tr pointer-events-none" />
-            <span aria-hidden className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-accent/0 group-hover:border-accent/40 transition-colors rounded-bl pointer-events-none" />
-            <span aria-hidden className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-accent/0 group-hover:border-accent/40 transition-colors rounded-br pointer-events-none" />
-
-            <div className="flex items-center justify-between gap-3 sm:gap-4">
-              {/* 좌측: 뱃지 + 제목 */}
-              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            {/* 모바일은 메타를 제목 아래로 내려 제목을 자르지 않는다. sm부터 한 줄 */}
+            <div className="min-w-0 flex-1 sm:flex sm:items-center sm:gap-4">
+              <div className="flex min-w-0 items-center gap-2 sm:flex-1">
                 {notice.is_pinned && (
-                  <span className="flex-shrink-0 text-accent" title={t('notice.pinnedBadge') || 'PINNED'}>
+                  <span className="shrink-0" title={t('notice.pinnedBadge') || 'PINNED'}>
                     <LaurelIcon size={16} color="#d4af37" strokeWidth={1.5} />
                   </span>
                 )}
                 {isNew(notice.created_at) && (
-                  <span className="flex-shrink-0 px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/15 text-accent border border-accent/30">
+                  <span className="shrink-0 rounded bg-accent px-1.5 py-0.5 font-sans text-[10px] font-bold leading-none text-bg-main">
                     N
                   </span>
                 )}
-                <span className="font-serif font-medium text-sm sm:text-base text-text-primary truncate group-hover:text-accent transition-colors">
+                <span className="truncate font-serif text-[15px] font-medium text-text-primary group-hover:text-accent sm:text-base">
                   {notice.title}
                 </span>
               </div>
 
-              {/* 우측: 작성자(선택) + 상대 시각 + 조회수/댓글 + 화살표 */}
-              <div className="flex items-center gap-2 sm:gap-3 text-xs text-text-secondary flex-shrink-0">
+              <div className="mt-1 flex items-center gap-2 text-xs text-text-tertiary sm:mt-0 sm:shrink-0">
                 {notice.author?.nickname && (
-                  <span className="hidden md:inline font-serif text-text-secondary/70">
-                    {notice.author.nickname}
-                  </span>
+                  <>
+                    <span className="hidden font-serif text-text-secondary md:inline">{notice.author.nickname}</span>
+                    <Dot className="hidden md:inline" />
+                  </>
                 )}
-                {notice.author?.nickname && <span className="hidden md:inline text-accent-dim/30">·</span>}
-                <span className="whitespace-nowrap font-sans text-text-secondary/80">
+                <span className="whitespace-nowrap text-text-secondary">
                   {formatBoardRelativeTime(notice.created_at, locale)}
                 </span>
-                <span className="text-accent-dim/30">·</span>
-                <span className="flex items-center gap-1 font-sans text-text-secondary/80">
-                  <Eye size={12} className="text-accent-dim" />
+                <Dot />
+                <span className="flex items-center gap-1">
+                  <Eye size={12} />
                   {viewCountOf(notice)}
                 </span>
                 {(notice.comment_count ?? 0) > 0 && (
-                  <span className="flex items-center gap-1 font-sans text-accent">
-                    <MessageSquare size={12} />
-                    {notice.comment_count}
-                  </span>
+                  <>
+                    <Dot />
+                    <span className="flex items-center gap-1 text-accent">
+                      <MessageSquare size={12} />
+                      {notice.comment_count}
+                    </span>
+                  </>
                 )}
-                <ChevronRight
-                  size={14}
-                  className="text-accent-dim/40 group-hover:text-accent group-hover:translate-x-0.5 transition-transform flex-shrink-0 ml-0.5"
-                />
               </div>
             </div>
+
+            <ChevronRight
+              size={16}
+              className="shrink-0 text-text-tertiary transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+            />
           </button>
         ))}
       </div>
 
+      {/* 읽기용 모달 규격은 ContentTextModal과 같다 — 폭 xl, 바깥을 눌러 닫을 여백, 제목 고정, 한 번만 스크롤 */}
       <Modal
         isOpen={!!current}
         onClose={() => setOpenId(null)}
         title={current?.title}
-        size="full"
+        titleClassName="px-9 text-center font-semibold text-text-primary break-keep sm:px-10"
+        stickyHeader
+        size="xl"
+        maxHeightClassName="max-h-[78dvh]"
+        fadeClippedEnd
       >
         {current && (
-          <div className="space-y-5">
-            <div className="flex flex-wrap items-center gap-3 text-sm pb-4 border-b border-accent-dim/20">
-              <span className="font-serif text-text-secondary">{current.author.nickname}</span>
-              <span className="text-accent-dim/50">·</span>
-              <span>{formatBoardDateTime(current.created_at, locale)}</span>
-              <span className="text-accent-dim/50">·</span>
-              <span className="flex items-center gap-1">
-                <Eye size={14} className="text-accent-dim" />
-                {viewCountOf(current)}
-              </span>
-            </div>
+          <ModalBody className="p-5 sm:p-7">
+            <NoticeMeta
+              author={current.author?.nickname}
+              createdAt={current.created_at}
+              viewCount={viewCountOf(current)}
+              locale={locale}
+              className="pb-4 border-b border-white/10"
+            />
 
-            <div className="whitespace-pre-wrap text-text-secondary leading-relaxed font-serif max-h-[60vh] overflow-y-auto">
-              {current.content}
-            </div>
+            <NoticeBody content={current.content} className="py-5 sm:py-6" />
 
             {/* 댓글 등 나머지는 상세 화면이 쥔다 */}
-            <div className="flex justify-end border-t border-accent-dim/20 pt-4">
+            <div className="flex justify-end border-t border-white/10 pt-4">
               <Link
                 href={`/agora/board/notice/${current.id}`}
-                className="text-xs text-accent/80 hover:text-accent"
+                className="text-sm text-accent hover:text-accent-hover"
               >
                 {t('notice.viewDetail')} →
               </Link>
             </div>
-          </div>
+          </ModalBody>
         )}
       </Modal>
     </>
