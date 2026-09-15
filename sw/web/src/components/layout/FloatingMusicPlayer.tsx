@@ -286,7 +286,7 @@ export default function FloatingMusicPlayer() {
         }`}
         style={{ zIndex: buttonZIndex }}
       >
-        <Music size={19} className="translate-x-px" aria-hidden="true" />
+        <Music size={19} className="-translate-x-px" aria-hidden="true" />
       </button>
 
       {isOpen && (
@@ -613,7 +613,7 @@ function MusicTransport({
             title={speedLabel}
             value={playbackRate}
             onChange={(event) => onPlaybackRateChange(Number(event.target.value))}
-            className="h-10 w-11 cursor-pointer appearance-none rounded-lg border border-white/20 bg-black/20 text-center text-[11px] font-medium tabular-nums text-text-secondary hover:border-accent/60 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="h-10 w-11 cursor-pointer appearance-none rounded-md border border-white/20 bg-black/20 text-center text-[11px] font-medium tabular-nums text-text-secondary hover:border-accent/60 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {READING_PLAYBACK_RATES.map((rate) => <option className="bg-bg-card" key={rate} value={rate}>{rate}×</option>)}
           </select>
@@ -663,7 +663,7 @@ function PlayerButton({
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className={`relative flex h-10 w-11 shrink-0 items-center justify-center gap-1 rounded-lg border enabled:hover:border-accent/60 enabled:hover:bg-accent/15 enabled:hover:text-accent enabled:active:bg-accent/25 disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${primary ? 'border-accent/45 bg-accent/10 text-accent' : 'border-white/20 bg-black/20 text-text-secondary'}`}
+      className={`relative flex h-10 w-11 shrink-0 items-center justify-center gap-1 rounded-md border enabled:hover:border-accent/60 enabled:hover:bg-accent/15 enabled:hover:text-accent enabled:active:bg-accent/25 disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${primary ? 'border-accent/45 bg-accent/10 text-accent' : 'border-white/20 bg-black/20 text-text-secondary'}`}
     >
       {children}
     </button>
