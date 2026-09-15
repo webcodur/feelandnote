@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Music, Pause, Play, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
+import { getFactionMusicList, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
@@ -13,9 +14,11 @@ interface FactionTrack {
   title: string
   creator: string | null
   previewUrl: string
+  slug?: string | null
 }
 
 type ListTrack = MusicTrack | FactionTrack
+type MusicMode = 'faction' | 'library'
 
 const isFactionTrack = (track: ListTrack): track is FactionTrack => track.id.startsWith('faction:')
 
@@ -25,7 +28,9 @@ export default function FloatingMusicPlayer() {
   const { controls: gameAudio } = useGameAudioContext()
   const { music: factionMusic } = useFactionMusicContext()
   const [isOpen, setIsOpen] = useState(false)
+  const [mode, setMode] = useState<MusicMode>('faction')
   const [tracks, setTracks] = useState<MusicTrack[]>([])
+  const [factionTracks, setFactionTracks] = useState<FactionMusicListItem[]>([])
   const [loading, setLoading] = useState(false)
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [selection, setSelection] = useState<{ contextKey: string | null; trackId: string | null }>({
@@ -46,11 +51,21 @@ export default function FloatingMusicPlayer() {
         previewUrl: factionMusic.url,
       }
     : null
+  const catalogFactionTracks: FactionTrack[] = factionTracks.map((track) => ({
+    id: `faction:${track.id}`,
+    title: locale === 'en' ? track.name_en?.trim() || track.name : track.name,
+    creator: null,
+    previewUrl: track.url,
+    slug: track.slug,
+  }))
   const factionContextKey = factionTrack?.id ?? null
   const listTracks: ListTrack[] = [
     ...(factionTrack ? [factionTrack] : []),
+    ...catalogFactionTracks,
     ...tracks,
-  ]
+  ].filter((track, index, all) => all.findIndex((candidate) => candidate.id === track.id) === index)
+  const factionRows = listTracks.filter(isFactionTrack)
+  const factionEmptyLabel = locale === 'ko' ? '등록된 세력도감 테마곡이 없습니다.' : 'No atlas theme music is registered.'
   const preservePlayingPersonalTrack = Boolean(
     playingId &&
     playingId === selection.trackId &&
@@ -77,8 +92,15 @@ export default function FloatingMusicPlayer() {
     if (loadedRef.current) return
     loadedRef.current = true
     setLoading(true)
-    getMyMusicList()
-      .then(setTracks)
+    Promise.all([getFactionMusicList(), getMyMusicList()])
+      .then(([factionList, personalList]) => {
+        setFactionTracks(factionList)
+        setTracks(personalList)
+      })
+      .catch(() => {
+        setFactionTracks([])
+        setTracks([])
+      })
       .finally(() => setLoading(false))
   }, [])
 
@@ -186,6 +208,15 @@ export default function FloatingMusicPlayer() {
             </button>
           </div>
 
+          <div className="flex gap-1 border-b border-border px-2 py-1.5">
+            <MusicModeChip active={mode === 'faction'} onClick={() => setMode('faction')}>
+              {themeLabel}
+            </MusicModeChip>
+            <MusicModeChip active={mode === 'library'} onClick={() => setMode('library')}>
+              {libraryLabel}
+            </MusicModeChip>
+          </div>
+
           <div className="max-h-[min(60vh,24rem)] overflow-y-auto p-2">
             {gameAudio && (
               <section>
@@ -204,24 +235,36 @@ export default function FloatingMusicPlayer() {
               </section>
             )}
 
-            {factionTrack && (
+            {mode === 'faction' && (factionTrack || factionRows.length > 0) && (
               <section className={gameAudio ? 'mt-3' : undefined}>
                 <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
                   {themeLabel}
                 </p>
-                <MusicListRow
-                  track={factionTrack}
-                  active={selectedId === factionTrack.id && isPlaying}
-                  recommended={selectedId === factionTrack.id && !isPlaying}
-                  recommendedLabel={recommendedLabel}
-                  playLabel={playLabel}
-                  pauseLabel={pauseLabel}
-                  onSelect={() => selectTrack(factionTrack)}
-                />
+                {factionRows.map((track) => (
+                  <MusicListRow
+                    key={track.id}
+                    track={track}
+                    active={selectedId === track.id && isPlaying}
+                    recommended={!!factionTrack && track.id === factionTrack.id && !isPlaying}
+                    recommendedLabel={recommendedLabel}
+                    playLabel={playLabel}
+                    pauseLabel={pauseLabel}
+                    onSelect={() => selectTrack(track)}
+                  />
+                ))}
               </section>
             )}
 
-            <section className={factionTrack || gameAudio ? 'mt-3' : undefined}>
+            {mode === 'faction' && !loading && factionRows.length === 0 && (
+              <p className="px-2 py-3 text-xs text-text-secondary">{factionEmptyLabel}</p>
+            )}
+
+            {mode === 'faction' && loading && (
+              <p className="px-2 py-3 text-xs text-text-secondary">{locale === 'ko' ? '불러오는 중…' : 'Loading…'}</p>
+            )}
+
+            {mode === 'library' && (
+            <section className={gameAudio ? 'mt-3' : undefined}>
               <p className="px-2 pb-1 pt-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent/80">
                 {libraryLabel}
               </p>
@@ -244,6 +287,7 @@ export default function FloatingMusicPlayer() {
                 />
               ))}
             </section>
+            )}
           </div>
         </div>
       )}
@@ -260,6 +304,31 @@ export default function FloatingMusicPlayer() {
         />
       )}
     </>
+  )
+}
+
+function MusicModeChip({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-full px-2.5 py-1 text-[11px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+        active
+          ? 'bg-accent/15 text-accent'
+          : 'text-text-secondary hover:bg-white/8 hover:text-text-primary'
+      }`}
+    >
+      {children}
+    </button>
   )
 }
 
