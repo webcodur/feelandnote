@@ -34,7 +34,6 @@ const REVEAL_WINDOW_MS = 400;
 interface ExpandDetailViewProps {
   items: UserContentWithContent[];
   ownerNickname?: string;
-  ownerAvatarUrl?: string | null;
   isActive?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
@@ -53,7 +52,6 @@ interface ExpandDetailViewProps {
 export default function ExpandDetailView({
   items,
   ownerNickname,
-  ownerAvatarUrl,
   isActive = true,
   initialContentBrief,
   initialContentRecord,
@@ -216,7 +214,6 @@ export default function ExpandDetailView({
             onRetryRecord={retryRecord}
             isActive={isActive}
             ownerNickname={ownerNickname}
-            ownerAvatarUrl={ownerAvatarUrl}
           />
         </div>
         <ExpandBottomNavigation

@@ -230,7 +230,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
                     onClick={(e) => e.stopPropagation()}
                     className="block max-w-full truncate text-accent/60 hover:text-accent underline underline-offset-2"
                   >
-                    {t("reviewModal.source", { url: sourceUrl })}
+                    {t("reviewModal.source")}
                   </a>
                 ) : (
                   <span className="text-red-500 font-semibold">

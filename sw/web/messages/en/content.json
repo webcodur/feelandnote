@@ -41,7 +41,7 @@
       "ownerReview": "{name}'s Review",
       "spoiler": "Contains spoilers",
       "noReview": "No review written",
-      "source": "Source: {url}",
+      "source": "Source",
       "noSource": "Source URL unavailable",
       "originalLanguage": "Original Korean text",
       "detail": "View Details"

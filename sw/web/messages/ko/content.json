@@ -41,7 +41,7 @@
       "ownerReview": "{name}의 리뷰",
       "spoiler": "스포일러 포함 리뷰",
       "noReview": "작성된 리뷰가 없습니다",
-      "source": "출처: {url}",
+      "source": "출처",
       "noSource": "⚠️ 출처 URL 누락",
       "originalLanguage": "한국어 원문",
       "detail": "상세 보기"

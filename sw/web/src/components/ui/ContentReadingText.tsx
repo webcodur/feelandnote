@@ -16,6 +16,9 @@ interface ContentReadingTextProps {
   style?: CSSProperties;
   highlightClassName?: string;
   highlightStyle?: CSSProperties;
+  /** 본문을 눌러 전문을 여는 조작. 있으면 버튼 역할·키보드·즉각 hover 반응을 단다 */
+  onClick?: () => void;
+  clickLabel?: string;
 }
 
 const SIZE_CLASSES: Record<ContentReadingSize, string> = {
@@ -39,6 +42,8 @@ export default function ContentReadingText({
   style,
   highlightClassName,
   highlightStyle,
+  onClick,
+  clickLabel,
   ref,
 }: ContentReadingTextProps) {
   const content = children ?? (
@@ -53,11 +58,40 @@ export default function ContentReadingText({
 
   if (content == null || content === false) return null;
 
+  const interactive = !!onClick;
+
   return (
     <div
       ref={ref}
-      className={`block whitespace-pre-wrap break-words font-sans ${SIZE_CLASSES[size]} ${TONE_CLASSES[tone]} ${className}`}
+      className={`block whitespace-pre-wrap break-words font-sans ${SIZE_CLASSES[size]} ${TONE_CLASSES[tone]} ${
+        interactive
+          ? "cursor-pointer hover:brightness-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+          : ""
+      } ${className}`}
       style={style}
+      role={interactive ? "button" : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      aria-haspopup={interactive ? "dialog" : undefined}
+      aria-label={interactive ? clickLabel : undefined}
+      title={interactive ? clickLabel : undefined}
+      onClick={
+        interactive
+          ? () => {
+              // 글을 긁으려던 클릭(드래그 선택)은 모달을 열지 않는다
+              if (!window.getSelection()?.toString()) onClick?.();
+            }
+          : undefined
+      }
+      onKeyDown={
+        interactive
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onClick?.();
+              }
+            }
+          : undefined
+      }
     >
       {content}
     </div>

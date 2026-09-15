@@ -11,13 +11,15 @@ import { memo, useState } from "react";
 import { Star, ZoomIn } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
+import { Link } from "@/i18n/navigation";
+
 import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
 import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
 import FormattedText from "@/components/ui/FormattedText";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
-import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
+import ContentTextModal from "@/components/ui/ContentTextModal";
 import Button from "@/components/ui/Button";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -26,7 +28,6 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 
 import ContentIntro from "./ContentIntro";
-import ContentMetaPanel from "./ContentMetaPanel";
 import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import AffiliateBookAction from "../AffiliateBookAction";
@@ -51,8 +52,6 @@ interface ExpandCardProps {
   isActive: boolean;
   /** 이 감상배경을 남긴 인물 이름 */
   ownerNickname?: string;
-  /** 그 인물의 얼굴 사진 */
-  ownerAvatarUrl?: string | null;
 }
 
 function ExpandCard({
@@ -67,12 +66,12 @@ function ExpandCard({
   onRetryRecord,
   isActive,
   ownerNickname,
-  ownerAvatarUrl,
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
   const t = useTranslations("content");
   const tExpand = useTranslations("archiveSearch");
+  const tShared = useTranslations("shared.content");
   const [isCoverOpen, setIsCoverOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
@@ -167,32 +166,15 @@ function ExpandCard({
         </div>
 
         {/* 가운뎃칸 — 이 인물이 왜 이 작품을 골랐는지.
-          이 서비스의 알맹이라 얼굴과 제목으로 무게를 준다. 위 칸들과 바탕색·왼쪽 선으로 갈라 놓는다. */}
+          이 서비스의 알맹이라 제목을 가운데 두고 위 칸들과 바탕색·윗선으로 갈라 놓는다. */}
         <section className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:px-5 md:py-6">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div className="flex min-w-0 items-center gap-3">
-              {ownerAvatarUrl && (
-                <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full border border-accent/30 bg-bg-secondary">
-                  {isActive ? (
-                    <ContentImage src={ownerAvatarUrl} alt={ownerNickname ?? ""} sizes="40px" className="object-cover" />
-                  ) : null}
-                </span>
-              )}
-              <div className="min-w-0">
-                <h4 className={EXPAND_SECTION_HEADING_CLASS}>{reviewHeading}</h4>
-                {item.rating != null && item.rating > 0 && (
-                  <span className="mt-0.5 flex items-center gap-1.5 text-sm font-medium text-text-secondary">
-                    <Star size={13} className="fill-yellow-500 text-yellow-500" />
-                    {item.rating.toFixed(1)}
-                  </span>
-                )}
-              </div>
-            </div>
-            {canExpandReview && (
-              <ExpandTextButton
-                label={tExpand("expandReviewExpand")}
-                onClick={() => setIsReviewModalOpen(true)}
-              />
+          <div className="mb-4 flex flex-col items-center gap-0.5">
+            <h4 className={EXPAND_SECTION_HEADING_CLASS}>{reviewHeading}</h4>
+            {item.rating != null && item.rating > 0 && (
+              <span className="flex items-center gap-1.5 text-sm font-medium text-text-secondary">
+                <Star size={13} className="fill-yellow-500 text-yellow-500" />
+                {item.rating.toFixed(1)}
+              </span>
             )}
           </div>
 
@@ -216,7 +198,10 @@ function ExpandCard({
                   {t("reviewModal.originalLanguage")}
                 </p>
               )}
-              <ReviewScrollBox>
+              <ReviewScrollBox
+                onOpen={() => setIsReviewModalOpen(true)}
+                openLabel={tExpand("expandReviewExpand")}
+              >
                 <FormattedText text={review} />
               </ReviewScrollBox>
             </>
@@ -242,7 +227,7 @@ function ExpandCard({
                 title={item.source_url}
                 className="inline-block max-w-full truncate align-bottom text-accent underline underline-offset-2 hover:text-accent-hover"
               >
-                {t("reviewModal.source", { url: item.source_url })}
+                {t("reviewModal.source")}
               </a>
             ) : (
               <span className="font-semibold text-red-500">{t("reviewModal.noSource")}</span>
@@ -250,15 +235,15 @@ function ExpandCard({
           </div>}
         </section>
 
-        {/* 아랫칸 — 출판사·출판일·ISBN 등 작품의 나머지 정보 */}
-        {!hasBriefError && (
-          <ContentMetaPanel
-            brief={brief}
-            isLoading={isBriefLoading}
-            internalHref={href}
-            mediaEnabled={isActive}
-          />
-        )}
+        {/* 아랫칸 — 작품 상세 페이지(다른 이들의 리뷰)로 가는 길 */}
+        <div className="border-t border-white/10 px-3 py-4 sm:px-4 md:px-5">
+          <Link
+            href={href}
+            className="inline-flex min-h-10 w-full items-center justify-center rounded-md border border-accent/35 bg-accent/10 px-3 py-2 text-center text-sm font-medium text-accent hover:border-accent/65 hover:bg-accent/15"
+          >
+            {tShared("allReviews")}
+          </Link>
+        </div>
         {isActive && !hasBookPurchase && (
           <DeveloperCollectionJourney
             target={{ title, creator: item.content.creator, type: item.content.type, contentId: item.content_id }}

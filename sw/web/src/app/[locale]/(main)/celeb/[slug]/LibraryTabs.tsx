@@ -29,8 +29,6 @@ interface LibraryTabsProps {
   userId: string;
   slug: string;
   nickname: string;
-  /** 감상배경 칸 머리에 띄울 인물 얼굴 */
-  avatarUrl?: string | null;
   emptyMessage: string;
   wikidataQid?: string | null;
   initialContents?: GetUserContentsResponse;
@@ -42,7 +40,6 @@ export default function LibraryTabs({
   userId,
   slug,
   nickname,
-  avatarUrl,
   emptyMessage,
   wikidataQid,
   initialContents,
@@ -93,7 +90,6 @@ export default function LibraryTabs({
           emptyMessage={emptyMessage}
           hideReviewFilter
           ownerNickname={nickname}
-          ownerAvatarUrl={avatarUrl}
           /* 인물 서가는 펼쳐보기 하나로 연다. 감상 글과 작품 정보를 한 번에 펴고
              이전·다음과 감상 목록으로 옮긴다. 목록형은 "전체 보기" 페이지가 맡는다. */
           defaultViewMode="expand"

@@ -204,12 +204,11 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("library") ? (
           <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("library")}
-            <SectionSurface>
+            <SectionSurface className={styles.librarySurface}>
               <LibraryTabs
                 userId={userId}
                 slug={slug}
                 nickname={profile.nickname}
-                avatarUrl={profile.avatar_url ?? null}
                 emptyMessage={t("libraryEmpty")}
                 wikidataQid={profile.wikidata_qid ?? null}
                 authoredBooks={authoredBooks}
