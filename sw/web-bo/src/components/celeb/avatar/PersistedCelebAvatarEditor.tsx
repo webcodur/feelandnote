@@ -6,6 +6,7 @@ import { useToast } from '@/contexts/ToastContext'
 import CelebAvatarEditor from './CelebAvatarEditor'
 import { saveCelebAvatar } from './saveCelebAvatar'
 import { enqueueCelebAvatarBackgroundRemoval } from '@/actions/admin/celeb-nobg'
+import { nobgQueuedMessage, nobgQueueFailureMessage } from './nobgJobNotice'
 import type { ImageProcessingJob } from '@/lib/image-processing/types'
 
 type EditorProps = ComponentProps<typeof CelebAvatarEditor>
@@ -49,16 +50,11 @@ export default function PersistedCelebAvatarEditor({
     try {
       const job = await enqueueCelebAvatarBackgroundRemoval(celebId)
       onBackgroundRemovalQueued?.(job)
-      showToast(
-        'success',
-        job.status === 'running'
-          ? `${label} 배경 제거를 시작했습니다.`
-          : `${label} 배경 제거를 대기열 ${job.queuePosition}번째로 접수했습니다.`
-      )
+      showToast('success', nobgQueuedMessage(label, job))
     } catch (error) {
       // 아바타 저장은 이미 끝났다. 배경 제거만 실패했음을 알리고 넘어간다.
       console.error('nobg 자동 접수 실패:', error)
-      showToast('error', error instanceof Error ? error.message : '배경 제거 작업을 접수하지 못했습니다.')
+      showToast('error', nobgQueueFailureMessage(error))
     }
   }
 
