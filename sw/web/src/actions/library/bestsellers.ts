@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { rawFetch } from '@/lib/rawFetch'
-import { CHART_CACHE_SECONDS, fetchAppleBooksChart, fetchYes24Chart, previousKoreanDate, selectBookChart, yes24ChartEnabled, type BookChart } from '@/lib/library/bestsellerFeed'
+import { CHART_CACHE_SECONDS, fetchAppleBooksChart, fetchYes24Chart, recentKoreanChartDates, selectBookChart, yes24ChartEnabled, type BookChart } from '@/lib/library/bestsellerFeed'
 import type { LibraryContent } from './types'
 
 // A failed refresh throws so Next can retain its last successful cache entry.
@@ -18,12 +18,22 @@ export async function getBestsellers(_categoryKey: string = 'ALL', locale: strin
   const language = locale.toLowerCase().startsWith('en') ? 'en' : 'ko'
   let chart: BookChart | null = null
   const enabled = language === 'en' || yes24ChartEnabled(process.env)
-  if (enabled) {
+  if (enabled && language === 'en') {
     try {
-      chart = language === 'en' ? await getAppleChart() : await getYes24Chart(previousKoreanDate())
+      chart = await getAppleChart()
     } catch {
       // Never log upstream errors: they may contain request headers or credentials.
-      console.error(`[library] ${language === 'en' ? 'Apple Books' : 'YES24'} chart unavailable`)
+      console.error('[library] Apple Books chart unavailable')
+    }
+  } else if (enabled) {
+    // YES24의 전일 순위는 자정이 지나도 바로 나오지 않는다 — 최신 발행본이 잡힐 때까지 이전 날짜로 넘긴다
+    for (const basisDate of recentKoreanChartDates()) {
+      try {
+        chart = await getYes24Chart(basisDate)
+        break
+      } catch {
+        console.error(`[library] YES24 chart unavailable (${basisDate})`)
+      }
     }
   }
   const selection = selectBookChart(chart, language)

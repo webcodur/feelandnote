@@ -20,19 +20,21 @@ function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: s
   let fails = false
   let calls = 0
   const dates: string[] = []
+  const failDates = new Set<string>()
   const mocks: { [key: string]: unknown } = {
     '@/lib/library/bestsellerFeed': feed,
     '@/lib/rawFetch': { rawFetch: async (url: string) => {
       calls++
-      if (fails) return new Response('', { status: 503 })
       const now = new Date().toISOString()
       if (url.includes('yes24.com')) {
         const date = new URL(url).searchParams.get('date')!
         dates.push(date)
+        if (fails || failDates.has(date)) return new Response('', { status: 503 })
         return Response.json({ success: true, data: { meta: { apiLink: url, pubDate: now },
           items: [{ itemId: 1, sortOrder: 1, title, author: 'Author', goodsType: '도서', isbn13: '9788966260959',
             cover: 'https://image.yes24.com/goods/1/L', link: 'https://www.yes24.com/product/goods/1' }] } })
       }
+      if (fails) return new Response('', { status: 503 })
       return Response.json({ feed: { id: feed.APPLE_BOOKS_FEED_URL, country: 'us', updated: now,
         results: [{ id: '1', kind: 'books', name: title, artistName: 'Author',
           artworkUrl100: 'https://is1-ssl.mzstatic.com/book.png', url: 'https://books.apple.com/us/book/book/id1' }] } })
@@ -55,6 +57,7 @@ function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: s
     return result
   }
   return { read, entries, dates, calls: () => calls, fail: (value: boolean) => { fails = value },
+    failDate: (value: string) => { failDates.add(value) },
     publish: (value: string) => { title = value },
     expire: () => { for (const entry of entries.values()) entry.isStale = true },
   }
@@ -91,6 +94,15 @@ test('disabled or missing YES24 credentials never call a source', async () => {
     assert.equal(f.calls(), 0)
     assert.equal(f.entries.size, 0)
   }
+})
+test('YES24 falls back to the previous published day when the latest chart is missing', async () => {
+  const f = fixture({ NODE_ENV: 'production', YES24_API_KEY: 'test-only', YES24_CHARTS_ENABLED: 'true' })
+  const [latest, previous] = feed.recentKoreanChartDates()
+  f.failDate(latest)
+  const result = await f.read('ko')
+  assert.equal(result.basisDate, previous)
+  assert.equal(result.items[0].title, 'First chart')
+  assert.deepEqual(f.dates, [latest, previous])
 })
 test('a new KST day fetches a new Korean chart without waiting for old cache expiry', async t => {
   let clock = Date.now()
