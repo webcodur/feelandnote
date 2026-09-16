@@ -4,6 +4,7 @@ import {
   getEleAccountConfigIssues, getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
 import { cleanVoiceBuffer } from '@feelandnote/shared/bo/voice-cleanup'
+import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
@@ -43,13 +44,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       cache: 'no-store',
       body: JSON.stringify({
         text,
-        model_id: 'eleven_v3',
+        model_id: ELEVENLABS_TTS_DEFAULTS.modelId,
         voice_settings: {
-          stability: settings?.stability ?? 0.5,
-          similarity_boost: settings?.similarity_boost ?? 0.75,
-          style: settings?.style ?? 0.3,
+          stability: settings?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability,
+          similarity_boost: settings?.similarity_boost ?? ELEVENLABS_TTS_DEFAULTS.similarity_boost,
+          style: settings?.style ?? ELEVENLABS_TTS_DEFAULTS.style,
         },
-        speed: settings?.speed ?? 1.0,
+        speed: settings?.speed ?? ELEVENLABS_TTS_DEFAULTS.speed,
       }),
     })
 

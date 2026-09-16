@@ -11,6 +11,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import {
   getEleAccountConfigIssues, getEleAccountSetupError, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
+import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
 
 export interface VoiceGenCeleb {
   id: string
@@ -147,7 +148,7 @@ export async function generateVoicePreview(params: {
       cache: 'no-store',
       body: JSON.stringify({
         text,
-        model_id: 'eleven_v3',
+        model_id: ELEVENLABS_TTS_DEFAULTS.modelId,
         voice_settings: {
           stability: settings.stability,
           similarity_boost: settings.similarity_boost,

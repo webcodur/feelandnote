@@ -11,6 +11,7 @@
 import type { DiscourseVoice, DiscourseEngine } from '@/lib/discourse-types'
 import { GeminiVoiceSelect } from '@/components/scenario-voice/GeminiVoiceSelect'
 import { EleEmotionPicker } from '@feelandnote/shared/bo/voice'
+import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
 
 type Props = {
   title: string
@@ -102,21 +103,21 @@ export function VoiceFields({ title, hint, voice, onChange, inherited }: Props) 
               안정도
               <input
                 type="range" min={0} max={1} step={0.05}
-                value={v.eleOptions?.stability ?? 0.5}
+                value={v.eleOptions?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability}
                 onChange={e => set({ eleOptions: { ...v.eleOptions, stability: Number(e.target.value) } })}
                 className="w-24 accent-accent"
               />
-              <span className="w-8 text-right font-mono text-[10px]">{(v.eleOptions?.stability ?? 0.5).toFixed(2)}</span>
+              <span className="w-8 text-right font-mono text-[10px]">{(v.eleOptions?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability).toFixed(2)}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 text-xs text-text-dim">
               표현 강도
               <input
                 type="range" min={0} max={1} step={0.05}
-                value={v.eleOptions?.style ?? 0}
+                value={v.eleOptions?.style ?? ELEVENLABS_TTS_DEFAULTS.style}
                 onChange={e => set({ eleOptions: { ...v.eleOptions, style: Number(e.target.value) } })}
                 className="w-24 accent-accent"
               />
-              <span className="w-8 text-right font-mono text-[10px]">{(v.eleOptions?.style ?? 0).toFixed(2)}</span>
+              <span className="w-8 text-right font-mono text-[10px]">{(v.eleOptions?.style ?? ELEVENLABS_TTS_DEFAULTS.style).toFixed(2)}</span>
             </span>
             <label className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="끝 음절이 잘리지 않게 뒤에 여백을 붙인다">
               <input
