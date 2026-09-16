@@ -129,7 +129,7 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
             {showPurchase && (
               <div className="mt-auto pt-1.5">
                 {item.contentId ? (
-                  <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} compact showNotice />
+                  <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} compact />
                 ) : (
                   <div
                     aria-disabled="true"

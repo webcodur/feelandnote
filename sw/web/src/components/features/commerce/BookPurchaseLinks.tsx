@@ -3,7 +3,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_BUTTON_STYLES, type AffiliateLink } from "@/constants/affiliatePlatforms";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { cn } from "@/lib/utils";
 
 function isYes24Affiliate(url: string) {
@@ -19,7 +18,6 @@ export default function BookPurchaseLinks({ links, className }: {
 }) {
   const t = useTranslations("content.purchase");
   if (!links.length) return null;
-  const showPurchaseInfo = links.some((link) => link.linkKind !== "search" && (link.platform === "yes24" || link.platform === "coupang"));
 
   return (
     <div className={cn("min-w-0", className)}>
@@ -48,9 +46,6 @@ export default function BookPurchaseLinks({ links, className }: {
             </div>
           );
         })}
-        {showPurchaseInfo && (
-          <BookPurchaseInfo className="flex w-8 shrink-0 items-center justify-center self-stretch" />
-        )}
       </div>
     </div>
   );

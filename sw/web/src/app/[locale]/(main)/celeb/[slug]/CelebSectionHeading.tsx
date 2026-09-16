@@ -6,7 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -24,6 +24,8 @@ interface CelebSectionHeadingProps {
   className?: string;
   /** 양 끝에서 3초 안에 다시 누르면 이동할 반대편 끝. 없으면 맛보기만 한다 */
   loopTarget?: ServiceTarget;
+  /** 제목 옆에 붙는 작은 조작(안내 아이콘 등). 제목 단추 안이 아니라 그 옆 칸에 선다 */
+  titleAddon?: ReactNode;
 }
 
 export default function CelebSectionHeading({
@@ -34,6 +36,7 @@ export default function CelebSectionHeading({
   widestLabel,
   className,
   loopTarget,
+  titleAddon,
 }: CelebSectionHeadingProps) {
   const t = useTranslations("celebPage");
   // 마지막 맛보기 시각·방향. 3초 안에 같은 쪽을 다시 누르면 반대편 끝으로 간다.
@@ -94,6 +97,7 @@ export default function CelebSectionHeading({
               <span className={`${styles.label} group-hover:text-accent`}>{item.label}</span>
             </span>
           </button>
+          {titleAddon}
         </h2>
       </div>
 

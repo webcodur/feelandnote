@@ -18,6 +18,7 @@ import type { LibraryResult } from "@/actions/library";
 import type { ContentType } from "@/types/database";
 import BestsellerFreshness, { type BestsellerFreshnessProps } from "../BestsellerFreshness";
 import BookChartGrid from "../BookChartGrid";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 
 const ITEMS_PER_PAGE = 12;
 const ERAS = ["ancient", "medieval", "modern", "contemporary"] as const;
@@ -108,7 +109,12 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
     <section className="space-y-6">
       {/* 1. 상단 헤더: 전체 모드 개요 설명 */}
       <header className="text-center">
-        <h2 className="font-serif text-2xl md:text-3xl text-text-primary">{mode === "bestseller" ? t("chartTitle") : t("title")}</h2>
+        <h2 className="font-serif text-2xl md:text-3xl text-text-primary">
+          {mode === "bestseller" ? t("chartTitle") : t("title")}
+          {mode === "bestseller" && locale === "ko" && (
+            <BookPurchaseInfo className="ms-2 inline-flex size-7 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
+          )}
+        </h2>
         <p className="mt-2 text-sm md:text-base text-text-secondary max-w-2xl mx-auto">
           {mode === "bestseller" ? t("descBestseller") : t("description")}
         </p>

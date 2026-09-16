@@ -14,6 +14,7 @@ import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import MobileIndexModal from "./MobileIndexModal";
 import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
@@ -193,6 +194,10 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         onPrevious={goPrevious}
         onNext={goNext}
+        /* 수수료 안내 — 판매 단추 안에 묻지 않고 작품 제목 옆에 둔다 */
+        titleAddon={locale === "ko" && selectedItem?.content.type === "BOOK" ? (
+          <BookPurchaseInfo className="inline-flex size-6 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
+        ) : undefined}
       />
 
       <div
