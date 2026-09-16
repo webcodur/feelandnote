@@ -12,12 +12,8 @@ import {
   getFigureBookCharactersForContent,
   type FigureBookCharacter,
 } from '@/actions/figure-books/getFigureBooks'
-import {
-  getFigureBookPurchasePlatform,
-  mapFigureBookPurchaseOptions,
-  type FigureBookEdition,
-  type FigureBookPurchaseOptionRow,
-} from '@/actions/figure-books/figureBookLocale'
+import { loadFigureBookEditions } from '@/actions/figure-books/figureBookEditions'
+import { pickPurchaseEdition, type FigureBookEdition } from '@/actions/figure-books/figureBookLocale'
 import { getCuratedEntriesForContent } from '@/actions/library/curated'
 import type { ContentCuratedEntry } from '@/actions/library/types'
 import type { CategoryId } from '@/constants/categories'
@@ -109,31 +105,19 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
   return metadata
 }
 
+/** 원전 작품의 대표 판본 — 한국어는 YES24가 찾을 ISBN 판본, 영어는 아마존 상품 판본이 먼저다(쿠팡은 같은 판본의 보조 링크) */
 async function fetchDefaultFigureBookEdition(
   contentId: string,
   locale: string,
 ): Promise<(FigureBookEdition & { sources?: unknown }) | null> {
-  const platform = getFigureBookPurchasePlatform(locale)
-  if (!platform) return null
-
   const db = createStaticClient()
-  const { data, error } = await db
-    .from('figure_book_purchase_options')
-    .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
-    .eq('content_id', contentId)
-    .eq('locale', locale)
-    .eq('platform', platform)
-    .order('sort_order')
-    .order('edition_id')
-    .limit(1)
-    .maybeSingle()
-
-  if (error) throw new Error(`원전 기본 판본 조회 실패: ${error.message}`)
-  if (!data) return null
-  const edition = mapFigureBookPurchaseOptions(
-    [data as unknown as FigureBookPurchaseOptionRow],
-    locale,
-  )[0] ?? null
+  let editions: FigureBookEdition[]
+  try {
+    editions = (await loadFigureBookEditions(db, [contentId], locale)).get(contentId) ?? []
+  } catch (error) {
+    throw new Error(`원전 기본 판본 조회 실패: ${error instanceof Error ? error.message : String(error)}`)
+  }
+  const edition = pickPurchaseEdition(editions, locale)
   if (!edition) return null
   const { data: stored, error: sourcesError } = await db.from('figure_book_editions')
     .select('sources').eq('id', edition.id).maybeSingle()

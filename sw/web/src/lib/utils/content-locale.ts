@@ -44,7 +44,7 @@ interface LocaleSources {
 /** 표시용 제목 행의 표식 값. celeb-02-02 「한국어판 확인」·「영문판과 표지」가 허용값을 쥔다. */
 const DISPLAY_TITLE_MARKS = new Set(['translated', 'romanized', 'original'])
 
-function isDisplayTitleRow(sources: unknown): boolean {
+export function isDisplayTitleRow(sources: unknown): boolean {
   if (!sources || typeof sources !== 'object') return false
   // sources.title은 옛 등록 경로가 「제목 필드의 출처 URL」로도 쓰던 키다(3,788행). 값이 표식일 때만 표시행으로 본다.
   const { title, primary } = sources as LocaleSources & { primary?: unknown }

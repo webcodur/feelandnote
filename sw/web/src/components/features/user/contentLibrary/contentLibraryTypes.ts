@@ -5,7 +5,7 @@
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse, UserContentPublic } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import { hasCoupangAffiliate } from "./contentAffiliate";
+import { hasKoreanBookPurchase } from "./contentAffiliate";
 
 // #region 타입
 export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
@@ -76,6 +76,7 @@ export function mapPublicToUserContent(
       title_ko: item.content.title_ko ?? null,
       title_en: item.content.title_en ?? null,
       creator_en: item.content.creator_en ?? null,
+      isbn_ko: item.content.isbn_ko ?? null,
       isbn_en: item.content.isbn_en ?? null,
       thumbnail_en: item.content.thumbnail_en ?? null,
       has_en_edition: item.content.has_en_edition ?? null,
@@ -88,7 +89,7 @@ export function mapPublicToUserContent(
 export function filterAndSortContents(
   contents: UserContentWithContent[],
   sortOption: SortOption,
-  affiliateFirst = false,
+  purchasableFirst = false,
 ): UserContentWithContent[] {
   const result = [...contents];
 
@@ -101,9 +102,9 @@ export function filterAndSortContents(
   };
 
   result.sort((a, b) => {
-    if (affiliateFirst) {
-      const affiliateOrder = Number(hasCoupangAffiliate(b)) - Number(hasCoupangAffiliate(a));
-      if (affiliateOrder !== 0) return affiliateOrder;
+    if (purchasableFirst) {
+      const purchaseOrder = Number(hasKoreanBookPurchase(b)) - Number(hasKoreanBookPurchase(a));
+      if (purchaseOrder !== 0) return purchaseOrder;
     }
     return sortFns[sortOption](a, b);
   });

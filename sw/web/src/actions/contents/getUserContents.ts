@@ -49,6 +49,7 @@ export interface UserContentPublic {
     title_ko: string | null
     title_en: string | null
     creator_en: string | null
+    isbn_ko?: string | null
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null
@@ -271,6 +272,7 @@ async function queryUserContents(
         title_ko: flat.title_ko,
         title_en: flat.title_en,
         creator_en: flat.creator_en,
+        isbn_ko: flat.isbn_ko,
         isbn_en: flat.isbn_en,
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
@@ -313,7 +315,7 @@ type CelebContentsArgs = [...PublicContentsArgs, preferredContentIds: string[]]
 
 async function getCelebAffiliatePriorityIds(userId: string, locale: string): Promise<string[]> {
   if (locale !== 'ko') return []
-  const result = await getAffiliateBooksForCeleb(userId, 'coupang', 6)
+  const result = await getAffiliateBooksForCeleb(userId, 'ko', 6)
   return result.source === 'read' ? result.books.map((book) => book.contentId) : []
 }
 

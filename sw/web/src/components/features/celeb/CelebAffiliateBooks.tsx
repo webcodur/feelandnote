@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
-import { getFigureBookPurchasePlatform } from '@/actions/figure-books/figureBookLocale'
 import {
   getAffiliateBooksForCeleb,
   type AffiliateBookSource,
 } from '@/actions/home/getAffiliateBooks'
 import AffiliateBookList from '@/components/shared/AffiliateBookList'
+import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
 import { RetryBlock, useNearViewport } from '@/components/ui/pending'
 import {
   createAffiliateBooksLoadGate,
@@ -57,17 +57,17 @@ export default function CelebAffiliateBooks({
   const locale = useLocale()
   const t = useTranslations('popularBooks')
   const tPage = useTranslations('celebPage')
-  const platform = getFigureBookPurchasePlatform(locale)
+  const platform = getBookStorePlatform(locale)
   const { ref, isNear } = useNearViewport('600px 0px')
   const [attempt, setAttempt] = useState(0)
   const [loadGate] = useState(() => createAffiliateBooksLoadGate(
-    (celebId) => getAffiliateBooksForCeleb(celebId, 'coupang', 6),
+    (celebId) => getAffiliateBooksForCeleb(celebId, locale === 'en' ? 'en' : 'ko', 6),
   ))
   const [loadState, setLoadState] = useState<LoadState>({ key: '', status: 'idle', data: null })
   const requestKey = `${userId}:${attempt}`
 
   useEffect(() => loadGate.observe({
-    enabled: locale === 'ko' && isNear,
+    enabled: isNear,
     key: requestKey,
     userId,
     onReady: (data) => setLoadState({ key: requestKey, status: 'ready', data }),
@@ -76,8 +76,6 @@ export default function CelebAffiliateBooks({
       setLoadState({ key: requestKey, status: 'failed', data: null })
     },
   }), [isNear, loadGate, locale, requestKey, userId])
-
-  if (!platform) return null
 
   const handleRetry = () => {
     setLoadState({ key: '', status: 'idle', data: null })
@@ -89,7 +87,7 @@ export default function CelebAffiliateBooks({
   const products = mapRelatedFigureBooksToAffiliateBooks(relatedBooks ?? [], locale)
   const hasRelatedProducts = products.length > 0
   const productIds = new Set([...products.map((book) => book.contentId), ...(excludeContentIds ?? [])])
-  if (locale === 'ko' && data && (!actualOnly || data.source === 'read')) {
+  if (data && (!actualOnly || data.source === 'read')) {
     for (const book of data.books) {
       if (productIds.has(book.contentId)) continue
       productIds.add(book.contentId)

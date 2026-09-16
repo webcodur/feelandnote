@@ -19,11 +19,7 @@ import { getLocalizedContent } from "@/lib/utils/editions";
 import { useLocale } from "next-intl";
 import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import AffiliateBookAction from "../AffiliateBookAction";
-import { getCoupangAffiliateUrl } from "../contentAffiliate";
-import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
-import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
-import { findAffiliateLink } from "@/actions/home/affiliateLinks";
+import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -81,9 +77,6 @@ function ContentItemRenderer({
   const [localRatings, setLocalRatings] = useState<Record<string, number | null>>({});
 
   const locale = useLocale();
-  const affiliateUrls = locale === "ko"
-    ? items.map((item) => getCoupangAffiliateUrl(item.content))
-    : items.map(() => null);
 
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
@@ -122,20 +115,11 @@ function ContentItemRenderer({
   return (
     <div className="space-y-4">
       <ContentGrid variant="list">
-        {items.map((item, index) => {
+        {items.map((item) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
           const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
           const localizedContent = getLocalizedContent(item.content, locale);
-          const amazonLink = findAffiliateLink(item.content.affiliate_url, "amazon");
-          const englishPurchaseLinks = item.content.type === "BOOK"
-            ? getEnglishBookPurchaseLinks({
-                locale,
-                title: localizedContent.title,
-                creator: localizedContent.creator,
-                links: amazonLink ? [amazonLink] : [],
-              })
-            : [];
           return (
             <div key={item.id} className="w-full space-y-2">
             <ContentCard
@@ -178,16 +162,14 @@ function ContentItemRenderer({
               creatorEn={item.content.creator_en}
               thumbnailEn={item.content.thumbnail_en}
               hasEnEdition={item.content.has_en_edition}
-              posterFooterNode={item.content.type === "BOOK" && <>
-                {locale === "ko" && (
-                  <AffiliateBookAction
-                    contentId={item.content_id}
-                    coupangUrl={affiliateUrls[index]}
-                    showNotice
-                  />
-                )}
-                {locale === "en" && <BookPurchaseLinks links={englishPurchaseLinks} />}
-              </>}
+              posterFooterNode={item.content.type === "BOOK" && (
+                <CardBookPurchase
+                  contentId={item.content_id}
+                  title={localizedContent.title}
+                  creator={localizedContent.creator}
+                  affiliateUrl={item.content.affiliate_url}
+                />
+              )}
             />
             </div>
           );

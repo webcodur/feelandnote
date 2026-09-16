@@ -9,10 +9,8 @@ import { createStaticClient } from "@/lib/db/static";
 import { selectVisibleAtlasMembers } from "@/lib/faction-atlas-members";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
-import {
-  mapFigureBookPurchaseOptions,
-  type FigureBookPurchaseOptionRow,
-} from "@/actions/figure-books/figureBookLocale";
+import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEditions";
+import { pickPurchaseEdition, type FigureBookEdition } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
 import { MYTH_OTHER_GROUP_ID, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
@@ -206,35 +204,22 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   const validIds = new Set(profiles.filter((profile) => profile.slug).map((profile) => profile.id));
   const assignments = allAssignments.filter((row) => validIds.has(row.celeb_id));
   const contentIds = unique(assignments.map((row) => row.content_id));
-  const [contents, purchaseOptions] = await Promise.all([
+  // 한국어 화면은 판본 표가 원천이다 — YES24가 찾을 ISBN 판본을 세우고, 쿠팡 상품은 같은 판본에 보조로 붙는다
+  const [contents, editionsByContent] = await Promise.all([
     selectInChunks<ContentRow>(contentIds, (ids) => db.from("contents")
       .select(`id,type,content_locales(${CL_SELECT_LIST})`).in("id", ids)
       .overrideTypes<ContentRow[], { merge: false }>()),
-    isEn
-      ? Promise.resolve([])
-      : selectInChunks<FigureBookPurchaseOptionRow>(contentIds, (ids) => db
-          .from("figure_book_purchase_options")
-          .select("edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url")
-          .in("content_id", ids)
-          .eq("locale", "ko")
-          .eq("platform", "coupang")
-          .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>()),
+    isEn ? Promise.resolve(new Map<string, FigureBookEdition[]>()) : loadFigureBookEditions(db, contentIds, "ko"),
   ]);
-  const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>();
-  for (const option of purchaseOptions) {
-    const current = optionsByContent.get(option.content_id) ?? [];
-    current.push(option);
-    optionsByContent.set(option.content_id, current);
-  }
 
   const explanationByPerson = new Map(explanationRows.map((row) => [row.profile_id, row]));
 
   const works = contents.map((content): MythWork => {
     const flat = flattenLocales(content.content_locales, locale);
-    const edition = mapFigureBookPurchaseOptions(optionsByContent.get(content.id) ?? [], "ko")[0];
+    const edition = pickPurchaseEdition(editionsByContent.get(content.id) ?? [], "ko");
     return { id: content.id, title: edition?.title ?? flat.title, creator: edition?.creator ?? flat.creator,
       thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
-      category: CATEGORY[content.type], coupangUrl: isEn ? null : edition?.purchaseUrl ?? null,
+      category: CATEGORY[content.type], coupangUrl: isEn || edition?.platform !== "coupang" ? null : edition.purchaseUrl,
       editionId: isEn ? undefined : edition?.id,
       personIds: unique(assignments.filter((row) => row.content_id === content.id).map((row) => row.celeb_id)) };
   }).filter((work) => work.title).sort((a, b) => b.personIds.length - a.personIds.length || a.title.localeCompare(b.title, locale));
@@ -301,7 +286,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v19-theme-music"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v20-yes24-edition"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

@@ -8,6 +8,18 @@ function isValidEnglishLink(link: AffiliateLink): boolean {
   } catch { return false }
 }
 
+/** 영어 책 한 권의 아마존 주소 — 제휴 상품 주소가 있으면 그것, 없으면 제목·저자 검색. 제목도 없으면 빈 문자열 */
+export function getEnglishBookAmazonUrl({ title, creator, url }: {
+  title?: string | null
+  creator?: string | null
+  url?: string | null
+}): string {
+  const links = getEnglishBookPurchaseLinks({
+    locale: 'en', title, creator, links: url ? [{ platform: 'amazon', url }] : [],
+  })
+  return links.find((link) => link.platform === 'amazon')?.url ?? ''
+}
+
 export function getEnglishBookPurchaseLinks({ locale, title, creator, links = [] }: {
   locale: string
   title?: string | null

@@ -9,7 +9,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
 import { getKSTDateKey } from '@/lib/game/date-seed'
-import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
 import type { Tables } from '@/types/database.generated'
 import type { ContentJoinRow, LibraryContent, StaticDatabaseClient } from './types'
@@ -201,7 +201,8 @@ async function fetchFigureContents(
     db
       .from('celeb_contents')
       // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
-      .select(`id, content_id, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
+      // 홈 카드의 책 구매 단추(YES24·쿠팡·아마존)가 제휴 링크를 쓴다
+      .select(`id, content_id, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}))`)
       .eq('celeb_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
@@ -253,6 +254,7 @@ async function fetchFigureContents(
       thumbnail_en: flat.thumbnail_en,
       has_en_edition: flat.has_en_edition,
       title_badge: flat.title_badge,
+      affiliate_url: flat.affiliate_url,
     }
   }).filter(c => c.id)
 
