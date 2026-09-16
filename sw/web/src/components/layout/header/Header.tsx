@@ -13,7 +13,6 @@ import { Landmark } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
 import HeaderRecentProfiles from "./HeaderRecentProfiles";
 import HeaderProfileMenu from "./HeaderProfileMenu";
-import { setMusicHeaderSlot } from "../musicPlayerSlots";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import { LinkPending } from "@/components/ui/pending";
@@ -128,9 +127,6 @@ export default function Header({ isMobile }: HeaderProps) {
 
           {/* 언어 전환 (데스크톱) */}
           <LocaleSwitcher variant="icon" />
-
-          {/* 음악 재생기 (데스크톱 — 모바일은 하단 내비 마지막 칸이 쥔다). 자리 크기를 미리 잡아 단추가 들어올 때 옆 아이콘이 밀리지 않는다 */}
-          <div ref={setMusicHeaderSlot} className="hidden size-9 md:flex" />
 
           {/* 프로필 메뉴 — 알림은 메뉴 안에 있다 (로그인 여부 확인 후 표시) */}
           {isLoggedIn !== null && (
