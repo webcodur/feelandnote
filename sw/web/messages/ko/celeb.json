@@ -49,7 +49,6 @@
     "fictionFaction": "소속 세계·세력",
     "profileAxes": "스펙트럼",
     "mediaDialogues": "고유 대사",
-    "mediaVideos": "영상",
     "atlasProfile": "프로필",
     "celebSealTooltip": "공인 인물 표식",
     "atlasGuideNoData": "이 인물의 {section} 정보는 아직 등록되지 않았습니다.",
@@ -85,12 +84,6 @@
     "sourceWorkCreator": "지은이",
     "sourceWorkPublisher": "출판사",
     "sourceWorkReleaseDate": "출간일",
-    "sourceWorkSalesLabel": "YES24 판매 정보",
-    "sourceWorkSalesOnSale": "YES24 판매중",
-    "sourceWorkSalesPoint": "판매지수",
-    "sourceWorkSalesRating": "평점",
-    "sourceWorkSalesPrice": "{price}원",
-    "sourceWorkSalesDiscount": "{rate}% 할인",
     "sourceRelation": {
       "appearance": "등장 작품",
       "related": "연관 작품"

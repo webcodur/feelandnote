@@ -84,14 +84,11 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
 
   return (
     <section aria-labelledby={headingId} className="flex flex-col sm:h-full">
-      <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 shrink-0`}>
+      <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 shrink-0 text-center`}>
         {providerName ? (
           <>
-            {/* 출처는 제목 글자가 아니라 작은 칩으로 — 「다음 책 소개」의 '다음' 자리 */}
-            <span className="me-1.5 inline-flex -translate-y-0.5 items-center rounded-md border border-accent/35 bg-accent/10 px-1.5 py-px align-middle text-xs font-bold tracking-wide text-accent">
-              {providerName}
-            </span>
-            {t("expandBookIntro")}
+            {/* 출처는 칩이 아니라 색만 다른 글자로 — 「다음 책 소개」처럼 한 덩어리로 읽는다 */}
+            <span className="text-accent">{providerName}</span> {t("expandBookIntro")}
           </>
         ) : (
           headingText
@@ -160,7 +157,7 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
               href={active.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-block shrink-0 self-start text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline"
+              className="mt-2 inline-block shrink-0 self-center text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline"
             >
               {t("expandIntroSource")}
             </a>

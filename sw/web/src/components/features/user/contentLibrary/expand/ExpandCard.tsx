@@ -31,6 +31,7 @@ import ContentIntro from "./ContentIntro";
 import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import AffiliateBookAction from "../AffiliateBookAction";
+import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
 import { getCoupangAffiliateUrl } from "../contentAffiliate";
 import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
@@ -146,14 +147,20 @@ function ExpandCard({
                 </Button>
               </div>
             ) : (
-              <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
+              <div className="flex h-full flex-col">
+                <div className="flex flex-col sm:min-h-0 sm:flex-1">
+                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
+                </div>
+                {/* YES24 판매 정보 — 작품 소개 칸의 발꿈치. 구매 단추와 떼어 책정보 구역에 둔다 */}
+                <Yes24Sales contentId={item.content_id} enabled={item.content.type === "BOOK"} className="mt-2 shrink-0" />
+              </div>
             )}
           </div>
           {hasBookPurchase && locale === "ko" && (
             <AffiliateBookAction
               contentId={item.content_id}
               coupangUrl={getCoupangAffiliateUrl(item.content)}
-              showNotice
+              hideSales
               className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
             />
           )}

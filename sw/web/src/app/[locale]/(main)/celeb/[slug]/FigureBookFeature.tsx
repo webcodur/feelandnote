@@ -2,7 +2,7 @@
  * [celeb 상세] sourceWorks — 원전 대표 서지·소개
  * - 목차 위치: sourceWorks
  * - 데이터: source props, editions 판본 선택
- * - 함께 보기: FigureBookWorksSection.tsx, FigureBookActions.tsx, FigureBookIntroduction.tsx
+ * - 함께 보기: FigureBookWorksSection.tsx, FigureBookActions.tsx, shared/BookIntroductionPanel.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -14,8 +14,8 @@ import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import FigureBookActions from "./FigureBookActions";
 import FigureBookEditionPicker from "./FigureBookEditionPicker";
-import FigureBookIntroduction from "./FigureBookIntroduction";
-import FigureBookYes24Sales from "./FigureBookYes24Sales";
+import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
+import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
@@ -117,10 +117,10 @@ export default function FigureBookFeature({
           </header>
 
           {/* 팔리고 있는 판본은 제목 바로 아래에 YES24 판매 정보를 띄운다. md에서는 표지가 제목·판매 정보·소개 세 줄에 걸친다 */}
-          <FigureBookYes24Sales
+          <Yes24Sales
             contentId={source.id}
             editionId={edition.id}
-            enabled={locale === "ko" && source.type === "BOOK" && Boolean(edition.isbn)}
+            enabled={source.type === "BOOK" && Boolean(edition.isbn)}
             className="col-span-2 min-w-0 md:col-span-1 md:col-start-2"
           />
 
@@ -137,7 +137,7 @@ export default function FigureBookFeature({
               {introduction.failed ? (
                 <RetryBlock onRetry={introduction.retry} />
               ) : (
-                <FigureBookIntroduction
+                <BookIntroductionPanel
                   key={edition.id}
                   description={introduction.description || t("sourceWorkIntroductionEmpty")}
                   attribution={edition.introductionAttribution}

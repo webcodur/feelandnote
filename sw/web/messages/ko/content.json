@@ -71,7 +71,22 @@
       "unknownDescription": "이 소개문의 출처가 아직 확인되지 않았습니다.",
       "originalDescription": "F&N에서 작성한 소개입니다.",
       "sourceDescription": "소개 출처: {source}",
-      "openSource": "원문 열기"
+      "openSource": "원문 열기",
+      "original": "원문"
+    },
+    "purchaseSales": {
+      "label": "YES24 판매 정보",
+      "price": "{price}원",
+      "open": "YES24 판매 정보 자세히 보기",
+      "notice": "아래 정보는 YES24가 제공합니다. 가격과 평점은 YES24에서 바뀔 수 있습니다.",
+      "rating": "평점",
+      "salePrice": "판매가",
+      "shopPrice": "정가",
+      "discount": "{rate}% 할인",
+      "salePoint": "판매지수",
+      "pages": "쪽수",
+      "pageCount": "{count}쪽",
+      "published": "출간일"
     }
   },
   "contentDetail": {
@@ -92,13 +107,6 @@
     "myNote": "내 노트",
     "private": "비공개",
     "othersReviews": "다른 리뷰",
-    "category": {
-      "book": "도서",
-      "video": "영상",
-      "game": "게임",
-      "music": "음악",
-      "all": "전체"
-    },
     "addFailed": "추가 실패",
     "deleteConfirm": "이 콘텐츠를 기록관에서 삭제하시겠습니까?",
     "introduction": "소개",

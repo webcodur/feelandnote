@@ -12,8 +12,8 @@ const PROVIDER_NAMES = {
   feelandnote: "F&N",
 } as const;
 
-/** 제목에 이어 붙여 「다음 책 소개」처럼 읽히게 하는 공급처 표기.
- *  other·unknown처럼 판별이 안 된 출처는 제목에 넣지 않는다(표에 없음). */
+/** 작품 소개 칸 우하단 출처 칩(BookIntroductionPanel)의 안쪽 알약에 들어가는 공급처 이름.
+ *  other·unknown처럼 판별이 안 된 출처는 이름 없이 「원문」만 보인다(표에 없음). */
 export const INTRO_PROVIDER_HEADING_NAME: Partial<
   Record<BookIntroductionAttribution["provider"], { ko: string; en: string }>
 > = {

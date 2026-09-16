@@ -46,8 +46,8 @@ export async function getYes24PurchaseLink(contentId: string, locale: string, ed
   }
 }
 
-/** 인물 화면 연관 작품에서 고른 판본의 YES24 판매 정보. 판매중이 아니거나 확인할 수 없으면 null */
-export async function getYes24SalesInfo(contentId: string, locale: string, editionId: number): Promise<Yes24SalesInfo | null> {
+/** 도서 판매대의 YES24 판매 정보. 판본을 안 넘기면 언어별 기본 판본으로 잡는다. 판매중이 아니거나 확인할 수 없으면 null */
+export async function getYes24SalesInfo(contentId: string, locale: string, editionId?: number): Promise<Yes24SalesInfo | null> {
   try {
     const isbn = await resolveStoredIsbn(contentId, locale, editionId)
     return isbn ? selectYes24Sales(await getCachedYes24BookDetail(isbn)) : null
