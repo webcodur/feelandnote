@@ -32,6 +32,21 @@ export const VOICE = {
 // --- narrator/summary 발화 스타일 prefix 기본값 ---
 export const NARRATOR_STYLE_DEFAULT = '편안하고 자연스럽게'
 
+// --- Gemini 사전 보이스 전체 목록 ---
+// 보이스 선택 UI(web-bo GeminiVoiceSelect)가 이 목록을 쓴다.
+// 성별 분류는 Gemini TTS 문서 기준.
+export const GEMINI_VOICES_MALE = [
+  'Charon', 'Enceladus', 'Algieba', 'Algenib', 'Sadachbia',
+  'Fenrir', 'Orus', 'Iapetus', 'Umbriel', 'Alnilam',
+  'Schedar', 'Achird', 'Zubenelgenubi', 'Puck', 'Rasalgethi',
+  'Pulcherrima', 'Sadaltager', 'Sulafat',
+] as const
+export const GEMINI_VOICES_FEMALE = [
+  'Kore', 'Aoede', 'Callirrhoe', 'Autonoe', 'Despina',
+  'Erinome', 'Gacrux', 'Vindemiatrix', 'Zephyr', 'Leda',
+  'Laomedeia', 'Achernar',
+] as const
+
 /**
  * 롱폼 구간키(파일명 베이스, 예: 'B1-celeb-intro','D03b-summary','B2-philosophy') → 역할.
  * 쇼츠는 segment.role 이 SSoT 라 이 함수 대상이 아니다(쇼츠는 role 을 직접 넘긴다).
