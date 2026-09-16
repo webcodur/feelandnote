@@ -54,4 +54,7 @@ export const Z_INDEX = {
 
   // 게임 화면 위 플로팅 플레이어
   floatingPlayerGame: 10002,
+
+  // 음악 전환 안내 모달 — 게임 전체 화면과 플로팅 플레이어 위에 뜬다
+  musicNotice: 10003,
 } as const;

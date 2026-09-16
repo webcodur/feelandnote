@@ -7,9 +7,16 @@
 "use client";
 
 import { useRef, useCallback, useEffect, useState, useMemo } from "react";
+import { useLocale } from "next-intl";
 import type { GameAudioControls } from "@/components/shared/GameAudioPlayer";
 
-export interface BgmTrack { src: string; label: string }
+export interface BgmTrack { src: string; label: string; labelEn?: string }
+
+/** 게임 공용 결과 음악. 게임별 설정이 같은 파일을 가리키게 하고 목록 카탈로그도 여기서 가져간다 */
+export const RESULT_MUSIC = {
+  win: { src: "/assets/common/bgm-result-win.mp3", label: "승리의 메아리", labelEn: "Echoes of Victory" },
+  lose: { src: "/assets/common/bgm-result-lose.mp3", label: "꺾인 깃발", labelEn: "A Fallen Banner" },
+} satisfies Record<string, BgmTrack>;
 
 export interface GameAudioConfig {
   basePath: string;
@@ -49,6 +56,11 @@ export function useGameAudio(config: GameAudioConfig) {
     fadeMs = 800,
   } = config;
   const sfxBase = _sfxBase ?? basePath;
+  const locale = useLocale();
+  const trackLabelOf = useCallback(
+    (track: BgmTrack) => (locale === "en" ? track.labelEn?.trim() || track.label : track.label),
+    [locale]
+  );
 
   // 마운트 시 SFX 프리로드
   useEffect(() => { preloadSfx(sfxBase, sfxFiles); }, [sfxBase, sfxFiles]);
@@ -61,6 +73,7 @@ export function useGameAudio(config: GameAudioConfig) {
   const tracksRef = useRef<BgmTrack[]>([]);
   const [trackIndex, setTrackIndex] = useState(0);
   const [trackLabel, setTrackLabel] = useState("");
+  const [trackSrc, setTrackSrc] = useState<string | null>(null);
   const [trackCount, setTrackCount] = useState(0);
 
   // 플레이어 제어 상태 — currentTime은 ref로 관리 (rAF 리렌더 방지)
@@ -117,6 +130,7 @@ export function useGameAudio(config: GameAudioConfig) {
 
         if (!track) {
           currentSrcRef.current = null;
+          setTrackSrc(null);
           setIsPlaying(false);
           setTrackLabel("");
           return;
@@ -144,7 +158,8 @@ export function useGameAudio(config: GameAudioConfig) {
 
         bgmRef.current = audio;
         currentSrcRef.current = track.src;
-        setTrackLabel(track.label);
+        setTrackSrc(track.src);
+        setTrackLabel(trackLabelOf(track));
       }
 
       if (shouldFade && prev && !prev.paused) {
@@ -153,8 +168,14 @@ export function useGameAudio(config: GameAudioConfig) {
         startNew();
       }
     },
-    [fadeOut, disposeAudio]
+    [fadeOut, disposeAudio, trackLabelOf]
   );
+
+  // 언어가 바뀌면 지금 곡의 표시 이름도 따라 바꾼다
+  useEffect(() => {
+    const track = tracksRef.current.find((item) => item.src === currentSrcRef.current);
+    if (track) setTrackLabel(trackLabelOf(track));
+  }, [locale, trackLabelOf]);
 
   // trackIndex 변경 시 해당 트랙 재생 (자동 전환용)
   const trackIndexForEffect = trackIndex;
@@ -241,6 +262,7 @@ export function useGameAudio(config: GameAudioConfig) {
     currentSrcRef.current = null;
     currentTimeRef.current = 0;
     tracksRef.current = [];
+    setTrackSrc(null);
     setIsPlaying(false);
     setDuration(0);
     setTrackIndex(0);
@@ -269,6 +291,26 @@ export function useGameAudio(config: GameAudioConfig) {
     });
   }, [playTrack]);
 
+  // src가 지금 플레이리스트에 있으면 그 곡을 튼다. 목록 밖의 곡이면 false를 돌려 호출자가 맡게 한다
+  const playSrc = useCallback(
+    (src: string) => {
+      const tracks = tracksRef.current;
+      const index = tracks.findIndex((track) => track.src === src);
+      if (index < 0) return false;
+      setTrackIndex((prev) => {
+        if (index === prev) {
+          const audio = bgmRef.current;
+          if (audio?.paused) void audio.play().catch(() => {});
+          return prev;
+        }
+        playTrack(tracks[index], false);
+        return index;
+      });
+      return true;
+    },
+    [playTrack]
+  );
+
   // 플레이어 제어 객체
   const audioControls: GameAudioControls = useMemo(() => ({
     isPlaying,
@@ -280,11 +322,13 @@ export function useGameAudio(config: GameAudioConfig) {
     seek,
     bgmRef,
     trackLabel,
+    trackSrc,
     trackIndex,
     trackCount,
     nextTrack,
     prevTrack,
-  }), [isPlaying, volume, duration, togglePlay, setVolume, seek, trackLabel, trackIndex, trackCount, nextTrack, prevTrack]);
+    playSrc,
+  }), [isPlaying, volume, duration, togglePlay, setVolume, seek, trackLabel, trackSrc, trackIndex, trackCount, nextTrack, prevTrack, playSrc]);
 
   // BGM 음소거 토글
   const toggleBgmMuted = useCallback(() => {

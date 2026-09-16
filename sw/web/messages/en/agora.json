@@ -125,7 +125,8 @@
       "publishAtLabel": "Publish time",
       "publishAtHint": "Set a future time to hold the notice until then. A past time publishes it right away.",
       "publishNow": "Publish now",
-      "scheduledBadge": "Scheduled"
+      "scheduledBadge": "Scheduled",
+      "pinnedBadge": "Pinned"
     },
     "feedback": {
       "write": "Write Feedback",
