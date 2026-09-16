@@ -55,7 +55,7 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `celebs` |
-| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 사진·각성 이미지를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사를 수행한다. 아바타는 CPU nobg 대기열도 제공한다. 바깥 브라우저에서 Alt+클릭한 일반 사진은 아바타·대표 사진의 빈 자리로만 받는다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`, `awakened_image_url`) |
+| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 사진·각성 이미지를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사를 수행한다. 아바타는 CPU nobg 대기열도 제공한다. 바깥 브라우저에서 Alt+클릭한 사진과 Ctrl+V는 화면에 가장 크게 보이는 행의, 숫자키 1·2·3으로 고른 자리로 들어간다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`, `awakened_image_url`) |
 | `/celebs/new` | 셀럽 등록 | 로그인 계정 없이 신규 셀럽을 직접 등록 | `celebs` |
 | `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학 + 스펙트럼·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
 | `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `celeb_contents`, `contents`, `content_locales` |
@@ -96,6 +96,7 @@ pnpm dev:bo
 | `/curated` | 기관 선정 원장 | 선정 기관·목록 현황, 공개 허브 노출, 콘텐츠 유형·기관 유형 필터. 기관과 목록을 새로 만들거나 편집한다 | `curators`, `curated_lists`, `curated_list_items` |
 | `/curated/[listId]` | 선정 목록 편집 | 목록 메타와 원문 항목(순위·연도·선정 사유·숨김), 기존 콘텐츠 연결·해제 | `curators`, `curated_lists`, `curated_list_items`, `contents`, `content_locales` |
 | `/figure-books` | 인물 등장·연관 도서 관리 | 기존 콘텐츠를 작품으로 지정하고 등장·연관 인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다. `celeb_tier`와 무관하게 모든 인물을 연결할 수 있다 | `figure_book_contents`, `figure_book_characters`, `figure_book_editions`, `figure_book_products`, `contents`, `celebs` |
+| `/figure-books/audit` | 인물 도서 감사 | 「지금 측정」으로 감사 스크립트(`scripts/figure-books/audit.ts --json`)를 돌려 인물↔도서 연결·공개 현황을 집계한다. 활성 인물 대비 연결·한국어 공개 비율, 관계 갈래, 등급·직군별 표, 고칠 관계를 보여 준다. DB는 읽기만 하고 결과를 파일로 남기지 않는다(회차마다 쌓이던 `_audit-*.json` 스냅샷을 대신한다) | `celebs`, `figure_book_characters`, `figure_book_editions`, `figure_book_purchase_options` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
 
