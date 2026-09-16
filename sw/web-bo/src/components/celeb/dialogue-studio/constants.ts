@@ -4,6 +4,7 @@ import {
   CELEB_SPEECH_TONE_LABELS_KO,
   CELEB_SPEECH_TONES,
 } from '@feelandnote/shared/constants/celeb-speech'
+import { ELEVENLABS_TTS_DEFAULTS, type EleSettings } from '@feelandnote/shared/bo/voice-utils'
 
 export type Locale = 'ko' | 'en'
 export type ViewMode = 'both' | 'ko' | 'en'
@@ -27,19 +28,13 @@ export function localesFor(mode: ViewMode): Locale[] {
   return mode === 'both' ? ['ko', 'en'] : [mode]
 }
 
-export interface VoiceSettings {
-  stability: number
-  similarity_boost: number
-  style: number
-  speed: number
-  volumeBoost: number
-}
+export type VoiceSettings = EleSettings
 
 export const DEFAULT_SETTINGS: VoiceSettings = {
-  stability: 0.5,
-  similarity_boost: 0.75,
-  style: 0.3,
-  speed: 1.0,
+  stability: ELEVENLABS_TTS_DEFAULTS.stability,
+  similarity_boost: ELEVENLABS_TTS_DEFAULTS.similarity_boost,
+  style: ELEVENLABS_TTS_DEFAULTS.style,
+  speed: ELEVENLABS_TTS_DEFAULTS.speed,
   volumeBoost: 0,
 }
 

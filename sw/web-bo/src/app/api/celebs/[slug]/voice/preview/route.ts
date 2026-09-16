@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
 import { guardAdminRoute } from '@/lib/admin-route'
 import { generateVoicePreview } from '@/actions/admin/voice-gen'
 
@@ -33,10 +34,10 @@ export async function POST(req: Request) {
     voiceId,
     text,
     settings: {
-      stability: settings?.stability ?? 0.5,
-      similarity_boost: settings?.similarity_boost ?? 0.75,
-      style: settings?.style ?? 0.3,
-      speed: settings?.speed ?? 1.0,
+      stability: settings?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability,
+      similarity_boost: settings?.similarity_boost ?? ELEVENLABS_TTS_DEFAULTS.similarity_boost,
+      style: settings?.style ?? ELEVENLABS_TTS_DEFAULTS.style,
+      speed: settings?.speed ?? ELEVENLABS_TTS_DEFAULTS.speed,
     },
     accountId,
   })

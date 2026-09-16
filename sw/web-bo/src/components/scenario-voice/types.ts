@@ -1,4 +1,4 @@
-import type { EleSettings } from '@feelandnote/shared/bo/voice-utils'
+import { ELEVENLABS_TTS_DEFAULTS, type EleSettings } from '@feelandnote/shared/bo/voice-utils'
 
 // ── Types ──
 
@@ -7,22 +7,18 @@ export type EleSendOpts = { emotionEnabled: boolean; emotions: string[]; trailEn
 
 // ── Constants ──
 
-export const DEFAULT_ELE_SETTINGS: EleSettings = { stability: 0.5, similarity_boost: 0.75, style: 0.3, speed: 1.0, volumeBoost: 0 }
+export const DEFAULT_ELE_SETTINGS: EleSettings = {
+  stability: ELEVENLABS_TTS_DEFAULTS.stability,
+  similarity_boost: ELEVENLABS_TTS_DEFAULTS.similarity_boost,
+  style: ELEVENLABS_TTS_DEFAULTS.style,
+  speed: ELEVENLABS_TTS_DEFAULTS.speed,
+  volumeBoost: 0,
+}
 export const DEFAULT_ELE_SEND_OPTS: EleSendOpts = { emotionEnabled: true, emotions: [], trailEnabled: true }
 
-// Gemini TTS 보이스 목록 (sw/remotion/scripts/voice/test-voices.ts 기준)
+// Gemini TTS 보이스 목록 — 단일 원천은 shared/lib/voice-policy.ts.
 // segment.geminiVoice 오버라이드 / 캐릭터 보이스 단일 생성 양쪽에서 공용.
-export const GEMINI_VOICES_MALE = [
-  'Charon', 'Enceladus', 'Algieba', 'Algenib', 'Sadachbia',
-  'Fenrir', 'Orus', 'Iapetus', 'Umbriel', 'Alnilam',
-  'Schedar', 'Achird', 'Zubenelgenubi', 'Puck', 'Rasalgethi',
-  'Pulcherrima', 'Sadaltager', 'Sulafat',
-] as const
-export const GEMINI_VOICES_FEMALE = [
-  'Kore', 'Aoede', 'Callirrhoe', 'Autonoe', 'Despina',
-  'Erinome', 'Gacrux', 'Vindemiatrix', 'Zephyr', 'Leda',
-  'Laomedeia', 'Achernar',
-] as const
+export { GEMINI_VOICES_MALE, GEMINI_VOICES_FEMALE } from '@feelandnote/shared/lib/voice-policy'
 
 export function buildEleText(text: string, opts: EleSendOpts): string {
   let t = text

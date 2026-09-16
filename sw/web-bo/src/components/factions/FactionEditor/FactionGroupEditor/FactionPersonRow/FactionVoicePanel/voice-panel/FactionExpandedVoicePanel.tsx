@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile, EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
-import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
+import { ELEVENLABS_TTS_DEFAULTS, type GenEngine } from '@feelandnote/shared/bo/voice-utils'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { DEFAULT_ELE_SEND_OPTS, buildEleText } from '../../../../../../scenario-voice/types'
 import {
@@ -493,23 +493,23 @@ export function FactionExpandedVoicePanel({
                 안정성
                 <input
                   type="range" min={0} max={1} step={0.05}
-                  value={spec.eleOptions?.stability ?? 0.5}
+                  value={spec.eleOptions?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability}
                   onChange={e => spec.setEleOptions({ ...spec.eleOptions, stability: Number(e.target.value) })}
                   onClick={e => e.stopPropagation()}
                   className="w-24 accent-slate-700"
                 />
-                <span className="w-8 text-right font-mono text-slate-900">{(spec.eleOptions?.stability ?? 0.5).toFixed(2)}</span>
+                <span className="w-8 text-right font-mono text-slate-900">{(spec.eleOptions?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability).toFixed(2)}</span>
               </label>
               <label className="flex items-center gap-2 text-xs text-slate-700 font-semibold" title="스타일 과장. 높을수록 감정·억양이 강조된다(기본 0.3)">
                 스타일
                 <input
                   type="range" min={0} max={1} step={0.05}
-                  value={spec.eleOptions?.style ?? 0.3}
+                  value={spec.eleOptions?.style ?? ELEVENLABS_TTS_DEFAULTS.style}
                   onChange={e => spec.setEleOptions({ ...spec.eleOptions, style: Number(e.target.value) })}
                   onClick={e => e.stopPropagation()}
                   className="w-24 accent-slate-700"
                 />
-                <span className="w-8 text-right font-mono text-slate-900">{(spec.eleOptions?.style ?? 0.3).toFixed(2)}</span>
+                <span className="w-8 text-right font-mono text-slate-900">{(spec.eleOptions?.style ?? ELEVENLABS_TTS_DEFAULTS.style).toFixed(2)}</span>
               </label>
             </div>
           </div>
