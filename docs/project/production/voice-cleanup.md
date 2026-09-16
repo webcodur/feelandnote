@@ -23,7 +23,6 @@ TTS가 만든 음성은 경로·엔진과 상관없이 **처음 생긴 자리에
 | Remotion 세력도감 합성 `sw/remotion/scripts/voice/faction/engine.ts` | wav 저장 직후, 음량 정규화 전 | dialogue |
 | Remotion 책과 사람 합성 `sw/remotion/scripts/book-person/tts.ts` | wav 저장 직후 | reading |
 | audio-bo 화자 합성 `sw/audio-bo/scripts/synthesize.py` | 학습 모델 음성을 고른 직후, 듣기 보정 전 | reading |
-| 사용자 웹 개발용 읽어주기 `sw/web/src/app/api/tts/route.ts` | 응답 전(운영에서는 막힌 창구) | reading |
 
 ## 들숨 제거
 

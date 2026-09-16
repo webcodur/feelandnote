@@ -374,10 +374,6 @@
   "shared": {
     "scrollDown": "아래로 이동",
     "accessibility": {
-      "pause": "일시정지",
-      "play": "재생",
-      "stop": "정지",
-      "readAloud": "읽어주기",
       "close": "닫기"
     },
     "hubSection": {

@@ -12,7 +12,7 @@
  * 무효 키를 찾을 때는 googleFreeKeyName(keyIndex)으로 변수명을 확인한다.
  *
  * 소비자: remotion 합성 스크립트(voice/lib/gemini-engine.ts), web-bo 미리듣기 라우트
- * (lib/gemini-tts.ts), web 읽기 TTS 라우트(api/tts/route.ts).
+ * (lib/gemini-tts.ts).
  */
 
 const FREE_KEY_PATTERN = /^GOOGLE_GENAI_API_KEY_FREE(\d+)$/

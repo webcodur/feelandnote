@@ -373,10 +373,6 @@
   "shared": {
     "scrollDown": "Scroll down",
     "accessibility": {
-      "pause": "Pause",
-      "play": "Play",
-      "stop": "Stop",
-      "readAloud": "Read aloud",
       "close": "Close"
     },
     "hubSection": {

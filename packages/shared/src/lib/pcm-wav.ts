@@ -2,7 +2,7 @@
  * pcm-wav.ts — raw PCM 본문에 44바이트 WAV 헤더를 씌우는 순수 함수 (단일 원천)
  *
  * Gemini TTS 응답은 헤더 없는 PCM이라 소비 측에서 WAV로 감싸야 한다.
- * 소비자: web-bo 미리듣기 라우트(lib/gemini-tts.ts), web 읽기 TTS 라우트(api/tts/route.ts).
+ * 소비자: web-bo 미리듣기 라우트(lib/gemini-tts.ts).
  */
 
 export function wrapPcmAsWav(pcm: Buffer, sampleRate: number, channels: number, bitDepth: number): Buffer {
