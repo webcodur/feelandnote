@@ -424,6 +424,13 @@ function createIsolatedBuild(repoRoot, commit, releaseId) {
     worktreeCreated = true
     copyBuildEnvironment(repoRoot, worktreeRoot)
 
+    // 캐시 태그 도메인의 원천과 DB 사본이 어긋나면 DB 트리거가 태그를 조용히 버린다.
+    // 검사기가 없는 옛 커밋(롤백 배포)은 건너뛴다.
+    const cacheTagCheck = path.join(worktreeRoot, 'scripts', 'check-cache-tags.mjs')
+    if (existsSync(cacheTagCheck)) {
+      run(process.execPath, [cacheTagCheck], { cwd: worktreeRoot, inherit: true })
+    }
+
     run('pnpm', ['install', '--frozen-lockfile'], { cwd: worktreeRoot, inherit: true })
     run('pnpm', ['build:web'], {
       cwd: worktreeRoot,
