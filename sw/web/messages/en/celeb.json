@@ -49,7 +49,6 @@
     "fictionFaction": "World & Factions",
     "profileAxes": "Spectrum",
     "mediaDialogues": "Lines",
-    "mediaVideos": "Video",
     "atlasProfile": "Profile",
     "celebSealTooltip": "Official figure seal",
     "atlasGuideNoData": "No {section} information has been registered for this figure yet.",
@@ -85,12 +84,6 @@
     "sourceWorkCreator": "Creator",
     "sourceWorkPublisher": "Publisher",
     "sourceWorkReleaseDate": "Publication date",
-    "sourceWorkSalesLabel": "YES24 sales information",
-    "sourceWorkSalesOnSale": "On sale at YES24",
-    "sourceWorkSalesPoint": "Sales index",
-    "sourceWorkSalesRating": "Rating",
-    "sourceWorkSalesPrice": "₩{price}",
-    "sourceWorkSalesDiscount": "{rate}% off",
     "sourceRelation": {
       "appearance": "Appearing Works",
       "related": "Related Works"

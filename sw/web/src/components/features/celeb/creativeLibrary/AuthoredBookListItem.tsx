@@ -1,6 +1,7 @@
 "use client";
 
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { BookOpenText } from "lucide-react";
@@ -11,6 +12,7 @@ import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
 import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 
 export default function AuthoredBookListItem({ book }: { book: FigureBookContent }) {
@@ -78,6 +80,8 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
         </div>
       )}
       {failed && <RetryBlock onRetry={retry} className="px-3 py-3" />}
+      {/* YES24 판매 정보 — 출판사·소개·판본의 책정보 흐름에 붙인다. 구매 단추와는 뗀다 */}
+      <Yes24Sales contentId={book.id} editionId={edition?.id} enabled={book.type === "BOOK"} className="px-3 pb-2" />
       {book.editions.length > 1 && (
         <div className="px-3 pb-2">
           <select
@@ -95,13 +99,18 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
         </div>
       )}
       {locale === "ko" && book.type === "BOOK" && (
-        <AffiliateBookAction
-          contentId={book.id}
-          editionId={edition?.id}
-          coupangUrl={edition?.platform === "coupang" ? edition.purchaseUrl : null}
-          showNotice
-          className="px-3 pb-3"
-        />
+        <div className="px-3 pb-3">
+          {/* 수수료 안내 — 판매 단추 안에 묻지 않고 구매 칸 오른쪽 어깨에 둔다 */}
+          <div className="mb-1 flex items-center justify-end">
+            <BookPurchaseInfo className="inline-flex size-6 items-center justify-center rounded-full border border-white/10" />
+          </div>
+          <AffiliateBookAction
+            contentId={book.id}
+            editionId={edition?.id}
+            coupangUrl={edition?.platform === "coupang" ? edition.purchaseUrl : null}
+            hideSales
+          />
+        </div>
       )}
       <BookPurchaseLinks links={purchaseLinks} className="px-3 pb-3" />
     </article>

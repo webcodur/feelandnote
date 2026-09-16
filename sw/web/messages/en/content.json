@@ -71,7 +71,22 @@
       "unknownDescription": "The source of this introduction has not been verified.",
       "originalDescription": "This introduction was written by F&N.",
       "sourceDescription": "Introduction source: {source}",
-      "openSource": "Open source"
+      "openSource": "Open source",
+      "original": "Source"
+    },
+    "purchaseSales": {
+      "label": "YES24 sales information",
+      "price": "₩{price}",
+      "open": "View YES24 sales details",
+      "notice": "This information is provided by YES24. Prices and ratings may change on YES24.",
+      "rating": "Rating",
+      "salePrice": "Sale price",
+      "shopPrice": "List price",
+      "discount": "{rate}% off",
+      "salePoint": "Sales index",
+      "pages": "Pages",
+      "pageCount": "{count} pages",
+      "published": "Published"
     }
   },
   "contentDetail": {
@@ -92,13 +107,6 @@
     "myNote": "My Notes",
     "private": "Private",
     "othersReviews": "Other Reviews",
-    "category": {
-      "book": "Book",
-      "video": "Video",
-      "game": "Game",
-      "music": "Music",
-      "all": "All"
-    },
     "addFailed": "Failed to add",
     "deleteConfirm": "Are you sure you want to remove this content from your archives?",
     "introduction": "Introduction",

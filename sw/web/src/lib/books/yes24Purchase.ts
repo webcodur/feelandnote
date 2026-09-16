@@ -208,13 +208,13 @@ export function parseYes24BookDetail(value: unknown, isbn: string): Yes24BookDet
 
 // ── 판매 정보 — 인물 화면 연관 작품에서 고른 판본이 팔리고 있을 때 제목 아래에 띄운다 ──
 
-export type Yes24SalesInfo = Pick<Yes24BookDetail, 'salePoint' | 'starScore' | 'salePrice' | 'shopPrice'>
+export type Yes24SalesInfo = Pick<Yes24BookDetail, 'salePoint' | 'starScore' | 'salePrice' | 'shopPrice' | 'pages' | 'publishDate'>
 
 /** 판매중인 상품만 판매 정보를 낸다. 절판·품절·미확인이면 null */
 export function selectYes24Sales(detail: Yes24BookDetail | null): Yes24SalesInfo | null {
   if (!detail?.onSale) return null
-  const { salePoint, starScore, salePrice, shopPrice } = detail
-  return { salePoint, starScore, salePrice, shopPrice }
+  const { salePoint, starScore, salePrice, shopPrice, pages, publishDate } = detail
+  return { salePoint, starScore, salePrice, shopPrice, pages, publishDate }
 }
 
 export async function fetchYes24BookDetail(fetcher: typeof fetch, isbn: string, apiKey: string): Promise<Yes24BookDetail | null> {

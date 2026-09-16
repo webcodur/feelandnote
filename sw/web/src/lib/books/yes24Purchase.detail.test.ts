@@ -30,7 +30,7 @@ test('YES24 detail drops unverified covers and affiliate links', () => {
 test('YES24 sales info comes only from on-sale products', () => {
   const onSale = parseYes24BookDetail(payload({ itemStatus: '판매중', salePoint: 223002 }), isbn)
   assert.equal(onSale?.onSale, true)
-  assert.deepEqual(selectYes24Sales(onSale), { salePoint: 223002, starScore: 8.3, salePrice: 16200, shopPrice: 18000 })
+  assert.deepEqual(selectYes24Sales(onSale), { salePoint: 223002, starScore: 8.3, salePrice: 16200, shopPrice: 18000, pages: 236, publishDate: '2026-07-01' })
   assert.equal(selectYes24Sales(parseYes24BookDetail(payload({ itemStatus: '절판', salePoint: 3702 }), isbn)), null)
   assert.equal(selectYes24Sales(parseYes24BookDetail(payload(), isbn)), null)
   assert.equal(selectYes24Sales(null), null)

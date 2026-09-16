@@ -61,7 +61,7 @@ export default function FigureBookActions({
           contentId={source.id}
           editionId={edition.id}
           coupangUrl={edition.platform === "coupang" ? edition.purchaseUrl : null}
-          showNotice
+          hideSales
           className="w-full"
         />
       ) : <BookPurchaseLinks links={purchaseLinks} className="w-full" />}
