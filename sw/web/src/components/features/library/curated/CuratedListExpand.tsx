@@ -338,7 +338,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
 
       {/* YES24 판매 정보 — 출판사·ISBN의 작품 정보 칸에 붙이고 발판(구매)과는 뗀다 */}
       {showPurchase && item.contentId && (
-        <Yes24Sales contentId={item.contentId} className="px-3 pb-4 sm:px-4 md:px-5" />
+        <Yes24Sales contentId={item.contentId} full className="px-3 pb-4 sm:px-4 md:px-5" />
       )}
 
       {/* 발판 — 작품 열기·구매. 링크가 없어도 자리를 비우지 않는다 */}

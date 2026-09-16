@@ -30,6 +30,7 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
       url: "",
       rank: item.rank,
       purchaseHref: item.purchase_url ?? item.source_url,
+      isbn: item.isbn ?? undefined,
     }]
     : []);
   const openItem = openId ? items.find((item) => item.id === openId) : undefined;

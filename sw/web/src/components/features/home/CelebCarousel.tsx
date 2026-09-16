@@ -10,7 +10,7 @@ import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/use
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
 import CelebCompactControls from "./CelebCompactControls";
-import { useCelebFilters, PAGE_SIZE_OPTIONS } from "./useCelebFilters";
+import { useCelebFilters, PAGE_SIZE_OPTIONS, type CelebRealityTotals } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, getCelebs } from "@/actions/home";
 import type { TrendCountry } from "@/constants/trendCountries";
@@ -30,6 +30,8 @@ interface CelebCarouselProps {
   hideHeader?: boolean;
   mode?: "grid" | "carousel";
   syncToUrl?: boolean;
+  /** 실존 축별 명부 총수 — 있으면 사실·가상 선택을 따라가는 헤드라인을 단다 */
+  realityTotals?: CelebRealityTotals;
   onFilterInteraction?: () => void;
   customContent?: React.ReactNode;
   includeInactive?: boolean;
@@ -48,6 +50,7 @@ export default function CelebCarousel({
   genderCounts,
   mode = "grid",
   syncToUrl = false,
+  realityTotals,
   onFilterInteraction,
   customContent,
   includeInactive = false,
@@ -68,6 +71,8 @@ export default function CelebCarousel({
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
   const t = useTranslations("home.ui");
+  const tExplore = useTranslations("explore.ui");
+  const tHub = useTranslations("explore.hub");
   const resultsRef = useRef<HTMLElement>(null);
   const pageNavigationPending = useRef(false);
 
@@ -104,6 +109,25 @@ export default function CelebCarousel({
 
   return (
     <div>
+      {/* 명부 헤드라인 — 인원이 사실·가상 선택을 따라간다 */}
+      {syncToUrl && realityTotals && (
+        <header className="mb-6 flex flex-col items-center gap-1.5 text-center md:mb-8 md:gap-2">
+          <div className="mb-1 flex items-center gap-2 opacity-60 md:mb-2" aria-hidden>
+            <span className="h-px w-8 bg-gradient-to-r from-transparent to-accent/60" />
+            <span className="h-1 w-1 rotate-45 bg-accent/70" />
+            <span className="h-px w-8 bg-gradient-to-l from-transparent to-accent/60" />
+          </div>
+          <h2 id="explore-figures-heading" className="break-keep font-serif text-xl font-bold leading-snug tracking-tight text-text-primary md:text-3xl">
+            {tHub.rich("archiveHeadline", {
+              count: realityTotals[filters.realityValue],
+              num: (chunks) => <span className="tabular-nums text-accent">{chunks}</span>,
+            })}
+          </h2>
+          <p className="max-w-md break-keep text-xs leading-relaxed text-text-secondary md:text-sm">
+            {tHub("archiveSub")}
+          </p>
+        </header>
+      )}
       {syncToUrl ? (
         <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction} />
       ) : (
@@ -222,6 +246,12 @@ export default function CelebCarousel({
       ) : (
         <section key="grid" ref={resultsRef} tabIndex={-1} aria-label={t("celebArchive")} aria-busy={filters.isLoading}
           className="relative scroll-mt-20 outline-none animate-fade-in md:scroll-mt-24">
+          {/* 현재 결과 수 — 헤드라인이 쥐는 명부 전체 수와 달리 좁히기에 따라 바뀌는 값이다 */}
+          {syncToUrl && (
+            <p role="status" className="mb-3 text-xs tabular-nums text-text-secondary md:mb-4">
+              {tExplore("totalCount", { count: filters.total })}
+            </p>
+          )}
           {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (

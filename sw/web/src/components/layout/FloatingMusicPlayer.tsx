@@ -2,7 +2,7 @@
 
 /*
   음악 재생기. 여는 단추·창·오디오를 한 벌만 두고, 단추와 창은 화면 형편에 맞는 자리로 옮겨 세운다(musicPlayerSlots).
-  - 휴대폰: 하단 내비 마지막 칸이 여는 단추다. 창은 내비(와 그 위에 붙은 띠) 바로 위로 올라온다.
+  - 휴대폰: 하단 내비 마지막 칸이 여는 단추다. 창은 딤을 깔고 화면 가운데 모달로 뜬다.
   - PC: 오른쪽 아래 떠 있는 단추다. 창은 그 위로 올라온다.
   - 게임 전체 화면: 내비가 가려지므로 휴대폰도 떠 있는 단추로 돌아가고, 게임 층 위에 선다.
   창 윗부분과 목록 행은 높이를 고정해 재생 상태가 바뀌어도 움직이지 않고, 높이가 바뀌는 목록 칸만 AnimatedHeight로 감싼다.
@@ -77,11 +77,13 @@ const PANEL_BASE =
 
 // 자리마다 창이 서는 위치·목록 최대 높이·등장 방향. 가운데 정렬은 translate 속성이 맡으므로 등장 연출의 transform과 겹치지 않는다.
 const PANEL_LAYOUT: Record<Placement, { className: string; listClassName: string; offsetY: number; zIndex?: number }> = {
-  // 하단 내비 위 자리 안에서 음악 칸 위로 선다
+  // 휴대폰 화면 가운데 모달 — 내비 틀 안에서 딤(1) 위로 선다(2)
   nav: {
-    className: 'pointer-events-auto absolute bottom-2 end-2 w-[min(calc(100vw-1rem),22.5rem)] origin-bottom-right',
-    listClassName: 'max-h-[min(34vh,19rem)]',
+    className:
+      'pointer-events-auto fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2',
+    listClassName: 'max-h-[min(40vh,19rem)]',
     offsetY: 12,
+    zIndex: 2,
   },
   // PC 오른쪽 아래 단추 위로 올라온다
   corner: {
@@ -726,138 +728,147 @@ export default function FloatingMusicPlayer() {
   )
 
   const panel = isOpen && (
-    <div
-      ref={panelRef}
-      role="dialog"
-      aria-label={label}
-      className={cn(PANEL_BASE, layout.className)}
-      style={{ zIndex: layout.zIndex }}
-    >
-      {/* 곡 정보(제목·상태) / 진행 막대(시간 양끝) / 조작 단추의 세 줄. 줄마다 높이를 고정해 상태가 바뀌어도 목록이 밀리지 않는다 */}
-      <div className="relative rounded-t-[21px] bg-[radial-gradient(120%_100%_at_50%_0%,rgba(212,175,55,0.15)_0%,rgba(212,175,55,0.04)_45%,transparent_75%)] px-4 pb-2 pt-3.5">
-        <span
+    <>
+      {/* 휴대폰 모달 뒤 딤 — 내비 층 안에서 내비(층 자동) 위로 올려 창만 남긴다 */}
+      {placement === 'nav' && (
+        <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-12 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,175,55,0.65),transparent)]"
+          className="pointer-events-auto fixed inset-0 z-[1] animate-modal-overlay bg-black/60 backdrop-blur-sm"
         />
+      )}
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-label={label}
+        className={cn(PANEL_BASE, layout.className)}
+        style={{ zIndex: layout.zIndex }}
+      >
+        {/* 곡 정보(제목·상태) / 진행 막대(시간 양끝) / 조작 단추의 세 줄. 줄마다 높이를 고정해 상태가 바뀌어도 목록이 밀리지 않는다 */}
+        <div className="relative rounded-t-[21px] bg-[radial-gradient(120%_100%_at_50%_0%,rgba(212,175,55,0.15)_0%,rgba(212,175,55,0.04)_45%,transparent_75%)] px-4 pb-2 pt-3.5">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-12 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,175,55,0.65),transparent)]"
+          />
 
-        <div className="flex h-11 items-center gap-3">
-          <Artwork url={nowArtwork} className={cn('size-11 rounded-lg shadow-[0_10px_24px_-10px_rgba(0,0,0,0.9)]', nowTone.text)} iconSize={ICON.md} />
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[15px] font-semibold leading-5 tracking-tight text-[#f5f1e8]">{nowTitle}</p>
-            <p className="mt-0.5 flex h-[18px] min-w-0 items-center gap-1.5 text-xs text-white/50">
-              <span className={cn('flex shrink-0 items-center gap-1.5 text-[11px] font-medium', nowTone.text)}>
-                <EqBars playing={isPlaying && !currentPlayerLoading} />
-                {nowStatus}
-              </span>
-              {nowSubtitle && (
-                <>
-                  <span aria-hidden="true" className="text-white/25">·</span>
-                  <span className="truncate">{nowSubtitle}</span>
-                </>
-              )}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={closePanel}
-            aria-label={t('close')}
-            title={t('close')}
-            className="-me-1.5 flex size-8 shrink-0 items-center justify-center self-start rounded-full text-white/55 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <X size={ICON.md} {...ICON_PROPS} />
-          </button>
-        </div>
-
-        <MusicProgress
-          currentTime={safeTime}
-          duration={safeDuration}
-          label={t('position')}
-          onSeek={seekCurrent}
-        />
-
-        <div className="mt-1 flex h-11 items-center justify-between">
-          <div className="flex w-12">
-            {!isGamePlaying && (
-              <button
-                type="button"
-                onClick={cyclePlaybackRate}
-                aria-label={`${t('speed')} ${formatRate(playbackRate)}`}
-                title={t('speed')}
-                className="h-7 w-12 rounded-full border border-white/10 text-[11px] font-semibold tabular-nums text-white/70 hover:border-white/25 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                {formatRate(playbackRate)}
-              </button>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <IconButton label={t('back')} onClick={() => seekCurrent(currentPlayerTime - 10)} disabled={safeTime <= 0}>
-              <SeekIcon />
-            </IconButton>
+          <div className="flex h-11 items-center gap-3">
+            <Artwork url={nowArtwork} className={cn('size-11 rounded-lg shadow-[0_10px_24px_-10px_rgba(0,0,0,0.9)]', nowTone.text)} iconSize={ICON.md} />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[15px] font-semibold leading-5 tracking-tight text-[#f5f1e8]">{nowTitle}</p>
+              <p className="mt-0.5 flex h-[18px] min-w-0 items-center gap-1.5 text-xs text-white/50">
+                <span className={cn('flex shrink-0 items-center gap-1.5 text-[11px] font-medium', nowTone.text)}>
+                  <EqBars playing={isPlaying && !currentPlayerLoading} />
+                  {nowStatus}
+                </span>
+                {nowSubtitle && (
+                  <>
+                    <span aria-hidden="true" className="text-white/25">·</span>
+                    <span className="truncate">{nowSubtitle}</span>
+                  </>
+                )}
+              </p>
+            </div>
             <button
               type="button"
-              onClick={toggleCurrent}
-              disabled={!currentPlayerPlayable}
-              aria-busy={currentPlayerLoading || undefined}
-              aria-label={currentPlayerLoading ? t('status.loading') : isPlaying ? t('pause') : t('play')}
-              title={currentPlayerLoading ? t('status.loading') : isPlaying ? t('pause') : t('play')}
-              className="flex size-11 items-center justify-center rounded-full bg-accent text-[#1b1608] shadow-[0_10px_24px_-10px_rgba(212,175,55,0.75)] enabled:hover:bg-accent-hover enabled:active:brightness-95 disabled:cursor-default disabled:opacity-40 disabled:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#161615]"
+              onClick={closePanel}
+              aria-label={t('close')}
+              title={t('close')}
+              className="-me-1.5 flex size-8 shrink-0 items-center justify-center self-start rounded-full text-white/55 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              {currentPlayerLoading ? (
-                <Loader2 size={ICON.lg} className="animate-spin" {...ICON_PROPS} />
-              ) : isPlaying ? (
-                <Pause size={ICON.lg} className="fill-current" {...ICON_PROPS} />
-              ) : (
-                <Play size={ICON.lg} className="ms-0.5 fill-current" {...ICON_PROPS} />
-              )}
+              <X size={ICON.md} {...ICON_PROPS} />
             </button>
-            <IconButton label={t('forward')} onClick={() => seekCurrent(currentPlayerTime + 10)} disabled={!safeDuration || safeTime >= safeDuration}>
-              <SeekIcon forward />
-            </IconButton>
           </div>
-          <div className="flex w-12 justify-end">
-            <IconButton label={t('stop')} onClick={stopCurrent} disabled={!isPlaying && safeTime === 0}>
-              <Square size={ICON.sm} className="fill-current" {...ICON_PROPS} />
-            </IconButton>
+
+          <MusicProgress
+            currentTime={safeTime}
+            duration={safeDuration}
+            label={t('position')}
+            onSeek={seekCurrent}
+          />
+
+          <div className="mt-1 flex h-11 items-center justify-between">
+            <div className="flex w-12">
+              {!isGamePlaying && (
+                <button
+                  type="button"
+                  onClick={cyclePlaybackRate}
+                  aria-label={`${t('speed')} ${formatRate(playbackRate)}`}
+                  title={t('speed')}
+                  className="h-7 w-12 rounded-full border border-white/10 text-[11px] font-semibold tabular-nums text-white/70 hover:border-white/25 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  {formatRate(playbackRate)}
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <IconButton label={t('back')} onClick={() => seekCurrent(currentPlayerTime - 10)} disabled={safeTime <= 0}>
+                <SeekIcon />
+              </IconButton>
+              <button
+                type="button"
+                onClick={toggleCurrent}
+                disabled={!currentPlayerPlayable}
+                aria-busy={currentPlayerLoading || undefined}
+                aria-label={currentPlayerLoading ? t('status.loading') : isPlaying ? t('pause') : t('play')}
+                title={currentPlayerLoading ? t('status.loading') : isPlaying ? t('pause') : t('play')}
+                className="flex size-11 items-center justify-center rounded-full bg-accent text-[#1b1608] shadow-[0_10px_24px_-10px_rgba(212,175,55,0.75)] enabled:hover:bg-accent-hover enabled:active:brightness-95 disabled:cursor-default disabled:opacity-40 disabled:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#161615]"
+              >
+                {currentPlayerLoading ? (
+                  <Loader2 size={ICON.lg} className="animate-spin" {...ICON_PROPS} />
+                ) : isPlaying ? (
+                  <Pause size={ICON.lg} className="fill-current" {...ICON_PROPS} />
+                ) : (
+                  <Play size={ICON.lg} className="ms-0.5 fill-current" {...ICON_PROPS} />
+                )}
+              </button>
+              <IconButton label={t('forward')} onClick={() => seekCurrent(currentPlayerTime + 10)} disabled={!safeDuration || safeTime >= safeDuration}>
+                <SeekIcon forward />
+              </IconButton>
+            </div>
+            <div className="flex w-12 justify-end">
+              <IconButton label={t('stop')} onClick={stopCurrent} disabled={!isPlaying && safeTime === 0}>
+                <Square size={ICON.sm} className="fill-current" {...ICON_PROPS} />
+              </IconButton>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 아래 여백은 스크롤되는 목록이 지나가지 않는 띠다. 목록은 이 띠 아래 칸에서만 움직이고 묶음 제목도 칸 맨 위에 붙는다 */}
-      <div className="border-t border-white/[0.06] px-4 pb-2 pt-3">
-        <div className="relative">
-          <button
-            ref={modeTriggerRef}
-            type="button"
-            onClick={() => setIsModeMenuOpen((open) => !open)}
-            aria-haspopup="menu"
-            aria-expanded={isModeMenuOpen}
-            aria-label={`${t('listPicker')}: ${t(`modes.${activeMode}`)}`}
-            className={cn(
-              'flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-start ring-1 ring-inset focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-              isModeMenuOpen ? 'bg-white/[0.08] ring-white/15' : 'bg-white/[0.04] ring-white/[0.06] hover:bg-white/[0.07] hover:ring-white/10',
-            )}
-          >
-            <ListMusic size={ICON.md} className={cn('shrink-0', MODE_TONE[activeMode].text)} {...ICON_PROPS} />
-            <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[#f5f1e8]">{t(`modes.${activeMode}`)}</span>
-            {!loading && modeTracks(activeMode).length > 0 && (
-              <span className="text-[11px] tabular-nums text-white/40">{modeTracks(activeMode).length}</span>
-            )}
-            <ChevronDown
-              size={ICON.sm}
-              className={cn('shrink-0 text-white/50 transition-transform duration-200 motion-reduce:transition-none', isModeMenuOpen && 'rotate-180')}
-              {...ICON_PROPS}
-            />
-          </button>
-          {isModeMenuOpen && modeMenu}
+        {/* 아래 여백은 스크롤되는 목록이 지나가지 않는 띠다. 목록은 이 띠 아래 칸에서만 움직이고 묶음 제목도 칸 맨 위에 붙는다 */}
+        <div className="border-t border-white/[0.06] px-4 pb-2 pt-3">
+          <div className="relative">
+            <button
+              ref={modeTriggerRef}
+              type="button"
+              onClick={() => setIsModeMenuOpen((open) => !open)}
+              aria-haspopup="menu"
+              aria-expanded={isModeMenuOpen}
+              aria-label={`${t('listPicker')}: ${t(`modes.${activeMode}`)}`}
+              className={cn(
+                'flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-start ring-1 ring-inset focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+                isModeMenuOpen ? 'bg-white/[0.08] ring-white/15' : 'bg-white/[0.04] ring-white/[0.06] hover:bg-white/[0.07] hover:ring-white/10',
+              )}
+            >
+              <ListMusic size={ICON.md} className={cn('shrink-0', MODE_TONE[activeMode].text)} {...ICON_PROPS} />
+              <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[#f5f1e8]">{t(`modes.${activeMode}`)}</span>
+              {!loading && modeTracks(activeMode).length > 0 && (
+                <span className="text-[11px] tabular-nums text-white/40">{modeTracks(activeMode).length}</span>
+              )}
+              <ChevronDown
+                size={ICON.sm}
+                className={cn('shrink-0 text-white/50 transition-transform duration-200 motion-reduce:transition-none', isModeMenuOpen && 'rotate-180')}
+                {...ICON_PROPS}
+              />
+            </button>
+            {isModeMenuOpen && modeMenu}
+          </div>
         </div>
-      </div>
 
-      <AnimatedHeight duration={260}>
-        <div ref={listRef} className={cn('overflow-y-auto overscroll-contain rounded-b-[21px] pb-2', layout.listClassName)}>
-          {listBody}
-        </div>
-      </AnimatedHeight>
-    </div>
+        <AnimatedHeight duration={260}>
+          <div ref={listRef} className={cn('overflow-y-auto overscroll-contain rounded-b-[21px] pb-2', layout.listClassName)}>
+            {listBody}
+          </div>
+        </AnimatedHeight>
+      </div>
+    </>
   )
 
   const isNav = placement === 'nav' && navTabSlot && navPanelSlot

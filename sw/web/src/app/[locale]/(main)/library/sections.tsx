@@ -10,7 +10,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { RetryBlock } from "@/components/ui/pending";
-import { getBestsellers, getCuratedHub } from "@/actions/library";
+import { getBestsellers, getChosenLibrary, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
 import type { CuratedHub } from "@/actions/library/types";
 import PopularPreview from "@/components/features/library/hub/PopularPreview";
@@ -20,22 +20,29 @@ const EMPTY_CLASS = "text-sm text-text-secondary text-center py-8";
 
 /** 허브에 세우는 판매 순위 권수 — 나머지는 인기 작품 화면으로 안내한다 */
 const POPULAR_PREVIEW_COUNT = 5;
+/** 허브에 세우는 불후의 명작 수 — 카드 격자 한 줄(6열)을 채운다 */
+const CLASSICS_PREVIEW_COUNT = 6;
 
 export async function PopularSection() {
-  let data: Awaited<ReturnType<typeof getBestsellers>>;
-  try {
-    const locale = await getLocale();
-    data = await getBestsellers('ALL', locale);
-  } catch (error) {
-    console.error("[library] 인기 작품 조회 실패:", error);
-    return <RetryBlock />;
-  }
+  const locale = await getLocale();
+  // 두 모드를 함께 미리 세운다 — 명작 조회는 자체 폴백이 빈 결과를 돌려주므로 판매 순위만 실패를 따로 처리한다
+  const [data, classics] = await Promise.all([
+    getBestsellers('ALL', locale).catch((error: unknown) => {
+      console.error("[library] 인기 작품 조회 실패:", error);
+      return null;
+    }),
+    getChosenLibrary({ page: 1, limit: CLASSICS_PREVIEW_COUNT }),
+  ]);
+
+  if (!data) return <RetryBlock />;
 
   return (
     <PopularPreview
       {...data}
       items={data.items.slice(0, POPULAR_PREVIEW_COUNT)}
       restCount={Math.max(0, data.items.length - POPULAR_PREVIEW_COUNT)}
+      classics={classics.contents}
+      classicsRestCount={Math.max(0, classics.total - classics.contents.length)}
     />
   );
 }

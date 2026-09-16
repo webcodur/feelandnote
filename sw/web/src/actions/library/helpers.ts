@@ -154,6 +154,41 @@ export async function fetchAllCelebContents(
   return allData
 }
 
+// #region 헬퍼 함수 - 도서 제휴 링크 채우기
+// 선정 서재 RPC(get_chosen_scriptures·get_scriptures_by_era)는 affiliate_url을 돌려주지 않는다.
+// 화면에 선 한 페이지의 도서만 content_locales에서 따로 읽어 붙인다 — CL_SELECT_LIST_WITH_AFFILIATE를
+// 임베드에 쓰는 목록들과 같은 결과를 만든다. 우선순위도 flattenLocales와 같게 요청 언어판 먼저다.
+export async function attachBookAffiliateUrls(
+  db: StaticDatabaseClient,
+  contents: LibraryContent[],
+  locale: string,
+): Promise<void> {
+  const bookIds = contents.filter(c => c.type === 'BOOK').map(c => c.id)
+  if (!bookIds.length) return
+
+  const { data, error } = await db
+    .from('content_locales')
+    .select('content_id, locale, affiliate_url')
+    .in('content_id', bookIds)
+
+  throwOnQueryError('attachBookAffiliateUrls', error)
+
+  const byContent = new Map<string, { ko?: unknown; en?: unknown }>()
+  for (const row of (data ?? []) as Array<{ content_id: string; locale: string; affiliate_url: unknown }>) {
+    const entry = byContent.get(row.content_id) ?? {}
+    if (row.locale === 'ko') entry.ko = row.affiliate_url
+    else if (row.locale === 'en') entry.en = row.affiliate_url
+    byContent.set(row.content_id, entry)
+  }
+
+  for (const content of contents) {
+    const entry = byContent.get(content.id)
+    if (!entry) continue
+    content.affiliate_url = (locale === 'en' ? entry.en ?? entry.ko : entry.ko ?? entry.en) ?? null
+  }
+}
+// #endregion
+
 // Map은 JSON 캐시 경계에서 보존되지 않으므로 unstable_cache로 감싸지 않는다.
 // 콘텐츠 ID별 셀럽(active CELEB, FINISHED) 카운트 — RPC로 카운트만 수신
 export async function fetchGlobalCelebCounts(

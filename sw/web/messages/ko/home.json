@@ -36,6 +36,7 @@
       "filterTier": "수록",
       "filterSort": "정렬",
       "filterBirthYear": "생년",
+      "filterReality": "사실·가상",
       "all": "전체",
       "genderMale": "남성",
       "genderFemale": "여성",
@@ -173,6 +174,11 @@
         "all": "전체",
         "full": "상세",
         "light": "간략"
+      },
+      "reality": {
+        "all": "전체",
+        "real": "사실",
+        "fiction": "가상"
       },
       "filterContentPresence": "작품 유무",
       "contentPresence": {
