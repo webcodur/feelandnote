@@ -201,6 +201,7 @@ tmp/
 
 # 다른 AI CLI의 로컬 설정 (command-code 등)
 .commandcode/
+.kiro/
 
 # 조사·적재 작업 중 만드는 임시 산출물. 쓰고 나면 지운다
 _tmp-*
