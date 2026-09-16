@@ -23,6 +23,8 @@ export interface LibraryContent {
   thumbnail_en?: string | null
   has_en_edition?: boolean | null
   title_badge?: TitleBadge | null
+  /** 화면 언어 판본의 제휴 링크 배열(content_locales.affiliate_url). 구매 단추를 그리는 목록만 채운다 */
+  affiliate_url?: unknown
 }
 
 export interface LibraryResult {

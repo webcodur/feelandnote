@@ -23,6 +23,16 @@ export const AFFILIATE_PLATFORMS = {
   google_books: { label: 'Google Books', color: '#4285F4', locale: 'en', notice: null },
 } as const
 
+/**
+ * 책 상품 목록이 기준으로 삼는 서점 — 한국어는 YES24(쿠팡은 같은 판본에 붙는 보조 단추), 영어는 아마존.
+ * 영어는 제휴 상품 주소가 없으면 아마존 검색으로 잇는다(`lib/books/amazonBookSearch.ts`).
+ */
+export type BookStorePlatform = 'yes24' | 'amazon'
+
+export function getBookStorePlatform(locale: string): BookStorePlatform {
+  return locale === 'en' ? 'amazon' : 'yes24'
+}
+
 export const BOOK_PURCHASE_BUTTON_STYLES = {
   yes24: 'border-blue-400/40 bg-blue-500/10 text-blue-100 hover:border-blue-300 hover:bg-blue-500/25 active:bg-blue-500/30 focus-visible:ring-blue-400',
   coupang: 'border-red-400/40 bg-red-500/10 text-red-100 hover:border-red-300 hover:bg-red-500/25 active:bg-red-500/30 focus-visible:ring-red-400',

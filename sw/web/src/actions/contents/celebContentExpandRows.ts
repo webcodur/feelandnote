@@ -47,6 +47,7 @@ export function mapCelebIndexRow(row: RawRow, locale: string): UserContentPublic
       title_ko: base.flat.title_ko,
       title_en: base.flat.title_en,
       creator_en: base.flat.creator_en,
+      isbn_ko: base.flat.isbn_ko,
       isbn_en: base.flat.isbn_en,
       thumbnail_en: base.flat.thumbnail_en,
       has_en_edition: base.flat.has_en_edition,

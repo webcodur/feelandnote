@@ -50,6 +50,8 @@ export interface UserContentWithContent {
     title_ko: string | null
     title_en: string | null
     creator_en: string | null
+    /** 인물 서재 공개 목록만 싣는다 — YES24로 이을 책을 앞에 세우는 데 쓴다 */
+    isbn_ko?: string | null
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null

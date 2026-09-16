@@ -13,6 +13,8 @@ import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
+import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import type { ContentType } from "@/types/database";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -48,6 +50,7 @@ interface Content {
     thumbnail_en?: string | null;
     has_en_edition?: boolean | null;
     title_badge?: TitleBadge | null;
+    affiliate_url?: unknown;
 }
 
 interface TodayFigureSource {
@@ -77,6 +80,10 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
     const filteredContents = categoryFilter
         ? contents.filter(c => c.type === categoryFilter)
         : contents;
+    // 홈은 티저다 — 두 행까지만 세우고 나머지는 상세(전체 보기)로 보낸다
+    const visibleContents = filteredContents.slice(0, 4);
+    /* 수수료 안내 — 카드의 판매 단추 안에 묻지 않고 분류 칩 줄 끝에 둔다(인물 서재 조작대와 같은 규칙) */
+    const showPurchaseInfo = locale === "ko" && visibleContents.some(c => c.type === "BOOK");
 
     // 날짜 포맷
     const today = new Date();
@@ -168,13 +175,16 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
 
             <div className="min-h-[200px]">
                 {/* 칩은 상자 없이 바로 둔다 — 종류별 박스가 따로 노는 느낌을 없앤다 */}
-                <div className="mb-6 flex justify-center">
+                <div className="mb-6 flex items-center justify-center gap-2">
                     <ContentTypeSummary
                         items={contents}
                         value={categoryFilter}
                         onChange={(type) => setCategoryFilter(type)}
                         size="md"
                     />
+                    {showPurchaseInfo && (
+                        <BookPurchaseInfo className="inline-flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
+                    )}
                 </div>
 
                 {filteredContents.length > 0 ? (
@@ -183,14 +193,15 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                         "grid gap-3 md:gap-4",
                         "grid-cols-1 md:grid-cols-2"
                     )}>
-                        {/* 홈은 티저다 — 두 행까지만 세우고 나머지는 상세(전체 보기)로 보낸다 */}
-                        {filteredContents.slice(0, 4).map((content) => (
+                        {visibleContents.map((content) => {
+                          const localized = getLocalizedContent(content, locale);
+                          return (
                             <ContentCard
                                 key={content.id}
                                 contentId={content.id}
                                 contentType={content.type as ContentType}
-                                title={getLocalizedContent(content, locale).title}
-                                creator={getLocalizedContent(content, locale).creator ?? undefined}
+                                title={localized.title}
+                                creator={localized.creator ?? undefined}
                                 thumbnail={content.thumbnail_url}
                                 rating={content.avg_rating ?? undefined}
                                 review={(locale === 'en' && content.review_en) ? content.review_en : (content.review ?? "")}
@@ -207,10 +218,19 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                                 creatorEn={content.creator_en}
                                 thumbnailEn={content.thumbnail_en}
                                 hasEnEdition={content.has_en_edition}
+                                posterFooterNode={content.type === "BOOK" && (
+                                    <CardBookPurchase
+                                        contentId={content.id}
+                                        title={localized.title}
+                                        creator={localized.creator}
+                                        affiliateUrl={content.affiliate_url}
+                                    />
+                                )}
                             />
-                        ))}
+                          );
+                        })}
                     </div>
-                    {filteredContents.slice(0, 4).map((content) => (
+                    {visibleContents.map((content) => (
                       <DeveloperCollectionJourney
                         key={content.id}
                         target={{ title: content.title, creator: content.creator, type: content.type, contentId: content.id }}

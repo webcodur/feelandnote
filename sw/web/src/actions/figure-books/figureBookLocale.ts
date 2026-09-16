@@ -1,4 +1,5 @@
 import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
+import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -147,4 +148,16 @@ export function mergeFigureBookEditions(
       ? { ...edition, platform: purchase.platform, purchaseUrl: purchase.purchaseUrl }
       : edition
   })
+}
+
+/**
+ * 작품 하나를 대표할 판본. 한국어는 YES24가 상품을 찾을 수 있는 ISBN 판본이 먼저고(쿠팡 상품은 그 판본에 붙는 보조 링크),
+ * 영어는 아마존 상품이 걸린 판본이 먼저다. 없으면 판본 차례의 첫 권이다.
+ */
+export function pickPurchaseEdition(
+  editions: FigureBookEdition[],
+  locale: string,
+): FigureBookEdition | undefined {
+  if (locale === 'ko') return editions.find((edition) => normalizePurchaseIsbn(edition.isbn)) ?? editions[0]
+  return editions.find((edition) => edition.purchaseUrl) ?? editions[0]
 }

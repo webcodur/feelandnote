@@ -1,6 +1,7 @@
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 import { getFigureBookPurchasePlatform } from '@/actions/figure-books/figureBookLocale'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
+import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 
 export function mapRelatedFigureBooksToAffiliateBooks(
@@ -16,17 +17,21 @@ export function mapRelatedFigureBooksToAffiliateBooks(
     if (book.relationType !== 'related' || book.type !== 'BOOK' || seen.has(book.id)) continue
 
     const candidates = book.editions.filter((item) => (
-      item.title.trim() !== ''
-      && (item.platform === platform || (locale === 'ko' && item.platform === null))
+      item.title.trim() !== '' && (item.platform === platform || item.platform === null)
     ))
-    const linkedEdition = candidates.find((item) => (
-      item.platform === platform && item.purchaseUrl?.startsWith('https://')
-    ))
-    // 언어별로 선정된 판본에서 고른다. 한국어는 ISBN만 있어도 YES24로 연결할 수 있다.
-    const edition = linkedEdition ?? (locale === 'ko'
-      ? candidates.find((item) => normalizePurchaseIsbn(item.isbn))
-      : undefined)
+    const productOf = (item: (typeof candidates)[number]) => (
+      item.platform === platform && item.purchaseUrl?.startsWith('https://') ? item.purchaseUrl : ''
+    )
+    // 한국어는 YES24가 상품을 찾을 ISBN 판본이 기준이고, 쿠팡 상품은 그 판본에 붙는 보조 링크다.
+    // 영어는 아마존 상품이 걸린 판본이 먼저고, 없으면 아마존 검색으로 잇는다.
+    const edition = locale === 'ko'
+      ? candidates.find((item) => normalizePurchaseIsbn(item.isbn)) ?? candidates.find(productOf)
+      : candidates.find(productOf) ?? candidates[0]
     if (!edition) continue
+    const url = locale === 'en'
+      ? getEnglishBookAmazonUrl({ title: edition.title, creator: edition.creator, url: productOf(edition) || null })
+      : productOf(edition)
+    if (locale === 'en' && !url) continue
 
     seen.add(book.id)
     books.push({
@@ -35,7 +40,7 @@ export function mapRelatedFigureBooksToAffiliateBooks(
       title: edition.title,
       creator: edition.creator ?? undefined,
       thumbnail: edition.thumbnailUrl ?? undefined,
-      url: linkedEdition?.purchaseUrl ?? '',
+      url,
       // 판매 판본을 골랐으니 번역본 없음은 해당하지 않는다 — 절판만 표지 띠로 알린다
       titleBadge: book.titleBadge === 'out-of-print' ? book.titleBadge : null,
     })

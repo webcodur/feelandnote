@@ -241,8 +241,11 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             )}
           </div>
         </div>
+        {/* 표지·감상 칸 아래 한 줄. 넓은 화면은 아래 여백(55px) 안에 떠서 첫 조각은 표지 아래(표지 폭 10rem),
+            둘째 조각은 감상 칸 아래에 선다 — 한 칸에 쌓으면 여백을 넘쳐 표지를 덮는다.
+            좁은 화면은 표지·감상 아래로 쌓고 둘째 조각(값표)을 단추 위에 둔다 */}
         {props.posterFooterNode && (
-          <div className="w-full shrink-0 basis-full md:absolute md:bottom-2 md:left-2 md:w-40">
+          <div className="flex w-full shrink-0 basis-full flex-col-reverse gap-1.5 md:absolute md:inset-x-2 md:bottom-2 md:grid md:w-auto md:grid-cols-[10rem_minmax(0,1fr)] md:items-center md:gap-3">
             {props.posterFooterNode}
           </div>
         )}

@@ -2,17 +2,16 @@
   파일명: actions/home/getTagSharedLibrary.ts
   기능: 세력도감 태그 내 셀럽들의 공유 콘텐츠 조회
   책임: 2명 이상이 공통으로 감상한 콘텐츠를 celebCount 내림차순으로 반환한다.
-        도서에는 한국어 판매 판본(쿠팡 링크·판본 id)을 붙여 선반이 구매로 잇게 한다.
+        도서에는 한국어 판본(YES24가 찾을 ISBN 판본 id, 같은 판본의 쿠팡 보조 링크)을 붙여 선반이 구매로 잇게 한다.
 */
 "use server";
 
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
-import {
-  mapFigureBookPurchaseOptions,
-  type FigureBookPurchaseOptionRow,
-} from "@/actions/figure-books/figureBookLocale";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
+import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEditions";
+import { pickPurchaseEdition } from "@/actions/figure-books/figureBookLocale";
+import { normalizePurchaseIsbn } from "@/lib/books/yes24Purchase";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
@@ -38,10 +37,12 @@ export interface SharedContent {
   type: string;
   celebCount: number;
   celebs: SharedContentCeleb[];
-  /** 한국어 도서의 쿠팡 상품 주소 — 없으면 null */
+  /** 한국어 도서의 쿠팡 상품 주소(YES24 옆 보조 단추) — 없으면 null */
   coupangUrl: string | null;
-  /** 판매 판본 id — YES24 연결이 같은 판본을 찾는 데 쓴다 */
+  /** 한국어 판본 id — YES24 연결이 같은 판본을 찾는 데 쓴다 */
   editionId?: number;
+  /** YES24 상품으로 이을 한국어 ISBN이 있는가 — 같은 공유 수면 이런 책을 앞에 둔다 */
+  hasKoreanIsbn?: boolean;
 }
 
 // DB 원형은 JSON 배열([{ url, platform }])이다 — 문자열로 가정하면 링크 달린 책 하나에 진영 전체 조회가 죽는다
@@ -87,7 +88,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const data = await selectAllPages((from, to) => db
     .from("celeb_contents")
     .select(
-      `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}))`
+      `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn))`
     )
     .in("celeb_id", celebIds)
     .eq("visibility", "public")
@@ -126,6 +127,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
         thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
         type: c.type ?? "BOOK",
         coupangUrl: coupangUrl?.startsWith("https://") ? coupangUrl : null,
+        hasKoreanIsbn: Boolean(normalizePurchaseIsbn(ko?.isbn)),
         celebIds: new Set([row.celeb_id]),
       });
     }
@@ -134,43 +136,34 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   // 5. 2명 이상 공유 콘텐츠만 남긴다
   const shared = [...contentMap].filter(([, info]) => info.celebIds.size >= 2);
 
-  // 6. 도서의 한국어 판매 판본 — 판본이 있으면 작품 주소보다 앞선다(인물 도서·신화 선반과 같은 원천)
+  // 6. 도서의 한국어 판본 — 판본이 있으면 작품 주소보다 앞선다(인물 도서·신화 선반과 같은 원천)
   const bookIds = shared.filter(([, info]) => info.type === "BOOK").map(([contentId]) => contentId);
-  const purchaseOptions = await selectInChunks<FigureBookPurchaseOptionRow>(bookIds, (ids) => db
-    .from("figure_book_purchase_options")
-    .select("edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url")
-    .in("content_id", ids)
-    .eq("locale", "ko")
-    .eq("platform", "coupang")
-    .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>());
-  const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>();
-  for (const option of purchaseOptions) {
-    optionsByContent.set(option.content_id, [...(optionsByContent.get(option.content_id) ?? []), option]);
-  }
+  const editionsByContent = await loadFigureBookEditions(db, bookIds, "ko");
 
   const result: SharedContent[] = shared.map(([contentId, { celebIds: ids, ...info }]) => {
-    const edition = mapFigureBookPurchaseOptions(optionsByContent.get(contentId) ?? [], "ko")[0];
+    const edition = pickPurchaseEdition(editionsByContent.get(contentId) ?? [], "ko");
     return {
       ...info,
       contentId,
       thumbnailUrl: info.thumbnailUrl ?? edition?.thumbnailUrl ?? null,
-      coupangUrl: edition?.purchaseUrl ?? info.coupangUrl,
+      coupangUrl: edition ? (edition.platform === "coupang" ? edition.purchaseUrl : null) : info.coupangUrl,
       editionId: edition?.id,
+      hasKoreanIsbn: Boolean(normalizePurchaseIsbn(edition?.isbn)) || info.hasKoreanIsbn,
       celebCount: ids.size,
       celebs: [...ids].flatMap((id) => profileMap.get(id) ?? []),
     };
   });
 
-  // 많이 함께 본 순, 같으면 살 수 있는 책을 앞에
-  result.sort((a, b) => b.celebCount - a.celebCount || Number(Boolean(b.coupangUrl)) - Number(Boolean(a.coupangUrl)));
+  // 많이 함께 본 순, 같으면 YES24 상품으로 이을 수 있는 책을 앞에
+  result.sort((a, b) => b.celebCount - a.celebCount || Number(Boolean(b.hasKoreanIsbn)) - Number(Boolean(a.hasKoreanIsbn)));
 
   return result;
 }
 
 const getTagSharedLibraryCached = unstable_cache(
   fetchTagSharedLibrary,
-  ['tag-shared-library-v2'],
-  // faction_atlas_members(편성) + celebs + celeb_contents + 판매 판본
+  ['tag-shared-library-v3-yes24-edition'],
+  // faction_atlas_members(편성) + celebs + celeb_contents + 한국어 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 

@@ -41,7 +41,7 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
         heading={t("chartTitle")}
         buyLabel={t("viewAtStore")}
         detailLabel={t("detail.open")}
-        platform={locale === "en" ? "amazon" : "coupang"}
+        platform={locale === "en" ? "amazon" : "yes24"}
         rankLabel={(rank) => t("rank", { rank })}
         onDetail={(book) => setOpenId(book.contentId)}
         hideHeading

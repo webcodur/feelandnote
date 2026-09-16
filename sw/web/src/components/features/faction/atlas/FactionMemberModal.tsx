@@ -12,19 +12,22 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { getPublicCelebContents } from "@/actions/contents/getUserContents";
-import { getFigureBookPurchasePlatform } from "@/actions/figure-books/figureBookLocale";
+import { getFigureBookPurchasePlatform, pickPurchaseEdition } from "@/actions/figure-books/figureBookLocale";
 import { getFigureBooksForCeleb } from "@/actions/figure-books/getFigureBooks";
 import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFactionLongDescs";
 import AffiliateBookList from "@/components/shared/AffiliateBookList";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import Modal from "@/components/ui/Modal";
 import { RetryBlock } from "@/components/ui/pending";
+import { getBookStorePlatform } from "@/constants/affiliatePlatforms";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
 import { Link } from "@/i18n/navigation";
+import { getEnglishBookAmazonUrl } from "@/lib/books/amazonBookSearch";
 import { getCelebProfileUrl } from "@/lib/url";
 import { cn } from "@/lib/utils";
 import type { CelebProfile } from "@/types/home";
@@ -63,7 +66,9 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
   const tCeleb = useTranslations("celebPage");
   const locale = useLocale() as Locale;
   const isEn = locale === "en";
-  const platform = getFigureBookPurchasePlatform(locale) ?? "coupang";
+  /** 판본에 붙은 구매 상품의 플랫폼(한국어 쿠팡·영어 아마존) — 판매 기준 서점과는 다르다 */
+  const productPlatform = getFigureBookPurchasePlatform(locale) ?? "coupang";
+  const platform = getBookStorePlatform(locale);
   const [longDescs, setLongDescs] = useState<{ tagId: string; byCeleb: FactionLongDescs } | null>(null);
   const [books, setBooks] = useState<MemberBooks | null>(null);
   const [failed, setFailed] = useState(false);
@@ -98,7 +103,8 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
   }, [tagId]);
 
   /* 두 책 목록 — 모달을 열 때 함께 받아 공통 상품 목록의 책 자료로 맞춘다.
-     영문 화면은 인물 상세처럼 판매 주소가 걸린 책만 싣는다(아마존 단추는 주소가 있어야 선다) */
+     한국어는 YES24가 찾을 ISBN 판본이 기준이고 쿠팡은 같은 판본의 보조 링크다.
+     영문은 아마존 상품 주소가 없으면 제목·저자 검색으로 잇는다 */
   useEffect(() => {
     let alive = true;
     Promise.all([
@@ -110,15 +116,17 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
         const related = figureBooks
           .filter((book) => book.type === "BOOK")
           .map((book): AffiliateBook => {
-            const edition = book.editions.find((item) => item.platform === platform && httpsUrl(item.purchaseUrl))
-              ?? book.editions[0];
+            const edition = pickPurchaseEdition(book.editions, locale);
+            const product = edition?.platform === productPlatform ? httpsUrl(edition.purchaseUrl) : "";
+            const title = edition?.title || book.title;
+            const creator = (edition?.creator ?? book.creator) || undefined;
             return {
               contentId: book.id,
               editionId: edition?.id,
-              title: edition?.title || book.title,
-              creator: (edition?.creator ?? book.creator) || undefined,
+              title,
+              creator,
               thumbnail: (edition?.thumbnailUrl ?? book.thumbnailUrl) || undefined,
-              url: edition?.platform === platform ? httpsUrl(edition.purchaseUrl) : "",
+              url: isEn ? getEnglishBookAmazonUrl({ title, creator, url: product || null }) : product,
               // 고른 판본에 제목이 있으면 그 언어판이 확인된 것이라 「번역본 없음」만 거둔다 — 절판은 판본이 있어도 남긴다
               titleBadge: book.titleBadge === "out-of-print" || !edition?.title ? book.titleBadge : null,
             };
@@ -132,12 +140,13 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
             title: record.content.title,
             creator: record.content.creator || undefined,
             thumbnail: record.content.thumbnail_url || undefined,
-            url: httpsUrl(record.content.affiliate_url),
+            url: isEn
+              ? getEnglishBookAmazonUrl({ title: record.content.title, creator: record.content.creator, url: httpsUrl(record.content.affiliate_url) || null })
+              : httpsUrl(record.content.affiliate_url),
             titleBadge: record.content.title_badge,
           }];
         });
-        const sellable = (list: AffiliateBook[]) => (platform === "amazon" ? list.filter((book) => book.url) : list);
-        setBooks({ related: sellable(related), read: sellable(read) });
+        setBooks({ related, read });
       })
       .catch((error) => {
         console.error("[FactionMemberModal] 책 목록 조회 실패:", error);
@@ -146,7 +155,7 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
     return () => {
       alive = false;
     };
-  }, [celeb.id, locale, platform, attempt]);
+  }, [celeb.id, isEn, locale, productPlatform, attempt]);
 
   const retry = () => {
     setFailed(false);
@@ -249,7 +258,13 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
         </div>
 
         <section aria-label={t("shelf")} className="relative mt-8 border-t border-accent-dim/30 pt-6">
-          <CenteredSectionHeading title={t("shelf")} className="mb-4" />
+          <CenteredSectionHeading
+            title={t("shelf")}
+            titleAddon={platform === "yes24" ? (
+              <BookPurchaseInfo className="ms-1.5 inline-flex size-6 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
+            ) : undefined}
+            className="mb-4"
+          />
           <div className="flex justify-center">
             <div role="tablist" aria-label={t("books")} className="effect-engraved inline-flex rounded-full border border-accent-dim/40 bg-black/35 p-1">
               {BOOK_TABS.map((key) => (
@@ -288,7 +303,7 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
             <AffiliateBookList
               books={list}
               heading={t(activeTab)}
-              buyLabel={tBooks("buy")}
+              buyLabel={isEn ? tCeleb("sourceWorkBuyAmazon") : tBooks("buy")}
               detailLabel={tBooks("viewBookDetails")}
               platform={platform}
               hideHeading

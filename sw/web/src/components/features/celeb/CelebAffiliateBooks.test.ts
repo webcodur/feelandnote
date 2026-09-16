@@ -19,11 +19,11 @@ function flushPromises() {
   return new Promise<void>((resolve) => setImmediate(resolve))
 }
 
-test('실제 컴포넌트는 한국어 화면이 뷰포트에 가까워진 뒤에만 loader를 연다', () => {
+test('실제 컴포넌트는 뷰포트에 가까워진 뒤에만 loader를 연다', () => {
   const source = readFileSync(new URL('./CelebAffiliateBooks.tsx', import.meta.url), 'utf8')
 
   assert.match(source, /useNearViewport\('600px 0px'\)/)
-  assert.match(source, /enabled: locale === 'ko' && isNear/)
+  assert.match(source, /enabled: isNear/)
 })
 
 test('뷰포트에 가까워지기 전에는 제휴 도서 액션을 부르지 않는다', async () => {
@@ -184,20 +184,30 @@ test('한국어 ISBN이 있는 연관 판본은 쿠팡 상품 없이도 제목·
   const books = [relatedBook({ editions: [edition] })]
   assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks(books, 'ko'), [{
     contentId: 'related-book', editionId: 42, title: edition.title,
-    creator: undefined, thumbnail: undefined, url: '',
+    creator: undefined, thumbnail: undefined, url: '', titleBadge: null,
   }])
-  assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks(books, 'en'), [])
 })
 
-test('한국어 참고도서는 Amazon 판본을 제외하고 쿠팡 없는 판본보다 검수된 쿠팡 판본을 우선한다', () => {
+test('영문 연관 판본은 아마존 상품이 없으면 제목·저자 검색 주소로 잇는다', () => {
+  const edition = saleEdition({ id: 7, title: 'The Iliad', creator: 'Homer', platform: null, purchaseUrl: null })
+  const [book] = mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [edition] })], 'en')
+  assert.equal(book.editionId, 7)
+  assert.match(book.url, /^https:\/\/www\.amazon\.com\/s\?/)
+  assert.match(decodeURIComponent(book.url.replace(/\+/g, ' ')), /The Iliad Homer/)
+})
+
+test('한국어 참고도서는 Amazon 판본을 빼고 YES24가 찾을 ISBN 판본을 판본 차례대로 고른다 — 쿠팡은 고르는 기준이 아니다', () => {
   const isbn = '9788966260959'
   const amazon = saleEdition({ platform: 'amazon', isbn, purchaseUrl: 'https://amzn.to/registered' })
   assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [amazon] })], 'ko'), [])
   const noLink = saleEdition({ id: 2, platform: null, isbn, purchaseUrl: null })
   const linked = saleEdition({ id: 3, isbn })
   const [book] = mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [amazon, noLink, linked] })], 'ko')
-  assert.equal(book.editionId, linked.id)
-  assert.equal(book.url, linked.purchaseUrl)
+  assert.equal(book.editionId, noLink.id)
+  assert.equal(book.url, '')
+  const [linkedFirst] = mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [linked, noLink] })], 'ko')
+  assert.equal(linkedFirst.editionId, linked.id)
+  assert.equal(linkedFirst.url, linked.purchaseUrl)
 })
 
 test('ISBN으로 표시하는 판본의 비쿠팡 주소를 쿠팡 버튼 주소로 내보내지 않는다', () => {

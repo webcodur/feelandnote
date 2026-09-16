@@ -10,6 +10,7 @@ function item(
   id: string,
   createdAt: string,
   affiliateUrl: unknown = null,
+  isbnKo: string | null = null,
 ): UserContentWithContent {
   return {
     id,
@@ -20,6 +21,7 @@ function item(
       type: "BOOK",
       title: id,
       creator: null,
+      isbn_ko: isbnKo,
       affiliate_url: affiliateUrl,
     },
   } as UserContentWithContent;
@@ -38,18 +40,20 @@ test("accepts only a valid web URL from a book's Coupang affiliate entry", () =>
   }), null);
 });
 
-test("affiliate-first sorting is stable inside the requested content sort", () => {
+test("purchasable-first sorting puts YES24 books (Korean ISBN or Coupang backup) ahead, stable inside the requested sort", () => {
   const olderLinked = item("older-linked", "2025-01-01", [
     { platform: "coupang", url: "https://link.coupang.com/a/older" },
   ]);
   const newerPlain = item("newer-plain", "2026-01-01");
+  const newestIsbn = item("newest-isbn", "2026-03-01", null, "978-89-6626-095-9");
   const newerLinked = item("newer-linked", "2026-02-01", [
     { platform: "coupang", url: "https://link.coupang.com/a/newer" },
   ]);
+  const badIsbn = item("bad-isbn", "2026-04-01", null, "9788966260950");
 
   assert.deepEqual(
-    filterAndSortContents([newerPlain, olderLinked, newerLinked], "recent", true)
+    filterAndSortContents([newerPlain, olderLinked, badIsbn, newerLinked, newestIsbn], "recent", true)
       .map((content) => content.id),
-    ["newer-linked", "older-linked", "newer-plain"],
+    ["newest-isbn", "newer-linked", "older-linked", "bad-isbn", "newer-plain"],
   );
 });

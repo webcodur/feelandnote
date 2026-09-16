@@ -6,13 +6,12 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
-import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
-import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
+import { loadFigureBookEditions } from '@/actions/figure-books/figureBookEditions'
+import { pickPurchaseEdition } from '@/actions/figure-books/figureBookLocale'
+import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
+import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
+import { isDisplayTitleRow } from '@/lib/utils/content-locale'
 import { findAffiliateLink } from './affiliateLinks'
-import {
-  mapFigureBookPurchaseOptions,
-  type FigureBookPurchaseOptionRow,
-} from '@/actions/figure-books/figureBookLocale'
 import {
   BESTSELLER_CONTENT_IDS,
   BESTSELLER_MAX_SLOTS,
@@ -25,6 +24,7 @@ export interface AffiliateBook {
   title: string
   creator?: string
   thumbnail?: string
+  /** 한국어는 같은 판본의 쿠팡 보조 링크(없으면 빈 문자열), 영어는 아마존 주소(상품 또는 검색) */
   url: string
   /** 확인된 언어판이 없거나 절판인 책 — 표지 한가운데 띠로 표시한다 */
   titleBadge?: import('@/lib/utils/content-locale').TitleBadge | null
@@ -37,25 +37,25 @@ export interface AffiliateBook {
 /** 인물 화면에서 이 목록을 무엇으로 골랐는지 — 안내 문구를 갈아끼우는 데 쓴다. */
 export type AffiliateBookSource = 'origin' | 'read' | 'profession' | 'popular'
 
-/** 진영 화면의 인물 묶음을 무엇으로 골랐는지 — 인물에 얽힌 책 · 그들이 읽은 책 */
-export type FactionBookSource = 'about' | 'read'
-
-/** 진영 화면에 내보내는 두 묶음. 분야의 책과 인물에 얽힌 책을 따로 낸다. */
-export interface FactionBooks {
-  /** 그 진영이 다루는 분야의 책 (신화는 원전, 나머지는 분야 낱말로 찾은 것) */
-  topic: AffiliateBook[]
-  /** 그 진영 인물이 쓴 책·다룬 책, 없으면 그들이 읽은 책 */
-  people: AffiliateBook[]
-  peopleSource: FactionBookSource
-}
+/** 책 상품 목록의 언어 — 한국어는 YES24, 영어는 아마존이 기준이다 */
+export type AffiliateBookLocale = 'ko' | 'en'
 
 interface LocaleRow {
   content_id: string
   title: string | null
   creator: string | null
   thumbnail_url: string | null
+  isbn: string | null
   affiliate_url: unknown
+  /** 표시용 제목 행 판정에 쓴다 — 그 언어 판본이 없는 책은 서점으로 잇지 않는다 */
+  sources: unknown
   contents: { user_count: number | null } | null
+}
+
+/** 기록이 많은 책을 작품 쪽에서 정렬해 받는 행 — 언어판은 요청 언어 하나만 붙는다 */
+interface PopularContentRow {
+  record_count: number | null
+  content_locales: Omit<LocaleRow, 'contents'>[] | null
 }
 
 interface PoolEntry {
@@ -80,69 +80,71 @@ const MODERN_BORN_FROM = '1950-01-01'
 /** 날마다 앞자리를 돌릴 후보 폭. 좁으면 늘 같은 책만 뜨고, 넓으면 지지가 얕은 책까지 올라온다. */
 const ROTATION_WINDOW = 24
 
-/**
- * 제휴 링크가 걸린 도서 전량. 링크는 BO에서 채우므로 채우는 대로 늘어난다 — 목록을 코드에 박지 않는다.
- * 한 번 만들어 두고 인물별 고르기에서 걸러 쓴다(인물마다 다시 조회하면 그만큼 전송량이 는다).
- */
-async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolEntry[]> {
-  const db = createStaticClient()
-  const sourceLocale = platform === 'amazon' ? 'en' : 'ko'
-  const sourcePlatform = platform === 'coupang' || platform === 'amazon'
-    ? platform
-    : null
+/** 제휴 링크가 없는 책은 기록이 많은 쪽부터 이만큼만 후보로 싣는다(현역 독자 수 집계 비용을 묶는다) */
+const POPULAR_CANDIDATES = 1000
 
-  const [localeResult, sourceRows, optionRows] = await Promise.all([
+/**
+ * 판매로 이을 수 있는 도서 후보 전량. 한 번 만들어 두고 인물별 고르기에서 걸러 쓴다
+ * (인물마다 다시 조회하면 그만큼 전송량이 는다).
+ *
+ * - 한국어는 YES24가 기준이다. ISBN이 있으면 YES24 상품으로, 없으면 YES24 검색으로 잇는다.
+ *   쿠팡 상품은 같은 판본에 붙는 보조 단추라 후보 자격을 정하지 않는다(쿠팡 링크만 있는 책도 뺄 이유는 없어 싣는다).
+ * - 영어는 아마존이 기준이다. 상품 주소가 없으면 제목·저자 검색으로 잇는다.
+ * - 원전 작품은 판본 표가 원천이다. 작품 locale의 옛 링크로 되돌아가지 않는다.
+ * - 표시용 제목만 있는 책(그 언어 판본이 없다)은 뺀다. 영문 화면에서 한국 소설을 아마존 검색으로 보내면 빈 결과가 뜬다.
+ */
+async function fetchAffiliatePool(locale: AffiliateBookLocale): Promise<PoolEntry[]> {
+  const db = createStaticClient()
+  const bookSelect = 'content_id, title, creator, thumbnail_url, isbn, affiliate_url, sources, contents!inner(user_count:record_count, type)'
+
+  const [linkedResult, popularResult, sourceRows] = await Promise.all([
+    // 제휴 링크가 걸린 책 — 운영자가 골라 붙인 상품이라 기록 수와 무관하게 싣는다
     db
       .from('content_locales')
-      .select('content_id, title, creator, thumbnail_url, affiliate_url, contents!inner(user_count:record_count, type)')
-      .eq('locale', sourceLocale)
+      .select(bookSelect)
+      .eq('locale', locale)
       .eq('contents.type', 'BOOK')
       .not('affiliate_url', 'is', null)
       .limit(1000),
-    sourcePlatform
-      ? selectAllPages<SourceContentCountRow>((from, to) => db
-          .from('figure_book_contents')
-          .select('content_id,contents!inner(record_count)')
-          .order('content_id')
-          .range(from, to)
-          .overrideTypes<SourceContentCountRow[], { merge: false }>())
-      : Promise.resolve([]),
-    sourcePlatform
-      ? selectAllPages<FigureBookPurchaseOptionRow>((from, to) => db
-          .from('figure_book_purchase_options')
-          .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
-          .eq('locale', sourceLocale)
-          .eq('platform', sourcePlatform)
-          .order('content_id')
-          .order('edition_id')
-          .range(from, to)
-          .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>())
-      : Promise.resolve([]),
+    // 기록이 많은 책 — 링크가 없어도 서점으로 이을 수 있다
+    db
+      .from('contents')
+      .select('record_count, content_locales!inner(content_id, title, creator, thumbnail_url, isbn, affiliate_url, sources)')
+      .eq('type', 'BOOK')
+      .eq('content_locales.locale', locale)
+      .order('record_count', { ascending: false })
+      .limit(POPULAR_CANDIDATES),
+    selectAllPages<SourceContentCountRow>((from, to) => db
+      .from('figure_book_contents')
+      .select('content_id,contents!inner(record_count)')
+      .order('content_id')
+      .range(from, to)
+      .overrideTypes<SourceContentCountRow[], { merge: false }>()),
   ])
 
-  throwOnQueryError('getAffiliateBooks/pool', localeResult.error)
+  throwOnQueryError('getAffiliateBooks/pool-linked', linkedResult.error)
+  throwOnQueryError('getAffiliateBooks/pool-popular', popularResult.error)
 
-  const rows = (localeResult.data ?? []) as unknown as LocaleRow[]
   const pool: PoolEntry[] = []
-  const excluded = new Set(RECOMMENDATION_EXCLUDED_IDS)
+  const seen = new Set<string>(RECOMMENDATION_EXCLUDED_IDS)
   const sourceIds = new Set(sourceRows.map((row) => row.content_id))
   const sourceCountById = new Map(sourceRows.map((row) => [
     row.content_id,
     row.contents?.record_count ?? 0,
   ]))
-  const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>()
-  for (const row of optionRows) {
-    const current = optionsByContent.get(row.content_id) ?? []
-    current.push(row)
-    optionsByContent.set(row.content_id, current)
-  }
 
-  // 일반 추천 카드에는 작품마다 기본 판본 하나만 쓴다. 인물 원전 책장에서는 모든 판본을 보여준다.
-  for (const [contentId, options] of optionsByContent) {
-    if (excluded.has(contentId)) continue
-    const edition = mapFigureBookPurchaseOptions(options, sourceLocale)[0]
-    // 홈 제휴 도서는 구매 링크가 있는 판본만 싣는다.
-    if (!edition?.purchaseUrl) continue
+  // 원전 작품 — 작품마다 대표 판본 하나만 쓴다. 인물 원전 책장에서는 모든 판본을 보여준다.
+  const editionsByContent = await loadFigureBookEditions(db, [...sourceIds], locale)
+  for (const [contentId, editions] of editionsByContent) {
+    if (seen.has(contentId)) continue
+    const edition = pickPurchaseEdition(editions, locale)
+    if (!edition?.title) continue
+    const url = locale === 'en'
+      ? getEnglishBookAmazonUrl({ title: edition.title, creator: edition.creator, url: edition.purchaseUrl })
+      : edition.purchaseUrl ?? ''
+    // 한국어는 ISBN이나 쿠팡 상품 중 하나는 있어야 서점 상품으로 잇는다
+    if (locale === 'ko' ? !normalizePurchaseIsbn(edition.isbn) && !url : !url) continue
+    seen.add(contentId)
     pool.push({
       book: {
         contentId,
@@ -150,26 +152,33 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
         title: edition.title,
         creator: edition.creator ?? undefined,
         thumbnail: edition.thumbnailUrl ?? undefined,
-        url: edition.purchaseUrl,
+        url,
       },
       userCount: sourceCountById.get(contentId) ?? 0,
       modernCount: 0,
     })
   }
 
+  const popularRows = ((popularResult.data ?? []) as unknown as PopularContentRow[]).flatMap((content) =>
+    (content.content_locales ?? []).map((row): LocaleRow => ({ ...row, contents: { user_count: content.record_count } })))
+  const rows = [
+    ...((linkedResult.data ?? []) as unknown as LocaleRow[]),
+    ...popularRows,
+  ]
   for (const row of rows) {
-    if (excluded.has(row.content_id)) continue
-    // 원전 작품의 구매 SSoT는 판본 상품 표다. locale의 이전 링크로 되돌아가지 않는다.
-    if (sourcePlatform && sourceIds.has(row.content_id)) continue
-    const link = findAffiliateLink(row.affiliate_url, platform)
-    if (!link?.url || !row.title) continue
+    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources)) continue
+    const url = locale === 'en'
+      ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
+      : findAffiliateLink(row.affiliate_url, 'coupang')?.url ?? ''
+    if (locale === 'ko' ? !normalizePurchaseIsbn(row.isbn) && !url : !url) continue
+    seen.add(row.content_id)
     pool.push({
       book: {
         contentId: row.content_id,
         title: row.title,
         creator: row.creator ?? undefined,
         thumbnail: row.thumbnail_url ?? undefined,
-        url: link.url,
+        url,
       },
       userCount: row.contents?.user_count ?? 0,
       modernCount: 0,
@@ -249,7 +258,7 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v4-purchase-edition'], {
+const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v6-real-edition'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로 달지 않는다.
   //
@@ -263,10 +272,10 @@ const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-
 })
 
 export async function getAffiliateBooks(
-  platform: AffiliatePlatformKey = 'coupang',
+  locale: AffiliateBookLocale = 'ko',
   limit = 6,
 ): Promise<AffiliateBook[]> {
-  const pool = await fetchAffiliatePoolCached(platform)
+  const pool = await fetchAffiliatePoolCached(locale)
 
   // 지금 서점에서 팔리는 책이 먼저 자리를 잡되 정해진 칸까지만, 나머지는 평소 목록이 채운다
   const ranked = BESTSELLER_CONTENT_IDS.map((id) => pool.find((p) => p.book.contentId === id)).filter(
@@ -379,14 +388,14 @@ async function fetchAffiliateBooksForCeleb(
    풀은 반드시 바깥에서 읽어 콜백에 넘긴다. 아래 태그 조회도 같다. */
 async function getAffiliateBooksForCelebInner(
   celebId: string,
-  platform: AffiliatePlatformKey = 'coupang',
+  locale: AffiliateBookLocale = 'ko',
   limit = 6,
 ): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
-  const pool = await fetchAffiliatePoolCached(platform)
+  const pool = await fetchAffiliatePoolCached(locale)
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v4-purchase-edition', celebId, platform, String(limit)],
+    ['affiliate-books-celeb-v6-real-edition', celebId, locale, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, limit, pool),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.
@@ -396,155 +405,3 @@ async function getAffiliateBooksForCelebInner(
 
 // 인물 상세는 서가 우선순위와 하단 상품 구획이 같은 요청에서 두 번 부른다 — 요청 안에서 한 번만 돈다.
 export const getAffiliateBooksForCeleb = cache(getAffiliateBooksForCelebInner)
-
-/** 여러 인물의 기록을 모아 작품별로 몇 명이 겹치는지 센다. 겹치는 인물이 많을수록 그 진영을 대표한다. */
-async function tallyByCelebs(
-  table: 'figure_book_characters' | 'celeb_contents',
-  celebIds: string[],
-): Promise<Map<string, number>> {
-  const db = createStaticClient()
-  const weight = new Map<string, number>()
-
-  // 인물 수가 많으면 요청 주소가 길어져 거부당한다 — 나눠 묻는다
-  for (let i = 0; i < celebIds.length; i += 60) {
-    const chunk = celebIds.slice(i, i + 60)
-    let data: { content_id: string }[] = []
-    try {
-      // 기록 많은 진영은 60명 묶음 하나가 1,000행을 넘는다(26.09.14 최대 2,700여 행) — 묶음마다 끝까지 받는다.
-      // 원전 표는 id가 없어 기본키(celeb_id, content_id)로, 감상 표는 id로 줄을 고정한다
-      data = await selectAllPages<{ content_id: string }>((from, to) => {
-        let query = db
-          .from(table)
-          .select('content_id')
-          .in('celeb_id', chunk)
-        query = table === 'figure_book_characters'
-          ? query.eq('relation_type', 'appearance').order('celeb_id', { ascending: true }).order('content_id', { ascending: true })
-          : query.order('id', { ascending: true })
-        return query.range(from, to)
-      })
-    } catch (error) {
-      console.error(`[getAffiliateBooks] ${table} 조회 실패:`, error)
-      return new Map()
-    }
-    for (const row of data) {
-      const id = row.content_id as string
-      weight.set(id, (weight.get(id) ?? 0) + 1)
-    }
-  }
-
-  return weight
-}
-
-/**
- * 이름이 책의 제목이나 저자에 걸리는지 본다.
- *
- * 짧거나 흔한 이름은 엉뚱한 저자와 겹친다 — 걸그룹 「다니엘」이 다니엘 핑크·다니엘 디포를,
- * 「티파니」가 『티파니에서 아침을』을 끌어왔다. 그래서 성과 이름이 함께 있거나(공백)
- * 충분히 긴 이름만 인정한다.
- */
-function nameHits(name: string | null, title: string, creator?: string): boolean {
-  if (!name) return false
-  const n = name.trim()
-  if (n.length < 5 && !n.includes(' ')) return false
-  return title.includes(n) || (creator?.includes(n) ?? false)
-}
-
-/**
- * 한 진영에 어울리는 책. 진영 성격에 따라 근거가 갈린다.
- * - 신화·전설 진영: 그 인물들이 등장하는 원전 (아스가르드→에다, 카멜롯→아서 왕의 죽음)
- * - 실존 인물 진영: 그 인물이 쓴 책이나 그를 다룬 책 (가장 어두운 시간→처칠 『제2차 세계대전』)
- * - 그것도 없으면: 그 인물들이 실제로 읽은 책
- * 어느 쪽이든 겹치는 인물이 많은 책부터 낸다.
- */
-async function fetchBooksForTag(
-  tagId: string,
-  tagName: string,
-  limit: number,
-  pool: PoolEntry[],
-): Promise<FactionBooks> {
-  const db = createStaticClient()
-  const empty: FactionBooks = { topic: [], people: [], peopleSource: 'read' }
-
-  const { data: members, error } = await db
-    .from('faction_atlas_members')
-    .select('celeb_id')
-    .eq('tag_id', tagId)
-    .limit(300)
-
-  if (error || !members?.length) {
-    if (error) console.error('[getAffiliateBooks] 진영 인물 조회 실패:', error)
-    return empty
-  }
-
-  const celebIds = Array.from(new Set(members.map((m) => m.celeb_id as string)))
-  if (pool.length === 0) return empty
-
-  const pick = (weight: Map<string, number>) =>
-    pool
-      .filter((p) => weight.has(p.book.contentId))
-      .sort((a, b) => (weight.get(b.book.contentId) ?? 0) - (weight.get(a.book.contentId) ?? 0))
-      .slice(0, limit)
-      .map((v) => v.book)
-
-  // ── 첫째 묶음: 그 진영이 다루는 분야의 책 ──
-  // 신화 진영은 인물들이 나오는 원전이 곧 분야다. 나머지는 정해 둔 분야 낱말로 찾는다.
-  const originWeight = await tallyByCelebs('figure_book_characters', celebIds)
-  let topic = pick(originWeight)
-
-  const keywords = FACTION_BOOK_TOPICS[tagName]
-  if (keywords?.length) {
-    const byKeyword = pool
-      .filter((p) => keywords.some((k) => p.book.title.includes(k) || (p.book.creator?.includes(k) ?? false)))
-      .map((v) => v.book)
-    // 원전이 이미 있으면 뒤에 덧붙이고, 없으면 이쪽이 분야 묶음이 된다
-    const merged = [...topic, ...byKeyword.filter((b) => !topic.some((t) => t.contentId === b.contentId))]
-    topic = merged.slice(0, limit)
-  }
-
-  // ── 둘째 묶음: 그 인물들에 얽힌 책 ──
-  // 인물이 쓴 책이나 그를 다룬 책이 먼저, 없으면 그들이 실제로 읽은 책.
-  const { data: celebs, error: celebsError } = await db.from('celebs').select('nickname').in('id', celebIds.slice(0, 60))
-  // 조회 실패를 "얽힌 책 없음"으로 캐시하지 않는다
-  throwOnQueryError('getAffiliateBooks/tag-celebs', celebsError)
-  const names = (celebs ?? []).map((p) => p.nickname as string | null)
-  const about = pool
-    .filter((p) => names.some((n) => nameHits(n, p.book.title, p.book.creator)))
-    .filter((p) => !topic.some((t) => t.contentId === p.book.contentId))
-    .slice(0, limit)
-    .map((v) => v.book)
-
-  if (about.length > 0) return { topic, people: about, peopleSource: 'about' }
-
-  const read = pick(await tallyByCelebs('celeb_contents', celebIds)).filter(
-    (b) => !topic.some((t) => t.contentId === b.contentId),
-  )
-  return { topic, people: read, peopleSource: 'read' }
-}
-
-function fetchBooksForTagCached(
-  tagId: string,
-  tagName: string,
-  platform: AffiliatePlatformKey,
-  limit: number,
-  pool: PoolEntry[],
-): Promise<FactionBooks> {
-  return unstable_cache(
-    () => fetchBooksForTag(tagId, tagName, limit, pool),
-    ['affiliate-books-tag-v2-purchase-edition', tagId, tagName, platform, String(limit)],
-    {
-      revalidate: STATIC_REVALIDATE,
-      tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FIGURE_BOOKS],
-    },
-  )()
-}
-
-export async function getAffiliateBooksForTag(
-  tagId: string,
-  tagName: string,
-  platform: AffiliatePlatformKey = 'coupang',
-  limit = 6,
-): Promise<FactionBooks> {
-  if (!tagId) return { topic: [], people: [], peopleSource: 'read' }
-  const pool = await fetchAffiliatePoolCached(platform)
-  return fetchBooksForTagCached(tagId, tagName, platform, limit, pool)
-}

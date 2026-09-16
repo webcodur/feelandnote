@@ -156,10 +156,10 @@ export default async function CelebPage({ params }: PageProps) {
   const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(allFigureBooks);
   const figureBooks = [...appearanceBooks, ...relatedBooks].filter((book) => book.editions.length > 0);
   const authoredIds = authoredBooks.map((book) => book.id);
-  // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full+한국어는
-  // 사실상 항상 결과가 있다. 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.
+  // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full 인물은
+  // 사실상 항상 결과가 있다(한국어 YES24·영어 아마존 검색). 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.
   const hasAffiliateBooks = mapRelatedFigureBooksToAffiliateBooks(relatedBooks, locale).length > 0
-    || (profile.celeb_tier === 'full' && locale === 'ko');
+    || profile.celeb_tier === 'full';
 
   const pageTitle = buildCelebTitle(
     createCelebMetaInput(profile, figureBooks),
