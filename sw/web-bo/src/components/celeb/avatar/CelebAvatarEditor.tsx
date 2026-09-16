@@ -40,7 +40,10 @@ interface Props {
   onExternalDrop?: (value: string) => void | Promise<void>
   onActivate?: () => void
   onFileAccepted?: (file: File) => void
-  onCroppedFile: (file: File, previewUrl: string) => void | Promise<void>
+  /** 적용과 동시에 배경 제거까지 고를 수 있는 창인지. 후속 처리를 붙인 호출부만 켠다. */
+  offerBackgroundRemoval?: boolean
+  /** 세 번째 값은 자르기 창에서 「적용과 동시에 배경 제거」를 골랐는지다. */
+  onCroppedFile: (file: File, previewUrl: string, removeBackground: boolean) => void | Promise<void>
   onRemove?: () => void
   onError?: (error: Error) => void
 }
@@ -65,6 +68,7 @@ export default function CelebAvatarEditor({
   onExternalDrop,
   onActivate,
   onFileAccepted,
+  offerBackgroundRemoval = false,
   onCroppedFile,
   onRemove,
   onError,
@@ -121,7 +125,7 @@ export default function CelebAvatarEditor({
     await acceptFile(event.dataTransfer.files?.[0])
   }
 
-  async function handleCropComplete(croppedDataUrl: string) {
+  async function handleCropComplete(croppedDataUrl: string, removeBackground: boolean) {
     setCropImageSrc(null)
     setStatus('saving')
 
@@ -129,7 +133,7 @@ export default function CelebAvatarEditor({
       const response = await fetch(croppedDataUrl)
       const blob = await response.blob()
       const file = new File([blob], 'avatar.png', { type: 'image/png' })
-      await onCroppedFile(file, croppedDataUrl)
+      await onCroppedFile(file, croppedDataUrl, removeBackground)
       if (!showSavedState) {
         setStatus('idle')
         return
@@ -271,6 +275,7 @@ export default function CelebAvatarEditor({
           aspectRatio={1}
           description="사진을 끌어 위치를 옮기고 스크롤이나 아래 막대로 확대하세요."
           allowTransparentPadding
+          offerBackgroundRemoval={offerBackgroundRemoval}
           onComplete={handleCropComplete}
           onCancel={() => {
             setCropImageSrc(null)
