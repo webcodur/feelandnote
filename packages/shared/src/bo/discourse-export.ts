@@ -123,7 +123,7 @@ export function backupDiscourseFiles(paths: DiscoursePaths, isPristine: boolean)
   const root = path.join(paths.dir, BACKUP_DIR)
 
   // ⚠ 백업 파일명은 반드시 `.bak` 접미사 — 원본과 같은 이름이면 렌더 로더의 자동 스캔이
-  // 백업까지 번들에 물어가 Studio 가 무거워진다(26.07.26 팩션·담화 사본 130개 실측).
+  // 백업까지 번들에 물어가 Studio 가 무거워진다(26.07.26 사본 130개 실측).
   if (isPristine) {
     const origDir = path.join(root, '_original')
     mkdirSync(origDir, { recursive: true })

@@ -1,3 +1,4 @@
+import { createHash } from 'crypto'
 import { readdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
@@ -117,6 +118,13 @@ export function toMythMusicEntry(file: MythMusicFile): MythMusicEntry {
         ? 'linked'
         : 'ready',
   }
+}
+
+/** R2 올림 키 — 내용 해시를 앞에 붙여 곡이 바뀌면 주소도 바뀐다. 기존 테마곡이 쓰던 `faction-music/` 자리를 그대로 쓴다 */
+export function mythMusicObjectKey(bytes: Buffer, file: string): string {
+  const hash = createHash('sha1').update(bytes).digest('hex').slice(0, 8)
+  const safe = path.basename(file).replace(/[^A-Za-z0-9._-]+/g, '_')
+  return `faction-music/${hash}-${safe}`
 }
 
 export function mythMusicValue(file: string, url: string, checkedAt: string) {

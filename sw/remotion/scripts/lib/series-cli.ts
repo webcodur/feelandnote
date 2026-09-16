@@ -1,8 +1,8 @@
 /**
- * series-cli.ts — 시리즈 DB 이관 도구(팩션·담화)의 **시리즈 무관 공용 부품**
+ * series-cli.ts — 시리즈 DB 이관 도구(담화)의 **시리즈 무관 공용 부품**
  *
  * env 로딩 · service role 클라이언트 · CLI 인자 파싱 · 진행 표시.
- * 시리즈별 lib(`faction/lib.ts`·`discourse/lib.ts`)이 이 모듈을 물고 폴더 스캔만 따로 쥔다.
+ * 시리즈별 lib(`discourse/lib.ts`)이 이 모듈을 물고 폴더 스캔만 따로 쥔다.
  *
  * ⚠ 이 폴더의 스크립트는 sw/remotion/tsconfig.json 의 include(["src","episodes"]) 밖이다.
  *   `npx tsc --noEmit` 으로는 검사되지 않으므로 컴파일러 옵션을 직접 줘서 따로 검사한다.

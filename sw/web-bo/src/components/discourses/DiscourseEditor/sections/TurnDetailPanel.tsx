@@ -44,7 +44,7 @@ const KINDS: { value: TurnKind; label: string; hint: string }[] = [
   { value: 'agree', label: '동의', hint: '앞 발언에 힘을 보탠다' },
 ]
 
-/** 컷 진입 전환 옵션 — 팩션 효과 시트와 같은 어휘(전환 구현을 공유한다) */
+/** 컷 진입 전환 옵션 */
 const TRANSITION_OPTIONS: { value: DiscourseTransition; label: string }[] = [
   { value: 'auto', label: '자동 (번갈아)' },
   { value: 'zoompunch', label: '확 다가오기 (줌인)' },

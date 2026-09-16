@@ -9,7 +9,6 @@
  */
 
 import type { EleVoiceNote } from '@/lib/ele-voice-notes'
-import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
 import type { EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
 import type { EleVoiceRecommendation } from './types'
 
@@ -32,7 +31,6 @@ type BuildRecommendationArgs = {
   targetGender?: 'male' | 'female' | null
   emotions?: string[]
   voiceNotes?: Record<string, EleVoiceNote>
-  voiceHistory?: Record<string, FactionVoiceHistoryEntry>
   blockedVoiceIds?: Set<string>
   limit?: number
 }
@@ -177,28 +175,6 @@ function matchedRules(personText: string) {
   return RULES.filter(rule => includesAny(personText, rule.triggers))
 }
 
-function historyMatchesPerson(personText: string, history: FactionVoiceHistoryEntry | undefined, emotions: string[]) {
-  if (!history) return false
-  const terms = [
-    ...history.roles,
-    ...history.emotions,
-    ...history.usages.flatMap(usage => [
-      usage.groupName,
-      usage.clusterLabel,
-      usage.org,
-      usage.role,
-      usage.quoteSpeaker,
-      usage.quoteStyle,
-      ...(usage.lines ?? []),
-      ...(usage.quoteEleEmotions ?? []),
-    ]),
-  ]
-    .filter((term): term is string => typeof term === 'string' && term.trim().length >= 3)
-    .map(term => term.toLowerCase())
-
-  return terms.some(term => personText.includes(term)) || emotions.some(em => history.emotions.includes(em))
-}
-
 export function recommendEleVoices({
   subjectText,
   voices,
@@ -206,7 +182,6 @@ export function recommendEleVoices({
   targetGender,
   emotions = [],
   voiceNotes = {},
-  voiceHistory = {},
   blockedVoiceIds,
   limit = 5,
 }: BuildRecommendationArgs): EleVoiceRecommendation[] {
@@ -223,7 +198,6 @@ export function recommendEleVoices({
       const reasons: string[] = []
       const text = voiceSearchText(voice)
       const note = voiceNotes[voice.voice_id]
-      const history = voiceHistory[voice.voice_id]
       let score = 0
 
       if (voice.voice_id === currentVoiceId) {
@@ -247,15 +221,6 @@ export function recommendEleVoices({
       } else if (note?.status === 'maybe') {
         score += 1.2
         uniqPush(reasons, '보류 메모')
-      }
-
-      if (history?.count) {
-        score += Math.min(2, 0.5 + history.count * 0.25)
-        uniqPush(reasons, `기존 ${history.count}회`)
-        if (historyMatchesPerson(personText, history, emotions)) {
-          score += 2
-          uniqPush(reasons, '기존 매칭 유사')
-        }
       }
 
       for (const rule of rules) {

@@ -3,7 +3,7 @@ import { AbsoluteFill } from 'remotion'
 import type { DiscourseScript } from '../types'
 import { BG, FONT, CONTENT_PAD } from '../constants'
 import { imgSrc, resolveNotice } from '../utils'
-import { FilledImage } from '../../Faction/sections/FilledImage'
+import { FilledImage } from './FilledImage'
 import { BrandLogo } from '../../BookRecommend/brand'
 
 /**

@@ -1,16 +1,16 @@
 'use client'
 
 /**
- * 사진·영상 화면 부품 한 벌 — 세력도·가상 담화·책과 사람·랭킹이 함께 쓴다.
+ * 사진·영상 화면 부품 한 벌 — 가상 담화·책과 사람·랭킹이 함께 쓴다.
  *
  * 두 시리즈는 같은 부품을 각자 복제해 두고 있었다(썸네일·드롭·크게 보기·맞춤 편집기·
  * 고르기 창·목록·칸). 그러다 보니 한쪽에만 기능이 붙고 문구가 갈라졌다.
  * 이 파일이 그 전부의 단일 원천이다. 부품별로 파일을 쪼개지 않는다 — 여기 한 곳만 보면 된다.
  *
  * 시리즈 차이는 두 가지 방식으로 흡수한다.
- *  1) 끌어다 놓기 데이터 종류(dnd)는 시리즈별로 다르게 넘긴다 — 세력도 목록에서 끌어와
- *     담화 칸에 놓이는 사고를 막는다.
- *  2) 필터 효과·다가갈 지점 같은 시리즈 전용 기능은 그 콜백을 넘길 때만 화면에 나온다.
+ *  1) 끌어다 놓기 데이터 종류(dnd)는 시리즈별로 다르게 넘긴다 — 다른 시리즈 목록에서 끌어와
+ *     엉뚱한 칸에 놓이는 사고를 막는다.
+ *  2) 다가갈 지점 같은 시리즈 전용 기능은 그 콜백을 넘길 때만 화면에 나온다.
  *
  * 서버 창구는 이미 하나다: /api/{series}/media(목록·올리기·지우기),
  * /api/{series}/media/folder(폴더 만들기·이름바꾸기·지우기·옮기기·탐색기로 열기),
@@ -36,7 +36,7 @@ export { imageSrc }
 
 /**
  * 사진 맞춤 — 화면 비율과 안 맞는 사진을 채울(cover) 때 잘릴 위치와 확대 정도.
- * 세력도(FactionImageCrop)·담화(DiscourseImageCrop)와 구조가 같아 그대로 오간다.
+ * 담화(DiscourseImageCrop)와 구조가 같아 그대로 오간다.
  */
 export interface ImageCrop {
   /** 가로 초점 % (0=왼쪽, 50=가운데 기본, 100=오른쪽) */
@@ -54,7 +54,6 @@ export interface ImageFocus {
 }
 
 /** 끌어다 놓기 데이터 종류 — 시리즈끼리 섞이지 않게 갈라 둔다 */
-export const FACTION_IMAGE_DND = 'application/x-faction-image'
 export const DISCOURSE_IMAGE_DND = 'application/x-discourse-image'
 export const BOOK_PERSON_IMAGE_DND = 'application/x-book-person-image'
 export const RANKING_IMAGE_DND = 'application/x-ranking-image'
@@ -101,16 +100,6 @@ function srcExt(src: string, video: boolean): string {
   const m = src.match(/\.([a-zA-Z0-9]+)(?:[?#]|$)/)
   return (m?.[1] ?? (video ? 'mp4' : 'img')).toLowerCase()
 }
-
-/** 필터 효과 — 영상에 입히는 색감. 세력도만 쓰지만 부품은 공용이다. */
-const FILTER_OPTIONS = [
-  { value: '', label: '원본' },
-  { value: 'vintage', label: '옛날 필름' },
-  { value: 'sepia', label: '세피아' },
-  { value: 'grayscale', label: '흑백' },
-  { value: 'duotone', label: '투톤' },
-  { value: 'fade', label: '페이드' },
-]
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 썸네일
@@ -176,7 +165,7 @@ export function MediaThumb({
 
 /**
  * 사진 목록에서 끌어온 사진을 받는 칸의 공통 동작.
- * dnd 는 시리즈별 데이터 종류(FACTION_IMAGE_DND / DISCOURSE_IMAGE_DND).
+ * dnd 는 시리즈별 데이터 종류(DISCOURSE_IMAGE_DND 등).
  * onDropImage(path) 로 놓인 사진의 경로(에피소드 폴더 기준)를 받아 연결한다.
  * dropProps 를 받을 요소에 펼쳐 붙이고, dragOver 로 「여기 놓으면 됩니다」 표시를 낸다.
  */
@@ -526,13 +515,13 @@ export function ImageFocusPicker({
  * 이 편 폴더 전체(하위 폴더 포함)를 훑어 보여주고, 새 파일을 올리거나 바깥 주소를 붙여넣거나
  * 바깥 주소 사진을 이 편 폴더로 받아 둘 수 있다. 세로 화면에서 어디가 보일지도 여기서 잡는다.
  *
- * 맞춤·다가갈 지점·필터 효과·아바타 저장은 해당 콜백(또는 slug)을 넘길 때만 화면에 나온다.
+ * 맞춤·다가갈 지점은 해당 콜백을 넘길 때만 화면에 나온다.
  */
 export function ImagePicker({
   value, onChange, series, episodeName, onClose,
   crop, onCropChange, cropFit = 'cover', captionArea = false,
-  focus, onFocusChange, filter, onFilterChange,
-  slug, onUploaded, title = '사진 고르기',
+  focus, onFocusChange,
+  onUploaded, title = '사진 고르기',
 }: {
   value?: string
   onChange: (next: string | undefined) => void
@@ -549,11 +538,6 @@ export function ImagePicker({
   /** 다가갈 지점(줌) — 넘기면 맞춤 편집기 옆에 목표점 찍기를 띄운다 */
   focus?: ImageFocus
   onFocusChange?: (focus: ImageFocus | undefined) => void
-  /** 필터 효과 — 넘기면 고르기 창에 색감 선택을 띄운다 */
-  filter?: string
-  onFilterChange?: (filter: string | undefined) => void
-  /** 인물 슬러그 — 넘기고 값이 바깥 주소면 「아바타로 저장」이 나온다 */
-  slug?: string
   /** 파일을 올리거나 지운 뒤 — 사진 목록을 새로 읽게 한다 */
   onUploaded?: () => void
   title?: string
@@ -569,8 +553,7 @@ export function ImagePicker({
 
   /**
    * 이 편 폴더의 사진 전부.
-   * 세력도는 images/ 한 곳에 몰아 두지만 담화는 인물 폴더(cast/<인물>/)에 나눠 두므로
-   * images/ 직속만 읽으면 목록이 비어 보인다. 폴더 전체를 훑어 온다.
+   * 담화는 인물 폴더(cast/<인물>/)에 나눠 두므로 images/ 직속만 읽으면 목록이 비어 보인다. 폴더 전체를 훑어 온다.
    */
   const loadImages = useCallback(() => {
     fetch(`/api/${series}/media?ep=${encodeURIComponent(episodeName)}&tree=1`)
@@ -654,44 +637,6 @@ export function ImagePicker({
     }
   }
 
-  /** 바깥 주소 사진을 셀럽 아바타로 내려받아 등록한다(세력도 인물 전용) */
-  const handleSaveAvatar = async () => {
-    if (!value || !value.startsWith('http') || !slug) return
-    setBusy(true)
-    try {
-      const res = await fetch(`/api/${series}/faction-avatar`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ep: episodeName, url: value, slug }),
-      })
-      const data = await res.json()
-      if (res.ok && data.file) {
-        onChange(data.file)
-        loadImages()
-        onUploaded?.()
-      } else {
-        alert('저장하지 못했습니다: ' + (data.error ?? ''))
-      }
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  const canSaveAvatar = !!slug && !!value && value.startsWith('http')
-
-  const filterSelect = onFilterChange && (
-    <select
-      value={filter ?? ''}
-      onChange={e => onFilterChange(e.target.value || undefined)}
-      className="shrink-0 rounded-md border border-border bg-bg-main px-2 py-1 text-xs text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
-      title="색감 효과"
-    >
-      {FILTER_OPTIONS.map(opt => (
-        <option key={opt.value} value={opt.value}>{opt.label}</option>
-      ))}
-    </select>
-  )
-
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-20" onClick={onClose}>
       <div
@@ -729,7 +674,6 @@ export function ImagePicker({
               </div>
               <div className="flex items-center gap-2">
                 <span className="min-w-0 flex-1 truncate text-xs text-text-secondary">{value}</span>
-                {filterSelect}
                 <button onClick={() => onChange(undefined)} className="shrink-0 rounded-md border border-border px-2 py-1 text-xs text-danger-text hover:bg-danger">
                   연결 끊기
                 </button>
@@ -739,7 +683,6 @@ export function ImagePicker({
             <div className="flex items-center gap-3 rounded-md border border-border bg-bg-secondary p-2">
               <MediaThumb src={imageSrc(series, episodeName, value)!} alt="" className="h-14 w-14 rounded-md object-cover" />
               <span className="min-w-0 flex-1 truncate text-xs text-text-secondary">{value}</span>
-              {filterSelect}
               <button onClick={() => onChange(undefined)} className="rounded-md border border-border px-2 py-1 text-xs text-danger-text hover:bg-danger">
                 연결 끊기
               </button>
@@ -762,15 +705,6 @@ export function ImagePicker({
             >
               파일 올리기
             </button>
-            {canSaveAvatar && (
-              <button
-                onClick={handleSaveAvatar}
-                disabled={busy}
-                className="rounded-md border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover disabled:opacity-50"
-              >
-                아바타로 저장
-              </button>
-            )}
             <span className="text-xs text-text-dim">올린 파일은 이 편의 images 폴더에 들어갑니다</span>
           </div>
 
@@ -1298,7 +1232,7 @@ export function ImagePool({
  * 비어 있으면 무엇으로 대신 나가는지(예: 인물 기본 사진) 안내를 띄운다.
  */
 // ─────────────────────────────────────────────────────────────────────────────
-// 사진 카드 — 대사 구절에 걸린 사진 한 장 (팩션 인물 대사 · 담화 발언 공용)
+// 사진 카드 — 발언 구절에 걸린 사진 한 장
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -1331,26 +1265,16 @@ export const ANCHOR_THEMES: AnchorTheme[] = [
 /** 순번을 색으로 — 색 수를 넘어가면 처음부터 돌아간다 */
 export const themeAt = (index: number): AnchorTheme => ANCHOR_THEMES[index % ANCHOR_THEMES.length]
 
-/** 사진 색감 — 렌더가 지원하는 값만 둔다 */
-export const IMAGE_FILTER_OPTIONS: { value: string; label: string }[] = [
-  { value: '', label: '원본' },
-  { value: 'vintage', label: '필름' },
-  { value: 'sepia', label: '세피아' },
-  { value: 'grayscale', label: '흑백' },
-  { value: 'duotone', label: '투톤' },
-  { value: 'fade', label: '페이드' },
-]
-
 /**
- * 사진 카드 — 왼쪽에 큼직한 사진, 오른쪽에 머리띠(이름표·색감·지우기)와 본문(걸리는 구절).
+ * 사진 카드 — 왼쪽에 큼직한 사진, 오른쪽에 머리띠(이름표·지우기)와 본문(걸리는 구절).
  *
- * 팩션 인물 대사와 담화 발언이 같은 부품을 쓴다. 사진 고르는 창은 부르는 쪽이 띄운다 —
+ * 사진 고르는 창은 부르는 쪽이 띄운다 —
  * 대사 글에서 표식을 눌러도 같은 창이 열려야 해서 여닫는 권한을 부품이 쥐면 안 된다.
  */
 export function ImageCard({
   src, crop, inheritedSrc, inheritedCrop, inheritedLabel = '물려받음',
   dnd, onDropImage, path, onOpenPicker,
-  label, theme, filter, onFilterChange, onClearImage, onRemove,
+  label, theme, onClearImage, onRemove,
   caption, captionEmpty = '빈 줄', children, width = 280,
 }: {
   /** 이 카드에 걸린 사진 주소 (imageSrc 를 거친 값) */
@@ -1369,9 +1293,6 @@ export function ImageCard({
   /** 머리띠 이름표 — '#1 시작' 같은 것 */
   label: string
   theme?: AnchorTheme
-  /** 색감 — 넘기면 머리띠에 고르는 칸이 뜬다 */
-  filter?: string
-  onFilterChange?: (filter: string | undefined) => void
   /** 사진만 비우기(자리는 남김) */
   onClearImage?: () => void
   /** 이 자리를 아예 없애기 */
@@ -1419,17 +1340,6 @@ export function ImageCard({
         <div className={`flex items-center justify-between border-b px-1.5 py-1 ${theme ? `${theme.badgeBg} ${theme.border}` : 'border-border bg-bg-hover'}`}>
           <span className={`text-[10px] font-black ${theme ? theme.badgeText : 'text-text-secondary'}`}>{label}</span>
           <div className="flex items-center gap-1">
-            {onFilterChange && src && (
-              <select
-                value={filter ?? ''}
-                onChange={e => onFilterChange(e.target.value || undefined)}
-                onClick={e => e.stopPropagation()}
-                className="rounded border border-border bg-bg-main px-1 py-0.5 text-[9px] text-text-secondary hover:border-accent focus:border-accent focus:outline-none"
-                title="사진 색감"
-              >
-                {IMAGE_FILTER_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-              </select>
-            )}
             {onClearImage && src && (
               <button
                 type="button"
@@ -1469,7 +1379,7 @@ export function ImageCard({
 export function ImageSlot({
   value, onChange, crop, onCropChange, series, episodeName, dnd,
   label, emptyText, inheritedSrc, size = 72, pickerTitle, onUploaded,
-  cropFit, captionArea, focus, onFocusChange, filter, onFilterChange, slug,
+  cropFit, captionArea, focus, onFocusChange,
 }: {
   value?: string
   onChange: (next: string | undefined) => void
@@ -1492,9 +1402,6 @@ export function ImageSlot({
   captionArea?: boolean
   focus?: ImageFocus
   onFocusChange?: (focus: ImageFocus | undefined) => void
-  filter?: string
-  onFilterChange?: (filter: string | undefined) => void
-  slug?: string
 }) {
   const [open, setOpen] = useState(false)
   const { dragOver, dropProps } = useImageDrop(dnd, onChange)
@@ -1543,9 +1450,6 @@ export function ImageSlot({
           captionArea={captionArea}
           focus={focus}
           onFocusChange={onFocusChange}
-          filter={filter}
-          onFilterChange={onFilterChange}
-          slug={slug}
           series={series}
           episodeName={episodeName}
           onClose={() => setOpen(false)}

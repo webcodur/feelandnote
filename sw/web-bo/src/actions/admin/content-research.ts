@@ -163,7 +163,7 @@ async function getContentCounts(celebIds: string[]): Promise<Map<string, number>
   return counts
 }
 
-// 세력도감 연결 여부 — 단일 원천 뷰(faction_atlas_members) 기준. 제작 유래 ∪ 웹 전용 배정.
+// 세력도감 연결 여부 — 단일 원천 뷰(faction_atlas_members) 기준.
 async function getFactionLinkedIds(celebIds: string[]): Promise<Set<string>> {
   const admin = createAdminClient()
   const linkedIds = new Set<string>()

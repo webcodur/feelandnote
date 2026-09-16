@@ -29,7 +29,7 @@ pnpm dev:bo
 
 `/login`은 Auth의 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
 
-단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도감·가상 담화 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도감](#세력도감)·[가상 담화](#가상-담화) 절).
+단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 영상 제작 자산 창구는 라우트마다 스스로 관리자 확인을 한다(아래 [가상 담화](#가상-담화)·[랭킹](#랭킹) 절).
 
 ## 화면 구성
 
@@ -38,7 +38,7 @@ pnpm dev:bo
 아래 표와 실제 `app/` 라우트를 기준으로 본다.
 
 왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이다.
-리모션 시리즈(서재 탐방·책과 사람·세력도감·가상 담화·랭킹)는 「영상」 묶음 아래 둔다.
+리모션 시리즈(서재 탐방·책과 사람·가상 담화·랭킹)와 세력도감·자산 보관소는 「영상」 묶음 아래 둔다.
 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도
 셀럽 목록 안의 버튼으로만 들어간다.
 
@@ -115,7 +115,7 @@ pnpm dev:bo
 
 관련 서버 창구는 `/api/book-recommend/**` 42라우트와 `/api/tasks`,
 `/api/open-folder`다. 모든 동적 시리즈 창구는 `book-recommend`만 허용하며,
-파일 조작·렌더·업로드는 `REMOTION_LOCAL=1`(옛 별칭 `FACTION_LOCAL=1`)인 로컬 환경에서만
+파일 조작·렌더·업로드는 `REMOTION_LOCAL=1`인 로컬 환경에서만
 동작한다. 표지 원본 URL은 공용 외부 이미지 검증기를 통과해야 하며, 렌더 캐시는
 `covers/content/<contentId>/<locale>.webp`에 만든다.
 
@@ -143,86 +143,25 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 전승 하나가 화면 한 장이다(`?tag=<전승 id>`). 왼쪽은 `myth-and-fiction` 아래 전승 목록(공개 여부·노출 인원·영상 연결 표시), 오른쪽은 전승 이름·소개·공개 스위치, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·전승 전용 사진·숨김·넣기·빼기)이다. 영상에서 온 행은 읽기 전용이다 | `celeb_tags`, `celeb_tag_groups`, `celeb_tag_assignments`(뷰 `faction_atlas_members`로 읽음) |
+| `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 전승 하나가 화면 한 장이다(`?tag=<전승 id>`). 왼쪽은 `myth-and-fiction` 아래 전승 목록(공개 여부·노출 인원), 오른쪽은 전승 이름·소개·공개 스위치, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·전승 전용 사진·숨김·넣기·빼기)이다 | `celeb_tags`, `celeb_tag_groups`, `celeb_tag_assignments`(뷰 `faction_atlas_members`로 읽음) |
 
-세력도감 편집기와 따로 둔다. 거기는 대본·음성·렌더 칸이 섞여 신화 화면에 나가는 값만 골라 고치기 어렵다. 신화 화면이 쓰지 않는 칸(상세 소개·단체샷·색·기간)은 이 화면에 두지 않는다. 조회는 `src/actions/admin/myths.ts`, 쓰기는 `src/actions/admin/tags.ts`의 테마·그룹 액션을 그대로 부른다. 그룹의 이름·차례·설명은 여기서만 고친다 — 세력도감 테마 명단에는 두 벌 두지 않는다. 영상과 연결된 전승의 명단은 `sw/web-bo/scripts/faction/move-tag-roster-to-web.mjs`로 웹에 옮긴 뒤 여기서 고친다.
+세력도감 테마 편집 화면과 따로 두되 같은 표를 쓴다. 신화 화면이 쓰지 않는 칸(상세 소개·단체 사진·색·기간)은 이 화면에 두지 않는다. 조회는 `src/actions/admin/myths.ts`, 쓰기는 `src/actions/admin/tags.ts`의 테마·그룹 액션을 그대로 부른다. 그룹의 이름·차례·설명은 여기서만 고친다 — 세력도감 테마 명단에는 두 벌 두지 않는다.
 
 ### 세력도감
 
-> 26.07.25 신설 — 팩션(세력도감) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
-
-영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 DB 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [`faction/`](../remotion/faction/README.md), 통합 설계는 [`faction/unification.md`](../remotion/faction/unification.md) §4-3다.
+서비스 세력도감(`/explore/faction`)에 나가는 테마와 인물 명단을 편집한다. 영상 제작 표는 없다. 테마는 `celeb_tags`, 명단은 웹 배정 `celeb_tag_assignments`, 진영(그룹)은 `celeb_tag_groups`가 원천이다. 화면은 공개 뷰 `faction_atlas_members`로 읽고, 쓰기는 `src/actions/admin/tags.ts`의 테마·배정·그룹 액션이 맡는다. 사용자 화면 규격은 [explore.md](../service/explore.md) 「세력도감」이 쥔다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도감 | **표 하나.** 한 줄 = 편집 화면 하나다. 영상 편은 편 편집기로, 영상 없는 웹 전용 테마는 「영상 없음」 표찰을 달고 테마 화면으로 간다. 제작 편에 연결된 테마는 제 줄 없이 그 편 줄의 배지로만 보인다. `faction_people`는 실제 출연 인물 배치이며 CELEB 연결·세력도감 노출 대상이다. 이야기 본문은 장면의 `beats`가 소유하고, 구 `is_person=false` 서사 행은 읽을 때 beats로 승격한다. 회사·조직·제품·기계·기체·부대·집단을 개인샷으로 등록하지 않는다. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 활성 여부는 DB `registered`가 쥔다. 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
-| `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물(검색 추가·제거·끌어 정렬·소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다.** 인물 목록은 뷰 `faction_atlas_members`에서 읽고 **행마다 제작/수동 출처 배지**가 붙는다(26.08.03) — 제작 행의 한줄은 직함 1행 고정이고 상세 소개·개인샷·숨김만 `faction_people`의 `web_*` 칸에 기록된다. 제거는 숨김(`web_hidden`)으로 동작하며, 끌어 정렬은 수동 행 전용이다. 수동 행은 영상 원문이 없으므로 한줄·상세를 모두 직접 편집한다 | `celeb_tags`, `celeb_tag_assignments`, `faction_people`(web_* 칸) |
-| `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
-| `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `info`의 최상위 레일에는 장면만 놓인다. 한 장면은 대표 사진과 `beats` 컷 배열을 소유하며, 말 없는 화면·해설·인물 대사는 같은 컷 UI에서 `speakerCelebId` 할당 여부로만 갈린다. 「앞에 컷」은 현재 장면의 첫 beat를 추가하고 「앞에 장면」은 독립 `cluster`를 추가한다. 할당된 컷은 현재 이름과 기본 음성을 인물에서 상속하고 컷 자체의 오버라이드만 우선한다. 인물 이름은 각 렌더 영상의 첫 대사에서만 자동 표시하며 대사별로 강제 표시·숨김할 수 있다. 이 설정은 대표 대사 선택과 별개다. 대표로 고른 대사 하나는 인물 기본 대사와 웹팩션 대사로 함께 쓴다. 미할당 화자명과 이름 화면 표시 여부도 컷에서 직접 고친다. 장면명 위치의 빈 값은 위 「대사·장면 자막」 위치를 상속한다. 각 컷 안에서 줄 단위 대사 분할과 기존 위치 음원의 재생·생성·싱크·후처리를 그대로 다룬다. 구 인물 `quote`와 `isPerson=false` 독립 장면은 로드할 때 소속 장면의 `beats`로 순서대로 승격하며 별도 카드로 열지 않는다. 항목 사이 쇼츠 경계는 다음 항목의 flag로 보존한다. 「인물 사진」 모드는 실제 출연 인물만 UUID로 중복 제거해 보여 준다 | 위 5테이블, `celebs` |
-| `/factions/[episode]/[lang]/[tab]/card/…` | (편 이름) 카드 | 카드뉴스 편성·미리보기·출고. 정비 탭 아래에만 있어 다른 탭으로 들어오면 `info`로 보낸다 | — |
+| `/factions` | 세력도감 | 테마 목록 표 하나. 상위분류로 묶어 접고 펴며 이름·설명·주소로 검색한다. 줄마다 소속 인물 수·단체 사진 장수·개인화보를 가진 인물 수를 보이고, 테마 이름을 바로 고치고, 웹 노출(`is_featured`)을 켜고 끈다. 신화 갈래 테마에는 「신화 공개」(`atlas_published`) 스위치가 함께 선다. 「새 테마」로 만들면 그 테마 편집 화면으로 간다 | `celeb_tags`, `faction_atlas_members` |
+| `/factions/[theme]` | (테마 이름) | 테마 id 또는 slug로 연다. 설정: 이름·영문명, 주소(slug, 영문명에서 자동 생성), 설명(한영), 상위 묶음, 진열 순서, 색, 도감 노출과 기간, 단체 사진 여러 장, 테마 삭제. 명단: 기존 셀럽 검색 추가·끌어 정렬·제거, 한 줄·상세 소개(한영), 숨김, 개인화보, 그룹 지정·새 그룹 추가 | `celeb_tags`, `celeb_tag_assignments`, `celeb_tag_groups` |
 
-편집기 탭은 위 세 개다. **정비**는 장면 순서와 장면 안의 대사·음성·컷 효과·전역 설정을 다룬다. 최상위 `sequence`에는 `cluster` 장면과 장면 사이 `cut`만 둔다. 모든 본문은 `cluster.beats[]`가 소유하고 `speakerCelebId`가 실제 인물 할당을 표시한다. 대사 자체의 음성 오버라이드가 있을 때만 인물 기본값보다 우선한다. **인물 사진** 모드는 실제 출연 인물 프로필만 다룬다. **편성 쇼츠**와 **편성 롱폼**은 흐름을 나누고 화면·음악을 정하며 장면 본문은 정비가 소유한다.
-
-화자 없는 본문 컷은 화자 선택에서 `나레이터 · 공용 화자`로 보인다. 나레이터는 출연진·대표 대사·웹 도감 인물에 들어가지 않고, 화면 아래 「나레이터」의 공용 음성을 상속한다. 자유 화자명이 있는 미할당 컷은 별도 화자로 유지한다.
-
-사람이 결정하는 장면·컷·인물 기본값과 화면·음성 설정은 해당 통합 UI에서 편집한다. 음원·트랙의 실측 길이처럼 파이프라인이 산출하는 값은 편집값으로 열지 않는다.
-
-**「렌더」 버튼은 창고 방식으로 돈다(26.07.26).** 영상·롱폼 썸네일 모두 `pnpm render:staged` 를 부르고, 그 스크립트가 렌더 직전에 **그 편 자산 + 공용(효과음·곡·글꼴)만** 임시 폴더에 하드링크로 모아 넘긴다. 예전에는 편마다 `public/` 7.3GB를 통째로 복사해 디스크가 찼다 — 실측 PayPal-Mafia 기준 **189MB**로 줄었다. 조립이 실패하면 조용히 통짜로 넘어가지 않고 멈춘다(사람이 `--full-public` 을 붙여야 옛 방식). 규칙은 `sw/remotion/scripts/render/stage.ts` 소유이고 함정은 `gotchas.md` 렌더 절에 있다.
-
-#### 서버 액션
-
-`src/actions/admin/factions/`의 서버 액션을 쓴다. 편집기는 창구(API)가 아니라 이 액션들을 부른다.
-
-| 파일 | 담는 것 |
-| --- | --- |
-| `episodes.ts` | 편 목록·**한 편 상태 조회(`getFactionEpisodeMeta` — 편집기 상단 조작줄용)**·생성·복제·이름 변경·삭제·상태·노출 여부·순서 |
-| `themes.ts` | 도감 테마 목록(`listFactionThemes`)·테마↔영상 편 역조회(`getThemeEpisodeLinks`, 근거는 `faction_groups.tag_id`). 테마 CRUD 자체는 `src/actions/admin/tags.ts`가 그대로 맡는다 |
-| `script.ts` | 대본 불러오기(`loadFactionScript`)·저장(`saveFactionScript`). 저장은 원자 RPC 하나로 묶이고 기준 시각이 어긋나면 거부한다. 저장 절차 본체는 `src/lib/faction-save.ts`에 있다(인증 밖에 둬서 Next 밖에서도 검증할 수 있게 했다) |
-| `export.ts` | `faction-data.json` 내보내기·노출 목록 재생성·파일 상태 조회. 저장 시 자동으로 따라 붙는다 |
-| `publish.ts` | 세력도감 출간 — 진단(`diagnoseFactionPublish`)·출간(`publishFactionEpisode`) |
-| `people.ts` | 편집기 인물 사진 모드 — 현재 대본이 넘긴 셀럽 UUID들의 아바타·대표 사진 프로필을 한 번에 조회 |
-
-**음성 길이는 사람이 입력하지 않는다.** `quote_duration`·`epithet_duration`은 음성 파이프라인 소유라 DB에 값이 있으면 저장이 덮지 않고, 반영은 `pnpm faction:durations-pull`(wav 실측)이 한다.
-
-#### 로컬 자산 창구 (`/api/faction/**`)
-
-사진·음성·발화 시각·렌더 산출물은 용량이 커서 DB로 올리지 않고 `sw/remotion/` 디스크에 남긴다. 그래서 이 창구들은 **개발자 로컬에서만 동작한다**.
-
-- `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 **503과 사유**를 낸다(조용히 빈 결과를 주지 않는다). 렌더 저장소 위치는 `REMOTION_ROOT`로 옮긴다.
-- 창구 묶음: `media`(목록·업로드·삭제)·`media/folder`·`media/[episode]/[...path]`·`asset/[...path]`·`voice`(+`[episode]`·`[file]`·`save`·`age`·`reorder`·`timing`·`analyze`)·`voice/{gemini,gemini-v3,elevenlabs}/preview`·`task`(+`[id]`)·`render`·`youtube/{status,sync,upload}`·`cards/[episode]`·`card-export`·`music`(+곡 서빙)·`sfx`·`comment/[episode]`·`faction-avatar`·`status`.
-- 주소 첫 토막을 `faction`으로 잡은 이유는 공용 편집 부품이 `/api/${series}/media` 식으로 시리즈 이름을 넣어 부르기 때문이다. 하이픈(`api/faction-media`)으로 잡으면 그 부품을 포크해야 한다.
-
-**⚠ 진입 검사가 이미지 확장자를 건너뛴다.** `src/proxy.ts`의 matcher가 `.svg|.png|.jpg|.jpeg|.gif|.webp`로 끝나는 주소를 제외하므로 `/api/faction/asset/x/y.png`는 로그인 검사를 지나쳐 라우트에 곧바로 닿는다(실측). 그래서 팩션 창구는 라우트마다 `guardFactionRoute()`(로컬 가드 + 자체 관리자 확인)를 **첫 줄에** 두고, 경로 잠금은 `src/lib/faction-asset.ts`로 분리했다. 화면 인증만 믿으면 뚫린다. 같은 함정으로 이미지 프록시가 무방비였던 이력이 있다.
-
-**카드 출고의 한 번짜리 열쇠.** 카드 출고는 서버가 아니라 헤드리스 브라우저가 사진을 가져가고 그 프로세스에는 로그인 정보가 없다. 그래서 열쇠를 경로 앞 토막에 실어 통과시킨다 — `/api/rm-asset/_k/<열쇠>/…`(`src/lib/faction-render-token.ts`, 메모리 보관 30분). 물음표 뒤 질의가 아니라 경로인 이유는 렌더 쪽이 `기준주소/상대경로`로 이어 붙이기 때문이다. 엉뚱한 열쇠는 401이다.
-
-#### 출간 (세력도감 반영)
-
-> **26.08.03 단일화 — 텍스트 복사는 폐기됐다.** 인물 텍스트(대사·직함·소개)의 유일 원천은 `faction_people`이고 웹은 뷰 `faction_atlas_members`를 직독하므로, 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹에 반영된다. 출간 패널은 **사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상·음악 업로드 도구**로 축소됐다. 노출 결정은 `celeb_tags.is_featured` 스위치 하나다.
-
-팩션 인물 검색창은 **기존 DB CELEB를 고르는 기능만** 가진다. 검색 결과가 없다고 팩션 편집 흐름에서 임시·최소 프로필을 즉석 생성하지 않는다. 신규 인물은 `/celebs/new`의 정식 셀럽 등록을 먼저 마친 뒤 검색해서 추가한다. 저장 코어·가져오기 CLI·DB 트리거도 미연결 인물을 각각 거부한다.
-
-편집기 헤더 「출간」 버튼이 `src/components/factions/FactionPublishPanel.tsx`를 펼친다. 배관은 `src/lib/faction-sync/` 8파일(`types`·`database`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`)이고, 창구는 API 라우트가 아니라 위 서버 액션 2개다 — **`curl`로 찌를 수 없다.**
-
-제작과 서비스가 같은 DB 안에 있어 **텍스트 대조는 사라졌다.** 진단 항목은 5종이다.
-
-| 진단 | 판정 기준 |
-| --- | --- |
-| DB 개인샷 연결 무결성 | `faction_people.is_person=true`면 `celeb_id` 필수 + 삭제되지 않은 CELEB + slug 미러. `is_person=false`면 `celeb_id`·slug가 없어야 하며 출간 인물에서 제외한다 |
-| 태그 미지정 세력 | `faction_groups.tag_id`가 null |
-| 개인샷·그룹샷 저장소 동기 상태 | 로컬 파일 해시 ↔ 매니페스트(`_db-sync.json`) 대조 |
-| 얼굴 사진(아바타) 유무 | `celebs.avatar_url` |
-| 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
-
-남은 규칙(사진·영상·음악):
-
-- 이미지는 개인샷 `faction/{tagId}/celeb-{celebId}.webp`(고정 키 + `?v=`), 그룹샷 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp`. 개인샷 주소는 **`faction_people.web_image_url`에 기록한다**(26.08.03 이전에는 배정 행의 `faction_image_url`). 그룹샷 배열(`team_images`)은 **태그 단위로 다시 만든다** — 그 태그를 나눠 쓰는 편 전체 세력의 사진을 세력→묶음 순으로 모으며, 한 장이라도 실패하면 배열 교체를 보류한다.
-- 태그가 없으면 출간이 만들 수 있다(항상 숨김 `is_featured=false`). 만든 뒤 `faction_groups.tag_id`를 되쓴다. 연결 키(`tagSlug`)조차 없으면 `tag-slug-missing`으로 막힌다.
-- 사진 범위를 켰는데 `FACTION_LOCAL`이 없으면 조용히 건너뛰지 않고 사유를 들고 실패한다.
-
-폐기된 옛 투영 규칙(26.08.03) — 배정 upsert·소개문 채움 전용 보호·`sort_order` 전역 재기록·같은 셀럽 앞자리 채택은 배정 사본이 사라지면서 대상이 없어졌다. 앞자리 채택·정렬(제작 순번 우선, 웹 전용 10000+)·숨김은 이제 뷰 `faction_atlas_members`의 조회 규칙이다.
-
-캐시 무효화는 **출간할 때만** 돈다 — `faction-sync/publish.ts`가 앱 공용 `revalidateWebCache([TAGS, CELEBS])`를 부른다(`src/lib/revalidate-web.ts` — 내부적으로 web `/api/revalidate`를 `CRON_SECRET`으로 호출하고, 값이 없는 로컬에서는 건너뛴다). 제작 데이터는 서비스에 나오지 않으므로 그 밖의 태그는 건드리지 않는다. faction-sync가 `WEB_BASE_URL`을 직접 읽어 부르던 remotion-bo 시절 배선은 폐기했다.
+- **상위 묶음은 `celeb_tags.parent_id` 하나가 쥔다.** 위계는 두 단계다. 아래에 테마를 거느린 테마가 곧 상위분류이고, 목록에서는 한 줄이 아니라 묶음 머리로 선다. 서비스 도감도 같은 값으로 섹션을 세운다.
+- **인물 검색은 기존 셀럽을 고르는 기능만 가진다.** 신규 인물은 `/celebs/new`에서 정식 등록한 뒤 추가한다. 신화 인물을 비공개로 한꺼번에 선등록할 때는 `pnpm --dir sw/web-bo faction:seed:inactive`를 쓴다([셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)).
+- **그룹의 설명·영문 이름·차례는 신화 편집(`/myths`)만 고친다.** 테마 편집 화면은 그룹 지정과 새 그룹 추가만 한다.
+- 테마 목록·편집 데이터 조회는 `src/actions/admin/factions/themes.ts`, 화면 부품은 `src/components/factions/ThemeAtlas/`다.
+- 이미지 R2 키: 개인화보 `faction/{tagId}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `celeb_tag_assignments.faction_image_url`), 단체 사진 `faction/{tagId}/team/<uuid>.webp`(주소 배열은 `celeb_tags.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
+- 쓰기 액션은 백오피스 화면(`/factions`·`/factions/[theme]`·`/myths`)을 `revalidatePath`로, 서비스 캐시를 `revalidateWebLists`로 갱신한다.
 
 ### 가상 담화
 
@@ -230,7 +169,7 @@ pnpm dev:bo
 
 영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 DB 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [`discourse/`](../remotion/discourse/README.md), 통합 설계는 [`discourse/unification.md`](../remotion/discourse/unification.md)다.
 
-⚠ **손 편집 감시가 세력도감와 다르다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
+⚠ **손 편집 감시는 세 파일을 한 번에 본다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
@@ -254,13 +193,13 @@ pnpm dev:bo
 
 #### 로컬 자산 창구 (`/api/discourse/**`)
 
-사진·음원은 DB로 옮기지 않고 렌더 저장소(`sw/remotion/public/discourses/`)에 남는다. 그래서 그 파일을 만지는 창구 8종은 **개발자 컴퓨터에서만** 산다 — `.env`의 `REMOTION_LOCAL=1`(옛 이름 `FACTION_LOCAL=1`도 인정)이 없으면 503과 사유를 돌려준다.
+사진·음원은 DB로 옮기지 않고 렌더 저장소(`sw/remotion/public/discourses/`)에 남는다. 그래서 그 파일을 만지는 창구 8종은 **개발자 컴퓨터에서만** 산다 — `.env`의 `REMOTION_LOCAL=1`이 없으면 503과 사유를 돌려준다.
 
 `media` · `media/folder` · `media/[episode]/[...path]` · `asset/[...path]` · `music` · `music/[...path]` · `voice/[episode]` · `voice/[episode]/[file]`.
 
-주소 첫 토막을 시리즈 이름(`discourse`)으로 둔 것은 공용 사진 부품이 `/api/{시리즈}/media`를 부르기 때문이다 — 그 부품을 한 줄도 고치지 않고 쓴다(세력도감와 같은 판단).
+주소 첫 토막을 시리즈 이름(`discourse`)으로 둔 것은 공용 사진 부품이 `/api/{시리즈}/media`를 부르기 때문이다 — 그 부품을 한 줄도 고치지 않고 쓴다.
 
-⚠ 세력도감와 같은 함정을 그대로 안고 있다. `src/proxy.ts`의 matcher가 **이미지 확장자로 끝나는 주소를 로그인 검사에서 제외**하므로 라우트마다 `guardDiscourseRoute()`(로컬 스위치 + 관리자 확인)를 첫 줄에 두고, 경로 잠금(`lib/discourse-asset.ts`)을 겹친다. 둘 중 하나만 있으면 뚫린다.
+⚠ `src/proxy.ts`의 matcher가 **이미지 확장자로 끝나는 주소를 로그인 검사에서 제외**하므로 라우트마다 `guardDiscourseRoute()`(로컬 스위치 + 관리자 확인)를 첫 줄에 두고, 경로 잠금(`lib/discourse-asset.ts`)을 겹친다. 둘 중 하나만 있으면 뚫린다.
 
 ### 랭킹
 
@@ -308,7 +247,7 @@ pnpm dev:bo
 
 ## API 라우트
 
-서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 영상 제작용 로컬 자산 창구(`api/faction/**`·`api/discourse/**`·`api/rm-asset/**`)는 별개이므로 위 [세력도감](#세력도감)·[가상 담화](#가상-담화) 절을 본다.
+서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 영상 제작용 로컬 자산 창구(`api/discourse/**`·`api/book-person/**`·`api/ranking/**`·`api/rm-asset/**`)는 별개이므로 위 시리즈 절을 본다.
 
 | 라우트 | 입력 | 하는 일 |
 | --- | --- | --- |
@@ -345,7 +284,7 @@ pnpm dev:bo
 | `actions/admin/free-board.ts` | `/free-board` |
 | `actions/admin/users.ts` | `/users`, `/users/[id]` |
 | `actions/admin/members.ts` | `/members` 계열 (아래 결함 참조) |
-| `actions/admin/tags.ts` | `/factions`·`/factions/[episode]`. 세력도감 편성은 셀럽 편집 화면에서 관리하지 않는다 |
+| `actions/admin/tags.ts` | `/factions`·`/factions/[theme]`·`/myths`. 세력도감 편성은 셀럽 편집 화면에서 관리하지 않는다 |
 | `actions/admin/celebs.ts` | `/celebs` 계열 일부 + `/members` 계열 잔재 + 죽은 `/celebs/quotes` |
 | `actions/admin/dialogues.ts` | `/celebs/voice-gen` + 죽은 `/celebs/dialogues` |
 | `actions/admin/api-keys.ts` | `/celebs` (아래 결함 참조) |

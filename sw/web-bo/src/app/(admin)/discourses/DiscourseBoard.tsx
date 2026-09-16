@@ -5,10 +5,6 @@
  *
  * 한 줄이 담화 한 편이다. 위쪽에 노출로 켠 편이 편성 순서대로 오고, 그 아래 구분 줄 밑에
  * 아직 안 켠 편이 폴더명순으로 모인다. 줄을 누르면 그 편의 원고 편집 화면으로 간다.
- *
- * 표 부품은 세력도감 화면이 쓰던 것(`components/factions/FactionTable`)을 그대로 쓴다.
- * 머리줄·행·배지·손 올림 반응이 이미 정해져 있고 시리즈 고유 지식이 없는 순수 표 부품이라,
- * 같은 생김새를 다시 만드는 대신 빌려 쓴다(이름만 세력도감 시절 것이다).
  */
 
 import { useMemo, useState, useTransition } from 'react'
@@ -16,9 +12,9 @@ import { useRouter } from 'next/navigation'
 import { MessageSquare, Users, Plus, Eye, EyeOff, FileText } from 'lucide-react'
 import { useToast } from '@/contexts/ToastContext'
 import {
-  FactionTable, FactionTableRow, FactionTableCell, FactionTableEmpty, FactionTableSection,
-  FactionTableBadge, FactionTableCount, type FactionTableColumn,
-} from '@/components/factions/FactionTable'
+  BoardTable, BoardTableRow, BoardTableCell, BoardTableEmpty, BoardTableSection,
+  BoardTableBadge, BoardTableCount, type BoardTableColumn,
+} from '@/components/ui/BoardTable'
 import {
   createDiscourseEpisode, setDiscourseEpisodeRegistered, setDiscourseEpisodeStatus,
   type DiscourseEpisodeSummary, type DiscourseEpisodeStatus,
@@ -26,7 +22,7 @@ import {
 import { regenerateDiscourseRegistry } from '@/actions/admin/discourses/export'
 import { folderToParam } from '@/lib/discourse-edit-route'
 
-const COLUMNS: FactionTableColumn[] = [
+const COLUMNS: BoardTableColumn[] = [
   { key: 'title', header: '편' },
   { key: 'topic', header: '논제' },
   { key: 'cast', header: '인물', width: '4.5rem', align: 'right' },
@@ -91,23 +87,23 @@ export default function DiscourseBoard({
   }
 
   const row = (ep: DiscourseEpisodeSummary) => (
-    <FactionTableRow key={ep.id} onOpen={() => openEditor(ep.folder)}>
-      <FactionTableCell>
+    <BoardTableRow key={ep.id} onOpen={() => openEditor(ep.folder)}>
+      <BoardTableCell>
         <div className="flex flex-col gap-0.5">
           <span className="font-medium text-text-primary">{titleHead(ep.title)}</span>
           <span className="text-[11px] text-text-secondary">{ep.folder}</span>
         </div>
-      </FactionTableCell>
-      <FactionTableCell>
+      </BoardTableCell>
+      <BoardTableCell>
         <span className="text-xs text-text-secondary">{ep.topic ?? ep.logline ?? '—'}</span>
-      </FactionTableCell>
-      <FactionTableCell align="right">
-        <FactionTableCount value={ep.castCount} icon={<Users className="h-3.5 w-3.5" />} title="등장 인물 수" />
-      </FactionTableCell>
-      <FactionTableCell align="right">
-        <FactionTableCount value={ep.turnCount} icon={<MessageSquare className="h-3.5 w-3.5" />} title="발언 수" />
-      </FactionTableCell>
-      <FactionTableCell align="center">
+      </BoardTableCell>
+      <BoardTableCell align="right">
+        <BoardTableCount value={ep.castCount} icon={<Users className="h-3.5 w-3.5" />} title="등장 인물 수" />
+      </BoardTableCell>
+      <BoardTableCell align="right">
+        <BoardTableCount value={ep.turnCount} icon={<MessageSquare className="h-3.5 w-3.5" />} title="발언 수" />
+      </BoardTableCell>
+      <BoardTableCell align="center">
         <select
           value={ep.status}
           disabled={pending}
@@ -119,8 +115,8 @@ export default function DiscourseBoard({
         >
           {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
-      </FactionTableCell>
-      <FactionTableCell align="center">
+      </BoardTableCell>
+      <BoardTableCell align="center">
         <button
           type="button"
           disabled={pending}
@@ -134,8 +130,8 @@ export default function DiscourseBoard({
           {ep.registered ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
           {ep.registered ? `${ep.sortOrder}번` : '내림'}
         </button>
-      </FactionTableCell>
-    </FactionTableRow>
+      </BoardTableCell>
+    </BoardTableRow>
   )
 
   return (
@@ -203,20 +199,20 @@ export default function DiscourseBoard({
         </div>
       )}
 
-      <FactionTable columns={COLUMNS}>
+      <BoardTable columns={COLUMNS}>
         {episodes.length === 0 && (
-          <FactionTableEmpty colSpan={COLUMNS.length}>아직 담화 편이 없습니다.</FactionTableEmpty>
+          <BoardTableEmpty colSpan={COLUMNS.length}>아직 담화 편이 없습니다.</BoardTableEmpty>
         )}
         {shown.map(row)}
         {hidden.length > 0 && (
-          <FactionTableSection
+          <BoardTableSection
             colSpan={COLUMNS.length}
             title="목록에 안 올린 편"
-            note={<FactionTableBadge>{hidden.length}편</FactionTableBadge>}
+            note={<BoardTableBadge>{hidden.length}편</BoardTableBadge>}
           />
         )}
         {hidden.map(row)}
-      </FactionTable>
+      </BoardTable>
     </div>
   )
 }

@@ -21,7 +21,6 @@ interface YoutubeSeriesCardProps {
   shortsPlaylistLabel: string;
   siteHref: string;
   siteLabel: string;
-  languageNote?: string;
 }
 
 export default function YoutubeSeriesCard({
@@ -37,7 +36,6 @@ export default function YoutubeSeriesCard({
   shortsPlaylistLabel,
   siteHref,
   siteLabel,
-  languageNote,
 }: YoutubeSeriesCardProps) {
   return (
     <article className="overflow-hidden rounded-xl border border-white/20 bg-bg-secondary">
@@ -78,12 +76,6 @@ export default function YoutubeSeriesCard({
       </div>
 
       <div className="flex flex-col border-t border-white/20 bg-bg-secondary p-5 sm:p-7 lg:px-10">
-        {languageNote ? (
-          <p className="mb-4 w-fit border-l-2 border-accent pl-3 text-xs text-text-primary/80">
-            {languageNote}
-          </p>
-        ) : null}
-
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           <a
             href={fullPlaylistUrl}

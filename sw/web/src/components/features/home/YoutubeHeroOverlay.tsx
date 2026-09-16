@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/home/YoutubeHeroOverlay.tsx
   기능: 홈 영상관 히어로 조작 계층
-  책임: 중앙 통로의 재생 버튼으로 유튜브 채널을 열고, 좌우 시리즈 이름표로 소개 모달과 재생목록을 연결한다.
+  책임: 중앙 통로의 재생 버튼으로 유튜브 채널을 열고, 좌측 시리즈 이름표로 소개 모달과 재생목록을 연결한다.
 */
 
 "use client";
@@ -12,7 +12,6 @@ import { Link } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 
 export interface HeroSeries {
-  key: "library" | "faction";
   index: string;
   title: string;
   tagline: string;
@@ -21,7 +20,6 @@ export interface HeroSeries {
   shortsPlaylistUrl: string;
   siteHref: string;
   siteLabel: string;
-  languageNote?: string;
 }
 
 interface YoutubeHeroOverlayProps {
@@ -31,7 +29,6 @@ interface YoutubeHeroOverlayProps {
   fullPlaylistLabel: string;
   shortsPlaylistLabel: string;
   library: HeroSeries;
-  faction: HeroSeries;
 }
 
 export default function YoutubeHeroOverlay({
@@ -41,10 +38,9 @@ export default function YoutubeHeroOverlay({
   fullPlaylistLabel,
   shortsPlaylistLabel,
   library,
-  faction,
 }: YoutubeHeroOverlayProps) {
-  const [openKey, setOpenKey] = useState<"library" | "faction" | null>(null);
-  const active = openKey === "library" ? library : openKey === "faction" ? faction : null;
+  const [isOpen, setIsOpen] = useState(false);
+  const active = isOpen ? library : null;
 
   return (
     <>
@@ -52,19 +48,10 @@ export default function YoutubeHeroOverlay({
       <SeriesZone
         series={library}
         openSeriesLabel={openSeriesLabel}
-        onOpen={() => setOpenKey("library")}
-        side="left"
+        onOpen={() => setIsOpen(true)}
       />
 
-      {/* 우측 절반 — 세력도감 */}
-      <SeriesZone
-        series={faction}
-        openSeriesLabel={openSeriesLabel}
-        onOpen={() => setOpenKey("faction")}
-        side="right"
-      />
-
-      {/* 중앙 통로 재생 버튼 — 두 영역 위에 얹는다 */}
+      {/* 중앙 통로 재생 버튼 — 시리즈 영역 위에 얹는다 */}
       <a
         href={channelUrl}
         target="_blank"
@@ -90,7 +77,7 @@ export default function YoutubeHeroOverlay({
 
       <Modal
         isOpen={active !== null}
-        onClose={() => setOpenKey(null)}
+        onClose={() => setIsOpen(false)}
         title={active?.title}
         size="lg"
       >
@@ -103,12 +90,6 @@ export default function YoutubeHeroOverlay({
             <p className="text-sm leading-7 text-text-primary/90">
               {active.description}
             </p>
-
-            {active.languageNote ? (
-              <p className="w-fit border-l-2 border-accent pl-3 text-xs text-text-primary/80">
-                {active.languageNote}
-              </p>
-            ) : null}
 
             <div className="flex flex-col gap-2 pt-1 sm:flex-row sm:flex-wrap">
               <a
@@ -136,7 +117,7 @@ export default function YoutubeHeroOverlay({
 
             <Link
               href={active.siteHref}
-              onClick={() => setOpenKey(null)}
+              onClick={() => setIsOpen(false)}
               className="flex w-fit items-center gap-2 pt-2 text-sm font-semibold text-text-primary hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {active.siteLabel}
@@ -153,45 +134,30 @@ interface SeriesZoneProps {
   series: HeroSeries;
   openSeriesLabel: string;
   onOpen: () => void;
-  side: "left" | "right";
 }
 
-/** 이미지 좌·우 넓은 면 전체가 시리즈 소개를 여는 조작 면이다. 가운데 통로는 재생 버튼 몫으로 비워 둔다. */
-function SeriesZone({ series, openSeriesLabel, onOpen, side }: SeriesZoneProps) {
-  const isLeft = side === "left";
-
+/** 이미지 좌측 넓은 면 전체가 시리즈 소개를 여는 조작 면이다. 가운데 통로는 재생 버튼 몫으로 비워 둔다. */
+function SeriesZone({ series, openSeriesLabel, onOpen }: SeriesZoneProps) {
   return (
     <button
       type="button"
       onClick={onOpen}
       aria-label={`${series.title} — ${openSeriesLabel}`}
-      className={`group absolute inset-y-0 w-2/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-accent ${
-        isLeft ? "left-0" : "right-0"
-      }`}
+      className="group absolute inset-y-0 left-0 w-2/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-accent"
     >
       {/* 이 면이 하나의 문임을 알리는 금빛 테두리 — 배너 모서리 장식과 같은 선상에서 천천히 뻗는다.
           바깥 세로선이 한가운데에서 위아래로 자라고, 뒤이어 위·아래 선이 안쪽으로 나아간다. */}
       <span
         aria-hidden="true"
-        className={`absolute inset-y-5 w-px origin-center scale-y-0 bg-accent/80 drop-shadow-[0_0_6px_rgba(0,0,0,0.9)] transition-transform duration-500 ease-out group-hover:scale-y-100 md:inset-y-7 ${
-          isLeft ? "left-5 md:left-7" : "right-5 md:right-7"
-        }`}
+        className="absolute inset-y-5 left-5 w-px origin-center scale-y-0 bg-accent/80 drop-shadow-[0_0_6px_rgba(0,0,0,0.9)] transition-transform duration-500 ease-out group-hover:scale-y-100 md:inset-y-7 md:left-7"
       />
       <span
         aria-hidden="true"
-        className={`absolute top-5 h-px scale-x-0 bg-accent/80 drop-shadow-[0_0_6px_rgba(0,0,0,0.9)] transition-transform delay-200 duration-500 ease-out group-hover:scale-x-100 md:top-7 ${
-          isLeft
-            ? "left-5 right-3 origin-left md:left-7 md:right-5"
-            : "left-3 right-5 origin-right md:left-5 md:right-7"
-        }`}
+        className="absolute left-5 right-3 top-5 h-px origin-left scale-x-0 bg-accent/80 drop-shadow-[0_0_6px_rgba(0,0,0,0.9)] transition-transform delay-200 duration-500 ease-out group-hover:scale-x-100 md:left-7 md:right-5 md:top-7"
       />
       <span
         aria-hidden="true"
-        className={`absolute bottom-5 h-px scale-x-0 bg-accent/80 drop-shadow-[0_0_6px_rgba(0,0,0,0.9)] transition-transform delay-200 duration-500 ease-out group-hover:scale-x-100 md:bottom-7 ${
-          isLeft
-            ? "left-5 right-3 origin-left md:left-7 md:right-5"
-            : "left-3 right-5 origin-right md:left-5 md:right-7"
-        }`}
+        className="absolute bottom-5 left-5 right-3 h-px origin-left scale-x-0 bg-accent/80 drop-shadow-[0_0_6px_rgba(0,0,0,0.9)] transition-transform delay-200 duration-500 ease-out group-hover:scale-x-100 md:bottom-7 md:left-7 md:right-5"
       />
 
       {/* 면 한가운데 — 재생 버튼과 같은 높이에 나란히 선다 */}

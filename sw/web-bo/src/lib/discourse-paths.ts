@@ -6,16 +6,20 @@
  */
 
 import path from 'path'
+import { REMOTION_ROOT } from '@feelandnote/shared/bo/remotion-root'
 import {
   DISCOURSES_DIR, episodeDirOf, voiceDirOf, safeDirName, listVoices,
 } from '@feelandnote/shared/bo/episode-store'
 
 export { DISCOURSES_DIR }
 
+/** 시리즈 공용 배경음악 폴더 — sw/remotion/public/music/ */
+export const MUSIC_DIR = path.join(REMOTION_ROOT, 'public', 'music')
+
 /**
  * 이 앱의 담화 창구가 쓰는 시리즈 이름 — 공용 부품이 주소를 만들 때 쓴다(`/api/discourse/...`).
  * 사진 부품(`shared/bo/media`)이 `/api/{시리즈}/media` 를 하드코딩하므로, 이 값을 주소 첫 토막에
- * 그대로 두면 그 부품을 한 줄도 고치지 않고 쓴다(팩션과 같은 판단).
+ * 그대로 두면 그 부품을 한 줄도 고치지 않고 쓴다.
  */
 export const DISCOURSE_SERIES = 'discourse'
 
@@ -28,7 +32,7 @@ export const discourseVoiceDir = (name: string) => voiceDirOf(DISCOURSES_DIR, na
 /**
  * 음성 파일 절대경로 — 파일명만 취해 경로 이탈을 막는다.
  *
- * ⚠ 팩션(`safeFilename`)과 달리 `safeDirName` 을 쓴다. 담화 음원 파일명이 ASCII 로 한정되지
+ * ⚠ `safeFilename` 이 아니라 `safeDirName` 을 쓴다. 담화 음원 파일명이 ASCII 로 한정되지
  *   않아서다(remotion-bo `discourse-utils.ts:110` 이 같은 판단을 했다). 경로 구분자·상위 이동은
  *   똑같이 걷어낸다.
  */

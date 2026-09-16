@@ -14,7 +14,7 @@ import { castColor, resolveNotice, turnEnterSec } from './utils'
 import { clampRate } from './voice-names'
 import { discourseBgmTracks, canSequenceDiscourseTracks } from './bgm-select'
 import { CueLayer } from './sections/CueLayer'
-import { TopHeader } from '../Faction/sections/TopHeader'
+import { TopHeader } from './sections/TopHeader'
 
 /* ═══════════════ 배경음악 ═══════════════ */
 
@@ -136,7 +136,7 @@ const DiscourseBgm = React.memo(DiscourseBgmInner)
  *
  * script 는 무거운 객체다 — Studio 컴포지션 전환마다 직렬화하면 UI 가 멈춘다.
  * 그래서 defaultProps 에는 가벼운 episodeKey 만 싣고 실제 스크립트는 번들에 이미 실린 episodes 에서 꺼낸다.
- * script 를 직접 넘기는 호출(외부 렌더 override)이 있으면 그쪽을 우선한다. (팩션과 같은 관례)
+ * script 를 직접 넘기는 호출(외부 렌더 override)이 있으면 그쪽을 우선한다.
  */
 export const Discourse: React.FC<{
   script?: DiscourseScript

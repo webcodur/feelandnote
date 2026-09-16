@@ -4,12 +4,12 @@ import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { BookOpen } from 'lucide-react'
 import {
-  FactionTable, FactionTableRow, FactionTableCell, FactionTableEmpty, FactionTableCount,
-  type FactionTableColumn,
-} from '@/components/factions/FactionTable'
+  BoardTable, BoardTableRow, BoardTableCell, BoardTableEmpty, BoardTableCount,
+  type BoardTableColumn,
+} from '@/components/ui/BoardTable'
 import type { BookPersonSummary } from '@/features/book-person/types'
 
-const COLUMNS: FactionTableColumn[] = [
+const COLUMNS: BoardTableColumn[] = [
   { key: 'person', header: '인물' },
   { key: 'role', header: '한 줄' },
   { key: 'draft', header: '원고', width: '4.5rem', align: 'center' },
@@ -67,38 +67,38 @@ export default function BookPersonBoard({
         )}
       </div>
 
-      <FactionTable columns={COLUMNS}>
+      <BoardTable columns={COLUMNS}>
         {rows.length === 0 && (
-          <FactionTableEmpty colSpan={COLUMNS.length}>맞는 인물이 없다.</FactionTableEmpty>
+          <BoardTableEmpty colSpan={COLUMNS.length}>맞는 인물이 없다.</BoardTableEmpty>
         )}
         {rows.map(ep => (
-          <FactionTableRow
+          <BoardTableRow
             key={ep.folder}
             onOpen={() => router.push(`/book-person/${encodeURIComponent(ep.folder)}`)}
           >
-            <FactionTableCell>
+            <BoardTableCell>
               <div className="flex flex-col gap-0.5">
                 <span className="font-medium text-text-primary">{ep.person}</span>
                 <span className="text-[11px] text-text-secondary">{ep.folder}</span>
               </div>
-            </FactionTableCell>
-            <FactionTableCell>
+            </BoardTableCell>
+            <BoardTableCell>
               <span className="text-xs text-text-secondary">{ep.role || '—'}</span>
-            </FactionTableCell>
-            <FactionTableCell align="center">
+            </BoardTableCell>
+            <BoardTableCell align="center">
               <span className={`text-xs ${ep.hasDraft ? 'text-accent' : 'text-text-secondary'}`}>
                 {ep.hasDraft ? '있음' : '없음'}
               </span>
-            </FactionTableCell>
-            <FactionTableCell align="right">
-              <FactionTableCount value={ep.bookCount} icon={<BookOpen className="h-3.5 w-3.5" />} title="책 수" />
-            </FactionTableCell>
-            <FactionTableCell align="center">
+            </BoardTableCell>
+            <BoardTableCell align="right">
+              <BoardTableCount value={ep.bookCount} icon={<BookOpen className="h-3.5 w-3.5" />} title="책 수" />
+            </BoardTableCell>
+            <BoardTableCell align="center">
               <span className="text-xs text-text-secondary">{ep.hasLead ? '있음' : '없음'}</span>
-            </FactionTableCell>
-          </FactionTableRow>
+            </BoardTableCell>
+          </BoardTableRow>
         ))}
-      </FactionTable>
+      </BoardTable>
     </div>
   )
 }

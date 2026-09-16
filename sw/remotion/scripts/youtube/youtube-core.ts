@@ -1,9 +1,9 @@
 /**
  * youtube-core.ts — YouTube 업로드 공통 인프라
  *
- * 서재 탐방(youtube-upload.ts)·세력도(youtube-faction.ts) 양쪽이 공유한다.
+ * 진입점(youtube-upload.ts)이 쓴다.
  * OAuth 인증, 영상/자막/썸네일 업로드 등 시리즈 무관 로직만 둔다.
- * 시리즈별 메타 생성·variant 구성은 각 진입점 파일에서 처리한다.
+ * 시리즈별 메타 생성·variant 구성은 진입점 파일에서 처리한다.
  */
 
 import { google } from 'googleapis'
@@ -20,7 +20,7 @@ export const CREDENTIALS_DIR = path.join(__dirname, '..', '..', 'credentials')
 export const CLIENT_SECRET_PATH = path.join(CREDENTIALS_DIR, 'client_secret.json')
 export const OUT_DIR = path.join(__dirname, '..', '..', 'out')
 
-/** YouTube 영상 snippet — 서재 탐방·세력도 공통 구조 */
+/** YouTube 영상 snippet 구조 */
 export type YouTubeSnippetLike = {
   title: string
   description: string

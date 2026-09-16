@@ -23,7 +23,7 @@ export function ThemeTeamImagesField({
 }: {
   tagId: string
   initialImages: FactionTeamImage[]
-  /** 사진별 「나오는 인물」 선택지 — 테마 소속 인물 전체(제작 유래 포함) */
+  /** 사진별 「나오는 인물」 선택지 — 테마 소속 인물 전체 */
   celebs: CelebTagAssignment[]
 }) {
   const [teamImages, setTeamImages] = useState<FactionTeamImage[]>(initialImages)

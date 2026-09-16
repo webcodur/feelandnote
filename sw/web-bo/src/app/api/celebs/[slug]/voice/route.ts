@@ -8,7 +8,7 @@ import { guardAdminRoute } from '@/lib/admin-route'
 // 이식 시 추가: 이 앱의 `/api/**` 는 미들웨어가 없어 그냥 열려 있으므로 관리자 확인을 앞에 둔다.
 //   (service role 로 프로필을 고치는 PUT 이 있어 특히 필요하다.)
 
-// 경로 파라미터가 불변 셀럽 ID(UUID)인지 slug 인지 가린다. 팩션 인물은 celebId(불변)로 잇는 게 원칙이라
+// 경로 파라미터가 불변 셀럽 ID(UUID)인지 slug 인지 가린다. 인물은 celebId(불변)로 잇는 게 원칙이라
 // 둘 다 받아 같은 라우트로 처리한다(UUID 면 id 컬럼, 아니면 slug 컬럼으로 조회).
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const keyColumn = (key: string) => (UUID_RE.test(key) ? 'id' : 'slug')

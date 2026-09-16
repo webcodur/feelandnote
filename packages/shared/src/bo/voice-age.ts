@@ -3,7 +3,7 @@ import { promisify } from 'util'
 
 const execFileAsync = promisify(execFile)
 
-// 세력도·북리커맨드 음원 표준 포맷 — mono 24kHz 16-bit
+// 북리커맨드·담화 음원 표준 포맷 — mono 24kHz 16-bit
 const SR = 24000
 
 /**

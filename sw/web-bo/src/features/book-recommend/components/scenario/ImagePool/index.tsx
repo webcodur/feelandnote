@@ -62,7 +62,7 @@ export function ImagePool({ allImages, usedFiles, fileBookMap, fileFieldMap, vie
 
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [opened, setOpened] = useState<Set<string>>(new Set())
-  // 진입 시 기본 펼침 + Ctrl+Q 토글(팩션과 공통). 펼칠 때 디스크 새로고침.
+  // 진입 시 기본 펼침 + Ctrl+Q 토글(담화와 공통). 펼칠 때 디스크 새로고침.
   const { open, toggle: toggleCollapsed } = useImagePoolToggle({ onOpen: onRefresh })
   const collapsed = !open
 

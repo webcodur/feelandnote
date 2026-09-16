@@ -13,8 +13,7 @@
 닫는 데 배포가 필요 없다.** 백오피스 세력도감 목록에서 신화 갈래 테마에만 뜨는 「신화 공개」
 토글로 켜고 끈다. 태그 행이 바뀌면 DB가 스스로 캐시를 비운다.
 
-**신화 테마의 명단·그룹·차례는 모두 웹이 쥔다(26.09.12).** 영상 대본(`faction_people`)에서 오던
-행은 신화 테마에 한 줄도 남지 않았다. 차례는 웹 배정(`celeb_tag_assignments`)의 `sort_order` 하나이고,
+**신화 테마의 명단·그룹·차례는 모두 웹이 쥔다(26.09.12).** 차례는 웹 배정(`celeb_tag_assignments`)의 `sort_order` 하나이고,
 정비 스크립트는 「그룹 차례 × 1000 + 그룹 안 차례 × 10」으로 매긴다. 그룹 탭 차례는
 `celeb_tag_groups.sort_order`다. 손으로 고칠 때는 백오피스 「신화 편집」(`/myths`)에서 구획 안
 끌어 정렬로 바꾼다.
@@ -38,8 +37,6 @@
   소속 없던 13명은 「서아시아 건국 전승」을 새로 세워 10명, 메소포타미아 신화로 3명이 들어가 모두 자리를 찾았다.
 
 그룹 기준은 [`../project/service/explore.md`](../project/service/explore.md) 「신화 그룹 기준」이 쥔다.
-영상 명단을 웹으로 옮기는 절차·되돌리기는 [`faction-video-stop.md`](faction-video-stop.md)
-「웹 원천 분리」가 쥔다.
 
 - Devin 위임 절차·검수에서 자주 걸린 흠: `devin-swe` 스킬
 - 백업: `data/celeb/_backup/faction-web-roster/`. 영상 이관은 `<slug>-*.json`, 정비안 반영 직전

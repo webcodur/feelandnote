@@ -8,11 +8,12 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 |---|---|---|
 | 서재 탐방 | [`book-recommend/`](book-recommend/README.md) | 인물의 추천 도서를 소개하는 롱폼·쇼츠·SOLO |
 | 책과 사람 | [`book-person/`](book-person/README.md) | 나레이터 단독 세로 쇼츠 |
-| 세력도감 | [`faction/`](faction/README.md) | 인물을 진영별로 묶는 시네마틱과 본서비스 세력도감 |
 | 가상 담화 | [`discourse/`](discourse/README.md) | 인물의 1인칭 독백·반박·대담 |
 | 랭킹 | [`ranking/`](ranking/README.md) | 한 축의 순위를 나레이터가 읽고, 인물마다 설명·이미지가 한 번씩 나온다 |
 
-세력도감의 제작 규칙은 [`faction/rules.md`](faction/rules.md), 데이터 단일화 설계는 [`faction/unification.md`](faction/unification.md), 화면 영상화 검토는 [`faction/video-clips.md`](faction/video-clips.md)가 나눠 맡는다. 가상 담화의 통합 설계는 [`discourse/unification.md`](discourse/unification.md)가 쥔다.
+가상 담화의 통합 설계는 [`discourse/unification.md`](discourse/unification.md)가 쥔다.
+
+세력도감 영상 시리즈는 26.09.16에 저장소에서 걷었다. 영상·음성·자산은 `D:\remotion-assets\factions`, 렌더본은 `D:\remotion_done\Faction`, DB 제작 표·어록·유튜브 업로드 기록은 `D:\feelandnote-backups\faction-video`에 있고, 코드는 커밋 이력에서 꺼낸다. 세력도감은 웹 도감만 남았다([`web-bo.md`](../apps/web-bo.md) 「세력도감」).
 
 「저승 술집(hell-bar)」은 구현 전에 폐기됐고 가상 담화가 역할을 이어받았다. 기획서는 저장소에서 지웠다.
 
@@ -40,7 +41,6 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 | 제작 스크립트 | `sw/remotion/scripts/` |
 | 서재 탐방 데이터 | `sw/remotion/public/episodes/` |
 | 책과 사람 데이터 | `sw/remotion/public/book-person/` |
-| 세력도감 데이터 | `sw/remotion/public/factions/` |
 | 가상 담화 데이터 | `sw/remotion/public/discourses/` |
 | 랭킹 데이터 | `sw/remotion/public/rankings/` |
 | 제작 백오피스 | `sw/web-bo/` |
@@ -55,10 +55,9 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 pnpm --filter remotion assets list [시리즈]        # ● staged(작업 중) · ○ archived(보관소만) · ◆ public-only(실체가 public)
 pnpm --filter remotion assets stage episodes elon-musk     # 보관소 편을 작업 폴더에 건다
 pnpm --filter remotion assets unstage episodes elon-musk   # 정션만 푼다 — 실체는 남는다
-pnpm --filter remotion assets archive factions <새 편>     # 백오피스가 public에 새로 만든 편을 보관소로 옮기고 되건다
+pnpm --filter remotion assets archive episodes <새 편>     # 백오피스가 public에 새로 만든 편을 보관소로 옮기고 되건다
 ```
 
-- **팩션은 손으로 걸 일이 없다.** 백오피스에서 편집기를 열거나 저장·내보내기를 하면 그 편이 보관소에만 있어도 정션을 스스로 건다(`shared/bo/asset-archive.ts`의 `ensureEpisodeStaged`). 다 쓴 편은 `unstage`로 푼다.
 - 백오피스에서 새 편을 만들면 실체가 `public`에 생긴다(◆). 작업이 끝나거나 무거워지면 `archive`로 옮긴다.
 - 서재 탐방(`episodes`) 백오피스 목록은 `public`을 읽으므로 **걸어 둔 편만 보인다.** 보관소 편을 손대려면 먼저 `stage`.
 - 담화(`discourses`)는 git이 파일을 추적한다. 정션 너머로도 git은 파일을 보므로 상태가 바뀌지 않지만, 담화 편을 `unstage`하면 git이 삭제로 본다 — 담화는 걸어 둔 채로 쓴다.

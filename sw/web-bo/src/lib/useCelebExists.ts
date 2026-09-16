@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 
 /**
- * 셀럽 slug 실존 대조 공용 창구(POST /api/celebs/exists) — 담화·팩션 인물 행의
+ * 셀럽 slug 실존 대조 공용 창구(POST /api/celebs/exists) — 담화 인물 행의
  * DB 등록 배지(✓DB/⚠없음/미연결/신화)가 함께 쓴다. slug 목록이 바뀌면 다시 조회한다.
  */
 export function useCelebExists(slugs: (string | undefined | null)[]): { existing: Set<string>; loaded: boolean } {

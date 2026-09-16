@@ -11,6 +11,13 @@ const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME!
 
 export const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL!
 
+const R2_ENV_KEYS = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL'] as const
+
+/** 비어 있는 R2 환경변수 목록 — 비어 있지 않으면 업로드를 시도하지 않는다 */
+export function missingR2Env(): string[] {
+  return R2_ENV_KEYS.filter(k => !process.env[k])
+}
+
 const r2Client = new S3Client({
   region: 'auto',
   endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,

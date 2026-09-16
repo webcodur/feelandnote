@@ -7,7 +7,7 @@ cd sw/web-bo
 pnpm run                       # 전체 명령 목록
 pnpm celeb:audit:tracks        # 인자 없는 도구
 pnpm celeb:claim --worker lane-a --count 4      # 인자는 그대로 이어 붙인다
-pnpm photo:crop-body public/factions/.../_group.png   # 위치 인자도 동일
+pnpm photo:crop-body <이미지 경로>   # 위치 인자도 동일
 ```
 
 세부 사용법·옵션은 각 스크립트 첫머리 주석이 쥔다. 이 문서는 어떤 도구가 있는지만 가리킨다.
@@ -24,7 +24,7 @@ scripts/
     timeline/     생애 연표·좌표
   avatar/         아바타 등록·크롭·측정
   photo/          인물 화보·얼굴 크롭·배너
-  faction/        세력도감 출간·대사·이미지
+  faction/        신화 인물 비공개 선등록(seed-inactive)
   fiction/        신화·전설·허구 인물
   figure-books/   전체 인물의 등장·연관 도서 후보·검수·반영
   contents/       BOOK 소개 출처 전환·검증
@@ -94,25 +94,11 @@ scripts/
 | `photo:crop-body` | 단체샷에서 인물별 전신 크롭 추출 |
 | `photo:world-banner` | 세계관 배너 이미지 준비 |
 
-## 세력도감
-
-| 명령 | 하는 일 |
-|---|---|
-| `faction:publish` | 편 단위 출간. 관리 화면 「전체 출간」과 같은 코드 |
-| `faction:publish:photos` | 로고·개인샷·단체샷만 범위를 지정해 출간 |
-| `faction:dialogue-apply` | 검수된 대사 배치를 DB에 조건부 반영 |
-| `faction:portrait-scan` | 대표 사진으로 쓸 만한 인물 단독 이미지 후보 훑기 |
-| `faction:images:person` | 태그 전용 인물 개인샷 일괄 등록 |
-| `faction:images:team` | 태그 단체 이미지 일괄 등록 |
-
 ## 신화·전설·허구 인물
 
 | 명령 | 하는 일 |
 |---|---|
-| `faction:audit` | 팩션 인물 프로필·대표 원전 연결 전수 감사 |
 | `faction:seed:inactive` | 이름·영문명·식별 bio·실존 축(`FICTION`·`BOTH`)과 신규/기존 UUID 판단을 받아 비공개 후보와 숨김 신화 소속을 등록 |
-| `faction:sync` | 신화·전설 인물 명세를 셀럽 테이블에 동기화 |
-| `faction:sync:atlas` | 세력도감의 신화 인물을 비공개 프로필로 만들고 연결 |
 | `celeb:monologue-lock` | 가상 독백 확정 잠금·해제·목록 |
 
 ## 기관 선정 목록

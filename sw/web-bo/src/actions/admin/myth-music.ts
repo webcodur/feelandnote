@@ -2,13 +2,12 @@
 
 import { readFile } from 'fs/promises'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { requireFactionAdmin, factionAdminClient } from '@/lib/faction-db'
+import { requireAdmin } from '@/lib/admin-auth'
+import { createAdminClient } from '@/lib/db/admin'
 import { revalidateWebLists } from '@/lib/revalidate-web'
-import { fileHash } from '@/lib/faction-sync/manifest'
-import { musicKey } from '@/lib/faction-sync/music'
-import { missingR2Env, publicUrl, uploadToR2 } from '@/lib/faction-sync/r2'
+import { missingR2Env, R2_PUBLIC_URL, uploadToR2 } from '@/lib/r2'
 import {
-  MYTH_MUSIC_DIR, mythMusicValue, scanMythMusicFolder, toMythMusicEntry,
+  MYTH_MUSIC_DIR, mythMusicObjectKey, mythMusicValue, scanMythMusicFolder, toMythMusicEntry,
   type MythMusicEntry, type MythMusicScan, type MythMusicTag,
 } from '@/lib/myth-music'
 
@@ -30,7 +29,7 @@ export interface MythMusicSyncResult {
 }
 
 async function loadMythTags(): Promise<MythMusicTag[]> {
-  const db = factionAdminClient()
+  const db = createAdminClient()
   const { data, error } = await db.from('celeb_tags').select(TAG_COLUMNS).order('sort_order').order('name')
   if (error) throw new Error('신화 전승 조회 실패: ' + error.message)
 
@@ -49,7 +48,7 @@ async function scanCatalog(): Promise<{ scan: MythMusicScan; entries: MythMusicE
 
 /** 관리자 화면에서 준비 폴더와 현재 서비스 연결 상태를 읽는다. */
 export async function getMythMusicCatalog(): Promise<MythMusicCatalog> {
-  await requireFactionAdmin()
+  await requireAdmin()
   const { scan, entries } = await scanCatalog()
   return {
     folder: MYTH_MUSIC_DIR,
@@ -61,7 +60,7 @@ export async function getMythMusicCatalog(): Promise<MythMusicCatalog> {
 
 /** 준비 폴더의 매칭된 mp3를 R2에 올리고 해당 신화 전승의 theme_music을 갱신한다. */
 export async function syncMythMusic(): Promise<MythMusicSyncResult> {
-  await requireFactionAdmin()
+  await requireAdmin()
   const { scan } = await scanCatalog()
   if (!scan.folderExists) {
     return { ok: false, updated: 0, skipped: 0, blocked: 0, message: '폴더가 없습니다: ' + MYTH_MUSIC_DIR }
@@ -71,7 +70,7 @@ export async function syncMythMusic(): Promise<MythMusicSyncResult> {
     return { ok: false, updated: 0, skipped: 0, blocked: scan.files.length, message: 'R2 환경변수 누락: ' + missing.join(', ') }
   }
 
-  const db = factionAdminClient()
+  const db = createAdminClient()
   let updated = 0
   let skipped = 0
   let blocked = 0
@@ -80,8 +79,8 @@ export async function syncMythMusic(): Promise<MythMusicSyncResult> {
     const current = file.tag.theme_music as { file?: unknown; url?: unknown } | null
     try {
       const bytes = await readFile(file.absPath)
-      const key = musicKey(fileHash(bytes), file.file)
-      const url = publicUrl(key, false)
+      const key = mythMusicObjectKey(bytes, file.file)
+      const url = `${R2_PUBLIC_URL}/${key}`
       if (current?.file === file.file && current.url === url) {
         skipped += 1
         continue

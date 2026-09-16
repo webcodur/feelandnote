@@ -3,7 +3,7 @@
  *
  * voiceTimings(timings)가 있으면 sub 단위로 "지금 읽는 구절"을 색 스윕으로 점등하고,
  * 없으면 원고 문장 단위로 균등 분배해 동작한다(폴백). 색·폰트는 prop으로 주입한다.
- * BookRecommend·Faction 등 모든 시리즈가 공유한다.
+ * BookRecommend·Discourse 등 모든 시리즈가 공유한다.
  */
 import { useMemo } from 'react'
 import { Easing, interpolate, useCurrentFrame } from 'remotion'

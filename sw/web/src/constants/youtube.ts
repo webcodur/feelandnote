@@ -22,23 +22,12 @@ export const YOUTUBE_SERIES_PLAYLISTS = {
       shorts: "https://www.youtube.com/playlist?list=PLKKb_QO8G7GM_ZAjy47nVVDYlR_Zv0XwU",
       locale: "ko",
     },
-    faction: {
-      full: "https://www.youtube.com/playlist?list=PLKKb_QO8G7GPKaTD9ty0d4L11E1XGEqDm",
-      shorts: "https://www.youtube.com/playlist?list=PLEHuJH4JFWmI",
-      locale: "ko",
-    },
   },
   en: {
     libraryTour: {
       full: "https://www.youtube.com/playlist?list=PLvGVJZRhWpNq36MM3Ze4QKfX4zWbF8_VU",
       shorts: "https://www.youtube.com/playlist?list=PLvGVJZRhWpNpTs4_sJfxqn26iko8m5Q4j",
       locale: "en",
-    },
-    // 영문 채널에는 아직 세력도감 재생목록이 없어 실제 영상이 있는 한국어 목록으로 연결한다.
-    faction: {
-      full: "https://www.youtube.com/playlist?list=PLKKb_QO8G7GPKaTD9ty0d4L11E1XGEqDm",
-      shorts: "https://www.youtube.com/playlist?list=PLEHuJH4JFWmI",
-      locale: "ko",
     },
   },
 } as const;

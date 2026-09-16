@@ -8,10 +8,10 @@
  *   pnpm assets unstage <시리즈> <이름>        정션만 지운다(실체는 보관소에 남는다)
  *   pnpm assets migrate [--dry-run] [--stage-episodes=all|active|none]
  *                                            public 실체 전부를 보관소로 옮긴 뒤 정책대로 정션을 건다
- *                                            factions=등록 목록(_episodes.json) · discourses=전부 · episodes=옵션(기본 active)
+ *                                            discourses=전부 · episodes=옵션(기본 active)
  */
 
-import { existsSync, readdirSync, readFileSync } from 'fs'
+import { readdirSync, readFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import {
@@ -25,11 +25,6 @@ const seriesDirOf = (series: AssetSeries) => path.join(PUBLIC_DIR, series)
 const mb = (bytes: number) => `${(bytes / 1048576).toFixed(0)} MB`
 
 /* ────────────────────────── migrate 정책 ────────────────────────── */
-
-function registeredFactions(): Set<string> {
-  const p = path.join(PUBLIC_DIR, 'factions', '_episodes.json')
-  return new Set(existsSync(p) ? JSON.parse(readFileSync(p, 'utf-8')) as string[] : [])
-}
 
 /** 북리커맨드 편이 작업 중인가 — 안에 있는 어떤 _status.json 도 live·done 이 아니면 작업 중으로 본다. */
 function episodeIsActive(dir: string): boolean {
@@ -53,8 +48,7 @@ function episodeIsActive(dir: string): boolean {
 
 type EpisodePolicy = 'all' | 'active' | 'none'
 
-function shouldStage(u: AssetUnit, episodePolicy: EpisodePolicy, registered: Set<string>): boolean {
-  if (u.series === 'factions') return registered.has(u.name)
+function shouldStage(u: AssetUnit, episodePolicy: EpisodePolicy): boolean {
   if (u.series === 'discourses') return true
   if (episodePolicy === 'all') return true
   if (episodePolicy === 'none') return false
@@ -102,12 +96,11 @@ function main() {
   if (cmd === 'migrate') {
     const policyFlag = rest.find(a => a.startsWith('--stage-episodes='))?.split('=')[1] as EpisodePolicy | undefined
     const episodePolicy: EpisodePolicy = policyFlag ?? 'active'
-    const registered = registeredFactions()
     let moved = 0, movedBytes = 0, staged = 0, left = 0
     for (const series of ASSET_SERIES) {
       const dir = seriesDirOf(series)
       for (const u of scanAssetUnits(dir, { withSize: false })) {
-        const keep = shouldStage(u, episodePolicy, registered)
+        const keep = shouldStage(u, episodePolicy)
         if (u.state === 'public-only') {
           const r = archiveAssetUnit(dir, u.name, { dryRun })
           moved++; movedBytes += r.bytes

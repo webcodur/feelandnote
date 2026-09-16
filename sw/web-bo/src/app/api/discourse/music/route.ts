@@ -4,9 +4,6 @@
  * 대상은 시리즈 공용 배경음악 폴더(sw/remotion/public/music/) 하나뿐이다.
  * 편집기는 이 목록에서 곡을 고른다(응답은 `{ files }` — 편집기가 배열·객체 둘 다 받는다).
  *
- * 팩션 쪽 같은 창구는 「어느 세력이 이 곡을 쓰는가」까지 집계하지만, 담화는 편이 5편뿐이고
- * 곡 연결처 표시가 화면에 없어 목록만 돌려준다 — 쓰지 않는 집계를 위해 전 편을 조립하지 않는다.
- *
  * POST 는 음악 폴더를 OS 탐색기로 연다.
  */
 
@@ -16,7 +13,7 @@ import { readdir } from 'fs/promises'
 import { spawn } from 'child_process'
 import path from 'path'
 import { guardDiscourseRoute } from '@/lib/discourse-route'
-import { MUSIC_DIR } from '@/lib/faction-file-utils'
+import { MUSIC_DIR } from '@/lib/discourse-paths'
 
 export async function GET() {
   const denied = await guardDiscourseRoute()

@@ -2,7 +2,7 @@
  * ShortCaption — 작은 자막(글래스 태블릿). 시리즈 무관 공통 컴포넌트.
  *
  * 긴 텍스트는 자동 페이징 — 문장 단위로 끊어서 순차 표시.
- * BookRecommend 쇼츠·솔로, Faction 인물 대사 등에서 공유한다.
+ * BookRecommend 쇼츠·솔로 등에서 공유한다.
  *
  * 페이징 휴리스틱:
  * - 한국어: 1페이지 ≈ 30자 (약 2줄)
@@ -40,7 +40,7 @@ export const stripCaptionPunct = (s: string) => s.replace(/[.,]+\s*$/, '')
  * 글자 무게가 눈에 띄게 달라진다. 화자가 없는 해설도 인물 대사와 같은 표면을 쓰도록
  * 값을 여기 한 곳에 둔다.
  */
-export const CAPTION_SHADOW_PAINT = {
+const CAPTION_SHADOW_PAINT = {
   strokeWidth: 2.4,
   strokeColor: 'rgba(0,0,0,0.92)',
   textShadow: [
@@ -59,13 +59,6 @@ export const CAPTION_SHADOW_PAINT = {
     '-1px -1px 0 rgba(0,0,0,0.75)',
   ].join(', '),
 } as const
-
-/** shadow 자막 표면을 그대로 입히는 스타일 조각 — 자체 렌더러(타자 효과 등)가 공유한다. */
-export const captionShadowTextStyle: React.CSSProperties = {
-  textShadow: CAPTION_SHADOW_PAINT.textShadow,
-  WebkitTextStroke: `${CAPTION_SHADOW_PAINT.strokeWidth}px ${CAPTION_SHADOW_PAINT.strokeColor}`,
-  paintOrder: 'stroke fill',
-}
 
 type Props = {
   text: string

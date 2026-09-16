@@ -8,9 +8,9 @@ import {
   type AssetArchiveSnapshot, type AssetUnit,
 } from '@/actions/admin/assets'
 
-type Series = 'factions' | 'episodes' | 'discourses'
-const SERIES_LABEL: Record<Series, string> = { factions: '세력도감', episodes: '서재 탐방', discourses: '가상 담화' }
-const SERIES_ORDER: Series[] = ['factions', 'episodes', 'discourses']
+type Series = 'episodes' | 'discourses'
+const SERIES_LABEL: Record<Series, string> = { episodes: '서재 탐방', discourses: '가상 담화' }
+const SERIES_ORDER: Series[] = ['episodes', 'discourses']
 
 type Filter = 'all' | AssetUnit['state']
 const STATE_LABEL: Record<AssetUnit['state'], { mark: string; text: string; cls: string }> = {
@@ -27,14 +27,13 @@ const mb = (bytes: number) => bytes >= 1024 * 1048576
 
 /** 걸린 편을 바로 여는 주소. 서재 탐방·담화는 목록 화면으로 보낸다(편 주소가 인물·편별로 다르다). */
 function openHref(u: AssetUnit): string {
-  if (u.series === 'factions') return `/factions/${encodeURIComponent(u.name)}/ko/info`
   if (u.series === 'discourses') return '/discourses'
   return '/book-recommend'
 }
 
 export default function AssetArchiveBoard({ snapshot }: { snapshot: AssetArchiveSnapshot }) {
   const [units, setUnits] = useState(snapshot.units)
-  const [series, setSeries] = useState<Series>('factions')
+  const [series, setSeries] = useState<Series>('episodes')
   const [filter, setFilter] = useState<Filter>('all')
   const [query, setQuery] = useState('')
   const [pending, startTransition] = useTransition()

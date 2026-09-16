@@ -11,14 +11,13 @@ import {
   ASSET_ARCHIVE_ROOT, ASSET_SERIES, archiveAssetUnit, isAssetArchiveAvailable, scanAssetUnits, stageAssetUnit,
   unstageAssetUnit, type AssetSeries, type AssetUnit,
 } from '@feelandnote/shared/bo/asset-archive'
-import { DISCOURSES_DIR, EPISODES_DIR, FACTIONS_DIR } from '@feelandnote/shared/bo/episode-store'
+import { DISCOURSES_DIR, EPISODES_DIR } from '@feelandnote/shared/bo/episode-store'
 import { requireAdmin } from '@/lib/admin-auth'
 import { REMOTION_LOCAL, assertRemotionLocal } from '@/lib/remotion-local'
 
 export type { AssetSeries, AssetUnit }
 
 const SERIES_DIR: Record<AssetSeries, string> = {
-  factions: FACTIONS_DIR,
   episodes: EPISODES_DIR,
   discourses: DISCOURSES_DIR,
 }
@@ -35,7 +34,7 @@ export interface AssetArchiveSnapshot {
   units: AssetUnit[]
 }
 
-/** 세 시리즈 상태표. 보관소가 없는 컴퓨터에서는 빈 표를 돌려준다. */
+/** 시리즈별 상태표. 보관소가 없는 컴퓨터에서는 빈 표를 돌려준다. */
 export async function loadAssetArchive(): Promise<AssetArchiveSnapshot> {
   await requireAdmin()
   const available = REMOTION_LOCAL && isAssetArchiveAvailable()

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
  * 목록을 만들려고 전 편의 대본 파일을 통째로 읽었는데(설계 §1 R5), 그러면 파일이 없는 편이
  * 목록에서 사라져 "만들었는데 안 보인다"가 된다.
  *
- * 팩션과 달리 도감 테마가 없다 — 담화는 세력도감에 투영되지 않는다(설계 §3 차이 ③).
+ * 담화는 세력도감에 투영되지 않는다(설계 §3 차이 ③).
  */
 export default async function DiscoursesPage() {
   const episodes = await listDiscourseEpisodes()

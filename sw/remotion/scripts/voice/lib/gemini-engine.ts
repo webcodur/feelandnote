@@ -1,7 +1,7 @@
 /**
  * lib/gemini-engine.ts — Gemini TTS 합성 코어 (단일 원천)
  *
- * BookRecommend(2-synthesize/engines.ts)·Faction(faction/engine.ts)이 공유한다.
+ * BookRecommend(2-synthesize/engines.ts)·BookPerson(book-person/tts.ts)이 공유한다.
  * 키 로테이션·재시도(429/403/만료/500)·WAV 저장·길이 측정이 여기 한 벌만 있다.
  *
  * Google 무료 키(GOOGLE_GENAI_API_KEY_FREE<n>)만 쓴다 — 유료 Gemini·Vertex·Cloud TTS 금지.
@@ -9,7 +9,6 @@
  */
 import 'dotenv/config'
 import { GoogleGenAI } from '@google/genai'
-import { readFile } from 'fs/promises'
 import wav from 'wav'
 import { googleFreeApiKeys } from '@feelandnote/shared/lib/gemini-keys'
 
@@ -87,33 +86,4 @@ export async function saveWav(filename: string, pcmData: Buffer): Promise<number
     writer.write(pcmData)
     writer.end()
   })
-}
-
-/**
- * 기존 WAV 파일의 길이(초)를 헤더에서 측정한다.
- * RIFF/WAVE: fmt 청크의 byteRate 와 data 청크 크기로 계산. ffmpeg 의존 없이 동작한다.
- * 정규화 후에도 포맷(PCM)·헤더 구조는 유지되므로 정확하다.
- */
-export async function measureWavDuration(filePath: string): Promise<number> {
-  const buf = await readFile(filePath)
-  if (buf.length < 44 || buf.toString('ascii', 0, 4) !== 'RIFF' || buf.toString('ascii', 8, 12) !== 'WAVE') {
-    throw new Error(`WAV 헤더 아님: ${filePath}`)
-  }
-  let byteRate = 0
-  let dataSize = 0
-  let off = 12
-  while (off + 8 <= buf.length) {
-    const id = buf.toString('ascii', off, off + 4)
-    const size = buf.readUInt32LE(off + 4)
-    if (id === 'fmt ') {
-      // byteRate = sampleRate * channels * bitsPerSample/8 (offset +8 within fmt body)
-      byteRate = buf.readUInt32LE(off + 8 + 8)
-    } else if (id === 'data') {
-      dataSize = size
-      break
-    }
-    off += 8 + size + (size % 2) // 청크는 2바이트 정렬 패딩
-  }
-  if (byteRate <= 0 || dataSize <= 0) throw new Error(`WAV 길이 측정 실패: ${filePath}`)
-  return dataSize / byteRate
 }

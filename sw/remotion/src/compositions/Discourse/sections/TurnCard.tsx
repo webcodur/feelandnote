@@ -7,8 +7,8 @@ import { imgSrc, initials, holdMotionTransform, isPushinZoom, sliceLocalTimings,
 import { vnTurn, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
 import { Typewriter } from '../../../components/caption/Typewriter'
 import { expandSubTimings, type VoiceTimingSegment } from '../../../lib/voice-timing'
-import { FactionMedia } from '../../Faction/sections/FactionMedia'
-import { CaptionBackdrop } from '../../Faction/sections/CaptionBackdrop'
+import { CutMedia } from './CutMedia'
+import { CaptionBackdrop } from './CaptionBackdrop'
 
 /** 자막 한 페이지 분량(글자) — 덩어리를 여기까지 모아 한 화면에 띄운다. 덩어리 경계로만 끊어 말이 잘리지 않는다 */
 const PAGE_MAX_CHARS = 52
@@ -113,7 +113,7 @@ const TurnCaption: React.FC<{
  * 발언 컷 — 이 시리즈의 본체.
  *
  * 인물 사진이 화면을 채우고(켄번스·지속 효과), 하단 어둠 위로 발언자 이름과 자막이 얹힌다.
- * 대사 도중 지정한 덩어리에서 사진이 크로스페이드로 바뀐다(imageChanges — 팩션 계승).
+ * 대사 도중 지정한 덩어리에서 사진이 크로스페이드로 바뀐다(imageChanges).
  *
  * ⚠ 음원은 duration 이 기록된 발언에만 건다. 파이프라인이 wav 를 만들면서 duration 을 쓰므로,
  *   duration 이 없다 = wav 가 없다 이다. 없는 파일을 staticFile 로 물리면 렌더가 깨지므로 아예 걸지 않는다.
@@ -195,13 +195,13 @@ export const TurnCard: React.FC<{
   )
   const photo = !baseImage || imgErr ? initialsFallback : (() => {
     if (!imgChanges.length) {
-      return <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseCrop, 0, Math.max(1, cueDuration))} />
+      return <CutMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseCrop, 0, Math.max(1, cueDuration))} />
     }
     const cf = f(CROSSFADE_SEC)
     return (
       <>
         <AbsoluteFill>
-          <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseCrop, 0)} />
+          <CutMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseCrop, 0)} />
         </AbsoluteFill>
         {imgChanges.map((ic, idx) => {
           const start = chunkFrame(ic.chunk)
@@ -209,7 +209,7 @@ export const TurnCard: React.FC<{
           if (op <= 0) return null
           return (
             <AbsoluteFill key={idx} style={{ opacity: op }}>
-              <FactionMedia src={imgSrc(episodeName, ic.image)} startFrame={start} style={styleFor(ic.crop, Math.max(0, start - cueStart))} />
+              <CutMedia src={imgSrc(episodeName, ic.image)} startFrame={start} style={styleFor(ic.crop, Math.max(0, start - cueStart))} />
             </AbsoluteFill>
           )
         })}

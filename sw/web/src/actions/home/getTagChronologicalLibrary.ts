@@ -47,7 +47,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 }> {
   const db = createStaticClient();
 
-  // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
+  // 1. 태그에 속한 셀럽 ID 조회 — 원천은 웹 배정 표(celeb_tag_assignments), 뷰로 읽는다
   const { data: assignments, error: assignmentsError } = await db
     .from("faction_atlas_members")
     .select("celeb_id")

@@ -24,8 +24,7 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/api/book-recommend')
     || pathname.startsWith('/api/tasks')
     || pathname.startsWith('/api/open-folder')
-  const remotionLocal =
-    process.env.REMOTION_LOCAL === '1' || process.env.FACTION_LOCAL === '1'
+  const remotionLocal = process.env.REMOTION_LOCAL === '1'
   if (isBookRecommendProductionApi && !remotionLocal) {
     return NextResponse.json(
       { error: '서재 탐방 제작 API는 로컬 렌더 환경에서만 동작합니다.' },

@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * 편집기 뼈대 부품 한 벌 — 세력도(faction)와 가상 담화(discourse) 편집 화면이 함께 쓴다.
+ * 편집기 뼈대 부품 한 벌 — 영상 시리즈 편집 화면이 함께 쓴다.
  *
  * 두 편집기는 같은 뼈대를 각자 복제해 두고 있었다(언어 전환 어휘·저장 절차·Ctrl+S·저장 단추·
  * 사진 폴더 조작·시간 표시·시리즈 홈의 새 에피소드 만들기). 특히 언어 어휘는 **주소(URL)에 실려**
@@ -28,7 +28,7 @@ import { Plus, Save } from './icons'
 /**
  * 편집 언어 모드 — 입력칸의 노출 언어를 가린다(한국어만 / 영어만 / 둘 다).
  * 이 값이 그대로 주소에 실린다(/{시리즈}/{편}/{언어}/{탭}) — 어휘를 바꾸면 라우트가 깨진다.
- * 주소 검사 쪽 정본은 lib/faction-edit-route 의 FACTION_EDIT_LANGS 다.
+ * 주소 검사 쪽 정본은 web-bo lib/discourse-edit-route 의 DISCOURSE_EDIT_LANGS 다.
  */
 export type EditLang = 'ko' | 'en' | 'both'
 
@@ -122,7 +122,7 @@ export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript,
   /**
    * 저장 실행부 갈아끼우기(선택). 주지 않으면 예전처럼 `/api/{시리즈}/episodes/{편}` 에 대본을 PUT 한다.
    *
-   * 글의 원본이 파일이 아니라 DB 인 시리즈(세력도)는 이 자리에 자기 저장 절차를 넘긴다.
+   * 글의 원본이 파일이 아니라 DB 인 시리즈(담화)는 이 자리에 자기 저장 절차를 넘긴다.
    * 대본만 보내면 안 되기 때문이다 — 그 사이 다른 곳에서 먼저 저장했는지 대조할 기준 시각을
    * 함께 실어 보내야 하고, 저장 뒤에는 새 기준 시각을 받아 들고 있어야 한다.
    * 실패는 **던져야** 한다. 그래야 편집기가 손댐 표시를 지우지 않고 다시 저장하게 남겨 둔다.
@@ -251,7 +251,7 @@ export function useEpisodeEditor<T>({ series, episodeName, scriptRef, setScript,
 // 시리즈 홈 — 진행 상태 · 새 에피소드 만들기
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** 진행 상태 — 할 일 / 공개 / 완료. 세력도·담화가 같은 어휘를 쓴다 */
+/** 진행 상태 — 할 일 / 공개 / 완료. 시리즈 공통 어휘다 */
 export type EpisodeStatus = 'todo' | 'live' | 'done'
 
 export const EPISODE_STATUS_OPTIONS: { value: EpisodeStatus; label: string }[] = [
@@ -280,7 +280,7 @@ export function EpisodeStatusDot({ status }: { status: EpisodeStatus }) {
  */
 export function EpisodeCreateForm({ series, heading, slugPlaceholder, submitLabel }: {
   series: string
-  /** 폼 위에 적히는 이름 (예: 새 세력도) */
+  /** 폼 위에 적히는 이름 (예: 새 담화) */
   heading: string
   /** 폴더명 칸의 예시 문구 */
   slugPlaceholder: string

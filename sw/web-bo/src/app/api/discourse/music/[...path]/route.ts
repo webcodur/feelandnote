@@ -14,7 +14,7 @@ import { readFile, stat } from 'fs/promises'
 import path from 'path'
 import { safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 import { guardDiscourseRoute } from '@/lib/discourse-route'
-import { MUSIC_DIR } from '@/lib/faction-file-utils'
+import { MUSIC_DIR } from '@/lib/discourse-paths'
 
 const MIME: Record<string, string> = {
   '.mp3': 'audio/mpeg',

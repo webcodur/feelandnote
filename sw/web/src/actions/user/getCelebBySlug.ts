@@ -17,7 +17,7 @@ import {
   getDisplayDialogueQuote,
   type DialogueProfile,
 } from '@/lib/utils/celeb-dialogues'
-import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
+import { toFactionMusic, type FactionMusic } from '@/lib/faction-music'
 import { getMythBranchTagIds } from '@/lib/faction-atlas-members'
 import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
 
@@ -47,8 +47,6 @@ export interface FactionTagItem {
   roleShortEn: string | null
   roleLong: string | null
   roleLongEn: string | null
-  /** 이 테마를 다룬 세력도감 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
-  videos: FactionVideos | null
   /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
   music: FactionMusic | null
 }
@@ -69,7 +67,6 @@ interface FactionTagAssignmentRow {
     color: string | null
     description: string | null
     description_en: string | null
-    youtube_videos: unknown
     theme_music: unknown
   } | null
 }
@@ -242,8 +239,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .eq('celeb_id', celebId)
       .maybeSingle(),
     db.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
-    // 세력도감 소속 — 단일 원천은 제작 테이블(faction_people)이고 DB 뷰 faction_atlas_members가
-    // 웹 전용 배정과 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
+    // 세력도감 소속 — 원천은 웹 배정 표(celeb_tag_assignments)이고 DB 뷰 faction_atlas_members로 읽는다.
+    // 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
     (async (): Promise<FactionTagAssignmentRow[]> => {
       const { data: memberRows, error: memberRowsError } = await db
         .from('faction_atlas_members')
@@ -258,7 +255,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
       const { data: tagRows, error: tagRowsError } = await db
         .from('celeb_tags')
-        .select('id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music')
+        .select('id, name, name_en, slug, color, description, description_en, theme_music')
         .in('id', tagIds)
         .eq('is_featured', true)
         .overrideTypes<NonNullable<FactionTagAssignmentRow['tag']>[], { merge: false }>()
@@ -326,7 +323,6 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       roleShortEn: a.short_desc_en ?? null,
       roleLong: a.long_desc ?? null,
       roleLongEn: a.long_desc_en ?? null,
-      videos: toFactionVideos(a.tag.youtube_videos),
       music: toFactionMusic(a.tag.theme_music),
     }))
 

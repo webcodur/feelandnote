@@ -4,12 +4,12 @@ import type { DiscourseScript } from '../types'
 import { INTRO_SEC, INTRO_FADE_OUT_SEC, f } from '../timing'
 import { BG, FG, FONT, FONT_SERIF, DEFAULT_ACCENT, CONTENT_PAD, TEXT_PAINT } from '../constants'
 import { imgSrc, nameHead, nameTail, resolveNotice } from '../utils'
-import { FilledImage } from '../../Faction/sections/FilledImage'
+import { FilledImage } from './FilledImage'
 
 /**
  * 시작 화면 — 논제(무엇을 다투는가) + 시작문구 + **고지 카드**.
  *
- * 영상 명칭은 상단 헤더가 프레임 0부터 계속 들고 있으므로 여기서 다시 크게 쓰지 않는다(중복 제거 — 팩션과 동일).
+ * 영상 명칭은 상단 헤더가 프레임 0부터 계속 들고 있으므로 여기서 다시 크게 쓰지 않는다(중복 제거).
  * 논제가 비어 있는 편(1인 독백 등)만 영상 명칭을 논제 자리에 올린다.
  *
  * 고지 카드는 이 시리즈의 존재 조건이다(§3 고지 원칙 1번째 겹).

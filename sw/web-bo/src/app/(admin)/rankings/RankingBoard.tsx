@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 import { Layers, Plus, Users } from 'lucide-react'
 import { useToast } from '@/contexts/ToastContext'
 import {
-  FactionTable, FactionTableRow, FactionTableCell, FactionTableEmpty, FactionTableCount,
-  type FactionTableColumn,
-} from '@/components/factions/FactionTable'
+  BoardTable, BoardTableRow, BoardTableCell, BoardTableEmpty, BoardTableCount,
+  type BoardTableColumn,
+} from '@/components/ui/BoardTable'
 import { createRankingEpisode, type RankingEpisodeSummary } from '@/actions/admin/rankings/script'
 
-const COLUMNS: FactionTableColumn[] = [
+const COLUMNS: BoardTableColumn[] = [
   { key: 'title', header: '편' },
   { key: 'categories', header: '축', width: '5rem', align: 'right' },
   { key: 'entries', header: '인물', width: '5rem', align: 'right' },
@@ -96,27 +96,27 @@ export default function RankingBoard({
         </div>
       )}
 
-      <FactionTable columns={COLUMNS}>
+      <BoardTable columns={COLUMNS}>
         {episodes.length === 0 && (
-          <FactionTableEmpty colSpan={COLUMNS.length}>아직 랭킹 편이 없습니다.</FactionTableEmpty>
+          <BoardTableEmpty colSpan={COLUMNS.length}>아직 랭킹 편이 없습니다.</BoardTableEmpty>
         )}
         {episodes.map(ep => (
-          <FactionTableRow key={ep.folder} onOpen={() => router.push(`/rankings/${ep.folder}`)}>
-            <FactionTableCell>
+          <BoardTableRow key={ep.folder} onOpen={() => router.push(`/rankings/${ep.folder}`)}>
+            <BoardTableCell>
               <div className="flex flex-col gap-0.5">
                 <span className="font-medium text-text-primary">{ep.title}</span>
                 <span className="text-[11px] text-text-secondary">{ep.folder}</span>
               </div>
-            </FactionTableCell>
-            <FactionTableCell align="right">
-              <FactionTableCount value={ep.categoryCount} icon={<Layers className="h-3.5 w-3.5" />} title="축 수" />
-            </FactionTableCell>
-            <FactionTableCell align="right">
-              <FactionTableCount value={ep.entryCount} icon={<Users className="h-3.5 w-3.5" />} title="인물 수" />
-            </FactionTableCell>
-          </FactionTableRow>
+            </BoardTableCell>
+            <BoardTableCell align="right">
+              <BoardTableCount value={ep.categoryCount} icon={<Layers className="h-3.5 w-3.5" />} title="축 수" />
+            </BoardTableCell>
+            <BoardTableCell align="right">
+              <BoardTableCount value={ep.entryCount} icon={<Users className="h-3.5 w-3.5" />} title="인물 수" />
+            </BoardTableCell>
+          </BoardTableRow>
         ))}
-      </FactionTable>
+      </BoardTable>
     </div>
   )
 }

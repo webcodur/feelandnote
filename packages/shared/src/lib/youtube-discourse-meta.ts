@@ -3,8 +3,7 @@
  *
  * Root.tsx 의 컴포지션 등록, 왕복 검증(scripts/discourse/verify.ts ③), 앞으로 붙을
  * 렌더 CLI·유튜브 업로드가 **이 한 곳**에서 영상 종류와 ID 를 얻는다.
- * 팩션은 예전에 같은 규칙이 Root.tsx 와 렌더 API 양쪽에 복붙돼 어긋난 사고 이력이 있다
- * (`youtube-faction-meta.ts` 주석 참조). 담화는 그 전에 합친다.
+ * 같은 규칙을 Root.tsx 와 렌더 API 양쪽에 복붙하면 어긋난다.
  *
  * ## 영상 구성 (한국어 세로 전용)
  *
@@ -19,7 +18,7 @@
  *
  * ## 타입은 경량 자체 정의
  *
- * 팩션 youtube-faction-meta 와 같은 원칙. 렌더의 `DiscourseScript` 는 이 형태를 만족한다.
+ * shared 는 sw/remotion 에 역의존할 수 없어 필요한 필드만 선언한다. 렌더의 `DiscourseScript` 는 이 형태를 만족한다.
  */
 
 /** 종류 산출이 발언에게서 필요로 하는 것 */
@@ -128,7 +127,7 @@ export function discourseVariants(
  * 가상 담화 컴포지션 ID 앞머리 — `Discourse-<폴더명>`.
  *
  * 폴더명이 곧 컴포지션 ID이자 출고 파일명이므로 영문·숫자·하이픈만 허용한다
- * (팩션 `factionCompBase` 와 같은 규칙). 한글 등이 섞이면 Remotion 컴포지션 ID 로 쓸 수 없으므로
+ * 한글 등이 섞이면 Remotion 컴포지션 ID 로 쓸 수 없으므로
  * 즉시 에러를 던진다(조용한 폴백 금지).
  */
 export function discourseCompBase(folder: string): string {

@@ -14,5 +14,4 @@
 문서 전체가 이미지 일은 아니라 제자리에 두고 여기서 가리키기만 한다.
 
 - [`founding-myth.md`](../founding-myth.md) — 건국신화 인물의 아바타가 대부분 비었다.
-- [`faction-video-salvage.md`](../faction-video-salvage.md) — 영상 제작 표에만 남은 인물 사진·세력 로고를 웹으로 건진다.
-- [`faction-video-stop.md`](../faction-video-stop.md) 「웹 V1 남은 화면」 — 세력도감 첫 화면 카드 표지를 단체화보에서 구성원 얼굴 판으로 맞춘다. 테마 대표 이미지를 만들면 이 카드 얼굴과 겹친다.
+- [`faction-web.md`](../faction-web.md) 「웹 화면」 1번 — 탐색 허브 세력 카드 표지를 단체화보에서 출연진 판으로 맞춘다. 테마 대표 이미지를 만들면 이 카드 표지와 겹친다.

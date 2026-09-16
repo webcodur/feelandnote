@@ -1,4 +1,0 @@
-interface:
-  display_name: "팩션 대사 작성"
-  short_description: "근거 있는 팩션 대사를 작성하고 바로 검증합니다"
-  default_prompt: "Use $faction-dialogue-review to write a sourced faction dialogue once, apply it safely, and verify the result without creating review logs."

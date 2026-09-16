@@ -1,13 +1,13 @@
 /**
  * discourse-voice-names.ts — 가상 담화(Discourse) 음성 파일명·경로 규칙 **단일원천(SSoT)**
  *
- * 팩션은 인물 자리(FxxCxxPxx)로 이름을 붙인다. 담화는 인물이 여러 번 말하므로 **발언 자리**로 붙인다.
+ * 담화는 인물이 여러 번 말하므로 인물 자리가 아니라 **발언 자리**로 이름을 붙인다.
  *
  * ## 왜 shared 로 올렸나
  *
  * 이 규칙은 26.07.26 이전까지 렌더(`Discourse/voice-names.ts`)와 BO(`remotion-bo/lib/discourse-voice.ts`)에
  * **96줄이 통째로 복제**돼 있었고, 두 파일 머리에 "한쪽을 바꾸면 반드시 다른 쪽도" 라는 경고만 붙어 있었다.
- * 경고는 규칙이 아니다 — 팩션에서 이미 같은 복제가 어긋나 사고가 났다.
+ * 경고는 규칙이 아니다 — 복제는 결국 어긋난다.
  * 그래서 규칙을 여기 한 벌만 두고 렌더·BO 는 재export 만 한다.
  *
  * ## 파일명에 slug 를 함께 넣는 이유
@@ -18,7 +18,7 @@
  *
  * ## 타입은 경량 자체 정의
  *
- * packages/shared 는 sw/remotion 에 역의존할 수 없다(팩션 youtube-faction-meta 와 같은 원칙).
+ * packages/shared 는 sw/remotion 에 역의존할 수 없다.
  * 그래서 필요한 필드만 구조적으로 선언한다. 렌더의 `DiscourseScript`·`Speaker`·`Turn` 은
  * 이 형태를 만족하므로 그대로 넘길 수 있다.
  */
@@ -54,7 +54,7 @@ export function vnSafeSlug(slug?: string): string {
 /**
  * 발언 음성 파일명 — 발언 자리(1-based, 0패딩) + 발언자 slug.
  * 예: T01-qin-shi-huang.wav, T04-sam-altman.wav
- * 0패딩은 파일 정렬 순서 = 재생 순서를 보장한다(팩션과 동일 원리).
+ * 0패딩은 파일 정렬 순서 = 재생 순서를 보장한다.
  */
 export function vnTurn(turnIndex: number, slug?: string): string {
   return `T${String(turnIndex + 1).padStart(2, '0')}-${vnSafeSlug(slug)}.wav`

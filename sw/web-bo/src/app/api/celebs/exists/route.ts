@@ -7,7 +7,7 @@ import { guardAdminRoute } from '@/lib/admin-route'
 // 이식 시 추가: 이 앱의 `/api/**` 는 미들웨어가 없어 그냥 열려 있으므로 관리자 확인을 앞에 둔다.
 
 /**
- * 셀럽 slug 실존 대조 — 팩션 인물의 본서비스(DB) 등록 여부 판정용.
+ * 셀럽 slug 실존 대조 — 담화 인물의 본서비스(DB) 등록 여부 판정용.
  * slug가 적혀 있어도 DB에 없는 「유령 연결」을 가려내기 위해 실제 celebs를 조회한다.
  * POST { slugs: string[] } → { existing: string[] }
  */

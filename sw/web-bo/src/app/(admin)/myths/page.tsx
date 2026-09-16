@@ -19,7 +19,7 @@ export default async function MythsPage({ searchParams }: { searchParams: Promis
       <div>
         <h1 className="text-xl md:text-2xl font-bold text-text-primary">신화 편집</h1>
         <p className="text-sm text-text-secondary mt-1">
-          서비스 「신화의 세계」에 나가는 전승·그룹·인물을 고칩니다. 영상 제작 데이터는 세력도감에서 다룹니다.
+          서비스 「신화의 세계」에 나가는 전승·그룹·인물을 고칩니다.
         </p>
       </div>
       <MythEditor key={selectedId ?? 'none'} myths={myths} selectedId={selectedId} detail={detail} musicCatalog={musicCatalog} />

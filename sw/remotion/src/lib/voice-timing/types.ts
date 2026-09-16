@@ -1,7 +1,7 @@
 /**
  * 음성 타이밍 공통 타입 — 시리즈 무관 단일원천(SSoT).
  *
- * BookRecommend·Faction 등 모든 시리즈가 이 타입을 공유한다.
+ * BookRecommend·Discourse 등 모든 시리즈가 이 타입을 공유한다.
  * 각 시리즈의 types.ts는 여기서 재export 한다(명목 일치 유지).
  */
 

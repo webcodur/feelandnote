@@ -2,7 +2,7 @@
  * discourse/lib.ts — 담화 DB 이관 도구 공용 부품
  *
  * 에피소드 폴더 스캔 · 세 파일 병합 읽기.
- * env 로딩 · service role 클라이언트 · CLI 인자 파싱은 `../lib/series-cli.ts`(팩션과 공용).
+ * env 로딩 · service role 클라이언트 · CLI 인자 파싱은 `../lib/series-cli.ts` 가 쥔다.
  * import/export/verify 세 스크립트가 공유한다.
  *
  * ⚠ 이 폴더의 스크립트는 sw/remotion/tsconfig.json 의 include(["src","episodes"]) 밖이다.
@@ -91,7 +91,7 @@ export function scanEpisodes(): EpisodeFolder[] {
  * 로더(`Discourse/script.ts:120`)·BO(`discourse-utils.ts:84`)와 같은 병합 규칙을 쓴다.
  *
  * `_generated` 마커(export 산출 표식)는 내용이 아니므로 여기서 벗긴다 — 안 벗기면 발효된 편을
- * 재흡수(import)할 때 마커가 DB data 에 데이터로 저장돼 왕복 검증 ①이 깨진다(팩션 26.07.25 실측).
+ * 재흡수(import)할 때 마커가 DB data 에 데이터로 저장돼 왕복 검증 ①이 깨진다(26.07.25 실측).
  *
  * cast·turns 가 없으면 **던진다.** 빈 배열로 폴백하면 인물도 대사도 없는 편이 조용히 이관된다.
  */

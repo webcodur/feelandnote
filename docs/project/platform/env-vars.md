@@ -157,11 +157,11 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 | `GA_CREDENTIALS_PATH` | web | 아래 인증 파일의 경로 |
 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 🔴 **구글 서비스 계정 키 파일.** 개인 키가 그대로 들어 있다 (`claude-analytics@feelandnote.iam.gserviceaccount.com`) |
 
-### 3-9. 팩션(세력도감) 로컬 연동
+### 3-9. 영상 제작 로컬 연동
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
-| `FACTION_LOCAL` | web-bo | `1`이면 백오피스가 영상 저장소(`sw/remotion/public/factions/`)의 실제 파일을 읽고 쓴다. **꺼져 있으면 영상 편 사진·음원 작업 화면이 "연결 안 됨"으로 뜬다** |
+| `REMOTION_LOCAL` | web-bo | `1`이면 백오피스가 렌더 저장소(`sw/remotion/public/`)의 실제 파일을 읽고 쓴다(서재 탐방·책과 사람·가상 담화·랭킹). **꺼져 있으면 로컬 자산 창구가 503과 사유를 내고 저장이 막힌다** |
 | `REMOTION_ROOT` | (선택) | 영상 저장소가 다른 위치에 있을 때만 지정. 없으면 `sw/remotion`으로 본다 |
 
 ### 3-10. 기타
@@ -197,7 +197,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 | `GPT_SOVITS_ROOT` | `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604` | 음성 합성 도구 설치 위치 |
 | `INTERVIEW_CLEANER_ROOT` | `D:\audios\interview-cleaner` | 받아쓰기 도구 위치 |
 
-영상 자료(`sw/remotion/public/episodes`·`factions`·`music`·`covers`)도 통째로 추적 대상이 아니다. **저장소를 복제해도 영상 자료는 따라오지 않는다** — 별도로 옮긴다. 26.08.22 실측 규모는 episodes 3.7GB(6,628파일)·factions 3.1GB(3,964파일)·music 138MB·covers 32MB로, 합쳐 약 7GB다. 외장 저장소나 로컬 네트워크로 옮긴다.
+영상 자료(`sw/remotion/public/episodes`·`music`·`covers`)도 통째로 추적 대상이 아니다. **저장소를 복제해도 영상 자료는 따라오지 않는다** — 별도로 옮긴다. 26.08.22 실측 규모는 episodes 3.7GB(6,628파일)·music 138MB·covers 32MB다. 외장 저장소나 로컬 네트워크로 옮긴다.
 
 그 밖에 새 컴퓨터에서 챙길 것:
 
