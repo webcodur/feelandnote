@@ -18,6 +18,10 @@ const MAX_SOURCE_BYTES = 30 * 1024 * 1024
 const PROCESS_BASE_TIMEOUT_MS = 2 * 60 * 1000
 const PROCESS_PER_IMAGE_TIMEOUT_MS = 60 * 1000
 const PROCESS_MAX_TIMEOUT_MS = 30 * 60 * 1000
+// 누끼는 CPU로 돈다. 제한 없이 돌리면 코어를 전부 잡아 그동안 컴퓨터로 다른 일을
+// 할 수 없다. medium은 장당 0.6초만 느려지고 점유는 절반으로 떨어진다.
+// full(가장 빠름)·low(배경 처리)로 바꾸려면 web-bo 환경변수 NOBG_SPEED를 쓴다.
+const NOBG_SPEED = process.env.NOBG_SPEED?.trim() || 'medium'
 
 export interface NobgAvatarResult {
   url?: string
@@ -73,7 +77,12 @@ function runNobg(workDir: string, imageCount: number): Promise<string> {
     const child = spawn('py', ['-3.12', NOBG_SCRIPT, 'rembg'], {
       cwd: NOBG_BATCH_DIR,
       // 파이썬 출력이 cp949로 나오면 한글 실패 사유를 읽지 못한다.
-      env: { ...process.env, NOBG_WORK_DIR: workDir, PYTHONIOENCODING: 'utf-8' },
+      env: {
+        ...process.env,
+        NOBG_WORK_DIR: workDir,
+        NOBG_SPEED,
+        PYTHONIOENCODING: 'utf-8',
+      },
       shell: false,
       windowsHide: true,
     })
