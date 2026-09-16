@@ -2,6 +2,7 @@
 
 import { Clock, LoaderCircle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { celebDisplayName } from "@/lib/celeb/displayName";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { Locale } from "@/types/locale";
@@ -26,7 +27,7 @@ interface Props {
 export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isContemporariesShown, isContemporariesLoading, onToggleBio, onToggleContemporaries, onFireDialogue, getContemporaries }: Props) {
   const t = useTranslations("explore.ui.timeline");
   const shared = useTranslations("shared.celeb");
-  const displayName = locale === "en" && celeb.nickname_en ? celeb.nickname_en : celeb.nickname;
+  const displayName = celebDisplayName(celeb, locale);
   const displayTitle = locale === "en" && celeb.title_en ? celeb.title_en : celeb.title;
   const displayBio = locale === "en" && celeb.bio_en ? celeb.bio_en : celeb.bio;
   const href = getCelebProfileUrl(celeb);

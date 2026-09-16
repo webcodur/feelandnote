@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
@@ -10,10 +11,12 @@ import MythGroupOverview from "./MythGroupOverview";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
+import MythWorkShelf from "./MythWorkShelf";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
+import { MYTH_TRADITION_PARAM } from "./mythTraditionHref";
 
 interface Props { data: MythAtlasData }
 
@@ -26,14 +29,37 @@ function focusedTradition(data: MythAtlasData, personId: string | null) {
 export default function MythAtlas({ data }: Props) {
   const t = useTranslations("explore.hub.myth");
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
-  const openingTraditionId = focusedTradition(data, data.openingPersonId);
+  /* 주소에 전승이 있으면(음악 재생기 바로가기 등) 그 전승을 고른 채 연다 */
+  const requestedSlug = useSearchParams().get(MYTH_TRADITION_PARAM);
+  const requestedTradition = data.traditions.find((tradition) => tradition.isPublished && tradition.slug === requestedSlug);
+  const openingTraditionId = requestedTradition?.id ?? focusedTradition(data, data.openingPersonId);
   const openingTradition = data.traditions.find((tradition) => tradition.id === openingTraditionId);
   const [regionId, setRegionId] = useState<string | null>(openingTradition?.regionId ?? data.regions[0]?.id ?? null);
   const [traditionId, setTraditionId] = useState<string | null>(openingTraditionId);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
   const [comingSoonId, setComingSoonId] = useState<string | null>(null);
   const [groupId, setGroupId] = useState<string | null>(null);
+  const [appliedSlug, setAppliedSlug] = useState(requestedSlug);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  /* 신화 화면에 머문 채 다른 전승 주소로 오면 그 전승으로 옮긴다 */
+  if (requestedSlug !== appliedSlug) {
+    setAppliedSlug(requestedSlug);
+    if (requestedTradition && requestedTradition.id !== traditionId) {
+      setRegionId(requestedTradition.regionId);
+      setTraditionId(requestedTradition.id);
+      setGroupId(null);
+      setSelectedPersonId(null);
+    }
+  }
+
+  /* 화면에서 고른 전승을 주소에 남긴다. 주소가 늘 보이는 전승을 가리켜야 같은 바로가기를 다시 눌러도 그 전승으로 돌아온다 */
+  const rememberTradition = (slug: string | undefined) => {
+    const url = new URL(window.location.href);
+    if (slug) url.searchParams.set(MYTH_TRADITION_PARAM, slug);
+    else url.searchParams.delete(MYTH_TRADITION_PARAM);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  };
 
   useEffect(() => {
     if (!comingSoonId) return;
@@ -86,15 +112,17 @@ export default function MythAtlas({ data }: Props) {
   const selectedPerson = activePeople.find((person) => person.id === selectedPersonId) ?? null;
   const selectedWorks = selectedPerson ? activeWorks.filter((work) => selectedPerson.sourceIds.includes(work.id)) : [];
 
-  /* 이 전승으로 들어가는 책 한 권. 신화 원전은 한 권이 수십 명에게 걸리는 세계 단위 책이라
-     인물을 고르기 전에도 살 수 있어야 한다. 이 전승 인물을 가장 많이 담은 책을 세우되,
-     살 수 있는 판본이 있으면 그쪽을 앞세운다(영문 화면은 구매 링크를 받지 않아 첫 권이 온다). */
-  const entryWork = useMemo(() => {
-    if (activeWorks.length === 0) return null;
-    const castHere = (work: MythWork) => work.personIds.filter((id) => activeIds.has(id)).length;
-    const ranked = [...activeWorks].sort((a, b) => castHere(b) - castHere(a));
-    return ranked.find((work) => work.coupangUrl) ?? ranked[0] ?? null;
-  }, [activeWorks, activeIds]);
+  /* 개요 아래 작품 선반 — 지금 보이는 인물 범위(전승 전원 또는 고른 그룹)의 작품을 띄운다.
+     차례는 그 범위 안에 인물을 가장 많이 담은 책부터 — 이 전승의 대표 원전(오디세이아의 호메로스)이
+     신화 전체에 걸쳐 인물이 많은 참고서(그리스 신화 전편)에 밀리지 않게 범위 안 수로 센다.
+     인물을 고르면 선반은 인물 상세 안으로 들어가 그 사람의 작품만 보인다 */
+  const railIds = useMemo(() => new Set(railPeople.map((person) => person.id)), [railPeople]);
+  const shelfWorks = useMemo(() => {
+    const castHere = (work: MythWork) => work.personIds.filter((id) => railIds.has(id)).length;
+    return activeWorks
+      .filter((work) => castHere(work) > 0)
+      .sort((a, b) => castHere(b) - castHere(a) || a.title.localeCompare(b.title));
+  }, [activeWorks, railIds]);
 
   useEffect(() => {
     if (!selectedPersonId || !window.matchMedia("(max-width: 1023px)").matches) return;
@@ -111,13 +139,16 @@ export default function MythAtlas({ data }: Props) {
     setTraditionId(nextTradition?.id ?? null);
     setGroupId(null);
     setSelectedPersonId(null);
+    rememberTradition(nextTradition?.slug);
   };
 
   const chooseTradition = (nextId: string) => {
-    if (!data.traditions.some((tradition) => tradition.id === nextId && tradition.isPublished)) return;
+    const nextTradition = data.traditions.find((tradition) => tradition.id === nextId && tradition.isPublished);
+    if (!nextTradition) return;
     setTraditionId(nextId);
     setGroupId(null);
     setSelectedPersonId(null);
+    rememberTradition(nextTradition.slug);
   };
 
   /** null이면 그룹 선택을 푼다 — 본문이 신화 개요로 돌아간다 */
@@ -175,7 +206,7 @@ export default function MythAtlas({ data }: Props) {
   return (
     <section id="myth-atlas" aria-label={t("title")} className={layout.atlas}>
       <div className={layout.navigationOuter}>
-        <AtlasNav rows={rows}>
+        <AtlasNav rows={rows} bareOnMobile>
           {/* 마지막 줄 — 인물. 지역·신화·그룹 줄과 같은 상자에 같은 결로 쌓는다 */}
           {hasContent && (
             <div className={layout.nav}>
@@ -192,17 +223,23 @@ export default function MythAtlas({ data }: Props) {
               {/* 인물을 고르기 전 본문 — 그룹을 고르지 않았으면 전승 개요, 그룹을 고르면 그 그룹 개요다.
                   인물 상세에서 뒤로 가면 보던 그룹 개요로 돌아온다 */}
               {!selectedPerson && !activeGroup && (
-                <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />
+                <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} leadPeople={activePeople.slice(0, 3)} onSelectPerson={choosePerson} />
               )}
               {!selectedPerson && activeGroup && (
                 <MythGroupOverview key={`${activeTradition.id}-${activeGroup.id}`} tradition={activeTradition} group={activeGroup} people={railPeople} onSelectPerson={choosePerson} />
               )}
               {selectedPerson && (
-                <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">
+                <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] scroll-mt-20 md:border md:border-white/[0.08]">
                   <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} backLabel={activeGroup ? t("backToGroup") : t("backToOverview")} />
                 </div>
               )}
-              {(selectedPerson ? selectedWorks.length === 0 : Boolean(activeGroup) || !entryWork) && (
+              {/* 작품 선반 — 인물을 고르기 전 본문 아래에 같은 선반을 띄운다. 인물 상세 안의 선반과 같은 부품·같은 결 */}
+              {!selectedPerson && shelfWorks.length > 0 && (
+                <div className="mt-4 overflow-hidden rounded-[24px] bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
+                  <MythWorkShelf key={`${activeTradition.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} selectedPersonId="" />
+                </div>
+              )}
+              {(selectedPerson ? selectedWorks : shelfWorks).every((work) => work.editionId === undefined && !work.coupangUrl) && (
                 <DeveloperCommerceFallback
                   target={{ title: [activeTradition.name, selectedPerson?.name ?? (activeGroup ? mythGroupName(activeGroup, groupLabels) : null)].filter(Boolean).join(" "), type: "TOPIC" }}
                   placement="myth-selection"

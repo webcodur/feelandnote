@@ -7,6 +7,8 @@
 export const ATLAS_NAV_LAYOUT = {
   /** 줄들을 쌓는 상자 */
   navigation: "mx-auto grid max-w-[1040px] overflow-hidden rounded-2xl border border-white/[0.08] bg-black/[0.16] p-1.5",
+  /* 바깥 윤곽선이 따로 있는 화면(신화 탐색)은 좁은 화면에서 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */
+  navigationBareMobile: "max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:p-0",
   /** 칩 줄은 넓은 화면 전용이다. 좁은 화면은 줄마다 단추 하나로 접고 누르면 창에서 고른다 */
   chipNav: "hidden min-w-0 rounded-xl px-1.5 py-1 md:block md:px-2",
   /** 좁은 화면 단추 격자 — 기본은 반 폭, 넓은 줄(wide)은 한 줄 전체 */

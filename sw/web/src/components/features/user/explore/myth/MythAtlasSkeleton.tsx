@@ -34,7 +34,7 @@ export default function MythAtlasSkeleton() {
     <SkeletonFrame label={`${t("title")} · ${common("loading")}`} className={layout.atlas}>
       <div aria-hidden="true">
         <div className={layout.navigationOuter}>
-          <div className={layout.navigation}>
+          <div className={cn(layout.navigation, ATLAS_NAV_LAYOUT.navigationBareMobile)}>
             <div className={layout.mobilePicker}>
               <div className="flex h-[38px] items-center rounded-lg border border-white/[0.08] px-3.5"><Ghost className="h-2.5 w-full" /></div>
               <div className="flex h-[38px] items-center rounded-lg border border-white/[0.08] px-3.5"><Ghost className="h-2.5 w-full" /></div>
@@ -65,8 +65,9 @@ export default function MythAtlasSkeleton() {
         <div className={layout.overviewOuter}>
           <div className={layout.container}>
             <div className={layout.overview}>
-              <div className="relative bg-black">
+              <div className="relative">
                 <div className={cn(layout.artwork, "bg-white/[0.03]")}>
+                  <Ghost className="absolute end-3 top-1/2 size-11 -translate-y-1/2 rounded-full md:size-12 lg:end-[calc(43%+2rem)]" />
                   <Ghost className="absolute bottom-5 start-5 h-9 w-2/5 md:bottom-7 md:start-7 md:h-12 lg:bottom-8 lg:start-8" />
                 </div>
                 <div className={layout.overviewPanel}>
@@ -83,17 +84,27 @@ export default function MythAtlasSkeleton() {
                         {Array.from({ length: 8 }, (_, index) => <Ghost key={index} className={cn("h-3", index % 4 === 3 && "w-3/4")} />)}
                       </div>
                     </div>
-                    <div className="mt-4 flex shrink-0 items-center gap-3 rounded-2xl border border-white/[0.08] bg-bg-card p-2.5">
-                      <Ghost className="h-[68px] w-[52px] shrink-0 rounded-lg" />
-                      <div className="min-w-0 flex-1">
-                        <p className={cn(layout.entryLabel, "text-text-secondary")}>{t("entryWork")}</p>
-                        <div className={cn(layout.entryTitle, "flex flex-col justify-center gap-2")}><Ghost className="h-2.5 w-full" /><Ghost className="h-2.5 w-3/4" /></div>
-                        <div className={cn(layout.entryCreator, "flex items-center")}><Ghost className="h-2 w-1/2" /></div>
-                      </div>
-                      <Ghost className="size-8 shrink-0 rounded-full" />
-                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* 작품 선반 — 개요 아래에 붙는 밴드. 표지 열만 잡아 둔다 */}
+            <div className="mt-4 overflow-hidden rounded-[24px] bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <Ghost className="h-4 w-28" />
+                <Ghost className="h-3 w-16" />
+              </div>
+              <div className="flex gap-3 overflow-hidden md:gap-4">
+                {Array.from({ length: 6 }, (_, index) => (
+                  <div key={index} className="w-36 shrink-0 md:w-44">
+                    <Ghost className="aspect-[3/4] w-full rounded-t-2xl" />
+                    <div className="flex flex-col items-center gap-2 p-3">
+                      <Ghost className="h-2.5 w-full" />
+                      <Ghost className="h-2 w-1/2" />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

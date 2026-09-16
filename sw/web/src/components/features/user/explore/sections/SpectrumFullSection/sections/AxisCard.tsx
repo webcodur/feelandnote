@@ -1,110 +1,60 @@
 /*
   파일명: /components/features/user/explore/sections/SpectrumFullSection/sections/AxisCard.tsx
-  기능: 일반 축 카드 (내면/외면/능력)
-  책임: 1위 인물 + 차순위 목록 표시, 클릭 시 포커스 전환.
+  기능: 일반 축 순위 (내면/외면/능력)
+  책임: 상위 3인은 공용 시상대(PodiumBoard), 4위 이하는 카드형 순위(RankCardList).
+        각 항목은 프로필 링크. 인물 표시명은 공용 컴포넌트가 로케일로 고른다.
 */ // ------------------------------
 
 "use client";
 
-import { cn } from "@/lib/utils";
-import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
-import { AXIS_SHORT_LABELS } from "../../../spectrumAxis";
-import Avatar from "../Avatar";
-import { getName } from "../utils";
 import { useTranslations } from "next-intl";
+import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
+import PodiumBoard, { type PodiumBoardItem } from "@/components/shared/PodiumBoard";
+import RankCardList, { type RankCardItem } from "@/components/shared/RankCardList";
+import { celebHref } from "../utils";
 
 export default function AxisCard({
-  entry, locale, color, focusedId, onSelect
+  entry, locale, color,
 }: {
   entry: SpectrumExtremeEntry; locale: string; color: string;
-  focusedId: string; onSelect: (id: string) => void;
 }) {
+  const isEn = locale === "en";
   const t = useTranslations("explore.ui.spectrumDistribution");
-  const label = AXIS_SHORT_LABELS[entry.axis]
-    ? (locale === "en" ? AXIS_SHORT_LABELS[entry.axis].en : AXIS_SHORT_LABELS[entry.axis].ko)
-    : (locale === "en" ? entry.label.en : entry.label.ko);
-  const winnerName = getName(entry.celeb, locale);
-  const reason = locale === "en" ? entry.reason.en : entry.reason.ko;
+
+  /* 시상대는 상위 3인 — 1위만 기록·상위%·호칭을 담는다 */
+  const podiumItems: PodiumBoardItem[] = [
+    {
+      href: celebHref(entry.celeb),
+      nickname: entry.celeb.nickname,
+      nickname_en: entry.celeb.nickname_en,
+      avatarUrl: entry.celeb.avatar_url,
+      subtitle: isEn ? (entry.celeb.title_en || entry.celeb.profession) : (entry.celeb.title || entry.celeb.profession),
+      value: entry.score,
+      sub: t("topPercent", { percentile: entry.percentile < 0.1 ? "<0.1" : entry.percentile }),
+      note: isEn ? entry.reason.en : entry.reason.ko,
+    },
+    ...entry.runnersUp.slice(0, 2).map((r) => ({
+      href: celebHref(r),
+      nickname: r.nickname,
+      nickname_en: r.nickname_en,
+      avatarUrl: r.avatar_url,
+      value: r.score,
+    })),
+  ];
+
+  const rest: RankCardItem[] = entry.runnersUp.slice(2).map((r) => ({
+    href: celebHref(r),
+    nickname: r.nickname,
+    nickname_en: r.nickname_en,
+    avatarUrl: r.avatar_url,
+    value: r.score,
+  }));
+
   return (
-    <div
-      className="relative flex flex-col bg-[#0a0a0b] border border-white/5 rounded-2xl overflow-hidden shadow-xl"
-      style={{ ["--axis-color" as string]: color }}
-    >
-      <div className="h-1 opacity-70" style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }} />
-
-      <div className="px-5 pt-4 pb-2 flex items-center gap-2">
-        <span
-          className="px-2.5 py-1 rounded text-[11px] font-black uppercase tracking-wider border"
-          style={{ backgroundColor: `${color}15`, borderColor: `${color}30`, color }}
-        >
-          {label}
-        </span>
-        <span className="text-xs">
-          {locale === "en" ? entry.label.en : entry.label.ko}
-        </span>
-      </div>
-
-      <button
-        onClick={() => onSelect(entry.celeb.id)}
-        className={cn(
-          "w-full text-left group flex items-center gap-4 px-5 py-4 transition-colors",
-          focusedId === entry.celeb.id ? "bg-white/10" : "hover:bg-white/[0.03]"
-        )}
-      >
-        <div className="relative">
-          <div className={cn("rounded-full transition-all duration-300", focusedId === entry.celeb.id ? "ring-2 ring-offset-2 ring-offset-[#0a0a0b]" : "ring-1 ring-white/10")} style={{ '--tw-ring-color': color } as React.CSSProperties}>
-            <Avatar src={entry.celeb.avatar_url} alt={winnerName} size={20} />
-          </div>
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white/60">1</span>
-            <h3 className={cn("text-lg font-black truncate transition-colors", focusedId === entry.celeb.id ? "text-white" : "text-text-primary")}>{winnerName}</h3>
-          </div>
-          <div className="flex items-baseline gap-1.5 mb-1.5" style={{ color: focusedId === entry.celeb.id ? color : `${color}cc` }}>
-            <span className="text-xl font-black tabular-nums">{entry.score}</span>
-            <span className="text-[10px] font-bold uppercase opacity-60">pts</span>
-            <span className="text-[10px] font-bold uppercase opacity-60 ml-1">
-              {t("topPercent", { percentile: entry.percentile })}
-            </span>
-          </div>
-          {reason && (
-            <p className="text-sm text-white/70 leading-relaxed line-clamp-2">{reason}</p>
-          )}
-        </div>
-      </button>
-
-      {entry.runnersUp.length > 0 && (
-        <div className="border-t border-white/5 px-5 py-3">
-          <span className="text-[10px] font-bold tracking-widest uppercase block mb-2">
-            {t("runnersUp")}
-          </span>
-          <div className="flex flex-col gap-0.5">
-            {entry.runnersUp.map((r, i) => {
-              const rName = getName(r, locale);
-              const isSelected = focusedId === r.id;
-              return (
-                <button
-                  key={r.id}
-                  onClick={() => onSelect(r.id)}
-                  className={cn(
-                    "w-full text-left flex items-center gap-2.5 py-1.5 px-1 -mx-1 rounded-lg transition-colors",
-                    isSelected ? "bg-white/10" : "hover:bg-white/5"
-                  )}
-                >
-                  <span className="text-[11px] font-bold w-5 text-right tabular-nums shrink-0">{i + 2}</span>
-                  <div className={cn("rounded-full transition-all", isSelected ? "ring-1 ring-offset-1 ring-offset-[#0a0a0b]" : "")} style={{ '--tw-ring-color': color } as React.CSSProperties}>
-                    <Avatar src={r.avatar_url} alt={rName} size={8} />
-                  </div>
-                  <span className={cn("text-sm font-medium truncate flex-1", isSelected ? "text-white" : "text-text-secondary")}>{rName}</span>
-                  <span className="text-sm font-bold tabular-nums shrink-0" style={{ color: isSelected ? color : `${color}99` }}>
-                    {r.score}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+    <div className="space-y-8">
+      <PodiumBoard items={podiumItems} accent={color} />
+      {rest.length > 0 && (
+        <RankCardList items={rest} accent={color} startRank={4} />
       )}
     </div>
   );

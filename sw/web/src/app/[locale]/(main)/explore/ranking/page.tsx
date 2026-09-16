@@ -6,10 +6,11 @@
 
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { Link } from "@/i18n/navigation";
 import { getCategoryByDbType } from "@/constants/categories";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
+import AtlasNav from "@/components/shared/AtlasNav";
+import AtlasStage from "@/components/shared/AtlasStage";
 import { CONTENT_TYPES, TYPE_COLORS, getRankingHref, resolveRankingType } from "./constants";
 import { TopByTypeMedia } from "./sections";
 
@@ -44,41 +45,46 @@ export default async function TopByTypePage({ searchParams }: PageProps) {
   ]);
 
   return (
-    <div className="space-y-10">
-      <nav aria-label={tr("metaTitle")} className="flex flex-wrap justify-center gap-1">
-        {CONTENT_TYPES.map((entry) => {
-          const Icon = getCategoryByDbType(entry)?.lucideIcon;
-          const active = type === entry;
-          const color = TYPE_COLORS[entry];
-          return <Link
-            key={entry}
-            href={getRankingHref(entry)}
-            prefetch={false}
-            scroll={false}
-            aria-current={active ? "page" : undefined}
-            style={active ? { borderColor: `${color}66`, backgroundColor: `${color}1f`, color } : undefined}
-            className={`inline-flex items-center justify-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold outline-none focus-visible:ring-2 focus-visible:ring-accent sm:gap-1.5 sm:px-3.5 sm:py-1.5 sm:text-xs ${active
-              ? "hover:brightness-125"
-              : "border-border/40 bg-bg-card/40 text-text-secondary hover:border-accent/40 hover:bg-bg-card hover:text-accent"}`}
+    <div className="space-y-8">
+      {/* 매체 분류 — 스펙트럼과 같은 공용 선택기(AtlasNav)의 알약 칩으로 고른다.
+          각 칩은 매체 고유색과 아이콘을 물려받고, 주소 이동(href) 항목이다 */}
+      <AtlasNav
+        rows={[{
+          id: "type",
+          label: tr("metaTitle"),
+          shape: "pill",
+          wide: true,
+          items: CONTENT_TYPES.map((entry) => {
+            const Icon = getCategoryByDbType(entry)?.lucideIcon;
+            return {
+              id: entry,
+              name: tc(entry.toLowerCase()),
+              icon: Icon ? <Icon size={13} aria-hidden /> : undefined,
+              color: TYPE_COLORS[entry],
+              href: getRankingHref(entry),
+            };
+          }),
+          activeId: type,
+        }]}
+      />
+      {/* 본문 무대 — 스펙트럼 축 무대와 같은 공용 프레임(AtlasStage), 색만 매체색 */}
+      <AtlasStage accent={TYPE_COLORS[type]}>
+        <div className="px-4 py-6 sm:px-6 md:px-10 md:py-10">
+          <Lane
+            key={type}
+            fallback={
+              <PendingBlock
+                variant="grid"
+                cols="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                count={10}
+                label={t("loading")}
+              />
+            }
           >
-            {Icon && <Icon size={12} aria-hidden />}
-            {tc(entry.toLowerCase())}
-          </Link>;
-        })}
-      </nav>
-      <Lane
-        key={type}
-        fallback={
-          <PendingBlock
-            variant="grid"
-            cols="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-            count={10}
-            label={t("loading")}
-          />
-        }
-      >
-        <TopByTypeMedia type={type} />
-      </Lane>
+            <TopByTypeMedia type={type} />
+          </Lane>
+        </div>
+      </AtlasStage>
     </div>
   );
 }

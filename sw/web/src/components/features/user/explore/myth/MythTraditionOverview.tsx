@@ -1,13 +1,12 @@
 "use client";
 
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import type { MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
+import { BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+import type { MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
+import { mythLeadImage } from "./mythLeadImage";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
@@ -15,13 +14,14 @@ interface Props {
   tradition: MythTradition | null;
   memberCount: number;
   workCount: number;
-  /** 이 전승으로 들어가는 책 한 권. 인물을 고르기 전에도 살 수 있게 개요에 세운다 */
-  entryWork: MythWork | null;
+  /** 전승 차례의 앞 인물들 — 타이틀 아트의 빈 우측에 아바타로 세우는 대표 인물이다 */
+  leadPeople: MythPerson[];
+  /** 아바타를 누르면 그 인물 상세로 간다 */
+  onSelectPerson: (id: string) => void;
 }
 
-export default function MythTraditionOverview({ tradition, memberCount, workCount, entryWork }: Props) {
+export default function MythTraditionOverview({ tradition, memberCount, workCount, leadPeople, onSelectPerson }: Props) {
   const t = useTranslations("explore.hub.myth");
-  const locale = useLocale();
   const [imageIndex, setImageIndex] = useState(0);
   const images = tradition?.images ?? [];
   const activeImage = images[imageIndex] ?? images[0] ?? null;
@@ -34,7 +34,7 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
 
   return (
     <section aria-labelledby="myth-overview-title" className={layout.overview}>
-      <div className="relative bg-black">
+      <div className="relative">
         <figure className={layout.artwork} aria-label={tradition?.name ?? t("allTraditions")}>
           {activeImage ? (
             <BlurDissolve key={activeImage.url} className="absolute inset-0">
@@ -53,7 +53,7 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
             <div className="absolute inset-0 bg-bg-secondary" />
           )}
           {images.length > 1 && (
-            <div className="absolute end-5 top-5 z-10 flex items-center gap-1 rounded-2xl border border-white/10 bg-black/75 p-1 shadow-lg" aria-label={t("titleArtControls")}>
+            <div className="absolute end-5 top-5 z-10 flex items-center gap-1 rounded-2xl border border-white/10 bg-black/75 p-1 shadow-lg lg:end-[calc(43%+2rem)]" aria-label={t("titleArtControls")}>
               <button
                 type="button"
                 onClick={() => moveImage(-1)}
@@ -71,6 +71,30 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
               >
                 <ChevronRight size={18} className="transition-transform duration-200 group-active:translate-x-0.5" />
               </button>
+            </div>
+          )}
+          {/* 대표 인물 — 그림의 빈 우측에 얼굴 셋을 세운다. 넓은 화면은 패널 기둥과 그림의 경계에 걸친다. 누르면 그 인물 상세로 간다 */}
+          {leadPeople.length > 0 && (
+            <div className="absolute end-3 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-2 rounded-full bg-black/55 p-1.5 ring-1 ring-white/15 backdrop-blur-sm lg:end-[calc(43%+2rem)]">
+              {leadPeople.map((person) => {
+                const face = person.avatarUrl ?? (tradition ? mythLeadImage(person, tradition.id) : null);
+                return (
+                  <button
+                    key={person.id}
+                    type="button"
+                    onClick={() => onSelectPerson(person.id)}
+                    aria-label={person.name}
+                    title={person.name}
+                    className="group relative block size-11 overflow-hidden rounded-full bg-white/[0.06] ring-2 ring-black/60 hover:ring-accent focus-visible:outline-none focus-visible:ring-accent md:size-12"
+                  >
+                    {face ? (
+                      <Image src={face} alt="" fill unoptimized sizes="48px" className="object-cover object-top" />
+                    ) : (
+                      <span aria-hidden className="grid h-full place-items-center font-serif text-lg font-black text-white/40">{person.name[0]}</span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
           <h3 id="myth-overview-title" className="absolute bottom-5 start-5 z-10 max-w-[calc(100%-2.5rem)] text-[2.1rem] font-black leading-[1.05] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.75)] md:bottom-7 md:start-7 md:max-w-[calc(100%-3.5rem)] md:text-5xl lg:bottom-8 lg:start-8 lg:max-w-[53%] xl:text-[3.5rem]">
@@ -105,8 +129,6 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
               </div>
             </div>
 
-            {entryWork && <EntryWorkCard work={entryWork} locale={locale} label={t("entryWork")} />}
-
             {images.length > 1 && (
               <div className="mt-4 flex items-center justify-end gap-1.5" aria-hidden>
                 {images.map((image, index) => (
@@ -118,49 +140,5 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
         </div>
       </div>
     </section>
-  );
-}
-
-/* 전승으로 들어가는 책 한 줄. 구매 링크가 있으면 판매처로, 아니면 작품 화면으로 보낸다.
-   테두리 색과 제휴 표기는 인물 카드 아래 책 선반과 같은 규칙을 쓴다 */
-function EntryWorkCard({ work, locale, label }: { work: MythWork; locale: string; label: string }) {
-  const showPurchase = locale === "ko" && work.category === "book";
-  const body = (
-    <>
-      <div className="relative h-[68px] w-[52px] shrink-0 overflow-hidden rounded-lg bg-bg-secondary">
-        {work.thumbnailUrl ? (
-          <BlurDissolve key={work.thumbnailUrl} className="absolute inset-0"><Image src={work.thumbnailUrl} alt="" fill unoptimized sizes="52px" className="object-cover" /></BlurDissolve>
-        ) : (
-          <div className="grid h-full place-items-center px-1 text-center text-[10px] font-black leading-tight text-accent/50">{work.title}</div>
-        )}
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className={`${layout.entryLabel} text-accent`}>{label}</p>
-        <h4 className={`${layout.entryTitle} text-text-primary group-hover:text-accent`}>{work.title}</h4>
-        <p className={layout.entryCreator}>{work.creator}</p>
-      </div>
-      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-black/85 text-text-tertiary" aria-hidden>
-        <ArrowUpRight size={15} />
-      </span>
-    </>
-  );
-
-  const shared = "group mt-4 flex shrink-0 items-center gap-3 rounded-2xl border bg-bg-card p-2.5";
-  if (showPurchase) {
-    return (
-      <div className="mt-4 shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-bg-card">
-        <Link href={`/content/${work.id}?category=${work.category}`} className="group flex items-center gap-3 p-2.5 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-          {body}
-        </Link>
-        <div className="border-t border-border/40 px-2.5 py-1.5">
-          <AffiliateBookAction contentId={work.id} editionId={work.editionId} coupangUrl={work.coupangUrl} showNotice />
-        </div>
-      </div>
-    );
-  }
-  return (
-    <Link href={`/content/${work.id}?category=${work.category}`} className={`${shared} border-stone-heavy hover:border-accent/70`}>
-      {body}
-    </Link>
   );
 }

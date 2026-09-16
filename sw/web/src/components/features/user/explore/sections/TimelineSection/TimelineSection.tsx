@@ -9,6 +9,7 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
+import { celebDisplayName } from "@/lib/celeb/displayName";
 import { useLocale, useTranslations } from "next-intl";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
@@ -56,7 +57,7 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
     try {
       const profile = await getCelebForModal(celeb.id);
       if (!profile) return;
-      const displayName = locale === "en" && profile.nickname_en ? profile.nickname_en : profile.nickname;
+      const displayName = celebDisplayName(profile, locale);
       fireGreeting({ ...profile, nickname: displayName });
     } catch {
       setContemporariesError(true);

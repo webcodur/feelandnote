@@ -5,11 +5,12 @@
         항목은 주소 이동(href)이나 화면 안 선택(onSelect) 둘 다 받고, 고를 수 없는 항목은 누르면 잠깐 안내를 띄운다.
         선택을 풀 수 있는 줄(onClear)은 고른 항목 끝에 ×를 붙이고, 그 항목을 다시 누르면 선택을 푼다.
         고른 칩은 줄 가운데로 옮긴다. 상자 안에 덧붙는 줄(신화 인물 줄)은 children으로 받는다.
+        바깥 윤곽선이 따로 있는 화면(신화 탐색)은 bareOnMobile로 좁은 화면의 상자 겹침을 걷는다.
 */ // ------------------------------
 
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { Clock3, X } from "lucide-react";
 import AtlasPickerSheet from "@/components/shared/AtlasPickerSheet";
 import { ATLAS_NAV_LAYOUT as layout } from "@/components/shared/atlasNavLayout";
@@ -21,10 +22,14 @@ export interface AtlasNavItem {
   id: string;
   name: string;
   count?: number;
+  /** 이름 앞에 붙는 그림(매체 아이콘 등) */
+  icon?: ReactNode;
   /** 있으면 주소 이동 링크다. 없으면 줄의 onSelect로 넘긴다 */
   href?: string;
   /** 고를 수 없는 항목(작업 예정) — 누르면 줄의 onDisabledSelect만 부른다 */
   disabled?: boolean;
+  /** 고른 칩을 accent 대신 이 색으로 그린다 — 항목마다 고유색이 있을 때(스펙트럼 축) 쓴다 */
+  color?: string;
 }
 
 export interface AtlasNavRow {
@@ -57,9 +62,15 @@ const COUNT = "text-xs font-medium text-text-tertiary";
 
 function itemClass(row: AtlasNavRow, item: AtlasNavItem, selected: boolean) {
   if (row.shape === "tab") {
-    return cn(layout.groupTab, selected ? "border-accent text-accent" : "border-transparent text-text-secondary hover:text-text-primary");
+    return cn(layout.groupTab, selected
+      ? item.color ? "border-(--chip-c) text-(--chip-c)" : "border-accent text-accent"
+      : "border-transparent text-text-secondary hover:text-text-primary");
   }
-  const tone = selected ? layout.chipSelected : item.disabled ? (row.noticeId === item.id ? DISABLED_NOTICE : DISABLED) : layout.chipIdle[row.shape];
+  const tone = selected
+    ? item.color
+      ? "border-(--chip-c) bg-(--chip-c)/10 text-(--chip-c) hover:bg-(--chip-c)/20"
+      : layout.chipSelected
+    : item.disabled ? (row.noticeId === item.id ? DISABLED_NOTICE : DISABLED) : layout.chipIdle[row.shape];
   return cn(layout.chip, row.shape === "pill" ? layout.pill : layout.square, tone);
 }
 
@@ -83,6 +94,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
           const selected = item.id === row.activeId;
           const clears = selected && Boolean(row.onClear);
           const className = itemClass(row, item, selected);
+          const style = item.color ? { "--chip-c": item.color } as CSSProperties : undefined;
           const showingNotice = row.noticeId === item.id;
           const content = item.disabled ? (
             /* 누르면 이름 자리에 잠깐 안내를 띄웠다 돌아온다. 두 글을 한 칸에 겹쳐 두어 칩 폭이 그대로다 — 폭이 바뀌면 옆 칩이 밀린다 */
@@ -95,6 +107,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
             </span>
           ) : (
             <>
+              {item.icon}
               {item.name}
               {item.count !== undefined && <span className={cn(COUNT, row.shape === "tab" && "ms-1.5")}>{item.count}</span>}
               {clears && <X size={12} aria-hidden className="ms-1 shrink-0" />}
@@ -111,6 +124,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
                 draggable={false}
                 aria-current={selected ? "true" : undefined}
                 data-selected={selected || undefined}
+                style={style}
                 className={className}
               >
                 {content}
@@ -129,6 +143,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
               }
               title={clears ? row.clearLabel : undefined}
               data-selected={selected || undefined}
+              style={style}
               onClick={() => (item.disabled ? row.onDisabledSelect?.(item.id) : clears ? row.onClear?.() : row.onSelect?.(item.id))}
               className={className}
             >
@@ -184,9 +199,9 @@ function MobileRow({ row }: { row: AtlasNavRow }) {
   );
 }
 
-export default function AtlasNav({ rows, children }: { rows: AtlasNavRow[]; children?: ReactNode }) {
+export default function AtlasNav({ rows, children, bareOnMobile = false }: { rows: AtlasNavRow[]; children?: ReactNode; bareOnMobile?: boolean }) {
   return (
-    <div className={layout.navigation}>
+    <div className={cn(layout.navigation, bareOnMobile && layout.navigationBareMobile)}>
       <div className={layout.mobilePicker}>
         {rows.map((row) => <MobileRow key={row.id} row={row} />)}
       </div>

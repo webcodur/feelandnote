@@ -228,7 +228,6 @@
       "navFaction": "Faction",
       "navDirectory": "Directory",
       "navTimeline": "Timeline by Country",
-      "navYoutube": "Video Archive",
       "navToday": "Today's Figure",
       "navOthers": "Other Figures",
       "myth": {
@@ -271,8 +270,7 @@
         },
         "relationFallback": "A relationship with {name} is recorded.",
         "works": "Works",
-        "entryWork": "Start reading here",
-        "worksLead": "Works featuring the selected figure are shown first.",
+        "worksLead": "Works in this collection — the selected figure’s works appear first.",
         "selectedWorks": "{count} connected works",
         "traditionWorks": "{count} works in this collection",
         "appearsHere": "APPEARS",
@@ -324,40 +322,8 @@
         "myth": "Explore figures from world mythology and the works they appear in.",
         "faction": "Discover the stories and connections of figures brought together by a shared theme.",
         "timeline": "Discover who lived in the same era, in timelines organized by country.",
-        "youtube": "Watch Library Tour stories on video.",
         "directory": "Browse all figures at a glance, organized by name and profession."
       }
-    },
-    "youtube": {
-      "metaTitle": "Video Archive | Library Tour",
-      "metaDescription": "Explore feelandnote's original video series Library Tour, with full-episode and short-form playlists in one place.",
-      "eyebrow": "FEEL&NOTE VIDEO ARCHIVE",
-      "title": "The world of remarkable figures, unfolded on film",
-      "intro": "Begin with one person's library and follow the life it shaped. Discover how feelandnote records the reading lives of remarkable figures on video.",
-      "visitChannel": "YouTube Channel",
-      "seriesEyebrow": "ORIGINAL SERIES",
-      "seriesTitle": "One library, one life",
-      "seriesIntro": "Library Tour follows the books a figure read to trace their thinking and choices.",
-      "fullPlaylist": "Full Episodes",
-      "shortsPlaylist": "Shorts Playlist",
-      "series": {
-        "library": {
-          "index": "SERIES 01",
-          "title": "Library Tour",
-          "tagline": "A person’s library is a map of the life they travelled.",
-          "description": "Follow the books historical figures actually read or recommended. Each episode traces how a book entered a life and left its mark on decisions, ideas, and achievements.",
-          "siteLink": "Explore the figures’ libraries",
-          "imageAlt": "A dark circular screening library lined with bookshelves, statues, and a film projector"
-        }
-      },
-      "archiveEyebrow": "LIBRARY TOUR ARCHIVE",
-      "archiveTitle": "Library Tour Video Archive",
-      "archiveDescription": "Play the full episodes and one-book shorts connected to figures in the feelandnote archive.",
-      "longformTitle": "Full Episodes",
-      "longformSub": "Full-length tours through one figure's entire library",
-      "shortsTitle": "One Figure, One Book",
-      "shortsSub": "Short videos on the story of a figure and a single book",
-      "viewShelf": "View Library"
     },
     "directory": {
       "metaTitle": "Celebrity Directory - 1,000+ Figures",
@@ -381,12 +347,16 @@
       "rank": "#{rank}",
       "count": "{count} items",
       "sharedTitle": "Shared {media}",
-      "sharedDesc": "Works enjoyed by the Top {count} figures.",
-      "sharedBy": "Appreciated by"
+      "sharedDesc": "Sorted by how many figures enjoyed each work.",
+      "sharedBy": "Appreciated by",
+      "rankDesc": "Who enjoyed the most {media}",
+      "sharedCount": "{count}"
     },
     "spectrum": {
       "metaTitle": "16-Axis Spectrum | Figures",
       "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition.",
+      "groupNav": "Category",
+      "axisNav": "Axis",
       "axisLibrary": {
         "heading": "Library of Temperament",
         "sub": "Works shared by figures at the extremes of this axis",
@@ -430,7 +400,8 @@
         "emptyRelated": "No related books yet.",
         "emptyRead": "No reading records yet.",
         "shelf": "Bookshelf"
-      }
+      },
+      "works": "Related Works"
     }
   },
   "searchResult": {

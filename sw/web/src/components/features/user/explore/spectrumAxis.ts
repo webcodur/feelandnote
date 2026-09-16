@@ -53,3 +53,9 @@ export const AXIS_SHORT_LABELS: Record<string, { ko: string; en: string }> = {
   intellect: { ko: "지략", en: "Intellect" },
   charm: { ko: "매력", en: "Charm" },
 };
+
+/** 성향축 라벨("낙관 vs 비관")을 [양극, 음극]으로 나눈다 — 극이 없으면 [라벨, Opposite] */
+export function getAxisSides(label: { ko: string; en: string }, locale: string): [string, string] {
+  const s = locale === "en" ? label.en : label.ko;
+  return s.includes(" vs ") ? (s.split(" vs ") as [string, string]) : [s, "Opposite"];
+}
