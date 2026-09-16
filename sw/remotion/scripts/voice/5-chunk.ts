@@ -25,6 +25,7 @@
  */
 import { readFileSync, writeFileSync } from 'fs'
 import { resolveEpisodePath, resolveTimingPath } from '../lib/episode.js'
+import { SUB_MISSING_MIN_LEN, SUB_MAX_LEN } from './lib/align-core.js'
 
 const args = process.argv.slice(2)
 const epIdx = args.indexOf('--episode')
@@ -39,8 +40,9 @@ const onlyPatterns = onlyIdx >= 0 ? (args[onlyIdx + 1] ?? '').split(',').map(s =
 // --only 미지정이면 전체. 지정 시 voiceTimings 키에 부분일치하는 것만 처리(4-align과 동일 규약).
 const matchOnly = (key: string) => onlyPatterns.length === 0 || onlyPatterns.some(p => key.includes(p))
 
-const MIN_SUB_LEN = 30  // 4-align.ts(analyze) 경고 기준과 동일
-const MAX_SUB_CHUNK_LEN = 50  // 개별 sub 청크 최대 길이 — 초과 시 재분할 보고
+// sub 청크 임계값은 lib/align-core.ts 단일 원천 — sub 청크 하나는 자막 한 줄 단위다.
+const MIN_SUB_LEN = SUB_MISSING_MIN_LEN
+const MAX_SUB_CHUNK_LEN = SUB_MAX_LEN
 
 if (!epName) {
   console.error('Usage: pnpm voice:chunk -- --episode <name> [--input subs.json] [--only <key부분일치,…>] [--check] [--dry-run] [--strict]')

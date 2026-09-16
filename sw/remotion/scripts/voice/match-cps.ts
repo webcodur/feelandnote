@@ -24,10 +24,8 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
-// ── 배속 클램프 — remotion/playback-rate.ts 와 동일 ──
-const RATE_MIN = 0.5
-const RATE_MAX = 2
-const clampRate = (r: number) => Math.min(RATE_MAX, Math.max(RATE_MIN, r))
+// 배속 클램프는 렌더 측 단일 원천(playback-rate.ts)을 그대로 쓴다 — dry-run 결과와 렌더 적용이 같아야 한다.
+import { clampRate } from '../../src/compositions/BookRecommend/playback-rate'
 
 // ── WAV 길이 — web-bo book-recommend/server-utils.ts getAudioDuration 과 동일(RIFF) ──
 function wavDuration(file: string): number {
@@ -50,6 +48,7 @@ type Args = {
   field?: string
   locale: string
   apply: boolean
+  includeTitle: boolean
 }
 
 function parseArgs(): Args {
