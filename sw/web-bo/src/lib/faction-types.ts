@@ -260,7 +260,7 @@ export interface FactionPerson extends FactionCardFields {
   /**
    * 대사 ElevenLabs 감정/강도 옵션 (선택) — ElevenLabs 미리듣기·사용자 생성에 반영.
    * 북리커맨드 ELE send options 중 인물 톤 표현에 필요한 최소(stability·style)만 둔다.
-   * 미지정 필드는 프리뷰 라우트 기본값(stability 0.5, style 0.3)을 따른다.
+   * 미지정 필드는 프리뷰 라우트 폴백 ELEVENLABS_TTS_DEFAULTS(shared/bo/voice-utils)를 따른다.
    */
   quoteEleOptions?: {
     /** 발화 안정성 (0~1). 낮을수록 표현이 강하고 변화가 크다 */
