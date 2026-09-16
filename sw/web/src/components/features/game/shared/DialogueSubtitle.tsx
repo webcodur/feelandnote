@@ -446,7 +446,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                 <button
                   onClick={onToggleMute}
                   className="p-1 rounded-full text-text-secondary hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label={voiceMuted ? "음성 켜기" : "음성 끄기"}
+                  aria-label={voiceMuted ? t("voiceOn") : t("voiceOff")}
                 >
                   {voiceMuted
                     ? <VolumeOff size={16} className="md:w-4 md:h-4 w-3.5 h-3.5" />
