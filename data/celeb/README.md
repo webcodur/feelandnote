@@ -14,8 +14,6 @@ data/celeb/
 ├── fiction/                     # 원전별 인물 조사 묶음
 ├── figure-books/                # 등장·연관 도서 후보와 반영 전 검수본
 ├── book-introductions/          # 작품 소개 수집 원문·검수·번역 자료
-├── founding-myth/               # 건국신화 배치. 반영 뒤 _backup 만 남긴다
-│   └── _backup/
 ├── myth-plan/missing-figures.md # 신화 정비안이 넣자고 한 미등록 인물. 등록·배정하면 지운다
 ├── hero-photo/                  # 대표 사진 연출문 초안. 생성·등록 뒤 삭제
 │   └── scene-manifest.md
@@ -35,7 +33,8 @@ data/celeb/
 **배치 산출물은 DB 반영이 끝나면 지운다.** 생성 스크립트가 만드는 작업 폴더(`gap-fill/`처럼
 필드·트랙 이름을 딴 것)는 반영과 왕복 검증을 통과한 순간 쓸모가 끝난다. 남겨 두면 다음 배치가
 옛 산출물을 완료로 착각하고 건너뛴다. 경위는 커밋 이력이 아니라 DB와 룰북이 쥔다. 되돌릴 값이
-있으면 `_backup/`에 원본만 남기고 나머지는 폐기한다.
+있으면 `_backup/`에 원본만 남긴다. `_backup/`은 어디에 있든 Git이 추적하지 않는 로컬 보관함이고,
+되돌릴 일이 없어지면 지운다 — 반영이 끝나 되돌림 대상이 아닌 백업은 쌓아 두지 않는다.
 
 `book-introductions/`의 JSON·JSONL은 원문 재조회와 중복 번역을 막는 로컬 작업 자료로 Git에서 제외한다. 실행 코드(`.mjs`·`.ts`)는 추적 대상이며, 소개 작업 백업은 `D:/feelandnote-backups/book-descriptions/`에 보존한다.
 
