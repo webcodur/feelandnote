@@ -57,6 +57,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--account", choices=("default", "feelandnote"))
     parser.add_argument("--ko-runs", type=int, default=3)
     parser.add_argument("--en-runs", type=int, default=2)
+    # 기본값 단일 원천은 TS ELEVENLABS_TTS_DEFAULTS(shared/bo/voice-utils).
+    # 이 도구는 후행 이상음 연구용이라 style=0.0(무강조)을 의도적으로 쓴다 — 서비스 기본값과 다름.
     parser.add_argument("--stability", type=float, default=0.5)
     parser.add_argument("--similarity", type=float, default=0.75)
     parser.add_argument("--style", type=float, default=0.0)

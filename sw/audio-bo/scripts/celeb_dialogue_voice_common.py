@@ -10,6 +10,10 @@ import urllib.request
 from pathlib import Path
 
 
+# 슬롯 목록(7종 × 3변형 + quote = 22)의 단일 원천은 TS 쪽이다:
+# packages/shared/constants/celeb-speech.ts 의 상황·변형 목록 +
+# sw/web-bo/src/lib/voice-path.ts 의 TYPE_PREFIX/allVoiceSlots.
+# 아래 튜플은 그 계약의 파이썬 미러다 — 슬롯을 고칠 때는 양쪽을 함께 맞춘다.
 SLOTS = (
     ("g1", "greeting", 0),
     ("g2", "greeting", 1),
