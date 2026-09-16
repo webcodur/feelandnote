@@ -19,6 +19,11 @@
 3. **주례 en 표지 보완** — `contents 43fe6305…/en`은 thumbnail null·isbn null·미검증행(`sources.primary=none`). OpenLibrary 영문판 실측 후 같은 판본으로 교체한다.
 4. **역경 en 표지 원천 교체** — `contents f0a1a3ca…/en` 표지가 Google Books URL이라 신규 BOOK 금지 원천에 걸린다. OpenLibrary ISBN 표지로 교체한다.
 
+5. **정비 원장에서 넘어온 잔여 7건(26.09.16)** — 09-10~15 locale 정비·표시 제목·판본 검토 원장을 DB와 대조해 반영 완료분을 지우며 남긴 것이다. 각 건을 확인해 채우거나, 해당 판본이 없으면 없음으로 확정한다.
+   - 영문판 ISBN 미확인(en 행에 ISBN 없음): `Liezi`(`4a393786…`, 한국 출판 영역본 후보 9788971073322) · `Kŭmo sinhwa`(`7303db43…`, 9788970656021) · `Samguk Yusa`(`d49ff914…`, 연세대 영역본 후보 9788935656592)
+   - 판본 종류(`figure_book_editions.edition_kind`) 미정: 판본 38 리비우스 로마사(9791187142348) · 판본 755 삼국사기(9791170292081) · 판본 4997 베갯머리 서책(9791130468709)
+   - 표시용 한국어 행 누락: `순열 도시`(`2d6909b1…`, 계획은 translated 표식)
+
 ## 정책 확인
 
 - 요청 언어판이 없을 때 반대 언어 값으로 메우는 폴백은 설계다. `flattenLocales`(`sw/web/src/lib/utils/content-locale.ts`)가 해당 언어 우선·반대 언어 대체로 제목·표지를 뽑고, [`02-content.md`](../project/data/02-content.md)도 목록은 LEFT JOIN 후 명시적 fallback을 고르게 한다.
