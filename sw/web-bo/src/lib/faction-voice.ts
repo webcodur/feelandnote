@@ -1,9 +1,9 @@
 /**
  * 세력도감(Faction) 음성 파일명·경로 규칙 — BO 측 정의.
  *
- * sw/remotion/src/compositions/Faction/voice-names.ts(vnPersonQuote)와
- * 렌더 인덱싱(buildCues)의 명명 규칙을 그대로 옮긴다. BO에서 인물 음성 파일명을
- * 계산해 재생·재생성할 수 있게 한다.
+ * 파일명 규칙 본체(vn* 함수들)는 `packages/shared/src/lib/faction-voice-names.ts` 가
+ * 단일 원천이다 — 렌더(`sw/remotion/src/compositions/Faction/voice-names.ts`)도 같은 모듈을
+ * 재export 한다. 여기서는 재export + BO 고유 로직(공용 낭독 상속·재배치 rename)만 둔다.
  *
  * 핵심 규칙(렌더와 동일):
  *   - 모든 세력(solo 포함) → F{gi+1}C{ci+1}P{pi+1}-quote.wav — 인물은 항상 그룹(clusters) 안에 있으므로 C 자리가 항상 있다.
@@ -13,111 +13,15 @@
 import type { FactionGroup, FactionNarratorVoice, FactionPerson, FactionScript } from './faction-types'
 import { folderToParam } from '@/lib/faction-edit-route'
 
-/**
- * 인물 대사 음성 파일명. 0패딩으로 정렬 순서 보장.
- * 예: F01C01P01-quote.wav
- *
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnPersonQuote 와 규칙이 100% 일치해야 한다.
- *   워크스페이스 경계상 import 불가라 복제한다. 한쪽을 바꾸면 반드시 다른 쪽도 함께 바꾼다.
- */
-export function vnPersonQuote(groupIndex: number, personIndex: number, clusterIndex: number): string {
-  const g = `F${String(groupIndex + 1).padStart(2, '0')}`
-  const c = `C${String(clusterIndex + 1).padStart(2, '0')}`
-  const p = `P${String(personIndex + 1).padStart(2, '0')}`
-  return `${g}${c}${p}-quote.wav`
-}
-
-/**
- * 인물 수식어 나레이션 음성 파일명 — 대사(quote)와 같은 자리 규칙, 접미사만 -epithet.
- * 예: F01C01P01-epithet.wav.
- *
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnPersonEpithet 와 규칙이 일치해야 한다.
- */
-export function vnPersonEpithet(groupIndex: number, personIndex: number, clusterIndex: number): string {
-  const g = `F${String(groupIndex + 1).padStart(2, '0')}`
-  const c = `C${String(clusterIndex + 1).padStart(2, '0')}`
-  const p = `P${String(personIndex + 1).padStart(2, '0')}`
-  return `${g}${c}${p}-epithet.wav`
-}
-
-/**
- * 나레이터 낭독 음성 파일명 — 세력·인물 좌표 밖의 에피소드 전역 고정명(재배치 rename 무관).
- *  - narrator-logline.wav  시작 화면에서 시작문구 낭독
- *  - narrator-outro.wav    마무리 화면에서 닫는 한마디 낭독
- *  - narrator-intro.wav    나레이터 소개 컷 대사
- *
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 와 규칙이 일치해야 한다.
- */
-export function vnNarratorLogline(): string {
-  return 'narrator-logline.wav'
-}
-export function vnNarratorOutro(): string {
-  return 'narrator-outro.wav'
-}
-export function vnNarratorIntro(): string {
-  return 'narrator-intro.wav'
-}
-
-/** 본문 기반 안정 키 — 항목을 재배치해도 음성이 다른 항목으로 바뀌지 않고, 본문 수정 시 옛 음원을 재생하지 않는다. */
-function narrationTextKey(text: string): string {
-  let hash = 0x811c9dc5
-  for (const ch of text.trim().replace(/\r\n/g, '\n')) {
-    hash ^= ch.charCodeAt(0)
-    hash = Math.imul(hash, 0x01000193)
-  }
-  return (hash >>> 0).toString(36)
-}
-
-/**
- * 서사 항목 덩어리(해설·대사) 음성 파일명 — 인물 좌표(FxxCxxPxx) 밖의 항목이라 화자 + 본문 해시로 명명한다.
- * 예: scene-1k2j3h4.wav. 장면을 옮기거나 순서를 바꿔도 음원이 따라오고, 본문을 고치면
- * 파일명이 달라져 옛 음원이 남아 재생되지 않는다. 같은 말을 다른 인물이 해도 목소리가 달라야 하므로
- * 화자를 해시에 함께 넣는다.
- *
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnSceneBeat 와 규칙이 100% 일치해야 한다.
- */
-export function vnSceneBeat(speaker: string | undefined, text: string): string {
-  // 합성기는 화면 조판용 줄바꿈·빈 줄을 한 흐름으로 펴서 읽는다. 파일 신원도 실제 발화문을
-  // 따라야 줄바꿈이나 화면 전환만 고쳤을 때 이미 만든 음원이 사라지지 않는다.
-  const spokenText = text.replace(/\s+/g, ' ').trim()
-  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${spokenText}`)}.wav`
-}
-
-/** 발화 본문의 신원 — 공백을 편 문장 기준. 음원이 낡았는지 판정하는 값이다(vnBeatVoiceFile 과 무관). */
-export function vnBeatTextKey(speaker: string | undefined, text: string): string {
-  return narrationTextKey(`${(speaker ?? '').trim()}\n${text.replace(/\s+/g, ' ').trim()}`)
-}
-
-/**
- * 장면 발화 음원 파일명 — 신원(id)만 따른다. 본문을 고치거나 장면을 옮겨도 음원이 따라온다.
- *
- * 우선순위: 명시 voiceFile(통합 전 인물 좌표형 재사용) > `scene-<id>.wav` > 본문 해시(id 없는 옛 데이터 폴백).
- *
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 같은 이름 함수와 규칙이 일치해야 한다.
- */
-export function vnBeatVoiceFile(
-  beat: { id?: string; voiceFile?: string; speaker?: string; text?: string },
-  locale: 'ko' | 'en' = 'ko',
-): string {
-  if (beat.voiceFile) return beat.voiceFile
-  if (beat.id) return locale === 'en' ? `scene-${beat.id}-en.wav` : `scene-${beat.id}.wav`
-  return vnSceneBeat(beat.speaker, beat.text ?? '')
-}
-
-/** 제목 기반 안정 키 — 챕터 재배치에는 유지되고 제목 수정 시 옛 음원을 잘못 재생하지 않는다. */
-function chapterTitleKey(title: string): string {
-  let hash = 0x811c9dc5
-  for (const ch of title.trim().replace(/\r\n/g, '\n')) {
-    hash ^= ch.charCodeAt(0)
-    hash = Math.imul(hash, 0x01000193)
-  }
-  return (hash >>> 0).toString(36)
-}
-
-/** 챕터명 낭독 음원. 영문 제목은 다른 키가 되어 KO/EN 파일이 자동 분리된다. */
-export function vnChapterTitle(title: string): string {
-  return `chapter-${chapterTitleKey(title)}.wav`
-}
+export {
+  vnPersonQuote, vnPersonEpithet,
+  vnNarratorLogline, vnNarratorOutro, vnNarratorIntro,
+  vnChapterTitle, vnSceneBeat, vnBeatTextKey, vnBeatVoiceFile,
+  vnTimingKey,
+} from '@feelandnote/shared/lib/faction-voice-names'
+import {
+  vnPersonQuote, vnPersonEpithet,
+} from '@feelandnote/shared/lib/faction-voice-names'
 
 /** 공용 낭독자가 시작 화면에서 읽을 문장. read* 미지정인 기존 데이터는 시작문구만 읽는다. */
 export function factionOpeningReadText(script: FactionScript): string {
