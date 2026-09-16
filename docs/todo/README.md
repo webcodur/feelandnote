@@ -15,4 +15,4 @@
 | [`img/README.md`](img/README.md) | **이미지가 있어야 끝나는 일** — 세력 테마·신화 전승 대표 이미지, 인물 화보와 Grok 아바타 실행서, 아바타 대기 인물 |
 | [`chatgpt-web-quota-test.md`](chatgpt-web-quota-test.md) | ChatGPT 일반 채팅 사용량으로 Codex·Work 소비를 줄이는지 실측 |
 | [`celeb-locale-fallback.md`](celeb-locale-fallback.md) | 셀럽 서가 한영 판본 표시 잔여. 논어 완료, 전수 조사 1·배포 대기 1·데이터 보완 2 |
-| [`faction-web.md`](faction-web.md) | 세력도감 웹 남은 일: 영상층 철거 마무리(제작 표 마이그레이션 적용·뷰 잔재 칸 제거), 허브 표지·단체화보 묶음 흡수·누끼 보장·그룹 편집 칸 |
+| [`faction-web.md`](faction-web.md) | 세력도감 웹 남은 일: 뷰 잔재 칸 제거(웹 배포 뒤), 허브 표지·단체화보 묶음 흡수·누끼 보장·그룹 편집 칸 |
