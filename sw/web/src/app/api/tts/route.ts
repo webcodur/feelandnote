@@ -1,42 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
 import { GoogleGenAI } from "@google/genai"
 import { cleanVoiceBuffer } from "@feelandnote/shared/bo/voice-cleanup"
+import { googleFreeApiKeys } from "@feelandnote/shared/lib/gemini-keys"
+import { wrapPcmAsWav } from "@feelandnote/shared/lib/pcm-wav"
+import { MODEL_GEMINI_25 } from "@feelandnote/shared/lib/voice-policy"
 
-// Gemini API 키 로테이션 (remotion/.env 키들을 web/.env에 복사)
-const API_KEYS = Array.from({ length: 50 }, (_, i) =>
-  process.env[`GOOGLE_GENAI_API_KEY_FREE${i}`],
-).filter(Boolean) as string[]
+// Gemini API 키 로테이션 (무료 키 풀 규약은 shared/lib/gemini-keys.ts 단일 원천)
+const API_KEYS = googleFreeApiKeys()
 
 let keyIndex = 0
 
-const MODEL = "gemini-2.5-flash-preview-tts"
+const MODEL = MODEL_GEMINI_25
 const MAX_TEXT_LENGTH = 2000
-
-/** PCM 16bit mono 24kHz → WAV 헤더 생성 */
-function createWavHeader(pcmLength: number): Buffer {
-  const sampleRate = 24000
-  const channels = 1
-  const bitDepth = 16
-  const byteRate = sampleRate * channels * (bitDepth / 8)
-  const blockAlign = channels * (bitDepth / 8)
-  const header = Buffer.alloc(44)
-
-  header.write("RIFF", 0)
-  header.writeUInt32LE(36 + pcmLength, 4)
-  header.write("WAVE", 8)
-  header.write("fmt ", 12)
-  header.writeUInt32LE(16, 16) // fmt chunk size
-  header.writeUInt16LE(1, 20) // PCM
-  header.writeUInt16LE(channels, 22)
-  header.writeUInt32LE(sampleRate, 24)
-  header.writeUInt32LE(byteRate, 28)
-  header.writeUInt16LE(blockAlign, 32)
-  header.writeUInt16LE(bitDepth, 34)
-  header.write("data", 36)
-  header.writeUInt32LE(pcmLength, 40)
-
-  return header
-}
 
 async function synthesize(
   text: string,
@@ -68,8 +43,7 @@ async function synthesize(
     }
 
     const pcm = Buffer.from(data, "base64")
-    const wavHeader = createWavHeader(pcm.length)
-    return Buffer.concat([wavHeader, pcm])
+    return wrapPcmAsWav(pcm, 24000, 1, 16)
   } catch (e: unknown) {
     const status = (e as { status?: number }).status
     if ((status === 429 || status === 403) && retries > 0) {
