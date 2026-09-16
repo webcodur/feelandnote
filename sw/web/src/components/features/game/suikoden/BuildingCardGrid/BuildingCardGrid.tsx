@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
+import Modal from '@/components/ui/Modal'
 import type { BuildingCard as BuildingCardType, GameCharacter } from '@/lib/game/suikoden/types'
 import { BUILDINGS, BUILDING_CATEGORY, BUILDING_CATEGORY_INFO, GRADE_COLORS } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from '../CharacterPortrait'
@@ -507,8 +508,17 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
   if (bDef.costMaterial) costs.push(`${tS('mgmt.materialLabel')} ${bDef.costMaterial}`)
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-stone-800 border border-stone-600 rounded-lg shadow-2xl max-w-xs w-full p-4 space-y-3" onClick={e => e.stopPropagation()}>
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-xs"
+      overlayClassName="bg-black/50"
+      boxClassName="rounded-lg border border-stone-600 bg-stone-800 shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+    >
+      <div className="p-4 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-lg">{bDef.icon}</span>
@@ -550,7 +560,7 @@ function BuildingInfoModal({ defId, onClose }: { defId: string; onClose: () => v
           )}
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 

@@ -1,4 +1,4 @@
-import { ReactNode, ElementType, HTMLAttributes } from "react";
+import { ReactNode, ElementType, HTMLAttributes, Ref } from "react";
 import styles from "./ClassicalBox.module.css";
 
 interface ClassicalBoxProps extends HTMLAttributes<HTMLElement> {
@@ -8,6 +8,7 @@ interface ClassicalBoxProps extends HTMLAttributes<HTMLElement> {
   /** 모바일에서는 얇은 1px 상자로 줄이고 md 이상에서만 기존 장식 상자를 적용한다. */
   mobileSlim?: boolean;
   variant?: "default" | "danger";
+  ref?: Ref<HTMLElement>;
 }
 
 export default function ClassicalBox({

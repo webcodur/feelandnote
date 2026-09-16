@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import Modal from "@/components/ui/Modal";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { Avatar, BlurDissolve } from "@/components/ui";
-import { Z_INDEX } from "@/constants/zIndex";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
 import {
   RadarChart,
@@ -66,7 +65,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
     };
   }, [isOpen, celebId, locale]);
 
-  if (!isOpen || typeof document === "undefined") return null;
+  if (!isOpen) return null;
 
   const aura = data ? getAuraByScore(data.total_score) : 1;
   const levelStyle = AURA_MODAL_STYLES[aura];
@@ -202,15 +201,18 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
   // #endregion
 
   const modalContent = (
-    <div className="fixed inset-0 flex items-end md:items-center justify-center" style={{ zIndex: zIndex ?? Z_INDEX.modal }} onClick={onClose}>
-      {/* 백드롭 */}
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" />
-
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-2xl"
+      overlayClassName="bg-black/85 backdrop-blur-sm"
+      showCloseButton={false}
+      animateHeight={false}
+      zIndex={zIndex}
+    >
       {/* PC 레이아웃 */}
-      <div
-        className="hidden md:flex relative w-full max-w-2xl max-h-[90vh] overflow-hidden flex-col rounded-2xl animate-modal-content"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="hidden md:flex relative w-full max-h-[calc(100dvh-4rem)] overflow-hidden flex-col rounded-2xl">
         {/* 배경 */}
         <div className="absolute inset-0 bg-gradient-to-br from-bg-card via-bg-main to-bg-secondary" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08)_0%,transparent_60%)]" />
@@ -262,16 +264,8 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
         )}
       </div>
 
-      {/* 모바일 레이아웃 (Bottom Sheet) */}
-      <div
-        className="md:hidden relative w-full max-h-[92vh] overflow-hidden flex flex-col bg-bg-main rounded-t-3xl animate-bottomsheet-content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* 드래그 핸들 */}
-        <div className="flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 bg-white/20 rounded-full" onClick={onClose} />
-        </div>
-
+      {/* 모바일 레이아웃 */}
+      <div className="md:hidden relative w-full max-h-[calc(100dvh-4rem)] overflow-hidden flex flex-col bg-bg-main rounded-2xl">
         {/* 배경 장식 */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.06)_0%,transparent_50%)] pointer-events-none" />
 
@@ -316,9 +310,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
           </>
         )}
       </div>
-    </div>
+    </Modal>
   );
 
-  return createPortal(modalContent, document.body);
+  return modalContent;
 }
 // #endregion

@@ -1,6 +1,6 @@
 /*
   파일명: /components/shared/AtlasPickerSheet.tsx
-  기능: 탐색 도감의 모바일 고르기 — 버튼 하나와 아래에서 올라오는 창
+  기능: 탐색 도감의 모바일 고르기 — 버튼 하나와 중앙 모달
   책임: 좁은 화면에서 칩 줄을 옆으로 넘기지 않게, 누르면 창 하나에 묶음 제목과 그 아래 항목 칩을 줄바꿈으로 모두 펼친다.
         신화 탐색(지역→신화, 그룹)과 세력도감(섹션→테마, 진영)이 함께 쓴다. 넓은 화면은 각자 칩 줄을 쓴다.
 */ // ------------------------------
@@ -9,7 +9,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
-import BottomSheet from "@/components/ui/BottomSheet";
+import Modal from "@/components/ui/Modal";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -80,7 +80,7 @@ export default function AtlasPickerSheet({
         <ChevronDown size={15} className="shrink-0" aria-hidden />
       </button>
 
-      <BottomSheet isOpen={open} onClose={close} title={title}>
+      <Modal isOpen={open} onClose={close} title={title} animateHeight={false}>
         <div ref={listRef} className="space-y-5 p-4">
           {groups
             .filter((group) => group.items.length > 0)
@@ -137,7 +137,7 @@ export default function AtlasPickerSheet({
               </section>
             ))}
         </div>
-      </BottomSheet>
+      </Modal>
     </>
   );
 }

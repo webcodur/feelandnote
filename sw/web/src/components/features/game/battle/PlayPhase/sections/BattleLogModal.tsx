@@ -3,6 +3,7 @@
 */
 import { useMemo } from "react";
 import { ScrollTextIcon } from "lucide-react";
+import Modal from "@/components/ui/Modal";
 import type { RoundRecord, Mandate } from "@/lib/game/types";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { BattleText } from "../types";
@@ -18,9 +19,17 @@ export default function BattleLogModal({ records, mandate, onClose, locale, text
   const reversed = useMemo(() => [...records].reverse(), [records]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: Z_INDEX.gameModal }}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-md mx-4 rounded-2xl border border-white/15 bg-black/95 backdrop-blur-xl shadow-2xl overflow-hidden">
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-md"
+      overlayClassName="bg-black/60 backdrop-blur-sm"
+      boxClassName="overflow-hidden rounded-2xl border border-white/15 bg-black/95 backdrop-blur-xl shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+      zIndex={Z_INDEX.gameModal}
+    >
         <div className="flex items-center justify-between px-5 py-3 border-b border-white/15">
           <div className="flex items-center gap-2">
             <ScrollTextIcon size={16} className="text-white/60" />
@@ -57,7 +66,6 @@ export default function BattleLogModal({ records, mandate, onClose, locale, text
             );
           })}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

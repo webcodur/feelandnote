@@ -28,8 +28,8 @@ export const FILTER_CHIP_STYLES = {
   inactive: "bg-white/5 text-text-primary border-accent/40 hover:border-accent/60 hover:bg-white/10",
 } as const;
 
-// 바텀시트/모달 필터 아이템 스타일
-export const FILTER_BOTTOMSHEET_STYLES = {
+// 모달 필터 아이템 스타일
+export const FILTER_MODAL_STYLES = {
   base: "w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border transition-none",
   active: "bg-accent/10 text-accent border-accent/50",
   inactive: "bg-transparent text-text-primary border-transparent hover:bg-white/5",

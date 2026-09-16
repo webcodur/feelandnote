@@ -5,10 +5,10 @@
 */
 "use client";
 
-import { useEffect, useCallback, type ReactNode } from "react";
-import { createPortal } from "react-dom";
+import { type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronRight, Play } from "lucide-react";
+import Modal from "@/components/ui/Modal";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { DifficultyOption } from "./GameLobbyDifficultySelect";
 
@@ -43,29 +43,23 @@ const COLOR_MAP = {
 
 export default function GameStartModal({ open, onClose, onStart, icon, title, desc, options }: GameStartModalProps) {
   const t = useTranslations("shared.game.ui");
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      e.stopImmediatePropagation();
-      onClose();
-    }
-  }, [onClose]);
-
-  useEffect(() => {
-    if (!open) return;
-    // capture phase로 등록하여 GameFullScreen ESC보다 먼저 처리
-    document.addEventListener("keydown", handleKeyDown, true);
-    return () => document.removeEventListener("keydown", handleKeyDown, true);
-  }, [open, handleKeyDown]);
 
   if (!open) return null;
 
-  return createPortal(
-    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex: Z_INDEX.gameModal }}>
-      {/* backdrop */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-
-      {/* modal card */}
-      <div className="relative w-[min(90vw,340px)] rounded-2xl bg-bg-main border border-white/[0.08] shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+  return (
+    // escapeCapture — GameFullScreen ESC보다 먼저 잡아 전체화면이 같이 닫히지 않게 한다
+    <Modal
+      isOpen={open}
+      onClose={onClose}
+      frame="plain"
+      widthClassName="w-[min(90vw,340px)]"
+      overlayClassName="bg-black/70 backdrop-blur-sm"
+      boxClassName="rounded-2xl border border-white/[0.08] bg-bg-main shadow-2xl"
+      showCloseButton={false}
+      escapeCapture
+      animateHeight={false}
+      zIndex={Z_INDEX.gameModal}
+    >
         {/* header */}
         <div className="flex flex-col items-center pt-6 pb-3 px-5">
           <div className="mb-2">{icon}</div>
@@ -120,8 +114,6 @@ export default function GameStartModal({ open, onClose, onStart, icon, title, de
             {t("cancel")}
           </button>
         </div>
-      </div>
-    </div>,
-    document.body
+    </Modal>
   );
 }

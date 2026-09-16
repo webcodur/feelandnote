@@ -4,11 +4,11 @@ import { useState, useRef, useEffect } from "react";
 // 고른 항목은 배경·글자색으로 이미 드러나므로 체크 표시를 따로 두지 않는다
 import { ChevronDown } from "lucide-react";
 import Button from "./Button";
-import BottomSheet from "./BottomSheet";
+import Modal from "./Modal";
 import {
   FILTER_BUTTON_STYLES,
   FILTER_CHIP_STYLES,
-  FILTER_BOTTOMSHEET_STYLES,
+  FILTER_MODAL_STYLES,
 } from "@/constants/filterStyles";
 import { useTranslations } from "next-intl";
 
@@ -121,8 +121,8 @@ export default function FilterTabs<T extends string>({
         </Button>
       </div>
 
-      {/* 모바일: 필터 선택 바텀시트 */}
-      <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)} title={t("selectFilter")}>
+      {/* 모바일: 필터 선택 모달 */}
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={t("selectFilter")} size="sm">
         <div className="p-4 space-y-2">
           {items.map(({ value, label }) => {
             const isActive = activeValue === value;
@@ -135,9 +135,9 @@ export default function FilterTabs<T extends string>({
                 key={value}
                 onClick={() => !isDisabled && handleSelect(value)}
                 disabled={isDisabled}
-                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${
-                  isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive
-                } ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
+                className={`${FILTER_MODAL_STYLES.base} ${
+                  isActive ? FILTER_MODAL_STYLES.active : FILTER_MODAL_STYLES.inactive
+                } ${FILTER_MODAL_STYLES.disabled}`}
               >
                 <span className="flex-1 text-left text-sm font-medium">{label}</span>
                 {count !== undefined && (
@@ -149,7 +149,7 @@ export default function FilterTabs<T extends string>({
             );
           })}
         </div>
-      </BottomSheet>
+      </Modal>
     </>
   );
 }

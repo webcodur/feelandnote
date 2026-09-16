@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useEffectEvent, useState } from "react";
-import { createPortal } from "react-dom";
 import { X, ExternalLink, Loader2, Globe, BookOpen } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+import Modal from "@/components/ui/Modal";
 import { fetchUrlContent } from "@/actions/search/fetchUrlContent";
 import { useTranslations } from "next-intl";
 
@@ -45,38 +45,25 @@ export default function LinkPreviewModal({
   });
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      loadPreview();
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (isOpen) loadPreview();
   }, [isOpen, url]);
-
-  // ESC key handler
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") onClose();
-    };
-    if (isOpen) document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  const modalContent = (
-    <div 
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
-      style={{ zIndex: Z_INDEX.modal + 10 }} // Ensure it's above other modals
-      onClick={onClose}
+  return (
+    // 다른 모달 위에 떠야 하므로 기본 모달 층보다 높인다
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-5xl"
+      overlayClassName="bg-black/80 backdrop-blur-sm"
+      boxClassName="overflow-hidden rounded-xl border border-white/10 bg-[#1a1a1a] shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+      zIndex={Z_INDEX.modal + 10}
     >
-      <div 
-        className="w-full max-w-5xl h-[85vh] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl flex flex-col border border-white/10 relative animate-in zoom-in-95 duration-200"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="w-full h-[calc(100dvh-4rem)] flex flex-col relative">
         {/* Header */}
         <div className="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-[#121212] select-none shrink-0">
           <div className="flex items-center gap-3 overflow-hidden mr-4">
@@ -217,9 +204,6 @@ export default function LinkPreviewModal({
             }
         </div>
       </div>
-    </div>
+    </Modal>
   );
-
-  if (typeof window === "undefined") return null;
-  return createPortal(modalContent, document.body);
 }

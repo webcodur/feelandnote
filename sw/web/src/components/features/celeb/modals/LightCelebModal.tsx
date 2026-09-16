@@ -1,19 +1,18 @@
 /*
   Light 셀럽 상세 모달
   - 감상 기록 없이 명언·프로필 중심
-  - PC: 중앙 모달, 모바일: Bottom Sheet
+  - PC/모바일: 중앙 모달
 */
 "use client";
 
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase } from "lucide-react";
-import { Z_INDEX } from "@/constants/zIndex";
+import { Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase } from "lucide-react";
 import { toggleFollow } from "@/actions/user";
 import type { CelebProfile } from "@/types/home";
 import { getCelebProfileUrl } from "@/lib/url";
 import { getAuraByScore, type Aura } from "@/constants/materials";
+import Modal from "@/components/ui/Modal";
 import { FormattedText } from "@/components/ui";
 import { Avatar, BlurDissolve } from "@/components/ui";
 import { useTranslations, useLocale } from "next-intl";
@@ -82,11 +81,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     setIsLoading(false);
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
-  if (!isOpen || typeof document === "undefined") return null;
+  if (!isOpen) return null;
 
   const content = (
     <div className="flex flex-col w-full h-full overflow-y-auto custom-scrollbar">
@@ -178,37 +173,21 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     </div>
   );
 
-  const modalContent = (
-    <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm animate-fade-in"
-      style={{ zIndex: zIndex ?? Z_INDEX.modal }}
-      onClick={handleBackdropClick}
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-[520px]"
+      overlayClassName="bg-black/70 backdrop-blur-sm"
+      boxClassName={`rounded-sm bg-gradient-to-br p-[3px] ${borderGradient} shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]`}
+      closeButtonClassName="absolute -top-3 -right-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-bg-main text-text-secondary hover:bg-bg-card hover:text-text-primary"
+      animateHeight={false}
+      zIndex={zIndex}
     >
-      {/* PC: 중앙 모달 */}
-      <div className="hidden md:flex items-center justify-center h-full p-6">
-        <div className="relative w-full max-w-[520px] animate-modal-content shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]">
-          <div className={`absolute -inset-[3px] bg-gradient-to-br ${borderGradient} opacity-90 rounded-sm`} />
-          <button
-            onClick={onClose}
-            className="absolute -top-3 -right-3 z-20 w-8 h-8 bg-bg-main rounded-full border border-border flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-bg-card"
-          >
-            <X size={16} />
-          </button>
-          <div className="relative bg-bg-main max-h-[80vh] overflow-hidden flex flex-col">
-            {content}
-          </div>
-        </div>
+      <div className="relative bg-bg-main max-h-[calc(100dvh-4rem)] overflow-hidden flex flex-col">
+        {content}
       </div>
-
-      {/* 모바일: Bottom Sheet */}
-      <div className="md:hidden flex flex-col justify-end h-full relative">
-        <div className="shrink-0 h-[12vh] w-full z-10" onClick={onClose} />
-        <div className="bg-bg-main rounded-t-[2.5rem] flex flex-col animate-bottomsheet-content shadow-[0_-20px_40px_rgba(0,0,0,0.4)] overflow-hidden max-h-[88vh]">
-          {content}
-        </div>
-      </div>
-    </div>
+    </Modal>
   );
-
-  return createPortal(modalContent, document.body);
 }

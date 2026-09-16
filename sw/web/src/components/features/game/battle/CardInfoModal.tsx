@@ -8,6 +8,7 @@
 import Image from "next/image";
 import { X, Swords, ScrollText, Landmark } from "lucide-react";
 import { useLocale } from "next-intl";
+import Modal from "@/components/ui/Modal";
 import type { BattleCard, Command, Domain } from "@/lib/game/types";
 import { COMMANDS, DOMAINS, DOMAIN_LABELS, DOMAIN_LABELS_EN } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
@@ -49,19 +50,17 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
   const professionLabel = getCelebProfessionLabel(card.profession, locale);
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center p-4"
-      style={{ zIndex }}
-      onClick={onClose}
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-md"
+      overlayClassName="bg-black/70 backdrop-blur-sm"
+      boxClassName="overflow-hidden rounded-xl border border-white/[0.08] bg-[#111115] shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+      zIndex={zIndex}
     >
-      {/* backdrop */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-
-      {/* modal */}
-      <div
-        className="relative w-full max-w-md rounded-xl border border-white/[0.08] bg-[#111115] shadow-2xl overflow-hidden animate-fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
         {/* header: 초상화 + 기본 정보 */}
         <div className="relative h-36 bg-[#0a0a0c] overflow-hidden">
           {card.avatarUrl ? (
@@ -181,7 +180,6 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

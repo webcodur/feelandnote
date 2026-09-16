@@ -8,6 +8,7 @@
 import { Fragment } from "react";
 import { X, Swords, ScrollText, Landmark } from "lucide-react";
 import { useLocale } from "next-intl";
+import Modal from "@/components/ui/Modal";
 import type { Command } from "@/lib/game/types";
 import { COMMANDS } from "@/lib/game/types";
 import { getCounterResult } from "@/lib/game/gameEngine";
@@ -38,17 +39,17 @@ export default function CommandInfoModal({ command, onClose, zIndex = 9999 }: Pr
   const text = getBattleText(locale);
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center p-4"
-      style={{ zIndex }}
-      onClick={onClose}
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-md"
+      overlayClassName="bg-black/70 backdrop-blur-sm"
+      boxClassName="overflow-hidden rounded-xl border border-white/[0.08] bg-[#111115] shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+      zIndex={zIndex}
     >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-
-      <div
-        className="relative w-full max-w-md rounded-xl border border-white/[0.08] bg-[#111115] shadow-2xl overflow-hidden animate-fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
         {/* header */}
         <div className={`flex items-center gap-3 px-5 py-4 border-b ${c.border} ${c.bg}`}>
           <span className={c.text}>{CMD_ICON[command]}</span>
@@ -97,8 +98,7 @@ export default function CommandInfoModal({ command, onClose, zIndex = 9999 }: Pr
           {/* 상성표 */}
           <CounterTable current={command} />
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }
 

@@ -6,9 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useEffect, useId, useState } from "react";
-import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import {
@@ -20,8 +18,8 @@ import {
   type SpectrumReasonMap,
 } from "@/actions/spectrum/getSpectrumReason";
 import { Avatar, Carousel, ContentImage } from "@/components/ui";
+import Modal from "@/components/ui/Modal";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
-import { Z_INDEX } from "@/constants/zIndex";
 import { withParticle } from "@/lib/korean-particle";
 import {
   ABILITY_KEYS,
@@ -136,7 +134,6 @@ export default function SpectrumMatchModal({
   const ts = useTranslations("shared.spectrum.stat");
   const tl = useTranslations("shared.spectrum.tendency_label");
   const locale = useLocale();
-  const titleId = useId();
   const style = CATEGORY_STYLES[category];
   /* ── 3. 후보 자료 로드 ── */
   // 닮음의 근거(수치)를 먼저, 그 인물의 감상 기록을 뒤에 — 둘 다 펼친 채로 둔다
@@ -196,50 +193,23 @@ export default function SpectrumMatchModal({
     }))
     .filter((row) => row.subject || row.candidate);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !loading) onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [loading, onClose]);
-
-  if (typeof document === "undefined") return null;
-
-  return createPortal(
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black/75 p-3 backdrop-blur-sm animate-fade-in md:p-6"
-      style={{ zIndex: Z_INDEX.modal }}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget && !loading) onClose();
-      }}
+  return (
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName={category === "overall" ? "max-w-[1280px]" : "max-w-[1140px]"}
+      overlayClassName="bg-black/75 backdrop-blur-sm"
+      boxClassName="border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+      closeButtonClassName="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-black/25 text-text-secondary hover:border-white/25 hover:bg-white/[0.06] hover:text-text-primary"
+      closeButtonDisabled={loading}
+      closeOnOverlayClick={!loading}
+      closeOnEscape={!loading}
+      animateHeight={false}
     >
-      <section
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className={cn(
-          "relative flex max-h-[92vh] w-full flex-col overflow-hidden border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.55)] animate-modal-content",
-          category === "overall" ? "max-w-[1280px]" : "max-w-[1140px]",
-        )}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          disabled={loading}
-          aria-label={t("spectrumMatchModalClose")}
-          className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-black/25 text-text-secondary hover:border-white/25 hover:bg-white/[0.06] hover:text-text-primary disabled:cursor-wait disabled:opacity-40"
-        >
-          <X size={16} />
-        </button>
-
+      <div className="flex max-h-[calc(100dvh-4rem)] flex-col">
         {/* ── 5. 머리글 — 제목·두 인물·일치율 ── */}
-        <header className="border-b border-white/[0.07] px-12 py-3 md:px-14 md:py-3.5">
+        <header className="shrink-0 border-b border-white/[0.07] px-12 py-3 md:px-14 md:py-3.5">
           {/* 셋을 가운데로 모은다 — 넓은 화면에서 양 끝으로 벌어지면 선만 길어진다 */}
           <div className="mx-auto grid max-w-[460px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 md:gap-4">
             <div className="min-w-0 text-center">
@@ -262,7 +232,6 @@ export default function SpectrumMatchModal({
             {/* 비교 항목 — 잇는 선 — 일치율. 셋이 가운데 축에서 한 덩어리로 쌓인다 */}
             <div className="flex min-w-0 flex-col items-center gap-2.5">
               <h2
-                id={titleId}
                 className={cn(
                   "text-center font-serif text-xl font-bold tracking-[0.04em] md:text-[22px]",
                   style.label,
@@ -322,7 +291,7 @@ export default function SpectrumMatchModal({
           </div>
         </header>
 
-        <div className="space-y-4 overflow-y-auto px-4 py-4 custom-scrollbar md:px-6">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-4 custom-scrollbar md:px-6">
           {/* ── 6. 수치 비교 — 닮음의 근거를 먼저 보여준다 ── */}
           <section className="overflow-hidden rounded-lg border border-white/[0.09] bg-white/[0.02]">
             <header className="border-b border-white/[0.07] bg-white/[0.02] px-4 py-2.5 text-center">
@@ -470,9 +439,7 @@ export default function SpectrumMatchModal({
             </section>
           )}
         </div>
-
-      </section>
-    </div>,
-    document.body,
+      </div>
+    </Modal>
   );
 }
