@@ -2,10 +2,9 @@
 
 세력도감은 웹 도감만 남았다. 명단 원천은 웹 배정(`celeb_tag_assignments`)과 그룹 표(`celeb_tag_groups`)이고, 편집은 web-bo `/factions/<테마>`가 맡는다. 화면 규격은 [`explore.md`](../project/service/explore.md) 「세력도감」, 운영 화면은 [`web-bo.md`](../project/apps/web-bo.md) 「세력도감」이 쥔다.
 
-## 영상층 철거 마무리 (26.09.16)
+## 영상층 철거 마무리
 
-1. **제작 표 철거 마이그레이션 적용** — `sw/web/database/migrations/20260916190000_drop_faction_video_tables.sql`. 코드는 이미 제작 표를 읽지 않는다. 운영 DB 적용과 적용 뒤 확인(제작 표 0개·셀럽 수정 정상)이 남았다. 표 원본은 D 보관본에 있다.
-2. **공개 뷰의 빈 잔재 칸 제거** — 뷰 `faction_atlas_members`가 늘 고정값·null을 내는 `source`·`person_id`·`group_subtitle`·`group_subtitle_en`·`group_color`·`group_logo_url`. 코드는 이미 읽지 않지만 배포된 운영 웹이 아직 조회하므로 **웹 배포 뒤에** 뷰·캐시 표·갱신 함수를 함께 고친다. 뷰에 걸린 셀럽 공개 정책을 깨지 않게 한 트랜잭션으로 한다.
+1. **공개 뷰의 빈 잔재 칸 제거** — 뷰 `faction_atlas_members`가 늘 고정값·null을 내는 `source`·`person_id`·`group_subtitle`·`group_subtitle_en`·`group_color`·`group_logo_url`. 코드는 이미 읽지 않지만 배포된 운영 웹이 아직 조회하므로 **웹 배포 뒤에** 뷰·캐시 표·갱신 함수를 함께 고친다. 뷰에 걸린 셀럽 공개 정책을 깨지 않게 한 트랜잭션으로 한다.
 
 ## 웹 화면
 
