@@ -9,6 +9,7 @@ import {
 } from '@/actions/admin/celeb-nobg'
 import type { ImageProcessingJob } from '@/lib/image-processing/types'
 import { useToast } from '@/contexts/ToastContext'
+import { nobgQueuedMessage, nobgQueueFailureMessage } from './nobgJobNotice'
 
 interface Props {
   celebId: string
@@ -106,15 +107,10 @@ export default function CelebAvatarNobgButton({
     try {
       const next = await enqueueCelebAvatarBackgroundRemoval(celebId)
       updateJob(next)
-      showToast(
-        'success',
-        next.status === 'running'
-          ? `${label} nobg 작업이 처리 중입니다.`
-          : `${label} nobg 작업을 대기열 ${next.queuePosition}번째로 접수했습니다.`
-      )
+      showToast('success', nobgQueuedMessage(label, next))
     } catch (error) {
       console.error('nobg 작업 접수 실패:', error)
-      showToast('error', error instanceof Error ? error.message : 'nobg 작업을 접수하지 못했습니다.')
+      showToast('error', nobgQueueFailureMessage(error))
     }
   }
 

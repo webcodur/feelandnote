@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import Cropper, { Area } from 'react-easy-crop'
 import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2, AlertTriangle } from 'lucide-react'
@@ -79,6 +79,29 @@ function GridOverlay({ showGrid, faceGuides }: { showGrid: boolean; faceGuides: 
       <div className={`absolute left-0 right-0 top-1/3 h-px ${faceGuides ? 'border-t border-red-500 bg-red-400/60 shadow-[0_0_4px_rgba(248,113,113,0.8)]' : 'bg-white/30'}`} />
       <div className={`absolute left-0 right-0 top-2/3 h-px ${faceGuides ? 'border-t border-blue-500 bg-blue-400/60 shadow-[0_0_4px_rgba(96,165,250,0.8)]' : 'bg-white/30'}`} />
     </div>
+  )
+}
+
+/** 선택이 다음 창까지 남는 체크 상자. 저장은 부르는 쪽이 한다. */
+function StickyCheckbox({
+  checked,
+  onChange,
+  children,
+}: {
+  checked: boolean
+  onChange: () => void
+  children: ReactNode
+}) {
+  return (
+    <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="h-3.5 w-3.5 cursor-pointer accent-accent"
+      />
+      {children}
+    </label>
   )
 }
 
@@ -394,26 +417,14 @@ export default function ImageCropModal({
           {(enableAutoCrop || offerBackgroundRemoval) && (
             <div className="space-y-1.5">
               {enableAutoCrop && (
-                <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
-                  <input
-                    type="checkbox"
-                    checked={autoFitOnOpen}
-                    onChange={toggleAutoFitOnOpen}
-                    className="h-3.5 w-3.5 cursor-pointer accent-accent"
-                  />
+                <StickyCheckbox checked={autoFitOnOpen} onChange={toggleAutoFitOnOpen}>
                   창을 열 때 AI 자동 맞춤 실행
-                </label>
+                </StickyCheckbox>
               )}
               {offerBackgroundRemoval && (
-                <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
-                  <input
-                    type="checkbox"
-                    checked={nobgOnApply}
-                    onChange={toggleNobgOnApply}
-                    className="h-3.5 w-3.5 cursor-pointer accent-accent"
-                  />
+                <StickyCheckbox checked={nobgOnApply} onChange={toggleNobgOnApply}>
                   적용과 동시에 nobg 배경 제거
-                </label>
+                </StickyCheckbox>
               )}
             </div>
           )}
