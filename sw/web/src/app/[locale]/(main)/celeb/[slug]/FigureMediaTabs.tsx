@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] media — 미디어 탭(대사·영상)
- * - 목차 위치: media (dialogues/videos)
- * - 데이터: item.children/dialogueLines/longform/shorts props
- * - 함께 보기: DialogueSection.tsx, VideosSection.tsx, ArchiveTabsHeader.tsx
+ * [celeb 상세] media — 미디어 탭(대사)
+ * - 목차 위치: media (dialogues)
+ * - 데이터: item.children/dialogueLines props
+ * - 함께 보기: DialogueSection.tsx, ArchiveTabsHeader.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -14,9 +14,8 @@ import ContentTextModal from "@/components/ui/ContentTextModal";
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
 import DialogueSection from "./DialogueSection";
-import VideosSection, { type CelebVideoItem } from "./VideosSection";
 
-type MediaTab = "dialogues" | "videos";
+type MediaTab = "dialogues";
 
 interface Props {
   item: ServiceItem;
@@ -27,14 +26,9 @@ interface Props {
   celebId: string;
   voiceV?: number;
   voiceSpeed?: number;
-  longform: CelebVideoItem[];
-  shorts: CelebVideoItem[];
 }
 
-const TAB_KEYS: readonly MediaTab[] = [
-  "dialogues",
-  "videos",
-];
+const TAB_KEYS: readonly MediaTab[] = ["dialogues"];
 
 export default function FigureMediaTabs({
   item,
@@ -45,8 +39,6 @@ export default function FigureMediaTabs({
   celebId,
   voiceV,
   voiceSpeed,
-  longform,
-  shorts,
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
@@ -109,10 +101,6 @@ export default function FigureMediaTabs({
             voiceV={voiceV}
             voiceSpeed={voiceSpeed}
           />
-        )}
-
-        {activeKey === "videos" && (
-          <VideosSection longform={longform} shorts={shorts} />
         )}
       </div>
 

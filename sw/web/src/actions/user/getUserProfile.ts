@@ -65,7 +65,6 @@ export interface PublicUserProfile {
   view_count?: number
   monologue?: string | null
   virtual_monologue?: string | null
-  youtube_videos?: Record<string, { videoId: string; uploadedAt: string }> | null
 }
 
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup

@@ -1,4 +1,4 @@
-import { ArrowUpRight, History, Play, Search, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, History, Search, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
@@ -13,7 +13,7 @@ import ExploreCardArtwork from "./ExploreCardArtwork";
 
 export const maxDuration = 30;
 
-const secondaryIcons: Record<string, LucideIcon> = { timeline: History, youtube: Play, directory: Search };
+const secondaryIcons: Record<string, LucideIcon> = { timeline: History, directory: Search };
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");

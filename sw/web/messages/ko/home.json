@@ -1,14 +1,5 @@
 {
   "home": {
-    "youtube": {
-      "eyebrow": "FEEL&NOTE ORIGINAL",
-      "title": "필앤노트 영상관",
-      "visitArchive": "안내",
-      "libraryTour": "서재 탐방",
-      "imageAlt": "왼쪽의 거대한 서재와 오른쪽의 전략 회의실이 중앙의 빛나는 통로로 이어진 필앤노트 영상관",
-      "playChannel": "유튜브 채널에서 영상 보기",
-      "openSeries": "시리즈 설명 보기"
-    },
     "explore": {
       "englishTitle": "Notable Figures",
       "description": "위인들이 남긴 감상의 궤적을 따라가 보세요.",
@@ -213,8 +204,6 @@
       "todayFigureSub": "매일 새로운 인물과 그가 즐긴 콘텐츠를 소개합니다",
       "figureLinks": "기록이 풍부한 인물",
       "figureLinksSub": "남긴 감상이 가장 많은 인물부터 만나보세요",
-      "youtube": "영상관",
-      "youtubeSub": "인물의 책장을 따라가는 서재 탐방을 영상으로 만나보세요",
       "viewAll": "전체 보기",
       "aboutLink": "필앤노트는 어떤 곳인가요?",
       "notice": "공지사항",

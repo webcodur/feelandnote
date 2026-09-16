@@ -17,7 +17,7 @@ import type { Locale } from "@/types/locale";
 
 import { CelebTierBadge } from "../../CelebTierBadge";
 import styles from "../../CelebPageContent.module.css";
-import { formatCelebPeriod } from "../celebDetailData";
+import { formatCelebPeriod } from "@/lib/utils/celeb-period";
 
 interface HeroIdentityProps {
   profile: CelebBySlugProfile;

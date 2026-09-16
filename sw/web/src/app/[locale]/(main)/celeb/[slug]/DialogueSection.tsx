@@ -2,7 +2,7 @@
  * [celeb 상세] dialogue — 게임 대사 재생(상황별·음성)
  * - 목차 위치: media > dialogues
  * - 데이터: lines/nickname/hasVoice/celebId/voiceV/voiceSpeed props
- * - 함께 보기: FigureMediaTabs.tsx, VideosSection.tsx
+ * - 함께 보기: FigureMediaTabs.tsx
  * ───────────────────────────────────────────── */
 "use client";
 

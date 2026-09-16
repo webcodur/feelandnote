@@ -1,14 +1,5 @@
 {
   "home": {
-    "youtube": {
-      "eyebrow": "FEEL&NOTE ORIGINAL",
-      "title": "feelandnote Video Archive",
-      "visitArchive": "Guide",
-      "libraryTour": "Library Tour",
-      "imageAlt": "A monumental library and a strategy chamber joined by a luminous passage in the feelandnote video archive",
-      "playChannel": "Watch on YouTube",
-      "openSeries": "View series details"
-    },
     "explore": {
       "englishTitle": "Notable Figures",
       "description": "Follow the trails of appreciation left by great minds.",
@@ -213,8 +204,6 @@
       "todayFigureSub": "A new figure every day, with the works they loved",
       "figureLinks": "Most Documented Figures",
       "figureLinksSub": "Start with the figures who left the most behind",
-      "youtube": "Video Hall",
-      "youtubeSub": "Follow the libraries of remarkable figures in Library Tour videos",
       "viewAll": "View all",
       "aboutLink": "What is feelandnote?",
       "notice": "Announcements",

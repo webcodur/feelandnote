@@ -82,6 +82,9 @@ const nextConfig: NextConfig = {
       { source: '/:locale(ko|en)/explore/top-by-type', destination: '/:locale/explore/ranking', permanent: true },
       { source: '/library/figure', destination: '/explore/today', permanent: true },
       { source: '/:locale(ko|en)/library/figure', destination: '/:locale/explore/today', permanent: true },
+      // 영상관은 서재 탐방 형태를 바꾸는 동안 내려 둔다(26.09.16) — 되살리면 이 두 줄을 지운다
+      { source: '/explore/youtube', destination: '/explore', permanent: false },
+      { source: '/:locale(ko|en)/explore/youtube', destination: '/:locale/explore', permanent: false },
       // /scriptures → /library 경로 변경 (2026-03-26)
       {
         source: '/scriptures',

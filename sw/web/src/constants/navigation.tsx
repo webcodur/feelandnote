@@ -63,7 +63,6 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "myth", href: "/explore/myth", label: "신화의 세계" },
       { key: "faction", href: "/explore/faction", label: "세력도감" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
-      { key: "youtube", href: "/explore/youtube", label: "영상관" },
       { key: "directory", href: "/explore/directory", label: "디렉토리" },
     ],
   },

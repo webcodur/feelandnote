@@ -2,7 +2,7 @@
  * [celeb 상세] 공통 — 목차 모델(서비스 아이템 조립)
  * - 목차 위치: 공통 (전 구획: introduction/reading/timeline/library/sourceWorks/analysis/connections/media/guestbook)
  * - 데이터: profile/timelineEvents/sideAvailability/dialogueLines/figureBooks/initialContents props
- * - 함께 보기: celebServiceItems.ts, detail/celebDetailData.ts
+ * - 함께 보기: celebServiceItems.ts
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -12,7 +12,6 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
-import type { Locale } from "@/types/locale";
 
 import { useTranslations } from "next-intl";
 
@@ -22,7 +21,6 @@ import {
   useCelebServiceItems,
 } from "../celebServiceItems";
 import { CELEB_SERVICE_ICONS } from "../celebServiceIcons";
-import { getLocalizedCelebVideos } from "./celebDetailData";
 
 /**
  * 관계·분석 구획은 화면이 다가왔을 때 브라우저가 직접 불러온다.
@@ -41,7 +39,6 @@ export interface CelebSideAvailability {
 
 interface UseCelebServiceModelProps {
   profile: CelebBySlugProfile;
-  locale: Locale;
   timelineEvents: CelebTimelineEvent[];
   sideAvailability: CelebSideAvailability;
   dialogueLines?: Record<string, string[]> | null;
@@ -52,8 +49,6 @@ interface UseCelebServiceModelProps {
 
 export interface CelebServiceModel {
   items: ServiceItem[];
-  longform: ReturnType<typeof getLocalizedCelebVideos>["longform"];
-  shorts: ReturnType<typeof getLocalizedCelebVideos>["shorts"];
   hasVoice: boolean;
   /** 전 구획 제목 중 가장 긴 것. 3열 너비를 한 값으로 고정한다 */
   widestSectionLabel: string;
@@ -66,7 +61,6 @@ export interface CelebServiceModel {
  */
 export function useCelebServiceModel({
   profile,
-  locale,
   timelineEvents,
   sideAvailability,
   dialogueLines,
@@ -80,17 +74,12 @@ export function useCelebServiceModel({
   const hasDialogues = Boolean(
     dialogueLines && Object.keys(dialogueLines).length > 0,
   );
-  const { longform, shorts } = useMemo(
-    () => getLocalizedCelebVideos(profile.youtube_videos, locale),
-    [locale, profile.youtube_videos],
-  );
 
   const availability: CelebServiceAvailability = {
     reading: Boolean(profile.reading),
     relations: sideAvailability.relations,
     timeline: timelineEvents.length > 0,
     faction: sideAvailability.faction,
-    videos: longform.length > 0 || shorts.length > 0,
     dialogues: hasDialogues,
     dialogueVoice: hasDialogues && hasVoice,
     influence: sideAvailability.influence,
@@ -143,5 +132,5 @@ export function useCelebServiceModel({
     [items],
   );
 
-  return { items, longform, shorts, hasVoice, widestSectionLabel };
+  return { items, hasVoice, widestSectionLabel };
 }

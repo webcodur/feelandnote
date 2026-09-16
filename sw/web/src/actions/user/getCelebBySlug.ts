@@ -159,7 +159,6 @@ interface PublicCelebBySlugData {
     celeb_reality: string | null
     content_research_confirmed_empty_at: string | null
     view_count: number | null
-    youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
     portrait_url: string | null
     portrait_caption: string | null
     portrait_caption_en: string | null
@@ -193,7 +192,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: celeb, error: profileError } = await db
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en, virtual_monologue, virtual_monologue_en')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, portrait_url, portrait_caption, portrait_caption_en, virtual_monologue, virtual_monologue_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
     .maybeSingle()
@@ -537,7 +536,6 @@ async function getCelebBySlugInner(
       celeb_tier: ((profile.celeb_tier as CelebTier) ?? 'full'),
       celeb_reality: ((profile.celeb_reality as CelebReality) ?? 'REAL'),
       view_count: profile.view_count ?? 0,
-      youtube_videos: profile.youtube_videos ?? null,
       contentTypeCounts: pub.contentTypeCounts,
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
       factionTags: pub.factionTags ?? [],
