@@ -13,6 +13,7 @@ import DecorativeLabel from "@/components/ui/DecorativeLabel";
 import ShareButtons from "@/components/ui/ShareButtons";
 import AccordionSection from "./AccordionSection";
 import ContentInfoSection from "./ContentInfoSection";
+import ContentRecordButton from "./ContentRecordButton";
 import MyReviewSection from "./MyReviewSection";
 import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
@@ -83,7 +84,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
 
   return (
     <div className="max-w-3xl mx-auto">
-      {/* 뒤로가기 + SNS 공유 */}
+      {/* 뒤로가기 + 기록·SNS 공유 */}
       <div className="flex items-center justify-between gap-2 mb-4">
         <Button
           variant="ghost"
@@ -93,7 +94,16 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           <ArrowLeft size={16} />
           <span>{t("back")}</span>
         </Button>
-        <ShareButtons title={content.title} path={`/content/${content.id}`} />
+        <div className="flex items-center gap-2">
+          <ContentRecordButton
+            content={content}
+            userRecord={userRecord}
+            isLoggedIn={isLoggedIn}
+            isAuthResolved={isAuthResolved}
+            onRecordChange={handleRecordChange}
+          />
+          <ShareButtons title={content.title} path={`/content/${content.id}`} />
+        </div>
       </div>
 
       {/* 최근 본 콘텐츠 */}
@@ -102,13 +112,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
       <div className="space-y-4">
         {/* 1. 콘텐츠 정보 */}
         <AccordionSection title={t("contentInfo")} defaultOpen>
-          <ContentInfoSection
-            content={content}
-            userRecord={userRecord}
-            isLoggedIn={isLoggedIn}
-            isAuthResolved={isAuthResolved}
-            onRecordChange={handleRecordChange}
-          />
+          <ContentInfoSection content={content} />
         </AccordionSection>
 
         {/* 등장·연관 도서로 지정된 콘텐츠만 인물을 양방향 연결한다. */}
