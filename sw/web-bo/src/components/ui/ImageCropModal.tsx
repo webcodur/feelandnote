@@ -15,6 +15,18 @@ const ZOOM_WHEEL_STEP = 0.1
 const ZOOM_WHEEL_THRESHOLD = 100
 const WHEEL_LINE_PIXELS = 40
 
+// 창을 열 때 얼굴 맞춤을 자동으로 돌릴지. 끈 사람은 계속 꺼진 채로 쓴다.
+const AUTO_FIT_STORAGE_KEY = 'web-bo:image-crop:auto-fit'
+
+function readAutoFitOnOpen(): boolean {
+  if (typeof window === 'undefined') return true
+  try {
+    return window.localStorage.getItem(AUTO_FIT_STORAGE_KEY) !== 'off'
+  } catch {
+    return true
+  }
+}
+
 interface Props {
   imageSrc: string
   aspectRatio?: number
@@ -75,6 +87,7 @@ export default function ImageCropModal({
 
   // AI 분석 상태
   const [analyzing, setAnalyzing] = useState(false)
+  const [autoFitOnOpen, setAutoFitOnOpen] = useState(readAutoFitOnOpen)
   const [notice, setNotice] = useState<{ tone: 'warn' | 'error'; lines: string[] } | null>(null)
   /**
    * 원본을 한 번만 받아 두고 자동 맞춤·잘라내기가 함께 쓴다.
@@ -140,7 +153,20 @@ export default function ImageCropModal({
     void runAutoCrop(img)
   }, [runAutoCrop])
 
-  // 원본을 한 번만 읽는다. 1:1이면 곧바로 자동 맞춤까지 이어서 실행한다.
+  const toggleAutoFitOnOpen = useCallback(() => {
+    setAutoFitOnOpen((on) => {
+      const next = !on
+      try {
+        window.localStorage.setItem(AUTO_FIT_STORAGE_KEY, next ? 'on' : 'off')
+      } catch {
+        // 저장이 막혀 있어도 이번 창에서는 고른 대로 따른다.
+      }
+      return next
+    })
+  }, [])
+
+  // 원본을 한 번만 읽는다. 1:1이고 자동 맞춤을 켜 뒀으면 곧바로 이어서 실행한다.
+  // 저장값을 그때그때 읽어, 체크를 껐다 켜도 지금 띄운 그림이 다시 잘리지 않는다.
   useEffect(() => {
     let cancelled = false
     sourceImage.current = null
@@ -152,7 +178,7 @@ export default function ImageCropModal({
       () => {
         if (cancelled) return
         sourceImage.current = img
-        if (enableAutoCrop && Math.abs(aspectRatio - 1) < 0.01) void runAutoCrop(img)
+        if (enableAutoCrop && readAutoFitOnOpen() && Math.abs(aspectRatio - 1) < 0.01) void runAutoCrop(img)
       },
       (e: unknown) => {
         if (cancelled) return
@@ -341,6 +367,19 @@ export default function ImageCropModal({
               </>
             )}
           </div>
+
+          {/* 자동 맞춤을 열 때마다 돌릴지 — 고른 값은 다음 창에도 그대로 남는다 */}
+          {enableAutoCrop && (
+            <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
+              <input
+                type="checkbox"
+                checked={autoFitOnOpen}
+                onChange={toggleAutoFitOnOpen}
+                className="h-3.5 w-3.5 cursor-pointer accent-accent"
+              />
+              창을 열 때 AI 자동 맞춤 실행
+            </label>
+          )}
 
           {/* 버튼 */}
           <div className="flex justify-end gap-3">
