@@ -71,6 +71,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--safe-phrase")
+    # 합성 기본값은 TS 단일 원천 ELEVENLABS_TTS_DEFAULTS
+    # (packages/shared/src/bo/voice-utils/engine.ts)의 미러다.
     parser.add_argument("--model", default="eleven_v3")
     parser.add_argument("--stability", type=float, default=0.5)
     parser.add_argument("--similarity", type=float, default=0.75)

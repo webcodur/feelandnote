@@ -4,12 +4,14 @@
 )
 
 $ErrorActionPreference = 'Stop'
+# 경로 기본값의 단일 원천은 src/lib/paths.ts — worker.ts 가 해석된 값을 env로 주입한다.
+# 이 스크립트를 수동 실행할 때는 세 env를 먼저 설정해야 한다(폴백 기본값 없음).
 $ProjectRoot = $env:AUDIO_BO_ROOT
-if (-not $ProjectRoot) { $ProjectRoot = 'D:\audios\interview-cleaner\projects' }
+if (-not $ProjectRoot) { throw 'AUDIO_BO_ROOT env 가 없다 — 앱(worker.ts) 경유로 실행하거나 env 를 설정하라' }
 $CleanerRoot = $env:INTERVIEW_CLEANER_ROOT
-if (-not $CleanerRoot) { $CleanerRoot = 'D:\audios\interview-cleaner' }
+if (-not $CleanerRoot) { throw 'INTERVIEW_CLEANER_ROOT env 가 없다 — 앱(worker.ts) 경유로 실행하거나 env 를 설정하라' }
 $ToolRoot = $env:GPT_SOVITS_ROOT
-if (-not $ToolRoot) { $ToolRoot = 'D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604' }
+if (-not $ToolRoot) { throw 'GPT_SOVITS_ROOT env 가 없다 — 앱(worker.ts) 경유로 실행하거나 env 를 설정하라' }
 $JobRoot = Join-Path $ProjectRoot $JobId
 $JobFile = Join-Path $JobRoot 'job.json'
 $LogFile = Join-Path $JobRoot 'worker.log'

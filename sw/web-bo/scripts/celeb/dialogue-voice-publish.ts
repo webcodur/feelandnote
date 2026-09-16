@@ -23,17 +23,11 @@ import { basename, isAbsolute, join, resolve } from 'node:path'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { revalidateWebCeleb } from '../../src/lib/revalidate-web'
+import { allVoiceSlots } from '../../src/lib/voice-path'
 
-const EXPECTED_FILES = [
-  'g1.mp3', 'g2.mp3', 'g3.mp3',
-  'r1.mp3', 'r2.mp3', 'r3.mp3',
-  'd1.mp3', 'd2.mp3', 'd3.mp3',
-  'bw1.mp3', 'bw2.mp3', 'bw3.mp3',
-  'bd1.mp3', 'bd2.mp3', 'bd3.mp3',
-  'bl1.mp3', 'bl2.mp3', 'bl3.mp3',
-  'c1.mp3', 'c2.mp3', 'c3.mp3',
-  'quote.mp3',
-] as const
+// 22파일 계약의 단일 원천은 src/lib/voice-path.ts 의 allVoiceSlots()
+// (대사 7종 × 3변형 + 명언). 파이썬 생성기 SLOTS 는 같은 목록의 미러다.
+const EXPECTED_FILES = allVoiceSlots().map(s => s.fileName)
 
 type Locale = 'ko' | 'en'
 
@@ -123,8 +117,8 @@ async function loadAndValidateRun(runDir: string): Promise<{
   if (manifest.status !== 'generated') {
     throw new Error(`Manifest is not complete: status=${manifest.status}`)
   }
-  if (!Array.isArray(manifest.samples) || manifest.samples.length !== 22) {
-    throw new Error(`Expected 22 manifest samples, got ${manifest.samples?.length ?? 0}`)
+  if (!Array.isArray(manifest.samples) || manifest.samples.length !== EXPECTED_FILES.length) {
+    throw new Error(`Expected ${EXPECTED_FILES.length} manifest samples, got ${manifest.samples?.length ?? 0}`)
   }
 
   const byFile = new Map<string, VoiceSample>()

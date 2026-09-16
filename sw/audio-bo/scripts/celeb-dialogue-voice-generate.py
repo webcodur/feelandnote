@@ -41,6 +41,8 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="JSON with synthesis-only text by slot. DB display text remains unchanged.",
     )
+    # ElevenLabs 기본값은 TS 단일 원천 ELEVENLABS_TTS_DEFAULTS
+    # (packages/shared/src/bo/voice-utils/engine.ts)의 미러다 — 바꿀 때는 양쪽을 함께 맞춘다.
     parser.add_argument("--model", default="eleven_v3")
     parser.add_argument("--stability", type=float, default=0.5)
     parser.add_argument("--similarity", type=float, default=0.75)
