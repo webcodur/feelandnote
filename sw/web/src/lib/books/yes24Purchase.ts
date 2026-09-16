@@ -6,6 +6,8 @@ export const YES24_PURCHASE_ENDPOINT = 'https://apis.yes24.com/v1/goods/itemDeta
 const RESPONSE_MAX_BYTES = 1_000_000
 const REQUEST_TIMEOUT_MS = 15_000
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+/** YES24 goodsType 중 책으로 받는 값. 구매 연결과 일별 순위가 함께 쓴다 — 만화가 빠지면 순위 전체가 버려진다 */
+export const YES24_BOOK_GOODS_TYPES: readonly string[] = ['도서', '국내도서', '만화']
 
 export interface Yes24PurchaseResult {
   link: AffiliateLink | null
@@ -55,7 +57,7 @@ export function parseYes24Purchase(value: unknown, isbn: string, now = Date.now(
   const data = object(root.data)
   if (!Array.isArray(data.items) || data.items.length > 100) throw new Error('Invalid YES24 purchase items')
   const matches = data.items.map(object).filter(item =>
-    item.isbn13 === isbn && item.itemStatus === '판매중' && ['도서', '국내도서', '만화'].includes(String(item.goodsType))
+    item.isbn13 === isbn && item.itemStatus === '판매중' && YES24_BOOK_GOODS_TYPES.includes(String(item.goodsType))
       && typeof item.itemId === 'number' && Number.isSafeInteger(item.itemId) && item.itemId > 0,
   ).sort((a, b) => Number(a.itemId) - Number(b.itemId))
   for (const item of matches) {
