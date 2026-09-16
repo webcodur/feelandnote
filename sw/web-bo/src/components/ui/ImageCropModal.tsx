@@ -15,15 +15,25 @@ const ZOOM_WHEEL_STEP = 0.1
 const ZOOM_WHEEL_THRESHOLD = 100
 const WHEEL_LINE_PIXELS = 40
 
-// 창을 열 때 얼굴 맞춤을 자동으로 돌릴지. 끈 사람은 계속 꺼진 채로 쓴다.
+// 창에서 고른 선택은 브라우저에 남겨 다음 창에서도 그대로 쓴다.
 const AUTO_FIT_STORAGE_KEY = 'web-bo:image-crop:auto-fit'
+const NOBG_ON_APPLY_STORAGE_KEY = 'web-bo:image-crop:nobg-on-apply'
 
-function readAutoFitOnOpen(): boolean {
-  if (typeof window === 'undefined') return true
+function readFlag(key: string, fallback: boolean): boolean {
+  if (typeof window === 'undefined') return fallback
   try {
-    return window.localStorage.getItem(AUTO_FIT_STORAGE_KEY) !== 'off'
+    const saved = window.localStorage.getItem(key)
+    return saved === null ? fallback : saved === 'on'
   } catch {
-    return true
+    return fallback
+  }
+}
+
+function writeFlag(key: string, value: boolean): void {
+  try {
+    window.localStorage.setItem(key, value ? 'on' : 'off')
+  } catch {
+    // 저장이 막혀 있어도 이번 창에서는 고른 대로 따른다.
   }
 }
 
@@ -40,8 +50,13 @@ interface Props {
    * 누끼 아바타처럼 피사체를 원 안에 억지로 맞추지 않고 자유롭게 배치할 때 사용한다.
    */
   allowTransparentPadding?: boolean
-  /** 자른 그림을 무손실 PNG 데이터 URL로 넘긴다. 최종 압축은 받는 쪽(lib/image.ts)에서 한 번만 한다. */
-  onComplete: (croppedImage: string) => void
+  /** 적용과 동시에 배경 제거까지 걸 수 있는 창인지. 후속 처리가 붙은 호출부만 켠다. */
+  offerBackgroundRemoval?: boolean
+  /**
+   * 자른 그림을 무손실 PNG 데이터 URL로 넘긴다. 최종 압축은 받는 쪽(lib/image.ts)에서 한 번만 한다.
+   * 두 번째 값은 「적용과 동시에 배경 제거」를 골랐는지다. 그 처리는 호출부가 한다.
+   */
+  onComplete: (croppedImage: string, removeBackground: boolean) => void
   onCancel: () => void
 }
 
@@ -76,6 +91,7 @@ export default function ImageCropModal({
   enableAutoCrop = true,
   restrictPosition = false,
   allowTransparentPadding = false,
+  offerBackgroundRemoval = false,
   onComplete,
   onCancel,
 }: Props) {
@@ -87,7 +103,9 @@ export default function ImageCropModal({
 
   // AI 분석 상태
   const [analyzing, setAnalyzing] = useState(false)
-  const [autoFitOnOpen, setAutoFitOnOpen] = useState(readAutoFitOnOpen)
+  const [autoFitOnOpen, setAutoFitOnOpen] = useState(() => readFlag(AUTO_FIT_STORAGE_KEY, true))
+  // 배경 제거는 로컬 CPU를 한동안 쓴다. 켜 달라고 한 사람에게만 건다.
+  const [nobgOnApply, setNobgOnApply] = useState(() => readFlag(NOBG_ON_APPLY_STORAGE_KEY, false))
   const [notice, setNotice] = useState<{ tone: 'warn' | 'error'; lines: string[] } | null>(null)
   /**
    * 원본을 한 번만 받아 두고 자동 맞춤·잘라내기가 함께 쓴다.
@@ -155,13 +173,15 @@ export default function ImageCropModal({
 
   const toggleAutoFitOnOpen = useCallback(() => {
     setAutoFitOnOpen((on) => {
-      const next = !on
-      try {
-        window.localStorage.setItem(AUTO_FIT_STORAGE_KEY, next ? 'on' : 'off')
-      } catch {
-        // 저장이 막혀 있어도 이번 창에서는 고른 대로 따른다.
-      }
-      return next
+      writeFlag(AUTO_FIT_STORAGE_KEY, !on)
+      return !on
+    })
+  }, [])
+
+  const toggleNobgOnApply = useCallback(() => {
+    setNobgOnApply((on) => {
+      writeFlag(NOBG_ON_APPLY_STORAGE_KEY, !on)
+      return !on
     })
   }, [])
 
@@ -178,7 +198,9 @@ export default function ImageCropModal({
       () => {
         if (cancelled) return
         sourceImage.current = img
-        if (enableAutoCrop && readAutoFitOnOpen() && Math.abs(aspectRatio - 1) < 0.01) void runAutoCrop(img)
+        if (enableAutoCrop && readFlag(AUTO_FIT_STORAGE_KEY, true) && Math.abs(aspectRatio - 1) < 0.01) {
+          void runAutoCrop(img)
+        }
       },
       (e: unknown) => {
         if (cancelled) return
@@ -201,8 +223,8 @@ export default function ImageCropModal({
 
     // 위에서 받아 둔 원본을 그대로 쓴다. 못 받았을 때만 다시 읽는다.
     const image = sourceImage.current ?? (await createImage(imageSrc))
-    onComplete(getCroppedImage(image, croppedAreaPixels))
-  }, [croppedAreaPixels, analyzing, imageSrc, onComplete])
+    onComplete(getCroppedImage(image, croppedAreaPixels), offerBackgroundRemoval && nobgOnApply)
+  }, [croppedAreaPixels, analyzing, imageSrc, onComplete, offerBackgroundRemoval, nobgOnApply])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -368,17 +390,32 @@ export default function ImageCropModal({
             )}
           </div>
 
-          {/* 자동 맞춤을 열 때마다 돌릴지 — 고른 값은 다음 창에도 그대로 남는다 */}
-          {enableAutoCrop && (
-            <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
-              <input
-                type="checkbox"
-                checked={autoFitOnOpen}
-                onChange={toggleAutoFitOnOpen}
-                className="h-3.5 w-3.5 cursor-pointer accent-accent"
-              />
-              창을 열 때 AI 자동 맞춤 실행
-            </label>
+          {/* 창에서 고른 값은 다음 창에도 그대로 남는다 */}
+          {(enableAutoCrop || offerBackgroundRemoval) && (
+            <div className="space-y-1.5">
+              {enableAutoCrop && (
+                <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
+                  <input
+                    type="checkbox"
+                    checked={autoFitOnOpen}
+                    onChange={toggleAutoFitOnOpen}
+                    className="h-3.5 w-3.5 cursor-pointer accent-accent"
+                  />
+                  창을 열 때 AI 자동 맞춤 실행
+                </label>
+              )}
+              {offerBackgroundRemoval && (
+                <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-text-secondary hover:text-text-primary">
+                  <input
+                    type="checkbox"
+                    checked={nobgOnApply}
+                    onChange={toggleNobgOnApply}
+                    className="h-3.5 w-3.5 cursor-pointer accent-accent"
+                  />
+                  적용과 동시에 nobg 배경 제거
+                </label>
+              )}
+            </div>
           )}
 
           {/* 버튼 */}
