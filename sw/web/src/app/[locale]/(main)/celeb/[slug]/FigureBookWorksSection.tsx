@@ -7,9 +7,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import FigureBookFeature from "./FigureBookFeature";
 import styles from "./CelebPageContent.module.css";
 
@@ -21,6 +22,7 @@ export default function FigureBookWorksSection({
   sources,
 }: FigureBookWorksSectionProps) {
   const t = useTranslations("celebPage");
+  const locale = useLocale();
   /* 등장과 연관을 한 섹션에 묶는다. 등장 여부는 판본 본문을 열어야 확정되는데 그럴 수 없어,
      확인하지 못한 것을 등장이라 단정하지 않고 「연관 작품」 하나로 보여 준다.
      창작(authored)은 저작 목록이 따로 있으므로 여기서 뺀다. */
@@ -58,6 +60,10 @@ export default function FigureBookWorksSection({
             <p className="min-w-0 truncate text-[15px] font-medium leading-5 tracking-[0.01em] text-text-secondary">
               {t("sourceWorksIntro")}
             </p>
+            {/* 수수료 안내 — 판매 단추 안에 묻지 않고 구획 머리말에 둔다 */}
+            {locale === "ko" && appearanceSources.some((source) => source.type === "BOOK") && (
+              <BookPurchaseInfo className="ms-auto inline-flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
+            )}
           </header>
           <div className="relative bg-stone-heavy bg-texture-noise px-2 py-2.5 sm:px-3 sm:py-3 md:px-4">
             <div ref={railRef} className="flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 [overflow-anchor:none] [scrollbar-width:thin] sm:scroll-px-3">

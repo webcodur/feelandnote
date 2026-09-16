@@ -9,6 +9,7 @@ import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
 import { DeleteConfirmModal } from "@/components/ui";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
@@ -89,6 +90,10 @@ export default function ContentLibrary({
   const isSearching = lib.appliedSearchQuery.trim().length >= 2;
   /* 펼침 보기는 선택 목록 전체를 한 번에 받는다 — 달별 묶음과 쪽 번호는 그 안에서 뜻이 없다 */
   const isExpandView = lib.presentationViewMode === "expand";
+  /* 수수료 안내 — 목록 카드의 판매 단추 안에 묻지 않고 조작대 끝에 둔다.
+     펼침 보기는 작품 제목 옆(ExpandTitleHeader)이 이미 맡는다 */
+  const showPurchaseInfo =
+    locale === "ko" && !isExpandView && lib.contents.some((item) => item.content.type === "BOOK");
   const renderContentsForMode = (viewMode: typeof lib.viewMode) => {
     if (viewMode === "expand") {
       return renderItems(lib.filteredAndSortedContents, viewMode);
@@ -160,7 +165,14 @@ export default function ContentLibrary({
           hideReviewFilter={hideReviewFilter}
           compact={hideControlWrapper}
           hideWrapper={hideControlWrapper}
-          trailing={filterTrailing}
+          trailing={
+            <>
+              {showPurchaseInfo && (
+                <BookPurchaseInfo className="inline-flex size-9 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
+              )}
+              {filterTrailing}
+            </>
+          }
         />
 
         {/* 인물 서가는 늘 펼침이라 감상 목록 단추를 조작대 아래 한 줄로 둔다 */}

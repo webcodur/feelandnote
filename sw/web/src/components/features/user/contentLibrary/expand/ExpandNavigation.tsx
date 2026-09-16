@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
@@ -52,6 +53,8 @@ interface HeaderProps {
   disabled: boolean;
   onPrevious: () => void;
   onNext: () => void;
+  /** 제목 옆에 붙는 작은 조작(안내 아이콘 등). 제목이 길어 잘려도 자리를 지킨다 */
+  titleAddon?: ReactNode;
 }
 
 export function ExpandTitleHeader({
@@ -63,6 +66,7 @@ export function ExpandTitleHeader({
   disabled,
   onPrevious,
   onNext,
+  titleAddon,
 }: HeaderProps) {
   return (
     <header className="col-start-1 row-start-1 flex h-[64px] min-h-[64px] items-stretch border-b border-white/[0.08] bg-bg-secondary/80 text-center md:col-start-2 md:flex md:flex-col md:justify-center md:px-3 md:py-2">
@@ -75,15 +79,18 @@ export function ExpandTitleHeader({
       />
       <div className="min-w-0 flex-1 self-stretch px-1 md:w-full md:px-0">
         <div className="flex h-full min-w-0 flex-col justify-center text-center">
-          <h3
-            data-testid="expand-selected-title"
-            className="truncate font-sans text-sm font-bold text-text-primary sm:text-base md:text-lg"
-            title={title}
-            aria-live="polite"
-          >
-            <NoEditionBadge badge={titleBadge} />
-            {title}
-          </h3>
+          <div className="flex min-w-0 items-center justify-center gap-1">
+            <h3
+              data-testid="expand-selected-title"
+              className="min-w-0 truncate font-sans text-sm font-bold text-text-primary sm:text-base md:text-lg"
+              title={title}
+              aria-live="polite"
+            >
+              <NoEditionBadge badge={titleBadge} />
+              {title}
+            </h3>
+            {titleAddon}
+          </div>
           {creator && (
             <p className="truncate text-sm text-text-secondary">
               <CreatorNames text={creator} />

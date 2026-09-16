@@ -6,6 +6,8 @@
         제목은 h2로 남겨 크롤러가 구획을 읽고 aria-labelledby가 가리킬 수 있게 한다.
 */
 
+import type { ReactNode } from "react";
+
 interface CenteredSectionHeadingProps {
   /** aria-labelledby가 가리킬 id */
   id?: string;
@@ -13,6 +15,8 @@ interface CenteredSectionHeadingProps {
   /** 제목 아래 한 줄. 없으면 그리지 않는다 */
   description?: string;
   className?: string;
+  /** 제목 옆에 붙는 작은 조작(안내 아이콘 등). h2 안에서 제목과 한 덩어리로 가운데 정렬된다 */
+  titleAddon?: ReactNode;
 }
 
 export default function CenteredSectionHeading({
@@ -20,6 +24,7 @@ export default function CenteredSectionHeading({
   title,
   description,
   className = "",
+  titleAddon,
 }: CenteredSectionHeadingProps) {
   return (
     <div
@@ -34,6 +39,7 @@ export default function CenteredSectionHeading({
         className="font-serif text-base font-bold tracking-tight text-text-primary md:text-xl"
       >
         {title}
+        {titleAddon}
       </h2>
       {description && (
         <p className="text-sm text-text-secondary">{description}</p>
