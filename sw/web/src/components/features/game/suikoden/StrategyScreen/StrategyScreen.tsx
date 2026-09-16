@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import type { TerritoryId } from '@/lib/game/suikoden/types'
 import { getTerritoryDef } from '@/lib/game/suikoden/utils'
 import type { TaxRate } from '@/lib/game/suikoden/types'
+import Modal from '@/components/ui/Modal'
 import GameHUD from '../GameHUD'
 import GameToolbar from '../GameToolbar'
 import BuildingCardGrid from '../BuildingCardGrid'
@@ -87,8 +88,17 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
 
       {/* 가이드 모달 */}
       {showHelp && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowHelp(false)}>
-          <div className="bg-stone-800 border border-amber-500/30 rounded-lg shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-5 space-y-3 animate-modal-content" onClick={e => e.stopPropagation()}>
+        <Modal
+          isOpen
+          onClose={() => setShowHelp(false)}
+          frame="plain"
+          size="lg"
+          overlayClassName="bg-black/60"
+          boxClassName="rounded-lg border border-amber-500/30 bg-stone-800 shadow-2xl"
+          showCloseButton={false}
+          animateHeight={false}
+        >
+          <div className="p-5 space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-amber-300">{text.strategy.helpTitle}</h3>
               <button onClick={() => setShowHelp(false)} className="text-text-secondary hover:text-text-primary text-xs">✕</button>
@@ -130,7 +140,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
               </div>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {/* HUD — 상태 표시줄 (읽기 전용) */}

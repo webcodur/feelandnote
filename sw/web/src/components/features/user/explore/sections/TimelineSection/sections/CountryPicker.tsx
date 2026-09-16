@@ -6,7 +6,7 @@ import { getCountryFlag } from "@/lib/utils/countryFlag";
 import type { CountryGroup } from "@/actions/home";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import BottomSheet from "@/components/ui/BottomSheet";
+import Modal from "@/components/ui/Modal";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { ATLAS_NAV_LAYOUT as atlas } from "@/components/shared/atlasNavLayout";
 import { MYTH_LAYOUT as layout } from "@/components/features/user/explore/myth/mythLayout";
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const focusClass = "outline-none focus-visible:ring-2 focus-visible:ring-accent";
-/** 아래 창 안의 칩 — 손가락으로 누르므로 넓은 화면 칩 줄(atlas.chip)보다 높게 둔다 */
+/** 모달 안의 칩 — 손가락으로 누르므로 넓은 화면 칩 줄(atlas.chip)보다 높게 둔다 */
 const SHEET_CHIP = "flex min-h-10 w-full items-center gap-1.5 rounded-lg border px-3 text-sm font-semibold";
 
 export default function CountryPicker({ countries, selectedCountry, countrySearch, onSearchChange, defaultCountry }: Props) {
@@ -95,7 +95,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
       </div>
       {!filteredCountries.length && <p className="py-2 text-center text-sm text-text-secondary">{t("noCountries")}</p>}
     </nav>
-    <BottomSheet isOpen={sheet !== null} onClose={() => setSheet(null)} title={t(sheet === "continent" ? "continentNav" : "countryNav")}>
+    <Modal isOpen={sheet !== null} onClose={() => setSheet(null)} title={t(sheet === "continent" ? "continentNav" : "countryNav")} animateHeight={false}>
       <div className="space-y-3 p-4">
         {sheet === "country" && searchField}
         <div className="grid grid-cols-2 gap-2">
@@ -103,6 +103,6 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
         </div>
         {sheet === "country" && !filteredCountries.length && <p className="py-2 text-center text-sm text-text-secondary">{t("noCountries")}</p>}
       </div>
-    </BottomSheet>
+    </Modal>
   </div>;
 }

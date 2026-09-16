@@ -15,7 +15,7 @@ import { ChevronRight, Eye, MessageSquare } from 'lucide-react'
 import type { NoticeWithAuthor } from '@/types/database'
 import { incrementNoticeView } from '@/actions/board/notices'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
-import Modal, { ModalBody } from '@/components/ui/Modal'
+import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from '@/components/ui/Modal'
 import { Link } from '@/i18n/navigation'
 import { formatBoardRelativeTime } from '@/lib/board/boardDate'
 import { Dot, NoticeBody, NoticeMeta } from '@/components/features/board/notices/NoticeContent'
@@ -117,7 +117,7 @@ export default function HomeNoticeList({ notices }: Props) {
         titleClassName="px-9 text-center font-semibold text-text-primary break-keep sm:px-10"
         stickyHeader
         size="xl"
-        maxHeightClassName="max-h-[78dvh]"
+        maxHeightClassName={READING_MODAL_MAX_HEIGHT_CLASS}
         fadeClippedEnd
       >
         {current && (

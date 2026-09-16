@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { X, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Modal from "@/components/ui/Modal";
 import InfoPanel from "../InfoPanel";
 import ExternalResourceSearch, { type ExternalResourceSearchHandle } from "../ExternalResourceSearch";
 import { type QuickRecordTarget } from "@/contexts/QuickRecordContext";
@@ -30,11 +31,17 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
     if (!type) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
-            <div
-                className="w-full max-w-4xl h-[80vh] bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
-                onClick={e => e.stopPropagation()}
-            >
+        <Modal
+            isOpen
+            onClose={onClose}
+            frame="plain"
+            widthClassName="max-w-4xl"
+            overlayClassName="bg-black/60 backdrop-blur-sm"
+            boxClassName="overflow-hidden rounded-2xl border border-white/10 bg-[#1a1a1a] shadow-2xl"
+            showCloseButton={false}
+            animateHeight={false}
+        >
+            <div className="w-full h-[calc(100dvh-4rem)] flex flex-col overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
                     <h3 className="text-lg font-serif font-bold text-text-primary flex items-center gap-2">
@@ -107,6 +114,6 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
                     )}
                 </div>
             </div>
-        </div>
+        </Modal>
     );
 }

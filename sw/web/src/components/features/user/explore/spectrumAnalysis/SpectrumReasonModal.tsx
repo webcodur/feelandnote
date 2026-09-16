@@ -7,11 +7,10 @@
 "use client";
 
 import { getCelebProfileUrl } from "@/lib/url";
-import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
-import { Z_INDEX } from "@/constants/zIndex";
 import { ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import Modal from "@/components/ui/Modal";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { TENDENCY_LABELS, type TendencyKey } from "@/lib/spectrum/constants";
 import { AXIS_POLE_COLORS, initials } from "./constants";
@@ -37,11 +36,18 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
   const reasonText = reason ? (locale === "en" ? reason.en : reason.ko) : "";
   const shownName = locale === "en" ? (person.nickname_en || person.nickname) : person.nickname;
 
-  if (typeof window === "undefined") return null;
-  // 페이지 본문 래퍼(z-10) 안에서는 하단 네비(z-100)를 못 덮는다 — body로 포털해서 띄운다
-  return createPortal(
-    <div className="fixed inset-0 flex items-center justify-center bg-black/60 p-4" style={{ zIndex: Z_INDEX.modal }} onClick={onClose}>
-      <div className="w-full max-w-sm rounded-2xl border border-border/60 bg-bg-card p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+  // 페이지 본문 래퍼(z-10) 안에서는 하단 네비(z-100)를 못 덮는다 — Modal이 body로 포털한다
+  return (
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      size="sm"
+      overlayClassName="bg-black/60"
+      boxClassName="rounded-2xl border border-border/60 bg-bg-card p-6 shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+    >
         {/* 헤더 */}
         <div className="flex items-center gap-4">
           <div className="size-16 shrink-0 overflow-hidden rounded-full border-2 bg-bg-card" style={{ borderColor: sideColor }}>
@@ -86,8 +92,6 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
             {t("close")}
           </button>
         </div>
-      </div>
-    </div>,
-    document.body
+    </Modal>
   );
 }

@@ -9,7 +9,7 @@ import { useState, useMemo } from "react";
 import { Check, Search } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import { FILTER_BOTTOMSHEET_STYLES } from "@/constants/filterStyles";
+import { FILTER_MODAL_STYLES } from "@/constants/filterStyles";
 import type { FilterOption } from "./FilterChipDropdown";
 
 interface FilterModalProps {
@@ -64,7 +64,7 @@ export default function FilterModal({
         onClick={() => handleSelect(value)}
         disabled={count === 0}
         aria-pressed={isActive}
-        className={`${FILTER_BOTTOMSHEET_STYLES.base} outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive ? `${FILTER_BOTTOMSHEET_STYLES.active} hover:bg-accent/20` : FILTER_BOTTOMSHEET_STYLES.inactive} ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
+        className={`${FILTER_MODAL_STYLES.base} outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive ? `${FILTER_MODAL_STYLES.active} hover:bg-accent/20` : FILTER_MODAL_STYLES.inactive} ${FILTER_MODAL_STYLES.disabled}`}
       >
         {icon && <span className="flex-shrink-0 w-5 text-center">{icon}</span>}
         <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? "font-bold" : ""}`}>{label}</span>

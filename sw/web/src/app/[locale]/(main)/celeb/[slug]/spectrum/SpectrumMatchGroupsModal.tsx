@@ -6,13 +6,12 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useEffect, useId } from "react";
-import { createPortal } from "react-dom";
+import { useId } from "react";
 import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 
 import { Carousel } from "@/components/ui";
-import { Z_INDEX } from "@/constants/zIndex";
+import Modal from "@/components/ui/Modal";
 import type {
   SpectrumMatch,
   SpectrumMatchCategory,
@@ -44,45 +43,26 @@ export function SpectrumMatchGroupsModal({
   const t = useTranslations("celebPage");
   const titleId = useId();
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (suspended) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose, suspended]);
-
   const title =
     categories.length > 1
       ? t("spectrumMatches")
       : t(MATCH_CATEGORY_TITLE_KEYS[categories[0]]);
 
-  if (typeof document === "undefined") return null;
-
-  return createPortal(
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black/75 p-3 backdrop-blur-sm animate-fade-in sm:p-4"
-      style={{ zIndex: Z_INDEX.modal }}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget && !suspended) onClose();
-      }}
+  return (
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-[540px]"
+      overlayClassName="bg-black/75 backdrop-blur-sm"
+      boxClassName="rounded-lg border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
+      showCloseButton={false}
+      closeOnOverlayClick={!suspended}
+      closeOnEscape={!suspended}
+      animateHeight={false}
     >
-      <section
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className="relative flex max-h-[88dvh] w-full max-w-[540px] flex-col overflow-hidden rounded-lg border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
-      >
-        <header className="relative border-b border-white/[0.07] px-12 py-3.5 text-center">
+      <div className="flex max-h-[calc(100dvh-4rem)] flex-col">
+        <header className="relative shrink-0 border-b border-white/[0.07] px-12 py-3.5 text-center">
           <h2 id={titleId} className="font-serif text-lg font-bold text-text-primary">
             {title}
           </h2>
@@ -96,7 +76,7 @@ export function SpectrumMatchGroupsModal({
           </button>
         </header>
 
-        <div className="overflow-y-auto overscroll-contain p-2.5 [overflow-anchor:none] custom-scrollbar md:p-3">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-2.5 [overflow-anchor:none] custom-scrollbar md:p-3">
           <Carousel
             labels={{
               previous: t("carouselComparePrev"),
@@ -123,8 +103,7 @@ export function SpectrumMatchGroupsModal({
             ))}
           </Carousel>
         </div>
-      </section>
-    </div>,
-    document.body,
+      </div>
+    </Modal>
   );
 }

@@ -649,32 +649,6 @@
   animation: modalContentIn 0.15s ease-out;
 }
 
-/* BottomSheet Animations */
-@keyframes bottomSheetOverlayIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes bottomSheetContentIn {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 열리는 맛은 남기되 기다리는 느낌은 없앤다 — 0.2/0.25초는 손끝에 늦게 붙었다 */
-.animate-bottomsheet-overlay {
-  animation: bottomSheetOverlayIn 0.12s ease-out;
-}
-
-.animate-bottomsheet-content {
-  animation: bottomSheetContentIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 /* Slow Spin Animation (for cosmic effects) */
 @keyframes spinSlow {
   from {

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { Check, UserPlus } from "lucide-react";
 import styles from "./styles.module.css";
@@ -252,13 +251,12 @@ export default function NeoCelebCard({
       </div>
       </div>
 
-      {showInfluenceModal && typeof document !== 'undefined' && createPortal(
+      {showInfluenceModal && (
         <CelebInfluenceModal
           celebId={celeb.id}
           isOpen={showInfluenceModal}
           onClose={() => setShowInfluenceModal(false)}
-        />,
-        document.body
+        />
       )}
     </div>
   );

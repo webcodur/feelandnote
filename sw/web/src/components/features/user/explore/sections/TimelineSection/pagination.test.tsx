@@ -77,7 +77,7 @@ const countryPickerMocks = {
   "../continents": continents,
   "@/components/features/user/explore/myth/mythLayout": { MYTH_LAYOUT },
   "@/hooks/useMouseDragScroll": { useMouseDragScroll: () => ({ ref: { current: null }, dragProps: {}, cursorClassName: "" }) },
-  "@/components/ui/BottomSheet": { default: () => null },
+  "@/components/ui/Modal": { default: () => null },
 };
 
 test("every supported country belongs to one continent and unknown countries remain reachable", async () => {

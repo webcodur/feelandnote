@@ -7,6 +7,7 @@
 
 import { X, Crown, Shield, Swords, Skull } from "lucide-react";
 import { useLocale } from "next-intl";
+import Modal from "@/components/ui/Modal";
 import { getBattleCaptainInfo } from "./i18n";
 
 interface Props {
@@ -24,17 +25,17 @@ export default function CaptainInfoModal({ onClose, zIndex = 9999 }: Props) {
   ];
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center p-4"
-      style={{ zIndex }}
-      onClick={onClose}
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-sm"
+      overlayClassName="bg-black/70 backdrop-blur-sm"
+      boxClassName="overflow-hidden rounded-xl border border-amber-500/20 bg-[#111115] shadow-2xl"
+      showCloseButton={false}
+      animateHeight={false}
+      zIndex={zIndex}
     >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-
-      <div
-        className="relative w-full max-w-sm rounded-xl border border-amber-500/20 bg-[#111115] shadow-2xl overflow-hidden animate-fade-in"
-        onClick={(e) => e.stopPropagation()}
-      >
         {/* header */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-amber-500/20 bg-amber-500/5">
           <div className="flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20">
@@ -74,7 +75,6 @@ export default function CaptainInfoModal({ onClose, zIndex = 9999 }: Props) {
             </p>
           </div>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

@@ -9,9 +9,10 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight, Compass, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Compass } from "lucide-react";
 
 import { useBottomNavDock } from "@/components/layout/bottomNavDock";
+import Modal from "@/components/ui/Modal";
 import { cn } from "@/lib/utils";
 
 import type { ServiceItem, ServiceTarget } from "./celebServiceItems";
@@ -231,15 +232,6 @@ export function CelebAtlasBottomBar({
     [onNavigate],
   );
 
-  useEffect(() => {
-    if (!sheetOpen) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSheetOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [sheetOpen]);
-
   // 하단 내비가 서 있으면 그 고정 틀 안에 들어가 한 몸으로 움직인다(bottomNavDock)
   const dock = useBottomNavDock();
 
@@ -289,60 +281,42 @@ export function CelebAtlasBottomBar({
     </div>
   );
 
-  // 시트는 몸체에 띄운다. 하단 내비 틀 안에 두면 그 틀의 층 순서에 갇힌다
-  const sheetNode = sheetOpen ? (
-    <div className={styles.atlasSheetLayer}>
-      <button
-        type="button"
-        aria-label={t("atlasBarClose")}
-        onClick={() => setSheetOpen(false)}
-        className={styles.atlasSheetScrim}
-      />
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label={t("atlasBarSheetTitle")}
-        className={styles.atlasSheet}
-      >
-        <div className={styles.atlasSheetHead}>
-          <span>{t("atlasBarSheetTitle")}</span>
+  // 목차 창은 공용 중앙 모달로 띄운다. 하단 내비 틀 안에 두면 그 틀의 층 순서에 갇힌다
+  const sheetNode = (
+    <Modal
+      isOpen={sheetOpen}
+      onClose={() => setSheetOpen(false)}
+      title={t("atlasBarSheetTitle")}
+      size="md"
+      animateHeight={false}
+    >
+      <div className={`${styles.atlasSheetGrid} p-3`}>
+        {items.map((item) => (
           <button
+            key={item.key}
             type="button"
-            onClick={() => setSheetOpen(false)}
-            aria-label={t("atlasBarClose")}
-            className={styles.atlasSheetClose}
+            onClick={() => go(item.target)}
+            aria-current={
+              item.target.sectionId === activeSectionId
+                ? "location"
+                : undefined
+            }
+            className={styles.atlasSheetItem}
           >
-            <X size={17} strokeWidth={1.8} aria-hidden />
+            <span className={styles.atlasBarChapter}>{item.chapter}</span>
+            <span className={styles.atlasSheetItemLabel}>{item.label}</span>
           </button>
-        </div>
-        <div className={styles.atlasSheetGrid}>
-          {items.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => go(item.target)}
-              aria-current={
-                item.target.sectionId === activeSectionId
-                  ? "location"
-                  : undefined
-              }
-              className={styles.atlasSheetItem}
-            >
-              <span className={styles.atlasBarChapter}>{item.chapter}</span>
-              <span className={styles.atlasSheetItemLabel}>{item.label}</span>
-            </button>
-          ))}
-        </div>
+        ))}
       </div>
-    </div>
-  ) : null;
+    </Modal>
+  );
 
   if (!portalTarget) return null;
 
   return (
     <>
       {createPortal(barNode, dock ?? portalTarget)}
-      {sheetNode ? createPortal(sheetNode, portalTarget) : null}
+      {sheetNode}
     </>
   );
 }

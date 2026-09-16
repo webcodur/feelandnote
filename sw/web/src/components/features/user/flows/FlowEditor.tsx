@@ -9,8 +9,8 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { X, Plus, GripVertical, Trash2, Layers, ChevronDown, ChevronUp } from "lucide-react";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import { createFlow } from "@/actions/flows/createFlow";
-import { Z_INDEX } from "@/constants/zIndex";
 
 interface StageData {
   id: string;
@@ -108,8 +108,19 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" style={{ zIndex: Z_INDEX.modal }}>
-      <div className="relative w-full max-w-2xl max-h-[90vh] bg-[#111] border border-accent/20 rounded-xl overflow-hidden flex flex-col">
+    <Modal
+      isOpen
+      onClose={onClose}
+      frame="plain"
+      widthClassName="max-w-2xl"
+      overlayClassName="bg-black/80 backdrop-blur-sm"
+      boxClassName="overflow-hidden rounded-xl border border-accent/20 bg-[#111]"
+      showCloseButton={false}
+      closeOnOverlayClick={false}
+      closeOnEscape={false}
+      animateHeight={false}
+    >
+      <div className="relative w-full max-h-[calc(100dvh-4rem)] flex flex-col">
         {/* 헤더 */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <div className="flex items-center gap-2">
@@ -240,6 +251,6 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
