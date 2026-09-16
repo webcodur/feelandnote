@@ -123,6 +123,7 @@ export default function DawnResult({
           contentsMap={contentsMap}
           isLoading={isLoading}
           highlightCelebId={currentCard?.id}
+          emptyLabel={t("timelineEmpty")}
           onReviewClick={(c, ownerNickname) =>
             setReviewContent({ content: c, ownerNickname })
           }

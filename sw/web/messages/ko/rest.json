@@ -158,7 +158,8 @@
             "exhausted": "체력 소진",
             "streak": "연속 정답",
             "newRecord": "신기록 달성!",
-            "timelineTitle": "인물들의 감상 기록"
+            "timelineTitle": "인물들의 감상 기록",
+            "timelineEmpty": "등록된 감상 기록이 없습니다."
           },
           "eyeOfTime": {
             "title": "시간의 눈",

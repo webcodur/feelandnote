@@ -158,7 +158,8 @@
             "exhausted": "Out of Lives",
             "streak": "Streak",
             "newRecord": "New Record!",
-            "timelineTitle": "Their Viewing Timeline"
+            "timelineTitle": "Their Viewing Timeline",
+            "timelineEmpty": "No notes on record."
           },
           "eyeOfTime": {
             "title": "Eye of Time",

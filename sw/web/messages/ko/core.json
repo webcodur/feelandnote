@@ -673,7 +673,9 @@
         "greeting": "인사",
         "rollCall": "호명",
         "deploy": "출전",
-        "quotes": "명언"
+        "quotes": "명언",
+        "voiceOn": "음성 켜기",
+        "voiceOff": "음성 끄기"
       },
       "phase": {
         "lobby": "로비",
