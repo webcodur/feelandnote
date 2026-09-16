@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getFigureBookAdminData } from '@/actions/admin/figure-books'
+import FigureBookAuditReport from './FigureBookAuditReport'
 import FigureBooksManager from './FigureBooksManager'
 
 export const metadata: Metadata = {
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 export default async function FigureBooksPage() {
   const data = await getFigureBookAdminData()
 
-  return <FigureBooksManager initialData={data} />
+  return (
+    <div className="space-y-5">
+      <FigureBooksManager initialData={data} />
+      <FigureBookAuditReport />
+    </div>
+  )
 }

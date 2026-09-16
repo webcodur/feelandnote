@@ -1,14 +1,14 @@
 'use client'
 
 /*
-  파일명: /app/(admin)/figure-books/audit/FigureBookAuditReport.tsx
-  기능: 인물 도서 감사 보고서 화면
+  파일명: /app/(admin)/figure-books/FigureBookAuditReport.tsx
+  기능: 인물 도서 관리 화면의 연결·공개 현황 구획
   책임: 측정 창구(/api/figure-book-audit)가 돌려준 집계를 표로 그린다. 값은 DB가 쥐고
-        이 화면은 그릴 뿐이라 결과를 파일로 남기지 않는다.
+        이 구획은 그릴 뿐이라 결과를 파일로 남기지 않는다(회차마다 쌓이던 감사 스냅샷을 대신한다).
 */ // ------------------------------
 
 import { useState, useCallback, useEffect } from 'react'
-import { RefreshCw, CheckCircle2, AlertTriangle, ClipboardList } from 'lucide-react'
+import { RefreshCw, CheckCircle2, AlertTriangle } from 'lucide-react'
 import Button from '@/components/ui/Button'
 
 type CoverageRow = { total: number; linked: number; publicKo: number }
@@ -42,7 +42,7 @@ type LoadState =
   | { kind: 'ready'; report: CachedReport }
   | { kind: 'error'; error: string; log?: string[] }
 
-const CARD = 'rounded-xl border border-border bg-bg-card px-4 py-3'
+const BOX = 'rounded-lg border border-border bg-bg-secondary px-3 py-2.5'
 const TH = 'px-3 py-2 text-left text-xs font-semibold text-text-secondary'
 const TD = 'px-3 py-2 text-sm text-text-primary'
 
@@ -53,24 +53,24 @@ function percent(part: number, whole: number): string {
 
 function Stat({ label, value, note }: { label: string; value: number; note?: string }) {
   return (
-    <div className={CARD}>
+    <div className={BOX}>
       <p className="text-xs text-text-secondary">{label}</p>
-      <p className="mt-1 text-xl font-bold tabular-nums text-text-primary">{value.toLocaleString()}</p>
-      {note && <p className="mt-0.5 text-xs text-text-tertiary">{note}</p>}
+      <p className="mt-1 font-mono text-lg font-semibold tabular-nums text-text-primary">{value.toLocaleString()}</p>
+      {note && <p className="mt-0.5 text-[11px] text-text-tertiary">{note}</p>}
     </div>
   )
 }
 
-/* 등급·직군 표는 같은 세 칸(전체·연결·공개)을 쓴다 */
+/* 등급·직군 표는 같은 칸(전체·연결·공개)을 쓴다 */
 function CoverageTable({ title, rows, headLabel }: {
   title: string
   rows: (CoverageRow & { label: string })[]
   headLabel: string
 }) {
   return (
-    <section className="space-y-2">
-      <h3 className="text-sm font-semibold text-text-primary">{title}</h3>
-      <div className="overflow-x-auto rounded-xl border border-border">
+    <div className="space-y-2">
+      <h3 className="text-xs font-semibold text-text-secondary">{title}</h3>
+      <div className="overflow-x-auto rounded-lg border border-border">
         <table className="w-full min-w-[520px] border-collapse">
           <thead className="bg-bg-secondary">
             <tr>
@@ -94,17 +94,16 @@ function CoverageTable({ title, rows, headLabel }: {
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   )
 }
 
 function Report({ report }: { report: CachedReport }) {
   const { totals, relationTypes, coverageByTier, coverageByProfession, invalidRelatedDescriptions } = report.summary
-  const measured = new Date(report.measuredAt).toLocaleString('ko-KR')
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="space-y-5">
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
         <Stat label="활성 인물" value={totals.activeCelebs} />
         <Stat
           label="도서가 연결된 인물"
@@ -123,14 +122,14 @@ function Report({ report }: { report: CachedReport }) {
         <Stat label="판매 판본" value={totals.purchaseOptions} />
       </div>
 
-      <section className="space-y-2">
-        <h3 className="text-sm font-semibold text-text-primary">관계 갈래</h3>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="space-y-2">
+        <h3 className="text-xs font-semibold text-text-secondary">관계 갈래</h3>
+        <div className="grid grid-cols-3 gap-2">
           {Object.entries(relationTypes).map(([type, count]) => (
             <Stat key={type} label={type} value={count} />
           ))}
         </div>
-      </section>
+      </div>
 
       <CoverageTable
         title="등급별"
@@ -143,33 +142,28 @@ function Report({ report }: { report: CachedReport }) {
         rows={coverageByProfession.map((row) => ({ ...row, label: row.profession }))}
       />
 
-      <section className="space-y-2">
-        <h3 className="text-sm font-semibold text-text-primary">고칠 것</h3>
-        <div className="grid gap-3 md:grid-cols-2">
-          <div className={CARD}>
-            <p className="text-xs text-text-secondary">등장이 아닌데 설명이 붙은 관계</p>
-            <p className="mt-1 text-xl font-bold tabular-nums text-text-primary">
-              {totals.invalidRelatedDescriptions.toLocaleString()}
-            </p>
-            {invalidRelatedDescriptions.length > 0 && (
-              <ul className="mt-2 max-h-40 space-y-1 overflow-auto text-xs text-text-secondary">
-                {invalidRelatedDescriptions.slice(0, 50).map((row) => (
-                  <li key={`${row.contentId}-${row.celebId}`}>{row.slug ?? row.celebId}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div className={CARD}>
-            <p className="text-xs text-text-secondary">비공개 인물에 남은 관계</p>
-            <p className="mt-1 text-xl font-bold tabular-nums text-text-primary">
-              {totals.relationsOfInactiveCelebs.toLocaleString()}
-            </p>
-            <p className="mt-0.5 text-xs text-text-tertiary">인물을 다시 공개하면 살아난다. 고칠 대상이 아니라 통계다.</p>
-          </div>
+      <div className="grid gap-2 md:grid-cols-2">
+        <div className={BOX}>
+          <p className="text-xs text-text-secondary">고칠 것 · 등장이 아닌데 설명이 붙은 관계</p>
+          <p className="mt-1 font-mono text-lg font-semibold tabular-nums text-text-primary">
+            {totals.invalidRelatedDescriptions.toLocaleString()}
+          </p>
+          {invalidRelatedDescriptions.length > 0 && (
+            <ul className="mt-2 max-h-40 space-y-1 overflow-auto text-xs text-text-secondary">
+              {invalidRelatedDescriptions.slice(0, 50).map((row) => (
+                <li key={`${row.contentId}-${row.celebId}`}>{row.slug ?? row.celebId}</li>
+              ))}
+            </ul>
+          )}
         </div>
-      </section>
-
-      <p className="text-xs text-text-secondary">측정 · {measured}</p>
+        <div className={BOX}>
+          <p className="text-xs text-text-secondary">참고 · 비공개 인물에 남은 관계</p>
+          <p className="mt-1 font-mono text-lg font-semibold tabular-nums text-text-primary">
+            {totals.relationsOfInactiveCelebs.toLocaleString()}
+          </p>
+          <p className="mt-0.5 text-[11px] text-text-tertiary">인물을 다시 공개하면 살아난다. 고칠 대상이 아니다.</p>
+        </div>
+      </div>
     </div>
   )
 }
@@ -205,48 +199,55 @@ export default function FigureBookAuditReport() {
   }, [])
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={measure} disabled={state.kind === 'loading'}>
-          <RefreshCw className={`w-4 h-4 ${state.kind === 'loading' ? 'animate-spin' : ''}`} />
-          {state.kind === 'loading' ? '측정 중…' : '지금 측정'}
-        </Button>
-        {state.kind === 'ready' && (
-          <span className="inline-flex items-center gap-1.5 text-sm text-green-400">
-            <CheckCircle2 className="w-4 h-4" />
-            최신 측정 표시 중
-          </span>
-        )}
-        {state.kind === 'error' && (
-          <span className="inline-flex items-center gap-1.5 text-sm text-red-400">
-            <AlertTriangle className="w-4 h-4" />
-            실패 · {state.error}
-          </span>
-        )}
+    <section className="rounded-xl border border-border bg-bg-card p-4">
+      <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-text-primary">연결·공개 현황</h2>
+          <p className="mt-1 text-xs text-text-tertiary">
+            인물과 도서가 얼마나 이어져 있고 그중 무엇이 서비스에 공개되는지 최신 DB 기준으로 셉니다. DB는 읽기만 합니다.
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-3">
+          {state.kind === 'ready' && (
+            <span className="inline-flex items-center gap-1 text-xs text-green-400">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              {new Date(state.report.measuredAt).toLocaleString('ko-KR')}
+            </span>
+          )}
+          <Button size="sm" onClick={measure} disabled={state.kind === 'loading'}>
+            <RefreshCw className={`h-4 w-4 ${state.kind === 'loading' ? 'animate-spin' : ''}`} />
+            {state.kind === 'loading' ? '측정 중…' : '지금 측정'}
+          </Button>
+        </div>
       </div>
 
-      {state.kind === 'error' && state.log && state.log.length > 0 && (
-        <pre className="max-h-40 overflow-auto rounded-lg border border-border bg-bg-card p-3 text-xs text-text-secondary">
-          {state.log.join('\n')}
-        </pre>
+      {state.kind === 'error' && (
+        <div className="space-y-2">
+          <p className="inline-flex items-center gap-1.5 text-sm text-red-400">
+            <AlertTriangle className="h-4 w-4" />
+            실패 · {state.error}
+          </p>
+          {state.log && state.log.length > 0 && (
+            <pre className="max-h-40 overflow-auto rounded-lg border border-border bg-bg-secondary p-3 text-xs text-text-secondary">
+              {state.log.join('\n')}
+            </pre>
+          )}
+        </div>
       )}
 
       {state.kind === 'empty' && (
-        <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border bg-bg-card px-6 py-16 text-center">
-          <ClipboardList className="h-8 w-8 text-text-secondary" />
-          <p className="text-sm text-text-secondary">
-            아직 측정된 보고서가 없습니다. 「지금 측정」으로 최신 DB 기준을 집계합니다.
-          </p>
-        </div>
+        <p className="rounded-lg border border-dashed border-border px-4 py-6 text-center text-sm text-text-secondary">
+          아직 측정하지 않았습니다. 「지금 측정」으로 집계합니다.
+        </p>
       )}
 
       {state.kind === 'loading' && (
-        <div className="rounded-xl border border-border bg-bg-card px-6 py-16 text-center text-sm text-text-secondary">
+        <p className="rounded-lg border border-border px-4 py-6 text-center text-sm text-text-secondary">
           인물·관계·판본 표를 통째로 읽어 집계하는 중입니다. 1~2분 걸릴 수 있습니다.
-        </div>
+        </p>
       )}
 
       {state.kind === 'ready' && <Report report={state.report} />}
-    </div>
+    </section>
   )
 }
