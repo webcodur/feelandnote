@@ -1,5 +1,5 @@
 import type { BestsellerItem } from '@/actions/library/types'
-import { productUrl as yes24ProductUrl } from '../books/yes24Purchase'
+import { productUrl as yes24ProductUrl, YES24_BOOK_GOODS_TYPES } from '../books/yes24Purchase'
 
 export const APPLE_BOOKS_FEED_URL = 'https://rss.marketingtools.apple.com/api/v2/us/books/top-paid/20/books.json'
 export const CHART_CACHE_SECONDS = { ko: 24 * 3600, en: 3600 } as const
@@ -84,7 +84,7 @@ export function parseYes24Chart(value: unknown, basisDate: string, now = Date.no
     const itemId = String(row.itemId)
     if (!/^\d+$/.test(itemId) || !Number.isSafeInteger(row.sortOrder) || Number(row.sortOrder) < 1) throw new Error('Invalid chart identity')
     const isbn = typeof row.isbn13 === 'string' && /^97[89]\d{10}$/.test(row.isbn13) ? row.isbn13 : null
-    if (row.goodsType !== '도서') throw new Error('Invalid chart book')
+    if (!YES24_BOOK_GOODS_TYPES.includes(String(row.goodsType))) throw new Error('Invalid chart book')
     return { ...baseItem, id: `yes24-${itemId}`, rank: Number(row.sortOrder), title: text(row.title), creator: creator(row.author), isbn,
       thumbnail_url: coverUrl(row.cover, url => url.hostname === 'image.yes24.com'),
       source_url: safeUrl(row.link, url => url.hostname === 'www.yes24.com' && url.pathname.toLowerCase() === `/product/goods/${itemId}`),

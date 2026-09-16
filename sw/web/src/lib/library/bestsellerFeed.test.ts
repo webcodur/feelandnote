@@ -98,6 +98,9 @@ test('optional book metadata does not discard an otherwise valid chart', () => {
   const sameIsbn = yes24()
   sameIsbn.data.items.push({ ...sameIsbn.data.items[0], itemId: 124, sortOrder: 2, link: 'https://www.yes24.com/product/goods/124' })
   assert.equal(parseYes24Chart(sameIsbn, basis, now).items.length, 2)
+  const comic = yes24()
+  comic.data.items.push({ ...comic.data.items[0], itemId: 125, sortOrder: 2, goodsType: '만화', link: 'https://www.yes24.com/product/goods/125' })
+  assert.equal(parseYes24Chart(comic, basis, now).items.length, 2)
 })
 test('Apple cover size is increased only on a verified artwork URL', () => {
   const payload = apple()
