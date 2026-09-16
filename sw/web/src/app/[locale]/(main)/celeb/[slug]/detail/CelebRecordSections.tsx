@@ -22,6 +22,7 @@ import type { Locale } from "@/types/locale";
 import { CelebAtlasBottomBar, CelebAtlasNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 import CelebSectionHeading from "../CelebSectionHeading";
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import FigureBookWorksSection from "../FigureBookWorksSection";
 import FigureMediaTabs from "../FigureMediaTabs";
 import FigureReadingTabs from "../FigureReadingTabs";
@@ -84,7 +85,7 @@ export default function CelebRecordSections({
   // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
   // BOTH는 실존 핵심이 있어 표준 배치(분석 뒤 관계)를 쓴다.
   const isFiction = (profile.celeb_reality ?? "REAL") === "FICTION";
-  const { items: serviceItems, longform, shorts, hasVoice, widestSectionLabel } = serviceModel;
+  const { items: serviceItems, hasVoice, widestSectionLabel } = serviceModel;
   const { activeSectionId, navigate } = useCelebSectionNavigation(
     serviceItems.map((item) => item.target.sectionId),
   );
@@ -115,6 +116,12 @@ export default function CelebRecordSections({
         nextItem={serviceItems[index + 1]}
         onNavigate={navigate}
         widestLabel={widestSectionLabel}
+        /* 수수료 안내 — 「참고 도서」의 판매 단추 안에 묻지 않고 구획 제목 옆에 둔다 */
+        titleAddon={
+          key === "affiliateBooks" && locale === "ko" ? (
+            <BookPurchaseInfo className="inline-flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
+          ) : undefined
+        }
         loopTarget={
           isFirst
             ? serviceItems[serviceItems.length - 1]?.target
@@ -264,8 +271,6 @@ export default function CelebRecordSections({
                 celebId={userId}
                 voiceV={profile.voice_v}
                 voiceSpeed={profile.voice_speed}
-                longform={longform}
-                shorts={shorts}
               />
             </SectionSurface>
           </section>

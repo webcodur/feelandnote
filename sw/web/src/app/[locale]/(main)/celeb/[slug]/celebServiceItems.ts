@@ -42,7 +42,6 @@ export interface CelebServiceAvailability {
   relations: boolean;
   timeline: boolean;
   faction: boolean;
-  videos: boolean;
   dialogues: boolean;
   dialogueVoice: boolean;
   influence: boolean;
@@ -188,14 +187,9 @@ export function useCelebServiceItems({
       {
         key: "media",
         chapter: CELEB_SERVICE_CHAPTERS.media,
-        label:
-          reality !== "REAL" && availability.dialogues && !availability.videos
-            ? t("mediaDialogues")
-            : t("media"),
+        label: reality !== "REAL" ? t("mediaDialogues") : t("media"),
         icon: CELEB_SERVICE_ICONS.media,
-        ready:
-          availability.videos
-          || availability.dialogues,
+        ready: availability.dialogues,
         target: { sectionId: "media" },
         children: [
           // 가상독백은 미디어가 아니라 읽어보기 두 번째 모드에서 보인다.
@@ -211,14 +205,6 @@ export function useCelebServiceItems({
               icon: CELEB_SERVICE_ICONS.dialogueVoice,
               ready: availability.dialogueVoice,
             },
-          },
-          {
-            key: "videos",
-            chapter: "07-B",
-            label: t("mediaVideos"),
-            icon: CELEB_SERVICE_ICONS.videos,
-            ready: availability.videos,
-            target: { sectionId: "media" },
           },
         ],
       },
@@ -270,7 +256,6 @@ export function useCelebServiceItems({
       availability.library,
       availability.sourceWorks,
       availability.timeline,
-      availability.videos,
       showLibrary,
       t,
       reality,

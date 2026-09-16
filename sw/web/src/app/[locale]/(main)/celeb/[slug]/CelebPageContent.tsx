@@ -75,7 +75,6 @@ export default function CelebPageContent({
   /* ── 1. 목차 모델·열람 집계 ── */
   const serviceModel = useCelebServiceModel({
     profile,
-    locale,
     timelineEvents,
     sideAvailability,
     dialogueLines,
