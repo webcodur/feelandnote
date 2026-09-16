@@ -5,10 +5,10 @@ import path from 'path'
 
 const execFileAsync = promisify(execFile)
 
-// 라우드니스 목표 — remotion 파이프라인(2-synthesize/config.ts)과 동일 값 유지
-const NORM_I = -17
-const NORM_TP = -1.5
-const NORM_LRA = 11
+// 라우드니스 목표 — 단일 원천(SSoT). remotion 2-synthesize/config.ts 는 여기서 re-export한다.
+export const NORM_I = -17
+export const NORM_TP = -1.5
+export const NORM_LRA = 11
 
 /**
  * 단일 wav 라우드니스 정규화(loudnorm 2-pass linear) — 저장 즉시 음량 균일화.
