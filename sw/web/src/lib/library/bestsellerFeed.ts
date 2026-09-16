@@ -54,6 +54,12 @@ function timestamp(value: unknown, now: number): string {
 export function previousKoreanDate(now = Date.now()): string {
   return new Date(now + 9 * 3600_000 - 24 * 3600_000).toISOString().slice(0, 10)
 }
+/** YES24 전일 순위는 자정 직후 바로 발행되지 않는다 — 그 사이 이전 발행일로 거슬러 조회한다.
+ *  selectBookChart가 48시간 넘는 기준일을 숨기므로 D-1·D-2만 의미가 있다 */
+export const YES24_CHART_LOOKBACK_DAYS = 2
+export function recentKoreanChartDates(now = Date.now()): string[] {
+  return Array.from({ length: YES24_CHART_LOOKBACK_DAYS }, (_, i) => previousKoreanDate(now - i * 24 * 3600_000))
+}
 export function yes24ChartEnabled(env: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: string; NODE_ENV?: string }): boolean {
   return Boolean(env.YES24_API_KEY?.trim()) && (env.NODE_ENV === 'development' || env.YES24_CHARTS_ENABLED === 'true')
 }
@@ -71,7 +77,7 @@ function unique(items: BestsellerItem[]): BestsellerItem[] {
 const baseItem = { publisher: null, published_date: null, isbn: null, description: null, type: 'BOOK', category_key: 'ALL' }
 
 export function parseYes24Chart(value: unknown, basisDate: string, now = Date.now()): BookChart {
-  if (basisDate !== previousKoreanDate(now)) throw new Error('Invalid chart basis date')
+  if (!recentKoreanChartDates(now).includes(basisDate)) throw new Error('Invalid chart basis date')
   const root = object(value)
   if (root.success !== true || root.errorCode) throw new Error('YES24 chart request rejected')
   const data = object(root.data)
@@ -138,7 +144,7 @@ async function fetchJson(fetcher: typeof fetch, url: string, headers: HeadersIni
 }
 export async function fetchYes24Chart(fetcher: typeof fetch, apiKey: string, basisDate: string, now = Date.now()): Promise<BookChart> {
   if (!apiKey.trim()) throw new Error('YES24 chart key missing')
-  if (basisDate !== previousKoreanDate(now)) throw new Error('Invalid chart basis date')
+  if (!recentKoreanChartDates(now).includes(basisDate)) throw new Error('Invalid chart basis date')
   const url = new URL('https://apis.yes24.com/v1/category/bestsellerDaily')
   url.search = new URLSearchParams({ categoryId: '001', date: basisDate, page: '1', pageSize: String(LIMIT), detail: 'N' }).toString()
   return parseYes24Chart(await fetchJson(fetcher, url.href, { Accept: 'application/json', 'X-Api-Key': apiKey }), basisDate, now)

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { APPLE_BOOKS_FEED_URL, CHART_MAX_AGE_MS, fetchAppleBooksChart, fetchYes24Chart, parseAppleBooksChart, parseYes24Chart, previousKoreanDate, selectBookChart, yes24ChartEnabled } from './bestsellerFeed'
+import { APPLE_BOOKS_FEED_URL, CHART_MAX_AGE_MS, fetchAppleBooksChart, fetchYes24Chart, parseAppleBooksChart, parseYes24Chart, previousKoreanDate, recentKoreanChartDates, selectBookChart, yes24ChartEnabled } from './bestsellerFeed'
 
 const now = Date.parse('2026-09-14T05:00:00Z')
 const basis = '2026-09-13'
@@ -24,6 +24,14 @@ test('YES24 production requires both a key and explicit enablement', () => {
   assert.equal(yes24ChartEnabled({ NODE_ENV: 'development', YES24_API_KEY: 'test' }), true)
   assert.equal(yes24ChartEnabled({ NODE_ENV: 'development', YES24_API_KEY: ' ' }), false)
   assert.equal(yes24ChartEnabled({ YES24_CHARTS_ENABLED: 'true' }), false)
+})
+test('YES24 accepts an earlier published day inside the lookback window only', async () => {
+  assert.deepEqual(recentKoreanChartDates(now), ['2026-09-13', '2026-09-12'])
+  const older = yes24()
+  older.data.meta.apiLink = older.data.meta.apiLink.replace(basis, '2026-09-12')
+  assert.equal(parseYes24Chart(older, '2026-09-12', now).basisDate, '2026-09-12')
+  assert.throws(() => parseYes24Chart(older, '2026-09-11', now), /basis date/)
+  await assert.rejects(fetchYes24Chart(respond(yes24()), 'test-only', '2026-09-11', now), /basis date/)
 })
 test('YES24 requests the explicit previous day and keeps response time separate', async () => {
   const fetcher = (async (url, init) => {
