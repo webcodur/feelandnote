@@ -2,86 +2,29 @@
  * 2-synthesize/engines.ts — Gemini · ElevenLabs TTS 합성 엔진
  *
  * 저수준 API 호출과 wav 저장만 담당한다. 스타일 prefix 결정은 tts.ts.
+ * Gemini 합성 코어(키 로테이션·재시도·wav 저장)는 ../lib/gemini-engine.ts 단일 원천을 쓴다.
  *
- * Gemini: 키 로테이션 + 재시도 (429/403/만료/500)
  * ElevenLabs: --engine elevenlabs 명시 시에만 사용
  */
 
 import 'dotenv/config'
-import { GoogleGenAI } from '@google/genai'
-import wav from 'wav'
 import path from 'path'
-import { spawn } from 'node:child_process'
 import {
-  getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
+  getEleAccountSetupError, getEleAccounts,
 } from '@feelandnote/shared/lib/ele-accounts'
 import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
+import { createGeminiTts, saveWav } from '../lib/gemini-engine.js'
+import { fetchElevenlabsMp3, mp3ToPcm24k } from '../lib/elevenlabs-engine.js'
 import { type Voice } from './config.js'
 import { START_KEY_INDEX, GEMINI_MODEL } from './cli.js'
 
-// --- API 키 로테이션 ---
-const API_KEYS = Array.from({ length: 100 }, (_, i) => process.env[`GOOGLE_GENAI_API_KEY_FREE${i + 1}`]).filter(Boolean) as string[]
-let keyIndex = Math.min(START_KEY_INDEX - 1, API_KEYS.length - 1)
-let ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-
-// --- WAV 저장 ---
-export async function saveWav(filename: string, pcmData: Buffer): Promise<number> {
-  return new Promise((resolve, reject) => {
-    const writer = new wav.FileWriter(filename, { channels: 1, sampleRate: 24000, bitDepth: 16 })
-    writer.on('finish', () => resolve(pcmData.length / (24000 * 2)))
-    writer.on('error', reject)
-    writer.write(pcmData)
-    writer.end()
-  })
-}
+export { saveWav }
 
 // --- Gemini TTS 합성 ---
-
-/** Gemini TTS → PCM Buffer (키 로테이션·재시도 포함) */
-async function synthesizeRaw(text: string, voiceName: Voice, retries = 5, keyRetries = API_KEYS.length - 1): Promise<Buffer> {
-  try {
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: [{ parts: [{ text }] }],
-      config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName } } },
-      },
-    })
-    const data = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data
-    if (!data) {
-      if (retries > 0) {
-        console.log(`  빈 응답 — 2초 후 재시도 (${retries}회 남음)`)
-        await new Promise(r => setTimeout(r, 2000))
-        return synthesizeRaw(text, voiceName, retries - 1, keyRetries)
-      }
-      throw new Error('No audio data')
-    }
-    return Buffer.from(data, 'base64')
-  } catch (e: any) {
-    if ([429, 403].includes(e.status) && keyRetries > 0) {
-      keyIndex = (keyIndex + 1) % API_KEYS.length
-      ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-      console.log(`  키 ${keyIndex + 1}로 전환 (${e.status})`)
-      return synthesizeRaw(text, voiceName, 5, keyRetries - 1)
-    }
-    if ([400].includes(e.status) && e.message?.includes('expired') && keyRetries > 0) {
-      keyIndex = (keyIndex + 1) % API_KEYS.length
-      ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-      console.log(`  키 ${keyIndex + 1}로 전환 (만료)`)
-      return synthesizeRaw(text, voiceName, 5, keyRetries - 1)
-    }
-    if ([500].includes(e.status) && retries > 0) {
-      console.log(`  서버 오류(500) — 3초 후 재시도 (${retries}회 남음)`)
-      await new Promise(r => setTimeout(r, 3000))
-      return synthesizeRaw(text, voiceName, retries - 1, keyRetries)
-    }
-    throw e
-  }
-}
+const gemini = createGeminiTts({ model: GEMINI_MODEL, startKeyIndex: START_KEY_INDEX })
 
 export async function synthesizeGemini(text: string, voiceName: Voice, outputFile: string): Promise<number> {
-  const pcm = await synthesizeRaw(text, voiceName)
+  const pcm = await gemini.synthesize(text, voiceName)
   await saveWav(outputFile, pcm)
   // 들숨·쉼 정리(SSoT) — 내레이션이라 reading 프로필, 길이는 정리 뒤 값
   const { seconds: duration } = await cleanVoiceFile(outputFile, outputFile, 'reading')
@@ -92,30 +35,7 @@ export async function synthesizeGemini(text: string, voiceName: Voice, outputFil
 // --- ElevenLabs TTS ---
 //
 // CLI와 web-bo는 계정 선택 정책을 @feelandnote/shared/lib/ele-accounts에서 공유한다.
-// CLI는 자체 환경의 키로 직접 합성하므로 별도 BO 서버를 켤 필요가 없다.
-
-/** MP3 buffer → 24kHz mono 16-bit PCM buffer (saveWav 입력 형태) */
-async function mp3ToPcm24k(mp3: Buffer): Promise<Buffer> {
-  const ffmpegPath = 'ffmpeg'
-  return new Promise((resolve, reject) => {
-    const ff = spawn(ffmpegPath, [
-      '-loglevel', 'error',
-      '-i', 'pipe:0',
-      '-f', 's16le', '-ar', '24000', '-ac', '1',
-      'pipe:1',
-    ])
-    const chunks: Buffer[] = []
-    let stderr = ''
-    ff.stdout.on('data', d => chunks.push(d as Buffer))
-    ff.stderr.on('data', d => { stderr += d.toString() })
-    ff.on('close', code => {
-      if (code !== 0) reject(new Error(`ffmpeg(MP3→PCM) ${code}: ${stderr.slice(0, 500)}`))
-      else resolve(Buffer.concat(chunks))
-    })
-    ff.stdin.write(mp3)
-    ff.stdin.end()
-  })
-}
+// 저수준 호출(fetch·MP3→PCM·기본값)은 ../lib/elevenlabs-engine.ts 단일 원천.
 
 export async function synthesizeElevenlabs(text: string, voiceId: string, outputFile: string): Promise<number> {
   if (!voiceId) throw new Error('elevenlabsVoiceId 없음. 에피소드 JSON host에 추가하세요.')
@@ -124,32 +44,8 @@ export async function synthesizeElevenlabs(text: string, voiceId: string, output
   if (getEleAccounts().length === 0) {
     throw new Error(getEleAccountSetupError())
   }
-  const account = await resolveEleAccountForVoice(voiceId)
-  if (!account) throw new Error(`해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${voiceId}`)
 
-  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}`, {
-    method: 'POST',
-    headers: {
-      'xi-api-key': account.apiKey,
-      'Content-Type': 'application/json',
-      Accept: 'audio/mpeg',
-    },
-    body: JSON.stringify({
-      text,
-      model_id: 'eleven_v3',
-      voice_settings: {
-        stability: 0.5,
-        similarity_boost: 0.75,
-        style: 0.3,
-      },
-      speed: 1.0,
-    }),
-  })
-  if (!res.ok) {
-    throw new Error(`ElevenLabs ${res.status}: ${(await res.text()).slice(0, 300)}`)
-  }
-  const mp3Buffer = Buffer.from(await res.arrayBuffer())
-  const pcm = await mp3ToPcm24k(mp3Buffer)
+  const pcm = await mp3ToPcm24k(await fetchElevenlabsMp3(text, voiceId))
   await saveWav(outputFile, pcm)
   // 들숨·쉼 정리(SSoT) — 셀럽 보이스라 dialogue 프로필, 길이는 정리 뒤 값
   const { seconds: duration } = await cleanVoiceFile(outputFile, outputFile, 'dialogue')
