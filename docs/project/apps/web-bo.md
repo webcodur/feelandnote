@@ -95,8 +95,7 @@ pnpm dev:bo
 | `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
 | `/curated` | 기관 선정 원장 | 선정 기관·목록 현황, 공개 허브 노출, 콘텐츠 유형·기관 유형 필터. 기관과 목록을 새로 만들거나 편집한다 | `curators`, `curated_lists`, `curated_list_items` |
 | `/curated/[listId]` | 선정 목록 편집 | 목록 메타와 원문 항목(순위·연도·선정 사유·숨김), 기존 콘텐츠 연결·해제 | `curators`, `curated_lists`, `curated_list_items`, `contents`, `content_locales` |
-| `/figure-books` | 인물 등장·연관 도서 관리 | 기존 콘텐츠를 작품으로 지정하고 등장·연관 인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다. `celeb_tier`와 무관하게 모든 인물을 연결할 수 있다 | `figure_book_contents`, `figure_book_characters`, `figure_book_editions`, `figure_book_products`, `contents`, `celebs` |
-| `/figure-books/audit` | 인물 도서 감사 | 「지금 측정」으로 감사 스크립트(`scripts/figure-books/audit.ts --json`)를 돌려 인물↔도서 연결·공개 현황을 집계한다. 활성 인물 대비 연결·한국어 공개 비율, 관계 갈래, 등급·직군별 표, 고칠 관계를 보여 준다. DB는 읽기만 하고 결과를 파일로 남기지 않는다(회차마다 쌓이던 `_audit-*.json` 스냅샷을 대신한다) | `celebs`, `figure_book_characters`, `figure_book_editions`, `figure_book_purchase_options` |
+| `/figure-books` | 인물 등장·연관 도서 관리 | 기존 콘텐츠를 작품으로 지정하고 등장·연관 인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다. `celeb_tier`와 무관하게 모든 인물을 연결할 수 있다. 아래 「연결·공개 현황」 구획은 「지금 측정」으로 감사 스크립트(`scripts/figure-books/audit.ts --json`)를 돌려 인물 대비 연결·한국어 공개 비율, 관계 갈래, 등급·직군별 표를 보여 주며 결과를 파일로 남기지 않는다 | `figure_book_contents`, `figure_book_characters`, `figure_book_editions`, `figure_book_products`, `contents`, `celebs` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
 
