@@ -1,11 +1,11 @@
-# 인물 안내 감사 — 폐기·재생성 대상 112건
+# 인물 안내 감사 — 폐기·재생성 대상 76건
 
 게시 중(`review_status=ai_reviewed`, 공개)인 인물 안내(`celeb_explanations.plain_text`) **3,283건을 전수
 감사**했다. 기계 마커(번역투·슬롭어휘·어체·위키 표기 등)로 후보를 뽑은 뒤 전문을 직접 읽고,
 마커에 안 걸리는 건은 첫 문장·정체 설명·인명 표기 검사로 보완했다. 마커 일치만으로는 폐기하지
 않았고 문맥상 자연스러운 표현은 통과시켰다.
 
-아래는 **폐기 후 재작성이 필요한 112건만** 모은 것이다. slug는 `celebs.slug` 기준이다.
+아래는 **폐기 후 재작성이 필요한 76건만** 모은 것이다. slug는 `celebs.slug` 기준이다.
 
 ## A. 위키·인명사전체 서두 — 44건 (2026-08-22 18시 배치)
 
@@ -77,51 +77,7 @@
 | eli-roth | 일라이 로스 | 한다체 도입 후 습니다체 |
 | elizabeth-ii | 엘리자베스 2세 | 한다체 도입 후 습니다체 |
 
-## C. 인명 없는 명사 파편 서두 — 36건 (2026-08-30 18시 배치)
-
-`《봉신연의》의 도사.`처럼 인명 없이 작품+역할 명사구만 던지고 시작한다. 본문에도 인물 이름이
-한 번도 나오지 않아 안내로 읽히지 않는다. 같은 시각 배치의 체계적 결함이다.
-
-| slug | 이름 |
-|---|---|
-| abhimanyu | 아비마뉴 |
-| ahalya | 아할리야 |
-| angada | 앙가다 |
-| ao-guang | 동해용왕 오광 |
-| ashvatthama | 아슈바타마 |
-| black-bear-demon | 흑웅괴 |
-| boyi-kao | 백읍고 |
-| dasharatha | 다사라타 |
-| dhrishtadyumna | 드리슈타듐나 |
-| ghatotkacha | 가토트카차 |
-| golden-horned-king | 금각대왕 |
-| huang-feihu | 황비호 |
-| huang-tianhua | 황천화 |
-| jatayu | 자타유 |
-| jayadratha | 자야드라타 |
-| jinzha | 금타 |
-| kaikeyi | 카이케이 |
-| kausalya | 카우살리야 |
-| king-yama | 염라왕 |
-| kunti | 쿤티 |
-| mandodari | 만도다리 |
-| maricha | 마리차 |
-| muzha | 목타 |
-| patriarch-subhuti | 수보리조사 |
-| queen-mother-of-the-west | 서왕모 |
-| shatrughna | 샤트루그나 |
-| shen-gongbao | 신공표 |
-| shikhandi | 시칸디 |
-| silver-horned-king | 은각대왕 |
-| taiyi-zhenren | 태을진인 |
-| tara | 타라 |
-| vidura | 비두라 |
-| yellow-robe-demon | 황포괴 |
-| yellow-wind-demon | 황풍괴 |
-| yunxiao-niangniang | 운소낭랑 |
-| zhao-gongming | 조공명 |
-
-## D. 개별 결함 — 21건
+## C. 개별 결함 — 21건
 
 | slug | 이름 | 결함 |
 |---|---|---|
@@ -152,7 +108,7 @@
 - 덤프: `celeb_explanations` + `celebs` 임베드, 공개 3,283건(EN 누락 0).
 - 기계 마커는 후보 생성용으로만 썼고 638건 후보 전문을 읽어 확정했다.
 - 불량 발견 시 `created_at` 코호트를 함께 봐 배치 오염을 구분했다 — 08-22 18시(257건 중
-  위키체 44), 08-30 18시(149건 중 파편 서두 36)가 오염 배치다.
-- 같은 배치의 마커 미해당 건은 표본 전문 독서로 통과 확인했다(구조는 같은데 서두만 다른
-  결함이므로).
-- 재생성 시 112건은 slug로 `celeb_explanations`를 조회해 새 값을 쓴다.
+  위키체 44)가 오염 배치다. 08-30 18시(149건)의 `《작품》의 X.` 서두 36건은 규격상 허용된
+  bio 명사구형(`…명사.` 서두, 이름 생략 허용)이라 재검토 끝에 제외했다.
+- 같은 배치의 마커 미해당 건은 표본 전문 독서로 통과 확인했다.
+- 재생성 시 76건은 slug로 `celeb_explanations`를 조회해 새 값을 쓴다.
