@@ -137,7 +137,7 @@ const CELEB_FILES = new Set([
   // 인물 링크 격자·제휴 도서 목록·구획 제목은 홈과 탐색에서도 쓰이지만, Cloudflare가
   // 보관하는 화면 중에서는 인물 상세만 이들을 그린다.
   'sw/web/src/components/features/celeb/FigureLinkGrid.tsx',
-  'sw/web/src/components/features/home/AffiliateBookList.tsx',
+  'sw/web/src/components/shared/AffiliateBookList.tsx',
   'sw/web/src/components/ui/CenteredSectionHeading.tsx',
   // Only the celeb archive consumes these presenter-gating changes among the
   // Cloudflare-cached route families. Keep this allow-list exact so any other
