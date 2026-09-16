@@ -214,6 +214,9 @@ data/celeb/reading-relay/all-readings.json
 /data/celeb/book-introductions/**/*.json
 /data/celeb/book-introductions/**/*.jsonl
 
+# 인물 도서 일괄 등록 리포트 — 실행마다 덮어쓰는 결과 기록이다. DB가 정본이다
+data/celeb/figure-books/bulk-register-report*.json
+
 # 회차 작업 폴더(묶음·레인 결과). 반영이 끝나면 원장에만 남는다
 data/celeb/reading-relay/wave/
 data/celeb/headline-rewrite/packs/
