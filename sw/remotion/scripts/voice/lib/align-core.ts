@@ -17,6 +17,12 @@ export type Silence = { start: number; end: number; center: number }
 
 const r3 = (x: number) => Math.round(x * 1000) / 1000
 
+// --- sub 청크 정책 (4-align 경고·5-chunk 검증 공용) ---
+// sub 청크 하나 = 자막 한 줄 단위다. 임계값은 "한 줄에 들어가는 분량"의 경험치이며
+// 임의 분할 금지선이 아니라 검증·보고 기준이다.
+export const SUB_MISSING_MIN_LEN = 30  // 이 길이 초과 세그먼트는 sub 분할 대상으로 보고
+export const SUB_MAX_LEN = 35          // sub 청크 하나의 한 줄 상한 — 초과 시 재분할 보고
+
 // --- WAV 파싱 ---
 export function parseWav(path: string) {
   const buf = readFileSync(path)
