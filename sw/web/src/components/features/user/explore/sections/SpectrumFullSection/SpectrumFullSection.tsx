@@ -1,20 +1,18 @@
 /*
   파일명: /components/features/user/explore/sections/SpectrumFullSection/SpectrumFullSection.tsx
   기능: 비범한 기록가 전체 보기
-  책임: spectrum 4그룹 탭 전환 + 축 네비게이션 + 1개 카드 및 포커스 패널 표시.
+  책임: spectrum 4그룹 탭 전환 + 축 네비게이션 + 축별 시상대·순위 표시.
 */ // ------------------------------
 
 "use client";
 
 import { useState } from "react";
-import { useLocale } from "next-intl";
-import { cn } from "@/lib/utils";
+import { useLocale, useTranslations } from "next-intl";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
 import type { SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
-import type { SpectrumStatsWithReasons } from "@/lib/spectrum/types";
 import { GROUPS, AXIS_COLORS, AXIS_SHORT_LABELS } from "../../spectrumAxis";
-import type { FocusedCeleb } from "./types";
-import FocusPanel from "./sections/FocusPanel";
+import AtlasNav, { type AtlasNavRow } from "@/components/shared/AtlasNav";
+import AtlasStage from "@/components/shared/AtlasStage";
 import AxisCard from "./sections/AxisCard";
 import AxisLibraryPanel from "./sections/AxisLibraryPanel";
 import DispositionCard from "./sections/DispositionCard";
@@ -26,9 +24,9 @@ interface SpectrumFullSectionProps {
 
 export default function SpectrumFullSection({ entries, libraries = [] }: SpectrumFullSectionProps) {
   const locale = useLocale();
+  const t = useTranslations("explore.spectrum");
   const [activeTab, setActiveTab] = useState(0);
   const [activeAxisIdx, setActiveAxisIdx] = useState(0);
-  const [focusedCelebId, setFocusedCelebId] = useState<string | null>(null);
 
   if (entries.length === 0) return null;
 
@@ -42,134 +40,75 @@ export default function SpectrumFullSection({ entries, libraries = [] }: Spectru
   const activeEntry = currentEntries[activeAxisIdx];
   if (!activeEntry) return null;
 
-  const currentFocusedId = focusedCelebId ?? activeEntry.celeb.id;
-
   const isEn = locale === "en";
   const color = AXIS_COLORS[activeEntry.axis] ?? "#d4af37";
-  const axisLabelBadge = isEn ? (AXIS_SHORT_LABELS[activeEntry.axis]?.en || activeEntry.label.en) : (AXIS_SHORT_LABELS[activeEntry.axis]?.ko || activeEntry.label.ko);
 
-  let focusedInfo: {
-    celeb: FocusedCeleb;
-    score: number;
-    reason?: string;
-    label?: string;
-    stats?: SpectrumStatsWithReasons;
-  } | null = null;
+  /* 범주·축 두 줄 — 신화 탐색·세력도감과 같은 공용 선택기(AtlasNav)의 네모 칩으로 고른다.
+     축 칩은 축 고유색을 물려받아 고른 칩이 그 색으로 그려진다 */
+  const navRows: AtlasNavRow[] = [
+    {
+      id: "group",
+      label: t("groupNav"),
+      shape: "square",
+      items: GROUPS.map((group, i) => ({ id: String(i), name: isEn ? group.en : group.ko })),
+      activeId: String(activeTab),
+      onSelect: (id) => { setActiveTab(Number(id)); setActiveAxisIdx(0); },
+    },
+    {
+      id: "axis",
+      label: t("axisNav"),
+      shape: "square",
+      items: currentGroup.keys.flatMap((k, idx) => {
+        const e = entryMap.get(k);
+        if (!e) return [];
+        return [{
+          id: String(idx),
+          name: isEn ? (AXIS_SHORT_LABELS[k]?.en || e.label.en) : (AXIS_SHORT_LABELS[k]?.ko || e.label.ko),
+          color: AXIS_COLORS[k] ?? "#d4af37",
+        }];
+      }),
+      activeId: String((currentGroup.keys as readonly string[]).indexOf(activeEntry.axis)),
+      onSelect: (id) => { setActiveAxisIdx(Number(id)); },
+    },
+  ];
 
-  if (activeEntry.celeb.id === currentFocusedId) {
-    focusedInfo = {
-      celeb: activeEntry.celeb,
-      score: activeEntry.score,
-      reason: isEn ? activeEntry.reason.en : activeEntry.reason.ko,
-      label: axisLabelBadge,
-      stats: activeEntry.celeb.stats,
-    };
-  } else if (activeEntry.opposing?.celeb.id === currentFocusedId) {
-    const oppSides = (isEn ? activeEntry.label.en : activeEntry.label.ko).split(" vs ");
-    focusedInfo = {
-      celeb: activeEntry.opposing.celeb,
-      score: activeEntry.opposing.score,
-      reason: isEn ? activeEntry.opposing.reason.en : activeEntry.opposing.reason.ko,
-      label: oppSides[1] ?? "Opposite",
-      stats: activeEntry.opposing.celeb.stats,
-    };
-  } else {
-    const runner = activeEntry.runnersUp.find(r => r.id === currentFocusedId);
-    if (runner) {
-      focusedInfo = {
-        celeb: runner,
-        score: runner.score,
-        reason: isEn ? runner.reason.en : runner.reason.ko,
-        label: axisLabelBadge,
-        stats: runner.stats,
-      };
-    }
-  }
-
-  // fallback if somehow not found
-  if (!focusedInfo) {
-    focusedInfo = {
-      celeb: activeEntry.celeb,
-      score: activeEntry.score,
-      reason: isEn ? activeEntry.reason.en : activeEntry.reason.ko,
-      label: axisLabelBadge,
-      stats: activeEntry.celeb.stats,
-    };
-  }
+  /* 축 머리 칩은 짧은 축 이름이 있는 축(덕목·능력)만 단다 — 성향은 전체 라벨이 이미 두 극을 말한다 */
+  const shortLabel = AXIS_SHORT_LABELS[activeEntry.axis]
+    ? (isEn ? AXIS_SHORT_LABELS[activeEntry.axis].en : AXIS_SHORT_LABELS[activeEntry.axis].ko)
+    : null;
 
   return (
     <div className="space-y-8">
-      {/* 탭 */}
-      <div className="flex flex-wrap gap-2">
-        {GROUPS.map((group, i) => {
-          const label = locale === "en" ? group.en : group.ko;
-          return (
-            <button
-              key={i}
-              onClick={() => { setActiveTab(i); setActiveAxisIdx(0); setFocusedCelebId(null); }}
-              className={cn(
-                "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300",
-                i === activeTab
-                  ? "bg-accent/15 text-accent border border-accent/40 shadow-[0_0_15px_rgba(var(--color-accent-rgb),0.2)]"
-                  : "bg-bg-card/40 text-text-secondary hover:text-text-primary hover:bg-bg-card border border-border/40 hover:border-border"
-              )}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+      <AtlasNav rows={navRows} />
 
-      {/* 축 네비게이션 */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {currentGroup.keys.map((k, idx) => {
-          const e = entryMap.get(k);
-          if (!e) return null;
-          const label = locale === "en"
-              ? (AXIS_SHORT_LABELS[k]?.en || e.label.en)
-              : (AXIS_SHORT_LABELS[k]?.ko || e.label.ko);
-          const c = AXIS_COLORS[k] ?? "#d4af37";
-          return (
-            <button
-              key={k}
-              onClick={() => { setActiveAxisIdx(idx); setFocusedCelebId(null); }}
-              className={cn(
-                "px-4 py-2 rounded-full text-xs font-bold transition-all border",
-                activeAxisIdx === idx
-                   ? "bg-white/10 text-white"
-                   : "bg-transparent text-white/40 border-white/5 hover:bg-white/5 hover:border-white/10"
-              )}
-              style={activeAxisIdx === idx ? { borderColor: c, color: c, backgroundColor: `${c}15` } : undefined}
-            >
-              {label}
-            </button>
-          )
-        })}
-      </div>
+      {/* 무대 — 축 머리·시상대·순위를 한 프레임에 묶는다(공용 AtlasStage, 축색 accent).
+          축이 바뀌면 무대를 새로 그린다 */}
+      <AtlasStage key={activeEntry.axis} accent={color} className="animate-hero-fade-in">
+        <div className="relative px-4 py-6 sm:px-6 md:px-10 md:py-10">
+          {/* 축 머리 */}
+          <header className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1.5 text-center">
+            {shortLabel && (
+              <span
+                className="self-center rounded border px-1.5 py-0.5 text-[10px] font-black uppercase tracking-widest"
+                style={{ borderColor: `${color}55`, color }}
+              >
+                {shortLabel}
+              </span>
+            )}
+            <h2 className="font-serif text-2xl font-bold text-text-primary md:text-3xl">
+              {isEn ? activeEntry.label.en : activeEntry.label.ko}
+            </h2>
+          </header>
 
-      {/* Grid: 1 카드, 1 포커스 */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Card: 5 columns */}
-        <div className="lg:col-span-5">
-           {isDispositions
-              ? <DispositionCard entry={activeEntry} locale={locale} color={color} focusedId={currentFocusedId} onSelect={setFocusedCelebId} />
-              : <AxisCard entry={activeEntry} locale={locale} color={color} focusedId={currentFocusedId} onSelect={setFocusedCelebId} />
-           }
+          {/* 순위 — 덕목·능력은 시상대+순위 행, 성향은 양극 매치업+순위 행 */}
+          <div className="mt-8 md:mt-10">
+            {isDispositions
+              ? <DispositionCard entry={activeEntry} locale={locale} color={color} />
+              : <AxisCard entry={activeEntry} locale={locale} color={color} />
+            }
+          </div>
         </div>
-
-        {/* Right Focus Panel: 7 columns */}
-        <div className="lg:col-span-7 h-full">
-           <FocusPanel
-              celeb={focusedInfo.celeb}
-              score={focusedInfo.score}
-              reason={focusedInfo.reason}
-              color={color}
-              locale={locale}
-              label={focusedInfo.label}
-              stats={focusedInfo.stats}
-           />
-        </div>
-      </div>
+      </AtlasStage>
 
       {/* 기질의 서재 — 이 축의 극단 집단이 공통으로 감상한 작품 */}
       <AxisLibraryPanel

@@ -9,6 +9,7 @@ import { useState, useCallback } from "react";
 import { Eye } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { getCelebProfileUrl } from "@/lib/url";
+import { celebDisplayName } from "@/lib/celeb/displayName";
 import CelebViewsModal from "@/components/features/celeb/modals/CelebViewsModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
@@ -64,7 +65,7 @@ export default function CelebCard({
   const locale = useLocale();
   const reality = celebProfile?.celeb_reality;
   const realityLabel = reality === "FICTION" ? t("reality.myth") : reality === "BOTH" ? t("reality.both") : null;
-  const displayNickname = locale === "en" && celebProfile?.nickname_en ? celebProfile.nickname_en : nickname;
+  const displayNickname = celebDisplayName({ nickname, nickname_en: celebProfile?.nickname_en ?? null }, locale);
   const displayTitle = locale === "en" && celebProfile?.title_en ? celebProfile.title_en : title;
   // UUID 주소도 기존 프로필 라우트가 정식 slug 주소로 연결한다.
   const profileHref = getCelebProfileUrl({ id, slug: celebProfile?.slug });

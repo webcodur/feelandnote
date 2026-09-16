@@ -24,20 +24,21 @@ export const MYTH_LAYOUT = {
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
   railCardSize: "w-[96px] md:w-[108px]",
   overviewOuter: "min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6",
-  overview: "overflow-hidden rounded-[24px] border border-white/[0.08] bg-black",
+  /* 바깥 윤곽선(atlas)이 이미 있으니 좁은 화면에서는 본문 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */
+  overview: "overflow-hidden rounded-[24px] md:border md:border-white/[0.08] md:bg-black",
   artwork: "relative aspect-[3/2] w-full overflow-hidden",
   /* 그룹 개요 — 넓은 화면은 전승 개요와 같은 3:2 판에 왼쪽 핵심 인물·오른쪽 패널, 좁은 화면은 위아래로 쌓는다 */
-  groupFrame: "relative bg-black lg:aspect-[3/2]",
-  groupStage: "relative flex w-full flex-col justify-center bg-[radial-gradient(circle_at_30%_0%,rgba(217,181,78,.12),transparent_60%)] px-5 pb-6 pt-6 md:px-7 lg:absolute lg:inset-y-0 lg:start-0 lg:w-[57%] lg:py-8",
+  groupFrame: "relative md:bg-black lg:aspect-[3/2]",
+  groupStage: "relative flex w-full flex-col justify-center bg-[radial-gradient(circle_at_30%_0%,rgba(217,181,78,.12),transparent_60%)] px-1 pb-5 pt-5 md:px-7 lg:absolute lg:inset-y-0 lg:start-0 lg:w-[57%] lg:py-8",
   /* 핵심 인물 칸 — 세 칸 폭을 고정해 두 명뿐인 그룹도 칸 크기가 같고 가운데 모인다 */
   groupCoreList: "mt-3 flex justify-center gap-3",
   groupCoreItem: "w-[calc((100%-1.5rem)/3)] min-w-0",
-  overviewPanel: "relative z-10 bg-black px-5 pb-6 pt-5 md:px-7 md:pb-7 md:pt-6 lg:absolute lg:inset-y-0 lg:end-0 lg:flex lg:w-[43%] lg:items-center lg:bg-transparent lg:px-6 lg:py-8 xl:px-8",
-  overviewBody: "flex w-full min-w-0 flex-col lg:h-[430px] lg:rounded-[20px] lg:border lg:border-white/[0.09] lg:bg-black/[0.88] lg:p-6 lg:shadow-[0_18px_44px_rgba(0,0,0,.28)]",
+  /* 넓은 화면은 오른쪽에 패널 카드를 띄운다 — 상·하·우에 여백을 두고 살짝 투명+블러를 입혀
+     그림이 카드 가장자리 뒤에서 이어져 보이게 한다. 카드가 판 높이를 통째로 쓰니
+     개요 본문이 네 줄이 아니라 열두 줄 안팎으로 보인다 */
+  overviewPanel: "relative z-10 px-1 pb-4 pt-5 md:px-7 md:pb-7 md:pt-6 lg:absolute lg:top-5 lg:bottom-5 lg:end-5 lg:flex lg:w-[43%] lg:rounded-[20px] lg:border lg:border-white/[0.08] lg:bg-black/85 lg:backdrop-blur-md lg:shadow-2xl lg:px-7 lg:py-8 xl:px-8",
+  overviewBody: "flex w-full min-w-0 flex-col",
   overviewHeader: "flex flex-wrap items-center justify-between gap-x-3 gap-y-2",
   overviewStats: "min-w-0 text-end text-[11px] font-semibold leading-5 text-text-tertiary md:text-xs",
   description: "scrollbar-thin mt-4 h-56 overflow-y-auto pe-2 [overflow-anchor:none] md:h-64 lg:min-h-0 lg:flex-1",
-  entryLabel: "text-[11px] font-bold tracking-[.14em]",
-  entryTitle: "mt-0.5 min-h-10 line-clamp-2 text-sm font-bold leading-5",
-  entryCreator: "mt-0.5 h-4 truncate text-xs text-text-secondary",
 } as const;

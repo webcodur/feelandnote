@@ -11,15 +11,17 @@ import { Link } from "@/i18n/navigation";
 import WorkPurchaseAction from "@/components/features/commerce/WorkPurchaseAction";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
-import { Avatar, Carousel, ContentImage } from "@/components/ui";
+import { Carousel, CelebImage, ContentImage } from "@/components/ui";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
 import type {
   AxisLibraryWork,
   SpectrumAxisLibrary,
 } from "@/actions/spectrum/getSpectrumAxisLibraries";
 import { cn } from "@/lib/utils";
+import { celebDisplayName } from "@/lib/celeb/displayName";
+import AtlasStage from "@/components/shared/AtlasStage";
 import { useTranslations } from "next-intl";
-import { AXIS_SHORT_LABELS } from "../../../spectrumAxis";
+import { AXIS_SHORT_LABELS, getAxisSides } from "../../../spectrumAxis";
 
 interface AxisLibraryPanelProps {
   library: SpectrumAxisLibrary | undefined;
@@ -58,10 +60,10 @@ function WorkTile({ work, isEn }: { work: AxisLibraryWork; isEn: boolean }) {
             {work.readers.slice(0, 3).map((reader) => (
               <span
                 key={reader.id}
-                className="rounded-full ring-2 ring-bg-main"
-                title={isEn && reader.nickname_en ? reader.nickname_en : reader.nickname}
+                className="relative block size-6 overflow-hidden rounded-full bg-bg-secondary ring-2 ring-bg-main"
+                title={celebDisplayName(reader, isEn ? "en" : "ko")}
               >
-                <Avatar url={reader.avatar_url} name={reader.nickname} size="sm" />
+                <CelebImage src={reader.avatar_url} alt="" shape="circle" fallbackSize={12} />
               </span>
             ))}
           </span>
@@ -135,8 +137,8 @@ export default function AxisLibraryPanel({
     ? AXIS_SHORT_LABELS[entry.axis]?.en || entry.label.en
     : AXIS_SHORT_LABELS[entry.axis]?.ko || entry.label.ko;
 
-  // 성향축 라벨은 "양수극 vs 음수극" 형태다 — DispositionCard와 같은 해석을 쓴다
-  const [positivePole, negativePole] = (isEn ? entry.label.en : entry.label.ko).split(" vs ");
+  // 성향축 라벨은 "양수극 vs 음수극" 형태다 — DispositionCard와 같은 해석(getAxisSides)을 쓴다
+  const [positivePole, negativePole] = getAxisSides(entry.label, locale);
 
   const highTitle = isDisposition
     ? t("highDisposition", { pole: positivePole })
@@ -146,14 +148,24 @@ export default function AxisLibraryPanel({
     : t("lowMetric", { label: shortLabel });
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-bg-card/40">
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-white/[0.07] bg-white/[0.02] px-5 py-3.5 md:px-6">
+    /* 무대와 같은 공용 프레임(AtlasStage) — 축색 광원은 무대가 이미 깔았으니 여기선 평범한 상자 */
+    <AtlasStage>
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-white/[0.06] px-5 py-3.5 md:px-6">
         <h3 className="font-serif text-lg font-bold text-text-primary">
           {t("heading")}
         </h3>
         <p className="text-xs text-text-secondary">
           {t("sub")}
         </p>
+        {/* 서가가 따르는 축 — 짧은 축 이름이 있는 축(덕목·능력)만 칩으로 단다 */}
+        {AXIS_SHORT_LABELS[entry.axis] && (
+          <span
+            className="rounded border px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider"
+            style={{ borderColor: `${color}40`, color }}
+          >
+            {shortLabel}
+          </span>
+        )}
         {!isEn && (
           <BookPurchaseInfo className="ml-auto flex h-7 w-7 items-center justify-center self-center rounded-full border border-white/10" />
         )}
@@ -174,6 +186,6 @@ export default function AxisLibraryPanel({
         />
         <LibraryColumn title={lowTitle} works={library.low} isEn={isEn} />
       </div>
-    </div>
+    </AtlasStage>
   );
 }

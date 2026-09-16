@@ -13,7 +13,9 @@ import { ArrowUpRight, Book, Film, Gamepad2, Music } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { SharedContent } from "@/actions/home/getTagSharedLibrary";
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
+import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import { celebDisplayName } from "@/lib/celeb/displayName";
 import CelebImage from "@/components/ui/CelebImage";
 import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
@@ -170,7 +172,7 @@ function Cover({ item, title, sizes }: { item: SharedContent; title: string; siz
 
 /* 본 인물 — 얼굴 몇 명과 이름, 무리 전체 가운데 몇 명이 봤는지 */
 function Readers({ item, memberCount, isEn, faces, t }: { item: SharedContent; memberCount?: number; isEn: boolean; faces: number; t: Translate }) {
-  const names = item.celebs.map((celeb) => (isEn ? (celeb.nickname_en ?? celeb.nickname) : celeb.nickname));
+  const names = item.celebs.map((celeb) => celebDisplayName(celeb, isEn ? "en" : "ko"));
   const hidden = names.length - Math.min(names.length, 2);
   const ratio = memberCount ? Math.min(100, Math.round((item.celebCount / memberCount) * 100)) : null;
 
@@ -226,9 +228,11 @@ function LeadWork({ item, memberCount, isEn, buyable, t }: { item: SharedContent
           </Link>
         </h4>
         {creator && <p className="mt-1 text-sm text-text-secondary">{creator}</p>}
+        {/* YES24 판매 정보 — 제목·저자의 책정보 흐름에 붙이고 구매 단추와는 뗀다 */}
+        {buyable && <Yes24Sales contentId={item.contentId} editionId={item.editionId} className="mt-3" />}
         <Readers item={item} memberCount={memberCount} isEn={isEn} faces={6} t={t} />
         {buyable ? (
-          <AffiliateBookAction contentId={item.contentId} editionId={item.editionId} coupangUrl={item.coupangUrl} className="mt-4 w-full max-w-sm" />
+          <AffiliateBookAction contentId={item.contentId} editionId={item.editionId} coupangUrl={item.coupangUrl} hideSales className="mt-4 w-full max-w-sm" />
         ) : (
           <Link href={href} prefetch={false} className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-accent outline-none hover:underline focus-visible:underline">
             {t("viewWork")}

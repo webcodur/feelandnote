@@ -228,7 +228,6 @@
       "navFaction": "세력도감",
       "navDirectory": "디렉토리",
       "navTimeline": "국가별 연대기",
-      "navYoutube": "영상관",
       "navToday": "오늘의 인물",
       "navOthers": "기타 인물",
       "myth": {
@@ -269,8 +268,7 @@
         },
         "relationFallback": "{name}와의 관계가 등록되어 있습니다.",
         "works": "등장 작품",
-        "entryWork": "이 세계로 들어가는 책",
-        "worksLead": "선택한 인물이 나오는 작품을 먼저 보여줍니다.",
+        "worksLead": "이 묶음에 등장하는 작품 — 고른 인물의 작품을 앞에 둡니다.",
         "selectedWorks": "연결된 작품 {count}개",
         "traditionWorks": "이 묶음의 작품 {count}개",
         "appearsHere": "등장",
@@ -324,40 +322,8 @@
         "myth": "지역과 전승을 따라 신화 속 인물과 등장 작품을 찾아보세요.",
         "faction": "하나의 주제로 모인 인물들의 이야기와 관계를 살펴보세요.",
         "timeline": "같은 시대를 살았던 인물들을 국가별 연대기로 살펴보세요.",
-        "youtube": "서재 탐방 이야기를 영상으로 만나보세요.",
         "directory": "전체 인물을 이름과 직군별로 한눈에 찾아보세요."
       }
-    },
-    "youtube": {
-      "metaTitle": "영상관 | 서재 탐방",
-      "metaDescription": "필앤노트 오리지널 영상 시리즈 서재 탐방. 시리즈 소개와 본편·쇼츠 재생목록을 한곳에서 만나보세요.",
-      "eyebrow": "FEEL&NOTE VIDEO ARCHIVE",
-      "title": "영상으로 펼쳐지는 인물의 세계",
-      "intro": "한 사람의 책장에서 시작해 그가 지나온 삶을 따라갑니다. 필앤노트가 인물의 감상을 영상으로 기록하는 방식을 만나보세요.",
-      "visitChannel": "유튜브 채널",
-      "seriesEyebrow": "ORIGINAL SERIES",
-      "seriesTitle": "책장으로 읽는 한 사람의 기록",
-      "seriesIntro": "인물이 읽은 책을 따라 그 사람의 생각과 선택을 살펴보는 서재 탐방.",
-      "fullPlaylist": "본편 재생목록",
-      "shortsPlaylist": "쇼츠 재생목록",
-      "series": {
-        "library": {
-          "index": "SERIES 01",
-          "title": "서재 탐방",
-          "tagline": "한 사람의 책장은 그가 지나온 삶의 지도입니다.",
-          "description": "역사 속 인물이 실제로 읽거나 권한 책을 따라갑니다. 책 한 권이 선택과 사상, 업적에 남긴 흔적을 생애의 흐름 속에서 살펴봅니다.",
-          "siteLink": "웹에서 인물 서재 둘러보기",
-          "imageAlt": "원형 서가와 조각상, 영사기가 놓인 어두운 서재 탐방 상영관"
-        }
-      },
-      "archiveEyebrow": "LIBRARY TOUR ARCHIVE",
-      "archiveTitle": "서재 탐방 영상 보관소",
-      "archiveDescription": "서비스에 등록된 인물 본편과 책 한 권의 쇼츠를 바로 재생할 수 있습니다.",
-      "longformTitle": "인물 본편",
-      "longformSub": "한 인물의 서재를 통째로 탐방하는 본편 영상",
-      "shortsTitle": "인물과 책, 쇼츠",
-      "shortsSub": "인물과 책 한 권의 이야기를 짧게 담은 영상",
-      "viewShelf": "서재 보러 가기"
     },
     "directory": {
       "metaTitle": "셀럽 전체 목록 | 추천 책·영화 디렉토리",
@@ -381,12 +347,16 @@
       "rank": "{rank}위",
       "count": "{count}개 감상",
       "sharedTitle": "감상 {media}",
-      "sharedDesc": "Top {count} 인물이 감상한 작품을 모았습니다.",
-      "sharedBy": "감상한 인물"
+      "sharedDesc": "함께 감상한 인물이 많은 순입니다.",
+      "sharedBy": "감상한 인물",
+      "rankDesc": "{media}를 가장 많이 감상한 인물",
+      "sharedCount": "{count}명"
     },
     "spectrum": {
       "metaTitle": "16축 스펙트럼 | 인물",
       "metaDescription": "역량·덕목·성향 16개 축에서 두드러지는 인물을 살펴보세요.",
+      "groupNav": "범주",
+      "axisNav": "축",
       "axisLibrary": {
         "heading": "기질의 서재",
         "sub": "이 축의 극단에 선 인물들이 함께 감상한 작품",
@@ -430,7 +400,8 @@
         "emptyRelated": "아직 정리된 관련 책이 없습니다.",
         "emptyRead": "아직 정리된 감상 기록이 없습니다.",
         "shelf": "인물의 책장"
-      }
+      },
+      "works": "등장 작품"
     }
   },
   "searchResult": {

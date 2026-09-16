@@ -10,18 +10,17 @@
 import { Users } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { ContentCard } from "@/components/ui/cards";
+import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import type { SharedContent } from "@/actions/home/getSharedContents";
 import type { ContentType } from "@/types/database";
 
 export default function SharedContentInsight({
   items,
   color,
-  totalCelebs,
   type,
 }: {
   items: SharedContent[];
   color: string;
-  totalCelebs: number;
   type: string;
 }) {
   const t = useTranslations("explore.topByType");
@@ -34,14 +33,11 @@ export default function SharedContentInsight({
 
   return (
     <section aria-labelledby="shared-content-title" className="mt-8 space-y-4 border-t border-white/[0.06] pt-7">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h3 id="shared-content-title" className="break-keep text-xl font-black tracking-tight text-text-primary sm:text-2xl">
-            {t("sharedTitle", { media: tc(type.toLowerCase()) })}
-          </h3>
-          <p className="mt-1 break-keep text-xs leading-relaxed text-text-secondary sm:text-sm">{t("sharedDesc", { count: totalCelebs })}</p>
-        </div>
-        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-bold tabular-nums text-text-secondary">{ordered.length}</span>
+      <div>
+        <h3 id="shared-content-title" className="break-keep text-xl font-black tracking-tight text-text-primary sm:text-2xl">
+          {t("sharedTitle", { media: tc(type.toLowerCase()) })}
+        </h3>
+        <p className="mt-1 break-keep text-xs leading-relaxed text-text-secondary sm:text-sm">{t("sharedDesc")}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:[grid-template-columns:repeat(auto-fill,minmax(150px,1fr))]">
@@ -56,6 +52,12 @@ export default function SharedContentInsight({
               href={`/content/${item.content_id}`}
               showHeader={false}
               showStats={false}
+              /* 한국어 도서 카드는 서재 격자와 같은 구매 모듈을 표지 아래 붙인다 — YES24 단추 + 값표(★ 평점·가격) */
+              posterFooterNode={
+                locale === "ko" && item.content_type === "BOOK" ? (
+                  <AffiliateBookAction contentId={item.content_id} compact />
+                ) : undefined
+              }
               overlayTopLeft={
                 <span className="rounded-md bg-black/75 px-1.5 py-1 font-mono text-[10px] font-bold tabular-nums text-white">
                   {String(index + 1).padStart(2, "0")}
@@ -67,7 +69,7 @@ export default function SharedContentInsight({
                   title={t("sharedBy")}
                 >
                   <Users size={10} style={{ color }} aria-hidden />
-                  {item.celeb_count}
+                  {t("sharedCount", { count: item.celeb_count })}
                 </span>
               }
             />

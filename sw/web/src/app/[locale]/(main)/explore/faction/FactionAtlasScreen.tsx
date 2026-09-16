@@ -6,6 +6,7 @@
 
 import { getTranslations } from "next-intl/server";
 import type { FeaturedTag } from "@/actions/home";
+import { getTagFigureBooks } from "@/actions/home/getTagFigureBooks";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import FactionAtlasNav from "@/components/features/faction/atlas/FactionAtlasNav";
 import { FactionGroupProvider, type FactionGroupMeta } from "@/components/features/faction/atlas/FactionGroupContext";
@@ -82,13 +83,17 @@ async function ThemeBody({ theme, name, clusters, locale, withJsonLd }: {
   locale: Locale;
   withJsonLd: boolean;
 }) {
-  let celebs: Awaited<ReturnType<typeof getFactionThemeCelebs>>;
-  try {
-    celebs = await getFactionThemeCelebs(theme.id, theme.celebs.map((celeb) => celeb.id));
-  } catch (error) {
-    console.error("[FactionAtlas] 인물 카드 조회 실패:", error);
-    return <RetryBlock />;
-  }
+  /* 인물 카드와 테마 등장 작품을 함께 받는다 — 작품 선반은 격자 아래에 붙는 본문이라
+     인물 카드만큼 기다려 준다. 작품 조회는 실패해도 빈 목록으로 돌아와 카드를 막지 않는다 */
+  const [celebsResult, themeBooks] = await Promise.all([
+    getFactionThemeCelebs(theme.id, theme.celebs.map((celeb) => celeb.id)).catch((error) => {
+      console.error("[FactionAtlas] 인물 카드 조회 실패:", error);
+      return null;
+    }),
+    getTagFigureBooks(theme.id, locale),
+  ]);
+  if (!celebsResult) return <RetryBlock />;
+  const celebs = celebsResult;
 
   const byId = new Map<string, CelebProfile>(celebs.map((celeb) => [celeb.id, celeb]));
   const ordered = theme.celebs.flatMap((member) => byId.get(member.id) ?? []);
@@ -120,6 +125,7 @@ async function ThemeBody({ theme, name, clusters, locale, withJsonLd }: {
         celebs={ordered}
         clusters={clusters.map((cluster) => ({ key: cluster.key, celebs: cluster.celebIds.flatMap((id) => byId.get(id) ?? []) }))}
         members={members}
+        themeBooks={themeBooks}
       />
     </>
   );

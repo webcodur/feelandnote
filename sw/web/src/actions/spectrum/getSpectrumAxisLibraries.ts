@@ -14,7 +14,9 @@ import {
 import type { SpectrumStats } from '@/lib/spectrum/types'
 
 // ─── 기질의 서재 ───
-// 축마다 극단 집단(상·하위 10%)이 공통으로 감상한 작품을 추린다.
+// 축마다 극단 집단(10%)이 공통으로 감상한 작품을 추린다.
+// 성향 축은 양수·음수 두 극을 모으고, 덕목·능력 축은 상위 극만 모은다 —
+// 이 축들의 하위는 극단이 아니라 그 특성의 부재라, 모으면 무리 없는 명단만 나온다.
 // "오만한 이들의 책장에 차라투스트라가 꽂혀 있다" — 인물 극단 화면(비범한 기록가)에
 // 같은 축의 책을 붙여, 인물에서 작품으로 건너가는 다리를 만든다.
 
@@ -61,7 +63,7 @@ export interface SpectrumAxisLibrary {
   axis: AxisKey
   /** 축 점수가 높은 극단(성향은 양수 극)의 공통 감상작 */
   high: AxisLibraryWork[]
-  /** 축 점수가 낮은 극단(성향은 음수 극)의 공통 감상작 */
+  /** 성향 축의 음수 극 집단이 공통으로 감상한 작품 — 덕목·능력 축은 하위가 극단이 아니라 항상 빈 배열 */
   low: AxisLibraryWork[]
 }
 
@@ -206,11 +208,11 @@ async function fetchWorkMeta(contentIds: string[]): Promise<Map<string, WorkMeta
 /** 작품 하나와 그 작품을 감상한 집단 구성원 — 아직 제목을 붙이기 전 단계 */
 type SharedWorkCount = [contentId: string, readers: AxisLibraryReader[]]
 
-/** 극단 집단이 공통으로 감상한 작품을 많이 겹친 순으로 줄 세운다. group은 축 극단 순으로 정렬돼 들어온다 */
+/** 극단 집단이 감상한 작품마다 그 작품을 감상한 구성원을 묶는다. group은 축 극단 순으로 정렬돼 들어온다 */
 function collectSharedWorks(
   group: Person[],
   byCeleb: Map<string, string[]>,
-): SharedWorkCount[] {
+): Map<string, AxisLibraryReader[]> {
   const readersByWork = new Map<string, AxisLibraryReader[]>()
 
   for (const person of group) {
@@ -221,9 +223,23 @@ function collectSharedWorks(
     }
   }
 
-  return [...readersByWork.entries()]
+  return readersByWork
+}
+
+/**
+ * 한 극단의 공통 감상작을 줄 세운다 — 이 극단에서 많이 읽고 반대 극단에서는 적게 읽은 작품이 앞선다.
+ * 양쪽 극단이 다 읽는 만국 공통작(성경·일리아스 등)을 겹침 수로만 세면 상·하위 칼럼에 같은 표지가
+ * 나란히 떠서 집계 오류처럼 보인다 — 「내 독자 − 반대편 독자」 차이로 밀어낸다.
+ */
+function rankSharedWorks(
+  works: Map<string, AxisLibraryReader[]>,
+  oppositeWorks: Map<string, AxisLibraryReader[]>,
+): SharedWorkCount[] {
+  const contrast = ([contentId, readers]: SharedWorkCount) =>
+    readers.length - (oppositeWorks.get(contentId)?.length ?? 0)
+  return [...works.entries()]
     .filter(([, readers]) => readers.length >= MIN_SHARED_READERS)
-    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
+    .sort((a, b) => contrast(b) - contrast(a) || b[1].length - a[1].length || a[0].localeCompare(b[0]))
 }
 
 /**
@@ -287,22 +303,25 @@ async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
 
   const rankings = AXIS_KEYS.map((axis) => {
     const sortedDesc = [...owners].sort((a, b) => b.stats[axis] - a.stats[axis])
-    const sortedAsc = [...sortedDesc].reverse()
+    const tendency = isTendency(axis)
 
-    // 성향 축은 방향이 의미다 — 양극 집단은 양수, 음극 집단은 음수인 인물만
-    const highGroup = (isTendency(axis)
+    // 성향 축은 방향이 의미다 — 양극 집단은 양수, 음극 집단은 음수인 인물만.
+    // 덕목·능력 축의 하위는 극단이 아니라 특성의 부재다 — 모으지 않는다
+    const highGroup = (tendency
       ? sortedDesc.filter((person) => person.stats[axis] > 0)
       : sortedDesc
     ).slice(0, groupSize)
-    const lowGroup = (isTendency(axis)
-      ? sortedAsc.filter((person) => person.stats[axis] < 0)
-      : sortedAsc
-    ).slice(0, groupSize)
+    const lowGroup = tendency
+      ? [...sortedDesc].reverse().filter((person) => person.stats[axis] < 0).slice(0, groupSize)
+      : []
+
+    const highWorks = collectSharedWorks(highGroup, byCeleb)
+    const lowWorks = collectSharedWorks(lowGroup, byCeleb)
 
     return {
       axis,
-      high: collectSharedWorks(highGroup, byCeleb),
-      low: collectSharedWorks(lowGroup, byCeleb),
+      high: rankSharedWorks(highWorks, lowWorks),
+      low: rankSharedWorks(lowWorks, highWorks),
     }
   })
 
