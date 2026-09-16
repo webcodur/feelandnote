@@ -25,7 +25,7 @@
 | 관계 설명과 외부 인물명 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | fiction 원전별 인물 설명 | [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) |
 | 대표 화보 캡션 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md) |
-| 세력도감 인물 텍스트 | [`../remotion/faction/README.md`](../remotion/faction/README.md) |
+| 세력도감 인물 텍스트 | [`../apps/web-bo.md`](../apps/web-bo.md) 「세력도감」 |
 
 `celebs.quotes`와 `celebs.quotes_en` 컬럼은 없다. 한마디의 정본은 `celeb_dialogues.lines.quote`와 `lines_en.quote`이며 speech 문서가 책임진다.
 

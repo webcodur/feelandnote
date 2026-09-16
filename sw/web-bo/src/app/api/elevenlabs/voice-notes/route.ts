@@ -15,7 +15,7 @@ import { guardAdminRoute } from '@/lib/admin-route'
 // `@feelandnote/shared/bo/remotion-root` 의 REMOTION_ROOT 로 바꿨다(환경변수로 덮어쓸 수 있다).
 // 이식 시 추가: 이 앱의 `/api/**` 는 미들웨어가 없어 그냥 열려 있으므로 관리자 확인을 앞에 둔다.
 
-const NOTES_DIR = path.join(REMOTION_ROOT, 'public', 'factions', '_voice-casting')
+const NOTES_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'voice-casting')
 const NOTES_PATH = path.join(NOTES_DIR, 'ele-voice-notes.json')
 
 async function readNotes(): Promise<EleVoiceNotesFile> {

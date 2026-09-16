@@ -154,8 +154,8 @@ interface CelebRow {
   window_end?: string | null
 }
 
-// 세력도감 인물 행 — 단일 원천은 제작 테이블(faction_people)이고, DB 뷰 faction_atlas_members가
-// 웹 전용 배정과 합쳐 준다. 뷰는 자동생성 타입에 없어 로컬로 정의한다.
+// 세력도감 인물 행 — 원천은 웹 배정 표(celeb_tag_assignments)이고 DB 뷰 faction_atlas_members로 읽는다.
+// 읽는 칸만 로컬로 정의한다.
 interface AtlasMemberRow {
   celeb_id: string
   tag_id: string
@@ -314,7 +314,7 @@ async function fetchCelebsPublic(
 
   // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각
   const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult] = await Promise.all([
-    // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
+    // 세력도감 소속 — 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
       const { data: memberRows, error: memberError } = await db
         .from('faction_atlas_members')

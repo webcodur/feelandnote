@@ -4,8 +4,8 @@ import type { Speaker, DiscourseHoldMotion, DiscourseImageCrop } from '../types'
 import { f } from '../timing'
 import { BG, FONT, FONT_SERIF, TEXT_PAINT, CONTENT_PAD, accentClarityPaint } from '../constants'
 import { imgSrc, initials, holdMotionTransform, isPushinZoom } from '../utils'
-import { FactionMedia } from '../../Faction/sections/FactionMedia'
-import { CaptionBackdrop } from '../../Faction/sections/CaptionBackdrop'
+import { CutMedia } from './CutMedia'
+import { CaptionBackdrop } from './CaptionBackdrop'
 
 /** 직함 줄 등장 간격(초) — 한 줄씩 이어 뜬다 */
 const LINE_STAGGER_SEC = 0.22
@@ -56,7 +56,7 @@ export const CastCard: React.FC<{
       <span style={{ color: `${color}66`, fontFamily: FONT, fontSize: 300, fontWeight: 800 }}>{initials(speaker.name)}</span>
     </AbsoluteFill>
   ) : (
-    <FactionMedia src={imgSrc(episodeName, speaker.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(speaker.imageCrop)} />
+    <CutMedia src={imgSrc(episodeName, speaker.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(speaker.imageCrop)} />
   )
 
   // 텍스트 등장 — 이름이 먼저 박히고 직함이 한 줄씩 이어 뜬다.
@@ -100,7 +100,7 @@ export const CastCard: React.FC<{
             ...TEXT_PAINT,
           }}>{speaker.era}</div>
         )}
-        {/* 직함 3줄 — 한 줄씩 순차 등장. 1번째가 짧은 대표 직함(작성 원칙은 팩션과 동일) */}
+        {/* 직함 3줄 — 한 줄씩 순차 등장. 1번째가 짧은 대표 직함 */}
         {lines.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, marginTop: 8 }}>
             {lines.map((line, i) => {

@@ -63,8 +63,8 @@ async function fetchCelebModalPublic(
     db.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
-    // 세력도감 소속 — 단일 원천은 제작 테이블이고 DB 뷰 faction_atlas_members가 웹 전용 배정과
-    // 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
+    // 세력도감 소속 — 원천은 웹 배정 표(celeb_tag_assignments)이고 DB 뷰 faction_atlas_members로 읽는다.
+    // 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
     (async (): Promise<CelebTagInfo[]> => {
       const { data: memberRows, error: memberError } = await db
         .from('faction_atlas_members')
@@ -139,7 +139,7 @@ const getCelebModalCached = unstable_cache(
 const getFactionCelebModalCached = unstable_cache(
   async (celebId: string, factionTagId: string) => {
     const db = createStaticClient()
-    // 단일 원천은 제작 테이블 — 뷰(faction_atlas_members)가 웹 전용 배정과 합쳐 준다
+    // 원천은 웹 배정 표(celeb_tag_assignments) — 뷰(faction_atlas_members)로 읽는다
     const { data: assignment, error } = await db
       .from('faction_atlas_members')
       .select('celeb_id')

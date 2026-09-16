@@ -8,7 +8,7 @@ import { selectVisibleAtlasMembers } from '@/lib/faction-atlas-members'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getInfluenceRanking } from './getCelebs'
-import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
+import { toFactionMusic, type FactionMusic } from '@/lib/faction-music'
 import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 export interface FeaturedCeleb {
@@ -24,26 +24,14 @@ export interface FeaturedCeleb {
   short_desc_en: string | null
   /* 긴 소개(long_desc)는 싣지 않는다 — 명단이 캐시 상한 2MB를 넘어 getFactionLongDescs가 테마별로 준다 */
   faction_image_url: string | null
-  /** 출간된 팩션 대사 음성 + 개인 화보 전환 타임라인 */
   /**
-   * 세력도감 영상에서 이 인물이 하는 말 — 개인 화보에서 말풍선으로 띄운다.
-   * 게임용 `celeb_dialogues`와 다른 값이다. 원천은 제작 데이터이며 도감 뷰가 직접 내놓는다.
-   */
-  /**
-   * 이 인물이 속한 세력(그룹) 이름 — 제작 유래 인물만 값이 있고 수동 배정 인물은 null이다.
+   * 이 인물이 속한 세력(그룹) 이름 — 배정의 그룹(`celeb_tag_groups`)에서 온다. 그룹 없는 배정은 null이다.
    * 목록에서 인물을 세력별로 묶어 보여주는 데 쓴다.
    */
   group_label: string | null
   group_label_en: string | null
-  /** 세력 이름 둘째 줄(부제) — 없으면 null */
-  group_subtitle: string | null
-  group_subtitle_en: string | null
   /** 세력 순번 — 같은 테마 안에서 세력이 등장하는 순서 */
   group_position: number | null
-  /** 세력 색(제작 브랜드 색) — 도감이 세력 단위 강조에 쓴다 */
-  group_color: string | null
-  /** 세력 로고 R2 주소 — 출간 사진 공정이 올린다. 없으면 null */
-  group_logo_url: string | null
   /** 영향력 총점(0~100) — 출연진 판에서 앞에 세울 핵심 인물을 가른다. 점수가 없으면 null */
   influence: number | null
 }
@@ -58,8 +46,6 @@ export interface FeaturedTag {
   slug: string | null
   /** 단체 사진 — 주소마다 「어느 묶음을 찍었고 누가 나오는지」가 함께 온다 */
   team_images: FactionTeamImage[]
-  /** 이 테마를 다룬 유튜브 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
-  videos: FactionVideos | null
   /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
   music: FactionMusic | null
   celebs: FeaturedCeleb[]
@@ -75,8 +61,8 @@ export interface FeaturedTag {
   isGroup?: boolean
 }
 
-// 세력도감 인물 행 — 단일 원천은 제작 테이블(faction_people)이고, DB 뷰 faction_atlas_members가
-// 웹 전용 배정과 합쳐 준다. 뷰는 자동생성 타입에 없어 로컬로 정의한다.
+// 세력도감 인물 행 — 원천은 웹 배정 표(celeb_tag_assignments)이고, DB 뷰 faction_atlas_members가
+// 그룹 이름을 붙여 내놓는다. 읽는 칸만 로컬로 정의한다.
 interface AtlasMemberRow {
   tag_id: string
   celeb_id: string
@@ -86,11 +72,7 @@ interface AtlasMemberRow {
   sort_order: number | null
   group_label: string | null
   group_label_en: string | null
-  group_subtitle: string | null
-  group_subtitle_en: string | null
   group_position: number | null
-  group_color: string | null
-  group_logo_url: string | null
 }
 
 interface FeaturedTagRow {
@@ -102,7 +84,6 @@ interface FeaturedTagRow {
   color: string
   slug: string | null
   team_images: unknown
-  youtube_videos: unknown
   theme_music: unknown
   is_featured: boolean | null
   is_fiction: boolean | null
@@ -151,7 +132,7 @@ async function fetchTagRows(): Promise<FeaturedTagRow[]> {
   const db = createStaticClient()
   const { data: allTags, error: tagsError } = await db
     .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, slug, team_images, youtube_videos, theme_music, is_featured, is_fiction, parent_id')
+    .select('id, name, name_en, description, description_en, color, slug, team_images, theme_music, is_featured, is_fiction, parent_id')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
 
@@ -170,7 +151,7 @@ async function fetchTagMembers(tagIds: string[]): Promise<Record<string, Feature
   // 한 번에 읽던 때 테마를 전원 공개하자 3천 행을 넘어 모든 테마가 첫 그룹 몇 명만 받았다(26.09.14)
   const allAssignments = await selectVisibleAtlasMembers<AtlasMemberRow>(
     db,
-    'celeb_id, tag_id, short_desc, short_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url',
+    'celeb_id, tag_id, short_desc, short_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_position',
     tagIds,
   )
   const assignmentsByTag: Record<string, AtlasMemberRow[]> = {}
@@ -185,8 +166,8 @@ async function fetchTagMembers(tagIds: string[]): Promise<Record<string, Feature
   /*
     배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
 
-    ① **셀럽 전역 공개 상태(publication_status)로 거르지 않는다** — 그 값은 영상 제작 쪽 사정으로 정해지는 것이라
-       진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
+    ① **셀럽 전역 공개 상태(publication_status)로 거르지 않는다** — 그 값은 인물 전역의 공개 여부라
+       테마 진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
        있었다(26.07.27 실측).
     ② **등급(celeb_tier)으로도 거르지 않는다** — 목록·검색은 신화·허구 등급을 빼는 게 맞지만
        (실존 인물 목록에 제우스가 섞이면 곤란하다), 도감은 테마별 진열이라 맥락이 분명하다.
@@ -225,11 +206,7 @@ async function fetchTagMembers(tagIds: string[]): Promise<Record<string, Feature
         faction_image_url: a.faction_image_url ?? null,
         group_label: a.group_label ?? null,
         group_label_en: a.group_label_en ?? null,
-        group_subtitle: a.group_subtitle ?? null,
-        group_subtitle_en: a.group_subtitle_en ?? null,
         group_position: a.group_position ?? null,
-        group_color: a.group_color ?? null,
-        group_logo_url: a.group_logo_url ?? null,
         influence: influenceMap[c.id] ?? null,
       }]
     })
@@ -259,7 +236,6 @@ function toFeaturedTag(tag: FeaturedTagRow, celebs: FeaturedCeleb[], extra: Pick
     color: tag.color,
     slug: tag.slug ?? null,
     team_images: toImageArray(tag.team_images),
-    videos: toFactionVideos(tag.youtube_videos),
     music: toFactionMusic(tag.theme_music),
     celebs,
     is_featured: tag.is_featured === true,

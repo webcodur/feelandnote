@@ -13,7 +13,7 @@
  * - episodes:     key → 펼친 스크립트 (en은 key 뒤에 '-en')
  * - episodeNames: key → 폴더명 (이미지 경로 discourses/{폴더명}/ 구성용)
  *
- * 발화 시각(data.timing.*.json)은 파이프라인 산출물이라 또 따로 싣고 주입한다(팩션과 동일 구조).
+ * 발화 시각(data.timing.*.json)은 파이프라인 산출물이라 또 따로 싣고 주입한다.
  */
 
 import type { DiscourseScript, Speaker, Turn } from './types'

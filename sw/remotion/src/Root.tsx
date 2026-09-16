@@ -1,5 +1,5 @@
 import React from "react";
-import { Composition, Folder, type CalculateMetadataFunction } from "remotion";
+import { Composition, Folder } from "remotion";
 import "./style.css";
 import {
   OlympusMV,
@@ -19,15 +19,6 @@ import {
 import type { EpisodeStatus, SoloScript } from "./compositions/BookRecommend";
 import { FPS } from "./compositions/BookRecommend/timing";
 import {
-  Faction,
-  calcTotalFrames as calcFactionFrames,
-  episodeFolders as factionEpisodeFolders,
-  variantsOf as factionVariantsOf,
-  loadFactionScript,
-  FPS as FACTION_FPS,
-} from "./compositions/Faction";
-import type { FactionScript, Orientation as FactionOrientation } from "./compositions/Faction/types";
-import {
   Discourse,
   calcTotalFrames as calcDiscourseFrames,
   longformPartNumbers as discourseLongformPartNumbers,
@@ -36,13 +27,9 @@ import {
   episodeNames as discourseEpisodeNames,
   FPS as DISCOURSE_FPS,
 } from "./compositions/Discourse";
-import { FactionCard, type FactionCardSpec } from "./compositions/FactionCard";
 import { BookCard, type BookCardSpec, josa } from "./compositions/BookCard";
 import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
-import { FactionLVThumbnail } from "./compositions/Thumbnail/FactionLVThumbnail";
-import { FactionLVThumbCandidate } from "./compositions/Thumbnail/FactionLVThumbCandidate";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
-import { factionCompBase } from "@feelandnote/shared/lib/youtube-faction-meta";
 // 가상 담화 컴포지션 ID 앞머리(`Discourse-<폴더명>`) — 26.07.26 packages/shared 로 승격해 단일원천화.
 // 이 파일의 등록 규칙과 왕복 검증(scripts/discourse/verify.ts ③)이 같은 함수를 쓴다.
 import { discourseCompBase } from "@feelandnote/shared/lib/youtube-discourse-meta";
@@ -53,54 +40,6 @@ import { Ranking } from "./compositions/Ranking/Ranking";
 import { episodes as rankingEpisodes, episodeNames as rankingEpisodeNames } from "./compositions/Ranking/script";
 import { rankingCompId, rankingThumbId } from "./compositions/Ranking/types";
 import { calcTotalFrames as calcRankingFrames, FPS as RANKING_FPS } from "./compositions/Ranking/timing";
-
-/* ────────────────────────── 세력도감 — 편 파일은 컴포지션을 열 때 읽는다 ────────────────────────── */
-
-/** Faction 컴포넌트 props 와 같은 모양 — orientation·shorts 기본값 해석도 컴포넌트와 같아야 길이가 어긋나지 않는다. */
-type FactionCompProps = {
-  script?: FactionScript
-  episodeName: string
-  orientation?: FactionOrientation
-  shorts?: boolean
-  part?: number
-  lvPart?: number
-}
-
-/**
- * 세력도감 본편 — 컴포지션을 열거나 렌더할 때 그 편의 faction-data.json 만 읽어 길이를 정한다.
- * 편 본문이 번들에 없으므로 백오피스 저장이 webpack 재빌드를 부르지 않는다. 저장 뒤엔 Studio 새로고침이면 된다.
- * `--props` 로 script 를 직접 넘긴 렌더는 그 값을 그대로 쓴다.
- */
-const factionMetadata: CalculateMetadataFunction<FactionCompProps> = async ({ props }) => {
-  const script = props.script ?? await loadFactionScript(props.episodeName, false)
-  // Faction.tsx 와 같은 해석 — shorts 미지정이면 세로가 곧 쇼츠다.
-  const isShorts = props.shorts ?? (props.orientation ?? 'portrait') === 'portrait'
-  const durationInFrames = calcFactionFrames(
-    script,
-    isShorts,
-    isShorts ? props.part : undefined,
-    isShorts ? undefined : props.lvPart,
-  )
-  if (!Number.isFinite(durationInFrames) || durationInFrames <= 0) {
-    throw new Error(`${props.episodeName}: 이 변형에는 컷이 없다 (shorts=${isShorts} part=${props.part ?? '-'} lvPart=${props.lvPart ?? '-'})`)
-  }
-  return { durationInFrames, props: { ...props, script } }
-}
-
-type FactionStillProps = { script?: FactionScript; episodeName: string }
-/** 썸네일 1프레임 — 길이는 고정, 편 파일만 읽어 넣는다. */
-const factionStillMetadata: CalculateMetadataFunction<FactionStillProps> = async ({ props }) => ({
-  props: { ...props, script: props.script ?? await loadFactionScript(props.episodeName, false) },
-})
-
-type FactionCardCompProps = { script?: FactionScript; episodeName: string; card: FactionCardSpec; assetBase?: string }
-/** 카드뉴스 still — 백오피스 내보내기는 --props 로 script 를 함께 넘기고, Studio 표시용은 편 파일을 읽는다. */
-const factionCardMetadata: CalculateMetadataFunction<FactionCardCompProps> = async ({ props }) => ({
-  props: { ...props, script: props.script ?? await loadFactionScript(props.episodeName, false) },
-})
-const FactionCardComp: React.FC<FactionCardCompProps> = (p) => (
-  p.script ? <FactionCard card={p.card} script={p.script} episodeName={p.episodeName} assetBase={p.assetBase} /> : null
-)
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
 function parseEpMeta(name: string) {
@@ -242,156 +181,6 @@ export const RemotionRoot: React.FC = () => {
                 </Folder>
               )
             })
-        })()}
-      </Folder>
-
-      {/* === 세력도감 === */}
-      <Folder name="Faction">
-        {factionEpisodeFolders.map((ep) => {
-          const base = factionCompBase(ep)
-          // 편별 변형 목록(faction-variants.json)이 곧 컴포지션 목록이다 — 접미사 규칙(KO-S{n}·KO-LV{n})은
-          // @feelandnote/shared 의 factionVariants 가 단일원천이라 렌더·유튜브 스크립트와 어긋나지 않는다.
-          // 길이는 컴포지션을 열 때 factionMetadata 가 편 파일을 읽어 정한다.
-          const variants = factionVariantsOf(ep)
-          const ordered = [...variants.filter((v) => v.isShorts), ...variants.filter((v) => !v.isShorts)]
-          return (
-            <Folder key={ep} name={ep}>
-              {/* KO-S{n} — 한국어 세로 쇼츠 · KO-LV{n} — 한국어 세로 롱폼 (1080x1920) */}
-              {ordered.map((v) => (
-                <Composition
-                  key={`${base}-${v.fileSuffix}`}
-                  id={`${base}-${v.fileSuffix}`}
-                  component={Faction}
-                  calculateMetadata={factionMetadata}
-                  fps={FACTION_FPS}
-                  width={1080}
-                  height={1920}
-                  defaultProps={{ episodeName: ep, orientation: 'portrait' as const, shorts: v.isShorts, part: v.part, lvPart: v.lvPart }}
-                />
-              ))}
-              {/* KO-LV-GEM — 한국어 세로 롱폼 썸네일 */}
-              <Composition
-                id={`${base}-KO-LV-GEM`}
-                component={FactionLVThumbnail}
-                calculateMetadata={factionStillMetadata}
-                durationInFrames={1}
-                fps={1}
-                width={1080}
-                height={1920}
-                defaultProps={{ episodeName: ep }}
-              />
-              {/* KO-LV-TH — 한국어 세로 롱폼 썸네일 (채택안) */}
-              <Composition
-                id={`${base}-KO-LV-TH`}
-                component={FactionLVThumbCandidate}
-                calculateMetadata={factionStillMetadata}
-                durationInFrames={1}
-                fps={1}
-                width={1080}
-                height={1920}
-                defaultProps={{ episodeName: ep }}
-              />
-              {/* KO-LH — 한국어 가로 롱폼 (1920x1080, 전체) */}
-              <Composition
-                id={`${base}-KO-LH`}
-                component={Faction}
-                calculateMetadata={factionMetadata}
-                fps={FACTION_FPS}
-                width={1920}
-                height={1080}
-                defaultProps={{ episodeName: ep, orientation: 'landscape' as const, shorts: false }}
-              />
-              {/* EN(영문) — 지금 미사용. 필요하면 loadFactionScript(ep, true) 를 쓰는 metadata 를 하나 더 두고 아래처럼 등록한다.
-              <Composition id={`${base}-EN-LV`} component={Faction} calculateMetadata={factionMetadataEn} fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ episodeName: ep, orientation: 'portrait' as const, shorts: false }} />
-              */}
-            </Folder>
-          )
-        })}
-      </Folder>
-
-      {/* === 세력도감 카드뉴스 (still 추출) === */}
-      <Folder name="FactionCard">
-        {(() => {
-          const ep = "Digital-Resistance";
-          const gi = 0, pi = 3; // 사이퍼펑크 그룹 · 사토시 나카모토
-          // 한 인물 캐러셀 4장: 표지(단체샷+위계) → 물음표 인물컷(소개글) → 인물샷+대사 → 연표
-          const cards: { id: string; card: FactionCardSpec }[] = [
-            { id: "Sat-1-cover", card: { type: "cover", groupIndex: gi } },
-            {
-              id: "Sat-2-mystery",
-              card: {
-                type: "mystery", groupIndex: gi, personIndex: pi,
-                headline: "은행 없는 돈을 만들고\n사라진 사람",
-                body: "2008년, 누군가 은행 없이 오가는 돈의 설계도를 인터넷에 올렸다. 비트코인이었다. 그는 코드와 글로만 존재하다 2011년 홀연히 사라졌고, 정체는 지금도 미궁이다.",
-              },
-            },
-            {
-              id: "Sat-3-quote",
-              card: {
-                type: "quote", groupIndex: gi, personIndex: pi, bg: "photo",
-                quoteCard: "기존 화폐의 문제는 신뢰다. 돈이 돌려면 은행을 믿어야 한다. 그 믿음이 무너진 역사는 차고 넘친다. 그래서 나는 모든 것을 신뢰가 아니라 암호 증명 위에 세웠다.",
-              },
-            },
-            {
-              id: "Sat-4-timeline",
-              card: {
-                type: "timeline", groupIndex: gi, title: "그가 남긴 것",
-                items: [
-                  { year: "2008", text: "세계 금융위기, 은행이 무너지다" },
-                  { year: "2009", text: "비트코인을 처음 가동하며 은행 구제금융 기사를 새기다" },
-                  { year: "2011", text: "작별 한 줄을 남기고 사라지다" },
-                  { year: "지금", text: "정체는 아무도 모른다" },
-                ],
-              },
-            },
-            {
-              id: "Sat-5-outro",
-              card: {
-                type: "outro", groupIndex: gi,
-                headline: "사토시 나카모토의\n진짜 얼굴은?",
-                sub: "디지털 저항 연대기",
-                cta: "유튜브 · 필앤노트 닷컴",
-              },
-            },
-          ];
-          // 내보내기용 범용 컴포지션 — BO 카드 내보내기가 still 렌더 시 --props 로 script·episodeName·card 를 주입한다.
-          // 비율별 1개씩(4:5·3:4·1:1·9:16). defaultProps 는 스튜디오 표시용 샘플(09 사토시 표지).
-          const exportComps: { id: string; width: number; height: number }[] = [
-            { id: "FactionCard-4x5", width: 1080, height: 1350 },
-            { id: "FactionCard-3x4", width: 1080, height: 1440 },
-            { id: "FactionCard-1x1", width: 1080, height: 1080 },
-            { id: "FactionCard-9x16", width: 1080, height: 1920 },
-          ];
-          return (
-            <>
-              {cards.map(({ id, card }) => (
-                <Composition
-                  key={id}
-                  id={id}
-                  component={FactionCardComp}
-                  calculateMetadata={factionCardMetadata}
-                  durationInFrames={1}
-                  fps={1}
-                  width={1080}
-                  height={1350}
-                  defaultProps={{ episodeName: ep, card }}
-                />
-              ))}
-              {exportComps.map(({ id, width, height }) => (
-                <Composition
-                  key={id}
-                  id={id}
-                  component={FactionCardComp}
-                  calculateMetadata={factionCardMetadata}
-                  durationInFrames={1}
-                  fps={1}
-                  width={width}
-                  height={height}
-                  defaultProps={{ episodeName: ep, card: cards[0].card }}
-                />
-              ))}
-            </>
-          );
         })()}
       </Folder>
 

@@ -2,8 +2,8 @@
  * align-core.ts — 음성 정렬 순수 코어. 시리즈 무관(스크립트 전용, Node fs 의존).
  *
  * 파형 파싱·무음 탐지·WhisperX 단어 정렬·구절 경계 보정·숫자 보정·sub 경계(subTimings)
- * 계산 등 "신호처리 + 타이밍 산출" 순수 로직을 모은다. BookRecommend(4-align.ts)와
- * Faction(faction-align.ts) 파이프라인이 공유한다.
+ * 계산 등 "신호처리 + 타이밍 산출" 순수 로직을 모은다. BookRecommend(4-align.ts)·5-chunk.ts 등
+ * 음성 파이프라인이 공유한다.
  *
  * ⚠ 브라우저 번들에 섞이지 않도록 src/(렌더)가 아니라 scripts/ 하위에 둔다.
  * 정렬 방식은 WhisperX 단어 타이밍 + 파형 보정만 사용한다(forced-align/ASR 단독 재구현 금지).

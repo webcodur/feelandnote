@@ -16,8 +16,7 @@
  * 데이터 구조 계열 — 에피소드 저장 형식·IO·편집 화면이 이 값으로 갈린다.
  * - book: episodes/<인물>/ 의 책 본문(meta·books·shorts). 서재 탐방
  *
- * 세력도감(faction)·가상 담화(discourse)는 이 앱에서 폐기됐다 — 편집·출간 전부 web-bo 로 이관
- * (`docs/project/remotion/faction/unification.md` §9 · `docs/project/remotion/discourse/unification.md` §8).
+ * 가상 담화(discourse)는 이 계열이 아니다 — 편집·출간이 따로 있다(`docs/project/remotion/discourse/unification.md` §8).
  */
 export type SeriesDataModel = 'book'
 

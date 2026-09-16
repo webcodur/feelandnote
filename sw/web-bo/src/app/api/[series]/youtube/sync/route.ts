@@ -120,7 +120,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
         // 쇼츠 타이틀 조립용 대표 책 제목.
         // shortsIndex는 고정 slot이지 배열 위치가 아니다 — 배열 순서로 집으면 엉뚱한 책이 잡힌다.
         // (실측: elon-musk의 shorts 배열 순서는 slot 1,6,2,3,4,8,5. shortsArr[1]은 slot 2가 아니라 6이다.)
-        // CLI(youtube-upload.ts:180)·팩션(아래 440행)이 이미 slot 조회를 쓴다. 같은 방식으로 맞춘다.
+        // CLI(youtube-upload.ts)가 이미 slot 조회를 쓴다. 같은 방식으로 맞춘다.
         const shortsArr = Array.isArray(ep.shorts) ? ep.shorts : (ep.shorts ? [ep.shorts] : [])
         const targetShorts = isShorts ? shortsArr.find((s: any) => s?.slot === shortsIndex) : undefined
         const shortsBookTitle = isShorts

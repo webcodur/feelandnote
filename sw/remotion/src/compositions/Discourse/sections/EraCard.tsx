@@ -1,7 +1,32 @@
+import React from 'react'
+import { AbsoluteFill } from 'remotion'
+import { FONT, FONT_SERIF, BG, FG, DEFAULT_ACCENT } from '../constants'
+import { nameHead, nameTail } from '../utils'
+
 /**
  * 장 표지 문구 카드 — 통합형 '앞부분\n뒷부분'.
- *
- * 팩션 것과 화면 규격·의미가 완전히 같아 **그대로 재사용한다**(복제하지 않는다).
- * 담화 고유 연출이 붙는 날 이 파일에서 갈라내면 된다 — 그때까지는 한 벌만 유지한다.
+ * 앞부분은 크게 흰색, 뒷부분은 강조색.
+ * 등장·퇴장 페이드는 CueLayer가 크로스페이드로 처리하므로 여기선 정적 레이아웃만.
  */
-export { EraCard } from '../../Faction/sections/EraCard'
+export const EraCard: React.FC<{ label: string; accent?: string }> = ({ label, accent = DEFAULT_ACCENT }) => {
+  const head = nameHead(label)
+  const tail = nameTail(label)
+  return (
+    <AbsoluteFill style={{ background: BG, alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 36 }}>
+      {/* 윗 구분선 */}
+      <div style={{ width: 120, height: 3, background: accent, opacity: 0.85, borderRadius: 2 }} />
+      {/* 앞부분 — 크게 흰색 */}
+      <div style={{ color: FG, fontFamily: FONT, fontSize: 150, fontWeight: 800, letterSpacing: 4, lineHeight: 1.05, textAlign: 'center', padding: '0 80px' }}>
+        {head}
+      </div>
+      {/* 뒷부분 — 강조색 세리프 */}
+      {tail && (
+        <div style={{ color: accent, fontFamily: FONT_SERIF, fontSize: 70, fontWeight: 800, letterSpacing: 2, textAlign: 'center', padding: '0 110px', lineHeight: 1.3 }}>
+          {tail}
+        </div>
+      )}
+      {/* 아랫 구분선 */}
+      <div style={{ width: 120, height: 3, background: accent, opacity: 0.85, borderRadius: 2 }} />
+    </AbsoluteFill>
+  )
+}

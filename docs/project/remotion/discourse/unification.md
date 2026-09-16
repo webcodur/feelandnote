@@ -1,6 +1,6 @@
 # 담화 완전 통합
 
-> 실측 대조: 26.07.26 — 에피소드 5편·발언 66·인물 9 전수, remotion-bo 담화 코드 전수(21+3파일), 읽기/쓰기 주체 전수, 팩션 5테이블 DDL 실조회, 셀럽 slug 8건 전수. 선례: [`../faction/unification.md`](../faction/unification.md)(Phase 1~5 완료). 기획 원문: [`README.md`](README.md)(§0에 실효 항목 정리).
+> 실측 대조: 26.07.26 — 에피소드 5편·발언 66·인물 9 전수, remotion-bo 담화 코드 전수(21+3파일), 읽기/쓰기 주체 전수, 팩션 5테이블 DDL 실조회, 셀럽 slug 8건 전수. 선례: 세력도감 영상 통합(Phase 1~5 완료). 기획 원문: [`README.md`](README.md)(§0에 실효 항목 정리).
 > 골격은 팩션과 동일: DB 단일 원천 + web-bo 단일 편집기 + export 산출물 강등 + remotion-bo 담화 구역 폐기.
 >
 > **후속 완료(26.07.29):** 북리커맨드도 web-bo로 이관되어 remotion-bo 앱 전체가 폐기됐다.
@@ -105,7 +105,7 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 
 규모: 화면 4 라우트 · 액션 3종(episodes=DB 집계 목록·script(+`lib/discourse-save`)·export) · fs 라우트 8종 · lib 5종. 신규·재작성 ~2,600줄(+복사 3,027). **publish·themes·avatar·voice 생성 계열 없음**(도감 투영 무관).
 
-보안 재현 필수: `proxy.ts` matcher가 이미지 확장자 주소를 로그인 검사에서 제외 → 라우트마다 관리자 확인 + 경로 잠금(`lib/discourse-asset.ts`) 이중. **로컬 가드는 `REMOTION_LOCAL`로 일반화**(FACTION_LOCAL 별칭 유지). 색 토막은 팩션 4b 치환표 44종 재사용(신규 조사 불요, sed 중첩 사고 재발 금지 — 이름 단위 1회 치환). `.faction-ui` 보정은 `.remotion-ui`로 일반화. 딸림: GeminiVoiceSelect 포함 여부 확인(미확인 §11-1) · useCelebExists → 서버 액션 대체(+독백 보기 패널 덤) · faction-edit-route는 web-bo 기존 것 재사용.
+보안 재현 필수: `proxy.ts` matcher가 이미지 확장자 주소를 로그인 검사에서 제외 → 라우트마다 관리자 확인 + 경로 잠금(`lib/discourse-asset.ts`) 이중. **로컬 가드는 `REMOTION_LOCAL`로 일반화**. 색 토막은 팩션 4b 치환표 44종 재사용(신규 조사 불요, sed 중첩 사고 재발 금지 — 이름 단위 1회 치환). `.faction-ui` 보정은 `.remotion-ui`로 일반화. 딸림: GeminiVoiceSelect 포함 여부 확인(미확인 §11-1) · useCelebExists → 서버 액션 대체(+독백 보기 패널 덤) · faction-edit-route는 web-bo 기존 것 재사용.
 
 ## 7. 음성 길이 소유권 — 지금 못 박는 규칙
 
@@ -113,7 +113,7 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 
 ## 8. remotion-bo 폐기
 
-삭제 ≈31파일 3,700줄 + 라우트 3: `components/discourse/**`(21) · `lib/discourse-{types,utils,voice}` · `api/[series]/discourse-voice/**`(2) · Sidebar DiscourseList · **`[series]/[name]/[lang]/**` 언어·탭 화면 트리 전체**(유일 사용자였음) · `lib/faction-edit-route`(참조 3곳 전부 삭제분) · `useCelebExists`+`api/celebs/exists`(참조 1곳뿐).
+삭제 ≈31파일 3,700줄 + 라우트 3: `components/discourse/**`(21) · `lib/discourse-{types,utils,voice}` · `api/[series]/discourse-voice/**`(2) · Sidebar DiscourseList · **`[series]/[name]/[lang]/**` 언어·탭 화면 트리 전체**(유일 사용자였음) · `faction-edit-route`(참조 3곳 전부 삭제분) · `useCelebExists`+`api/celebs/exists`(참조 1곳뿐).
 
 **폐기 스위치**: `series-registry.ts`의 `SeriesDataModel` 유니온에서 `'discourse'` 제거 — 등록표 9곳(SERIES_EPISODE_IO·EPISODE_LISTS·SERIES_HOMES·EDITORS·FILE_SERIES·STATUS_WRITERS·usesLangTabEditor·render/youtube 501 가드·guide 문구)을 타입 에러가 지목한다.
 
@@ -131,7 +131,7 @@ DB → pnpm discourse:export → discourse-data.json + cast.json + turns.json (+
 | 1 | 마이그레이션+RPC + schema/assemble + CLI + **왕복 7종 5/5 + 반증 10종** | **완료 26.07.26** — 3테이블·인덱스 2·RLS 12정책(pg_policies 팩션 실물 대조 일치)·`discourse_replace_episode`. 인물 9·발언 66·셀럽 연결 9/9. 7종 5/5, 반증 10/10 검출, 멱등 2회차 동일 |
 | 2 | export 발효(마커·가드·3파일 백업·재생성·drift) | **완료 26.07.26** — 5편 첫 발효, `_original/` 보존(마커 없음 확인), 손편집 1글자(cast.json) 차단→diff 1곳 지목→`--force` 바이트 복구, `--drift` 동일 5편 |
 | 3 | shared 승격(voice-names·discourseVariants·schema 범용부 분리) | **완료 26.07.26** — `lib/series-schema.ts`(P1) · `lib/discourse-voice-names.ts`(렌더·BO 96줄 복제 소거, 양쪽 재export) · `lib/youtube-discourse-meta.ts`(`discourseVariants`·`discourseCompBase`, Root.tsx 재import). 검증 ③이 공용 산출 ↔ Root.tsx 등록 규칙 일치까지 본다 |
-| 4a | web-bo 서버 기반(원자 저장·액션 3·fs 라우트 8·목록·사이드바) — 팩션 4a 검증 6항목 대칭 | **완료 26.07.26** — `lib/discourse-{paths,route,asset,db,save,edit-route}` · 액션 3 + 원천 독백 조회 · fs 라우트 8 · `/discourses` 목록(DB 집계) · 사이드바. `REMOTION_LOCAL` 일반화(`FACTION_LOCAL` 별칭 유지). 검증 6/6 |
+| 4a | web-bo 서버 기반(원자 저장·액션 3·fs 라우트 8·목록·사이드바) — 팩션 4a 검증 6항목 대칭 | **완료 26.07.26** — `lib/discourse-{paths,route,asset,db,save,edit-route}` · 액션 3 + 원천 독백 조회 · fs 라우트 8 · `/discourses` 목록(DB 집계) · 사이드바. `REMOTION_LOCAL` 일반화. 검증 6/6 |
 | 4b | 편집기 21파일 이식 + 데이터층 4곳 + 색 토막 + 독백 패널 — 검수 편 `qin-shi-huang-court`(인물 4·발언 21 최복잡) | **완료 26.07.26** — 20파일 이식(+`DiscourseSeriesHome`은 DB 집계 목록으로 대체) · 데이터층 4곳 교체 · `.remotion-ui` 일반화 · **원천 독백 패널 신설**. 저장 경로 실물 검증 4/4 |
 | 5 | remotion-bo 담화 폐기(31파일·스위치·등록표 9·죽은 호출·문서) | **완료 26.07.26** — 36파일 삭제(예상 31 + 죽은 사진 창구 4 + `lib/media-root` 1) · `SeriesDataModel` 유니온 축소로 등록표 9곳 정리 · 문서 6종 동기화. 서재 탐방 무손상(dev 실측 200), 담화 주소 404 |
 | 6(선택) | 음성 CLI 착수(voice:discourse·align·transcribe·srt·youtube·durations-pull·reorder) — **통합 완료 후에만** | |
@@ -154,7 +154,7 @@ GeminiVoiceSelect의 web-bo 폐포 포함 여부 · discourse-voice 라우트 �
 - 26.07.26 설계 확정(정찰 전수 실측 기반).
 - 26.07.26 **Phase 0~2 완료.** DB 가 담화의 단일 원천이 됐고 세 파일은 렌더용 산출물로 강등됐다.
   - 신설: `packages/shared/src/lib/series-schema.ts`(시리즈 무관 공통부) · `lib/discourse-schema.ts` · `lib/discourse-assemble.ts` · `bo/discourse-export.ts` · `sw/remotion/scripts/lib/series-cli.ts` · `scripts/discourse/{lib,import,export,verify}.ts` · `tsconfig.scripts.json`.
-  - 개조: `lib/faction-schema.ts`·`scripts/faction/lib.ts` 가 승격분을 재사용(공개 이름·시그니처 불변). **팩션 왕복 검증 95편 전량 통과로 영향 0 실증.**
+  - 개조: 당시 세력도감 영상 스키마·CLI가 승격분을 재사용했다(공개 이름·시그니처 불변). **팩션 왕복 검증 95편 전량 통과로 영향 0 실증.**
   - ⚠ 승격 규칙: 새 시리즈를 붙일 때 split/join·비교·체크섬 절차를 다시 짜지 마라. `series-schema` 에 HOT 맵과 컬럼 성질만 주입한다.
   - ⚠ 세 파일 마커 전략이 실제로 먹힌다는 증거: 마커가 없는 `cast.json` 의 **색 코드 한 글자**를 고쳤더니 병합 체크섬이 어긋나 export 가 중단되고 `/cast/0/color` 를 정확히 지목했다.
   - 반증 시험은 상설 도구로 남았다(`pnpm discourse:verify -- --all --falsify`). 통과만 보고 안심하지 않기 위한 장치다.
@@ -162,15 +162,15 @@ GeminiVoiceSelect의 web-bo 폐포 포함 여부 · discourse-voice 라우트 �
 - 26.07.26 **Phase 3~4 완료.** 편집·출간의 유일한 자리가 web-bo `/discourses` 가 됐다(remotion-bo 담화 구역은 P5 에서 걷어낸다).
   - 승격: `lib/discourse-voice-names.ts`(복제 96줄 소거 — 렌더·BO 가 재export 만 한다) · `lib/youtube-discourse-meta.ts`(영상 종류·컴포지션 ID). Root.tsx 는 컴포지션 ID 앞머리만 재import 하고 등록 루프는 그대로다 — 대신 **왕복 검증 ③이 공용 산출과 Root.tsx 등록 규칙이 어긋나면 잡는다**(설계 §10 D8 대비, 렌더 로직 무변경 원칙과 양립).
   - web-bo 신설 34파일: lib 6 · 액션 3 · fs 라우트 8 · 화면 5 · 이식 부품 20(원천 독백 패널 포함) 등.
-  - ⚠ **`REMOTION_LOCAL` 로 일반화**했다. 시리즈마다 스위치를 따로 두면 하나만 켜 놓고 다른 화면이 왜 안 되는지 찾게 된다. 옛 이름 `FACTION_LOCAL` 도 계속 인정하므로 `.env` 를 고칠 필요는 없다.
+  - ⚠ **`REMOTION_LOCAL` 로 일반화**했다. 시리즈마다 스위치를 따로 두면 하나만 켜 놓고 다른 화면이 왜 안 되는지 찾게 된다. 스위치 이름은 `REMOTION_LOCAL` 하나다.
   - ⚠ **음성 길이 병합이 실제로 작동한다는 실측**: DB 의 길이를 비우고 저장해도 **파일에 적힌 값이 되살아난다**(설계 §5 · 팩션 §7①). 파이프라인이 파일에만 기록한 길이를 지키는 규칙이라 의도된 동작이다 — 되돌리려면 파일 쪽도 함께 지워야 한다. 시험 중 이 규칙을 몰라 "복구 실패"로 오판했다.
   - ⚠ **§7-③ 규칙 실증**: 길이를 심어 놓고 발언 순서를 바꿨더니 그 값이 **자리에 남지 않고 사람의 n번째 발언을 따라갔다.** 담화는 한 인물이 여러 번 말하는 것이 기본이라 이 규칙이 없으면 음원과 컷 길이가 어긋난다.
-  - 임의 결정 4건: ① `DiscourseSeriesHome`(옛 목록 화면)은 이식하지 않고 **DB 집계 목록으로 대체** — 원본은 전 편의 파일을 통째로 읽어 목록을 만들었다(§1 R5). ② `useCelebExists` 는 새로 만들지 않고 **web-bo 에 이미 있던 공용 창구를 재사용**(팩션이 쓰던 것 — 중복을 만들 뻔했다). ③ 표 부품은 `components/factions/FactionTable` 을 빌려 씀(시리즈 지식 없는 순수 표 부품). ④ eslint 예외 목록에 담화 경로를 **넣지 않고** 지적 3건을 실제로 고쳤다(설계 §10 D11).
+  - 임의 결정 4건: ① `DiscourseSeriesHome`(옛 목록 화면)은 이식하지 않고 **DB 집계 목록으로 대체** — 원본은 전 편의 파일을 통째로 읽어 목록을 만들었다(§1 R5). ② `useCelebExists` 는 새로 만들지 않고 **web-bo 에 이미 있던 공용 창구를 재사용**(팩션이 쓰던 것 — 중복을 만들 뻔했다). ③ 표 부품은 당시 세력도감 목록의 순수 표 부품을 빌려 씀. ④ eslint 예외 목록에 담화 경로를 **넣지 않고** 지적 3건을 실제로 고쳤다(설계 §10 D11).
 - 26.07.26 **Phase 5 완료 — 담화 통합 종료.** 편집·출간의 유일한 자리가 web-bo `/discourses` 가 됐고 remotion-bo 에 담화 코드는 남지 않았다.
   - 삭제 36파일: 편집기 21 · 데이터층 3 · 음성 창구 2 · 사이드바 목록 1 · **언어·탭 화면 트리 2**(유일 사용자가 담화였다) · 딸림 3(`faction-edit-route`·`useCelebExists`+`api/celebs/exists`) · **죽은 사진 창구 4**.
   - ⚠ **죽은 사진 창구를 함께 걷어낸 근거**: `mediaRootOf()` 가 담화에만 폴더를 내주고 있었다. 담화가 빠지자 모든 시리즈에 `undefined` 를 돌려주게 돼 **어떤 요청이 와도 404 를 뱉는 창구**가 됐다(호출처 0곳). 쓰이지 않는 정도가 아니라 동작하지 않는 코드다.
   - ⚠ **남겨 둔 것**: `api/[series]/music`(목록·폴더 열기)은 호출처가 담화 편집기뿐이었으나 **동작 자체는 멀쩡하다**(시리즈 공용 `public/music/` 을 읽는다). 고장이 아니라 부르는 사람이 없어진 것이라 그대로 뒀다 — 지우려면 별도 판단이 필요하다.
   - 등록표 9곳은 `SeriesDataModel` 유니온에서 `'discourse'` 를 빼자 타입 검사기가 전부 지목했다(팩션 P5 와 같은 방법). `usesLangTabEditor` 는 정의째 소멸했다 — 쓰는 시리즈가 없어졌다.
   - **§8.5 죽은 호출 재확인**: shared `media.tsx:623` 이 `/api/${series}/faction-avatar` 를 부르는 배선은 그대로다. 담화 인물 카드가 slug 를 넘기지 않아 **버튼 자체가 안 그려지므로 지금은 호출되지 않는다.** web-bo 이식본도 같은 상태다 — 이 버튼을 켜려면 라우트 신설(`celeb-avatar` 로 개명 후보)이 선행돼야 한다.
-  - 문서 5종 동기화: 이 문서 · `docs/project/remotion/discourse/README.md`(머리에 통합 완료 표기) · `docs/project/apps/web-bo.md`(「가상 담화」 절 신설) · `AGENTS.md` · `docs/project/remotion/faction/unification.md`(형제 통합 완료 1줄).
+  - 문서 5종 동기화: 이 문서 · `docs/project/remotion/discourse/README.md`(머리에 통합 완료 표기) · `docs/project/apps/web-bo.md`(「가상 담화」 절 신설) · `AGENTS.md` · 세력도감 통합 문서(형제 통합 완료 1줄).
   - 당시 이 앱에 남은 시리즈는 서재 탐방 하나였다. 이 관찰이 Phase 7의 전제가 되었고, 26.07.29 web-bo 이관과 앱 소멸로 해소됐다.

@@ -49,9 +49,6 @@ sw/remotion/public/voice-samples/
 # Remotion cover images (candidate용, DB thumbnail_url에서 재다운로드 가능)
 sw/remotion/public/covers/
 
-# Remotion 세력도(faction) 영상 자료 — 활성 여부와 무관하게 한 뿌리에서 전체 로컬 관리
-sw/remotion/public/factions/
-
 # 렌더 창고 — 렌더 직전에 그 편 자산만 하드링크로 모아 두는 임시 폴더(렌더가 끝나면 지운다).
 sw/remotion/.render-stage/
 
@@ -63,7 +60,7 @@ sw/remotion/public/book-person/
 sw/remotion/public/rankings/
 
 # 담화 내보내기 백업 — DB 발효 때마다 쌓이는 회차 사본이라 추적하지 않는다.
-# (담화 데이터 세 파일 자체는 추적 대상이다. factions/ 처럼 통째로 빼지 않는다)
+# (담화 데이터 세 파일 자체는 추적 대상이다)
 sw/remotion/public/discourses/*/.export-backup/
 
 # Remotion temp scripts & data
@@ -155,9 +152,6 @@ _backup/
 /.claude/skills/celeb-activation-audit/
 /.claude/skills/celeb-reading/
 /.claude/skills/diagnosing-bugs/
-/.claude/skills/faction-character-info/
-/.claude/skills/faction-data-manage/
-/.claude/skills/faction-dialogue-review/
 /.claude/skills/fiction-profile-audit/
 /.claude/skills/interview-audio-pipeline/
 /.claude/skills/nobg-cutout/

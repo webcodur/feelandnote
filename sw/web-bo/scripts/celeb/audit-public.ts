@@ -2,14 +2,13 @@
  * 사용자 웹에 노출되는 셀럽·세력도감 데이터의 구조/결측 1차 감사.
  *
  * 사실 검증이나 문체 판정을 대신하지 않는다. 전수 리서치 전에 깨진 구조, 빈 필드,
- * 지나치게 짧은 원고, 중복 대사와 유튜브 업로드 보호 범위를 한 번에 찾는 읽기 전용 도구다.
+ * 지나치게 짧은 원고, 중복 대사를 한 번에 찾는 읽기 전용 도구다.
  *
  * 실행:
  *   pnpm exec tsx scripts/audit-public-celeb-quality.ts
  *   pnpm exec tsx scripts/audit-public-celeb-quality.ts --json
  */
 
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
@@ -111,29 +110,10 @@ type AssignmentRow = {
   quote_en: string | null
 }
 
-type EpisodeRow = { id: string; folder: string; registered: boolean; status: string }
-type GroupRow = { id: string; episode_id: string; tag_id: string | null }
-type ClusterRow = { id: string; group_id: string }
-type FactionPersonRow = {
-  id: string
-  cluster_id: string
-  celeb_id: string | null
-  name: string
-  quote: string | null
-  quote_en: string | null
-  quote_chunks: string[] | null
-  quote_en_chunks: string[] | null
-  quote_origin: string | null
-  epithet: string | null
-  epithet_en: string | null
-}
-
 type DialogueProblem = {
   celebId: string
   slug: string
   nickname: string
-  /** 참고 정보다. 웹용 21개 개인 대사는 팩션 영상과 별개라 보호 판정에 쓰지 않는다. */
-  inUploadedFactionCast: boolean
   missingKo: number
   legacyAnswer: boolean
   malformed: boolean
@@ -239,64 +219,12 @@ async function main() {
       .range(from, to)
     return { data: data as unknown as AssignmentRow[] | null, error }
   })
-  const episodes = await allRows<EpisodeRow>('faction_episodes', async (from, to) => {
-    const { data, error } = await db
-      .from('faction_episodes')
-      .select('id, folder, registered, status')
-      .order('id')
-      .range(from, to)
-    return { data: data as unknown as EpisodeRow[] | null, error }
-  })
-  const groups = await allRows<GroupRow>('faction_groups', async (from, to) => {
-    const { data, error } = await db
-      .from('faction_groups')
-      .select('id, episode_id, tag_id')
-      .order('id')
-      .range(from, to)
-    return { data: data as unknown as GroupRow[] | null, error }
-  })
-  const clusters = await allRows<ClusterRow>('faction_clusters', async (from, to) => {
-    const { data, error } = await db.from('faction_clusters').select('id, group_id').order('id').range(from, to)
-    return { data: data as unknown as ClusterRow[] | null, error }
-  })
-  const factionPeople = await allRows<FactionPersonRow>('faction_people', async (from, to) => {
-    const { data, error } = await db
-      .from('faction_people')
-      .select('id, cluster_id, celeb_id, name, quote, quote_en, quote_chunks, quote_en_chunks, quote_origin, epithet, epithet_en')
-      .eq('is_person', true)
-      .order('id')
-      .range(from, to)
-    return { data: data as unknown as FactionPersonRow[] | null, error }
-  })
-
   const publicIds = new Set(profiles.map(row => row.id))
   const fullLight = profiles.filter(row => row.celeb_tier === 'full' || row.celeb_tier === 'light')
   const fullIds = new Set(profiles.filter(row => row.celeb_tier === 'full').map(row => row.id))
   const dialogueById = new Map(dialogues.map(row => [row.celeb_id, row]))
   const influenceById = new Map(influences.map(row => [row.celeb_id, row]))
   const spectrumById = new Map(spectra.map(row => [row.celeb_id, row]))
-
-  const lineupPath = path.resolve(process.cwd(), '../remotion/scripts/youtube/faction-lineup.json')
-  const lineup = JSON.parse(await readFile(lineupPath, 'utf8')) as Record<string, { uploads?: Json }>
-  const uploadedFolders = new Set(
-    Object.entries(lineup)
-      .filter(([, value]) => value.uploads && Object.keys(value.uploads).length > 0)
-      .map(([folder]) => folder),
-  )
-
-  const episodeById = new Map(episodes.map(row => [row.id, row]))
-  const groupById = new Map(groups.map(row => [row.id, row]))
-  const clusterById = new Map(clusters.map(row => [row.id, row]))
-  const factionEpisodeOf = (person: FactionPersonRow): EpisodeRow | undefined => {
-    const cluster = clusterById.get(person.cluster_id)
-    const group = cluster ? groupById.get(cluster.group_id) : undefined
-    return group ? episodeById.get(group.episode_id) : undefined
-  }
-  const uploadedPeople = factionPeople.filter(person => {
-    const episode = factionEpisodeOf(person)
-    return !!episode && uploadedFolders.has(episode.folder)
-  })
-  const protectedCelebIds = new Set(uploadedPeople.flatMap(person => person.celeb_id ? [person.celeb_id] : []))
 
   const profileMissing = [
     'slug',
@@ -367,7 +295,6 @@ async function main() {
       celebId: profile.id,
       slug: profile.slug ?? profile.id,
       nickname: profile.nickname ?? profile.id,
-      inUploadedFactionCast: protectedCelebIds.has(profile.id),
       missingKo,
       legacyAnswer: !!ko?.answer,
       malformed,
@@ -505,61 +432,6 @@ async function main() {
     quoteMissingKo: publicAssignments.filter(row => !text(row.quote)).length,
   }
 
-  const nonUploadedFactionPeople = factionPeople.filter(person => {
-    const episode = factionEpisodeOf(person)
-    return !episode || !uploadedFolders.has(episode.folder)
-  })
-  const draftArtifactPattern = /(?:^|\n)\s*\(?\d+\s*안(?:\s|[·:：.)])|최종안|대안\s*[·:：]|후보\s*[·:：]/m
-  const draftArtifactRows = nonUploadedFactionPeople
-    .filter(row => draftArtifactPattern.test(text(row.quote)))
-    .map(row => ({
-      episode: factionEpisodeOf(row)?.folder ?? '(episode-unresolved)',
-      person: row.name,
-      excerpt: text(row.quote).slice(0, 100),
-    }))
-  const compactDialogue = (value: string): string => value.replace(/\s+/g, ' ').trim()
-  const chunksMismatch = (quote: string | null, chunks: string[] | null): boolean => {
-    if (!text(quote) || !Array.isArray(chunks)) return false
-    return compactDialogue(text(quote)) !== compactDialogue(chunks.join(' '))
-  }
-  const factionDialogueByEpisode = episodes
-    .map(episode => {
-      const people = factionPeople.filter(person => factionEpisodeOf(person)?.id === episode.id)
-      return {
-        folder: episode.folder,
-        status: episode.status,
-        registered: episode.registered,
-        protected: uploadedFolders.has(episode.folder),
-        placements: people.length,
-        missingQuoteKo: people.filter(row => !text(row.quote)).length,
-        chunkMismatchKo: people.filter(row => chunksMismatch(row.quote, row.quote_chunks)).length,
-      }
-    })
-    .filter(row =>
-      row.missingQuoteKo > 0
-      || row.chunkMismatchKo > 0,
-    )
-    .sort((a, b) =>
-      Number(a.protected) - Number(b.protected)
-      || b.missingQuoteKo - a.missingQuoteKo
-      || a.folder.localeCompare(b.folder),
-    )
-  const factionDialogueAudit = {
-    totalPeople: factionPeople.length,
-    uploadedFolders: [...uploadedFolders].sort(),
-    protectedPlacements: uploadedPeople.length,
-    protectedUniqueCelebs: protectedCelebIds.size,
-    protectedMissingQuoteKo: uploadedPeople.filter(row => !text(row.quote)).length,
-    protectedChunkMismatchKo: uploadedPeople.filter(row => chunksMismatch(row.quote, row.quote_chunks)).length,
-    editablePlacements: nonUploadedFactionPeople.length,
-    editableMissingQuoteKo: nonUploadedFactionPeople.filter(row => !text(row.quote)).length,
-    editableChunkMismatchKo: nonUploadedFactionPeople
-      .filter(row => chunksMismatch(row.quote, row.quote_chunks)).length,
-    editableDraftArtifacts: draftArtifactRows.length,
-    draftArtifactExamples: draftArtifactRows.slice(0, 30),
-    byEpisode: factionDialogueByEpisode,
-  }
-
   const report = {
     generatedAt: new Date().toISOString(),
     scope: {
@@ -591,7 +463,6 @@ async function main() {
     },
     dialogues: {
       rowsInScope: dialogueProblems.length,
-      uploadedFactionCastCelebs: protectedCelebIds.size,
       malformed: dialogueProblems.filter(row => row.malformed).length,
       malformedPeople: rankedDialogueProblems
         .filter(row => row.malformed)
@@ -617,7 +488,6 @@ async function main() {
     },
     contents: contentAudit,
     factionAssignments: factionAssignmentAudit,
-    factionDialogues: factionDialogueAudit,
   }
 
   if (process.argv.includes('--json')) {

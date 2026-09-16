@@ -16,8 +16,6 @@ export interface FactionCluster {
   name: string | null
   /** 화면에 쓸 진영 이름(영문 화면은 영문 이름) — 진영이 없는 인물 묶음이면 null */
   label: string | null
-  subtitle: string | null
-  color: string | null
   celebIds: string[]
 }
 
@@ -70,15 +68,11 @@ export function buildFactionClusters(celebs: FeaturedCeleb[], locale: Locale): F
       cluster: {
         name: key,
         label: locale === 'en' ? celeb.group_label_en?.trim() || key : key,
-        subtitle: null,
-        color: null,
         celebIds: [],
       },
       position: Number.MAX_SAFE_INTEGER,
       first: index,
     }
-    entry.cluster.subtitle ??= (locale === 'en' ? celeb.group_subtitle_en : celeb.group_subtitle)?.trim() || null
-    entry.cluster.color ??= celeb.group_color
     entry.position = Math.min(entry.position, celeb.group_position ?? Number.MAX_SAFE_INTEGER)
     entry.cluster.celebIds.push(celeb.id)
     byLabel.set(key, entry)
@@ -87,6 +81,6 @@ export function buildFactionClusters(celebs: FeaturedCeleb[], locale: Locale): F
   const clusters = [...byLabel.values()]
     .sort((a, b) => a.position - b.position || a.first - b.first)
     .map((entry) => entry.cluster)
-  if (unlabeled.length > 0) clusters.push({ name: null, label: null, subtitle: null, color: null, celebIds: unlabeled })
+  if (unlabeled.length > 0) clusters.push({ name: null, label: null, celebIds: unlabeled })
   return clusters
 }

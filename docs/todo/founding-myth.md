@@ -209,5 +209,5 @@
 `celeb_reality`를 받으며 `FICTION`과 `BOTH`만 허용한다(생략하면 `FICTION`). 실존 인물은 이 경로로
 넣지 않는다 — web-bo 등록 화면을 쓴다.
 
-**배정을 쓰는 곳은 `celeb_tag_assignments`다.** 화면이 읽는 `faction_atlas_members`는 이것과 제작
-데이터를 합쳐 보여 주는 뷰라 쓰기가 막혀 있고, 순서도 뷰에서 10000을 더해 보여 준다.
+**배정을 쓰는 곳은 `celeb_tag_assignments`다.** 화면이 읽는 `faction_atlas_members`는 이것을
+보여 주는 뷰라 쓰기가 막혀 있다.

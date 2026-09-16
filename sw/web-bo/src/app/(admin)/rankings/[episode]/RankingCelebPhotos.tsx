@@ -6,7 +6,7 @@ import { RANKING_IMAGE_DND, imageSrc } from '@feelandnote/shared/bo/media'
 import CelebSearchBar, { type CelebSearchItem } from '@/components/celeb/CelebSearchBar'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
-import { FactionImageFileButton } from '@/components/factions/FactionEditor/FactionPeoplePanel/FactionImageFileButton'
+import { ImageFileButton } from '@/components/ui/ImageFileButton'
 import { RANKING_SERIES } from '@/lib/ranking-paths'
 import type { RankingCelebProfile } from '@/lib/ranking-celeb'
 
@@ -124,7 +124,7 @@ function PersonCard({
           previewClassName="h-28 w-28 rounded-xl border border-border hover:border-accent"
           empty={<Star className="h-7 w-7 text-accent" />}
         />
-        <FactionImageFileButton label={profile.avatarUrl ? '교체' : '등록'} onPick={setAvatarFile} />
+        <ImageFileButton label={profile.avatarUrl ? '교체' : '등록'} onPick={setAvatarFile} />
       </figure>
       <figure className="w-[5.5rem] shrink-0">
         <figcaption className="mb-1 text-center text-xs font-semibold text-text-secondary">대표 사진</figcaption>
@@ -142,7 +142,7 @@ function PersonCard({
           className="group/portrait relative h-28 w-[5.5rem] overflow-hidden rounded-xl border border-border bg-bg-card hover:border-accent data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent"
           empty={<ImageIcon className="h-7 w-7 text-text-secondary" />}
         />
-        <FactionImageFileButton label={profile.portraitUrl ? '교체' : '등록'} onPick={setPortraitFile} />
+        <ImageFileButton label={profile.portraitUrl ? '교체' : '등록'} onPick={setPortraitFile} />
       </figure>
       <div className="min-w-0 pt-5">
         <p className="truncate text-sm font-semibold text-text-primary">{name}</p>

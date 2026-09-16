@@ -201,7 +201,6 @@ BEGIN
     'public.complete_celeb_content_research_run(uuid)',
     'public.claim_next_celeb_philosophy_rewrite(text,integer)',
     'public.enqueue_missing_celeb_philosophy_rewrite_jobs()',
-    'public.faction_replace_episode(text,jsonb,jsonb,jsonb,jsonb,jsonb,timestamp with time zone)',
     'public.discourse_replace_episode(text,jsonb,jsonb,jsonb,timestamp with time zone)',
     'public.set_celeb_quote(uuid,text,text)',
     'public.set_fiction_narrative_events(uuid,jsonb)',

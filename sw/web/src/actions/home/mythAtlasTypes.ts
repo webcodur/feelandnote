@@ -1,5 +1,5 @@
 
-import type { FactionMusic } from "@/lib/faction-videos";
+import type { FactionMusic } from "@/lib/faction-music";
 
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";

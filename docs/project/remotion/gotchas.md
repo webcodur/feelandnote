@@ -1,6 +1,6 @@
 # Remotion 영상·음성 제작 함정 모음
 
-이 문서는 Remotion 기반 영상 제작(북리커맨드·팩션·쇼츠)과 그 음성 파이프라인에서 실제로 겪은 실패와 그 원인을 모은 것이다. 같은 함정을 두 번 밟지 않기 위한 축적물이며, 특히 "이미 시도했다가 폐기된 방향"을 다시 제안하지 않도록 명시한다. 음성 합성·정렬·자막 타이밍 작업 전, 렌더나 미리보기 성능 문제를 진단할 때, 롱폼·카드뉴스 데이터 구조를 건드리기 전, 그리고 렌더·합성 실행 여부를 판단할 때 먼저 읽는다.
+이 문서는 Remotion 기반 영상 제작(북리커맨드·담화·쇼츠)과 그 음성 파이프라인에서 실제로 겪은 실패와 그 원인을 모은 것이다. 같은 함정을 두 번 밟지 않기 위한 축적물이며, 특히 "이미 시도했다가 폐기된 방향"을 다시 제안하지 않도록 명시한다. 음성 합성·정렬·자막 타이밍 작업 전, 렌더나 미리보기 성능 문제를 진단할 때, 롱폼·카드뉴스 데이터 구조를 건드리기 전, 그리고 렌더·합성 실행 여부를 판단할 때 먼저 읽는다.
 
 ---
 
@@ -114,7 +114,7 @@ eleven_v3 모델은 문장 맨 앞에 붙은 대괄호 감정·톤 태그(예: `
 
 검증은 두 단계다. (1) `sub.join(' ') === text` 자동 검증, (2) 각 청크가 단독으로 읽혀도 의미가 통하는지 자가 점검. 한 sentence라도 어색하면 그 sentence 전체를 다시 쓴다. "대부분 맞으니 넘긴다"는 금지다. 유저는 한 단위라도 어긋나면 결과 전체를 거부한다.
 
-참고: 팩션 대사 자막 덩어리(quoteChunks) 분할도 같은 원칙으로 Claude가 수동 처리한다.
+참고: 담화 발언 자막 덩어리(chunks) 분할도 같은 원칙으로 수동 처리한다.
 
 ### 옛 대본 잔재 wav가 배속 산출을 오염시킨다
 
@@ -172,19 +172,18 @@ renderStill(@remotion/renderer)로 정지 이미지(카드뉴스 등)를 뽑을 
 
 `<Img>`는 onload까지 delayRender로 렌더를 붙잡지만 일반 `<img>`는 붙잡지 않는다. 증상은 로컬 staticFile 이미지(책 표지)는 뜨는데 외부 URL 이미지(avatar_url)만 빈 배경으로 나가는 것이다. Remotion Studio 미리보기에서는 실시간이라 로드를 기다려 멀쩡히 보이므로 더 헷갈린다. BookCard 카드뉴스 출고(`render:cards`)에서 전 인물 얼굴이 누락된 적이 있다.
 
-부가: `render:cards` 번들은 public 전체(팩션 이미지 포함)를 Temp로 복사하므로, 반복하면 `Temp/remotion-*`이 쌓여 ENOSPC(디스크 풀)가 날 수 있다. 가끔 정리한다.
+부가: `render:cards` 번들은 public 전체를 Temp로 복사하므로, 반복하면 `Temp/remotion-*`이 쌓여 ENOSPC(디스크 풀)가 날 수 있다. 가끔 정리한다.
 
-### 팩션 렌더는 public을 통째로 복사하지 않는다 — 창고 방식(26.07.26)
+### 렌더는 public을 통째로 복사하지 않는다 — 창고 방식(26.07.26)
 
-렌더는 시작할 때 `public/`을 번들 폴더로 복사한다. 이 저장소의 public은 **7.3GB**(서재 탐방 4.4GB·세력도감 2.6GB·담화 196MB·곡 125MB)라 한 편을 뽑을 때마다 전부가 딸려 갔다. 위 ENOSPC가 그 결과다.
+렌더는 시작할 때 `public/`을 번들 폴더로 복사한다. 이 저장소의 public은 수 GB(서재 탐방만 4.4GB)라 한 편을 뽑을 때마다 전부가 딸려 갔다. 위 ENOSPC가 그 결과다.
 
-**`pnpm render:staged`** 가 렌더 직전에 그 편이 참조하는 것만 임시 폴더(`sw/remotion/.render-stage/`)에 **하드링크**로 모으고 `--public-dir`로 넘긴다. 실측 PayPal-Mafia **189MB·150파일·56ms**(전부 하드링크, 용량 순증 0). 렌더가 끝나면 창고를 지운다(링크만 끊기므로 원본 무사).
+**`pnpm render:staged -- --series <discourse|book-person> --episode <편>`** 이 렌더 직전에 그 편이 참조하는 것만 임시 폴더(`.render-stage/`, 보관소가 있으면 그 옆)에 **하드링크**로 모으고 `--public-dir`로 넘긴다. `--series`는 필수다. 렌더가 끝나면 창고를 지운다(링크만 끊기므로 원본 무사).
 
-- 담는 것: `factions/<편>/`(발주 참고 `_refs`·문서 `_docs`·`quotes`·`_archive`·백업·합성 원본 `voice/.raw` 제외) + `common/` + `music/` + `fonts/`. 규칙은 `scripts/render/stage.ts` 한 곳.
+- 담는 것: 그 편 폴더(발주 참고·문서·백업·합성 원본 제외) + `common/` + `fonts/` + 그 편이 실제로 재생하는 곡만. 규칙은 `scripts/render/stage.ts` 한 곳.
 - **창고 조립이 실패하면 조용히 통짜로 넘어가지 않는다** — 사유를 찍고 멈춘다. 통짜로 뽑으려면 `--full-public`을 사람이 붙인다.
 - ⚠ **창고 안 파일을 고치지 마라.** 하드링크라 원본이 함께 바뀐다. 읽기 전용이다.
-- web-bo 렌더 버튼(영상·썸네일)도 이 경로로 돈다. Studio는 복사를 하지 않으므로 대상이 아니다.
-- 곡(`music/` 125MB)은 아직 통째로 담는다 — 데이터에 곡 이름만 적혀 있어 참조 추출이 별건이다. 그래도 7.3GB → 189MB다.
+- Studio는 복사를 하지 않으므로 대상이 아니다.
 
 ### 렌더 스크립트 stdout에 손대지 않는다
 
@@ -226,23 +225,13 @@ book-recommend 롱폼(요약·감상배경·후속맥락)을 여러 토막으로
 
 **결함 이력(2026-07-03 전수정 완료)**: 현역 legacy 렌더에는 롱폼 오디오의 물리적 `playbackRate`가 아예 빠져 있었다(`_not-using` 쪽에는 있었다). applyPlaybackRates가 타임라인과 자막 시각만 1/r로 줄이고 오디오는 원속으로 재생해 배속 지정 구간이 뒤에서 잘려나갔다("대사가 끝까지 안 나오고 끊긴다"). 요약·감상배경·후속맥락 세 구간을 먼저 배선했고, 제목과 인용 오디오도 2026-07-03에 배선을 마쳤다(BookRecommendLongLegacy.tsx 제목 Audio에 `clampRate(book.titlePlaybackRate)`, 인용 Audio에 `clampRate(book.quotePairs[pi].quotePlaybackRate)`). elon-musk 롱폼은 10권 전 인용에 quotePlaybackRate 1.01~1.35가 걸려 있어 전권 인용이 잘리던 상태였다. 배속 미설정이면 `clampRate(undefined)=1`이라 동작은 불변이다.
 
-### `faction-data.json`을 직접 편집하지 마라
-
-팩션의 `sw/remotion/public/factions/<편>/faction-data.json`은 **원천이 아니라 산출물**이다(26.07.25 통합). 텍스트·구성의 단일 원천은 DB 5테이블이고, 이 파일은 `pnpm faction:export`가 DB에서 만들어 낸다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 못 읽어서 파일을 남기는 것이다.
-
-- 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다. **checksum이 안 맞으면 다음 내보내기가 중단되고 diff를 뿜는다**(`--force`로만 강행). 즉 손으로 고치면 그 편의 저장·렌더 흐름이 멈춘다.
-- 수정은 web-bo `/factions` 편집 화면에서 한다. 저장하면 내보내기가 자동으로 따라 붙는다.
-- 이미 손으로 고쳐 버렸으면 `pnpm faction:import -- --episode <편>`으로 DB에 재흡수한다. **임의로 실행하지 않는다** — DB가 더 새로울 수도 있어 반대 방향으로 덮어쓸 위험이 있다. 어느 쪽이 최신인지 확인하고 사람이 판단해 실행한다.
-- 드리프트 상시 확인은 `pnpm faction:verify --drift`, 편별 검증은 `--episode <편>`.
-- 실사례: `Gods-Greek-Compact`는 이관 뒤 사람이 JSON을 더 고쳐(대사 148곳 차이) 파일이 DB보다 새로운 상태로 남았다. 가드가 이 편의 내보내기를 막아 되돌림 사고는 안 났다.
-
 ### 영상 제작 편집기는 web-bo에 모여 있다
 
-팩션은 web-bo `/factions`, 가상 담화는 `/discourses`, 서재 탐방은 `/book-recommend`에서
+가상 담화는 web-bo `/discourses`, 서재 탐방은 `/book-recommend`, 책과 사람은 `/book-person`, 랭킹은 `/rankings`에서
 편집한다. remotion-bo는 26.07.29에 앱 전체가 폐기됐다.
 
-- 이름만 팩션인 잔존물에 속지 않는다 — `lib/faction-edit-route.ts`는 담화가 쓰는 공용 상수이고, `api/[series]/cards/[name]`은 서재 탐방 카드뉴스다(디스크 파일명이 `faction-cards.json`이라 개명하면 데이터가 끊긴다).
-- 사진·음성 같은 로컬 자산은 그대로 `sw/remotion/` 디스크에 있다. web-bo의 팩션 자산 창구는 `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 503과 사유를 낸다.
+- 이름만 팩션인 잔존물에 속지 않는다 — `api/[series]/cards/[name]`은 서재 탐방 카드뉴스다(디스크 파일명이 `faction-cards.json`이라 개명하면 데이터가 끊긴다).
+- 사진·음성 같은 로컬 자산은 그대로 `sw/remotion/` 디스크에 있다. web-bo의 로컬 자산 창구는 `sw/web-bo/.env`의 `REMOTION_LOCAL=1`이 없으면 503과 사유를 낸다.
 
 ### 현역 롱폼 컴포넌트가 legacy라는 함정
 
@@ -261,10 +250,10 @@ dead 코드 판별은 `Root.tsx`부터 import 그래프 BFS로 reachable을 계�
 
 북리커맨드 인물·책 SNS 카드뉴스. SSoT는 `docs/project/remotion/card-news.md`.
 
-- **렌더러**: `sw/remotion/src/compositions/BookCard/BookCard.tsx`. 카드 7종(intro·shelf·cover·context·quote·number·cta). 대출카드(librarycard)는 폐기했다. 자매 컴포넌트는 `FactionCard/`. utils 의존을 끊고 자체 `resolveSrc(src, assetBase)`를 쓴다(remotion 렌더는 staticFile, 외부 앱은 assetBase). `josa`를 export한다. intro 소개 한 줄은 featuredQuote를 우선한다(philosophy 첫 문장은 "안녕하십니까" 같은 독백 인사라 후순위).
+- **렌더러**: `sw/remotion/src/compositions/BookCard/BookCard.tsx`. 카드 7종(intro·shelf·cover·context·quote·number·cta). 대출카드(librarycard)는 폐기했다. utils 의존을 끊고 자체 `resolveSrc(src, assetBase)`를 쓴다(remotion 렌더는 staticFile, 외부 앱은 assetBase). `josa`를 export한다. intro 소개 한 줄은 featuredQuote를 우선한다(philosophy 첫 문장은 "안녕하십니까" 같은 독백 인사라 후순위).
 - **미리보기**: web-bo Cards 탭 `/book-recommend/<인물>/cards`. @remotion/player로 BookCard를 띄운다(`transpilePackages:['@feelandnote/remotion']`, deep import `@feelandnote/remotion/src/...`). 로컬 표지는 `/api/rm-asset/[...path]`로 서빙한다(remotion public, 한글 폴더 디코딩). 기능은 A/B 토글·책 선별·비율(4:5·1:1·9:16)·편성 저장.
 - **편성**: A「읽은 책 N권」= 후크 → intro → 대표 5권 cover → cta(캐러셀 8장). B「한 권 깊게」= cover → context 문단별 → cta. 짧은 책은 A, 깊은 책은 B.
-- **편성 저장**: `public/episodes/<인물>/cards.json`에 `{version,selected}`. API는 `/api/<series>/cards/<name>`(server-utils findEpisodeDir). 영상 데이터와 분리돼 있다.
+- **편성 저장**: `public/episodes/<인물>/faction-cards.json`에 `{version,selected}`. API는 `/api/<series>/cards/<name>`(server-utils findEpisodeDir). 영상 데이터와 분리돼 있다.
 - **출고**: `pnpm render:cards`(scripts/render/render-cards.ts) → `out/cards/<인물>/<비율>/NN-종류.png`. SNS 업로드는 수동이다(인스타·쓰레드 자동 불가).
 
 ---

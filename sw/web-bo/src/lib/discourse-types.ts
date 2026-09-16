@@ -7,7 +7,7 @@
  * 한 에피소드 = 한 논제. 그 자리에 인물 1~4명이 모인다.
  * 인물이 1명이면 순수 독백편, 여럿이면 반박·대담편이다. 같은 구조가 둘 다 소화한다.
  *
- * 팩션과의 결정적 차이: 뼈대가 인물 명단이 아니라 발언 순서(turns) 다.
+ * 뼈대는 인물 명단이 아니라 발언 순서(turns) 다.
  * 그래서 인물의 실체(cast)와 발언(turns)을 분리하고, 발언이 cast 를 인덱스로 가리킨다.
  *
  * 디스크에는 세 파일로 나뉘어 있다(discourse-data.json 메타·편성 / cast.json 인물 / turns.json 발언).
@@ -16,7 +16,7 @@
  * 기획·규격 SSoT: docs/project/remotion/discourse/README.md
  */
 
-/** 영상 방향 — 담화는 세로 전용이지만 팩션과 시그니처를 맞춘다 */
+/** 영상 방향 — 담화는 세로 전용이다 */
 export type Orientation = 'portrait' | 'landscape'
 
 /**
@@ -32,7 +32,7 @@ export interface DiscourseImageCrop {
   scale?: number
 }
 
-/** 컷 진입 전환 — 팩션 transitions.tsx 와 같은 어휘를 쓴다(구현 공유) */
+/** 컷 진입 전환 어휘 */
 export type DiscourseTransition =
   | 'zoomout' | 'zoomin' | 'kenburns' | 'auto'
   | 'slide' | 'slideLeft' | 'slideRight'
@@ -49,7 +49,6 @@ export type DiscourseEngine = 'gemini' | 'gemini-v3' | 'elevenlabs'
 /**
  * 음성 합성 설정 한 벌.
  * 인물(Speaker)에 기본값을 두고, 발언(Turn)이 필요할 때만 덮어쓴다.
- * 팩션은 이 세트를 인물 필드에 quote·epithet 접두사로 두 벌 평면 나열했으나,
  * 담화는 인물 1명이 여러 번 말하므로 묶어서 계승 가능하게 만든다.
  */
 export interface DiscourseVoice {
@@ -83,7 +82,7 @@ export interface Speaker {
    * 이 값으로 가상 독백 원천·아바타·BO 등록 배지가 연결된다. 신화 인물만 예외.
    */
   slug?: string
-  /** 직함·이력 줄 (최대 3줄). 작성 원칙은 팩션과 동일 — 1번째는 짧은 대표 직함 */
+  /** 직함·이력 줄 (최대 3줄). 1번째는 짧은 대표 직함 */
   lines?: string[]
   /** 직함·이력 줄 영문 */
   linesEn?: string[]
@@ -203,7 +202,7 @@ export interface DiscourseTrack {
 
 /**
  * 롱폼 배치 한 칸 — 편 경계(cut)만 우선 지원한다.
- * 담화는 발언 순서가 곧 영상 순서라 팩션처럼 블록을 재배치할 일이 없다.
+ * 담화는 발언 순서가 곧 영상 순서라 블록을 재배치할 일이 없다.
  * 경계를 꽂으면 그 지점에서 롱폼이 여러 편(KO-LV1·KO-LV2…)으로 갈라진다.
  */
 export type DiscourseLongformItem =
@@ -297,7 +296,7 @@ export interface DiscourseScript {
   voiceTimings?: DiscourseVoiceTimings
 }
 
-/** 진행 상태 — 팩션과 동일 어휘 */
+/** 진행 상태 — 시리즈 공통 어휘 */
 export type DiscourseStatus = 'todo' | 'live' | 'done'
 
 /** 사이드바·목록 카드 한 줄 */

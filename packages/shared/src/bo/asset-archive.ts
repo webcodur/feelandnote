@@ -23,7 +23,7 @@ export const ASSET_ARCHIVE_ROOT = process.env.REMOTION_ASSET_ARCHIVE
   : 'D:\\remotion-assets'
 
 /** 보관소 체계를 쓰는 시리즈 — public 아래 폴더명과 같다. */
-export const ASSET_SERIES = ['factions', 'episodes', 'discourses'] as const
+export const ASSET_SERIES = ['episodes', 'discourses'] as const
 export type AssetSeries = typeof ASSET_SERIES[number]
 
 export type AssetUnitState =
@@ -178,27 +178,4 @@ export function unstageAssetUnit(seriesDir: string, name: string, options: OpOpt
   }
   if (options.dryRun) return
   rmSync(link, { recursive: false, force: false })
-}
-
-export type EnsureStagedResult =
-  /** 방금 정션을 걸었다 */
-  | 'staged'
-  /** 이미 public 에 있다(정션이든 실체든) */
-  | 'present'
-  /** 보관소에도 없다 — 새 편이거나 다른 컴퓨터. 아무것도 안 한다 */
-  | 'absent'
-
-/**
- * 파일을 만지려는 순간 그 편이 public 에 걸려 있게 한다 — 백오피스가 편집기를 열거나 저장·내보내기를 할 때 부른다.
- * 안 걸린 편에 내보내기가 실체 폴더를 새로 만들어 버리면 보관소와 이름이 겹쳐 걸 수도 옮길 수도 없게 되기 때문이다.
- * 이미 있으면 손대지 않는다 — 실체가 public 에 있는 편은 그대로 실체로 쓴다.
- */
-export function ensureEpisodeStaged(seriesDir: string, name: string, archiveRoot = ASSET_ARCHIVE_ROOT): EnsureStagedResult {
-  const link = path.join(seriesDir, ...safeDirSegs(name))
-  if (existsSync(link) || junctionTarget(link) !== undefined) return 'present'
-  const target = archiveDirOf(seriesDir, name, archiveRoot)
-  if (process.platform !== 'win32' || !existsSync(target)) return 'absent'
-  mkdirSync(path.dirname(link), { recursive: true })
-  symlinkSync(target, link, 'junction')
-  return 'staged'
 }

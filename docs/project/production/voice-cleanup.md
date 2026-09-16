@@ -18,9 +18,7 @@ TTS가 만든 음성은 경로·엔진과 상관없이 **처음 생긴 자리에
 | 대사 끝부분 복구 `sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py` | 안전 문구를 잘라낸 직후 | dialogue |
 | web-bo 대사 작업대·음원 만들기 창구 `generateVoicePreview`(`sw/web-bo/src/actions/admin/voice-gen.ts`) | 미리듣기 응답 전 | dialogue |
 | web-bo 서재 탐방 미리듣기 `sw/web-bo/src/app/api/[series]/voice/*/preview` | 응답 전 | Gemini reading · ElevenLabs dialogue |
-| web-bo 세력도감 미리듣기 `sw/web-bo/src/app/api/faction/voice/*/preview` | 응답 전 | dialogue |
 | Remotion 서재 탐방 합성 `sw/remotion/scripts/voice/2-synthesize/engines.ts` | wav 저장 직후, 음량 정규화 전 | Gemini reading · ElevenLabs dialogue |
-| Remotion 세력도감 합성 `sw/remotion/scripts/voice/faction/engine.ts` | wav 저장 직후, 음량 정규화 전 | dialogue |
 | Remotion 책과 사람 합성 `sw/remotion/scripts/book-person/tts.ts` | wav 저장 직후 | reading |
 | audio-bo 화자 합성 `sw/audio-bo/scripts/synthesize.py` | 학습 모델 음성을 고른 직후, 듣기 보정 전 | reading |
 

@@ -1,5 +1,5 @@
 {
-  "//": "scripts/ 는 tsconfig.json 의 include(src·episodes) 밖이라 `tsc --noEmit` 이 검사하지 않는다. DB 이관 도구(팩션·담화)를 따로 검사하는 설정. 'wav' 패키지는 타입 선언이 없어 scripts/lib/wav.d.ts 의 ambient 선언으로 받는다.",
+  "//": "scripts/ 는 tsconfig.json 의 include(src·episodes) 밖이라 `tsc --noEmit` 이 검사하지 않는다. DB 이관 도구(담화)와 음성 공용 부품(voice/lib)을 따로 검사하는 설정. node 타입은 voice/lib/gemini-engine.ts 가 부르는 @google/genai 선언이 끌어온다(빼면 fs·path·process 가 전부 깨진다). 'wav' 패키지는 타입 선언이 없어 scripts/lib/wav.d.ts 의 ambient 선언으로 받는다.",
   "extends": "./tsconfig.json",
-  "include": ["scripts/discourse", "scripts/faction", "scripts/lib"]
+  "include": ["scripts/discourse", "scripts/lib", "scripts/voice/lib"]
 }

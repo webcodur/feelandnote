@@ -1,14 +1,14 @@
 'use client'
 
 /**
- * 음성 편집 화면 부품 한 벌 — 서재 탐방(book)·세력도(faction)·가상 담화(discourse)가 함께 쓴다.
+ * 음성 편집 화면 부품 한 벌 — 서재 탐방(book)·가상 담화(discourse)가 함께 쓴다.
  *
- * 세 시리즈는 같은 부품을 각자 복제해 두고 있었다(편집 창 껍데기·저장된 음원 섹션·감정 태그 고르기).
+ * 시리즈마다 같은 부품을 각자 복제해 두고 있었다(편집 창 껍데기·저장된 음원 섹션·감정 태그 고르기).
  * 복제본마다 한쪽에만 기능이 붙고 문구가 갈라졌다. 이 파일이 그 전부의 단일 원천이다.
  * 부품별로 파일을 쪼개지 않는다 — 여기 한 곳만 보면 된다.
  *
  * 시리즈 차이는 값으로 흡수한다.
- *  1) 편집 창의 모드 탭 개수·이름은 modes 로 받는다(세력도 수식어 슬롯은 「싱크 보정」이 빠진다).
+ *  1) 편집 창의 모드 탭 개수·이름은 modes 로 받는다.
  *  2) 저장된 음원은 tracks(엔진별 음원 여러 개 가능) + playUrl(재생 주소 만들기) 로 받는다.
  *  3) 헤더 우측 이외의 시리즈 전용 도구(예: 엔진 토글)는 headerExtra 로 끼워 넣는다.
  *  4) 음원 만들기·자르기·저장 절차(useVoiceGeneration)는 서버 창구 네 곳(endpoints)만 갈아끼운다.
@@ -30,9 +30,9 @@ import { AudioWavePlayer } from './audio-wave-player'
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * ElevenLabs 합성에 앞에 붙는 감정 표식 목록 — 세 시리즈 공통 정본.
+ * ElevenLabs 합성에 앞에 붙는 감정 표식 목록 — 시리즈 공통 정본.
  *
- * 앞의 열한 개는 서재 탐방·세력도가 쓰던 목록이고, 뒤의 여섯 개는 가상 담화에만 있던 말이다.
+ * 앞의 열한 개는 서재 탐방이 쓰던 목록이고, 뒤의 여섯 개는 가상 담화에만 있던 말이다.
  * 편집기마다 다른 말을 내밀 이유가 없어 한 목록으로 합쳤다.
  * 여기 없는 말도 「직접 입력」으로 얼마든지 넣을 수 있다(실제 대본에는 cynical·loud 같은 값도 쓰인다).
  */
@@ -46,7 +46,7 @@ export const ELE_EMOTIONS = [
  * 감정 표식 고르기 — 칩을 눌러 고르고(고른 순서가 숫자로 보인다), 목록에 없는 말은 직접 적어 넣는다.
  * 최대 개수(기본 2개)를 넘겨 고르면 가장 먼저 고른 것이 밀려난다.
  *
- * tone: 'light' 는 흰 바탕 보라 강조(도구모음·세력도), 'dark' 는 어두운 바탕(구간 톤·담화).
+ * tone: 'light' 는 흰 바탕 보라 강조(도구모음), 'dark' 는 어두운 바탕(구간 톤·담화).
  */
 export function EleEmotionPicker({
   value, onChange, max = 2, tone = 'light', compact = false, className,
@@ -154,7 +154,7 @@ export function EleEmotionPicker({
 /** 편집 창 헤더의 모드 탭 한 칸 */
 export type VoiceEditorModeDef<M extends string> = { id: M; label: string }
 
-/** 서재 탐방 편집 창의 모드 — 세력도는 자기 목록을 따로 만들어 넘긴다(수식어 슬롯은 「싱크」가 빠진다) */
+/** 서재 탐방 편집 창의 모드 */
 export type BookVoiceMode = 'trim' | 'sync' | 'breath' | 'age'
 export const BOOK_VOICE_MODES: VoiceEditorModeDef<BookVoiceMode>[] = [
   { id: 'trim', label: '생성' },
@@ -345,7 +345,7 @@ export function VoiceEngineToggle({ active, default: def, hasOverride, hasFile, 
 // 저장된 음원 (파형 + 트림)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** 저장된 음원 한 줄 — 서재 탐방은 엔진별로 여러 줄, 세력도는 인물 음원 한 줄 */
+/** 저장된 음원 한 줄 — 서재 탐방은 엔진별로 여러 줄 */
 export type SavedVoiceTrack = {
   /** 파형 머리에 적히는 이름 (GEM/ELE, GEM 3.1 등) */
   label: string
@@ -358,7 +358,6 @@ export type SavedVoiceTrack = {
  * 저장된 음원 — 디스크에 저장된 음원의 파형을 그리고, 양끝을 끌어 남길 구간을 고른다.
  *
  * 파형은 「축약」(가로폭에 맞춤)과 「확장」(1초를 200픽셀로 늘려 가로로 넘겨 봄) 중 고를 수 있다.
- * 세력도가 나중에 붙인 기능인데 서재 탐방에서도 쓸모가 있어 양쪽 공용으로 올렸다.
  */
 export function SavedVoiceSection({
   tracks, playUrl, trimStart, setTrimStart, trimEnd, setTrimEnd,
@@ -377,7 +376,7 @@ export function SavedVoiceSection({
   playbackRate?: number
   /** 재생에 적용할 소리 크기 보정(dB) — 없으면 0 */
   gainDb?: number
-  /** 쓰는 음원이 바뀌면 고른 구간을 전체로 되돌린다 (세력도: 인물이 바뀌면 앞 인물의 선이 남는다) */
+  /** 쓰는 음원이 바뀌면 고른 구간을 전체로 되돌린다 (인물이 바뀌면 앞 인물의 선이 남는다) */
   resetTrimOnFileChange?: boolean
 }) {
   const activeTrack = tracks.find(t => t.active) ?? tracks[0]
@@ -528,7 +527,7 @@ type UseVoiceGenerationArgs = {
   eleSettings?: Partial<EleSettings>
   /** ElevenLabs 목소리가 속한 계정 — 알면 넘겨 서버 조회를 건너뛴다 */
   eleAccountId?: string | null
-  /** 저장할 파일 이름 만들기 — 서재 탐방은 엔진 폴더로 갈라 넣고, 세력도는 인물 파일 하나에 덮는다 */
+  /** 저장할 파일 이름 만들기 — 서재 탐방은 엔진 폴더로 갈라 넣는다 */
   targetFile: (engine: EngineKind, key: string) => string
   error: string | null
   setError: (e: string | null) => void
@@ -543,9 +542,9 @@ type UseVoiceGenerationArgs = {
 }
 
 /**
- * 음원 만들기·미리듣기·자르기·저장 — 서재 탐방(book)과 세력도(faction)가 함께 쓴다.
+ * 음원 만들기·미리듣기·자르기·저장 — 시리즈 공용.
  *
- * 두 시리즈가 이 절차를 통째로 복제해 두고 있었다. 소리를 풀어 읽고 자르고 되감는 부분은
+ * 시리즈마다 이 절차를 통째로 복제해 두고 있었다. 소리를 풀어 읽고 자르고 되감는 부분은
  * 손대기 까다로운 데다 한쪽만 고쳐지면 곧바로 갈라지므로 여기 한 벌만 둔다.
  * 시리즈 차이는 endpoints 와 targetFile·buildText 로만 흡수한다.
  */
@@ -655,8 +654,7 @@ export function useVoiceGeneration({
     try {
       const ar = await endpoints.analyze(key)
       const ad = await ar.json().catch(() => ({}))
-      // 성공 판정은 HTTP 상태로 한다 — 서재 탐방은 { ok:true }, 세력도는 { taskId } 를 돌려주므로
-      // 본문 필드로 판정하면 세력도가 항상 실패로 읽힌다.
+      // 성공 판정은 HTTP 상태로 한다 — 창구마다 본문 모양이 달라 본문 필드로 판정하면 한쪽이 실패로 읽힌다.
       if (!ar.ok) setError('정렬 실패: ' + (ad.error ?? ar.statusText))
       else { playDing(); onAligned?.() }
     } catch (e) {

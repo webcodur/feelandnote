@@ -14,7 +14,7 @@ import {
   type FigureBookPurchaseOptionRow,
 } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
-import { toFactionMusic } from "@/lib/faction-videos";
+import { toFactionMusic } from "@/lib/faction-music";
 import { MYTH_OTHER_GROUP_ID, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
 
 interface TagRow {
@@ -113,8 +113,8 @@ function regionForTradition(slug: string, name: string, isEn: boolean) {
   return { id: "other", name: isEn ? "Other traditions" : "기타 전승" };
 }
 
-/* 전승 안의 인물을 영상 대본이 준 세력(group_label)으로 나눈다. 순서는 세력 인물들의 최소
-   group_position, 세력 안은 전승 차례 그대로다. 세력이 없는 인물(웹 전용 배정 등)은 맨 끝 「그 외」로
+/* 전승 안의 인물을 배정의 그룹(group_label)으로 나눈다. 순서는 세력 인물들의 최소
+   group_position, 세력 안은 전승 차례 그대로다. 그룹이 없는 인물은 맨 끝 「그 외」로
    모은다. 세력이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다(세력도감 쇼케이스와 같은 규칙).
    쇼케이스는 단체 사진 묶음(celeb_tags.team_images)을 세력보다 먼저 쓰지만 여기서는 쓰지 않는다.
    신화 전승의 묶음은 세력과 이름·구성원이 같거나(일리아스·그리스 신화) 장면 제목 단위로 1~3명씩
@@ -251,7 +251,6 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const images = portraitUrl ? [{ url: portraitUrl }] : [];
     const explanation = explanationByPerson.get(profile.id);
     const guide = (isEn ? explanation?.plain_text_en || explanation?.plain_text : explanation?.plain_text)?.trim() || null;
-    /* 대사는 전승마다 다르다 — 영상 대본이 그 편의 인물에게 준 말이라 같은 신도 편마다 다르게 말한다 */
     const appearances = placements.map((placement) => ({
       traditionId: placement.tag_id,
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,

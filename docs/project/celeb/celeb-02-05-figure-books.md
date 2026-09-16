@@ -127,7 +127,7 @@
 
 ## 등록
 
-먼저 백오피스 `/figure-books`와 아래 감사 명령으로 기존 작품·판본·인물 관계를 확인한다. `faction:audit`는 팩션(세력도감) 영상 시리즈 감사 명령이라 이름이 비슷할 뿐 이 카탈로그와 무관하다 — 혼동해 잘못된 감사를 돌리지 않는다.
+먼저 백오피스 `/figure-books`와 아래 감사 명령으로 기존 작품·판본·인물 관계를 확인한다.
 
 ```text
 pnpm --dir sw/web-bo figure-books:audit -- --json

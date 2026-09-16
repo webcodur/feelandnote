@@ -3,8 +3,7 @@
 /**
  * 도감 테마 편집 공용 잔부품 — 폼 한 줄·아바타·사진 추가 단추·개인샷 썸네일.
  *
- * 옛 테마 편집기(/factions/themes)의 부품을 그대로 옮겨 왔다. 지금은 편 편집기의
- * 도감 구획(상세 설정)과 웹 전용 테마 화면이 함께 쓴다.
+ * 세력도감 테마 편집 화면과 신화 편집 화면이 함께 쓴다.
  */
 
 import { useState } from 'react'
@@ -56,26 +55,13 @@ export function ImagePickerButton({ busy, onPick }: { busy: boolean; onPick: (fi
   )
 }
 
-/** 인물 개인샷 썸네일 (추가/교체/삭제. readOnly 면 보기만 — 제작 유래 인물은 인물 행에서 손질) */
-export function CelebFactionImage({ url, busy, readOnly, onPick, onRemove }: {
+/** 인물 개인샷 썸네일 (추가/교체/삭제) */
+export function CelebFactionImage({ url, busy, onPick, onRemove }: {
   url: string | null
   busy: boolean
-  readOnly?: boolean
   onPick: (file: File) => void
   onRemove: () => void
 }) {
-  if (readOnly) {
-    return url ? (
-      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-accent/50" title="도감 개인샷 — 편 편집기 인물 행에서 손질">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={url} alt="" className="h-full w-full object-cover" />
-      </div>
-    ) : (
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-dashed border-border/60 text-text-tertiary" title="개인샷 없음 — 편 편집기 인물 행에서 올립니다">
-        <ImagePlus className="h-5 w-5 opacity-40" />
-      </div>
-    )
-  }
   if (url) {
     return (
       <div className="group relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-accent/50" title="도감 개인샷">

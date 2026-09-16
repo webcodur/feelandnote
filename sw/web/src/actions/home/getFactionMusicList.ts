@@ -5,7 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { toFactionMusic } from '@/lib/faction-videos'
+import { toFactionMusic } from '@/lib/faction-music'
 
 export interface FactionMusicTheme {
   id: string

@@ -67,7 +67,7 @@
 ## 다른 도메인에 속하는 연결
 
 - `celeb_contents`와 `figure_book_*`: [`02-content.md`](02-content.md)
-- `celeb_tags`·`celeb_tag_assignments`·`faction_people`·`faction_atlas_members`: [`../remotion/faction/README.md`](../remotion/faction/README.md)
+- `celeb_tags`·`celeb_tag_assignments`·`celeb_tag_groups`·`faction_atlas_members`(세력도감): [`../apps/web-bo.md`](../apps/web-bo.md) 「세력도감」
 - BookRecommend 영상 데이터: [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)
 - 이미지 파일 규격과 fallback: [`../celeb/celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md)
 

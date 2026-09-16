@@ -44,7 +44,7 @@ type ShowcaseItem =
   | { type: "celeb"; celeb: FeaturedCeleb; celebIdx: number; nested: boolean }
   /*
     세력(그룹) 머리글 — 목록에선 가로선+라벨 한 줄이지만, 고르면 좌측 큰 화면에
-    소속 인물 얼굴 격자와 세력 소개(이름·부제·인원·명단)가 뜨는 정식 항목이다.
+    소속 인물 얼굴 격자와 세력 소개(이름·인원·명단)가 뜨는 정식 항목이다.
     memberItemIdxs 는 소속 인물 항목의 자리 번호 — 명단에서 이름을 눌러 건너뛰는 데 쓴다.
   */
   | {
@@ -53,10 +53,6 @@ type ShowcaseItem =
       overview?: true;
       label: string;
       labelEn: string | null;
-      subtitle: string | null;
-      subtitleEn: string | null;
-      color: string | null;
-      logoUrl: string | null;
       memberItemIdxs: number[];
     };
 
@@ -145,10 +141,6 @@ export default function FactionShowcase({
   } else {
     interface GroupBucket {
       labelEn: string | null;
-      subtitle: string | null;
-      subtitleEn: string | null;
-      color: string | null;
-      logoUrl: string | null;
       position: number;
       members: { celeb: FeaturedCeleb; celebIdx: number }[];
     }
@@ -161,12 +153,8 @@ export default function FactionShowcase({
         unlabeled.push(entry);
         continue;
       }
-      const bucket = buckets.get(key) ?? { labelEn: entry.celeb.group_label_en, subtitle: null, subtitleEn: null, color: null, logoUrl: null, position: Number.MAX_SAFE_INTEGER, members: [] };
+      const bucket = buckets.get(key) ?? { labelEn: entry.celeb.group_label_en, position: Number.MAX_SAFE_INTEGER, members: [] };
       bucket.position = Math.min(bucket.position, entry.celeb.group_position ?? Number.MAX_SAFE_INTEGER);
-      bucket.subtitle ??= entry.celeb.group_subtitle;
-      bucket.subtitleEn ??= entry.celeb.group_subtitle_en;
-      bucket.color ??= entry.celeb.group_color;
-      bucket.logoUrl ??= entry.celeb.group_logo_url;
       bucket.members.push(entry);
       buckets.set(key, bucket);
     }
@@ -179,10 +167,6 @@ export default function FactionShowcase({
         type: "group",
         label: key,
         labelEn: bucket.labelEn,
-        subtitle: bucket.subtitle,
-        subtitleEn: bucket.subtitleEn,
-        color: bucket.color,
-        logoUrl: bucket.logoUrl,
         memberItemIdxs,
       });
       bucket.members.forEach(({ celeb, celebIdx }) => {
@@ -190,7 +174,7 @@ export default function FactionShowcase({
         pushCeleb(celeb, celebIdx, true);
       });
     }
-    // 세력 정보가 없는 인물(수동 배정)은 맨 뒤에 머리글 없이
+    // 그룹이 없는 인물은 맨 뒤에 머리글 없이
     unlabeled.forEach(({ celeb, celebIdx }) => pushCeleb(celeb, celebIdx, false));
   }
 
@@ -208,10 +192,6 @@ export default function FactionShowcase({
       overview: true,
       label: activeTag.name,
       labelEn: activeTag.name_en,
-      subtitle: null,
-      subtitleEn: null,
-      color: null,
-      logoUrl: null,
       memberItemIdxs: items.map((_, index) => index + 1),
     });
   }
@@ -401,13 +381,6 @@ export default function FactionShowcase({
     current.type === "group"
       ? (locale === "en" ? current.labelEn : current.label)?.trim() || null
       : null;
-  const groupSubtitle =
-    current.type === "group"
-      ? (locale === "en" ? current.subtitleEn : current.subtitle)?.trim() || null
-      : null;
-  // 세력 고유 색·로고(제작 브랜드 자산) — 없으면 테마 색으로
-  const groupColor = current.type === "group" ? current.color ?? activeTag.color : activeTag.color;
-  const groupLogo = current.type === "group" ? current.logoUrl : null;
   const lineupMembers = current.type === "group" ? groupMembers : teamImageMembers;
   const toLineupMember = ({ celeb, itemIdx }: { celeb: FeaturedCeleb; itemIdx: number }): FactionLineupMember => ({
     id: celeb.id,
@@ -494,9 +467,7 @@ export default function FactionShowcase({
         <FactionMemberLineup
           eyebrow={current.type === "group" && current.overview ? t("factionRoster") : teamName}
           title={(current.type === "group" ? groupLabel : teamImageLabel) ?? teamName}
-          subtitle={groupSubtitle}
-          color={groupColor}
-          logoUrl={groupLogo}
+          color={activeTag.color}
           members={lineupMembers.map(toLineupMember)}
           countLabel={t("figureCount", { count: lineupMembers.length })}
           onSelect={selectItem}

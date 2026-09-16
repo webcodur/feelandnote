@@ -2,9 +2,9 @@
  * render-staged.ts — 렌더 창고를 짓고 그 위에서 렌더한다
  *
  * 사용:
- *   pnpm render:staged -- --episode PayPal-Mafia Faction-PayPal-Mafia-KO-S1 out/Faction/x.mp4 --codec h264
- *   pnpm render:staged -- --episode PayPal-Mafia --still Faction-PayPal-Mafia-KO-LV-TH out/x.png
- *   pnpm render:staged -- --episode PayPal-Mafia --full-public <컴포지션> <출력>   # 옛 방식(public 통짜)
+ *   pnpm render:staged -- --episode <편> --series book-person BookPerson-<편>-KO-S-VID out/BookPerson/<편>.mp4
+ *   pnpm render:staged -- --episode <편> --series discourse <컴포지션> <출력> --codec h264
+ *   pnpm render:staged -- --episode <편> --series discourse --full-public <컴포지션> <출력>   # 옛 방식(public 통짜)
  *
  * 창고가 기본이다. 조립이 실패하면 **조용히 통짜로 넘어가지 않는다** — 사유를 찍고 멈춘 뒤
  * `--full-public` 을 쓰라고 알린다. 통짜는 7.3GB 를 복사하므로 사람이 알고 골라야 한다.
@@ -15,7 +15,7 @@
 import { spawn } from 'child_process'
 import { buildRenderStage, cleanRenderStage, mb } from './stage.js'
 
-const USAGE = '사용: pnpm render:staged -- --episode <편> [--series faction|discourse|book-person] [--still] [--full-public] <컴포지션> <출력> [렌더 옵션…]'
+const USAGE = '사용: pnpm render:staged -- --episode <편> --series discourse|book-person [--still] [--full-public] <컴포지션> <출력> [렌더 옵션…]'
 
 interface Args {
   episode: string
@@ -28,7 +28,7 @@ interface Args {
 function parseArgs(argv: string[]): Args {
   const args = argv.slice(2)
   let episode = ''
-  let series = 'faction'
+  let series = ''
   let still = false
   let fullPublic = false
   const rest: string[] = []
@@ -37,13 +37,14 @@ function parseArgs(argv: string[]): Args {
     const a = args[i]
     if (a === '--') continue
     else if (a === '--episode') episode = args[++i] ?? ''
-    else if (a === '--series') series = args[++i] ?? 'faction'
+    else if (a === '--series') series = args[++i] ?? ''
     else if (a === '--still') still = true
     else if (a === '--full-public') fullPublic = true
     else rest.push(a)
   }
 
   if (!episode) throw new Error(`--episode 가 필요하다\n${USAGE}`)
+  if (!series) throw new Error(`--series 가 필요하다\n${USAGE}`)
   if (rest.length < 2) throw new Error(`컴포지션과 출력 경로가 필요하다\n${USAGE}`)
   return { episode, series, still, fullPublic, rest }
 }

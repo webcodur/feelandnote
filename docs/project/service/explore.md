@@ -27,7 +27,7 @@
 | `/explore/myth` | 지역·전승·그룹별 신화 인물 탐색 |
 | `/explore/faction`, `/explore/faction/[slug]` | 세력도감과 특정 테마 진입 |
 | `/explore/timeline` | 대륙을 고른 뒤 나라를 선택하는 연대기. 국가·페이지별 목록을 서버에서 나눔 |
-| `/explore/youtube` | 서재 탐방·세력도감 소개와 영상 보관소 |
+| `/explore/youtube` | 서재 탐방 소개와 영상 보관소 |
 | `/explore/directory`, `/explore/directory/[profession]` | 전체·직군별 인물 주소를 발견하는 명부 |
 | `/explore/today`, `/explore/feed` | 기존 주소 유지. 탐색 메뉴에는 노출하지 않음 |
 
@@ -53,7 +53,7 @@
 | 그리스 신화 | 존재의 종류와 세대(태초·티탄·올림포스·저승·그 밖의 신·영웅). 인간 시조는 도시·민족별 왕가로 가른다 |
 | 오디세이아 | 오디세우스와의 관계(동료·가족·충직한 사람·구혼자·신과 요정·여정에서 만난 이·망령·파이아케스·필로스와 스파르타) |
 
-나머지 전승도 이관(`sw/web-bo/scripts/faction/move-tag-roster-to-web.mjs`) 뒤 같은 방식으로 축을 먼저 정하고 그룹을 짠다.
+나머지 전승도 같은 방식으로 축을 먼저 정하고 그룹을 짠다.
 
 ## 세력도감 (`/explore/faction`, `/explore/faction/[slug]`)
 
@@ -61,22 +61,17 @@
 
 - 화면: 칩 상자 하나(섹션은 알약, 테마는 네모, 진영은 밑줄 탭 — 신화 탐색의 지역·신화·그룹 줄과 같은 모양) → 고른 테마의 개요(가운데 정렬한 제목·인원, 그 아래 왼쪽 정렬한 소개)와 그 아래 고른 진영의 설명 판 → 정렬과 인물 카드 격자. 진영 줄에 「전체」는 없고 첫 진영이 기본으로 선택된다. 주소를 바꾸지 않는 화면 안 선택이다(`FactionGroupContext`). 칩 상자·설명 판·격자가 같은 선택을 보고, 테마를 옮기면 새 테마의 첫 진영으로 돌아간다. 진영 이름이 없는 인물은 「그 밖의 인물」이고, 진영이 하나뿐인 테마는 진영 줄을 세우지 않는다.
 - 넓은 화면의 칩 줄과 좁은 화면의 줄별 선택 단추·창은 신화 탐색과 같은 공용 선택기 `components/shared/AtlasNav.tsx`가 그리고, 모양 값은 `components/shared/atlasNavLayout.ts`가 쥔다. 좁은 화면은 칩 줄을 옆으로 넘기지 않는다 — 섹션 단추와 테마 단추가 나란히 서고 진영 단추가 그 아래 한 줄이며, 누르면 아래에서 올라오는 창에서 고른다. 테마 창은 고른 섹션의 테마만 펼친다. 신화도 지역·신화·그룹 단추로 같다.
-- 세력도감에 세운 자료는 모두 화면에 싣는다. 카드 직함은 탐색과 같은 인물 직함이다. 진영을 고르면 그 진영 설명(`celeb_tag_groups.description`)이 테마 설명 바로 아래에 뜬다. 카드를 누르면 인물 상세로 넘어가지 않고 세력도감 인물 소개 모달(`FactionMemberModal`)이 뜬다 — 인물 상세와 같은 아바타 모듈(`CelebProfileMedia` — 확대 보기·인사 음성), 테마·진영, 이름·직함, 역할(배정 `short_desc`), 긴 소개(`long_desc`, `getFactionLongDescs`), 인물 페이지 링크를 싣고, 그 아래 「이 인물 관련 책」(`getFigureBooksForCeleb`)·「이 인물이 읽은 책」(`getPublicCelebContents`) 탭을 둔다. 두 탭은 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 그리고, 번역본 없음·절판은 서비스 공통 작품 카드와 같은 표지 가운데 띠(`NoEditionBadge` `cover`)로 표시한다. 영문 화면은 인물 상세처럼 판매 주소가 걸린 책만 싣는다. 테마 본문에는 분야 책 구획·서재 탭을 두지 않는다. 카드 링크 주소는 남겨 새 탭 열기와 검색 수집은 그대로다. 테마 주소는 메타 설명에 테마 소개를, 구조화 데이터(JSON-LD `CollectionPage`·`ItemList`)에 구성원 이름·역할·인물 주소를 싣는다. 섹션 이름은 칩 상자가 보여 주므로 머리글에 되풀이하지 않고, 섹션 설명 값은 두지 않는다. 테마 영상 단추는 재편 뒤 명단과 영상 내용이 달라져 두지 않는다.
+- 세력도감에 세운 자료는 모두 화면에 싣는다. 카드 직함은 탐색과 같은 인물 직함이다. 진영을 고르면 그 진영 설명(`celeb_tag_groups.description`)이 테마 설명 바로 아래에 뜬다. 카드를 누르면 인물 상세로 넘어가지 않고 세력도감 인물 소개 모달(`FactionMemberModal`)이 뜬다 — 인물 상세와 같은 아바타 모듈(`CelebProfileMedia` — 확대 보기·인사 음성), 테마·진영, 이름·직함, 역할(배정 `short_desc`), 긴 소개(`long_desc`, `getFactionLongDescs`), 인물 페이지 링크를 싣고, 그 아래 「이 인물 관련 책」(`getFigureBooksForCeleb`)·「이 인물이 읽은 책」(`getPublicCelebContents`) 탭을 둔다. 두 탭은 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 그리고, 번역본 없음·절판은 서비스 공통 작품 카드와 같은 표지 가운데 띠(`NoEditionBadge` `cover`)로 표시한다. 영문 화면은 인물 상세처럼 판매 주소가 걸린 책만 싣는다. 테마 본문에는 분야 책 구획·서재 탭을 두지 않는다. 카드 링크 주소는 남겨 새 탭 열기와 검색 수집은 그대로다. 테마 주소는 메타 설명에 테마 소개를, 구조화 데이터(JSON-LD `CollectionPage`·`ItemList`)에 구성원 이름·역할·인물 주소를 싣는다. 섹션 이름은 칩 상자가 보여 주므로 머리글에 되풀이하지 않고, 섹션 설명 값은 두지 않는다.
 - 칩은 주소 이동이다. 테마 칩은 `/explore/faction/<테마 slug>`, 섹션 칩은 `/explore/faction?section=<묶음 slug>`로 그 섹션의 첫 테마를 연다. `/explore/faction`은 첫 섹션의 첫 테마다. 묶음은 자기 노출 칸과 무관하게 공개 테마를 품었으면 섹션으로 연다 — 섹션을 감추려면 그 안 테마의 노출을 끈다. 묶음 slug로 오면 `?section=`으로, 옛 주소 `?tag=<태그 id>`는 테마 주소로 보낸다. 없거나 닫힌 테마는 `notFound()`다.
 - 카드 자료는 탐색과 같은 `getCelebs`를 테마 조건으로 부른다. 그 조건은 웹 배정 표를 보고 숨김을 모르므로 명단에 든 사람만 남긴다(`lib/faction-theme-celebs.ts`).
 
-**테마·그룹의 운영 규격은 여기서 복제하지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`), 그룹 헤더가 일반 테마 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
-
-- `docs/project/apps/web-bo.md` 「세력도감」 — 현행 운영·편집 규격
-- `docs/project/remotion/faction/unification.md` §4-3 — 제작·서비스 데이터 단일화 설계
+**테마·그룹의 운영 규격은 여기서 복제하지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`)과 편집 규격은 `docs/project/apps/web-bo.md` 「세력도감」이 쥔다.
 
 ## 영상관 (`/explore/youtube`)
 
-홈의 통합 영상 히어로가 이 내부 화면으로 연결된다. 상단은 `constants/youtube.ts`를 단일원천으로 삼아 서재 탐방·세력도감의 본편과 쇼츠 재생목록, locale별 채널 홈을 안내한다. 영문 채널에 아직 없는 세력도감은 실제 영상이 있는 한국어 재생목록으로 연결하고 화면에 언어 차이를 명시한다.
+홈의 통합 영상 히어로가 이 내부 화면으로 연결된다. 상단은 `constants/youtube.ts`를 단일원천으로 삼아 서재 탐방의 본편과 쇼츠 재생목록, locale별 채널 홈을 안내한다.
 
-두 시리즈 소개 아래에는 시리즈별 영상 보관소를 둔다. 서재 탐방은 `getYoutubeCelebs()`가 `celebs.youtube_videos`를 읽어 locale 본편·쇼츠를 우선 진열하고, 각 영상에서 인물 상세로 돌아간다. 세력도감은 `getYoutubeFactionVideos()`가 `constants/youtube.ts`의 공개 재생목록을 YouTube Atom 피드로 읽고, 출간 태그의 `celeb_tags.youtube_videos`를 영상 ID 기준으로 병합한다. 공개 영상은 DB 연결 여부와 무관하게 모두 노출하고, 연결된 영상은 첫 세력명과 추가 세력 수를 표시한다. `/explore/faction`으로 돌아가는 링크도 제공한다.
-
-YouTube 피드와 DB 병합 결과는 6시간 캐시한다. 피드 조회가 실패하면 오류를 서버 로그에 남기고 DB 연결 영상만으로 보관소를 유지한다.
+시리즈 소개 아래에는 영상 보관소를 둔다. `getYoutubeCelebs()`가 `celebs.youtube_videos`를 읽어 locale 본편·쇼츠를 우선 진열하고, 각 영상에서 인물 상세로 돌아간다.
 
 영상 제작 파이프라인은 `docs/project/remotion/`이 다룬다.
 
@@ -85,6 +80,5 @@ YouTube 피드와 DB 병합 결과는 6시간 캐시한다. 피드 조회가 실
 - 화면 지도: [README.md](README.md)
 - 작품: [library.md](library.md)
 - 세력도감 운영·그룹: [web-bo.md](../apps/web-bo.md)
-- 세력도감 단일화: [unification.md](../remotion/faction/unification.md)
 - 셀럽 데이터: [03-celeb.md](../data/03-celeb.md)
 - SEO: [seo.md](../operations/seo.md)

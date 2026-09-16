@@ -130,7 +130,7 @@ export function engineSlot(name: string): 'gemini' | 'elevenlabs' | 'common' {
 }
 
 // ── 합성 설정·미리듣기 값 타입 ──
-// 세 시리즈(서재 탐방·세력도·담화) 편집기가 함께 쓴다.
+// 시리즈(서재 탐방·담화) 편집기가 함께 쓴다.
 
 /** ElevenLabs 합성 설정 — 편집기 도구모음이 조절하고 합성 요청에 그대로 실린다. */
 export type EleSettings = {

@@ -2,18 +2,18 @@
  * 가상 담화(Discourse) 타이밍 — 컷 구성·길이 산식의 단일원천(SSoT).
  *
  * 렌더(Discourse.tsx)·자막(subs.ts)·BO 미리보기가 모두 buildCues 를 공유한다.
- * 팩션은 인물 컷이 1.1초 고정이지만, 담화는 발언 길이가 곧 컷 길이다(음성 있으면 그 길이, 없으면 추정).
+ * 담화는 발언 길이가 곧 컷 길이다(음성 있으면 그 길이, 없으면 추정).
  */
 
 import type { DiscourseScript, Turn } from './types'
 
-/** 초당 프레임 — 팩션·북리커맨드와 동일 */
+/** 초당 프레임 — 북리커맨드와 동일 */
 export const FPS = 60
 /** 초 → 프레임 */
 export const f = (sec: number) => Math.round(sec * FPS)
 
 /* ── 컷 길이 (초) ── */
-/** 인트로(논제 + 고지) — 고지를 읽을 시간이 필요해 팩션(2.5)보다 길다 */
+/** 인트로(논제 + 고지) — 고지를 읽을 시간이 필요해 길게 잡는다 */
 export const INTRO_SEC = 4.5
 /** 인트로 끝 페이드아웃 */
 export const INTRO_FADE_OUT_SEC = 0.6
@@ -88,8 +88,7 @@ export function castSec(epithetDuration?: number): number {
 /**
  * 이 발언이 이 쇼츠 편에 나오는가.
  *
- * **팩션과 반대다.** 팩션은 세력 단위라 part 미지정 = 모든 편 공통이지만,
- * 담화 쇼츠는 긴 담화에서 **한 합만 발췌**하는 것이라 part 를 명시한 발언만 실어야 한다.
+ * 담화 쇼츠는 긴 담화에서 **한 합만 발췌**하는 것이라 part 를 명시한 발언만 실어야 한다(part 미지정 ≠ 모든 편 공통).
  * 미지정 발언까지 끌려오면 롱폼이 통째로 쇼츠가 돼 버린다.
  *
  * 단, 편 배정이 아예 없는 에피소드(짧은 담화 한 편)는 전체가 그대로 쇼츠다.
@@ -219,7 +218,7 @@ export function buildCues(script: DiscourseScript, isShorts: boolean, part?: num
   return out
 }
 
-/** 이 편의 총 길이(프레임) — Root.tsx 등록 시점에 동기 호출한다(팩션과 동일 관례) */
+/** 이 편의 총 길이(프레임) — Root.tsx 등록 시점에 동기 호출한다 */
 export function calcTotalFrames(script: DiscourseScript, isShorts: boolean, part?: number, lvPart?: number): number {
   const cues = buildCues(script, isShorts, part, lvPart)
   const last = cues[cues.length - 1]

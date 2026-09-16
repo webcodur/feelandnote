@@ -56,7 +56,6 @@ type TagRow = {
 
 type AtlasMemberRow = {
   celeb_id: string
-  source: 'production' | 'manual'
   hidden: boolean
 }
 
@@ -219,7 +218,7 @@ async function main() {
     ),
     client
       .from('faction_atlas_members')
-      .select('celeb_id,source,hidden')
+      .select('celeb_id,hidden')
       .eq('tag_id', tag.id),
     client
       .from('celeb_tag_assignments')
@@ -262,7 +261,7 @@ async function main() {
         slug: existing.slug ?? '(slug 없음)',
         slugSuffix: null,
         reason: atlas
-          ? `이미 ${atlas.source} 소속이 있습니다${atlas.hidden ? ' (숨김)' : ''}.`
+          ? `이미 소속이 있습니다${atlas.hidden ? ' (숨김)' : ''}.`
           : `기존 프로필에 숨김 소속만 추가합니다.${
             existing.celeb_reality !== person.celeb_reality
               ? ` 실존 축은 등록된 ${existing.celeb_reality}으로 두며 명세의 ${person.celeb_reality}로 바꾸지 않습니다.`

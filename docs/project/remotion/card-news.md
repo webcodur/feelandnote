@@ -1,16 +1,16 @@
 # 카드뉴스 구현 현황
 
 > 북리커맨드(서재 탐방) 인물–책 카드를 SNS(인스타·쓰레드·X 등)에 출고하기 위한 카드 생성기.
-> 시안: `card-news-spec.html`(카드 12종 디자인) · `card-news-09-test.html`(팩션 실데이터 캐러셀). 이 문서는 실제 코드 구현의 SSoT.
+> 시안: `card-news-spec.html`(카드 12종 디자인). 이 문서는 실제 코드 구현의 SSoT.
 > 마지막 갱신: 2026-06-30
 
 ## 1. 구현 위치 (어디서 무엇을)
 
 | 영역 | 위치 | 역할 |
 |------|------|------|
-| 카드 렌더러 | `sw/remotion/src/compositions/BookCard/BookCard.tsx` | 카드 7종을 그리는 Remotion 정지 컴포넌트. 자매: `FactionCard/`(팩션) |
+| 카드 렌더러 | `sw/remotion/src/compositions/BookCard/BookCard.tsx` | 카드 7종을 그리는 Remotion 정지 컴포넌트 |
 | 미리보기·편성 | `sw/web-bo` Cards 탭 (`/book-recommend/<인물>/cards`) | @remotion/player 로 카드를 띄우고 편성·선별·비율을 조정 |
-| 편성 저장 | `public/episodes/<인물>/faction-cards.json` | 선별 권 등 편성 설정(영상 데이터와 분리) |
+| 편성 저장 | `public/episodes/<인물>/faction-cards.json` | 선별 권 등 편성 설정(영상 데이터와 분리). 이름만 팩션이고 서재 탐방 파일이다 — 개명하면 편성이 끊긴다 |
 | 출고 | `sw/remotion/scripts/render/render-cards.ts` (`pnpm render:cards`) | 저장된 편성대로 PNG 일괄 양산 → `out/cards/<인물>/<비율>/` |
 
 **핵심 결정**: 카드 재료(인물명·책 표지·감상경위·인용)와 정지 이미지 출력이 모두 Remotion에 있으므로 `web-bo`가 아니라 Remotion에서 만든다.

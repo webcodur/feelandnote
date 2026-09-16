@@ -9,11 +9,11 @@
  * 렌더 저장소의 CLI(`pnpm discourse:export`)와 web-bo 편집기가 **같은 조립기**를 쓴다.
  * 둘이 각자 조립하면 파일과 화면이 갈라지고, 그 갈라짐은 영상이 렌더된 뒤에야 드러난다.
  *
- * ## 팩션과 다른 점 — 발언자 환원
+ * ## 발언자 환원
  *
  * 담화는 인물(cast)과 발언(turns)이 형제다. 발언이 인물을 **배열 위치 정수**로 가리키고,
  * DB 에서는 그것이 FK(`speaker_id`)다. 이 파일이 그 두 표현 사이를 오간다.
- * FK 라서 없는 인물을 가리키면 DB 가 저장을 통째로 되돌린다(팩션 longformLayout 안전망과 같은 원리).
+ * FK 라서 없는 인물을 가리키면 DB 가 저장을 통째로 되돌린다.
  *
  * ## db 클라이언트에 의존하지 않는다
  *
@@ -37,7 +37,7 @@ export const DISCOURSE_TABLES = {
 
 /**
  * `.in()` 한 번에 실을 값 개수. 이 저장소는 462개 id 를 단일 in() 에 실어 URL 한도를 넘겨
- * 실패한 실측 이력이 있다(docs/project/remotion/faction/unification.md §5). 200 으로 끊는다.
+ * 실패한 실측 이력이 있다. 200 으로 끊는다.
  */
 export const IN_CHUNK = 200
 
@@ -78,7 +78,7 @@ export interface AssembledDiscourseEpisode {
 /**
  * DB 에서 한 에피소드를 DiscourseScript 구조로 재조립한다.
  *
- * @param original 원본 JSON(선택) — 음성 길이 병합에 쓴다(설계 §5 · 팩션 §7 ①).
+ * @param original 원본 JSON(선택) — 음성 길이 병합에 쓴다(설계 §5).
  *   `duration`·`epithetDuration` 이 DB 에 없으면(null) 원본 값을 살려 넣는다.
  *   파이프라인이 파일에만 기록한 길이를 DB 왕복에서 잃지 않기 위한 안전망이다.
  *   **담화는 아직 음원이 0개라 지금은 무효 코드지만**, 음성 착수 시점에 곧바로 유효해진다.
@@ -154,7 +154,7 @@ export interface DiscourseRowPayload {
  *
  * ⚠ **자리(순번)만으로 찾으면 안 된다.** 발언 순서를 바꾸면 음원 파일은 그 사람의 그 발언을 따라
  *   옮겨 가는데 길이를 자리에 붙여 두면 그 자리에 남아, 옮겨온 음원과 길이가 어긋난다(컷 길이가 틀어진다).
- *   담화는 한 인물이 여러 번 말하는 것이 기본이라 팩션보다 더 흔하게 터진다(설계 §7-③).
+ *   담화는 한 인물이 여러 번 말하는 것이 기본이라 흔하게 터진다(설계 §7-③).
  *   그래서 이 콜백은 **발언 자체와 발언자 slug, 그 사람의 몇 번째 발언인지**를 함께 받는다.
  */
 export type TurnDurationLookup = (

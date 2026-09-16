@@ -4,7 +4,7 @@
  * ## 왜
  *
  * 렌더는 시작할 때 `public/` 을 통째로 번들 폴더에 복사한다. 이 저장소의 `public/` 은 **7.3GB**
- * 다(서재 탐방 4.4GB · 세력도 2.6GB · 담화 196MB · 곡 125MB). 한 편을 뽑는 데 그 전부가 딸려
+ * 다(서재 탐방 4.4GB · 담화 196MB · 곡 125MB 등). 한 편을 뽑는 데 그 전부가 딸려
  * 가고, 편마다 매번 반복된다. 디스크가 찼던 사고도 여기서 났다.
  *
  * 그래서 렌더 직전에 **그 편이 실제로 참조하는 것만** 모은 임시 폴더를 만들고, 렌더에게
@@ -24,7 +24,7 @@
 import { copyFileSync, existsSync, linkSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { FACTIONS_DIR, DISCOURSES_DIR, episodeDirOf } from '@feelandnote/shared/bo/episode-store'
+import { DISCOURSES_DIR, episodeDirOf } from '@feelandnote/shared/bo/episode-store'
 import { ASSET_ARCHIVE_ROOT as ARCHIVE_ROOT } from '@feelandnote/shared/bo/asset-archive'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -42,27 +42,21 @@ export const STAGE_ROOT = existsSync(ARCHIVE_ROOT)
 
 /** 시리즈별 에피소드 폴더가 놓이는 자리(창고 안 상대 경로 = staticFile 이 부르는 이름) */
 const SERIES_DIR: Record<string, string> = {
-  faction: 'factions',
   discourse: 'discourses',
   'book-person': 'book-person',
 }
 
 /** 시리즈별 데이터 파일 이름 — 선곡을 읽으려면 이 파일을 연다 */
 const DATA_FILE: Record<string, string> = {
-  faction: 'faction-data.json',
   discourse: 'discourse-data.json',
   'book-person': 'ko.json',
 }
 
-/**
- * 에피소드 실물 폴더. 팩션의 활성·비활성 편은 모두
- * `public/factions/<폴더 키>` 한 단계에 있다.
- */
+/** 에피소드 실물 폴더 */
 function episodeSrcDir(series: string, episode: string): string {
   // 책과 사람은 `public/book-person/<slug>` 실체 한 단계뿐이라 폴더 키 해석이 없다
   if (series === 'book-person') return path.join(PUBLIC_DIR, 'book-person', episode)
-  const root = series === 'discourse' ? DISCOURSES_DIR : FACTIONS_DIR
-  return episodeDirOf(root, episode)
+  return episodeDirOf(DISCOURSES_DIR, episode)
 }
 
 /**
@@ -143,9 +137,6 @@ function placeDir(srcDir: string, dstDir: string, c: Counter, skipDirs?: Readonl
  * **선곡 판정을 여기 다시 쓰지 않는다.** 어떤 곡이 흐르는지는 엔진의 배경음악 로직이 정하고,
  * 그 판정은 각 시리즈의 `bgm-select.ts` 로 빠져 있다 — 렌더와 창고가 같은 함수를 부른다.
  * 판정을 복제하면 언젠가 어긋나고, 어긋난 날 곡이 빠진 채로 영상이 나가거나 렌더가 죽는다.
- *
- * 팩션은 롱폼·쇼츠 변형마다 고르는 곡이 다르므로 **그 편의 전 변형 합집합**을 담는다
- * (한 번의 렌더는 한 변형이지만, 편 하나가 쓰는 곡은 많아야 서너 곡이라 넉넉히 담는 편이 안전하다).
  */
 async function pickMusic(series: string, episode: string): Promise<string[]> {
   if (series === 'book-person') return [] // 나레이션만 있고 곡이 없는 시리즈
@@ -153,24 +144,8 @@ async function pickMusic(series: string, episode: string): Promise<string[]> {
   if (!existsSync(dataPath)) return []
   const script = JSON.parse(readFileSync(dataPath, 'utf-8')) as Record<string, unknown>
 
-  if (series === 'discourse') {
-    const { collectDiscourseBgmFiles } = await import('../../src/compositions/Discourse/bgm-select.js')
-    return collectDiscourseBgmFiles(script as never)
-  }
-
-  const [{ collectBgmFiles }, { factionVariants }] = await Promise.all([
-    import('../../src/compositions/Faction/bgm-select.js'),
-    import('@feelandnote/shared/lib/youtube-faction-meta'),
-  ])
-  const groups = (script.groups ?? []) as never[]
-  const layout = script.longformLayout as never[] | undefined
-  const files = new Set<string>()
-  for (const v of factionVariants(groups, layout)) {
-    for (const f of collectBgmFiles(script as never, { portrait: v.isShorts, part: v.part, lvPart: v.lvPart })) {
-      files.add(f)
-    }
-  }
-  return [...files]
+  const { collectDiscourseBgmFiles } = await import('../../src/compositions/Discourse/bgm-select.js')
+  return collectDiscourseBgmFiles(script as never)
 }
 
 /**

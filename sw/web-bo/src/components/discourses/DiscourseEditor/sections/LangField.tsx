@@ -2,7 +2,7 @@
 
 /**
  * 한국어·영문 나란히 입력칸 — 편집 언어 모드(한국어만/영어만/둘 다)에 따라 칸을 가린다.
- * 팩션 편집기가 입력칸마다 editLang 삼항식을 되풀이하던 것을 담화에서는 이 한 겹으로 묶는다.
+ * 입력칸마다 editLang 삼항식을 되풀이하지 않고 이 한 겹으로 묶는다.
  */
 
 import type { EditLang } from '@feelandnote/shared/bo/editor'

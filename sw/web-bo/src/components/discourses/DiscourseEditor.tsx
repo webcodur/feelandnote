@@ -12,7 +12,7 @@
  *
  * 이 앱(web-bo)은 DB 가 대본의 원본이다. 창구(fetch)로 파일을 읽고 쓰던 remotion-bo 시절과 달리
  * 서버 액션(loadDiscourseScript·saveDiscourseScript)으로 불러오고 저장하며, 저장 시점의 updatedAt 을
- * 낙관적 잠금 기준으로 들고 다닌다(팩션 편집기와 같은 방식 — FactionEditor.tsx 참조).
+ * 낙관적 잠금 기준으로 들고 다닌다.
  *
  * 기획·완성 정의 SSoT: docs/project/remotion/discourse/README.md §7
  */
@@ -60,7 +60,7 @@ export function DiscourseEditor({ series, name, initialTab }: Props) {
   const [showLines, setShowLines] = useState(false)
   const [showMonologue, setShowMonologue] = useState(false)
   const [showOrigin, setShowOrigin] = useState(false)
-  // 사진 목록 — 진입 시 펼침 + Ctrl+Q 로 여닫는다(팩션과 같은 조작)
+  // 사진 목록 — 진입 시 펼침 + Ctrl+Q 로 여닫는다(서재 탐방과 같은 조작)
   const { open: showPool, setOpen: setShowPool } = useImagePoolToggle()
 
   /**

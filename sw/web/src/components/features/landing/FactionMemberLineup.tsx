@@ -30,9 +30,7 @@ export interface FactionLineupMember {
 interface FactionMemberLineupProps {
   eyebrow: string;
   title: string;
-  subtitle?: string | null;
   color: string;
-  logoUrl?: string | null;
   members: FactionLineupMember[];
   countLabel: string;
   onSelect: (itemIndex: number) => void;
@@ -110,9 +108,7 @@ function placeInFormation(core: FactionLineupMember[]): Placement[] {
 export default function FactionMemberLineup({
   eyebrow,
   title,
-  subtitle,
   color,
-  logoUrl,
   members,
   countLabel,
   onSelect,
@@ -140,12 +136,6 @@ export default function FactionMemberLineup({
         background: `radial-gradient(ellipse 70% 55% at 50% 62%, ${color}59, transparent 70%), radial-gradient(circle at 20% 12%, ${color}26, #0a0a0a 68%)`,
       }}
     >
-      {logoUrl && (
-        <div className="absolute right-5 top-5 z-10 aspect-square w-16 overflow-hidden rounded-xl ring-1 ring-white/15 md:right-7 md:top-7 md:w-20">
-          <BlurDissolve key={logoUrl} className="absolute inset-0"><Image src={logoUrl} alt="" fill unoptimized sizes="80px" className="object-cover" /></BlurDissolve>
-        </div>
-      )}
-
       <div className="absolute inset-0 flex flex-col p-5 md:p-7">
         <span
           className="inline-flex items-center gap-1.5 font-serif text-[11px] font-bold tracking-[0.15em] md:text-xs"
@@ -154,13 +144,10 @@ export default function FactionMemberLineup({
           <Users size={13} aria-hidden />
           {eyebrow}
         </span>
-        <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 pe-20">
+        <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">{title}</h3>
           <span className="text-xs font-bold tabular-nums text-white/70 md:text-sm">{countLabel}</span>
         </div>
-        {subtitle && (
-          <p className="mt-1 break-keep text-sm font-semibold tracking-wide text-white/90">{subtitle}</p>
-        )}
 
         {/*
           무대 — 대형은 바닥에 발을 붙이고 선다. 좁은 화면에서는 무대 높이(cqh)가 모자라 사람이 제목 위로

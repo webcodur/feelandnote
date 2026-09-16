@@ -39,7 +39,6 @@ export default async function YoutubeChannelLink() {
           fullPlaylistLabel={ts("fullPlaylist")}
           shortsPlaylistLabel={ts("shortsPlaylist")}
           library={{
-            key: "library",
             index: ts("series.library.index"),
             title: t("libraryTour"),
             tagline: ts("series.library.tagline"),
@@ -48,18 +47,6 @@ export default async function YoutubeChannelLink() {
             shortsPlaylistUrl: playlists.libraryTour.shorts,
             siteHref: "/explore",
             siteLabel: ts("series.library.siteLink"),
-          }}
-          faction={{
-            key: "faction",
-            index: ts("series.faction.index"),
-            title: t("faction"),
-            tagline: ts("series.faction.tagline"),
-            description: ts("series.faction.description"),
-            fullPlaylistUrl: playlists.faction.full,
-            shortsPlaylistUrl: playlists.faction.shorts,
-            siteHref: "/explore/faction",
-            siteLabel: ts("series.faction.siteLink"),
-            languageNote: locale === "en" ? ts("koreanPlaylist") : undefined,
           }}
         />
 

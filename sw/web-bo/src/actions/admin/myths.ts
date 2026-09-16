@@ -3,8 +3,7 @@
 /**
  * 신화 편집(/myths) — 서비스 「신화의 세계」(웹 /explore)에 나가는 전승만 다룬다.
  *
- * 세력도감 편집기와 따로 둔다. 거기는 대본·음성·렌더 칸이 섞여 있어 신화 화면에 나가는 값만
- * 골라 고치기 어렵다. 데이터는 같은 표를 쓴다 — 전승 `celeb_tags`(myth-and-fiction 아래),
+ * 세력도감 테마 편집기와 따로 두되 데이터는 같은 표를 쓴다 — 전승 `celeb_tags`(myth-and-fiction 아래),
  * 그룹 `celeb_tag_groups`, 인물 `celeb_tag_assignments`(뷰 `faction_atlas_members`로 읽는다).
  * 여기는 읽기만 맡고, 쓰기는 `tags.ts`의 테마·그룹 액션을 그대로 부른다.
  */
@@ -12,11 +11,10 @@
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { MYTH_ROOT_TAG_SLUG } from '@feelandnote/shared/lib/faction-atlas'
 import { createClient } from '@/lib/db/server'
-import { requireFactionAdmin } from '@/lib/faction-db'
+import { requireAdmin } from '@/lib/admin-auth'
 import {
   getTag, getTagCelebs, getTagGroups, type CelebTag, type CelebTagAssignment, type TagGroup,
 } from '@/actions/admin/tags'
-import { getThemeEpisodeLinks, type ThemeEpisodeLink } from '@/actions/admin/factions/themes'
 
 export interface MythSummary {
   id: string
@@ -28,15 +26,13 @@ export interface MythSummary {
   visibleCount: number
   /** 숨김까지 센 인원 */
   totalCount: number
-  /** 영상 제작에서 온 행 수 — 이 행들은 여기서 못 고친다 */
-  productionCount: number
 }
 
 interface TagRow { id: string; name: string; parent_id: string | null; atlas_published: boolean | null }
 
 /** 왼쪽 전승 목록 — 차례대로, 아래 전승은 제 상위 바로 뒤에 둔다 */
 export async function listMythThemes(): Promise<MythSummary[]> {
-  await requireFactionAdmin()
+  await requireAdmin()
   const db = await createClient()
   const { data: parent, error: parentError } = await db
     .from('celeb_tags').select('id').eq('slug', MYTH_ROOT_TAG_SLUG).maybeSingle()
@@ -59,9 +55,9 @@ export async function listMythThemes(): Promise<MythSummary[]> {
   ])
   if (ordered.length === 0) return []
 
-  const members = await selectAllPages<{ tag_id: string; celeb_id: string; hidden: boolean | null; source: string }>(
+  const members = await selectAllPages<{ tag_id: string; celeb_id: string; hidden: boolean | null }>(
     (from, to) => db.from('faction_atlas_members')
-      .select('tag_id,celeb_id,hidden,source')
+      .select('tag_id,celeb_id,hidden')
       .in('tag_id', ordered.map(({ tag }) => tag.id))
       .order('tag_id').order('celeb_id').range(from, to))
 
@@ -74,7 +70,6 @@ export async function listMythThemes(): Promise<MythSummary[]> {
       published: tag.atlas_published === true,
       visibleCount: rows.filter(row => !row.hidden).length,
       totalCount: rows.length,
-      productionCount: rows.filter(row => row.source === 'production').length,
     }
   })
 }
@@ -83,16 +78,14 @@ export interface MythEditorData {
   tag: CelebTag
   members: CelebTagAssignment[]
   groups: TagGroup[]
-  /** 이 전승을 세력으로 쓰는 영상 편 — 있으면 영상에서 온 행은 읽기 전용이다 */
-  episodes: ThemeEpisodeLink[]
 }
 
-/** 오른쪽 편집 화면 한 장 — 전승·인물·그룹·영상 연결 */
+/** 오른쪽 편집 화면 한 장 — 전승·인물·그룹 */
 export async function getMythEditorData(tagId: string): Promise<MythEditorData | null> {
-  await requireFactionAdmin()
-  const [tag, members, groups, links] = await Promise.all([
-    getTag(tagId), getTagCelebs(tagId), getTagGroups(tagId), getThemeEpisodeLinks(),
+  await requireAdmin()
+  const [tag, members, groups] = await Promise.all([
+    getTag(tagId), getTagCelebs(tagId), getTagGroups(tagId),
   ])
   if (!tag) return null
-  return { tag, members, groups, episodes: links[tagId] ?? [] }
+  return { tag, members, groups }
 }

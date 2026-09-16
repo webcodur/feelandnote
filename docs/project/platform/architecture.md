@@ -150,19 +150,19 @@ src/proxy.ts
 ```text
 src/
   Root.tsx             # 컴포지션 등록
-  card-entry.tsx       # 카드 스틸 진입점
   compositions/
     BookRecommend/     # 북리커맨드 롱폼·쇼츠·솔로 (현역 렌더는 legacy/)
     BookCard/          # SNS 카드뉴스
-    Faction/           # 세력도감 세로 롱폼·쇼츠
-    FactionCard/
+    BookPerson/        # 책과 사람 세로 쇼츠
+    Discourse/         # 가상 담화
+    Ranking/
     OlympusMV/
     Thumbnail/
     ImageSlideshow.tsx  |  KineticType.tsx  |  TextReveal.tsx  |  theme.ts
   components/caption/
   lib/                 # avatar, voice-timing
-public/                # common, covers, episodes, factions, fonts, music
-scripts/               # render/, voice/, srt/, youtube/, lib/ + 팩션 정렬·감사 스크립트
+public/                # book-person, common, covers, discourses, episodes, fonts, music, rankings
+scripts/               # render/, voice/, srt/, youtube/, lib/, assets/, book-person/, discourse/, ranking/
 ```
 
 ---

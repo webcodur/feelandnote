@@ -2,7 +2,7 @@
 
 /**
  * 신화 편집 화면 — 왼쪽 전승 목록, 오른쪽 고른 전승의 기본 정보·그룹·인물.
- * 서비스 「신화의 세계」에 나가는 값만 둔다. 영상 대본·음성·상세 소개처럼 신화 화면이 쓰지 않는 칸은 없다.
+ * 서비스 「신화의 세계」에 나가는 값만 둔다. 상세 소개처럼 신화 화면이 쓰지 않는 칸은 없다.
  */
 
 import { useState } from 'react'
@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation'
 import { updateTag, type CelebTag, type CelebTagAssignment, type TagGroup } from '@/actions/admin/tags'
 import type { MythMusicCatalog } from '@/actions/admin/myth-music'
 import type { MythEditorData, MythSummary } from '@/actions/admin/myths'
-import type { ThemeEpisodeLink } from '@/actions/admin/factions/themes'
 import { MythGroupPanel } from './MythGroupPanel'
 import { MythMemberPanel } from './MythMemberPanel'
 import MythMusicPanel from './MythMusicPanel'
@@ -45,9 +44,6 @@ export default function MythEditor({ myths, selectedId, detail, musicCatalog }: 
                   className={`size-1.5 shrink-0 rounded-full ${myth.published ? 'bg-green-500' : 'bg-text-tertiary/40'}`}
                 />
                 <span className="min-w-0 flex-1 truncate">{myth.name}</span>
-                {myth.productionCount > 0 && (
-                  <span title="영상 제작에서 온 인물이 있습니다" className="shrink-0 rounded bg-purple-500/15 px-1 text-[10px] text-purple-400">영상</span>
-                )}
                 <span title={`노출 ${myth.visibleCount}명 · 숨김 포함 ${myth.totalCount}명`} className="shrink-0 text-xs tabular-nums text-text-tertiary">
                   {myth.visibleCount}
                 </span>
@@ -59,7 +55,7 @@ export default function MythEditor({ myths, selectedId, detail, musicCatalog }: 
 
       {detail ? (
         <div className="min-w-0 space-y-4">
-          <MythInfoCard tag={detail.tag} episodes={detail.episodes} onSaved={refreshList} />
+          <MythInfoCard tag={detail.tag} onSaved={refreshList} />
           <MythMusicPanel catalog={musicCatalog} onSynced={refreshList} />
           <MythGroupPanel
             tagId={detail.tag.id}
@@ -84,7 +80,7 @@ export default function MythEditor({ myths, selectedId, detail, musicCatalog }: 
 }
 
 /** 전승 이름·소개(신화 개요 본문)·공개 스위치 */
-function MythInfoCard({ tag, episodes, onSaved }: { tag: CelebTag; episodes: ThemeEpisodeLink[]; onSaved: () => void }) {
+function MythInfoCard({ tag, onSaved }: { tag: CelebTag; onSaved: () => void }) {
   const [saved, setSaved] = useState(tag)
   const [form, setForm] = useState({
     name: tag.name,
@@ -143,13 +139,6 @@ function MythInfoCard({ tag, episodes, onSaved }: { tag: CelebTag; episodes: The
           {saved.atlas_published ? '공개 중' : '잠금 · 작업 예정'}
         </button>
       </div>
-
-      {episodes.length > 0 && (
-        <p className="mt-3 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-2 text-xs leading-5 text-purple-300">
-          영상 「{episodes.map(e => e.title).join('」·「')}」과(와) 연결된 전승입니다.
-          영상에서 온 인물은 여기서 고칠 수 없고 세력도감 편 편집기에서 고칩니다.
-        </p>
-      )}
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <label className="space-y-1">

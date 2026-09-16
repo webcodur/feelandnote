@@ -35,7 +35,7 @@ export function MythGroupPanel({ tagId, groups, members, onGroupsChange, onMembe
   const [newName, setNewName] = useState('')
   /** 마지막으로 저장된 글 — 칸을 스치기만 한 blur는 저장하지 않는다 */
   const saved = useRef(new Map(groups.map(group => [group.id, textOf(group)])))
-  const countOf = (groupId: string) => members.filter(m => m.source === 'manual' && m.group_id === groupId).length
+  const countOf = (groupId: string) => members.filter(m => m.group_id === groupId).length
 
   const edit = (groupId: string, field: keyof GroupText, value: string) =>
     onGroupsChange(groups.map(g => (g.id === groupId ? { ...g, [field]: value } : g)))

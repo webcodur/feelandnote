@@ -11,7 +11,7 @@ Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운�
 | [`service/`](service/README.md) | 사용자 웹 화면과 라우트 |
 | [`data/`](data/README.md) | 회원·콘텐츠·인물 DB의 물리 관계와 불변사항 |
 | [`celeb/`](celeb/README.md) | 인물 생성 파이프라인, 상세 화면, 이미지, 타임라인, 읽어보기 |
-| [`remotion/`](remotion/README.md) | 서재 탐방, 책과 사람, 세력도감, 담화, 영상·음성 제작 |
+| [`remotion/`](remotion/README.md) | 서재 탐방, 책과 사람, 담화, 랭킹, 영상·음성 제작 |
 | [`operations/`](operations/README.md) | SEO, 수익화, 유입 감사, SNS 확장 |
 | [`production/`](production/README.md) | 글쓰기, 이미지 생성·발주, 합성 음성 정리 공통 규칙 |
 | [`agent-cli/`](agent-cli/README.md) | 외부 CLI 모델을 조사·작성·검수에 배치하는 검증된 작업 기법 |

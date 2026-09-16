@@ -5,9 +5,9 @@
  *
  * 격자의 한 행을 이루는 **두 칸**을 내놓는다. 둘이 같은 행에 놓이므로 깊은 쪽이 행 높이를 정하고
  * 얕은 쪽은 그만큼 빈 자리로 남는다 — 높이를 재서 맞추는 것이 아니라 배치가 스스로 맞물린다.
- * 그래서 대사와 그 대사에 걸린 사진이 화면에서 언제나 마주 본다(팩션 인물 행과 같은 짜임새).
+ * 그래서 대사와 그 대사에 걸린 사진이 화면에서 언제나 마주 본다.
  *
- * 대사 입력칸·사진 카드 모두 팩션과 같은 공용 부품이다(`QuoteEditor`·`ImageCard`).
+ * 대사 입력칸·사진 카드 모두 공용 부품이다(`QuoteEditor`·`ImageCard`).
  */
 
 import { useState } from 'react'
@@ -49,7 +49,7 @@ export function TurnRow({
 }: Props) {
   /** 사진 고르는 창 — 시작 사진이거나 넘김 자리 하나 */
   const [pick, setPick] = useState<{ kind: 'start' } | { kind: 'change'; idx: number } | null>(null)
-  /** 나머지 설정 펼침 — 기본은 접힘(팩션 인물 행과 같다) */
+  /** 나머지 설정 펼침 — 기본은 접힘 */
   const [openDetail, setOpenDetail] = useState(false)
 
   const speaker = cast[turn.cast]
@@ -291,7 +291,6 @@ export function TurnRow({
           captionArea
           series={series}
           episodeName={episodeName}
-          slug={speaker?.slug}
           title={`${index + 1}번 발언 시작 사진`}
           onClose={() => setPick(null)}
         />
@@ -305,7 +304,6 @@ export function TurnRow({
           captionArea
           series={series}
           episodeName={episodeName}
-          slug={speaker?.slug}
           title={`${pickChange.chunk + 1}번째 줄부터 바뀔 사진`}
           onClose={() => setPick(null)}
         />

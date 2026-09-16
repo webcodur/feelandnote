@@ -1,6 +1,5 @@
 export { EleVoicePicker, ELE_VOICE_PICKER_TITLE } from './EleVoicePicker'
 export { useEleVoiceNotes } from './useEleVoiceNotes'
-export { useEleVoiceHistory } from './useEleVoiceHistory'
 export { useEleVoiceCatalog } from './useEleVoiceCatalog'
 export type { EleVoiceRecommendation } from './types'
 export { recommendEleVoices, joinSubjectText } from './recommend'

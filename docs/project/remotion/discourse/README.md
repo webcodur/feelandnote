@@ -20,7 +20,7 @@
 | 음성 | ❌ 0개. TTS 파이프라인(`voice:discourse`) 미착수 |
 | 렌더·유튜브 CLI | ❌ 미착수. BO 렌더 요청은 **501 명시 응답**(조용한 폴백 금지) |
 
-**BO 미리보기 한계(의도적)**: `@remotion/player` 로 `Discourse` 를 직접 재생하지 못한다. 엔진 로더(`script.ts`)가 `require.context` 로 에피소드를 빌드 시점에 훑어 담아 BO 번들에 실리지 않는다. 그래서 **컷 흐름 도식**으로 간다(팩션 편집기와 동형). 단 팩션이 BO에 근사 산식을 복제해 둔 것과 달리 담화는 렌더의 `buildCues` 를 그대로 import 하므로 **미리보기와 렌더가 갈릴 여지가 없다**. 실제 화면은 Studio에서 본다. 실재생으로 바꾸려면 엔진에 로더 비의존 진입점 + `assetBase` 주입이 필요하다(팩션 `FactionCard` 선례).
+**BO 미리보기 한계(의도적)**: `@remotion/player` 로 `Discourse` 를 직접 재생하지 못한다. 엔진 로더(`script.ts`)가 `require.context` 로 에피소드를 빌드 시점에 훑어 담아 BO 번들에 실리지 않는다. 그래서 **컷 흐름 도식**으로 간다(팩션 편집기와 동형). 단 팩션이 BO에 근사 산식을 복제해 둔 것과 달리 담화는 렌더의 `buildCues` 를 그대로 import 하므로 **미리보기와 렌더가 갈릴 여지가 없다**. 실제 화면은 Studio에서 본다. 실재생으로 바꾸려면 엔진에 로더 비의존 진입점 + `assetBase` 주입이 필요하다(서재 탐방 `BookCard` 선례).
 
 인물이 자신의 사상을 1인칭으로 말하고, 다른 인물이 끼어들어 반박하며, 라이벌·친구·적과 정면으로 대담하는 **세로 영상** 시리즈. 팩션(세력도감)·북리커맨드(서재 탐방)에 이은 세 번째 시리즈다.
 
@@ -102,7 +102,7 @@
 
 **인물이 n명이라고 이미지가 n장이 아니다.** 팩션과 동일하게, **대사가 흐르는 도중 적정 시점에 이미지가 자유롭게 넘어간다.**
 
-- 팩션은 인물 대사의 **의미 덩어리 인덱스**를 지목해 이미지를 교체한다 (`person.imageChanges[{ chunk, image }]` — `Faction/types.ts`). 담화도 이 방식을 그대로 계승한다.
+- 팩션은 인물 대사의 **의미 덩어리 인덱스**를 지목해 이미지를 교체했다(`imageChanges[{ chunk, image }]`). 담화도 이 방식을 그대로 계승한다(`Discourse/types.ts`).
 - 즉 한 인물의 한 발언 안에서도 이미지가 여러 번 바뀐다. 발언이 길수록, 감정이 꺾이는 지점이 많을수록 장수가 는다.
 - 인물 한 명이 여러 턴에 걸쳐 등장하므로 **인물당 이미지 수요가 팩션보다 훨씬 크다**. 팩션은 인물당 1~2장(`<slug>.png` + 대사컷 `<slug>_2.png`)이면 충분했으나, 담화는 인물당 5~10장을 예상한다. 경로 규격이 갈리는 지점이다 (§8).
 - 교체 지점은 **대본 작성 시 사람이 지목한다.** 덩어리 분할이 Claude 수동 작업인 것과 같은 이유다 (메모리 `feedback_faction_quotechunks_claude_splits`).
@@ -110,8 +110,8 @@
 ### 그 외 연출
 
 - **발언 턴 길이**는 대사 음성 길이에 따라 가변이다. 팩션 인물 컷(1.1초 고정)과 다르다.
-- 인물 컷·자막·글자 점등은 팩션 `PersonCard`·`components/caption/Typewriter`·`ShortCaption`을 재사용한다.
-- **난입·대치 연출은 신규**다. 팩션 `transitions.tsx`(glitch/tear/whip 등)를 소재로 쓴다.
+- 인물 컷(`Discourse/sections/CastCard`·`TurnCard`)은 팩션 인물 컷에서 가져왔고, 글자 점등은 공용 `components/caption/Typewriter`를 쓴다.
+- **난입·대치 연출은 신규**다. 전환 이름(glitch/tear/whip 등)은 `Discourse/types.ts`에 있고 렌더 구현은 없다.
 
 ---
 
@@ -196,7 +196,7 @@ Turn {
 
 **장 표지(`era`)를 연표로 쓴다.** 발언 사이 제 시점에 사실 한 줄씩 꽂으면 사건이 흐르고 대사는 사상만 다투면 된다(설립 → 이탈 → 제소 → 판결). 표지가 옮기는 사실도 `_docs/sources.md` 의 사실 골격에 근거해야 한다.
 
-- **장 표지 첫 줄은 150px로 뜬다. 연도만 넣는다.** 문장을 넣으면 세 줄로 터진다. 둘째 줄부터가 70px 문구 자리다(`Faction/sections/EraCard.tsx` — 담화가 그대로 재사용).
+- **장 표지 첫 줄은 150px로 뜬다. 연도만 넣는다.** 문장을 넣으면 세 줄로 터진다. 둘째 줄부터가 70px 문구 자리다(`Discourse/sections/EraCard.tsx`).
 - 사건의 핵심 한 건(이 편에서는 소송)은 **대사에도 한 번 심는다.** 표지에만 두면 인물이 남 일처럼 말하는 꼴이 된다.
 - 마지막 표지는 발언 개수와 같은 자리를 가리켜 맨 끝에 둔다(§5 `DiscourseLongformItem`).
 
@@ -206,10 +206,10 @@ Turn {
 
 | 항목 | 값 |
 |------|-----|
-| 해상도 | 1080×1920 (9:16), FPS 60 — 팩션과 동일 |
+| 해상도 | 1080×1920 (9:16), FPS 60 |
 | 영상 종류 | 세로 롱폼(`KO-LV`, 편 경계 시 `KO-LVN`) + 세로 쇼츠(`KO-SN`) |
 | 언어 | 한국어 우선. 원천이 ko 단일이므로 영문은 후순위 |
-| 채널 | 서재 탐방·팩션과 같은 KO 채널, 비공개 업로드 |
+| 채널 | 서재 탐방과 같은 KO 채널, 비공개 업로드 |
 
 ### 완성 정의 — BO를 팩션과 같은 층위까지 만든다
 
@@ -271,7 +271,7 @@ sw/remotion/public/discourses/
 
 ### 인물 이미지 폴더형 (확정 — 팩션 규격과 갈리는 지점)
 
-팩션은 인물당 `<slug>.png` + 대사컷 `<slug>_2.png` 평면 파일명을 쓰고, **인물 하위 폴더형을 신규 비권장**으로 못박았다(`factions/_docs/folder-rules.md` §12-2, AI편 레거시 `01-alan_turing/body.png`).
+팩션은 인물당 `<slug>.png` + 대사컷 `<slug>_2.png` 평면 파일명을 쓰고, **인물 하위 폴더형을 신규 비권장**으로 못박았다(세력도감 폴더 규칙 §12-2, 원문은 보관본 `D:\remotion-assets\factions\_docs`).
 
 담화는 사정이 다르다. **한 인물이 여러 턴에 걸쳐 말하고 턴마다 이미지가 여러 번 바뀌므로 인물당 5~10장**이 나온다. `<slug>_7.png`까지 늘어난 평면 파일명은 읽기 어렵다.
 
@@ -280,7 +280,7 @@ sw/remotion/public/discourses/
 
 **팩션 규격을 어기는 게 아니라 조건이 다른 것**이다. 담화는 같은 인물이 여러 턴에 반복 등장하므로 인물 폴더형을 SSoT로 삼는다. 별도 `discourses/_docs/folder-rules.md` 작성 전까지 이 절이 경로 규격이다.
 
-그 외 규격(상태 어휘, 단체→크롭→개인 이미지 파이프라인, `_archive`/`_staging`, REF 원칙)은 `factions/_docs/folder-rules.md`를 그대로 준용한다.
+단체→크롭→개인 이미지 파이프라인과 REF 원칙은 `faction-image` 스킬을 준용한다.
 
 ---
 
@@ -295,8 +295,7 @@ sw/remotion/public/discourses/
 - [x] 폴더명은 **영문·숫자·하이픈만** — 컴포지션 ID가 된다
 
 **packages/shared**
-- [ ] `youtube-discourse-meta.ts` — **미착수(실측 확인: `packages/shared/src/lib/`에 `youtube-faction-meta.ts`만 있다).** `discourseVariants()` / 제목·태그·설명 빌더. **컴포지션 ID의 단일원천을 여기로 옮긴다** (팩션 주석에 "예전엔 양쪽에 정규식이 복붙돼 규칙이 어긋났다"는 사고 이력이 있다)
-  - 현재 `discourseCompBase()`는 `Root.tsx` 안에 있다(`Discourse-<폴더명>`). 유튜브 CLI 착수 시 shared로 승격해 복붙을 원천 차단한다.
+- [x] `youtube-discourse-meta.ts` — 컴포지션 ID(`discourseCompBase()`)·영상 메타의 단일원천. `Root.tsx`는 여기서 import한다([`unification.md`](unification.md) 진행 로그).
 
 **음성**
 - [ ] `voice:discourse` / `voice:discourse-align` 스크립트 + `scripts/voice/discourse/`
@@ -321,11 +320,11 @@ sw/remotion/public/discourses/
   - 담화 렌더·유튜브 라우트는 CLI 미구현이라 **501 명시 응답**을 둔다(조용한 폴백 금지 — 책 경로로 새면 안 된다)
 - [x] `components/discourse/DiscourseEditor` — **원고 중심 전면 개편(26.07.21).** 유저 지적(조각 카드 편집이 어렵다 — 한 덩어리로 쓰고 나서 오디오·이미지·화자 구획을 정해야 한다)으로 「정보/편성」 2탭을 철거하고 **「원고 | 인물」 2탭**으로 재편. 구 발언 탭 주소로 들어와도 원고가 열린다.
   - **원고 탭(기본) — 발언마다 한 행, 왼쪽 대사 · 오른쪽 그 대사의 사진**(26.07.27 재편). CSS 격자 `grid-cols-[minmax(0,1fr)_20rem]` + `items-start` 로 짜여 **한 발언의 대사와 사진이 언제나 같은 행**에 놓인다. 행 높이는 둘 중 깊은 쪽이 정하고 얕은 쪽엔 빈 자리가 남는다 — **높이를 재서 맞추지 않는다.** 팩션 인물 행과 같은 짜임새이고, 다른 것은 단위뿐이다(팩션=인물 하나, 담화=발언 하나).
-    - 대사 입력칸은 공용 `QuoteEditor`(`packages/shared/src/bo/quote-editor.tsx`) — 팩션 `FactionQuoteEditor` 를 승격시킨 것이라 **팩션·담화가 같은 부품**을 쓴다. 엔터 = 덩어리(chunk) = 이미지·자막 전환 단위, 줄 위 점선 표식(＋전환·드래그 이동·✕·**눌러서 사진 고르기**), 사진이 걸린 줄부터 다음 자리 전까지 카드와 같은 색으로 배경 칠. 줄 수가 바뀌면 `adjustImageChanges`(같은 파일)가 사진 자리를 따라 민다.
+    - 대사 입력칸은 공용 `QuoteEditor`(`packages/shared/src/bo/quote-editor.tsx`) — 팩션 `FactionQuoteEditor` 를 승격시킨 공용 부품이다. 엔터 = 덩어리(chunk) = 이미지·자막 전환 단위, 줄 위 점선 표식(＋전환·드래그 이동·✕·**눌러서 사진 고르기**), 사진이 걸린 줄부터 다음 자리 전까지 카드와 같은 색으로 배경 칠. 줄 수가 바뀌면 `adjustImageChanges`(같은 파일)가 사진 자리를 따라 민다.
     - `text`는 chunks에서 파생(`join(' ')`, 팩션 quote 파생과 동일 — 이중 입력 소멸). 발언 추가·삭제·순서는 행 머리 단추(사진·음성이 붙은 발언 삭제 시 확인창) + 10단계 되돌리기.
     - ⚠️ **폐기된 접근 2종 — 재제안 금지.** ① 문장 자동 분할 + gap 클릭(26.07.21 반려). ② **대본 전체를 입력창 하나로 이어 쓰는 연속 원고**(26.07.21~27 운용 후 폐기) — 통짜 textarea는 중간에 여백을 넣을 수 없어 오른쪽 사진과 행을 맞출 방법이 없다. JS로 발언 높이를 재서 사진 열을 밀어 맞추는 보정도 시도했다가 **「뭘 눈으로 봐, 높낮이 맞도록 레이아웃 설계하라」**로 반려됐다. 딸린 `ManuscriptEditor.tsx`·`manuscript.ts`(`remapTurns`)·`TurnImageColumn.tsx` 삭제.
   - **행의 오른쪽 칸 = 그 발언의 사진**(`sections/TurnRow.tsx`, 20rem). #1 시작(비면 인물 사진 상속 표시) → #N 넘김 → 「사진 넘김 추가」(덩어리 1개면 비활성) → 고아 앵커 경고. 담화 전체 사진이 행을 따라 위에서 아래로 전부 늘어선다 — 고른 발언 것만 띄우지 않는다.
-    - 🔴 **카드는 공용 부품 `ImageCard`**(`packages/shared/src/bo/media.tsx`). 팩션·담화가 **같은 부품**을 쓴다 — 280px 가로형 = 썸네일 112px + 머리띠(이름표·색감·△사진만 비우기·삭제) + 걸리는 구절 + children(구절 고르기). 끌어다 놓기는 부품이 스스로 받고(`useImageDrop`), 사진 고르는 창은 **부르는 쪽**이 띄운다(대사 표식 클릭으로도 같은 창이 열려야 해서 여닫는 권한을 부품이 쥐면 안 된다). `ANCHOR_THEMES`·`themeAt`·`IMAGE_FILTER_OPTIONS`도 같은 파일. **팩션의 `ImageChangeSlot`과 인라인 `#1 기본` 카드(약 90줄)는 삭제하고 이 부품으로 교체**했다.
+    - 🔴 **카드는 공용 부품 `ImageCard`**(`packages/shared/src/bo/media.tsx`). 팩션 편집기에서 승격한 공용 부품이다 — 280px 가로형 = 썸네일 112px + 머리띠(이름표·색감·△사진만 비우기·삭제) + 걸리는 구절 + children(구절 고르기). 끌어다 놓기는 부품이 스스로 받고(`useImageDrop`), 사진 고르는 창은 **부르는 쪽**이 띄운다(대사 표식 클릭으로도 같은 창이 열려야 해서 여닫는 권한을 부품이 쥐면 안 된다). `ANCHOR_THEMES`·`themeAt`·`IMAGE_FILTER_OPTIONS`도 같은 파일. **팩션의 `ImageChangeSlot`과 인라인 `#1 기본` 카드(약 90줄)는 삭제하고 이 부품으로 교체**했다.
     - 🔴 **사진 칸은 사진만 다룬다.** 발언 설정을 여기 끼워 넣지 않는다(26.07.27 유저: 「'설정' 이게 뭐지 이미지 배열에서?」). 카드 본문의 「발언 시작점 고정」 같은 설명 문구도 뺐다 — 사진 배열에 대사 용어가 섞이면 무슨 화면인지 흐려진다. 설정(`TurnDetailPanel`: 종류·대상·쇼츠 편·효과·콘티·음성)은 **왼쪽 대사 칸 아래 「설정」 접기**로 들어간다(팩션 인물 행과 동일).
     - 🔴 **발언 원문(`origin`/`originRef`)은 발언별 폼에서 분리**해 상단 「발언 원문」 패널(`TurnOriginPanel`)로 모았다. 담화 전체를 놓고 한꺼번에 정리하는 자료라 매 단락에 박지 않는다(26.07.27 유저 지시). 패널은 적힌 개수·**출처 없는 원문 개수**를 머리에 세고 「적힌 것만」 추리기를 지원한다.
     - **색 대조**: `shared/anchorMap.ts`의 `turnAnchorMap`이 발언 안에서 사진이 걸린 자리마다 색을 배정 → 대사에서 **그 사진이 떠 있는 구간의 줄 배경**과 카드 테두리·머리띠·표식이 같은 색. 미지정 자리는 회색(`bg-slate-400/25`) + 라벨 「사진 없음」.
@@ -335,28 +334,27 @@ sw/remotion/public/discourses/
   - **철거**: `DiscourseTurnsTab`·`TurnRow`·`ChunkEditor` 삭제(참조 4범주 검색으로 무참조 확인). `textEn`/`chunksEn`은 편집 UI 없이 **보존만** 한다(엔진이 ko만 등록 — 어떤 편집 경로에서도 파생·삭제하지 않음).
   - **음원 자리 경고**: `GET /api/[series]/discourse-voice/[episode]` 가 실제 wav 목록을 읽고 `vnVerify` 로 대조 → 원고 탭 상단 배너(밀림/누락 구분) + 발언 행 배지. 분할·병합·삭제 전에 밀림 예고 확인창(wav 0개면 생략).
   - **타이밍**: BO가 산식을 복제하지 않는다. 렌더의 `Discourse/timing.ts` 가 순수 모듈이라 `buildCues` 를 **직접 import** 한다(`components/discourse/shared/timing.ts`). 팩션(BO 근사치 복제)보다 엄격하다.
-  - **미리보기는 팩션과 동형(컷 흐름 도식)**. `@remotion/player` 로 `Discourse` 컴포넌트를 직접 물릴 수 없다 — `script.ts` 가 `require.context` 로 에피소드를 빌드 시점에 훑어 담는 구조라 BO 번들에 실리지 않는다(tsc 실측: `Property 'context' does not exist on type 'Require'`). 팩션 카드 미리보기가 Player를 쓰는 것은 `FactionCard` 가 로더를 거치지 않고 `assetBase` prop 을 받기 때문이다. 담화도 Player를 쓰려면 로더 비의존 진입점이 필요하다(엔진 변경 사안).
+  - **미리보기는 팩션과 동형(컷 흐름 도식)**. `@remotion/player` 로 `Discourse` 컴포넌트를 직접 물릴 수 없다 — `script.ts` 가 `require.context` 로 에피소드를 빌드 시점에 훑어 담는 구조라 BO 번들에 실리지 않는다(tsc 실측: `Property 'context' does not exist on type 'Require'`). 서재 탐방 카드 미리보기가 Player를 쓰는 것은 `BookCard` 가 로더를 거치지 않고 `assetBase` prop 을 받기 때문이다. 담화도 Player를 쓰려면 로더 비의존 진입점이 필요하다(엔진 변경 사안).
   - 잔여: 음성 생성·정규화 패널(담화 TTS CLI 부재), 유튜브 패널, 카드/도감, 「음원 재생성 필요」 배지 영구화(저장 형식에 원문 지문 추가 필요)
 
 **문서**
 - [x] `docs/project/remotion/README.md` 시리즈 표에 행 추가 (26.07.16 — 폐기된 hell-bar 행을 이 시리즈가 대체)
 - [x] `docs/project/remotion/README.md` 시리즈 표에서 이 문서 연결
-- [ ] `public/discourses/_docs/folder-rules.md` (팩션 것 준용 + 차이만) — 인물 이미지 경로 확정(§8) 후 작성
+- [ ] `public/discourses/_docs/folder-rules.md` — 인물 이미지 경로 확정(§8) 후 작성
 
 ---
 
-## 10. 재사용 자산 (팩션·공통)
+## 10. 재사용 자산 (공통)
 
 | 자산 | 경로 | 비고 |
 |------|------|------|
 | 글자 점등 자막 | `src/components/caption/Typewriter.tsx` | 이미 시리즈 무관 공통으로 승격됨 |
 | 소자막 | `src/components/caption/ShortCaption.tsx` | 자동 페이징(ko 30자) |
 | 발화 시각 라이브러리 | `src/lib/voice-timing/` | `expandSubTimings`·`paginateSentences` |
-| 인물 컷 | `Faction/sections/PersonCard.tsx` | 승격 후보. 이미지 교체(`imageChanges`) 로직 포함 |
-| 자막 글로우 | `Faction/sections/CaptionBackdrop.tsx` | 승격 후보 |
-| 전환 효과 | `Faction/transitions.tsx` | 난입 연출 소재 |
-| 지속 모션 | `Faction/utils.ts` `resolveHoldMotion`·`holdMotionTransform` | 켄번스·패닝 계승 |
-| 브랜드 로고 | `BookRecommend/brand.ts` | 이미 팩션이 크로스 import 중 |
+| 인물 컷 | `Discourse/sections/CastCard.tsx`·`TurnCard.tsx` | 이미지 교체(`imageChanges`) 로직 포함. 사진은 `CutMedia` |
+| 자막 글로우 | `Discourse/sections/CaptionBackdrop.tsx` | |
+| 지속 모션 | `Discourse/utils.ts` `resolveHoldMotion`·`holdMotionTransform` | 켄번스·패닝 계승 |
+| 브랜드 로고 | `BookRecommend/brand.ts` | 담화 `OutroCard`가 import 중 |
 | 정렬 저수준 | `scripts/voice/lib/align-core.ts` | 공유 |
 
 ---

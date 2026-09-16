@@ -30,7 +30,7 @@ import {
 } from '@/components/scenario-voice/SpeakerEngineToggle'
 import { BreathModeContent, type BreathEndpoints } from '@/components/scenario-voice/BreathModeContent'
 import {
-  EleVoicePicker, useEleVoiceCatalog, useEleVoiceNotes, useEleVoiceHistory,
+  EleVoicePicker, useEleVoiceCatalog, useEleVoiceNotes,
 } from '@/components/voice/ele-voice-picker'
 import {
   uploadVoiceFromPreview, bumpVoiceVersion, enableHasVoice, saveVoiceId, type VoiceGenCeleb,
@@ -96,11 +96,10 @@ export default function CelebVoiceEditorModal({
     reloadTick,
   })
 
-  // ── 보이스 목록·메모·이미 쓴 곳 ──
+  // ── 보이스 목록·메모 ──
   const catalog = useEleVoiceCatalog()
   const voices = catalog.voices
   const notes = useEleVoiceNotes()
-  const history = useEleVoiceHistory()
 
   const recommendations = useMemo(
     () => buildCelebVoiceRecommendations({
@@ -255,10 +254,6 @@ export default function CelebVoiceEditorModal({
                         notesError={notes.error}
                         savingVoiceId={notes.savingVoiceId}
                         onUpdateVoiceNote={notes.updateVoiceNote}
-                        voiceHistory={history.history}
-                        historyLoading={history.loading}
-                        historyError={history.error}
-                        historyUsageCount={history.usageCount}
                       />
                     )}
                   </div>

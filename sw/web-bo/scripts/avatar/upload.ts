@@ -296,7 +296,7 @@ function assertIdentityEvidence(
       )
     }
     if (trimmed.length < 'fiction:x'.length) {
-      throw new Error('fiction 신원 근거에는 원전·팩션 SSoT 경로가 필요하다')
+      throw new Error('fiction 신원 근거에는 원전 SSoT 경로가 필요하다')
     }
     return
   }

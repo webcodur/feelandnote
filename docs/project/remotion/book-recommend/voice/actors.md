@@ -33,6 +33,6 @@
 }
 ```
 
-진행 인물의 DB에 검증된 음성이 있으면 그 ID를 우선한다. 없으면 `sw/remotion/public/factions/_voice-casting/ele-voice-notes.json`에서 차단되지 않고 청음 기록이 있는 후보를 고른다. 에피소드 안에서 실제로 함께 말하는 인물끼리는 음색이 겹치지 않게 한다.
+진행 인물의 DB에 검증된 음성이 있으면 그 ID를 우선한다. 없으면 백오피스 ElevenLabs 보이스 선택기의 청음 메모(`/api/elevenlabs/voice-notes`)에서 차단되지 않고 청음 기록이 있는 후보를 고른다. 에피소드 안에서 실제로 함께 말하는 인물끼리는 음색이 겹치지 않게 한다.
 
 `host.geminiVoice`, 장면별 `geminiVoice`, `speakers[].engine: "gemini"`는 서재탐방 인물 배정에 사용하지 않는다.

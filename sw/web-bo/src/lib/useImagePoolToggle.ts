@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 /**
- * 이미지 풀 표시 토글 공통 훅 — 팩션·북리커맨드 세부 편집 페이지 공용.
+ * 이미지 풀 표시 토글 공통 훅 — 담화·랭킹·책과 사람 세부 편집 페이지 공용.
  *
  * - 페이지 진입 시 기본 펼침(defaultOpen)
  * - Ctrl+Q(또는 ⌘+Q) 로 펼치기/접기

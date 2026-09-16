@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/user/explore/youtube/YoutubeChannelContent.tsx
   기능: 필앤노트 영상관
-  책임: 서재 탐방·세력도감을 소개하고 재생목록과 내부 기록, 기존 인물 영상을 함께 진열한다.
+  책임: 서재 탐방 시리즈를 소개하고 재생목록과 내부 기록, 인물 영상을 함께 진열한다.
 */
 
 import { getCelebProfileUrl } from "@/lib/url";
@@ -9,13 +9,11 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ExternalLink, Youtube } from "lucide-react";
 import type { YoutubeCeleb, YoutubeVideoEntry } from "@/actions/home/getYoutubeCelebs";
-import type { YoutubeFactionVideos } from "@/actions/home/getYoutubeFactions";
 import {
   getYoutubeChannel,
   getYoutubeSeriesPlaylists,
 } from "@/constants/youtube";
 import LiteYoutubeEmbed from "@/components/features/youtube/LiteYoutubeEmbed";
-import YoutubeFactionArchive from "./YoutubeFactionArchive";
 import YoutubeSeriesCard from "./YoutubeSeriesCard";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 
@@ -62,13 +60,11 @@ function collectCards(celebs: YoutubeCeleb[], locale: string) {
 
 interface YoutubeChannelContentProps {
   celebs: YoutubeCeleb[];
-  factionVideos: YoutubeFactionVideos;
   locale: string;
 }
 
 export default async function YoutubeChannelContent({
   celebs,
-  factionVideos,
   locale,
 }: YoutubeChannelContentProps) {
   const t = await getTranslations("explore.youtube");
@@ -76,8 +72,6 @@ export default async function YoutubeChannelContent({
   const playlists = getYoutubeSeriesPlaylists(locale);
   const { longform, shorts } = collectCards(celebs, locale);
   const hasLibraryVideos = longform.length > 0 || shorts.length > 0;
-  const factionLanguageNote =
-    locale === "en" ? t("koreanPlaylist") : undefined;
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 pb-8 sm:space-y-16">
@@ -148,40 +142,8 @@ export default async function YoutubeChannelContent({
             siteHref="/explore"
             siteLabel={t("series.library.siteLink")}
           />
-          <YoutubeSeriesCard
-            index={t("series.faction.index")}
-            image="/images/home/youtube-faction-collection-hero.webp"
-            imageAlt={t("series.faction.imageAlt")}
-            title={t("series.faction.title")}
-            tagline={t("series.faction.tagline")}
-            description={t("series.faction.description")}
-            fullPlaylistUrl={playlists.faction.full}
-            shortsPlaylistUrl={playlists.faction.shorts}
-            fullPlaylistLabel={t("fullPlaylist")}
-            shortsPlaylistLabel={t("shortsPlaylist")}
-            siteHref="/explore/faction"
-            siteLabel={t("series.faction.siteLink")}
-            languageNote={factionLanguageNote}
-          />
         </div>
       </section>
-
-      <YoutubeFactionArchive
-        locale={locale}
-        videos={factionVideos}
-        copy={{
-          eyebrow: t("factionArchiveEyebrow"),
-          title: t("factionArchiveTitle"),
-          description: t("factionArchiveDescription"),
-          longformTitle: t("factionLongformTitle"),
-          longformSub: t("factionLongformSub"),
-          shortsTitle: t("factionShortsTitle"),
-          shortsSub: t("factionShortsSub"),
-          openFaction: t("openFaction"),
-          moreJoiner: t("factionMoreJoiner"),
-          moreUnit: t("factionMoreUnit"),
-        }}
-      />
 
       {hasLibraryVideos ? (
         <div className="mx-auto max-w-4xl space-y-12 border-t border-white/10 pt-12">

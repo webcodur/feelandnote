@@ -1,15 +1,15 @@
 /**
  * 폴더형 에피소드 시리즈의 서버 공용 IO — 서버 전용.
  *
- * 세력도(factions/)와 가상 담화(discourses/)는 저장 구조가 같다:
- *   <뿌리>/<에피소드>/faction-data.json | discourse-data.json
+ * 폴더형 시리즈(가상 담화 discourses/ 등)는 저장 구조가 같다:
+ *   <뿌리>/<에피소드>/discourse-data.json
  *   <뿌리>/<에피소드>/images/…  <뿌리>/<에피소드>/<임의 폴더>/…
  *   <뿌리>/<에피소드>/voice/*.wav      <뿌리>/<에피소드>/_status.json
  *   <뿌리>/_episodes.json (노출 목록)
  * 그래서 폴더 스캔·사진 정리·음원 목록·진행 상태·노출 목록 규칙이 모두 같다.
- * **시리즈마다 복제하지 않고 뿌리 디렉토리만 인자로 받는다** — `series === 'faction'` 류 분기를 두지 않는다.
+ * **시리즈마다 복제하지 않고 뿌리 디렉토리만 인자로 받는다** — 시리즈 이름 분기를 두지 않는다.
  *
- * 시리즈별 껍데기(faction-utils / discourse-utils)와 「시리즈 이름 → 뿌리 폴더」 대응표는 앱 쪽에 얇게 남고,
+ * 시리즈별 껍데기(discourse-paths 등)와 「시리즈 이름 → 뿌리 폴더」 대응표는 앱 쪽에 얇게 남고,
  * 실제 동작은 이 파일 한 곳에만 있다. 이 파일은 시리즈 이름을 모른다 — 뿌리 폴더만 인자로 받는다.
  * 파일명 규칙(imageSrc)만 클라이언트도 쓰므로 media-src.ts 에 따로 둔다(이 파일은 fs 를 쓰므로 클라이언트에서 못 읽는다).
  */
@@ -23,8 +23,6 @@ import { REMOTION_ROOT } from './remotion-root'
 
 /** 서재 탐방 뿌리 — public/episodes/ */
 export const EPISODES_DIR = path.join(REMOTION_ROOT, 'public', 'episodes')
-/** 세력도 뿌리 — public/factions/ */
-export const FACTIONS_DIR = path.join(REMOTION_ROOT, 'public', 'factions')
 /** 가상 담화 뿌리 — public/discourses/ */
 export const DISCOURSES_DIR = path.join(REMOTION_ROOT, 'public', 'discourses')
 /** 책과 사람 뿌리 — public/book-person/ */
@@ -50,7 +48,7 @@ export function safeDirName(name: string): string {
 /**
  * 에피소드 키를 폴더 토막들로 쪼갠다.
  *
- * 현재 팩션 키는 한 토막이지만 공용 IO는 상대경로도 받을 수 있어 토막 분리를 유지한다.
+ * 현재 편 키는 한 토막이지만 공용 IO는 상대경로도 받을 수 있어 토막 분리를 유지한다.
  * 위로 올라가는 토막(`..`)과 빈 토막은 버려 뿌리 밖으로 못 나가게 한다.
  */
 export function safeDirSegs(name: string): string[] {
@@ -140,7 +138,6 @@ export async function saveImage(root: string, name: string, filename: string, bu
 
 /**
  * 삭제 — 하위 폴더 파일도 지운다.
- * 팩션 원본은 images/ 직속만 지웠으나(하위 폴더 파일은 지울 방법이 없었다),
  * 담화는 인물별 폴더(cast/<slug>/)에 사진을 두므로 상대경로 삭제가 필요하다.
  */
 export async function deleteImage(root: string, name: string, relPath: string): Promise<void> {
@@ -282,7 +279,7 @@ export async function listVoices(root: string, name: string): Promise<VoiceFile[
 /**
  * wav 한 개 스트리밍(재생·미리듣기). Range 요청은 206 + Content-Range, 그 외는 200 전체.
  * 같은 파일명에 새 음원을 덮어써도 브라우저가 옛 음성을 캐시해 내보내지 않도록 캐시를 금지한다.
- * 시리즈와 무관한 순수 파일 전송이라 세력도·담화·서재 탐방이 모두 이 함수를 쓴다.
+ * 시리즈와 무관한 순수 파일 전송이라 담화·서재 탐방이 모두 이 함수를 쓴다.
  */
 export async function streamWav(req: Request, abs: string): Promise<Response> {
   try {
@@ -315,7 +312,7 @@ export async function streamWav(req: Request, abs: string): Promise<Response> {
 
 /* ── 진행 상태 ── */
 
-/** 세력도·담화 공통 진행 상태 어휘 */
+/** 시리즈 공통 진행 상태 어휘 */
 export type EpisodeFolderStatus = 'todo' | 'live' | 'done'
 
 const VALID_STATUSES: EpisodeFolderStatus[] = ['todo', 'live', 'done']
