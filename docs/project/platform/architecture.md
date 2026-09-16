@@ -79,7 +79,7 @@ contexts/              # GameAudioContext, QuickRecordContext
 fonts/
 hooks/                 # useCelebGreeting, useCountries, useDebounce, useDialoguePosition,
                        # useFilterLabels, useHorizontalScroll, usePreloadImages,
-                       # useRecentContents, useRecentProfiles, useTextToSpeech, useVoiceMuted
+                       # useRecentContents, useRecentProfiles, useVoiceMuted
 i18n/                  # navigation, request, routing
 lib/                   # auth, board, cache, config, countries, db, errors, game, moderation,
                        # spectrum, r2, seo, url, utils

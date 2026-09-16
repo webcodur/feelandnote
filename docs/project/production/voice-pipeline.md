@@ -50,9 +50,9 @@ pnpm faction:durations-pull  음원 길이 → DB 반영
 - **QC**: `celeb-dialogue-voice-qc.py`(whisper 재전사 대조). `low-match`는 원문 대조로 판단, `unmatched-tail`·`tag-spoken`은 공개 전 해소 필수.
 - **발행**: `dialogue-voice-publish.ts` — manifest 22개·voice ID·파일 전량 확인 후 `--apply`, 기존 R2 음원은 `_backup` 보존. 발행 후 `voice_v` 쿼리로 캐시를 끊는다(R2 키 규칙은 `voice-path.ts`).
 
-## 2-5. web 읽기 TTS · audio-bo 작업실
+## 2-5. audio-bo 작업실
 
-- **web `api/tts/route.ts`**: localhost 개발 전용(프로덕션 403 차단). 보이스 Kore 고정, reading 정리 프로필, `Cache-Control: max-age=86400`. 요청 간 keyIndex 지속 — 세션 내 키 재사용 계약.
+웹에는 읽어주기 합성 경로를 두지 않는다. 운영에서 막혀 있고 키도 없던 개발 전용 창구라 26.09.16에 걷었다(화성학 수업 읽어주기 단추 포함).
 - **audio-bo 작업실**: 인터뷰 추출(yt-dlp) → 정리(DeepFilterNet) → 전사(faster-whisper) → 학습·합성(GPT-SoVITS 실험 유지). 루트 경로는 `src/lib/paths.ts`가 쥐고 worker가 env로 주입한다 — `audio-worker.ps1`은 폴백 없이 env 필수.
 
 ## 상수 소유권 — 단일화 현황
@@ -63,8 +63,8 @@ pnpm faction:durations-pull  음원 길이 → DB 반영
 |---|---|---|
 | ElevenLabs 기본 설정 + `EleSettings` 형태 | `packages/shared/src/bo/voice-utils/engine.ts` (`ELEVENLABS_TTS_DEFAULTS`·`DEFAULT_ELE_SETTINGS`) | web-bo `dialogue-studio`·`api/celebs|faction|[series] voice/preview`·`actions/admin/voice-gen.ts`, remotion `book-person/tts.ts`·`lib/elevenlabs-engine.ts`. audio-bo 파이썬은 언어 경계상 기본값에 포인터 주석만 |
 | Gemini 모델·보이스 목록 | `packages/shared/src/lib/voice-policy.ts` (`MODEL_GEMINI_25/31`, 보이스 목록) | remotion 합성 스크립트·web-bo 미리듣기·web 읽기 TTS |
-| Google 무료 키 풀(env 열거 규약) | `packages/shared/src/lib/gemini-keys.ts` (`googleFreeApiKeys`) | remotion `lib/gemini-engine.ts`·web-bo `lib/gemini-tts.ts`·web `api/tts/route.ts` |
-| PCM→WAV 헤더 | `packages/shared/src/lib/pcm-wav.ts` (`wrapPcmAsWav`) | web-bo `lib/gemini-tts.ts`·web `api/tts/route.ts` |
+| Google 무료 키 풀(env 열거 규약) | `packages/shared/src/lib/gemini-keys.ts` (`googleFreeApiKeys`) | remotion `lib/gemini-engine.ts`·web-bo `lib/gemini-tts.ts` |
+| PCM→WAV 헤더 | `packages/shared/src/lib/pcm-wav.ts` (`wrapPcmAsWav`) | web-bo `lib/gemini-tts.ts` |
 | web-bo 미리듣기 키 로테이션+재시도 | `sw/web-bo/src/lib/gemini-tts.ts` (`synthesizeGeminiPreview`) | `api/{faction,[series]}/voice/{gemini,gemini-v3}/preview` 라우트 4곳 |
 | 라우드니스 목표 | `packages/shared/src/bo/voice-normalize.ts` | remotion `2-synthesize/config.ts`가 import |
 | 정렬 신호처리·sub 청크 정책 | `sw/remotion/scripts/voice/lib/align-core.ts` | `4-align.ts`(서재탐방)·`faction/align.ts`·`5-chunk.ts` — sub 청크는 자막 한 줄 단위 |
