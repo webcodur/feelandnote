@@ -15,20 +15,19 @@
  * ElevenLabs(eleven_v3)는 문장 앞에 오디오 태그가 있어야 한다. 나레이션 하한 태그 `[deliberate]`를 기본으로 붙이고,
  * 세부 감정 태그는 elevenlabs-v3-tags 스킬로 원고에 직접 넣는다(원고에 이미 태그가 있으면 덧붙이지 않는다).
  *
- * 합성 코어는 voice/faction/engine.ts와 같다. 그 모듈은 faction cli(argv 검증)를 import해
- * 여기서 끌어오면 충돌하므로 복제한다. (정책 변경 시 함께 갱신)
+ * 합성 코어(키 로테이션·재시도·wav 저장)는 voice/lib/gemini-engine.ts,
+ * ElevenLabs 저수준 호출은 voice/lib/elevenlabs-engine.ts 단일 원천을 쓴다.
  */
 
 import 'dotenv/config'
-import { GoogleGenAI } from '@google/genai'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import wav from 'wav'
 import { MODEL_GEMINI_25, NARRATOR_STYLE_DEFAULT, VOICE } from '@feelandnote/shared/lib/voice-policy'
-import { getEleAccounts, resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
-import { spawn } from 'child_process'
+import { getEleAccounts } from '@feelandnote/shared/lib/ele-accounts'
 import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
+import { createGeminiTts, saveWav, googleFreeKeyCount } from '../voice/lib/gemini-engine.js'
+import { fetchElevenlabsMp3, mp3ToPcm24k } from '../voice/lib/elevenlabs-engine.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const BASE = path.join(ROOT, 'public', 'book-person')
@@ -54,74 +53,13 @@ if (ENGINE === 'elevenlabs' && !ELE_VOICE_ID) {
   process.exit(1)
 }
 
-const API_KEYS = Array.from({ length: 100 }, (_, i) => process.env[`GOOGLE_GENAI_API_KEY_FREE${i + 1}`]).filter(Boolean) as string[]
-if (API_KEYS.length === 0) { console.error('✗ GOOGLE_GENAI_API_KEY_FREE* 키가 없다'); process.exit(1) }
-let keyIndex = 0
-let ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-
-function saveWav(filename: string, pcm: Buffer): Promise<number> {
-  return new Promise((resolve, reject) => {
-    const writer = new wav.FileWriter(filename, { channels: 1, sampleRate: 24000, bitDepth: 16 })
-    writer.on('finish', () => resolve(pcm.length / (24000 * 2)))
-    writer.on('error', reject)
-    writer.write(pcm)
-    writer.end()
-  })
-}
-
-async function synthesizeRaw(text: string, retries = 5, keyRetries = API_KEYS.length - 1): Promise<Buffer> {
-  try {
-    const response = await ai.models.generateContent({
-      model: MODEL_GEMINI_25,
-      contents: [{ parts: [{ text }] }],
-      config: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: VOICE.soloNarrator } } } },
-    })
-    const data = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data
-    if (!data) {
-      if (retries > 0) { await new Promise(r => setTimeout(r, 2000)); return synthesizeRaw(text, retries - 1, keyRetries) }
-      throw new Error('No audio data')
-    }
-    return Buffer.from(data, 'base64')
-  } catch (e: unknown) {
-    const err = e as { status?: number; message?: string }
-    const rotate = ([429, 403].includes(err.status ?? 0) || (err.status === 400 && err.message?.includes('expired'))) && keyRetries > 0
-    if (rotate) {
-      keyIndex = (keyIndex + 1) % API_KEYS.length
-      ai = new GoogleGenAI({ apiKey: API_KEYS[keyIndex] })
-      console.log(`  키 ${keyIndex + 1}로 전환 (${err.status})`)
-      return synthesizeRaw(text, 5, keyRetries - 1)
-    }
-    if (err.status === 500 && retries > 0) { await new Promise(r => setTimeout(r, 3000)); return synthesizeRaw(text, retries - 1, keyRetries) }
-    throw e
-  }
-}
-
-/** ElevenLabs MP3 → 24kHz mono PCM. 2-synthesize/engines.ts와 같은 ffmpeg 경로 */
-function mp3ToPcm24k(mp3: Buffer): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const ff = spawn('ffmpeg', ['-loglevel', 'error', '-i', 'pipe:0', '-f', 's16le', '-ar', '24000', '-ac', '1', 'pipe:1'])
-    const chunks: Buffer[] = []
-    let stderr = ''
-    ff.stdout.on('data', d => chunks.push(d as Buffer))
-    ff.stderr.on('data', d => { stderr += d.toString() })
-    ff.on('close', code => code === 0 ? resolve(Buffer.concat(chunks)) : reject(new Error(`ffmpeg(MP3→PCM) ${code}: ${stderr.slice(0, 300)}`)))
-    ff.stdin.write(mp3)
-    ff.stdin.end()
-  })
-}
+if (googleFreeKeyCount() === 0) { console.error('✗ GOOGLE_GENAI_API_KEY_FREE* 키가 없다'); process.exit(1) }
+const gemini = createGeminiTts({ model: MODEL_GEMINI_25 })
 
 async function synthesizeEle(text: string): Promise<Buffer> {
   if (getEleAccounts().length === 0) throw new Error('ElevenLabs 계정 키가 없다 (ELEVENLABS_API_KEY*)')
-  const account = await resolveEleAccountForVoice(ELE_VOICE_ID)
-  if (!account) throw new Error(`해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${ELE_VOICE_ID}`)
   const tagged = /^\[.+?\]/.test(text.trim()) ? text : `[deliberate] ${text}`
-  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(ELE_VOICE_ID)}`, {
-    method: 'POST',
-    headers: { 'xi-api-key': account.apiKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
-    body: JSON.stringify({ text: tagged, model_id: 'eleven_v3', voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.3 }, speed: 1.0 }),
-  })
-  if (!res.ok) throw new Error(`ElevenLabs ${res.status}: ${(await res.text()).slice(0, 300)}`)
-  return mp3ToPcm24k(Buffer.from(await res.arrayBuffer()))
+  return mp3ToPcm24k(await fetchElevenlabsMp3(tagged, ELE_VOICE_ID))
 }
 
 type Book = { title: string; text: string; duration?: number; image?: string; voice?: string }
@@ -154,7 +92,7 @@ async function synthesizeEpisode(slug: string) {
     }
     const pcm = ENGINE === 'elevenlabs'
       ? await synthesizeEle(job.text)
-      : await synthesizeRaw(`${NARRATOR_STYLE_DEFAULT}: ${job.text}`)
+      : await gemini.synthesize(`${NARRATOR_STYLE_DEFAULT}: ${job.text}`, VOICE.soloNarrator)
     await saveWav(file, pcm)
     // 들숨·쉼 정리(SSoT) — 길이는 정리 뒤 값에 문장 사이 숨을 더한다
     const sec = (await cleanVoiceFile(file, file, 'reading')).seconds + BREATH_SEC

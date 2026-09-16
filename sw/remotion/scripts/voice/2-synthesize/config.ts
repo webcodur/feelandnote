@@ -27,6 +27,9 @@ export const MODEL = MODEL_GEMINI_25
 // 타겟 I=-17 LUFS: 정규화 제외 대상인 ElevenLabs 셀럽 보이스(native ~-17 LUFS)와
 // 동일 레벨로 맞춰 나레이터·셀럽 혼합 렌더 시 볼륨 격차를 없앤다.
 // 이전 -19는 ElevenLabs 대비 ~2 dB 작게 들려 "나레이션이 작다" 피드백 발생.
-export const NORMALIZE_TARGET_I = -17
-export const NORMALIZE_TARGET_TP = -1.5
-export const NORMALIZE_TARGET_LRA = 11
+// 값의 단일 원천은 shared/bo/voice-normalize.ts — normalizeWavInPlace 가 같은 상수를 쓴다.
+import { NORM_I, NORM_TP, NORM_LRA } from '@feelandnote/shared/bo/voice-normalize'
+
+export const NORMALIZE_TARGET_I = NORM_I
+export const NORMALIZE_TARGET_TP = NORM_TP
+export const NORMALIZE_TARGET_LRA = NORM_LRA
