@@ -11,6 +11,11 @@ import type { MemoryPairResult } from "./types";
 
 export { MEMORY_SFX } from "./audioPlan";
 
+/** 기억 게임 BGM — 페이즈 매핑과 음악 재생기 카탈로그가 함께 쓴다 */
+export const MEMORY_MUSIC = {
+  main: { src: "/assets/memory/memory-main.mp3", label: "기억의 조각", labelEn: "Fragments of Memory" },
+} satisfies Record<string, BgmTrack>;
+
 const MEMORY_AUDIO_CONFIG: GameAudioConfig = {
   basePath: "/assets/memory",
   sfxBasePath: "/assets/common",
@@ -20,7 +25,7 @@ const MEMORY_AUDIO_CONFIG: GameAudioConfig = {
       case "lobby":
       case "playing":
       case "result":
-        return [{ src: "/assets/memory/memory-main.mp3", label: "기억 — Main" }];
+        return [MEMORY_MUSIC.main];
       default:
         return [];
     }

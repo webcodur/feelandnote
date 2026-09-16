@@ -21,10 +21,14 @@ export interface GameAudioControls {
   bgmRef?: MutableRefObject<HTMLAudioElement | null>;
   /** 플레이리스트 지원 */
   trackLabel?: string;
+  /** 지금 곡의 src — 음악 재생기 목록이 같은 곡을 찾아 상태를 맞춘다 */
+  trackSrc?: string | null;
   trackIndex?: number;
   trackCount?: number;
   nextTrack?: () => void;
   prevTrack?: () => void;
+  /** src가 지금 플레이리스트에 있으면 그 곡을 재생하고 true를 돌린다 */
+  playSrc?: (src: string) => boolean;
 }
 
 interface GameAudioPlayerProps {

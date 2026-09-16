@@ -5,9 +5,16 @@
 */
 "use client";
 
-import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
+import { useGameAudio, RESULT_MUSIC, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
 const BASE = "/assets/dawn";
+
+/** 여명 게임 BGM — 페이즈 매핑과 음악 재생기 카탈로그가 함께 쓴다 */
+export const DAWN_MUSIC = {
+  main: { src: `${BASE}/dawn-main.mp3`, label: "첫빛", labelEn: "First Light" },
+  ingame: { src: `${BASE}/dawn-ingame--awaited-dawn.mp3`, label: "기다려온 여명", labelEn: "Awaited Dawn" },
+  streak: { src: `${BASE}/dawn-streak--judgment-of-the-golden-thrones.mp3`, label: "황금 옥좌의 심판", labelEn: "Judgment of the Golden Thrones" },
+} satisfies Record<string, BgmTrack>;
 
 const DAWN_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
@@ -15,13 +22,13 @@ const DAWN_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/dawn-main.mp3`, label: "여명" }];
+        return [DAWN_MUSIC.main];
       case "playing":
-        return [{ src: `${BASE}/dawn-ingame--awaited-dawn.mp3`, label: "Awaited Dawn" }];
+        return [DAWN_MUSIC.ingame];
       case "playing-streak":
-        return [{ src: `${BASE}/dawn-streak--judgment-of-the-golden-thrones.mp3`, label: "Judgment of the Golden Thrones" }];
+        return [DAWN_MUSIC.streak];
       case "gameover":
-        return [{ src: "/assets/common/bgm-result-win.mp3", label: "Victory" }];
+        return [RESULT_MUSIC.win];
       default:
         return [];
     }
