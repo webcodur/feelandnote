@@ -28,7 +28,7 @@ export default function CardBookPurchase({ contentId, title, creator, affiliateU
           coupangUrl={getCoupangAffiliateUrl({ type: "BOOK", affiliate_url: affiliateUrl })}
           hideSales
         />
-        <Yes24Sales contentId={contentId} />
+        <Yes24Sales contentId={contentId} full />
       </>
     );
   }

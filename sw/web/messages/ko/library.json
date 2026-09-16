@@ -431,7 +431,6 @@
       "basisProfession": "직군별",
       "empty": "아직 작품이 없습니다.",
       "freshness": {
-        "scope": "예스24 · 일별 종합",
         "basisDate": "{date} 기준",
         "updated": "{date} 확인",
         "unknownDate": "순위 기준일 정보 없음",
@@ -441,6 +440,7 @@
       "chartTitle": "지금 많이 팔리는 책",
       "chartEmpty": "판매 순위를 준비하고 있습니다.",
       "previewRest": "나머지 {count}권은 인기 작품 화면에서 볼 수 있습니다.",
+      "previewRestClassics": "나머지 {count}작품은 인기 작품 화면에서 볼 수 있습니다.",
       "rank": "{rank}위",
       "viewAtStore": "서점에서 보기",
       "newTab": "새 탭에서 열림",

@@ -14,6 +14,8 @@ interface AffiliateBookActionProps {
   coupangUrl?: string | null;
   /** 우리 작품이 아닌 외부 차트 항목처럼 구매 경로를 거칠 수 없을 때 YES24 단추가 곧바로 여는 주소(제휴 주소 우선) */
   yes24Href?: string;
+  /** 우리 작품이 아닌 외부 차트 항목 — 판매 정보를 저장 판본 대신 이 ISBN으로 조회한다 */
+  salesIsbn?: string;
   /** 격자 카드 아래처럼 폭이 좁은 자리에 맞춘 작은 단추 */
   compact?: boolean;
   /** 판매 정보를 이미 보여 주는 자리(연관 작품 대표 카드)에서는 단추 위 칸을 뺀다 */
@@ -26,6 +28,7 @@ function AffiliateBookAction({
   editionId,
   coupangUrl,
   yes24Href,
+  salesIsbn,
   compact = false,
   hideSales = false,
 }: AffiliateBookActionProps) {
@@ -41,7 +44,7 @@ function AffiliateBookAction({
   return (
     <div className={cn("relative min-w-0", className)} data-testid="content-affiliate-action">
       {/* YES24 판매 정보 — 단추 위의 값표 칸. 한국어가 아니거나 팔리지 않으면 스스로 빈 칸이 된다 */}
-      {!hideSales && <Yes24Sales contentId={contentId} editionId={editionId} className="mb-1.5" />}
+      {!hideSales && <Yes24Sales contentId={contentId} editionId={editionId} isbn={salesIsbn} yes24Href={yes24Href} full className="mb-1.5" />}
       <div className={cn(
         "relative grid",
         hasCoupang

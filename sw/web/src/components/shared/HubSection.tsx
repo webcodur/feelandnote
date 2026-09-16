@@ -129,19 +129,24 @@ export default function HubSection({
       </div>
 
       {/* 더보기 — 콘텐츠 하단, 섹션 끝 직전 */}
-      {moreHref && (
-        <div className="flex justify-center mt-5 md:mt-8">
-          <Link
-            href={moreHref}
-            className="flex items-center gap-1.5 text-xs text-white/50 hover:text-[#d4af37] font-medium transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/5 hover:border-white/10"
-          >
-            {resolvedMoreLabel}
-            <LinkPending>
-              <ArrowRight size={14} className="text-[#d4af37]/70" />
-            </LinkPending>
-          </Link>
-        </div>
-      )}
+      {moreHref && <HubMoreLink href={moreHref} label={resolvedMoreLabel} />}
     </section>
+  );
+}
+
+/** 구획 끝 더보기 링크 — 래퍼 없이 자기 모드에 맞는 주소를 직접 잇는 구획도 이걸 쓴다 */
+export function HubMoreLink({ href, label }: { href: string; label: string }) {
+  return (
+    <div className="flex justify-center mt-5 md:mt-8">
+      <Link
+        href={href}
+        className="flex items-center gap-1.5 text-xs text-white/50 hover:text-[#d4af37] font-medium transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/5 hover:border-white/10"
+      >
+        {label}
+        <LinkPending>
+          <ArrowRight size={14} className="text-[#d4af37]/70" />
+        </LinkPending>
+      </Link>
+    </div>
   );
 }

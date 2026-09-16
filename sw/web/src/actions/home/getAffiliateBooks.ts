@@ -32,6 +32,8 @@ export interface AffiliateBook {
   rank?: number
   /** 우리 작품이 아닌 외부 차트 항목 — 표지·YES24 단추가 이 주소를 곧바로 연다(제휴 주소 우선) */
   purchaseHref?: string
+  /** 외부 차트 항목의 상품 ISBN — 우리 작품 ID가 없어 판매 정보를 이 값으로 곧바로 조회한다 */
+  isbn?: string
 }
 
 /** 인물 화면에서 이 목록을 무엇으로 골랐는지 — 안내 문구를 갈아끼우는 데 쓴다. */

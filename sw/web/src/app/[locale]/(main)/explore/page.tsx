@@ -45,7 +45,7 @@ export default async function ExplorePage({ searchParams }: {
         <FiguresFilterResult params={filters} trendCountryOptions={trendCountryOptions} />
       </Lane>
       <nav aria-label={t("quickNav")} className="border-t border-white/10 pt-6 md:pt-8">
-        <h2 className="mb-4 text-sm font-semibold text-text-secondary md:mb-5">{t("quickNav")}</h2>
+        <h2 className="mb-4 text-center font-serif text-base font-bold tracking-tight text-text-primary md:mb-5 md:text-lg">{t("quickNav")}</h2>
         <div className="grid auto-rows-fr grid-cols-2 gap-3 md:gap-4">
           {EXPLORE_FEATURED_LINKS.map((page) => (
               <Link

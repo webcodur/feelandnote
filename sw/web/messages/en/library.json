@@ -431,7 +431,6 @@
       "basisProfession": "By profession",
       "empty": "No works yet.",
       "freshness": {
-        "scope": "US Apple Books · Paid ebooks",
         "basisDate": "Chart for {date}",
         "updated": "Checked {date}",
         "unknownDate": "Chart date unavailable",
@@ -441,6 +440,7 @@
       "chartTitle": "Popular paid ebooks",
       "chartEmpty": "The book chart is on its way.",
       "previewRest": "The other {count, plural, one {# book is} other {# books are}} on the Popular Works page.",
+      "previewRestClassics": "The other {count, plural, one {# work is} other {# works are}} on the Popular Works page.",
       "rank": "Rank {rank}",
       "viewAtStore": "View in store",
       "newTab": "Opens in a new tab",

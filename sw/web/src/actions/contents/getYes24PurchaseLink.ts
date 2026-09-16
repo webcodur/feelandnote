@@ -55,3 +55,14 @@ export async function getYes24SalesInfo(contentId: string, locale: string, editi
     return null
   }
 }
+
+/** 외부 차트 항목처럼 우리 작품이 아닌 책 — 저장 판본 대신 차트가 준 ISBN으로 판매 정보를 낸다. 판매중이 아니면 null */
+export async function getYes24SalesInfoByIsbn(isbn: string): Promise<Yes24SalesInfo | null> {
+  try {
+    const normalized = normalizePurchaseIsbn(isbn)
+    if (!normalized || !yes24PurchaseEnabled(process.env)) return null
+    return selectYes24Sales(await getCachedYes24BookDetail(normalized))
+  } catch {
+    return null
+  }
+}

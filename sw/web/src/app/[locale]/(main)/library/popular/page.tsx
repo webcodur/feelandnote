@@ -19,7 +19,7 @@ export async function generateMetadata() {
   };
 }
 
-async function PopularContent() {
+async function PopularContent({ mode }: { mode?: string }) {
   const locale = await getLocale();
   const [bestsellerData, initialClassicsData, professionCounts] = await Promise.all([
     getBestsellers("ALL", locale),
@@ -33,11 +33,16 @@ async function PopularContent() {
         initialBestsellers={bestsellerData}
         initialClassicsData={initialClassicsData}
         professions={professionCounts.map(p => ({ profession: p.profession, count: p.count }))}
+        initialMode={mode === "classics" ? "classics" : "bestseller"}
       />
     </AsyncIntlProvider>
   );
 }
 
-export default function Page() {
-  return <PopularContent />;
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string }>;
+}) {
+  return <PopularContent mode={(await searchParams).mode} />;
 }

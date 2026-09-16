@@ -81,7 +81,7 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
       )}
       {failed && <RetryBlock onRetry={retry} className="px-3 py-3" />}
       {/* YES24 판매 정보 — 출판사·소개·판본의 책정보 흐름에 붙인다. 구매 단추와는 뗀다 */}
-      <Yes24Sales contentId={book.id} editionId={edition?.id} enabled={book.type === "BOOK"} className="px-3 pb-2" />
+      <Yes24Sales contentId={book.id} editionId={edition?.id} enabled={book.type === "BOOK"} full className="px-3 pb-2" />
       {book.editions.length > 1 && (
         <div className="px-3 pb-2">
           <select

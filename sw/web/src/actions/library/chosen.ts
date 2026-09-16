@@ -7,6 +7,7 @@ import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/c
 import { createStaticClient } from '@/lib/db/static'
 import { getLocale } from 'next-intl/server'
 import type { LibraryContent, LibraryResult } from './types'
+import { attachBookAffiliateUrls } from './helpers'
 
 // #region 인물들의 선택 - 셀럽이 가장 많이 본 콘텐츠
 async function fetchChosenLibrary(
@@ -61,6 +62,9 @@ async function fetchChosenLibrary(
       has_en_edition: (row.has_en_edition as boolean) ?? null,
     }
   })
+
+  // 카드 발꿈치의 구매 단추가 읽는다 — RPC 반환에 없는 제휴 링크를 이 페이지 도서만 따로 채운다
+  await attachBookAffiliateUrls(db, contents, locale)
 
   return {
     contents,
