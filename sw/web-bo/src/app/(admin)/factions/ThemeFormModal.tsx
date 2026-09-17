@@ -76,7 +76,7 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
         team_images: [],
         // 신화 갈래인지는 편집 화면에서 정한다
         is_fiction: false,
-        // 새 테마는 언제나 무소속으로 시작한다 — 묶음 소속은 편집 화면에서 정한다
+        // 새 테마는 언제나 무소속으로 시작한다 — 대분류 소속은 편집 화면에서 정한다
         parent_id: null,
         sort_order: 999,
         created_at: new Date().toISOString(),

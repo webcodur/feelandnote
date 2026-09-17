@@ -8,14 +8,14 @@ import BlurDissolve from "@/components/ui/BlurDissolve";
 
 export interface MythPortrait {
   url: string;
-  /** 음성 재생 기준 초. 대사용 화보 묶음에서만 온다 */
+  /** 음성 재생 기준 초. 대사용 화보 그룹에서만 온다 */
   at?: number;
   focus?: { x: number; y: number };
 }
 
 interface Props {
   person: MythPerson;
-  /** 걸어 둘 화보들. 대사 묶음이 있으면 그 화보가 오고, 없으면 대표 사진 한 장이다 */
+  /** 걸어 둘 화보들. 대사 그룹이 있으면 그 화보가 오고, 없으면 대표 사진 한 장이다 */
   images: MythPortrait[];
   /** 지금 보이는 화보. 대사 재생 중에는 발화 시각이 이 값을 옮긴다 */
   index: number;

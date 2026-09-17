@@ -30,8 +30,8 @@ export interface ContentTypeCounts {
 
 const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
-// 셀럽이 배정된 세력도감 태그. 그룹 헤더 태그는 배정이 0이라 여기 걸리지 않으므로
-// 상위 그룹 계층(celeb_tags.parent_id)은 참조하지 않는다.
+// 셀럽이 배정된 세력도감 태그. 대분류 헤더 태그는 배정이 0이라 여기 걸리지 않으므로
+// 대분류 계층(celeb_tags.parent_id)은 참조하지 않는다.
 export interface FactionTagItem {
   id: string
   /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
