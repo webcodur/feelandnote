@@ -1,0 +1,118 @@
+{
+  "알레산드로 발리냐노": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "얀 요스텐": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "박연": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "다카하시 가게야스": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "세계 일주",
+        "title_en": "Voyage Round the World",
+        "creator": "아담 요한 폰 크루젠슈테른",
+        "year": 1810,
+        "status": "FINISHED",
+        "source_url": "https://www.nippon.com/en/views/b06901/",
+        "evidence": "다카하시 가게야스가 이노 다다타카 일본 지도의 북방 해안 공백을 지볼트 소장본인 크루젠슈테른 《세계 일주》와 대조하고 싶어 했고, 자신의 일본 지도와 맞바꿔 이 책들을 손에 넣은 것이 시볼트 사건의 발단이 됐다는 내용이다.",
+        "review": "다카하시 가게야스는 이노 다다타카 지도의 북쪽 해안 공백을 채우려 지볼트가 가진 이 책과 대조하고 싶어 했다. 그는 몰래 건넨 일본 지도의 대가로 크루젠슈테른의 이 항해기를 얻었고, 그 거래가 시볼트 사건으로 번져 옥사로 이어졌다.",
+        "review_en": "Takahashi Kageyasu wanted to check the blank northern coastlines of Ino Tadataka's maps against Siebold's copy of Krusenstern's Voyage Round the World. He obtained the book in exchange for secret maps of Japan — the deal that triggered the Siebold Incident and landed him in prison."
+      }
+    ]
+  },
+  "황금융": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "펑위샹": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": "불명(기독교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.chinachristiandaily.com/news/china/2021-06-02/anecdotes-of-christian-general-feng-yuxiang-10151",
+        "evidence": "1936년 펑위샹이 한 교회 비석에 고린도전서 3장 11절 '예수 그리스도 외에 아무도 다른 터를 놓을 수 없다'는 구절을 친필로 새겼다는 내용이다.",
+        "review": "펑위샹은 1936년 한 교회 비석에 이 책 고린도전서 3장 11절의 말씀을 친필로 새겼다. '기독교 장군'으로 불린 그는 부대에서 성경 공부와 찬송을 장려했다.",
+        "review_en": "Feng Yuxiang hand-inscribed a verse from 1 Corinthians 3:11 on a church stele in 1936; the man known as the 'Christian General' encouraged Bible study and hymn-singing among his troops."
+      }
+    ]
+  },
+  "로크 완토": {
+    "searched": [
+      "BOOK",
+      "VIDEO"
+    ],
+    "contents": []
+  },
+  "완롱": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "원수": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "레지널드 존스턴": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "논어",
+        "title_en": "Analects",
+        "creator": "공자와 그 제자들",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://edinburgh.china-consulate.gov.cn/eng/xwdt/202605/t20260526_11918362.htm",
+        "evidence": "존스턴이 《논어》《맹자》 등 유교 경전을 읽었고, 자신의 아호 '지도(志道)'를 《논어》의 '선비는 도에 뜻을 둔다'는 구절에서 따왔다고 소개문이 기술한다.",
+        "review": "레지널드 존스턴은 이 책을 읽고 스스로 지은 아호 '지도(志道)'를 '선비는 도에 뜻을 둔다'는 구절에서 가져왔다. 유교 경전에 대한 그의 애착은 훗날 '스코틀랜드 노부자'라는 별명으로 이어졌다.",
+        "review_en": "Reginald Johnston read the Analects and took his chosen courtesy name 'Zhidao' from its line 'a scholar sets his heart on the Way'; his devotion to the Confucian classics later earned him the nickname 'the Scottish old master'."
+      },
+      {
+        "type": "BOOK",
+        "title": "맹자",
+        "title_en": "Mencius",
+        "creator": "맹자와 그 제자들",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://edinburgh.china-consulate.gov.cn/eng/xwdt/202605/t20260526_11918362.htm",
+        "evidence": "존스턴이 《논어》《맹자》 등 유교 경전을 읽고 중국의 명산과 사찰을 유람하며 사대부·문인·승려와 폭넓게 교유했다고 소개문이 기술한다.",
+        "review": "레지널드 존스턴은 이 경전을 포함한 유교 경전들을 읽으며 중국의 명산과 사찰을 찾아다니고 사대부와 문인, 승려들과 폭넓게 교유했다.",
+        "review_en": "Reginald Johnston read Mencius among the Confucian classics while travelling China's famed mountains and temples, mixing widely with literati and monks."
+      }
+    ]
+  }
+}

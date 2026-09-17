@@ -1,0 +1,1760 @@
+{
+ "존 피츠제럴드": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "모피 사냥꾼",
+    "title_en": "The Trapper",
+    "description": "록키산맥 모피회사 '애슐리의 100인' 소속.",
+    "description_en": "A trapper of Ashley's Hundred on the Missouri.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1823,
+    "year_end": null,
+    "title": "글래스를 버리다",
+    "title_en": "The Betrayal",
+    "description": "곰에게 찢긴 휴 글래스 곁에 남겠다고 자원했으나 소총과 장비를 챙겨 그를 버리고 떠났다 — 300km 생존 행진의 발화점.",
+    "description_en": "He volunteered to stay with the mauled Glass — then took his rifle and left. The betrayal that launched the legend.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1824,
+    "year_end": null,
+    "title": "포트 애킨슨 입대",
+    "title_en": "Enlisting at Fort Atkinson",
+    "description": "이듬해 육군에 입대해 돌아온 글래스에게 총을 빼앗겼다 — '레버넌트' 악역의 실제 모델.",
+    "description_en": "Safe inside the army he surrendered the rifle to a returned Glass.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "우즈 로저스": {
+  "events": [
+   {
+    "year": 1679,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "도싯에서 태어나 브리스틀의 사략선장이 됐다.",
+    "description_en": "Born in Dorset; a Bristol privateer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1708,
+    "year_end": 1711,
+    "title": "세계일주 항해",
+    "title_en": "Circumnavigation",
+    "description": "듀크호·더치스호로 세계일주 사략 항해에 나섰다.",
+    "description_en": "He led the Duke and Duchess on a global privateering voyage.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1709,
+    "year_end": null,
+    "title": "셀커크 구조",
+    "title_en": "Rescuing Selkirk",
+    "description": "후안 페르난데스섬에서 4년 4개월을 홀로 산 알렉산더 셀커크를 구조해 영국으로 데려왔다.",
+    "description_en": "He picked Alexander Selkirk off Juan Fernández after four years alone.",
+    "kind": "travel",
+    "place_name": "후안 페르난데스",
+    "place_name_en": "Juan Fernández",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1718,
+    "year_end": null,
+    "title": "바하마 왕립 총독",
+    "title_en": "Governor of the Bahamas",
+    "description": "초대 왕립 총독으로 나소의 해적 공화국을 소탕했다 — '해적을 몰아내다'가 바하마의 모토가 됐다.",
+    "description_en": "As governor he broke the pirate republic of Nassau — 'Expulsis Piratis'.",
+    "kind": "office",
+    "place_name": "나소",
+    "place_name_en": "Nassau",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1732,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "나소에서 53세로 숨졌다.",
+    "description_en": "Died in Nassau at 53.",
+    "kind": "death",
+    "place_name": "나소",
+    "place_name_en": "Nassau",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "토머스 스트래들링": {
+  "events": [
+   {
+    "year": 1683,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 스물한 살에 사략선 신케 포츠호 선장이 됐다.",
+    "description_en": "Born in England; captain of the Cinque Ports at twenty-one.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1704,
+    "year_end": null,
+    "title": "셀커크를 남기다",
+    "title_en": "Leaving Selkirk",
+    "description": "배의 내항성을 놓고 다툰 항해사 셀커크의 하선 요구를 받아들여 무인도에 남겼다.",
+    "description_en": "He let his quarreling officer have his wish — and marooned him.",
+    "kind": "other",
+    "place_name": "후안 페르난데스",
+    "place_name_en": "Juan Fernández",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1704,
+    "year_end": 1709,
+    "title": "침몰과 감옥",
+    "title_en": "Sunk and Jailed",
+    "description": "신케 포츠호는 얼마 뒤 말펠로섬 부근에서 침몰했고, 생존자들과 리마의 스페인 감옥에서 수년을 보냈다.",
+    "description_en": "The Cinque Ports sank off Malpelo; he spent years a Spanish prisoner in Lima.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "마리아 쾨프케": {
+  "events": [
+   {
+    "year": 1924,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "독일에서 태어나 조류학자가 됐다.",
+    "description_en": "Born in Germany; an ornithologist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1955,
+    "year_end": null,
+    "title": "판구아나 연구소",
+    "title_en": "Panguana",
+    "description": "남편 한스빌헬름과 아마존에 판구아나 연구소를 세워 수많은 조류·파충류를 기록했다.",
+    "description_en": "With her husband she founded Panguana station in the Amazon.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1955,
+    "year_end": 1971,
+    "title": "딸에게 가르친 정글",
+    "title_en": "Teaching Juliane",
+    "description": "딸 율리아네에게 정글 생존 지식을 가르쳤다.",
+    "description_en": "She taught Juliane how the jungle works.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "508편 추락",
+    "title_en": "The Crash",
+    "description": "딸과 나란히 탄 라인서항공 508편이 낙뢰로 추락해 숨졌다 — 딸은 그 지식으로 11일 만에 살아 나왔다.",
+    "description_en": "She died in the crash; Juliane walked out on her mother's lessons.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "한스빌헬름 쾨프케": {
+  "events": [
+   {
+    "year": 1914,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "독일에서 태어나 동물학자가 됐다.",
+    "description_en": "Born in Germany; a zoologist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "페루 정착",
+    "title_en": "To Peru",
+    "description": "리마 자연사박물관에 합류해 페루 동물상 연구를 개척했다.",
+    "description_en": "He joined Lima's natural history museum and pioneered Peru's fauna studies.",
+    "kind": "work",
+    "place_name": "리마",
+    "place_name_en": "Lima",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1955,
+    "year_end": null,
+    "title": "판구아나 연구소",
+    "title_en": "Panguana",
+    "description": "부인 마리아와 아마존에 연구소를 세웠다.",
+    "description_en": "With Maria he founded the Panguana field station.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "딸의 귀환",
+    "title_en": "Juliane's Return",
+    "description": "아내를 앗아간 추락에서 딸 율리아네가 유일하게 살아 돌아왔다 — 그가 가르친 정글 지식 덕이었다.",
+    "description_en": "His daughter walked out of the crash that took his wife.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2000,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "86세로 숨졌다.",
+    "description_en": "Died at 86.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "마단 카트리 체트리": {
+  "events": [
+   {
+    "year": 1955,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네팔에서 태어나 육군 헬기 조종사가 됐다.",
+    "description_en": "Born in Nepal; an army helicopter pilot.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "캠프2 고고도 구조",
+    "title_en": "The High-Altitude Rescue",
+    "description": "에베레스트 대참사 때 양력 한계 위로 꼽히던 해발 6,000m 캠프2까지 두 차례 비행해 벡 웨더스와 마칼루 가우를 구출했다.",
+    "description_en": "He flew twice to 6,000 m Camp II to lift out Weathers and Gau.",
+    "kind": "work",
+    "place_name": "에베레스트",
+    "place_name_en": "Everest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "세계 최고도 구조 기록",
+    "title_en": "A World Record",
+    "description": "당시 세계 최고도 헬기 구조로 기록돼 네팔 항공사의 영웅이 됐다.",
+    "description_en": "The highest helicopter rescue then flown — a national hero.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "레이몽 랑베르": {
+  "events": [
+   {
+    "year": 1914,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "제네바에서 태어나 산악 가이드가 됐다.",
+    "description_en": "Born in Geneva; a mountain guide.",
+    "kind": "birth",
+    "place_name": "제네바",
+    "place_name_en": "Geneva",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1952,
+    "year_end": null,
+    "title": "8,595m",
+    "title_en": "The High Point",
+    "description": "스위스 원정대에서 텐징 노르가이와 해발 8,595m까지 올라 당시 인류 최고 도달점을 세웠고 발가락을 동상으로 잃었다.",
+    "description_en": "With Tenzing he reached 8,595 m — the highest humans had climbed — losing his toes.",
+    "kind": "work",
+    "place_name": "에베레스트",
+    "place_name_en": "Everest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1953,
+    "year_end": null,
+    "title": "초등의 초석",
+    "title_en": "The 1953 Summit",
+    "description": "이듬해 힐러리와 텐징의 초등은 바로 그의 기록 위에 서 있었다.",
+    "description_en": "Hillary and Tenzing summited on the route his attempt had scouted.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1997,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "82세로 숨졌다.",
+    "description_en": "Died at 82.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "나왕 곰부": {
+  "events": [
+   {
+    "year": 1936,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "인도에서 태어난 셰르파로 텐징 노르가이의 조카다.",
+    "description_en": "Born a Sherpa — Tenzing Norgay's nephew.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1963,
+    "year_end": null,
+    "title": "첫 에베레스트",
+    "title_en": "First Ascent",
+    "description": "미국 원정대에서 짐 휘태커와 함께 정상에 올랐다.",
+    "description_en": "He summited with the American expedition.",
+    "kind": "work",
+    "place_name": "에베레스트",
+    "place_name_en": "Everest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "두 번째 정상",
+    "title_en": "Twice Up Everest",
+    "description": "인도 원정대로 다시 정상에 서 최초로 에베레스트를 두 번 등정한 사람이 됐다.",
+    "description_en": "Back up with the Indian expedition — the first man to summit twice.",
+    "kind": "work",
+    "place_name": "에베레스트",
+    "place_name_en": "Everest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": null,
+    "year_end": null,
+    "title": "HMI 등반 책임자",
+    "title_en": "HMI Instructor",
+    "description": "히말라야 등산학교의 등반 책임자로 수많은 인도 산악인을 길러냈다.",
+    "description_en": "He led climbing instruction at the Himalayan Mountaineering Institute.",
+    "kind": "work",
+    "place_name": "다르질링",
+    "place_name_en": "Darjeeling",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2011,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "다르질링에서 74세로 숨졌다.",
+    "description_en": "Died in Darjeeling at 74.",
+    "kind": "death",
+    "place_name": "다르질링",
+    "place_name_en": "Darjeeling",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "페터 하벨러": {
+  "events": [
+   {
+    "year": 1942,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "오스트리아 마야호프에서 태어났다.",
+    "description_en": "Born in Mayrhofen, Austria.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "아이거 북벽 10시간",
+    "title_en": "The Eiger Speed Record",
+    "description": "메스너와 아이거 북벽을 10시간 만에 올라 속도 등반의 시대를 열었다.",
+    "description_en": "With Messner he took the Eiger north face in ten hours — speed climbing was born.",
+    "kind": "work",
+    "place_name": "아이거",
+    "place_name_en": "The Eiger",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1978,
+    "year_end": null,
+    "title": "무산소 에베레스트",
+    "title_en": "Everest Without Oxygen",
+    "description": "메스너와 함께 무산소로 정상에 올라 '인간은 8,848m에서 숨 쉴 수 없다'는 통념을 깨뜨렸다.",
+    "description_en": "Together they proved humans could climb Everest breathing plain air.",
+    "kind": "work",
+    "place_name": "에베레스트",
+    "place_name_en": "Everest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": null,
+    "year_end": null,
+    "title": "산악학교",
+    "title_en": "The Mountain School",
+    "description": "귀국 후 마야호프에 산악학교를 열어 후대를 가르쳤다.",
+    "description_en": "He opened a mountain school in Mayrhofen.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "콘래드 앵커": {
+  "events": [
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 고산 등반가가 됐다.",
+    "description_en": "Born in California; an alpinist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1999,
+    "year_end": null,
+    "title": "말러리의 시신",
+    "title_en": "Finding Mallory",
+    "description": "에베레스트 수색 원정에서 75년 전 사라진 조지 말러리의 시신을 발견해 등반사 최대의 미스터리를 풀었다.",
+    "description_en": "He found George Mallory's body after 75 years — climbing's great mystery.",
+    "kind": "work",
+    "place_name": "에베레스트",
+    "place_name_en": "Everest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1999,
+    "year_end": null,
+    "title": "알렉스 로우의 죽음",
+    "title_en": "Losing Alex Lowe",
+    "description": "절친 알렉스 로우를 눈사태로 잃은 뒤 그의 가족을 평생 돌봤다.",
+    "description_en": "After Alex Lowe died in an avalanche, Anker helped raise his children.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2011,
+    "year_end": null,
+    "title": "메루 샤크스핀",
+    "title_en": "Meru's Sharkfin",
+    "description": "메루 샤크스핀 초등으로 자신의 등반사를 새겼다.",
+    "description_en": "He first-climbed the Shark's Fin on Meru.",
+    "kind": "work",
+    "place_name": "메루",
+    "place_name_en": "Meru",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "이와나가 아키라": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "미쓰비시 기술자",
+    "title_en": "The Engineer",
+    "description": "미쓰비시중공업 기술자로 야마구치 쓰토무의 동료였다.",
+    "description_en": "A Mitsubishi Heavy Industries technician, Yamaguchi's colleague.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1945,
+    "year_end": null,
+    "title": "히로시마 피폭",
+    "title_en": "Hiroshima",
+    "description": "히로시마 출장 중 첫 원폭을 겪었다.",
+    "description_en": "On business in Hiroshima for the first bomb.",
+    "kind": "other",
+    "place_name": "히로시마",
+    "place_name_en": "Hiroshima",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1945,
+    "year_end": null,
+    "title": "나가사키 피폭",
+    "title_en": "Nagasaki",
+    "description": "귀환한 나가사키에서 사흘 뒤 둘째 원폭을 또 겪은 이중 피폭자다 — 정부 공인은 야마구치 한 사람에게만 내려졌다.",
+    "description_en": "Home in Nagasaki for the second — a double survivor without official recognition.",
+    "kind": "other",
+    "place_name": "나가사키",
+    "place_name_en": "Nagasaki",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "장루이 블롱도": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "프티의 공모자",
+    "title_en": "Petit's Co-Conspirator",
+    "description": "프랑스 사진가로 필리프 프티의 오랜 공모자다.",
+    "description_en": "A French photographer, Petit's oldest accomplice.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1971,
+    "year_end": 1973,
+    "title": "노트르담·시드니",
+    "title_en": "Early Coups",
+    "description": "노트르담과 시드니 하버브리지 공중걷기를 함께 설계했다.",
+    "description_en": "He helped rig Notre-Dame and Sydney Harbour.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "쌍둥이빌딩 '쿠데타'",
+    "title_en": "The World Trade Center Coup",
+    "description": "세계무역센터 줄타기를 공모했고 활시위로 남탑에 줄을 넘긴 장본인이다 — 그가 찍은 사진이 '맨 온 와이어'의 핵심 자료가 됐다.",
+    "description_en": "He shot the arrow line to the South Tower — and the photos in 'Man on Wire'.",
+    "kind": "work",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "로버트 애벗": {
+  "events": [
+   {
+    "year": 1870,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "조지아 세인트시먼스섬에서 해방노예의 아들로 태어났다.",
+    "description_en": "Born on St Simons Island, son of freed slaves.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1905,
+    "year_end": null,
+    "title": "'시카고 디펜더' 창간",
+    "title_en": "Founding the Defender",
+    "description": "25센트로 흑인 신문 '시카고 디펜더'를 창간했다.",
+    "description_en": "He started the Chicago Defender on twenty-five cents.",
+    "kind": "work",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1916,
+    "year_end": 1919,
+    "title": "대이주의 나팔",
+    "title_en": "The Great Migration",
+    "description": "신문은 남부 흑인 백만 명의 북부 대이주를 이끈 나팔이 됐다.",
+    "description_en": "His paper called a million Black southerners north.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1920,
+    "year_end": null,
+    "title": "베시 콜먼의 길",
+    "title_en": "Showing Bessie the Way",
+    "description": "비행학교에 퇴짜 맞은 베시 콜먼에게 프랑스 유학의 길을 알려주고 그녀의 비행을 대대적으로 보도했다.",
+    "description_en": "He pointed Bessie Coleman to France — then covered her every flight.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1940,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "시카고에서 69세로 숨졌다 — 흑인 언론의 거두였다.",
+    "description_en": "Dead in Chicago at 69 — the father of the Black press.",
+    "kind": "death",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "잭 험프리스": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "수석 지상정비사",
+    "title_en": "Chief Ground Engineer",
+    "description": "런던 에어로플레인 클럽의 수석 지상정비 엔지니어였다.",
+    "description_en": "Chief ground engineer at the London Aeroplane Club.",
+    "kind": "work",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1929,
+    "year_end": null,
+    "title": "에이미 존슨의 스승",
+    "title_en": "Amy Johnson's Teacher",
+    "description": "정비를 배우러 온 에이미 존슨에게 항공 공학을 가르쳐 영국 최초의 여성 지상정비사 자격을 따게 했다.",
+    "description_en": "He taught Amy Johnson engineering — Britain's first female ground engineer.",
+    "kind": "education",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1931,
+    "year_end": null,
+    "title": "스승과 제자의 역전",
+    "title_en": "Co-Pilot to His Pupil",
+    "description": "역할을 바꿔 그녀의 부조종사로 런던-모스크바-도쿄 최속 기록 비행을 함께 세웠다.",
+    "description_en": "Then he flew as her co-pilot on the record run to Tokyo.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "톰 캠벨 블랙": {
+  "events": [
+   {
+    "year": 1899,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 케냐 윌슨항공 관리자가 됐다.",
+    "description_en": "Born in England; manager of Wilson Airways in Kenya.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1931,
+    "year_end": null,
+    "title": "베릴 마컴의 스승",
+    "title_en": "Markham's Teacher",
+    "description": "베릴 마컴에게 비행을 가르치고 연인이 됐다 — 회고록 '밤과 함께 서쪽으로'의 실제 인물.",
+    "description_en": "He taught Beryl Markham to fly — and became her lover.",
+    "kind": "education",
+    "place_name": "케냐",
+    "place_name_en": "Kenya",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "맥로버트슨 경주 우승",
+    "title_en": "The Air Race",
+    "description": "스콧과 런던-멜버른 맥로버트슨 항공 경주에서 우승했다.",
+    "description_en": "With C.W.A. Scott he won the London–Melbourne air race.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1936,
+    "year_end": null,
+    "title": "추돌사",
+    "title_en": "Killed",
+    "description": "리버풀 공항 지상에서 다른 비행기와 충돌해 37세에 숨졌다.",
+    "description_en": "A ground collision at Speke Airport killed him at 37.",
+    "kind": "death",
+    "place_name": "리버풀",
+    "place_name_en": "Liverpool",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "알렉시스 카렐": {
+  "events": [
+   {
+    "year": 1873,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "리옹 근교에서 태어나 외과의사가 됐다.",
+    "description_en": "Born near Lyon; a surgeon.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1904,
+    "year_end": null,
+    "title": "록펠러 연구소",
+    "title_en": "The Rockefeller Institute",
+    "description": "뉴욕 록펠러 연구소로 건너가 장기 이식과 체외 배양 연구를 개척했다.",
+    "description_en": "At the Rockefeller Institute he pioneered transplantation.",
+    "kind": "work",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1912,
+    "year_end": null,
+    "title": "노벨상",
+    "title_en": "The Nobel Prize",
+    "description": "혈관 봉합술 공로로 노벨 생리의학상을 받았다.",
+    "description_en": "Nobel Prize for vascular suturing.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1935,
+    "year_end": null,
+    "title": "린드버그의 관류 펌프",
+    "title_en": "The Lindbergh Pump",
+    "description": "찰스 린드버그와 장기를 살린 채 체외에 두는 관류 펌프를 개발했다.",
+    "description_en": "With Lindbergh he built a perfusion pump for organs.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "파리에서 71세로 숨졌다 — 말년의 우생학 옹호가 짙은 오점으로 남았다.",
+    "description_en": "Dead in Paris — his late-life eugenics a permanent stain.",
+    "kind": "death",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "샤를 뇽제세르": {
+  "events": [
+   {
+    "year": 1892,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "파리에서 태어났다.",
+    "description_en": "Born in Paris.",
+    "kind": "birth",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1915,
+    "year_end": 1918,
+    "title": "전투 에이스",
+    "title_en": "The Ace",
+    "description": "1차대전에서 43회 격추를 기록한 프랑스의 에이스가 됐다.",
+    "description_en": "Forty-three victories in the Great War.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1927,
+    "year_end": null,
+    "title": "'흰 새'의 이륙",
+    "title_en": "L'Oiseau Blanc",
+    "description": "린드버그보다 먼저 대서양 무착륙 횡단에 도전해 콜리와 '흰 새'를 몰고 파리를 이륙했다.",
+    "description_en": "Two weeks before Lindbergh he took off for New York.",
+    "kind": "travel",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1927,
+    "year_end": null,
+    "title": "실종",
+    "title_en": "Vanished",
+    "description": "뉴욕으로 향하던 중 흔적도 없이 사라졌다 — 항공사 최대의 미스터리.",
+    "description_en": "He vanished over the Atlantic — aviation's enduring mystery.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "프랑수아 콜리": {
+  "events": [
+   {
+    "year": 1881,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "마르세유에서 태어나 해군 장교가 됐다.",
+    "description_en": "Born in Marseille; a naval officer.",
+    "kind": "birth",
+    "place_name": "마르세유",
+    "place_name_en": "Marseille",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1916,
+    "year_end": null,
+    "title": "한쪽 눈을 잃다",
+    "title_en": "The Lost Eye",
+    "description": "전쟁 중 사고로 한쪽 눈을 잃고도 장거리 비행 기록 도전을 멈추지 않았다.",
+    "description_en": "He lost an eye in the war — and kept flying.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1926,
+    "year_end": null,
+    "title": "파리-페르시아 기록",
+    "title_en": "Distance Records",
+    "description": "항법 전문가로 파리-이스파한 등 장거리 기록을 세웠다.",
+    "description_en": "As navigator he set distance records across Asia.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1927,
+    "year_end": null,
+    "title": "'흰 새'의 실종",
+    "title_en": "Vanished with L'Oiseau Blanc",
+    "description": "뇽제세르의 파리-뉴욕 무착륙 비행에 항법사 겸 조종사로 나섰다가 대서양 어딘가에서 함께 사라졌다.",
+    "description_en": "He navigated the White Bird west — and was never seen again.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "폴 먼츠": {
+  "events": [
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 스턴트 조종사가 됐다.",
+    "description_en": "Born in Ohio; a stunt pilot.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1920,
+    "year_end": 1935,
+    "title": "할리우드의 조종사",
+    "title_en": "Hollywood's Pilot",
+    "description": "수많은 영화의 곡예 비행을 직접 몰며 항공 촬영의 선구자가 됐다.",
+    "description_en": "He flew stunts for hundreds of films.",
+    "kind": "work",
+    "place_name": "할리우드",
+    "place_name_en": "Hollywood",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1936,
+    "year_end": 1937,
+    "title": "에어하트의 고문",
+    "title_en": "Earhart's Adviser",
+    "description": "어밀리아 에어하트의 기술 고문으로 세계 일주 비행을 함께 준비했다.",
+    "description_en": "He advised Earhart's world-flight preparation.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "촬영 중 추락사",
+    "title_en": "Killed on Set",
+    "description": "'불사조의 비행' 촬영을 위해 사막에서 조립한 비행기로 이륙하다 추락해 61세에 숨졌다.",
+    "description_en": "He died taking off in the Phoenix's improvised aircraft at 61.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "해럴드 개티": {
+  "events": [
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "호주에서 태어나 항법 전문가가 됐다.",
+    "description_en": "Born in Australia; a navigator.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1931,
+    "year_end": null,
+    "title": "위니 메이 세계일주",
+    "title_en": "Around the World in the Winnie Mae",
+    "description": "와일리 포스트의 비행기에 항법사로 동승해 8일 15시간 51분의 세계일주 기록을 세웠다.",
+    "description_en": "He navigated Post's 8-day world flight.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "『래프트 북』",
+    "title_en": "The Raft Book",
+    "description": "자연물을 이용한 생존 항법술을 정리해 조난 비행사들의 구명 교범을 만들었다.",
+    "description_en": "He wrote the survival-navigation manual issued to downed airmen.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1957,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "전후 터를 잡은 피지에서 54세로 숨졌다.",
+    "description_en": "Died in Fiji at 54.",
+    "kind": "death",
+    "place_name": "피지",
+    "place_name_en": "Fiji",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "아이다 드 아코스타": {
+  "events": [
+   {
+    "year": 1884,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "쿠바계 아버지 아래 미국에서 태어난 사교가다.",
+    "description_en": "Born to a Cuban-American family.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "여성 최초의 동력 비행",
+    "title_en": "First Woman to Fly",
+    "description": "열아홉의 나이로 파리에서 산투스두몽의 비행선 9호를 단독으로 몰았다.",
+    "description_en": "At nineteen she soloed Santos-Dumont's airship No. 9.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "비밀 맹세",
+    "title_en": "Sworn to Silence",
+    "description": "부친이 '숙녀의 비행'을 치욕으로 여겨 비밀이 맹세돼 오랫동안 묻혔다.",
+    "description_en": "Her father found it scandalous — the flight stayed secret for decades.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "말년에 한쪽 눈을 잃은 뒤 안구은행 운동을 이끌다 77세로 숨졌다.",
+    "description_en": "Blind in one eye, she championed eye banks — dead at 77.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "잭 리들리": {
+  "events": [
+   {
+    "year": 1915,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "오클라호마에서 태어나 공군 엔지니어가 됐다.",
+    "description_en": "Born in Oklahoma; an Air Force engineer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "X-1의 설계자",
+    "title_en": "Engineering the X-1",
+    "description": "'수학의 천재'로 불리며 지상에서 척 예거의 음속 돌파를 설계했다.",
+    "description_en": "The math genius who engineered Yeager's supersonic run from the ground.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "빗자루 손잡이 레버",
+    "title_en": "The Broom Handle",
+    "description": "갈비뼈가 부러진 예거가 조종간을 잠글 수 있게 빗자루 손잡이 레버를 고안해 줬다.",
+    "description_en": "His broomstick lever let a broken-ribbed Yeager lock the hatch.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1957,
+    "year_end": null,
+    "title": "추락사",
+    "title_en": "Killed",
+    "description": "일본에서 C-130 수송기 추락으로 41세에 숨졌다.",
+    "description_en": "A C-130 crash in Japan killed him at 41.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "블라디미르 세료긴": {
+  "events": [
+   {
+    "year": 1922,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "모스크바에서 태어나 전투 조종사가 됐다.",
+    "description_en": "Born in Moscow; a war pilot.",
+    "kind": "birth",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1945,
+    "year_end": null,
+    "title": "소비에트연방 영웅",
+    "title_en": "Hero of the Soviet Union",
+    "description": "전쟁 공로로 소비에트연방 영웅 칭호를 받고 테스트 조종사가 됐다.",
+    "description_en": "Decorated Hero of the Soviet Union, he became a test pilot.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "가가린과의 추락",
+    "title_en": "Gagarin's Last Flight",
+    "description": "유리 가가린의 MiG-15UTI 훈련 비행에 교관 조종사로 함께 타다 추락해 같은 자리에서 숨졌다 — 사고 원인은 지금도 논쟁거리다.",
+    "description_en": "Instructor aboard Gagarin's fatal training flight — the cause is still debated.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "에밀 가냥": {
+  "events": [
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "프랑스에서 태어나 에어 리퀴드의 가스 밸브 전문 엔지니어가 됐다.",
+    "description_en": "Born in France; an Air Liquide valve engineer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "아쿠아렁 공동 발명",
+    "title_en": "The Aqua-Lung",
+    "description": "자크 쿠스토와 협력해 압력 조절 밸브를 다이빙에 응용한 아쿠아렁을 공동 발명했다.",
+    "description_en": "With Cousteau he married his demand valve to diving — the Aqua-Lung.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1979,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "인류가 물속에서 자유롭게 숨 쉬는 시대를 연 '스쿠버의 아버지'로 남았다.",
+    "description_en": "The father of scuba.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "프레데리크 뒤마": {
+  "events": [
+   {
+    "year": 1913,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "프랑스에서 태어나 '디디'로 불린 잠수 개척자가 됐다.",
+    "description_en": "Born in France — 'Didi' the diving pioneer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1943,
+    "year_end": 1950,
+    "title": "'세 명의 무스케메르'",
+    "title_en": "The Three Musketeers of the Sea",
+    "description": "쿠스토, 타이예와 함께 지중해에서 아쿠아렁 초기 잠수를 개척했다.",
+    "description_en": "With Cousteau and Tailliez he pioneered open-water diving.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1953,
+    "year_end": null,
+    "title": "『침묵의 세계』 공저",
+    "title_en": "The Silent World",
+    "description": "베스트셀러 '침묵의 세계'의 공저자가 됐다.",
+    "description_en": "He co-authored 'The Silent World'.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1991,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "78세로 숨졌다 — 수천 년 된 난파선을 처음 과학적으로 탐사한 고고학 잠수의 선구자였다.",
+    "description_en": "Dead at 78 — a founder of underwater archaeology.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "오티스 바턴": {
+  "events": [
+   {
+    "year": 1899,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 엔지니어가 됐다.",
+    "description_en": "Born in New York; an engineer.",
+    "kind": "birth",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1928,
+    "year_end": null,
+    "title": "바티스피어 설계",
+    "title_en": "The Bathysphere",
+    "description": "강철 구 잠수정 '바티스피어'를 자비로 설계하고 윌리엄 비비와 손잡았다.",
+    "description_en": "He built the Bathysphere and offered it to Beebe.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "923m 잠수",
+    "title_en": "3,028 Feet",
+    "description": "버뮤다 앞바다에서 923m까지 내려가 당시 최심 잠수 기록을 세웠다 — 빛 없는 심해를 직접 본 최초의 두 사람 중 한 명.",
+    "description_en": "At 923 m he and Beebe were the first to see the deep sea with their own eyes.",
+    "kind": "work",
+    "place_name": "버뮤다",
+    "place_name_en": "Bermuda",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1992,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "92세로 숨졌다.",
+    "description_en": "Died at 92.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "장 피카르": {
+  "events": [
+   {
+    "year": 1884,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스위스 바젤에서 오귀스트 피카르의 쌍둥이 형제로 태어나 미국 화학자가 됐다.",
+    "description_en": "Born in Basel — Auguste's twin, a chemist in America.",
+    "kind": "birth",
+    "place_name": "바젤",
+    "place_name_en": "Basel",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "아내와 성층권",
+    "title_en": "The Stratosphere with Jeannette",
+    "description": "아내 자넷과 기구로 성층권 17km대에 올라 그녀를 여성 최초의 성층권 비행자로 만들었다.",
+    "description_en": "He flew his wife Jeannette to 17 km — the first woman in the stratosphere.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1937,
+    "year_end": null,
+    "title": "군집 기구 비행",
+    "title_en": "The Balloon Cluster",
+    "description": "다수 기구를 묶은 군집 비행으로 우주선 승무원 연구의 토대를 닦았다.",
+    "description_en": "His cluster-balloon flights informed crewed-spaceflight research.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1963,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "생일에 79세로 숨졌다.",
+    "description_en": "He died on his 79th birthday.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "파울 키퍼": {
+  "events": [
+   {
+    "year": 1905,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스위스에서 태어나 물리학자가 됐다.",
+    "description_en": "Born in Switzerland; a physicist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1931,
+    "year_end": null,
+    "title": "인류 최초 성층권 진입",
+    "title_en": "First into the Stratosphere",
+    "description": "아우크스부르크에서 오귀스트 피카르의 가압 곤돌라 기구를 타고 15,785m까지 올랐다.",
+    "description_en": "With Piccard he rode the pressurized gondola to 15,785 m.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1932,
+    "year_end": null,
+    "title": "교수직",
+    "title_en": "The Professorship",
+    "description": "브뤼셀 자유대학 교수로 핵물리 연구소를 세웠다.",
+    "description_en": "He became professor at the Free University of Brussels.",
+    "kind": "office",
+    "place_name": "브뤼셀",
+    "place_name_en": "Brussels",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1980,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "말년에 벨기에 남극 원정까지 다녀온 뒤 74세로 숨졌다.",
+    "description_en": "Antarctic explorer in old age — dead at 74.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "그레이엄 혹스": {
+  "events": [
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 해양 엔지니어가 됐다.",
+    "description_en": "Born in England; a marine engineer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1985,
+    "year_end": null,
+    "title": "'딥 로버'",
+    "title_en": "Deep Rover",
+    "description": "심해 잠수정 '딥 로버'를 만들어 단독 심해 잠수 기록을 세웠다.",
+    "description_en": "His Deep Rover set solo deep-dive records.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1985,
+    "year_end": 1990,
+    "title": "실비아 얼과의 결혼",
+    "title_en": "Married to Sylvia Earle",
+    "description": "실비아 얼과 결혼해 함께 잠수정 회사를 운영했다.",
+    "description_en": "He married Sylvia Earle; they ran a submersible company together.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "'딥 플라이트'",
+    "title_en": "Deep Flight",
+    "description": "날개 달린 '딥 플라이트' 시리즈로 물속을 날아다니는 잠수정의 시대를 열었다.",
+    "description_en": "His winged Deep Flight subs fly underwater.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "톰 프로스트": {
+  "events": [
+   {
+    "year": 1936,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "캘리포니아에서 태어나 스탠퍼드 공대를 나왔다.",
+    "description_en": "Born in California; a Stanford engineer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1960,
+    "year_end": 1961,
+    "title": "요세미티 황금기",
+    "title_en": "Yosemite's Golden Age",
+    "description": "로열 로빈스, 취나드와 엘 카피탄 살라테 벽·노스아메리카 벽 초등을 이뤘다.",
+    "description_en": "With Robbins and Chouinard he made El Capitan's great first ascents.",
+    "kind": "work",
+    "place_name": "요세미티",
+    "place_name_en": "Yosemite",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "클린 클라이밍 장비",
+    "title_en": "Clean Climbing",
+    "description": "취나드와 바위를 훼손하지 않는 보호 장비를 설계해 클린 클라이밍의 길을 열었다.",
+    "description_en": "He designed the gear behind clean climbing.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2018,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "82세로 숨졌다 — 그의 라이카 사진들이 미국 등반사의 아이콘이다.",
+    "description_en": "Dead at 82 — his Leica photos are icons of American climbing.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ }
+}

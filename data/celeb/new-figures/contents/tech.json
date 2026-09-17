@@ -1,0 +1,1837 @@
+{
+  "그레이스 호퍼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "저스트 소 스토리즈",
+        "title_en": "Just So Stories",
+        "creator": "러디어드 키플링",
+        "year": 1902,
+        "status": "FINISHED",
+        "source_url": "https://www.vassar.edu/stories/2017/assets/images/170706-legacy-of-grace-hopper-hopperpdf.pdf",
+        "evidence": "배서 대학 구술사 기록에서 호퍼는 '나는 키플링의 저스트 소 스토리즈에 나오는, 남의 일에 코를 들이미는 코끼리 아이와 강하게 닮았다'고 직접 말한다.",
+        "review": "그레이스 호퍼는 배서 대학 구술사에서 자신이 키플링의 《저스트 소 스토리즈》 속 코끼리 아이와 닮았다고 말했다. 남의 일에 코를 들이미는 그 캐릭터를 들어 자신이 강한 호기심을 타고났다고 설명했다.",
+        "review_en": "Grace Hopper told a Vassar oral history that she strongly resembled the elephant's child in Kipling's Just So Stories, the character who pokes his nose into everybody's business. She used it to describe her own inborn curiosity."
+      }
+    ]
+  },
+  "노버트 위너": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "신비의 섬",
+        "title_en": "The Mysterious Island",
+        "creator": "쥘 베른",
+        "year": 1874,
+        "status": "FINISHED",
+        "source_url": "https://gwern.net/doc/math/1953-wiener-exprodigymychildhoodyouth.pdf",
+        "evidence": "자서전 《Ex-Prodigy》(1953)에서 위너는 쥘 베른의 《신비의 섬》을 읽었다고 쓰며, 그 책이 자신을 과학소설로 이끈 두 권 중 하나였다고 회상한다.",
+        "review": "노버트 위너는 자서전 《엑스-프로디지》에서 쥘 베른의 《신비의 섬》을 읽었다고 회상하며, 이 책이 자신을 과학소설로 이끈 두 권 중 하나라고 썼다. 그는 오랫동안 베른의 열성 독자로 남았고, 도서관에서 그의 책 한 권을 더 찾는 일이 큰 즐거움이었다고 덧붙였다.",
+        "review_en": "Norbert Wiener recalled in his memoir Ex-Prodigy that he read Jules Verne's The Mysterious Island, calling it one of the two books that introduced him to science fiction. He remained an aficionado of Verne for years, finding more delight in a library hunt for another Verne volume than children get from the movies."
+      }
+    ]
+  },
+  "시모어 크레이": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "더글러스 엥겔바트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "애즈 위 메이 싱크",
+        "title_en": "As We May Think",
+        "creator": "배너버 부시",
+        "year": 1945,
+        "status": "FINISHED",
+        "source_url": "https://web.stanford.edu/class/history34q/readings/Engelbart/Engelbart_LettertoBush",
+        "evidence": "1962년 부시에게 보낸 편지에서 엥겔바트는 1945년 필리핀 레이테 섬의 적십자 도서관에서 이 글을 찾아 탐독했고, 자신에게 '아마 근본적인 영향'을 줬다고 썼다.",
+        "review": "더글러스 엥겔바트는 1945년 필리핀 레이테 섬의 적십자 도서관에서 배너버 부시의 《애즈 위 메이 싱크》를 발견해 탐독했다. 1962년 부시에게 보낸 편지에서 그는 이 글이 자신의 사고와 행동의 경로에 실제로 영향을 줬을 것이라고 회상했다.",
+        "review_en": "Douglas Engelbart found Vannevar Bush's 'As We May Think' in a Red Cross library on Leyte in the Philippines in the fall of 1945 and read it avidly. In a 1962 letter to Bush he wrote that the article had probably influenced him 'quite basically.'"
+      }
+    ]
+  },
+  "앨런 케이": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "그리스 로마 신화",
+        "title_en": "Mythology",
+        "creator": "이디스 해밀턴",
+        "year": 1942,
+        "status": "FINISHED",
+        "source_url": "https://worrydream.com/refs/Kay_2004_-_The_Center_of_Why.pdf",
+        "evidence": "2004년 VPRI 메모에서 케이는 네다섯 살 무렵 처음 끝까지 읽은 어른 책이 아버지의 이디스 해밀턴 《신화》였다고 썼다.",
+        "review": "앨런 케이는 VPRI 메모에서 네다섯 살 무렵 처음 끝까지 읽은 어른 책이 아버지 책장에 있던 이디스 해밀턴의 《신화》였다고 회상했다. 그는 마지막 장의 북유럽 신화가 앞부분의 그리스 신화와 흥미로운 대비를 이뤘다고 기억했다.",
+        "review_en": "Alan Kay recalled in a VPRI memo that one of the first adult books he read all the way through, at about four or five, was his father's copy of Edith Hamilton's Mythology. The closing section on Norse myth, he remembered, made an interesting contrast with the Greek material up front."
+      },
+      {
+        "type": "BOOK",
+        "title": "프린키피아: 자연철학의 수학적 원리",
+        "title_en": "Principia Mathematica",
+        "creator": "아이작 뉴턴",
+        "year": 1687,
+        "status": "FINISHED",
+        "source_url": "https://futureofthebook.org/blog/2004/12/08/an_exchange_with_alan_kay/",
+        "evidence": "if:book과의 서신 교환에서 케이는 《프린키피아》를 '역대 최고의 경이로운 책' 1순위로 꼽고, 실제로 사서 읽었다고 말한다.",
+        "review": "앨런 케이는 if:book과의 서신에서 뉴턴의 《프린키피아》를 17세기를 대표하는 책이자 역대 최고로 경이로운 책으로 꼽았다. 그는 이십 대 후반에서 삼십 대 초반에 이 책을 사서 읽었다고 밝혔다.",
+        "review_en": "Alan Kay picked Newton's Principia as the top 'amazing book' ever written in an exchange with if:book. He said he came upon it in his late twenties or early thirties and actually bought and read it."
+      },
+      {
+        "type": "BOOK",
+        "title": "인공 과학",
+        "title_en": "The Sciences of the Artificial",
+        "creator": "허버트 사이먼",
+        "year": 1969,
+        "status": "FINISHED",
+        "source_url": "https://tekkie.wordpress.com/2018/11/09/alan-kays-advice-to-computer-science-students/",
+        "evidence": "쿼라에서 컴퓨터 과학 학생에게 책을 추천하며 케이는 '중요한 책'으로 허버트 사이먼의 《인공 과학》을 지목한다.",
+        "review": "앨런 케이는 컴퓨터 과학 학생에게 쓴 쿼라 답변에서 허버트 사이먼의 《인공 과학》을 '중요한 책'으로 언급하며 읽을 것을 권했다. 그는 이 책을 들어 과학이 현상을 모형으로 조화시키는 일이라고 설명했다.",
+        "review_en": "Alan Kay, answering a computer science student on Quora, pointed to Herbert Simon's The Sciences of the Artificial as 'the important book.' He used it to explain that science reconciles phenomena into explanatory models."
+      },
+      {
+        "type": "BOOK",
+        "title": "메타오브젝트 프로토콜의 기술",
+        "title_en": "The Art of the Metaobject Protocol",
+        "creator": "그레고르 킥잘레스·짐 데 리비에르·대니얼 보브로",
+        "year": 1991,
+        "status": "FINISHED",
+        "source_url": "https://tekkie.wordpress.com/2018/11/09/alan-kays-advice-to-computer-science-students/",
+        "evidence": "같은 쿼라 답변에서 케이는 이 책을 '내가 아주 좋아하는 진짜 컴퓨터 과학 책'이라고 추천한다.",
+        "review": "앨런 케이는 같은 쿼라 답변에서 《메타오브젝트 프로토콜의 기술》을 자신이 아주 좋아하는 '진짜 컴퓨터 과학' 책으로 추천했다. 그는 특히 앞부분이 매우 통찰력 있다고 평했다.",
+        "review_en": "Alan Kay recommended The Art of the Metaobject Protocol in the same Quora answer as a book he likes a lot and as 'real computer science.' He found the early part especially illuminating."
+      }
+    ]
+  },
+  "테드 넬슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "패들 투 더 시",
+        "title_en": "Paddle-to-the-Sea",
+        "creator": "홀링 C. 홀링",
+        "year": 1941,
+        "status": "FINISHED",
+        "source_url": "https://kk.org/thetechnium/the-possiplex/",
+        "evidence": "자서전 《Possiplex》 발췌에서 넬슨은 이 책을 '내가 가장 좋아했던 어린 시절 책'이라 부르며, 초기 하이퍼미디어 구상이 이 책과 밀접하게 연결됐다고 썼다.",
+        "review": "테드 넬슨은 자서전 《포시플렉스》에서 《패들 투 더 시》를 자신이 가장 좋아한 어린 시절 책으로 꼽았다. 그는 각 장의 글·그림·지도를 마음속에서 연결하는 방식이 훗날 하이퍼텍스트 구상과 이어졌다고 썼다.",
+        "review_en": "Ted Nelson called Paddle-to-the-Sea his favorite early book in his memoir Possiplex. He wrote that uniting each chapter's text, painting, drawing and map in the mind was closely related to his earliest visions of hypertext and hypermedia."
+      },
+      {
+        "type": "VIDEO",
+        "title": "라쇼몽",
+        "title_en": "Rashomon",
+        "creator": "구로사와 아키라",
+        "year": 1950,
+        "status": "FINISHED",
+        "source_url": "https://www.xanadu.com.au/media/searchingfor.html",
+        "evidence": "넬슨 프로필 기사는 그가 《라쇼몽》이 나왔을 때 세 번 봤고, 함께 목격한 이야기의 다중 서술에 매료됐다고 전한다.",
+        "review": "테드 넬슨은 구로사와 아키라의 《라쇼몽》이 나왔을 때 세 번이나 봤다. 하나의 사건을 여러 인물이 다르게 진술하는 구조가 그에게 이야기를 '평행한 다중 버전'으로 제시할 수 있다는 생각을 심어줬다.",
+        "review_en": "Ted Nelson saw Kurosawa's Rashomon three times when it came out. Its portrayal of a jointly witnessed story in multiple tellings intrigued him and fed his idea that narrative could be presented in 'multiple parallel versions.'"
+      }
+    ]
+  },
+  "헤디 라머": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "판타지아",
+        "title_en": "Fantasia",
+        "creator": "월트 디즈니",
+        "year": 1940,
+        "status": "FINISHED",
+        "source_url": "https://vintoz.com/blogs/vintage-movie-resources/hedy-lamarrs-simple-tastes",
+        "evidence": "1942년 잡지 기사 'Hedy Lamarr's Simple Tastes'는 라머가 《판타지아》를 다섯 번 봤다고 전한다.",
+        "review": "헤디 라머는 1942년 팬 잡지 기사에서 디즈니의 《판타지아》를 다섯 번 본 것으로 소개됐다. 같은 기사는 그가 절친 앤 서던과 함께 영화를 자주 보러 다녔다고 전한다.",
+        "review_en": "Hedy Lamarr had seen Disney's Fantasia five times, a 1942 fan-magazine profile reported. The same piece said she and her close friend Ann Sothern often went to the movies together."
+      },
+      {
+        "type": "BOOK",
+        "title": "태양의 신비",
+        "title_en": "Sun Signs",
+        "creator": "린다 굿먼",
+        "year": 1968,
+        "status": "FINISHED",
+        "source_url": "https://www.nytimes.com/1970/08/23/archives/would-you-believe-i-was-once-a-famous-star-its-the-truth-hedy.html",
+        "evidence": "1970년 뉴욕타임스 기사는 《Sun Signs》를 '헤디 라머가 가장 좋아하는 점성술 책'이라 부르며, 그가 여행할 때도 들고 다니고 구절에 밑줄을 그어뒀다고 전한다.",
+        "review": "헤디 라머는 린다 굿먼의 《태양의 신비》를 가장 좋아하는 점성술 책으로 삼아 여행할 때도 들고 다녔다. 1970년 뉴욕타임스 기사는 책에 '헤디, 가장 사랑스러운 전갈자리에게'라는 헌정이 있고 관련 구절에 빨간 펠트펜 표시가 돼 있다고 전한다.",
+        "review_en": "Hedy Lamarr treated Linda Goodman's Sun Signs as her favorite astrology book, carrying it with her when she traveled. A 1970 New York Times profile noted it was inscribed 'For Hedy, the loveliest Scorpio,' with key passages marked in lipstick-red felt tip."
+      }
+    ]
+  },
+  "에드 로버츠": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "게리 킬달": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "테리 데이비스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "플래툰",
+        "title_en": "Platoon",
+        "creator": "올리버 스톤",
+        "year": 1986,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/TempleOS",
+        "evidence": "위키백과 TempleOS 문서는 이 OS의 옛 이름 'LoseThos'가 1986년 영화 《플래툰》의 한 장면을 참조한 것이라고 적고 있다.",
+        "review": "테리 데이비스는 자신의 운영체제에 한때 'LoseThos'라는 이름을 붙였는데, 이는 영화 《플래툰》의 한 장면을 참조한 것이었다. 본인 작품의 명명 근거로 이 영화를 알고 있었음이 드러난다.",
+        "review_en": "Terry A. Davis at one point named his operating system 'LoseThos,' a reference to a scene in the 1986 film Platoon. The naming shows the film was part of his viewing."
+      },
+      {
+        "type": "BOOK",
+        "title": "킹제임스 성경",
+        "title_en": "King James Bible",
+        "creator": "킹제임스 성경 번역위원회",
+        "year": 1611,
+        "status": "FINISHED",
+        "source_url": "https://factspark.blog/posts/templeos-inside-the-digital-kingdom-of-terry-a-davis",
+        "evidence": "TempleOS 해설 기사는 킹제임스 성경이 이 OS에 깊이 녹아 있으며 무작위 성경 구절 생성기가 들어 있다고 전한다.",
+        "review": "테리 데이비스는 자신의 운영체제 TempleOS를 '제3의 성전'으로 설계하면서 킹제임스 성경을 깊이 녹여 넣고 무작위 성경 구절 생성기까지 만들었다. 그는 방송에서도 성경 구절을 상시 인용했다.",
+        "review_en": "Terry A. Davis designed TempleOS as the prophesied Third Temple, weaving the King James Bible deeply into it — including a random verse generator. He quoted scripture constantly on his streams."
+      }
+    ]
+  },
+  "한스 라이저": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "던전 앤 드래건스",
+        "title_en": "Dungeons & Dragons",
+        "creator": "게리 가이객스·데이브 아네슨",
+        "year": 1974,
+        "status": "FINISHED",
+        "source_url": "https://www.eastbaytimes.com/2008/03/04/reiser-testifies-in-slay-trial/",
+        "evidence": "이스트베이 타임스 재판 기사는 라이저가 대학 시절 대부분의 시간을 컴퓨터 게임과 롤플레잉 게임 던전 앤 드래건스를 하며 보냈다고 증언 내용을 전한다.",
+        "review": "한스 라이저는 버클리 대학 시절 대부분의 시간을 컴퓨터 게임과 롤플레잉 게임 《던전 앤 드래건스》를 하며 보냈다. 그는 이후 D&D와 경쟁할 롤플레잉 게임을 직접 구상하기도 했다.",
+        "review_en": "Hans Reiser spent much of his time at UC Berkeley playing computer games and the role-playing game Dungeons & Dragons, according to trial testimony. He later spent his early twenties developing a role-playing game meant to compete with it."
+      },
+      {
+        "type": "GAME",
+        "title": "배틀필드 베트남",
+        "title_en": "Battlefield Vietnam",
+        "creator": "EA DICE",
+        "year": 2004,
+        "status": "FINISHED",
+        "source_url": "https://www.wired.com/2007/06/ff-hansreiser/",
+        "evidence": "와이어드 기사는 양육권 소송 서류를 인용해, 니나가 라이더에게 어린 아들 로리와 《배틀필드 베트남》 같은 폭력적 게임을 그만하라고 요구했다고 전한다.",
+        "review": "한스 라이저는 어린 아들 로리와 함께 《배틀필드 베트남》을 즐겼고, 이것이 이혼·양육권 분쟁의 쟁점이 됐다. 그는 법정 서면에서 폭력적인 게임이 아이의 생존 본능을 연마한다고 주장했다.",
+        "review_en": "Hans Reiser played Battlefield Vietnam with his young son Rory, and it became an issue in the custody fight. In a court filing he argued that violent games hone boys' survival instincts."
+      },
+      {
+        "type": "BOOK",
+        "title": "명작 살인 모음",
+        "title_en": "Masterpieces of Murder",
+        "creator": "애거사 크리스티",
+        "year": 1977,
+        "status": "WANT",
+        "source_url": "https://www.wired.com/2007/06/ff-hansreiser/",
+        "evidence": "와이어드 기사는 라이저가 아내 실종 직후 《Masterpieces of Murder》라는 책을 샀고, 그의 차에서 이 책이 발견됐다고 전한다.",
+        "review": "한스 라이저는 아내 니나가 실종된 직후 애거사 크리스티의 추리 모음집 《명작 살인 모음》을 샀다. 경찰이 그의 차를 수색했을 때 이 책이 차 안에서 발견됐다.",
+        "review_en": "Hans Reiser bought a copy of the Agatha Christie omnibus Masterpieces of Murder shortly after his wife disappeared. Police later found the book in his car."
+      }
+    ]
+  },
+  "이안 머독": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조지 호츠": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "인피니트 제스트",
+        "title_en": "Infinite Jest",
+        "creator": "데이비드 포스터 월리스",
+        "year": 1996,
+        "status": "FINISHED",
+        "source_url": "https://lexlib.io/132-george-hotz/",
+        "evidence": "LexLib의 Lex Fridman 팟캐스트 #132 정리는 이 에피소드에서 언급된 책으로 《인피니트 제스트》를 올리고 있고, 호츠의 스트림 정리 노트에서도 그가 이 책을 추천한 것으로 나타난다.",
+        "review": "조지 호츠는 Lex Fridman 팟캐스트와 자신의 잡담 스트림에서 《인피니트 제스트》를 추천했다. 그는 스트림에서 포스트모더니즘의 아이러니를 넘어서는 '진정성'을 이 책과 연결해 이야기했다.",
+        "review_en": "George Hotz recommended Infinite Jest on the Lex Fridman Podcast and in his own talking-hour streams. On stream he tied the book to the post-ironic 'new sincerity' he admires in David Foster Wallace."
+      },
+      {
+        "type": "BOOK",
+        "title": "프라임 인텔렉트의 변화",
+        "title_en": "The Metamorphosis of Prime Intellect",
+        "creator": "로저 윌리엄스",
+        "year": 1994,
+        "status": "FINISHED",
+        "source_url": "https://lexlib.io/132-george-hotz/",
+        "evidence": "Lex Fridman 팟캐스트 #132에서 언급된 책 목록에 로저 윌리엄스의 이 소설이 포함돼 있다.",
+        "review": "조지 호츠는 Lex Fridman 팟캐스트 #132에서 로저 윌리엄스의 온라인 소설 《프라임 인텔렉트의 변화》를 언급했다. 인공지능 소재 SF를 즐겨 읽는 그가 인터뷰에서 꺼낸 작품 중 하나다.",
+        "review_en": "George Hotz mentioned Roger Williams's online novel The Metamorphosis of Prime Intellect on Lex Fridman Podcast #132, one of the works the hard-SF reader brought up in the interview."
+      },
+      {
+        "type": "BOOK",
+        "title": "스노 크래시",
+        "title_en": "Snow Crash",
+        "creator": "닐 스티븐슨",
+        "year": 1992,
+        "status": "FINISHED",
+        "source_url": "https://lexlib.io/132-george-hotz/",
+        "evidence": "Lex Fridman 팟캐스트 #132에서 언급된 책 목록에 닐 스티븐슨의 《스노 크래시》가 포함돼 있다.",
+        "review": "조지 호츠는 Lex Fridman 팟캐스트 #132에서 닐 스티븐슨의 《스노 크래시》를 언급했다. 사이버펑크 SF를 포함해 폭넓은 독서 목록을 보여준 에피소드였다.",
+        "review_en": "George Hotz mentioned Neal Stephenson's Snow Crash on Lex Fridman Podcast #132, in an episode that showed off his wide reading in cyberpunk and beyond."
+      },
+      {
+        "type": "VIDEO",
+        "title": "세기의 자아",
+        "title_en": "The Century of the Self",
+        "creator": "애덤 커티스",
+        "year": 2002,
+        "status": "FINISHED",
+        "source_url": "https://gist.github.com/mickeypash/b0b22ab84495fe4b033895a79dd78468",
+        "evidence": "호츠의 2020년 8월 잡담 스트림 정리 노트는 그가 애덤 커티스의 다큐멘터리 《The Century of the Self》를 언급·추천했음을 보여준다.",
+        "review": "조지 호츠는 자신의 잡담 스트림에서 애덤 커티스의 BBC 다큐멘터리 《세기의 자아》를 언급했다. 프로이트 이후 소비사회를 다룬 이 다큐를 그의 추천 목록에서 찾을 수 있다.",
+        "review_en": "George Hotz pointed viewers to Adam Curtis's BBC documentary The Century of the Self on his talking-hour stream, part of the viewing he recommended to his audience."
+      }
+    ]
+  },
+  "브램 코언": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "블레이드 러너",
+        "title_en": "Blade Runner",
+        "creator": "리들리 스콧",
+        "year": 1982,
+        "status": "FINISHED",
+        "source_url": "https://torrentfreak.com/bram-cohen-interview/",
+        "evidence": "토렌트프릭 인터뷰에서 코언은 가장 좋아하는 영화를 묻자 《블레이드 러너》라고 답했다고 말한다.",
+        "review": "브램 코언은 토렌트프릭 인터뷰에서 가장 좋아하는 영화로 《블레이드 러너》를 꼽았다. '다들 블레이드 러너라고 하니 다른 걸 대라'는 요구에는 《아마데우스》를 둘째로 답했다.",
+        "review_en": "Bram Cohen named Blade Runner as his favorite movie in a TorrentFreak interview. When pressed for a less common answer, he offered Amadeus."
+      },
+      {
+        "type": "VIDEO",
+        "title": "아마데우스",
+        "title_en": "Amadeus",
+        "creator": "밀로스 포먼",
+        "year": 1984,
+        "status": "FINISHED",
+        "source_url": "https://torrentfreak.com/bram-cohen-interview/",
+        "evidence": "같은 인터뷰에서 코언은 '블레이드 러너 말고 다른 영화'를 요구받자 《아마데우스》라고 답했다.",
+        "review": "브램 코언은 같은 인터뷰에서 《블레이드 러너》 외의 답을 요구받자 《아마데우스》를 꼽았다. 최악의 영화를 묻는 질문에는 '못 보겠을 만큼 나쁜 게 너무 많다'며 답을 피했다.",
+        "review_en": "Bram Cohen gave Amadeus as his answer in the same interview when asked for a favorite besides Blade Runner. Asked for a least favorite, he dodged — too many films are 'unwatchably bad.'"
+      },
+      {
+        "type": "VIDEO",
+        "title": "심플 라이프 시즌 1",
+        "title_en": "The Simple Life (Season 1)",
+        "creator": "폭스 리얼리티 TV",
+        "year": 2003,
+        "status": "FINISHED",
+        "source_url": "https://www.wired.com/2005/01/bittorrent-2/",
+        "evidence": "2005년 와이어드 기사는 코언이 TV를 DVD로만 보고, 패리스 힐튼의 《심플 라이프》 첫 시즌을 특히 좋아했다고 전한다.",
+        "review": "브램 코언은 TV를 실시간으로 보지 않고 DVD로 사서 보는데, 2005년 와이어드 기사에서 패리스 힐튼의 《심플 라이프》 첫 시즌을 특히 좋아했다고 말했다. 그는 '여섯 시간을 봐도 머리가 텅 비어 있는' 게 그 매력이라고 설명했다.",
+        "review_en": "Bram Cohen watches TV only on DVD, and he told Wired in 2005 that he particularly loved the first season of Paris Hilton's The Simple Life. 'You can watch that show for six hours and your brain is still empty,' he said."
+      },
+      {
+        "type": "GAME",
+        "title": "아마존스",
+        "title_en": "Amazons",
+        "creator": "발터 잠카우스카스",
+        "year": 1988,
+        "status": "FINISHED",
+        "source_url": "https://www.wired.com/2005/01/bittorrent-2/",
+        "evidence": "같은 와이어드 기사는 코언이 보드게임 아마존스를 주워 익힌 지 이 주 만에 마스터했고, 순수 전략이라 좋아한다고 전한다.",
+        "review": "브램 코언은 보드게임 《아마존스》를 손에 넣은 지 이 주 만에 마스터했다. 와이어드 기사에서 그는 체스와 바둑을 섞은 이 게임이 '순수 전략'이라 좋아한다고 말했다.",
+        "review_en": "Bram Cohen picked up the board game Amazons and mastered it within two weeks, Wired reported in 2005. He told the magazine he loves it because it is pure strategy."
+      }
+    ]
+  },
+  "저스틴 프랭클": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "마스터즈 오브 둠",
+        "title_en": "Masters of Doom",
+        "creator": "데이비드 커슈너",
+        "year": 2003,
+        "status": "FINISHED",
+        "source_url": "https://www.buildersgonnabuild.com/p/002-justin-frankel-winamp-reaper",
+        "evidence": "빌더스 팟캐스트 '번개 질문' 코너의 책 추천 목록에 커슈너의 《마스터즈 오브 둠》이 실려 있다.",
+        "review": "저스틴 프랭클은 빌더스 팟캐스트의 책 추천 코너에서 데이비드 커슈너의 《마스터즈 오브 둠》을 꼽았다. 그는 다른 인터뷰에서도 둠을 만든 존 카맥의 팬이라고 밝힌 바 있다.",
+        "review_en": "Justin Frankel listed David Kushner's Masters of Doom in the book-recommendation round of the Builders podcast. In other interviews he has called himself a longtime fan of Doom programmer John Carmack."
+      },
+      {
+        "type": "BOOK",
+        "title": "삼체",
+        "title_en": "The Three-Body Problem",
+        "creator": "류츠신",
+        "year": 2008,
+        "status": "FINISHED",
+        "source_url": "https://www.buildersgonnabuild.com/p/002-justin-frankel-winamp-reaper",
+        "evidence": "같은 팟캐스트의 책 추천 목록에 류츠신의 《삼체》가 실려 있다.",
+        "review": "저스틴 프랭클은 같은 팟캐스트에서 류츠신의 《삼체》를 추천 도서로 꼽았다.",
+        "review_en": "Justin Frankel recommended Liu Cixin's The Three-Body Problem in the same podcast's book round."
+      },
+      {
+        "type": "BOOK",
+        "title": "캐치-22",
+        "title_en": "Catch-22",
+        "creator": "조지프 헬러",
+        "year": 1961,
+        "status": "FINISHED",
+        "source_url": "https://www.buildersgonnabuild.com/p/002-justin-frankel-winamp-reaper",
+        "evidence": "같은 팟캐스트의 책 추천 목록에 조지프 헬러의 《캐치-22》가 실려 있다.",
+        "review": "저스틴 프랭클은 같은 팟캐스트에서 조지프 헬러의 《캐치-22》를 추천 도서로 꼽았다.",
+        "review_en": "Justin Frankel recommended Joseph Heller's Catch-22 in the same podcast's book round."
+      },
+      {
+        "type": "MUSIC",
+        "title": "휩 더 라마스 애스",
+        "title_en": "Whip the Llama's Ass",
+        "creator": "웨슬리 윌리스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.buildersgonnabuild.com/p/002-justin-frankel-winamp-reaper",
+        "evidence": "팟캐스트 해설에 따르면 윈앰프 설치 시 나오는 'it really whips the llama's ass' 음성은 웨슬리 윌리스의 이 노래 인용이며, 프랭클이 재미있다고 생각해 넣었다.",
+        "review": "저스틴 프랭클은 웨슬리 윌리스의 노래 《휩 더 라마스 애스》의 구절이 재미있어 윈앰프의 유명한 시작 음성으로 넣었다. '정말 라마 엉덩이를 때리는' 그 소리가 MP3 시대의 상징이 됐다.",
+        "review_en": "Justin Frankel found Wesley Willis's song 'Whip the Llama's Ass' funny enough to quote as Winamp's signature startup line — 'it really whips the llama's ass' — the sound that defined the MP3 era."
+      }
+    ]
+  },
+  "브램 몰레나르": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "포탈",
+        "title_en": "Portal",
+        "creator": "밸브",
+        "year": 2007,
+        "status": "FINISHED",
+        "source_url": "https://usesthis.com/interviews/bram.moolenaar/",
+        "evidence": "Uses This 인터뷰에서 몰레나르는 '가끔 오래된 게임을 하며, 포탈도 좋아한다'고 말한다.",
+        "review": "브램 몰레나르는 Uses This 인터뷰에서 가끔 게임을 한다며 밸브의 《포탈》을 좋아한다고 말했다. 우분투의 스팀으로 돌아가는 것도 마음에 들어 했다.",
+        "review_en": "Bram Moolenaar told Uses This that he plays a game once in a while and likes Valve's Portal — which he noted now runs under Steam on Ubuntu."
+      },
+      {
+        "type": "GAME",
+        "title": "커맨드 앤 컨커",
+        "title_en": "Command & Conquer",
+        "creator": "웨스트우드 스튜디오",
+        "year": 1995,
+        "status": "FINISHED",
+        "source_url": "https://usesthis.com/interviews/bram.moolenaar/",
+        "evidence": "같은 인터뷰에서 몰레나르는 '옛날 커맨드 앤 컨커 게임들의 팬'이라고 말한다.",
+        "review": "브램 몰레나르는 같은 인터뷰에서 옛날 《커맨드 앤 컨커》 게임들의 팬이라고 밝혔다. 윈도우에서만 돌아가는 점을 아쉬워했다.",
+        "review_en": "Bram Moolenaar said in the same interview that he is a fan of the old Command & Conquer games, lamenting that they only run on Windows."
+      }
+    ]
+  },
+  "귀도 판 로쉼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "몬티 파이선의 비행 서커스",
+        "title_en": "Monty Python's Flying Circus",
+        "creator": "몬티 파이선",
+        "year": 1969,
+        "status": "FINISHED",
+        "source_url": "https://web.archive.org/web/20081229095320/www.computerworld.com.au/index.php/id;66665771",
+        "evidence": "컴퓨터월드 'A-Z of Programming Languages' 인터뷰에서 판 로쉼은 몬티 파이선 팬이며 언어 이름을 여기서 따왔다고 확인한다.",
+        "review": "귀도 판 로쉼은 몬티 파이선의 팬이며, 프로그래밍 언어 파이썬의 이름을 《몬티 파이선의 비행 서커스》에서 따왔다. 컴퓨터월드 인터뷰에서 그는 언어 이름의 출처가 이 프로그램이라고 직접 확인했다.",
+        "review_en": "Guido van Rossum is a Monty Python fan and took the name Python from Monty Python's Flying Circus. In a Computerworld interview he confirmed the troupe's show is where the language's name came from."
+      },
+      {
+        "type": "BOOK",
+        "title": "은하수를 여행하는 히치하이커를 위한 안내서",
+        "title_en": "The Hitchhiker's Guide to the Galaxy",
+        "creator": "더글러스 애덤스",
+        "year": 1979,
+        "status": "FINISHED",
+        "source_url": "https://web.archive.org/web/20081229095320/www.computerworld.com.au/index.php/id;66665771",
+        "evidence": "같은 인터뷰에서 판 로쉼은 '히치하이커 안내서에도 빠져 있다'고 말한다.",
+        "review": "귀도 판 로쉼은 같은 인터뷰에서 더글러스 애덤스의 《은하수를 여행하는 히치하이커를 위한 안내서》에도 빠져 있다고 말했다. 다만 그 밖의 '괴짜 문화'에는 관심이 없다고 선을 그었다.",
+        "review_en": "Guido van Rossum said in the same interview that he is also into Douglas Adams's The Hitchhiker's Guide to the Galaxy — while insisting he has no interest in other staples of geek culture."
+      },
+      {
+        "type": "VIDEO",
+        "title": "펄프 픽션",
+        "title_en": "Pulp Fiction",
+        "creator": "쿠엔틴 타란티노",
+        "year": 1994,
+        "status": "FINISHED",
+        "source_url": "http://www.ebsco.com/research-starters/biography/guido-van-rossum/",
+        "evidence": "EBSCO 인물 프로필은 판 로쉼이 영화 《펄프 픽션》의 팬이며 윈스턴 울프를 가장 좋아하는 영화 캐릭터로 꼽았다고 전한다.",
+        "review": "귀도 판 로쉼은 영화 《펄프 픽션》의 팬으로, 하비 케이틀이 연기한 윈스턴 울프를 가장 좋아하는 영화 캐릭터로 꼽았다. '문제 해결사' 울프에 대한 애착은 공적 프로필에도 남아 있다.",
+        "review_en": "Guido van Rossum is a fan of Pulp Fiction and has called Harvey Keitel's Winston Wolf his favorite film character, an affection recorded in his published profiles."
+      }
+    ]
+  },
+  "마쓰모토 유키히로": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "바벨-17",
+        "title_en": "Babel-17",
+        "creator": "사뮤얼 R. 딜레이니",
+        "year": 1966,
+        "status": "FINISHED",
+        "source_url": "https://bookplus.nikkei.com/atcl/column/041500052/041500001/",
+        "evidence": "닛케이 북플러스 인터뷰에서 마쓰모토는 고등학생 때 읽은 《바벨-17》이 재미있어 프로그래밍 언어에 흥미를 갖게 됐다고 말한다.",
+        "review": "마쓰모토 유키히로는 고등학생 때 읽은 사뮤얼 딜레이니의 《바벨-17》이 재미있어 프로그래밍 언어에 흥미를 갖게 됐다고 닛케이 인터뷰에서 말했다. '설계된 언어'가 인간의 정신에 영향을 준다는 설정이 그의 심금을 울렸다.",
+        "review_en": "Yukihiro Matsumoto told Nikkei Book Plus that reading Samuel R. Delany's Babel-17 in high school fascinated him and drew him to programming languages. The idea of a 'designed language' that shapes the mind struck a chord."
+      },
+      {
+        "type": "BOOK",
+        "title": "은하제국의 흥망",
+        "title_en": "The Stars, Like Dust",
+        "creator": "아이작 아시모프",
+        "year": 1951,
+        "status": "FINISHED",
+        "source_url": "https://bookplus.nikkei.com/atcl/column/041500052/041500001/",
+        "evidence": "같은 인터뷰에서 마쓰모토는 어린이용으로 각색된 아시모프의 《은하제국의 흥망》(소겐 추리문고)이 마음에 드는 책이었다고 말한다.",
+        "review": "마쓰모토 유키히로는 어린 시절 서점에 상주하며 아이작 아시모프의 《은하제국의 흥망》 같은 아동용 SF 각색본을 즐겨 읽었다고 같은 인터뷰에서 말했다.",
+        "review_en": "Yukihiro Matsumoto recalled in the same interview that Asimov's The Stars, Like Dust — in a children's adapted edition — was among his favorite reads as a boy who practically lived in the local bookshop."
+      },
+      {
+        "type": "BOOK",
+        "title": "이상한 나라의 톰킨스",
+        "title_en": "Mr Tompkins in Wonderland",
+        "creator": "조지 가모프",
+        "year": 1940,
+        "status": "FINISHED",
+        "source_url": "https://bookplus.nikkei.com/atcl/column/041500052/041500001/",
+        "evidence": "같은 인터뷰에서 마쓰모토는 아버지가 산 《가모프 전집》 1권 '不思議の国のトムキンス'가 특히 인상적이었다고 말한다.",
+        "review": "마쓰모토 유키히로는 아버지가 어느 날 사 온 《가모프 전집》의 첫 권 《이상한 나라의 톰킨스》가 특히 인상 깊었다고 회상했다. 그 영향으로 초등학교 고학년 무렵에는 이론물리학자를 꿈꿨다고 한다.",
+        "review_en": "Yukihiro Matsumoto recalled that Mr Tompkins in Wonderland, the first volume of the Gamow collection his father brought home, left a particular impression. Its influence had him dreaming of becoming a theoretical physicist in late elementary school."
+      },
+      {
+        "type": "VIDEO",
+        "title": "매트릭스",
+        "title_en": "The Matrix",
+        "creator": "워쇼스키 자매",
+        "year": 1999,
+        "status": "FINISHED",
+        "source_url": "https://www.rubyevents.org/talks/interview-with-matz?back_to=%2Fspeakers%2Fyukihiro-matz-matsumoto&back_to_title=Yukihiro+%22Matz%22+Matsumoto",
+        "evidence": "RubyEvents 인터뷰에서 가장 좋아하는 영화를 묻자 마쓰모토는 '매트릭스 시리즈의 첫 번째'라고 답한다.",
+        "review": "마쓰모토 유키히로는 인터뷰에서 가장 좋아하는 영화로 《매트릭스》 1편을 꼽았다. 속편이 아니라 첫 작품만이라고 못 박았다.",
+        "review_en": "Yukihiro Matsumoto picked the first Matrix as his favorite film in a RubyEvents interview — 'only the first one,' he stressed."
+      },
+      {
+        "type": "VIDEO",
+        "title": "백 투 더 퓨처",
+        "title_en": "Back to the Future",
+        "creator": "로버트 저메키스",
+        "year": 1985,
+        "status": "FINISHED",
+        "source_url": "https://www.rubyevents.org/talks/interview-with-matz?back_to=%2Fspeakers%2Fyukihiro-matz-matsumoto&back_to_title=Yukihiro+%22Matz%22+Matsumoto",
+        "evidence": "같은 인터뷰에서 마쓰모토는 《백 투 더 퓨처》도 상당히 즐겼다고 말한다.",
+        "review": "마쓰모토 유키히로는 같은 인터뷰에서 《백 투 더 퓨처》도 꽤 즐겼다고 덧붙였다. 독서와 영화 감상이 오랜 취미라고 말해 왔다.",
+        "review_en": "Yukihiro Matsumoto added in the same interview that he enjoyed Back to the Future quite a lot. Reading and watching films have long been his hobbies."
+      }
+    ]
+  },
+  "데이비드 하이네마이어 한손": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "명상록",
+        "title_en": "Meditations",
+        "creator": "마르쿠스 아우렐리우스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/david-heinemeier-hansson-interview/",
+        "evidence": "리딩 리스트 인터뷰에서 DHH는 가장 강력했던 책으로 아우렐리우스의 《명상록》을 비롯한 스토아 고전들을 꼽는다.",
+        "review": "데이비드 하이네마이어 한손은 인터뷰에서 자신이 읽은 가장 강력한 책으로 마르쿠스 아우렐리우스의 《명상록》을 비롯한 스토아 고전을 꼽았다. 지각과 반응을 분리하는 사고방식에서 큰 영감을 얻었다고 말했다.",
+        "review_en": "David Heinemeier Hansson told The Reading Lists that the most powerful books he has read are the great Stoic works, naming Marcus Aurelius's Meditations first. He found the separation of perception and reaction deeply inspiring."
+      },
+      {
+        "type": "BOOK",
+        "title": "자유로부터의 도피",
+        "title_en": "Escape from Freedom",
+        "creator": "에리히 프롬",
+        "year": 1941,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/david-heinemeier-hansson-interview/",
+        "evidence": "같은 인터뷰에서 DHH는 막 《자유로부터의 도피》를 다 읽었으며 최근 몇 년 사이 가장 좋아하는 책 중 하나라고 말한다.",
+        "review": "데이비드 하이네마이어 한손은 같은 인터뷰에서 에리히 프롬의 《자유로부터의 도피》를 막 다 읽었으며 최근 몇 년 사이 가장 좋아하는 책 중 하나라고 말했다. '진정으로 대단하고 무척 읽기 쉬운 책'이라고 평했다.",
+        "review_en": "David Heinemeier Hansson said in the same interview that he had just finished Erich Fromm's Escape from Freedom, calling it one of his favorite books of recent years — 'truly a spectacular and imminently readable book.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "존재와 시간",
+        "title_en": "Being and Time",
+        "creator": "마르틴 하이데거",
+        "year": 1927,
+        "status": "WANT",
+        "source_url": "https://www.thereadinglists.com/david-heinemeier-hansson-interview/",
+        "evidence": "같은 인터뷰에서 DHH는 《존재와 시간》을 가장 난해한 책으로 꼽으며 3분의 1밖에 못 읽었지만 언젠가 다 읽겠다고 말한다.",
+        "review": "데이비드 하이네마이어 한손은 하이데거의 《존재와 시간》을 자신에게 가장 난해한 책으로 꼽았다. 아직 3분의 1밖에 읽지 못했지만 '언젠가 끝까지 가겠다'고 다짐했다.",
+        "review_en": "David Heinemeier Hansson named Heidegger's Being and Time his most obscure read — he has only made it about a third of the way in. 'One day I'll make it through,' he vowed."
+      }
+    ]
+  },
+  "닉 재보": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "이성적 낙관주의자",
+        "title_en": "The Rational Optimist",
+        "creator": "맷 리들리",
+        "year": 2010,
+        "status": "FINISHED",
+        "source_url": "https://booksfromgreats.com/references/twitter-com-693682157525401601",
+        "evidence": "재보의 트윗을 보존한 출처 기록은 그가 '역대 최고 책 20권 중 서너 권이 리들리의 것'이라며 《이성적 낙관주의자》 등을 꼽았음을 보여준다.",
+        "review": "닉 재보는 트위터에서 '역대 최고의 책 20권 중 서너 권이 전부 리들리의 것'이라며 《이성적 낙관주의자》, 《게놈》, 《붉은 여왕》, 《미덕의 기원》을 꼽았다.",
+        "review_en": "Nick Szabo wrote on Twitter that 'three or four of my top 20 books of all time are all Ridley's' — naming The Rational Optimist, Genome, The Red Queen and The Origins of Virtue."
+      },
+      {
+        "type": "BOOK",
+        "title": "국부론",
+        "title_en": "The Wealth of Nations",
+        "creator": "애덤 스미스",
+        "year": 1776,
+        "status": "FINISHED",
+        "source_url": "https://booksfromgreats.com/references/twitter-com-693682157525401601",
+        "evidence": "같은 출처 기록은 재보가 《국부론》을 '내가 읽은 가장 중요한 책 중 하나'라고 쓴 트윗을 보존하고 있다.",
+        "review": "닉 재보는 트위터에서 애덤 스미스의 《국부론》을 자신이 읽은 가장 중요한 책 중 하나로 꼽았다.",
+        "review_en": "Nick Szabo called Adam Smith's The Wealth of Nations 'one of the most important books I've read' in a tweet preserved by the citation tracker."
+      },
+      {
+        "type": "BOOK",
+        "title": "콜럼버스 교환",
+        "title_en": "The Columbian Exchange",
+        "creator": "알프레드 W. 크로스비",
+        "year": 1972,
+        "status": "FINISHED",
+        "source_url": "https://booksfromgreats.com/references/tim-blog-the-tim-ferriss-show-transcripts-nick-szabo",
+        "evidence": "팀 페리스 쇼 녹취록 기반 출처 기록은 재보가 《콜럼버스 교환》을 '재레드 다이아몬드가 베낀 원조이자 더 나은 책'이라 평했음을 보여준다.",
+        "review": "닉 재보는 팀 페리스 쇼에서 알프레드 크로스비의 《콜럼버스 교환》을 '재레드 다이아몬드가 베껴 쓴 원조이자 더 나은 책'이라고 평했다.",
+        "review_en": "Nick Szabo called Alfred Crosby's The Columbian Exchange 'the original, better version' of what Jared Diamond later wrote, on the Tim Ferriss Show."
+      }
+    ]
+  },
+  "크레이그 라이트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "카라마조프 가의 형제들",
+        "title_en": "The Brothers Karamazov",
+        "creator": "표도르 도스토옙스키",
+        "year": 1880,
+        "status": "FINISHED",
+        "source_url": "https://medium.com/@craig_10243/q-a-written-interview-the-answers-part-1-ec508ef92cc",
+        "evidence": "본인 미디엄 Q&A에서 라이트는 가장 좋아하는 책 3권 중 하나로 도스토옙스키의 《카라마조프 가의 형제들》을 꼽는다.",
+        "review": "크레이그 라이트는 자신의 미디엄 Q&A에서 가장 좋아하는 책 세 권 중 하나로 도스토옙스키의 《카라마조프 가의 형제들》을 꼽았다.",
+        "review_en": "Craig Wright named Dostoevsky's The Brothers Karamazov among his three favorite books in his own Medium Q&A."
+      },
+      {
+        "type": "BOOK",
+        "title": "듄",
+        "title_en": "Dune",
+        "creator": "프랭크 허버트",
+        "year": 1965,
+        "status": "FINISHED",
+        "source_url": "https://medium.com/@craig_10243/q-a-written-interview-the-answers-part-1-ec508ef92cc",
+        "evidence": "같은 Q&A에서 라이트는 가장 좋아하는 책으로 프랭크 허버트의 '듄 시리즈'를 꼽는다.",
+        "review": "크레이그 라이트는 같은 Q&A에서 프랭크 허버트의 《듄》 시리즈를 가장 좋아하는 책으로 꼽았다.",
+        "review_en": "Craig Wright listed Frank Herbert's Dune series among his favorite books in the same Q&A."
+      },
+      {
+        "type": "BOOK",
+        "title": "파운틴헤드",
+        "title_en": "The Fountainhead",
+        "creator": "아인 랜드",
+        "year": 1943,
+        "status": "FINISHED",
+        "source_url": "https://medium.com/@craig_10243/q-a-written-interview-the-answers-part-1-ec508ef92cc",
+        "evidence": "같은 Q&A에서 라이트는 가장 좋아하는 책으로 아인 랜드의 《파운틴헤드》를 꼽는다.",
+        "review": "크레이그 라이트는 같은 Q&A에서 아인 랜드의 《파운틴헤드》를 가장 좋아하는 책 세 권 중 하나로 꼽았다.",
+        "review_en": "Craig Wright listed Ayn Rand's The Fountainhead among his three favorite books in the same Q&A."
+      },
+      {
+        "type": "BOOK",
+        "title": "자유주의",
+        "title_en": "Liberalism: The Classical Tradition",
+        "creator": "루트비히 폰 미제스",
+        "year": 1927,
+        "status": "FINISHED",
+        "source_url": "https://medium.com/@craig_10243/q-a-written-interview-the-answers-part-1-ec508ef92cc",
+        "evidence": "같은 Q&A에서 '세상에 한 권만 줄 수 있다면'이라는 질문에 라이트는 미제스의 《자유주의》를 선택한다.",
+        "review": "크레이그 라이트는 '세상에 단 한 권의 책만 줄 수 있다면'이라는 질문에 루트비히 폰 미제스의 《자유주의》를 골랐다. 미제스를 '고전 전통의 학자이자 이상을 놓지 않은 현실주의자'라고 평했다.",
+        "review_en": "Craig Wright chose Ludwig von Mises's Liberalism when asked which single book he would give the world, calling Mises a scholar of the classical tradition and a realist who held onto ideals."
+      },
+      {
+        "type": "VIDEO",
+        "title": "카사블랑카",
+        "title_en": "Casablanca",
+        "creator": "마이클 커티즈",
+        "year": 1942,
+        "status": "FINISHED",
+        "source_url": "https://medium.com/@craig_10243/q-a-written-interview-the-answers-part-1-ec508ef92cc",
+        "evidence": "같은 Q&A에서 라이트는 가장 좋아하는 영화로 《카사블랑카》를 꼽는다.",
+        "review": "크레이그 라이트는 같은 Q&A에서 가장 좋아하는 영화로 《카사블랑카》를 꼽았다.",
+        "review_en": "Craig Wright named Casablanca his favorite movie in the same Q&A."
+      },
+      {
+        "type": "VIDEO",
+        "title": "파이어플라이",
+        "title_en": "Firefly",
+        "creator": "조스 웨던",
+        "year": 2002,
+        "status": "FINISHED",
+        "source_url": "https://medium.com/@craig_10243/q-a-written-interview-the-answers-part-1-ec508ef92cc",
+        "evidence": "같은 Q&A에서 라이트는 가장 좋아했던 TV 프로그램으로 《파이어플라이》를 꼽는다.",
+        "review": "크레이그 라이트는 같은 Q&A에서 가장 좋아했던 TV 프로그램으로 《파이어플라이》를 꼽고, 《워킹 데드》를 즐기며 《블레이크스 7》과 《환상 특급》을 보고 자랐다고 덧붙였다.",
+        "review_en": "Craig Wright named Firefly his favorite TV show in the same Q&A, adding that he enjoys The Walking Dead and grew up with Blake's 7 and The Twilight Zone."
+      }
+    ]
+  },
+  "로저 버": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "사회주의",
+        "title_en": "Socialism",
+        "creator": "루트비히 폰 미제스",
+        "year": 1922,
+        "status": "FINISHED",
+        "source_url": "https://softwareengineeringdaily.com/wp-content/uploads/2018/04/SED566-Bitcoin-with-Roger-Ver.pdf",
+        "evidence": "소프트웨어엔지니어링데일리 팟캐스트에서 버는 중학교 여름 방학 때 집 책꽂이에서 미제스의 《사회주의》를 우연히 발견해 읽었다고 말한다.",
+        "review": "로저 버는 중학교 여름 방학 때 집 책꽂이에서 루트비히 폰 미제스의 《사회주의》를 우연히 발견해 읽었다. '반대편 주장도 들어봐야지' 하고 집어 들었다가 가격이 세계에 정보를 전달한다는 설명에 사로잡혔다고 회상한다.",
+        "review_en": "Roger Ver stumbled on Ludwig von Mises's Socialism on his parents' bookshelf one junior-high summer and read it. He picked it up to 'hear the other side' and came away gripped by how prices transmit information around the world."
+      },
+      {
+        "type": "BOOK",
+        "title": "자유의 구조",
+        "title_en": "The Machinery of Freedom",
+        "creator": "데이비드 D. 프리드먼",
+        "year": 1973,
+        "status": "FINISHED",
+        "source_url": "https://bitcoinmagazine.com/culture/interview-roger-ver-his-plans-start-new-libertarian-country",
+        "evidence": "비트코인 매거진 인터뷰는 버의 자유주의 국가 구상이 데이비드 프리드먼의 《자유의 구조》에서 영감을 받았다고 전한다.",
+        "review": "로저 버는 자유주의 국가 건설 구상의 영감이 데이비드 프리드먼의 《자유의 구조》에서 왔다고 비트코인 매거진 인터뷰에서 밝혔다. 사유재산과 자발적 협력으로 조직되는 사회를 다룬 책이다.",
+        "review_en": "Roger Ver told Bitcoin Magazine that his plan for a libertarian 'non-country' draws inspiration from David Friedman's The Machinery of Freedom, a book on a society organized by private property and voluntary cooperation."
+      }
+    ]
+  },
+  "제럴드 코튼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "루야 이그나토바": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "걸 온 파이어",
+        "title_en": "Girl on Fire",
+        "creator": "알리샤 키스",
+        "year": 2012,
+        "status": "FINISHED",
+        "source_url": "https://crimereads.com/ruja-ignatova-crypto-scam-artist-vanished/",
+        "evidence": "크라임리즈 기사는 2016년 웸블리 아레나 행사에서 이그나토바가 알리샤 키스의 《걸 온 파이어》가 울려 퍼지는 가운데 무대에 올랐고, 모든 세부가 치밀하게 계획됐다고 전한다.",
+        "review": "루야 이그나토바는 2016년 런던 웸블리 아레나 무대에 알리샤 키스의 《걸 온 파이어》가 울려 퍼지는 가운데 붉은 드레스 차림으로 등장했다. 초대장 문구까지 직접 계획한 그녀의 자기 연출이었다.",
+        "review_en": "Ruja Ignatova strode onto the stage at Wembley Arena in 2016 to Alicia Keys's Girl on Fire, part of an entrance she had choreographed down to the wording on the invitations."
+      }
+    ]
+  },
+  "헤더 모건": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "파이널 카운트다운",
+        "title_en": "The Final Countdown",
+        "creator": "유럽",
+        "year": 1986,
+        "status": "FINISHED",
+        "source_url": "https://nypost.com/2025/01/28/business/cyrpto-convict-heather-razzlekhan-morgan-dishes-on-rap-future/",
+        "evidence": "뉴욕포스트 기사는 모건의 결혼식에서 그녀가 유럽의 《파이널 카운트다운》이 울려 퍼지는 가운데 모로코식 가마에 실려 입장했다고 전한다.",
+        "review": "헤더 모건은 결혼식에서 유럽의 1986년 히트곡 《파이널 카운트다운》이 연주되는 가운데 모로코식 가마를 타고 입장했다. 본인의 대관식 같은 연출이었다.",
+        "review_en": "Heather Morgan was carried down the aisle on a Moroccan-style bridal throne to Europe's 1986 anthem The Final Countdown — her own staging for the occasion."
+      }
+    ]
+  },
+  "시드 마이어": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "엠파이어",
+        "title_en": "Empire",
+        "creator": "마크 볼드윈·밥 라코스키",
+        "year": 1987,
+        "status": "FINISHED",
+        "source_url": "https://arstechnica.com/gaming/2017/03/sid-meier-tells-civilizations-origin-story-cites-childrens-history-books/",
+        "evidence": "아스 테크니카 기사는 마이어와 셸리가 영국 PC 전쟁게임 《엠파이어》를 둘 다 좋아했고, 마이어가 셸리에게 '바꾸고 싶은 열 가지'를 물었던 일화를 전한다.",
+        "review": "시드 마이어는 브루스 셸리와 함께 영국 PC 전쟁게임 《엠파이어》를 즐겼고, 셸리에게 '이 게임에서 바꾸고 싶은 열 가지'를 물었다. 몇 달 뒤 마이어가 건넨 플로피 디스크가 《문명》의 첫 시제품이었다.",
+        "review_en": "Sid Meier and Bruce Shelley were both fond of the PC war game Empire; Meier asked Shelley for 'ten things he'd change' about it. Months later Meier dropped the disk containing the first playable Civilization on Shelley's desk."
+      },
+      {
+        "type": "GAME",
+        "title": "심시티",
+        "title_en": "SimCity",
+        "creator": "윌 라이트",
+        "year": 1989,
+        "status": "FINISHED",
+        "source_url": "https://arstechnica.com/gaming/2017/03/sid-meier-tells-civilizations-origin-story-cites-childrens-history-books/",
+        "evidence": "같은 기사에서 마이어는 《문명》 초기 버전이 《심시티》, 《레일로드 타이쿤》, 《엠파이어》의 요소를 뒤섞은 것이라고 설명한다.",
+        "review": "시드 마이어는 《문명》의 첫 버전이 《심시티》의 요소를 '뒤섞은' 결과라고 설명했다. 윌 라이트의 도시 시뮬레이션이 그가 가져다 쓴 재료 중 하나였다.",
+        "review_en": "Sid Meier explained that the earliest version of Civilization 'stirred together' elements that included SimCity. Will Wright's city simulator was one of the ingredients he drew on."
+      },
+      {
+        "type": "GAME",
+        "title": "시빌라이제이션(보드게임)",
+        "title_en": "Civilization",
+        "creator": "프랜시스 트레셤",
+        "year": 1980,
+        "status": "FINISHED",
+        "source_url": "https://arstechnica.com/gaming/2017/03/sid-meier-tells-civilizations-origin-story-cites-childrens-history-books/",
+        "evidence": "같은 기사는 초기 버전이 '시빌라이제이션이라는 이름의 영국 보드게임'의 요소도 섞었다고 전한다.",
+        "review": "시드 마이어는 《문명》 개발 시 프랜시스 트레셤의 영국 보드게임 《시빌라이제이션》의 요소도 함께 참고했다. 기원전 4000년의 마을 하나에서 시작한다는 발상이 거기서 왔다.",
+        "review_en": "Sid Meier's early Civilization also mixed in elements from Francis Tresham's British board game Civilization — the idea of starting with one village in 4,000 BC."
+      }
+    ]
+  },
+  "윌 라이트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "패턴 랭귀지",
+        "title_en": "A Pattern Language",
+        "creator": "크리스토퍼 알렉산더 외",
+        "year": 1977,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/business/the-replay-interviews-will-wright",
+        "evidence": "리플레이 인터뷰에서 라이트는 《심즈》의 원래 영감 중 하나가 크리스토퍼 알렉산더의 《패턴 랭귀지》였다고 말한다.",
+        "review": "윌 라이트는 인터뷰에서 《심즈》의 원래 영감 중 하나가 크리스토퍼 알렉산더의 《패턴 랭귀지》였다고 말했다. 256개의 패턴을 어떤 규모의 설계 문제에도 적용할 수 있는 '무작위 접근 규칙'으로 읽었다고 설명했다.",
+        "review_en": "Will Wright told The Replay Interviews that one of the original inspirations for The Sims was Christopher Alexander's A Pattern Language. He read its 256 patterns as random-access rules applicable to any design problem, from city to bench."
+      },
+      {
+        "type": "BOOK",
+        "title": "개미",
+        "title_en": "The Ants",
+        "creator": "버르트 회엘도블러·에드워드 O. 윌슨",
+        "year": 1990,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/business/the-replay-interviews-will-wright",
+        "evidence": "같은 인터뷰에서 라이트는 《심개미》가 E.O. 윌슨의 《개미》에 영향받았다고 말한다.",
+        "review": "윌 라이트는 같은 인터뷰에서 《심개미》가 E.O. 윌슨의 《개미》에 영향받았다고 말했다. 책 속 페로몬 흔적 모형을 게임 시스템으로 옮겼다.",
+        "review_en": "Will Wright said in the same interview that SimAnt was influenced by E.O. Wilson's The Ants; the book's pheromone-trail models were carried into the game's systems."
+      },
+      {
+        "type": "BOOK",
+        "title": "맵스 오브 더 마인드",
+        "title_en": "Maps of the Mind",
+        "creator": "찰스 햄프던-터너",
+        "year": 1981,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/technology/2008/sep/14/games",
+        "evidence": "가디언 기사는 라이트가 《심즈》 구상 중 《패턴 랭귀지》, 《인간 동기 이론》, 《맵스 오브 더 마인드》 같은 책을 폭넓게 읽었다고 전한다.",
+        "review": "윌 라이트는 집이 불타 없어진 뒤 《심즈》를 구상하며 인간 행동과 시스템 설계 책을 폭넓게 읽었고, 가디언에 따르면 그중 하나가 찰스 햄프던-터너의 《맵스 오브 더 마인드》였다. 플레이어 행복도의 원리를 여기서 얻었다.",
+        "review_en": "Will Wright read extensively on human behaviour after his house burned down, for what became The Sims — among the books was Charles Hampden-Turner's Maps of the Mind, which supplied guiding principles for scoring the Sims' happiness, the Guardian reported."
+      }
+    ]
+  },
+  "코지마 히데오": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "2001 스페이스 오디세이",
+        "title_en": "2001: A Space Odyssey",
+        "creator": "스탠리 큐브릭",
+        "year": 1968,
+        "status": "FINISHED",
+        "source_url": "https://gameinformer.com/b/features/archive/2014/03/03/hideo-kojima-talks-about-his-favorite-movies.aspx",
+        "evidence": "게임인포머 인터뷰에서 코지마는 '일생에서 가장 좋아하는 영화'로 《2001 스페이스 오디세이》를 꼽는다.",
+        "review": "코지마 히데오는 게임인포머 인터뷰에서 일생 최고의 영화로 《2001 스페이스 오디세이》를 꼽았다. 십 대에 본 영화들이 자신의 기호를 만들었다고 말했다.",
+        "review_en": "Hideo Kojima told Game Informer that his favorite movie of his lifetime is 2001: A Space Odyssey. He says the films he watched as a teenager shaped his taste."
+      },
+      {
+        "type": "VIDEO",
+        "title": "택시 드라이버",
+        "title_en": "Taxi Driver",
+        "creator": "마틴 스코세이지",
+        "year": 1976,
+        "status": "FINISHED",
+        "source_url": "https://gameinformer.com/b/features/archive/2014/03/03/hideo-kojima-talks-about-his-favorite-movies.aspx",
+        "evidence": "같은 인터뷰에서 코지마는 두 번째로 좋아하는 영화로 《택시 드라이버》를 꼽는다.",
+        "review": "코지마 히데오는 같은 인터뷰에서 《택시 드라이버》를 두 번째로 좋아하는 영화로 꼽았다.",
+        "review_en": "Hideo Kojima named Taxi Driver as his number-two film in the same Game Informer interview."
+      },
+      {
+        "type": "BOOK",
+        "title": "모래의 여자",
+        "title_en": "The Woman in the Dunes",
+        "creator": "아베 코보",
+        "year": 1962,
+        "status": "FINISHED",
+        "source_url": "https://automaton-media.com/en/news/hideo-kojima-and-junji-ito-reveal-which-books-and-manga-shaped-them-as-creators/",
+        "evidence": "아에라 대담 기사는 코지마가 중학생 때 아베 코보를 발견해 큰 영향을 받았고, 특히 《모래의 여자》에 깊은 인상을 받았다고 전한다.",
+        "review": "코지마 히데오는 중학생 때 아베 코보를 발견해 깊은 영향을 받았고, 특히 《모래의 여자》가 인상적이었다고 말했다. 시간·공간·환경을 비틀어 인간을 가두는 방식이 '신선한 충격'이었다고 회상했다.",
+        "review_en": "Hideo Kojima discovered Kobo Abe in junior high and was profoundly affected; The Woman in the Dunes in particular impressed him. Abe's way of twisting time, space and environment to trap something human was 'a fresh surprise,' he said."
+      },
+      {
+        "type": "BOOK",
+        "title": "하우스메이드",
+        "title_en": "The Housemaid",
+        "creator": "프리다 맥파든",
+        "year": 2022,
+        "status": "FINISHED",
+        "source_url": "https://www.vulture.com/article/culturati-50-2025-hideo-kojima-interview-questionnaire.html",
+        "evidence": "벌처 설문에서 코지마는 올해 놓을 수 없었던 책으로 맥파든의 《하우스메이드》를 꼽으며 '그냥 손이 안 멈춘다'고 평한다.",
+        "review": "코지마 히데오는 벌처 설문에서 올해 손에서 놓지 못한 책으로 프리다 맥파든의 《하우스메이드》를 꼽았다. '그냥 손이 안 멈추고, 마지막 반전이 모두를 잡는다'고 평했다.",
+        "review_en": "Hideo Kojima named Freida McFadden's The Housemaid among the books he couldn't put down in a Vulture questionnaire — 'simply gripping,' with a final twist that gets everyone."
+      }
+    ]
+  },
+  "랠프 베어": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "타잔",
+        "title_en": "Tarzan of the Apes",
+        "creator": "에드거 라이스 버로스",
+        "year": 1912,
+        "status": "FINISHED",
+        "source_url": "https://archive.computerhistory.org/resources/text/Oral_History/Baer_Ralph_1/Baer_Ralph_1and2.2006.102657972_final.pdf",
+        "evidence": "컴퓨터 역사 박물관 구술사에서 베어는 '대부분의 영어를 책으로 배웠다. 《타잔》을 읽었다'고 말한다.",
+        "review": "랠프 베어는 구술사 인터뷰에서 미국에 온 뒤 대부분의 영어를 책으로 배웠다며 《타잔》을 읽었다고 회상했다.",
+        "review_en": "Ralph Baer recalled in his Computer History Museum oral history that he learned most of his English by reading books — 'I read Tarzan.'"
+      },
+      {
+        "type": "GAME",
+        "title": "모노폴리",
+        "title_en": "Monopoly",
+        "creator": "엘리자베스 매기·찰스 대로",
+        "year": 1935,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/business/the-right-to-baer-games---an-interview-with-ralph-baer-the-father-of-video-games",
+        "evidence": "게임디벨로퍼 인터뷰에서 베어는 어린 시절 보드게임을 많이 했고 《모노폴리》 같은 것을 했다고 말한다.",
+        "review": "랠프 베어는 독일에서 자랄 때 보드게임을 많이 했고 《모노폴리》 같은 것을 즐겼다고 말했다. 다만 비디오게임 발명가답게 스스로는 '게임을 하는 사람이 아니다'라고 선을 그었다.",
+        "review_en": "Ralph Baer told Game Developer he played a lot of board games as a boy in Germany, 'things like Monopoly.' The video-game inventor still insisted, 'I'm not a game player.'"
+      }
+    ]
+  },
+  "알렉세이 파지트노프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "폴리오미노",
+        "title_en": "Polyominoes",
+        "creator": "솔로몬 W. 골롬",
+        "year": 1965,
+        "status": "FINISHED",
+        "source_url": "https://www.seattletimes.com/business/tetris-architect-opens-up-about-failed-projects-some-at-microsoft/",
+        "evidence": "시애틀 타임스 기사는 골롬의 《폴리오미노》를 파지트노프가 '사랑한 수학책'이라 전하며 소련 컴퓨팅 시절 내내 곁에 뒀다고 쓴다.",
+        "review": "알렉세이 파지트노프는 솔로몬 골롬의 《폴리오미노》를 애착한 수학책으로 두고 소련 컴퓨팅 시절 내내 곁에 뒀다. 책과 함께 온 나무 블록 퍼즐이 훗날 테트리스의 씨앗이 됐다.",
+        "review_en": "Alexey Pajitnov kept Solomon Golomb's Polyominoes as a beloved math book throughout his Soviet computing career. The book and its wooden-block puzzle became the seed of Tetris."
+      },
+      {
+        "type": "GAME",
+        "title": "펜토미노",
+        "title_en": "Pentominoes",
+        "creator": "솔로몬 골롬(체계화)",
+        "year": 1953,
+        "status": "FINISHED",
+        "source_url": "https://time.com/2837390/tetris-at-30-pajitnov-interview/",
+        "evidence": "타임 인터뷰에서 파지트노프는 펜토미노가 '내가 가장 좋아하는 퍼즐 게임'이었다고 말한다.",
+        "review": "알렉세이 파지트노프는 타임 인터뷰에서 펜토미노가 자신이 가장 좋아하는 퍼즐 게임이었다고 말했다. 그 퍼즐을 컴퓨터 화면으로 옮기는 작업이 테트리스로 이어졌다.",
+        "review_en": "Alexey Pajitnov told Time that Pentominoes 'was a favorite puzzle game of mine.' Translating it to a computer screen is what became Tetris."
+      },
+      {
+        "type": "GAME",
+        "title": "로드 러너",
+        "title_en": "Lode Runner",
+        "creator": "더글러스 E. 스미스",
+        "year": 1983,
+        "status": "FINISHED",
+        "source_url": "https://www.vice.com/en/article/the-man-who-made-tetris/",
+        "evidence": "바이스 기사는 파지트노프의 '고전 퍼즐 게임 로드 러너에 대한 오랜 애착'을 언급한다.",
+        "review": "알렉세이 파지트노프는 고전 퍼즐 게임 《로드 러너》를 오랫동안 애착해 왔다고 바이스 기사가 전한다.",
+        "review_en": "Alexey Pajitnov has a longstanding love for the classic puzzler Lode Runner, Vice reported."
+      },
+      {
+        "type": "GAME",
+        "title": "월드 오브 워크래프트",
+        "title_en": "World of Warcraft",
+        "creator": "블리자드 엔터테인먼트",
+        "year": 2004,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/business/alexey-pajitnov---i-tetris-i-past-present-future",
+        "evidence": "게임디벨로퍼 인터뷰에서 파지트노프는 '지금 월드 오브 워크래프트를 하고 있고 즐기고 있다'고 말한다.",
+        "review": "알렉세이 파지트노프는 게임디벨로퍼 인터뷰에서 《월드 오브 워크래프트》를 플레이하며 즐기고 있다고 말했다. 액션보다 퍼즐·캐주얼이 취향이라고 덧붙였다.",
+        "review_en": "Alexey Pajitnov told Game Developer, 'I'm playing World of Warcraft and enjoy it' — adding that puzzles and casual games remain his favorite genre."
+      }
+    ]
+  },
+  "리처드 개리엇": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "반지의 제왕",
+        "title_en": "The Lord of the Rings",
+        "creator": "J. R. R. 톨킨",
+        "year": 1954,
+        "status": "FINISHED",
+        "source_url": "https://gamesbeat.com/ultima-creator-richard-garriott-looks-back-on-nearly-four-decades-making-video-games/",
+        "evidence": "게임스빗 인터뷰에서 개리엇은 《호빗》과 《반지의 제왕》, 《실마릴리온》을 읽고 톨킨의 미완성 작품까지 찾아 읽었다고 말한다.",
+        "review": "리처드 개리엇은 고등학교 때 형수에게 《반지의 제왕》을 선물받아 읽었고, 이후 《호빗》과 《실마릴리온》, 톨킨의 미완성 원고까지 찾아 읽었다. 그는 스스로를 '톨킨 스타일의 게임 디자이너'라 부른다.",
+        "review_en": "Richard Garriott received The Lord of the Rings from his sister-in-law in high school, then read The Hobbit, The Silmarillion, and even Tolkien's unfinished works. He calls himself 'a Tolkien-style game designer.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "나니아 연대기",
+        "title_en": "The Chronicles of Narnia",
+        "creator": "C. S. 루이스",
+        "year": 1956,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/design/interview-richard-garriott-is-from-mars",
+        "evidence": "게임디벨로퍼 인터뷰에서 개리엇은 '비독서가'를 자처하면서도 《반지의 제왕》과 《나니아 연대기》는 여러 번 읽었다고 말한다.",
+        "review": "리처드 개리엇은 스스로 '독서를 안 하는 사람'이라 부르면서도 《반지의 제왕》과 《나니아 연대기》는 여러 번 읽었다고 말했다. 그 외에 읽은 판타지·SF는 다섯 권이 안 된다고 덧붙였다.",
+        "review_en": "Richard Garriott calls himself a non-reader, yet he has read The Lord of the Rings and The Chronicles of Narnia multiple times. Every other fantasy or sci-fi book he's ever finished numbers fewer than five, he says."
+      },
+      {
+        "type": "BOOK",
+        "title": "칼레발라",
+        "title_en": "Kalevala",
+        "creator": "엘리아스 뢴로트",
+        "year": 1849,
+        "status": "FINISHED",
+        "source_url": "https://gamesbeat.com/ultima-creator-richard-garriott-looks-back-on-nearly-four-decades-making-video-games/",
+        "evidence": "같은 게임스빗 인터뷰에서 개리엇은 톨킨에 영감을 준 핀란드 구전 서사시 《칼레발라》의 영역본을 읽었다고 말한다.",
+        "review": "리처드 개리엇은 톨킨의 미완성 이야기에 영감을 준 핀란드 구전 서사시 《칼레발라》의 영역본까지 찾아 읽었다. 세계관의 뿌리까지 파고드는 연구형 독서였다.",
+        "review_en": "Richard Garriott went on to read English translations of the Kalevala, the Finnish oral epic that inspired much of Tolkien's unfinished work — research-grade reading down to the roots of the worldbuilding."
+      },
+      {
+        "type": "GAME",
+        "title": "던전 앤 드래건스",
+        "title_en": "Dungeons & Dragons",
+        "creator": "게리 가이객스·데이브 아네슨",
+        "year": 1974,
+        "status": "FINISHED",
+        "source_url": "https://www.businessinsider.com/richard-garriott-interview-2011-10",
+        "evidence": "비즈니스 인사이더 Q&A에서 개리엇은 D&D가 막 출간됐을 때 자신의 친구 그룹이 '최초의 열성 추종자'가 됐다고 말한다.",
+        "review": "리처드 개리엇은 《던전 앤 드래건스》가 처음 출간되던 해 친구들과 최초의 열성 플레이어가 됐다. 그는 학교 텔레타이프로 28개의 D&D풍 베이직 게임을 써냈고, 그 끝이 《아카라베스》였다.",
+        "review_en": "Richard Garriott and his friends became some of the first hardcore Dungeons & Dragons players the year it was published. He wrote 28 D&D-style BASIC games on his school's teletype — the last became Akalabeth."
+      }
+    ]
+  },
+  "마르쿠스 페르손": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "드워프 포트리스",
+        "title_en": "Dwarf Fortress",
+        "creator": "탄 애덤스·잭 애덤스",
+        "year": 2006,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/game-platforms/interview-markus-notch-persson-talks-making-i-minecraft-i-",
+        "evidence": "게임디벨로퍼 인터뷰에서 페르손은 드워프 포트리스를 '최고의 게임 중 하나'라 부르며 마인크래프트의 큰 영감이라고 말한다.",
+        "review": "마르쿠스 페르손은 《드워프 포트리스》를 '최고의 게임 중 하나'로 꼽으며, 이 게임과 로그라이크가 마인크래프트의 가장 큰 게임플레이 영감이라고 말했다. '갑자기 완전히 실패해도 내 잘못임을 아는' 방식을 사랑했다.",
+        "review_en": "Markus Persson called Dwarf Fortress 'one of the best games out there,' naming it and roguelikes among Minecraft's biggest gameplay inspirations. He loved how you can 'suddenly fail totally and know it's your own fault.'"
+      },
+      {
+        "type": "GAME",
+        "title": "인피니마이너",
+        "title_en": "Infiniminer",
+        "creator": "잭 바스(자크트로닉스)",
+        "year": 2009,
+        "status": "FINISHED",
+        "source_url": "https://www.pcgamer.com/the-making-of-minecraft/2/",
+        "evidence": "PC 게이머 제작기에서 페르손은 인피니마이너를 보고 블록 스타일이 딱 맞다고 느껴 마인크래프트가 그 게임과 같아졌다고 말한다.",
+        "review": "마르쿠스 페르손은 《인피니마이너》를 보는 순간 그 저해상도 블록 스타일이 자신이 만들려던 게임에 꼭 맞다고 깨달았고, 마인크래프트는 '그냥 그 게임과 같아져 버렸다'고 회상했다.",
+        "review_en": "Markus Persson saw Infiniminer and realized its low-res block style was a perfect fit for what he wanted to make — Minecraft 'basically turned into the same game,' he told PC Gamer."
+      },
+      {
+        "type": "GAME",
+        "title": "던전 키퍼",
+        "title_en": "Dungeon Keeper",
+        "creator": "불프로그(피터 몰리뉴)",
+        "year": 1997,
+        "status": "FINISHED",
+        "source_url": "https://www.pcgamer.com/the-making-of-minecraft/2/",
+        "evidence": "같은 PC 게이머 기사에서 페르손은 '던전 키퍼의 열렬한 팬'이라고 말한다.",
+        "review": "마르쿠스 페르손은 《던전 키퍼》의 열렬한 팬이라고 말했다. 마인크래프트 초기의 1인칭 시점도 이 게임의 '빙의 주문'에서 따온 구상이었다.",
+        "review_en": "Markus Persson called himself 'a big fan of Dungeon Keeper.' Minecraft's early first-person mode was even conceived as a version of its 'possess spell.'"
+      },
+      {
+        "type": "GAME",
+        "title": "원숭이 섬의 비밀",
+        "title_en": "The Secret of Monkey Island",
+        "creator": "론 길버트(루카스필름)",
+        "year": 1990,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/game-platforms/interview-markus-notch-persson-talks-making-i-minecraft-i-",
+        "evidence": "같은 게임디벨로퍼 인터뷰에서 페르손은 둠, 하프라이프, 던전 마스터 2와 함께 《몽키 아일랜드》를 최고 게임 4개로 꼽는다.",
+        "review": "마르쿠스 페르손은 '최고의 게임 네 개'를 묻자 둠, 하프라이프, 던전 마스터 2와 함께 《원숭이 섬의 비밀》을 꼽았다.",
+        "review_en": "Markus Persson named Monkey Island alongside Doom, Half-Life and Dungeon Master 2 as probably his top four games, when asked."
+      },
+      {
+        "type": "GAME",
+        "title": "하프라이프",
+        "title_en": "Half-Life",
+        "creator": "밸브",
+        "year": 1998,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/game-platforms/interview-markus-notch-persson-talks-making-i-minecraft-i-",
+        "evidence": "같은 인터뷰에서 페르손은 《하프라이프》를 최고 게임 4개 중 하나로 꼽는다.",
+        "review": "마르쿠스 페르손은 《하프라이프》를 자신의 최고 게임 네 개 중 하나로 꼽았다. 유튜브 인터뷰에서도 '사랑한다'고 말했다.",
+        "review_en": "Markus Persson named Half-Life among his top four games; in a separate video interview he simply said 'love it.'"
+      },
+      {
+        "type": "GAME",
+        "title": "둠",
+        "title_en": "Doom",
+        "creator": "이드 소프트웨어",
+        "year": 1993,
+        "status": "FINISHED",
+        "source_url": "https://www.gamedeveloper.com/game-platforms/interview-markus-notch-persson-talks-making-i-minecraft-i-",
+        "evidence": "같은 인터뷰에서 페르손은 《둠》을 최고 게임 4개 중 하나로 꼽는다.",
+        "review": "마르쿠스 페르손은 《둠》을 자신의 최고 게임 네 개 중 하나로 꼽았다.",
+        "review_en": "Markus Persson named Doom among his probable top four games."
+      }
+    ]
+  },
+  "에릭 바론": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "목장이야기",
+        "title_en": "Harvest Moon",
+        "creator": "와다 야스히로(팩 인 비디오)",
+        "year": 1996,
+        "status": "FINISHED",
+        "source_url": "https://www.pcgamer.com/stardew-valley-interview/",
+        "evidence": "PC 게이머 인터뷰에서 바론은 '목장이야기를 무수히 많이 플레이하며 자란 열렬한 팬'이라고 말하고, 그 클론이 스타듀 밸리의 시작이었다고 밝힌다.",
+        "review": "에릭 바론은 어린 시절 《목장이야기》를 무수히 플레이한 열렬한 팬이었다. PC용 목장이야기 클론을 찾아 헤매다 못 찾자 직접 만들기 시작했고, 그것이 스타듀 밸리가 됐다.",
+        "review_en": "Eric Barone grew up 'a huge Harvest Moon fan,' logging countless hours. When he couldn't find a satisfying PC clone, he started making one himself — it became Stardew Valley."
+      },
+      {
+        "type": "GAME",
+        "title": "젤다의 전설 꿈꾸는 섬",
+        "title_en": "The Legend of Zelda: Link's Awakening",
+        "creator": "닌텐도",
+        "year": 1993,
+        "status": "FINISHED",
+        "source_url": "https://www.nintendolife.com/features/i-donrt-want-to-see-it-fizzle-outr-stardew-valley-creator-on-why-he-cant-give-it-up",
+        "evidence": "닌텐도 라이프 인터뷰에서 바론은 처음 플레이한 젤다가 게임보이 《꿈꾸는 섬》이며 '정말 사랑했다'고 말한다.",
+        "review": "에릭 바론은 처음 플레이한 젤다가 게임보이용 《꿈꾸는 섬》이었고 정말 사랑했다고 닌텐도 라이프 인터뷰에서 말했다.",
+        "review_en": "Eric Barone told Nintendo Life that the first Zelda he played was Link's Awakening on Game Boy — 'and I really loved that game.'"
+      },
+      {
+        "type": "GAME",
+        "title": "젤다의 전설 시간의 오카리나",
+        "title_en": "The Legend of Zelda: Ocarina of Time",
+        "creator": "닌텐도",
+        "year": 1998,
+        "status": "FINISHED",
+        "source_url": "https://www.nintendolife.com/features/i-donrt-want-to-see-it-fizzle-outr-stardew-valley-creator-on-why-he-cant-give-it-up",
+        "evidence": "같은 인터뷰에서 바론은 《시간의 오카리나》가 '아주 특별하고 향수를 불러일으키는' 게임이라고 말한다.",
+        "review": "에릭 바론은 같은 인터뷰에서 《시간의 오카리나》가 자신에게 아주 특별하고 향수를 불러일으키는 게임이라고 말했다. 스스로를 '오카리나파'라 불렀다.",
+        "review_en": "Eric Barone called Ocarina of Time 'very special and nostalgic' to him in the same interview — 'I'm kind of an Ocarina guy.'"
+      },
+      {
+        "type": "GAME",
+        "title": "크로노 트리거",
+        "title_en": "Chrono Trigger",
+        "creator": "스퀘어",
+        "year": 1995,
+        "status": "FINISHED",
+        "source_url": "https://www.nintendolife.com/features/i-donrt-want-to-see-it-fizzle-outr-stardew-valley-creator-on-why-he-cant-give-it-up",
+        "evidence": "같은 인터뷰에서 바론은 파이널 판타지, 어스바운드와 함께 《크로노 트리거》를 많이 플레이한 RPG로 꼽는다.",
+        "review": "에릭 바론은 어린 시절 파이널 판타지, 어스바운드와 함께 《크로노 트리거》를 많이 플레이했다고 말했다.",
+        "review_en": "Eric Barone listed Chrono Trigger among the RPGs he played a lot growing up, alongside Final Fantasy and EarthBound."
+      }
+    ]
+  },
+  "크리스 소여": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "화이트 너클 라이드",
+        "title_en": "White Knuckle Ride",
+        "creator": "마크 와이엇",
+        "year": 1996,
+        "status": "FINISHED",
+        "source_url": "https://www.chrissawyer.com/feature2.htm",
+        "evidence": "소여 본인 사이트의 '롤러코스터 책 톱 20'에서 그는 이 책을 '롤러코스터 게임을 생각하기도 전인 1996년에 산 첫 롤러코스터 책'이라 소개한다.",
+        "review": "크리스 소여는 자신의 사이트에 꾸민 '롤러코스터 책 톱 20'에서 《화이트 너클 라이드》를 처음 산 롤러코스터 책으로 꼽았다. 44~45쪽의 사진이 '머릿속에 새겨져 있다'며 그 이미지가 롤러코스터 타이쿤의 목업이 됐다고 썼다.",
+        "review_en": "Chris Sawyer calls White Knuckle Ride the first coaster book he bought, back in 1996, on his own site's 'top 20 roller coaster books.' Pages 44-45 are 'engraved on my mind,' he wrote — the images he wanted to recreate in RollerCoaster Tycoon."
+      }
+    ]
+  },
+  "제리 로슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "퐁",
+        "title_en": "Pong",
+        "creator": "아타리",
+        "year": 1972,
+        "status": "FINISHED",
+        "source_url": "https://www.wired.com/story/jerry-lawson-unsung-hero-gaming-history-podcast/",
+        "evidence": "와이어드 기사는 로슨이 1972년 오락실 앞을 지나다 《퐁》을 보고 순간 매료됐고, 곧 마이크로프로세서 게임 구상을 떠올렸다고 전한다.",
+        "review": "제리 로슨은 1972년 오락실 앞을 지나다 《퐁》을 보고 순간 매료됐다. 그 만남이 '비디오 게임에 마이크로프로세서를 넣을 수 있겠다'는 구상과 자작 게임기 데몰리션 더비로 이어졌다.",
+        "review_en": "Jerry Lawson passed an arcade in 1972 and was instantly mesmerized by Pong. The encounter led directly to his idea of putting a microprocessor in a video game and his own cabinet, Demolition Derby."
+      }
+    ]
+  },
+  "로베르타 윌리엄스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "콜로설 케이브 어드벤처",
+        "title_en": "Colossal Cave Adventure",
+        "creator": "윌리엄 크라우더·돈 우즈",
+        "year": 1976,
+        "status": "FINISHED",
+        "source_url": "https://blog.playstation.com/2023/01/19/qa-with-roberta-ken-williams-developers-of-reimagined-colossal-cave-out-today/",
+        "evidence": "플레이스테이션 블로그 인터뷰에서 윌리엄스는 '플레이했고 사랑했으며, 끝까지 갈 때까지 멈추지 않았다'고 말한다.",
+        "review": "로베르타 윌리엄스는 《콜로설 케이브 어드벤처》를 플레이해 사랑에 빠졌고 끝까지 클리어할 때까지 멈추지 않았다. 같은 게임이 더 없음을 깨닫고 직접 《미스터리 하우스》를 설계했다.",
+        "review_en": "Roberta Williams played Colossal Cave Adventure, loved it, and didn't stop until she made it all the way through. Finding nothing else like it, she sat down and designed Mystery House."
+      },
+      {
+        "type": "BOOK",
+        "title": "그리고 아무도 없었다",
+        "title_en": "And Then There Were None",
+        "creator": "애거사 크리스티",
+        "year": 1939,
+        "status": "FINISHED",
+        "source_url": "https://files.eric.ed.gov/fulltext/EJ1166784.pdf",
+        "evidence": "《미스터리 하우스》의 기원을 다룬 학술 논문은 윌리엄스가 설정과 이야기의 주요 영감을 크리스티의 《그리고 아무도 없었다》에서 얻었다고 적는다.",
+        "review": "로베르타 윌리엄스는 첫 게임 《미스터리 하우스》의 살인 미스터리 구상을 애거사 크리스티의 《그리고 아무도 없었다》에서 얻었다. 당대 기록들도 이 소설과 보드게임 클루를 영감으로 꼽는다.",
+        "review_en": "Roberta Williams drew the murder-mystery premise of her first game, Mystery House, from Agatha Christie's And Then There Were None. Period sources cite the novel and the board game Clue as her inspirations."
+      },
+      {
+        "type": "GAME",
+        "title": "클루",
+        "title_en": "Clue (Cluedo)",
+        "creator": "앤서니 E. 프랫",
+        "year": 1949,
+        "status": "FINISHED",
+        "source_url": "https://files.eric.ed.gov/fulltext/EJ1166784.pdf",
+        "evidence": "같은 논문은 윌리엄스가 보드게임 클루에서도 영감을 받아 선형 구조에서 벗어났다고 적는다.",
+        "review": "로베르타 윌리엄스는 《미스터리 하우스》를 설계할 때 보드게임 《클루》에서도 영감을 받았다. 그 덕에 게임이 선형 구조에서 벗어날 수 있었다고 논문은 설명한다.",
+        "review_en": "Roberta Williams also took inspiration from the board game Clue in designing Mystery House — it helped her break out of a linear structure, the journal article explains."
+      }
+    ]
+  },
+  "앤디 루빈": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "블레이드 러너",
+        "title_en": "Blade Runner",
+        "creator": "리들리 스콧",
+        "year": 1982,
+        "status": "FINISHED",
+        "source_url": "https://www.gq-magazine.co.uk/politics/article/andy-rubin-google",
+        "evidence": "GQ 기사는 루빈이 구글 로봇 부문의 이름을 《블레이드 러너》의 살인 안드로이드 '리플리컨트'에서 따 지었다고 전한다.",
+        "review": "앤디 루빈은 구글의 로봇 부문 이름을 《블레이드 러너》의 복제 인간 '리플리컨트'에서 따 지었다. SF 영화 팬답게 농담으로 자기 사업에 그 이름을 새겼다.",
+        "review_en": "Andy Rubin jokingly named his Google robotics division 'Replicant' — after the killer androids in Blade Runner, a sci-fi fan's signature on his own project."
+      },
+      {
+        "type": "VIDEO",
+        "title": "로스트 인 스페이스",
+        "title_en": "Lost in Space",
+        "creator": "어윈 앨런",
+        "year": 1965,
+        "status": "FINISHED",
+        "source_url": "https://www.wired.com/2016/02/android-inventor-andy-rubin-playground-artificial-intelligence/",
+        "evidence": "와이어드 기사는 루빈이 회사 '데인저'의 이름을 《로스트 인 스페이스》의 로봇 대사에서 따왔다고 전한다.",
+        "review": "앤디 루빈은 안드로이드 전에 만든 회사 '데인저'의 이름을 《로스트 인 스페이스》의 로봇에서 따왔다. 로봇에 매혹된 그의 첫 두 회사 이름이 모두 로봇에서 나왔다.",
+        "review_en": "Andy Rubin named his pre-Android company Danger in reference to the robot from Lost in Space — his first two companies were both named after robots."
+      }
+    ]
+  },
+  "짐 클라크": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "냇 터너의 고백",
+        "title_en": "The Confessions of Nat Turner",
+        "creator": "윌리엄 스타이런",
+        "year": 1967,
+        "status": "FINISHED",
+        "source_url": "https://www.royalhuisman.com/en/living-the-life-with-jim-clark/",
+        "evidence": "로열 하위스만 인터뷰에서 클라크는 소설을 거의 읽지 않지만 《냇 터너의 고백》을 일부러 읽었고 '놀랄 만큼 잘 쓰였다'고 평한다.",
+        "review": "짐 클라크는 소설을 거의 읽지 않는 사람이지만, 저녁 자리에서 스타이런을 모른 채 있다가 일부러 《냇 터너의 고백》을 읽었다. '놀랄 만큼 잘 쓰였다'고 느껴 다른 스타이런 책들도 이어 읽었다.",
+        "review_en": "Jim Clark rarely reads fiction, but after sitting mute through a dinner conversation about William Styron he made a point of reading The Confessions of Nat Turner. He found it 'stunningly well done' and went on to other Styron books."
+      }
+    ]
+  },
+  "브라이언 존슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "죽음의 수용소에서",
+        "title_en": "Man's Search for Meaning",
+        "creator": "빅터 프랑클",
+        "year": 1946,
+        "status": "FINISHED",
+        "source_url": "https://tim.blog/2015/06/12/bryan-johnson/",
+        "evidence": "팀 페리스 쇼 #81 회차의 언급 도서 목록에 프랑클의 《죽음의 수용소에서》가 실려 있다.",
+        "review": "브라이언 존슨은 팀 페리스 쇼에 출연해 빅터 프랑클의 《죽음의 수용소에서》를 언급했다. 자서전과 실용 철학을 탐독하는 그의 독서 목록에 올라 있다.",
+        "review_en": "Bryan Johnson discussed Viktor Frankl's Man's Search for Meaning on the Tim Ferriss Show, part of a reading list heavy on biography and practical philosophy."
+      },
+      {
+        "type": "BOOK",
+        "title": "싯다르타",
+        "title_en": "Siddhartha",
+        "creator": "헤르만 헤세",
+        "year": 1922,
+        "status": "FINISHED",
+        "source_url": "https://tim.blog/2015/06/12/bryan-johnson/",
+        "evidence": "같은 회차의 언급 도서 목록에 헤세의 《싯다르타》가 실려 있다.",
+        "review": "브라이언 존슨은 같은 팀 페리스 쇼 회차에서 헤르만 헤세의 《싯다르타》를 언급했다.",
+        "review_en": "Bryan Johnson discussed Hermann Hesse's Siddhartha in the same Tim Ferriss Show episode."
+      },
+      {
+        "type": "BOOK",
+        "title": "어 굿 맨",
+        "title_en": "A Good Man",
+        "creator": "마크 슈라이버",
+        "year": 2012,
+        "status": "FINISHED",
+        "source_url": "https://www.huffpost.com/entry/a-conversation-with-bryan_b_8045068",
+        "evidence": "허프포스트 인터뷰에서 존슨은 마크 슈라이버의 《어 굿 맨》을 읽었고, 세상에 헌신한 아버지의 모범이 된 책이라고 말한다.",
+        "review": "브라이언 존슨은 허프포스트 인터뷰에서 마크 슈라이버가 아버지 사전트 슈라이버에 대해 쓴 《어 굿 맨》을 읽었다고 말했다. '세상과 가족에 헌신한 진정한 선한 사람'의 모범이라고 평했다.",
+        "review_en": "Bryan Johnson told HuffPost he read Mark Shriver's A Good Man, about Sargent Shriver. He called it a model of a man truly devoted to the world, his family and those around him."
+      }
+    ]
+  },
+  "케빈 워릭": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "터미널 맨",
+        "creator": "마이클 크라이튼",
+        "status": "FINISHED",
+        "source_url": "https://futurespodcast.net/episodes/01-kevinwarwick",
+        "note": "팟캐스트 인터뷰에서 직접 \"brilliant\"라며 사이보그 연구의 영감이라고 발언"
+      },
+      {
+        "type": "BOOK",
+        "title": "우주 전쟁",
+        "creator": "H. G. 웰스",
+        "status": "FINISHED",
+        "source_url": "https://futurespodcast.net/episodes/01-kevinwarwick",
+        "note": "어린 시절 즐겼다고 발언, 결말 아쉬움 표현"
+      }
+    ]
+  },
+  "오브리 드 그레이": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "은하수를 여행하는 히치하이커를 위한 안내서",
+        "title_en": "The Hitchhiker's Guide to the Galaxy",
+        "creator": "더글러스 애덤스",
+        "year": 1979,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/aubrey-de-grey-interview/",
+        "evidence": "더 리딩 리스트 인터뷰에서 십 대 시절 이 소설의 '대단한 팬'이었다고 밝히고, 영화·TV판만 접한 사람은 작품을 모른다며 5부작 소설과 라디오 원작을 권했다.",
+        "review": "오브리 드 그레이는 십 대 시절 더글러스 애덤스의 이 소설의 대단한 팬이었다고 밝혔다. 그는 영화나 TV 시리즈만 접한 사람은 이 작품을 모르는 것이라며, 5부작 '3부작'을 읽고 라디오 원작까지 들어 보라고 권했다.",
+        "review_en": "Aubrey de Grey says he was a massive fan of Douglas Adams's novel as a teenager. He insists that anyone who has only seen the movie or TV series knows nothing about it, and recommends reading the five-part 'trilogy' and listening to the original radio series."
+      },
+      {
+        "type": "BOOK",
+        "title": "1066 그리고 그 모든 것",
+        "title_en": "1066 and All That",
+        "creator": "W. C. 셀러·R. J. 옛먼",
+        "year": 1930,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/aubrey-de-grey-interview/",
+        "evidence": "같은 인터뷰에서 외계인에게 인류를 보여줄 책을 묻자 '다른 풍자 작품들'의 사례로 이 책을 '또 하나의 정말 훌륭한 사례'라고 꼽았다.",
+        "review": "오브리 드 그레이는 외계인에게 인류를 보여 줄 책 세 권을 묻는 질문에 풍자물 사례로 이 책을 들었다. 인간이 스스로를 생각만큼 심각하게 여기지 않는다는 것을 보여 주는 '정말 훌륭한 사례'라고 설명했다.",
+        "review_en": "Aubrey de Grey named this satirical history when asked which three books he would gift aliens to showcase humanity. It would show, he explained, that humans do not all take themselves as seriously as they may seem."
+      },
+      {
+        "type": "BOOK",
+        "title": "해리 포터와 죽음의 성물",
+        "title_en": "Harry Potter and the Deathly Hallows",
+        "creator": "J. K. 롤링",
+        "year": 2007,
+        "status": "WANT",
+        "source_url": "https://www.thereadinglists.com/aubrey-de-grey-interview/",
+        "evidence": "가장 최근에 구입한 책을 묻자 이 책을 꼽으며 '다른 권들이 좋아서' 샀다고 답했다.",
+        "review": "오브리 드 그레이는 마지막으로 산 책으로 이 책을 꼽았다. 이전 권들이 좋아서 샀다는 것이 그가 밝힌 이유의 전부다.",
+        "review_en": "Aubrey de Grey said the last book he purchased was this one, for the simple reason that he had liked the others in the series."
+      },
+      {
+        "type": "BOOK",
+        "title": "마법의 색",
+        "title_en": "The Colour of Magic",
+        "creator": "테리 프래쳇",
+        "year": 1983,
+        "status": "WANT",
+        "source_url": "https://www.thereadinglists.com/aubrey-de-grey-interview/",
+        "evidence": "디스크월드 시리즈를 열 권쯤 나온 뒤에야 발견했고, 첫 권 몇 쪽을 읽은 뒤 빠져들지 않으려 시간이 날 때까지 미뤘는데 '지금도 기다리는 중'이라고 말했다.",
+        "review": "오브리 드 그레이는 프래쳇의 디스크월드 시리즈를 열 권쯤 나온 뒤에야 발견했다고 밝혔다. 첫 권인 이 책을 몇 쪽 읽고는 빠져들기엔 아직 이르다 판단해 여유가 생길 때까지 미뤘고, 그는 아직도 그때를 기다리고 있다.",
+        "review_en": "Aubrey de Grey discovered the Discworld series only after about ten volumes were out. He read a few pages of this first book, decided to wait until he had time so as not to get hooked, and says he is still waiting."
+      },
+      {
+        "type": "BOOK",
+        "title": "파인먼 씨, 농담이죠!",
+        "title_en": "Surely You're Joking, Mr. Feynman!",
+        "creator": "리처드 파인먼",
+        "year": 1985,
+        "status": "FINISHED",
+        "source_url": "https://library.madebyanonymous.com/aubrey-de-grey",
+        "evidence": "추천할 세 권을 묻는 질문에 '리처드 파인먼의 자서전들'을 꼽으며 아주 특출하면서도 겸손할 수 있음을 보여 준 사람이라고 평했다.",
+        "review": "오브리 드 그레이는 추천할 세 권을 묻는 질문에 파인먼의 자서전을 들었다. 아주 특출한 사람이면서 스스로 그것을 알면서도 하찮은 사람들이 공감할 수 있는 태도를 보여 줬다는 것이 그가 꼽은 이유다.",
+        "review_en": "Aubrey de Grey chose Richard Feynman's autobiographies when asked to recommend three books. Feynman showed, he said, how one can be truly exceptional, know it, and still be someone lesser mortals can identify with."
+      },
+      {
+        "type": "VIDEO",
+        "title": "맨 프롬 어스",
+        "title_en": "The Man from Earth",
+        "creator": "리처드 셴크먼",
+        "year": 2007,
+        "status": "FINISHED",
+        "source_url": "https://www.thefuturistsociety.net/the-future-of-our-lifespan-a-conversation-with-aubrey-de-grey/",
+        "evidence": "노화가 없는 세계를 그린 SF 영화의 왜곡을 논하며 이 영화를 '환상적인 영화'이자 노화 없음을 긍정적으로 묘사한 작품으로 들었다.",
+        "review": "오브리 드 그레이는 노화 후 세계를 그린 SF 영화 대부분이 왜곡됐다고 보면서도 이 영화만은 '환상적인 영화'라고 불렀다. 노화하지 않음을 긍정적으로 묘사하는 드문 작품이라고 소개했다.",
+        "review_en": "Aubrey de Grey called this film fantastic even while lamenting that most movie portrayals of a post-aging world are distorted. He praised it as a rare film that depicts the absence of aging in a positive way."
+      }
+    ]
+  },
+  "리모어 프리드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "스티브 잡스",
+        "title_en": "Steve Jobs",
+        "creator": "월터 아이작슨",
+        "year": 2011,
+        "status": "FINISHED",
+        "source_url": "https://www.theverge.com/2011/11/23/2583441/5-minutes-on-the-verge-limor-fried",
+        "evidence": "2011년 더 버지 인터뷰에서 가장 최근에 읽은 책을 묻자 '많은 사람처럼 나도 방금 스티브 잡스 전기를 다 읽었다'고 답했다.",
+        "review": "리모어 프리드는 2011년 인터뷰에서 가장 최근에 읽은 책으로 이 전기를 들었다. '많은 사람들처럼' 막 읽어 끝낸 책이라고 말했다.",
+        "review_en": "Limor Fried told The Verge in 2011 that, like many people, she had just finished the Steve Jobs biography."
+      },
+      {
+        "type": "BOOK",
+        "title": "혁신 기업의 딜레마",
+        "title_en": "The Innovator's Dilemma",
+        "creator": "클레이턴 크리스텐슨",
+        "year": 1997,
+        "status": "FINISHED",
+        "source_url": "https://www.theverge.com/2011/11/23/2583441/5-minutes-on-the-verge-limor-fried",
+        "evidence": "같은 인터뷰에서 '지금 막 클레이턴 크리스텐슨의 이 책을 읽기 시작했다'고 밝혔다.",
+        "review": "리모어 프리드는 같은 인터뷰에서 지금 읽고 있는 책으로 이 책을 꼽았다. '드디어 읽게 됐다'는 표현으로 오래 미뤄 둔 독서였음을 드러냈다.",
+        "review_en": "Limor Fried said in the same interview that she was finally getting around to reading Clayton Christensen's book."
+      },
+      {
+        "type": "BOOK",
+        "title": "1Q84",
+        "title_en": "1Q84",
+        "creator": "무라카미 하루키",
+        "year": 2009,
+        "status": "FINISHED",
+        "source_url": "https://www.theverge.com/2011/11/23/2583441/5-minutes-on-the-verge-limor-fried",
+        "evidence": "같은 인터뷰에서 '나는 무라카미 팬이며 막 1Q84를 다 읽었다'며 '기술 서적 위주에서 벗어난 좋은 변화'라고 덧붙였다.",
+        "review": "리모어 프리드는 자신이 무라카미 팬이라며 막 이 소설을 읽어 끝냈다고 말했다. 기술 중심의 책들에서 벗어난 좋은 변화였다고 덧붙였다.",
+        "review_en": "Limor Fried said she is a Murakami fan and had just wrapped up this novel, calling it a nice change from tech-heavy books."
+      }
+    ]
+  },
+  "제리 엘즈워스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "콘솔 전쟁",
+        "title_en": "Console Wars",
+        "creator": "블레이크 J. 해리스",
+        "year": 2014,
+        "status": "FINISHED",
+        "source_url": "https://twitter.com/jeriellsworth/status/1256052704016625664",
+        "evidence": "2020년 5월 본인 트윗에서 '내 서재에서 가장 좋아하거나 흥미로운 책들'이라는 소개와 함께 이 책의 사진을 올렸다.",
+        "review": "제리 엘즈워스는 '내 서재에서 가장 좋아하거나 흥미로운 책들이 궁금하다고? 여기 내 책 몇 권'이라는 트윗에 이 게임사 책을 올렸다.",
+        "review_en": "Jeri Ellsworth posted this gaming history book in a tweet answering 'What are some of your favorite or interesting books in your collection? Here are a few of mine.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "해커의 기쁨",
+        "title_en": "Hacker's Delight",
+        "creator": "헨리 S. 워런 주니어",
+        "year": 2002,
+        "status": "FINISHED",
+        "source_url": "https://twitter.com/jeriellsworth/status/1256052704016625664",
+        "evidence": "같은 트윗에서 서재의 '가장 좋아하거나 흥미로운 책' 중 하나로 이 비트 연산 기법서를 공개했다.",
+        "review": "제리 엘즈워스는 서재에서 가장 좋아하는 책들을 소개하는 트윗에 이 비트 해킹 명저를 포함시켰다.",
+        "review_en": "Jeri Ellsworth included this celebrated bit-hacking reference among the favorite books from her collection shown in her tweet."
+      },
+      {
+        "type": "BOOK",
+        "title": "로켓 추진 원리",
+        "title_en": "Rocket Propulsion Elements",
+        "creator": "조지 P. 서턴",
+        "year": 1962,
+        "status": "FINISHED",
+        "source_url": "https://twitter.com/jeriellsworth/status/1256052704016625664",
+        "evidence": "같은 트윗에서 서재의 '가장 좋아하거나 흥미로운 책' 중 하나로 이 로켓 추진 교과서를 공개했다.",
+        "review": "제리 엘즈워스는 서재의 좋아하는 책을 소개하는 트윗에 이 로켓 추진의 고전 교과서를 함께 올렸다.",
+        "review_en": "Jeri Ellsworth showed this classic rocket propulsion textbook among the favorite books in her collection in the same tweet."
+      }
+    ]
+  },
+  "제럴드 불": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "지구에서 달까지",
+        "title_en": "From the Earth to the Moon",
+        "creator": "쥘 베른",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://www.globalsecurity.org/military/world/canada/gerald-bull.htm",
+        "evidence": "글로벌시큐리티의 전기는 불이 베른에 매료됐고 젊은 시절 최대 영감의 하나로 베른의 공상과학을 자주 언급했으며, 이 작품이 포신 발사 우주여행을 그렸다고 기록한다.",
+        "review": "제럴드 불은 젊은 시절 쥘 베른의 공상과학 소설에 매료됐고, 이 작품을 최대 영감의 하나로 자주 입에 올렸다. 거대한 포로 달에 가는 이 이야기는 대포로 위성을 쏘겠다는 그의 평생 꿈의 선행 그림이었다.",
+        "review_en": "Gerald Bull was fascinated by Jules Verne and often spoke of Verne's science fiction as one of the foremost inspirations of his youth. This tale of a moon voyage launched from a giant cannon anticipated his own lifelong dream of firing payloads into space."
+      }
+    ]
+  },
+  "세르게이 코롤료프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "지구에서 달까지",
+        "title_en": "From the Earth to the Moon",
+        "creator": "쥘 베른",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://www.pravmir.ru/sergey-korolev-reaktivnoe-dvizhenie-k-mechte/",
+        "evidence": "전기는 조부모 집에 갇혀 지내던 소년 코롤료프가 '대포로 달에 가는' 베른의 소설들을 밤새워 탐독했다고 기록한다.",
+        "review": "세르게이 코롤료프는 외출이 어렵던 어린 시절 자기만의 세계에 몰두하며 대포로 달에 가는 베른의 소설을 밤새워 읽었다. 훗날 그는 인간이 달에 갈 것이라고 딸에게 단언한 사람이 됐다.",
+        "review_en": "Sergei Korolev immersed himself in Jules Verne's novels of traveling to the Moon by cannon as a boy confined at his grandparents' home. He later became the man who told his daughter, with certainty, that a human would walk on the Moon."
+      },
+      {
+        "type": "BOOK",
+        "title": "제트 장치에 의한 우주 공간 탐구",
+        "title_en": "Exploration of Outer Space by Means of Rocket Devices",
+        "creator": "콘스탄틴 치올콥스키",
+        "year": 1903,
+        "status": "FINISHED",
+        "source_url": "https://www.pravmir.ru/sergey-korolev-reaktivnoe-dvizhenie-k-mechte/",
+        "evidence": "전기는 치올콥스키의 이 저작을 '코롤료프가 읽는 것을 멈출 수 없었던' 책이라 기록하고, 본인 회고로 1929년 저자와의 만남 뒤 로켓에 인생을 바치기로 했다고 전한다.",
+        "review": "세르게이 코롤료프는 치올콥스키의 이 저작을 손에서 놓을 수 없을 만큼 몰두해 읽었다. 그는 1929년 치올콥스키와의 만남이 큰 충격이었다고 회고하며, 그때부터 '로켓을 만들고 그것을 타고 날겠다'는 한 가지 생각만 품게 됐다고 썼다.",
+        "review_en": "Sergei Korolev could not put down this work by Tsiolkovsky, which decisively turned him from aviation to rocketry. He recalled that meeting the author in 1929 left him with a single thought: to build rockets and fly on them."
+      }
+    ]
+  },
+  "치엔 쉐썬": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "교향곡 9번 '합창'",
+        "title_en": "Symphony No. 9 in D minor, Op. 125",
+        "creator": "루트비히 판 베토벤",
+        "year": 1824,
+        "status": "FINISHED",
+        "source_url": "https://www.cernet.edu.cn/edu/yiwujiaoyu/201112/t20111212_717829.shtml",
+        "evidence": "치엔이 남긴 회고에서 베이징사범대 부속중학교 음악 교사가 손잡이 축음기로 베토벤 9번 교향곡 등을 들려줬고 '세계 대동을 동경한 베토벤의 음향이 줄곧 내 마음을 울렸다'고 말했다고 인용한다.",
+        "review": "치엔 쉐썬은 베이징사범대 부속중학교 시절 음악 교사가 손잡이 축음기로 들려준 음반 중 이 교향곡을 기억했다. '세계 대동을 꿈꾼 베토벤의 음향이 줄곧 내 마음속에서 울려 퍼졌다'고 그는 회고했다.",
+        "review_en": "Qian Xuesen recalled that a music teacher at his Beijing middle school played records on a hand-cranked phonograph, among them Beethoven's Ninth. 'The sound of Beethoven dreaming of a world in harmony kept resonating in my heart,' he wrote."
+      },
+      {
+        "type": "BOOK",
+        "title": "예술론",
+        "title_en": "On Art",
+        "creator": "게오르기 플레하노프",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://export.shobserver.com/baijiahao/html/1002058.html",
+        "evidence": "아들 첸융강의 기고문이 치엔 본인의 회고를 인용해 '플레하노프의 《예술론》 같은 예술 이론서를 상하이교통대 재학 때 읽었다'고 전한다.",
+        "review": "치엔 쉐썬은 상하이교통대 재학 시절 플레하노프의 이 책을 읽었다고 회고했다. 아들 첸융강에 따르면 이런 예술 이론 독서가 과학과 예술을 넘나드는 그의 거시적 사고를 길렀다.",
+        "review_en": "Qian Xuesen recalled reading Plekhanov's essays on art while studying at Shanghai Jiao Tong University. According to his son Qian Yonggang, such reading in art theory nourished the broad, cross-disciplinary thinking that marked his science."
+      },
+      {
+        "type": "BOOK",
+        "title": "중국철학사대강",
+        "title_en": "An Outline of the History of Chinese Philosophy",
+        "creator": "후스",
+        "year": 1919,
+        "status": "FINISHED",
+        "source_url": "https://ghc.xust.edu.cn/info/1032/6988.htm",
+        "evidence": "기고문은 1930년 여름 병으로 요양 중이던 치엔이 플레하노프 《예술론》, 부하린의 책과 함께 후스의 이 책 상권을 읽었다고 기록한다.",
+        "review": "치엔 쉐썬은 1930년 여름 병으로 쉬는 동안 서점에서 사 온 책들을 읽었고, 그중에 후스의 이 철학사 상권도 있었다. 예술사의 유물사관적 분석과 함께 중국 철학의 정리본을 이 시기에 접했다.",
+        "review_en": "Qian Xuesen read through a pile of books he had bought while convalescing in the summer of 1930, among them the first volume of Hu Shih's history of Chinese philosophy alongside Plekhanov and Bukharin."
+      }
+    ]
+  },
+  "아나톨리 부고르스키": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

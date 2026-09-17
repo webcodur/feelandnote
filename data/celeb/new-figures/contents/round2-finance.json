@@ -1,0 +1,322 @@
+{
+  "윌리엄 로": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조제프 파리-뒤베르네": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "아벨 코빈": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "허버트 헌트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "프랭크 디파스칼리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "칼 샤피로": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "토미 정": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "조이 오브 페인팅",
+        "title_en": "The Joy of Painting",
+        "creator": "밥 로스",
+        "year": 1983,
+        "status": "FINISHED",
+        "source_url": "https://nymag.com/strategist/article/tommy-chong-favorite-things.html",
+        "evidence": "뉴욕 매거진 스트래티지스트의 '애용품' 인터뷰에서 정은 밥 로스의 책도 쇼도 그 사람도 너무 좋아한다며 그의 조용한 말투와 'happy little trees'를 흉내 내 보였다.",
+        "review": "토미 정은 밥 로스의 쇼와 책을 모두 사랑한다고 뉴욕 매거진 인터뷰에서 말했다. 그는 로스의 차분한 말투와 '행복한 작은 나무들' 표현을 직접 흉내 내며 각별한 애정을 드러냈다.",
+        "review_en": "Tommy Chong said he loves Bob Ross's show, his books, and the man himself, in a New York Magazine Strategist interview. He mimicked Ross's quiet delivery and his 'happy little trees' catchphrase."
+      },
+      {
+        "type": "BOOK",
+        "title": "제3의 눈",
+        "title_en": "The Third Eye",
+        "creator": "로브상 람파",
+        "year": 1956,
+        "status": "FINISHED",
+        "source_url": "https://www.salon.com/2020/01/23/tommy-chong-color-out-of-space-lovecraft-trump-jazz/",
+        "evidence": "살롱 인터뷰에서 정은 10대 시절 재즈 뮤지션들이 소개해 준 영성 서적들 가운데 이 책이 깨달음을 줬다고 말했다.",
+        "review": "토미 정은 10대에 칼거리 재즈 뮤지션들에게서 소개받은 영성 서적 중 이 책이 자신에게 깨달음을 줬다고 살롱 인터뷰에서 밝혔다. 그는 이 독서가 이후 삶의 방향에 영향을 미쳤다고 말했다.",
+        "review_en": "Tommy Chong told Salon that this book, among the spiritual titles jazz musicians in Calgary introduced to him as a teenager, gave him enlightenment. He said that reading shaped the course of his life."
+      },
+      {
+        "type": "BOOK",
+        "title": "러너스 바이블",
+        "title_en": "The Runner's Bible",
+        "creator": "노라 홈 엮음",
+        "year": 1913,
+        "status": "FINISHED",
+        "source_url": "https://uproxx.com/life/tommy-chong-interview-cheech-and-chongs-takeout/",
+        "evidence": "업록스 인터뷰에서 정은 방금 읽은 책으로 이 책을 들며 거의 매일 아침 무작위로 펼쳐 읽는다고 말하고 답을 얻는 책으로 추천했다.",
+        "review": "토미 정은 이 책을 막 읽었다고 하며 거의 매일 아침 책을 무작위로 펼쳐 그 페이지를 읽는 습관을 소개했다. 그는 질문에 대한 답을 주는 책이라며 업록스 독자에게 추천했다.",
+        "review_en": "Tommy Chong said he had just read this book and that almost every morning he opens it at random and reads that page. He recommended it in the Uproxx interview as a book that gives answers."
+      },
+      {
+        "type": "BOOK",
+        "title": "주역",
+        "title_en": "I Ching",
+        "creator": "미상",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://uproxx.com/life/tommy-chong-interview-cheech-and-chongs-takeout/",
+        "evidence": "같은 인터뷰에서 정은 대마가 영성 서적을 찾게 해 줬다며 책상 위에 러너스 바이블, 에멧 폭스, 주역 등이 모두 있다고 말했다.",
+        "review": "토미 정은 책상 위에 《주역》을 두고 있다고 업록스 인터뷰에서 밝혔다. 그는 젊은 시절부터 찾아온 영성 서적들이 '우주의 지식'이라며 그중 하나로 이 책을 꼽았다.",
+        "review_en": "Tommy Chong keeps the I Ching on his desk among the spiritual books he sought out in his youth, he told Uproxx, describing the collection as 'the knowledge of the universe.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "The Bible",
+        "creator": "미상",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://uproxx.com/life/tommy-chong-interview-cheech-and-chongs-takeout/",
+        "evidence": "같은 인터뷰에서 정은 삶의 요령이 성경에 쓰여 있다며 '하나님이 만드신 모든 것은 선하다'는 구절의 취지를 인용해 내용을 언급했다.",
+        "review": "토미 정은 삶의 요령이 성경에 쓰여 있다고 말하며 '하나님이 만드신 모든 것은 선하다'는 취지의 구절을 인용했다. 그가 찾아 읽어 온 영성 서적의 맥락에서 성경을 내용까지 언급한 발언이다.",
+        "review_en": "Tommy Chong said the whole trick of life is written in the Bible and cited the passage that everything God made is good, in the Uproxx interview about the spiritual books he reads."
+      }
+    ]
+  },
+  "그레고리 콜먼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "프레드 조지프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "데니스 러바인": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "마틴 시걸": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "존 머헤런": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "시미즈 사부로": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "제임스 데이비스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "리로이 킹": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "존 미첼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "버나드 콘펠드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "아서 '불' 사이먼스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로저 스미스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "제임스 호프만": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉스 트레물리스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "에이브 캐러츠": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오토 커너 주니어": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조지프 로이어": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "H. B. 리스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "헨리 스트롱": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "윌리엄 홀 워커": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "프랭크 브라우넬": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조지 휠라이트 3세": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "엘칸 블라우트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

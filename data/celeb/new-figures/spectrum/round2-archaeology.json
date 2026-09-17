@@ -1,0 +1,2576 @@
+{
+ "소피아 슐리만": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 3,
+   "tech_exp": "트로이·미케네 발굴 현장 참여와 기록 보조",
+   "tech_exp_en": "Worked the Troy and Mycenae trenches.",
+   "social": 3,
+   "social_exp": "여성 발굴 참여의 초기 사례로 회자",
+   "social_exp_en": "An early woman on a major dig.",
+   "economic": 2,
+   "economic_exp": "유산 관리와 저택 기증으로 기념 사업에 기여",
+   "economic_exp_en": "Her estate built the Schliemann memorials.",
+   "cultural": 5,
+   "cultural_exp": "보물을 걸친 사진이 고고학 이미지의 아이콘",
+   "cultural_exp_en": "The Priam's-jewels photograph is an icon.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "발굴 동참자이자 유산 수호자로 기억",
+   "transhistoricity_exp_en": "Remembered as partner and keeper of the legacy."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 38,
+     "reason_ko": "남편 사후 기록·유산 관리와 아테네 살롱을 운영",
+     "reason_en": "Ran his archives and an Athenian salon for decades."
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "1870년대 트로이·미케네 발굴 현장 생활을 소화",
+     "reason_en": "Lived the dig camps of Troy and Mycenae."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "발굴 현장에서 기록·분류를 보좌하고 살롱을 이끔",
+     "reason_en": "Kept records on the dig and ran a learned salon."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "보물을 걸친 사진 한 장으로 세계적 명성",
+     "reason_en": "One photograph in the jewels made her world-famous."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "젊은 과부가 되어 유산 수호에 삶을 바침",
+     "reason_en": "Widowed young, she gave her life to the legacy."
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "40년 넘게 남편의 기록과 기념 사업을 돌봄",
+     "reason_en": "Tended his papers and memory for forty years."
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "남편의 유고를 정리하며 발굴 기록을 보존",
+     "reason_en": "Sorted his papers and preserved the dig records."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "열일곱에 오스만 땅의 발굴 현장 생활을 감내",
+     "reason_en": "Bore Ottoman field camps as a teenage bride."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "남편 사후 40년간 그의 기록과 명예를 지켜냄",
+     "reason_en": "Guarded his name and papers for forty years."
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "슐리만 저택과 유품을 국가에 기증",
+     "reason_en": "Gave the Schliemann house and relics to Greece."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "기록과 유품 공개를 학계 절차에 맞춰 처리",
+     "reason_en": "Opened the papers and relics by the book."
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "자기 발견보다 남편의 공적을 앞세우는 삶",
+     "reason_en": "Kept herself behind his name all her life."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "과부가 된 뒤에도 유산 사업을 꾸준히 유지",
+     "reason_en": "Carried the legacy on alone, without despair."
+    },
+    "conservative_progressive": {
+     "score": 12,
+     "reason_ko": "여성의 공적 활동이 드물던 시대에 발굴 현장에 섬",
+     "reason_en": "Stood in the trenches when women did not dig."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "아테네 지식인 살롱을 열어 공동체 중심으로 삶",
+     "reason_en": "Kept an open house for Athens' learned world."
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "모험보다 유산 수호라는 안정된 역할을 택함",
+     "reason_en": "Chose the keeper's role over new ventures."
+    }
+   },
+   "rationale_ko": "열일곱의 신부가 발굴 현장의 아내이자 동료가 되어 트로이와 미케네에 함께 섰다. 보물을 걸친 사진 한 장이 만든 명성을 그녀는 평생 남편의 기록 수호로 되돌려 썼다. 저택과 유품을 국가에 기증한 것은 그 충성심의 마지막 형태다. 1932년 아테네에서 숨졌다.",
+   "rationale_en": "Married at seventeen, she became the dig's partner as much as its wife at Troy and Mycenae. The fame a single photograph brought her, she spent forty years repaying as guardian of his archive. The gift of the house and relics to Greece was loyalty's last act. She died in Athens in 1932."
+  }
+ },
+ "프랭크 캘버트": {
+  "influence": {
+   "political": 1,
+   "political_exp": "미국 영사대리를 지냈으나 정치 영향은 미미",
+   "political_exp_en": "Consular agent; little political sway",
+   "strategic": 0,
+   "strategic_exp": "군사 전략과 무관한 발굴·학술 행적",
+   "strategic_exp_en": "No military record",
+   "tech": 5,
+   "tech_exp": "1860년대 시굴로 트로이 발굴의 길을 엶",
+   "tech_exp_en": "Opened the road to Troy's excavation",
+   "social": 2,
+   "social_exp": "트로아스 조사·수집으로 지역 학계에 기여",
+   "social_exp_en": "Fed Troad finds to scholarly circles",
+   "economic": 1,
+   "economic_exp": "영사직·농장 수입 외 경제적 영향은 미미",
+   "economic_exp_en": "Consular work; little economic weight",
+   "cultural": 5,
+   "cultural_exp": "트로이 발굴을 촉발한 호메로스 고고학의 선구자",
+   "cultural_exp_en": "Found Troy's site; fame went elsewhere",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "트로이 발굴의 실질적 기폭제였으나 명예는 타인에게",
+   "transhistoricity_exp_en": "Enabled Troy dig but stayed unsung"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "1874년 무급 미국 영사대리와 간헐적 영사 대행",
+     "reason_en": "Unpaid US consular agent in Dardanelles"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "1865년 히사를리크 소유지에서 직접 시굴을 팜",
+     "reason_en": "Owned the land, dug trial trenches"
+    },
+    "intellect": {
+     "score": 66,
+     "reason_ko": "독학 연구로 1865년 트로이 위치를 맞힘",
+     "reason_en": "Argued Hisarlik was Troy by 1865"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "1860년대 독학 출신의 자의식 탓에 학계와 거리",
+     "reason_en": "Self-taught, shy, yielded the limelight"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1846년부터 변방 영사직과 농장을 겸한 생활",
+     "reason_en": "Modest consular life on family land"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "1846년부터 수십 년간 트로아스를 조사·기록",
+     "reason_en": "Dug and studied the Troad for decades"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "1868년부터 슐리만과의 서신에서 신중한 판단",
+     "reason_en": "Careful, measured letters to Schliemann"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "1860년대부터 트로이 확신을 논문으로 공개 주장",
+     "reason_en": "Held his Troy thesis despite obscurity"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "1868년 슐리만에게 발굴지를 내주고도 도움을 지속",
+     "reason_en": "Helped Schliemann for years anyway"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "1868년 발굴지를 통째로 알려주고 도움을 계속",
+     "reason_en": "Freely shared his site and knowledge"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "1846~1908년 체류 중 혼합 재판소 재판관을 맡음",
+     "reason_en": "Sat on mixed local tribunals at times"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "1908년 사망까지 트로이 발견의 공을 내세우지 않음",
+     "reason_en": "Never claimed the glory of Troy"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "1908년 사망까지 인정받지 못했으나 확신을 지킴",
+     "reason_en": "Kept his conviction to the end"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "1874~1908년 영사직에서 사회 질서 입장을 보이지 않음",
+     "reason_en": "No stance on social order recorded"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "1860년대 가족 소유지에서 홀로 시굴·연구",
+     "reason_en": "Solo scholar on family-owned land"
+    },
+    "cautious_bold": {
+     "score": -22,
+     "reason_ko": "1860년대 자금 한계로 대발굴 대신 시굴을 선택",
+     "reason_en": "Chose test trenches over a risky dig"
+    }
+   },
+   "rationale_ko": "독학으로 히사를리크가 호메로스의 트로이라는 확신에 먼저 도달했다. 자금이 부족해 슐리만에게 발굴지를 내주고 도왔고, 그 선택이 발견의 명예를 통째로 넘겼다. 명예가 빠져나간 뒤에도 다르다넬스 영사직과 트로아스 조사를 평생 지켰다.",
+   "rationale_en": "A self-taught consular agent, he reached the conviction that Hisarlik was Troy years before Schliemann. Lacking funds, he handed over the site and helped the dig, a generosity that cost him the credit. He kept his consular post and his Troad studies for life."
+  }
+ },
+ "아서 캘런더": {
+  "influence": {
+   "political": 0,
+   "political_exp": "철도 기술자로 정치적 행적 없음",
+   "political_exp_en": "Railway engineer, no political record",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 4,
+   "tech_exp": "도르래·전기 공법으로 무덤 내 중량물 반출을 실현",
+   "tech_exp_en": "Engineered the tomb's heavy lifts",
+   "social": 1,
+   "social_exp": "이집트 발굴 현장 외 사회 영향 미미",
+   "social_exp_en": "Little social reach beyond the dig",
+   "economic": 1,
+   "economic_exp": "철도청 근무 외 경제 영향은 미미",
+   "economic_exp_en": "Little economic influence",
+   "cultural": 4,
+   "cultural_exp": "투탕카멘 관龕의 무사 반출로 유물 보존에 기여",
+   "cultural_exp_en": "Kept the golden shrines intact",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "세기의 발굴을 기술적으로 뒷받침한 조력자",
+   "transhistoricity_exp_en": "Technical hand behind a famed dig"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "1922~1925년 관龕 반출 작업과 현장 경비를 지휘",
+     "reason_en": "Kept site and ran shrine-lifting crews"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "철도 기술자로 1922년 무덤 경계·중량 작업을 소화",
+     "reason_en": "Railway engineer; guarded tomb armed"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "1923년 좁은 묘실에서 4중 관龕 무손상 해체 공법",
+     "reason_en": "Devised hoists to lift nested shrines"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "1920년대 동료 평가가 '투박한' 인상에 그침",
+     "reason_en": "'A decent sort, but rough' — Mace"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 44,
+     "reason_ko": "1925년 임금 문제로 카터와 격렬히 다투고 결별",
+     "reason_en": "1925 pay row ended the friendship"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "1922년부터 여러 시즌 지루한 해체 작업을 책임짐",
+     "reason_en": "Seasons of delicate dismantling work"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자기 서술이 거의 남지 않아 성찰 기록은 드묾",
+     "reason_en": "Left almost no personal writings"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "1923년 무덤 입구에서 총을 들고 침입을 막음",
+     "reason_en": "Guarded the tomb entrance with a gun"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "1922년 전보 한 통에 합류했으나 1925년 분쟁 뒤 절연",
+     "reason_en": "Came at once; left after pay quarrel"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "타인을 향한 선행 기록이 거의 전해지지 않음",
+     "reason_en": "No recorded acts of charity"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정 관련 판단 기록이 남아 있지 않다",
+     "reason_en": "Held out over pay; no other record"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1922년부터 카터의 그늘에서 기술 역할을 수행",
+     "reason_en": "Served in Carter's shadow, unsung"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "1920년 은퇴 뒤 아르만트에 집을 짓고 발굴에 뛰어듦",
+     "reason_en": "Retired to Egypt and rejoined digs"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서에 대한 입장이 기록에 드러나지 않음",
+     "reason_en": "No stance on social order recorded"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "카터 저택에 상주하며 1922년부터 팀 일원으로 생활",
+     "reason_en": "Lived and worked inside Carter's team"
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "1923년 무손상이 요구되는 해체를 조심스레 수행",
+     "reason_en": "Zero-damage lifting needed slow care"
+    }
+   },
+   "rationale_ko": "은퇴한 철도 기술자가 카터의 부름으로 투탕카멘 발굴의 기술 난제를 맡았다. 전기 배선과 도르래로 좁은 묘실의 4중 관龕을 손상 없이 들어냈다. 1925년 임금 분쟁으로 카터와 절연했고, 이후 행적은 거의 알려지지 않았다.",
+   "rationale_en": "A retired railway engineer, he answered Carter's call and solved the technical problems of the Tutankhamun dig, wiring the tomb and hoisting the nested shrines out without damage. A bitter pay quarrel in 1925 ended the friendship, and his later years are barely documented."
+  }
+ },
+ "알미나 카나번": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 활동 기록 없음",
+   "political_exp_en": "No political career",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 2,
+   "tech_exp": "기술·과학 기여는 미미",
+   "tech_exp_en": "Little scientific contribution",
+   "social": 4,
+   "social_exp": "1차대전 때 성을 병원으로 열어 부상병을 돌봄",
+   "social_exp_en": "Turned Highclere into a WWI hospital",
+   "economic": 2,
+   "economic_exp": "막대한 유산이 발굴 자금으로 흘러감",
+   "economic_exp_en": "Her fortune became the dig's funding",
+   "cultural": 5,
+   "cultural_exp": "카터 탐사의 자금줄로 투탕카멘 발견을 가능케 함",
+   "cultural_exp_en": "Bankrolled the Tutankhamun find",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "세기의 발견을 뒷받침한 후원의 대표 사례",
+   "transhistoricity_exp_en": "Patronage behind a century's find"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "1914년 성을 병원으로 개조해 간호 조직을 이끎",
+     "reason_en": "Ran Highclere as a WWI hospital"
+    },
+    "martial": {
+     "score": 24,
+     "reason_ko": "1914년 간호 활동 외 신체 훈련 이력은 없음",
+     "reason_en": "Nursing shifts; no physical training"
+    },
+    "intellect": {
+     "score": 52,
+     "reason_ko": "1925년 이집트 당국과 무덤 소유권 포기 협상을 매듭",
+     "reason_en": "Closed the 1925 tomb-rights settlement"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "1900년대 에드워드 시대 사교계의 유명한 안주인",
+     "reason_en": "Famed Edwardian hostess and heiress"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "1923년 유산·보석을 쏟아부은 사치로 재정이 파국",
+     "reason_en": "Lavish spending drained the fortune"
+    },
+    "diligence": {
+     "score": 46,
+     "reason_ko": "1914년 전시 병원에는 헌신했으나 재정 관리는 실패",
+     "reason_en": "Devoted to war work; failed at finance"
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "1920년대 재정 파탄 속에서도 생활 방식을 바꾸지 못함",
+     "reason_en": "Kept lifestyle despite ruin"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "1914년 성을 병원으로 열고 직접 간호에 나섬",
+     "reason_en": "Opened her castle to the wounded, 1914"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "남편 사후에도 1925년까지 카터 발굴 자금을 유지",
+     "reason_en": "Funded Carter until the 1925 deal"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "1914년 부상병을 위해 사저를 병원으로 내어줌",
+     "reason_en": "Gave her home for war wounded"
+    },
+    "fairness": {
+     "score": 33,
+     "reason_ko": "1920년대 새 혼인 뒤 남편 계좌로 세금을 회피",
+     "reason_en": "Used husband's accounts to dodge tax"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1919년 전쟁 공로 CBE 수훈을 스스로 사양",
+     "reason_en": "Declined a CBE for war work, 1919"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "1923년 파탄 뒤에도 요양원 사업으로 재기를 시도",
+     "reason_en": "Kept restarting ventures amid ruin"
+    },
+    "conservative_progressive": {
+     "score": -18,
+     "reason_ko": "1900년대 귀족 사교계의 질서와 위신을 지킴",
+     "reason_en": "Clung to aristocratic order and status"
+    },
+    "individual_social": {
+     "score": 18,
+     "reason_ko": "1914년 성을 병원으로 열어 공동체 역할을 자임",
+     "reason_en": "Ran communal hospital, nursing home"
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "1923년 남편 사후 불과 8개월 만에 새 혼인을 택함",
+     "reason_en": "Remarried eight months after widowhood"
+    }
+   },
+   "rationale_ko": "로스차일드의 유산이 카터의 탐사 자금이 되어 투탕카멘 발견을 가능케 했다. 전시에는 성을 병원으로 내어주고 간호를 지휘했으며 공로 수훈을 사양했다. 그러나 유산 탕진과 세금 회피가 두 번째 혼인을 스캔들로 만들었고, 말년에는 브리스틀에서 궁색한 생활을 했다.",
+   "rationale_en": "Her Rothschild inheritance bankrolled Carter's search and made the 1922 discovery possible. She opened Highclere as a war hospital and declined a CBE, yet lavish spending and tax dodges through her second husband's accounts ended in genteel poverty in Bristol."
+  }
+ },
+ "오브리 허버트": {
+  "influence": {
+   "political": 5,
+   "political_exp": "알바니아 독립 옹호 운동의 핵심 인물",
+   "political_exp_en": "Key champion of Albanian independence",
+   "strategic": 3,
+   "strategic_exp": "갈리폴리 통역관과 쿠트 항복 협상에 참여",
+   "strategic_exp_en": "Gallipoli liaison; Kut surrender talks",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 4,
+   "social_exp": "전사자 매장 휴전과 알바니아 인도 지원을 주도",
+   "social_exp_en": "Truce for the dead; Albanian aid",
+   "economic": 1,
+   "economic_exp": "경제적 영향 미미",
+   "economic_exp_en": "Little economic influence",
+   "cultural": 4,
+   "cultural_exp": "버컨 『그린맨틀』 주인공의 모델",
+   "cultural_exp_en": "Model for Buchan's 'Greenmantle' hero",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "발칸 외교사에 남은 특이한 모험 외교관",
+   "transhistoricity_exp_en": "Singular adventurer in Balkan diplomacy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "1912년 알바니아 위원회 조직과 중령 계급 이력",
+     "reason_en": "Lt-col; ran Albanian committee work"
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "거의 실명의 시력으로 1915년 갈리폴리까지 나감",
+     "reason_en": "Nearly blind, still reached Gallipoli"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "1905년 예멘 여행까지 익힌 터키어·아랍어 등 다언어",
+     "reason_en": "Spoke Turkish, Arabic, Albanian, Greek"
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "1913년 알바니아인들이 왕좌를 제안할 만큼 매료",
+     "reason_en": "Offered Albania's throne twice"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "1913년 왕위 제의를 물리며 권력욕을 자제",
+     "reason_en": "Refused a crown twice — no power lust"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "1904년부터 알바니아 문제에 헌신하며 기행문을 남김",
+     "reason_en": "Campaigned for Albania 1904-23"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "1904~1923년 광범위한 일기와 서신을 남김",
+     "reason_en": "Left voluminous diaries and letters"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1914년 군복을 사 입고 몽스 최전선에 합류",
+     "reason_en": "Bought a uniform to fight at Mons"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "1904년부터 알바니아 독립 대의에 헌신",
+     "reason_en": "Two decades for the Albanian cause"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "1915년 갈리폴리에서 전사자 매장 휴전을 주선",
+     "reason_en": "Arranged a truce to bury the dead"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "1913년 발칸의 학살을 진영 가리지 않고 고발",
+     "reason_en": "Exposed atrocities by all sides"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1913년과 1920년 왕위 제안을 두 번 물림",
+     "reason_en": "Twice declined Albania's crown"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 22,
+     "reason_ko": "1905년 예멘 종단도 마다 않은 모험가의 낙천성",
+     "reason_en": "'He loved to dare' — a born adventurer"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "1911년 보수당 의원으로 알바니아 독립을 지원",
+     "reason_en": "Tory MP backing national independence"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "1905년 사막 횡단을 홀로 감행한 독립적 행동파",
+     "reason_en": "Solo desert and frontline wanderer"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "1914년 실명의 몸으로 몽스 전투·사막 횡단을 감행",
+     "reason_en": "Half-blind, still charged into battle"
+    }
+   },
+   "rationale_ko": "어릴 때부터 거의 보이지 않는 눈으로도 군복을 사 입고 전선에 뛰어든 모험가였다. 터키어·아랍어·알바니아어를 익혀 갈리폴리의 통역관이 됐고, 썩어가는 시신을 거두려 휴전을 주선했다. 20년 가까이 알바니아 독립을 위해 싸웠고, 그 나라의 왕좌를 두 번 거절했다.",
+   "rationale_en": "Nearly blind from childhood, he bought a uniform to fight at Mons, arranged a truce at Gallipoli to bury the dead, and negotiated for the Kut garrison. For two decades he championed Albanian independence — and twice refused its throne."
+  }
+ },
+ "헨리 솔트": {
+  "influence": {
+   "political": 3,
+   "political_exp": "영국 총영사와 아비시니아 사절 임무 수행",
+   "political_exp_en": "Consul-general; Abyssinian envoy",
+   "strategic": 1,
+   "strategic_exp": "군사 영향 없음",
+   "strategic_exp_en": "No military influence",
+   "tech": 3,
+   "tech_exp": "상형문자 해독 논저를 남긴 초기 연구자",
+   "tech_exp_en": "Early essay on hieroglyph decipherment",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 3,
+   "economic_exp": "유물 수집 시장을 키운 대형 컬렉션 주인",
+   "economic_exp_en": "Built the antiquities market's scale",
+   "cultural": 6,
+   "cultural_exp": "벨조니를 고용해 대영박물관 이집트관의 골격을 세움",
+   "cultural_exp_en": "Stocked the BM's Egyptian core",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "대영박물관 소장의 토대를 닦은 수집가",
+   "transhistoricity_exp_en": "Laid the BM collection's foundation"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "1816~1827년 총영사로 벨조니 등 수집가를 지휘",
+     "reason_en": "Consul-general 1816-27; directed agents"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "1805년과 1809년 아비시니아 험로를 두 차례 소화",
+     "reason_en": "Two arduous Abyssinia journeys"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "1825년 상형문자 해독 체계에 관한 저작을 펴냄",
+     "reason_en": "1825 essay on hieroglyph decipherment"
+    },
+    "charm": {
+     "score": 42,
+     "reason_ko": "1820년대 드로베티와 수집 경쟁을 벌인 강경파",
+     "reason_en": "Combative rival in the relic race"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "1820년대 드로베티와의 수집 경쟁에서 수단 불문",
+     "reason_en": "Unscrupulous in the collecting race"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "1815~1827년 세 차례의 대형 컬렉션을 축적",
+     "reason_en": "Three great collections in a decade"
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "1820년대 수집 경쟁에서 유물 출처 파괴를 돌아보지 않음",
+     "reason_en": "Never looked back at the damage done"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "1810년 아비시니아 왕에게 닿는 위험한 내륙 여행",
+     "reason_en": "Journeyed inland to the Abyssinian king"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "1815~1827년 국가 소장 확보를 목표로 충실",
+     "reason_en": "Served crown and British Museum first"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "1815년 벨조니를 고용했으나 공과 대우로 갈등",
+     "reason_en": "Hired Belzoni; quarrels over credit"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "1820년대 수집 경쟁에서 치졸한 공작이 오감",
+     "reason_en": "Both sides used dirty tricks to collect"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "1820년대 발견의 공을 두고 라이벌과 신경전",
+     "reason_en": "Fought rivals for the credit"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "1820년대 유물 수집 경쟁을 끝까지 포기 않는 집념",
+     "reason_en": "Never gave up the collecting race"
+    },
+    "conservative_progressive": {
+     "score": -18,
+     "reason_ko": "1815년 제국 외교관으로 국가 소장 확대에 기여",
+     "reason_en": "Imperial consul of the establishment"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "1810~1820년대 개인 컬렉션을 위해 대행인을 부림",
+     "reason_en": "Employed agents for his own collection"
+    },
+    "cautious_bold": {
+     "score": 18,
+     "reason_ko": "1820년대 발굴지 독점·대형 운반을 서슴지 않은 수집",
+     "reason_en": "Ordered the 7-ton Ramesses bust hauled"
+    }
+   },
+   "rationale_ko": "영국 총영사의 지위를 유물 수집전에 쏟아부은 인물이다. 벨조니를 고용해 람세스 2세의 거상을 대영박물관에 옮겼고, 드로베티와 치열한 수집 경쟁을 벌였다. 상형문자 해독에 관한 저작까지 남긴 수집가였다.",
+   "rationale_en": "As Britain's consul-general he poured office into the collecting wars, hiring Belzoni to haul the colossal bust of Ramesses II to the British Museum. His rivalry with Drovetti stripped Egypt bare, yet his hieroglyphic essay marks him as more than a looter."
+  }
+ },
+ "베르나르디노 드로베티": {
+  "influence": {
+   "political": 4,
+   "political_exp": "무함마드 알리의 신임 속에 행정 개혁에 관여",
+   "political_exp_en": "Advised Muhammad Ali's early reforms",
+   "strategic": 2,
+   "strategic_exp": "이집트 원정에서 뮈라를 구한 전역 장교",
+   "strategic_exp_en": "Saved Murat in the Egypt campaign",
+   "tech": 3,
+   "tech_exp": "토리노 왕명표 파피루스 등을 확보한 수집",
+   "tech_exp_en": "Secured the Turin Royal Canon papyrus",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 4,
+   "economic_exp": "유물 시장의 가격 조작까지 행한 수집업자",
+   "economic_exp_en": "Rigged antiquities prices at scale",
+   "cultural": 6,
+   "cultural_exp": "토리노·루브르·베를린 이집트 관의 토대",
+   "cultural_exp_en": "Founded Turin; stocked Louvre, Berlin",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "유럽 이집트 컬렉션의 골격을 만든 장본인",
+   "transhistoricity_exp_en": "Built Europe's Egyptian collections"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "1802~1829년 두 차례 총영사로 수집 대행인을 거느림",
+     "reason_en": "Consul-general ~25 yrs; many agents"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "1798년 나폴레옹군 기병 장교로 이집트 원정 참전",
+     "reason_en": "Cavalry officer in Egypt 1798-99"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "법률가 출신으로 1820년대 왕명표의 가치를 알아봄",
+     "reason_en": "Lawyer who saw the Canon's worth"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "1820년대 무함마드 알리의 신임을 얻은 처세",
+     "reason_en": "Won Muhammad Ali's trust as consul"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 22,
+     "reason_ko": "1820년대 값을 올리려 발굴 화병 절반을 깨뜨림",
+     "reason_en": "Smashed half the vases to raise prices"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "1824~1836년 세 차례 거대 컬렉션을 축적",
+     "reason_en": "Three vast collections over 20 years"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "1820년대 유물을 부수는 수법을 거리낌 없이 씀",
+     "reason_en": "Broke antiquities without qualms"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "1798년 전투에서 뮈라의 목숨을 구함",
+     "reason_en": "Saved Murat's life in battle"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 42,
+     "reason_ko": "1824년 첫 컬렉션을 프랑스 아닌 사르데냐에 팜",
+     "reason_en": "Sold to the highest bidder, not France"
+    },
+    "benevolence": {
+     "score": 18,
+     "reason_ko": "이윤을 위해 1820년대 유물을 고의로 훼손",
+     "reason_en": "Destroyed antiquities for profit"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "1820년대 가격 조작을 위해 수집품을 고의 훼손",
+     "reason_en": "Rigged markets, ruined rival digs"
+    },
+    "humility": {
+     "score": 32,
+     "reason_ko": "고향에 자신의 동상이 세워질 만큼 명성을 누림",
+     "reason_en": "Statues of him raised back home"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "1820년대 유물 사냥에서 늘 공세를 택한 야심가",
+     "reason_en": "Always on the offensive in collecting"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "1820년대 제국 식민 질서의 수취인으로 약탈 주도",
+     "reason_en": "Took full part in the imperial order"
+    },
+    "individual_social": {
+     "score": -22,
+     "reason_ko": "1820년대 국가보다 개인 수집 이익을 앞세움",
+     "reason_en": "Profit first, nations second"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "1820년대 발굴지 독점을 서슴지 않은 공격적 수집",
+     "reason_en": "Aggressive monopolist of the digs"
+    }
+   },
+   "rationale_ko": "나폴레옹 전쟁에서 뮈라를 구한 군인이 이집트 주재 프랑스 총영사가 됐다. 값을 올리려 항아리를 깨뜨리는 수법으로 악명을 얻었지만, 그의 세 컬렉션이 토리노·루브르·베를린의 이집트 관을 세웠다. 무함마드 알리의 신임 속에 25년 가까이 카이로의 실력자로 군림했다.",
+   "rationale_en": "The veteran who saved Murat became France's consul and industrialized antiquities hunting. His methods — smashing vases to lift prices — earned infamy, but his three collections founded Turin's Egyptian Museum and stocked the Louvre and Berlin. He died in Turin in 1852."
+  }
+ },
+ "롤리 리멜": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 1,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 0,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 2,
+   "cultural_exp": "'Z' 실종 미스터리의 일원으로 문화적 회자",
+   "cultural_exp_en": "Part of the Lost City of Z legend",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "실종 사건으로만 기억되는 동행자",
+   "transhistoricity_exp_en": "Remembered only through the mystery"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "1925년 원정의 막내로 지휘 역할은 없었음",
+     "reason_en": "Youngest member; no command role"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "1925년 원정에 포셋이 '말처럼 튼튼하다'고 평한 체력",
+     "reason_en": "'Strong as horses' — Fawcett"
+    },
+    "intellect": {
+     "score": 40,
+     "reason_ko": "1925년 학술보다 친구를 따라나선 청년",
+     "reason_en": "Went for friendship, not scholarship"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "1924년 항해 중 사랑에 빠질 만큼 감성적",
+     "reason_en": "Fell in love aboard ship en route"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "1924년 사랑에 빠져 원정 이탈을 고심함",
+     "reason_en": "Emotional, wavered before departure"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "1925년 진드기에 부은 발로도 행군을 계속",
+     "reason_en": "Marched on a tick-swollen foot"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "1925년 동행 결정의 깊이는 알기 어려움",
+     "reason_en": "His motives stay barely documented"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "1925년 미지의 마투그로수로 돌아오지 못할 행군을 나섬",
+     "reason_en": "Walked into unexplored Mato Grosso"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "1925년 절친 잭을 따라 위험한 원정에 동행",
+     "reason_en": "Followed his best friend to the end"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "타인을 향한 선행 기록이 거의 남지 않았다",
+     "reason_en": "No charitable acts on record"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 가늠할 판단 기록이 거의 없다",
+     "reason_en": "No judgment calls on record"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "1925년 원정에서 앞서지 않고 친구 곁을 지킴",
+     "reason_en": "Followed, never led the party"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "1925년 출발 전 열의가 높았던 낙관적 청년",
+     "reason_en": "'Keen as mustard' at departure"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서에 대한 입장이 알려지지 않음",
+     "reason_en": "No stance on social order recorded"
+    },
+    "individual_social": {
+     "score": 18,
+     "reason_ko": "1925년 혼자가 아니라 절친과의 원정을 택함",
+     "reason_en": "Chose to go with his best friend"
+    },
+    "cautious_bold": {
+     "score": 32,
+     "reason_ko": "1925년 돌아올 보장 없는 정글 원정에 발을 들임",
+     "reason_en": "Joined a journey with no way back"
+    }
+   },
+   "rationale_ko": "탐험가가 아닌 의사의 아들이 절친 잭 포셋을 따라 원정에 나섰다. 출발 직전 사랑에 빠져 흔들렸지만 끝내 동행했고, 진드기에 부은 발로도 행군을 이어갔다. 1925년 마투그로수에서 포셋 부자와 함께 흔적 없이 사라졌다.",
+   "rationale_en": "A doctor's son from Devon, he joined the 1925 expedition for his best friend Jack Fawcett. He wavered before departure, marched on a tick-swollen foot, and vanished in the Mato Grosso with the Fawcetts — one of exploration's famous mysteries."
+  }
+ },
+ "헨리 코스틴": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 1,
+   "strategic_exp": "국경 측량에 참여한 전직 군인",
+   "strategic_exp_en": "Ex-soldier on boundary surveys",
+   "tech": 2,
+   "tech_exp": "아마존 국경 측량 작업에 실무 기여",
+   "tech_exp_en": "Hands-on work in jungle surveying",
+   "social": 1,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 0,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 2,
+   "cultural_exp": "그의 일지가 『잃어버린 도시 Z』 집필의 자료가 됨",
+   "cultural_exp_en": "His journals fed 'Lost City of Z'",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "포셋 원정의 기록자로 탐험사에 기여",
+   "transhistoricity_exp_en": "A chronicler of the Fawcett saga"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 28,
+     "reason_ko": "하사관 출신 보조원으로 1906년부터 원정 참여",
+     "reason_en": "Corporal; Fawcett's assistant role"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "1906~1914년 다섯 차례 아마존 원정을 살아 돌아옴",
+     "reason_en": "Survived five Amazon expeditions"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "1911년 원정의 냉정한 일지가 후대 1차 자료",
+     "reason_en": "His calm journals remain key sources"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "1906~1914년 포셋 곁에서 묵묵히 버틴 동료",
+     "reason_en": "Unassuming man beside Fawcett"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "1925년 포셋이 '완전히 믿을 수 있는' 동료로 꼽음",
+     "reason_en": "'Completely reliable' — Fawcett"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "1906~1914년 다섯 차례 정글 측량 원정을 소화",
+     "reason_en": "Five jungle surveys, 1906-14"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "1925년 실종 원인을 기아·탈진으로 실제적 추정",
+     "reason_en": "Judged Fawcett's fate soberly"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "다섯 번 원정을 겪고 1925년 여섯 번째는 거절",
+     "reason_en": "Five trips, then refused the sixth"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "1906~1914년 포셋의 다수 원정에 동행한 측근",
+     "reason_en": "Fawcett's most trusted companion"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "동료 평가 외 선행 기록이 거의 없다",
+     "reason_en": "Little charitable record known"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "1925년 실종을 원주민 탓 아닌 기아로 냉정히 본다",
+     "reason_en": "Blamed starvation, not the tribes"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "1914년까지 원정 명예를 앞세우지 않은 보조 역할",
+     "reason_en": "Stayed the assistant, not the hero"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "1925년 실종 분석에서 감정보다 현실을 택함",
+     "reason_en": "Sober realist about the lost party"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "1900년대 하급 군인 출신으로 질서에 순응",
+     "reason_en": "Army habit; no order stance recorded"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "1906~1914년 원정대 소속으로 집단 생활을 지속",
+     "reason_en": "Years inside small expedition teams"
+    },
+    "cautious_bold": {
+     "score": -28,
+     "reason_ko": "1925년 'Z' 원정 참가를 끝내 거절해 생존",
+     "reason_en": "Refused the fatal 'Z' expedition"
+    }
+   },
+   "rationale_ko": "포셋이 가장 신뢰한 동료로 다섯 차례 아마존 측량 원정을 함께 겪었다. 차분한 일지를 남겨 후대 탐험사 연구의 자료가 됐다. 1925년 'Z' 원정은 거절했고, 그 판단이 실종의 비극을 비켜 가게 했다.",
+   "rationale_en": "Fawcett's most trusted companion survived five Amazon surveys at his side and left sober journals that later researchers prize. He judged that Fawcett died of starvation, not at tribal hands — and his refusal of the 1925 trip saved his life."
+  }
+ },
+ "알프레다 빙엄": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 1,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 1,
+   "economic_exp": "유산을 탐험 자금으로 전용",
+   "economic_exp_en": "Turned inheritance into expedition funds",
+   "cultural": 4,
+   "cultural_exp": "그녀의 재산이 마추픽추 발견 탐험을 가능케 함",
+   "cultural_exp_en": "Her money enabled Machu Picchu",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "마추픽추 발견의 숨은 자금줄",
+   "transhistoricity_exp_en": "The hidden money behind the find"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "1900년 혼인 후 집안과 탐험 재정을 뒷받침",
+     "reason_en": "Ran a household of seven sons"
+    },
+    "martial": {
+     "score": 21,
+     "reason_ko": "1900년대 저택 생활의 상속녀로 신체 노동 이력 없음",
+     "reason_en": "No physical labor; heiress and mother"
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "1911년 학술 저작 없이 탐험 재정을 감당",
+     "reason_en": "Managed fortune backing expeditions"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "1900년 혼인으로 주목받은 티파니 상속녀",
+     "reason_en": "Tiffany heiress of New York society"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "일곱 아들을 키운 뒤 1937년 스스로 삶을 바꿈",
+     "reason_en": "Divorced and remarried late in life"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "1901년부터 일곱 아들을 낳아 길렀다",
+     "reason_en": "Raised seven sons over decades"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자서전류 자기 서술이 남아 있지 않다",
+     "reason_en": "Left no memoir of her own"
+    },
+    "courage": {
+     "score": 52,
+     "reason_ko": "1937년 예순셋에 혼인 해소를 택한 당대 드문 결단",
+     "reason_en": "Chose divorce in 1937 — bold then"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 48,
+     "reason_ko": "1900~1937년 동반 관계를 지탱했으나 갈라섬",
+     "reason_en": "37 years of marriage, then ended"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "티파니 유산을 남편의 1911년 탐험 자금으로 내어줌",
+     "reason_en": "Gave her fortune to his expeditions"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "판단 기록이 거의 알려져 있지 않다",
+     "reason_en": "Little record of judgment calls"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1911년 발견의 공적을 앞세우지 않고 후원",
+     "reason_en": "Funded the find; took no credit"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "1911년 전후 불확실한 페루 탐험에 재정을 투입",
+     "reason_en": "Backed uncertain ventures with money"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "1900~1967년 상류층 신분 질서 속에서 살았다",
+     "reason_en": "Elite life; late divorce was her break"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "1911년 재산을 남편 가문의 탐험에 쏟은 삶",
+     "reason_en": "Poured wealth into family ventures"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "1911년 탐험 자금 지원과 1937년 독립을 결정",
+     "reason_en": "Bold on funding and on remarriage"
+    }
+   },
+   "rationale_ko": "티파니의 상속 재산이 히럼 빙엄의 페루 탐험 자금이 되어 마추픽추의 세계적 발견을 가능케 했다. 일곱 아들을 기르며 37년의 혼인을 지탱했다. 1937년 이혼 뒤 음악가와 재혼해 새 삶을 살았다.",
+   "rationale_en": "A Tiffany heiress whose fortune financed Hiram Bingham's Peruvian expeditions and the Machu Picchu discovery. She bore seven sons over a 37-year marriage, then divorced in 1937 and remarried. The credit went to her husband; her role stayed in the background."
+  }
+ },
+ "멜초르 아르테아가": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 1,
+   "tech_exp": "유적 위치의 지역 지식을 제공",
+   "tech_exp_en": "Supplied the site's location",
+   "social": 2,
+   "social_exp": "현지인이 유적을 알고 있었음을 보여준 사례",
+   "social_exp_en": "Proof locals always knew the site",
+   "economic": 1,
+   "economic_exp": "방문객 대상 기념품 판매 수준",
+   "economic_exp_en": "Sold keepsakes to later visitors",
+   "cultural": 3,
+   "cultural_exp": "빙엄을 마추픽추로 안내해 '발견'의 길잡이",
+   "cultural_exp_en": "Guided Bingham up to the ruins",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "세계적 발견의 현지 안내자로 이름을 남김",
+   "transhistoricity_exp_en": "Local hand behind a famous find"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "1911년 무렵 농장을 운영한 소규모 자영업자",
+     "reason_en": "Ran a small farm below the ruins"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "1911년 험한 절벽 길 안내를 소화한 농부의 체력",
+     "reason_en": "Climbed the steep trails daily"
+    },
+    "intellect": {
+     "score": 42,
+     "reason_ko": "1911년 유적 위치를 알려준 지역 지식의 소유자",
+     "reason_en": "Knew the ruins others had forgotten"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "1911년 이후 유적 앞에서 유물을 판 마을 인물",
+     "reason_en": "Sold trinkets to later visitors"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "절제 관련 행적이 거의 전해지지 않는다",
+     "reason_en": "No record of excess or restraint"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "1911년 산비탈 농사를 지으며 유적 곁에서 삶을 일굼",
+     "reason_en": "Farmed the slopes for a living"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "자기 서술이 남지 않아 성찰을 읽기 어렵다",
+     "reason_en": "No personal writings survive"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "1911년 익숙한 절벽 산길 안내를 마다 않음",
+     "reason_en": "Guided strangers up cliff trails"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "1911년 외지인에게 현지인만 아는 유적을 안내",
+     "reason_en": "Shared a site known only to locals"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "1911년 유적 위치를 알려주고 절벽 길을 안내",
+     "reason_en": "Told Bingham where the ruins lay"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정 관련 판단 기록이 거의 없다",
+     "reason_en": "No judgment calls on record"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "1911년 발견의 안내자였으나 공을 내세우지 않음",
+     "reason_en": "Never claimed the discovery"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "1911년 뒤 방문객에게 유물을 판 상인 기질",
+     "reason_en": "Seized chances as they came"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "1911년 대대로 이어진 산간 농부의 삶",
+     "reason_en": "Lived the village's inherited ways"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "1911년 마을 공동체 안에서 유적을 공유한 주민",
+     "reason_en": "Shared the site within the community"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "1911년 험한 절벽 길 안내를 마다하지 않음",
+     "reason_en": "Did not balk at the cliff path"
+    }
+   },
+   "rationale_ko": "마추픽추 산자락에서 살던 농부가 1911년 빙엄에게 산 위의 유적을 알려주고 험한 길을 직접 안내했다. 그의 지역 지식이 세계적 '발견'의 첫 단추가 됐다. 발견 뒤에도 유적 곁에 살며 방문객에게 기념품을 팔았다.",
+   "rationale_en": "A farmer on the slopes below Machu Picchu who told Bingham of the ruins and guided him up in 1911. His local knowledge was the true first step of a world-famous 'discovery'. He stayed on the mountain, selling keepsakes to visitors."
+  }
+ },
+ "던컨 매켄지": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 5,
+   "tech_exp": "3천 쪽 발굴 일지가 미노아 연구의 1차 자료",
+   "tech_exp_en": "His daybooks are Minoan research's core",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 0,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 4,
+   "cultural_exp": "크노소스 발굴의 현장 기록을 후대에 남김",
+   "cultural_exp_en": "Kept the dig's daily record",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "크노소스 기록의 원천 보존자",
+   "transhistoricity_exp_en": "Source-preserver of the Knossos dig"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1900년부터 크노소스 발굴 현장을 일상 지휘",
+     "reason_en": "Ran Knossos fieldwork 1900-29"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "1910년대 팔레스타인에서 이질을 앓으며 발굴",
+     "reason_en": "Decades outdoors; Palestine dysentery"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "1890년대 비엔나 박사 출신의 층위 기록 선구자",
+     "reason_en": "Vienna PhD; pioneer of dig records"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "1912년 팔레스타인 기금과의 갈등 끝에 물러남",
+     "reason_en": "Fell out with the PEF; little fame"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1861년 가난한 하이랜드 출신의 절약된 생활",
+     "reason_en": "Frugal self-made Highland life"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "1900~1925년 발굴 일지 3,226쪽을 매일 기록",
+     "reason_en": "26 daybooks, 3,226 pages of record"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "1900년대 일지에서 발굴 방법 자체를 되짚어 논함",
+     "reason_en": "Revisited his methods in writing"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "1910~1912년 아인셈스 발굴의 질병과 갈등을 견딤",
+     "reason_en": "Endured illness and institutional rows"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "1900~1929년 에번스 밑에서 크노소스를 지킴",
+     "reason_en": "Nearly 30 years under Evans at Knossos"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "선행 관련 행적이 거의 알려지지 않음",
+     "reason_en": "Little charitable record known"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "1912년 팔레스타인 기금과의 갈등에서 서운함을 드러냄",
+     "reason_en": "Felt wounded pride over credit"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "1900년대 에번스의 명예 뒤에서 1차 기록을 지킴",
+     "reason_en": "Kept the record while Evans got fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "1920년대 불안정한 자리와 평가에 서운함을 품음",
+     "reason_en": "Carried grievances over his position"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "1900년대 기존 학술 기구 안에서 일한 실무자",
+     "reason_en": "Worked inside existing institutions"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "1920년대까지 학파 없이 홀로 일지에 천착",
+     "reason_en": "Founded no school; worked alone"
+    },
+    "cautious_bold": {
+     "score": -22,
+     "reason_ko": "1900년대 '신중하고 영리한 하이랜더'로 불린 발굴",
+     "reason_en": "'Cautious canny Highlander' by repute"
+    }
+   },
+   "rationale_ko": "가난한 하이랜드 출신이 비엔나 박사를 거쳐 크노소스의 현장 책임자가 됐다. 에번스가 명예를 얻는 동안 3천 쪽이 넘는 일지에 발굴의 매일을 기록했다. 그 일지가 미노아 연구의 핵심 1차 자료로 남았고, 팔레스타인 발굴은 갈등으로 끝나 그는 잊힌 채 숨졌다.",
+   "rationale_en": "A poor Highland lad who took a Vienna doctorate and became field director of Knossos. While Evans took the fame, Mackenzie filled 3,226 pages of daybooks that remain the excavation's primary record. Palestine ended badly, and he died forgotten in Italy."
+  }
+ },
+ "페데리코 할베르": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 6,
+   "tech_exp": "고르틴 법전 발견과 이탈리아 고고학 기구 창설",
+   "tech_exp_en": "Found the Gortyn Code; built a school",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 1,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 5,
+   "cultural_exp": "파이스토스 발굴로 미노아 연구를 개척",
+   "cultural_exp_en": "Opened Minoan studies at Phaistos",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "크레타 고고학의 제도적 토대를 세움",
+   "transhistoricity_exp_en": "Built Cretan archaeology's foundations"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "1910년 이탈리아 크레타 고고학 원정대를 세워 이끎",
+     "reason_en": "Founded Italy's Crete mission, 1910"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "1884년부터 수십 년간 크레타 현지 조사를 소화",
+     "reason_en": "Decades of Cretan fieldwork"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "1884년 고르틴 법전 비문을 발견한 비문학의 권위",
+     "reason_en": "Found the Gortyn Code in 1884"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "1890년대 제자 출신으로 에번스에게 크레타 발굴을 권유",
+     "reason_en": "Evans's senior friend and advisor"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1884년부터 발굴과 저작에 몰두한 검소한 삶",
+     "reason_en": "A scholar's restrained life"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "1884년부터 크레타 탐사 수첩 72권을 남김",
+     "reason_en": "72 expedition notebooks survive"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "1884년부터 탐사 수첩에 관찰·평가를 남김",
+     "reason_en": "Kept evaluating finds in his notes"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "1884년 오스만령 크레타에서 발굴을 감행",
+     "reason_en": "Dug in Ottoman-era Crete unrest"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "1910년 이탈리아 고고학 원정대를 평생 이끎",
+     "reason_en": "Gave his career to Italian archaeology"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "1890년대 에번스에게 크레타 발굴을 권해 길을 터줌",
+     "reason_en": "Opened Crete's path for Evans"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "1884년 고르틴 비문 성과를 동료들과 공저로 나눔",
+     "reason_en": "Shared credit with Comparetti et al."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "1884년 고르틴 발견의 공을 콤파레티 등과 나눔",
+     "reason_en": "Shared the Gortyn discovery's credit"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "1884년부터 크레타 가능성을 믿고 발굴을 지속",
+     "reason_en": "Kept faith in Crete for decades"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "학술 제도 창설 외 사회 질서 입장은 드러나지 않음",
+     "reason_en": "No social-order stance on record"
+    },
+    "individual_social": {
+     "score": 22,
+     "reason_ko": "1910년 이탈리아 고고학 교단을 세워 후학을 조직",
+     "reason_en": "Built schools and teams of scholars"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "1884년 발굴 속도보다 비문 기록에 무게를 둠",
+     "reason_en": "Favored epigraphy over quick glory"
+    }
+   },
+   "rationale_ko": "콤파레티의 제자로 1884년 크레타에 들어가 고르틴 법전 비문을 발견했다. 파이스토스와 아기아 트리아다를 발굴하고 이탈리아 고고학 원정대의 초대 단장이 됐다. 에번스에게 크레타 발굴을 권유해 미노아 연구의 문을 함께 열었다.",
+   "rationale_en": "Comparetti's pupil found the Gortyn Code in 1884, then excavated Phaistos and Hagia Triada and founded Italy's archaeological mission in Crete. He urged Evans toward the island — together they opened Minoan studies."
+  }
+ },
+ "엘리자베스 필팟": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 4,
+   "tech_exp": "모식표본 40여 점의 컬렉션과 잉크 발견",
+   "tech_exp_en": "40+ type specimens; revived fossil ink",
+   "social": 4,
+   "social_exp": "계층을 넘어 애닝의 교육을 후원",
+   "social_exp_en": "Crossed class lines to fund Anning",
+   "economic": 1,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 3,
+   "cultural_exp": "라임리지스 화석 문화의 일원",
+   "cultural_exp_en": "Part of Lyme's fossil culture",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "옥스퍼드 소장 컬렉션으로 연구 자료를 남김",
+   "transhistoricity_exp_en": "Her cabinet survives at Oxford"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "1805년 라임리지스 정착 뒤 자매들과 컬렉션 운영",
+     "reason_en": "Ran a sisters' household collection"
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "1805년부터 절벽 화석 채집을 수십 년 지속",
+     "reason_en": "Collected on the Lyme cliffs for years"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "1826년 벨렘나이트 잉크 되살리기를 발견",
+     "reason_en": "Found fossil ink could be revived"
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "1830년대 버클랜드·아가시가 찾은 수집가",
+     "reason_en": "Agassiz came to see her collection"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "1805년부터 자매들과 검소한 코티지 생활",
+     "reason_en": "Quiet cottage life with her sisters"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "1805년부터 수십 년 수집으로 표본 400점 축적",
+     "reason_en": "400 fossils, 40+ type specimens"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "1833년 화석 세피아 그림을 버클랜드 부인에게 보냄",
+     "reason_en": "Corresponded with Mary Buckland"
+    },
+    "courage": {
+     "score": 52,
+     "reason_ko": "1805년부터 절벽 화석 채집을 꾸준히 이어감",
+     "reason_en": "Cliff collecting for decades"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "1810년대부터 계층을 넘은 애닝과의 평생 우정",
+     "reason_en": "Lifelong cross-class friend to Anning"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "1810년대 애닝의 글 공부 비용을 대고 연고를 나눔",
+     "reason_en": "Paid for Anning's schooling"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "1810년대 노동계층 애닝을 학술적 동료로 대우",
+     "reason_en": "Treated working-class Anning as equal"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "1830년대 자기 이름보다 컬렉션 기여를 앞세움",
+     "reason_en": "Let the collection speak, not herself"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "안정된 수집가 생활 속 기질 편향이 드러나지 않음",
+     "reason_en": "Steady temperament; no extremes shown"
+    },
+    "conservative_progressive": {
+     "score": 12,
+     "reason_ko": "1810년대 계층을 넘어 노동계층 여성을 후원",
+     "reason_en": "Crossed class lines to back a woman"
+    },
+    "individual_social": {
+     "score": 22,
+     "reason_ko": "1820년대 자매 공동 수집과 학자 교류의 중심",
+     "reason_en": "Center of a visiting-scholar network"
+    },
+    "cautious_bold": {
+     "score": -8,
+     "reason_ko": "1805년부터 원정보다 지역 절벽 채집에 머묾",
+     "reason_en": "Stayed with local cliff collecting"
+    }
+   },
+   "rationale_ko": "자매들과 라임리지스에 정착해 절벽 화석 수집을 평생 이어갔다. 노동계층 소녀 애닝의 글 공부를 지원했고, 벨렘나이트 잉크로 화석 그림을 그렸다. 400점의 컬렉션은 모식표본 40여 점과 함께 옥스퍼드 박물관으로 갔다.",
+   "rationale_en": "With her sisters she settled in Lyme Regis and spent a lifetime collecting on the cliffs. She paid for Mary Anning's schooling, revived belemnite ink for drawing, and left 400 fossils — over 40 type specimens — to Oxford."
+  }
+ },
+ "헨리 드 라 베슈": {
+  "influence": {
+   "political": 2,
+   "political_exp": "자메이카 노예제 논저와 국책 기관 운영",
+   "political_exp_en": "Slavery pamphlet; ran a state agency",
+   "strategic": 0,
+   "strategic_exp": "군사 영향 없음",
+   "strategic_exp_en": "No military influence",
+   "tech": 7,
+   "tech_exp": "영국 지질조사국을 창설한 국가 과학의 설계자",
+   "tech_exp_en": "Founded the Geological Survey",
+   "social": 2,
+   "social_exp": "노예제 점진론을 주장한 시대적 한계",
+   "social_exp_en": "Urged only gradual abolition",
+   "economic": 4,
+   "economic_exp": "광업·토목용 지질도로 산업 기반에 기여",
+   "economic_exp_en": "Geological maps fed mining, engineering",
+   "cultural": 5,
+   "cultural_exp": "최초의 고생태 복원화를 그려 장르를 엶",
+   "cultural_exp_en": "Painted the first paleoart scene",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "지질조사국과 고생태 복원화라는 지속 유산",
+   "transhistoricity_exp_en": "Survey and paleoart both endure"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "1835년 지질조사국 초대 국장으로 20년간 이끎",
+     "reason_en": "Directed the Geological Survey 20 yrs"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "1810년 군사학교 입학과 데번·콘월 현지 측량 이력",
+     "reason_en": "Military school; field survey work"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "1827년 자메이카 지질 기술과 지질학 교본을 펴냄",
+     "reason_en": "Wrote geology manuals; mapped Jamaica"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "1830년대 동료 지질학자들을 풍자 그림으로 그림",
+     "reason_en": "Sketched witty caricatures of peers"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "1817년부터 자메이카 농장 수입에 기댄 지주 생활",
+     "reason_en": "Lived on slave-estate income"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "1830년대 데본·콘월 지질도를 사실상 혼자 작성",
+     "reason_en": "Mapped Devon nearly single-handed"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "1825년 노예제 기술을 객관으로 자처하나 미화 논란",
+     "reason_en": "Called his slavery account objective"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "1832년 정부 지원 없이 시작한 측량을 국가 사업으로",
+     "reason_en": "Started the survey without funding"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "1830년 곤경의 애닝에게 판화 수익을 건넨 우정",
+     "reason_en": "Stood by Anning in hard times"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "1830년 애닝을 위해 판화를 팔았으나 노예 지주",
+     "reason_en": "Sold prints for Anning; owned slaves"
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "1825년 논저에서 노예제 실태를 미화해 점진론만 주장",
+     "reason_en": "Glossed slavery, urged only gradual end"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1830년대 저작에서 애닝의 발견을 공로로 밝힘",
+     "reason_en": "Credited Anning's finds in print"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "1835년 정부 예산을 설득해 조사국을 키워낸 기획",
+     "reason_en": "Persuaded government to fund the survey"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "1825년 노예제 즉시 폐지에 반대하며 점진 개선 주장",
+     "reason_en": "Opposed immediate abolition"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "1835년 조사국 창설과 1848년 지질학회 회장",
+     "reason_en": "Founded institutions, led societies"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "1832년 국가 지원 전 스스로 측량을 시작한 실행력",
+     "reason_en": "Mapped alone before state backing"
+    }
+   },
+   "rationale_ko": "자메이카 농장의 수입으로 시작해 영국 지질조사국을 세운 국가 과학의 설계자였다. 쥐라기 바다 그림을 팔아 애닝을 도운 우정과 노예제 점진론을 편 시대적 한계가 함께 있다. '두리아 안티퀴오르'는 고생태 복원화의 출발점이 됐다.",
+   "rationale_en": "Funded by a Jamaican slave estate, he built the British Geological Survey and wrote the manuals of the new profession. His 'Duria Antiquior' began paleoart and fed Mary Anning — while his gradualist defense of slavery shows the era's limits."
+  }
+ },
+ "릴리언 브라운": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 1,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "여성 탐험 동행의 생생한 증언을 남김",
+   "social_exp_en": "Vivid record of women on expeditions",
+   "economic": 0,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 4,
+   "cultural_exp": "탐험 회고록 세 권으로 화석 수집 시대를 기록",
+   "cultural_exp_en": "Three memoirs of the fossil-hunt era",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "탐험 문학의 특이한 증언자",
+   "transhistoricity_exp_en": "A singular voice of expedition life"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "1923년 인도·버마 탐사대에 합류한 동행자",
+     "reason_en": "Companion on her husband's expeditions"
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "1923년부터 인도·버마 화석 탐사의 야영을 소화",
+     "reason_en": "Years of camp life in India, Burma"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "1950년대 탐험 경험을 세 권 회고록으로 남김",
+     "reason_en": "Turned field life into three memoirs"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "1920년대 남편이 '픽시'라 부른 발랄한 기질",
+     "reason_en": "'Pixie' — bright, flirtatious, witty"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "1922년 혼인부터 남편의 외도를 넘기는 자유로움",
+     "reason_en": "Tolerated a free-wheeling marriage"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "1950~1951년 현장 경험을 세 권의 회고록으로 완성",
+     "reason_en": "Completed three full memoirs"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "1950년 회고록에서 경험을 유머러스히 되돌아봄",
+     "reason_en": "Looked back with humor in memoirs"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "1923년 인도·버마 화석지 야영에 동행",
+     "reason_en": "Joined fossil camps right after marriage"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "1922년부터 떠돌이 남편 곁에서 수십 년 동반",
+     "reason_en": "Decades beside a wandering husband"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "선행 관련 행적이 거의 알려지지 않았다",
+     "reason_en": "Little charitable record known"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 가를 판단 기록이 거의 없다",
+     "reason_en": "No judgment calls on record"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "1950년 회고록에서 자기보다 남편의 세계를 서술",
+     "reason_en": "Wrote around her husband's world"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "1950년 골칫거리 탐험 생활을 유쾌하게 써냄",
+     "reason_en": "Made hardships into cheerful books"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "1923년 여성 관례를 벗어나 탐험 동행과 집필을 택함",
+     "reason_en": "Defied era's norms for women writers"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "1920년대 독자적 일탈도 마다않은 자유로운 관계",
+     "reason_en": "Free-spirited even inside marriage"
+    },
+    "cautious_bold": {
+     "score": 18,
+     "reason_ko": "1922년 캘커타 혼인 직후 화석지로 곧장 나섬",
+     "reason_en": "Straight from the altar to the field"
+    }
+   },
+   "rationale_ko": "캘커타에서 바넘 브라운과 결혼해 신혼여행이 곧 화석 탐사가 된 작가였다. 인도와 버마의 야영 생활을 견디며 그 세계를 세 권의 회고록으로 남겼다. 『I Married a Dinosaur』는 탐험 시대의 살아 있는 증언으로 남았다.",
+   "rationale_en": "Married fossil hunter Barnum Brown in Calcutta, then honeymooned in the fossil beds of India and Burma. She turned those camps into three cheerful memoirs — 'I Married a Dinosaur' remains a vivid record of the expedition age."
+  }
+ },
+ "찰스 스턴버그": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 5,
+   "tech_exp": "코프·마시 양쪽에 미국 고생물학의 표본을 공급",
+   "tech_exp_en": "Supplied both Bone Wars rivals",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 2,
+   "economic_exp": "화석 수집을 직업으로 정착시킨 사례",
+   "economic_exp_en": "Made fossil collecting a profession",
+   "cultural": 4,
+   "cultural_exp": "세계 박물관에 퍼진 그의 표본들",
+   "cultural_exp_en": "His specimens fill world museums",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "화석 수집 가문의 시조",
+   "transhistoricity_exp_en": "Patriarch of a fossil dynasty"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "1890년대 세 아들을 이끈 가족 수집대의 가장",
+     "reason_en": "Headed a family collecting outfit"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "1876~1920년대 황야 발굴을 견딘 노장의 지구력",
+     "reason_en": "Fifty years of badlands digging"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "1909년 회고록을 펴낸 독학 수집가",
+     "reason_en": "Self-taught stratigraphy; wrote memoirs"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "1876년부터 숙적 코프·마시 양쪽이 신임",
+     "reason_en": "Trusted by both Bone Wars rivals"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "1880년대 뼈 전쟁의 불법 경쟁에 휘말리지 않음",
+     "reason_en": "Kept clear of the Bone Wars' graft"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "1876년부터 반세기 넘게 화석 수집을 지속",
+     "reason_en": "Collected from 1876 to the 1920s"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "1909년 회고록으로 수집 인생을 되돌아봄",
+     "reason_en": "Wrote poems and a life memoir"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "1870년대 서부 황야에서 수십 년 발굴을 감행",
+     "reason_en": "Dug contested western badlands"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "1876년부터 어느 후원자에도 얽매이지 않고 수집",
+     "reason_en": "Served the craft, raised three sons"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "1890년대 세 아들을 같은 길로 이끌어 가업을 세움",
+     "reason_en": "Devoted father to three collectors"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "1880년대 적대하는 두 학자에게 같은 기준으로 판매",
+     "reason_en": "Same terms to warring Cope and Marsh"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "1880년대 명명권을 후원 학자들에게 양보",
+     "reason_en": "Left naming honors to the scholars"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "1909년 회고록에서 발견을 섭리로 읽은 낙관론",
+     "reason_en": "Saw Providence in every find"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "1850년생 독실한 장로교인으로 전통 가치관",
+     "reason_en": "Devout faith; traditional order"
+    },
+    "individual_social": {
+     "score": 18,
+     "reason_ko": "1890년대 세 아들과 한 수집 가업을 이룸",
+     "reason_en": "A family enterprise of fossil hunting"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "1908년 캐나다 불모지 원정을 아들들과 감행",
+     "reason_en": "Took sons into the Alberta badlands"
+    }
+   },
+   "rationale_ko": "캔자스 백악층에서 시작해 반세기 넘게 화석을 캐낸 수집 가문의 시조였다. 뼈 전쟁의 숙적 코프와 마시 양쪽에게 표본을 공급했고, 세 아들을 같은 길로 길러냈다. 발견의 명예는 박물관과 학자에게 갔고 그는 수집 자체를 소명으로 여겼다.",
+   "rationale_en": "Patriarch of a fossil dynasty who dug for both enemies of the Bone Wars. Over half a century he sent museum-loads of specimens worldwide and raised three sons to the trade. The honors went to museums; the digging was his calling."
+  }
+ },
+ "존 벨 해처": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 5,
+   "tech_exp": "트리케라톱스·디플로도쿠스 표본을 발굴한 수집가",
+   "tech_exp_en": "Dug Triceratops and Diplodocus",
+   "social": 1,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 1,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 5,
+   "cultural_exp": "디플로도쿠스 표본이 세계 박물관의 상징이 됨",
+   "cultural_exp_en": "His Diplodocus became a global icon",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "공룡 표본 수집사의 대표 인물",
+   "transhistoricity_exp_en": "A giant among fossil collectors"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1896~1899년 파타고니아 원정대와 발굴팀을 지휘",
+     "reason_en": "Led Patagonia and field parties"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "1896년 파타고니아 원정까지 소화한 불모지 체력",
+     "reason_en": "Wyoming badlands, Patagonia treks"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "파타고니아 원정 보고서를 1903년 저술",
+     "reason_en": "Authored Patagonia expedition reports"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "1890년대 마시를 상대로 처우를 흥정한 강단",
+     "reason_en": "Bargained hard with Marsh over pay"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1880년대 황야 노동에 몰두한 검소한 현장 생활",
+     "reason_en": "Spare camp life, work-driven"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "1880년대부터 시즌마다 대량의 표본을 보냄",
+     "reason_en": "Season after season of huge hauls"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "1884년부터 지질 맥락까지 새긴 현장 기록",
+     "reason_en": "Kept precise stratigraphic records"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "1890년대 불모지 혹한과 파타고니아 오지를 감행",
+     "reason_en": "Solo winters in the badlands"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "1884~1893년 마시 밑에서 일하다 처우로 결별",
+     "reason_en": "Nine years with Marsh, then broke"
+    },
+    "benevolence": {
+     "score": 48,
+     "reason_ko": "1904년 사망까지 온정보다 실력이 앞선 평가",
+     "reason_en": "Known more for skill than warmth"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "1890년대 수집가의 처우와 공로 인정을 요구",
+     "reason_en": "Demanded fair pay and credit"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "1880년대 발견의 공적을 내세우지도 숨기지도 않음",
+     "reason_en": "Neither hid nor boasted his finds"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "1884년부터 매년 새 원정지를 찾아 나선 진취성",
+     "reason_en": "Took up new fields every year"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "처우 흥정 외에 사회 질서 입장이 전해지지 않음",
+     "reason_en": "No social-order stance on record"
+    },
+    "individual_social": {
+     "score": 0,
+     "reason_ko": "1880년대 단독 발굴과 1890년대 팀 지휘를 병행",
+     "reason_en": "Lone collector who also led teams"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "1896년 미답의 파타고니아 화석지 원정을 감행",
+     "reason_en": "Pushed into unmapped fossil country"
+    }
+   },
+   "rationale_ko": "마시의 최고 수집가로 서부 황야에서 트리케라톱스와 토로사우루스의 근간을 캐냈다. 처우를 두고 마시와 맞설 만큼 당당했고, 카네기 박물관의 디플로도쿠스와 파타고니아 원정을 이끌었다. 42세에 장티푸스로 요절했다.",
+   "rationale_en": "Marsh's finest collector pulled Triceratops and Torosaurus out of the badlands, bargained hard over pay, then dug Diplodocus for Carnegie and led expeditions into Patagonia. Typhoid killed him at 42."
+  }
+ },
+ "조지 데커": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 2,
+   "tech_exp": "유적 위치의 지역 지식을 제공",
+   "tech_exp_en": "Knew where the old mounds lay",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 1,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 4,
+   "cultural_exp": "바이킹의 아메리카 정착 실증을 연 안내자",
+   "cultural_exp_en": "Pointed Ingstad to Vinland's proof",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "빈란드 실증의 첫 단추",
+   "transhistoricity_exp_en": "First link in the Vinland proof"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 22,
+     "reason_ko": "1960년 마을 원로 어부로 지역의 신망",
+     "reason_en": "Village elder and fisherman"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "1960년까지 북대서양 어부의 거친 노동을 견딤",
+     "reason_en": "Lifetime of North Atlantic fishing"
+    },
+    "intellect": {
+     "score": 42,
+     "reason_ko": "1960년 '오래된 인디언 야영지' 위치를 아는 기억",
+     "reason_en": "Knew what the mounds might be"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "1960년 란스오메도스 마을의 원로 어부",
+     "reason_en": "Respected elder of the village"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1960년까지 북부 어촌의 소박한 어부 생활",
+     "reason_en": "A fisherman's frugal life"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "1960년까지 평생 어로로 살아온 뉴펀들랜드 어부",
+     "reason_en": "Fished the same shore for a lifetime"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "자기 서술이 남아 있지 않아 성찰을 읽기 어려움",
+     "reason_en": "No personal writings survive"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "큰 위험을 감수한 행적이 전해지지 않음",
+     "reason_en": "No risk-taking record on file"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "1835년 마을 개척 가문의 후예로 지역에 뿌리내림",
+     "reason_en": "Rooted in the town his kin founded"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "1960년 외지인 잉스타드에게 유적지를 선뜻 안내",
+     "reason_en": "Showed a stranger the old mounds"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정을 가를 판단 기록이 거의 전해지지 않음",
+     "reason_en": "No judgment calls on record"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "1960년 발견의 공을 탐험가에게 넘긴 안내자",
+     "reason_en": "Left the discovery to the visitors"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "기질을 가를 발언 기록이 남아 있지 않음",
+     "reason_en": "No disposition evidence recorded"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "1835년 개척 이래 대대로 어촌 공동체의 삶",
+     "reason_en": "Kept the old village way of life"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "1960년 마을 원로로 지역 공동체 속에서 생활",
+     "reason_en": "A community elder throughout"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "1960년 낯선 탐험가의 물음에 유적을 보여줌",
+     "reason_en": "Simply pointed Ingstad to the site"
+    }
+   },
+   "rationale_ko": "란스오메도스에서 평생 바다에 나간 어부로 마을 사람들이 '오래된 인디언 야영지'라 부르던 흙더미를 알고 있었다. 1960년 잉스타드에게 그 자리를 안내했다. 발굴 끝에 유럽인의 첫 아메리카 정착지로 확인됐다.",
+   "rationale_en": "A fisherman of L'Anse aux Meadows who knew the grassy mounds locals called an old Indian camp. In 1960 he led Helge Ingstad to them — the dig proved the first European settlement in America. Vinland was real because he showed the way."
+  }
+ },
+ "장샤오완": {
+  "influence": {
+   "political": 2,
+   "political_exp": "청나라 서기 출신 외 정치 영향 없음",
+   "political_exp_en": "Qing clerk; no political role",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 3,
+   "tech_exp": "장경동 사본의 정리·번호 부여를 수행",
+   "tech_exp_en": "Numbered the library-cave scrolls",
+   "social": 2,
+   "social_exp": "중국 문화재 유출의 논란이 된 협상가",
+   "social_exp_en": "Contested broker of heritage loss",
+   "economic": 2,
+   "economic_exp": "사본 매입이라는 문화재 거래를 성사",
+   "economic_exp_en": "Closed the scroll-purchase deal",
+   "cultural": 6,
+   "cultural_exp": "금강경을 포함한 둔황 문서의 해외 이전을 성사",
+   "cultural_exp_en": "Got the Diamond Sutra to Britain",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "둔황 문서 분산의 결정적 고리",
+   "transhistoricity_exp_en": "Key link in the Dunhuang dispersal"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 38,
+     "reason_ko": "1883년 신장 부임 뒤 관리의 사문서기를 지냄",
+     "reason_en": "Staff role; former Qing secretary"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "1906~1908년 사막 원정길을 동행한 문인의 체력",
+     "reason_en": "Endured the 1906-08 desert trek"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "1906년부터 슈타인에게 중국어를 가르치고 사본 정리",
+     "reason_en": "Taught Stein Chinese; listed scrolls"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "1907년 슈타인과 왕 도사 사이에서 신뢰를 얻음",
+     "reason_en": "Won Stein's and Abbot Wang's trust"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "1907년 왕 도사를 설득해 사본의 야간 반출을 도움",
+     "reason_en": "Brokered nighttime removal of scrolls"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "1907년 장경동 사본에 번호와 제목을 적어 넣음",
+     "reason_en": "Numbered thousands of scrolls by hand"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "1922년 사망까지 자기 역할을 되돌아본 흔적은 없음",
+     "reason_en": "Left no reckoning of his role"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "1907년 둔황 협상의 민감한 자리에 섬",
+     "reason_en": "Stood in a delicate negotiation"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "1906~1908년 탐험 내내 슈타인의 오른팔을 지킴",
+     "reason_en": "Served Stein through the whole trek"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "1907년 중국 사본의 해외 유출을 성사시킴",
+     "reason_en": "Enabled removal of China's heritage"
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "1907년 밤중에 사본을 몰래 옮기는 거래를 주선",
+     "reason_en": "Deal done by night, in secret"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1906년부터 슈타인 뒤에서 실무를 도맡음",
+     "reason_en": "Stayed the invisible aide to Stein"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "기질을 가를 자기 표현이 남아 있지 않음",
+     "reason_en": "No disposition evidence recorded"
+    },
+    "conservative_progressive": {
+     "score": -18,
+     "reason_ko": "1883년 청나라 관료 체제의 서기로 기존 질서에 근무",
+     "reason_en": "A clerk of the old Qing order"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "1906~1908년 두 문화 사이의 탐험대 연결고리",
+     "reason_en": "Bridge between expedition and locals"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "1907년 반발하는 왕 도사를 설득해 장경동을 엶",
+     "reason_en": "Talked a reluctant guardian into selling"
+    }
+   },
+   "rationale_ko": "신장에 부임된 청나라 서기가 1906년 슈타인의 제2차 탐험에 통역으로 합류했다. 둔황에서 왕 도사를 설득해 장경동 사본의 매입을 성사시켰고 그 안에 금강경이 있었다. 중국 문화재의 해외 유출에 결정적 고리가 된 인물로 평가가 엇갈린다.",
+   "rationale_en": "A Qing clerk posted to Xinjiang who joined Stein's 1906-08 expedition as interpreter. At Dunhuang he persuaded Abbot Wang to sell the library scrolls — the Diamond Sutra among them — making him a pivotal, contested figure in China's loss of its manuscripts."
+  }
+ },
+ "아밀리아 에드워즈": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military record",
+   "tech": 5,
+   "tech_exp": "영국 이집트학의 기금과 첫 강좌를 창설",
+   "tech_exp_en": "Founded the EEF and first chair",
+   "social": 5,
+   "social_exp": "유적 보존 운동과 여성의 학술 제도 개척",
+   "social_exp_en": "Preservationism; women in scholarship",
+   "economic": 2,
+   "economic_exp": "출판 수익과 유산을 발굴 자금으로 전환",
+   "economic_exp_en": "Royalties became excavation funds",
+   "cultural": 5,
+   "cultural_exp": "베스트셀러 여행기로 이집트 붐을 부추김",
+   "cultural_exp_en": "Her bestseller fed the Egypt boom",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "이집트 탐험 협회와 강좌가 지금도 지속",
+   "transhistoricity_exp_en": "The Fund and chair still endure"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "1882년 이집트 탐험 기금을 공동 창설하고 운영을 이끎",
+     "reason_en": "Founded and ran the EEF from 1882"
+    },
+    "martial": {
+     "score": 24,
+     "reason_ko": "1873년 나일강 천 마일 여행을 소화한 여행가",
+     "reason_en": "1873 Nile journey; otherwise desk work"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "1877년 여행기 베스트셀러 뒤 조직가로 전업한 지성",
+     "reason_en": "Novelist turned Egyptology organizer"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "1877년 베스트셀러와 1889년 미국 순회 강연의 호소력",
+     "reason_en": "Bestselling author; US lecture tour"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "1892년 유산까지 발굴 기금에 쏟은 절제된 삶",
+     "reason_en": "Poured earnings into the fund"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "1880년대 집필·강연·모금을 수십 년 병행",
+     "reason_en": "Wrote, lectured, fundraised for decades"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "1873년 나일 여행 뒤 인생 방향을 바꾼 자기 인식",
+     "reason_en": "Redirected her life after the Nile"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "1873년 여성의 몸으로 나일 상류까지 여행",
+     "reason_en": "Nile journey as a woman, 1873"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "1882년 창설 기금에 여생과 유산을 모두 바침",
+     "reason_en": "Gave her fortune and her estate to it"
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "1882년부터 피트리 같은 젊은 발굴자를 뒷받침",
+     "reason_en": "Backed young diggers like Petrie"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "1880년대 인맥보다 실력을 보고 피트리를 후원",
+     "reason_en": "Backed Petrie on merit, not ties"
+    },
+    "humility": {
+     "score": 52,
+     "reason_ko": "1882년부터 무명 직책으로 일하며 강단도 보임",
+     "reason_en": "Took the unpaid honorary-secretary role"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "1882년 유적 보존의 확신으로 기금 조직을 세움",
+     "reason_en": "Believed monuments could be saved"
+    },
+    "conservative_progressive": {
+     "score": 18,
+     "reason_ko": "1882년 남성 중심 학계에 기금을 만든 개척자",
+     "reason_en": "Built institutions in a male academy"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "1882년 기금 운영위와 후원 네트워크를 조직",
+     "reason_en": "Organized donors and committees"
+    },
+    "cautious_bold": {
+     "score": 18,
+     "reason_ko": "1877년 베스트셀러 뒤 이집트학에 인생을 걺",
+     "reason_en": "Staked her fame on a new field"
+    }
+   },
+   "rationale_ko": "베스트셀러 소설가가 나일강 여행을 계기로 이집트학의 조직가로 변신했다. 1882년 탐험 기금을 세워 피트리의 발굴을 뒷받침했고 유산으로 영국 첫 이집트학 강좌를 만들었다. 명예보다 제도를 남긴 후원자였다.",
+   "rationale_en": "A bestselling novelist who turned a Nile journey into a second career as the organizer of British Egyptology. She co-founded the Egypt Exploration Fund in 1882, backed Petrie, and endowed the first Egyptology chair. She left institutions, not fame."
+  }
+ },
+ "로버트 헤이": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행적 없음",
+   "political_exp_en": "No political record",
+   "strategic": 1,
+   "strategic_exp": "해군 복무 경력",
+   "strategic_exp_en": "Former Royal Navy officer",
+   "tech": 4,
+   "tech_exp": "49권의 측묘 기록이 파손 전 유적의 원천 자료",
+   "tech_exp_en": "49 volumes record lost monuments",
+   "social": 2,
+   "social_exp": "사회 영향 미미",
+   "social_exp_en": "Little social influence",
+   "economic": 1,
+   "economic_exp": "경제 영향 없음",
+   "economic_exp_en": "No economic influence",
+   "cultural": 5,
+   "cultural_exp": "잃어버린 이집트의 모습을 그림으로 보존",
+   "cultural_exp_en": "Preserved a vanished Egypt in ink",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "영국도서관 소장 헤이 기록집의 장기 가치",
+   "transhistoricity_exp_en": "The Hay archive remains consulted"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1824~1834년 예술가 팀을 이끌고 기록 사업을 지휘",
+     "reason_en": "Led artist teams in Egypt, 1824-34"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "해군 출신으로 1820년대 무덤 거주의 현지 생활을 견딤",
+     "reason_en": "Ex-navy; lived in tombs at Thebes"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "1820년대 카메라 루시다로 유적을 정밀 측묘",
+     "reason_en": "Camera-lucida precision recorder"
+    },
+    "charm": {
+     "score": 42,
+     "reason_ko": "1820년대 팀에게 장시간 고강도 작업을 요구",
+     "reason_en": "Demanded long hours from his artists"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1824년 상속 유산을 방종 아닌 기록 사업에 투입",
+     "reason_en": "Spent inheritance on records, not vice"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1824~1834년 49권 분량의 측묘·필사 기록을 축적",
+     "reason_en": "49 volumes of drawings and notes"
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "1840년대 방대한 일지·도면을 후대 자료로 남김",
+     "reason_en": "Left diaries but published little"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "1820년대 왕가의 계곡 무덤에 살며 기록한 담력",
+     "reason_en": "Lived in tombs, reached Abu Simbel"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "1828년 노예시장에서 구한 크레타 여인과 혼인",
+     "reason_en": "Married the woman he rescued, 1828"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "1828년 노예시장에서 크레타 여인을 구해 맞음",
+     "reason_en": "Rescued Kalitza from the slave market"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "1820년대 고용 예술가들과 정식 계약을 유지",
+     "reason_en": "Kept formal terms with hired artists"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "1840년 출판 한 권 외 방대한 기록을 자료로 남김",
+     "reason_en": "Left archives unpublished as source"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "1830년대 테베 대파노라마 같은 야심 찬 출판을 구상",
+     "reason_en": "Planned a grand Thebes panorama"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "1824년 상속 지주 출신으로 기존 신분 질서 속 생활",
+     "reason_en": "Country-estate gentry, settled order"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "1820년대 다국적 예술가 팀을 조직해 공동 작업",
+     "reason_en": "Ran multinational artist teams"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "1824년 그랜드투어를 넘어 10년 이집트 체류를 감행",
+     "reason_en": "A decade in Egypt on a Grand Tour"
+    }
+   },
+   "rationale_ko": "해군을 거쳐 상속받은 유산으로 이집트에 들어간 스코틀랜드인이었다. 발굴 대신 예술가 팀을 이끌고 신전과 무덤을 10년간 측묘해 49권의 기록을 남겼다. 그 기록은 지금도 파손 전 유적의 모습을 보여주는 자료로 쓰인다.",
+   "rationale_en": "A naval officer turned antiquarian who spent a decade recording Egypt's monuments with teams of artists. His 49 volumes remain a key record of sites since damaged. He married Kalitza, the Cretan woman he rescued from a slave market."
+  }
+ }
+}

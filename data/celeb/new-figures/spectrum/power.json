@@ -1,0 +1,1874 @@
+{
+ "윌리엄 워커": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1856년 니카라과를 실제 통치하고 중미 전쟁을 유발",
+   "political_exp_en": "Ruled Nicaragua in 1856 and provoked a Central American war",
+   "strategic": 2,
+   "strategic_exp": "민간 용병 원정의 전형을 남겼을 뿐",
+   "strategic_exp_en": "Left a template of private expeditions, not military institutions",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여와 무관",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "침공이 중앙아메리카 국가 정체성과 반미 서사를 결집시킴",
+   "social_exp_en": "His invasion crystallised Central American identity and anti-US memory",
+   "economic": 2,
+   "economic_exp": "밴더빌트 횡단 운송로를 끊었으나 일시적",
+   "economic_exp_en": "Cut Vanderbilt's transit route, but only briefly",
+   "cultural": 4,
+   "cultural_exp": "'운명의 사내' 전설로 영화·문학의 소재가 됨",
+   "cultural_exp_en": "The 'gray-eyed man of destiny' fed film and literature",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "한 세기 반 넘게 미 제국주의의 상징으로 회자",
+   "transhistoricity_exp_en": "Still recalled a century and a half on as the emblem of filibuster imperialism"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "1856년 수백 명의 용병대로 니카라과를 약 1년간 통치",
+     "reason_en": "Led a few hundred filibusters and ran Nicaragua for about a year"
+    },
+    "martial": {
+     "score": 76,
+     "reason_ko": "바하칼리포니아부터 니카라과까지 여러 차례 접전을 직접 지휘",
+     "reason_en": "Commanded in close combat from Baja California to Nicaragua"
+    },
+    "intellect": {
+     "score": 74,
+     "reason_ko": "19세에 의대를 마치고 법률·신문업까지 섭렵",
+     "reason_en": "Finished medical school at nineteen, then law and journalism"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "연패에도 수백 명의 지원병을 다시 모집해 낸 인력",
+     "reason_en": "Raised fresh volunteer companies even after defeats"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "술·담배를 멀리한 금욥 체질이나 정복욕은 제어 못함",
+     "reason_en": "A teetotal ascetic who could not check his hunger for conquest"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "의학·법률·언론을 거쳐 세 번의 원정을 거듭",
+     "reason_en": "From medicine to law to journalism, he mounted three expeditions"
+    },
+    "reflection": {
+     "score": 38,
+     "reason_ko": "1860년 회고록에서 패배를 밴더빌트 등 남 탓으로 돌림",
+     "reason_en": "His 1860 memoir blamed Vanderbilt and others for his fall"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "서른여섯의 생을 세 차례 침공과 최전선 지휘로 소모",
+     "reason_en": "Spent a thirty-six-year life on three invasions and front-line command"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "니카라과 동맹을 등졌으나 필리버스터 대의엔 일관",
+     "reason_en": "He deserted his Nicaraguan allies but never the filibuster cause"
+    },
+    "benevolence": {
+     "score": 28,
+     "reason_ko": "1856년 노예제 부활과 점령지 수탈이 통치의 골자",
+     "reason_en": "Restoring slavery and confiscating property defined his rule"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "운송회사 재산 몰수와 즉결 처형의 자의적 점령",
+     "reason_en": "He seized company property and ordered summary executions"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스스로 대통령에 취임하고 영어를 공용어로 선포",
+     "reason_en": "He inaugurated himself president and made English official"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "연전연패에도 세 번째 침공까지 승산을 믿음",
+     "reason_en": "Defeat after defeat, he still believed the third landing would win"
+    },
+    "conservative_progressive": {
+     "score": -32,
+     "reason_ko": "1856년 폐지됐던 노예제를 니카라과에 되살림",
+     "reason_en": "He reintroduced slavery to Nicaragua in 1856"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "국가도 조직도 자기 야망의 도구로 씀",
+     "reason_en": "State and army alike were instruments of his own ambition"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "예순 명 남짓한 병력으로 나라를 통째로 노림",
+     "reason_en": "He aimed at a whole country with some sixty men"
+    }
+   },
+   "rationale_ko": "의학과 법학을 마친 인재가 예순 명 남짓의 무장대로 나라를 노렸다. 금욕적인 사생활과 대조적으로 정복욕은 제어되지 않았고 노예제 부활이 중미 전체를 적으로 돌렸다. 서른여섯에 온두라스에서 총살당했다.",
+   "rationale_en": "A trained physician and lawyer tried to take a country with a few dozen mercenaries. His private austerity never checked his appetite for conquest, and restoring slavery turned all of Central America against him. Honduras shot him at thirty-six."
+  }
+ },
+ "조사이어 할런": {
+  "influence": {
+   "political": 2,
+   "political_exp": "펀자브 두 지방의 지사로 잠시 군정을 맡았을 뿐",
+   "political_exp_en": "Briefly governed two Punjabi districts; little political trace",
+   "strategic": 2,
+   "strategic_exp": "현지 군주의 군사 고문으로 국지 영향에 그침",
+   "strategic_exp_en": "A military adviser to local rulers; his impact stayed local",
+   "tech": 1,
+   "tech_exp": "식물 채집과 기행문 기록이 일부 남음",
+   "tech_exp_en": "Left modest botanical notes and travel writing",
+   "social": 1,
+   "social_exp": "제도·규범에 남긴 흔적이 없음",
+   "social_exp_en": "Left no mark on institutions or norms",
+   "economic": 1,
+   "economic_exp": "외지인 고문으로 경제 변화와 무관",
+   "economic_exp_en": "A foreign adviser with no economic consequence",
+   "cultural": 4,
+   "cultural_exp": "키플링 단편의 모델 후보로 문학사에 남음",
+   "cultural_exp_en": "Survives in letters as a model for Kipling's would-be king",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "그레이트 게임의 기인으로 문학을 통해 기억됨",
+   "transhistoricity_exp_en": "Remembered through literature as the Great Game's first American"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "1820년대 란짓 싱 치하에서 두 지방의 지사로 군정을 맡음",
+     "reason_en": "He administered two Punjabi districts under Ranjit Singh in the 1820s"
+    },
+    "martial": {
+     "score": 65,
+     "reason_ko": "버마 전역 군의관과 힌두쿠시 원정을 견딘 행군력",
+     "reason_en": "A Burma campaign surgeon who endured Hindu Kush expeditions"
+    },
+    "intellect": {
+     "score": 66,
+     "reason_ko": "외과의이자 탐험기 저술가로 현지어를 익힌 정보맨",
+     "reason_en": "A surgeon and travel writer who picked up local languages"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "미국인 신분으로 펀자브와 카불 궁정을 오가며 신임을 얻음",
+     "reason_en": "An American who won trust at the courts of Punjab and Kabul"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "주인을 갈아치우며 왕위까지 넘본 야심",
+     "reason_en": "He traded patrons and reached for a crown"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "인도에서 아프간까지 20년 넘게 모험을 지속",
+     "reason_en": "Sustained twenty years of adventure from India to Afghanistan"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "회고록에서 '고르의 왕자' 칭호를 스스로 부풀림",
+     "reason_en": "His memoir inflates a self-claimed 'Prince of Ghor' title"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "홀로 아프간 전장에 들어가 현지군을 이끈 결단",
+     "reason_en": "He rode alone into Afghan wars and led local troops"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "란짓 싱과 도스트 무함마드 등 주인을 수시로 바꿈",
+     "reason_en": "He changed masters — Ranjit Singh, Dost Mohammad — as it suited him"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "현지 군주 휘하에서 징세와 치안을 맡은 행정가",
+     "reason_en": "He collected taxes and kept order as a princely official"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "지사 재임 시절 공정성을 가릴 기록이 옅음",
+     "reason_en": "His record as governor gives little on which to judge fairness"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "'고르의 왕자' 칭호를 스스로 쓰고 회고록에 과장",
+     "reason_en": "He styled himself a prince and embellished the tale"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "아프간 한가운데서 왕위를 얻을 수 있다고 믿음",
+     "reason_en": "He believed a throne in Afghanistan was within reach"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "공화국 출신이면서 왕정 궁정의 작위를 추구",
+     "reason_en": "A republic's citizen who chased titles at royal courts"
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "조국도 동료도 없이 홀로 대륙을 누빈 모험가",
+     "reason_en": "He crossed a continent alone, with neither country nor comrades"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "홀로 아프간으로 들어가 권력 한복판에 자리 잡음",
+     "reason_en": "Alone, he inserted himself into the heart of Afghan power"
+    }
+   },
+   "rationale_ko": "외과의의 자격만으로 아프가니스탄 권력 한복판까지 파고들었다. 주인을 갈아치우는 기회주의가 왕좌 직전까지 데려갔으나 조국에 돌아온 뒤에는 아무 왕위도 없었다. 그의 이야기가 키플링 단편의 모델 후보로 남았다.",
+   "rationale_en": "A surgeon's commission carried him into the heart of Afghan power. Opportunism — changing patrons as it suited him — took him within reach of a crown, but no throne waited back home. His story survives as a model for Kipling's tale of the man who would be king."
+  }
+ },
+ "애런 버": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1800년 동점 선거가 수정헌법 제12조를 낳음",
+   "political_exp_en": "The tied 1800 election produced the Twelfth Amendment",
+   "strategic": 2,
+   "strategic_exp": "독립전쟁 복무 외 군사 제도 기여 없음",
+   "strategic_exp_en": "Revolutionary service, but no military-institutional legacy",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여와 무관",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 5,
+   "social_exp": "1807년 반역 재판이 미국 반역죄 법리를 정립",
+   "social_exp_en": "His 1807 trial shaped the American law of treason",
+   "economic": 4,
+   "economic_exp": "1799년 세운 맨해튼 컴퍼니가 체이스 맨해튼의 뿌리",
+   "economic_exp_en": "His 1799 Manhattan Company became a root of Chase Manhattan",
+   "cultural": 4,
+   "cultural_exp": "해밀턴 사살로 미국사 최대 정치 스캔들의 주인공이 됨",
+   "cultural_exp_en": "Killing Hamilton made him the lead of America's first great scandal",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "2백 년 넘게 배신의 대명사로 기억되는 건국세대",
+   "transhistoricity_exp_en": "Two centuries on he remains the founding generation's byword for treachery"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "뉴욕 정치조직을 일구고 4년간 부통령으로 상원을 주재",
+     "reason_en": "Built a New York machine and presided over the Senate for four years"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "퀘벡 원정과 몬머스 전투를 거친 독립전쟁 장교",
+     "reason_en": "A Revolutionary officer who marched on Quebec and fought at Monmouth"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "열여섯에 프린스턴을 졸업하고 뉴욕 최고 변호사 반열에 오름",
+     "reason_en": "A Princeton graduate at sixteen who reached the top of the New York bar"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "적들조차 인정한 언변으로 한 세대를 매혹",
+     "reason_en": "A charm even his enemies conceded, beguiling a generation"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 33,
+     "reason_ko": "명예 결투와 제국 야망을 제어하지 못함",
+     "reason_en": "He could not govern the honour duel or his imperial ambition"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "망명에서 돌아와 일흔 후반까지 변호사업을 이어감",
+     "reason_en": "Back from exile he practised law into his late seventies"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "말년에 '세상은 해밀턴과 나를 담기에 넓다'는 회한을 남김",
+     "reason_en": "Late in life he allowed the world was wide enough for Hamilton and him"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "현직 부통령 신분으로 결투장에 나가 상대를 사살",
+     "reason_en": "As sitting vice president he went to the ground and killed his man"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "딸 테오도시아에겐 헌신했으나 동맹과 대통령을 배신",
+     "reason_en": "Devoted to his daughter Theodosia, he betrayed allies and president"
+    },
+    "benevolence": {
+     "score": 38,
+     "reason_ko": "해밀턴 사살과 음모 추구 외 선행 행적이 드묾",
+     "reason_en": "Beyond the duel and the scheme, little benevolence is on record"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "1805년 체이스 탄핵 재판을 공정하게 주재해 적진도 인정",
+     "reason_en": "His impartial conduct of the 1805 Chase trial won even Federalist praise"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "서부에 자기 제국을 세우려 한 야망가",
+     "reason_en": "He aspired to an empire of his own in the West"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "파산과 망명 뒤에도 복귀를 낙관",
+     "reason_en": "Bankrupt and exiled, he still expected a comeback"
+    },
+    "conservative_progressive": {
+     "score": 12,
+     "reason_ko": "이민자 표를 조직한 민주공화파 정치기술자",
+     "reason_en": "A Democratic-Republican tactician who organised immigrant votes"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "당파보다 자기 야망을 앞세운 처신",
+     "reason_en": "He put personal ambition above any party"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "부통령 자리에서 결투와 서부 계획을 감행",
+     "reason_en": "From the vice presidency he dared a duel and a western scheme"
+    }
+   },
+   "rationale_ko": "전쟁 영웅에서 부통령까지 오른 총명한 정치인이었다. 결투와 서부 야망이 경력을 갉아먹었으나 반역 재판 자체가 미국법의 길을 남겼다. 해밀턴을 쏜 뒤에도 임기를 마치고 여든까지 살았다.",
+   "rationale_en": "A brilliant politician who rose from war hero to vice president. The duel and the western scheme consumed his career, yet his treason trial left a mark on American law. He served out his term after killing Hamilton and lived to eighty."
+  }
+ },
+ "이디 아민": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1971년 쿠데타로 8년 통치, 탄자니아와 전면전",
+   "political_exp_en": "Ruled eight years after a 1971 coup and provoked a war with Tanzania",
+   "strategic": 3,
+   "strategic_exp": "카게라 침공이 자국군 붕괴와 엔테베 작전의 배경을 만듦",
+   "strategic_exp_en": "His Kagera invasion collapsed his army; his hostage-taking set up Entebbe",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 5,
+   "social_exp": "아시아계 추방과 수십만 학살로 탈식민 폭정의 전형이 됨",
+   "social_exp_en": "Expulsion of Asians and mass killings made him the type of postcolonial tyranny",
+   "economic": 4,
+   "economic_exp": "상인 계층 추방으로 우간다 경제를 수십 년 뒤로 돌림",
+   "economic_exp_en": "Expelling the trading class set Uganda's economy back decades",
+   "cultural": 5,
+   "cultural_exp": "'라스트 킹 오브 스코틀랜드' 등 폭군 이미지의 원형",
+   "cultural_exp_en": "The model for screen tyrants from 'The Last King of Scotland' on",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "반세기 지나도 아프리카 독재자의 대명사로 남음",
+   "transhistoricity_exp_en": "Half a century on he is still the byword for the African dictator"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "쿠데타로 잡은 나라를 8년간 비밀경찰과 군으로 통치",
+     "reason_en": "Held a whole country for eight years through army and secret police"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "9년 연속 우간다 헤비급 복싱 챔피언 출신의 거구 군인",
+     "reason_en": "Nine years Uganda's heavyweight boxing champion; a giant soldier"
+    },
+    "intellect": {
+     "score": 38,
+     "reason_ko": "문해가 부족했으나 궁정 정치 생존 감각은 날카로움",
+     "reason_en": "Barely literate, but sharp in the survival politics of the court"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "집권 초기 대중의 환호와 외신의 기행 주목을 끌었음",
+     "reason_en": "Early crowds cheered him and foreign press hung on his antics"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 12,
+     "reason_ko": "충동적 포고와 폭력·사치를 제어하지 못함",
+     "reason_en": "Impulsive decrees, violence and luxury went unchecked"
+    },
+    "diligence": {
+     "score": 38,
+     "reason_ko": "통치 실무를 측근과 감압 기구에 맡기고 기행에 몰두",
+     "reason_en": "He left governing to cronies and terror organs for his own caprice"
+    },
+    "reflection": {
+     "score": 12,
+     "reason_ko": "망명지에서도 학살 책임을 인정하지 않음",
+     "reason_en": "In exile he never admitted responsibility for the killings"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "권력 정점에서 탄자니아와의 전면전도 감행",
+     "reason_en": "At his peak he dared a full war with Tanzania"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 20,
+     "reason_ko": "후원자 오보테를 쿠데타로 뒤엎고 측근도 숙청",
+     "reason_en": "He overthrew his patron Obote and purged his own men"
+    },
+    "benevolence": {
+     "score": 5,
+     "reason_ko": "통치 기간 수십만 명이 학살·고문당함",
+     "reason_en": "Hundreds of thousands were killed or tortured on his watch"
+    },
+    "fairness": {
+     "score": 8,
+     "reason_ko": "아시아계 추방처럼 출신에 따른 자의적 처분",
+     "reason_en": "He disposed of whole communities by origin, as with the Asians"
+    },
+    "humility": {
+     "score": 5,
+     "reason_ko": "'영제국 정복자' 등 수십 개 칭호를 스스로 수여",
+     "reason_en": "He awarded himself dozens of titles, Conqueror of the British Empire among them"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "탄자니아군이 수도로 밀려와도 승리를 장담",
+     "reason_en": "Even as Tanzanian troops closed in he promised victory"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "소수민족 추방과 복장 통제 등 자의적 보수 통치",
+     "reason_en": "Ethnic expulsions and dress codes made for a capricious reactionary rule"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "카쿠아 족 중심의 인치로 국가를 사유화",
+     "reason_en": "He privatised the state around his Kakwa kin"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "국경을 넘어 카게라를 침공해 전면전을 자초",
+     "reason_en": "He crossed the border into Kagera and brought on a full-scale war"
+    }
+   },
+   "rationale_ko": "헤비급 복싱 챔피언의 신체가 쿠데타의 발판이 됐다. 절제 없는 통치가 수십만의 죽음과 경제 파탄을 낳았고 탄자니아군 앞에 무너졌다. 사우디 망명지에서 스물네 해를 더 살았다.",
+   "rationale_en": "A heavyweight boxer's physique carried him to a coup. Rule without restraint left hundreds of thousands dead and a ruined economy before Tanzania's army broke him. He lived another twenty-four years in Saudi exile."
+  }
+ },
+ "모부투 세세 세코": {
+  "influence": {
+   "political": 6,
+   "political_exp": "32년 통치로 콩고의 국가 형태와 부패 구조를 결정",
+   "political_exp_en": "Thirty-two years of rule set the Congolese state's shape and rot",
+   "strategic": 3,
+   "strategic_exp": "냉전기 서방의 대아프리카 거점이자 앙골라 개입의 통로",
+   "strategic_exp_en": "The West's Cold War hub in Africa and conduit into Angola",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 5,
+   "social_exp": "'진정성' 운동으로 국명·이름까지 바꾼 상징 정치",
+   "social_exp_en": "Authenticité renamed the country and its people",
+   "economic": 5,
+   "economic_exp": "'패권국가'의 전형으로 국고 탈취를 제도화",
+   "economic_exp_en": "Institutionalised looting — the textbook kleptocracy",
+   "cultural": 5,
+   "cultural_exp": "표범 모자와 '정글의 격돌' 유치로 시대의 아이콘이 됨",
+   "cultural_exp_en": "Leopard cap and the Rumble in the Jungle made him an icon",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "콩고 전쟁의 뿌리를 남긴 부패 군주로 기억됨",
+   "transhistoricity_exp_en": "Remembered as the kleptocrat whose rot seeded the Congo wars"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 73,
+     "reason_ko": "거대한 나라를 32년간 후원망과 군으로 지배",
+     "reason_en": "Ruled a vast state for thirty-two years through patronage and the army"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "식민지군 행정병 출신으로 전투 경험은 전하지 않음",
+     "reason_en": "A colonial-army clerk with no combat record on file"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "기자 출신으로 냉전 강대국들을 오가며 후원을 얻어냄",
+     "reason_en": "A journalist by training who played Cold War patrons for support"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "표범 모자 상징으로 아프리카 정상 외교를 주름잡음",
+     "reason_en": "The leopard-cap persona dominated African summitry"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 8,
+     "reason_ko": "국고를 사금고처럼 쓰고 쇼핑에 콩코르드를 전세",
+     "reason_en": "He treated the treasury as a till and chartered Concorde to shop"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "32년간 권력 유지를 위해 관계망을 부지런히 관리",
+     "reason_en": "He tirelessly worked his patronage web for thirty-two years"
+    },
+    "reflection": {
+     "score": 15,
+     "reason_ko": "몰락 뒤에도 국가 파탄의 책임을 인정하지 않음",
+     "reason_en": "Even in defeat he admitted no blame for the wrecked state"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "쿠데타와 두 차례 샤바 침공을 넘겼으나 끝내 도주",
+     "reason_en": "He survived a coup and two Shaba invasions, then fled at last"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "동맹자와 측근을 필요에 따라 교체·숙청",
+     "reason_en": "Allies and aides were rotated or purged as needed"
+    },
+    "benevolence": {
+     "score": 12,
+     "reason_ko": "국가를 탈취하는 동안 국민 빈곤은 방치",
+     "reason_en": "He looted the state while national poverty festered"
+    },
+    "fairness": {
+     "score": 12,
+     "reason_ko": "인사와 자원을 후원 관계로만 배분",
+     "reason_en": "Posts and resources moved only through patronage"
+    },
+    "humility": {
+     "score": 5,
+     "reason_ko": "'불을 남기며 정복하는 전사'라는 칭호를 자수",
+     "reason_en": "He styled himself the all-powerful warrior who leaves fire in his wake"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "체제가 무너지는 말년까지 정권 유지를 확신",
+     "reason_en": "He believed he would hold on even as the regime collapsed"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "'진정성' 명분의 전통 복귀 통치와 냉전 질서 편승",
+     "reason_en": "Authenticité revived tradition and rode the Cold War order"
+    },
+    "individual_social": {
+     "score": -22,
+     "reason_ko": "국가 재산과 자신의 재산을 구별하지 않음",
+     "reason_en": "He made no distinction between his fortune and the state's"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "쿠데타 집권과 냉전 지정학 도박을 거듭 감행",
+     "reason_en": "He gambled on coups and Cold War geopolitics"
+    }
+   },
+   "rationale_ko": "기자 출신 장교가 쿠데타로 잡은 나라를 32년간 사유물처럼 다뤘다. 냉전 강대국의 후원을 교묘하게 이용했으나 탈취 통치가 국가의 골간을 갉아먹었다. 카빌라의 반군이 들어오자 나라는 바로 무너졌다.",
+   "rationale_en": "A journalist-turned-officer held a vast country as personal property for thirty-two years. He played Cold War patrons skillfully, but looted rule ate the state's bones. When Kabila's rebels came, the country collapsed at once."
+  }
+ },
+ "장베델 보카사": {
+  "influence": {
+   "political": 4,
+   "political_exp": "13년 통치와 프랑스 정가를 흔든 다이아몬드 선물",
+   "political_exp_en": "Thirteen years of rule; his diamond gift wounded Giscard's presidency",
+   "strategic": 2,
+   "strategic_exp": "20년 프랑스군 복무 외 전략적 유산은 없음",
+   "strategic_exp_en": "Two decades a French officer; no strategic legacy",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "학생 학살과 제위 찬칭으로 탈식민 폭정의 상징이 됨",
+   "social_exp_en": "The schoolchildren massacre and self-coronation made him a symbol",
+   "economic": 2,
+   "economic_exp": "대관식 탕진으로 국가 재정을 파탄",
+   "economic_exp_en": "His coronation spending broke the state's finances",
+   "cultural": 4,
+   "cultural_exp": "황제 대관식 희극이 다큐·문학의 소재로 남음",
+   "cultural_exp_en": "The coronation farce lives on in documentary and literature",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "'자칭 황제'의 전형으로 아직 회자되는 폭군",
+   "transhistoricity_exp_en": "Still recalled as the type of the self-crowned tyrant"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "쿠데타로 집권해 13년간 군과 재정을 직접 쥠",
+     "reason_en": "Seized power by coup and held army and purse for thirteen years"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "제2차대전과 인도차이나를 지난 프랑스군 20년 참전 장교",
+     "reason_en": "A twenty-year French army veteran of WWII and Indochina"
+    },
+    "intellect": {
+     "score": 42,
+     "reason_ko": "식민 학교 출신으로 정치 감각보다 위압에 의존",
+     "reason_en": "Mission-schooled; he ruled by intimidation more than political craft"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "프랑스 대통령과 사냥 벗이 될 만큼 대외 인상을 관리",
+     "reason_en": "He managed his image well enough to hunt with a French president"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 8,
+     "reason_ko": "1977년 대관식에 국가 연예산 수분의 일을 탕진",
+     "reason_en": "His 1977 coronation consumed a large share of the year's budget"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "군인으로는 오래 복무했으나 통치는 즉흥과 위압",
+     "reason_en": "A long-serving soldier whose rule ran on whim and fear"
+    },
+    "reflection": {
+     "score": 12,
+     "reason_ko": "심복 처형과 학살의 책임을 프랑스에 돌림",
+     "reason_en": "He blamed France even for the beating death of his own aide"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "인도차이나 전장의 참전 용사로 쿠데타도 직접 감행",
+     "reason_en": "An Indochina veteran who carried out his own coup"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "자신을 중용한 사촌 다코 대통령을 쿠데타로 뒤엎음",
+     "reason_en": "He overthrew the cousin-president who had promoted him"
+    },
+    "benevolence": {
+     "score": 5,
+     "reason_ko": "교복 시위 학생 수십 명의 죽음에 책임",
+     "reason_en": "He bore responsibility for the death of scores of schoolchildren"
+    },
+    "fairness": {
+     "score": 8,
+     "reason_ko": "반대파를 재판 없이 처형하고 사면을 자의로 오감",
+     "reason_en": "He executed opponents without trial and dealt pardons at will"
+    },
+    "humility": {
+     "score": 5,
+     "reason_ko": "나폴레옹 의식을 본떠 스스로 황제관을 씀",
+     "reason_en": "Modelled on Napoleon, he placed the imperial crown on his own head"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 28,
+     "reason_ko": "축출 뒤에도 귀국하면 환영받을 것이라 확신",
+     "reason_en": "Deposed, he was sure the country would welcome him back"
+    },
+    "conservative_progressive": {
+     "score": -35,
+     "reason_ko": "공화국을 뒤집고 스스로 제국 황제에 오름",
+     "reason_en": "He abolished the republic and crowned himself emperor"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "국가를 황실 소유물처럼 다룸",
+     "reason_en": "He treated the state as dynastic property"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "쿠데타·즉위식·귀국을 전부 도박으로 감행",
+     "reason_en": "Coup, coronation and return were all gambles he took"
+    }
+   },
+   "rationale_ko": "프랑스군 20년 참전 용사가 쿠데타로 올라 스스로 황제관을 썼다. 사촌을 배신한 뒤 심복마저 손으로 때려죽인 폭력이 결국 그를 살리지 못했다. 프랑스의 작전이 그를 끌어내렸고 귀국한 그는 사형 선고를 받았다.",
+   "rationale_en": "A twenty-year French army veteran seized power and crowned himself emperor. The violence that betrayed his cousin and beat his own protégé to death could not save him in the end. A French operation deposed him, and his voluntary return earned a death sentence."
+  }
+ },
+ "사파르무라트 니야조프": {
+  "influence": {
+   "political": 4,
+   "political_exp": "독립 투르크메니스탄의 전제 통치 원형을 세움",
+   "political_exp_en": "Set the mould for post-Soviet Turkmen autocracy",
+   "strategic": 2,
+   "strategic_exp": "'영구 중립' 선언으로 국가를 고립시킴",
+   "strategic_exp_en": "His 'permanent neutrality' isolated the country",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "국가 전체를 자기 숭배로 재편한 인격숭배 체제",
+   "social_exp_en": "Rebuilt national life around a cult of his own person",
+   "economic": 3,
+   "economic_exp": "가스 수출 국가화와 폐쇄 경제를 고착",
+   "economic_exp_en": "Locked in a closed gas-rentier economy",
+   "cultural": 4,
+   "cultural_exp": "『루흐나마』 강독과 회전 동상이 기행 문화사에 남음",
+   "cultural_exp_en": "The compulsory Ruhnama and rotating statue entered cultural lore",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "사후 우상화가 빠르게 해체돼 지속성은 제한적",
+   "transhistoricity_exp_en": "His cult was dismantled quickly after death; persistence is limited"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 66,
+     "reason_ko": "서기장에서 대통령으로 21년간 국가 기관 전체를 장악",
+     "reason_en": "From party boss to president he held every lever for twenty-one years"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "당 관료 일색의 경력으로 신체 활동 행적이 전하지 않음",
+     "reason_en": "A lifelong apparatchik with no physical exploits on record"
+    },
+    "intellect": {
+     "score": 46,
+     "reason_ko": "체제 수완으로 정점에 올랐으나 자작 경전은 허망",
+     "reason_en": "Party skill took him to the top; his self-written scripture is empty"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "황금 동상과 경전 강요로 국가적 숭배를 동원",
+     "reason_en": "He mobilised national worship through gold statues and a forced canon"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "달의 이름까지 자기와 어머니 이름으로 바꾼 자기숭배",
+     "reason_en": "He renamed the months after himself and his mother"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "서기장 시절부터 치밀하게 당 인맥을 관리",
+     "reason_en": "From his party-boss days he worked his networks meticulously"
+    },
+    "reflection": {
+     "score": 8,
+     "reason_ko": "자신을 신에 준하는 존재로 격상시킴",
+     "reason_en": "He raised himself to near-divine status"
+    },
+    "courage": {
+     "score": 40,
+     "reason_ko": "2002년 암살 미수 뒤 대숙청으로 대응, 대면 용기는 희박",
+     "reason_en": "After the 2002 attempt he answered with purges, not personal nerve"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "체제의 수혜자였으나 독립 뒤 측근을 차례로 숙청",
+     "reason_en": "A beneficiary of the system, he purged his own circle in turn"
+    },
+    "benevolence": {
+     "score": 32,
+     "reason_ko": "가스·전기·소금 무상 공급과 농촌 병원 폐쇄가 공존",
+     "reason_en": "Free gas and salt coexisted with closed rural hospitals"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "2002년 사건 뒤 야권 인사를 일괄 종신형",
+     "reason_en": "After 2002 he handed the opposition life sentences wholesale"
+    },
+    "humility": {
+     "score": 4,
+     "reason_ko": "'모든 투르크멘의 아버지'를 자칭",
+     "reason_en": "He called himself father of all Turkmen"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "자기 신화가 영구히 통할 것처럼 행세",
+     "reason_en": "He acted as if his myth would hold forever"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "오페라와 발레를 금지한 폐쇄적 전제 통치",
+     "reason_en": "He banned opera and ballet under a closed autocracy"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "국가 상징 전부를 자기 일가로 대체",
+     "reason_en": "He replaced the nation's symbols with himself and his family"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "숙청과 우상화는 대담했으나 국정은 고립적",
+     "reason_en": "Bold in purges and cult-building, static and insular in governing"
+    }
+   },
+   "rationale_ko": "고아 출신 당 관료가 독립을 기회로 삼아 국가 전체를 자기 신화로 채웠다. 무상 공급 복지와 병원 폐쇄가 공존한 통치는 오래 지탱됐으나 그가 죽자 우상화는 빠르게 해체됐다. 2006년 심부전으로 숨졌다.",
+   "rationale_en": "An orphaned apparatchik used independence to fill a whole state with his own mythology. Free utilities coexisted with closed hospitals, and the cult held until his death — then was dismantled at speed. He died of heart failure in 2006."
+  }
+ },
+ "무아마르 카다피": {
+  "influence": {
+   "political": 7,
+   "political_exp": "42년 통치로 리비아와 아랍·아프리카 외교를 좌우",
+   "political_exp_en": "Forty-two years shaped Libya and swayed Arab and African diplomacy",
+   "strategic": 5,
+   "strategic_exp": "테러 지원·차드 전쟁·WMD 포기 협상의 당사자",
+   "strategic_exp_en": "Sponsored terror, fought Chad, and bargained away a WMD programme",
+   "tech": 1,
+   "tech_exp": "대수로 공사를 지시했으나 본인 기술 기여는 아님",
+   "tech_exp_en": "He commissioned the Great Man-Made River without contributing the science",
+   "social": 5,
+   "social_exp": "『녹서』의 자마히리야 체제로 사회 실험을 강행",
+   "social_exp_en": "His Green Book imposed the Jamahiriya social experiment",
+   "economic": 5,
+   "economic_exp": "석유 국유화와 국부기금으로 리비아 경제를 재편",
+   "economic_exp_en": "Oil nationalisation and a sovereign fund reshaped Libya's economy",
+   "cultural": 5,
+   "cultural_exp": "천막 외교와 여성 경호단의 상징 인물",
+   "cultural_exp_en": "The tent and the female guards made him a fixture of world culture",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "42년 체제의 붕괴가 리비아 분열의 출발점이 됨",
+   "transhistoricity_exp_en": "His regime's fall opened Libya's ongoing fracture"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 76,
+     "reason_ko": "스물일곱에 쿠데타로 잡은 나라를 42년간 통치",
+     "reason_en": "Seized a country at twenty-seven and ruled it forty-two years"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "사막 베두인 출신의 육사 수료 장교로 직접 전투는 없음",
+     "reason_en": "A desert-born military-academy officer who never fought in person"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "흐릿한 『녹서』 사상보다 42년 생존의 정치 감각",
+     "reason_en": "His Green Book is thin; his survival instinct lasted forty-two years"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "여성 경호단과 천막 외교로 세계 이목을 독점한 상징",
+     "reason_en": "Female guards and summit tents monopolised the world's attention"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "사치보다 복수심과 테러 지원 충동을 제어 못함",
+     "reason_en": "Less lavish than vindictive — he never checked his terror impulses"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "42년간 연방 추진과 아랍·아프리카 구상을 쉼 없이 추진",
+     "reason_en": "For forty-two years he pushed unions and grand designs without pause"
+    },
+    "reflection": {
+     "score": 10,
+     "reason_ko": "민중 봉기 앞에서도 인민의 사랑을 주장",
+     "reason_en": "Facing revolution he still claimed his people loved him"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "미군 폭격 뒤에도 버텼고 말년 도피 대신 고국에 남음",
+     "reason_en": "He endured the 1986 bombing and stayed to the end rather than flee"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 22,
+     "reason_ko": "함께 쿠데타한 동료들을 숙청하고 일가 체제를 구축",
+     "reason_en": "He purged fellow coup-makers and built a family regime"
+    },
+    "benevolence": {
+     "score": 22,
+     "reason_ko": "무상 복지를 폈으나 아부살림 수감자 학살을 저지름",
+     "reason_en": "Free welfare coexisted with the Abu Salim prison massacre"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "혁명위원회의 즉결 처형으로 법을 대체",
+     "reason_en": "Revolutionary committees replaced law with summary justice"
+    },
+    "humility": {
+     "score": 10,
+     "reason_ko": "'형제 지도자'를 표방했으나 신적 존재처럼 군림",
+     "reason_en": "He preached brotherly leadership while reigning like a deity"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "붕괴 직전까지 자기 체제의 영속을 확신",
+     "reason_en": "He believed his system eternal until the very end"
+    },
+    "conservative_progressive": {
+     "score": 25,
+     "reason_ko": "왕정을 무너뜨리고 인민 직접통치 체제를 선언",
+     "reason_en": "He toppled the monarchy and declared direct rule by the masses"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "인민 자치를 부르짖었으나 실제 권력은 자신과 일가에 집중",
+     "reason_en": "He preached mass self-rule while power concentrated in his family"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "초강대국을 상대로 한 테러 지원까지 감행",
+     "reason_en": "He dared to sponsor terror against superpowers"
+    }
+   },
+   "rationale_ko": "스물일곱의 대위가 왕을 끌어내리고 42년을 버텼다. 테러 지원의 대담함과 인민통치 구호가 충돌했고 끝내 인민이 그를 끌어내렸다. 2011년 고향 시르테에서 군중의 손에 죽었다.",
+   "rationale_en": "A twenty-seven-year-old captain removed a king and held on for forty-two years. The boldness that sponsored terror collided with his own rhetoric of people's rule — and the people removed him. A mob killed him in Sirte in 2011."
+  }
+ },
+ "파블로 에스코바르": {
+  "influence": {
+   "political": 5,
+   "political_exp": "테러와 매수로 콜롬비아 정치·인도법을 뒤흔듦",
+   "political_exp_en": "Terror and bribery shook Colombian politics and bent extradition law",
+   "strategic": 4,
+   "strategic_exp": "폭탄·암살·준군사 조직으로 마약 전쟁의 전술을 바꿈",
+   "strategic_exp_en": "Bombs, hit men and paramilitaries rewrote the tactics of the drug war",
+   "tech": 2,
+   "tech_exp": "밀매 물류와 자금 세탁 수법을 조직화",
+   "tech_exp_en": "He organised trafficking logistics and money-laundering methods",
+   "social": 6,
+   "social_exp": "'플라타 오 플로모'가 마약 시대의 사회 구문이 됨",
+   "social_exp_en": "'Plata o plomo' became the grammar of the narco era",
+   "economic": 6,
+   "economic_exp": "세계 코카인 유통의 대부분을 쥔 지하 경제 제국",
+   "economic_exp_en": "He ran an underground economy moving most of the world's cocaine",
+   "cultural": 7,
+   "cultural_exp": "나르코스 등 수많은 영상물과 나르코 문화 장르의 원형",
+   "cultural_exp_en": "The prototype for Narcos and a whole narco-culture genre",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "마약왕의 대명사로 남고 방치된 하마가 야생화됨",
+   "transhistoricity_exp_en": "The byword for the drug lord; his hippos went feral and remain"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "수천 명 규모 카르텔을 15년간 이끌고 자기 감옥까지 경영",
+     "reason_en": "Ran a cartel of thousands for fifteen years, even from his own prison"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "거구의 몸으로 총기를 상비했으나 대리 폭력 위주",
+     "reason_en": "A large man who kept guns but worked violence through proxies"
+    },
+    "intellect": {
+     "score": 76,
+     "reason_ko": "밀매 루트와 자금 세탁, 국가와의 협상술을 설계",
+     "reason_en": "He engineered routes, laundering and negotiations with the state"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "빈민가의 후원자로 추대받아 장례에 수만 명이 운집",
+     "reason_en": "A barrio patron whose funeral drew tens of thousands"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 10,
+     "reason_ko": "격분하면 동업자까지 처형, 폭력과 사치에 제어 없음",
+     "reason_en": "In rage he executed partners; nothing checked violence or luxury"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "도둑에서 억만장자까지 조직을 직접 굴린 실무가",
+     "reason_en": "A hands-on operator who ran the organisation from thief to billionaire"
+    },
+    "reflection": {
+     "score": 20,
+     "reason_ko": "아들에게 남긴 서신에서도 자신을 피해자로 그림",
+     "reason_en": "Even in letters to his son he cast himself as the victim"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "국가·미국·라이벌이 얽힌 추격전을 끝까지 버팀",
+     "reason_en": "He withstood a manhunt of state, rivals and Americans to the end"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "가족과 메데인엔 헌신했으나 부하를 의심해 처형",
+     "reason_en": "Devoted to family and Medellín, he still murdered suspected lieutenants"
+    },
+    "benevolence": {
+     "score": 38,
+     "reason_ko": "빈민 주택을 지어줬으나 폭탄 테러로 민간인을 살해",
+     "reason_en": "He housed the poor and bombed civilians in the same career"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "은 또는 납 — 돈이면 사고 아니면 죽임",
+     "reason_en": "Silver or lead — he bought men or killed them"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "빈민의 도련님을 자처하며 대중 앞에선 서민 행세",
+     "reason_en": "He played the humble paisa patron before the crowds"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "국가와의 전면전에서도 승리를 장담",
+     "reason_en": "Even in open war with the state he promised victory"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "과두 정치를 향해 빈자의 편을 표방하며 의회 진출",
+     "reason_en": "He entered Congress posing as the poor man's champion against the oligarchy"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "가족과 고향은 끌어안되 대의보다 자기 제국 우선",
+     "reason_en": "He embraced kin and hometown but put his own empire first"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "국가 전체를 상대로 테러 전쟁을 선포",
+     "reason_en": "He declared a bombing war on the state itself"
+    }
+   },
+   "rationale_ko": "도둑 출신이 세계 코카인의 대부분을 쥔 조직을 세웠다. 빈민가의 후원자와 폭탄 테러범이라는 두 얼굴이 공존했고 후자가 국가 전체를 적으로 돌렸다. 마흔넷에 메데인의 옥상에서 사살됐다.",
+   "rationale_en": "A thief built an organisation that moved most of the world's cocaine. The barrio benefactor and the bomb-planting terrorist were the same man, and the second face turned the whole state against him. He was shot on a Medellín rooftop at forty-four."
+  }
+ },
+ "조그 1세": {
+  "influence": {
+   "political": 5,
+   "political_exp": "수상·대통령·국왕을 거치며 알바니아 국가 형태를 결정",
+   "political_exp_en": "As premier, president then king he set Albania's state form",
+   "strategic": 2,
+   "strategic_exp": "제1차대전 참전 외 전략적 유산은 미미",
+   "strategic_exp_en": "WWI service but little strategic legacy",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "부족 사회를 단일 군주제로 묶는 국가 건설을 추진",
+   "social_exp_en": "He pressed nation-building that bound clan society to a crown",
+   "economic": 3,
+   "economic_exp": "근대화 사업을 폈으나 이탈리아 차관에 종속",
+   "economic_exp_en": "Modernisation projects came at the price of Italian dependency",
+   "cultural": 3,
+   "cultural_exp": "발칸 왕실의 기이한 군주로 문학·역사 서사에 남음",
+   "cultural_exp_en": "The Balkans' strangest king lingers in history and letters",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "알바니아 유일의 국왕으로 국가 기억에 남음",
+   "transhistoricity_exp_en": "Albania's only king endures in national memory"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 66,
+     "reason_ko": "수상·대통령·국왕을 거치며 15년 이상 나라를 지배",
+     "reason_en": "Premier, president, king — he ran Albania over fifteen years"
+    },
+    "martial": {
+     "score": 72,
+     "reason_ko": "제1차대전 참전에 1931년 빈에서 암살자에게 총을 뽑아 맞섬",
+     "reason_en": "A WWI veteran who drew his own pistol on a Vienna assassin in 1931"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "촌장 출신으로 정적을 차례로 꺾은 정치 수완",
+     "reason_en": "A clan chief's son who outplayed every rival in turn"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "부족 추장의 위엄으로 지지 세력을 오래 묶어둠",
+     "reason_en": "A chieftain's bearing that held his factions together for years"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "하루 담배 200개비의 중독과 권좌 집착이 공존",
+     "reason_en": "Two hundred cigarettes a day and a grip on the throne went together"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "수상에서 왕위까지 실권을 쉼 없이 넓힘",
+     "reason_en": "From premiership to crown he widened his grip without pause"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "망명 뒤 회고록에서 통치를 돌아봤으나 책임 인정은 적음",
+     "reason_en": "His exile memoirs reviewed his rule but conceded little"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "55차례 암살 시도를 넘기며 자리를 지킴",
+     "reason_en": "He survived fifty-five attempts on his life and kept his seat"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "부족과 가족을 중용했으나 망명 때 국고를 챙겨 나감",
+     "reason_en": "He served clan and kin, yet fled with the treasury"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "학교·도로 건설과 정적 탄압이 함께 남음",
+     "reason_en": "Schools and roads stand beside suppressed rivals"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "부족 연대와 정적 숙청으로 법을 왜곡",
+     "reason_en": "Clan ties and purged rivals bent the law"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "대통령에서 스스로 왕관을 쓴 인물",
+     "reason_en": "A president who placed a crown on his own head"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "금고를 싣고 도망칠 만큼 최악을 상정한 현실주의",
+     "reason_en": "Realist enough to flee with the treasury when the worst came"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "공화파 개혁을 무력으로 누르고 왕정을 세움",
+     "reason_en": "He crushed the republican reformers and founded a monarchy"
+    },
+    "individual_social": {
+     "score": -8,
+     "reason_ko": "왕실 일가와 부족 패거리 중심의 통치",
+     "reason_en": "He ruled through the royal family and clan retainers"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "무력 재집권과 왕위 선포는 대담, 망명은 실리적",
+     "reason_en": "Bold in seizing power and a crown, pragmatic in flight"
+    }
+   },
+   "rationale_ko": "부족 추장이 수상과 대통령을 거쳐 스스로 왕관을 썼다. 55차례 암살 시도를 버틴 강인함이 통치를 지탱했으나 이탈리아 침공 앞에선 금고를 싣고 도망쳤다. 파리에서 망명객으로 숨졌다.",
+   "rationale_en": "A clan chief became prime minister, president, then crowned himself king. Surviving fifty-five assassination attempts sustained his rule, but when Italy invaded he fled with the treasury. He died an exile in Paris."
+  }
+ },
+ "하일레 셀라시에": {
+  "influence": {
+   "political": 7,
+   "political_exp": "44년 통치와 1963년 OAU 창설 주도",
+   "political_exp_en": "Forty-four years of rule; he fathered the OAU in 1963",
+   "strategic": 3,
+   "strategic_exp": "이탈리아 침공 저항의 상징이었으나 전략 유산은 적음",
+   "strategic_exp_en": "A symbol of resistance to Italy rather than a maker of strategy",
+   "tech": 2,
+   "tech_exp": "학교·항공사 설립 등 근대화 기관의 창설자",
+   "tech_exp_en": "He founded schools and the national airline",
+   "social": 6,
+   "social_exp": "노예제 폐지와 헌법 반포, 아프리카 독립의 도덕적 상징",
+   "social_exp_en": "Abolished slavery, granted a constitution, embodied African dignity",
+   "economic": 4,
+   "economic_exp": "은행·항공 등 국가 기간 산업을 세움",
+   "economic_exp_en": "He established banks and infrastructure for the state",
+   "cultural": 7,
+   "cultural_exp": "라스타파리의 신이 돼 레게를 통해 세계 문화에 스밈",
+   "cultural_exp_en": "Worshipped by Rastafari, he entered world culture through reggae",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "종교·범아프리카 기구의 뿌리로 21세기까지 지속",
+   "transhistoricity_exp_en": "A living religion and the AU's lineage keep his mark in this century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 76,
+     "reason_ko": "섭정 포함 44년간 제국을 통치하고 OAU를 창설",
+     "reason_en": "Ruled forty-four years including regency and founded the OAU"
+    },
+    "martial": {
+     "score": 44,
+     "reason_ko": "궁정에서 자란 작은 체구로 신체 훈련 이력이 드묾",
+     "reason_en": "A slight court-bred monarch with little physical training"
+    },
+    "intellect": {
+     "score": 74,
+     "reason_ko": "귀족 정치를 다루고 국가연맹 연단에서 세계를 설득",
+     "reason_en": "He managed the nobles and persuaded the world from the League's podium"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "한 종교가 신으로 떠받들 만큼 대중적 존재감",
+     "reason_en": "A presence so commanding a religion worshipped him"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 66,
+     "reason_ko": "망명과 복위를 거치며 절제된 공적 태도를 유지",
+     "reason_en": "Through exile and restoration he kept a disciplined public bearing"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "여든이 넘어서도 연설·순방·국정을 이어감",
+     "reason_en": "Past eighty he still kept up speeches, tours and state affairs"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "기근 은폐 논란처럼 책임 회피와 신앙적 자숙이 교차",
+     "reason_en": "Famine denial crossed with pious self-examination"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "1960년 쿠데타 폐위 선언 앞에서도 군림 태도를 유지",
+     "reason_en": "Facing the 1960 coup's abdication demand he kept his imperial bearing"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "망명지에서도 조국 복귀를 접지 않고 헌신",
+     "reason_en": "In exile he never let go of returning to his country"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "사재로 학교를 세웠으나 봉건 질서의 기근에 무능",
+     "reason_en": "He built schools from his own purse yet failed his starving peasants"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "봉건 귀족 특권을 온존한 채 점진적 근대화 추진",
+     "reason_en": "He modernised gradually while preserving noble privilege"
+    },
+    "humility": {
+     "score": 32,
+     "reason_ko": "'유다의 사자·신의 택한 자' 칭호를 받아들임",
+     "reason_en": "He accepted the titles Lion of Judah and Elect of God"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "침공을 예견하고 국가연맹에 최후를 경고",
+     "reason_en": "He foresaw the invasion and warned the League of what would follow"
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "근대화를 추진하면서도 황제제를 끝까지 지킴",
+     "reason_en": "He modernised yet defended the imperial order to the end"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "범아프리카 결속을 외교의 중심에 둠",
+     "reason_en": "He put pan-African solidarity at the centre of his diplomacy"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "14년 섭정을 거치며 천천히 권력을 공고히 함",
+     "reason_en": "He spent fourteen patient years as regent consolidating power"
+    }
+   },
+   "rationale_ko": "14년 섭정 끝에 오른 황제가 근대화와 범아프리카 외교를 이끌었다. 절제된 품위와 장기 집권이 국제적 존엄을 만들었으나 기근 은폐와 봉건 질서가 끝내 발목을 잡았다. 쿠데타군이 궁에서 그를 살해했다.",
+   "rationale_en": "An emperor crowned after fourteen years as regent led modernization and pan-African diplomacy. Restrained dignity built international stature, but famine denial and the feudal order caught up with him. The coup's soldiers killed him in his own palace."
+  }
+ },
+ "밀란 오블레노비치 1세": {
+  "influence": {
+   "political": 5,
+   "political_exp": "베를린 회의로 세르비아 독립을 얻고 왕국으로 승격",
+   "political_exp_en": "Won Serbian independence at Berlin and raised the kingdom",
+   "strategic": 3,
+   "strategic_exp": "터키전 승리와 불가리아전 패전을 직접 지휘",
+   "strategic_exp_en": "He personally led the Turkish war won and the Bulgarian war lost",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "1888년 자유주의 헌법을 반포",
+   "social_exp_en": "He promulgated the liberal constitution of 1888",
+   "economic": 2,
+   "economic_exp": "철도 도입과 국채 누적의 양면 유산",
+   "economic_exp_en": "He brought railways and mounting debt alike",
+   "cultural": 2,
+   "cultural_exp": "왕실 스캔들의 서막으로 왕조사에 남음",
+   "cultural_exp_en": "He opened the dynasty's era of scandal",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "오블레노비치 비극의 시작점으로 역사에 남음",
+   "transhistoricity_exp_en": "He remains the opening chapter of the Obrenović tragedy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "21년간 세르비아를 통치하고 두 차례 전쟁을 지휘",
+     "reason_en": "He ruled Serbia twenty-one years and commanded in two wars"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "군주로서 군을 통솔했으나 직접 전투 행적은 드묾",
+     "reason_en": "He led armies as sovereign but rarely stood in a fight"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "파리 유학파로 외교와 헌법 조작에 능한 군주",
+     "reason_en": "Paris-educated and deft at diplomacy and constitutional manoeuvre"
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "교양 있는 군주였으나 이혼 소동으로 대중 명망이 하락",
+     "reason_en": "A cultivated king whose public divorce war sank his standing"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 28,
+     "reason_ko": "도박과 왕비와의 공개 싸움에 통치를 잠식당함",
+     "reason_en": "Gambling and the open feud with his queen ate into his reign"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "독립 쟁취와 제도 정비에 실무를 챙김",
+     "reason_en": "He attended to the work of independence and institutions"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "스스로 퇴위를 택한 드문 결단, 그 뒤에도 정치 개입",
+     "reason_en": "He made the rare choice to abdicate, then meddled anyway"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "터키전은 감행했으나 불가리아 패전 뒤 퇴위를 택함",
+     "reason_en": "He dared war on Turkey but chose abdication after Bulgaria"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "오스트리아와의 비밀 조약으로 국익을 종속시킴",
+     "reason_en": "A secret Austrian treaty subordinated the national interest"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "티목 반란을 유혈 진압한 군주",
+     "reason_en": "He put down the Timok rebellion in blood"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "자유주의 헌법을 반포했으나 통치는 자의적",
+     "reason_en": "He granted a liberal charter yet ruled capriciously"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "공작에서 왕으로 스스로 격상한 야심가",
+     "reason_en": "A prince who promoted himself to king"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "오스트리아 의존과 퇴위로 현실 타협을 택함",
+     "reason_en": "He chose accommodation — Austrian dependence and abdication"
+    },
+    "conservative_progressive": {
+     "score": 5,
+     "reason_ko": "자유 헌법을 줬으나 비밀 조약으로 국권을 제약",
+     "reason_en": "A liberal constitution offset by a treaty that bound the state"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "이혼 전쟁처럼 사사로운 감정을 국정 위에 둠",
+     "reason_en": "He set private quarrels, like the divorce war, above affairs of state"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "전쟁 선포와 돌연 퇴위 등 결정은 과감",
+     "reason_en": "His decisions — war, sudden abdication — were bold"
+    }
+   },
+   "rationale_ko": "열넷에 공작이 되어 독립과 왕위를 얻어냈으나 개인사가 통치를 삼켰다. 비밀 조약과 공개 이혼 소동이 명망을 갉았고 스스로 왕위를 내려놓는 드문 선택을 했다. 빈에서 말년을 보내다 숨졌다.",
+   "rationale_en": "Made prince at fourteen, he won independence and a crown, yet his private life swallowed his reign. A secret treaty and a public divorce war wore down his name, and he made the rare choice to abdicate. He died in Vienna."
+  }
+ },
+ "수브코만단테 마르코스": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1994년 봉기로 멕시코 원주민 정치의 의제를 바꿈",
+   "political_exp_en": "The 1994 rising reset the agenda of indigenous politics in Mexico",
+   "strategic": 3,
+   "strategic_exp": "열두 날 전투 뒤 정보전으로 전환한 신형 게릴라 전술",
+   "strategic_exp_en": "After twelve days of fighting he pioneered a war of communiqués",
+   "tech": 3,
+   "tech_exp": "인터넷 선언문으로 싸운 최초의 네트워크형 봉기",
+   "tech_exp_en": "The first insurgency fought through internet communiqués",
+   "social": 6,
+   "social_exp": "원주민 자치와 반신자유주의의 세계적 상징이 됨",
+   "social_exp_en": "He made indigenous autonomy a global anti-neoliberal emblem",
+   "economic": 2,
+   "economic_exp": "자치 공동체의 대안 경제 실험을 지원",
+   "economic_exp_en": "He backed the autonomous zones' alternative economies",
+   "cultural": 5,
+   "cultural_exp": "스키마스크·파이프의 상징과 문학적 선언문을 남김",
+   "cultural_exp_en": "The ski mask, the pipe and literary communiqués endure",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "30년째 지속하는 자치 실험의 창시자",
+   "transhistoricity_exp_en": "Founder of an autonomy experiment still running after thirty years"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 66,
+     "reason_ko": "라칸돈 밀림에 수천 명 규모 게릴라 조직을 10년간 조직",
+     "reason_en": "He spent a decade building a guerrilla army of thousands in the Lacandon"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "10년 밀림 잠복과 1994년 무장 봉기를 견딘 게릴라",
+     "reason_en": "He endured a decade underground and the 1994 armed rising"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "철학 강사 출신으로 선언문을 문학 수준으로 씀",
+     "reason_en": "A philosophy lecturer whose communiqués rose to literature"
+    },
+    "charm": {
+     "score": 84,
+     "reason_ko": "스키마스크와 파이프 상징으로 세계 언론을 매혹",
+     "reason_en": "The ski mask and pipe charmed the world's press"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "10년 잠복의 금욕과 무대형 자기 연출이 공존",
+     "reason_en": "A decade's clandestine austerity alongside theatrical self-presentation"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "수십 년간 선언문과 조직 관리를 멈추지 않음",
+     "reason_en": "For decades he never stopped writing and organising"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "2014년 세대교체 필요를 인정하며 스스로 퇴장",
+     "reason_en": "In 2014 he judged the movement needed new faces and stepped aside"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "무장 봉기와 체포 위험을 감수하고 40년간 현지에 남음",
+     "reason_en": "He risked uprising and arrest and stayed forty years"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 82,
+     "reason_ko": "원주민 공동체 곁에서 반생을 보냄",
+     "reason_en": "He spent half his life beside the indigenous communities"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "열두 날 만에 총을 거두고 협상과 자치 건설로 전환",
+     "reason_en": "After twelve days he grounded the rifles for talks and self-government"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "'명령하되 복종하며'의 공동체 민주주의를 실천",
+     "reason_en": "He practised the Zapatista rule of commanding by obeying"
+    },
+    "humility": {
+     "score": 76,
+     "reason_ko": "사령관이 아닌 부사령관을 자처하고 얼굴을 숨김",
+     "reason_en": "He called himself a mere subcommander and hid his face"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 40,
+     "reason_ko": "'다른 세상이 가능하다'는 낙관을 세계에 퍼뜨림",
+     "reason_en": "He spread the conviction that another world is possible"
+    },
+    "conservative_progressive": {
+     "score": 45,
+     "reason_ko": "토지·자치·여성권을 내세운 반체제 게릴라",
+     "reason_en": "A guerrilla for land, autonomy and women's rights against the order"
+    },
+    "individual_social": {
+     "score": 42,
+     "reason_ko": "지도력을 공동체 의사결정에 종속시킴",
+     "reason_en": "He subordinated leadership to collective decision"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "멕시코 정부에 선전포고 뒤 신속히 언론전으로 전환",
+     "reason_en": "He declared war on Mexico then pivoted fast to the war of words"
+    }
+   },
+   "rationale_ko": "철학 강사가 밀림에 들어가 10년 만에 게릴라군을 만들었다. 총 대신 선언문으로 싸우는 방식이 세계적 지지를 모았고 부사령관이라는 자기 낮춤이 상징력을 키웠다. 그는 지금도 멕시코 남부에 살아 있다.",
+   "rationale_en": "A philosophy lecturer went into the jungle and spent a decade building a guerrilla army. Fighting with communiqués rather than bullets won global sympathy, and calling himself a mere subcommander amplified the mystique. He still lives in southern Mexico."
+  }
+ },
+ "빅토르 부트": {
+  "influence": {
+   "political": 4,
+   "political_exp": "수감자 교환과 귀국 뒤 입문으로 지정학의 토큰",
+   "political_exp_en": "The prisoner swap and his later politics made him a geopolitical token",
+   "strategic": 5,
+   "strategic_exp": "아프리카·아프간 내전에 무기를 공급해 분쟁 지속에 기여",
+   "strategic_exp_en": "His arms flows fed wars across Africa and Afghanistan",
+   "tech": 2,
+   "tech_exp": "소련 잔재 수송기로 분쟁지 물류망의 모델을 만듦",
+   "tech_exp_en": "He turned surplus Soviet planes into a model war-zone logistics net",
+   "social": 3,
+   "social_exp": "제재 회피와 무기 밀매의 국제 담론 대상이 됨",
+   "social_exp_en": "He became the case study in sanctions evasion and arms trafficking",
+   "economic": 4,
+   "economic_exp": "그림자 무기 물류 산업의 원형을 세움",
+   "economic_exp_en": "He set the template for the shadow arms-logistics industry",
+   "cultural": 4,
+   "cultural_exp": "'죽음의 상인'으로 '로드 오브 워'의 모델이 됨",
+   "cultural_exp_en": "The Merchant of Death behind the film 'Lord of War'",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "탈냉전 무기 밀매의 상징 인물로 기록됨",
+   "transhistoricity_exp_en": "He stands as the emblem of post-Cold War gunrunning"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "수십 대 수송기의 다국적 화물망을 15년간 운영",
+     "reason_en": "He ran a multinational cargo fleet of dozens of aircraft for fifteen years"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "소련 공수부대 복무와 아프리카 전장 파견 경력",
+     "reason_en": "Soviet airborne service and postings to African war zones"
+    },
+    "intellect": {
+     "score": 73,
+     "reason_ko": "여러 언어를 구사하고 유령 회사망을 설계한 물류 설계자",
+     "reason_en": "A polyglot who engineered webs of shell companies"
+    },
+    "charm": {
+     "score": 56,
+     "reason_ko": "전쟁군주와 각료를 상대로 계약을 따낸 협상력",
+     "reason_en": "He closed deals with warlords and ministers alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "제재 압박에도 밀매를 멈추지 않다가 덫에 걸림",
+     "reason_en": "Sanctions did not stop him; the sting did"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "소련 잔재 수송기로 3대륙 화물망을 일군 실행가",
+     "reason_en": "He built a three-continent freight network from Soviet surplus"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "무기상 낙인을 끝까지 부정하며 자기 정당화",
+     "reason_en": "To the end he denies being an arms dealer at all"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "무장 지역까지 직접 화물 계약을 하러 다님",
+     "reason_en": "He travelled in person to war zones to close cargo deals"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "탈레반과 북부동맹 양쪽에 팔 만큼 진영이 없음",
+     "reason_en": "He sold to Taliban and Northern Alliance both — loyalty to none"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "무기를 실어 나르며 분쟁을 키운 상인",
+     "reason_en": "He flew in the weapons that prolonged conflicts"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "돈을 내는 쪽이라면 누구에게나 판 상인",
+     "reason_en": "He sold to whoever could pay"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "거물이면서도 존재를 감춘 그림자 사업가",
+     "reason_en": "A major operator who cultivated invisibility"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "수감과 송환에도 결국 풀려날 것이라 태연",
+     "reason_en": "Through arrest and extradition he kept an even confidence"
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "냉전 유산을 사업으로 삼은 기회주의자",
+     "reason_en": "An opportunist who turned Cold War leftovers into business"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "어느 국가·진영에도 속하지 않은 개인 사업자",
+     "reason_en": "A private operator belonging to no flag or camp"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "제재망을 뚫으며 세계 분쟁지를 오간 도박사",
+     "reason_en": "He slipped sanction nets and worked every war zone"
+    }
+   },
+   "rationale_ko": "소련 공수부대 출신이 붕괴 뒤 남은 수송기로 세계 화물망을 만들었다. 어느 진영에도 충성하지 않는 중립적 밀매가 그를 '죽음의 상인'으로 만들었고 미국 덫에 걸렸다. 2022년 수감자 교환으로 풀려났다.",
+   "rationale_en": "A Soviet airborne veteran turned surplus transport planes into a global cargo network. Loyalty to no side — selling to all of them — made him the Merchant of Death and led him into an American sting. A prisoner swap freed him in 2022."
+  }
+ },
+ "킴 닷컴": {
+  "influence": {
+   "political": 3,
+   "political_exp": "송환 싸움과 인터넷당 창당으로 정치 쟁점을 만듦",
+   "political_exp_en": "His extradition fight and Internet Party made him a political issue",
+   "strategic": 0,
+   "strategic_exp": "전략·안보와 무관",
+   "strategic_exp_en": "No bearing on strategy or security",
+   "tech": 5,
+   "tech_exp": "메가업로드가 대중 파일 호스팅·클라우드 모델을 앞당김",
+   "tech_exp_en": "Megaupload pushed mass file-hosting and the consumer cloud",
+   "social": 4,
+   "social_exp": "저작권 단속과 인터넷 자유 논쟁의 상징 사건이 됨",
+   "social_exp_en": "His case became the emblem of the copyright-and-freedom debate",
+   "economic": 5,
+   "economic_exp": "사이버로커 사업 모델로 미디어 유통 경제를 교란",
+   "economic_exp_en": "The cyberlocker model disrupted media-distribution economics",
+   "cultural": 5,
+   "cultural_exp": "인터넷 시대 반영웅으로 대중문화에 새겨짐",
+   "cultural_exp_en": "He entered pop culture as the internet era's anti-hero",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "저작권 집행사의 분기점 사건으로 계속 인용됨",
+   "transhistoricity_exp_en": "His case is still cited as a turning point in copyright enforcement"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "직원 수백 명의 파일 공유 회사를 7년간 이끌고 정당도 창당",
+     "reason_en": "He ran a firm of hundreds for seven years and founded a party"
+    },
+    "martial": {
+     "score": 46,
+     "reason_ko": "2미터 거구의 체격이나 운동 이력 없는 실내형 사업가",
+     "reason_en": "A two-metre frame but a deskbound entrepreneur with no training"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "10대 해커가 보안 회사와 파일 공유 사업 모델을 설계",
+     "reason_en": "A teenage hacker who designed security firms and a file-sharing model"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "거물 퍼포먼스로 언론과 네티즌의 지지를 끌어모음",
+     "reason_en": "His mogul theatrics drew press and internet followings"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "슈퍼카·저택·파티에 돈을 쏟아부은 사치",
+     "reason_en": "He poured money into supercars, the mansion and parties"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "유죄 판결마다 재기하고 10년 송환 싸움을 지속",
+     "reason_en": "Each conviction brought a comeback; the extradition fight ran a decade"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "저작권 소송을 '박해'로 규정하며 자기 정당화",
+     "reason_en": "He frames the copyright case as persecution"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "미국 정부와의 정면 대치를 택한 저항",
+     "reason_en": "He chose open confrontation with the United States"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "공동 창업자들과 10년 송환 싸움을 함께 버팀",
+     "reason_en": "He and his co-founders fought extradition together for a decade"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "이용자 무료 혜택은 폈으나 공익 행적은 얇음",
+     "reason_en": "He gave users free perks but left little public good"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "내부자거래·횡령 유죄 전력이 있는 사업가",
+     "reason_en": "He carries convictions for insider trading and embezzlement"
+    },
+    "humility": {
+     "score": 12,
+     "reason_ko": "이름을 '닷컴'으로 바꾸고 자신을 인터넷의 왕으로 연출",
+     "reason_en": "He renamed himself Dotcom and staged himself as king of the internet"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "체포 직전까지도 사업 확장을 장담",
+     "reason_en": "He promised expansion right up to the raid"
+    },
+    "conservative_progressive": {
+     "score": 12,
+     "reason_ko": "저작권 체제와 감시 국가에 맞선 자유주의자",
+     "reason_en": "He set himself against the copyright regime and the surveillance state"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "개인의 부와 자유를 최우선에 둔 자유주의 사업가",
+     "reason_en": "A libertarian entrepreneur who put personal wealth and liberty first"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "미국 법망을 조롱하듯 저택에서 호화 생활을 과시",
+     "reason_en": "He flaunted mansion luxury as if mocking American law"
+    }
+   },
+   "rationale_ko": "10대 해커가 파일 공유 제국으로 억만장자가 됐다. 절제 없는 사치가 언론의 표적이 됐고 저작권 기소가 제국을 무너뜨렸다. 그는 뉴질랜드에서 지금도 송환에 저항하고 있다.",
+   "rationale_en": "A teenage hacker became a billionaire on file sharing. Unrestrained extravagance made him a media target and the copyright indictment broke his empire. He still fights extradition from New Zealand."
+  }
+ },
+ "로스 울브리히트": {
+  "influence": {
+   "political": 4,
+   "political_exp": "사면 운동과 2025년 사면으로 형법 논쟁의 상징",
+   "political_exp_en": "The Free Ross campaign and 2025 pardon made him a sentencing symbol",
+   "strategic": 0,
+   "strategic_exp": "전략·안보와 무관",
+   "strategic_exp_en": "No bearing on strategy or security",
+   "tech": 6,
+   "tech_exp": "실크로드가 토르·비트코인 다크넷 시장 모델을 확증",
+   "tech_exp_en": "Silk Road proved the Tor-plus-Bitcoin darknet market model",
+   "social": 5,
+   "social_exp": "마약 정책·암호무정부주의 담론에 실험 사례를 제공",
+   "social_exp_en": "His experiment fed drug-policy and crypto-anarchist discourse",
+   "economic": 6,
+   "economic_exp": "비트코인의 첫 대규모 실사용 경제를 만듦",
+   "economic_exp_en": "He built Bitcoin's first large-scale working economy",
+   "cultural": 5,
+   "cultural_exp": "'무서운 해적 로버츠'로 다큐·출판의 단골 소재",
+   "cultural_exp_en": "Dread Pirate Roberts is a staple of documentaries and books",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "암호화폐와 다크넷 역사의 출발점으로 지속 회자",
+   "transhistoricity_exp_en": "He remains the starting point of crypto and darknet history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "익명 운영진과 관리자들로 시장을 2년 반 운영",
+     "reason_en": "He ran the market through anonymous staff for two and a half years"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "이글 스카우트 출신의 청년으로 신체 단련 이력은 드묾",
+     "reason_en": "An Eagle Scout with little record of physical conditioning"
+    },
+    "intellect": {
+     "score": 73,
+     "reason_ko": "물리학도가 토르·비트코인·평판 시스템을 엮어 시장을 설계",
+     "reason_en": "A physics graduate who wove Tor, Bitcoin and reputation into a market"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "온화한 인상의 이상가로 추종 진영의 상징이 됨",
+     "reason_en": "A mild-mannered idealist who became a movement's icon"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "수백억을 벌고도 셋집 살이를 한 금욕적 운영자",
+     "reason_en": "He banked millions yet lived in a shared flat"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "매일 운영 일지를 쓰며 사이트를 3년 가까이 관리",
+     "reason_en": "He journaled daily while running the site for nearly three years"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "운영 일지에 두려움과 망설임을 스스로 기록",
+     "reason_en": "His journal records his own fears and hesitations"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "종신형 위험을 알면서도 신념의 실험을 중단하지 않음",
+     "reason_en": "Knowing the risk he never shut down the experiment"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "운영진에 신분을 숨겼으나 자유주의 대의엔 일관",
+     "reason_en": "He hid his name from staff but stayed true to the libertarian cause"
+    },
+    "benevolence": {
+     "score": 48,
+     "reason_ko": "폭력 없는 시장을 표방했으나 마약 거래로 이윤을 챙김",
+     "reason_en": "He preached a violence-free market while profiting from drug sales"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "분쟁 조정과 평판 규칙을 만든 규칙 기반 운영",
+     "reason_en": "He ran a rules-based market with dispute resolution and ratings"
+    },
+    "humility": {
+     "score": 66,
+     "reason_ko": "익명으로 활동하며 벌어들인 부를 과시하지 않음",
+     "reason_en": "He stayed anonymous and never flaunted the fortune"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "자유시장이 세상을 바꿀 것이라 믿고 실행",
+     "reason_en": "He believed a free market could change the world and acted on it"
+    },
+    "conservative_progressive": {
+     "score": 35,
+     "reason_ko": "국가의 마약 규제 자체를 무너뜨리려 한 급진 실험",
+     "reason_en": "A radical experiment meant to break the state's drug regime"
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "개인의 선택권을 사회 규제 위에 둔 극단 자유주의",
+     "reason_en": "A radical libertarian placing individual choice above social rules"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "공공 와이파이로 국가급 수사 대상 시장을 굴림",
+     "reason_en": "He ran a federal-scale criminal market from public wifi"
+    }
+   },
+   "rationale_ko": "물리학도가 자유주의 신념으로 익명 시장을 설계했다. 금욕적인 운영 태도와 종신형 감수의 대담함이 공존했고 일지가 자기 성찰의 흔적을 남겼다. 2025년 대통령 사면으로 풀려났다.",
+   "rationale_en": "A physics graduate built an anonymous market out of libertarian conviction. Frugal management and the boldness to risk a life sentence went together, and his journal left a record of self-examination. A presidential pardon freed him in 2025."
+  }
+ }
+}

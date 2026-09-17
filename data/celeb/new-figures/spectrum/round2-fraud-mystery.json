@@ -1,0 +1,3512 @@
+{
+ "댄 콜린스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "위조지폐 조직의 공범으로 기소",
+   "social_exp_en": "Indicted as a counterfeiting-ring accomplice",
+   "economic": 2,
+   "economic_exp": "'루스티히 머니' 유통 조직의 일원",
+   "economic_exp_en": "A member of the ring that moved 'Lustig money'",
+   "cultural": 3,
+   "cultural_exp": "에펠탑 매각극에서 각료 비서를 연기",
+   "cultural_exp_en": "Played the ministry official in the Eiffel sale",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "전설적 사기극의 조연으로 이름이 남음",
+   "transhistoricity_exp_en": "Remembered as the supporting player in a legendary con"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "십오 년간 루스티히의 보좌 역할을 수행",
+     "reason_en": "Fifteen years as Lustig's supporting player"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "서커스 사자 조련사와 곡예 자전거 운전사 출신",
+     "reason_en": "A former circus lion-tamer and stunt cyclist"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "프랑스어를 구사해 관리 역을 소화한 사기 연기",
+     "reason_en": "Spoke French well enough to play the ministry man"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "만난 지 십 분 만에 손을 잡는다던 '대퍼 댄'",
+     "reason_en": "'Dapper Dan' — said to hold a hand in ten minutes"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 32,
+     "reason_ko": "평생 사기 수입으로 사는 삶을 멈추지 못함",
+     "reason_en": "Never stopped living off the confidence game"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "십수 년간 같은 파트너와 사기를 반복",
+     "reason_en": "Repeated cons with the same partner for years"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "1935년 기소 뒤 죄를 인정해 형을 받아들임",
+     "reason_en": "Pled guilty in 1935 and took his sentence"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "사자 조련과 각료 사칭의 위험을 감수",
+     "reason_en": "Risked lions and ministerial impersonation alike"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "십수 년간 루스티히의 고정 파트너로 남음",
+     "reason_en": "Stayed Lustig's regular partner over a decade"
+    },
+    "benevolence": {
+     "score": 38,
+     "reason_ko": "피해자의 신뢰를 터는 일을 반복한 직업",
+     "reason_en": "A career built on abusing strangers' trust"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "직업이 타인을 속이는 사기였음",
+     "reason_en": "His trade was deceiving others"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "화려한 외모와 언변을 무기로 쓴 사기꾼",
+     "reason_en": "A con man who weaponised looks and talk"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "매번 새 판을 벌이며 재기를 노린 낙천가",
+     "reason_en": "An optimist who always set the next con"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "체제와 무관하게 돈을 좇은 범죄자",
+     "reason_en": "Chased money with no stake in the order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "단독이 아닌 팀플레이 사기의 전문가",
+     "reason_en": "A specialist of the two-man con"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "파리 한복판에서 각료 사칭을 감행",
+     "reason_en": "Impersonated a ministry official in central Paris"
+    }
+   },
+   "rationale_ko": "사자 조련사 출신의 사기꾼은 세기의 사기극에서 각료 비서를 맡았다. 루스티히가 설계하면 그가 무대를 지키는 십수 년의 콤비였다. 잘생긴 외모와 프랑스어가 그의 도구였다. 1935년 위조지폐 조직 사건으로 함께 기소돼 죄를 인정했다.",
+   "rationale_en": "The former lion-tamer played the ministry secretary in the con of the century. For over a decade he held the stage while Lustig designed the trick. Good looks and French were his tools. Indicted with the 1935 counterfeiting ring, he pled guilty."
+  }
+ },
+ "윌리엄 와츠": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 1,
+   "tech_exp": "은행원을 속인 위폐 판각 기술",
+   "tech_exp_en": "Engraving craft that fooled bank clerks",
+   "social": 1,
+   "social_exp": "증언으로 위조 조직 해체에 기여",
+   "social_exp_en": "His testimony helped break the ring",
+   "economic": 3,
+   "economic_exp": "5년간 미국을 떠돈 '루스티히 머니'의 원판 제작",
+   "economic_exp_en": "Cut the plates for five years of 'Lustig money'",
+   "cultural": 2,
+   "cultural_exp": "루스티히 전설 속 판각공으로 이름이 남음",
+   "cultural_exp_en": "Enters the Lustig legend as its engraver",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "20세기 대표 위조 사건의 기술자로 기록",
+   "transhistoricity_exp_en": "The technician of a signature counterfeiting case"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "작업실에서 홀로 판을 새긴 기술자",
+     "reason_en": "A craftsman who worked the plates alone"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "약사와 판각공으로 실내에서 일한 삶",
+     "reason_en": "The indoor trades of pharmacist and engraver"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "은행도 속인 위폐 원판을 새긴 판각 기술자",
+     "reason_en": "Engraved plates good enough to pass banks"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "무명의 기술자로 대중 앞에 서지 않음",
+     "reason_en": "An unknown tradesman far from any public"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "금주법 시대 술 상표 위조로 시작해 위폐까지 감",
+     "reason_en": "From fake liquor labels to fake currency"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "5년간 꾸준히 정밀한 위폐 원판을 제작",
+     "reason_en": "Five years of steadily flawless plate work"
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "체포 뒤 정부 증인으로 돌아서 전모를 증언",
+     "reason_en": "Turned state's witness and told it all"
+    },
+    "courage": {
+     "score": 40,
+     "reason_ko": "붙잡히자 파트너를 밀고 형을 줄인 선택",
+     "reason_en": "Caught, he gave up his partner to cut his term"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "1935년 재판에서 루스티히에 맞서는 스타 증인",
+     "reason_en": "Star witness against Lustig at the 1935 trial"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "공익 행적 없이 위조 기술로 생계를 유지",
+     "reason_en": "Kept his living on forged work, no public good"
+    },
+    "fairness": {
+     "score": 32,
+     "reason_ko": "공중을 속이는 위폐 제작에 기술을 바침",
+     "reason_en": "His skill served a fraud on the public"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "이름 없는 조연 기술자로 살다 법정에 섬",
+     "reason_en": "An anonymous technician until the witness stand"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "증언으로 형을 줄이려 한 현실적 판단",
+     "reason_en": "A realist who traded testimony for a shorter term"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "직업범죄자로 사회 질서와 무관",
+     "reason_en": "A working criminal indifferent to the order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "조직의 기술 담당으로 분업에 들어감",
+     "reason_en": "The technical hand inside a division of labour"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "연방 수사망을 알면서도 위폐 제작을 지속",
+     "reason_en": "Kept engraving despite the federal hunt"
+    }
+   },
+   "rationale_ko": "약사이자 판각공이던 그는 '루스티히 머니'의 원판을 새겼다. 은행도 속일 정밀함은 진짜 재능이었으나 위조에 바쳐졌다. 1935년 재판에서는 정부 편 증인이 되어 파트너를 넘기고 10년형을 받았다.",
+   "rationale_en": "A pharmacist-engraver, he cut the plates for 'Lustig money'. The skill that fooled banks was real talent spent on forgery. At the 1935 trial he turned state's witness, gave up his partner, and took ten years."
+  }
+ },
+ "호세파 맥그리거": {
+  "influence": {
+   "political": 2,
+   "political_exp": "볼리바르 사촌의 이름이 포야이스 신뢰를 키움",
+   "political_exp_en": "Her name — Bolívar's cousin — lent Poyais credibility",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "가짜 왕국 사교의 얼굴이 됨",
+   "social_exp_en": "The social face of a fake kingdom",
+   "economic": 2,
+   "economic_exp": "런던 사교계 진출이 채권 판매를 도움",
+   "economic_exp_en": "Her London salon presence helped sell the bonds",
+   "cultural": 1,
+   "cultural_exp": "포야이스 전설의 '왕비'로 기억",
+   "cultural_exp_en": "Remembered as the 'queen' of the Poyais tale",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "세기의 국가 사기에 얹힌 이름",
+   "transhistoricity_exp_en": "A name riding on the century's nation-scam"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "포야이스 부인으로 런던 살롱의 초대를 주관",
+     "reason_en": "Hosted London salons as the consort of Poyais"
+    },
+    "martial": {
+     "score": 27,
+     "reason_ko": "카라카스 명문가와 런던 사교계에서 지낸 삶",
+     "reason_en": "A life of Caracas pedigree and London drawing rooms"
+    },
+    "intellect": {
+     "score": 52,
+     "reason_ko": "두 대륙의 상류 사회에서 가짜 왕국 공주 역을 소화",
+     "reason_en": "Played princess of a fake state on two continents"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "볼리바르의 사촌으로 런던 사교계를 매혹",
+     "reason_en": "Bolívar's cousin who charmed London society"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "남편의 과시와 달리 단정한 귀족 품을 유지",
+     "reason_en": "Kept a composed aristocratic air amid his showmanship"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "수년간 대륙을 오가며 사교 역할을 수행",
+     "reason_en": "Kept up the society role across oceans for years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "남편의 몰락 뒤 자기 변명을 남기지 않음",
+     "reason_en": "Left no self-justification after his fall"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "사기 폭로 후에도 사교계에 남아 체면을 지킴",
+     "reason_en": "Held her place in society after the exposure"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "남편의 거짓이 드러난 뒤에도 공개 배신을 하지 않음",
+     "reason_en": "Never publicly betrayed him when the fraud broke"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "전해지는 행적이 사교 활동에 한정됨",
+     "reason_en": "Her record survives mainly as a social one"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "역할 수행 외에 판단할 행적이 알려지지 않음",
+     "reason_en": "Little beyond the role survives to judge her by"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "볼리바르의 이름을 자기 후광으로 쓰지 않음",
+     "reason_en": "Never traded on the Bolívar name for herself"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "남편의 계획을 믿고 따른 낙관적 동행",
+     "reason_en": "Believed and followed her husband's design"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "명문가 출신으로 기존 신분 질서 안에서 삶",
+     "reason_en": "An heiress who lived inside the old order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "가문과 사교 공동체의 틀 안에서 움직임",
+     "reason_en": "Moved within family and society circles"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "미지의 남편과 대서양을 건넌 결정",
+     "reason_en": "Crossed the Atlantic on an unknown husband's word"
+    }
+   },
+   "rationale_ko": "볼리바르의 사촌이라는 이름이 가짜 왕국에 진짜 무게를 실어주었다. 런던 사교계에서 포야이스의 부인 역할을 소화했으나 사기의 설계자는 아니었다. 남편의 몰락 뒤에도 공개적으로 그를 배신하지 않았다. 1838년 카라카스에서 숨졌다.",
+   "rationale_en": "Her name — Bolívar's cousin — gave a fake kingdom real weight. She played the consort of Poyais in London society but did not design the fraud. She never publicly betrayed her husband after its collapse. She died in Caracas in 1838."
+  }
+ },
+ "조지 프레데릭 아우구스투스 1세": {
+  "influence": {
+   "political": 2,
+   "political_exp": "영국이 세운 명목상 군주로 대 스페인 완충 구실",
+   "political_exp_en": "A titular British-backed king buffering Spanish claims",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "부족 왕실의 상징적 존재",
+   "social_exp_en": "A symbolic presence of the Miskito crown",
+   "economic": 1,
+   "economic_exp": "토지 양도 문서가 포야이스 사기의 근거가 됨",
+   "economic_exp_en": "His land grant became the paper base of the fraud",
+   "cultural": 1,
+   "cultural_exp": "가짜 왕국 전설의 배후 인물",
+   "cultural_exp_en": "The figure behind the fake-kingdom legend",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "포야이스 사기의 서명자로 역사에 남음",
+   "transhistoricity_exp_en": "History keeps him as the signer of Poyais"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "실권 없이 영국 감독관이 대신 다스린 명목 군주",
+     "reason_en": "Titular king while British superintendents ruled"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "카리브 해안 부족 군주로 자랐으나 전사 행적은 없음",
+     "reason_en": "A coastal tribal king with no warrior record"
+    },
+    "intellect": {
+     "score": 35,
+     "reason_ko": "웨일스만 한 영토를 술과 보석에 넘긴 판단",
+     "reason_en": "Signed away Wales-sized land for rum and trinkets"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "부족 추장들의 합의로 군위에 오른 인물",
+     "reason_en": "Raised to the throne by chiefs' consensus"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "양도 협상 자리에서 술을 마셨다는 기록",
+     "reason_en": "The grant was reportedly signed over heavy drinking"
+    },
+    "diligence": {
+     "score": 45,
+     "reason_ko": "20년 넘는 재위를 자리 지키기로 채움",
+     "reason_en": "Over twenty years of simply holding the throne"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "판단을 돌아본 기록 없이 재위를 마침",
+     "reason_en": "No record of second thoughts across his reign"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "실권 없는 왕위에서 정치 폭풍을 겪음",
+     "reason_en": "Weathered court storms on a powerless throne"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "대관식을 영국 여왕 생일에 맞춘 친영 군주",
+     "reason_en": "Timed his coronation to the English queen's birthday"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "백성을 위한 행적보다 조정의 존재로 남음",
+     "reason_en": "More a court presence than a benefactor"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "백성의 땅을 사소한 대가에 타인에게 넘김",
+     "reason_en": "Gave his people's land away for trifles"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "실권 없이도 군왕 칭호를 받아들임",
+     "reason_en": "Accepted a crown that held no power"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "심경이 드러난 기록 없이 재위를 마침",
+     "reason_en": "His reign closed with no record of his outlook"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "세습 왕실과 부족 관습의 질서를 따름",
+     "reason_en": "Kept the order of hereditary tribal kingship"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "공동체의 땅을 개인 처분처럼 넘긴 결정",
+     "reason_en": "Disposed of communal land as if his own"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "낯선 모험가에게 나라만 한 땅을 덜컥 넘김",
+     "reason_en": "Handed a stranger a kingdom-sized tract"
+    }
+   },
+   "rationale_ko": "실권은 영국 감독관이 쥐고 그는 대관식의 왕이었다. 1820년 보석과 럼주에 웨일스보다 넓은 땅을 넘긴 서명이 세기의 사기극을 가능하게 했다. 명목상 군주의 가벼운 판단이 수백 이주자의 비극으로 돌아왔다. 1824년 살해된 것으로 전해진다.",
+   "rationale_en": "Real power sat with the British superintendent; he was a coronation king. In 1820 his signature traded Wales-sized land for rum and trinkets — the paper the Poyais fraud stood on. A figurehead's light judgment became hundreds of settlers' tragedy. He was reportedly killed in 1824."
+  }
+ },
+ "프랭크 애버그네일 시니어": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "아들에게 세일즈맨십을 가르친 아버지",
+   "social_exp_en": "The father who taught his son salesmanship",
+   "economic": 1,
+   "economic_exp": "뉴욕 문구점을 경영한 자영업자",
+   "economic_exp_en": "A New York stationery-store owner",
+   "cultural": 2,
+   "cultural_exp": "영화에서 크리스토퍼 워켄이 연기해 오스카 후보",
+   "cultural_exp_en": "Walken's film portrayal drew an Oscar nomination",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "아들의 전설 속에 함께 남은 이름",
+   "transhistoricity_exp_en": "A name kept inside his son's legend"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "문구 사업을 직접 꾸린 소규모 경영자",
+     "reason_en": "Ran his own small stationery business"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "매장과 책상을 지킨 상인의 삶",
+     "reason_en": "A shopkeeper's life behind counter and desk"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "세일즈맨십으로 자영업을 꾸린 수완",
+     "reason_en": "Kept a business going on salesmanship"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "아들이 평생 우상으로 삼은 인물적 풍채",
+     "reason_en": "The father his son idolised for life"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "화려함 없이 점포를 꾸린 시민의 삶",
+     "reason_en": "An unshowy citizen keeping a store"
+    },
+    "diligence": {
+     "score": 58,
+     "reason_ko": "이혼 뒤 홀로 아들을 키우며 사업을 유지",
+     "reason_en": "Raised his son alone while keeping the shop"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자기 삶에 대한 기록을 남기지 않은 소시민",
+     "reason_en": "Left no account of himself — a private citizen"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "군 경력이나 공직 없이 상인으로 삶",
+     "reason_en": "No service or office — a tradesman's life"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "이혼 뒤에도 아들 곁을 지킨 아버지",
+     "reason_en": "Stayed at his son's side after the divorce"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "홀로 아들을 키우며 그의 롤모델이 됨",
+     "reason_en": "Single father who became his son's model"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "사업 외에 판단할 공적 행적이 드러나지 않음",
+     "reason_en": "Little public record beyond the business"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "이름을 내세우지 않고 점포를 지킨 상인",
+     "reason_en": "A shopkeeper who never sought a name"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "판매직 특유의 밝은 처세로 아들에게 영향",
+     "reason_en": "A salesman's sunny manner his son absorbed"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "교외 중산층 상인의 안정 지향적 삶",
+     "reason_en": "A suburban merchant's order-seeking life"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "가족과 지역 상권 안에서 삶을 꾸림",
+     "reason_en": "Lived inside family and local trade"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "모험 없이 점포와 가정을 지킨 삶",
+     "reason_en": "Kept shop and home without adventure"
+    }
+   },
+   "rationale_ko": "아들이 사기 천재가 되기 전에 배운 것은 아버지의 세일즈맨십이었다. 이혼 뒤 홀로 아들을 키우며 문구점을 꾸린 상인이었다. 영화에서 크리스토퍼 워켄이 그를 연기해 오스카 후보에 올랐다. 1972년 계단 사고로 숨졌다.",
+   "rationale_en": "Before the son became a con genius he learned his father's salesmanship. A stationer who raised the boy alone after the divorce. Christopher Walken played him on film to an Oscar nomination. He died in a fall in 1972."
+  }
+ },
+ "윌리엄 맥마스터스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "폭로 기사로 수천 투자자의 피해를 막음",
+   "social_exp_en": "His exposé stopped losses for thousands of investors",
+   "economic": 3,
+   "economic_exp": "폰지 제국 붕괴의 방아쇠를 당긴 보도",
+   "economic_exp_en": "The story that triggered Ponzi's collapse",
+   "cultural": 2,
+   "cultural_exp": "사기꾼을 잡은 홍보맨의 전설로 남음",
+   "cultural_exp_en": "Lives on as the publicist who caught Ponzi",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "폰지 사기 서사에서 폭로자로 기억",
+   "transhistoricity_exp_en": "Kept in the Ponzi story as its whistleblower"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "독립 언론인·홍보인으로 자기 일을 영위",
+     "reason_en": "An independent newspaperman and press agent"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "기자와 홍보인으로 책상에서 일한 삶",
+     "reason_en": "A desk life of press and publicity"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "열흘 만에 폰지의 수익 구조가 성립 불가임을 간파",
+     "reason_en": "Saw Ponzi's math fail within ten days"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "홍보 전문가로 언론과 고객을 다루는 솜씨",
+     "reason_en": "A publicist's skill with press and clients"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "거액의 고용 조건을 걷어차고 폭로를 택함",
+     "reason_en": "Dropped a fat retainer to expose it"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "보스턴 언론계에서 오래 일한 신문인",
+     "reason_en": "A long Boston newspaper career"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "무명으로 살다가 생을 마친 폭로자",
+     "reason_en": "Lived and died unremembered after his scoop"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "자기 고용주이던 부자 사기꾼을 공개 폭로",
+     "reason_en": "Exposed his own wealthy employer in print"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "고용주가 아닌 독자와 진실의 편을 택함",
+     "reason_en": "Chose readers and truth over his client"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "이민자들의 전 재산을 지키는 폭로를 선택",
+     "reason_en": "Chose the exposé that saved immigrants' savings"
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "사익보다 사실 보도를 앞세운 판단",
+     "reason_en": "Put the true story above his own gain"
+    },
+    "humility": {
+     "score": 75,
+     "reason_ko": "퓰리처의 공이 신문사로 가도 이름을 내세우지 않음",
+     "reason_en": "Let the paper take the Pulitzer, asked nothing"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "숫자로 사기를 간파한 회의적 눈",
+     "reason_en": "A sceptic's eye that read the numbers"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "언론인으로 체제와 무관하게 사실을 보도",
+     "reason_en": "A reporter loyal to fact, not order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "사기의 피해자인 공중 편에 선 선택",
+     "reason_en": "Stood with the scheme's public victims"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "고용 열흘 만에 고용주를 뒤집는 폭로 감행",
+     "reason_en": "Toppled his employer ten days into the job"
+    }
+   },
+   "rationale_ko": "폰지가 돈을 주고 고용한 홍보맨이 폰지의 무덤을 팠다. 고용된 지 열흘 만에 수익 구조의 불성립을 간파해 보스턴 포스트에 폭로를 팔았다. 공은 신문사의 퓰리처로 돌아갔고 그의 이름은 오래 잊혔다. 1968년 93세로 숨졌다.",
+   "rationale_en": "The press agent Ponzi hired dug Ponzi's grave. Ten days in, he saw the scheme's arithmetic fail and sold the exposé to the Boston Post. The Pulitzer went to the paper; his name faded. He died in 1968 at ninety-three."
+  }
+ },
+ "게오르크 프리드리히 다우머": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "종교 비판 저작으로 19세기 논쟁에 참여",
+   "social_exp_en": "His religious critique joined 19th-century debates",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No bearing on the economy",
+   "cultural": 2,
+   "cultural_exp": "신화학 연구와 시로 독일 지성사에 이름",
+   "cultural_exp_en": "A name in German letters through myth studies and verse",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "카스파 하우저 서사의 스승으로 기억",
+   "transhistoricity_exp_en": "Remembered as Kaspar Hauser's first tutor"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "학문과 저술로 살아 조직을 이끌지 않음",
+     "reason_en": "Lived by scholarship, led no organisation"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "서재에서 저작을 쓴 학자의 삶",
+     "reason_en": "A scholar's life at the writing desk"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "신화학과 종교 비판에 수십 권의 저작을 남김",
+     "reason_en": "Dozens of volumes on myth and religious critique"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "뉘른베르크 지성계에서 활동한 지식인",
+     "reason_en": "A man of Nuremberg's intellectual circles"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "저술에 전념한 절제된 학자의 삶",
+     "reason_en": "A disciplined life given to writing"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "수십 년간 신화·종교 비판 저작을 써냄",
+     "reason_en": "Produced critiques of religion for decades"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "급진 종교 비판에서 가톨릭 개종으로 입장을 바꿈",
+     "reason_en": "Moved from radical critique to Catholic conversion"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "당대 종교 관념을 정면으로 비판한 저작",
+     "reason_en": "Books that attacked the religion of his day"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "카스파 하우저를 거두었다가 결별을 선언",
+     "reason_en": "Took in Kaspar Hauser, then renounced him"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "길거리의 소년을 집에 들여 말과 글을 가르침",
+     "reason_en": "Took a foundling home and taught him letters"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "소년의 거짓 진술에 지지 않고 관계를 끊음",
+     "reason_en": "Cut the boy loose rather than be deceived"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "화려한 명성보다 저술로 남은 학자",
+     "reason_en": "Left books, not fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "인간의 신화 본능을 비판적으로 본 시선",
+     "reason_en": "Read the human need for myth critically"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "급진 비판가에서 가톨릭 정통으로 회귀",
+     "reason_en": "From radical critic he returned to orthodoxy"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "서재에서 홀로 신화 연구에 몰두",
+     "reason_en": "Alone in the study among his myths"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "사상은 과감하나 처신은 절제된 학자",
+     "reason_en": "Bold in thought, careful in conduct"
+    }
+   },
+   "rationale_ko": "신화학과 종교 비판에 수십 권을 쓴 학자는 수수께끼 소년을 집에 들였다. 말과 글을 가르쳤으나 소년의 회피 앞에 관계를 끊었다. 급진 종교 비판가에서 말년 가톨릭 개종으로 입장이 뒤집혔다. 1875년 뷔르츠부르크에서 숨졌다.",
+   "rationale_en": "The scholar of myth and religious critique took the mystery boy into his home. He taught him speech and letters, then cut ties over the boy's evasions. The radical critic ended a Catholic convert. He died in Würzburg in 1875."
+  }
+ },
+ "스탠호프 백작": {
+  "influence": {
+   "political": 2,
+   "political_exp": "하원의원을 지낸 귀족으로 공직 활동",
+   "political_exp_en": "A peer who served in the Commons",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "카스파 하우저 신원 조사에 사재를 들임",
+   "social_exp_en": "Bankrolled the inquiry into Kaspar Hauser's origins",
+   "economic": 1,
+   "economic_exp": "사적 후원으로 조사 자금을 댐",
+   "economic_exp_en": "His private purse funded the investigation",
+   "cultural": 1,
+   "cultural_exp": "하우저 관련 저작이 사건의 사료가 됨",
+   "cultural_exp_en": "His tracts remain sources for the case",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "독일 최대 미스터리의 후원자로 기억",
+   "transhistoricity_exp_en": "Remembered as patron of Germany's great mystery"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "하원의원과 가문 영지를 관리한 귀족",
+     "reason_en": "An MP who managed the family estates"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "귀족 영지 생활의 신체 행적",
+     "reason_en": "The estate life of a peer"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "자연학에 관심을 둔 아마추어 지식 귀족",
+     "reason_en": "An amateur intellectual drawn to natural history"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "괴짜 귀족으로 사교계에 이름을 냄",
+     "reason_en": "Known in society as an eccentric peer"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "검소하고 엉뚱한 생활로 알려진 귀족",
+     "reason_en": "Noted for frugal, odd habits"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "수년간 하우저 신원 조사를 자금으로 뒷받침",
+     "reason_en": "Funded the Hauser inquiry for years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "소년에 대한 기대가 꺾이자 스스로 물러남",
+     "reason_en": "Withdrew once his faith in the boy broke"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "평판을 걸고 정체불명의 소년을 옹호",
+     "reason_en": "Staked his name on a nameless boy"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "회의가 들자 소년을 떠나 영국으로 돌아감",
+     "reason_en": "Doubts came; he left the boy for England"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "떠돌이 소년의 신원 조사에 사재를 씀",
+     "reason_en": "Spent his own fortune on a stray boy's identity"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "진실 규명을 위해 조사 자금을 댐",
+     "reason_en": "Paid to get at the truth"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "백작 신분이나 별난 취미를 그대로 드러냄",
+     "reason_en": "Wore his earldom and oddities openly"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "수수께끼에 희망을 걸었다 실망해 접음",
+     "reason_en": "Bet hope on the mystery, then folded it"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "귀족 질서 안에서 벗어난 괴짜 행보",
+     "reason_en": "An eccentric inside the aristocratic order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "독자 취미와 후원으로 움직인 별난 귀족",
+     "reason_en": "Moved by private hobbies and patronage"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "하나의 소년 미스터리에 거금을 건 선택",
+     "reason_en": "Staked a fortune on one boy's mystery"
+    }
+   },
+   "rationale_ko": "하원의원을 지낸 괴짜 백작은 수수께끼 소년의 후원자를 자처했다. 신원 조사에 사재를 들였으나 소년에게 회의가 생기자 후원을 거두고 귀국했다. 하우저 사건의 사료가 그의 저작에 남았다. 1855년 숨졌다.",
+   "rationale_en": "The eccentric earl and former MP made himself patron of the mystery boy. He bankrolled the search for his origins, then withdrew when doubt set in and went home. His tracts remain sources for the Hauser case. He died in 1855."
+  }
+ },
+ "엘리자베스 워럴": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "가짜 공주를 거둔 결정적 피해자",
+   "social_exp_en": "The decisive dupe who sheltered a fake princess",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No bearing on the economy",
+   "cultural": 2,
+   "cultural_exp": "카라부 사건의 중심 인물로 전해짐",
+   "cultural_exp_en": "A central figure of the Caraboo affair",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "영국 사기극 전설 속 판사 부인",
+   "transhistoricity_exp_en": "The magistrate's wife in a hoax legend"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "저택에서 '공주' 접대를 주관한 안주인",
+     "reason_en": "Mistress of the house that hosted the 'princess'"
+    },
+    "martial": {
+     "score": 27,
+     "reason_ko": "판사 부인으로 저택 안에서 살아온 삶",
+     "reason_en": "A magistrate's wife whose life ran indoors"
+    },
+    "intellect": {
+     "score": 42,
+     "reason_ko": "낯선 여인의 정체를 몇 달간 알아차리지 못함",
+     "reason_en": "Failed for months to see through her guest"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "'공주'를 브리스틀 사교계의 화제로 만든 안주인",
+     "reason_en": "Made her guest the talk of Bristol society"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "규범을 지키는 지주 계층의 삶",
+     "reason_en": "A landed-class life within convention"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "몇 달간 손님을 극진히 돌본 주관",
+     "reason_en": "Kept up the guest's care for months"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "속았음을 알자 소동을 수습하는 태도를 보임",
+     "reason_en": "Once undeceived she set about making things right"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "정체불명의 이방인을 저택에 받아들임",
+     "reason_en": "Took a stranger of unknown origin into her home"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "한 번 거둔 손님을 끝까지 보호하려 함",
+     "reason_en": "Stood by the guest she had taken in"
+    },
+    "benevolence": {
+     "score": 72,
+     "reason_ko": "정체가 드러난 뒤에도 그녀의 미국행을 마련",
+     "reason_en": "After unmasking, arranged her passage to America"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "치안판사 가문의 안주인으로 처신",
+     "reason_en": "Conducted herself as a magistrate's wife"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "자기를 내세우지 않는 살림의 주인",
+     "reason_en": "A householder who never sought the stage"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "낯선 여인의 이야기를 선의로 받아들임",
+     "reason_en": "Took the stranger's story in good faith"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "지주 계층의 기존 질서 안에서 삶",
+     "reason_en": "Lived within the landed order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "사교 공동체 한가운데서 움직인 안주인",
+     "reason_en": "Moved at the centre of her social circle"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "정체불명의 이방인을 집에 거둔 결정",
+     "reason_en": "Took an unknown stranger into her house"
+    }
+   },
+   "rationale_ko": "치안판사의 부인은 길가의 낯선 여인을 저택에 거두었다. 몇 달간 '공주'를 브리스틀 사교계의 스타로 만들었다. 정체가 드러난 뒤에는 분노 대신 그녀의 미국행을 마련해 주었다.",
+   "rationale_en": "The magistrate's wife took a strange woman off the road into her house. For months she made the 'princess' the toast of Bristol society. When the truth broke, she chose pity over anger and arranged the woman's passage to America."
+  }
+ },
+ "윌리엄 이네스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "가짜 개종자를 교회 안에 들임",
+   "social_exp_en": "Brought a fake convert inside the church",
+   "economic": 1,
+   "economic_exp": "사기극에서 이익을 챙겼다는 평가",
+   "economic_exp_en": "Judged to have profited from the hoax",
+   "cultural": 2,
+   "cultural_exp": "유럽 최초 '대만인' 신화의 공동 연출자",
+   "cultural_exp_en": "Co-author of Europe's first 'Formosan' myth",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "살마나자르 사기극의 조력자로 남음",
+   "transhistoricity_exp_en": "Enters history as Psalmanazar's enabler"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "주둔지 연대의 군목으로 교인들을 돌봄",
+     "reason_en": "Chaplain tending a regiment's flock at Sluys"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "군 속 비전투직 군목의 생활",
+     "reason_en": "A non-combatant chaplain's life in the army"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "개종극을 연출해 런던 주교를 움직인 꾀",
+     "reason_en": "Staged a conversion that moved the Bishop of London"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "방랑자를 '포르모사 개종자'로 포장해 판 전시",
+     "reason_en": "Packaged a vagrant as a 'Formosan convert'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "사기극에서 이익을 챙겼다는 후대 평가",
+     "reason_en": "Later judged to have milked the imposture"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "수년간 '개종자' 소동을 이어가는 데 가담",
+     "reason_en": "Kept the convert sensation running for years"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "사기가 드러난 뒤에도 자기 입장을 남기지 않음",
+     "reason_en": "Left no account of himself when the hoax broke"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "주교 앞에서 가짜 개종자를 내세우는 도박",
+     "reason_en": "Gambled a false convert on the bishop's credulity"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "살마나자르를 진짜가 아닌 사업 대상으로 씀",
+     "reason_en": "Used Psalmanazar as an asset, not a soul"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "방랑 청년을 거들었으나 이용 목적이 앞섬",
+     "reason_en": "Helped the wanderer — and used him"
+    },
+    "fairness": {
+     "score": 32,
+     "reason_ko": "교회와 대중을 속이는 연출에 가담",
+     "reason_en": "Joined a deception played on church and public"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "'대만인 발견'의 공로를 자기 몫으로 취함",
+     "reason_en": "Claimed his share of the 'discovery'"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "사기극의 성공을 믿고 판을 키움",
+     "reason_en": "Backed the hoax and widened its stage"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "교회 질서 안에서 명성을 노린 성직자",
+     "reason_en": "A cleric working the church's own order"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "단독이 아닌 공모로 판을 꾸밈",
+     "reason_en": "Worked the scheme in concert, not alone"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "가짜 개종자를 런던 주교에게 들이미는 감행",
+     "reason_en": "Pushed a fake convert on the Bishop of London"
+    }
+   },
+   "rationale_ko": "슬뢰위스 주둔 연대의 군목은 방랑자를 '포르모사 개종자'로 만들었다. 세례를 주고 런던 주교에게 들이밀어 신화의 공동 연출자가 되었다. 사기극에서 이익을 챙겼다는 평이 따른다. 이후의 행적은 전해지지 않는다.",
+   "rationale_en": "The Scots chaplain at Sluys made a vagrant into a 'Formosan convert'. He baptised him and pushed him before the Bishop of London — co-author of the myth. Posterity counts him among the hoax's profiteers. His later life is untraced."
+  }
+ },
+ "존 마나한": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "지역 역사학자로 계보 연구에 종사",
+   "social_exp_en": "A local historian and genealogist",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No bearing on the economy",
+   "cultural": 2,
+   "cultural_exp": "아나스타시아 전설 속 마지막 남편",
+   "cultural_exp_en": "The last husband in the Anastasia legend",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "황녀 사칭 서사의 조연으로 기억",
+   "transhistoricity_exp_en": "A supporting figure in the imposture saga"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "역사 강의와 계보 연구로 살아온 학자",
+     "reason_en": "A scholar of history and genealogy"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "강단과 서고에서 지낸 학자의 삶",
+     "reason_en": "A life of lectern and library"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "버지니아대 출신의 역사학자였으나 맹신에 기울었음",
+     "reason_en": "A UVA-trained historian undone by credulity"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "'샬러츠빌에서 가장 사랑받는 별난이'로 불림",
+     "reason_en": "Charlottesville's best-loved eccentric"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "별나지만 해를 끼치지 않은 괴짜의 삶",
+     "reason_en": "An eccentric who harmed no one"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "평생 계보와 지역사를 정리해 기록",
+     "reason_en": "A lifetime cataloguing genealogy and local history"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "증거가 쌓여도 아내의 주장을 의심하지 않음",
+     "reason_en": "Never doubted her claim as evidence mounted"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "세간의 조롱 속 사칭 황녀와 결혼을 감행",
+     "reason_en": "Married a ridiculed claimant before the world"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 90,
+     "reason_ko": "1968년 결혼 후 죽을 때까지 아내의 주장을 옹호",
+     "reason_en": "Defended her claim from 1968 to his death"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "배척받던 여인에게 가정과 존엄을 줌",
+     "reason_en": "Gave an outcast woman a home and dignity"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "반대 증거보다 아내의 주장에 기울어진 판단",
+     "reason_en": "Her word outweighed the counter-evidence"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "별난이로 불리며 지역에 녹아든 학자",
+     "reason_en": "A scholar folded into his town as its eccentric"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "아내의 황녀 주장을 끝까지 믿은 낙관",
+     "reason_en": "Believed her imperial claim to the end"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "제정 러시아 황실 서사에 매혹된 향수",
+     "reason_en": "Charmed by the romance of tsarist royalty"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "아내와 마을 공동체에 헌신한 삶",
+     "reason_en": "Devoted to his wife and his town"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "평생의 신념을 한 번의 결혼에 걸었음",
+     "reason_en": "Staked a lifetime of belief on one marriage"
+    }
+   },
+   "rationale_ko": "역사학자는 황녀를 자처한 여인과 결혼해 평생 그녀의 편에 섰다. 증거가 쌓여도 의심하지 않은 것은 충성이었고 동시에 맹신이었다. 마을에서는 '가장 사랑받는 별난이'로 불렸다. 1990년 숨졌고 사후 DNA는 아내의 주장을 부정했다.",
+   "rationale_en": "The historian married a woman claiming to be a grand duchess and stood by her for life. Never doubting was loyalty and credulity at once. His town called him its best-loved eccentric. He died in 1990; the DNA that followed denied his wife's claim."
+  }
+ },
+ "글레프 보트킨": {
+  "influence": {
+   "political": 1,
+   "political_exp": "앤더슨 옹호로 로마노프 논쟁을 이어감",
+   "political_exp_en": "His advocacy kept the Romanov dispute alive",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "미국 최초의 법인 등록 신이교 교회를 세움",
+   "social_exp_en": "Founded America's first chartered neo-pagan church",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No bearing on the economy",
+   "cultural": 3,
+   "cultural_exp": "저작과 교회로 아나스타시아 전설을 키움",
+   "cultural_exp_en": "His books and church fed the Anastasia legend",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "법으로 인정받은 최초 현대 이교 교회 창립자",
+   "transhistoricity_exp_en": "Founder of the first legally chartered pagan church"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "자신의 교회를 창립해 대주제로 이끎",
+     "reason_en": "Founded his own church and led it as arch-priest"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "내전을 겪고 일본을 거쳐 미국까지 간 망명",
+     "reason_en": "Civil war, then flight via Japan to America"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "소설가·삽화가이며 독자 신학 체계를 만든 인물",
+     "reason_en": "Novelist, illustrator and builder of his own theology"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "희극 삽화로 공주들을 웃긴 재주 있는 궁정 소년",
+     "reason_en": "The court boy whose comic pigs amused the grand duchesses"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "자기 신앙 체계를 규율 있게 실천",
+     "reason_en": "Lived his own creed with discipline"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "저작·삽화·교회 운영을 수십 년 지속",
+     "reason_en": "Decades of writing, drawing and running a church"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "여신 숭배라는 자기 신학을 직접 구축",
+     "reason_en": "Built his own goddess theology from scratch"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "조롱받는 옹호와 이교 교회 등록 소송을 감행",
+     "reason_en": "Championed a ridiculed claim and sued for his church"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 90,
+     "reason_ko": "로마노프와 '아나스타시아'에 평생 충실",
+     "reason_en": "Lifelong fidelity to the Romanovs and 'Anastasia'"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "버려진 여인에게 어린 시절의 기억을 선물",
+     "reason_en": "Gave a castoff woman the gift of remembered childhood"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "확신이 증거를 앞서는 옹호 태도",
+     "reason_en": "Conviction that ran ahead of evidence"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "자기 교회의 대주제 칭호를 스스로 띠었음",
+     "reason_en": "Took for himself the title of arch-priest"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "살아남은 황녀 이야기를 굳게 믿음",
+     "reason_en": "Held fast to a story of survival"
+    },
+    "conservative_progressive": {
+     "score": 5,
+     "reason_ko": "황실 추억에 충실하되 기독교 밖의 신교를 세움",
+     "reason_en": "True to the throne's memory yet outside Christendom"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "작지만 자기 공동체를 세운 지도자",
+     "reason_en": "Founded a small community of his own"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "1930년대 뉴욕에서 여신 교회의 법인 등록을 싸워 얻음",
+     "reason_en": "Fought 1930s New York courts to charter a goddess church"
+    }
+   },
+   "rationale_ko": "황제 주치의 아들은 로마노프 공주들과 놀며 자랐고 평생 그 기억의 파수꾼으로 살았다. 앤더슨 옹호는 맹신이었으나 헌신은 진짜였다. 뉴욕에서 여신 숭배 교회의 법인 등록을 싸워 얻은 최초의 현대 이교 창립자이기도 하다. 1969년 샬러츠빌에서 숨졌다.",
+   "rationale_en": "The tsar's physician's son grew up playing with the Romanov princesses and kept that memory all his life. His advocacy of Anderson was credulous but his devotion was real. He also won America's first legal charter for a goddess-worshipping church. He died in Charlottesville in 1969."
+  }
+ },
+ "펠릭스 슈칸코프스키": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on political order",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "황녀 사칭 논쟁의 증언자가 됨",
+   "social_exp_en": "A witness in the Anastasia imposture dispute",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No bearing on the economy",
+   "cultural": 1,
+   "cultural_exp": "아나스타시아 전설의 한 장면에 남음",
+   "cultural_exp_en": "One scene kept him inside the legend",
+   "transhistoricity": 1,
+   "transhistoricity_exp": "역사의 한 증언으로만 이름이 전해짐",
+   "transhistoricity_exp_en": "His name survives through a single testimony"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "공장 노동자로 지휘할 조직이 없는 삶",
+     "reason_en": "A factory hand who commanded no one"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "공장 육체노동으로 살아온 남성",
+     "reason_en": "A man of factory labour"
+    },
+    "intellect": {
+     "score": 45,
+     "reason_ko": "대면 자리에서 양쪽을 아우르는 모호한 진술을 남김",
+     "reason_en": "Left an affidavit straddling both readings"
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "공개된 인물상 없이 한 번의 대면으로 알려짐",
+     "reason_en": "Known by one encounter, not a public self"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "노동자의 삶에서 욕망의 행적이 드러나지 않음",
+     "reason_en": "No appetite in his record beyond the work"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "공장 생활을 이어온 노동자의 삶",
+     "reason_en": "A working life kept to the factory"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "여동생으로 보이고도 서명을 거부한 신중한 판단",
+     "reason_en": "He saw his sister yet refused to sign"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "황녀 논쟁 한가운데 불려와 진술을 남김",
+     "reason_en": "Summoned into the dispute to give a statement"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "가족 말로는 여동생의 새 삶을 위해 침묵을 택함",
+     "reason_en": "Family said he kept silent for her new life"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "여동생을 알아보고도 그녀의 새 삶을 지켜주려 함",
+     "reason_en": "Knew her, and let her keep the life she had"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "'강한 유사'라는 양가적 진술로 진실을 모호하게 둠",
+     "reason_en": "'Strong resemblance' left the truth ambiguous"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "눈앞의 명성과 무관하게 무명 노동자로 남음",
+     "reason_en": "Stayed an unknown labourer beside the famous claim"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "낙관도 비관도 드러내지 않은 침묵의 진술",
+     "reason_en": "His silence showed neither hope nor despair"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서에 대한 입장 없이 노동자로 삶",
+     "reason_en": "Lived a worker's life with no stake declared"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "가족을 위해 침묵을 택했다는 가족 증언",
+     "reason_en": "Chose silence for family, by the family's telling"
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "한마디로 모든 것을 뒤집을 수 있었으나 서명을 거부",
+     "reason_en": "One word could have ended it; he would not sign"
+    }
+   },
+   "rationale_ko": "황녀 사칭의 실체로 지목된 여인의 오빠는 1927년 그녀와 마주 앉았다. '강한 유사'라는 모호한 진술서만 남기고 서명을 거부했다. 훗날 가족들은 그가 여동생을 알아보고도 새 삶을 위해 침묵했다고 증언했다. 사후 DNA는 그 침묵의 이유를 뒷받침했다.",
+   "rationale_en": "The brother of the woman behind the imposture sat across from her in 1927. He left only an affidavit of 'strong resemblance' and refused to sign more. Family later said he recognised his sister and stayed silent for her new life. Posthumous DNA bore out his silence."
+  }
+ },
+ "아나하레오": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 변화와 무관",
+   "political_exp_en": "No impact on politics or diplomacy",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on military affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "그레이 아울을 보호론자로 바꾸고 덫 금지 운동",
+   "social_exp_en": "Turned Grey Owl into a conservationist; fought leg-hold traps",
+   "economic": 0,
+   "economic_exp": "산업·경제 변화와 무관",
+   "economic_exp_en": "No economic impact",
+   "cultural": 4,
+   "cultural_exp": "자서전 베스트셀러와 캐나다 보호운동의 상징",
+   "cultural_exp_en": "Bestselling memoirist and an icon of Canadian conservation",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "캐나다 동물보호 운동의 선구로 기억됨",
+   "transhistoricity_exp_en": "Remembered as a pioneer of Canadian animal welfare"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 22,
+     "reason_ko": "모피동물보호협회에서 덫 금지 운동을 펼침",
+     "reason_en": "Campaigned against leg-hold traps via the Fur-Bearers' association"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "1920~30년대 산속 광산 탐사와 야영을 해냄",
+     "reason_en": "Managed wilderness prospecting and bush life in the 1920s-30s"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "1972년 자서전이 토론토 스타 베스트셀러 4위",
+     "reason_en": "Her 1972 memoir hit No. 4 on the Toronto Star bestseller list"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "덫 사냥꾼 그레이 아울을 보호운동가로 바꿈",
+     "reason_en": "Converted the trapper Grey Owl into a conservationist"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "산속 탐사와 야영 중심의 소박한 생활",
+     "reason_en": "Kept a modest life of bush work and camps"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "1930년대부터 반세기 동물보호 운동을 지속",
+     "reason_en": "Sustained animal-welfare work from the 1930s onward"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "자서전에서 사칭을 알고도 도운 자신을 돌아봄",
+     "reason_en": "Her memoir weighs her own role in the deception"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "여성 광산업자로 산속을 홀로 누빈 시대의 도전",
+     "reason_en": "Defied her era as a lone female prospector in the bush"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "그의 죽음 뒤 그레이 아울의 보호업적 복원에 헌신",
+     "reason_en": "After his death she rebuilt Grey Owl's conservation honor"
+    },
+    "benevolence": {
+     "score": 78,
+     "reason_ko": "덫·독살 금지 운동으로 동물 고통 줄이기에 헌신",
+     "reason_en": "Devoted herself to easing animal suffering"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "동물에게도 인류의 개념을 넓혀야 한다고 주장",
+     "reason_en": "Argued the idea of humanity should extend to animals"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "훈장 수훈 뒤에도 현장 활동가로 남음",
+     "reason_en": "Stayed a field activist even after national honors"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 22,
+     "reason_ko": "보호운동이 세상을 바꿀 수 있다고 믿음",
+     "reason_en": "Believed activism could change the world"
+    },
+    "conservative_progressive": {
+     "score": 25,
+     "reason_ko": "여성 광산업·동물권 운동으로 시대 관습에 도전",
+     "reason_en": "Challenged gender norms as a prospector and activist"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "남편과 결별 뒤에도 홀로 운동을 이어감",
+     "reason_en": "Carried on her cause alone after the separation"
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "홀로 산속 탐사에 나서는 등 파격적 선택",
+     "reason_en": "Took bold paths like solo bush prospecting"
+    }
+   },
+   "rationale_ko": "동물에게까지 인류의 개념을 넓혀야 한다고 일찍이 주장했다. 덫 사냥꾼이던 그레이 아울을 보호운동가로 바꿔놓았고, 그의 죽음 뒤에는 그 명예까지 되살렸다. 야외에서 홀로 서는 힘과 공감이 삶의 두 기둥이었다. 1983년 캐나다 훈장을 받았다.",
+   "rationale_en": "Anahareo argued early that the circle of humanity should include animals. She turned the trapper Grey Owl into a conservationist and, after his death, helped restore his honor. Wilderness self-reliance and empathy were the twin pillars of her life. She received the Order of Canada in 1983."
+  }
+ },
+ "앙헬 에그우나": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 행보와 무관",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "벌레이니에게 원주민 생활술을 전수한 밑바탕",
+   "social_exp_en": "Taught Belaney the Indigenous skills behind his persona",
+   "economic": 0,
+   "economic_exp": "경제 활동 영향 미미",
+   "economic_exp_en": "Negligible economic impact",
+   "cultural": 2,
+   "cultural_exp": "그레이 아울 신화의 원형이 된 삶",
+   "cultural_exp_en": "Her teaching became the substrate of the Grey Owl myth",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "그레이 아울 전기에서만 회자됨",
+   "transhistoricity_exp_en": "Recalled only inside Grey Owl biographies"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 12,
+     "reason_ko": "1910년대 벌레이니에게 오지브와어·카누·덫을 가르침",
+     "reason_en": "Taught Belaney Ojibwe, canoeing, and trapping in the 1910s"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "카누와 덫 사냥을 다루는 숲 생활의 달인",
+     "reason_en": "Adept at canoe and trap-line bush life"
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "오지브와 언어와 생활 기술을 외국인에게 전수",
+     "reason_en": "Passed her language and survival craft to a foreigner"
+    },
+    "charm": {
+     "score": 48,
+     "reason_ko": "영국 청년을 숲과 언어의 세계로 이끎",
+     "reason_en": "Drew a young Englishman into her world of forest and language"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "호숫가 공동체의 소박한 삶을 유지",
+     "reason_en": "Kept the modest life of her lakeside community"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "버려진 뒤 홀로 딸 아그네스를 키움",
+     "reason_en": "Raised her daughter Agnes alone after being abandoned"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "떠난 남편을 원망보다 애정으로 회고",
+     "reason_en": "Recalled the departed husband with affection, not bitterness"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "버림받은 뒤에도 호숫가 삶을 재건",
+     "reason_en": "Rebuilt her lakeside life after abandonment"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "떠난 남편을 끝까지 애정으로 기억",
+     "reason_en": "Kept affection for the husband who left her"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "낯선 외국 청년에게 말과 생존술을 나눔",
+     "reason_en": "Shared language and survival craft with a stranger"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "필요한 만큼만 잡는 공동체 방식을 가르침",
+     "reason_en": "Taught the community rule of taking only what is needed"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "그레이 아울 신화의 밑바탕이나 자신을 내세우지 않음",
+     "reason_en": "Never claimed credit as the myth's true foundation"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "변고 속에서도 호숫가 삶을 이어감",
+     "reason_en": "Carried on the lakeside life through hardship"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "전통적 오지브와 삶의 방식을 지킴",
+     "reason_en": "Held to the traditional Ojibwe way of life"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "부족 공동체와 가족의 틀 안에서 삶",
+     "reason_en": "Lived within the frame of tribe and family"
+    },
+    "cautious_bold": {
+     "score": 8,
+     "reason_ko": "낯선 외국인과의 혼인과 숲 생활을 감수",
+     "reason_en": "Accepted marriage to a foreigner and the bush life"
+    }
+   },
+   "rationale_ko": "영국 청년에게 언어와 숲의 기술을 가르쳐 '그레이 아울'의 원형을 만들었다. 본인은 이름 없이 호숫가 삶을 지켰고, 버려진 뒤에도 딸을 키우며 공동체 안에 남았다. 세상이 기억하는 신화의 밑바탕은 그녀의 일상이었다.",
+   "rationale_en": "Angele Egwuna taught a young Englishman her language and bush skills, unknowingly shaping the persona of Grey Owl. She stayed in her lakeside community, raising their daughter after he abandoned her. The myth the world remembers was built on her everyday life."
+  }
+ },
+ "바르투스 코르텔링": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 0,
+   "tech_exp": "기술 발전과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 1,
+   "social_exp": "제자를 통해 미술계 인식에 간접 영향",
+   "social_exp_en": "Indirect effect on art-world values via his pupil",
+   "economic": 0,
+   "economic_exp": "경제적 영향 미미",
+   "economic_exp_en": "No economic impact",
+   "cultural": 3,
+   "cultural_exp": "반 메이허런에게 페르메이르 기법을 가르침",
+   "cultural_exp_en": "Trained Van Meegeren in Vermeer's methods",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "위작 사기의 기원으로만 기억됨",
+   "transhistoricity_exp_en": "Remembered only as the forger's first teacher"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "데벤테르 미술학교에서 젊은 화가들을 지도",
+     "reason_en": "Taught young painters at the Deventer art school"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "화실과 교실 중심의 화가·교사 생활",
+     "reason_en": "A studio-and-classroom painter's life"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "페르메이르의 안료와 기법을 연구해 전수",
+     "reason_en": "Studied Vermeer's pigments and methods, then taught them"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "구화파에 대한 애정을 제자에게 깊이 새김",
+     "reason_en": "Instilled a lasting love of the old masters in his pupil"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "전통 화풍의 규범적인 화실 생활을 고수",
+     "reason_en": "Kept a disciplined, conventional studio life"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "평생 화가이자 미술 교사로 기법 교육에 전념",
+     "reason_en": "Devoted decades to painting and craft teaching"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "제자의 위작 시대를 보기 전인 1930년에 사망",
+     "reason_en": "Died in 1930, before his pupil's forgery era began"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "현대미술을 '퇴폐'라 공개적으로 깎아내림",
+     "reason_en": "Publicly dismissed modern art as degenerate"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "17세기 네덜란드 회화 전통에 일관되게 헌신",
+     "reason_en": "Stayed constant to the 17th-century Dutch tradition"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "어린 제자에게 기법과 안료 지식을 아낌없이 전수",
+     "reason_en": "Gave a young pupil his craft and pigment lore freely"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "전통 기준으로 제자의 재능을 평가·육성",
+     "reason_en": "Judged and trained pupils by traditional craft standards"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "명성 없는 지방 미술 교사직에 만족한 삶",
+     "reason_en": "Content with an obscure provincial teaching post"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "구화파의 부활을 믿고 전통 교육을 고수",
+     "reason_en": "Held faith that the old masters' way could live on"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "예술은 전통주의였으나 사회 질서엔 관여 안 함",
+     "reason_en": "A traditionalist in art, uninvolved in social order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "교사로서 제자 양성이라는 공동체적 역할",
+     "reason_en": "Served the communal role of training the young"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "검증된 옛 기법의 테두리 안에서만 지도",
+     "reason_en": "Taught strictly inside proven old methods"
+    }
+   },
+   "rationale_ko": "페르메이르의 안료와 붓질을 연구해 후대에 전한 전통 화가다. 현대미술을 배격한 그의 가르침이 제자 반 메이허런에게 역설적으로 위작의 씨앗을 심었다. 지방 교사의 삶은 소박했으나 그 유산은 세기의 스캔들이 되었다.",
+   "rationale_en": "Bartus Korteling studied Vermeer's pigments and brushwork and passed them to a new generation. His contempt for modern art, ironically, planted the seed of forgery in his pupil Van Meegeren. A provincial teacher's quiet life left a scandalous legacy."
+  }
+ },
+ "게르트 하이데만": {
+  "influence": {
+   "political": 2,
+   "political_exp": "가짜 일기 소동으로 독일 사회 논쟁 촉발",
+   "political_exp_en": "The fake-diaries uproar stirred German public debate",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No military relevance",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 4,
+   "social_exp": "전후 최대 언론 스캔들로 검증 관행을 바꿈",
+   "social_exp_en": "Postwar Germany's biggest press scandal changed verification practice",
+   "economic": 2,
+   "economic_exp": "슈테른의 수백만 마르크 손실을 초래",
+   "economic_exp_en": "Cost Stern millions of marks",
+   "cultural": 3,
+   "cultural_exp": "언론 스캔들의 교과서적 사례로 남음",
+   "cultural_exp_en": "Became the textbook case of a media hoax",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "40년 뒤에도 회자되는 보도 참사",
+   "transhistoricity_exp_en": "Still cited decades on as journalism's great debacle"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "1981~83년 슈테른의 일기 매입 협상을 단독 주도",
+     "reason_en": "Solely drove Stern's diary purchases in 1981-83"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "취재 기자 중심의 생활, 신체 단련 행적은 드묾",
+     "reason_en": "A desk-and-field reporter; no notable physical training"
+    },
+    "intellect": {
+     "score": 52,
+     "reason_ko": "수십 년 특종 경력에도 위작 감별에는 실패",
+     "reason_en": "Decades of scoops, yet he failed to spot the forgery"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "특종으로 슈테른의 간판 기자 자리에 오름",
+     "reason_en": "Rose to Stern's star reporter on the strength of scoops"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "나치 유물 수집과 거액 매입을 멈추지 못함",
+     "reason_en": "Could not stop collecting Nazi relics or buying"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "잠수함 탐사부터 일기 추적까지 집요한 취재",
+     "reason_en": "Relentless reporting, from U-boat hunts to the diaries"
+    },
+    "reflection": {
+     "score": 38,
+     "reason_ko": "판결 뒤에도 책임보다 억울함을 앞세움",
+     "reason_en": "After conviction he stressed grievance over fault"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "분쟁 취재와 거액의 단독 거래를 반복 감행",
+     "reason_en": "Repeatedly took risky assignments and solo deals"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "출처를 편집부에도 숨겨 회사를 위험에 빠뜨림",
+     "reason_en": "Hid his source even from editors, endangering the magazine"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "독자 검증보다 특종과 이득을 앞세움",
+     "reason_en": "Put scoop and profit ahead of readers' trust"
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "출처 검증 절차를 건너뛰고 거래를 강행",
+     "reason_en": "Skipped verification procedures to force the deal"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "'세기의 특종'의 주인공 자리를 탐함",
+     "reason_en": "Coveted the starring role in the scoop of the century"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "의심 속에서도 일기의 진본을 끝까지 믿음",
+     "reason_en": "Kept believing the diaries genuine amid doubts"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "나치 수집 취미일 뿐 정치 이념 운동은 없음",
+     "reason_en": "A Nazi-memorabilia hobby, not ideological action"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "편집부도 모르게 정보원과 단독 거래",
+     "reason_en": "Dealt with his source in secret from the newsroom"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "검증 없이 수백만 마르크로 일기를 사들임",
+     "reason_en": "Bought the diaries for millions unverified"
+    }
+   },
+   "rationale_ko": "특종 사냥꾼의 집요함이 탐욕과 만나 전후 최악의 언론 스캔들을 만들었다. 출처 검증을 건너뛴 대담함이 가짜 일기를 샀고, 나치 유물 집착이 그 눈을 가렸다. 1985년 공범으로 실형을 선고받았다.",
+   "rationale_en": "A scoop hunter's tenacity met greed and produced postwar Germany's worst press scandal. Skipping source verification, he bought the forged diaries, blinded by his obsession with Nazi relics. In 1985 he was sentenced to prison as an accomplice."
+  }
+ },
+ "리처드 서스킨드": {
+  "influence": {
+   "political": 1,
+   "political_exp": "휴즈 논란이 미국 정치 음모론과 결합",
+   "political_exp_en": "The affair fed into Hughes-era political conspiracy talk",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military relevance",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 3,
+   "social_exp": "출판사상 최대급 자서전 사기를 공모",
+   "social_exp_en": "Co-plotted publishing's most famous fake memoir",
+   "economic": 2,
+   "economic_exp": "출판사에 수십만 달러 손실을 입힘",
+   "economic_exp_en": "Cost the publisher hundreds of thousands of dollars",
+   "cultural": 3,
+   "cultural_exp": "휴즈 사기극이 영화·도서 소재로 남음",
+   "cultural_exp_en": "The hoax lived on in books and film",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "20세기 문학 사기의 대표 사례로 인용",
+   "transhistoricity_exp_en": "Cited as a leading literary hoax of the 20th century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "1970년 팔마에서 사기의 자료 조사 파트를 맡음",
+     "reason_en": "Ran the research wing of the 1970 scheme in Palma"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "제2차 세계대전에서 육군으로 복무",
+     "reason_en": "Served in the US Army in World War II"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "허위 인터뷰록과 자료로 출판사 검증을 통과시킴",
+     "reason_en": "His forged transcripts passed the publisher's checks"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "어빙이 조력자로 택할 만큼 신뢰받는 친구",
+     "reason_en": "Trusted enough for Irving to pick him as accomplice"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "사기 수익 배분에 참여하며 거짓을 지속",
+     "reason_en": "Took a cut of the fraud and sustained the lie"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "휴즈 관련 방대한 자료 조사를 도맡음",
+     "reason_en": "Shouldered the scheme's heavy research load"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "유죄 인정 뒤 사건 경위를 책으로 남김",
+     "reason_en": "Pled guilty, then put his own account into a book"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "억만장자 상대의 사기에 공모자로 가담",
+     "reason_en": "Joined a fraud aimed at a billionaire"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "친구의 기획에 끝까지 동역자로 남음",
+     "reason_en": "Stayed Irving's partner to the end"
+    },
+    "benevolence": {
+     "score": 48,
+     "reason_ko": "아동 역사책을 쓰면서 기만 행위와 병행",
+     "reason_en": "Wrote children's history while practicing deceit"
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "없던 인터뷰를 지어 출판사를 속임",
+     "reason_en": "Invented interviews to deceive the publisher"
+    },
+    "humility": {
+     "score": 52,
+     "reason_ko": "주인공은 어빙에게 맡기고 조사 역을 수행",
+     "reason_en": "Left the spotlight to Irving and did the research"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "휴즈가 침묵할 것이라 계산하고 감행",
+     "reason_en": "Counted on Hughes staying silent and went ahead"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서에 대한 공개적 입장 없이 작가로 삶",
+     "reason_en": "Took no public stance on social order; lived as a writer"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "두 사람의 은밀한 공모로 사건을 추진",
+     "reason_en": "Ran the affair as a two-man secret"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "조사는 치밀했으나 사기 자체에는 과감히 가담",
+     "reason_en": "Meticulous in research, daring in joining the fraud"
+    }
+   },
+   "rationale_ko": "아동 역사책을 쓰다가 친구의 과감한 기획에 가담했다. 자료 조사와 허위 인터뷰록을 도맡아 '휴즈 자서전'의 뼈대를 만들었다. 들통 뒤에는 유죄를 인정하고 사건의 경위를 책으로 남겼다.",
+   "rationale_en": "Richard Suskind was a quiet children's author drawn into a friend's audacious scheme. His research and forged interview transcripts formed the backbone of the fake Hughes autobiography. When the hoax collapsed, he pleaded guilty and later wrote his own account."
+  }
+ },
+ "에디스 어빙": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "자서전 사기의 자금 통로 역할",
+   "social_exp_en": "Served as the fraud's money channel",
+   "economic": 2,
+   "economic_exp": "위장 계좌로 출판사 수표 수십만 달러 현금화",
+   "economic_exp_en": "Cashed the publisher's checks through a false-front account",
+   "cultural": 2,
+   "cultural_exp": "사기극의 주요 공범으로 회자",
+   "cultural_exp_en": "Remembered as a central accomplice to the hoax",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "휴즈 사기 서사 속 조역으로 남음",
+   "transhistoricity_exp_en": "Survives as a supporting figure in the Hughes saga"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "취리히 계좌 개설과 수표 현금화를 직접 수행",
+     "reason_en": "Personally opened the Zurich account and cashed the checks"
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "캔버스와 화실 중심의 화가 생활",
+     "reason_en": "A painter's studio-bound life"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "'헬가 R. 휴즈' 위장으로 은행 절차를 통과",
+     "reason_en": "Passed bank scrutiny under the 'Helga R. Hughes' cover"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "이비자 예술가 사교계에서 활동한 화가",
+     "reason_en": "A painter active in Ibiza's artistic social circle"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "수십만 달러 수표를 현금화하며 거짓에 동참",
+     "reason_en": "Cashed hundreds of thousands while inside the lie"
+    },
+    "diligence": {
+     "score": 52,
+     "reason_ko": "여러 은행을 오가며 위장 계좌를 운용",
+     "reason_en": "Worked multiple banks running the false account"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "유죄 인정 뒤 공개 발언 없이 조용히 삶",
+     "reason_en": "After her guilty plea she lived without public comment"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "위장 신분으로 은행 창구를 직접 통과",
+     "reason_en": "Walked bank counters in person under a false name"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "남편의 기획에서 가장 위험한 역할을 맡음",
+     "reason_en": "Took the riskiest role in her husband's scheme"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "수표 현금화로 피해를 출판사에 떠넘김",
+     "reason_en": "Passed the losses onto the publisher"
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "가짜 신분으로 금융 절차를 속임",
+     "reason_en": "Deceived financial procedures with a false identity"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "사기의 무대 뒤에서 익명 역을 수행",
+     "reason_en": "Played the anonymous part backstage of the fraud"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "들통나지 않을 것이라 보고 위장을 지속",
+     "reason_en": "Kept up the disguise trusting it would hold"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서와 무관하게 가족 범죄에 참여",
+     "reason_en": "A family crime, not a stance on social order"
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "남편과 둘만의 비밀 역할을 수행",
+     "reason_en": "Performed a secret role shared only with her husband"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "가짜 이름으로 은행 창구를 반복 통과",
+     "reason_en": "Repeatedly faced bank clerks under a false name"
+    }
+   },
+   "rationale_ko": "화가로서는 무명에 가까웠으나 '휴즈 자서전' 사기에서는 자금줄 그 자체였다. 가짜 이름으로 취리히 은행을 오가며 출판사 수표를 현금으로 바꿨다. 남편을 위한 위험한 충성은 1972년 유죄로 끝났다.",
+   "rationale_en": "Edith Irving, a little-known painter, was the financial lifeline of the Hughes hoax. Posing as 'Helga R. Hughes,' she moved through Zurich banks turning publisher checks into cash. Her risky loyalty to her husband ended in a 1972 conviction."
+  }
+ },
+ "엘미르 드 오리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 1,
+   "tech_exp": "미술 감정 기술 발달을 자극한 측면",
+   "tech_exp_en": "His fakes spurred advances in art authentication",
+   "social": 3,
+   "social_exp": "미술 진위 논쟁을 대중에게 확산",
+   "social_exp_en": "Brought questions of authenticity to a mass audience",
+   "economic": 3,
+   "economic_exp": "위작 수천 점으로 미술 시장의 신뢰를 흔듦",
+   "economic_exp_en": "Thousands of fakes shook trust in the art market",
+   "cultural": 5,
+   "cultural_exp": "위작 예술의 아이콘, 웰스 영화의 주인공",
+   "cultural_exp_en": "The icon of forgery, star of Welles's 'F for Fake'",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "위작 하면 떠오르는 이름으로 반세기 지속",
+   "transhistoricity_exp_en": "Still the byword for art forgery half a century on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "유통업자 둘을 통해 위작 판매망을 운영",
+     "reason_en": "Ran sales through two dealer-agents"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "평생 캔버스 앞에서 보낸 실내 화가",
+     "reason_en": "A lifetime spent indoors at the easel"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "피카소부터 모딜리아니까지 수십 화가의 화풍을 재현",
+     "reason_en": "Reproduced dozens of masters' styles at will"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "웰스와 어빙이 매료된 세기의 사기꾼 이미지",
+     "reason_en": "His genial rogue persona charmed Welles and Irving"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "이비자의 호화 파티와 낭비적 생활을 즐김",
+     "reason_en": "Loved Ibiza's lavish parties and high living"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "30년간 수천 점의 위작을 끊임없이 제작",
+     "reason_en": "Turned out thousands of fakes over thirty years"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "위작을 자랑하듯 밝혔으나 속인 대상엔 무관심",
+     "reason_en": "Boasted of his fakes, heedless of those he deceived"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "체포와 추방 속에서도 수십 년 위작을 계속",
+     "reason_en": "Kept forging through arrests and expulsions"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "유통업자와 이익을 두고 반복해 다툼",
+     "reason_en": "Fell out repeatedly with his dealers over money"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "탐욕스러운 감정가를 노렸다고 변명",
+     "reason_en": "Claimed he only targeted greedy experts"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "감정 기관과 미술관을 조직적으로 속여 판매",
+     "reason_en": "Systematically deceived experts and museums to sell"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "자신의 위작이 세계 미술관에 걸렸다고 공언",
+     "reason_en": "Boasted his fakes hung in the world's museums"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "들통의 위험 속에서도 쾌활한 생활을 유지",
+     "reason_en": "Stayed sunny despite constant risk of exposure"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "미술계 권위를 조롱하고 동성애 정체를 드러냄",
+     "reason_en": "Mocked art authority and lived openly as a gay man"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "혼자 화실에서 제도권 미술계 전체와 대항",
+     "reason_en": "Alone in his studio, he took on the whole art world"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "미술관과 감정가를 상대로 위작 판매를 반복",
+     "reason_en": "Sold fakes to museums and experts again and again"
+    }
+   },
+   "rationale_ko": "수십 화가의 화풍을 자유자재로 재현한 기술자였다. 정품으로 인정받지 못한 재능이 위작으로 흘러 미술계 전체를 상대했고, 쾌활한 사기꾼의 이미지는 영화와 책의 주인공이 되었다. 1976년 송환을 앞두고 스스로 생을 마감했다.",
+   "rationale_en": "Elmyr de Hory could reproduce dozens of painters' styles at will. Denied recognition for his own work, he turned his gift against the entire art world, and his genial rogue persona became the stuff of film and biography. Facing extradition in 1976, he took his own life."
+  }
+ },
+ "아르노 뒤 틸": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 3,
+   "social_exp": "신분 증명의 본질을 묻는 역사적 판례",
+   "social_exp_en": "His case became a landmark on proving identity",
+   "economic": 1,
+   "economic_exp": "농장 재산 다툼에 그친 경제적 파장",
+   "economic_exp_en": "Economic stakes stayed local to one estate",
+   "cultural": 4,
+   "cultural_exp": "마르탱 게르 이야기로 영화·뮤지컬 원형",
+   "cultural_exp_en": "His case seeded films and a musical on Martin Guerre",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "460년간 연구되는 근세 최대 사칭 사건",
+   "transhistoricity_exp_en": "Studied for 460 years as the classic imposture case"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "3년간 게르 가문의 농장과 재산을 실질 관리",
+     "reason_en": "Actually ran the Guerre farm and affairs for three years"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "농사와 용병 경력의 건장한 가스코뉴 농민",
+     "reason_en": "A sturdy Gascon peasant with farm and soldiering years"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "남의 인생 세부를 암기해 마을과 법정을 설득",
+     "reason_en": "Memorized another life's details, convincing village and court"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "아내와 친족·마을 전체를 3년간 속여냄",
+     "reason_en": "Deceived wife, kin, and village for three years"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "사칭 중엔 근면하게 살았으나 기반이 기만",
+     "reason_en": "Lived soberly in the role, but on a lie"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "3년간 한 치 흔들림 없이 타인의 삶을 수행",
+     "reason_en": "Sustained another man's life without a slip for three years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "형장에서 죄를 자백하고 용서를 빎",
+     "reason_en": "Confessed and begged forgiveness on the scaffold"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "두 차례 법정에서도 사칭을 끝까지 유지",
+     "reason_en": "Held the imposture under oath through two trials"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "남의 이름·아내·재산을 통째로 가로챔",
+     "reason_en": "Stole another man's name, wife, and estate wholesale"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "가정을 부양했으나 그 기반 자체가 기만",
+     "reason_en": "Provided for the household, on a fraudulent footing"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "타인의 신분과 재산권을 속여 차지",
+     "reason_en": "Seized identity and property rights by deceit"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "농부의 자리라는 소박한 위장을 택함",
+     "reason_en": "Chose a modest disguise — a peasant's place"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "3년간 들통나지 않기를 걸고 삶을 유지",
+     "reason_en": "Bet his life on staying undetected for three years"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "가부장적 신분 질서 안에 끼어들려 했을 뿐",
+     "reason_en": "Sought a place inside the order, not its overthrow"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "마을과 가족의 틈에 스며들어 집단 생활을 택함",
+     "reason_en": "Slipped into village and family — he chose belonging"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "남의 침대까지 차지하는 사칭을 3년 감행",
+     "reason_en": "Ran an imposture that took another man's bed for 3 years"
+    }
+   },
+   "rationale_ko": "타인의 인생을 통째로 암기해 수행한 연기가 아내와 마을을 3년간 설득했다. 진짜가 재판 도중 걸어 들어오기 전까지 법정마저 기울었던, 근세 유럽 최고의 사칭극이다. 1560년 형장에서 죄를 자백하고 용서를 빌었다.",
+   "rationale_en": "Arnaud du Tilh memorized another man's life so completely that he convinced a wife and a village for three years. The court itself wavered until the real Martin Guerre walked in — early modern Europe's greatest imposture. On the scaffold in 1560, he confessed and begged forgiveness."
+  }
+ },
+ "베르트랑드 드 롤스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "농민 여성의 처지를 보여주는 역사 논쟁",
+   "social_exp_en": "Her case frames debates on peasant women's agency",
+   "economic": 0,
+   "economic_exp": "경제적 영향 없음",
+   "economic_exp_en": "No economic impact",
+   "cultural": 3,
+   "cultural_exp": "마르탱 게르 서사의 중심 인물",
+   "cultural_exp_en": "Central figure of the Martin Guerre narrative",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "속은 아내인가 공모인가 5세기 논쟁",
+   "transhistoricity_exp_en": "Dupe or accomplice — debated for five centuries"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "남편 부재 중 가장 역할과 살림을 도맡음",
+     "reason_en": "Ran the household in her husband's absence"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "16세기 농촌의 가사·농사 노동을 감당",
+     "reason_en": "Carried 16th-century farm and household labor"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "툴루즈 법정에서 치밀한 증언으로 무죄를 얻음",
+     "reason_en": "Won acquittal with careful testimony at Toulouse"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "마을에서 명망 있는 여성으로 평가됨",
+     "reason_en": "Held a respected name in her village"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "불안한 처지에서도 살림과 체면을 지킴",
+     "reason_en": "Kept house and dignity through an unstable position"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "남편의 실종과 재판 속에서 가정을 유지",
+     "reason_en": "Kept the family through desertion and trial"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "속았는지 공모했는지 끝내 밝히지 않음",
+     "reason_en": "Never revealed whether she was duped or complicit"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "사형이 걸린 재판에서 자기 진술을 관철",
+     "reason_en": "Held her own testimony in a capital trial"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 48,
+     "reason_ko": "가족의 압력 속에 고소에 동조해 애매함을 남김",
+     "reason_en": "Joined the family suit under pressure, leaving ambiguity"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "아이와 집안을 보호하는 데 삶을 맞춤",
+     "reason_en": "Shaped her life around protecting child and house"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "재판부는 속은 아내로 판정해 무죄 선고",
+     "reason_en": "The court judged her the deceived wife and acquitted"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "스캔들의 중심에서도 처신을 낮춤",
+     "reason_en": "Kept a low posture at the scandal's center"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "돌아온 '남편'과의 삶에 기대를 걺",
+     "reason_en": "Staked her hopes on the 'returned husband'"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "아르티가 마을의 관습적 질서 안에서 삶",
+     "reason_en": "Lived inside Artigat's customary order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "친족·마을 공동체 속에서 행동을 결정",
+     "reason_en": "Acted within the web of kin and village"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "낯선 '남편'의 수용이 담대했는지는 논쟁 중",
+     "reason_en": "Whether accepting him was bold is still debated"
+    }
+   },
+   "rationale_ko": "남편을 버리고 떠난 집에 나타난 낯선 이를 3년간 남편으로 맞았다. 속았는지 공모했는지는 5세기째 논쟁이지만, 법정에서 치밀한 증언으로 목숨을 지켰다. 시대가 여성에게 허락한 좁은 자리에서의 생존술이었다.",
+   "rationale_en": "Bertrande de Rols accepted a stranger as her returned husband and lived with him for three years. Whether dupe or accomplice remains debated after five centuries, but her precise testimony saved her life. It was survival within the narrow space her era allowed a woman."
+  }
+ },
+ "마리나 므니셰크": {
+  "influence": {
+   "political": 5,
+   "political_exp": "두 사칭 차르를 통해 러시아 동란을 연장",
+   "political_exp_en": "Prolonged the Time of Troubles via two pretender tsars",
+   "strategic": 2,
+   "strategic_exp": "카자크·폴란드 세력과 군사 동맹",
+   "strategic_exp_en": "Allied with Cossack and Polish forces",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "정교 모스크바의 첫 가톨릭 차리차",
+   "social_exp_en": "First Catholic crowned tsarina in Orthodox Moscow",
+   "economic": 1,
+   "economic_exp": "전란으로 러시아 경제 피해 가중",
+   "economic_exp_en": "The wars she joined deepened Russia's ruin",
+   "cultural": 2,
+   "cultural_exp": "러시아 민간 전승의 '마녀' 상징",
+   "cultural_exp_en": "Lives in Russian lore as 'Marinka the witch'",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "동란기 야심의 화신으로 역사에 남음",
+   "transhistoricity_exp_en": "Stands in history as ambition embodied of the Troubles"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "아들의 차르 계승을 내세워 카자크 세력을 규합",
+     "reason_en": "Rallied Cossack forces behind her son's claim"
+    },
+    "martial": {
+     "score": 21,
+     "reason_ko": "궁정 귀족 여성으로 신체 단련 행적은 드묾",
+     "reason_en": "A court noblewoman; no physical training on record"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "두 사칭자 사이에서 실리 외교를 펼침",
+     "reason_en": "Played pragmatic diplomacy between two pretenders"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "사칭 차르와 카자크 수장을 차례로 자기편으로 삼음",
+     "reason_en": "Won a false tsar and a Cossack ataman in turn"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "왕위 욕심을 위해 두 번의 사칭을 인정",
+     "reason_en": "Twice endorsed imposture for the crown's sake"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "첫 남편 살해 뒤에도 곧바로 세력을 재구축",
+     "reason_en": "Rebuilt her faction at once after Dmitry I's murder"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "패망 뒤에도 야심 철회를 남기지 않음",
+     "reason_en": "Left no sign of renouncing ambition after defeat"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "살해된 남편의 사칭 후계까지 '남편'으로 받아들임",
+     "reason_en": "Publicly accepted a second pretender as her husband"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "왕위를 위해 아닌 남편을 남편이라 인정",
+     "reason_en": "Named a stranger her husband for the crown's sake"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "자기 세력의 약탈과 전란을 막지 않음",
+     "reason_en": "Did not check the plunder of her own forces"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "혼인과 왕위 주장을 권력 수단으로 사용",
+     "reason_en": "Used marriage and claims as instruments of power"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "차리차의 칭호와 의전을 끝까지 고집",
+     "reason_en": "Clung to the title and pomp of tsarina to the end"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "연거푸 기운데도 다음 사칭자에 다시 걺",
+     "reason_en": "Kept betting on the next pretender amid collapse"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "정교 모스크바에서 가톨릭 의식 대관을 감행",
+     "reason_en": "Forced a Catholic coronation on Orthodox Moscow"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "친족 세력과 카자크 동맹으로 세를 유지",
+     "reason_en": "Kept power through clan ties and Cossack allies"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "체포 직전까지 차르 작위를 고집한 도박",
+     "reason_en": "Gambled on the tsarist claim up to her capture"
+    }
+   },
+   "rationale_ko": "두 명의 사칭 차르를 차례로 '남편'으로 받아들인 야심이 러시아 동란을 늘렸다. 가톨릭 차리차의 파격 대관을 감행할 만큼 담대했으나 권력욕이 판단을 삼켰다. 1614년 체포돼 어린 아들의 처형 뒤 감옥에서 숨졌다.",
+   "rationale_en": "Marina Mniszech's ambition, accepting two pretender tsars in turn as her 'husband,' prolonged Russia's Time of Troubles. Bold enough to be crowned a Catholic tsarina in Orthodox Moscow, her lust for power consumed her judgment. Captured in 1614, she died in prison after her infant son was executed."
+  }
+ },
+ "예지 므니셰크": {
+  "influence": {
+   "political": 5,
+   "political_exp": "사칭 차르 후원으로 러시아 왕위 개입",
+   "political_exp_en": "Backed a pretender into the Russian succession",
+   "strategic": 3,
+   "strategic_exp": "모스크바 진격의 병력과 자금을 조달",
+   "strategic_exp_en": "Raised troops and money for the march on Moscow",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "폴란드 세력의 러시아 내정 개입을 대표",
+   "social_exp_en": "Embodied Polish meddling in Russian affairs",
+   "economic": 1,
+   "economic_exp": "원정 비용으로 일가 재정을 탕진",
+   "economic_exp_en": "Spent the family fortune on the venture",
+   "cultural": 1,
+   "cultural_exp": "동란기 서사의 배후 인물로 회자",
+   "cultural_exp_en": "Recalled as the schemer behind the Troubles",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "동란기의 배후 정치가로 기록됨",
+   "transhistoricity_exp_en": "Recorded as the kingmaker of the Troubles"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "사위의 모스크바 진격에 수천 병력과 자금을 동원",
+     "reason_en": "Moved thousands of troops and funds behind his son-in-law"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "귀족 군사계급 출신으로 원정대에 동행",
+     "reason_en": "A noble of the military class who rode with the expedition"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "사칭자를 발굴·입단속해 차르로 만드는 계략",
+     "reason_en": "Found, coached, and crowned a pretender by design"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "보이야르와 교황청까지 상대한 외교력",
+     "reason_en": "Dealt with boyars and Rome alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "차르 장인 자리를 노린 무리한 투자",
+     "reason_en": "Overreached betting on becoming a tsar's father-in-law"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "수년에 걸쳐 사칭 옹립 계획을 추진",
+     "reason_en": "Pursued the pretender project for years"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "첫 실패 뒤에도 같은 도박을 되풀이",
+     "reason_en": "Repeated the same gamble after the first collapse"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "모스크바 학살 현장에서 간신히 탈출",
+     "reason_en": "Barely escaped the 1606 Moscow massacre"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "사위의 위기 때 목숨만 건져 도망",
+     "reason_en": "Fled to save himself when his son-in-law fell"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "일가의 야심을 위해 이웃 나라를 전란에 몰아넣음",
+     "reason_en": "Plunged a neighbor into war for family ambition"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "사칭임을 알면서 차르 옹립을 추진",
+     "reason_en": "Promoted a known impostor to the throne"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "딸의 차리차 대관으로 일가의 영광을 노림",
+     "reason_en": "Sought dynastic glory through his daughter's coronation"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "사칭자의 즉위에 일가의 운명을 걺",
+     "reason_en": "Staked the house's fate on a pretender's accession"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "마그나트 세력의 특권 정치를 대표",
+     "reason_en": "Stood for magnate privilege politics"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "일가와 가신 세력 단위로 움직인 귀족",
+     "reason_en": "Moved in clan-and-retainer blocs"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "사칭자 옹립이라는 고위험 도박을 감행",
+     "reason_en": "Ran the high-risk gamble of crowning a pretender"
+    }
+   },
+   "rationale_ko": "사위 자리에 사칭자를 앉혀 차르의 장인이 되려 했던 대귀족이다. 자금과 병력으로 모스크바 진격을 밀었으나 첫 도박이 무너진 뒤에도 같은 판을 벌였다. 1613년 러시아 추방지에서 숨졌다.",
+   "rationale_en": "Jerzy Mniszech was the magnate who placed a pretender in his son-in-law's seat to become a tsar's father-in-law. He financed and armed the march on Moscow, then repeated the same gamble after the first collapsed. He died in Russian exile in 1613."
+  }
+ },
+ "소피야 네듀제바": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 1,
+   "social_exp": "반란 가족 인질 처우의 사례로 남음",
+   "social_exp_en": "Stands as the case of a rebel family's hostage treatment",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic impact",
+   "cultural": 0,
+   "cultural_exp": "문화적 영향 없음",
+   "cultural_exp_en": "No cultural impact",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "푸가초프 전기에서만 회자되는 삶",
+   "transhistoricity_exp_en": "Recalled only within Pugachev's biography"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 12,
+     "reason_ko": "세 자녀를 키우는 카자크 가정의 살림",
+     "reason_en": "Kept house and three children in a Cossack family"
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "카자크 마을의 노동 생활을 견딘 여성",
+     "reason_en": "Endured the labor of Cossack village life"
+    },
+    "intellect": {
+     "score": 45,
+     "reason_ko": "반복 심문에서 남편 행적을 일관되게 진술",
+     "reason_en": "Gave consistent testimony through repeated interrogations"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "반란 지도자의 아내로 주목받았을 뿐",
+     "reason_en": "Noticed only as the rebel leader's wife"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "반세기 요새 유배를 반란 없이 견뎌냄",
+     "reason_en": "Bore half a century of fortress exile without revolt"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "켁스홀름 요새 안에서 부역하며 생계를 유지",
+     "reason_en": "Kept her living by labor inside Kexholm fortress"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "심문에서 남편과 자신의 삶을 담담히 진술",
+     "reason_en": "Answered interrogations on her life with composure"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "남편과의 대질심문과 종신 유배를 견딤",
+     "reason_en": "Endured confrontation with Pugachev and lifelong exile"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "버려진 뒤에도 자녀 곁을 지키며 유배 생활",
+     "reason_en": "Stayed by her children through exile after abandonment"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "어린 세 자녀를 데리고 요새 생활을 감당",
+     "reason_en": "Carried her three young children through captivity"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "재판에서 무관함이 인정돼 무죄 판정",
+     "reason_en": "The court found her innocent of the revolt"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "차르 아내를 자처하지 않고 카자크 부인으로 남음",
+     "reason_en": "Never styled herself an empress; stayed a Cossack wife"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "반세기 유배를 절망 대신 일상으로 견딤",
+     "reason_en": "Bore fifty years of exile as daily life, not despair"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "남편의 반란에 가담하지 않은 체제순응적 삶",
+     "reason_en": "Took no part in the revolt against the order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "자녀와 공동체 속에서 삶의 의미를 찾음",
+     "reason_en": "Found her life inside children and community"
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "위험한 사칭 반란과 거리를 두고 가정을 지킴",
+     "reason_en": "Kept distance from the reckless revolt, guarding home"
+    }
+   },
+   "rationale_ko": "남편이 차르를 사칭해 반란을 일으키자 가장 먼저 인질이 된 여성이다. 재판에서 무관함이 인정됐으나 평생 켁스홀름 요새에서 세 자녀와 유배 생활을 했다. 가짜 차르의 그림자가 치른 진짜 대가다.",
+   "rationale_en": "Sofya Nedyuzheva became a hostage the moment her husband rose in revolt claiming to be tsar. Though the court found her innocent, she spent the rest of her life in Kexholm fortress with her three children. Hers was the real price paid for a false tsar's shadow."
+  }
+ },
+ "살라바트 율라예프": {
+  "influence": {
+   "political": 3,
+   "political_exp": "바시키르 자치 열망의 상징으로 남음",
+   "political_exp_en": "Endures as a symbol of Bashkir self-rule",
+   "strategic": 3,
+   "strategic_exp": "푸가초프 반란의 주요 지휘관",
+   "strategic_exp_en": "A top commander of Pugachev's rebellion",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 4,
+   "social_exp": "바시코르토스탄 국장에 새겨진 국민 영웅",
+   "social_exp_en": "National hero figured on Bashkortostan's coat of arms",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic impact",
+   "cultural": 5,
+   "cultural_exp": "바시키르 문학의 원조 격 서정시를 남김",
+   "cultural_exp_en": "His lyric songs are foundational to Bashkir letters",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "250년 지속한 민족 영웅의 상징",
+   "transhistoricity_exp_en": "A national hero's image sustained for 250 years"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "1773~74년 바시키르 기병 수천을 이끈 지휘관",
+     "reason_en": "Commanded thousands of Bashkir horse in 1773-74"
+    },
+    "martial": {
+     "score": 72,
+     "reason_ko": "기마 전사로 반란 전선을 누비고 채찍형을 견딤",
+     "reason_en": "Campaigned as a horseman and survived the knout"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "전해지는 서정시를 남긴 반란의 시인",
+     "reason_en": "A rebel poet whose lyric songs survive"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "바시키르인이 따른 국민 영웅의 상징이 됨",
+     "reason_en": "The figure Bashkirs rallied to and still revere"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "발트해 요새 유배 25년을 견디며 삶을 지속",
+     "reason_en": "Endured 25 years of Baltic fortress exile"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "반란 전선과 유배지에서 노래와 시를 이어감",
+     "reason_en": "Kept his songs alive through war and exile"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "서정시에 고향과 자유에 대한 사색을 남김",
+     "reason_en": "His lyrics meditate on homeland and freedom"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "스물한 살에 필패할 반란에 부족을 이끌고 참전",
+     "reason_en": "Led his people into a doomed revolt at twenty-one"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "아버지 율라이와 부족의 대의에 일생을 바침",
+     "reason_en": "Gave his life to his father's and tribe's cause"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "부족의 토지와 자유를 지키려 나섬",
+     "reason_en": "Rose to defend his people's land and freedom"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "착취에 대한 항거였으나 전쟁 수행도 수반",
+     "reason_en": "A fight against exploitation that also meant war"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "마을 장관 출신으로 명성을 좇지 않음",
+     "reason_en": "A village foreman who never chased fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "체제를 뒤집을 수 있다는 믿음으로 참전",
+     "reason_en": "Joined believing the system could be overthrown"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "제국의 부역·토지 질서에 맞선 봉기",
+     "reason_en": "Rose against imperial corvée and land order"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "부족 전체의 대의를 위해 전선에 나섬",
+     "reason_en": "Took the field for the whole tribe's cause"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "전차르 사칭 깃발 아래 목숨을 건 봉기",
+     "reason_en": "Staked his life under a false tsar's banner"
+    }
+   },
+   "rationale_ko": "스물한 살에 부족을 이끌고 대반란에 뛰어든 기마 시인이다. 반란은 패했으나 그의 노래와 이름은 살아남아 바시코르토스탄의 국장과 우파의 기마상에 새겨졌다. 진 반란의 지휘관이 진짜 국민 영웅이 됐다.",
+   "rationale_en": "Salavat Yulaev was a mounted poet who led his people into a doomed rebellion at twenty-one. The revolt failed, but his songs and name survived — carved into Bashkortostan's coat of arms and the great equestrian statue in Ufa. The defeated commander became a true national hero."
+  }
+ },
+ "후스티 기타르트": {
+  "influence": {
+   "political": 4,
+   "political_exp": "20년간 안도라 공동 영주로 국가 존속 유지",
+   "political_exp_en": "Kept Andorra intact as co-prince for two decades",
+   "strategic": 1,
+   "strategic_exp": "자칭 국왕 체포로 주권 침해 차단",
+   "strategic_exp_en": "Stopped a sovereignty grab by arresting the self-styled king",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "내전·대전기 안도라의 종교적 구심",
+   "social_exp_en": "Andorra's religious anchor through civil and world war",
+   "economic": 0,
+   "economic_exp": "경제 정책 영향 미미",
+   "economic_exp_en": "Little economic footprint",
+   "cultural": 1,
+   "cultural_exp": "'보리스 왕국' 일화의 상대역",
+   "cultural_exp_en": "Known as the counterweight in the Boris episode",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "안도라사의 '보리스 왕국' 일화로 남음",
+   "transhistoricity_exp_en": "Lives on in Andorran history's Boris episode"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "1920~40년 우르헬 교구와 안도라 공동 영주직 수행",
+     "reason_en": "Held the Urgell see and Andorran co-principality 1920-40"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "성직자 생활로 군사·신체 훈련과는 거리가 둠",
+     "reason_en": "A cleric's life, far from arms and drills"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "교회 행정과 교구 운영을 다룬 주교",
+     "reason_en": "A bishop versed in church administration"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "자칭 국왕이 선전포고할 만큼 상징적 권위",
+     "reason_en": "Authority enough for a self-made king to declare war on"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "20년 교구장직을 스캔들 없이 수행",
+     "reason_en": "Twenty scandal-free years running the diocese"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "내전과 대전기에도 교구 행정을 유지",
+     "reason_en": "Kept diocesan order through two wars"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "공직 수행에 대한 자기 회고를 남기지 않음",
+     "reason_en": "Left no public self-appraisal of his tenure"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "자칭 국왕의 선전포고에 체포로 응수",
+     "reason_en": "Answered a self-styled king's war with arrest"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "공동 영주직의 책무를 전란 속에서도 수행",
+     "reason_en": "Kept the co-prince's duty through the wars"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "내전기 피란민이 오가는 국경 교구를 돌봄",
+     "reason_en": "Tended a border diocese crossed by civil-war refugees"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "헌정 체제 밖의 자칭 왕을 법 절차로 체포",
+     "reason_en": "Had the extra-constitutional 'king' arrested by law"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "공동 영주이면서 주교 본분에 머묾",
+     "reason_en": "A sovereign who stayed within his bishop's role"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "전란 속에서도 안도라의 존속을 믿음",
+     "reason_en": "Trusted Andorra's survival through the wars"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "봉건적 공동 영주 제도를 지킨 성직자 영주",
+     "reason_en": "Guardian of the feudal co-principality"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "국가와 교구라는 공동체 직분에 헌신",
+     "reason_en": "Served the communal offices of state and diocese"
+    },
+    "cautious_bold": {
+     "score": -5,
+     "reason_ko": "사태를 법과 체제 안에서 신속히 정리",
+     "reason_en": "Settled the crisis swiftly inside law and order"
+    }
+   },
+   "rationale_ko": "한 소국을 지배한 성직자 영주다. 자칭 '보리스 1세'의 왕국극을 법과 단호함으로 열하루 만에 끝냈고, 스페인 내전과 세계대전 사이에서 안도라의 존속을 지켰다. 보수적 체제의 성실한 수호자였다.",
+   "rationale_en": "Justí Guitart was the cleric-prince who governed a small state. He ended the self-styled 'Kingdom of Boris I' in eleven days through law and firmness, then kept Andorra intact through civil and world wars. He was a faithful guardian of a conservative order."
+  }
+ },
+ "킬라판": {
+  "influence": {
+   "political": 3,
+   "political_exp": "마푸체 자치 연합의 마지막 대표",
+   "political_exp_en": "Last great champion of Mapuche self-rule",
+   "strategic": 4,
+   "strategic_exp": "케체레구아스에서 마푸체 마지막 대승 지휘",
+   "strategic_exp_en": "Led the Mapuche's last great field victory at Quechereguas",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 3,
+   "social_exp": "마푸체 저항의 상징적 인물로 기억",
+   "social_exp_en": "Remembered as an emblem of Mapuche resistance",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic impact",
+   "cultural": 2,
+   "cultural_exp": "마푸체 구전과 기록의 영웅적 인물",
+   "cultural_exp_en": "A hero of Mapuche memory and record",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "마푸체 저항사의 대표 전사로 남음",
+   "transhistoricity_exp_en": "Abides as the emblematic warrior of Mapuche resistance"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "10년간 부족 연합 전사들을 이끈 대추장",
+     "reason_en": "Led a tribal confederation's warriors for a decade"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "케체레구아스에서 칠레군을 격파한 기마 전사",
+     "reason_en": "The mounted warrior who broke the Chilean army at Quechereguas"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "자칭 왕국의 깃발을 영토 방어 수단으로 활용",
+     "reason_en": "Used a self-styled kingdom's banner as a shield for the land"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "여러 부족을 연합으로 묶은 대추장의 위상",
+     "reason_en": "The head chief's standing bound many tribes into one"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "10년 저항을 유지하는 절제된 지도력",
+     "reason_en": "Sustained a decade of resistance with disciplined command"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "1860년대부터 10년간 점령에 맞서 싸움",
+     "reason_en": "Fought the occupation through the 1860s and beyond"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "투넨 왕국을 신앙이 아닌 방어 수단으로 취급",
+     "reason_en": "Treated de Tounens' kingdom as a tool, not a faith"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "현대 무장한 국가군에 맞서 10년 저항",
+     "reason_en": "Resisted a modern national army for ten years"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "부족의 땅을 지키는 대의에 일생을 바침",
+     "reason_en": "Gave his life to defending the tribal land"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "공동체의 영토와 생계를 지키려 함",
+     "reason_en": "Fought to guard the community's land and livelihood"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "땅의 방어를 목적으로 한 전쟁 지도",
+     "reason_en": "Waged war with land defense as its object"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "왕위는 남에게 양보하고 전쟁 지휘를 맡음",
+     "reason_en": "Left the crown to another and took the command"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "점령에 맞서 승전 가능성을 끝까지 믿음",
+     "reason_en": "Kept faith that the occupation could be beaten"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "부족의 전통적 토지 질서 수호에 나섬",
+     "reason_en": "Fought to preserve the tribe's traditional land order"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "부족 연합의 공동 대의를 위한 싸움",
+     "reason_en": "Fought for the confederation's common cause"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "열세 전력에도 대회전 전투를 감행",
+     "reason_en": "Committed to a set-piece battle outnumbered"
+    }
+   },
+   "rationale_ko": "칠레의 '아라우카니아 점령'에 맞서 부족 연합을 10년간 이끈 대추장이다. 자칭 왕국의 깃발마저 땅을 지키는 도구로 썼고, 케체레구아스에서 마푸체 마지막 대승을 거두었다. 1875년에 숨졌고 이후 그 땅은 칠레에 편입됐다.",
+   "rationale_en": "Quilapán led a tribal confederation for a decade against Chile's Occupation of Araucanía. He used even a self-proclaimed kingdom's banner as a tool to defend the land, winning the Mapuche's last great victory at Quechereguas. He died in 1875; the land was annexed soon after."
+  }
+ },
+ "코르넬리오 사베드라": {
+  "influence": {
+   "political": 5,
+   "political_exp": "마푸체 영토 편입으로 칠레 국경을 확정",
+   "political_exp_en": "Fixed Chile's southern frontier by annexing Mapuche lands",
+   "strategic": 5,
+   "strategic_exp": "요새선 점령 방식으로 아라우코 전쟁 종결",
+   "strategic_exp_en": "His fort-line advance closed the centuries-old Arauco war",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 3,
+   "social_exp": "원주민-국가 관계의 기점이 된 점령",
+   "social_exp_en": "His occupation set the baseline of indigenous-state relations",
+   "economic": 2,
+   "economic_exp": "점령지를 정착·개척에 개방",
+   "economic_exp_en": "Opened the occupied lands to settlement",
+   "cultural": 1,
+   "cultural_exp": "칠레 국가 형성 서사의 군사 주역",
+   "cultural_exp_en": "A military figure of Chilean nation-building memory",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "오늘날까지 계속되는 마푸체 문제의 출발",
+   "transhistoricity_exp_en": "Origin point of the still-live Mapuche question"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "1861~71년 아라우카니아 점령 작전을 총지휘",
+     "reason_en": "Directed the decade-long occupation campaign 1861-71"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "전선 군인으로 국경 작전을 직접 지휘",
+     "reason_en": "A field officer who led frontier operations himself"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "요새선 전진 방식의 점령 전략을 설계",
+     "reason_en": "Designed the fort-line doctrine of occupation"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "장군에서 시장·상원의원으로 이어진 신망",
+     "reason_en": "His standing carried him from general to mayor and senator"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "단계적 점령으로 무리한 진격을 자제",
+     "reason_en": "Chose phased advance over reckless thrusts"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "10년에 걸쳐 요새선을 차례로 전진",
+     "reason_en": "Pushed the fort-line forward for ten years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "작전을 단계별 계획으로 수립하고 수정",
+     "reason_en": "Planned the campaign in stages and adjusted"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "미지의 접경지대 진격 작전을 감행",
+     "reason_en": "Pressed an advance into contested frontier"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "군인·시장·의원으로 국가에 평생 복무",
+     "reason_en": "Served the state for life as soldier, mayor, senator"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "점령으로 마푸체 공동체의 토지를 빼앗음",
+     "reason_en": "The occupation stripped Mapuche communities of land"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "전략 목표 아래 군사 절차를 일관 적용",
+     "reason_en": "Applied military procedure steadily to strategic ends"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "전공보다 제도적 직무에 충실한 군인",
+     "reason_en": "A dutiful officer of institutions more than glory"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "요새선 전진으로 종국적 승리를 낙관",
+     "reason_en": "Trusted the fort-line method would prevail"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "식민 확장의 국가 질서를 군사로 관철",
+     "reason_en": "Imposed the settler state's order by arms"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "국가 영토 사업이라는 공동 목표를 수행",
+     "reason_en": "Executed the state's collective territorial project"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "급습보다 요새선의 점진 전진을 택함",
+     "reason_en": "Preferred gradual fort-line gains to bold raids"
+    }
+   },
+   "rationale_ko": "요새를 짓고 선을 옮기는 방식으로 10년에 걸쳐 마푸체 영토를 칠레에 편입시켰다. 자칭 '아라우카니아 왕국'은 그 진격 앞에 무너졌다. 승리한 점령의 설계자였으나 그 유산은 마푸체에게 상실로 남았다.",
+   "rationale_en": "Cornelio Saavedra annexed Mapuche territory to Chile over a decade, advancing his line fort by fort. The self-proclaimed 'Kingdom of Araucanía' crumbled before his advance. He was the victorious architect of an occupation that the Mapuche remember as loss."
+  }
+ },
+ "베니뉴 드 생마르": {
+  "influence": {
+   "political": 2,
+   "political_exp": "절대왕정 비밀 구금 제도의 집행자",
+   "political_exp_en": "Enforcer of absolutism's secret custody system",
+   "strategic": 0,
+   "strategic_exp": "군사 전략과 무관",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "국가 비밀 투옥의 상징적 사례",
+   "social_exp_en": "The emblematic case of secret state imprisonment",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic impact",
+   "cultural": 4,
+   "cultural_exp": "'철가면' 전설을 만든 감옥 총독",
+   "cultural_exp_en": "The jailer behind the Man in the Iron Mask legend",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "3세기간 문학·역사에 남은 수수께끼",
+   "transhistoricity_exp_en": "A mystery kept alive three centuries in letters"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "피뇨롤·엑실·바스티유 감옥을 40년 지휘",
+     "reason_en": "Commanded Pignerol, Exiles, and the Bastille over 40 years"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "루이 14세 치하의 군인 출신 요새 총독",
+     "reason_en": "A soldier of Louis XIV raised to fortress governor"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "국가 기밀 수인 관리라는 특수 임무를 수행",
+     "reason_en": "Handled the singular duty of a secret state prisoner"
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "포로에게 가혹했다는 평가가 남은 간수",
+     "reason_en": "Remembered as a harsh jailer by his prisoners"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "수인 비용을 둘러싼 탐욕 의심을 받음",
+     "reason_en": "Suspected of profiting from prisoner allowances"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "30년 넘게 수인을 데리고 다니며 감시",
+     "reason_en": "Watched his prisoner across postings for thirty years"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "임무 수행에 대한 자기 회고를 남기지 않음",
+     "reason_en": "Left no self-account of his long duty"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "국왕의 비밀 수인 관리라는 중임을 감당",
+     "reason_en": "Bore the heavy charge of the king's secret prisoner"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "수인의 정체를 죽을 때까지 지킨 비밀 수행",
+     "reason_en": "Kept the prisoner's secret to the grave"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "수인의 고통보다 보안을 우선한 관리",
+     "reason_en": "Put security above the prisoner's suffering"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "재판 없는 국왕의 비밀 투옥을 집행",
+     "reason_en": "Executed royal imprisonment without trial"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "감옥 총독 자리를 옮겨다니며 출세를 추구",
+     "reason_en": "Climbed from post to post of fortress governor"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "명령에 따라 임무를 묵묵히 수행",
+     "reason_en": "Carried out orders without comment"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "절대왕정의 비밀 구금 제도를 집행",
+     "reason_en": "Enforced the secret custody of absolutism"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "국가 보안 체계의 일원으로 복무",
+     "reason_en": "Served as a cog in the state security system"
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "수인 관리에서 허점 없는 철저함을 유지",
+     "reason_en": "Kept airtight custody without a lapse"
+    }
+   },
+   "rationale_ko": "40년간 네 개 요새를 거치며 감옥을 지휘한 직업 군인이다. '철가면의 사내'로 불린 국가 기밀 수인을 30년 넘게 데리고 다녔고, 그 정체를 무덤까지 지켰다. 절대왕정 비밀주의의 충실한 집행자였다.",
+   "rationale_en": "Bénigne de Saint-Mars was a career officer who governed four fortresses over forty years. For three decades he carried the state prisoner known as the Man in the Iron Mask from jail to jail, keeping the secret to his grave. He was absolutism's faithful executioner of secrecy."
+  }
+ }
+}

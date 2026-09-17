@@ -1,0 +1,1172 @@
+{
+ "마테오 리치": {
+  "influence": {
+   "political": 4,
+   "political_exp": "1601년 베이징 입성으로 명 조정에 서학 통로를 엶",
+   "political_exp_en": "Won residence in Beijing in 1601, opening a Western-learning channel at court",
+   "strategic": 1,
+   "strategic_exp": "군사 제도와의 직접 인연은 없음",
+   "strategic_exp_en": "No direct tie to military institutions",
+   "tech": 7,
+   "tech_exp": "1607년 『기하원본』 역주로 유클리드 기하를 전함",
+   "tech_exp_en": "Co-translated Euclid into Chinese in 1607, seeding modern mathematics",
+   "social": 6,
+   "social_exp": "문화 적응 선교로 동아시아 기독교 전래의 틀을 세움",
+   "social_exp_en": "Set the accommodation model that framed East Asian Christianity",
+   "economic": 1,
+   "economic_exp": "경제 제도와의 인연이 거의 없음",
+   "economic_exp_en": "Little bearing on economic systems",
+   "cultural": 7,
+   "cultural_exp": "곤여만국전도 등 서학 저작으로 중국 지식계를 자극",
+   "cultural_exp_en": "His world map and Chinese treatises stirred Ming intellectual life",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "동서 교류의 원형으로 4세기째 인용되는 선교 모델",
+   "transhistoricity_exp_en": "The prototype of East–West exchange, cited four centuries on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "1601년 베이징 입성 뒤 중국 선교 전체를 총괄",
+     "reason_en": "Directed the China mission's posts from Macau to Beijing"
+    },
+    "martial": {
+     "score": 36,
+     "reason_ko": "1578년 고아행부터 평생 해상·내륙 여정을 견딘 학인",
+     "reason_en": "A non-martial scholar who endured a lifetime of sea and land journeys"
+    },
+    "intellect": {
+     "score": 91,
+     "reason_ko": "중국어·유교 경전을 익혀 『기하원본』을 공역",
+     "reason_en": "Mastered Chinese and the classics to co-translate Euclid"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "기억술과 학식으로 명 사대부층의 교유를 얻음",
+     "reason_en": "Memory feats and learning won him the friendship of Ming literati"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 82,
+     "reason_ko": "예수회 수도 규율 아래 평생 검소한 선교 생활",
+     "reason_en": "Lived a frugal mission under Jesuit discipline"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "1583년 입국 뒤 27년간 번역·저술을 멈추지 않음",
+     "reason_en": "27 years unbroken in language study, translation and writing"
+    },
+    "reflection": {
+     "score": 72,
+     "reason_ko": "선교 전략을 기록·검토한 회고록을 남김",
+     "reason_en": "Left a memoir that records and reviews his mission strategy"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "1580-90년대 추방과 습격 속에도 본토 선교를 고집",
+     "reason_en": "Persisted in mainland mission despite expulsions and attacks"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "입국부터 사망까지 중국 선교 한 길을 지킴",
+     "reason_en": "Held to the China mission from arrival to death"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "중국 풍습을 존중하고 개종자 공동체를 돌봄",
+     "reason_en": "Respected Chinese customs and cared for convert communities"
+    },
+    "fairness": {
+     "score": 58,
+     "reason_ko": "서로 다른 학파·신분과 같은 잣대로 토론",
+     "reason_en": "Debated scholars of all schools and ranks on equal terms"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "'서유'를 자처하며 유학자 예법을 스스로 따름",
+     "reason_en": "Called himself a 'Western Confucian' and adopted literati manners"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "거듭된 추방에도 중국 개종 가능성을 믿음",
+     "reason_en": "Kept faith in China's conversion through repeated expulsions"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "조상 제사 등 유교 의례를 존중해 체제에 스며듦",
+     "reason_en": "Honoured Confucian rites and worked within the order"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "선교 공동체와 유교 교유망 속에서 활동",
+     "reason_en": "Worked inside the mission community and literati networks"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "18년을 들여 베이징까지 신중히 접근",
+     "reason_en": "Took eighteen patient years to reach Beijing"
+    }
+   },
+   "rationale_ko": "학식과 꾸준함으로 명나라 사대부 사회의 문을 열었다. 예수회 규율의 절제와 공동체 중심의 활동이 작은 선교 거점을 27년간 지탱했다. 조상 제사를 존중한 적응 전략이 체제와의 충돌을 피하게 했고, 기억술과 지도·시계로 얻은 신망이 궁정 입성으로 이어졌다.",
+   "rationale_en": "Scholarship and persistence opened the door to Ming literati society. Jesuit discipline and community-centred work sustained a small mission for 27 years. Respecting ancestral rites kept him clear of confrontation, and the trust won by memory feats, maps and clocks carried him into the Beijing court."
+  }
+ },
+ "윌리엄 애덤스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "이에야스의 외교 고문으로 초기 일본의 대외 판단에 관여",
+   "political_exp_en": "As Ieyasu's adviser he influenced early Tokugawa foreign judgment",
+   "strategic": 3,
+   "strategic_exp": "서양식 범선 건조를 지도해 막부의 조선 기술을 넓힘",
+   "strategic_exp_en": "Directed construction of Western ships for the shogunate",
+   "tech": 4,
+   "tech_exp": "일본 최초급 서양식 범선 두 척을 건조",
+   "tech_exp_en": "Built Japan's first Western-style sailing ships",
+   "social": 2,
+   "social_exp": "서양인 사무라이의 선례로 상호 인식을 넓힘",
+   "social_exp_en": "Set a precedent as a Western samurai",
+   "economic": 3,
+   "economic_exp": "에도 영국상관 개설과 주인선 무역을 매개",
+   "economic_exp_en": "Mediated the English factory and red-seal trade",
+   "cultural": 4,
+   "cultural_exp": "'쇼군'의 실제 모델로 일본-서양 접촉의 상징이 됨",
+   "cultural_exp_en": "The real model for 'Shōgun', an icon of first contact",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "최초의 서양 사무라이라는 서사가 4세기째 회자",
+   "transhistoricity_exp_en": "The first-Western-samurai story has circulated for four centuries"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "1610년대 주인선 선장으로 동남아 무역 항해를 이끎",
+     "reason_en": "Captained red-seal trading voyages across Southeast Asia"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "1598년 출항한 원정의 유일한 생존선을 견딘 선원",
+     "reason_en": "A lifelong sailor who survived a trans-Pacific wreck"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "1605년 항해술·조선술로 막부 고문 자리를 얻음",
+     "reason_en": "Navigation, surveying and shipbuilding earned him the adviser's post"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "이에야스의 총애를 얻어 '안진' 칭호와 영지를 받음",
+     "reason_en": "Won Ieyasu's favour, the name Anjin and a fief"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "고국 가족과 일본 가정을 병행한 복잡한 사생활",
+     "reason_en": "Kept both an English family and a new household in Japan"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "50대까지 항해와 무역 현장을 떠나지 않음",
+     "reason_en": "Stayed at sea and in trade into his fifties"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "영국 상관에 보낸 서신에서 냉정한 자기 평가",
+     "reason_en": "His letters to the English factory show a sober self-view"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "1600년 규슈 표착 뒤 낯선 조정에 홀로 섬",
+     "reason_en": "Survived a near-fatal expedition and stood before a foreign court"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "이에야스에게 봉사하면서도 고국 상관과의 관계를 유지",
+     "reason_en": "Served Ieyasu while keeping ties to his countrymen"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "고국 가족에게 송금하며 책임을 이어감",
+     "reason_en": "Sent money home to his English family"
+    },
+    "fairness": {
+     "score": 58,
+     "reason_ko": "일본·네덜란드·영국 사이에서 공정한 중개로 평가",
+     "reason_en": "Judged a fair broker among Japanese, Dutch and English"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "가신으로서 무리 없는 언행을 유지",
+     "reason_en": "Kept the conduct expected of a retainer"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "표류를 전화위복으로 삼아 새 삶을 개척",
+     "reason_en": "Turned shipwreck into a new life"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "봉건 가신 신분을 받아들여 막부 질서에 편입",
+     "reason_en": "Accepted vassal rank and joined the shogunal order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "봉지와 가신단에 속해 공동체의 일원으로 삶",
+     "reason_en": "Lived as part of a fief and retainer band"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "미지의 태평양 횡단에 나선 모험 항해",
+     "reason_en": "Undertook a Pacific crossing into the unknown"
+    }
+   },
+   "rationale_ko": "전멸 직전의 항해에서 살아남은 것이 막부 고문의 자리로 이어졌다. 항해 실무와 언어 능력이 신망의 밑바탕이고, 봉건 질서에 편입된 처신이 20년 가신 생활을 가능하게 했다. 모험심과 실무 근면이 맞물린 생애였다.",
+   "rationale_en": "Surviving a near-fatal voyage became his path to the shogun's court. Seamanship and language earned trust, and fitting into the feudal order sustained twenty years of service. Boldness at sea matched steadiness on land."
+  }
+ },
+ "헨드릭 하멜": {
+  "influence": {
+   "political": 2,
+   "political_exp": "표류기가 유럽의 초기 조선 인식 형성을 도움",
+   "political_exp_en": "His journal shaped Europe's first image of Korea",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관한 생애",
+   "strategic_exp_en": "No connection to military affairs",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 3,
+   "social_exp": "서양 최초의 조선 상세 기록으로 상호 인식을 엶",
+   "social_exp_en": "The West's first detailed account of Korea",
+   "economic": 1,
+   "economic_exp": "동인도회사 서기였으나 경제 변화와는 무관",
+   "economic_exp_en": "A VOC clerk with no economic consequence",
+   "cultural": 5,
+   "cultural_exp": "1668년 표류기가 서양 조선 연구의 출발점이 됨",
+   "cultural_exp_en": "His 1668 journal founded Western knowledge of Korea",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "3백 년 넘게 조선 연구의 1차 사료로 인용",
+   "transhistoricity_exp_en": "Still cited as a primary source on Korea after 300 years"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 38,
+     "reason_ko": "1666년 일곱 동료와 함께 탈출을 주도",
+     "reason_en": "Led seven shipmates in the 1666 escape"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "1653년 난파와 13년 부역, 밤바다 탈출을 견딘 체력",
+     "reason_en": "Endured wreck, 13 years of labour and a night sea escape"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "억류 중 관찰한 내용을 1668년 책으로 남김",
+     "reason_en": "Turned captive observation into a precise record"
+    },
+    "charm": {
+     "score": 48,
+     "reason_ko": "조선 왕의 행차를 본 이목을 끄는 외국인",
+     "reason_en": "A foreigner notable enough to witness the king's procession"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 66,
+     "reason_ko": "1653년부터 13년 억류 생활을 분란 없이 견뎌냄",
+     "reason_en": "Endured thirteen years of captivity without incident"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "억류 내내 일지를 기록해 귀국 뒤 책으로 엮음",
+     "reason_en": "Kept a journal through captivity and published it home"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "하루하루를 기록한 꼼꼼한 표류 일지를 남김",
+     "reason_en": "Left a meticulous day-by-day captivity journal"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "1666년 바다 건너 탈출을 감행해 일본에 닿음",
+     "reason_en": "Dared a sea escape to reach Japan"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "13년간 동료들과 함께 버티고 함께 탈출",
+     "reason_en": "Stayed with his crew for 13 years and escaped together"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "탈출 때 여덟 명 전원을 챙겨 데리고 나감",
+     "reason_en": "Brought all eight companions out on the escape"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "조선 관리들과의 접촉에서 처신이 원만",
+     "reason_en": "Dealt smoothly with his Joseon keepers"
+    },
+    "humility": {
+     "score": 56,
+     "reason_ko": "저술에서 자기 과시 없이 경위를 서술",
+     "reason_en": "Wrote his account without self-promotion"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "억류 속에서도 귀환의 희망을 놓지 않음",
+     "reason_en": "Kept hope of return through captivity"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "조선의 관리 체계에 13년간 순응해 삶",
+     "reason_en": "Lived thirteen years compliant with Joseon authority"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "서른여섯 생존자 공동체 속에서 함께 버팀",
+     "reason_en": "Endured within a community of 36 survivors"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "13년을 기다리다 야밤의 해상 탈출을 감행",
+     "reason_en": "Waited thirteen years, then dared a night sea escape"
+    }
+   },
+   "rationale_ko": "13년 억류를 견딘 인내가 야밤의 탈출이라는 결단으로 이어졌다. 남긴 기록의 정확성이 그를 서양 최초의 조선 보고자로 만들었다. 지도자라기보다 공동체를 지킨 생존자였다.",
+   "rationale_en": "Thirteen years of endurance led to one bold night escape by sea. His precise journal made him Europe's first witness to Korea. He was less a leader than a survivor who kept his crew together."
+  }
+ },
+ "필리프 프란츠 폰 지볼트": {
+  "influence": {
+   "political": 3,
+   "political_exp": "지볼트 사건이 막부의 대외 경계심을 키움",
+   "political_exp_en": "The Siebold Incident sharpened Tokugawa vigilance",
+   "strategic": 2,
+   "strategic_exp": "반출 지도가 국가급 지리 정보로 취급받음",
+   "strategic_exp_en": "His smuggled maps were treated as strategic intelligence",
+   "tech": 6,
+   "tech_exp": "나루타키 사숙에서 일본 첫 근대 의학 교육을 시작",
+   "tech_exp_en": "His Narutaki school began Japan's first modern medical teaching",
+   "social": 5,
+   "social_exp": "일본학이라는 학문 분야를 직접 세움",
+   "social_exp_en": "Founded the field of Japanese studies",
+   "economic": 1,
+   "economic_exp": "데지마 무역 창구의 의관이었을 뿐 경제 변화는 미미",
+   "economic_exp_en": "A trading-post physician with little economic impact",
+   "cultural": 5,
+   "cultural_exp": "『니폰』·표본 수집으로 유럽의 일본 지식을 세움",
+   "cultural_exp_en": "'Nippon' and his collections built Europe's knowledge of Japan",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "일본학이라는 학과가 그의 유산으로 지금도 이어짐",
+   "transhistoricity_exp_en": "Japanese studies still runs on his legacy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "1824년 나루타키 사숙에서 수십 명의 제자를 가르침",
+     "reason_en": "Taught dozens of pupils at the Narutaki school"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "에도 참근 여행과 조사 여행을 소화한 의사",
+     "reason_en": "A physician who managed the Edo journey and fieldwork"
+    },
+    "intellect": {
+     "score": 86,
+     "reason_ko": "의학·식물·민족지를 넘나들며 일본학을 창설",
+     "reason_en": "Founded Japanese studies across medicine, botany and ethnography"
+    },
+    "charm": {
+     "score": 66,
+     "reason_ko": "일본 제자들의 신애를 받아 '지볼트 선생'으로 남음",
+     "reason_en": "Beloved by Japanese pupils as 'Siebold sensei'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "금지된 지도 반출을 감행한 수집 욕심",
+     "reason_en": "His collector's appetite overrode the law on forbidden maps"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "추방 뒤에도 1835년부터 『니폰』 간행을 지속",
+     "reason_en": "Kept publishing his vast 'Nippon' even after expulsion"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "연구 기록을 체계적으로 정리해 저작으로 남김",
+     "reason_en": "Ordered his research records into systematic works"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "1828년 국법상 중죄인 지도 반출을 감행",
+     "reason_en": "Dared map smuggling — a grave crime — and a return"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "추방당한 뒤에도 일본 연구에 평생을 바침",
+     "reason_en": "Devoted his life to Japan even after expulsion"
+    },
+    "benevolence": {
+     "score": 66,
+     "reason_ko": "나루타키 진료소에서 일본 환자를 계층 없이 진료",
+     "reason_en": "Treated Japanese patients of every class at his clinic"
+    },
+    "fairness": {
+     "score": 58,
+     "reason_ko": "무료·저가 진료로 신분과 무관하게 환자를 받음",
+     "reason_en": "Took patients regardless of status, cheaply or free"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "자기 이름을 붙인 박물관을 세울 만큼 자기 드러냄도 큼",
+     "reason_en": "Vain enough to found a museum bearing his name"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "추방 뒤에도 개항 후 귀환을 기대해 준비",
+     "reason_en": "Prepared for return even after expulsion"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "막부 체제 안에서 일하며 기존 관직을 수행",
+     "reason_en": "Worked inside the shogunal system as a posted official"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "제자·연구자 네트워크를 조직해 학문 공동체를 만듦",
+     "reason_en": "Built a scholarly community of pupils and researchers"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "금지 품목 반출과 재입국을 감행한 승부사",
+     "reason_en": "A gambler who dared forbidden exports and re-entry"
+    }
+   },
+   "rationale_ko": "지식 욕심이 국법 위반의 대담함으로 나타났고, 그 대가로 추방당했다. 사숙과 저작으로 세운 일본학이 그의 가장 큰 유산이다. 자기 이름을 내걸 만큼 자의식도 강했다.",
+   "rationale_en": "His appetite for knowledge turned into a bold breach of shogunal law, and he paid with expulsion. The field of Japanese studies built through his school and books is his largest legacy. He was never short of self-regard."
+  }
+ },
+ "의정": {
+  "influence": {
+   "political": 2,
+   "political_exp": "측천무후의 환대를 받았으나 정치 개입은 없음",
+   "political_exp_en": "Welcomed by Empress Wu but stayed out of politics",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 승려의 생애",
+   "strategic_exp_en": "A monk's life apart from war",
+   "tech": 2,
+   "tech_exp": "남해 항로 기록이 후대 지리 연구의 사료가 됨",
+   "tech_exp_en": "His sea-route records became sources for historical geography",
+   "social": 5,
+   "social_exp": "율장 번역으로 동아시아 승단 규율의 원전을 다짐",
+   "social_exp_en": "His Vinaya translations grounded East Asian monastic rule",
+   "economic": 1,
+   "economic_exp": "남해 무역 항로를 기록했을 뿐 직접 변화는 없음",
+   "economic_exp_en": "He documented sea trade but changed none of it",
+   "cultural": 6,
+   "cultural_exp": "60여 부 번역과 『남해기귀내법전』이 불교학의 토대",
+   "cultural_exp_en": "Sixty translations and his travel record underpin Buddhist studies",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "천삼백 년째 불교 율장 연구의 기본 사료",
+   "transhistoricity_exp_en": "Thirteen centuries on, still a base source for Vinaya study"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "창안의 역장에서 번역 작업을 조직해 수행",
+     "reason_en": "Ran translation workshops in Chang'an"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "671년 남해 항로 왕복과 24년 해외 유학을 견딤",
+     "reason_en": "Endured the sea route and 24 years abroad"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "산스크리트어로 율장을 공부하고 60여 부를 한역",
+     "reason_en": "Studied Vinaya in Sanskrit and rendered sixty works into Chinese"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "695년 귀국 때 측천무후가 직접 맞이한 존중",
+     "reason_en": "Respected enough for Empress Wu's own welcome on return"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 88,
+     "reason_ko": "계율 전문가답게 청빈한 승려 생활을 지킴",
+     "reason_en": "A Vinaya specialist who kept austere monastic discipline"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "날란다 10여 년 수학과 귀국 뒤 18년 번역",
+     "reason_en": "A decade studying in India, eighteen years translating"
+    },
+    "reflection": {
+     "score": 72,
+     "reason_ko": "승원 생활과 자기 수행을 기록으로 돌아봄",
+     "reason_en": "Reviewed monastic life and his own practice in writing"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "671년 육로 대신 험난한 바닷길로 홀로 인도를 향함",
+     "reason_en": "Chose the perilous sea route to India alone"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "평생 계율과 번역이라는 소명에 헌신",
+     "reason_en": "Devoted his life to discipline and translation"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "남해 각국 승려와 백성의 삶을 존중해 기록",
+     "reason_en": "Recorded the lives of foreign monks and peoples with respect"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "각국 승원 규율을 편파 없이 관찰해 기록",
+     "reason_en": "Observed monastic rules of each country impartially"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "현장의 그늘에서 조용히 자기 길을 간 구법승",
+     "reason_en": "A pilgrim who walked quietly in Xuanzang's shadow"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "먼 항해의 성과를 믿고 귀국해 저술을 이어감",
+     "reason_en": "Trusted the voyage's worth and wrote on after return"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "승단 계율의 복원과 준수를 평생 강조",
+     "reason_en": "Lifelong insistence on preserving monastic discipline"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "승단 공동체와 역장 협업 속에서 생활",
+     "reason_en": "Lived in monastic community and workshop collaboration"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "671년 바닷길 단독 인도행을 감행",
+     "reason_en": "Dared a lone sea voyage to India in 671"
+    }
+   },
+   "rationale_ko": "육로 대신 바닷길을 택한 대담함이 십수 년의 유학으로 이어졌다. 돌아와서는 계율 보존이라는 보수적 소명에 평생을 바쳤다. 현장에 가려 존재감을 드러내지 않은 겸손한 대가다.",
+   "rationale_en": "Choosing the dangerous sea route led to a decade of study abroad. Back home he spent his life on the conservative task of preserving monastic discipline. A self-effacing master, overshadowed by Xuanzang yet no less rigorous."
+  }
+ },
+ "두웨성": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1927년 4·12 숙청에 청방을 동원해 장제스를 도움",
+   "political_exp_en": "Lent the Green Gang to Chiang's 1927 purge, enabling the Nanjing regime",
+   "strategic": 3,
+   "strategic_exp": "중일전쟁 때 항일 첩보·자금줄 역할",
+   "strategic_exp_en": "Ran anti-Japanese intelligence and funding in the war",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 4,
+   "social_exp": "상하이 지하질서와 노동조합을 20년간 좌우",
+   "social_exp_en": "Ruled Shanghai's underworld and unions for two decades",
+   "economic": 5,
+   "economic_exp": "아편·도박·금융 제국으로 상하이 경제의 그늘을 지배",
+   "economic_exp_en": "His opium, gambling and banking empire ruled Shanghai's shadow economy",
+   "cultural": 3,
+   "cultural_exp": "경극 후원과 '상하이 대가' 신화를 남김",
+   "cultural_exp_en": "Patronised opera and left the 'Big-Eared Du' legend",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "민국시대 상하이 연구에서 빠지지 않는 상징적 거물",
+   "transhistoricity_exp_en": "An unavoidable figure in histories of Republican Shanghai"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "1920-40년대 청방 수만 조직원과 노동조합을 좌우",
+     "reason_en": "Commanded tens of thousands of gang members and unions for 20 years"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "밑바닥 조직원 시절을 견뎠으나 아편 상습으로 쇠약",
+     "reason_en": "Survived the gang's bottom rung but wasted by habitual opium"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "1925년 아편 제국 정점에 오른 연결 설계의 솜씨",
+     "reason_en": "Unlettered yet brilliant at linking gangs, banks and politics"
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "상하이 3대 두목으로 조정·조계·재계가 모두 찾음",
+     "reason_en": "One of the Big Three, courted by government, concessions and banks"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 32,
+     "reason_ko": "아편·도박 산업을 지배하며 자신도 아편을 탐함",
+     "reason_en": "Ruled vice trades and indulged in opium himself"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "고아 심부름꾼에서 두목까지 매일 사람을 모으고 다짐",
+     "reason_en": "From orphan errand boy to boss by daily networking"
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "행동 규범을 입에 올렸으나 자기 반성 기록은 적음",
+     "reason_en": "Preached codes of conduct but left little self-critique"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "1937년 이후 조계와 충칭을 오가며 항일을 지원",
+     "reason_en": "Held his ground between occupier and factions"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 52,
+     "reason_ko": "장제스 진영과 손잡았으나 이해 따라 동맹을 바꿈",
+     "reason_en": "Allied with Chiang but shifted with advantage"
+    },
+    "benevolence": {
+     "score": 38,
+     "reason_ko": "구제·기부를 베풀었으나 살인·착취가 밑천",
+     "reason_en": "Gave charity built on murder and extortion"
+    },
+    "fairness": {
+     "score": 32,
+     "reason_ko": "법 대신 조직 룰로 상하이를 다스림",
+     "reason_en": "Ruled by gang code, not law"
+    },
+    "humility": {
+     "score": 64,
+     "reason_ko": "'두 선생' 예법을 지키며 화려함을 삼간 처신",
+     "reason_en": "Kept courteous 'Mr Du' manners and shunned flash"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "고아 출신에서 정점을 믿고 나아간 승부사",
+     "reason_en": "An orphan who bet on reaching the top"
+    },
+    "conservative_progressive": {
+     "score": -30,
+     "reason_ko": "노동 운동과 공산 세력을 무력으로 진압한 기득권 편",
+     "reason_en": "Used force to crush labour and communists on the establishment's side"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "청방 형제 의리망 자체가 그의 권력 기반",
+     "reason_en": "The Green Gang brotherhood itself was his power base"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "위험한 동맹을 감행하되 손익을 치밀하게 계산",
+     "reason_en": "Dared dangerous alliances but counted every cost"
+    }
+   },
+   "rationale_ko": "맨 밑바닥에서 사람을 모으는 힘으로 상하이 지하 제국을 세웠다. 기부와 살인이 공존한 양면성은 인자와 공정을 바닥에 둔다. 공동체 의리가 자산이었지만, 지키려는 질서는 언제나 자신의 기득권이었다.",
+   "rationale_en": "He built Shanghai's underworld empire on his gift for gathering men from the very bottom. Charity and murder coexisted, keeping benevolence and fairness near the floor. Brotherhood was his capital; the order he defended was always his own interest."
+  }
+ },
+ "장줘린": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1927년 베이징 대원수로 중국 최고 실력자에 오름",
+   "political_exp_en": "Rose to Generalissimo of the Beijing government in 1927",
+   "strategic": 5,
+   "strategic_exp": "봉천군 수십만을 지휘하고 만주 군사 기반을 현대화",
+   "strategic_exp_en": "Commanded the Fengtian army and modernised Manchuria's military base",
+   "tech": 2,
+   "tech_exp": "병기창·철도를 세웠으나 군벌 자강 수준",
+   "tech_exp_en": "Built arsenals and railways, though only warlord self-strengthening",
+   "social": 2,
+   "social_exp": "만주 치하의 행정 틀을 남겼을 뿐",
+   "social_exp_en": "Left only the administrative frame of his Manchurian rule",
+   "economic": 3,
+   "economic_exp": "만주 철도·광업 기반을 키웠으나 지역 한정",
+   "economic_exp_en": "Grew Manchurian rail and mining, a regional effect",
+   "cultural": 1,
+   "cultural_exp": "문화 기여는 미미",
+   "cultural_exp_en": "Little cultural contribution",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "그의 폭사가 만주사변과 동북아 정세 변화의 단초",
+   "transhistoricity_exp_en": "His assassination opened the road to the Mukden Incident"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 83,
+     "reason_ko": "1920년대 30만 봉천군과 동북 3성을 통솔",
+     "reason_en": "From bandit chief to 300,000 men and the three eastern provinces"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "1900년대 마적 시절부터 수십 년 전장을 견딘 군인",
+     "reason_en": "A field soldier hardened by bandit wars and decades of campaigning"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "글은 서툴렀으나 일본·소련·군벌 사이 줄타기에 능함",
+     "reason_en": "Unschooled but adept at balancing Japan, Russia and rival warlords"
+    },
+    "charm": {
+     "score": 76,
+     "reason_ko": "'만주왕'으로 부하들이 산적 시절부터 따름",
+     "reason_en": "The 'Marshal of Manchuria', followed since his bandit days"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "여러 첩과 군벌식 호화를 누렸으나 권력 감각은 유지",
+     "reason_en": "Kept consorts and warlord luxury yet never lost his grip"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "빈농·마적에서 대원수까지 쉼 없는 상승",
+     "reason_en": "A restless climb from poor farmer and bandit to Generalissimo"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "상황 판단은 빨랐으나 자기 성찰 기록은 드묾",
+     "reason_en": "Quick to judge situations, scant record of self-examination"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "전장 최전선 경력과 일본과의 위험한 줄다리기",
+     "reason_en": "Front-line veteran who played a dangerous game with Japan"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 46,
+     "reason_ko": "봉천파 결속은 강했으나 대일 협력은 시시각각 변함",
+     "reason_en": "Strong clique loyalty, shifting cooperation with Japan"
+    },
+    "benevolence": {
+     "score": 38,
+     "reason_ko": "통치는 실용적이었으나 정적 숙청을 서슴지 않음",
+     "reason_en": "Pragmatic rule but never hesitated to purge rivals"
+    },
+    "fairness": {
+     "score": 33,
+     "reason_ko": "의리와 배신의 산적식 기준으로 인사·처벌을 결정",
+     "reason_en": "Decided appointments and punishments by a bandit code"
+    },
+    "humility": {
+     "score": 42,
+     "reason_ko": "투박한 자기 과시와 대원수 칭호를 즐김",
+     "reason_en": "Enjoyed rough self-display and the grand title"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "산적에서 정점까지 자기 운을 믿고 밀어붙임",
+     "reason_en": "Trusted his own luck from banditry to the summit"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "공화 혁명파를 억누르며 구식 개인 통치를 지킴",
+     "reason_en": "Suppressed republicans and kept old-style personal rule"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "산적 형제 의리로 묶인 봉천파 결속",
+     "reason_en": "A clique bound by bandit brotherhood"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "병력 우세를 믿고 중원 진출을 거듭 감행",
+     "reason_en": "Drove into the plain whenever numbers favoured him"
+    }
+   },
+   "rationale_ko": "마적의 대담함과 조직 결속력이 만주의 왕좌로 이어졌다. 일본의 후원을 받으면서도 넘보는 손을 끊으려 했던 균형 감각이 최후를 불렀다. 구식 개인 통치의 마지막 정점이었다.",
+   "rationale_en": "A bandit's boldness and gang cohesion carried him to the throne of Manchuria. His balancing act — taking Japan's support while resisting its grasp — cost him his life. He was the last peak of old-style personal rule."
+  }
+ },
+ "메이란팡": {
+  "influence": {
+   "political": 3,
+   "political_exp": "점령기 무대 거부가 민족 절개의 상징이 됨",
+   "political_exp_en": "His wartime refusal became a symbol of national integrity",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 3,
+   "social_exp": "남단 예술로 무대 위 성 표현의 경계를 넓힘",
+   "social_exp_en": "His dan art widened the stage's gender expression",
+   "economic": 4,
+   "economic_exp": "자기 극단과 해외 공연으로 경극의 시장을 넓힘",
+   "economic_exp_en": "His troupe and world tours widened the opera market",
+   "cultural": 8,
+   "cultural_exp": "경극을 세계 무대에 알리고 브레히트 연기론에 영향",
+   "cultural_exp_en": "Carried Peking opera to the world and influenced Brecht",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "메이파 남단 전통과 소외효과 논의가 지금도 이어짐",
+   "transhistoricity_exp_en": "The Mei school and the alienation-effect debate still run"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "1920년대부터 자기 극단을 이끌며 공연·인사를 총괄",
+     "reason_en": "Ran his own troupe for decades over repertoire and personnel"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "평생 몸짓·발재간 수련과 장시간 공연의 체력",
+     "reason_en": "A lifetime of movement training and long-stage stamina"
+    },
+    "intellect": {
+     "score": 76,
+     "reason_ko": "남단 연기 체계를 설계하고 새 경극을 창안",
+     "reason_en": "Designed the dan craft and created new opera works"
+    },
+    "charm": {
+     "score": 92,
+     "reason_ko": "동서양 관객을 사로잡은 20세기 중국 무대의 정점",
+     "reason_en": "The summit of Chinese stagecraft, captivating East and West"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "스캔들 없는 생활과 엄격한 몸가짐으로 일관",
+     "reason_en": "A scandal-free life of strict self-discipline"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "1904년 데뷔 뒤 평생 연습을 계속한 배우",
+     "reason_en": "Practised all his life, down to eye drills from boyhood"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "공연마다 동작을 다듬는 자기 검토를 반복",
+     "reason_en": "Refined each movement through constant self-review"
+    },
+    "courage": {
+     "score": 83,
+     "reason_ko": "1937년부터 수염을 길러 점령군의 무대를 거부",
+     "reason_en": "From 1937 he grew a moustache and refused the occupiers' stage"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 83,
+     "reason_ko": "1937-45년 무대 공백을 감수하며 절개를 지킴",
+     "reason_en": "Kept his integrity through eight silent war years"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "의연 공연과 후배·동료 지원을 이어감",
+     "reason_en": "Gave benefit performances and supported colleagues"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "극단 운영에서 인정받은 반듯한 처사",
+     "reason_en": "A straight dealer in running his troupe"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "정점에서도 예를 지키고 후배를 세움",
+     "reason_en": "Kept courtesy and raised juniors even at his peak"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "전란 속에서도 경극의 미래를 믿고 제자를 키움",
+     "reason_en": "Trained pupils through war, trusting the art's future"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "전통 예술의 계승자를 자처하며 형식을 지킴",
+     "reason_en": "Saw himself as heir to a tradition and kept its forms"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "극단·사제 공동체 속에서 예술을 이어감",
+     "reason_en": "Carried the art within troupe and master-pupil circles"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "해외 순회라는 미지의 무대를 과감히 개척",
+     "reason_en": "Boldly opened unknown stages abroad"
+    }
+   },
+   "rationale_ko": "평생 갈고닦은 몸짓이 20세기 중국 무대 최고의 매력이 됐다. 점령군 앞에서 수염으로 답한 절개는 그 매력에 무게를 더했다. 겸손과 근면이 예술의 전통을 지켰다.",
+   "rationale_en": "A body trained all his life became the summit of Chinese stagecraft. The moustache he grew for the occupiers added moral weight to that charm. Humility and diligence carried a tradition forward."
+  }
+ },
+ "런런 쇼": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 제도 변화와는 거리가 먼 경영인",
+   "political_exp_en": "A tycoon remote from political change",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 2,
+   "tech_exp": "스튜디오 시스템으로 아시아 영화 제작 방식을 표준화",
+   "tech_exp_en": "Standardised Asian film production with a studio system",
+   "social": 6,
+   "social_exp": "수백 동의 기부 학교와 쇼상으로 교육·과학을 지원",
+   "social_exp_en": "Hundreds of donated school buildings and the Shaw Prize",
+   "economic": 7,
+   "economic_exp": "쇼 브라더스와 TVB로 홍콩 영상 산업 구조를 만듦",
+   "economic_exp_en": "Shaw Brothers and TVB built Hong Kong's screen industry",
+   "cultural": 8,
+   "cultural_exp": "쿵푸 영화 황금기와 중화권 TV 문화의 토대를 세움",
+   "cultural_exp_en": "Laid the base of kung-fu cinema and Chinese-language TV",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "쇼상과 영화 유산이 세기를 넘어 지속",
+   "transhistoricity_exp_en": "The Shaw Prize and film legacy endure across a century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 85,
+     "reason_ko": "1957년 무비 타운과 1967년 TVB를 세워 반세기 경영",
+     "reason_en": "Ran Movie Town's thousands of staff and TVB for half a century"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "기공 수련으로 알려졌으나 비신체직 경영인",
+     "reason_en": "Known for qigong practice but a non-physical executive"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "쿵푸·방송 흐름을 읽어 아시아 시장을 선점",
+     "reason_en": "Read kung-fu and broadcast trends to pre-empt Asian markets"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "아시아 영화제를 주름잡은 거물로 존경받음",
+     "reason_en": "A magnate revered across the Asian film world"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "거부가 되고도 검소한 생활을 평생 유지",
+     "reason_en": "Stayed famously frugal despite the fortune"
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "백 세 넘은 2010년대에도 매일 사무실에 나옴",
+     "reason_en": "Came to the office daily past the age of 100"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "경영 결정을 회고한 인터뷰와 기록을 남김",
+     "reason_en": "Left interviews reviewing his business decisions"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "무료 방송 TVB라는 새 판에 일찍 베팅",
+     "reason_en": "Bet early on free-to-air television with TVB"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 66,
+     "reason_ko": "쇼 가문 사업과 오랜 협력자들을 지킴",
+     "reason_en": "Kept the family business and long-time collaborators"
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "2002년 쇼상 제정 등 재산을 교육에 돌림",
+     "reason_en": "Returned most of his fortune to education — hundreds of buildings"
+    },
+    "fairness": {
+     "score": 47,
+     "reason_ko": "출연료를 박하게 쥔 스튜디오 운영으로 불만도 남김",
+     "reason_en": "Tight star contracts left a record of grievances"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "기부는 대대적이나 자기 이름을 건물에 새김",
+     "reason_en": "Generous giving, though he put his name on the buildings"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "백 살까지 새 사업과 기부 계획을 세움",
+     "reason_en": "Made new plans into his hundreds"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "홍콩 기득권 질서 안에서 기업을 키운 거부",
+     "reason_en": "A tycoon grown inside Hong Kong's established order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "가족 기업과 지역 교육 공동체에 헌신",
+     "reason_en": "Devoted to family enterprise and the education community"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "영화에서 방송으로 시장이 생기자 바로 진입",
+     "reason_en": "Moved straight into TV when the market appeared"
+    }
+   },
+   "rationale_ko": "백 세까지 매일 출근한 근면이 쿵푸 영화와 TVB라는 두 제국을 만들었다. 출연료에는 박했지만 벌어들인 재산은 학교로 돌려보냈다. 대담한 투자와 평생의 절제가 공존한 거부다.",
+   "rationale_en": "A workday discipline lasting past age one hundred built two empires — kung-fu cinema and TVB. Tight with performers' pay, he returned his fortune to schools. Bold investment and lifelong frugality coexisted."
+  }
+ },
+ "푸이": {
+  "influence": {
+   "political": 5,
+   "political_exp": "만주국 황제직이 일본 점령의 정당성 도구가 됨",
+   "political_exp_en": "His Manchukuo throne lent legitimacy to Japan's occupation",
+   "strategic": 2,
+   "strategic_exp": "괴뢰 국가의 군사 체계에 이름을 빌려줌",
+   "strategic_exp_en": "Lent his name to the puppet state's military structure",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 4,
+   "social_exp": "2천 년 군주제의 종말을 상징하는 인물",
+   "social_exp_en": "The personification of 2,000 years of monarchy ending",
+   "economic": 1,
+   "economic_exp": "경제 제도와 무관한 생애",
+   "economic_exp_en": "No bearing on economic systems",
+   "cultural": 5,
+   "cultural_exp": "자서전과 영화 '마지막 황제'로 세계적 아이콘이 됨",
+   "cultural_exp_en": "His memoir and Bertolucci's film made him a global icon",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "제국 종말의 서사로 영구히 기록될 위치",
+   "transhistoricity_exp_en": "A fixed place in the story of empire's end"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 12,
+     "reason_ko": "1908년부터 세 번 옹립됐으나 실권은 남의 손에",
+     "reason_en": "Enthroned three times; real power always lay elsewhere"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "궁중 옥실에서 자라 신체 단련과 거리가 먼 생애",
+     "reason_en": "Raised in palace luxury, far from physical training"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "존스턴에게 영어·세계사를 배운 황실 교육 수혜자",
+     "reason_en": "Received a palace education including English under Johnston"
+    },
+    "charm": {
+     "score": 38,
+     "reason_ko": "세계의 주목은 그의 서사에 있었고 대인 호소력은 약함",
+     "reason_en": "The world loved his story more than the man himself"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 27,
+     "reason_ko": "궁궐 특권 속 방종과 내관 체벌이 기록됨",
+     "reason_en": "Palace records show indulgence and beatings of eunuchs"
+    },
+    "diligence": {
+     "score": 38,
+     "reason_ko": "감화원에서야 생활 습관을 뒤늦게 배움",
+     "reason_en": "Only in the re-education centre did he learn to live"
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "자서전에서 자기 비판을 했으나 감화 과정의 산물",
+     "reason_en": "His memoir's self-criticism was a product of re-education"
+    },
+    "courage": {
+     "score": 22,
+     "reason_ko": "강한 쪽에 매번 몸을 맡기는 선택을 반복",
+     "reason_en": "Repeatedly yielded himself to whichever power was stronger"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 28,
+     "reason_ko": "복벽을 꿈꿨으나 주변 사람들은 자주 버려짐",
+     "reason_en": "Dreamed of restoration yet discarded those around him"
+    },
+    "benevolence": {
+     "score": 22,
+     "reason_ko": "내관과 하인에 대한 가혹한 처벌이 자서전에 남음",
+     "reason_en": "His memoir admits cruel punishments of eunuchs and servants"
+    },
+    "fairness": {
+     "score": 27,
+     "reason_ko": "궁 안에서 기분대로 상벌을 내렸다는 기록",
+     "reason_en": "Records show rewards and punishments dealt by whim"
+    },
+    "humility": {
+     "score": 36,
+     "reason_ko": "말년 시민 생활에 적응했으나 특권 의식이 오래 남음",
+     "reason_en": "Adapted to citizen life late; entitlement faded slowly"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "암살 공포와 처지 비관이 자서전에 드러남",
+     "reason_en": "His memoir reveals assassination fears and pessimism"
+    },
+    "conservative_progressive": {
+     "score": -40,
+     "reason_ko": "세 번이나 제위 복귀를 좇은 군주제 그 자체",
+     "reason_en": "Chased the throne three times — monarchy embodied"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "왕조 복원이라는 사적 야심을 국가 위에 둠",
+     "reason_en": "Put private dynastic ambition above the nation"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "만주국행이라는 도박도 남의 손에 이끌려 결정",
+     "reason_en": "Even the Manchukuo gamble was decided by other hands"
+    }
+   },
+   "rationale_ko": "세 번 옹립되고 세 번 밀려나면서 실권은 늘 남의 손에 있었다. 궁 안의 방종과 가혹함이 감화원 10년을 거쳐 시민으로 풀려나는 데까지 이어졌다. 복벽의 꿈은 끝내 그를 만주국으로 몰았다.",
+   "rationale_en": "Enthroned three times and deposed three times, real power always lay in other hands. The indulgence and cruelty of the palace gave way to a decade of re-education and release as a citizen. His dream of restoration delivered him to Manchukuo."
+  }
+ }
+}

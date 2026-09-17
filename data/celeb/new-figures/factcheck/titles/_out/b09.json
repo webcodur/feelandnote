@@ -1,0 +1,10 @@
+[
+  {
+    "nick": "찰스 굿나잇",
+    "title": "텍사스 목축왕",
+    "issue": "en-mismatch",
+    "why": "ko 목축왕과 en Father of the Texas Panhandle은 다른 사실. 후자가 실제 유명 칭호(NPS·OU Press).",
+    "fix_ko": "텍사스 팬핸들의 아버지",
+    "fix_en": "Father of the Texas Panhandle"
+  }
+]

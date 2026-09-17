@@ -1,0 +1,482 @@
+{
+ "배스 리브스": {
+  "relations": [
+   {
+    "to_en": "Isaac C. Parker",
+    "to_ko": "아이작 C. 파커",
+    "rel_type": "colleague",
+    "note_ko": "포트 스미스의 '교수형 판사' 파커는 리브스를 연방 보안관보로 임명했고, 리브스는 그 법원 관할에서 30년 넘게 악명 높은 현장을 누볐다.",
+    "note_en": "The 'Hanging Judge' of Fort Smith commissioned Reeves as a deputy US marshal; Reeves rode Parker's jurisdiction for over 30 years.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Belle Starr",
+    "to_ko": "벨 스타",
+    "rel_type": "rival",
+    "note_ko": "리브스는 말 절도 혐의로 악명 높은 여성 무법자 스타를 체포해 포트 스미스 법정에 세웠다.",
+    "note_en": "Reeves arrested the notorious outlaw queen Starr on horse-theft charges and brought her before the Fort Smith court.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Nellie Jennie",
+    "to_ko": "넬리 제니",
+    "rel_type": "spouse",
+    "note_ko": "리브스는 넬리 제니와 결혼해 열 명의 자녀를 두었고, 보안관으로 나간 사이 그녀가 농장과 가정을 지켰다.",
+    "note_en": "Reeves married Nellie Jennie and fathered ten children; she held the farm together through his long absences as a marshal.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "메리 필즈": {
+  "relations": [
+   {
+    "to_en": "Mother Amadeus",
+    "to_ko": "아마데우스 수녀",
+    "rel_type": "friend",
+    "note_ko": "우르술라회 아마데우스 수녀는 오하이오 수녀원의 일꾼 필즈를 몬태나 선교지까지 데려왔고, 필즈는 수녀회 학교를 위해 평생 마차로 물자를 실어 날랐다.",
+    "note_en": "Ursuline nun Mother Amadeus brought Fields from her Ohio convent to the Montana mission; Fields hauled supplies for her school for life.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "칼라미티 제인": {
+  "relations": [
+   {
+    "to_en": "Wild Bill Hickok",
+    "to_ko": "와일드 빌 히콕",
+    "rel_type": "friend",
+    "note_ko": "두 사람은 1876년 데드우드에서 만나 가깝게 지냈고, 히콕이 살해된 뒤 제인은 그의 곁에 묻히기를 원해 나란히 묻혔다.",
+    "note_en": "The two ran together in Deadwood in 1876; after Hickok's murder Jane was buried beside him, as she had wished.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "버팔로 빌": {
+  "relations": [
+   {
+    "to_en": "Wild Bill Hickok",
+    "to_ko": "와일드 빌 히콕",
+    "rel_type": "friend",
+    "note_ko": "코디와 히콕은 정탐꾼 시절부터 알고 지낸 벗으로, 1873년 무대극 '대초원의 정탐꾼'에 함께 출연하기도 했다.",
+    "note_en": "Cody and Hickok were friends from their scouting days and even shared the stage in the 1873 melodrama 'Scouts of the Prairie'.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Annie Oakley",
+    "to_ko": "애니 오클리",
+    "rel_type": "colleague",
+    "note_ko": "오클리는 1885년부터 '버팔로 빌의 와일드 웨스트'의 간판 사격 스타로 코디와 함께 세계를 순회했다.",
+    "note_en": "Oakley was the sharpshooting headliner of 'Buffalo Bill's Wild West' from 1885, touring the world with Cody.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Sitting Bull",
+    "to_ko": "시팅 불",
+    "rel_type": "colleague",
+    "note_ko": "시팅 불은 1885년 코디의 와일드 웨스트 쇼에 출연해 함께 순회했고, 코디는 그에게 말과 선물을 건넸다.",
+    "note_en": "Sitting Bull toured with Cody's Wild West show in 1885; Cody gave him a circus horse and gifts.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Texas Jack Omohundro",
+    "to_ko": "텍사스 잭 오머헌드로",
+    "rel_type": "friend",
+    "note_ko": "오머헌드로와 코디는 정탐꾼 동료에서 무대극 동반 배우가 돼 서부 전설을 함께 공연했다.",
+    "note_en": "Omohundro and Cody went from fellow scouts to co-stars, selling the Western legend on stage together.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Ned Buntline",
+    "to_ko": "네드 번트라인",
+    "rel_type": "colleague",
+    "note_ko": "싸구려 소설가 번트라인이 코디를 '버팔로 빌'이라는 지면 위 영웅으로 만들었고, 둘은 함께 무대에도 섰다.",
+    "note_en": "Dime novelist Buntline invented 'Buffalo Bill' as a print hero and put the real Cody on stage with him.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Armstrong Custer",
+    "to_ko": "조지 암스트롱 커스터",
+    "rel_type": "colleague",
+    "note_ko": "코디는 1867년 커스터의 원정에 정탐으로 참여했고, 리틀 빅혼 뒤에는 '커스터의 복수'를 쇼의 구호로 삼았다.",
+    "note_en": "Cody scouted for Custer's 1867 campaign; after Little Bighorn he billed his own fight as 'the first scalp for Custer'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Louisa Frederici",
+    "to_ko": "루이자 프레데리치",
+    "rel_type": "spouse",
+    "note_ko": "코디는 1866년 루이자와 결혼해 네 자녀를 두었으나 순회 생활로 갈등해 이혼 소송까지 갔다.",
+    "note_en": "Cody married Louisa Frederici in 1866; touring life strained the marriage into a failed divorce suit.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "시팅 불": {
+  "relations": [
+   {
+    "to_en": "Crazy Horse",
+    "to_ko": "크레이지 호스",
+    "rel_type": "colleague",
+    "note_ko": "두 지도자는 1876년 리틀 빅혼에서 커스터의 제7기병대를 전멸시킨 라코타·샤이엔 연합을 함께 이끌었다.",
+    "note_en": "Together they led the Lakota-Cheyenne coalition that annihilated Custer's 7th Cavalry at Little Bighorn in 1876.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Armstrong Custer",
+    "to_ko": "조지 암스트롱 커스터",
+    "rel_type": "rival",
+    "note_ko": "시팅 불이 모은 연합군이 리틀 빅혼에서 커스터와 그의 기병대 전원을 몰살시켰다.",
+    "note_en": "The coalition Sitting Bull gathered wiped out Custer and his entire battalion at the Little Bighorn.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Annie Oakley",
+    "to_ko": "애니 오클리",
+    "rel_type": "friend",
+    "note_ko": "시팅 불은 오클리의 사격 솜씨에 감탄해 '작은 명사수'라 불렀고 상징적인 의식으로 그녀를 양녀로 삼았다.",
+    "note_en": "Sitting Bull so admired Oakley's shooting that he called her 'Little Sure Shot' and symbolically adopted her.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Gall",
+    "to_ko": "갈",
+    "rel_type": "colleague",
+    "note_ko": "갈은 시팅 불 휘하의 헝크파파 전쟁 지휘관으로 리틀 빅혼 전투를 함께 지휘했다.",
+    "note_en": "Gall, the Hunkpapa war chief under Sitting Bull, co-commanded the fighting at Little Bighorn.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Crow Foot",
+    "to_ko": "크로 풋",
+    "rel_type": "friend",
+    "note_ko": "캐나다 망명 시절 블랙풋 족장 크로 풋은 시팅 불 일족을 받아들여 보호했고 두 족장은 우정을 나눴다.",
+    "note_en": "During the Canadian exile, Blackfoot chief Crow Foot sheltered Sitting Bull's people and the two chiefs formed a friendship.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "James Morrow Walsh",
+    "to_ko": "제임스 모로 월시",
+    "rel_type": "friend",
+    "note_ko": "북서기마경찰 월시 소령은 망명지의 시팅 불과 절친이 돼 미국과의 협상에서 그의 보호자 역할을 했다.",
+    "note_en": "Mountie Major Walsh befriended the exiled Sitting Bull and acted as his protector in dealings with the US.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "James McLaughlin",
+    "to_ko": "제임스 매클로플린",
+    "rel_type": "rival",
+    "note_ko": "인디언 관리 매클로플린은 고스트 댄스를 두려워해 시팅 불의 체포를 명령했고, 그 작전에서 시팅 불이 총에 맞아 죽었다.",
+    "note_en": "Indian agent McLaughlin ordered Sitting Bull's arrest over the Ghost Dance scare; Sitting Bull was shot dead in the attempt.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "제로니모": {
+  "relations": [
+   {
+    "to_en": "Cochise",
+    "to_ko": "코치스",
+    "rel_type": "colleague",
+    "note_ko": "제로니모는 아파치 전쟁에서 코치스의 군대와 함께 싸웠고, 회고록에서 그를 가장 존경하는 지도자로 꼽았다.",
+    "note_en": "Geronimo fought alongside Cochise's warriors and named him the chief he revered most in his memoir.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Mangas Coloradas",
+    "to_ko": "망가스 콜로라다스",
+    "rel_type": "colleague",
+    "note_ko": "가족이 학살된 뒤 제로니모는 망가스 콜로라다스의 대군에 합류해 멕시코 원정에 함께 나섰다.",
+    "note_en": "After his family's massacre Geronimo joined Mangas Coloradas's host on retaliatory expeditions into Mexico.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Crook",
+    "to_ko": "조지 크룩",
+    "rel_type": "rival",
+    "note_ko": "크룩 장군은 제로니모를 추격해 1884년 항복을 받아냈지만, 제로니모는 곧 탈출해 항전을 이어갔다.",
+    "note_en": "General Crook pursued Geronimo into accepting surrender in 1884, only for Geronimo to bolt and fight on.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Nelson Miles",
+    "to_ko": "넬슨 마일스",
+    "rel_type": "rival",
+    "note_ko": "마일스 장군은 1886년 제로니모의 마지막 항복을 받아내며 인디언 전쟁을 끝냈고, 제로니모는 포로로 죽을 때까지 그 약속을 원망했다.",
+    "note_en": "General Miles took Geronimo's final surrender in 1886, ending the Indian Wars; Geronimo resented the broken terms to his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Naiche",
+    "to_ko": "나이체",
+    "rel_type": "colleague",
+    "note_ko": "코치스의 아들이자 치리카와 족장 나이체는 제로니모와 함께 마지막 항전과 항복을 함께했다.",
+    "note_en": "Naiche, Cochise's son and the Chiricahua chief, shared Geronimo's last campaign and final surrender.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Alope",
+    "to_ko": "알로페",
+    "rel_type": "spouse",
+    "note_ko": "첫 아내 알로페는 아이들과 함께 멕시코군에게 살해됐고, 그날 이후 제로니모는 평생의 전사가 됐다.",
+    "note_en": "His first wife Alope was killed with their children by Mexican troops — the massacre that made Geronimo a lifelong warrior.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "크레이지 호스": {
+  "relations": [
+   {
+    "to_en": "Red Cloud",
+    "to_ko": "레드 클라우드",
+    "rel_type": "colleague",
+    "note_ko": "크레이지 호스는 '레드 클라우드의 전쟁'에서 오글라라 전사 지휘관으로 레드 클라우드와 함께 싸웠다.",
+    "note_en": "Crazy Horse fought under Red Cloud as an Oglala war leader in the war that bore Red Cloud's name.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Crook",
+    "to_ko": "조지 크룩",
+    "rel_type": "rival",
+    "note_ko": "크레이지 호스는 로즈버드 전투에서 크룩을 물리쳤고, 항복 뒤에는 크룩이 그의 체포를 명령해 죽음으로 이어졌다.",
+    "note_en": "Crazy Horse beat Crook at the Rosebud; after his surrender Crook ordered the arrest in which Crazy Horse was bayoneted.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Armstrong Custer",
+    "to_ko": "조지 암스트롱 커스터",
+    "rel_type": "rival",
+    "note_ko": "크레이지 호스의 전사들은 리틀 빅혼에서 커스터의 기병대를 궤멸시킨 전투의 주력이었다.",
+    "note_en": "Crazy Horse's warriors were the spearhead of the force that annihilated Custer at the Little Bighorn.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Black Shawl",
+    "to_ko": "블랙 숄",
+    "rel_type": "spouse",
+    "note_ko": "블랙 숄은 크레이지 호스의 아내로 병든 그를 간호하며 그가 죽는 날까지 곁에 있었다.",
+    "note_en": "Black Shawl was Crazy Horse's wife, nursing him through illness and staying beside him until his death.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "콰나 파커": {
+  "relations": [
+   {
+    "to_en": "Cynthia Ann Parker",
+    "to_ko": "신시아 앤 파커",
+    "rel_type": "mother",
+    "note_ko": "아홉 살에 코만치에게 납치돼 자란 신시아 앤은 족장의 아내가 돼 콰나를 낳았고, 재포획 뒤에는 아들을 그리다 숨졌다.",
+    "note_en": "Kidnapped at nine and raised Comanche, Cynthia Ann became a chief's wife and Quanah's mother; recaptured, she died grieving for him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Peta Nocona",
+    "to_ko": "페타 노코나",
+    "rel_type": "father",
+    "note_ko": "코만치 족장 페타 노코나는 납치된 신시아 앤을 아내로 맞아 콰나를 낳았다.",
+    "note_en": "Comanche chief Peta Nocona married the captive Cynthia Ann and fathered Quanah.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles Goodnight",
+    "to_ko": "찰스 굿나잇",
+    "rel_type": "friend",
+    "note_ko": "목축업자 굿나잇과 콰나는 적이던 관계에서 절친이 돼 텍사스 목축업에서 함께 협력했다.",
+    "note_en": "Cattleman Goodnight and Quanah turned from adversaries into close friends and partners in the Texas cattle trade.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Theodore Roosevelt",
+    "to_ko": "시어도어 루스벨트",
+    "rel_type": "friend",
+    "note_ko": "루스벨트는 콰나의 저택에 머물며 함께 늑대 사냥을 했고, 콰나는 대통령 취임 퍼레이드에 원주민 지도자로 참가했다.",
+    "note_en": "Roosevelt stayed at Quanah's home for a wolf hunt; Quanah rode in TR's 1905 inaugural parade.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Ranald Mackenzie",
+    "to_ko": "래널드 매켄지",
+    "rel_type": "rival",
+    "note_ko": "매켄지 대령은 1874년 팔로 두로 협곡에서 콰나의 군대를 격파하고 항복으로 몰았고, 이후 둘은 서로를 존중하게 됐다.",
+    "note_en": "Colonel Mackenzie broke Quanah's army at Palo Duro Canyon in 1874 and drove him to surrender; they came to respect each other.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "사카가위아": {
+  "relations": [
+   {
+    "to_en": "Meriwether Lewis",
+    "to_ko": "메리웨더 루이스",
+    "rel_type": "colleague",
+    "note_ko": "루이스와 클라크 원정대에서 사카가위아는 아기를 업은 채 통역과 안내로 태평양까지 동행했다.",
+    "note_en": "On the Lewis and Clark expedition Sacagawea served as interpreter and guide to the Pacific, infant on her back.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "William Clark",
+    "to_ko": "윌리엄 클라크",
+    "rel_type": "colleague",
+    "note_ko": "사카가위아는 원정 내내 클라크와 동행했고, 클라크는 그녀의 아들 장 바티스트를 거둬 교육시켰다.",
+    "note_en": "Sacagawea travelled with Clark through the whole expedition; Clark later took her son Jean Baptiste in and educated him.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Toussaint Charbonneau",
+    "to_ko": "투생 샤보노",
+    "rel_type": "spouse",
+    "note_ko": "샤보노는 납치된 사카가위아를 사들인 프랑스계 상인으로, 부부가 함께 원정대의 통역으로 고용됐다.",
+    "note_en": "Charbonneau, the French-Canadian trader who bought the kidnapped Sacagawea, was hired with her as the expedition's interpreters.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Cameahwait",
+    "to_ko": "카미아웨이트",
+    "rel_type": "sibling",
+    "note_ko": "원정 중 사카가위아는 어린 시절 납치로 헤어진 오빠, 쇼쇼니 족장 카미아웨이트와 극적으로 재회해 원정대의 말과 안내를 얻었다.",
+    "note_en": "Mid-expedition Sacagawea was reunited with Cameahwait — the brother she lost to kidnapping — and won the horses and guides the corps needed.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "세쿼야": {
+  "relations": [
+   {
+    "to_en": "Elias Boudinot",
+    "to_ko": "엘리어스 부디노",
+    "rel_type": "colleague",
+    "note_ko": "부디노는 신문 '체로키 피닉스' 편집장으로 세쿼야의 음절문자를 활자로 찍어 민족 전체에 보급했다.",
+    "note_en": "As editor of the Cherokee Phoenix, Boudinot cast Sequoyah's syllabary in type and spread literacy across the nation.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "John Ross",
+    "to_ko": "존 로스",
+    "rel_type": "colleague",
+    "note_ko": "서부로 먼저 이주한 세쿼야는 체로키 수석 족장 존 로스와 함께 갈라진 민족의 재결합을 이끌었다.",
+    "note_en": "Having moved west early, Sequoyah worked with Principal Chief John Ross to reunite the divided Cherokee nation.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Sam Houston",
+    "to_ko": "샘 휴스턴",
+    "rel_type": "friend",
+    "note_ko": "체로키 사이에 살며 족에 입양된 휴스턴은 세쿼야와 교유했고 그의 문자 제정을 옹호했다.",
+    "note_en": "Houston, adopted into the Cherokee nation while living among them, knew Sequoyah and championed his writing system.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "이시": {
+  "relations": [
+   {
+    "to_en": "Alfred L. Kroeber",
+    "to_ko": "알프레드 크로버",
+    "rel_type": "friend",
+    "note_ko": "인류학자 크로버는 1911년 세상에 나온 이시를 박물관에 맞아 함께 일했고, 죽을 때까지 그의 가장 가까운 벗이자 보호자가 됐다.",
+    "note_en": "Anthropologist Kroeber took Ishi in at the museum in 1911 and remained his closest friend and guardian until his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Thomas T. Waterman",
+    "to_ko": "토머스 워터먼",
+    "rel_type": "colleague",
+    "note_ko": "언어학자 워터먼은 이시의 야히어를 처음 알아들은 학자로, 함께 언어를 녹음·기록해 후세에 남겼다.",
+    "note_en": "Linguist Waterman was the first scholar to understand Ishi's Yahi; together they recorded and preserved the language.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Saxton Pope",
+    "to_ko": "색스턴 포프",
+    "rel_type": "friend",
+    "note_ko": "외과의사 포프는 이시에게 활 쏘기를 배워 사냥 벗이 됐고, 그의 기록이 현대 전통 궁술 부흥을 열었다.",
+    "note_en": "Surgeon Pope learned archery from Ishi and became his hunting companion; his book sparked the modern bowhunting revival.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "짐 브리저": {
+  "relations": [
+   {
+    "to_en": "Hugh Glass",
+    "to_ko": "휴 글래스",
+    "rel_type": "colleague",
+    "note_ko": "1823년 애슐리 원정대의 동료인 브리저는 곰에게 중상을 입은 글래스 곁에 남았다가 그를 죽은 것으로 여기고 떠난 청년이었다.",
+    "note_en": "Fellow Ashley's Hundred trapper Bridger was the young man left to watch the bear-mauling victim Glass — and who left him for dead.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jedediah Smith",
+    "to_ko": "제데디어 스미스",
+    "rel_type": "colleague",
+    "note_ko": "스미스와 브리저는 애슐리 상단의 동년배 산악인으로 로키 일대 탐험과 인디언 전투를 함께 겪었다.",
+    "note_en": "Smith and Bridger, contemporaries in Ashley's company, shared the Rocky Mountain expeditions and fights of the 1820s.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Brigham Young",
+    "to_ko": "브리검 영",
+    "rel_type": "rival",
+    "note_ko": "브리저는 영에게 소금호수 분지의 정착 정보를 알려줬으나, 후에 모르몬이 브리저 초소를 넘보자 둘은 갈등했고 브리저는 축출당했다.",
+    "note_en": "Bridger briefed Young on the Salt Lake basin, but when the Mormons moved on Fort Bridger they clashed and Bridger was driven out.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Kit Carson",
+    "to_ko": "킷 카슨",
+    "rel_type": "colleague",
+    "note_ko": "카슨과 브리저는 같은 시대 로키의 정탐꾼으로 서로의 초소와 원정길을 오가며 알고 지냈다.",
+    "note_en": "Carson and Bridger, the era's two famous scouts, knew each other across forts and expeditions in the Rockies.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "윌리엄 키드": {
+  "relations": [
+   {
+    "to_en": "Richard Coote, Earl of Bellomont",
+    "to_ko": "벨로몬트 백작 리차드 쿠트",
+    "rel_type": "colleague",
+    "note_ko": "벨로몬트 총독은 키드에게 해적 토벌 사략장을 발급해 보냈고, 실패 뒤에는 그를 보스턴으로 유인해 체포해 영국으로 보냈다.",
+    "note_en": "Governor Bellomont issued Kidd's pirate-hunting commission, then lured him to Boston, arrested him and shipped him to trial in England.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Sarah Kidd",
+    "to_ko": "세라 키드",
+    "rel_type": "spouse",
+    "note_ko": "뉴욕 부유층 출신 세라는 키드와 결혼했고, 그의 체포와 처형 과정에서 재산을 지키려 법정 싸움을 벌였다.",
+    "note_en": "Sarah, a wealthy New York widow, married Kidd and fought the courts over his seized fortune after his arrest and hanging.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Robert Culliford",
+    "to_ko": "로버트 컬리포드",
+    "rel_type": "rival",
+    "note_ko": "카리브에서 컬리포드의 배를 뺏은 전력이 있던 키드는 마다가스카르에서 그를 놓아줬고, 선원 대부분이 컬리포드에게 넘어가며 몰락이 결정됐다.",
+    "note_en": "Kidd, who had once stolen Culliford's ship, let him go at Madagascar — and most of Kidd's crew defected to him, sealing his ruin.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "메리 리드": {
+  "relations": [
+   {
+    "to_en": "Anne Bonny",
+    "to_ko": "앤 보니",
+    "rel_type": "colleague",
+    "note_ko": "리드와 보니는 래컴 선상의 두 여성 해적으로, 항복한 남자 선원들 대신 갑판에서 끝까지 싸운 것으로 전해진다.",
+    "note_en": "Read and Bonny were the two women of Rackham's crew — famously the ones still fighting when the men surrendered.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Calico Jack Rackham",
+    "to_ko": "캘리코 잭 래컴",
+    "rel_type": "colleague",
+    "note_ko": "리드는 래컴의 해적선 선원으로 복무해 함께 약탈했고, 1720년 함께 체포돼 자메이카 재판에 섰다.",
+    "note_en": "Read sailed as a pirate in Rackham's crew, was captured with him in 1720, and stood trial in Jamaica.",
+    "prospect": "candidate"
+   }
+  ]
+ }
+}

@@ -1,0 +1,622 @@
+{
+ "하워드 휴즈": {
+  "relations": [
+   {
+    "to_en": "Howard Hughes Sr.",
+    "to_ko": "하워드 휴즈 시니어",
+    "rel_type": "father",
+    "note_ko": "아버지가 회전식 드릴 비트 특허로 세운 휴즈 툴 컴퍼니의 유산을 아들이 물려받아 항공·영화 제국의 자금원으로 삼았다.",
+    "note_en": "The father's rotary drill-bit patent built Hughes Tool Company, whose fortune bankrolled the son's aviation and film empire.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jean Peters",
+    "to_ko": "진 피터스",
+    "rel_type": "spouse",
+    "note_ko": "배우 진 피터스와 1957년 결혼해 은둔기 대부분을 함께 보냈고 1971년에 이혼했다.",
+    "note_en": "Married actress Jean Peters in 1957; she spent much of his reclusive years nearby until their 1971 divorce.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Katharine Hepburn",
+    "to_ko": "캐서린 헵번",
+    "rel_type": "partner",
+    "note_ko": "1930년대 중반 열애 상대였으며 헵번은 휴즈의 결혼 제안을 거절했다고 회고했다.",
+    "note_en": "A mid-1930s love affair; Hepburn later recalled refusing his marriage proposal.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Ava Gardner",
+    "to_ko": "에이바 가드너",
+    "rel_type": "partner",
+    "note_ko": "1940년대 불안정한 열애를 이어갔고, 가드너는 휴즈의 집착적 구애와 감시를 회고록에서 폭로했다.",
+    "note_en": "A turbulent 1940s affair; Gardner later described his obsessive wooing and surveillance.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Noah Dietrich",
+    "to_ko": "노아 디트리히",
+    "rel_type": "colleague",
+    "note_ko": "30여 년간 휴즈 제국의 경영을 대신해 자산을 수십억 달러로 불린 오른팔이었으나 1957년 보너스 분쟁으로 결별했다.",
+    "note_en": "His right-hand man for three decades ran the Hughes empire into the billions, then split over a bonus dispute in 1957.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Juan Trippe",
+    "to_ko": "후안 트리프",
+    "rel_type": "rival",
+    "note_ko": "TWA를 쥔 휴즈와 팬암의 트리프는 국제 항공로 독점을 두고 의회 로비와 소송으로 10여 년을 싸웠다.",
+    "note_en": "Hughes's TWA and Trippe's Pan Am fought a decade-long lobbying and legal war over international air routes.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "윌리엄 랜돌프 허스트": {
+  "relations": [
+   {
+    "to_en": "George Hearst",
+    "to_ko": "조지 허스트",
+    "rel_type": "father",
+    "note_ko": "광산왕이자 상원의원이던 아버지가 남긴 재산과 샌프란시스코 이그재미너지를 물려받아 신문 제국의 밑천으로 삼았다.",
+    "note_en": "He inherited the mining fortune and the San Francisco Examiner from his senator father, the seed of the newspaper empire.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Phoebe Apperson Hearst",
+    "to_ko": "피비 애퍼슨 허스트",
+    "rel_type": "mother",
+    "note_ko": "자선사업가인 어머니는 아들의 신문 사업 적자를 오랫동안 사재로 메워 줬다.",
+    "note_en": "His philanthropist mother repeatedly covered his newspaper losses out of her own fortune.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Millicent Hearst",
+    "to_ko": "밀리센트 허스트",
+    "rel_type": "spouse",
+    "note_ko": "배우 출신 밀리센트와 1903년 결혼해 다섯 아들을 뒀으나 마리언 데이비스와의 관계로 사실상 별거했다.",
+    "note_en": "Married former actress Millicent in 1903 and had five sons, though they lived apart once Marion Davies entered his life.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Marion Davies",
+    "to_ko": "마리언 데이비스",
+    "rel_type": "partner",
+    "note_ko": "배우 마리언 데이비스와 30여 년 동거했고, 그녀를 스타로 만들기 위해 영화 제작사까지 차렸다.",
+    "note_en": "His 30-year partner, actress Marion Davies, for whom he even ran a film production company to make her a star.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Joseph Pulitzer",
+    "to_ko": "조지프 퓰리처",
+    "rel_type": "rival",
+    "note_ko": "뉴욕 저널과 퓰리처의 월드지가 벌인 옐로 저널리즘 부수 경쟁이 미-스페인 전쟁 여론까지 부채질했다.",
+    "note_en": "His New York Journal and Pulitzer's World waged the yellow-journalism circulation war that helped whip up the Spanish-American War.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Orson Welles",
+    "to_ko": "오슨 웰스",
+    "rel_type": "rival",
+    "note_ko": "'시민 케인'이 허스트를 모델로 삼자 그는 광고·보도 금지와 압력으로 개봉을 방해했고, 웰스는 그 탓에 할리우드에서 고전했다.",
+    "note_en": "Hearst tried to bury Citizen Kane with bans and pressure once he saw himself in it; Welles fought Hollywood backlash for years.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "아리스토텔레스 오나시스": {
+  "relations": [
+   {
+    "to_en": "Jacqueline Kennedy",
+    "to_ko": "재클린 케네디",
+    "rel_type": "spouse",
+    "note_ko": "1968년 케네디 대통령의 미망인과 스코르피오스섬에서 결혼해 세기의 스캔들이 됐다.",
+    "note_en": "Married the assassinated president's widow on Skorpios in 1968 — the scandal of the century.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Maria Callas",
+    "to_ko": "마리아 칼라스",
+    "rel_type": "partner",
+    "note_ko": "1959년부터 프리마돈나 칼라스와 공개 열애를 했고, 재클린과의 결혼 뒤에도 관계가 이어졌다고 전해진다.",
+    "note_en": "A public affair with prima donna Callas from 1959, said to have resumed even after his marriage to Jacqueline.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Athina Livanos",
+    "to_ko": "아티나 리바노스",
+    "rel_type": "spouse",
+    "note_ko": "1946년 선주 스타브로스 리바노스의 딸 아티나와 결혼해 두 자녀를 뒀고 1960년에 이혼했다.",
+    "note_en": "His 1946 marriage to shipowner's daughter Athina Livanos produced two children before their 1960 divorce.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Stavros Niarchos",
+    "to_ko": "스타브로스 니아르호스",
+    "rel_type": "rival",
+    "note_ko": "리바노스 자매와 각각 결혼한 두 그리스 선박왕은 평생 선단 규모와 명성을 두고 겨룬 숙적이었다.",
+    "note_en": "The two Greek shipping magnates married the Livanos sisters and spent a lifetime outbidding each other in fleets and fame.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "헤티 그린": {
+  "relations": [
+   {
+    "to_en": "Edward Mott Robinson",
+    "to_ko": "에드워드 모트 로빈슨",
+    "rel_type": "father",
+    "note_ko": "퀘이커 고래상인 아버지 곁에서 여섯 살부터 신문 금융란을 읽어 주며 수완을 익혔고, 그 유산이 투자 자금의 씨앗이 됐다.",
+    "note_en": "She read the financial pages to her Quaker whaling-merchant father from age six and inherited the fortune she multiplied.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Edward Henry Green",
+    "to_ko": "에드워드 헨리 그린",
+    "rel_type": "spouse",
+    "note_ko": "1867년 에드워드 그린과 결혼해 재산 분리 계약을 맺고, 그의 사업 실패 뒤에도 부부 관계를 유지했다.",
+    "note_en": "Married Edward Green in 1867 under a separate-property agreement and stayed married even after his business failures.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Collis P. Huntington",
+    "to_ko": "콜리스 P. 헌팅턴",
+    "rel_type": "rival",
+    "note_ko": "친족 유산과 텍사스 철도 거래를 두고 헌팅턴이 자신을 속였다며 수십 년간 소송과 공개 비난을 이어갔다.",
+    "note_en": "She blamed railroad tycoon Huntington for cheating her in inheritance and Texas rail deals, feuding with him for decades.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "야코프 푸거": {
+  "relations": [
+   {
+    "to_en": "Charles V, Holy Roman Emperor",
+    "to_ko": "카를 5세",
+    "rel_type": "partner",
+    "note_ko": "1519년 황제 선거에서 카를 5세 진영에 거액을 대출해 선출을 사실상 사들였고, 광산과 영지를 담보로 잡았다.",
+    "note_en": "Fugger's loans bought Charles V the 1519 imperial election; mines and lands became the collateral.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Maximilian I, Holy Roman Emperor",
+    "to_ko": "막시밀리안 1세",
+    "rel_type": "partner",
+    "note_ko": "막시밀리안 1세의 전비와 치세를 대주는 대가로 티롤의 구리·은 광산 채굴권을 확보했다.",
+    "note_en": "He financed Maximilian I's wars and court, taking Tyrolean copper and silver mining rights as security.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Georg Fugger",
+    "to_ko": "게오르크 푸거",
+    "rel_type": "sibling",
+    "note_ko": "형 게오르크·울리히와 가업 상사를 공동 경영했고, 두 형의 죽음 뒤 단독으로 물려받아 제국을 키웠다.",
+    "note_en": "He ran the family firm jointly with brother Georg (and Ulrich), inheriting sole control after they died.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Bartholomäus Welser",
+    "to_ko": "바르톨로메우스 벨저",
+    "rel_type": "rival",
+    "note_ko": "아우크스부르크의 경쟁 상업 가문 벨저와 광산·해외 무역을 두고 다퉜고, 벨저는 황제 빚의 담보로 베네수엘라 식민지까지 얻었다.",
+    "note_en": "The rival Augsburg house of Welser fought the Fuggers for mines and overseas trade, even taking Venezuela as imperial collateral.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "만사 무사": {
+  "relations": [
+   {
+    "to_en": "Sundiata Keita",
+    "to_ko": "순디아타 케이타",
+    "rel_type": "relative",
+    "note_ko": "전승에서 만사 무사는 말리 제국 창건자 순디아타의 대조카로 전해지며, 그가 세운 제국을 최전성기로 이끌었다.",
+    "note_en": "Tradition makes Mansa Musa a grandnephew of Mali's founder Sundiata, whose empire he led to its golden age.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Abu Ishaq al-Sahili",
+    "to_ko": "알-사힐리",
+    "rel_type": "colleague",
+    "note_ko": "순례 귀환길에 합류한 안달루시아 시인·건축가 알-사힐리가 무사의 자금으로 팀북투의 진게레베르 모스크 등을 지었다.",
+    "note_en": "Andalusian poet-architect al-Sahili joined the returning hajj caravan and built Timbuktu's Djinguereber mosque on Musa's gold.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "크로이소스": {
+  "relations": [
+   {
+    "to_en": "Alyattes",
+    "to_ko": "알리아테스",
+    "rel_type": "father",
+    "note_ko": "아버지 알리아테스가 다스린 리디아를 물려받아 금화 주조의 전성기를 열었다.",
+    "note_en": "He inherited the Lydian throne from his father Alyattes and turned its gold into history's first true coinage.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Cyrus the Great",
+    "to_ko": "키루스 대왕",
+    "rel_type": "rival",
+    "note_ko": "신탁을 오해해 건너간 할뤼스강 너머에서 키루스의 페르시아에 패해 사르디스가 함락됐고, 크로이소스는 포로가 됐다.",
+    "note_en": "Misreading the oracle, Croesus crossed the Halys and lost Sardis to Cyrus's Persia, ending as the conqueror's prisoner-adviser.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Solon",
+    "to_ko": "솔론",
+    "rel_type": "influence",
+    "note_ko": "헤로도토스에 따르면 아테네 입법자 솔론이 궁을 찾아 '죽기 전까지 행복하다 말하지 말라'고 일렀고, 크로이소스는 화형대 위에서 그 말을 떠올렸다.",
+    "note_en": "Herodotus has Solon warn the king to count no man happy until he is dead — words Croesus recalled on the pyre.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "칼루스트 굴벤키안": {
+  "relations": [
+   {
+    "to_en": "Henri Deterding",
+    "to_ko": "헨리 데터딩",
+    "rel_type": "colleague",
+    "note_ko": "로열더치셸 수장 데터딩과 이라크석유회사 컨소시엄을 함께 짰고, 1928년 적선협정에서 굴벤키안의 평생 5% 지분이 확정됐다.",
+    "note_en": "With Shell chief Deterding he assembled the Iraq Petroleum consortium; the 1928 Red Line Agreement fixed Gulbenkian's lifelong five percent.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "바질 자하로프": {
+  "relations": [
+   {
+    "to_en": "Thorsten Nordenfelt",
+    "to_ko": "토르스텐 노르덴펠트",
+    "rel_type": "colleague",
+    "note_ko": "스웨덴 발명가 노르덴펠트의 판매 대리인으로 일하며 그리스·오스만·러시아에 잠수함을 팔았고, 회사 합병 뒤 비커스 대리인으로 옮겼다.",
+    "note_en": "As Nordenfelt's star agent he sold submarines to Greece, the Ottomans and Russia, then moved to Vickers after the merger.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Hiram Maxim",
+    "to_ko": "하이럼 맥심",
+    "rel_type": "colleague",
+    "note_ko": "기관총 발명가 맥심의 판매를 맡았고, 맥심-노르덴펠트 합병에 관여해 무기 판매의 양대 축을 손에 넣었다.",
+    "note_en": "He handled sales for machine-gun inventor Maxim and helped engineer the Maxim-Nordenfelt merger, holding both pillars of the arms trade.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Eleftherios Venizelos",
+    "to_ko": "엘레프테리오스 베니젤로스",
+    "rel_type": "friend",
+    "note_ko": "그리스 총리 베니젤로스와 가까워 전비를 대고 대학 석좌와 학교에 거액을 기부하며 그리스 편에 섰다.",
+    "note_en": "A confidant of Greek premier Venizelos, he funded the war effort and endowed Greek schools and chairs.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "파루크 왕": {
+  "relations": [
+   {
+    "to_en": "Fuad I of Egypt",
+    "to_ko": "푸아드 1세",
+    "rel_type": "father",
+    "note_ko": "푸아드 1세의 장남으로 16세에 왕위를 물려받았고, 왕실 재산과 영국과의 긴장 관계도 함께 떠안았다.",
+    "note_en": "Fuad I's son inherited the throne at sixteen, along with the royal fortune and the quarrel with Britain.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Farida of Egypt",
+    "to_ko": "파리다 왕비",
+    "rel_type": "spouse",
+    "note_ko": "1938년 사피나즈 줄피카르와 결혼해 '파리다'로 개명하게 했으나 세 딸만 얻은 뒤 1948년 이혼했다.",
+    "note_en": "He married Safinaz Zulficar in 1938, renamed her Farida, and divorced her in 1948 after three daughters and no son.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Gamal Abdel Nasser",
+    "to_ko": "가말 압델 나세르",
+    "rel_type": "rival",
+    "note_ko": "1952년 나세르가 이끈 자유장교단 쿠데타로 파루크는 퇴위와 망명을 강요당했고 이집트 왕정이 끝났다.",
+    "note_en": "Nasser's 1952 Free Officers coup forced Farouk's abdication and exile, ending the Egyptian monarchy.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "페기 구겐하임": {
+  "relations": [
+   {
+    "to_en": "Benjamin Guggenheim",
+    "to_ko": "벤저민 구겐하임",
+    "rel_type": "father",
+    "note_ko": "광산 재벌가의 아버지가 1912년 타이타닉에서 '신사답게' 침몰했고, 그 유산 일부가 훗날 컬렉션의 종잣돈이 됐다.",
+    "note_en": "Her mining-heir father went down 'like a gentleman' on the Titanic; her share of the estate later seeded the collection.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Solomon R. Guggenheim",
+    "to_ko": "솔로몬 R. 구겐하임",
+    "rel_type": "relative",
+    "note_ko": "숙부 솔로몬이 추상미술 컬렉션으로 뉴욕 구겐하임 미술관을 세웠고, 페기는 별개의 컬렉션으로 베네치아에 미술관을 남겼다.",
+    "note_en": "Uncle Solomon founded the New York Guggenheim with his abstract collection; Peggy built her own museum in Venice.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Max Ernst",
+    "to_ko": "막스 에른스트",
+    "rel_type": "spouse",
+    "note_ko": "1941년 초현실주의 화가 막스 에른스트를 나치 점령 유럽에서 데려와 결혼했고, 1946년에 이혼했다.",
+    "note_en": "She married surrealist Max Ernst in 1941 after helping him escape occupied Europe; they divorced in 1946.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Laurence Vail",
+    "to_ko": "로런스 베일",
+    "rel_type": "spouse",
+    "note_ko": "보헤미안 작가 로런스 베일과 1922년 결혼해 파리 아방가르드 생활을 시작했고 두 자녀를 둔 뒤 이혼했다.",
+    "note_en": "Her first marriage to bohemian writer Laurence Vail in 1922 opened her Paris avant-garde life; two children, then divorce.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Marcel Duchamp",
+    "to_ko": "마르셀 뒤샹",
+    "rel_type": "friend",
+    "note_ko": "뒤샹이 런던 갤러리와 컬렉션 구성을 조언하고 작품 선택을 도왔으며 두 사람은 평생 친구로 남았다.",
+    "note_en": "Duchamp advised her gallery and collection choices and remained a lifelong friend.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Jackson Pollock",
+    "to_ko": "잭슨 폴록",
+    "rel_type": "colleague",
+    "note_ko": "1943년 무명의 폴록과 월정액 계약을 맺고 대형 벽화를 의뢰해 그를 미국 화단의 스타로 만들었다.",
+    "note_en": "Her 1943 stipend contract and the townhouse mural commission turned the unknown Pollock into a star of American painting.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "이사벨라 스튜어트 가드너": {
+  "relations": [
+   {
+    "to_en": "John Lowell Gardner II",
+    "to_ko": "잭 가드너",
+    "rel_type": "spouse",
+    "note_ko": "1860년 보스턴 상인 잭 가드너와 결혼했고, 그의 재산과 유럽 동행 여행이 펜웨이 코트 컬렉션의 바탕이 됐다.",
+    "note_en": "Married Boston merchant Jack Gardner in 1860; his fortune and their European travels underwrote Fenway Court.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Bernard Berenson",
+    "to_ko": "버나드 베런슨",
+    "rel_type": "colleague",
+    "note_ko": "미술 감정가 베런슨이 수십 년간 이탈리아 르네상스 작품 매입을 자문해 컬렉션의 골자를 함께 만들었다.",
+    "note_en": "Connoisseur Berenson advised her Italian Renaissance purchases for decades, shaping the core of the collection.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "John Singer Sargent",
+    "to_ko": "존 싱어 사전트",
+    "rel_type": "friend",
+    "note_ko": "사전트가 가드너의 유명한 초상을 그렸고 미술관 안뜰 설계에도 조언한 평생 친구였다.",
+    "note_en": "Sargent painted her famous portrait, advised on the museum, and stayed a lifelong friend.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Henry James",
+    "to_ko": "헨리 제임스",
+    "rel_type": "friend",
+    "note_ko": "소설가 헨리 제임스와 오래 서신과 교제를 나눴고, 그의 작품 속 캐릭터의 모델로도 거론된다.",
+    "note_en": "She corresponded and socialised with Henry James for years and is cited as a model for his characters.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Okakura Kakuzo",
+    "to_ko": "오카쿠라 가쿠조",
+    "rel_type": "friend",
+    "note_ko": "보스턴 미술관 일본미술 부문장 오카쿠라가 그녀의 저택에 머물며 동양미술 수집과 안목을 함께 나눴다.",
+    "note_en": "Okakura Kakuzo, the MFA's Japanese art curator, stayed at her home and shared his eye for Asian art.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "제5대 포틀랜드 공작": {
+  "relations": [
+   {
+    "to_en": "William Bentinck, 4th Duke of Portland",
+    "to_ko": "제4대 포틀랜드 공작",
+    "rel_type": "father",
+    "note_ko": "제4대 공작의 아들로 1854년 작위와 웰벡 애비를 물려받았고, 그 넓은 지반 아래에 터널 제국을 팠다.",
+    "note_en": "He inherited the dukedom and Welbeck Abbey from the 4th Duke in 1854 — and dug his tunnel empire beneath it.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "William Cavendish-Bentinck, 6th Duke of Portland",
+    "to_ko": "제6대 포틀랜드 공작",
+    "rel_type": "relative",
+    "note_ko": "자녀 없이 죽어 작위와 웰벡 애비가 먼 사촌 윌리엄에게 넘어갔고, 그의 아들이 훗날 캐나다 총독을 지냈다.",
+    "note_en": "He died childless, so title and abbey passed to a distant cousin who became the 6th Duke.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "존 미튼": {
+  "relations": [
+   {
+    "to_en": "Charles James Apperley",
+    "to_ko": "찰스 제임스 애퍼리",
+    "rel_type": "friend",
+    "note_ko": "사냥 작가 '니므롯' 애퍼리가 미튼의 곁에서 기행을 함께 겪고 『존 미튼의 생애』를 써 그의 전설을 남겼다.",
+    "note_en": "Sporting writer 'Nimrod' Apperley rode beside Mytton's exploits and fixed the legend in his 'Life of John Mytton'.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "마르케사 카사티": {
+  "relations": [
+   {
+    "to_en": "Camillo Casati",
+    "to_ko": "카밀로 카사티",
+    "rel_type": "spouse",
+    "note_ko": "1900년 카사티 후작과 결혼해 후작부인 작위를 얻었으나 곧 별거했고, 그는 1946년 아르헨티나에서 총격으로 사망했다.",
+    "note_en": "Her 1900 marriage to Marchese Camillo Casati gave her the title; they soon separated but never divorced.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Gabriele D'Annunzio",
+    "to_ko": "가브리엘레 단눈치오",
+    "rel_type": "partner",
+    "note_ko": "1903년부터 시인 단눈치오와 열애하며 그의 무대와 살롱 세계를 함께 만들었고 서로의 이미지를 키웠다.",
+    "note_en": "Her long affair with poet D'Annunzio fed his theatre and her living-art persona — they built each other's legend.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Robert de Montesquiou",
+    "to_ko": "로베르 드 몽테스키우",
+    "rel_type": "influence",
+    "note_ko": "몽테스키우 백작의 탐미주의 세계에 심취해 그를 스승처럼 따랐고 '살아 있는 작품'이라는 자기 연출의 모델로 삼았다.",
+    "note_en": "She idolised aesthete Count Robert de Montesquiou, taking his dandyism as the model for her living-artwork persona.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Giovanni Boldini",
+    "to_ko": "조반니 볼디니",
+    "rel_type": "friend",
+    "note_ko": "볼디니가 카사티의 대표 초상들을 그렸고 두 사람은 파리 살롱에서 오래 교제했다.",
+    "note_en": "Boldini painted her signature portraits; the two moved together through the Paris salons for years.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Man Ray",
+    "to_ko": "만 레이",
+    "rel_type": "friend",
+    "note_ko": "만 레이가 촬영한 이중 노출 초상이 '눈동자가 네 개인 여자'의 이미지를 만들어 카사티의 아이콘이 됐다.",
+    "note_en": "Man Ray's double-exposure portrait — the woman with four pupils — became her defining image.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "윌리엄 베크포드": {
+  "relations": [
+   {
+    "to_en": "William Beckford (politician)",
+    "to_ko": "윌리엄 베크포드 (런던시장)",
+    "rel_type": "father",
+    "note_ko": "두 번 런던시장을 지낸 당대 최고 갑부 아버지의 재산을 물려받아 『바텍』과 폰트힐 건축의 자금이 됐다.",
+    "note_en": "He inherited the fortune of his father — twice Lord Mayor of London — which paid for 'Vathek' and Fonthill.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Margaret Gordon",
+    "to_ko": "마거릿 고든",
+    "rel_type": "spouse",
+    "note_ko": "1783년 마거릿 고든과 결혼했으나 1786년 출산으로 세상을 떠났고 베크포드는 재혼하지 않았다.",
+    "note_en": "He married Margaret Gordon in 1783; she died in childbirth in 1786 and he never remarried.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "William Courtenay, 9th Earl of Devon",
+    "to_ko": "윌리엄 코트니",
+    "rel_type": "partner",
+    "note_ko": "1784년 코트니와의 스캔들 폭로로 사교계에서 추방돼 유럽을 떠돌았고, 이 사건이 두 사람의 평생을 따라다녔다.",
+    "note_en": "The 1784 scandal over young William Courtenay drove Beckford out of society and shadowed both men for life.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "James Wyatt",
+    "to_ko": "제임스 와이엇",
+    "rel_type": "colleague",
+    "note_ko": "건축가 와이엇이 폰트힐 애비의 고딕 대탑을 설계했고, 90m 탑은 완성과 붕괴를 거듭했다.",
+    "note_en": "Architect James Wyatt designed Fonthill Abbey's Gothic tower, which rose 90 metres and collapsed more than once.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "조슈아 노턴": {
+  "relations": [
+   {
+    "to_en": "Mark Twain",
+    "to_ko": "마크 트웨인",
+    "rel_type": "friend",
+    "note_ko": "샌프란시스코 신문기자 시절 트웨인이 '황제' 노턴과 교유했고, 훗날 『허클베리 핀』의 '왕' 캐릭터의 모델로 꼽힌다.",
+    "note_en": "Reporter Mark Twain knew the 'Emperor' in San Francisco and is said to have drawn on him for the King in 'Huckleberry Finn'.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "티모시 덱스터": {
+  "relations": [
+   {
+    "to_en": "Elizabeth Lord Dexter",
+    "to_ko": "엘리자베스 덱스터",
+    "rel_type": "spouse",
+    "note_ko": "부인 엘리자베스가 살아 있는데도 스스로 '미망인'이라 칭하고 그녀를 '유령' 취급하는 기행을 저질렀다.",
+    "note_en": "Though his wife Elizabeth lived in the house, Dexter called himself a widower and treated her as a ghost.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Jonathan Plummer",
+    "to_ko": "조나선 플러머",
+    "rel_type": "colleague",
+    "note_ko": "생선장수 출신 플러머를 '계관시인'으로 고용해 자신을 찬미하는 시와 집 설명서를 쓰게 했다.",
+    "note_en": "He hired former fishmonger Jonathan Plummer as his resident poet laureate to pen odes and catalogues of his estate.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "P.T. 바넘": {
+  "relations": [
+   {
+    "to_en": "James Anthony Bailey",
+    "to_ko": "제임스 앤서니 베일리",
+    "rel_type": "partner",
+    "note_ko": "1881년 경쟁 서커스주 베일리와 합병해 '바넘 앤드 베일리 — 지상 최대의 쇼'를 만들었다.",
+    "note_en": "He merged with rival showman James Bailey in 1881 to create Barnum & Bailey, 'The Greatest Show on Earth'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles Stratton",
+    "to_ko": "찰스 스트래턴",
+    "rel_type": "colleague",
+    "note_ko": "네 살 난쟁이 찰스 스트래턴을 '톰 엄지 장군'으로 발탁해 유럽 순회공연을 함께 다니며 둘 다 스타가 됐다.",
+    "note_en": "He made four-year-old Charles Stratton into 'General Tom Thumb' and toured him through Europe, making both famous.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jenny Lind",
+    "to_ko": "제니 린드",
+    "rel_type": "colleague",
+    "note_ko": "1850년 '스웨덴의 나이팅게일' 제니 린드의 미국 투어를 기획해 미증유의 공연 열풍과 수익을 만들었다.",
+    "note_en": "His 1850 American tour for the 'Swedish Nightingale' Jenny Lind created an unprecedented entertainment frenzy.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "로버트 리플리": {
+  "relations": [
+   {
+    "to_en": "Norbert Pearlroth",
+    "to_ko": "노버트 펄로스",
+    "rel_type": "colleague",
+    "note_ko": "15개 국어를 읽는 연구원 펄로스를 두고 50년 가까이 '믿거나 말거나' 전 항목의 사실 확인을 맡겼다.",
+    "note_en": "Polyglot researcher Norbert Pearlroth spent nearly 50 years verifying every 'Believe It or Not!' item for him.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "존 매카피": {
+  "relations": [
+   {
+    "to_en": "Janice Dyson McAfee",
+    "to_ko": "재니스 맥아피",
+    "rel_type": "spouse",
+    "note_ko": "2013년 재니스 다이슨과 결혼해 벨리즈 도피 이후의 도주 생활과 말년을 함께했다.",
+    "note_en": "He married Janice Dyson in 2013; she shared his fugitive years and fought his death-in-custody ruling.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Gregory Faull",
+    "to_ko": "그레고리 폴",
+    "rel_type": "rival",
+    "note_ko": "벨리즈 이웃 그레고리 폴과 개 문제로 앙숙이 됐고, 2012년 폴이 피살되자 맥아피는 용의선상에서 도주했다.",
+    "note_en": "He feuded with neighbour Gregory Faull over his dogs; when Faull was shot dead in 2012, McAfee fled as a wanted man.",
+    "prospect": "skip"
+   }
+  ]
+ }
+}

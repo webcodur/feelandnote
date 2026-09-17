@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "토머스 블러드",
+    "title": "왕관 도둑",
+    "title_en": "The Crown Jewel Thief",
+    "file": "military.json"
+  },
+  {
+    "nick": "잭 셰퍼드",
+    "title": "탈옥의 달인",
+    "title_en": "The Escape Artist",
+    "file": "military.json"
+  },
+  {
+    "nick": "로만 폰 운게른슈테른베르크",
+    "title": "미친 남작",
+    "title_en": "The Mad Baron",
+    "file": "military.json"
+  },
+  {
+    "nick": "네스토르 마흐노",
+    "title": "아나키스트 사령관",
+    "title_en": "The Anarchist Commander",
+    "file": "military.json"
+  },
+  {
+    "nick": "오드 윈게이트",
+    "title": "친딧 창설자",
+    "title_en": "Founder of the Chindits",
+    "file": "military.json"
+  },
+  {
+    "nick": "블라디미르 페니아코프",
+    "title": "사립군 대장",
+    "title_en": "Popski's Private Army",
+    "file": "military.json"
+  },
+  {
+    "nick": "윌리엄 워커",
+    "title": "니카라과의 자칭 대통령",
+    "title_en": "The Filibuster President",
+    "file": "power.json"
+  },
+  {
+    "nick": "조사이어 할런",
+    "title": "고르의 왕자",
+    "title_en": "Prince of Ghor",
+    "file": "power.json"
+  },
+  {
+    "nick": "애런 버",
+    "title": "해밀턴을 쏜 부통령",
+    "title_en": "The VP Who Killed Hamilton",
+    "file": "power.json"
+  },
+  {
+    "nick": "이디 아민",
+    "title": "캄팔라의 도살자",
+    "title_en": "The Butcher of Kampala",
+    "file": "power.json"
+  },
+  {
+    "nick": "모부투 세세 세코",
+    "title": "도둑 군주의 표본",
+    "title_en": "The Kleptocrat",
+    "file": "power.json"
+  },
+  {
+    "nick": "장베델 보카사",
+    "title": "자칭 황제",
+    "title_en": "The Self-Crowned Emperor",
+    "file": "power.json"
+  },
+  {
+    "nick": "사파르무라트 니야조프",
+    "title": "튀르크멘바시",
+    "title_en": "Turkmenbashi",
+    "file": "power.json"
+  },
+  {
+    "nick": "무아마르 카다피",
+    "title": "리비아의 형제 지도자",
+    "title_en": "Brother Leader",
+    "file": "power.json"
+  },
+  {
+    "nick": "파블로 에스코바르",
+    "title": "메데인 카르텔의 왕",
+    "title_en": "The King of Cocaine",
+    "file": "power.json"
+  },
+  {
+    "nick": "조그 1세",
+    "title": "55번의 암살 미수",
+    "title_en": "Fifty-Five Assassination Attempts",
+    "file": "power.json"
+  },
+  {
+    "nick": "하일레 셀라시에",
+    "title": "유다의 사자",
+    "title_en": "The Lion of Judah",
+    "file": "power.json"
+  },
+  {
+    "nick": "밀란 오블레노비치 1세",
+    "title": "세르비아의 비극 국왕",
+    "title_en": "Serbia's Tragic King",
+    "file": "power.json"
+  },
+  {
+    "nick": "수브코만단테 마르코스",
+    "title": "스키마스크의 게릴라",
+    "title_en": "The Masked Subcomandante",
+    "file": "power.json"
+  },
+  {
+    "nick": "빅토르 부트",
+    "title": "「로드 오브 워」의 실제 모델",
+    "title_en": "The real-life Lord of War",
+    "file": "power.json"
+  },
+  {
+    "nick": "킴 닷컴",
+    "title": "메가업로드 설립",
+    "title_en": "Megaupload founder",
+    "file": "power.json"
+  },
+  {
+    "nick": "로스 울브리히트",
+    "title": "실크로드의 주인",
+    "title_en": "The Dread Pirate Roberts",
+    "file": "power.json"
+  },
+  {
+    "nick": "소피아 슐리만",
+    "title": "트로이의 보물을 걸친 여인",
+    "title_en": "The Woman in Priam's Treasure",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "프랭크 캘버트",
+    "title": "트로이를 먼저 본 남자",
+    "title_en": "The Man Who Found Troy First",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "아서 캘런더",
+    "title": "카터의 오른팔",
+    "title_en": "Carter's Right Hand",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "알미나 카나번",
+    "title": "투탕카멘의 후원자",
+    "title_en": "The Patron Behind the Tomb",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "오브리 허버트",
+    "title": "알바니아의 왕이 될 뻔한 남자",
+    "title_en": "The Nearly King of Albania",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "헨리 솔트",
+    "title": "이집트의 영국 수집가",
+    "title_en": "Britain's Collector in Egypt",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "베르나르디노 드로베티",
+    "title": "나일의 프랑스 수집가",
+    "title_en": "France's Collector on the Nile",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "롤리 리멜",
+    "title": "Z를 찾다 사라진 청년",
+    "title_en": "The Young Man Who Vanished Seeking Z",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "헨리 코스틴",
+    "title": "살아남은 동행자",
+    "title_en": "The Companion Who Stayed Behind",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "알프레다 빙엄",
+    "title": "마추픽추의 후원자",
+    "title_en": "The Fortune Behind Machu Picchu",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "멜초르 아르테아가",
+    "title": "마추픽추의 길잡이",
+    "title_en": "The Guide to Machu Picchu",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "던컨 매켄지",
+    "title": "크노소스의 현장 책임자",
+    "title_en": "Field Boss of Knossos",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "페데리코 할베르",
+    "title": "고르틴 법전의 발견자",
+    "title_en": "Discoverer of the Gortyn Code",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "엘리자베스 필팟",
+    "title": "라임리지스의 화석 자매",
+    "title_en": "Lyme's Fossil Sister",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "헨리 드 라 베슈",
+    "title": "두리아 안티퀴오르의 화가",
+    "title_en": "Painter of Duria Antiquior",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "릴리언 브라운",
+    "title": "공룡과 결혼한 여자",
+    "title_en": "The Woman Who Married a Dinosaur",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "찰스 스턴버그",
+    "title": "화석 가문의 아버지",
+    "title_en": "Father of a Fossil Dynasty",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "존 벨 해처",
+    "title": "마시의 최고 수집가",
+    "title_en": "Marsh's Best Bone Hunter",
+    "file": "round2-archaeology.json"
+  }
+]

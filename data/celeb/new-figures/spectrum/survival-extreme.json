@@ -1,0 +1,3746 @@
+{
+ "휴 글래스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 1,
+   "strategic_exp": "모피 원정대의 정찰·추격 경험만 있음",
+   "strategic_exp_en": "Only scouting and tracking in fur expeditions",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여와 무관",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "개척 시대 생존·복수 서사의 원형을 남김",
+   "social_exp_en": "Left a prototype of the frontier survival tale",
+   "economic": 1,
+   "economic_exp": "미주리강 모피 무역의 일선 인부였을 뿐",
+   "economic_exp_en": "A field hand of the Missouri fur trade, nothing more",
+   "cultural": 6,
+   "cultural_exp": "영화 '레버넌트'와 개척 문학의 실제 모델",
+   "cultural_exp_en": "The real-life model for 'The Revenant' and frontier lore",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "이백 년 가까이 구전·영화로 살아남은 생존 서사",
+   "transhistoricity_exp_en": "A survival tale kept alive nearly two centuries by legend and film"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 18,
+     "reason_ko": "모피 원정대에서 지휘 없이 대원으로 복무",
+     "reason_en": "Served as a rank-and-file member of fur expeditions"
+    },
+    "martial": {
+     "score": 88,
+     "reason_ko": "1823년 곰 습격 후 부러진 다리로 300km를 기어옴",
+     "reason_en": "Crawled 300 km on a broken leg after the 1823 mauling"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "300km 생환 중 식량과 방향을 스스로 구하고 판단",
+     "reason_en": "Found food and bearings himself across 300 km of wilderness"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "생존담이 평생 회자되고 사후 영화 주인공이 됨",
+     "reason_en": "His tale was retold all his life and later became a film"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "복수보다 생환을 먼저 택해 체력과 물자를 배분",
+     "reason_en": "Chose survival over revenge first, rationing his strength"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "기어온 뒤에도 모피 사냥꾼으로 10년을 더 일함",
+     "reason_en": "Returned to trapping and worked a decade more"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "생환 뒤 경위를 글로 남기지 않고 현업으로 복귀",
+     "reason_en": "Left no written account; simply went back to work"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "자신을 버린 두 사람을 찾아 적대 지역을 다시 건넘",
+     "reason_en": "Re-crossed hostile country to find the men who left him"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "원정대 소속으로 복무를 계속하다 1833년 현장에서 전사",
+     "reason_en": "Kept serving expeditions until killed in the field in 1833"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "자신을 버린 소년 브리저를 해치지 않았다고 전해짐",
+     "reason_en": "He reportedly spared the young Bridger who abandoned him"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "추적 대상을 자신을 버린 두 사람으로 한정함",
+     "reason_en": "He confined his reckoning to the two who had left him"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "생환 후 명성을 구하지 않고 모피 사냥에 복귀",
+     "reason_en": "Sought no fame after surviving; went back to trapping"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "죽은 자 취급 속에서도 생환을 끝까지 전제함",
+     "reason_en": "Treated as dead, he still acted as if he would live"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "변경 모피상으로 질서 논쟁에 발언한 행적이 드묾",
+     "reason_en": "A frontier trapper with little say on questions of order"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "버려진 뒤 누구도 기대지 않고 혼자 기어옴",
+     "reason_en": "Abandoned, he crawled out relying on no one"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "곰 습격 직전까지 단독 정찰을 자처한 개척자",
+     "reason_en": "A scout who volunteered for solo reconnaissance"
+    }
+   },
+   "rationale_ko": "회색곰에게 찢기고 부러진 다리로 300km를 기어 생환했다. 버려진 뒤에도 복수 대상을 두 사람으로 한정한 자제와, 다시 모피 사냥에 돌아간 근면이 함께 남는다. 이 서사가 영화 '레버넌트'의 실제 모델이 됐다.",
+   "rationale_en": "Mauled by a grizzly, Glass crawled some 300 km on a broken leg to reach the men who had left him for dead. He confined his reckoning to the two who abandoned him and quietly returned to trapping. His ordeal became the real-life basis of 'The Revenant'."
+  }
+ },
+ "알렉산더 셀커크": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 1,
+   "strategic_exp": "사략선 항해사로 복무한 군사 경력뿐",
+   "strategic_exp_en": "Only service as sailing master on a privateer",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여와 무관",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "무인도 생존담이 자립 서사의 원형으로 회자",
+   "social_exp_en": "His island story became a template of self-reliance",
+   "economic": 1,
+   "economic_exp": "사략 원정 분배금 외 경제 활동 단서 드묾",
+   "economic_exp_en": "Beyond privateer prize money, little economic trace",
+   "cultural": 6,
+   "cultural_exp": "디포 『로빈슨 크루소』의 실제 모델",
+   "cultural_exp_en": "The real-life model for Defoe's Robinson Crusoe",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "크루소를 통해 삼백 년간 문학사에 남은 실존 선원",
+   "transhistoricity_exp_en": "Through Crusoe he has lived in literature for three centuries"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "사략선에서 항해사 겸 갑판장으로 복무",
+     "reason_en": "Served as sailing master aboard the privateer"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "염소를 맨발로 추격해 잡으며 4년 4개월 생존",
+     "reason_en": "Ran down goats barefoot through four years alone"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "오두막 두 채와 도구를 짓고 염소·고양이를 길들임",
+     "reason_en": "Built huts and tools, tamed goats and cats"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "구조 후 사연이 스틸의 잡지와 디포 소설을 낳음",
+     "reason_en": "His tale inspired Steele's essay and Defoe's novel"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "섬에서 음주·향락 없이 규칙적 일과를 지킴",
+     "reason_en": "Kept a sober, regular routine on the island"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "4년 내내 사냥·기도·도구 관리의 일과를 유지",
+     "reason_en": "Kept up hunting, prayer and tool care for four years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "구조 후 섬 생활을 '더 나은 크리스천'의 시간으로 술회",
+     "reason_en": "He called the island years his better Christian life"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "선장과 다투고 스스로 무인도 하선을 요구",
+     "reason_en": "Quarreled with his captain and demanded to be marooned"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "불화로 선단을 이탈했으나 귀국 후 해군에 복귀",
+     "reason_en": "Left the squadron in a quarrel, later rejoined the navy"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "들고양이를 길들여 쥐 떼로부터 스스로를 지킴",
+     "reason_en": "Tamed feral cats to keep the rats at bay"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "불만을 하선 요구로 표출했을 뿐 타인 피해는 없음",
+     "reason_en": "Voiced grievance by asking ashore; harmed no one"
+    },
+    "humility": {
+     "score": 52,
+     "reason_ko": "구조 후 사연을 스틸에게 담담하게 술회",
+     "reason_en": "Told his story to Steele without embellishment"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "초기 절망 뒤 일과를 세우고 구조를 기다림",
+     "reason_en": "After early despair he set routines and waited for rescue"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서 문제와 무관한 항해사 생애",
+     "reason_en": "A sailor's life untouched by questions of order"
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "스스로 고립을 선택하고 4년 4개월을 혼자 삶",
+     "reason_en": "Chose isolation and lived alone four years"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "선박 불신 한 번으로 무인도 생활을 택함",
+     "reason_en": "Distrust of one ship made him choose a desert island"
+    }
+   },
+   "rationale_ko": "선장과 다툰 뒤 스스로 무인도에 남기를 요구해 4년 4개월을 혼자 살았다. 고립을 택할 만큼 개인적이었으나 엄격한 일과로 생존을 지켰고 귀환 뒤 자기 성찰을 남겼다. 그 경험이 『로빈슨 크루소』의 모델이 됐다.",
+   "rationale_en": "After a quarrel with his captain, Selkirk asked to be put ashore and lived alone on the island for four years. Fiercely individual yet disciplined, he kept strict routines and later spoke of the ordeal with self-knowledge. His survival became the model for Robinson Crusoe."
+  }
+ },
+ "푼 림": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 1,
+   "strategic_exp": "구명뗏목 생존 수법이 해군 생존 교범에 인용",
+   "strategic_exp_en": "His raft techniques were cited in naval survival manuals",
+   "tech": 1,
+   "tech_exp": "못·손전등으로 만든 생존 도구 사용법을 입증",
+   "tech_exp_en": "Proved improvised survival gear from nails and a torch",
+   "social": 2,
+   "social_exp": "전시 중국계 선원 생존의 상징으로 회자",
+   "social_exp_en": "A wartime emblem of the lone Chinese seaman's survival",
+   "economic": 0,
+   "economic_exp": "경제 활동·산업 기여와 무관",
+   "economic_exp_en": "No economic or industrial role",
+   "cultural": 3,
+   "cultural_exp": "기네스 최장 단독 바다 생존 기록의 주인공",
+   "cultural_exp_en": "Holder of the longest solo survival at sea",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "133일 단독 표류 기록이 팔십 년째 유지",
+   "transhistoricity_exp_en": "His 133-day record has stood for eighty years"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "영국 상선 식당 보이로 근무하며 지휘 단서 없음",
+     "reason_en": "A merchant ship's mess boy with no command record"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "뗏목에서 수영·낚시·빗물 채집으로 133일을 버팀",
+     "reason_en": "Swam, fished and caught rainwater for 133 days adrift"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "못으로 낚시바늘, 천으로 물 저장장치를 만들어 생존",
+     "reason_en": "Fashioned hooks from nails and a rain-catcher from cloth"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "구조 후 수수한 태도로 전후 언론의 주목을 받음",
+     "reason_en": "His unassuming manner drew the postwar press"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 78,
+     "reason_ko": "133일간 비스킷과 물을 극소량씩 엄격히 배분",
+     "reason_en": "Rationed biscuits and water strictly for 133 days"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "매일 낚시와 물 채집, 돛 관리의 일과를 반복",
+     "reason_en": "Repeated a daily round of fishing, water and sail care"
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "생존 뒤 기록이 깨지지 않길 바란다고 담담히 회고",
+     "reason_en": "He quietly said he hoped his record would never be broken"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "갈매기·상어까지 잡아 먹으며 혼자 바다와 대치",
+     "reason_en": "Caught gulls and even a shark, facing the sea alone"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "구조한 브라질 어민 가족과 오래 연락을 이어감",
+     "reason_en": "Kept long contact with the Brazilian family that saved him"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "다른 누구도 같은 고통을 겪지 않길 바랐다고 말함",
+     "reason_en": "He wished no one would ever have to match his ordeal"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "식량·물 배분을 스스로에게 동일하게 적용",
+     "reason_en": "Applied his rationing to himself without exception"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "누구라도 그렇게 했을 것이라며 공을 낮춤",
+     "reason_en": "He said anyone in his place would have done the same"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "배가 지나갈 때마다 신호를 내며 구조를 기대",
+     "reason_en": "Signalled every passing ship, expecting rescue"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "전시 선원으로 질서 담론과 거리를 둠",
+     "reason_en": "A wartime seaman apart from debates on order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "133일을 완전히 혼자 견뎌낸 단독 생존",
+     "reason_en": "Endured 133 days entirely alone"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "위험 감수와 철저한 절약 사이에서 균형 유지",
+     "reason_en": "Balanced risk-taking with strict thrift"
+    }
+   },
+   "rationale_ko": "뗏목 위 133일은 절제와 끈기의 기록이었다. 상어까지 잡아먹을 대담함과 물 한 모금을 아끼는 신중함을 동시에 보였다. 구조 후 그는 자기 기록이 깨지지 않기를, 곧 누구도 같은 고통을 겪지 않기를 바란다고 말했다.",
+   "rationale_en": "His 133 days on the raft were a record of discipline and tenacity — bold enough to eat shark, careful enough to ration each sip of water. Rescued, he said he hoped his record would never be broken, because no one should suffer as he had."
+  }
+ },
+ "율리아네 쾨프케": {
+  "influence": {
+   "political": 1,
+   "political_exp": "판과나 보호구역 지정 추진에 참여",
+   "political_exp_en": "Helped push for the Panguana reserve designation",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 4,
+   "tech_exp": "박쥐 연구 동물학 박사로 수십 년 아마존 현장 연구",
+   "tech_exp_en": "A zoology PhD with decades of Amazon field research on bats",
+   "social": 3,
+   "social_exp": "유일 생존자로서 아마존 보존 운동에 헌신",
+   "social_exp_en": "As sole survivor she devoted herself to Amazon conservation",
+   "economic": 0,
+   "economic_exp": "경제 활동·산업 기여와 무관",
+   "economic_exp_en": "No economic or industrial role",
+   "cultural": 4,
+   "cultural_exp": "헤어초크 다큐 '희망의 날개'의 주인공",
+   "cultural_exp_en": "Subject of Herzog's documentary 'Wings of Hope'",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "낙하 생존 사례가 항공·생존 문헌에 계속 인용",
+   "transhistoricity_exp_en": "Her fall survival is still cited in aviation literature"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "부모가 세운 판과나 연구소를 이어받아 소장으로 운영",
+     "reason_en": "Took over and directed the Panguana research station"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "중상 몸으로 정글을 11일 걸어 빠져나옴",
+     "reason_en": "Walked wounded through the jungle for eleven days"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "동물학 박사로 박쥐 분류 연구를 수십 년 지속",
+     "reason_en": "A zoology doctorate and decades of bat taxonomy"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "낙하 생존담으로 국제 언론과 다큐의 주목을 받음",
+     "reason_en": "Her fall story drew international media and film"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "명성을 이용하지 않고 정글 연구 생활을 유지",
+     "reason_en": "Declined to trade on fame; kept a jungle research life"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "수십 년간 판과나 현장 조사와 보호 활동을 지속",
+     "reason_en": "Sustained decades of fieldwork and protection at Panguana"
+    },
+    "reflection": {
+     "score": 68,
+     "reason_ko": "회고록에서 추락과 생존의 의미를 되짚어 서술",
+     "reason_en": "Her memoir re-examines the fall and what survival meant"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "열일곱에 홀로 정글을 걸어 나오고 그곳에서 일함",
+     "reason_en": "Walked out alone at seventeen, then worked in that jungle"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "부모의 연구소를 평생 지키며 보호구역으로 확대",
+     "reason_en": "Kept her parents' station for life and made it a reserve"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "생존 이후 아마존 생태 보존에 생애를 바침",
+     "reason_en": "Devoted her life after survival to Amazon conservation"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "연구소 운영과 학술 활동 중심의 삶",
+     "reason_en": "A life centred on research and station work"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "영웅이 아니라 운이 좋았을 뿐이라고 스스로 낮춤",
+     "reason_en": "She insists she was lucky, not a hero"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "추락 직후에도 강을 따라 걸으면 산다고 판단",
+     "reason_en": "Right after the fall she reasoned that rivers lead out"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "과학·보존 활동 중심으로 사회 질서 발언과 거리 둠",
+     "reason_en": "Kept to science and conservation, not debates on order"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "정글 연구소 중심의 외딴 생활을 택함",
+     "reason_en": "Chose a remote life centred on a jungle station"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "구조 뒤에도 같은 정글로 돌아가 연구를 택함",
+     "reason_en": "Returned to the very jungle to work"
+    }
+   },
+   "rationale_ko": "열일곱에 3km를 떨어져 11일 만에 정글을 걸어 나왔고 생존한 바로 그 숲에서 평생 일하기를 택했다. 명성을 누리기보다 판과나 연구소를 지키며 박쥐 연구와 보호구역 지정에 생애를 바쳤다. 낙하 생존 기록은 지금도 항공 문헌에 인용된다.",
+   "rationale_en": "She fell three kilometres at seventeen and walked out of the jungle in eleven days, then chose to spend her life in that very forest. Rather than trade on fame she kept the Panguana station, studied bats, and won it reserve status. Her survival is still cited in aviation literature."
+  }
+ },
+ "베스나 불로비치": {
+  "influence": {
+   "political": 1,
+   "political_exp": "1990년대 밀로셰비치 반대 시위에 참여",
+   "political_exp_en": "Joined anti-Milošević protests in the 1990s",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "만 미터 추락 생존 사례로 항공 의학 문헌에 인용",
+   "tech_exp_en": "Her 10 km fall survival is cited in aviation medicine",
+   "social": 2,
+   "social_exp": "기네스 최고고도 추락 생존자로 사회적 화제",
+   "social_exp_en": "A public sensation as the highest fall survivor",
+   "economic": 0,
+   "economic_exp": "경제 활동·산업 기여와 무관",
+   "economic_exp_en": "No economic or industrial role",
+   "cultural": 4,
+   "cultural_exp": "만 미터 낙하 생존담이 다큐·방송으로 반복 소개",
+   "cultural_exp_en": "Her fall has been retold in documentaries and broadcasts",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "반세기째 최고고도 낙하 생존 기록으로 남음",
+   "transhistoricity_exp_en": "Her record has stood for half a century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "JAT 객실승무원과 사무직으로 복무",
+     "reason_en": "Served as a JAT cabin attendant and office worker"
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "추락 후유증으로 절뚝거림이 남았으나 일상을 회복",
+     "reason_en": "Left with a limp from the fall yet rebuilt daily life"
+    },
+    "intellect": {
+     "score": 45,
+     "reason_ko": "승무원 훈련 이수 후 8개월 근무 중 사고를 당함",
+     "reason_en": "Eight months into the job after cabin-crew training"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "추락 생존담으로 유고 전역의 유명인이 됨",
+     "reason_en": "The fall made her a household name across Yugoslavia"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "유명세에도 검소한 아파트 생활을 유지",
+     "reason_en": "Kept a modest flat despite the fame"
+    },
+    "diligence": {
+     "score": 48,
+     "reason_ko": "부상으로 조기 은퇴 뒤 소박하게 생활",
+     "reason_en": "Retired early on injuries and lived quietly"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "생존자 죄책감은 없다고 스스로를 정리해 밝힘",
+     "reason_en": "She said plainly she felt no survivor's guilt"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "회복 후 다시 비행에 올랐고 정권 비판 시위에도 참여",
+     "reason_en": "Flew again after recovery and joined anti-regime protests"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "JAT에서 해고돼도 고향 베오그라드에 남아 생활",
+     "reason_en": "Dismissed by JAT, she stayed and lived on in Belgrade"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "추락 생존담 외 선행 단서가 드묾",
+     "reason_en": "Little on record beyond the survival story itself"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "객실 규정 업무 수행 외 별도 판단 사례 드묾",
+     "reason_en": "Routine cabin duties; few recorded judgments"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "기네스 스타면서도 생존을 순전히 운으로 돌림",
+     "reason_en": "A Guinness star who credited her survival to luck"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "스스로를 가장 운 좋은 사람으로 불렀다고 전해짐",
+     "reason_en": "She reportedly called herself the luckiest woman"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "밀로셰비치 반대 시위에 나가 민주화를 지지",
+     "reason_en": "Backed democratisation in the anti-Milošević protests"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "시위에는 참여했으나 평소 조용한 사적 생활 유지",
+     "reason_en": "Joined protests yet kept a quiet private life"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "치료 직후 곧바로 다시 비행기에 오름",
+     "reason_en": "Boarded an aircraft again soon after recovery"
+    }
+   },
+   "rationale_ko": "만 미터를 떨어져 살아남았으나 그 사실을 능력이 아닌 운으로 돌렸다. 기네스 명성에도 검소하게 살았고 회복 뒤 다시 비행했으며 밀로셰비치 반대 시위에도 나섰다. 유고 정부는 그녀를 JAT에서 해고했다.",
+   "rationale_en": "Vulović survived a ten-kilometre fall yet credited it to luck, not prowess. She lived modestly despite Guinness fame, flew again after recovery, and joined protests against Milošević — for which JAT dismissed her."
+  }
+ },
+ "마우로 프로스페리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "9일 사하라 표류 사례로 생존 문헌에 인용",
+   "tech_exp_en": "His nine-day Sahara ordeal is cited in survival literature",
+   "social": 2,
+   "social_exp": "극한 레이스 생존담이 지구력 스포츠계에 회자",
+   "social_exp_en": "His tale circulates in endurance-sport circles",
+   "economic": 1,
+   "economic_exp": "생존 강연 활동을 이어감",
+   "economic_exp_en": "Built a motivational speaking livelihood",
+   "cultural": 3,
+   "cultural_exp": "사하라 표류담이 다큐·생존 프로그램으로 제작",
+   "cultural_exp_en": "His desert story was told in documentaries and TV",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "사막 마라톤 역사의 대표 생존 사례로 회자",
+   "transhistoricity_exp_en": "A landmark survival case in desert racing history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "이탈리아 경찰로 근무하며 소규모 업무를 수행",
+     "reason_en": "Served as an Italian police officer on routine duties"
+    },
+    "martial": {
+     "score": 86,
+     "reason_ko": "울트라마라토너로 9일간 사하라 300km를 걸어 생환",
+     "reason_en": "An ultramarathoner who walked 300 km through the Sahara"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "도마뱀·박쥐·소변까지 활용한 생존 판단을 보임",
+     "reason_en": "Survived on lizards, bats and urine by shrewd judgement"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "생존담으로 동기부여 강연 무대에 섬",
+     "reason_en": "Turned the ordeal into a motivational speaking career"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "9일간 극소량 수분과 먹을거리를 배분해 버팀",
+     "reason_en": "Rationed scant water and food across nine days"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "사고 전후로 울트라 레이스 훈련을 계속",
+     "reason_en": "Kept training for ultras before and after the ordeal"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "자살 시도 순간을 공개적으로 되짚어 증언",
+     "reason_en": "Speaks openly of the moment he tried to die"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "죽으려던 순간 삶을 택해 300km를 더 걸음",
+     "reason_en": "Chose life at the edge of death and walked on"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "가족에게 돌아가겠다는 결심으로 생환을 완주",
+     "reason_en": "The resolve to return to family carried him home"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "자기 경험을 강연으로 나누는 활동을 이어감",
+     "reason_en": "Shares the experience through public talks"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "경찰 근무 중 평판에 대한 단서 드묾",
+     "reason_en": "Little recorded of his conduct in police service"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "생환을 기적으로 말하며 자신의 공을 낮춤",
+     "reason_en": "Calls the survival a miracle rather than his doing"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 22,
+     "reason_ko": "사당에서 죽음을 택했다가 삶을 다시 결심",
+     "reason_en": "Tried to die in the shrine, then resolved to live"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "경찰·선수 생애로 질서 담론과 거리를 둠",
+     "reason_en": "A policeman-athlete apart from debates on order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "홀로 사막을 건너는 울트라 종목의 선수",
+     "reason_en": "A solo runner in a sport of crossing deserts alone"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "코스를 이탈한 뒤 알제리 방향으로 스스로 걸어 나감",
+     "reason_en": "Off course, he walked himself out toward Algeria"
+    }
+   },
+   "rationale_ko": "사막에서 길을 잃고 죽음까지 시도했으나 삶을 다시 선택해 300km를 걸어 나왔다. 울트라마라토너의 지구력과 극도의 절제가 생환을 만들었다. 이후 그 이야기로 강연 무대에 섰다.",
+   "rationale_en": "Lost in the Sahara, Prosperi tried to die, then chose to live and walked 300 km to safety. An ultramarathoner's endurance and extreme rationing carried him out. He later took that story to the speaking stage."
+  }
+ },
+ "벡 웨더스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "저체온 코마 생존 사례로 고산 의학에 인용",
+   "tech_exp_en": "His hypothermic-coma survival is cited in mountain medicine",
+   "social": 3,
+   "social_exp": "1996년 참사 이후 상업 등반 윤리 논의의 상징",
+   "social_exp_en": "A face of the ethics debate on commercial Everest climbing",
+   "economic": 1,
+   "economic_exp": "회고록·강연으로 활동 영역을 넓힘",
+   "economic_exp_en": "Built a livelihood on memoir and talks",
+   "cultural": 4,
+   "cultural_exp": "1996년 참사 생존담이 영화 '에베레스트'로 각색",
+   "cultural_exp_en": "His survival was dramatised in the film 'Everest'",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "1996년 에베레스트 참사의 대표 생존자로 회자",
+   "transhistoricity_exp_en": "The emblematic survivor of the 1996 disaster"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "텍사스 병리과 의사로 진료 업무를 수행",
+     "reason_en": "Practised as a pathologist in Texas"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "고산 등반가로 동상·저체온을 견디고 걸어 내려옴",
+     "reason_en": "A climber who walked down through frostbite and coma"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "의학박사로 병리 진단 업무를 수행",
+     "reason_en": "A medical doctor practising pathology"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "생환담과 유머로 강연 무대에서 호감을 얻음",
+     "reason_en": "His survival talks win audiences with humour"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "등반에 몰두해 가정을 뒤로한 시기를 스스로 인정",
+     "reason_en": "He admits climbing once crowded out his family"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "양손·코 상실 후에도 의사·강연 활동을 재건",
+     "reason_en": "Rebuilt a medical and speaking life after losing his hands"
+    },
+    "reflection": {
+     "score": 72,
+     "reason_ko": "회고록에서 가정 소홀과 자기 과오를 정면으로 인정",
+     "reason_en": "His memoir owns up to neglecting his family"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "두 번 사망 취급 뒤 스스로 일어나 캠프로 걸어옴",
+     "reason_en": "Left for dead twice, he rose and walked to camp"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "위기 뒤 가정에 재헌신하겠다고 공언하고 실천",
+     "reason_en": "Pledged himself back to his family and kept it"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "환자를 돌보는 의사를 생애 직업으로 삼음",
+     "reason_en": "Spent his working life caring for patients"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "의료 진료와 등반 기록 외 판단 단서 드묾",
+     "reason_en": "Little on record beyond practice and climbing"
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "과거 자신을 이기적인 몰이해자였다고 공개 칭함",
+     "reason_en": "He publicly calls his old self selfish and blind"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "손을 잃고도 매일이 선물이라는 태도를 공언",
+     "reason_en": "Lost his hands yet calls each day a gift"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "의사·등반가 생애로 질서 담론과 무관",
+     "reason_en": "A doctor-climber apart from debates on order"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "등반은 개인 몰입이었으나 참사 후 가족 중심으로 회귀",
+     "reason_en": "Climbing was private obsession; the disaster turned him home"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "시력 문제를 숨기고 정상 도전을 감행",
+     "reason_en": "Hid his failing eyesight and pushed for the summit"
+    }
+   },
+   "rationale_ko": "죽은 자로 두 번 버려졌다가 스스로 깨어나 걸어 내려왔다. 대가로 손과 코를 잃었고 그 상실이 가정을 등진 자신을 돌아보게 했다. 이후 자기 과오를 숨기지 않는 회고록과 강연으로 삶을 재건했다.",
+   "rationale_en": "Left for dead twice on Everest, Weathers woke alone and walked down, losing his hands and nose. The loss forced him to face the family he had neglected, and he rebuilt his life through a candid memoir and talks."
+  }
+ },
+ "조 심프슨": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "알파인 스타일 등정 기록이 등반 기술 논의에 인용",
+   "tech_exp_en": "His alpine-style climbs feed technique debates",
+   "social": 3,
+   "social_exp": "밧줄 절단의 윤리가 산악계 대표 사례 논쟁이 됨",
+   "social_exp_en": "The cut rope became mountaineering's classic ethics case",
+   "economic": 1,
+   "economic_exp": "회고록 판매와 강연 활동",
+   "economic_exp_en": "A livelihood of books and lectures",
+   "cultural": 6,
+   "cultural_exp": "『터칭 더 보이드』가 생존 문학의 고전으로 정착",
+   "cultural_exp_en": "'Touching the Void' is a survival-literature classic",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "시울라 그란데 생존담이 등반 문학의 고전으로 남음",
+   "transhistoricity_exp_en": "The Siula Grande story endures as climbing canon"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "2인 등반팀의 파트너로서 조직 지휘 없음",
+     "reason_en": "A two-man rope team; no organisation led"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "골절된 다리로 빙하를 3일간 기어 내려옴",
+     "reason_en": "Crawled three days down a glacier on a broken leg"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "생존기를 정밀하게 분석한 회고록을 집필",
+     "reason_en": "Wrote a forensically analysed account of the survival"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "회고록과 강연으로 산악계 밖에도 이름을 알림",
+     "reason_en": "Book and lectures carried his name beyond climbing"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "공포 속에서도 몸의 움직임을 계획적으로 통제",
+     "reason_en": "Governed each movement methodically through terror"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "생환 후에도 등반과 책 집필을 이어감",
+     "reason_en": "Kept climbing and writing after the ordeal"
+    },
+    "reflection": {
+     "score": 75,
+     "reason_ko": "자기 결정과 동료의 결정을 냉정하게 복기한 저술",
+     "reason_en": "His writing coolly reviews his own and Yates's choices"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "죽음을 전제한 하강을 3일간 계속 실행",
+     "reason_en": "Kept descending for three days expecting death"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "밧줄을 끊은 예이츠를 공개적으로 옹호",
+     "reason_en": "Publicly defended Yates, who cut the rope"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "동료를 비난하는 여론에 맞서 그를 변호",
+     "reason_en": "Stood by his partner against public blame"
+    },
+    "fairness": {
+     "score": 68,
+     "reason_ko": "자신을 버린 행위조차 원칙으로 옳다고 판단",
+     "reason_en": "Judged the rope-cutting right on principle, not grievance"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "생환을 운과 의지의 혼합으로 낮춰 서술",
+     "reason_en": "Writes the escape as luck mixed with will"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "죽을 것을 알면서도 움직이는 쪽을 택함",
+     "reason_en": "Knowing he'd likely die, he chose to keep moving"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "등반·집필 생애로 질서 담론과 거리를 둠",
+     "reason_en": "A climbing-writing life apart from debates on order"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "2인 알파인 등반과 홀로 쓰는 집필을 택함",
+     "reason_en": "Chose two-man alpine climbs and solitary writing"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "미등봉 서벽을 2인 알파인 스타일로 도전",
+     "reason_en": "Attempted an unclimbed west face in alpine style"
+    }
+   },
+   "rationale_ko": "밧줄이 끊긴 뒤 골절된 다리로 크레바스에서 기어 나와 3일 만에 베이스캠프에 닿았다. 동료를 끊은 행위를 원망하기보다 옳은 결정이라 변호한 공정함이 『터칭 더 보이드』에 남았다. 그 책은 생존 문학의 고전이 됐다.",
+   "rationale_en": "After the rope was cut, Simpson crawled out of a crevasse and reached base camp in three days on a shattered leg. Rather than resent Yates, he defended the cut as the right call — a fairness preserved in 'Touching the Void', now a survival classic."
+  }
+ },
+ "텐징 노르가이": {
+  "influence": {
+   "political": 3,
+   "political_exp": "초등 소식이 네팔·인도의 국가적 자부심이 됨",
+   "political_exp_en": "The summit became national pride for Nepal and India",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 3,
+   "tech_exp": "일곱 원정의 고고도 경험이 초등 루트 확립에 기여",
+   "tech_exp_en": "Seven expeditions of high-altitude craft fixed the route",
+   "social": 5,
+   "social_exp": "셰르파를 짐꾼에서 동등한 등반가로 재정의",
+   "social_exp_en": "Reframed Sherpas from porters to equal climbers",
+   "economic": 3,
+   "economic_exp": "등산학교로 셰르파 등반 산업의 인재를 길러냄",
+   "economic_exp_en": "His institute trained the Sherpa climbing industry",
+   "cultural": 5,
+   "cultural_exp": "'눈의 호랑이'로 불리며 세계 언론의 표지를 장식",
+   "cultural_exp_en": "'Tiger of the Snows' graced the world's front pages",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "인류 최초 에베레스트 등정자로 영구히 기록",
+   "transhistoricity_exp_en": "Permanently recorded as a first summiter of Everest"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "다르질링 등산학교 훈련책임자로 약 20년간 후배를 지도",
+     "reason_en": "Ran field training at the HMI in Darjeeling some twenty years"
+    },
+    "martial": {
+     "score": 90,
+     "reason_ko": "일곱 번의 팔천 원정에서 짐을 지고 정상 루트를 뚫음",
+     "reason_en": "Carried loads and broke summit routes over seven expeditions"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "문맹이었으나 루트 판단·고고도 지식은 원정대 최고 수준",
+     "reason_en": "Illiterate, yet his route judgement topped every expedition"
+    },
+    "charm": {
+     "score": 74,
+     "reason_ko": "온화한 품격으로 동서양 대중의 사랑을 받음",
+     "reason_en": "A gentle dignity loved on both sides of the world"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "갑자기 쏟아진 세계적 명성 앞에서도 생활을 지킴",
+     "reason_en": "Kept his life steady under sudden world fame"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "짐꾼부터 시작해 18년간 일곱 번 원정에 참가",
+     "reason_en": "Seven expeditions in eighteen years, starting as porter"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "자서전에서 명성의 무게와 자신의 자리를 되돌아봄",
+     "reason_en": "His autobiography weighs the burden of fame"
+    },
+    "courage": {
+     "score": 86,
+     "reason_ko": "사망 사고가 잦은 원정에 일곱 번을 거듭 참가",
+     "reason_en": "Joined seven expeditions despite repeated deaths"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "'누가 먼저' 논란 속 힐러리와의 약속을 끝까지 지킴",
+     "reason_en": "Kept the pact with Hillary through the who-was-first row"
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "등산학교 교육으로 셰르파 후배들의 지위를 끌어올림",
+     "reason_en": "His teaching lifted the standing of younger Sherpas"
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "초등 공을 '함께'라고 선을 지켜 어느 편도 들지 않음",
+     "reason_en": "Held the line that they reached the top together"
+    },
+    "humility": {
+     "score": 92,
+     "reason_ko": "'에베레스트가 허락했다'며 공을 산에 돌림",
+     "reason_en": "'The mountain allowed me' — he gave the credit to Everest"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "여섯 번 실패 뒤에도 일곱 번째 도전을 감행",
+     "reason_en": "Six failures did not stop the seventh attempt"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "셰르파를 조력자 아닌 등반 파트너로 올려세움",
+     "reason_en": "Raised Sherpas from hired hands to climbing partners"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "성공을 셰르파 공동체와 '우리'의 성취로 표현",
+     "reason_en": "Framed the summit as 'we' — the Sherpa community's feat"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "눈사태·크레바스 위험을 익히 알아 침착을 택함",
+     "reason_en": "Knowing avalanche and crevasse, he chose steadiness"
+    }
+   },
+   "rationale_ko": "짐꾼에서 출발해 일곱 번의 원정 끝에 인류 최초로 에베레스트 정상에 섰다. '산이 허락했다'는 한마디처럼 공을 공동체와 산에 돌렸고 등산학교에서 후배 셰르파를 길러냈다. 그 이름은 최초 등정의 기록으로 남아 있다.",
+   "rationale_en": "From porter, through seven expeditions, Tenzing stood first on Everest. True to 'the mountain allowed me', he gave the credit to the peak and his community, then trained Sherpa climbers at Darjeeling. His name remains in the record of the first ascent."
+  }
+ },
+ "라인홀트 메스너": {
+  "influence": {
+   "political": 2,
+   "political_exp": "1999~2004년 유럽의회 의원으로 활동",
+   "political_exp_en": "Sat in the European Parliament 1999–2004",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 3,
+   "tech_exp": "무산소·알파인 등정으로 팔천 등반의 표준을 바꿈",
+   "tech_exp_en": "His no-oxygen alpine style reset 8,000 m climbing",
+   "social": 4,
+   "social_exp": "'정당한 수단' 등반 윤리를 산악 문화에 정착시킴",
+   "social_exp_en": "Embedded the 'by fair means' ethic in climbing culture",
+   "economic": 2,
+   "economic_exp": "메스너 산악박물관 여섯 곳을 운영",
+   "economic_exp_en": "Runs a six-site mountain museum enterprise",
+   "cultural": 6,
+   "cultural_exp": "산악 영화·저술로 등반의 대중 이미지를 재편",
+   "cultural_exp_en": "Reshaped mountaineering's public image through film and books",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "14좌 무산소 완등은 등반사의 영구 이정표",
+   "transhistoricity_exp_en": "The fourteen oxygen-free summits are a permanent milestone"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "산악박물관 여섯 곳을 설립·운영하고 유럽의회 의원 지냄",
+     "reason_en": "Founded and runs six museums; served as an MEP"
+    },
+    "martial": {
+     "score": 94,
+     "reason_ko": "산소 없이 14좌와 단독 에베레스트를 등정한 지구력",
+     "reason_en": "Climbed all fourteen 8,000ers and Everest solo, no oxygen"
+    },
+    "intellect": {
+     "score": 73,
+     "reason_ko": "여든 권 넘는 저술과 박물관 구상으로 사유를 정리",
+     "reason_en": "Ordered his thought in eighty-plus books and museums"
+    },
+    "charm": {
+     "score": 74,
+     "reason_ko": "세계 최고 산악인의 아우라로 언론과 대중을 압도",
+     "reason_en": "The aura of the greatest mountaineer commands publics"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 48,
+     "reason_ko": "훈련은 철저하나 산악계 논쟁에서 격한 자기주장을 반복",
+     "reason_en": "Disciplined in training, intemperate in climbing disputes"
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "16년간 14좌를 완등하고 여든 권의 책을 씀",
+     "reason_en": "Fourteen summits in sixteen years and eighty books"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "저술에서 동생의 죽음을 다루나 논쟁에선 자기 정당화",
+     "reason_en": "Writes on his brother's death yet justifies himself in feuds"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "아무도 안 간 무산소 단독 에베레스트를 감행",
+     "reason_en": "Attempted the untried — Everest solo, no oxygen"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "동반자들과 공개 논쟁을 벌이며 관계가 자주 깨짐",
+     "reason_en": "Public quarrels have repeatedly broken partnerships"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "고산 주민과 자연을 위한 박물관 사업을 전개",
+     "reason_en": "His museums serve mountain peoples and nature"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "타 산악인을 공개적으로 강하게 비판해 논란을 삼",
+     "reason_en": "Harsh public verdicts on fellow climbers bred disputes"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스스로를 최고 등반가로 자처하고 이의를 물리침",
+     "reason_en": "Claims greatest-climber status and rebuts dissent"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "불가능하다던 무산소 등정을 인간의 가능으로 봄",
+     "reason_en": "Read the 'impossible' oxygen-free summit as humanly possible"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "이탈리아 녹색당 소속 유럽의회 의원으로 활동",
+     "reason_en": "Served as a Green MEP for Italy"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "단독 등정과 독자 노선을 고집하는 개인주의",
+     "reason_en": "A fierce individualist of solo ascents and lone routes"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "몬순철 단독·무산소 에베레스트를 결행",
+     "reason_en": "Committed to a solo, oxygen-free Everest in monsoon"
+    }
+   },
+   "rationale_ko": "산소도 동료도 없이 에베레스트를 올랐고 14좌를 모두 무산소로 완등해 등반의 기준을 바꿨다. 대담함은 인류 최상급이나 자기 확신이 강해 동반자들과의 논쟁이 생애 내내 이어졌다. 은퇴 후에는 산악박물관 여섯 곳을 세웠다.",
+   "rationale_en": "Messner climbed Everest alone without oxygen and finished all fourteen 8,000ers the same way, resetting the standards of the sport. His boldness is unmatched but so is his self-certainty — quarrels with partners ran through his life. In retirement he built six mountain museums."
+  }
+ },
+ "조지 말러리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 1,
+   "strategic_exp": "1차대전 포병 장교로 복무한 경력",
+   "strategic_exp_en": "Served as a WWI artillery officer",
+   "tech": 2,
+   "tech_exp": "초기 에베레스트 정찰·측량으로 고산 지식 축적에 기여",
+   "tech_exp_en": "His reconnaissance surveys built early Everest knowledge",
+   "social": 3,
+   "social_exp": "'거기 있으니까'가 탐험 정신의 표어가 됨",
+   "social_exp_en": "'Because it's there' became exploration's motto",
+   "economic": 0,
+   "economic_exp": "경제 활동·산업 기여와 무관",
+   "economic_exp_en": "No economic or industrial role",
+   "cultural": 6,
+   "cultural_exp": "등정 미스터리가 한 세기의 문학·다큐 소재가 됨",
+   "cultural_exp_en": "The summit mystery has fed a century of books and film",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "실종 백 년째 등정 논쟁이 지속되는 에베레스트 상징",
+   "transhistoricity_exp_en": "A century on, the debate over his summit endures"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "차터하우스 교사와 1차대전 포병 장교를 지냄",
+     "reason_en": "A Charterhouse schoolmaster and WWI artillery officer"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "당대 최고 수준의 암벽 기술과 고산 지구력을 보유",
+     "reason_en": "Held the finest rock craft and high-altitude stamina of his day"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "케임브리지 역사학 출신으로 블룸즈버리 문단과 교유",
+     "reason_en": "Cambridge-educated, he moved with the Bloomsbury circle"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "뛰어난 용모와 풍모로 지식인 사이에서도 회자",
+     "reason_en": "His looks and bearing were famed even among intellectuals"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "정상 집착이 가정과 안전 판단을 밀어냄",
+     "reason_en": "Summit obsession crowded out home and caution"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "세 차례 원정 준비에 교직을 병행하며 몰입",
+     "reason_en": "Prepared three expeditions alongside his teaching post"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "1922년 셰르파 사망 사고에 책임을 느끼고 자책",
+     "reason_en": "Blamed himself for the seven Sherpa deaths of 1922"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "정상 직전까지 밀고 올라가다 돌아오지 못함",
+     "reason_en": "Pressed on toward the top and never returned"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "아내에게 보낸 편지와 원정대 헌신이 남아 있음",
+     "reason_en": "Letters to Ruth and expedition devotion survive him"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "사고로 잃은 셰르파들에 대한 애도를 표함",
+     "reason_en": "He mourned the Sherpas lost under his lead"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "원정대 내부 평가 관련 단서가 드묾",
+     "reason_en": "Little recorded of his judgments inside expeditions"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "등산 이유를 묻자 명답 한마디로 넘김",
+     "reason_en": "Asked why climb, he answered with one famous line"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "실패한 두 원정 뒤에도 등정 가능을 확신",
+     "reason_en": "After two failed expeditions he still believed"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "교직·등반 생애로 질서 발언과 거리를 둠",
+     "reason_en": "Schoolmaster and climber, apart from debates on order"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "등반 파트너와 함께하나 동기는 개인적 열망",
+     "reason_en": "Climbed with partners, driven by a personal hunger"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "장비·지식 부족을 알면서도 최종 돌격을 감행",
+     "reason_en": "Pressed the final push despite thin gear and knowledge"
+    }
+   },
+   "rationale_ko": "'거기 있으니까'라고 답하고 세 번째 원정에서 정상 직전에 사라졌다. 당대 최고의 기술과 한계를 넘는 대담함이 만든 미스터리가 백 년째 논쟁을 부른다. 1999년 그의 시신이 정상 아래에서 발견됐다.",
+   "rationale_en": "Mallory answered 'because it's there' and vanished near the summit on his third expedition. The mystery his boldness created has been argued for a century. His body was found below the top in 1999."
+  }
+ },
+ "아론 랠스턴": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "자가 절단 생존 사례로 응급·생존 문헌에 인용",
+   "tech_exp_en": "His self-amputation case is cited in survival medicine",
+   "social": 3,
+   "social_exp": "행선지 미통고의 위험을 알리는 대표 사례가 됨",
+   "social_exp_en": "The cautionary case for telling someone your route",
+   "economic": 1,
+   "economic_exp": "동기부여 강연 활동",
+   "economic_exp_en": "A motivational speaking career",
+   "cultural": 5,
+   "cultural_exp": "영화 '127시간'의 실제 주인공",
+   "cultural_exp_en": "The real subject of the film '127 Hours'",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "자가 절단 생환담이 현대 생존 서사로 정착",
+   "transhistoricity_exp_en": "His self-rescue settled into modern survival lore"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "인텔 엔지니어를 그만두고 홀로 야외 활동",
+     "reason_en": "Left Intel engineering for solo outdoor life"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "한 팔로도 콜로라도 고봉 등정을 계속",
+     "reason_en": "Kept summiting Colorado's high peaks one-armed"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "공학도로서 갇힌 5일간 물·시간·방법을 계산해 실행",
+     "reason_en": "An engineer who computed water, time and method for five days"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "생환담 강연으로 청중을 사로잡는 화자가 됨",
+     "reason_en": "A compelling speaker on the survival circuit"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "행선지를 아무에게도 알리지 않은 무모한 자기확신",
+     "reason_en": "Told no one his plans — reckless self-assurance"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "절단 이후에도 고봉 등정 목표를 완수",
+     "reason_en": "Finished his high-peak goals after the amputation"
+    },
+    "reflection": {
+     "score": 72,
+     "reason_ko": "회고록에서 자신의 오만을 사고의 원인으로 인정",
+     "reason_en": "His memoir names his own arrogance as the cause"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "둔탁한 나이프로 스스로 팔을 절단하고 걸어 나옴",
+     "reason_en": "Cut off his own arm with a dull knife and walked out"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "행선지를 알리지 않아 가족·수색대를 어렵게 함",
+     "reason_en": "His silence cost family and rescuers dearly"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "사고 경험을 강연과 절단 장애 지원으로 환원",
+     "reason_en": "Gives back through talks and amputee advocacy"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "사고 책임을 자신에게 돌린 발언 외 단서 드묾",
+     "reason_en": "He blames himself; little else on record"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "자기 오만을 인정하나 강연으로 이름을 계속 팜",
+     "reason_en": "Admits arrogance yet still trades on the name"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 28,
+     "reason_ko": "미래 아들의 환영을 보고 삶을 택했다고 회고",
+     "reason_en": "A vision of a future son made him choose life"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "야외 활동가 생애로 질서 담론과 거리를 둠",
+     "reason_en": "An outdoorsman apart from debates on order"
+    },
+    "individual_social": {
+     "score": -38,
+     "reason_ko": "누구에게도 알리지 않는 극단의 단독 활동",
+     "reason_en": "Extreme solo habit — he told no one where he went"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "혼자 협곡에 들어가고 스스로 팔을 끊는 결단을 실행",
+     "reason_en": "Entered the canyon alone; severed his own arm to leave"
+    }
+   },
+   "rationale_ko": "행선지를 알리지 않고 혼자 들어간 협곡에서 바위에 팔이 깔렸다. 오만의 대가를 물고 스스로 팔을 끊어 살아 나왔고 그날의 계산과 후회를 회고록에 담았다. 그 이야기는 영화 '127시간'이 됐다.",
+   "rationale_en": "Ralston entered the canyon alone without telling anyone, and a boulder took his arm. He paid for that arrogance, cut the arm off to live, and set the calculus and regret of those days into his memoir. The story became '127 Hours'."
+  }
+ },
+ "알렉스 호놀드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 2,
+   "tech_exp": "프리솔로 수행력이 스포츠·뇌과학 연구 대상이 됨",
+   "tech_exp_en": "His free-solo performance became a subject of brain studies",
+   "social": 3,
+   "social_exp": "호놀드 재단으로 태양광 보급을 지원",
+   "social_exp_en": "His foundation funds solar access projects",
+   "economic": 2,
+   "economic_exp": "등반 산업·스폰서 시장에 활력을 불어넣음",
+   "economic_exp_en": "Energised the climbing and sponsorship market",
+   "cultural": 6,
+   "cultural_exp": "다큐 '프리 솔로'로 아카데미를 받은 등반의 주인공",
+   "cultural_exp_en": "His climb won an Oscar as 'Free Solo'",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "엘 캐피탄 프리솔로가 스포츠사 이정표로 남음",
+   "transhistoricity_exp_en": "The El Capitan solo stands as a sports milestone"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 38,
+     "reason_ko": "호놀드 재단을 설립해 소규모로 운영",
+     "reason_en": "Founded and runs the small Honnold Foundation"
+    },
+    "martial": {
+     "score": 93,
+     "reason_ko": "900m 수직벽을 무로프로 오른 등반 수행력의 정점",
+     "reason_en": "Roped-free ascent of a 900 m wall — climbing's peak"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "수천 동작을 구간별로 암기·분석해 루트를 설계",
+     "reason_en": "Memorised and engineered thousands of moves by pitch"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "담담한 입담으로 다큐와 강연 청중을 끌어들임",
+     "reason_en": "Deadpan candour draws film and lecture audiences"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 78,
+     "reason_ko": "10년 밴 생활과 극도의 훈련 자제를 유지",
+     "reason_en": "A decade of van life and extreme training restraint"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "엘 캐피탄 도전을 수년간 구간별로 리허설",
+     "reason_en": "Rehearsed El Capitan pitch by pitch for years"
+    },
+    "reflection": {
+     "score": 68,
+     "reason_ko": "등반 노트에 매 동작과 두려움을 기록해 검토",
+     "reason_en": "Logs every move and fear in his climbing notebooks"
+    },
+    "courage": {
+     "score": 97,
+     "reason_ko": "로프 없는 900m 등반을 계획대로 완수",
+     "reason_en": "Climbed 900 m with no rope, exactly as planned"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "등반 동료들과 오래 협업 관계를 유지",
+     "reason_en": "Long partnerships with fellow climbers and crew"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "재단 수익으로 개도국 태양광 프로젝트를 지원",
+     "reason_en": "Foundation grants fund solar projects for the poor"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "위험을 본인에게만 한정하고 타인 무리수를 경계",
+     "reason_en": "Keeps the risk to himself and warns others off"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "역사적 등정을 잘 짠 하루 수준으로 낮춰 말함",
+     "reason_en": "Describes a historic solo as a good day out"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "실패 가능성을 인정하되 준비로 해소한다는 태도",
+     "reason_en": "Admits failure's odds but answers them with preparation"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "등반 외 사회 질서 입장 발언 단서가 드묾",
+     "reason_en": "Little said on questions of social order beyond climbing"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "단독 등반과 밴 생활 중심의 독립 생활",
+     "reason_en": "A life of solo climbs and van-dwelling independence"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "행위는 최대 대담이나 수년 리허설로 대비",
+     "reason_en": "The boldest act, backed by years of rehearsal"
+    }
+   },
+   "rationale_ko": "수년간 매 동작을 리허설한 뒤 로프 없이 엘 캐피탄 900m를 올랐다. 최대의 대담함이 극도의 신중한 준비로 실현됐고 얻은 명성은 태양광 재단으로 환류된다. 그의 등반은 스포츠사의 이정표로 남아 있다.",
+   "rationale_en": "After years of rehearsing every move, Honnold climbed El Capitan's 900 m face without a rope. Maximum boldness realised through maximum caution, and the fame it earned flows into his solar-energy foundation. The ascent remains a landmark in sports history."
+  }
+ },
+ "야마구치 쓰토무": {
+  "influence": {
+   "political": 2,
+   "political_exp": "2006년 유엔에서 핵폐기 증언",
+   "political_exp_en": "Testified for abolition at the UN in 2006",
+   "strategic": 1,
+   "strategic_exp": "이중 피폭 증언이 핵무기 위력의 인류 사료가 됨",
+   "strategic_exp_en": "His testimony is a primary record of nuclear effects",
+   "tech": 1,
+   "tech_exp": "이중 피폭 임상 사례로 방사선 의학에 인용",
+   "tech_exp_en": "A cited clinical case of double radiation exposure",
+   "social": 4,
+   "social_exp": "2009년 정부가 이중 피폭을 공인하게 한 상징",
+   "social_exp_en": "His case won official recognition of double survivors in 2009",
+   "economic": 0,
+   "economic_exp": "경제 활동·산업 기여와 무관",
+   "economic_exp_en": "No economic or industrial role",
+   "cultural": 3,
+   "cultural_exp": "다큐 '이중 피폭'과 단가 시인으로 남음",
+   "cultural_exp_en": "Remembered through the film 'Twice Bombed' and his tanka",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "히로시마·나가사키 이중 증언자로 역사에 기록",
+   "transhistoricity_exp_en": "Recorded in history as the double survivor of both cities"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "미쓰비시중공업 기사설계과 엔지니어로 근무",
+     "reason_en": "Worked as a Mitsubishi Heavy Industries design engineer"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "사무·기술직 생애로 신체 단련 이력은 드묾",
+     "reason_en": "A desk-and-drawing career; little physical conditioning"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "조선공학 엔지니어로 근무하고 단가 시인으로 활동",
+     "reason_en": "A shipbuilding engineer who also wrote tanka poetry"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "담담한 증언이 세계 청중에게 무게를 더함",
+     "reason_en": "His quiet testimony carried weight with world audiences"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "평생 공학자·교사 생활을 조용히 지속",
+     "reason_en": "A quiet working life as engineer and teacher"
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "복직 후 조선 설계와 교직을 오래 병행",
+     "reason_en": "Returned to ship design and taught for years"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "단가와 회고로 두 번의 피폭을 평생 되새김",
+     "reason_en": "Chewed over both bombings in tanka and memoir all his life"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "히로시마 피폭 사흘 만에 나가사키 피폭을 겪고도 삶을 재건",
+     "reason_en": "Bombed twice in three days, he rebuilt his life"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "동료 피폭자들의 공인을 위해 나서며 공동체에 헌신",
+     "reason_en": "Stepped forward for fellow survivors' recognition"
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "말년 핵폐기 호소를 미래 피해자를 위한 일로 삼음",
+     "reason_en": "His late abolition plea was for future victims"
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "자신뿐 아니라 이중 피폭자 전원의 인정을 구함",
+     "reason_en": "Sought recognition for all double survivors, not just himself"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "증언 요청이 오기까지 오랫동안 침묵 속에 생활",
+     "reason_en": "Lived in silence until asked to testify"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "'두 번의 지옥'을 증언하되 폐기 희망을 놓지 않음",
+     "reason_en": "Spoke of two hells yet held out hope of abolition"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "반핵 증언 외 사회 질서 발언 단서가 드묾",
+     "reason_en": "Beyond abolition testimony, little on questions of order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "증언을 피폭자 공동체와 미래 세대에 연결",
+     "reason_en": "Tied his testimony to the survivor community and future"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "엔지니어다운 꼼꼼한 증언 방식을 유지",
+     "reason_en": "Kept an engineer's careful manner of testimony"
+    }
+   },
+   "rationale_ko": "출장지 히로시마에서 피폭되고 돌아온 고향 나가사키에서 다시 피폭됐다. 오래 침묵하다 말년에 두 지옥을 증언하며 핵폐기를 호소했고 그 증언이 이중 피폭자 공인으로 이어졌다. 2010년 93세로 세상을 떠났다.",
+   "rationale_en": "Bombed in Hiroshima on a business trip, Yamaguchi went home to Nagasaki and was bombed again. After long silence he spent his last years testifying for abolition, and his testimony brought official recognition of double survivors. He died in 2010 at ninety-three."
+  }
+ },
+ "이블 니블": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "로켓 사이클 등 스턴트 장비 개발을 시도",
+   "tech_exp_en": "Pushed stunt hardware like the Skycycle rocket",
+   "social": 2,
+   "social_exp": "위험 오락의 안전 논의를 대중 앞에 세움",
+   "social_exp_en": "Put the safety debate of thrill spectacle in public view",
+   "economic": 3,
+   "economic_exp": "캐릭터 완구·쇼 상품으로 거대 수익 모델을 만듦",
+   "economic_exp_en": "Built a merchandising empire from toys to shows",
+   "cultural": 7,
+   "cultural_exp": "실패조차 쇼로 만든 스턴트 스펙터클의 원형을 세움",
+   "cultural_exp_en": "Set the template of stunt spectacle where crashes sell",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "'데어데블'의 대명사로 반세기째 회자",
+   "transhistoricity_exp_en": "His name still means 'daredevil' half a century on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "자기 공연을 기획·판매하며 제작진을 직접 고용",
+     "reason_en": "Produced and sold his own shows, hiring the crew"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "뼈 433개 골절에도 계속 오토바이에 오른 강인함",
+     "reason_en": "Kept riding through a record 433 broken bones"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "스턴트를 쇼 상품으로 설계한 기획력을 보임",
+     "reason_en": "Engineered stunts into marketable show business"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "성조기 슈트 하나로 미국 대중을 열광시킴",
+     "reason_en": "A stars-and-stripes suit thrilled all America"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 28,
+     "reason_ko": "도박·음주·폭력 다툼으로 생애 내내 갈등",
+     "reason_en": "Gambling, drink and brawls ran through his life"
+    },
+    "diligence": {
+     "score": 68,
+     "reason_ko": "점프를 스스로 홍보·판매하며 전국을 순회",
+     "reason_en": "Promoted and sold his own jumps across the country"
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "말년에 실패와 상처를 인정하는 발언을 남김",
+     "reason_en": "Late in life he admitted his failures and wounds"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "버스 열네 대·분수·협곡 도약을 거듭 결행",
+     "reason_en": "Jumped buses, fountains and attempted a canyon"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 38,
+     "reason_ko": "측근·배우자와의 관계가 갈등으로 자주 깨짐",
+     "reason_en": "Ties with associates and spouses repeatedly broke"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "아동 병원 공연 등 자선 무대도 가끔 섬",
+     "reason_en": "Occasionally gave charity shows for children's causes"
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "불만을 주먹과 소송으로 푸는 행보를 반복",
+     "reason_en": "Settled grievances with fists and lawsuits"
+    },
+    "humility": {
+     "score": 10,
+     "reason_ko": "자신을 '마지막 검투사'로 칭하며 과시를 업으로 삼음",
+     "reason_en": "Called himself the last gladiator; bragging was the act"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "실패 직후에도 다음 점프를 예고하는 낙천",
+     "reason_en": "Announced the next jump straight after each crash"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "성조기 슈트의 애국적 쇼맨십을 내세움",
+     "reason_en": "Traded on flag-suit patriotic showmanship"
+    },
+    "individual_social": {
+     "score": -28,
+     "reason_ko": "혼자 무대에 서는 단독 스타 체질",
+     "reason_en": "A lone-star temperament built for solo stage"
+    },
+    "cautious_bold": {
+     "score": 48,
+     "reason_ko": "스네이크강 협곡 로켓 도약처럼 무모한 도전을 결행",
+     "reason_en": "Attempted the Snake River rocket jump — pure recklessness"
+    }
+   },
+   "rationale_ko": "오토바이 점프를 거대한 스펙터클로 만들어 실패조차 상품으로 팔았다. 위험 앞의 대담함은 최상급이었으나 도박·폭력·과시가 갈등을 낳았다. 그의 이름은 지금도 '데어데블'의 대명사로 통한다.",
+   "rationale_en": "Knievel turned motorcycle jumps into mass spectacle where even the crashes sold. His daring was supreme, but gambling, violence and self-display bred lifelong conflict. His name is still shorthand for 'daredevil'."
+  }
+ },
+ "필리프 프티": {
+  "influence": {
+   "political": 1,
+   "political_exp": "쌍둥이빌딩 와이어가 9·11 이후 공동 기억이 됨",
+   "political_exp_en": "The Twin Towers walk became shared memory after 9/11",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "와이어 장비 설치 기법을 자체 고안",
+   "tech_exp_en": "Devised his own wire-rigging methods",
+   "social": 3,
+   "social_exp": "불법 공중걷기가 뉴욕 시민의 집단 추억으로 남음",
+   "social_exp_en": "The illegal walk entered New York's collective memory",
+   "economic": 1,
+   "economic_exp": "저술·강연·공연으로 생계를 이어감",
+   "economic_exp_en": "Lives by books, talks and performances",
+   "cultural": 6,
+   "cultural_exp": "'맨 온 와이어'와 영화 '더 워크'로 재생산된 공연",
+   "cultural_exp_en": "The walk was remade in 'Man on Wire' and 'The Walk'",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "사라진 쌍둥이빌딩과 함께 예술사에 남은 공연",
+   "transhistoricity_exp_en": "The performance lives on with the vanished towers"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "수년간 공모팀을 이끌어 무허가 와이어 설치를 실행",
+     "reason_en": "Led a small accomplice crew for years to rig the wire"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "400m 상공 와이어 위에서 45분간 여덟 번 왕복",
+     "reason_en": "Crossed a wire 400 m up eight times in 45 minutes"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "경비·장비·동선을 설계한 '세기의 쿠데타'를 기획",
+     "reason_en": "Engineered security, rigging and timing for the coup"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "공중 걷기와 입담으로 지켜보는 군중을 매혹",
+     "reason_en": "Enchanted watching crowds from the air and on stage"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "합법·허가를 묻지 않는 충동적 실행 체질",
+     "reason_en": "An impulsive temperament that never asked permission"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "쌍둥이빌딩 공연을 6년간 준비해 실행",
+     "reason_en": "Prepared the Twin Towers coup for six years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자서전에서 실행을 서술하나 반성보다 자찬이 중심",
+     "reason_en": "His memoirs recount rather than repent"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "안전망 없는 400m 상공을 허가 없이 걸음",
+     "reason_en": "Walked 400 m up with no net and no permit"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "공모자들과 협력했으나 관계는 기복이 컸음",
+     "reason_en": "Worked with accomplices though relations swung widely"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "관중에게 공짜로 공중 스펙터클을 선사",
+     "reason_en": "Gave the crowd a free spectacle in the sky"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "목적을 위해 위조·기만을 서슴지 않음",
+     "reason_en": "Forged and deceived freely to serve the goal"
+    },
+    "humility": {
+     "score": 28,
+     "reason_ko": "자기 공연을 '세기의 범죄'로 스스로 명명",
+     "reason_en": "Named his own act the crime of the century"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "불가능한 꿈을 곧 실행해야 할 과제로 봄",
+     "reason_en": "Sees impossible dreams as tasks to be done at once"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "법과 소유 경계를 넘는 공연을 예술로 주장",
+     "reason_en": "Claims art for crossings of legal and property lines"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "타인의 도움을 모으되 꿈의 중심은 항상 자신",
+     "reason_en": "Gathered helpers, yet the dream's centre was himself"
+    },
+    "cautious_bold": {
+     "score": 48,
+     "reason_ko": "무허가·무안전망의 공중걷기를 즉흥처럼 실행",
+     "reason_en": "An unpermitted, unnetted walk executed as if impromptu"
+    }
+   },
+   "rationale_ko": "6년을 준비해 무허가로 쌍둥이빌딩 사이에 줄을 치고 400m 상공을 45분 걸었다. 치밀한 기획력과 법을 넘는 대담함이 하나의 공연을 만들었고 그 공연은 사라진 빌딩과 함께 기억된다. 1974년의 일이었다.",
+   "rationale_en": "After six years of planning, Petit illegally strung a wire between the Twin Towers and walked 400 m above New York for 45 minutes. Meticulous engineering and law-defying boldness made one performance, remembered now with the vanished towers. It was 1974."
+  }
+ },
+ "빔 호프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 4,
+   "tech_exp": "자기 호흡법의 면역 조절이 2014년 학술 연구로 확인",
+   "tech_exp_en": "His breathing method was shown to modulate immunity in 2014",
+   "social": 4,
+   "social_exp": "빔 호프 메서드로 세계적 냉수·호흡 운동을 일으킴",
+   "social_exp_en": "His method launched a global cold-and-breath movement",
+   "economic": 2,
+   "economic_exp": "메서드 강습·앱·인증 강사 조직을 운영",
+   "economic_exp_en": "Runs a business of courses, an app and instructors",
+   "cultural": 4,
+   "cultural_exp": "'아이스맨' 캐릭터로 다큐·예능에 반복 출연",
+   "cultural_exp_en": "The 'Iceman' recurs across documentaries and TV",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "검증된 호흡법의 장기 지속은 아직 진행형",
+   "transhistoricity_exp_en": "The validated method's staying power is still being tested"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "전 세계 인증 강사 조직과 메서드 사업을 운영",
+     "reason_en": "Runs a worldwide certified-instructor business"
+    },
+    "martial": {
+     "score": 90,
+     "reason_ko": "반바지 에베레스트·2시간 얼음수조 등 26개 기네스",
+     "reason_en": "Shorts on Everest, hours in ice — 26 world records"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "호흡·노출·명상을 체계화한 자기 메서드를 구성",
+     "reason_en": "Structured breath, exposure and focus into a method"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "광적인 에너지로 세계적 추종자층을 모음",
+     "reason_en": "Fervent energy gathered a worldwide following"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "극한 노출 훈련의 자제력과 소탈한 생활을 병행",
+     "reason_en": "Extreme-exposure discipline paired with a plain life"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "수십 년간 냉수 노출과 호흡 수련을 지속",
+     "reason_en": "Decades of cold immersion and breath practice"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "아내 상실의 고통을 수행의 출발로 되짚어 설명",
+     "reason_en": "Traces his practice back to the pain of his wife's death"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "얼음 밑 헤엄 등 목숨 건 자기실험을 반복",
+     "reason_en": "Repeatedly risks himself — swims beneath ice sheets"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "네덜란드 거점으로 세계를 오가며 활동",
+     "reason_en": "Works from a Dutch base, travelling the world"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "고통받는 이에게 자기법을 나누겠다는 공언을 실천",
+     "reason_en": "Acts on a vow to share his method with the suffering"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "메서드 효과 검증을 대학 실험에 공개적으로 맡김",
+     "reason_en": "Submitted the method openly to university trials"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "자신보다 '메서드'를 앞세우나 구루적 카리스마",
+     "reason_en": "Puts the method before himself yet keeps guru charisma"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "누구나 면역을 조절할 수 있다는 확신을 전파",
+     "reason_en": "Preaches that anyone can steer their immune system"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "건강 수련 운동가로 사회 질서 발언과 거리를 둠",
+     "reason_en": "A wellness practitioner apart from debates on order"
+    },
+    "individual_social": {
+     "score": 8,
+     "reason_ko": "그룹 워크숍과 강사 공동체로 운동을 확장",
+     "reason_en": "Grew the movement through group workshops and instructors"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "빙하 호수 수중헤엄 등 극한 도전을 상시 결행",
+     "reason_en": "Routinely commits to extremes like under-ice swims"
+    }
+   },
+   "rationale_ko": "반바지로 에베레스트를 오르고 얼음물에 두 시간을 잠기는 몸으로 26개 기네스를 세웠다. 그의 호흡법은 대학 실험에서 의도적 면역 조절로 확인됐고 세계적 수련 운동이 됐다. 대담한 자기실험이 검증된 방법으로 이어진 경우다.",
+   "rationale_en": "Hof climbed Everest in shorts and sat in ice for hours, collecting 26 records. His breathing method proved in university trials that immunity can be consciously steered, and it grew into a global practice — bold self-experiment turning into validated method."
+  }
+ },
+ "베시 콜먼": {
+  "influence": {
+   "political": 3,
+   "political_exp": "인종분리 관객석 공연을 거부하는 행동을 실행",
+   "political_exp_en": "Refused shows with segregated audiences",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "곡예비행 기술 시연 외 기술 기여 단서 드묾",
+   "tech_exp_en": "Beyond stunt flying, little technical contribution",
+   "social": 5,
+   "social_exp": "흑인 여성 조종사의 문을 처음 연 상징",
+   "social_exp_en": "Opened the cockpit door for Black women pilots",
+   "economic": 1,
+   "economic_exp": "흑인 비행학교 설립 기금 모금 활동",
+   "economic_exp_en": "Raised funds for a Black flight school",
+   "cultural": 4,
+   "cultural_exp": "'퀸 베스'로 불리며 흑인 사회의 영웅이 됨",
+   "cultural_exp_en": "As 'Queen Bess' she became a Black-community hero",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "최초 흑인 여성 면허라는 영구 기록을 남김",
+   "transhistoricity_exp_en": "Her first licence by a Black woman is a permanent record"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "자기 공연 일정과 모금 캠페인을 직접 운영",
+     "reason_en": "Ran her own exhibition dates and fundraising drives"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "불안정한 복엽기 곡예비행을 소화한 신체 능력",
+     "reason_en": "Flew aerobatics in unstable biplanes"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "불어를 독학하고 프랑스에서 조종 면허를 취득",
+     "reason_en": "Taught herself French and earned a licence in France"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "곡예비행 스타로 관중과 흑인 사회를 열광시킴",
+     "reason_en": "A barnstorming star who thrilled crowds"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "네일숍 수입을 모아 비행 학비를 마련한 절약",
+     "reason_en": "Saved manicurist wages to pay for flying school"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "거절당한 뒤 불어를 배워 프랑스 면허를 따냄",
+     "reason_en": "Refused in America, she learned French and qualified abroad"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "단짧은 생애에 자기 성찰 기록이 드묾",
+     "reason_en": "Her short life left few reflective records"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "낡은 기체로 곡예비행과 강하 묘기를 감행",
+     "reason_en": "Flew stunts and dives in fragile machines"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "흑인 비행학교 설립이라는 공동체 꿈을 고수",
+     "reason_en": "Held fast to the goal of a Black flight school"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "흑인 청년에게 비행의 길을 열어주려 노력",
+     "reason_en": "Worked to open aviation to Black youth"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "분리 좌석 공연은 받지 않는다는 원칙을 세움",
+     "reason_en": "Set the rule: no shows before segregated audiences"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "유명세보다 비행학교 목표를 앞세움",
+     "reason_en": "Put the flight-school mission ahead of fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "모든 문이 닫혀도 프랑스행을 택한 낙관",
+     "reason_en": "With every door shut she chose France anyway"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "인종·성별 이중 장벽을 직접 깨고 나감",
+     "reason_en": "Broke through the double barrier of race and sex"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "개인 비행을 공동체 해방의 상징으로 활용",
+     "reason_en": "Turned solo flight into a community emblem"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "착륙 불가 상황의 곡예비행을 반복 수행",
+     "reason_en": "Repeated aerobatics where a fall meant death"
+    }
+   },
+   "rationale_ko": "미국 비행학교가 흑인 여성을 거절하자 불어를 배워 프랑스에서 면허를 땄다. 귀국해 '퀸 베스'로 곡예비행 무대를 누비며 인종분리 관객석을 거부했다. 1926년 공연 연습 중 추락해 34세로 숨졌다.",
+   "rationale_en": "When US schools refused a Black woman, Coleman learned French and earned her licence in France. Back home she starred as 'Queen Bess' and refused segregated audiences. She died in a practice crash in 1926, aged thirty-four."
+  }
+ },
+ "에이미 존슨": {
+  "influence": {
+   "political": 1,
+   "political_exp": "전시 수송 조종사로 영국 전시 사기에 기여",
+   "political_exp_en": "Ferry service that fed wartime morale",
+   "strategic": 1,
+   "strategic_exp": "ATA 소속으로 군용기 수송 임무 수행",
+   "strategic_exp_en": "Flew ferry missions for the ATA",
+   "tech": 2,
+   "tech_exp": "최초 여성 지상정비사 면허로 항공 기술 경력을 쌓음",
+   "tech_exp_en": "First woman ground-engineer licence in Britain",
+   "social": 4,
+   "social_exp": "여성의 조종·정비 진출을 보여준 선구 사례",
+   "social_exp_en": "A pioneer case for women in flying and engineering",
+   "economic": 1,
+   "economic_exp": "광고·홍보 모델로 항공 소비를 부추김",
+   "economic_exp_en": "Her celebrity endorsed the aviation market",
+   "cultural": 5,
+   "cultural_exp": "'에이미 원더풀 에이미'가 불릴 만큼 대중 스타",
+   "cultural_exp_en": "So famous a song was named 'Amy, Wonderful Amy'",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "1930년대 장거리 단독비행의 대표 인물로 기록",
+   "transhistoricity_exp_en": "Recorded as the emblematic solo flyer of the 1930s"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 28,
+     "reason_ko": "혼자 비행하는 조종사로 지휘 계통 경험 없음",
+     "reason_en": "A solo pilot with no command structure behind her"
+    },
+    "martial": {
+     "score": 43,
+     "reason_ko": "19일 단독 장거리 비행의 피로를 견딘 지구력",
+     "reason_en": "Endured nineteen days of solo long-distance flying"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "최초 여성 지상정비사 면허와 독학 항법을 익힘",
+     "reason_en": "First female ground engineer; self-taught navigator"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "런던-호주 단독비행으로 세계적 스타가 됨",
+     "reason_en": "The London–Australia solo made her a world star"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "갑작스런 명성 속에서도 비행 준비를 꼼꼼히 유지",
+     "reason_en": "Kept meticulous flight prep under sudden fame"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "정비 면허 취득과 기록 도전을 거듭",
+     "reason_en": "Earned the engineer licence and chased records on"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "짧은 생애에 공개적 자기 성찰 단서가 드묾",
+     "reason_en": "Her short life left few public reflections"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "낡은 복엽기로 대륙을 넘고 전시 수송에도 참가",
+     "reason_en": "Crossed continents in a worn biplane, then ferried in war"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "전시에 조종사로 복무하다 임무 중 사망",
+     "reason_en": "Died on a wartime ferry mission in service"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "전시 수송 복무 외 선행 단서가 드묾",
+     "reason_en": "Little beyond her wartime ferry service"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "동료 조종사들과 기록 경쟁 속 규칙 준수",
+     "reason_en": "Kept the rules amid record rivalry with peers"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "스타 대우 속에도 정비사 출신다운 실무 태도를 유지",
+     "reason_en": "Kept a mechanic's working manner despite stardom"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "기상 악화·고장 속에서도 목적지 도달을 반복",
+     "reason_en": "Reached destinations through weather and breakdowns"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "여성 불가 영역이던 조종·정비를 개척",
+     "reason_en": "Opened the male-only trades of flying and engineering"
+    },
+    "individual_social": {
+     "score": -18,
+     "reason_ko": "단독비행과 조용한 사생활을 택함",
+     "reason_en": "Chose solo flight and a quiet private life"
+    },
+    "cautious_bold": {
+     "score": 32,
+     "reason_ko": "불충분한 항법 경험으로 대륙간 단독비행을 결행",
+     "reason_en": "Flew a continent solo on thin navigation experience"
+    }
+   },
+   "rationale_ko": "정비사 출신으로 낡은 복엽기를 몰고 런던에서 호주까지 혼자 날아 세계 스타가 됐다. 조종과 정비 모두에서 여성 최초의 문을 열었고 전시에는 군용기 수송을 맡았다. 1941년 안개 속 임무에서 돌아오지 못했다.",
+   "rationale_en": "A mechanic by training, Johnson flew a worn biplane solo from London to Australia and became a world star. She opened both the cockpit and the workshop to women, then ferried warplanes in the war. In 1941 she did not return from a fogbound mission."
+  }
+ },
+ "베릴 마컴": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 행적과 무관",
+   "political_exp_en": "No political or diplomatic role",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 활동과 무관",
+   "strategic_exp_en": "No military or security role",
+   "tech": 1,
+   "tech_exp": "아프리카 정탐 비행과 항로 탐색에 참여",
+   "tech_exp_en": "Flew scouting and route-finding flights in Africa",
+   "social": 3,
+   "social_exp": "남성 영역이던 조련·비행을 개척한 여성",
+   "social_exp_en": "A woman who took the male trades of training and flying",
+   "economic": 1,
+   "economic_exp": "케냐 경주마 조련사로 안정을 운영",
+   "economic_exp_en": "Ran a racehorse training stable in Kenya",
+   "cultural": 5,
+   "cultural_exp": "『밤의 서쪽 비행』이 헤밍웨이 찬사를 받은 문학 고전",
+   "cultural_exp_en": "'West with the Night' drew Hemingway's praise as literature",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "동-서 대서양 단독비행과 회고록이 함께 남음",
+   "transhistoricity_exp_en": "Her east–west Atlantic solo and memoir both endure"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "케냐 최초 여성 경주마 조련사로 안정을 운영",
+     "reason_en": "Ran a stable as Kenya's first licensed female trainer"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "케냐 부시 비행과 조련 현장의 거친 생활을 소화",
+     "reason_en": "Hardened by bush flying and stable-yard life"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "문학 고전으로 평가받는 회고록의 저자",
+     "reason_en": "Authored a memoir judged a literary classic"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "아름다움과 모험담으로 사교계와 문단을 매혹",
+     "reason_en": "Her looks and exploits captivated salons and letters"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "복수의 결혼과 방랑적 사생활로 자제력은 약함",
+     "reason_en": "Multiple marriages and a restless life show thin restraint"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "조련사·비행사·작가 세 직업을 차례로 개척",
+     "reason_en": "Built three careers in turn — horses, flying, writing"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "회고록에서 아프리카 생애를 문학적으로 되돌아봄",
+     "reason_en": "Her memoir looks back on Africa in literary form"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "역풍 방향 대서양 단독비행을 감행해 불시착 생존",
+     "reason_en": "Flew the harder east–west Atlantic and crash-landed alive"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "세 번의 결혼과 잦은 관계 이동으로 헌신은 얇음",
+     "reason_en": "Three marriages and shifting ties show thin devotion"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "야생·고독 중심 서사로 타인 구제 단서가 드묾",
+     "reason_en": "Her story is wild and solitary; little aid on record"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "조련·비행 업계에서 실력으로 평가를 받음",
+     "reason_en": "Judged by skill in the training and flying trades"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "회고록 집필 과정 논란에 명확한 해명을 남기지 않음",
+     "reason_en": "Never quite answered the ghost-writing questions"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "연료 부족 불시착에도 기록을 만든 낙관적 실행",
+     "reason_en": "Ran out of fuel over Nova Scotia yet made the record"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "여성 한정 역할을 거부하고 남성 직역을 차지",
+     "reason_en": "Refused women's allotted roles, took men's trades"
+    },
+    "individual_social": {
+     "score": -28,
+     "reason_ko": "케냐 들판과 단독비행으로 홀로 서는 삶을 택함",
+     "reason_en": "Chose a free-standing life in the Kenyan bush and solo air"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "동-서 대서양 단독비행이라는 고위험 도전을 실행",
+     "reason_en": "Took the higher-risk east–west Atlantic crossing"
+    }
+   },
+   "rationale_ko": "케냐에서 경주마 조련사와 부시 파일럿으로 살다가 1936년 대서양을 혼자 건넜다. 불시착 끝에 만든 기록과 헤밍웨이가 칭송한 회고록이 함께 남았다. 사랑과 자리를 자주 옮긴 자유로운 생애였다.",
+   "rationale_en": "Markham trained racehorses and flew bush routes in Kenya before crossing the Atlantic alone in 1936. The record made in a crash-landing and her Hemingway-praised memoir endure together — a free life of shifting loves and places."
+  }
+ },
+ "찰스 린드버그": {
+  "influence": {
+   "political": 4,
+   "political_exp": "아메리카 퍼스트 연설로 전시 여론을 흔듦",
+   "political_exp_en": "His America First speeches swayed wartime opinion",
+   "strategic": 4,
+   "strategic_exp": "태평양 전선 연료 기법으로 P-38 항속거리를 연장",
+   "strategic_exp_en": "His fuel techniques extended P-38 range in the Pacific",
+   "tech": 6,
+   "tech_exp": "고다드 로켓 후원과 장기 배양 펌프 발명",
+   "tech_exp_en": "Funded Goddard's rockets and invented a perfusion pump",
+   "social": 4,
+   "social_exp": "유괴 사건으로 연방 납치법 '린드버그법'을 낳음",
+   "social_exp_en": "The kidnapping produced the federal Lindbergh Law",
+   "economic": 4,
+   "economic_exp": "비행 성공이 항공 투자 붐 '린드버그 효과'를 일으킴",
+   "economic_exp_en": "The flight sparked the 'Lindbergh boom' in aviation stocks",
+   "cultural": 6,
+   "cultural_exp": "세계 최고 유명인, 회고록으로 퓰리처를 받음",
+   "cultural_exp_en": "The world's most famous man; a Pulitzer for his memoir",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "대서양 단독 무착륙 비행이라는 영구 이정표",
+   "transhistoricity_exp_en": "The solo nonstop Atlantic flight is a permanent milestone"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "기술 자문과 선전 활동을 이끌었으나 조직 수장은 아님",
+     "reason_en": "Led technical and rally work but headed no organisation"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "육군 비행학교 수료, 마흔 넘어 태평양 전투 임무 비행",
+     "reason_en": "Army flight school; flew Pacific combat missions past forty"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "연료 기법 개발·배양 펌프 발명·퓰리처 수상 저술",
+     "reason_en": "Fuel-mixture methods, a perfusion pump, a Pulitzer book"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "'행운아 린디'로 불리며 대서양 양쪽의 우상이 됨",
+     "reason_en": "'Lucky Lindy' — idol on both sides of the Atlantic"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "금주·절약의 규칙적 생활이나 비밀 이중가정을 둠",
+     "reason_en": "A sober, ordered life shadowed by secret second families"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "33시간 비행 준비부터 말년 환경 활동까지 일관",
+     "reason_en": "From the 33-hour flight to late conservation work"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "회고록에서 비행을 세밀히 복기하나 전시 발언은 굳힘",
+     "reason_en": "His memoir reviews the flight; he stood by the speeches"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "단독 대서양 비행과 전투 임무 자원을 실행",
+     "reason_en": "Flew the Atlantic alone and volunteered combat missions"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "가족에 대한 비밀 이중생활이 드러나 헌신에 금이 감",
+     "reason_en": "Secret parallel households cracked his domestic loyalty"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "심장병 누이를 위해 배양 펌프를 고안한 동기",
+     "reason_en": "Built the perfusion pump for a sister's heart condition"
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "유대인 언론 탓 발언으로 편견 논란을 남김",
+     "reason_en": "Left a prejudice controversy blaming Jewish influence"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "과묵한 외양이나 자기 판단에 대한 확신은 강함",
+     "reason_en": "Reserved in manner, rigid in self-belief"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "기술 진보를 믿되 민주주의엔 비관적 언급을 남김",
+     "reason_en": "Believed in technical progress, doubted democracy"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "참전 반대·인종 발언으로 보수적 질서 옹호 논란",
+     "reason_en": "Isolationism and racial remarks defended the old order"
+    },
+    "individual_social": {
+     "score": -32,
+     "reason_ko": "'외로운 독수리'답게 비밀과 고독 속 삶을 택함",
+     "reason_en": "The Lone Eagle chose secrets and solitude"
+    },
+    "cautious_bold": {
+     "score": 32,
+     "reason_ko": "극한 리스크를 철저한 계산으로 대비해 결행",
+     "reason_en": "Took an extreme risk hedged by extreme calculation"
+    }
+   },
+   "rationale_ko": "우편 조종사가 33시간 반의 대서양 단독비행으로 세계에서 가장 유명한 사람이 됐다. 정밀한 공학자 기질로 로켓 후원과 배양 펌프까지 남겼으나 아메리카 퍼스트 발언이 명성에 금을 냈다. 말년에는 환경 보호 활동에 헌신했다.",
+   "rationale_en": "A mail pilot's 33-hour solo crossing made Lindbergh the most famous man alive. His engineer's mind left Goddard's funding and a perfusion pump, but the America First speeches cracked his name. His last years went to conservation work."
+  }
+ },
+ "어밀리아 에어하트": {
+  "influence": {
+   "political": 1,
+   "political_exp": "공직이나 정책 변화 없이 상징적 위치만 남김",
+   "political_exp_en": "No office or policy impact; her force was symbolic",
+   "strategic": 1,
+   "strategic_exp": "군사 기여는 없으며 민간 비행사로 남음",
+   "strategic_exp_en": "No military contribution; a civilian aviator",
+   "tech": 3,
+   "tech_exp": "장거리 단독비행 성공으로 항공 가능성을 입증",
+   "tech_exp_en": "Her solo records proved long-distance flight practical",
+   "social": 6,
+   "social_exp": "여성의 항공 진출을 여는 상징적 실존 사례",
+   "social_exp_en": "She opened aviation to women as a living example",
+   "economic": 1,
+   "economic_exp": "강연·저술 수입 외 산업 구조 변화 없음",
+   "economic_exp_en": "No industrial change beyond lectures and books",
+   "cultural": 6,
+   "cultural_exp": "1937년 실종이 20세기 최대 항공 미스터리가 됨",
+   "cultural_exp_en": "Her 1937 vanishing became aviation's great mystery",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "실종 이후 80년 넘게 대중문화에 회자",
+   "transhistoricity_exp_en": "Cited in popular culture for over 80 years"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "1931년 여성 조종사 단체 나이티나인스 초대 회장",
+     "reason_en": "First president of the Ninety-Nines women pilots' group in 1931"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "1932년 15시간 대서양 단독비행을 견뎌냄",
+     "reason_en": "Endured a 15-hour solo Atlantic flight in 1932"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "항법과 기상을 익혀 단독 항로를 스스로 설계",
+     "reason_en": "Learned navigation and weather to plan solo routes herself"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "'레이디 린디'로 불리며 1930년대 미국 대중의 스타",
+     "reason_en": "'Lady Lindy' — a mass-media star of 1930s America"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "위험한 비행 앞에서도 준비를 거르지 않았음",
+     "reason_en": "Never skipped preparation before dangerous flights"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "여러 직업을 전전하며 비행 자금과 면허를 마련",
+     "reason_en": "Worked through many jobs to fund flying lessons and licences"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "비행기를 책으로 정리해 자기 경험을 되돌아봄",
+     "reason_en": "Turned her flights into books that revisited her own record"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1937년 실종될 때까지 세계일주 도전을 멈추지 않음",
+     "reason_en": "Kept flying toward a world circuit until she vanished in 1937"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "여성 조종사 공동체를 조직하고 이끌며 헌신",
+     "reason_en": "Built and led the women pilots' community"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "여성 후배 조종사의 진로를 돕고 격려",
+     "reason_en": "Helped and encouraged younger women into cockpits"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 보인 확실한 행적이 드러나지 않음",
+     "reason_en": "No firm record of impartial judgment survives"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "명성을 활용하면서도 공은 기체와 팀에 돌림",
+     "reason_en": "Used fame yet credited her machine and crew"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "여성의 한계를 단계적으로 깰 수 있다고 믿음",
+     "reason_en": "Believed women could break limits step by step"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "남성 영역이던 조종석에 여성을 밀어 넣음",
+     "reason_en": "Pushed women into the male preserve of the cockpit"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "혼자 나는 기록에 집착해 독립 행보를 지킴",
+     "reason_en": "Kept an independent path, fixated on solo records"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "장비 부실 속에서도 대서양 단독 비행을 감행",
+     "reason_en": "Flew the Atlantic solo despite fragile equipment"
+    }
+   },
+   "rationale_ko": "남성의 영역이던 조종석을 여성에게 연 비행사다. 대서양 단독 횡단과 세계일주 도전이 보여주듯 용기와 대담함이 정점이었다. 조직을 이끈 기록은 얕고 대중 매력과 상징으로서의 힘이 훨씬 컸다. 1937년의 실종은 그 자체로 신화를 완성했다.",
+   "rationale_en": "She opened the cockpit to women in a male domain. Her solo Atlantic crossing and final world-flight attempt mark the peak of her courage and daring. Organizational leadership was thin; her force was charm and symbolism. The 1937 disappearance completed the myth."
+  }
+ },
+ "와일리 포스트": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관한 민간 비행사",
+   "political_exp_en": "A civilian flyer with no political activity",
+   "strategic": 2,
+   "strategic_exp": "고고도 비행 연구가 후일 군용 항공에 흡수",
+   "strategic_exp_en": "His high-altitude work fed later military aviation",
+   "tech": 6,
+   "tech_exp": "1934년 최초의 실용 압력복을 개발",
+   "tech_exp_en": "Developed the first practical pressure suit in 1934",
+   "social": 2,
+   "social_exp": "대중에게 고고도 비행 시대를 각인",
+   "social_exp_en": "Imprinted the high-altitude age on the public",
+   "economic": 1,
+   "economic_exp": "산업 구조에 직접 기여는 드묾",
+   "economic_exp_en": "Little direct contribution to economic structure",
+   "cultural": 4,
+   "cultural_exp": "윌 로저스와의 추락사가 대중 기억에 남음",
+   "cultural_exp_en": "The crash with Will Rogers stayed in public memory",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "압력복 계보가 우주복까지 이어짐",
+   "transhistoricity_exp_en": "His pressure-suit line runs into spacesuits"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "조직 운영보다 조종간에만 집중한 비행사",
+     "reason_en": "A flyer who gripped the stick, not organizations"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "한쪽 눈을 잃고도 8일 세계일주 비행을 완수",
+     "reason_en": "Circled the world in eight days despite a lost eye"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "1934년 최초의 실용 압력복을 직접 구상",
+     "reason_en": "Conceived the first practical pressure suit himself in 1934"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "외눈의 개척자로 1930년대 미국의 영웅이 됨",
+     "reason_en": "The one-eyed pioneer became a Depression-era hero"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "위험한 노선 도전을 반복하고 일자리도 자주 버림",
+     "reason_en": "Repeated risky routes and walked away from jobs often"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "유전 노동으로 번 돈으로 비행을 익혀 개척",
+     "reason_en": "Learned flying on oilfield wages and kept pushing"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자기 경력을 돌아본 글이나 언급이 드묾",
+     "reason_en": "Rarely left words looking back on his own career"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "시야 장애에도 단독 세계일주와 성층권 도전",
+     "reason_en": "Flew solo round the world and to the stratosphere half-blind"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "항법사 개티·윌 로저스와 긴 동료 관계를 유지",
+     "reason_en": "Kept long partnerships with Gatty and Will Rogers"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "타인을 위한 선행 행적이 뚜렷이 드러나지 않음",
+     "reason_en": "No clear record of helping others survives"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 가늠할 판단 행적이 남겨지지 않음",
+     "reason_en": "No surviving act shows how fairly he judged"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "농가 출신의 투박한 언행을 끝까지 유지",
+     "reason_en": "Kept a farm-boy bluntness to the end"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "실패한 비행 뒤에도 다음 도전을 곧바로 준비",
+     "reason_en": "Prepped the next attempt right after each failure"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서보다 기술 개척에만 몰두한 실용가",
+     "reason_en": "A pragmatist absorbed in technology, not social order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "동승자 없는 단독 비행을 평생 추구",
+     "reason_en": "Pursued solo flight with no one aboard all his life"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "완전하지 않은 기체로도 장거리 도전을 감행",
+     "reason_en": "Attempted long distances in unfinished aircraft"
+    }
+   },
+   "rationale_ko": "외눈의 장애를 딛고 단독 세계일주를 해낸 개척 조종사다. 압력복 구상에서 보듯 기술적 통찰이 뛰어났고 지구력도 상위권이다. 조직을 이끌지 않았고 대중 매력보다 실질적 공로가 컸다. 1935년 윌 로저스와의 추락으로 생이 끝났다.",
+   "rationale_en": "A pioneering pilot who flew solo around the world despite losing an eye. His pressure-suit work shows real technical insight, and his endurance was top-tier. He led no organization; substance outweighed showmanship. The 1935 crash with Will Rogers ended his life."
+  }
+ },
+ "알베르토 산투스두몽": {
+  "influence": {
+   "political": 1,
+   "political_exp": "브라질 국가 상징이나 직접 정치 기여 없음",
+   "political_exp_en": "A Brazilian symbol but no direct political contribution",
+   "strategic": 1,
+   "strategic_exp": "군사 이용에 반대했고 전략 기여도 없음",
+   "strategic_exp_en": "Opposed military use; no strategic contribution",
+   "tech": 8,
+   "tech_exp": "유럽 최초 공개 동력비행·실용 경비행기 설계",
+   "tech_exp_en": "Europe's first public powered flight; a practical light plane",
+   "social": 3,
+   "social_exp": "특허 개방으로 비행기 대중화에 기여",
+   "social_exp_en": "Opened his patents, helping popularize flight",
+   "economic": 2,
+   "economic_exp": "드모아젤이 초기 경항공기 시장의 원형",
+   "economic_exp_en": "The Demoiselle was a prototype of the light-aircraft market",
+   "cultural": 5,
+   "cultural_exp": "남성 손목시계 대중화·브라질 국민 영웅",
+   "cultural_exp_en": "Popularized the men's wristwatch; a national hero in Brazil",
+   "transhistoricity": 17,
+   "transhistoricity_exp": "항공 개척자로 한 세기 넘게 위상 유지",
+   "transhistoricity_exp_en": "His standing as an aviation pioneer spans a century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "작은 작업장을 꾸렸으나 조직 지휘는 없었음",
+     "reason_en": "Ran small workshops but commanded no organization"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "실험 비행의 충격을 견뎠으나 비신체직 기반",
+     "reason_en": "Endured test-flight crashes on a non-physical frame"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "비행선·14비스·드모아젤을 스스로 설계",
+     "reason_en": "Designed airships, the 14-bis and the Demoiselle himself"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "벨에포크 파리의 스타, 에펠탑을 도는 비행선",
+     "reason_en": "Belle Époque Paris star steering airships past the Eiffel Tower"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "재산을 비행 실험에 모두 쏟아부음",
+     "reason_en": "Poured his whole fortune into flight experiments"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "번호를 매긴 기체를 열 번 넘게 만들며 개선",
+     "reason_en": "Built more than ten numbered craft, refining each"
+    },
+    "reflection": {
+     "score": 68,
+     "reason_ko": "전쟁에 쓰인 비행기를 보고 자책하다 죽음",
+     "reason_en": "Died reproaching himself over aircraft in war"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "검증 안 된 기체를 공개장에서 직접 몰았음",
+     "reason_en": "Flew unproven machines himself before crowds"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "브라질과 파리 두 고향에 헌신적 애착",
+     "reason_en": "Devoted attachment to two homes, Brazil and Paris"
+    },
+    "benevolence": {
+     "score": 72,
+     "reason_ko": "특허를 내놓아 누구나 만들게 개방",
+     "reason_en": "Released patents so anyone could build his designs"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "공정성 관련 확실한 행적이 전해지지 않음",
+     "reason_en": "No firm act of impartial judgment is handed down"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "발명을 상품화하지 않고 명성에도 담담",
+     "reason_en": "Never commercialized his inventions and stayed unimpressed by fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -25,
+     "reason_ko": "비행기의 군사화에 절망해 말년이 어두웠음",
+     "reason_en": "Despaired at warplanes; his final years turned dark"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서 문제보다 비행 자체에만 전념",
+     "reason_en": "Devoted to flight itself, not questions of order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "개인 비행선을 몰며 독립적 발명가로 활동",
+     "reason_en": "Worked as an independent inventor with his own airships"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "미검증 기체로 공중 시연을 거듭 감행",
+     "reason_en": "Repeatedly demonstrated unproven craft in the air"
+    }
+   },
+   "rationale_ko": "비행선에서 동력비행기까지 스스로 설계해 유럽의 하늘을 연 발명가다. 특허를 개방한 너그러움과 벨에포크 파리의 스타 매력이 공존한다. 군사화된 비행기에 절망해 자책하며 생을 마감한 것이 성찰과 비관을 함께 보여준다.",
+   "rationale_en": "An inventor who designed everything from airships to powered planes and opened Europe's skies. Patent-free generosity coexisted with Belle Époque stardom. His despair at the militarized airplane, ending in self-reproach and death, shows both reflection and pessimism."
+  }
+ },
+ "척 예거": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 활동 없이 군인으로만 복무",
+   "political_exp_en": "Served only as an airman; no political activity",
+   "strategic": 4,
+   "strategic_exp": "전투 에이스와 시험비행 교육으로 공군에 기여",
+   "strategic_exp_en": "WWII ace and test-pilot educator for the Air Force",
+   "tech": 6,
+   "tech_exp": "1947년 인류 최초 음속 돌파를 실행",
+   "tech_exp_en": "Flew the first supersonic flight in 1947",
+   "social": 2,
+   "social_exp": "시험비행사 직군의 상징을 세움",
+   "social_exp_en": "Set the archetype of the test-pilot profession",
+   "economic": 1,
+   "economic_exp": "산업 변화와 직접 연결 없음",
+   "economic_exp_en": "No direct link to industrial change",
+   "cultural": 6,
+   "cultural_exp": "'라이트 스터프' 원형으로 미국 신화에 자리",
+   "cultural_exp_en": "The original 'Right Stuff' in the American myth",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "음속 돌파가 항공사 영구 이정표",
+   "transhistoricity_exp_en": "Breaking the sound barrier is a permanent milestone"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "전투 비행대대와 시험비행학교를 지휘",
+     "reason_en": "Commanded fighter squadrons and the test-pilot school"
+    },
+    "martial": {
+     "score": 82,
+     "reason_ko": "격추 뒤 피레네를 넘어 탈출, 골절상 입고 음속 돌파",
+     "reason_en": "Escaped over the Pyrenees; flew supersonic with broken ribs"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "정규 교육 없이 기체 특성을 직관으로 꿰뚫음",
+     "reason_en": "Grasped aircraft by intuition without formal schooling"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "'라이트 스터프'의 원형이 된 대중적 영웅",
+     "reason_en": "Became the popular hero behind 'The Right Stuff'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "격분·난폭 비행 일화가 전기에 남음",
+     "reason_en": "Brawls and reckless flying episodes fill his biography"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "20년 넘게 시험비행 최전선을 지킴",
+     "reason_en": "Held the test-flight front line for over two decades"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "회고록에서 승리와 실수를 함께 정리",
+     "reason_en": "His memoir counts wins and mistakes alike"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "늑골 골절을 숨기고 1947년 음속을 돌파",
+     "reason_en": "Hid broken ribs to break the sound barrier in 1947"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "절친 리들리·부대 동료에 대한 헌신적 관계",
+     "reason_en": "Devoted ties to Jack Ridley and squadron mates"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "타인을 위한 선행 행적이 두드러지지 않음",
+     "reason_en": "No marked record of deeds done for others"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정 판단의 행적이 뚜렷이 남지 않음",
+     "reason_en": "No clear act of impartial judgment survives"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "공을 기체와 지상 요원에게 돌린 발언",
+     "reason_en": "Credited the machine and ground crew in his remarks"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "'되든 안 되든 해본다'는 태도로 임무에 임함",
+     "reason_en": "Faced missions with an either-it-works-or-not attitude"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "평생 군 조직 안에서 질서를 지킨 직업군인",
+     "reason_en": "A career officer who kept order inside the institution"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "개인 기량으로 문제를 푸는 독립적 조종사",
+     "reason_en": "A pilot who solved problems by personal skill alone"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "한계를 넓히는 고위험 비행을 반복 감행",
+     "reason_en": "Repeatedly flew edge-of-envelope sorties"
+    }
+   },
+   "rationale_ko": "늑골 골절을 숨기고 음속을 돌파한 용기의 정점이다. 전투 에이스에서 시험비행학교 지휘관까지 군 조직 안에서 실력으로 올랐다. 절제와 공정은 평범했으나 대담함과 개인 기량이 인물을 규정한다.",
+   "rationale_en": "The peak of courage: he broke the sound barrier hiding broken ribs. From combat ace to test-pilot school commandant, he rose by skill inside the service. Temperance and fairness were ordinary; daring and personal ability define the man."
+  }
+ },
+ "유리 가가린": {
+  "influence": {
+   "political": 5,
+   "political_exp": "우주 패권에서 소련 우위를 굳힌 상징",
+   "political_exp_en": "His flight cemented Soviet prestige in the space race",
+   "strategic": 4,
+   "strategic_exp": "유인 우주비행 성공이 냉전 경쟁 구도를 바꿈",
+   "strategic_exp_en": "Manned spaceflight success reshaped Cold War rivalry",
+   "tech": 6,
+   "tech_exp": "인간의 우주 생존·귀환을 최초 입증",
+   "tech_exp_en": "First proof that a human could survive space and return",
+   "social": 5,
+   "social_exp": "인류가 우주로 나갈 수 있다는 상식을 정착",
+   "social_exp_en": "Made human spaceflight an accepted fact of civilization",
+   "economic": 2,
+   "economic_exp": "우주 산업의 필요성을 촉진",
+   "economic_exp_en": "Spurred demand for a space industry",
+   "cultural": 8,
+   "cultural_exp": "'최초의 우주인'으로 인류 문화에 영구 자리",
+   "cultural_exp_en": "'First man in space' — a permanent place in human culture",
+   "transhistoricity": 24,
+   "transhistoricity_exp": "인류 최초 우주비행은 문명사 영구 이정표",
+   "transhistoricity_exp_en": "The first human spaceflight is a lasting civilizational milestone"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "귀환 뒤 우주비행사 훈련 부책임자를 맡음",
+     "reason_en": "Deputy head of cosmonaut training after his return"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "전투기 조종 훈련과 극한 탑승 신체검증 통과",
+     "reason_en": "Passed fighter training and extreme space-flight screening"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "공학 교육과 침착한 판단으로 첫 비행사에 선발",
+     "reason_en": "Engineering training and calm judgment won him selection"
+    },
+    "charm": {
+     "score": 90,
+     "reason_ko": "'가가린의 미소'로 전 세계 대중을 사로잡음",
+     "reason_en": "The 'Gagarin smile' captivated the whole world"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "훈련은 엄격했으나 귀환 뒤 음주 파문이 있음",
+     "reason_en": "Disciplined in training, yet post-flight drinking incidents"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "농가 출신에서 혹독한 선발 과정을 통과",
+     "reason_en": "A farm boy who survived a brutal selection process"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "지구를 본 감상을 반복해 정리해 전함",
+     "reason_en": "Repeatedly articulated what Earth looked like from above"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "살아 돌아올지 모르는 인류 첫 궤도 비행에 탑승",
+     "reason_en": "Boarded humanity's first orbital flight with no guarantee of return"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "체제와 프로그램, 동료 비행사에 충실",
+     "reason_en": "Faithful to the system, the program and fellow cosmonauts"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "순방마다 시민을 따뜻하게 대했다는 기록",
+     "reason_en": "Records show warmth toward crowds on every tour"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 가늠할 판단 행적이 드묾",
+     "reason_en": "Little survives to show how impartially he judged"
+    },
+    "humility": {
+     "score": 85,
+     "reason_ko": "공적을 모두 설계단과 국가에 돌림",
+     "reason_en": "Credited everything to the designers and the state"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "'포엑할리'로 대표되는 명랑한 낙관",
+     "reason_en": "The cheerful optimism summed up by 'Poyekhali'"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "소련 체제의 모범 인물로 질서에 순응",
+     "reason_en": "A model Soviet figure who conformed to the order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "개인 영광보다 집단 성취를 앞세운 언행",
+     "reason_en": "Put collective achievement before personal glory"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "생사가 불명한 첫 유인 비행을 자원",
+     "reason_en": "Volunteered for the first crewed flight into the unknown"
+    }
+   },
+   "rationale_ko": "생사를 알 수 없던 인류 첫 궤도 비행에 오른 용기의 상징이다. 농가 출신에서 선발 과정을 통과한 근면과 공을 집단에 돌린 겸손이 세계적 매력과 어우러졌다. 체제 안의 모범 인물이었고 34세 훈련 사고로 생이 끝났다.",
+   "rationale_en": "The symbol of courage aboard humanity's first orbital flight. A farm boy's diligence through brutal selection and his habit of crediting the collective matched his global charm. He remained a model Soviet man, killed in a training crash at 34."
+  }
+ },
+ "자크 쿠스토": {
+  "influence": {
+   "political": 2,
+   "political_exp": "남극 보호 등 환경 정책 여론을 키움",
+   "political_exp_en": "Built opinion behind ocean-protection policy",
+   "strategic": 2,
+   "strategic_exp": "해군 장교 출신이나 군사 기여는 미미",
+   "strategic_exp_en": "A naval officer with minimal military contribution",
+   "tech": 8,
+   "tech_exp": "1943년 아쿠아렁 공동 발명으로 스쿠버를 엶",
+   "tech_exp_en": "Co-invented the Aqua-Lung in 1943, opening scuba",
+   "social": 6,
+   "social_exp": "전 지구적 해양 보호 운동의 출발점",
+   "social_exp_en": "Starting point of a global ocean-protection movement",
+   "economic": 3,
+   "economic_exp": "스쿠버 장비·레저 산업의 태동을 부름",
+   "economic_exp_en": "Spawned the scuba equipment and leisure industry",
+   "cultural": 7,
+   "cultural_exp": "칼립소 다큐로 바다를 대중문화에 실음",
+   "cultural_exp_en": "Calypso films carried the ocean into mass culture",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "스쿠버와 해양의식이라는 지속 토대를 남김",
+   "transhistoricity_exp_en": "Left durable foundations: scuba and ocean awareness"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "칼립소 승무원 수십 명을 수십 년 지휘",
+     "reason_en": "Commanded the Calypso's dozens of crew for decades"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "해군 복무와 평생 잠수 현장의 신체 활동",
+     "reason_en": "Naval service and a lifetime of physical diving work"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "아쿠아렁 공동 발명과 수중 기술의 계속된 개발",
+     "reason_en": "Co-invented the Aqua-Lung and kept developing undersea tech"
+    },
+    "charm": {
+     "score": 88,
+     "reason_ko": "빨간 모자의 선장으로 전 세계 가정에 침투",
+     "reason_en": "The red-beanied captain who entered living rooms worldwide"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "바다 생활은 절제됐으나 사생활 논란이 있음",
+     "reason_en": "Austere at sea, yet private-life controversies surfaced"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "반세기 동안 원정·촬영·저술을 멈추지 않음",
+     "reason_en": "Half a century of nonstop expeditions, films and books"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "어로에서 보호로 입장을 바꾼 공개적 전환",
+     "reason_en": "Publicly reversed course from fishing to protection"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "미검증 잠수 장비를 몸소 시험해 바다를 엶",
+     "reason_en": "Tested unproven dive gear on his own body to open the sea"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "가냥·탈리에 등 오랜 협업 관계를 유지",
+     "reason_en": "Kept decades-long partnerships with Gagnan and Tailliez"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "말년을 해양 보호 운동에 통째로 바침",
+     "reason_en": "Gave his final years wholly to ocean protection"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 가늠할 판결·평가 행적이 드묾",
+     "reason_en": "Few recorded judgments show how fairly he ruled"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "공동 업적을 내세웠으나 스타 위상도 즐김",
+     "reason_en": "Shared credit yet plainly enjoyed stardom"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "해양 파괴를 경고하면서도 해결을 믿음",
+     "reason_en": "Warned of ocean ruin while believing in solutions"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "산업 개발 우선 질서에 해양 보호를 맞세움",
+     "reason_en": "Set ocean protection against industry-first order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "선단과 협회, 세계적 운동 조직을 건설",
+     "reason_en": "Built a fleet, a society and a worldwide movement"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "불확실한 잠수 기술을 직접 몸으로 검증",
+     "reason_en": "Verified uncertain diving technology on his own body"
+    }
+   },
+   "rationale_ko": "아쿠아렁을 공동 발명해 인류에게 바다를 열어 준 탐험가다. 반세기 원정과 영화 제작을 이끈 통솔과 근면이 두드러진다. 어로에서 보호로 입장을 바꾼 공개적 전환은 성찰의 무게를 보여준다. 스타로서의 매력도 정점급이다.",
+   "rationale_en": "The explorer who co-invented the Aqua-Lung and opened the sea to humanity. Command and diligence stand out across fifty years of expeditions and filmmaking. His public reversal from fishing to protection shows real reflection, and his star power was near the top."
+  }
+ },
+ "윌리엄 비비": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관한 자연학자",
+   "political_exp_en": "A naturalist with no political activity",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 민간 과학자",
+   "strategic_exp_en": "A civilian scientist far from military matters",
+   "tech": 5,
+   "tech_exp": "최초 심해 직접 관측으로 심해 탐사를 엶",
+   "tech_exp_en": "First in-situ deep-sea observation opened the field",
+   "social": 3,
+   "social_exp": "대중의 심해 인식을 바꾼 저술",
+   "social_exp_en": "His books changed how the public saw the deep sea",
+   "economic": 1,
+   "economic_exp": "경제 구조 기여는 없음",
+   "economic_exp_en": "No contribution to economic structure",
+   "cultural": 5,
+   "cultural_exp": "베스트셀러로 심해 탐사 붐을 일굼",
+   "cultural_exp_en": "Bestsellers that launched a deep-sea fascination",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "심해 관측의 선구자로 과학사에 기록",
+   "transhistoricity_exp_en": "Recorded in science history as a deep-sea pioneer"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "뉴욕동물학회 탐사대를 여러 차례 이끔",
+     "reason_en": "Led several expeditions for the NY Zoological Society"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "강철 공 잠수와 열대 현장 조사를 감당",
+     "reason_en": "Handled steel-sphere dives and tropical fieldwork"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "심해 생물을 직접 관찰해 기록한 자연학자",
+     "reason_en": "A naturalist who saw deep-sea life and recorded it firsthand"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "베스트셀러 저술로 대중에 심해를 알림",
+     "reason_en": "His bestselling books introduced the deep to the public"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "수십 년 현장 연구의 절제된 생활",
+     "reason_en": "A restrained life of decades in field research"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "수십 년 탐사와 관찰 기록을 이어감",
+     "reason_en": "Kept up expeditions and observation notes for decades"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "관찰 일지와 저술로 경험을 계속 정리",
+     "reason_en": "Kept sorting experience into field notes and books"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1934년 끊어지면 죽는 바티스피어로 923m 잠수",
+     "reason_en": "Descended 923 m in 1934 aboard a sphere whose cable meant life"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "바턴·동물학회와 긴 협업 관계 유지",
+     "reason_en": "Long collaborations with Barton and the Society"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "자연 지식의 대중 공유 외 선행 행적이 드묾",
+     "reason_en": "Beyond sharing nature knowledge, few good deeds are recorded"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정 판단의 행적이 뚜렷이 전해지지 않음",
+     "reason_en": "No clear record of impartial judgment is handed down"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "공을 공동 작업자 바턴과 나눈 기록",
+     "reason_en": "Shared credit for the dives with Otis Barton"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "미지의 심해를 경이로 그리며 도전",
+     "reason_en": "Approached the unknown deep with wonder, not dread"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서 발언보다 자연 관찰에 전념",
+     "reason_en": "Devoted to observing nature rather than social order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "탐사 팀과 학회 체계 안에서 활동함",
+     "reason_en": "Worked inside expedition teams and the Society's framework"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "미검증 강철 공으로 최심 잠수를 감행",
+     "reason_en": "Took an unproven steel ball to record depth"
+    }
+   },
+   "rationale_ko": "바티스피어를 타고 최초로 심해를 직접 본 자연학자다. 미검증 장비로 923m를 내려간 대담함과 수십 년 탐사의 근면이 받친다. 지력과 대중 저술이 조직 운영보다 앞선 경력이다.",
+   "rationale_en": "The naturalist who first saw the deep sea with his own eyes from the Bathysphere. Boldness — 923 m in an unproven sphere — and decades of diligent observation carry him. Intellect and popular writing outran organizational command."
+  }
+ },
+ "오귀스트 피카르": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관한 물리학자",
+   "political_exp_en": "A physicist with no political role",
+   "strategic": 1,
+   "strategic_exp": "전략 기여 없음, 민간 과학자",
+   "strategic_exp_en": "No strategic contribution; a civilian scientist",
+   "tech": 8,
+   "tech_exp": "가압 기구·바티스카프로 상공과 심해를 엶",
+   "tech_exp_en": "Pressurized cabin and bathyscaphe opened sky and deep sea",
+   "social": 2,
+   "social_exp": "탐험 과학자의 모델을 세움",
+   "social_exp_en": "Set the model of the explorer-scientist",
+   "economic": 1,
+   "economic_exp": "경제 구조 기여는 미미",
+   "economic_exp_en": "Minimal contribution to economic structure",
+   "cultural": 3,
+   "cultural_exp": "틴틴 시루 교수 원형으로 대중문화에 잔상",
+   "cultural_exp_en": "Lives on in pop culture as Tintin's Professor Calculus",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "고고도·심해 탐사 기술의 원형을 제공",
+   "transhistoricity_exp_en": "Provided the prototypes of high-altitude and deep-sea craft"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "대학 강단과 소규모 비행 팀을 이끔",
+     "reason_en": "Led a university chair and small flight teams"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "성층권 비행의 극한 환경을 몸으로 견냄",
+     "reason_en": "Endured the stratosphere's extremes in his own capsule"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "가압 기구와 바티스카프를 스스로 설계",
+     "reason_en": "Designed the pressurized capsule and the bathyscaphe himself"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "틴틴 시루 교수의 모델이 된 과학자",
+     "reason_en": "The scientist who became Tintin's Professor Calculus"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "학자로서 절제된 연구 생활을 유지",
+     "reason_en": "Kept the disciplined life of an academic"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "실패한 발사를 거듭하며 설계를 개선",
+     "reason_en": "Improved designs through repeated failed launches"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "실험 결과를 측정해 다음 설계에 반영",
+     "reason_en": "Measured results and folded them into the next design"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1931년 자기가 만든 기구로 첫 성층권 비행",
+     "reason_en": "Rode his own capsule on the first stratospheric flight in 1931"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "쌍둥이 형·아들과 대를 이은 과학 협업",
+     "reason_en": "A scientific collaboration spanning twin brother and son"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "남을 돕는 선행 일화가 뚜렷이 드러나지 않음",
+     "reason_en": "No marked episodes of helping others emerge"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정성을 측정할 판단 기록이 남지 않음",
+     "reason_en": "No judgment record remains to measure fairness by"
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "탐험보다 측정과 관측을 앞세운 겸손한 자세",
+     "reason_en": "Put measurement above glory — a modest posture"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "위와 아래 미지를 계속 밝힐 수 있다고 믿음",
+     "reason_en": "Believed the unknown above and below could be measured"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서보다 물리 실험에만 집중",
+     "reason_en": "Focused on physics, not on the social order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "가족 단위 협업으로 탐험을 이어감",
+     "reason_en": "Explored through family-unit collaboration"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "직접 만든 기구에 올라 검증한 실험가",
+     "reason_en": "An experimenter who validated designs by riding them"
+    }
+   },
+   "rationale_ko": "가압 기구와 바티스카프를 직접 설계해 하늘과 바다의 끝을 연 물리학자다. 지력이 가장 높은 축이고 자기 기구에 몸소 오른 용기가 뒤따른다. 쌍둥이 형과 아들로 이어진 협업은 가족 단위 공동체성을 보여준다.",
+   "rationale_en": "The physicist who designed the pressurized capsule and the bathyscaphe, reaching the edges of sky and sea. Intellect leads, with the courage of a man who rode his own machines close behind. Collaboration with his twin brother and son shows family-scale community."
+  }
+ },
+ "실비아 얼": {
+  "influence": {
+   "political": 3,
+   "political_exp": "NOAA 수석과학자로 해양 정책에 관여",
+   "political_exp_en": "Shaped ocean policy as NOAA's chief scientist",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 해양학자",
+   "strategic_exp_en": "A marine scientist with no military link",
+   "tech": 5,
+   "tech_exp": "잠수 기술 활용과 잠수정 개발에 참여",
+   "tech_exp_en": "Used dive tech and helped develop submersibles",
+   "social": 6,
+   "social_exp": "바다 보호를 지구 의제로 올린 운동의 얼굴",
+   "social_exp_en": "The face of a movement that made oceans a global agenda",
+   "economic": 1,
+   "economic_exp": "경제 구조 직접 기여는 미미",
+   "economic_exp_en": "Minimal direct economic contribution",
+   "cultural": 4,
+   "cultural_exp": "타임 '지구의 영웅'으로 대중 상징이 됨",
+   "cultural_exp_en": "Became a public icon as Time's first Hero for the Planet",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "해양 보호 담론의 지속적 원천",
+   "transhistoricity_exp_en": "A lasting source of ocean-protection discourse"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "1990년 NOAA 최초 여성 수석과학자로 연구 총괄",
+     "reason_en": "Ran national ocean research as NOAA's first female chief scientist"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "1979년 수심 381m 해저를 무계류로 걸음",
+     "reason_en": "Walked the seafloor untethered at 381 m in 1979"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "해조류 전문가로 190편 넘는 연구를 남김",
+     "reason_en": "An algae expert with over 190 publications"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "'허 딥니스'로 불린 바다 최고의 대변인",
+     "reason_en": "'Her Deepness' — the ocean's best-known advocate"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "수십 년 바다 현장 중심의 절제된 생활",
+     "reason_en": "A disciplined life centered on field sites for decades"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "수천 시간 잠수와 50회 넘는 원정을 수행",
+     "reason_en": "Thousands of hours underwater and fifty-plus expeditions"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "저술과 강연으로 바다의 변화를 계속 점검",
+     "reason_en": "Keeps auditing the ocean's decline in books and talks"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "남성만의 잠수팀에 도전하고 무계류 해저 보행",
+     "reason_en": "Challenged all-male aquanaut teams and walked the seafloor free"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "평생 한 가지 바다 보호 사명에 헌신",
+     "reason_en": "Devoted a whole life to one mission: the ocean"
+    },
+    "benevolence": {
+     "score": 78,
+     "reason_ko": "후대를 위해 바다 보호 구역 확대를 추진",
+     "reason_en": "Pushed protected 'Hope Spots' for coming generations"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "여성 과학자의 기회 평등을 조직적으로 주장",
+     "reason_en": "Argued institutionally for equal footing for women scientists"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "공을 탐사팀과 바다 자체에 돌리는 발언",
+     "reason_en": "Credits her teams and the ocean itself in her remarks"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "위기를 말하면서도 '희망의 점'을 내세움",
+     "reason_en": "Speaks of crisis yet stakes everything on 'hope spots'"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "개발 중심 해양 질서에 보호 구역을 맞세움",
+     "reason_en": "Set protected areas against a development-first ocean order"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "미션 블루로 세계적 공동체 운동을 조직",
+     "reason_en": "Organized a global community movement through Mission Blue"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "미검증 잠수복으로 최심 해저 보행을 감행",
+     "reason_en": "Walked the deepest seafloor in an unproven suit"
+    }
+   },
+   "rationale_ko": "수심 381m 해저를 걸은 뒤 바다의 대변인이 된 해양학자다. 수천 시간 잠수의 근면과 여성 최초 NOAA 수석과학자의 통솔이 높다. 보호 구역 확대를 밀어붙이는 진보적 공동체 지향이 뚜렷하다.",
+   "rationale_en": "A marine scientist who walked the seafloor at 381 m and became the ocean's chief advocate. Diligence — thousands of hours underwater — and command as NOAA's first female chief scientist stand high. Her push for protected areas is plainly progressive and communal."
+  }
+ },
+ "이본 취나드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "환경 정책 여론에 영향, 공직은 없음",
+   "political_exp_en": "Moved environmental opinion; held no office",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 기업가",
+   "strategic_exp_en": "An entrepreneur with no military link",
+   "tech": 4,
+   "tech_exp": "재사용 등반 도구가 클린 클라이밍을 엶",
+   "tech_exp_en": "Removable gear opened the era of clean climbing",
+   "social": 5,
+   "social_exp": "'1% 포 더 플래닛'으로 기업 기부 규범을 만듦",
+   "social_exp_en": "Co-founded 1% for the Planet; a model of responsible business",
+   "economic": 7,
+   "economic_exp": "파타고니아로 아웃도어 산업과 경영 관행을 바꿈",
+   "economic_exp_en": "Patagonia reshaped the outdoor industry and management norms",
+   "cultural": 4,
+   "cultural_exp": "클린 클라이밍 선언으로 등반 문화를 전환",
+   "cultural_exp_en": "His clean-climbing stance converted climbing culture",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "책임 경영의 원형 사례로 장기 회자",
+   "transhistoricity_exp_en": "Long cited as a prototype of responsible business"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "파타고니아를 50년간 이끌며 수천 명 고용",
+     "reason_en": "Led Patagonia for fifty years with thousands employed"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "요세미티 황금기의 빅월 등반가로 전선 개척",
+     "reason_en": "A big-wall pioneer of Yosemite's golden age"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "등반 도구와 경영 방식을 스스로 설계",
+     "reason_en": "Designed his own gear and his own management style"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "등반계의 반문화 아이콘으로 굳센 팬층",
+     "reason_en": "A counterculture icon of the climbing world"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 85,
+     "reason_ko": "낡은 차를 몰고 사치를 멀리한 검소한 경영자",
+     "reason_en": "Drove old cars and shunned luxury as a frugal owner"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "대장간 망치질에서 회사 경영까지 몸으로 일굼",
+     "reason_en": "Built it all by hand, from forge to boardroom"
+    },
+    "reflection": {
+     "score": 78,
+     "reason_ko": "'사업가 되기 싫은' 자기 모순을 책으로 성찰",
+     "reason_en": "Examined his own contradiction in 'Let My People Go Surfing'"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "초등 루트 개척과 회사 통째 기부의 결단",
+     "reason_en": "First-ascent boldness and the decision to give away his company"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "등반 동료·직원과 반세기 관계를 유지",
+     "reason_en": "Kept half-century ties with climbing partners and staff"
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "2022년 회사 전체를 기후 대응에 기부",
+     "reason_en": "Gave the entire company to climate work in 2022"
+    },
+    "fairness": {
+     "score": 75,
+     "reason_ko": "직원 보육·공급망 기준을 앞장서 도입",
+     "reason_en": "Pioneered on-site childcare and supply-chain standards"
+    },
+    "humility": {
+     "score": 85,
+     "reason_ko": "스스로를 '마지못한 사업가'라 낮춤",
+     "reason_en": "Calls himself a 'reluctant businessman'"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "소비문명을 어둡게 보면서도 행동은 계속",
+     "reason_en": "Dark view of consumer civilization, yet keeps acting"
+    },
+    "conservative_progressive": {
+     "score": 35,
+     "reason_ko": "성장 우선 자본주의 질서에 정면으로 맞섬",
+     "reason_en": "Confronted the growth-first capitalist order head-on"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "기업을 공동체와 지구의 도구로 규정",
+     "reason_en": "Defines the company as a tool of community and planet"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "빅벽 초등과 회사 기부 같은 과감한 결정",
+     "reason_en": "Bold calls: big-wall first ascents, giving the firm away"
+    }
+   },
+   "rationale_ko": "대장간에서 시작해 파타고니아를 세운 등반가 출신 경영자다. 절제와 겸손, 인자가 모두 높고 회사 통째 기부는 그 정점이다. 성장 중심 질서에 맞선 진보적 대담함이 등반가 시절과 맥을 잇는다.",
+   "rationale_en": "A climber-turned-owner who built Patagonia out of a blacksmith's forge. Temperance, humility and benevolence all run high, peaking in the donation of the whole company. His progressive daring against the growth-first order continues the boldness of his climbing years."
+  }
+ },
+ "더그 톰킨스": {
+  "influence": {
+   "political": 3,
+   "political_exp": "국립공원 기부로 칠레·아르헨티나 정책과 협상",
+   "political_exp_en": "Negotiated park donations with Chile and Argentina",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 기업가",
+   "strategic_exp_en": "A businessman with no military connection",
+   "tech": 1,
+   "tech_exp": "기술 기여는 미미",
+   "tech_exp_en": "Minimal technological contribution",
+   "social": 5,
+   "social_exp": "민간 토지 보전의 세계적 모델을 세움",
+   "social_exp_en": "Set a world model for private land conservation",
+   "economic": 5,
+   "economic_exp": "두 개의 세계적 의류 브랜드를 창업",
+   "economic_exp_en": "Founded two global apparel brands",
+   "cultural": 3,
+   "cultural_exp": "자연 보호 철학이 야외 문화에 스밈",
+   "cultural_exp_en": "His conservation ethic seeped into outdoor culture",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "기부된 국립공원이 반영구적 자산으로 남음",
+   "transhistoricity_exp_en": "The donated national parks remain a near-permanent asset"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "노스페이스·에스프리를 세계 규모로 경영",
+     "reason_en": "Ran The North Face and Esprit at global scale"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "피츠로이 등정과 카약·스키 원정의 산악인",
+     "reason_en": "A mountaineer of Fitz Roy, kayak and ski expeditions"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "브랜드 경영과 토지 보전 전략을 스스로 설계",
+     "reason_en": "Designed both brand strategy and land-conservation plans"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "보호운동가로 존경받았으나 칠레에서 논란도 큼",
+     "reason_en": "Revered as a conservationist yet divisive in Chile"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "사업 성공 뒤 검소해졌으나 땅 매입은 과감",
+     "reason_en": "Simple living after business, but land buying stayed bold"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "수백만 헥타르 매입·보전을 수십 년 추진",
+     "reason_en": "Pursued millions of hectares of purchase and protection for decades"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "사업가의 삶을 접고 보호운동으로 전환",
+     "reason_en": "Deliberately left business for conservation"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "정치 반발 속에서도 국립공원 조성을 밀어붙임",
+     "reason_en": "Pushed national parks through political resistance"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "크리스 톰킨스와 보호 사업을 끝까지 함께",
+     "reason_en": "Saw the conservation work through with Kris Tompkins"
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "사들인 땅을 국립공원으로 국가에 기부",
+     "reason_en": "Donated purchased lands to the state as national parks"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "땅 매입 방식이 지역 사회의 반발을 샀음",
+     "reason_en": "His land-buying methods drew local backlash"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "대의는 공익이었으나 추진 방식은 독단적",
+     "reason_en": "The cause was public, the execution unilateral"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "산업문명의 파괴를 비관한 심층생태론자",
+     "reason_en": "A deep ecologist pessimistic about industrial civilization"
+    },
+    "conservative_progressive": {
+     "score": 35,
+     "reason_ko": "개발 논리를 뒤집어 땅을 공공에 돌려줌",
+     "reason_en": "Reversed development logic, returning land to the public"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "국가 반환을 목표로 땅을 모은 공동체 지향",
+     "reason_en": "Amassed land to hand to the state — a communal aim"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "전 재산을 걸고 남미 황야에 통째로 베팅",
+     "reason_en": "Staked his whole fortune on Patagonian wilderness"
+    }
+   },
+   "rationale_ko": "노스페이스와 에스프리를 세운 뒤 전 재산으로 땅을 사 국가에 돌려준 보호운동가다. 산업문명에 대한 비관이 급진적 행동으로 바뀐 드문 예다. 추진 방식의 독단은 공정과 겸손을 눌렀다.",
+   "rationale_en": "The North Face and Esprit founder who spent his fortune buying land to hand back to nations. His pessimism about industrial civilization turned into radical action — a rare arc. The unilateral way he pushed it drags fairness and humility down."
+  }
+ }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "nick": "로버트 파크 유니",
+    "title": "사설군의 첫 부대장",
+    "issue": "en-mismatch",
+    "why": "en은 첫 입대자인데 ko는 첫 부대장으로 다른 사실. 유니는 PPA의 첫 입대자 겸 부지휘관이고 지휘관은 창설자 폽스키 — ko 표기는 사실도 틀림.",
+    "fix_ko": "사설군의 첫 입대자",
+    "fix_en": "First Recruit of the Private Army"
+  },
+  {
+    "nick": "알렉상드르 반자",
+    "title": "보카사가 직접 때려죽인 심복",
+    "issue": "overstated",
+    "why": "보카사가 반자를 구타한 건 사실이나 주요 기록은 쇼 재판 후 총살로 전함. 직접 때려죽였다는 단정은 과장이며 사망 경위는 기록마다 다름.",
+    "fix_ko": "보카사가 처형한 심복",
+    "fix_en": "The Protégé Bokassa Executed"
+  },
+  {
+    "nick": "판 놀리",
+    "title": "셰익스피어를 옮긴 총리",
+    "issue": "en-mismatch",
+    "why": "ko는 셰익스피어 번역, en은 주교 출신 총리라 다른 사실. 둘 다 사실이지만 같은 주장이 아님.",
+    "fix_ko": "셰익스피어를 옮긴 총리",
+    "fix_en": "The Prime Minister Who Translated Shakespeare"
+  }
+]

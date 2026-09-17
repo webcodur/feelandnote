@@ -1,0 +1,10 @@
+[
+  {
+    "nick": "조지 데커",
+    "title": "바이킹 유적을 안내한 어부",
+    "issue": "en-mismatch",
+    "why": "ko는 안내로 정확하나 en Found Vinland는 발견 주장으로 다른 사실. 데커는 옛 인디언 야영지 언덕을 잉스타드에게 안내했을 뿐(Parks Canada).",
+    "fix_ko": "바이킹 유적의 안내인",
+    "fix_en": "The Guide to Vinland"
+  }
+]

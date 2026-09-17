@@ -1,0 +1,238 @@
+{
+  "마테오 리치": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "기하학 원론",
+        "title_en": "Elements",
+        "creator": "유클리드",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://koreascience.kr/article/JAKO202014655594328.page",
+        "evidence": "1607년 마테오 리치와 서광계가 유클리드 《원론》을 공역해 《기하원본》으로 간행했고, 전 13권 중 평면기하를 다룬 앞 6권을 옮겼다고 논문이 기술한다.",
+        "review": "마테오 리치는 서광계와 함께 이 책의 앞 6권을 한문으로 옮겨 1607년 《기하원본》이라는 이름으로 펴냈다. 유럽의 기하학이 중국에 소개된 첫 사례였다.",
+        "review_en": "Matteo Ricci translated the first six books of Euclid's Elements into Chinese with Xu Guangqi, publishing them in 1607 as Jihe Yuanben — the first introduction of European geometry to China."
+      },
+      {
+        "type": "BOOK",
+        "title": "논어",
+        "title_en": "Analects",
+        "creator": "공자와 그 제자들",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.1515/9783111718583-008",
+        "evidence": "리치가 서신에서 사서(四書)를 라틴어로 번역했다고 밝혔고, 1593년 12월까지 대학·중용·논어를, 1594년 11월까지 넷째 책(맹자)을 옮겼다고 연구가 정리한다.",
+        "review": "마테오 리치는 중국어를 익히는 과정에서 중국 스승들의 도움을 받아 이 책을 읽고 풀이한 뒤 라틴어로 옮겼다. 그의 서신에는 1593년 말까지 번역을 마쳤다는 기록이 남아 있다.",
+        "review_en": "Matteo Ricci read and glossed the Analects with the help of Chinese teachers while mastering the language, and his letters record that he had completed a Latin translation of it by late 1593."
+      },
+      {
+        "type": "BOOK",
+        "title": "대학",
+        "title_en": "Great Learning",
+        "creator": "증자 전승(유교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.1515/9783111718583-008",
+        "evidence": "리치가 서신에서 사서를 라틴어로 번역했다고 밝혔고, 1593년 12월까지 대학·중용·논어 세 책을 옮겼다고 연구가 정리한다.",
+        "review": "마테오 리치는 사서의 첫 책인 이 경전을 읽고 라틴어로 옮겼으며, 1593년 12월까지 대학·중용·논어 세 책의 번역을 마쳤다고 서신에 적었다.",
+        "review_en": "Matteo Ricci read and translated the Great Learning into Latin, writing in his letters that he had finished the first three of the Four Books by December 1593."
+      },
+      {
+        "type": "BOOK",
+        "title": "중용",
+        "title_en": "Doctrine of the Mean",
+        "creator": "자사 전승(유교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.1515/9783111718583-008",
+        "evidence": "리치가 서신에서 사서를 라틴어로 번역했다고 밝혔고, 1593년 12월까지 대학·중용·논어 세 책을 옮겼다고 연구가 정리한다.",
+        "review": "마테오 리치는 이 경전을 포함한 사서를 라틴어로 옮겼고, 후에 중국에 온 예수회 선교사들이 그의 라틴어 역본으로 중국 문화를 배웠다고 전해진다.",
+        "review_en": "Matteo Ricci translated the Doctrine of the Mean into Latin as part of the Four Books, and later Jesuits arriving in China reportedly used his Latin paraphrase to learn Chinese culture."
+      },
+      {
+        "type": "BOOK",
+        "title": "맹자",
+        "title_en": "Mencius",
+        "creator": "맹자와 그 제자들",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.1515/9783111718583-008",
+        "evidence": "리치가 1594년 11월까지 사서의 넷째 책 번역을 마쳤다고 서신에서 밝혔고, 그 넷째가 맹자였다고 연구가 추정한다.",
+        "review": "마테오 리치는 사서 가운데 이 책을 마지막으로 옮겨 1594년 11월까지 라틴어 번역을 끝냈다고 서신에 밝혔다.",
+        "review_en": "Matteo Ricci completed his Latin rendering of Mencius, the last of the Four Books he translated, by November 1594 according to his correspondence."
+      }
+    ]
+  },
+  "윌리엄 애덤스": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "헨드릭 하멜": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "필리프 프란츠 폰 지볼트": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "일본사",
+        "title_en": "The History of Japan",
+        "creator": "엥겔베르트 캠퍼",
+        "year": 1727,
+        "status": "FINISHED",
+        "source_url": "https://www.qsr.mlit.go.jp/suishin/story2019/english/06_5.html",
+        "evidence": "캠퍼의 《일본사》가 140년 뒤 일본에 온 지볼트에게 큰 영향을 주었고, 지볼트가 자신의 저작에서 캠퍼를 일본 연구의 선구자로 기렸다는 내용이다.",
+        "review": "필리프 프란츠 폰 지볼트는 이 책을 읽고 깊은 영향을 받아 저술에서 캠퍼를 일본 연구의 선구자로 높였다. 그는 데지마 꽃밭에 선배 연구자 캠퍼와 툰베리를 기리는 기념비를 세우기도 했다.",
+        "review_en": "Philipp Franz von Siebold read Kaempfer's History of Japan and was deeply influenced by it, honoring Kaempfer as a pioneer in his own writings and even erecting a monument to him and Thunberg in the Dejima garden."
+      }
+    ]
+  },
+  "의정": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "금광명최승왕경",
+        "title_en": "Suvarnaprabhasottamaraja Sutra (Golden Light Sutra)",
+        "creator": "불명(인도 불교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Sutra_of_Golden_Light",
+        "evidence": "의정이 703년 이 경전을 한문 《금광명최승왕경》(T665)으로 번역했고, 그의 31품본이 동아시아 불교에서 가장 널리 읽힌 판본이 됐다는 내용이다.",
+        "review": "의정은 인도에서 구해 온 이 경전을 703년 한문으로 옮겼다. 그의 31품 역본은 이후 동아시아에서 가장 널리 읽히는 판본이 됐다.",
+        "review_en": "Yijing translated this sutra into Chinese in 703, and his thirty-one-chapter version became the most widely read edition of the text in East Asian Buddhism."
+      },
+      {
+        "type": "BOOK",
+        "title": "금강경",
+        "title_en": "Diamond Sutra",
+        "creator": "불명(인도 불교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Yijing_(monk)",
+        "evidence": "의정이 703년 《능단금강반야바라밀다경》(T.239)이라는 제목으로 이 경을 한역한 것이 그의 60여 종 역경 목록에 포함됐다는 내용이다.",
+        "review": "의정은 703년 이 경을 《능단금강반야바라밀다경》이라는 제목으로 한역했다. 60여 종에 이르는 그의 역경 가운데 하나였다.",
+        "review_en": "Yijing translated the Diamond Sutra into Chinese in 703 under the title Nengduan jingang bore boluomiduo jing, one of more than sixty texts he rendered during his career."
+      }
+    ]
+  },
+  "두웨성": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "장줘린": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "메이란팡": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "런런 쇼": {
+    "searched": [
+      "VIDEO"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "미스터 빈",
+        "title_en": "Mr. Bean",
+        "creator": "로완 앳킨슨, 리처드 커티스",
+        "year": 1990,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Run_Run_Shaw",
+        "evidence": "위키 문서가 '미스터 빈이 전해지기로 그의 가장 좋아하는 쇼였다'고 각주와 함께 기술한다.",
+        "review": "런런 쇼는 이 코미디 시리즈를 자신이 가장 좋아하는 프로그램으로 꼽았다고 전해진다. 거대한 영화 제국을 세운 그였지만 개인적인 애호작은 이 텔레비전 시트콤이었다.",
+        "review_en": "Run Run Shaw reportedly counted this comedy series as his favourite show; despite building a vast film empire, his personal favourite was this television sitcom."
+      }
+    ]
+  },
+  "푸이": {
+    "searched": [
+      "BOOK",
+      "VIDEO"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "이상한 나라의 앨리스",
+        "title_en": "Alice's Adventures in Wonderland",
+        "creator": "루이스 캐럴",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Puyi",
+        "evidence": "1919년부터 영어 가정교사로 온 존스턴이 푸이에게 읽게 할 수 있던 영문 텍스트 다섯 종 중 하나로 이 책이 지정됐다는 내용이다.",
+        "review": "푸이는 스코틀랜드인 교사 존스턴의 영어 수업에서 허용된 다섯 종의 텍스트 중 하나로 이 책을 읽었다. 목록 바깥의 내용까지 가르친 존스턴의 수업은 그에게 큰 영향을 남겼다.",
+        "review_en": "Puyi read Alice's Adventures in Wonderland as one of the five English-language texts his Scottish tutor Reginald Johnston was permitted to give him; Johnston went well beyond the list and left a deep mark on the boy emperor."
+      },
+      {
+        "type": "BOOK",
+        "title": "논어",
+        "title_en": "Analects",
+        "creator": "공자와 그 제자들",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Puyi",
+        "evidence": "존스턴이 푸이에게 읽게 할 수 있던 영문 텍스트 다섯 종에 유교 사서의 영역본 — 논어·맹자·대학·중용 — 이 포함됐다는 내용이다.",
+        "review": "푸이는 존스턴의 수업에서 이 경전의 영역본을 읽었다. 영어 교재로 허용된 다섯 종의 텍스트 가운데 하나였다.",
+        "review_en": "Puyi read the Analects in English translation under Johnston's tutelage; it was one of the five English texts the tutor was allowed to give him."
+      },
+      {
+        "type": "BOOK",
+        "title": "맹자",
+        "title_en": "Mencius",
+        "creator": "맹자와 그 제자들",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Puyi",
+        "evidence": "존스턴이 푸이에게 읽게 할 수 있던 영문 텍스트 다섯 종에 유교 사서의 영역본 — 논어·맹자·대학·중용 — 이 포함됐다는 내용이다.",
+        "review": "푸이는 존스턴의 수업에서 이 경전의 영역본을 읽었다. 영어 교재로 허용된 다섯 종의 텍스트 가운데 하나였다.",
+        "review_en": "Puyi read Mencius in English translation under Johnston's tutelage; it was one of the five English texts the tutor was allowed to give him."
+      },
+      {
+        "type": "BOOK",
+        "title": "대학",
+        "title_en": "Great Learning",
+        "creator": "증자 전승(유교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Puyi",
+        "evidence": "존스턴이 푸이에게 읽게 할 수 있던 영문 텍스트 다섯 종에 유교 사서의 영역본 — 논어·맹자·대학·중용 — 이 포함됐다는 내용이다.",
+        "review": "푸이는 존스턴의 수업에서 이 경전의 영역본을 읽었다. 영어 교재로 허용된 다섯 종의 텍스트 가운데 하나였다.",
+        "review_en": "Puyi read the Great Learning in English translation under Johnston's tutelage; it was one of the five English texts the tutor was allowed to give him."
+      },
+      {
+        "type": "BOOK",
+        "title": "중용",
+        "title_en": "Doctrine of the Mean",
+        "creator": "자사 전승(유교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Puyi",
+        "evidence": "존스턴이 푸이에게 읽게 할 수 있던 영문 텍스트 다섯 종에 유교 사서의 영역본 — 논어·맹자·대학·중용 — 이 포함됐다는 내용이다.",
+        "review": "푸이는 존스턴의 수업에서 이 경전의 영역본을 읽었다. 영어 교재로 허용된 다섯 종의 텍스트 가운데 하나였다.",
+        "review_en": "Puyi read the Doctrine of the Mean in English translation under Johnston's tutelage; it was one of the five English texts the tutor was allowed to give him."
+      }
+    ]
+  }
+}

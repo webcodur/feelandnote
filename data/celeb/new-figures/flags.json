@@ -1,0 +1,384 @@
+{
+ "flags": [
+  {
+   "pid": "p030",
+   "name": "그리고리 라스푸틴",
+   "flag": "en 당선안의 'monk'는 통용 별칭이나 실제로는 정규 수도승이 아닌 방랑 성직자"
+  },
+  {
+   "pid": "p030",
+   "name": "그리고리 라스푸틴",
+   "flag": "다수 후보가 전설적 3중 살해 일화를 사실로 단정"
+  },
+  {
+   "pid": "p014",
+   "name": "아우렐 슈타인",
+   "flag": "ko 후보 3의 '첫 외국인' 주장은 검증이 어려움"
+  },
+  {
+   "pid": "p237",
+   "name": "실비아 얼",
+   "flag": "ko 당선안이 수심을 사백 미터로 부풀림(실제 381m)"
+  },
+  {
+   "pid": "p167",
+   "name": "조사이어 할런",
+   "flag": "'최초의 미국인' 주장 포함(bio 근거 있음)"
+  },
+  {
+   "pid": "p157",
+   "name": "오노다 히로오",
+   "flag": "en 후보 3의 'the last soldier to surrender'는 더 늦게 항복한 나카무라 데루오가 있어 부정확"
+  },
+  {
+   "pid": "p103",
+   "name": "바질 자하로프",
+   "flag": "일부 후보가 방화범 경력·잠수함 한 척 3국 판매 등 전설적 일화를 사실로 단정"
+  },
+  {
+   "pid": "p110",
+   "name": "윌리엄 베크포드",
+   "flag": "en 당선안의 '3일 집필'은 베크포드 본인 주장에 기반한 일화"
+  },
+  {
+   "pid": "p115",
+   "name": "존 매카피",
+   "flag": "ko3·en3의 문신 인용은 자살 판정 논쟁과 얽힌 일화"
+  },
+  {
+   "pid": "p208",
+   "name": "휴 글래스",
+   "flag": "복수 동기(ko3·5, en1·4)는 역사적 논쟁이 있는 전설 요소 — 당선안은 이를 회피"
+  },
+  {
+   "pid": "p118",
+   "name": "프랭크 애버그네일",
+   "flag": "조종사·의사 행세 등 bio 자체가 애버그네일의 자기주장 일화로 과장 논란이 있음"
+  },
+  {
+   "pid": "p096",
+   "name": "윌리엄 랜돌프 허스트",
+   "flag": "ko0·6·en3의 '전쟁은 내가 만든다' 전보 일화는 실재성이 논쟁되는 전설"
+  },
+  {
+   "pid": "p146",
+   "name": "세쿼야",
+   "flag": "ko4의 세쿼이아 나무 명명 유래는 전통 설이나 학계 논쟁 있음"
+  },
+  {
+   "pid": "p265",
+   "name": "제럴드 코튼",
+   "flag": "ko1은 사망을 단정했으나 실제로는 가짜 사망 의혹이 미해결 논쟁"
+  },
+  {
+   "pid": "p287",
+   "name": "제리 엘즈워스",
+   "flag": "ko1의 오큘러스 경력은 bio에 없는 미확인 주장"
+  },
+  {
+   "pid": "p094",
+   "name": "마에자와 유사쿠",
+   "flag": "dearMoon은 예약 단계였으며 이후 취소됨"
+  },
+  {
+   "pid": "p012",
+   "name": "오스니얼 찰스 마시",
+   "flag": "ko 당선안의 '대부분'은 약간의 과장"
+  },
+  {
+   "pid": "p236",
+   "name": "오귀스트 피카르",
+   "flag": "당선 ko안은 bio에 없는 틴틴 일화에 의존(사실 자체는 확립됨)"
+  },
+  {
+   "pid": "p236",
+   "name": "오귀스트 피카르",
+   "flag": "다수 ko/en 후보가 아들의 심해 잠수를 본인 공적으로 잘못 돌림"
+  },
+  {
+   "pid": "p077",
+   "name": "벙커 헌트",
+   "flag": "ko 당선안 '하루 만에 파산'은 실버 목요일 폭락을 가리키는 압축 표현 — 법적 파산은 이후 수년에 걸쳐 진행"
+  },
+  {
+   "pid": "p153",
+   "name": "시모 해위해",
+   "flag": "사살 수는 본인 기록 기반이라 실제 수치를 두고 논쟁이 있는 주장"
+  },
+  {
+   "pid": "p035",
+   "name": "에디 채프먼",
+   "flag": "'런던을 살린'은 허위 좌표 보고의 결과에 대한 해석적 표현"
+  },
+  {
+   "pid": "p248",
+   "name": "게리 킬달",
+   "flag": "IBM과의 '놓친 미팅' 일화는 널리 통용되지만 세부 경위에 논쟁이 있다"
+  },
+  {
+   "pid": "p247",
+   "name": "에드 로버츠",
+   "flag": "ko[10]·en[3]은 '상업적'을 빼 '최초의 PC/홈컴퓨터'로 과장"
+  },
+  {
+   "pid": "p120",
+   "name": "생제르맹 백작",
+   "flag": "ko[4] '수십 년간 목격'·ko[6] 볼테르 발언은 bio에 없는 수치·일화"
+  },
+  {
+   "pid": "p230",
+   "name": "와일리 포스트",
+   "flag": "ko[2]·en[3]의 제트기류 발견 주장은 bio에 없음"
+  },
+  {
+   "pid": "p278",
+   "name": "제리 로슨",
+   "flag": "ko[7] '흑인 최초' 주장은 bio에 근거 없음"
+  },
+  {
+   "pid": "p235",
+   "name": "윌리엄 비비",
+   "flag": "ko[10] '잠수정도 없던 시대'는 사실 오류(1934년엔 잠수함 존재)"
+  },
+  {
+   "pid": "p271",
+   "name": "놀란 부시넬",
+   "flag": "ko[6]·en[3]의 '잡스의 첫 직장'은 bio를 넘는 단정"
+  },
+  {
+   "pid": "p218",
+   "name": "조지 말러리",
+   "flag": "ko[0] '정상 200미터'는 bio에 없는 정밀 수치"
+  },
+  {
+   "pid": "p078",
+   "name": "버니 매이도프",
+   "flag": "ko[1] '육십오억 달러'는 650억 달러의 오기, en[1] 'fifty years'는 기간 과장 여지"
+  },
+  {
+   "pid": "p003",
+   "name": "조반니 벨조니",
+   "flag": "ko[0]·en[2]의 수력기계·펌프 일화, ko[2] '학자들이 못 옮긴'은 bio에 없음"
+  },
+  {
+   "pid": "p144",
+   "name": "콰나 파커",
+   "flag": "ko[10]·en[3] 어도비 월스, ko[5] 어머니 탐색은 bio에 없는 일화"
+  },
+  {
+   "pid": "p163",
+   "name": "네스토르 마흐노",
+   "flag": "당선 ko[2]의 기관총 마차(타찬카)는 bio 밖이나 마흐노의 대표 사실"
+  },
+  {
+   "pid": "p169",
+   "name": "이디 아민",
+   "flag": "ko[8] '칭호를 자수하고'는 조어(자수=자백 의미와 충돌)"
+  },
+  {
+   "pid": "p111",
+   "name": "조슈아 노턴",
+   "flag": "ko[4] 경찰 경례·ko[9] 레스토랑 좌석·ko[10] 의회 해산은 bio에 없는 일화"
+  },
+  {
+   "pid": "p015",
+   "name": "스벤 헤딘",
+   "flag": "ko[7] 탐험대원 사망은 bio에 없음"
+  },
+  {
+   "pid": "p026",
+   "name": "장줘린",
+   "flag": "ko[8] '일본이 키우다 폭파한'은 관계를 단순화한 표현"
+  },
+  {
+   "pid": "p268",
+   "name": "시드 마이어",
+   "flag": "ko[0] '이름을 붙인 최초의 디자이너'는 주체·사실 모두 어긋남, en[0] 'hex grid'는 구형 문명이 사각 타일이라 부정확"
+  },
+  {
+   "pid": "p232",
+   "name": "척 예거",
+   "flag": "en[3] 'broom handle'는 bio에 없는 세부 일화"
+  },
+  {
+   "pid": "p011",
+   "name": "에드워드 드링커 코프",
+   "flag": "ko[4]·en[2]가 논란 있는 엘라스모사우루스 머리-꼬리 일화를 사실로 단정"
+  },
+  {
+   "pid": "p108",
+   "name": "존 미튼",
+   "flag": "ko[7]·en[2]의 곰·옷불 일화는 전해지는 유명 일화로 사실 단정 주의"
+  },
+  {
+   "pid": "p226",
+   "name": "에이미 존슨",
+   "flag": "ko bio의 '쌍발기'는 부정확—실제 지프시 모스는 복엽기로 당선안[6]이 역사적으로 맞음"
+  },
+  {
+   "pid": "p213",
+   "name": "마우로 프로스페리",
+   "flag": "ko 당선안의 자결 시도는 bio에 없지만 널리 알려진 사실"
+  },
+  {
+   "pid": "p060",
+   "name": "매슈 헨슨",
+   "flag": "북극점 최초 도달 주장은 논쟁적이나 당선안은 한정 표현 사용"
+  },
+  {
+   "pid": "p055",
+   "name": "페테르 프로이헨",
+   "flag": "배설물 칼 일화는 검증된 사실이 아니라 전설적 일화로 전한다는 점을 bio도 인정하는데 당선안은 사실처럼 단정함"
+  },
+  {
+   "pid": "p288",
+   "name": "제럴드 불",
+   "flag": "모사드 소행은 확정이 아닌 추정인데 당선안이 likely로 완충함"
+  }
+ ],
+ "substitutions": [
+  {
+   "pid": "p210",
+   "name": "푼 림",
+   "lang": "en",
+   "applied": "The record for solo survival at sea still belongs to him",
+   "reason": "심사 당선안이 숫자(133)로 시작해 하드규칙 위반 — 풀 내 차선으로 대체"
+  },
+  {
+   "pid": "p153",
+   "name": "시모 해위해",
+   "lang": "en",
+   "applied": "Shot in the face, he lived to 96 — history's deadliest sniper",
+   "reason": "당선안이 숫자(505) 시작 위반 + 사살수 논쟁 플래그 — 수치 없는 차선으로 대체"
+  },
+  {
+   "pid": "p248",
+   "name": "게리 킬달",
+   "lang": "ko",
+   "applied": "CP/M을 만들고도 DOS에 밀려난 운영체제의 원조",
+   "reason": "당선안이 29자로 12~28자 밴드 초과 + 놓친 미팅 일화 논쟁 플래그 — 차선으로 대체"
+  }
+ ],
+ "flags_r2": [
+  {
+   "pid": "round2-archaeology.json::소피아 슐리만",
+   "flag": "프리아모스의 보물 보석을 걸친 사진은 유명하지만 실제 보물을 착용했는지는 전설적 요소가 섞인 일화"
+  },
+  {
+   "pid": "round2-archaeology.json::오브리 허버트",
+   "flag": "the 'twice offered the Albanian throne' anecdote is colorful and often retold; historians treat it loosely"
+  },
+  {
+   "pid": "round2-asia.json::박연",
+   "flag": "'최초의 네덜란드인'은 bio도 '알려진/likely' 수준의 통설"
+  },
+  {
+   "pid": "round2-asia.json::펑위샹",
+   "flag": "winners assert the fire-hose mass baptism as fact — the bio presents it as a famous anecdote (said to have)"
+  },
+  {
+   "pid": "round2-espionage.json::다나카 류키치",
+   "flag": "his claim to have scripted the 1932 Shanghai Incident is a self-reported memoir claim disputed by historians"
+  },
+  {
+   "pid": "round2-exploration.json::자비에르 메르츠",
+   "flag": "사인(비타민A 중독·굶주림) 관련 후보들은 bio가 \"추정\"이라 명시한 부분을 단정하는 경향이 있어 무사인 표현을 선택"
+  },
+  {
+   "pid": "round2-exploration.json::오타",
+   "flag": "ko winner asserts he stood at the North Pole — Peary's 1909 polar claim is disputed (bio itself says claimed)"
+  },
+  {
+   "pid": "round2-exploration.json::키센 싱",
+   "flag": "en 당선작의 'prayer wheel 속 도구 은닉'은 펀딧 측량사의 유명 일화이나 bio에는 없는 세부 — 전설적으로 들릴 수 있음"
+  },
+  {
+   "pid": "round2-finance.json::존 머헤런",
+   "flag": "보스키에게 향하던 목적 자체는 목격담 수준 — 본문도 reportedly로 처리"
+  },
+  {
+   "pid": "round2-fortune-eccentric.json::로베르 드 몽테스키우",
+   "flag": "데제생트·샤를뤼스의 모델설은 '전설화/reputedly' 표현"
+  },
+  {
+   "pid": "round2-fortune-eccentric.json::노버트 펄로스",
+   "flag": "52년간 오류 한 건은 '전해진다/reported' 수준의 일화"
+  },
+  {
+   "pid": "round2-fraud-mystery.json::글레프 보트킨",
+   "flag": "당선작들이 애나 앤더슨을 '사칭자/impostor'로 단정 — 역사적 통설(DNA 확인)과 일치하지만 bio 자체는 중립 표현"
+  },
+  {
+   "pid": "round2-fraud-mystery.json::펠릭스 슈칸코프스키",
+   "flag": "여동생을 알아보고 침묵했다는 것은 사후 가족 증언에 의존하는 일화"
+  },
+  {
+   "pid": "round2-fraud-mystery.json::엘미르 드 오리",
+   "flag": "en winner claims his fake Picassos hang in museums — a much-repeated but unverifiable part of the de Hory legend"
+  },
+  {
+   "pid": "round2-fraud-mystery.json::베니뉴 드 생마르",
+   "flag": "철가면 자체가 전설적 명칭 — 실제 가면 소재는 미상(벨벳 설 등), 수인 신원도 미해결"
+  },
+  {
+   "pid": "round2-frontier.json::카미아웨이트",
+   "flag": "Sacagawea sibling recognition rests on the expedition journals; sometimes described as possible clan-kin rather than literal brother"
+  },
+  {
+   "pid": "round2-military.json::엘리자베스 '에지워스 베스' 라이언",
+   "flag": "셰퍼드를 '범죄로 이끈' 서사는 통속적 전기의 과장 요소가 있어 반전설적 일화로 들릴 수 있음"
+  },
+  {
+   "pid": "round2-power.json::보리스 시흐무라도프",
+   "flag": "state-TV confession widely viewed as coerced; his role in the 2002 plot is disputed"
+  },
+  {
+   "pid": "round2-power.json::커티스 그린",
+   "flag": "울브리히트의 살인 청부는 alleged — 요원 조작 극단이었고 실제 청부 성립 여부는 논쟁"
+  },
+  {
+   "pid": "round2-science.json::케네스 스넬슨",
+   "flag": "텐세그리티 발명 공로가 풀러와 평생 분쟁 중인 사안 — 진짜 주인 단정은 일방 주장"
+  },
+  {
+   "pid": "round2-survival-extreme.json::존 피츠제럴드",
+   "flag": "Hugh Glass ordeal is semi-legendary; abandonment details rest on later accounts"
+  },
+  {
+   "pid": "round2-survival-extreme.json::토머스 스트래들링",
+   "flag": "ko 당선작의 \"버린 선원\"은 통상적 서사지만 bio상 셀커크 본인의 하선 요구를 받아들인 것"
+  },
+  {
+   "pid": "round2-survival-extreme.json::이와나가 아키라",
+   "flag": "double-survival rests on his own testimony; never officially certified by the government"
+  },
+  {
+   "pid": "round2-survival-extreme.json::아이다 드 아코스타",
+   "flag": "당선작이 담은 '부친의 비밀 맹세' 일화는 검증 불가한 가족 전승 성격 — 비행 자체(1903년 9호 단독 조종)는 입증됨"
+  },
+  {
+   "pid": "round2-tech.json::데이브 클라이먼",
+   "flag": "사토시 후보 지목 자체가 크레이그 라이트의 일방 주장 — 공동 창설 여부는 미해결 논쟁"
+  },
+  {
+   "pid": "round2-tech.json::제프 브릭스",
+   "flag": "'바바 예투'는 크리스토퍼 틴 작곡 — bio의 '그의 Civ IV 테마' 서술은 오류 소지"
+  }
+ ],
+ "substitutions_r2": [
+  {
+   "file": "round2-archaeology.json",
+   "nick": "아밀리아 에드워즈",
+   "field": "ko",
+   "to": "베스트셀러 수익으로 이집트 발굴을 후원한 소설가",
+   "why": "당선 ko[3] 29자 초과 → 풀 내 차선 ko[4]"
+  },
+  {
+   "file": "round2-survival-extreme.json",
+   "nick": "로버트 애벗",
+   "field": "ko",
+   "to": "부엌에서 찍은 신문이 백만 명의 대이주를 이끌었다",
+   "why": "당선 ko[3] 숫자 시작 → 풀 내 차선 ko[0]"
+  }
+ ]
+}

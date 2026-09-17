@@ -1,0 +1,173 @@
+[
+  {
+    "slug": "impostors-and-mysteries",
+    "name": "사칭과 미스터리",
+    "name_en": "Impostors and Mysteries",
+    "parent": "shadow-world",
+    "color": "#4b0082",
+    "description": "신분을 속이고 역사를 속인 사기꾼과 위조범, 그리고 실종·정체 미상·미해결 사건으로 남은 수수께끼의 인물들을 모았다. 공주를 자칭한 여인부터 사라진 비행사까지, 진실과 거짓의 경계에 선 사람들이다.",
+    "description_en": "Impostors who forged identities and fooled history, alongside figures who vanished into unsolved mysteries — from self-proclaimed princesses to missing aviators, all standing on the border between truth and deception."
+  },
+  {
+    "slug": "great-explorers",
+    "name": "대탐험의 시대",
+    "name_en": "The Great Explorers",
+    "parent": "special-features",
+    "color": "#1a5276",
+    "description": "지도의 빈칸을 메우러 떠난 탐험가들을 모았다. 극지와 사막, 밀림과 대양을 가로지르며 미지의 땅에 처음 발을 디딘 인물들과 그 원정을 함께한 동료들이다.",
+    "description_en": "Explorers who set out to fill the blank spaces on the map — the first to cross polar ice, deserts, jungles and oceans, and the companions who made those expeditions possible."
+  },
+  {
+    "slug": "spies",
+    "name": "스파이와 이중첩자",
+    "name_en": "Spies and Double Agents",
+    "parent": "shadow-world",
+    "color": "#2c3e50",
+    "description": "그림자 속에서 정보를 옮긴 첩보원들을 모았다. 적국에 잠든 이중첩자, 신분을 숨긴 수집가, 배신과 충성 사이를 오간 인물들의 실제 이야기다.",
+    "description_en": "The field operatives who moved secrets through the shadows — double agents embedded in enemy states, covert couriers, and those who lived between loyalty and betrayal."
+  },
+  {
+    "slug": "record-breakers",
+    "name": "한계를 넘은 사람들",
+    "name_en": "The Record Breakers",
+    "parent": "sports-legends",
+    "color": "#c0392b",
+    "description": "인류가 도달한 적 없는 높이와 속도, 깊이와 거리에 도전한 사람들을 모았다. 최초의 정상과 최고의 고도, 가장 빠른 비행과 가장 긴 항해의 기록을 세운 도전자들이다.",
+    "description_en": "Those who pushed past every limit — first summits, highest altitudes, fastest flights and longest voyages, the record breakers who redrew the edge of the possible."
+  },
+  {
+    "slug": "great-archaeologists",
+    "name": "고고학의 발굴자들",
+    "name_en": "The Great Archaeologists",
+    "parent": "special-features",
+    "color": "#7d6608",
+    "description": "모래와 정글 아래 잠든 문명을 깨운 사람들을 모았다. 트로이와 투탕카멘의 발굴가, 암호문을 해독한 언어학자, 그리고 발굴을 가능하게 한 후원자와 안내인들이다.",
+    "description_en": "The people who woke civilizations buried under sand and jungle — excavators of Troy and Tutankhamun, decipherers of dead scripts, and the patrons and guides who made discovery possible."
+  },
+  {
+    "slug": "survivors",
+    "name": "극한의 생존자",
+    "name_en": "The Survivors",
+    "parent": "paths-of-a-life",
+    "color": "#117864",
+    "description": "죽음이 당연해 보인 자리에서 살아 돌아온 사람들을 모았다. 난파와 추락, 포로 생활과 설원의 고립 — 불가능한 확률을 뚫고 생환한 실존 인물들이다.",
+    "description_en": "People who came back alive from places where death seemed certain — shipwrecks and crashes, captivity and isolation in the ice, real survivors of impossible odds."
+  },
+  {
+    "slug": "eccentric-fortunes",
+    "name": "괴짜 부호들",
+    "name_en": "The Eccentric Fortunes",
+    "parent": "business-and-industry",
+    "color": "#b7950b",
+    "description": "돈을 번 방식보다 쓰는 방식으로 전설이 된 부호들을 모았다. 성을 쌓고, 보물을 묻고, 재산을 괴상한 집착에 쏟아부은 기인 갑부들의 이야기다.",
+    "description_en": "Tycoons who became legends less for how they made money than for how they spent it — castle builders, treasure buriers, and eccentrics who poured fortunes into strange obsessions."
+  },
+  {
+    "slug": "software-legends",
+    "name": "소프트웨어의 거장들",
+    "name_en": "Legends of Software",
+    "parent": "technology-and-science",
+    "color": "#2e4053",
+    "description": "세계가 매일 쓰는 언어와 운영체제, 도구를 혼자 혹은 소수의 손으로 만든 프로그래머들을 모았다. 코드 한 줄이 산업이 된 사람들의 이야기다.",
+    "description_en": "Programmers who single-handedly or in small teams built the languages, operating systems and tools the world runs on — people whose lines of code became industries."
+  },
+  {
+    "slug": "mad-scientists",
+    "name": "프린지 과학자들",
+    "name_en": "The Fringe Scientists",
+    "parent": "technology-and-science",
+    "color": "#6c3483",
+    "description": "정설의 경계 밖에서 실험한 과학자들을 모았다. 사이비와 명예혁명, 금단의 수술과 이단적 이론 — 과학사의 어두운 이면을 걸은 인물들이다.",
+    "description_en": "Scientists who experimented beyond the edge of accepted theory — pseudoscience and forbidden surgery, heretical ideas and the dark underside of scientific history."
+  },
+  {
+    "slug": "game-masters",
+    "name": "게임의 설계자들",
+    "name_en": "The Game Masters",
+    "parent": "technology-and-science",
+    "color": "#1f618d",
+    "description": "하나의 장르를 만들거나 업계의 흐름을 바꾼 게임 디자이너와 거장들을 모았다. 시뮬레이션의 아버지부터 퍼즐의 발명가까지, 놀이를 예술로 올린 사람들이다.",
+    "description_en": "Designers and maestros who invented genres and changed the industry — from the father of simulation to the inventor of the world’s most famous puzzle, people who raised play to an art."
+  },
+  {
+    "slug": "computing-pioneers",
+    "name": "컴퓨팅의 개척자들",
+    "name_en": "Computing Pioneers",
+    "parent": "technology-and-science",
+    "color": "#212f3c",
+    "description": "컴퓨터가 방 하나를 채우던 시대에 인터페이스와 네트워크, 개인 컴퓨팅의 비전을 세운 개척자들을 모았다. 마우스와 하이퍼텍스트, 대화형 컴퓨팅의 원조들이다.",
+    "description_en": "Pioneers who imagined personal and interactive computing while computers still filled entire rooms — the originators of the mouse, hypertext, and networked vision."
+  },
+  {
+    "slug": "great-inventors",
+    "name": "위대한 발명가들",
+    "name_en": "The Great Inventors",
+    "parent": "technology-and-science",
+    "color": "#935116",
+    "description": "특허와 시제품으로 세상을 바꾼 발명가들을 모았다. 세그웨이의 발명가부터 보청기와 백신, 독창적 기계장치까지 — 아이디어를 현실로 만든 손들이다.",
+    "description_en": "Inventors who changed the world through patents and prototypes — from the maker of the Segway to breakthroughs in medicine and machinery, the hands that turned ideas into reality."
+  },
+  {
+    "slug": "cold-war-frontlines",
+    "name": "냉전의 최전선",
+    "name_en": "Cold War Frontlines",
+    "parent": "shadow-world",
+    "color": "#34495e",
+    "description": "핵 위기와 철의 장막 사이에서 실제 사건의 중심에 선 인물들을 모았다. 귀순과 망명, 수감자 교환과 비밀 작전 — 냉전이 만든 인간 드라마의 당사자들이다.",
+    "description_en": "The people at the center of real Cold War incidents — defections and escapes, prisoner exchanges and covert operations, the human drama the Cold War produced."
+  },
+  {
+    "slug": "soldiers-of-fortune",
+    "name": "용병과 모험 군인",
+    "name_en": "Soldiers of Fortune",
+    "parent": "power-and-war",
+    "color": "#566573",
+    "description": "조국이 아닌 전장을 골라 싸운 군인들을 모았다. 필리버스터와 용병, 독재자의 측근이 된 모험가까지 — 돈과 야망으로 전쟁에 뛰어든 실존 인물들이다.",
+    "description_en": "Soldiers who chose battlefields that were never theirs — filibusters, mercenaries and adventurers who served dictators, real figures who went to war for money and ambition."
+  },
+  {
+    "slug": "self-experimenters",
+    "name": "자기 몸의 실험자들",
+    "name_en": "The Self-Experimenters",
+    "parent": "technology-and-science",
+    "color": "#922b21",
+    "description": "동물도 환자도 아닌 자기 몸을 실험대에 올린 과학자와 의사들을 모았다. 헬리코박터를 삼키고 심장에 카테터를 넣은 사람들 — 증명을 위해 스스로 위험해진 인물들이다.",
+    "description_en": "Scientists and doctors who used their own bodies as the experiment — swallowing bacteria, threading catheters into their own hearts, people who risked themselves to prove a point."
+  },
+  {
+    "slug": "crime-lords",
+    "name": "세계의 범죄 제왕",
+    "name_en": "The Crime Lords",
+    "parent": "shadow-world",
+    "color": "#1b2631",
+    "description": "국가를 능가는 조직을 세운 범죄의 왕들을 모았다. 코카인 제국과 아편 왕국, 삼합회와 밀매 조직 — 미국 마피아 너머 세계 각지의 조직범죄 거물들이다.",
+    "description_en": "Criminals who built organizations rivaling states — cocaine empires and opium kingdoms, triads and smuggling syndicates, the kingpins of organized crime beyond the American mafia."
+  },
+  {
+    "slug": "dictators",
+    "name": "독재자들",
+    "name_en": "The Dictators",
+    "parent": "power-and-war",
+    "color": "#641e16",
+    "description": "국가를 사유재산처럼 다룬 독재자들을 모았다. 인신제례와 괴상한 법, 숭배 정치와 부의 축적 — 20세기가 낳은 폭군들의 실제 기록이다.",
+    "description_en": "Rulers who treated nations as private property — human sacrifice and bizarre decrees, personality cults and plundered wealth, the real record of twentieth-century tyrants."
+  },
+  {
+    "slug": "measuring-the-earth",
+    "name": "지구를 잰 사람들",
+    "name_en": "Measuring the Earth",
+    "parent": "technology-and-science",
+    "color": "#784212",
+    "description": "행성의 무게와 나이, 바다의 깊이를 처음 재려 한 과학자들을 모았다. 납 동위원소로 지구 연대기를 세우고 중력 상수를 측정한 정밀 측정의 선구자들이다.",
+    "description_en": "Scientists who first tried to weigh the planet, date its age and sound its depths — pioneers of precision who measured gravitational constants and isotope clocks."
+  },
+  {
+    "slug": "chinese-warlords",
+    "name": "중화민국의 군벌들",
+    "name_en": "The Chinese Warlords",
+    "parent": "power-and-war",
+    "color": "#7b241c",
+    "description": "청 제국이 무너진 뒤 중국을 할거한 군벌들을 모았다. 만주의 왕 장줘린부터 기독교 장군 펑위샹까지 — 군벌할거 시대를 풍미한 실력자들이다.",
+    "description_en": "The warlords who carved up China after the Qing fell — from the Marshal of Manchuria to the Christian General, the strongmen of the warlord era."
+  }
+]

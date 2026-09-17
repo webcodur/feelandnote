@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "게오르크 프리드리히 다우머",
+    "title": "카스파 하우저의 첫 스승",
+    "title_en": "Kaspar Hauser's First Tutor",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "스탠호프 백작",
+    "title": "카스파 하우저의 귀족 후원자",
+    "title_en": "Kaspar Hauser's Noble Patron",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "엘리자베스 워럴",
+    "title": "가짜 공주를 거둔 부인",
+    "title_en": "The Lady Who Took In a Fake Princess",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "윌리엄 이네스",
+    "title": "가짜 대만인의 발견자",
+    "title_en": "The Man Who Found the Formosan",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "존 마나한",
+    "title": "아나스타시아의 마지막 남편",
+    "title_en": "Anastasia's Last Husband",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "글레프 보트킨",
+    "title": "가짜 황녀의 최대 증인",
+    "title_en": "The Impostor's Greatest Witness",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "펠릭스 슈칸코프스키",
+    "title": "진실을 알고 침묵한 오빠",
+    "title_en": "The Brother Who Knew and Stayed Silent",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "아나하레오",
+    "title": "그레이 아울을 바꾼 여성",
+    "title_en": "The Woman Who Changed Grey Owl",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "앙헬 에그우나",
+    "title": "그레이 아울을 만든 첫 아내",
+    "title_en": "The First Wife Behind Grey Owl",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "바르투스 코르텔링",
+    "title": "위작왕의 스승",
+    "title_en": "The Forger's Teacher",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "게르트 하이데만",
+    "title": "히틀러 일기에 속은 스타 기자",
+    "title_en": "The Star Reporter Fooled by the Hitler Diaries",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "리처드 서스킨드",
+    "title": "휴즈 자서전 사기의 공동 설계자",
+    "title_en": "Co-Architect of the Hughes Hoax",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "에디스 어빙",
+    "title": "헬가 휴즈로 변신한 화가",
+    "title_en": "The Painter Who Became Helga Hughes",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "엘미르 드 오리",
+    "title": "세기의 위작 화가",
+    "title_en": "The Century's Greatest Art Forger",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "아르노 뒤 틸",
+    "title": "마르탱 게르가 된 남자",
+    "title_en": "The Man Who Became Martin Guerre",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "베르트랑드 드 롤스",
+    "title": "가짜 남편의 아내",
+    "title_en": "The Impostor's Wife",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "마리나 므니셰크",
+    "title": "두 명의 가짜 차르의 아내",
+    "title_en": "Wife of Two False Tsars",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "예지 므니셰크",
+    "title": "가짜 차르의 장인",
+    "title_en": "The False Tsar's Father-in-Law",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "소피야 네듀제바",
+    "title": "가짜 차르의 진짜 아내",
+    "title_en": "The False Tsar's Real Wife",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "살라바트 율라예프",
+    "title": "바시키르의 국민 영웅",
+    "title_en": "National Hero of the Bashkirs",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "후스티 기타르트",
+    "title": "가짜 왕을 쫓아낸 주교",
+    "title_en": "The Bishop Who Expelled a Fake King",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "킬라판",
+    "title": "안데스 서쪽 마지막 대추장",
+    "title_en": "Last Great Chief West of the Andes",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "코르넬리오 사베드라",
+    "title": "아라우카니아 점령의 지휘관",
+    "title_en": "Commander of the Araucanía Occupation",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "베니뉴 드 생마르",
+    "title": "철가면의 간수",
+    "title_en": "Jailer of the Iron Mask",
+    "file": "round2-fraud-mystery.json"
+  },
+  {
+    "nick": "나이체",
+    "title": "아파치 마지막 추장",
+    "title_en": "Last Chief of the Chiricahua",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "신시아 앤 파커",
+    "title": "코만치 추장의 어머니",
+    "title_en": "Mother of the Comanche Chief",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "찰스 굿나잇",
+    "title": "텍사스 목축왕",
+    "title_en": "Father of the Texas Panhandle",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "카미아웨이트",
+    "title": "사카가위아의 오빠",
+    "title_en": "Sacagawea's Brother",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "엘리어스 부디노",
+    "title": "체로키 피닉스의 편집장",
+    "title_en": "Editor of the Cherokee Phoenix",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "색스턴 포프",
+    "title": "근대 궁술의 아버지",
+    "title_en": "Father of Modern Bowhunting",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "제데디어 스미스",
+    "title": "성경 든 산악인",
+    "title_en": "The Bible-Carrying Mountain Man",
+    "file": "round2-frontier.json"
+  },
+  {
+    "nick": "래티 팁턴",
+    "title": "머피의 가장 친한 전우",
+    "title_en": "Murphy's Closest Comrade",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "얀 레제이",
+    "title": "빵공장 탈출자",
+    "title_en": "The Bakery Escapee",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "에드바르트 치에시엘스키",
+    "title": "스무 살의 탈출자",
+    "title_en": "The Twenty-Year-Old Escapee",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "다니구치 요시미",
+    "title": "오노다의 마지막 명령자",
+    "title_en": "Onoda's Last Commanding Officer",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "스즈키 노리오",
+    "title": "오노다를 찾아낸 모험가",
+    "title_en": "The Man Who Found Onoda",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "고즈카 긴시치",
+    "title": "오노다의 마지막 전우",
+    "title_en": "Onoda's Last Comrade",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "발렌틴 사비츠키",
+    "title": "핵어뢰를 장전한 함장",
+    "title_en": "The Captain Who Readied the Nuclear Torpedo",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "탤벗 에드워즈",
+    "title": "왕관을 지키던 노인",
+    "title_en": "The Old Keeper of the Crown Jewels",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "엘리자베스 '에지워스 베스' 라이언",
+    "title": "탈옥왕의 연인",
+    "title_en": "The Jailbreaker's Lover",
+    "file": "round2-military.json"
+  }
+]

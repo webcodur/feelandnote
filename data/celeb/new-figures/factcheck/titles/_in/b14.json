@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "유리 가가린",
+    "title": "최초의 우주인",
+    "title_en": "The First Human in Space",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "자크 쿠스토",
+    "title": "칼립소의 선장",
+    "title_en": "Captain of the Calypso",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "윌리엄 비비",
+    "title": "심해의 최초 목격자",
+    "title_en": "First Witness of the Deep",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "오귀스트 피카르",
+    "title": "하늘과 바다의 설계자",
+    "title_en": "Engineer of Sky and Sea",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "실비아 얼",
+    "title": "바다의 여왕",
+    "title_en": "Her Deepness",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "이본 취나드",
+    "title": "파타고니아 설립",
+    "title_en": "Patagonia founder",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "더그 톰킨스",
+    "title": "땅을 산 사업가",
+    "title_en": "The Man Who Bought the Wild",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "그레이스 호퍼",
+    "title": "코볼의 어머니",
+    "title_en": "Grandma COBOL",
+    "file": "tech.json"
+  },
+  {
+    "nick": "노버트 위너",
+    "title": "사이버네틱스 창시자",
+    "title_en": "Founder of cybernetics",
+    "file": "tech.json"
+  },
+  {
+    "nick": "시모어 크레이",
+    "title": "슈퍼컴퓨터의 아버지",
+    "title_en": "Father of the Supercomputer",
+    "file": "tech.json"
+  },
+  {
+    "nick": "더글러스 엥겔바트",
+    "title": "마우스의 발명가",
+    "title_en": "Inventor of the Mouse",
+    "file": "tech.json"
+  },
+  {
+    "nick": "앨런 케이",
+    "title": "개인용 컴퓨터의 설계자",
+    "title_en": "Architect of Personal Computing",
+    "file": "tech.json"
+  },
+  {
+    "nick": "테드 넬슨",
+    "title": "하이퍼텍스트 창시자",
+    "title_en": "Creator of hypertext",
+    "file": "tech.json"
+  },
+  {
+    "nick": "헤디 라머",
+    "title": "어뢰 유도 특허를 낸 여배우",
+    "title_en": "The actress who patented torpedo guidance",
+    "file": "tech.json"
+  },
+  {
+    "nick": "에드 로버츠",
+    "title": "최초의 PC 제작자",
+    "title_en": "Maker of the First PC",
+    "file": "tech.json"
+  },
+  {
+    "nick": "게리 킬달",
+    "title": "CP/M 창시자",
+    "title_en": "Creator of CP/M",
+    "file": "tech.json"
+  },
+  {
+    "nick": "테리 데이비스",
+    "title": "신의 프로그래머",
+    "title_en": "God's Programmer",
+    "file": "tech.json"
+  },
+  {
+    "nick": "한스 라이저",
+    "title": "파일시스템 살인자",
+    "title_en": "The Filesystem Killer",
+    "file": "tech.json"
+  },
+  {
+    "nick": "이안 머독",
+    "title": "데비안 창시자",
+    "title_en": "Debian founder",
+    "file": "tech.json"
+  },
+  {
+    "nick": "조지 호츠",
+    "title": "아이폰 해커",
+    "title_en": "The iPhone Hacker",
+    "file": "tech.json"
+  },
+  {
+    "nick": "브램 코언",
+    "title": "비트토렌트 창시자",
+    "title_en": "Creator of BitTorrent",
+    "file": "tech.json"
+  },
+  {
+    "nick": "저스틴 프랭클",
+    "title": "윈앰프 창시자",
+    "title_en": "Creator of Winamp",
+    "file": "tech.json"
+  },
+  {
+    "nick": "브램 몰레나르",
+    "title": "빔의 수호자",
+    "title_en": "Keeper of Vim",
+    "file": "tech.json"
+  },
+  {
+    "nick": "귀도 판 로쉼",
+    "title": "파이썬 창시자",
+    "title_en": "Creator of Python",
+    "file": "tech.json"
+  },
+  {
+    "nick": "마쓰모토 유키히로",
+    "title": "루비 창시자",
+    "title_en": "Creator of Ruby",
+    "file": "tech.json"
+  },
+  {
+    "nick": "데이비드 하이네마이어 한손",
+    "title": "레일즈 창시자",
+    "title_en": "Creator of Rails",
+    "file": "tech.json"
+  },
+  {
+    "nick": "닉 재보",
+    "title": "스마트 계약 창시자",
+    "title_en": "Creator of smart contracts",
+    "file": "tech.json"
+  },
+  {
+    "nick": "크레이그 라이트",
+    "title": "가짜토시",
+    "title_en": "Faketoshi",
+    "file": "tech.json"
+  },
+  {
+    "nick": "로저 버",
+    "title": "비트코인 예수",
+    "title_en": "Bitcoin Jesus",
+    "file": "tech.json"
+  },
+  {
+    "nick": "제럴드 코튼",
+    "title": "키를 들고 간 남자",
+    "title_en": "The Man Who Took the Keys",
+    "file": "tech.json"
+  },
+  {
+    "nick": "루야 이그나토바",
+    "title": "크립토퀸",
+    "title_en": "The Cryptoqueen",
+    "file": "tech.json"
+  },
+  {
+    "nick": "헤더 모건",
+    "title": "래즐칸",
+    "title_en": "Razzlekhan",
+    "file": "tech.json"
+  },
+  {
+    "nick": "시드 마이어",
+    "title": "문명 창시자",
+    "title_en": "Creator of Civilization",
+    "file": "tech.json"
+  },
+  {
+    "nick": "윌 라이트",
+    "title": "심즈 창시자",
+    "title_en": "Creator of The Sims",
+    "file": "tech.json"
+  },
+  {
+    "nick": "코지마 히데오",
+    "title": "메탈기어 창시자",
+    "title_en": "Creator of Metal Gear",
+    "file": "tech.json"
+  },
+  {
+    "nick": "랠프 베어",
+    "title": "비디오게임의 발명가",
+    "title_en": "Inventor of the Video Game",
+    "file": "tech.json"
+  },
+  {
+    "nick": "알렉세이 파지트노프",
+    "title": "테트리스 창시자",
+    "title_en": "Creator of Tetris",
+    "file": "tech.json"
+  },
+  {
+    "nick": "리처드 개리엇",
+    "title": "로드 브리티시",
+    "title_en": "Lord British",
+    "file": "tech.json"
+  },
+  {
+    "nick": "마르쿠스 페르손",
+    "title": "마인크래프트 창시자",
+    "title_en": "Creator of Minecraft",
+    "file": "tech.json"
+  },
+  {
+    "nick": "에릭 바론",
+    "title": "스타듀 밸리 창시자",
+    "title_en": "Creator of Stardew Valley",
+    "file": "tech.json"
+  }
+]

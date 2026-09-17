@@ -1,0 +1,18 @@
+[
+  {
+    "nick": "헬게 잉스타드",
+    "title": "빈란드의 실증자",
+    "issue": "overstated",
+    "why": "랑스 오 메도즈 발견은 부부 공동이고 노르드인 정착지 실증 발굴(1961-68)은 아내 아네 스티네 잉스타드가 이끌었다(Britannica, Parks Canada). 단독 실증자 표기는 과장.",
+    "fix_ko": "빈란드의 공동 발견자",
+    "fix_en": "Co-discoverer of Vinland"
+  },
+  {
+    "nick": "아서 에번스",
+    "title": "미노아 문명의 명명자",
+    "issue": "disputed",
+    "why": "Minoan 용어를 널리 퍼뜨린 건 사실이나 발굴 이전부터 쓰였다는 학계 연구가 있어 단독 명명자는 논쟁 대상.",
+    "fix_ko": "크노소스의 발굴자",
+    "fix_en": "Excavator of Knossos"
+  }
+]

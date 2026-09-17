@@ -1,0 +1,1668 @@
+[
+ {
+  "slug": "2000s-hollywood-action",
+  "name": "2000년대 할리우드 액션",
+  "en": "2000s Hollywood Action",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "80s-hollywood-action",
+  "name": "80년대 할리우드 액션",
+  "en": "80s Hollywood Action",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "ai",
+  "name": "인공지능",
+  "en": "Artificial Intelligence",
+  "featured": true,
+  "parent_slug": null
+ },
+ {
+  "slug": "ai-new-wave",
+  "name": "AI 뉴웨이브",
+  "en": "The New Wave of AI",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "ai-pioneers",
+  "name": "AI 선구자들",
+  "en": "The AI Pioneers",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "aircraft-makers",
+  "name": "항공기 제조사",
+  "en": "The Aircraft Makers",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "american-literature-founders",
+  "name": "미국 문학을 연 사람들",
+  "en": "The Founders of American Literature",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "ancient-philosophers",
+  "name": "고대의 철학자들",
+  "en": "Ancient Philosophers",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "anthropic",
+  "name": "Anthropic",
+  "en": "Anthropic",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "argonauts",
+  "name": "아르고 원정대",
+  "en": "The Argonauts",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "art-and-creation",
+  "name": "예술과 창작",
+  "en": "Art & Creation",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "arthur-round-table",
+  "name": "아서왕과 원탁의 기사들",
+  "en": "Arthur and the Round Table",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "asset-management-empires",
+  "name": "자산운용 제국",
+  "en": "The Asset Managers",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "autodidact",
+  "name": "독학",
+  "en": "Self-Taught",
+  "featured": true,
+  "parent_slug": "paths-of-a-life"
+ },
+ {
+  "slug": "autonomous-driving",
+  "name": "자율주행",
+  "en": "Autonomous Driving",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "beauty-creators",
+  "name": "뷰티 크리에이터",
+  "en": "Beauty Creators",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "biotech",
+  "name": "바이오테크",
+  "en": "Biotech",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "business-and-industry",
+  "name": "산업",
+  "en": "Business & Industry",
+  "featured": true,
+  "parent_slug": null
+ },
+ {
+  "slug": "capital-allocators",
+  "name": "투자의 귀재",
+  "en": "The Capital Allocators",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "carthage",
+  "name": "카르타고",
+  "en": "Carthage",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "chaebol-owners",
+  "name": "재벌 총수",
+  "en": "Chaebol Owners",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "chinese-classical-literature",
+  "name": "중국 고전 문학",
+  "en": "Classical Chinese Literature",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "chinese-empire",
+  "name": "중국 제국",
+  "en": "The Chinese Empire",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "chinese-thought",
+  "name": "중국 사상의 계보",
+  "en": "The Lineage of Chinese Thought",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "christian-thought",
+  "name": "기독교 사상의 계보",
+  "en": "The Lineage of Christian Thought",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "chungmuro",
+  "name": "충무로",
+  "en": "Chungmuro",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "classical-scholarship",
+  "name": "고전 학문의 계보",
+  "en": "The Lineage of Classical Learning",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "cold-war",
+  "name": "냉전",
+  "en": "The Cold War",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "comedy-creators",
+  "name": "코미디 크리에이터",
+  "en": "Comedy Creators",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "comics-masters",
+  "name": "만화의 거장들",
+  "en": "Masters of Comics",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "community-platforms",
+  "name": "온라인 커뮤니티와 대안 플랫폼",
+  "en": "Communities and Alternative Platforms",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "conquerors",
+  "name": "정복자",
+  "en": "Conquerors",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "console-wars",
+  "name": "콘솔 전쟁",
+  "en": "The Console Wars",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "credit-and-central-banks",
+  "name": "신용평가사와 중앙은행",
+  "en": "Rating Agencies and Central Banks",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "cybersecurity",
+  "name": "사이버 보안",
+  "en": "Cybersecurity",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "dawn-of-rome",
+  "name": "로마 제국의 여명",
+  "en": "The Dawn of Rome",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "defense-industry",
+  "name": "방위 산업",
+  "en": "The Defense Industry",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "deprivation",
+  "name": "결핍",
+  "en": "Deprivation",
+  "featured": true,
+  "parent_slug": "paths-of-a-life"
+ },
+ {
+  "slug": "digital-gold-rush",
+  "name": "가상자산",
+  "en": "Crypto",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "digital-resistance",
+  "name": "디지털 저항",
+  "en": "Digital Resistance",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "discovery-of-evolution",
+  "name": "진화의 발견",
+  "en": "The Discovery of Evolution",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "discovery-of-the-atom",
+  "name": "원자의 발견",
+  "en": "The Discovery of the Atom",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "drone-makers",
+  "name": "무인기",
+  "en": "The Drone Makers",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "early-console-wars",
+  "name": "초창기 콘솔 전쟁",
+  "en": "The Early Console Wars",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "east-asia-enlightenment",
+  "name": "동아시아의 계몽가들",
+  "en": "East Asian Enlightenment Thinkers",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "east-asian-buddhism",
+  "name": "동아시아 불교",
+  "en": "East Asian Buddhism",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "energy-cartel",
+  "name": "에너지 제국",
+  "en": "Energy Empires",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "ev-and-battery",
+  "name": "전기차와 배터리",
+  "en": "EV & Battery",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "exiles",
+  "name": "망명",
+  "en": "Exile",
+  "featured": true,
+  "parent_slug": "paths-of-a-life"
+ },
+ {
+  "slug": "existentialists",
+  "name": "실존주의자",
+  "en": "Existentialists",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "fast-food-empire",
+  "name": "패스트푸드 제국",
+  "en": "The Fast Food Dynasties",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "fighting-arts",
+  "name": "격투와 무술",
+  "en": "Fighting Arts",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "film-directors",
+  "name": "영화 감독",
+  "en": "The Directors",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "fin-de-si-cle-vienna",
+  "name": "빈의 세기말",
+  "en": "Fin-de-siècle Vienna",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "football-managers",
+  "name": "축구 명장",
+  "en": "Master Football Managers",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "founding-monarchs",
+  "name": "개국 군주",
+  "en": "Founding Monarchs",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "french-empire",
+  "name": "프랑스 제국",
+  "en": "The French Empire",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "french-novelists",
+  "name": "근대 프랑스 소설가들",
+  "en": "Modern French Novelists",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "game-empire",
+  "name": "게임 제국",
+  "en": "Gaming Empires",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "gaming-creators",
+  "name": "게임 크리에이터",
+  "en": "Gaming Creators",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "genre-cinema",
+  "name": "장르 영화의 거장들",
+  "en": "Masters of Genre Cinema",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "google-deepmind",
+  "name": "Google DeepMind",
+  "en": "Google DeepMind",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "great-hackers-faces",
+  "name": "위대한 해커들",
+  "en": "The Great Hackers",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "greek-roman-myth",
+  "name": "그리스 신화",
+  "en": "Greek Mythology",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "heracles",
+  "name": "헤라클레스의 열두 과제",
+  "en": "The Twelve Labors of Heracles",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "hip-hop-and-rnb",
+  "name": "힙합과 R&B",
+  "en": "Hip-Hop and R&B",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "historical-fiction",
+  "name": "역사창작",
+  "en": "Historical Fiction",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "hollywood-golden-age",
+  "name": "할리우드 황금기",
+  "en": "The Golden Age of Hollywood",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "home-computer-wars",
+  "name": "홈 컴퓨터 전쟁",
+  "en": "The Home Computer Wars",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "homer-iliad",
+  "name": "일리아스",
+  "en": "The Iliad",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "homer-odyssey",
+  "name": "오디세이아",
+  "en": "The Odyssey",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "hong-gildong-jeon",
+  "name": "홍길동전",
+  "en": "The Tale of Hong Gildong",
+  "featured": true,
+  "parent_slug": "historical-fiction"
+ },
+ {
+  "slug": "hong-kong-cinema",
+  "name": "홍콩 영화",
+  "en": "Hong Kong Cinema",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "house-of-atreus",
+  "name": "아트레우스 가문",
+  "en": "The House of Atreus",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "humanoid-robotics",
+  "name": "휴머노이드",
+  "en": "The Humanoids",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "hundred-schools-of-thought",
+  "name": "제자백가",
+  "en": "Hundred Schools of Thought",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "hybe",
+  "name": "HYBE",
+  "en": "HYBE",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "idol-group-current-female",
+  "name": "현직 K-pop 걸그룹",
+  "en": "Active K-pop Girl Groups",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "idol-group-current-male",
+  "name": "현직 K-pop 보이그룹",
+  "en": "Active K-pop Boy Groups",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "idol-group-former-female",
+  "name": "과거 K-pop 걸그룹",
+  "en": "Past K-pop Girl Groups",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "idol-group-former-male",
+  "name": "과거 K-pop 보이그룹",
+  "en": "Past K-pop Boy Groups",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "im-kkeokjeong",
+  "name": "임꺽정",
+  "en": "Im Kkeokjeong",
+  "featured": true,
+  "parent_slug": "historical-fiction"
+ },
+ {
+  "slug": "islamic-thought",
+  "name": "이슬람 사상의 계보",
+  "en": "The Lineage of Islamic Thought",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "jang-gilsan",
+  "name": "장길산",
+  "en": "Jang Gilsan",
+  "featured": true,
+  "parent_slug": "historical-fiction"
+ },
+ {
+  "slug": "jazz-and-soul",
+  "name": "재즈와 소울",
+  "en": "Jazz and Soul",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "joseon-dynasty",
+  "name": "조선 왕조",
+  "en": "The Joseon Dynasty",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "joseon-scholars",
+  "name": "조선의 학자들",
+  "en": "Scholars of Joseon",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "jyp-entertainment",
+  "name": "JYP",
+  "en": "JYP",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "knowledge-youtubers",
+  "name": "지식 유튜버",
+  "en": "Knowledge YouTubers",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "korea-football-best11",
+  "name": "한국 축구 베스트 11",
+  "en": "Korea Football Best XI",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "korea-sports-legends",
+  "name": "한국 스포츠",
+  "en": "Korea Sports",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "korean-art",
+  "name": "한국 미술",
+  "en": "Korean Art",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "korean-cinema",
+  "name": "한국 영화",
+  "en": "Korean Cinema",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "korean-drama",
+  "name": "한국 드라마",
+  "en": "Korean Drama",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "korean-literature",
+  "name": "한국 문학",
+  "en": "Korean Literature",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "late-han-warlords",
+  "name": "한 말의 군웅들",
+  "en": "Warlords of the Late Han",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "latin-music",
+  "name": "라틴 음악",
+  "en": "Latin Music",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "left-and-right",
+  "name": "좌와 우",
+  "en": "Left & Right",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "legendary-pirates",
+  "name": "전설의 해적",
+  "en": "Legendary Pirates",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "lineage-of-mathematics",
+  "name": "수학의 계보",
+  "en": "The Lineage of Mathematics",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "lineage-of-medicine",
+  "name": "의학의 계보",
+  "en": "The Lineage of Medicine",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "literary-masters",
+  "name": "문학의 거장들",
+  "en": "Masters of Literature",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "logistics-empire",
+  "name": "물류 제국",
+  "en": "Logistics Empires",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "lone-conquerors",
+  "name": "홀로 선 영웅들",
+  "en": "Heroes Who Stood Alone",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "lord-of-the-rings",
+  "name": "반지의 제왕",
+  "en": "The Lord of the Rings",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "luxury-empire",
+  "name": "명품 제국",
+  "en": "Luxury Empires",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "macedonian-empire",
+  "name": "마케도니아 제국",
+  "en": "The Macedonian Empire",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "maestro",
+  "name": "지휘자들",
+  "en": "Maestros of the World",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "mafia",
+  "name": "미국 마피아",
+  "en": "The American Mafia",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "magicians",
+  "name": "마술사",
+  "en": "Magicians",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "manhattan-project",
+  "name": "맨해튼 프로젝트",
+  "en": "Manhattan Project",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "masked-hackers",
+  "name": "가면 쓴 해커",
+  "en": "The Masked Hackers",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "masters-of-painting",
+  "name": "회화의 거장들",
+  "en": "Masters of Painting",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "mcu",
+  "name": "마블 시네마틱 유니버스",
+  "en": "Marvel Cinematic Universe",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "media-empires",
+  "name": "미디어 제국",
+  "en": "The Media Empires",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "messengers",
+  "name": "메신저",
+  "en": "Messengers",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "meta",
+  "name": "Meta",
+  "en": "Meta",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "method-acting",
+  "name": "메소드 연기",
+  "en": "Method Acting",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "mlb",
+  "name": "메이저리그",
+  "en": "Major League Baseball",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "modern-architects",
+  "name": "현대 건축의 거장들",
+  "en": "Masters of Modern Architecture",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "modern-management-thinkers",
+  "name": "현대 경영학의 사상가들",
+  "en": "Modern Management Thinkers",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "modern-philosophers",
+  "name": "근대의 철학자들",
+  "en": "Modern Philosophers",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "modern-poetry-pioneers",
+  "name": "근대 시의 개척자들",
+  "en": "Pioneers of Modern Poetry",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "mongol-empire",
+  "name": "몽골 제국",
+  "en": "The Mongol Empire",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "movie-star-era",
+  "name": "무비스타의 시대",
+  "en": "The Movie Star Era",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "music",
+  "name": "음악",
+  "en": "Music",
+  "featured": true,
+  "parent_slug": null
+ },
+ {
+  "slug": "music-streaming-wars",
+  "name": "음악 스트리밍 전쟁",
+  "en": "Music Streaming Wars",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "musk-inner-court",
+  "name": "머스크의 최측근",
+  "en": "Musk's Inner Circle",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "myth-africa",
+  "name": "아프리카 건국 전승",
+  "en": "African Founding Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-americas",
+  "name": "아메리카 건국 전승",
+  "en": "Founding Lore of the Americas",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-and-fiction",
+  "name": "신화와 이야기",
+  "en": "Myth & Fiction",
+  "featured": true,
+  "parent_slug": null
+ },
+ {
+  "slug": "myth-celtic",
+  "name": "켈트·브리튼 전승",
+  "en": "Celtic & British Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-china-ancient",
+  "name": "중국 상고 신화",
+  "en": "Ancient Chinese Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-china-fengshen",
+  "name": "봉신연의",
+  "en": "Investiture of the Gods",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-china-xiyou",
+  "name": "서유기",
+  "en": "Journey to the West",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-egypt",
+  "name": "이집트 신화",
+  "en": "Egyptian Mythology",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-germanic",
+  "name": "게르만 건국 전승",
+  "en": "Germanic Founding Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-hindu-lineage",
+  "name": "인도 왕조 전승",
+  "en": "Indian Dynastic Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-hindu-mahabharata",
+  "name": "마하바라타",
+  "en": "Mahabharata",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-hindu-ramayana",
+  "name": "라마야나",
+  "en": "Ramayana",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-japan",
+  "name": "일본 신화",
+  "en": "Japanese Mythology",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-baekje",
+  "name": "백제 신화",
+  "en": "Baekje Founding Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-buyeo-goguryeo",
+  "name": "부여·고구려 신화",
+  "en": "Buyeo-Goguryeo Founding Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-gaya",
+  "name": "가야 신화",
+  "en": "Gaya Founding Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-gojoseon",
+  "name": "고조선 신화",
+  "en": "Gojoseon Founding Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-goryeo-segye",
+  "name": "고려세계 신화",
+  "en": "Goryeo Segye Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-jeju-bonpuri",
+  "name": "제주 본풀이",
+  "en": "Jeju Bonpuri",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-silla",
+  "name": "신라 신화",
+  "en": "Silla Founding Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-korea-tamna",
+  "name": "탐라 신화",
+  "en": "Tamna Founding Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-mesopotamia",
+  "name": "메소포타미아 신화",
+  "en": "Mesopotamian Mythology",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-norse",
+  "name": "북유럽 신화",
+  "en": "Norse Mythology",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-oceania",
+  "name": "오세아니아 건국 전승",
+  "en": "Oceanian Founding Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-persia",
+  "name": "페르시아 신화",
+  "en": "Persian Myth",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-roman",
+  "name": "로마 신화",
+  "en": "Roman Mythology",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-slavic",
+  "name": "슬라브·동유럽 전승",
+  "en": "Slavic & East European Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-southeast-asia",
+  "name": "동남아 건국 전승",
+  "en": "Southeast Asian Founding Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-steppe",
+  "name": "초원 건국 전승",
+  "en": "Steppe Founding Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "myth-west-asia",
+  "name": "서아시아 건국 전승",
+  "en": "West Asian Founding Lore",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "nba",
+  "name": "NBA",
+  "en": "The NBA",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "nba-21c-club-best",
+  "name": "21세기 NBA 3대 제국",
+  "en": "Three NBA Empires of the 21st Century",
+  "featured": false,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "new-hollywood",
+  "name": "뉴 할리우드",
+  "en": "New Hollywood",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "new-space-age",
+  "name": "우주 개척 시대",
+  "en": "The New Space Age",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "next-gen-energy",
+  "name": "차세대 에너지",
+  "en": "Next-Gen Energy",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "nolan-troupe",
+  "name": "놀란 사단",
+  "en": "Nolan's Troupe",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "nonviolent-resistance",
+  "name": "비폭력 저항",
+  "en": "Nonviolent Resistance",
+  "featured": true,
+  "parent_slug": "thought-and-conviction"
+ },
+ {
+  "slug": "openai",
+  "name": "OpenAI",
+  "en": "OpenAI",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "ottoman-empire",
+  "name": "오스만 제국",
+  "en": "The Ottoman Empire",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "paths-of-a-life",
+  "name": "삶의 궤적",
+  "en": "Paths of a Life",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "payment-networks",
+  "name": "결제 네트워크",
+  "en": "Payment Networks",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "paypal-mafia",
+  "name": "페이팔 마피아",
+  "en": "PayPal Mafia",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "pga-tour",
+  "name": "PGA 투어",
+  "en": "The PGA Tour",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "podcasters",
+  "name": "팟캐스터",
+  "en": "Podcasters",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "pop-legends",
+  "name": "팝의 전설",
+  "en": "Pop Legends",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "pop-stars-21c",
+  "name": "21세기 팝스타",
+  "en": "21st-Century Pop Stars",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "power-and-war",
+  "name": "권력",
+  "en": "Power & War",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "qin-empire",
+  "name": "진 제국",
+  "en": "The Qin Empire",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "quant-empire",
+  "name": "월스트리트의 퀀트 제국",
+  "en": "The Quant Empire",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "quantum-computing",
+  "name": "양자 컴퓨팅",
+  "en": "Quantum Computing",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "readers-on-the-throne",
+  "name": "왕좌의 독서가",
+  "en": "Readers on the Throne",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "renaissance-maestros",
+  "name": "르네상스",
+  "en": "The Renaissance",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "retail-and-commerce",
+  "name": "유통과 이커머스",
+  "en": "Retail & Commerce",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "revolutionaries",
+  "name": "혁명을 일으킨 사람들",
+  "en": "Revolutionaries",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "road-to-space",
+  "name": "우주로 가는 길",
+  "en": "The Road to Space",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "rock-legends",
+  "name": "록의 전설",
+  "en": "Rock Legends",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "roman-emperors",
+  "name": "로마 황제",
+  "en": "Roman Emperors",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "romantic-comedy",
+  "name": "로맨틱 코미디",
+  "en": "Romantic Comedy",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "romantic-music",
+  "name": "낭만주의 음악",
+  "en": "Romantic Music",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "romes-adversaries",
+  "name": "로마의 적들",
+  "en": "Rome's Adversaries",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "self-made",
+  "name": "자수성가",
+  "en": "Self-Made",
+  "featured": true,
+  "parent_slug": "paths-of-a-life"
+ },
+ {
+  "slug": "sengoku-warlords",
+  "name": "일본 전국시대 무장",
+  "en": "Sengoku Warlords",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "shadow-world",
+  "name": "이면 세계",
+  "en": "The Shadow World",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "shakespeare-stage-actors",
+  "name": "셰익스피어 극단의 배우들",
+  "en": "Actors of the Shakespeare Stage",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "sharing-economy",
+  "name": "공유경제",
+  "en": "The Sharing Economy",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "silicon-empire",
+  "name": "반도체 제국",
+  "en": "The Silicon Empire",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "sm-entertainment",
+  "name": "SM",
+  "en": "SM",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "social-media",
+  "name": "소셜 미디어",
+  "en": "Social Media",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "south-korean-presidents",
+  "name": "대한민국 대통령",
+  "en": "Presidents of South Korea",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "spacex",
+  "name": "스페이스X",
+  "en": "SpaceX",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "special-features",
+  "name": "특집",
+  "en": "Special Features",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "special-forces",
+  "name": "특수부대",
+  "en": "The Special Forces",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "sports-empire",
+  "name": "프로 스포츠 제국",
+  "en": "Kings of the Arena",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "sports-legends",
+  "name": "스포츠",
+  "en": "Sports Legends",
+  "featured": true,
+  "parent_slug": null
+ },
+ {
+  "slug": "spymasters",
+  "name": "정보기관",
+  "en": "The Spymasters",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "state-hackers",
+  "name": "국가의 해커",
+  "en": "The State Hackers",
+  "featured": true,
+  "parent_slug": "shadow-world"
+ },
+ {
+  "slug": "stock-exchanges",
+  "name": "미국의 거래소",
+  "en": "America's Exchanges",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "streaming-empire",
+  "name": "스트리밍 제국",
+  "en": "The Streaming Empire",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "street-fashion",
+  "name": "스트리트 패션 제국",
+  "en": "Street Fashion Empires",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "tarantino-troupe",
+  "name": "타란티노 사단",
+  "en": "Tarantino's Troupe",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "technology-and-science",
+  "name": "기술과 과학",
+  "en": "Technology & Science",
+  "featured": false,
+  "parent_slug": null
+ },
+ {
+  "slug": "tesla",
+  "name": "테슬라",
+  "en": "Tesla",
+  "featured": true,
+  "parent_slug": "technology-and-science"
+ },
+ {
+  "slug": "the-chu-han-contention",
+  "name": "초한지",
+  "en": "The Chu-Han Contention",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "the-founding-fathers",
+  "name": "미국 건국의 아버지들",
+  "en": "The Founding Fathers",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "the-french-revolution",
+  "name": "프랑스 혁명",
+  "en": "The French Revolution",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "the-lost-generation",
+  "name": "잃어버린 세대",
+  "en": "The Lost Generation",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "thiel-universe",
+  "name": "틸 유니버스",
+  "en": "The Thiel Universe",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "thinking-machines",
+  "name": "Thinking Machines",
+  "en": "Thinking Machines Lab",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "thought-and-conviction",
+  "name": "사상과 신념",
+  "en": "Thought & Conviction",
+  "featured": true,
+  "parent_slug": null
+ },
+ {
+  "slug": "three-kingdoms",
+  "name": "삼국지",
+  "en": "Three Kingdoms",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "trump-dynasty",
+  "name": "트럼프 제국",
+  "en": "The Trump Dynasty",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "us-presidents",
+  "name": "미국 대통령",
+  "en": "Presidents of the United States",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "virgil-aeneid",
+  "name": "아이네이스",
+  "en": "The Aeneid",
+  "featured": true,
+  "parent_slug": "myth-and-fiction"
+ },
+ {
+  "slug": "vlog",
+  "name": "브이로그",
+  "en": "Vlog",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "wall-street",
+  "name": "월스트리트",
+  "en": "Wall Street",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "warring-states",
+  "name": "춘추전국",
+  "en": "The Warring States",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "wild-west",
+  "name": "서부 개척시대",
+  "en": "The Wild West",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "world-best-2026",
+  "name": "월드 베스트 11 2026",
+  "en": "2026 World Cup Dream XI",
+  "featured": false,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "world-cup-2026",
+  "name": "2026 월드컵",
+  "en": "The 2026 World Cup",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "world-football-best11",
+  "name": "세계 축구 베스트 11",
+  "en": "World Football Best XI",
+  "featured": true,
+  "parent_slug": "sports-legends"
+ },
+ {
+  "slug": "ww2-asia-pacific",
+  "name": "제2차 세계대전의 아시아·태평양",
+  "en": "The Asia-Pacific War",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "ww2-axis-europe",
+  "name": "제2차 세계대전의 유럽 추축국",
+  "en": "The Axis in Europe",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "ww2-britain-free-france",
+  "name": "제2차 세계대전의 영국과 자유 프랑스",
+  "en": "Britain and Free France in WWII",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "ww2-soviet-union",
+  "name": "제2차 세계대전의 소련",
+  "en": "The Soviet Union in WWII",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "ww2-united-states",
+  "name": "제2차 세계대전의 미국",
+  "en": "The United States in WWII",
+  "featured": true,
+  "parent_slug": "power-and-war"
+ },
+ {
+  "slug": "x-men",
+  "name": "엑스맨",
+  "en": "X-Men",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ },
+ {
+  "slug": "x-platform",
+  "name": "X",
+  "en": "X",
+  "featured": true,
+  "parent_slug": "business-and-industry"
+ },
+ {
+  "slug": "xai",
+  "name": "xAI",
+  "en": "xAI",
+  "featured": true,
+  "parent_slug": "ai"
+ },
+ {
+  "slug": "yg-theblacklabel",
+  "name": "YG · THEBLACKLABEL",
+  "en": "YG · THEBLACKLABEL",
+  "featured": true,
+  "parent_slug": "music"
+ },
+ {
+  "slug": "youtube-stars",
+  "name": "유튜브 스타",
+  "en": "YouTube Stars",
+  "featured": true,
+  "parent_slug": "art-and-creation"
+ }
+]

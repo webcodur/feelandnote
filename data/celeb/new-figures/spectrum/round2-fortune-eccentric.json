@@ -1,0 +1,938 @@
+{
+ "노아 디트리히": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정부와의 항공 계약 협상을 다룬 정도",
+   "political_exp_en": "Handled aviation contracts with government.",
+   "strategic": 2,
+   "strategic_exp": "휴즈 에어크래프트의 군수 생산을 관리",
+   "strategic_exp_en": "Oversaw Hughes Aircraft's defence production.",
+   "tech": 3,
+   "tech_exp": "항공기 개발 조직의 예산·일정을 총괄",
+   "tech_exp_en": "Ran the budgets behind aircraft development.",
+   "social": 1,
+   "social_exp": "공적 사회 활동과 거리가 먼 경영인",
+   "social_exp_en": "An executive remote from public causes.",
+   "economic": 5,
+   "economic_exp": "32년간 항공·공작기계 대기업군을 실질 경영",
+   "economic_exp_en": "Effectively ran an aviation and tooling empire for 32 years.",
+   "cultural": 2,
+   "cultural_exp": "회고록이 휴즈 위작 사기 폭로의 단서가 됨",
+   "cultural_exp_en": "His memoir helped expose the Irving hoax.",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "재벌의 그림자 경영자로 회자",
+   "transhistoricity_exp_en": "Remembered as the shadow manager of an empire."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "1925~57년 휴즈 툴·TWA·RKO·항공사 전체를 총괄",
+     "reason_en": "Ran Hughes Tool, TWA, RKO and the airline, 1925-57."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "회계사 출신으로 평생 책상 중심 업무",
+     "reason_en": "An accountant who worked a desk all his life."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "세무·회계·경영을 꿰뚫어 제국 재정을 설계",
+     "reason_en": "Mastered tax and finance to design the empire's books."
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "'미스터 휴즈'라 불렸으나 대중 존재감은 옅음",
+     "reason_en": "Called 'Mr Hughes' yet barely known to the public."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "거부 밑에서도 절제된 회계사 생활을 유지",
+     "reason_en": "Kept an accountant's disciplined life under a billionaire."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "32년간 휴즈 사업 전반을 빠짐없이 관리",
+     "reason_en": "Managed the whole Hughes portfolio for 32 years."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "회고록에서 휴즈와의 관계를 냉정히 되짚음",
+     "reason_en": "His memoir coolly reassessed the Hughes years."
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "보수 문제로 고용주와 정면 결별을 택함",
+     "reason_en": "Broke with Hughes head-on over pay."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "32년을 섬겼으나 대가를 두고 끝내 갈라섬",
+     "reason_en": "Served 32 years but finally split over reward."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "선행·자선의 자취가 문헌에 뚜렷이 남지 않음",
+     "reason_en": "Little record of charity survives him."
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "회계 기준과 계약 원칙을 휴즈에게도 그대로 적용",
+     "reason_en": "Applied the same ledgers and contracts even to Hughes."
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "공은 휴즈에게 돌리고 자신은 대리인 자리에 머묾",
+     "reason_en": "Credited Hughes and stayed in the deputy's seat."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "불안정한 고용주 밑에서도 사업 지속을 믿음",
+     "reason_en": "Trusted the businesses would outlast an erratic owner."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "기존 재계 질서 안에서 일한 전문 경영인",
+     "reason_en": "A professional manager inside the existing order."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "가정보다 회사 조직에 생애를 바침",
+     "reason_en": "Gave his life to the company organisation."
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "거대 계약을 관리하되 본인은 신중한 관리자",
+     "reason_en": "Ran giant deals but stayed the cautious manager."
+    }
+   },
+   "rationale_ko": "열아홉의 억만장자에게 고용된 회계사가 32년간 그 제국을 실질 경영했다. 세무와 회계로 사업군을 떠받든 능력과 빠짐없는 근면이 스프루스 구스까지 실현시켰다. 대가를 두고 결별한 뒤 낸 회고록이 훗날 위작 사기를 밝히는 단서가 됐다. 공을 주인에게 돌린 채 그림자에 머문 경영자로 생을 마쳤다.",
+   "rationale_en": "The accountant hired by a nineteen-year-old billionaire ended up running the empire for thirty-two years. His command of tax and finance carried the companies — even the Spruce Goose to its one flight. The memoir he wrote after breaking over pay later exposed Clifford Irving's hoax. He died as he had lived, the shadow manager who credited Hughes."
+  }
+ },
+ "바르톨로메우스 벨저": {
+  "influence": {
+   "political": 3,
+   "political_exp": "대출로 황제 채권자가 돼 제국 후작에 오름",
+   "political_exp_en": "Loans made him Charles V's creditor and an imperial prince.",
+   "strategic": 2,
+   "strategic_exp": "황제 전쟁 자금을 댄 채권단의 일원",
+   "strategic_exp_en": "Part of the consortium funding imperial wars.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 2,
+   "social_exp": "독일인 식민 사업이라는 선례를 남김",
+   "social_exp_en": "Left a precedent of German colonisation.",
+   "economic": 6,
+   "economic_exp": "유럽 최대급 상사를 이끌고 대륙간 금융을 개척",
+   "economic_exp_en": "Led a top European house and pioneered colonial finance.",
+   "cultural": 1,
+   "cultural_exp": "엘도라도 전설에 이름을 남긴 정도",
+   "cultural_exp_en": "His name survives in the El Dorado story.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "초기 세계 자본주의의 대표 사례로 기록됨",
+   "transhistoricity_exp_en": "A textbook case of early global capitalism."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "수십 년간 벨저 상사 수장으로 지점·원정대를 지휘",
+     "reason_en": "Headed the Welser house for decades, directing branches and expeditions."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "상인으로서 무예 기록 없이 금융에 종사",
+     "reason_en": "A merchant of finance with no martial record."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "황제 채권과 식민 특권을 설계한 금융 두뇌",
+     "reason_en": "Structured imperial debt and a colonial charter."
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "카를 5세의 신임을 얻어 후작 작위까지 받음",
+     "reason_en": "Won Charles V's trust and a princely title."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "식민 사업에 거액을 걸 만큼 야심을 숨기지 않음",
+     "reason_en": "Staked a fortune on a colony without hiding ambition."
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "평생 상사를 이끌며 대륙 무역망을 유지",
+     "reason_en": "Kept a continental trade network running for life."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "장부의 시대 인물이나 자기 평가 자취는 옅음",
+     "reason_en": "A man of ledgers; self-appraisal barely survives."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "황제 채무를 담보로 신대륙 식민지를 통째로 떠안음",
+     "reason_en": "Took a whole New World colony as collateral."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "카를 5세 채권자로서 제국과의 관계를 끝까지 유지",
+     "reason_en": "Kept the emperor's account to the end."
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "식민지 원정의 원주민 피해는 상사의 책임으로 남음",
+     "reason_en": "Native losses on his expeditions rest with the house."
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "원주민 착취가 심했던 식민 경영의 최종 책임자",
+     "reason_en": "Ultimately answerable for a brutal colonial venture."
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "황제에게 받은 후작 작위를 받아들인 상인",
+     "reason_en": "Accepted the princely rank the emperor offered."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "엘도라도의 꿈에 계속 원정대를 보냄",
+     "reason_en": "Kept sending expeditions after El Dorado."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "황제의 은혜로 귀족 질서에 편입된 대상인",
+     "reason_en": "Bought into the noble order with imperial favour."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "개인이 아닌 가문 상사의 명예로 사업을 이어감",
+     "reason_en": "Ran the business as a family house, not a personal play."
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "빚 대신 한 나라를 담보로 받는 승부를 던짐",
+     "reason_en": "Took a country as collateral on a debt."
+    }
+   },
+   "rationale_ko": "황제의 채권자 자리를 발판 삼아 유럽 최대급 상사를 이끈 금융 감각이 정점이다. 빚 대신 베네수엘라를 받아내는 승부수는 대담했으나 엘도라도 원정은 인명 손실과 특권 몰수로 끝났다. 식민 경영의 착취가 공정과 인자를 크게 깎았다. 1561년 아우크스부르크에서 숨졌고 벨저 상사는 그의 뒤에 몰락했다.",
+   "rationale_en": "The financial sense that made him the emperor's creditor carried one of Europe's greatest trading houses. Taking Venezuela as collateral was a bold stroke, but the El Dorado expeditions ended in deaths, his son's execution and a revoked charter. The colony's exploitation drags fairness and benevolence down. He died in Augsburg in 1561; the Welser house failed after him."
+  }
+ },
+ "알-사힐리": {
+  "influence": {
+   "political": 1,
+   "political_exp": "만사 무사의 궁정인이었을 뿐 정치 권한은 없음",
+   "political_exp_en": "A courtier of Mansa Musa without political office.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 3,
+   "tech_exp": "안달루스 건축 기법을 사하라 이남에 전함",
+   "tech_exp_en": "Carried Andalusi building craft south of the Sahara.",
+   "social": 3,
+   "social_exp": "팀북투를 이슬람 학문 도시로 키우는 데 기여",
+   "social_exp_en": "Helped make Timbuktu a city of Islamic learning.",
+   "economic": 1,
+   "economic_exp": "왕의 사례금 수취자일 뿐 경제 행위는 미미",
+   "economic_exp_en": "A recipient of royal reward, not an economic actor.",
+   "cultural": 4,
+   "cultural_exp": "진구에레베르 모스크 설계자로 전해짐",
+   "cultural_exp_en": "Credited as architect of the Djinguereber Mosque.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "7백 년 서 있는 모스크의 건축가로 남음",
+   "transhistoricity_exp_en": "Remembered through a mosque still standing after 700 years."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "모스크·전당 건축 공정을 총괄했다고 전해짐",
+     "reason_en": "Said to have directed the mosque and hall construction."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "사막 횡단과 이주를 견딘 여행 체력",
+     "reason_en": "Endured a Sahara crossing and resettlement."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "시인·법학자·건축가를 겸한 안달루스 지식인",
+     "reason_en": "An Andalusi poet, jurist and builder in one."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "순례길 첫 만남에서 왕의 총애를 얻음",
+     "reason_en": "Won the mansa 's favour at their first meeting."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "왕의 후한 사례를 받되 탐욕 일화는 전하지 않음",
+     "reason_en": "Took a rich reward yet no greed story survives."
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "말리 정주 후 건축·학문 활동을 이어감",
+     "reason_en": "Continued building and scholarship after settling in Mali."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "저술이 거의 남지 않아 성찰 자취는 옅음",
+     "reason_en": "Little writing survives to show self-examination."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "낯선 왕을 따라 사하라를 건너 말리에 정착",
+     "reason_en": "Followed a stranger-king across the Sahara to Mali."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "만사 무사를 섬겨 팀북투에서 생을 마침",
+     "reason_en": "Served Mansa Musa and died in Timbuktu."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "학문과 종교 시설로 새 공동체에 이바지",
+     "reason_en": "Gave his new community learning and a great mosque."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "이슬람 법학자로 율법 해석과 판단을 수행",
+     "reason_en": "Practised as a jurist interpreting the law."
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "금 51kg의 사례를 받았다는 기록이 남음",
+     "reason_en": "A record says he accepted 51 kg of gold."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "미지의 제국으로 따라간 선택 자체가 전망 신뢰",
+     "reason_en": "Following to an unknown empire showed trust in prospect."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "기존 이슬람·안달루스 양식을 그대로 전함",
+     "reason_en": "Transmitted established Andalusi forms as they were."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "왕의 궁정과 신앙 공동체에 몸담은 삶",
+     "reason_en": "A life inside a royal court and a faith community."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "순례길 인연 하나로 대륙을 옮기는 결단",
+     "reason_en": "Crossed a continent on a single pilgrimage acquaintance."
+    }
+   },
+   "rationale_ko": "메카 순례길의 만남 하나로 대륙을 옮긴 결단이 안달루스의 학문을 팀북투에 심었다. 시인·법학자·건축가를 겸한 지력이 모스크와 접견 전당으로 남았다. 사료가 얇아 많은 축이 중간대에 머문다. 지은 모스크가 7백 년을 버텨 그 이름을 지금까지 실어 나른다.",
+   "rationale_en": "One meeting on the hajj road carried Andalusi learning across the Sahara to Timbuktu. A poet, jurist and builder in one, he left his intellect in the great mosque and audience hall. The thinness of the record keeps many axes near neutral. The mosque he is credited with has stood seven centuries and still carries his name."
+  }
+ },
+ "찰스 제임스 애퍼리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동 없음",
+   "political_exp_en": "No office or political activity.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 2,
+   "social_exp": "스포츠맨 문화의 규범을 글로 정립",
+   "social_exp_en": "Codified the sporting gentleman's norms in print.",
+   "economic": 1,
+   "economic_exp": "잡지 판매부수를 올린 정도",
+   "economic_exp_en": "His effect on commerce was one magazine's circulation.",
+   "cultural": 4,
+   "cultural_exp": "빅토리아 스포츠 문학의 대표 필명을 세움",
+   "cultural_exp_en": "Made 'Nimrod' the era's signature sporting byline.",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "사냥 문학사의 한 이름으로 남음",
+   "transhistoricity_exp_en": "A name in the history of sporting literature."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "사냥 모임의 단골이었으나 조직을 이끌진 않음",
+     "reason_en": "A fixture of the hunt but leader of no organisation."
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "평생 여우사냥을 타며 거친 승마 실력을 입증",
+     "reason_en": "A lifetime to hounds proved hard riding."
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "스포츠 기사와 전기를 쓴 직업 작가",
+     "reason_en": "A professional writer of sporting copy and memoirs."
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "'님로드' 필명의 기사로 잡지 부수를 두 배 올림",
+     "reason_en": "His 'Nimrod' pieces doubled the Sporting Magazine's sales."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "방만한 살림으로 빚이 쌓여 결국 프랑스로 도피",
+     "reason_en": "Loose finances ended in a debt-flight to France."
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "망명지 칼레에서도 글로 생계를 이어감",
+     "reason_en": "Wrote for his living in Calais exile."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "『스포츠맨의 생애』에서 자기 세계를 돌아봄",
+     "reason_en": "The Life of a Sportsman looked back on his world."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "남들이 꺼리는 험한 코스를 타는 기수로 이름남",
+     "reason_en": "Known as a rider over country others avoided."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "죽은 사냥꾼 미튼의 전기를 지어 명성을 보전",
+     "reason_en": "Wrote Mytton's memoirs and preserved the man's name."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "망명지에서도 문필로 동업 세계를 섬김",
+     "reason_en": "Kept serving the sporting world by pen from exile."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정을 가린 판결·처분의 기록이 전하지 않음",
+     "reason_en": "No recorded judgment marks his fairness."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "본명 대신 필명 '님로드'로 평생 활동",
+     "reason_en": "Worked his whole career behind the name 'Nimrod'."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "빚쟁이에 쫓겨도 칼레에서 집필을 계속",
+     "reason_en": "Kept writing in Calais despite his creditors."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "전근대 향촌 스포츠 질서를 찬미하는 필체",
+     "reason_en": "His pen celebrated the old country order of sport."
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "사냥꾼 공동체와 클럽 문화에 깊이 속함",
+     "reason_en": "Deep in the hunting fraternity and club life."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "승마는 과감했으나 재정은 방만해 도피로 끝남",
+     "reason_en": "Bold in the saddle, reckless with money — he fled."
+    }
+   },
+   "rationale_ko": "여우사냥 필드에서 다진 승마와 직업 작가의 필력이 '님로드'라는 시대의 필명을 만들었다. 기사 하나로 잡지 부수를 두 배 올릴 만큼 독자를 쥐었으나 방만한 살림은 빚 도피로 끝났다. 죽은 괴짜 미튼의 전기를 지어 동업 세계의 명성을 보전했다. 1843년 망명지 칼레에서 집필로 생을 마쳤다.",
+   "rationale_en": "Riding hardened on the hunting field met a professional pen to create 'Nimrod', the era's sporting byline — his columns doubled a magazine's circulation. The same loose finances ended in a debt-flight to Calais. He preserved a fellow eccentric's name by writing Mytton's memoirs. He died writing in Calais in 1843."
+  }
+ },
+ "로베르 드 몽테스키우": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동 없음",
+   "political_exp_en": "No office or political activity.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "살롱의 취향 감별사로 사교 규범을 좌우",
+   "social_exp_en": "As salon arbiter he set the norms of taste.",
+   "economic": 1,
+   "economic_exp": "수집가로 예술 시장에 참여한 정도",
+   "economic_exp_en": "A collector participating in the art market.",
+   "cultural": 6,
+   "cultural_exp": "위스망스와 프루스트 두 소설가의 모델",
+   "cultural_exp_en": "The model behind both Huysmans and Proust.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "두 고전 소설 인물의 원형으로 생존",
+   "transhistoricity_exp_en": "He survives as the original of two classic characters."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "살롱을 주름잡았으나 조직 수장은 아니었음",
+     "reason_en": "Ruled the salons but headed no organisation."
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "1897년 레니에와 결투, 1900년 마장 경기 입상",
+     "reason_en": "Fought an 1897 duel and placed in the 1900 horse show."
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "상징주의 시집 수십 권과 미술 평론을 남김",
+     "reason_en": "Left dozens of Symbolist volumes and art criticism."
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "벨 에포크 최고의 댄디로 파리 사교계를 지배",
+     "reason_en": "The most famous dandy in Belle Époque Paris."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "실크 상자 시집 같은 과시적 소비를 즐김",
+     "reason_en": "Delighted in showy spending like silk-cased poems."
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "수십 권의 시집과 회고록을 꾸준히 펴냄",
+     "reason_en": "Published volumes of verse and memoirs steadily."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "세 권의 회고록에서 자기 시대를 되돌아봄",
+     "reason_en": "Three memoir volumes looked back on his era."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "손가락질받는 취향과 결투를 피하지 않음",
+     "reason_en": "Never shunned scandalous taste or a duel."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "베르나르·휘슬러 등 예술가 친구와 오래 교유",
+     "reason_en": "Kept long friendships with Bernhardt, Whistler and others."
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "독설로 상대를 꺾는 재미를 즐긴 살롱의 제왕",
+     "reason_en": "A salon king who relished crushing a rival with wit."
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "취향이 곧 법이었던 사교계의 심판",
+     "reason_en": "Taste was his law; he judged society by it."
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "스스로 '미의 교수'를 칭한 자기 숭배",
+     "reason_en": "Styled himself the 'Professor of Beauty'."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "데카당스적 허무와 미만의 세계관",
+     "reason_en": "A Decadent worldview of ennui and beauty alone."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "구질서 귀족의 품격을 미학으로 옹호",
+     "reason_en": "Aestheticised the old nobility's distinction."
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "자기 취향의 완성을 삶의 목적으로 삼음",
+     "reason_en": "Made the perfection of his own taste life's purpose."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "스캔들과 결투를 두려워 않는 과시적 행보",
+     "reason_en": "Flaunted his way through scandal and duel."
+    }
+   },
+   "rationale_ko": "백작의 지위를 시가 아닌 취향의 제국으로 바꾼 남자다. 살롱을 쥐락펴락한 매력이 정점이고, 그 뒷면인 독설과 '미의 교수'라는 자칭이 인자·겸양을 깎았다. 두 위대한 소설의 모델이 된 것 자체가 그의 문화적 자리다. 1921년 숨졌고 그가 남긴 건 시보다 캐릭터다.",
+   "rationale_en": "He converted a count's rank into an empire of taste. The charm that ruled the salons sits at the top; the cruel wit beneath it and the self-title 'Professor of Beauty' cut benevolence and humility. Being the model for two great novels is itself his cultural place. He died in 1921 — what he left was less poetry than a character."
+  }
+ },
+ "윌리엄 코트니": {
+  "influence": {
+   "political": 1,
+   "political_exp": "귀족원 작위 인정 외 정치 역할 없음",
+   "political_exp_en": "A peerage confirmed; no political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 2,
+   "social_exp": "동성 스캔들의 유명 사례로 사회사에 남음",
+   "social_exp_en": "His case entered the social history of scandal.",
+   "economic": 1,
+   "economic_exp": "가문 재산의 상속자였을 뿐 경제 행적은 옅음",
+   "economic_exp_en": "An heir to estates, not an economic actor.",
+   "cultural": 1,
+   "cultural_exp": "파우더햄 스캔들의 주인공으로 회자",
+   "cultural_exp_en": "Recalled as the man in the Powderham scandal.",
+   "transhistoricity": 2,
+   "transhistoricity_exp": "스캔들사의 한 장으로 남은 귀족",
+   "transhistoricity_exp_en": "A peer preserved by a chapter of scandal."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "망명으로 영지 경영을 직접 하지 못함",
+     "reason_en": "Exile kept him from running his estates."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "평민 무예 대신 신사 교양으로 자란 귀족",
+     "reason_en": "A peer raised on manners, not martial training."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "수십 년 소송 끝에 백작 작위 승인을 이끌어냄",
+     "reason_en": "Won the earldom's confirmation after long litigation."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "스캔들의 주인공이었으나 망명지 사교에 녹아듦",
+     "reason_en": "Scandal's subject, he blended into exile society."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "스캔들을 일으킨 관계를 오래 이어감",
+     "reason_en": "Long sustained the attachment that caused the scandal."
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "작위 소송을 십수 년 끌어 승인을 받아냄",
+     "reason_en": "Pursued the peerage claim for years until confirmed."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "회고·자술의 자취가 거의 남지 않음",
+     "reason_en": "Almost no self-examination survives in the record."
+    },
+    "courage": {
+     "score": 40,
+     "reason_ko": "기소를 피해 조국을 떠나는 쪽을 택함",
+     "reason_en": "Chose flight abroad over facing prosecution."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "오래된 관계가 폭로돼도 함께하지 못하고 헤어짐",
+     "reason_en": "Once exposed, the old attachment could not continue."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "인자를 보여준 선행의 자취가 문헌에 남지 않음",
+     "reason_en": "No recorded kindness marks his benevolence."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "작위 주장을 힘이 아닌 법 절차로 관철",
+     "reason_en": "Pressed the title claim through law, not force."
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "망명지에서 조용히 살며 작위 과시를 삼감",
+     "reason_en": "Lived quietly abroad without flaunting the title."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "평생 조국에 돌아가지 못하는 처지를 수용",
+     "reason_en": "Accepted a life that never returned to England."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "세습 작위를 소송까지 해 지킨 귀족",
+     "reason_en": "Litigated for years to keep a hereditary title."
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "망명객으로 공동체 밖에서 평생을 보냄",
+     "reason_en": "Spent his life outside the national community."
+    },
+    "cautious_bold": {
+     "score": -20,
+     "reason_ko": "정면 대결 대신 망명과 법적 확인을 택함",
+     "reason_en": "Chose exile and legal confirmation over confrontation."
+    }
+   },
+   "rationale_ko": "소년 시절의 관계가 세기의 스캔들로 터지자 조국을 버리고 망명을 택했다. 신중하고 개인적인 선택이 평생을 규정했다. 그러나 가문 작위만큼은 십수 년 소송 끝에 귀족원의 인정을 받아냈다. 1835년 파리에서 숨졌고 데번 백작위는 그의 뒤를 이었다.",
+   "rationale_en": "When a youthful attachment became the century's scandal, he chose exile over England — a cautious, private choice that ruled his whole life. Yet the family title he would not relinquish: after years of litigation the House of Lords confirmed him Earl of Devon in 1831. He died in Paris in 1835."
+  }
+ },
+ "조나선 플러머": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동 없음",
+   "political_exp_en": "No office or political activity.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 1,
+   "social_exp": "마을 설교자로 작은 범위에 머묾",
+   "social_exp_en": "A lay preacher of the smallest parish.",
+   "economic": 0,
+   "economic_exp": "행상 장사 외 경제 행적 없음",
+   "economic_exp_en": "A peddler beyond economic record.",
+   "cultural": 2,
+   "cultural_exp": "초기 미국 향토 문학의 괴짜로 회자",
+   "cultural_exp_en": "Recalled as a curiosity of early American verse.",
+   "transhistoricity": 1,
+   "transhistoricity_exp": "지역 일화의 인물로 남음",
+   "transhistoricity_exp_en": "He survives in local anecdote."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "떠돌이 행상으로 조직을 이끌지 않음",
+     "reason_en": "An itinerant peddler who led nothing."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "행상으로 걸어다닌 떠돌이 생활의 지구력",
+     "reason_en": "Years of tramping gave a peddler's endurance."
+    },
+    "intellect": {
+     "score": 40,
+     "reason_ko": "즉석 발라드를 지었으나 거친 문장으로 평가됨",
+     "reason_en": "His instant ballads were judged rough verse."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "뉴버리포트 고장의 괴짜로 작은 명성을 얻음",
+     "reason_en": "Won small fame as Newburyport's eccentric."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "욕심 없는 검소한 행상 생활을 유지",
+     "reason_en": "Kept a frugal peddler's life without want."
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "마을 사건 때마다 빠짐없이 발라드를 지어 팜",
+     "reason_en": "Never missed turning a local event into a ballad."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "자서전을 남기며 자기 생애를 되돌아봄",
+     "reason_en": "Left a memoir looking back on his life."
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "거리에서 즉석 시를 팔며 평판을 감수",
+     "reason_en": "Hawked instant verse in the street, risking name."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "덱스터의 '관인 시인'으로 후원자를 섬김",
+     "reason_en": "Served his patron as Dexter's laureate."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "자서전 600부 무료 배포 유언을 남김",
+     "reason_en": "Willed 600 free copies of his memoir."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "거리 판매인으로 공정 분쟁의 자취가 남지 않음",
+     "reason_en": "No fairness dispute survives a street vendor."
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "스스로 시인을 칭했으나 보잘것없는 처지를 자각",
+     "reason_en": "Called himself poet yet knew his station."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "가난 속에서도 시를 지어 파는 것을 멈추지 않음",
+     "reason_en": "Kept writing and selling verse through poverty."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "설교자로서 기존 도덕 질서를 설파",
+     "reason_en": "As preacher he upheld the existing moral order."
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "떠돌이지만 고장 공동체의 사건을 노래함",
+     "reason_en": "A wanderer who still sang the town's events."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "자칭 시인으로 자서전까지 내는 자기 과시",
+     "reason_en": "Self-styled poet bold enough to print a memoir."
+    }
+   },
+   "rationale_ko": "행상·설교·즉석 발라드를 오가며 고장의 사건사고를 노래로 판 떠돌이다. 괴짜 갑부 덱스터에게 발탁돼 '관인 시인' 노릇을 한 것이 최대의 자리다. 부지런히 지었으나 문장은 거칠었고 영향은 고장을 벗어나지 못했다. 1819년 숨졌고 자서전 무료 배포 유언은 심신 미약으로 무효가 됐다.",
+   "rationale_en": "A peddler-preacher who turned every local suicide, fire and hanging into a ballad for sale. His highest station was laureate to the eccentric 'Lord' Timothy Dexter. He wrote diligently but roughly, and his fame never left town. He died in 1819; the will ordering 600 free copies of his memoir was voided as the act of an unsound mind."
+  }
+ },
+ "노버트 펄로스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동 없음",
+   "political_exp_en": "No office or political activity.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 2,
+   "tech_exp": "팩트체크의 장인으로 검증 기준을 보여줌",
+   "tech_exp_en": "A master fact-checker who set a verification bar.",
+   "social": 2,
+   "social_exp": "무명 연구자의 장인정치 사례로 회자",
+   "social_exp_en": "Cited as the model anonymous researcher.",
+   "economic": 1,
+   "economic_exp": "한 코너의 콘텐츠 공급자였을 뿐",
+   "economic_exp_en": "The supplier of one column's material.",
+   "cultural": 4,
+   "cultural_exp": "52년간 '믿거나 말거나'의 실질적 두뇌",
+   "cultural_exp_en": "The actual brain of 'Believe It or Not!' for 52 years.",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "유명 코너 뒤의 연구자로 기록됨",
+   "transhistoricity_exp_en": "Recorded as the researcher behind a famous panel."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "혼자 조사하는 자리를 52년간 지킴",
+     "reason_en": "Kept a one-man research post for 52 years."
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "평생 도서관 책상에 앉아 일한 연구직",
+     "reason_en": "A desk researcher in the library all his life."
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "14개 언어로 연간 7천 권을 소화한 다언어자",
+     "reason_en": "Read some 7,000 books a year in fourteen languages."
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "이름이 아닌 사실만 앞세운 무명의 조력자",
+     "reason_en": "Put forward facts, never his own name."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "52년간 같은 책상·같은 마감의 절제된 일상",
+     "reason_en": "Fifty-two years of the same desk and deadline."
+    },
+    "diligence": {
+     "score": 95,
+     "reason_ko": "52년간 마감을 한 번도 어기지 않음",
+     "reason_en": "Never missed a deadline in 52 years."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "자기 오류 기록을 추적해 단 한 건으로 줄임",
+     "reason_en": "Tracked his own errors down to a single one."
+    },
+    "courage": {
+     "score": 40,
+     "reason_ko": "무명의 자리를 택해 위험과는 거리를 둠",
+     "reason_en": "Chose the anonymous desk far from danger."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 92,
+     "reason_ko": "'믿거나 말거나' 한 코너에 52년을 바침",
+     "reason_en": "Gave 52 years to a single column."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "무명 연구로 수많은 독자의 호기심을 충족시킴",
+     "reason_en": "Fed millions of readers' curiosity in anonymity."
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "모든 소재를 원전에서 확인하는 검증을 평생 관철",
+     "reason_en": "Verified every item against its source for life."
+    },
+    "humility": {
+     "score": 85,
+     "reason_ko": "52년의 공을 리플리 이름 뒤에 둠",
+     "reason_en": "Left 52 years of credit behind another's name."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "매일 새 기묘함이 있다는 전망으로 책을 뒤짐",
+     "reason_en": "Combed books trusting a new oddity waited daily."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서 입장을 드러낸 자취가 없음",
+     "reason_en": "He left no stance on the social order."
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "혼자 일했으나 공동의 상품에 헌신",
+     "reason_en": "Worked alone yet served a shared product."
+    },
+    "cautious_bold": {
+     "score": -30,
+     "reason_ko": "검증 없는 소재는 절대 싣지 않은 신중함",
+     "reason_en": "Nothing unverified ever went to print."
+    }
+   },
+   "rationale_ko": "남의 이름으로 된 코너를 52년간 혼자 뒷받침한 검증의 장인이다. 14개 언어와 연 7천 권의 독서량이 지력을 만들고, 마감 무결의 근면이 프랜차이즈를 지탱했다. 공을 브랜드에 양보한 겸양이 정점이다. 1983년 숨졌고 52년의 오류는 단 한 건으로 전해진다.",
+   "rationale_en": "The craftsman of verification who single-handedly backed another man's column for fifty-two years. Fourteen languages and seven thousand books a year built the intellect; an unbroken deadline streak propped up the franchise. His humility in leaving the credit to the brand is the peak. He died in 1983 — the record says one error in fifty-two years."
+  }
+ }
+}

@@ -1,0 +1,440 @@
+{
+  "파트리시오 리바스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "찰스 프레더릭 헤닝센": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "노웰 새먼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉산더 번스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "하먼 블레너해싯": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "애런 버 시니어": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "일라이자 주멜": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "알프 폰 뒬멘",
+        "title_en": "Alf von Dülmen",
+        "creator": "베네딕테 나우베르트",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://archive.org/details/remarkableriseof0000oppe",
+        "evidence": "뉴욕 소사이어티 도서관 대출 장부를 인용한 전기는 주멜이 1814년 나우베르트의 이 고딕 소설 영역본을 빌려 읽었다고 기록한다.",
+        "review": "일라이자 주멜은 1814년 뉴욕 소사이어티 도서관에서 나우베르트의 이 고딕 소설 영역본을 빌려 읽었다. 전기는 그녀의 책에서 드물게 보이는 가벼운 읽을거리였다고 덧붙인다.",
+        "review_en": "Eliza Jumel borrowed an English translation of Naubert's Gothic novel from the New York Society Library in 1814 and read it. Her biographer notes it was a rare excursion into light reading for her."
+      },
+      {
+        "type": "BOOK",
+        "title": "몰리에르 희곡집",
+        "title_en": "The Plays of Molière (Œuvres de Molière)",
+        "creator": "몰리에르",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://archive.org/details/remarkableriseof0000oppe",
+        "evidence": "대출 장부를 인용한 전기는 주멜이 1814년 12월 초부터 약 보름간 몰리에르 희곡 네 권을, 일부 또는 전부를 원어로 읽었다고 기록한다.",
+        "review": "일라이자 주멜은 1814년 12월 보름 남짓한 기간에 몰리에르 희곡 네 권을 읽었다. 일부는 원어인 프랑스어로 읽은 것으로 보인다.",
+        "review_en": "Eliza Jumel read four volumes of Molière plays over about a fortnight in December 1814, some if not all in the original French."
+      },
+      {
+        "type": "BOOK",
+        "title": "소플리니우스 서간집",
+        "title_en": "The Letters of Pliny the Younger",
+        "creator": "소플리니우스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://archive.org/details/remarkableriseof0000oppe",
+        "evidence": "대출 장부를 인용한 전기는 주멜이 소플리니우스 서간집을 두 번역본으로 갈아가며 약 3주간 공부하듯 읽었다고 기록한다.",
+        "review": "일라이자 주멜은 소플리니우스의 서간집을 먼저 오러리 백작의 라틴어 번역으로 보름을 들여 읽고, 이어 멜머스의 번역본을 다시 일주일간 읽었다.",
+        "review_en": "Eliza Jumel spent two weeks studying Pliny's letters in the Earl of Orrery's translation, then another seven days on Melmoth's version."
+      },
+      {
+        "type": "BOOK",
+        "title": "폭스 순교사",
+        "title_en": "Foxe's Book of Martyrs",
+        "creator": "존 폭스",
+        "year": 1563,
+        "status": "FINISHED",
+        "source_url": "https://archive.org/details/remarkableriseof0000oppe",
+        "evidence": "전기는 주멜이 안식일 독서용으로 폭스의 《순교사》 요약본을 두고 있었다고 기록한다.",
+        "review": "일라이자 주멜은 안식일 독서용으로 폭스의 《순교사》 요약본을 곁에 두고 읽었다. 신앙을 지킨 남녀의 이야기를 담은 책이다.",
+        "review_en": "Eliza Jumel kept an abridged edition of Foxe's Book of Martyrs for her Sabbath reading, alongside the Churchman's Magazine."
+      }
+    ]
+  },
+  "사라 쿄라바": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "밥 아스틀스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉상드르 반자": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "보리스 시흐무라도프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "구스타보 가비리아": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "제랄딘 아포니": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "전쟁 회고록",
+        "title_en": "Mémoires de guerre (War Memoirs)",
+        "creator": "샤를 드골",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://koha.mk/en/mbreteresha-qe-di-te-gatuaj-byrekun/",
+        "evidence": "망명지 인터뷰에서 제랄딘 여왕은 독서를 많이 한다며 '드골 장군의 회고록'을 거의 다 읽어가는 중이라고 말했다.",
+        "review": "제랄딘 아포니는 망명지 인터뷰에서 독서를 많이 한다며 드골의 이 회고록을 거의 다 읽어가는 중이라고 말했다. 그녀는 현실 도피가 되는 책을 찾는다고 덧붙였다.",
+        "review_en": "Geraldine Apponyi told an interviewer in exile that she read a great deal and was just finishing the Memoirs of General de Gaulle. She said she looked for books that gave her some kind of escape."
+      }
+    ]
+  },
+  "판 놀리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "오셀로",
+        "title_en": "Othello",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://www.albanianliterature.net/authors/classical/noli/noli_prose.html",
+        "evidence": "놀리는 자신의 산문에서 콘니차와 셰익스피어 전 희곡을 나눠 번역하기로 하고 자신은 《오셀로》부터 시작해 1916년 알바니아어판을 냈다고 썼다.",
+        "review": "판 놀리는 콘니차의 제안으로 셰익스피어 희곡을 알바니아어로 나눠 번역하기로 하고 《오셀로》부터 시작해 1916년 번역본을 출간했다. 그는 이집트에서 영어를 배우며 처음으로 원어로 셰익스피어를 읽었다.",
+        "review_en": "Fan Noli accepted Faik Konitza's suggestion that they divide Shakespeare's plays between them for Albanian translation, and began with Othello, published in 1916. He had first read Shakespeare in the original after teaching himself English in Egypt."
+      },
+      {
+        "type": "BOOK",
+        "title": "햄릿",
+        "title_en": "Hamlet",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://www.albanianliterature.net/authors/classical/noli/noli_prose.html",
+        "evidence": "놀리는 콘니차가 '로미오와 줄리엣'을 자기 몫으로 남겨두자 《햄릿》이 자기 몫이어야 한다는 조건으로 번역을 받아들였다고 썼다.",
+        "review": "판 놀리는 콘니차와의 분담 제안을 《햄릿》이 자기 몫이어야 한다는 조건으로 받아들였다. 그의 《햄릿》 알바니아어 번역은 1920년대 중반 출간됐다.",
+        "review_en": "Fan Noli accepted the division of labour on the condition that Hamlet should belong to him. His Albanian translation appeared in the mid-1920s."
+      },
+      {
+        "type": "BOOK",
+        "title": "맥베스",
+        "title_en": "Macbeth",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://www.albanianliterature.net/authors/classical/noli/noli_prose.html",
+        "evidence": "놀리는 자신의 산문에서 《햄릿》 《줄리어스 시저》 《맥베스》의 알바니아어 번역이 벨기에에서 출간됐다고 썼다.",
+        "review": "판 놀리는 《맥베스》를 알바니아어로 번역했고, 그 번역은 《햄릿》 《줄리어스 시저》와 함께 벨기에에서 출간됐다.",
+        "review_en": "Fan Noli translated Macbeth into Albanian; it was published in Belgium alongside his Hamlet and Julius Caesar."
+      },
+      {
+        "type": "BOOK",
+        "title": "줄리어스 시저",
+        "title_en": "Julius Caesar",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://www.albanianliterature.net/authors/classical/noli/noli_prose.html",
+        "evidence": "놀리는 자신의 산문에서 《햄릿》 《줄리어스 시저》 《맥베스》의 알바니아어 번역이 벨기에에서 출간됐다고 썼다.",
+        "review": "판 놀리는 《줄리어스 시저》를 알바니아어로 번역했고, 그 번역은 《햄릿》 《맥베스》와 함께 벨기에에서 출간됐다.",
+        "review_en": "Fan Noli translated Julius Caesar into Albanian; it was published in Belgium alongside his Hamlet and Macbeth."
+      },
+      {
+        "type": "BOOK",
+        "title": "돈키호테",
+        "title_en": "Don Quixote de la Mancha",
+        "creator": "미겔 데 세르반테스",
+        "year": 1605,
+        "status": "FINISHED",
+        "source_url": "https://albanianregistry.org/blog/fan-noli",
+        "evidence": "알바니아 기록 사이트는 놀리가 세르반테스의 《돈키호테》 최초의 완역 알바니아어판을 냈다고 전한다.",
+        "review": "판 놀리는 세르반테스의 《돈키호테》를 알바니아어로 번역해 최초의 완역본을 냈다.",
+        "review_en": "Fan Noli translated Cervantes' Don Quixote, producing the first complete Albanian edition."
+      },
+      {
+        "type": "BOOK",
+        "title": "루바이야트",
+        "title_en": "Rubaiyat of Omar Khayyam",
+        "creator": "오마르 카이얌",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://albanianregistry.org/blog/fan-noli",
+        "evidence": "알바니아 기록 사이트는 놀리가 오마르 카이얌의 《루바이야트》 선집을 알바니아어로 번역했다고 전한다.",
+        "review": "판 놀리는 오마르 카이얌의 《루바이야트》를 발췌 번역해 알바니아어로 옮겼다.",
+        "review_en": "Fan Noli translated selections from Omar Khayyam's Rubaiyat into Albanian."
+      }
+    ]
+  },
+  "이야수 5세": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "꾸란",
+        "title_en": "Quran",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Iyasu_V",
+        "evidence": "위키백과가 정리한 이야수 숙청 사유 목록에는 '꾸란을 읽는 모습이 목격됐다'는 항목이 포함돼 있다.",
+        "review": "이야수 5세는 꾸란을 읽는 모습이 목격됐다는 항목이 그의 폐위 사유로 거론될 만큼 이슬람에 기울었다. 그는 모스크 예배에 참석하고 소말리아 복장을 입은 채 목격되기도 했다.",
+        "review_en": "Iyasu V was reportedly seen reading the Quran—an item listed among the charges used to justify his deposition. He was also seen attending a mosque service in Somali dress."
+      }
+    ]
+  },
+  "세르비아의 나탈리예": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "러시아의 정신적 투쟁",
+        "title_en": "Umna borba u Rusiji (Mind Struggle in Russia)",
+        "creator": "이반 파블로프",
+        "year": 1885,
+        "status": "FINISHED",
+        "source_url": "http://knjizenstvo.etf.bg.ac.rs/en/authors/kraljica-natalija-obrenovic",
+        "evidence": "세르비아 여성문학 데이터베이스는 나탈리예 여왕이 1885년 이반 파블로프의 이 책을 러시아어에서 세르비아어로 번역해 출간했다고 기록한다.",
+        "review": "세르비아의 나탈리예는 1885년 이반 파블로프의 이 책을 러시아어에서 세르비아어로 번역해 출간했다. 그녀는 스스로 글을 쓰고 번역하는 문인이기도 했다.",
+        "review_en": "Natalie of Serbia published a Serbian translation of Ivan Pavlov's Mind Struggle in Russia in 1885. She was herself a writer and translator."
+      }
+    ]
+  },
+  "드라가 마신": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "시몬과 마리",
+        "title_en": "Simone et Marie",
+        "creator": "크사비에 드 몽테팽",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://knjizenstvo.etf.bg.ac.rs/en/authors/draga-masin",
+        "evidence": "세르비아 여성문학 데이터베이스는 드라가가 열여덟 살이 되기 전 몽테팽의 이 범죄소설을 프랑스어에서 번역했다고 기록한다.",
+        "review": "드라가 마신은 열여덟 살이 되기 전 몽테팽의 이 범죄소설을 프랑스어에서 세르비아어로 번역했다. 그녀는 생계를 위해 글을 쓰고 번역을 했다.",
+        "review_en": "Draga Mašin translated Montépin's crime novel Simone et Marie from French before she turned eighteen. She wrote stories and did translations to earn her living."
+      },
+      {
+        "type": "BOOK",
+        "title": "고양이 눈이라 불린 여경관",
+        "title_en": "Policajka nazvana Mačije oko (The Policewoman Called Cat's Eye)",
+        "creator": "크사비에 드 몽테팽",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.blic.rs/kultura/vesti/nepoznato-lice-ubijene-srpske-kraljice-draga-masin-prevodila-krimice/cwnlseh",
+        "evidence": "블리치는 작가 라키체비치가 몽테팽의 이 소설에 대한 드라가의 세르비아어 번역본을 찾아내 재출간했다고 보도한다.",
+        "review": "드라가 마신은 몽테팽의 이 범죄소설을 세르비아어로 번역했고, 그 번역본은 한 세기 뒤 작가 라키체비치에 의해 다시 출간됐다. 그녀는 '여다 읽은 여자'라는 평을 들을 만큼 독서가였다.",
+        "review_en": "Draga Mašin translated Montépin's crime novel into Serbian, and her version was rediscovered and republished a century later by the writer Dragan Lakićević. Contemporaries called her an over-read woman."
+      }
+    ]
+  },
+  "코만단타 라모나": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "페르난도 야녜스 무뇨스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "수브코만단테 모이세스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "리처드 치차클리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "핀 바타토": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "마티아스 오르트만": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "브람 판데르콜크": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "린 울브리히트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로저 토머스 클라크": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "커티스 그린": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "칼 마크 포스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "재러드 더예기얀": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "게리 올퍼드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

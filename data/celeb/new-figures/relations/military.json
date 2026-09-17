@@ -1,0 +1,454 @@
+{
+ "에이드리언 카턴 드 비야르": {
+  "relations": [
+   {
+    "to_en": "Winston Churchill",
+    "to_ko": "윈스턴 처칠",
+    "rel_type": "colleague",
+    "note_ko": "1943~47년 처칠의 개인 특사로 중국에 파견돼 장제스와 직접 상대했고, 처칠과는 체커스에 머무를 만큼 가까운 사이였다.",
+    "note_en": "Churchill sent Carton de Wiart to China as his personal representative to Chiang Kai-shek in 1943; they were close enough that de Wiart stayed at Chequers.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Chiang Kai-shek",
+    "to_ko": "장제스",
+    "rel_type": "colleague",
+    "note_ko": "2차대전 말 충칭에서 영국 총리 특사와 중국 국민정부 주석으로 정기적으로 회담했다.",
+    "note_en": "In wartime Chongqing the British PM's personal envoy and the Chinese leader dealt with each other directly for nearly four years.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Friederike Fugger von Babenhausen",
+    "to_ko": "프리데리케 푸거 폰 바벤하우젠",
+    "rel_type": "spouse",
+    "note_ko": "1908년 빈에서 결혼해 1949년 별세까지 동반한 오스트리아 백작 영애로, 사이에 딸 둘을 두었다.",
+    "note_en": "The Austrian countess he married in Vienna in 1908; they had two daughters and were together until her death in 1949.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Joan Sutherland",
+    "to_ko": "조앤 서덜랜드",
+    "rel_type": "spouse",
+    "note_ko": "1951년 일흔한 살의 그와 재혼한 두 번째 아내로, 그가 숨진 뒤 102세까지 살았다.",
+    "note_en": "His second wife, married in 1951 when he was 71; she outlived him by four decades, dying at 102.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "매드 잭 처칠": {
+  "relations": [
+   {
+    "to_en": "Thomas Churchill",
+    "to_ko": "토머스 처칠",
+    "rel_type": "sibling",
+    "note_ko": "역시 코만도 장교였던 동생으로, 소장까지 진출해 코만도 전사를 담은 'Commando Crusade'를 썼다.",
+    "note_en": "His younger brother, also a commando officer who rose to major-general and wrote 'Commando Crusade'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Rosamund Margaret Denny",
+    "to_ko": "로저먼드 데니",
+    "rel_type": "spouse",
+    "note_ko": "1941년 결혼한 아내로, 전후 사이에 두 아들을 두었다.",
+    "note_en": "His wife from 1941, with whom he had two sons after the war.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "시모 해위해": {
+  "relations": [
+   {
+    "to_en": "Juho Häyhä",
+    "to_ko": "유호 해위해",
+    "rel_type": "father",
+    "note_ko": "라우트얘르비에서 농장과 가축을 물려준 아버지로, 그에게 사냥과 사격을 가르친 환경의 바탕이 됐다.",
+    "note_en": "His father, a farmer in Rautjärvi whose land and hunting life formed the backdrop of Simo's marksmanship.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "오디 머피": {
+  "relations": [
+   {
+    "to_en": "Lattie Tipton",
+    "to_ko": "래티 팁턴",
+    "rel_type": "friend",
+    "note_ko": "같은 B중대 전우이자 절친으로, 1944년 프랑스 라마튀엘에서 항복을 가장한 독일군에게 사살됐고, 머피는 그 복수로 기관총 진지를 쓸어버려 명예훈장 전사의 한 장면이 됐다.",
+    "note_en": "Murphy's best friend in Company B, shot dead by Germans feigning surrender in France in 1944 — Murphy's rage at his death drove the Medal of Honor assault.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "James Cagney",
+    "to_ko": "제임스 캐그니",
+    "rel_type": "friend",
+    "note_ko": "귀환한 무명의 전역병 머피를 1년 넘게 자기 집에 머무르게 하며 할리우드 입문을 도운 배우다.",
+    "note_en": "The actor who took the unknown ex-soldier into his own home for over a year and helped him break into Hollywood.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Wanda Hendrix",
+    "to_ko": "완다 헨드릭스",
+    "rel_type": "spouse",
+    "note_ko": "1949년 결혼한 배우 첫 아내로, 머피의 전쟁 외상 악몽 속에서 2년 만에 이혼했다.",
+    "note_en": "The actress who became his first wife in 1949; the marriage lasted two years under the weight of his wartime trauma.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Pamela Archer",
+    "to_ko": "패멀라 아처",
+    "rel_type": "spouse",
+    "note_ko": "1951년 결혼한 육군 간호사 출신 두 번째 아내로, 그가 비행기 사고로 죽을 때까지 함께하며 두 아들을 낳았다.",
+    "note_en": "A former Army nurse and his second wife from 1951 until his death in the 1971 plane crash; they had two sons.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "비톨트 필레츠키": {
+  "relations": [
+   {
+    "to_en": "Maria Pilecka",
+    "to_ko": "마리아 필레츠카",
+    "rel_type": "spouse",
+    "note_ko": "1931년 결혼한 아내로, 그가 아우슈비츠에 자진 수감된 사실을 몰랐고 전후 고문과 처형 뒤 홀로 자녀 둘을 키웠다.",
+    "note_en": "His wife from 1931, who never knew he had volunteered for Auschwitz and raised their two children after his execution.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Stefan Rowecki",
+    "to_ko": "스테판 로베츠키",
+    "rel_type": "colleague",
+    "note_ko": "국내군 총사령관으로서 수용소 안에서 밀반출된 필레츠키의 보고서들을 받아 연합국에 전하는 경로의 정점에 있었다.",
+    "note_en": "Commander of the Home Army, who received the reports Pilecki smuggled out of Auschwitz and passed them toward the Allies.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jan Redzej",
+    "to_ko": "얀 레제이",
+    "rel_type": "colleague",
+    "note_ko": "1943년 4월 필레츠키와 함께 아우슈비츠 제과장 근무 틈을 타 탈출에 성공한 동료 수감자다.",
+    "note_en": "A fellow prisoner who escaped Auschwitz with Pilecki in April 1943 by slipping out of the bakery detail.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Edward Ciesielski",
+    "to_ko": "에드바르트 치에시엘스키",
+    "rel_type": "colleague",
+    "note_ko": "1943년 탈출 조의 세 번째 수감자로, 독일군 군복으로 위장해 함께 정문을 빠져나왔다.",
+    "note_en": "The third man in the 1943 escape trio; they walked out of the camp disguised in German uniforms.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Józef Różański",
+    "to_ko": "유제프 루잔스키",
+    "rel_type": "rival",
+    "note_ko": "전후 공산 보안국의 심문관으로, 필레츠키를 고문해 간첩 혐의 조작 재판으로 몰아넣어 사형에 이르게 한 인물이다.",
+    "note_en": "The communist security interrogator who tortured Pilecki and drove the fabricated espionage show trial that ended in his execution.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "데즈먼드 도스": {
+  "relations": [
+   {
+    "to_en": "Dorothy Doss",
+    "to_ko": "도로시 도스",
+    "rel_type": "spouse",
+    "note_ko": "제칠일안식일교회 성서 공부 모임에서 만나 1942년 결혼한 간호사 아내로, 그의 전역과 평생을 함께하다 1991년 교통사고로 먼저 세상을 떠났다.",
+    "note_en": "The nurse he met at a Seventh-day Adventist Bible study and married in 1942; she stayed with him until dying in a 1991 car crash.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "William Doss",
+    "to_ko": "윌리엄 도스",
+    "rel_type": "father",
+    "note_ko": "1차대전 참전 용사였던 아버지로, 알코올과 폭력, 권총 오발 사건이 아들이 평생 무기를 거부하게 된 배경이 됐다.",
+    "note_en": "His father, a WWI veteran whose drinking, violence and a gun incident helped drive Doss's lifelong refusal of weapons.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Harold Doss",
+    "to_ko": "해럴드 도스",
+    "rel_type": "sibling",
+    "note_ko": "해군에 먼저 입대한 형으로, 진주만 공격 당시 함께 성장한 유일한 형제다.",
+    "note_en": "His older brother, who joined the Navy before the war — the sibling who shared his Lynchburg childhood.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "오노다 히로오": {
+  "relations": [
+   {
+    "to_en": "Yoshimi Taniguchi",
+    "to_ko": "다니구치 요시미",
+    "rel_type": "colleague",
+    "note_ko": "1944년 루방섬에 '항복하지 말라'는 명령을 내린 구 지휘관으로, 1974년 직접 섬에 와서 그 명령을 해제해 29년의 잔류를 끝냈다.",
+    "note_en": "The former commander who had ordered Onoda never to surrender, and who flew to Lubang in 1974 to formally relieve him, ending 29 years of holdout.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Norio Suzuki",
+    "to_ko": "스즈키 노리오",
+    "rel_type": "friend",
+    "note_ko": "1974년 '오노다를 찾는다'며 루방섬을 찾은 일본인 탐험가로, 오노다의 신뢰를 얻어 귀환의 다리를 놓았고 이후 세계를 함께 다닌 벗이 됐다.",
+    "note_en": "The Japanese explorer who went to Lubang expressly to find him, won his trust and set up the surrender; they remained friends.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Kinshichi Kozuka",
+    "to_ko": "고즈카 긴시치",
+    "rel_type": "colleague",
+    "note_ko": "마지막까지 남은 두 번째 잔류병으로, 1972년 필리핀 경찰과의 총격전에서 사망해 오노다를 마지막 2년간 혼자 남겼다.",
+    "note_en": "The last of his holdout companions, killed in a 1972 shootout with Philippine police, leaving Onoda alone for the final two years.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Yuichi Akatsu",
+    "to_ko": "아카쓰 유이치",
+    "rel_type": "colleague",
+    "note_ko": "함께 정글에 남았던 동료로, 1950년 먼저 섬을 빠져나와 항복하며 세상에 잔류병의 존재를 처음 알렸다.",
+    "note_en": "A fellow holdout who left the jungle and surrendered in 1950, first revealing to the world that Japanese soldiers remained on Lubang.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Toshio Onoda",
+    "to_ko": "오노다 도시오",
+    "rel_type": "sibling",
+    "note_ko": "정글에서 나오라는 설득차 루방을 찾은 형이지만, 오노다는 그를 적의 기만으로 의심해 만남을 거부했다.",
+    "note_en": "His brother, who came to the island to call him out of the jungle — Onoda distrusted the visit and refused to emerge.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "스타니슬라프 페트로프": {
+  "relations": [
+   {
+    "to_en": "Yelena Petrov",
+    "to_ko": "옐레나 페트로바",
+    "rel_type": "spouse",
+    "note_ko": "그의 1983년 판단을 생전에 몰랐던 아내로, 1997년 암으로 세상을 떠났다.",
+    "note_en": "His wife, who never knew about the 1983 decision during her lifetime and died of cancer in 1997.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "바실리 아르히포프": {
+  "relations": [
+   {
+    "to_en": "Valentin Savitsky",
+    "to_ko": "발렌틴 사비츠키",
+    "rel_type": "colleague",
+    "note_ko": "B-59 함장으로서 핵어뢰 발사를 주장했고, 승조함 참모장 신분의 아르히포프가 만장일치 조건의 반대표를 던져 막아선 잠수함 안의 결정적 대치 상대다.",
+    "note_en": "The B-59 captain who wanted to fire the nuclear torpedo; Arkhipov's lone dissent aboard that submarine was the vote that stopped him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Olga Arkhipova",
+    "to_ko": "올가 아르히포바",
+    "rel_type": "spouse",
+    "note_ko": "아내로서 남편의 공적이 40년간 비밀에 묶여 있는 것을 견디다, 사후 그의 이름을 세상에 알리는 데 앞장섰다.",
+    "note_en": "His wife, who lived with the secret for decades and after his death pushed for public recognition of what he had done.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "토머스 블러드": {
+  "relations": [
+   {
+    "to_en": "Charles II",
+    "to_ko": "찰스 2세",
+    "rel_type": "rival",
+    "note_ko": "자기 왕관을 훔친 범인을 직접 심문한 뒤 그 배포에 반해 사면하고 아일랜드 토지와 연금까지 내린 국왕이다.",
+    "note_en": "The king whose Crown Jewels Blood stole — after personally interrogating him, Charles pardoned him and granted him land and a pension.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Talbot Edwards",
+    "to_ko": "탤벗 에드워즈",
+    "rel_type": "rival",
+    "note_ko": "런던탑 왕관 보석 관리인으로, 목사로 변장한 블러드와 몇 주간 친분을 쌓은 뒤 절도 현장에서 그에게 제압당하고 칼에 찔렸다.",
+    "note_en": "The elderly Keeper of the Jewels whom Blood befriended in disguise, then bound and stabbed during the theft.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "James Butler, Duke of Ormond",
+    "to_ko": "오먼드 공작 제임스 버틀러",
+    "rel_type": "rival",
+    "note_ko": "1670년 블러드가 납치해 교수대에 매달려던 옛 적대자로, 간신히 탈출해 목숨을 건졌다.",
+    "note_en": "Blood's old enemy, whom he kidnapped in 1670 intending to hang him at Tyburn; Ormond escaped alive.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Mary Holcroft",
+    "to_ko": "메리 홀크로프트",
+    "rel_type": "spouse",
+    "note_ko": "랭커셔 출신의 아내로, 그의 아일랜드·잉글랜드 방랑과 음모의 세월을 함께했다.",
+    "note_en": "His wife from Lancashire, who shared his years of plotting and flight between Ireland and England.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "잭 셰퍼드": {
+  "relations": [
+   {
+    "to_en": "Joseph Blake",
+    "to_ko": "조지프 '블루스킨' 블레이크",
+    "rel_type": "partner",
+    "note_ko": "'블루스킨'이라 불린 범죄 동료로, 함께 크니본의 집을 털었고 셰퍼드보다 닷새 먼저 타이번에서 교수형당했다.",
+    "note_en": "The highwayman 'Blueskin', his chief partner in crime — they committed the Kneebone burglary together and Blake was hanged days before Sheppard.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Elizabeth Lyon",
+    "to_ko": "엘리자베스 '에지워스 베스' 라이언",
+    "rel_type": "partner",
+    "note_ko": "감옥 안에서 그를 면회하며 옷을 찢어 밧줄을 만들고, 여장 탈옥 때도 동행한 연인이자 공범이다.",
+    "note_en": "His lover 'Edgworth Bess', who visited him in jail, helped him escape by tearing her clothes into rope, and walked out with him as he fled in women's dress.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jonathan Wild",
+    "to_ko": "조너선 와일드",
+    "rel_type": "rival",
+    "note_ko": "자기 조직에서 일하기를 거부한 셰퍼드를 집요하게 잡아들인 '도둑잡이 대장'으로, 결국 그를 교수대에 올린 몰락 직전의 범죄 보스다.",
+    "note_en": "The 'Thief-Taker General' who hounded Sheppard for refusing to work for him and was ultimately responsible for sending him to the gallows.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "로만 폰 운게른슈테른베르크": {
+  "relations": [
+   {
+    "to_en": "Grigory Semyonov",
+    "to_ko": "그리고리 세묘노프",
+    "rel_type": "colleague",
+    "note_ko": "트란스바이칼 백군의 아타만으로서 운게른에게 아시아 기병사단 지휘를 맡긴 후원자이자 사실상의 상관이다.",
+    "note_en": "The Transbaikal Cossack ataman under whom Ungern commanded the Asiatic Cavalry Division — his patron and nominal superior.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Bogd Khan",
+    "to_ko": "보그드 칸",
+    "rel_type": "colleague",
+    "note_ko": "중국군에게 축출됐던 몽골의 신성 군주로, 1921년 운게른의 기병대가 울가를 점령하며 그를 옥좌에 복위시켰다.",
+    "note_en": "The Mongol theocrat whom Ungern's cavalry restored to his throne in Urga in 1921 after expelling the Chinese garrison.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "네스토르 마흐노": {
+  "relations": [
+   {
+    "to_en": "Halyna Kuzmenko",
+    "to_ko": "할리나 쿠즈멘코",
+    "rel_type": "spouse",
+    "note_ko": "교사 출신의 아내이자 혁명 동지로, 마흐노프시치나에서 함께 싸우고 망명 뒤 그의 회고록 편집을 맡았다.",
+    "note_en": "The schoolteacher who became his wife and comrade, fought in the Makhnovshchina and later edited his memoirs in exile.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Viktor Bilash",
+    "to_ko": "빅토르 빌라시",
+    "rel_type": "colleague",
+    "note_ko": "마흐노 농민군의 참모장으로 기관총 마차 기동전의 작전을 실무 설계한 최측근 지휘관이다.",
+    "note_en": "His chief of staff, who ran the operational machinery of the peasant army behind Makhno's name.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Maria Nikiforova",
+    "to_ko": "마리아 니키포로바",
+    "rel_type": "colleague",
+    "note_ko": "독자 아나키스트 유격대를 이끌던 여성 아타만으로, 초기 마흐노 운동과 연합해 함께 싸운 전우다.",
+    "note_en": "The anarchist ataman who led her own guerrilla detachment and fought alongside the early Makhnovist movement.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Peter Arshinov",
+    "to_ko": "표트르 아르시노프",
+    "rel_type": "friend",
+    "note_ko": "감옥에서 만난 아나키스트 동지로, 운동의 이론지 '나바트'를 이끌고 파리 망명 생활까지 함께한 평생의 벗이다.",
+    "note_en": "The anarchist he met in prison, who ran the movement's paper Nabat and shared his Paris exile — a lifelong comrade.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Anton Denikin",
+    "to_ko": "안톤 데니킨",
+    "rel_type": "rival",
+    "note_ko": "1919년 우크라이나를 두고 정면으로 맞붙은 백군 총사령관으로, 마흐노군의 후방 강습이 백군의 모스크바 진격을 꺾는 데 크게 기여했다.",
+    "note_en": "The White Army commander whose advance on Moscow was broken in part by Makhno's raids across his rear in 1919.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Leon Trotsky",
+    "to_ko": "레프 트로츠키",
+    "rel_type": "rival",
+    "note_ko": "동맹이던 마흐노를 '반혁명'으로 낙인찍고 적군의 섬멸전을 명령한 붉은군대 수장으로, 그를 파리 망명으로 몰아넣었다.",
+    "note_en": "The Red Army leader who branded his former ally a counter-revolutionary and ordered the campaign that drove Makhno into exile.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "오드 윈게이트": {
+  "relations": [
+   {
+    "to_en": "Chaim Weizmann",
+    "to_ko": "하임 바이츠만",
+    "rel_type": "friend",
+    "note_ko": "팔레스타인에서 맺은 깊은 교우로, 시온주의 지도자 바이츠만은 그의 친딧 구상을 처칠에게 연결해주었고 윈게이트는 아들 이름에 '오드 조나단'을 남겼다.",
+    "note_en": "The Zionist leader became Wingate's close friend in Palestine and personally championed his plans to Churchill.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "T. E. Lawrence",
+    "to_ko": "T. E. 로런스",
+    "rel_type": "relative",
+    "note_ko": "15살 위의 먼 사촌으로, 같은 아라비아 무대에서 비정규전의 선구자와 후계자로 자주 나란히 거론된다.",
+    "note_en": "A distant cousin fifteen years his senior — the Arab Revolt's irregular-war pioneer to whom Wingate was always compared.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Archibald Wavell",
+    "to_ko": "아치볼드 웨이블",
+    "rel_type": "colleague",
+    "note_ko": "팔레스타인과 에티오피아, 버마에서 잇따라 그의 특수전 구상을 믿고 발탁한 상급 지휘관이다.",
+    "note_en": "The commander who backed Wingate's unorthodox schemes in Palestine, Ethiopia and Burma and kept promoting him.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Lorna Wingate",
+    "to_ko": "로나 윈게이트",
+    "rel_type": "spouse",
+    "note_ko": "열여섯 살에 만나 결혼한 아내로, 그가 비행기 사고로 죽은 지 일곱 주 뒤 외아들을 낳았다.",
+    "note_en": "His wife, married when she was sixteen; she gave birth to their only son seven weeks after his plane crash.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "블라디미르 페니아코프": {
+  "relations": [
+   {
+    "to_en": "Robert Park Yunnie",
+    "to_ko": "로버트 파크 유니",
+    "rel_type": "colleague",
+    "note_ko": "'폽스키의 사립군' 최초의 지원자이자 부대장으로 'B' 패트롤을 이끌었고, 부대의 전사 'Fighting with Popski's Private Army'를 썼다.",
+    "note_en": "The first recruit and second-in-command of Popski's Private Army, who led 'B' patrol and wrote the unit's war memoir.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jean Caneri",
+    "to_ko": "장 카네리",
+    "rel_type": "cofounder",
+    "note_ko": "리비아 아랍군 시절부터 함께한 친구로, 폽스키·유니와 더불어 23인 특수부대를 세운 세 명의 창립 장교 중 한 명이다.",
+    "note_en": "His friend from the Libyan Arab Force and one of the three founding officers who formed the 23-man Private Army together.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "David Lloyd Owen",
+    "to_ko": "데이비드 로이드 오언",
+    "rel_type": "colleague",
+    "note_ko": "장거리사막전대(LRDG) 지휘관으로, 사립군의 사막 급습 작전을 받아들이고 함께 굴렀던 상급 부대의 사령관이다.",
+    "note_en": "The Long Range Desert Group commander under whom the Private Army ran its desert raids.",
+    "prospect": "candidate"
+   }
+  ]
+ }
+}

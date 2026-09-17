@@ -1,0 +1,1816 @@
+{
+ "윌리엄 로": {
+  "events": [
+   {
+    "year": 1675,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "존 로의 네 살 아래 동생으로 스코틀랜드에서 태어났다.",
+    "description_en": "Born in Scotland, John Law's younger brother.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1716,
+    "year_end": null,
+    "title": "형을 따라 파리로",
+    "title_en": "To Paris with John",
+    "description": "형을 따라 프랑스로 건너가 사설 은행 창업부터 '시스템' 전 과정을 함께 이끌었다.",
+    "description_en": "He followed John to Paris and ran the System beside him.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1720,
+    "year_end": null,
+    "title": "버블 붕괴",
+    "title_en": "The Crash",
+    "description": "형은 추방됐지만 그는 프랑스에 남아 인도 회사 총재 자리까지 올랐다.",
+    "description_en": "John was exiled; William stayed and rose to direct the Indies Company.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1752,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "숨졌다 — 손자 로리스통은 나폴레옹의 원수가 되어 도박사 집안은 프랑스 귀족으로 이어졌다.",
+    "description_en": "He died; his grandson became Napoleon's marshal — the gamblers turned nobles.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "조제프 파리-뒤베르네": {
+  "events": [
+   {
+    "year": 1684,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "농민의 아들로 태어나 군수 조달로 거부가 된 파리 4형제의 리더가 됐다.",
+    "description_en": "A peasant's son who led the Pâris brothers' military-supply fortune.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1716,
+    "year_end": 1720,
+    "title": "로의 시스템과 대립",
+    "title_en": "Against the System",
+    "description": "존 로의 은행·미시시피 시스템과 대립하며 견제했다.",
+    "description_en": "He opposed Law's System at its height.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1721,
+    "year_end": null,
+    "title": "'비자'로 재정 수습",
+    "title_en": "The Visa",
+    "description": "버블 붕괴 뒤 부채를 정리하는 '비자' 작업을 지휘해 프랑스 재정을 수습했다.",
+    "description_en": "After the crash his 'visa' process triaged France's debts.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1751,
+    "year_end": null,
+    "title": "에콜 밀리테르",
+    "title_en": "Founding the École Militaire",
+    "description": "퐁파두르 부인과 함께 귀족 자제를 위한 육군사관학교를 세웠다 — 훗날 나폴레옹이 입학했다.",
+    "description_en": "With Madame de Pompadour he founded the École Militaire — Napoleon's school.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1770,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "86세로 숨졌다.",
+    "description_en": "Died at 86.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "아벨 코빈": {
+  "events": [
+   {
+    "year": 1808,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 신문 편집인이 됐다.",
+    "description_en": "Born in New York; a newspaper editor.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1869,
+    "year_end": null,
+    "title": "'백악관의 매형'",
+    "title_en": "The President's Brother-in-Law",
+    "description": "예순한 살에 그랜트 대통령의 여동생 버지니아와 결혼해 백악관 인맥을 쥐었다.",
+    "description_en": "At sixty-one he married Grant's sister — instant access to the White House.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1869,
+    "year_end": null,
+    "title": "검은 금요일",
+    "title_en": "Black Friday",
+    "description": "제이 굴드가 이 인맥으로 대통령에게 접근해 금 매점을 벌였고, 코빈은 아내 명의로 금을 사고 대통령 편지를 몰래 전달했다.",
+    "description_en": "Gould used him to reach Grant; Corbin bought gold in his wife's name and smuggled the President's letters.",
+    "kind": "other",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1881,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "스캔들 한복판에 섰지만 처벌을 피한 채 72세로 숨졌다.",
+    "description_en": "Unpunished, he died at 72.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "허버트 헌트": {
+  "events": [
+   {
+    "year": 1929,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "석유 재벌 H.L. 헌트의 아들로 태어났다.",
+    "description_en": "Born into H.L. Hunt's oil dynasty.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1973,
+    "year_end": 1979,
+    "title": "은 매점",
+    "title_en": "Cornering Silver",
+    "description": "동생 벙커와 함께 세계 은 물량을 쓸어 담아 가격 조종을 시도했다.",
+    "description_en": "With Bunker he swept up the world's silver to corner the price.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1980,
+    "year_end": null,
+    "title": "실버 목요일",
+    "title_en": "Silver Thursday",
+    "description": "은값 붕괴로 수십억 달러를 잃고 파산 법정을 전전했다.",
+    "description_en": "The crash cost billions and years in bankruptcy court.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2008,
+    "year_end": null,
+    "title": "억만장자 복귀",
+    "title_en": "Back Among Billionaires",
+    "description": "부동산과 에너지 사업으로 조용히 재기해 80대에 억만장자 반열로 돌아왔다.",
+    "description_en": "He quietly rebuilt — a billionaire again in his eighties.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2024,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "95세로 숨졌다.",
+    "description_en": "Died at 95.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "프랭크 디파스칼리": {
+  "events": [
+   {
+    "year": 1956,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕 퀸스에서 태어났다.",
+    "description_en": "Born in Queens, New York.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1975,
+    "year_end": null,
+    "title": "매이도프 입사",
+    "title_en": "Joining Madoff",
+    "description": "고졸로 매이도프 회사에 입사해 재무총괄까지 올랐다.",
+    "description_en": "Hired out of high school, he rose to CFO of Madoff's firm.",
+    "kind": "work",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1990,
+    "year_end": 2008,
+    "title": "폰지의 '기술자'",
+    "title_en": "The Scheme's Engineer",
+    "description": "존재하지 않는 거래의 확인 서류와 고객 명세를 매일 만들어냈다.",
+    "description_en": "He fabricated the daily trade confirmations and client statements.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2009,
+    "year_end": null,
+    "title": "'전부 거짓이었다'",
+    "title_en": "'It Was All Fake'",
+    "description": "10개 혐의에 유죄를 인정하고 법정에서 그렇게 말해 수사의 결정적 안내자가 됐다.",
+    "description_en": "Pleading guilty, he told the court 'it was all fake' — the key cooperator.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "선고 전 사망",
+    "title_en": "Died Before Sentencing",
+    "description": "폐암으로 58세에 숨져 형을 받지 않았다.",
+    "description_en": "Died of lung cancer at 58, never sentenced.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "칼 샤피로": {
+  "events": [
+   {
+    "year": 1913,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "보스턴에서 태어나 여성 의류 회사 케이 윈저를 세워 '면직물 왕'이 됐다.",
+    "description_en": "Born in Boston; he built Kay Windsor dresses.",
+    "kind": "birth",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1961,
+    "year_end": null,
+    "title": "매이도프와의 시작",
+    "title_en": "The First Investor",
+    "description": "젊은 매이도프를 믿고 투자한 가장 오래된 고객이 됐다.",
+    "description_en": "He became Madoff's oldest client — and eventually a top victim.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2008,
+    "year_end": null,
+    "title": "폰지 폭로",
+    "title_en": "The Collapse",
+    "description": "사기가 드러나 6억 달러 넘는 수익 반환 판결을 받았지만 잘못은 인정하지 않았다.",
+    "description_en": "He returned over $600 million in gains without admitting wrongdoing.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2021,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "재단 기부를 멈추지 않은 채 108세로 숨졌다.",
+    "description_en": "He died at 108, still giving to charity.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "토미 정": {
+  "events": [
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "캐나다 앨버타에서 태어나 치치 앤 총 콤비로 대마초 코미디의 전설이 됐다.",
+    "description_en": "Born in Alberta; half of stoner-comedy legends Cheech & Chong.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2003,
+    "year_end": null,
+    "title": "복역",
+    "title_en": "Prison",
+    "description": "아들 회사가 대마 파이프를 판 혐의로 연방 교도소에서 9개월을 복역했다 — 수감 동료가 조던 벨포트였다.",
+    "description_en": "Nine months in federal prison for bong sales — beside Jordan Belfort.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2004,
+    "year_end": null,
+    "title": "'책을 써라'",
+    "title_en": "'Write Your Book'",
+    "description": "그가 벨포트에게 '책을 써야 한다'고 부추긴 덕분에 회고록이 나와 영화 '울프 오브 월 스트리트'가 됐다.",
+    "description_en": "His push made Belfort write the memoir that became 'The Wolf of Wall Street'.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "그레고리 콜먼": {
+  "events": [
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "FBI 입성",
+    "title_en": "Joining the FBI",
+    "description": "백색범죄 전담 요원이 됐다.",
+    "description_en": "He joined the FBI's white-collar crime squad.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1993,
+    "year_end": 1999,
+    "title": "스트래튼 오크먼트 수사",
+    "title_en": "The Stratton Oakmont Case",
+    "description": "6년간 거래 기록을 파헤쳐 조던 벨포트를 유죄로 이끌었다 — 영화 속 데넘 요원의 모델이다.",
+    "description_en": "Six years on the trades that jailed Belfort — the model for Agent Denham in the film.",
+    "kind": "work",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2009,
+    "year_end": null,
+    "title": "매이도프 수사",
+    "title_en": "The Madoff Forfeitures",
+    "description": "매이도프 사건의 자산 몰수 수사에도 참여했다.",
+    "description_en": "He also worked the Madoff asset forfeitures.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "퇴직",
+    "title_en": "Retirement",
+    "description": "퇴직해 금융범죄 컨설턴트로 활동한다.",
+    "description_en": "Retired to consult on financial crime.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "프레드 조지프": {
+  "events": [
+   {
+    "year": 1937,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "보스턴 택시기사의 아들로 태어나 하버드를 거쳐 월가에 입문했다.",
+    "description_en": "A Boston cabbie's son via Harvard to Wall Street.",
+    "kind": "birth",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1985,
+    "year_end": null,
+    "title": "드렉셀 CEO",
+    "title_en": "CEO of Drexel",
+    "description": "드렉셀 번햄 램버트의 최고경영자가 돼 밀켄의 정크본드 부서를 옹호했다.",
+    "description_en": "He became Drexel's CEO, backing Milken's junk-bond empire.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1990,
+    "year_end": null,
+    "title": "회사 파산",
+    "title_en": "The Collapse",
+    "description": "보스키 스캔들의 여파로 회사가 파산하면서 함께 몰락했다.",
+    "description_en": "The Boesky fallout bankrupted Drexel — and him with it.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2009,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "부티크 은행을 세워 말년까지 현역으로 일하다 72세로 숨졌다.",
+    "description_en": "He rebuilt a boutique bank and worked to the end — dying at 72.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "데니스 러바인": {
+  "events": [
+   {
+    "year": 1952,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕 퀸스에서 태어나 드렉셀의 인수합병 전문가가 됐다.",
+    "description_en": "Born in Queens; a Drexel M&A specialist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1980,
+    "year_end": 1986,
+    "title": "공중전화의 내부자",
+    "title_en": "Payphone Insider",
+    "description": "공중전화로 지시해 바하마 스위스 은행 계좌에서 내부자 정보로 천만 달러 넘는 수익을 올렸다.",
+    "description_en": "He traded on inside tips via payphones and a Bahamas account — over $10 million.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1986,
+    "year_end": null,
+    "title": "체포와 밀고",
+    "title_en": "Arrested and Flipping",
+    "description": "체포돼 2년형을 받고 보스키를 밀고하면서 1980년대 월가 스캔들의 첫 도미노가 됐다.",
+    "description_en": "Arrested, he flipped on Boesky — the first domino of the 1980s scandals.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "마틴 시걸": {
+  "events": [
+   {
+    "year": 1948,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "보스턴에서 태어나 키더 피바디의 스타 인수합병 은행가가 됐다.",
+    "description_en": "Born in Boston; Kidder Peabody's star dealmaker.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1982,
+    "year_end": 1986,
+    "title": "여행 가방의 현금",
+    "title_en": "The Cash Suitcases",
+    "description": "보스키에게 기밀 정보를 넘기고 현금 든 여행 가방을 받는 이중생활을 했다.",
+    "description_en": "He sold secrets to Boesky for suitcases of cash.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1987,
+    "year_end": null,
+    "title": "유죄 인정",
+    "title_en": "Guilty Plea",
+    "description": "유죄를 인정하고 수사에 적극 협조해 두 달 복역에 그쳤다 — 드렉셀과 밀켄 기소의 핵심 증거가 됐다.",
+    "description_en": "His cooperation jailed him two months — and armed the case against Drexel and Milken.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "존 머헤런": {
+  "events": [
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 25세에 메릴린치 이사가 된 천재 차익거래꾼이 됐다.",
+    "description_en": "Born in New York; a Merrill Lynch managing director at 25.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1987,
+    "year_end": null,
+    "title": "보스키 유죄 판결",
+    "title_en": "Convicted with Boesky",
+    "description": "절친 보스키 사건에 얽혀 내부자거래 유죄 판결을 받았으나 항소심에서 뒤집혔다.",
+    "description_en": "Caught in Boesky's web, his conviction was reversed on appeal.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1988,
+    "year_end": null,
+    "title": "소총을 싣고",
+    "title_en": "Driving at Boesky",
+    "description": "배신당했다고 느껴 소총을 싣고 보스키를 향해 가다 체포돼 월가를 떠들썩하게 했다.",
+    "description_en": "Feeling betrayed, he drove at Boesky with a rifle — arrested.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2003,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "베어 와그너 CEO로 재기했지만 심장마비로 54세에 숨졌다 — 장례식에서 절친 스프링스틴이 연주했다.",
+    "description_en": "Rebuilt as Bear Wagner's CEO; died at 54 — Springsteen played his funeral.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "시미즈 사부로": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "스미토모 구리 책임자",
+    "title_en": "Sumitomo's Copper Chief",
+    "description": "스미토모 상사 구리 트레이딩의 책임자.",
+    "description_en": "Head of copper trading at Sumitomo.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1985,
+    "year_end": null,
+    "title": "무승인 투기 시작",
+    "title_en": "Unauthorized Trading Begins",
+    "description": "부하 하마나카와 무승인 선물 투기를 시작해 손실이 6천만 달러로 불자 회사에 알리지 않고 물러났다.",
+    "description_en": "With Hamanaka he ran unauthorized speculations; when losses hit $60M he quietly quit.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "재판의 수수께끼",
+    "title_en": "The Silent Witness",
+    "description": "하마나카가 숨겨진 장부를 물려받아 10년 더 숨겼고, 그는 재판에서 모든 질문에 '노코멘트'로 일관했다.",
+    "description_en": "He left Hamanaka the hidden books — and answered every question with 'no comment'.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "제임스 데이비스": {
+  "events": [
+   {
+    "year": 1948,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미시시피에서 태어나 스탠퍼드 파이낸셜의 CFO를 17년간 지냈다.",
+    "description_en": "Born in Mississippi; Stanford Financial's CFO for seventeen years.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1990,
+    "year_end": 2009,
+    "title": "폰지를 덮다",
+    "title_en": "Covering the Ponzi",
+    "description": "70억 달러 사기의 자금 흐름을 알고도 덮는 역할을 했다.",
+    "description_en": "He knew where the $7 billion went and kept it covered.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2009,
+    "year_end": null,
+    "title": "유죄 인정과 증언",
+    "title_en": "Flipping on Stanford",
+    "description": "유죄를 인정하고 정부에 협조해 스탠퍼드 재판의 핵심 증인으로 주인을 무너뜨렸다.",
+    "description_en": "He pled guilty and testified his boss into prison.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2017,
+    "year_end": null,
+    "title": "출소",
+    "title_en": "Released",
+    "description": "5년형과 10억 달러 추징 판결 뒤 출소했다.",
+    "description_en": "Released after five years, still owing $1 billion.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "리로이 킹": {
+  "events": [
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "앤티가에서 태어나 금융감독위원회 수장이 됐다.",
+    "description_en": "Born in Antigua; head of its financial regulator.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2000,
+    "year_end": 2009,
+    "title": "뇌물 받는 감독관",
+    "title_en": "The Bribed Regulator",
+    "description": "감시 대상이던 스탠퍼드에게 현금과 주식 뇌물을 받고 미국 SEC의 조사를 수년간 가로막았다.",
+    "description_en": "He took Stanford's cash and stock while blocking the SEC for years.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2009,
+    "year_end": null,
+    "title": "기소와 송환 저항",
+    "title_en": "Indicted, Resisting",
+    "description": "기소 뒤 미국 송환에 10년을 저항하다 2019년 인도됐다.",
+    "description_en": "He fought extradition a decade — sent over in 2019.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2021,
+    "year_end": null,
+    "title": "징역 10년",
+    "title_en": "Ten Years",
+    "description": "유죄를 인정하고 징역 10년을 선고받았다.",
+    "description_en": "He pled guilty to a ten-year sentence.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "존 미첼": {
+  "events": [
+   {
+    "year": 1913,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "디트로이트에서 태어나 뉴욕 채권 변호사가 됐다.",
+    "description_en": "Born in Detroit; a New York bond lawyer.",
+    "kind": "birth",
+    "place_name": "디트로이트",
+    "place_name_en": "Detroit",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "법무장관",
+    "title_en": "Attorney General",
+    "description": "닉슨의 법무장관이 됐다.",
+    "description_en": "He became Nixon's Attorney General.",
+    "kind": "office",
+    "place_name": "워싱턴",
+    "place_name_en": "Washington",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "베스코의 20만 달러",
+    "title_en": "Vesco's $200,000",
+    "description": "재선 캠프 총책임자로 베스코의 수사 무마용 불법 정치자금 사건 한복판에 섰다 — 재판에선 무죄.",
+    "description_en": "As campaign chief he stood trial over Vesco's $200,000 — acquitted.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1977,
+    "year_end": null,
+    "title": "워터게이트 실형",
+    "title_en": "Watergate Prison",
+    "description": "은폐 공모 혐의는 유죄가 확정돼 19개월을 복역했다 — 감옥에 간 유일한 미국 법무장관.",
+    "description_en": "The cover-up conviction held — the only US Attorney General to serve prison.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1988,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "75세로 숨졌다.",
+    "description_en": "Died at 75.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "버나드 콘펠드": {
+  "events": [
+   {
+    "year": 1927,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "이스탄불에서 태어나 브루클린에서 자랐다.",
+    "description_en": "Born in Istanbul, raised in Brooklyn.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1956,
+    "year_end": null,
+    "title": "IOS 창업",
+    "title_en": "Founding IOS",
+    "description": "'당신은 진심으로 부자가 되고 싶은가'라는 캐치프레이즈로 투자신탁 제국을 세워 전 세계에 펀드를 팔았다.",
+    "description_en": "'Do you sincerely want to be rich?' — his IOS sold funds worldwide.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1970,
+    "year_end": null,
+    "title": "베스코에게 빼앗기다",
+    "title_en": "Losing It to Vesco",
+    "description": "회사가 흔들리자 도망자 금융가 베스코에게 제국을 통째로 뺏겼다.",
+    "description_en": "Shaken, he lost the empire to fugitive Robert Vesco.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1973,
+    "year_end": null,
+    "title": "스위스 수감",
+    "title_en": "Swiss Prison",
+    "description": "스위스 감옥에서 11개월을 보낸 뒤 무죄로 풀려났다.",
+    "description_en": "Eleven months in a Swiss cell, then acquitted.",
+    "kind": "other",
+    "place_name": "제네바",
+    "place_name_en": "Geneva",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1995,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "런던에서 67세로 숨졌다.",
+    "description_en": "Died in London at 67.",
+    "kind": "death",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "아서 '불' 사이먼스": {
+  "events": [
+   {
+    "year": 1918,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 특수부대의 전설적 대령이 됐다.",
+    "description_en": "Born in New York; a legendary Special Forces colonel.",
+    "kind": "birth",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1970,
+    "year_end": null,
+    "title": "손테이 구출 작전",
+    "title_en": "Son Tay Raid",
+    "description": "베트남 손테이 포로 수용소 기습을 지휘했다 — 포로는 이미 옮겨진 뒤였다.",
+    "description_en": "He led the Son Tay raid — the prisoners had already been moved.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1979,
+    "year_end": null,
+    "title": "테헤란 구출",
+    "title_en": "The Tehran Rescue",
+    "description": "로스 페로의 부탁을 받아 테헤란 감옥에 갇힌 EDS 직원 둘을 탈출시킨 민간 구출 작전을 이끌었다.",
+    "description_en": "Perot hired him to spring two EDS men from a Tehran jail — done.",
+    "kind": "other",
+    "place_name": "테헤란",
+    "place_name_en": "Tehran",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1979,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "작전 성공 몇 달 뒤 심장마비로 60세에 숨졌다 — 켄 폴렛의 '온 윙스 오브 이글스'의 모델이다.",
+    "description_en": "Months after the mission he died of a heart attack — the model for Follett's book.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "로저 스미스": {
+  "events": [
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "오하이오에서 태어나 GM에서 평생을 보냈다.",
+    "description_en": "Born in Ohio; a lifelong GM man.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1984,
+    "year_end": null,
+    "title": "EDS 인수",
+    "title_en": "Buying EDS",
+    "description": "GM 회장으로 EDS를 25억 달러에 인수하며 창업자 페로를 이사회에 앉혔다.",
+    "description_en": "As GM chairman he bought EDS for $2.5 billion — Perot joined the board.",
+    "kind": "work",
+    "place_name": "디트로이트",
+    "place_name_en": "Detroit",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1986,
+    "year_end": null,
+    "title": "'대형 이혼'",
+    "title_en": "The $700 Million Divorce",
+    "description": "페로가 GM의 관료주의를 공개 맹비난하자 7억 달러를 주고 그의 지분을 사서보냈다.",
+    "description_en": "Perot's public attacks ended in a $700M buyout — the 'divorce'.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "'로저 앤 미'",
+    "title_en": "Roger & Me",
+    "description": "마이클 무어의 다큐 제목 속 '로저'가 되어 공장 폐쇄의 상징이 됐다.",
+    "description_en": "Michael Moore's film made him the face of plant closures.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2007,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "82세로 숨졌다.",
+    "description_en": "Died at 82.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "제임스 호프만": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "비행기 판매원에서 밀수업자로",
+    "title_en": "From Salesman to Smuggler",
+    "description": "본명 티모시 디용 — 비행기 판매원에서 코카인 밀수업자가 됐다가 체포되자 감형 조건으로 FBI 정보원이 됐다.",
+    "description_en": "Born Timothy Dion; a plane salesman turned smuggler turned FBI informant.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1982,
+    "year_end": null,
+    "title": "딜로런 함정",
+    "title_en": "The DeLorean Sting",
+    "description": "이웃 딜로런에게 마약 거래를 제안해 2,400만 달러 코카인 함정 수사로 이끌었다.",
+    "description_en": "He pitched his neighbor DeLorean into a $24M cocaine sting.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1984,
+    "year_end": null,
+    "title": "재판의 핵심 증인",
+    "title_en": "Star Witness",
+    "description": "핵심 증인으로 섰으나 위증 전과와 화려한 과거가 드러나 신뢰성이 무너졌고 배심원은 딜로런에게 무죄를 줬다.",
+    "description_en": "His credibility collapsed — the jury acquitted DeLorean on entrapment.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "알렉스 트레물리스": {
+  "events": [
+   {
+    "year": 1914,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "그리스계 이민자의 아들로 시카고에서 태어났다.",
+    "description_en": "Born in Chicago to Greek immigrants.",
+    "kind": "birth",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1933,
+    "year_end": null,
+    "title": "19세의 디자이너",
+    "title_en": "Designing at Nineteen",
+    "description": "정규 디자인 교육 없이 오번-코드-듀센버그에 입사했다.",
+    "description_en": "With no formal training he joined Auburn-Cord-Duesenberg at 19.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1947,
+    "year_end": 1948,
+    "title": "터커 48의 차체",
+    "title_en": "Styling the Tucker 48",
+    "description": "터커 48의 차체 디자인을 맡아 시제차 '틴 구스' 제작을 완성까지 이끌었다.",
+    "description_en": "He styled the Tucker 48 and finished the 'Tin Goose' prototype.",
+    "kind": "work",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1991,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "포드 선행 디자인을 거쳐 코폴라의 '터커' 자문까지 남기고 77세로 숨졌다.",
+    "description_en": "After Ford and advising Coppola's 'Tucker', he died at 77.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "에이브 캐러츠": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "전과자 프로모터",
+    "title_en": "The Ex-Con Promoter",
+    "description": "본명 해럴드 카스텐 — 변호사 자격을 잃고 은행 자금 횡령으로 실형까지 산 전과자 출신 프로모터.",
+    "description_en": "Born Harold Karsten; a disbarred lawyer turned promoter.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1946,
+    "year_end": null,
+    "title": "터커의 창업 조력",
+    "title_en": "Helping Tucker Start",
+    "description": "터커에게 인수 증권사와 거대한 시카고 공장 부지를 연결해 창업 초기를 도왔다.",
+    "description_en": "He connected Tucker to the securities firm and the giant Chicago plant.",
+    "kind": "work",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "기소와 무죄",
+    "title_en": "Indicted and Acquitted",
+    "description": "전과가 SEC의 눈에 띌까 회사에서 쫓겨났지만 터커와 함께 기소돼 무죄를 받았고 친구로 남았다.",
+    "description_en": "Pushed out over his record, he still stood trial beside Tucker — acquitted, and friends to the end.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "오토 커너 주니어": {
+  "events": [
+   {
+    "year": 1908,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "시카고에서 태어나 연방검사가 됐다.",
+    "description_en": "Born in Chicago; a federal prosecutor.",
+    "kind": "birth",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1950,
+    "year_end": null,
+    "title": "터커 기소",
+    "title_en": "Prosecuting Tucker",
+    "description": "프레스턴 터커 기소를 지휘했지만 배심원은 피고 전원에게 무죄를 내렸다.",
+    "description_en": "He led the Tucker prosecution — the jury acquitted everyone.",
+    "kind": "work",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1961,
+    "year_end": null,
+    "title": "일리노이 주지사",
+    "title_en": "Governor of Illinois",
+    "description": "일리노이 주지사를 지냈다.",
+    "description_en": "He served as Governor of Illinois.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1967,
+    "year_end": null,
+    "title": "'커너 보고서'",
+    "title_en": "The Kerner Report",
+    "description": "인종 폭동 원인을 규명한 커너 위원회 의장으로 역사에 이름을 남겼다.",
+    "description_en": "His Kerner Commission named racism as the cause of the riots.",
+    "kind": "work",
+    "place_name": "워싱턴",
+    "place_name_en": "Washington",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "몰락",
+    "title_en": "Fall",
+    "description": "연방항소법원 판사까지 올랐으나 경마장 뇌물 스캔들로 유죄가 확정돼 사임했다.",
+    "description_en": "A racetrack bribery conviction forced him off the federal bench.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   },
+   {
+    "year": 1976,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "67세로 숨졌다.",
+    "description_en": "Died at 67.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 6
+   }
+  ]
+ },
+ "조지프 로이어": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "랭커스터의 제과 장인",
+    "title_en": "The Lancaster Confectioner",
+    "description": "펜실베이니아 랭커스터에서 '로이어 아이스크림 가게'를 운영했다.",
+    "description_en": "He ran a Lancaster candy and ice-cream shop.",
+    "kind": "work",
+    "place_name": "랭커스터",
+    "place_name_en": "Lancaster",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1871,
+    "year_end": null,
+    "title": "열세 살 허시의 스승",
+    "title_en": "Hershey's First Master",
+    "description": "열네 살 밀턴 허시를 도제로 받아 캐러멜과 사탕 만드는 법을 가르쳤다 — 초콜릿 왕국의 첫 교실이 됐다.",
+    "description_en": "He apprenticed fourteen-year-old Milton Hershey — the chocolate empire's first classroom.",
+    "kind": "education",
+    "place_name": "랭커스터",
+    "place_name_en": "Lancaster",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "H. B. 리스": {
+  "events": [
+   {
+    "year": 1879,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "펜실베이니아에서 태어나 허시 공장의 낙농장 관리인이 됐다.",
+    "description_en": "Born in Pennsylvania; a Hershey dairy-farm manager.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1928,
+    "year_end": null,
+    "title": "지하실의 피넛버터 컵",
+    "title_en": "The Basement Cup",
+    "description": "부업으로 집 지하실에서 피넛버터 컵을 만들기 시작했다 — 재료는 사장 허시의 초콜릿이었다.",
+    "description_en": "In his basement he invented the peanut butter cup — using the boss's chocolate.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1956,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "76세로 숨졌고 여섯 아들이 회사를 허시에 합병시켰다.",
+    "description_en": "Died at 76; his six sons merged the company into Hershey.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "헨리 스트롱": {
+  "events": [
+   {
+    "year": 1838,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "로체스터의 채찍 제조업자로 태어나 자수성가했다.",
+    "description_en": "Born in Rochester; a self-made whip manufacturer.",
+    "kind": "birth",
+    "place_name": "로체스터",
+    "place_name_en": "Rochester",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1881,
+    "year_end": null,
+    "title": "하숙생에게 투자",
+    "title_en": "Backing the Boarder",
+    "description": "어머니의 하숙집에 사는 청년 이스트먼에게 수천 달러를 투자해 건판 회사를 공동 설립했다.",
+    "description_en": "He staked thousands on George Eastman, his mother's boarder.",
+    "kind": "work",
+    "place_name": "로체스터",
+    "place_name_en": "Rochester",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1884,
+    "year_end": 1919,
+    "title": "코닥의 초대 사장",
+    "title_en": "Kodak's First President",
+    "description": "이스트먼이 발명을, 스트롱이 자금과 신용을 맡는 조합으로 39년간 사장을 지냈다.",
+    "description_en": "As first president for 39 years, his credit carried Kodak.",
+    "kind": "work",
+    "place_name": "로체스터",
+    "place_name_en": "Rochester",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1919,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "로체스터 일대에 대규모 자선을 남기고 80세로 숨졌다.",
+    "description_en": "He died at 80, leaving fortunes to Rochester charity.",
+    "kind": "death",
+    "place_name": "로체스터",
+    "place_name_en": "Rochester",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "윌리엄 홀 워커": {
+  "events": [
+   {
+    "year": 1856,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "리버풀 양조장 집안에서 태어나 아마추어 사진 애호가가 됐다.",
+    "description_en": "Born to a Liverpool brewing family; a photo amateur.",
+    "kind": "birth",
+    "place_name": "리버풀",
+    "place_name_en": "Liverpool",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1885,
+    "year_end": null,
+    "title": "코닥 영국 법인",
+    "title_en": "Kodak's British Chief",
+    "description": "이스트먼과 친분을 맺어 코닥 영국 법인의 수장이 됐다.",
+    "description_en": "Eastman's friend, he ran Kodak's British arm.",
+    "kind": "work",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1900,
+    "year_end": 1919,
+    "title": "하원의원과 남작",
+    "title_en": "MP and Baron",
+    "description": "19년간 하원의원을 지내고 웨이버트리 남작 작위를 받았다.",
+    "description_en": "Nineteen years an MP, then Baron Wavertree.",
+    "kind": "office",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1916,
+    "year_end": null,
+    "title": "종마 농장 기증",
+    "title_en": "The Stud Farm Gift",
+    "description": "진짜 열정인 경주마 육성에 전념해 아일랜드에 종마 농장을 기증했다 — 아일랜드 국립 종마장의 기원이다.",
+    "description_en": "He gifted his Irish stud farm — origin of the Irish National Stud.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1933,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "76세로 숨졌다.",
+    "description_en": "Died at 76.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "프랭크 브라우넬": {
+  "events": [
+   {
+    "year": 1859,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "캐나다에서 태어나 로체스터의 목공예 카메라 제작자가 됐다.",
+    "description_en": "Born in Canada; a Rochester camera maker.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1885,
+    "year_end": null,
+    "title": "이스트먼의 설계자",
+    "title_en": "Eastman's Designer",
+    "description": "이스트먼의 눈에 띄어 초기 코닥 카메라 대부분을 설계했다.",
+    "description_en": "Hired by Eastman, he designed most early Kodak cameras.",
+    "kind": "work",
+    "place_name": "로체스터",
+    "place_name_en": "Rochester",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "1달러 '브라우니'",
+    "title_en": "The $1 Brownie",
+    "description": "브라우니 카메라를 만들어 사진을 아이들과 대중의 취미로 바꾼 일등공신이 됐다.",
+    "description_en": "His dollar Brownie made photography a mass hobby.",
+    "kind": "work",
+    "place_name": "로체스터",
+    "place_name_en": "Rochester",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1939,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "수많은 카메라 특허를 남기고 80세로 숨졌다.",
+    "description_en": "Died at 80 holding dozens of camera patents.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "조지 휠라이트 3세": {
+  "events": [
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 하버드 물리학 강사가 됐다.",
+    "description_en": "Born in the US; a Harvard physics instructor.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1926,
+    "year_end": null,
+    "title": "랜드와의 만남",
+    "title_en": "Meeting Land",
+    "description": "가장 어린 학생 에드윈 랜드와 의기투합해 랜드-휠라이트 연구소를 세우고 편광판을 상용화했다.",
+    "description_en": "With teenage Edwin Land he founded Land-Wheelwright Labs — polarizers commercialized.",
+    "kind": "meeting",
+    "place_name": "케임브리지",
+    "place_name_en": "Cambridge",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1937,
+    "year_end": null,
+    "title": "폴라로이드 공동 창업",
+    "title_en": "Co-founding Polaroid",
+    "description": "폴라로이드 공동 창업자·부사장으로 창업기를 함께했다.",
+    "description_en": "He co-founded Polaroid and served as VP.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2001,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "모험가 기질로 일선에서 물러나 목장을 경영하다, 랜드가 떠난 지 꼭 10년 되는 날 97세로 숨졌다.",
+    "description_en": "He died at 97 — exactly ten years after Land.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "엘칸 블라우트": {
+  "events": [
+   {
+    "year": 1919,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 화학자가 됐다.",
+    "description_en": "Born in New York; a chemist.",
+    "kind": "birth",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "폴라로이드 입사",
+    "title_en": "Joining Polaroid",
+    "description": "우드워드의 소개로 입사해 연구 부사장으로 즉석 컬러필름 개발을 이끌며 5천여 화합물을 합성했다.",
+    "description_en": "He rose to VP of research, synthesizing thousands of compounds for instant color film.",
+    "kind": "work",
+    "place_name": "케임브리지",
+    "place_name_en": "Cambridge",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "하버드 의대 교수",
+    "title_en": "Harvard Professor",
+    "description": "동시에 하버드 의대 교수로 단백질 입체구조 연구를 개척했다.",
+    "description_en": "At Harvard Medical School he pioneered protein structure.",
+    "kind": "work",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1990,
+    "year_end": null,
+    "title": "국가과학메달",
+    "title_en": "National Medal of Science",
+    "description": "국가과학메달을 받았다 — 50개 넘는 특허의 소유자였다.",
+    "description_en": "He received the National Medal of Science.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2006,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "87세로 숨졌다.",
+    "description_en": "Died at 87.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ }
+}
