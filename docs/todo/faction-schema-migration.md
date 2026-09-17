@@ -45,8 +45,8 @@ faction_members(id, lv2_id→faction_lv2, lv3_id→faction_lv3 null,
 - [x] **스키마 생성 + 데이터 이관** — 운영 적용 완료. lv1=30(분야 12+지역 18)·lv2=244(팩션 207+신화 37)·lv3=802·members=4564. 신화 37개 전부 지역 lv1 소속·lead_person_ids 3인 이식. published 백필 대조 불일치 0.
 - [x] **웹 읽기 전환** — `sw/web` 전 경로가 새 표·뷰를 읽는다. `MythTradition`→`Myth`·`?tradition=`→`?myth=` 개명 포함. tsc·테스트 통과.
 - [x] **BO 쓰기·편집 전환** — `tags.ts`→`factions/entries.ts`, `factions/themes.ts`→`factions/board.ts`, `myths.ts`·`myth-music.ts`·`celebs.ts`·`content-research.ts`·`rankings/celebs.ts` 전환. 컴포넌트는 `ThemeAtlas/`→`entry/`, `AtlasRows`→`EntryRows` 등으로 개명. 신화 편집은 `?myth=`로 고른다. 스크립트(seed-inactive·audit·founding-myth·_flag)도 새 표로 전환.
-- [ ] **구표 제거** — `celeb_tag_assignments`·`celeb_tag_groups`·`celeb_tags`·`faction_atlas_members` 뷰 삭제는 검증 뒤 한 트랜잭션으로. 생성 타입 `database.generated.ts` 재생성(현재 파일은 구 스키마 — `db.from` 경로가 타입 미지정이라 빌드는 안 막힌다. 드롭과 동시에 재생성한다).
-- [ ] **이름 정리 잔여** — 카드명 「건국 전승」10건 → 「건국 신화」 데이터 변경.
+- [x] **배포 + 구표 제거** — 웹 f5b071ce로 운영 배포(카나리·Cloudflare 퍼지 완료) 뒤 `20260917140000_drop_celeb_tag_schema.sql`을 적용했다. `celebs`·`celeb_contents`·`celeb_metrics`의 공개 RLS 3건이 옛 뷰를 읽고 있어 `faction_member_rows`로 갈아끼운 뒤 `celeb_tag_assignments`·`celeb_tag_groups`·`celeb_tags`·`faction_atlas_members`(public)·`faction_atlas_members_source`(private)·`get_tag_celeb_counts`를 한 트랜잭션으로 드롭했다. 생성 타입은 수동 정합 상태 — 다음 스키마 변경 때 재생성으로 마무리한다.
+- [x] **이름 정리 잔여** — 카드명 「건국 전승」7건 → 「건국 신화」로 DB 변경 완료(영문 `Founding Lore` → `Founding Myth`). 「사부육」→「철선공주」도 함께 정정했다.
 
 ## 주의
 
