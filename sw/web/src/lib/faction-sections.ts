@@ -1,14 +1,14 @@
 /**
- * 세력도감 화면 구성 — 명단 캐시(getFeaturedTags)를 칩 줄의 섹션·테마와 테마 안 진영으로 푼다.
+ * 세력도감 화면 구성 — 명단 캐시(getFeaturedFactions)를 칩 줄의 섹션·테마와 테마 안 진영으로 푼다.
  * 순수 함수만 둔다. 조회는 부르는 쪽이 한다.
  */
-import type { FeaturedCeleb, FeaturedTag } from '@/actions/home'
+import type { FeaturedCeleb, FeaturedFaction } from '@/actions/home'
 import type { Locale } from '@/types/locale'
 
 export interface FactionSection {
   /** 묶음 태그 — 묶음 없이 최상위에 선 테마면 그 테마 자신 */
-  tag: FeaturedTag
-  themes: FeaturedTag[]
+  faction: FeaturedFaction
+  entries: FeaturedFaction[]
 }
 
 export interface FactionCluster {
@@ -19,17 +19,17 @@ export interface FactionCluster {
   celebIds: string[]
 }
 
-export function localizedTagName(tag: Pick<FeaturedTag, 'name' | 'name_en'>, locale: Locale) {
-  return locale === 'en' ? tag.name_en?.trim() || tag.name : tag.name
+export function localizedFactionName(faction: Pick<FeaturedFaction, 'name' | 'name_en'>, locale: Locale) {
+  return locale === 'en' ? faction.name_en?.trim() || faction.name : faction.name
 }
 
-export function localizedTagDescription(tag: Pick<FeaturedTag, 'description' | 'description_en'>, locale: Locale) {
-  return (locale === 'en' ? tag.description_en : tag.description)?.trim() || null
+export function localizedFactionDescription(faction: Pick<FeaturedFaction, 'description' | 'description_en'>, locale: Locale) {
+  return (locale === 'en' ? faction.description_en : faction.description)?.trim() || null
 }
 
 /** 섹션을 주소(`?section=`)로 가리키는 값 — 묶음 slug, 없으면 id */
 export function factionSectionKey(section: FactionSection) {
-  return section.tag.slug ?? section.tag.id
+  return section.faction.slug ?? section.faction.id
 }
 
 /**
@@ -37,17 +37,17 @@ export function factionSectionKey(section: FactionSection) {
  * 묶음은 자기 노출 칸과 무관하게 공개 테마를 품었으면 연다 — 섹션을 감추려면 그 안 테마의 노출을 끈다.
  * 이야기 속 인물 묶음(is_fiction)은 뒤로 보낸다. 신화 갈래는 명단 캐시가 이미 뺐다.
  */
-export function buildFactionSections(tags: FeaturedTag[]): FactionSection[] {
-  const isTheme = (tag: FeaturedTag) => tag.is_featured && !tag.isGroup && Boolean(tag.slug) && tag.celebs.length > 0
-  const sections = tags
-    .filter((tag) => !tag.parentSlug && (tag.isGroup || isTheme(tag)))
-    .map((tag) => ({
-      tag,
-      themes: tag.isGroup ? tags.filter((child) => child.parentSlug === tag.slug && isTheme(child)) : [tag],
+export function buildFactionSections(factions: FeaturedFaction[]): FactionSection[] {
+  const isEntry = (faction: FeaturedFaction) => faction.is_featured && !faction.isGroup && Boolean(faction.slug) && faction.celebs.length > 0
+  const sections = factions
+    .filter((faction) => !faction.parentSlug && (faction.isGroup || isEntry(faction)))
+    .map((faction) => ({
+      faction,
+      entries: faction.isGroup ? factions.filter((child) => child.parentSlug === faction.slug && isEntry(child)) : [faction],
     }))
-    .filter((section) => section.themes.length > 0)
+    .filter((section) => section.entries.length > 0)
 
-  return [...sections.filter((s) => !s.tag.is_fiction), ...sections.filter((s) => s.tag.is_fiction)]
+  return [...sections.filter((s) => !s.faction.is_fiction), ...sections.filter((s) => s.faction.is_fiction)]
 }
 
 /**

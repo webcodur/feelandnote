@@ -7,7 +7,7 @@
  * 안전 장치
  * - 신규 세력은 is_featured=false·published=false로 만든다(도감에 '준비 중'으로만 보임).
  * - 배정 행은 전부 hidden=true — 비활성 인물이 웹 도감에 새지 않는다
- *   (getFeaturedTags는 배정의 hidden만 본다. publication_status로는 거르지 않는다).
+ *   (getFeaturedFactions는 배정의 hidden만 본다. publication_status로는 거르지 않는다).
  * - (celeb_id, lv2_id) 기존 배정이 있으면 건너뛴다. 덮어쓰지 않는다.
  * - secondary 세력은 별도 배정 행으로 넣는다(한 인물이 여러 세력에 등재되는 기존 관례).
  */

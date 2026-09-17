@@ -19,7 +19,7 @@ const HUB_TAG_LIMIT = 4
  */
 const HUB_PINNED_SLUGS = ['ai-pioneers', 'paypal-mafia', 'digital-resistance']
 
-interface HubTagRow {
+interface HubFactionRow {
   id: string
   slug: string | null
   name: string
@@ -50,68 +50,68 @@ export interface FactionHubPreview {
 async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   const db = createStaticClient()
   /* 공개된 세력(lv2)만 쓰되 신화 가지는 뺀다 — 신화는 신화 화면이 따로 다룬다(26.09.14) */
-  const { data: tags, error: tagsError } = await db
+  const { data: factions, error: tagsError } = await db
     .from('faction_lv2')
     .select('id, slug, name, name_en, description, description_en, color, lv1_id, team_images, is_featured')
     .eq('is_myth', false)
     .order('sort_order', { ascending: true })
 
   if (tagsError) {
-    throw new Error(`Failed to load faction hub tags: ${tagsError.message}`)
+    throw new Error(`Failed to load faction hub factions: ${tagsError.message}`)
   }
-  if (!tags?.length) return []
+  if (!factions?.length) return []
 
-  const tagRows = (tags as HubTagRow[]).filter((tag) => tag.is_featured === true)
-  const tagIds = tagRows.map((tag) => tag.id)
+  const factionRows = (factions as HubFactionRow[]).filter((faction) => faction.is_featured === true)
+  const factionIds = factionRows.map((faction) => faction.id)
   // 사람이 있는 세력만 가려낸다. 태그 묶음으로 읽던 때 한 묶음이 1,000행을 넘어 잘려, 잘린 세력이
   // 「사람 없음」으로 빠졌다(26.09.14). 공통 읽기로 끝까지 받는다
-  const assignments = await selectVisibleFactionMembers<HubAssignmentRow>(db, 'lv2_id', tagIds)
-  const tagIdsWithPeople = new Set(assignments.map((assignment) => assignment.lv2_id))
+  const assignments = await selectVisibleFactionMembers<HubAssignmentRow>(db, 'lv2_id', factionIds)
+  const factionIdsWithPeople = new Set(assignments.map((assignment) => assignment.lv2_id))
 
   /*
     허브 4장은 종류를 섞는다 — 앞 순번만 뽑으면 인공지능 테마만 나온다.
     사람이 고른 편성(HUB_PINNED_SLUGS)이 먼저고, 남은 자리는 자동 규칙이 채운다.
     자동 규칙: 대분류가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
   */
-  const hasPeople = (tag: HubTagRow) => tagIdsWithPeople.has(tag.id)
-  const coverOf = (tag: HubTagRow) => toTeamImages(tag.team_images)[0]?.url ?? null
+  const hasPeople = (faction: HubFactionRow) => factionIdsWithPeople.has(faction.id)
+  const coverOf = (faction: HubFactionRow) => toTeamImages(faction.team_images)[0]?.url ?? null
 
-  const selectedTags: HubTagRow[] = []
+  const selectedFactions: HubFactionRow[] = []
   const usedParents = new Set<string>()
 
-  const tagBySlug = new Map(tagRows.flatMap((tag) => (tag.slug ? [[tag.slug, tag] as const] : [])))
+  const factionBySlug = new Map(factionRows.flatMap((faction) => (faction.slug ? [[faction.slug, faction] as const] : [])))
   for (const slug of HUB_PINNED_SLUGS) {
-    if (selectedTags.length >= HUB_TAG_LIMIT) break
-    const tag = tagBySlug.get(slug)
-    if (!tag || selectedTags.includes(tag) || !hasPeople(tag)) continue
-    usedParents.add(tag.lv1_id)
-    selectedTags.push(tag)
+    if (selectedFactions.length >= HUB_TAG_LIMIT) break
+    const faction = factionBySlug.get(slug)
+    if (!faction || selectedFactions.includes(faction) || !hasPeople(faction)) continue
+    usedParents.add(faction.lv1_id)
+    selectedFactions.push(faction)
   }
 
   for (const requireCover of [true, false]) {
-    for (const tag of tagRows) {
-      if (selectedTags.length >= HUB_TAG_LIMIT) break
-      if (selectedTags.includes(tag) || !hasPeople(tag)) continue
-      if (requireCover && !coverOf(tag)) continue
-      if (usedParents.has(tag.lv1_id)) continue
-      usedParents.add(tag.lv1_id)
-      selectedTags.push(tag)
+    for (const faction of factionRows) {
+      if (selectedFactions.length >= HUB_TAG_LIMIT) break
+      if (selectedFactions.includes(faction) || !hasPeople(faction)) continue
+      if (requireCover && !coverOf(faction)) continue
+      if (usedParents.has(faction.lv1_id)) continue
+      usedParents.add(faction.lv1_id)
+      selectedFactions.push(faction)
     }
   }
   // 그래도 모자라면 대분류 중복을 허용해 채운다
-  for (const tag of tagRows) {
-    if (selectedTags.length >= HUB_TAG_LIMIT) break
-    if (!selectedTags.includes(tag) && hasPeople(tag)) selectedTags.push(tag)
+  for (const faction of factionRows) {
+    if (selectedFactions.length >= HUB_TAG_LIMIT) break
+    if (!selectedFactions.includes(faction) && hasPeople(faction)) selectedFactions.push(faction)
   }
 
-  return selectedTags.map((tag) => ({
-    id: tag.id,
-    name: tag.name,
-    name_en: tag.name_en,
-    description: tag.description,
-    description_en: tag.description_en,
-    color: tag.color,
-    cover: coverOf(tag),
+  return selectedFactions.map((faction) => ({
+    id: faction.id,
+    name: faction.name,
+    name_en: faction.name_en,
+    description: faction.description,
+    description_en: faction.description_en,
+    color: faction.color,
+    cover: coverOf(faction),
   }))
 }
 
@@ -120,7 +120,7 @@ const getCachedFactionHubPreviews = unstable_cache(
   ['faction-hub-previews'],
   {
     revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
+    tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS],
   },
 )
 

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { useTranslations } from "next-intl";
-import type { MythPerson } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson } from "@/actions/home/mythTypes";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { MYTH_LAYOUT as mythLayout } from "./mythLayout";
 

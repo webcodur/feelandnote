@@ -9,7 +9,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
-import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
+import type { FeaturedFaction } from "@/actions/home/getFeaturedFactions";
 import type { CelebBySlugProfile, CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
@@ -24,7 +24,7 @@ interface Props {
   centerName: string;
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
-  factions: FeaturedTag[];
+  factions: FeaturedFaction[];
   currentCelebId: string;
   isFiction: boolean;
   centerProfile?: CelebBySlugProfile;

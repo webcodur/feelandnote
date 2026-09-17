@@ -1,4 +1,4 @@
-import type { MythPerson } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson } from "@/actions/home/mythTypes";
 
 /* 인물이 이 신화에서 거는 대표 사진. 같은 인물도 편마다 모습이 다르다 —
    일리아스의 아이아스는 트로이 전장에 서고, 오디세이아의 아이아스는 저승의 망령이다.

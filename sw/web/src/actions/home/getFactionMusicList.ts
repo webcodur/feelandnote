@@ -87,7 +87,7 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
 const getCachedThemeMusicLists = unstable_cache(
   fetchThemeMusicLists,
   ['theme-music-lists-v3'],
-  { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.TAGS] },
+  { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.FACTIONS] },
 )
 
 export async function getFactionMusicList(): Promise<FactionMusicListItem[]> {

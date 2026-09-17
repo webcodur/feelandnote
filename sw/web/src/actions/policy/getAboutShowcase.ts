@@ -419,9 +419,9 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
 
   // 못박아 둔 순서대로 한 묶음에 한 장씩 세운다
   const teamShots: AboutTeamShot[] = []
-  const tagBySlug = new Map((tagsRes.data ?? []).map((tag) => [tag.slug, tag]))
+  const factionBySlug = new Map((tagsRes.data ?? []).map((tag) => [tag.slug, tag]))
   for (const slug of TEAM_TAG_SLUGS) {
-    const tag = tagBySlug.get(slug)
+    const tag = factionBySlug.get(slug)
     if (!tag) continue
     const shot = toTeamImages(tag.team_images)[0]
     if (!shot) continue
@@ -458,6 +458,6 @@ export async function getAboutShowcase(locale: string): Promise<AboutShowcase> {
   return unstable_cache(
     () => fetchAboutShowcase(locale),
     ['about-showcase', locale],
-    { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.TAGS] }
+    { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FACTIONS] }
   )()
 }

@@ -35,7 +35,7 @@ export interface FeaturedCeleb {
   influence: number | null
 }
 
-export interface FeaturedTag {
+export interface FeaturedFaction {
   id: string
   name: string
   name_en: string | null
@@ -75,7 +75,7 @@ interface MemberRow {
 }
 
 // lv1(테마)와 lv2(세력)를 한 형태로 펼친 행 — parentSlug·isGroup은 조회 시점에 확정된다
-interface FeaturedTagRow {
+interface FeaturedFactionRow {
   id: string
   name: string
   name_en: string | null
@@ -105,7 +105,7 @@ const toImageArray = toTeamImages
  * 26.09.14 재편으로 105명짜리 테마(문학의 거장들)가 생겨 40에서 124명이 잘렸다 — 200으로 올렸다.
  * 감추는 일은 배정의 hidden 스위치가 맡고, 이 값은 사고 방지용 천장으로만 둔다.
  */
-const MAX_CELEBS_PER_TAG = 200
+const MAX_CELEBS_PER_FACTION = 200
 
 /**
  * 인물 명단을 이 수만큼의 테마씩 나눠 캐시한다.
@@ -129,7 +129,7 @@ interface FeaturedProfileRow {
 // --- 공개 데이터 캐싱 (1시간) ---
 
 /** 테마(lv1)·세력(lv2) 행 전부 — 신화 가지는 신화 화면(/explore/myth)이 따로 다루므로 뺀다(26.09.14) */
-async function fetchTagRows(): Promise<FeaturedTagRow[]> {
+async function fetchFactionRows(): Promise<FeaturedFactionRow[]> {
   const db = createStaticClient()
   const [lv1Result, lv2Result] = await Promise.all([
     db.from('faction_lv1')
@@ -146,17 +146,17 @@ async function fetchTagRows(): Promise<FeaturedTagRow[]> {
 
   const lv1ById = new Map((lv1Result.data ?? []).map((row) => [row.id, row]))
   return [
-    ...(lv1Result.data ?? []).map((row): FeaturedTagRow => ({
+    ...(lv1Result.data ?? []).map((row): FeaturedFactionRow => ({
       ...row, team_images: null, theme_music: null, parentSlug: null, isGroup: true,
     })),
-    ...(lv2Result.data ?? []).map((row): FeaturedTagRow => ({
+    ...(lv2Result.data ?? []).map((row): FeaturedFactionRow => ({
       ...row, parentSlug: lv1ById.get(row.lv1_id)?.slug ?? null, isGroup: false,
     })),
   ]
 }
 
 /** 세력 한 덩어리의 인물 — 세력 id → 명단 차례대로 */
-async function fetchTagMembers(lv2Ids: string[]): Promise<Record<string, FeaturedCeleb[]>> {
+async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, FeaturedCeleb[]>> {
   const db = createStaticClient()
 
   // 감춘 배정은 빼고, 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다.
@@ -166,12 +166,12 @@ async function fetchTagMembers(lv2Ids: string[]): Promise<Record<string, Feature
     'celeb_id, lv2_id, short_desc, short_desc_en, image_url, sort_order, group_name, group_name_en, group_position',
     lv2Ids,
   )
-  const assignmentsByTag: Record<string, MemberRow[]> = {}
+  const assignmentsByFaction: Record<string, MemberRow[]> = {}
   const allCelebIds = new Set<string>()
   for (const lv2Id of lv2Ids) {
-    const tagAssignments = (allAssignments ?? []).filter((a) => a.lv2_id === lv2Id).slice(0, MAX_CELEBS_PER_TAG)
-    assignmentsByTag[lv2Id] = tagAssignments
-    tagAssignments.forEach((a) => allCelebIds.add(a.celeb_id))
+    const factionAssignments = (allAssignments ?? []).filter((a) => a.lv2_id === lv2Id).slice(0, MAX_CELEBS_PER_FACTION)
+    assignmentsByFaction[lv2Id] = factionAssignments
+    factionAssignments.forEach((a) => allCelebIds.add(a.celeb_id))
   }
   if (allCelebIds.size === 0) return {}
 
@@ -199,9 +199,9 @@ async function fetchTagMembers(lv2Ids: string[]): Promise<Record<string, Feature
   ])
   const profileMap = new Map(celebRows.map((p) => [p.id, p]))
 
-  const membersByTag: Record<string, FeaturedCeleb[]> = {}
+  const membersByFaction: Record<string, FeaturedCeleb[]> = {}
   for (const lv2Id of lv2Ids) {
-    membersByTag[lv2Id] = (assignmentsByTag[lv2Id] ?? []).flatMap((a): FeaturedCeleb[] => {
+    membersByFaction[lv2Id] = (assignmentsByFaction[lv2Id] ?? []).flatMap((a): FeaturedCeleb[] => {
       const c = profileMap.get(a.celeb_id)
       if (!c) return []
       return [{
@@ -223,83 +223,83 @@ async function fetchTagMembers(lv2Ids: string[]): Promise<Record<string, Feature
       }]
     })
   }
-  return membersByTag
+  return membersByFaction
 }
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedTagRows = unstable_cache(fetchTagRows, ['featured-tag-rows-v1'], {
+const getCachedFactionRows = unstable_cache(fetchFactionRows, ['featured-faction-rows-v1'], {
   revalidate: LIST_REVALIDATE,
-  tags: [CACHE_TAGS.TAGS],
+  tags: [CACHE_TAGS.FACTIONS],
 })
 // 인자(테마 id 덩어리)가 캐시 키에 들어가 덩어리마다 따로 저장된다
-const getCachedTagMembers = unstable_cache(fetchTagMembers, ['featured-tag-members-v1'], {
+const getCachedFactionMembers = unstable_cache(fetchFactionMembers, ['featured-faction-members-v1'], {
   revalidate: LIST_REVALIDATE,
-  tags: [CACHE_TAGS.TAGS],
+  tags: [CACHE_TAGS.FACTIONS],
 })
 
-function toFeaturedTag(tag: FeaturedTagRow, celebs: FeaturedCeleb[], extra: Pick<FeaturedTag, 'parentSlug' | 'isGroup'>): FeaturedTag {
+function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[], extra: Pick<FeaturedFaction, 'parentSlug' | 'isGroup'>): FeaturedFaction {
   return {
-    id: tag.id,
-    name: tag.name,
-    name_en: tag.name_en ?? null,
-    description: tag.description ?? null,
-    description_en: tag.description_en ?? null,
-    color: tag.color,
-    slug: tag.slug ?? null,
-    team_images: toImageArray(tag.team_images),
-    music: toFactionMusic(tag.theme_music),
+    id: faction.id,
+    name: faction.name,
+    name_en: faction.name_en ?? null,
+    description: faction.description ?? null,
+    description_en: faction.description_en ?? null,
+    color: faction.color,
+    slug: faction.slug ?? null,
+    team_images: toImageArray(faction.team_images),
+    music: toFactionMusic(faction.theme_music),
     celebs,
-    is_featured: tag.is_featured === true,
-    is_fiction: tag.is_fiction === true,
+    is_featured: faction.is_featured === true,
+    is_fiction: faction.is_fiction === true,
     ...extra,
   }
 }
 
-export async function getFeaturedTags(): Promise<FeaturedTag[]> {
-  const tagRows = await getCachedTagRows()
-  if (!tagRows.length) return []
+export async function getFeaturedFactions(): Promise<FeaturedFaction[]> {
+  const factionRows = await getCachedFactionRows()
+  if (!factionRows.length) return []
 
-  const activeTags = tagRows.filter((t) => t.is_featured)
-  if (!activeTags.length) return []
+  const activeFactions = factionRows.filter((t) => t.is_featured)
+  if (!activeFactions.length) return []
 
   // 위계는 조회 시점에 확정돼 행에 실린다 — lv1 행은 isGroup, lv2 행은 parentSlug를 든다.
   // 멤버는 세력(lv2)에만 붙으므로 테마 헤더는 건너뛴다
-  const memberTags = activeTags.filter((t) => !t.isGroup)
+  const memberFactions = activeFactions.filter((t) => !t.isGroup)
 
   // 덩어리는 차례로 채운다 — 캐시가 비었을 때 한꺼번에 조회하면 DB 풀이 막힌다
-  const membersByTag: Record<string, FeaturedCeleb[]> = {}
-  for (let i = 0; i < memberTags.length; i += MEMBER_CACHE_CHUNK) {
-    Object.assign(membersByTag, await getCachedTagMembers(memberTags.slice(i, i + MEMBER_CACHE_CHUNK).map((t) => t.id)))
+  const membersByFaction: Record<string, FeaturedCeleb[]> = {}
+  for (let i = 0; i < memberFactions.length; i += MEMBER_CACHE_CHUNK) {
+    Object.assign(membersByFaction, await getCachedFactionMembers(memberFactions.slice(i, i + MEMBER_CACHE_CHUNK).map((t) => t.id)))
   }
 
   // 배정된 인물이 한 명도 없으면 태그만 늘어놓는다
-  if (Object.keys(membersByTag).length === 0) {
-    return tagRows.map((tag) => toFeaturedTag(tag, [], { parentSlug: tag.parentSlug, isGroup: tag.isGroup }))
+  if (Object.keys(membersByFaction).length === 0) {
+    return factionRows.map((faction) => toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
   }
 
-  const result: FeaturedTag[] = []
-  for (const tag of activeTags) {
-    const celebs = membersByTag[tag.id] ?? []
+  const result: FeaturedFaction[] = []
+  for (const faction of activeFactions) {
+    const celebs = membersByFaction[faction.id] ?? []
     // 테마 헤더는 배정이 없어도 목록에 포함한다
-    if (celebs.length > 0 || tag.isGroup) {
-      result.push(toFeaturedTag(tag, celebs, { parentSlug: tag.parentSlug, isGroup: tag.isGroup }))
+    if (celebs.length > 0 || faction.isGroup) {
+      result.push(toFeaturedFaction(faction, celebs, { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
     }
   }
   // 비활성 태그 추가
-  for (const tag of tagRows.filter((t) => !t.is_featured)) {
-    result.push(toFeaturedTag(tag, [], { parentSlug: tag.parentSlug, isGroup: tag.isGroup }))
+  for (const faction of factionRows.filter((t) => !t.is_featured)) {
+    result.push(toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
   }
   return result
 }
 
-export async function getFactionTagsByIds(tagIds: string[]): Promise<FeaturedTag[]> {
-  if (tagIds.length === 0) return []
+export async function getFactionsByIds(factionIds: string[]): Promise<FeaturedFaction[]> {
+  if (factionIds.length === 0) return []
 
-  const tags = await getFeaturedTags()
-  const tagById = new Map(tags.map((tag) => [tag.id, tag]))
+  const factions = await getFeaturedFactions()
+  const factionById = new Map(factions.map((faction) => [faction.id, faction]))
 
-  return tagIds
-    .map((tagId) => tagById.get(tagId))
-    .filter((tag): tag is FeaturedTag => tag?.is_featured === true && tag.isGroup !== true)
+  return factionIds
+    .map((factionId) => factionById.get(factionId))
+    .filter((faction): faction is FeaturedFaction => faction?.is_featured === true && faction.isGroup !== true)
 }

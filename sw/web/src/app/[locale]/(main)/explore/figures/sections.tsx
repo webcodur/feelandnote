@@ -86,7 +86,7 @@ export interface FiguresFilterParams {
   contentPresence?: CelebContentPresence;
   gender?: string;
   search?: string;
-  tagId?: string;
+  factionId?: string;
   tiers?: readonly CelebTier[];
   realities?: readonly CelebReality[];
   birthYearMin?: number;
@@ -119,7 +119,7 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
         contentPresence: params.contentPresence,
         gender: params.gender,
         search: params.search,
-        tagId: params.tagId,
+        factionId: params.factionId,
         tiers: params.tiers,
         realities: params.realities,
         birthYearMin: params.birthYearMin,

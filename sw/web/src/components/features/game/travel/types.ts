@@ -5,7 +5,7 @@
  */
 
 /** 인접 관계의 종류 */
-export type EdgeType = "content" | "tag";
+export type EdgeType = "content" | "faction";
 
 /** 인접 관계를 설명하는 한 건 */
 export interface EdgeReason {

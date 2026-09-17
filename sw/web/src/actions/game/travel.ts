@@ -33,12 +33,12 @@ interface ProfileRow {
   avatar_url: string | null;
 }
 
-interface TagAssignmentRow {
+interface FactionAssignmentRow {
   celeb_id: string;
   lv2_id: string;
 }
 
-interface TagRow {
+interface FactionRow {
   id: string;
   name: string;
   name_en: string | null;
@@ -80,19 +80,19 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const profileMap = new Map<string, ProfileRow>(celebRows.map((p) => [p.id, p]));
 
   // 2) 세력 태그 배정
-  const tagAssignments = await selectAllPages<TagAssignmentRow>((from, to) =>
+  const factionAssignments = await selectAllPages<FactionAssignmentRow>((from, to) =>
     db
       .from("faction_members")
       .select("celeb_id, lv2_id")
       .order("id", { ascending: true })
       .range(from, to) as unknown as PromiseLike<{
-      data: TagAssignmentRow[] | null;
+      data: FactionAssignmentRow[] | null;
       error: { message: string } | null;
     }>,
   );
 
   // 3) 태그 이름
-  const { data: tags, error: tagError } = await db
+  const { data: factions, error: tagError } = await db
     .from("faction_lv2")
     .select("id, name, name_en")
     .order("id", { ascending: true })
@@ -103,7 +103,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   }
 
   const tagNameMap = new Map<string, string>(
-    (tags ?? []).map((t: TagRow) => [
+    (factions ?? []).map((t: FactionRow) => [
       t.id,
       locale === "en" ? (t.name_en || t.name) : t.name,
     ]),
@@ -167,22 +167,22 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   }
 
   // 태그 간선: 같은 태그에 속한 셀럽끼리 연결
-  const tagToCelebs = new Map<string, string[]>();
-  for (const row of tagAssignments) {
+  const factionToCelebs = new Map<string, string[]>();
+  for (const row of factionAssignments) {
     if (!profileMap.has(row.celeb_id)) continue;
-    const arr = tagToCelebs.get(row.lv2_id) ?? [];
+    const arr = factionToCelebs.get(row.lv2_id) ?? [];
     arr.push(row.celeb_id);
-    tagToCelebs.set(row.lv2_id, arr);
+    factionToCelebs.set(row.lv2_id, arr);
   }
 
-  for (const [tagId, members] of tagToCelebs) {
+  for (const [factionId, members] of factionToCelebs) {
     // 허브 캡: 태그에 20명 초과면 간선을 만들지 않는다 (붕괴 방지)
     if (members.length > 20) continue;
 
-    const tagLabel = tagNameMap.get(tagId) ?? tagId;
+    const factionLabel = tagNameMap.get(factionId) ?? factionId;
     for (let i = 0; i < members.length; i++) {
       for (let j = i + 1; j < members.length; j++) {
-        addEdge(adjacency, members[i], members[j], { type: "tag", label: tagLabel });
+        addEdge(adjacency, members[i], members[j], { type: "faction", label: factionLabel });
       }
     }
   }
@@ -216,7 +216,7 @@ function addEdge(
   adjacency: Record<string, AdjacencyEdge[]>,
   a: string,
   b: string,
-  reason: { type: "content" | "tag"; label: string },
+  reason: { type: "content" | "faction"; label: string },
 ) {
   // a → b
   const existingAB = adjacency[a]?.find((e) => e.targetId === b);
@@ -248,7 +248,7 @@ const getTravelGraphCached = unstable_cache(
   ["travel-game-graph"],
   {
     revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.TAGS],
+    tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FACTIONS],
   },
 );
 

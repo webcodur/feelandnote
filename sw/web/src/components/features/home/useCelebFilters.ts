@@ -80,7 +80,7 @@ export function useCelebFilters({
   const [trend, setTrend] = useState(initialTrend);
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
   const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
-  const [tagId] = useState(() => {
+  const [factionId] = useState(() => {
     const value = getInitialValue("tagId", "");
     return value && value !== "all" ? value : undefined;
   });
@@ -186,7 +186,7 @@ export function useCelebFilters({
         sortBy: sort,
         trendCountry: trendCountryOverride ?? trendCountry,
         search: searchTerm || undefined,
-        tagId,
+        factionId,
         minContentCount: 0,
         includeInactive: isInactive,
         tiers: tiersOverride ?? tiers,
@@ -202,7 +202,7 @@ export function useCelebFilters({
     } finally {
       if (requestId === latestRequestRef.current) setIsLoading(false);
     }
-  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax, contentPresence, trendCountry, tagId]);
+  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax, contentPresence, trendCountry, factionId]);
 
   // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 초기 렌더에서는 재패칭하지 않는다.
   // 다른 필터 변경으로 callback이 새로 만들어져도 includeInactive가 실제로 바뀐 경우에만 호출한다.

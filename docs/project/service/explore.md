@@ -32,6 +32,8 @@
 
 `/explore/figures`는 검색 조건을 보존해 `/explore`로 영구 이동한다. 다른 옛 주소의 목적지는 `sw/web/next.config.ts`와 해당 리다이렉트 페이지가 쥔다. 새 링크와 워밍 점검에는 현재 정본 주소를 쓴다.
 
+분야별 챔피언과 스펙트럼은 같은 부모 화면 **인물 순위판(Figure Ranking Board, `components/features/user/explore/figureRankingBoard/`)** 위에 선다. 선택기 → 무대(머리·시상대·순위) → 함께 감상한 작품 서가의 배치와 대기 화면을 순위판이 전부 쥐고, 두 화면은 자기 자료를 순위판의 입력으로 바꿔 넘기기만 한다. 갈리는 조건은 머리의 칩·아이콘·설명 유무, 순위 형식(시상대 | 양극 매치업), 서가 묶음 수(하나 | 둘) 셋뿐이다. 두 화면의 모양을 바꿀 때는 각 화면이 아니라 순위판을 고친다.
+
 랭킹의 매체 선택·주소는 `explore/ranking/constants.ts`, 연대기의 대륙 분류·페이지 분할은 `components/features/user/explore/sections/TimelineSection/continents.ts`와 `pagination.ts`가 쥔다. 디렉토리는 이름별 인물 링크를 HTML에 싣고 직군별 명부에도 연결한다.
 
 ## 도감 용어
@@ -58,7 +60,7 @@
 
 **전승별 대표 사진** — 같은 인물도 편마다 모습이 다르다(일리아스의 아이아스는 전장, 오디세이아의 아이아스는 저승의 망령). 신화 화면은 그 전승의 개인샷(`faction_members.image_url`, 백오피스 「신화 편집」 인물 줄의 사진 칸)을 먼저 걸고, 없으면 인물 대표 사진(`celebs.portrait_url`)을 건다. 대사용 화보 첫 장을 그대로 복사해 둔 개인샷은 영상 출간 때의 낡은 스틸이라 건너뛴다. 규칙은 `mythLeadImage.ts` 하나가 쥔다.
 
-**개발자 모드** — 운영은 `faction_lv2.published`가 참인 신화만 열고 나머지는 「작업 예정」 칩으로 둔다. 로컬 개발 서버(`isDeveloperMode()`)에서는 `MythSection`이 공개 표시를 풀어 준비 중인 신화도 모두 연다. `getMythAtlasClientData`가 운영에 미공개 전승의 상세 자료를 넘기지 않도록 거르고, 개발 서버에서는 전체 명단·그룹을 넘긴다.
+**개발자 모드** — 운영은 `faction_lv2.published`가 참인 신화만 열고 나머지는 「작업 예정」 칩으로 둔다. 로컬 개발 서버(`isDeveloperMode()`)에서는 `MythSection`이 공개 표시를 풀어 준비 중인 신화도 모두 연다. `getMythClientData`가 운영에 미공개 전승의 상세 자료를 넘기지 않도록 거르고, 개발 서버에서는 전체 명단·그룹을 넘긴다.
 
 | 전승 | 가르는 축 |
 |---|---|
@@ -70,13 +72,13 @@
 
 ## 세력도감 (`/explore/faction`, `/explore/faction/[slug]`)
 
-신화 탐색처럼 칩 줄로 섹션과 테마를 고르고, 고른 테마 하나를 탐색 인물 목록과 같은 인물 카드 격자로 보인다(26.09.15 탐색형 개편). 단체화보 표지·출연진 판·화보 쇼케이스는 쓰지 않는다. 명단은 `getFeaturedTags()`(신화 갈래·숨긴 배정 제외)가 쥐고, 섹션·진영 구성은 `lib/faction-sections.ts`가 푼다. 두 주소가 같은 화면(`FactionAtlasScreen`)을 그린다.
+신화 탐색처럼 칩 줄로 섹션과 테마를 고르고, 고른 테마 하나를 탐색 인물 목록과 같은 인물 카드 격자로 보인다(26.09.15 탐색형 개편). 단체화보 표지·출연진 판·화보 쇼케이스는 쓰지 않는다. 명단은 `getFeaturedFactions()`(신화 갈래·숨긴 배정 제외)가 쥐고, 섹션·진영 구성은 `lib/faction-sections.ts`가 푼다. 두 주소가 같은 화면(`FactionScreen`)을 그린다.
 
 - 화면: 칩 상자 하나(섹션은 알약, 테마는 네모, 진영은 밑줄 탭 — 신화 탐색의 지역·신화·그룹 줄과 같은 모양) → 고른 테마의 개요(가운데 정렬한 제목·인원, 그 아래 왼쪽 정렬한 소개)와 그 아래 고른 진영의 설명 판 → 정렬과 인물 카드 격자. 진영 줄에 「전체」는 없고 첫 진영이 기본으로 선택된다. 주소를 바꾸지 않는 화면 안 선택이다(`FactionGroupContext`). 칩 상자·설명 판·격자가 같은 선택을 보고, 테마를 옮기면 새 테마의 첫 진영으로 돌아간다. 진영 이름이 없는 인물은 「그 밖의 인물」이고, 진영이 하나뿐인 테마는 진영 줄을 세우지 않는다.
-- 넓은 화면의 칩 줄과 좁은 화면의 줄별 선택 단추·창은 신화 탐색과 같은 공용 선택기 `components/shared/AtlasNav.tsx`가 그리고, 모양 값은 `components/shared/atlasNavLayout.ts`가 쥔다. 좁은 화면은 칩 줄을 옆으로 넘기지 않는다 — 섹션 단추와 테마 단추가 나란히 서고 진영 단추가 그 아래 한 줄이며, 누르면 아래에서 올라오는 창에서 고른다. 테마 창은 고른 섹션의 테마만 펼친다. 신화도 지역·신화·그룹 단추로 같다.
+- 넓은 화면의 칩 줄과 좁은 화면의 줄별 선택 단추·창은 신화 탐색과 같은 공용 선택기 `components/shared/ExploreNav.tsx`가 그리고, 모양 값은 `components/shared/exploreNavLayout.ts`가 쥔다. 좁은 화면은 칩 줄을 옆으로 넘기지 않는다 — 섹션 단추와 테마 단추가 나란히 서고 진영 단추가 그 아래 한 줄이며, 누르면 아래에서 올라오는 창에서 고른다. 테마 창은 고른 섹션의 테마만 펼친다. 신화도 지역·신화·그룹 단추로 같다.
 - 세력도감에 세운 자료는 모두 화면에 싣는다. 카드 직함은 탐색과 같은 인물 직함이다. 진영을 고르면 그 진영 설명(`faction_lv3.description`)이 테마 설명 바로 아래에 뜬다. 카드를 누르면 인물 상세로 넘어가지 않고 세력도감 인물 소개 모달(`FactionMemberModal`)이 뜬다 — 인물 상세와 같은 아바타 모듈(`CelebProfileMedia` — 확대 보기·인사 음성), 테마·진영, 이름·직함, 역할(배정 `short_desc`), 긴 소개(`long_desc`, `getFactionLongDescs`), 인물 페이지 링크를 싣고, 그 아래 「이 인물 관련 책」(`getFigureBooksForCeleb`)·「이 인물이 읽은 책」(`getPublicCelebContents`) 탭을 둔다. 두 탭은 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 그리고, 번역본 없음·절판은 서비스 공통 작품 카드와 같은 표지 가운데 띠(`NoEditionBadge` `cover`)로 표시한다. 영문 화면은 인물 상세처럼 판매 주소가 걸린 책만 싣는다. 테마 본문에는 분야 책 구획·서재 탭을 두지 않는다. 카드 링크 주소는 남겨 새 탭 열기와 검색 수집은 그대로다. 테마 주소는 메타 설명에 테마 소개를, 구조화 데이터(JSON-LD `CollectionPage`·`ItemList`)에 구성원 이름·역할·인물 주소를 싣는다. 섹션 이름은 칩 상자가 보여 주므로 머리글에 되풀이하지 않고, 섹션 설명 값은 두지 않는다.
 - 칩은 주소 이동이다. 테마 칩은 `/explore/faction/<테마 slug>`, 섹션 칩은 `/explore/faction?section=<묶음 slug>`로 그 섹션의 첫 테마를 연다. `/explore/faction`은 첫 섹션의 첫 테마다. 묶음은 자기 노출 칸과 무관하게 공개 테마를 품었으면 섹션으로 연다 — 섹션을 감추려면 그 안 테마의 노출을 끈다. 묶음 slug로 오면 `?section=`으로, 옛 주소 `?tag=<태그 id>`는 테마 주소로 보낸다. 없거나 닫힌 테마는 `notFound()`다.
-- 카드 자료는 탐색과 같은 `getCelebs`를 테마 조건으로 부른다. 그 조건은 웹 배정 표를 보고 숨김을 모르므로 명단에 든 사람만 남긴다(`lib/faction-theme-celebs.ts`).
+- 카드 자료는 탐색과 같은 `getCelebs`를 테마 조건으로 부른다. 그 조건은 웹 배정 표를 보고 숨김을 모르므로 명단에 든 사람만 남긴다(`lib/faction-celebs.ts`).
 
 **테마·그룹의 운영 규격은 여기서 복제하지 않는다.** 계층의 단일원천(`faction_lv2.lv1_id`)과 편집 규격은 `docs/project/apps/web-bo.md` 「세력도감」이 쥔다.
 

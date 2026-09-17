@@ -1,50 +1,50 @@
 /*
-  파일명: /app/(main)/explore/faction/FactionAtlasScreen.tsx
+  파일명: /app/(main)/explore/faction/FactionScreen.tsx
   기능: 세력도감 화면 — 대문과 테마 주소가 함께 그린다
   책임: 신화 탐색처럼 칩 상자 하나(섹션·테마·진영)로 고르고, 그 아래 테마·진영 설명과 탐색과 같은 인물 카드 격자를 보여 준다.
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import type { FeaturedTag } from "@/actions/home";
-import { getTagFigureBooks } from "@/actions/home/getTagFigureBooks";
+import type { FeaturedFaction } from "@/actions/home";
+import { getFactionFigureBooks } from "@/actions/home/getFactionFigureBooks";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import FactionAtlasNav from "@/components/features/faction/atlas/FactionAtlasNav";
-import { FactionGroupProvider, type FactionGroupMeta } from "@/components/features/faction/atlas/FactionGroupContext";
-import FactionGroupIntro from "@/components/features/faction/atlas/FactionGroupIntro";
-import FactionThemeMusic from "@/components/features/faction/atlas/FactionThemeMusic";
-import FactionThemeView from "@/components/features/faction/atlas/FactionThemeView";
+import FactionNav from "@/components/features/faction/entry/FactionNav";
+import { FactionGroupProvider, type FactionGroupMeta } from "@/components/features/faction/entry/FactionGroupContext";
+import FactionGroupIntro from "@/components/features/faction/entry/FactionGroupIntro";
+import FactionMusic from "@/components/features/faction/entry/FactionMusic";
+import FactionEntryView from "@/components/features/faction/entry/FactionEntryView";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import {
   buildFactionClusters,
   factionSectionKey,
-  localizedTagDescription,
-  localizedTagName,
+  localizedFactionDescription,
+  localizedFactionName,
   type FactionSection,
 } from "@/lib/faction-sections";
-import { getFactionThemeCelebs } from "@/lib/faction-theme-celebs";
-import { getFactionGroupDescriptions } from "@/lib/faction-theme-groups";
+import { getFactionCelebs } from "@/lib/faction-celebs";
+import { getFactionGroupDescriptions } from "@/lib/faction-groups";
 import { getAlternates, toSeoDescription } from "@/lib/seo";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
 
-interface FactionAtlasScreenProps {
+interface FactionScreenProps {
   sections: FactionSection[];
   section: FactionSection;
-  theme: FeaturedTag;
+  entry: FeaturedFaction;
   locale: Locale;
   /** 테마 정식 주소에서만 켠다 — 구성원 목록 구조화 데이터를 싣는다 */
   withJsonLd?: boolean;
 }
 
 /* 테마 구성원 구조화 데이터 — 역할·긴 소개는 모달에만 뜨므로 이름·역할·인물 주소를 HTML에 남겨 검색이 읽게 한다 */
-function buildThemeJsonLd(theme: FeaturedTag, name: string, celebs: CelebProfile[], locale: Locale) {
+function buildEntryJsonLd(entry: FeaturedFaction, name: string, celebs: CelebProfile[], locale: Locale) {
   const seoLocale = locale === "en" ? "en" : "ko";
-  const pageUrl = getAlternates(`/explore/faction/${theme.slug}`, seoLocale).canonical;
-  const description = localizedTagDescription(theme, locale);
-  const members = new Map(theme.celebs.map((member) => [member.id, member]));
+  const pageUrl = getAlternates(`/explore/faction/${entry.slug}`, seoLocale).canonical;
+  const description = localizedFactionDescription(entry, locale);
+  const members = new Map(entry.celebs.map((member) => [member.id, member]));
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -76,8 +76,8 @@ function buildThemeJsonLd(theme: FeaturedTag, name: string, celebs: CelebProfile
 
 /* 테마 본문 — 카드 자료를 받아 명단 차례·진영으로 나눠 넘긴다.
    카드 직함은 탐색과 같은 인물 직함이다. 이 테마에서의 역할·긴 소개는 카드를 눌러 뜨는 모달이 보인다 */
-async function ThemeBody({ theme, name, clusters, locale, withJsonLd }: {
-  theme: FeaturedTag;
+async function EntryBody({ entry, name, clusters, locale, withJsonLd }: {
+  entry: FeaturedFaction;
   name: string;
   clusters: { key: string; celebIds: string[] }[];
   locale: Locale;
@@ -85,22 +85,22 @@ async function ThemeBody({ theme, name, clusters, locale, withJsonLd }: {
 }) {
   /* 인물 카드와 테마 등장 작품을 함께 받는다 — 작품 선반은 격자 아래에 붙는 본문이라
      인물 카드만큼 기다려 준다. 작품 조회는 실패해도 빈 목록으로 돌아와 카드를 막지 않는다 */
-  const [celebsResult, themeBooks] = await Promise.all([
-    getFactionThemeCelebs(theme.id, theme.celebs.map((celeb) => celeb.id)).catch((error) => {
-      console.error("[FactionAtlas] 인물 카드 조회 실패:", error);
+  const [celebsResult, factionBooks] = await Promise.all([
+    getFactionCelebs(entry.id, entry.celebs.map((celeb) => celeb.id)).catch((error) => {
+      console.error("[Faction] 인물 카드 조회 실패:", error);
       return null;
     }),
-    getTagFigureBooks(theme.id, locale),
+    getFactionFigureBooks(entry.id, locale),
   ]);
   if (!celebsResult) return <RetryBlock />;
   const celebs = celebsResult;
 
   const byId = new Map<string, CelebProfile>(celebs.map((celeb) => [celeb.id, celeb]));
-  const ordered = theme.celebs.flatMap((member) => byId.get(member.id) ?? []);
+  const ordered = entry.celebs.flatMap((member) => byId.get(member.id) ?? []);
   // 모달 머리에 쓰는 이 테마에서의 역할·진영 — 영문 역할이 비면 한국어를 내보내지 않는다.
   // 진영이 하나뿐인 테마는 진영 이름이 테마와 겹치므로 붙이지 않는다
   const members: Record<string, { role: string | null; group: string | null }> = {};
-  for (const member of theme.celebs) {
+  for (const member of entry.celebs) {
     members[member.id] = {
       role: (locale === "en" ? member.short_desc_en : member.short_desc)?.trim() || null,
       group: clusters.length > 1
@@ -115,41 +115,41 @@ async function ThemeBody({ theme, name, clusters, locale, withJsonLd }: {
       {withJsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildThemeJsonLd(theme, name, ordered, locale)).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildEntryJsonLd(entry, name, ordered, locale)).replace(/</g, "\\u003c") }}
         />
       )}
-      <FactionThemeView
-        key={theme.id}
-        tagId={theme.id}
-        themeName={name}
+      <FactionEntryView
+        key={entry.id}
+        factionId={entry.id}
+        factionName={name}
         celebs={ordered}
         clusters={clusters.map((cluster) => ({ key: cluster.key, celebs: cluster.celebIds.flatMap((id) => byId.get(id) ?? []) }))}
         members={members}
-        themeBooks={themeBooks}
+        factionBooks={factionBooks}
       />
     </>
   );
 }
 
-export default async function FactionAtlasScreen({ sections, section, theme, locale, withJsonLd = false }: FactionAtlasScreenProps) {
+export default async function FactionScreen({ sections, section, entry, locale, withJsonLd = false }: FactionScreenProps) {
   const [t, pending, groupRows] = await Promise.all([
     getTranslations("explore.faction"),
     getTranslations("pending"),
     // 진영 설명은 곁들임이다 — 못 받아도 진영 줄과 카드는 그대로 보인다
-    getFactionGroupDescriptions(theme.id).catch((error) => {
-      console.error("[FactionAtlas] 진영 설명 조회 실패:", error);
+    getFactionGroupDescriptions(entry.id).catch((error) => {
+      console.error("[Faction] 진영 설명 조회 실패:", error);
       return [];
     }),
   ]);
-  const name = localizedTagName(theme, locale);
-  const paragraphs = splitReadableParagraphs(localizedTagDescription(theme, locale));
+  const name = localizedFactionName(entry, locale);
+  const paragraphs = splitReadableParagraphs(localizedFactionDescription(entry, locale));
 
   // 영문 설명이 비면 한국어를 내보내지 않는다 — 신화 그룹 개요와 같은 규칙
   const groupDescriptions = new Map(groupRows.map((group) => [
     group.name,
     (locale === "en" ? group.description_en : group.description)?.trim() || null,
   ]));
-  const clusters = buildFactionClusters(theme.celebs, locale).map((cluster, index) => ({ ...cluster, key: `cluster-${index}` }));
+  const clusters = buildFactionClusters(entry.celebs, locale).map((cluster, index) => ({ ...cluster, key: `cluster-${index}` }));
   // 진영이 하나뿐이면 고를 것이 없어 줄을 세우지 않는다
   const groups: FactionGroupMeta[] = clusters.length > 1
     ? clusters.map((cluster) => ({
@@ -163,25 +163,25 @@ export default async function FactionAtlasScreen({ sections, section, theme, loc
   return (
     <AsyncIntlProvider>
       {/* 첫 진영부터 시작한다 — 테마를 옮기면 새 테마의 첫 진영으로 되돌린다 */}
-      <FactionGroupProvider key={theme.id} initialKey={groups[0]?.key ?? null}>
+      <FactionGroupProvider key={entry.id} initialKey={groups[0]?.key ?? null}>
         <div className="space-y-6 md:space-y-8">
-          <FactionAtlasNav
+          <FactionNav
             sections={sections.map((item) => ({
               key: factionSectionKey(item),
-              name: localizedTagName(item.tag, locale),
-              themes: item.themes.map((child) => ({
+              name: localizedFactionName(item.faction, locale),
+              entries: item.entries.map((child) => ({
                 slug: child.slug!,
-                name: localizedTagName(child, locale),
+                name: localizedFactionName(child, locale),
                 count: child.celebs.length,
               })),
             }))}
             activeSectionKey={factionSectionKey(section)}
-            activeThemeSlug={theme.slug!}
+            activeEntrySlug={entry.slug!}
             groups={groups}
           />
 
           {/* 지금 테마곡을 전역 음악 재생기에 「추천」으로 올린다 */}
-          <FactionThemeMusic id={theme.id} title={name} url={theme.music?.url ?? null} />
+          <FactionMusic id={entry.id} title={name} url={entry.music?.url ?? null} />
 
           <header className="border-b border-white/10 pb-6">
             <div className="mx-auto max-w-3xl">
@@ -190,7 +190,7 @@ export default async function FactionAtlasScreen({ sections, section, theme, loc
                 <h2 className="relative inline-block text-balance font-serif text-3xl font-bold text-text-primary md:text-4xl">
                   {name}
                   <span className="absolute start-full bottom-1 ms-3 whitespace-nowrap font-sans text-sm font-semibold tabular-nums text-accent/80">
-                    {t("figureCount", { count: theme.celebs.length })}
+                    {t("figureCount", { count: entry.celebs.length })}
                   </span>
                 </h2>
               </div>
@@ -208,8 +208,8 @@ export default async function FactionAtlasScreen({ sections, section, theme, loc
             </div>
           </header>
 
-          <Lane key={theme.id} fallback={<PendingBlock variant="grid" count={12} label={pending("loading")} />}>
-            <ThemeBody theme={theme} name={name} clusters={clusters} locale={locale} withJsonLd={withJsonLd} />
+          <Lane key={entry.id} fallback={<PendingBlock variant="grid" count={12} label={pending("loading")} />}>
+            <EntryBody entry={entry} name={name} clusters={clusters} locale={locale} withJsonLd={withJsonLd} />
           </Lane>
         </div>
       </FactionGroupProvider>

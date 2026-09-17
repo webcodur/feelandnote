@@ -11,14 +11,14 @@
 
 import { getCelebInfluence, type CelebInfluenceDetail } from '@/actions/home/getCelebInfluence'
 import { getInfluenceExplorer, type InfluenceExplorerData } from '@/actions/home/getInfluenceExplorer'
-import { getFactionTagsByIds, type FeaturedTag } from '@/actions/home/getFeaturedTags'
+import { getFactionsByIds, type FeaturedFaction } from '@/actions/home/getFeaturedFactions'
 import { getSimilarByCelebId, type SimilarByCelebResult } from '@/actions/spectrum/getSimilarByCelebId'
 import { getCelebBySlug } from '@/actions/user/getCelebBySlug'
 import type { CelebRelationItem } from '@/actions/user/getCelebBySlug'
 
 export interface CelebConnectionsData {
   relations: CelebRelationItem[]
-  factions: FeaturedTag[]
+  factions: FeaturedFaction[]
 }
 
 export interface CelebAnalysisData {
@@ -38,8 +38,8 @@ export async function getCelebConnections(
   }
 
   const profile = result.data
-  const factions = await getFactionTagsByIds(
-    profile.factionTags.map((tag) => tag.id),
+  const factions = await getFactionsByIds(
+    profile.factions.map((faction) => faction.id),
   )
 
   return { relations: profile.relations, factions }

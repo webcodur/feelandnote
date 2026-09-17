@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/faction/atlas/FactionThemeView.tsx
+  파일명: /components/features/faction/entry/FactionEntryView.tsx
   기능: 세력도감 테마 본문
   책임: 칩 상자에서 고른 진영(FactionGroupContext)의 인물을 정렬해 카드 격자로 보여 주고,
         카드를 누르면 세력도감 인물 소개 모달(FactionMemberModal)을 띄운다.
@@ -12,8 +12,8 @@
 
 import { useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { getTagSharedLibrary, type SharedContent } from "@/actions/home/getTagSharedLibrary";
-import type { TagFigureBook } from "@/actions/home/getTagFigureBooks";
+import { getFactionSharedLibrary, type SharedContent } from "@/actions/home/getFactionSharedLibrary";
+import type { FactionFigureBook } from "@/actions/home/getFactionFigureBooks";
 import { CelebGrid } from "@/components/features/home/CelebCarousel";
 import AffiliateBookList from "@/components/shared/AffiliateBookList";
 import SharedLibraryShelf from "@/components/shared/SharedLibraryShelf";
@@ -24,24 +24,24 @@ import type { CelebProfile } from "@/types/home";
 import { useFactionGroup } from "./FactionGroupContext";
 import FactionMemberModal, { type FactionMemberMeta } from "./FactionMemberModal";
 
-export interface FactionThemeCluster {
+export interface FactionEntryCluster {
   /** 칩 상자의 진영 key와 같다 */
   key: string;
   celebs: CelebProfile[];
 }
 
-interface FactionThemeViewProps {
-  tagId: string;
+interface FactionEntryViewProps {
+  factionId: string;
   /** 화면 언어의 테마 이름 — 모달 머리에 쓴다 */
-  themeName: string;
+  factionName: string;
   /** 테마 전원 — 명단 차례대로 */
   celebs: CelebProfile[];
   /** 진영별 인물 */
-  clusters: FactionThemeCluster[];
+  clusters: FactionEntryCluster[];
   /** 인물 id → 이 테마 안에서의 역할·진영·개인 화보 */
   members: Record<string, FactionMemberMeta>;
   /** 테마 구성원이 나오는 인물 도서 — 인물 격자 아래 선반에 띄운다. 진영 고름에 맞춰 걸러 쓴다 */
-  themeBooks: TagFigureBook[];
+  factionBooks: FactionFigureBook[];
 }
 
 const SORTS = ["order", "influence", "name", "birth"] as const;
@@ -73,7 +73,7 @@ const toggleClass = (active: boolean) =>
     active ? "bg-accent/10 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary",
   );
 
-export default function FactionThemeView({ tagId, themeName, celebs, clusters, members, themeBooks }: FactionThemeViewProps) {
+export default function FactionEntryView({ factionId, factionName, celebs, clusters, members, factionBooks }: FactionEntryViewProps) {
   const t = useTranslations("explore.faction");
   const tBooks = useTranslations("popularBooks");
   const tCeleb = useTranslations("celebPage");
@@ -100,8 +100,8 @@ export default function FactionThemeView({ tagId, themeName, celebs, clusters, m
      인물 모달 「이 인물 관련 책」과 같은 자료·같은 카드다 */
   const shownIds = useMemo(() => new Set(shown.map((celeb) => celeb.id)), [shown]);
   const shelfBooks = useMemo(
-    () => themeBooks.filter((book) => book.memberIds.some((id) => shownIds.has(id))),
-    [themeBooks, shownIds],
+    () => factionBooks.filter((book) => book.memberIds.some((id) => shownIds.has(id))),
+    [factionBooks, shownIds],
   );
   /* 책이 많은 테마는 줄이 길어진다 — 앞의 12권만 세우고 나머지는 「더 보기」로 펼친다.
      펼침은 지금 범위(진영) 키에 묶어 두어 진영을 옮기면 저절로 다시 접힌다 */
@@ -116,7 +116,7 @@ export default function FactionThemeView({ tagId, themeName, celebs, clusters, m
     setView(next);
     if (next !== "library" || libraryRequested.current) return;
     libraryRequested.current = true;
-    getTagSharedLibrary(tagId).then(setLibrary);
+    getFactionSharedLibrary(factionId).then(setLibrary);
   };
 
   return (
@@ -177,8 +177,8 @@ export default function FactionThemeView({ tagId, themeName, celebs, clusters, m
       {openCeleb && (
         <FactionMemberModal
           key={openCeleb.id}
-          tagId={tagId}
-          themeName={themeName}
+          factionId={factionId}
+          factionName={factionName}
           celeb={openCeleb}
           meta={members[openCeleb.id]}
           onClose={() => setOpenId(null)}

@@ -9,7 +9,7 @@ import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Link } from "@/i18n/navigation";
 import { HUB_FACTION_CARD, HUB_FACTION_GRID } from "./ExploreSkeleton";
 
-interface TagPreview {
+interface FactionPreview {
   id: string;
   name: string;
   name_en: string | null;
@@ -21,30 +21,30 @@ interface TagPreview {
 
 interface FactionCardProps {
   locale?: string;
-  tags?: TagPreview[];
+  factions?: FactionPreview[];
 }
 
-export default function FactionCard({ locale = "ko", tags = [] }: FactionCardProps) {
-  if (tags.length === 0) return null;
+export default function FactionCard({ locale = "ko", factions = [] }: FactionCardProps) {
+  if (factions.length === 0) return null;
 
   return (
     <div className={HUB_FACTION_GRID}>
-      {tags.map((tag, index) => {
-        const title = locale === "en" ? (tag.name_en ?? tag.name) : tag.name;
-        const desc = locale === "en" ? (tag.description_en ?? tag.description) : tag.description;
+      {factions.map((faction, index) => {
+        const title = locale === "en" ? (faction.name_en ?? faction.name) : faction.name;
+        const desc = locale === "en" ? (faction.description_en ?? faction.description) : faction.description;
 
         return (
           <Link
-            key={tag.id}
-            href={`/explore/faction?tag=${tag.id}`}
+            key={faction.id}
+            href={`/explore/faction?faction=${faction.id}`}
             className={`${HUB_FACTION_CARD} group border-white/10 bg-[#0d0c0b] shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none hover:border-white/35 focus-visible:border-[#d4af37] focus-visible:ring-2 focus-visible:ring-[#d4af37]/55`}
           >
-            {tag.cover ? (
+            {faction.cover ? (
               <>
                 {/* 단체샷 표지 — 카드 전체를 채우고 하단만 눌러 글자 가독성을 확보한다. */}
-                <BlurDissolve key={tag.cover} className="absolute inset-0">
+                <BlurDissolve key={faction.cover} className="absolute inset-0">
                   <Image
-                    src={tag.cover}
+                    src={faction.cover}
                     alt=""
                     fill
                     unoptimized
@@ -59,7 +59,7 @@ export default function FactionCard({ locale = "ko", tags = [] }: FactionCardPro
               <div
                 className="absolute inset-0"
                 style={{
-                  background: `radial-gradient(circle at 30% 20%, ${tag.color}45, transparent 60%), #0d0c0b`,
+                  background: `radial-gradient(circle at 30% 20%, ${faction.color}45, transparent 60%), #0d0c0b`,
                 }}
               />
             )}
@@ -67,7 +67,7 @@ export default function FactionCard({ locale = "ko", tags = [] }: FactionCardPro
             <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4 md:p-7">
               <span
                 className="h-0.5 w-9 rounded-full shadow-[0_0_12px_currentColor] md:w-12"
-                style={{ color: tag.color, backgroundColor: tag.color }}
+                style={{ color: faction.color, backgroundColor: faction.color }}
               />
               <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-white/60 md:text-xs">
                 {String(index + 1).padStart(2, "0")}

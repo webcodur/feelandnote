@@ -5,7 +5,7 @@ import test from 'node:test'
 import ts from 'typescript'
 
 const require = createRequire(import.meta.url)
-const compiled = ts.transpileModule(readFileSync(new URL('./getTagSharedLibrary.ts', import.meta.url), 'utf8'), {
+const compiled = ts.transpileModule(readFileSync(new URL('./getFactionSharedLibrary.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText
 
@@ -40,9 +40,9 @@ function load() {
     'next/cache': { unstable_cache: (fn: unknown) => fn },
     '@/lib/db/static': { createStaticClient: () => db },
   }
-  const loaded = { exports: {} as { getTagSharedLibrary: (tagId: string) => Promise<{ contentId: string; coupangUrl: string | null; celebCount: number }[]> } }
+  const loaded = { exports: {} as { getFactionSharedLibrary: (factionId: string) => Promise<{ contentId: string; coupangUrl: string | null; celebCount: number }[]> } }
   new Function('require', 'module', 'exports', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
-  return loaded.exports.getTagSharedLibrary
+  return loaded.exports.getFactionSharedLibrary
 }
 
 test('shared shelf reads coupang links stored as the live JSON array instead of failing the whole tag', async () => {

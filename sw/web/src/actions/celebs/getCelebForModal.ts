@@ -6,7 +6,7 @@ import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-co
 import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
-import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
+import type { CelebProfile, CelebInfluence, CelebFactionInfo } from '@/types/home'
 import type { Tables } from '@/types/database.generated'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import {
@@ -31,7 +31,7 @@ interface CelebModalPublicData {
   contentCount: number
   followerCount: number
   totalScore: number | null
-  tags: CelebTagInfo[]
+  factions: CelebFactionInfo[]
   dialogue: DialogueBrief | null
 }
 
@@ -59,13 +59,13 @@ async function fetchCelebModalPublic(
   if (!profile) return null
 
   // 병렬 조회
-  const [contentResult, followerResult, influenceResult, tags, dialogueResult] = await Promise.all([
+  const [contentResult, followerResult, influenceResult, factions, dialogueResult] = await Promise.all([
     db.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
     // 세력도감 소속 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
     // 뷰는 세력 embed가 안 되므로 뷰 → faction_lv2 두 단계로 읽어 합친다.
-    (async (): Promise<CelebTagInfo[]> => {
+    (async (): Promise<CelebFactionInfo[]> => {
       const { data: memberRows, error: memberError } = await db
         .from('faction_member_rows')
         .select('lv2_id, short_desc, short_desc_en, long_desc, long_desc_en')
@@ -77,22 +77,22 @@ async function fetchCelebModalPublic(
       if (!memberRows?.length) return []
 
       const lv2Ids = [...new Set(memberRows.map((r) => r.lv2_id))]
-      const { data: tagRows, error: tagError } = await db
+      const { data: factionRows, error: factionError } = await db
         .from('faction_lv2')
         .select('id, name, name_en, color')
         .in('id', lv2Ids)
         .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
-      throwOnQueryError('getCelebForModal 세력도감 태그', tagError)
-      const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
+      throwOnQueryError('getCelebForModal 세력도감 태그', factionError)
+      const factionById = new Map((factionRows ?? []).map((t) => [t.id, t]))
 
       return memberRows.flatMap((r) => {
-        const tag = tagById.get(r.lv2_id)
-        if (!tag) return []
+        const faction = factionById.get(r.lv2_id)
+        if (!faction) return []
         return [{
-          id: tag.id,
-          name: tag.name,
-          name_en: tag.name_en ?? null,
-          color: tag.color,
+          id: faction.id,
+          name: faction.name,
+          name_en: faction.name_en ?? null,
+          color: faction.color,
           short_desc: r.short_desc,
           short_desc_en: r.short_desc_en,
           long_desc: r.long_desc,
@@ -117,7 +117,7 @@ async function fetchCelebModalPublic(
     ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,
-    tags,
+    factions,
     dialogue: dialogueResult.data as DialogueBrief | null,
   }
 }
@@ -128,7 +128,7 @@ const getCelebModalCached = unstable_cache(
   // celebs·celeb_influence + celeb_contents(서고 수) + faction_member_rows + celeb_dialogues
   {
     revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
 
@@ -157,7 +157,7 @@ const getFactionCelebModalCached = unstable_cache(
   ['faction-celeb-modal'],
   {
     revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
 
@@ -222,7 +222,7 @@ export async function getCelebForModal(
     // 셀럽은 로그인 회원이 아니므로 회원을 역방향 팔로우할 수 없다.
     is_follower: false,
     influence,
-    tags: pub.tags,
+    factions: pub.factions,
     greeting: dialogue?.greeting ?? null,
     greeting_en: dialogue?.greeting_en ?? null,
     has_voice: profile.has_voice ?? false,

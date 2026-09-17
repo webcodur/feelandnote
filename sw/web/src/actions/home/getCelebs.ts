@@ -10,7 +10,7 @@ import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getCelebLevelByRanking } from '@/constants/materials'
-import type { CelebProfile, CelebTagInfo } from '@/types/home'
+import type { CelebProfile, CelebFactionInfo } from '@/types/home'
 import type { Tables } from '@/types/database.generated'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 import { parseCelebContentPresence, type CelebContentPresence } from '@/constants/celebContentPresence'
@@ -72,7 +72,7 @@ interface GetCelebsParams {
   sortBy?: CelebSortBy
   trendCountry?: string
   search?: string  // 이름 검색
-  tagId?: string  // 태그 필터
+  factionId?: string  // 세력 필터
   minContentCount?: number // 최소 컨텐츠 개수
   includeInactive?: boolean // 비활성화된 셀럽 포함 여부
   tiers?: readonly CelebTier[] // 파이프라인 등급 좁히기(full·light). 미지정 시 제한 없음
@@ -156,7 +156,7 @@ interface CelebRow {
 
 // 세력도감 인물 행 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
 // 읽는 칸만 로컬로 정의한다.
-interface AtlasMemberRow {
+interface FactionMemberRow {
   celeb_id: string
   lv2_id: string
   short_desc: string | null
@@ -166,15 +166,15 @@ interface AtlasMemberRow {
   sort_order: number | null
 }
 
-// 인물 행 + 태그 정보 합성 행 (뷰 → faction_lv2 두 단계 조회 결과)
-interface TagAssignmentJoinRow {
+// 인물 행 + 세력 정보 합성 행 (뷰 → faction_lv2 두 단계 조회 결과)
+interface FactionAssignmentJoinRow {
   celeb_id: string
   short_desc: string | null
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   sort_order: number | null
-  tag: { id: string; name: string; name_en: string | null; color: string } | null
+  faction: { id: string; name: string; name_en: string | null; color: string } | null
 }
 
 // --- 공개 데이터 캐싱 (1시간) ---
@@ -184,8 +184,8 @@ interface PublicCelebData {
   rows: CelebRow[]
   total: number
   totalPages: number
-  tagMap: Record<string, CelebTagInfo[]>
-  tagSortOrderMap: Record<string, number>
+  factionMap: Record<string, CelebFactionInfo[]>
+  factionSortOrderMap: Record<string, number>
   greetingMap: Record<string, string[]>
   greetingEnMap: Record<string, string[]>
   quoteMap: Record<string, string>
@@ -197,7 +197,7 @@ interface PublicCelebData {
 async function fetchCelebsPublic(
   page: number, limit: number, profession: string | null, nationality: string | null,
   contentType: string | null, gender: string | null, sortBy: string,
-  search: string | null, tagId: string | null, minContentCount: number,
+  search: string | null, factionId: string | null, minContentCount: number,
   includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean,
   birthYearMin: number | null, birthYearMax: number | null,
   contentPresence: CelebContentPresence, trendingIds: string[]
@@ -215,7 +215,7 @@ async function fetchCelebsPublic(
       let request = db.rpc('get_celebs_sorted', {
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
         p_sort_by: 'content_count', p_search: search ?? '', p_limit: null, p_offset: 0,
-        p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+        p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
         p_include_inactive: includeInactive, p_celeb_tiers: tiers,
         p_celeb_realities: realities,
         p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
@@ -266,7 +266,7 @@ async function fetchCelebsPublic(
     const { data, error, count } = await db.rpc('get_celebs_sorted', {
       p_profession: profession, p_nationality: nationality, p_content_type: contentType,
       p_sort_by: sortBy, p_search: search ?? '', p_limit: null, p_offset: 0,
-      p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+      p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
       p_celeb_realities: realities,
       p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
@@ -280,7 +280,7 @@ async function fetchCelebsPublic(
     if (includeTotal) {
       const { data: countData, error: countError } = await db.rpc('count_celebs_filtered', {
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-        p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
+        p_search: search, p_faction_id: factionId, p_min_content_count: minContentCount,
         p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
         p_celeb_realities: realities,
         p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
@@ -295,7 +295,7 @@ async function fetchCelebsPublic(
     const { data, error } = await db.rpc('get_celebs_sorted', {
       p_profession: profession, p_nationality: nationality, p_content_type: contentType,
       p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
-      p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+      p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
       p_celeb_realities: realities,
       p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
@@ -309,30 +309,30 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, trendMatchedCount, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
+    return { rows: [], total, totalPages, trendMatchedCount, factionMap: {}, factionSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
   }
 
   // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각
-  const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult] = await Promise.all([
+  const [factionJoinRows, dialogueResult, voiceResult, researchMarkerResult] = await Promise.all([
     // 세력도감 소속 — 뷰는 세력 embed가 안 되므로 뷰 → faction_lv2 두 단계로 읽어 합친다
-    (async (): Promise<TagAssignmentJoinRow[]> => {
+    (async (): Promise<FactionAssignmentJoinRow[]> => {
       const { data: memberRows, error: memberError } = await db
         .from('faction_member_rows')
         .select('celeb_id, lv2_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
         .in('celeb_id', celebIds)
         .eq('hidden', false)
-        .overrideTypes<AtlasMemberRow[], { merge: false }>()
+        .overrideTypes<FactionMemberRow[], { merge: false }>()
       throwOnQueryError('인물 세력도감 배정', memberError)
       if (!memberRows?.length) return []
 
-      const memberTagIds = [...new Set(memberRows.map((r) => r.lv2_id))]
-      const { data: tagRows, error: tagError } = await db
+      const memberFactionIds = [...new Set(memberRows.map((r) => r.lv2_id))]
+      const { data: factionRows, error: tagError } = await db
         .from('faction_lv2')
         .select('id, name, name_en, color')
-        .in('id', memberTagIds)
+        .in('id', memberFactionIds)
         .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
       throwOnQueryError('인물 세력도감 태그', tagError)
-      const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
+      const factionById = new Map((factionRows ?? []).map((t) => [t.id, t]))
 
       return memberRows.map((r) => ({
         celeb_id: r.celeb_id,
@@ -341,7 +341,7 @@ async function fetchCelebsPublic(
         long_desc: r.long_desc,
         long_desc_en: r.long_desc_en,
         sort_order: r.sort_order,
-        tag: tagById.get(r.lv2_id) ?? null,
+        faction: factionById.get(r.lv2_id) ?? null,
       }))
     })(),
     db.from('celeb_dialogues')
@@ -360,15 +360,15 @@ async function fetchCelebsPublic(
   throwOnQueryError('인물 콘텐츠 조사 상태', researchMarkerResult.error)
 
   // 태그 맵
-  const tagMap: Record<string, CelebTagInfo[]> = {}
-  const tagSortOrderMap: Record<string, number> = {}
-  tagJoinRows.forEach(item => {
-    if (!item.tag) return
-    const existing = tagMap[item.celeb_id] ?? []
-    existing.push({ ...item.tag, name_en: item.tag.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
-    tagMap[item.celeb_id] = existing
-    if (tagId && item.tag.id === tagId) {
-      tagSortOrderMap[item.celeb_id] = item.sort_order ?? 0
+  const factionMap: Record<string, CelebFactionInfo[]> = {}
+  const factionSortOrderMap: Record<string, number> = {}
+  factionJoinRows.forEach(item => {
+    if (!item.faction) return
+    const existing = factionMap[item.celeb_id] ?? []
+    existing.push({ ...item.faction, name_en: item.faction.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
+    factionMap[item.celeb_id] = existing
+    if (factionId && item.faction.id === factionId) {
+      factionSortOrderMap[item.celeb_id] = item.sort_order ?? 0
     }
   })
 
@@ -396,7 +396,7 @@ async function fetchCelebsPublic(
   })
 
   return {
-    rows, total, totalPages, trendMatchedCount, tagMap, tagSortOrderMap,
+    rows, total, totalPages, trendMatchedCount, factionMap, factionSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
     voiceMap, contentResearchConfirmedEmptyMap,
   }
@@ -414,7 +414,7 @@ const getCelebsCached = unstable_cache(
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
     revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v4-separate-ranking']),
-    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
 
@@ -424,7 +424,7 @@ const getCelebsTrendingCached = unstable_cache(
   ['celebs-public-trending-v2-separate-ranking'],
   {
     revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v2-separate-ranking']),
-    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
 
@@ -442,7 +442,7 @@ export async function getCelebs(
     sortBy = 'daily_recommend',
     trendCountry,
     search,
-    tagId,
+    factionId,
     minContentCount = 0,
     includeInactive = false,
     tiers,
@@ -461,7 +461,7 @@ export async function getCelebs(
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
-    search ?? null, tagId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
+    search ?? null, factionId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
     includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
     birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.ids ?? []
   )
@@ -539,7 +539,7 @@ export async function getCelebs(
         ranking,
         percentile,
       } : null,
-      tags: pub.tagMap[row.id] ?? [],
+      factions: pub.factionMap[row.id] ?? [],
       greeting: pub.greetingMap[row.id] ?? null,
       greeting_en: pub.greetingEnMap[row.id] ?? null,
       has_voice: !!voice,
@@ -555,10 +555,10 @@ export async function getCelebs(
   })
 
   // 태그 필터 시 sort_order 순서로 재정렬
-  if (tagId && sortBy !== 'country_trending' && Object.keys(pub.tagSortOrderMap).length > 0) {
+  if (factionId && sortBy !== 'country_trending' && Object.keys(pub.factionSortOrderMap).length > 0) {
     celebs.sort((a, b) => {
-      const orderA = pub.tagSortOrderMap[a.id] ?? Number.MAX_SAFE_INTEGER
-      const orderB = pub.tagSortOrderMap[b.id] ?? Number.MAX_SAFE_INTEGER
+      const orderA = pub.factionSortOrderMap[a.id] ?? Number.MAX_SAFE_INTEGER
+      const orderB = pub.factionSortOrderMap[b.id] ?? Number.MAX_SAFE_INTEGER
       return orderA - orderB
     })
   }

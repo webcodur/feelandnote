@@ -23,7 +23,7 @@ test('cached celeb profile queries throw before missing and empty values are nor
     'dialogue',
     'type-counts',
     'faction-members',
-    'faction-tags',
+    'factions',
     'outgoing-relations',
     'incoming-relations',
     'external-relations',

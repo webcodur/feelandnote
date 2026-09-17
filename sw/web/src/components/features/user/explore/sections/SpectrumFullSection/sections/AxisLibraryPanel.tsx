@@ -19,7 +19,7 @@ import type {
 } from "@/actions/spectrum/getSpectrumAxisLibraries";
 import { cn } from "@/lib/utils";
 import { celebDisplayName } from "@/lib/celeb/displayName";
-import AtlasStage from "@/components/shared/AtlasStage";
+import RankingStage from "@/components/shared/RankingStage";
 import { useTranslations } from "next-intl";
 import { AXIS_SHORT_LABELS, getAxisSides } from "../../../spectrumAxis";
 
@@ -148,8 +148,8 @@ export default function AxisLibraryPanel({
     : t("lowMetric", { label: shortLabel });
 
   return (
-    /* 무대와 같은 공용 프레임(AtlasStage) — 축색 광원은 무대가 이미 깔았으니 여기선 평범한 상자 */
-    <AtlasStage>
+    /* 무대와 같은 공용 프레임(RankingStage) — 축색 광원은 무대가 이미 깔았으니 여기선 평범한 상자 */
+    <RankingStage>
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-white/[0.06] px-5 py-3.5 md:px-6">
         <h3 className="font-serif text-lg font-bold text-text-primary">
           {t("heading")}
@@ -186,6 +186,6 @@ export default function AxisLibraryPanel({
         />
         <LibraryColumn title={lowTitle} works={library.low} isEn={isEn} />
       </div>
-    </AtlasStage>
+    </RankingStage>
   );
 }

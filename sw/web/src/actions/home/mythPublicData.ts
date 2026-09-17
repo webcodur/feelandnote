@@ -1,7 +1,7 @@
-import type { MythAtlasData } from "./mythAtlasTypes";
+import type { MythData } from "./mythTypes";
 
 /** Keep the coming-soon menu, but serialize detail data only for myths visitors can open. */
-export function getMythAtlasClientData(data: MythAtlasData, developerMode: boolean): MythAtlasData {
+export function getMythClientData(data: MythData, developerMode: boolean): MythData {
   if (developerMode) {
     return { ...data, myths: data.myths.map((myth) => ({ ...myth, isPublished: true })) };
   }

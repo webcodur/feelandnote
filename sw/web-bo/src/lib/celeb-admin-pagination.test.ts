@@ -125,23 +125,23 @@ test('title and profession editing receive every active person across all pages'
   assert.equal(result.at(-1)?.cultural_journey, 'Journey 04507')
 })
 
-test('a theme with 1,205 child tags and 4,507 people keeps late members, deduplicates and chunks IDs', async () => {
+test('an L1 section with 1,205 child factions and 4,507 people keeps late members, deduplicates and chunks IDs', async () => {
   const rows: Row[] = fixture(4507).map((row) => ({ ...row, publication_status: 'active' }))
-  const childTags = Array.from({ length: 1205 }, (_, index) => ({
-    id: `tag-${String(index).padStart(5, '0')}`, parent_id: 'theme',
+  const childFactions = Array.from({ length: 1205 }, (_, index) => ({
+    id: `faction-${String(index).padStart(5, '0')}`, lv1_id: 'theme',
   }))
   const memberships = rows.map((row, index) => ({
-    assignment_id: `assignment-${String(index).padStart(5, '0')}`,
-    celeb_id: row.id, tag_id: index === rows.length - 1 ? childTags.at(-1)!.id : 'theme',
+    member_id: `member-${String(index).padStart(5, '0')}`,
+    celeb_id: row.id, lv2_id: index === rows.length - 1 ? childFactions.at(-1)!.id : 'theme',
   }))
   memberships.push(...memberships.slice(0, 100).map((row, index) => ({
-    ...row, assignment_id: `duplicate-${index}`, tag_id: childTags[0].id,
+    ...row, member_id: `duplicate-${index}`, lv2_id: childFactions[0].id,
   })))
   const { actions, idChunks } = loadActions(rows, undefined, {
-    celeb_tags: childTags, faction_atlas_members: memberships, celeb_contents: [],
+    faction_lv2: childFactions, faction_member_rows: memberships, celeb_contents: [],
   })
   const result = await actions.getCelebs({
-    tagId: 'theme', sort: 'nickname', sortOrder: 'asc', page: 91, limit: 50,
+    factionId: 'theme', sort: 'nickname', sortOrder: 'asc', page: 91, limit: 50,
   })
   assert.equal(result.total, 4507)
   assert.deepEqual(Array.from(result.celebs, (row) => row.id), rows.slice(4500).map((row) => row.id))

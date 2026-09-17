@@ -10,7 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import Modal, { ModalBody } from "@/components/ui/Modal";
-import type { MythWork } from "@/actions/home/mythAtlasTypes";
+import type { MythWork } from "@/actions/home/mythTypes";
 
 interface Props { works: MythWork[]; selectedPersonId: string; mythName: string; mythSlug: string }
 

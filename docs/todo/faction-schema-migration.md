@@ -48,19 +48,18 @@ faction_members(id, lv2_id→faction_lv2, lv3_id→faction_lv3 null,
 - [x] **배포 + 구표 제거** — 웹 f5b071ce로 운영 배포(카나리·Cloudflare 퍼지 완료) 뒤 `20260917140000_drop_celeb_tag_schema.sql`을 적용했다. `celebs`·`celeb_contents`·`celeb_metrics`의 공개 RLS 3건이 옛 뷰를 읽고 있어 `faction_member_rows`로 갈아끼운 뒤 `celeb_tag_assignments`·`celeb_tag_groups`·`celeb_tags`·`faction_atlas_members`(public)·`faction_atlas_members_source`(private)·`get_tag_celeb_counts`를 한 트랜잭션으로 드롭했다. 생성 타입은 수동 정합 상태 — 다음 스키마 변경 때 재생성으로 마무리한다.
 - [x] **이름 정리 잔여** — 카드명 「건국 전승」7건 → 「건국 신화」로 DB 변경 완료(영문 `Founding Lore` → `Founding Myth`). 「사부육」→「철선공주」도 함께 정정했다.
 
-## 후속 정리 (기능과 무관한 잔여)
+## 후속 정리 (26.09.18 완료)
 
-- [ ] **생성 타입 재생성** — `sw/web/src/types/database.generated.ts`는 수동 정합 상태다. 자체 호스팅 DB라 `supabase gen types` CLI 경로가 없으므로, 다음 스키마 변경 때 SSH 터널 + `pg` 메타쿼리나 제너레이터로 실 DB에서 재생성해 손으로 박은 정의와의 차이를 없앤다.
-- [ ] **RPC 인자명 `p_tag_id`** — `count_celebs_filtered`·`get_celebs_sorted` 등의 인자명이 아직 tag 명명. PostgREST는 인자를 이름으로 부르므로 바꾸려면 호출부(`db.rpc(..., { p_tag_id })`)와 같은 배포에서 같이 간다. 안 바꿔도 동작엔 무관하다.
-- [ ] **코드 명명 잔재** — `FactionTagItem` 타입, `getTagSharedLibrary`·`getTagChronologicalLibrary`·`getTagFigureBooks` 파일·함수명, `faction-theme-celebs.ts`·`faction-theme-groups.ts`, `tagIds` 지역변수, `tagId` 파라미터. 전부 lv2 세력을 가리키는데 옛 어휘가 남았다. 고칠 때는 파일별로 한 번에 몰아서 — 부분 개명은 검색을 어렵게 한다.
-- [ ] **캐시 태그 `'tags'`** — `web_revalidate_trigger`의 무효화 태그명이 아직 'tags'. 웹 캐시 키와 맞물린 내부 식별자라, 바꾸려면 `revalidateWebLists`의 태그 상수와 DB 트리거 인자를 같은 배포로 움직인다.
-- [ ] **BO `RankingEditor.tsx` hook 경고** — `useEffect`가 `names`·`showToast`·`slugs` 의존성을 빼먹은 기존 경고. 동작은 정상이나 다음 손댈 때 의존성을 채우거나 메모이즈한다.
-- [ ] **저장소 스크래프** — `sw/web-bo/.tmp/`(일회성 디버그 스크립트 — 옛 표를 읽는 것들은 이제 실패한다), `sw/web/.next-html-size-audit/`(옛 빌드 산출물), `.claude/worktrees/expressive-whistling-lollipop/`(옛 작업트리 스냅샷). 검색 결과를 어지럽히므로 확인 뒤 지우는 편이 낫다.
-- [ ] **랭킹 `themeSlug` 필드명** — 편 JSON의 저장 계약이라 의도적으로 유지. `faction_lv2.slug`를 가리킨다는 점만 `docs/project/remotion/ranking/README.md`에 명시돼 있다.
-- [ ] **`/explore/faction?tag=` 호환 주소** — 옛 딥링크를 새 파라미터로 보내는 리다이렉트. 유지해도 되고, 북마크 소진이 확인되면 걷어낸다.
+- [x] **RPC 인자명** — `p_tag_id`→`p_faction_id`. `20260918120000_faction_naming_cleanup.sql`이 `count_celebs_filtered`·`get_celebs_sorted`를 DROP+재생성하고, 호출부(web getCelebs·BO celebs)도 함께 바꿨다. 생성 타입의 Args·Returns도 라이브 서명과 대조해 맞췄다(빠져 있던 `p_celeb_realities`·생년 범위·`consumption_philosophy`·`celeb_reality` 보정, stale `cultural_journey` 제거).
+- [x] **캐시 태그 `'tags'`→`'factions'`** — `CACHE_TAGS.FACTIONS`, DB 허용 도메인·트리거 인자를 같은 마이그레이션으로. 전환기 호환은 `normalizeLegacyCacheTag`가 `'tags'`→`'factions'`를 정규화해 받는다.
+- [x] **코드 명명 잔재 전수 개명** — `getTag*`→`getFaction*` 파일·함수, `getFeaturedTags`→`getFeaturedFactions`, `FeaturedTag`→`FeaturedFaction`, `FactionTagItem`→`FactionItem`, `CelebTagInfo`→`CelebFactionInfo`, `CelebProfile.tags`→`factions`, `CelebTagsModal`→`CelebFactionsModal`, `getFactionTagName`→`getFactionName`, `faction-theme-*`→`faction-*`, `FactionAtlasScreen`→`FactionScreen`, `faction/atlas/`→`faction/entry/`(`FactionThemeView`→`FactionEntryView`·`FactionThemeMusic`→`FactionMusic`·`FactionAtlasNav`→`FactionNav`), `getMythAtlas`→`getMythData`+`mythAtlas*`→`myth*`(`MythAtlas`→`MythScreen`), 공용 선택기 `AtlasNav`→`ExploreNav`·`AtlasPickerSheet`→`ExplorePickerSheet`·`AtlasStage`→`RankingStage`, `FactionSection.tag/themes`→`faction/entries`, 내부 `tagId`/`tagIds`→`factionId`/`factionIds`, 게임 `axis: "tag"`·엣지 `type: "tag"`→`"faction"`.
+- [x] **BO `RankingEditor.tsx` hook 경고** — `names`/`slugs`를 effect 안에서 key로부터 펼쳐 의존성 누락 해소.
+- [x] **저장소 스크래프 삭제** — `sw/web-bo/.tmp/`, `sw/web/.next-html-size-audit/`, `.claude/worktrees/expressive-whistling-lollipop/`.
+- [x] **BO 대표 인물 UI 실사용 검증** — aside 브라우저로 `/myths?myth=` 편집기 진입, `MythLeadPanel` 대표 3인 재배치→저장→`lead_person_ids` 반영→공개 타이틀 아트 순서 반영→원복까지 확인.
 
 ## 주의
 
+- 남긴 옛 이름(외부 계약·자산): URL 파라미터 `?tag=`(`/explore/faction` 리다이렉트)·`?tagId=`(`/explore/figures` 공유 링크), 랭킹 JSON `themeSlug`, `/images/myth-atlas/` 정적 자산 경로, `CelebAtlasRails` 내부 컴포넌트명(CSS 변수·i18n 키 결합), 게시판 태그 도메인 `searchTags`(faction과 무관), i18n 키 `home.ui.tags`, revalidate API 요청 본문의 `tag` 필드.
 - 배정의 `hidden`·`sort_order`·`image_url`(옛 faction_image_url)·한 줄 소개(ko·en)는 members로 그대로 갔다.
 - 셀럽 모달·연대기 서가·게임처럼 도감 밖에서 쓰는 읽기도 같은 표를 읽는다 — 전환 누락 없음 확인됨.
 - L2는 `lv1_id` NOT NULL — BO의 새 세력 만들기는 분류 선택이 필수다.

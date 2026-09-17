@@ -17,14 +17,14 @@ import type { GroupDef, GroupItem } from "@/components/features/game/groups/type
 import type { PuzzlePool } from "@/components/features/game/groups/engine";
 import { getFixturePool, isFixtureMode } from "@/components/features/game/groups/fixture";
 
-interface TagRow {
+interface FactionRow {
   id: string;
   name: string;
   name_en: string | null;
   slug: string;
 }
 
-interface TagAssignmentRow {
+interface FactionAssignmentRow {
   celeb_id: string;
   lv2_id: string;
   celeb: {
@@ -52,17 +52,17 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   const db = createStaticClient();
 
   // 1) 활성 세력(lv2) 조회 — 배정은 세력에 붙으므로 테마(lv1)가 아니라 lv2를 읽는다
-  const { data: tags, error: tagError } = await db
+  const { data: factions, error: tagError } = await db
     .from("faction_lv2")
     .select("id, name, name_en, slug")
     .eq("is_featured", true)
-    .overrideTypes<TagRow[], { merge: false }>();
+    .overrideTypes<FactionRow[], { merge: false }>();
 
-  if (tagError) throw new Error(`[getGroupsPool] tags: ${tagError.message}`);
+  if (tagError) throw new Error(`[getGroupsPool] factions: ${tagError.message}`);
 
   // 2) 세력별 인물 조회
   // 배정이 3천 행을 넘어 한 번에 받으면 1,000행에서 잘린다 — 나눠 받는다
-  const assignments = await selectAllPages<TagAssignmentRow>((from, to) => db
+  const assignments = await selectAllPages<FactionAssignmentRow>((from, to) => db
     .from("faction_members")
     .select(`
       celeb_id,
@@ -73,30 +73,30 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
     `)
     .order("id", { ascending: true })
     .range(from, to)
-    .overrideTypes<TagAssignmentRow[], { merge: false }>());
+    .overrideTypes<FactionAssignmentRow[], { merge: false }>());
 
   const groups: GroupDef[] = [];
   const members: GroupItem[][] = [];
 
   // 태그별로 활성 인물 4명 이상인 태그를 묶음 후보로 등록
-  const tagMap = new Map(tags?.map((t) => [t.id, t]) ?? []);
+  const factionMap = new Map(factions?.map((t) => [t.id, t]) ?? []);
 
-  const assignmentsByTag = new Map<string, TagAssignmentRow[]>();
+  const assignmentsByFaction = new Map<string, FactionAssignmentRow[]>();
   for (const a of assignments ?? []) {
     if (!a.celeb || a.celeb.publication_status !== "active") continue;
-    const arr = assignmentsByTag.get(a.lv2_id) ?? [];
+    const arr = assignmentsByFaction.get(a.lv2_id) ?? [];
     arr.push(a);
-    assignmentsByTag.set(a.lv2_id, arr);
+    assignmentsByFaction.set(a.lv2_id, arr);
   }
 
-  for (const [tagId, tagAssignments] of assignmentsByTag.entries()) {
-    if (tagAssignments.length < 4) continue;
-    const tag = tagMap.get(tagId);
-    if (!tag) continue;
+  for (const [factionId, factionAssignments] of assignmentsByFaction.entries()) {
+    if (factionAssignments.length < 4) continue;
+    const faction = factionMap.get(factionId);
+    if (!faction) continue;
 
     // 태그에서 4명만 취한다 (sort_order나 첫 4명)
-    const fourMembers = tagAssignments.slice(0, 4).map((a) => {
-      // assignmentsByTag에 넣을 때 null 조인을 이미 거른다.
+    const fourMembers = factionAssignments.slice(0, 4).map((a) => {
+      // assignmentsByFaction에 넣을 때 null 조인을 이미 거른다.
       const celeb = a.celeb!;
       return {
         id: celeb.id,
@@ -109,16 +109,16 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
     });
 
     groups.push({
-      label: locale === "en" ? (tag.name_en || tag.name) : tag.name,
+      label: locale === "en" ? (faction.name_en || faction.name) : faction.name,
       difficulty: 1, // 태그 기반은 보통 난이도
-      axis: "tag",
-      axisValue: tag.slug,
+      axis: "faction",
+      axisValue: faction.slug,
     });
     members.push(fourMembers);
   }
 
   // 3) 직군별 묶음 (국적이 모두 다른 4명)
-  const professionPool = new Map<string, TagAssignmentRow["celeb"][]>();
+  const professionPool = new Map<string, FactionAssignmentRow["celeb"][]>();
   for (const a of assignments ?? []) {
     if (!a.celeb || a.celeb.publication_status !== "active" || !a.celeb.profession) continue;
     const arr = professionPool.get(a.celeb.profession) ?? [];
@@ -171,12 +171,12 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
 
 /** 특정 필드의 값이 모두 다른 N명을 뽑는다 */
 function pickDiverseByField(
-  items: (TagAssignmentRow["celeb"])[],
+  items: (FactionAssignmentRow["celeb"])[],
   field: "nationality" | "profession",
   count: number
-): (TagAssignmentRow["celeb"])[] {
+): (FactionAssignmentRow["celeb"])[] {
   const seen = new Set<string>();
-  const result: (TagAssignmentRow["celeb"])[] = [];
+  const result: (FactionAssignmentRow["celeb"])[] = [];
   for (const item of items) {
     if (!item) continue;
     const value = item[field];
@@ -191,7 +191,7 @@ function pickDiverseByField(
 const getGroupsPoolCached = unstable_cache(
   fetchGroupsPool,
   ["groups-game-pool"],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS] }
 );
 
 export interface GroupsDataResult {

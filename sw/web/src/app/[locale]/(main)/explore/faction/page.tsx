@@ -5,12 +5,12 @@
 */ // ------------------------------
 
 import { getLocale, getTranslations } from "next-intl/server";
-import { getFeaturedTags } from "@/actions/home";
+import { getFeaturedFactions } from "@/actions/home";
 import { redirect } from "@/i18n/navigation";
 import { buildFactionSections, factionSectionKey } from "@/lib/faction-sections";
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
-import FactionAtlasScreen from "./FactionAtlasScreen";
+import FactionScreen from "./FactionScreen";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.faction");
@@ -25,23 +25,23 @@ export default async function FactionPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const [params, tags, locale, pending] = await Promise.all([
+  const [params, factions, locale, pending] = await Promise.all([
     searchParams,
-    getFeaturedTags(),
+    getFeaturedFactions(),
     getLocale() as Promise<Locale>,
     getTranslations("pending"),
   ]);
 
   // 옛 주소(?tag=태그id)는 테마 주소로, 묶음이면 그 섹션으로 보낸다
-  const legacyTag = typeof params.tag === "string" ? tags.find((tag) => tag.id === params.tag) : undefined;
-  if (legacyTag?.slug) {
+  const legacyEntry = typeof params.tag === "string" ? factions.find((faction) => faction.id === params.tag) : undefined;
+  if (legacyEntry?.slug) {
     redirect({
-      href: legacyTag.isGroup ? `/explore/faction?section=${legacyTag.slug}` : `/explore/faction/${legacyTag.slug}`,
+      href: legacyEntry.isGroup ? `/explore/faction?section=${legacyEntry.slug}` : `/explore/faction/${legacyEntry.slug}`,
       locale,
     });
   }
 
-  const sections = buildFactionSections(tags);
+  const sections = buildFactionSections(factions);
   const requested = typeof params.section === "string" ? params.section : undefined;
   const section = sections.find((item) => factionSectionKey(item) === requested) ?? sections[0];
 
@@ -49,5 +49,5 @@ export default async function FactionPage({
     return <p className="py-12 text-center text-sm text-text-secondary">{pending("empty")}</p>;
   }
 
-  return <FactionAtlasScreen sections={sections} section={section} theme={section.themes[0]} locale={locale} />;
+  return <FactionScreen sections={sections} section={section} entry={section.entries[0]} locale={locale} />;
 }

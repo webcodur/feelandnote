@@ -40,8 +40,8 @@ export function matchesCondition(celeb: GridCeleb, condition: GridCondition): bo
       return celeb.profession === condition.value;
     case "century":
       return getCentury(celeb.birthDate) === condition.value;
-    case "tag":
-      return celeb.tagIds.includes(condition.value);
+    case "faction":
+      return celeb.factionIds.includes(condition.value);
     default:
       return false;
   }
@@ -125,19 +125,19 @@ export function extractConditions(celebs: readonly GridCeleb[]): GridCondition[]
   }
 
   // tag
-  const tagMap = new Map<string, number>();
+  const factionMap = new Map<string, number>();
   for (const c of celebs) {
-    for (const tagId of c.tagIds) {
-      tagMap.set(tagId, (tagMap.get(tagId) ?? 0) + 1);
+    for (const factionId of c.factionIds) {
+      factionMap.set(factionId, (factionMap.get(factionId) ?? 0) + 1);
     }
   }
-  for (const [tagId, count] of tagMap) {
+  for (const [factionId, count] of factionMap) {
     if (count >= 2) {
       conditions.push({
-        axis: "tag",
-        value: tagId,
-        label: tagId,
-        labelEn: tagId,
+        axis: "faction",
+        value: factionId,
+        label: factionId,
+        labelEn: factionId,
       });
     }
   }
@@ -175,7 +175,7 @@ export function generatePuzzle(
     nationality: [],
     profession: [],
     century: [],
-    tag: [],
+    faction: [],
   };
   for (const cond of conditions) {
     byAxis[cond.axis].push(cond);

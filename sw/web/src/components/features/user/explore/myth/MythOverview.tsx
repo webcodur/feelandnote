@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythPerson, Myth } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson, Myth } from "@/actions/home/mythTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
 import { mythLeadImage } from "./mythLeadImage";
 

@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/faction/atlas/FactionGroupIntro.tsx
+  파일명: /components/features/faction/entry/FactionGroupIntro.tsx
   기능: 고른 진영의 설명 판
   책임: 테마 설명 바로 아래에서, 칩 상자에서 고른 진영이 누구이고 무엇을 했는지 보여 준다. 「전체」거나 설명이 없으면 그리지 않는다.
 */ // ------------------------------

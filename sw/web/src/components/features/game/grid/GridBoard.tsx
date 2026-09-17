@@ -140,7 +140,7 @@ function getConditionDisplayLabel(condition: GridCondition, locale: string): str
       const cen = CENTURY_LABELS[condition.value];
       return (isEn ? cen?.en : cen?.ko) ?? (isEn ? `${condition.value}th century` : `${condition.value}세기`);
     }
-    case "tag":
+    case "faction":
       return isEn ? (condition.labelEn ?? condition.label) : condition.label;
     default:
       return condition.label;

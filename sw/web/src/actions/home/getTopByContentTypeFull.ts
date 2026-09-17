@@ -41,6 +41,6 @@ export async function getTopByContentTypeFull(type: ContentTypeKey): Promise<Top
     CACHE_TAGS.CELEBS,
     ['top-by-content-type-full', type],
     () => fetchTopByContentType(type),
-    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
+    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
 }

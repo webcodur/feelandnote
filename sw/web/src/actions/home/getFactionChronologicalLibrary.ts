@@ -1,5 +1,5 @@
 /*
-  파일명: actions/home/getTagChronologicalLibrary.ts
+  파일명: actions/home/getFactionChronologicalLibrary.ts
   기능: 세력도감 태그 내 셀럽들의 연대기 콘텐츠 조회
   책임: 출생연도 순 정렬된 셀럽 목록과 셀럽별 감상 콘텐츠 반환
 */
@@ -41,7 +41,7 @@ interface ChronoUserContentRow {
   };
 }
 
-async function fetchTagChronologicalLibrary(tagId: string, locale: string): Promise<{
+async function fetchFactionChronologicalLibrary(factionId: string, locale: string): Promise<{
   celebs: TimelineCeleb[];
   contentsMap: Record<string, TimelineContent[]>;
 }> {
@@ -51,11 +51,11 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   const { data: assignments, error: assignmentsError } = await db
     .from("faction_member_rows")
     .select("celeb_id")
-    .eq("lv2_id", tagId)
+    .eq("lv2_id", factionId)
     .eq("hidden", false);
 
   // 조회 실패를 「인물 없음」으로 캐시하지 않는다
-  throwOnQueryError('getTagChronologicalLibrary 편성 조회', assignmentsError);
+  throwOnQueryError('getFactionChronologicalLibrary 편성 조회', assignmentsError);
   if (!assignments?.length) return { celebs: [], contentsMap: {} };
 
   const celebIds = assignments.map((a) => a.celeb_id);
@@ -66,7 +66,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
     .select("id, nickname, nickname_en, avatar_url, profession, birth_date")
     .in("id", celebIds);
 
-  throwOnQueryError('getTagChronologicalLibrary 인물 조회', celebRowsError);
+  throwOnQueryError('getFactionChronologicalLibrary 인물 조회', celebRowsError);
   if (!celebRows?.length) return { celebs: [], contentsMap: {} };
 
   // birthYear 계산 후 정렬
@@ -133,14 +133,14 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   return { celebs, contentsMap };
 }
 
-const getTagChronologicalLibraryCached = unstable_cache(
-  fetchTagChronologicalLibrary,
-  ['tag-chronological-library'],
+const getFactionChronologicalLibraryCached = unstable_cache(
+  fetchFactionChronologicalLibrary,
+  ['faction-chronological-library'],
   // faction_member_rows(편성) + celebs + celeb_contents
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 
-export async function getTagChronologicalLibrary(tagId: string) {
+export async function getFactionChronologicalLibrary(factionId: string) {
   const locale = await getLocale();
-  return withQueryFallback('getTagChronologicalLibrary', () => getTagChronologicalLibraryCached(tagId, locale), { celebs: [], contentsMap: {} });
+  return withQueryFallback('getFactionChronologicalLibrary', () => getFactionChronologicalLibraryCached(factionId, locale), { celebs: [], contentsMap: {} });
 }

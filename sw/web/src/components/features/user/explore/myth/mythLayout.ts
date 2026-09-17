@@ -1,30 +1,30 @@
-import { ATLAS_NAV_LAYOUT } from "@/components/shared/atlasNavLayout";
+import { EXPLORE_NAV_LAYOUT } from "@/components/shared/exploreNavLayout";
 
-// Keep loading geometry tied to the atlas at every breakpoint.
+// Keep loading geometry tied to the shell at every breakpoint.
 export const MYTH_LAYOUT = {
-  atlas: "scroll-mt-20 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.045),transparent_30%),var(--color-bg-secondary)] [overflow-anchor:none]",
+  shell: "scroll-mt-20 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.045),transparent_30%),var(--color-bg-secondary)] [overflow-anchor:none]",
   container: "mx-auto max-w-[1040px]",
   navigationOuter: "px-4 pb-2 pt-4 md:px-6 md:pb-2 md:pt-6",
-  navigation: ATLAS_NAV_LAYOUT.navigation,
+  navigation: EXPLORE_NAV_LAYOUT.navigation,
   nav: "min-w-0 rounded-xl px-2 py-1.5 md:px-3",
-  /* 칩 줄·모바일 단추·밑줄 탭 모양은 세력도감과 함께 쓰는 공용 선택기(AtlasNav)의 값을 따른다 */
-  chipNav: ATLAS_NAV_LAYOUT.chipNav,
-  mobilePicker: ATLAS_NAV_LAYOUT.mobilePicker,
+  /* 칩 줄·모바일 단추·밑줄 탭 모양은 세력도감과 함께 쓰는 공용 선택기(ExploreNav)의 값을 따른다 */
+  chipNav: EXPLORE_NAV_LAYOUT.chipNav,
+  mobilePicker: EXPLORE_NAV_LAYOUT.mobilePicker,
   /* 모바일 버튼은 둘 다 네모다 — 나란히 선 두 버튼의 모양이 갈리면 어색하다. PC 칩 줄만 알약·네모로 가른다 */
   mobilePickerButton: "flex min-w-0 items-center justify-between gap-1.5 rounded-lg border border-accent/50 bg-accent/10 px-3.5 py-2 text-sm font-semibold text-accent hover:border-accent",
   /* 지역·신화·인물 세 줄은 모두 한 줄짜리 가로 목록이다 — 접지 않고 손·마우스로 민다(ui-rail).
      칩이 적어 폭이 남으면 가운데 두되, 넘칠 때 앞머리가 잘리지 않게 safe 정렬을 쓴다 */
-  navList: ATLAS_NAV_LAYOUT.navList,
+  navList: EXPLORE_NAV_LAYOUT.navList,
   /* 지역은 알약, 신화는 네모 — 두 줄의 칩이 같은 모양이면 어느 줄을 고르는지 헷갈린다 */
-  regionChipShape: ATLAS_NAV_LAYOUT.pill,
-  mythChipShape: ATLAS_NAV_LAYOUT.square,
+  regionChipShape: EXPLORE_NAV_LAYOUT.pill,
+  mythChipShape: EXPLORE_NAV_LAYOUT.square,
   /* 그룹은 칩이 아니라 밑줄 탭 — 지역(알약)·신화(네모)보다 한 단계 아래라는 것이 모양으로 보인다 */
-  groupTab: ATLAS_NAV_LAYOUT.groupTab,
+  groupTab: EXPLORE_NAV_LAYOUT.groupTab,
   memberList: "scrollbar-hide -mx-1 flex gap-2.5 overflow-x-auto overscroll-x-contain px-1 pb-1 select-none pointer-coarse:snap-x md:gap-3",
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
   railCardSize: "w-[96px] md:w-[108px]",
   overviewOuter: "min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6",
-  /* 바깥 윤곽선(atlas)이 이미 있으니 좁은 화면에서는 본문 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */
+  /* 바깥 윤곽선(shell)이 이미 있으니 좁은 화면에서는 본문 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */
   overview: "overflow-hidden rounded-[24px] md:border md:border-white/[0.08] md:bg-black",
   artwork: "relative aspect-[3/2] w-full overflow-hidden",
   /* 그룹 개요 — 넓은 화면은 신화 개요와 같은 3:2 판에 왼쪽 핵심 인물·오른쪽 패널, 좁은 화면은 위아래로 쌓는다 */

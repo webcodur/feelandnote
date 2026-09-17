@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythPerson } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson } from "@/actions/home/mythTypes";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 
 export interface MythPortrait {

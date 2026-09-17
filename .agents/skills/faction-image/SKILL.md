@@ -409,7 +409,7 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
 **등록 자리**
 - 개인화보 = web-bo `/factions/<세력>` 인물 행의 사진 칸 → `faction_members.image_url`(원본 비율, 얼굴 크롭 금지)
 - 단체 사진 = 같은 화면의 「단체 사진」 칸 → `faction_lv2.team_images`
-- 신화 전승 제목 그림 = `sw/web/public/images/myth-atlas/title-art/` + `sw/web/src/actions/home/getMythAtlas.ts` 대응표
+- 신화 전승 제목 그림 = `sw/web/public/images/myth-atlas/title-art/` + `sw/web/src/actions/home/getMythData.ts` 대응표
 - 이미지 종류별 원천은 `docs/project/celeb/celeb-08-00-image-map.md`가 쥔다.
 
 **데이터·자산 반영은 유저 승인 후에만.** 발주서·프롬프트 작성, REF 정리까지는 자유롭게 한다. 생성 결과를 도감에 올리거나 기존 화보를 교체하는 일은 **유저의 명시적 승인 이후에만** 한다. 승인 전에는 발주서에 "이렇게 반영하면 된다"는 **안내만** 남긴다.

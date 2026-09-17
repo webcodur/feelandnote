@@ -1,20 +1,20 @@
 "use client";
 
 import Modal from "@/components/ui/Modal";
-import type { CelebTagInfo } from "@/types/home";
+import type { CelebFactionInfo } from "@/types/home";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 
-interface CelebTagsModalProps {
+interface CelebFactionsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  tags: CelebTagInfo[];
+  factions: CelebFactionInfo[];
   title?: string;
   /** 커스텀 z-index */
   zIndex?: number;
 }
 
-export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }: CelebTagsModalProps) {
+export default function CelebFactionsModal({ isOpen, onClose, factions, title, zIndex }: CelebFactionsModalProps) {
   const t = useTranslations("home.ui.tags");
   const locale = useLocale() as Locale;
 
@@ -38,31 +38,31 @@ export default function CelebTagsModal({ isOpen, onClose, tags, title, zIndex }:
 
       {/* List */}
       <div className="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar flex flex-col gap-6">
-        {tags.map((tag) => (
-          <div key={tag.id} className="flex flex-col gap-2">
+        {factions.map((faction) => (
+          <div key={faction.id} className="flex flex-col gap-2">
             <div className="flex items-start">
               <span
                 className="px-3 py-1 rounded-full text-xs font-bold border"
                 style={{
-                  backgroundColor: `${tag.color}15`,
-                  color: tag.color,
-                  borderColor: `${tag.color}30`
+                  backgroundColor: `${faction.color}15`,
+                  color: faction.color,
+                  borderColor: `${faction.color}30`
                 }}
               >
-                {locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}
+                {locale === 'en' ? (faction.name_en ?? faction.name) : faction.name}
               </span>
             </div>
 
-            {((locale === 'en' ? (tag.short_desc_en ?? tag.short_desc) : tag.short_desc) || (locale === 'en' ? (tag.long_desc_en ?? tag.long_desc) : tag.long_desc)) ? (
+            {((locale === 'en' ? (faction.short_desc_en ?? faction.short_desc) : faction.short_desc) || (locale === 'en' ? (faction.long_desc_en ?? faction.long_desc) : faction.long_desc)) ? (
               <div className="pl-1 space-y-1">
-                {(locale === 'en' ? (tag.short_desc_en ?? tag.short_desc) : tag.short_desc) && (
+                {(locale === 'en' ? (faction.short_desc_en ?? faction.short_desc) : faction.short_desc) && (
                   <p className="text-sm text-accent font-medium">
-                    {locale === 'en' ? (tag.short_desc_en ?? tag.short_desc) : tag.short_desc}
+                    {locale === 'en' ? (faction.short_desc_en ?? faction.short_desc) : faction.short_desc}
                   </p>
                 )}
-                {(locale === 'en' ? (tag.long_desc_en ?? tag.long_desc) : tag.long_desc) && (
+                {(locale === 'en' ? (faction.long_desc_en ?? faction.long_desc) : faction.long_desc) && (
                   <p className="text-sm text-text-secondary leading-relaxed">
-                    {locale === 'en' ? (tag.long_desc_en ?? tag.long_desc) : tag.long_desc}
+                    {locale === 'en' ? (faction.long_desc_en ?? faction.long_desc) : faction.long_desc}
                   </p>
                 )}
               </div>

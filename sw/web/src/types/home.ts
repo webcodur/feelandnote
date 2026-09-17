@@ -18,7 +18,7 @@ export interface CelebInfluence {
   percentile?: number
 }
 
-export interface CelebTagInfo {
+export interface CelebFactionInfo {
   id: string
   name: string
   name_en: string | null
@@ -52,7 +52,7 @@ export interface CelebProfile {
   is_following: boolean  // 현재 유저가 팔로우 중인지
   is_follower: boolean   // 상대방이 나를 팔로우 중인지 (맞팔 = 친구)
   influence: CelebInfluence | null  // 영향력 평가 (없을 수 있음)
-  tags: CelebTagInfo[]  // 태그 목록
+  factions: CelebFactionInfo[]  // 태그 목록
   greeting?: string[] | null  // 인사 대사 (3변형)
   greeting_en?: string[] | null  // 인사 대사 영문 (3변형)
   speech_tone?: string | null  // 허용값: shared/constants/celeb-speech

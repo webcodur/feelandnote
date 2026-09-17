@@ -14,7 +14,7 @@ import { detailCacheTags, type CacheTag } from '@feelandnote/shared/constants/ca
  * 일반 사용자 활동으로는 변하지 않고, 운영자가 백오피스에서 셀럽/콘텐츠 데이터를
  * 넣거나 고칠 때만 변하는 데이터에 적용한다.
  *
- * 데이터 투입 시 web-bo가 저장한 도메인의 태그(CACHE_TAGS — celebs·contents·dialogues·spectrum·tags)만
+ * 데이터 투입 시 web-bo가 저장한 도메인의 태그(CACHE_TAGS — celebs·contents·dialogues·spectrum·factions 등)만
  * 골라 즉시 무효화하므로, 이 값은 무효화 누락에 대비한 안전망이다. (= 최악의 경우 7일 내 자동 갱신)
  * 각 캐시의 태그는 그 캐시가 실제로 읽는 테이블을 기준으로 붙인다.
  */

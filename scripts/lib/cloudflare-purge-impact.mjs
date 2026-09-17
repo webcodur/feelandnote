@@ -271,8 +271,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/landing/FeaturedFaction.tsx',
   // 신화 구획은 탐색 허브 안에만 서고 운영에서는 아직 꺼져 있다.
   // 인물 상세로 옮겨 가거나 허브가 보관 대상이 되면 celeb으로 올린다.
-  'sw/web/src/actions/home/getMythAtlas.ts',
-  'sw/web/src/actions/home/mythAtlasTypes.ts',
+  'sw/web/src/actions/home/getMythData.ts',
+  'sw/web/src/actions/home/mythTypes.ts',
 ])
 
 const CACHED_HTML_PREFIXES = [

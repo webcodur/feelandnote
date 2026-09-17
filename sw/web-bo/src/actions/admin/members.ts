@@ -147,13 +147,13 @@ export interface GetMembersParams extends CelebColumnFilters {
   tier?: string
   reality?: string
   imageFilter?: CelebImageFilter
-  tagId?: string
+  factionId?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
 
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, reality, imageFilter, tagId, sort, sortOrder } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, reality, imageFilter, factionId, sort, sortOrder } = params
 
   if (profileType === 'CELEB') {
     const { celebs, total } = await getCelebs({
@@ -166,7 +166,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       tier: tier as 'full' | 'light' | 'all' | undefined,
       reality: reality as 'REAL' | 'BOTH' | 'FICTION' | 'all' | undefined,
       imageFilter,
-      tagId,
+      factionId,
       sort,
       sortOrder,
     })

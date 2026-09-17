@@ -9,12 +9,12 @@ import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import type { CelebProfile } from '@/types/home'
 
 /** 한 테마 배정을 숨긴 사람까지 한 번에 받는 천장 — 여기서 잘리면 명단 인물이 조용히 빠진다 */
-const THEME_ASSIGNMENT_LIMIT = 300
+const FACTION_ASSIGNMENT_LIMIT = 300
 
-export async function getFactionThemeCelebs(tagId: string, memberIds: readonly string[]): Promise<CelebProfile[]> {
+export async function getFactionCelebs(factionId: string, memberIds: readonly string[]): Promise<CelebProfile[]> {
   const { celebs } = await getCelebs({
-    tagId,
-    limit: THEME_ASSIGNMENT_LIMIT,
+    factionId,
+    limit: FACTION_ASSIGNMENT_LIMIT,
     sortBy: 'influence',
     // 이야기 속 인물 테마(역사창작 등)도 싣는다 — 탐색 기본값은 실존 인물만 보여 준다
     realities: CELEB_REALITIES,

@@ -249,7 +249,7 @@ export async function createFactionEntry(input: CreateEntryInput): Promise<{ id:
       return { error: error.message }
     }
     revalidateFactionScreens()
-    await revalidateWebLists([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+    await revalidateWebLists([CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS])
     return { id: data.id }
   }
 
@@ -283,7 +283,7 @@ export async function createFactionEntry(input: CreateEntryInput): Promise<{ id:
 
   revalidateFactionScreens()
   // 새 세력 — 도감 편성과 세력명을 품은 셀럽 목록 캐시 모두 갱신
-  await revalidateWebLists([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateWebLists([CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS])
   return { id: data.id }
 }
 // #endregion
@@ -341,7 +341,7 @@ async function getFactionCelebTargets(
 async function revalidateFactionCelebs(
   targets: readonly CacheItemTarget[],
 ): Promise<void> {
-  const listDomains = [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS]
+  const listDomains = [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS]
   if (targets.length === 0) {
     await revalidateWebLists(listDomains)
     return
@@ -447,7 +447,7 @@ async function revalidateFactionCeleb(
     .eq('id', celebId)
     .single()
   if (error) throw new Error(`도감 인물 slug 조회 실패: ${error.message}`)
-  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS])
 }
 // #endregion
 
@@ -707,7 +707,7 @@ export async function updateFactionMemberOrder(
 
   revalidateFactionScreens()
   // faction_members.sort_order — 셀럽 목록 카드 노출 순서에도 반영된다
-  await revalidateWebLists([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateWebLists([CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
 // #endregion
@@ -731,7 +731,7 @@ export async function setFactionTeamImages(
 
   revalidateFactionScreens()
   // faction_lv2.team_images — 도감 편성 화면 전용
-  await revalidateWebLists(CACHE_TAGS.TAGS)
+  await revalidateWebLists(CACHE_TAGS.FACTIONS)
   return { success: true }
 }
 // #endregion

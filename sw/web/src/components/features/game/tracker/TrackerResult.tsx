@@ -86,7 +86,7 @@ export default function TrackerResult({
     is_following: false,
     is_follower: false,
     influence: null,
-    tags: [],
+    factions: [],
   }), [celebId, celebSlug, nickname, avatarUrl, profession, contents.length]);
 
   return (

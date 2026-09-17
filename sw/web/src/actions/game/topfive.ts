@@ -33,13 +33,13 @@ interface InfluenceRow {
   } | null;
 }
 
-interface TagRow {
+interface FactionRow {
   id: string;
   name: string;
   name_en: string | null;
 }
 
-interface TagAssignmentRow {
+interface FactionAssignmentRow {
   celeb_id: string;
   lv2_id: string;
 }
@@ -61,7 +61,7 @@ const PROFESSION_META: Record<string, { ko: string; en: string }> = {
 };
 
 /** 태그 기반 퍼즐을 생성할 수 있는 최소 영향력 보유 인원 (정답 5명) */
-const MIN_TAG_MEMBERS_WITH_INFLUENCE = 5;
+const MIN_FACTION_MEMBERS_WITH_INFLUENCE = 5;
 
 async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
   const db = createStaticClient();
@@ -121,28 +121,28 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
     });
   }
 
-  // ── 태그별 영향력 순위 퍼즐 ──
-  // 태그 소속 인물 중 영향력 점수 보유 5명 이상인 태그만 퍼즐로 생성
-  const { data: tags, error: tagError } = await db
+  // ── 세력별 영향력 순위 퍼즐 ──
+  // 세력 소속 인물 중 영향력 점수 보유 5명 이상인 세력만 퍼즐로 생성
+  const { data: factions, error: factionError } = await db
     .from("faction_lv2")
     .select("id, name, name_en")
     .eq("is_featured", true)
     .order("sort_order", { ascending: true })
     .limit(100)
-    .overrideTypes<TagRow[], { merge: false }>();
+    .overrideTypes<FactionRow[], { merge: false }>();
 
-  if (tagError) throw new Error(`[getTopFivePool] tags: ${tagError.message}`);
+  if (factionError) throw new Error(`[getTopFivePool] factions: ${factionError.message}`);
 
   // 배정이 3천 행을 넘는다. .limit(5000)을 걸어도 1,000행에서 잘려 진영 퍼즐 인원이 모자랐다 — 나눠 받는다
-  const assignments = await selectAllPages<TagAssignmentRow>((from, to) => db
+  const assignments = await selectAllPages<FactionAssignmentRow>((from, to) => db
     .from("faction_members")
     .select("celeb_id, lv2_id")
     .eq("hidden", false)
     .order("id", { ascending: true })
     .range(from, to)
-    .overrideTypes<TagAssignmentRow[], { merge: false }>());
+    .overrideTypes<FactionAssignmentRow[], { merge: false }>());
 
-  if (tags && assignments) {
+  if (factions && assignments) {
     // 영향력 맵 (celeb_id → { score, nickname, nickname_en })
     const influenceMap = new Map(
       influences.map((r) => [
@@ -155,19 +155,19 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
       ])
     );
 
-    // 태그별 영향력 보유 멤버
-    const tagMembers = new Map<string, { id: string; score: number; nickname: string; nicknameEn: string }[]>();
+    // 세력별 영향력 보유 멤버
+    const factionMembers = new Map<string, { id: string; score: number; nickname: string; nicknameEn: string }[]>();
     for (const a of assignments) {
       const inf = influenceMap.get(a.celeb_id);
       if (!inf || inf.score <= 0) continue;
-      const arr = tagMembers.get(a.lv2_id) ?? [];
+      const arr = factionMembers.get(a.lv2_id) ?? [];
       arr.push({ id: a.celeb_id, score: inf.score, nickname: inf.nickname, nicknameEn: inf.nicknameEn });
-      tagMembers.set(a.lv2_id, arr);
+      factionMembers.set(a.lv2_id, arr);
     }
 
-    for (const tag of tags) {
-      const members = tagMembers.get(tag.id);
-      if (!members || members.length < MIN_TAG_MEMBERS_WITH_INFLUENCE) continue;
+    for (const faction of factions) {
+      const members = factionMembers.get(faction.id);
+      if (!members || members.length < MIN_FACTION_MEMBERS_WITH_INFLUENCE) continue;
 
       // 영향력 순으로 정렬
       const sorted = [...members].sort((a, b) => b.score - a.score);
@@ -182,8 +182,8 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
         isAnswer: i < 5,
       }));
 
-      const labelKo = `${tag.name} 영향력 순위`;
-      const labelEn = `Most Influential in ${tag.name_en || tag.name}`;
+      const labelKo = `${faction.name} 영향력 순위`;
+      const labelEn = `Most Influential in ${faction.name_en || faction.name}`;
 
       puzzles.push({
         dateKey: "",
