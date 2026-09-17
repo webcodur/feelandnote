@@ -12,11 +12,11 @@ import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import type { MythWork } from "@/actions/home/mythAtlasTypes";
 
-interface Props { works: MythWork[]; selectedPersonId: string; traditionName: string; traditionSlug: string }
+interface Props { works: MythWork[]; selectedPersonId: string; mythName: string; mythSlug: string }
 
-/* 「이 신화의 책」은 제목이 전승 이름으로 시작하는 작품에 전승별 대표 원전을 더한 것이다.
-   신들의 계보·변신 이야기 같은 종합 신화서는 제목에 전승 이름이 없고, 인물 그래프만으로는
-   일리아스처럼 인물이 겹치는 별개 서사시와 가를 수 없어 원전은 전승마다 명시한다.
+/* 「이 신화의 책」은 제목이 신화 이름으로 시작하는 작품에 신화별 대표 원전을 더한 것이다.
+   신들의 계보·변신 이야기 같은 종합 신화서는 제목에 신화 이름이 없고, 인물 그래프만으로는
+   일리아스처럼 인물이 겹치는 별개 서사시와 가를 수 없어 원전은 신화마다 명시한다.
    나머지는 이 신화 인물이 등장하는 다른 작품이며, 둘 사이에 세로 구분선을 둔다 */
 const MYTH_OWN_WORK_IDS: Record<string, string[]> = {
   "greek-roman-myth": [
@@ -32,7 +32,7 @@ const MYTH_OWN_WORK_IDS: Record<string, string[]> = {
 
 const normalizeTitle = (value: string) => value.toLowerCase().replace(/[\s\-—–:：·,.'"《》「」『』()（）[\]]/g, "");
 
-export default function MythWorkShelf({ works, selectedPersonId, traditionName, traditionSlug }: Props) {
+export default function MythWorkShelf({ works, selectedPersonId, mythName, mythSlug }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tMore = useTranslations("shared.libraryShelf");
   const locale = useLocale();
@@ -40,9 +40,9 @@ export default function MythWorkShelf({ works, selectedPersonId, traditionName, 
   const [dividerInfoOpen, setDividerInfoOpen] = useState(false);
   /* 인물 줄과 같은 공용 훅 — 터치는 기본 스크롤, PC는 마우스로 끌어 넘긴다(ui-rail) */
   const { ref, cursorClassName, dragProps } = useMouseDragScroll();
-  const traditionKey = normalizeTitle(traditionName);
-  const ownWorkIds = new Set(MYTH_OWN_WORK_IDS[traditionSlug] ?? []);
-  const ownWorks = works.filter((work) => ownWorkIds.has(work.id) || (traditionKey && normalizeTitle(work.title).startsWith(traditionKey)));
+  const mythKey = normalizeTitle(mythName);
+  const ownWorkIds = new Set(MYTH_OWN_WORK_IDS[mythSlug] ?? []);
+  const ownWorks = works.filter((work) => ownWorkIds.has(work.id) || (mythKey && normalizeTitle(work.title).startsWith(mythKey)));
   const ownIds = new Set(ownWorks.map((work) => work.id));
   const selectedWorks = works.filter((work) => !ownIds.has(work.id) && work.personIds.includes(selectedPersonId));
   const selectedIds = new Set(selectedWorks.map((work) => work.id));
@@ -81,7 +81,7 @@ export default function MythWorkShelf({ works, selectedPersonId, traditionName, 
           </h3>
           <p className="mt-1 text-sm text-text-secondary">{t("worksLead")}</p>
         </div>
-        <span className="text-sm text-text-tertiary">{selectedWorks.length > 0 ? t("selectedWorks", { count: selectedWorks.length }) : t("traditionWorks", { count: works.length })}</span>
+        <span className="text-sm text-text-tertiary">{selectedWorks.length > 0 ? t("selectedWorks", { count: selectedWorks.length }) : t("mythWorks", { count: works.length })}</span>
       </div>
 
       <div ref={ref} {...dragProps} className={`scrollbar-hide -mx-1 flex gap-3 overflow-x-auto overscroll-x-contain px-1 pb-2 select-none pointer-coarse:snap-x md:gap-4 ${cursorClassName}`}>

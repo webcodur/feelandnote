@@ -354,35 +354,35 @@ async function buildTargets() {
   }
 
   const assignmentRows = await selectByIds(
-    "celeb_tag_assignments",
-    "id,celeb_id,tag_id,short_desc,short_desc_en,long_desc,long_desc_en",
+    "faction_members",
+    "id,celeb_id,lv2_id,short_desc,short_desc_en,long_desc,long_desc_en",
     ids,
   );
-  const tagIds = [...new Set(assignmentRows.map((row) => row.tag_id))];
-  const tags = new Map();
-  for (const group of chunks(tagIds, 100)) {
-    for (const tag of await expect(
-      db.from("celeb_tags").select("id,name,name_en").in("id", group),
-      "celeb_tags",
-    )) tags.set(tag.id, tag);
+  const factionIds = [...new Set(assignmentRows.map((row) => row.lv2_id))];
+  const factions = new Map();
+  for (const group of chunks(factionIds, 100)) {
+    for (const faction of await expect(
+      db.from("faction_lv2").select("id,name,name_en").in("id", group),
+      "faction_lv2",
+    )) factions.set(faction.id, faction);
   }
   for (const row of assignmentRows) {
     const profile = profileById.get(row.celeb_id);
-    const tag = tags.get(row.tag_id);
+    const faction = factions.get(row.lv2_id);
     const context = {
       slug: profile?.slug,
       person: profile?.nickname_en || profile?.nickname,
-      faction: tag?.name_en || tag?.name,
+      faction: faction?.name_en || faction?.name,
     };
     if (hasText(row.short_desc) && !hasText(row.short_desc_en)) {
       addText({
-        domain: "faction_short", table: "celeb_tag_assignments", rowId: row.id,
+        domain: "faction_short", table: "faction_members", rowId: row.id,
         column: "short_desc_en", ko: row.short_desc, context,
       });
     }
     if (hasText(row.long_desc) && !hasText(row.long_desc_en)) {
       addText({
-        domain: "faction_long", table: "celeb_tag_assignments", rowId: row.id,
+        domain: "faction_long", table: "faction_members", rowId: row.id,
         column: "long_desc_en", ko: row.long_desc, context,
       });
     }

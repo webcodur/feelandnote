@@ -80,8 +80,8 @@
 | 테이블 | 핵심 컬럼 | 용도 |
 |--------|----------|------|
 | `celebs` | id, nickname, nickname_en, slug, nationality, profession, avatar_url, publication_status, celeb_tier | 인물 메타 |
-| `celeb_tag_assignments` | celeb_id, tag_id | 태그 간선 (같은 tag_id면 인접) |
-| `celeb_tags` | id, name, name_en | 태그 이름 (간선 레이블) |
+| `faction_members` | celeb_id, lv2_id | 세력 간선 (같은 lv2_id면 인접) |
+| `faction_lv2` | id, name, name_en | 세력 이름 (간선 레이블) |
 | `celeb_contents` | celeb_id, content_id | 콘텐츠 간선 (같은 content_id면 인접) |
 | `content_locales` | content_id, locale, title | 콘텐츠 제목 (간선 레이블) |
 

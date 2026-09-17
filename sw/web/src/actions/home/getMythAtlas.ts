@@ -3,29 +3,32 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectInChunks } from "@feelandnote/shared/lib/paginate";
-import { MYTH_ROOT_TAG_SLUG } from "@feelandnote/shared/lib/faction-atlas";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
-import { selectVisibleAtlasMembers } from "@/lib/faction-atlas-members";
+import { selectVisibleFactionMembers } from "@/lib/faction-members";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
 import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEditions";
 import { pickPurchaseEdition, type FigureBookEdition } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
-import { MYTH_OTHER_GROUP_ID, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
+import { MYTH_OTHER_GROUP_ID, type Myth, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
 
-interface TagRow {
-  id: string; parent_id: string | null; slug: string | null; name: string; name_en: string | null;
+interface Lv1Row {
+  id: string; name: string; name_en: string | null; sort_order: number;
+}
+interface Lv2Row {
+  id: string; lv1_id: string; slug: string | null; name: string; name_en: string | null;
   description: string | null; description_en: string | null;
   theme_music: unknown;
-  /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 전승 하나를 잠그는 데도 배포가 필요했다 */
-  atlas_published: boolean | null;
+  lead_person_ids: string[] | null;
+  /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 신화 하나를 잠그는 데도 배포가 필요했다 */
+  published: boolean;
 }
 interface MemberRow {
-  tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
-  faction_image_url: string | null;
-  group_label: string | null; group_label_en: string | null; group_position: number | null;
+  lv2_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
+  image_url: string | null;
+  group_name: string | null; group_name_en: string | null; group_position: number | null;
 }
 interface PersonRow {
   id: string; slug: string | null; nickname: string; nickname_en: string | null;
@@ -33,7 +36,7 @@ interface PersonRow {
   bio: string | null; bio_en: string | null; avatar_url: string | null; portrait_url: string | null;
 }
 interface GroupRow {
-  tag_id: string; name: string; description: string | null; description_en: string | null;
+  lv2_id: string; name: string; description: string | null; description_en: string | null;
 }
 interface ExplanationRow {
   profile_id: string; plain_text: string; plain_text_en: string | null;
@@ -46,36 +49,6 @@ const CATEGORY: Record<ContentType, MythWork["category"]> = {
 };
 
 const unique = <T,>(items: T[]) => [...new Set(items)];
-
-// 전승 slug가 지역의 앞머리를 따르면(myth-china-fengshen → 중국) 자리가 저절로 잡힌다.
-// 어디에도 걸리지 않는 전승은 「기타 전승」으로 간다. 전승이 하나도 없는 지역은 아래에서 걸러져
-// 화면에 뜨지 않으므로, 아직 인물이 없는 문화권을 미리 적어 두어도 빈 칸이 생기지 않는다.
-// 순서가 곧 화면에 서는 차례다 — 동아시아에서 서쪽으로, 마지막이 신대륙과 오세아니아다.
-const MYTH_REGIONS = [
-  { id: "korea", ko: "한국", en: "Korea", prefixes: ["myth-korea"] },
-  { id: "japan", ko: "일본", en: "Japan", prefixes: ["myth-japan"] },
-  { id: "china", ko: "중국", en: "China", prefixes: ["myth-china"] },
-  { id: "steppe", ko: "초원", en: "Eurasian Steppe", prefixes: ["myth-steppe", "myth-turkic", "myth-mongol", "myth-tibet", "myth-manchu"] },
-  { id: "southeast-asia", ko: "동남아", en: "Southeast Asia", prefixes: ["myth-southeast-asia", "myth-vietnam", "myth-malay"] },
-  { id: "india", ko: "인도", en: "India", prefixes: ["myth-hindu"] },
-  { id: "persia", ko: "페르시아", en: "Persia", prefixes: ["myth-persia", "myth-shahnameh"] },
-  { id: "mesopotamia", ko: "메소포타미아", en: "Mesopotamia", prefixes: ["myth-mesopotamia"] },
-  { id: "west-asia", ko: "서아시아", en: "West Asia", prefixes: ["myth-west-asia", "myth-levant", "myth-arabia", "myth-caucasus"] },
-  { id: "egypt", ko: "이집트", en: "Egypt", prefixes: ["myth-egypt"] },
-  { id: "africa", ko: "아프리카", en: "Africa", prefixes: ["myth-africa", "myth-mali", "myth-yoruba", "myth-ethiopia"] },
-  { id: "greek-roman", ko: "그리스·로마", en: "Greece & Rome", prefixes: ["myth-greek", "myth-roman", "myth-argonaut", "myth-atreus", "myth-heracles", "myth-iliad", "myth-odyssey", "myth-aeneid"] },
-  { id: "celtic", ko: "켈트", en: "Celtic Lands", prefixes: ["myth-celtic", "myth-irish"] },
-  { id: "britain", ko: "브리튼", en: "Britain", prefixes: ["myth-arthur"] },
-  { id: "northern-europe", ko: "북유럽", en: "Northern Europe", prefixes: ["myth-norse", "myth-germanic"] },
-  { id: "slavic", ko: "슬라브", en: "Slavic Lands", prefixes: ["myth-slavic", "myth-rus"] },
-  { id: "americas", ko: "아메리카", en: "The Americas", prefixes: ["myth-americas", "myth-inca", "myth-aztec", "myth-maya"] },
-  { id: "oceania", ko: "오세아니아", en: "Oceania", prefixes: ["myth-oceania", "myth-polynesia"] },
-] as const;
-
-const NAME_REGION_IDS: Array<{ id: (typeof MYTH_REGIONS)[number]["id"]; names: string[] }> = [
-  { id: "greek-roman", names: ["아르고 원정대", "아트레우스 가문", "아이네이스", "헤라클레스의 열두 과제", "일리아스", "오디세이아", "그리스 신화"] },
-  { id: "britain", names: ["아서왕과 원탁의 기사들"] },
-];
 
 const TITLE_ART_BY_SLUG: Record<string, string> = {
   "myth-china-fengshen": "myth-china-fengshen.png",
@@ -99,68 +72,18 @@ const TITLE_ART_BY_NAME: Record<string, string> = {
   "헤라클레스의 열두 과제": "heracles.png",
 };
 
-/* 전승 대표 3인 — 타이틀 아트 우측에 세우는 얼굴이다. 차례가 곧 세우는 순서다.
-   인물 줄의 클러스터 차례(sort_order)와는 따로 쥔다. 값은 인물 slug다.
-   뽑은 인물이 숨김이라 그 전승 명단에 없으면 빠지고, 남은 자리는 명단 앞쪽으로 채운다 */
-const MYTH_LEAD_BY_SLUG: Record<string, string[]> = {
-  "argonauts": ["jason", "medea", "heracles"],
-  "arthur-round-table": ["arthur", "merlin", "lancelot"],
-  "greek-roman-myth": ["zeus", "athena", "heracles"],
-  "heracles": ["heracles", "hera", "deianira"],
-  "homer-iliad": ["achilles", "hector", "helen-of-troy"],
-  "homer-odyssey": ["odysseus", "penelope", "telemachus"],
-  "house-of-atreus": ["agamemnon", "clytemnestra", "orestes"],
-  "myth-africa": ["sundiata-keita", "makeda", "menelik-i"],
-  "myth-americas": ["quetzalcoatl", "manco-capac", "huitzilopochtli"],
-  "myth-celtic": ["nuada-airgetlam", "merlin", "brutus-of-troy"],
-  "myth-china-ancient": ["nuwa", "yellow-emperor", "yu-the-great"],
-  "myth-china-fengshen": ["jiang-ziya", "nezha", "daji"],
-  "myth-china-xiyou": ["sun-wukong", "tang-sanzang", "zhu-bajie"],
-  "myth-egypt": ["ra", "osiris", "isis"],
-  "myth-germanic": ["odin", "william-tell", "pelayo"],
-  "myth-hindu-lineage": ["vaivasvata-manu", "bharata-2", "yayati"],
-  "myth-hindu-mahabharata": ["krishna", "arjuna", "duryodhana"],
-  "myth-hindu-ramayana": ["rama", "sita", "ravana"],
-  "myth-japan": ["amaterasu", "susanoo", "izanagi"],
-  "myth-korea-baekje": ["onjo", "soseono", "biryu"],
-  "myth-korea-buyeo-goguryeo": ["jumong", "haemosu", "yuhwa"],
-  "myth-korea-gaya": ["kim-suro", "heo-hwang-ok", "seok-talhae"],
-  "myth-korea-gojoseon": ["dangun", "hwanung", "ungnyeo"],
-  "myth-korea-goryeo-segye": ["jakjegeon", "the-dragon-maiden", "yonggeon"],
-  "myth-korea-jeju-bonpuri": ["seolmundae-halmang", "jacheongbi", "princess-bari"],
-  "myth-korea-silla": ["bak-hyeokgeose", "lady-aryeong", "kim-alji"],
-  "myth-korea-tamna": ["go-eulla", "yang-eulla", "bu-eulla"],
-  "myth-mesopotamia": ["gilgamesh", "enkidu", "ishtar"],
-  "myth-norse": ["odin", "thor", "loki"],
-  "myth-oceania": ["māui", "tagaloa", "wākea"],
-  "myth-persia": ["jamshid", "zahhak", "fereydun"],
-  "myth-roman": ["jupiter", "aeneas", "romulus"],
-  "myth-slavic": ["rurik", "kyi", "lech"],
-  "myth-southeast-asia": ["lạc-long-quan", "au-cơ", "sang-nila-utama"],
-  "myth-steppe": ["oghuz-khagan", "manas", "alan-gua"],
-  "myth-west-asia": ["hayk", "ishmael", "kartlos"],
-  "virgil-aeneid": ["aeneas", "dido", "turnus"],
-};
-
-function titleArtForTradition(slug: string, name: string) {
+function titleArtForMyth(slug: string, name: string) {
   const fileName = TITLE_ART_BY_SLUG[slug] ?? TITLE_ART_BY_NAME[name];
   return fileName ? `/images/myth-atlas/title-art/${fileName}` : null;
 }
 
-function regionForTradition(slug: string, name: string, isEn: boolean) {
-  const namedRegionId = NAME_REGION_IDS.find((candidate) => candidate.names.includes(name))?.id;
-  const region = MYTH_REGIONS.find((candidate) => candidate.id === namedRegionId || candidate.prefixes.some((prefix) => slug === prefix || slug.startsWith(`${prefix}-`)));
-  if (region) return { id: region.id, name: isEn ? region.en : region.ko };
-  return { id: "other", name: isEn ? "Other traditions" : "기타 전승" };
-}
-
-/* 전승 안의 인물을 배정의 그룹(group_label)으로 나눈다. 순서는 세력 인물들의 최소
-   group_position, 세력 안은 전승 차례 그대로다. 그룹이 없는 인물은 맨 끝 「그 외」로
-   모은다. 세력이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다(세력도감 쇼케이스와 같은 규칙).
-   쇼케이스는 단체 사진 묶음(celeb_tags.team_images)을 세력보다 먼저 쓰지만 여기서는 쓰지 않는다.
-   신화 전승의 묶음은 세력과 이름·구성원이 같거나(일리아스·그리스 신화) 장면 제목 단위로 1~3명씩
+/* 신화 안의 인물을 배정의 그룹(group_name)으로 나눈다. 순서는 그룹의 최소
+   group_position, 그룹 안은 신화 차례 그대로다. 그룹이 없는 인물은 맨 끝 「그 외」로
+   모은다. 그룹이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다(세력도감 쇼케이스와 같은 규칙).
+   쇼케이스는 단체 사진 묶음(faction_lv2.team_images)을 세력보다 먼저 쓰지만 여기서는 쓰지 않는다.
+   신화의 그룹은 세력과 이름·구성원이 같거나(일리아스·그리스 신화) 장면 제목 단위로 1~3명씩
    잘게 쪼개져(오디세이아 15개) 탭으로 고를 수 없다(26.09.11 대조) */
-function groupsForTradition(
+function groupsForMyth(
   rows: MemberRow[],
   personIds: string[],
   isEn: boolean,
@@ -169,19 +92,19 @@ function groupsForTradition(
   const rowByPerson = new Map<string, MemberRow>();
   for (const row of rows) {
     const current = rowByPerson.get(row.celeb_id);
-    if (!current || (!current.group_label && row.group_label)) rowByPerson.set(row.celeb_id, row);
+    if (!current || (!current.group_name && row.group_name)) rowByPerson.set(row.celeb_id, row);
   }
   const labeled = new Map<string, { name: string | null; position: number; personIds: string[] }>();
   const others: string[] = [];
   for (const id of personIds) {
     const row = rowByPerson.get(id);
-    const label = row?.group_label?.trim();
+    const label = row?.group_name?.trim();
     if (!row || !label) {
       others.push(id);
       continue;
     }
-    /* 영문 이름이 비면 한국어를 내보내지 않고 null — 화면이 대체 문구를 붙인다 */
-    const group = labeled.get(label) ?? { name: isEn ? row.group_label_en?.trim() || null : label, position: Number.MAX_SAFE_INTEGER, personIds: [] };
+    /* 영문 이름이 비면 한국어를 보내지 않고 null — 화면이 대체 문구를 붙인다 */
+    const group = labeled.get(label) ?? { name: isEn ? row.group_name_en?.trim() || null : label, position: Number.MAX_SAFE_INTEGER, personIds: [] };
     group.position = Math.min(group.position, row.group_position ?? Number.MAX_SAFE_INTEGER);
     group.personIds.push(id);
     labeled.set(label, group);
@@ -196,42 +119,38 @@ function groupsForTradition(
 async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   const db = createStaticClient();
   const isEn = locale === "en";
-  const { data: parent, error: parentError } = await db
-    .from("celeb_tags").select("id").eq("slug", MYTH_ROOT_TAG_SLUG).maybeSingle();
-  if (parentError) throw new Error(`신화 묶음 조회 실패: ${parentError.message}`);
-  if (!parent) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
 
-  const { data: rootTagData, error: tagError } = await db
-    .from("celeb_tags")
-    .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published,theme_music")
-    .eq("parent_id", parent.id).order("sort_order");
-  if (tagError) throw new Error(`신화 목록 조회 실패: ${tagError.message}`);
-  const rootTags = (rootTagData ?? []) as TagRow[];
-  const { data: nestedTagData, error: nestedTagError } = rootTags.length > 0
-    ? await db.from("celeb_tags")
-      .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published,theme_music")
-      .in("parent_id", rootTags.map((tag) => tag.id)).order("sort_order")
-    : { data: [], error: null };
-  if (nestedTagError) throw new Error(`Failed to load nested mythology tags: ${nestedTagError.message}`);
-  const nestedTags = (nestedTagData ?? []) as TagRow[];
-  const tagRows = [...rootTags, ...nestedTags];
-  const tagIds = tagRows.map((tag) => tag.id);
-  if (tagIds.length === 0) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
+  /* 지역(lv1)·신화(lv2) — is_myth가 신화의 세계 가지를 가른다.
+     전에는 지역을 코드 상수 + slug 앞머리로 추측했다 — 이제 lv1 행이 지역 자체다 */
+  const [lv1Result, lv2Result] = await Promise.all([
+    db.from("faction_lv1")
+      .select("id,name,name_en,sort_order")
+      .eq("is_myth", true).order("sort_order"),
+    db.from("faction_lv2")
+      .select("id,lv1_id,slug,name,name_en,description,description_en,published,theme_music,lead_person_ids")
+      .eq("is_myth", true).order("sort_order"),
+  ]);
+  if (lv1Result.error) throw new Error(`신화 지역 조회 실패: ${lv1Result.error.message}`);
+  if (lv2Result.error) throw new Error(`신화 목록 조회 실패: ${lv2Result.error.message}`);
+  const regionRows = (lv1Result.data ?? []) as Lv1Row[];
+  const mythRows = (lv2Result.data ?? []) as Lv2Row[];
+  const lv2Ids = mythRows.map((tag) => tag.id);
+  if (lv2Ids.length === 0) return { regions: [], myths: [], people: [], works: [], openingPersonId: null };
 
   /* 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다. 신화 인원이 그 턱밑(26.09.14 약 1천 행)이다.
      차례는 sort_order가 쥔다 */
-  const members = await selectVisibleAtlasMembers<MemberRow>(db,
-    "tag_id,celeb_id,short_desc,short_desc_en,sort_order,faction_image_url,group_label,group_label_en,group_position", tagIds);
+  const members = await selectVisibleFactionMembers<MemberRow>(db,
+    "lv2_id,celeb_id,short_desc,short_desc_en,sort_order,image_url,group_name,group_name_en,group_position", lv2Ids);
   const personIds = unique(members.map((member) => member.celeb_id));
-  if (personIds.length === 0) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
+  if (personIds.length === 0) return { regions: [], myths: [], people: [], works: [], openingPersonId: null };
 
   /* 그룹 설명 — 그룹 개요의 본문이다. 뷰에는 없어 그룹 표를 직접 읽는다.
-     영문 설명이 비면 한국어를 내보내지 않고 null — 화면이 대체 문구를 붙인다 */
+     영문 설명이 비면 한국어를 보내지 않고 null — 화면이 대체 문구를 붙인다 */
   const { data: groupData, error: groupError } = await db
-    .from("celeb_tag_groups").select("tag_id,name,description,description_en").in("tag_id", tagIds);
+    .from("faction_lv3").select("lv2_id,name,description,description_en").in("lv2_id", lv2Ids);
   if (groupError) throw new Error(`신화 그룹 설명 조회 실패: ${groupError.message}`);
   const groupDescriptions = new Map(((groupData ?? []) as GroupRow[]).map((row) => [
-    `${row.tag_id}/${row.name}`,
+    `${row.lv2_id}/${row.name}`,
     (isEn ? row.description_en : row.description)?.trim() || null,
   ]));
 
@@ -280,10 +199,10 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const explanation = explanationByPerson.get(profile.id);
     const guide = (isEn ? explanation?.plain_text_en || explanation?.plain_text : explanation?.plain_text)?.trim() || null;
     const appearances = placements.map((placement) => ({
-      traditionId: placement.tag_id,
+      mythId: placement.lv2_id,
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
-      /* 편마다 모습이 다른 인물의 전승 전용 사진 — 고르는 규칙은 화면의 mythLeadImage가 쥔다 */
-      imageUrl: placement.faction_image_url ?? null,
+      /* 편마다 모습이 다른 인물의 신화 전용 사진 — 고르는 규칙은 화면의 mythLeadImage가 쥔다 */
+      imageUrl: placement.image_url ?? null,
     }));
     return [{ id: profile.id, slug: profile.slug,
       name: isEn ? profile.nickname_en || profile.nickname : profile.nickname,
@@ -294,48 +213,41 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       summary: (isEn ? lead?.short_desc_en || lead?.short_desc : lead?.short_desc) ?? null,
       appearances,
       avatarUrl: profile.avatar_url, imageUrl, portraitUrl, images,
-      traditionIds: unique(placements.map((row) => row.tag_id)), sourceIds }];
+      mythIds: unique(placements.map((row) => row.lv2_id)), sourceIds }];
   });
-  /* 차례는 전승이 쥔다(tradition.personIds). 여기서 연결 작품 수로 다시 줄을 세우면
-     전승마다 잡아 둔 계보·이야기 순서가 화면에서 통째로 뒤집힌다 */
+  /* 차례는 신화가 쥔다(myth.personIds). 여기서 연결 작품 수로 다시 줄을 세우면
+     신화마다 잡아 둔 계보·이야기 순서가 화면에서 통째로 뒤집힌다 */
 
-  const personIdBySlug = new Map(profiles.flatMap((profile) => profile.slug ? [[profile.slug, profile.id] as const] : []));
-  const parentIdsWithPopulatedChildren = new Set(
-    nestedTags
-      .filter((tag) => members.some((member) => member.tag_id === tag.id && validIds.has(member.celeb_id)))
-      .map((tag) => tag.parent_id),
-  );
-  const traditions = tagRows.filter((tag) => !parentIdsWithPopulatedChildren.has(tag.id)).flatMap((tag) => {
+  const regionIds = new Set(regionRows.map((region) => region.id));
+  const myths = mythRows.flatMap((tag): Myth[] => {
     if (!tag.slug) return [];
-    const ids = unique(members.filter((member) => member.tag_id === tag.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
+    const ids = unique(members.filter((member) => member.lv2_id === tag.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
     if (ids.length === 0) return [];
-    const region = regionForTradition(tag.slug, tag.name, isEn);
-    const titleArt = titleArtForTradition(tag.slug, tag.name);
+    const titleArt = titleArtForMyth(tag.slug, tag.name);
     const images = titleArt ? [{ url: titleArt, label: null }] : [];
-    /* 대표 3인은 뽑은 인물이 먼저다. 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
-    const leadPersonIds = (MYTH_LEAD_BY_SLUG[tag.slug] ?? [])
-      .flatMap((slug) => personIdBySlug.get(slug) ?? [])
-      .filter((id) => ids.includes(id));
+    /* 대표 3인은 DB가 쥔다(faction_lv2.lead_person_ids). 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
+    const leadPersonIds = (tag.lead_person_ids ?? []).filter((id) => ids.includes(id));
     for (const id of ids) {
       if (leadPersonIds.length >= 3) break;
       if (!leadPersonIds.includes(id)) leadPersonIds.push(id);
     }
     return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name, leadPersonIds,
       description: isEn ? tag.description_en || tag.description : tag.description,
-      isPublished: tag.atlas_published === true,
-      regionId: region.id, images, personIds: ids, music: toFactionMusic(tag.theme_music),
-      groups: groupsForTradition(members.filter((member) => member.tag_id === tag.id), ids, isEn,
+      isPublished: tag.published === true,
+      regionId: regionIds.has(tag.lv1_id) ? tag.lv1_id : "other",
+      images, personIds: ids, music: toFactionMusic(tag.theme_music),
+      groups: groupsForMyth(members.filter((member) => member.lv2_id === tag.id), ids, isEn,
         (label) => groupDescriptions.get(`${tag.id}/${label}`) ?? null) }];
   });
-  const regions = MYTH_REGIONS.map((region): MythRegion => ({
+  const regions = regionRows.map((region): MythRegion => ({
     id: region.id,
-    name: isEn ? region.en : region.ko,
-    traditionIds: traditions.filter((tradition) => tradition.regionId === region.id).map((tradition) => tradition.id),
-  })).filter((region) => region.traditionIds.length > 0);
-  const otherTraditionIds = traditions.filter((tradition) => tradition.regionId === "other").map((tradition) => tradition.id);
-  if (otherTraditionIds.length > 0) regions.push({ id: "other", name: isEn ? "Other traditions" : "기타 전승", traditionIds: otherTraditionIds });
+    name: isEn ? region.name_en || region.name : region.name,
+    mythIds: myths.filter((myth) => myth.regionId === region.id).map((myth) => myth.id),
+  })).filter((region) => region.mythIds.length > 0);
+  const otherMythIds = myths.filter((myth) => myth.regionId === "other").map((myth) => myth.id);
+  if (otherMythIds.length > 0) regions.push({ id: "other", name: isEn ? "Other myths" : "기타 신화", mythIds: otherMythIds });
 
-  return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
+  return { regions, myths, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
 const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v20-yes24-edition"], {

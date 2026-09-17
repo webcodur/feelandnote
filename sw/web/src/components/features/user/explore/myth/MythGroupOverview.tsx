@@ -4,7 +4,7 @@ import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Users } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythGroup, MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
+import type { MythGroup, MythPerson, Myth } from "@/actions/home/mythAtlasTypes";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import { mythGroupName } from "./mythGroupName";
 import { mythLeadImage } from "./mythLeadImage";
@@ -14,22 +14,22 @@ import { MYTH_LAYOUT as layout } from "./mythLayout";
 const CORE_COUNT = 3;
 
 interface Props {
-  tradition: MythTradition;
+  myth: Myth;
   group: MythGroup;
-  /** 이 그룹의 인물 — 전승 차례대로. 앞사람이 핵심 인물이 된다(백오피스 명단 순서) */
+  /** 이 그룹의 인물 — 신화 차례대로. 앞사람이 핵심 인물이 된다(백오피스 명단 순서) */
   people: MythPerson[];
   onSelectPerson: (id: string) => void;
 }
 
-/* 그룹 개요 — 그룹 탭을 고르면 전승 개요 자리에 선다. 왼쪽에 핵심 인물 몇 명을 사진 칸으로 세우고,
+/* 그룹 개요 — 그룹 탭을 고르면 신화 개요 자리에 선다. 왼쪽에 핵심 인물 몇 명을 사진 칸으로 세우고,
    오른쪽에 이 무리가 누구인지와 구성원 한 줄 소개를 둔다. 사진이나 이름을 누르면 그 인물 상세로 간다.
    얼굴을 오려 한 무대에 세우던 출연진 판은 인물이 작고 어설퍼 보여 단순한 칸으로 바꿨다(26.09.12) */
-export default function MythGroupOverview({ tradition, group, people, onSelectPerson }: Props) {
+export default function MythGroupOverview({ myth, group, people, onSelectPerson }: Props) {
   const t = useTranslations("explore.hub.myth");
   const name = mythGroupName(group, { other: t("otherGroup"), unnamed: t("unnamedGroup") });
   const core = people.slice(0, CORE_COUNT);
   const summaryOf = (person: MythPerson) =>
-    person.appearances.find((item) => item.traditionId === tradition.id)?.summary ?? null;
+    person.appearances.find((item) => item.mythId === myth.id)?.summary ?? null;
 
   return (
     <section aria-label={name} className={layout.overview}>
@@ -37,7 +37,7 @@ export default function MythGroupOverview({ tradition, group, people, onSelectPe
         <div className={layout.groupStage}>
           <p className="flex items-center gap-1.5 text-[11px] font-bold tracking-[0.15em] text-accent md:text-xs">
             <Users size={13} aria-hidden />
-            {tradition.name}
+            {myth.name}
           </p>
           <h3 className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-serif text-2xl font-black leading-tight text-white md:text-3xl">
             {name}
@@ -50,7 +50,7 @@ export default function MythGroupOverview({ tradition, group, people, onSelectPe
           <ul className={layout.groupCoreList}>
             {core.map((person) => {
               /* 칸이 좁아 세로 대표 사진은 인물이 잘리고 작아진다 — 얼굴 아바타를 둥글게 세우고, 아바타가 없을 때만 대표 사진을 쓴다 */
-              const image = person.avatarUrl ?? mythLeadImage(person, tradition.id);
+              const image = person.avatarUrl ?? mythLeadImage(person, myth.id);
               const summary = summaryOf(person);
               return (
                 <li key={person.id} className={layout.groupCoreItem}>

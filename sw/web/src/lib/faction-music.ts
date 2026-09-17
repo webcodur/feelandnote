@@ -1,5 +1,5 @@
 /**
- * 테마에 걸린 배경음악 — 저장된 값(`celeb_tags.theme_music`)을 화면이 쓰는 형태로 푼다.
+ * 테마에 걸린 배경음악 — 저장된 값(`faction_lv2.theme_music`)을 화면이 쓰는 형태로 푼다.
  *
  * 여기서는 모양만 확인한다.
  * 서버 액션 파일(`'use server'`)은 비동기 함수만 내보낼 수 있어 이 자리에 둔다.
@@ -13,7 +13,7 @@ export interface FactionMusic {
   file: string
 }
 
-/** `celeb_tags.theme_music`(jsonb) → 화면 형태. 재생 주소가 없으면 null */
+/** `faction_lv2.theme_music`(jsonb) → 화면 형태. 재생 주소가 없으면 null */
 export function toFactionMusic(v: unknown): FactionMusic | null {
   if (!v || typeof v !== 'object') return null
   const row = v as Record<string, unknown>

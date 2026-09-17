@@ -2,30 +2,30 @@
 
 import Link from 'next/link'
 import { Field } from './RankingEntryRow'
-import type { RankingThemeOption } from '@/lib/ranking-celeb'
+import type { RankingFactionOption } from '@/lib/ranking-celeb'
 
-export default function RankingThemeField({
-  themes,
-  themeSlug,
+export default function RankingFactionField({
+  factions,
+  factionSlug,
   onChange,
 }: {
-  themes: RankingThemeOption[]
-  themeSlug: string
+  factions: RankingFactionOption[]
+  factionSlug: string
   onChange: (slug: string) => void
 }) {
-  const current = themes.find(t => t.slug === themeSlug)
+  const current = factions.find(t => t.slug === factionSlug)
   return (
     <div className="md:col-span-2">
-      <Field label="도감 테마">
+      <Field label="세력">
         <div className="flex flex-wrap items-center gap-2">
           <select
-            value={themeSlug}
+            value={factionSlug}
             onChange={e => onChange(e.target.value)}
             className="min-w-56 flex-1 rounded border border-border bg-bg-secondary px-2 py-1.5 text-sm text-text-primary"
           >
             <option value="">없음</option>
-            {themeSlug && !current ? <option value={themeSlug}>{themeSlug}</option> : null}
-            {themes.map(t => (
+            {factionSlug && !current ? <option value={factionSlug}>{factionSlug}</option> : null}
+            {factions.map(t => (
               <option key={t.id} value={t.slug}>{t.name}</option>
             ))}
           </select>
@@ -34,19 +34,19 @@ export default function RankingThemeField({
               href={`/factions/${current.id}`}
               className="text-xs text-accent hover:underline"
             >
-              테마 편집
+              세력 편집
             </Link>
           ) : null}
         </div>
       </Field>
       <p className="mt-1 text-xs text-text-secondary">
-        인물 풀과 개인화보는 이 테마를 쓴다. 순위와 설명만 이 편에서 고친다.
+        인물 풀과 개인화보는 이 세력을 쓴다. 순위와 설명만 이 편에서 고친다.
       </p>
     </div>
   )
 }
 
-export function AddThemePerson({
+export function AddFactionPerson({
   people,
   usedNames,
   onAdd,
@@ -68,7 +68,7 @@ export function AddThemePerson({
       }}
       className="rounded border border-border bg-bg-secondary px-2 py-1.5 text-xs text-text-secondary hover:text-accent"
     >
-      <option value="" disabled>테마에서 넣기</option>
+      <option value="" disabled>세력에서 넣기</option>
       {leftover.map(p => (
         <option key={p.id} value={p.id}>{p.nickname}</option>
       ))}

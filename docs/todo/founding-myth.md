@@ -15,7 +15,7 @@
 아프리카·켈트브리튼·게르만·슬라브동유럽·아메리카·오세아니아 건국 전승이다. 뒤에 서아시아 건국
 전승을 하나 더 열어 서른이 됐다(아래 「남은 일」).
 
-**전부 잠겨 있다.** 인물은 `inactive`, 배정은 `hidden=true`, 새 전승은 `atlas_published=false`다.
+**전부 잠겨 있다.** 인물은 `inactive`, 배정은 `hidden=true`, 새 전승은 `published=false`다.
 화면은 등록 전과 똑같다.
 
 조사 원본의 한 줄 설명은 `headline`, 이야기는 `bio`에 둔다. 문구 기준은
@@ -56,9 +56,9 @@
 만들면 기존 최소인 페르시아 열보다 잘아져 **`myth-west-asia`(서아시아 건국 전승) 하나로 묶고
 열을 배정했다.** 아시리아·바벨 서사인 니므롯·니노스·세미라미스는 메소포타미아로 보냈고, 같은
 자리가 비어 있던 닌순(길가메시의 어머니, 09-04 이른 배치)도 함께 붙였다. 전승은
-`atlas_published=false`, 배정은 전원 `hidden=true`라 화면은 그대로다. 화면 지역에도 서아시아가
-없어 열어도 「기타 전승」으로 떨어졌으므로 `getMythAtlas.ts`의 `MYTH_REGIONS`에 메소포타미아와
-이집트 사이로 넣었다.
+`published=false`, 배정은 전원 `hidden=true`라 화면은 그대로다. 당시 화면 지역에 서아시아가
+없어 「기타 전승」으로 떨어질 뻔했는데, 스키마 이관(26.09.17)으로 서아시아가 DB 테마(`faction_lv1`)로
+서면서 그 걱정은 사라졌다.
 
 **427 밖에 같은 날 등록된 55명이 따로 있다.** 09-04 22시 배치가 427명이고, 그날 이른 시각
 (04·05·06·07·11시)에 등록된 55명은 다른 갈래다 — 성서 인물 25명(아브라함·모세·다윗·솔로몬·
@@ -197,17 +197,17 @@
 
 전승별 인물·작품·상품 수는 `node --env-file=.env scripts/founding-myth/tradition-readiness.mjs`로
 센다(web-bo에서 실행). 여닫기는 백오피스 세력도감 목록의 「신화 공개」 토글이 한다
-(`celeb_tags.atlas_published`).
+(`faction_lv2.published`).
 
 ## 화면에 세울 때 걸리는 것
 
-**전승 slug의 앞머리가 화면 지역을 정한다.** 지역은 열일곱이고 `getMythAtlas.ts`가 쥔다.
-`myth-steppe-mongol`은 초원, `myth-americas-inca`는 아메리카로 간다. 어디에도 안 걸리면
-「기타 전승」으로 가고, 전승이 하나도 없는 지역은 화면에서 걸러진다.
+**신화의 화면 지역은 DB가 쥔다(26.09.17 이관).** 지역은 `faction_lv1`의 `is_myth=true`인
+테마 열여덟이고, 신화(`faction_lv2`)는 `lv1_id`로 지역에 매인다. `myth-west-asia`는
+서아시아 테마 아래다. 지역이 없는 신화는 만들 수 없다(lv1_id가 NOT NULL).
 
 **전승 인물을 일괄 등록할 때는 명세에 실존 축을 적는다.** `faction:seed:inactive`가
 `celeb_reality`를 받으며 `FICTION`과 `BOTH`만 허용한다(생략하면 `FICTION`). 실존 인물은 이 경로로
 넣지 않는다 — web-bo 등록 화면을 쓴다.
 
-**배정을 쓰는 곳은 `celeb_tag_assignments`다.** 화면이 읽는 `faction_atlas_members`는 이것을
+**배정을 쓰는 곳은 `faction_members`다.** 화면이 읽는 `faction_member_rows`는 이것을
 보여 주는 뷰라 쓰기가 막혀 있다.

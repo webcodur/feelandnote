@@ -15,7 +15,7 @@
 | 용도 | 규격 SSoT | 프레이밍 |
 |------|-----------|----------|
 | **셀럽 아바타**(`celebs.avatar_url`, 얼굴 원형 썸네일) | `docs/project/celeb/celeb-08-01-avatar.md` | 이 문서의 FRAMING 블록 **필수** |
-| **팩션 개인샷**(`faction_image_url`, 원본 전신·연출 화보) | `faction-image` 스킬 | 아바타 규격 적용 안 함. 얼굴 크롭도 하지 않는다 |
+| **팩션 개인샷**(`faction_members.image_url`, 원본 전신·연출 화보) | `faction-image` 스킬 | 아바타 규격 적용 안 함. 얼굴 크롭도 하지 않는다 |
 
 ### 아바타 용도일 때 — FRAMING 블록을 반드시 함께 넣는다
 

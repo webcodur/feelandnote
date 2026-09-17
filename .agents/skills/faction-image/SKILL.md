@@ -407,8 +407,8 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
   있는 세력만 그 심볼을 모티브로 쓴다.
 
 **등록 자리**
-- 개인화보 = web-bo `/factions/<테마>` 인물 행의 사진 칸 → `celeb_tag_assignments.faction_image_url`(원본 비율, 얼굴 크롭 금지)
-- 단체 사진 = 같은 화면의 「단체 사진」 칸 → `celeb_tags.team_images`
+- 개인화보 = web-bo `/factions/<세력>` 인물 행의 사진 칸 → `faction_members.image_url`(원본 비율, 얼굴 크롭 금지)
+- 단체 사진 = 같은 화면의 「단체 사진」 칸 → `faction_lv2.team_images`
 - 신화 전승 제목 그림 = `sw/web/public/images/myth-atlas/title-art/` + `sw/web/src/actions/home/getMythAtlas.ts` 대응표
 - 이미지 종류별 원천은 `docs/project/celeb/celeb-08-00-image-map.md`가 쥔다.
 

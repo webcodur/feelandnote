@@ -1,56 +1,56 @@
 'use client'
 
 /**
- * 테마 소속 인물 명단 — 인물의 추가·순서·제거·소개·숨김·개인샷·그룹을 다룬다.
+ * 세력 소속 인물 명단 — 인물의 추가·순서·제거·소개·숨김·개인샷·그룹을 다룬다.
  */
 
 import { useEffect, useState } from 'react'
 import { GripVertical, Plus, Search, X } from 'lucide-react'
 import {
-  type CelebTagAssignment,
-  type CelebForTag,
-  searchCelebsForTag,
-  addCelebToTag,
-  removeCelebFromTag,
-  updateTagAssignmentDesc,
-  updateTagCelebOrder,
-  setTagCelebImage,
-  setTagCelebHidden,
-  type TagGroup,
-  getTagGroups,
-  createTagGroup,
-  setTagCelebGroup,
-} from '@/actions/admin/tags'
-import { uploadTagCelebImage, deleteTagCelebImage } from '@/actions/admin/storage'
+  type FactionMember,
+  type FactionCelebPick,
+  searchCelebsForFaction,
+  addCelebToFaction,
+  removeCelebFromFaction,
+  updateFactionMemberDesc,
+  updateFactionMemberOrder,
+  setFactionMemberImage,
+  setFactionMemberHidden,
+  type FactionGroup,
+  getFactionGroups,
+  createFactionGroup,
+  setFactionMemberGroup,
+} from '@/actions/admin/factions/entries'
+import { uploadFactionCelebImage, deleteFactionCelebImage } from '@/actions/admin/storage'
 import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 import { Avatar, CelebFactionImage } from './bits'
 
-export function ThemeMemberList({
-  tagId,
-  celebs,
-  onCelebsChange,
+export function MemberList({
+  lv2Id,
+  members,
+  onMembersChange,
 }: {
-  tagId: string
-  celebs: CelebTagAssignment[]
-  onCelebsChange: (next: CelebTagAssignment[]) => void
+  lv2Id: string
+  members: FactionMember[]
+  onMembersChange: (next: FactionMember[]) => void
 }) {
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState<CelebForTag[]>([])
+  const [searchResults, setSearchResults] = useState<FactionCelebPick[]>([])
   const [isSearching, setIsSearching] = useState(false)
   /** 끌고 있는 인물의 명단 인덱스 */
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
   const [imgBusy, setImgBusy] = useState(false)
   const [cropCelebId, setCropCelebId] = useState<string | null>(null)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
-  /** 도감 그룹(celeb_tag_groups) — 행마다 고르고, 새 그룹은 위 칸에서 더한다 */
-  const [groups, setGroups] = useState<TagGroup[]>([])
+  /** 도감 그룹(faction_lv3) — 행마다 고르고, 새 그룹은 위 칸에서 더한다 */
+  const [groups, setGroups] = useState<FactionGroup[]>([])
   const [newGroupName, setNewGroupName] = useState('')
 
   useEffect(() => {
-    getTagGroups(tagId).then(setGroups)
-  }, [tagId])
+    getFactionGroups(lv2Id).then(setGroups)
+  }, [lv2Id])
 
   // #region 인물 검색·추가
   useEffect(() => {
@@ -60,31 +60,31 @@ export function ThemeMemberList({
     }
     const timer = setTimeout(async () => {
       setIsSearching(true)
-      const results = await searchCelebsForTag(searchQuery, tagId)
+      const results = await searchCelebsForFaction(searchQuery, lv2Id)
       setSearchResults(results)
       setIsSearching(false)
     }, 300)
     return () => clearTimeout(timer)
-  }, [searchQuery, showSearch, tagId])
+  }, [searchQuery, showSearch, lv2Id])
 
-  const handleAdd = async (celeb: CelebForTag) => {
-    const result = await addCelebToTag(celeb.id, tagId)
+  const handleAdd = async (celeb: FactionCelebPick) => {
+    const result = await addCelebToFaction(celeb.id, lv2Id)
     if (!result.success) {
       alert(result.error ?? '인물 추가 실패')
       return
     }
     setSearchResults(prev => prev.filter(c => c.id !== celeb.id))
-    onCelebsChange([...celebs, {
+    onMembersChange([...members, {
       celeb_id: celeb.id,
-      tag_id: tagId,
+      lv2_id: lv2Id,
       short_desc: null,
       long_desc: null,
       short_desc_en: null,
       long_desc_en: null,
-      faction_image_url: null,
+      image_url: null,
       hidden: false,
-      sort_order: result.sort_order ?? celebs.length,
-      assignment_id: null,
+      sort_order: result.sort_order ?? members.length,
+      member_id: null,
       celeb: { id: celeb.id, nickname: celeb.nickname, avatar_url: celeb.avatar_url, title: celeb.title },
     }])
   }
@@ -94,37 +94,37 @@ export function ThemeMemberList({
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault()
     if (draggedIndex === null || draggedIndex === index) return
-    const next = [...celebs]
+    const next = [...members]
     const [dragged] = next.splice(draggedIndex, 1)
     next.splice(index, 0, dragged)
-    onCelebsChange(next)
+    onMembersChange(next)
     setDraggedIndex(index)
   }
 
   const handleDragEnd = async () => {
     if (draggedIndex === null) return
     setDraggedIndex(null)
-    await updateTagCelebOrder(tagId, celebs.map(c => c.celeb_id))
+    await updateFactionMemberOrder(lv2Id, members.map(c => c.celeb_id))
   }
   // #endregion
 
   // #region 제거·소개·숨김
   const handleRemove = async (celebId: string) => {
-    const result = await removeCelebFromTag(celebId, tagId)
+    const result = await removeCelebFromFaction(celebId, lv2Id)
     if (!result.success) {
       alert(result.error ?? '인물 제거 실패')
       return
     }
-    onCelebsChange(celebs.filter(c => c.celeb_id !== celebId))
+    onMembersChange(members.filter(c => c.celeb_id !== celebId))
   }
 
   const handleDescChange = (celebId: string, field: 'short_desc' | 'long_desc' | 'short_desc_en' | 'long_desc_en', value: string) => {
-    onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, [field]: value } : c)))
+    onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, [field]: value } : c)))
   }
 
-  const handleSaveDesc = async (item: CelebTagAssignment) => {
-    const result = await updateTagAssignmentDesc(
-      item.celeb_id, tagId,
+  const handleSaveDesc = async (item: FactionMember) => {
+    const result = await updateFactionMemberDesc(
+      item.celeb_id, lv2Id,
       item.short_desc?.trim() || null,
       item.long_desc?.trim() || null,
       item.short_desc_en?.trim() || null,
@@ -134,10 +134,10 @@ export function ThemeMemberList({
   }
 
   const handleToggleHidden = async (celebId: string, hidden: boolean) => {
-    onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, hidden } : c)))
-    const result = await setTagCelebHidden(tagId, celebId, hidden)
+    onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, hidden } : c)))
+    const result = await setFactionMemberHidden(lv2Id, celebId, hidden)
     if (!result.success) {
-      onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, hidden: !hidden } : c)))
+      onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, hidden: !hidden } : c)))
       alert(result.error ?? '도감 노출 전환 실패')
     }
   }
@@ -161,11 +161,11 @@ export function ThemeMemberList({
       const blob = await (await fetch(dataUrl)).blob()
       const file = new File([blob], 'faction.png', { type: 'image/png' })
       const resized = await resizeSingleImage(file, 'faction')
-      const up = await uploadTagCelebImage({ tagId, celebId, image: resized })
+      const up = await uploadFactionCelebImage({ lv2Id, celebId, image: resized })
       if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
-      const res = await setTagCelebImage(tagId, celebId, up.url)
+      const res = await setFactionMemberImage(lv2Id, celebId, up.url)
       if (!res.success) throw new Error(res.error ?? '주소 저장 실패')
-      onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, faction_image_url: up.url! } : c)))
+      onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, image_url: up.url! } : c)))
     } catch (e) {
       alert(e instanceof Error ? e.message : '개인샷 업로드 실패')
     } finally {
@@ -174,26 +174,26 @@ export function ThemeMemberList({
   }
 
   const handleRemoveImage = async (celebId: string) => {
-    await setTagCelebImage(tagId, celebId, null)
-    await deleteTagCelebImage({ tagId, celebId })
-    onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, faction_image_url: null } : c)))
+    await setFactionMemberImage(lv2Id, celebId, null)
+    await deleteFactionCelebImage({ lv2Id, celebId })
+    onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, image_url: null } : c)))
   }
   // #endregion
 
   // #region 그룹
   const handleGroupChange = async (celebId: string, groupId: string | null) => {
-    const prev = celebs
-    const label = groups.find(g => g.id === groupId)?.name ?? null
-    onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, group_id: groupId, group_label: label } : c)))
-    const result = await setTagCelebGroup(tagId, celebId, groupId)
+    const prev = members
+    const name = groups.find(g => g.id === groupId)?.name ?? null
+    onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, lv3_id: groupId, group_name: name } : c)))
+    const result = await setFactionMemberGroup(lv2Id, celebId, groupId)
     if (!result.success) {
-      onCelebsChange(prev)
+      onMembersChange(prev)
       alert(result.error ?? '그룹 지정 실패')
     }
   }
 
   const handleAddGroup = async () => {
-    const result = await createTagGroup(tagId, newGroupName, null)
+    const result = await createFactionGroup(lv2Id, newGroupName, null)
     if (!result.group) {
       alert(result.error ?? '그룹 추가 실패')
       return
@@ -203,7 +203,7 @@ export function ThemeMemberList({
   }
   // #endregion
 
-  const renderRow = (item: CelebTagAssignment, index: number) => (
+  const renderRow = (item: FactionMember, index: number) => (
     <div
       key={item.celeb_id}
       draggable
@@ -217,7 +217,7 @@ export function ThemeMemberList({
         <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} />
         <p className="flex-1 truncate text-base font-medium text-text-primary">{item.celeb?.nickname}</p>
         <select
-          value={item.group_id ?? ''}
+          value={item.lv3_id ?? ''}
           onChange={(e) => handleGroupChange(item.celeb_id, e.target.value || null)}
           title="도감 그룹입니다. 비우면 맨 끝 「그 외」로 갑니다"
           className="max-w-40 shrink-0 rounded-lg border border-border bg-bg-main px-2 py-1.5 text-xs text-text-primary hover:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/50"
@@ -237,7 +237,7 @@ export function ThemeMemberList({
           {item.hidden ? '숨김' : '도감 노출'}
         </button>
         <CelebFactionImage
-          url={item.faction_image_url}
+          url={item.image_url}
           busy={imgBusy}
           onPick={(file) => pickImage(item.celeb_id, file)}
           onRemove={() => handleRemoveImage(item.celeb_id)}
@@ -245,7 +245,7 @@ export function ThemeMemberList({
         <button
           onClick={() => handleRemove(item.celeb_id)}
           className="p-1.5 text-text-tertiary hover:text-red-500"
-          title="테마에서 제거"
+          title="세력에서 제거"
         >
           <X className="w-5 h-5" />
         </button>
@@ -295,7 +295,7 @@ export function ThemeMemberList({
     <div className="space-y-3">
       <div className="flex items-center gap-2">
         <h3 className="text-base font-medium text-text-primary">소속 인물</h3>
-        <span className="text-sm text-text-tertiary">({celebs.length})</span>
+        <span className="text-sm text-text-tertiary">({members.length})</span>
       </div>
 
       <div className="flex items-center gap-2">
@@ -344,7 +344,7 @@ export function ThemeMemberList({
               onClick={() => { setShowSearch(false); setSearchQuery(''); setSearchResults([]) }}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-text-secondary"
             >
-              <X className="h-5 w-5" />
+              <X className="w-5 h-5" />
             </button>
           </div>
           {isSearching && <p className="text-sm text-text-tertiary">검색 중...</p>}
@@ -368,11 +368,11 @@ export function ThemeMemberList({
         </div>
       )}
 
-      {celebs.length === 0 ? (
+      {members.length === 0 ? (
         <p className="py-4 text-center text-sm text-text-tertiary">등록된 인물이 없습니다.</p>
       ) : (
         <div className="space-y-3">
-          {celebs.map((item, index) => renderRow(item, index))}
+          {members.map((item, index) => renderRow(item, index))}
         </div>
       )}
 

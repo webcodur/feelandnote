@@ -8,14 +8,14 @@
 import { useRef, useState } from 'react'
 import { ArrowDown, ArrowUp, ChevronDown, Plus, Trash2 } from 'lucide-react'
 import {
-  createTagGroup, deleteTagGroup, reorderTagGroups, updateTagGroup,
-  type CelebTagAssignment, type TagGroup,
-} from '@/actions/admin/tags'
+  createFactionGroup, deleteFactionGroup, reorderFactionGroups, updateFactionGroup,
+  type FactionGroup, type FactionMember,
+} from '@/actions/admin/factions/entries'
 import { MYTH_BUTTON, MYTH_CARD, MYTH_INPUT } from './styles'
 
-type GroupText = Pick<TagGroup, 'name' | 'name_en' | 'description' | 'description_en'>
+type GroupText = Pick<FactionGroup, 'name' | 'name_en' | 'description' | 'description_en'>
 
-const textOf = (group: TagGroup): GroupText => ({
+const textOf = (group: FactionGroup): GroupText => ({
   name: group.name,
   name_en: group.name_en,
   description: group.description,
@@ -24,28 +24,28 @@ const textOf = (group: TagGroup): GroupText => ({
 
 const ARROW = 'rounded p-0.5 text-text-tertiary hover:bg-bg-secondary hover:text-text-primary disabled:opacity-30 disabled:hover:bg-transparent'
 
-export function MythGroupPanel({ tagId, groups, members, onGroupsChange, onMembersChange }: {
-  tagId: string
-  groups: TagGroup[]
-  members: CelebTagAssignment[]
-  onGroupsChange: (next: TagGroup[]) => void
-  onMembersChange: (next: CelebTagAssignment[]) => void
+export function MythGroupPanel({ lv2Id, groups, members, onGroupsChange, onMembersChange }: {
+  lv2Id: string
+  groups: FactionGroup[]
+  members: FactionMember[]
+  onGroupsChange: (next: FactionGroup[]) => void
+  onMembersChange: (next: FactionMember[]) => void
 }) {
   const [openId, setOpenId] = useState<string | null>(null)
   const [newName, setNewName] = useState('')
   /** 마지막으로 저장된 글 — 칸을 스치기만 한 blur는 저장하지 않는다 */
   const saved = useRef(new Map(groups.map(group => [group.id, textOf(group)])))
-  const countOf = (groupId: string) => members.filter(m => m.group_id === groupId).length
+  const countOf = (groupId: string) => members.filter(m => m.lv3_id === groupId).length
 
   const edit = (groupId: string, field: keyof GroupText, value: string) =>
     onGroupsChange(groups.map(g => (g.id === groupId ? { ...g, [field]: value } : g)))
 
-  const save = async (group: TagGroup, field: keyof GroupText) => {
+  const save = async (group: FactionGroup, field: keyof GroupText) => {
     const before = saved.current.get(group.id)
     const raw = group[field]
     const value = field === 'name' ? (raw ?? '').trim() : raw?.trim() || null
     if (!before || before[field] === value) return
-    const result = await updateTagGroup(group.id, { [field]: value } as Partial<GroupText>)
+    const result = await updateFactionGroup(group.id, { [field]: value } as Partial<GroupText>)
     if (!result.success) {
       alert(result.error ?? '그룹을 저장하지 못했습니다.')
       onGroupsChange(groups.map(g => (g.id === group.id ? { ...g, [field]: before[field] } : g)))
@@ -53,7 +53,7 @@ export function MythGroupPanel({ tagId, groups, members, onGroupsChange, onMembe
     }
     saved.current.set(group.id, { ...before, [field]: value })
     if (field === 'name') {
-      onMembersChange(members.map(m => (m.group_id === group.id ? { ...m, group_label: value as string } : m)))
+      onMembersChange(members.map(m => (m.lv3_id === group.id ? { ...m, group_name: value as string } : m)))
     }
   }
 
@@ -63,7 +63,7 @@ export function MythGroupPanel({ tagId, groups, members, onGroupsChange, onMembe
     const next = [...groups]
     ;[next[index], next[target]] = [next[target], next[index]]
     onGroupsChange(next)
-    const result = await reorderTagGroups(tagId, next.map(g => g.id))
+    const result = await reorderFactionGroups(lv2Id, next.map(g => g.id))
     if (!result.success) {
       alert(result.error ?? '그룹 차례를 저장하지 못했습니다.')
       onGroupsChange(groups)
@@ -71,23 +71,23 @@ export function MythGroupPanel({ tagId, groups, members, onGroupsChange, onMembe
   }
 
   const add = async () => {
-    const result = await createTagGroup(tagId, newName, null)
+    const result = await createFactionGroup(lv2Id, newName, null)
     if (!result.group) return alert(result.error ?? '그룹을 더하지 못했습니다.')
     saved.current.set(result.group.id, textOf(result.group))
     onGroupsChange([...groups, result.group])
     setNewName('')
   }
 
-  const remove = async (group: TagGroup) => {
+  const remove = async (group: FactionGroup) => {
     const count = countOf(group.id)
     const question = count > 0
       ? `「${group.name}」을(를) 지우면 구성원 ${count}명이 「그 외」로 갑니다. 지울까요?`
       : `「${group.name}」을(를) 지울까요?`
     if (!confirm(question)) return
-    const result = await deleteTagGroup(group.id)
+    const result = await deleteFactionGroup(group.id)
     if (!result.success) return alert(result.error ?? '그룹을 지우지 못했습니다.')
     onGroupsChange(groups.filter(g => g.id !== group.id))
-    onMembersChange(members.map(m => (m.group_id === group.id ? { ...m, group_id: null, group_label: null } : m)))
+    onMembersChange(members.map(m => (m.lv3_id === group.id ? { ...m, lv3_id: null, group_name: null } : m)))
   }
 
   return (

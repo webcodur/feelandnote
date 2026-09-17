@@ -1,30 +1,30 @@
 'use client'
 
 /**
- * 테마 단체샷 관리 — 여러 장 등록, 끌어서 순서, 사진마다 무리 이름·나오는 인물 지정.
+ * 세력 단체샷 관리 — 여러 장 등록, 끌어서 순서, 사진마다 무리 이름·나오는 인물 지정.
  *
- * 저장은 사진 목록 전체를 한 번에 쓴다(celeb_tags.team_images). 제목은 손을 뗄 때만,
+ * 저장은 사진 목록 전체를 한 번에 쓴다(faction_lv2.team_images). 제목은 손을 뗄 때만,
  * 인물 켜고 끄기·순서는 조작 즉시 저장한다.
  */
 
 import { useState } from 'react'
 import { Star, X } from 'lucide-react'
 import type { FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
-import { setTagTeamImages, type CelebTagAssignment } from '@/actions/admin/tags'
-import { uploadTagTeamImage, deleteTagTeamImage } from '@/actions/admin/storage'
+import { setFactionTeamImages, type FactionMember } from '@/actions/admin/factions/entries'
+import { uploadFactionTeamImage, deleteFactionTeamImage } from '@/actions/admin/storage'
 import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 import { ImagePickerButton } from './bits'
 
-export function ThemeTeamImagesField({
-  tagId,
+export function TeamImagesField({
+  lv2Id,
   initialImages,
-  celebs,
+  members,
 }: {
-  tagId: string
+  lv2Id: string
   initialImages: FactionTeamImage[]
-  /** 사진별 「나오는 인물」 선택지 — 테마 소속 인물 전체 */
-  celebs: CelebTagAssignment[]
+  /** 사진별 「나오는 인물」 선택지 — 세력 소속 인물 전체 */
+  members: FactionMember[]
 }) {
   const [teamImages, setTeamImages] = useState<FactionTeamImage[]>(initialImages)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
@@ -44,11 +44,11 @@ export function ThemeTeamImagesField({
       const blob = await (await fetch(dataUrl)).blob()
       const file = new File([blob], 'faction.png', { type: 'image/png' })
       const resized = await resizeSingleImage(file, 'faction')
-      const up = await uploadTagTeamImage({ tagId, image: resized })
+      const up = await uploadFactionTeamImage({ lv2Id, image: resized })
       if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
       const next = [...teamImages, { url: up.url }]
       setTeamImages(next)
-      await setTagTeamImages(tagId, next)
+      await setFactionTeamImages(lv2Id, next)
     } catch (e) {
       alert(e instanceof Error ? e.message : '단체샷 업로드 실패')
     } finally {
@@ -59,19 +59,19 @@ export function ThemeTeamImagesField({
   const handleRemove = async (url: string) => {
     const next = teamImages.filter(img => img.url !== url)
     setTeamImages(next)
-    await setTagTeamImages(tagId, next)
-    await deleteTagTeamImage(url)
+    await setFactionTeamImages(lv2Id, next)
+    await deleteFactionTeamImage(url)
   }
 
   /** 제목은 손을 뗄 때(save 없이 patch 후 commit), 인물 켜고 끄기는 즉시 저장 */
   const patchImage = (index: number, patch: Partial<FactionTeamImage>, save = false) => {
     const next = teamImages.map((img, i) => (i === index ? { ...img, ...patch } : img))
     setTeamImages(next)
-    if (save) void setTagTeamImages(tagId, next)
+    if (save) void setFactionTeamImages(lv2Id, next)
     return next
   }
 
-  const commitImages = async () => { await setTagTeamImages(tagId, teamImages) }
+  const commitImages = async () => { await setFactionTeamImages(lv2Id, teamImages) }
 
   const toggleCeleb = (index: number, celebId: string) => {
     const current = teamImages[index]?.celebIds ?? []
@@ -94,7 +94,7 @@ export function ThemeTeamImagesField({
   const handleDragEnd = async () => {
     if (draggedIndex === null) return
     setDraggedIndex(null)
-    await setTagTeamImages(tagId, teamImages)
+    await setFactionTeamImages(lv2Id, teamImages)
   }
 
   const handleSetAsCover = async (index: number) => {
@@ -103,7 +103,7 @@ export function ThemeTeamImagesField({
     const [target] = next.splice(index, 1)
     next.unshift(target)
     setTeamImages(next)
-    await setTagTeamImages(tagId, next)
+    await setFactionTeamImages(lv2Id, next)
   }
 
   return (
@@ -146,11 +146,11 @@ export function ThemeTeamImagesField({
               placeholder="이 사진이 담은 무리의 이름 (예: 안전을 설계한 사람들)"
               className="w-full rounded-lg border border-border bg-bg-card px-3 py-1.5 text-sm text-text-primary placeholder:text-text-tertiary focus:border-accent focus:outline-none"
             />
-            {celebs.length === 0 ? (
+            {members.length === 0 ? (
               <p className="text-xs text-text-tertiary">인물을 먼저 넣으면 이 사진에 누가 나오는지 고를 수 있습니다.</p>
             ) : (
               <div className="flex flex-wrap gap-1">
-                {celebs.map(c => {
+                {members.map(c => {
                   const on = (img.celebIds ?? []).includes(c.celeb_id)
                   return (
                     <button

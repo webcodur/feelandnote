@@ -37,9 +37,9 @@ async function fetchTagFigureBooks(tagId: string, locale: string): Promise<TagFi
   const db = createStaticClient();
 
   const { data: members, error: membersError } = await db
-    .from("faction_atlas_members")
+    .from("faction_member_rows")
     .select("celeb_id")
-    .eq("tag_id", tagId)
+    .eq("lv2_id", tagId)
     .eq("hidden", false);
   throwOnQueryError("getTagFigureBooks 편성 조회", membersError);
   if (!members?.length) return [];
@@ -95,7 +95,7 @@ async function fetchTagFigureBooks(tagId: string, locale: string): Promise<TagFi
 const getTagFigureBooksCached = unstable_cache(
   fetchTagFigureBooks,
   ["tag-figure-books-v1"],
-  // faction_atlas_members(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
+  // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );
 

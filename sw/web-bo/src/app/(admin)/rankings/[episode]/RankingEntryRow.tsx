@@ -20,7 +20,7 @@ export function RankingEntryRow({
   entry,
   dragging,
   profile,
-  themeMembers,
+  factionMembers,
   onChange,
   onRemove,
   onProfilePatch,
@@ -33,7 +33,7 @@ export function RankingEntryRow({
   entry: RankingEntry
   dragging: boolean
   profile?: RankingCelebProfile
-  themeMembers: RankingCelebProfile[]
+  factionMembers: RankingCelebProfile[]
   onChange: (next: RankingEntry) => void
   onRemove: () => void
   onProfilePatch: (nickname: string, patch: Partial<RankingCelebProfile>) => void
@@ -63,7 +63,7 @@ export function RankingEntryRow({
         folder={folder}
         name={entry.name}
         profile={profile}
-        themeMembers={themeMembers}
+        factionMembers={factionMembers}
         onProfilePatch={onProfilePatch}
         onLink={onLink}
       />

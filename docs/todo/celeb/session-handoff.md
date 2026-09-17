@@ -95,10 +95,10 @@ import하는 컴포넌트가 그 커밋에 안 들어갔다. 워킹트리에서�
 
 ### 세력도감 표는 뷰다
 
-`faction_atlas_members`는 표가 아니라 뷰여서 직접 수정하면 권한 오류가 난다. 원천은
-`celeb_tag_assignments`(배정)와 `celeb_tag_groups`(그룹)다.
+`faction_member_rows`는 표가 아니라 뷰여서 직접 수정하면 권한 오류가 난다. 원천은
+`faction_members`(배정)와 `faction_lv3`(그룹)다.
 
-`celeb_tag_assignments`에는 **문장마다 세력도감 캐시를 통째로 지우고 다시 쌓는 트리거**가
+`faction_members`에는 **문장마다 세력도감 캐시를 통째로 지우고 다시 쌓는 트리거**가
 걸려 있다. 14건을 한 건씩 고치면 재구축이 14번 돌아 statement timeout이 난다. **여러 건은
 한 문장으로 묶어 던진다.**
 

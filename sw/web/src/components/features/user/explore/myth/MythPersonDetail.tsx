@@ -5,7 +5,7 @@ import { useId } from "react";
 import { ArrowUpRight, BookOpenText, UserRound, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import type { MythPerson, MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson, Myth, MythWork } from "@/actions/home/mythAtlasTypes";
 import { FormattedText } from "@/components/ui";
 import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
 import MythPortraitMedia, { type MythPortrait } from "./MythPortraitMedia";
@@ -15,7 +15,7 @@ import { mythLeadImage } from "./mythLeadImage";
 
 interface Props {
   person: MythPerson;
-  tradition: MythTradition;
+  myth: Myth;
   works: MythWork[];
   onClose: () => void;
   /** 뒤로 가기 단추 이름 — 돌아갈 곳(그룹 개요·신화 개요)을 부른다 */
@@ -60,9 +60,9 @@ function IconLedParagraphs({ icon, label, text, emptyText }: { icon: LucideIcon;
 }
 
 
-function DetailBody({ person, tradition }: { person: MythPerson; tradition: MythTradition }) {
+function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
   const t = useTranslations("explore.hub.myth");
-  const appearance = person.appearances.find((item) => item.traditionId === tradition.id)?.summary ?? null;
+  const appearance = person.appearances.find((item) => item.mythId === myth.id)?.summary ?? null;
   const lead = person.headline ?? person.summary;
 
   return (
@@ -72,7 +72,7 @@ function DetailBody({ person, tradition }: { person: MythPerson; tradition: Myth
 
         <IconLedParagraphs
           icon={BookOpenText}
-          label={t("appearanceInMyth", { name: tradition.name })}
+          label={t("appearanceInMyth", { name: myth.name })}
           text={appearance}
           emptyText={t("noMythAppearance")}
         />
@@ -91,12 +91,12 @@ function DetailBody({ person, tradition }: { person: MythPerson; tradition: Myth
   );
 }
 
-export default function MythPersonDetail({ person, tradition, works, onClose, backLabel }: Props) {
-  /* 화면에 거는 사진은 이 전승의 대표 사진 하나다(mythLeadImage — 전승 전용 개인샷, 없으면 인물 대표 사진).
+export default function MythPersonDetail({ person, myth, works, onClose, backLabel }: Props) {
+  /* 화면에 거는 사진은 이 신화의 대표 사진 하나다(mythLeadImage — 신화 전용 개인샷, 없으면 인물 대표 사진).
      아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다.
      전에는 어록 음성에 딸린 화보를 둘째 장부터 이어 붙였다 — 어록을 걷어 내면서 함께 빠졌다.
      화보를 여러 장 다시 걸게 되면 gallery가 그대로 넘겨 준다 */
-  const lead = mythLeadImage(person, tradition.id);
+  const lead = mythLeadImage(person, myth.id);
   const portraits: MythPortrait[] = lead ? [{ url: lead }] : [];
   const gallery = useFactionPortraits(portraits.length);
 
@@ -116,23 +116,23 @@ export default function MythPersonDetail({ person, tradition, works, onClose, ba
             </header>
           </article>
 
-          <DetailBody person={person} tradition={tradition} />
+          <DetailBody person={person} myth={myth} />
         </div>
       ) : (
         <div className="min-w-0">
           <MythSigilHeader
             person={person}
-            tradition={tradition}
+            myth={myth}
             onClose={onClose}
             backLabel={backLabel}
           />
-          <DetailBody person={person} tradition={tradition} />
+          <DetailBody person={person} myth={myth} />
         </div>
       )}
 
       {works.length > 0 && (
         <div className="bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
-          <MythWorkShelf works={works} selectedPersonId={person.id} traditionName={tradition.name} traditionSlug={tradition.slug} />
+          <MythWorkShelf works={works} selectedPersonId={person.id} mythName={myth.name} mythSlug={myth.slug} />
         </div>
       )}
     </section>

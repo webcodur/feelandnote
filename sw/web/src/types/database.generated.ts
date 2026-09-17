@@ -850,143 +850,6 @@ export type Database = {
           },
         ]
       }
-      celeb_tag_assignments: {
-        Row: {
-          assigned_at: string | null
-          celeb_id: string
-          faction_image_url: string | null
-          hidden: boolean
-          id: string
-          long_desc: string | null
-          long_desc_en: string | null
-          quote: string | null
-          quote_en: string | null
-          short_desc: string | null
-          short_desc_en: string | null
-          sort_order: number | null
-          spotlight_image_url: string | null
-          tag_id: string
-        }
-        Insert: {
-          assigned_at?: string | null
-          celeb_id: string
-          faction_image_url?: string | null
-          hidden?: boolean
-          id?: string
-          long_desc?: string | null
-          long_desc_en?: string | null
-          quote?: string | null
-          quote_en?: string | null
-          short_desc?: string | null
-          short_desc_en?: string | null
-          sort_order?: number | null
-          spotlight_image_url?: string | null
-          tag_id: string
-        }
-        Update: {
-          assigned_at?: string | null
-          celeb_id?: string
-          faction_image_url?: string | null
-          hidden?: boolean
-          id?: string
-          long_desc?: string | null
-          long_desc_en?: string | null
-          quote?: string | null
-          quote_en?: string | null
-          short_desc?: string | null
-          short_desc_en?: string | null
-          sort_order?: number | null
-          spotlight_image_url?: string | null
-          tag_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "celeb_tag_assignments_tag_id_fkey"
-            columns: ["tag_id"]
-            isOneToOne: false
-            referencedRelation: "celeb_tags"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "celeb_tags_celebs_fkey"
-            columns: ["celeb_id"]
-            isOneToOne: false
-            referencedRelation: "celebs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      celeb_tags: {
-        Row: {
-          color: string | null
-          created_at: string | null
-          description: string | null
-          description_en: string | null
-          end_date: string | null
-          id: string
-          is_featured: boolean | null
-          is_fiction: boolean
-          name: string
-          name_en: string | null
-          parent_id: string | null
-          slug: string | null
-          sort_order: number | null
-          start_date: string | null
-          team_images: Json
-          theme_music: Json | null
-          updated_at: string | null
-          youtube_videos: Json | null
-        }
-        Insert: {
-          color?: string | null
-          created_at?: string | null
-          description?: string | null
-          description_en?: string | null
-          end_date?: string | null
-          id?: string
-          is_featured?: boolean | null
-          is_fiction?: boolean
-          name: string
-          name_en?: string | null
-          parent_id?: string | null
-          slug?: string | null
-          sort_order?: number | null
-          start_date?: string | null
-          team_images?: Json
-          theme_music?: Json | null
-          updated_at?: string | null
-          youtube_videos?: Json | null
-        }
-        Update: {
-          color?: string | null
-          created_at?: string | null
-          description?: string | null
-          description_en?: string | null
-          end_date?: string | null
-          id?: string
-          is_featured?: boolean | null
-          is_fiction?: boolean
-          name?: string
-          name_en?: string | null
-          parent_id?: string | null
-          slug?: string | null
-          sort_order?: number | null
-          start_date?: string | null
-          team_images?: Json
-          theme_music?: Json | null
-          updated_at?: string | null
-          youtube_videos?: Json | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "celeb_tags_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "celeb_tags"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       celeb_task_queue: {
         Row: {
           attempt_count: number
@@ -1897,6 +1760,245 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "discourse_speakers"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_lv1: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          description_en: string | null
+          id: string
+          is_featured: boolean
+          is_fiction: boolean
+          is_myth: boolean
+          name: string
+          name_en: string | null
+          slug: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          id?: string
+          is_featured?: boolean
+          is_fiction?: boolean
+          is_myth?: boolean
+          name: string
+          name_en?: string | null
+          slug?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          id?: string
+          is_featured?: boolean
+          is_fiction?: boolean
+          is_myth?: boolean
+          name?: string
+          name_en?: string | null
+          slug?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      faction_lv2: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          description_en: string | null
+          end_date: string | null
+          id: string
+          is_featured: boolean
+          is_fiction: boolean
+          is_myth: boolean
+          lead_person_ids: string[]
+          lv1_id: string
+          name: string
+          name_en: string | null
+          published: boolean
+          slug: string | null
+          sort_order: number
+          start_date: string | null
+          team_images: Json
+          theme_music: Json | null
+          updated_at: string
+          youtube_videos: Json | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          end_date?: string | null
+          id?: string
+          is_featured?: boolean
+          is_fiction?: boolean
+          is_myth?: boolean
+          lead_person_ids?: string[]
+          lv1_id: string
+          name: string
+          name_en?: string | null
+          published?: boolean
+          slug?: string | null
+          sort_order?: number
+          start_date?: string | null
+          team_images?: Json
+          theme_music?: Json | null
+          updated_at?: string
+          youtube_videos?: Json | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          end_date?: string | null
+          id?: string
+          is_featured?: boolean
+          is_fiction?: boolean
+          is_myth?: boolean
+          lead_person_ids?: string[]
+          lv1_id?: string
+          name?: string
+          name_en?: string | null
+          published?: boolean
+          slug?: string | null
+          sort_order?: number
+          start_date?: string | null
+          team_images?: Json
+          theme_music?: Json | null
+          updated_at?: string
+          youtube_videos?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_lv2_lv1_id_fkey"
+            columns: ["lv1_id"]
+            isOneToOne: false
+            referencedRelation: "faction_lv1"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_lv3: {
+        Row: {
+          created_at: string
+          description: string | null
+          description_en: string | null
+          id: string
+          lv2_id: string
+          name: string
+          name_en: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          id?: string
+          lv2_id: string
+          name: string
+          name_en?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          id?: string
+          lv2_id?: string
+          name?: string
+          name_en?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_lv3_lv2_id_fkey"
+            columns: ["lv2_id"]
+            isOneToOne: false
+            referencedRelation: "faction_lv2"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_members: {
+        Row: {
+          assigned_at: string | null
+          celeb_id: string
+          hidden: boolean
+          id: string
+          image_url: string | null
+          long_desc: string | null
+          long_desc_en: string | null
+          lv2_id: string
+          lv3_id: string | null
+          short_desc: string | null
+          short_desc_en: string | null
+          sort_order: number
+        }
+        Insert: {
+          assigned_at?: string | null
+          celeb_id: string
+          hidden?: boolean
+          id?: string
+          image_url?: string | null
+          long_desc?: string | null
+          long_desc_en?: string | null
+          lv2_id: string
+          lv3_id?: string | null
+          short_desc?: string | null
+          short_desc_en?: string | null
+          sort_order?: number
+        }
+        Update: {
+          assigned_at?: string | null
+          celeb_id?: string
+          hidden?: boolean
+          id?: string
+          image_url?: string | null
+          long_desc?: string | null
+          long_desc_en?: string | null
+          lv2_id?: string
+          lv3_id?: string | null
+          short_desc?: string | null
+          short_desc_en?: string | null
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_members_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faction_members_lv2_id_fkey"
+            columns: ["lv2_id"]
+            isOneToOne: false
+            referencedRelation: "faction_lv2"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faction_members_lv3_fkey"
+            columns: ["lv3_id", "lv2_id"]
+            isOneToOne: false
+            referencedRelation: "faction_lv3"
+            referencedColumns: ["id", "lv2_id"]
           },
         ]
       }
@@ -3453,78 +3555,22 @@ export type Database = {
           },
         ]
       }
-      faction_atlas_members: {
+      faction_member_rows: {
         Row: {
-          assignment_id: string | null
           celeb_id: string | null
-          faction_image_url: string | null
-          faction_quote_media: Json | null
-          group_color: string | null
-          group_label: string | null
-          group_label_en: string | null
-          group_logo_url: string | null
+          group_name: string | null
+          group_name_en: string | null
           group_position: number | null
-          group_subtitle: string | null
-          group_subtitle_en: string | null
           hidden: boolean | null
+          image_url: string | null
           long_desc: string | null
           long_desc_en: string | null
-          person_id: string | null
-          quote: string | null
-          quote_en: string | null
+          lv2_id: string | null
+          lv3_id: string | null
+          member_id: string | null
           short_desc: string | null
           short_desc_en: string | null
           sort_order: number | null
-          source: string | null
-          tag_id: string | null
-        }
-        Insert: {
-          assignment_id?: string | null
-          celeb_id?: string | null
-          faction_image_url?: string | null
-          faction_quote_media?: Json | null
-          group_color?: string | null
-          group_label?: string | null
-          group_label_en?: string | null
-          group_logo_url?: string | null
-          group_position?: number | null
-          group_subtitle?: string | null
-          group_subtitle_en?: string | null
-          hidden?: boolean | null
-          long_desc?: string | null
-          long_desc_en?: string | null
-          person_id?: string | null
-          quote?: string | null
-          quote_en?: string | null
-          short_desc?: string | null
-          short_desc_en?: string | null
-          sort_order?: number | null
-          source?: string | null
-          tag_id?: string | null
-        }
-        Update: {
-          assignment_id?: string | null
-          celeb_id?: string | null
-          faction_image_url?: string | null
-          faction_quote_media?: Json | null
-          group_color?: string | null
-          group_label?: string | null
-          group_label_en?: string | null
-          group_logo_url?: string | null
-          group_position?: number | null
-          group_subtitle?: string | null
-          group_subtitle_en?: string | null
-          hidden?: boolean | null
-          long_desc?: string | null
-          long_desc_en?: string | null
-          person_id?: string | null
-          quote?: string | null
-          quote_en?: string | null
-          short_desc?: string | null
-          short_desc_en?: string | null
-          sort_order?: number | null
-          source?: string | null
-          tag_id?: string | null
         }
         Relationships: []
       }
@@ -3849,16 +3895,6 @@ export type Database = {
         }[]
       }
       get_table_count: { Args: never; Returns: number }
-      get_tag_celeb_counts: {
-        Args: never
-        Returns: {
-          celeb_count: number
-          tag_color: string
-          tag_description: string
-          tag_id: string
-          tag_name: string
-        }[]
-      }
       get_top_celebs_across_eras: {
         Args: { p_limit?: number }
         Returns: {

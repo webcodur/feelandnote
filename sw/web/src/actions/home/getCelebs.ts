@@ -154,11 +154,11 @@ interface CelebRow {
   window_end?: string | null
 }
 
-// 세력도감 인물 행 — 원천은 웹 배정 표(celeb_tag_assignments)이고 DB 뷰 faction_atlas_members로 읽는다.
+// 세력도감 인물 행 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
 // 읽는 칸만 로컬로 정의한다.
 interface AtlasMemberRow {
   celeb_id: string
-  tag_id: string
+  lv2_id: string
   short_desc: string | null
   short_desc_en: string | null
   long_desc: string | null
@@ -166,7 +166,7 @@ interface AtlasMemberRow {
   sort_order: number | null
 }
 
-// 인물 행 + 태그 정보 합성 행 (뷰 → celeb_tags 두 단계 조회 결과)
+// 인물 행 + 태그 정보 합성 행 (뷰 → faction_lv2 두 단계 조회 결과)
 interface TagAssignmentJoinRow {
   celeb_id: string
   short_desc: string | null
@@ -314,20 +314,20 @@ async function fetchCelebsPublic(
 
   // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각
   const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult] = await Promise.all([
-    // 세력도감 소속 — 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
+    // 세력도감 소속 — 뷰는 세력 embed가 안 되므로 뷰 → faction_lv2 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
       const { data: memberRows, error: memberError } = await db
-        .from('faction_atlas_members')
-        .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
+        .from('faction_member_rows')
+        .select('celeb_id, lv2_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
         .in('celeb_id', celebIds)
         .eq('hidden', false)
         .overrideTypes<AtlasMemberRow[], { merge: false }>()
       throwOnQueryError('인물 세력도감 배정', memberError)
       if (!memberRows?.length) return []
 
-      const memberTagIds = [...new Set(memberRows.map((r) => r.tag_id))]
+      const memberTagIds = [...new Set(memberRows.map((r) => r.lv2_id))]
       const { data: tagRows, error: tagError } = await db
-        .from('celeb_tags')
+        .from('faction_lv2')
         .select('id, name, name_en, color')
         .in('id', memberTagIds)
         .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
@@ -341,7 +341,7 @@ async function fetchCelebsPublic(
         long_desc: r.long_desc,
         long_desc_en: r.long_desc_en,
         sort_order: r.sort_order,
-        tag: tagById.get(r.tag_id) ?? null,
+        tag: tagById.get(r.lv2_id) ?? null,
       }))
     })(),
     db.from('celeb_dialogues')
@@ -410,7 +410,7 @@ const getCelebsCached = unstable_cache(
   fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
   ['celebs-public-v4-separate-ranking'],
-  // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
+  // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
     revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v4-separate-ranking']),

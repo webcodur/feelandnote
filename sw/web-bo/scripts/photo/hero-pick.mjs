@@ -46,7 +46,7 @@ const { data: infl } = await db.from('celeb_influence').select('celeb_id, total_
 const scoreOf = new Map((infl || []).map(r => [r.celeb_id, r.total_score || 0]))
 
 const { data: shots } = await db
-  .from('celeb_tag_assignments').select('celeb_id, faction_image_url').not('faction_image_url', 'is', null).limit(5000)
+  .from('faction_members').select('celeb_id, image_url').not('image_url', 'is', null).limit(5000)
 const hasFactionShot = new Set((shots || []).map(r => r.celeb_id))
 
 const pool = usable.filter(p => !hasFactionShot.has(p.id))

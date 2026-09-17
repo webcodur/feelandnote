@@ -4,7 +4,7 @@
  * 경로 잇기 (Travel) 서버 조회
  *
  * 역할:
- * 1. 인접 리스트(그래프) 구축: celeb_tag_assignments + celeb_contents.
+ * 1. 인접 리스트(그래프) 구축: faction_members + celeb_contents.
  * 2. 인물 기본 정보 조회.
  * 3. 7일 단일 키 공유 캐시.
  *
@@ -35,7 +35,7 @@ interface ProfileRow {
 
 interface TagAssignmentRow {
   celeb_id: string;
-  tag_id: string;
+  lv2_id: string;
 }
 
 interface TagRow {
@@ -82,8 +82,8 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   // 2) 세력 태그 배정
   const tagAssignments = await selectAllPages<TagAssignmentRow>((from, to) =>
     db
-      .from("celeb_tag_assignments")
-      .select("celeb_id, tag_id")
+      .from("faction_members")
+      .select("celeb_id, lv2_id")
       .order("id", { ascending: true })
       .range(from, to) as unknown as PromiseLike<{
       data: TagAssignmentRow[] | null;
@@ -93,13 +93,13 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
 
   // 3) 태그 이름
   const { data: tags, error: tagError } = await db
-    .from("celeb_tags")
+    .from("faction_lv2")
     .select("id, name, name_en")
     .order("id", { ascending: true })
     .limit(200);
 
   if (tagError) {
-    throw new Error(`[fetchTravelGraph] celeb_tags: ${tagError.message}`);
+    throw new Error(`[fetchTravelGraph] faction_lv2: ${tagError.message}`);
   }
 
   const tagNameMap = new Map<string, string>(
@@ -170,9 +170,9 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const tagToCelebs = new Map<string, string[]>();
   for (const row of tagAssignments) {
     if (!profileMap.has(row.celeb_id)) continue;
-    const arr = tagToCelebs.get(row.tag_id) ?? [];
+    const arr = tagToCelebs.get(row.lv2_id) ?? [];
     arr.push(row.celeb_id);
-    tagToCelebs.set(row.tag_id, arr);
+    tagToCelebs.set(row.lv2_id, arr);
   }
 
   for (const [tagId, members] of tagToCelebs) {

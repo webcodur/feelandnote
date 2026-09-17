@@ -1,7 +1,7 @@
 import { BarChart3, BookOpen, Briefcase, Compass, FileEdit, Plus, Route, Tag, Volume2 } from 'lucide-react'
 import Link from 'next/link'
 import { getMembers } from '@/actions/admin/members'
-import { getTags } from '@/actions/admin/tags'
+import { getFactionEntries } from '@/actions/admin/factions/entries'
 import type { CelebImageFilter } from '@/actions/admin/celebs'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
@@ -53,7 +53,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const baseHref = view === 'images' ? '/celebs/images' : '/celebs'
   const resultSetKey = [page, search, status, profession, tier, reality, imageFilter, faction, sort, sortOrder, JSON.stringify(columnFilters)].join(':')
 
-  const [{ members: celebs, total }, { tags }] = await Promise.all([
+  const [{ members: celebs, total }, { entries }] = await Promise.all([
     getMembers({
       ...columnFilters,
       profileType: 'CELEB',
@@ -69,10 +69,10 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       sort,
       sortOrder,
     }),
-    getTags()
+    getFactionEntries()
   ])
 
-  const factionThemes = buildFactionThemes(tags)
+  const factionThemes = buildFactionThemes(entries)
 
   const imageProcessingJobs = view === 'images'
     ? await getImageProcessingJobsForCelebs(celebs.map((celeb) => celeb.id))
@@ -93,6 +93,12 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
     sortOrder: sortOrder !== 'desc' ? sortOrder : undefined,
   }
   const paginationParams = { ...navigationParams, page: undefined }
+
+  // 검색 결과가 한 명뿐이면 그 사람의 상세를 새 탭으로 바로 열 수 있게 한다.
+  const soleCeleb = total === 1 && celebs.length === 1 && celebs[0].slug ? celebs[0] : null
+  const soleResult = soleCeleb
+    ? { href: `/celebs/${soleCeleb.slug}`, name: soleCeleb.nickname?.trim() || '이 인물' }
+    : null
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -154,7 +160,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
 
       <CelebTableQueryProvider>
         <div className="overflow-hidden rounded-lg border border-border bg-bg-card">
-          <CelebTableToolbar factionThemes={factionThemes}>
+          <CelebTableToolbar factionThemes={factionThemes} soleResult={soleResult}>
             <nav className="flex shrink-0 rounded-lg border border-border bg-bg-card p-1" aria-label="셀럽 목록 보기 방식">
               <CelebViewNavigation
                 tableHref={buildCelebViewHref('/celebs', navigationParams)}

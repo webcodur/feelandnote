@@ -2,7 +2,6 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { toFactionMusic } from '@/lib/faction-music'
@@ -24,15 +23,15 @@ export interface FactionMusicListItem {
   theme: FactionMusicTheme | null
 }
 
-interface TagRow {
+interface Lv2Row {
   id: string
+  lv1_id: string
   name: string
   name_en: string | null
   slug: string | null
   theme_music: unknown
   is_featured: boolean | null
-  parent_id: string | null
-  sort_order: number | null
+  is_myth: boolean | null
 }
 
 interface ThemeMusicLists {
@@ -42,20 +41,24 @@ interface ThemeMusicLists {
 
 async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
   const db = createStaticClient()
-  const { data, error } = await db
-    .from('celeb_tags')
-    .select('id, name, name_en, slug, theme_music, is_featured, parent_id, sort_order')
-    .order('sort_order', { ascending: true })
+  const [lv2Result, lv1Result] = await Promise.all([
+    db.from('faction_lv2')
+      .select('id, lv1_id, name, name_en, slug, theme_music, is_featured, is_myth')
+      .order('sort_order', { ascending: true }),
+    db.from('faction_lv1')
+      .select('id, name, name_en, slug'),
+  ])
 
-  if (error) throw new Error(error.message)
+  if (lv2Result.error) throw new Error(lv2Result.error.message)
+  if (lv1Result.error) throw new Error(lv1Result.error.message)
 
-  const rows = (data ?? []) as TagRow[]
-  const mythIds = mythBranchTagIds(rows)
-  const tagById = new Map(rows.map((row) => [row.id, row]))
+  const rows = (lv2Result.data ?? []) as Lv2Row[]
+  const lv1ById = new Map((lv1Result.data ?? []).map((row) => [row.id, row]))
 
-  const toMusicItem = (row: TagRow): FactionMusicListItem | null => {
+  const toMusicItem = (row: Lv2Row): FactionMusicListItem | null => {
       const music = toFactionMusic(row.theme_music)
       if (!music) return null
+      const theme = lv1ById.get(row.lv1_id)
       return {
         id: row.id,
         name: row.name,
@@ -63,24 +66,19 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
         slug: row.slug,
         url: music.url,
         file: music.file,
-        theme: row.parent_id
-          ? (() => {
-              const parent = tagById.get(row.parent_id)
-              return parent
-                ? { id: parent.id, name: parent.name, name_en: parent.name_en, slug: parent.slug }
-                : null
-            })()
+        theme: theme
+          ? { id: theme.id, name: theme.name, name_en: theme.name_en, slug: theme.slug }
           : null,
       }
   }
 
   return {
     faction: rows
-      .filter((row) => row.is_featured === true && !mythIds.has(row.id))
+      .filter((row) => row.is_featured === true && row.is_myth !== true)
       .map(toMusicItem)
       .filter((row): row is FactionMusicListItem => row !== null),
     myth: rows
-      .filter((row) => mythIds.has(row.id))
+      .filter((row) => row.is_myth === true)
       .map(toMusicItem)
       .filter((row): row is FactionMusicListItem => row !== null),
   }
@@ -88,7 +86,7 @@ async function fetchThemeMusicLists(): Promise<ThemeMusicLists> {
 
 const getCachedThemeMusicLists = unstable_cache(
   fetchThemeMusicLists,
-  ['theme-music-lists-v2'],
+  ['theme-music-lists-v3'],
   { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.TAGS] },
 )
 

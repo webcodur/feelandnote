@@ -150,7 +150,7 @@
    - **N ≥ 14이면 7일 내 재등장 수학적 0%** (N-7 ≥ 7이므로 경계 회피 항상 성공).
 
 2. **태그 기반 퍼즐 추가** (`topfive.ts`의 `fetchTopFivePool`):
-   - `celeb_tags` + `celeb_tag_assignments`에서 영향력 보유 5명 이상인 태그를 퍼즐로 생성.
+   - `faction_lv2` + `faction_members`에서 영향력 보유 5명 이상인 세력을 퍼즐로 생성.
    - 후보 수: 해당 태그의 영향력 보유 인원 (5~12명). 정답 5명 + 나머지 오답.
    - `categoryType: "faction_influence"` 타입 사용.
 
