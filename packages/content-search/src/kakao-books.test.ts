@@ -55,10 +55,20 @@ test('다음 책 상세의 여러 문단 전체를 소개로 복원한다', () =
     </div>
   `
 
+  // <br> 넷 연속은 덩어리 경계 표식 \n\n\n으로 보존한다 — 표시층이 문단으로 내린다
   assert.equal(
     kakao.parseDaumBookDescription(html),
-    '첫 문단 & 설명.\n\n250자 뒤에 이어지는 둘째 문단과 결말.',
+    '첫 문단 & 설명.\n\n\n250자 뒤에 이어지는 둘째 문단과 결말.',
   )
+})
+
+test('카카오 contents의 공백 런을 줄급·덩어리급 개행으로 복원한다', () => {
+  assert.equal(
+    kakao.normalizeKakaoContents('첫째 줄  둘째 줄    다음 문단'),
+    '첫째 줄\n둘째 줄\n\n\n다음 문단',
+  )
+  // 한 칸 공백은 어절 간격이라 그대로 둔다
+  assert.equal(kakao.normalizeKakaoContents('어절 사이 보통 간격'), '어절 사이 보통 간격')
 })
 
 test('책 소개 영역이 없으면 null을 반환한다', () => {
