@@ -53,16 +53,16 @@ export default function RankingEditor({
   const [drag, setDrag] = useState<{ ci: number; ei: number } | null>(null)
   const [profiles, setProfiles] = useState<RankingCelebProfile[]>([])
   const [factionMembers, setFactionMembers] = useState<RankingCelebProfile[]>([])
-  const names = useMemo(
-    () => uniqueRankingNames(script.categories.flatMap(c => c.entries.map(e => e.name))),
+  const nameKey = useMemo(
+    () => uniqueRankingNames(script.categories.flatMap(c => c.entries.map(e => e.name))).join('\0'),
     [script.categories],
   )
-  const slugs = useMemo(
-    () => uniqueRankingNames(script.categories.flatMap(c => c.entries.map(e => e.celebSlug ?? ''))),
+  const slugKey = useMemo(
+    () => uniqueRankingNames(script.categories.flatMap(c => c.entries.map(e => e.celebSlug ?? ''))).join('\0'),
     [script.categories],
   )
-  const nameKey = names.join('\0')
-  const slugKey = slugs.join('\0')
+  const names = useMemo(() => nameKey.split('\0').filter(Boolean), [nameKey])
+  const slugs = useMemo(() => slugKey.split('\0').filter(Boolean), [slugKey])
 
   const themeSlug = script.themeSlug ?? ''
 
@@ -86,7 +86,7 @@ export default function RankingEditor({
     }
     run().catch(e => showToast('error', e instanceof Error ? e.message : String(e)))
     return () => { cancelled = true }
-  }, [themeSlug, nameKey, slugKey])
+  }, [themeSlug, names, slugs, showToast])
 
   const patchProfile = (nickname: string, patch: Partial<RankingCelebProfile>) => {
     setProfiles(cur => {

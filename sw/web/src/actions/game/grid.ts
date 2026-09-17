@@ -22,12 +22,12 @@ interface ProfileRow {
   death_date: string | null;
 }
 
-interface TagAssignmentRow {
+interface FactionAssignmentRow {
   celeb_id: string;
   lv2_id: string;
 }
 
-interface TagRow {
+interface FactionRow {
   id: string;
   name: string;
   name_en: string | null;
@@ -59,25 +59,25 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
   if (celebs.length === 0) return [];
 
   // 2) 세력 태그 배정
-  const assignments = await selectAllPages<TagAssignmentRow>((from, to) =>
+  const assignments = await selectAllPages<FactionAssignmentRow>((from, to) =>
     db
       .from("faction_members")
       .select("celeb_id, lv2_id")
       .eq("hidden", false)
       .order("celeb_id", { ascending: true })
       .range(from, to)
-      .overrideTypes<TagAssignmentRow[], { merge: false }>() as unknown as PromiseLike<{
-      data: TagAssignmentRow[] | null;
+      .overrideTypes<FactionAssignmentRow[], { merge: false }>() as unknown as PromiseLike<{
+      data: FactionAssignmentRow[] | null;
       error: { message: string } | null;
     }>,
   );
 
   // 인물별 태그 id 맵
-  const tagMap = new Map<string, string[]>();
+  const factionMap = new Map<string, string[]>();
   for (const row of assignments) {
-    const arr = tagMap.get(row.celeb_id) ?? [];
+    const arr = factionMap.get(row.celeb_id) ?? [];
     arr.push(row.lv2_id);
-    tagMap.set(row.celeb_id, arr);
+    factionMap.set(row.celeb_id, arr);
   }
 
   return celebs.map((p) => ({
@@ -89,7 +89,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
     profession: p.profession,
     birthDate: p.birth_date,
     deathDate: p.death_date,
-    tagIds: tagMap.get(p.id) ?? [],
+    factionIds: factionMap.get(p.id) ?? [],
   }));
 }
 
@@ -97,28 +97,28 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
 //    빈 객체로 변해 호출부에서 `.get is not a function` 으로 터진다(26.07.31 실측).
 //    그래서 캐시 경계를 넘길 때는 배열로 넘기고, 받는 쪽에서 Map 을 다시 만든다.
 async function fetchGridConditionLabels(): Promise<{
-  tags: [string, { name: string; nameEn: string }][];
+  factions: [string, { name: string; nameEn: string }][];
 }> {
   const db = createStaticClient();
 
-  const { data: tags, error } = await db
+  const { data: factions, error } = await db
     .from("faction_lv2")
     .select("id, name, name_en, slug")
     .eq("is_featured", true)
     .order("sort_order", { ascending: true })
     .limit(100)
-    .overrideTypes<TagRow[], { merge: false }>();
+    .overrideTypes<FactionRow[], { merge: false }>();
 
   if (error) {
-    throw new Error(`[getGridConditions] tags: ${error.message}`);
+    throw new Error(`[getGridConditions] factions: ${error.message}`);
   }
 
-  const entries: [string, { name: string; nameEn: string }][] = (tags ?? []).map((t) => [
+  const entries: [string, { name: string; nameEn: string }][] = (factions ?? []).map((t) => [
     t.id,
     { name: t.name, nameEn: t.name_en || t.name },
   ]);
 
-  return { tags: entries };
+  return { factions: entries };
 }
 
 // ──────────────────── 캐시 래퍼 ────────────────────
@@ -156,8 +156,8 @@ export async function getGridGameData(): Promise<GridGameData> {
     }
 
     // 조건 라벨 구축 — 캐시를 넘어온 배열을 Map 으로 되살린다
-    const tags = new Map(labelData.tags);
-    const conditions = buildConditions(celebs, tags, locale);
+    const factions = new Map(labelData.factions);
+    const conditions = buildConditions(celebs, factions, locale);
 
     return { celebs, conditions, isFixture: false };
   } catch (err) {
@@ -175,7 +175,7 @@ export async function getGridGameData(): Promise<GridGameData> {
 
 function buildConditions(
   celebs: readonly GridCeleb[],
-  tagNames: Map<string, { name: string; nameEn: string }>,
+  factionNames: Map<string, { name: string; nameEn: string }>,
   locale: string,
 ): GridCondition[] {
   const conditions: GridCondition[] = [];
@@ -219,16 +219,16 @@ function buildConditions(
     }
   }
 
-  // tag — 5명 이상
-  const tagCount = new Map<string, number>();
+  // faction — 5명 이상
+  const factionCount = new Map<string, number>();
   for (const c of celebs) {
-    for (const tid of c.tagIds) tagCount.set(tid, (tagCount.get(tid) ?? 0) + 1);
+    for (const tid of c.factionIds) factionCount.set(tid, (factionCount.get(tid) ?? 0) + 1);
   }
-  for (const [tid, count] of tagCount) {
+  for (const [tid, count] of factionCount) {
     if (count >= 5) {
-      const names = tagNames.get(tid);
+      const names = factionNames.get(tid);
       conditions.push({
-        axis: "tag",
+        axis: "faction",
         value: tid,
         label: names ? (locale === "en" ? names.nameEn : names.name) : tid,
         labelEn: names?.nameEn ?? tid,

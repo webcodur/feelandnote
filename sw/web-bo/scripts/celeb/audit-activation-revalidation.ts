@@ -10,7 +10,7 @@ export function activationRevalidationRequest() {
     CACHE_TAGS.CELEBS,
     CACHE_TAGS.DIALOGUES,
     CACHE_TAGS.SPECTRUM,
-    CACHE_TAGS.TAGS,
+    CACHE_TAGS.FACTIONS,
   ])
   return { tags, endpoint: revalidationApiPathForTags(tags) }
 }

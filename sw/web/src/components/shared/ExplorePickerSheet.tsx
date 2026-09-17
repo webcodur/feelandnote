@@ -1,5 +1,5 @@
 /*
-  파일명: /components/shared/AtlasPickerSheet.tsx
+  파일명: /components/shared/ExplorePickerSheet.tsx
   기능: 탐색 도감의 모바일 고르기 — 버튼 하나와 중앙 모달
   책임: 좁은 화면에서 칩 줄을 옆으로 넘기지 않게, 누르면 창 하나에 묶음 제목과 그 아래 항목 칩을 줄바꿈으로 모두 펼친다.
         신화 탐색(지역→신화, 그룹)과 세력도감(섹션→테마, 진영)이 함께 쓴다. 넓은 화면은 각자 칩 줄을 쓴다.
@@ -13,7 +13,7 @@ import Modal from "@/components/ui/Modal";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-export interface AtlasPickerItem {
+export interface ExplorePickerItem {
   id: string;
   name: string;
   count?: number;
@@ -25,19 +25,19 @@ export interface AtlasPickerItem {
   note?: ReactNode;
 }
 
-export interface AtlasPickerGroup {
+export interface ExplorePickerGroup {
   id: string;
   /** 묶음 제목 — 비우면 제목 없이 항목만 선다 */
   name?: string;
-  items: AtlasPickerItem[];
+  items: ExplorePickerItem[];
 }
 
-interface AtlasPickerSheetProps {
+interface ExplorePickerSheetProps {
   /** 버튼에 보일 현재 선택 */
   label: ReactNode;
   /** 창 제목이자 버튼 설명 */
   title: string;
-  groups: AtlasPickerGroup[];
+  groups: ExplorePickerGroup[];
   activeItemId: string | null;
   onSelect?: (groupId: string, itemId: string) => void;
   onDisabledSelect?: (itemId: string) => void;
@@ -51,7 +51,7 @@ const CHIP_ACTIVE = "border-accent bg-accent/10 text-accent";
 const CHIP_IDLE = "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:text-text-primary";
 const CHIP_DISABLED = "cursor-not-allowed border-dashed border-white/[0.1] text-white/35";
 
-export default function AtlasPickerSheet({
+export default function ExplorePickerSheet({
   label,
   title,
   groups,
@@ -59,7 +59,7 @@ export default function AtlasPickerSheet({
   onSelect,
   onDisabledSelect,
   className,
-}: AtlasPickerSheetProps) {
+}: ExplorePickerSheetProps) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const listRef = useRef<HTMLDivElement>(null);

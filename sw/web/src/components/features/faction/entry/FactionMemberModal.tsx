@@ -1,5 +1,5 @@
 /*
-  파일명: /components/features/faction/atlas/FactionMemberModal.tsx
+  파일명: /components/features/faction/entry/FactionMemberModal.tsx
   기능: 세력도감 인물 소개 모달
   책임: 카드를 누른 인물을 이 테마 안에서 소개한다 — 인물 상세와 같은 아바타 모듈(확대 보기·인사 음성), 테마·진영, 이름·직함,
         테마에서의 역할과 긴 소개. 아래에는 이 인물 관련 책과 이 인물이 읽은 책을 탭으로 나눠, 인물 상세 「참고도서」와 같은 공통 상품 목록으로 보인다.
@@ -45,9 +45,9 @@ interface MemberBooks {
 }
 
 interface FactionMemberModalProps {
-  tagId: string;
+  factionId: string;
   /** 화면 언어의 테마 이름 */
-  themeName: string;
+  factionName: string;
   celeb: CelebProfile;
   meta: FactionMemberMeta | undefined;
   onClose: () => void;
@@ -60,7 +60,7 @@ const READ_LIMIT = 60;
 
 const httpsUrl = (value: unknown) => (typeof value === "string" && value.startsWith("https://") ? value : "");
 
-export default function FactionMemberModal({ tagId, themeName, celeb, meta, onClose }: FactionMemberModalProps) {
+export default function FactionMemberModal({ factionId, factionName, celeb, meta, onClose }: FactionMemberModalProps) {
   const t = useTranslations("explore.faction.member");
   const tBooks = useTranslations("popularBooks");
   const tCeleb = useTranslations("celebPage");
@@ -69,7 +69,7 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
   /** 판본에 붙은 구매 상품의 플랫폼(한국어 쿠팡·영어 아마존) — 판매 기준 서점과는 다르다 */
   const productPlatform = getFigureBookPurchasePlatform(locale) ?? "coupang";
   const platform = getBookStorePlatform(locale);
-  const [longDescs, setLongDescs] = useState<{ tagId: string; byCeleb: FactionLongDescs } | null>(null);
+  const [longDescs, setLongDescs] = useState<{ factionId: string; byCeleb: FactionLongDescs } | null>(null);
   const [books, setBooks] = useState<MemberBooks | null>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -91,16 +91,16 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
   /* 긴 소개 — 테마 단위로 캐시된 묶음에서 꺼낸다. 못 받아도 모달의 나머지는 그대로다 */
   useEffect(() => {
     let alive = true;
-    getFactionLongDescs(tagId)
-      .then((byCeleb) => alive && setLongDescs({ tagId, byCeleb }))
+    getFactionLongDescs(factionId)
+      .then((byCeleb) => alive && setLongDescs({ factionId, byCeleb }))
       .catch((error) => {
         console.error("[FactionMemberModal] 긴 소개 조회 실패:", error);
-        if (alive) setLongDescs({ tagId, byCeleb: {} });
+        if (alive) setLongDescs({ factionId, byCeleb: {} });
       });
     return () => {
       alive = false;
     };
-  }, [tagId]);
+  }, [factionId]);
 
   /* 두 책 목록 — 모달을 열 때 함께 받아 공통 상품 목록의 책 자료로 맞춘다.
      한국어는 YES24가 찾을 ISBN 판본이 기준이고 쿠팡은 같은 판본의 보조 링크다.
@@ -203,7 +203,7 @@ export default function FactionMemberModal({ tagId, themeName, celeb, meta, onCl
           <div className="min-w-0 text-center md:pe-8 md:pt-2 md:text-start">
             <div className="flex justify-center md:justify-start">
               <p className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/40 bg-accent/[0.08] px-3 py-1 text-[11px] font-bold tracking-[0.12em] text-accent md:text-xs">
-                <span className="truncate">{themeName}</span>
+                <span className="truncate">{factionName}</span>
                 {meta?.group && (
                   <>
                     <span aria-hidden className="text-accent/50">◆</span>

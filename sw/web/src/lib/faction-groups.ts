@@ -14,15 +14,15 @@ export interface FactionGroupDescription {
 }
 
 export const getFactionGroupDescriptions = unstable_cache(
-  async (tagId: string): Promise<FactionGroupDescription[]> => {
+  async (factionId: string): Promise<FactionGroupDescription[]> => {
     const db = createStaticClient()
     const { data, error } = await db
       .from('faction_lv3')
       .select('name, description, description_en')
-      .eq('lv2_id', tagId)
+      .eq('lv2_id', factionId)
     throwOnQueryError('세력도감 진영 설명', error)
     return (data ?? []) as FactionGroupDescription[]
   },
   ['faction-group-descriptions-v1'],
-  { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.TAGS] },
+  { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.FACTIONS] },
 )

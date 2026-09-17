@@ -32,7 +32,7 @@ const NAV_GROUP_START_KEYS = new Set([
   "relatedFigures",
 ]);
 
-export function CelebAtlasNavigation({
+export function CelebExploreNavigation({
   items,
   activeSectionId,
   onNavigate,

@@ -38,7 +38,7 @@ const createMockCeleb = (mat: MaterialConfig): CelebProfile => ({
   is_following: false,
   is_follower: false,
   influence: null,
-  tags: [],
+  factions: [],
 });
 
 const createMockFriend = (mat: MaterialConfig) => ({

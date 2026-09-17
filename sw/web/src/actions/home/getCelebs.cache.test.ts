@@ -119,7 +119,7 @@ test('12 cold requests share public reads, reuse warm ranking, and retain separa
   assert.equal(f.counts.auth, 12)
   results.forEach((result, i) => assert.equal(result.celebs[0].is_following, i % 2 === 0))
   for (const request of requests) {
-    for (const tag of ['celebs', 'contents', 'dialogues', 'tags']) assert.ok(request.unit.tags?.includes(tag))
+    for (const tag of ['celebs', 'contents', 'dialogues', 'factions']) assert.ok(request.unit.tags?.includes(tag))
   }
   for (const [key, entry] of f.entries) {
     if (key.includes('celebs-public')) assert.equal('rankingMap' in JSON.parse(entry.value.data.body), false)

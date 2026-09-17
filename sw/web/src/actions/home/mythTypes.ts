@@ -74,7 +74,7 @@ export interface MythWork {
   personIds: string[];
 }
 
-export interface MythAtlasData {
+export interface MythData {
   regions: MythRegion[];
   myths: Myth[];
   people: MythPerson[];

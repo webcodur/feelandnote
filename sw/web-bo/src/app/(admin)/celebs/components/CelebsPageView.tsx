@@ -65,7 +65,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       tier: tier !== 'all' ? tier : undefined,
       reality: reality !== 'all' ? reality : undefined,
       imageFilter,
-      tagId: faction !== 'all' ? faction : undefined,
+      factionId: faction !== 'all' ? faction : undefined,
       sort,
       sortOrder,
     }),

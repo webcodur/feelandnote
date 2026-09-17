@@ -95,6 +95,6 @@ export async function syncMythMusic(): Promise<MythMusicSyncResult> {
     }
   }
 
-  if (updated > 0) await revalidateWebLists(CACHE_TAGS.TAGS)
+  if (updated > 0) await revalidateWebLists(CACHE_TAGS.FACTIONS)
   return { ok: blocked === 0, updated, skipped, blocked, message: '반영 ' + updated + '곡 · 유지 ' + skipped + '곡 · 확인 필요 ' + blocked + '곡' }
 }

@@ -3,7 +3,7 @@
 한 나라의 시작을 설명하는 전승 인물 427명을 조사해 **전부 비공개로 등록했다.** 전량 보완은
 보류하고, 현재 있는 한 줄 설명과 소개만 제 칸에 둔다. 실존 축 판정은
 [`../project/celeb/celeb-00-01-pipeline.md`](../project/celeb/celeb-00-01-pipeline.md),
-신화 목록 화면은 `sw/web/src/actions/home/getMythAtlas.ts`가 쥔다.
+신화 목록 화면은 `sw/web/src/actions/home/getMythData.ts`가 쥔다.
 
 ## 무엇이 들어갔나
 

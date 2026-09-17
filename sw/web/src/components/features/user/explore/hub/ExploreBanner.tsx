@@ -13,7 +13,7 @@ import { usePathname, Link, useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { ChevronRight } from "lucide-react";
-import { getFactionTagName } from "@/actions/home";
+import { getFactionName } from "@/actions/home";
 
 const SUBPAGE_KEY: Record<string, string> = {
   // 현재 경로
@@ -57,7 +57,7 @@ export default function ExploreBanner() {
   useEffect(() => {
     if (!themeSlug) return;
     let active = true;
-    getFactionTagName(themeSlug).then((r) => {
+    getFactionName(themeSlug).then((r) => {
       if (active) setLoadedTheme({ slug: themeSlug, name: r ? (locale === "en" ? (r.name_en ?? r.name) : r.name) : null });
     });
     return () => { active = false; };

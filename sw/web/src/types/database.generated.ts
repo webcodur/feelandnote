@@ -3627,7 +3627,10 @@ export type Database = {
           p_nationality?: string
           p_profession?: string
           p_search?: string
-          p_tag_id?: string
+          p_faction_id?: string
+          p_celeb_realities?: string[]
+          p_birth_year_min?: number
+          p_birth_year_max?: number
         }
         Returns: number
       }
@@ -3712,17 +3715,21 @@ export type Database = {
           p_profession?: string
           p_search?: string
           p_sort_by?: string
-          p_tag_id?: string
+          p_faction_id?: string
+          p_celeb_realities?: string[]
+          p_birth_year_min?: number
+          p_birth_year_max?: number
         }
         Returns: {
           avatar_url: string
           bio: string
           bio_en: string
           birth_date: string
+          celeb_reality: string
           celeb_tier: string
           claimed_by_member_id: string
-          cultural_journey: string
-          cultural_journey_en: string
+          consumption_philosophy: string
+          consumption_philosophy_en: string
           content_count: number
           created_at: string
           death_date: string
@@ -3751,8 +3758,8 @@ export type Database = {
           birth_date: string
           celeb_tier: string
           claimed_by_member_id: string
-          cultural_journey: string
-          cultural_journey_en: string
+          consumption_philosophy: string
+          consumption_philosophy_en: string
           content_count: number
           created_at: string
           death_date: string

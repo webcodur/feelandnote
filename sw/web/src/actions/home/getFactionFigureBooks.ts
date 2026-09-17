@@ -1,5 +1,5 @@
 /*
-  파일명: actions/home/getTagFigureBooks.ts
+  파일명: actions/home/getFactionFigureBooks.ts
   기능: 세력도감 태그 구성원 전원이 등장하는 인물 도서(figure books) 묶음 조회
   책임: 테마 화면의 작품 선반이 인물 모달 「이 인물 관련 책」과 같은 자료를 테마 단위로 보여 준다.
         책마다 등장 구성원 id를 함께 주어 화면이 진영(클러스터) 고름에 맞춰 선반을 걸러 쓴다.
@@ -19,7 +19,7 @@ import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/uti
 import type { ContentType } from "@/types/database";
 import type { AffiliateBook } from "./getAffiliateBooks";
 
-export interface TagFigureBook extends AffiliateBook {
+export interface FactionFigureBook extends AffiliateBook {
   /** 이 책에 배정된 테마 구성원 — 진영 고름에 맞춰 선반을 걸러 쓴다 */
   memberIds: string[];
 }
@@ -33,15 +33,15 @@ interface ContentRow {
 
 const httpsUrl = (value: unknown) => (typeof value === "string" && value.startsWith("https://") ? value : "");
 
-async function fetchTagFigureBooks(tagId: string, locale: string): Promise<TagFigureBook[]> {
+async function fetchFactionFigureBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
   const db = createStaticClient();
 
   const { data: members, error: membersError } = await db
     .from("faction_member_rows")
     .select("celeb_id")
-    .eq("lv2_id", tagId)
+    .eq("lv2_id", factionId)
     .eq("hidden", false);
-  throwOnQueryError("getTagFigureBooks 편성 조회", membersError);
+  throwOnQueryError("getFactionFigureBooks 편성 조회", membersError);
   if (!members?.length) return [];
 
   const assignments = await getFigureBookAssignmentsByCelebs(members.map((member) => member.celeb_id));
@@ -66,7 +66,7 @@ async function fetchTagFigureBooks(tagId: string, locale: string): Promise<TagFi
      한국어는 같은 판본의 쿠팡 상품을, 영어는 아마존 상품·검색 주소를 잇는다 */
   const isEn = locale === "en";
   const productPlatform = getFigureBookPurchasePlatform(locale) ?? "coupang";
-  const books = contents.flatMap((content): TagFigureBook[] => {
+  const books = contents.flatMap((content): FactionFigureBook[] => {
     if (content.type !== "BOOK") return [];
     const flat = flattenLocales(content.content_locales, locale);
     const edition = pickPurchaseEdition(editionsByContent.get(content.id) ?? [], locale);
@@ -92,13 +92,13 @@ async function fetchTagFigureBooks(tagId: string, locale: string): Promise<TagFi
   return books;
 }
 
-const getTagFigureBooksCached = unstable_cache(
-  fetchTagFigureBooks,
-  ["tag-figure-books-v1"],
+const getFactionFigureBooksCached = unstable_cache(
+  fetchFactionFigureBooks,
+  ["faction-figure-books-v1"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );
 
-export async function getTagFigureBooks(tagId: string, locale: string): Promise<TagFigureBook[]> {
-  return withQueryFallback("getTagFigureBooks", () => getTagFigureBooksCached(tagId, locale === "en" ? "en" : "ko"), []);
+export async function getFactionFigureBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
+  return withQueryFallback("getFactionFigureBooks", () => getFactionFigureBooksCached(factionId, locale === "en" ? "en" : "ko"), []);
 }

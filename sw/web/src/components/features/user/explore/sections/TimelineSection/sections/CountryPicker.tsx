@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
-import { ATLAS_NAV_LAYOUT as atlas } from "@/components/shared/atlasNavLayout";
+import { EXPLORE_NAV_LAYOUT as atlas } from "@/components/shared/exploreNavLayout";
 import { MYTH_LAYOUT as layout } from "@/components/features/user/explore/myth/mythLayout";
 import { getTimelinePath } from "../pagination";
 import { getCountryContinent, groupTimelineCountries } from "../continents";

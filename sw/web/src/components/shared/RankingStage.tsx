@@ -1,5 +1,5 @@
 /*
-  파일명: /components/shared/AtlasStage.tsx
+  파일명: /components/shared/RankingStage.tsx
   기능: 공용 무대 프레임 — 도감 화면의 본문을 한 상자에 묶는다
   책임: 둥근 외곽 상자(28px·헤어라인 경계)를 그린다. accent를 넘기면 상단에
         문맥색 헤어라인과 광원을 깐다 — 스펙트럼 축 무대·기질의 서재·분야별 챔피언이
@@ -9,7 +9,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export default function AtlasStage({
+export default function RankingStage({
   accent, children, className,
 }: {
   /** 상단 헤어라인·광원의 문맥색(축색·매체색). 없으면 장식 없는 평범한 상자 */

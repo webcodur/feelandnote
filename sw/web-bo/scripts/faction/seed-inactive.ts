@@ -54,7 +54,7 @@ type FactionRow = {
   is_fiction: boolean
 }
 
-type AtlasMemberRow = {
+type MemberRow = {
   celeb_id: string
   hidden: boolean
 }
@@ -210,7 +210,7 @@ async function main() {
   const faction = factionData as FactionRow
   if (!faction.is_fiction) throw new Error(`${faction.slug}: is_fiction=true인 세력이 아닙니다.`)
 
-  const [profiles, atlasMembers, assignments] = await Promise.all([
+  const [profiles, memberRows, assignments] = await Promise.all([
     allRows<ExistingProfile>(
       client,
       'celebs',
@@ -225,12 +225,12 @@ async function main() {
       .select('celeb_id,sort_order,hidden')
       .eq('lv2_id', faction.id),
   ])
-  if (atlasMembers.error) throw atlasMembers.error
+  if (memberRows.error) throw memberRows.error
   if (assignments.error) throw assignments.error
 
   const profileById = new Map(profiles.map((row) => [row.id, row]))
-  const atlasByCeleb = new Map(
-    ((atlasMembers.data ?? []) as AtlasMemberRow[]).map((row) => [row.celeb_id, row]),
+  const memberByCeleb = new Map(
+    ((memberRows.data ?? []) as MemberRow[]).map((row) => [row.celeb_id, row]),
   )
   const occupiedSlugs = new Set(profiles.flatMap((row) => row.slug ? [row.slug] : []))
 
@@ -252,16 +252,16 @@ async function main() {
       if (existing.publication_status === 'deleted') {
         throw new Error(`${person.nickname}: 삭제된 기존 프로필입니다.`)
       }
-      const atlas = atlasByCeleb.get(existing.id)
+      const member = memberByCeleb.get(existing.id)
       return {
-        kind: atlas ? 'skip' : 'link',
+        kind: member ? 'skip' : 'link',
         person,
         existing,
         celebId: existing.id,
         slug: existing.slug ?? '(slug 없음)',
         slugSuffix: null,
-        reason: atlas
-          ? `이미 소속이 있습니다${atlas.hidden ? ' (숨김)' : ''}.`
+        reason: member
+          ? `이미 소속이 있습니다${member.hidden ? ' (숨김)' : ''}.`
           : `기존 프로필에 숨김 소속만 추가합니다.${
             existing.celeb_reality !== person.celeb_reality
               ? ` 실존 축은 등록된 ${existing.celeb_reality}으로 두며 명세의 ${person.celeb_reality}로 바꾸지 않습니다.`

@@ -5,7 +5,7 @@ import { useId } from "react";
 import { ArrowUpRight, BookOpenText, UserRound, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import type { MythPerson, Myth, MythWork } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson, Myth, MythWork } from "@/actions/home/mythTypes";
 import { FormattedText } from "@/components/ui";
 import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
 import MythPortraitMedia, { type MythPortrait } from "./MythPortraitMedia";

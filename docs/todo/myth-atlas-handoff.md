@@ -3,7 +3,7 @@
 `/explore` 신화 구획(신화의 세계)의 남은 작업과 그 앞에 깔린 구조를 넘긴다. 표기·계보 공백은
 [`myth.md`](myth.md)가 쥔다. 여기는 **화면과 데이터 구조**만 담는다.
 
-조회는 `sw/web/src/actions/home/getMythAtlas.ts`, 화면은
+조회는 `sw/web/src/actions/home/getMythData.ts`, 화면은
 `sw/web/src/components/features/user/explore/myth/`가 쥔다.
 
 ## 먼저 알아야 할 구조
@@ -55,7 +55,7 @@
 - **「한국 신화」 빈 테마 — 지웠다(26.09.13).** 인물도 하위 테마도 없었고, 한국 전승 8개(신라·가야·백제 등)는 이 테마가 아니라 `myth-korea-` 앞머리로 신화 화면 「한국」 칸에 선다. 쓰이지 않던 제목 그림(`title-art/myth-korea.png`)도 함께 뺐다.
 - **이미지·대사**: 그룹이 확정됐으니 다음 차례다. 숨긴 인물 399명은 아바타가 생기면 공개한다.
 - **대표 3인을 DB로 옮겼다(26.09.17).** 신화 대표 인물(타이틀 아트 얼굴 셋)은 `faction_lv2.lead_person_ids`가
-  쥐고 `/myths`의 대표 인물 칸에서 고른다. `getMythAtlas.ts`는 그 값을 읽고, 모자라면 노출 명단의
+  쥐고 `/myths`의 대표 인물 칸에서 고른다. `getMythData.ts`는 그 값을 읽고, 모자라면 노출 명단의
   차례로 채운다. `MYTH_LEAD_BY_SLUG` 상수는 걷어냈다.
 - **대표 원전을 DB로 옮긴다**: 등장 작품 선반의 「이 신화의 책」 분류는 `MythWorkShelf.tsx`의
   `MYTH_OWN_WORK_IDS` 상수가 쥔다(26.09.17). 신들의 계보·변신 이야기 같은 종합 신화서와

@@ -12,7 +12,7 @@ import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEdition
 import { pickPurchaseEdition, type FigureBookEdition } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
-import { MYTH_OTHER_GROUP_ID, type Myth, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
+import { MYTH_OTHER_GROUP_ID, type Myth, type MythData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythTypes";
 
 interface Lv1Row {
   id: string; name: string; name_en: string | null; sort_order: number;
@@ -116,7 +116,7 @@ function groupsForMyth(
   return others.length > 0 ? [...ordered, { id: MYTH_OTHER_GROUP_ID, name: null, description: null, personIds: others }] : ordered;
 }
 
-async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
+async function fetchMythData(locale: string): Promise<MythData> {
   const db = createStaticClient();
   const isEn = locale === "en";
 
@@ -134,7 +134,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   if (lv2Result.error) throw new Error(`신화 목록 조회 실패: ${lv2Result.error.message}`);
   const regionRows = (lv1Result.data ?? []) as Lv1Row[];
   const mythRows = (lv2Result.data ?? []) as Lv2Row[];
-  const lv2Ids = mythRows.map((tag) => tag.id);
+  const lv2Ids = mythRows.map((faction) => faction.id);
   if (lv2Ids.length === 0) return { regions: [], myths: [], people: [], works: [], openingPersonId: null };
 
   /* 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다. 신화 인원이 그 턱밑(26.09.14 약 1천 행)이다.
@@ -219,25 +219,25 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
      신화마다 잡아 둔 계보·이야기 순서가 화면에서 통째로 뒤집힌다 */
 
   const regionIds = new Set(regionRows.map((region) => region.id));
-  const myths = mythRows.flatMap((tag): Myth[] => {
-    if (!tag.slug) return [];
-    const ids = unique(members.filter((member) => member.lv2_id === tag.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
+  const myths = mythRows.flatMap((faction): Myth[] => {
+    if (!faction.slug) return [];
+    const ids = unique(members.filter((member) => member.lv2_id === faction.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
     if (ids.length === 0) return [];
-    const titleArt = titleArtForMyth(tag.slug, tag.name);
+    const titleArt = titleArtForMyth(faction.slug, faction.name);
     const images = titleArt ? [{ url: titleArt, label: null }] : [];
     /* 대표 3인은 DB가 쥔다(faction_lv2.lead_person_ids). 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
-    const leadPersonIds = (tag.lead_person_ids ?? []).filter((id) => ids.includes(id));
+    const leadPersonIds = (faction.lead_person_ids ?? []).filter((id) => ids.includes(id));
     for (const id of ids) {
       if (leadPersonIds.length >= 3) break;
       if (!leadPersonIds.includes(id)) leadPersonIds.push(id);
     }
-    return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name, leadPersonIds,
-      description: isEn ? tag.description_en || tag.description : tag.description,
-      isPublished: tag.published === true,
-      regionId: regionIds.has(tag.lv1_id) ? tag.lv1_id : "other",
-      images, personIds: ids, music: toFactionMusic(tag.theme_music),
-      groups: groupsForMyth(members.filter((member) => member.lv2_id === tag.id), ids, isEn,
-        (label) => groupDescriptions.get(`${tag.id}/${label}`) ?? null) }];
+    return [{ id: faction.id, slug: faction.slug, name: isEn ? faction.name_en || faction.name : faction.name, leadPersonIds,
+      description: isEn ? faction.description_en || faction.description : faction.description,
+      isPublished: faction.published === true,
+      regionId: regionIds.has(faction.lv1_id) ? faction.lv1_id : "other",
+      images, personIds: ids, music: toFactionMusic(faction.theme_music),
+      groups: groupsForMyth(members.filter((member) => member.lv2_id === faction.id), ids, isEn,
+        (label) => groupDescriptions.get(`${faction.id}/${label}`) ?? null) }];
   });
   const regions = regionRows.map((region): MythRegion => ({
     id: region.id,
@@ -250,11 +250,11 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, myths, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v20-yes24-edition"], {
+const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v21'], {
   revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
+  tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
 
-export async function getMythAtlas(locale: string = "ko") {
-  return getCachedMythAtlas(locale === "en" ? "en" : "ko");
+export async function getMythData(locale: string = "ko") {
+  return getCachedMythData(locale === "en" ? "en" : "ko");
 }

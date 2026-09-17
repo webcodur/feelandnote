@@ -7,24 +7,24 @@
 
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getFeaturedTags } from "@/actions/home";
+import { getFeaturedFactions } from "@/actions/home";
 import { redirect } from "@/i18n/navigation";
-import { buildFactionSections, localizedTagDescription, localizedTagName } from "@/lib/faction-sections";
+import { buildFactionSections, localizedFactionDescription, localizedFactionName } from "@/lib/faction-sections";
 import { getLocalizedAlternates, toSeoDescription } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
-import FactionAtlasScreen from "../FactionAtlasScreen";
+import FactionScreen from "../FactionScreen";
 
 type PageParams = Promise<{ locale: Locale; slug: string }>;
 
 export async function generateMetadata({ params }: { params: PageParams }) {
   const { locale, slug } = await params;
-  const [t, tags] = await Promise.all([
+  const [t, factions] = await Promise.all([
     getTranslations({ locale, namespace: "explore.faction" }),
-    getFeaturedTags(),
+    getFeaturedFactions(),
   ]);
-  const tag = tags.find((tg) => tg.slug === slug && tg.is_featured && !tg.isGroup);
-  const title = tag ? `${localizedTagName(tag, locale)} · ${t("metaTitle")}` : t("metaTitle");
-  const rawDescription = tag ? localizedTagDescription(tag, locale) : null;
+  const faction = factions.find((f) => f.slug === slug && f.is_featured && !f.isGroup);
+  const title = faction ? `${localizedFactionName(faction, locale)} · ${t("metaTitle")}` : t("metaTitle");
+  const rawDescription = faction ? localizedFactionDescription(faction, locale) : null;
   const description = rawDescription ? toSeoDescription(rawDescription) : undefined;
 
   return {
@@ -35,16 +35,16 @@ export async function generateMetadata({ params }: { params: PageParams }) {
   };
 }
 
-export default async function FactionThemePage({ params }: { params: PageParams }) {
+export default async function FactionEntryPage({ params }: { params: PageParams }) {
   const { locale, slug } = await params;
-  const tags = await getFeaturedTags();
-  const tag = tags.find((tg) => tg.slug === slug);
+  const factions = await getFeaturedFactions();
+  const faction = factions.find((f) => f.slug === slug);
 
-  if (tag?.isGroup) redirect({ href: `/explore/faction?section=${slug}`, locale });
+  if (faction?.isGroup) redirect({ href: `/explore/faction?section=${slug}`, locale });
 
-  const sections = buildFactionSections(tags);
-  const section = tag ? sections.find((item) => item.themes.some((theme) => theme.id === tag.id)) : undefined;
-  if (!tag || !section) notFound();
+  const sections = buildFactionSections(factions);
+  const section = faction ? sections.find((item) => item.entries.some((entry) => entry.id === faction.id)) : undefined;
+  if (!faction || !section) notFound();
 
-  return <FactionAtlasScreen sections={sections} section={section} theme={tag} locale={locale} withJsonLd />;
+  return <FactionScreen sections={sections} section={section} entry={faction} locale={locale} withJsonLd />;
 }

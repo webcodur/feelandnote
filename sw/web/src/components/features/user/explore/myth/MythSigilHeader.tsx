@@ -5,7 +5,7 @@ import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { ArrowLeft, Maximize2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythPerson, Myth } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson, Myth } from "@/actions/home/mythTypes";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 
 /** label — 돌아갈 곳의 이름. 그룹을 골라 들어왔으면 그룹 개요, 아니면 신화 개요다 */

@@ -1,10 +1,10 @@
 /*
-  파일명: /components/shared/atlasNavLayout.ts
-  기능: 탐색 도감 선택기(AtlasNav)의 모양 값
+  파일명: /components/shared/exploreNavLayout.ts
+  기능: 탐색 도감 선택기(ExploreNav)의 모양 값
   책임: 신화 탐색과 세력도감이 같은 상자·칩 줄·밑줄 탭 모양을 쓴다. 지시문 없는 일반 모듈이라 서버 컴포넌트(골격 화면)도 값을 그대로 읽는다.
 */
 
-export const ATLAS_NAV_LAYOUT = {
+export const EXPLORE_NAV_LAYOUT = {
   /** 줄들을 쌓는 상자 */
   navigation: "mx-auto grid max-w-[1040px] overflow-hidden rounded-2xl border border-white/[0.08] bg-black/[0.16] p-1.5",
   /* 바깥 윤곽선이 따로 있는 화면(신화 탐색)은 좁은 화면에서 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */

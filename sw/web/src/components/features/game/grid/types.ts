@@ -4,7 +4,7 @@
  */
 
 /** 조건 축 종류 */
-export type ConditionAxis = "nationality" | "profession" | "century" | "tag";
+export type ConditionAxis = "nationality" | "profession" | "century" | "faction";
 
 /** 하나의 조건 */
 export interface GridCondition {
@@ -35,7 +35,7 @@ export interface GridCeleb {
   birthDate: string | null;
   deathDate: string | null;
   /** 소속 태그 id 목록 */
-  tagIds: string[];
+  factionIds: string[];
 }
 
 /** 서버에서 생성한 출제 데이터 */

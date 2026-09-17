@@ -11,7 +11,7 @@
 
 ## 신화 전승 — 자리는 있다
 
-제목 그림이 이미 이 역할을 한다. 파일은 `sw/web/public/images/myth-atlas/title-art/`에 두고, 어느 전승에 걸지는 `sw/web/src/actions/home/getMythAtlas.ts`의 `TITLE_ART_BY_SLUG`(slug)·`TITLE_ART_BY_NAME`(이름) 대응표가 쥔다. 기존 16장은 모두 **1536×1024(3:2 가로) PNG**다. 그림 파일을 넣고 대응표에 한 줄 더하면 걸린다.
+제목 그림이 이미 이 역할을 한다. 파일은 `sw/web/public/images/myth-atlas/title-art/`에 두고, 어느 전승에 걸지는 `sw/web/src/actions/home/getMythData.ts`의 `TITLE_ART_BY_SLUG`(slug)·`TITLE_ART_BY_NAME`(이름) 대응표가 쥔다. 기존 16장은 모두 **1536×1024(3:2 가로) PNG**다. 그림 파일을 넣고 대응표에 한 줄 더하면 걸린다.
 
 제목 그림이 없는 21개(26.09.14):
 

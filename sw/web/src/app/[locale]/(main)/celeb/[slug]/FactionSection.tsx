@@ -11,7 +11,7 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
+import type { FeaturedFaction } from "@/actions/home/getFeaturedFactions";
 import type { Locale } from "@/types/locale";
 
 const FactionShowcase = dynamic(
@@ -27,7 +27,7 @@ const FactionShowcase = dynamic(
 );
 
 interface FactionSectionProps {
-  factions: FeaturedTag[];
+  factions: FeaturedFaction[];
   currentCelebId: string;
 }
 
@@ -93,11 +93,11 @@ export default function FactionSection({
 
       <FactionShowcase
         key={activeFaction.id}
-        activeTag={activeFaction}
+        activeFaction={activeFaction}
         locale={locale}
         initialCelebId={currentCelebId}
         variant="embedded"
-        atlasLinkLabel={t("factionOpen")}
+        factionLinkLabel={t("factionOpen")}
       />
     </div>
   );

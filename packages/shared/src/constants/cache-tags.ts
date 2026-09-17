@@ -27,8 +27,8 @@ export const CACHE_TAGS = {
   DIALOGUES: 'dialogues',
   /** 스펙트럼 벡터·성향 분포 */
   SPECTRUM: 'spectrum',
-  /** 세력도감(faction) 태그 편성 */
-  TAGS: 'tags',
+  /** 세력도감(faction_lv1·lv2·lv3·members) 편성 */
+  FACTIONS: 'factions',
   /** 인물 ↔ 등장·연관 도서 연결 */
   FIGURE_BOOKS: 'figure-books',
   /** 기관 선정 목록(선정 주체·목록·담긴 작품) */
@@ -57,7 +57,7 @@ export const CACHE_TAG_BULK_ROUTE_FAMILIES = {
   [CACHE_TAGS.CONTENTS]: ['content', 'celeb'],
   [CACHE_TAGS.DIALOGUES]: ['celeb'],
   [CACHE_TAGS.SPECTRUM]: ['celeb'],
-  [CACHE_TAGS.TAGS]: ['celeb'],
+  [CACHE_TAGS.FACTIONS]: ['celeb'],
   [CACHE_TAGS.FIGURE_BOOKS]: ['celeb'],
   [CACHE_TAGS.CURATED]: [],
 } as const satisfies Record<CacheTag, readonly CacheDetailRouteFamily[]>
@@ -275,6 +275,8 @@ export function normalizeLegacyCacheTag(tag: unknown): unknown {
   if (typeof tag !== 'string') return tag
   if (tag === 'persona') return CACHE_TAGS.SPECTRUM
   if (tag.startsWith('persona:')) return `${CACHE_TAGS.SPECTRUM}:${tag.slice('persona:'.length)}`
+  if (tag === 'tags') return CACHE_TAGS.FACTIONS
+  if (tag.startsWith('tags:')) return `${CACHE_TAGS.FACTIONS}:${tag.slice('tags:'.length)}`
   return tag
 }
 

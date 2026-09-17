@@ -49,7 +49,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence"), DEFAULT_CELEB_CONTENT_PRESENCE),
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search") || undefined,
-    tagId: notAll(parseParam(params, "tagId")),
+    factionId: notAll(parseParam(params, "tagId")),
     birthYearMin: parseYear(parseParam(params, "byMin")),
     birthYearMax: parseYear(parseParam(params, "byMax")),
   };

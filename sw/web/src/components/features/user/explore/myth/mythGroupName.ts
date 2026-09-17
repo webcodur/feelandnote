@@ -1,4 +1,4 @@
-import { MYTH_OTHER_GROUP_ID, type MythGroup } from "@/actions/home/mythAtlasTypes";
+import { MYTH_OTHER_GROUP_ID, type MythGroup } from "@/actions/home/mythTypes";
 
 /* 그룹 탭·버튼·창에 보일 이름. 「그 외」 그룹과 영문 이름이 빈 그룹은 번역 문구로 채운다 —
    영문 화면에 한국어 그룹 이름을 그대로 내보내지 않는다(세력도감 쇼케이스와 같은 규칙) */

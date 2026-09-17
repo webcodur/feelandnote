@@ -4,7 +4,7 @@
  */
 
 /** 묶음 기준으로 사용할 수 있는 축 (DB 실재) */
-export type GroupAxis = "tag" | "profession" | "nationality";
+export type GroupAxis = "faction" | "profession" | "nationality";
 
 /** 난이도 색상 (NYT Connections 관례) */
 export const DIFFICULTY_COLORS = [

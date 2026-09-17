@@ -73,7 +73,7 @@ interface GetCelebsParams extends CelebColumnFilters {
   tier?: 'full' | 'light' | 'all'
   reality?: 'REAL' | 'BOTH' | 'FICTION' | 'all'
   imageFilter?: CelebImageFilter
-  tagId?: string
+  factionId?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -402,7 +402,7 @@ const CELEB_SORT_COLUMNS: Record<string, string> = {
 }
 
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, tagId, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, factionId, sort = 'created_at', sortOrder = 'desc' } = params
   const db = createAdminClient()
   const offset = (page - 1) * limit
   const filters = params
@@ -416,18 +416,18 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   `
 
   let tagCelebIds: string[] | undefined
-  if (tagId && tagId !== 'all') {
+  if (factionId && factionId !== 'all') {
     // 분류(L1)를 고르면 그 아래 세력(L2)에 속한 인물까지 함께 담는다
     const childFactions = await selectAllPages<{ id: string }>((from, to) => db
       .from('faction_lv2')
       .select('id')
-      .eq('lv1_id', tagId)
+      .eq('lv1_id', factionId)
       .order('id')
       .range(from, to))
 
-    const targetLv2Ids = [tagId, ...childFactions.map((t) => t.id)]
+    const targetLv2Ids = [factionId, ...childFactions.map((t) => t.id)]
 
-    const tagAssignments = await selectInChunks<{ celeb_id: string }>(targetLv2Ids, async (lv2Ids) => ({
+    const factionAssignments = await selectInChunks<{ celeb_id: string }>(targetLv2Ids, async (lv2Ids) => ({
       data: await selectAllPages<{ celeb_id: string }>((from, to) => db
         .from('faction_member_rows')
         .select('celeb_id')
@@ -437,20 +437,20 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
       error: null,
     }))
     // 여러 하위 세력에 겹쳐 속한 인물이 있어 중복을 걷어낸다
-    tagCelebIds = [...new Set(tagAssignments.map((a) => a.celeb_id))]
+    tagCelebIds = [...new Set(factionAssignments.map((a) => a.celeb_id))]
     if (tagCelebIds.length === 0) return { celebs: [], total: 0 }
   }
 
   // 테마 인원이 수천 명이면 ID를 한 URL에 넣을 수 없으므로 나눠 조회한 뒤 정렬한다.
-  const tagRows = tagCelebIds
+  const factionRows = tagCelebIds
     ? await selectInChunks<CelebListRow>(tagCelebIds, async (ids) => {
       const { data, error } = await buildCelebListQuery(db, filters, selectFields, undefined, ids)
         .order('id', { ascending: true })
       return { data: data as unknown as CelebListRow[] | null, error }
     })
     : undefined
-  const { count, error: countError } = tagRows
-    ? { count: tagRows.length, error: null }
+  const { count, error: countError } = factionRows
+    ? { count: factionRows.length, error: null }
     : await buildCelebListQuery(db, filters, 'id', { count: 'exact', head: true })
 
   if (countError) {
@@ -464,7 +464,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   const sortColumn = CELEB_SORT_COLUMNS[sort]
 
-  if (!tagRows && sortColumn && !hasCelebNumericRanges(filters)) {
+  if (!factionRows && sortColumn && !hasCelebNumericRanges(filters)) {
     const ascending = sortOrder === 'asc'
     // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
     // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
@@ -489,7 +489,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     }
   }
 
-  const rows = tagRows ?? await selectAllPages<CelebListRow>(async (from, to) => {
+  const rows = factionRows ?? await selectAllPages<CelebListRow>(async (from, to) => {
     const { data, error } = await buildCelebListQuery(db, filters, selectFields)
       .order('id', { ascending: true }).range(from, to)
     return { data: data as unknown as CelebListRow[] | null, error }
@@ -524,7 +524,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, reality, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, reality, imageFilter, factionId, sort = 'created_at', sortOrder = 'desc' } = params
   const rpcUnsupportedSorts = ['avatar_url', 'portrait_url', 'awakened_image_url', 'title', 'gender', 'celeb_tier', 'celeb_reality']
   const needsExactFiltering =
     rpcUnsupportedSorts.includes(sort) ||
@@ -536,7 +536,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     // RPC는 실존 축을 모른다. 이 필터가 걸리면 직접 조회 경로로 넘긴다
     (reality && reality !== 'all') ||
     (imageFilter && imageFilter !== 'all') ||
-    (tagId && tagId !== 'all')
+    (factionId && factionId !== 'all')
 
   if (needsExactFiltering) {
     return getCelebsByDirectQuery(params)
@@ -568,7 +568,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_nationality: null,
     p_content_type: null,
     p_search: search || null,
-    p_tag_id: tagId && tagId !== 'all' ? tagId : null,
+    p_faction_id: factionId && factionId !== 'all' ? factionId : null,
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
@@ -595,7 +595,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_search: search || '',
     p_limit: pageSize,
     p_offset: actualOffset,
-    p_tag_id: tagId && tagId !== 'all' ? tagId : null,
+    p_faction_id: factionId && factionId !== 'all' ? factionId : null,
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
@@ -1082,7 +1082,7 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
       ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
       { domain: CACHE_TAGS.SPECTRUM, id: celebId },
     ],
-    [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.TAGS],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.FACTIONS],
   )
   return newStatus
 }
@@ -1113,7 +1113,7 @@ export async function deleteCeleb(celebId: string): Promise<void> {
       ...(deleted.slug ? [{ domain: CACHE_TAGS.CELEBS, id: deleted.slug }] : []),
       { domain: CACHE_TAGS.SPECTRUM, id: celebId },
     ],
-    [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.TAGS],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.FACTIONS],
   )
 }
 // #endregion

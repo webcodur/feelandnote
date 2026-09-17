@@ -30,7 +30,7 @@ export interface ContentTypeCounts {
 const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
 // 셀럽이 배정된 세력도감 세력(faction_lv2). 분류 헤더(lv1)는 배정이 0이라 여기 걸리지 않는다.
-export interface FactionTagItem {
+export interface FactionItem {
   id: string
   /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
   isMyth: boolean
@@ -49,7 +49,7 @@ export interface FactionTagItem {
   music: FactionMusic | null
 }
 
-interface FactionTagAssignmentRow {
+interface FactionFactionAssignmentRow {
   lv2_id: string
   image_url: string | null
   sort_order: number | null
@@ -177,7 +177,7 @@ interface PublicCelebBySlugData {
     interpretive_text: string
     interpretive_text_en: string | null
   } | null
-  factionTags: FactionTagItem[]
+  factions: FactionItem[]
   relations: CelebRelationItem[]
   /** 상단 대표 화보(PC 세로형). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
   photoUrl: string | null
@@ -213,7 +213,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookResult,
     dialogueResult,
     typeCountsResult,
-    factionTagRows,
+    factionFactionRows,
     outgoingRelationsResult,
     incomingRelationsResult,
     externalRelationsResult,
@@ -239,28 +239,28 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     db.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
     // 세력도감 소속 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
     // 뷰는 세력 embed가 안 되므로 뷰 → faction_lv2 두 단계로 읽는다.
-    (async (): Promise<FactionTagAssignmentRow[]> => {
+    (async (): Promise<FactionFactionAssignmentRow[]> => {
       const { data: memberRows, error: memberRowsError } = await db
         .from('faction_member_rows')
         .select('lv2_id, image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
         .order('sort_order', { ascending: true })
-        .overrideTypes<Omit<FactionTagAssignmentRow, 'tag'>[], { merge: false }>()
+        .overrideTypes<Omit<FactionFactionAssignmentRow, 'tag'>[], { merge: false }>()
       throwOnQueryError('getCelebBySlug/faction-members', memberRowsError)
       if (!memberRows?.length) return []
 
       const lv2Ids = [...new Set(memberRows.map((r) => r.lv2_id))]
-      const { data: tagRows, error: tagRowsError } = await db
+      const { data: factionRows, error: factionRowsError } = await db
         .from('faction_lv2')
         .select('id, name, name_en, slug, color, description, description_en, theme_music, is_myth')
         .in('id', lv2Ids)
         .eq('is_featured', true)
-        .overrideTypes<NonNullable<FactionTagAssignmentRow['tag']>[], { merge: false }>()
-      throwOnQueryError('getCelebBySlug/faction-tags', tagRowsError)
-      const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
+        .overrideTypes<NonNullable<FactionFactionAssignmentRow['tag']>[], { merge: false }>()
+      throwOnQueryError('getCelebBySlug/factions', factionRowsError)
+      const factionById = new Map((factionRows ?? []).map((t) => [t.id, t]))
 
-      return memberRows.map((r) => ({ ...r, tag: tagById.get(r.lv2_id) ?? null }))
+      return memberRows.map((r) => ({ ...r, tag: factionById.get(r.lv2_id) ?? null }))
     })(),
     relationDb
       .from('celeb_relations')
@@ -304,8 +304,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   // 신화 가지 표시 — 세력도감 명단은 신화를 싣지 않는다. 세력 탭은 신화가 아닌 소속이 있을 때만 켠다(26.09.14).
   // 목록에서 지우지는 않는다 — 대표 사진이 없을 때 세력 화보로 대신하는 자리가 신화 인물에게도 필요하다
   // 슬러그 없는 세력은 세력도감 딥링크로 이동할 수 없어 제외한다
-  const factionTags: FactionTagItem[] = factionTagRows
-    .filter((a): a is FactionTagAssignmentRow & { tag: NonNullable<FactionTagAssignmentRow['tag']> } => !!a.tag?.slug)
+  const factions: FactionItem[] = factionFactionRows
+    .filter((a): a is FactionFactionAssignmentRow & { tag: NonNullable<FactionFactionAssignmentRow['tag']> } => !!a.tag?.slug)
     .map((a) => ({
       id: a.tag.id,
       isMyth: a.tag.is_myth === true,
@@ -395,10 +395,10 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     contentTypeCounts,
     dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
     explanation: explanationResult.data ?? null,
-    factionTags,
+    factions,
     relations,
     // 전용 화보 → 세력도감 화보(정렬 첫 장) 순. 둘 다 없으면 화면이 얼굴 사진으로 돌아간다
-    photoUrl: profile.portrait_url ?? factionTags.find((t) => t.factionImageUrl)?.factionImageUrl ?? null,
+    photoUrl: profile.portrait_url ?? factions.find((t) => t.factionImageUrl)?.factionImageUrl ?? null,
     // 설명은 전용 화보에만 붙는다. 세력도감 화보를 끌어다 쓴 경우에는 그 그림의 설명이 아니므로 비운다
     photoCaption: profile.portrait_url ? profile.portrait_caption ?? null : null,
     photoCaptionEn: profile.portrait_url ? profile.portrait_caption_en ?? null : null,
@@ -415,7 +415,7 @@ const getCelebBySlugCached = (slug: string) =>
     // v9: 가상독백을 함께 싣는 조회 결과만 캐시한다.
     ['celeb-by-slug-v9-virtual-monologue', slug],
     () => fetchCelebBySlugPublic(slug),
-    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
+    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
 
 /**
@@ -441,7 +441,7 @@ export const getCelebBySlug = cache(getCelebBySlugInner);
 
 export type CelebBySlugProfile = PublicUserProfile & {
   contentTypeCounts: ContentTypeCounts
-  factionTags: FactionTagItem[]
+  factions: FactionItem[]
   relations: CelebRelationItem[]
   /** 상단 대표 화보(PC 세로형). 없으면 null이라 화면이 얼굴 사진으로 돌아간다 */
   photo_url: string | null
@@ -536,7 +536,7 @@ async function getCelebBySlugInner(
       view_count: profile.view_count ?? 0,
       contentTypeCounts: pub.contentTypeCounts,
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
-      factionTags: pub.factionTags ?? [],
+      factions: pub.factions ?? [],
       relations: pub.relations ?? [],
       photo_url: pub.photoUrl ?? null,
       photo_caption: pub.photoCaption ?? null,

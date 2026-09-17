@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { BookOpenText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Ghost, SkeletonFrame } from "../hub/ExploreSkeleton";
-import { ATLAS_NAV_LAYOUT } from "@/components/shared/atlasNavLayout";
+import { EXPLORE_NAV_LAYOUT } from "@/components/shared/exploreNavLayout";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
 // Approximate chip widths; each list stays on one line like the live rails.
@@ -17,7 +17,7 @@ function NavChips({ widths, shape }: { widths: readonly number[]; shape: string 
   return (
     <div className={layout.navList}>
       {widths.map((width, index) => (
-        <div key={index} style={{ width }} className={cn(ATLAS_NAV_LAYOUT.chip, "border-white/[0.08]", shape)}>
+        <div key={index} style={{ width }} className={cn(EXPLORE_NAV_LAYOUT.chip, "border-white/[0.08]", shape)}>
           <Ghost className="h-2.5 w-full" />
         </div>
       ))}
@@ -25,16 +25,16 @@ function NavChips({ widths, shape }: { widths: readonly number[]; shape: string 
   );
 }
 
-export default function MythAtlasSkeleton() {
+export default function MythScreenSkeleton() {
   const t = useTranslations("explore.hub.myth");
   const common = useTranslations("common");
   const chips = CHIP_WIDTHS[useLocale() === "en" ? "en" : "ko"];
 
   return (
-    <SkeletonFrame label={`${t("title")} · ${common("loading")}`} className={layout.atlas}>
+    <SkeletonFrame label={`${t("title")} · ${common("loading")}`} className={layout.shell}>
       <div aria-hidden="true">
         <div className={layout.navigationOuter}>
-          <div className={cn(layout.navigation, ATLAS_NAV_LAYOUT.navigationBareMobile)}>
+          <div className={cn(layout.navigation, EXPLORE_NAV_LAYOUT.navigationBareMobile)}>
             <div className={layout.mobilePicker}>
               <div className="flex h-[38px] items-center rounded-lg border border-white/[0.08] px-3.5"><Ghost className="h-2.5 w-full" /></div>
               <div className="flex h-[38px] items-center rounded-lg border border-white/[0.08] px-3.5"><Ghost className="h-2.5 w-full" /></div>

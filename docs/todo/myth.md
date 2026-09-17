@@ -2,7 +2,7 @@
 
 그리스·로마 신 계보를 정비하며 남긴 후속 과제다. 관계 규칙은
 [`../project/celeb/celeb-07-01-relations.md`](../project/celeb/celeb-07-01-relations.md),
-신화 목록 화면은 `sw/web/src/actions/home/getMythAtlas.ts`가 쥔다.
+신화 목록 화면은 `sw/web/src/actions/home/getMythData.ts`가 쥔다.
 
 ## 표기와 안내
 

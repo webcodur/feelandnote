@@ -4,7 +4,7 @@ import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Users } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythGroup, MythPerson, Myth } from "@/actions/home/mythAtlasTypes";
+import type { MythGroup, MythPerson, Myth } from "@/actions/home/mythTypes";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import { mythGroupName } from "./mythGroupName";
 import { mythLeadImage } from "./mythLeadImage";

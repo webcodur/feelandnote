@@ -1,5 +1,5 @@
 /*
-  파일명: actions/home/getTagSharedLibrary.ts
+  파일명: actions/home/getFactionSharedLibrary.ts
   기능: 세력도감 태그 내 셀럽들의 공유 콘텐츠 조회
   책임: 2명 이상이 공통으로 감상한 콘텐츠를 celebCount 내림차순으로 반환한다.
         도서에는 한국어 판본(YES24가 찾을 ISBN 판본 id, 같은 판본의 쿠팡 보조 링크)을 붙여 선반이 구매로 잇게 한다.
@@ -48,18 +48,18 @@ export interface SharedContent {
 // DB 원형은 JSON 배열([{ url, platform }])이다 — 문자열로 가정하면 링크 달린 책 하나에 진영 전체 조회가 죽는다
 type LocaleRowWithAffiliate = ContentLocaleRow & { affiliate_url?: unknown };
 
-async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
+async function fetchFactionSharedLibrary(factionId: string): Promise<SharedContent[]> {
   const db = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회 — 뷰가 편성(숨김 제외)을 쥔다
   const { data: assignments, error: assignmentsError } = await db
     .from("faction_member_rows")
     .select("celeb_id")
-    .eq("lv2_id", tagId)
+    .eq("lv2_id", factionId)
     .eq("hidden", false);
 
   // 조회 실패와 "배정된 인물이 없다"를 가른다 — 실패를 빈 목록으로 캐시하면 7일간 구역이 사라진다
-  throwOnQueryError('getTagSharedLibrary 편성 조회', assignmentsError);
+  throwOnQueryError('getFactionSharedLibrary 편성 조회', assignmentsError);
   if (!assignments?.length) return [];
 
   const celebIds = assignments.map((a) => a.celeb_id);
@@ -70,7 +70,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
     .select("id, slug, nickname, nickname_en, avatar_url")
     .in("id", celebIds);
 
-  throwOnQueryError('getTagSharedLibrary 인물 조회', celebsError);
+  throwOnQueryError('getFactionSharedLibrary 인물 조회', celebsError);
 
   const profileMap = new Map<string, SharedContentCeleb>();
   (celebRows ?? []).forEach((p) =>
@@ -160,13 +160,13 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   return result;
 }
 
-const getTagSharedLibraryCached = unstable_cache(
-  fetchTagSharedLibrary,
-  ['tag-shared-library-v3-yes24-edition'],
+const getFactionSharedLibraryCached = unstable_cache(
+  fetchFactionSharedLibrary,
+  ['faction-shared-library-v3-yes24-edition'],
   // faction_member_rows(편성) + celebs + celeb_contents + 한국어 판본
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 
-export async function getTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
-  return withQueryFallback('getTagSharedLibrary', () => getTagSharedLibraryCached(tagId), []);
+export async function getFactionSharedLibrary(factionId: string): Promise<SharedContent[]> {
+  return withQueryFallback('getFactionSharedLibrary', () => getFactionSharedLibraryCached(factionId), []);
 }

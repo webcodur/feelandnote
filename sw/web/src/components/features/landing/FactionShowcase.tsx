@@ -7,7 +7,7 @@ import { ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, Che
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/types/locale";
-import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
+import type { FeaturedFaction, FeaturedCeleb } from "@/actions/home";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFactionLongDescs";
 import type { CelebProfile } from "@/types/home";
@@ -31,11 +31,11 @@ const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/C
   리스트에서 항목을 고르면 좌측 화면과 설명이 그 항목으로 바뀐다.
 */
 interface FactionShowcaseProps {
-  activeTag: FeaturedTag;
+  activeFaction: FeaturedFaction;
   locale: Locale;
   initialCelebId?: string;
   variant?: "standalone" | "embedded";
-  atlasLinkLabel?: string;
+  factionLinkLabel?: string;
 }
 
 type ShowcaseItem =
@@ -57,11 +57,11 @@ type ShowcaseItem =
     };
 
 export default function FactionShowcase({
-  activeTag,
+  activeFaction,
   locale,
   initialCelebId,
   variant = "standalone",
-  atlasLinkLabel,
+  factionLinkLabel,
 }: FactionShowcaseProps) {
   const t = useTranslations("landing");
   const localizedCelebName = (celeb: FeaturedCeleb) =>
@@ -71,16 +71,16 @@ export default function FactionShowcase({
     ((locale === "en" ? celeb.short_desc_en : celeb.short_desc) ??
       (locale === "en" ? celeb.title_en : celeb.title))?.trim() || null;
 
-  const celebs = activeTag.celebs;
+  const celebs = activeFaction.celebs;
   /*
     한 번 더 정규화한다 — 화면 저장분(캐시)에는 「주소만 있는」 옛 형태가 남아 있을 수 있고,
     그걸 새 형태로 읽으면 사진이 통째로 사라진다. 두 형태를 다 받는 자리를 여기 둔다.
   */
-  const teamImages = toTeamImages(activeTag.team_images);
-  const teamName = locale === "en" ? activeTag.name_en?.trim() || t("unnamedFaction") : activeTag.name;
-  const teamDesc = locale === "en" ? activeTag.description_en : activeTag.description;
-  useRegisterFactionMusic(variant === "standalone" && activeTag.music
-    ? { id: activeTag.id, title: teamName, url: activeTag.music.url }
+  const teamImages = toTeamImages(activeFaction.team_images);
+  const teamName = locale === "en" ? activeFaction.name_en?.trim() || t("unnamedFaction") : activeFaction.name;
+  const teamDesc = locale === "en" ? activeFaction.description_en : activeFaction.description;
+  useRegisterFactionMusic(variant === "standalone" && activeFaction.music
+    ? { id: activeFaction.id, title: teamName, url: activeFaction.music.url }
     : null);
 
   /*
@@ -190,8 +190,8 @@ export default function FactionShowcase({
     items.unshift({
       type: "group",
       overview: true,
-      label: activeTag.name,
-      labelEn: activeTag.name_en,
+      label: activeFaction.name,
+      labelEn: activeFaction.name_en,
       memberItemIdxs: items.map((_, index) => index + 1),
     });
   }
@@ -231,7 +231,7 @@ export default function FactionShowcase({
   const [modalCelebIdx, setModalCelebIdx] = useState(-1);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [modalError, setModalError] = useState(false);
-  // 테마 전환 시 상태 초기화는 부모가 key={activeTag.id}로 재마운트해 처리한다.
+  // 테마 전환 시 상태 초기화는 부모가 key={activeFaction.id}로 재마운트해 처리한다.
   const current = items[selectedIdx] ?? items[0];
 
   /* 이 인물의 화보. 전에는 어록 음성에 딸린 여러 장이 먼저 왔고 개인 화보가 그 대안이었다 —
@@ -247,19 +247,19 @@ export default function FactionShowcase({
   const [isIntroClipped, setIsIntroClipped] = useState(false);
   const introRef = useRef<HTMLParagraphElement | null>(null);
   /* 긴 소개는 전 테마 명단에 싣지 않는다 — 이 테마 몫만 받고, 어느 테마의 결과인지 함께 쥔다 */
-  const [longDescs, setLongDescs] = useState<{ tagId: string; byCeleb: FactionLongDescs } | null>(null);
+  const [longDescs, setLongDescs] = useState<{ factionId: string; byCeleb: FactionLongDescs } | null>(null);
 
   useEffect(() => {
     let active = true;
-    getFactionLongDescs(activeTag.id)
+    getFactionLongDescs(activeFaction.id)
       .then((byCeleb) => {
-        if (active) setLongDescs({ tagId: activeTag.id, byCeleb });
+        if (active) setLongDescs({ factionId: activeFaction.id, byCeleb });
       })
       .catch((error) => console.error("[FactionShowcase] Failed to load long descriptions:", error));
     return () => {
       active = false;
     };
-  }, [activeTag.id]);
+  }, [activeFaction.id]);
 
   useEffect(() => {
     const listElement = listRef.current;
@@ -329,7 +329,7 @@ export default function FactionShowcase({
     setIsModalLoading(true);
     setModalError(false);
     try {
-      const detail = await getCelebForModal(target.id, activeTag.id);
+      const detail = await getCelebForModal(target.id, activeFaction.id);
       if (!detail) {
         setModalError(true);
         return;
@@ -419,7 +419,7 @@ export default function FactionShowcase({
   };
 
   const longDescEntry =
-    current.type === "celeb" && longDescs?.tagId === activeTag.id
+    current.type === "celeb" && longDescs?.factionId === activeFaction.id
       ? longDescs.byCeleb[current.celeb.id]
       : undefined;
   const longDesc = longDescEntry ? (locale === "en" ? longDescEntry.en : longDescEntry.ko) : null;
@@ -432,7 +432,7 @@ export default function FactionShowcase({
       title={teamImageLabel ?? teamName}
       description={teamDesc}
       meta={teamImageMembers.length > 0 ? t("figureCount", { count: teamImageMembers.length }) : null}
-      accentColor={activeTag.color}
+      accentColor={activeFaction.color}
     />
   ) : current.type === "celeb" && currentCelebName ? (
     <FactionMobileInfoPanel
@@ -441,7 +441,7 @@ export default function FactionShowcase({
       title={currentCelebName}
       subtitle={celebTitle}
       description={longDesc}
-      accentColor={activeTag.color}
+      accentColor={activeFaction.color}
       detailLabel={t("viewDetail")}
       detailLoading={isModalLoading}
       detailError={modalError ? t("detailUnavailable") : null}
@@ -467,7 +467,7 @@ export default function FactionShowcase({
         <FactionMemberLineup
           eyebrow={current.type === "group" && current.overview ? t("factionRoster") : teamName}
           title={(current.type === "group" ? groupLabel : teamImageLabel) ?? teamName}
-          color={activeTag.color}
+          color={activeFaction.color}
           members={lineupMembers.map(toLineupMember)}
           countLabel={t("figureCount", { count: lineupMembers.length })}
           onSelect={selectItem}
@@ -571,7 +571,7 @@ export default function FactionShowcase({
       ) : (
         <div
           className="absolute inset-0 flex items-center justify-center"
-          style={{ background: `radial-gradient(circle at 30% 25%, ${activeTag.color}40, #0a0a0a 70%)` }}
+          style={{ background: `radial-gradient(circle at 30% 25%, ${activeFaction.color}40, #0a0a0a 70%)` }}
         >
           <span className="font-serif font-black text-white/25 text-8xl">{fallbackInitial}</span>
         </div>
@@ -704,7 +704,7 @@ export default function FactionShowcase({
       entries={rosterEntries}
       selectedIndex={selectedIdx}
       rosterLabel={t("factionRoster")}
-      accentColor={activeTag.color}
+      accentColor={activeFaction.color}
       containerRef={listRef}
       registerItemRef={(index, element) => {
         listItemRefs.current[index] = element;
@@ -781,13 +781,13 @@ export default function FactionShowcase({
           </div>
           {mobileInfo}
           {/* 임베디드 화면은 이 테마의 세력도감 주소로 잇는다. 테마 영상 단추는 재편 뒤 명단과 영상 내용이 달라져 두지 않는다(26.09.15) */}
-          {variant === "embedded" && activeTag.slug && atlasLinkLabel && (
+          {variant === "embedded" && activeFaction.slug && factionLinkLabel && (
             <div className="flex flex-wrap items-center gap-2">
               <Link
-                href={`/explore/faction/${activeTag.slug}`}
+                href={`/explore/faction/${activeFaction.slug}`}
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white/85 hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                {atlasLinkLabel}
+                {factionLinkLabel}
                 <ArrowUpRight size={14} aria-hidden />
               </Link>
             </div>

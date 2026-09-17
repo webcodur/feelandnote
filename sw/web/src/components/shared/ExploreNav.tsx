@@ -1,7 +1,7 @@
 /*
-  파일명: /components/shared/AtlasNav.tsx
+  파일명: /components/shared/ExploreNav.tsx
   기능: 탐색 도감 선택기 — 신화 탐색(지역·신화·그룹)과 세력도감(섹션·테마·진영)이 함께 쓴다
-  책임: 줄 목록 하나로 넓은 화면의 칩 줄(알약·네모·밑줄 탭)과 좁은 화면의 줄별 선택 단추·창(AtlasPickerSheet)을 그린다.
+  책임: 줄 목록 하나로 넓은 화면의 칩 줄(알약·네모·밑줄 탭)과 좁은 화면의 줄별 선택 단추·창(ExplorePickerSheet)을 그린다.
         항목은 주소 이동(href)이나 화면 안 선택(onSelect) 둘 다 받고, 고를 수 없는 항목은 누르면 잠깐 안내를 띄운다.
         선택을 풀 수 있는 줄(onClear)은 고른 항목 끝에 ×를 붙이고, 그 항목을 다시 누르면 선택을 푼다.
         고른 칩은 줄 가운데로 옮긴다. 상자 안에 덧붙는 줄(신화 인물 줄)은 children으로 받는다.
@@ -12,13 +12,13 @@
 
 import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { Clock3, X } from "lucide-react";
-import AtlasPickerSheet from "@/components/shared/AtlasPickerSheet";
-import { ATLAS_NAV_LAYOUT as layout } from "@/components/shared/atlasNavLayout";
+import ExplorePickerSheet from "@/components/shared/ExplorePickerSheet";
+import { EXPLORE_NAV_LAYOUT as layout } from "@/components/shared/exploreNavLayout";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-export interface AtlasNavItem {
+export interface ExploreNavItem {
   id: string;
   name: string;
   count?: number;
@@ -32,13 +32,13 @@ export interface AtlasNavItem {
   color?: string;
 }
 
-export interface AtlasNavRow {
+export interface ExploreNavRow {
   id: string;
   /** 줄 이름 — 넓은 화면 nav의 aria-label, 좁은 화면 창 제목·단추 설명 */
   label: string;
   /** 윗줄 알약 · 아랫줄 네모 · 셋째 줄 밑줄 탭 */
   shape: "pill" | "square" | "tab";
-  items: AtlasNavItem[];
+  items: ExploreNavItem[];
   activeId: string | null;
   onSelect?: (id: string) => void;
   onDisabledSelect?: (id: string) => void;
@@ -60,7 +60,7 @@ const DISABLED = "cursor-not-allowed border-dashed border-white/[0.1] bg-transpa
 const DISABLED_NOTICE = "cursor-not-allowed border-dashed border-white/25 bg-white/[0.05] text-text-secondary";
 const COUNT = "text-xs font-medium text-text-tertiary";
 
-function itemClass(row: AtlasNavRow, item: AtlasNavItem, selected: boolean) {
+function itemClass(row: ExploreNavRow, item: ExploreNavItem, selected: boolean) {
   if (row.shape === "tab") {
     return cn(layout.groupTab, selected
       ? item.color ? "border-(--chip-c) text-(--chip-c)" : "border-accent text-accent"
@@ -74,7 +74,7 @@ function itemClass(row: AtlasNavRow, item: AtlasNavItem, selected: boolean) {
   return cn(layout.chip, row.shape === "pill" ? layout.pill : layout.square, tone);
 }
 
-function ChipRow({ row }: { row: AtlasNavRow }) {
+function ChipRow({ row }: { row: ExploreNavRow }) {
   const { ref, cursorClassName, dragProps } = useMouseDragScroll();
 
   /* 고른 칩을 줄 가운데로 옮긴다 — 한 줄짜리 목록이라 고른 칩이 화면 밖에 있을 수 있다 */
@@ -156,7 +156,7 @@ function ChipRow({ row }: { row: AtlasNavRow }) {
   );
 }
 
-function MobileRow({ row }: { row: AtlasNavRow }) {
+function MobileRow({ row }: { row: ExploreNavRow }) {
   const active = row.items.find((item) => item.id === row.activeId);
   const notice = (
     <span aria-hidden className="flex shrink-0 items-center gap-1 text-xs font-medium text-text-secondary">
@@ -166,7 +166,7 @@ function MobileRow({ row }: { row: AtlasNavRow }) {
   );
 
   return (
-    <AtlasPickerSheet
+    <ExplorePickerSheet
       className={row.wide ? "col-span-2" : undefined}
       title={row.label}
       label={
@@ -199,7 +199,7 @@ function MobileRow({ row }: { row: AtlasNavRow }) {
   );
 }
 
-export default function AtlasNav({ rows, children, bareOnMobile = false }: { rows: AtlasNavRow[]; children?: ReactNode; bareOnMobile?: boolean }) {
+export default function ExploreNav({ rows, children, bareOnMobile = false }: { rows: ExploreNavRow[]; children?: ReactNode; bareOnMobile?: boolean }) {
   return (
     <div className={cn(layout.navigation, bareOnMobile && layout.navigationBareMobile)}>
       <div className={layout.mobilePicker}>

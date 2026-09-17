@@ -11,7 +11,7 @@
 import { useId, useMemo, useState } from "react";
 import { ArrowUpRight, Book, Film, Gamepad2, Music } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import type { SharedContent } from "@/actions/home/getTagSharedLibrary";
+import type { SharedContent } from "@/actions/home/getFactionSharedLibrary";
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";

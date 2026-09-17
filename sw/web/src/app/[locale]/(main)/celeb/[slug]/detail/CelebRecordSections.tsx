@@ -19,7 +19,7 @@ import { Deferred, PendingBlock } from "@/components/ui/pending";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import type { Locale } from "@/types/locale";
 
-import { CelebAtlasBottomBar, CelebAtlasNavigation } from "../CelebAtlasRails";
+import { CelebAtlasBottomBar, CelebExploreNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 import CelebSectionHeading from "../CelebSectionHeading";
 import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
@@ -166,7 +166,7 @@ export default function CelebRecordSections({
 
   return (
     <div className={styles.recordsGrid}>
-      <CelebAtlasNavigation
+      <CelebExploreNavigation
         items={serviceItems}
         activeSectionId={activeSectionId}
         onNavigate={navigate}

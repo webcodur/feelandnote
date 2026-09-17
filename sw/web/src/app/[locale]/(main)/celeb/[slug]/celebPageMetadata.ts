@@ -29,7 +29,7 @@ export function createCelebMetaInput(
     quote: profile.quotes,
     bio: profile.bio,
     hasReading: Boolean(profile.reading),
-    hasConnections: profile.relations.length > 0 || profile.factionTags.length > 0,
+    hasConnections: profile.relations.length > 0 || profile.factions.length > 0,
     sourceWorks: sources.map((source) => ({
       title: source.title,
       relationType: source.relationType,

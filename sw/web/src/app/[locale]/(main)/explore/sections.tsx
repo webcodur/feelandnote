@@ -14,8 +14,8 @@ import { getSpectrumDistribution } from "@/actions/spectrum/getSpectrumDistribut
 import { getFactionHubPreviews } from "@/actions/home/getFactionHubPreviews";
 import { getRelationShapes } from "@/actions/home/getRelationShapes";
 import { getRelationNeighborhood } from "@/actions/home/getRelationNeighborhood";
-import { getMythAtlas } from "@/actions/home/getMythAtlas";
-import { getMythAtlasClientData } from "@/actions/home/mythAtlasPublicData";
+import { getMythData } from "@/actions/home/getMythData";
+import { getMythClientData } from "@/actions/home/mythPublicData";
 import { isDeveloperMode } from "@/lib/developer-mode";
 import { shouldStreamForRequest } from "@/lib/render-mode";
 import { RetryBlock } from "@/components/ui/pending";
@@ -23,8 +23,8 @@ import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import SpectrumDistribution from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistribution";
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
-import MythAtlas from "@/components/features/user/explore/myth/MythAtlas";
-import MythAtlasSkeleton from "@/components/features/user/explore/myth/MythAtlasSkeleton";
+import MythScreen from "@/components/features/user/explore/myth/MythScreen";
+import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
 import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
 
@@ -90,12 +90,12 @@ export async function ProfileSection() {
 /* 신화 탐색 — 일반 허브 구획과 달리 인물·관계·등장 작품을 한 판에서 바꿔 본다. */
 export async function MythSection() {
   const locale = await getLocale();
-  const data = await load("신화 탐색", () => getMythAtlas(locale));
-  if (!data) return <ReservedState skeleton={<MythAtlasSkeleton />}><RetryBlock /></ReservedState>;
-  if (data.people.length === 0) return <ReservedState skeleton={<MythAtlasSkeleton />}><EmptyLine /></ReservedState>;
+  const data = await load("신화 탐색", () => getMythData(locale));
+  if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
+  if (data.people.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
   // 운영은 작업 예정 칩만 남기고 열 수 없는 전승의 상세 자료를 HTML에 싣지 않는다.
   // 로컬 개발 서버에서는 기존처럼 전체 명단·그룹을 열어 검수한다.
-  return <MythAtlas data={getMythAtlasClientData(data, isDeveloperMode())} />;
+  return <MythScreen data={getMythClientData(data, isDeveloperMode())} />;
 }
 
 /* 성향 분포 */
@@ -137,9 +137,9 @@ export async function RelationMapSection() {
 /* 세력도감 */
 export async function FactionSection() {
   const locale = await getLocale();
-  const tags = await load("세력도감", getFactionHubPreviews);
+  const factions = await load("세력도감", getFactionHubPreviews);
 
-  if (tags === null) return <ReservedState skeleton={<FactionSkeleton label="" />}><RetryBlock /></ReservedState>;
-  if (tags.length === 0) return <ReservedState skeleton={<FactionSkeleton label="" />}><EmptyLine /></ReservedState>;
-  return <FactionCard locale={locale} tags={tags} />;
+  if (factions === null) return <ReservedState skeleton={<FactionSkeleton label="" />}><RetryBlock /></ReservedState>;
+  if (factions.length === 0) return <ReservedState skeleton={<FactionSkeleton label="" />}><EmptyLine /></ReservedState>;
+  return <FactionCard locale={locale} factions={factions} />;
 }

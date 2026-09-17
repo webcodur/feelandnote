@@ -44,6 +44,6 @@ export async function getCelebsByProfession(): Promise<ProfessionSection[]> {
     CACHE_TAGS.CELEBS,
     ['celebs-by-profession'],
     fetchCelebsByProfession,
-    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
+    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
 }

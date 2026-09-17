@@ -19,7 +19,7 @@ import { getYear, getEraInfo, type EraInfo } from "./utils";
 import { getTimelineContemporaries } from "@/actions/home/getCelebTimeline";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { Link } from "@/i18n/navigation";
-import { ATLAS_NAV_LAYOUT as atlas } from "@/components/shared/atlasNavLayout";
+import { EXPLORE_NAV_LAYOUT as atlas } from "@/components/shared/exploreNavLayout";
 import CountryPicker from "./sections/CountryPicker";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import EraBanner from "./sections/EraBanner";

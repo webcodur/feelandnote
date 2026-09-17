@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getMythAtlasClientData } from "./mythAtlasPublicData";
-import type { Myth, MythAtlasData, MythPerson, MythWork } from "./mythAtlasTypes";
+import { getMythClientData } from "./mythPublicData";
+import type { Myth, MythData, MythPerson, MythWork } from "./mythTypes";
 
-function fixture(): MythAtlasData {
+function fixture(): MythData {
   const myth = (id: string, isPublished: boolean, personIds: string[]): Myth => ({
     id, slug: id, name: id, isPublished, regionId: "region", personIds, leadPersonIds: personIds.slice(0, 3),
     description: `${id} overview`, images: [{ url: `${id}.jpg`, label: null }],
@@ -31,7 +31,7 @@ function fixture(): MythAtlasData {
 test("public view retains complete public stories and shared works without private details", () => {
   const data = fixture();
   const original = structuredClone(data);
-  const result = getMythAtlasClientData(data, false);
+  const result = getMythClientData(data, false);
   assert.deepEqual(result.people.map((person) => person.id), ["public-person", "shared-person"]);
   assert.deepEqual(result.people[0], data.people[1]);
   assert.equal(result.people[1].reading?.guide, "complete reading guide");
@@ -46,15 +46,15 @@ test("public view retains complete public stories and shared works without priva
   assert.deepEqual(data, original, "the shared cached data must stay unchanged");
   // The overview shelf selects works by work.personIds, independently of a person's detail shelf.
   data.people[1].sourceIds = [];
-  assert.ok(getMythAtlasClientData(data, false).works.some((work) => work.id === "public-work"));
+  assert.ok(getMythClientData(data, false).works.some((work) => work.id === "public-work"));
 });
 
 test("public opening person remains selected and an entirely closed atlas retains only menus", () => {
   const data = fixture();
   data.openingPersonId = "shared-person";
-  assert.equal(getMythAtlasClientData(data, false).openingPersonId, "shared-person");
+  assert.equal(getMythClientData(data, false).openingPersonId, "shared-person");
   data.myths.forEach((myth) => { myth.isPublished = false; });
-  const result = getMythAtlasClientData(data, false);
+  const result = getMythClientData(data, false);
   assert.equal(result.people.length, 0);
   assert.equal(result.works.length, 0);
   assert.equal(result.myths.length, 2);
@@ -64,7 +64,7 @@ test("public opening person remains selected and an entirely closed atlas retain
 
 test("developer preview keeps every story, work and opening selection available", () => {
   const data = fixture();
-  const result = getMythAtlasClientData(data, true);
+  const result = getMythClientData(data, true);
   assert.deepEqual(result.people, data.people);
   assert.deepEqual(result.works, data.works);
   assert.equal(result.openingPersonId, data.openingPersonId);

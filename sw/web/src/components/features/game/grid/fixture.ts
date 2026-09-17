@@ -73,96 +73,96 @@ export const CENTURY_LABELS: Record<string, { ko: string; en: string }> = {
  */
 export const FIXTURE_CELEBS: GridCeleb[] = [
   // ━━━ 19세기 과학자 ━━━
-  { id: "f-darwin", nickname: "찰스 다윈", nicknameEn: "Charles Darwin", slug: "charles-darwin", nationality: "GB", profession: "scientist", birthDate: "1809", deathDate: "1882", tagIds: [] },
-  { id: "f-pasteur", nickname: "루이 파스퇴르", nicknameEn: "Louis Pasteur", slug: "louis-pasteur", nationality: "FR", profession: "scientist", birthDate: "1822", deathDate: "1895", tagIds: [] },
-  { id: "f-mendeleev", nickname: "드미트리 멘델레예프", nicknameEn: "Dmitri Mendeleev", slug: "dmitri-mendeleev", nationality: "RU", profession: "scientist", birthDate: "1834", deathDate: "1907", tagIds: [] },
-  { id: "f-maxwell", nickname: "제임스 맥스웰", nicknameEn: "James Clerk Maxwell", slug: "james-clerk-maxwell", nationality: "GB", profession: "scientist", birthDate: "1831", deathDate: "1879", tagIds: [] },
-  { id: "f-tesla", nickname: "니콜라 테슬라", nicknameEn: "Nikola Tesla", slug: "nikola-tesla", nationality: "US", profession: "scientist", birthDate: "1856", deathDate: "1943", tagIds: [] },
-  { id: "f-edison", nickname: "토마스 에디슨", nicknameEn: "Thomas Edison", slug: "thomas-edison", nationality: "US", profession: "entrepreneur", birthDate: "1847", deathDate: "1931", tagIds: [] },
+  { id: "f-darwin", nickname: "찰스 다윈", nicknameEn: "Charles Darwin", slug: "charles-darwin", nationality: "GB", profession: "scientist", birthDate: "1809", deathDate: "1882", factionIds: [] },
+  { id: "f-pasteur", nickname: "루이 파스퇴르", nicknameEn: "Louis Pasteur", slug: "louis-pasteur", nationality: "FR", profession: "scientist", birthDate: "1822", deathDate: "1895", factionIds: [] },
+  { id: "f-mendeleev", nickname: "드미트리 멘델레예프", nicknameEn: "Dmitri Mendeleev", slug: "dmitri-mendeleev", nationality: "RU", profession: "scientist", birthDate: "1834", deathDate: "1907", factionIds: [] },
+  { id: "f-maxwell", nickname: "제임스 맥스웰", nicknameEn: "James Clerk Maxwell", slug: "james-clerk-maxwell", nationality: "GB", profession: "scientist", birthDate: "1831", deathDate: "1879", factionIds: [] },
+  { id: "f-tesla", nickname: "니콜라 테슬라", nicknameEn: "Nikola Tesla", slug: "nikola-tesla", nationality: "US", profession: "scientist", birthDate: "1856", deathDate: "1943", factionIds: [] },
+  { id: "f-edison", nickname: "토마스 에디슨", nicknameEn: "Thomas Edison", slug: "thomas-edison", nationality: "US", profession: "entrepreneur", birthDate: "1847", deathDate: "1931", factionIds: [] },
 
   // ━━━ 19세기 작가 ━━━
-  { id: "f-tolstoy", nickname: "레프 톨스토이", nicknameEn: "Leo Tolstoy", slug: "leo-tolstoy", nationality: "RU", profession: "author", birthDate: "1828", deathDate: "1910", tagIds: [] },
-  { id: "f-dickens", nickname: "찰스 디킨스", nicknameEn: "Charles Dickens", slug: "charles-dickens", nationality: "GB", profession: "author", birthDate: "1812", deathDate: "1870", tagIds: [] },
-  { id: "f-hugo", nickname: "빅토르 위고", nicknameEn: "Victor Hugo", slug: "victor-hugo", nationality: "FR", profession: "author", birthDate: "1802", deathDate: "1885", tagIds: [] },
-  { id: "f-twain", nickname: "마크 트웨인", nicknameEn: "Mark Twain", slug: "mark-twain", nationality: "US", profession: "author", birthDate: "1835", deathDate: "1910", tagIds: [] },
-  { id: "f-dostoevsky", nickname: "표도르 도스토예프스키", nicknameEn: "Fyodor Dostoevsky", slug: "fyodor-dostoevsky", nationality: "RU", profession: "author", birthDate: "1821", deathDate: "1881", tagIds: [] },
+  { id: "f-tolstoy", nickname: "레프 톨스토이", nicknameEn: "Leo Tolstoy", slug: "leo-tolstoy", nationality: "RU", profession: "author", birthDate: "1828", deathDate: "1910", factionIds: [] },
+  { id: "f-dickens", nickname: "찰스 디킨스", nicknameEn: "Charles Dickens", slug: "charles-dickens", nationality: "GB", profession: "author", birthDate: "1812", deathDate: "1870", factionIds: [] },
+  { id: "f-hugo", nickname: "빅토르 위고", nicknameEn: "Victor Hugo", slug: "victor-hugo", nationality: "FR", profession: "author", birthDate: "1802", deathDate: "1885", factionIds: [] },
+  { id: "f-twain", nickname: "마크 트웨인", nicknameEn: "Mark Twain", slug: "mark-twain", nationality: "US", profession: "author", birthDate: "1835", deathDate: "1910", factionIds: [] },
+  { id: "f-dostoevsky", nickname: "표도르 도스토예프스키", nicknameEn: "Fyodor Dostoevsky", slug: "fyodor-dostoevsky", nationality: "RU", profession: "author", birthDate: "1821", deathDate: "1881", factionIds: [] },
 
   // ━━━ 19세기 음악가 ━━━
-  { id: "f-chopin", nickname: "프레데리크 쇼팽", nicknameEn: "Frederic Chopin", slug: "frederic-chopin", nationality: "PL", profession: "musician", birthDate: "1810", deathDate: "1849", tagIds: [] },
-  { id: "f-brahms", nickname: "요하네스 브람스", nicknameEn: "Johannes Brahms", slug: "johannes-brahms", nationality: "DE", profession: "musician", birthDate: "1833", deathDate: "1897", tagIds: [] },
-  { id: "f-verdi", nickname: "주세페 베르디", nicknameEn: "Giuseppe Verdi", slug: "giuseppe-verdi", nationality: "IT", profession: "musician", birthDate: "1813", deathDate: "1901", tagIds: [] },
-  { id: "f-tchaikovsky", nickname: "표트르 차이콥스키", nicknameEn: "Pyotr Tchaikovsky", slug: "pyotr-tchaikovsky", nationality: "RU", profession: "musician", birthDate: "1840", deathDate: "1893", tagIds: [] },
+  { id: "f-chopin", nickname: "프레데리크 쇼팽", nicknameEn: "Frederic Chopin", slug: "frederic-chopin", nationality: "PL", profession: "musician", birthDate: "1810", deathDate: "1849", factionIds: [] },
+  { id: "f-brahms", nickname: "요하네스 브람스", nicknameEn: "Johannes Brahms", slug: "johannes-brahms", nationality: "DE", profession: "musician", birthDate: "1833", deathDate: "1897", factionIds: [] },
+  { id: "f-verdi", nickname: "주세페 베르디", nicknameEn: "Giuseppe Verdi", slug: "giuseppe-verdi", nationality: "IT", profession: "musician", birthDate: "1813", deathDate: "1901", factionIds: [] },
+  { id: "f-tchaikovsky", nickname: "표트르 차이콥스키", nicknameEn: "Pyotr Tchaikovsky", slug: "pyotr-tchaikovsky", nationality: "RU", profession: "musician", birthDate: "1840", deathDate: "1893", factionIds: [] },
 
   // ━━━ 19세기 지도자 ━━━
-  { id: "f-lincoln", nickname: "에이브러햄 링컨", nicknameEn: "Abraham Lincoln", slug: "abraham-lincoln", nationality: "US", profession: "politician", birthDate: "1809", deathDate: "1865", tagIds: [] },
-  { id: "f-bismarck", nickname: "오토 폰 비스마르크", nicknameEn: "Otto von Bismarck", slug: "otto-von-bismarck", nationality: "DE", profession: "politician", birthDate: "1815", deathDate: "1898", tagIds: [] },
-  { id: "f-victoria", nickname: "빅토리아 여왕", nicknameEn: "Queen Victoria", slug: "queen-victoria", nationality: "GB", profession: "politician", birthDate: "1819", deathDate: "1901", tagIds: [] },
+  { id: "f-lincoln", nickname: "에이브러햄 링컨", nicknameEn: "Abraham Lincoln", slug: "abraham-lincoln", nationality: "US", profession: "politician", birthDate: "1809", deathDate: "1865", factionIds: [] },
+  { id: "f-bismarck", nickname: "오토 폰 비스마르크", nicknameEn: "Otto von Bismarck", slug: "otto-von-bismarck", nationality: "DE", profession: "politician", birthDate: "1815", deathDate: "1898", factionIds: [] },
+  { id: "f-victoria", nickname: "빅토리아 여왕", nicknameEn: "Queen Victoria", slug: "queen-victoria", nationality: "GB", profession: "politician", birthDate: "1819", deathDate: "1901", factionIds: [] },
 
   // ━━━ 20세기 과학자 ━━━
-  { id: "f-einstein", nickname: "알베르트 아인슈타인", nicknameEn: "Albert Einstein", slug: "albert-einstein", nationality: "DE", profession: "scientist", birthDate: "1879", deathDate: "1955", tagIds: [] },
-  { id: "f-feynman", nickname: "리처드 파인만", nicknameEn: "Richard Feynman", slug: "richard-feynman", nationality: "US", profession: "scientist", birthDate: "1918", deathDate: "1988", tagIds: [] },
-  { id: "f-curie", nickname: "마리 퀴리", nicknameEn: "Marie Curie", slug: "marie-curie", nationality: "PL", profession: "scientist", birthDate: "1867", deathDate: "1934", tagIds: [] },
-  { id: "f-oppenheimer", nickname: "J. 로버트 오펜하이머", nicknameEn: "J. Robert Oppenheimer", slug: "j.-robert-oppenheimer", nationality: "US", profession: "scientist", birthDate: "1904", deathDate: "1967", tagIds: [] },
-  { id: "f-hawking", nickname: "스티븐 호킹", nicknameEn: "Stephen Hawking", slug: "stephen-hawking", nationality: "GB", profession: "scientist", birthDate: "1942", deathDate: "2018", tagIds: [] },
+  { id: "f-einstein", nickname: "알베르트 아인슈타인", nicknameEn: "Albert Einstein", slug: "albert-einstein", nationality: "DE", profession: "scientist", birthDate: "1879", deathDate: "1955", factionIds: [] },
+  { id: "f-feynman", nickname: "리처드 파인만", nicknameEn: "Richard Feynman", slug: "richard-feynman", nationality: "US", profession: "scientist", birthDate: "1918", deathDate: "1988", factionIds: [] },
+  { id: "f-curie", nickname: "마리 퀴리", nicknameEn: "Marie Curie", slug: "marie-curie", nationality: "PL", profession: "scientist", birthDate: "1867", deathDate: "1934", factionIds: [] },
+  { id: "f-oppenheimer", nickname: "J. 로버트 오펜하이머", nicknameEn: "J. Robert Oppenheimer", slug: "j.-robert-oppenheimer", nationality: "US", profession: "scientist", birthDate: "1904", deathDate: "1967", factionIds: [] },
+  { id: "f-hawking", nickname: "스티븐 호킹", nicknameEn: "Stephen Hawking", slug: "stephen-hawking", nationality: "GB", profession: "scientist", birthDate: "1942", deathDate: "2018", factionIds: [] },
 
   // ━━━ 20세기 작가 ━━━
-  { id: "f-hemingway", nickname: "어니스트 헤밍웨이", nicknameEn: "Ernest Hemingway", slug: "ernest-hemingway", nationality: "US", profession: "author", birthDate: "1899", deathDate: "1961", tagIds: [] },
-  { id: "f-tolkien", nickname: "J.R.R. 톨킨", nicknameEn: "J.R.R. Tolkien", slug: "jrr-tolkien", nationality: "GB", profession: "author", birthDate: "1892", deathDate: "1973", tagIds: [] },
-  { id: "f-orwell", nickname: "조지 오웰", nicknameEn: "George Orwell", slug: "george-orwell", nationality: "GB", profession: "author", birthDate: "1903", deathDate: "1950", tagIds: [] },
+  { id: "f-hemingway", nickname: "어니스트 헤밍웨이", nicknameEn: "Ernest Hemingway", slug: "ernest-hemingway", nationality: "US", profession: "author", birthDate: "1899", deathDate: "1961", factionIds: [] },
+  { id: "f-tolkien", nickname: "J.R.R. 톨킨", nicknameEn: "J.R.R. Tolkien", slug: "jrr-tolkien", nationality: "GB", profession: "author", birthDate: "1892", deathDate: "1973", factionIds: [] },
+  { id: "f-orwell", nickname: "조지 오웰", nicknameEn: "George Orwell", slug: "george-orwell", nationality: "GB", profession: "author", birthDate: "1903", deathDate: "1950", factionIds: [] },
 
   // ━━━ 20세기 음악가 ━━━
-  { id: "f-stravinsky", nickname: "이고르 스트라빈스키", nicknameEn: "Igor Stravinsky", slug: "igor-stravinsky", nationality: "RU", profession: "musician", birthDate: "1882", deathDate: "1971", tagIds: [] },
-  { id: "f-schoenberg", nickname: "아르놀트 쇤베르크", nicknameEn: "Arnold Schoenberg", slug: "arnold-schoenberg", nationality: "AT", profession: "musician", birthDate: "1874", deathDate: "1951", tagIds: [] },
+  { id: "f-stravinsky", nickname: "이고르 스트라빈스키", nicknameEn: "Igor Stravinsky", slug: "igor-stravinsky", nationality: "RU", profession: "musician", birthDate: "1882", deathDate: "1971", factionIds: [] },
+  { id: "f-schoenberg", nickname: "아르놀트 쇤베르크", nicknameEn: "Arnold Schoenberg", slug: "arnold-schoenberg", nationality: "AT", profession: "musician", birthDate: "1874", deathDate: "1951", factionIds: [] },
 
   // ━━━ 20세기 지도자 ━━━
-  { id: "f-gandhi", nickname: "마하트마 간디", nicknameEn: "Mahatma Gandhi", slug: "mahatma-gandhi", nationality: "IN", profession: "leader", birthDate: "1869", deathDate: "1948", tagIds: [] },
-  { id: "f-mandela", nickname: "넬슨 만델라", nicknameEn: "Nelson Mandela", slug: "nelson-mandela", nationality: "ZA", profession: "politician", birthDate: "1918", deathDate: "2013", tagIds: [] },
-  { id: "f-churchill", nickname: "윈스턴 처칠", nicknameEn: "Winston Churchill", slug: "winston-churchill", nationality: "GB", profession: "politician", birthDate: "1874", deathDate: "1965", tagIds: [] },
+  { id: "f-gandhi", nickname: "마하트마 간디", nicknameEn: "Mahatma Gandhi", slug: "mahatma-gandhi", nationality: "IN", profession: "leader", birthDate: "1869", deathDate: "1948", factionIds: [] },
+  { id: "f-mandela", nickname: "넬슨 만델라", nicknameEn: "Nelson Mandela", slug: "nelson-mandela", nationality: "ZA", profession: "politician", birthDate: "1918", deathDate: "2013", factionIds: [] },
+  { id: "f-churchill", nickname: "윈스턴 처칠", nicknameEn: "Winston Churchill", slug: "winston-churchill", nationality: "GB", profession: "politician", birthDate: "1874", deathDate: "1965", factionIds: [] },
 
   // ━━━ 18세기 과학자 ━━━
-  { id: "f-newton", nickname: "아이작 뉴턴", nicknameEn: "Isaac Newton", slug: "isaac-newton", nationality: "GB", profession: "scientist", birthDate: "1643", deathDate: "1727", tagIds: [] },
-  { id: "f-gauss", nickname: "카를 프리드리히 가우스", nicknameEn: "Carl Friedrich Gauss", slug: "carl-friedrich-gauss", nationality: "DE", profession: "scientist", birthDate: "1777", deathDate: "1855", tagIds: [] },
+  { id: "f-newton", nickname: "아이작 뉴턴", nicknameEn: "Isaac Newton", slug: "isaac-newton", nationality: "GB", profession: "scientist", birthDate: "1643", deathDate: "1727", factionIds: [] },
+  { id: "f-gauss", nickname: "카를 프리드리히 가우스", nicknameEn: "Carl Friedrich Gauss", slug: "carl-friedrich-gauss", nationality: "DE", profession: "scientist", birthDate: "1777", deathDate: "1855", factionIds: [] },
 
   // ━━━ 18세기 작가 ━━━
-  { id: "f-goethe", nickname: "요한 볼프강 폰 괴테", nicknameEn: "Johann Wolfgang von Goethe", slug: "johann-wolfgang-von-goethe", nationality: "DE", profession: "author", birthDate: "1749", deathDate: "1832", tagIds: [] },
-  { id: "f-austen", nickname: "제인 오스틴", nicknameEn: "Jane Austen", slug: "jane-austen", nationality: "GB", profession: "author", birthDate: "1775", deathDate: "1817", tagIds: [] },
-  { id: "f-voltaire", nickname: "볼테르", nicknameEn: "Voltaire", slug: "voltaire", nationality: "FR", profession: "author", birthDate: "1694", deathDate: "1778", tagIds: [] },
+  { id: "f-goethe", nickname: "요한 볼프강 폰 괴테", nicknameEn: "Johann Wolfgang von Goethe", slug: "johann-wolfgang-von-goethe", nationality: "DE", profession: "author", birthDate: "1749", deathDate: "1832", factionIds: [] },
+  { id: "f-austen", nickname: "제인 오스틴", nicknameEn: "Jane Austen", slug: "jane-austen", nationality: "GB", profession: "author", birthDate: "1775", deathDate: "1817", factionIds: [] },
+  { id: "f-voltaire", nickname: "볼테르", nicknameEn: "Voltaire", slug: "voltaire", nationality: "FR", profession: "author", birthDate: "1694", deathDate: "1778", factionIds: [] },
 
   // ━━━ 18세기 음악가 ━━━
-  { id: "f-mozart", nickname: "볼프강 아마데우스 모차르트", nicknameEn: "Wolfgang Amadeus Mozart", slug: "wolfgang-amadeus-mozart", nationality: "AT", profession: "musician", birthDate: "1756", deathDate: "1791", tagIds: [] },
-  { id: "f-bach", nickname: "요한 제바스티안 바흐", nicknameEn: "Johann Sebastian Bach", slug: "johann-sebastian-bach", nationality: "DE", profession: "musician", birthDate: "1685", deathDate: "1750", tagIds: [] },
-  { id: "f-haydn", nickname: "요제프 하이든", nicknameEn: "Joseph Haydn", slug: "joseph-haydn", nationality: "AT", profession: "musician", birthDate: "1732", deathDate: "1809", tagIds: [] },
-  { id: "f-beethoven", nickname: "루트비히 판 베토벤", nicknameEn: "Ludwig van Beethoven", slug: "ludwig-van-beethoven", nationality: "DE", profession: "musician", birthDate: "1770", deathDate: "1827", tagIds: [] },
+  { id: "f-mozart", nickname: "볼프강 아마데우스 모차르트", nicknameEn: "Wolfgang Amadeus Mozart", slug: "wolfgang-amadeus-mozart", nationality: "AT", profession: "musician", birthDate: "1756", deathDate: "1791", factionIds: [] },
+  { id: "f-bach", nickname: "요한 제바스티안 바흐", nicknameEn: "Johann Sebastian Bach", slug: "johann-sebastian-bach", nationality: "DE", profession: "musician", birthDate: "1685", deathDate: "1750", factionIds: [] },
+  { id: "f-haydn", nickname: "요제프 하이든", nicknameEn: "Joseph Haydn", slug: "joseph-haydn", nationality: "AT", profession: "musician", birthDate: "1732", deathDate: "1809", factionIds: [] },
+  { id: "f-beethoven", nickname: "루트비히 판 베토벤", nicknameEn: "Ludwig van Beethoven", slug: "ludwig-van-beethoven", nationality: "DE", profession: "musician", birthDate: "1770", deathDate: "1827", factionIds: [] },
 
   // ━━━ 18세기 지도자 ━━━
-  { id: "f-washington", nickname: "조지 워싱턴", nicknameEn: "George Washington", slug: "george-washington", nationality: "US", profession: "commander", birthDate: "1732", deathDate: "1799", tagIds: [] },
-  { id: "f-napoleon", nickname: "나폴레옹 보나파르트", nicknameEn: "Napoleon Bonaparte", slug: "napoleon-bonaparte", nationality: "FR", profession: "commander", birthDate: "1769", deathDate: "1821", tagIds: [] },
-  { id: "f-catherine", nickname: "예카테리나 대제", nicknameEn: "Catherine the Great", slug: "catherine-the-great", nationality: "RU", profession: "politician", birthDate: "1729", deathDate: "1796", tagIds: [] },
+  { id: "f-washington", nickname: "조지 워싱턴", nicknameEn: "George Washington", slug: "george-washington", nationality: "US", profession: "commander", birthDate: "1732", deathDate: "1799", factionIds: [] },
+  { id: "f-napoleon", nickname: "나폴레옹 보나파르트", nicknameEn: "Napoleon Bonaparte", slug: "napoleon-bonaparte", nationality: "FR", profession: "commander", birthDate: "1769", deathDate: "1821", factionIds: [] },
+  { id: "f-catherine", nickname: "예카테리나 대제", nicknameEn: "Catherine the Great", slug: "catherine-the-great", nationality: "RU", profession: "politician", birthDate: "1729", deathDate: "1796", factionIds: [] },
 
   // ━━━ 추가 인물 (국적 교차 보강) ━━━
   // US에 각 직군 보강
-  { id: "f-jobs", nickname: "스티브 잡스", nicknameEn: "Steve Jobs", slug: "steve-jobs", nationality: "US", profession: "entrepreneur", birthDate: "1955", deathDate: "2011", tagIds: [] },
-  { id: "f-musk", nickname: "일론 머스크", nicknameEn: "Elon Musk", slug: "elon-musk", nationality: "US", profession: "entrepreneur", birthDate: "1971", deathDate: null, tagIds: [] },
-  { id: "f-bezos", nickname: "제프 베이조스", nicknameEn: "Jeff Bezos", slug: "jeff-bezos", nationality: "US", profession: "entrepreneur", birthDate: "1964", deathDate: null, tagIds: [] },
+  { id: "f-jobs", nickname: "스티브 잡스", nicknameEn: "Steve Jobs", slug: "steve-jobs", nationality: "US", profession: "entrepreneur", birthDate: "1955", deathDate: "2011", factionIds: [] },
+  { id: "f-musk", nickname: "일론 머스크", nicknameEn: "Elon Musk", slug: "elon-musk", nationality: "US", profession: "entrepreneur", birthDate: "1971", deathDate: null, factionIds: [] },
+  { id: "f-bezos", nickname: "제프 베이조스", nicknameEn: "Jeff Bezos", slug: "jeff-bezos", nationality: "US", profession: "entrepreneur", birthDate: "1964", deathDate: null, factionIds: [] },
   // GB 보강
-  { id: "f-shakespeare", nickname: "윌리엄 셰익스피어", nicknameEn: "William Shakespeare", slug: "william-shakespeare", nationality: "GB", profession: "author", birthDate: "1564", deathDate: "1616", tagIds: [] },
+  { id: "f-shakespeare", nickname: "윌리엄 셰익스피어", nicknameEn: "William Shakespeare", slug: "william-shakespeare", nationality: "GB", profession: "author", birthDate: "1564", deathDate: "1616", factionIds: [] },
   // 시각예술가
-  { id: "f-davinci", nickname: "레오나르도 다빈치", nicknameEn: "Leonardo da Vinci", slug: "leonardo-da-vinci", nationality: "IT", profession: "scientist", birthDate: "1452", deathDate: "1519", tagIds: [] },
-  { id: "f-picasso", nickname: "파블로 피카소", nicknameEn: "Pablo Picasso", slug: "pablo-picasso", nationality: "ES", profession: "visual_artist", birthDate: "1881", deathDate: "1973", tagIds: [] },
-  { id: "f-vangogh", nickname: "빈센트 반 고흐", nicknameEn: "Vincent van Gogh", slug: "vincent-van-gogh", nationality: "NL", profession: "visual_artist", birthDate: "1853", deathDate: "1890", tagIds: [] },
-  { id: "f-monet", nickname: "클로드 모네", nicknameEn: "Claude Monet", slug: "claude-monet", nationality: "FR", profession: "visual_artist", birthDate: "1840", deathDate: "1926", tagIds: [] },
+  { id: "f-davinci", nickname: "레오나르도 다빈치", nicknameEn: "Leonardo da Vinci", slug: "leonardo-da-vinci", nationality: "IT", profession: "scientist", birthDate: "1452", deathDate: "1519", factionIds: [] },
+  { id: "f-picasso", nickname: "파블로 피카소", nicknameEn: "Pablo Picasso", slug: "pablo-picasso", nationality: "ES", profession: "visual_artist", birthDate: "1881", deathDate: "1973", factionIds: [] },
+  { id: "f-vangogh", nickname: "빈센트 반 고흐", nicknameEn: "Vincent van Gogh", slug: "vincent-van-gogh", nationality: "NL", profession: "visual_artist", birthDate: "1853", deathDate: "1890", factionIds: [] },
+  { id: "f-monet", nickname: "클로드 모네", nicknameEn: "Claude Monet", slug: "claude-monet", nationality: "FR", profession: "visual_artist", birthDate: "1840", deathDate: "1926", factionIds: [] },
   // 인문학자
-  { id: "f-kant", nickname: "임마누엘 칸트", nicknameEn: "Immanuel Kant", slug: "immanuel-kant", nationality: "DE", profession: "humanities_scholar", birthDate: "1724", deathDate: "1804", tagIds: [] },
-  { id: "f-nietzsche", nickname: "프리드리히 니체", nicknameEn: "Friedrich Nietzsche", slug: "friedrich-nietzsche", nationality: "DE", profession: "humanities_scholar", birthDate: "1844", deathDate: "1900", tagIds: [] },
-  { id: "f-plato", nickname: "플라톤", nicknameEn: "Plato", slug: "plato", nationality: "GR", profession: "humanities_scholar", birthDate: "-428", deathDate: "-348", tagIds: [] },
-  { id: "f-aristotle", nickname: "아리스토텔레스", nicknameEn: "Aristotle", slug: "aristotle", nationality: "GR", profession: "humanities_scholar", birthDate: "-384", deathDate: "-322", tagIds: [] },
+  { id: "f-kant", nickname: "임마누엘 칸트", nicknameEn: "Immanuel Kant", slug: "immanuel-kant", nationality: "DE", profession: "humanities_scholar", birthDate: "1724", deathDate: "1804", factionIds: [] },
+  { id: "f-nietzsche", nickname: "프리드리히 니체", nicknameEn: "Friedrich Nietzsche", slug: "friedrich-nietzsche", nationality: "DE", profession: "humanities_scholar", birthDate: "1844", deathDate: "1900", factionIds: [] },
+  { id: "f-plato", nickname: "플라톤", nicknameEn: "Plato", slug: "plato", nationality: "GR", profession: "humanities_scholar", birthDate: "-428", deathDate: "-348", factionIds: [] },
+  { id: "f-aristotle", nickname: "아리스토텔레스", nicknameEn: "Aristotle", slug: "aristotle", nationality: "GR", profession: "humanities_scholar", birthDate: "-384", deathDate: "-322", factionIds: [] },
   // 군사 지휘관
-  { id: "f-alexander", nickname: "알렉산드로스 대왕", nicknameEn: "Alexander the Great", slug: "alexander-the-great", nationality: "GR", profession: "commander", birthDate: "-356", deathDate: "-323", tagIds: [] },
-  { id: "f-yisunshin", nickname: "이순신", nicknameEn: "Yi Sun-sin", slug: "yi-sun-sin", nationality: "KR", profession: "commander", birthDate: "1545", deathDate: "1598", tagIds: [] },
+  { id: "f-alexander", nickname: "알렉산드로스 대왕", nicknameEn: "Alexander the Great", slug: "alexander-the-great", nationality: "GR", profession: "commander", birthDate: "-356", deathDate: "-323", factionIds: [] },
+  { id: "f-yisunshin", nickname: "이순신", nicknameEn: "Yi Sun-sin", slug: "yi-sun-sin", nationality: "KR", profession: "commander", birthDate: "1545", deathDate: "1598", factionIds: [] },
   // 감독
-  { id: "f-spielberg", nickname: "스티븐 스필버그", nicknameEn: "Steven Spielberg", slug: "steven-spielberg", nationality: "US", profession: "director", birthDate: "1946", deathDate: null, tagIds: [] },
-  { id: "f-kubrick", nickname: "스탠리 큐브릭", nicknameEn: "Stanley Kubrick", slug: "stanley-kubrick", nationality: "US", profession: "director", birthDate: "1928", deathDate: "1999", tagIds: [] },
-  { id: "f-kurosawa", nickname: "구로사와 아키라", nicknameEn: "Akira Kurosawa", slug: "akira-kurosawa", nationality: "JP", profession: "director", birthDate: "1910", deathDate: "1998", tagIds: [] },
+  { id: "f-spielberg", nickname: "스티븐 스필버그", nicknameEn: "Steven Spielberg", slug: "steven-spielberg", nationality: "US", profession: "director", birthDate: "1946", deathDate: null, factionIds: [] },
+  { id: "f-kubrick", nickname: "스탠리 큐브릭", nicknameEn: "Stanley Kubrick", slug: "stanley-kubrick", nationality: "US", profession: "director", birthDate: "1928", deathDate: "1999", factionIds: [] },
+  { id: "f-kurosawa", nickname: "구로사와 아키라", nicknameEn: "Akira Kurosawa", slug: "akira-kurosawa", nationality: "JP", profession: "director", birthDate: "1910", deathDate: "1998", factionIds: [] },
 ];
 
 /**

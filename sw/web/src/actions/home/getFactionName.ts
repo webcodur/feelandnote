@@ -5,14 +5,14 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
-export interface FactionTagName {
+export interface FactionName {
   name: string
   name_en: string | null
 }
 
 // slug → 테마명 (상단 배너 breadcrumb용). 가벼운 단건 조회 + 캐싱.
 const getCached = unstable_cache(
-  async (slug: string): Promise<FactionTagName | null> => {
+  async (slug: string): Promise<FactionName | null> => {
     const db = createStaticClient()
     const { data, error } = await db
       .from('faction_lv2')
@@ -23,11 +23,11 @@ const getCached = unstable_cache(
     throwOnQueryError('세력 태그 이름 조회', error)
     return data ?? null
   },
-  ['faction-tag-name'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS] }
+  ['faction-name'],
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS] }
 )
 
-export async function getFactionTagName(slug: string): Promise<FactionTagName | null> {
+export async function getFactionName(slug: string): Promise<FactionName | null> {
   if (!slug) return null
   return getCached(slug)
 }

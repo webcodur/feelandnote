@@ -11,8 +11,8 @@ import { useLocale, useTranslations } from "next-intl";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
 import type { SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
 import { GROUPS, AXIS_COLORS, AXIS_SHORT_LABELS } from "../../spectrumAxis";
-import AtlasNav, { type AtlasNavRow } from "@/components/shared/AtlasNav";
-import AtlasStage from "@/components/shared/AtlasStage";
+import ExploreNav, { type ExploreNavRow } from "@/components/shared/ExploreNav";
+import RankingStage from "@/components/shared/RankingStage";
 import AxisCard from "./sections/AxisCard";
 import AxisLibraryPanel from "./sections/AxisLibraryPanel";
 import DispositionCard from "./sections/DispositionCard";
@@ -43,9 +43,9 @@ export default function SpectrumFullSection({ entries, libraries = [] }: Spectru
   const isEn = locale === "en";
   const color = AXIS_COLORS[activeEntry.axis] ?? "#d4af37";
 
-  /* 범주·축 두 줄 — 신화 탐색·세력도감과 같은 공용 선택기(AtlasNav)의 네모 칩으로 고른다.
+  /* 범주·축 두 줄 — 신화 탐색·세력도감과 같은 공용 선택기(ExploreNav)의 네모 칩으로 고른다.
      축 칩은 축 고유색을 물려받아 고른 칩이 그 색으로 그려진다 */
-  const navRows: AtlasNavRow[] = [
+  const navRows: ExploreNavRow[] = [
     {
       id: "group",
       label: t("groupNav"),
@@ -79,11 +79,11 @@ export default function SpectrumFullSection({ entries, libraries = [] }: Spectru
 
   return (
     <div className="space-y-8">
-      <AtlasNav rows={navRows} />
+      <ExploreNav rows={navRows} />
 
-      {/* 무대 — 축 머리·시상대·순위를 한 프레임에 묶는다(공용 AtlasStage, 축색 accent).
+      {/* 무대 — 축 머리·시상대·순위를 한 프레임에 묶는다(공용 RankingStage, 축색 accent).
           축이 바뀌면 무대를 새로 그린다 */}
-      <AtlasStage key={activeEntry.axis} accent={color} className="animate-hero-fade-in">
+      <RankingStage key={activeEntry.axis} accent={color} className="animate-hero-fade-in">
         <div className="relative px-4 py-6 sm:px-6 md:px-10 md:py-10">
           {/* 축 머리 */}
           <header className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1.5 text-center">
@@ -108,7 +108,7 @@ export default function SpectrumFullSection({ entries, libraries = [] }: Spectru
             }
           </div>
         </div>
-      </AtlasStage>
+      </RankingStage>
 
       {/* 기질의 서재 — 이 축의 극단 집단이 공통으로 감상한 작품 */}
       <AxisLibraryPanel

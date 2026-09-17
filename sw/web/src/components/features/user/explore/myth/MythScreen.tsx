@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
-import AtlasNav, { type AtlasNavRow } from "@/components/shared/AtlasNav";
+import type { MythData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythTypes";
+import ExploreNav, { type ExploreNavRow } from "@/components/shared/ExploreNav";
 import { mythGroupName } from "./mythGroupName";
 import MythGroupOverview from "./MythGroupOverview";
 import MythPersonPicker from "./MythPersonPicker";
@@ -18,15 +18,15 @@ import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 import { MYTH_PARAM } from "./mythHref";
 
-interface Props { data: MythAtlasData }
+interface Props { data: MythData }
 
-function focusedMyth(data: MythAtlasData, personId: string | null) {
+function focusedMyth(data: MythData, personId: string | null) {
   const published = data.myths.filter((item) => item.isPublished);
   const matches = published.filter((item) => personId && item.personIds.includes(personId));
   return matches.sort((a, b) => a.personIds.length - b.personIds.length)[0]?.id ?? published[0]?.id ?? null;
 }
 
-export default function MythAtlas({ data }: Props) {
+export default function MythScreen({ data }: Props) {
   const t = useTranslations("explore.hub.myth");
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
   /* 주소에 신화가 있으면(음악 재생기 바로가기 등) 그 신화를 고른 채 연다 */
@@ -170,7 +170,7 @@ export default function MythAtlas({ data }: Props) {
   const hasContent = Boolean(activeMyth) && activePeople.length > 0;
 
   /* 지역(알약)·신화(네모)·그룹(밑줄 탭) — 세력도감과 같은 공용 선택기에 줄로 넘긴다 */
-  const rows: AtlasNavRow[] = [
+  const rows: ExploreNavRow[] = [
     {
       id: "regions",
       label: t("regionNav"),
@@ -211,16 +211,16 @@ export default function MythAtlas({ data }: Props) {
   }
 
   return (
-    <section id="myth-atlas" aria-label={t("title")} className={layout.atlas}>
+    <section id="myth" aria-label={t("title")} className={layout.shell}>
       <div className={layout.navigationOuter}>
-        <AtlasNav rows={rows} bareOnMobile>
+        <ExploreNav rows={rows} bareOnMobile>
           {/* 마지막 줄 — 인물. 지역·신화·그룹 줄과 같은 상자에 같은 결로 쌓는다 */}
           {hasContent && (
             <div className={layout.nav}>
               <MythPersonPicker people={railPeople} selectedId={selectedPersonId} onSelect={choosePerson} />
             </div>
           )}
-        </AtlasNav>
+        </ExploreNav>
       </div>
 
       {hasContent && activeMyth ? (

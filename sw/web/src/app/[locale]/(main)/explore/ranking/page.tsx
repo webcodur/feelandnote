@@ -9,8 +9,8 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { getCategoryByDbType } from "@/constants/categories";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
-import AtlasNav from "@/components/shared/AtlasNav";
-import AtlasStage from "@/components/shared/AtlasStage";
+import ExploreNav from "@/components/shared/ExploreNav";
+import RankingStage from "@/components/shared/RankingStage";
 import { CONTENT_TYPES, TYPE_COLORS, getRankingHref, resolveRankingType } from "./constants";
 import { TopByTypeMedia } from "./sections";
 
@@ -46,9 +46,9 @@ export default async function TopByTypePage({ searchParams }: PageProps) {
 
   return (
     <div className="space-y-8">
-      {/* 매체 분류 — 스펙트럼과 같은 공용 선택기(AtlasNav)의 알약 칩으로 고른다.
+      {/* 매체 분류 — 스펙트럼과 같은 공용 선택기(ExploreNav)의 알약 칩으로 고른다.
           각 칩은 매체 고유색과 아이콘을 물려받고, 주소 이동(href) 항목이다 */}
-      <AtlasNav
+      <ExploreNav
         rows={[{
           id: "type",
           label: tr("metaTitle"),
@@ -67,8 +67,8 @@ export default async function TopByTypePage({ searchParams }: PageProps) {
           activeId: type,
         }]}
       />
-      {/* 본문 무대 — 스펙트럼 축 무대와 같은 공용 프레임(AtlasStage), 색만 매체색 */}
-      <AtlasStage accent={TYPE_COLORS[type]}>
+      {/* 본문 무대 — 스펙트럼 축 무대와 같은 공용 프레임(RankingStage), 색만 매체색 */}
+      <RankingStage accent={TYPE_COLORS[type]}>
         <div className="px-4 py-6 sm:px-6 md:px-10 md:py-10">
           <Lane
             key={type}
@@ -84,7 +84,7 @@ export default async function TopByTypePage({ searchParams }: PageProps) {
             <TopByTypeMedia type={type} />
           </Lane>
         </div>
-      </AtlasStage>
+      </RankingStage>
     </div>
   );
 }

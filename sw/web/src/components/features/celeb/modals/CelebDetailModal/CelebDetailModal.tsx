@@ -11,7 +11,7 @@ import { toggleFollow } from "@/actions/user";
 import { getCelebProfileUrl } from "@/lib/url";
 import { trackEvent } from "@/lib/analytics/track";
 import { getAuraByScore, type Aura } from "@/constants/materials";
-import CelebTagsModal from "../CelebTagsModal";
+import CelebFactionsModal from "../CelebFactionsModal";
 import Modal from "@/components/ui/Modal";
 import { FormattedText } from "@/components/ui";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
@@ -54,7 +54,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
     locale,
   });
 
-  const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
+  const [isFactionsModalOpen, setIsFactionsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
@@ -70,7 +70,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
     setReviews([]);
     setPersonGuide(null);
     setIsFollowing(celeb.is_following);
-    setIsTagsModalOpen(false);
+    setIsFactionsModalOpen(false);
     setZoomOpen(false);
   }
 
@@ -203,19 +203,19 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   );
 
   // 태그: 최대 2개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지)
-  const maxTags = 2;
-  const displayTags = (celeb.tags ?? []).slice(0, maxTags);
-  const remainingTagCount = (celeb.tags?.length ?? 0) - maxTags;
+  const maxFactions = 2;
+  const displayFactions = (celeb.factions ?? []).slice(0, maxFactions);
+  const remainingFactionCount = (celeb.factions?.length ?? 0) - maxFactions;
 
-  const tagBadges = displayTags.length > 0 && (
+  const factionBadges = displayFactions.length > 0 && (
     <div className="mt-3 w-full max-w-full overflow-hidden flex justify-center">
       <div className="flex items-center justify-center gap-2 w-full max-w-full flex-wrap">
-        {displayTags.map(tag => (
+        {displayFactions.map(tag => (
           <button
             key={tag.id}
             onClick={(e) => {
               e.stopPropagation();
-              setIsTagsModalOpen(true);
+              setIsFactionsModalOpen(true);
             }}
             className="shrink-0 px-3 py-1 text-[11px] md:text-xs font-medium rounded-full border border-current/20 backdrop-blur-sm shadow-sm transition-all hover:scale-105 active:scale-95"
             style={{
@@ -227,15 +227,15 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
             {locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}
           </button>
         ))}
-        {remainingTagCount > 0 && (
+        {remainingFactionCount > 0 && (
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setIsTagsModalOpen(true);
+              setIsFactionsModalOpen(true);
             }}
             className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] font-bold border border-border hover:bg-bg-stone-light hover:text-text-primary"
           >
-            +{remainingTagCount}
+            +{remainingFactionCount}
           </button>
         )}
       </div>
@@ -293,7 +293,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         </h2>
 
         {metaInfo}
-        {tagBadges}
+        {factionBadges}
       </div>
 
       {/* 인용구 */}
@@ -387,10 +387,10 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       </Modal>
 
       {/* 태그 상세 모달 */}
-      <CelebTagsModal
-        isOpen={isTagsModalOpen}
-        onClose={() => setIsTagsModalOpen(false)}
-        tags={celeb.tags || []}
+      <CelebFactionsModal
+        isOpen={isFactionsModalOpen}
+        onClose={() => setIsFactionsModalOpen(false)}
+        factions={celeb.factions || []}
         title={t("keywords", { name: displayNickname })}
         zIndex={zIndex ? zIndex + 1 : undefined}
       />
