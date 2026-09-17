@@ -136,7 +136,7 @@ export const MARTIAL_GRADES: readonly MartialGrade[] = [
   { name: '용장', hanja: '勇將', min: 75, max: 84, criterion: '실전·실기 경험 풍부. 부상 복귀·장기 지속의 체력 상위권' },
   { name: '무인', hanja: '武人', min: 65, max: 74, criterion: '군사 교육·신체 중심 직업으로 단련된 체력 수준' },
   { name: '문무', hanja: '文武', min: 50, max: 64, criterion: '일정 수준의 신체 훈련 기록. 비전투직도 지속 훈련이 확인되면 이 위로' },
-  { name: '서생', hanja: '書生', min: 35, max: 49, criterion: '비신체직 종사자의 기본 체력 추정치. 특별한 훈련·질환 기록 없음' },
+  { name: '서생', hanja: '書生', min: 35, max: 49, criterion: '비신체직·군 미필 종사자의 기본 체력 추정치. 특별한 훈련·질환 기록 없음. 군사 훈련 수료자는 MILITARY_MARTIAL_BANDS를 따른다' },
   { name: '허약', hanja: '虛弱', min: 20, max: 34, criterion: '만성 질환·병약 기록으로 체력 전반 저하. 활동은 가능하나 지속성 부족' },
   { name: '잔질', hanja: '殘疾', min: 5, max: 19, criterion: '신체 장애·중증 질환으로 일상·직업 활동 자체가 제한됨' },
 ] as const
@@ -180,7 +180,22 @@ export const PERFORMER_MARTIAL_BANDS = [
   { condition: '스포츠 선수 출신(경쟁 체력 입증됨)', min: 65, max: 74, examples: ['제이슨 스타뎀', '드웨인 존슨'] },
   { condition: '대표적 액션스타(비무술 출신, 장기 신체 훈련 기록)', min: 65, max: 70, examples: ['아놀드 슈왈츠제네거', '실베스터 스탤론'] },
   { condition: '무용·댄서 출신(근지구력·협응력 훈련 입증)', min: 55, max: 60, examples: [] },
-  { condition: '그 외 배우·음악인(특별한 신체 훈련 기록 없음 — 비신체직 기본값)', min: 50, max: 55, examples: [] },
+  { condition: '그 외 배우·음악인(특별한 신체 훈련 기록 없음 — 비신체직 기본값)', min: 38, max: 48, examples: [] },
+] as const
+
+/**
+ * 군 경력 무력 밴드 — 26.09.17 사용자 확정 재보정.
+ *
+ * 장교 임관과 군사 훈련 수료는 기본 민간인(건강한 남성 ~40, 여성은 보정 후 ~30)을
+ * 넘는 단련 증거로 친다. 계급이 아니라 역할로 가른다 — 참모·교관도 임관이면 장교다.
+ * 약체·병약 기록이 따로 있는 장교·장수만 50~60대로 내린다.
+ * 무장·장교 밴드 안에서의 세부 자리는 실전 경험·복무 기간·직종으로 정한다.
+ */
+export const MILITARY_MARTIAL_BANDS = [
+  { condition: '무장·장교(실전 수행 여부 불문 — 임관·군사 훈련 수료를 겸한 것으로 봄)', min: 70, max: 80, examples: [] },
+  { condition: '약체·병약 기록이 따로 있는 장교·장수', min: 50, max: 60, examples: [] },
+  { condition: '특수부대 등 고강도 전투훈련 수료 병사', min: 60, max: 70, examples: [] },
+  { condition: '일반 병사 복무 완료', min: 55, max: 65, examples: [] },
 ] as const
 
 // ─────────────────────────────────────────────────────────────
@@ -220,7 +235,8 @@ const MARTIAL: readonly SpectrumAnchor[] = [
   { score: 88, nickname: '이순신', note: '해상 장기 근무 지구력·총상 후 복귀 회복력 상위' },
   { score: 80, nickname: '칭기즈 칸', note: '평생 마상 원정을 견딘 강인함·지구력 상위' },
   { score: 73, nickname: '어니스트 헤밍웨이', note: '종군·복싱·수렴 등 다종목 기초 체력·근지구력 상위' },
-  { score: 68, nickname: '나폴레옹 보나파르트', note: '포병 장교 훈련·군사 교육으로 단련된 체력' },
+  { score: 75, nickname: '나폴레옹 보나파르트', note: '포병 장교 임관, 툴롱·이탈리아 실전 경력의 평생 군인' },
+  { score: 70, nickname: '찰리 멍거', note: '2차대전 육군항공대 기상장교 복무. 임관 장교는 실전이 없어도 이 바닥' },
   { score: 51, nickname: '공자', note: '전통 예식 무예(활쏘기·수레몰기) 기초 훈련 연마' },
   { score: 38, nickname: '마하트마 간디', note: '비신체직 활동가 기본 체력. 단식·장거리 행진의 인내는 있으나 근력·파워는 낮음' },
   { score: 36, nickname: '스티브 잡스', note: '비신체직 기업인 기본 체력. 특별한 훈련 기록 없음' },
