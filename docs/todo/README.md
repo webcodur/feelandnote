@@ -6,7 +6,7 @@
 | [`celeb/README.md`](celeb/README.md) | 아바타 대기 인물·타임라인 죽은 컬럼 제거·각성모드 도입 판단·영향력·스펙트럼 잔여 검토(Claude·Kimi·SWE-2 안에서) |
 | [`curated-game-music.md`](curated-game-music.md) | 기관 선정에 게임(올해의 게임)·음악(빌보드) 목록 추가. DB·탭 이름은 준비됐고 후보 확정·적재 스크립트·카드 표지가 남았다 |
 | [`myth.md`](myth.md) | 신 이름 표기·대응 신격 안내 자리·신 계보 공백 |
-| [`myth-atlas-handoff.md`](myth-atlas-handoff.md) | 신화의 세계 화면·데이터 구조 인수인계. 명단·그룹·소개 정비와 전승 공개는 끝났고 미등록 인물 등록이 남았다 |
+| [`myth-handoff.md`](myth-handoff.md) | 신화의 세계 화면·데이터 구조 인수인계. 명단·그룹·소개 정비와 전승 공개는 끝났고 미등록 인물 등록이 남았다 |
 | [`founding-myth.md`](founding-myth.md) | 건국신화 인물 427명 등록 이후의 소개·안내글·공개 판단 |
 | [`web.md`](web.md) | 사용자 웹 구현·실화면 검수·Oracle 운영·Show GN/디스콰이엇 서비스 소개 |
 | [수익화와 상품 판매](../project/operations/monetization.md) | 홈·탐색·서재 메인·셀럽 페이지의 상품 배치 연구와 개발자모드 UI 시안. 아마존 가입·지급 준비와 AdSense 검토는 하위 운영 문서 참조 |
