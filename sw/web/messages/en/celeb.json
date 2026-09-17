@@ -343,6 +343,8 @@
     "readingForward": "Forward 10 seconds",
     "readingPosition": "Playback position",
     "readingSpeed": "Playback speed",
-    "dialogueDescriptionTitle": "About signature lines"
+    "dialogueDescriptionTitle": "About signature lines",
+    "refGroupDividerTitle": "What the divider means",
+    "refGroupWorksDesc": "Products of works featuring or about this figure."
   }
 }

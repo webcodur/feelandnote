@@ -5,13 +5,18 @@
         카드 본체는 언제나 「보기」다 — 우리 작품은 작품 상세로, 상세가 없는 외부 차트 항목은 onDetail이 띄우는 책 정보 모달로.
         사러 가는 길은 카드 아래 판매처 단추 하나다. 우리 작품이 아닌 외부 차트 항목은 그 단추가 purchaseHref로 서점 제휴 주소를 연다.
         번역본 없음·절판은 표지 한가운데 띠로 알린다.
+        groups를 넘기면 책의 종류가 갈리는 자리마다 세로 구분선이 서고, 누르면 좌우 구간의 뜻을 설명한다.
 */
+"use client";
+
+import { Fragment, useState } from 'react'
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import BookPurchaseInfo from '@/components/shared/BookPurchaseInfo'
 import Link from 'next/link'
 import ContentImage from '@/components/ui/ContentImage'
 import NoEditionBadge from '@/components/ui/NoEditionBadge'
-import { ExternalLink } from 'lucide-react'
+import Modal, { ModalBody } from '@/components/ui/Modal'
+import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import CenteredSectionHeading from '@/components/ui/CenteredSectionHeading'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { BookStorePlatform } from '@/constants/affiliatePlatforms'
@@ -30,9 +35,32 @@ interface AffiliateBookListProps {
   rankLabel?: (rank: number) => string
   /** 우리 작품 상세가 없는 목록(서재 차트) — 카드 본체가 상세 대신 이 함수를 불러 책 정보 모달을 띄운다. detailLabel도 그 문구를 넘긴다 */
   onDetail?: (book: AffiliateBook) => void
+  /** books와 같은 순서의 구간 정보 — 구간이 둘 이상일 때 경계에 세로 구분선을 세운다. count 합계는 books 길이와 같아야 한다 */
+  groups?: { label: string; desc?: string; count: number }[]
+  /** 구분선 접근성 문구·설명 모달 제목 (예: 「구분선의 뜻」) */
+  dividerTitle?: string
 }
 
-export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false, hideHeading = false, platform = 'yes24', rankLabel, onDetail }: AffiliateBookListProps) {
+interface GroupBoundary {
+  beforeIndex: number
+  left: { label: string; desc?: string }
+  right: { label: string; desc?: string }
+}
+
+export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle }: AffiliateBookListProps) {
+  const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
+
+  // 구간 경계를 카드 위치로 환산한다 — 신화 선반의 세로 구분선을 일반 상품 선반으로 가져온 것이다.
+  const boundaries: GroupBoundary[] = []
+  if (groups && groups.length > 1) {
+    let index = 0
+    for (let i = 0; i < groups.length - 1; i += 1) {
+      index += groups[i].count
+      if (index < books.length) boundaries.push({ beforeIndex: index, left: groups[i], right: groups[i + 1] })
+    }
+  }
+  const boundaryAt = new Map(boundaries.map((b) => [b.beforeIndex, b]))
+
   if (books.length === 0) return null
 
   return (
@@ -60,7 +88,8 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           ? "gap-3 md:px-4"
           : "gap-3 md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0",
       )}>
-        {books.map((book) => {
+        {books.map((book, index) => {
+          const boundary = boundaryAt.get(index)
           const viewTitle = `${book.title} · ${detailLabel}`
           const viewClass = cn(
             "flex min-w-0 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset",
@@ -106,8 +135,26 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           )
 
           return (
+          <Fragment key={book.contentId}>
+          {boundary && (
+            <button
+              type="button"
+              onClick={() => setOpenBoundary(boundary)}
+              aria-haspopup="dialog"
+              aria-label={dividerTitle}
+              title={dividerTitle}
+              className="group/divider flex w-8 shrink-0 cursor-pointer snap-start flex-col items-center self-stretch py-4 outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+            >
+              <span className="w-px flex-1 bg-gradient-to-b from-transparent via-accent/30 to-accent/60" />
+              <span className="my-3 flex flex-col items-center gap-2">
+                <span className="size-1 rotate-45 rounded-[1px] bg-accent/60" />
+                <span className="size-2.5 rotate-45 rounded-[2px] border border-accent bg-accent/20 shadow-[0_0_10px_rgba(240,201,72,0.35)] transition-transform duration-200 group-hover/divider:scale-125 group-hover/divider:bg-accent/50" />
+                <span className="size-1 rotate-45 rounded-[1px] bg-accent/60" />
+              </span>
+              <span className="w-px flex-1 bg-gradient-to-b from-accent/60 via-accent/30 to-transparent" />
+            </button>
+          )}
           <div
-            key={book.contentId}
             className={cn(
               // relative — 안의 화면 낭독용 순위 문구(sr-only, 절대 위치)가 가로 스크롤 상자 밖을 기준으로 잡혀 페이지 폭을 넓히지 않게 카드가 기준 상자가 된다
               "relative min-w-0 shrink-0 snap-start flex flex-col gap-1",
@@ -149,9 +196,32 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
               </a>
             ) : null}
           </div>
+          </Fragment>
           )
         })}
       </div>
+
+      {/* 구분선을 누르면 좌우 구간이 무엇인지 설명한다 — 신화 선반과 같은 형식 */}
+      <Modal isOpen={openBoundary !== null} onClose={() => setOpenBoundary(null)} title={dividerTitle ?? ''} size="sm">
+        {openBoundary && (
+          <ModalBody className="flex flex-col gap-4 p-5">
+            <div className="flex items-start gap-3">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-accent/50 bg-accent/10 text-accent"><ArrowLeft size={16} /></span>
+              <div>
+                <p className="text-sm font-bold text-text-primary">{openBoundary.left.label}</p>
+                {openBoundary.left.desc && <p className="mt-1 text-sm leading-relaxed text-text-secondary">{openBoundary.left.desc}</p>}
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-accent/50 bg-accent/10 text-accent"><ArrowRight size={16} /></span>
+              <div>
+                <p className="text-sm font-bold text-text-primary">{openBoundary.right.label}</p>
+                {openBoundary.right.desc && <p className="mt-1 text-sm leading-relaxed text-text-secondary">{openBoundary.right.desc}</p>}
+              </div>
+            </div>
+          </ModalBody>
+        )}
+      </Modal>
 
     </section>
   )

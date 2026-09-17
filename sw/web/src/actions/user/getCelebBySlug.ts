@@ -29,7 +29,7 @@ export interface ContentTypeCounts {
 
 const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
-// 셀럽이 배정된 세력도감 세력(faction_lv2). 테마 헤더(lv1)는 배정이 0이라 여기 걸리지 않는다.
+// 셀럽이 배정된 세력도감 세력(faction_lv2). 분류 헤더(lv1)는 배정이 0이라 여기 걸리지 않는다.
 export interface FactionTagItem {
   id: string
   /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
