@@ -19,6 +19,7 @@
     "celeb:spectrum:test": "tsx --test scripts/lib/spectrum-reason-check.test.ts",
     "celeb:claim": "tsx scripts/celeb/claim.ts",
     "celeb:fill": "tsx scripts/celeb/fill.ts",
+    "celeb:seed:inactive": "tsx scripts/celeb/seed-real-inactive.ts",
     "celeb:profession:reclass": "tsx scripts/celeb/profession-reclass.ts",
     "celeb:speech:1-targets": "tsx scripts/celeb/speech/1-targets.ts",
     "celeb:speech:2-collect": "tsx scripts/celeb/speech/2-collect.ts",
@@ -83,7 +84,8 @@
     "naver:audit-links": "node scripts/naver-blog/audit-links.mjs",
     "naver:audit-drafts": "node scripts/naver-blog/audit-drafts.mjs",
     "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs",
-    "contents:book-sources": "node --env-file=.env --import tsx scripts/contents/book-description-sources.ts"
+    "contents:book-sources": "node --env-file=.env --import tsx scripts/contents/book-description-sources.ts",
+    "celeb:seed:factions": "tsx scripts/celeb/seed-faction-assignments.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

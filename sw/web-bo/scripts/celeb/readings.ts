@@ -29,6 +29,12 @@ import {
   looksRateLimited,
 } from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
+// 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
+if (!process.env.ALLOW_EXTERNAL_CLI) {
+  console.error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행한다.')
+  process.exit(1)
+}
+
 function loadEnv() {
   const file = resolve(process.cwd(), '.env')
   if (!existsSync(file)) return
