@@ -13,7 +13,7 @@
 | 한마디·대사 | `celeb_dialogues.lines/lines_en`, key·값 shape |
 | 타임라인 | `celeb_timeline_events.title/description/place_name`와 각 `_en` |
 | 관계 | 내부·외부 관계의 `name_ko/en`, `note/note_en` |
-| 세력도감 | `celeb_tag_assignments.short_desc/long_desc`와 각 `_en` |
+| 세력도감 | `faction_members.short_desc/long_desc`와 각 `_en` |
 | 셀럽 감상 | `celeb_contents.review/review_en` |
 
 `review_en` 완료율은 과거 전량 번역 수치로 추정하지 않는다. 콘텐츠 대량 적재 뒤 live

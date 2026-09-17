@@ -54,6 +54,8 @@ function claudeCall(prompt, timeoutMs) {
 
 /** @returns {Promise<string>} 본문. 실패·빈 응답은 빈 문자열이다. */
 export async function research(prompt, { backend = 'codex', timeoutMs = 360000 } = {}) {
+  // 외부 CLI는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
+  if (!process.env.ALLOW_EXTERNAL_CLI) throw new Error('외부 CLI는 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로만 호출한다.')
   if (backend === 'codex') return codexCall(prompt, timeoutMs)
   if (backend === 'claude') return claudeCall(prompt, timeoutMs)
   if (backend === 'agy') return String(await agyCall(prompt, { model: AGY_TEXT_MODEL, timeoutMs }) ?? '').trim()

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { doubleProseLineBreaks } from "./prose-line-breaks";
+import { doubleProseLineBreaks, normalizeIntroBreaks } from "./prose-line-breaks";
 
 test("여러 문장짜리 줄 사이의 한 줄 개행은 문단 경계가 된다", () => {
   assert.equal(
@@ -34,6 +34,36 @@ test("이미 빈 줄로 문단을 나눈 글은 남은 한 줄 개행을 건드�
 test("CRLF 개행도 같은 규칙으로 읽는다", () => {
   assert.equal(
     doubleProseLineBreaks("첫 문장이다. 둘째 문장이다.\r\n셋째 문장이다. 넷째 문장이다."),
+    "첫 문장이다. 둘째 문장이다.\n\n셋째 문장이다. 넷째 문장이다.",
+  );
+});
+
+test("문장부호 없이 끝나는 줄끼리의 빈 줄은 붙는 줄로 내린다", () => {
+  const verse =
+    "미국 남부의 협소하고 단조로운 삶에서\n\n인간 사회의 다양한 갈망과 갈등을 포착해 낸\n\n열정적인 관찰자이자 위대한 이야기꾼, 유도라 웰티";
+  assert.equal(
+    normalizeIntroBreaks(verse),
+    "미국 남부의 협소하고 단조로운 삶에서\n인간 사회의 다양한 갈망과 갈등을 포착해 낸\n열정적인 관찰자이자 위대한 이야기꾼, 유도라 웰티",
+  );
+});
+
+test("개행 셋 이상의 덩어리 경계는 비문장 줄 사이에서도 문단으로 남는다", () => {
+  const stanzas = "열정적인 관찰자이자 위대한 이야기꾼, 유도라 웰티\n\n\n\n전통적인 남부 지역사회의 풍경에";
+  assert.equal(
+    normalizeIntroBreaks(stanzas),
+    "열정적인 관찰자이자 위대한 이야기꾼, 유도라 웰티\n\n전통적인 남부 지역사회의 풍경에",
+  );
+});
+
+test("문장부호로 끝나는 줄 앞의 빈 줄은 문단 경계로 둔다", () => {
+  const prose =
+    "비극적 서사로 승화시킨 20세기 최고의 단편들\n\n윌리엄 포크너와 함께 미국 남부 문학을 대표하는 작가의 선집이 나왔다.";
+  assert.equal(normalizeIntroBreaks(prose), prose);
+});
+
+test("빈 줄이 없는 글에서는 산문 줄 사이 개행을 벌린다", () => {
+  assert.equal(
+    normalizeIntroBreaks("첫 문장이다. 둘째 문장이다.\n셋째 문장이다. 넷째 문장이다."),
     "첫 문장이다. 둘째 문장이다.\n\n셋째 문장이다. 넷째 문장이다.",
   );
 });

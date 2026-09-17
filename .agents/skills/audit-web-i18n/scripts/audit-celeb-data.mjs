@@ -543,7 +543,7 @@ if (ids.length > 0) {
   }
 
   const assignmentRows = await selectByCelebIds(
-    "celeb_tag_assignments",
+    "faction_members",
     "id,celeb_id,short_desc,short_desc_en,long_desc,long_desc_en",
     ids,
   );

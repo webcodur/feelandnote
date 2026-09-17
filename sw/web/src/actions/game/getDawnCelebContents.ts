@@ -28,6 +28,7 @@ interface DawnContentRow {
   celeb_id: string;
   content_id: string;
   review: string | null;
+  review_en: string | null;
   source_url: string | null;
   contents: {
     id: string;
@@ -49,7 +50,7 @@ async function fetchDawnCelebContents(
   const { data, error } = await db
     .from("celeb_contents")
     .select(
-      `celeb_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
+      `celeb_id, content_id, review, review_en, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
     .in("celeb_id", celebIds)
     .eq("visibility", "public")
@@ -78,7 +79,7 @@ async function fetchDawnCelebContents(
       creator: flat.creator,
       thumbnailUrl: flat.thumbnail_url,
       type: rawContent.type ?? "BOOK",
-      review: row.review ?? null,
+      review: (locale === "en" && row.review_en) ? row.review_en : (row.review ?? null),
       sourceUrl: row.source_url ?? null,
     });
   }

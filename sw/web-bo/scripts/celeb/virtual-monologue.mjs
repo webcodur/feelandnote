@@ -8,11 +8,18 @@ import { appendFile, mkdir, readFile, readdir, writeFile } from 'node:fs/promise
 import { homedir } from 'node:os'
 import { dirname, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { createClient } from '@supabase/supabase-js'
 import {
   AGY_TEXT_MODEL,
   agyCall,
   looksQuotaLimited,
 } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
+
+// 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
+if (!process.env.ALLOW_EXTERNAL_CLI) {
+  console.error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행한다.')
+  process.exit(1)
+}
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = resolve(SCRIPT_DIR, '../../../..')
@@ -110,9 +117,6 @@ const RETRY_HINTS = {
   '인용 상자 혼입': '설명이나 머리말 없이 독백 본문만 쓴다.',
 }
 
-// 첫 패스 보류의 8할을 차지하는 결함(남의 말 첫머리·판박이·연도 시작·무대 지시)을 권장 지시로 미리 막는다.
-const BASE_GUIDE = '첫 문장은 자신이 겪은 일이나 지금 품은 생각으로 곧장 시작한다. 자기 시대의 말투로 담담하게 말하고, 독백 본문만 쓴다.'
-
 function buildWriterPrompt(row, reasons = []) {
   const name = row.nickname_en
     ? `${row.nickname}(${row.nickname_en})`
@@ -120,7 +124,7 @@ function buildWriterPrompt(row, reasons = []) {
   const base = `${name}. 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.`
   // 이름만 주면 같은 이름의 더 유명한 대상(작품 속 인물·사물·다른 사람)으로 쓴다(119편 실측). 누구인지는 소개 한 줄로 늘 고정한다.
   const bio = String(row.bio ?? '').trim()
-  const lines = bio ? [base, `인물 소개: ${bio}`, BASE_GUIDE] : [base, BASE_GUIDE]
+  const lines = bio ? [base, `인물 소개: ${bio}`] : [base]
   const hints = [...new Set(reasons.map((reason) => RETRY_HINTS[reason]).filter(Boolean))]
   if (hints.length > 0) lines.push(hints.join(' '))
   return lines.join('\n')
@@ -484,61 +488,11 @@ function inputHash(row) {
   }))
 }
 
-// supabase-js 없이 PostgREST를 fetch로 직접 두드린다. 이 스크립트가 쓰는 select·update·필터만 흉내낸다.
 function createDb() {
-  const base = process.env.NEXT_PUBLIC_DB_API_URL
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
   const key = process.env.DB_SECRET_KEY
-  if (!base || !key) throw new Error('NEXT_PUBLIC_DB_API_URL 또는 DB_SECRET_KEY가 없다.')
-  const root = `${base.replace(/\/+$/, '')}/rest/v1`
-  const auth = { apikey: key, authorization: `Bearer ${key}` }
-  // in.() 값 안의 쉼표·공백이 파라미터를 깨지 않게 늘 큰따옴표로 싼다.
-  const pgIn = (v) => `"${String(v).replaceAll('"', '\\"')}"`
-
-  class Query {
-    constructor(table, method, payload) {
-      this.method = method
-      this.payload = payload
-      this.params = new URLSearchParams()
-      this.single = false
-      this.url = `${root}/${table}`
-    }
-    select(cols) { this.params.set('select', cols); return this }
-    eq(col, v) { this.params.append(col, `eq.${v}`); return this }
-    is(col, v) { this.params.append(col, `is.${v}`); return this }
-    gte(col, v) { this.params.append(col, `gte.${v}`); return this }
-    in(col, list) { this.params.append(col, `in.(${list.map(pgIn).join(',')})`); return this }
-    not(col, op, v) { this.params.append(col, `not.${op}.${v}`); return this }
-    order(col) { this.params.set('order', col); return this }
-    limit(n) { if (n) this.params.set('limit', String(n)); return this }
-    range(from, to) { this.params.set('offset', String(from)); this.params.set('limit', String(to - from + 1)); return this }
-    maybeSingle() { this.single = true; return this }
-    async run() {
-      const url = this.params.size ? `${this.url}?${this.params}` : this.url
-      const headers = { ...auth }
-      if (this.single) headers.accept = 'application/vnd.pgrst.object+json'
-      if (this.method === 'PATCH') {
-        headers['content-type'] = 'application/json'
-        headers.prefer = 'return=representation'
-      }
-      const res = await fetch(url, { method: this.method, headers, body: this.payload === undefined ? undefined : JSON.stringify(this.payload) })
-      const text = await res.text()
-      let body = null
-      try { body = text ? JSON.parse(text) : null } catch { /* 비JSON 응답은 null로 둔다 */ }
-      if (!res.ok) {
-        if (res.status === 406 && this.single) return { data: null, error: null }
-        return { data: null, error: new Error(`PostgREST ${res.status}: ${text.slice(0, 300)}`) }
-      }
-      return { data: body, error: null }
-    }
-    then(resolve, reject) { return this.run().then(resolve, reject) }
-  }
-
-  return {
-    from: (table) => ({
-      select: (cols) => new Query(table, 'GET').select(cols),
-      update: (payload) => new Query(table, 'PATCH', payload),
-    }),
-  }
+  if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL 또는 DB_SECRET_KEY가 없다.')
+  return createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } })
 }
 
 async function loadTargets(db, slugs, limit) {
@@ -926,8 +880,8 @@ function selfTestCommand() {
   assert.equal(resumed.geminiReview, review)
   assert.deepEqual(resumed.names, ['writer', 'gemini-review'])
   assert.deepEqual(resumableStages(resumable, hypatiaRow, true).names, [])
-  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: null }), `히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.\n${BASE_GUIDE}`)
-  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: '알렉산드리아의 철학자.' }), `히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.\n인물 소개: 알렉산드리아의 철학자.\n${BASE_GUIDE}`)
+  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: null }), '히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.')
+  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: '알렉산드리아의 철학자.' }), '히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.\n인물 소개: 알렉산드리아의 철학자.')
   const geminiPrompt = buildReviewPrompt(hypatiaRow, '첫 초안', ancient)
   const opusPrompt = buildOpusReviewPrompt(hypatiaRow, '첫 초안', review, ancient)
   assert.match(geminiPrompt, /final은 A4 반 페이지 분량으로 쓴다/)
@@ -977,9 +931,8 @@ async function writeMonologue(db, id, text) {
   return updated.data?.virtual_monologue === text
 }
 
-// 가벼운 방식: Gemini 초안 1회. 입장이 뒤집히기 쉬운 한국 전근대 인물의 Gemini 검수 1회는 --review를 붙일 때만 돌린다.
+// 가벼운 방식: Gemini 초안 1회. 입장이 뒤집히기 쉬운 한국 전근대 인물만 Gemini 검수 1회를 더한다.
 function needsLightReview(row) {
-  if (!hasFlag('--review')) return false
   const year = parseYear(row.birth_date)
   return row.nationality === 'KR' && (year === null || year < LIGHT_REVIEW_BEFORE_YEAR)
 }
@@ -1088,12 +1041,10 @@ async function loadReusedFinals(path) {
 async function loadEmptyTargets(db) {
   const rows = []
   for (let from = 0; ; from += 1000) {
-    let query = db.from('celebs').select(TARGET_COLUMNS)
-      .eq('publication_status', argValue('--status') ?? 'active')
+    const { data, error } = await db.from('celebs').select(TARGET_COLUMNS)
+      .eq('publication_status', 'active')
       .is('virtual_monologue', null)
       .is('virtual_monologue_locked_at', null)
-    if (argValue('--created-since')) query = query.gte('created_at', argValue('--created-since'))
-    const { data, error } = await query
       .order('slug')
       .range(from, from + 999)
     if (error) throw error
@@ -1111,14 +1062,7 @@ async function lightCommand() {
   const reused = argValue('--reuse') ? await loadReusedFinals(argValue('--reuse')) : null
   const holdReasons = await loadHoldReasons(out)
   const db = createDb()
-  let all = slugs.length > 0 ? await loadTargets(db, slugs, null) : await loadEmptyTargets(db)
-  // --shard i/n 으로 대상을 n등분한 뒤 i번째 몫만 잡는다. 병렬 배치가 같은 인물을 두 번 부르지 않게 한다.
-  const shard = argValue('--shard')
-  if (shard) {
-    const [i, n] = shard.split('/').map(Number)
-    if (!Number.isInteger(i) || !Number.isInteger(n) || i < 0 || i >= n) throw new Error('--shard는 i/n 형식이어야 한다.')
-    all = all.filter((_, index) => index % n === i)
-  }
+  const all = slugs.length > 0 ? await loadTargets(db, slugs, null) : await loadEmptyTargets(db)
   const targets = limit > 0 ? all.slice(0, limit) : all
   const counts = { ready: 0, hold: 0, error: 0, applied: 0 }
   let stopped = null
@@ -1602,9 +1546,8 @@ async function loadMonologueRows(db, slugs, untranslatedOnly) {
   for (let from = 0; ; from += 1000) {
     let query = db.from('celebs')
       .select('id,slug,nickname,nickname_en,bio,virtual_monologue,virtual_monologue_en')
-      .eq('publication_status', argValue('--status') ?? 'active')
+      .eq('publication_status', 'active')
       .not('virtual_monologue', 'is', null)
-    if (argValue('--created-since')) query = query.gte('created_at', argValue('--created-since'))
     if (slugs.length > 0) query = query.in('slug', slugs)
     if (untranslatedOnly) query = query.is('virtual_monologue_en', null)
     const { data, error } = await query.order('slug').range(from, from + 999)
@@ -1666,7 +1609,7 @@ function parseIdentityReply(reply) {
   const results = new Map()
   for (const line of reply.split('\n')) {
     // 슬러그에 ğ·ş 같은 비ASCII 글자가 섞여 있어 유니코드 문자 전체를 받는다.
-    const match = line.match(/^\s*\[?([\p{L}\p{N}_.',\-]+)\]?\s*\|\s*(same|other|unsure)\s*\|\s*(.*)$/iu)
+    const match = line.match(/^\s*\[?([\p{L}\p{N}_.'\-]+)\]?\s*\|\s*(same|other|unsure)\s*\|\s*(.*)$/iu)
     if (match) results.set(match[1], { verdict: match[2].toLowerCase(), reason: match[3].trim() })
   }
   return results
@@ -1797,35 +1740,11 @@ async function translateCommand() {
   const size = Math.max(1, Number.parseInt(argValue('--size') ?? '3', 10))
   const out = argValue('--out')
   const apply = hasFlag('--apply')
-  // --from: 모델 호출 없이 '=== slug' 형식 파일(또는 폴더)의 번역문을 그대로 검증·반영한다.
-  const from = argValue('--from')
+  const call = await translationCaller()
   const db = createDb()
   const all = await loadMonologueRows(db, slugs, true)
   const rows = limit > 0 ? all.slice(0, limit) : all
   const counts = { ok: 0, hold: 0, applied: 0 }
-
-  if (from) {
-    const files = statSync(from).isDirectory()
-      ? readdirSync(from).filter((name) => name.endsWith('.txt')).map((name) => resolve(from, name))
-      : [resolve(from)]
-    const parsed = new Map()
-    for (const file of files) {
-      for (const [slug, text] of parseTranslateReply(await readFile(file, 'utf8'))) parsed.set(slug, text)
-    }
-    for (const row of rows) {
-      const english = parsed.get(row.slug) ?? ''
-      const issues = translationIssues(row.virtual_monologue, english)
-      const applied = apply && issues.length === 0 && await writeMonologueEn(db, row, english)
-      counts[issues.length ? 'hold' : 'ok'] += 1
-      if (applied) counts.applied += 1
-      if (out) await appendRecord(out, { slug: row.slug, status: issues.length ? 'hold' : 'ok', reason: issues.join(', '), text: english, applied })
-      if (issues.length) console.log(`${row.slug} hold ${issues.join(', ')}`)
-    }
-    console.log(JSON.stringify({ command: 'translate', from, targets: rows.length, ...counts }))
-    return
-  }
-
-  const call = await translationCaller()
 
   const stopped = await runGroups(rows, size, (group) => call(buildTranslatePrompt(group)), async (group, reply) => {
     const parsed = parseTranslateReply(reply)
@@ -1867,10 +1786,10 @@ function selfTestMuseParsers() {
 function printHelp() {
   console.log(`가상독백 — 빈칸은 light → notation → identity → translate 순서로 채운다
 
-light --slugs a,b | [--limit N] [--apply] [--out PATH] [--reuse JSONL] [--status active|inactive] [--created-since YYYY-MM-DD]  agy Gemini 1회(--review면 한국 전근대 검수 1회 추가). --out 기본 data/celeb/virtual-monologue/light.jsonl
+light --slugs a,b | [--limit N] [--apply] [--out PATH] [--reuse JSONL]  agy Gemini 1회(한국 전근대만 검수 1회 추가). --out 기본 data/celeb/virtual-monologue/light.jsonl
 notation [--apply] [--model] [--limit N] [--batch 8] [--sessions 2] [--work DIR]   음성화용 표기 정리
-identity [--slugs a,b] [--limit N] [--size 8] [--concurrency 6] [--line go|free] [--status active|inactive] [--created-since YYYY-MM-DD] [--apply] [--out PATH]   화자 판정. 기본은 영문 전 원고, --apply면 other를 비운다
-translate [--slugs a,b] [--limit N] [--size 3] [--concurrency 6] [--line go|free] [--backend muse|devin] [--status active|inactive] [--created-since YYYY-MM-DD] [--apply] [--out PATH]   영문이 빈 원고 번역
+identity [--slugs a,b] [--limit N] [--size 8] [--concurrency 6] [--line go|free] [--apply] [--out PATH]   화자 판정. 기본은 영문 전 원고, --apply면 other를 비운다
+translate [--slugs a,b] [--limit N] [--size 3] [--concurrency 6] [--line go|free] [--backend muse|devin] [--apply] [--out PATH]   영문이 빈 원고 번역
 self-test
 
 집필·수정에 쓰지 않는 경로(celeb-04-03 「쓰지 않는 경로」)

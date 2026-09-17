@@ -1,65 +1,67 @@
 'use client'
 
 /**
- * 테마 설정 한 벌 — 간판(이름·색)·설명(±영문)·주소(slug)·상위 묶음·진열 순서·노출·단체샷·인물 명단.
+ * 도감 행 설정 한 벌 — 간판(이름·색)·설명(±영문)·주소(slug)·소속 분류·진열 순서·노출·단체샷·인물 명단.
  *
- * 저장은 기존 태그 액션(updateTag 외)을 그대로 쓴다 — 저장 즉시 서비스에 반영된다.
+ * 저장은 기존 액션(updateFactionEntry 외)을 그대로 쓴다 — 저장 즉시 서비스에 반영된다.
+ * 분류(L1)에는 소속 분류·기간·단체샷·인물 명단이 없다 — 그 칸은 세력(L2)에만 선다.
  */
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trash2, Wand2 } from 'lucide-react'
-import { updateTag, deleteTag, type CelebTagAssignment } from '@/actions/admin/tags'
-import type { ThemeEditorData } from '@/actions/admin/factions/themes'
+import { updateFactionEntry, deleteFactionEntry, type FactionMember } from '@/actions/admin/factions/entries'
+import type { FactionEditorData } from '@/actions/admin/factions/board'
 import { FormRow, PRESET_COLORS, slugify } from './bits'
-import { ThemeTeamImagesField } from './ThemeTeamImagesField'
-import { ThemeMemberList } from './ThemeMemberList'
+import { TeamImagesField } from './TeamImagesField'
+import { MemberList } from './MemberList'
 
-export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
+export function EntrySettings({ data }: { data: FactionEditorData }) {
   const router = useRouter()
+  const isSection = data.entry.level === 1
 
-  // #region 테마 정보 상태 (저장된 값 ↔ 편집 중인 값)
-  const [tag, setTag] = useState(data.tag)
+  // #region 행 정보 상태 (저장된 값 ↔ 편집 중인 값)
+  const [entry, setEntry] = useState(data.entry)
   const [form, setForm] = useState({
-    name: data.tag.name,
-    name_en: data.tag.name_en ?? '',
-    description: data.tag.description ?? '',
-    description_en: data.tag.description_en ?? '',
-    color: data.tag.color,
-    slug: data.tag.slug ?? '',
-    is_featured: data.tag.is_featured,
-    parent_id: data.tag.parent_id ?? '',
-    start_date: data.tag.start_date ?? '',
-    end_date: data.tag.end_date ?? '',
-    sort_order: data.tag.sort_order,
+    name: data.entry.name,
+    name_en: data.entry.name_en ?? '',
+    description: data.entry.description ?? '',
+    description_en: data.entry.description_en ?? '',
+    color: data.entry.color,
+    slug: data.entry.slug ?? '',
+    is_featured: data.entry.is_featured,
+    lv1_id: data.entry.lv1_id ?? '',
+    start_date: data.entry.start_date ?? '',
+    end_date: data.entry.end_date ?? '',
+    sort_order: data.entry.sort_order,
   })
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [celebs, setCelebs] = useState<CelebTagAssignment[]>(data.celebs)
+  const [members, setMembers] = useState<FactionMember[]>(data.members)
 
   const hasChanges =
-    form.description !== (tag.description ?? '') ||
-    form.description_en !== (tag.description_en ?? '') ||
-    form.slug !== (tag.slug ?? '') ||
-    form.parent_id !== (tag.parent_id ?? '') ||
-    form.sort_order !== tag.sort_order ||
-    form.name !== tag.name ||
-    form.name_en !== (tag.name_en ?? '') ||
-    form.color !== tag.color ||
-    form.is_featured !== tag.is_featured ||
-    form.start_date !== (tag.start_date ?? '') ||
-    form.end_date !== (tag.end_date ?? '')
+    form.description !== (entry.description ?? '') ||
+    form.description_en !== (entry.description_en ?? '') ||
+    form.slug !== (entry.slug ?? '') ||
+    form.lv1_id !== (entry.lv1_id ?? '') ||
+    form.sort_order !== entry.sort_order ||
+    form.name !== entry.name ||
+    form.name_en !== (entry.name_en ?? '') ||
+    form.color !== entry.color ||
+    form.is_featured !== entry.is_featured ||
+    form.start_date !== (entry.start_date ?? '') ||
+    form.end_date !== (entry.end_date ?? '')
   // #endregion
 
   const handleSave = async () => {
     if (!form.name.trim()) return
     setIsSaving(true)
-    const result = await updateTag({
-      id: tag.id,
+    const result = await updateFactionEntry({
+      id: entry.id,
       description: form.description,
       description_en: form.description_en,
       slug: form.slug || null,
-      parent_id: form.parent_id || null,
+      ...(isSection ? {} : { lv1_id: form.lv1_id || null }),
       sort_order: form.sort_order,
       name: form.name,
       name_en: form.name_en,
@@ -70,12 +72,12 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
     })
     setIsSaving(false)
     if (result.success) {
-      setTag(prev => ({
+      setEntry(prev => ({
         ...prev,
         description: form.description || null,
         description_en: form.description_en || null,
         slug: form.slug || null,
-        parent_id: form.parent_id || null,
+        lv1_id: isSection ? null : form.lv1_id || null,
         sort_order: form.sort_order,
         name: form.name,
         name_en: form.name_en || null,
@@ -85,17 +87,20 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
         end_date: form.end_date || null,
         updated_at: new Date().toISOString(),
       }))
-      // 위계·순서가 바뀌면 목록·다른 테마의 선택지도 달라진다 — 서버 데이터를 다시 받는다
+      // 위계·순서가 바뀌면 목록·다른 세력의 선택지도 달라진다 — 서버 데이터를 다시 받는다
       router.refresh()
     } else {
-      alert(result.error ?? '테마 저장 실패')
+      alert(result.error ?? '저장 실패')
     }
   }
 
   const handleDelete = async () => {
-    if (!confirm('이 테마를 지우면 소속 인물에서도 모두 해제됩니다. 계속할까요?')) return
+    const question = isSection
+      ? '이 분류를 지울까요? 아래에 세력이 남아 있으면 지워지지 않습니다.'
+      : '이 세력을 지우면 소속 인물에서도 모두 해제됩니다. 계속할까요?'
+    if (!confirm(question)) return
     setIsDeleting(true)
-    const result = await deleteTag(tag.id)
+    const result = await deleteFactionEntry(entry.id)
     if (result.success) {
       router.push('/factions')
     } else {
@@ -107,7 +112,7 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
   return (
     <div className="space-y-4">
       <div className="space-y-4 rounded-xl border border-border bg-bg-card p-4">
-        <FormRow label="테마 이름">
+        <FormRow label="이름">
           <div className="flex-1 space-y-1.5">
             <input
               type="text"
@@ -168,28 +173,33 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
           </div>
         </FormRow>
 
-        <FormRow label="상위 묶음">
-          <div className="flex-1 space-y-1.5">
-            <select
-              value={form.parent_id}
-              onChange={(e) => setForm({ ...form, parent_id: e.target.value })}
-              disabled={data.ownChildCount > 0}
-              className="w-full rounded-lg border border-border bg-bg-secondary px-4 py-2.5 text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50"
-            >
-              <option value="">묶음 없음 (도감에 단독으로 실림)</option>
-              {data.parentOptions.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}{p.childCount > 0 ? ` — 테마 ${p.childCount}개를 거느림` : ' — 고르면 새 묶음이 됩니다'}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-text-tertiary">
-              {data.ownChildCount > 0
-                ? `이 테마는 아래에 테마 ${data.ownChildCount}개를 거느린 묶음입니다. 묶음은 다시 다른 묶음에 들어갈 수 없습니다.`
-                : '묶음을 고르면 도감에서 그 묶음을 펼쳤을 때 안쪽에 실립니다.'}
+        {!isSection && (
+          <FormRow label="소속 분류">
+            <div className="flex-1 space-y-1.5">
+              <select
+                value={form.lv1_id}
+                onChange={(e) => setForm({ ...form, lv1_id: e.target.value })}
+                className="w-full rounded-lg border border-border bg-bg-secondary px-4 py-2.5 text-base text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50 disabled:opacity-50"
+              >
+                {data.lv1Options.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} — 세력 {p.childCount}개를 거느림
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-text-tertiary">
+                세력은 반드시 분류 하나에 속합니다. 도감에서 그 분류를 펼쳤을 때 안쪽에 실립니다.
+              </p>
+            </div>
+          </FormRow>
+        )}
+        {isSection && data.ownChildCount > 0 && (
+          <FormRow label="소속 세력">
+            <p className="flex-1 pt-2 text-sm text-text-tertiary">
+              이 분류는 세력 {data.ownChildCount}개를 거느리고 있습니다.
             </p>
-          </div>
-        </FormRow>
+          </FormRow>
+        )}
 
         <FormRow label="진열 순서">
           <div className="flex flex-1 items-center gap-2">
@@ -230,7 +240,7 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
               onChange={(e) => setForm({ ...form, is_featured: e.target.checked })}
               className="h-5 w-5 rounded border-border bg-bg-secondary accent-accent"
             />
-            {form.is_featured && (
+            {form.is_featured && !isSection && (
               <>
                 <input
                   type="date"
@@ -250,22 +260,24 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
           </div>
         </FormRow>
 
-        <FormRow label="단체 사진">
-          <ThemeTeamImagesField tagId={tag.id} initialImages={tag.team_images} celebs={celebs} />
-        </FormRow>
+        {!isSection && (
+          <FormRow label="단체 사진">
+            <TeamImagesField lv2Id={entry.id} initialImages={entry.team_images} members={members} />
+          </FormRow>
+        )}
 
         <div className="flex items-center justify-end gap-3 border-t border-border/60 pt-3">
           <button
             onClick={handleDelete}
             disabled={isDeleting}
             className="flex h-11 w-11 items-center justify-center rounded-lg text-red-500 hover:bg-red-500/10 disabled:opacity-50"
-            title="테마 삭제"
+            title={isSection ? '분류 삭제' : '세력 삭제'}
           >
             <Trash2 className="h-5 w-5" />
           </button>
           <button
             onClick={handleSave}
-            disabled={!hasChanges || isSaving || !form.name.trim()}
+            disabled={!hasChanges || isSaving || !form.name.trim() || (!isSection && !form.lv1_id)}
             className="rounded-lg bg-accent px-6 py-2.5 text-base font-medium text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {isSaving ? '저장 중...' : '저장'}
@@ -273,13 +285,15 @@ export function ThemeAtlasSettings({ data }: { data: ThemeEditorData }) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-bg-card p-4">
-        <ThemeMemberList
-          tagId={tag.id}
-          celebs={celebs}
-          onCelebsChange={setCelebs}
-        />
-      </div>
+      {!isSection && (
+        <div className="rounded-xl border border-border bg-bg-card p-4">
+          <MemberList
+            lv2Id={entry.id}
+            members={members}
+            onMembersChange={setMembers}
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -14,17 +14,21 @@ export interface MythGroup {
   personIds: string[];
 }
 
-export interface MythTradition {
+/** 신화 카드 한 장 — faction_lv2(is_myth) 행이 원천이다 */
+export interface Myth {
   id: string;
   slug: string;
   name: string;
   description: string | null;
   isPublished: boolean;
+  /** 지역(faction_lv1) id. 어느 지역에도 못 걸리면 "other" */
   regionId: string;
   images: Array<{ url: string; label: string | null }>;
-  /** 이 전승의 테마곡 */
+  /** 이 신화의 테마곡 */
   music: FactionMusic | null;
   personIds: string[];
+  /** 타이틀 아트에 세우는 대표 인물 id — 차례가 곧 세우는 순서다. personIds 안의 id만 담는다 */
+  leadPersonIds: string[];
   /** 인물 묶음. 묶음이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다 */
   groups: MythGroup[];
 }
@@ -32,7 +36,7 @@ export interface MythTradition {
 export interface MythRegion {
   id: string;
   name: string;
-  traditionIds: string[];
+  mythIds: string[];
 }
 
 export interface MythPerson {
@@ -44,18 +48,18 @@ export interface MythPerson {
   bio: string | null;
   reading: { guide: string } | null;
   summary: string | null;
-  /* 한 인물이 여러 전승에 선다. 전승마다 줄거리와 사진이 다르다 */
+  /* 한 인물이 여러 신화에 선다. 신화마다 줄거리와 사진이 다르다 */
   appearances: Array<{
-    traditionId: string;
+    mythId: string;
     summary: string | null;
-    /** 이 전승 전용 개인샷(백오피스 「신화 편집」). 없으면 null — 화면이 인물 대표 사진을 쓴다 */
+    /** 이 신화 전용 개인샷(백오피스 「신화 편집」). 없으면 null — 화면이 인물 대표 사진을 쓴다 */
     imageUrl: string | null;
   }>;
   avatarUrl: string | null;
   imageUrl: string | null;
   portraitUrl: string | null;
   images: Array<{ url: string; focus?: { x: number; y: number } }>;
-  traditionIds: string[];
+  mythIds: string[];
   sourceIds: string[];
 }
 
@@ -72,7 +76,7 @@ export interface MythWork {
 
 export interface MythAtlasData {
   regions: MythRegion[];
-  traditions: MythTradition[];
+  myths: Myth[];
   people: MythPerson[];
   works: MythWork[];
   openingPersonId: string | null;

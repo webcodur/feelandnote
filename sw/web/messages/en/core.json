@@ -77,6 +77,65 @@
       "body": "This tab is running an older version, so search and saving may not work.",
       "refresh": "Refresh",
       "dismiss": "Dismiss"
+    },
+    "musicPlayer": {
+      "music": "Music",
+      "listPicker": "Playlist",
+      "modes": {
+        "all": "All music",
+        "faction": "Atlas theme music",
+        "myth": "Myth theme music",
+        "game": "Game music",
+        "library": "My listening list"
+      },
+      "status": {
+        "playing": "Now playing",
+        "loading": "Loading",
+        "paused": "Paused",
+        "idle": "Ready",
+        "recommended": "Theme for this page"
+      },
+      "pickTrack": "Choose a track from the list",
+      "play": "Play",
+      "pause": "Pause",
+      "stop": "Stop",
+      "close": "Close",
+      "back": "Back 10 seconds",
+      "forward": "Forward 10 seconds",
+      "position": "Playback position",
+      "speed": "Playback speed",
+      "loading": "Loading the music list.",
+      "recommended": "Pick",
+      "gameBgm": "Game BGM",
+      "unassignedTheme": "Unassigned theme",
+      "gameGroups": {
+        "result": "Results",
+        "suikoden": "Cheondo",
+        "hegemony": "Hegemony",
+        "dawn": "Dawn",
+        "labyrinth": "Labyrinth",
+        "memory": "Memory"
+      },
+      "goTo": {
+        "faction": "Open in the atlas",
+        "myth": "Open in myths",
+        "game": "Open the game",
+        "library": "View work details"
+      },
+      "allEmpty": "No music is available yet.",
+      "factionEmpty": "No atlas theme music is registered.",
+      "mythEmpty": "No mythology theme music is registered.",
+      "gameEmpty": "No game music is registered.",
+      "libraryEmpty": "Music from your listening list appears here.",
+      "libraryHint": "Sign in and log music to play it here.",
+      "transition": {
+        "title": "Auto music transition",
+        "themeDesc": "Stops the current track and switches to this page's theme.",
+        "gameDesc": "Stops the current track and switches to the game music.",
+        "allow": "Allow",
+        "deny": "Deny"
+      },
+      "gameLyricsNotice": "Tracks with Korean lyrics will also be released in English versions."
     }
   },
   "pages": {
@@ -672,7 +731,9 @@
         "greeting": "Greeting",
         "rollCall": "Roll Call",
         "deploy": "Deploy",
-        "quotes": "Quotes"
+        "quotes": "Quotes",
+        "voiceOn": "Voice on",
+        "voiceOff": "Voice off"
       },
       "phase": {
         "lobby": "Lobby",
@@ -805,7 +866,12 @@
     "headingRead": "Books this figure read",
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",
-    "buy": "Buy"
+    "buy": "Buy",
+    "refGroupPopular": "Popular books",
+    "refGroupOriginDesc": "Products of works this figure appears in.",
+    "refGroupReadDesc": "Books this figure recorded as read.",
+    "refGroupProfessionDesc": "Books read by figures in the same field.",
+    "refGroupPopularDesc": "Bestselling books in the store."
   },
   "share": {
     "label": "Share",

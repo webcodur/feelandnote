@@ -11,7 +11,7 @@ const compiled = ts.transpileModule(readFileSync(new URL('./getTagSharedLibrary.
 
 // Shapes follow the live tables: content_locales.affiliate_url is a JSON array of { url, platform }.
 const tables: Record<string, unknown[]> = {
-  faction_atlas_members: [{ celeb_id: 'a' }, { celeb_id: 'b' }],
+  faction_member_rows: [{ celeb_id: 'a' }, { celeb_id: 'b' }],
   celebs: [
     { id: 'a', slug: 'a', nickname: 'A', nickname_en: 'A', avatar_url: null },
     { id: 'b', slug: 'b', nickname: 'B', nickname_en: 'B', avatar_url: null },

@@ -12,6 +12,7 @@ const RESULT = {
     title: '테스트 책',
     url: 'https://example.com/book',
   }],
+  groups: [{ source: 'read' as const, count: 1 }],
   source: 'read' as const,
 }
 
@@ -71,7 +72,7 @@ test('근접 뒤 effect가 다시 붙어도 같은 액션 요청을 한 번만 �
 
 test('빈 목록과 null 응답은 모두 표시할 자료 없음으로 정규화한다', async () => {
   for (const result of [
-    { books: [], source: 'popular' as const },
+    { books: [], groups: [], source: 'popular' as const },
     null,
   ]) {
     let received: unknown = '호출 안 됨'
@@ -164,9 +165,9 @@ test('연관 상품은 언어에 맞는 판매 판본의 제목과 실제 구매
   assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks([book], 'fr'), [])
 })
 
-test('등장 도서와 구매 링크·유효 ISBN이 모두 없는 판본은 참고도서로 내보내지 않는다', () => {
+test('창작 도서와 구매 링크·유효 ISBN이 모두 없는 판본은 참고도서로 내보내지 않는다', () => {
   const books = [
-    relatedBook({ relationType: 'appearance', editions: [saleEdition()] }),
+    relatedBook({ relationType: 'authored', editions: [saleEdition()] }),
     relatedBook({ id: 'missing-link', editions: [saleEdition({ purchaseUrl: null })] }),
     relatedBook({ id: 'invalid-link', editions: [saleEdition({ purchaseUrl: 'javascript:void(0)' })] }),
     relatedBook({ id: 'wrong-platform', editions: [saleEdition({ platform: 'amazon' })] }),

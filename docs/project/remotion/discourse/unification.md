@@ -27,7 +27,7 @@
 
 ## 3. DB 스키마 (DDL 초안)
 
-구조: 팩션 5테이블 → **담화 3테이블**. 차이 4: ① 계층 2단(인물 평면, 순서는 발언이 정함) ② `turns`는 `speakers`의 형제(episode_id 직속, speaker_id는 링크) ③ **celeb_tags 투영 없음**(도감 무관 → faction-sync 대응물 없음, 작업량 급감) ④ 편별 부속 테이블 없음(titleByPart 등은 data jsonb).
+구조: 팩션 5테이블 → **담화 3테이블**. 차이 4: ① 계층 2단(인물 평면, 순서는 발언이 정함) ② `turns`는 `speakers`의 형제(episode_id 직속, speaker_id는 링크) ③ **도감 투영 없음**(도감 무관 → faction-sync 대응물 없음, 작업량 급감) ④ 편별 부속 테이블 없음(titleByPart 등은 data jsonb).
 
 ```sql
 -- create_discourse_tables

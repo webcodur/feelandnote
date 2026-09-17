@@ -152,7 +152,7 @@ function ExpandCard({
                   <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
                 </div>
                 {/* YES24 판매 정보 — 작품 소개 칸의 발꿈치. 구매 단추와 떼어 책정보 구역에 둔다 */}
-                <Yes24Sales contentId={item.content_id} enabled={item.content.type === "BOOK"} className="mt-2 shrink-0" />
+                <Yes24Sales contentId={item.content_id} enabled={item.content.type === "BOOK"} full className="mt-2 shrink-0" />
               </div>
             )}
           </div>

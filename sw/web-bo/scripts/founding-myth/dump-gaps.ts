@@ -31,28 +31,28 @@ async function main() {
   const assigns: any[] = []
   for (let i = 0; i < ids.length; i += 100) {
     const { data, error: e2 } = await db
-      .from('celeb_tag_assignments')
-      .select('celeb_id,tag_id,hidden,sort_order')
+      .from('faction_members')
+      .select('celeb_id,lv2_id,hidden,sort_order')
       .in('celeb_id', ids.slice(i, i + 100))
     if (e2) throw new Error(e2.message)
     assigns.push(...(data ?? []))
   }
-  const { data: tags } = await db.from('celeb_tags').select('id,name,slug,atlas_published')
+  const { data: tags } = await db.from('faction_lv2').select('id,name,slug,published').eq('is_myth', true)
   const tagById = new Map((tags ?? []).map((t: any) => [t.id, t]))
 
   const tagOf = new Map<string, any>()
   for (const a of assigns) {
-    const t = tagById.get(a.tag_id)
+    const t = tagById.get(a.lv2_id)
     if (t) tagOf.set(a.celeb_id, { name: t.name, slug: t.slug, hidden: a.hidden, order: a.sort_order })
   }
 
-  const rows = celebs!.map((c) => ({ ...c, tradition: tagOf.get(c.id) ?? null }))
+  const rows = celebs!.map((c) => ({ ...c, myth: tagOf.get(c.id) ?? null }))
   fs.writeFileSync(out, JSON.stringify({ captured_at: new Date().toISOString(), count: rows.length, rows }, null, 2), 'utf8')
   console.log(`${rows.length}명 → ${out}`)
 
   const byTrad = new Map<string, number>()
-  for (const r of rows) byTrad.set(r.tradition?.name ?? '(배정없음)', (byTrad.get(r.tradition?.name ?? '(배정없음)') ?? 0) + 1)
-  console.log('\n전승별 인원')
+  for (const r of rows) byTrad.set(r.myth?.name ?? '(배정없음)', (byTrad.get(r.myth?.name ?? '(배정없음)') ?? 0) + 1)
+  console.log('\n신화별 인원')
   for (const [k, v] of [...byTrad].sort((a, b) => b[1] - a[1])) console.log(`  ${String(v).padStart(3)}  ${k}`)
 }
 main()

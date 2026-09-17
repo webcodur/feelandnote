@@ -27,3 +27,45 @@ export function doubleProseLineBreaks(text: string): string {
     })
     .join("");
 }
+
+/*
+  공급처마다 다른 개행 표기를 화면 규약(\n = 붙는 줄, \n\n = 문단)으로 맞춘다.
+  - 개행 셋 이상(\n{3,}): 원본이 덩어리 경계로 강하게 표시한 간격이다. 비문장 줄 사이에 와도 항상 문단으로 둔다
+  - 빈 줄 하나(\n\n): 앞뒤가 모두 문장부호 없이 끝나는 줄이면 시 구절·수록작 나열·헤드라인 류로 보고 붙는 줄로 내린다.
+    다음 줄만 목록 기호로 시작하면(▶ 소제목 등) 떼어 둔다
+  - 빈 줄이 없는 글: 산문 줄 사이의 한 줄 개행만 벌린다(doubleProseLineBreaks)
+*/
+function isBareLine(line: string): boolean {
+  const text = line.trim();
+  return text !== "" && !LINE_END.test(text);
+}
+
+function lastLineOf(chunk: string): string {
+  return chunk.slice(chunk.lastIndexOf("\n") + 1);
+}
+
+function firstLineOf(chunk: string): string {
+  const end = chunk.indexOf("\n");
+  return end === -1 ? chunk : chunk.slice(0, end);
+}
+
+export function normalizeIntroBreaks(text: string): string {
+  const normalized = text
+    .replace(/\r\n?/g, "\n")
+    .replace(/[^\S\n]+\n/g, "\n")
+    .replace(/\n[^\S\n]+/g, "\n");
+
+  const chunks = normalized.split(/(\n{2,})/);
+  const joined = chunks
+    .map((chunk, index) => {
+      if (index % 2 === 0) return chunk;
+      if (chunk.length > 2) return "\n\n\n";
+      const prev = lastLineOf(chunks[index - 1]);
+      const next = firstLineOf(chunks[index + 1] ?? "");
+      const nextIsHeading = LIST_MARKER.test(next.trim()) && !LIST_MARKER.test(prev.trim());
+      return isBareLine(prev) && isBareLine(next) && !nextIsHeading ? "\n" : "\n\n";
+    })
+    .join("");
+
+  return doubleProseLineBreaks(joined.replace(/\n{3,}/g, "\n\n")).trim();
+}

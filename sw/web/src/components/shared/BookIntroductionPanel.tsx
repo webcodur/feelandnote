@@ -7,7 +7,7 @@
  * - 터치 기기는 넘칠 때 칸 둘레에 금빛 파동을 세 번 준다(마우스 기기는 커서가 대신한다)
  * - 출처는 우하단 칩 하나다. 공급처 이름(다음·카카오·YES24 등 바뀌는 값)은 안쪽 알약에 담아 고정 문구 「원문」과 구분한다
  * - 전체 보기 모달은 읽기 모달 높이(READING_MODAL_MAX_HEIGHT_CLASS)를 따라 위아래 여백을 넉넉히 남긴다
- * - 모달은 여러 문장짜리 줄 사이의 한 줄 개행만 문단 간격으로 벌린다(doubleProseLineBreaks). 목록·시 구절은 그대로다
+ * - 본문 개행은 normalizeIntroBreaks로 화면 규약에 맞춘다 — 공급처별 표기(다음 <br> 런·카카오 공백 런·저장본 혼재)를 \n=붙는 줄·\n\n=문단으로 정리하고, 문장부호 없이 끝나는 줄끼리의 빈 줄은 시 구절로 보고 붙인다
  * - 데이터: description/label/sourceTitle props. label은 보조기기용 이름으로만 읽힌다
  * ───────────────────────────────────────────── */
 "use client";
@@ -24,7 +24,7 @@ import PendingMark from "@/components/ui/pending/PendingMark";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { useClippedText } from "@/hooks/useClippedText";
 import { cn } from "@/lib/utils";
-import { doubleProseLineBreaks } from "@/lib/utils/prose-line-breaks";
+import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 
 /* 좁은 화면은 네 줄(max-h-28)에서 접고, 채우기 폭부터는 네 줄을 바닥으로 칸을 채운다. contain-size라 본문이 행을 밀지 않는다.
    채우기 폭은 이웃 열과 나란히 서는 폭이다 — 셀럽 상세는 lg, 작품 상세는 sm.
@@ -85,8 +85,9 @@ export default function BookIntroductionPanel({
   const locale = useLocale();
   const triggerRef = useRef<HTMLParagraphElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const introText = normalizeIntroBreaks(description);
   /* ── 1. 넘침 측정 — 로딩 중에는 본문이 없어 재지 않는다 ── */
-  const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(description, !loading);
+  const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(introText, !loading);
   const providerName =
     showSource && attribution?.provider
       ? INTRO_PROVIDER_HEADING_NAME[attribution.provider]?.[locale === "en" ? "en" : "ko"]
@@ -147,7 +148,7 @@ export default function BookIntroductionPanel({
               "cursor-pointer text-start hover:brightness-125 active:brightness-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
             )}
           >
-            <FormattedText text={description} />
+            <FormattedText text={introText} />
           </p>
           {(source.providerName || source.sourceUrl) && (
             <div className={cn("mt-2 flex justify-end", fill.footer)}>
@@ -167,7 +168,7 @@ export default function BookIntroductionPanel({
 
       {isOpen ? (
         <IntroductionModal
-          description={description}
+          description={introText}
           label={label}
           source={source}
           sourceTitle={sourceTitle}
@@ -268,7 +269,7 @@ function IntroductionModal({
         </header>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-texture-noise px-5 py-6 [overflow-anchor:none] sm:px-8 sm:py-8">
           <p className="whitespace-pre-wrap break-words text-base leading-8 text-text-primary">
-            <FormattedText text={doubleProseLineBreaks(description)} />
+            <FormattedText text={description} />
           </p>
           {(source.providerName || source.sourceUrl) && (
             <div className="mt-6 flex justify-end">

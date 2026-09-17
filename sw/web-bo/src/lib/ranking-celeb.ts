@@ -10,7 +10,7 @@ export interface RankingCelebProfile {
   publicationStatus: string | null
 }
 
-export interface RankingThemeOption {
+export interface RankingFactionOption {
   id: string
   slug: string
   name: string

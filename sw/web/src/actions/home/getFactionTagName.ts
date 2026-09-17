@@ -15,7 +15,7 @@ const getCached = unstable_cache(
   async (slug: string): Promise<FactionTagName | null> => {
     const db = createStaticClient()
     const { data, error } = await db
-      .from('celeb_tags')
+      .from('faction_lv2')
       .select('name, name_en')
       .eq('slug', slug)
       .maybeSingle()

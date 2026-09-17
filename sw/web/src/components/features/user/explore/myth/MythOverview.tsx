@@ -4,28 +4,28 @@ import { useState } from "react";
 import Image from "next/image";
 import { BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson, Myth } from "@/actions/home/mythAtlasTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
 import { mythLeadImage } from "./mythLeadImage";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
 interface Props {
-  tradition: MythTradition | null;
+  myth: Myth | null;
   memberCount: number;
   workCount: number;
-  /** 전승 차례의 앞 인물들 — 타이틀 아트의 빈 우측에 아바타로 세우는 대표 인물이다 */
+  /** 신화 차례의 앞 인물들 — 타이틀 아트의 빈 우측에 아바타로 세우는 대표 인물이다 */
   leadPeople: MythPerson[];
   /** 아바타를 누르면 그 인물 상세로 간다 */
   onSelectPerson: (id: string) => void;
 }
 
-export default function MythTraditionOverview({ tradition, memberCount, workCount, leadPeople, onSelectPerson }: Props) {
+export default function MythOverview({ myth, memberCount, workCount, leadPeople, onSelectPerson }: Props) {
   const t = useTranslations("explore.hub.myth");
   const [imageIndex, setImageIndex] = useState(0);
-  const images = tradition?.images ?? [];
+  const images = myth?.images ?? [];
   const activeImage = images[imageIndex] ?? images[0] ?? null;
-  const description = tradition?.description ?? t("mythOverviewFallback");
+  const description = myth?.description ?? t("mythOverviewFallback");
 
   const moveImage = (direction: -1 | 1) => {
     if (images.length < 2) return;
@@ -35,12 +35,12 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
   return (
     <section aria-labelledby="myth-overview-title" className={layout.overview}>
       <div className="relative">
-        <figure className={layout.artwork} aria-label={tradition?.name ?? t("allTraditions")}>
+        <figure className={layout.artwork} aria-label={myth?.name ?? t("allMyths")}>
           {activeImage ? (
             <BlurDissolve key={activeImage.url} className="absolute inset-0">
               <Image
                 src={activeImage.url}
-                alt={activeImage.label ?? tradition?.name ?? ""}
+                alt={activeImage.label ?? myth?.name ?? ""}
                 fill
                 unoptimized
                 priority={imageIndex === 0}
@@ -77,7 +77,7 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
           {leadPeople.length > 0 && (
             <div className="absolute end-3 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-2 rounded-full bg-black/55 p-1.5 ring-1 ring-white/15 backdrop-blur-sm lg:end-[calc(43%+2rem)]">
               {leadPeople.map((person) => {
-                const face = person.avatarUrl ?? (tradition ? mythLeadImage(person, tradition.id) : null);
+                const face = person.avatarUrl ?? (myth ? mythLeadImage(person, myth.id) : null);
                 return (
                   <button
                     key={person.id}
@@ -102,7 +102,7 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
               className="box-decoration-clone px-1.5 py-0.5 [box-decoration-break:clone]"
               style={{ textShadow: "0 2px 5px rgba(0,0,0,.98), 0 0 22px rgba(0,0,0,.72)" }}
             >
-              {tradition?.name ?? t("allTraditions")}
+              {myth?.name ?? t("allMyths")}
             </span>
           </h3>
         </figure>

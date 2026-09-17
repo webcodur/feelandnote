@@ -8,7 +8,7 @@ import { CELEB_PROFESSION_FILTERS, DEFAULT_EXPLORE_PROFESSION } from "@/constant
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
-import { CELEB_TIERS, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
+import { CELEB_TIERS, CELEB_REALITIES, LISTING_DEFAULT_REALITIES, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
 import { parseTrendCountry, type TrendCountry } from "@/constants/trendCountries";
@@ -17,6 +17,11 @@ import { parseTrendCountry, type TrendCountry } from "@/constants/trendCountries
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
 
 export type FilterType = "profession" | "nationality" | "contentType" | "contentPresence" | "gender" | "sort" | "tier" | "birthYear";
+
+/** 사실·가상 필터의 화면 값. real이 명부 기본(REAL·BOTH), fiction은 FICTION·BOTH, all은 세 축 전부다. */
+export type CelebRealityFilter = "real" | "fiction" | "all";
+/** 화면 값별 명부 총수 — 헤드라인이 사실·가상 선택을 따라간다 */
+export type CelebRealityTotals = Record<CelebRealityFilter, number>;
 
 const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
@@ -98,8 +103,7 @@ export function useCelebFilters({
     return parseCelebTiers(searchParams.get("tier"));
   });
   // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH)만 노출한다 — FICTION은 빠진다.
-  // 값은 URL(상단 검색이 붙이는 reality=)에서만 들어오므로 화면에서 바꾸는 setter는 두지 않는다.
-  const [realities] = useState<CelebReality[] | undefined>(() => {
+  const [realities, setRealities] = useState<CelebReality[] | undefined>(() => {
     if (!syncToUrl) return undefined;
     return parseCelebRealities(searchParams.get("reality"));
   });
@@ -164,7 +168,8 @@ export function useCelebFilters({
     tiersOverride?: CelebTier[],
     birthYearOverride?: { min?: number; max?: number },
     contentPresenceOverride?: CelebContentPresence,
-    trendCountryOverride?: TrendCountry
+    trendCountryOverride?: TrendCountry,
+    realitiesOverride?: readonly CelebReality[]
   ) => {
     const requestId = ++latestRequestRef.current;
     setIsLoading(true);
@@ -185,7 +190,7 @@ export function useCelebFilters({
         minContentCount: 0,
         includeInactive: isInactive,
         tiers: tiersOverride ?? tiers,
-        realities,
+        realities: realitiesOverride ?? realities,
         birthYearMin: birthYearOverride ? birthYearOverride.min : birthYearMin,
         birthYearMax: birthYearOverride ? birthYearOverride.max : birthYearMax,
       });
@@ -270,9 +275,24 @@ export function useCelebFilters({
     const value = next.length > 0 ? next : undefined;
     setTiers(value);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, value);
+    // 해제는 undefined가 아니라 빈 배열로 넘긴다 — undefined는 "오버라이드 없음"으로 읽혀 옛 등급이 그대로 간다
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, next);
     const isDefault = !value || (value.length === CELEB_TIERS.length && CELEB_TIERS.every(t => value.includes(t)));
     updateUrlParams({ tier: isDefault ? null : value.join(","), page: null });
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
+
+  /* 실존 축 변경. '사실'은 명부 기본값으로 되돌리는 것이라 URL은 비운다.
+     '가상'은 FICTION·BOTH — 프로필 배지가 "사실 | 가상"을 함께 다는 인물도 가상 쪽에서 만난다.
+     상태는 항상 명시 배열로 둔다 — 오버라이드와 기본값을 undefined로 구분할 수 없기 때문이다. */
+  const handleRealityChange = useCallback((value: CelebRealityFilter) => {
+    const next: readonly CelebReality[] =
+      value === "all" ? CELEB_REALITIES
+      : value === "fiction" ? ["FICTION", "BOTH"]
+      : LISTING_DEFAULT_REALITIES;
+    setRealities([...next]);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, undefined, undefined, undefined, undefined, next);
+    updateUrlParams({ reality: value === "real" ? null : next.join(","), page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   // 생년 범위 변경. 전체 범위(양쪽 다 undefined)면 좁히는 의미가 없으므로 URL에서 지운다.
@@ -356,6 +376,11 @@ export function useCelebFilters({
     tierValue,
     handleTierValueChange,
     realities,
+    // 칩·모달이 읽는 화면 값. 기본(미지정·REAL·BOTH)은 'real', FICTION이 있고 REAL도 있으면 'all'
+    realityValue: (!realities || (realities.includes("REAL") && !realities.includes("FICTION")) ? "real"
+      : realities.includes("FICTION") && realities.includes("REAL") ? "all"
+      : "fiction") as CelebRealityFilter,
+    handleRealityChange,
     birthYearMin,
     birthYearMax,
     handleBirthYearChange,

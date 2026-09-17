@@ -17,7 +17,7 @@ import {
 import type { CelebSortBy } from "@/actions/home";
 import type { CelebContentPresence } from "@/constants/celebContentPresence";
 import type { TrendCountry } from "@/constants/trendCountries";
-import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
+import { CELEB_REALITIES, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
 import CelebStatsBar from "@/components/features/user/explore/sections/CelebStatsBar";
@@ -102,6 +102,8 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
     Awaited<ReturnType<typeof getNationalityCounts>>,
     Awaited<ReturnType<typeof getContentTypeCounts>>,
     Awaited<ReturnType<typeof getGenderCounts>>,
+    Awaited<ReturnType<typeof getCelebs>>,
+    Awaited<ReturnType<typeof getCelebs>>,
   ];
   try {
     result = await Promise.all([
@@ -127,6 +129,9 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
       getNationalityCounts(),
       getContentTypeCounts(),
       getGenderCounts(),
+      // 헤드라인용 실존 축별 명부 수 — 필터 없이 축만 바꿔 센다. 캐시된 조회라 저렴하다
+      getCelebs({ page: 1, limit: 1, realities: ["FICTION", "BOTH"], includeViewerState: false }),
+      getCelebs({ page: 1, limit: 1, realities: [...CELEB_REALITIES], includeViewerState: false }),
     ]);
   } catch (e) {
     console.error("[FiguresPage] 필터 결과 조회 실패:", e);
@@ -134,19 +139,28 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
   }
 
   // JSX 생성은 try 밖에서 한다 — try 안 JSX는 렌더 오류를 못 잡으면서 린트만 문다
-  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts] = result;
+  const [celebsResult, professionCounts, nationalityCounts, contentTypeCounts, genderCounts, fictionResult, allResult] = result;
+  // 사실 쪽은 명부와 같은 기준(활성·REAL·BOTH)을 쓰는 genderCounts의 all — 기본 뷰는 직군 좁힘이 걸려 있어 celebsResult.total을 쓰면 안 된다
+  const realityTotals = {
+    real: genderCounts.find((entry) => entry.value === "all")?.count ?? celebsResult.total,
+    fiction: fictionResult.total,
+    all: allResult.total,
+  };
   return (
-    <CelebsSection
-      initialCelebs={celebsResult.celebs}
-      initialTotal={celebsResult.total}
-      initialTotalPages={celebsResult.totalPages}
-      initialTrendCountry={params.trendCountry}
-      initialTrend={celebsResult.trend}
-      trendCountryOptions={trendCountryOptions}
-      professionCounts={professionCounts}
-      nationalityCounts={nationalityCounts}
-      contentTypeCounts={contentTypeCounts}
-      genderCounts={genderCounts}
-    />
+    <section aria-labelledby="explore-figures-heading" className="space-y-6 md:space-y-8">
+      <CelebsSection
+        initialCelebs={celebsResult.celebs}
+        initialTotal={celebsResult.total}
+        initialTotalPages={celebsResult.totalPages}
+        initialTrendCountry={params.trendCountry}
+        initialTrend={celebsResult.trend}
+        trendCountryOptions={trendCountryOptions}
+        professionCounts={professionCounts}
+        nationalityCounts={nationalityCounts}
+        contentTypeCounts={contentTypeCounts}
+        genderCounts={genderCounts}
+        realityTotals={realityTotals}
+      />
+    </section>
   );
 }

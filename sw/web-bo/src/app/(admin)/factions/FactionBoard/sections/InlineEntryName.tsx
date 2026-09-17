@@ -3,21 +3,21 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
-import { updateTag } from '@/actions/admin/tags'
+import { updateFactionEntry } from '@/actions/admin/factions/entries'
 import { useToast } from '@/contexts/ToastContext'
 
 /**
- * 목록에 보이는 테마명을 그 자리에서 고친다.
+ * 목록에 보이는 이름을 그 자리에서 고친다 — 세력과 분류 모두에 쓴다.
  *
- * Enter 또는 포커스 이탈로 저장하고, Escape 로 마지막 저장값을 되돌린다. 테마 상세 화면을
+ * Enter 또는 포커스 이탈로 저장하고, Escape 로 마지막 저장값을 되돌린다. 상세 화면을
  * 열지 않아도 이름만 빠르게 정리하려는 운영 흐름을 위한 입력칸이다.
  */
-export default function InlineThemeName({
-  themeId,
+export default function InlineEntryName({
+  entryId,
   name,
   className = '',
 }: {
-  themeId: string
+  entryId: string
   name: string
   className?: string
 }) {
@@ -33,7 +33,7 @@ export default function InlineThemeName({
     const nextName = draft.trim()
     if (!nextName) {
       setDraft(savedName)
-      showToast('error', '테마명은 비워 둘 수 없습니다')
+      showToast('error', '이름은 비워 둘 수 없습니다')
       return
     }
     if (nextName === savedName) {
@@ -42,10 +42,10 @@ export default function InlineThemeName({
     }
 
     startTransition(async () => {
-      const result = await updateTag({ id: themeId, name: nextName })
+      const result = await updateFactionEntry({ id: entryId, name: nextName })
       if (!result.success) {
         setDraft(savedName)
-        showToast('error', `테마명 저장 실패 — ${result.error ?? '알 수 없는 오류'}`)
+        showToast('error', `이름 저장 실패 — ${result.error ?? '알 수 없는 오류'}`)
         return
       }
 
@@ -62,8 +62,8 @@ export default function InlineThemeName({
         value={draft}
         size={Math.max(8, Math.min(28, draft.length + 2))}
         disabled={pending}
-        aria-label={`${savedName} 테마명 수정`}
-        title={pending ? '테마명 저장 중' : '테마명을 바로 수정합니다'}
+        aria-label={`${savedName} 이름 수정`}
+        title={pending ? '이름 저장 중' : '이름을 바로 수정합니다'}
         onChange={event => setDraft(event.target.value)}
         onBlur={save}
         onKeyDown={event => {

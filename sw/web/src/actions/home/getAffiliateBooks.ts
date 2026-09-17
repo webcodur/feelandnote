@@ -32,10 +32,12 @@ export interface AffiliateBook {
   rank?: number
   /** 우리 작품이 아닌 외부 차트 항목 — 표지·YES24 단추가 이 주소를 곧바로 연다(제휴 주소 우선) */
   purchaseHref?: string
+  /** 외부 차트 항목의 상품 ISBN — 우리 작품 ID가 없어 판매 정보를 이 값으로 곧바로 조회한다 */
+  isbn?: string
 }
 
 /** 인물 화면에서 이 목록을 무엇으로 골랐는지 — 안내 문구를 갈아끼우는 데 쓴다. */
-export type AffiliateBookSource = 'origin' | 'read' | 'profession' | 'popular'
+export type AffiliateBookSource = 'origin' | 'read' | 'profession' | 'popular' | 'mixed'
 
 /** 책 상품 목록의 언어 — 한국어는 YES24, 영어는 아마존이 기준이다 */
 export type AffiliateBookLocale = 'ko' | 'en'
@@ -351,36 +353,47 @@ async function fetchOriginWorks(celebId: string): Promise<Set<string>> {
   return new Set((data ?? []).map((r) => r.content_id as string))
 }
 
+export interface AffiliateBookGroup {
+  source: Exclude<AffiliateBookSource, 'mixed'>
+  count: number
+}
+
 async function fetchAffiliateBooksForCeleb(
   celebId: string,
   limit: number,
   pool: PoolEntry[],
-): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
-  if (pool.length === 0) return { books: [], source: 'popular' }
+): Promise<{ books: AffiliateBook[]; groups: AffiliateBookGroup[]; source: AffiliateBookSource }> {
+  if (pool.length === 0) return { books: [], groups: [], source: 'popular' }
 
-  // 0순위 — 그 인물이 등장하는 원전(신화·전설 인물)
-  const origins = await fetchOriginWorks(celebId)
-  if (origins.size > 0) {
-    const originBooks = pool.filter((p) => origins.has(p.book.contentId))
-    if (originBooks.length > 0) {
-      return { books: originBooks.slice(0, limit).map((v) => v.book), source: 'origin' }
+  // 소스를 한 층만 쓰지 않고 순서대로 섞어 채운다 — 읽은 책 한 권이면 한 칸만 차고 끝나던 방식이었다.
+  const [origins, read, peers] = await Promise.all([
+    fetchOriginWorks(celebId),
+    fetchReadByCeleb(celebId),
+    fetchReadByProfession(celebId),
+  ])
+
+  const seen = new Set<string>()
+  const picked: PoolEntry[] = []
+  const groups: AffiliateBookGroup[] = []
+  const take = (ids: Set<string>, source: Exclude<AffiliateBookSource, 'mixed'>) => {
+    let count = 0
+    for (const p of pool) {
+      if (picked.length >= limit) break
+      if (seen.has(p.book.contentId) || !ids.has(p.book.contentId)) continue
+      seen.add(p.book.contentId)
+      picked.push(p)
+      count += 1
     }
+    if (count > 0) groups.push({ source, count })
   }
+  take(origins, 'origin')
+  take(read, 'read')
+  take(peers, 'profession')
+  take(new Set(pool.map((p) => p.book.contentId)), 'popular')
 
-  // 1순위 — 그 인물이 읽은 책
-  const read = await fetchReadByCeleb(celebId)
-  const own = pool.filter((p) => read.has(p.book.contentId))
-  if (own.length > 0) return { books: own.slice(0, limit).map((v) => v.book), source: 'read' }
-
-  // 2순위 — 같은 직군 인물들이 읽은 책
-  const peers = await fetchReadByProfession(celebId)
-  const byProfession = pool.filter((p) => peers.has(p.book.contentId))
-  if (byProfession.length > 0) {
-    return { books: byProfession.slice(0, limit).map((v) => v.book), source: 'profession' }
-  }
-
-  // 3순위 — 그냥 많이 읽힌 책
-  return { books: pool.slice(0, limit).map((v) => v.book), source: 'popular' }
+  // 한 소스만 들어왔으면 그 소스 이름을, 섞였으면 중립 표기를 돌려준다.
+  const source: AffiliateBookSource = groups.length === 1 ? groups[0].source : 'mixed'
+  return { books: picked.map((v) => v.book), groups, source }
 }
 
 /* unstable_cache 콜백 안에서 부른 unstable_cache는 안쪽 캐시를 읽지 않고 매번 다시 만든다
@@ -390,12 +403,12 @@ async function getAffiliateBooksForCelebInner(
   celebId: string,
   locale: AffiliateBookLocale = 'ko',
   limit = 6,
-): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
+): Promise<{ books: AffiliateBook[]; groups: AffiliateBookGroup[]; source: AffiliateBookSource }> {
   const pool = await fetchAffiliatePoolCached(locale)
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v6-real-edition', celebId, locale, String(limit)],
+    ['affiliate-books-celeb-v7-groups', celebId, locale, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, limit, pool),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.

@@ -24,23 +24,22 @@ export default function BestsellerFreshness({ updatedAt, basisDate, sources, isS
     : "";
 
   return (
-    <div className="space-y-1.5 text-center text-sm leading-relaxed text-text-secondary">
-      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-        <span>{t("scope")}</span>
-        {hasDate && <time dateTime={dateValue}>{t(isKorean ? "basisDate" : "updated", { date: formattedDate })}</time>}
-        {!hasDate && <span>{t("unknownDate")}</span>}
-        {isStale && <span className="font-medium text-accent">{t("delayed")}</span>}
-      </div>
+    /* 한 줄 요지 — 좁은 화면에서는 wrap으로 자연스럽게 넘어간다. 출처 링크도 같은 줄에 둔다.
+       판매처·차트 종류는 위 부제/설명이 이미 말하므로 여기서 되풀이하지 않는다 */
+    <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-sm leading-relaxed text-text-secondary">
+      {hasDate && <time dateTime={dateValue}>{t(isKorean ? "basisDate" : "updated", { date: formattedDate })}</time>}
+      {!hasDate && <span>{t("unknownDate")}</span>}
+      {isStale && <span className="font-medium text-accent">{t("delayed")}</span>}
       {sources.length > 0 && (
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-          <span>{t("source")}</span>
+        <span className="inline-flex items-baseline gap-x-1.5">
+          <span className="text-text-tertiary">{t("source")}</span>
           {sources.map((source) => (
             <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer"
               className="rounded-sm underline decoration-border underline-offset-4 hover:text-accent hover:decoration-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
               {source.name}
             </a>
           ))}
-        </div>
+        </span>
       )}
     </div>
   );

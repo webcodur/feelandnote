@@ -11,19 +11,27 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { getYes24SalesInfo } from "@/actions/contents/getYes24PurchaseLink";
+import { getYes24SalesInfo, getYes24SalesInfoByIsbn } from "@/actions/contents/getYes24PurchaseLink";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
+import { cn } from "@/lib/utils";
 import type { Yes24SalesInfo } from "@/lib/books/yes24Purchase";
 
 /* 값표는 목록 카드마다 붙는다. 창은 누를 때만 불러오고, 구매 단추(AffiliateBookAction)가 다시 값표를 import하는 순환도 끊는다 */
 const Yes24SalesModal = dynamic(() => import("./Yes24SalesModal"), { ssr: false });
 
 interface Yes24SalesProps {
-  contentId: string;
+  /** 우리 작품 — 저장 판본의 ISBN으로 조회한다. isbn을 넘기면 이 값은 쓰지 않는다 */
+  contentId?: string;
   /** 고른 판본. 없으면 한국어 기본 판본으로 잡는다 */
   editionId?: number;
+  /** 외부 차트 항목처럼 우리 작품이 아닐 때 — ISBN으로 곧바로 조회한다 */
+  isbn?: string;
   /** 켜기 조건 — 한국어 도서 판매대에서만 true로 넘긴다 */
   enabled?: boolean;
+  /** 카드 위에 붙을 때는 YES24 단추와 같은 폭으로 늘린다 */
+  full?: boolean;
+  /** 외부 차트 항목 — 창 안 구매 단추가 곧바로 여는 서점 주소(제휴 주소 우선) */
+  yes24Href?: string;
   className?: string;
 }
 
@@ -43,29 +51,46 @@ function requestSales(contentId: string, editionId?: number): Promise<Yes24Sales
   return request;
 }
 
+function requestSalesByIsbn(isbn: string): Promise<Yes24SalesInfo | null> {
+  const key = `isbn:${isbn}`;
+  const existing = requests.get(key);
+  if (existing) return existing;
+  const request = getYes24SalesInfoByIsbn(isbn).catch(() => {
+    requests.delete(key);
+    return null;
+  });
+  requests.set(key, request);
+  if (requests.size > 100) requests.delete(requests.keys().next().value!);
+  return request;
+}
+
 export default function Yes24Sales({
   contentId,
   editionId,
+  isbn,
   enabled = true,
+  full = false,
+  yes24Href,
   className,
 }: Yes24SalesProps) {
   const locale = useLocale();
   const t = useTranslations("content.purchaseSales");
-  const active = enabled && locale === "ko";
-  const key = `${contentId}:${editionId ?? "default"}`;
+  const active = enabled && locale === "ko" && (isbn != null || contentId != null);
+  const key = isbn ? `isbn:${isbn}` : `${contentId}:${editionId ?? "default"}`;
   const [result, setResult] = useState<{ key: string; sales: Yes24SalesInfo | null } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (!active) return;
     let alive = true;
-    requestSales(contentId, editionId).then((sales) => {
+    const request = isbn ? requestSalesByIsbn(isbn) : requestSales(contentId!, editionId);
+    request.then((sales) => {
       if (alive) setResult({ key, sales });
     });
     return () => {
       alive = false;
     };
-  }, [contentId, editionId, active, key]);
+  }, [contentId, editionId, isbn, active, key]);
 
   const sales = active && result?.key === key ? result.sales : null;
   const number = new Intl.NumberFormat(locale);
@@ -87,7 +112,10 @@ export default function Yes24Sales({
             event.stopPropagation();
             setIsOpen(true);
           }}
-          className="mx-auto flex w-fit max-w-full cursor-pointer items-center justify-center gap-2.5 rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-3 py-1.5 text-sm text-text-tertiary hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className={cn(
+            "flex cursor-pointer items-center justify-center gap-2.5 rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-3 py-1.5 text-sm text-text-tertiary hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            full ? "w-full" : "mx-auto w-fit max-w-full",
+          )}
         >
           {hasRating && (
             <span className="inline-flex items-center gap-1">
@@ -105,7 +133,7 @@ export default function Yes24Sales({
         </button>
       )}
       {isOpen && sales && (
-        <Yes24SalesModal contentId={contentId} editionId={editionId} sales={sales} onClose={() => setIsOpen(false)} />
+        <Yes24SalesModal contentId={contentId ?? ""} editionId={editionId} yes24Href={yes24Href} sales={sales} onClose={() => setIsOpen(false)} />
       )}
     </AnimatedHeight>
   );

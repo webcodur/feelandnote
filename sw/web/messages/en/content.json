@@ -62,8 +62,8 @@
     "purchaseInfo": {
       "trigger": "Purchase information",
       "title": "Purchase information",
-      "notice": "Feel & Note may earn a commission from YES24 or Coupang when you buy through these links.",
-      "benefit": "Check prices and delivery options on YES24 and Coupang, then choose the offer that works best for you."
+      "notice": "Feel & Note may earn a commission from YES24 when you buy through these links.",
+      "benefit": "Check prices and delivery options on YES24 before you buy. Coupang purchase links are currently being reorganized."
     },
     "introductionSource": {
       "unknown": "Source unverified",

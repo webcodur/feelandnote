@@ -3,11 +3,10 @@
 import { requireAdmin } from '@/lib/admin-auth'
 import {
   type RankingCelebProfile,
-  type RankingThemeOption,
+  type RankingFactionOption,
 } from '@/lib/ranking-celeb'
 import { createAdminClient } from '@/lib/db/admin'
 
-export type { RankingCelebProfile, RankingThemeOption }
 
 const MAX = 80
 
@@ -32,11 +31,11 @@ function toProfile(row: CelebRow, shot?: string | null): RankingCelebProfile {
   }
 }
 
-export async function listRankingThemes(): Promise<RankingThemeOption[]> {
+export async function listRankingFactions(): Promise<RankingFactionOption[]> {
   await requireAdmin()
   const db = createAdminClient()
   const { data, error } = await db
-    .from('celeb_tags')
+    .from('faction_lv2')
     .select('id, slug, name')
     .not('slug', 'is', null)
     .order('sort_order', { ascending: true })
@@ -45,44 +44,44 @@ export async function listRankingThemes(): Promise<RankingThemeOption[]> {
   return (data ?? []).flatMap(row => row.slug ? [{ id: row.id, slug: row.slug, name: row.name }] : [])
 }
 
-export async function loadRankingThemeMembers(themeSlug: string): Promise<{
-  theme: RankingThemeOption | null
+export async function loadRankingFactionMembers(factionSlug: string): Promise<{
+  faction: RankingFactionOption | null
   profiles: RankingCelebProfile[]
 }> {
   await requireAdmin()
-  const slug = themeSlug.trim()
-  if (!slug) return { theme: null, profiles: [] }
+  const slug = factionSlug.trim()
+  if (!slug) return { faction: null, profiles: [] }
   const db = createAdminClient()
-  const { data: tag, error: tagErr } = await db
-    .from('celeb_tags')
+  const { data: faction, error: factionErr } = await db
+    .from('faction_lv2')
     .select('id, slug, name')
     .eq('slug', slug)
     .maybeSingle()
-  if (tagErr) throw new Error(tagErr.message)
-  if (!tag?.slug) return { theme: null, profiles: [] }
+  if (factionErr) throw new Error(factionErr.message)
+  if (!faction?.slug) return { faction: null, profiles: [] }
 
   const { data: members, error: memErr } = await db
-    .from('faction_atlas_members')
-    .select('celeb_id, faction_image_url, hidden')
-    .eq('tag_id', tag.id)
+    .from('faction_member_rows')
+    .select('celeb_id, image_url, hidden')
+    .eq('lv2_id', faction.id)
     .order('sort_order', { ascending: true })
   if (memErr) throw new Error(memErr.message)
 
   const visible = (members ?? []).filter(m => m.hidden !== true && m.celeb_id)
   const ids = [...new Set(visible.map(m => m.celeb_id))]
-  if (!ids.length) return { theme: { id: tag.id, slug: tag.slug, name: tag.name }, profiles: [] }
+  if (!ids.length) return { faction: { id: faction.id, slug: faction.slug, name: faction.name }, profiles: [] }
 
   const { data: celebs, error: celebErr } = await db
     .from('celebs')
     .select('id, slug, nickname, avatar_url, portrait_url, publication_status')
     .in('id', ids)
   if (celebErr) throw new Error(celebErr.message)
-  const shotOf = new Map(visible.map(m => [m.celeb_id, m.faction_image_url]))
+  const shotOf = new Map(visible.map(m => [m.celeb_id, m.image_url]))
   const order = new Map(ids.map((id, i) => [id, i]))
   const profiles = (celebs ?? [])
     .map(row => toProfile(row, shotOf.get(row.id)))
     .toSorted((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0))
-  return { theme: { id: tag.id, slug: tag.slug, name: tag.name }, profiles }
+  return { faction: { id: faction.id, slug: faction.slug, name: faction.name }, profiles }
 }
 
 export async function loadRankingCelebProfiles(
@@ -124,13 +123,13 @@ export async function loadRankingCelebProfiles(
   const shotOf = new Map<string, string>()
   if (ids.length) {
     const { data, error } = await db
-      .from('faction_atlas_members')
-      .select('celeb_id, faction_image_url')
+      .from('faction_member_rows')
+      .select('celeb_id, image_url')
       .in('celeb_id', ids)
     if (error) throw new Error(error.message)
     for (const row of data ?? []) {
-      if (row.celeb_id && row.faction_image_url && !shotOf.has(row.celeb_id)) {
-        shotOf.set(row.celeb_id, row.faction_image_url)
+      if (row.celeb_id && row.image_url && !shotOf.has(row.celeb_id)) {
+        shotOf.set(row.celeb_id, row.image_url)
       }
     }
   }

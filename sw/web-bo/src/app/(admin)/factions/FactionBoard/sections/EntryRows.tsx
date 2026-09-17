@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * 세력도감 목록의 테마 한 줄 — 누르면 테마 편집 화면(`/factions/<테마 id>`)으로 간다.
+ * 세력도감 목록의 세력 한 줄 — 누르면 편집 화면(`/factions/<id>`)으로 간다.
  */
 
 import { useEffect, useState, useTransition } from 'react'
@@ -10,11 +10,11 @@ import { useRouter } from 'next/navigation'
 import {
   ArrowRight, EyeOff, Layers3, Loader2, Sparkles, Users, Image as ImageIcon, UserSquare2,
 } from 'lucide-react'
-import { updateTag } from '@/actions/admin/tags'
-import type { FactionThemeSummary } from '@/actions/admin/factions/themes'
+import { updateFactionEntry } from '@/actions/admin/factions/entries'
+import type { FactionEntrySummary } from '@/actions/admin/factions/board'
 import { useToast } from '@/contexts/ToastContext'
 import { BoardTableCell, BoardTableCount, BoardTableRow } from '@/components/ui/BoardTable'
-import InlineThemeName from './InlineThemeName'
+import InlineEntryName from './InlineEntryName'
 
 export const OPEN_BUTTON = 'pointer-events-auto inline-flex items-center gap-1.5 rounded-lg border border-border bg-bg-card px-3 py-2 text-sm font-medium text-text-secondary hover:border-accent hover:text-accent'
 
@@ -32,18 +32,18 @@ export function formatUpdatedAt(value: string): string {
 /** 켜고 끄는 축. 세력도감 노출과 신화 공개는 서로 다른 축이라 한 화면에 둘 다 선다 */
 const TOGGLE_AXES = {
   is_featured: { long: '웹 활성', off: '웹 비공개', short: '활성', shortOff: '비공개', noun: '웹 활성 상태' },
-  atlas_published: { long: '신화 공개', off: '신화 잠금', short: '공개', shortOff: '잠금', noun: '신화 공개 상태' },
+  published: { long: '신화 공개', off: '신화 잠금', short: '공개', shortOff: '잠금', noun: '신화 공개 상태' },
 } as const
 
-export function ThemeActiveToggle({
-  themeId,
-  themeName,
+export function FactionActiveToggle({
+  entryId,
+  entryName,
   initialActive,
   compact = false,
   axis = 'is_featured',
 }: {
-  themeId: string
-  themeName: string
+  entryId: string
+  entryName: string
   initialActive: boolean
   compact?: boolean
   axis?: keyof typeof TOGGLE_AXES
@@ -66,14 +66,14 @@ export function ThemeActiveToggle({
 
     startTransition(async () => {
       try {
-        const result = await updateTag({ id: themeId, [axis]: next })
+        const result = await updateFactionEntry({ id: entryId, [axis]: next })
         if (!result.success) {
           setActive(previous)
           showToast('error', result.error ?? `${label.noun}를 저장하지 못했습니다.`)
           return
         }
 
-        showToast('success', `${themeName} · ${next ? label.long : label.off}으로 바꿨습니다.`)
+        showToast('success', `${entryName} · ${next ? label.long : label.off}으로 바꿨습니다.`)
         router.refresh()
       } catch (error) {
         setActive(previous)
@@ -86,8 +86,8 @@ export function ThemeActiveToggle({
     <button
       type="button"
       aria-pressed={active}
-      aria-label={`${themeName} ${active ? `${label.off}으로 변경` : label.long}`}
-      title={`${themeName} · ${active ? `${label.long} — 누르면 ${label.off}` : `${label.off} — 누르면 ${label.long}`}`}
+      aria-label={`${entryName} ${active ? `${label.off}으로 변경` : label.long}`}
+      title={`${entryName} · ${active ? `${label.long} — 누르면 ${label.off}` : `${label.off} — 누르면 ${label.long}`}`}
       onClick={toggle}
       disabled={pending}
       className={`inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-medium disabled:cursor-wait disabled:opacity-60 ${
@@ -102,31 +102,31 @@ export function ThemeActiveToggle({
   )
 }
 
-/** 테마 편집 주소 — 진입점이 id 를 해석한다 */
-export function themeEditPath(theme: Pick<FactionThemeSummary, 'id'>): string {
-  return `/factions/${theme.id}`
+/** 편집 주소 — 진입점이 id 를 해석한다 */
+export function entryEditPath(entry: Pick<FactionEntrySummary, 'id'>): string {
+  return `/factions/${entry.id}`
 }
 
-export function ThemeAtlasRow({ theme }: { theme: FactionThemeSummary }) {
+export function FactionEntryRow({ entry }: { entry: FactionEntrySummary }) {
   const router = useRouter()
-  const editPath = themeEditPath(theme)
+  const editPath = entryEditPath(entry)
 
   return (
     <BoardTableRow onOpen={() => router.push(editPath)}>
       <BoardTableCell isFirst>
         <span className="flex min-w-0 items-start gap-3">
-          <span className="mt-0.5 rounded-md p-2" style={{ backgroundColor: `${theme.color}20`, color: theme.color }}>
+          <span className="mt-0.5 rounded-md p-2" style={{ backgroundColor: `${entry.color}20`, color: entry.color }}>
             <Layers3 className="h-4 w-4" />
           </span>
           <span className="min-w-0">
-            <InlineThemeName
-              key={`${theme.id}:${theme.name}`}
-              themeId={theme.id}
-              name={theme.name}
+            <InlineEntryName
+              key={`${entry.id}:${entry.name}`}
+              entryId={entry.id}
+              name={entry.name}
               className="group-hover:text-accent"
             />
             <span className="mt-0.5 block truncate text-xs text-text-secondary">
-              {theme.description || theme.name_en || (theme.slug ? `/explore/faction/${theme.slug}` : '설명 없음')}
+              {entry.description || entry.name_en || (entry.slug ? `/explore/faction/${entry.slug}` : '설명 없음')}
             </span>
           </span>
         </span>
@@ -134,7 +134,7 @@ export function ThemeAtlasRow({ theme }: { theme: FactionThemeSummary }) {
 
       <BoardTableCell align="center">
         <BoardTableCount
-          value={theme.celeb_count ?? 0}
+          value={entry.celeb_count ?? 0}
           icon={<Users className="h-4 w-4" />}
           title="소속 인물 수"
         />
@@ -145,12 +145,12 @@ export function ThemeAtlasRow({ theme }: { theme: FactionThemeSummary }) {
           <span className="text-xs text-text-tertiary">사진 소재</span>
           <span className="inline-flex items-center gap-4">
             <BoardTableCount
-              value={theme.teamImageCount}
+              value={entry.teamImageCount}
               icon={<ImageIcon className="h-4 w-4" />}
               title="단체샷 장수"
             />
             <BoardTableCount
-              value={theme.soloImageCount}
+              value={entry.soloImageCount}
               icon={<UserSquare2 className="h-4 w-4" />}
               title="개인샷을 가진 인물 수"
             />
@@ -160,19 +160,19 @@ export function ThemeAtlasRow({ theme }: { theme: FactionThemeSummary }) {
 
       <BoardTableCell>
         <span className="inline-flex flex-wrap items-center gap-1.5">
-          <ThemeActiveToggle
-            themeId={theme.id}
-            themeName={theme.name}
-            initialActive={theme.is_featured}
+          <FactionActiveToggle
+            entryId={entry.id}
+            entryName={entry.name}
+            initialActive={entry.is_featured}
             compact
           />
-          {/* 신화 갈래만 신화의 세계 공개 축을 함께 다룬다 */}
-          {theme.is_fiction && (
-            <ThemeActiveToggle
-              themeId={theme.id}
-              themeName={theme.name}
-              initialActive={theme.atlas_published}
-              axis="atlas_published"
+          {/* 신화만 신화의 세계 공개 축을 함께 다룬다 */}
+          {entry.is_myth && (
+            <FactionActiveToggle
+              entryId={entry.id}
+              entryName={entry.name}
+              initialActive={entry.published}
+              axis="published"
               compact
             />
           )}
@@ -180,13 +180,13 @@ export function ThemeAtlasRow({ theme }: { theme: FactionThemeSummary }) {
       </BoardTableCell>
 
       <BoardTableCell align="center">
-        <span className="text-sm tabular-nums text-text-secondary" title={theme.updated_at}>
-          {formatUpdatedAt(theme.updated_at)}
+        <span className="text-sm tabular-nums text-text-secondary" title={entry.updated_at}>
+          {formatUpdatedAt(entry.updated_at)}
         </span>
       </BoardTableCell>
 
       <BoardTableCell align="center">
-        <Link href={editPath} title={`${theme.name} 테마 화면으로`} className={OPEN_BUTTON}>
+        <Link href={editPath} title={`${entry.name} 세력 화면으로`} className={OPEN_BUTTON}>
           편집
           <ArrowRight className="h-4 w-4" />
         </Link>

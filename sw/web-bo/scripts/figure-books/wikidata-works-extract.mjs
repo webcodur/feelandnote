@@ -39,14 +39,31 @@ async function main() {
     }
   }
 
-  const celebs = await allRows('celebs', (from, to) => db
-    .from('celebs')
-    .select('id,slug,nickname,nickname_en,wikidata_qid')
-    .eq('publication_status', 'active')
-    .neq('celeb_reality', 'FICTION')
-    .not('wikidata_qid', 'is', null)
-    .order('id')
-    .range(from, to))
+  // --slugs a,b,c — 지정 인물만 조사한다. 비공개 신입 배치처럼 active가 아닌 인물을
+  // 대상으로 할 때 쓰며, 이 경우 publication_status 필터를 걸지 않는다.
+  const onlySlugs = (argumentValue('slugs', '') || '').split(',').map((s) => s.trim()).filter(Boolean)
+  const celebs = []
+  if (onlySlugs.length) {
+    for (let index = 0; index < onlySlugs.length; index += 40) {
+      const { data, error } = await db
+        .from('celebs')
+        .select('id,slug,nickname,nickname_en,wikidata_qid')
+        .neq('celeb_reality', 'FICTION')
+        .not('wikidata_qid', 'is', null)
+        .in('slug', onlySlugs.slice(index, index + 40))
+      if (error) throw new Error(`celebs 조회 실패: ${error.message}`)
+      celebs.push(...(data ?? []))
+    }
+  } else {
+    celebs.push(...await allRows('celebs', (from, to) => db
+      .from('celebs')
+      .select('id,slug,nickname,nickname_en,wikidata_qid')
+      .eq('publication_status', 'active')
+      .neq('celeb_reality', 'FICTION')
+      .not('wikidata_qid', 'is', null)
+      .order('id')
+      .range(from, to)))
+  }
 
   const pending = celebs.filter((celeb) => !done.has(celeb.id) && /^Q\d+$/.test(celeb.wikidata_qid))
   const targets = limit > 0 ? pending.slice(0, limit) : pending

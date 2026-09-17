@@ -5,6 +5,7 @@
 */
 "use client";
 
+import { useLocale } from "next-intl";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { cn } from "@/lib/utils";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -61,7 +62,9 @@ export default function CelebContentTimeline({
   emptyLabel = "등록된 감상 기록 없음",
   locale,
 }: CelebContentTimelineProps) {
-  const isEn = locale === 'en';
+  const detectedLocale = useLocale();
+  const effLocale = locale ?? detectedLocale;
+  const isEn = effLocale === 'en';
 
   return (
     <div className="relative pl-7">
@@ -112,7 +115,7 @@ export default function CelebContentTimeline({
                 </p>
                 {celeb.profession && (
                   <p className="text-xs">
-                    {getCelebProfessionLabel(celeb.profession, locale)}
+                    {getCelebProfessionLabel(celeb.profession, effLocale)}
                   </p>
                 )}
               </div>

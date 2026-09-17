@@ -9,7 +9,7 @@ const PREPARED_MYTH_MUSIC_DIR = 'D:\\audios\\BGMS\\bgms\\신화'
 export const MYTH_MUSIC_DIR = process.env.MYTH_MUSIC_DIR?.trim()
   || (existsSync(DEFAULT_MYTH_MUSIC_DIR) ? DEFAULT_MYTH_MUSIC_DIR : PREPARED_MYTH_MUSIC_DIR)
 
-/** 파일명과 DB 전승명이 다른 준비곡만 명시적으로 잇는다. */
+/** 파일명과 DB 신화명이 다른 준비곡만 명시적으로 잇는다. */
 const FILE_NAME_ALIASES: Record<string, string> = {
   '아트레우스': '아트레우스 가문',
   '오디세우스': '오디세이아',
@@ -17,7 +17,7 @@ const FILE_NAME_ALIASES: Record<string, string> = {
   '헤라클레스': '헤라클레스의 열두 과제',
 }
 
-export interface MythMusicTag {
+export interface MythMusicTarget {
   id: string
   name: string
   slug: string | null
@@ -28,7 +28,7 @@ export interface MythMusicFile {
   file: string
   absPath: string
   targetName: string | null
-  tag: MythMusicTag | null
+  myth: MythMusicTarget | null
 }
 
 export interface MythMusicCurrent {
@@ -39,10 +39,10 @@ export interface MythMusicCurrent {
 export interface MythMusicEntry {
   file: string
   targetName: string | null
-  tagId: string | null
-  tagName: string | null
+  mythId: string | null
+  mythName: string | null
   current: MythMusicCurrent | null
-  status: 'ready' | 'linked' | 'unmatched' | 'tag-missing'
+  status: 'ready' | 'linked' | 'unmatched' | 'myth-missing'
 }
 
 export interface MythMusicScan {
@@ -51,7 +51,7 @@ export interface MythMusicScan {
   files: MythMusicFile[]
 }
 
-/** 공백·표기 부호 차이를 줄여 파일명과 전승명을 비교한다. */
+/** 공백·표기 부호 차이를 줄여 파일명과 신화명을 비교한다. */
 export function mythMusicKey(value: string): string {
   return value
     .normalize('NFKC')
@@ -72,15 +72,15 @@ function currentMusic(value: unknown): MythMusicCurrent | null {
   return file && url ? { file, url } : null
 }
 
-export function matchMythMusicTag(file: string, tags: readonly MythMusicTag[]): { targetName: string; tag: MythMusicTag | null } {
+export function matchMythMusic(file: string, myths: readonly MythMusicTarget[]): { targetName: string; myth: MythMusicTarget | null } {
   const fileStem = stem(file)
   const targetName = FILE_NAME_ALIASES[fileStem] ?? fileStem
-  const tag = tags.find((candidate) => mythMusicKey(candidate.name) === mythMusicKey(targetName)) ?? null
-  return { targetName, tag }
+  const myth = myths.find((candidate) => mythMusicKey(candidate.name) === mythMusicKey(targetName)) ?? null
+  return { targetName, myth }
 }
 
-/** 폴더를 읽고 mp3만 DB 전승에 연결한다. 업로드·DB 변경은 여기서 하지 않는다. */
-export async function scanMythMusicFolder(tags: readonly MythMusicTag[]): Promise<MythMusicScan> {
+/** 폴더를 읽고 mp3만 DB 신화에 연결한다. 업로드·DB 변경은 여기서 하지 않는다. */
+export async function scanMythMusicFolder(myths: readonly MythMusicTarget[]): Promise<MythMusicScan> {
   let names: string[]
   try {
     names = (await readdir(MYTH_MUSIC_DIR, { withFileTypes: true }))
@@ -98,22 +98,22 @@ export async function scanMythMusicFolder(tags: readonly MythMusicTag[]): Promis
     folder: MYTH_MUSIC_DIR,
     folderExists: true,
     files: names.map((file) => {
-      const { targetName, tag } = matchMythMusicTag(file, tags)
-      return { file, absPath: path.join(MYTH_MUSIC_DIR, file), targetName, tag }
+      const { targetName, myth } = matchMythMusic(file, myths)
+      return { file, absPath: path.join(MYTH_MUSIC_DIR, file), targetName, myth }
     }),
   }
 }
 
 export function toMythMusicEntry(file: MythMusicFile): MythMusicEntry {
-  const current = currentMusic(file.tag?.theme_music)
+  const current = currentMusic(file.myth?.theme_music)
   return {
     file: file.file,
     targetName: file.targetName,
-    tagId: file.tag?.id ?? null,
-    tagName: file.tag?.name ?? null,
+    mythId: file.myth?.id ?? null,
+    mythName: file.myth?.name ?? null,
     current,
-    status: !file.targetName || !file.tag
-      ? (file.tag ? 'unmatched' : 'tag-missing')
+    status: !file.targetName || !file.myth
+      ? (file.myth ? 'unmatched' : 'myth-missing')
       : current?.file === file.file
         ? 'linked'
         : 'ready',

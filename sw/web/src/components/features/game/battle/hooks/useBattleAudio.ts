@@ -5,9 +5,16 @@
 */
 "use client";
 
-import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
+import { useGameAudio, RESULT_MUSIC, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
 const BASE = "/assets/hegemony";
+
+/** 패권 게임 BGM — 페이즈 매핑과 음악 재생기 카탈로그가 함께 쓴다 */
+export const BATTLE_MUSIC = {
+  main: { src: `${BASE}/hegemony-main--in-the-name-of-olympus.mp3`, label: "올림포스의 이름으로", labelEn: "In the Name of Olympus" },
+  draft: { src: `${BASE}/hegemony-draft.mp3`, label: "운명의 선택", labelEn: "Draft of Fates" },
+  battle: { src: `${BASE}/hegemony-battle.mp3`, label: "패권의 격돌", labelEn: "Clash of Sovereigns" },
+} satisfies Record<string, BgmTrack>;
 
 const BATTLE_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
@@ -24,15 +31,13 @@ const BATTLE_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string, context?: Record<string, unknown>): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/hegemony-main--in-the-name-of-olympus.mp3`, label: "올림포스의 이름으로" }];
+        return [BATTLE_MUSIC.main];
       case "draft":
-        return [{ src: `${BASE}/hegemony-draft.mp3`, label: "Draft" }];
+        return [BATTLE_MUSIC.draft];
       case "battle":
-        return [{ src: `${BASE}/hegemony-battle.mp3`, label: "Battle" }];
+        return [BATTLE_MUSIC.battle];
       case "result":
-        return context?.playerWins
-          ? [{ src: "/assets/common/bgm-result-win.mp3", label: "Victory" }]
-          : [{ src: "/assets/common/bgm-result-lose.mp3", label: "Defeat" }];
+        return context?.playerWins ? [RESULT_MUSIC.win] : [RESULT_MUSIC.lose];
       default:
         return [];
     }

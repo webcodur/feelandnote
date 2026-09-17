@@ -4,15 +4,15 @@ import { useEffect, useMemo, useState, useTransition } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { useToast } from '@/contexts/ToastContext'
 import {
-  loadRankingCelebProfiles, loadRankingThemeMembers,
+  loadRankingCelebProfiles, loadRankingFactionMembers,
 } from '@/actions/admin/rankings/celebs'
-import { syncScriptToCelebs, type RankingCelebProfile, type RankingThemeOption } from '@/lib/ranking-celeb'
+import { syncScriptToCelebs, type RankingCelebProfile, type RankingFactionOption } from '@/lib/ranking-celeb'
 import { saveRankingScript, type RankingCategory, type RankingEntry, type RankingScript } from '@/actions/admin/rankings/script'
 import type { CelebSearchItem } from '@/components/celeb/CelebSearchBar'
 import { Field, RankingEntryRow } from './RankingEntryRow'
 import { uniqueRankingNames } from './RankingCelebPhotos'
 import { RankingPool, remapImages } from './RankingMedia'
-import RankingThemeField, { AddThemePerson } from './RankingThemeField'
+import RankingFactionField, { AddFactionPerson } from './RankingFactionField'
 
 function mergeProfiles(a: RankingCelebProfile[], b: RankingCelebProfile[]) {
   const map = new Map(a.map(p => [p.id, p]))
@@ -41,18 +41,18 @@ const emptyEntry = (): RankingEntry => ({
 export default function RankingEditor({
   folder,
   initial,
-  themes,
+  factions,
 }: {
   folder: string
   initial: RankingScript
-  themes: RankingThemeOption[]
+  factions: RankingFactionOption[]
 }) {
   const { showToast } = useToast()
   const [pending, startTransition] = useTransition()
   const [script, setScript] = useState(() => normalizeScript(initial))
   const [drag, setDrag] = useState<{ ci: number; ei: number } | null>(null)
   const [profiles, setProfiles] = useState<RankingCelebProfile[]>([])
-  const [themeMembers, setThemeMembers] = useState<RankingCelebProfile[]>([])
+  const [factionMembers, setFactionMembers] = useState<RankingCelebProfile[]>([])
   const names = useMemo(
     () => uniqueRankingNames(script.categories.flatMap(c => c.entries.map(e => e.name))),
     [script.categories],
@@ -69,18 +69,18 @@ export default function RankingEditor({
   useEffect(() => {
     let cancelled = false
     const run = async () => {
-      const theme = themeSlug
-        ? await loadRankingThemeMembers(themeSlug)
+      const faction = themeSlug
+        ? await loadRankingFactionMembers(themeSlug)
         : { profiles: [] as RankingCelebProfile[] }
-      const haveName = new Set(theme.profiles.map(p => p.nickname))
-      const haveSlug = new Set(theme.profiles.flatMap(p => p.slug ? [p.slug] : []))
+      const haveName = new Set(faction.profiles.map(p => p.nickname))
+      const haveSlug = new Set(faction.profiles.flatMap(p => p.slug ? [p.slug] : []))
       const extras = await loadRankingCelebProfiles(
         names.filter(n => !haveName.has(n)),
         slugs.filter(s => s && !haveSlug.has(s)),
       )
-      const rows = mergeProfiles(theme.profiles, extras)
+      const rows = mergeProfiles(faction.profiles, extras)
       if (cancelled) return
-      setThemeMembers(theme.profiles)
+      setFactionMembers(faction.profiles)
       setProfiles(rows)
       setScript(cur => syncScriptToCelebs(cur, rows))
     }
@@ -186,9 +186,9 @@ export default function RankingEditor({
             className="w-full rounded border border-border bg-bg-secondary px-2 py-1.5 text-sm text-text-primary"
           />
         </Field>
-        <RankingThemeField
-          themes={themes}
-          themeSlug={themeSlug}
+        <RankingFactionField
+          factions={factions}
+          factionSlug={themeSlug}
           onChange={slug => setField('themeSlug', slug)}
         />
         <Field label="음악 경로">
@@ -219,8 +219,8 @@ export default function RankingEditor({
               onChange={e => setCategory(ci, { ...category, name: e.target.value })}
               className="min-w-40 flex-1 rounded border border-border bg-bg-secondary px-2 py-1.5 text-sm font-semibold text-text-primary"
             />
-            <AddThemePerson
-              people={themeMembers}
+            <AddFactionPerson
+              people={factionMembers}
               usedNames={category.entries.map(e => e.name)}
               onAdd={person => setEntries(ci, [...category.entries, {
                 ...emptyEntry(),
@@ -253,7 +253,7 @@ export default function RankingEditor({
               entry={entry}
               dragging={drag?.ci === ci && drag.ei === ei}
               profile={profiles.find(p => p.nickname === entry.name || (entry.celebSlug && p.slug === entry.celebSlug))}
-              themeMembers={themeMembers}
+              factionMembers={factionMembers}
               onProfilePatch={patchProfile}
               onLink={linkCeleb}
               onDragStart={() => setDrag({ ci, ei })}
