@@ -4,7 +4,7 @@
 
 | 문서 | 다음 작업 |
 |---|---|
-| [`faction-theme-image.md`](faction-theme-image.md) | 세력 테마·신화 전승마다 그 세력을 표현하는 대표 이미지를 한 장씩 만든다. 신화 전승 21개가 비었고, 일반 테마 186개는 이미지를 둘 자리부터 정한다 |
+| [`faction-entry-image.md`](faction-entry-image.md) | 세력 테마·신화 전승마다 그 세력을 표현하는 대표 이미지를 한 장씩 만든다. 신화 전승 21개가 비었고, 일반 테마 186개는 이미지를 둘 자리부터 정한다 |
 | [`hero-photo.md`](hero-photo.md) | 아바타·대표 사진이 둘 다 없는 인물의 화보. 아바타를 먼저 만들고 그 얼굴로 화보를 찍는다 |
 | [`hero-avatar-grok.md`](hero-avatar-grok.md) | 위 화보의 1단계 아바타를 Grok 웹으로 뽑는 실행서 |
 | [`avatar-backlog.md`](avatar-backlog.md) | 아바타가 없어 공개하지 못하는 인물의 명단과 권역별 얼굴·복식 지침 |
