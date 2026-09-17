@@ -48,8 +48,21 @@ faction_members(id, lv2_id→faction_lv2, lv3_id→faction_lv3 null,
 - [x] **배포 + 구표 제거** — 웹 f5b071ce로 운영 배포(카나리·Cloudflare 퍼지 완료) 뒤 `20260917140000_drop_celeb_tag_schema.sql`을 적용했다. `celebs`·`celeb_contents`·`celeb_metrics`의 공개 RLS 3건이 옛 뷰를 읽고 있어 `faction_member_rows`로 갈아끼운 뒤 `celeb_tag_assignments`·`celeb_tag_groups`·`celeb_tags`·`faction_atlas_members`(public)·`faction_atlas_members_source`(private)·`get_tag_celeb_counts`를 한 트랜잭션으로 드롭했다. 생성 타입은 수동 정합 상태 — 다음 스키마 변경 때 재생성으로 마무리한다.
 - [x] **이름 정리 잔여** — 카드명 「건국 전승」7건 → 「건국 신화」로 DB 변경 완료(영문 `Founding Lore` → `Founding Myth`). 「사부육」→「철선공주」도 함께 정정했다.
 
+## 후속 정리 (기능과 무관한 잔여)
+
+- [ ] **생성 타입 재생성** — `sw/web/src/types/database.generated.ts`는 수동 정합 상태다. 다음 스키마 변경 때 `supabase gen types`로 실제 재생성해 손으로 박은 정의와 실 DB의 차이를 없앤다.
+- [ ] **RPC 인자명 `p_tag_id`** — `count_celebs_filtered`·`get_celebs_sorted` 등의 인자명이 아직 tag 명명. PostgREST는 인자를 이름으로 부르므로 바꾸려면 호출부(`db.rpc(..., { p_tag_id })`)와 같은 배포에서 같이 간다. 안 바꿔도 동작엔 무관하다.
+- [ ] **코드 명명 잔재** — `FactionTagItem` 타입, `getTagSharedLibrary`·`getTagChronologicalLibrary`·`getTagFigureBooks` 파일·함수명, `faction-theme-celebs.ts`·`faction-theme-groups.ts`, `tagIds` 지역변수, `tagId` 파라미터. 전부 lv2 세력을 가리키는데 옛 어휘가 남았다. 고칠 때는 파일별로 한 번에 몰아서 — 부분 개명은 검색을 어렵게 한다.
+- [ ] **캐시 태그 `'tags'`** — `web_revalidate_trigger`의 무효화 태그명이 아직 'tags'. 웹 캐시 키와 맞물린 내부 식별자라, 바꾸려면 `revalidateWebLists`의 태그 상수와 DB 트리거 인자를 같은 배포로 움직인다.
+- [ ] **BO `RankingEditor.tsx` hook 경고** — `useEffect`가 `names`·`showToast`·`slugs` 의존성을 빼먹은 기존 경고. 동작은 정상이나 다음 손댈 때 의존성을 채우거나 메모이즈한다.
+- [ ] **저장소 스크래프** — `sw/web-bo/.tmp/`(일회성 디버그 스크립트 — 옛 표를 읽는 것들은 이제 실패한다), `sw/web/.next-html-size-audit/`(옛 빌드 산출물), `.claude/worktrees/expressive-whistling-lollipop/`(옛 작업트리 스냅샷). 검색 결과를 어지럽히므로 확인 뒤 지우는 편이 낫다.
+- [ ] **랭킹 `themeSlug` 필드명** — 편 JSON의 저장 계약이라 의도적으로 유지. `faction_lv2.slug`를 가리킨다는 점만 `docs/project/remotion/ranking/README.md`에 명시돼 있다.
+- [ ] **`/explore/faction?tag=` 호환 주소** — 옛 딥링크를 새 파라미터로 보내는 리다이렉트. 유지해도 되고, 북마크 소진이 확인되면 걷어낸다.
+
 ## 주의
 
 - 배정의 `hidden`·`sort_order`·`image_url`(옛 faction_image_url)·한 줄 소개(ko·en)는 members로 그대로 갔다.
 - 셀럽 모달·연대기 서가·게임처럼 도감 밖에서 쓰는 읽기도 같은 표를 읽는다 — 전환 누락 없음 확인됨.
 - L2는 `lv1_id` NOT NULL — BO의 새 세력 만들기는 분류 선택이 필수다.
+- `celeb:seed:factions`(신규 인물 일괄 배정)는 원격에서 추가될 때 옛 표를 쓰고 있어 후속 커밋으로 전환됐다. 새 스크립트를 가져올 때 표 참조를 확인하는 습관이 필요하다.
+- 배포 과정에서 `FloatingMusicPlayer.tsx`처럼 개명된 모듈을 쓰는 미커밋 파일이 빌드를 깼다 — 이관 커밋 전에 `git status`의 미커밋 파일도 임포트 대조 대상이다.
