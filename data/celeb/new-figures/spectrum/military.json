@@ -1,0 +1,1757 @@
+{
+ "에이드리언 카턴 드 비야르": {
+  "influence": {
+   "political": 2,
+   "political_exp": "장제스 주재 연락장교로 외교 현장에 섬",
+   "political_exp_en": "Served as liaison officer to Chiang Kai-shek.",
+   "strategic": 3,
+   "strategic_exp": "전설적 전선 지휘관의 표상이 됨",
+   "strategic_exp_en": "Became the archetype of the front-line officer.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "군인 정신의 상징으로 회자",
+   "social_exp_en": "Cited as the embodiment of the soldierly ethos.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 4,
+   "cultural_exp": "회고록 『해피 오디세이』가 전쟁문학 고전",
+   "cultural_exp_en": "His memoir 'Happy Odyssey' is a war-literature classic.",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "불사신 장교의 전설로 남음",
+   "transhistoricity_exp_en": "Survives as the legend of the unkillable officer."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 68,
+     "reason_ko": "1차대전 여단 지휘, 1940년 노르웨이 원정군 지휘",
+     "reason_en": "Led a WWI brigade and the 1940 Norway force."
+    },
+    "martial": {
+     "score": 90,
+     "reason_ko": "세 전쟁에서 열한 번 총상, 눈·손 잃고도 복귀",
+     "reason_en": "Eleven wounds in three wars; lost an eye and a hand, returned."
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "전선의 무인으로 문서·계략 업무와 거리를 둠",
+     "reason_en": "A front-line warrior who kept clear of staff work."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "부하들이 기꺼이 따른 전설적 괴짜 장교",
+     "reason_en": "Men gladly followed the legendary eccentric."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "검소한 군인 생활이나 전쟁 자체를 즐김",
+     "reason_en": "Lived the spare soldier's life — and enjoyed war."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "예순이 넘어서도 현역 전선 지휘를 자처",
+     "reason_en": "Still took field command past sixty."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "회고록에서 '전쟁이 즐거웠다'고 담백히 인정",
+     "reason_en": "Frankly admitted in his memoir he enjoyed the war."
+    },
+    "courage": {
+     "score": 97,
+     "reason_ko": "열한 차례 총상 후에도 매번 전선으로 복귀",
+     "reason_en": "After eleven wounds he went back every time."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "벨기에 출신으로 영국군에 평생 헌신",
+     "reason_en": "Belgian-born, he gave his life to the British Army."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "부하를 챙긴 무인이나 선행 일화는 옅음",
+     "reason_en": "Looked after his men; little else on record."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "군율과 전례를 따른 정통파 전선 지휘관",
+     "reason_en": "A regulation front-line commander."
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "빅토리아십자훈장도 담백한 회고로 처리",
+     "reason_en": "Treated even the Victoria Cross in flat prose."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "어떤 부상 뒤에도 다음 전선을 낙관",
+     "reason_en": "After every wound he expected the next front."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "장교단 전통을 몸으로 산 정통 군인",
+     "reason_en": "Embodied the officer-caste tradition."
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "연대와 전우 공동체 속에서 평생을 삶",
+     "reason_en": "Lived his life inside the regimental brotherhood."
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "포로수용소 탈출까지 감행한 무모할 만큼의 담력",
+     "reason_en": "Escaped a POW camp — nerve near recklessness."
+    }
+   },
+   "rationale_ko": "열한 번 총을 맞고 한 눈과 한 손을 잃고도 매번 전선으로 돌아간 강인함이 이 인물의 중심이다. 예순에 비행기 추락과 포로수용소 탈출까지 겪은 몸이 맹장급 무력을 입증한다. '전쟁이 즐거웠다'는 회고가 성찰과 낙관을 함께 보여준다. 1963년 여든셋에 숨졌다.",
+   "rationale_en": "The constitution of a man who took eleven bullets, lost an eye and a hand, and still went back to the front every time. Surviving a plane crash and escaping a POW camp at sixty proved a martial frame beyond rank. The memoir's admission that he 'frankly enjoyed the war' speaks to both candour and optimism. He died in 1963 at eighty-three."
+  }
+ },
+ "매드 잭 처칠": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동 없음",
+   "political_exp_en": "No office or political activity.",
+   "strategic": 3,
+   "strategic_exp": "코만도 강습의 상징적 인물",
+   "strategic_exp_en": "The emblematic figure of commando raiding.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 2,
+   "social_exp": "군인 기행의 전설로 회자",
+   "social_exp_en": "Recalled as a legend of soldierly eccentricity.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 5,
+   "cultural_exp": "2차대전 최고 괴짜 장교로 책·영상 소재",
+   "cultural_exp_en": "WWII's most storied eccentric officer in books and film.",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "장검 들고 싸운 장교의 전설로 남음",
+   "transhistoricity_exp_en": "Survives as the officer who fought with a sword."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "코만도 강습대를 이끌고 노르웨이·유고 작전 수행",
+     "reason_en": "Led commando raids in Norway and Yugoslavia."
+    },
+    "martial": {
+     "score": 88,
+     "reason_ko": "장검·장궁 들고 돌격, 수용소 두 번 탈출",
+     "reason_en": "Charged with sword and bow; twice escaped captivity."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "샌드허스트 출신으로 작전 계획을 수행",
+     "reason_en": "Sandhurst-trained officer who planned operations."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "백파이프 부는 돌격 장교라는 전설적 캐릭터",
+     "reason_en": "The legend of the bagpiping charging officer."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "괴행 속에서도 군인의 규율을 유지",
+     "reason_en": "Kept a soldier's discipline inside the eccentricity."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "양궁을 세계 선수권 수준까지 연마",
+     "reason_en": "Trained archery to world-championship level."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "전후 서핑 등 취미를 즐겼으나 회고는 옅음",
+     "reason_en": "Surfed after the war; little self-review survives."
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "근대 전장에 장검과 활만 들고 최선두 돌격",
+     "reason_en": "Led charges on a modern battlefield armed with blade and bow."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "전후 팔레스타인까지 복무를 이어감",
+     "reason_en": "Served on to Palestine after the war."
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "1948년 하다사 의료진 습격 때 대피를 지휘",
+     "reason_en": "Directed the Hadassah convoy evacuation in 1948."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공정을 가린 처분의 자취가 전하지 않음",
+     "reason_en": "No recorded judgment marks his fairness."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "전공을 겸손한 유머로 넘기는 언행이 남음",
+     "reason_en": "Passed his exploits off in self-deprecating humour."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "'검 없는 장교는 복장 미비'라는 낙천적 신조",
+     "reason_en": "His creed: an officer without a sword is underdressed."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "중세 무기를 들고 싸운 낭만적 전통주의자",
+     "reason_en": "A romantic traditionalist fighting with medieval arms."
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "군 조직 안에서 독자적 방식을 고집",
+     "reason_en": "Insisted on his own methods inside the army."
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "활로 적을 쓰러뜨리러 간 선택 자체가 대담",
+     "reason_en": "Choosing to take an enemy with a bow was bold itself."
+    }
+   },
+   "rationale_ko": "기관총의 시대에 장검과 장궁, 백파이프를 들고 돌격한 대담함이 전설을 만들었다. 수용소를 두 번 탈출한 몸과 세계 선수권급 양궁 실력이 무력을 받친다. 전후에도 팔레스타인 의료진 대피를 지휘하며 복무를 이었다. 1996년 여든아홉에 숨졌다.",
+   "rationale_en": "Storming modern battlefields with a sword, a longbow and bagpipes made him a legend of boldness. Two escapes from German camps and championship-level archery back up the martial frame. After the war he went on to command the Hadassah convoy evacuation in Palestine. He died in Surrey in 1996 at eighty-nine."
+  }
+ },
+ "시모 해위해": {
+  "influence": {
+   "political": 1,
+   "political_exp": "겨울전쟁 국가 상징이 된 정도",
+   "political_exp_en": "A national symbol of the Winter War.",
+   "strategic": 4,
+   "strategic_exp": "저격 전술의 교과서적 사례로 남음",
+   "strategic_exp_en": "A textbook case in sniping doctrine.",
+   "tech": 1,
+   "tech_exp": "조준경 없는 사격 기법을 보여줌",
+   "tech_exp_en": "Demonstrated scope-less marksmanship.",
+   "social": 3,
+   "social_exp": "핀란드 저항의 얼굴이 됨",
+   "social_exp_en": "Became the face of Finnish resistance.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 4,
+   "cultural_exp": "'하얀 죽음'으로 책·다큐의 주인공",
+   "cultural_exp_en": "'The White Death' fills books and documentaries.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "역사상 최다 사살 저격수로 기록됨",
+   "transhistoricity_exp_en": "Recorded as history's deadliest sniper."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "하사관급 저격수로 소규모 분대를 이끔",
+     "reason_en": "A junior NCO who led small sniper teams."
+    },
+    "martial": {
+     "score": 92,
+     "reason_ko": "영하 40도 매복 100일, 턱 관통상에도 생존",
+     "reason_en": "A hundred days ambushing at -40°C; survived a shattered jaw."
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "조준경 포기·눈언덕 위장 등 독자 저격술 고안",
+     "reason_en": "Devised his own craft — iron sights, packed-snow hides."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "과묵한 농부였으나 전후 국민 영웅이 됨",
+     "reason_en": "A quiet farmer made a national hero after the war."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "매복지에서 극도의 절제로 움직임을 숨김",
+     "reason_en": "Extreme stillness concealed him at the hide."
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "사살 기록을 일일이 기록한 꼼꼼함",
+     "reason_en": "Logged every kill with meticulous care."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "인터뷰에서 '연습뿐'이라 담담히 회고",
+     "reason_en": "Asked how, he answered flatly: 'practice'."
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "홀로 매복해 대군을 상대한 100일",
+     "reason_en": "A hundred days alone in ambush against an army."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "조국 방어 전쟁에 농부로 참전",
+     "reason_en": "Went to defend his country as a farmer."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "전후 동물과 지낸 평온한 노년 외 선행은 옅음",
+     "reason_en": "A quiet old age among animals; little else on record."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "전공 심사에서도 과장 없이 기록에 따름",
+     "reason_en": "Even his tally stayed within documented proof."
+    },
+    "humility": {
+     "score": 85,
+     "reason_ko": "공적 물음에 늘 '연습'이라 답한 겸양",
+     "reason_en": "To every question of credit he said 'practice'."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "압도적 적군 앞에서도 임무 수행을 믿음",
+     "reason_en": "Trusted the mission could be done against odds."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "농촌 전통 생활을 지킨 수비 전사",
+     "reason_en": "A defensive soldier of the rural old order."
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "홀로 싸웠으나 조국 방위라는 공동 목적",
+     "reason_en": "Fought alone but for a shared national cause."
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "기다리는 저격술, 발각 위험은 최소화",
+     "reason_en": "A waiting craft that minimised exposure."
+    }
+   },
+   "rationale_ko": "백 일의 겨울 매복이 만들어낸 역사상 최다 사살 기록이 무력 정점이다. 조준경 대신 쇠조준을 택한 판단과 눈언덕 위장의 지력이 기록을 받쳤다. '연습뿐'이라는 답이 보여주듯 겸양이 공적보다 크다. 전후 개와 사슴을 기르며 살다 2002년 아흔여섯에 숨졌다.",
+   "rationale_en": "A hundred days of winter ambush produced the deadliest sniper record in history — the martial peak. Choosing iron sights over a scope and packing snow around his hide shows the intellect behind it. His answer to how — 'practice' — tells the size of the humility. He lived quietly among dogs and deer and died in 2002 at ninety-six."
+  }
+ },
+ "오디 머피": {
+  "influence": {
+   "political": 2,
+   "political_exp": "전역 후 전우 복지·전투 외상 인식을 공론화",
+   "political_exp_en": "Post-war he put veterans' battle fatigue on record.",
+   "strategic": 2,
+   "strategic_exp": "최다 수훈 병사라는 군사 표상",
+   "strategic_exp_en": "An emblem as America's most decorated soldier.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 4,
+   "social_exp": "전투 외상 공개로 참전용사 담론을 바꿈",
+   "social_exp_en": "Speaking of combat trauma changed the veteran discourse.",
+   "economic": 2,
+   "economic_exp": "서부극 스타로 흥행 수익을 올림",
+   "economic_exp_en": "A western star who earned at the box office.",
+   "cultural": 6,
+   "cultural_exp": "영화 '지옥의 귀환'에 본인이 주연한 국민 영웅",
+   "cultural_exp_en": "Played himself in 'To Hell and Back' — a national hero.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "미국 최다 수훈 병사로 기록됨",
+   "transhistoricity_exp_en": "Recorded as America's most decorated soldier."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "하사관으로 전투 분대·소대를 이끌며 싸움",
+     "reason_en": "Led squad and platoon as a combat NCO."
+    },
+    "martial": {
+     "score": 90,
+     "reason_ko": "불타는 전차 위에서 혼자 독일군을 막은 전투력",
+     "reason_en": "Alone on a burning tank destroyer he stopped a German attack."
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "학업은 짧았으나 회고록과 노래 작사를 남김",
+     "reason_en": "Little schooling, yet left a memoir and songwriting."
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "전후 할리우드 서부극 주연급 스타가 됨",
+     "reason_en": "Became a leading western star after the war."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "전투 외상 속 수면제 의존과 도박 빚과 싸움",
+     "reason_en": "Battled pill dependence and gambling debts after combat."
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "스물여섯 해 동안 44편의 영화를 찍음",
+     "reason_en": "Made 44 films across twenty-six years."
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "전쟁 트라우마를 숨기지 않고 공개 토로",
+     "reason_en": "Spoke openly of war trauma rather than hiding it."
+    },
+    "courage": {
+     "score": 96,
+     "reason_ko": "콜마 전투에서 단신으로 중기갑 위에 올라 사격",
+     "reason_en": "At Colmar he climbed a burning vehicle alone and fired."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "죽은 전우들에게 공을 돌리는 언행을 지킴",
+     "reason_en": "Kept crediting the dead comrades throughout."
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "전우 복지와 외상 인식을 위해 목소리를 냄",
+     "reason_en": "Spoke up for veterans' welfare and trauma care."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "훈장의 공을 함께 싸운 전우들에게 돌림",
+     "reason_en": "Assigned the medals' credit to the men beside him."
+    },
+    "humility": {
+     "score": 75,
+     "reason_ko": "'진짜 영웅은 거기 묻혔다'며 공을 돌림",
+     "reason_en": "Said the real heroes lay buried over there."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "전투 외상의 어둠 속에서도 삶을 지속",
+     "reason_en": "Kept living through the darkness of combat trauma."
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "군인의 트라우마 침묵 관례를 깨고 고백",
+     "reason_en": "Broke the soldier's custom of silence about trauma."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "분대와 전우 공동체에 깊이 속한 군인",
+     "reason_en": "Deeply bound to his squad and comrade community."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "중과부적에도 불타는 차량 위로 오른 감행",
+     "reason_en": "Outnumbered, he mounted a burning vehicle anyway."
+    }
+   },
+   "rationale_ko": "열일곱에 나이를 속이고 입대해 미국 최다 수훈 병사가 된 전투력이 중심이다. 불타는 구축전차 위의 단독 사격이 무력과 용기를 입증했다. 전후 스타가 됐으나 전투 외상과 싸우며 그 고통을 공론화했다. 1971년 경비행기 추락으로 마흔다섯에 숨졌다.",
+   "rationale_en": "The boy who lied about his age to enlist became America's most decorated soldier — combat power is the core. Standing alone on a burning tank destroyer at Colmar proved both martial frame and courage. Stardom followed, but so did battle trauma, which he made public before the language for it existed. He died in a plane crash in 1971 at forty-five."
+  }
+ },
+ "비톨트 필레츠키": {
+  "influence": {
+   "political": 3,
+   "political_exp": "수용소 보고서가 연합국에 학살 실상을 전달",
+   "political_exp_en": "His reports carried the camp's reality to the Allies.",
+   "strategic": 3,
+   "strategic_exp": "점령지 저항 조직의 모범 사례를 남김",
+   "strategic_exp_en": "Left a model of resistance organisation under occupation.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 5,
+   "social_exp": "최초의 아우슈비츠 실상 보고로 세계를 각성",
+   "social_exp_en": "The first eyewitness report on Auschwitz reached the world.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 4,
+   "cultural_exp": "사후 국민 영웅으로 책·영화의 주인공",
+   "cultural_exp_en": "Posthumously a national hero of books and film.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "홀로코스트 1차 사료의 작성자로 남음",
+   "transhistoricity_exp_en": "Endures as the author of a primary Holocaust document."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "수용소 안에 수백 명의 비밀 조직망을 건설·운영",
+     "reason_en": "Built and ran a secret network of hundreds inside the camp."
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "기병 장교로 전투를 거치고 탈출을 감행한 체력",
+     "reason_en": "A cavalry officer who fought and forced an escape."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "보고서 체계를 설계해 수용소 정보를 세계에 전달",
+     "reason_en": "Designed a reporting chain that reached the world."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "절체절명의 수감자들을 조직으로 묶은 신망",
+     "reason_en": "Trusted enough to bind doomed prisoners into a network."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 85,
+     "reason_ko": "고문에도 조직을 끝까지 지킨 자제",
+     "reason_en": "Under torture he never gave up the organisation."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "2년 반 동안 비밀 조직을 쉬지 않고 운영",
+     "reason_en": "Ran the underground nonstop for two and a half years."
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "행동 후 상세 보고서로 수용소 실태를 정리",
+     "reason_en": "After escaping he wrote detailed reports of the camp."
+    },
+    "courage": {
+     "score": 98,
+     "reason_ko": "스스로 아우슈비츠에 들어가는 자살적 임무를 자청",
+     "reason_en": "Volunteered for the near-suicidal entry into Auschwitz."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 95,
+     "reason_ko": "조국과 지하국가를 위해 목숨을 걸고 복귀",
+     "reason_en": "Risked life to return and serve the underground state."
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "수용소 안에서 수감자 상호 구호망을 조직",
+     "reason_en": "Organised mutual relief among the prisoners."
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "수집 증거에 충실한 수용소 보고서를 작성",
+     "reason_en": "His camp reports kept strictly to gathered evidence."
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "공을 내세우지 않고 무명 임무를 수행",
+     "reason_en": "Served in anonymity without claiming credit."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "수용소 안에서도 저항 조직이 가능하다 믿음",
+     "reason_en": "Believed a network was possible even inside the camp."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "전간기 애국 장교의 질서에 충실히 복무",
+     "reason_en": "Served the interwar patriotic officer's order."
+    },
+    "individual_social": {
+     "score": 45,
+     "reason_ko": "공동체를 위해 개인의 모든 것을 바침",
+     "reason_en": "Gave everything of the individual to the community."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "검증된 죽음의 임무를 계획적으로 감행",
+     "reason_en": "Executed a mission whose deadliness was known in advance."
+    }
+   },
+   "rationale_ko": "자청해서 아우슈비츠에 들어간 선택 자체가 용기의 극치이고, 그 안에서 수백 명의 저항망을 짠 통솔이 뒤를 잇는다. 빼낸 보고서가 세계에 학살의 첫 실상을 전했다. 공산 폴란드의 처형으로 공로는 반세기 뒤에야 알려졌다. 1948년 바르샤바에서 처형됐다.",
+   "rationale_en": "Volunteering to enter Auschwitz is courage at the limit; building a resistance network of hundreds inside it is command. The reports he smuggled out gave the world its first account of the camp. Communist Poland executed him, and the heroism surfaced only decades later. He was executed in Warsaw in 1948."
+  }
+ },
+ "데즈먼드 도스": {
+  "influence": {
+   "political": 1,
+   "political_exp": "제도 개입 없이 현장에서 신념을 지킴",
+   "political_exp_en": "Held his conviction in the field, not in policy.",
+   "strategic": 3,
+   "strategic_exp": "비전투원 명예훈장이라는 선례를 세움",
+   "strategic_exp_en": "Set the precedent of a non-combatant Medal of Honor.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 5,
+   "social_exp": "양심적 병역거부의 상징을 재정의",
+   "social_exp_en": "Redefined what a conscientious objector could be.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 5,
+   "cultural_exp": "영화 '핵소 고지'의 실제 주인공",
+   "cultural_exp_en": "The real subject of the film 'Hacksaw Ridge'.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "비전투원 영웅의 원형으로 남음",
+   "transhistoricity_exp_en": "Endures as the prototype of the unarmed hero."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "위생병으로 지휘 계통 밖 임무를 수행",
+     "reason_en": "A medic serving outside the chain of command."
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "부상자 75명을 절벽 아래로 내려 옮긴 지구력",
+     "reason_en": "Lowered some 75 wounded men down the escarpment."
+    },
+    "intellect": {
+     "score": 45,
+     "reason_ko": "전문 학업은 짧았으나 야전 구호 기술을 익힘",
+     "reason_en": "Little schooling but mastered field first aid."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "조롱받던 병사가 부대 전체의 존경으로 바뀜",
+     "reason_en": "The mocked soldier became the unit's most revered."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 85,
+     "reason_ko": "금욕적 신앙 생활을 평생 몸으로 유지",
+     "reason_en": "Kept an ascetic life of faith to the end."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "부상자가 남는 한 구조를 멈추지 않음",
+     "reason_en": "Would not stop while a wounded man remained."
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "신앙 안에서 자기를 점검하는 습관이 뚜렷",
+     "reason_en": "Clear habit of self-examination within his faith."
+    },
+    "courage": {
+     "score": 97,
+     "reason_ko": "무장 없이 사지에 남아 75명을 구함",
+     "reason_en": "Stayed unarmed in the killing zone to save 75."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 90,
+     "reason_ko": "조롱에도 부대와 신념을 끝까지 지킴",
+     "reason_en": "Kept faith with unit and conviction despite ridicule."
+    },
+    "benevolence": {
+     "score": 92,
+     "reason_ko": "자기 목숨을 걸고 남의 목숨을 구한 의무병",
+     "reason_en": "A medic who risked his life for others'."
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "적군 부상자에게도 같은 구호를 했다고 전함",
+     "reason_en": "Said to have given enemy wounded the same aid."
+    },
+    "humility": {
+     "score": 85,
+     "reason_ko": "공적 인터뷰마다 전우와 신에게 공을 돌림",
+     "reason_en": "In every interview credited comrades and God."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "기도하면 구할 수 있다는 신앙적 낙관",
+     "reason_en": "A faith that one more could always be saved."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "기존 신앙과 계율 질서에 철저히 순응",
+     "reason_en": "Wholly submitted to his faith's established order."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "개인 양심으로 입대해 공동체 구원에 헌신",
+     "reason_en": "Enlisted on conscience to serve the community."
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "남은 부상자를 구하러 홀로 능선에 남음",
+     "reason_en": "Stayed alone on the ridge for the remaining wounded."
+    }
+   },
+   "rationale_ko": "총을 거부한 신념이 부대의 조롱을 샀지만, 능선 위에서 그 신념이 일흔다섯 목숨이 됐다. 홀로 남아 부상자를 절벽 아래로 내린 지구력과 용기가 함께 입증됐다. 인자가 정점이고 겸양이 뒤를 잇는다. 2006년 여든일곱에 숨졌다.",
+   "rationale_en": "The conviction that refused a rifle earned his unit's scorn — then on the ridge that conviction became seventy-five saved lives. Endurance and courage are proven together in the lone man lowering the wounded over the escarpment. Benevolence is the peak and humility follows it. He died in 2006 at eighty-seven."
+  }
+ },
+ "오노다 히로오": {
+  "influence": {
+   "political": 1,
+   "political_exp": "일본·필리핀 간 사면 외교의 대상이 됨",
+   "political_exp_en": "Became the object of a Japan-Philippines pardon.",
+   "strategic": 2,
+   "strategic_exp": "잔류 게릴라의 극단 사례로 연구됨",
+   "strategic_exp_en": "Studied as the extreme case of the holdout guerrilla.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "전후 일본의 전쟁 기억을 건드린 인물",
+   "social_exp_en": "His return forced postwar Japan to face its memory.",
+   "economic": 1,
+   "economic_exp": "브라질 목장 경영을 한 정도",
+   "economic_exp_en": "Ran a ranch in Brazil.",
+   "cultural": 5,
+   "cultural_exp": "29년 잔류병이라는 세계적 화제",
+   "cultural_exp_en": "A worldwide sensation as the 29-year holdout.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "가장 유명한 잔류 일본군으로 기록됨",
+   "transhistoricity_exp_en": "Recorded as the most famous Japanese holdout."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "네 명도 안 되는 잔류 조를 이끌며 자체 판단",
+     "reason_en": "Led a dwindling cell of under four on his own judgment."
+    },
+    "martial": {
+     "score": 85,
+     "reason_ko": "열대 정글에서 29년 야전 생활과 기습을 지속",
+     "reason_en": "Kept up field life and raids in jungle for 29 years."
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "29년간 총기·무전기를 작동 상태로 유지한 기술",
+     "reason_en": "Kept rifle and radio working for 29 years."
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "1974년 귀국 때 세계 언론의 주인공",
+     "reason_en": "The world's headlines when he came home in 1974."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "29년간 극한의 자급 규율을 유지",
+     "reason_en": "Held extreme self-sufficient discipline for 29 years."
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "29년간 정찰·보초·정비 일과를 빠짐없이 수행",
+     "reason_en": "Never dropped patrol, sentry or maintenance routine in 29 years."
+    },
+    "reflection": {
+     "score": 15,
+     "reason_ko": "29년간 종전 정보를 믿지 않고 전제를 재검토 안 함",
+     "reason_en": "Never re-examined the premise for 29 years."
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "고립된 적지에서 29년 임무를 지속",
+     "reason_en": "Sustained the mission 29 years in hostile isolation."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 97,
+     "reason_ko": "1944년의 명령 하나를 29년간 지킴",
+     "reason_en": "Kept a single 1944 order for 29 years."
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "잔류 중 섬 주민 다수를 사살한 기록이 남음",
+     "reason_en": "His holdout killed a number of island residents."
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "민간 피해에도 자기 임무 잣대만 적용",
+     "reason_en": "Applied only his mission's measure despite civilian losses."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "속임당했음을 인정하고 사면을 받아들임",
+     "reason_en": "Accepted the deception and took the pardon."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "평화 소식을 적의 심리전으로 읽는 불신",
+     "reason_en": "Read peace news as enemy psyops for decades."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "구 천황제 군인 질서에 철저히 복무",
+     "reason_en": "Served the old imperial military order absolutely."
+    },
+    "individual_social": {
+     "score": 40,
+     "reason_ko": "개인 판단보다 군 조직 명령에 절대 복종",
+     "reason_en": "Absolute obedience to command over personal judgment."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "정찰·기습을 계속했으나 노출은 극도로 회피",
+     "reason_en": "Kept raiding yet avoided exposure at all cost."
+    }
+   },
+   "rationale_ko": "'철수하지 말라'는 명령 하나를 29년간 수행한 충성과 근면이 극한의 사례다. 같은 기간 종전 정보를 적의 심리전으로 읽은 성찰 부재가 비극을 만들었고, 그 사이 섬 주민들이 목숨을 잃었다. 구 지휘관의 명령 해제로 1974년에야 항복했다. 2014년 도쿄에서 숨졌다.",
+   "rationale_en": "A single order — 'do not withdraw' — carried out for twenty-nine years: loyalty and diligence at the extreme. The same span of refusing to re-read the evidence is a void of reflection, and islanders died for it. He surrendered only when his old commander relieved him in 1974. He died in Tokyo in 2014."
+  }
+ },
+ "스타니슬라프 페트로프": {
+  "influence": {
+   "political": 4,
+   "political_exp": "핵 보복 보고를 눌러 초강대 충돌 위기를 넘김",
+   "political_exp_en": "Suppressed the report and carried the superpowers past crisis.",
+   "strategic": 7,
+   "strategic_exp": "1983년 오경보를 오보로 판단해 핵전쟁 발화를 차단",
+   "strategic_exp_en": "Judged the 1983 alert false and stopped nuclear escalation.",
+   "tech": 2,
+   "tech_exp": "위성 경보 체계의 결함을 현장에서 식별",
+   "tech_exp_en": "Identified the satellite system's flaw on the spot.",
+   "social": 3,
+   "social_exp": "절차보다 판단을 택한 사례로 회자",
+   "social_exp_en": "Cited as the case of judgment over procedure.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 3,
+   "cultural_exp": "'세계를 구한 사나이' 다큐의 주인공",
+   "cultural_exp_en": "Subject of 'The Man Who Saved the World'.",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "핵통제 사례로 영구히 인용될 판단",
+   "transhistoricity_exp_en": "A decision permanently cited in nuclear command control."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "세르푸호프-15 당직 장교로 근무대를 지휘",
+     "reason_en": "Commanded the duty shift at Serpukhov-15."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "공학 장교로서 지휘소 근무가 중심",
+     "reason_en": "An engineer officer on bunker duty."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "새 체계의 오류 가능성을 즉석에서 계산",
+     "reason_en": "Computed the new system's error odds on the spot."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "조용한 연금 생활자로 대중 존재감은 옅음",
+     "reason_en": "A quiet pensioner of little public presence."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "최악의 압박 속에서도 동요 없이 절차를 검토",
+     "reason_en": "Reviewed the protocol unmoved under worst pressure."
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "당직 근무와 체계 감시를 꼼꼼히 수행",
+     "reason_en": "Ran the watch and system checks meticulously."
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "사후 인터뷰에서 그날의 판단을 차분히 복기",
+     "reason_en": "Later interviews calmly reconstructed the decision."
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "매뉴얼대로 보고하지 않는 책임을 홀로 짊어짐",
+     "reason_en": "Shouldered alone the choice not to report as written."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "조국에 복무하되 인류 전체를 위해 규정을 어김",
+     "reason_en": "Served his country yet broke protocol for mankind."
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "한 번의 억제로 수억의 목숨을 지킴",
+     "reason_en": "One act of restraint preserved hundreds of millions."
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "규정보다 증거를 잣대로 삼아 판단",
+     "reason_en": "Judged by evidence over standing orders."
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "'할 일을 했을 뿐'이라 영웅 칭호를 사양",
+     "reason_en": "Declined the hero label: he had only done his job."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "실제 공격이 아니라는 판단을 선택",
+     "reason_en": "Chose the reading that no attack was real."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "군 복무 외 질서 입장의 자취 없음",
+     "reason_en": "No stance on the social order beyond service."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "체계의 결론에 개인 판단을 앞세움",
+     "reason_en": "Put personal judgment ahead of the system's conclusion."
+    },
+    "cautious_bold": {
+     "score": -25,
+     "reason_ko": "발사 사실 확인 전 보고하지 않는 신중함을 택함",
+     "reason_en": "Chose caution: no report before confirmation."
+    }
+   },
+   "rationale_ko": "새 위성 체계가 울린 발사 경보를 오보로 읽은 판단력이 인류사 최악의 밤을 넘겼다. 절차를 따르지 않은 책임을 홀로 진 용기가 그 판단을 실현했다. 영웅 칭호를 사양한 겸양이 끝까지 함께했다. 2017년 조용한 아파트에서 숨졌다.",
+   "rationale_en": "Reading the new satellite's launch alarm as a false one carried humanity past its worst night. The courage to shoulder the responsibility of not reporting made the judgment real. The humility that refused the hero label stayed with him to the end. He died in a quiet apartment in 2017."
+  }
+ },
+ "바실리 아르히포프": {
+  "influence": {
+   "political": 4,
+   "political_exp": "쿠바 위기 핵 발사 거부로 미소 충돌을 넘김",
+   "political_exp_en": "His refusal carried the superpowers past collision.",
+   "strategic": 7,
+   "strategic_exp": "1962년 B-59의 만장일치를 깨 핵어뢰 발사를 막음",
+   "strategic_exp_en": "Broke B-59's unanimity in 1962 and stopped the torpedo.",
+   "tech": 1,
+   "tech_exp": "K-19 사고 대응 경험이 판단에 쓰임",
+   "tech_exp_en": "His K-19 accident experience informed the judgment.",
+   "social": 3,
+   "social_exp": "핵 지휘 통제의 교훈 사례로 회자",
+   "social_exp_en": "Cited as the lesson in nuclear command control.",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic connection.",
+   "cultural": 3,
+   "cultural_exp": "사후 공개돼 다큐·책의 소재가 됨",
+   "cultural_exp_en": "Revealed after death, he became a documentary subject.",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "한 표로 핵전을 막은 사례로 영구히 회자",
+   "transhistoricity_exp_en": "The single vote that stopped a nuclear war endures."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "잠수함대를 지휘하고 해군학교 교장까지 오른 제독",
+     "reason_en": "Rose to rear admiral, squadron command, academy head."
+    },
+    "martial": {
+     "score": 65,
+     "reason_ko": "핵잠수함 장기 항해와 사고 현장을 견딘 승조원",
+     "reason_en": "Endured long nuclear patrols and the K-19 accident."
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "상황을 냉정히 읽어 만장일치 요건을 깬 판단",
+     "reason_en": "Read the moment coldly and broke the unanimity rule."
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "직무 중심 장교로 대중 존재감은 사후에 생김",
+     "reason_en": "A duty officer whose fame arrived posthumously."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "깊이폭뢰 속 패닉에도 흔들리지 않음",
+     "reason_en": "Unshaken while depth charges fell around the boat."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "30년 해군 복무를 제독으로 마침",
+     "reason_en": "Completed thirty years of naval service as admiral."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "공개적 회고 없이 그날의 침묵을 지킴",
+     "reason_en": "Kept silence about that day without public memoir."
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "상관의 발사 결의에 홀로 반대표를 던짐",
+     "reason_en": "Cast the lone no against his captain's launch vote."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "해군에 평생 복무하면서도 원칙을 지킴",
+     "reason_en": "Served the navy for life yet held his principle."
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "한 번의 반대로 승조원과 세계를 지킴",
+     "reason_en": "One refusal preserved his crew and the world."
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "압력이 아닌 절차상 자기 권한을 정당히 행사",
+     "reason_en": "Exercised his lawful veto under pressure."
+    },
+    "humility": {
+     "score": 78,
+     "reason_ko": "생전에 그날의 반대를 입 밖에 내지 않음",
+     "reason_en": "Never spoke of that vote in his lifetime."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "전쟁 개시가 아니라는 판단을 유지",
+     "reason_en": "Held the reading that war had not begun."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "소련 해군 체제 안에서 일생을 복무",
+     "reason_en": "Served his whole life inside the Soviet navy."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "지휘 계통 안에서 합의 절차로 행동",
+     "reason_en": "Acted within the chain of command's consent rule."
+    },
+    "cautious_bold": {
+     "score": -25,
+     "reason_ko": "전쟁 사실 확인 전 발사를 유보한 신중",
+     "reason_en": "Withheld launch pending confirmation of war."
+    }
+   },
+   "rationale_ko": "깊이폭뢰가 떨어지는 잠수함 안에서 함장의 결의에 홀로 반대한 한 표가 핵전쟁을 막았다. K-19 사고를 겪은 승조원으로서 방사능의 의미를 아는 판단이었다. 그날을 침묵한 채 제독까지 복무했다. 1998년 숨졌고 그의 반대는 2002년에야 세상에 알려졌다.",
+   "rationale_en": "One dissenting vote inside a depth-charged submarine stopped a nuclear torpedo. It was the judgment of a submariner who had lived the K-19 reactor accident and knew what radiation meant. He served on to rear admiral without ever telling that day. He died in 1998; the story surfaced in 2002."
+  }
+ },
+ "토머스 블러드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "왕관 강도가 사면과 연금을 얻어 왕실 스캔들이 됨",
+   "political_exp_en": "The pardoned jewel thief became a court scandal of Charles II's reign",
+   "strategic": 1,
+   "strategic_exp": "내전 장교 경력 외 군사 기여 없음",
+   "strategic_exp_en": "No military contribution beyond a Civil War officer's service",
+   "tech": 0,
+   "tech_exp": "기술·과학 분야와 무관",
+   "tech_exp_en": "No connection to technology or science",
+   "social": 2,
+   "social_exp": "범죄자가 왕실 측근으로 흡수된 일화가 화제로 남음",
+   "social_exp_en": "A criminal absorbed into the court remained a lasting sensation",
+   "economic": 1,
+   "economic_exp": "토지 몰수와 연금 수령 외 경제 기여 없음",
+   "economic_exp_en": "None beyond confiscated lands and a royal pension",
+   "cultural": 6,
+   "cultural_exp": "왕관 도난극이 300년 넘게 소설·연극의 소재로 재생산",
+   "cultural_exp_en": "The crown-jewel caper has been retold in books and plays for 300 years",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "세기를 넘어 런던탑 최대의 도난 일화로 회자",
+   "transhistoricity_exp_en": "Still retold as the Tower of London's most famous theft"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "1663년 더블린성 기습 공모를 조직하고 지휘",
+     "reason_en": "Organized and directed the 1663 Dublin Castle plot"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "내전 기병 장교로 복무하고 공작 납치를 직접 시도",
+     "reason_en": "A Civil War cavalry officer who personally tried to seize a duke"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "변장·이중간첩·계략으로 왕실과 경찰을 오래 농락",
+     "reason_en": "Long outwitted crown and constables with disguises and double-dealing"
+    },
+    "charm": {
+     "score": 76,
+     "reason_ko": "찰스 2세를 만나 대담함으로 사면과 연금을 얻음",
+     "reason_en": "Faced Charles II and turned sheer audacity into pardon and pension"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 26,
+     "reason_ko": "토지 상실의 원한에 폭력적 복수 계획을 거듭 추진",
+     "reason_en": "Drove violent revenge schemes out of a grudge over lost lands"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "수십 년간 음모·변장·간첩 활동을 쉬지 않음",
+     "reason_en": "Kept plotting, disguising and spying across decades"
+    },
+    "reflection": {
+     "score": 25,
+     "reason_ko": "사형 위기와 사면 뒤에도 분쟁과 소송을 그치지 않음",
+     "reason_en": "Even after pardon he stayed mired in quarrels and lawsuits"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "대낮 런던탑의 왕관 절도와 공작 납치를 두 번 감행",
+     "reason_en": "Stole the Crown Jewels by daylight and twice tried to kidnap a duke"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 22,
+     "reason_ko": "왕당파·크롬웰파·왕실 스파이를 오가며 진영을 바꿈",
+     "reason_en": "Shifted camps from Royalist to Roundhead to royal informer"
+    },
+    "benevolence": {
+     "score": 18,
+     "reason_ko": "일흔일곱의 관리인을 결박하고 총자루로 폭행",
+     "reason_en": "Bound and pistol-whipped the 77-year-old keeper"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "사익을 위해 공작 암살과 왕실 재산 절도를 기도",
+     "reason_en": "Plotted a duke's murder and stole royal property for gain"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "사면 뒤에도 궁정을 오가며 자칭 대령 신분을 과시",
+     "reason_en": "Even pardoned, he paraded his self-styled colonelcy at court"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "체포와 파산에도 다음 계략을 낙관적으로 계속 추진",
+     "reason_en": "Arrests and ruin never stopped him betting on the next scheme"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "공화파로 왕과 싸우고 더블린성 기습을 주도",
+     "reason_en": "Fought for Parliament and led the Dublin Castle plot"
+    },
+    "individual_social": {
+     "score": -38,
+     "reason_ko": "공모자와 친족까지 동원했으나 모든 행동이 사욕 중심",
+     "reason_en": "Roped in kin and confederates, yet every scheme served himself"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "수비된 왕실 보석고를 낮에 터는 무모한 계획을 실행",
+     "reason_en": "Executed the reckless daylight robbery of a guarded vault"
+    }
+   },
+   "rationale_ko": "대담함 하나로 교수대와 궁정을 오간 인물이다. 크롬웰파 장교에서 왕관 강도, 왕실 연금 수령자까지 진영을 가리지 않은 기회주의가 충성과 공정의 바닥을 설명한다. 노인을 폭행한 잔인함과 왕을 웃긴 배포가 같은 몸에 있었다. 1671년 런던탑 왕관 절도 미수가 그를 전설로 만들었다.",
+   "rationale_en": "He moved between gallows and court on audacity alone. A Cromwellian officer turned jewel thief turned royal pensioner, his opportunism explains the floor under loyalty and fairness. The man who pistol-whipped an old keeper could charm Charles II. The failed 1671 theft of the Crown Jewels made him a legend."
+  }
+ },
+ "잭 셰퍼드": {
+  "influence": {
+   "political": 1,
+   "political_exp": "공직·정책 기여 없이 도둑으로 살다가 처형",
+   "political_exp_en": "No office or policy role; he lived and died a thief",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 1,
+   "tech_exp": "수갑 해제와 탈옥 기법이 탈출술의 전설로 남음",
+   "tech_exp_en": "His cuff-slipping escapes became escape-artist legend",
+   "social": 3,
+   "social_exp": "민중의 반권위 정서를 담은 영웅으로 소비됨",
+   "social_exp_en": "Consumed by the public as an emblem of anti-authority feeling",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 6,
+   "cultural_exp": "디포의 전기와 에인즈워스 소설의 원형이 됨",
+   "cultural_exp_en": "Inspired a Defoe narrative and Ainsworth's 1839 novel",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "삼백 년간 런던 탈옥왕의 표상으로 남음",
+   "transhistoricity_exp_en": "London's archetypal jailbreaker three centuries on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "동업자 몇과 범행했으나 무리를 이끌지 않음",
+     "reason_en": "Worked with a few accomplices but ran no gang"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "수갑과 사슬을 풀고 뉴게이트의 벽을 넘은 몸놀림",
+     "reason_en": "Slipped cuffs and chains and scaled Newgate's walls"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "못 하나로 족쇄를 풀고 지붕을 뚫는 탈옥을 설계",
+     "reason_en": "Engineered escapes with a nail, loose chains and a breached roof"
+    },
+    "charm": {
+     "score": 76,
+     "reason_ko": "처형장에 스무 만 군중이 몰린 민중 스타",
+     "reason_en": "A folk star whose hanging drew a crowd of 200,000"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "술집과 절도로 소득을 탕진하며 절제 없이 삶",
+     "reason_en": "Drank and stole away every shilling without restraint"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "목수 기술을 익혔고 탈옥 시도를 거듭 수행",
+     "reason_en": "Kept his carpenter's craft and repeated his escapes"
+    },
+    "reflection": {
+     "score": 22,
+     "reason_ko": "풀려날 때마다 다시 절도로 돌아가는 패턴",
+     "reason_en": "Each release went straight back to theft"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "사형 확정 뒤에도 탈옥을 시도하며 끝까지 도주",
+     "reason_en": "Kept trying to break out even under a death sentence"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "베스와 함께 도주했으나 심문에서 공범을 실토",
+     "reason_en": "Fled with Bess yet gave up accomplices under questioning"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "훔친 돈으로 호사를 누렸을 뿐 나눔의 자취는 드묾",
+     "reason_en": "Spent his takings on finery and drink, not on others"
+    },
+    "fairness": {
+     "score": 22,
+     "reason_ko": "생계를 절도로 해결하며 피해자를 가리지 않음",
+     "reason_en": "Lived by theft regardless of his victims"
+    },
+    "humility": {
+     "score": 22,
+     "reason_ko": "탈옥을 자랑하며 자기 전기 구술에 응함",
+     "reason_en": "Boasted of his escapes and dictated his own life"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 28,
+     "reason_ko": "사형수 신세에서도 탈출 가능성을 믿고 계속 시도",
+     "reason_en": "Even condemned, he believed in the next way out"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "권위를 조롱한 도둑이나 새 질서를 주장하지 않음",
+     "reason_en": "Mocked authority as a thief but preached no new order"
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "자기 자유 하나만 좇은 고독한 범죄 인생",
+     "reason_en": "A lone criminal life chasing his own freedom"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "족쇄 찬 채 감방을 뚫는 대담한 탈출을 감행",
+     "reason_en": "Broke out of cells still wearing his chains"
+    }
+   },
+   "rationale_ko": "목수 손재주와 겁없는 배포가 네 번의 탈옥을 만들었다. 공범을 불고 재범을 반복한 점이 충성과 절제를 끌어내리고, 스무 만 군중을 모은 인기가 매력의 정점을 보여준다. 질서를 바꾸려 한 것이 아니라 자기 자유만 좇았다. 1724년 스물두 살의 나이로 타이번에서 교수형에 처해졌다.",
+   "rationale_en": "A carpenter's hands and fearless nerve produced four escapes. Naming accomplices and returning to theft drag loyalty and temperance down, while a crowd of 200,000 marks the peak of his charm. He wanted his own freedom, not a new order. He was hanged at Tyburn in 1724, aged twenty-two."
+  }
+ },
+ "로만 폰 운게른슈테른베르크": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1921년 우르가 점령으로 독립 몽골 국가를 부활시킴",
+   "political_exp_en": "His seizure of Urga in 1921 revived a sovereign Mongolian state",
+   "strategic": 4,
+   "strategic_exp": "기병 기습으로 수도를 함락한 비정규 기동전 사례",
+   "strategic_exp_en": "Took a capital by cavalry surprise; a case of irregular mobile war",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technological contribution",
+   "social": 2,
+   "social_exp": "우르가 학정이 지역 사회에 트라우마로 남음",
+   "social_exp_en": "His brutal rule in Urga left a social trauma",
+   "economic": 0,
+   "economic_exp": "경제 분야와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 6,
+   "cultural_exp": "'미친 남작' 전설이 전기·소설·음악의 소재로 지속",
+   "cultural_exp_en": "The 'Mad Baron' legend feeds biographies, novels and music",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "몽골 근대사에서 가장 괴이한 통과점으로 회자",
+   "transhistoricity_exp_en": "Still cited as the strangest passage of modern Mongolian history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "자작 기병사단 수천을 이끌고 1921년 우르가를 함락",
+     "reason_en": "Led his self-raised Asiatic Cavalry Division to take Urga in 1921"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "1차대전 기병 전선을 누비고 몽골 원정의 선두에 섬",
+     "reason_en": "Fought WWI as a cavalryman and led the Mongolian campaign in person"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "몽골어·점술·제국 구상이 뒤섞인 독특한 세계관",
+     "reason_en": "A strange blend of Mongolian, divination and imperial design"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "공포와 숭배로 부대를 묶은 '미친 남작'의 아우라",
+     "reason_en": "Held his army through fear and awe as the 'Mad Baron'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 12,
+     "reason_ko": "격정·고문·즉결 처형을 자제하지 못함",
+     "reason_en": "Could not restrain rages, torture and summary executions"
+    },
+    "diligence": {
+     "score": 76,
+     "reason_ko": "내전 패배 뒤 시베리아에서 부대를 재건해 원정",
+     "reason_en": "After the Whites collapsed he rebuilt a force and marched"
+    },
+    "reflection": {
+     "score": 18,
+     "reason_ko": "패망 직전까지 자기 오류를 되돌아본 흔적이 없음",
+     "reason_en": "No sign he ever reviewed his errors, even at the end"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "수비된 수도를 열세 병력으로 직접 공격",
+     "reason_en": "Attacked a defended capital with inferior numbers in person"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 66,
+     "reason_ko": "차르와 군주제 복구라는 신념을 끝까지 유지",
+     "reason_en": "Held to tsar and monarchy restoration to the end"
+    },
+    "benevolence": {
+     "score": 8,
+     "reason_ko": "우르가에서 유대인 학살과 고문을 묵인·지시",
+     "reason_en": "Condoned massacres and torture in occupied Urga"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "마음에 들지 않는 자를 재판 없이 처벌",
+     "reason_en": "Punished whoever displeased him without trial"
+    },
+    "humility": {
+     "score": 8,
+     "reason_ko": "스스로 정복자의 환생이자 운명의 도구를 자처",
+     "reason_en": "Claimed to be a reincarnated conqueror, an instrument of fate"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "몽골제국 재건이라는 거대한 비전을 확신",
+     "reason_en": "Certain of a grand design to rebuild the Mongol empire"
+    },
+    "conservative_progressive": {
+     "score": -46,
+     "reason_ko": "차르·청·칸의 군주제 복원을 평생 목표로 함",
+     "reason_en": "Lifelong aim: restore the tsar, the Qing and the khan"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "제국이라는 집단적 구상 아래 부족 기병을 통합",
+     "reason_en": "Bound tribal horsemen under a collective imperial vision"
+    },
+    "cautious_bold": {
+     "score": 46,
+     "reason_ko": "보급도 없이 몽골 종단과 수도 공격을 감행",
+     "reason_en": "Marched across Mongolia and stormed its capital without supply"
+    }
+   },
+   "rationale_ko": "군주제 복원이라는 퇴행적 비전을 가장 대담한 기병 돌격으로 밀어붙인 인물이다. 수천의 유목 기병이 따른 통솔과 공포 통치가 한 몸에 있어 매력과 인자가 극단으로 갈린다. 부하의 반란이 그 통솔의 한계를 보여줬다. 1921년 적군에 넘겨져 총살됐다.",
+   "rationale_en": "He drove a reactionary dream of restored monarchies with the boldest cavalry charges. Thousands of nomad horsemen followed him, yet rule by terror splits his charm from his benevolence at the extremes. His mutinous officers exposed the limit of that command. Handed to the Reds, he was shot in 1921."
+  }
+ },
+ "네스토르 마흐노": {
+  "influence": {
+   "political": 6,
+   "political_exp": "국가 없는 자유지대 실험으로 아나키즘의 원형을 세움",
+   "political_exp_en": "His stateless free territory became anarchism's emblematic experiment",
+   "strategic": 6,
+   "strategic_exp": "타찬카 기동전과 농민 게릴라 전법을 전장에 도입",
+   "strategic_exp_en": "Introduced tachanka mobile tactics and peasant guerrilla warfare",
+   "tech": 1,
+   "tech_exp": "마차 기관총 배치 외 기술 혁신 없음",
+   "tech_exp_en": "No innovation beyond machine-gun carts",
+   "social": 5,
+   "social_exp": "세계 아나키스트 운동의 지속적 상징이 됨",
+   "social_exp_en": "An enduring icon of the worldwide anarchist movement",
+   "economic": 2,
+   "economic_exp": "자유지대의 토지 재분배와 코뮌 실험을 추진",
+   "economic_exp_en": "Ran land redistribution and commune experiments in the free zone",
+   "cultural": 6,
+   "cultural_exp": "노래·문학·영화에서 반란 영웅으로 계속 재생산",
+   "cultural_exp_en": "Kept alive in song, literature and film as a rebel hero",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "한 세기간 아나키즘 실천의 대표 사례로 인용",
+   "transhistoricity_exp_en": "Cited for a century as anarchism's leading case in practice"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 85,
+     "reason_ko": "최대 수만의 농민군을 3년간 이끌어 세 세력과 싸움",
+     "reason_en": "Led tens of thousands of peasant partisans for three years"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "전선에서 직접 싸우며 수차례 중상에서 회복",
+     "reason_en": "Fought in the line and came back from repeated serious wounds"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "독학으로 전술을 고안하고 망명지에서 회고록을 집필",
+     "reason_en": "A self-taught tactician who wrote memoirs in exile"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "농민들이 '바티코'라 부르며 자발적으로 따름",
+     "reason_en": "Peasants called him 'Batko' and followed of their own will"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "음주와 격정의 자취와 엄한 군율이 공존",
+     "reason_en": "Records of drink and rages sit beside strict discipline"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "복역 중 독학, 석방 즉시 조직 결성, 3년 내전 지속",
+     "reason_en": "Self-educated in prison, organized on release, fought three years"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "망명 뒤 회고록에서 패인과 노선을 스스로 분석",
+     "reason_en": "His exile memoirs dissect the defeats and the line taken"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "백군·적군·독일군에 열세 전력으로 계속 맞섬",
+     "reason_en": "Fought Whites, Reds and Germans at inferior strength"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "아나키즘 노선을 끝까지 견지했으나 동맹은 번복",
+     "reason_en": "Kept the anarchist line, though alliances were made and broken"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "해방구 코뮌을 세웠으나 적에 대한 처형이 병존",
+     "reason_en": "Built free communes yet executions of enemies went alongside"
+    },
+    "fairness": {
+     "score": 42,
+     "reason_ko": "혁명재판과 즉결 처분이 운동 내부에서 운영됨",
+     "reason_en": "Revolutionary tribunals and summary justice ran inside the movement"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "특권보다 대오와 함께 이동하는 생활을 유지",
+     "reason_en": "Lived and marched with the column rather than in privilege"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "절대 열세에서도 승리와 자유지대를 계속 확신",
+     "reason_en": "Even outnumbered he stayed sure of victory and the free zone"
+    },
+    "conservative_progressive": {
+     "score": 46,
+     "reason_ko": "국가와 사유 지배 체제 자체의 해체를 실천",
+     "reason_en": "Put abolition of the state and property rule into practice"
+    },
+    "individual_social": {
+     "score": 42,
+     "reason_ko": "자유 소비에트와 코뮌의 공동체 실험을 운영",
+     "reason_en": "Ran communal experiments of free soviets and communes"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "수적 우세의 도시와 야전군에 기습 감행을 반복",
+     "reason_en": "Repeatedly struck stronger cities and field armies"
+    }
+   },
+   "rationale_ko": "농민 대중이 자발적으로 따른 '바티코'의 카리스마가 수만의 게릴라군을 움직였다. 국가 해체라는 극단적 진보를 전술 혁신으로 뒷받침했고, 망명지의 성찰이 지적 깊이를 더한다. 즉결 처분과 동맹 번복은 공정과 충성의 그늘이다. 1921년 패해 파리로 망명해 1934년 숨졌다.",
+   "rationale_en": "The charisma peasants called 'Batko' moved an army of tens of thousands. Tactical innovation backed his extreme progressive aim of abolishing the state, and exile memoirs add reflective depth. Summary justice and broken alliances shadow fairness and loyalty. Defeated, he fled to Paris and died in 1934."
+  }
+ },
+ "오드 윈게이트": {
+  "influence": {
+   "political": 3,
+   "political_exp": "팔레스타인의 시오니즘 지지로 영국 정책 논쟁에 영향",
+   "political_exp_en": "His Zionism fed into British debates over Palestine",
+   "strategic": 7,
+   "strategic_exp": "장거리 침투와 특수부대 개념을 창설해 후대 교리에 영향",
+   "strategic_exp_en": "Founded long-range-penetration methods absorbed into special-forces doctrine",
+   "tech": 3,
+   "tech_exp": "항공 보급 의존 작전으로 공지협동의 선례를 남김",
+   "tech_exp_en": "Air-supplied deep operations set a precedent for air-ground coordination",
+   "social": 3,
+   "social_exp": "이스라엘에서 '하예디드'로 군사 전통에 남음",
+   "social_exp_en": "Remembered in Israel as 'HaYedid' within its military tradition",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 5,
+   "cultural_exp": "알몸 브리핑과 생양파의 괴짜 장군이 군사 전설이 됨",
+   "cultural_exp_en": "The naked-briefing, onion-eating general became military legend",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "친딧 작전이 특수전 역사의 정규 사례로 계속 인용",
+   "transhistoricity_exp_en": "The Chindit expeditions remain a standard case in special-warfare history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 76,
+     "reason_ko": "특별야간대·기드온 부대·친딧 여단을 창설해 지휘",
+     "reason_en": "Created and led the SNS, Gideon Force and Chindit brigades"
+    },
+    "martial": {
+     "score": 74,
+     "reason_ko": "정글 장거리 침투를 부하와 함께 직접 행군",
+     "reason_en": "Marched the same long jungle penetrations as his men"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "비정규전 이론을 독창적으로 설계하고 실전에서 검증",
+     "reason_en": "Designed original irregular-warfare methods and proved them in combat"
+    },
+    "charm": {
+     "score": 66,
+     "reason_ko": "처칠의 총애와 부하의 열광, 상부의 반감이 공존",
+     "reason_en": "Churchill's favorite, adored by his men, detested by staffs"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 48,
+     "reason_ko": "금욕적 생활이나 폭발적 언행의 자제 실패가 반복",
+     "reason_en": "An ascetic life, yet repeated failures to curb his outbursts"
+    },
+    "diligence": {
+     "score": 84,
+     "reason_ko": "야간 초소 순찰과 작전 설계를 쉬지 않고 수행",
+     "reason_en": "Tireless night-picket tours and constant operational design"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "작전 실패 뒤 상부를 탓하는 논쟁적 보고서를 올림",
+     "reason_en": "Answered setbacks with combative reports blaming higher command"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "적진 깊은 정글 작전을 직접 이끌고 최전선에 배치",
+     "reason_en": "Led deep-jungle operations in person from the front"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "시온주의와 자기 부대에 대한 헌신이 일관",
+     "reason_en": "Steadfast devotion to Zionism and to his own units"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "부상병 후송을 조직했으나 고사상 작전도 강행",
+     "reason_en": "Organized casualty evacuation yet pressed high-loss operations"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "엄한 기준을 부하와 자신에게 동일하게 적용",
+     "reason_en": "Applied the same harsh standards to his men and himself"
+    },
+    "humility": {
+     "score": 22,
+     "reason_ko": "상급 지휘부를 공개적으로 조롱하고 무시",
+     "reason_en": "Openly mocked and bypassed the higher command"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 32,
+     "reason_ko": "불가능하다던 정글 작전의 성공을 확신",
+     "reason_en": "Convinced the 'impossible' jungle operations would succeed"
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "제국 장교로 복무하며 유대 민족주의만은 지지",
+     "reason_en": "An imperial officer whose one radical cause was Zionism"
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "괴짜 기행으로 유명하나 부대 단결을 중시",
+     "reason_en": "Famed as an eccentric yet he prized unit cohesion"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "정글 종심 침투라는 미검증 작전을 강행",
+     "reason_en": "Forced through untested deep-penetration jungle schemes"
+    }
+   },
+   "rationale_ko": "비정규전의 창안자답게 지력과 대담함으로 친딧 작전을 만들었다. 알몸 브리핑 같은 기행과 상부 조롱이 겸양과 절제를 끌어내리지만, 부대와의 동고동락이 충성과 용기를 받친다. 시온주의 지지는 제국 장교의 보수성 안에 선 예외다. 1944년 버마 상공에서 수송기 추락으로 숨졌다.",
+   "rationale_en": "A founder's intellect and daring produced the Chindit concept. Naked briefings and contempt for staffs drag humility and temperance down, while sharing his men's hardships underwrites loyalty and courage. His Zionism stands out inside an otherwise imperial conservatism. He died in a 1944 air crash over Burma."
+  }
+ },
+ "블라디미르 페니아코프": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 활동 기여 없음",
+   "political_exp_en": "No political contribution",
+   "strategic": 4,
+   "strategic_exp": "자작 특수부대로 사막 급습전의 성공 사례를 추가",
+   "strategic_exp_en": "His private army added a proven case to desert raiding",
+   "tech": 1,
+   "tech_exp": "특수부대 운용 기법 외 기술 기여 없음",
+   "tech_exp_en": "No technical contribution beyond raiding practice",
+   "social": 2,
+   "social_exp": "자원병으로 이룬 사립 부대라는 이례적 조직을 보여줌",
+   "social_exp_en": "Showed an unusual model: a volunteer private unit",
+   "economic": 1,
+   "economic_exp": "전후 회고록 출판 외 경제 기여 없음",
+   "economic_exp_en": "None beyond a postwar memoir",
+   "cultural": 5,
+   "cultural_exp": "회고록 『사설군』이 특수전 문학의 고전이 됨",
+   "cultural_exp_en": "His memoir 'Private Army' is a classic of special-forces literature",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "2차대전 특수부대 서사에서 계속 인용되는 인물",
+   "transhistoricity_exp_en": "A recurring figure in the WWII special-forces canon"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "23인 규모 자작 부대를 창설해 두 전역에서 지휘",
+     "reason_en": "Founded a 23-man private unit and led it on two fronts"
+    },
+    "martial": {
+     "score": 76,
+     "reason_ko": "습격 중 왼손을 잃고도 작전을 계속 수행",
+     "reason_en": "Lost his left hand on a raid and kept operating"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "다국어 정보장교 출신으로 문학적 완성도의 회고록을 저술",
+     "reason_en": "A multilingual intelligence officer; 'Private Army' is finely written"
+    },
+    "charm": {
+     "score": 66,
+     "reason_ko": "자원병이 모여든 '폽스키'라는 개인 명의의 부대",
+     "reason_en": "Volunteers rallied to a unit built around the name 'Popski'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "규율 없는 부대 이미지에도 작전 규율은 유지",
+     "reason_en": "Behind the unruly image he kept operational discipline"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "마흔 넘어 입대해 부대 창설부터 전선 종군까지 수행",
+     "reason_en": "Enlisted past forty, then built the unit and campaigned with it"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "회고록에서 자기 판단의 성공과 한계를 서술",
+     "reason_en": "His memoir weighs his own judgments and their limits"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "적진 비행장 급습을 반복하고 부상 뒤 복귀",
+     "reason_en": "Repeated airfield raids behind enemy lines, returning after wounds"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "리비아 아랍군 시절 동료를 그대로 부대로 이끔",
+     "reason_en": "Carried his Libyan Arab Force comrades into the new unit"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "부하 안전을 위한 신중한 정찰을 작전의 전제로 둠",
+     "reason_en": "Made careful reconnaissance a precondition for his men's safety"
+    },
+    "fairness": {
+     "score": 58,
+     "reason_ko": "자원 선발과 임무 배분을 능력 기준으로 운영",
+     "reason_en": "Selected volunteers and allotted tasks on ability"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "부대의 공을 동료와 나누어 회고록에 기록",
+     "reason_en": "Shared the unit's credit with comrades in his memoir"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 22,
+     "reason_ko": "마흔의 신병이 특수부대 창설을 가능하다고 봄",
+     "reason_en": "A forty-something recruit sure he could found a special unit"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "제국군 체계 안에서 이례적 조직을 만들되 질서는 존중",
+     "reason_en": "Built an irregular unit inside the imperial order he served"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "자원 공동체로 묶인 소규모 부대를 핵심 자산으로 운영",
+     "reason_en": "Ran a tight volunteer community as his core asset"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "대담한 급습이되 철저한 정찰과 계획을 병행",
+     "reason_en": "Bold raids paired with meticulous reconnaissance"
+    }
+   },
+   "rationale_ko": "마흔이 넘은 나이에 자작 특수부대를 만들어 직접 이끌었다. 왼손을 잃고도 작전을 이어간 강인함과 옛 동료를 끌어온 충성이 부대의 결속을 만들었다. 대담함과 정찰의 신중함이 공존하는 점이 특징이다. 회고록 『사설군』으로 부대의 기록을 남겼다.",
+   "rationale_en": "Raising his own unit past forty shows command in essence. Toughness that outlasted a lost hand and loyalty that brought old comrades along bound the outfit together. Daring coexisted with careful reconnaissance. His memoir 'Private Army' preserved the unit's record."
+  }
+ }
+}

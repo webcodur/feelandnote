@@ -1,0 +1,1332 @@
+{
+ "빅토르 루스티히": {
+  "events": [
+   {
+    "year": 1890,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "보헤미아 아르노슈토프의 카운트 가문에서 태어났다.",
+    "description_en": "Born in Bohemia to a minor noble family.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "에펠탑을 팔다",
+    "title_en": "Selling the Eiffel Tower",
+    "description": "에펠탑 철거를 빌미로 스크랩업자를 속여 '처분권'을 팔았고, 피해자가 창피해 신고를 포기해 같은 사기를 한 번 더 쳤다.",
+    "description_en": "Posing as an official he 'sold' the Eiffel Tower for scrap — twice.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1930,
+    "year_end": null,
+    "title": "카포네를 속이다",
+    "title_en": "Conning Capone",
+    "description": "알 카포네에게도 거짓 투자를 제안해 수익을 보태 돌려준 척 속였다.",
+    "description_en": "He even conned Al Capone with a fake investment.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1935,
+    "year_end": null,
+    "title": "위조지폐 체포",
+    "title_en": "Caught Counterfeiting",
+    "description": "미국에서 위조지폐 조직과 함께 붙잡혔다.",
+    "description_en": "Arrested in the US for running counterfeit bills.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "알카트라즈에서 사망",
+    "title_en": "Death at Alcatraz",
+    "description": "알카트라즈에서 폐렴으로 숨졌다.",
+    "description_en": "Died of pneumonia at Alcatraz.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "그레고어 맥그리거": {
+  "events": [
+   {
+    "year": 1786,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스코틀랜드 고지 집안에서 태어나 육군 장교가 됐다.",
+    "description_en": "Born into a Highland family; an army officer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1812,
+    "year_end": 1819,
+    "title": "남미 독립전쟁 용병",
+    "title_en": "Mercenary in South America",
+    "description": "베네수엘라 독립전쟁에서 볼리바르 진영의 장교로 싸웠다.",
+    "description_en": "He fought for Bolívar in South America's independence wars.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1822,
+    "year_end": null,
+    "title": "'포야이' 왕국 사기",
+    "title_en": "The Poyais Fraud",
+    "description": "존재하지 않는 나라 '포야이'의 왕자로 자칭해 채권·토지·식민지 이주권을 팔았다.",
+    "description_en": "He posed as 'Cazique of Poyais' and sold bonds and land in a country that didn't exist.",
+    "kind": "work",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1823,
+    "year_end": null,
+    "title": "이주선의 비극",
+    "title_en": "The Settlers Sail",
+    "description": "수백 명의 스코틀랜드 이주자가 텅 빈 정글에 내려 병과 굶주림으로 쓰러졌다.",
+    "description_en": "Hundreds of settlers landed in empty jungle; dozens died.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1845,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "베네수엘라 카라카스에서 58세로 숨졌다 — 전쟁 영웅으로 환대받은 채였다.",
+    "description_en": "He died in Caracas at 58, honored as a veteran.",
+    "kind": "death",
+    "place_name": "카라카스",
+    "place_name_en": "Caracas",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "프랭크 애버그네일": {
+  "events": [
+   {
+    "year": 1948,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕 브롱크스빌에서 태어났다.",
+    "description_en": "Born in Bronxville, New York.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1964,
+    "year_end": 1969,
+    "title": "열여섯의 가면들",
+    "title_en": "Sixteen and Impersonating",
+    "description": "조종사·의사·변호사 행세로 수백만 달러 가짜 수표를 쓰며 세계를 누볐다.",
+    "description_en": "He posed as pilot, doctor and lawyer while cashing millions in forged checks.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "체포",
+    "title_en": "Caught",
+    "description": "프랑스에서 붙잡혀 여러 나라의 감옥을 거쳐 미국에 인도됐다.",
+    "description_en": "Caught in France, jailed there and in Sweden, then extradited.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "FBI 자문으로",
+    "title_en": "Working for the FBI",
+    "description": "형기 대신 FBI 금융사기 자문으로 일하는 조건부 석방이 됐다.",
+    "description_en": "Released on condition he consult for the FBI on fraud.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "찰스 폰지": {
+  "events": [
+   {
+    "year": 1882,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "이탈리아 파르마에서 태어나 미국으로 이민했다.",
+    "description_en": "Born in Parma; he emigrated to America.",
+    "kind": "birth",
+    "place_name": "파르마",
+    "place_name_en": "Parma",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1919,
+    "year_end": null,
+    "title": "우편 답신권의 발견",
+    "title_en": "The Coupon Scheme",
+    "description": "국제 우편 답신권의 차익을 '발견'해 투자회사를 세웠다.",
+    "description_en": "He founded a company on 'arbitrage' in postal reply coupons.",
+    "kind": "work",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1920,
+    "year_end": null,
+    "title": "45일 50%의 약속",
+    "title_en": "Fifty Percent in 45 Days",
+    "description": "신규 투자금으로 옛 투자자에게 수익을 돌려주는 구조가 보스턴을 뒤흔들었다.",
+    "description_en": "Paying old investors with new money, he promised 50% in 45 days — Boston went mad.",
+    "kind": "work",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1920,
+    "year_end": null,
+    "title": "붕괴",
+    "title_en": "The Collapse",
+    "description": "구조가 무너져 수많은 이민자의 전 재산이 날아갔고 그는 감옥에 갔다.",
+    "description_en": "The scheme collapsed, wiping out thousands.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "브라질 리우의 자선병원에서 빈곤 속에 숨졌다 — 그의 이름이 사기의 이름이 됐다.",
+    "description_en": "He died penniless in Rio — his name now means the scheme itself.",
+    "kind": "death",
+    "place_name": "리우데자네이루",
+    "place_name_en": "Rio de Janeiro",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "생제르맹 백작": {
+  "events": [
+   {
+    "year": 1691,
+    "year_end": null,
+    "title": "출생(전승상)",
+    "title_en": "Born (Traditional Date)",
+    "description": "출생 기록은 없고 전승상의 연도만 남아 있다.",
+    "description_en": "No birth record; only the traditional year survives.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1743,
+    "year_end": null,
+    "title": "궁정의 연금술사",
+    "title_en": "The Court Alchemist",
+    "description": "베르사유에서 연금술·음악·언어 실력으로 루이 15세의 총애를 얻었다.",
+    "description_en": "At Versailles he dazzled Louis XV with alchemy, music and languages.",
+    "kind": "work",
+    "place_name": "베르사유",
+    "place_name_en": "Versailles",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1760,
+    "year_end": 1784,
+    "title": "방랑하는 불로불사",
+    "title_en": "The Wandering Immortal",
+    "description": "'나는 500살'이라 농담하며 유럽 궁정을 떠돌았고 사후 목격담까지 생겨났다.",
+    "description_en": "Claiming centuries of life, he drifted between courts — sightings continued after his death.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1784,
+    "year_end": null,
+    "title": "사망(기록상)",
+    "title_en": "Died (Recorded)",
+    "description": "슐레스비히에서 죽었다는 기록이 있으나, 그 뒤에도 나타났다는 목격담이 끊이지 않았다.",
+    "description_en": "He died in Schleswig — yet claimed sightings never stopped.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "카스파 하우저": {
+  "events": [
+   {
+    "year": 1812,
+    "year_end": null,
+    "title": "출생(추정)",
+    "title_en": "Born (Estimated)",
+    "description": "출생 기록이 없어 추정치만 남아 있다.",
+    "description_en": "No birth record; the year is estimated.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1828,
+    "year_end": null,
+    "title": "뉘른베르크에 나타나다",
+    "title_en": "Found in Nuremberg",
+    "description": "말도 제대로 못하는 소년이 거리에 나타나 평생 감금돼 자랐다고 주장해 '유럽의 아이'가 됐다.",
+    "description_en": "A near-mute boy appeared claiming lifelong cellar captivity — 'Europe's child'.",
+    "kind": "other",
+    "place_name": "뉘른베르크",
+    "place_name_en": "Nuremberg",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1829,
+    "year_end": null,
+    "title": "첫 번째 피습",
+    "title_en": "First Attack",
+    "description": "정체불명의 습격자에게 이마에 상처를 입어 왕자설이 탄력받았다.",
+    "description_en": "A mystery attack fed theories he was a stolen prince.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1833,
+    "year_end": null,
+    "title": "흉기에 찔려 사망",
+    "title_en": "Stabbed",
+    "description": "공원에서 흉기에 찔려 죽었다 — 독일 최대 미스터리가 됐다.",
+    "description_en": "Stabbed in a park, he died — Germany's great identity mystery.",
+    "kind": "death",
+    "place_name": "안스바흐",
+    "place_name_en": "Ansbach",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "프린세스 카라부": {
+  "events": [
+   {
+    "year": 1791,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "데번의 가난한 집안에서 메리 베이커로 태어났다.",
+    "description_en": "Born Mary Baker, a poor Devon servant girl.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1817,
+    "year_end": null,
+    "title": "'카라부 공주'의 등장",
+    "title_en": "The Princess Appears",
+    "description": "글로스터셔 길가에서 알 수 없는 언어를 쓰는 여인이 발견돼 자바섬 납치 공주 행세로 상류층을 속였다.",
+    "description_en": "Found near Bristol speaking a strange tongue, she passed as Princess Caraboo of Java.",
+    "kind": "other",
+    "place_name": "브리스틀",
+    "place_name_en": "Bristol",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1817,
+    "year_end": null,
+    "title": "정체 폭로",
+    "title_en": "Unmasked",
+    "description": "몇 달 뒤 옛 고용주가 알아봐 하녀 메리 베이커로 밝혀졌다.",
+    "description_en": "Months on, her landlady's past caught up — she was Mary Baker.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1864,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "브리스틀에서 약재상으로 살다 73세로 숨졌다.",
+    "description_en": "She died in Bristol selling leeches — at 73.",
+    "kind": "death",
+    "place_name": "브리스틀",
+    "place_name_en": "Bristol",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "조지 살마나자르": {
+  "events": [
+   {
+    "year": 1679,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "프랑스 남부에서 태어났다.",
+    "description_en": "Born in southern France.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1703,
+    "year_end": null,
+    "title": "'타이완 원주민' 런던 상륙",
+    "title_en": "The 'Formosan' in London",
+    "description": "가짜 언어·관습·지리까지 지어낸 '타이완 원주민' 행세로 런던 학계를 속였다.",
+    "description_en": "He fooled London as a 'native of Formosa' — inventing language, customs, even a book.",
+    "kind": "work",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1711,
+    "year_end": null,
+    "title": "사기 고백",
+    "title_en": "The Confession",
+    "description": "스스로 사기를 고백했고 진지한 문인으로 다시 시작했다.",
+    "description_en": "He confessed the fraud and rebuilt as a serious man of letters.",
+    "kind": "other",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1763,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "존슨 박사의 문인단에서 명망을 얻은 채 83세로 숨졌다.",
+    "description_en": "He died respected in Dr. Johnson's circle at 83.",
+    "kind": "death",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "애나 앤더슨": {
+  "events": [
+   {
+    "year": 1896,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "폴란드 공장 노동자 프란치스카 샹스콥스카로 태어났다.",
+    "description_en": "Born Franziska Schanzkowska, a Polish factory worker.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1920,
+    "year_end": null,
+    "title": "베를린의 '아나스타시야'",
+    "title_en": "Berlin's 'Anastasia'",
+    "description": "운하에서 건져진 여인이 로마노프 막내 공주 행세를 시작했다.",
+    "description_en": "Pulled from a Berlin canal, she claimed to be Grand Duchess Anastasia.",
+    "kind": "other",
+    "place_name": "베를린",
+    "place_name_en": "Berlin",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1938,
+    "year_end": 1970,
+    "title": "수십 년의 법정 공방",
+    "title_en": "Decades in Court",
+    "description": "유럽 법정을 오간 신분 확인 소송은 소설과 영화의 소재가 됐다.",
+    "description_en": "Her claim ran through courts for decades, inspiring books and film.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1984,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "미국에서 87세로 숨졌다.",
+    "description_en": "Died in the US at 87.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1994,
+    "year_end": null,
+    "title": "DNA 판정",
+    "title_en": "The DNA Verdict",
+    "description": "사후 DNA 감정이 그녀를 폴란드 노동자로 판정했다.",
+    "description_en": "Posthumous DNA proved her the Polish worker.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "그레이 아울": {
+  "events": [
+   {
+    "year": 1888,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국 헤이스팅스의 아치볼드 베일레이로 태어났다.",
+    "description_en": "Born Archibald Belaney in Hastings, England.",
+    "kind": "birth",
+    "place_name": "헤이스팅스",
+    "place_name_en": "Hastings",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1906,
+    "year_end": null,
+    "title": "캐나다행",
+    "title_en": "To Canada",
+    "description": "원주민 문화를 동경해 캐나다로 건너가 아파치 후손으로 위장했다.",
+    "description_en": "Dreaming of First Nations life, he went to Canada and passed as Apache.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1930,
+    "year_end": 1938,
+    "title": "비버의 옹호자",
+    "title_en": "The Beaver's Champion",
+    "description": "'그레이 아울'로 비버 보호·자연보전 강연과 저술로 세계적 명성을 얻었다.",
+    "description_en": "As 'Grey Owl' his books and tours made him the voice of conservation.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "사망과 폭로",
+    "title_en": "Death and Exposure",
+    "description": "폐렴으로 숨진 뒤 영국인 출신이 드러나 거대한 논란이 됐다.",
+    "description_en": "Dead of pneumonia at 49, his English birth surfaced — scandal and reassessment.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "한 반 메이허런": {
+  "events": [
+   {
+    "year": 1889,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네덜란드 데벤터르에서 태어나 평론가들에게 외면받은 화가가 됐다.",
+    "description_en": "Born in Deventer; a painter scorned by critics.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1936,
+    "year_end": 1945,
+    "title": "베르메르를 그리다",
+    "title_en": "Painting Vermeers",
+    "description": "자기 그림을 잃어버린 베르메르로 위조해 세계를 속였고 괴링에게까지 팔았다.",
+    "description_en": "His fake 'lost Vermeers' fooled experts — one went to Göring.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1945,
+    "year_end": null,
+    "title": "역적 재판",
+    "title_en": "Tried as a Collaborator",
+    "description": "나치에 국보를 판 혐의로 기소되자 법정에서 '내가 그렸다'며 그림을 시연했다.",
+    "description_en": "Tried for selling a national treasure, he proved authorship by painting in court.",
+    "kind": "other",
+    "place_name": "암스테르담",
+    "place_name_en": "Amsterdam",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "판결 직후 심장마비로 58세에 숨졌다 — 역적이 아니라 국민 영웅이 된 채였다.",
+    "description_en": "He died just after sentencing — a folk hero, not a traitor.",
+    "kind": "death",
+    "place_name": "암스테르담",
+    "place_name_en": "Amsterdam",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "콘라트 쿠야우": {
+  "events": [
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "동독 뢰바우에서 태어나 서독의 골동품상이 됐다.",
+    "description_en": "Born in Löbau, East Germany; a Stuttgart memorabilia dealer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1981,
+    "year_end": 1983,
+    "title": "『히틀러의 일기』 위조",
+    "title_en": "Forging the Hitler Diaries",
+    "description": "60권의 가짜 히틀러 일기를 위조해 슈테른지가 수백만 마르크에 샀다.",
+    "description_en": "He forged 60 volumes of 'Hitler diaries' that Stern bought for millions.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1983,
+    "year_end": null,
+    "title": "폭로와 실형",
+    "title_en": "Exposed",
+    "description": "화학 분석으로 위조가 드러나 실형을 살았다 — 20세기 최대 언론 사기였다.",
+    "description_en": "Forensics exposed the fraud — journalism's biggest scandal.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2000,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "출소 뒤 '진짜 쿠야우 가짜'를 팔며 살다 62세로 숨졌다.",
+    "description_en": "Freed, he sold 'genuine Kujau fakes' — dying at 62.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "클리퍼드 어빙": {
+  "events": [
+   {
+    "year": 1930,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 작가가 됐다.",
+    "description_en": "Born in New York; a novelist.",
+    "kind": "birth",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "'휴즈 자서전' 판매",
+    "title_en": "Selling the Hughes Memoir",
+    "description": "은둔 부호 하워드 휴즈가 직접 의뢰했다며 위조 자서전을 출판사에 팔았다.",
+    "description_en": "He sold a fake 'authorized' autobiography of the reclusive Howard Hughes.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "폭로와 실형",
+    "title_en": "Unmasked",
+    "description": "휴즈 본인이 전화 기자회견으로 부정해 사기가 무너지고 실형을 살았다.",
+    "description_en": "Hughes broke his silence by phone; Irving went to prison.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2017,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "플로리다에서 87세로 숨졌다.",
+    "description_en": "Died in Florida at 87.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "마르탱 게르": {
+  "events": [
+   {
+    "year": 1524,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "프랑스 바스크 접경 아르티가 마을에서 태어났다.",
+    "description_en": "Born in the Basque village of Artigat.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1548,
+    "year_end": null,
+    "title": "집을 떠나다",
+    "title_en": "He Leaves",
+    "description": "가족을 떠난 뒤 몇 년간 소식이 끊겼다.",
+    "description_en": "He left his family and vanished for years.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1556,
+    "year_end": null,
+    "title": "돌아온 남편",
+    "title_en": "The 'Returned' Husband",
+    "description": "아르노 뒤 틸이 그의 이름과 아내·재산을 통째로 물려받아 살기 시작했다.",
+    "description_en": "Arnaud du Tilh arrived claiming to be Martin — wife and village accepted him.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1560,
+    "year_end": null,
+    "title": "재판 중의 귀환",
+    "title_en": "The Real Martin Walks In",
+    "description": "가짜 재판 도중 진짜 마르탱이 걸어 들어와 사기가 무너졌다 — 뒤 틸은 처형됐다.",
+    "description_en": "Mid-trial the real Martin returned; du Tilh was executed.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "가짜 드미트리 1세": {
+  "events": [
+   {
+    "year": 1582,
+    "year_end": null,
+    "title": "출생(추정)",
+    "title_en": "Born (Estimated)",
+    "description": "정체 불명 — 추정상 러시아의 수도사 그리고리 오트레페프였다.",
+    "description_en": "Identity uncertain — probably the runaway monk Grigory Otrepyev.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1604,
+    "year_end": null,
+    "title": "'드미트리 황태자' 등장",
+    "title_en": "Claiming to Be Dmitry",
+    "description": "죽은 황태자 드미트리를 자칭해 폴란드 귀족의 지원을 얻었다.",
+    "description_en": "He claimed to be the dead tsarevich Dmitry and won Polish backing.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1605,
+    "year_end": null,
+    "title": "차르 즉위",
+    "title_en": "Crowned Tsar",
+    "description": "고두노프 사후 모스크바에 입성해 차르에 올랐다.",
+    "description_en": "After Godunov's death he entered Moscow and was crowned.",
+    "kind": "office",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1606,
+    "year_end": null,
+    "title": "살해",
+    "title_en": "Murdered",
+    "description": "열 달 만에 귀족 반란으로 살해됐고 시신은 불에 태워 대포로 쏘아 올렸다고 전한다.",
+    "description_en": "Ten months on, nobles murdered him — his ashes were reportedly fired from a cannon.",
+    "kind": "death",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "예멜리안 푸가초프": {
+  "events": [
+   {
+    "year": 1742,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "돈 코사크 집안에서 태어나 전쟁을 전전했다.",
+    "description_en": "Born a Don Cossack; a veteran of wars.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1773,
+    "year_end": null,
+    "title": "'표트르 3세' 참칭",
+    "title_en": "Claiming Peter III",
+    "description": "살해된 황제를 자칭해 야이크 코사크의 반란을 일으켰다.",
+    "description_en": "Claiming to be the murdered Peter III, he raised the Yaik Cossacks.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1774,
+    "year_end": null,
+    "title": "볼가의 대반란",
+    "title_en": "The Great Revolt",
+    "description": "농민·노예의 대군으로 볼가 지역을 휩쓸어 예카테리나 정부를 흔들었다.",
+    "description_en": "His peasant army swept the Volga — the empire's biggest revolt.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1775,
+    "year_end": null,
+    "title": "처형",
+    "title_en": "Executed",
+    "description": "부하에게 배신당해 붙잡혀 모스크바에서 사지가 찢겨 처형됐다.",
+    "description_en": "Betrayed by his own, he was quartered in Moscow.",
+    "kind": "death",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "보리스 스코시레프": {
+  "events": [
+   {
+    "year": 1896,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "리투아니아의 러시아계 집안에서 태어나 모험가가 됐다.",
+    "description_en": "Born in Lithuania to a Russian family; an adventurer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "'보리스 1세' 선언",
+    "title_en": "Declaring Himself King",
+    "description": "안도라에 나타나 스스로 국왕을 선언하고 헌법까지 제정해 스페인 주교와 전쟁을 선포했다.",
+    "description_en": "In Andorra he declared himself Boris I, issued a constitution and declared war on its bishop.",
+    "kind": "office",
+    "place_name": "안도라",
+    "place_name_en": "Andorra",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "체포와 추방",
+    "title_en": "Arrested and Expelled",
+    "description": "열하루 만에 스페인 당국에 체포돼 추방됐다.",
+    "description_en": "Spanish authorities arrested and expelled him after eleven days.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "서독 병원에서 92세로 숨졌다.",
+    "description_en": "Died in a West German hospital at 92.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "오렐리 앙투안 드 투넨": {
+  "events": [
+   {
+    "year": 1825,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "프랑스에서 태어나 변호사가 됐다.",
+    "description_en": "Born in France; a provincial lawyer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1858,
+    "year_end": null,
+    "title": "마푸체 땅으로",
+    "title_en": "To the Mapuche",
+    "description": "파타고니아의 마푸체족을 찾아가 그들의 보호를 약속하며 왕위를 제안받았다.",
+    "description_en": "He sailed to the Mapuche of Patagonia and offered himself as their king.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1860,
+    "year_end": null,
+    "title": "'오렐리 앙투안 1세'",
+    "title_en": "King Antoine I",
+    "description": "아라우카니아·파타고니아 왕국의 왕으로 선포돼 국기·헌법·조세까지 만들었다.",
+    "description_en": "Proclaimed King of Araucanía and Patagonia, he raised a flag, a constitution, a government.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1862,
+    "year_end": null,
+    "title": "추방",
+    "title_en": "Deported",
+    "description": "칠레에 붙잡혀 정신병자로 몰려 프랑스로 추방됐다.",
+    "description_en": "Chile seized him, called him mad, and deported him to France.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1869,
+    "year_end": 1878,
+    "title": "왕위의 말년",
+    "title_en": "King in Exile",
+    "description": "두 번 더 돌아와 왕위를 주장하다 죽을 때까지 '국왕'을 자칭했다.",
+    "description_en": "He returned twice more, claiming his throne to the end.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   },
+   {
+    "year": 1878,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "프랑스에서 빈곤 속에 53세로 숨졌다.",
+    "description_en": "Died poor in France at 53.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 6
+   }
+  ]
+ },
+ "뱅크시": {
+  "events": [
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "출생(추정)",
+    "title_en": "Born (Estimated)",
+    "description": "브리스틀에서 태어난 것으로 추정되는 정체불명의 아티스트.",
+    "description_en": "Believed born in Bristol; identity still unconfirmed.",
+    "kind": "birth",
+    "place_name": "브리스틀",
+    "place_name_en": "Bristol",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1990,
+    "year_end": null,
+    "title": "브리스틀의 스텐실",
+    "title_en": "Bristol Stencils",
+    "description": "브리스틀 거리에 스텐실 그라피티로 이름을 알렸다.",
+    "description_en": "Stencil graffiti made his name on Bristol's walls.",
+    "kind": "work",
+    "place_name": "브리스틀",
+    "place_name_en": "Bristol",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2005,
+    "year_end": null,
+    "title": "국경장벽 개입",
+    "title_en": "The West Bank Wall",
+    "description": "팔레스타인 국경장벽에 그림을 그려 세계적 화제가 됐다.",
+    "description_en": "He painted the West Bank barrier to global attention.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "'디즈멀랜드'",
+    "title_en": "Dismaland",
+    "description": "폐허 리조트에 반(反)디즈니 테마파크 '디즈멀랜드'를 열었다.",
+    "description_en": "He opened the dystopian 'Dismaland' in a derelict Weston resort.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2018,
+    "year_end": null,
+    "title": "'사랑은 쓰레기통에'",
+    "title_en": "Love Is in the Bin",
+    "description": "소더비 경매에서 낙찰 직후 자기 그림이 스스로 분쇄돼 미술사의 전설이 됐다.",
+    "description_en": "At Sotheby's his canvas shredded itself seconds after the hammer fell.",
+    "kind": "other",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "D.B. 쿠퍼": {
+  "events": [
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "여객기 납치",
+    "title_en": "The Hijacking",
+    "description": "노스웨스트 305편을 납치해 20만 달러와 낙하산 네 개를 받았다.",
+    "description_en": "He hijacked Northwest 305, collecting $200,000 and four parachutes.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "낙하산으로 사라지다",
+    "title_en": "Vanishing into the Night",
+    "description": "재이륙한 비행기 후미 사다리로 뛰어내려 영원히 사라졌다 — FBI 유일의 미해결 항공납치다.",
+    "description_en": "He jumped from the aft stairs into the storm — the FBI's only unsolved hijacking.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "철가면의 사내": {
+  "events": [
+   {
+    "year": 1640,
+    "year_end": null,
+    "title": "출생(추정)",
+    "title_en": "Born (Estimated)",
+    "description": "신원 미상 수인 — 사망 당시 나이로 역산한 추정치다.",
+    "description_en": "Identity unknown; estimated from his age at death.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1669,
+    "year_end": null,
+    "title": "피뇌롤 수감",
+    "title_en": "Imprisoned at Pignerol",
+    "description": "프랑스 피뇌롤 요새에 처음 기록이 나타난다.",
+    "description_en": "He first appears in records at the fortress of Pignerol.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1698,
+    "year_end": null,
+    "title": "바스티유 이감",
+    "title_en": "To the Bastille",
+    "description": "간수 생마르를 따라 바스티유로 옮겨져 얼굴을 가린 채 살았다.",
+    "description_en": "Moved with his jailer to the Bastille, masked to the end.",
+    "kind": "other",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1703,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "바스티유에서 죽었고 '마르시알리'라는 가명으로 매장됐다 — 정체는 끝내 미궁이다.",
+    "description_en": "He died in the Bastille and was buried under a false name — identity still unknown.",
+    "kind": "death",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ }
+}

@@ -1,0 +1,274 @@
+{
+  "candidates": [
+    {
+      "person": {
+        "id": "81fa6ee9-c066-441c-81f8-0bf3a9db1aad",
+        "slug": "count-of-st.-germain"
+      },
+      "book": {
+        "contentId": "e1c0c5c5-40dd-51ed-9c00-1ba400b11de2",
+        "title": "생제르맹 백작 : 죽지 않는 남자?",
+        "isbn": "9791194739043",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "885c2fb3-ba16-4d3f-b3e3-64735f8fc502",
+        "slug": "ernest-shackleton"
+      },
+      "book": {
+        "contentId": "19fdc50f-3648-5492-b156-08e611e8b2db",
+        "title": "Who? 어니스트 섀클턴",
+        "isbn": "4801185431292",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "35d9018b-bf6b-4c1d-b261-6a5627212515",
+        "slug": "heinrich-schliemann"
+      },
+      "book": {
+        "contentId": "7334457f-fb7c-5bf5-a0fc-245892745a29",
+        "title": "Who? 하인리히 슐리만",
+        "isbn": "4801185431735",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "b322912e-63cc-4a60-8ec5-c290a458aa12",
+        "slug": "idi-amin"
+      },
+      "book": {
+        "contentId": "1c991ec7-1638-5376-8678-8bf2866799a4",
+        "title": "이디아민",
+        "isbn": "2002292001619",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "399eec5e-014a-43ed-8fb0-2cc4ed283c89",
+        "slug": "jack-sheppard"
+      },
+      "book": {
+        "contentId": "52c7885a-b339-5692-af3b-98baf5220687",
+        "title": "잭세퍼드의 인생과 부당한이용.The Life and Surprising Exploits of Jack...",
+        "isbn": "9791190842341",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "1a35d3ea-1057-41ab-a5d6-14d48907e6e4",
+        "slug": "jay-gould"
+      },
+      "book": {
+        "contentId": "8ace7114-4383-55a8-a0ae-6312de1271fe",
+        "title": "월가의 마법사, 제이 굴드",
+        "isbn": "9791175629110",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "3be13eac-151a-4353-9b16-e1f561711a2b",
+        "slug": "lorne-knight"
+      },
+      "book": {
+        "contentId": "9b93c484-2e47-5d6c-ac4d-36d24ecb1d84",
+        "title": "론 나이트 1",
+        "isbn": "2003096000310",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "93f56eab-60ae-4b70-ae50-1657ab386caf",
+        "slug": "mary-anning"
+      },
+      "book": {
+        "contentId": "654d1194-d353-5938-9266-79a1a8150587",
+        "title": "화석 수집가 메리 애닝",
+        "isbn": "9791190974271",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "fc151813-8701-4660-a52f-9e55113eb67c",
+        "slug": "mata-hari"
+      },
+      "book": {
+        "contentId": "852c0c26-5cbb-56cf-a47b-29b5bd9ae760",
+        "title": "마타 하리(합본)(전2권)",
+        "isbn": "9791161811611",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "157dc4e8-1be0-4878-b924-71bcab89a615",
+        "slug": "muammar-gaddafi"
+      },
+      "book": {
+        "contentId": "aee75cd5-7a43-5755-a9ca-931e13957211",
+        "title": "무아마르 카다피(세계지도자열전 W 15)",
+        "isbn": "2001522000460",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "5602c8ae-b2a9-4fa3-baf8-96e50f53870f",
+        "slug": "paracelsus"
+      },
+      "book": {
+        "contentId": "c2dc9e78-3caa-5938-955d-49c1845816c0",
+        "title": "파라켈수스",
+        "isbn": "9791165485221",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65",
+        "slug": "puyi"
+      },
+      "book": {
+        "contentId": "cbe121e1-110f-5e96-8227-689726b334fa",
+        "title": "마지막 황제 푸이 II",
+        "isbn": "9788963676258",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "9bddb8f3-1bce-405d-bc20-7be726e48af1",
+        "slug": "roald-amundsen"
+      },
+      "book": {
+        "contentId": "53c685b4-f21b-5a33-8812-daa406f17aa9",
+        "title": "로알 아문센",
+        "isbn": "9788907912183",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "daa2b714-35a6-43fb-a3f2-7149c632a6e9",
+        "slug": "sitting-bull"
+      },
+      "book": {
+        "contentId": "17c683cb-5216-5056-b5e7-9a0e0849beb3",
+        "title": "시팅불(인디언의 창과 방패)",
+        "isbn": "2001792001006",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "0a2497ac-875f-4ec8-a58d-d11803ada53c",
+        "slug": "grace-hopper"
+      },
+      "book": {
+        "contentId": "0d3de47b-29d0-5f51-ab11-d04059171f59",
+        "title": "그레이스 호퍼",
+        "isbn": "9788949129488",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "0a2497ac-875f-4ec8-a58d-d11803ada53c",
+        "slug": "grace-hopper"
+      },
+      "book": {
+        "contentId": "412016ae-c03f-593e-9d4c-6298c8eed5c7",
+        "title": "그레이스 호퍼: 정보시대를 발명한 여인",
+        "isbn": "9791195258499",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "3b2c3aa9-3ceb-4b72-9897-6def3b48eaa5",
+        "slug": "jakob-fugger"
+      },
+      "book": {
+        "contentId": "4a851cf9-b29b-5014-8c19-cafb553f645b",
+        "title": "자본가의 탄생",
+        "isbn": "9788960516816",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    },
+    {
+      "person": {
+        "id": "fd81adb3-a4c2-4609-b1ed-3c1ec05b6862",
+        "slug": "qian-xuesen"
+      },
+      "book": {
+        "contentId": "1453bf58-ab9e-58e0-b250-8b9458d0b6e2",
+        "title": "중국 로켓의 아버지 첸쉐썬",
+        "isbn": "9788996724339",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book"
+        }
+      }
+    }
+  ]
+}

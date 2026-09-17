@@ -31,6 +31,12 @@ import {
 } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 import { codexCall } from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
+// 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
+if (!process.env.ALLOW_EXTERNAL_CLI) {
+  console.error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행한다.')
+  process.exit(1)
+}
+
 function loadEnv() {
   const file = resolve(process.cwd(), '.env')
   if (!existsSync(file)) return
@@ -260,13 +266,11 @@ type Material = {
 
 type FactionContextRow = {
   celeb_id: string | null
-  tag_id: string | null
+  lv2_id: string | null
   short_desc: string | null
   long_desc: string | null
-  group_label: string | null
-  group_label_en: string | null
-  group_subtitle: string | null
-  group_subtitle_en: string | null
+  group_name: string | null
+  group_name_en: string | null
 }
 
 type TagRow = {
@@ -282,8 +286,6 @@ type FactionContext = {
   themeSlug: string
   group: string | null
   groupEn: string | null
-  groupSubtitle: string | null
-  groupSubtitleEn: string | null
   shortDescription: string | null
   longDescription: string | null
 }
@@ -450,8 +452,6 @@ function identityAnchors(profile: ProfileRow, contexts: FactionContext[]): strin
       context.theme,
       context.group,
       context.groupEn,
-      context.groupSubtitle,
-      context.groupSubtitleEn,
       context.shortDescription,
       context.longDescription,
     ]),
@@ -832,26 +832,24 @@ const editorialCandidates = (() => {
 async function loadFactionContexts(): Promise<Map<string, FactionContext[]>> {
   const [members, tags] = await Promise.all([
     fetchAll<FactionContextRow>(
-      'faction_atlas_members',
-      'celeb_id,tag_id,short_desc,long_desc,group_label,group_label_en,group_subtitle,group_subtitle_en',
+      'faction_member_rows',
+      'celeb_id,lv2_id,short_desc,long_desc,group_name,group_name_en',
       (query) => query.order('celeb_id'),
     ),
-    fetchAll<TagRow>('celeb_tags', 'id,name,name_en,slug', (query) => query.order('id')),
+    fetchAll<TagRow>('faction_lv2', 'id,name,name_en,slug', (query) => query.order('id')),
   ])
   const tagById = new Map(tags.map((tag) => [tag.id, tag]))
   const contextsByProfile = new Map<string, FactionContext[]>()
   for (const member of members) {
-    if (!member.celeb_id || !member.tag_id) continue
-    const tag = tagById.get(member.tag_id)
+    if (!member.celeb_id || !member.lv2_id) continue
+    const tag = tagById.get(member.lv2_id)
     if (!tag) continue
     const context: FactionContext = {
       theme: tag.name,
       themeEn: tag.name_en,
       themeSlug: tag.slug,
-      group: member.group_label,
-      groupEn: member.group_label_en,
-      groupSubtitle: member.group_subtitle,
-      groupSubtitleEn: member.group_subtitle_en,
+      group: member.group_name,
+      groupEn: member.group_name_en,
       shortDescription: member.short_desc,
       longDescription: member.long_desc,
     }

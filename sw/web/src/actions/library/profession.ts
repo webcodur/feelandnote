@@ -10,7 +10,7 @@ import { getLocale } from 'next-intl/server'
 import type { Tables } from '@/types/database.generated'
 import type { ContentType } from '@/types/database'
 import type { LibraryContent, LibraryByProfession, TopCeleb } from './types'
-import { aggregateContents, fetchAllCelebContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
+import { aggregateContents, attachBookAffiliateUrls, fetchAllCelebContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
 
 const PROFESSION_MAP = CELEB_PROFESSIONS.map(p => ({ key: p.value, label: p.label }))
 
@@ -119,9 +119,13 @@ export async function getLibraryByProfession(params?: {
   const start = (page - 1) * limit
   const pageContents = filteredContents.slice(start, start + limit).map(c => ({ ...c }))
 
-  // 콘텐츠별 전체 셀럽 수는 현재 페이지에 대해서만 카운트 RPC로 보정
+  // 콘텐츠별 전체 셀럽 수는 현재 페이지에 대해서만 카운트 RPC로 보정.
+  // 같은 페이지의 도서에는 카드 구매 단추가 읽을 제휴 링크를 함께 채운다.
   const db = createStaticClient()
-  const globalCounts = await fetchGlobalCelebCounts(db, pageContents.map(c => c.id))
+  const [globalCounts] = await Promise.all([
+    fetchGlobalCelebCounts(db, pageContents.map(c => c.id)),
+    attachBookAffiliateUrls(db, pageContents, locale),
+  ])
   for (const content of pageContents) {
     content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
   }

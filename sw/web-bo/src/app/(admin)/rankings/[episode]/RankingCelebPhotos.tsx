@@ -26,14 +26,14 @@ export function RankingPersonShot({
   folder,
   name,
   profile,
-  themeMembers = [],
+  factionMembers = [],
   onProfilePatch,
   onLink,
 }: {
   folder: string
   name: string
   profile?: RankingCelebProfile
-  themeMembers?: RankingCelebProfile[]
+  factionMembers?: RankingCelebProfile[]
   onProfilePatch: (nickname: string, patch: Partial<RankingCelebProfile>) => void
   onLink: (name: string, item: CelebSearchItem) => void
 }) {
@@ -51,7 +51,7 @@ export function RankingPersonShot({
     <PersonCard
       name={name}
       profile={profile}
-      themeMembers={themeMembers}
+      factionMembers={factionMembers}
       loadPoolFile={loadPoolFile}
       onProfilePatch={onProfilePatch}
       onLink={onLink}
@@ -60,11 +60,11 @@ export function RankingPersonShot({
 }
 
 function PersonCard({
-  name, profile, themeMembers, loadPoolFile, onProfilePatch, onLink,
+  name, profile, factionMembers, loadPoolFile, onProfilePatch, onLink,
 }: {
   name: string
   profile?: RankingCelebProfile
-  themeMembers: RankingCelebProfile[]
+  factionMembers: RankingCelebProfile[]
   loadPoolFile: (path: string) => Promise<File>
   onProfilePatch: (nickname: string, patch: Partial<RankingCelebProfile>) => void
   onLink: (name: string, item: CelebSearchItem) => void
@@ -76,11 +76,11 @@ function PersonCard({
       <article className="rounded-lg border border-dashed border-border bg-bg-secondary p-3">
         <p className="text-sm font-semibold text-text-primary">{name}</p>
         <p className="mt-1 text-xs text-text-secondary">테마에 없다. 테마에서 고르거나 셀럽을 찾아 연결한다.</p>
-        {themeMembers.length ? (
+        {factionMembers.length ? (
           <select
             defaultValue=""
             onChange={e => {
-              const person = themeMembers.find(p => p.id === e.target.value)
+              const person = factionMembers.find(p => p.id === e.target.value)
               e.currentTarget.value = ''
               if (!person) return
               onLink(name, { slug: person.slug, nickname: person.nickname })
@@ -88,7 +88,7 @@ function PersonCard({
             className="mt-2 w-full rounded border border-border bg-bg-card px-2 py-1.5 text-xs text-text-primary"
           >
             <option value="" disabled>테마에서 연결</option>
-            {themeMembers.map(p => (
+            {factionMembers.map(p => (
               <option key={p.id} value={p.id}>{p.nickname}</option>
             ))}
           </select>

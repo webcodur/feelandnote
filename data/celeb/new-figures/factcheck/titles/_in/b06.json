@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "조지 데커",
+    "title": "바이킹 유적을 안내한 어부",
+    "title_en": "The Fisherman Who Found Vinland",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "장샤오완",
+    "title": "둔황 문서의 협상가",
+    "title_en": "The Negotiator of Dunhuang",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "아밀리아 에드워즈",
+    "title": "이집트학의 대모",
+    "title_en": "Godmother of Egyptology",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "로버트 헤이",
+    "title": "이집트 유적의 기록자",
+    "title_en": "Recorder of Egypt's Monuments",
+    "file": "round2-archaeology.json"
+  },
+  {
+    "nick": "알레산드로 발리냐노",
+    "title": "동양 선교의 총설계자",
+    "title_en": "Architect of the Asian Missions",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "얀 요스텐",
+    "title": "야에스의 이름 주인",
+    "title_en": "The Man Behind Yaesu",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "박연",
+    "title": "조선에 귀화한 네덜란드인",
+    "title_en": "The Dutchman Who Became Korean",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "다카하시 가게야스",
+    "title": "지볼트 사건의 천문학자",
+    "title_en": "Astronomer of the Siebold Incident",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "황금융",
+    "title": "상하이 조계의 양두백",
+    "title_en": "The Concession's Double Boss",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "펑위샹",
+    "title": "기독교 장군",
+    "title_en": "The Christian General",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "로크 완토",
+    "title": "캐세이 제국의 왕",
+    "title_en": "King of the Cathay Empire",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "완롱",
+    "title": "중국의 마지막 황후",
+    "title_en": "China's Last Empress",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "원수",
+    "title": "황제를 이혼한 후궁",
+    "title_en": "The Consort Who Divorced an Emperor",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "레지널드 존스턴",
+    "title": "황제의 영어 스승",
+    "title_en": "The Emperor's English Tutor",
+    "file": "round2-asia.json"
+  },
+  {
+    "nick": "조르주 라두",
+    "title": "마타 하리를 세운 손",
+    "title_en": "The Man Who Made and Broke Mata Hari",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "오자키 호쓰미",
+    "title": "조르게의 일본인 눈",
+    "title_en": "Sorge's Japanese Eyes",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "오이겐 오트",
+    "title": "속아준 대사",
+    "title_en": "The Ambassador Who Was Fooled",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "막스 클라우젠",
+    "title": "조르게의 전파",
+    "title_en": "Sorge's Radio",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "보리스 사빈코프",
+    "title": "테러리스트 문인",
+    "title_en": "The Terrorist Novelist",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "토마스 해리스",
+    "title": "가르보의 공동창작자",
+    "title_en": "Garbo's Co-Author",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "카를에리히 퀼렌탈",
+    "title": "가장 잘 속은 스파이",
+    "title_en": "The Most Gullible Spy",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "슈테판 폰 그뢰닝",
+    "title": "그라우만 박사",
+    "title_en": "Dr. Graumann",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "로니 리드",
+    "title": "지그재그의 뒷배",
+    "title_en": "The Man Behind Zigzag",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "폴 구이요",
+    "title": "버지니아 홀의 전우",
+    "title_en": "Virginia Hall's Comrade",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "드니 레이크",
+    "title": "낸시 웨이크의 무전병",
+    "title_en": "Nancy Wake's Radio Man",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "팻 올리어리",
+    "title": "탈출선의 선장",
+    "title_en": "Captain of the Escape Line",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "가와시마 나니와",
+    "title": "대륙낭인",
+    "title_en": "The Continental Adventurer",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "다나카 류키치",
+    "title": "상하이의 그림자 장군",
+    "title_en": "The Shadow General of Shanghai",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "휴 네치불-휴게슨",
+    "title": "키케로의 주인",
+    "title_en": "Cicero's Employer",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "루트비히 모이치슈",
+    "title": "키케로를 산 사나이",
+    "title_en": "The Man Who Bought Cicero",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "재닛 치솜",
+    "title": "유모차의 접선자",
+    "title_en": "The Pram Courier",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "카를 리터",
+    "title": "콜베의 상사",
+    "title_en": "Kolbe's Boss",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "루돌프 함부르거",
+    "title": "소냐의 첫 번째 남편",
+    "title_en": "Sonya's First Husband",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "알렉산더 라도",
+    "title": "붉은 삼중주의 지휘자",
+    "title_en": "Conductor of the Red Three",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "렌 버턴",
+    "title": "여권을 선물한 남편",
+    "title_en": "The Husband Who Gave a Passport",
+    "file": "round2-espionage.json"
+  },
+  {
+    "nick": "프랭크 워슬리",
+    "title": "기적의 항해사",
+    "title_en": "The Miracle Navigator",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "재닛 스탠콤-윌스",
+    "title": "섀클턴의 후원 여성 시장",
+    "title_en": "Shackleton's Patron and First Woman Mayor",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "레온 아문센",
+    "title": "탐험가의 뒷방 형님",
+    "title_en": "The Brother Behind the Explorer",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "오스카 비스팅",
+    "title": "남극점의 다섯 번째 남자",
+    "title_en": "Fifth Man at the South Pole",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "헬머 한센",
+    "title": "극지의 개썰매 장인",
+    "title_en": "Master Dog Driver",
+    "file": "round2-exploration.json"
+  }
+]

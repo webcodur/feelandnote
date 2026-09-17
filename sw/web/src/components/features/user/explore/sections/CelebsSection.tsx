@@ -10,6 +10,7 @@ import CelebCarousel from "@/components/features/home/CelebCarousel";
 import type { CelebProfile } from "@/types/home";
 import type { getCelebs, ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
 import type { TrendCountry } from "@/constants/trendCountries";
+import type { CelebRealityTotals } from "@/components/features/home/useCelebFilters";
 
 interface Props {
   initialCelebs: CelebProfile[];
@@ -22,6 +23,7 @@ interface Props {
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
   genderCounts: GenderCounts;
+  realityTotals?: CelebRealityTotals;
 }
 
 export default function CelebsSection({
@@ -35,6 +37,7 @@ export default function CelebsSection({
   nationalityCounts,
   contentTypeCounts,
   genderCounts,
+  realityTotals,
 }: Props) {
   return (
     <div className="min-h-[400px]">
@@ -49,6 +52,7 @@ export default function CelebsSection({
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
         genderCounts={genderCounts}
+        realityTotals={realityTotals}
         mode="grid"
         hideHeader={false}
         syncToUrl

@@ -1,0 +1,3512 @@
+{
+ "윌리엄 로": {
+  "influence": {
+   "political": 3,
+   "political_exp": "버블 청산기 프랑스에서 인도 회사를 경영",
+   "political_exp_en": "Ran the Indies Company through post-bubble France",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "도박사 집안을 프랑스 귀족으로 이어지게 함",
+   "social_exp_en": "Turned a gamblers' family into French nobility",
+   "economic": 4,
+   "economic_exp": "미시시피 시스템의 공동 운영자이자 청산기 경영자",
+   "economic_exp_en": "Co-ran the System and steered the company after it burst",
+   "cultural": 2,
+   "cultural_exp": "손자가 나폴레옹 원수가 된 가문 서사",
+   "cultural_exp_en": "A family saga culminating in Napoleon's marshal",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "최초 지폐 실험의 공동 실행자로 기록됨",
+   "transhistoricity_exp_en": "Recorded as co-executor of the first paper-money experiment"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "인도 회사 총재로 대규모 식민 무역 조직을 수년 이끎",
+     "reason_en": "Directed the Indies Company's colonial trade for years"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "도박사 가문 출신으로 유럽 각지를 떠돈 상인 생애",
+     "reason_en": "A wandering merchant's life across Europe"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "형의 이론을 실무로 운영한 재무 감각",
+     "reason_en": "Ran his brother's theory in practice"
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "주범 집안이면서 프랑스 사회에 남아 신임을 지킴",
+     "reason_en": "Stayed in France and kept office despite the family name"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "도박 집안 출신이나 붕괴 뒤엔 안정된 관료 생활",
+     "reason_en": "A gambler's kin who settled into bureaucratic steadiness"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "은행·회사 실무를 수십 년간 꾸준히 이끎",
+     "reason_en": "Kept bank and company operations running for decades"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "형의 이론 옹호와 실무 적응 사이에서 균형을 잡음",
+     "reason_en": "Balanced loyalty to the theory with practical adaptation"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "버블 청산기의 프랑스에 남아 회사를 떠맡음",
+     "reason_en": "Stayed amid the wreckage and took the company over"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "형을 따라 파리로 와 시스템 전 과정을 함께함",
+     "reason_en": "Followed his brother to Paris and shared the whole System"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "재임 중 특별한 선행·만행이 전해지지 않음",
+     "reason_en": "No notable kindness or cruelty is handed down"
+    },
+    "fairness": {
+     "score": 42,
+     "reason_ko": "내부자 이익이 두터운 시스템의 공동 운영자",
+     "reason_en": "Co-ran a system thick with insider gain"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "형의 그늘에서 실무를 맡으며 이름을 앞세우지 않음",
+     "reason_en": "Worked in his brother's shadow without self-promotion"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "형의 지폐 실험을 공동 추진한 낙관파",
+     "reason_en": "Shared the optimism of the paper-money experiment"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "프랑스 귀족 질서에 편입해 자손을 원수까지 키움",
+     "reason_en": "Joined the aristocratic order; a grandson became marshal"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "형제·자손 중심의 가족 클랜으로 경력을 이어감",
+     "reason_en": "Ran his career as a family clan project"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "위험한 시스템에 참여했으나 청산기엔 안정을 택함",
+     "reason_en": "Joined the risky scheme, then chose stability in the cleanup"
+    }
+   },
+   "rationale_ko": "형의 이론을 실무로 굴린 시스템의 2인자였다. 형은 추방됐으나 그는 남아 회사를 이끌고 가문을 귀족 반열에 올렸다. 대담함보다 생존과 적응이 그의 재능이었다. 손자는 나폴레옹의 원수 로리스통이 됐다.",
+   "rationale_en": "He was the System's second man, turning his brother's theory into daily practice. John was exiled; William stayed, ran the company and lifted the family into the nobility. Survival and adaptation, not boldness, were his gifts. His grandson became Napoleon's Marshal Lauriston."
+  }
+ },
+ "조제프 파리-뒤베르네": {
+  "influence": {
+   "political": 6,
+   "political_exp": "궁정 재계 실력자로 수십 년 재정 정책을 좌우",
+   "political_exp_en": "A finance power-broker shaping policy for decades",
+   "strategic": 1,
+   "strategic_exp": "군수 조달은 했으나 전략 자체와는 무관",
+   "strategic_exp_en": "Provisioned armies but never touched strategy",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "빈곤 귀족 자제를 위한 육군사관학교를 창설",
+   "social_exp_en": "Founded the École Militaire for impoverished nobles' sons",
+   "economic": 6,
+   "economic_exp": "비자 청산으로 미시시피 버블 부채를 정리",
+   "economic_exp_en": "His 'visa' process triaged the bubble's debts",
+   "cultural": 3,
+   "cultural_exp": "퐁파두르 후원으로 궁정 문화에 간여",
+   "cultural_exp_en": "Pompadour's patron — a hand in court culture",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "에콜 밀리테르가 나폴레옹의 모교로 남음",
+   "transhistoricity_exp_en": "The École Militaire endures as Napoleon's school"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "파리 4형제 금융 신디케이트와 국가 부채 청산을 지휘",
+     "reason_en": "Led the four brothers' syndicate and the national debt settlement"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "농민 출신이나 평생 장부와 궁정에서 활동",
+     "reason_en": "A peasant's son who lived by ledgers and the court"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "버블 부채를 분류·상계하는 '비자' 청산법을 고안",
+     "reason_en": "Devised the 'visa' method of sorting the bubble's debts"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "농민 아들이 궁정 재계와 퐁파두르의 신임을 얻음",
+     "reason_en": "Won court and Pompadour's trust from peasant origins"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "거부가 되고도 사치보다 사업과 학교 설립에 씀",
+     "reason_en": "Spent wealth on ventures and a school, not display"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "군수 조달부터 국가 재정까지 반세기를 일함",
+     "reason_en": "Worked half a century from army supply to state finance"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "회고록에서 로의 시스템 실패를 분석해 남김",
+     "reason_en": "Left memoirs dissecting where Law's system failed"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "전성기 존 로와 정면 대립한 위험한 승부",
+     "reason_en": "Opposed Law at the System's height — a dangerous stance"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "형제 신디케이트와 왕실 재정에 평생 헌신",
+     "reason_en": "A lifetime devoted to the brothers' syndicate and the crown"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "몰락 귀족 자제를 위한 육군사관학교를 창설",
+     "reason_en": "Founded a school for the sons of poor nobles"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "부채 비자 과정은 엄격했으나 절차적 기준을 세움",
+     "reason_en": "The visa was harsh but ran on stated rules"
+    },
+    "humility": {
+     "score": 48,
+     "reason_ko": "권력은 쥐었으나 무대 뒤에서 움직인 관료",
+     "reason_en": "Held power yet worked behind the curtain"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -8,
+     "reason_ko": "로의 종이 화폐 약속에 끝까지 회의적이었음",
+     "reason_en": "Stayed sceptical of paper-money promises throughout"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "앙시앵 레짐 재정 질서의 복원자이자 수혜자",
+     "reason_en": "Restorer and beneficiary of the old fiscal order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "형제 클랜과 국가 재정 공공성에 충실",
+     "reason_en": "Loyal to the clan and to public finance alike"
+    },
+    "cautious_bold": {
+     "score": -12,
+     "reason_ko": "창업보다 청산과 관리로 대표되는 신중한 재정가",
+     "reason_en": "Known for liquidation and management, not ventures"
+    }
+   },
+   "rationale_ko": "농민의 아들이 군수 조달로 일어서 왕국 재정의 청산인이 됐다. 존 로의 화려한 실험과 정반대로 신중한 분류와 상계로 파산한 나라를 수습했다. 궁정 인맥을 엮어 학교까지 세운 실력파였다. 그가 세운 에콜 밀리테르에서 나폴레옹이 배웠다.",
+   "rationale_en": "A peasant's son who rose through army provisioning to become the kingdom's liquidator. The opposite of Law's glittering experiment, he rescued a bankrupt nation through careful sorting and netting. He wove court influence into founding a school. Napoleon would study at his École Militaire."
+  }
+ },
+ "아벨 코빈": {
+  "influence": {
+   "political": 2,
+   "political_exp": "대통령 측근 스캔들로 의회 조사의 표적이 됨",
+   "political_exp_en": "His access scandal drew congressional scrutiny",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "기득권 인맥 부정의 전형으로 기록됨",
+   "social_exp_en": "Filed as a model case of insider corruption",
+   "economic": 3,
+   "economic_exp": "검은 금요일 금 매점의 내부 실행자",
+   "economic_exp_en": "The inside man of the Black Friday gold corner",
+   "cultural": 2,
+   "cultural_exp": "그랜트 시대 부패 일화로 회자됨",
+   "cultural_exp_en": "Retold as a Grant-era corruption episode",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "1869년 금융 스캔들의 조연으로 기록됨",
+   "transhistoricity_exp_en": "A supporting player in the 1869 scandal"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "신문 편집인으로 지냈으나 이끈 조직은 소규모",
+     "reason_en": "Edited a newspaper; the organisations he led were small"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "예순을 넘긴 노년의 신문인 출신",
+     "reason_en": "An elderly ex-editor past sixty at the scheme's height"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "금 매점 구조를 이해하고 편지 밀반출 역할을 수행",
+     "reason_en": "Grasped the corner's design and smuggled the letters"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "예순한 살에 대통령 여동생의 청혼을 얻어낸 매력",
+     "reason_en": "Won a president's sister's hand at sixty-one"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "백악관 접근권을 금 투기에 쓰며 이익을 참지 못함",
+     "reason_en": "Could not resist turning White House access into gold bets"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "편집인으로 오래 일했으나 뚜렷한 업적은 드묾",
+     "reason_en": "Long at the editor's desk, thin on achievement"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "스캔들 뒤 책임 인정 없이 조용히 물러남",
+     "reason_en": "Withdrew quietly without owning his part"
+    },
+    "courage": {
+     "score": 40,
+     "reason_ko": "대통령 집안의 명예를 걸고 투기에 가담",
+     "reason_en": "Staked the first family's name on a speculation"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "대통령 매형의 위치를 굴드에게 판 셈",
+     "reason_en": "Sold a president's-brother-in-law position to Gould"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "선행 기록 없이 투기 한 방을 노린 말년",
+     "reason_en": "His late years chased a killing, not kindness"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "대통령 편지를 몰래 빼내 투기꾼에게 건넨 부정",
+     "reason_en": "Smuggled presidential letters to a speculator"
+    },
+    "humility": {
+     "score": 38,
+     "reason_ko": "노년의 투기 가담을 겉으로 드러내지 않은 처세",
+     "reason_en": "Kept his part in the corner off the stage"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "금값 상승을 믿고 아내 명의 매입에 나섬",
+     "reason_en": "Bet on rising gold under his wife's name"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "대통령 측근 기득권을 활용한 구시대 인물",
+     "reason_en": "A old-order man exploiting insider privilege"
+    },
+    "individual_social": {
+     "score": -18,
+     "reason_ko": "가문 인맥을 개인 투기 수단으로 씀",
+     "reason_en": "Turned family access into a private instrument"
+    },
+    "cautious_bold": {
+     "score": 8,
+     "reason_ko": "투기에는 가담했으나 전면엔 나서지 않음",
+     "reason_en": "Joined the corner yet stayed offstage"
+    }
+   },
+   "rationale_ko": "대통령의 매형이라는 지위를 투기꾼에게 판 노년의 편집인이다. 판을 짠 것은 굴드였고 그는 문을 여는 자였다. 처벌을 피해 조용히 물러났으나 백악관 접근권의 시세를 처음으로 증명한 인물로 남았다. 1881년 72세로 숨졌다.",
+   "rationale_en": "An aging editor who sold the access that came with being the president's brother-in-law. Gould designed the corner; Corbin opened the door. He escaped punishment and withdrew quietly, remembered as the first man to price a White House connection. He died in 1881, at seventy-two."
+  }
+ },
+ "허버트 헌트": {
+  "influence": {
+   "political": 1,
+   "political_exp": "헌트가 우파 후원의 일원이었을 뿐",
+   "political_exp_en": "One member of the Hunt family's right-wing patronage",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "가문 스캔들의 일원으로 남음",
+   "social_exp_en": "Remembered as part of the family scandal",
+   "economic": 4,
+   "economic_exp": "은 코너링 공동 주역으로 시장사 한 페이지",
+   "economic_exp_en": "Co-architect of the corner — a page of market history",
+   "cultural": 2,
+   "cultural_exp": "실버 목요일 일화로 회자됨",
+   "cultural_exp_en": "Retold in the Silver Thursday saga",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "코너링 사례의 공동 주인공으로 인용됨",
+   "transhistoricity_exp_en": "Cited as co-protagonist of the great corner"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "가문 석유·부동산 사업을 이끌고 파산 후 재건을 주도",
+     "reason_en": "Ran family oil and property ventures and led the rebuild"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "석유 재벌 2세로 사무직 중심 생애",
+     "reason_en": "An oil heir's desk-centred life"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "매점 설계·파산 수습·재기까지 실무 역량은 높음",
+     "reason_en": "Competent across the corner, the bankruptcy and the comeback"
+    },
+    "charm": {
+     "score": 48,
+     "reason_ko": "동생 벙커에 가려졌으나 업계에선 실력자로 통함",
+     "reason_en": "Eclipsed by Bunker yet respected inside the trade"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "은 매점을 멈추지 못한 욕심은 동생과 같은 결",
+     "reason_en": "Shared his brother's unslakable appetite for silver"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "파산 법정을 거쳐 여든에 억만장자로 재기",
+     "reason_en": "Through bankruptcy court to billionaire again at eighty"
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "패인을 되짚어 에너지·부동산으로 방향을 바꿈",
+     "reason_en": "Read the failure and turned to energy and property"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "수십억 손실 뒤에도 사업을 포기하지 않음",
+     "reason_en": "Lost billions yet never quit the game"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "동생과 기획·재판·파산까지 함께 겪은 형제 결속",
+     "reason_en": "Shared scheme, trial and bankruptcy with his brother"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "선행보다 가문 사업 재건에 집중한 생애",
+     "reason_en": "A life bent on rebuilding the family's business"
+    },
+    "fairness": {
+     "score": 22,
+     "reason_ko": "은 가격 조종 공모로 시장 공정성을 해침",
+     "reason_en": "Co-conspired to rig a market's price"
+    },
+    "humility": {
+     "score": 48,
+     "reason_ko": "동생보다 조용히 복귀해 재기를 과시하지 않음",
+     "reason_en": "Came back quietly, without his brother's noise"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 22,
+     "reason_ko": "잃어도 다시 일어선다는 낙관으로 재기를 완성",
+     "reason_en": "A comeback built on the optimism of starting over"
+    },
+    "conservative_progressive": {
+     "score": -22,
+     "reason_ko": "헌트家 우파 석유 재벌 질서의 계승자",
+     "reason_en": "Heir to the Hunts' right-wing oil order"
+    },
+    "individual_social": {
+     "score": 8,
+     "reason_ko": "형제·가문 단위로 움직인 클랜형 사업가",
+     "reason_en": "Moved as a family unit, not a lone player"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "세계 은 매점의 공동 설계자",
+     "reason_en": "Co-designed the boldest commodity corner on record"
+    }
+   },
+   "rationale_ko": "동생과 함께 세계 은을 쓸어 담은 공동 설계자다. 실버 목요일로 모든 것을 잃고도 파산 법정에서 버텼고 여든에 억만장자로 돌아왔다. 망상과 회복력이 한 생애에 들어 있다. 2024년 95세로 세상을 떠났다.",
+   "rationale_en": "Co-architect of the scheme to buy the world's silver. Silver Thursday took everything, yet he endured the bankruptcy courts and returned to billionaire ranks in his eighties. Delusion and resilience share one life. He died in 2024, at ninety-five."
+  }
+ },
+ "프랭크 디파스칼리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 제도와 무관",
+   "political_exp_en": "No political consequence",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "협조 증언으로 폰지 수법의 내부를 밝힘",
+   "social_exp_en": "His cooperation laid bare the Ponzi's inner works",
+   "economic": 3,
+   "economic_exp": "역대 최대 폰지의 일상 운영을 30년간 담당",
+   "economic_exp_en": "Ran history's biggest Ponzi day to day for 30 years",
+   "cultural": 2,
+   "cultural_exp": "매이도프 관련 영화·다큐에 묘사됨",
+   "cultural_exp_en": "Depicted in Madoff films and documentaries",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "대형 사기사의 2인자로 기록됨",
+   "transhistoricity_exp_en": "Recorded as the great fraud's second man"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "매이도프 17층 운영팀을 실질 총괄한 2인자",
+     "reason_en": "De facto chief of the 17th-floor operation"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "퀸스 출신 고졸 사무직으로 평생 책상 생활",
+     "reason_en": "A Queens high-school grad behind a desk for life"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "허위 거래 서류·명세를 체계화한 치밀한 운영자",
+     "reason_en": "Systematised the fake confirmations and statements"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "감사관·고객을 침착한 답변으로 수십 년 안심시킴",
+     "reason_en": "Calmed auditors and clients for decades with smooth answers"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "사기 수익으로 호화 생활을 즐기며 멈추지 못함",
+     "reason_en": "Lived well on the proceeds and never stopped"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "매일 허위 서류를 찍어내는 노동을 수십 년 유지",
+     "reason_en": "Printed the fake paperwork daily for decades"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "'전부 거짓이었다'고 인정하고 수사를 이끌어줌",
+     "reason_en": "Admitted 'it was all fake' and guided investigators"
+    },
+    "courage": {
+     "score": 42,
+     "reason_ko": "범행엔 순응했으나 유죄 인정과 협조를 택함",
+     "reason_en": "Complied for years, then chose guilty plea and cooperation"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "30년간 보스에게 충성하다 최후엔 진실 편에 섬",
+     "reason_en": "Thirty years loyal to the boss, then to the truth"
+    },
+    "benevolence": {
+     "score": 20,
+     "reason_ko": "자선 고객의 피해까지 알고도 장부를 꾸몄음",
+     "reason_en": "Kept the books though charities' losses were plain"
+    },
+    "fairness": {
+     "score": 8,
+     "reason_ko": "존재하지 않는 거래를 서류로 만들어낸 부정",
+     "reason_en": "Manufactured documents for trades that never were"
+    },
+    "humility": {
+     "score": 48,
+     "reason_ko": "보스 뒤에서 이름 없이 일한 무명 운영자",
+     "reason_en": "An unnamed operator behind his boss"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "언젠가 무너진다는 걸 알면서 유지한 체념",
+     "reason_en": "Kept it running knowing the end must come"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서보다 회사 안에서의 역할 수행에 몰두",
+     "reason_en": "Absorbed in his role, indifferent to the order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "보스의 지시에 자기를 종속시킨 조직적 실행자",
+     "reason_en": "Subordinated himself to the boss's enterprise"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "실행자로서 대담했으나 판을 짠 사람은 아님",
+     "reason_en": "Bold as an operator, never the architect"
+    }
+   },
+   "rationale_ko": "고졸 입사생이 역대 최대 사기의 운영 책임자가 됐다. 매일 가짜 서류를 찍어낸 치밀함은 재능이었으나 그 재능이 향한 곳이 범죄였다. 붕괴 뒤에는 '전부 거짓이었다'는 증언으로 수사의 안내자가 됐다. 2015년 선고를 받기 전 숨졌다.",
+   "rationale_en": "A high-school hire who became operations chief of history's greatest fraud. The daily fabrication of fake records was real skill pointed at crime. After the collapse, 'it was all fake' made him the investigation's guide. He died in 2015 before sentencing."
+  }
+ },
+ "칼 샤피로": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치·외교 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "보스턴 병원·대학에 수억 달러를 기부",
+   "social_exp_en": "Hundreds of millions went to Boston hospitals and Brandeis",
+   "economic": 3,
+   "economic_exp": "의류사를 세우고 매이도프 폰지의 최대 자금줄 역할",
+   "economic_exp_en": "Built a dress company and became Madoff's biggest feeder",
+   "cultural": 1,
+   "cultural_exp": "문화 분야와 거의 무관",
+   "cultural_exp_en": "Almost no cultural footprint",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "매이도프 사건의 부록으로 기억되는 인물",
+   "transhistoricity_exp_en": "Remembered as a footnote to the Madoff affair"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "케이 윈저를 창업해 수십 년간 의류 공장을 경영",
+     "reason_en": "Founded Kay Windsor and ran its garment business for decades"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "108세까지 재단 활동을 이어간 강건한 장수",
+     "reason_en": "He stayed active past 100, dying at 108"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "의류 사업으로 자수성가하고 젊은 매이도프를 일찍 알아봄",
+     "reason_en": "Self-made in dresses; he spotted the young Madoff early"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "'면직물 왕'으로 보스턴 사교·자선계의 총아",
+     "reason_en": "Boston's 'cotton king' and a darling of its charity circuit"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "백 살 넘도록 일과 기부를 이어간 규칙적 생활",
+     "reason_en": "He kept a disciplined round of work and giving past 100"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "1930년대 창업해 90세 넘어서도 재단 일을 계속",
+     "reason_en": "He founded his firm in the 1930s and worked into his nineties"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "6억 달러 반환에도 매이도프 관련 잘못을 끝내 부인",
+     "reason_en": "He repaid $600 million yet never admitted wrongdoing"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "1961년 무명의 젊은 매이도프에게 큰돈을 맡긴 결단",
+     "reason_en": "He entrusted serious money to an unknown young Madoff in 1961"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "매이도프와의 투자 관계를 반세기 가까이 유지",
+     "reason_en": "He stayed Madoff's client for nearly half a century"
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "브랜다이스와 베스 이스라엘 병원 등에 수억 달러 기부",
+     "reason_en": "Hundreds of millions went to Brandeis and Beth Israel hospital"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "사업상 부정이 입증된 적 없으나 피해 책임 인정도 거부",
+     "reason_en": "No fraud was proven against him, yet he denied all fault"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "대학 건물에 자기 이름을 올린 거액 기부자",
+     "reason_en": "He lent his name to buildings — a donor who took the credit"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "108세까지 투자와 기부를 계속한 낙관적 삶",
+     "reason_en": "He kept investing and giving past the century mark"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사업과 자선에 전념한 비정치적 실업가",
+     "reason_en": "An apolitical businessman absorbed in work and giving"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "가족 재단을 통해 지역 사회 기부에 헌신",
+     "reason_en": "He gave through a family foundation to local causes"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "1961년 신인 운용사에게 재산을 맡긴 과감한 베팅",
+     "reason_en": "He bet a fortune on an untested manager in 1961"
+    }
+   },
+   "rationale_ko": "의류 공장으로 번 돈을 신인 운용사에게 맡기는 결단이 반세기 뒤 역대 최대 폰지 사기의 최대 자금줄이라는 결과로 돌아왔다. 그 와중에도 재단 기부는 멈추지 않았고, 6억 달러 반환 판결 뒤에도 사과는 없었다. 108세로 세상을 떠날 때까지 보스턴 자선계의 거물이었다. 그의 이름은 병원과 캠퍼스 건물에 남아 있다.",
+   "rationale_en": "Money earned in dress factories went to an unknown young manager — a bet that made him the biggest feeder of history's largest Ponzi scheme. He never stopped giving, repaid over $600 million without apology, and died at 108. His name endures on Boston's hospitals and the Brandeis campus."
+  }
+ },
+ "토미 정": {
+  "influence": {
+   "political": 1,
+   "political_exp": "수감이 마약 정책 논쟁의 사례로 인용됨",
+   "political_exp_en": "His jailing is still cited in drug-policy debates",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "대마초 금기를 주류 코미디 소재로 바꿈",
+   "social_exp_en": "He moved cannabis from taboo to mainstream punchline",
+   "economic": 2,
+   "economic_exp": "치치 앤 총 브랜드로 반세기 흥행 수익 창출",
+   "economic_exp_en": "The Cheech & Chong brand has earned for fifty years",
+   "cultural": 7,
+   "cultural_exp": "대마초 코미디라는 장르 자체를 개척",
+   "cultural_exp_en": "He co-invented stoner comedy as a genre",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "반세기째 회자되는 컨트컬처의 얼굴",
+   "transhistoricity_exp_en": "A counterculture face still known after fifty years"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "1980년대 콤비 영화 네 편의 메가폰을 직접 잡음",
+     "reason_en": "He directed four of the duo's films in the 1980s"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "반세기 무대 투어와 영화 촬영을 소화한 활동력",
+     "reason_en": "Fifty years of stage tours and film shoots"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "콤비의 각본·연출·음악을 함께 도맡은 제작자",
+     "reason_en": "He co-wrote, directed and scored the duo's work"
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "1970년대 컨트컬처 전성기의 대마초 코미디 아이콘",
+     "reason_en": "The face of stoner comedy at its 1970s peak"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "대마초를 삶의 상표로 삼아 규제와 맞서며 삶",
+     "reason_en": "He made cannabis his brand and lived outside the law"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "1971년 결성 이후 50년 넘게 무대와 영상 활동 지속",
+     "reason_en": "He has performed steadily since the duo formed in 1971"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "수감 경험을 회고록과 인터뷰에서 스스로 복기",
+     "reason_en": "He has revisited his prison time in memoirs and interviews"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "금기 소재로 커리어를 걸고 복역에도 굽히지 않음",
+     "reason_en": "He built a career on taboo material and served his time unbowed"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "치치 마린과의 콤비 관계를 반세기 이어옴",
+     "reason_en": "The partnership with Cheech Marin has lasted fifty years"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "수감 동료 벨포트에게 책 집필을 권해 출발을 도움",
+     "reason_en": "He prodded cellmate Belfort to write the book that made him"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "남의 몫을 뺏은 행적 없이 자기 죗값을 치름",
+     "reason_en": "He owed nothing to victims and served his own time"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "늘 실없는 스톤어 캐릭터로 자신을 낮춤",
+     "reason_en": "His act is built on self-mocking stoner foolishness"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "감옥마저 농담거리로 삼는 천성적 낙관",
+     "reason_en": "He treats even prison as material for a joke"
+    },
+    "conservative_progressive": {
+     "score": 25,
+     "reason_ko": "대마초 금지라는 질서에 정면으로 맞선 코미디",
+     "reason_en": "His comedy openly defied drug prohibition"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "콤비와 밴드와 공연 공동체 속에서 일함",
+     "reason_en": "He has worked in duos, bands and touring scenes"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "금기 소재를 간판으로 내걸고 수사 뒤에도 계속",
+     "reason_en": "He kept drug humor as his banner even after prosecution"
+    }
+   },
+   "rationale_ko": "금기였던 대마초를 주류 코미디의 간판으로 올린 개척자다. 작가·연출가·뮤지션을 겸한 재능이 콤비 영화 네 편의 메가폰까지 쥐게 했다. 복역 중에도 재치를 잃지 않았고, 옆방 수감자에게 책을 쓰라고 부추겨 '울프 오브 월 스트리트'의 씨앗을 뿌렸다. 치치 마린과의 콤비는 반세기째 이어진다.",
+   "rationale_en": "He took cannabis from taboo to mainstream punchline. Writer, director and musician in one, he directed four of the duo's films himself. Prison cost him nothing in wit — he talked cellmate Jordan Belfort into writing the book behind 'The Wolf of Wall Street.' The partnership with Cheech Marin still runs after fifty years."
+  }
+ },
+ "그레고리 콜먼": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "벨포트 기소로 백색범죄 수사의 표본을 남김",
+   "social_exp_en": "The Belfort case he built became a template for fraud probes",
+   "economic": 2,
+   "economic_exp": "스트래튼 오크먼트 해체와 매이도프 자산 몰수에 기여",
+   "economic_exp_en": "He unwound Stratton Oakmont and helped seize Madoff assets",
+   "cultural": 3,
+   "cultural_exp": "영화 속 FBI 요원 패트릭 데넘의 실제 모델",
+   "cultural_exp_en": "The real model for the film's Agent Denham",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "금융 수사사의 한 장면으로 기록될 인물",
+   "transhistoricity_exp_en": "A lasting footnote in the annals of financial crime"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "스트래튼 오크먼트 수사팀을 6년간 이끌어 기소 완성",
+     "reason_en": "He led the six-year Stratton Oakmont investigation to conviction"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "1989년 FBI 훈련을 거쳐 26년간 현직 요원으로 근무",
+     "reason_en": "FBI-trained in 1989, he served 26 years in the field"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "6년간 거래 기록을 되짚어 벨포트의 자금줄을 증명",
+     "reason_en": "Six years tracing trades until Belfort's money was proven"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "영화가 나오기 전까지 이름이 알려지지 않은 요원",
+     "reason_en": "Unknown to the public until the film found him"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "6년의 지루한 장부 추적을 끝까지 밀고 간 인내",
+     "reason_en": "He ground through six years of ledgers without letting go"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "1993년부터 6년간 스트래튼의 서류를 샅샅이 뒤짐",
+     "reason_en": "From 1993 he combed Stratton's paper for six years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "퇴직 뒤 컨설팅에서 수사 경험을 체계화해 전수",
+     "reason_en": "In retirement he turned his casework into method"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "월가의 거물 사기꾼들과 정면으로 맞서 수사",
+     "reason_en": "He took on Wall Street's most feared swindlers head-on"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "26년간 FBI 한 조직에 몸담으며 임무에 충실",
+     "reason_en": "Twenty-six years inside one Bureau, faithful to the job"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "피해자 자산 회수를 위한 몰수 수사에 참여",
+     "reason_en": "He worked forfeitures meant to return money to victims"
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "기소가 유죄로 이어지게 증거 중심 수사를 고수",
+     "reason_en": "His evidence-first casework held up in court"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "수사 공로를 내세우지 않고 퇴직 뒤에도 조용히 활동",
+     "reason_en": "He never claimed the spotlight, then or after retiring"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "끈질긴 추적 끝에 유죄를 이끌어낸 현실적 신념",
+     "reason_en": "He trusted that persistence would end in conviction"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "연방 수사기관의 법 질서 안에서 평생 근무",
+     "reason_en": "A career inside the federal order of law enforcement"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "팀 단위 수사와 기관 협력으로 일한 조직 생활자",
+     "reason_en": "His work was team investigations and agency cooperation"
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "6년을 들여 서류로 쌓아 올린 신중한 기소 전략",
+     "reason_en": "He chose six patient years of paper over shortcuts"
+    }
+   },
+   "rationale_ko": "화려한 검거가 아니라 6년의 장부 추적으로 월가의 늑대를 무너뜨렸다. 증거 중심 수사는 매이도프 자산 몰수에서도 이어졌다. 영화가 그의 분신을 스크린에 올렸을 때에도 본인은 컨설턴트로 조용히 남았다. 스물여섯 해를 한 기관에 바쳤다.",
+   "rationale_en": "Not a flashy arrest but six years of ledgers brought down the Wolf of Wall Street. The same evidence-first method carried into the Madoff forfeitures. When Hollywood put his double on screen, he stayed a quiet consultant. He gave one Bureau twenty-six years."
+  }
+ },
+ "프레드 조지프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "드렉셀 파산이 월가 윤리 논쟁을 부추김",
+   "social_exp_en": "Drexel's collapse fed a decade's debate on Wall Street ethics",
+   "economic": 5,
+   "economic_exp": "1985년부터 정크본드 시대의 간판 투자은행을 경영",
+   "economic_exp_en": "He ran the flagship investment bank of the junk-bond era",
+   "cultural": 2,
+   "cultural_exp": "그의 회사가 1980년대 월가 서사의 중심 무대",
+   "cultural_exp_en": "His firm is the stage of a decade's Wall Street lore",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "정크본드 시대의 승패를 몸으로 겪은 표상",
+   "transhistoricity_exp_en": "He embodies the rise and fall of junk-bond finance"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 76,
+     "reason_ko": "수천 명 규모 투자은행의 최고경영자로 5년간 재임",
+     "reason_en": "CEO for five years of an investment bank with thousands of staff"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "로스쿨과 세무 변호사를 거친 사무직 금융인",
+     "reason_en": "A law-school tax lawyer turned desk-bound banker"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "하버드 로스쿨 출신 세무 전문가에서 은행 수장으로 성장",
+     "reason_en": "Harvard-trained tax lawyer who rose to run a bank"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "택시기사의 아들에서 월가 CEO로 오른 입지전적 인물",
+     "reason_en": "A cab driver's son turned Wall Street chief — good copy"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "노동자 집안 출신답게 절제된 사생활을 유지",
+     "reason_en": "A working-class Bostonian who lived without flash"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "파산 뒤에도 부티크 은행을 세워 말년까지 현역 유지",
+     "reason_en": "After the collapse he built a boutique and never stopped"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "회사 몰락의 책임을 인정하며 재기를 택함",
+     "reason_en": "He owned the failure and chose to rebuild"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "밀켄의 정크본드 부서를 회사의 명운으로 옹호",
+     "reason_en": "He bet the firm's name on Milken's junk-bond desk"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "밀켄을 끝까지 두둔하다 회사와 함께 가라앉음",
+     "reason_en": "He defended Milken to the end and sank with the firm"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "자선보다 회사와 고객 이해에 전념한 경영자",
+     "reason_en": "He gave his energy to firm and clients, not causes"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "밀켄 부서의 관행을 회사가 제지하지 못한 책임",
+     "reason_en": "He failed to rein in the desk that broke the rules"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "자신보다 밀켄과 회사를 앞세운 조용한 수장",
+     "reason_en": "He let Milken and the firm take the limelight"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "'10년 안에 골드만과 겨룬다'는 공언을 실천",
+     "reason_en": "He promised Goldman parity in ten years — and nearly did"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서 문제엔 관여 없이 시장 논리로 움직인 은행가",
+     "reason_en": "A market man who left the social order untouched"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "하버드와 대형 은행 조직을 거쳐 정상에 오른 조직인",
+     "reason_en": "He climbed inside institutions, from Harvard to a big bank"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "골드만 추월을 공언하고 정크본드에 회사를 걸음",
+     "reason_en": "He publicly bet the firm on junk bonds"
+    }
+   },
+   "rationale_ko": "택시기사의 아들이 하버드를 거쳐 정크본드 시대의 간판 은행 수장이 됐다. 밀켄을 끝까지 옹호한 충성은 회사와 운명을 함께하게 했다. 파산 뒤 부티크 은행을 세워 죽을 때까지 일했다. 1990년 드렉셀의 몰락과 함께 한 시대가 끝났다.",
+   "rationale_en": "A cab driver's son rose through Harvard to captain the flagship bank of the junk-bond era. His loyalty to Milken bound his fate to the firm's. After the 1990 collapse he built a boutique bank and worked to his last days. When Drexel fell, an era fell with it."
+  }
+ },
+ "데니스 러바인": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "체포가 내부자거래 단속 시대를 열었음",
+   "social_exp_en": "His arrest opened the insider-trading crackdown era",
+   "economic": 3,
+   "economic_exp": "보스키·드렉셀·밀켄으로 이어진 수사의 첫 고리",
+   "economic_exp_en": "His flip set off the chain that reached Boesky and Milken",
+   "cultural": 2,
+   "cultural_exp": "스캔들 문학 '도둑들의 소굴'의 주요 소재",
+   "cultural_exp_en": "A central figure in 'Den of Thieves' and scandal lore",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "1980년대 월가 스캔들의 출발점으로 기록됨",
+   "transhistoricity_exp_en": "Remembered as the first domino of the 1980s scandals"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "드렉셀 인수합병 부서에서 소규모 딜 팀을 이끎",
+     "reason_en": "He ran deal teams inside Drexel's M&A department"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "퀸스 출신으로 대학과 월가 사무직 경로를 밟음",
+     "reason_en": "Queens-bred, schooled and desk-bound on Wall Street"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "복잡한 인수 구조를 설계한 드렉셀의 간판 딜메이커",
+     "reason_en": "Drexel's star at structuring takeovers"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "월가에서 호감을 산 능수능란한 교섭가",
+     "reason_en": "A smooth, well-liked operator on the Street"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 22,
+     "reason_ko": "내부자 정보로 천만 달러 넘게 챙긴 탐욕",
+     "reason_en": "He could not resist $10 million in insider gains"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "딜 업무와 비밀 계좌 관리를 병행한 부지런함",
+     "reason_en": "He ran deals by day and a secret account on the side"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "회고록 '인사이드 아웃'에서 자기 몰락을 정리",
+     "reason_en": "His memoir 'Inside Out' reckons with his own fall"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "공중전화와 해외 계좌를 동원한 위험한 밀거래",
+     "reason_en": "He ran payphone trades into a Bahamian account"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 20,
+     "reason_ko": "고객과 회사를 배신했고 체포 뒤엔 보스키를 밀고",
+     "reason_en": "He betrayed clients and firm, then flipped on Boesky"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "내부자거래로 시장의 다른 참여자들을 해침",
+     "reason_en": "His trades skimmed money from everyone else in the market"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "비공개 정보로 불공정 거래를 조직적으로 반복",
+     "reason_en": "He systematically traded on information others lacked"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "큰손 행세로 월가를 누빈 자기과시적 딜메이커",
+     "reason_en": "He flashed big-shot status around Wall Street"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "들키지 않을 거라는 낙관으로 범행을 확대",
+     "reason_en": "He kept enlarging the scheme confident he would not be caught"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "제도 도전보다 제도의 빈틈을 이용한 투기꾼",
+     "reason_en": "He exploited the order's gaps rather than challenge it"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "혼자 해외 계좌를 숨겨 다닌 고독한 이중생활",
+     "reason_en": "He ran a secret account alone — a double life"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "6년간 대담하게 범행 규모를 키워나감",
+     "reason_en": "He grew the scheme boldly for six years"
+    }
+   },
+   "rationale_ko": "인수합병 재능으로 월가 정상에 오르면서도 비공개 정보의 손쉬운 돈을 뿌리치지 못했다. 1986년 체포 뒤 보스키를 밀고한 선택이 드렉셀과 밀켄까지 무너뜨린 연쇄를 열었다. 출소 뒤 회고록으로 자기 이야기를 직접 정리했다.",
+   "rationale_en": "M&A talent took him to the top of the Street, but he could not refuse the easy money of inside tips. Flipping on Boesky after his 1986 arrest opened the chain that reached Drexel and Milken. After prison he told the story himself in a memoir."
+  }
+ },
+ "마틴 시걸": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "1987년 자백이 월가 사냥 시대의 분수령이 됨",
+   "social_exp_en": "His 1987 plea marked a turn in the Wall Street hunt",
+   "economic": 3,
+   "economic_exp": "키더의 간판 딜메이커로 1980년대 인수 시장을 주도",
+   "economic_exp_en": "Kidder's top dealmaker shaped the 1980s takeover market",
+   "cultural": 2,
+   "cultural_exp": "보스키 스캔들 서사의 상징적 이중인격 인물",
+   "cultural_exp_en": "The two-faced emblem of the Boesky scandal story",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "월가 스캔들사의 핵심 인물로 남음",
+   "transhistoricity_exp_en": "He remains a central name in Wall Street scandal history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "키더 피바디 인수합병 부문의 실세로 딜 조직을 이끎",
+     "reason_en": "He ran Kidder's M&A franchise and its deal teams"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "하버드 출신으로 투자은행 사무직 경력을 쌓음",
+     "reason_en": "Harvard-bred, he lived at an investment bank desk"
+    },
+    "intellect": {
+     "score": 74,
+     "reason_ko": "30대에 '업계 최고 딜메이커'로 불린 구조 설계 능력",
+     "reason_en": "The era's top-rated dealmaker by his mid-thirties"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "월가의 '골든 보이'로 불린 수려한 외모와 언변",
+     "reason_en": "Wall Street's 'golden boy' in looks and manner"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "현금 가방을 받는 이중생활의 욕망을 제어 못함",
+     "reason_en": "Suitcases of cash fed a double life he could not stop"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "최고 딜메이커 자리까지 오른 과중한 업무량을 소화",
+     "reason_en": "The workload of the Street's busiest banker"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "자백 후 경영대학에서 자기 과오를 강연하며 복기",
+     "reason_en": "After pleading guilty he lectured on his own failure"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "이중생활의 위험을 감수했으나 검거 후 전면 협조",
+     "reason_en": "He risked a double life, then cooperated completely"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 20,
+     "reason_ko": "고객 기밀을 팔고 보스키도 결국 증언으로 배신",
+     "reason_en": "He sold his clients, then testified against his buyer"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "기밀 매매로 의뢰 기업과 주주들을 해침",
+     "reason_en": "His tip-offs injured the clients who trusted him"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "내부 정보 판매로 시장의 공정성을 훼손",
+     "reason_en": "Selling secrets rigged the market he worked in"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스타 은행가의 명성과 화려한 생활을 누림",
+     "reason_en": "He lived the star banker's conspicuous life"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "성공과 범행의 이중주를 계속할 수 있다 믿음",
+     "reason_en": "He believed he could run success and crime in parallel"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기성 금융 질서의 정점에 선 은행가로 질서 문제와 무관",
+     "reason_en": "An establishment banker untouched by social causes"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "혼자 보스키와 거래하며 동료를 속인 은밀한 생활",
+     "reason_en": "Alone he dealt with Boesky while deceiving his colleagues"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "스타 자리를 걸고 현금 거래를 계속한 도박",
+     "reason_en": "He kept taking cash while a star — a gambler's nerve"
+    }
+   },
+   "rationale_ko": "업계 최고라 불린 재능이 있었기에 기밀 판매의 배신이 더 컸다. 골든 보이의 겉모습 뒤에서 현금 가방이 오간 이중생활은 1987년 자백으로 끝났다. 전면 협조가 드렉셀·밀켄 기소의 증거가 됐고 두 달 복역에 그쳤다.",
+   "rationale_en": "His gifts made him the era's top dealmaker — and made his betrayal worse. Behind the golden boy ran a trade in suitcases of cash, ended by a 1987 guilty plea. His full cooperation armed the cases against Drexel and Milken; he served two months."
+  }
+ },
+ "존 머헤런": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "월가 스캔들 시대의 주변 인물",
+   "social_exp_en": "A peripheral figure of the scandal era",
+   "economic": 3,
+   "economic_exp": "차익거래 기법 개척과 NYSE 전문회사 경영",
+   "economic_exp_en": "He pioneered arbitrage trading and ran a NYSE specialist firm",
+   "cultural": 2,
+   "cultural_exp": "소총 사건으로 월가 스캔들 서사에 새겨짐",
+   "cultural_exp_en": "The rifle drive fixed him in Wall Street legend",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "1980년대 월가 인물열전의 한 자리",
+   "transhistoricity_exp_en": "A name in the annals of 1980s Wall Street"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "25세 메릴린치 이사에 이어 베어 와그너 CEO로 재기",
+     "reason_en": "Merrill MD at 25, later chief of NYSE specialist Bear Wagner"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "평생 트레이딩 데스크와 사무실에서 일한 금융인",
+     "reason_en": "His working life ran from trading desk to office"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "차익거래 천재로 25세에 메릴린치 이사 자리에 오름",
+     "reason_en": "An arbitrage prodigy made Merrill director at twenty-five"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "스프링스틴이 장례식에서 연주할 만큼 폭넓은 인맥",
+     "reason_en": "Springsteen played his funeral — a wide circle of love"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "배신감에 소총을 싣고 나간 충동을 억누르지 못함",
+     "reason_en": "Feeling betrayed, he drove off with a loaded rifle"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "판결 번복 뒤 NYSE 전문회사 수장으로 일어선 재기",
+     "reason_en": "Conviction reversed, he rebuilt into a specialist chief"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "명상과 시를 가까이했으나 충동이 앞선 인물",
+     "reason_en": "He meditated and wrote verse, yet impulse won out"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "배신한 친구에게 총을 들고 간 분노의 감행",
+     "reason_en": "The armed drive at Boesky was rage, not valor"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "보스키와의 우정을 깊이 여겼으나 배신감에 뒤집힘",
+     "reason_en": "He prized Boesky's friendship — its breach unhinged him"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "자선 기부와 친구들에 대한 관대함으로 알려짐",
+     "reason_en": "Known among friends for open-handed generosity"
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "유죄는 뒤집혔으나 내부 정보 거래 혐의에 얽힘",
+     "reason_en": "His conviction was reversed, but he dealt at the edge"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "화려한 성공을 과시한 월가의 스타 트레이더",
+     "reason_en": "He wore his trading stardom loudly"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "극심한 기복 속에서도 재기를 이어간 인물",
+     "reason_en": "Through violent mood swings he kept rebuilding"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "시장 질서 안에서 부를 쫓은 비정치적 투기꾼",
+     "reason_en": "An apolitical speculator inside the market order"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "독자 트레이딩이었으나 친구 네트워크를 중시",
+     "reason_en": "A lone trader who nonetheless lived for his friends"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "충동적 감행이 커리어 내내 반복된 인물",
+     "reason_en": "Impulse drove the boldest moves of his career"
+    }
+   },
+   "rationale_ko": "차익거래 천재는 스물다섯에 메릴린치 이사가 됐다. 보스키의 배신으로 무너진 뒤 소총 사건으로 월가를 떠들썩하게 했으나 판결은 뒤집혔고 그는 다시 일어섰다. 감정의 파도를 다스리지 못한 게 재능의 발목을 잡았다. 2003년 장례식에서는 브루스 스프링스틴이 연주했다.",
+   "rationale_en": "An arbitrage prodigy made Merrill Lynch director at twenty-five. Boesky's betrayal unmoored him — the rifle drive made headlines — but the conviction was reversed and he rebuilt. The moods he could not master dogged his talent. At his 2003 funeral, Bruce Springsteen played."
+  }
+ },
+ "시미즈 사부로": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "스미토모 스캔들로 일본 기업 통제 논의를 촉발",
+   "social_exp_en": "The affair fed Japan's debate on corporate control",
+   "economic": 3,
+   "economic_exp": "무승인 구리 투기와 은닉 장부로 스캔들의 씨앗을 뿌림",
+   "economic_exp_en": "He started the hidden book behind the copper scandal",
+   "cultural": 1,
+   "cultural_exp": "'노코멘트'의 수수께끼 인물로 사건 서사에 남음",
+   "cultural_exp_en": "The 'no comment' mystery man of the affair's lore",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "하마나카 구리 스캔들의 기원으로 기록됨",
+   "transhistoricity_exp_en": "He remains the obscure origin of the Hamanaka scandal"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "스미토모 상사 구리 트레이딩 부서의 책임자로 부하를 지휘",
+     "reason_en": "He headed Sumitomo's copper desk and directed Hamanaka"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "도쿄 상사맨으로 트레이딩 데스크 중심의 경력",
+     "reason_en": "A trading-desk salaryman in a Tokyo trading house"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "무승인 투기 구조를 설계하고 은닉 장부를 만든 인물",
+     "reason_en": "He devised the off-book scheme Hamanaka inherited"
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "법정에서 모든 질문을 '노코멘트'로 막은 무미한 존재감",
+     "reason_en": "He answered every courtroom question with silence"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "손실이 6천만 달러로 불자 보고 없이 조용히 퇴사",
+     "reason_en": "When losses hit $60 million he quietly walked away"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "수년간 부서 운영과 숨겨진 장부 관리를 병행",
+     "reason_en": "He ran the desk and its hidden ledger for years"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "재판에서도 퇴사 후에도 자기 역할을 설명하지 않음",
+     "reason_en": "In court and after, he explained nothing of his role"
+    },
+    "courage": {
+     "score": 40,
+     "reason_ko": "무승인 베팅은 시작했으나 책임 자리는 피해 물러남",
+     "reason_en": "He dared the scheme, then ducked its accountability"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "하마나카를 폭로하지 않고 침묵으로 일관",
+     "reason_en": "He never gave up Hamanaka — silence to the end"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "회사와 시장에 손실을 남긴 채 홀연히 물러남",
+     "reason_en": "He left losses behind for firm and market to bear"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "6천만 달러 손실을 회사에 알리지 않고 장부를 숨김",
+     "reason_en": "He hid $60 million in losses in a secret book"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "공개 설명을 거부하고 그림자 뒤에 남은 인물",
+     "reason_en": "He refused the stage and stayed a shadow"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "손실 확대를 회사에 숨기는 쪽을 택한 회피",
+     "reason_en": "Faced with losses, he chose concealment over confession"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "일본 상사 조직의 위계와 관례 속에서 움직인 관리자",
+     "reason_en": "A manager inside Japan's hierarchical trading-house order"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "비밀 장부를 소수와 공유한 폐쇄적 팀 운영",
+     "reason_en": "His hidden book bound a tiny circle in secrecy"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "무승인 투기를 열었으나 위기엔 조용히 철수",
+     "reason_en": "Bold enough to start the scheme, quick to slip away"
+    }
+   },
+   "rationale_ko": "구리 데스크 책임자로서 부하와 함께 무승인 투기를 열고, 손실이 불자 은닉 장부를 남긴 채 물러났다. 그 장부가 하마나카의 10년 은폐를 가능하게 했다. 법정의 '노코멘트'는 그를 사건 최대의 수수께끼로 남겼다.",
+   "rationale_en": "As copper chief he opened the unauthorized book with his subordinate, then walked out when losses hit $60 million — leaving the ledger behind. That hidden book enabled Hamanaka's decade of concealment. His courtroom 'no comment' kept him the affair's enduring mystery."
+  }
+ },
+ "제임스 데이비스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "스탠퍼드 재판의 핵심 증인으로 폰지 내부를 드러냄",
+   "social_exp_en": "His testimony opened the Stanford Ponzi from inside",
+   "economic": 3,
+   "economic_exp": "17년간 70억 달러 규모 사기의 자금 흐름을 관리",
+   "economic_exp_en": "For 17 years he ran the books of a $7 billion fraud",
+   "cultural": 1,
+   "cultural_exp": "스탠퍼드 사건 서사의 결정적 내부 고발자",
+   "cultural_exp_en": "The decisive insider of the Stanford saga",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "역대급 폰지 사건의 장부지기로 기록됨",
+   "transhistoricity_exp_en": "Remembered as the bookkeeper of a giant Ponzi"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "스탠퍼드 파이낸셜의 재무를 17년간 총괄한 CFO",
+     "reason_en": "He ran Stanford Financial's money for seventeen years"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "미시시피 출신으로 회계 사무직 경로를 밟음",
+     "reason_en": "A Mississippi accountant's desk career"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "70억 달러 자금의 복잡한 흐름을 관리·은닉한 재무가",
+     "reason_en": "He engineered the flows that hid $7 billion"
+    },
+    "charm": {
+     "score": 42,
+     "reason_ko": "주인의 그늘에서 일한 무명의 장부 담당자",
+     "reason_en": "An anonymous bookkeeper in his boss's shadow"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "거액 보수를 받으며 사기 구조를 덮어 계속 일함",
+     "reason_en": "Well paid, he kept covering the fraud for years"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "17년간 빈틈없는 장부 관리로 사기를 유지시킴",
+     "reason_en": "Seventeen years of meticulous books sustained the fraud"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "유죄 인정 뒤 자기 역할을 법정에서 진술",
+     "reason_en": "On the stand he laid out his own part in the scheme"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "주인을 무너뜨리는 증언의 위험을 감수",
+     "reason_en": "He risked testifying against the man he served"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "17년 충실하다가 결국 주인을 법정에서 무너뜨림",
+     "reason_en": "Seventeen years loyal — then he sank his boss in court"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "수만 투자자의 피해를 알고도 덮는 쪽을 택함",
+     "reason_en": "He knew thousands were being robbed and covered it"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "사기 장부를 꾸미는 역할로 시장 신뢰를 배신",
+     "reason_en": "He cooked the books that betrayed investors' trust"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "눈에 띄지 않는 실무자로 2인자 자리를 지킴",
+     "reason_en": "He kept the second seat and stayed invisible"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "붕괴를 알면서도 연명에 건 부정적 생존",
+     "reason_en": "He saw the end coming and stayed anyway"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "기성 금융 질서의 그늘에서 일한 보조자",
+     "reason_en": "A functionary of the established money order"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "주인과 단둘이 공유한 비밀 장부의 세계",
+     "reason_en": "The secret books were a world of two"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "17년간 들통나지 않게 조심스레 범행을 유지",
+     "reason_en": "He kept the fraud quiet and careful for 17 years"
+    }
+   },
+   "rationale_ko": "70억 달러 폰지의 돈길을 17년간 관리한 2인자였다. 사기가 무너지자 그는 충성을 꺾고 주인을 무너뜨리는 스타 증인이 됐다. 덕분에 스탠퍼드는 110년형을 받았고 그는 5년형과 10억 달러 추징을 안았다.",
+   "rationale_en": "For seventeen years he kept the money flows of a $7 billion Ponzi. When it broke, he broke with his boss and became the star witness who put Stanford away for 110 years. He drew five years and a billion-dollar judgment."
+  }
+ },
+ "리로이 킹": {
+  "influence": {
+   "political": 2,
+   "political_exp": "국가 규제기관을 사익에 쓴 부패의 표본",
+   "political_exp_en": "He turned a national regulator into a private asset",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "감독 부패가 폰지 피해를 키운 사례로 회자",
+   "social_exp_en": "Cited as the bought watchdog who let a Ponzi grow",
+   "economic": 2,
+   "economic_exp": "SEC 조사 차단으로 70억 달러 사기의 연명을 도움",
+   "economic_exp_en": "Blocking the SEC bought the fraud extra years",
+   "cultural": 1,
+   "cultural_exp": "스탠퍼드 스캔들 서사의 매수된 감시자",
+   "cultural_exp_en": "The bought watchdog of the Stanford saga",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "금융 감독 실패의 교과서적 사례로 남음",
+   "transhistoricity_exp_en": "A textbook case of captured regulation"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "앤티가 금융감독위원회 수장으로 감독 인력을 지휘",
+     "reason_en": "He commanded Antigua's financial regulator"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "관료 경로를 밟은 규제기관 사무직",
+     "reason_en": "A career bureaucrat at a desk"
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "규제 권한을 사적으로 운용한 교묘한 관리자",
+     "reason_en": "He was canny at turning regulatory power to private use"
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "뇌물로 얼룩진 기관장으로 평판이 나빠짐",
+     "reason_en": "He left office remembered as a bought man"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "감시 대상에게 현금과 주식을 받아 챙김",
+     "reason_en": "He pocketed Stanford's cash and shares"
+    },
+    "diligence": {
+     "score": 40,
+     "reason_ko": "조사 차단에만 열심이던 제 자리 관리자",
+     "reason_en": "His energy went to blocking probes, not policing"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "송환에 10년을 저항하며 책임 인정을 미룸",
+     "reason_en": "He fought extradition for a decade rather than answer"
+    },
+    "courage": {
+     "score": 30,
+     "reason_ko": "미국 송환을 피해 도주성 저항을 지속",
+     "reason_en": "His decade of resistance was evasion, not defiance"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "국민이 아니라 돈 준 사기꾼 편을 섬김",
+     "reason_en": "He served the man who paid him, not the public"
+    },
+    "benevolence": {
+     "score": 20,
+     "reason_ko": "투자자 피해 확산을 방치한 직무 유기",
+     "reason_en": "His neglect let the harm to investors compound"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "감독권을 뇌물에 팔아 규제 공정성을 파괴",
+     "reason_en": "He sold the watchdog's impartiality for bribes"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "기관장 권위를 사익 수단으로 쓰며 위세 부림",
+     "reason_en": "He used the office's dignity as a personal asset"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "들통나면 버티는 쪽을 택한 소극적 도피",
+     "reason_en": "When caught he chose ten years of stalling"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "관료 질서의 틈을 사익으로 메운 기성 관리인",
+     "reason_en": "An insider who mined the order for private gain"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "사적 거래로 공적 직무를 사유화한 관리자",
+     "reason_en": "He made a public office his private business"
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "수사망을 피해 10년간 송환 저항에 매달림",
+     "reason_en": "He spent a decade carefully dodging extradition"
+    }
+   },
+   "rationale_ko": "감시견 자리를 돈 받고 판 규제자였다. 그의 차단 덕에 스탠퍼드 사기는 몇 년을 더 숨 쉬었다. 송환에 10년을 버텼지만 결국 인도돼 징역 10년을 받았다. 금융 감독 실패의 표본으로 남았다.",
+   "rationale_en": "He was the watchdog who sold himself. His interference gave the Stanford fraud extra years of life. A decade resisting extradition ended in a ten-year sentence. He remains a textbook case of captured regulation."
+  }
+ },
+ "존 미첼": {
+  "influence": {
+   "political": 6,
+   "political_exp": "법무장관과 재선 캠프 총책으로 워터게이트 은폐에 관여",
+   "political_exp_en": "As AG and campaign chief he joined the Watergate cover-up",
+   "strategic": 1,
+   "strategic_exp": "안보 정책보다 국내 정치에 집중한 관리자",
+   "strategic_exp_en": "His mark was domestic politics, not security doctrine",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "최초로 수감된 법무장관으로 사법 신뢰 논쟁을 남김",
+   "social_exp_en": "The first AG jailed — a lasting symbol in the rule-of-law debate",
+   "economic": 1,
+   "economic_exp": "베스코의 20만 달러 불법 자금 사건에 연루",
+   "economic_exp_en": "He stood trial over Vesco's secret $200,000",
+   "cultural": 3,
+   "cultural_exp": "워터게이트 서사의 중심 인물로 영화·저널에 재현",
+   "cultural_exp_en": "A fixture of Watergate dramatizations and journalism",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "워터게이트라는 영구적 정치 유산의 당사자",
+   "transhistoricity_exp_en": "A principal of Watergate, America's permanent scandal"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "1969년 법무장관으로 법무부를 총괄하고 재선 캠프를 지휘",
+     "reason_en": "He ran the Justice Department, then Nixon's 1972 campaign"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "2차 대전 태평양 전선에서 PT정을 지휘한 해군 전투 경력",
+     "reason_en": "He commanded PT boats in the Pacific war"
+    },
+    "intellect": {
+     "score": 76,
+     "reason_ko": "뉴욕 최고 채권 변호사로 지방채 법률 분야를 개척",
+     "reason_en": "New York's pre-eminent bond lawyer of his day"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "파이프를 문 무표정한 관리자로 위압감을 줌",
+     "reason_en": "A pipe-clenched, flinty presence more feared than loved"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "권력 남용 공모에 가담해 법의 자제를 저버림",
+     "reason_en": "He joined the cover-up and broke the law he led"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "실무로 채권법 정상에 오른 워커홀릭 변호사",
+     "reason_en": "A workhorse who built the nation's top bond practice"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "복역 후에도 워터게이트에 대한 공개적 뉘우침 없음",
+     "reason_en": "He emerged from prison without a public reckoning"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "닉슨을 끝까지 변호하며 스스로 감옥을 감수",
+     "reason_en": "He stood by Nixon and paid with prison"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "대통령에 대한 충성으로 은폐 공모까지 감행",
+     "reason_en": "His loyalty to Nixon carried him into conspiracy"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "법과 질서의 관리자로서 관대함과 거리를 둠",
+     "reason_en": "A law-and-order man who kept mercy at a distance"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "수사 무마와 사법 방해 공모로 법치를 훼손",
+     "reason_en": "Obstruction of justice poisoned the office he held"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "권력의 정점에서 겸양보다 위엄을 택함",
+     "reason_en": "At the summit he chose authority over modesty"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "적대와 위협을 전제로 움직인 권력 현실주의자",
+     "reason_en": "He governed on suspicion of enemies, not hope"
+    },
+    "conservative_progressive": {
+     "score": -30,
+     "reason_ko": "법과 질서를 내세운 닉슨 체제의 충실한 수호자",
+     "reason_en": "The law-and-order guardian of the Nixon order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "정권과 당 조직에 자신을 묶은 조직 충성가",
+     "reason_en": "He bound himself wholly to party and president"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "무리한 공작엔 제동을 걸었으나 은폐엔 가담",
+     "reason_en": "He balked at wilder schemes yet joined the cover-up"
+    }
+   },
+   "rationale_ko": "전쟁에서 PT정을 몰았던 채권 변호사는 법무부 수장과 재선 캠프 총책으로 정점에 올랐다. 대통령에 대한 충성이 은폐 공모로 그를 이끌었다. 끝내 감옥에 간 유일한 미국 법무장관이 됐다. 그의 이름은 워터게이트와 함께 남았다.",
+   "rationale_en": "The PT-boat skipper turned bond lawyer rose to run Justice and Nixon's re-election. Loyalty to the president drew him into the cover-up. He remains the only U.S. Attorney General to serve time. His name is welded to Watergate."
+  }
+ },
+ "버나드 콘펠드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "뮤추얼펀드 대중화로 소액 투자자층을 확대",
+   "social_exp_en": "He mass-marketed mutual funds to small savers",
+   "economic": 5,
+   "economic_exp": "IOS로 국경을 넘는 펀드 판매 모델을 세움",
+   "economic_exp_en": "IOS built the cross-border retail fund model",
+   "cultural": 3,
+   "cultural_exp": "'부자가 되고 싶은가'와 제트족 생활로 시대 상징",
+   "cultural_exp_en": "'Do you sincerely want to be rich?' made him a jet-set emblem",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "글로벌 펀드 세일즈의 선구이자 대형 스캔들 주인공",
+   "transhistoricity_exp_en": "Pioneer of global fund sales — and of a great collapse"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "유럽과 아메리카에 수만 명의 판매 조직을 거느림",
+     "reason_en": "He ran a sales force of tens of thousands across continents"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "사회복지사와 보험 세일즈맨을 거친 비신체직 경력",
+     "reason_en": "From social worker to insurance salesman — desk and door"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "사회주의자 청년이 자본주의 최고의 판매 제국을 설계",
+     "reason_en": "A onetime socialist who engineered a sales empire"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "제트족 파티와 성으로 1960년대를 풍미한 스타",
+     "reason_en": "The jet-set showman of the swinging-sixties fund world"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "성과 저택에 모델들을 두고 제트족 사치를 누림",
+     "reason_en": "A château, starlets and jets — appetite unrestrained"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "세일즈 조직을 손수 돌아다니며 키운 실행력",
+     "reason_en": "He toured the field constantly building the sales machine"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "제국 상실과 수감을 회고했으나 책임 인정은 미지근",
+     "reason_en": "He chronicled his fall but never owned the wreck"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "전 재산과 명성을 걸고 펀드 사업을 해외로 확장",
+     "reason_en": "He risked everything taking fund sales overseas"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "조직 이탈과 베스코의 찬탈로 제국이 와해",
+     "reason_en": "His empire's defections opened the door to Vesco"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "소액 투자자에게 꿈을 팔았으나 붕괴로 피해를 남김",
+     "reason_en": "He sold dreams to small savers who ate the collapse"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "판매 수당 구조가 투자자 이익과 충돌한 제국",
+     "reason_en": "His sales commissions ran against the savers' interests"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "'부자가 되고 싶은가'를 외치며 자신을 상품화",
+     "reason_en": "He sold himself as loudly as his funds"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "'진심으로 부자가 되고 싶은가'라는 낙관의 전도사",
+     "reason_en": "His whole creed was the optimism of getting rich"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "사회주의 신념에서 출발해 자본주의 영웅으로 전향",
+     "reason_en": "He began a socialist and ended a capitalist hero"
+    },
+    "individual_social": {
+     "score": 0,
+     "reason_ko": "수만 명 조직의 수장이었으나 개인적 화려함을 누림",
+     "reason_en": "He led an army yet lived for personal splendor"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "전 재산을 걸고 신대륙 펀드 시장을 개척",
+     "reason_en": "He staked everything on a new fund frontier"
+    }
+   },
+   "rationale_ko": "사회주의자 청년이 뮤추얼펀드 제국을 세워 유럽의 소액 투자자를 긁어모았다. 화려한 제트족 생활은 회사의 간판이자 약점이 됐다. 흔들린 제국은 도망자 베스코에게 통째로 넘어갔다. 그는 스위스 감옥에서 11개월을 보낸 뒤 무죄로 풀려났다.",
+   "rationale_en": "A young socialist built a mutual-fund empire that swept up Europe's small savers. The jet-set flash was both his brand and his weakness. When the empire wobbled, the fugitive Robert Vesco took it whole. He spent eleven months in a Swiss cell before acquittal."
+  }
+ },
+ "아서 '불' 사이먼스": {
+  "influence": {
+   "political": 1,
+   "political_exp": "민간 구출 작전이 기업 위기 대응의 선례가 됨",
+   "political_exp_en": "His private rescue set a precedent for corporate extraction",
+   "strategic": 6,
+   "strategic_exp": "손테이 기습이 특수작전 교범의 고전이 됨",
+   "strategic_exp_en": "Son Tay became a classic in special-operations doctrine",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "사회 제도 변화와 거리가 먼 군인",
+   "social_exp_en": "A soldier outside social reform",
+   "economic": 1,
+   "economic_exp": "EDS 직원 구출로 기업 리스크 대응의 선례",
+   "economic_exp_en": "The EDS rescue shaped corporate crisis playbooks",
+   "cultural": 4,
+   "cultural_exp": "켄 폴렛 소설의 실제 모델로 특수부대 신화가 됨",
+   "cultural_exp_en": "'On Wings of Eagles' made him a special-forces legend",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "특수작전사의 전설로 계속 연구되는 인물",
+   "transhistoricity_exp_en": "Still studied wherever special operations are taught"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "1970년 손테이 기습과 1979년 테헤란 구출팀을 지휘",
+     "reason_en": "He led the Son Tay raid and the 1979 Tehran extraction"
+    },
+    "martial": {
+     "score": 85,
+     "reason_ko": "2차 대전 레인저 작전부터 월남까지 평생 실전을 누빈 군인",
+     "reason_en": "From WWII Rangers to Vietnam — a lifetime in combat"
+    },
+    "intellect": {
+     "score": 74,
+     "reason_ko": "손테이 작전의 세밀한 훈련 계획을 직접 설계",
+     "reason_en": "He personally engineered the raid's meticulous rehearsal plan"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "부하들이 목숨을 걸고 따른 특수부대의 전설",
+     "reason_en": "Men followed him anywhere — a legend among operators"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "극한의 규율로 작전을 준비한 절제된 군인",
+     "reason_en": "His prep was monastic — discipline to the last detail"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "작전 리허설을 수십 차례 반복하며 완성도를 다짐",
+     "reason_en": "He rehearsed the raid until every step was reflex"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "손테이의 실패 원인을 냉정히 복기한 직업군인",
+     "reason_en": "He debriefed Son Tay's failure without flinching"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "적진 한복판 기습과 혁명 이란 침투를 감행",
+     "reason_en": "He led a raid into enemy ground and slipped into revolutionary Iran"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "부하와 포로 구출에 생애를 바친 군인",
+     "reason_en": "His life's work was bringing captured men home"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "포로와 인질 구출을 사명으로 삼은 인물",
+     "reason_en": "He made rescuing captives his mission"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "부하를 균등하게 훈련시키고 평가한 지휘관",
+     "reason_en": "He drove every man by the same hard standard"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "성공 뒤에도 공을 부하와 팀에 돌린 조용한 군인",
+     "reason_en": "He gave the credit to his team and stayed quiet"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "불가능하다는 작전도 방법을 찾아 실행한 낙관",
+     "reason_en": "He assumed every 'impossible' mission had a way"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "평생 군 조직과 국가 임무에 헌신한 제도의 인물",
+     "reason_en": "A lifer inside the military establishment"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "부대 결속과 팀워크를 최우선으로 삼은 지휘관",
+     "reason_en": "Unit cohesion was his first principle"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "과감한 작전을 수십 번 리허설로 신중히 준비",
+     "reason_en": "Bold missions, rehearsed until they were routine"
+    }
+   },
+   "rationale_ko": "2차 대전 레인저에서 출발해 손테이 기습과 테헤란 구출까지 특수작전의 전설이 됐다. 과감한 작전을 수십 번의 리허설로 다지는 철저함이 부하들의 절대적 신뢰를 낳았다. 켄 폴렛이 그의 테헤란 이야기를 소설로 남겼다. 작전 성공 몇 달 뒤 그는 심장마비로 세상을 떠났다.",
+   "rationale_en": "From WWII Rangers to Son Tay and the Tehran rescue, he became the legend of special operations. Audacious missions rehearsed to reflex won his men's absolute trust. Ken Follett turned the Tehran story into a bestseller. Months after that rescue, a heart attack took him."
+  }
+ },
+ "로저 스미스": {
+  "influence": {
+   "political": 1,
+   "political_exp": "GM의 정책 로비로 산업 정책에 간접 영향",
+   "political_exp_en": "GM's lobbying under him touched industrial policy",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 1,
+   "tech_exp": "새턴 프로젝트와 EDS 인수로 기술 투자를 추진",
+   "tech_exp_en": "He pushed Saturn and bought EDS for tech renewal",
+   "social": 3,
+   "social_exp": "공장 폐쇄로 러스트벨트 문제의 상징이 됨",
+   "social_exp_en": "His plant closings made him the face of the Rust Belt",
+   "economic": 5,
+   "economic_exp": "10년간 세계 최대 자동차 기업 GM을 경영",
+   "economic_exp_en": "He ran the world's largest carmaker for a decade",
+   "cultural": 4,
+   "cultural_exp": "다큐 '로저 앤 미'의 제목이 된 기업가",
+   "cultural_exp_en": "The 'Roger' of Michael Moore's documentary",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "미국 제조업 쇠퇴의 상징으로 계속 회자",
+   "transhistoricity_exp_en": "He endures as the emblem of American industrial decline"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "1981년부터 10년간 세계 최대 자동차사 GM을 경영",
+     "reason_en": "He ran GM — the world's largest carmaker — for a decade"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "GM 재무 부서에서 평생을 보낸 사무직 임원",
+     "reason_en": "A lifelong GM finance man at a desk"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "재무 관리에는 능했으나 시장 변화 파악엔 둔함",
+     "reason_en": "Adept at finance, slow to read the market's turn"
+    },
+    "charm": {
+     "score": 38,
+     "reason_ko": "관료적이고 대중과 거리를 둔 회장의 이미지",
+     "reason_en": "A distant, bureaucratic chairman in the public eye"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "검소하고 규칙적인 기업인의 사생활",
+     "reason_en": "A restrained, orderly corporate life"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "46년간 한 회사에서 일하며 정상까지 오름",
+     "reason_en": "Forty-six years inside one company to the top"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "GM 쇠퇴의 책임을 공개적으로 인정하지 않음",
+     "reason_en": "He never publicly owned GM's decline on his watch"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "새턴과 EDS 인수라는 큰 베팅을 감행",
+     "reason_en": "He dared the big bets — Saturn and the EDS buy"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "GM 한 곳에서 평생을 보낸 회사 충성가",
+     "reason_en": "A one-company man for forty-six years"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "공장 폐쇄로 수만 노동자의 일자리를 없앰",
+     "reason_en": "His closures erased tens of thousands of jobs"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "성과보다 관료적 관행을 유지한 경영",
+     "reason_en": "He kept bureaucracy where results were needed"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "마이클 무어의 접근을 외면한 오만한 이미지",
+     "reason_en": "He ducked Michael Moore — the image stuck"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "GM의 체제를 믿고 개혁으로 극복하려 한 신념",
+     "reason_en": "He trusted GM's system could be reformed from inside"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "대기업 기성 질서를 지키려 한 관료 경영자",
+     "reason_en": "He defended the corporate establishment he inherited"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "거대 조직 체계 안에서 평생 일한 회사맨",
+     "reason_en": "A company man who lived inside the great machine"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "EDS 인수 같은 과감한 베팅과 관료적 신중함이 공존",
+     "reason_en": "He swung between bold buys and committee caution"
+    }
+   },
+   "rationale_ko": "46년 회사맨이 세계 최대 자동차 기업의 정상에 올랐다. 새턴과 EDS라는 큰 베팅에도 관료 체계는 변하지 않았고 공장 폐쇄가 이어졌다. 마이클 무어의 카메라가 그를 러스트벨트의 얼굴로 만들었다. 재임 10년은 GM 쇠퇴의 서막이 됐다.",
+   "rationale_en": "A 46-year company man reached the summit of the world's largest carmaker. Big bets — Saturn, EDS — could not move the bureaucracy, and the plant closings spread. Michael Moore's camera fixed him as the face of the Rust Belt. His decade became the prologue to GM's decline."
+  }
+ },
+ "제임스 호프만": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "딜로런 무죄로 함정 수사의 한계를 각인",
+   "social_exp_en": "The acquittal made him the emblem of entrapment",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic bearing",
+   "cultural": 2,
+   "cultural_exp": "딜로런 서사의 그림자 주인공",
+   "cultural_exp_en": "The shadow figure of the DeLorean saga",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "함정 수사 논쟁의 상징 인물로 남음",
+   "transhistoricity_exp_en": "He endures as the face of the entrapment debate"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 18,
+     "reason_ko": "조직을 이끌지 않고 개인 단위 밀수와 정보 활동",
+     "reason_en": "He worked alone — smuggling runs and tips, no organization"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "경비행기 조종과 밀수 현장을 누빈 활동력",
+     "reason_en": "He flew smuggling planes and lived on the move"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "밀수와 정보원 사이를 오간 임기응변의 재능",
+     "reason_en": "He improvised between smuggling and informing with skill"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "이웃 딜로런을 설득할 만큼 언변 있던 이야기꾼",
+     "reason_en": "Silver-tongued enough to pitch DeLorean into a sting"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 22,
+     "reason_ko": "코카인 밀수로 큰돈을 좇은 억제 못한 삶",
+     "reason_en": "He chased cocaine money without a brake"
+    },
+    "diligence": {
+     "score": 45,
+     "reason_ko": "위험한 이중생활을 오래 유지한 에너지",
+     "reason_en": "He sustained a hazardous double life for years"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "증언석에서 과거를 축소하다 신뢰를 잃음",
+     "reason_en": "On the stand he trimmed his past — and lost all credit"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "마약 조직 상대 정보원 활동은 실질적 위험",
+     "reason_en": "Informing on traffickers carried real danger"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 15,
+     "reason_ko": "거래 상대와 고용주를 번갈아 배신",
+     "reason_en": "He betrayed his buyers, his marks and his handlers"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "이웃을 덫에 몰아넣은 이기적 생존자",
+     "reason_en": "He set a trap for his neighbor to save himself"
+    },
+    "fairness": {
+     "score": 12,
+     "reason_ko": "위증 전과가 드러난 진실 무시의 전력",
+     "reason_en": "A record of perjury marked his contempt for truth"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "화려한 자기 과시로 재판 신뢰성을 스스로 무너뜨림",
+     "reason_en": "His grandstanding on the stand destroyed his credibility"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "위기마다 새로운 거래로 빠져나가는 생존 낙관",
+     "reason_en": "He always assumed the next deal would save him"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "법 질서의 안팎을 기회로만 본 기회주의자",
+     "reason_en": "He treated the law as terrain, not allegiance"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "누구와도 진짜 동맹을 맺지 않은 고독한 생존자",
+     "reason_en": "He kept no true ally — every bond was a tool"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "코카인 밀수와 함정 공작을 감행한 대담함",
+     "reason_en": "He ran cocaine flights and a federal sting alike"
+    }
+   },
+   "rationale_ko": "비행기 판매원이 코카인 밀수업자로, 다시 FBI 정보원으로 간판을 바꿔 달았다. 이웃 딜로런을 덫에 몰았지만 위증 전과가 까발려지며 배심원의 신뢰를 잃었다. 그의 덫은 결국 무죄 판결의 근거가 됐다. 함정 수사의 위험을 보여준 상징으로 남았다.",
+   "rationale_en": "Plane salesman, cocaine smuggler, paid informant — he changed stripes to survive. He lured neighbor DeLorean into a sting, but his shredded past lost the jury and the trap produced an acquittal instead. He endures as the emblem of entrapment's dangers."
+  }
+ },
+ "알렉스 트레물리스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 4,
+   "tech_exp": "터커 48 차체와 콘셉트 선행 디자인을 이끎",
+   "tech_exp_en": "He styled the Tucker 48 and pioneered advanced design studios",
+   "social": 1,
+   "social_exp": "사회 제도 변화와 거리가 먼 디자이너",
+   "social_exp_en": "A designer outside social change",
+   "economic": 1,
+   "economic_exp": "터커·포드 프로젝트의 스타일링 담당에 그침",
+   "economic_exp_en": "His economic weight stayed inside the studios",
+   "cultural": 5,
+   "cultural_exp": "터커 48을 그린 손으로 미국 자동차 문화의 아이콘",
+   "cultural_exp_en": "His Tucker 48 became an icon of American car culture",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "터커 48은 영화와 수집 문화로 계속 살아남음",
+   "transhistoricity_exp_en": "The Tucker 48 lives on in film and collector culture"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "터커 스타일링과 포드 선행 스튜디오를 이끈 디자인 총괄",
+     "reason_en": "He ran Tucker's styling and later Ford's advanced studio"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "50년간 작업장에서 클레이와 금속을 직접 다룬 장인",
+     "reason_en": "Fifty years shaping clay and metal with his own hands"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "정규 교육 없이 독학으로 시대를 앞선 차체를 설계",
+     "reason_en": "Self-taught, he drew bodies decades ahead of their time"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "업계에서 사랑받은 입담 좋은 이야기꾼 디자이너",
+     "reason_en": "A beloved raconteur of the design studios"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "화려함보다 작품에 몰두한 장인의 생활",
+     "reason_en": "He lived for the work, not for display"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "19세 입사부터 말년 코폴라 영화 자문까지 50년 현역",
+     "reason_en": "From nineteen to the Coppola set — fifty years at work"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "터커 실패를 자랑스러운 유산으로 정리한 인물",
+     "reason_en": "He made peace with Tucker's failure as proud legacy"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "시한부 같은 창업사에 몸을 던져 시제차를 완성",
+     "reason_en": "He leapt into the doomed startup and finished the prototype"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "터커의 기억에 헌신해 말년까지 그 이야기를 지킴",
+     "reason_en": "He guarded Tucker's memory to the end"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "후배 디자이너들을 아낌없이 가르치고 도움",
+     "reason_en": "He mentored generations of young designers"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "실력으로 평가받고 실력으로 평가한 장인",
+     "reason_en": "He judged and was judged on the work alone"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "자기 작품의 공을 늘 주장한 자기 홍보가",
+     "reason_en": "He never let anyone forget whose pen drew the Tucker"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "실패한 회사의 디자인을 끝까지 자랑한 낙관",
+     "reason_en": "He stayed proud of the doomed car all his life"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "디자인 혁신은 이랬으나 사회 질서엔 무관심",
+     "reason_en": "He revolutionized cars, not society"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "스튜디오 협업 속에서 일한 팀 작업자",
+     "reason_en": "His art was made inside studio teams"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "무모해 보인 터커 합류와 급진적 디자인을 감행",
+     "reason_en": "He joined the doomed venture and drew boldly"
+    }
+   },
+   "rationale_ko": "독학으로 자동차 디자이너가 되어 터커 48의 몸을 그렸다. 회사는 망했지만 그의 선은 미국 자동차 문화의 아이콘이 됐다. 포드 선행 스튜디오와 스바루 브랫까지 반세기 현역이었다. 코폴라의 '터커'는 그의 손때가 묻은 유산이다.",
+   "rationale_en": "Self-taught, he drew the body of the Tucker 48. The company died; his lines became an icon of American car culture. Ford's advanced studio and the Subaru BRAT filled a fifty-year career. Coppola's 'Tucker' carries his fingerprints."
+  }
+ },
+ "에이브 캐러츠": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "터커 사건의 배후 인물로 기록됨",
+   "social_exp_en": "A background figure of the Tucker affair",
+   "economic": 2,
+   "economic_exp": "터커 창업의 자금과 공장을 연결한 촉매 역할",
+   "economic_exp_en": "He brokered Tucker's financing and the Chicago plant",
+   "cultural": 1,
+   "cultural_exp": "터커 서사의 그림자 조력자",
+   "cultural_exp_en": "The shadow helper of the Tucker story",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "터커 전설의 주변 인물로 남음",
+   "transhistoricity_exp_en": "A footnote to the Tucker legend"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 28,
+     "reason_ko": "조직 경영 대신 인맥 중개로 움직인 프로모터",
+     "reason_en": "He moved through connections, not organizations"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "변호사와 프로모터로 사무직·중개업 중심 경력",
+     "reason_en": "A lawyer-turned-promoter's desk career"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "자금줄과 공장 부지를 찾아낸 발굴의 재능",
+     "reason_en": "He had a nose for money lines and factory sites"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "전과에도 터커를 설득한 설득력의 세일즈맨",
+     "reason_en": "Despite his record he could talk Tucker into anything"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "은행 자금 횡령으로 실형을 산 전과가 있음",
+     "reason_en": "A past conviction for dipping into bank funds"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "창업 초기의 실무를 뛰어다닌 행동력",
+     "reason_en": "He hustled the startup's early groundwork"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "몰락 뒤에도 우정을 지키며 자기 처지를 수용",
+     "reason_en": "After the fall he kept the friendship and his place"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "전과 노출 위험을 안고 창업에 깊이 관여",
+     "reason_en": "He plunged into the venture knowing his record could surface"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "기소와 해임에도 터커와의 우정을 끝까지 지킴",
+     "reason_en": "Fired and indicted, he stayed Tucker's friend for life"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "사업 성공을 돕는 데 에너지를 쏟은 조력자",
+     "reason_en": "He poured himself into another man's dream"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "횡령 전과로 금융 신뢰를 배신한 전력",
+     "reason_en": "His embezzlement conviction betrayed financial trust"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "그림자 역할을 받아들이고 무대 뒤에서 일함",
+     "reason_en": "He accepted the shadow role and worked offstage"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "전과자가 다시 판을 벌인 재기의 낙관",
+     "reason_en": "An ex-con who believed in second acts"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "제도보다 기회를 좇은 비정치적 사업가",
+     "reason_en": "He chased opportunity, not causes"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "인맥 관계 속에서 살아남은 연결 중심의 인물",
+     "reason_en": "He lived by his web of connections"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "전과를 숨기고도 큰 판에 뛰어든 배짱",
+     "reason_en": "He jumped into a big game despite a record to hide"
+    }
+   },
+   "rationale_ko": "자격을 잃은 변호사가 터커의 꿈에 자금줄과 공장을 연결해 줬다. 전과가 드러나 회사에서 밀려났지만 기소에서 무죄까지 함께 겪었다. 터커의 몰락 뒤에도 둘의 우정은 남았다.",
+   "rationale_en": "A disbarred lawyer wired Tucker's dream to its money and its plant. Exposed and pushed out, he still stood trial beside Tucker to the acquittal. The friendship outlived the company."
+  }
+ },
+ "오토 커너 주니어": {
+  "influence": {
+   "political": 5,
+   "political_exp": "일리노이 주지사와 연방 판사를 거친 공적 경력",
+   "political_exp_en": "Governor of Illinois and a federal appellate judge",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 6,
+   "social_exp": "1968년 커너 보고서가 미국 인종 담론의 고전이 됨",
+   "social_exp_en": "The 1968 Kerner Report remains a landmark of race discourse",
+   "economic": 1,
+   "economic_exp": "경제 제도와 거의 무관",
+   "economic_exp_en": "Little economic bearing",
+   "cultural": 2,
+   "cultural_exp": "터커 기소와 커너 보고서로 영화·역사 서사에 등장",
+   "cultural_exp_en": "He surfaces in both the Tucker story and civil-rights history",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "커너 보고서는 반세기 뒤에도 인용되는 문서",
+   "transhistoricity_exp_en": "The Kerner Report is still cited half a century on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 74,
+     "reason_ko": "1961년부터 두 번의 일리노이 주지사 임기와 연방 판사직",
+     "reason_en": "Two terms as governor, then a federal appellate seat"
+    },
+    "martial": {
+     "score": 66,
+     "reason_ko": "2차 대전 육군 포병 장교로 복무한 군사 경력",
+     "reason_en": "He served as an Army artillery officer in WWII"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "연방검사·주지사·항소법원 판사를 거친 법조인",
+     "reason_en": "Prosecutor, governor, appellate judge — a lawyer's arc"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "주지사로 두 번 뽑은 중량감 있는 공인",
+     "reason_en": "Twice elected governor — a statesman of real weight"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 28,
+     "reason_ko": "경마장 뇌물 수수로 법복을 벗게 된 자제 실패",
+     "reason_en": "Racetrack bribes cost him his robes — a lapse of restraint"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "검사에서 주지사·판사까지 쌓은 성실한 공직 경력",
+     "reason_en": "A steady climb through prosecution, governorship, bench"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "자신의 뇌물 사건엔 끝내 공개 해명을 남기지 않음",
+     "reason_en": "He never publicly reckoned with his own bribery"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "인종 폭동 원인을 백인 사회 탓으로 규정한 담대함",
+     "reason_en": "He let the commission blame white America — political nerve"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "민주당과 국가 직무에 성실히 복무한 공직자",
+     "reason_en": "A faithful servant of party and public office"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "소외계층의 처지를 국가 보고서로 끌어올림",
+     "reason_en": "His report put the ghetto's grievances on the national record"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "공적 진단은 정직했으나 사적 뇌물로 공정을 더럽힘",
+     "reason_en": "The report was honest; his own bribes were not"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "주지사와 판사를 지낸 위엄 있는 공인상을 유지",
+     "reason_en": "He kept the bearing of high office"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "보고서가 제도 개혁을 이끌 것이라 믿은 신념",
+     "reason_en": "He believed a report could move the system"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "폭동의 책임을 백인 우위 구조에 돌린 진단",
+     "reason_en": "He pinned the riots on white supremacy's structures"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "평생 공직과 위원회 안에서 일한 공적 인물",
+     "reason_en": "His whole life ran inside public institutions"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "불편한 진실을 정면 보고서로 낸 결단",
+     "reason_en": "He published the inconvenient truth in plain language"
+    }
+   },
+   "rationale_ko": "터커를 기소한 검사는 주지사가 되고 연방 판사까지 올랐다. 인종 폭동의 원인을 백인 사회에서 찾은 보고서는 반세기 넘게 인용된다. 공적 정직과 사적 부패가 한 몸에 공존했고 뇌물 유죄로 법복을 벗었다.",
+   "rationale_en": "The prosecutor who indicted Tucker became governor, then federal judge. The report bearing his name blamed white society for the riots and is cited fifty years on. Public honesty and private corruption lived in one man — a racetrack bribe took his robes."
+  }
+ },
+ "조지프 로이어": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "도제 교육으로 장인 기술을 전승",
+   "social_exp_en": "He passed the trade on through apprenticeship",
+   "economic": 2,
+   "economic_exp": "소년 허시에게 캐러멜 제과 기술을 가르침",
+   "economic_exp_en": "He taught the boy Hershey the candy trade",
+   "cultural": 1,
+   "cultural_exp": "허시 서사의 첫 교실로 기억됨",
+   "cultural_exp_en": "Remembered in the Hershey story as the first classroom",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "초콜릿 왕국의 첫 교실로 기억됨",
+   "transhistoricity_exp_en": "Remembered as the chocolate empire's first classroom"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 28,
+     "reason_ko": "랭커스터에서 작은 아이스크림·제과 가게를 운영",
+     "reason_en": "He ran a small Lancaster ice-cream and candy shop"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "제과 장인으로 하루 종일 작업장에 선 수공 노동",
+     "reason_en": "A confectioner's trade is daylong work on the feet"
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "캐러멜과 사탕 제조의 장인 기술을 보유한 전문가",
+     "reason_en": "A tradesman with real mastery of caramel and candy"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "동네 손님들이 찾던 제과점의 주인",
+     "reason_en": "The candyman the neighborhood trusted"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "작은 가게를 근검하게 운영한 장인",
+     "reason_en": "A thrifty master of a small shop"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "매일 가게를 열고 도제까지 맡아 가르침",
+     "reason_en": "He opened the shop daily and trained an apprentice"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "제자 허시의 성공을 지켜본 노년의 스승",
+     "reason_en": "He lived to see his apprentice's rise"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "열네 살 소년 도제를 받아 책임을 짊어짐",
+     "reason_en": "He took a fourteen-year-old's training on himself"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "도제 허시와의 스승-제자 관계를 성실히 이행",
+     "reason_en": "He honored the master's duty to his apprentice"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "가난한 소년에게 기술을 가르쳐 출발을 도움",
+     "reason_en": "He gave a poor boy a trade to live by"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "도제 관계의 의무를 성실히 지킨 상인",
+     "reason_en": "He dealt honestly by his apprentice"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "스승임을 내세우지 않은 조용한 장인",
+     "reason_en": "He never traded on having taught a legend"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "작은 가게에서도 제자의 가능성을 알아봄",
+     "reason_en": "In a small shop he saw a boy's promise"
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "근대 공장화 이전의 도제 관습을 지킨 장인",
+     "reason_en": "He kept the old apprenticeship ways"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "가게와 도제 관계라는 작은 공동체의 일원",
+     "reason_en": "His world was the shop and the apprenticeship bond"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "크게 벌리지 않고 가게를 지킨 신중한 상인",
+     "reason_en": "He kept his shop small and safe"
+    }
+   },
+   "rationale_ko": "랭커스터 제과점의 장인이 가난한 소년 허시를 도제로 받았다. 그가 가르친 캐러멜 기술은 초콜릿 왕국의 첫 수업이 됐다. 이름은 제자의 빛에 가렸지만 연결 고리로 기억된다.",
+   "rationale_en": "A Lancaster confectioner took poor young Hershey as apprentice. The caramel trade he taught became the chocolate empire's first lesson. His name is dim beside his pupil's, but the link is remembered."
+  }
+ },
+ "H. B. 리스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 1,
+   "tech_exp": "피넛버터 컵이라는 새 제품을 발명",
+   "tech_exp_en": "He invented a new confection — the peanut butter cup",
+   "social": 1,
+   "social_exp": "지역 고용 외 사회 변화와 거리가 먼 사업가",
+   "social_exp_en": "Beyond local jobs, a businessman outside social change",
+   "economic": 4,
+   "economic_exp": "지하실 부업이 미국 최대 캔디 브랜드로 성장",
+   "economic_exp_en": "A basement sideline became America's top-selling candy",
+   "cultural": 5,
+   "cultural_exp": "리스 피넛버터 컵은 미국 대중문화의 상징",
+   "cultural_exp_en": "Reese's cups are embedded in American popular culture",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "한 세기째 미국 최고 인기 캔디의 창시자",
+   "transhistoricity_exp_en": "His cup has been America's favorite candy for a century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "낙농장 관리와 지하실 공장을 거쳐 제과 회사를 경영",
+     "reason_en": "From dairy-farm manager to running his own candy works"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "낙농장 관리와 공장 노동을 겸한 육체 노동 경력",
+     "reason_en": "Dairy-farm management meant real physical work"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "부업 실험으로 피넛버터 컵이라는 히트를 발명",
+     "reason_en": "A sideline experiment produced a timeless hit"
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "허시 마을에서 신망 얻은 검소한 사업가",
+     "reason_en": "A frugal businessman respected in Hershey town"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "부업을 차근차근 키운 근검한 자수성가",
+     "reason_en": "He built the business slowly, a thrifty self-made man"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "낮엔 농장 관리, 밤엔 지하실에서 사탕을 만든 이중 노동",
+     "reason_en": "Farm by day, basement candy by night"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "제품 개선에 매진한 조용한 장인",
+     "reason_en": "He quietly kept improving his candy"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "공장 직원 신분에서 독립 사업으로 전환한 결단",
+     "reason_en": "He traded a company job for an independent business"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "사장의 초콜릿을 재료로 쓰면서도 관계를 유지",
+     "reason_en": "He kept good terms with Hershey while using its chocolate"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "대가족을 부양하고 마을 일자리를 만든 고용주",
+     "reason_en": "He fed a huge family and gave the town work"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "정직한 재료와 값으로 지역 신뢰를 쌓은 상인",
+     "reason_en": "Honest ingredients and prices built local trust"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "자기 이름을 붙였으나 조용히 일한 사업가",
+     "reason_en": "His name went on the cup; the man stayed quiet"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "지하실 부업을 회사로 키울 수 있다 믿음",
+     "reason_en": "He believed a basement sideline could grow"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "지역 사업가로 사회 질서 문제와 무관",
+     "reason_en": "A local businessman outside social questions"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "가족 중심 사업으로 아들들에게 회사를 물려줌",
+     "reason_en": "A family business his six sons carried on"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "사장 밑에서 부업을 회사 규모로 키운 담력",
+     "reason_en": "He grew a rival sideline under his own boss's roof"
+    }
+   },
+   "rationale_ko": "허시의 낙농장 관리인이 지하실에서 사장의 초콜릿으로 피넛버터 컵을 구웠다. 부업은 회사가 됐고, 그가 죽은 뒤 아들들이 허시에 합병시켰다. 리스 컵은 한 세기째 미국에서 가장 잘 팔리는 캔디다.",
+   "rationale_en": "Hershey's dairy-farm manager baked peanut butter cups in his basement with the boss's chocolate. The sideline became a company; his sons merged it into Hershey after his death. Reese's remains America's best-selling candy a century on."
+  }
+ },
+ "헨리 스트롱": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 1,
+   "tech_exp": "건판 사업 자금을 댄 촉매로 기술 상용화를 도움",
+   "tech_exp_en": "His capital enabled dry-plate technology's launch",
+   "social": 2,
+   "social_exp": "로체스터 지역에 대규모 자선을 남김",
+   "social_exp_en": "He left large bequests to Rochester charities",
+   "economic": 5,
+   "economic_exp": "코닥 창업 자금을 대고 초대 사장을 39년 지냄",
+   "economic_exp_en": "He staked Kodak and presided over it for 39 years",
+   "cultural": 1,
+   "cultural_exp": "문화 분야와 거의 무관",
+   "cultural_exp_en": "Almost no cultural footprint",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "코닥이라는 세기의 기업의 초대 수장",
+   "transhistoricity_exp_en": "First president of the century's defining camera company"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "1880년대부터 39년간 코닥 사장으로 회사 대표를 맡음",
+     "reason_en": "He fronted Kodak as president for 39 years"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "채찍 공장을 운영한 제조업자로 현장 경험 보유",
+     "reason_en": "A whip manufacturer used to the factory floor"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "무명의 하숙생 이스트먼의 재능을 알아본 안목",
+     "reason_en": "He saw genius in an unknown boarder"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "로체스터 상공업계의 신망받는 명사",
+     "reason_en": "A name Rochester business trusted"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "근검한 제조업자 출신으로 사치 없이 부를 쌓음",
+     "reason_en": "A frugal manufacturer, no flash in his fortune"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "39년 사장직을 죽을 때까지 지킨 성실함",
+     "reason_en": "He held the presidency until his death"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "거부가 된 뒤 부를 지역에 환원한 자기 점검",
+     "reason_en": "Wealth made him look outward, not inward"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "무명 청년의 발명에 수천 달러를 건 투자 결단",
+     "reason_en": "He bet thousands on an untested young inventor"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "이스트먼과의 동업을 평생 변치 않고 지킴",
+     "reason_en": "The partnership with Eastman never wavered"
+    },
+    "benevolence": {
+     "score": 72,
+     "reason_ko": "로체스터 병원·학교에 대규모 유산을 남김",
+     "reason_en": "His bequests built up Rochester's institutions"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "정직한 신용으로 사업 파트너들의 신뢰를 얻음",
+     "reason_en": "His credit and fair dealing anchored the company"
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "발명의 공을 이스트먼에게 돌린 조용한 대표",
+     "reason_en": "He let Eastman take the credit for invention"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "건판 사진의 미래를 일찍 내다본 투자 낙관",
+     "reason_en": "He saw the future in dry plates before it existed"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "19세기 시민 자본가로 기성 질서를 지킨 인물",
+     "reason_en": "A Gilded Age civic capitalist of the old order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "동업과 지역 공동체에 헌신한 시민 기업가",
+     "reason_en": "He lived through partnership and civic duty"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "하숙생에게 거액을 건 신속한 투자 결단",
+     "reason_en": "He staked a boarder fast and heavily"
+    }
+   },
+   "rationale_ko": "어머니의 하숙생이던 이스트먼에게 돈과 이름을 빌려준 것이 코닥의 시작이 됐다. 발명은 이스트먼이, 신용은 스트롱이 맡았다. 39년 사장직을 죽음까지 지켰다. 부는 로체스터의 병원과 학교로 돌아갔다.",
+   "rationale_en": "Lending money and his good name to his mother's boarder created Kodak. Eastman supplied the genius; Strong supplied the credit. He kept the presidency to his death. The fortune returned to Rochester's hospitals and schools."
+  }
+ },
+ "윌리엄 홀 워커": {
+  "influence": {
+   "political": 3,
+   "political_exp": "19년간 하원의원으로 활동하고 남작 작위를 받음",
+   "political_exp_en": "Nineteen years in Parliament and a peerage",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "종마 농장 기증이 아일랜드 국립 종마장의 기원",
+   "social_exp_en": "His gifted stud farm became the Irish National Stud",
+   "economic": 3,
+   "economic_exp": "코닥 영국 법인을 이끌어 유럽 확장을 지원",
+   "economic_exp_en": "He ran Kodak's British arm through its expansion",
+   "cultural": 1,
+   "cultural_exp": "문화 분야와 거의 무관",
+   "cultural_exp_en": "Almost no cultural footprint",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "국립 종마장이라는 지속 유산을 남김",
+   "transhistoricity_exp_en": "He left a lasting institution in the National Stud"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "코닥 영국 법인 수장과 19년 하원의원을 지냄",
+     "reason_en": "He headed Kodak UK and sat in Parliament 19 years"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "경주마 육성과 사냥을 즐긴 기마 귀족의 생활",
+     "reason_en": "A horse-breeding, hunting peer — life in the saddle"
+    },
+    "intellect": {
+     "score": 52,
+     "reason_ko": "사진 사업과 정치를 겸한 아마추어 다재인",
+     "reason_en": "A gentleman amateur across cameras and politics"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "이스트먼의 신뢰를 산 수완가 귀족",
+     "reason_en": "He won Eastman's trust — a polished operator"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "양조장 유산을 즐겼으나 직무는 성실히 수행",
+     "reason_en": "He enjoyed the brewing fortune yet did his duties"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "코닥 경영과 의회 활동·종마 사업을 병행",
+     "reason_en": "He juggled Kodak, the Commons and his stud"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "남작의 자리와 취미 사이를 오간 인물",
+     "reason_en": "He moved between title and passion without fuss"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "사업과 정치, 종마 육성 모험에 자산을 걸음",
+     "reason_en": "He risked fortune on business, politics and horses"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "이스트먼과 코닥에 대한 장기 협력 관계",
+     "reason_en": "A long allegiance to Eastman and Kodak"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "자신의 종마 농장을 아일랜드에 기증",
+     "reason_en": "He gave Ireland his beloved stud farm"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "기업 경영과 의정 활동에서 평판을 지킴",
+     "reason_en": "He kept a sound name in business and Parliament"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "남작 작위를 받았으나 기증으로 공을 나눔",
+     "reason_en": "Titled, yet he gave away his best asset"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "사업·정치·경마 어느 판이든 베팅을 즐김",
+     "reason_en": "He bet cheerfully in business, politics and racing"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "보수당 하원의원으로 기성 질서를 옹호",
+     "reason_en": "A Conservative MP for nineteen years"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "의회·기업·귀족 사교 속 공동체적 경력",
+     "reason_en": "His life ran through club, Commons and company"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "유산을 지키면서도 취미 사업엔 과감히 투자",
+     "reason_en": "Prudent with the fortune, bold with the horses"
+    }
+   },
+   "rationale_ko": "리버풀 양조장 집안의 사진 애호가가 이스트먼의 눈에 들어 코닥 영국 법인을 맡았다. 19년 의원 생활 끝에 남작이 됐다. 진짜 마음은 경주마에 있었고, 그 종마 농장은 통째로 아일랜드에 기증돼 국립 종마장이 됐다.",
+   "rationale_en": "A Liverpool brewing heir and photo amateur caught Eastman's eye and took over Kodak's British arm. Nineteen years in the Commons ended in a peerage. His heart belonged to racehorses — the stud farm he gave Ireland became the National Stud."
+  }
+ },
+ "프랭크 브라우넬": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 6,
+   "tech_exp": "초기 코닥 카메라 대부분과 1달러 브라우니를 설계",
+   "tech_exp_en": "He designed the early Kodaks and the $1 Brownie",
+   "social": 2,
+   "social_exp": "1달러 카메라로 사진을 대중 취미로 바꿈",
+   "social_exp_en": "The dollar camera made photography a mass pastime",
+   "economic": 2,
+   "economic_exp": "브라우니가 코닥 판매 성장의 엔진이 됨",
+   "economic_exp_en": "The Brownie drove Kodak's mass-market growth",
+   "cultural": 5,
+   "cultural_exp": "스냅샷 문화를 연 브라우니의 설계자",
+   "cultural_exp_en": "The Brownie opened the age of the snapshot",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "아마추어 사진 시대를 연 시대 최고 카메라 설계자",
+   "transhistoricity_exp_en": "The designer who opened amateur photography"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "코닥 카메라 설계 부서의 장인 리더로 일함",
+     "reason_en": "He led Kodak's camera-design workshop"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "목공예와 금속 가공으로 평생 손으로 일한 장인",
+     "reason_en": "A cabinetmaker's hands — a lifetime at the bench"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "수십 건 카메라 특허를 낸 시대 최고 설계자",
+     "reason_en": "Dozens of patents — the era's master camera designer"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "무대 뒤에서 일한 무명의 장인",
+     "reason_en": "He stayed behind the curtain — a maker, not a face"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "특허 부를 얻고도 검소한 장인의 생활로 일관",
+     "reason_en": "Patent-rich, he still lived the quiet life of a craftsman"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "수십 년간 카메라 설계에 몰두한 장인 정신",
+     "reason_en": "Decades bent over camera designs"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "작품으로 말한 장인으로 자기 서술이 드묾",
+     "reason_en": "He let the cameras speak; little self-account survives"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "새 기술 실험에 끊임없이 도전한 설계자",
+     "reason_en": "He kept trying designs nobody had built"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "이스트먼의 비전에 평생 기여한 설계 파트너",
+     "reason_en": "He served Eastman's vision for decades"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "싼 카메라로 대중이 사진을 즐기게 만듦",
+     "reason_en": "His cheap camera gave everyone the joy of pictures"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "품질로 승부한 장인의 균일한 기준",
+     "reason_en": "Every camera held to the same standard"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "이스트먼의 이름 아래 묵묵히 설계한 숨은 공로자",
+     "reason_en": "The uncredited hand behind Kodak's cameras"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "누구나 사진가가 될 수 있다고 본 발명가",
+     "reason_en": "He believed everyone could be a photographer"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기술 민주화는 이뤘으나 사회 질서엔 무관",
+     "reason_en": "He democratized a tool, not the social order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "작업장 협업으로 회사 제품을 만든 팀 장인",
+     "reason_en": "His craft lived inside a company team"
+    },
+    "cautious_bold": {
+     "score": 0,
+     "reason_ko": "검증된 공학을 대중 가격으로 내린 실용 설계자",
+     "reason_en": "He engineered proven tech down to a dollar"
+    }
+   },
+   "rationale_ko": "목공예 장인이 이스트먼의 눈에 들어 초기 코닥 카메라 대부분을 설계했다. 1달러 브라우니는 사진을 아이들의 취미로 바꿨다. 이름은 묻혔지만 그의 설계가 스냅샷 시대를 열었다. 수십 건의 특허를 남기고 세상을 떠났다.",
+   "rationale_en": "A cabinetmaker caught Eastman's eye and designed most of the early Kodaks. His $1 Brownie made photography a child's hobby. The name stayed hidden while his designs opened the snapshot age. He died holding dozens of patents."
+  }
+ },
+ "조지 휠라이트 3세": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 5,
+   "tech_exp": "랜드와 편광판을 상용화해 광학 산업의 토대를 놓음",
+   "tech_exp_en": "He and Land commercialized the polarizer",
+   "social": 1,
+   "social_exp": "사회 제도 변화와 거리가 먼 과학자 창업가",
+   "social_exp_en": "A scientist-founder outside social change",
+   "economic": 3,
+   "economic_exp": "폴라로이드 공동 창업으로 신산업 기반 조성",
+   "economic_exp_en": "He co-founded the company that became Polaroid",
+   "cultural": 1,
+   "cultural_exp": "문화 분야와 거의 무관",
+   "cultural_exp_en": "Almost no cultural footprint",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "편광 기술은 디스플레이까지 이어지는 토대",
+   "transhistoricity_exp_en": "Polarizer tech underpins displays to this day"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "랜드-휠라이트 연구소 공동 설립, 폴라로이드 부사장",
+     "reason_en": "He co-founded the lab and served as Polaroid's VP"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "기업 일선을 떠나 목장과 농장을 직접 경영한 야외 생활",
+     "reason_en": "He left the firm to run ranches with his own hands"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "하버드 물리학 강사로 편광 상용화의 과학을 담당",
+     "reason_en": "A Harvard physicist who carried the polarizer science"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "랜드와 어깨를 나란히 한 조용한 공동 창업자",
+     "reason_en": "Land's quiet partner in the founding"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "성공 뒤 부를 과시하지 않고 자연으로 물러남",
+     "reason_en": "He stepped away to ranch life rather than chase more"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "연구소 운영과 목장 경영을 오래 이어간 실행력",
+     "reason_en": "He kept both lab and ranch running for years"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "기업의 정점에서 물러나 자기 길을 택한 자기 인식",
+     "reason_en": "He knew himself enough to leave at the top"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "어린 학생의 아이디어에 연구소와 커리어를 걸음",
+     "reason_en": "He staked his career on a teenager's idea"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "폴라로이드와 동고동락하다 일선에서 물러남",
+     "reason_en": "He shared the founding, then left the front line"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "젊은 랜드의 재능을 믿고 기회를 열어줌",
+     "reason_en": "He opened doors for a young man's genius"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "학생의 공로를 인정해 공동 창업자로 대우",
+     "reason_en": "He credited a student as an equal partner"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "랜드가 전면에 서는 것을 기꺼이 받아들임",
+     "reason_en": "He gladly let Land take the spotlight"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "편광판의 상업적 미래를 낙관한 선구안",
+     "reason_en": "He bet early on the polarizer's future"
+    },
+    "conservative_progressive": {
+     "score": 5,
+     "reason_ko": "학생과 평등하게 공동 창업한 탈권위 행보",
+     "reason_en": "He treated a student as a co-equal founder"
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "공동 창업 뒤엔 홀로 목장 생활을 택함",
+     "reason_en": "After the founding he chose solitary ranch life"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "검증 안 된 아이디어에 커리어를 건 결단",
+     "reason_en": "He bet a career on unproven optics"
+    }
+   },
+   "rationale_ko": "하버드 물리학 강사가 어린 학생 랜드와 손잡아 편광판을 상용화했다. 폴라로이드의 공동 창업자였지만 전면은 랜드에게 내줬다. 기업의 정점에서 물러나 목장으로 간 자유로운 영혼이었다. 랜드가 떠난 지 꼭 10년 되는 날 그도 세상을 떠났다.",
+   "rationale_en": "A Harvard physics instructor joined his teenage student Land to commercialize the polarizer. Polaroid's co-founder, he gladly ceded the front to Land. At the peak he walked away to ranch life — a free spirit. He died exactly ten years to the day after Land."
+  }
+ },
+ "엘칸 블라우트": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 질서와 무관",
+   "political_exp_en": "No bearing on politics",
+   "strategic": 0,
+   "strategic_exp": "군사·안보와 무관",
+   "strategic_exp_en": "No bearing on security affairs",
+   "tech": 6,
+   "tech_exp": "즉석 컬러필름 개발과 단백질 구조 연구를 이끈 화학자",
+   "tech_exp_en": "He led instant color film and pioneered protein structure",
+   "social": 1,
+   "social_exp": "사회 제도 변화와 거리가 먼 과학자",
+   "social_exp_en": "A scientist outside social reform",
+   "economic": 2,
+   "economic_exp": "폴라로이드 연구 총괄로 제품 혁신을 이끎",
+   "economic_exp_en": "As research chief he drove Polaroid's product science",
+   "cultural": 3,
+   "cultural_exp": "폴라로이드 컬러 사진으로 시각 문화에 기여",
+   "cultural_exp_en": "Instant color shaped how generations photographed",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "즉석 사진과 단백질 과학 양쪽에 자취를 남김",
+   "transhistoricity_exp_en": "He left marks in both instant photography and protein science"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 66,
+     "reason_ko": "폴라로이드 연구 부사장과 하버드 연구실을 동시에 이끎",
+     "reason_en": "He ran Polaroid's research and a Harvard lab at once"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "평생 실험실에서 일한 화학자",
+     "reason_en": "A life at the laboratory bench"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "5천 화합물 합성과 단백질 구조 개척으로 국가과학메달",
+     "reason_en": "5,000 compounds, protein-structure work, a National Medal"
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "기업과 학계 양쪽에서 존경받은 과학자",
+     "reason_en": "Respected on both sides of industry and academy"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "두 직업을 규칙적으로 병행한 절제된 생활",
+     "reason_en": "Two careers kept in disciplined parallel"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "폴라로이드와 하버드를 동시에 다니며 50개 특허를 냄",
+     "reason_en": "Two jobs at once and fifty patents"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "연구 일지와 후학 지도로 지식을 되돌아본 학자",
+     "reason_en": "A teacher's habit of going back over the science"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "기업과 학계의 이중 역할을 감행한 도전",
+     "reason_en": "He dared the double career nobody managed"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "폴라로이드에 수십 년, 하버드에도 헌신",
+     "reason_en": "Decades to Polaroid, a parallel loyalty to Harvard"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "후학 양성과 하버드·교향악단 기부로 지식을 환원",
+     "reason_en": "He gave back through students and Boston philanthropy"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "연구 평가를 실적으로 일관한 조직 운영",
+     "reason_en": "He judged research by results, consistently"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "랜드의 이름 아래 묵묵히 연구를 이끈 2인자",
+     "reason_en": "He let Land be the face while running the science"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "불가능한 필름도 합성으로 풀 수 있다 믿음",
+     "reason_en": "He believed chemistry could crack any film"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "과학자로서 사회 질서 문제와 거리를 둠",
+     "reason_en": "A scientist outside questions of social order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "기업 연구실과 대학 실험실 양쪽 조직의 일원",
+     "reason_en": "He belonged to two institutions at once"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "5천 번의 합성이라는 집요한 실험 방식",
+     "reason_en": "Five thousand compounds — persistence over leaps"
+    }
+   },
+   "rationale_ko": "폴라로이드 연구 총괄로 5천 화합물을 합성해 즉석 컬러필름을 만들었다. 동시에 하버드 의대에서 단백질 입체구조를 개척해 국가과학메달을 받았다. 기업과 학계를 오간 이중 경력은 50개 특허로 남았다. 랜드의 빛 뒤에서 과학의 실체를 지킨 인물이다.",
+   "rationale_en": "As Polaroid's research chief he synthesized 5,000 compounds into instant color film. At Harvard Medical School he pioneered protein structure, earning the National Medal of Science. Fifty patents mark the double career. Behind Land's glow he kept the science real."
+  }
+ }
+}

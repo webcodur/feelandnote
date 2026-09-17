@@ -99,12 +99,12 @@ function keyFromPublicUrl(url: string): string | null {
 }
 
 // 단체 이미지 업로드 (테마당 여러 장, 고유 키)
-export async function uploadTagTeamImage(input: {
-  tagId: string
+export async function uploadFactionTeamImage(input: {
+  lv2Id: string
   image: string // base64
 }): Promise<UploadResult> {
-  const { tagId, image } = input
-  const key = `${FACTION_FOLDER}/${tagId}/team/${crypto.randomUUID()}.webp`
+  const { lv2Id, image } = input
+  const key = `${FACTION_FOLDER}/${lv2Id}/team/${crypto.randomUUID()}.webp`
 
   try {
     await uploadToR2(key, decodeBase64Image(image), 'image/webp')
@@ -115,19 +115,19 @@ export async function uploadTagTeamImage(input: {
 }
 
 // 단체 이미지 삭제 (공개 URL 기준)
-export async function deleteTagTeamImage(url: string): Promise<void> {
+export async function deleteFactionTeamImage(url: string): Promise<void> {
   const key = keyFromPublicUrl(url)
   if (key) await deleteFromR2(key)
 }
 
 // 인물 전용 화보 업로드 (인물당 1장, 고정 키 덮어쓰기)
-export async function uploadTagCelebImage(input: {
-  tagId: string
+export async function uploadFactionCelebImage(input: {
+  lv2Id: string
   celebId: string
   image: string // base64
 }): Promise<UploadResult> {
-  const { tagId, celebId, image } = input
-  const key = `${FACTION_FOLDER}/${tagId}/celeb-${celebId}.webp`
+  const { lv2Id, celebId, image } = input
+  const key = `${FACTION_FOLDER}/${lv2Id}/celeb-${celebId}.webp`
 
   try {
     await uploadToR2(key, decodeBase64Image(image), 'image/webp')
@@ -138,8 +138,8 @@ export async function uploadTagCelebImage(input: {
 }
 
 // 인물 전용 화보 삭제
-export async function deleteTagCelebImage(input: { tagId: string; celebId: string }): Promise<void> {
-  const { tagId, celebId } = input
-  await deleteFromR2(`${FACTION_FOLDER}/${tagId}/celeb-${celebId}.webp`)
+export async function deleteFactionCelebImage(input: { lv2Id: string; celebId: string }): Promise<void> {
+  const { lv2Id, celebId } = input
+  await deleteFromR2(`${FACTION_FOLDER}/${lv2Id}/celeb-${celebId}.webp`)
 }
 // #endregion

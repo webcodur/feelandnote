@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "생제르맹 백작",
+    "title": "불로불사의 백작",
+    "title_en": "The Immortal Count",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "카스파 하우저",
+    "title": "유럽의 아이",
+    "title_en": "The Child of Europe",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "프린세스 카라부",
+    "title": "카라부 공주",
+    "title_en": "Princess Caraboo",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "조지 살마나자르",
+    "title": "가짜 타이완인",
+    "title_en": "The Fake Formosan",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "애나 앤더슨",
+    "title": "가짜 아나스타시야",
+    "title_en": "The False Anastasia",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "그레이 아울",
+    "title": "가짜 인디언",
+    "title_en": "The Fake Native American",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "한 반 메이허런",
+    "title": "베르메르의 위작가",
+    "title_en": "The Vermeer Forger",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "콘라트 쿠야우",
+    "title": "히틀러 일기 위조범",
+    "title_en": "The Hitler Diaries Forger",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "클리퍼드 어빙",
+    "title": "가짜 자서전",
+    "title_en": "The Fake Autobiography",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "마르탱 게르",
+    "title": "돌아온 마르탱 게르",
+    "title_en": "The Return of Martin Guerre",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "가짜 드미트리 1세",
+    "title": "첫 번째 가짜 차르",
+    "title_en": "The First False Tsar",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "예멜리안 푸가초프",
+    "title": "가짜 황제의 반란",
+    "title_en": "The False Emperor's Revolt",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "보리스 스코시레프",
+    "title": "안도라의 자칭 국왕",
+    "title_en": "Self-Proclaimed King of Andorra",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "오렐리 앙투안 드 투넨",
+    "title": "파타고니아의 왕",
+    "title_en": "King of Patagonia",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "뱅크시",
+    "title": "정체불명의 거리 화가",
+    "title_en": "The Anonymous Street Artist",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "D.B. 쿠퍼",
+    "title": "하늘의 사라진 범인",
+    "title_en": "The Skyjacker Who Vanished",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "철가면의 사내",
+    "title": "철가면의 사내",
+    "title_en": "The Man in the Iron Mask",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "배스 리브스",
+    "title": "론 레인저의 모델",
+    "title_en": "The Real Lone Ranger",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "메리 필즈",
+    "title": "스테이지코치 메리",
+    "title_en": "Stagecoach Mary",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "칼라미티 제인",
+    "title": "서부의 여성 전설",
+    "title_en": "Heroine of the Plains",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "버팔로 빌",
+    "title": "와일드 웨스트 쇼",
+    "title_en": "Buffalo Bill's Wild West",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "시팅 불",
+    "title": "리틀 빅혼의 족장",
+    "title_en": "Chief of Little Bighorn",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "제로니모",
+    "title": "아파치의 마지막 전사",
+    "title_en": "The Last Apache Warrior",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "크레이지 호스",
+    "title": "사진 없는 전사",
+    "title_en": "The Unphotographed Warrior",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "콰나 파커",
+    "title": "코만치의 마지막 추장",
+    "title_en": "Last Chief of the Comanche",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "사카가위아",
+    "title": "원정대의 안내자",
+    "title_en": "Guide to the Pacific",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "세쿼야",
+    "title": "체로키 문자의 창제자",
+    "title_en": "Inventor of the Cherokee Syllabary",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "이시",
+    "title": "최후의 야히",
+    "title_en": "The Last Yahi",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "짐 브리저",
+    "title": "옐로스톤의 목격자",
+    "title_en": "The First at Yellowstone",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "윌리엄 키드",
+    "title": "보물을 묻은 선장",
+    "title_en": "Captain Kidd",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "메리 리드",
+    "title": "해적 메리 리드",
+    "title_en": "Pirate Mary Read",
+    "file": "frontier.json"
+  },
+  {
+    "nick": "에이드리언 카턴 드 비야르",
+    "title": "죽을 수 없는 장교",
+    "title_en": "The Unkillable Officer",
+    "file": "military.json"
+  },
+  {
+    "nick": "매드 잭 처칠",
+    "title": "장검의 장교",
+    "title_en": "Mad Jack",
+    "file": "military.json"
+  },
+  {
+    "nick": "시모 해위해",
+    "title": "하얀 죽음",
+    "title_en": "The White Death",
+    "file": "military.json"
+  },
+  {
+    "nick": "오디 머피",
+    "title": "미국 최다 훈장 병사",
+    "title_en": "America's Most Decorated Soldier",
+    "file": "military.json"
+  },
+  {
+    "nick": "비톨트 필레츠키",
+    "title": "아우슈비츠의 자원 수감자",
+    "title_en": "The Auschwitz Volunteer",
+    "file": "military.json"
+  },
+  {
+    "nick": "데즈먼드 도스",
+    "title": "핵소 고지의 위생병",
+    "title_en": "The Medic of Hacksaw Ridge",
+    "file": "military.json"
+  },
+  {
+    "nick": "오노다 히로오",
+    "title": "29년의 잔류병",
+    "title_en": "The 29-Year Holdout",
+    "file": "military.json"
+  },
+  {
+    "nick": "스타니슬라프 페트로프",
+    "title": "핵전쟁을 누른 장교",
+    "title_en": "The Man Who Saved the World",
+    "file": "military.json"
+  },
+  {
+    "nick": "바실리 아르히포프",
+    "title": "잠수함의 반대표",
+    "title_en": "The Lone No Vote",
+    "file": "military.json"
+  }
+]

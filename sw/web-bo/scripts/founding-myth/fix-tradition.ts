@@ -3,7 +3,7 @@
  *
  * 실행:
  *   pnpm exec tsx scripts/founding-myth/fix-tradition.ts --slug naylamp --to myth-americas-... [--apply]
- *   pnpm exec tsx scripts/founding-myth/fix-tradition.ts --list-tags
+ *   pnpm exec tsx scripts/founding-myth/fix-tradition.ts --list-myths
  */
 import path from 'node:path'
 import { config } from 'dotenv'
@@ -18,11 +18,11 @@ const arg = (f: string) => { const i = process.argv.indexOf(f); return i > -1 ? 
 const APPLY = process.argv.includes('--apply')
 
 async function main() {
-  const { data: tags, error } = await db.from('celeb_tags').select('id,name,slug,atlas_published').order('slug')
+  const { data: myths, error } = await db.from('faction_lv2').select('id,name,slug,published').eq('is_myth', true).order('slug')
   if (error) throw new Error(error.message)
 
-  if (process.argv.includes('--list-tags')) {
-    for (const t of tags!) console.log(`${t.slug}\t${t.name}\t공개:${t.atlas_published}`)
+  if (process.argv.includes('--list-myths')) {
+    for (const t of myths!) console.log(`${t.slug}\t${t.name}\t공개:${t.published}`)
     return
   }
 
@@ -32,27 +32,27 @@ async function main() {
 
   const { data: celeb } = await db.from('celebs').select('id,nickname').eq('slug', slug).single()
   if (!celeb) throw new Error(`인물 없음: ${slug}`)
-  const target = tags!.find((t) => t.slug === to)
-  if (!target) throw new Error(`전승 없음: ${to}`)
+  const target = myths!.find((t) => t.slug === to)
+  if (!target) throw new Error(`신화 없음: ${to}`)
 
-  const { data: cur } = await db.from('celeb_tag_assignments').select('tag_id,hidden,sort_order').eq('celeb_id', celeb.id)
+  const { data: cur } = await db.from('faction_members').select('lv2_id,hidden,sort_order').eq('celeb_id', celeb.id)
   const from = cur?.[0]
-  const fromTag = tags!.find((t) => t.id === from?.tag_id)
-  console.log(`${celeb.nickname}: ${fromTag?.name ?? '(배정없음)'} → ${target.name}`)
+  const fromMyth = myths!.find((t) => t.id === from?.lv2_id)
+  console.log(`${celeb.nickname}: ${fromMyth?.name ?? '(배정없음)'} → ${target.name}`)
 
   if (!APPLY) { console.log('DRY-RUN. --apply 로 반영한다.'); return }
 
   if (from) {
-    const { error: e1 } = await db.from('celeb_tag_assignments').delete().eq('celeb_id', celeb.id).eq('tag_id', from.tag_id)
+    const { error: e1 } = await db.from('faction_members').delete().eq('celeb_id', celeb.id).eq('lv2_id', from.lv2_id)
     if (e1) throw new Error(`기존 배정 삭제 실패: ${e1.message}`)
   }
-  const { error: e2 } = await db.from('celeb_tag_assignments').insert({
-    celeb_id: celeb.id, tag_id: target.id, hidden: from?.hidden ?? true, sort_order: from?.sort_order ?? 999,
+  const { error: e2 } = await db.from('faction_members').insert({
+    celeb_id: celeb.id, lv2_id: target.id, hidden: from?.hidden ?? true, sort_order: from?.sort_order ?? 999,
   })
   if (e2) throw new Error(`새 배정 실패: ${e2.message}`)
 
-  const { data: after } = await db.from('celeb_tag_assignments').select('tag_id,hidden').eq('celeb_id', celeb.id)
-  const afterTag = tags!.find((t) => t.id === after?.[0]?.tag_id)
-  console.log(`반영 확인: ${afterTag?.name} (hidden=${after?.[0]?.hidden})`)
+  const { data: after } = await db.from('faction_members').select('lv2_id,hidden').eq('celeb_id', celeb.id)
+  const afterMyth = myths!.find((t) => t.id === after?.[0]?.lv2_id)
+  console.log(`반영 확인: ${afterMyth?.name} (hidden=${after?.[0]?.hidden})`)
 }
 main()

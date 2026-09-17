@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "블라디미르 데미호프",
+    "title": "두 머리 개의 의사",
+    "title_en": "The Two-Headed Dog Surgeon",
+    "file": "science.json"
+  },
+  {
+    "nick": "트로핌 리센코",
+    "title": "소련의 사이비 과학",
+    "title_en": "The Pseudoscience Dictator",
+    "file": "science.json"
+  },
+  {
+    "nick": "콘스탄틴 치올콥스키",
+    "title": "우주비행의 아버지",
+    "title_en": "Father of Astronautics",
+    "file": "science.json"
+  },
+  {
+    "nick": "로버트 고다드",
+    "title": "액체로켓의 아버지",
+    "title_en": "Father of the Liquid Rocket",
+    "file": "science.json"
+  },
+  {
+    "nick": "레오 실라드",
+    "title": "핵의 양심",
+    "title_en": "The Conscience of the Bomb",
+    "file": "science.json"
+  },
+  {
+    "nick": "버크민스터 풀러",
+    "title": "지오데식 돔",
+    "title_en": "The Geodesic Visionary",
+    "file": "science.json"
+  },
+  {
+    "nick": "딘 케이먼",
+    "title": "세그웨이 창시자",
+    "title_en": "Creator of the Segway",
+    "file": "science.json"
+  },
+  {
+    "nick": "잭 파슨스",
+    "title": "로켓과 마법",
+    "title_en": "Rockets and Ritual",
+    "file": "science.json"
+  },
+  {
+    "nick": "빌헬름 라이히",
+    "title": "오르곤 에너지",
+    "title_en": "Orgone Energy",
+    "file": "science.json"
+  },
+  {
+    "nick": "존 릴리",
+    "title": "고립수조의 발명가",
+    "title_en": "Inventor of the Isolation Tank",
+    "file": "science.json"
+  },
+  {
+    "nick": "티머시 리어리",
+    "title": "LSD의 교주",
+    "title_en": "The High Priest of LSD",
+    "file": "science.json"
+  },
+  {
+    "nick": "아타나시우스 키르허",
+    "title": "마지막 르네상스인",
+    "title_en": "The Last Renaissance Man",
+    "file": "science.json"
+  },
+  {
+    "nick": "파라켈수스",
+    "title": "화학의학의 아버지",
+    "title_en": "Father of Toxicology",
+    "file": "science.json"
+  },
+  {
+    "nick": "실베스터 그레이엄",
+    "title": "그레이엄 크래커의 아버지",
+    "title_en": "Father of the Graham Cracker",
+    "file": "science.json"
+  },
+  {
+    "nick": "존 하비 켈로그",
+    "title": "콘플레이크 공동 발명가",
+    "title_en": "Co-inventor of the corn flake",
+    "file": "science.json"
+  },
+  {
+    "nick": "휴 글래스",
+    "title": "레버넌트",
+    "title_en": "The Revenant",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "알렉산더 셀커크",
+    "title": "실제 로빈슨 크루소",
+    "title_en": "The Real Robinson Crusoe",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "푼 림",
+    "title": "133일의 표류",
+    "title_en": "133 Days Adrift",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "율리아네 쾨프케",
+    "title": "하늘에서 떨어진 소녀",
+    "title_en": "The Girl Who Fell from the Sky",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "베스나 불로비치",
+    "title": "1만 미터의 추락",
+    "title_en": "The 10,000-Metre Fall",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "마우로 프로스페리",
+    "title": "사하라 표류자",
+    "title_en": "The Sahara Castaway",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "벡 웨더스",
+    "title": "에베레스트의 생환자",
+    "title_en": "Everest's Living Dead",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "조 심프슨",
+    "title": "「터칭 더 보이드」",
+    "title_en": "Touching the Void",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "텐징 노르가이",
+    "title": "에베레스트의 최초 정복자",
+    "title_en": "First on Everest",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "라인홀트 메스너",
+    "title": "14좌의 사나이",
+    "title_en": "The Man of the Fourteen",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "조지 말러리",
+    "title": "「거기 있으니까」",
+    "title_en": "Because It's There",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "아론 랠스턴",
+    "title": "127시간",
+    "title_en": "127 Hours",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "알렉스 호놀드",
+    "title": "프리 솔로",
+    "title_en": "Free Solo",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "야마구치 쓰토무",
+    "title": "이중 피폭자",
+    "title_en": "The Double Survivor",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "이블 니블",
+    "title": "스턴트의 왕",
+    "title_en": "The King of Stunts",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "필리프 프티",
+    "title": "쌍둥이 빌딩의 줄타기",
+    "title_en": "The Twin Towers Wire Walk",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "빔 호프",
+    "title": "아이스맨",
+    "title_en": "The Iceman",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "베시 콜먼",
+    "title": "퀸 베스",
+    "title_en": "Queen Bess",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "에이미 존슨",
+    "title": "낡은 비행기의 여왕",
+    "title_en": "The Solo Flyer",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "베릴 마컴",
+    "title": "「밤의 서쪽 비행」",
+    "title_en": "West with the Night",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "찰스 린드버그",
+    "title": "세인트루이스의 영혼",
+    "title_en": "The Spirit of St. Louis",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "어밀리아 에어하트",
+    "title": "사라진 비행사",
+    "title_en": "The Vanished Aviator",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "와일리 포스트",
+    "title": "한쪽 눈의 세계일주",
+    "title_en": "The One-Eyed Around-the-World Flyer",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "알베르토 산투스두몽",
+    "title": "유럽 최초의 동력 비행가",
+    "title_en": "Europe's first powered aviator",
+    "file": "survival-extreme.json"
+  },
+  {
+    "nick": "척 예거",
+    "title": "음속 돌파자",
+    "title_en": "The Sound Barrier Breaker",
+    "file": "survival-extreme.json"
+  }
+]

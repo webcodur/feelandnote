@@ -1,0 +1,555 @@
+[
+ {
+  "nickname": "존 로",
+  "en": "John Law",
+  "headline": "종이돈이 돈이라고 프랑스를 설득한 도박꾼",
+  "prof": "investor",
+  "title": "미시시피 버블의 설계자"
+ },
+ {
+  "nickname": "제이 굴드",
+  "en": "Jay Gould",
+  "headline": "금 시장을 통째로 사려다 금요일을 검게 만든 남자",
+  "prof": "investor",
+  "title": "검은 금요일의 투기꾼"
+ },
+ {
+  "nickname": "벙커 헌트",
+  "en": "Bunker Hunt",
+  "headline": "세계 은 시장을 코너링하다 무너진 석유 재벌",
+  "prof": "investor",
+  "title": "은 시장을 사려 한 남자"
+ },
+ {
+  "nickname": "버니 매이도프",
+  "en": "Bernie Madoff",
+  "headline": "나스닥 의장이 수십 년 굴린 역대 최대 폰지",
+  "prof": "investor",
+  "title": "역대 최대 폰지 사기"
+ },
+ {
+  "nickname": "조던 벨포트",
+  "en": "Jordan Belfort",
+  "headline": "사기로 번 돈보다 사기 이야기로 더 번 남자",
+  "prof": "investor",
+  "title": "월 스트리트의 늑대"
+ },
+ {
+  "nickname": "닉 리슨",
+  "en": "Nick Leeson",
+  "headline": "파산시킨 은행 나이가 미국보다 많았다",
+  "prof": "investor",
+  "title": "베어링스를 무너뜨린 남자"
+ },
+ {
+  "nickname": "마이클 밀켄",
+  "en": "Michael Milken",
+  "headline": "정크본드로 기업 사냥 시대를 열고 감옥 간 왕",
+  "prof": "investor",
+  "title": "정크본드의 왕"
+ },
+ {
+  "nickname": "이반 보스키",
+  "en": "Ivan Boesky",
+  "headline": "탐욕은 좋은 것이라 설파하다 감옥 간 남자",
+  "prof": "investor",
+  "title": "탐욕은 좋은 것"
+ },
+ {
+  "nickname": "제롬 케르비엘",
+  "en": "Jérôme Kerviel",
+  "headline": "역대 최대 불량 트레이딩 기록의 주인공",
+  "prof": "investor",
+  "title": "역대 최대 불량 트레이더"
+ },
+ {
+  "nickname": "하마나카 야스오",
+  "en": "Yasuo Hamanaka",
+  "headline": "세계 구리 값을 쥐락펴락하다 위조로 무너진 상사맨",
+  "prof": "investor",
+  "title": "미스터 코퍼"
+ },
+ {
+  "nickname": "앨런 스탠퍼드",
+  "en": "Allen Stanford",
+  "headline": "예금자 돈으로 기사 작위와 크리켓을 샀다",
+  "prof": "investor",
+  "title": "기사 작위의 사기꾼"
+ },
+ {
+  "nickname": "마크 리치",
+  "en": "Marc Rich",
+  "headline": "오늘의 원유 현물 시장을 만든 도망자",
+  "prof": "investor",
+  "title": "도피 상품왕"
+ },
+ {
+  "nickname": "로버트 베스코",
+  "en": "Robert Vesco",
+  "headline": "돈 들고 삼십 년간 FBI를 따돌린 자본가",
+  "prof": "investor",
+  "title": "도망자 자본가"
+ },
+ {
+  "nickname": "로스 페로",
+  "en": "Ross Perot",
+  "headline": "자기 직원은 자기가 구하러 가는 CEO",
+  "prof": "entrepreneur",
+  "title": "무소속 억만장자"
+ },
+ {
+  "nickname": "존 딜로런",
+  "en": "John DeLorean",
+  "headline": "영화 속 타임머신의 실제 아버지",
+  "prof": "entrepreneur",
+  "title": "타임머신의 아버지"
+ },
+ {
+  "nickname": "프레스턴 터커",
+  "en": "Preston Tucker",
+  "headline": "기소장이 회사를 죽인 뒤 무죄가 나왔다",
+  "prof": "entrepreneur",
+  "title": "51대의 자동차"
+ },
+ {
+  "nickname": "밀턴 허시",
+  "en": "Milton Hershey",
+  "headline": "고급품이던 초콜릿을 아이들 간식으로 바꿨다",
+  "prof": "entrepreneur",
+  "title": "초콜릿의 왕"
+ },
+ {
+  "nickname": "조지 이스트먼",
+  "en": "George Eastman",
+  "headline": "사진관을 필요 없게 만든 발명가",
+  "prof": "entrepreneur",
+  "title": "사진의 대중화"
+ },
+ {
+  "nickname": "에드윈 랜드",
+  "en": "Edwin Land",
+  "headline": "즉석사진을 만들고 자기 회사에서 쫓겨난 발명가",
+  "prof": "scientist",
+  "title": "즉석사진의 아버지"
+ },
+ {
+  "nickname": "마에자와 유사쿠",
+  "en": "Yusaku Maezawa",
+  "headline": "펑크 드러머가 쇼핑몰로 벌어 달 여행을 예약했다",
+  "prof": "entrepreneur",
+  "title": "달을 산 남자"
+ },
+ {
+  "nickname": "하워드 휴즈",
+  "en": "Howard Hughes",
+  "headline": "세계 일주 뒤 호텔 펜트하우스에 숨은 억만장자",
+  "prof": "entrepreneur",
+  "title": "아비에이터"
+ },
+ {
+  "nickname": "윌리엄 랜돌프 허스트",
+  "en": "William Randolph Hearst",
+  "headline": "케인의 개봉을 막으려다 영원한 모델이 된 신문왕",
+  "prof": "entrepreneur",
+  "title": "신문왕"
+ },
+ {
+  "nickname": "아리스토텔레스 오나시스",
+  "en": "Aristotle Onassis",
+  "headline": "대통령 미망인과 결혼한 그리스의 선박왕",
+  "prof": "entrepreneur",
+  "title": "선박왕"
+ },
+ {
+  "nickname": "헤티 그린",
+  "en": "Hetty Green",
+  "headline": "월가가 '마녀'라 부른 최고의 여성 투자자",
+  "prof": "investor",
+  "title": "월가의 마녀"
+ },
+ {
+  "nickname": "야코프 푸거",
+  "en": "Jakob Fugger",
+  "headline": "황제 선출전을 통째로 사 버린 상인",
+  "prof": "entrepreneur",
+  "title": "황제의 채권자"
+ },
+ {
+  "nickname": "만사 무사",
+  "en": "Mansa Musa",
+  "headline": "메카 순례길에서 금을 뿌려 금값을 폭락시킨 왕",
+  "prof": "leader",
+  "title": "황금의 왕"
+ },
+ {
+  "nickname": "크로이소스",
+  "en": "Croesus",
+  "headline": "강 하나를 건너 제국 하나를 잃은 왕",
+  "prof": "leader",
+  "title": "최초의 금화"
+ },
+ {
+  "nickname": "칼루스트 굴벤키안",
+  "en": "Calouste Gulbenkian",
+  "headline": "지도에 빨간 선을 긋고 5%를 끼워 넣은 남자",
+  "prof": "entrepreneur",
+  "title": "5% 씨"
+ },
+ {
+  "nickname": "바질 자하로프",
+  "en": "Basil Zaharoff",
+  "headline": "'죽음의 상인'이라 불린 세기의 무기상",
+  "prof": "entrepreneur",
+  "title": "죽음의 상인"
+ },
+ {
+  "nickname": "파루크 왕",
+  "en": "King Farouk",
+  "headline": "왕위를 빼앗기고 망명지에서 먹다 죽은 왕",
+  "prof": "leader",
+  "title": "몰락한 수집광 왕"
+ },
+ {
+  "nickname": "페기 구겐하임",
+  "en": "Peggy Guggenheim",
+  "headline": "유럽이 불타는데 하루 한 점씩 명화를 사 모은 여자",
+  "prof": "other",
+  "title": "초현실주의의 후원자"
+ },
+ {
+  "nickname": "이사벨라 스튜어트 가드너",
+  "en": "Isabella Stewart Gardner",
+  "headline": "도둑맞은 자리에 빈 액자를 걸게 한 여자",
+  "prof": "other",
+  "title": "가드너 미술관의 주인"
+ },
+ {
+  "nickname": "제5대 포틀랜드 공작",
+  "en": "William Cavendish-Scott-Bentinck, 5th Duke of Portland",
+  "headline": "사람이 싫어 저택 아래 24km 터널을 판 공작",
+  "prof": "other",
+  "title": "지하의 공작"
+ },
+ {
+  "nickname": "존 미튼",
+  "en": "John Mytton",
+  "headline": "곰을 타고 만찬에 나타난 망나니 귀족",
+  "prof": "other",
+  "title": "매드 잭"
+ },
+ {
+  "nickname": "마르케사 카사티",
+  "en": "Luisa Casati",
+  "headline": "치타를 끌고 다니며 스스로 예술 작품이 된 후작부인",
+  "prof": "other",
+  "title": "살아 있는 예술 작품"
+ },
+ {
+  "nickname": "윌리엄 베크포드",
+  "en": "William Beckford",
+  "headline": "스캔들로 쫓겨나 무너질 탑을 세운 탐미주의 부호",
+  "prof": "author",
+  "title": "「바텍」의 작가"
+ },
+ {
+  "nickname": "조슈아 노턴",
+  "en": "Joshua Norton",
+  "headline": "자기 화폐가 진짜로 통했던 거리의 황제",
+  "prof": "other",
+  "title": "미국 황제 노턴 1세"
+ },
+ {
+  "nickname": "티모시 덱스터",
+  "en": "Timothy Dexter",
+  "headline": "제 장례 예행연습을 열어 본 사업가",
+  "prof": "entrepreneur",
+  "title": "운 좋은 바보"
+ },
+ {
+  "nickname": "P.T. 바넘",
+  "en": "P. T. Barnum",
+  "headline": "가짜 인어로 시작해 서커스 제국을 세운 쇼의 왕",
+  "prof": "entrepreneur",
+  "title": "지상 최대의 쇼"
+ },
+ {
+  "nickname": "로버트 리플리",
+  "en": "Robert Ripley",
+  "headline": "믿거나 말거나, 세상의 기묘함을 수집한 사람",
+  "prof": "other",
+  "title": "믿거나 말거나"
+ },
+ {
+  "nickname": "존 매카피",
+  "en": "John McAfee",
+  "headline": "백신으로 부자가 된 뒤 살인 용의자가 된 남자",
+  "prof": "entrepreneur",
+  "title": "백신의 제왕"
+ },
+ {
+  "nickname": "윌리엄 로",
+  "en": "William Law",
+  "headline": "형은 쫓겨나고 동생은 총재가 된 로 형제",
+  "prof": "investor",
+  "title": "시스템의 공동 설계자"
+ },
+ {
+  "nickname": "조제프 파리-뒤베르네",
+  "en": "Joseph Pâris-Duverney",
+  "headline": "존 로를 이긴 남자가 세운 나폴레옹의 모교",
+  "prof": "investor",
+  "title": "버블 뒤의 청산인"
+ },
+ {
+  "nickname": "아벨 코빈",
+  "en": "Abel Corbin",
+  "headline": "백악관의 문을 굴드에게 열어준 대통령 매형",
+  "prof": "investor",
+  "title": "대통령의 매형"
+ },
+ {
+  "nickname": "허버트 헌트",
+  "en": "William Herbert Hunt",
+  "headline": "은 매점으로 다 잃고 여든에 다시 부자가 되다",
+  "prof": "investor",
+  "title": "실버 목요일의 공범"
+ },
+ {
+  "nickname": "프랭크 디파스칼리",
+  "en": "Frank DiPascali",
+  "headline": "매이도프의 거짓말을 매일 찍어낸 남자",
+  "prof": "investor",
+  "title": "폰지의 공장장"
+ },
+ {
+  "nickname": "칼 샤피로",
+  "en": "Carl J. Shapiro",
+  "headline": "드레스로 번 돈을 폰지 사기에 가장 오래 맡긴 남자",
+  "prof": "entrepreneur",
+  "title": "매이도프의 최대 단골"
+ },
+ {
+  "nickname": "토미 정",
+  "en": "Tommy Chong",
+  "headline": "파이프 한 건이 울프 오브 월 스트리트를 낳았다",
+  "prof": "actor",
+  "title": "늑대를 작가로 만든 수감자"
+ },
+ {
+  "nickname": "그레고리 콜먼",
+  "en": "Gregory Coleman",
+  "headline": "영화보다 먼저 늑대를 추적한 실존 FBI 요원",
+  "prof": "other",
+  "title": "늑대를 잡은 사냥꾼"
+ },
+ {
+  "nickname": "프레드 조지프",
+  "en": "Fred Joseph",
+  "headline": "밀켄 위에서 왕국을 세우고 왕국과 함께 무너지다",
+  "prof": "investor",
+  "title": "드렉셀의 선장"
+ },
+ {
+  "nickname": "데니스 러바인",
+  "en": "Dennis Levine",
+  "headline": "공중전화로 주문하다 첫 도미노가 된 남자",
+  "prof": "investor",
+  "title": "도미노의 첫 조각"
+ },
+ {
+  "nickname": "마틴 시걸",
+  "en": "Martin Siegel",
+  "headline": "현금 가방을 받던 월가 최고의 딜메이커",
+  "prof": "investor",
+  "title": "두 얼굴의 딜메이커"
+ },
+ {
+  "nickname": "존 머헤런",
+  "en": "John Mulheren",
+  "headline": "소총을 싣고 가다 체포된 보스키의 절친",
+  "prof": "investor",
+  "title": "소총을 든 트레이더"
+ },
+ {
+  "nickname": "시미즈 사부로",
+  "en": "Saburo Shimizu",
+  "headline": "구리 폭탄의 도화선에 불을 붙이고 떠난 남자",
+  "prof": "investor",
+  "title": "시작한 자, 물러난 자"
+ },
+ {
+  "nickname": "제임스 데이비스",
+  "en": "James M. Davis",
+  "headline": "주인에게 110년형을 안긴 스타 증인",
+  "prof": "investor",
+  "title": "폰지의 장부지기"
+ },
+ {
+  "nickname": "리로이 킹",
+  "en": "Leroy King",
+  "headline": "규제해야 할 사기꾼에게 매수된 앤티가의 감시견",
+  "prof": "other",
+  "title": "매수된 감독관"
+ },
+ {
+  "nickname": "존 미첼",
+  "en": "John Mitchell",
+  "headline": "감옥에 간 미국 역사상 유일한 법무장관",
+  "prof": "politician",
+  "title": "감옥 간 법무장관"
+ },
+ {
+  "nickname": "버나드 콘펠드",
+  "en": "Bernard Cornfeld",
+  "headline": "진심으로 부자가 되고 싶은가 물은 세일즈맨",
+  "prof": "investor",
+  "title": "부자가 되고 싶은가"
+ },
+ {
+  "nickname": "아서 '불' 사이먼스",
+  "en": "Arthur D. Simons",
+  "headline": "손테이와 테헤란, 두 번의 불가능한 구출을 이끌다",
+  "prof": "commander",
+  "title": "용병 대령"
+ },
+ {
+  "nickname": "로저 스미스",
+  "en": "Roger B. Smith",
+  "headline": "마이클 무어가 쫓아다닌 '로저'의 실제 주인공",
+  "prof": "entrepreneur",
+  "title": "페로를 사서보낸 회장"
+ },
+ {
+  "nickname": "제임스 호프만",
+  "en": "James Timothy Hoffman",
+  "headline": "딜로런을 덫에 몰았지만 무죄를 만든 정보원",
+  "prof": "other",
+  "title": "덫을 놓은 정보원"
+ },
+ {
+  "nickname": "알렉스 트레물리스",
+  "en": "Alex Tremulis",
+  "headline": "터커의 꿈을 금속으로 빚어낸 독학 디자이너",
+  "prof": "other",
+  "title": "터커를 그린 손"
+ },
+ {
+  "nickname": "에이브 캐러츠",
+  "en": "Abe Karatz",
+  "headline": "터커에게 공장과 증권사를 연결해준 전과자 프로모터",
+  "prof": "other",
+  "title": "터커의 그림자 프로모터"
+ },
+ {
+  "nickname": "오토 커너 주니어",
+  "en": "Otto Kerner Jr.",
+  "headline": "폭동 보고서로 이름을 남기고 뇌물로 물러난 판사",
+  "prof": "politician",
+  "title": "커너 보고서의 주인"
+ },
+ {
+  "nickname": "조지프 로이어",
+  "en": "Joseph R. Royer",
+  "headline": "초콜릿 왕국의 첫 교실이 된 작은 제과점 주인",
+  "prof": "entrepreneur",
+  "title": "초콜릿 왕의 스승"
+ },
+ {
+  "nickname": "H. B. 리스",
+  "en": "H. B. Reese",
+  "headline": "사장님 초콜릿으로 부업하다 캔디 왕이 된 직원",
+  "prof": "entrepreneur",
+  "title": "피넛버터 컵의 아버지"
+ },
+ {
+  "nickname": "헨리 스트롱",
+  "en": "Henry A. Strong",
+  "headline": "발명은 이스트먼이, 돈과 이름은 스트롱이 냈다",
+  "prof": "investor",
+  "title": "코닥의 첫 사장"
+ },
+ {
+  "nickname": "윌리엄 홀 워커",
+  "en": "William Hall Walker",
+  "headline": "코닥 수장이 남긴 진짜 유산은 종마장이었다",
+  "prof": "politician",
+  "title": "카메라와 경주마의 남작"
+ },
+ {
+  "nickname": "프랭크 브라우넬",
+  "en": "Frank Brownell",
+  "headline": "한 달러 브라우니로 사진을 대중 취미로 바꾼 장인",
+  "prof": "scientist",
+  "title": "1달러 카메라의 설계자"
+ },
+ {
+  "nickname": "조지 휠라이트 3세",
+  "en": "George W. Wheelwright III",
+  "headline": "랜드가 떠난 지 꼭 10년 뒤 같은 날 죽은 창업자",
+  "prof": "scientist",
+  "title": "폴라로이드의 또 다른 아버지"
+ },
+ {
+  "nickname": "엘칸 블라우트",
+  "en": "Elkan Blout",
+  "headline": "컬러필름의 화학과 단백질의 구조를 모두 정복한 남자",
+  "prof": "scientist",
+  "title": "즉석 컬러필름의 화학자"
+ },
+ {
+  "nickname": "노아 디트리히",
+  "en": "Noah Dietrich",
+  "headline": "휴즈의 돈은 휴즈 것, 회사 경영은 그의 몫",
+  "prof": "entrepreneur",
+  "title": "휴즈 제국의 관리인"
+ },
+ {
+  "nickname": "바르톨로메우스 벨저",
+  "en": "Bartholomeus Welser",
+  "headline": "황제에게 돈 빌려주고 나라를 담보로 받은 상인",
+  "prof": "entrepreneur",
+  "title": "신대륙을 빌린 은행가"
+ },
+ {
+  "nickname": "알-사힐리",
+  "en": "Abu Ishaq al-Sahili",
+  "headline": "순례길에서 만난 왕을 따라 말리까지 간 시인",
+  "prof": "author",
+  "title": "팀북투의 안달루스인"
+ },
+ {
+  "nickname": "찰스 제임스 애퍼리",
+  "en": "Charles James Apperley",
+  "headline": "여우사냥 글로 잡지 판매를 두 배 올린 '님로드'",
+  "prof": "author",
+  "title": "필명 '님로드'의 사냥 작가"
+ },
+ {
+  "nickname": "로베르 드 몽테스키우",
+  "en": "Robert de Montesquiou",
+  "headline": "두 소설의 주인공 모델이 된 파리의 백작",
+  "prof": "author",
+  "title": "벨 에포크의 댄디 백작"
+ },
+ {
+  "nickname": "윌리엄 코트니",
+  "en": "William Courtenay",
+  "headline": "귀족원이 작위를 인정할 때 그는 망명 중이었다",
+  "prof": "other",
+  "title": "추방된 데번 백작"
+ },
+ {
+  "nickname": "조나선 플러머",
+  "en": "Jonathan Plummer",
+  "headline": "자살과 교수형이 있을 때마다 시를 판 행상인",
+  "prof": "author",
+  "title": "괴짜 갑부의 관인 시인"
+ },
+ {
+  "nickname": "노버트 펄로스",
+  "en": "Norbert Pearlroth",
+  "headline": "쉰두 해 '믿거나 말거나'를 혼자 확인한 남자",
+  "prof": "other",
+  "title": "'믿거나 말거나'의 숨은 두뇌"
+ }
+]

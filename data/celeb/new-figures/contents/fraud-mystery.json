@@ -1,0 +1,280 @@
+{
+  "빅토르 루스티히": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "레 미제라블",
+        "title_en": "Les Misérables",
+        "creator": "빅토르 위고",
+        "year": 1862,
+        "status": "FINISHED",
+        "source_url": "https://www.smithsonianmag.com/history/man-who-sold-eiffel-tower-twice-180958370/",
+        "evidence": "스미스소니언 매거진 기사는 1935년 9월 루스티히가 맨해튼 연방구치소에서 침대 시트 밧줄로 탈옥했을 때 경찰이 그의 베개 위에서 《레 미제라블》의 장 발장에 관한 구절을 손으로 적어 놓은 쪽지를 발견했다고 전한다.",
+        "review": "빅토르 루스티히는 1935년 맨해튼 연방구치소에서 침대 시트를 이어 만든 밧줄로 3층 창을 빠져나가 탈옥했다. 그의 베개 위에는 《레 미제라블》에서 장 발장의 약속에 관한 구절을 손으로 적은 쪽지가 남아 있었다.",
+        "review_en": "Victor Lustig escaped the Federal Detention Center in Manhattan in 1935 on a rope of knotted bedsheets, leaving a handwritten note on his pillow quoting a passage about Jean Valjean's promise from Les Misérables."
+      }
+    ]
+  },
+  "그레고어 맥그리거": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "프랭크 애버그네일": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "찰스 폰지": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "생제르맹 백작": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "카스파 하우저": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "프린세스 카라부": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조지 살마나자르": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "경건하고 거룩한 삶에의 진지한 부르심",
+        "title_en": "A Serious Call to a Devout and Holy Life",
+        "creator": "윌리엄 로",
+        "year": 1729,
+        "status": "FINISHED",
+        "source_url": "https://en.wikisource.org/wiki/Dictionary_of_National_Biography,_1885-1900/Psalmanazar,_George",
+        "evidence": "영국 인명사전(DNB)은 살마나자르가 1728년 중병을 앓는 동안 로의 《Serious Call》과 넬슨의 경건서를 읽고 지난 삶과 과오를 버리기로 결심했으며, 이것이 그의 회심으로 이어졌다고 기록한다.",
+        "review": "조지 살마나자르는 1728년 중병을 앓는 동안 이 책을 읽고 지난 삶과 과오를 버리기로 결심했다. 포르모사인 행세를 하던 사기꾼은 이 회심 뒤 세무서 필경사로 성실하게 살아 새뮤얼 존슨이 경건함을 흠모한 인물이 되었다.",
+        "review_en": "George Psalmanazar read this book during a serious illness in 1728 and resolved to renounce his past life and errors. The one-time 'Formosan' impostor went on to live so piously that Samuel Johnson wished his own life's close to resemble it."
+      },
+      {
+        "type": "BOOK",
+        "title": "참된 경건의 실천",
+        "title_en": "The Practice of True Devotion",
+        "creator": "로버트 넬슨",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikisource.org/wiki/Dictionary_of_National_Biography,_1885-1900/Psalmanazar,_George",
+        "evidence": "영국 인명사전(DNB)은 살마나자르가 1728년 병중에 로의 《Serious Call》과 함께 넬슨의 경건서('Methods of Devotions')를 읽고 회심했다고 기록한다.",
+        "review": "조지 살마나자르는 1728년 병상에서 로버트 넬슨의 이 경건서를 로의 《진지한 부르심》과 함께 읽었다. 두 책의 독서가 그의 회심으로 이어졌고, 그는 사후 출간될 '자신의 사기에 대한 성실한 서술'을 쓰기 시작했다.",
+        "review_en": "George Psalmanazar read Nelson's devotional work alongside Law's Serious Call while ill in 1728. The reading led to his conversion, and he began the 'faithful narrative' of his own deceit to be published after his death."
+      }
+    ]
+  },
+  "애나 앤더슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "그레이 아울": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "디어슬레이어",
+        "title_en": "The Deerslayer",
+        "creator": "제임스 페니모어 쿠퍼",
+        "year": 1841,
+        "status": "FINISHED",
+        "source_url": "http://www.wabbrown.co.uk/greyowl.pdf",
+        "evidence": "도널드 B. 스미스의 그레이 아울 전기를 인용한 연표 자료는 소년 아치 벌레이니가 쿠퍼의 《디어슬레이어》를 읽으며 북미 원주민을 이상화하기 시작했다고 전한다.",
+        "review": "그레이 아울은 영국 헤이스팅스에서 자라던 소년 시절 이 책을 읽으며 어두운 피부의 북미 원주민을 이상화했다. 소설 속 프런티어의 상상은 훗날 스스로 인디언 행세를 하게 된 그의 정체성 놀이의 밑바탕이 되었다.",
+        "review_en": "Grey Owl read this novel as a boy in Hastings, England, and idealized the dark-skinned North American Indians it depicted. The frontier fantasy it fed became the foundation of the Indigenous persona he later inhabited."
+      },
+      {
+        "type": "BOOK",
+        "title": "하이아와사의 노래",
+        "title_en": "The Song of Hiawatha",
+        "creator": "헨리 워즈워스 롱펠로",
+        "year": 1855,
+        "status": "FINISHED",
+        "source_url": "http://www.wabbrown.co.uk/greyowl.pdf",
+        "evidence": "도널드 B. 스미스 전기를 인용한 연표 자료는 어린 벌레이니가 쿠퍼의 《디어슬레이어》와 함께 롱펠로의 《하이아와사》를 읽었다고 전한다.",
+        "review": "그레이 아울은 소년 시절 이 서사시를 《디어슬레이어》와 함께 읽으며 북미 원주민에 대한 낭만적 동경을 키웠다. 그 상상은 그를 캐나다 북부의 숲으로 이끌었고 결국 '그레이 아울'이라는 가공의 인물이 되었다.",
+        "review_en": "Grey Owl read this epic poem as a boy alongside The Deerslayer, nurturing a romantic fascination with North American Indians. The fascination drew him to the Canadian bush and eventually into the invented identity of Grey Owl."
+      },
+      {
+        "type": "BOOK",
+        "title": "두 어린 야만인",
+        "title_en": "Two Little Savages",
+        "creator": "어니스트 톰프슨 시턴",
+        "year": 1903,
+        "status": "FINISHED",
+        "source_url": "http://www.wabbrown.co.uk/greyowl.pdf",
+        "evidence": "도널드 B. 스미스 전기를 인용한 연표 자료는 어린 벌레이니가 시턴의 《Two Little Savages》도 읽었다고 전한다.",
+        "review": "그레이 아울은 어린 시절 시턴의 이 책도 읽었다. 인디언 놀이에 빠진 두 소년의 이야기는 그가 훗날 인디언 행세를 하며 살아가게 된 상상의 또 다른 양분이었다.",
+        "review_en": "Grey Owl also read Seton's book as a boy. The tale of two boys absorbed in playing at being Indians fed the fantasy life in which he would later live out his own assumed identity."
+      }
+    ]
+  },
+  "한 반 메이허런": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "콘라트 쿠야우": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "클리퍼드 어빙": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "마르탱 게르": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "가짜 드미트리 1세": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "예멜리안 푸가초프": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "보리스 스코시레프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오렐리 앙투안 드 투넨": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "아라우카나",
+        "title_en": "La Araucana",
+        "creator": "알론소 데 에르시야",
+        "year": 1569,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Or%C3%A9lie-Antoine_de_Tounens",
+        "evidence": "전기 기록은 1858년 페리괴의 변호인이던 투넨이 에르시야의 《라 아라우카나》를 읽고 그 책에 영감을 받아 아라우카니아의 왕이 되기 위해 칠레로 떠났다고 전한다.",
+        "review": "오렐리 앙투안 드 투넨은 1858년 이 정복 서사시를 읽고 마푸체의 땅에 매료되어 칠레로 건너갔다. 책이 심은 야망은 그를 1860년 스스로 '아라우카니아·파타고니아의 왕'을 자칭하게 만들었다.",
+        "review_en": "Orélie-Antoine de Tounens read this epic in 1858 and, inspired by it, sailed to Chile to become king of Araucania. The ambition the book planted led him to proclaim himself King of Araucania and Patagonia in 1860."
+      }
+    ]
+  },
+  "뱅크시": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "조스",
+        "title_en": "Jaws",
+        "creator": "스티븐 스필버그",
+        "year": 1975,
+        "status": "FINISHED",
+        "source_url": "https://www.thescottishsun.co.uk/tvandshowbiz/10875827/banksy-reveals-steven-spielberg-inspired-him-graffiti-artist/",
+        "evidence": "스코티시 선 기사는 2023년 글래스고 'Cut & Run' 전시의 전시 텍스트를 인용해, 뱅크시가 《조스》에서 휴양지 광고판에 상어 지느러미와 말풍선을 덧그려 훼손한 장면이 자신을 그래피티 아티스트로 이끈 계기라고 밝혔다고 전한다.",
+        "review": "뱅크시는 《조스》에서 아미티 섬 광고판이 상어 지느러미와 'Help! Shark' 말풍선으로 훼손되는 장면을 보고 그래피티 아티스트가 되기로 마음먹었다. 전시 텍스트에서 그는 '스티븐 스필버그가 이 예술 형식에 대해 뉴욕의 태거와 래퍼들을 모두 합친 것보다 더 많은 것을 가르쳐 주었다'고 말했다.",
+        "review_en": "Banksy was inspired to become a graffiti artist by the scene in Jaws where a billboard for Amity Island is vandalised with a shark fin and a 'Help! Shark' speech bubble. In an exhibition text he said Steven Spielberg taught him more about the art form than all the New York taggers and rappers put together."
+      },
+      {
+        "type": "MUSIC",
+        "title": "싱크 탱크",
+        "title_en": "Think Tank",
+        "creator": "블러",
+        "year": 2003,
+        "status": "FINISHED",
+        "source_url": "https://insidetherockposterframe.blogspot.com/2009/08/shepard-fairey-interviews-banksy-for.html",
+        "evidence": "스윈들 매거진에 실린 셰퍼드 페어리와의 인터뷰 전문에서 뱅크시는 '나는 블러 앨범 작업을 했다. 좋은 레코드였고 돈도 꽤 됐다'며, 자신이 믿을 수 있는 일이면 상업적 작업도 문제없다고 말했다.",
+        "review": "뱅크시는 블러의 이 앨범 커버를 직접 작업했다. 셰퍼드 페어리와의 인터뷰에서 그는 이 음반을 '좋은 레코드'라 불렀고, 자신이 믿을 수 있는 일이라면 상업적 작업도 모순이 아니라고 설명했다.",
+        "review_en": "Banksy created the cover art for this Blur album himself. In an interview with Shepard Fairey he called it 'a good record' and argued that a commercial job is no contradiction when it is something you actually believe in."
+      }
+    ]
+  },
+  "D.B. 쿠퍼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "철가면의 사내": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

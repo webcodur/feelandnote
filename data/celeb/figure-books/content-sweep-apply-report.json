@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-16",
+  "applied": {
+    "celeb_contents": 120,
+    "figure_book_characters": 28,
+    "figure_book_contents_marked": 23
+  },
+  "skipped": {
+    "duplicate_edition": [
+      "kevin-warwick / 우주 전쟁 (다른 판본으로 기존 존재)"
+    ],
+    "missing_celeb_slugs": [
+      "carlos-hathcock",
+      "chris-mccandless",
+      "claus-von-stauffenberg",
+      "daniel-boorstin",
+      "david-thompson"
+    ],
+    "alias_merged": [
+      "knut-fraenkel → knut-frænkel"
+    ]
+  },
+  "totals": {
+    "celeb_contents": 17501,
+    "figure_book_characters": 9936
+  },
+  "audit": {
+    "cc_review_missing": 0,
+    "cc_dup_pairs": 0,
+    "fb_dup_pairs": 0
+  }
+}

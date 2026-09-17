@@ -21,18 +21,14 @@ async function inChunks(ids, fn) {
 }
 
 const main = async () => {
-  const { data: parent } = await db.from('celeb_tags').select('id').eq('slug', 'myth-and-fiction').maybeSingle()
-  if (!parent) throw new Error('신화 묶음 태그를 찾지 못했다.')
-  const { data: roots } = await db.from('celeb_tags')
-    .select('id,slug,name,atlas_published').eq('parent_id', parent.id).order('sort_order')
-  const { data: nested } = await db.from('celeb_tags')
-    .select('id,slug,name,atlas_published').in('parent_id', (roots ?? []).map((r) => r.id))
-  const tags = [...(roots ?? []), ...(nested ?? [])]
+  const { data: tags, error } = await db.from('faction_lv2')
+    .select('id,slug,name,published').eq('is_myth', true).order('sort_order')
+  if (error) throw new Error(error.message)
 
   const rows = []
-  for (const tag of tags) {
-    const { data: members } = await db.from('faction_atlas_members')
-      .select('celeb_id').eq('tag_id', tag.id).eq('hidden', false)
+  for (const tag of tags ?? []) {
+    const { data: members } = await db.from('faction_member_rows')
+      .select('celeb_id').eq('lv2_id', tag.id).eq('hidden', false)
     const celebIds = [...new Set((members ?? []).map((m) => m.celeb_id))]
     let works = 0, sellable = 0
     if (celebIds.length > 0) {
@@ -51,7 +47,7 @@ const main = async () => {
         sellable = new Set(options.map((o) => o.content_id)).size
       }
     }
-    rows.push({ name: tag.name, open: tag.atlas_published === true, people: celebIds.length, works, sellable })
+    rows.push({ name: tag.name, open: tag.published === true, people: celebIds.length, works, sellable })
   }
 
   rows.sort((a, b) => b.sellable - a.sellable || b.works - a.works)

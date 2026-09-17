@@ -1,0 +1,754 @@
+{
+ "래티 팁턴": {
+  "events": [
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 육군 병사가 됐다.",
+    "description_en": "Born in the US; an army private.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "머피의 전령병",
+    "title_en": "Murphy's Runner",
+    "description": "상사 진급을 거절하고 오디 머피 곁 전령병으로 남아 시칠리아 상륙부터 폭스홀을 공유했다.",
+    "description_en": "He refused promotion to stay Murphy's runner — sharing foxholes from Sicily.",
+    "kind": "battle",
+    "place_name": "시칠리아",
+    "place_name_en": "Sicily",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "드라군 작전 전사",
+    "title_en": "Killed in Dragoon",
+    "description": "남프랑스 라마튜엘에서 거짓 항복의 백기를 확인하려 일어서다 총에 맞아 전사했다 — 분노한 머피가 홀로 진지를 쓸어버렸다.",
+    "description_en": "Shot checking a false surrender — Murphy's fury afterward won the DSC.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "얀 레제이": {
+  "events": [
+   {
+    "year": 1910,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "폴란드에서 태어나 저항군 대원이 됐다.",
+    "description_en": "Born in Poland; a resistance fighter.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1940,
+    "year_end": null,
+    "title": "아우슈비츠 수감",
+    "title_en": "Auschwitz No. 5430",
+    "description": "바르샤바 검거선풍으로 '얀 레트코'라는 가명으로 수감돼 지하조직 ZOW에서 필레츠키와 함께 활동했다.",
+    "description_en": "Rounded up in Warsaw, he joined Pilecki's underground inside Auschwitz.",
+    "kind": "other",
+    "place_name": "아우슈비츠",
+    "place_name_en": "Auschwitz",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "빵공장 탈출",
+    "title_en": "The Bakery Escape",
+    "description": "수용소 빵공장을 통해 필레츠키·치에시엘스키와 탈출해 수용소 실태 보고서 작성에 참여했다.",
+    "description_en": "He escaped through the camp bakery — then helped write the Auschwitz report.",
+    "kind": "other",
+    "place_name": "아우슈비츠",
+    "place_name_en": "Auschwitz",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "바르샤바 봉기 전사",
+    "title_en": "Killed in the Uprising",
+    "description": "바르샤바 봉기에 참전해 전사했다.",
+    "description_en": "He died fighting in the Warsaw Uprising.",
+    "kind": "death",
+    "place_name": "바르샤바",
+    "place_name_en": "Warsaw",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "에드바르트 치에시엘스키": {
+  "events": [
+   {
+    "year": 1922,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "폴란드에서 태어나 지하운동가가 됐다.",
+    "description_en": "Born in Poland; an underground activist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1941,
+    "year_end": null,
+    "title": "아우슈비츠 수감",
+    "title_en": "Auschwitz No. 12969",
+    "description": "저항활동으로 체포돼 수감됐고 수용소 저항조직에 참여했다.",
+    "description_en": "Arrested for resistance work, he joined the camp underground.",
+    "kind": "other",
+    "place_name": "아우슈비츠",
+    "place_name_en": "Auschwitz",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "빵공장 탈출",
+    "title_en": "The Bakery Escape",
+    "description": "스무 살의 나이로 필레츠키·레제이와 함께 탈출에 성공했다.",
+    "description_en": "At twenty he escaped with Pilecki and Redzei.",
+    "kind": "other",
+    "place_name": "아우슈비츠",
+    "place_name_en": "Auschwitz",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "바르샤바 봉기",
+    "title_en": "The Warsaw Uprising",
+    "description": "봉기에서도 싸운 뒤 전쟁을 살아남았다.",
+    "description_en": "He survived the war fighting in the Uprising.",
+    "kind": "battle",
+    "place_name": "바르샤바",
+    "place_name_en": "Warsaw",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "39세로 숨졌다.",
+    "description_en": "Died at 39.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "다니구치 요시미": {
+  "events": [
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "일본에서 태어나 육군 소좌가 됐다.",
+    "description_en": "Born in Japan; an army major.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "'항복 불가' 명령",
+    "title_en": "'Never Surrender'",
+    "description": "제14방면군 정보특무대에서 오노다에게 '항복도 자결도 불가'라는 명령을 내렸다.",
+    "description_en": "He gave Onoda the order: never surrender, never die.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1945,
+    "year_end": 1974,
+    "title": "서점 주인",
+    "title_en": "The Bookseller",
+    "description": "종전 후 규슈에서 서점을 경영하며 29년을 보냈다.",
+    "description_en": "Postwar he ran a bookshop in Kyushu.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "루방섬 해제 명령",
+    "title_en": "The Relief Order",
+    "description": "직접 루방섬 정글로 날아가 작전 해제 명령을 낭독해 오노다의 29년 전쟁을 끝냈다.",
+    "description_en": "He flew to Lubang and formally relieved Onoda — ending 29 years of war.",
+    "kind": "travel",
+    "place_name": "루방섬",
+    "place_name_en": "Lubang Island",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "스즈키 노리오": {
+  "events": [
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "일본에서 태어나 모험가가 됐다.",
+    "description_en": "Born in Japan; an adventurer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "나흘 만에 오노다 발견",
+    "title_en": "Finding Onoda",
+    "description": "'오노다 중위, 판다, 그리고 예티를 이 순서로 찾겠다'고 선언한 그는 루방섬 정글에서 나흘 만에 오노다를 찾아내 친구가 됐다.",
+    "description_en": "Seeking 'Onoda, a panda, then the yeti', he found Onoda in four days.",
+    "kind": "travel",
+    "place_name": "루방섬",
+    "place_name_en": "Lubang Island",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "귀환 성사",
+    "title_en": "The Photo That Freed Him",
+    "description": "그가 가져온 사진 덕에 일본 정부가 다니구치 소좌를 파견해 귀환이 성사됐다.",
+    "description_en": "His photo proof brought the government — and Onoda home.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1986,
+    "year_end": null,
+    "title": "다울라기리에서 사망",
+    "title_en": "Lost on Dhaulagiri",
+    "description": "예티를 찾던 히말라야 다울라기리에서 눈사태로 숨졌다.",
+    "description_en": "Seeking the yeti on Dhaulagiri, he died in an avalanche.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "고즈카 긴시치": {
+  "events": [
+   {
+    "year": 1922,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "일본에서 태어나 육군 병장이 됐다.",
+    "description_en": "Born in Japan; an army corporal.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1945,
+    "year_end": 1972,
+    "title": "루방섬 유격전",
+    "title_en": "The Lubang Holdout",
+    "description": "오노다의 마지막 동료로 아카쓰의 항복과 시마다의 전사 이후에도 단둘이 정글 유격전을 이어갔다.",
+    "description_en": "Onoda's last comrade — twenty-seven years of jungle war together.",
+    "kind": "battle",
+    "place_name": "루방섬",
+    "place_name_en": "Lubang Island",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "전사",
+    "title_en": "Killed",
+    "description": "주민의 볍씨를 태우는 작전 중 필리핀 경찰의 총에 맞아 전사했다 — 그의 죽음으로 오노다의 생존이 세상에 확인됐다.",
+    "description_en": "Shot by police burning rice stores — his death proved Onoda alive.",
+    "kind": "death",
+    "place_name": "루방섬",
+    "place_name_en": "Lubang Island",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "발렌틴 사비츠키": {
+  "events": [
+   {
+    "year": 1926,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "소련에서 태어나 해군 잠수함 함장이 됐다.",
+    "description_en": "Born in the USSR; a submarine captain.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "B-59의 핵어뢰",
+    "title_en": "B-59's Nuclear Torpedo",
+    "description": "쿠바 위기 최고조에 미 함대의 폭뢰 공격 속 전쟁이 시작됐다 판단해 핵어뢰 발사 준비를 명령했다.",
+    "description_en": "Under depth-charge attack, he ordered the nuclear torpedo readied.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "아르히포프의 거부",
+    "title_en": "Arkhipov's Veto",
+    "description": "전대 참모장 아르히포프의 반대로 부상해 모스크바의 명령을 기다리는 쪽을 받아들였다 — 세계가 모르는 사이 핵전쟁이 멈췄다.",
+    "description_en": "Arkhipov's dissent surfaced the boat — and averted nuclear war.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "탤벗 에드워즈": {
+  "events": [
+   {
+    "year": 1594,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "잉글랜드에서 태어나 노병이 됐다.",
+    "description_en": "Born in England; a veteran soldier.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1671,
+    "year_end": null,
+    "title": "'목사' 블러드의 접근",
+    "title_en": "Blood's Approach",
+    "description": "런던탑 마틴 타워의 보석 관리인으로 '목사'로 위장한 토머스 블러드와 친분을 쌓았다.",
+    "description_en": "Keeper of the Crown Jewels, he befriended the 'parson' Thomas Blood.",
+    "kind": "meeting",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1671,
+    "year_end": null,
+    "title": "왕관 강탈",
+    "title_en": "The Crown Stolen",
+    "description": "블러드 일당에게 결박당하고 폭행당해 왕관 도난 현장이 됐다 — 귀국한 아들이 우연히 나타나 도둑들의 탈출을 막았다.",
+    "description_en": "Bound and beaten as Blood stole the regalia — his son's arrival doomed the escape.",
+    "kind": "other",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "엘리자베스 '에지워스 베스' 라이언": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "세인트 자일스",
+    "title_en": "St Giles",
+    "description": "18세기 런던 세인트 자일스의 도둑.",
+    "description_en": "A thief of 18th-century St Giles, London.",
+    "kind": "other",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1723,
+    "year_end": null,
+    "title": "잭 셰퍼드와의 만남",
+    "title_en": "Meeting Jack Sheppard",
+    "description": "선술집에서 목수 견습생 셰퍼드를 만나 범죄의 길로 이끌었고 그의 탈옥을 거듭 도왔다.",
+    "description_en": "She drew young Sheppard into crime and aided his escapes.",
+    "kind": "meeting",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1724,
+    "year_end": null,
+    "title": "함께 탈옥",
+    "title_en": "Escaping Together",
+    "description": "함께 뉴 프리즌과 브라이드웰을 연달아 탈출했다.",
+    "description_en": "She broke out of New Prison and Bridewell at his side.",
+    "kind": "other",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1726,
+    "year_end": null,
+    "title": "메릴랜드 유배",
+    "title_en": "Transported",
+    "description": "셰퍼드 처형 후에도 범행을 계속하다 식민지 메릴랜드로 유배됐고 기록에서 사라졌다.",
+    "description_en": "Transported to Maryland, she vanishes from record.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "보그드 칸": {
+  "events": [
+   {
+    "year": 1869,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "라싸에서 태어나 8대 제프춘담배 후툭투의 환생으로 인정받았다.",
+    "description_en": "Born near Lhasa; recognized as the 8th Bogd Gegeen.",
+    "kind": "birth",
+    "place_name": "라싸",
+    "place_name_en": "Lhasa",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "몽골의 칸",
+    "title_en": "Khan of Mongolia",
+    "description": "청 제국 붕괴 뒤 독립 몽골의 군주 '보그드 칸'에 올랐다.",
+    "description_en": "On the Qing collapse he was enthroned Khan of independent Mongolia.",
+    "kind": "office",
+    "place_name": "울란바토르",
+    "place_name_en": "Urga",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1919,
+    "year_end": null,
+    "title": "폐위",
+    "title_en": "Deposed",
+    "description": "중국군 쉬수정의 진주로 폐위됐다.",
+    "description_en": "Chinese troops under Xu Shuzheng deposed him.",
+    "kind": "other",
+    "place_name": "울란바토르",
+    "place_name_en": "Urga",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1921,
+    "year_end": null,
+    "title": "복위",
+    "title_en": "Restored",
+    "description": "운게른슈테른베르크의 백군이 중국군을 몰아내자 복위됐다.",
+    "description_en": "Baron Ungern's victory restored him — briefly.",
+    "kind": "office",
+    "place_name": "울란바토르",
+    "place_name_en": "Urga",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1924,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "그의 죽음과 함께 인민공화국이 선포되며 신정 칸국의 시대가 끝났다.",
+    "description_en": "He died and the People's Republic was proclaimed — the theocracy ended.",
+    "kind": "death",
+    "place_name": "울란바토르",
+    "place_name_en": "Urga",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "빅토르 빌라시": {
+  "events": [
+   {
+    "year": 1893,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "우크라이나 철도 노동자 집안에서 태어나 아나키스트가 됐다.",
+    "description_en": "Born a Ukrainian railway worker; an anarchist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1918,
+    "year_end": 1921,
+    "title": "마흐노의 참모총장",
+    "title_en": "Makhno's Chief of Staff",
+    "description": "마흐노 혁명봉기군의 작전 대부분을 직접 설계했다.",
+    "description_en": "He designed most operations of Makhno's insurgent army.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1921,
+    "year_end": null,
+    "title": "체포",
+    "title_en": "Captured",
+    "description": "마흐노가 해외로 망명한 뒤 잔여 세력을 이끌다 중상을 입고 체포됐다.",
+    "description_en": "Leading the remnants, he was wounded and captured.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "처형",
+    "title_en": "Executed",
+    "description": "옥중에서 회고록을 쓰다 대숙청기 하르키우에서 처형됐다.",
+    "description_en": "Writing his memoir in prison, he was shot in the Great Terror.",
+    "kind": "death",
+    "place_name": "하르키우",
+    "place_name_en": "Kharkiv",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "로버트 파크 유니": {
+  "events": [
+   {
+    "year": 1909,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스코틀랜드에서 태어나 리비아 아랍군 장교가 됐다.",
+    "description_en": "Born in Scotland; an officer of the Libyan Arab Force.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1942,
+    "year_end": null,
+    "title": "'폽스키의 사설군' 창설",
+    "title_en": "Popski's First Recruit",
+    "description": "친구 페니아코프의 '사설군' 최초의 모집병이자 B순찰대장이 됐다.",
+    "description_en": "Popski's first recruit — he led B Patrol of the Private Army.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1943,
+    "year_end": 1945,
+    "title": "북아프리카와 이탈리아",
+    "title_en": "North Africa and Italy",
+    "description": "사막 원정과 이탈리아 전선을 누벼 군십자훈장을 받았다.",
+    "description_en": "He ranged from desert raids to Italy — Military Cross.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1951,
+    "year_end": null,
+    "title": "『바퀴 달린 전사들』",
+    "title_en": "His Memoir",
+    "description": "회고록으로 부대의 내부 이야기를 남겼다.",
+    "description_en": "His 'Warriors on Wheels' told the unit's inside story.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1961,
+    "year_end": null,
+    "title": "콩고에서 사망",
+    "title_en": "Died in Congo",
+    "description": "콩고에서 52세로 숨졌다.",
+    "description_en": "Died in Congo at 52.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "장 카네리": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "리비아 아랍군",
+    "title_en": "The Libyan Arab Force",
+    "description": "'잔'으로 불린 프랑스계 장교로 페니아코프·유니와 함께 복무했다.",
+    "description_en": "'Jean' Caneri served with Peniakoff and Yunnie in the Libyan Arab Force.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1942,
+    "year_end": null,
+    "title": "사설군 창설 3인",
+    "title_en": "Popski's Private Army",
+    "description": "23인 규모 최소 독립부대의 창설 3인 중 한 명으로 사막 원정과 이탈리아 전역에 참가해 군십자훈장을 받았다.",
+    "description_en": "One of the founding three of the 23-man Private Army — Military Cross.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "부대의 사진사",
+    "title_en": "The Unit's Photographer",
+    "description": "부대의 사진 대부분을 직접 촬영해 페니아코프의 회고록에 실렸다.",
+    "description_en": "His photographs illustrate the unit's published history.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ }
+}

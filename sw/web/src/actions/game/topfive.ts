@@ -41,7 +41,7 @@ interface TagRow {
 
 interface TagAssignmentRow {
   celeb_id: string;
-  tag_id: string;
+  lv2_id: string;
 }
 
 // ──────────────────── 직군별 영향력 순위 퍼즐 ────────────────────
@@ -124,7 +124,7 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
   // ── 태그별 영향력 순위 퍼즐 ──
   // 태그 소속 인물 중 영향력 점수 보유 5명 이상인 태그만 퍼즐로 생성
   const { data: tags, error: tagError } = await db
-    .from("celeb_tags")
+    .from("faction_lv2")
     .select("id, name, name_en")
     .eq("is_featured", true)
     .order("sort_order", { ascending: true })
@@ -135,8 +135,8 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
 
   // 배정이 3천 행을 넘는다. .limit(5000)을 걸어도 1,000행에서 잘려 진영 퍼즐 인원이 모자랐다 — 나눠 받는다
   const assignments = await selectAllPages<TagAssignmentRow>((from, to) => db
-    .from("celeb_tag_assignments")
-    .select("celeb_id, tag_id")
+    .from("faction_members")
+    .select("celeb_id, lv2_id")
     .eq("hidden", false)
     .order("id", { ascending: true })
     .range(from, to)
@@ -160,9 +160,9 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
     for (const a of assignments) {
       const inf = influenceMap.get(a.celeb_id);
       if (!inf || inf.score <= 0) continue;
-      const arr = tagMembers.get(a.tag_id) ?? [];
+      const arr = tagMembers.get(a.lv2_id) ?? [];
       arr.push({ id: a.celeb_id, score: inf.score, nickname: inf.nickname, nicknameEn: inf.nicknameEn });
-      tagMembers.set(a.tag_id, arr);
+      tagMembers.set(a.lv2_id, arr);
     }
 
     for (const tag of tags) {

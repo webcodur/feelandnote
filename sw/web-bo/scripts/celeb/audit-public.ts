@@ -100,14 +100,12 @@ type LocaleRow = {
 }
 
 type AssignmentRow = {
-  tag_id: string
+  lv2_id: string
   celeb_id: string
   short_desc: string | null
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
-  quote: string | null
-  quote_en: string | null
 }
 
 type DialogueProblem = {
@@ -210,11 +208,11 @@ async function main() {
       .range(from, to)
     return { data: data as unknown as LocaleRow[] | null, error }
   })
-  const assignments = await allRows<AssignmentRow>('celeb_tag_assignments', async (from, to) => {
+  const assignments = await allRows<AssignmentRow>('faction_members', async (from, to) => {
     const { data, error } = await db
-      .from('celeb_tag_assignments')
-      .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en')
-      .order('tag_id')
+      .from('faction_members')
+      .select('lv2_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en')
+      .order('lv2_id')
       .order('celeb_id')
       .range(from, to)
     return { data: data as unknown as AssignmentRow[] | null, error }
@@ -429,7 +427,6 @@ async function main() {
     rows: publicAssignments.length,
     shortMissingKo: publicAssignments.filter(row => !text(row.short_desc)).length,
     longMissingKo: publicAssignments.filter(row => !text(row.long_desc)).length,
-    quoteMissingKo: publicAssignments.filter(row => !text(row.quote)).length,
   }
 
   const report = {

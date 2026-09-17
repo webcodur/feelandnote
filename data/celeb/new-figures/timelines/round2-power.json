@@ -1,0 +1,1788 @@
+{
+ "파트리시오 리바스": {
+  "events": [
+   {
+    "year": 1810,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "니카라과에서 태어나 자유계 변호사·정치인이 됐다.",
+    "description_en": "Born in Nicaragua; a Liberal lawyer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1839,
+    "year_end": 1840,
+    "title": "두 차례 임시 행정관",
+    "title_en": "Interim Supreme Director",
+    "description": "니카라과의 임시 최고행정관을 두 차례 지냈다.",
+    "description_en": "Twice interim head of state.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1855,
+    "year_end": null,
+    "title": "워커의 임시 대통령",
+    "title_en": "Walker's Puppet",
+    "description": "미국 필리버스터 윌리엄 워커의 손에 들어 임시 대통령이 됐다.",
+    "description_en": "Installed by William Walker's filibusters.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1856,
+    "year_end": null,
+    "title": "애국 진영으로",
+    "title_en": "Defecting to the Patriots",
+    "description": "워커와 결별해 애국 진영으로 돌아섰다 — '파타스 아리바'로 불렸으나 후대에 애국자로 재평가됐다.",
+    "description_en": "He broke with Walker and joined the patriot cause — rehabilitated in memory.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1867,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "레온 묘지 명예의 자리에 묻혔다.",
+    "description_en": "Buried in a place of honor in León.",
+    "kind": "death",
+    "place_name": "레온",
+    "place_name_en": "León",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "찰스 프레더릭 헤닝센": {
+  "events": [
+   {
+    "year": 1815,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "벨기에에서 태어나 용병과 작가의 길을 걸었다.",
+    "description_en": "Born in Belgium; soldier of fortune and writer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1834,
+    "year_end": null,
+    "title": "카를로스파 전쟁",
+    "title_en": "The Carlist War",
+    "description": "스페인 카를로스파 전쟁에서 외인여단 지휘관으로 싸웠다.",
+    "description_en": "He commanded a foreign legion in Spain's Carlist War.",
+    "kind": "battle",
+    "place_name": "스페인",
+    "place_name_en": "Spain",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1848,
+    "year_end": 1849,
+    "title": "헝가리 혁명",
+    "title_en": "The Hungarian Revolution",
+    "description": "헝가리 혁명군 참모로 참전했다.",
+    "description_en": "A staff officer in the Hungarian revolution.",
+    "kind": "battle",
+    "place_name": "헝가리",
+    "place_name_en": "Hungary",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1856,
+    "year_end": null,
+    "title": "워커 휘하 여단장",
+    "title_en": "Walker's Brigadier",
+    "description": "니카라과에서 윌리엄 워커 휘하의 여단장으로 싸웠다.",
+    "description_en": "A brigadier under William Walker in Nicaragua.",
+    "kind": "battle",
+    "place_name": "니카라과",
+    "place_name_en": "Nicaragua",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1861,
+    "year_end": 1865,
+    "title": "남군 대령",
+    "title_en": "Confederate Colonel",
+    "description": "남북전쟁에서 남군 대령으로 리치먼드 방어를 맡았다.",
+    "description_en": "A Confederate colonel defending Richmond.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   },
+   {
+    "year": 1877,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "워싱턴에서 궁핍한 말년을 보내다 62세로 숨졌다.",
+    "description_en": "Died poor in Washington at 62.",
+    "kind": "death",
+    "place_name": "워싱턴",
+    "place_name_en": "Washington",
+    "lat": null,
+    "lng": null,
+    "sort_order": 6
+   }
+  ]
+ },
+ "노웰 새먼": {
+  "events": [
+   {
+    "year": 1835,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "아일랜드에서 태어나 영국 해군에 들어갔다.",
+    "description_en": "Born in Ireland; a Royal Navy officer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1857,
+    "year_end": null,
+    "title": "러크나우 공방전",
+    "title_en": "The Siege of Lucknow",
+    "description": "인도 세포이 반란의 러크나우 공방전에서 빅토리아 십자훈장을 받았다.",
+    "description_en": "He won the Victoria Cross at Lucknow.",
+    "kind": "battle",
+    "place_name": "러크나우",
+    "place_name_en": "Lucknow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1860,
+    "year_end": null,
+    "title": "워커 체포",
+    "title_en": "Capturing Walker",
+    "description": "온두라스 앞바다에서 윌리엄 워커를 체포해 현지 당국에 넘겼다 — 워커는 곧 총살당했다.",
+    "description_en": "He arrested Walker off Honduras — the filibuster was shot within days.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1899,
+    "year_end": null,
+    "title": "해군 원수",
+    "title_en": "Admiral of the Fleet",
+    "description": "해군 최고 계급인 원수까지 올랐다.",
+    "description_en": "He rose to Admiral of the Fleet.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1912,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "76세로 숨졌다.",
+    "description_en": "Died at 76.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "알렉산더 번스": {
+  "events": [
+   {
+    "year": 1805,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스코틀랜드 몬트로스에서 태어나 동인도회사 장교가 됐다.",
+    "description_en": "Born in Montrose; an East India Company officer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1831,
+    "year_end": 1833,
+    "title": "중앙아시아 종단",
+    "title_en": "Into Central Asia",
+    "description": "카불·부하라를 종단한 여행기로 '부하라의 번스'라 불렸다.",
+    "description_en": "His journey to Bukhara made him 'Burnes of Bokhara'.",
+    "kind": "travel",
+    "place_name": "부하라",
+    "place_name_en": "Bukhara",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1837,
+    "year_end": null,
+    "title": "카불 주재",
+    "title_en": "Envoy to Kabul",
+    "description": "영-러 '그레이트 게임'의 선두 주자로 카불에 주재했다.",
+    "description_en": "The Great Game's frontman, posted to Kabul.",
+    "kind": "office",
+    "place_name": "카불",
+    "place_name_en": "Kabul",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1841,
+    "year_end": null,
+    "title": "군중에게 피살",
+    "title_en": "Murdered by the Mob",
+    "description": "아프간 반란 군중에게 피살됐고, 그의 죽음은 영국군 전멸급 참사로 이어졌다.",
+    "description_en": "Killed by a Kabuli mob — the retreat that followed wiped out an army.",
+    "kind": "death",
+    "place_name": "카불",
+    "place_name_en": "Kabul",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "하먼 블레너해싯": {
+  "events": [
+   {
+    "year": 1765,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "앵글로-아이리시 변호사로 태어났다.",
+    "description_en": "Born an Anglo-Irish lawyer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1796,
+    "year_end": null,
+    "title": "조카와의 결혼과 이주",
+    "title_en": "Scandal and Emigration",
+    "description": "조카와의 결혼으로 가문과 등진 뒤 미국으로 건너와 오하이오강 섬에 대저택을 지었다.",
+    "description_en": "Marriage to his niece drove him to an island mansion in Ohio.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1805,
+    "year_end": null,
+    "title": "애런 버의 후원자",
+    "title_en": "Burr's Backer",
+    "description": "애런 버의 서부 원정에 자금과 본거지를 제공했다가 반역죄로 두 번 체포되고 파산했다.",
+    "description_en": "He bankrolled Burr's scheme — twice arrested for treason, then ruined.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1831,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "건지섬에서 쓸쓸한 말년 끝에 65세로 숨졌다.",
+    "description_en": "He died obscure on Guernsey at 65.",
+    "kind": "death",
+    "place_name": "건지",
+    "place_name_en": "Guernsey",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "애런 버 시니어": {
+  "events": [
+   {
+    "year": 1716,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "코네티컷에서 태어나 장로교 목사가 됐다.",
+    "description_en": "Born in Connecticut; a Presbyterian minister.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1748,
+    "year_end": null,
+    "title": "프린스턴 학장",
+    "title_en": "President of Princeton",
+    "description": "뉴저지 칼리지(훗날 프린스턴 대학)의 제2대 학장이 됐고 대각성 신학자 조너선 에드워즈의 사위가 됐다.",
+    "description_en": "Second president of the college that became Princeton; Edwards's son-in-law.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1757,
+    "year_end": null,
+    "title": "급서",
+    "title_en": "Died",
+    "description": "천연두 접종 뒤 과로로 마흔한 살에 급서했다 — 그의 아들이 훗날 부통령 애런 버가 됐다.",
+    "description_en": "Dead at 41 of overwork and inoculation — his son became vice president.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "일라이자 주멜": {
+  "events": [
+   {
+    "year": 1775,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "로드아일랜드 빈민가에서 태어났다.",
+    "description_en": "Born in poverty in Rhode Island.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1804,
+    "year_end": null,
+    "title": "주멜과의 결혼",
+    "title_en": "Marrying Jumel",
+    "description": "프랑스계 부유 상인 스티븐 주멜과 결혼해 뉴욕 최고 부호 반열에 올랐다.",
+    "description_en": "Marriage to the merchant Jumel made her one of New York's richest.",
+    "kind": "other",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1833,
+    "year_end": null,
+    "title": "애런 버와의 재혼",
+    "title_en": "Marrying Burr",
+    "description": "쉰여덟에 일흔일곱의 전 부통령 애런 버와 재혼했으나 넉 달 만에 별거했다 — 이혼은 버의 사망 당일 성립됐다.",
+    "description_en": "At 58 she married 77-year-old Burr — separated in months, divorced on his dying day.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1865,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "모리스-주멜 맨션을 남기고 90세로 숨졌다.",
+    "description_en": "She left the Morris-Jumel Mansion — dead at 90.",
+    "kind": "death",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "사라 쿄라바": {
+  "events": [
+   {
+    "year": 1955,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "우간다에서 태어나 군악대 고고 댄서가 됐다.",
+    "description_en": "Born in Uganda; a go-go dancer in an army band.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1975,
+    "year_end": null,
+    "title": "아민의 다섯 번째 부인",
+    "title_en": "Amin's Fifth Wife",
+    "description": "이디 아민의 눈에 들어 다섯 번째 부인이 됐고 결혼식 들러리는 야세르 아라파트가 섰다.",
+    "description_en": "She married Idi Amin — Arafat was best man.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1979,
+    "year_end": null,
+    "title": "영국 망명",
+    "title_en": "Exile in London",
+    "description": "아민 몰락 뒤 영국으로 망명해 토트넘에서 식당과 미용실을 운영했다.",
+    "description_en": "After Amin's fall she ran a Tottenham café.",
+    "kind": "travel",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "런던에서 암으로 숨졌다.",
+    "description_en": "Died of cancer in London.",
+    "kind": "death",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "밥 아스틀스": {
+  "events": [
+   {
+    "year": 1924,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 2차대전에 참전했다.",
+    "description_en": "Born in England; a WWII veteran.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "우간다 정착",
+    "title_en": "Settling in Uganda",
+    "description": "식민지 관료로 우간다에 정착했다.",
+    "description_en": "He settled in Uganda as a colonial officer.",
+    "kind": "travel",
+    "place_name": "우간다",
+    "place_name_en": "Uganda",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1971,
+    "year_end": 1979,
+    "title": "'우간다의 흰 쥐'",
+    "title_en": "'The White Rat'",
+    "description": "이디 아민의 측근 고문이 돼 '우간다의 흰 쥐'로 불렸다.",
+    "description_en": "He became Amin's closest British adviser — 'the White Rat'.",
+    "kind": "work",
+    "place_name": "우간다",
+    "place_name_en": "Uganda",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1979,
+    "year_end": 1985,
+    "title": "수감",
+    "title_en": "Imprisoned",
+    "description": "아민 붕괴 뒤 6년간 감옥에 갇혔다.",
+    "description_en": "He spent six years in a Ugandan jail.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2012,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "영국에서 88세로 숨졌다 — '라스트 킹 오브 스코틀랜드'의 영국인 의사 모델 중 하나다.",
+    "description_en": "Dead at 88 — a model for the film's doctor.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "알렉상드르 반자": {
+  "events": [
+   {
+    "year": 1932,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "중앙아프리카에서 태어나 프랑스군으로 인도차이나 전쟁에 참전했다.",
+    "description_en": "Born in Ubangi-Shari; a French colonial soldier in Indochina.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "보카사의 쿠데타 지원",
+    "title_en": "Helping Bokassa's Coup",
+    "description": "카사이 기지 사령관으로 보카사의 쿠데타를 도왔고 국가장관 겸 재무장관이 됐다.",
+    "description_en": "He enabled Bokassa's coup and became minister of state.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "실각",
+    "title_en": "The Fall",
+    "description": "보카사의 사치를 비판하다 실각했다.",
+    "description_en": "Criticizing Bokassa's extravagance, he fell.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "쿠데타 모의와 처형",
+    "title_en": "Plot and Execution",
+    "description": "쿠데타를 꾸미다 부하의 밀고로 체포됐고 보카사가 직접 가한 구타 끝에 총살당했다.",
+    "description_en": "Betrayed by an aide, beaten by Bokassa himself, then shot.",
+    "kind": "death",
+    "place_name": "방기",
+    "place_name_en": "Bangui",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "보리스 시흐무라도프": {
+  "events": [
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "아슈하바트에서 태어나 모스크바대를 나와 소련 외교관이 됐다.",
+    "description_en": "Born in Ashgabat; a Soviet diplomat.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1995,
+    "year_end": 2000,
+    "title": "외무장관",
+    "title_en": "Foreign Minister",
+    "description": "독립 투르크메니스탄의 외무장관을 지냈다.",
+    "description_en": "Foreign minister of independent Turkmenistan.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2000,
+    "year_end": null,
+    "title": "니야조프와 결렬",
+    "title_en": "Breaking with Niyazov",
+    "description": "대통령과 결렬해 야당 지도자가 됐다.",
+    "description_en": "He broke with Niyazov to lead the opposition.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2002,
+    "year_end": null,
+    "title": "암살 미수 배후",
+    "title_en": "The Coup Charge",
+    "description": "대통령 암살 미수 배후로 지목돼 TV 자백 뒤 종신형을 선고받았다 — 이후 흔적도 없이 사라져 생사가 불명이다.",
+    "description_en": "A televised confession, a life sentence — then he vanished in prison.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "구스타보 가비리아": {
+  "events": [
+   {
+    "year": 1946,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "콜롬비아에서 태어나 사촌 파블로 에스코바르의 오른팔이 됐다.",
+    "description_en": "Born in Colombia — Pablo Escobar's cousin.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1976,
+    "year_end": null,
+    "title": "메데인 카르텔 공동창업",
+    "title_en": "Founding the Cartel",
+    "description": "메데인 카르텔의 공동창업자로 자금줄과 밀매 루트를 총괄해 '조직의 두뇌'로 불렸다.",
+    "description_en": "The cartel's 'brains' — money and routes.",
+    "kind": "work",
+    "place_name": "메데인",
+    "place_name_en": "Medellín",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1990,
+    "year_end": null,
+    "title": "사살",
+    "title_en": "Killed",
+    "description": "메데인의 고급 아파트에서 경찰 특수부대와 총격전 끝에 사살됐다 — 그의 죽음 뒤 카르텔은 급속히 무너졌다.",
+    "description_en": "Killed by police in Medellín — the cartel crumbled after him.",
+    "kind": "death",
+    "place_name": "메데인",
+    "place_name_en": "Medellín",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "제랄딘 아포니": {
+  "events": [
+   {
+    "year": 1915,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "헝가리 아포니 백작가에서 태어났다.",
+    "description_en": "Born a Hungarian countess.",
+    "kind": "birth",
+    "place_name": "부다페스트",
+    "place_name_en": "Budapest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "알바니아 왕비",
+    "title_en": "Queen of Albania",
+    "description": "백화점 점원으로 일하다 조그 1세와 결혼해 '헝가리의 백장미'가 됐다.",
+    "description_en": "A department-store clerk who became Queen Geraldine — 'the White Rose'.",
+    "kind": "meeting",
+    "place_name": "티라나",
+    "place_name_en": "Tirana",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1939,
+    "year_end": null,
+    "title": "망명",
+    "title_en": "Half a Century in Exile",
+    "description": "이탈리아 침공으로 왕좌 대신 반세기의 망명길에 올랐다.",
+    "description_en": "Italy's invasion sent her into fifty years of exile.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2002,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "공산주의 붕괴 뒤 알바니아로 돌아가 티라나에서 87세로 숨졌다.",
+    "description_en": "She died back in Tirana at 87.",
+    "kind": "death",
+    "place_name": "티라나",
+    "place_name_en": "Tirana",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "판 놀리": {
+  "events": [
+   {
+    "year": 1882,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "알바니아 남부에서 태어나 성직자·시인이 됐다.",
+    "description_en": "Born in southern Albania; a priest and poet.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1908,
+    "year_end": null,
+    "title": "알바니아 정교회 창설",
+    "title_en": "Founding the Church",
+    "description": "미국에서 알바니아 정교회를 세우고 셰익스피어를 알바니아어로 옮겼다.",
+    "description_en": "In Boston he founded the Albanian Orthodox Church and translated Shakespeare.",
+    "kind": "work",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1924,
+    "year_end": null,
+    "title": "여섯 달의 총리",
+    "title_en": "Six Months as Premier",
+    "description": "6월 혁명으로 총리에 올라 여섯 달간 집권했다가 조그의 반격으로 실각했다.",
+    "description_en": "June's revolution made him premier — Zog's counterattack threw him out.",
+    "kind": "office",
+    "place_name": "티라나",
+    "place_name_en": "Tirana",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "보스턴에서 알바니아 정교회 주교로 여생을 마치고 83세로 숨졌다.",
+    "description_en": "He died a bishop in Boston at 83.",
+    "kind": "death",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "이야수 5세": {
+  "events": [
+   {
+    "year": 1895,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "메넬리크 2세의 손자로 태어났다.",
+    "description_en": "Born Emperor Menelik II's grandson.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "지정 황제",
+    "title_en": "Designated Emperor",
+    "description": "후계자에 올랐으나 대관식 없이 통치했다.",
+    "description_en": "Heir apparent — ruling uncrowned.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1916,
+    "year_end": null,
+    "title": "폐위와 파문",
+    "title_en": "Deposed and Excommunicated",
+    "description": "이슬람 세력과의 친밀 의혹으로 파문과 함께 폐위돼 자우디투 여제 체제에 감금됐다.",
+    "description_en": "Accused of Islamic sympathies, he was deposed and jailed.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1935,
+    "year_end": null,
+    "title": "유폐지의 죽음",
+    "title_en": "Died in Custody",
+    "description": "이탈리아 침공이 시작된 해 유폐지에서 수수께끼의 죽음을 맞았다.",
+    "description_en": "He died mysteriously in confinement as Italy invaded.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "세르비아의 나탈리예": {
+  "events": [
+   {
+    "year": 1859,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "러시아 외교관의 딸로 피렌체에서 태어났다.",
+    "description_en": "Born in Florence, a Russian diplomat's daughter.",
+    "kind": "birth",
+    "place_name": "피렌체",
+    "place_name_en": "Florence",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1875,
+    "year_end": null,
+    "title": "밀란 1세와 결혼",
+    "title_en": "Queen of Serbia",
+    "description": "밀란 오블레노비치 1세와 결혼해 세르비아 왕비가 됐다.",
+    "description_en": "She married Milan I — queen at sixteen.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1888,
+    "year_end": null,
+    "title": "이혼",
+    "title_en": "The Divorce",
+    "description": "파란만장한 부부 관계 끝에 이혼당했고 정교회 국가에서 가톨릭 개종으로 논란을 일으켰다.",
+    "description_en": "Divorced by Milan, she scandalized the country by turning Catholic.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1941,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "밀란의 피살 뒤 수녀가 돼 프랑스에서 81세로 숨졌다.",
+    "description_en": "A nun in France — dead at 81.",
+    "kind": "death",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "드라가 마신": {
+  "events": [
+   {
+    "year": 1864,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "세르비아에서 태어나 나탈리예 왕비의 시녀가 됐다.",
+    "description_en": "Born in Serbia; Queen Natalija's lady-in-waiting.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "왕비가 되다",
+    "title_en": "Becoming Queen",
+    "description": "알렉산다르 1세의 총애를 받아 왕비가 됐으나 위장 임신 소문과 처가 비리로 국민적 증오를 샀다.",
+    "description_en": "Alexander made her queen — fake-pregnancy rumors and corrupt kin made her hated.",
+    "kind": "meeting",
+    "place_name": "베오그라드",
+    "place_name_en": "Belgrade",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "5월 쿠데타",
+    "title_en": "The May Coup",
+    "description": "군부 쿠데타에서 왕과 함께 잔혹하게 살해됐고 시신이 왕궁 창밖으로 던져졌다.",
+    "description_en": "Murdered with the king, their bodies thrown from the palace windows.",
+    "kind": "death",
+    "place_name": "베오그라드",
+    "place_name_en": "Belgrade",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "코만단타 라모나": {
+  "events": [
+   {
+    "year": 1959,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "치아파스의 촛칠 원주민 자수공으로 태어났다.",
+    "description_en": "Born a Tzotzil embroiderer in Chiapas.",
+    "kind": "birth",
+    "place_name": "치아파스",
+    "place_name_en": "Chiapas",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1987,
+    "year_end": null,
+    "title": "EZLN 합류",
+    "title_en": "Joining the EZLN",
+    "description": "사파티스타 민족해방군에 합류해 여성 규약을 만들었다.",
+    "description_en": "She joined the Zapatistas and wrote their women's law.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1994,
+    "year_end": null,
+    "title": "산크리스토발 점령",
+    "title_en": "Taking San Cristóbal",
+    "description": "봉기 때 산크리스토발 점령을 이끌었고 멕시코시티에 공개 등장한 첫 사파티스타가 됐다.",
+    "description_en": "She led the seizure of San Cristóbal — the first Zapatista seen in the capital.",
+    "kind": "battle",
+    "place_name": "치아파스",
+    "place_name_en": "Chiapas",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2006,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "신부전으로 47세에 숨졌다 — 원주민 여성 운동의 상징이다.",
+    "description_en": "Dead of kidney failure at 47 — an icon of indigenous women.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "페르난도 야녜스 무뇨스": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "건축가 출신 게릴라",
+    "title_en": "The Architect Guerrilla",
+    "description": "멕시코 건축가 출신으로 '코만단테 헤르만'이라 불렸다.",
+    "description_en": "An architect turned guerrilla — 'Comandante Germán'.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "FLN 창립",
+    "title_en": "Founding the FLN",
+    "description": "민족해방군 창립 멤버가 됐고 군에 살해된 형의 이름을 전투명으로 썼다.",
+    "description_en": "A founder of the FLN, fighting under his murdered brother's name.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1983,
+    "year_end": null,
+    "title": "라칸돈 밀림",
+    "title_en": "Into the Lacandon",
+    "description": "라칸돈 밀림에 사파티스타 거점을 세운 원년 멤버가 됐다.",
+    "description_en": "He helped found the EZLN's jungle base.",
+    "kind": "other",
+    "place_name": "치아파스",
+    "place_name_en": "Chiapas",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1995,
+    "year_end": null,
+    "title": "체포와 석방",
+    "title_en": "Arrested and Freed",
+    "description": "체포됐다 풀려난 뒤 마르코스와 공개적으로 결별했다.",
+    "description_en": "Arrested, released — then a public split with Marcos.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "수브코만단테 모이세스": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "첼탈 출신 게릴라",
+    "title_en": "The Tseltal Guerrilla",
+    "description": "멕시코 첼탈 원주민 출신으로 1983년 조직에 들어왔다.",
+    "description_en": "A Tseltal who joined the movement in 1983.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1994,
+    "year_end": null,
+    "title": "1994년 봉기",
+    "title_en": "The 1994 Uprising",
+    "description": "봉기 때 소령 계급으로 참전했다.",
+    "description_en": "A captain in the Zapatista uprising.",
+    "kind": "battle",
+    "place_name": "치아파스",
+    "place_name_en": "Chiapas",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "수브코만단테 임명",
+    "title_en": "Named Subcomandante",
+    "description": "수브코만단테 페드로의 오른팔을 거쳐 수브코만단테로 임명됐다.",
+    "description_en": "Named subcomandante — successor to Pedro and Marcos.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2014,
+    "year_end": null,
+    "title": "EZLN 대변인",
+    "title_en": "The Spokesman",
+    "description": "마르코스의 퇴장 뒤 EZLN의 공식 대변인이 돼 대외 발언을 총괄한다.",
+    "description_en": "After Marcos's exit he became the EZLN's official voice.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "리처드 치차클리": {
+  "events": [
+   {
+    "year": 1959,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "시리아에서 태어나 미국으로 귀화해 회계사가 됐다.",
+    "description_en": "Born in Syria; a naturalized American accountant.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1990,
+    "year_end": 2000,
+    "title": "부트의 재무 총괄",
+    "title_en": "Bout's Money Man",
+    "description": "무기상 빅토르 부트의 '재무 총괄'로 활동해 UN과 미 재무부 제재 대상이 됐다.",
+    "description_en": "He ran Victor Bout's finances — sanctioned by the UN and Treasury.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2007,
+    "year_end": null,
+    "title": "호주에서 체포",
+    "title_en": "Arrested in Australia",
+    "description": "도피 끝에 호주에서 체포돼 미국으로 송환됐다.",
+    "description_en": "Arrested in Australia and extradited.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "유죄 판결",
+    "title_en": "Convicted",
+    "description": "뉴욕에서 제재 위반과 돈세탁 공모로 유죄 판결을 받았다.",
+    "description_en": "Convicted in New York of sanctions violations.",
+    "kind": "other",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "핀 바타토": {
+  "events": [
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "독일에서 태어나 킴 닷컴의 오랜 친구가 됐다.",
+    "description_en": "Born in Germany; Kim Dotcom's longtime friend.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": null,
+    "year_end": null,
+    "title": "메가업로드 CMO",
+    "title_en": "Megaupload's CMO",
+    "description": "메가업로드 최고마케팅책임자가 됐다.",
+    "description_en": "Chief marketing officer of Megaupload.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2012,
+    "year_end": null,
+    "title": "뉴질랜드 압수수색",
+    "title_en": "The Raid",
+    "description": "뉴질랜드에서 미국의 저작권 기소에 걸려 10년간 인도소송을 싸웠다.",
+    "description_en": "Caught in the 2012 raid — ten years fighting extradition.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2022,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "말기 암 판정 뒤에야 송환이 중단됐고 뉴질랜드에서 숨졌다 — 킴 닷컴은 '메가업로드가 그의 삶을 망쳤다'고 애도했다.",
+    "description_en": "Terminal cancer stopped the extradition — he died in New Zealand.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "마티아스 오르트만": {
+  "events": [
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "독일 프로그래머로 태어나 1990년대부터 킴 닷컴과 함께 일했다.",
+    "description_en": "A German programmer, with Dotcom since the nineties.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2005,
+    "year_end": null,
+    "title": "메가업로드 CTO",
+    "title_en": "Megaupload's CTO",
+    "description": "지분 25%를 가진 메가업로드 공동창업자·CTO로 회사의 2인자가 됐다.",
+    "description_en": "Co-founder and CTO — the company's number two.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2012,
+    "year_end": null,
+    "title": "송환 저항",
+    "title_en": "Resisting Extradition",
+    "description": "압수수색 뒤 뉴질랜드에서 10년 넘게 송환에 저항했다.",
+    "description_en": "He fought US extradition for a decade.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2023,
+    "year_end": null,
+    "title": "유죄 인정",
+    "title_en": "The Plea Deal",
+    "description": "뉴질랜드 법원에서 유죄를 인정했고 후속 클라우드 메가의 공동창업자이기도 하다.",
+    "description_en": "A guilty plea in Auckland — and co-founder of successor Mega.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "브람 판데르콜크": {
+  "events": [
+   {
+    "year": 1982,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네덜란드에서 태어나 스물한 살에 킴 닷컴과 만났다.",
+    "description_en": "Born in the Netherlands; he met Dotcom at 21.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": null,
+    "year_end": null,
+    "title": "메가업로드 수석 개발자",
+    "title_en": "Lead Developer",
+    "description": "업로더 보상 프로그램과 콘텐츠 삭제 처리를 총괄하는 수석 개발자가 됐다.",
+    "description_en": "Lead developer — he ran uploader rewards and takedowns.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2012,
+    "year_end": 2023,
+    "title": "10년의 송환 싸움",
+    "title_en": "Ten Years of Extradition",
+    "description": "송환 싸움 끝에 뉴질랜드에서 유죄를 인정했다.",
+    "description_en": "A decade of legal war ended in a guilty plea.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2023,
+    "year_end": null,
+    "title": "메가의 기술 책임자",
+    "title_en": "CTO of Mega",
+    "description": "후속 서비스 메가의 기술 책임자가 됐다.",
+    "description_en": "Now technology chief of Mega.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "린 울브리히트": {
+  "events": [
+   {
+    "year": 1954,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어났다 — 영화감독 그레고리 라 카바의 손녀다.",
+    "description_en": "Born in the US — granddaughter of director La Cava.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "'프리 로스' 캠페인",
+    "title_en": "Free Ross",
+    "description": "아들 로스 울브리히트가 실크로드 사건으로 무기징역을 받자 '프리 로스' 캠페인을 만들어 이끌었다.",
+    "description_en": "Her son's double life sentence launched her 'Free Ross' campaign.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2025,
+    "year_end": null,
+    "title": "트럼프의 사면",
+    "title_en": "The Pardon",
+    "description": "10년 넘는 운동 끝에 트럼프의 전면 사면을 끌어냈고 과형 반대 비영리단체를 세웠다.",
+    "description_en": "A decade of lobbying won a full Trump pardon.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "로저 토머스 클라크": {
+  "events": [
+   {
+    "year": 1961,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "캐나다에서 태어났다.",
+    "description_en": "Born in Canada.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2011,
+    "year_end": 2013,
+    "title": "'버라이어티 존스'",
+    "title_en": "'Variety Jones'",
+    "description": "실크로드의 실질 2인자로 로스 울브리히트에게 보안·인프라·운영을 지도한 '멘토'가 됐다.",
+    "description_en": "As 'Variety Jones' he mentored Ulbricht in running Silk Road.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "태국 체포·미국 인도",
+    "title_en": "Arrested in Thailand",
+    "description": "태국에서 체포돼 미국으로 인도됐다 — 살인 청부를 권한 대화록까지 드러났다.",
+    "description_en": "Arrested in Bangkok; his chats showed murder-for-hire advice.",
+    "kind": "other",
+    "place_name": "방콕",
+    "place_name_en": "Bangkok",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2023,
+    "year_end": null,
+    "title": "징역 20년",
+    "title_en": "Twenty Years",
+    "description": "유죄 인정 뒤 징역 20년을 선고받았다.",
+    "description_en": "Twenty years for conspiracy.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "커티스 그린": {
+  "events": [
+   {
+    "year": 1966,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "유타에서 태어나 비영리 직원으로 일했다.",
+    "description_en": "Born in Utah; a nonprofit employee.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2012,
+    "year_end": null,
+    "title": "'플러시' 관리자",
+    "title_en": "'Flush' the Admin",
+    "description": "실크로드 운영진 '플러시'가 됐다가 코카인 소포 함정으로 체포됐다.",
+    "description_en": "An admin on Silk Road — arrested in a cocaine sting.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "모의 심문",
+    "title_en": "The Mock Interrogation",
+    "description": "부패 연방요원들에게 물고문에 가까운 모의 심문을 당해 계정을 넘겼고 울브리히트가 첫 살인 청부를 의뢰한 대상이 됐다.",
+    "description_en": "Corrupt agents staged a torture session on him — and he became the first 'hit' Ulbricht ordered.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "재판 증인",
+    "title_en": "The Witness",
+    "description": "울브리히트 재판의 증인이자 회고록 저자로 사건을 증언했다.",
+    "description_en": "He testified at trial and wrote the inside account.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "칼 마크 포스": {
+  "events": [
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 DEA 요원이 됐다.",
+    "description_en": "Born in the US; a DEA agent.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2012,
+    "year_end": 2013,
+    "title": "'노브'의 이중생활",
+    "title_en": "Agent 'Nob'",
+    "description": "볼티모어 태스크포스의 잠복 페르소나 '노브'로 울브리히트와 접촉하면서 수사 증거인 비트코인을 자기 계좌로 빼돌렸다.",
+    "description_en": "As 'Nob' he befriended Ulbricht — while skimming seized bitcoin.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2014,
+    "year_end": null,
+    "title": "내부 정보 판매",
+    "title_en": "Selling Secrets",
+    "description": "'프렌치 메이드' 등 무단 페르소나로 수사 정보를 팔고 협박까지 시도했다.",
+    "description_en": "He sold investigation secrets under fake personas.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2015,
+    "year_end": null,
+    "title": "78개월형",
+    "title_en": "Sentenced",
+    "description": "강탈·돈세탁·사법방해로 78개월형을 선고받았다.",
+    "description_en": "78 months for extortion and obstruction.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "재러드 더예기얀": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "HSI 요원",
+    "title_en": "The HSI Agent",
+    "description": "국토안보수사국 시카고 지국 요원이 됐다.",
+    "description_en": "An HSI agent in Chicago.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "'키루스' 잠복",
+    "title_en": "Living as 'Cirrus'",
+    "description": "실크로드 관리자 계정 '키루스'를 넘겨받아 석 달간 비트코인 주급을 받으며 잠복 근무했다.",
+    "description_en": "He inherited the 'Cirrus' admin account — paid in bitcoin.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "도서관의 채팅",
+    "title_en": "The Library Chat",
+    "description": "체포 당일 샌프란시스코 도서관에서 울브리히트와 실시간 채팅하며 노트북 압수의 순간을 만들어냈다 — 재판의 핵심 증인이었다.",
+    "description_en": "His live chat pinned Ulbricht at his laptop for the arrest.",
+    "kind": "other",
+    "place_name": "샌프란시스코",
+    "place_name_en": "San Francisco",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "게리 올퍼드": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "IRS 수사관",
+    "title_en": "The IRS Investigator",
+    "description": "국세청 특별수사관이 됐다.",
+    "description_en": "An IRS special agent.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "'알토이드' 게시물 추적",
+    "title_en": "Tracking 'Altoid'",
+    "description": "구글 기간 지정 검색으로 실크로드 개설 직전의 '알토이드' 게시물을 추적해 작성자의 지메일을 찾아냈다.",
+    "description_en": "A dated Google search found 'Altoid's early posts — and his Gmail.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "신원 확인",
+    "title_en": "Identifying DPR",
+    "description": "그 지메일이 로스 울브리히트의 신원을 밝힌 결정적 단서가 됐다 — '구글 검색 몇 번으로 다크웹 제왕을 잡은' 일화의 주인공.",
+    "description_en": "The Gmail led straight to Ulbricht — the Dread Pirate Roberts unmasked.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ }
+}

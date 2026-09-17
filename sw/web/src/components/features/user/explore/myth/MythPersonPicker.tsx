@@ -17,7 +17,7 @@ interface Props {
    카드 안 텍스트(직함·소개)는 두지 않는다. 이름은 타일 밖 아래 칸에 박는다 */
 export default function MythPersonPicker({ people, selectedId, onSelect }: Props) {
   const t = useTranslations("explore.hub.myth");
-  /* 조회 차례를 그대로 쓴다. 다시 줄을 세우면 전승 계보 순서가 뒤집힌다 */
+  /* 조회 차례를 그대로 쓴다. 다시 줄을 세우면 신화 계보 순서가 뒤집힌다 */
   const { ref, cursorClassName, dragProps } = useMouseDragScroll();
 
   return (

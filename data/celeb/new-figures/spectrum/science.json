@@ -1,0 +1,3044 @@
+{
+ "티코 브라헤": {
+  "influence": {
+   "political": 2,
+   "political_exp": "황제의 궁정 수학자로 궁정과 교류",
+   "political_exp_en": "Imperial mathematician at Rudolf II's court",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 8,
+   "tech_exp": "정밀 관측이 케플러 법칙의 토대",
+   "tech_exp_en": "His precision data underwrote Kepler's laws",
+   "social": 1,
+   "social_exp": "사회 제도 영향 미미",
+   "social_exp_en": "Minimal effect on institutions",
+   "economic": 1,
+   "economic_exp": "관측소 운영 외 경제 영향 없음",
+   "economic_exp_en": "Little economic bearing beyond his estate",
+   "cultural": 2,
+   "cultural_exp": "금 코 기행이 유럽 전설로 남음",
+   "cultural_exp_en": "His golden nose entered European lore",
+   "transhistoricity": 22,
+   "transhistoricity_exp": "관측 데이터가 근대 천문학의 토대",
+   "transhistoricity_exp_en": "His data became the bedrock of modern astronomy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1576년 우라니보리 관측소를 세워 조수·공방을 20년간 운영",
+     "reason_en": "Ran Uraniborg's staff and workshops for two decades from 1576"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "청년 시절 수학 논쟁 끝에 결투로 나서 코를 잃음",
+     "reason_en": "He duelled over a formula in 1566 and lost his nose"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "1572년 신성 관측 등 망원경 이전 최정밀 천체 기록을 남김",
+     "reason_en": "His nova of 1572 and pre-telescope records were the era's most precise"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "금 코·애완 엘크·난쟁이 광대로 유럽 궁정의 화제가 됨",
+     "reason_en": "The metal nose, pet elk and dwarf jester made him a court sensation"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "연회를 즐기다 방광 질환으로 숨졌다는 말년 전승",
+     "reason_en": "Legend ties his death to a banquet bladder he would not relieve"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "벤 섬에서 20년간 매일 밤 천체 위치를 관측해 기록",
+     "reason_en": "Two decades of nightly stellar measurement on Hven"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "관측 오차를 스스로 추적해 기구를 계속 개량함",
+     "reason_en": "He traced his own errors and kept improving his instruments"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "수학 논쟁을 결투로 풀고 왕과 불화해도 관측을 지속",
+     "reason_en": "He duelled over math and kept observing after losing royal favour"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "덴마크 왕실과 불화 뒤 신성로마 황제의 궁정으로 옮김",
+     "reason_en": "After quarrelling with Denmark he moved to the emperor's Prague court"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "벤 섬 농민에게 관측소 공사 부역을 강요함",
+     "reason_en": "He forced Hven's peasants into labour for his observatory"
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "농민·조수에게 엄격한 귀족식 규율을 적용",
+     "reason_en": "He ruled tenants and assistants with aristocratic severity"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "귀족 특권을 고집하고 자기 천문학 체계를 강요함",
+     "reason_en": "He clung to noble privilege and his own cosmic system"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "1576년 섬 전체를 관측 도시로 키운 야심",
+     "reason_en": "He turned a whole island into an observatory city"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "지동설 대신 지구중심 절충 체계와 귀족 특권을 고수",
+     "reason_en": "He defended noble privilege and a geo-centric compromise"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "섬에 독자 영지를 꾸려 제후처럼 군림",
+     "reason_en": "He lorded over Hven as a private fief"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "공식 하나에 결투를 걸고 천문대에 재산을 쏟음",
+     "reason_en": "He staked his nose on a formula and his fortune on observatories"
+    }
+   },
+   "rationale_ko": "귀족의 자존심으로 섬을 통째로 관측 기지로 만들었고, 그 집요한 기록이 케플러의 손에서 법칙이 됐다. 허세와 기행 뒤에 20년 야간 관측의 근면이 있었으나 농민 부역과 결투는 절제와 겸양의 부족을 보여 준다. 하늘에는 대담했으나 체제에는 절충을 택했다.",
+   "rationale_en": "Tycho Brahe turned an island into an observatory on aristocratic will, and the data he hoarded became Kepler's laws. Two decades of nightly work sat beside feuds, forced peasant labour and a duelling scar — brilliance and arrogance in the same man."
+  }
+ },
+ "헨리 캐번디시": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 7,
+   "tech_exp": "수소 발견과 지구 밀도 측정 확립",
+   "tech_exp_en": "He isolated hydrogen and first weighed the Earth",
+   "social": 0,
+   "social_exp": "사회 제도 영향 없음",
+   "social_exp_en": "No effect on social institutions",
+   "economic": 0,
+   "economic_exp": "경제 활동 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 1,
+   "cultural_exp": "은둔 괴짜 전설이 후대에 회자",
+   "cultural_exp_en": "The recluse legend outlived his fame",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "기초 측정이 화학·물리 토대로 남음",
+   "transhistoricity_exp_en": "His measurements remain foundations of chemistry and physics"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 10,
+     "reason_ko": "자택 실험실에 머물며 이끈 조직이 없음",
+     "reason_en": "He never ran any organisation beyond his home laboratory"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "귀족이었으나 평생 자택 실험에만 몰두",
+     "reason_en": "An aristocrat who spent his life indoors at the bench"
+    },
+    "intellect": {
+     "score": 92,
+     "reason_ko": "1766년 수소 분리, 1798년 비틀림저울로 지구 밀도 측정",
+     "reason_en": "Hydrogen in 1766, Earth's density by torsion balance in 1798"
+    },
+    "charm": {
+     "score": 18,
+     "reason_ko": "하인과도 쪽지로만 소통할 만큼 대면을 회피함",
+     "reason_en": "He was so shy he wrote notes to his own servants"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "거대한 유산에도 검소한 복장과 생활을 유지함",
+     "reason_en": "Immensely rich, he lived in shabby clothes and routine"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "수십 년간 전기·화학 실험을 조용히 반복함",
+     "reason_en": "Decades of quiet, repetitive electrical and chemical work"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "완벽하지 않으면 발표를 미루는 스스로의 검증",
+     "reason_en": "He withheld results until they met his own standard"
+    },
+    "courage": {
+     "score": 35,
+     "reason_ko": "연구는 뛰어났으나 논쟁과 공개 발표를 회피함",
+     "reason_en": "He avoided debate and publication rather than defend his work"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "왕립학회에 반세기 가까이 꾸준히 참여함",
+     "reason_en": "He attended the Royal Society for nearly fifty years"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "자선도 해악도 전해지는 행적이 드묾",
+     "reason_en": "Neither charity nor malice is on record"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "학회 평가에서 편파를 보인 행적이 드묾",
+     "reason_en": "No record of partiality in his dealings"
+    },
+    "humility": {
+     "score": 90,
+     "reason_ko": "대발견을 해놓고도 발표와 명성을 일생 회피함",
+     "reason_en": "He made great discoveries and shrank from credit for them"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "세상에 대한 입장을 거의 드러내지 않음",
+     "reason_en": "He expressed almost no view of the world"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "귀족 질서에 순응하며 정치적 발언을 남기지 않음",
+     "reason_en": "A silent conformist to aristocratic order"
+    },
+    "individual_social": {
+     "score": -45,
+     "reason_ko": "하인과도 쪽지로 대화한 극도의 은둔",
+     "reason_en": "Communicating by note even with his own maids"
+    },
+    "cautious_bold": {
+     "score": -35,
+     "reason_ko": "결과가 확실할 때까지 수십 년 발표를 미룸",
+     "reason_en": "He delayed publication for decades until certain"
+    }
+   },
+   "rationale_ko": "대인기피가 극에 달해 쪽지로 하인과 소통했고, 그 고립이 오히려 세기의 발견들을 낳았다. 지구를 달고 수소를 분리해 놓고도 발표를 미뤄 명성은 사후에야 왔다. 겸양과 절제는 체질이었으나 세상과 맞설 용기는 없었다.",
+   "rationale_en": "Cavendish's shyness reached the point of notes to servants, and that very isolation produced epochal results. He weighed the Earth and isolated hydrogen, yet published so little that recognition came posthumously — supreme humility joined to an absence of worldly courage."
+  }
+ },
+ "윌리엄 버클랜드": {
+  "influence": {
+   "political": 1,
+   "political_exp": "교회 직위 외 정치 행적 미미",
+   "political_exp_en": "Little beyond church office",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 5,
+   "tech_exp": "최초 공룡 기재로 고생물학 개척",
+   "tech_exp_en": "His Megalosaurus description opened palaeontology",
+   "social": 2,
+   "social_exp": "지질학-성서 절충 논의에 기여",
+   "social_exp_en": "He fed the science-and-scripture debate",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "공룡 개념의 문화적 확산 단초",
+   "cultural_exp_en": "A seed of the dinosaur in popular culture",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "공룡학의 출발점으로 학사에 남음",
+   "transhistoricity_exp_en": "A founding point of dinosaur science"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "옥스퍼드 지질학 교수와 웨스트민스터 사원장을 지냄",
+     "reason_en": "Oxford professor, later Dean of Westminster"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "채석장과 동굴을 돌며 화석을 직접 캐낸 현장 지질학자",
+     "reason_en": "A field man who dug quarries and caves himself"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "1824년 최초의 공룡 메갈로사우루스를 학계에 보고",
+     "reason_en": "He reported Megalosaurus in 1824, the first dinosaur named to science"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "애완 하이에나와 기행 강의로 옥스퍼드의 명물이 됨",
+     "reason_en": "Pet hyena and theatrical lectures made him an Oxford character"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "세상 모든 것을 먹어 보겠다는 기행에 평생 몰두함",
+     "reason_en": "He spent a life trying to eat the entire animal kingdom"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "동굴·채석장 발굴과 강의를 수십 년 이어감",
+     "reason_en": "Decades of digging, lecturing and publishing"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "대홍수설을 옹호하다 증거에 따라 입장을 수정함",
+     "reason_en": "He defended the Flood theory, then shifted with the evidence"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "동굴 탐사와 새 이론 발표를 서슴지 않음",
+     "reason_en": "Caves and controversial lectures did not deter him"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "성직자로서 교회와 대학 직분을 끝까지 유지",
+     "reason_en": "He kept holy orders and university office to the end"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "자선 관련 행적이 전해지지 않아 중간에 둠",
+     "reason_en": "Little on record of charity or harm"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "학문 판단의 편파 사례가 전해지지 않음",
+     "reason_en": "No recorded partiality in his judgments"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "기행과 명성을 즐기며 자기 과시를 마다하지 않음",
+     "reason_en": "He relished his eccentric fame and courted it"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "화석 속에서도 세계를 유쾌하게 읽어냄",
+     "reason_en": "He read the fossil record with relish and optimism"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "성직자로서 창조 교리와 지질학의 절충을 모색",
+     "reason_en": "A cleric who tried to reconcile geology with Genesis"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "동굴 탐사와 식탁 기행을 함께 나누는 사교적 성향",
+     "reason_en": "He shared caves and bizarre dinners alike with company"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "사마귀부터 박쥐 구아노까지 직접 맛본 실험 기행",
+     "reason_en": "He personally tasted everything from insects to 'relics'"
+    }
+   },
+   "rationale_ko": "최초로 공룡에 학명을 붙인 성직자였고, 세상 모든 것을 먹어 보겠다는 식탐 기행으로 동시대의 명물이 됐다. 성서와 지질학 사이에서 절충을 찾다가 증거 앞에 입장을 고친 유연함이 있었다. 현장을 직접 파는 대담함이 그의 학문을 지탱했다.",
+   "rationale_en": "Buckland gave the first dinosaur its name while famously trying to eat the rest of creation. A cleric who sought a compromise with Genesis, he nonetheless shifted when the evidence demanded — an eccentric showman underpinned by genuine field daring."
+  }
+ },
+ "클레어 패터슨": {
+  "influence": {
+   "political": 3,
+   "political_exp": "미국의 납 규제 입법에 기여",
+   "political_exp_en": "His evidence shaped US lead regulation",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 7,
+   "tech_exp": "지구 연대 측정과 클린 분석법 정립",
+   "tech_exp_en": "He dated the Earth and invented clean-lab analysis",
+   "social": 7,
+   "social_exp": "유연휘발유 퇴출로 공중보건 전환",
+   "social_exp_en": "He drove lead from petrol — a public-health turning point",
+   "economic": 3,
+   "economic_exp": "석유 첨가제 산업의 변화를 강제",
+   "economic_exp_en": "He forced change on the additives industry",
+   "cultural": 1,
+   "cultural_exp": "문화 영향 미미",
+   "cultural_exp_en": "Minor cultural footprint",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "환경 규제 과학의 토대를 세움",
+   "transhistoricity_exp_en": "A foundation of environmental regulation science"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "소규모 연구팀과 클린 랩을 운영한 수준",
+     "reason_en": "He ran a small team and a pioneering clean laboratory"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "대협곡 등 현장 지질 조사에서 시료를 직접 채취",
+     "reason_en": "He collected his own samples on Grand Canyon fieldwork"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "1956년 운석 동위원소로 지구 나이 45.5억 년 도출",
+     "reason_en": "Meteorite isotopes gave him Earth's age in 1956"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "고집 센 아웃사이더로 학계 주류와 거리를 둠",
+     "reason_en": "A stubborn outsider at odds with the establishment"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "석유업계 로비와 포상에도 구애받지 않은 생활",
+     "reason_en": "Industry money and honours never bought him"
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "납 오염 추적과 규제 싸움을 20년간 지속",
+     "reason_en": "A twenty-year campaign against leaded petrol"
+    },
+    "reflection": {
+     "score": 80,
+     "reason_ko": "자기 측정이 오염됐음을 깨닫고 클린 랩을 고안",
+     "reason_en": "Seeing his own contamination, he built the clean room"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "석유업계의 연구비 압박에도 20년간 맞서 싸움",
+     "reason_en": "He fought the oil lobby's funding pressure for two decades"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "한번 잡은 납 문제를 은퇴 후까지 놓지 않음",
+     "reason_en": "He held the lead question to the end of his life"
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "공중 보건을 위해 유연휘발유 퇴출에 헌신",
+     "reason_en": "He devoted himself to removing lead for public health"
+    },
+    "fairness": {
+     "score": 75,
+     "reason_ko": "이해관계와 무관하게 측정 데이터를 그대로 따름",
+     "reason_en": "He followed the data regardless of interest"
+    },
+    "humility": {
+     "score": 75,
+     "reason_ko": "지구 나이 측정의 공을 남기고도 조용히 물러남",
+     "reason_en": "He stepped back quietly after dating the Earth"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "오염을 고칠 수 있다는 확신으로 20년을 싸움",
+     "reason_en": "He fought twenty years believing it could be fixed"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "산업계 관행과 규제 공백에 도전해 제도를 바꿈",
+     "reason_en": "He challenged industry practice and won regulation"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "개인 실적보다 공중 보건의 공익을 앞세움",
+     "reason_en": "Public health came before personal credit"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "측정의 오염 원인을 끝까지 추적한 끈질긴 접근",
+     "reason_en": "He doggedly traced the contamination to its source"
+    }
+   },
+   "rationale_ko": "지구의 나이를 재다가 측정 자체의 오염을 발견했고, 그 발견이 20년의 싸움으로 이어져 유연휘발유를 퇴출시켰다. 업계의 자금 압박에 굴하지 않은 용기와 자기 오차를 인정한 성찰이 겹쳐 있다. 공은 남겼으나 스스로는 조용히 물러난 인물이다.",
+   "rationale_en": "Dating the Earth revealed the contamination in his own measurements, and that discovery became a twenty-year war that drove lead from petrol. Courage against the oil lobby joined with the humility to admit his own error — he left the credit and kept the fight."
+  }
+ },
+ "배리 마셜": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 7,
+   "tech_exp": "궤양 세균설 입증으로 치료법 전환",
+   "tech_exp_en": "He proved ulcers bacterial, transforming treatment",
+   "social": 4,
+   "social_exp": "의학 통념을 뒤집은 상징적 사례",
+   "social_exp_en": "A landmark reversal of medical dogma",
+   "economic": 3,
+   "economic_exp": "궤양 치료 산업을 재편",
+   "economic_exp_en": "It reshaped the ulcer-treatment market",
+   "cultural": 1,
+   "cultural_exp": "문화 영향 미미",
+   "cultural_exp_en": "Minor cultural footprint",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "소화기 의학의 패러다임을 바꿈",
+   "transhistoricity_exp_en": "A lasting paradigm shift in gastroenterology"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "워런과의 소규모 연구를 이끌며 설득을 주도",
+     "reason_en": "He drove the small research partnership with Warren"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "세균 배양액을 마시고 위염을 견뎌낸 인내",
+     "reason_en": "He drank the culture and endured the gastritis"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "헬리코박터의 위궤양 원인설을 세우고 입증",
+     "reason_en": "He framed and proved the bacterial theory of ulcers"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "배양액 자기 실험의 일화로 세계에 알려짐",
+     "reason_en": "The self-experiment made him world-famous"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "학계 조롱에도 차근차근 증거를 쌓는 태도",
+     "reason_en": "He answered ridicule with steadily piled evidence"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "기각된 가설을 임상·문헌으로 수년간 입증",
+     "reason_en": "Years spent proving a rejected hypothesis"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "반박에 맞서 데이터로 가설을 계속 다듬음",
+     "reason_en": "He refined the theory against each objection"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "1984년 스스로 세균 배양액을 마셔 가설을 입증",
+     "reason_en": "In 1984 he drank H. pylori to prove his case"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "워런과 20년 넘는 연구 동료 관계를 유지",
+     "reason_en": "A two-decade partnership with Robin Warren"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "수백만 궤양 환자의 고통을 끝내는 치료법 제시",
+     "reason_en": "His work ended chronic suffering for millions"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "학계의 반대에도 증거 중심으로 판단을 유지",
+     "reason_en": "He judged by evidence against consensus"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "노벨상 후에도 소탈한 행보를 유지함",
+     "reason_en": "He stayed unassuming after the Nobel"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "아무도 안 믿는 가설을 결국 옳다고 확신",
+     "reason_en": "He kept faith in a theory no one believed"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "의학 통념과의 충돌 외 사회 질서 발언 없음",
+     "reason_en": "No stance on social order beyond his field"
+    },
+    "individual_social": {
+     "score": 0,
+     "reason_ko": "공동 연구와 학회 활동을 두루 이어감",
+     "reason_en": "He mixed solo work with collaboration"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "스스로를 실험 대상으로 삼아 증명을 감행",
+     "reason_en": "He made himself the experimental subject"
+    }
+   },
+   "rationale_ko": "학계가 안 믿자 자기 위를 실험실로 써서 헬리코박터의 유죄를 입증했다. 대담한 자기 실험 한 방 뒤에는 수년의 문헌 조사와 임상 데이터 축적이 있었다. 노벨상 이후에도 태도는 소탈하게 유지됐다.",
+   "rationale_en": "When the establishment refused to believe him, Marshall turned his own stomach into the laboratory and proved the bacterial cause of ulcers. One bold act sat atop years of dogged evidence-gathering; the Nobel changed nothing about his manner."
+  }
+ },
+ "스터빈스 퍼스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 2,
+   "tech_exp": "비전염 결론은 맞았으나 방법이 무효",
+   "tech_exp_en": "His conclusion was right but his method void",
+   "social": 1,
+   "social_exp": "황열병 인식에 부분 기여",
+   "social_exp_en": "A minor contribution to yellow-fever thinking",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 1,
+   "cultural_exp": "자기실험 일화로 후대에 회자",
+   "cultural_exp_en": "Remembered as a self-experiment anecdote",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "의학사의 일화로만 남음",
+   "transhistoricity_exp_en": "A footnote in medical history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "의과대학원생으로서 이끈 조직이 없었음",
+     "reason_en": "A medical student who led no one"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "오염물 접촉 실험을 반복하고도 병을 이겨냄",
+     "reason_en": "He endured repeated filth exposures unscathed"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "결론은 맞췄으나 매개체를 모른 채 한 실험",
+     "reason_en": "Right answer, wrong reasoning — he missed the mosquito"
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "기괴한 실험으로 학계의 화제가 됨",
+     "reason_en": "The gruesome experiments became notorious"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "연구 외 사생활 기록이 거의 남지 않음",
+     "reason_en": "Almost nothing beyond the experiment survives"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "수개월간 구토물·혈액 접촉 실험을 반복",
+     "reason_en": "Months of repeating the exposures"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "결과를 논문으로 정리했으나 해석은 빗나감",
+     "reason_en": "He wrote it up but misread why he survived"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1802년 환자 구토물과 혈액을 자기 몸에 발라 실험",
+     "reason_en": "In 1802 he smeared patients' vomit and blood into his own body"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "학위 취득 외 집단 소속 행적이 드묾",
+     "reason_en": "Little beyond his degree is on record"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "황열병 환자의 두려움을 덜려 자기 몸을 던짐",
+     "reason_en": "He risked himself to calm fear of the fever"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "남을 재단한 행적이 전해지지 않음",
+     "reason_en": "No record of partial judgment"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "자기 실험의 위험을 스스로 짊어진 겸손한 접근",
+     "reason_en": "He took the risk on himself rather than others"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "비전염설을 굳게 믿고 몸으로 확인하려 함",
+     "reason_en": "He believed the fever harmless and proved it on himself"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서에 대한 입장 기록이 남지 않음",
+     "reason_en": "No recorded view of social order"
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "혼자 몸을 건 실험 외 공동 행적이 드묾",
+     "reason_en": "The solitary self-experiment is nearly all we have"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "치명적 전염병 오염물을 직접 바르고 마심",
+     "reason_en": "He applied and ingested matter from the dying"
+    }
+   },
+   "rationale_ko": "황열병이 전염되지 않는다는 믿음을 자기 몸으로 입증하려 구토물과 혈액을 발랐다. 살아남은 것은 비전염기였기 때문이라 결론만 우연히 맞았다. 끔찍한 실험을 반복한 근면과 용기만은 실재했다.",
+   "rationale_en": "Ffirth tried to prove yellow fever non-contagious by smearing vomit and blood into his own body. He survived because the season had passed — a right conclusion by accident — but the diligence and nerve behind the ordeal were real."
+  }
+ },
+ "베르너 포르스만": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 역할 없음",
+   "political_exp_en": "No political role",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 7,
+   "tech_exp": "심장 카테터법으로 중재적 심장학 개척",
+   "tech_exp_en": "Cardiac catheterisation opened interventional cardiology",
+   "social": 3,
+   "social_exp": "의학 자기실험의 대표 사례",
+   "social_exp_en": "A landmark of medical self-experiment",
+   "economic": 2,
+   "economic_exp": "심장 진단 산업의 단초",
+   "economic_exp_en": "Seed of the cardiac diagnostics industry",
+   "cultural": 1,
+   "cultural_exp": "문화 영향 미미",
+   "cultural_exp_en": "Minor cultural footprint",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "심장 시술 전반의 토대로 지속",
+   "transhistoricity_exp_en": "Foundation of cardiac intervention"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "후에 병원 외과 과장으로 팀을 이끔",
+     "reason_en": "He later headed a surgical department"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "군의관으로 전선을 오가며 외과 수술을 지속",
+     "reason_en": "He served as a front-line military surgeon"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "심장 카테터법을 고안하고 스스로 실증",
+     "reason_en": "He devised heart catheterisation and proved it on himself"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "해고된 무명 의사에서 노벨상 수상자로 반전",
+     "reason_en": "From fired nobody to Nobel laureate"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "해고·방치에도 연구를 포기하지 않고 견딤",
+     "reason_en": "Dismissal and neglect did not stop his work"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "밀려난 뒤에도 비뇨기과의로 수십 년 진료",
+     "reason_en": "Decades of urology practice after being sidelined"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "규정 위반 실험에 대한 자기 평가를 남기지 않음",
+     "reason_en": "He left little reckoning with his unauthorised method"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "1929년 상관 몰래 자기 심장에 카테터를 밀어 넣음",
+     "reason_en": "In 1929 he secretly fed a catheter into his own heart"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "집권 초 나치 조직에 가입한 경력이 엇갈림",
+     "reason_en": "His early Nazi party ties cloud the record"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "심장 환자를 살릴 진단법을 몸소 검증",
+     "reason_en": "He verified a life-saving diagnostic on himself"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "전시 군의관 복무 외 재단 행적이 드묾",
+     "reason_en": "Little record of judgment beyond wartime service"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "노벨상 전까지 오랜 무명을 묵묵히 감내",
+     "reason_en": "He bore decades of obscurity before the Nobel"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "해고와 무시 속에서도 방법의 가치를 믿음",
+     "reason_en": "He kept faith in the method through dismissal"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "집권 초 나치 조직에 가입해 체제에 순응",
+     "reason_en": "He joined Nazi organisations early and conformed"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "단독 실험으로 규정을 어긴 개인 행동",
+     "reason_en": "A lone breach of every rule"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "금지된 시술을 자기 몸에 몰래 감행",
+     "reason_en": "He performed the forbidden procedure on himself in secret"
+    }
+   },
+   "rationale_ko": "상관 몰래 자기 정맥에서 심장까지 관을 밀어 넣은 대담함이 심장학 전체를 열었다. 보답은 해고와 27년의 무시였으나 말년의 노벨상이 복권해 줬다. 체제에 순응한 전력과 규정 위반의 단독 행동이 함께 남아 있다.",
+   "rationale_en": "Forssmann secretly threaded a catheter from his arm to his heart and opened interventional cardiology. The reward was dismissal and 27 years of neglect, redeemed by the Nobel — bold self-experiment beside an uneasy record of conformity."
+  }
+ },
+ "레오니트 로고조프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 2,
+   "tech_exp": "극한 환경 자기수술 사례로 기록",
+   "tech_exp_en": "A documented case in extreme medicine",
+   "social": 3,
+   "social_exp": "극지 의료 대응의 상징적 사례",
+   "social_exp_en": "An emblem of polar medical self-reliance",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 2,
+   "cultural_exp": "자기수술 일화가 세계에 회자",
+   "cultural_exp_en": "The story circulated worldwide",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "의료사의 상징적 일화로 지속",
+   "transhistoricity_exp_en": "An enduring emblem in medical lore"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "12명 탐험대의 유일한 의사로 보건을 책임짐",
+     "reason_en": "Sole physician to a twelve-man Antarctic station"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "국소마취로 자기 복부를 절개하는 두 시간을 견딤",
+     "reason_en": "He endured a two-hour self-operation under local anaesthetic"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "레닌그라드 의대 출신으로 충수 절제를 단독 수행",
+     "reason_en": "Leningrad-trained; he removed his own appendix unaided"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "자기 수술 일화가 소련의 영웅담으로 회자됨",
+     "reason_en": "The feat became a Soviet heroic tale"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "오지 근무와 수술의 고통을 차분히 통제",
+     "reason_en": "He stayed controlled through isolation and self-surgery"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "일기에 수술 경과까지 기록할 만큼 치밀",
+     "reason_en": "He logged even the operation's course in his diary"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "수술 뒤 경과를 일기로 스스로 점검함",
+     "reason_en": "He monitored his own recovery in writing"
+    },
+    "courage": {
+     "score": 97,
+     "reason_ko": "1961년 남극에서 거울을 보며 자기 맹장을 절제",
+     "reason_en": "In 1961 he cut out his own appendix by mirror"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "대원 전원의 생명을 위해 임무를 끝까지 수행",
+     "reason_en": "He kept his duty as the crew's only doctor"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "유일한 의사로서 대원 건강을 헌신적으로 돌봄",
+     "reason_en": "He cared devotedly for the station's health"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "기지 내에서 공정성이 문제된 일이 없음",
+     "reason_en": "No fairness issue on record"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "수술 후에도 담담히 일상 복무로 돌아감",
+     "reason_en": "He simply returned to duty afterward"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "최악의 상황에서도 스스로 해결책을 실행",
+     "reason_en": "He executed the fix himself in the worst case"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "소련 탐험 체제 안에서 직분을 다함",
+     "reason_en": "He served within the Soviet expedition order"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "고립 기지에서 대원 공동체의 생존에 헌신",
+     "reason_en": "He gave himself to the isolated crew's survival"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "죽음을 기다리는 대신 자기 수술을 선택",
+     "reason_en": "He chose self-surgery over waiting to die"
+    }
+   },
+   "rationale_ko": "남극 한복판에서 의사이자 환자가 돼야 했고, 국소마취와 거울만으로 두 시간의 자기 수술을 완수했다. 극한의 고통을 견딘 강인함과 침착함이 단번에 입증됐다. 수술 뒤에는 영웅 행세 없이 복무로 돌아갔다.",
+   "rationale_en": "Alone in Antarctica, Rogozov had to be surgeon and patient at once, completing a two-hour appendectomy on himself under local anaesthetic by mirror. The toughness and composure were proven absolutely; afterwards he quietly resumed his post."
+  }
+ },
+ "데이비드 한": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 1,
+   "tech_exp": "과학 기여 실질적 부재",
+   "tech_exp_en": "No real scientific contribution",
+   "social": 2,
+   "social_exp": "비규제 방사성 물질 유통 문제를 부각",
+   "social_exp_en": "He exposed gaps in radioactive-material control",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 2,
+   "cultural_exp": "'방사능 소년' 일화가 책·뮤지컬로",
+   "cultural_exp_en": "The Boy Scout story became a book and musical",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "핵 안전 경고 사례로 회자",
+   "transhistoricity_exp_en": "Remembered as a nuclear-safety cautionary tale"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "스카우트와 군 복무 외 이끈 조직이 없음",
+     "reason_en": "He led nothing beyond scouting and service"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "이글 스카우트와 해군·해병대 복무 경험",
+     "reason_en": "Eagle Scout; later Navy and Marines service"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "독학으로 방사성 물질을 모아 증식로 설계를 시도",
+     "reason_en": "Self-taught, he tried to build a breeder reactor"
+    },
+    "charm": {
+     "score": 30,
+     "reason_ko": "'방사능 소년'이라는 별명으로 언론에 회자됨",
+     "reason_en": "Known to the press only as the Radioactive Boy Scout"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "말년의 약물·알코올 문제로 자제를 잃음",
+     "reason_en": "Addiction undid his self-control in later life"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "수년간 방사성 물질을 수집하며 원자로 제작에 몰두",
+     "reason_en": "Years spent gathering radium and americium"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "오염 사고 뒤에도 위험한 수집을 반복함",
+     "reason_en": "He repeated the dangerous collecting after the incident"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "방사능 위험을 알면서도 제작을 강행",
+     "reason_en": "He pressed on knowing the radiation risk"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "군 복무를 이어갔으나 규율 문제로 얼룩짐",
+     "reason_en": "Service continued but ended in disciplinary trouble"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "이웃의 안전을 고려하지 않은 실험을 진행",
+     "reason_en": "His shed endangered neighbours without their knowledge"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "사고 처리 과정에서 사실 은폐를 시도",
+     "reason_en": "He tried to hide what he had been doing"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "비밀 실험에 대한 외부 평가를 수용하지 않음",
+     "reason_en": "He brushed off outside judgment of the project"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "반복된 좌절과 말년의 불안정한 삶",
+     "reason_en": "Repeated failure and an unstable final years"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서에 대한 입장이 드러나지 않음",
+     "reason_en": "No stated view of social order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "부모 몰래 헛간에서 홀로 위험한 실험을 진행",
+     "reason_en": "He ran the whole hazard alone in a backyard shed"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "연방 당국이 뜰 만큼 위험한 제작을 감행",
+     "reason_en": "He built until the federal government intervened"
+    }
+   },
+   "rationale_ko": "열일곱에 독학으로 증식로를 노렸고, 그 집요함이 결국 연방 정화 작업을 불렀다. 목표를 향한 끈기와 대담함은 비범했으나 위험을 되돌아보는 성찰이 없었다. 사고 이후의 삶은 불안정으로 기울었다.",
+   "rationale_en": "At seventeen Hahn taught himself toward a breeder reactor, and his persistence ended in a federal cleanup. The drive and audacity were remarkable, the self-reflection absent; his later life slid into instability."
+  }
+ },
+ "토머스 미즐리": {
+  "influence": {
+   "political": 2,
+   "political_exp": "납 안전 논쟁에서 산업 입장을 대변",
+   "political_exp_en": "He fronted industry's case on lead safety",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 7,
+   "tech_exp": "유연휘발유·프레온으로 화학 산업 전환",
+   "tech_exp_en": "Leaded petrol and Freon reshaped chemical industry",
+   "social": 5,
+   "social_exp": "대기 납·오존 파괴라는 대규모 공해 유발",
+   "social_exp_en": "He caused planetary-scale pollution",
+   "economic": 6,
+   "economic_exp": "자동차 연료와 냉매 시장 구조를 형성",
+   "economic_exp_en": "His products built fuel and refrigerant markets",
+   "cultural": 2,
+   "cultural_exp": "최악 발명가라는 반어적 명성",
+   "cultural_exp_en": "Famed in hindsight as the worst inventor",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "납·CFC 금지라는 역설적 환경 유산",
+   "transhistoricity_exp_en": "His legacy forced the lead and CFC bans"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "GM 연구팀을 이끌고 에틸사 부사장을 지냄",
+     "reason_en": "He led GM research and became an Ethyl Corp vice-president"
+    },
+    "martial": {
+     "score": 12,
+     "reason_ko": "1940년 소아마비로 하반신이 마비돼 보조장치가 필요",
+     "reason_en": "Polio paralysed him from 1940; he needed a pulley harness"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "테트라에틸납과 프레온을 잇따라 발명한 화학자",
+     "reason_en": "He invented tetraethyl lead and Freon in succession"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "기자회견에서 납 첨가제를 직접 들이마시는 시연",
+     "reason_en": "He famously inhaled lead additive at a press conference"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "발명의 위험 논란에도 개발을 멈추지 않음",
+     "reason_en": "Controversy over harm never stopped the rollout"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "노킹 첨가제 탐색에 수천 조합을 시험",
+     "reason_en": "He tested thousands of compounds for anti-knock"
+    },
+    "reflection": {
+     "score": 25,
+     "reason_ko": "납 중독 의혹이 불거져도 유해성을 부인함",
+     "reason_en": "He denied lead's harm as the evidence mounted"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "유해 논란 물질을 자기 몸으로 시연하며 밀어붙임",
+     "reason_en": "He demonstrated suspect chemicals on his own body"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "GM과 듀폰 체제에 평생 충실히 복무",
+     "reason_en": "He served the GM–DuPont order all his career"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "납의 유해성을 알면서도 위험을 축소함",
+     "reason_en": "He downplayed lead poisoning he had suffered himself"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "납 중독 사망 사태에도 안전성을 주장함",
+     "reason_en": "He insisted on safety amid worker deaths"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "기자회견 시연으로 자기 발명을 강하게 홍보",
+     "reason_en": "His press demos were pure self-promotion"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "화학이 문제를 해결한다는 확신을 굽히지 않음",
+     "reason_en": "He never doubted chemistry could fix anything"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "기존 석유·화학 산업 질서의 이익을 대변",
+     "reason_en": "He spoke for the incumbent fuel and chemical order"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "기업 과제 중심의 조직적 연구를 수행",
+     "reason_en": "His research served corporate programmes"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "검증 안 된 물질을 자기 폐로 시연하며 출시",
+     "reason_en": "He launched unproven chemicals by breathing them himself"
+    }
+   },
+   "rationale_ko": "노킹을 막으려 납을 넣고 냉매를 만들려 프레온을 냈고, 두 발명이 20세기 최악의 오염원이 됐다. 부작용을 알면서도 시연으로 부인한 책임 회피가 절제와 성찰의 결핍을 드러낸다. 마비된 몸으로도 발명을 멈추지 않았으나 마지막 발명이 목을 졸랐다.",
+   "rationale_en": "To stop engine knock he added lead; to cool homes he made Freon — the century's two worst pollutants. He kept demoing and denying even after poisoning himself. His own final invention strangled him."
+  }
+ },
+ "세르주 보로노프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 2,
+   "tech_exp": "이종이식 시도는 후대 경계 사례",
+   "tech_exp_en": "His xenografts became a cautionary case",
+   "social": 3,
+   "social_exp": "'회춘' 열풍으로 의료 윤리 논란 촉발",
+   "social_exp_en": "The rejuvenation craze raised medical-ethics alarm",
+   "economic": 3,
+   "economic_exp": "회춘 수술이라는 시장을 형성",
+   "economic_exp_en": "He built a market for rejuvenation surgery",
+   "cultural": 4,
+   "cultural_exp": "원숭이 고환이 대중문화 소재가 됨",
+   "cultural_exp_en": "Monkey glands entered popular culture",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "의료 사기의 대표 전범으로 남음",
+   "transhistoricity_exp_en": "He remains a byword for medical quackery"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "파리 클리닉과 실험외과 연구소를 운영",
+     "reason_en": "He ran a Paris clinic and a research laboratory"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "이집트와 전선에서 외과의로 활동",
+     "reason_en": "He practised surgery in Egypt and at the front"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "이식 기술은 있었으나 회춘 이론은 근거가 없음",
+     "reason_en": "A real surgeon peddling an evidence-free theory"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "1920년대 유럽 부호와 왕족이 몰린 시대의 스타",
+     "reason_en": "Europe's rich and royal queued for him in the 1920s"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "부와 명성을 누리며 사치스러운 생활을 영위",
+     "reason_en": "He lived lavishly on the fame"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "수백 건의 이식 수술을 십수 년간 반복",
+     "reason_en": "Hundreds of grafts over more than a decade"
+    },
+    "reflection": {
+     "score": 25,
+     "reason_ko": "과학계 폭로에도 수술의 효능을 끝까지 주장",
+     "reason_en": "He defended the grafts long after discrediting"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "검증 안 된 이식술을 인간에게 대대적으로 시행",
+     "reason_en": "He grafted unproven tissue into patients at scale"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "러시아를 떠나 프랑스에 귀화해 활동",
+     "reason_en": "He left Russia and made France his base"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "근거 없는 수술을 부자들에게 팔아 치부",
+     "reason_en": "He sold baseless surgery to the wealthy"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "효과 없는 시술의 결과를 과장해 홍보",
+     "reason_en": "He advertised results that did not exist"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "회춘의 대가로 자신을 세상에 내세움",
+     "reason_en": "He marketed himself as the master of youth"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "노화마저 수술로 이긴다는 확신을 판매",
+     "reason_en": "He sold certainty that surgery could beat ageing"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기성 질서에 대한 입장을 공개하지 않음",
+     "reason_en": "He voiced no stance on social order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "부유층 고객을 상대로 한 개인 사업 추구",
+     "reason_en": "A private enterprise aimed at rich clients"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "원숭이 고환 이식이라는 전무한 시술을 감행",
+     "reason_en": "He dared monkey-gland grafts no one else would"
+    }
+   },
+   "rationale_ko": "수술 기술은 진짜였으나 회춘의 근거는 없었고, 그 부재를 명성과 사치로 메웠다. 유럽의 부호들이 열 년간 몰려들었으나 과학의 검증 앞에 무너졌다. 끝까지 효능을 주장하다 잊힌 채 죽었다.",
+   "rationale_en": "Voronoff's surgical skill was real, his rejuvenation theory baseless — and fame and luxury filled the gap. A decade of Europe's elite came to him before science collapsed the edifice; he died insisting to the end."
+  }
+ },
+ "블라디미르 데미호프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 7,
+   "tech_exp": "심장·폐 이식의 실험적 토대를 세움",
+   "tech_exp_en": "He laid the experimental basis of organ transplantation",
+   "social": 3,
+   "social_exp": "이식 윤리 논쟁을 촉발",
+   "social_exp_en": "His work ignited transplant-ethics debate",
+   "economic": 1,
+   "economic_exp": "경제 기여 미미",
+   "economic_exp_en": "Minor economic bearing",
+   "cultural": 3,
+   "cultural_exp": "두 머리 개가 냉전 대중문화에 회자",
+   "cultural_exp_en": "The two-headed dog entered Cold War culture",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "장기이식 시대를 연 선구자로 지속",
+   "transhistoricity_exp_en": "A lasting pioneer of the transplant era"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "모스크바 대학 실험실에서 연구팀을 수십 년 이끔",
+     "reason_en": "He headed a Moscow laboratory for decades"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "2차대전 보병으로 참전한 군 경험",
+     "reason_en": "He served as an infantryman in WWII"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "1946년 개에서 세계 최초 심장이식을 성공",
+     "reason_en": "He performed the first heart transplant — on a dog — in 1946"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "두 머리 개 실험으로 서구에 공포와 경외를 남김",
+     "reason_en": "The two-headed dog shocked and awed the West"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "서구의 악명에도 실험실 작업에만 몰두",
+     "reason_en": "Infamy abroad never pulled him from the bench"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "수십 년간 장기이식 동물 실험을 축적",
+     "reason_en": "Decades of accumulated transplant experiments"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "실험 기록을 저술로 정리해 후대에 남김",
+     "reason_en": "He codified the work in a monograph for successors"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "외견상 금기에 가까운 이식 실험을 계속 감행",
+     "reason_en": "He pressed on with near-taboo grafting experiments"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "소련 의료 연구 체계 안에서 평생 복무",
+     "reason_en": "A career inside Soviet medical research"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "인간 이식 시대를 열려 했으나 동물 희생이 컸음",
+     "reason_en": "He aimed at human transplantation at great animal cost"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "처우를 가를 자리에서의 행적이 드묾",
+     "reason_en": "Little on record of his judgments over others"
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "바나드가 공로를 인정할 때까지 무명에 가까움",
+     "reason_en": "Near-anonymous until Barnard acknowledged him"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "불가능해 보인 이식을 실현 가능하다고 봄",
+     "reason_en": "He believed the impossible graft could be done"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "소련 연구 체제 안에서 직무에 충실",
+     "reason_en": "He worked within the Soviet research order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "국립 연구 체계 안의 조직적 연구를 지속",
+     "reason_en": "His was organised, institutional work"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "머리 이식까지 밀고 나간 과감한 실험",
+     "reason_en": "He dared as far as head transplantation"
+    }
+   },
+   "rationale_ko": "인간 심장이식보다 20년 앞서 개에서 성공했고, 두 머리 개로 서구를 경악시키면서도 이식 외과의 지도를 그렸다. 동물 희생의 대가가 컸으나 그의 저술이 바나드 시대의 길잡이가 됐다. 공로 인정은 남의 입으로 뒤늦게 왔다.",
+   "rationale_en": "Twenty years before human transplantation, Demikhov did it in dogs; his two-headed dog horrified the West while his monograph guided Barnard's era. The animal cost was heavy, and the credit arrived late and second-hand."
+  }
+ },
+ "트로핌 리센코": {
+  "influence": {
+   "political": 5,
+   "political_exp": "사이비 농법을 국가 과학정책으로 장악",
+   "political_exp_en": "He made pseudoscience Soviet state policy",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 3,
+   "tech_exp": "소련 유전학을 수십 년 파괴",
+   "tech_exp_en": "He wrecked Soviet genetics for decades",
+   "social": 4,
+   "social_exp": "기근 확대와 학자 숙청에 기여",
+   "social_exp_en": "His policy worsened famine and purged scientists",
+   "economic": 4,
+   "economic_exp": "소련 농업 생산성을 크게 훼손",
+   "economic_exp_en": "Soviet agricultural output suffered badly",
+   "cultural": 2,
+   "cultural_exp": "리센코주의가 후대 용어로 남음",
+   "cultural_exp_en": "'Lysenkoism' entered the lexicon",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "정치화된 과학의 대표 경고 사례",
+   "transhistoricity_exp_en": "The standing warning of politicised science"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "1948년 레닌 농업아카데미를 장악해 소련 농업과학 전권 행사",
+     "reason_en": "From 1948 he ruled all Soviet agricultural science"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "농민 출신으로 농장 노동에 종사함",
+     "reason_en": "A peasant's son who worked the fields"
+    },
+    "intellect": {
+     "score": 32,
+     "reason_ko": "벼리화 주장은 재현에 실패한 사이비 농법",
+     "reason_en": "His vernalisation claims failed replication"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "농민 과학자 이미지로 스탈린의 총애를 얻음",
+     "reason_en": "The peasant-scientist image won Stalin's favour"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "권력을 농업과학 전 영역으로 확장함",
+     "reason_en": "He extended his power across the whole field"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "수십 년간 자기 이론의 전국 확산에 매진",
+     "reason_en": "He drove his doctrine nationwide for decades"
+    },
+    "reflection": {
+     "score": 8,
+     "reason_ko": "기근과 실패에도 이론의 오류를 인정하지 않음",
+     "reason_en": "Famine and failure never made him admit error"
+    },
+    "courage": {
+     "score": 38,
+     "reason_ko": "체제의 후원을 등에 업고 반대파를 숙청",
+     "reason_en": "He purged rivals under state protection"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "스탈린 체제의 노선에 철저히 부합",
+     "reason_en": "He aligned completely with the Stalinist line"
+    },
+    "benevolence": {
+     "score": 10,
+     "reason_ko": "사이비 농법으로 기근을 키우고 반대자를 옥에 보냄",
+     "reason_en": "His methods deepened famine and jailed opponents"
+    },
+    "fairness": {
+     "score": 8,
+     "reason_ko": "바빌로프 등 반대 학자를 숙청으로 제거",
+     "reason_en": "He had Vavilov and other critics destroyed"
+    },
+    "humility": {
+     "score": 10,
+     "reason_ko": "자기 이론을 국가 정책으로 밀어붙인 독선",
+     "reason_en": "He forced his doctrine into national policy"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "기적의 수확을 약속하는 과대한 낙관을 선전",
+     "reason_en": "He preached a boundless optimism of miracle yields"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "스탈린 체제의 이념에 과학을 종속시킴",
+     "reason_en": "He subordinated science to state ideology"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "국가 노선에 자신을 결부한 집단주의 행보",
+     "reason_en": "He bound himself to the state collective"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "검증 없는 농법을 전국 정책으로 밀어붙임",
+     "reason_en": "He pushed unverified farming into national law"
+    }
+   },
+   "rationale_ko": "농민 출신 이미지로 스탈린의 후원을 얻었고, 그 권력으로 유전학 자체를 범죄로 만들어 반대자들을 감옥에 보냈다. 검증 없는 농법이 국가 정책이 되면서 기근을 키웠다. 실각 뒤에도 오류 인정은 끝내 없었다.",
+   "rationale_en": "Lysenko rode a peasant-scientist image into Stalin's favour, then used that power to criminalise genetics and jail its practitioners. Unverified doctrine became policy and deepened famine; he never admitted error, before or after his fall."
+  }
+ },
+ "콘스탄틴 치올콥스키": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 2,
+   "strategic_exp": "로켓 이론이 우주·미사일 기반",
+   "strategic_exp_en": "His theory underlies rockets and missiles",
+   "tech": 9,
+   "tech_exp": "우주비행 이론의 창시",
+   "tech_exp_en": "He founded the theory of astronautics",
+   "social": 2,
+   "social_exp": "우주주의 사상이 사상사에 기여",
+   "social_exp_en": "Cosmism fed Russian thought",
+   "economic": 1,
+   "economic_exp": "경제 기여 미미",
+   "economic_exp_en": "Minor economic bearing",
+   "cultural": 3,
+   "cultural_exp": "우주 비전이 러시아 문화에 스밈",
+   "cultural_exp_en": "His vision entered Russian culture",
+   "transhistoricity": 28,
+   "transhistoricity_exp": "우주비행의 이론적 토대로 정착",
+   "transhistoricity_exp_en": "The settled theoretical foundation of spaceflight"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "시골 학교에서 수학을 가르치며 홀로 연구",
+     "reason_en": "A village schoolteacher working alone"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "청각 장애 속에서도 시골 교사로 수십 년 근무",
+     "reason_en": "Nearly deaf from scarlet fever, he taught for decades"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "1903년 다단 로켓 방정식과 우주정거장을 독학으로 유도",
+     "reason_en": "In 1903 he derived the rocket equation alone"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "생전엔 무명 교사였으나 사후 국가적 명예를 얻음",
+     "reason_en": "Obscure in life, a national hero after death"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 85,
+     "reason_ko": "검소한 교사 생활 속에서 연구에만 전념",
+     "reason_en": "A frugal teacher devoted wholly to the work"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "청각 상실 뒤 독학으로 수십 년 연구를 지속",
+     "reason_en": "Deafened, he taught himself for decades"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "자기 계산을 끊임없이 검증하고 저술로 정리",
+     "reason_en": "He checked his own mathematics ceaselessly"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "공상 소리를 듣던 우주 비행론을 평생 밀고 나감",
+     "reason_en": "He pursued 'fantasy' spaceflight all his life"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "가르치는 직분과 연구 신념을 끝까지 지킴",
+     "reason_en": "He kept both his classroom and his conviction"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "인류의 우주 진출을 꿈꾼 박애적 비전",
+     "reason_en": "His vision aimed at humanity's reach into space"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "교사로서 학생을 차별했다는 기록이 없음",
+     "reason_en": "No record of unfairness in his teaching"
+    },
+    "humility": {
+     "score": 82,
+     "reason_ko": "공로보다 후대에 맡기는 겸손한 태도",
+     "reason_en": "He left the credit to posterity"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 40,
+     "reason_ko": "'요람에서 살 수 없다'며 인류의 우주 진출을 확신",
+     "reason_en": "'One cannot live in a cradle forever' — total optimism"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "인류의 운명을 우주로 재규정한 급진적 비전",
+     "reason_en": "He re-envisioned humanity's destiny in space"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "인류 공동체 전체의 미래를 위해 사유",
+     "reason_en": "He thought for humankind as a whole"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "로켓 없는 시대에 다단 로켓을 이론으로 감행",
+     "reason_en": "He dared staged rockets before rockets existed"
+    }
+   },
+   "rationale_ko": "귀가 멀어 학교를 떠난 뒤 시골 교실에서 혼자 로켓 방정식을 세웠다. 로켓이 없던 시대에 다단 추진과 우주정거장까지 이론으로 완성했고, 실현은 후대에 맡겼다. 검소와 근면이 반세기의 독학을 지탱했다.",
+   "rationale_en": "Deafened and self-taught in a village classroom, Tsiolkovsky derived the rocket equation and designed space stations decades before they could exist. Frugality and decades of quiet work carried a vision he left to posterity to fulfil."
+  }
+ },
+ "로버트 고다드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 4,
+   "strategic_exp": "로켓 기술이 군사 추진으로 전이",
+   "strategic_exp_en": "His patents fed military rocketry",
+   "tech": 9,
+   "tech_exp": "1926년 최초 액체연료 로켓 실증",
+   "tech_exp_en": "He flew the first liquid-fuel rocket in 1926",
+   "social": 1,
+   "social_exp": "사회 제도 영향 미미",
+   "social_exp_en": "Minimal social-institutional effect",
+   "economic": 2,
+   "economic_exp": "로켓 산업의 기술적 단초",
+   "economic_exp_en": "A technical seed of the rocket industry",
+   "cultural": 2,
+   "cultural_exp": "NYT 사과 일화로 회자",
+   "cultural_exp_en": "The belated Times correction became lore",
+   "transhistoricity": 26,
+   "transhistoricity_exp": "액체 로켓의 실증적 토대로 정착",
+   "transhistoricity_exp_en": "The proven basis of liquid rocketry"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "로스웰에서 소규모 팀을 꾸려 발사를 진행",
+     "reason_en": "He ran a small launch crew at Roswell"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "결핵을 앓았으나 사막 발사 현장을 지킴",
+     "reason_en": "He survived tuberculosis and kept to the desert test sites"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "1926년 최초 액체연료 로켓과 자이로 유도 등 특허 214건",
+     "reason_en": "First liquid rocket in 1926; 214 patents"
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "NYT의 조롱에 시달린 무명 연구자",
+     "reason_en": "A mocked, obscure figure in his lifetime"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "비밀 연구에 몰두한 절제된 연구 생활",
+     "reason_en": "A disciplined, secretive research life"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "30년간 발사 실험과 특허 축적을 멈추지 않음",
+     "reason_en": "Thirty years of launches and patent filings"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "조롱 뒤 공개를 줄이고 연구 방식을 고집",
+     "reason_en": "Mocked, he withdrew further and kept his methods"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "신문의 조롱에도 발사를 멈추지 않음",
+     "reason_en": "Public ridicule never stopped the launches"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "미 해군 연구와 자기 프로젝트를 끝까지 지킴",
+     "reason_en": "He stayed with Navy work and his own programme"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "타인을 돕거나 해친 행적 모두 드묾",
+     "reason_en": "Little on record of help or harm to others"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "고용·평가에서 편파를 보인 행적이 드묾",
+     "reason_en": "No recorded partiality in his dealings"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "특허로 자기 업적을 철저히 지키려 함",
+     "reason_en": "He guarded his work jealously through patents"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "'어제의 꿈이 내일의 현실'이라는 신념",
+     "reason_en": "'The dream of yesterday is the hope of today'"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "공개적 정치 발언보다 연구와 특허에 몰두",
+     "reason_en": "He kept to research, not public positions"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "비밀 유지에 집착하며 거의 홀로 연구",
+     "reason_en": "Secretive and near-solitary by choice"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "조롱 속에서도 실물 발사를 반복 감행",
+     "reason_en": "He kept launching real rockets despite the mockery"
+    }
+   },
+   "rationale_ko": "1926년 눈밭에서 2.5초짜리 비행으로 액체 로켓 시대를 열었으나 신문의 조롱이 그를 은둔으로 몰았다. 30년간 비밀스럽게 214건의 특허를 쌓았고, 인정은 아폴로 발사 직전의 정정 기사로 뒤늦게 왔다.",
+   "rationale_en": "Goddard's 2.5-second flight in an Auburn snowfield opened the age of liquid rockets, while newspaper mockery drove him into secrecy. Thirty years and 214 patents later, recognition came only as Apollo 11 readied for launch."
+  }
+ },
+ "레오 실라드": {
+  "influence": {
+   "political": 5,
+   "political_exp": "아인슈타인 서한으로 핵개발을 촉발",
+   "political_exp_en": "His Einstein letter launched the Manhattan Project",
+   "strategic": 7,
+   "strategic_exp": "연쇄반응 개념이 핵전략의 기원",
+   "strategic_exp_en": "The chain-reaction concept seeded nuclear strategy",
+   "tech": 8,
+   "tech_exp": "연쇄반응 특허와 최초 원자로 공동 실현",
+   "tech_exp_en": "He patented the chain reaction and built CP-1 with Fermi",
+   "social": 5,
+   "social_exp": "핵통제 운동과 과학자 책임론의 시발",
+   "social_exp_en": "He founded scientist-led arms control",
+   "economic": 2,
+   "economic_exp": "경제 기여 미미",
+   "economic_exp_en": "Minor economic bearing",
+   "cultural": 3,
+   "cultural_exp": "SF 저술로 핵시대 상상력에 기여",
+   "cultural_exp_en": "His fiction shaped nuclear-age imagination",
+   "transhistoricity": 22,
+   "transhistoricity_exp": "핵시대 개막의 촉매로 구조적 기여",
+   "transhistoricity_exp_en": "A structural catalyst of the nuclear age"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "조직을 이끌기보다 인맥으로 결정적 서한을 성사",
+     "reason_en": "He moved networks, not organisations, to reach Roosevelt"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "피난과 연구 생활 중심의 비신체직",
+     "reason_en": "A refugee scholar's life, not a physical one"
+    },
+    "intellect": {
+     "score": 92,
+     "reason_ko": "1933년 신호등 앞에서 핵연쇄반응 개념을 고안",
+     "reason_en": "He conceived the chain reaction at a London crossing in 1933"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "호텔을 전전한 괴짜로 동료들에게 강한 인상",
+     "reason_en": "An itinerant bathtub-thinker who left marks on colleagues"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "욕조에서 사색하는 검소한 방랑 연구 생활",
+     "reason_en": "He lived ascetically in hotels, thinking in the bath"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "물리학에서 생물학까지 끊임없이 분야를 넘나듦",
+     "reason_en": "He crossed physics into biology without pause"
+    },
+    "reflection": {
+     "score": 85,
+     "reason_ko": "만든 폭탄의 결과를 스스로 되짚어 행동을 바꿈",
+     "reason_en": "He re-examined what he had made and changed course"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1939년 대통령 서한을 성사시키고 1945년 핵투하에 반대",
+     "reason_en": "He triggered the project in 1939 and petitioned against it in 1945"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "소속 기관보다 양심과 인류의 안위를 우선",
+     "reason_en": "Conscience outranked institutional loyalty"
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "핵전쟁 방지를 위한 평생의 운동에 헌신",
+     "reason_en": "He gave his later life to preventing nuclear war"
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "공개 검증과 과학자 책임을 일관되게 요구",
+     "reason_en": "He consistently demanded open scrutiny and accountability"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "아인슈타인의 이름을 빌려 서한의 실효를 택함",
+     "reason_en": "He put Einstein's name on the letter for effect"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "핵 재앙을 늘 염려하며 막는 길을 찾음",
+     "reason_en": "He lived in worry about nuclear catastrophe"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "군사 기밀주의와 핵군비에 맞서 통제를 주장",
+     "reason_en": "He argued for control against secrecy and arms"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "인류 공동체의 생존을 개인 경력 위에 둠",
+     "reason_en": "He put humanity's survival above his career"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "연쇄반응을 비밀특허로 묶고 대통령에 직접 상경",
+     "reason_en": "He secretly patented the reaction and went to the President"
+    }
+   },
+   "rationale_ko": "신호등 앞의 통찰이 핵시대를 열었고, 그는 같은 손으로 그것을 막으려 했다. 폭탄을 촉발한 서한과 투하를 막으려 한 청원 사이에서 성찰이 행동으로 이어졌다. 직책 없이 역사를 움직인 드문 예다.",
+   "rationale_en": "The insight at a traffic light opened the nuclear age, and Szilard spent the rest of his life trying to close it. Between the letter that launched the bomb and the petition against its use ran a rare conscience that turned reflection into action."
+  }
+ },
+ "버크민스터 풀러": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 역할 미미",
+   "political_exp_en": "Minimal political role",
+   "strategic": 1,
+   "strategic_exp": "돔이 군사 레이돔에 채용",
+   "strategic_exp_en": "His domes served military radar lines",
+   "tech": 6,
+   "tech_exp": "지오데식 구조가 전 세계로 확산",
+   "tech_exp_en": "Geodesic structures spread worldwide",
+   "social": 5,
+   "social_exp": "'우주선 지구' 개념으로 환경 사상에 기여",
+   "social_exp_en": "'Spaceship Earth' fed environmental thought",
+   "economic": 3,
+   "economic_exp": "디자인·건축 산업에 영향",
+   "economic_exp_en": "He influenced design and building",
+   "cultural": 5,
+   "cultural_exp": "디자인과 반문화의 아이콘이 됨",
+   "cultural_exp_en": "An icon of design and counterculture",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "자원 효율 사상이 환경 담론에 지속",
+   "transhistoricity_exp_en": "His efficiency ideas persist in green discourse"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "회사를 세웠으나 경영보다 강연·설계에 주력",
+     "reason_en": "He founded ventures but lived as lecturer-designer"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "1차대전에 해군으로 복무한 경험",
+     "reason_en": "He served in the Navy in WWI"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "지오데식 구조와 시너제틱스 기하학을 독창적으로 설계",
+     "reason_en": "He devised geodesic geometry and synergetics"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "시간제한 없는 마라톤 강연으로 반문화의 스승이 됨",
+     "reason_en": "Marathon lectures made him a counterculture sage"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "인생을 15분 단위로 기록한 극도의 자기 규율",
+     "reason_en": "He logged his life in 15-minute intervals"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "크로노파일 기록과 28권 저술을 평생 지속",
+     "reason_en": "The Chronofile and 28 books over a lifetime"
+    },
+    "reflection": {
+     "score": 75,
+     "reason_ko": "딸을 잃은 뒤 인생 전체를 '실험'으로 재설계",
+     "reason_en": "Bereavement turned his life into a declared experiment"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "파산과 실패에도 기존 건축을 부정하는 실험을 지속",
+     "reason_en": "Bankruptcy and failure never stopped the experiments"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 52,
+     "reason_ko": "자기 비전과 가족에 대한 헌신을 지킴",
+     "reason_en": "He kept faith with his vision and family"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "전 인류의 주거 문제를 해결하려는 비전",
+     "reason_en": "He aimed to house all humanity"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "사회적 차별에 반대하는 강연을 남김",
+     "reason_en": "He spoke against segregation in his lectures"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "모든 발명에 '다이맥시온' 자기 브랜드를 붙임",
+     "reason_en": "He stamped his own brand on everything"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 40,
+     "reason_ko": "기술로 인류 전원이 잘 살 수 있다는 확신",
+     "reason_en": "He insisted technology could provide for everyone"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "'우주선 지구' 개념으로 기존 사고 체계에 도전",
+     "reason_en": "'Spaceship Earth' challenged established frames"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "인류 전체를 한 배의 승무원으로 규정",
+     "reason_en": "He cast humanity as one crew"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "실험 주택·3륜차·돔을 잇따라 실물로 감행",
+     "reason_en": "He kept building radical prototypes"
+    }
+   },
+   "rationale_ko": "하버드 퇴학과 딸의 죽음 뒤 인생을 '실험'으로 재설계해 자원 효율의 극단을 걸었다. 지오데식 돔은 세계에 퍼졌고 '우주선 지구'는 환경 사상의 어휘가 됐다. 자기 브랜딩은 강했으나 비전은 늘 인류 전체를 향했다.",
+   "rationale_en": "Expelled from Harvard and broken by his daughter's death, Fuller redesigned his life as an experiment in doing more with less. The geodesic dome spread worldwide and 'Spaceship Earth' entered green thought — self-branded, yet aimed at all humanity."
+  }
+ },
+ "딘 케이먼": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치적 역할 미미",
+   "political_exp_en": "Minimal political role",
+   "strategic": 0,
+   "strategic_exp": "군사 기여 없음",
+   "strategic_exp_en": "No military contribution",
+   "tech": 6,
+   "tech_exp": "인슐린 펌프 등 의료기기 발명",
+   "tech_exp_en": "The insulin pump and other medical devices",
+   "social": 5,
+   "social_exp": "FIRST로 공학 교육 운동을 창설",
+   "social_exp_en": "FIRST built a global engineering-sport movement",
+   "economic": 4,
+   "economic_exp": "의료기기와 세그웨이 사업화",
+   "economic_exp_en": "He commercialised devices and the Segway",
+   "cultural": 2,
+   "cultural_exp": "발명가 아이콘으로 회자",
+   "cultural_exp_en": "A recognised inventor persona",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "공학 교육 운동의 지속 여부가 관건",
+   "transhistoricity_exp_en": "FIRST's endurance is still being written"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "DEKA와 FIRST를 창립해 수백 명 조직을 수십 년 운영",
+     "reason_en": "He founded DEKA and FIRST, running them for decades"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "발명과 경영 중심의 비신체직 활동",
+     "reason_en": "A desk-and-lab career"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "인슐린 펌프·iBOT·세그웨이 등 특허 수백 건",
+     "reason_en": "Hundreds of patents: insulin pump, iBOT, Segway"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "청바지 차림의 기조연설로 공학계의 스타가 됨",
+     "reason_en": "Denim-clad keynotes made him an engineering celebrity"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "세그웨이 기대가 꺾여도 사업 태도를 유지",
+     "reason_en": "He kept his discipline past the Segway letdown"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "수십 년간 발명과 FIRST 대회 운영을 병행",
+     "reason_en": "Decades of inventing alongside running FIRST"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "세그웨이 실패 뒤 기대치를 스스로 조정",
+     "reason_en": "He recalibrated after the Segway's miss"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "사재를 털어 정수기·로봇 대회 같은 도박을 감행",
+     "reason_en": "He bet his fortune on purifiers and robotics leagues"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "자기 회사와 로봇 대회를 수십 년 지킴",
+     "reason_en": "He stayed with his company and league for decades"
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "의료기기와 정수기·청소년 대회로 공익에 헌신",
+     "reason_en": "Medical devices, water purifiers and FIRST serve public ends"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "채용·평가의 편파 행적이 전해지지 않음",
+     "reason_en": "No record of partiality in his organisations"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "자기 발명을 크게 홍보하는 쇼맨십을 즐김",
+     "reason_en": "He relishes promoting his own inventions"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "기술이 세상을 바꾼다는 확신을 공언",
+     "reason_en": "He openly preaches technology as saviour"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "공학 교육 체계를 새로 만든 제도 개혁",
+     "reason_en": "He built a new institution for engineering education"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "청소년 공동체 운동 FIRST를 조직",
+     "reason_en": "FIRST organises teenagers into a community"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "세그웨이에 대대적 기대를 걸고 출시를 감행",
+     "reason_en": "He launched the Segway on enormous expectations"
+    }
+   },
+   "rationale_ko": "인슐린 펌프로 의료기기 경력을 시작했고, 세그웨이의 과대 홍보 실패 뒤에도 발명을 멈추지 않았다. FIRST 로봇 대회는 공학을 10대의 스포츠로 바꿔 놓았다. 대담한 투자와 꾸준한 조직 운영이 겹쳐 있다.",
+   "rationale_en": "Kamen began with the insulin pump, survived the Segway's overhyped landing, and never stopped inventing. FIRST turned engineering into a high-school sport — bold bets married to decades of steady organisation."
+  }
+ },
+ "잭 파슨스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행적 없음",
+   "political_exp_en": "No political activity",
+   "strategic": 3,
+   "strategic_exp": "JATO가 군사 추진으로 전이",
+   "strategic_exp_en": "His JATO units fed military rocketry",
+   "tech": 7,
+   "tech_exp": "고체연료 로켓 개척과 JPL 공동 창립",
+   "tech_exp_en": "Solid-fuel pioneer and JPL co-founder",
+   "social": 1,
+   "social_exp": "사회 제도 영향 미미",
+   "social_exp_en": "Minimal social-institutional effect",
+   "economic": 1,
+   "economic_exp": "경제 기여 미미",
+   "economic_exp_en": "Minor economic bearing",
+   "cultural": 3,
+   "cultural_exp": "로켓-오컬트 겸업이 대중문화에 회자",
+   "cultural_exp_en": "The rocket-occult double life entered culture",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "미국 로켓 개발의 한 기둥으로 남음",
+   "transhistoricity_exp_en": "A pillar of early American rocketry"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "JPL 공동 창립에 참여하고 오컬트 지부를 이끔",
+     "reason_en": "He co-founded JPL and ran the Pasadena lodge"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "폭약 실험 현장에서 위험한 실무를 감당",
+     "reason_en": "He handled live explosives daily"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "독학으로 주조식 고체연료 로켓을 개척",
+     "reason_en": "Self-taught, he pioneered castable solid fuel"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "보헤미안적 매력으로 교단과 연구계를 오감",
+     "reason_en": "Bohemian charisma across lab and lodge"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "폭약·약물·성 의식에 자제 없이 몰입",
+     "reason_en": "Explosives, drugs and sex magic without restraint"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "낮엔 로켓 밤엔 의식이라는 이중 활동을 지속",
+     "reason_en": "Rockets by day, ritual by night, for years"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "허버드에게 재산을 뺏겨도 태도를 바꾸지 않음",
+     "reason_en": "Robbed by Hubbard, he changed nothing"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "'자살 분대'로 불린 위험한 추진 실험을 감행",
+     "reason_en": "He ran the tests the 'Suicide Squad' name came from"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 38,
+     "reason_ko": "연구 동료·교단·파트너를 잇따라 잃거나 배신당함",
+     "reason_en": "Partners, lodge and lover were all lost or betrayed"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "타인을 위한 헌신 행적이 드물어 중간에 둠",
+     "reason_en": "Little on record of service to others"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "보안 규정 위반으로 기밀 취급 자격을 상실",
+     "reason_en": "He lost his clearance over security breaches"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스스로를 선택받은 마법사로 자처함",
+     "reason_en": "He cast himself as a chosen magus"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "로켓도 마법도 성공을 확신한 몰입",
+     "reason_en": "He expected rockets and ritual alike to succeed"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "1940년대 미국에서 오컬트와 성적 자유를 실천",
+     "reason_en": "He practised occultism and free love in 1940s America"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "'뜻대로 행하라'는 교리의 극단적 개인주의",
+     "reason_en": "'Do what thou wilt' taken to its extreme"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "폭약을 손으로 다루다 자택 폭발로 사망",
+     "reason_en": "He died hand-mixing explosives at home in 1952"
+    }
+   },
+   "rationale_ko": "낮에는 고체연료 로켓을 개척해 JPL을 공동 창립했고, 밤에는 크롤리 교단을 이끄는 이중 생활을 살았다. 극단의 개인주의와 무절제가 경력과 재산을 갉아먹었으나 로켓 기술의 실체는 남았다. 37세에 자택 폭발로 죽었다.",
+   "rationale_en": "By day Parsons pioneered solid rocket fuel and co-founded JPL; by night he ran Crowley's lodge. Extreme individualism and self-indulgence cost him clearance, money and partner — yet the rocketry was real. A home explosion killed him at 37."
+  }
+ },
+ "빌헬름 라이히": {
+  "influence": {
+   "political": 3,
+   "political_exp": "성정치 클리닉으로 노동자 조직을 시도",
+   "political_exp_en": "Ran sex-political clinics organising workers.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military contribution.",
+   "tech": 3,
+   "tech_exp": "성격분석으로 신체 심리치료 흐름을 엶",
+   "tech_exp_en": "Character analysis seeded body-psychotherapy lines.",
+   "social": 4,
+   "social_exp": "성해방 담론을 68 세대에 미리 전함",
+   "social_exp_en": "His sexual-liberation gospel reached the '68 generation.",
+   "economic": 1,
+   "economic_exp": "오르곤 축전기 판매 수준에 머묾",
+   "economic_exp_en": "Orgone-box sales remained a cottage affair.",
+   "cultural": 3,
+   "cultural_exp": "책 소각 사건으로 검열 논쟁의 상징이 됨",
+   "cultural_exp_en": "His court-ordered book burning became a censorship emblem.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "심리치료 한 줄기와 몰락의 경고로 남음",
+   "transhistoricity_exp_en": "He survives as a therapy lineage and a cautionary tale."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1930년대 빈·베를린 성정치 운동 조직과 기관지를 이끔",
+     "reason_en": "Ran sex-pol organisations and their journal in Vienna and Berlin."
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "제1차대전 오스트리아군에서 3년간 복무",
+     "reason_en": "Three years of WWI service in the Austro-Hungarian army."
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "1920년대 성격분석으로 정신분석 기법을 확장",
+     "reason_en": "His 1920s character analysis extended analytic technique."
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "총애받던 제자에서 열광하는 추종자를 거느린 지도자로",
+     "reason_en": "Freud's star pupil who later drew fervent followers."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "1954년 FDA 명령을 거부하다 저작 소각과 수감을 자초",
+     "reason_en": "Defying the 1954 FDA order ended in burned books and prison."
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "저술·실험·임상을 말년의 투옥 직전까지 멈추지 않음",
+     "reason_en": "He wrote, experimented and practised until imprisonment."
+    },
+    "reflection": {
+     "score": 25,
+     "reason_ko": "끝까지 스스로를 박해받는 갈릴레이로 여김",
+     "reason_en": "He cast himself to the end as a persecuted Galileo."
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "연방 소송에서 굴복 대신 수감을 택해 신념을 고수",
+     "reason_en": "He chose prison over compliance to keep his doctrine."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 38,
+     "reason_ko": "동료·제자와 잇달아 결별하며 오르곤 신념만 지킴",
+     "reason_en": "He broke with colleagues and pupils, keeping only the orgone faith."
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "신경증 해방을 인류 구원 과제로 삼아 진료에 헌신",
+     "reason_en": "He treated neurosis as humanity's rescue and worked for it."
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "이론에 의문을 품는 제자를 배척하듯 내쫓음",
+     "reason_en": "Pupils who doubted orgone were driven out."
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "자신을 갈릴레이와 예수에 견준 저작을 남김",
+     "reason_en": "He wrote himself beside Galileo and Christ."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "권위만 걷히면 인간 본성은 선하다고 믿음",
+     "reason_en": "He held that man stripped of authority is naturally good."
+    },
+    "conservative_progressive": {
+     "score": 35,
+     "reason_ko": "1930년대부터 성해방·반권위 사회 개조를 주창",
+     "reason_en": "He preached sexual liberation and anti-authority society from the 1930s."
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "공동체적 해방을 설파했으나 말년엔 고립된 연구",
+     "reason_en": "He preached communal liberation yet ended in solitary work."
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "검증 없는 오르곤 상품화와 FDA 정면 대결을 감행",
+     "reason_en": "He marketed unverified orgone devices and fought the FDA head-on."
+    }
+   },
+   "rationale_ko": "프로이트의 총애를 받은 성격분석 개척자였으나 검증을 거스른 오르곤 신념이 그를 사이비로 몰았다. 권위에 맞선 용기와 박해자 자의식이 같은 뿌리에서 자랐고, 그것이 성찰·겸양·공정을 깎았다. 1930년대부터 주창한 성해방과 반권위 비전은 68 세대에 되살아났다. FDA와의 소송 끝에 저작이 불태워졌고 그는 연방 교도소에서 숨을 거뒀다.",
+   "rationale_en": "Once Freud's favoured pioneer of character analysis, he let his orgone conviction outrun verification and slid into pseudoscience. The same root produced his courage against authority and his martyr complex, eroding reflection, humility and fairness. His vision of sexual liberation and anti-authoritarian order, preached since the 1930s, revived in the '68 generation. His books were burned after he defied the FDA, and he died in a federal penitentiary."
+  }
+ },
+ "존 릴리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political record.",
+   "strategic": 1,
+   "strategic_exp": "감각박탈 연구가 우주·군사 생리에 참조",
+   "strategic_exp_en": "Isolation research fed space and military physiology.",
+   "tech": 5,
+   "tech_exp": "고립수조 발명과 돌고래 뇌 연구로 분야를 개척",
+   "tech_exp_en": "He invented the isolation tank and opened dolphin brain research.",
+   "social": 2,
+   "social_exp": "의식 확장 담론을 반문화에 공급",
+   "social_exp_en": "He fed consciousness-expansion talk to the counterculture.",
+   "economic": 2,
+   "economic_exp": "고립수조가 플로팅 산업의 원형이 됨",
+   "economic_exp_en": "His tank became the prototype of the float industry.",
+   "cultural": 4,
+   "cultural_exp": "『얼터드 스테이츠』의 실제 모델이 됨",
+   "cultural_exp_en": "He was the real-life model for Altered States.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "감각박탈 수조는 지금도 치료·연구에 사용",
+   "transhistoricity_exp_en": "Isolation tanks remain in therapy and research use."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1961년 세인트토머스 돌고래 연구소를 세워 팀을 이끔",
+     "reason_en": "Founded and ran the St Thomas dolphin lab from 1961."
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "잠수와 해양 작업을 병행한 연구자의 체력",
+     "reason_en": "Diving and sea work on a researcher's frame."
+    },
+    "intellect": {
+     "score": 74,
+     "reason_ko": "칼텍 물리학과 의학을 거쳐 감각박탈 연구를 개척",
+     "reason_en": "Caltech physics and medicine led to pioneering isolation work."
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "에살렌 강연과 저작으로 지식인 반문화를 매혹",
+     "reason_en": "Esalen lectures and books made him a counterculture draw."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "케타민을 수년간 스스로 주사하며 의식 실험",
+     "reason_en": "He self-injected ketamine for years as consciousness research."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "수십 년간 기록·저술과 자기 실험을 병행",
+     "reason_en": "Decades of recording, writing and self-experiment."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "의식 상태를 스스로 관찰·기록한 수십 권의 노트",
+     "reason_en": "He logged his own states of mind across volumes of notes."
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "LSD를 든 채 고립수조에 들어가는 실험을 반복",
+     "reason_en": "He repeatedly entered the tank on LSD."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "잦은 재혼과 연구 동료 이탈로 곁을 지키지 못함",
+     "reason_en": "Repeated remarriages and departing colleagues mark his ties."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "돌고래 권리를 옹호하며 인간-동물 소통을 주창",
+     "reason_en": "He championed dolphins' rights and interspecies talk."
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "무자격 자원자 로바트에게 핵심 실험을 맡김",
+     "reason_en": "He trusted the key experiment to volunteer Lovatt."
+    },
+    "humility": {
+     "score": 28,
+     "reason_ko": "지구외 존재와 접신했다는 주장을 저작에 실음",
+     "reason_en": "He published claims of contact with alien agencies."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "의식 확장의 가능성을 믿되 위험한 존재도 경고",
+     "reason_en": "He trusted mind expansion yet warned of hostile entities."
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "제도권 약물 규범과 의식 관습을 정면으로 거스름",
+     "reason_en": "He defied drug norms and conventions of consciousness."
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "수조 안 홀로 의식의 한계를 탐구한 고독한 탐험",
+     "reason_en": "He explored consciousness alone inside the tank."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "자기 뇌에 약물과 고립을 가하는 극단 실험을 감행",
+     "reason_en": "He ran extreme trials of drugs and isolation on his own brain."
+    }
+   },
+   "rationale_ko": "칼텍과 의대를 나온 과학자가 고립수조와 돌고래 연구를 열었으나 약물 자기 실험이 그를 학계 경계 밖으로 밀어냈다. 극단의 대담함과 자기 관찰은 높은 용기와 낮은 절제의 동전 양면이다. 동료와 가정 곁을 지키지 못한 대신 의식 확장의 가능성을 끝까지 좇았다. 그의 수조는 지금도 플로팅 치료로 살아 있다.",
+   "rationale_en": "A Caltech-trained physician-scientist, he opened isolation tanks and dolphin research, then let drug self-experiments carry him beyond the pale. His extreme boldness and self-observation are two faces of the same coin — high courage, low temperance. He lost colleagues and marriages while chasing expanded consciousness alone. His tank survives today as the flotation industry."
+  }
+ },
+ "티머시 리어리": {
+  "influence": {
+   "political": 3,
+   "political_exp": "반문화의 정치 상징으로 닉슨의 표적이 됨",
+   "political_exp_en": "As counterculture icon he became Nixon's named enemy.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 4,
+   "tech_exp": "실로시빈 재범 실험으로 사이키델릭 연구를 개척",
+   "tech_exp_en": "His psilocybin prison studies pioneered the field.",
+   "social": 6,
+   "social_exp": "'켜고 맞추고 빠져라'가 60년대 구호가 됨",
+   "social_exp_en": "'Turn on, tune in, drop out' became a decade's motto.",
+   "economic": 1,
+   "economic_exp": "강연·저작 수익 외 산업 변화 없음",
+   "economic_exp_en": "Lectures and books earned money but moved no industry.",
+   "cultural": 6,
+   "cultural_exp": "사이키델릭 음악·예술 붐에 직접 불을 붙임",
+   "cultural_exp_en": "He lit the psychedelic boom in music and art.",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "환각제 논쟁의 상징으로 문화사에 고정",
+   "transhistoricity_exp_en": "He is fixed in history as the emblem of the drug debate."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "밀브룩 공동체와 '영적 발견 연맹'을 세워 이끔",
+     "reason_en": "He founded and led the Millbrook circle and the League."
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "웨스트포인트 입학·수감·탈옥을 견딘 신체 이력",
+     "reason_en": "West Point, prison and a jailbreak on his body's record."
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "대인관계 진단 원형을 만들어 심리 측정에 기여",
+     "reason_en": "His interpersonal circumplex remains a psychometric tool."
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "하버드 강단부터 전국 집회까지 청중을 홀린 설교",
+     "reason_en": "From Harvard halls to mass rallies he held crowds."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "평생 약물과 쾌락을 절제 없이 추구",
+     "reason_en": "He pursued drugs and pleasure without restraint."
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "수십 권의 저작과 전국 강연을 말년까지 이어감",
+     "reason_en": "Dozens of books and tours ran to the end."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "자기 신화를 갱신하며 재포장했으나 근본 회의는 드묾",
+     "reason_en": "He rebranded himself often but seldom doubted the core."
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1970년 교도소 탈옥 뒤 알제리 망명지로 도주",
+     "reason_en": "He escaped prison in 1970 and fled to Algeria."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "다섯 번의 혼인과 FBI 진술 논란으로 신의를 잃음",
+     "reason_en": "Five marriages and FBI statements cost him trust."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "환각제로 인류 해방을 진심으로 믿고 전도",
+     "reason_en": "He sincerely preached liberation through psychedelics."
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "체포 뒤 FBI 심문에 일부 진술을 내줘 논란",
+     "reason_en": "He gave the FBI some statements after capture, stirring dispute."
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "스스로 사이키델릭 시대의 예언자를 자처",
+     "reason_en": "He cast himself as prophet of the psychedelic age."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "죽음조차 '다음 여행'이라 부르며 맞이",
+     "reason_en": "He faced death calling it the next trip."
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "권위·직업·가정 규범의 전면 해체를 설교",
+     "reason_en": "He preached dismantling authority, work and family norms."
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "개인 의식의 확장을 공동체 의무보다 앞세움",
+     "reason_en": "Personal expansion outranked communal duty for him."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "탈옥과 전국 설교를 전과자 몸으로 감행",
+     "reason_en": "As a fugitive he still staged escapes and tours."
+    }
+   },
+   "rationale_ko": "하버드 측정 심리학자에서 LSD 전도사로 돌아선 대담한 자기 재창조의 대가다. 청중을 홀리는 매력과 탈옥의 용기가 그를 반문화의 사제로 만들었으나 절제·성찰·신의는 뒤로 밀렸다. 질서 전복의 설교는 대담함만큼 극단이었다. 죽음을 앞두고도 그는 그것을 마지막 쇼로 만들었다.",
+   "rationale_en": "A Harvard psychometrician who reinvented himself as LSD evangelist, he was a bold self-creator. Crowd-holding charm and jailbreak courage made him the counterculture's priest while temperance, reflection and fidelity lagged behind. His gospel of overthrowing order matched his daring. Facing death, he turned it into a final performance."
+  }
+ },
+ "아타나시우스 키르허": {
+  "influence": {
+   "political": 1,
+   "political_exp": "제후·교황 자문 외 정책 변화는 미미",
+   "political_exp_en": "He advised princes but moved no policy.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 5,
+   "tech_exp": "현미경 페스트 '벌레'설과 지학·자기학 정리",
+   "tech_exp_en": "Microscopic 'worms' for plague, plus earth and magnet studies.",
+   "social": 1,
+   "social_exp": "사회 제도 개입 기록이 드묾",
+   "social_exp_en": "Little engagement with social institutions.",
+   "economic": 1,
+   "economic_exp": "박물관이 로마의 명소로 수익을 낳음",
+   "economic_exp_en": "His museum became a Roman attraction.",
+   "cultural": 6,
+   "cultural_exp": "이집트·중국 상상을 한 세기 유럽에 공급",
+   "cultural_exp_en": "He supplied Europe's images of Egypt and China for a century.",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "40권 백과 저작이 두 세기 지식 참고서로 기능",
+   "transhistoricity_exp_en": "Forty volumes served as Europe's reference for two centuries."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "로마 예수회대 교수직과 자기 박물관을 수십 년 운영",
+     "reason_en": "He held a Roman chair and ran his museum for decades."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "역병기 유럽을 종횡하며 시칠리아까지 순회",
+     "reason_en": "He criss-crossed plague-era Europe down to Sicily."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "40권에 걸쳐 지학·음학·동방학을 꿴 박식",
+     "reason_en": "Forty volumes spanning earth, music and the East."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "기묘품 박물관이 유럽 여행자의 순례지가 됨",
+     "reason_en": "His cabinet of curiosities drew Europe's travellers."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "예수회 수사의 규율 아래 평생 저술에 몰두",
+     "reason_en": "A Jesuit's discipline under a life of writing."
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "거의 해마다 대작을내며 죽는 날까지 집필",
+     "reason_en": "A major work almost yearly until his death."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "상형문자 '해독'의 오류를 끝내 인정하지 않음",
+     "reason_en": "He never conceded his hieroglyph readings were wrong."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "1656년 페스트 환자 곁에서 현미경 관찰을 수행",
+     "reason_en": "He examined plague victims at close range in 1656."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "30년 전쟁·종파 갈등 속에서도 예수회에 헌신",
+     "reason_en": "Through the Thirty Years War he kept Jesuit obedience."
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "페스트 돌봄과 가난한 학자 후원을 병행",
+     "reason_en": "He nursed in the plague and aided poor scholars."
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "근거 없는 해독을 확신으로 발표해 학계를 오도",
+     "reason_en": "He published unfounded decipherments as fact, misleading scholarship."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "자기 이름의 박물관과 초상으로 업적을 과시",
+     "reason_en": "A self-named museum and portraits advertised his glory."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "만물이 조화로운 하나의 지식이라 확신",
+     "reason_en": "He trusted all knowledge formed one harmony."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "반종교개혁 예수회 질서의 충실한 수호자",
+     "reason_en": "A faithful guardian of Counter-Reformation order."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "760명 서신망과 수도회 공동체 안에서 작업",
+     "reason_en": "He worked inside a 760-correspondent network and his order."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "검증 없는 대담한 가설을 거침없이 발표",
+     "reason_en": "He published bold unverified conjectures without pause."
+    }
+   },
+   "rationale_ko": "예수회 규율 안에서 평생 대작을 쏟아낸 근면의 박식가이나, 근거 없는 해독을 확신으로 발표한 과신이 학계를 오도했다. 페스트 환자 곁의 현미경 관찰과 교단에 대한 충성은 용기와 헌신의 진면목을 보여준다. 자기 박물관을 세운 과시욕은 겸양을 깎았다. 그의 백과 저작은 두 세기 동안 유럽의 지식 지도가 됐다.",
+   "rationale_en": "A tireless Jesuit polymath, he poured out volumes yet published unfounded decipherments as fact, misleading scholarship. Nursing in the plague and lifelong order loyalty show real courage and devotion, while the self-named museum betrays his vanity. His encyclopaedias mapped European knowledge for two centuries."
+  }
+ },
+ "파라켈수스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 제도와 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 7,
+   "tech_exp": "'용량이 독을 정한다'로 독성학·화학의약을 개척",
+   "tech_exp_en": "'The dose makes the poison' founded toxicology and chemical medicine.",
+   "social": 4,
+   "social_exp": "라틴어 대신 모국어 저술로 의학 지식 특권을 깸",
+   "social_exp_en": "Writing in the vernacular broke medicine's knowledge monopoly.",
+   "economic": 1,
+   "economic_exp": "광산 의학 연구 외 산업 변화는 미미",
+   "economic_exp_en": "Mine-medicine studies; little industrial change.",
+   "cultural": 5,
+   "cultural_exp": "방랑 마술사-의사의 원형으로 파우스트 전설에 스밈",
+   "cultural_exp_en": "He fed the Faust legend as the wandering mage-physician.",
+   "transhistoricity": 22,
+   "transhistoricity_exp": "근대 약리학의 원리로 지금도 가르치는 토대",
+   "transhistoricity_exp_en": "His dose principle is still taught as pharmacology's base."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "바젤 시의사·강좌를 맡았으나 1년 만에 쫓겨남",
+     "reason_en": "He held Basel's civic post a year before expulsion."
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "군의관 종군과 평생의 도보 방랑을 견딘 체력",
+     "reason_en": "Army-surgeon service and a lifetime of wandering on foot."
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "직업병 관찰과 용량-반응 개념을 최초로 정리",
+     "reason_en": "He first framed occupational disease and dose-response."
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "강의에 몰린 청중과 등진 동료가 공존",
+     "reason_en": "Crowds flocked to his lectures while peers recoiled."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "권위 의서를 불태우고 동료와 독설로 싸움",
+     "reason_en": "He burned the canon and fought colleagues with venom."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "방랑 중에도 수백 편 저술과 진료를 멈추지 않음",
+     "reason_en": "Hundreds of treatises amid endless wandering and doctoring."
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "바젤 추방 뒤에도 자신의 옳음을 의심하지 않음",
+     "reason_en": "Exile from Basel never shook his certainty."
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "1527년 권위 의서를 공개 연소해 의학계에 도전",
+     "reason_en": "In 1527 he publicly burned the medical canon."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "어느 도시·후원자 곁에도 오래 머물지 못함",
+     "reason_en": "No city or patron held him long."
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "광산 노동자의 직업병을 처음 주목해 치료",
+     "reason_en": "He first noticed and treated the diseases of miners."
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "귀족이든 학자든 같은 독설로 비판",
+     "reason_en": "Nobles and scholars met the same vitriol."
+    },
+    "humility": {
+     "score": 12,
+     "reason_ko": "스스로 '켈수스를 능가하는 자'라는 이름을 씀",
+     "reason_en": "He named himself 'greater than Celsus'."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "새 지식으로 병을 고칠 수 있다고 확신",
+     "reason_en": "He trusted new knowledge could cure disease."
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "의사 계급과 학문 특권을 정면으로 부정",
+     "reason_en": "He denied the physician caste and learned privilege outright."
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "평생 어느 조직에도 속하지 않고 방랑",
+     "reason_en": "He wandered lifelong outside every institution."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "권위를 불태우고 어느 도시든 곧장 도전",
+     "reason_en": "He burned authority and challenged every city at once."
+    }
+   },
+   "rationale_ko": "광산 노동자의 병을 보며 '독은 양이 정한다'는 원리를 세운 관찰의 천재다. 권위 의서를 불태운 대담함이 의학을 바꿨으나, 같은 불길이 동료와 도시를 적으로 만들어 어디에도 머물지 못했다. 절제·성찰·겸양의 부재는 자신이 지은 이름에 드러난다. 그의 용량-반응 개념은 지금도 독성학의 첫 문장이다.",
+   "rationale_en": "A genius of observation, he framed the dose principle while treating miners' diseases. The boldness that burned the medical canon transformed medicine and made enemies of every city and colleague, so he never settled. Want of temperance, reflection and humility is written in the name he gave himself. His dose-response idea still opens every textbook of toxicology."
+  }
+ },
+ "실베스터 그레이엄": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 직위·제도 개입 없음",
+   "political_exp_en": "No office or policy role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 2,
+   "tech_exp": "식이·위생 담론의 원조로 건강 개혁 흐름에 기여",
+   "tech_exp_en": "His diet doctrine fed early health-reform science.",
+   "social": 6,
+   "social_exp": "'그레이엄식' 운동이 절주·채식 개혁의 뿌리",
+   "social_exp_en": "Grahamism seeded temperance and vegetarian reform.",
+   "economic": 3,
+   "economic_exp": "이름 붙은 크래커가 식품 산업에 남음",
+   "economic_exp_en": "His name survives in a cracker industry.",
+   "cultural": 5,
+   "cultural_exp": "미국 식탁의 크래커와 건강 광신의 원형이 됨",
+   "cultural_exp_en": "He stamped the American table and diet-fad culture.",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "180년 가까이 과자로 이름이 살아남음",
+   "transhistoricity_exp_en": "Nearly two centuries on, his name is still a snack."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "설교·저작으로 전국 식이 개혁 운동을 점화",
+     "reason_en": "Sermons and tracts ignited a national diet movement."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "1830년대 전국 강연 순회를 소화한 체력",
+     "reason_en": "He endured lecture tours across 1830s America."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "해부학 지식을 동원해 식이 이론 체계를 지음",
+     "reason_en": "He built a dietary system on anatomical arguments."
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "전국 강연에 청중이 몰려 '그레이엄파'를 낳음",
+     "reason_en": "Crowds flocked and 'Grahamites' formed."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "술·고기·향신료를 끊는 삶을 몸소 실천",
+     "reason_en": "He lived the abstinence he preached."
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "20년간 개혁 강연과 저술을 쉬지 않음",
+     "reason_en": "Two decades of lecturing and writing without pause."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "자신의 식이 체계를 교리처럼 고수",
+     "reason_en": "He held his diet system like dogma."
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "1837년 정육업자 폭도의 습격 속에서도 강연 강행",
+     "reason_en": "He lectured on amid a butchers' riot in 1837."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "절주·식이 개혁 한 길을 평생 고수",
+     "reason_en": "He kept one reform cause all his life."
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "가난한 이의 건강을 위한다며 개혁을 전도",
+     "reason_en": "He preached reform for the health of the poor."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "식이 원칙에 예외를 두지 않아 가족에게도 적용",
+     "reason_en": "No exceptions — his own table kept the rule."
+    },
+    "humility": {
+     "score": 42,
+     "reason_ko": "자기 이름이 붙은 운동을 직접 이끄는 전도사",
+     "reason_en": "He fronted the movement that bore his name."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "식이만 바꾸면 인간이 완전해진다고 믿음",
+     "reason_en": "He believed diet could perfect mankind."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "욕정 억제와 근본주의 도덕 질서를 설교",
+     "reason_en": "He preached lust-suppression and moral order."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "그레이엄파 하숙 공동체와 집단 개혁을 조성",
+     "reason_en": "Grahamite boarding houses formed a communal movement."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "폭동 위협 속에서도 채식·금주 설교를 계속",
+     "reason_en": "He kept preaching diet and abstinence through riot threats."
+    }
+   },
+   "rationale_ko": "정욕을 다스리는 식단이 곧 구원이라는 단순한 확신이 미국을 휩쓴 개혁 운동을 만들었다. 몸소 절제된 삶을 살고 폭도 앞에서도 강연을 강행한 점에서 신념과 행동이 일치했다. 체계를 교리처럼 고수한 경직성이 성찰을 낮췄다. 그의 이름은 오늘도 크래커 위에 남아 있다.",
+   "rationale_en": "A simple conviction — that diet could master lust — built a reform movement that swept America. He lived his own ascetic rule and lectured through mob threats, so deed matched creed, though rigidity dulled reflection. His name still sits on a cracker today."
+  }
+ },
+ "존 하비 켈로그": {
+  "influence": {
+   "political": 2,
+   "political_exp": "우생학 재단으로 '인종 개량' 정책 논의에 개입",
+   "political_exp_en": "His Race Betterment Foundation entered eugenics policy talk.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 4,
+   "tech_exp": "요양원 발명품과 콘플레이크로 식품·재활 기술 확산",
+   "tech_exp_en": "Sanitarium devices and cornflakes spread food and rehab tech.",
+   "social": 5,
+   "social_exp": "위생·식이 규범을 미국 중산층 생활에 정착",
+   "social_exp_en": "He lodged hygiene and diet norms in middle-class life.",
+   "economic": 5,
+   "economic_exp": "콘플레이크가 세계 시리얼 산업의 씨가 됨",
+   "economic_exp_en": "Cornflakes seeded the global cereal industry.",
+   "cultural": 5,
+   "cultural_exp": "아침 시리얼 문화와 건강 산업의 상징을 만듦",
+   "cultural_exp_en": "He invented cereal-breakfast culture and the wellness image.",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "시리얼 아침식사가 세계 일상으로 정착",
+   "transhistoricity_exp_en": "The cereal breakfast settled into daily life worldwide."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "배틀크릭 요양원을 60년 넘게 경영해 수천을 거늘림",
+     "reason_en": "He ran the Battle Creek Sanitarium sixty-plus years."
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "매일 운동 기구와 자전거를 쓰며 91세까지 활동",
+     "reason_en": "Daily machines and cycling carried him to 91."
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "수백 건의 의료 기구와 식품 발명을 남김",
+     "reason_en": "Hundreds of medical devices and food inventions."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "요양원이 대통령·명사들의 순례지가 됨",
+     "reason_en": "Presidents and celebrities made his spa a shrine."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "금주·채식 규범을 평생 스스로 지킴",
+     "reason_en": "He kept his own teetotal vegetarian rule for life."
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "새벽부터 자정까지 진료·저술·발명을 병행",
+     "reason_en": "Dawn to midnight: patients, books, inventions."
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "우생학과 동생과의 갈등을 끝내 되돌아보지 않음",
+     "reason_en": "He never revisited eugenics or the feud with Will."
+    },
+    "courage": {
+     "score": 52,
+     "reason_ko": "시대를 앞선 수술·치료법을 거침없이 도입",
+     "reason_en": "He adopted untried surgeries and cures without flinching."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 42,
+     "reason_ko": "안식교회 파문과 형제 법정 다툼으로 끈이 끊어짐",
+     "reason_en": "Church expulsion and a brother's lawsuits cut his ties."
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "부부가 수십 명의 아이를 거둬 키움",
+     "reason_en": "He and his wife fostered scores of children."
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "우생학 단체를 이끌며 인종 서열 사상을 옹호",
+     "reason_en": "His eugenics foundation preached racial ranking."
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "수십 권 저작과 강연으로 자기 건강 철학을 선전",
+     "reason_en": "He promoted his health creed across books and platforms."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "인류 건강을 고칠 수 있다는 개혁 낙관",
+     "reason_en": "Reformer's optimism that health could be remade."
+    },
+    "conservative_progressive": {
+     "score": -18,
+     "reason_ko": "금욕·우생학 등 당대 도덕 질서 편에 섬",
+     "reason_en": "He stood with the era's moral order — abstinence and eugenics."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "수천 명이 머무는 요양 공동체를 평생 운영",
+     "reason_en": "He ran a residential health community for life."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "검증 안 된 치료법과 발명을 곧장 실용화",
+     "reason_en": "Unproven cures and devices went straight into use."
+    }
+   },
+   "rationale_ko": "60년 넘게 요양원을 굴린 경영자이자 수백 건의 발명가로, 근면과 통솔이 그를 건강 산업의 왕으로 만들었다. 몸소 규범을 지킨 절제와 수십 아이를 거둔 인자가 돋보이나, 우생학 옹호와 형제와의 평생 다툼이 공정과 충성을 깎았다. 자기 철학 선전에 열심이었던 만큼 겸양은 낮다. 콘플레이크는 그의 모든 이론보다 오래 살아남았다.",
+   "rationale_en": "A sixty-year sanitarium director and serial inventor, his diligence and command crowned him king of the health industry. Personal asceticism and the fostering of scores of children show real virtue, offset by eugenics advocacy and a lifelong feud with his brother. Self-promotion outran humility. The cornflake outlived every theory he preached."
+  }
+ }
+}

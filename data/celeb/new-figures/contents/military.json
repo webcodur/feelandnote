@@ -1,0 +1,184 @@
+{
+  "에이드리언 카턴 드 비야르": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "매드 잭 처칠": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "시모 해위해": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오디 머피": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "비톨트 필레츠키": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "그리스도를 본받아",
+        "title_en": "The Imitation of Christ",
+        "creator": "토마스 아 켐피스",
+        "year": 1418,
+        "status": "FINISHED",
+        "source_url": "https://archiwum.ipn.gov.pl/download/1/1007018/ReportWPilecki.pdf",
+        "evidence": "폴란드 국가기억원(IPN) 자료집은 필레츠키가 처형 전 마지막 면회에서 아내에게 자녀들이 토마스 아 켐피스의 《그리스도를 본받아》를 늘 읽게 해 달라 부탁했으며, 이 책이 그의 일생에 방향과 용기를 줬다고 전한다.",
+        "review": "비톨트 필레츠키는 처형 전 아내와의 마지막 면회에서 자녀들이 토마스 아 켐피스의 《그리스도를 본받아》를 늘 읽도록 해 달라고 당부했다. 평생 그에게 방향과 용기를 준 책이었다고 폴란드 국가기억원 자료가 전한다.",
+        "review_en": "Witold Pilecki asked his wife at their last prison visit before his execution to have their children always read The Imitation of Christ. The book had given him direction and courage throughout his life, Poland's Institute of National Remembrance records."
+      }
+    ]
+  },
+  "데즈먼드 도스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.latimes.com/archives/la-xpm-2006-mar-26-me-doss26-story.html",
+        "evidence": "LA타임스 부고 기사는 도스가 괌·레이테·오키나와 전장에 주머니용 성경을 지니고 들어가 부상병을 돌보지 않을 때는 성경을 읽었다고 전한다.",
+        "review": "데즈먼드 도스는 총 대신 주머니용 성경을 지니고 괌과 레이테, 오키나와 전장에 들어갔고, 부상병을 돌보지 않을 때는 성경을 읽었다. LA타임스 부고가 전하는 그의 유일한 '무기'였다.",
+        "review_en": "Desmond Doss carried a pocket-size Bible onto Guam, Leyte and Okinawa. When not treating the wounded he would read Scripture, his Los Angeles Times obituary records."
+      }
+    ]
+  },
+  "오노다 히로오": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "스타니슬라프 페트로프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "바실리 아르히포프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "토머스 블러드": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "잭 셰퍼드": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로만 폰 운게른슈테른베르크": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "네스토르 마흐노": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "상호부조론",
+        "title_en": "Mutual Aid: A Factor of Evolution",
+        "creator": "표트르 크로폿킨",
+        "year": 1902,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Nestor_Makhno",
+        "evidence": "위키백과 마흐노 항목은 그가 부티르카 감옥에서 다른 수감자들을 통해 러시아 역사와 정치 이론을 배우며 크로폿킨의 《상호부조론》에 특별한 관심을 가졌다고 전한다.",
+        "review": "네스토르 마흐노는 부티르카 감옥에 수감된 동안 동료 수감자들을 통해 러시아 역사와 정치 이론을 배웠다. 그 과정에서 크로폿킨의 《상호부조론》에 특별한 관심을 가졌다고 전해진다.",
+        "review_en": "Nestor Makhno learned Russian history and political theory from fellow prisoners during his years in Butyrka prison. He took a particular interest in Kropotkin's Mutual Aid: A Factor of Evolution."
+      }
+    ]
+  },
+  "오드 윈게이트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.timesofisrael.com/75-years-after-his-death-why-orde-wingate-remains-a-hero-in-israel/",
+        "evidence": "타임스 오브 이스라엘 기사는 선교사 가정에서 자란 윈게이트가 팔레스타인 주둔 시절 성경을 가는 곳마다 지니고 다녔고, 그의 성경이 현재 키부츠 에인 하로드의 박물관에 전시돼 있다고 전한다.",
+        "review": "오드 윈게이트는 선교사의 아들로 자라며 성경을 암송할 만큼 익혔고, 팔레스타인에 주둔할 때도 가는 곳마다 성경을 지니고 다녔다. 그가 사용한 성경은 현재 키부츠 에인 하로드의 박물관에 전시돼 있다.",
+        "review_en": "Orde Wingate, raised by missionary parents to memorise extensive portions of the Bible, carried a Bible wherever he went in pre-state Israel. His own Bible is now displayed in the museum at Kibbutz Ein Harod."
+      },
+      {
+        "type": "BOOK",
+        "title": "사사기",
+        "title_en": "Book of Judges",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.timesofisrael.com/75-years-after-his-death-why-orde-wingate-remains-a-hero-in-israel/",
+        "evidence": "같은 기사는 사사기 7장의 기드온이 윈게이트의 영웅이었고, 그가 에티오피아에서 지휘한 부대를 '기드온 포스'로 명명했으며 박물관 벽에 사사기 구절이 전시돼 있다고 전한다.",
+        "review": "오드 윈게이트는 사사기의 기드온을 자신의 영웅으로 삼아, 에티오피아에서 이탈리아군과 싸운 부대에 '기드온 포스'라는 이름을 붙였다. 키부츠 에인 하로드의 박물관 벽에는 그의 영웅을 다룬 사사기 7장이 적혀 있다.",
+        "review_en": "Orde Wingate made Gideon of the Book of Judges his hero, naming the force he commanded against the Italians in Ethiopia the Gideon Force. Verses from Judges chapter 7, telling of his hero, hang on the museum wall at Kibbutz Ein Harod."
+      }
+    ]
+  },
+  "블라디미르 페니아코프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

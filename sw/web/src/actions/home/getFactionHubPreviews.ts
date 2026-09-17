@@ -2,11 +2,10 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { selectVisibleAtlasMembers } from '@/lib/faction-atlas-members'
+import { selectVisibleFactionMembers } from '@/lib/faction-members'
 
 const HUB_TAG_LIMIT = 4
 
@@ -28,13 +27,13 @@ interface HubTagRow {
   description: string | null
   description_en: string | null
   color: string
-  parent_id: string | null
+  lv1_id: string
   team_images: unknown
   is_featured: boolean | null
 }
 
 interface HubAssignmentRow {
-  tag_id: string
+  lv2_id: string
 }
 
 export interface FactionHubPreview {
@@ -50,9 +49,11 @@ export interface FactionHubPreview {
 
 async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   const db = createStaticClient()
+  /* 공개된 세력(lv2)만 쓰되 신화 가지는 뺀다 — 신화는 신화 화면이 따로 다룬다(26.09.14) */
   const { data: tags, error: tagsError } = await db
-    .from('celeb_tags')
-    .select('id, slug, name, name_en, description, description_en, color, parent_id, team_images, is_featured')
+    .from('faction_lv2')
+    .select('id, slug, name, name_en, description, description_en, color, lv1_id, team_images, is_featured')
+    .eq('is_myth', false)
     .order('sort_order', { ascending: true })
 
   if (tagsError) {
@@ -60,20 +61,17 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   }
   if (!tags?.length) return []
 
-  /* 공개된 세력만 쓰되 신화 갈래는 뺀다 — 신화는 신화 화면이 따로 다룬다(26.09.14).
-     신화 갈래는 공개 여부와 무관하게 전체 태그로 가려내야 부모가 닫혀 있어도 자손이 걸린다 */
-  const mythTagIds = mythBranchTagIds(tags as HubTagRow[])
-  const tagRows = (tags as HubTagRow[]).filter((tag) => tag.is_featured === true && !mythTagIds.has(tag.id))
+  const tagRows = (tags as HubTagRow[]).filter((tag) => tag.is_featured === true)
   const tagIds = tagRows.map((tag) => tag.id)
-  // 사람이 있는 테마만 가려낸다. 태그 묶음으로 읽던 때 한 묶음이 1,000행을 넘어 잘려, 잘린 테마가
+  // 사람이 있는 세력만 가려낸다. 태그 묶음으로 읽던 때 한 묶음이 1,000행을 넘어 잘려, 잘린 세력이
   // 「사람 없음」으로 빠졌다(26.09.14). 공통 읽기로 끝까지 받는다
-  const assignments = await selectVisibleAtlasMembers<HubAssignmentRow>(db, 'tag_id', tagIds)
-  const tagIdsWithPeople = new Set(assignments.map((assignment) => assignment.tag_id))
+  const assignments = await selectVisibleFactionMembers<HubAssignmentRow>(db, 'lv2_id', tagIds)
+  const tagIdsWithPeople = new Set(assignments.map((assignment) => assignment.lv2_id))
 
   /*
     허브 4장은 종류를 섞는다 — 앞 순번만 뽑으면 인공지능 테마만 나온다.
     사람이 고른 편성(HUB_PINNED_SLUGS)이 먼저고, 남은 자리는 자동 규칙이 채운다.
-    자동 규칙: 대분류(상위 묶음)가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
+    자동 규칙: 대분류가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
   */
   const hasPeople = (tag: HubTagRow) => tagIdsWithPeople.has(tag.id)
   const coverOf = (tag: HubTagRow) => toTeamImages(tag.team_images)[0]?.url ?? null
@@ -86,7 +84,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
     if (selectedTags.length >= HUB_TAG_LIMIT) break
     const tag = tagBySlug.get(slug)
     if (!tag || selectedTags.includes(tag) || !hasPeople(tag)) continue
-    usedParents.add(tag.parent_id ?? tag.id)
+    usedParents.add(tag.lv1_id)
     selectedTags.push(tag)
   }
 
@@ -95,9 +93,8 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
       if (selectedTags.length >= HUB_TAG_LIMIT) break
       if (selectedTags.includes(tag) || !hasPeople(tag)) continue
       if (requireCover && !coverOf(tag)) continue
-      const parentKey = tag.parent_id ?? tag.id
-      if (usedParents.has(parentKey)) continue
-      usedParents.add(parentKey)
+      if (usedParents.has(tag.lv1_id)) continue
+      usedParents.add(tag.lv1_id)
       selectedTags.push(tag)
     }
   }

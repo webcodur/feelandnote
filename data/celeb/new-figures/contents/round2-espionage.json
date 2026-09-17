@@ -1,0 +1,209 @@
+{
+  "조르주 라두": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오자키 호쓰미": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오이겐 오트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "막스 클라우젠": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "보리스 사빈코프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "전쟁과 평화",
+        "title_en": "War and Peace",
+        "creator": "레프 톨스토이",
+        "year": 1869,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.1111/russ.12166",
+        "evidence": "학술지 '러시아 리뷰'의 논문은 사빈코프가 소설 《일어나지 않았던 일》을 쓸 때 《전쟁과 평화》를 실망을 표현하는 형식·주제·역사철학적 자원의 모범으로 삼았다고 분석한다.",
+        "review": "보리스 사빈코프는 자신의 소설 《일어나지 않았던 일》을 쓸 때 톨스토이의 《전쟁과 평화》를 모범으로 삼았다. '러시아 리뷰'에 실린 분석은 그가 이 작품에서 혁명의 실패를 표현하는 여러 층위의 자원을 빌렸다고 본다.",
+        "review_en": "Boris Savinkov modelled his novel What Didn't Happen on Tolstoy's War and Peace, drawing on its formal, thematic and historiosophical resources, a Russian Review article argues."
+      }
+    ]
+  },
+  "토마스 해리스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "카를에리히 퀼렌탈": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "슈테판 폰 그뢰닝": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로니 리드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "폴 구이요": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "드니 레이크": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "팻 올리어리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "가와시마 나니와": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "도덕경",
+        "title_en": "Tao Te Ching",
+        "creator": "노자",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://kambun.jp/iboku/kawashima-naniwa.htm",
+        "evidence": "일본 한문 자료 사이트는 가와시마 나니와(호 풍외거사)의 친필 오언 대구 '善行無徴迹'(선한 행동은 자취를 남기지 않는다)이 《노자》 27장의 '善行無轍迹'을 어레인지한 것이라고 지적한다.",
+        "review": "가와시마 나니와는 '선한 행동은 자취를 남기지 않는다'는 오언 대구를 지었는데, 이는 《노자》 27장의 구절을 비틀어 쓴 것이다. 그의 친필 대구를 소개한 한문 자료가 노자 문장과의 관계를 밝히고 있다.",
+        "review_en": "Kawashima Naniwa wrote a five-character couplet — 'good deeds leave no tracks' — as an adaptation of a line from chapter 27 of the Tao Te Ching."
+      }
+    ]
+  },
+  "다나카 류키치": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "휴 네치불-휴게슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "루트비히 모이치슈": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "재닛 치솜": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "카를 리터": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "루돌프 함부르거": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉산더 라도": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "렌 버턴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

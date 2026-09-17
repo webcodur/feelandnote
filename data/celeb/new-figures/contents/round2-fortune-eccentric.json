@@ -1,0 +1,73 @@
+{
+  "노아 디트리히": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "바르톨로메우스 벨저": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "로마 황제 열전",
+        "title_en": "The Twelve Caesars (De vita Caesarum)",
+        "creator": "수에토니우스",
+        "year": 121,
+        "status": "FINISHED",
+        "source_url": "https://www.ecatholic2000.com/cathopedia/vol15/volfifteen553.shtml",
+        "evidence": "카톨릭 백과사전의 벨저 항목은 그의 학문적 관심이 수에토니우스 1548년 아우크스부르크판 소장본 여백에 남긴 주석에서 드러난다고 기록한다.",
+        "review": "바르톨로메우스 벨저는 수에토니우스 《로마 황제 열전》의 1548년 아우크스부르크판을 소장하며 여백에 주석을 남겨 읽었다. 카톨릭 백과사전은 이 필사 주석을 그의 학문적 관심의 증거로 꼽는다.",
+        "review_en": "Bartholomeus Welser read his copy of Suetonius closely enough to annotate its margins. The Catholic Encyclopedia cites his notes in the 1548 Augsburg edition as evidence of his scholarly interest."
+      }
+    ]
+  },
+  "알-사힐리": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "찰스 제임스 애퍼리": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로베르 드 몽테스키우": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "윌리엄 코트니": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조나선 플러머": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "노버트 펄로스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

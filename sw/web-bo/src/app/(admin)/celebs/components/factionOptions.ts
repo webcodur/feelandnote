@@ -1,40 +1,38 @@
-import type { CelebTag } from '@/actions/admin/tags'
+import type { FactionEntry } from '@/actions/admin/factions/entries'
 
-/** 상위 테마 하나와 그에 속한 세력들 */
+/** 분류(L1) 하나와 그에 속한 세력(L2)들 */
 export interface FactionTheme {
   id: string
   name: string
-  /** 비어 있으면 하위 세력이 없는 단독 테마다 */
+  /** 비어 있으면 하위 세력이 없는 단독 분류다 */
   factions: { id: string; name: string }[]
 }
 
 /**
- * 태그 목록을 「상위 테마 → 소속 세력」 두 단으로 나눈다.
- * 들어온 순서(sort_order → 이름)를 그대로 이어받으므로 테마끼리도, 테마 안에서도 정렬된다.
+ * 도감 행 목록을 「분류(L1) → 소속 세력(L2)」 두 단으로 나눈다.
+ * 들어온 순서(sort_order → 이름)를 그대로 이어받으므로 분류끼리도, 분류 안에서도 정렬된다.
  */
-export function buildFactionThemes(tags: CelebTag[]): FactionTheme[] {
-  const childrenByParent = new Map<string, { id: string; name: string }[]>()
-  for (const tag of tags) {
-    if (!tag.parent_id) continue
-    const entry = { id: tag.id, name: tag.name }
-    const siblings = childrenByParent.get(tag.parent_id)
-    if (siblings) siblings.push(entry)
-    else childrenByParent.set(tag.parent_id, [entry])
-  }
+export function buildFactionThemes(entries: FactionEntry[]): FactionTheme[] {
+  const sections = entries.filter((e) => e.level === 1)
+  const factions = entries.filter((e) => e.level === 2)
+  const sectionIds = new Set(sections.map((e) => e.id))
 
-  const topLevelIds = new Set(tags.filter((tag) => !tag.parent_id).map((tag) => tag.id))
-
-  return tags
-    // 상위 테마가 목록에 없는 항목은 잃지 않도록 그 자체를 테마로 올린다
-    .filter((tag) => !tag.parent_id || !topLevelIds.has(tag.parent_id))
-    .map((tag) => ({
-      id: tag.id,
-      name: tag.name,
-      factions: childrenByParent.get(tag.id) ?? [],
-    }))
+  return [
+    ...sections.map((section) => ({
+      id: section.id,
+      name: section.name,
+      factions: factions
+        .filter((f) => f.lv1_id === section.id)
+        .map((f) => ({ id: f.id, name: f.name })),
+    })),
+    // 소속 분류가 목록에 없는 세력은 잃지 않도록 스스로 분류 자리에 선다
+    ...factions
+      .filter((f) => !f.lv1_id || !sectionIds.has(f.lv1_id))
+      .map((f) => ({ id: f.id, name: f.name, factions: [] })),
+  ]
 }
 
-/** 주소창에 남은 세력 값 하나를 「테마 + 세력」 두 칸으로 되돌린다 */
+/** 주소창에 남은 세력 값 하나를 「분류 + 세력」 두 칸으로 되돌린다 */
 export function resolveFactionSelection(
   themes: FactionTheme[],
   faction: string,

@@ -1,6 +1,6 @@
 # 넷씩 넷 (Groups) — 발주서
 
-> 현재 구현은 `celeb_tags`·`celeb_tag_assignments`, `celebs.profession`·`nationality`, `packages/shared/src/constants/celeb-professions.ts`를 기준으로 읽는다. 인물 스키마는 `docs/project/data/03-celeb.md`를 본다.
+> 현재 구현은 `faction_lv2`·`faction_members`, `celebs.profession`·`nationality`, `packages/shared/src/constants/celeb-professions.ts`를 기준으로 읽는다. 인물 스키마는 `docs/project/data/03-celeb.md`를 본다.
 
 ---
 
@@ -59,14 +59,14 @@
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
 | `celebs` | `id`, `nickname`, `nickname_en`, `avatar_url`, `profession`, `nationality`, `publication_status` | 인물 기본 정보 |
-| `celeb_tags` | `id`, `name`, `name_en`, `slug`, `parent_id` | 세력 태그(묶음 기준) |
-| `celeb_tag_assignments` | `celeb_id`, `tag_id` | 인물↔태그 매핑 |
+| `faction_lv2` | `id`, `name`, `name_en`, `slug`, `lv1_id` | 세력(묶음 기준) |
+| `faction_members` | `celeb_id`, `lv2_id` | 인물↔세력 매핑 |
 
 **직군(profession)**: `celebs.profession` — 15종 (`leader`, `politician`, `commander`, `entrepreneur`, `investor`, `scientist`, `humanities_scholar`, `social_scientist`, `director`, `musician`, `visual_artist`, `author`, `actor`, `influencer`, `athlete`)
 
 **국적(nationality)**: `celebs.nationality` — 자유 텍스트, 실측 70+ 국가
 
-**세력 태그(tag)**: `celeb_tags` — 실측 40종 + 계층 구조(parent_id)
+**세력 태그(tag)**: `faction_lv2` — 실측 40종 + 계층 구조(lv1_id)
 
 ---
 
@@ -78,9 +78,9 @@
 getGroupsData()
   → isFixtureMode() 체크 (env 유무)
   → fetchGroupsPool(locale)
-    → celeb_tags (parent_id IS NULL) 조회
-    → celeb_tag_assignments + celebs 임베드 조회
-    → 인원 4명 이상인 태그를 묶음 후보로 등록
+    → faction_lv2 조회
+    → faction_members + celebs 임베드 조회
+    → 인원 4명 이상인 세력을 묶음 후보로 등록
     → 직군별 국적-다양 4명 묶음 추가
   → unstable_cache (7일, tags: ['tags', 'celebs'])
 ```
@@ -167,7 +167,7 @@ gameGroups.result.win / .lose / .winDetail / .loseDetail / .solved / .history / 
 
 2. **겹침 검증의 완전성**: 현재는 풀 조립 시 인물 ID 중복만 체크한다. "한 인물이 여러 축에 걸리는" 의미적 겹침은 출제 풀 설계 단계에서 사전에 걸러야 하며, 런타임에는 ID 기반 검사만 수행한다.
 
-3. **태그 데이터 의존**: `celeb_tag_assignments`의 `sort_order`로 상위 4명만 취하므로, 정렬이 의미 있는지(유명한 인물이 먼저 오는지) 확인 필요.
+3. **세력 데이터 의존**: `faction_members`의 `sort_order`로 상위 4명만 취하므로, 정렬이 의미 있는지(유명한 인물이 먼저 오는지) 확인 필요.
 
 4. **하루 한 판 제한 미구현**: 현재는 날짜 시드로 같은 문제가 나올 뿐, "이미 풀었으면 재플레이 차단"은 없다. localStorage 기반으로 추가 가능하지만 이번 범위에서는 빼고 자유 재플레이로 뒀다.
 

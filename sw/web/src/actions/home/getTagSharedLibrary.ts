@@ -53,9 +53,9 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 
   // 1. 태그에 속한 셀럽 ID 조회 — 뷰가 편성(숨김 제외)을 쥔다
   const { data: assignments, error: assignmentsError } = await db
-    .from("faction_atlas_members")
+    .from("faction_member_rows")
     .select("celeb_id")
-    .eq("tag_id", tagId)
+    .eq("lv2_id", tagId)
     .eq("hidden", false);
 
   // 조회 실패와 "배정된 인물이 없다"를 가른다 — 실패를 빈 목록으로 캐시하면 7일간 구역이 사라진다
@@ -163,7 +163,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 const getTagSharedLibraryCached = unstable_cache(
   fetchTagSharedLibrary,
   ['tag-shared-library-v3-yes24-edition'],
-  // faction_atlas_members(편성) + celebs + celeb_contents + 한국어 판본
+  // faction_member_rows(편성) + celebs + celeb_contents + 한국어 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 

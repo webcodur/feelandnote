@@ -1,0 +1,606 @@
+{
+ "티코 브라헤": {
+  "relations": [
+   {
+    "to_en": "Johannes Kepler",
+    "to_ko": "요하네스 케플러",
+    "rel_type": "colleague",
+    "note_ko": "브라헤는 케플러를 조수로 채용해 프라하에서 함께 일했고, 브라헤가 죽자 케플러는 그의 관측 자료로 행성법칙을 세웠다.",
+    "note_en": "Brahe hired Kepler as his assistant in Prague, and after Brahe's death Kepler used his observation data to formulate the laws of planetary motion.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Sophie Brahe",
+    "to_ko": "소피 브라헤",
+    "rel_type": "sibling",
+    "note_ko": "여동생 소피는 오빠의 천문대에서 관측과 기록을 돕는 조수로 함께 일한 천문학자였다.",
+    "note_en": "His sister Sophie worked alongside Tycho at his observatories, assisting his observations and records as an astronomer in her own right.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Nicolaus Reimers Bär (Ursus)",
+    "to_ko": "우르수스(니콜라우스 라이머스 베어)",
+    "rel_type": "rival",
+    "note_ko": "우르수스는 티코가 지구 중심 우주 모형을 자기에게서 훔쳤다고 주장했고, 두 사람은 수년간 저작으로 서로를 공격했다.",
+    "note_en": "Ursus claimed Tycho stole the geo-heliocentric model from him, and the two attacked each other in print for years.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Christen Sørensen Longomontanus",
+    "to_ko": "롱고몬타누스",
+    "rel_type": "colleague",
+    "note_ko": "롱고몬타누스는 우라니보르에서 8년간 티코의 유일한 장기 조수로 관측을 함께했고, 사후 그의 데이터로 자기 천문학을 세웠다.",
+    "note_en": "Longomontanus was Tycho's sole long-term assistant at Uraniborg for eight years, later building his own astronomy on his mentor's data.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "헨리 캐번디시": {
+  "relations": [
+   {
+    "to_en": "Lord Charles Cavendish",
+    "to_ko": "찰스 캐번디시 경",
+    "rel_type": "father",
+    "note_ko": "왕립학회 회원이던 아버지 찰스는 아들의 실험실을 꾸려 주고 자기 실험의 파트너로 삼은 첫 과학 동료였다.",
+    "note_en": "His father Charles, a Fellow of the Royal Society, equipped Henry's laboratory and made him partner in his own experiments.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "James Watt",
+    "to_ko": "제임스 와트",
+    "rel_type": "rival",
+    "note_ko": "캐번디시가 물의 합성 실험을 발표하자 와트가 자기 우선권을 주장했고, '물 논쟁'으로 불리는 우선권 분쟁이 벌어졌다.",
+    "note_en": "When Cavendish published his synthesis of water, Watt asserted his own priority, sparking the dispute known as the 'water controversy'.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Antoine Lavoisier",
+    "to_ko": "앙투안 라부아지에",
+    "rel_type": "rival",
+    "note_ko": "라부아지에는 캐번디시의 물 실험 소식을 듣고 자기 이론의 증거로 먼저 발표해, 물의 조성 발견 우선권을 두고 격돌했다.",
+    "note_en": "Lavoisier heard of Cavendish's water experiment and rushed to publish it as proof of his own theory, contesting priority for the discovery.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Joseph Priestley",
+    "to_ko": "조지프 프리스털리",
+    "rel_type": "colleague",
+    "note_ko": "프리스털리와 캐번디시는 기체 화학의 선구자로 서로의 실험 결과를 편지로 주고받으며 연구를 발전시켰다.",
+    "note_en": "Priestley and Cavendish, pioneers of pneumatic chemistry, exchanged experimental results by letter and built on each other's work.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "윌리엄 버클랜드": {
+  "relations": [
+   {
+    "to_en": "William Conybeare",
+    "to_ko": "윌리엄 코니베어",
+    "rel_type": "friend",
+    "note_ko": "코니베어는 버클랜드의 절친으로 함께 지질 답사를 다니고 플레지오사우루스 기재 등 초기 화석 연구를 나누었다.",
+    "note_en": "Conybeare, Buckland's closest friend, joined his geological excursions and shared early fossil work including the plesiosaur description.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Mary Anning",
+    "to_ko": "메리 애닝",
+    "rel_type": "colleague",
+    "note_ko": "버클랜드는 라임 레지스의 애닝에게서 화석을 사들이고, 그녀가 찾은 배설물 화석을 '코프롤라이트'로 이름 붙여 연구했다.",
+    "note_en": "Buckland bought fossils from Anning at Lyme Regis and coined 'coprolite' for the specimens she found, studying them in print.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Mary Buckland",
+    "to_ko": "메리 벌클랜드",
+    "rel_type": "spouse",
+    "note_ko": "메리는 화석 수집가이자 삽화가로 남편의 저작 삽화를 그리고 함께 표본을 수집한 연구 동반자였다.",
+    "note_en": "Mary, a fossil collector and illustrator, drew the plates for Buckland's books and collected specimens beside him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Charles Lyell",
+    "to_ko": "찰스 라이엘",
+    "rel_type": "colleague",
+    "note_ko": "라이엘은 옥스퍼드에서 버클랜드의 강의를 들었고, 격변론과 점진론을 두고 논쟁하면서도 함께 야외 조사를 다닌 동료였다.",
+    "note_en": "Lyell attended Buckland's Oxford lectures; they argued catastrophism versus uniformitarianism yet stayed field-trip colleagues.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "클레어 패터슨": {
+  "relations": [
+   {
+    "to_en": "Harrison Brown",
+    "to_ko": "해리슨 브라운",
+    "rel_type": "teacher",
+    "note_ko": "지도교수 브라운은 패터슨에게 지구 나이 측정 과제를 맡겼고, 그 납 동위원소 연구가 평생의 업적과 납과의 전쟁을 열었다.",
+    "note_en": "His advisor Brown assigned Patterson the job of dating the Earth; the lead-isotope work began both his triumph and his war on lead.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Tilton",
+    "to_ko": "조지 틸턴",
+    "rel_type": "colleague",
+    "note_ko": "틸턴은 패터슨과 함께 지르콘 납 연대측정법을 다듬은 시카고 연구 동료로, 지구 나이 계산의 토대를 함께 만들었다.",
+    "note_en": "Tilton, Patterson's Chicago colleague, refined zircon lead-dating with him and laid the groundwork for the age of the Earth.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Robert Kehoe",
+    "to_ko": "로버트 키호",
+    "rel_type": "rival",
+    "note_ko": "유연휘발유 업계의 수석 과학자 키호는 납의 안전을 옹호했고, 패터슨은 청문회에서 그의 데이터에 정면으로 맞섰다.",
+    "note_en": "Kehoe, the lead industry's chief scientist, defended leaded petrol while Patterson attacked his data at hearings.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "배리 마셜": {
+  "relations": [
+   {
+    "to_en": "J. Robin Warren",
+    "to_ko": "로빈 워런",
+    "rel_type": "colleague",
+    "note_ko": "병리학자 워런이 위 점막의 세균을 먼저 발견하고 마셜과 공동 연구를 시작해, 2005년 노벨생리의학상을 함께 받았다.",
+    "note_en": "Pathologist Warren first spotted the bacterium in gastric tissue and began the joint work with Marshall that won them the 2005 Nobel Prize.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "스터빈스 퍼스": {
+  "relations": [
+   {
+    "to_en": "Benjamin Rush",
+    "to_ko": "벤저민 러시",
+    "rel_type": "teacher",
+    "note_ko": "펜실베이니아 의대 교수 러시의 전염설 논쟁 한가운데서, 학생 퍼스는 자기 감염 실험 논문으로 비전염설의 증거를 내놓았다.",
+    "note_en": "Under UPenn professor Rush, who championed the contagion side, the student Ffirth wrote his self-inoculation thesis arguing the opposite.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "베르너 포르스만": {
+  "relations": [
+   {
+    "to_en": "Gerda Ditzen",
+    "to_ko": "게르다 디첸",
+    "rel_type": "colleague",
+    "note_ko": "간호사 디첸은 자기 팔을 내놓으며 실험을 도왔지만, 포르스만은 그녀를 묶어 두고 자기 정맥에 카테터를 심장까지 밀어 넣었다.",
+    "note_en": "Nurse Ditzen offered her own arm to help, but Forssmann strapped her down and threaded the catheter into his own heart instead.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "André Cournand",
+    "to_ko": "앙드레 쿠르낭",
+    "rel_type": "colleague",
+    "note_ko": "쿠르낭은 포르스만의 자기 실험을 임상 기술로 발전시켜 심장 카테터법을 완성했고, 1956년 노벨상을 함께 받았다.",
+    "note_en": "Cournand turned Forssmann's self-experiment into clinical cardiac catheterisation and shared the 1956 Nobel Prize with him.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Dickinson W. Richards",
+    "to_ko": "디킨슨 리처즈",
+    "rel_type": "colleague",
+    "note_ko": "리처즈는 쿠르낭과 함께 카테터 생리학을 주도해 포르스만의 묻힌 업적을 복권시켰고, 셋이 노벨상을 나누었다.",
+    "note_en": "Richards co-led the catheter physiology work that revived Forssmann's buried achievement; the three shared the Nobel.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "레오니트 로고조프": {
+  "relations": []
+ },
+ "데이비드 한": {
+  "relations": []
+ },
+ "토머스 미즐리": {
+  "relations": [
+   {
+    "to_en": "Charles Kettering",
+    "to_ko": "찰스 케터링",
+    "rel_type": "colleague",
+    "note_ko": "GM 연구총괄 케터링은 미즐리에게 노킹 해결 과제를 맡겼고, 둘은 테트라에틸납과 프레온을 함께 세상에 내놓았다.",
+    "note_en": "GM research chief Kettering handed Midgley the engine-knock problem, and together they released tetraethyl lead and Freon on the world.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Robert Kehoe",
+    "to_ko": "로버트 키호",
+    "rel_type": "colleague",
+    "note_ko": "중독 사고 뒤 미즐리의 유연휘발유 안전성은 키호의 실험실이 업계 의뢰로 검증해, 납이 무해하다는 쪽의 근거를 만들었다.",
+    "note_en": "After the poisoning scares, Kehoe's industry-funded lab certified Midgley's leaded petrol as safe, supplying the science behind it.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "세르주 보로노프": {
+  "relations": [
+   {
+    "to_en": "Charles-Édouard Brown-Séquard",
+    "to_ko": "샤를에두아르 브라운세카르",
+    "rel_type": "influence",
+    "note_ko": "브라운세카르가 동물 고환 추출물을 자기 몸에 주사해 회춘을 주장하자, 보로노프는 그 아이디어를 고환 이식 수술로 밀고 나갔다.",
+    "note_en": "Brown-Séquard injected himself with animal testicular extract claiming rejuvenation; Voronoff pushed the idea into gland-graft surgery.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Eugen Steinach",
+    "to_ko": "오이겐 슈타이나흐",
+    "rel_type": "rival",
+    "note_ko": "슈타이나흐는 정관절제 회춘술로, 보로노프는 원숭이 고환 이식으로 1920년대 유럽의 회춘 시장을 두고 경쟁한 맞수였다.",
+    "note_en": "Steinach's vasectomy 'rejuvenation' and Voronoff's monkey-gland grafts competed for the same rich patients in 1920s Europe.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "블라디미르 데미호프": {
+  "relations": []
+ },
+ "트로핌 리센코": {
+  "relations": [
+   {
+    "to_en": "Nikolai Vavilov",
+    "to_ko": "니콜라이 바빌로프",
+    "rel_type": "rival",
+    "note_ko": "유전학자 바빌로프는 리센코의 이론을 공개 비판했고, 리센코는 정치력으로 그를 몰아내 투옥과 아사로 이끌었다.",
+    "note_en": "Geneticist Vavilov openly criticised Lysenko's theories; Lysenko used political power to purge him, ending in his death in prison.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Isaak Prezent",
+    "to_ko": "이자크 프레젠트",
+    "rel_type": "colleague",
+    "note_ko": "법철학자 프레젠트는 리센코 농법에 마르크스주의 이데올로기를 입혀 함께 유전학 공격의 이론 무기를 만들었다.",
+    "note_en": "Philosopher Prezent dressed Lysenko's agronomy in Marxist ideology, co-forging the theoretical weapons against genetics.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Ivan Michurin",
+    "to_ko": "이반 미추린",
+    "rel_type": "influence",
+    "note_ko": "리센코는 원예가 미추린의 획득형질 사상을 계승한다고 자처하며 자기 이론을 '미추린 생물학'으로 불렀다.",
+    "note_en": "Lysenko claimed to inherit horticulturist Michurin's acquired-traits doctrine, branding his own theory 'Michurinist biology'.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "콘스탄틴 치올콥스키": {
+  "relations": [
+   {
+    "to_en": "Jules Verne",
+    "to_ko": "쥘 베른",
+    "rel_type": "influence",
+    "note_ko": "치올콥스키는 베른의 달 여행 소설에서 우주비행의 꿈을 얻었고, 소설의 공상을 수학으로 검증하겠다며 로켓 방정식을 세웠다.",
+    "note_en": "Verne's moon novels gave Tsiolkovsky the dream of spaceflight; he set out to test the fiction with mathematics and derived the rocket equation.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Nikolai Fyodorov",
+    "to_ko": "니콜라이 표도로프",
+    "rel_type": "teacher",
+    "note_ko": "모스크바 도서관 사서 표도로프는 귀 먼 청년 치올콥스키를 곁에서 가르치고, 우주에서 인류를 부활시킨다는 코스미즘 사상을 심었다.",
+    "note_en": "Librarian Fyodorov tutored the deaf teenage Tsiolkovsky in Moscow and planted the cosmist vision of resurrecting humanity in space.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "로버트 고다드": {
+  "relations": [
+   {
+    "to_en": "H. G. Wells",
+    "to_ko": "H. G. 웰스",
+    "rel_type": "influence",
+    "note_ko": "고다드는 웰스의 '우주 전쟁'을 읽고 화성을 꿈꾸기 시작했고, 벚나무 위에서 우주로 가는 기계를 상상한 평생의 소명을 얻었다.",
+    "note_en": "Reading Wells's 'War of the Worlds' started Goddard dreaming of Mars, and a vision in a cherry tree gave him his lifelong calling.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Charles Lindbergh",
+    "to_ko": "찰스 린드버그",
+    "rel_type": "friend",
+    "note_ko": "린드버그는 조롱받던 고다드를 직접 찾아가 믿어 주었고, 구겐하임 재단의 자금을 끌어와 로켓 연구를 계속하게 했다.",
+    "note_en": "Lindbergh sought out the mocked Goddard, believed in him, and secured the Guggenheim funding that kept his rocket work alive.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Hermann Oberth",
+    "to_ko": "헤르만 오버트",
+    "rel_type": "rival",
+    "note_ko": "오버트는 고다드에게 논문을 요청해 받아 낸 뒤 독일 로켓 이론을 펴냈고, 둘은 액체로켓의 독립 발명과 우선권을 두고 평생 서로를 경계했다.",
+    "note_en": "Oberth requested and received Goddard's paper, then published his own rocket theory; the two warily contested priority for life.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "레오 실라드": {
+  "relations": [
+   {
+    "to_en": "Albert Einstein",
+    "to_ko": "알베르트 아인슈타인",
+    "rel_type": "friend",
+    "note_ko": "실라드와 아인슈타인은 냉장고 특허를 함께 낸 절친으로, 실라드가 쓴 경고 서한에 아인슈타인이 서명해 루스벨트에게 보냈다.",
+    "note_en": "Szilard and Einstein, close friends who co-patented a refrigerator, sent Roosevelt the warning letter Szilard drafted and Einstein signed.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Enrico Fermi",
+    "to_ko": "엔리코 페르미",
+    "rel_type": "colleague",
+    "note_ko": "실라드는 컬럼비아에서 페르미와 흑연-우라늄 연쇄반응 실험을 함께했고, 시카고 원자로 설계를 함께 이끌었다.",
+    "note_en": "Szilard ran graphite-uranium chain-reaction experiments with Fermi at Columbia and co-led the design of the Chicago pile.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Eugene Wigner",
+    "to_ko": "유진 위그너",
+    "rel_type": "friend",
+    "note_ko": "동향 망명 물리학자 위그너는 실라드와 함께 아인슈타인 서한을 기획하고, 차를 몰아 롱아일랜드로 그를 찾아갔다.",
+    "note_en": "Fellow Hungarian exile Wigner planned the Einstein letter with Szilard and drove him out to Long Island to reach Einstein.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Alexander Sachs",
+    "to_ko": "알렉산더 색스",
+    "rel_type": "colleague",
+    "note_ko": "루스벨트의 고문 색스는 실라드가 다듬은 서한을 대통령에게 직접 전달해 맨해튼 계획의 방아쇠를 함께 당겼다.",
+    "note_en": "Roosevelt adviser Sachs personally delivered the letter Szilard shaped, pulling the trigger on what became the Manhattan Project.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "H. G. Wells",
+    "to_ko": "H. G. 웰스",
+    "rel_type": "influence",
+    "note_ko": "웰스의 소설 '해방된 세계'가 그린 원자폭탄을 읽은 실라드는 핵에너지의 현실 가능성을 처음 진지하게 받아들였다.",
+    "note_en": "Wells's novel 'The World Set Free', with its atomic bombs, first made Szilard take nuclear energy seriously.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "버크민스터 풀러": {
+  "relations": [
+   {
+    "to_en": "Margaret Fuller",
+    "to_ko": "마거릿 풀러",
+    "rel_type": "relative",
+    "note_ko": "초월주의자인 대고모 마거릿 풀러의 급진 사상은 집안의 유산이 되어 버키의 '더 적게 더 많이' 철학의 뿌리가 됐다.",
+    "note_en": "His great-aunt, transcendentalist Margaret Fuller, left the family a radical legacy that fed Bucky's 'more with less' philosophy.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Isamu Noguchi",
+    "to_ko": "이사무 노구치",
+    "rel_type": "friend",
+    "note_ko": "조각가 노구치는 풀러의 절친으로 다이맥시온 카 모형을 함께 만들고, 풀러를 '우주의 눈'이라 부른 평생의 예술 동지였다.",
+    "note_en": "Sculptor Noguchi, Fuller's lifelong friend, modelled the Dymaxion car with him and called him 'the eye of the universe'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Kenneth Snelson",
+    "to_ko": "케네스 스넬슨",
+    "rel_type": "colleague",
+    "note_ko": "블랙마운틴에서 만난 스넬슨의 장력 조각을 보고 풀러는 '텐세그리티' 개념을 정립했고, 둘은 공로 귀속을 두고 평생 신경전을 벌였다.",
+    "note_en": "At Black Mountain, Snelson's tension sculptures led Fuller to formulate 'tensegrity'; they sparred for decades over credit.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Josef Albers",
+    "to_ko": "요제프 알베르스",
+    "rel_type": "colleague",
+    "note_ko": "알베르스는 풀러를 블랙마운틴 칼리지에 초빙해 가르치게 했고, 그곳에서 최초의 지오데식 돔 실험이 시작됐다.",
+    "note_en": "Albers invited Fuller to teach at Black Mountain College, where the first geodesic dome experiments began.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "딘 케이먼": {
+  "relations": [
+   {
+    "to_en": "Woodie Flowers",
+    "to_ko": "우디 플라워스",
+    "rel_type": "colleague",
+    "note_ko": "MIT 교수 플라워스는 케이먼의 FIRST 로봇 대회에 합류해 '은총의 프로페셔널리즘' 철학을 입히고 경기 설계를 함께했다.",
+    "note_en": "MIT professor Flowers joined Kamen's FIRST robotics league, coined its 'gracious professionalism' ethos and co-designed the contests.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "잭 파슨스": {
+  "relations": [
+   {
+    "to_en": "Aleister Crowley",
+    "to_ko": "알리스터 크롤리",
+    "rel_type": "influence",
+    "note_ko": "파슨스는 크롤리의 텔레마 교리에 빠져 OTO 로스앤젤레스 지부장이 됐고, 크롤리는 서신으로 그를 이끌다가 결국 과속을 경고했다.",
+    "note_en": "Parsons embraced Crowley's Thelema and led the OTO's Los Angeles lodge; Crowley guided him by letter, then warned of his recklessness.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "L. Ron Hubbard",
+    "to_ko": "L. 론 허버드",
+    "rel_type": "friend",
+    "note_ko": "허버드는 파슨스 저택에 얹혀살며 '바빌론 워킹' 의식의 기록자로 참여했고, 그의 연인과 돈을 가지고 달아났다.",
+    "note_en": "Hubbard lived at Parsons's house as scribe of the 'Babalon Working' rituals, then ran off with his girlfriend and his money.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Frank Malina",
+    "to_ko": "프랭크 말리나",
+    "rel_type": "cofounder",
+    "note_ko": "말리나와 파슨스는 캘텍 '자살 특공대'에서 로켓 실험을 함께했고, 그 팀이 성장해 JPL을 공동 창업했다.",
+    "note_en": "Malina and Parsons ran the Caltech 'Suicide Squad' rocket tests whose team grew into the Jet Propulsion Laboratory they co-founded.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Theodore von Kármán",
+    "to_ko": "시어도어 폰 카르만",
+    "rel_type": "cofounder",
+    "note_ko": "지도교수 카르만은 파슨스의 위험한 실험을 학교 안에 품어 줬고, 함께 JPL과 에어로젯을 세웠다.",
+    "note_en": "His Caltech mentor von Kármán sheltered Parsons's dangerous experiments and co-founded JPL and Aerojet with him.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Marjorie Cameron",
+    "to_ko": "마조리 캐머런",
+    "rel_type": "spouse",
+    "note_ko": "캐머런은 '바빌론 워킹' 뒤 파슨스의 아내가 된 화가이자 오컬티스트로, 그가 마법 의식의 화신으로 여긴 여성이었다.",
+    "note_en": "Cameron, the artist-occultist who married Parsons after the 'Babalon Working', was the woman he took for the ritual's elemental.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "빌헬름 라이히": {
+  "relations": [
+   {
+    "to_en": "Sigmund Freud",
+    "to_ko": "지그문트 프로이트",
+    "rel_type": "teacher",
+    "note_ko": "라이히는 프로이트가 아끼던 제자로 분석 기법을 배웠으나, 정치와 성 이론을 밀어붙이다 스승과 학회에서 밀려났다.",
+    "note_en": "Reich, once Freud's favoured pupil in Vienna, learned analysis from him but was expelled after pushing his politics and sex theories too far.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "A. S. Neill",
+    "to_ko": "A. S. 닐",
+    "rel_type": "friend",
+    "note_ko": "서머힐 학교의 교장 닐은 라이히의 성해방 교육론에 공감한 친구로, 편지와 방문을 나누며 말년까지 그를 지지했다.",
+    "note_en": "Summerhill headmaster Neill shared Reich's ideas on sexual freedom and education, supporting him by letter and visit to the end.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "티머시 리어리": {
+  "relations": [
+   {
+    "to_en": "Aldous Huxley",
+    "to_ko": "올더스 헉슬리",
+    "rel_type": "influence",
+    "note_ko": "헉슬리는 리어리의 하버드 실로시빈 프로젝트를 조언한 멘토로, '지각의 문'이 리어리의 사이키델릭 사상에 길을 텄다.",
+    "note_en": "Huxley advised Leary's Harvard Psilocybin Project; 'The Doors of Perception' had already paved the way for Leary's psychedelic gospel.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Ram Dass (Richard Alpert)",
+    "to_ko": "람 다스(리처드 앨퍼트)",
+    "rel_type": "cofounder",
+    "note_ko": "앨퍼트는 리어리와 하버드 실로시빈 프로젝트를 공동 운영하다 함께 해고됐고, 이후 람 다스로 개명해 영성 스승이 됐다.",
+    "note_en": "Alpert co-ran the Harvard Psilocybin Project with Leary, was fired alongside him, and later became the spiritual teacher Ram Dass.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "G. Gordon Liddy",
+    "to_ko": "G. 고든 리디",
+    "rel_type": "rival",
+    "note_ko": "검사 리디는 밀브룩 저택을 급습해 리어리를 체포했고, 둘은 후에 전국 토론 투어를 함께 다닌 기묘한 맞수가 됐다.",
+    "note_en": "Prosecutor Liddy raided Leary's Millbrook estate and arrested him; years later the odd pair toured America debating each other.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Allen Ginsberg",
+    "to_ko": "앨런 긴즈버그",
+    "rel_type": "friend",
+    "note_ko": "비트 시인 긴즈버그는 하버드 프로젝트 세션에 함께 참여하고, 사이키델릭을 문화 운동으로 키우는 일에서 평생 동지였다.",
+    "note_en": "Beat poet Ginsberg joined the Harvard project sessions and stayed Leary's lifelong ally in turning psychedelics into a cultural movement.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Richard Nixon",
+    "to_ko": "리처드 닉슨",
+    "rel_type": "rival",
+    "note_ko": "닉슨은 리어리를 '미국에서 가장 위험한 남자'라 불렀고, 리어리는 투옥과 탈옥 끝에 닉슨 정권의 최대 표적이 됐다.",
+    "note_en": "Nixon branded Leary 'the most dangerous man in America'; imprisoned and escaped, Leary became the Nixon administration's top quarry.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "아타나시우스 키르허": {
+  "relations": [
+   {
+    "to_en": "Nicolas-Claude Fabri de Peiresc",
+    "to_ko": "니콜라클로드 파브리 드 페레스크",
+    "rel_type": "friend",
+    "note_ko": "후원자 페레스크는 젊은 키르허에게 콥트어 사본을 보여 주고 로마 교수직을 주선했으나, 나중엔 그의 해독 정확성을 비판했다.",
+    "note_en": "Patron Peiresc showed the young Kircher Coptic manuscripts and secured his Roman professorship, later faulting his decipherments.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "파라켈수스": {
+  "relations": [
+   {
+    "to_en": "Wilhelm Bombast von Hohenheim",
+    "to_ko": "빌헬름 폰 호엔하임",
+    "rel_type": "father",
+    "note_ko": "광산 마을의 의사였던 아버지 빌헬름은 아들에게 의학과 광물·약초 지식을 가르친 첫 스승이었다.",
+    "note_en": "His father Wilhelm, a mining-town physician, taught the boy medicine, minerals and herbs — his first teacher.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Erasmus",
+    "to_ko": "에라스무스",
+    "rel_type": "friend",
+    "note_ko": "파라켈수스는 바젤 시의사로 있을 때 에라스무스를 진료했고, 에라스무스는 편지로 그의 의술을 칭송했다.",
+    "note_en": "As Basel's city physician Paracelsus treated Erasmus, who praised his medicine in a surviving letter.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Johannes Oporinus",
+    "to_ko": "요하네스 오포리누스",
+    "rel_type": "colleague",
+    "note_ko": "오포리누스는 파라켈수스의 필기구로 저작 정리를 도왔고, 스승 사후 그의 회고록으로 명성과 악명을 함께 남겼다.",
+    "note_en": "Oporinus served as Paracelsus's amanuensis, then preserved his fame and notoriety in a memoir published after his death.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "실베스터 그레이엄": {
+  "relations": []
+ },
+ "존 하비 켈로그": {
+  "relations": [
+   {
+    "to_en": "Will Keith Kellogg",
+    "to_ko": "윌 키스 켈로그",
+    "rel_type": "sibling",
+    "note_ko": "동생 윌은 요양원 경영을 돕다 형과 콘플레이크를 함께 발명했고, 시리얼 사업화를 두고 형제는 평생 소송전을 벌였다.",
+    "note_en": "Brother Will helped run the sanitarium and co-invented the cornflake; over commercialising cereal they sued each other for life.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Ellen G. White",
+    "to_ko": "엘런 G. 화이트",
+    "rel_type": "influence",
+    "note_ko": "제칠일안식일교 창립자 화이트는 젊은 켈로그를 발탁해 건강 개혁 사상을 심었으나, 그의 세속화에 결별을 선언했다.",
+    "note_en": "Adventist founder White picked out the young Kellogg and planted her health-reform gospel in him, then broke with his worldliness.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "C. W. Post",
+    "to_ko": "C. W. 포스트",
+    "rel_type": "rival",
+    "note_ko": "환자 포스트는 요양원에서 켈로그의 곡물 식단을 보고 나와 '포스텀' 회사를 차려, 모방 시리얼 제국으로 맞섰다.",
+    "note_en": "Post, a sanitarium patient, studied Kellogg's grain diet, left and built the rival Postum cereal empire on imitations of it.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "존 릴리": {
+  "relations": [
+   {
+    "to_en": "Margaret Howe Lovatt",
+    "to_ko": "마거릿 하우 로바트",
+    "rel_type": "colleague",
+    "note_ko": "로바트는 릴리의 돌고래 하우스 연구실에서 돌고래 피터와 동거하며 인간-돌고래 소통 실험을 함께한 연구 동료였다.",
+    "note_en": "Lovatt lived with the dolphin Peter inside Lilly's Dolphin House lab, running the human-dolphin communication experiments with him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Timothy Leary",
+    "to_ko": "티머시 리어리",
+    "rel_type": "friend",
+    "note_ko": "릴리와 리어리는 각각 고립수조와 사이키델릭으로 의식 지도를 넓힌 친구로, 서로의 실험과 저술을 주고받았다.",
+    "note_en": "Lilly and Leary, friends who mapped consciousness through the isolation tank and psychedelics respectively, traded experiments and writings.",
+    "prospect": "candidate"
+   }
+  ]
+ }
+}

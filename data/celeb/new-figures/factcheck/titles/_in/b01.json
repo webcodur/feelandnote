@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "하인리히 슐리만",
+    "title": "트로이의 발굴자",
+    "title_en": "Excavator of Troy",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "하워드 카터",
+    "title": "투탕카멘 무덤의 발견자",
+    "title_en": "Discoverer of Tutankhamun's Tomb",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "카니번 경",
+    "title": "파라오의 저주",
+    "title_en": "The Pharaoh's Curse",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "조반니 벨조니",
+    "title": "이집트 유물의 수집가",
+    "title_en": "Collector of Egyptian Antiquities",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "퍼시 포셋",
+    "title": "잃어버린 도시 Z",
+    "title_en": "The Lost City of Z",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "로이 채프먼 앤드루스",
+    "title": "고비사막의 탐험가",
+    "title_en": "Explorer of the Gobi",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "히럼 빙엄",
+    "title": "마추픽추를 알린 탐험가",
+    "title_en": "Revealer of Machu Picchu",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "아서 에번스",
+    "title": "미노아 문명의 명명자",
+    "title_en": "Namer of the Minoan Civilisation",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "장 프랑수아 샹폴리옹",
+    "title": "이집트학의 아버지",
+    "title_en": "Father of Egyptology",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "메리 애닝",
+    "title": "고생물학의 어머니",
+    "title_en": "Mother of Palaeontology",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "바넘 브라운",
+    "title": "티라노사우루스의 발굴자",
+    "title_en": "Discoverer of Tyrannosaurus",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "에드워드 드링커 코프",
+    "title": "화석 전쟁의 주역",
+    "title_en": "Hero of the Bone Wars",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "오스니얼 찰스 마시",
+    "title": "예일의 화석 제왕",
+    "title_en": "Yale's Fossil Baron",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "헬게 잉스타드",
+    "title": "빈란드의 실증자",
+    "title_en": "Prover of Vinland",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "아우렐 슈타인",
+    "title": "실크로드의 발굴꾼",
+    "title_en": "Digger of the Silk Road",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "스벤 헤딘",
+    "title": "중앙아시아의 측량자",
+    "title_en": "Mapper of Central Asia",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "플린더스 피트리",
+    "title": "과학적 고고학의 아버지",
+    "title_en": "Father of Scientific Archaeology",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "존 로이드 스티븐스",
+    "title": "마야를 세상에 알린 탐험가",
+    "title_en": "Explorer Who Revealed the Maya",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "프레드릭 캐더우드",
+    "title": "마야의 화가",
+    "title_en": "Painter of the Maya",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "피오트르 코즐로프",
+    "title": "카라호토의 발굴자",
+    "title_en": "Excavator of Khara-Khoto",
+    "file": "archaeology.json"
+  },
+  {
+    "nick": "마테오 리치",
+    "title": "명나라 궁정의 서양인",
+    "title_en": "The Westerner at the Ming Court",
+    "file": "asia.json"
+  },
+  {
+    "nick": "윌리엄 애덤스",
+    "title": "최초의 서양 사무라이",
+    "title_en": "The First Western Samurai",
+    "file": "asia.json"
+  },
+  {
+    "nick": "헨드릭 하멜",
+    "title": "「하멜 표류기」",
+    "title_en": "Hamel's Journal",
+    "file": "asia.json"
+  },
+  {
+    "nick": "필리프 프란츠 폰 지볼트",
+    "title": "일본학의 아버지",
+    "title_en": "Father of Japanese Studies",
+    "file": "asia.json"
+  },
+  {
+    "nick": "의정",
+    "title": "바닷길의 구법승",
+    "title_en": "The Sea-Route Pilgrim",
+    "file": "asia.json"
+  },
+  {
+    "nick": "두웨성",
+    "title": "상하이의 대가",
+    "title_en": "The Boss of Shanghai",
+    "file": "asia.json"
+  },
+  {
+    "nick": "장줘린",
+    "title": "만주의 호왕",
+    "title_en": "The Tiger of Manchuria",
+    "file": "asia.json"
+  },
+  {
+    "nick": "메이란팡",
+    "title": "경극의 황제",
+    "title_en": "The Peking Opera Master",
+    "file": "asia.json"
+  },
+  {
+    "nick": "런런 쇼",
+    "title": "홍콩 영화의 제왕",
+    "title_en": "The Movie Mogul of Hong Kong",
+    "file": "asia.json"
+  },
+  {
+    "nick": "푸이",
+    "title": "청나라의 마지막 황제",
+    "title_en": "The last emperor of Qing",
+    "file": "asia.json"
+  },
+  {
+    "nick": "그리고리 라스푸틴",
+    "title": "괴물 성직자",
+    "title_en": "The Mad Monk",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "마타 하리",
+    "title": "무희 스파이",
+    "title_en": "The Spy Dancer",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "리하르트 조르게",
+    "title": "도쿄의 간첩",
+    "title_en": "The Spy in Tokyo",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "시드니 라일리",
+    "title": "스파이들의 왕",
+    "title_en": "The Ace of Spies",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "후안 푸홀 가르시아",
+    "title": "가짜 첩보망의 설계자",
+    "title_en": "Architect of a Fake Spy Ring",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "에디 채프먼",
+    "title": "지그재그",
+    "title_en": "Agent Zigzag",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "버지니아 홀",
+    "title": "가장 위험한 간첩",
+    "title_en": "The Most Dangerous Spy",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "누르 이나야트 칸",
+    "title": "파리의 무전사",
+    "title_en": "The Radio Spy of Paris",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "낸시 웨이크",
+    "title": "하얀 쥐",
+    "title_en": "The White Mouse",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "슈발리에 데옹",
+    "title": "성별을 건 외교관",
+    "title_en": "The Diplomat of Two Genders",
+    "file": "espionage.json"
+  }
+]

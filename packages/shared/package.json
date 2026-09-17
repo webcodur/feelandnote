@@ -28,7 +28,7 @@
     "./lib/discourse-voice-names": "./src/lib/discourse-voice-names.ts",
     "./lib/series-schema": "./src/lib/series-schema.ts",
     "./lib/faction-team-image": "./src/lib/faction-team-image.ts",
-    "./lib/faction-atlas": "./src/lib/faction-atlas.ts",
+    "./lib/faction-members": "./src/lib/faction-members.ts",
     "./lib/discourse-schema": "./src/lib/discourse-schema.ts",
     "./lib/discourse-assemble": "./src/lib/discourse-assemble.ts",
     "./lib/three-kingdoms": "./src/lib/three-kingdoms.ts",

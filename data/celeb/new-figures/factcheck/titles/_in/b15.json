@@ -1,0 +1,86 @@
+[
+  {
+    "nick": "크리스 소여",
+    "title": "타이쿤의 장인",
+    "title_en": "The Tycoon Craftsman",
+    "file": "tech.json"
+  },
+  {
+    "nick": "제리 로슨",
+    "title": "게임 카트리지 창시자",
+    "title_en": "Creator of the game cartridge",
+    "file": "tech.json"
+  },
+  {
+    "nick": "로베르타 윌리엄스",
+    "title": "킹스 퀘스트 창시자",
+    "title_en": "Creator of King's Quest",
+    "file": "tech.json"
+  },
+  {
+    "nick": "앤디 루빈",
+    "title": "안드로이드 창시자",
+    "title_en": "Creator of Android",
+    "file": "tech.json"
+  },
+  {
+    "nick": "짐 클라크",
+    "title": "세 번의 10억 달러",
+    "title_en": "Three Billion-Dollar Companies",
+    "file": "tech.json"
+  },
+  {
+    "nick": "브라이언 존슨",
+    "title": "죽지 않기 프로젝트",
+    "title_en": "The Don't Die Project",
+    "file": "tech.json"
+  },
+  {
+    "nick": "케빈 워릭",
+    "title": "최초의 사이보그",
+    "title_en": "The First Cyborg",
+    "file": "tech.json"
+  },
+  {
+    "nick": "오브리 드 그레이",
+    "title": "불로불사의 예언자",
+    "title_en": "Prophet of Immortality",
+    "file": "tech.json"
+  },
+  {
+    "nick": "리모어 프리드",
+    "title": "레이디에이다",
+    "title_en": "Ladyada",
+    "file": "tech.json"
+  },
+  {
+    "nick": "제리 엘즈워스",
+    "title": "차고의 칩 장인",
+    "title_en": "The Garage Chip Maker",
+    "file": "tech.json"
+  },
+  {
+    "nick": "제럴드 불",
+    "title": "슈퍼건의 설계자",
+    "title_en": "Designer of the Supergun",
+    "file": "tech.json"
+  },
+  {
+    "nick": "세르게이 코롤료프",
+    "title": "총설계자",
+    "title_en": "The Chief Designer",
+    "file": "tech.json"
+  },
+  {
+    "nick": "치엔 쉐썬",
+    "title": "중국 로켓의 아버지",
+    "title_en": "Father of Chinese Rocketry",
+    "file": "tech.json"
+  },
+  {
+    "nick": "아나톨리 부고르스키",
+    "title": "빔을 맞고 산 남자",
+    "title_en": "The Man Who Survived the Beam",
+    "file": "tech.json"
+  }
+]

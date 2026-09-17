@@ -5,7 +5,7 @@ import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { ArrowLeft, Maximize2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
+import type { MythPerson, Myth } from "@/actions/home/mythAtlasTypes";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 
 /** label — 돌아갈 곳의 이름. 그룹을 골라 들어왔으면 그룹 개요, 아니면 신화 개요다 */
@@ -21,13 +21,13 @@ export function DetailBackButton({ onClose, label }: { onClose: () => void; labe
    아바타 메달리온의 호버·클릭은 인물 상세 크게보기 단추와 같은 동작(전체 화면)으로 맞춘다 */
 interface SigilHeaderProps {
   person: MythPerson;
-  tradition: MythTradition;
+  myth: Myth;
   onClose: () => void;
   backLabel: string;
   /** 대사가 떠 있는 동안에는 문양·이름을 감춘다 — 한 자리에 글 두 덩어리를 겹치지 않는다 */
 }
 
-export default function MythSigilHeader({ person, tradition, onClose, backLabel }: SigilHeaderProps) {
+export default function MythSigilHeader({ person, myth, onClose, backLabel }: SigilHeaderProps) {
   const t = useTranslations("explore.hub.myth");
   const [zoomOpen, setZoomOpen] = useState(false);
   const initial = person.name.slice(0, 1);
@@ -69,7 +69,7 @@ export default function MythSigilHeader({ person, tradition, onClose, backLabel 
           <span className="size-1.5 rotate-45 bg-accent/70" />
           <span className="h-px flex-1 bg-accent/30" />
         </div>
-        <p className="mx-auto mt-6 w-fit rounded-full border border-accent/30 bg-accent/[0.07] px-4 py-1.5 text-sm font-bold text-accent">{tradition.name}</p>
+        <p className="mx-auto mt-6 w-fit rounded-full border border-accent/30 bg-accent/[0.07] px-4 py-1.5 text-sm font-bold text-accent">{myth.name}</p>
       </div>
     </div>
   );

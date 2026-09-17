@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import type { CelebTag } from '@/actions/admin/tags'
+import type { FactionEntry } from '@/actions/admin/factions/entries'
 import { buildFactionThemes, resolveFactionSelection } from './factionOptions'
 
-function tag(id: string, name: string, parentId: string | null): CelebTag {
+function entry(id: string, name: string, level: 1 | 2, lv1Id: string | null): FactionEntry {
   return {
     id,
     name,
@@ -13,12 +13,15 @@ function tag(id: string, name: string, parentId: string | null): CelebTag {
     description_en: null,
     color: '#000000',
     slug: null,
+    level,
+    lv1_id: level === 2 ? lv1Id : null,
     team_images: [],
+    lead_person_ids: [],
     sort_order: 0,
     is_featured: false,
-    atlas_published: false,
+    is_myth: false,
     is_fiction: false,
-    parent_id: parentId,
+    published: false,
     start_date: null,
     end_date: null,
     created_at: '',
@@ -26,11 +29,11 @@ function tag(id: string, name: string, parentId: string | null): CelebTag {
   }
 }
 
-test('상위 테마 아래에 소속 세력을 묶는다', () => {
+test('분류(L1) 아래에 소속 세력(L2)을 묶는다', () => {
   const themes = buildFactionThemes([
-    tag('myth', '신화', null),
-    tag('greek', '그리스 신화', 'myth'),
-    tag('history', '역사', null),
+    entry('myth', '그리스', 1, null),
+    entry('greek', '그리스 신화', 2, 'myth'),
+    entry('history', '역사', 1, null),
   ])
 
   assert.deepEqual(themes.map((theme) => [theme.id, theme.factions.map((item) => item.id)]), [
@@ -39,8 +42,8 @@ test('상위 테마 아래에 소속 세력을 묶는다', () => {
   ])
 })
 
-test('하위 세력 주소값에서 소속 테마를 복원한다', () => {
-  const themes = buildFactionThemes([tag('myth', '신화', null), tag('greek', '그리스 신화', 'myth')])
+test('세력 주소값에서 소속 분류를 복원한다', () => {
+  const themes = buildFactionThemes([entry('myth', '그리스', 1, null), entry('greek', '그리스 신화', 2, 'myth')])
   assert.deepEqual(resolveFactionSelection(themes, 'greek'), { theme: 'myth', faction: 'greek' })
   assert.deepEqual(resolveFactionSelection(themes, 'missing'), { theme: 'all', faction: 'all' })
 })

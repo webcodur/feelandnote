@@ -9,7 +9,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
-import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, hubSection } from "@/components/shared/hubSectionUtils";
+import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, hubSection, withoutMore } from "@/components/shared/hubSectionUtils";
 import PopularBooks from "@/components/features/home/PopularBooks";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
@@ -38,8 +38,9 @@ export default async function ScripturesPage() {
       <HubNav hubItems={hubNavItems(sections, tHub)} groupId={LIBRARY_GROUP_ID} />
 
       <div className="space-y-12 md:space-y-16 mt-4">
-        {/* 1/4 인기 작품 — 서점 판매 순위 앞 다섯 권만 보이고 나머지 권수는 인기 작품 화면으로 안내한다 */}
-        <HubSection {...section("popular")}>
+        {/* 1/4 인기 작품 — 베스트셀러·불후의 명작 모드가 허브에서도 선다.
+            더 보기는 보고 있는 모드의 안쪽 화면으로 이어야 하므로 구획 안이 쥔다 */}
+        <HubSection {...withoutMore(section("popular"))}>
           <Lane fallback={<PendingBlock variant="grid" count={6} label={tPending("loading")} />}>
             <PopularSection />
           </Lane>

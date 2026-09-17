@@ -1,0 +1,912 @@
+[
+ {
+  "nickname": "어니스트 섀클턴",
+  "en": "Ernest Shackleton",
+  "headline": "배를 잃고도 대원 한 명도 잃지 않은 선장",
+  "prof": "other",
+  "title": "남극의 리더"
+ },
+ {
+  "nickname": "로알 아문센",
+  "en": "Roald Amundsen",
+  "headline": "극지의 '최초' 타이틀을 쓸어 담은 노르웨이인",
+  "prof": "other",
+  "title": "남극점의 정복자"
+ },
+ {
+  "nickname": "로버트 팰컨 스콧",
+  "en": "Robert Falcon Scott",
+  "headline": "아문센에게 지고, 눈보라에게도 진 영국의 영웅",
+  "prof": "commander",
+  "title": "비극의 탐험가"
+ },
+ {
+  "nickname": "압슬리 체리-개러드",
+  "en": "Apsley Cherry-Garrard",
+  "headline": "남극 한겨울을 건너 '세계 최악의 여행'을 쓴 사람",
+  "prof": "author",
+  "title": "「세계 최악의 여행」"
+ },
+ {
+  "nickname": "더글러스 모슨",
+  "en": "Douglas Mawson",
+  "headline": "떠나는 배를 보고도 남극에서 겨울을 더 난 사람",
+  "prof": "scientist",
+  "title": "남극의 생환자"
+ },
+ {
+  "nickname": "톰 크린",
+  "en": "Tom Crean",
+  "headline": "남극보다 고향 술집이 편했던 전설의 선원",
+  "prof": "other",
+  "title": "남극의 침묵하는 영웅"
+ },
+ {
+  "nickname": "프리드티오프 난센",
+  "en": "Fridtjof Nansen",
+  "headline": "북극을 표류한 뒤 세계 난민에게 여권을 준 사람",
+  "prof": "scientist",
+  "title": "북극의 스키어"
+ },
+ {
+  "nickname": "페테르 프로이헨",
+  "en": "Peter Freuchen",
+  "headline": "배설물로 칼을 만들어 탈출했다는 북극의 전설",
+  "prof": "author",
+  "title": "북극의 야전살림꾼"
+ },
+ {
+  "nickname": "에이다 블랙잭",
+  "en": "Ada Blackjack",
+  "headline": "총도 못 쏘던 재봉사가 북극 사냥꾼으로 돌아왔다",
+  "prof": "other",
+  "title": "북극의 여성 로빈슨"
+ },
+ {
+  "nickname": "살로몬 안드레",
+  "en": "Salomon August Andrée",
+  "headline": "바람만 믿고 북극점으로 떠나 돌아오지 못한 공학자",
+  "prof": "other",
+  "title": "열기구의 북극점"
+ },
+ {
+  "nickname": "움베르토 노빌레",
+  "en": "Umberto Nobile",
+  "headline": "자신을 구하려다 아문센이 사라진 비행선 선장",
+  "prof": "other",
+  "title": "비행선의 탐험가"
+ },
+ {
+  "nickname": "로버트 피어리",
+  "en": "Robert Peary",
+  "headline": "최초 도달 주장 뒤에 따라붙는 백 년의 의혹",
+  "prof": "commander",
+  "title": "북극점의 주장자"
+ },
+ {
+  "nickname": "매슈 헨슨",
+  "en": "Matthew Henson",
+  "headline": "일곱 번 원정을 함께하고도 공로를 뺏긴 썰매 대가",
+  "prof": "other",
+  "title": "북극점의 숨은 선두"
+ },
+ {
+  "nickname": "프레더릭 쿡",
+  "en": "Frederick Cook",
+  "headline": "'최초' 주장 두 개가 모두 뒤집힌 탐험 사기꾼",
+  "prof": "other",
+  "title": "탐험의 사기꾼"
+ },
+ {
+  "nickname": "토르 헤예르달",
+  "en": "Thor Heyerdahl",
+  "headline": "가설 하나 증명하려 뗏목으로 태평양을 건넌 사람",
+  "prof": "humanities_scholar",
+  "title": "콘티키호의 선장"
+ },
+ {
+  "nickname": "이븐 바투타",
+  "en": "Ibn Battuta",
+  "headline": "스물한 살 순례길이 평생의 세계 일주가 된 사람",
+  "prof": "author",
+  "title": "중세 최고의 여행자"
+ },
+ {
+  "nickname": "데이비드 리빙스턴",
+  "en": "David Livingstone",
+  "headline": "'박사님이시군요'의 주인공이 된 실종 탐험가",
+  "prof": "humanities_scholar",
+  "title": "아프리카의 선교 탐험가"
+ },
+ {
+  "nickname": "헨리 모턴 스탠리",
+  "en": "Henry Morton Stanley",
+  "headline": "'박사님이시군요' 한마디로 역사에 남은 특파원",
+  "prof": "author",
+  "title": "리빙스턴을 찾은 탐험가"
+ },
+ {
+  "nickname": "리처드 프랜시스 버턴",
+  "en": "Richard Francis Burton",
+  "headline": "메카 잠입부터 카마수트라 번역까지 한 괴짜",
+  "prof": "author",
+  "title": "빅토리아의 괴짜 기사"
+ },
+ {
+  "nickname": "아라비아의 로렌스",
+  "en": "T. E. Lawrence",
+  "headline": "아랍 반란을 이끈 뒤 사병으로 숨어버린 장교",
+  "prof": "commander",
+  "title": "아라비아의 로렌스"
+ },
+ {
+  "nickname": "거트루드 벨",
+  "en": "Gertrude Bell",
+  "headline": "사막을 넘나들며 이라크의 국경을 그린 여성",
+  "prof": "humanities_scholar",
+  "title": "이라크의 설계자"
+ },
+ {
+  "nickname": "프레야 스탁",
+  "en": "Freya Stark",
+  "headline": "지도의 빈칸을 혼자 걸어 메운 중동 여행작가",
+  "prof": "author",
+  "title": "중동의 여행작가"
+ },
+ {
+  "nickname": "이사벨라 버드",
+  "en": "Isabella Bird",
+  "headline": "조선 여행기가 지금도 인용되는 구한말의 목격자",
+  "prof": "author",
+  "title": "빅토리아의 여행가"
+ },
+ {
+  "nickname": "알렉상드라 다비드넬",
+  "en": "Alexandra David-Néel",
+  "headline": "쉰다섯에 순례자로 변장해 금지의 라싸에 든 여성",
+  "prof": "author",
+  "title": "라싸에 잠입한 여성"
+ },
+ {
+  "nickname": "난 싱",
+  "en": "Nain Singh",
+  "headline": "묵주 알로 걸음을 세며 티베트를 측량한 스파이",
+  "prof": "other",
+  "title": "묵주의 스파이"
+ },
+ {
+  "nickname": "윌프레드 테시저",
+  "en": "Wilfred Thesiger",
+  "headline": "빈 쿼터 사막을 두 번이나 걸어 건넌 탐험가",
+  "prof": "author",
+  "title": "빈 쿼터의 탐험가"
+ },
+ {
+  "nickname": "프랜시스 영허즈번드",
+  "en": "Francis Younghusband",
+  "headline": "총칼로 라싸에 들어갔다가 신비주의자가 된 장교",
+  "prof": "commander",
+  "title": "라싸 원정대장"
+ },
+ {
+  "nickname": "프랭크 워슬리",
+  "en": "Frank Worsley",
+  "headline": "항해 역사 최고로 꼽히는 구명정 항해의 선장",
+  "prof": "commander",
+  "title": "기적의 항해사"
+ },
+ {
+  "nickname": "재닛 스탠콤-윌스",
+  "en": "Janet Stancomb-Wills",
+  "headline": "남극 해안과 빙하에 이름을 남긴 후원자",
+  "prof": "politician",
+  "title": "섀클턴의 후원 여성 시장"
+ },
+ {
+  "nickname": "레온 아문센",
+  "en": "Leon Amundsen",
+  "headline": "동생이 남극점에 설 동안 장부를 들었다",
+  "prof": "entrepreneur",
+  "title": "탐험가의 뒷방 형님"
+ },
+ {
+  "nickname": "오스카 비스팅",
+  "en": "Oscar Wisting",
+  "headline": "남극점을 밟고 프람호 곁에서 쓰러진 사나이",
+  "prof": "commander",
+  "title": "남극점의 다섯 번째 남자"
+ },
+ {
+  "nickname": "헬머 한센",
+  "en": "Helmer Hanssen",
+  "headline": "아문센의 선두 썰매를 몰아 극점에 선 남자",
+  "prof": "other",
+  "title": "극지의 개썰매 장인"
+ },
+ {
+  "nickname": "에드가 에번스",
+  "en": "Edgar Evans",
+  "headline": "스콧 대열에서 가장 힘센 사내가 먼저 쓰러지다",
+  "prof": "other",
+  "title": "스콧 원정대의 괴력 사내"
+ },
+ {
+  "nickname": "자비에르 메르츠",
+  "en": "Xavier Mertz",
+  "headline": "니니스를 잃은 뒤 모슨과 귀환하다 쓰러진 스키어",
+  "prof": "athlete",
+  "title": "빙원에 잠든 스키 챔피언"
+ },
+ {
+  "nickname": "벨그레이브 니니스",
+  "en": "Belgrave Ninnis",
+  "headline": "한 걸음의 추락이 모슨의 전설을 만들었다",
+  "prof": "commander",
+  "title": "크레바스에 삼켜진 중위"
+ },
+ {
+  "nickname": "존 킹 데이비스",
+  "en": "John King Davis",
+  "headline": "섀클턴이 고르고 모슨이 다시 고른 선장",
+  "prof": "commander",
+  "title": "빙해의 최고 선장"
+ },
+ {
+  "nickname": "윌리엄 래슐리",
+  "en": "William Lashly",
+  "headline": "영웅이 되지 않고 영웅들을 살려 돌아온 사내",
+  "prof": "other",
+  "title": "스콧의 든든한 지원조"
+ },
+ {
+  "nickname": "콜린 아처",
+  "en": "Colin Archer",
+  "headline": "남북극을 간 배는 모두 그의 조선소에서 나왔다",
+  "prof": "other",
+  "title": "프람호의 아버지"
+ },
+ {
+  "nickname": "나바라나 메쿠팔루크",
+  "en": "Navarana Mequpaluk",
+  "headline": "교회가 거부한 무덤을 남편이 손으로 팠다",
+  "prof": "other",
+  "title": "프로이헨의 북극 아내"
+ },
+ {
+  "nickname": "앨런 크로퍼드",
+  "en": "Allan Crawford",
+  "headline": "동료를 살리려 얼음 바다로 걸어간 뒤 사라지다",
+  "prof": "other",
+  "title": "랭겔섬의 젊은 대장"
+ },
+ {
+  "nickname": "론 나이트",
+  "en": "Lorne Knight",
+  "headline": "가장 경험 많은 사내가 괴혈병에 먼저 무너지다",
+  "prof": "other",
+  "title": "랭겔섬의 마지막 사수"
+ },
+ {
+  "nickname": "닐스 스트린드베리",
+  "en": "Nils Strindberg",
+  "headline": "편지와 시신이 서른세 해 뒤 함께 발견되다",
+  "prof": "other",
+  "title": "기구에서 내린 사진사"
+ },
+ {
+  "nickname": "크누트 프렝켈",
+  "en": "Knut Frænkel",
+  "headline": "안드레 원정의 최후를 기록한 세 번째 대원",
+  "prof": "other",
+  "title": "빙해의 기록자"
+ },
+ {
+  "nickname": "핀 말름그렌",
+  "en": "Finn Malmgren",
+  "headline": "그가 이끈 두 사람은 살고 그는 얼음에 남았다",
+  "prof": "scientist",
+  "title": "구조를 부르러 간 기상학자"
+ },
+ {
+  "nickname": "조세핀 피어리",
+  "en": "Josephine Peary",
+  "headline": "얼어붙은 땅에서 아이를 낳은 '북극의 영부인'",
+  "prof": "author",
+  "title": "북극의 영부인"
+ },
+ {
+  "nickname": "오타",
+  "en": "Ootah",
+  "headline": "'북극점'의 다섯 발자국 중 하나는 그의 것",
+  "prof": "other",
+  "title": "북극점에 선 이누이트"
+ },
+ {
+  "nickname": "에드워드 배릴",
+  "en": "Edward Barrill",
+  "headline": "'우린 정상 근처에도 못 갔다'고 폭로한 마부",
+  "prof": "other",
+  "title": "쿡의 거짓을 폭로한 마부"
+ },
+ {
+  "nickname": "헤르만 바칭거",
+  "en": "Herman Watzinger",
+  "headline": "콘티키호의 백한하루 항해에서 관측을 맡다",
+  "prof": "other",
+  "title": "콘티키호의 과학자"
+ },
+ {
+  "nickname": "에리크 헤셀베르그",
+  "en": "Erik Hesselberg",
+  "headline": "뗏목의 돛에 태양신의 얼굴을 그려 넣은 화가",
+  "prof": "visual_artist",
+  "title": "콘티키 돛에 얼굴을 그린 화가"
+ },
+ {
+  "nickname": "이븐 주자이",
+  "en": "Ibn Juzayy",
+  "headline": "『리흘라』의 문장은 실은 그의 손에서 나왔다",
+  "prof": "humanities_scholar",
+  "title": "리흘라를 받아 적은 필사가"
+ },
+ {
+  "nickname": "윌리엄 코턴 오스웰",
+  "en": "William Cotton Oswell",
+  "headline": "헤밍웨이 소설에 이름이 오른 전설의 코끼리 사냥꾼",
+  "prof": "other",
+  "title": "리빙스턴의 후원 사냥꾼"
+ },
+ {
+  "nickname": "세첼레",
+  "en": "Sechele",
+  "headline": "리빙스턴이 세례한 유일한 추장",
+  "prof": "leader",
+  "title": "리빙스턴의 유일한 개종자"
+ },
+ {
+  "nickname": "제임스 추마",
+  "en": "James Chuma",
+  "headline": "주인의 시신을 1,500km 걸어 옮긴 수행원",
+  "prof": "other",
+  "title": "주인의 시신을 옮긴 충복"
+ },
+ {
+  "nickname": "포스터 피츠제럴드 아버스놋",
+  "en": "Forster Fitzgerald Arbuthnot",
+  "headline": "빅토리아 시대에 『카마수트라』를 세상에 낸 후원자",
+  "prof": "humanities_scholar",
+  "title": "카마수트라 번역의 후원자"
+ },
+ {
+  "nickname": "셀림 아흐메드",
+  "en": "Selim Ahmed",
+  "headline": "열병이 데려간 소년을 로렌스는 책에 남겼다",
+  "prof": "other",
+  "title": "로렌스의 소년 시종"
+ },
+ {
+  "nickname": "베네시아 버디컴",
+  "en": "Venetia Buddicom",
+  "headline": "남긴 여행 일지로 스탁의 초년을 증언하다",
+  "prof": "other",
+  "title": "스탁의 첫 여행 동반자"
+ },
+ {
+  "nickname": "이토 쓰루키치",
+  "en": "Ito Tsurukichi",
+  "headline": "도쿄에서 홋카이도까지 버드를 안내한 통역사",
+  "prof": "other",
+  "title": "버드의 안내인 '이토'"
+ },
+ {
+  "nickname": "짐 뉴전트",
+  "en": "Jim Nugent",
+  "headline": "한쪽 눈의 무법자가 버드를 롱스피크에 이끌다",
+  "prof": "other",
+  "title": "록키 마운틴 짐"
+ },
+ {
+  "nickname": "패니 제인 버틀러",
+  "en": "Fanny Jane Butler",
+  "headline": "남자 의사가 못 보는 환자들을 그녀가 보았다",
+  "prof": "scientist",
+  "title": "인도의 첫 여성 선교 의사"
+ },
+ {
+  "nickname": "시드케옹 툴쿠 남갈",
+  "en": "Sidkeong Tulku Namgyal",
+  "headline": "개혁을 꿈꾸다 독살설 속에 스러진 초걀",
+  "prof": "leader",
+  "title": "시킴의 개혁 군주"
+ },
+ {
+  "nickname": "토머스 조지 몽고메리",
+  "en": "Thomas George Montgomerie",
+  "headline": "세계 둘째 봉우리에 'K'를 처음 붙인 장교",
+  "prof": "commander",
+  "title": "펀딧 측량의 총지휘자"
+ },
+ {
+  "nickname": "키센 싱",
+  "en": "Kishen Singh",
+  "headline": "암호명 'A-K'로 티베트 북부를 몰래 측량하다",
+  "prof": "other",
+  "title": "암호명 'A-K'의 펀딧"
+ },
+ {
+  "nickname": "칼리안 싱",
+  "en": "Kalian Singh",
+  "headline": "서티베트의 빈 지도를 걸음으로 채운 탐사원",
+  "prof": "other",
+  "title": "암호명 'G-K'의 탐사원"
+ },
+ {
+  "nickname": "살림 빈 카비나",
+  "en": "Salim bin Kabina",
+  "headline": "테시저의 모든 아라비아 길을 함께한 소년",
+  "prof": "other",
+  "title": "테시저의 그림자"
+ },
+ {
+  "nickname": "살림 빈 가바이샤",
+  "en": "Salim bin Ghabaisha",
+  "headline": "사막 최고의 기수가 훗날 무법자가 되다",
+  "prof": "other",
+  "title": "룹알할리의 소년 기수"
+ },
+ {
+  "nickname": "조지 매카트니",
+  "en": "George Macartney",
+  "headline": "중앙아시아 탐험가 모두가 찾던 카슈가르의 주인",
+  "prof": "politician",
+  "title": "카슈가르의 영국 영사"
+ },
+ {
+  "nickname": "아나우카크",
+  "en": "Anauakaq",
+  "headline": "여든한 살에 아버지의 묘를 찾아간 북극의 아들",
+  "prof": "other",
+  "title": "헨슨의 이누이트 아들"
+ },
+ {
+  "nickname": "아푸르 용덴",
+  "en": "Aphur Yongden",
+  "headline": "라사 잠입을 함께한 라마이자 양아들",
+  "prof": "other",
+  "title": "다비드넬의 양자 라마"
+ },
+ {
+  "nickname": "존 피츠제럴드",
+  "en": "John S. Fitzgerald",
+  "headline": "죽어가는 동료의 총을 들고 떠난 남자",
+  "prof": "other",
+  "title": "글래스를 버린 사냥꾼"
+ },
+ {
+  "nickname": "우즈 로저스",
+  "en": "Woodes Rogers",
+  "headline": "무인도 표류자를 건져 해적 섬의 총독이 되다",
+  "prof": "leader",
+  "title": "로빈슨 크루소를 구한 선장"
+ },
+ {
+  "nickname": "토머스 스트래들링",
+  "en": "Thomas Stradling",
+  "headline": "내리겠다던 선원은 전설이 되고 배는 바다 밑이 됐다",
+  "prof": "commander",
+  "title": "셀커크를 내친 선장"
+ },
+ {
+  "nickname": "마리아 쾨프케",
+  "en": "Maria Koepcke",
+  "headline": "딸이 열하루 걸어 나온 정글에 어머니는 남았다",
+  "prof": "scientist",
+  "title": "판구아나의 조류학자"
+ },
+ {
+  "nickname": "한스빌헬름 쾨프케",
+  "en": "Hans-Wilhelm Koepcke",
+  "headline": "딸이 걸어 나온 정글을 미리 가르친 아버지",
+  "prof": "scientist",
+  "title": "아마존 연구의 아버지"
+ },
+ {
+  "nickname": "마단 카트리 체트리",
+  "en": "Madan Khatri Chhetri",
+  "headline": "헬기가 못 오른다는 고도로 두 차례 날아올랐다",
+  "prof": "commander",
+  "title": "에베레스트의 구조 조종사"
+ },
+ {
+  "nickname": "레이몽 랑베르",
+  "en": "Raymond Lambert",
+  "headline": "에베레스트 초등 1년 전 정상 문턱까지 다다랐다",
+  "prof": "athlete",
+  "title": "히말라야의 문을 연 가이드"
+ },
+ {
+  "nickname": "나왕 곰부",
+  "en": "Nawang Gombu",
+  "headline": "에베레스트 정상을 두 번 밟은 최초의 인간",
+  "prof": "athlete",
+  "title": "에베레스트를 두 번 오른 첫 인간"
+ },
+ {
+  "nickname": "페터 하벨러",
+  "en": "Peter Habeler",
+  "headline": "인간의 폐가 닿을 수 없다던 높이를 밟았다",
+  "prof": "athlete",
+  "title": "무산소 에베레스트의 동반자"
+ },
+ {
+  "nickname": "콘래드 앵커",
+  "en": "Conrad Anker",
+  "headline": "전설의 시신을 찾고 다시 불가능한 벽을 올랐다",
+  "prof": "athlete",
+  "title": "말러리를 찾아낸 등반가"
+ },
+ {
+  "nickname": "이와나가 아키라",
+  "en": "Akira Iwanaga",
+  "headline": "도망친 곳이 정작 두 번째 폭심지였던 기술자",
+  "prof": "other",
+  "title": "공인받지 못한 이중 피폭자"
+ },
+ {
+  "nickname": "장루이 블롱도",
+  "en": "Jean-Louis Blondeau",
+  "headline": "활시위로 쌍둥이빌딩 사이에 줄을 쏘아 올렸다",
+  "prof": "visual_artist",
+  "title": "쿠데타의 사진가"
+ },
+ {
+  "nickname": "로버트 애벗",
+  "en": "Robert S. Abbott",
+  "headline": "부엌에서 찍은 신문이 백만 명의 대이주를 이끌었다",
+  "prof": "entrepreneur",
+  "title": "흑인 언론의 거성"
+ },
+ {
+  "nickname": "잭 험프리스",
+  "en": "Jack Humphreys",
+  "headline": "엔진을 가르쳐 준 보답으로 그녀의 조종석에 앉았다",
+  "prof": "other",
+  "title": "에이미 존슨의 스승"
+ },
+ {
+  "nickname": "톰 캠벨 블랙",
+  "en": "Tom Campbell Black",
+  "headline": "하늘 경주를 이기고 활주로 충돌로 숨졌다",
+  "prof": "other",
+  "title": "마컴에게 하늘을 가르친 남자"
+ },
+ {
+  "nickname": "알렉시스 카렐",
+  "en": "Alexis Carrel",
+  "headline": "혈관 꿰매는 법으로 노벨상을 받았다",
+  "prof": "scientist",
+  "title": "장기 이식의 개척자"
+ },
+ {
+  "nickname": "샤를 뇽제세르",
+  "en": "Charles Nungesser",
+  "headline": "격추 43회의 에이스가 마지막 비행에서 증발했다",
+  "prof": "other",
+  "title": "사라진 흰 새의 에이스"
+ },
+ {
+  "nickname": "프랑수아 콜리",
+  "en": "François Coli",
+  "headline": "한쪽 눈으로 대서양을 노린 항법사",
+  "prof": "other",
+  "title": "흰 새의 항법사"
+ },
+ {
+  "nickname": "폴 먼츠",
+  "en": "Paul Mantz",
+  "headline": "에어하트의 마지막 비행을 함께 준비한 기술 고문",
+  "prof": "other",
+  "title": "할리우드의 하늘 곡예사"
+ },
+ {
+  "nickname": "해럴드 개티",
+  "en": "Harold Gatty",
+  "headline": "위니 메이의 항법으로 8일 만에 지구를 돌았다",
+  "prof": "other",
+  "title": "세계 일주의 항법사"
+ },
+ {
+  "nickname": "아이다 드 아코스타",
+  "en": "Aida de Acosta",
+  "headline": "파리의 하늘을 처음 혼자 난 여성이 침묵을 지켰다",
+  "prof": "other",
+  "title": "최초의 여성 동력 비행사"
+ },
+ {
+  "nickname": "잭 리들리",
+  "en": "Jack Ridley",
+  "headline": "빗자루 손잡이 하나가 음속 돌파를 가능하게 했다",
+  "prof": "commander",
+  "title": "음속 돌파의 설계자"
+ },
+ {
+  "nickname": "블라디미르 세료긴",
+  "en": "Vladimir Seryogin",
+  "headline": "가가린의 마지막 비행 교관석에 앉은 조종사",
+  "prof": "commander",
+  "title": "가가린과 함께 추락한 조종사"
+ },
+ {
+  "nickname": "에밀 가냥",
+  "en": "Émile Gagnan",
+  "headline": "압력 조절 밸브를 스쿠버의 심장으로 바꿨다",
+  "prof": "other",
+  "title": "아쿠아렁의 공동 발명가"
+ },
+ {
+  "nickname": "프레데리크 뒤마",
+  "en": "Frédéric Dumas",
+  "headline": "수천 년 난파선을 처음 과학적으로 탐사했다",
+  "prof": "other",
+  "title": "세 번째 바다 총사"
+ },
+ {
+  "nickname": "오티스 바턴",
+  "en": "Otis Barton",
+  "headline": "강철 구에 갇혀 923미터의 어둠을 봤다",
+  "prof": "other",
+  "title": "철구 속의 심해 개척자"
+ },
+ {
+  "nickname": "장 피카르",
+  "en": "Jean Piccard",
+  "headline": "아내를 첫 성층권 여성으로 만든 과학자",
+  "prof": "scientist",
+  "title": "성층권의 또 다른 쌍둥이"
+ },
+ {
+  "nickname": "파울 키퍼",
+  "en": "Paul Kipfer",
+  "headline": "피카르의 조수로 인류 최초 성층권에 올랐다",
+  "prof": "scientist",
+  "title": "최초의 성층권 비행자"
+ },
+ {
+  "nickname": "그레이엄 혹스",
+  "en": "Graham Hawkes",
+  "headline": "가라앉는 잠수정에 날개를 달아 날게 했다",
+  "prof": "other",
+  "title": "심해 잠수정의 아키텍트"
+ },
+ {
+  "nickname": "톰 프로스트",
+  "en": "Tom Frost",
+  "headline": "벽을 오르고 벽을 찍은 클린 클라이밍의 설계자",
+  "prof": "athlete",
+  "title": "요세미티 황금기의 사진가"
+ },
+ {
+  "nickname": "휴 글래스",
+  "en": "Hugh Glass",
+  "headline": "죽은 줄 알고 두고 간 동료를 기어서 쫓은 사냥꾼",
+  "prof": "other",
+  "title": "레버넌트"
+ },
+ {
+  "nickname": "알렉산더 셀커크",
+  "en": "Alexander Selkirk",
+  "headline": "원해서 올라갔다가 4년을 외롭게 산 남자",
+  "prof": "other",
+  "title": "실제 로빈슨 크루소"
+ },
+ {
+  "nickname": "푼 림",
+  "en": "Poon Lim",
+  "headline": "바다 한가운데서 133일을 혼자 버틴 선원",
+  "prof": "other",
+  "title": "133일의 표류"
+ },
+ {
+  "nickname": "율리아네 쾨프케",
+  "en": "Juliane Koepcke",
+  "headline": "하늘에서 떨어져 아마존을 걸어 빠져나온 소녀",
+  "prof": "scientist",
+  "title": "하늘에서 떨어진 소녀"
+ },
+ {
+  "nickname": "베스나 불로비치",
+  "en": "Vesna Vulović",
+  "headline": "낙하산 없이 만 미터를 떨어지고 살아남은 승무원",
+  "prof": "other",
+  "title": "1만 미터의 추락"
+ },
+ {
+  "nickname": "마우로 프로스페리",
+  "en": "Mauro Prosperi",
+  "headline": "죽으려던 순간 살기로 결심한 사막의 주자",
+  "prof": "athlete",
+  "title": "사하라 표류자"
+ },
+ {
+  "nickname": "벡 웨더스",
+  "en": "Beck Weathers",
+  "headline": "두 번 사망 처리됐다 두 번 살아 돌아온 남자",
+  "prof": "other",
+  "title": "에베레스트의 생환자"
+ },
+ {
+  "nickname": "조 심프슨",
+  "en": "Joe Simpson",
+  "headline": "죽은 줄 알았는데 베이스캠프까지 기어온 등반가",
+  "prof": "author",
+  "title": "「터칭 더 보이드」"
+ },
+ {
+  "nickname": "텐징 노르가이",
+  "en": "Tenzing Norgay",
+  "headline": "힐러리 옆에서 함께 역사를 밟은 셰르파",
+  "prof": "other",
+  "title": "에베레스트의 최초 정복자"
+ },
+ {
+  "nickname": "라인홀트 메스너",
+  "en": "Reinhold Messner",
+  "headline": "산소통 없이 팔천 미터 열네 봉을 다 밟은 산악인",
+  "prof": "athlete",
+  "title": "14좌의 사나이"
+ },
+ {
+  "nickname": "조지 말러리",
+  "en": "George Mallory",
+  "headline": "'거기 있으니까'라고 답한 뒤 산에서 사라진 남자",
+  "prof": "other",
+  "title": "「거기 있으니까」"
+ },
+ {
+  "nickname": "아론 랠스턴",
+  "en": "Aron Ralston",
+  "headline": "무딘 나이프로 자기 팔을 끊고 살아난 남자",
+  "prof": "other",
+  "title": "127시간"
+ },
+ {
+  "nickname": "알렉스 호놀드",
+  "en": "Alex Honnold",
+  "headline": "세계가 숨죽여 본 맨손 등반의 주인공",
+  "prof": "athlete",
+  "title": "프리 솔로"
+ },
+ {
+  "nickname": "야마구치 쓰토무",
+  "en": "Tsutomu Yamaguchi",
+  "headline": "히로시마에서 피폭하고 집에 가니 나가사키였던 남자",
+  "prof": "other",
+  "title": "이중 피폭자"
+ },
+ {
+  "nickname": "이블 니블",
+  "en": "Evel Knievel",
+  "headline": "세계에서 뼈를 가장 많이 부러뜨린 남자",
+  "prof": "athlete",
+  "title": "스턴트의 왕"
+ },
+ {
+  "nickname": "필리프 프티",
+  "en": "Philippe Petit",
+  "headline": "경찰이 지켜보는 가운데 공중을 산책한 사나이",
+  "prof": "other",
+  "title": "쌍둥이 빌딩의 줄타기"
+ },
+ {
+  "nickname": "빔 호프",
+  "en": "Wim Hof",
+  "headline": "반바지 차림으로 에베레스트를 오른 얼음 사나이",
+  "prof": "other",
+  "title": "아이스맨"
+ },
+ {
+  "nickname": "베시 콜먼",
+  "en": "Bessie Coleman",
+  "headline": "조종사가 되려고 불어까지 배운 흑인 여성",
+  "prof": "other",
+  "title": "퀸 베스"
+ },
+ {
+  "nickname": "에이미 존슨",
+  "en": "Amy Johnson",
+  "headline": "낡은 복엽기로 영국에서 호주까지 혼자 날아간 여자",
+  "prof": "other",
+  "title": "낡은 비행기의 여왕"
+ },
+ {
+  "nickname": "베릴 마컴",
+  "en": "Beryl Markham",
+  "headline": "케냐의 경주마 조련사에서 대서양 횡단 비행사로",
+  "prof": "author",
+  "title": "「밤의 서쪽 비행」"
+ },
+ {
+  "nickname": "찰스 린드버그",
+  "en": "Charles Lindbergh",
+  "headline": "대서양을 혼자 건너 세계 영웅이 된 우편 조종사",
+  "prof": "other",
+  "title": "세인트루이스의 영혼"
+ },
+ {
+  "nickname": "어밀리아 에어하트",
+  "en": "Amelia Earhart",
+  "headline": "여성 최초 대서양 단독 횡단 뒤 실종된 전설",
+  "prof": "other",
+  "title": "사라진 비행사"
+ },
+ {
+  "nickname": "와일리 포스트",
+  "en": "Wiley Post",
+  "headline": "외눈으로 단독 세계 일주를 처음 해낸 비행사",
+  "prof": "other",
+  "title": "한쪽 눈의 세계일주"
+ },
+ {
+  "nickname": "알베르토 산투스두몽",
+  "en": "Alberto Santos-Dumont",
+  "headline": "손목시계를 남자 패션으로 만든 비행 개척자",
+  "prof": "other",
+  "title": "파리 하늘의 개척자"
+ },
+ {
+  "nickname": "척 예거",
+  "en": "Chuck Yeager",
+  "headline": "부러진 갈비뼈로도 음속 돌파에 성공한 조종사",
+  "prof": "commander",
+  "title": "음속 돌파자"
+ },
+ {
+  "nickname": "유리 가가린",
+  "en": "Yuri Gagarin",
+  "headline": "'포엑할리' 한마디로 우주 시대를 연 남자",
+  "prof": "commander",
+  "title": "최초의 우주인"
+ },
+ {
+  "nickname": "자크 쿠스토",
+  "en": "Jacques Cousteau",
+  "headline": "스쿠버를 만들어 바닷속을 세상에 보여 준 선장",
+  "prof": "other",
+  "title": "칼립소의 선장"
+ },
+ {
+  "nickname": "윌리엄 비비",
+  "en": "William Beebe",
+  "headline": "심해의 어둠 속을 직접 눈으로 본 최초의 인간",
+  "prof": "scientist",
+  "title": "심해의 최초 목격자"
+ },
+ {
+  "nickname": "오귀스트 피카르",
+  "en": "Auguste Piccard",
+  "headline": "틴틴의 시루 교수 모델이 된 탐험 과학자",
+  "prof": "scientist",
+  "title": "하늘과 바다의 설계자"
+ },
+ {
+  "nickname": "실비아 얼",
+  "en": "Sylvia Earle",
+  "headline": "잠수복 하나로 가장 깊은 해저를 걸은 과학자",
+  "prof": "scientist",
+  "title": "바다의 여왕"
+ },
+ {
+  "nickname": "이본 취나드",
+  "en": "Yvon Chouinard",
+  "headline": "'지구가 우리의 유일한 주주'라 선언한 창업자",
+  "prof": "entrepreneur",
+  "title": "파타고니아의 창업자"
+ },
+ {
+  "nickname": "더그 톰킨스",
+  "en": "Doug Tompkins",
+  "headline": "국가만 한 땅을 사서 국가에 기부한 등반가",
+  "prof": "entrepreneur",
+  "title": "땅을 산 사업가"
+ }
+]

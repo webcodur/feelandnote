@@ -5,9 +5,15 @@
 */
 "use client";
 
-import { useGameAudio, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
+import { useGameAudio, RESULT_MUSIC, type GameAudioConfig, type BgmTrack } from "@/components/features/game/shared/hooks/useGameAudio";
 
 const BASE = "/assets/labyrinth";
+
+/** 미궁 게임 BGM — 페이즈 매핑과 음악 재생기 카탈로그가 함께 쓴다 */
+export const LABYRINTH_MUSIC = {
+  intro: { src: `${BASE}/labyrinth-intro.mp3`, label: "미궁의 문", labelEn: "Gates of the Labyrinth" },
+  gameplay: { src: `${BASE}/labyrinth-gameplay.mp3`, label: "끝없는 회랑", labelEn: "Endless Corridors" },
+} satisfies Record<string, BgmTrack>;
 
 const LABYRINTH_AUDIO_CONFIG: GameAudioConfig = {
   basePath: BASE,
@@ -15,18 +21,18 @@ const LABYRINTH_AUDIO_CONFIG: GameAudioConfig = {
   getBgmTracks: (state: string): BgmTrack[] => {
     switch (state) {
       case "idle":
-        return [{ src: `${BASE}/labyrinth-intro.mp3`, label: "미궁 — Intro" }];
+        return [LABYRINTH_MUSIC.intro];
       case "loading":
       case "stage1":
       case "stage2":
       case "stage3":
       case "stage4":
       case "stage5":
-        return [{ src: `${BASE}/labyrinth-gameplay.mp3`, label: "미궁 — Gameplay" }];
+        return [LABYRINTH_MUSIC.gameplay];
       case "result-win":
-        return [{ src: "/assets/common/bgm-result-win.mp3", label: "Victory" }];
+        return [RESULT_MUSIC.win];
       case "result-lose":
-        return [{ src: "/assets/common/bgm-result-lose.mp3", label: "Defeat" }];
+        return [RESULT_MUSIC.lose];
       default:
         return [];
     }

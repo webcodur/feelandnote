@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "가와시마 요시코",
+    "title": "동방의 마타 하리",
+    "title_en": "The Mata Hari of the East",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "엘리아스 바즈나",
+    "title": "키케로 작전",
+    "title_en": "Operation Cicero",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "올레크 펜콥스키",
+    "title": "쿠바 위기의 내부자",
+    "title_en": "The Insider of the Cuba Crisis",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "올레크 고르디옙스키",
+    "title": "KGB의 배신자",
+    "title_en": "The KGB Turncoat",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "조지 코발",
+    "title": "맨해튼 계획의 내부자",
+    "title_en": "The Atom Spy",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "멜리타 노우드",
+    "title": "할머니 스파이",
+    "title_en": "The Granny Spy",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "프리츠 콜베",
+    "title": "최고의 단독 간첩",
+    "title_en": "The Greatest Lone Spy",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "우르술라 쿠친스키",
+    "title": "소냐",
+    "title_en": "Agent Sonja",
+    "file": "espionage.json"
+  },
+  {
+    "nick": "어니스트 섀클턴",
+    "title": "남극의 리더",
+    "title_en": "Antarctic Leader",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "로알 아문센",
+    "title": "남극점의 정복자",
+    "title_en": "Conqueror of the South Pole",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "로버트 팰컨 스콧",
+    "title": "비극의 탐험가",
+    "title_en": "The Tragic Explorer",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "압슬리 체리-개러드",
+    "title": "「세계 최악의 여행」",
+    "title_en": "The Worst Journey in the World",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "더글러스 모슨",
+    "title": "남극의 생환자",
+    "title_en": "Antarctic Survivor",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "톰 크린",
+    "title": "남극의 침묵하는 영웅",
+    "title_en": "Antarctica's Quiet Hero",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "프리드티오프 난센",
+    "title": "북극의 스키어",
+    "title_en": "Ski Pioneer of the Arctic",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "페테르 프로이헨",
+    "title": "북극의 야전살림꾼",
+    "title_en": "Arctic Frontiersman",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "에이다 블랙잭",
+    "title": "북극의 여성 로빈슨",
+    "title_en": "The Arctic's Female Robinson",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "살로몬 안드레",
+    "title": "열기구의 북극점",
+    "title_en": "The Balloon to the Pole",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "움베르토 노빌레",
+    "title": "비행선의 탐험가",
+    "title_en": "The Airship Explorer",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "로버트 피어리",
+    "title": "북극점의 주장자",
+    "title_en": "Claimant of the North Pole",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "매슈 헨슨",
+    "title": "북극점의 숨은 선두",
+    "title_en": "The Unsung First at the Pole",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "프레더릭 쿡",
+    "title": "탐험의 사기꾼",
+    "title_en": "The Exploration Fraud",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "토르 헤예르달",
+    "title": "콘티키호의 선장",
+    "title_en": "Captain of the Kon-Tiki",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "이븐 바투타",
+    "title": "중세 최고의 여행자",
+    "title_en": "The Greatest Traveller of the Middle Ages",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "데이비드 리빙스턴",
+    "title": "아프리카의 선교 탐험가",
+    "title_en": "Missionary Explorer of Africa",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "헨리 모턴 스탠리",
+    "title": "리빙스턴을 찾은 탐험가",
+    "title_en": "The Man Who Found Livingstone",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "리처드 프랜시스 버턴",
+    "title": "빅토리아의 괴짜 기사",
+    "title_en": "Victoria's Eccentric Knight",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "아라비아의 로렌스",
+    "title": "아라비아의 로렌스",
+    "title_en": "Lawrence of Arabia",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "거트루드 벨",
+    "title": "이라크의 설계자",
+    "title_en": "Architect of Iraq",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "프레야 스탁",
+    "title": "중동의 여행작가",
+    "title_en": "Travel Writer of the Middle East",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "이사벨라 버드",
+    "title": "빅토리아의 여행가",
+    "title_en": "Victorian Traveller",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "알렉상드라 다비드넬",
+    "title": "라싸에 잠입한 여성",
+    "title_en": "The Woman Who Entered Lhasa",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "난 싱",
+    "title": "묵주의 스파이",
+    "title_en": "The Rosary Spy",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "윌프레드 테시저",
+    "title": "빈 쿼터의 탐험가",
+    "title_en": "Explorer of the Empty Quarter",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "프랜시스 영허즈번드",
+    "title": "라싸 원정대장",
+    "title_en": "Leader of the Lhasa Mission",
+    "file": "exploration.json"
+  },
+  {
+    "nick": "존 로",
+    "title": "미시시피 버블의 설계자",
+    "title_en": "Architect of the Mississippi Bubble",
+    "file": "finance.json"
+  },
+  {
+    "nick": "제이 굴드",
+    "title": "검은 금요일의 투기꾼",
+    "title_en": "The Black Friday Speculator",
+    "file": "finance.json"
+  },
+  {
+    "nick": "벙커 헌트",
+    "title": "은 시장을 사려 한 남자",
+    "title_en": "The Man Who Tried to Buy Silver",
+    "file": "finance.json"
+  },
+  {
+    "nick": "버니 매이도프",
+    "title": "역대 최대 폰지 사기",
+    "title_en": "History's Biggest Ponzi",
+    "file": "finance.json"
+  },
+  {
+    "nick": "조던 벨포트",
+    "title": "월 스트리트의 늑대",
+    "title_en": "The Wolf of Wall Street",
+    "file": "finance.json"
+  }
+]

@@ -389,7 +389,7 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
   const [faces, tagsRes, journey, evidence, celebCountRes, recordCountRes, factionCountRes] = await Promise.all([
     fetchFaces(db, isEn),
     db
-      .from('celeb_tags')
+      .from('faction_lv2')
       .select('name, name_en, slug, team_images, description, description_en')
       .in('slug', TEAM_TAG_SLUGS as unknown as string[]),
     fetchJourney(db, locale, isEn),
@@ -406,7 +406,7 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
       })
       .not('review', 'is', null),
     db
-      .from('celeb_tags')
+      .from('faction_lv2')
       .select('id', { count: 'exact', head: true })
       .eq('is_fiction', false),
   ])

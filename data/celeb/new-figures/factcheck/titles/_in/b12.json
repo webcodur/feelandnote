@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "빌 잉글리시",
+    "title": "마우스 공동 발명가",
+    "title_en": "Co-inventor of the mouse",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "아이번 서덜랜드",
+    "title": "컴퓨터 그래픽스의 아버지",
+    "title_en": "Father of Computer Graphics",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "아델 골드버그",
+    "title": "객체지향의 전도사",
+    "title_en": "Smalltalk's Ambassador",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "댄 잉걸스",
+    "title": "스몰토크의 구현 마법사",
+    "title_en": "Smalltalk's Implementing Wizard",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "조지 안타일",
+    "title": "음악계의 악동",
+    "title_en": "The Bad Boy of Music",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "레스 솔로몬",
+    "title": "PC 혁명의 촉매 편집자",
+    "title_en": "The Editor Who Launched the PC",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "팀 패터슨",
+    "title": "MS-DOS의 원조 저자",
+    "title_en": "The Original Author of DOS",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "데이비드 실버",
+    "title": "알파고의 설계자",
+    "title_en": "The Mind Behind AlphaGo",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "피터 다얀",
+    "title": "도파민 알고리즘의 해석자",
+    "title_en": "The Theorist of Dopamine",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "브루스 페런스",
+    "title": "오픈 소스 정의의 저자",
+    "title_en": "Author of the Open Source Definition",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "팀 톰프슨",
+    "title": "빔의 조상을 쓴 프로그래머",
+    "title_en": "Grandfather of Vim",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "람베르트 메르턴스",
+    "title": "파이썬의 조부",
+    "title_en": "Grandfather of Python",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "제이슨 프라이드",
+    "title": "베이스캠프 창시자",
+    "title_en": "Creator of Basecamp",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "웨이 다이",
+    "title": "b-money 창시자",
+    "title_en": "Creator of b-money",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "데이브 클라이먼",
+    "title": "사토시 논란의 포렌식 전문가",
+    "title_en": "The Forensic Ghost of the Satoshi Saga",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "마이클 패트린",
+    "title": "QuadrigaCX 공동설립",
+    "title_en": "QuadrigaCX co-founder",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "빌 스틸리",
+    "title": "와일드 빌, 시뮬레이션의 장군",
+    "title_en": "Wild Bill of MicroProse",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "제프 브릭스",
+    "title": "문명을 작곡한 CEO",
+    "title_en": "The Composer-CEO of Firaxis",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "제프 브라운",
+    "title": "심시티의 사업가",
+    "title_en": "The Businessman Behind SimCity",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "신카와 요지",
+    "title": "메탈기어의 화가",
+    "title_en": "The Brush of Metal Gear",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "테드 대브니",
+    "title": "아타리 공동설립",
+    "title_en": "Atari co-founder",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "빌 러시",
+    "title": "세 번째 점을 켠 엔지니어",
+    "title_en": "The Engineer Who Added the Third Dot",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "헹크 로저스",
+    "title": "테트리스를 서방에 가져온 사업가",
+    "title_en": "The Man Who Won Tetris for the World",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "스타 롱",
+    "title": "울티마 온라인의 연출가",
+    "title_en": "The Director of Ultima Online",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "와다 야스히로",
+    "title": "목장이야기의 창조자",
+    "title_en": "Creator of Harvest Moon",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "켄 윌리엄스",
+    "title": "시에라 공동설립",
+    "title_en": "Sierra co-founder",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "발렌틴 글루시코",
+    "title": "소련 로켓 엔진 총설계자",
+    "title_en": "Chief designer of Soviet rocket engines",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "테오도르 폰 카먼",
+    "title": "카르만 선에 이름을 남긴 공학자",
+    "title_en": "The man the Kármán line is named for",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "프랭크 말리나",
+    "title": "JPL 공동설립",
+    "title_en": "JPL co-founder",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "티코 브라헤",
+    "title": "금 코의 천문학자",
+    "title_en": "The Gold-Nosed Astronomer",
+    "file": "science.json"
+  },
+  {
+    "nick": "헨리 캐번디시",
+    "title": "지구를 달아 본 은둔자",
+    "title_en": "The Man Who Weighed the Earth",
+    "file": "science.json"
+  },
+  {
+    "nick": "윌리엄 버클랜드",
+    "title": "공룡의 첫 명명자",
+    "title_en": "First Namer of a Dinosaur",
+    "file": "science.json"
+  },
+  {
+    "nick": "클레어 패터슨",
+    "title": "지구 나이의 측정자",
+    "title_en": "The Man Who Dated the Earth",
+    "file": "science.json"
+  },
+  {
+    "nick": "배리 마셜",
+    "title": "세균을 마신 의사",
+    "title_en": "The Doctor Who Drank Bacteria",
+    "file": "science.json"
+  },
+  {
+    "nick": "스터빈스 퍼스",
+    "title": "구토물을 먹은 의학도",
+    "title_en": "The Man Who Ate Vomit",
+    "file": "science.json"
+  },
+  {
+    "nick": "베르너 포르스만",
+    "title": "자기 심장에 카테터를 넣은 의사",
+    "title_en": "He Catheterised Himself",
+    "file": "science.json"
+  },
+  {
+    "nick": "레오니트 로고조프",
+    "title": "자기 맹장을 뗀 의사",
+    "title_en": "The Man Who Operated on Himself",
+    "file": "science.json"
+  },
+  {
+    "nick": "데이비드 한",
+    "title": "방사능 소년",
+    "title_en": "The Radioactive Boy Scout",
+    "file": "science.json"
+  },
+  {
+    "nick": "토머스 미즐리",
+    "title": "최악의 발명가",
+    "title_en": "The Worst Inventor",
+    "file": "science.json"
+  },
+  {
+    "nick": "세르주 보로노프",
+    "title": "원숭이 고환 박사",
+    "title_en": "The Monkey Gland Doctor",
+    "file": "science.json"
+  }
+]

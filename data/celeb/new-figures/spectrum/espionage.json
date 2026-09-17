@@ -1,0 +1,2108 @@
+{
+ "그리고리 라스푸틴": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1915년 장관 임면을 좌우해 왕조 신뢰를 갉음",
+   "political_exp_en": "Swayed ministerial appointments in 1915-16, discrediting the Romanov court",
+   "strategic": 1,
+   "strategic_exp": "군사·안보 제도와 직접 인연이 없음",
+   "strategic_exp_en": "No direct bearing on military affairs",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "성직자 스캔들로 차르 체제의 도덕 권위를 추가 손상",
+   "social_exp_en": "His scandal further corroded the moral authority of tsarism",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 5,
+   "cultural_exp": "'매드 몽크' 전설이 한 세기 넘게 대중문화 소재가 됨",
+   "cultural_exp_en": "The 'mad monk' legend has fed a century of popular culture",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "왕조 몰락의 상징으로 백 년 넘게 회자되는 인물",
+   "transhistoricity_exp_en": "A century on he remains the emblem of a dynasty's fall"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "1915년 장관 임면에 실질 영향을 미쳤으나 이끈 조직이 없음",
+     "reason_en": "He swayed cabinet appointments in 1915-16 without holding office"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "농민 출신의 건장한 체격으로 1914년 자상 치명상에서 회복",
+     "reason_en": "A robust peasant's frame; he survived a near-fatal stabbing in 1914"
+    },
+    "intellect": {
+     "score": 42,
+     "reason_ko": "문자를 거의 못 읽었으나 사람 심리를 꿰는 임기응변",
+     "reason_en": "Barely literate, but uncannily quick at reading people"
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "차르 부부와 상트페테르부르크 살롱을 매혹한 존재감",
+     "reason_en": "A magnetism that captivated the tsar's family and the salons"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "폭음과 난교 스캔들이 수도 사교계까지 알려짐",
+     "reason_en": "Drunken orgies scandalised even the capital's elite"
+    },
+    "diligence": {
+     "score": 35,
+     "reason_ko": "방랑과 즉흥으로 생을 꾸려 정해진 일과가 없었음",
+     "reason_en": "He lived by wandering and improvisation, not steady work"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "자기를 돌아본 흔적 없이 즉흥으로 삶",
+     "reason_en": "He left little sign of self-examination"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "귀족 사회의 공공연한 적대 속에서도 궁정을 떠나지 않음",
+     "reason_en": "He held his ground at court amid open aristocratic hatred"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "1916년 죽을 때까지 황실 가족에 대한 애착을 유지",
+     "reason_en": "He kept his devotion to the imperial family to the end"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "청원자들의 사정을 황후에게 전하며 도운 행적",
+     "reason_en": "He carried petitioners' pleas to the tsarina"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "자기를 믿는 자와 의심하는 자를 가려 베풂",
+     "reason_en": "He dispensed favour by loyalty to himself, not merit"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "스스로를 신의 사도로 내세우며 궁정을 휘두름",
+     "reason_en": "He posed as God's chosen and lorded over the court"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "자기가 죽으면 왕조도 무너진다는 종말적 전망을 말함",
+     "reason_en": "He spoke in apocalyptic terms of the dynasty's doom"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "전제와 신권적 질서를 옹호한 구체제의 인물",
+     "reason_en": "A man of the old order, upholding autocracy and mystic authority"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "고향과 가족을 떠나 홀로 러시아를 방랑하며 삶",
+     "reason_en": "He left home and wandered Russia alone"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "수많은 적을 두고도 궁정 정치 개입을 계속함",
+     "reason_en": "He pushed on at court despite making enemies everywhere"
+    }
+   },
+   "rationale_ko": "천박한 출신이면서 황실의 절대적 신뢰를 얻어 장관 임면까지 움직였다. 그 힘은 조직이 아니라 사람 심리를 꿰는 재능과 존재감에서 나왔다. 방종한 사생활은 그 힘의 근거인 신성성을 스스로 갉아먹었다. 1916년 귀족들은 그를 독살하고 총으로 쏘아 네바 강에 던졌다.",
+   "rationale_en": "An illiterate peasant won the imperial family's absolute trust and moved ministerial appointments. His power came not from office but from a gift for reading people and a magnetic presence. His debauchery corroded the very sanctity that sustained him. In 1916 nobles poisoned, shot and drowned him in the Neva."
+  }
+ },
+ "마타 하리": {
+  "influence": {
+   "political": 2,
+   "political_exp": "그녀의 재판이 전시 프랑스의 희생양 논쟁을 남김",
+   "political_exp_en": "Her trial left a lasting debate over scapegoats in wartime France",
+   "strategic": 1,
+   "strategic_exp": "실제 군사 정보 전달은 입증되지 않았음",
+   "strategic_exp_en": "No proven transfer of military intelligence",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "간첩 재판의 부당성 논쟁을 상징하는 이름이 됨",
+   "social_exp_en": "She became the emblem of dubious wartime espionage trials",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 7,
+   "cultural_exp": "팜므파탈 스파이의 원형으로 백 년째 재생산",
+   "cultural_exp_en": "The prototype of the femme-fatale spy in a century of film and fiction",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "실적보다 신화가 남아 스파이 문화의 아이콘으로 지속",
+   "transhistoricity_exp_en": "Her myth outlasts her deeds — a standing icon of spy culture"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "이끈 조직이 없이 혼자 무대와 살롱을 누빔",
+     "reason_en": "She commanded nothing; she worked alone on stage and in salons"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "무희로 10년 넘게 유럽 무대를 도는 근지구력을 훈련",
+     "reason_en": "Trained as a dancer, she toured Europe's stages for a decade"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "허구의 인도네시아 무희 페르소나를 직접 설계해 유지",
+     "reason_en": "She designed and sustained her invented 'temple dancer' persona"
+    },
+    "charm": {
+     "score": 88,
+     "reason_ko": "1905년 파리 데뷔로 유럽 전역을 사로잡은 무대 매력",
+     "reason_en": "Her 1905 Paris debut conquered stages across Europe"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "사치와 애인 생활로 번 돈을 그때그때 탕진",
+     "reason_en": "She spent fortunes as fast as they came on luxury and lovers"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "스물아홉 늦은 데뷔 뒤 10년간 공연과 투어를 이어감",
+     "reason_en": "From a debut at 29 she kept up ten years of touring"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "옥중 서한에 자기 처지에 대한 인식이 남음",
+     "reason_en": "Her prison letters show some reckoning with her plight"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "1917년 총살형장에서 눈가리개를 거부했다는 증언이 남음",
+     "reason_en": "Witnesses say she refused the blindfold before the firing squad"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "프랑스와 독일 양쪽의 돈을 받아 어느 쪽에도 충실하지 않음",
+     "reason_en": "She took pay from both France and Germany, faithful to neither"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "남을 위해 나선 행적보다 자기 생존이 앞선 삶",
+     "reason_en": "Her own survival always outranked acts for others"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "프랑스와 독일 양쪽에 각각 다른 말을 판 생존 방식",
+     "reason_en": "She told each side whatever it paid to hear"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스스로 신화를 만들어 세상에 판 자기 과시의 삶",
+     "reason_en": "She manufactured her own myth and sold it to the world"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "파산과 전쟁 속에서도 매번 새 신분으로 재기함",
+     "reason_en": "Through ruin and war she kept reinventing herself"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "당대 여성의 처신 관습을 깨는 인물상을 스스로 판매",
+     "reason_en": "She sold a persona that broke the era's conventions for women"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "가족·조직에 속하지 않고 혼자 유럽을 떠돈 삶",
+     "reason_en": "She drifted through Europe alone, bound to no institution"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "전시 국경을 넘나들며 양쪽 정보기관과 거래",
+     "reason_en": "She crossed wartime borders dealing with rival services"
+    }
+   },
+   "rationale_ko": "허구의 무희를 만들어 유럽을 매혹시킨 자기 창조의 인물이다. 그 재능은 양쪽 돈을 받는 이중 계약으로 이어졌고, 누구에게도 속하지 않은 삶이 결국 누구의 보호도 받지 못하는 처지를 만들었다. 1917년 프랑스는 그녀를 독일 간첩으로 총살했다.",
+   "rationale_en": "She was self-invented: a fictional temple dancer who mesmerised Europe. The same talent let her take money from both sides, and belonging to no one left her protected by no one. In 1917 France shot her as a German spy."
+  }
+ },
+ "리하르트 조르게": {
+  "influence": {
+   "political": 5,
+   "political_exp": "도쿄 최고급 정보로 모스크바의 대일 판단을 직접 좌우",
+   "political_exp_en": "His Tokyo reporting directly shaped Moscow's read of Japan",
+   "strategic": 7,
+   "strategic_exp": "남진 확인으로 시베리아군 서방 전용을 가능케 함",
+   "strategic_exp_en": "Confirming Japan's southward move freed Siberian divisions for Moscow",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "사후 소련 영웅이 되어 첩보사의 전설이 됨",
+   "social_exp_en": "Posthumously a Soviet hero and a legend of espionage",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "전기·영화로 재생산되는 20세기 대표 간첩상",
+   "cultural_exp_en": "Retold in biographies and film as the archetypal master spy",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "대전사와 첩보 연구에 고정된 작전 사례를 남김",
+   "transhistoricity_exp_en": "A standing case in the histories and tradecraft of WWII"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "도쿄 첩보망 20여 명을 8년간 조직해 운영",
+     "reason_en": "He built and ran a Tokyo ring of some twenty agents for eight years"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "1차대전 보병으로 세 차례 부상, 철십자 훈장 수훈",
+     "reason_en": "WWI infantryman, wounded three times and decorated with the Iron Cross"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "정치학 박사 학위와 기자의 분석력으로 대사관까지 뚫음",
+     "reason_en": "A political-science doctorate and an analyst's mind got him inside the embassy"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "오트 대사와 도쿄 사교계를 매료시킨 언변",
+     "reason_en": "His charm won over Ambassador Ott and Tokyo society"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "폭음·여성 편력·오토바이 질주로 스스로를 노출",
+     "reason_en": "Heavy drinking, affairs and reckless motorcycling exposed him"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "8년간 기사 작성과 첩보를 병행하며 세밀한 보고를 지속",
+     "reason_en": "For eight years he filed journalism and meticulous secret reports alike"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "신념과 처지에 대한 고민을 편지와 분석에 남김",
+     "reason_en": "His letters and analyses record real ideological wrestling"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "체포 직전까지 독일대사관 심부에서 활동을 멈추지 않음",
+     "reason_en": "He kept working inside the German embassy until his arrest"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "모스크바에 버림받고도 처형대에서 신념을 굽히지 않음",
+     "reason_en": "Abandoned by Moscow, he went to the gallows unrecanting"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "공작원들의 안전을 챙겼다는 동료 증언이 남음",
+     "reason_en": "Colleagues recalled his concern for his agents' safety"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "나치즘을 혐오하면서도 대사관 인맥을 차별 없이 활용",
+     "reason_en": "Hating Nazism, he still worked every embassy contact"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "자기 과시와 위험한 노출을 즐기는 면이 있음",
+     "reason_en": "He was prone to self-dramatisation and risky exposure"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "파시즘의 패배와 사회주의 승리를 확신",
+     "reason_en": "He was certain fascism would lose and socialism prevail"
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "1차대전 부상 뒤 볼셰비즘에 투신해 질서 전복을 지향",
+     "reason_en": "Wounded in WWI, he embraced Bolshevism and the overthrow of order"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "국제 공산주의라는 집단 대의에 자신을 바침",
+     "reason_en": "He gave himself wholly to the communist collective cause"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "노출 위험이 커져도 8년 체류를 밀어붙인 과감함",
+     "reason_en": "He stayed eight years despite mounting exposure — bold to a fault"
+    }
+   },
+   "rationale_ko": "학자의 머리와 모험가의 심장을 함께 가진 간첩이다. 부상 입은 보병에서 박사 학위 기자로, 다시 대사관 심부의 정보원으로 살며 8년간 도쿄 첩보망을 이끌었다. 그가 확인한 남진 정보는 시베리아 병력을 모스크바로 돌린 20세기 최대급 첩보 성과가 됐다. 1944년 도쿄 스가모에서 교수형당했다.",
+   "rationale_en": "A scholar's mind and an adventurer's nerve in one spy. Wounded infantryman, doctorate-holding journalist, then the embassy's most trusted insider — for eight years he ran a Tokyo ring. His confirmation of Japan's southward turn freed Siberian divisions for Moscow, one of the century's greatest intelligence coups. He was hanged at Sugamo in 1944."
+  }
+ },
+ "시드니 라일리": {
+  "influence": {
+   "political": 3,
+   "political_exp": "1918년 볼셰비키 전복 공작에 핵심으로 관여",
+   "political_exp_en": "Central to the 1918 'Ambassadors' Plot' against the Bolsheviks",
+   "strategic": 3,
+   "strategic_exp": "대러 비밀공작의 1세대 실천으로 정보사에 이름을 남김",
+   "strategic_exp_en": "A first-generation practitioner of covert operations against Russia",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "간첩 신화 외 사회적 영향은 미미",
+   "social_exp_en": "Beyond spy mythology his social footprint is slight",
+   "economic": 2,
+   "economic_exp": "페르시아 유전 이권 공작에 관여했다는 기록",
+   "economic_exp_en": "Reportedly schemed over Persian oil concessions for Britain",
+   "cultural": 5,
+   "cultural_exp": "제임스 본드의 모델 후보로 회자되는 전설",
+   "cultural_exp_en": "The 'Ace of Spies' — a reported model for James Bond",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "공작은 실패했으나 첩보 신화로 백 년을 남음",
+   "transhistoricity_exp_en": "His plots failed, yet his legend has lasted a century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "여권과 신분을 바꿔가며 소규모 공작망을 기획·운용",
+     "reason_en": "He planned and ran small covert networks under shifting identities"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "공식 군사 훈련 없이도 전장급 위험 지대를 누빈 활동력",
+     "reason_en": "No formal training, yet he moved through war zones for years"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "수개국어와 위조·신분 설계로 여러 나라 기관을 속임",
+     "reason_en": "A polyglot forger who fooled several states' services"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "신분마다 다른 인물로 외교관·실업가를 매혹",
+     "reason_en": "In each borrowed identity he charmed diplomats and tycoons"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "도박·사치·중혼에 돈을 쏟아부으며 스스로를 탕진",
+     "reason_en": "Gambling, luxury and bigamous marriages burned through his money"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "20년 넘게 끊임없이 공작을 기획하고 실행에 나섬",
+     "reason_en": "For two decades he ceaselessly hatched and ran operations"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "자기 신화를 부풀린 회고로 사실과 허구가 뒤섞임",
+     "reason_en": "His memoirs inflated his own myth until fact blurred"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "사형 선고 상태인 소련에 스스로 재입국을 감행",
+     "reason_en": "He re-entered Russia under sentence of death, more than once"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "의뢰국보다 자기 명성과 돈을 앞세운 프리랜스",
+     "reason_en": "A freelance who put his own fame and purse before any patron"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "공작과 자기 출세가 삶의 거의 전부였음",
+     "reason_en": "His life's business was operations and self-advancement"
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "필요하면 아내와 지인의 재산까지 공작 재원으로 씀",
+     "reason_en": "He financed operations with wives' and friends' money"
+    },
+    "humility": {
+     "score": 18,
+     "reason_ko": "스스로를 최고의 간첩으로 세상에 판매",
+     "reason_en": "He sold himself to the world as the greatest of spies"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "거듭된 실패에도 다음 공작의 성공을 확신",
+     "reason_en": "However many plots failed, he trusted the next would succeed"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "제국 질서와 반볼셰비즘에 헌신한 구체제 요원",
+     "reason_en": "An agent of empire and anti-Bolshevism — the old order"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "국적·이름·조직을 버리고 다니는 완전한 개인 행동가",
+     "reason_en": "Names, nations and employers were all disposable to him"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "수배된 적국 수도로 스스로 걸어 들어간 대담함",
+     "reason_en": "He walked knowingly into an enemy capital that hunted him"
+    }
+   },
+   "rationale_ko": "신분 자체를 공작 도구로 쓴 1세대 프리랜스 간첩이다. 언어와 위조, 연기로 여러 나라를 넘나들며 명성을 쌓았지만 실제 공작은 대부분 실패했다. 자기 신화 부풀리기를 멈추지 않았고, 결국 '트러스트' 함정에 속아 귀국했다. 1925년 소련에서 총살당했다.",
+   "rationale_en": "A first-generation freelance who made identity itself a tool of operations. Languages, forgery and acting carried him across borders, though most of his plots failed. He never stopped inflating his own myth — and it lured him into the Trust sting. He was shot in Russia in 1925."
+  }
+ },
+ "후안 푸홀 가르시아": {
+  "influence": {
+   "political": 4,
+   "political_exp": "기만 공작으로 프랑스 해방의 군사 조건을 만듦",
+   "political_exp_en": "His deceptions helped create the conditions for liberating France",
+   "strategic": 7,
+   "strategic_exp": "포티튜드 작전으로 독일 예비대를 칼레에 묶음",
+   "strategic_exp_en": "Fortitude kept German reserves at Calais while Normandy fell",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "이중간첩 운용의 교과서적 성공 사례를 남김",
+   "social_exp_en": "He left the textbook case of double-agent deception",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "가르보 일화로 전후 첩보 문학과 영화에 재생산",
+   "cultural_exp_en": "The Garbo story feeds post-war spy literature and film",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "노르망디 기만의 설계자로 군사사에 고정된 이름",
+   "transhistoricity_exp_en": "The architect of the D-Day deception, fixed in military history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "가상 하부요원 27명을 창조·운영했으나 실제 부하는 없음",
+     "reason_en": "He ran 27 invented agents single-handed — real subordinates, none"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "전투 훈련 없이 책상과 라디오로 전쟁을 수행",
+     "reason_en": "He fought the war entirely from a desk and a wireless set"
+    },
+    "intellect": {
+     "score": 88,
+     "reason_ko": "허구 조직의 인물·동선·보고 체계를 모순 없이 설계",
+     "reason_en": "He built a fictitious service — people, travel, reports — without a seam"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "아프베어와 MI5 양쪽을 완전히 설득한 연기력",
+     "reason_en": "He convinced both the Abwehr and MI5 completely"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "전후 베네수엘라에서 무명의 서점 주인으로 조용히 삶",
+     "reason_en": "After the war he lived quietly as an obscure Venezuelan shopkeeper"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "수년간 가공 보고서 수백 건을 혼자 작성",
+     "reason_en": "Alone he wrote hundreds of fabricated reports over years"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "회고록에서 공작 설계 과정을 스스로 복기",
+     "reason_en": "His later memoir calmly retraced how the deception worked"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "영국에 거절당하고도 스스로 첩보를 만들어 독일에 판 개척",
+     "reason_en": "Rejected by Britain, he built his own intelligence and sold it to Germany"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "보수가 아닌 반파시즘 신념으로 시작해 끝까지 유지",
+     "reason_en": "He began from anti-fascist conviction, not pay, and never wavered"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "유럽을 나치에서 구하려는 동기로 자원",
+     "reason_en": "He volunteered out of a wish to free Europe from Nazism"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "기만을 일상이 아닌 대의의 수단으로 한정해 사용",
+     "reason_en": "He confined deception to the cause, not to ordinary life"
+    },
+    "humility": {
+     "score": 75,
+     "reason_ko": "30년 넘게 이중간첩 경력을 숨기고 무명으로 삶",
+     "reason_en": "He hid his wartime role and lived unnamed for three decades"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "혼자서 제국을 속일 수 있다 믿고 실행에 옮김",
+     "reason_en": "He believed one man could fool the Reich — and acted on it"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "파시즘에 맞서 민주 진영의 승리에 헌신",
+     "reason_en": "He served democracy's victory over fascism"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "혼자 일했으나 전 과정을 연합국 대의에 묶음",
+     "reason_en": "He worked alone yet bound every step to the Allied cause"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "전례 없는 대담한 설계를 수년간 치밀하게 유지",
+     "reason_en": "An unprecedentedly bold design, sustained with years of care"
+    }
+   },
+   "rationale_ko": "누구의 명령도 없이 스스로 간첩이 된 사람이다. 허구의 27명 공작망을 혼자 설계하고 수년간 모순 없이 연기해 독일의 눈을 칼레에 묶어뒀다. 대담함은 대의를 위한 것이었고 전쟁이 끝나자 이름을 지우고 서점 주인으로 살았다. 1988년 베네수엘라에서 숨졌다.",
+   "rationale_en": "A man who made himself a spy with no one's orders. He invented a 27-agent network and sustained it seamlessly for years, pinning German eyes on Calais. The boldness served the cause, not himself — when the war ended he erased his name and sold books. He died in Venezuela in 1988."
+  }
+ },
+ "에디 채프먼": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 체제 변화와 무관",
+   "political_exp_en": "No effect on political systems",
+   "strategic": 5,
+   "strategic_exp": "1944년 V-1 탄착 거짓 보고로 런던 피해를 줄임",
+   "strategic_exp_en": "False V-1 impact reports steered bombs away from London",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "사회 제도 영향이 미미",
+   "social_exp_en": "Little effect on society or institutions",
+   "economic": 1,
+   "economic_exp": "금고털이와 사기로 생계를 이어간 범죄 경력",
+   "economic_exp_en": "A career of safecracking and fraud",
+   "cultural": 4,
+   "cultural_exp": "『에이전트 지그재그』로 재조명된 이중간첩 이야기",
+   "cultural_exp_en": "His double life was retold in the bestseller Agent Zigzag",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "전쟁 첩보사의 인물로 회자되나 장기 영향은 제한적",
+   "transhistoricity_exp_en": "A colourful name in war lore whose long-term mark is small"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "이끈 조직 없이 단독 임무를 수행",
+     "reason_en": "He worked alone; he led no organisation"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "아프베어에서 폭파·낙하산 훈련을 이수해 실전 투입",
+     "reason_en": "Abwehr-trained in demolitions and parachuting for field insertion"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "금고털이에서 공작원으로 빠르게 전업한 임기응변",
+     "reason_en": "A safecracker's quick wits, redeployed into espionage"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "독일 담당관과 전후까지 우정을 이어간 사람 매력",
+     "reason_en": "He charmed his German handler into a lifelong friendship"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 18,
+     "reason_ko": "범죄·도박·여성에 번 돈을 쏟아붓는 생활",
+     "reason_en": "Crime, gambling and women drained every payday"
+    },
+    "diligence": {
+     "score": 40,
+     "reason_ko": "한때의 몰입은 강했으나 지속된 직업 습관이 없음",
+     "reason_en": "Brilliant bursts of effort, but no sustained working discipline"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "회고록은 자기 정당화 위주로 남김",
+     "reason_en": "His memoirs mostly served to justify himself"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "낙하산 침투와 사형 위험의 이중 플레이를 자청",
+     "reason_en": "He volunteered for a parachute insertion and a double game under a death penalty"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "독일에 팔리고 영국에 전향했으나 자기 이익이 우선",
+     "reason_en": "He served Britain after Germany — with himself always first"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "이중 플레이가 런던 시민 피해를 줄이는 결과를 남김",
+     "reason_en": "His deceptions incidentally spared Londoners"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "상대에 따라 진실을 바꾸는 사기꾼의 처세",
+     "reason_en": "Truth was whatever the person in front of him paid for"
+    },
+    "humility": {
+     "score": 22,
+     "reason_ko": "자기 공적을 전기작가에게 직접 판 자기 과시",
+     "reason_en": "He sold his own exploits to writers — an unabashed showman"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "어떤 처지든 뒤집을 수 있다는 도박사적 낙관",
+     "reason_en": "A gambler's confidence that any situation could be turned"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "정치적 신념 없이 기회를 따라 양 진영을 오감",
+     "reason_en": "Apolitical — he followed opportunity, not conviction"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "국가·이념보다 자기 재미와 이익을 앞세움",
+     "reason_en": "Thrill and profit outranked country or creed"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "사형 위험과 감옥을 오가며 베팅을 멈추지 않음",
+     "reason_en": "He kept betting through prisons and death penalties"
+    }
+   },
+   "rationale_ko": "금고털이의 손재주와 도박사의 심장이 이중간첩의 재료가 됐다. 독일에 팔렸다가 영국에 전향해 V-1 좌표를 속였고 그 거짓 보고가 런던의 피해를 줄였다. 이념이 아니라 스릴과 돈으로 움직였으나 결과는 연합국에 실질 기여했다. 1997년 83세로 숨졌다.",
+   "rationale_en": "A safecracker's hands and a gambler's nerve made a double agent. Sold to Germany, then turned to Britain, he falsified V-1 impact reports that measurably spared London. He moved for thrills and money, not ideology — yet the result materially served the Allies. He died at 83 in 1997."
+  }
+ },
+ "버지니아 홀": {
+  "influence": {
+   "political": 3,
+   "political_exp": "프랑스 저항망 구축으로 점령지 정치 지형에 기여",
+   "political_exp_en": "Her networks helped shape resistance in occupied France",
+   "strategic": 6,
+   "strategic_exp": "레지스탕스 조직과 마키 지휘로 점령군 작전을 저해",
+   "strategic_exp_en": "She built and led networks that directly impeded German operations",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "미국 정보기관 첫 여성 요원 중 한 명으로 길을 엶",
+   "social_exp_en": "One of the CIA's first women officers, she opened the path",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "전기 『중요하지 않은 여자』 등으로 재조명",
+   "cultural_exp_en": "Her life has been retold in bestselling biography",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "정보기관사의 여성 개척자로 이름이 지속",
+   "transhistoricity_exp_en": "She endures as a pioneer for women in intelligence"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "프랑스 현지에서 수백 명 규모 저항망을 조직·지휘",
+     "reason_en": "In the field she built and ran networks of hundreds"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "의족으로 피레네를 넘고 낙하산으로 귀환한 인내",
+     "reason_en": "On a wooden leg she crossed the Pyrenees and parachuted back"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "다언어와 위장 신분 관리로 게슈타포 수배를 오래 피함",
+     "reason_en": "Languages and layered cover kept her ahead of the Gestapo"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "눈에 띄지 않도록 자신을 감추는 것이 직업인 인물",
+     "reason_en": "Her trade was being unmemorable — and she was good at it"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "수년의 잠복 생활을 흔들림 없이 유지한 자제력",
+     "reason_en": "She held an undercover life without wavering for years"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1941년 침투부터 전후 CIA까지 25년 현업을 지속",
+     "reason_en": "From the 1941 insertion to the CIA she served twenty-five years"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "전후 기록에서 작전 경험을 차분히 복기",
+     "reason_en": "She reviewed her operations plainly in later accounts"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "최우선 수배 상태에서 다시 적지로 낙하산 귀환",
+     "reason_en": "Most-wanted and one-legged, she parachuted back into France"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "조직한 공작원들의 생명을 끝까지 책임짐",
+     "reason_en": "She never abandoned the agents she had built"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "탈출자와 격추 조종사를 조직적으로 빼돌림",
+     "reason_en": "She systematically moved fugitives and downed airmen to safety"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "공작원 평가와 배치를 연고가 아닌 능력으로 함",
+     "reason_en": "She judged and placed agents on capability, not connections"
+    },
+    "humility": {
+     "score": 78,
+     "reason_ko": "훈장 수여식마저 신분 노출을 이유로 사양",
+     "reason_en": "She declined a public medal ceremony to protect her cover"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "조직이 무너져도 저항망 재건 가능성을 믿음",
+     "reason_en": "When networks fell she believed they could be rebuilt"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "남성 직무로 여겨진 전장 공작에 여성으로 진입",
+     "reason_en": "She took a combat role that the era reserved for men"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "개인의 영웅 행위보다 조직·네트워크로 일함",
+     "reason_en": "Her method was the network, not the solo feat"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "치밀한 준비와 대담한 현장 감행을 함께 구사",
+     "reason_en": "She paired meticulous preparation with audacious execution"
+    }
+   },
+   "rationale_ko": "한쪽 다리 없는 몸으로 게슈타포가 '가장 위험한 간첩'이라 수배할 조직가였다. 눈에 띄지 않는 것이 재능인 사람이 수백 명의 저항망을 만들고 무너지면 다시 만들었다. 그녀에게 용기는 돌발 행위가 아니라 몇 년을 지속하는 직업 윤리였다. 전후 CIA의 문을 처음 연 여성 요원 중 한 명이 됐다.",
+   "rationale_en": "With one leg she built the networks the Gestapo called the Allies' most dangerous. Invisibility was her talent — she raised hundreds of resisters and rebuilt them when they fell. For her courage was not an act but a work ethic sustained for years. After the war she was among the first women through the CIA's door."
+  }
+ },
+ "누르 이나야트 칸": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 체제 변화와 무관",
+   "political_exp_en": "No direct effect on political systems",
+   "strategic": 3,
+   "strategic_exp": "1943년 파리의 마지막 무선 연락을 수개월 유지",
+   "strategic_exp_en": "For months she kept Paris's last radio link alive",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "인도계 최초 여성 전쟁 영웅으로 조지 크로스 추서",
+   "social_exp_en": "Posthumous George Cross — a landmark for Britain's Indian community",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "동화 작가에서 전사가 된 삶이 전기·기념상으로 남음",
+   "cultural_exp_en": "Her life is retold in biographies and a London memorial",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "희생의 상징으로 전쟁 기념 문화에 지속",
+   "transhistoricity_exp_en": "She persists in war memory as an emblem of sacrifice"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "조직 지휘 없이 단독 무전 임무를 수행",
+     "reason_en": "A solo operator — she led no one"
+    },
+    "martial": {
+     "score": 27,
+     "reason_ko": "왜소한 체격의 문인 출신으로 무선 송신이 전업",
+     "reason_en": "A slight children's writer — the wireless set was her weapon"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "작가·음악가 출신으로 무선 통신 기술을 습득",
+     "reason_en": "A writer and musician who mastered clandestine radio work"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "교육관들이 지나치게 선하고 정직하다고 평한 인상",
+     "reason_en": "Trainers found her almost too gentle and honest for the work"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "수피 가문의 금욕적 규율 아래 자란 생활",
+     "reason_en": "Raised in a Sufi household of quiet discipline"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "조직이 무너진 뒤에도 매일 송신을 거르지 않음",
+     "reason_en": "Alone after the network fell, she transmitted every day"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "수피 전통의 내적 성찰을 생활 습관으로 유지",
+     "reason_en": "Self-examination was her Sufi habit and her strength"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "탈출 기회를 사양하고 게슈타포 추적 속 송신을 계속",
+     "reason_en": "She refused evacuation and kept transmitting under the Gestapo's hunt"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 82,
+     "reason_ko": "체포 뒤에도 동료와 암호를 끝까지 지킴",
+     "reason_en": "Under arrest she gave up neither comrades nor codes"
+    },
+    "benevolence": {
+     "score": 72,
+     "reason_ko": "아동문학을 쓴 사람답게 타인의 고통에 민감했음",
+     "reason_en": "A children's writer whose compassion shaped her service"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "규율과 약속을 지키는 것으로 신뢰를 유지",
+     "reason_en": "She kept faith through rules kept and promises honoured"
+    },
+    "humility": {
+     "score": 75,
+     "reason_ko": "공적을 내세우지 않고 조용히 임무에 몰입",
+     "reason_en": "She made no claims — only kept working"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "전쟁이 끝나고 정의가 승리한다는 믿음을 유지",
+     "reason_en": "She held to a faith that justice would outlast the war"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "인도 왕족 후손이 제국군에 자원한 모순적 선택",
+     "reason_en": "An Indian royal's daughter serving the empire — her own quiet revision"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "혼자 버텼으나 그것은 조직을 위한 고립이었음",
+     "reason_en": "Her solitude was held for the organisation, not from it"
+    },
+    "cautious_bold": {
+     "score": 28,
+     "reason_ko": "남는 것이 위험임을 알면서도 자진해 잔류",
+     "reason_en": "Knowing the danger, she volunteered to stay on the air"
+    }
+   },
+   "rationale_ko": "전쟁과 가장 어울리지 않아 보이던 사람이 가장 오래 버텼다. 수피 가문에서 자란 동화 작가가 파리의 마지막 무전사가 되어 조직이 무너진 뒤에도 매일 전파를 띄웠다. 그녀의 용기는 폭력이 아니라 신념의 지속이었고 체포 뒤에도 동료와 암호를 지켰다. 사후 조지 크로스가 추서됐다.",
+   "rationale_en": "The person least suited to war lasted longest. A Sufi-raised children's writer became Paris's last wireless operator, transmitting daily after her network collapsed. Her courage was endurance, not violence; under arrest she gave up neither comrades nor codes. The George Cross came posthumously."
+  }
+ },
+ "낸시 웨이크": {
+  "influence": {
+   "political": 2,
+   "political_exp": "정치 체제 변화와 직접 인연이 없음",
+   "political_exp_en": "No direct effect on political systems",
+   "strategic": 5,
+   "strategic_exp": "탈출선 운영과 마키 지휘로 점령군에 실질 피해",
+   "strategic_exp_en": "Escape lines and maquis command dealt real damage to the occupier",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "연합군 최다 훈장 여성으로 군대 내 여성상을 바꿈",
+   "social_exp_en": "Among the most decorated women, she reset expectations of women in war",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "'하얀 쥐' 전기와 드라마로 회자되는 전설",
+   "cultural_exp_en": "Her 'White Mouse' legend lives in biography and screen drama",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "2차대전 여성 전사의 상징으로 기억이 지속",
+   "transhistoricity_exp_en": "She endures as an emblem of women fighting WWII"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "1944년 오베르뉴에서 7천 명 마키 부대를 지휘",
+     "reason_en": "In 1944 she commanded some 7,000 maquisards in the Auvergne"
+    },
+    "martial": {
+     "score": 57,
+     "reason_ko": "피레네 도보 탈출과 낙하산 강하, 마키 전투 동행을 반복",
+     "reason_en": "She hiked the Pyrenees, parachuted back, and fought beside the maquis"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "기자 출신답게 상황 판단과 변장·위조 신분 관리에 능함",
+     "reason_en": "A journalist's quick judgement, applied to disguises and false papers"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "매력과 입담으로 검문소와 동료를 동시에 휘어잡음",
+     "reason_en": "Her glamour and wit charmed checkpoints and comrades alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "욕설과 음주로 유명했고 감정을 숨기지 않음",
+     "reason_en": "Famous for profanity and drink, she hid nothing she felt"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "탈출선 안내와 마키 조직을 수년간 쉬지 않고 반복",
+     "reason_en": "For years she repeated escape runs and network-building without pause"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "전후 회고록에서 자기 행위를 거침없이 복기",
+     "reason_en": "Her memoirs recount her deeds with unvarnished candour"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "수배된 몸으로 탈출하고 다시 적지로 강하",
+     "reason_en": "Hunted by the Gestapo, she escaped — and parachuted back in"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "남편의 죽음과 동료들을 평생 자기 책임으로 기억",
+     "reason_en": "She carried her husband's death and her comrades for life"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "수백 명의 연합군과 도피자를 국경 너머로 빼냄",
+     "reason_en": "She moved hundreds of Allied fugitives to safety"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "처벌과 포상 모두 전시 규율에 맡긴 현장 지휘",
+     "reason_en": "She left reward and punishment to wartime discipline"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "자기 무용담을 즐겨 말했으나 공을 동료와 나눔",
+     "reason_en": "She told her war stories gladly but shared credit with comrades"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "남편의 죽음에도 이기면 된다는 전투적 낙관",
+     "reason_en": "Even bereavement could not dent her fighting optimism"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "여성에게 허락되지 않은 지휘와 전투를 당연하게 수행",
+     "reason_en": "She took command and combat as if no rule barred women"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "탈출선·마키라는 공동체 안에서 일한 조직 전사",
+     "reason_en": "She fought inside communities — the escape line, the maquis"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "맨손으로 첩자를 죽였다는 일화가 남을 만큼 과감",
+     "reason_en": "Legend says she killed a sentry barehanded — that bold"
+    }
+   },
+   "rationale_ko": "기자에서 탈출선 안내인으로, 다시 7천 명의 지휘관으로 전쟁이 키워낸 전사다. 매력과 욕설, 낙관과 과감함이 한 몸에 있어 게슈타포가 '하얀 쥐'라 불렀다. 지휘는 조직과 규율 위에 있었고 무용담을 즐기면서도 공은 동료와 나눴다. 연합군 최다 훈장 여성 중 한 명으로 남았다.",
+   "rationale_en": "Journalist, escape-line guide, then commander of 7,000 — the war made her a soldier. Glamour and profanity, optimism and audacity in one body: the Gestapo called her the White Mouse. Her command ran on organisation and discipline, and for all her storytelling she shared credit. She ended among the Allies' most decorated women."
+  }
+ },
+ "슈발리에 데옹": {
+  "influence": {
+   "political": 3,
+   "political_exp": "1763년 파리조약 예비 협상에 서기로 참여",
+   "political_exp_en": "As secretary he helped negotiate the 1763 Treaty of Paris",
+   "strategic": 2,
+   "strategic_exp": "칠년전쟁 기병 장교로 참전, 공작 활동은 단기",
+   "strategic_exp_en": "A dragoon officer in the Seven Years' War; covert work was brief",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "생애 자체가 성별 규범의 경계를 드러낸 사례가 됨",
+   "social_exp_en": "His life became a landmark case in how society reads gender",
+   "economic": 1,
+   "economic_exp": "자기 성별을 건 런던 도박판의 소재가 됨",
+   "economic_exp_en": "London literally ran betting books on his sex",
+   "cultural": 5,
+   "cultural_exp": "검술 시범과 스캔들로 18세기 유럽의 유명인사",
+   "cultural_exp_en": "Fencing exhibitions and scandal made him an 18th-century celebrity",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "그 이름에서 나온 용어가 성별 담론에 남음",
+   "transhistoricity_exp_en": "His name coined 'eonism' — still cited in gender discourse"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "기병 대위 계급과 왕실 특무 임무를 수행",
+     "reason_en": "He held a dragoon captaincy and royal secret missions"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "칠년전쟁 참전 부상과 평생의 검술 실력으로 입증",
+     "reason_en": "Wounded in war and a celebrated fencer into old age"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "법학 교육과 라틴어로 외교 문서와 특무를 수행",
+     "reason_en": "Trained in law and Latin, he handled diplomacy and intrigue"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "궁정과 런던 사교계를 오가며 화제의 중심이 됨",
+     "reason_en": "He moved through courts and salons as a permanent sensation"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "명예에 집착하고 소송과 빚을 반복한 생활",
+     "reason_en": "Obsessed with honour, he repeated lawsuits and debts"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "비밀첩보·외교·군무를 수십 년간 병행",
+     "reason_en": "For decades he juggled espionage, diplomacy and soldiering"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "방대한 회고록과 편지로 자기 변호를 남김",
+     "reason_en": "He left voluminous memoirs arguing his own case"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "여장 침투와 결투, 적국 파견을 두려움 없이 수행",
+     "reason_en": "Cross-dressing missions, duels and hostile postings — unflinching"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "왕실과 갈등 속에서도 프랑스에 대한 충성은 유지",
+     "reason_en": "Through quarrels with the crown he stayed loyal to France"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "타인을 위한 선행보다 자기 명예의 삶이 앞섬",
+     "reason_en": "His life ran on honour more than on care for others"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "처세가 원칙보다 신분과 계약 관계에 따랐음",
+     "reason_en": "His dealings followed status and contract more than principle"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "자기 공로와 계급을 끈질기게 주장한 집요함",
+     "reason_en": "He pressed his rank and services with tireless insistence"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "왕실과의 갈등 속에서도 처지 개선을 포기하지 않음",
+     "reason_en": "Through royal disgrace he never stopped believing he'd prevail"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "후반 30년을 여성 신분으로 살며 젠더 질서를 넘음",
+     "reason_en": "He lived thirty years as a woman — across the era's gender order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "평생 조직 소속이면서도 항상 홀로 문제를 일으킴",
+     "reason_en": "Always in service yet always a solitary problem"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "여장 침투와 결투를 감행한 대담한 경력",
+     "reason_en": "A career of bold disguises, duels and dangerous postings"
+    }
+   },
+   "rationale_ko": "법학도, 기병 대위, 왕의 비밀첩보원, 그리고 30년의 여장 생활까지 한 생애가 여러 인생을 담았다. 용기와 검술은 전쟁과 결투로 입증됐지만 명예 집착은 평생 소송과 빚을 불렀다. 1810년 부검이 그의 성별을 남성으로 확인했다.",
+   "rationale_en": "Lawyer, dragoon captain, royal spy, then thirty years lived as a woman — one life contained several. His courage and swordsmanship were proven in war and duel; his fixation on honour bred lawsuits and debts. The 1810 autopsy confirmed his sex as male."
+  }
+ },
+ "가와시마 요시코": {
+  "influence": {
+   "political": 4,
+   "political_exp": "완룽 황후의 만주 이동 등 만주국 수립 공작에 관여",
+   "political_exp_en": "She helped spirit Empress Wanrong to Manchuria and served Manchukuo",
+   "strategic": 2,
+   "strategic_exp": "관동군 정보공작에 참여했으나 군사 성과는 제한적",
+   "strategic_exp_en": "She ran errands for Kwantung intelligence with limited military effect",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "중국에서 한간의 상징이, 일본에서 남장 스타가 됨",
+   "social_exp_en": "China made her the traitor; Japan made her a cross-dressing star",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "영화·전기의 소재로 '동방의 마타 하리'가 회자",
+   "cultural_exp_en": "Film and biography keep the 'Mata Hari of the East' alive",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "식민지 협력의 상징으로 역사 기억에 지속",
+   "transhistoricity_exp_en": "She endures in memory as the emblem of collaboration"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "1932년 안국군 사령관으로 수천 명을 이끌었으나 실효성은 낮음",
+     "reason_en": "In 1932 she nominally commanded the Anguo army — thousands on paper"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "승마·사격 훈련과 군복 차림으로 전선을 누빔",
+     "reason_en": "Riding and shooting in a colonel's uniform, she toured the fronts"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "청나라어와 일본어를 오가며 공작을 기획",
+     "reason_en": "She moved between languages and courts to run her intrigues"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "공주 출신 스타로 일본 언론과 군부를 매료",
+     "reason_en": "A princess-turned-celebrity who dazzled press and army alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "아편과 사치, 연애 스캔들로 생활이 흐트러짐",
+     "reason_en": "Opium, luxury and scandal undid her"
+    },
+    "diligence": {
+     "score": 45,
+     "reason_ko": "몰입은 강했으나 계획의 지속이 짧았음",
+     "reason_en": "Her bursts of activity never became sustained effort"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "옥중 서간에 처지에 대한 인식이 일부 남음",
+     "reason_en": "Her prison letters hold some reckoning with her fate"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "전선 시찰과 변장 공작을 두려움 없이 수행",
+     "reason_en": "She toured battle lines and ran disguised operations without flinching"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "일본에 이용당하면서도 만주 부흥의 꿈은 버리지 않음",
+     "reason_en": "Used by Japan, she never let go of the Manchu restoration"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "공작과 명예가 삶의 중심이었고 타인 배려는 희박",
+     "reason_en": "Intrigue and honour ruled her life; compassion was rare"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "필요에 따라 진영과 인간관계를 바꾸는 공작가 처세",
+     "reason_en": "She traded allegiances and lovers as the operation required"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "스스로를 극적으로 과시해 언론의 스타가 됨",
+     "reason_en": "She staged herself as a sensation for the press"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "실현 불가한 부흥의 꿈에 매달린 운명적 삶",
+     "reason_en": "She clung to a restoration that could never come"
+    },
+    "conservative_progressive": {
+     "score": -35,
+     "reason_ko": "청 왕조 복고라는 구질서 회복이 평생 목표",
+     "reason_en": "Her lifelong goal was restoring the fallen Qing order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "왕족 신분과 자기 야망을 중심으로 움직임",
+     "reason_en": "She moved for her dynasty and her own ambition, not a community"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "남장 변장과 전선 공작을 거리낌 없이 감행",
+     "reason_en": "Disguises and frontline work were undertaken without hesitation"
+    }
+   },
+   "rationale_ko": "청의 공주에서 일본의 공작원으로, 조국과 양육국 사이에서 두 배로 이방인이 됐다. 남장과 승마로 만든 스타 이미지는 화려했으나 그녀를 이끈 것은 실현 불가능한 왕조 복고의 꿈이었다. 아편과 스캔들이 말년을 갉아먹었다. 1948년 베이징에서 총살당했다.",
+   "rationale_en": "Qing princess, Japanese operative — doubly exiled between her two countries. The uniformed star image was dazzling, but what drove her was an impossible dream of restoration. Opium and scandal consumed her last years. In 1948 Beijing shot her as a traitor."
+  }
+ },
+ "엘리아스 바즈나": {
+  "influence": {
+   "political": 2,
+   "political_exp": "유출이 연합국 보안에 경종을 울렸으나 정치 변화는 없음",
+   "political_exp_en": "The leak alarmed Allied security but changed no policy",
+   "strategic": 2,
+   "strategic_exp": "빼낸 최고기밀이 독일의 불신으로 실제 활용되지 못함",
+   "strategic_exp_en": "His top-secret haul went unused — Berlin distrusted it",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "사회 제도 영향이 미미",
+   "social_exp_en": "Little effect on society or institutions",
+   "economic": 1,
+   "economic_exp": "받은 몸값 대부분이 위조지폐라는 희극적 결말",
+   "economic_exp_en": "He was famously paid in counterfeit pounds",
+   "cultural": 4,
+   "cultural_exp": "영화 『다섯 개의 손가락』 원작 사건의 주인공",
+   "cultural_exp_en": "His affair became the film Five Fingers",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "대전 최대 문서 유출 사건으로 첩보사에 남음",
+   "transhistoricity_exp_en": "He stays in the annals as the war's great document leak"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 10,
+     "reason_ko": "단독으로 금고를 털어 판 집사로 조직 경험이 없음",
+     "reason_en": "A valet working alone — he never led anyone"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "특별한 신체 훈련 없이 실내 직종으로 삶",
+     "reason_en": "A servant's indoor life with no physical training"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "금고 사진과 필름 거래의 실행 계획을 혼자 설계",
+     "reason_en": "He devised alone how to photograph the safe and sell the film"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "노래와 시중 솜씨로 대사의 절대적 신임을 얻음",
+     "reason_en": "His singing and service won the ambassador's complete trust"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "돈을 위해 배신했고 번 돈으로 사치 생활",
+     "reason_en": "He betrayed for money and spent it lavishly"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "수개월간 매일 체계적으로 문서 촬영을 반복",
+     "reason_en": "For months he photographed documents methodically"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "회고록에서도 자기 행위에 대한 뉘우침이 드묾",
+     "reason_en": "Even his memoir shows little remorse for the betrayal"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "발각 시 사형이 확실한 거래를 수개월 지속",
+     "reason_en": "He sustained for months a trade that meant hanging"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 15,
+     "reason_ko": "신임을 준 고용주를 철저히 배신",
+     "reason_en": "He sold out the employer who trusted him completely"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "오직 돈을 위한 행위였고 타인 배려가 없음",
+     "reason_en": "His only motive was money"
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "신의를 받은 위치를 이용한 배신의 삶",
+     "reason_en": "His life's act was betraying the hand that trusted him"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "전후 회고록에서 자기 공작을 영웅담처럼 과시",
+     "reason_en": "His memoir cast his treachery as a heroic exploit"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "돈만 있으면 된다는 기회주의적 낙관",
+     "reason_en": "An opportunist's confidence that money solved everything"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "이념 없이 돈으로 진영을 골랐음",
+     "reason_en": "He chose his side by price, not principle"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "가족·조직·국가 어디에도 묶이지 않은 돈의 행동가",
+     "reason_en": "Bound to nothing — not family, employer or country"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "대사의 금고를 매일 터는 위험한 일과를 감행",
+     "reason_en": "Daily robbing his master's safe took real nerve"
+    }
+   },
+   "rationale_ko": "대전 최악의 문서 유출을 만든 사람은 장교도 이념가도 아닌 집사였다. 노래와 시중으로 얻은 신임을 금고 사진으로 바꿨고 그 필름은 너무 좋아서 독일이 믿지 못했다. 몸값은 위조지폐였고 전후에는 자기 행각을 회고록으로 팔았다. 1970년 이스탄불에서 숨졌다.",
+   "rationale_en": "The war's worst document leak came not from an officer or ideologue but a valet. Trust won by song and service became photographs of a safe — and the films were too good for Berlin to believe. The pay was counterfeit; after the war he sold his treachery as a memoir. He died in Istanbul in 1970."
+  }
+ },
+ "올레크 펜콥스키": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1962년 미사일 정보로 케네디의 협상력을 키움",
+   "political_exp_en": "His data armed Kennedy through the Cuban Missile Crisis",
+   "strategic": 7,
+   "strategic_exp": "소련 미사일 실전 능력을 서방이 처음 정확히 알게 함",
+   "strategic_exp_en": "He gave the West its first precise picture of Soviet missile power",
+   "tech": 2,
+   "tech_exp": "기술 문서의 전달자였으나 기술 발전의 주체는 아님",
+   "tech_exp_en": "He moved technical documents; he did not make the technology",
+   "social": 2,
+   "social_exp": "이념과 승진 좌절 사이의 내부자 사례로 논의됨",
+   "social_exp_en": "He is discussed as the insider caught between grievance and conviction",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "『펜콥스키 페이퍼스』와 영화로 전해지는 이름",
+   "cultural_exp_en": "The Penkovsky Papers and film adaptations keep his name alive",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "핵위기를 넘긴 단일 정보원 사례로 냉전사에 고정",
+   "transhistoricity_exp_en": "He stands in Cold War history as the source who shaped a nuclear crisis"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "GRU 대령으로 국가기술위 대표단을 이끌며 접선을 병행",
+     "reason_en": "A GRU colonel leading delegations while running his contacts"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "2차대전 포병 장교로 참전해 부상과 훈장을 받음",
+     "reason_en": "A WWII artillery officer, wounded and decorated"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "공학 교육과 정보 분석 경력으로 기술 문서의 가치를 판별",
+     "reason_en": "Engineering and intelligence training let him judge what mattered"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "서방 접촉 상대들에게 신뢰와 호감을 동시에 줌",
+     "reason_en": "Western handlers found him persuasive and likeable"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "승진 좌절의 원한과 위험한 이중생활을 병행",
+     "reason_en": "Career grievance fuelled a reckless double life"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "18개월간 수천 쪽의 문서를 촬영해 전달",
+     "reason_en": "In eighteen months he photographed thousands of pages"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "체제에 대한 환멸과 자기 정당화가 회고에 섞임",
+     "reason_en": "His disillusion mixed conviction with self-justification"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "모스크바 한복판의 이중생활이 죽음임을 알고도 지속",
+     "reason_en": "He kept spying in central Moscow knowing the price was death"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "소련 체제를 저버렸으나 새 대의에는 끝까지 충실",
+     "reason_en": "He broke with the Soviet state but served his new cause to the end"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "핵전쟁 예방이 자기 행위의 목적이라 주장",
+     "reason_en": "He claimed his spying served to prevent nuclear war"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공작 평가의 잣대보다 자기 원한이 행동을 이끎",
+     "reason_en": "Grievance, more than principle, drove his choices"
+    },
+    "humility": {
+     "score": 38,
+     "reason_ko": "서방 군복과 장교 계급을 요구할 만큼 인정에 목마름",
+     "reason_en": "He craved recognition — even asking to wear a Western uniform"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "소련 체제가 바뀔 수 있다는 기대로 행동",
+     "reason_en": "He acted on a belief the Soviet system could change"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "체제 내부에서 서방에 손을 내민 변화의 추구자",
+     "reason_en": "From inside the system he reached for change"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "대의보다 승진 좌절의 개인적 동기가 컸음",
+     "reason_en": "Personal grievance weighed as much as any cause"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "수도 한복판에서 대담한 접선과 사진 촬영을 감행",
+     "reason_en": "His drops and photography in the capital were boldly run"
+    }
+   },
+   "rationale_ko": "최고위급 내부자가 스스로 배신자가 됐다. 대전 참전 장교에서 GRU 대령으로 오른 그는 승진 좌절과 체제 환멸 사이에서 서방을 택했다. 18개월의 촬영이 케네디에게 소련 미사일의 진짜 힘을 알려줬고 쿠바 위기의 협상 지형이 바뀌었다. 그는 1963년 비공개 재판 뒤 총살당했다.",
+   "rationale_en": "The insider who made himself a traitor. A decorated artilleryman risen to GRU colonel, he chose the West between stalled promotion and disillusion. Eighteen months of photography told Kennedy what Soviet missiles could really do, and the Missile Crisis shifted. He was shot after a closed trial in 1963."
+  }
+ },
+ "올레크 고르디옙스키": {
+  "influence": {
+   "political": 6,
+   "political_exp": "에이블 아처 경보로 1983년 핵 오판 위기 완화",
+   "political_exp_en": "His Able Archer warning in 1983 helped defuse a near-miss",
+   "strategic": 6,
+   "strategic_exp": "KGB 내부 전략과 요원망을 11년간 서방에 전달",
+   "strategic_exp_en": "For eleven years he fed London the KGB's playbook",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "망명 후 저술로 KGB 연구의 1차 자료를 남김",
+   "social_exp_en": "His later books became primary sources on the KGB",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "『스파이와 반역자』 등으로 냉전 첩보의 얼굴이 됨",
+   "cultural_exp_en": "The Spy and the Traitor made him the face of Cold War espionage",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "냉전 말기 서방의 이해를 바꾼 핵심 정보원으로 지속",
+   "transhistoricity_exp_en": "He endures as the source who reshaped the West's late-Cold-War read"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "KGB 런던 주재원 지명 직전까지 조직 내 요원을 관리",
+     "reason_en": "He rose to rezident-designate, managing officers and operations"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "KGB 체육 훈련을 거치고 탈출 대비 조깅으로 몸을 유지",
+     "reason_en": "KGB physical training, then years of jogging to stay escape-ready"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "역사 학문과 분석으로 KGB 연구서를 여러 권 저술",
+     "reason_en": "A trained historian, he wrote standard works on the KGB"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "11년간 동료들의 신임을 유지하며 이중생활을 숨김",
+     "reason_en": "For eleven years he kept colleagues' trust while serving two masters"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "긴 이중생활을 규율 있게 유지했으나 사생활은 흔들림",
+     "reason_en": "Operationally disciplined, though his private life strained"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "11년간 문서 암기·복사의 고된 일과를 지속",
+     "reason_en": "Eleven years of memorising and copying files without a break"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "1968년 프라하의 봄 뒤 신념을 스스로 재검토해 전향",
+     "reason_en": "After Prague 1968 he re-examined his convictions and turned"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "소환·심문 중에도 탈출 계획을 실행해 국경을 넘음",
+     "reason_en": "Recalled and interrogated, he still executed the Pimlico escape"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "한번 정한 서방 대의에 반세기를 충실",
+     "reason_en": "Once turned, he served his new allegiance for fifty years"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "핵 오판 방지 기여 외 인간적 선행 행적이 드묾",
+     "reason_en": "Beyond averting miscalculation, acts of care are not his record"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "저술에서 KGB를 적대하되 체계적으로 서술",
+     "reason_en": "His histories indict the KGB yet stay methodical"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "공적을 저술과 인터뷰로 알렸으나 과장보다 분석",
+     "reason_en": "He told his story often, but as analysis more than vainglory"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "소련 체제의 종말을 내다본 냉정한 낙관",
+     "reason_en": "He had a sober confidence that the Soviet order would end"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "소련 체제에서 자유주의 진영으로 옮긴 전향자",
+     "reason_en": "He crossed from the Soviet order to liberal democracy"
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "전향의 동기는 신념이지만 실행은 철저히 개인적",
+     "reason_en": "Conviction drove him, but the work was utterly solitary"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "11년의 치밀한 잠복 끝에 대담한 탈출을 실행",
+     "reason_en": "Eleven careful years ended in one audacious escape"
+    }
+   },
+   "rationale_ko": "KGB의 아들이 KGB 최고위급 배신자가 됐다. 1968년 프라하의 봄이 신념을 바꿨고 그는 11년에 걸쳐 조직의 심장부를 영국에 베꼈다. 소환과 심문 속에서도 훈련한 대로 핀란드를 넘어 냉전 최대의 탈출극을 완성했다. 망명 뒤에는 배신한 조직을 해부하는 책들을 남겼다.",
+   "rationale_en": "A KGB son became the KGB's highest-ranking traitor. Prague 1968 changed his convictions; for eleven years he copied the organisation's heart for London. Recalled and interrogated, he still made the border — the Cold War's greatest escape. In exile he dissected in print the service he had betrayed."
+  }
+ },
+ "조지 코발": {
+  "influence": {
+   "political": 2,
+   "political_exp": "정치 제도와의 직접 인연이 없음",
+   "political_exp_en": "No direct effect on political systems",
+   "strategic": 5,
+   "strategic_exp": "폴로늄 기폭제 기술로 소련 첫 핵실험 시점을 앞당김",
+   "strategic_exp_en": "His polonium initiator secrets hastened the first Soviet bomb",
+   "tech": 5,
+   "tech_exp": "맨해튼 계획 내부의 기폭제 기술을 소련에 이전",
+   "tech_exp_en": "He transferred initiator technology from inside the Manhattan Project",
+   "social": 1,
+   "social_exp": "사회 제도 영향이 미미",
+   "social_exp_en": "Little effect on society or institutions",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "사후 러시아 영웅 칭호로 뒤늦게 알려진 인물",
+   "cultural_exp_en": "Unmasked only after death as a Hero of Russia",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "핵확산사의 내부 침투 사례로 연구가 지속",
+   "transhistoricity_exp_en": "He remains the textbook case of penetration in nuclear history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "단독 요원으로 임무 수행, 지휘 경험이 없음",
+     "reason_en": "A lone agent; he commanded no one"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "미 육군 복무와 선수급 야구 실력으로 알려진 운동 능력",
+     "reason_en": "An athletic soldier — teammates remembered him as a fine ballplayer"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "전기공학 학위로 방사능 물질 공장의 기술을 이해",
+     "reason_en": "An electrical engineer who grasped the plants' radiochemistry"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "부대 동료들에게 호감과 신뢰를 한 몸에 받은 위장력",
+     "reason_en": "Buddies liked and trusted him — perfect camouflage"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "무명의 이중생활을 흔들림 없이 수십 년 유지",
+     "reason_en": "He held an invisible double life for decades without slipping"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "장기간 지루한 정보 수집과 전달을 반복",
+     "reason_en": "Year after year of patient collection and passing"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "공개적으로 자기를 성찰한 언급이 거의 없음",
+     "reason_en": "He left almost no public reckoning with what he did"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "최고 보안 시설에 위장 침투해 기밀을 빼냄",
+     "reason_en": "He infiltrated America's most secret project in plain sight"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "소련 대의에 평생 충실하고 죽을 때까지 발설 없음",
+     "reason_en": "He served Moscow lifelong and never spoke of it"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "이념적 대의 외 인간적 선행 행적이 드묾",
+     "reason_en": "His record holds little beyond the ideological cause"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "동료에게 친절했으나 그 신뢰를 공작에 이용",
+     "reason_en": "He was kind to comrades — and used their trust"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "공적을 평생 숨기고 무명의 노인으로 삶",
+     "reason_en": "He hid his deeds and lived out his days an unknown old man"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "소련 체제의 승리를 믿고 행동한 조용한 확신",
+     "reason_en": "He quietly believed in the Soviet cause and acted on it"
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "공산주의 이념에 헌신한 체제 외부의 신념가",
+     "reason_en": "A convinced communist working inside the enemy's system"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "자기 안위보다 집단 대의를 앞세운 행동",
+     "reason_en": "Collective cause consistently outranked his own safety"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "오크리지 침투라는 대담한 임무를 차분히 수행",
+     "reason_en": "He carried out the Oak Ridge penetration with calm nerve"
+    }
+   },
+   "rationale_ko": "미국의 아들이 미국의 가장 깊은 비밀을 팔았다. 아이오와 출신 이민자 집안의 청년은 육군 제복을 입고 맨해튼 계획에 침투해 폴로늄 기폭제 기술을 빼냈고 그 지식은 소련 첫 핵실험을 앞당겼다. 칭찬도 변명도 없이 무명으로 늙었다. 2006년 모스크바에서 숨졌고 사후 러시아 영웅이 됐다.",
+   "rationale_en": "An American son sold America's deepest secret. The Iowa-born child of Soviet émigrés put on a US uniform, walked into the Manhattan Project, and carried out the polonium initiator — hastening Moscow's first bomb. He grew old in obscurity. He died in Moscow in 2006 and was named a Hero of Russia posthumously."
+  }
+ },
+ "멜리타 노우드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "정치 제도와의 직접 인연이 없음",
+   "political_exp_en": "No direct effect on political systems",
+   "strategic": 4,
+   "strategic_exp": "40년간 원자력 연구 자료를 소련에 흘려 핵개발을 지원",
+   "strategic_exp_en": "Forty years of nuclear research flowed from her desk to Moscow",
+   "tech": 4,
+   "tech_exp": "금속·핵연구 문서를 장기간 전달해 기술 이전에 기여",
+   "tech_exp_en": "Her steady leak of metallurgical papers aided Soviet nuclear science",
+   "social": 3,
+   "social_exp": "87세 폭로가 영국에 간첩의 새 이미지를 남김",
+   "social_exp_en": "Her unmasking at 87 stunned Britain's picture of who spies are",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "'할머니 스파이'로 언론과 전기에 재생산",
+   "cultural_exp_en": "The 'granny spy' became a fixture of press and biography",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "최장기 여성 간첩 사례로 냉전사에 남음",
+   "transhistoricity_exp_en": "She remains the Cold War's longest-serving woman spy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 10,
+     "reason_ko": "비서직으로 일했고 조직을 이끈 적이 없음",
+     "reason_en": "A secretary all her life — she led no organisation"
+    },
+    "martial": {
+     "score": 27,
+     "reason_ko": "평생 사무직으로 지낸 연구소 비서",
+     "reason_en": "An office worker through and through"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "비서 위치에서 기술 문서의 가치를 골라내는 안목",
+     "reason_en": "From a secretary's desk she knew which technical papers mattered"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "교외의 친절한 할머니 이미지가 완벽한 위장",
+     "reason_en": "The kindly suburban grandmother was flawless cover"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "돈을 받지 않고 검소하게 살며 공작을 지속",
+     "reason_en": "She took no payment and lived frugally through it all"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "1937년부터 40년간 자료 전달을 쉬지 않음",
+     "reason_en": "From 1937 she passed material for forty unbroken years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "폭로 뒤에도 자기 선택을 옹호한 일관된 태도",
+     "reason_en": "Exposed, she defended her choice without wavering"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "기소 위험을 안고 반세기 가까이 활동을 지속",
+     "reason_en": "She worked for half a century under threat of prosecution"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 88,
+     "reason_ko": "공산주의 신념에 40년을 헌신하고 회개하지 않음",
+     "reason_en": "Forty years for communism — and unrepentant at 87"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "평등 사회라는 이상을 위해 일했다고 스스로 믿음",
+     "reason_en": "She believed her espionage served a more equal world"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "동료와 이웃에게 성실했으나 국가에는 배신",
+     "reason_en": "Kind to neighbours, faithless to her country"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "'공짜로 한 일'이라며 공적을 내세우지 않음",
+     "reason_en": "'I did it for nothing' — she never claimed glory"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "소련식 사회주의의 승리를 끝까지 믿음",
+     "reason_en": "To the end she believed in the socialist future"
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "평생 공산주의자로 기존 자본주의 질서를 부정",
+     "reason_en": "A lifelong communist, rejecting the capitalist order"
+    },
+    "individual_social": {
+     "score": 40,
+     "reason_ko": "사적 이익 없이 집단 이념에 일생을 바침",
+     "reason_en": "She gave a lifetime to a collective ideal, taking nothing"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "대담함보다 40년 인내의 조심성이 활동 방식",
+     "reason_en": "Her method was patience, not daring — forty quiet years"
+    }
+   },
+   "rationale_ko": "최장기간 여성 간첩의 모습은 교외의 할머니였다. 40년간 원자력 자료를 모스크바에 흘렸으나 돈은 받지 않았고 폭로된 뒤에도 '공짜로 한 일'이라 회개하지 않았다. 그녀의 무기는 대담함이 아니라 인내와 신념이었다. 2005년 런던 교외에서 숨졌다.",
+   "rationale_en": "The longest-serving woman spy looked like everyone's suburban grandmother. For forty years she channelled nuclear research to Moscow, taking no pay, and at 87 she said she would do it again. Her weapons were patience and conviction, not daring. She died in suburban London in 2005."
+  }
+ },
+ "프리츠 콜베": {
+  "influence": {
+   "political": 4,
+   "political_exp": "외교 전문으로 나치 외교의 실체를 연합국이 알게 함",
+   "political_exp_en": "His cables showed Washington the true face of Nazi diplomacy",
+   "strategic": 5,
+   "strategic_exp": "군사 배치·V무기 정보 등 최고급 문서를 OSS에 전달",
+   "strategic_exp_en": "He delivered top-grade military and diplomatic cables to the OSS",
+   "tech": 0,
+   "tech_exp": "기술·과학 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "전후 독일의 '매국노' 논쟁과 저항 재평가의 상징",
+   "social_exp_en": "He became a symbol in Germany's reckoning with resistance",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "전기·영화로 '조지 우드'의 이야기가 전해짐",
+   "cultural_exp_en": "Biography and film have told the story of 'George Wood'",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "대전 최고 가치 단독 간첩으로 정보사에 지속",
+   "transhistoricity_exp_en": "He endures as the war's most valuable lone agent"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "외무부 서기로 하급 업무를 볼 뿐 조직 지휘가 없음",
+     "reason_en": "A desk officer — he commanded no organisation"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "군 복무 없으나 규칙적 체육 생활로 건강 유지",
+     "reason_en": "No soldiering, but a disciplined, athletic life"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "외교 문서의 가치를 가려낼 수 있는 전문 지식",
+     "reason_en": "He knew exactly which cables mattered"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "고집 세고 사교적이지 않아 전후 고립됨",
+     "reason_en": "Stubborn and unsociable — postwar Germany kept him isolated"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "보수를 거절하고 검소하게 위험한 일을 수행",
+     "reason_en": "He refused payment and lived plainly through the danger"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "2년간 수천 건의 문서를 필름으로 복사",
+     "reason_en": "For two years he copied cables in their thousands"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "반나치 신념을 스스로 검증하며 행동한 양심",
+     "reason_en": "A conscience examined — he tested his motives before acting"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "국경을 넘어 베른까지 문서를 몸에 지니고 오감",
+     "reason_en": "He carried the documents to Bern on his own body, repeatedly"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "국가보다 양심에 충성한 다른 종류의 충성",
+     "reason_en": "His loyalty ran to conscience over country"
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "전쟁을 끝내 희생을 줄이려는 인도적 동기",
+     "reason_en": "He acted to end the war and spare lives"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "체제에 대한 반대가 사람에 대한 복수가 아니었음",
+     "reason_en": "His quarrel was with the system, not with persons"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "돈·계급·명예 제안을 모두 거절",
+     "reason_en": "He declined money, rank and every honour offered in his life"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "독일이 패해야 한다는 확신이 행동의 기반",
+     "reason_en": "He acted on the certainty that Germany had to lose"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "나치 체제 전복이 곧 독일을 구하는 길이라 판단",
+     "reason_en": "He judged that only the regime's fall could save Germany"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "조직 없이 혼자 결정하고 혼자 위험을 짊",
+     "reason_en": "He decided alone and carried the risk alone"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "베른 왕복의 위험한 일과를 계획적으로 반복",
+     "reason_en": "The Bern runs were bold, but run with care"
+    }
+   },
+   "rationale_ko": "조국을 배신해 조국을 구하려 한 서기다. 외무부 서류를 몸에 지니고 베른을 오가며 2년간 미국에 독일의 심장부를 보여줬다. 보수도 명예도 거절했고 전후 고향에서는 매국노로 불려 고립됐다. 사후에야 독일이 그의 명예를 회복했다.",
+   "rationale_en": "The clerk who betrayed Germany to save it. For two years he carried the Foreign Office's secrets on his body to Bern, showing Washington the Reich's heart. He took no pay and no honours; postwar Germany repaid him with the name 'traitor' and isolation. Only decades later did his country restore his name."
+  }
+ },
+ "우르술라 쿠친스키": {
+  "influence": {
+   "political": 3,
+   "political_exp": "4개국에서 소련 첩보망 운영으로 대국 정보전에 기여",
+   "political_exp_en": "Her cells in four countries served Soviet intelligence for years",
+   "strategic": 6,
+   "strategic_exp": "푹스의 핵비밀 전달 통로로 소련 핵개발에 직접 기여",
+   "strategic_exp_en": "As Fuchs's handler she fed the Soviet bomb project directly",
+   "tech": 5,
+   "tech_exp": "원자력 비밀의 전달자로 소련 기술 확보에 기여",
+   "tech_exp_en": "She channelled atomic secrets that armed Soviet science",
+   "social": 2,
+   "social_exp": "전후 동독에서 아동문학가로 활동",
+   "social_exp_en": "She spent her later life as a children's writer in East Germany",
+   "economic": 0,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "『소냐의 보고』와 전기로 알려진 전설적 요원",
+   "cultural_exp_en": "Her memoir and biographies made 'Sonja' a legend",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "핵 첩보사의 핵심 연락책으로 연구가 지속",
+   "transhistoricity_exp_en": "She remains the central courier of atomic espionage history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "4개국에서 소규모 공작망과 무선반을 15년간 운영",
+     "reason_en": "She ran cells and radio links across four countries for fifteen years"
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "특수 신체 훈련 없이 주부 위장으로 활동",
+     "reason_en": "Her cover was the housewife — no physical training on record"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "무선 통신·암호·조직 운영 기술을 모두 습득",
+     "reason_en": "She mastered radio, ciphers and the running of networks"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "눈에 띄지 않는 이민자 주부로 위장하는 것이 재능",
+     "reason_en": "Her gift was to be the unremarkable immigrant housewife"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "당 규율 아래 20년간 규칙적인 이중생활",
+     "reason_en": "Twenty years of double life under party discipline"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "상하이에서 옥스퍼드까지 20년간 공작을 쉬지 않음",
+     "reason_en": "From Shanghai to Oxfordshire, twenty unbroken years of work"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "자서전 『소냐의 보고』로 자기 행적을 정리",
+     "reason_en": "Her memoir Sonja's Report set down her own account"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "발각 위험의 접선을 수십 년 반복하고도 끝내 미검거",
+     "reason_en": "Decades of dangerous meetings — and she was never caught"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 82,
+     "reason_ko": "소련 대의에 평생 충실, 말년까지 공산주의자",
+     "reason_en": "Loyal to the Soviet cause from first post to last breath"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "이념적 대의에 헌신했으나 인간적 선행 행적이 드묾",
+     "reason_en": "Devoted to the cause; small record of personal charity"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "조직 규율에 따른 판단으로 일관",
+     "reason_en": "Her judgements followed the discipline of the party"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "전설적 요원이면서 은퇴 후 조용한 작가로 삶",
+     "reason_en": "A legendary agent who retired into quiet authorship"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "사회주의의 승리를 끝까지 믿은 이념가",
+     "reason_en": "She believed to the end in the socialist cause"
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "기존 질서 전복을 목표로 한 평생의 혁명가",
+     "reason_en": "A lifelong revolutionary committed to overthrowing the old order"
+    },
+    "individual_social": {
+     "score": 40,
+     "reason_ko": "결혼마저 공작에 동원한 집단주의적 삶",
+     "reason_en": "Even her marriage served the collective work"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "대담한 임무도 철저한 규율 안에서 수행",
+     "reason_en": "Her bold operations ran inside strict discipline"
+    }
+   },
+   "rationale_ko": "한 번도 잡히지 않은 것이 그녀의 전기 전체다. 상하이, 폴란드, 스위스, 영국을 옮기며 무선반을 만들고 마침내 클라우스 푹스의 연락책으로 핵비밀을 모스크바에 흘렸다. 위장은 눈에 띄지 않는 주부였고 무기는 규율이었다. 푹스가 잡히기 며칠 전 영국을 떠나 동독에서 동화 작가로 늙었다.",
+   "rationale_en": "She was never caught — that is her whole biography. Shanghai, Poland, Switzerland, Oxfordshire: she built radio cells in each, and ended as courier to Klaus Fuchs, moving atomic secrets to Moscow. Her disguise was the unremarkable housewife, her weapon discipline. Days before Fuchs's arrest she slipped out of Britain and grew old writing children's books in East Germany."
+  }
+ }
+}

@@ -14,7 +14,7 @@ export type InactiveSeedPerson = {
 }
 
 export type InactiveSeedManifest = {
-  tag_slug: string
+  faction_slug: string
   people: InactiveSeedPerson[]
 }
 
@@ -58,7 +58,7 @@ export function parseInactiveSeedManifest(input: unknown): InactiveSeedManifest 
   }
 
   const raw = input as Record<string, unknown>
-  const tagSlug = requiredText(raw.tag_slug, 'tag_slug')
+  const factionSlug = requiredText(raw.faction_slug, 'faction_slug')
   if (!Array.isArray(raw.people) || raw.people.length === 0) {
     throw new Error('people이 비어 있습니다.')
   }
@@ -90,7 +90,7 @@ export function parseInactiveSeedManifest(input: unknown): InactiveSeedManifest 
     identityKeys.add(identityKey)
   }
 
-  return { tag_slug: tagSlug, people }
+  return { faction_slug: factionSlug, people }
 }
 
 export function reserveGeneratedSlug(

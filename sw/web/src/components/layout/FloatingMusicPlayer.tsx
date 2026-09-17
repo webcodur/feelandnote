@@ -2,24 +2,28 @@
 
 /*
   음악 재생기. 여는 단추·창·오디오를 한 벌만 두고, 단추와 창은 화면 형편에 맞는 자리로 옮겨 세운다(musicPlayerSlots).
-  - 휴대폰: 하단 내비 마지막 칸이 여는 단추다. 창은 내비(와 그 위에 붙은 띠) 바로 위로 올라온다.
+  - 휴대폰: 하단 내비 마지막 칸이 여는 단추다. 창은 딤을 깔고 화면 가운데 모달로 뜬다.
   - PC: 오른쪽 아래 떠 있는 단추다. 창은 그 위로 올라온다.
   - 게임 전체 화면: 내비가 가려지므로 휴대폰도 떠 있는 단추로 돌아가고, 게임 층 위에 선다.
   창 윗부분과 목록 행은 높이를 고정해 재생 상태가 바뀌어도 움직이지 않고, 높이가 바뀌는 목록 칸만 AnimatedHeight로 감싼다.
-  테마곡이 있는 화면에 들어오면 여는 단추가 퍼지며 알리고, 테마곡을 듣던 중이면 새 화면의 곡으로 한 번 넘긴다.
-  목록은 전체·세력도감·신화·감상목록이고 목록마다 색이 다르다. 곡이 끝나면 곡을 고른 목록에서 다음 곡으로 넘어간다.
+  테마곡이 있는 화면에 들어오면 여는 단추가 퍼지며 알린다. 재생 중인 곡이 새 화면의 곡과 다르면 모달로
+  바꿀지 묻는다 — 허용하면 그 화면의 곡으로 넘기고, 금지하면 듣던 곡을 유지한다. 게임 음악이 켜질 때도
+  듣던 곡과 겹치지 않게 게임 쪽을 멈춰 두고 같은 모달로 묻는다. 같은 대상을 한 번 금지하면 다시 묻지 않는다.
+  목록은 전체·세력도감·신화·게임·감상목록이고 목록마다 색이 다르다. 곡이 끝나면 곡을 고른 목록에서 다음 곡으로 넘어간다.
 */
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { ArrowUpRight, Check, ChevronDown, ListMusic, Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { mythTraditionHref } from '@/components/features/user/explore/myth/mythTraditionHref'
+import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import AnimatedHeight from '@/components/ui/AnimatedHeight'
+import Modal from '@/components/ui/Modal'
 import { PendingBlock } from '@/components/ui/pending'
 import { Z_INDEX } from '@/constants/zIndex'
 import { cn } from '@/lib/utils'
+import { GAME_MUSIC_GROUPS } from '@/components/features/game/shared/gameMusicCatalog'
 import { getFactionMusicList, getMythMusicList, type FactionMusicListItem, type FactionMusicTheme } from '@/actions/home/getFactionMusicList'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
@@ -34,80 +38,30 @@ interface FactionTrack {
   previewUrl: string
   slug?: string | null
   theme?: FactionMusicTheme | null
+  /** 게임 곡 행이 가리키는 게임 자리(/rest#key). 없으면 바로가기를 붙이지 않는다 */
+  gameHref?: string | null
 }
 
 type ListTrack = MusicTrack | FactionTrack
-type SourceMode = 'faction' | 'myth' | 'library'
+type SourceMode = 'faction' | 'myth' | 'game' | 'library'
 type MusicMode = 'all' | SourceMode
-type ThemePrefix = 'faction' | 'myth'
+type ThemePrefix = 'faction' | 'myth' | 'game'
 type AudioStatus = 'idle' | 'loading' | 'playing' | 'paused'
 type RowState = 'idle' | 'loading' | 'paused' | 'playing'
 type Placement = 'nav' | 'corner' | 'floating'
 type ModeTone = { text: string; dot: string }
 
-// 곡이 실제로 담긴 목록과, 그 목록들을 고르는 메뉴 순서. 늘어나면 여기와 COPY.modes·MODE_TONE에만 더한다.
-const SOURCE_MODES: SourceMode[] = ['faction', 'myth', 'library']
+// 곡이 실제로 담긴 목록과, 그 목록들을 고르는 메뉴 순서. 늘어나면 여기와 layout.musicPlayer.modes·MODE_TONE에만 더한다.
+const SOURCE_MODES: SourceMode[] = ['faction', 'myth', 'game', 'library']
 const MUSIC_MODES: MusicMode[] = ['all', ...SOURCE_MODES]
 
-// 목록마다 색 하나. 목록 메뉴·묶음 제목·재생 중 표시가 같은 색으로 곡의 소속을 알린다. 전체는 세 색을 나눠 담은 점과 사이트 금색을 쓴다.
+// 목록마다 색 하나. 목록 메뉴·묶음 제목·재생 중 표시가 같은 색으로 곡의 소속을 알린다. 전체는 네 색을 나눠 담은 점과 사이트 금색을 쓴다.
 const MODE_TONE: Record<MusicMode, ModeTone> = {
-  all: { text: 'text-accent', dot: 'bg-[conic-gradient(#e0826a_0_33%,#a994f5_0_67%,#5ec4b0_0)]' },
+  all: { text: 'text-accent', dot: 'bg-[conic-gradient(#e0826a_0_25%,#a994f5_0_50%,#7aa2e0_0_75%,#5ec4b0_0)]' },
   faction: { text: 'text-[#e0826a]', dot: 'bg-[#e0826a]' },
   myth: { text: 'text-[#a994f5]', dot: 'bg-[#a994f5]' },
+  game: { text: 'text-[#7aa2e0]', dot: 'bg-[#7aa2e0]' },
   library: { text: 'text-[#5ec4b0]', dot: 'bg-[#5ec4b0]' },
-}
-
-const COPY = {
-  ko: {
-    music: '음악',
-    listPicker: '재생 목록',
-    modes: { all: '전체', faction: '세력도감 테마곡', myth: '신화 테마곡', library: '내 감상목록' },
-    status: { playing: '재생 중', loading: '불러오는 중', paused: '일시정지', idle: '재생 대기', recommended: '이 화면의 테마곡' },
-    pickTrack: '목록에서 곡을 골라 주세요',
-    play: '재생',
-    pause: '일시정지',
-    stop: '정지',
-    close: '닫기',
-    back: '10초 뒤로',
-    forward: '10초 앞으로',
-    position: '재생 위치',
-    speed: '재생 속도',
-    loading: '음악 목록을 불러오는 중입니다.',
-    recommended: '추천',
-    gameBgm: '게임 배경음악',
-    unassignedTheme: '테마 미지정',
-    goTo: { faction: '세력도감에서 보기', myth: '신화에서 보기', library: '작품 상세 보기' },
-    allEmpty: '들을 수 있는 음악이 아직 없습니다.',
-    factionEmpty: '등록된 세력도감 테마곡이 없습니다.',
-    mythEmpty: '등록된 신화 테마곡이 없습니다.',
-    libraryEmpty: '감상목록에 담은 음악이 여기에 표시됩니다.',
-    libraryHint: '로그인한 뒤 음악을 기록하면 바로 들을 수 있습니다.',
-  },
-  en: {
-    music: 'Music',
-    listPicker: 'Playlist',
-    modes: { all: 'All music', faction: 'Atlas theme music', myth: 'Myth theme music', library: 'My listening list' },
-    status: { playing: 'Now playing', loading: 'Loading', paused: 'Paused', idle: 'Ready', recommended: 'Theme for this page' },
-    pickTrack: 'Choose a track from the list',
-    play: 'Play',
-    pause: 'Pause',
-    stop: 'Stop',
-    close: 'Close',
-    back: 'Back 10 seconds',
-    forward: 'Forward 10 seconds',
-    position: 'Playback position',
-    speed: 'Playback speed',
-    loading: 'Loading the music list.',
-    recommended: 'Pick',
-    gameBgm: 'Game BGM',
-    unassignedTheme: 'Unassigned theme',
-    goTo: { faction: 'Open in the atlas', myth: 'Open in myths', library: 'View work details' },
-    allEmpty: 'No music is available yet.',
-    factionEmpty: 'No atlas theme music is registered.',
-    mythEmpty: 'No mythology theme music is registered.',
-    libraryEmpty: 'Music from your listening list appears here.',
-    libraryHint: 'Sign in and log music to play it here.',
-  },
 }
 
 // 아이콘 크기는 세 단계만 쓴다. 선 굵기는 크기와 무관하게 같은 픽셀로 그려 작은 아이콘만 가늘어 보이지 않게 한다.
@@ -123,11 +77,13 @@ const PANEL_BASE =
 
 // 자리마다 창이 서는 위치·목록 최대 높이·등장 방향. 가운데 정렬은 translate 속성이 맡으므로 등장 연출의 transform과 겹치지 않는다.
 const PANEL_LAYOUT: Record<Placement, { className: string; listClassName: string; offsetY: number; zIndex?: number }> = {
-  // 하단 내비 위 자리 안에서 음악 칸 위로 선다
+  // 휴대폰 화면 가운데 모달 — 내비 틀 안에서 딤(1) 위로 선다(2)
   nav: {
-    className: 'pointer-events-auto absolute bottom-2 end-2 w-[min(calc(100vw-1rem),22.5rem)] origin-bottom-right',
-    listClassName: 'max-h-[min(34vh,19rem)]',
+    className:
+      'pointer-events-auto fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2',
+    listClassName: 'max-h-[min(40vh,19rem)]',
     offsetY: 12,
+    zIndex: 2,
   },
   // PC 오른쪽 아래 단추 위로 올라온다
   corner: {
@@ -178,14 +134,15 @@ const isThemeId = (id: string) => id.startsWith('faction:') || id.startsWith('my
 
 const isThemeTrack = (track: ListTrack): track is FactionTrack => isThemeId(track.id)
 
-const sourceMode = (id: string): SourceMode => (id.startsWith('faction:') ? 'faction' : id.startsWith('myth:') ? 'myth' : 'library')
+const sourceMode = (id: string): SourceMode =>
+  id.startsWith('faction:') ? 'faction' : id.startsWith('myth:') ? 'myth' : id.startsWith('game:') ? 'game' : 'library'
 
 const localizedName = (item: { name: string; name_en: string | null }, locale: string) =>
   locale === 'en' ? item.name_en?.trim() || item.name : item.name
 
-// 감상목록 곡은 만든 사람, 테마곡은 테마 이름을 곡 아래 줄에 쓴다
+// 감상목록 곡은 만든 사람, 테마곡·게임 곡은 묶음 이름(테마·게임명)을 곡 아래 줄에 쓴다
 const trackSubtitle = (track: ListTrack, locale: string) =>
-  track.creator ?? (isThemeTrack(track) && track.theme ? localizedName(track.theme, locale) : null)
+  track.creator ?? ('theme' in track && track.theme ? localizedName(track.theme, locale) : null)
 
 // 감상목록 곡만 표지 칸을 가진다. 테마곡은 undefined로 표지 칸 자체를 두지 않는다.
 const trackArtwork = (track: ListTrack) => ('thumbnailUrl' in track ? track.thumbnailUrl : undefined)
@@ -212,16 +169,33 @@ const toContextTrack = (
   return { id: `${prefix}:${music.id}`, title: music.title, creator: null, previewUrl: music.url, slug: item?.slug, theme: item?.theme }
 }
 
-// 곡에서 그 곡의 자리로 가는 주소 — 세력도감 테마, 신화 전승, 감상목록 작품 상세
+// 게임 카탈로그를 곡 행으로 푼다. 묶음 이름은 메시지 키로 미리 풀어 theme 칸에 실어 부제·그룹 제목이 함께 쓰게 한다
+const toGameTracks = (locale: string, groupName: (key: string) => string): FactionTrack[] =>
+  GAME_MUSIC_GROUPS.flatMap((group) => {
+    const name = groupName(group.key)
+    return group.tracks.map((track, index) => ({
+      id: `game:${group.key}:${index}`,
+      title: locale === 'en' ? track.labelEn?.trim() || track.label : track.label,
+      creator: null,
+      previewUrl: track.src,
+      gameHref: group.href,
+      // 묶음 이름은 이미 locale로 푼 값이라 양쪽 필드에 같은 문자열을 둔다
+      theme: { id: `game:${group.key}`, name, name_en: name, slug: null },
+    }))
+  })
+
+// 곡에서 그 곡의 자리로 가는 주소 — 세력도감 테마, 신화, 게임 자리, 감상목록 작품 상세
 const trackHref = (track: ListTrack): string | null => {
+  const mode = sourceMode(track.id)
+  if (mode === 'game') return 'gameHref' in track ? (track.gameHref ?? null) : null
   if (!isThemeTrack(track)) return `/content/${track.id}?category=music`
   if (!track.slug) return null
-  return sourceMode(track.id) === 'myth' ? mythTraditionHref(track.slug) : `/explore/faction/${track.slug}`
+  return mode === 'myth' ? mythHref(track.slug) : `/explore/faction/${track.slug}`
 }
 
 export default function FloatingMusicPlayer() {
   const locale = useLocale()
-  const copy = locale === 'ko' ? COPY.ko : COPY.en
+  const t = useTranslations('layout.musicPlayer')
   const { controls: gameAudio } = useGameAudioContext()
   const { music: contextMusic } = useFactionMusicContext()
   const gameLayer = useGameFullScreenLayer()
@@ -245,6 +219,11 @@ export default function FloatingMusicPlayer() {
     contextKey: null,
     trackId: null,
   })
+  // 재생 중인 곡을 새 화면의 곡이나 게임 음악으로 바꿀지 묻는 제안. 허용할 때마다 적용하고, 금지한 대상은 다시 묻지 않는다
+  const [transition, setTransition] = useState<{ kind: 'theme'; track: FactionTrack } | { kind: 'game' } | null>(null)
+  // 금지한 화면(테마곡) 목록 — 같은 화면은 다시 묻지 않는다
+  const [deniedContexts, setDeniedContexts] = useState<ReadonlySet<string>>(() => new Set())
+  const deniedGameRef = useRef(false)
   const loadedRef = useRef(false)
   const pendingPlayRef = useRef(false)
   const closingRef = useRef(false)
@@ -272,31 +251,34 @@ export default function FloatingMusicPlayer() {
     ...toThemeTracks(factionTracks, 'faction', locale),
     ...(mythTrack ? [mythTrack] : []),
     ...toThemeTracks(mythTracks, 'myth', locale),
+    ...toGameTracks(locale, (key) => t(`gameGroups.${key}`)),
     ...tracks,
   ].filter((track, index, all) => all.findIndex((candidate) => candidate.id === track.id) === index)
-  // 감상목록 곡을 듣는 중에는 화면을 옮겨도 그 곡을 붙든다. 테마곡은 새 화면의 테마곡으로 넘어간다.
-  const preservePlayingPersonalTrack = Boolean(
-    playingId &&
-    playingId === selection.trackId &&
-    !isThemeId(playingId) &&
-    listTracks.some((track) => track.id === playingId),
-  )
-  const selectedId = preservePlayingPersonalTrack
-    ? playingId
-    : selection.contextKey === contextKey
-      ? selection.trackId ?? contextTrack?.id ?? null
-      : contextTrack?.id ?? selection.trackId
+  // 재생 중인 곡은 화면을 옮겨도 붙든다 — 전환은 모달 허용 뒤에만 일어난다.
+  // 이 화면에서 곡을 골랐거나(전환 허용 포함) 재생 중인 곡이 없을 때만 화면의 테마곡이 앞에 선다.
+  const playingListed = Boolean(playingId && listTracks.some((track) => track.id === playingId))
+  const selectedId =
+    selection.contextKey === contextKey && selection.trackId
+      ? selection.trackId
+      : playingListed
+        ? playingId
+        : contextTrack?.id ?? selection.trackId
   const currentTrack = listTracks.find((track) => track.id === selectedId) ?? listTracks[0] ?? null
   // 고른 목록 종류는 그 화면에서만 유지한다. 다른 테마곡 화면으로 옮기면 그 화면의 목록으로 돌아간다.
   const chosenMode = modeChoice && (!contextKey || modeChoice.contextKey === contextKey) ? modeChoice.mode : null
   const activeMode: MusicMode = chosenMode ?? (contextMusic?.kind === 'myth' ? 'myth' : 'faction')
   const groupsOf = (prefix: ThemePrefix) =>
-    groupThemeTracks(listTracks.filter((track): track is FactionTrack => sourceMode(track.id) === prefix), locale, copy.unassignedTheme)
-  const themeGroups: Record<ThemePrefix, ThemeTrackGroup[]> = { faction: groupsOf('faction'), myth: groupsOf('myth') }
+    groupThemeTracks(listTracks.filter((track): track is FactionTrack => sourceMode(track.id) === prefix), locale, t('unassignedTheme'))
+  const themeGroups: Record<ThemePrefix, ThemeTrackGroup[]> = {
+    faction: groupsOf('faction'),
+    myth: groupsOf('myth'),
+    game: groupsOf('game'),
+  }
   // 목록마다 화면에 보이는 순서 그대로 곡을 줄 세운다. 다음 곡 넘기기도 이 순서를 따른다.
   const sourceTracks: Record<SourceMode, ListTrack[]> = {
     faction: themeGroups.faction.flatMap((group) => group.tracks),
     myth: themeGroups.myth.flatMap((group) => group.tracks),
+    game: themeGroups.game.flatMap((group) => group.tracks),
     library: tracks,
   }
   const modeTracks = (musicMode: MusicMode) =>
@@ -311,21 +293,21 @@ export default function FloatingMusicPlayer() {
   const isAudioLoading = audioStatus === 'loading' || isHandingOff
   const currentPlayerLoading = !isGamePlaying && isAudioLoading
   const currentPlayerPlayable = isGamePlaying || Boolean(currentTrack?.previewUrl)
-  const label = gameAudio?.trackLabel || contextMusic?.title || copy.music
+  const label = gameAudio?.trackLabel || contextMusic?.title || t('music')
 
-  const nowTitle = isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title ?? copy.pickTrack
-  const nowSubtitle = isGamePlaying ? copy.gameBgm : currentTrack ? trackSubtitle(currentTrack, locale) : null
+  const nowTitle = isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title ?? t('pickTrack')
+  const nowSubtitle = isGamePlaying ? t('gameBgm') : currentTrack ? trackSubtitle(currentTrack, locale) : null
   const nowTone = MODE_TONE[!isGamePlaying && currentTrack ? sourceMode(currentTrack.id) : 'all']
   const nowArtwork = !isGamePlaying && currentTrack ? trackArtwork(currentTrack) ?? null : null
   const nowStatus = currentPlayerLoading
-    ? copy.status.loading
+    ? t('status.loading')
     : isPlaying
-      ? copy.status.playing
+      ? t('status.playing')
       : audioStatus === 'paused'
-        ? copy.status.paused
+        ? t('status.paused')
         : currentTrack && currentTrack.id === contextKey
-          ? copy.status.recommended
-          : copy.status.idle
+          ? t('status.recommended')
+          : t('status.idle')
 
   const rowState = (trackId: string): RowState => {
     if (selectedId !== trackId) return 'idle'
@@ -429,17 +411,41 @@ export default function FloatingMusicPlayer() {
     listRef.current?.scrollTo({ top: 0 })
   }, [activeMode])
 
-  // 테마곡이 있는 화면에 들어온 순간 한 번만 반응한다. 아래 재생 예약 효과보다 먼저 선언해야 같은 커밋에서 예약이 읽힌다.
+  // 화면(테마곡)이 바뀐 렌더에서만 — 다른 화면 곡을 둔 전환 제안은 거두고,
+  // 듣던 곡이 새 화면의 곡과 다르면 모달로 바꿀지 묻는다. 금지한 화면은 다시 묻지 않는다.
+  const [seenContextKey, setSeenContextKey] = useState<string | null>(null)
+  if (contextKey !== seenContextKey) {
+    setSeenContextKey(contextKey)
+    setTransition((current) => (current?.kind === 'theme' && current.track.id !== contextKey ? null : current))
+    if (contextKey && playingId && playingId !== contextKey && contextTrack && !deniedContexts.has(contextKey)) {
+      setTransition({ kind: 'theme', track: contextTrack })
+    }
+  }
+
+  // 테마곡이 있는 화면에 들어온 순간 한 번만 여는 단추가 퍼지며 알린다.
   useEffect(() => {
     const previousKey = previousContextKeyRef.current
     previousContextKeyRef.current = contextKey
     if (!contextKey || contextKey === previousKey) return
-    // 불러오는 중 표시는 isHandingOff가 화면 계산으로 맡으므로 여기서는 재생 예약만 건다
-    if (playingId && isThemeId(playingId) && playingId !== contextKey) pendingPlayRef.current = true
     if (isOpen || playingId === contextKey || prefersReducedMotion()) return
     pulseRingRef.current?.animate(PULSE_RING_MOTION, PULSE_TIMING)
     openerIconRef.current?.animate(PULSE_ICON_MOTION, PULSE_TIMING)
   }, [contextKey, playingId, isOpen])
+
+  // 게임 음악이 켜지면 듣던 곡과 겹치지 않게 게임 쪽을 멈춰 두고 모달로 바꿀지 묻는다.
+  // 한 번 금지한 게임 등록에는 다시 묻지 않고 들어오는 음악만 멈춘다. 등록이 풀리면 금지도 푼다.
+  useEffect(() => {
+    if (!gameAudio) {
+      deniedGameRef.current = false
+      return
+    }
+    if (!gameAudio.isPlaying) return
+    const audio = audioRef.current
+    if (!audio || audio.paused) return
+    gameAudio.togglePlay()
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 게임 BGM 켜짐(외부 오디오 이벤트)에 대한 응답으로 전환 제안을 띄운다
+    if (!deniedGameRef.current) setTransition({ kind: 'game' })
+  }, [gameAudio])
 
   useEffect(() => {
     if (!pendingPlayRef.current) return
@@ -474,8 +480,49 @@ export default function FloatingMusicPlayer() {
     setSelection({ contextKey, trackId: track.id })
   }
 
+  // 전환 제안의 답. 허용하면 그 곡으로 넘기고, 금지하면 듣던 곡을 유지하며 같은 대상은 다시 묻지 않는다.
+  const allowTransition = () => {
+    const offer = transition
+    setTransition(null)
+    if (!offer) return
+    if (offer.kind === 'game') {
+      audioRef.current?.pause()
+      if (gameAudio && !gameAudio.isPlaying) gameAudio.togglePlay()
+      return
+    }
+    loadTrack(offer.track)
+  }
+
+  const denyTransition = () => {
+    const offer = transition
+    setTransition(null)
+    if (!offer) return
+    if (offer.kind === 'game') {
+      deniedGameRef.current = true
+      return
+    }
+    setDeniedContexts((current) => new Set(current).add(offer.track.id))
+  }
+
   const selectTrack = (track: ListTrack) => {
     if (!track.previewUrl) return
+    // 곡을 직접 고른 것도 전환 제안에 대한 답이다 — 묻던 모달은 거둔다
+    setTransition(null)
+    // 게임이 붙어 있을 때 목록의 게임 곡은 가능하면 게임 엔진이 틀게 해 화면의 이전·다음 곡과 발을 맞춘다.
+    // 재생기 오디오로 이미 듣는 곡은 아래 평소 경로가 멈춤·재생을 맡는다.
+    if (sourceMode(track.id) === 'game' && gameAudio && playingId !== track.id) {
+      const audio = audioRef.current
+      if (gameAudio.trackSrc === track.previewUrl) {
+        if (playingId && audio && !audio.paused) audio.pause()
+        gameAudio.togglePlay()
+        return
+      }
+      if (gameAudio.playSrc?.(track.previewUrl)) {
+        if (playingId && audio && !audio.paused) audio.pause()
+        return
+      }
+      // 지금 게임 목록에 없는 곡은 재생기 오디오로 이어 듣는다
+    }
     if (gameAudio?.isPlaying) gameAudio.togglePlay()
     setQueueMode(activeMode)
     // 이미 오디오에 올라온 곡(선택 전 기본으로 잡힌 첫 곡 포함)은 다시 읽지 않으므로 길이를 지우지 않고 재생만 넘긴다
@@ -506,12 +553,6 @@ export default function FloatingMusicPlayer() {
     void audio.play().catch(() => {})
   }
 
-  const selectGameAudio = () => {
-    const audio = audioRef.current
-    if (playingId && audio && !audio.paused) audio.pause()
-    gameAudio?.togglePlay()
-  }
-
   const seekCurrent = (time: number) => {
     const nextTime = Math.max(0, Math.min(time, currentPlayerDuration || 0))
     if (isGamePlaying && gameAudio) {
@@ -526,12 +567,15 @@ export default function FloatingMusicPlayer() {
 
   const stopCurrent = () => {
     if (isGamePlaying && gameAudio) {
+      setTransition(null)
       gameAudio.seek(0)
       if (gameAudio.isPlaying) gameAudio.togglePlay()
       return
     }
     const audio = audioRef.current
     if (!audio) return
+    // 정지도 전환 제안에 대한 답이다 — 묻던 모달은 거둔다
+    setTransition(null)
     audio.pause()
     audio.currentTime = 0
     setPlayingId(null)
@@ -565,7 +609,7 @@ export default function FloatingMusicPlayer() {
     <div
       ref={modeMenuRef}
       role="menu"
-      aria-label={copy.listPicker}
+      aria-label={t('listPicker')}
       className="absolute inset-x-0 top-full z-10 mt-1.5 rounded-xl border border-white/10 bg-[#222220] p-1 shadow-[0_20px_44px_-12px_rgba(0,0,0,0.95)]"
     >
       {MUSIC_MODES.map((musicMode) => {
@@ -588,7 +632,7 @@ export default function FloatingMusicPlayer() {
               <span aria-hidden="true" className={cn('size-2.5 rounded-full', tone.dot)} />
             </span>
             <span className={cn('min-w-0 flex-1 truncate text-[13px] font-medium', active ? tone.text : 'text-[#ece8df]')}>
-              {copy.modes[musicMode]}
+              {t(`modes.${musicMode}`)}
             </span>
             {!loading && count > 0 && <span className="text-[11px] tabular-nums text-white/40">{count}</span>}
             <span className="flex w-3.5 shrink-0 justify-center">
@@ -600,61 +644,79 @@ export default function FloatingMusicPlayer() {
     </div>
   )
 
-  // 테마별로 묶인 목록에서는 묶음 제목이 테마 이름을 쥐므로 줄 아래에 다시 쓰지 않는다
+  // 테마·게임별로 묶인 목록에서는 묶음 제목이 이름을 쥐므로 줄 아래에 다시 쓰지 않는다
   const renderTrack = (track: ListTrack, withSubtitle: boolean) => (
     <TrackRow
       key={track.id}
       title={track.title}
       subtitle={withSubtitle ? trackSubtitle(track, locale) : null}
       artwork={trackArtwork(track)}
-      state={rowState(track.id)}
+      state={
+        // 붙어 있는 게임이 틀고 있는 곡은 행의 상태를 게임 쪽에 맞춘다
+        gameAudio && sourceMode(track.id) === 'game' && track.previewUrl === gameAudio.trackSrc
+          ? gameAudio.isPlaying
+            ? 'playing'
+            : 'paused'
+          : rowState(track.id)
+      }
       tone={MODE_TONE[sourceMode(track.id)].text}
-      badge={track.id === contextKey && !isPlaying ? copy.recommended : undefined}
+      badge={track.id === contextKey && !isPlaying ? t('recommended') : undefined}
       disabled={!track.previewUrl}
-      playLabel={copy.play}
-      pauseLabel={copy.pause}
+      playLabel={t('play')}
+      pauseLabel={t('pause')}
       onSelect={() => selectTrack(track)}
       href={trackHref(track)}
-      hrefLabel={`${track.title} · ${copy.goTo[sourceMode(track.id)]}`}
+      hrefLabel={`${track.title} · ${t(`goTo.${sourceMode(track.id)}`)}`}
       onNavigate={closePanel}
     />
   )
 
+  // 게임 음악 묶음 맨 아래에 붙는 한 줄 각주 — 한국어 가사 곡은 영문 버전도 나온다는 소식
+  const gameNotice = (
+    <p className="px-5 pb-2 pt-1.5 text-[10px] leading-snug text-white/35">{t('gameLyricsNotice')}</p>
+  )
+
   const listBody = loading ? (
-    <PendingBlock variant="panel" minHeight="min-h-[14rem]" className="mx-3 my-2" label={copy.loading} />
+    <PendingBlock variant="panel" minHeight="min-h-[14rem]" className="mx-3 my-2" label={t('loading')} />
   ) : activeMode === 'all' ? (
     modeTracks('all').length > 0 ? (
       SOURCE_MODES.filter((source) => sourceTracks[source].length > 0).map((source) => (
         <section key={source}>
-          <GroupHeading tone={MODE_TONE[source]}>{copy.modes[source]}</GroupHeading>
+          <GroupHeading tone={MODE_TONE[source]}>{t(`modes.${source}`)}</GroupHeading>
           <div className="px-2">{sourceTracks[source].map((track) => renderTrack(track, true))}</div>
+          {source === 'game' && gameNotice}
         </section>
       ))
     ) : (
-      <EmptyState title={copy.allEmpty} hint={copy.libraryHint} />
+      <EmptyState title={t('allEmpty')} hint={t('libraryHint')} />
     )
   ) : activeMode === 'library' ? (
     tracks.length > 0 ? (
       <div className="px-2 pt-1">{tracks.map((track) => renderTrack(track, true))}</div>
     ) : (
-      <EmptyState title={copy.libraryEmpty} hint={copy.libraryHint} />
+      <EmptyState title={t('libraryEmpty')} hint={t('libraryHint')} />
     )
   ) : themeGroups[activeMode].length > 0 ? (
-    themeGroups[activeMode].map((group) => (
-      <section key={group.key}>
-        <GroupHeading>{group.label}</GroupHeading>
-        <div className="px-2">{group.tracks.map((track) => renderTrack(track, false))}</div>
-      </section>
-    ))
+    <>
+      {themeGroups[activeMode].map((group) => (
+        <section key={group.key}>
+          <GroupHeading>{group.label}</GroupHeading>
+          <div className="px-2">{group.tracks.map((track) => renderTrack(track, false))}</div>
+        </section>
+      ))}
+      {activeMode === 'game' && gameNotice}
+    </>
   ) : (
-    <EmptyState title={activeMode === 'myth' ? copy.mythEmpty : copy.factionEmpty} />
+    <EmptyState
+      title={activeMode === 'myth' ? t('mythEmpty') : activeMode === 'game' ? t('gameEmpty') : t('factionEmpty')}
+    />
   )
 
   const opener = (
     <MusicOpener
       placement={placement}
       label={label}
-      tabLabel={copy.music}
+      tabLabel={t('music')}
       isOpen={isOpen}
       isPlaying={isPlaying}
       buttonRef={buttonRef}
@@ -666,160 +728,201 @@ export default function FloatingMusicPlayer() {
   )
 
   const panel = isOpen && (
-    <div
-      ref={panelRef}
-      role="dialog"
-      aria-label={label}
-      className={cn(PANEL_BASE, layout.className)}
-      style={{ zIndex: layout.zIndex }}
-    >
-      {/* 곡 정보(제목·상태) / 진행 막대(시간 양끝) / 조작 단추의 세 줄. 줄마다 높이를 고정해 상태가 바뀌어도 목록이 밀리지 않는다 */}
-      <div className="relative rounded-t-[21px] bg-[radial-gradient(120%_100%_at_50%_0%,rgba(212,175,55,0.15)_0%,rgba(212,175,55,0.04)_45%,transparent_75%)] px-4 pb-2 pt-3.5">
-        <span
+    <>
+      {/* 휴대폰 모달 뒤 딤 — 내비 층 안에서 내비(층 자동) 위로 올려 창만 남긴다 */}
+      {placement === 'nav' && (
+        <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-12 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,175,55,0.65),transparent)]"
+          className="pointer-events-auto fixed inset-0 z-[1] animate-modal-overlay bg-black/60 backdrop-blur-sm"
         />
+      )}
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-label={label}
+        className={cn(PANEL_BASE, layout.className)}
+        style={{ zIndex: layout.zIndex }}
+      >
+        {/* 곡 정보(제목·상태) / 진행 막대(시간 양끝) / 조작 단추의 세 줄. 줄마다 높이를 고정해 상태가 바뀌어도 목록이 밀리지 않는다 */}
+        <div className="relative rounded-t-[21px] bg-[radial-gradient(120%_100%_at_50%_0%,rgba(212,175,55,0.15)_0%,rgba(212,175,55,0.04)_45%,transparent_75%)] px-4 pb-2 pt-3.5">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-12 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,175,55,0.65),transparent)]"
+          />
 
-        <div className="flex h-11 items-center gap-3">
-          <Artwork url={nowArtwork} className={cn('size-11 rounded-lg shadow-[0_10px_24px_-10px_rgba(0,0,0,0.9)]', nowTone.text)} iconSize={ICON.md} />
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[15px] font-semibold leading-5 tracking-tight text-[#f5f1e8]">{nowTitle}</p>
-            <p className="mt-0.5 flex h-[18px] min-w-0 items-center gap-1.5 text-xs text-white/50">
-              <span className={cn('flex shrink-0 items-center gap-1.5 text-[11px] font-medium', nowTone.text)}>
-                <EqBars playing={isPlaying && !currentPlayerLoading} />
-                {nowStatus}
-              </span>
-              {nowSubtitle && (
-                <>
-                  <span aria-hidden="true" className="text-white/25">·</span>
-                  <span className="truncate">{nowSubtitle}</span>
-                </>
-              )}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={closePanel}
-            aria-label={copy.close}
-            title={copy.close}
-            className="-me-1.5 flex size-8 shrink-0 items-center justify-center self-start rounded-full text-white/55 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <X size={ICON.md} {...ICON_PROPS} />
-          </button>
-        </div>
-
-        <MusicProgress
-          currentTime={safeTime}
-          duration={safeDuration}
-          label={copy.position}
-          onSeek={seekCurrent}
-        />
-
-        <div className="mt-1 flex h-11 items-center justify-between">
-          <div className="flex w-12">
-            {!isGamePlaying && (
-              <button
-                type="button"
-                onClick={cyclePlaybackRate}
-                aria-label={`${copy.speed} ${formatRate(playbackRate)}`}
-                title={copy.speed}
-                className="h-7 w-12 rounded-full border border-white/10 text-[11px] font-semibold tabular-nums text-white/70 hover:border-white/25 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                {formatRate(playbackRate)}
-              </button>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <IconButton label={copy.back} onClick={() => seekCurrent(currentPlayerTime - 10)} disabled={safeTime <= 0}>
-              <SeekIcon />
-            </IconButton>
+          <div className="flex h-11 items-center gap-3">
+            <Artwork url={nowArtwork} className={cn('size-11 rounded-lg shadow-[0_10px_24px_-10px_rgba(0,0,0,0.9)]', nowTone.text)} iconSize={ICON.md} />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[15px] font-semibold leading-5 tracking-tight text-[#f5f1e8]">{nowTitle}</p>
+              <p className="mt-0.5 flex h-[18px] min-w-0 items-center gap-1.5 text-xs text-white/50">
+                <span className={cn('flex shrink-0 items-center gap-1.5 text-[11px] font-medium', nowTone.text)}>
+                  <EqBars playing={isPlaying && !currentPlayerLoading} />
+                  {nowStatus}
+                </span>
+                {nowSubtitle && (
+                  <>
+                    <span aria-hidden="true" className="text-white/25">·</span>
+                    <span className="truncate">{nowSubtitle}</span>
+                  </>
+                )}
+              </p>
+            </div>
             <button
               type="button"
-              onClick={toggleCurrent}
-              disabled={!currentPlayerPlayable}
-              aria-busy={currentPlayerLoading || undefined}
-              aria-label={currentPlayerLoading ? copy.status.loading : isPlaying ? copy.pause : copy.play}
-              title={currentPlayerLoading ? copy.status.loading : isPlaying ? copy.pause : copy.play}
-              className="flex size-11 items-center justify-center rounded-full bg-accent text-[#1b1608] shadow-[0_10px_24px_-10px_rgba(212,175,55,0.75)] enabled:hover:bg-accent-hover enabled:active:brightness-95 disabled:cursor-default disabled:opacity-40 disabled:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#161615]"
+              onClick={closePanel}
+              aria-label={t('close')}
+              title={t('close')}
+              className="-me-1.5 flex size-8 shrink-0 items-center justify-center self-start rounded-full text-white/55 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              {currentPlayerLoading ? (
-                <Loader2 size={ICON.lg} className="animate-spin" {...ICON_PROPS} />
-              ) : isPlaying ? (
-                <Pause size={ICON.lg} className="fill-current" {...ICON_PROPS} />
-              ) : (
-                <Play size={ICON.lg} className="ms-0.5 fill-current" {...ICON_PROPS} />
-              )}
+              <X size={ICON.md} {...ICON_PROPS} />
             </button>
-            <IconButton label={copy.forward} onClick={() => seekCurrent(currentPlayerTime + 10)} disabled={!safeDuration || safeTime >= safeDuration}>
-              <SeekIcon forward />
-            </IconButton>
           </div>
-          <div className="flex w-12 justify-end">
-            <IconButton label={copy.stop} onClick={stopCurrent} disabled={!isPlaying && safeTime === 0}>
-              <Square size={ICON.sm} className="fill-current" {...ICON_PROPS} />
-            </IconButton>
+
+          <MusicProgress
+            currentTime={safeTime}
+            duration={safeDuration}
+            label={t('position')}
+            onSeek={seekCurrent}
+          />
+
+          <div className="mt-1 flex h-11 items-center justify-between">
+            <div className="flex w-12">
+              {!isGamePlaying && (
+                <button
+                  type="button"
+                  onClick={cyclePlaybackRate}
+                  aria-label={`${t('speed')} ${formatRate(playbackRate)}`}
+                  title={t('speed')}
+                  className="h-7 w-12 rounded-full border border-white/10 text-[11px] font-semibold tabular-nums text-white/70 hover:border-white/25 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  {formatRate(playbackRate)}
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <IconButton label={t('back')} onClick={() => seekCurrent(currentPlayerTime - 10)} disabled={safeTime <= 0}>
+                <SeekIcon />
+              </IconButton>
+              <button
+                type="button"
+                onClick={toggleCurrent}
+                disabled={!currentPlayerPlayable}
+                aria-busy={currentPlayerLoading || undefined}
+                aria-label={currentPlayerLoading ? t('status.loading') : isPlaying ? t('pause') : t('play')}
+                title={currentPlayerLoading ? t('status.loading') : isPlaying ? t('pause') : t('play')}
+                className="flex size-11 items-center justify-center rounded-full bg-accent text-[#1b1608] shadow-[0_10px_24px_-10px_rgba(212,175,55,0.75)] enabled:hover:bg-accent-hover enabled:active:brightness-95 disabled:cursor-default disabled:opacity-40 disabled:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#161615]"
+              >
+                {currentPlayerLoading ? (
+                  <Loader2 size={ICON.lg} className="animate-spin" {...ICON_PROPS} />
+                ) : isPlaying ? (
+                  <Pause size={ICON.lg} className="fill-current" {...ICON_PROPS} />
+                ) : (
+                  <Play size={ICON.lg} className="ms-0.5 fill-current" {...ICON_PROPS} />
+                )}
+              </button>
+              <IconButton label={t('forward')} onClick={() => seekCurrent(currentPlayerTime + 10)} disabled={!safeDuration || safeTime >= safeDuration}>
+                <SeekIcon forward />
+              </IconButton>
+            </div>
+            <div className="flex w-12 justify-end">
+              <IconButton label={t('stop')} onClick={stopCurrent} disabled={!isPlaying && safeTime === 0}>
+                <Square size={ICON.sm} className="fill-current" {...ICON_PROPS} />
+              </IconButton>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 아래 여백은 스크롤되는 목록이 지나가지 않는 띠다. 목록은 이 띠 아래 칸에서만 움직이고 묶음 제목도 칸 맨 위에 붙는다 */}
-      <div className="border-t border-white/[0.06] px-4 pb-2 pt-3">
-        <div className="relative">
-          <button
-            ref={modeTriggerRef}
-            type="button"
-            onClick={() => setIsModeMenuOpen((open) => !open)}
-            aria-haspopup="menu"
-            aria-expanded={isModeMenuOpen}
-            aria-label={`${copy.listPicker}: ${copy.modes[activeMode]}`}
-            className={cn(
-              'flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-start ring-1 ring-inset focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-              isModeMenuOpen ? 'bg-white/[0.08] ring-white/15' : 'bg-white/[0.04] ring-white/[0.06] hover:bg-white/[0.07] hover:ring-white/10',
-            )}
-          >
-            <ListMusic size={ICON.md} className={cn('shrink-0', MODE_TONE[activeMode].text)} {...ICON_PROPS} />
-            <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[#f5f1e8]">{copy.modes[activeMode]}</span>
-            {!loading && modeTracks(activeMode).length > 0 && (
-              <span className="text-[11px] tabular-nums text-white/40">{modeTracks(activeMode).length}</span>
-            )}
-            <ChevronDown
-              size={ICON.sm}
-              className={cn('shrink-0 text-white/50 transition-transform duration-200 motion-reduce:transition-none', isModeMenuOpen && 'rotate-180')}
-              {...ICON_PROPS}
-            />
-          </button>
-          {isModeMenuOpen && modeMenu}
+        {/* 아래 여백은 스크롤되는 목록이 지나가지 않는 띠다. 목록은 이 띠 아래 칸에서만 움직이고 묶음 제목도 칸 맨 위에 붙는다 */}
+        <div className="border-t border-white/[0.06] px-4 pb-2 pt-3">
+          <div className="relative">
+            <button
+              ref={modeTriggerRef}
+              type="button"
+              onClick={() => setIsModeMenuOpen((open) => !open)}
+              aria-haspopup="menu"
+              aria-expanded={isModeMenuOpen}
+              aria-label={`${t('listPicker')}: ${t(`modes.${activeMode}`)}`}
+              className={cn(
+                'flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-start ring-1 ring-inset focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+                isModeMenuOpen ? 'bg-white/[0.08] ring-white/15' : 'bg-white/[0.04] ring-white/[0.06] hover:bg-white/[0.07] hover:ring-white/10',
+              )}
+            >
+              <ListMusic size={ICON.md} className={cn('shrink-0', MODE_TONE[activeMode].text)} {...ICON_PROPS} />
+              <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[#f5f1e8]">{t(`modes.${activeMode}`)}</span>
+              {!loading && modeTracks(activeMode).length > 0 && (
+                <span className="text-[11px] tabular-nums text-white/40">{modeTracks(activeMode).length}</span>
+              )}
+              <ChevronDown
+                size={ICON.sm}
+                className={cn('shrink-0 text-white/50 transition-transform duration-200 motion-reduce:transition-none', isModeMenuOpen && 'rotate-180')}
+                {...ICON_PROPS}
+              />
+            </button>
+            {isModeMenuOpen && modeMenu}
+          </div>
         </div>
-      </div>
 
-      <AnimatedHeight duration={260}>
-        <div ref={listRef} className={cn('overflow-y-auto overscroll-contain rounded-b-[21px] pb-2', layout.listClassName)}>
-          {gameAudio && (
-            <section>
-              <GroupHeading>{copy.gameBgm}</GroupHeading>
-              <div className="px-2">
-                <TrackRow
-                  title={gameAudio.trackLabel || label}
-                  state={gameAudio.isPlaying ? 'playing' : 'idle'}
-                  playLabel={copy.play}
-                  pauseLabel={copy.pause}
-                  onSelect={selectGameAudio}
-                />
-              </div>
-            </section>
-          )}
-          {listBody}
-        </div>
-      </AnimatedHeight>
-    </div>
+        <AnimatedHeight duration={260}>
+          <div ref={listRef} className={cn('overflow-y-auto overscroll-contain rounded-b-[21px] pb-2', layout.listClassName)}>
+            {listBody}
+          </div>
+        </AnimatedHeight>
+      </div>
+    </>
   )
 
   const isNav = placement === 'nav' && navTabSlot && navPanelSlot
+
+  // 전환을 묻는 안내 모달. 게임 전체 화면 위에도 떠야 하므로 전용 층(musicNotice)을 쓴다.
+  const transitionModal = (
+    <Modal
+      isOpen={transition !== null}
+      onClose={denyTransition}
+      frame="plain"
+      widthClassName="w-[min(90vw,320px)]"
+      overlayClassName="bg-black/70 backdrop-blur-sm"
+      boxClassName="rounded-2xl border border-white/[0.08] bg-bg-main shadow-2xl"
+      showCloseButton={false}
+      escapeCapture
+      animateHeight={false}
+      zIndex={Z_INDEX.musicNotice}
+    >
+      <div className="flex flex-col items-center px-5 pb-1 pt-6">
+        <span className="flex size-10 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent/80">
+          <Music size={ICON.md} {...ICON_PROPS} />
+        </span>
+        <h2 className="mt-2.5 font-serif text-base font-black text-white">{t('transition.title')}</h2>
+        <p className="mt-1 text-center text-xs leading-relaxed text-text-secondary">
+          {transition?.kind === 'game' ? t('transition.gameDesc') : t('transition.themeDesc')}
+        </p>
+        {transition?.kind === 'theme' && (
+          <p className="mt-2 max-w-full truncate text-[13px] font-medium text-accent">{transition.track.title}</p>
+        )}
+      </div>
+      <div className="flex gap-2 px-4 pb-4 pt-3">
+        <button
+          type="button"
+          onClick={denyTransition}
+          className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.03] py-2.5 text-sm text-text-secondary hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {t('transition.deny')}
+        </button>
+        <button
+          type="button"
+          onClick={allowTransition}
+          className="flex-1 rounded-xl border border-accent/25 bg-accent/10 py-2.5 text-sm font-bold text-accent hover:bg-accent/[0.15] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {t('transition.allow')}
+        </button>
+      </div>
+    </Modal>
+  )
 
   return (
     <>
       {isNav ? createPortal(opener, navTabSlot) : opener}
       {panel && (isNav ? createPortal(panel, navPanelSlot) : panel)}
+      {transitionModal}
 
       {currentTrack?.previewUrl && (
         <audio

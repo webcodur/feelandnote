@@ -125,7 +125,8 @@
       "publishAtLabel": "발행 시각",
       "publishAtHint": "미래 시각을 넣으면 그때까지 목록에 뜨지 않습니다. 지난 시각으로 두면 바로 올라갑니다.",
       "publishNow": "지금 올리기",
-      "scheduledBadge": "예약"
+      "scheduledBadge": "예약",
+      "pinnedBadge": "고정"
     },
     "feedback": {
       "write": "피드백 작성",

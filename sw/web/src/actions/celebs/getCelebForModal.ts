@@ -63,30 +63,30 @@ async function fetchCelebModalPublic(
     db.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     db.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
-    // 세력도감 소속 — 원천은 웹 배정 표(celeb_tag_assignments)이고 DB 뷰 faction_atlas_members로 읽는다.
-    // 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
+    // 세력도감 소속 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
+    // 뷰는 세력 embed가 안 되므로 뷰 → faction_lv2 두 단계로 읽어 합친다.
     (async (): Promise<CelebTagInfo[]> => {
       const { data: memberRows, error: memberError } = await db
-        .from('faction_atlas_members')
-        .select('tag_id, short_desc, short_desc_en, long_desc, long_desc_en')
+        .from('faction_member_rows')
+        .select('lv2_id, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
-        .overrideTypes<{ tag_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null }[], { merge: false }>()
+        .overrideTypes<{ lv2_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null }[], { merge: false }>()
       // 조회 실패를 "소속 없음"으로 캐시하지 않는다
       throwOnQueryError('getCelebForModal 세력도감 소속', memberError)
       if (!memberRows?.length) return []
 
-      const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
+      const lv2Ids = [...new Set(memberRows.map((r) => r.lv2_id))]
       const { data: tagRows, error: tagError } = await db
-        .from('celeb_tags')
+        .from('faction_lv2')
         .select('id, name, name_en, color')
-        .in('id', tagIds)
+        .in('id', lv2Ids)
         .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
       throwOnQueryError('getCelebForModal 세력도감 태그', tagError)
       const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
 
       return memberRows.flatMap((r) => {
-        const tag = tagById.get(r.tag_id)
+        const tag = tagById.get(r.lv2_id)
         if (!tag) return []
         return [{
           id: tag.id,
@@ -125,7 +125,7 @@ async function fetchCelebModalPublic(
 const getCelebModalCached = unstable_cache(
   (celebId: string) => fetchCelebModalPublic(celebId, true),
   ['celeb-modal'],
-  // celebs·celeb_influence + celeb_contents(서고 수) + faction_atlas_members + celeb_dialogues
+  // celebs·celeb_influence + celeb_contents(서고 수) + faction_member_rows + celeb_dialogues
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
@@ -139,12 +139,12 @@ const getCelebModalCached = unstable_cache(
 const getFactionCelebModalCached = unstable_cache(
   async (celebId: string, factionTagId: string) => {
     const db = createStaticClient()
-    // 원천은 웹 배정 표(celeb_tag_assignments) — 뷰(faction_atlas_members)로 읽는다
+    // 원천은 배정 표(faction_members) — 뷰(faction_member_rows)로 읽는다
     const { data: assignment, error } = await db
-      .from('faction_atlas_members')
+      .from('faction_member_rows')
       .select('celeb_id')
       .eq('celeb_id', celebId)
-      .eq('tag_id', factionTagId)
+      .eq('lv2_id', factionTagId)
       .eq('hidden', false)
       .maybeSingle()
 

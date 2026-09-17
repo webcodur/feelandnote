@@ -1,0 +1,828 @@
+[
+ {
+  "nickname": "소피 브라헤",
+  "en": "Sophie Brahe",
+  "headline": "별을 보다 정원을 가꾼 덴마크 귀족",
+  "prof": "scientist",
+  "title": "귀족의 길을 거스른 여성 천문학자"
+ },
+ {
+  "nickname": "메리 벌클랜드",
+  "en": "Mary Buckland",
+  "headline": "공룡이란 말이 생기기 전 공룡을 그린 여자",
+  "prof": "scientist",
+  "title": "공룡 그림의 어머니"
+ },
+ {
+  "nickname": "조지 틸턴",
+  "en": "George Tilton",
+  "headline": "패터슨이 납을 잴 때 우라늄을 잰 화학자",
+  "prof": "scientist",
+  "title": "지구 나이의 절반을 잰 사람"
+ },
+ {
+  "nickname": "로버트 키호",
+  "en": "Robert Kehoe",
+  "headline": "유해성이 입증될 때까지 안전하다던 사람",
+  "prof": "scientist",
+  "title": "납 휘발유의 수호자"
+ },
+ {
+  "nickname": "이자크 프레젠트",
+  "en": "Isaak Prezent",
+  "headline": "리센코의 주장에 마르크스의 옷을 입힌 사람",
+  "prof": "humanities_scholar",
+  "title": "리센코주의의 이론가"
+ },
+ {
+  "nickname": "니콜라이 표도로프",
+  "en": "Nikolai Fyodorov",
+  "headline": "조상을 부활시켜 우주로 보내자던 사람",
+  "prof": "humanities_scholar",
+  "title": "우주주의 사상의 아버지"
+ },
+ {
+  "nickname": "알렉산더 색스",
+  "en": "Alexander Sachs",
+  "headline": "맨해튼 계획의 방아쇠를 당긴 은행가",
+  "prof": "social_scientist",
+  "title": "핵 시대의 전령"
+ },
+ {
+  "nickname": "케네스 스넬슨",
+  "en": "Kenneth Snelson",
+  "headline": "텐세그리티의 진짜 주인을 두고 평생 다툰 조각가",
+  "prof": "visual_artist",
+  "title": "텐세그리티의 발명가"
+ },
+ {
+  "nickname": "우디 플라워스",
+  "en": "Woodie Flowers",
+  "headline": "이기면서도 품격을 잃지 말라는 대회를 세운 사람",
+  "prof": "scientist",
+  "title": "로봇 대회의 대부"
+ },
+ {
+  "nickname": "마조리 캐머런",
+  "en": "Marjorie Cameron",
+  "headline": "붉은 여인이라 불린 초현실주의 화가",
+  "prof": "visual_artist",
+  "title": "로켓 과학자의 붉은 여인"
+ },
+ {
+  "nickname": "요하네스 오포리누스",
+  "en": "Johannes Oporinus",
+  "headline": "방랑 의사의 비서가 혁명의 산파가 되다",
+  "prof": "entrepreneur",
+  "title": "혁명을 인쇄한 사람"
+ },
+ {
+  "nickname": "마거릿 하우 로바트",
+  "en": "Margaret Howe Lovatt",
+  "headline": "'돌고래와 대화한 소녀'의 실제 주인공",
+  "prof": "other",
+  "title": "돌고래와 동거한 여자"
+ },
+ {
+  "nickname": "하워드 에이컨",
+  "en": "Howard Aiken",
+  "headline": "그레이스 호퍼가 처음 프로그래밍한 마크 I의 주인",
+  "prof": "scientist",
+  "title": "마크 I의 사령관"
+ },
+ {
+  "nickname": "아르투로 로젠블루트",
+  "en": "Arturo Rosenblueth",
+  "headline": "사이버네틱스를 세운 세 번째 이름",
+  "prof": "scientist",
+  "title": "사이버네틱스의 숨은 공저자"
+ },
+ {
+  "nickname": "윌리엄 노리스",
+  "en": "William Norris",
+  "headline": "크레이의 천재성에 회사 전체를 걸다",
+  "prof": "entrepreneur",
+  "title": "슈퍼컴퓨터 왕국의 건설자"
+ },
+ {
+  "nickname": "J. C. R. 리크라이더",
+  "en": "J. C. R. Licklider",
+  "headline": "소리를 듣던 과학자가 인터넷을 상상하다",
+  "prof": "scientist",
+  "title": "인터넷의 예언자"
+ },
+ {
+  "nickname": "빌 잉글리시",
+  "en": "Bill English",
+  "headline": "나무 상자가 세계를 클릭하게 하다",
+  "prof": "scientist",
+  "title": "마우스를 만든 손"
+ },
+ {
+  "nickname": "아이번 서덜랜드",
+  "en": "Ivan Sutherland",
+  "headline": "천장에 매단 최초의 가상현실 고글",
+  "prof": "scientist",
+  "title": "컴퓨터 그래픽스의 아버지"
+ },
+ {
+  "nickname": "아델 골드버그",
+  "en": "Adele Goldberg",
+  "headline": "잡스에게 미래를 보여준 PARC의 과학자",
+  "prof": "scientist",
+  "title": "객체지향의 전도사"
+ },
+ {
+  "nickname": "댄 잉걸스",
+  "en": "Dan Ingalls",
+  "headline": "스몰토크의 수십 번째 판을 직접 만든 사람",
+  "prof": "scientist",
+  "title": "스몰토크의 구현 마법사"
+ },
+ {
+  "nickname": "조지 안타일",
+  "en": "George Antheil",
+  "headline": "음악계의 악동이 어뢰 특허를 따내다",
+  "prof": "musician",
+  "title": "헤디 라머의 발명 파트너"
+ },
+ {
+  "nickname": "레스 솔로몬",
+  "en": "Les Solomon",
+  "headline": "빌 게이츠를 움직인 잡지 표지의 편집자",
+  "prof": "other",
+  "title": "PC 혁명의 촉매 편집자"
+ },
+ {
+  "nickname": "팀 패터슨",
+  "en": "Tim Paterson",
+  "headline": "운영체제가 없어서 직접 만들어버린 프로그래머",
+  "prof": "scientist",
+  "title": "MS-DOS의 원조 저자"
+ },
+ {
+  "nickname": "데이비드 실버",
+  "en": "David Silver",
+  "headline": "이세돌을 꺾은 바둑 AI의 아버지",
+  "prof": "scientist",
+  "title": "알파고의 설계자"
+ },
+ {
+  "nickname": "피터 다얀",
+  "en": "Peter Dayan",
+  "headline": "도파민을 예측 오류 신호로 읽어낸 이론가",
+  "prof": "scientist",
+  "title": "도파민 알고리즘의 해석자"
+ },
+ {
+  "nickname": "브루스 페런스",
+  "en": "Bruce Perens",
+  "headline": "'오픈 소스'에 정의를 내린 해커",
+  "prof": "other",
+  "title": "오픈 소스 정의의 저자"
+ },
+ {
+  "nickname": "팀 톰프슨",
+  "en": "Tim Thompson",
+  "headline": "소스를 공개해 놓으니 빔이 자라났다",
+  "prof": "scientist",
+  "title": "빔의 조상을 쓴 프로그래머"
+ },
+ {
+  "nickname": "람베르트 메르턴스",
+  "en": "Lambert Meertens",
+  "headline": "파이썬의 전신 ABC를 설계한 사람",
+  "prof": "scientist",
+  "title": "파이썬의 조부"
+ },
+ {
+  "nickname": "제이슨 프라이드",
+  "en": "Jason Fried",
+  "headline": "유니콘 대신 수익을 택한 창업가",
+  "prof": "entrepreneur",
+  "title": "베이스캠프의 설계자"
+ },
+ {
+  "nickname": "웨이 다이",
+  "en": "Wei Dai",
+  "headline": "사토시가 가장 먼저 인용한 사람",
+  "prof": "scientist",
+  "title": "비트코인의 사상적 아버지"
+ },
+ {
+  "nickname": "데이브 클라이먼",
+  "en": "Dave Kleiman",
+  "headline": "사토시 후보로 불리던 휠체어의 수사관",
+  "prof": "other",
+  "title": "사토시 논란의 포렌식 전문가"
+ },
+ {
+  "nickname": "마이클 패트린",
+  "en": "Michael Patryn",
+  "headline": "두 번이나 정체가 드러난 가면의 사업가",
+  "prof": "entrepreneur",
+  "title": "가면을 쓴 공동창업자"
+ },
+ {
+  "nickname": "빌 스틸리",
+  "en": "Bill Stealey",
+  "headline": "시드 마이어에게 날개를 달아준 조종사",
+  "prof": "entrepreneur",
+  "title": "와일드 빌, 시뮬레이션의 장군"
+ },
+ {
+  "nickname": "제프 브릭스",
+  "en": "Jeff Briggs",
+  "headline": "작곡 박사가 세운 문명의 제국",
+  "prof": "entrepreneur",
+  "title": "문명을 작곡한 CEO"
+ },
+ {
+  "nickname": "제프 브라운",
+  "en": "Jeff Braun",
+  "headline": "윌 라이트의 도시를 회사로 만든 사람",
+  "prof": "entrepreneur",
+  "title": "심시티의 사업가"
+ },
+ {
+  "nickname": "신카와 요지",
+  "en": "Yoji Shinkawa",
+  "headline": "수묵화풍 일러스트로 메탈기어의 얼굴을 그리다",
+  "prof": "visual_artist",
+  "title": "메탈기어의 화가"
+ },
+ {
+  "nickname": "테드 대브니",
+  "en": "Ted Dabney",
+  "headline": "부시넬과 아타리를 세우고 마트 주인이 되다",
+  "prof": "entrepreneur",
+  "title": "아타리의 잊힌 공동창업자"
+ },
+ {
+  "nickname": "빌 러시",
+  "en": "Bill Rusch",
+  "headline": "브라운 박스에 기계 선수를 심은 엔지니어",
+  "prof": "scientist",
+  "title": "세 번째 점을 켠 엔지니어"
+ },
+ {
+  "nickname": "헹크 로저스",
+  "en": "Henk Rogers",
+  "headline": "모스크바로 날아가 게임보이 판권을 따내다",
+  "prof": "entrepreneur",
+  "title": "테트리스를 서방에 가져온 사업가"
+ },
+ {
+  "nickname": "스타 롱",
+  "en": "Starr Long",
+  "headline": "QA 테스터에서 울티마 온라인의 디렉터로",
+  "prof": "director",
+  "title": "울티마 온라인의 연출가"
+ },
+ {
+  "nickname": "와다 야스히로",
+  "en": "Yasuhiro Wada",
+  "headline": "총 대신 삽을 들게 한 게임 디자이너",
+  "prof": "director",
+  "title": "목장이야기의 창조자"
+ },
+ {
+  "nickname": "켄 윌리엄스",
+  "en": "Ken Williams",
+  "headline": "아내의 게임을 회사로 만든 남편",
+  "prof": "entrepreneur",
+  "title": "시에라의 왕"
+ },
+ {
+  "nickname": "발렌틴 글루시코",
+  "en": "Valentin Glushko",
+  "headline": "스푸트니크와 가가린을 올린 엔진의 설계자",
+  "prof": "scientist",
+  "title": "소련 로켓 엔진의 대부"
+ },
+ {
+  "nickname": "테오도르 폰 카먼",
+  "en": "Theodore von Kármán",
+  "headline": "우주의 경계선에 이름을 새긴 스승",
+  "prof": "scientist",
+  "title": "우주 경계에 이름을 새긴 거장"
+ },
+ {
+  "nickname": "프랭크 말리나",
+  "en": "Frank Malina",
+  "headline": "로켓을 쏘던 손으로 움직이는 조각을 만들다",
+  "prof": "scientist",
+  "title": "예술가가 된 JPL 창립자"
+ },
+ {
+  "nickname": "티코 브라헤",
+  "en": "Tycho Brahe",
+  "headline": "케플러에게 하늘 데이터를 물려준 금 코 귀족",
+  "prof": "scientist",
+  "title": "금 코의 천문학자"
+ },
+ {
+  "nickname": "헨리 캐번디시",
+  "en": "Henry Cavendish",
+  "headline": "지구의 무게를 처음 달아 본 귀족 과학자",
+  "prof": "scientist",
+  "title": "지구를 달아 본 은둔자"
+ },
+ {
+  "nickname": "윌리엄 버클랜드",
+  "en": "William Buckland",
+  "headline": "첫 공룡에 이름을 붙이고 온갖 것을 먹어 본 교수",
+  "prof": "scientist",
+  "title": "공룡의 첫 명명자"
+ },
+ {
+  "nickname": "클레어 패터슨",
+  "en": "Clair Patterson",
+  "headline": "지구 나이를 재다가 납 업계와 전쟁을 벌인 과학자",
+  "prof": "scientist",
+  "title": "지구 나이의 측정자"
+ },
+ {
+  "nickname": "배리 마셜",
+  "en": "Barry Marshall",
+  "headline": "헬리코박터를 삼키고 노벨상을 받은 사람",
+  "prof": "scientist",
+  "title": "세균을 마신 의사"
+ },
+ {
+  "nickname": "스터빈스 퍼스",
+  "en": "Stubbins Ffirth",
+  "headline": "구토물을 눈에 바르고도 살아남은 의학도",
+  "prof": "scientist",
+  "title": "구토물을 먹은 의학도"
+ },
+ {
+  "nickname": "베르너 포르스만",
+  "en": "Werner Forssmann",
+  "headline": "자기 팔에서 심장까지 관을 밀어 넣은 의사",
+  "prof": "scientist",
+  "title": "자기 심장에 카테터를 넣은 의사"
+ },
+ {
+  "nickname": "레오니트 로고조프",
+  "en": "Leonid Rogozov",
+  "headline": "환자와 의사가 같은 사람이었던 남극 수술",
+  "prof": "scientist",
+  "title": "자기 맹장을 뗀 의사"
+ },
+ {
+  "nickname": "데이비드 한",
+  "en": "David Hahn",
+  "headline": "스카우트 자격증 따려다 방사능 사고를 낸 소년",
+  "prof": "other",
+  "title": "방사능 소년"
+ },
+ {
+  "nickname": "토머스 미즐리",
+  "en": "Thomas Midgley Jr.",
+  "headline": "두 개의 환경 재앙을 발명하고 발명에 죽은 사람",
+  "prof": "scientist",
+  "title": "최악의 발명가"
+ },
+ {
+  "nickname": "세르주 보로노프",
+  "en": "Serge Voronoff",
+  "headline": "젊음을 팔겠다며 원숭이 고환을 이식한 의사",
+  "prof": "scientist",
+  "title": "원숭이 고환 박사"
+ },
+ {
+  "nickname": "블라디미르 데미호프",
+  "en": "Vladimir Demikhov",
+  "headline": "두 머리 개 뒤에 장기이식 시대를 연 의사",
+  "prof": "scientist",
+  "title": "두 머리 개의 의사"
+ },
+ {
+  "nickname": "트로핌 리센코",
+  "en": "Trofim Lysenko",
+  "headline": "유전학을 부르주아 과학으로 몰아넣은 농학자",
+  "prof": "scientist",
+  "title": "소련의 사이비 과학"
+ },
+ {
+  "nickname": "콘스탄틴 치올콥스키",
+  "en": "Konstantin Tsiolkovsky",
+  "headline": "듣지 못하면서 로켓 공식을 유도한 선생님",
+  "prof": "scientist",
+  "title": "우주비행의 아버지"
+ },
+ {
+  "nickname": "로버트 고다드",
+  "en": "Robert Goddard",
+  "headline": "조롱받던 로켓이 달까지 간 걸 못 본 과학자",
+  "prof": "scientist",
+  "title": "액체로켓의 아버지"
+ },
+ {
+  "nickname": "레오 실라드",
+  "en": "Leo Szilard",
+  "headline": "신호등에서 폭탄을 생각하고 폭탄에 반대한 사람",
+  "prof": "scientist",
+  "title": "핵의 양심"
+ },
+ {
+  "nickname": "버크민스터 풀러",
+  "en": "Buckminster Fuller",
+  "headline": "지구를 승객이 운영하는 우주선으로 부른 사람",
+  "prof": "other",
+  "title": "지오데식 돔"
+ },
+ {
+  "nickname": "딘 케이먼",
+  "en": "Dean Kamen",
+  "headline": "아이들에게 로봇 대회를 선물한 발명가",
+  "prof": "entrepreneur",
+  "title": "세그웨이의 아버지"
+ },
+ {
+  "nickname": "잭 파슨스",
+  "en": "Jack Parsons",
+  "headline": "로켓 공학자의 낮과 마법사의 밤을 산 사람",
+  "prof": "scientist",
+  "title": "로켓과 마법"
+ },
+ {
+  "nickname": "빌헬름 라이히",
+  "en": "Wilhelm Reich",
+  "headline": "FDA와 싸우다 저작이 불타고 옥사한 학자",
+  "prof": "scientist",
+  "title": "오르곤 에너지"
+ },
+ {
+  "nickname": "존 릴리",
+  "en": "John C. Lilly",
+  "headline": "돌고래와 소통하려 자기 뇌를 실험한 의사",
+  "prof": "scientist",
+  "title": "고립수조의 발명가"
+ },
+ {
+  "nickname": "티머시 리어리",
+  "en": "Timothy Leary",
+  "headline": "닉슨이 미국에서 가장 위험한 남자로 부른 사람",
+  "prof": "social_scientist",
+  "title": "LSD의 교주"
+ },
+ {
+  "nickname": "아타나시우스 키르허",
+  "en": "Athanasius Kircher",
+  "headline": "뻥과 천재성이 섞인 마흔 권을 남긴 신부",
+  "prof": "humanities_scholar",
+  "title": "마지막 르네상스인"
+ },
+ {
+  "nickname": "파라켈수스",
+  "en": "Paracelsus",
+  "headline": "'독은 양이 정한다'고 처음 말한 의사",
+  "prof": "scientist",
+  "title": "화학의학의 아버지"
+ },
+ {
+  "nickname": "실베스터 그레이엄",
+  "en": "Sylvester Graham",
+  "headline": "정욕 억제 식단이 후대 과자 이름으로 남았다",
+  "prof": "other",
+  "title": "그레이엄 크래커의 아버지"
+ },
+ {
+  "nickname": "존 하비 켈로그",
+  "en": "John Harvey Kellogg",
+  "headline": "금욕 식단을 고집하다 시리얼 산업을 만든 의사",
+  "prof": "scientist",
+  "title": "콘플레이크의 아버지"
+ },
+ {
+  "nickname": "그레이스 호퍼",
+  "en": "Grace Hopper",
+  "headline": "기계에 영어를 가르치겠다던 해군 프로그래머",
+  "prof": "scientist",
+  "title": "코볼의 어머니"
+ },
+ {
+  "nickname": "노버트 위너",
+  "en": "Norbert Wiener",
+  "headline": "인간과 기계의 경계를 처음 그은 수학자",
+  "prof": "scientist",
+  "title": "사이버네틱스의 아버지"
+ },
+ {
+  "nickname": "시모어 크레이",
+  "en": "Seymour Cray",
+  "headline": "숲속 오두막에서 최고 속도 컴퓨터를 설계한 사람",
+  "prof": "scientist",
+  "title": "슈퍼컴퓨터의 아버지"
+ },
+ {
+  "nickname": "더글러스 엥겔바트",
+  "en": "Douglas Engelbart",
+  "headline": "마우스·화상회의·하이퍼텍스트를 한 무대에 올린 사람",
+  "prof": "scientist",
+  "title": "마우스의 발명가"
+ },
+ {
+  "nickname": "앨런 케이",
+  "en": "Alan Kay",
+  "headline": "미래를 발명하자고 외친 객체지향의 아버지",
+  "prof": "scientist",
+  "title": "개인용 컴퓨터의 설계자"
+ },
+ {
+  "nickname": "테드 넬슨",
+  "en": "Ted Nelson",
+  "headline": "하이퍼텍스트를 만들고 웹이 틀렸다며 평생 싸운 사람",
+  "prof": "scientist",
+  "title": "하이퍼텍스트의 아버지"
+ },
+ {
+  "nickname": "헤디 라머",
+  "en": "Hedy Lamarr",
+  "headline": "얼굴만 기억된 배우가 사실은 발명가",
+  "prof": "actor",
+  "title": "와이파이의 어머니"
+ },
+ {
+  "nickname": "에드 로버츠",
+  "en": "Ed Roberts",
+  "headline": "PC 붐을 일으키고 시골 의사로 사라진 남자",
+  "prof": "entrepreneur",
+  "title": "최초의 PC 제작자"
+ },
+ {
+  "nickname": "게리 킬달",
+  "en": "Gary Kildall",
+  "headline": "CP/M을 만들고도 DOS에 밀려난 운영체제의 원조",
+  "prof": "scientist",
+  "title": "잃어버린 OS의 아버지"
+ },
+ {
+  "nickname": "테리 데이비스",
+  "en": "Terry A. Davis",
+  "headline": "신이 시켰다며 운영체제를 혼자 십 년간 짠 사람",
+  "prof": "scientist",
+  "title": "신의 프로그래머"
+ },
+ {
+  "nickname": "한스 라이저",
+  "en": "Hans Reiser",
+  "headline": "파일시스템의 천재가 아내 살해로 감옥에 간 남자",
+  "prof": "scientist",
+  "title": "파일시스템 살인자"
+ },
+ {
+  "nickname": "이안 머독",
+  "en": "Ian Murdock",
+  "headline": "여자친구 이름을 딴 데비안이 서버 세상을 돌린다",
+  "prof": "scientist",
+  "title": "데비안의 아버지"
+ },
+ {
+  "nickname": "조지 호츠",
+  "en": "George Hotz",
+  "headline": "아이폰과 PS3를 모두 뚫은 천재 해커",
+  "prof": "scientist",
+  "title": "아이폰 해커"
+ },
+ {
+  "nickname": "브램 코언",
+  "en": "Bram Cohen",
+  "headline": "인터넷 트래픽의 삼분의 일을 차지하게 만든 개발자",
+  "prof": "scientist",
+  "title": "비트토렌트의 아버지"
+ },
+ {
+  "nickname": "저스틴 프랭클",
+  "en": "Justin Frankel",
+  "headline": "윈앰프로 MP3 시대를 연 십대 개발자",
+  "prof": "entrepreneur",
+  "title": "윈앰프의 아버지"
+ },
+ {
+  "nickname": "브램 몰레나르",
+  "en": "Bram Moolenaar",
+  "headline": "Vim을 삼십 년 혼자 지키며 수익을 기부한 사람",
+  "prof": "scientist",
+  "title": "빔의 수호자"
+ },
+ {
+  "nickname": "귀도 판 로쉼",
+  "en": "Guido van Rossum",
+  "headline": "들여쓰기를 문법으로 삼은 언어의 창시자",
+  "prof": "scientist",
+  "title": "파이썬의 아버지"
+ },
+ {
+  "nickname": "마쓰모토 유키히로",
+  "en": "Yukihiro Matsumoto",
+  "headline": "프로그래머의 행복을 위해 만든 루비의 아버지",
+  "prof": "scientist",
+  "title": "루비의 아버지"
+ },
+ {
+  "nickname": "데이비드 하이네마이어 한손",
+  "en": "David Heinemeier Hansson",
+  "headline": "레이싱 드라이버이자 레일스의 창시자",
+  "prof": "entrepreneur",
+  "title": "레일즈의 아버지"
+ },
+ {
+  "nickname": "닉 재보",
+  "en": "Nick Szabo",
+  "headline": "사토시가 아니냐는 의혹을 받는 스마트 계약의 아버지",
+  "prof": "scientist",
+  "title": "스마트 계약의 아버지"
+ },
+ {
+  "nickname": "크레이그 라이트",
+  "en": "Craig Wright",
+  "headline": "법원이 사토시가 아니라고 판단한 남자",
+  "prof": "entrepreneur",
+  "title": "가짜토시"
+ },
+ {
+  "nickname": "로저 버",
+  "en": "Roger Ver",
+  "headline": "비트코인에 전 재산을 걸고 예수 소리를 들은 투자자",
+  "prof": "investor",
+  "title": "비트코인 예수"
+ },
+ {
+  "nickname": "제럴드 코튼",
+  "en": "Gerald Cotten",
+  "headline": "신혼여행에서 죽고 금고 열쇠도 함께 사라진 창업자",
+  "prof": "entrepreneur",
+  "title": "키를 들고 간 남자"
+ },
+ {
+  "nickname": "루야 이그나토바",
+  "en": "Ruja Ignatova",
+  "headline": "블록체인도 없는 코인을 팔아 수십억을 번 여자",
+  "prof": "entrepreneur",
+  "title": "크립토퀸"
+ },
+ {
+  "nickname": "헤더 모건",
+  "en": "Heather Morgan",
+  "headline": "'월가의 악어'라 자칭한 래퍼가 코인 세탁범이었다",
+  "prof": "musician",
+  "title": "래즐칸"
+ },
+ {
+  "nickname": "시드 마이어",
+  "en": "Sid Meier",
+  "headline": "한 턴만 더 누르게 만든 문명의 창시자",
+  "prof": "director",
+  "title": "문명의 아버지"
+ },
+ {
+  "nickname": "윌 라이트",
+  "en": "Will Wright",
+  "headline": "도시와 인생을 통째로 게임으로 만든 심즈의 아버지",
+  "prof": "director",
+  "title": "심즈의 아버지"
+ },
+ {
+  "nickname": "코지마 히데오",
+  "en": "Hideo Kojima",
+  "headline": "영화처럼 게임을 만든 메탈기어의 아버지",
+  "prof": "director",
+  "title": "메탈기어의 아버지"
+ },
+ {
+  "nickname": "랠프 베어",
+  "en": "Ralph Baer",
+  "headline": "TV로 게임하자고 먼저 생각한 망명 엔지니어",
+  "prof": "scientist",
+  "title": "비디오게임의 발명가"
+ },
+ {
+  "nickname": "알렉세이 파지트노프",
+  "en": "Alexey Pajitnov",
+  "headline": "테트리스를 만들었지만 소련이 수익을 가져간 연구원",
+  "prof": "scientist",
+  "title": "테트리스의 아버지"
+ },
+ {
+  "nickname": "리처드 개리엇",
+  "en": "Richard Garriott",
+  "headline": "게임 세계의 영주가 진짜 우주에 간 남자",
+  "prof": "director",
+  "title": "로드 브리티시"
+ },
+ {
+  "nickname": "마르쿠스 페르손",
+  "en": "Markus Persson",
+  "headline": "마인크래프트를 팔고도 외로워진 억만장자",
+  "prof": "entrepreneur",
+  "title": "마인크래프트의 아버지"
+ },
+ {
+  "nickname": "에릭 바론",
+  "en": "Eric Barone",
+  "headline": "스타듀밸리를 음악과 그래픽까지 혼자 만든 개발자",
+  "prof": "director",
+  "title": "스타듀 밸리의 아버지"
+ },
+ {
+  "nickname": "크리스 소여",
+  "en": "Chris Sawyer",
+  "headline": "어셈블리로 롤러코스터 타이쿤을 혼자 짠 장인",
+  "prof": "director",
+  "title": "타이쿤의 장인"
+ },
+ {
+  "nickname": "제리 로슨",
+  "en": "Jerry Lawson",
+  "headline": "게임을 갈아 끼우는 시대를 연 엔지니어",
+  "prof": "scientist",
+  "title": "카트리지의 아버지"
+ },
+ {
+  "nickname": "로베르타 윌리엄스",
+  "en": "Roberta Williams",
+  "headline": "글자만 있던 게임에 그림을 입힌 여성 개발자",
+  "prof": "director",
+  "title": "어드벤처 게임의 어머니"
+ },
+ {
+  "nickname": "앤디 루빈",
+  "en": "Andy Rubin",
+  "headline": "구글에 안드로이드를 팔고 구글을 떠난 창업자",
+  "prof": "entrepreneur",
+  "title": "안드로이드의 아버지"
+ },
+ {
+  "nickname": "짐 클라크",
+  "en": "Jim Clark",
+  "headline": "실리콘밸리의 연쇄 창업 전설이 된 해군 출신",
+  "prof": "entrepreneur",
+  "title": "세 번의 10억 달러"
+ },
+ {
+  "nickname": "브라이언 존슨",
+  "en": "Bryan Johnson",
+  "headline": "죽지 않겠다며 아들의 피까지 수혈한 억만장자",
+  "prof": "entrepreneur",
+  "title": "죽지 않기 프로젝트"
+ },
+ {
+  "nickname": "케빈 워릭",
+  "en": "Kevin Warwick",
+  "headline": "자기 신경계를 인터넷에 연결한 교수",
+  "prof": "scientist",
+  "title": "최초의 사이보그"
+ },
+ {
+  "nickname": "오브리 드 그레이",
+  "en": "Aubrey de Grey",
+  "headline": "인간이 천 년 살 수 있다며 노화에 선전포고한 학자",
+  "prof": "scientist",
+  "title": "불로불사의 예언자"
+ },
+ {
+  "nickname": "리모어 프리드",
+  "en": "Limor Fried",
+  "headline": "전자공작을 대중에게 연 오픈소스 하드웨어의 여왕",
+  "prof": "entrepreneur",
+  "title": "레이디에이다"
+ },
+ {
+  "nickname": "제리 엘즈워스",
+  "en": "Jeri Ellsworth",
+  "headline": "독학으로 코모도어64를 칩 하나에 담아 낸 공학자",
+  "prof": "scientist",
+  "title": "차고의 칩 장인"
+ },
+ {
+  "nickname": "제럴드 불",
+  "en": "Gerald Bull",
+  "headline": "대포로 위성을 쏘려다 슈퍼건을 짓고 암살당한 과학자",
+  "prof": "scientist",
+  "title": "슈퍼건의 설계자"
+ },
+ {
+  "nickname": "세르게이 코롤료프",
+  "en": "Sergei Korolev",
+  "headline": "죽어서야 이름이 공개된 소련 우주의 아버지",
+  "prof": "scientist",
+  "title": "총설계자"
+ },
+ {
+  "nickname": "치엔 쉐썬",
+  "en": "Qian Xuesen",
+  "headline": "미국에서 쫓겨나 중국 로켓의 아버지가 된 사람",
+  "prof": "scientist",
+  "title": "중국 로켓의 아버지"
+ },
+ {
+  "nickname": "아나톨리 부고르스키",
+  "en": "Anatoli Bugorski",
+  "headline": "반쪽 얼굴이 늙지 않게 된 가속기 생존자",
+  "prof": "scientist",
+  "title": "빔을 맞고 산 남자"
+ }
+]

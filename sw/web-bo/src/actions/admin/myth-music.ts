@@ -8,10 +8,10 @@ import { revalidateWebLists } from '@/lib/revalidate-web'
 import { missingR2Env, R2_PUBLIC_URL, uploadToR2 } from '@/lib/r2'
 import {
   MYTH_MUSIC_DIR, mythMusicObjectKey, mythMusicValue, scanMythMusicFolder, toMythMusicEntry,
-  type MythMusicEntry, type MythMusicScan, type MythMusicTag,
+  type MythMusicEntry, type MythMusicScan, type MythMusicTarget,
 } from '@/lib/myth-music'
 
-const TAG_COLUMNS = 'id,name,slug,parent_id,theme_music'
+const MYTH_COLUMNS = 'id,name,slug,theme_music'
 
 export interface MythMusicCatalog {
   folder: string
@@ -28,21 +28,18 @@ export interface MythMusicSyncResult {
   message: string
 }
 
-async function loadMythTags(): Promise<MythMusicTag[]> {
+async function loadMythTargets(): Promise<MythMusicTarget[]> {
   const db = createAdminClient()
-  const { data, error } = await db.from('celeb_tags').select(TAG_COLUMNS).order('sort_order').order('name')
-  if (error) throw new Error('신화 전승 조회 실패: ' + error.message)
+  // 테마곡은 L2 신화 카드의 속성이다 — is_myth=true인 faction_lv2 전량이 대상
+  const { data, error } = await db.from('faction_lv2').select(MYTH_COLUMNS).eq('is_myth', true).order('sort_order').order('name')
+  if (error) throw new Error('신화 조회 실패: ' + error.message)
 
-  const rows = (data ?? []) as Array<MythMusicTag & { parent_id: string | null }>
-  const root = rows.find((row) => row.slug === 'myth-and-fiction')
-  if (!root) return []
-  const rootIds = new Set(rows.filter((row) => row.parent_id === root.id).map((row) => row.id))
-  return rows.filter((row) => rootIds.has(row.parent_id ?? '') || rootIds.has(row.id))
+  return (data ?? []) as MythMusicTarget[]
 }
 
 async function scanCatalog(): Promise<{ scan: MythMusicScan; entries: MythMusicEntry[] }> {
-  const tags = await loadMythTags()
-  const scan = await scanMythMusicFolder(tags)
+  const myths = await loadMythTargets()
+  const scan = await scanMythMusicFolder(myths)
   return { scan, entries: scan.files.map(toMythMusicEntry) }
 }
 
@@ -58,7 +55,7 @@ export async function getMythMusicCatalog(): Promise<MythMusicCatalog> {
   }
 }
 
-/** 준비 폴더의 매칭된 mp3를 R2에 올리고 해당 신화 전승의 theme_music을 갱신한다. */
+/** 준비 폴더의 매칭된 mp3를 R2에 올리고 해당 신화의 theme_music을 갱신한다. */
 export async function syncMythMusic(): Promise<MythMusicSyncResult> {
   await requireAdmin()
   const { scan } = await scanCatalog()
@@ -75,8 +72,8 @@ export async function syncMythMusic(): Promise<MythMusicSyncResult> {
   let skipped = 0
   let blocked = 0
   for (const file of scan.files) {
-    if (!file.tag) { blocked += 1; continue }
-    const current = file.tag.theme_music as { file?: unknown; url?: unknown } | null
+    if (!file.myth) { blocked += 1; continue }
+    const current = file.myth.theme_music as { file?: unknown; url?: unknown } | null
     try {
       const bytes = await readFile(file.absPath)
       const key = mythMusicObjectKey(bytes, file.file)
@@ -87,9 +84,9 @@ export async function syncMythMusic(): Promise<MythMusicSyncResult> {
       }
       await uploadToR2(key, bytes, 'audio/mpeg')
       const { error } = await db
-        .from('celeb_tags')
+        .from('faction_lv2')
         .update({ theme_music: mythMusicValue(file.file, url, new Date().toISOString()) })
-        .eq('id', file.tag.id)
+        .eq('id', file.myth.id)
       if (error) throw new Error(error.message)
       updated += 1
     } catch (error) {

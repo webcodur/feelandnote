@@ -71,7 +71,7 @@ async function main() {
 
   fs.mkdirSync(OUT_DIR, { recursive: true })
 
-  const { data: tags, error } = await db.from('celeb_tags').select('id,slug,name,description,description_en').like('slug', 'myth%').order('slug')
+  const { data: tags, error } = await db.from('faction_lv2').select('id,slug,name,description,description_en').eq('is_myth', true).order('slug')
   if (error) throw new Error(error.message)
 
   const samples = tags.filter((t) => ['myth-korea', 'myth-norse'].includes(t.slug)).map((t) => ({ name: t.name, description: t.description }))
@@ -82,7 +82,7 @@ async function main() {
   if (LIST_ONLY || !todo.length) return
 
   // 전승별 인물 명단
-  const { data: asg } = await db.from('celeb_tag_assignments').select('celeb_id,tag_id').in('tag_id', todo.map((t) => t.id))
+  const { data: asg } = await db.from('faction_members').select('celeb_id,lv2_id').in('lv2_id', todo.map((t) => t.id))
   const ids = [...new Set(asg.map((a) => a.celeb_id))]
   const people = []
   for (let i = 0; i < ids.length; i += 100) {
@@ -92,9 +92,9 @@ async function main() {
   const pById = new Map(people.map((p) => [p.id, p]))
   const byTag = new Map()
   for (const a of asg) {
-    if (!byTag.has(a.tag_id)) byTag.set(a.tag_id, [])
+    if (!byTag.has(a.lv2_id)) byTag.set(a.lv2_id, [])
     const p = pById.get(a.celeb_id)
-    if (p) byTag.get(a.tag_id).push(p)
+    if (p) byTag.get(a.lv2_id).push(p)
   }
 
   let done = 0, failed = 0

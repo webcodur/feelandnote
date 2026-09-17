@@ -7,7 +7,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ContentCard } from "@/components/ui/cards";
 import { CategoryTabFilter, type CategoryTabOption } from "@/components/ui/CategoryTabFilter";
 import { Pagination } from "@/components/ui/Pagination";
 import { useLocale, useTranslations } from "next-intl";
@@ -18,6 +17,7 @@ import type { LibraryResult } from "@/actions/library";
 import type { ContentType } from "@/types/database";
 import BestsellerFreshness, { type BestsellerFreshnessProps } from "../BestsellerFreshness";
 import BookChartGrid from "../BookChartGrid";
+import ClassicsGrid from "../ClassicsGrid";
 import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 
 const ITEMS_PER_PAGE = 12;
@@ -33,16 +33,18 @@ interface Props {
   };
   initialClassicsData: LibraryResult;
   professions: { profession: string; count: number }[];
+  /** 허브 미리보기의 더 보기처럼 모드를 골라 들어오는 길 (?mode=classics) */
+  initialMode?: Mode;
 }
 
-export default function PopularSection({ initialBestsellers, initialClassicsData, professions }: Props) {
+export default function PopularSection({ initialBestsellers, initialClassicsData, professions, initialMode }: Props) {
   const locale = useLocale();
   const t = useTranslations("library.popular");
   const te = useTranslations("library.page.eraPage.eraTabs");
   const tp = useTranslations("profession");
   const tc = useTranslations("content.category");
 
-  const [mode, setMode] = useState<Mode>("bestseller");
+  const [mode, setMode] = useState<Mode>(initialMode ?? "bestseller");
   
   const bestsellers = initialBestsellers.items;
 
@@ -111,7 +113,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
       <header className="text-center">
         <h2 className="font-serif text-2xl md:text-3xl text-text-primary">
           {mode === "bestseller" ? t("chartTitle") : t("title")}
-          {mode === "bestseller" && locale === "ko" && (
+          {locale === "ko" && (
             <BookPurchaseInfo className="ms-2 inline-flex size-7 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
           )}
         </h2>
@@ -185,29 +187,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
           )
         ) : (
           classicsData.contents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 justify-center max-w-6xl mx-auto">
-              {classicsData.contents.map((content) => (
-                <ContentCard
-                  key={content.id}
-                  contentId={content.id}
-                  contentType={content.type as ContentType}
-                  title={content.title}
-                  titleBadge={content.title_badge}
-                  creator={content.creator}
-                  thumbnail={content.thumbnail_url}
-                  celebCount={content.celeb_count}
-                  userCount={content.user_count}
-                  rating={content.avg_rating ?? undefined}
-                  href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
-                  titleKo={content.title_ko}
-                  titleEn={content.title_en}
-                  creatorEn={content.creator_en}
-                  thumbnailEn={content.thumbnail_en}
-                  hasEnEdition={content.has_en_edition}
-                  fallbackDescription={locale === "en" ? (content.review_en || content.review || null) : (content.review || content.review_en || null)}
-                />
-              ))}
-            </div>
+            <ClassicsGrid contents={classicsData.contents} />
           ) : (
             <p className="py-16 text-center text-sm text-text-secondary">{t("empty")}</p>
           )

@@ -1,0 +1,3161 @@
+{
+ "어니스트 섀클턴": {
+  "influence": {
+   "political": 1,
+   "political_exp": "탐험 외 정치 직책·정책 기여는 없음",
+   "political_exp_en": "No political office or policy impact beyond exploration",
+   "strategic": 1,
+   "strategic_exp": "군사 전략과 무관한 민간 탐험가",
+   "strategic_exp_en": "A civilian explorer with no military-strategic contribution",
+   "tech": 2,
+   "tech_exp": "1916년 구명정 항해가 극한 항해술 사례로 남음",
+   "tech_exp_en": "The 1916 James Caird voyage remains a benchmark of open-boat seamanship",
+   "social": 2,
+   "social_exp": "위기 리더십의 표준 사례로 경영 교육에 인용",
+   "social_exp_en": "His crisis leadership is now a standard case in management teaching",
+   "economic": 0,
+   "economic_exp": "후원금 조달 외 경제적 기여 없음",
+   "economic_exp_en": "No economic impact beyond raising expedition funds",
+   "cultural": 4,
+   "cultural_exp": "인듀어런스 일화가 리더십 서사의 고전이 됨",
+   "cultural_exp_en": "The Endurance saga became a classic of leadership storytelling",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "한 세기 넘게 위기 리더십의 상징으로 회자",
+   "transhistoricity_exp_en": "Cited for a century as the emblem of crisis leadership"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 85,
+     "reason_ko": "1916년 28명을 2년간 이끌어 전원 생환",
+     "reason_en": "Led 28 men through two years of ice survival to a full rescue"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "구명정 1,300km 항해와 사우스조지아 빙벽 횡단",
+     "reason_en": "Sailed 1,300 km in a lifeboat, then crossed South Georgia's glaciers"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "기선·항로·식량을 재배치한 위기 판단력",
+     "reason_en": "Re-planned routes, boats and rations under collapse"
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "캠프를 돌며 사기를 지켜 대원이 목숨을 맡김",
+     "reason_en": "Kept morale tent by tent; men trusted him with their lives"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "빚과 사업 실패를 거듭하며 원정에 계속 투자",
+     "reason_en": "Kept sinking money into ventures and expeditions despite debts"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "1901년부터 20여 년간 네 차례 남극 원정을 추진",
+     "reason_en": "Mounted four Antarctic expeditions across two decades"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "니므로드 실패 뒤 운영 방식을 고쳐 재원정",
+     "reason_en": "Reworked his methods after Nimrod fell short"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "구명정으로 남대서양을 건너 구조를 직접 찾음",
+     "reason_en": "Crossed the Southern Ocean in an open boat to fetch rescue himself"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "전원 생환을 목표로 끝까지 대원 곁을 지킴",
+     "reason_en": "Stayed with his men to the end under a no-man-left aim"
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "1909년 남극점 180km 앞에서 대원 안전을 택해 회군",
+     "reason_en": "Turned back 180 km from the Pole in 1909 to keep his men alive"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "얼음 위 캠프에서 신분 없이 같은 배급과 노무를 적용",
+     "reason_en": "On the ice all ranks shared the same rations and chores"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "공로를 나누면서도 자기 명성 관리에 신경 씀",
+     "reason_en": "Shared credit yet carefully tended his own fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "절망적 표류 중에도 낙관적 태도로 대오를 지탱",
+     "reason_en": "Stayed upbeat through hopeless drift, holding the party together"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "제국 탐험의 기존 틀 안에서 명예를 추구",
+     "reason_en": "Sought glory inside the imperial expedition tradition"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "흩어진 대열을 한 공동체로 묶어 운영",
+     "reason_en": "Bound a scattered party into one communal unit"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "목표는 과감히 잡되 생명 앞에서는 회군을 택함",
+     "reason_en": "Bold in aim yet chose retreat when lives were at stake"
+    }
+   },
+   "rationale_ko": "배를 잃은 뒤에도 대원 전원을 살려 낸 위기 통솔이 정점이다. 무모해 보인 도전이 실패로 끝났음에도 생명을 택한 판단이 그를 리더십의 표준으로 만들었다. 사업 실패와 명성 관리는 절제의 그늘이다. 1916년 제임스 케어드 항해로 전원 생환을 이뤘다.",
+   "rationale_en": "His peak is crisis command: after losing his ship he brought all 28 men home. The expeditions failed on paper, yet choosing lives over glory made him the standard case of leadership. Failed ventures and careful image-management shadow his temperance. In 1916 the James Caird voyage saved every man."
+  }
+ },
+ "로알 아문센": {
+  "influence": {
+   "political": 1,
+   "political_exp": "국가 영웅이었으나 정치 개입은 없음",
+   "political_exp_en": "A national hero who never entered politics",
+   "strategic": 1,
+   "strategic_exp": "군사 기여 없이 탐험에 전념",
+   "strategic_exp_en": "No military contribution; devoted wholly to exploration",
+   "tech": 4,
+   "tech_exp": "썰매개·스키·비행선을 조합한 극지 기법의 원형",
+   "tech_exp_en": "His dog-sled, ski and airship methods set the polar-travel template",
+   "social": 1,
+   "social_exp": "사회 제도 변화와의 직접 인연은 드묾",
+   "social_exp_en": "Little direct bearing on social institutions",
+   "economic": 1,
+   "economic_exp": "북동항로 조사 등 상업 항로 정보에 기여",
+   "economic_exp_en": "His Northeast Passage surveys added to commercial sea-route knowledge",
+   "cultural": 5,
+   "cultural_exp": "스콧과의 남극점 경쟁이 탐험사의 대표 서사가 됨",
+   "cultural_exp_en": "The race with Scott became exploration's defining story",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "양 극점 최초 기록이 탐험사에 영구 기재",
+   "transhistoricity_exp_en": "First at both ends of the earth — fixed permanently in exploration history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "3년 북서항로와 남극점 원정을 소수 정예로 지휘",
+     "reason_en": "Commanded small picked crews on the three-year Northwest Passage and South Pole runs"
+    },
+    "martial": {
+     "score": 84,
+     "reason_ko": "스키와 썰매로 수천 km를 주파한 극지 보행의 정점",
+     "reason_en": "Skied and sledged thousands of kilometres — the peak of polar travel"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "이누이트 기법을 흡수해 남극점 작전을 설계",
+     "reason_en": "Absorbed Inuit technique to design the South Pole run"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "국가 영웅이었으나 과묵, 노빌레와 공로 다툼",
+     "reason_en": "A national hero yet reserved, feuding with Nobile over credit"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "원정 중엔 철저히 절제된 규범적 생활",
+     "reason_en": "Rigorously disciplined on expedition, austere in private life"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "북서항로 3년 등 원정마다 수년 준비를 거듭",
+     "reason_en": "Prepared years for each expedition, three years on the Gjøa alone"
+    },
+    "reflection": {
+     "score": 68,
+     "reason_ko": "난센의 기법과 스콧의 실책을 분석해 적용",
+     "reason_en": "Studied Nansen's methods and Scott's mistakes, then applied both"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1928년 실종된 라이벌 구조에 56세로 출동",
+     "reason_en": "At 56 he flew out to rescue his missing rival in 1928"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "반목한 노빌레 구조에 나섰으나 동료 교체도 잦음",
+     "reason_en": "Flew to rescue feuding Nobile, yet rotated partners often"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "라이벌을 구하러 나서다 목숨을 잃음",
+     "reason_en": "Lost his life flying out to rescue a rival"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공로 배분을 두고 노빌레·쿡과 격론",
+     "reason_en": "Fought hard over credit with Nobile and Cook"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "업적을 당당히 주장하되 과시보다 실무 우선",
+     "reason_en": "Claimed his records plainly, work before display"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "철저한 대비를 낙관이라 부르지 않는 냉정한 계획가",
+     "reason_en": "A cold planner who called preparation, not hope, his method"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서 문제보다 탐험 자체에 몰두",
+     "reason_en": "Absorbed in exploration rather than questions of social order"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "평생 독신의 고독한 원정가, 소수 정예 선호",
+     "reason_en": "A lifelong solitary who preferred small elite teams"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "북극 계획을 몰래 남극으로 바꾼 도박적 전환",
+     "reason_en": "Secretly switched his target from the North Pole to the South"
+    }
+   },
+   "rationale_ko": "철저한 준비와 이누이트 기법 흡수로 남극점에 먼저 닿았다. 과묵한 성정과 공로 다툼은 매력의 그늘이지만 라이벌 구조에 목숨을 건 것은 헌신의 다른 얼굴이다. 평생 독신으로 소수 정예를 선호했고 대담한 전환을 치밀한 계획으로 받쳤다. 1928년 구조 비행에서 북극해에 실종됐다.",
+   "rationale_en": "Meticulous preparation and absorbed Inuit technique carried him to the South Pole first. Reserve and credit disputes shadow his charm, yet flying to rescue a rival showed another face of loyalty. A lifelong solitary who favoured small elite teams, he backed bold gambits with cold planning. He vanished over the Barents Sea on a rescue flight in 1928."
+  }
+ },
+ "로버트 팰컨 스콧": {
+  "influence": {
+   "political": 1,
+   "political_exp": "해군 경력 외 정치적 역할은 없음",
+   "political_exp_en": "A naval career but no political role",
+   "strategic": 1,
+   "strategic_exp": "군사 전략 기여 없는 해군 출신 탐험가",
+   "strategic_exp_en": "A naval officer whose service added nothing to military strategy",
+   "tech": 3,
+   "tech_exp": "테라노바 원정이 기상·지질 표본을 대량 수집",
+   "tech_exp_en": "Terra Nova returned large meteorological and geological collections",
+   "social": 1,
+   "social_exp": "사회 제도 변화와의 인연은 없음",
+   "social_exp_en": "No direct impact on social institutions",
+   "economic": 0,
+   "economic_exp": "후원 조달 외 경제적 기여 없음",
+   "economic_exp_en": "No economic contribution beyond fundraising",
+   "cultural": 5,
+   "cultural_exp": "마지막 일기가 영국 비극 영웅 서사를 완성",
+   "cultural_exp_en": "His final diaries completed Britain's tragic-hero narrative",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "실패한 영웅 서사로 백 년째 회자",
+   "transhistoricity_exp_en": "Told for a century as the archetype of noble failure"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 68,
+     "reason_ko": "두 차례 원정의 50여 명 조직을 이끌었으나 실책 겹침",
+     "reason_en": "Led two expeditions of some fifty men, but errors compounded"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "인력 썰매로 수백 km를 견딘 극지 보행력",
+     "reason_en": "Man-hauled sledges hundreds of miles across the plateau"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "썰매개 경시 등 수송 판단에서 반복 실책",
+     "reason_en": "Repeated misjudgments on transport, underrating dogs and skis"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "디스커버리 귀환 뒤 지리학계가 추앙한 탐험의 얼굴",
+     "reason_en": "Fêted by the geographical establishment after Discovery"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "해군 장교다운 신분 예법과 자제를 유지",
+     "reason_en": "Kept a naval officer's discipline and decorum"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "두 원정의 과학 프로그램과 기록을 끝까지 수행",
+     "reason_en": "Saw both expeditions' scientific programmes through to the end"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "마지막 텐트에서도 일기와 유언을 정리",
+     "reason_en": "Ordered his diaries and last letters inside the final tent"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "동사가 확실한 귀환 행군을 끝까지 멈추지 않음",
+     "reason_en": "Kept marching on a return that was plainly killing them"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "전원과 운명을 함께한 대장의 자리를 지킴",
+     "reason_en": "Stayed the commander who shared his men's fate to the end"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "쓰러진 오츠와 동료를 끝까지 돌봄",
+     "reason_en": "Tended the collapsing Oates and the others to the last"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "계급 질서 안에서 기용, 극지 전문가 등용은 늦음",
+     "reason_en": "Selected within naval hierarchy; polar experts came late"
+    },
+    "humility": {
+     "score": 42,
+     "reason_ko": "섀클턴과의 극지 주도권 다툼에서 자존심 드러냄",
+     "reason_en": "His pride showed in the turf war with Shackleton"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "일기에 두려움과 체념이 반복해 드러남",
+     "reason_en": "Fear and resignation recur in his journals"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "해군 계급과 제국 예절을 원정에 그대로 적용",
+     "reason_en": "Ran the expedition on naval rank and imperial custom"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "위계적이되 단결한 대오로 움직인 조직 탐험",
+     "reason_en": "A hierarchical but tightly bonded organisational expedition"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "준비 부족 속에서도 남극점 돌격을 감행",
+     "reason_en": "Pressed the pole dash despite thin preparation"
+    }
+   },
+   "rationale_ko": "제국 해군의 예법대로 원정을 조직했으나 수송 판단 실책이 겹쳤다. 동사가 확실한 귀환길에서도 일기를 멈추지 않은 태도가 비극의 영웅 서사를 완성했다. 계급적 자존심은 겸양의 한계로 남는다. 1912년 귀환길에서 대원 전원과 함께 동사했다.",
+   "rationale_en": "He organised expeditions on naval precedent, but transport misjudgments compounded. Writing to the last in the death tent completed the tragic-hero story. Rank-conscious pride marks the limit of his humility. In 1912 he and his whole party froze to death on the return march."
+  }
+ },
+ "압슬리 체리-개러드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동 없이 원정대 막내로 참여",
+   "political_exp_en": "No political activity; joined as the youngest member",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 동물학 조수",
+   "strategic_exp_en": "An assistant zoologist with no military tie",
+   "tech": 2,
+   "tech_exp": "황제펭귄 알 채취가 발생학 연구 표본이 됨",
+   "tech_exp_en": "The emperor-penguin eggs he collected served embryology research",
+   "social": 1,
+   "social_exp": "사회 운동·제도와의 인연 없음",
+   "social_exp_en": "No link to social movements or institutions",
+   "economic": 0,
+   "economic_exp": "산업·재산 활동과 무관",
+   "economic_exp_en": "No economic activity of note",
+   "cultural": 4,
+   "cultural_exp": "1922년 회고록이 탐험 문학의 고전 반열",
+   "cultural_exp_en": "His 1922 memoir became a classic of exploration literature",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "한 권의 고전으로 탐험 문학에 장기 잔존",
+   "transhistoricity_exp_en": "One classic book keeps him permanent in the genre"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "1910년 24세 막내 조수로 참여해 지휘 계통 밖",
+     "reason_en": "Joined at 24 as junior assistant, outside any chain of command"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "영하 60도 암흑 속 5주 썰매 여행을 완주",
+     "reason_en": "Finished a five-week sledging run in −60° midwinter dark"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "원정 평가를 새로 쓴 분석적 회고록을 남김",
+     "reason_en": "Left an analytical memoir that re-evaluated the expedition"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "조용하고 겸손한 막내로 원정대 내 신망",
+     "reason_en": "Quiet, modest youngest hand, well liked within the party"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "부유한 출신이나 원정의 고된 생활을 묵묵히 수행",
+     "reason_en": "Born rich yet bore expedition hardship without complaint"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "원정 잡무와 회고록 집필을 수년간 성실히 수행",
+     "reason_en": "Worked expedition chores and years of writing with equal care"
+    },
+    "reflection": {
+     "score": 85,
+     "reason_ko": "스콧 구조에 18km 못 미친 지점을 평생 돌아봄",
+     "reason_en": "Spent his life re-examining the depot 18 km short of Scott"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "한겨울 남극 펭귄 알 여행에 자원해 극한을 견딤",
+     "reason_en": "Volunteered for the midwinter egg journey and endured it"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "스콧 대원들의 기억과 명예를 평생 지킴",
+     "reason_en": "Guarded the memory and honour of Scott's party for life"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "썰매개와 조류 표본을 아끼는 태도로 일관",
+     "reason_en": "Treated the sled dogs and specimens with consistent care"
+    },
+    "fairness": {
+     "score": 65,
+     "reason_ko": "영웅 스콧의 실책까지 공정하게 재평가",
+     "reason_en": "Reassessed even the hero Scott's faults with balance"
+    },
+    "humility": {
+     "score": 85,
+     "reason_ko": "자신을 쓸모없는 조수라 낮춰 회고",
+     "reason_en": "Wrote of himself as a nearly useless assistant"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "구조 실패의 자책과 우울이 평생 이어짐",
+     "reason_en": "Guilt and depression over the failed relief dogged him for life"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "귀족적 출신의 관습 안에서 활동",
+     "reason_en": "Acted within the habits of his gentlemanly class"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "원정대 공동체에 깊이 속해 봉사",
+     "reason_en": "Served deep inside the expedition community"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "극한 여행은 감행하되 지시선을 벗어나지 않음",
+     "reason_en": "Dared the extreme journey yet held to his instructions"
+    }
+   },
+   "rationale_ko": "한겨울 황제펭귄 알 채취 여행을 완주한 인내가 회고록의 바탕이다. 스콧 구조에 모자랐다는 자책이 평생의 성찰과 우울을 낳았다. 자신을 낮추는 겸손이 영웅 서사의 재평가로 이어졌다. 1922년 『세계 최악의 여행』을 출판했다.",
+   "rationale_en": "Enduring the midwinter penguin-egg journey underwrote his memoir. Guilt at stopping short of Scott bred lifelong reflection and depression. His self-effacement matured into a fair re-reading of the heroic story. He published The Worst Journey in the World in 1922."
+  }
+ },
+ "더글러스 모슨": {
+  "influence": {
+   "political": 3,
+   "political_exp": "호주 남극 영유권 주장의 실질적 근거를 만듦",
+   "political_exp_en": "His expeditions became the practical basis of Australia's Antarctic claim",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관한 과학 탐험",
+   "strategic_exp_en": "Scientific exploration with no military link",
+   "tech": 5,
+   "tech_exp": "오스트랄라시아 원정의 지질·기상 대조사 수행",
+   "tech_exp_en": "The Australasian expedition produced a major geological and meteorological survey",
+   "social": 1,
+   "social_exp": "과학계 외 사회 영향은 미미",
+   "social_exp_en": "Little social influence beyond the scientific world",
+   "economic": 2,
+   "economic_exp": "남극 조사가 호주의 자원·영유 논의에 기여",
+   "economic_exp_en": "His surveys fed Australia's resource and territorial debates",
+   "cultural": 3,
+   "cultural_exp": "생환기 『눈보라의 고향』이 탐험 문학에 남음",
+   "cultural_exp_en": "The Home of the Blizzard endures in exploration writing",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "남극 과학 조사의 초기 토대로 지속 인용",
+   "transhistoricity_exp_en": "Still cited as a foundation of Antarctic science"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "1911년 자기 원정대 30여 명을 조직·지휘",
+     "reason_en": "Raised and led his own 30-man Australasian expedition in 1911"
+    },
+    "martial": {
+     "score": 85,
+     "reason_ko": "동료 둘 잃고 수백 km 단독 귀환한 생존력",
+     "reason_en": "Lost both companions and crawled hundreds of kilometres home alone"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "지질학 교수로 남극 과학 프로그램을 설계",
+     "reason_en": "A geology professor who designed the Antarctic science programme"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "과묵한 학자형 대장으로 호주의 국가 상징이 됨",
+     "reason_en": "A reserved scholar-leader who became an Australian icon"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "기지 월동의 엄밀한 규율을 스스로 지킴",
+     "reason_en": "Kept strict winter-over discipline at Cape Denison"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "40년간 남극 과학과 세 차례 원정을 지속",
+     "reason_en": "Forty years of Antarctic science across three expeditions"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "생환 뒤 원정 경위를 『눈보라의 고향』으로 정리",
+     "reason_en": "Ordered the ordeal into his account The Home of the Blizzard"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "크레바스에 빠져도 기어 올라와 귀환을 이어감",
+     "reason_en": "Fell into a crevasse, climbed out and kept marching home"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "남은 기지 대원과 함께 재월동을 택함",
+     "reason_en": "Missed the ship and chose a second winter with his remaining men"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "죽어가는 머츠를 끝까지 돌보며 동행",
+     "reason_en": "Nursed the dying Mertz and stayed with him to the end"
+    },
+    "fairness": {
+     "score": 58,
+     "reason_ko": "대학과 원정대에서 실적 중심으로 사람을 다룸",
+     "reason_en": "Ran university and expedition personnel on merit"
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "영웅 대접에도 과학 조사 결과를 앞세움",
+     "reason_en": "Put survey results ahead of the heroic reception"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "배가 떠나는 것을 보고도 겨울을 더 나며 버팀",
+     "reason_en": "Watched his ship leave, then simply endured another winter"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "과학자로서 사회 질서 언급은 드묾",
+     "reason_en": "As a scientist he rarely engaged questions of social order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "국가 원정대라는 조직 틀 안에서 활동",
+     "reason_en": "Worked inside the frame of a national expedition"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "미지의 해안에 기지를 세운 과감한 설계",
+     "reason_en": "Boldly planted a base on the windiest coast on earth"
+    }
+   },
+   "rationale_ko": "두 동료를 잃고 수백 km를 단독 귀환한 생존력이 호주 남극 과학의 초석이 됐다. 조직을 이끌면서도 명성보다 조사 결과를 앞세운 과묵한 대장이다. 신중함과 대담함이 함께 작동한 탐험가였다. 1913년 수색선을 놓친 뒤에도 기지에서 월동해 살아남았다.",
+   "rationale_en": "Losing both companions and crawling home alone made his survival the bedrock of Australian Antarctic science. A quiet commander who put results above fame. Caution and boldness worked together in him. After missing the relief ship in 1913 he wintered over and survived."
+  }
+ },
+ "톰 크린": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관한 갑판 선원",
+   "political_exp_en": "A deckhand with no political role",
+   "strategic": 0,
+   "strategic_exp": "해군 출신이나 군사 기여 없음",
+   "strategic_exp_en": "Ex-navy but no military contribution",
+   "tech": 1,
+   "tech_exp": "극지 항해 실무 경험 외 기술 기여 없음",
+   "tech_exp_en": "Practical polar seamanship but no technical legacy",
+   "social": 1,
+   "social_exp": "고향에서 조용한 영웅상이 됨",
+   "social_exp_en": "Became a quiet local hero in Kerry",
+   "economic": 0,
+   "economic_exp": "술집 운영 외 경제 활동 없음",
+   "economic_exp_en": "Ran a pub; no wider economic activity",
+   "cultural": 2,
+   "cultural_exp": "아일랜드 민간 영웅으로 후대에 재조명",
+   "cultural_exp_en": "Reclaimed by later Irish memory as a folk hero",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "지역의 영웅으로 제한적 기억 지속",
+   "transhistoricity_exp_en": "A regionally remembered hero"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "갑판장으로 썰매조를 이끌었으나 지휘 계통 말단",
+     "reason_en": "Led sledge teams as petty officer at the bottom of the chain"
+    },
+    "martial": {
+     "score": 85,
+     "reason_ko": "세 원정 모두 최고난도 보행 구간에 선 선원",
+     "reason_en": "On all three expeditions he stood in the hardest sledging legs"
+    },
+    "intellect": {
+     "score": 45,
+     "reason_ko": "바다에서 익힌 실무 판단과 끈기가 강점",
+     "reason_en": "Strengths were sea-learned judgment and doggedness"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "과묵한 성실함으로 동료들의 절대적 신뢰",
+     "reason_en": "Taciturn reliability won absolute crew trust"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "세 원정 내내 불평 없이 자기 역할을 수행",
+     "reason_en": "Did his work without complaint across three expeditions"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "세 차례 원정에서 가장 무거운 일을 도맡음",
+     "reason_en": "Took the heaviest work on three successive expeditions"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "탐험 경험을 거의 입 밖에 내지 않음",
+     "reason_en": "Almost never spoke of his expeditions afterwards"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "1912년 56km 단독 보행으로 에번스를 구함",
+     "reason_en": "Walked 56 km alone in 1912 to bring help for the dying Evans"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 90,
+     "reason_ko": "스콧·섀클턴 두 원정 모두 끝까지 함께함",
+     "reason_en": "Served both Scott and Shackleton to the very end"
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "쓰러진 에번스를 위해 혼자 구조길을 나섬",
+     "reason_en": "Set out alone across the ice to save the stricken Evans"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "선원 규율 안에서 무리 없이 임무를 수행",
+     "reason_en": "Did his duty evenly under service discipline"
+    },
+    "humility": {
+     "score": 90,
+     "reason_ko": "귀향 후 남극 이야기를 평생 삼감",
+     "reason_en": "Home in Kerry, he kept the Antarctic to himself for life"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "빙상 캠프에서도 유머를 잃지 않은 태도로 전해짐",
+     "reason_en": "Remembered for keeping his humour on the ice"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "해군 규율과 고향 생활의 관습을 따름",
+     "reason_en": "Lived by naval discipline and village custom"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "평생 선원으로서 조직의 일원 역할에 충실",
+     "reason_en": "A lifelong crewman faithful to the group role"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "구조 항해와 단독 보행에 주저 없이 자원",
+     "reason_en": "Volunteered without hesitation for the rescue legs"
+    }
+   },
+   "rationale_ko": "스콧과 섀클턴 두 원정 모두에서 가장 험한 보행 구간을 맡은 선원이다. 56km 단독 보행으로 죽어가는 동료를 구했고 귀향 뒤에는 그 업적을 입에 올리지 않았다. 충성과 겸양이 극단적으로 어울린 생애다. 1920년 고향에 '사우스 폴 인'을 열었다.",
+   "rationale_en": "He took the hardest sledging legs on both Scott's and Shackleton's expeditions. A 56-km solo walk saved the dying Evans, yet home in Kerry he never told the tales. Loyalty and humility meet at their extreme in him. In 1920 he opened the South Pole Inn."
+  }
+ },
+ "프리드티오프 난센": {
+  "influence": {
+   "political": 6,
+   "political_exp": "국제연맹 난민고등판무관으로 난민 보호제도 개척",
+   "political_exp_en": "As League High Commissioner he pioneered international refugee protection",
+   "strategic": 1,
+   "strategic_exp": "군사 경력 없이 과학·외교로 일관",
+   "strategic_exp_en": "No military career; worked through science and diplomacy",
+   "tech": 6,
+   "tech_exp": "프람 설계와 해류 표류 이론으로 극지 해양학 개척",
+   "tech_exp_en": "Fram's design and the drift theory opened polar oceanography",
+   "social": 7,
+   "social_exp": "'난센 여권'이 국제 난민 신분 제도의 원형",
+   "social_exp_en": "The Nansen passport is the prototype of refugee status documents",
+   "economic": 1,
+   "economic_exp": "러시아 기근 구호 운영 외 경제 기여는 미미",
+   "economic_exp_en": "Little economic impact beyond running famine relief",
+   "cultural": 5,
+   "cultural_exp": "탐험기와 강연으로 북유럽의 국민 영웅이 됨",
+   "cultural_exp_en": "His books and lectures made him Scandinavia's national hero",
+   "transhistoricity": 22,
+   "transhistoricity_exp": "난민 제도 원형과 극지 해양학이 세기를 넘어 지속",
+   "transhistoricity_exp_en": "The refugee regime and polar oceanography outlasted their century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "프람호 13인 3년 표류와 난민 구호 조직을 총괄",
+     "reason_en": "Commanded Fram's 13-man three-year drift, then ran refugee relief"
+    },
+    "martial": {
+     "score": 85,
+     "reason_ko": "1888년 그린란드 최초 스키 횡단과 북위 86도 보행",
+     "reason_en": "First ski crossing of Greenland in 1888, then sledged to 86°N"
+    },
+    "intellect": {
+     "score": 88,
+     "reason_ko": "신경과학 박사에서 해양학·외교까지 넘나든 박식",
+     "reason_en": "A doctorate in neuroscience, then oceanography and diplomacy"
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "노벨상 수상의 국제적 명성과 대중 연설 인기",
+     "reason_en": "Nobel laureate whose lectures drew international crowds"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "탐험 중엔 철저하나 일상의 안주는 거부한 기질",
+     "reason_en": "Iron discipline on the ice, restless refusal of settled life"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "탐험·연구·외교를 쉼 없이 오가며 저술까지",
+     "reason_en": "Moved ceaselessly between expedition, science and diplomacy"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "회고와 에세이로 경험을 정리한 실천형 성찰",
+     "reason_en": "Digested experience in memoirs and essays, a doer's reflection"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "배를 얼음에 얼려 붙이는 위험 계획을 직접 실행",
+     "reason_en": "Staked his life on freezing the ship into the pack"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "조국 노르웨이와 국제연맹 직무에 헌신",
+     "reason_en": "Served Norway and the League of Nations faithfully"
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "말년을 무국적 난민과 기근 구호에 바침",
+     "reason_en": "Gave his last decade to stateless refugees and famine relief"
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "난민 신분을 국적과 무관하게 인정한 제도 설계",
+     "reason_en": "Designed status papers that recognised refugees regardless of state"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "영웅 명성을 구호 사업의 도구로 활용",
+     "reason_en": "Used heroic fame as an instrument of relief work"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "불가능하다던 표류 계획을 성공으로 이끈 확신",
+     "reason_en": "Backed the 'impossible' drift plan with real confidence"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "국경 넘는 난민 제도라는 새 국제 규범을 창안",
+     "reason_en": "Created a new international norm for the stateless"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "독주 탐험가에서 국제 협력의 공무원으로 전환",
+     "reason_en": "Turned from solo explorer to international public servant"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "배를 빙하에 고의로 묶는 발상의 전환을 실행",
+     "reason_en": "Deliberately froze his ship into the ice — a bold inversion"
+    }
+   },
+   "rationale_ko": "배를 얼음에 얼려 붙이는 발상의 전환을 실행한 대담함이 전반기를 이끌었고 후반기는 무국적 난민에게 바쳐졌다. 탐험가에서 국제 공무원으로의 전환이 난센 여권이라는 제도를 낳았다. 박식과 체력, 공감이 한 생애에 공존한다. 1922년 노벨평화상을 받았다.",
+   "rationale_en": "The bold gambit of freezing Fram into the pack defined his first life; his second he gave to stateless refugees. Explorer turned international civil servant produced the Nansen passport. Learning, physique and compassion coexisted in one career. He won the Nobel Peace Prize in 1922."
+  }
+ },
+ "페테르 프로이헨": {
+  "influence": {
+   "political": 1,
+   "political_exp": "레지스탕스 참여 외 정치 역할 없음",
+   "political_exp_en": "No political role beyond wartime resistance work",
+   "strategic": 1,
+   "strategic_exp": "점령기 저항 활동, 군사 체계 기여는 없음",
+   "strategic_exp_en": "Resistance activity, but no mark on military institutions",
+   "tech": 1,
+   "tech_exp": "툴레 교역소 운영 외 기술 기여 미미",
+   "tech_exp_en": "Ran the Thule station; little technical contribution",
+   "social": 2,
+   "social_exp": "이누이트 사회를 서구에 알린 민족지 기록",
+   "social_exp_en": "His ethnographies introduced Inuit society to the West",
+   "economic": 1,
+   "economic_exp": "툴레 무역기지가 그린란드 북부 교역에 영향",
+   "economic_exp_en": "The Thule trading post shaped northern Greenland's trade",
+   "cultural": 4,
+   "cultural_exp": "북극 모험담 저작이 대중에게 널리 읽힘",
+   "cultural_exp_en": "His Arctic adventure books were widely read",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "눈동굴 탈출 일화 등 북극 전설로 남음",
+   "transhistoricity_exp_en": "Survives as Arctic legend — the snow-cave escape above all"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "라스무센과 툴레 교역소를 공동 설립·운영",
+     "reason_en": "Co-founded and ran the Thule trading station with Rasmussen"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "한쪽 다리를 잃고도 북극 여행을 계속한 강인함",
+     "reason_en": "Lost a leg to frostbite and kept exploring the Arctic"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "이누이트어와 민족지 저작을 남긴 필력",
+     "reason_en": "Learned Inuit and wrote respected ethnographies"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "거구의 이야기꾼으로 이누이트와 대중 모두에게 인기",
+     "reason_en": "A giant raconteur beloved by Inuit and readers alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "큰 식탐과 호탕한 입담으로 절제와 거리",
+     "reason_en": "Huge appetites and booming talk left little room for restraint"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "탐험·저술·저널리즘을 반세기 넘게 병행",
+     "reason_en": "Kept exploring, writing and journalism going for half a century"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자기 일화를 부풀리는 신화적 회고 스타일",
+     "reason_en": "His memoirs embellish as much as they examine"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "눈동굴 자력 탈출과 50대의 레지스탕스 참전",
+     "reason_en": "Dug himself out of an ice tomb and joined the resistance in his fifties"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "그린란드 공동체와 조국 덴마크에 헌신",
+     "reason_en": "Devoted to Greenland's community and to Denmark"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "이누이트와 동거하며 그들의 편에서 글을 씀",
+     "reason_en": "Lived among the Inuit and wrote from their side"
+    },
+    "fairness": {
+     "score": 68,
+     "reason_ko": "이누이트를 동등한 동료로 대우해 기록",
+     "reason_en": "Treated and recorded the Inuit as equals"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "자기 일화를 스스로 키우는 자화자찬 기질",
+     "reason_en": "Tended to inflate his own legends"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "동상·절단에도 다음 여행을 입에 담은 낙천",
+     "reason_en": "Through frostbite and amputation he kept planning the next trip"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "원주민 여성과 결혼·동거하며 인종 관습을 넘음",
+     "reason_en": "Married and lived with an Inuit woman, crossing racial convention"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "이누이트 공동체에 스며들어 함께 삶",
+     "reason_en": "Melted into Inuit communal life"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "눈무덤 탈출 일화처럼 즉흥의 무모함을 즐김",
+     "reason_en": "Revelled in improvisation, as the snow-cave escape shows"
+    }
+   },
+   "rationale_ko": "거구의 몸과 불굴의 낙천성으로 그린란드 북부를 누볐다. 이누이트와 동거하며 그들의 언어로 기록했고 한쪽 다리를 잃고도 여행을 계속했다. 자화자찬 기질은 겸양의 부족으로 남는다. 2차대전 중 덴마크 레지스탕스로 싸웠다.",
+   "rationale_en": "A giant frame and unbreakable cheer carried him across northern Greenland. He lived among the Inuit, wrote in their language, and kept travelling on one leg. Self-mythologising marks a deficit of humility. In the Second World War he fought in the Danish resistance."
+  }
+ },
+ "에이다 블랙잭": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 역할과 무관한 고용 재봉사",
+   "political_exp_en": "A hired seamstress with no political role",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 1,
+   "tech_exp": "생존 기술을 독학했으나 전파로 이어지진 않음",
+   "tech_exp_en": "Taught herself survival skills; they were never propagated",
+   "social": 2,
+   "social_exp": "원주민 여성 생존자로 사후에 상징화",
+   "social_exp_en": "Posthumously became a symbol of indigenous women's survival",
+   "economic": 0,
+   "economic_exp": "아들 병원비를 위한 고용 외 없음",
+   "economic_exp_en": "Worked only to pay her son's hospital bills",
+   "cultural": 3,
+   "cultural_exp": "'여성 로빈슨 크루소'로 언론에 회자",
+   "cultural_exp_en": "Press dubbed her the 'female Robinson Crusoe'",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "전기와 기록으로 생존 사례가 회자됨",
+   "transhistoricity_exp_en": "Her survival is retold through biography and record"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 10,
+     "reason_ko": "대원을 지휘한 적 없는 고용 재봉사",
+     "reason_en": "A hired seamstress who never commanded anyone"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "못 쏘던 총을 익혀 물개·여우를 사냥해 자급",
+     "reason_en": "Learned to shoot and hunted seal and fox to feed herself"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "사냥·덫·재봉까지 독학으로 익힌 생존 지혜",
+     "reason_en": "Self-taught in hunting, trapping and sewing — survival intelligence"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "언론의 주목을 받았으나 조용한 생활인",
+     "reason_en": "Briefly a press sensation, otherwise a private woman"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "식량을 엄밀히 배분해 23개월을 버팀",
+     "reason_en": "Rationed food strictly to last 23 months alone"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "매일 사냥과 재봉을 반복한 규칙적 생존",
+     "reason_en": "Survived by a daily routine of hunting and mending"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "혼자 있는 동안 일기로 생활을 기록",
+     "reason_en": "Kept a diary of her solitary survival"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "모두 떠난 북극 섬에서 혼자 2년을 버팀",
+     "reason_en": "Endured two years alone on an Arctic island after all left or died"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "아들 병원비를 벌기 위해 원정에 지원",
+     "reason_en": "Took the expedition job to pay her son's hospital bills"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "병든 동료 나이트를 죽을 때까지 간호",
+     "reason_en": "Nursed the sick Lorne Knight until his death"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "홀로 남겨진 처지라 대인 판단의 계기가 없었음",
+     "reason_en": "Left utterly alone, she had no dealings by which to judge fairness"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "생환 뒤에도 공로를 내세우지 않고 묵묵히 삶",
+     "reason_en": "Made no claim on fame and lived quietly after rescue"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "구조를 기다리며 생활 체계를 차분히 유지",
+     "reason_en": "Kept her routine calmly while waiting for rescue"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "제도나 질서와 무관한 개인의 생존사",
+     "reason_en": "A personal survival story outside questions of order"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "가족을 위해 일한 어머니로 공동체 소속 유지",
+     "reason_en": "A mother working for family, bound to her community"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "불확실한 원정에 탑승했으나 생존은 치밀하게",
+     "reason_en": "Boarded a dubious expedition, then survived by method"
+    }
+   },
+   "rationale_ko": "아들 병원비를 위해 떠난 재봉사가 원정대의 유일한 생존자가 됐다. 못 하던 사냥을 익혀 23개월을 버틴 자기 훈련이 생존의 실체다. 명성을 피해 묵묵히 산 겸양이 또 다른 축이다. 1923년 구조선을 타고 돌아왔다.",
+   "rationale_en": "A seamstress who sailed for her son's hospital bills became the expedition's only survivor. Teaching herself to hunt and carry on for 23 months was the substance of her survival. Quiet humility after fame is another facet. She came home on a rescue ship in 1923."
+  }
+ },
+ "살로몬 안드레": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동 없는 기술자",
+   "political_exp_en": "An engineer with no political activity",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 3,
+   "tech_exp": "견인로프 조종 등 기구 항법 기법을 시험",
+   "tech_exp_en": "Tested drag-rope steering and balloon navigation methods",
+   "social": 0,
+   "social_exp": "사회 제도와 무관",
+   "social_exp_en": "No link to social institutions",
+   "economic": 0,
+   "economic_exp": "특허청 근무 외 경제적 영향 없음",
+   "economic_exp_en": "A patent-office engineer; no economic impact",
+   "cultural": 3,
+   "cultural_exp": "33년 뒤 발견된 사진·일기가 전설이 됨",
+   "cultural_exp_en": "His recovered photographs and diaries became legend",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "무모한 도전의 교훈적 사례로 남음",
+   "transhistoricity_exp_en": "Remembered as the cautionary case of reckless ambition"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "3인 기구 원정의 대장, 특허청 기사직",
+     "reason_en": "Led a three-man balloon party; otherwise a patent-office engineer"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "기술자로서 추락 뒤 빙상 보행 수주를 견딤",
+     "reason_en": "An engineer who still marched weeks across the ice after the crash"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "유능한 기사였으나 기구 결함 신호를 무시",
+     "reason_en": "A capable engineer who ignored the balloon's evident flaws"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "스웨덴 언론과 왕실 후원을 이끈 인물",
+     "reason_en": "Won press attention and royal backing in Sweden"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "목표에 집착하되 생활은 규범적이었음",
+     "reason_en": "Obsessed with the goal but conventional in habits"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "수년간 기구 개량과 자금 모금에 전념",
+     "reason_en": "Spent years refining the balloon and raising funds"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "전문가 경고와 누출 결함에도 계획을 고수",
+     "reason_en": "Held to the plan despite expert warnings and leaks"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "미검증 기구로 북극점 비행에 몸을 실음",
+     "reason_en": "Committed his body to an untested balloon over the Arctic"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "동료 두 명과 끝까지 함께한 책임감",
+     "reason_en": "Stayed with his two companions to the end"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "자기 계획에 두 동료를 위험에 실어 태움",
+     "reason_en": "Carried two companions into mortal risk for his own plan"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "엔지니어 직무 안에서 공정 논의는 부각되지 않음",
+     "reason_en": "Nothing in his engineering career highlights fairness either way"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "전문가들의 반대 의견을 물리치고 강행",
+     "reason_en": "Overrode expert objections and pressed ahead"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "불완전한 기구의 성공을 확신한 전도된 낙관",
+     "reason_en": "Misplaced confidence that the flawed balloon would succeed"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "국가 탐험 관례 안에서 움직인 공학자",
+     "reason_en": "An engineer working inside national expedition convention"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "자기 판단에 팀의 운명을 건 소수 결정",
+     "reason_en": "Staked the team's fate on his own judgment"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "조종 불가한 기구로 북극점 비행을 감행",
+     "reason_en": "Flew for the Pole in a balloon he could not steer"
+    }
+   },
+   "rationale_ko": "미검증 수소기구로 북극점을 향한 결정적 대담함이 그의 전부를 규정한다. 전문가 경고를 물리친 자기 확신은 용기와 오만의 경계에 있다. 추락 뒤 빙상 보행의 끈기도 실체로 남는다. 1897년 세 명 모두 빙원에서 사망했다.",
+   "rationale_en": "One bold flight in an untested balloon defines him. The confidence that overrode expert warnings sits on the line between courage and hubris. His weeks-long ice march after the crash was real endurance. All three men died on the ice in 1897."
+  }
+ },
+ "움베르토 노빌레": {
+  "influence": {
+   "political": 1,
+   "political_exp": "파시스트 재판의 희생양이 된 것 외 없음",
+   "political_exp_en": "Remembered politically only as the fascist court's scapegoat",
+   "strategic": 1,
+   "strategic_exp": "비행선의 군사적 가능성을 시연한 정도",
+   "strategic_exp_en": "Demonstrated the airship's military potential only",
+   "tech": 4,
+   "tech_exp": "반경질 비행선 설계를 소련·미국에도 수출",
+   "tech_exp_en": "His semi-rigid airship designs were exported to the USSR and US",
+   "social": 1,
+   "social_exp": "구조극이 국제 협력 사례로 회자됨",
+   "social_exp_en": "The rescue drama is cited as a case of international cooperation",
+   "economic": 1,
+   "economic_exp": "비행선 산업 가능성을 보였으나 사장됨",
+   "economic_exp_en": "Showed an airship industry was possible, then the idea lapsed",
+   "cultural": 3,
+   "cultural_exp": "이탈리아호 사고가 국제적 뉴스 서사가 됨",
+   "cultural_exp_en": "The Italia crash became an international news saga",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "비행선 시대의 상징적 인물로 기억",
+   "transhistoricity_exp_en": "Remembered as the emblematic figure of the airship age"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "노르게·이탈리아호 16~20인 승조조직을 지휘",
+     "reason_en": "Commanded airship crews of sixteen to twenty on Norge and Italia"
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "추락 뒤 빙상에서 버틴 기술자 수준의 체력",
+     "reason_en": "An engineer's physique that still endured the crash on the ice"
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "반경질 비행선을 설계한 일류 항공기술자",
+     "reason_en": "A first-rate aeronautical engineer who designed semi-rigid airships"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "국제적 명성과 논란을 함께 등에 업은 인물",
+     "reason_en": "Carried international fame and controversy together"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "명예 회복에 평생 집착하며 논쟁을 이어감",
+     "reason_en": "Spent his life fighting to restore his honour"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "실추 뒤에도 소련·미국에서 설계를 계속",
+     "reason_en": "Kept designing airships in the USSR and US after disgrace"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자서전에서 책임보다 명예 회복을 주장",
+     "reason_en": "His memoirs plead vindication more than self-examination"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "극지 비행선 운용 자체를 반복 감행",
+     "reason_en": "Repeatedly risked polar airship operations"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "조난 현장에서 먼저 구조돼 승조원 의혹을 삼",
+     "reason_en": "Rescued first from the crash site, leaving his crew under suspicion"
+    },
+    "benevolence": {
+     "score": 48,
+     "reason_ko": "구조 순서 논란에 갇힌 인자 판단의 기록",
+     "reason_en": "The rescue-order controversy clouds any judgment of his kindness"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "공로와 책임 배분을 둘러싼 논쟁의 당사자",
+     "reason_en": "He remained a party to disputes over credit and blame"
+    },
+    "humility": {
+     "score": 42,
+     "reason_ko": "자기 설계와 공로 주장을 끝까지 관철",
+     "reason_en": "Insisted on his designs and his credit to the end"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "추락과 오명에도 재기를 포기하지 않음",
+     "reason_en": "Refused to give up on vindication after crash and disgrace"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기술자로서 정치 질서와 거리를 둠",
+     "reason_en": "An engineer who kept his distance from political order"
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "설계자로서 개인 경력과 명예를 중시",
+     "reason_en": "A designer who prized personal career and honour"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "북극점 비행선을 두 차례 띄운 모험가",
+     "reason_en": "Flew airships over the polar pack twice"
+    }
+   },
+   "rationale_ko": "자기 설계 비행선으로 북극점을 비행한 기술자이자 모험가다. 추락 사고와 먼저 구조됐다는 논란이 평생 따라다녔고 파시스트 재판은 그를 희생양으로 만들었다. 실추 뒤에도 설계를 멈추지 않은 지구력이 있다. 1978년 로마에서 93세로 사망했다.",
+   "rationale_en": "Engineer-adventurer who flew his own airship over the Pole. The crash and the 'rescued first' controversy followed him for life, and Mussolini's court made him the scapegoat. Persistence shows in his continued design work abroad. He died in Rome in 1978 at ninety-three."
+  }
+ },
+ "로버트 피어리": {
+  "influence": {
+   "political": 1,
+   "political_exp": "의회가 명예를 인정했으나 정책 기여는 없음",
+   "political_exp_en": "Congress honoured him, but he shaped no policy",
+   "strategic": 1,
+   "strategic_exp": "해군 기술장교로서 군사 기여는 제한적",
+   "strategic_exp_en": "A Navy civil engineer with limited military impact",
+   "tech": 3,
+   "tech_exp": "이누이트 썰매·의복 기법을 서구 원정에 체계화",
+   "tech_exp_en": "Systematised Inuit sledging and clothing for Western expeditions",
+   "social": 2,
+   "social_exp": "북극점 주장 논쟁이 탐험 검증 논의를 촉발",
+   "social_exp_en": "The disputed claim spurred debate on verification in exploration",
+   "economic": 1,
+   "economic_exp": "후원 클럽 조직화가 탐험 자금 모델에 기여",
+   "economic_exp_en": "His backers' club modelled expedition financing",
+   "cultural": 4,
+   "cultural_exp": "북극점 최초 주장과 논쟁이 대중사에 각인",
+   "cultural_exp_en": "The claimed 'first at the Pole' and its dispute entered popular history",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "북극점 논쟁의 당사자로 탐험사에 기재",
+   "transhistoricity_exp_en": "Recorded as the central figure of the North Pole controversy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "20년간 여덟 차례 원정의 인선·물자를 총괄",
+     "reason_en": "Ran staffing and logistics for eight expeditions over twenty years"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "발가락 절단 후에도 썰매 원정을 반복한 체력",
+     "reason_en": "Lost toes to frostbite and still kept sledging north"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "썰매 체계와 지원고 전진 전략을 설계한 기사",
+     "reason_en": "An engineer who designed the depot-and-dash sledging system"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "후원자 클럽을 조직해 자금을 끌어모은 수완",
+     "reason_en": "Organised a backers' club that bankrolled his expeditions"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "북극점 집념에 매몰돼 내연과 가족을 소홀히 함",
+     "reason_en": "Polar obsession swallowed restraint, including a hidden Inuit family"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "1886년부터 23년간 여덟 번 북극 원정",
+     "reason_en": "Eight Arctic expeditions across twenty-three years"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "도달 주장을 끝까지 옹호하고 의혹에 비대응",
+     "reason_en": "Defended his claim to the end rather than address doubts"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "동상·고립을 거듭 겪고도 원정을 멈추지 않음",
+     "reason_en": "Frostbitten and stranded repeatedly, he still went back"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "동반자 헨슨보다 자기 명예를 앞세움",
+     "reason_en": "Put his own glory ahead of Henson, his companion of decades"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "공로를 독점하고 이누이트 지원자를 도구화",
+     "reason_en": "Monopolised credit and used Inuit support as an instrument"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "최종 돌격에서 헨슨의 공로를 공식 인정하지 않음",
+     "reason_en": "Never officially credited Henson for the final dash"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "의회 명예와 자기 신화 관리에 힘씀",
+     "reason_en": "Courted congressional honours and managed his own legend"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "거듭된 실패에도 최종 도달을 확신",
+     "reason_en": "Repeated failure never shook his certainty of reaching the Pole"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "당대 인종 위계를 그대로 원정 구조에 적용",
+     "reason_en": "Applied the era's racial hierarchy inside his own expedition"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "조력자를 거느린 철저한 개인 영예 추구",
+     "reason_en": "A single-minded hunt for personal glory with helpers in tow"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "봄 바다얼음 최후 돌격을 반복 감행",
+     "reason_en": "Repeatedly dashed over the spring sea ice"
+    }
+   },
+   "rationale_ko": "23년간 여덟 번의 원정을 조직한 집념이 북극점 주장을 만들었다. 그러나 최종 돌격에서 헨슨과 이누이트의 공로를 평가절하한 것이 공정의 오점이다. 집요한 자기 영예 추구가 용기의 빛을 가린다. 1909년 북극점 도달을 주장했다.",
+   "rationale_en": "Eight expeditions over twenty-three years produced his claim to the Pole. Denying Henson and the Inuit their share of credit is the stain on his fairness. Relentless self-glorification dims real courage. He claimed the North Pole in 1909."
+  }
+ },
+ "매슈 헨슨": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 직책 없이 원정 실무에 전념",
+   "political_exp_en": "Held no office; devoted to expedition work",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 2,
+   "tech_exp": "썰매·이누이트 기법의 실질적 전수자",
+   "tech_exp_en": "The real master who transmitted Inuit sledging technique",
+   "social": 3,
+   "social_exp": "뒤늦은 인정이 흑인 공헌 재평가의 상징이 됨",
+   "social_exp_en": "His belated recognition became a symbol of overlooked Black achievement",
+   "economic": 0,
+   "economic_exp": "원정 고용 외 경제 기여는 없음",
+   "economic_exp_en": "No economic activity beyond expedition employment",
+   "cultural": 3,
+   "cultural_exp": "회고록과 재평가로 탐험 서사에 복원됨",
+   "cultural_exp_en": "Restored to the exploration story by memoir and reassessment",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "북극점 동행자로 사후 명예가 복원됨",
+   "transhistoricity_exp_en": "His honour was restored posthumously as co-reacher of the Pole"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "썰매 선두조와 이누이트 대원을 현장에서 이끔",
+     "reason_en": "Led the lead dog teams and Inuit crews in the field"
+    },
+    "martial": {
+     "score": 82,
+     "reason_ko": "일곱 원정 내내 최전선 선로 개척을 맡은 체력",
+     "reason_en": "Broke trail at the front on seven consecutive expeditions"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "이누이트어 습득과 썰매 기술의 독보적 숙련",
+     "reason_en": "Learned Inuktitut and mastered the sledging craft better than anyone"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "이누이트에게 '마리팔룩'으로 불린 신망",
+     "reason_en": "The Inuit knew and trusted him as 'Mahri-Paluk'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "보조 역할에 묵묵히 머문 절제된 태도",
+     "reason_en": "Stayed quietly in the supporting role for decades"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1891년부터 18년간 피어리 전 원정에 참여",
+     "reason_en": "Joined every Peary expedition for eighteen years from 1891"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "회고록에서 자기 역할을 담담히 서술",
+     "reason_en": "Wrote his memoir with plain-spoken self-assessment"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "북극점 최종 돌격에서 선두 길뚫기를 담당",
+     "reason_en": "Broke the trail ahead on the final dash to the Pole"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "20년간 피어리의 모든 원정을 변함없이 수행",
+     "reason_en": "Served Peary's every expedition for twenty years without fail"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "이누이트 공동체와 깊이 교류하며 협력",
+     "reason_en": "Bonded and worked closely with Inuit communities"
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "이누이트 동료를 대등한 기술자로 대우",
+     "reason_en": "Treated Inuit companions as fellow masters of the craft"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "공로가 지워져도 공개 항의를 자제",
+     "reason_en": "Kept from public protest even as his credit was erased"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "무명의 세월에도 인정받을 날을 기다림",
+     "reason_en": "Waited through decades of obscurity for recognition"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "차별 질서 안에서 자리를 지키는 길을 택함",
+     "reason_en": "Chose to keep his place within a discriminatory order"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "이누이트 대열 속 팀워크로 일한 현장형",
+     "reason_en": "Worked as a team man inside Inuit sledging parties"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "북극점 최종 돌격 선두를 맡은 실무자",
+     "reason_en": "Took the point position on the final polar dash"
+    }
+   },
+   "rationale_ko": "피어리의 모든 원정을 수행하며 썰매와 이누이트어의 대가가 됐다. 북극점 최종 돌격의 선두를 맡았으나 인종 때문에 공로를 뺏겼다. 공개 항의를 자제한 겸양이 사후 백 년의 재평가로 보상됐다. 1944년 탐험가클럽 회원으로 뒤늦게 인정받았다.",
+   "rationale_en": "He served every Peary expedition and became the finest dog-driver and Inuktitut speaker of them all. He broke trail first to the Pole yet had the credit taken because of his race. Restraint from protest was repaid by a century of reassessment. The Explorers Club finally admitted him in 1944."
+  }
+ },
+ "프레더릭 쿡": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관",
+   "political_exp_en": "No political activity",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 2,
+   "tech_exp": "벨지카 월동의 괴혈병 대응이 원정 의학에 기여",
+   "tech_exp_en": "His scurvy response on the Belgica contributed to expedition medicine",
+   "social": 1,
+   "social_exp": "탐험 주장 논란이 검증 문화 논의를 낳음",
+   "social_exp_en": "His collapsed claims fed the culture of verification",
+   "economic": 0,
+   "economic_exp": "석유 사기 실형, 경제 기여와 무관",
+   "economic_exp_en": "Jailed for oil fraud; no economic contribution",
+   "cultural": 2,
+   "cultural_exp": "탐험 사기의 대표 사례로 기록됨",
+   "cultural_exp_en": "Recorded as the emblematic exploration fraud",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "사기 논쟁의 대명사로 탐험사에 언급",
+   "transhistoricity_exp_en": "Mentioned in exploration history as the byword for fraud"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "원정의로 활동, 독자 원정은 소규모",
+     "reason_en": "Served as expedition surgeon; his own ventures stayed small"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "벨지카 월동과 북극 도보 원정을 견딘 체력",
+     "reason_en": "Endured the Belgica winter and Arctic foot travel"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "의사의 영리한 두뇌를 검증 회피에 사용",
+     "reason_en": "A clever physician who turned wit to evading verification"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "주장을 믿게 한 설득력으로 옹호자를 오래 유지",
+     "reason_en": "Persuasive enough to keep defenders for decades"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "허구 주장과 우편 사기로 끝내 실형",
+     "reason_en": "Fabricated claims and mail fraud ended in prison"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "실패 뒤에도 산과 극지에 계속 도전",
+     "reason_en": "Kept attempting mountains and ice after each failure"
+    },
+    "reflection": {
+     "score": 15,
+     "reason_ko": "논란이 뒤집혀도 조작을 인정하지 않음",
+     "reason_en": "Never admitted the fabrications even after exposure"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "벨지카 월동에서 동료를 살린 실제 용기",
+     "reason_en": "Showed real nerve keeping the Belgica crew alive"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "후원자와 동료의 신뢰를 주장으로 배신",
+     "reason_en": "Betrayed backers and companions with false claims"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "벨지카호에서 괴혈병 대응으로 선원을 살림",
+     "reason_en": "His diet and light treatment saved scurvy-stricken sailors"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "최초 기록을 조작해 경쟁자의 명예를 침해",
+     "reason_en": "Faked 'firsts' that robbed rivals of honest credit"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "검증 못 할 최초 주장으로 명예를 취함",
+     "reason_en": "Took glory through claims that could not be checked"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "반복 실패에도 다음 주장을 내놓는 자신감",
+     "reason_en": "Kept asserting new claims despite repeated collapse"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서 논의와 무관한 개인 경력",
+     "reason_en": "A personal career with no stake in questions of order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "명예를 위해 기록을 조작한 철저한 개인주의",
+     "reason_en": "Doctored records for glory — individualism at its purest"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "단독 북극점·초등정 주장을 서슴지 않음",
+     "reason_en": "Unhesitating in claiming the Pole and a first ascent"
+    }
+   },
+   "rationale_ko": "벨지카 월동에서 동료를 살린 의사였으나 북극점과 데날리 최초 주장은 모두 조작으로 무너졌다. 실제 용기와 지구력 위에 허구의 명예를 얹은 모순적 인물이다. 끝까지 조작을 인정하지 않았다. 1923년 우편 사기로 실형을 살았다.",
+   "rationale_en": "The doctor who saved the Belgica crew destroyed himself with fabricated claims to the Pole and Denali. Real courage and stamina sit beneath invented glory. He never admitted the fabrications. In 1923 he went to prison for mail fraud."
+  }
+ },
+ "토르 헤예르달": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치와 무관한 민족학자",
+   "political_exp_en": "An ethnographer outside politics",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 3,
+   "tech_exp": "재현 항해라는 실험고고학 방법을 유행시킴",
+   "tech_exp_en": "Popularised the experimental-archaeology method of re-enactment voyages",
+   "social": 3,
+   "social_exp": "고대 해로 이주 가능성 논의를 대중에 확산",
+   "social_exp_en": "Spread debate on ancient sea migrations to a mass audience",
+   "economic": 0,
+   "economic_exp": "산업과 무관",
+   "economic_exp_en": "No link to industry",
+   "cultural": 6,
+   "cultural_exp": "콘티키 기록과 다큐가 세계적 베스트셀러·수상작",
+   "cultural_exp_en": "The Kon-Tiki book and Oscar-winning film were worldwide hits",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "콘티키 도전이 실험 탐험의 상징으로 남음",
+   "transhistoricity_exp_en": "Kon-Tiki endures as the symbol of experimental expedition"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "여섯 명 안팎의 국제 뗏목 대원을 이끌고 횡단",
+     "reason_en": "Led international raft crews of about six across two oceans"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "뗏목 8,000km 항해를 견딘 해양 체력",
+     "reason_en": "Endured an 8,000-km raft voyage on the open Pacific"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "이주설을 세우고 재현으로 검증한 발상력",
+     "reason_en": "Conceived a migration theory and tested it by re-enactment"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "콘티키 신화로 세계 대중을 사로잡은 이야기꾼",
+     "reason_en": "The Kon-Tiki saga captivated a global audience"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "학계 비판에도 자기 이론에 과감히 매달림",
+     "reason_en": "Held to his theory with abandon despite scholarly critique"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "뗏목 제작부터 항해·저술까지 전 과정을 수행",
+     "reason_en": "Saw every stage through: building, sailing, writing"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "학계 반증에도 이론 수정 없이 반복 실험",
+     "reason_en": "Repeated the experiments without revising the theory"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "가설 검증을 위해 직접 바다에 몸을 실음",
+     "reason_en": "Staked his body on the ocean to test a hypothesis"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "팀과 이론에 대한 헌신, 환경운동까지 병행",
+     "reason_en": "Stood by his crews and theory, later by environmental causes"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "티그리스 항해로 전쟁 반대 메시지를 전함",
+     "reason_en": "Burned the Tigris reed boat in protest at war"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "자기 가설에 유리한 증거를 편중 수용",
+     "reason_en": "Weighted his reading of evidence toward his own hypothesis"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "전문 학계의 반대를 '틀렸다'고 맞선 자신감",
+     "reason_en": "Told the scholarly establishment flatly that it was wrong"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "불가능하다던 원시 항해를 계속 성공시킨 낙관",
+     "reason_en": "Kept proving 'impossible' voyages possible"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "학계 정설에 도전하고 환경·평화 운동에 참여",
+     "reason_en": "Challenged academic orthodoxy and joined peace and green causes"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "학계 밖에서 독자 노선을 고집한 매버릭",
+     "reason_en": "A maverick who held his own line outside the academy"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "통나무 뗏목으로 태평양 횡단을 감행",
+     "reason_en": "Crossed the Pacific on a balsa-log raft"
+    }
+   },
+   "rationale_ko": "가설을 검증하겠다며 스스로 뗏목에 몸을 실은 실험 정신의 표본이다. 학계의 반증에도 이론을 굽히지 않은 고집은 대중적 성공으로 보상받았다. 팀을 이끈 항해들이 실험고고학의 유행을 만들었다. 1947년 콘티키로 태평양 8,000km를 건넜다.",
+   "rationale_en": "He embodies the experimental spirit, staking his body on a raft to test a theory. Stubbornness against scholarly rebuttal was repaid with mass fame. The voyages he led made re-enactment a method. In 1947 Kon-Tiki carried him 8,000 km across the Pacific."
+  }
+ },
+ "이븐 바투타": {
+  "influence": {
+   "political": 3,
+   "political_exp": "델리·몰디브 카디로 여러 술탄국 통치에 참여",
+   "political_exp_en": "Served as qadi in Delhi and the Maldives, joining sultanate governance",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military role",
+   "tech": 1,
+   "tech_exp": "여행기의 지리 정보가 후대 지도학에 참고",
+   "tech_exp_en": "His geography fed later mapmaking",
+   "social": 4,
+   "social_exp": "『리흘라』가 14세기 이슬람 세계의 1차 사료",
+   "social_exp_en": "The Rihla is a primary source for the 14th-century Islamic world",
+   "economic": 2,
+   "economic_exp": "인도양·사하라 교역로의 동시대 기록을 남김",
+   "economic_exp_en": "Left a contemporary record of Indian Ocean and Sahara trade routes",
+   "cultural": 5,
+   "cultural_exp": "『리흘라』가 세계 여행 문학의 고전 반열",
+   "cultural_exp_en": "The Rihla ranks among the classics of world travel writing",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "중세 아프로-유라시아 연구의 불가결 원전",
+   "transhistoricity_exp_en": "An indispensable source for medieval Afro-Eurasian history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "델리에서 8년간 카디로 법정과 행정을 담당",
+     "reason_en": "Ran a Delhi judgeship and its administration for eight years"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "30년간 12만 km 육상·해상 여정을 견딘 내구력",
+     "reason_en": "Survived thirty years and 120,000 km of road and sea travel"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "법학 소양으로 수십 사회의 관행을 비교 기록",
+     "reason_en": "A jurist's training let him compare and record dozens of societies"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "각국 궁정에서 환대와 관직을 거듭 얻은 재간",
+     "reason_en": "Won welcome and office at court after court"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "술탄의 선물·처첩·향연을 두루 누림",
+     "reason_en": "Enjoyed sultans' gifts, concubines and feasts along the way"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "1325년 출발 후 30년간 여행을 멈추지 않음",
+     "reason_en": "Left in 1325 and did not stop travelling for thirty years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "귀환 뒤 『리흘라』로 여정을 체계적으로 구술",
+     "reason_en": "Dictated the whole journey in order as the Rihla"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "역병·해적·전란 속에서도 낯선 지역으로 진입",
+     "reason_en": "Kept entering unknown lands through plague, pirates and war"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "여러 술탄을 옮겨 섬기며 어느 궁정에도 안주 못함",
+     "reason_en": "Moved between sultans and settled at no single court"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "각지 관습을 관찰했으나 노비·처첩도 두루 둠",
+     "reason_en": "Observed all societies, yet kept slaves and concubines himself"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "카디로 샤리아를 적용했으나 술탄 비위에도 맞춤",
+     "reason_en": "Applied sharia as judge yet bent to sultans' moods"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "궁정의 환대와 자기 경력을 여행기에 자랑",
+     "reason_en": "Boasted in the Rihla of honours and offices received"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "어디서든 환영받을 것이라는 자신감으로 전진",
+     "reason_en": "Pressed on everywhere confident of a welcome"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "이슬람 법과 관습의 정통성을 기준으로 판단",
+     "reason_en": "Judged societies by the orthodoxy of Islamic law"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "움마의 네트워크를 따라 이동한 공동체 여행가",
+     "reason_en": "Travelled along the networks of the ummah, a communal wayfarer"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "알 수 없는 지역을 30년간 계속 걸어 넘음",
+     "reason_en": "Kept walking into the unknown for thirty years"
+    }
+   },
+   "rationale_ko": "30년간 12만 km를 여행한 중세 최대의 여행가다. 술탄 궁정의 환대를 누리며 법관을 지냈고 샤리아 정통성의 잣대로 각지를 판단했다. 풍요를 즐긴 향락과 멈추지 않은 여정이 공존한다. 1355년 페스에서 『리흘라』를 구술했다.",
+   "rationale_en": "The greatest traveller of the Middle Ages covered 120,000 km in thirty years. He judged at sultans' courts and measured every society by sharia orthodoxy. Courtly indulgence coexisted with unceasing travel. In 1355 at Fez he dictated the Rihla."
+  }
+ },
+ "데이비드 리빙스턴": {
+  "influence": {
+   "political": 4,
+   "political_exp": "노예무역 폐지 여론을 영국 정치 의제로 끌어올림",
+   "political_exp_en": "Pushed abolition of the East African slave trade onto Britain's agenda",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 2,
+   "tech_exp": "아프리카 내륙 지도·지리 기록을 대량 생산",
+   "tech_exp_en": "Produced maps and geographical records of the African interior",
+   "social": 6,
+   "social_exp": "아프리카 노예무역 근절 운동의 상징적 인물",
+   "social_exp_en": "The emblematic figure of the anti-slave-trade movement",
+   "economic": 3,
+   "economic_exp": "내륙 항로 개척으로 '합법 교역' 구상을 제시",
+   "economic_exp_en": "Opened interior routes and proposed 'legitimate commerce' to replace slaving",
+   "cultural": 5,
+   "cultural_exp": "'리빙스턴 박사시군요'가 빅토리아 시대 명장면",
+   "cultural_exp_en": "'Dr Livingstone, I presume' became a Victorian set piece",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "선교·탐험·식민의 교차점에서 세기를 넘어 논의",
+   "transhistoricity_exp_en": "Debated across centuries at the crossing of mission, exploration and empire"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "잠베지 원정에서 부원 이탈·파벌을 막지 못함",
+     "reason_en": "Failed to hold the Zambezi expedition's staff together"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "말라리아 속에서도 대륙 횡단을 반복한 내구력",
+     "reason_en": "Crossed the continent repeatedly through malaria and fever"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "공장 노동자에서 의사가 된 독학의 지력",
+     "reason_en": "Self-schooled from mill worker to physician"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "귀국 강연마다 만원인 빅토리아 시대의 국민 영웅",
+     "reason_en": "A national hero whose homecoming lectures packed halls"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "선교사로서 검약한 생활을 평생 유지",
+     "reason_en": "Kept a frugal missionary life to the end"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "면직공에서 독학으로 의대를 나와 30년 탐사",
+     "reason_en": "Worked up from the mill to medicine, then thirty years of travel"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "실패한 원정도 일기에 기록하며 재평가",
+     "reason_en": "Logged and re-weighed even his failed expeditions in journals"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "노예상 루트와 미지의 내륙을 수차례 홀로 걸음",
+     "reason_en": "Walked slave-trader routes and unknown interior alone, repeatedly"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "아프리카와 노예무역 폐지에 생애를 바침",
+     "reason_en": "Gave his life to Africa and the end of the slave trade"
+    },
+    "benevolence": {
+     "score": 85,
+     "reason_ko": "노예의 고통을 목격하고 폐지 운동에 헌신",
+     "reason_en": "Witnessed the slavers' victims and devoted himself to abolition"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "아프리카인을 존중했으나 시대적 선교관 한계",
+     "reason_en": "Respected Africans yet stayed within a missionary's era-bound view"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "명성 속에서도 '아프리카의 종'을 자처",
+     "reason_en": "At the height of fame called himself a servant of Africa"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "좌절된 원정에도 '기독교와 교역'의 미래를 믿음",
+     "reason_en": "Kept faith in 'Christianity and commerce' through failed expeditions"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "노예무역 폐지를 주창한 시대의 개혁자",
+     "reason_en": "An era's reformer preaching the end of the slave trade"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "선교 조직과 갈라져 홀로 내륙을 떠돈 고행",
+     "reason_en": "Broke with the mission societies and wandered the interior alone"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "나일 수원을 찾아 미지의 내륙 깊이 들어감",
+     "reason_en": "Pushed deep into the unknown hunting the Nile's source"
+    }
+   },
+   "rationale_ko": "노예무역 폐지라는 사명 하나로 아프리카 내륙을 30년간 걸었다. 조직 운영에는 실패했으나 인자와 용기가 빅토리아 시대의 영웅상을 만들었다. 선교관의 시대적 한계도 기록에 남는다. 1873년 잠비아 치탐보에서 사망했다.",
+   "rationale_en": "One mission — ending the slave trade — walked him across Africa for thirty years. A poor organiser of expeditions, his compassion and courage made him the era's hero. The era-bound missionary view remains on record too. He died at Chitambo in 1873."
+  }
+ },
+ "헨리 모턴 스탠리": {
+  "influence": {
+   "political": 5,
+   "political_exp": "레오폴드 2세의 콩고 지배 기반을 직접 구축",
+   "political_exp_en": "Built the infrastructure of Leopold II's Congo rule",
+   "strategic": 1,
+   "strategic_exp": "무장 캐러밴 운용이 원정 군사화 사례가 됨",
+   "strategic_exp_en": "His armed caravans became a case of militarised exploration",
+   "tech": 2,
+   "tech_exp": "콩고 강 전 구간 지도 작성에 기여",
+   "tech_exp_en": "Mapped the full course of the Congo",
+   "social": 2,
+   "social_exp": "콩고 참상이 알려지며 착취 논의의 출발점",
+   "social_exp_en": "The Congo horror he enabled started later debates on exploitation",
+   "economic": 4,
+   "economic_exp": "콩고 내륙 교역 기지망이 식민 착취 인프라가 됨",
+   "economic_exp_en": "His river stations became the infrastructure of colonial extraction",
+   "cultural": 5,
+   "cultural_exp": "'박사님이시군요' 보도가 탐험 저널리즘의 전설",
+   "cultural_exp_en": "The 'I presume' dispatch became the legend of exploration journalism",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "콩고 비극의 개척자로 오랜 재평가 대상",
+   "transhistoricity_exp_en": "Long reassessed as the pathbreaker of the Congo tragedy"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "수백 명 캐러밴을 수년간 군대식으로 통솔",
+     "reason_en": "Ran caravans of hundreds of porters on military discipline for years"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "대륙 종단과 열대 질병을 수차례 견딘 체력",
+     "reason_en": "Survived repeated transcontinental marches and tropical disease"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "독학 기자에서 탐험 기록가로 성장한 지력",
+     "reason_en": "Self-schooled from journalist to major expedition chronicler"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "보도로 대중을 매료했으나 대인은 거칠었음",
+     "reason_en": "His dispatches captivated the public; the man himself was harsh"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "짐꾼에게 채찍과 과잉 징벌을 거리낌 없이 사용",
+     "reason_en": "Used the whip and harsh punishment on porters without scruple"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "고아원 출신으로 기자·탐험가를 거쳐 실질 건설",
+     "reason_en": "Rose from the workhouse to build stations across the Congo"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "자서전에서 자기 서사를 적극 재구성",
+     "reason_en": "His autobiography actively remakes his own story"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "적대 지역을 뚫고 대륙 종단을 거듭 감행",
+     "reason_en": "Forced crossings through hostile country more than once"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "의뢰주(신문사·레오폴드)엔 충실, 하부엔 엄격",
+     "reason_en": "Faithful to employers — newspaper and king — hard on those below"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "수백 명의 짐꾼 사망을 감수한 원정 방식",
+     "reason_en": "His methods accepted porter deaths in the hundreds"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "인종 위계에 따른 차별적 대우를 행사",
+     "reason_en": "Dealt with men through the era's racial hierarchy"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "자기 서사를 과장하고 명예와 작위를 추구",
+     "reason_en": "Embroidered his legend and pursued honours and knighthood"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "고아원 출신답게 세상을 냉소적으로 봄",
+     "reason_en": "The workhouse boy looked on the world with cynicism"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "제국주의 체제에 적극 봉사하며 질서를 옹호",
+     "reason_en": "Served the imperial order actively and defended it"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "이름까지 바꾼 자수성가형, 동료와 정서적 거리",
+     "reason_en": "A self-made man who changed his name and kept colleagues at distance"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "미지의 콩고 강을 끝까지 하행하는 무모함",
+     "reason_en": "Followed the unknown Congo all the way to the sea"
+    }
+   },
+   "rationale_ko": "수백 명 캐러밴을 군대처럼 몰아 대륙을 종단한 조직력이 그의 강점이다. 그러나 짐꾼 사망을 감수한 잔혹함이 콩고 지배의 서막을 열었다. 고아원 출신의 냉소와 명예욕이 생애를 관통한다. 1879년부터 레오폴드 2세의 콩고 기지를 구축했다.",
+   "rationale_en": "His strength was organisation — driving caravans of hundreds across the continent like an army. But the brutality that accepted porter deaths opened the way to Leopold's Congo. Workhouse cynicism and hunger for honour run through his life. From 1879 he built the Congo stations for Leopold II."
+  }
+ },
+ "리처드 프랜시스 버턴": {
+  "influence": {
+   "political": 1,
+   "political_exp": "영사직 수행 외 정치 기여는 미미",
+   "political_exp_en": "Consular posts aside, little political contribution",
+   "strategic": 1,
+   "strategic_exp": "인도군 장교 경력, 전략 기여는 없음",
+   "strategic_exp_en": "An Indian Army officer with no strategic legacy",
+   "tech": 3,
+   "tech_exp": "수십 개 언어·민족지 자료를 체계적으로 수집",
+   "tech_exp_en": "Systematically collected languages and ethnographic data",
+   "social": 3,
+   "social_exp": "금기 서적 번역으로 빅토리아 성 도덕을 교란",
+   "social_exp_en": "His forbidden translations unsettled Victorian sexual morality",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic connection",
+   "cultural": 7,
+   "cultural_exp": "『천일야화』 완역이 서구의 동양 상상을 재편",
+   "cultural_exp_en": "His unexpurgated Arabian Nights reshaped the Western image of the East",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "『천일야화』 번역가로 문학사에 영구 기재",
+   "transhistoricity_exp_en": "Fixed in literary history as translator of the Nights"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "영사직과 군 경력, 조직 통솔보다 단독 행동",
+     "reason_en": "Held consular and army posts but acted alone, not through organisations"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "검술 교본을 쓴 검객, 창에 뚫리고도 탐사 지속",
+     "reason_en": "A fencer who wrote a swordsmanship manual; speared through the face, he kept exploring"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "약 29개 언어와 방대한 번역·민족지 저작",
+     "reason_en": "Some twenty-nine languages and a vast shelf of translation and ethnography"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "기행과 언변으로 런던 사교계를 매료·충격",
+     "reason_en": "His talk and exploits both fascinated and scandalised London"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "술·아편·금기 문헌 탐닉으로 스캔들 상습",
+     "reason_en": "Drink, opium and forbidden texts made scandal habitual"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "여행과 번역을 쉼 없이 병행한 생산력",
+     "reason_en": "Travelled and translated without pause his whole life"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "방대한 저술이 자기 성찰보다 관찰에 치중",
+     "reason_en": "His vast writing observes more than it examines itself"
+    },
+    "courage": {
+     "score": 95,
+     "reason_ko": "발각 시 사형인 메카 위장 잠입을 감행",
+     "reason_en": "Entered Mecca in disguise knowing discovery meant death"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "스페크와의 공로 다툼처럼 동료와 반복 불화",
+     "reason_en": "Quarrelled with companions, the Speke feud above all"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "식민지 문화에 깊이 공감하나 시대적 편견도",
+     "reason_en": "Deep sympathy for colonised cultures, era-bound prejudices too"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "각 문화를 나름 존중하나 논쟁에서 가차 없음",
+     "reason_en": "Respected other cultures yet ruthless in disputes"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "언어·검술 실력을 스스로 자랑한 자부심",
+     "reason_en": "Openly proud of his languages and swordsmanship"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "인간과 문명을 보는 냉소적 시선이 저술에 배어",
+     "reason_en": "A cynical eye on man and civilisation runs through his books"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "검열을 뚫고 금기 번역을 낸 질서 교란자",
+     "reason_en": "Broke censorship to publish forbidden texts — a disturber of order"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "어느 조직에도 안주 못 한 유목적 개인주의자",
+     "reason_en": "A nomadic individualist who settled in no institution"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "메카 잠입처럼 목숨 건 도박을 반복 선택",
+     "reason_en": "Chose life-staked gambles like the Mecca infiltration repeatedly"
+    }
+   },
+   "rationale_ko": "29개 언어와 메카 위장 잠입, 금기 번역까지 한 빅토리아 최대의 괴짜다. 검술 교본을 쓸 만큼 몸도 입증했으나 술과 스캔들에 절제를 잃었다. 동료와의 불화가 조직 충성의 한계를 보인다. 1885년 『천일야화』 16권 완역을 냈다.",
+   "rationale_en": "Victoria's greatest eccentric: twenty-nine languages, a disguised entry to Mecca, forbidden translations. The body was proven too — he wrote a fencing manual — but drink and scandal broke his temperance. Feuds like the Speke quarrel mark the limit of his loyalty. In 1885 he published the sixteen-volume Arabian Nights."
+  }
+ },
+ "아라비아의 로렌스": {
+  "influence": {
+   "political": 6,
+   "political_exp": "아랍 반란과 전후 중동 국경 구성에 직접 관여",
+   "political_exp_en": "Directly involved in the Arab Revolt and the postwar Middle East settlement",
+   "strategic": 5,
+   "strategic_exp": "유격전 회고록이 비정규전 이론의 고전이 됨",
+   "strategic_exp_en": "Seven Pillars became a classic text of guerrilla warfare",
+   "tech": 1,
+   "tech_exp": "공군 사병 시절 구조정 개량에 참여",
+   "tech_exp_en": "As an aircraftman he helped improve rescue boats",
+   "social": 2,
+   "social_exp": "제국 전쟁의 모순을 드러낸 상징 인물",
+   "social_exp_en": "Became the symbol of imperial war's contradictions",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic connection",
+   "cultural": 6,
+   "cultural_exp": "『지혜의 일곱 기둥』과 신화가 세기의 문화상",
+   "cultural_exp_en": "Seven Pillars and the Lawrence myth are lasting cultural icons",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "게릴라전 고전과 중동 원년의 인물로 지속 인용",
+   "transhistoricity_exp_en": "Still cited as the guerrilla classic's author and a maker of the modern Middle East"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "비정규 부족군 수천을 이끌고 헤자즈 철도를 교란",
+     "reason_en": "Directed thousands of irregular tribesmen against the Hejaz railway"
+    },
+    "martial": {
+     "score": 72,
+     "reason_ko": "사막 기동과 부상·포로 고문을 견딘 현장 장교",
+     "reason_en": "Endured desert campaigning, wounds and captivity at Deraa"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "고고학자에서 유격전 이론가로 변환한 분석력",
+     "reason_en": "An archaeologist who re-tooled himself into a guerrilla theorist"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "베두인과 영국 지도부를 모두 움직인 카리스마",
+     "reason_en": "Moved Bedouin fighters and British high command alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "금욕적 생활과 명성 중독이 공존한 내면",
+     "reason_en": "An ascetic life coexisted with addiction to fame"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "전중에는 작전, 전후에는 저술에 몰입",
+     "reason_en": "Immersed in operations during the war, in writing after it"
+    },
+    "reflection": {
+     "score": 85,
+     "reason_ko": "배신의 죄책감과 자기 분석이 저술 전체에 스밈",
+     "reason_en": "Guilt and self-analysis saturate Seven Pillars and his letters"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "최전선 습격과 데라 포로 고문을 겪고도 임무 지속",
+     "reason_en": "Led front-line raids and returned to duty after Deraa"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "영국과 아랍 사이에서 거짓 약속의 집행자",
+     "reason_en": "Served as the executor of false promises between Britain and the Arabs"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "아랍의 처지에 공감했으나 제국 명령을 수행",
+     "reason_en": "Sympathised with the Arabs yet carried out imperial orders"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "아랍에게 한 약속을 제국이 배신하도록 둠",
+     "reason_en": "Let imperial promises made to the Arabs be betrayed"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "명성을 피해 사병으로 숨되 신화 관리도 병행",
+     "reason_en": "Hid as a private soldier while still tending his own legend"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "전후 서신과 저술에 자기 혐오와 비관이 스밈",
+     "reason_en": "Self-loathing and pessimism fill his postwar letters and books"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "제국과 민족 자결 사이에서 모순적 위치",
+     "reason_en": "Stood in contradiction between empire and self-determination"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "전후 은둔을 택한 극도의 고독 지향",
+     "reason_en": "Chose near-hermit enlistment after the war — extreme solitude"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "후방 우회로 아카바를 기습한 대담한 작전",
+     "reason_en": "Took Aqaba by a bold desert flanking march"
+    }
+   },
+   "rationale_ko": "고고학자에서 유격전 지도자로 변신해 아랍 반란을 이끌었다. 제국의 거짓 약속을 집행한 죄책감이 『지혜의 일곱 기둥』의 성찰을 낳았다. 명성을 피해 사병으로 숨는 겸양과 신화 관리가 공존한다. 1935년 오토바이 사고로 사망했다.",
+   "rationale_en": "An archaeologist turned guerrilla leader who directed the Arab Revolt. Guilt at executing imperial promises bred the self-analysis of Seven Pillars. Hiding as a private soldier and managing his myth coexisted in him. He died in a motorcycle crash in 1935."
+  }
+ },
+ "거트루드 벨": {
+  "influence": {
+   "political": 7,
+   "political_exp": "카이로 회의에서 이라크 국경과 왕정을 사실상 설계",
+   "political_exp_en": "At the 1921 Cairo Conference she effectively designed Iraq's borders and monarchy",
+   "strategic": 2,
+   "strategic_exp": "아랍국 정보장교로 부족 동향 보고 체계를 구축",
+   "strategic_exp_en": "As an Arab Bureau officer she built tribal intelligence reporting",
+   "tech": 2,
+   "tech_exp": "고고학 기록과 지도 작성으로 학계에 기여",
+   "tech_exp_en": "Contributed archaeological records and maps",
+   "social": 3,
+   "social_exp": "남성 영역의 국정에 참여한 선구적 여성 관료",
+   "social_exp_en": "A pioneering woman inside male state administration",
+   "economic": 1,
+   "economic_exp": "이라크 행정 설계가 경제 기반에 간접 영향",
+   "economic_exp_en": "Her administrative design indirectly shaped Iraq's economic base",
+   "cultural": 4,
+   "cultural_exp": "바그다드 고고학 박물관을 창립해 유산을 보존",
+   "cultural_exp_en": "Founded the Baghdad archaeological museum to preserve the heritage",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "그린 국경이 백 년 뒤에도 이라크 국가로 존재",
+   "transhistoricity_exp_en": "The borders she drew still bound the Iraqi state a century on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "바그다드 정치장교와 박물관 조직을 수년간 총괄",
+     "reason_en": "Ran the Baghdad political office and museum administration for years"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "알프스 등정 경력의 산악인, 사막 단독 기행 반복",
+     "reason_en": "An alpinist with first ascents who rode deserts alone"
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "옥스퍼드 역사학 1등과 페르시아어·아랍어 구사",
+     "reason_en": "A first in history at Oxford; spoke Persian and Arabic"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "부족장들과 대등히 협상한 카리스마, 실무형",
+     "reason_en": "Negotiated with sheikhs as an equal — charisma of the practical kind"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "제국 관료로서 자기 절제된 규범적 생활",
+     "reason_en": "Lived the disciplined life of an imperial official"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "여행·발굴·서신·보고서를 평생 쉼 없이 생산",
+     "reason_en": "Produced journeys, digs, letters and reports without pause"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "수천 통의 서신에 시대와 자신을 기록",
+     "reason_en": "Thousands of letters record her times and herself"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "전시 정보장교로 적진 부족 지역을 단독 왕래",
+     "reason_en": "Crossed hostile tribal country alone as a wartime intelligence officer"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "이라크 건국과 파이살 왕정에 말년까지 헌신",
+     "reason_en": "Served the Iraqi state and Faisal's monarchy to the end"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "유물 보존과 학교 설립에 힘썼으나 제국 시각 한계",
+     "reason_en": "Worked for heritage and schools, inside an imperial frame"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "부족 사이를 이해관계로 다룬 현실 관료",
+     "reason_en": "A realist administrator who balanced tribes by interest"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "스스로 '일의 사람'을 자처한 강한 자존감",
+     "reason_en": "Called herself a person of affairs — self-esteem ran high"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "건국 사업을 믿었으나 말년 회의도 서신에 남김",
+     "reason_en": "Believed in the state-building, yet late letters show disillusion"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "여성 참정권 반대론을 편 제국 질서 옹호자",
+     "reason_en": "Opposed women's suffrage and upheld the imperial order"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "제국 조직 안에서도 단독 판단을 고집한 독립성",
+     "reason_en": "Insisted on her own judgment even inside the imperial service"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "미지의 사막 루트를 홀로 개척한 여행가",
+     "reason_en": "Opened unknown desert routes travelling alone"
+    }
+   },
+   "rationale_ko": "사막 단독 기행으로 얻은 부족 지식이 이라크 건국의 설계도가 됐다. 알프스 등정가였던 체력과 옥스퍼드 1등의 지력이 한 몸에 있었다. 참정권 반대론자였다는 사실이 그녀의 제국 질서관을 드러낸다. 1926년 바그다드에서 사망했다.",
+   "rationale_en": "Tribal knowledge won on solo desert rides became the blueprint of Iraq. An Alpinist's physique and a first-class Oxford mind lived in one body. Her anti-suffrage stance reveals the imperial frame of her order. She died in Baghdad in 1926."
+  }
+ },
+ "프레야 스탁": {
+  "influence": {
+   "political": 2,
+   "political_exp": "2차대전 중 영국 선전 조직 '자유의 형제단'을 운영",
+   "political_exp_en": "Ran the wartime 'Brotherhood of Freedom' propaganda network for Britain",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 1,
+   "tech_exp": "예맨 미측정 지역의 지도 정보를 보완",
+   "tech_exp_en": "Her journeys corrected maps of uncharted Yemen",
+   "social": 2,
+   "social_exp": "여성 단독 여행의 선구자로 후대 여행가에 영향",
+   "social_exp_en": "A pioneer of solo women's travel who influenced later writers",
+   "economic": 0,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic connection",
+   "cultural": 5,
+   "cultural_exp": "30여 권 여행기가 20세기 여행문학의 대표작",
+   "cultural_exp_en": "Her thirty-plus books anchor twentieth-century travel writing",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "중동 여행문학의 고전으로 계속 읽힘",
+   "transhistoricity_exp_en": "Still read as a classic of Middle East travel writing"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "전시 선전 조직 '자유의 형제단'을 창설·운영",
+     "reason_en": "Founded and ran the wartime Brotherhood of Freedom network"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "중년 이후에도 예맨 오지와 이란 산지를 단독 주파",
+     "reason_en": "In middle age she still crossed Yemen's wilds and Persian uplands alone"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "아랍어·페르시아어와 고전 소양의 여행 작가",
+     "reason_en": "A travel writer with Arabic, Persian and classical learning"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "재치 있는 문장과 대화로 각지에서 환대받음",
+     "reason_en": "Wit on page and in person won welcome everywhere"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "최소 행장과 현지 생활로 여행을 지속",
+     "reason_en": "Travelled light and lived as locals did"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "백 세까지 여행과 집필을 멈추지 않음",
+     "reason_en": "Travelled and wrote without stopping into her hundredth year"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "여행기에 자기 한계와 실수를 위트로 기록",
+     "reason_en": "Her books record her own limits and errors with wit"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "'암살단' 알라무트 요새까지 혼자 찾아감",
+     "reason_en": "Went alone into Alamut, the Assassins' mountain fortress"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "2차대전 중 조국 정보기관에 헌신",
+     "reason_en": "Served Britain's wartime information service loyally"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "만난 현지인들에게 우정과 존중으로 응답",
+     "reason_en": "Met local people with friendship and respect"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "다른 문화를 비교 관찰하되 대등하게 서술",
+     "reason_en": "Wrote of other cultures on level terms"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "자기를 '눈썰미 좋은 아마추어'로 낮춤",
+     "reason_en": "Called herself merely a sharp-eyed amateur"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "어떤 오지에서도 즐길 거리를 찾는 낙천성",
+     "reason_en": "Found something to delight in the remotest places"
+    },
+    "conservative_progressive": {
+     "score": 5,
+     "reason_ko": "여성 단독 여행의 금기를 깬 독립적 행보",
+     "reason_en": "Broke the taboo on women travelling alone"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "단독 여행을 택하고도 현지 교류를 즐김",
+     "reason_en": "Chose solo travel yet delighted in company met on the way"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "지도 없는 계곡을 따라 홀로 들어간 여행",
+     "reason_en": "Walked alone into unmapped valleys"
+    }
+   },
+   "rationale_ko": "지도의 백지를 혼자 걸어 메운 20세기 여행문학의 대표다. 위트와 겸손으로 각지의 문을 열었고 전시에는 조국의 선전 조직을 운영했다. 백 세까지 쉬지 않은 근면이 마지막 행적이다. 1993년 아솔로에서 백 세로 사망했다.",
+   "rationale_en": "She filled blank map spaces alone and became the face of twentieth-century travel writing. Wit and modesty opened doors everywhere, and in wartime she ran Britain's propaganda network. Diligence to the age of one hundred is her final record. She died at Asolo in 1993 at one hundred."
+  }
+ },
+ "이사벨라 버드": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 직책 없이 기록으로 여론에 기여",
+   "political_exp_en": "Held no office; her records informed opinion",
+   "strategic": 0,
+   "strategic_exp": "군사와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 2,
+   "tech_exp": "왕립지리학회 최초 여성 회원으로 지리학에 기여",
+   "tech_exp_en": "First woman fellow of the RGS, contributing geographical records",
+   "social": 4,
+   "social_exp": "조선·일본 오지 기록이 지금도 현지 연구 사료",
+   "social_exp_en": "Her Korea and Japan records remain primary sources there today",
+   "economic": 0,
+   "economic_exp": "선교 병원 후원 외 경제 기여 미미",
+   "economic_exp_en": "Funded mission hospitals; little else economically",
+   "cultural": 5,
+   "cultural_exp": "구한말 조선 관찰기가 고전으로 계속 인용",
+   "cultural_exp_en": "Her record of late-Joseon Korea is still quoted as a classic",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "19세기 동아시아 여행기의 대표 원전",
+   "transhistoricity_exp_en": "A standard primary source for nineteenth-century East Asia"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "선교 병원을 후원했으나 조직 지휘는 아님",
+     "reason_en": "Funded mission hospitals but never ran an organisation"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "60대에도 말로 조선·티베트 변방을 주파",
+     "reason_en": "Rode Korea and Tibet's marches on horseback into her sixties"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "세밀한 관찰과 기록으로 지리학계 인정을 받음",
+     "reason_en": "Close observation won her recognition in geography"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "여행기가 대중 독자를 얻고 학회 문을 엶",
+     "reason_en": "Her books won a mass readership and opened the RGS doors"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "빅토리아 규범의 단정한 생활을 유지",
+     "reason_en": "Kept the ordered life of a Victorian lady"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "70대까지 여행과 집필을 거르지 않음",
+     "reason_en": "Never stopped travelling and writing into her seventies"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "여행기에 자기 약점과 편견까지 솔직히 기술",
+     "reason_en": "Wrote her own weaknesses and prejudices into the travel books"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "여성이 가지 않던 오지 루트를 반복 개척",
+     "reason_en": "Repeatedly took routes no Western woman had ridden"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "남편 유지를 이어 선교 의료 사업을 후원",
+     "reason_en": "Carried on her late husband's mission-medical work"
+    },
+    "benevolence": {
+     "score": 80,
+     "reason_ko": "인도·중국에 선교 병원 설립을 후원",
+     "reason_en": "Funded mission hospitals in India and China"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "당대 편견 안에서도 현지인을 실제로 관찰·서술",
+     "reason_en": "Inside her era's biases she still observed real people"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "최초 여성 지리학회원 명예에도 자숙한 태도",
+     "reason_en": "Stayed modest despite being the first woman fellow"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "병약 청년기를 여행으로 극복한 회복력",
+     "reason_en": "Travelled her way out of a sickly youth"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "기독교 여성 규범 안에서 행동으로 경계를 넘음",
+     "reason_en": "Stayed within Christian womanhood's norms yet crossed its borders in action"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "단독 여행과 선교 네트워크를 오간 중간형",
+     "reason_en": "Moved between solo travel and mission networks"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "미지의 오지를 향해 말을 몰아 들어감",
+     "reason_en": "Rode toward unknown interiors alone"
+    }
+   },
+   "rationale_ko": "병약했던 청년기를 여행으로 극복하고 동아시아 오지를 개척한 여행작가다. 말로 조선·티베트를 누빈 체력과 세밀한 관찰이 학회 문을 열었다. 선교 병원 후원에 말년을 쏟은 인자가 남는다. 1892년 왕립지리학회 최초 여성 회원이 됐다.",
+   "rationale_en": "She rode out of a sickly youth to open East Asia's back country to Western readers. Horseback stamina and close observation carried her into the RGS. Late-life generosity went to mission hospitals. In 1892 she became the Royal Geographical Society's first woman fellow."
+  }
+ },
+ "알렉상드라 다비드넬": {
+  "influence": {
+   "political": 1,
+   "political_exp": "티베트 잠입이 영국·프랑스의 티베트 관심을 키웠다",
+   "political_exp_en": "Her journeys fed Western interest in Tibet",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 2,
+   "tech_exp": "티베트 지리·불교 지식을 서구 학계에 전했다",
+   "tech_exp_en": "Brought Tibetan geography and Buddhism to the West",
+   "social": 4,
+   "social_exp": "여성 탐험가의 지평을 넓히고 불교를 서구에 소개했다",
+   "social_exp_en": "Widened women's exploration and introduced Buddhism",
+   "economic": 0,
+   "economic_exp": "산업·경제 분야 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 6,
+   "cultural_exp": "『마법과 신비의 티베트』가 서구의 티베트 상상을 세웠다",
+   "cultural_exp_en": "Magic and Mystery in Tibet shaped the West's view",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "저작이 한 세기 넘게 읽히며 티베트 연구를 길렀다",
+   "transhistoricity_exp_en": "Her books shaped Tibetan studies for a century"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "1924년 양덴과 둘만으로 라싸 잠입 원정을 꾸렸다",
+     "reason_en": "Organized the 1924 two-person Lhasa infiltration"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "55세에 히말라야 고개들을 걸어 넘어 라싸까지 닿았다",
+     "reason_en": "Walked Himalayan passes into Lhasa at fifty-five"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "티베트어를 익혀 『마법과 신비의 티베트』 등 30여 권을 썼다",
+     "reason_en": "Learned Tibetan and wrote some thirty books"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "강연과 저작으로 전후 프랑스에 티베트 열풍을 일으켰다",
+     "reason_en": "Her lectures and books made Tibet a French sensation"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 78,
+     "reason_ko": "퉁모 수행과 금욕적 순례 생활을 수십 년 이었다",
+     "reason_en": "Decades of tumo practice and ascetic pilgrimage"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "백 세까지 저술과 번역을 멈추지 않았다",
+     "reason_en": "Wrote and translated until the age of one hundred"
+    },
+    "reflection": {
+     "score": 75,
+     "reason_ko": "불교 수행과 회고록에서 자기 경험을 끊임없이 성찰했다",
+     "reason_en": "Her practice and memoirs endlessly examined her life"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "외국인 금지의 라싸에 거지로 변장해 잠입했다",
+     "reason_en": "Entered forbidden Lhasa disguised as a beggar"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "수제자 양덴과 20여 년 원정과 저술을 함께했다",
+     "reason_en": "Shared twenty years of travel and writing with Yongden"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "양덴을 양자로 들여 라마로 키워냈다",
+     "reason_en": "Adopted Yongden and raised him as a lama"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "식민지 관료와 티베트인을 같은 눈으로 서술했다",
+     "reason_en": "Described colonial officials and Tibetans with one eye"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "최초의 서양 여성 입불자라는 명성을 스스로 내세웠다",
+     "reason_en": "She freely claimed her first-woman-in-Lhasa fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "불교의 허무관을 받아들이되 여정을 낙관했다",
+     "reason_en": "Buddhist emptiness, yet she trusted the road"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "여성 금지의 금역 라싸를 여성의 몸으로 넘었다",
+     "reason_en": "Crossed a forbidden city that barred her sex"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "평생 독립 자금으로 홀로 여정을 설계했다",
+     "reason_en": "Designed every journey alone on her own funds"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "변장 하나로 수천 km 금역을 걸어 통과했다",
+     "reason_en": "Walked thousands of forbidden miles in disguise"
+    }
+   },
+   "rationale_ko": "백 세 생애를 관통한 것은 홀로 길을 여는 집념이다. 오페라 무대를 버리고 티베트 불교에 몰입한 뒤, 쉰다섯에 거지 변장으로 라싸에 들어간 대담함이 그녀를 최초의 서양 여성 입불자로 만들었다. 수행자의 절제와 펜 끝의 성찰이 탐험을 서른 권의 저술로 바꿨다. 1969년 디뉴에서 백 살을 넘겨 숨졌다.",
+   "rationale_en": "She left the opera stage for Tibetan Buddhism, and at fifty-five walked disguised into forbidden Lhasa — the first Western woman to do so. An ascetic's discipline and a memoirist's eye turned her journeys into some thirty books. Those books seeded the West's long fascination with Tibet. She died near Digne in 1969, aged one hundred."
+  }
+ },
+ "난 싱": {
+  "influence": {
+   "political": 3,
+   "political_exp": "영국의 티베트 정책에 쓰인 첩보 지도를 만들었다",
+   "political_exp_en": "His maps fed Britain's Tibet policy",
+   "strategic": 3,
+   "strategic_exp": "대트리게임 국경 지식을 영국에 제공했다",
+   "strategic_exp_en": "Supplied Great Game frontier intelligence",
+   "tech": 4,
+   "tech_exp": "보행 측량으로 티베트 지도의 공백을 메웠다",
+   "tech_exp_en": "Pace surveys filled the blank map of Tibet",
+   "social": 1,
+   "social_exp": "판딧 제도에 인도인 측량원의 자리를 열었다",
+   "social_exp_en": "Opened the Pundit corps to Indian surveyors",
+   "economic": 0,
+   "economic_exp": "산업 분야 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 2,
+   "cultural_exp": "키플링 『킴』의 판딧 모델로 전해진다",
+   "cultural_exp_en": "A model for the Pundits in Kipling's Kim",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "그의 측량이 20세기 티베트 지도의 토대가 됐다",
+   "transhistoricity_exp_en": "His surveys underlay twentieth-century maps of Tibet"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "판딧 측량대를 이끌고 후배 잠입 측량원을 가르쳤다",
+     "reason_en": "Led a Pundit party and trained younger surveyors"
+    },
+    "martial": {
+     "score": 66,
+     "reason_ko": "해발 고지 수천 km를 걸음 보폭으로 재며 넘었다",
+     "reason_en": "Paced thousands of high-altitude miles"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "묵주·경전통에 측량값을 숨기는 위장 측량법을 썼다",
+     "reason_en": "Hid survey data in a rosary and prayer wheel"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "1877년 왕립지리학회 금메달로 공로가 공인됐다",
+     "reason_en": "The RGS gold medal of 1877 made his work official"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "수년간 수행승 행색을 유지하며 정체를 숨겼다",
+     "reason_en": "Kept a pilgrim's disguise for years"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "1865년부터 세 차례 티베트 보행 측량을 완수했다",
+     "reason_en": "Finished three walking surveys of Tibet from 1865"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "귀환 때마다 암호 측량 기록을 풀어 정리했다",
+     "reason_en": "Decoded and filed his ciphered notes after each trip"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "들키면 죽는 금역에 세 번 걸어 들어갔다",
+     "reason_en": "Walked thrice into a country where spies died"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "영국 측량국 임무를 20년 가까이 수행했다",
+     "reason_en": "Served the Survey of India nearly twenty years"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "마을에 들를 때마다 상인들과 거래하며 신뢰를 얻었다",
+     "reason_en": "Traded in villages and won local trust"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "첩보 임무 속에서도 측량 수치의 정확을 지켰다",
+     "reason_en": "Kept his figures honest even while spying"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "공적이 알려진 뒤에도 고향으로 돌아가 살았다",
+     "reason_en": "Famous, he went home and lived quietly"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "실패한 첫 잠입 뒤에도 재측량을 자처했다",
+     "reason_en": "Failed once and volunteered to walk in again"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "카스트 관습을 넘어 금역의 이국 땅을 밟았다",
+     "reason_en": "Crossed caste taboos into forbidden lands"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "홀로 걸었으나 제국 측량 사업에 결과를 바쳤다",
+     "reason_en": "Walked alone but gave the work to the Survey"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "과감한 잠입을 걸음 단위의 치밀함으로 수행했다",
+     "reason_en": "Bold infiltration executed step by counted step"
+    }
+   },
+   "rationale_ko": "발로 재는 측량이 곧 목숨을 건 첩보였다. 묵주와 경전통에 측정값을 숨기는 치밀함이 세 차례의 티베트 보행을 가능하게 했고, 그 걸음들이 라싸와 맞스소의 좌표를 지도에 올렸다. 명성이 온 뒤에도 그는 고향의 산골로 돌아갔다. 1895년 인도에서 숨졌다.",
+   "rationale_en": "He surveyed Tibet on foot and called each step a prayer. The counted rosary and the prayer wheel that hid his notes made three forbidden journeys possible, and those walks put Lhasa and the upper Brahmaputra on the map. Fame sent him back to his mountain village all the same. He died in India in 1895."
+  }
+ },
+ "윌프레드 테시저": {
+  "influence": {
+   "political": 1,
+   "political_exp": "식민 행정관 시절 지역 통치에 참여했다",
+   "political_exp_en": "Served in Sudan's colonial administration",
+   "strategic": 2,
+   "strategic_exp": "2차 대전에서 수단·에티오피아 전선에 복무했다",
+   "strategic_exp_en": "Served on the Sudan and Abyssinia fronts",
+   "tech": 2,
+   "tech_exp": "빈 쿼터와 늪지의 지리 기록을 남겼다",
+   "tech_exp_en": "Mapped the Empty Quarter and the marshes",
+   "social": 2,
+   "social_exp": "사라지는 부족 문명의 기록자 역할을 했다",
+   "social_exp_en": "Recorded vanishing tribal worlds",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 6,
+   "cultural_exp": "『아라비아의 모래』가 탐험 문학의 고전이 됐다",
+   "cultural_exp_en": "Arabian Sands became a classic of travel writing",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "그의 글과 사진이 사라진 세계의 사료로 남았다",
+   "transhistoricity_exp_en": "His books and photographs remain primary records"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "베두인 안내자들과 두 번의 빈 쿼터 횡단을 조직했다",
+     "reason_en": "Organized two Empty Quarter crossings with Bedouin"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "사막 2회 횡단과 늪지 생활을 수십 년 견뎠다",
+     "reason_en": "Endured two desert crossings and years in the marshes"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "사진과 글로 사라지는 사막 문명을 정밀하게 기록했다",
+     "reason_en": "Photographed and wrote a vanishing desert world"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "『아라비아의 모래』로 탐험 문학의 고전을 남겼다",
+     "reason_en": "Arabian Sands remains a touchstone of the genre"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 88,
+     "reason_ko": "상류층 출신이 평생 원시 생활과 굶주림을 택했다",
+     "reason_en": "An aristocrat who chose hunger and hard travel"
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "1946년부터 십 년 넘게 사막·늪지 기록을 이었다",
+     "reason_en": "A decade and more of desert and marsh journeys"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "회고록에서 자기 시대의 탐험을 스스로 되물었다",
+     "reason_en": "His memoirs questioned his own age of exploration"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "지도 없는 룹알할리를 두 차례 걸어 건넜다",
+     "reason_en": "Twice crossed the unmapped Empty Quarter"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "빈 마카 등 베두인 동료와 평생 왕래했다",
+     "reason_en": "Kept lifelong bonds with his Bedouin companions"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "늪지에서 약과 치료를 주민에게 나눠줬다",
+     "reason_en": "Doled out medicine and treatment in the marshes"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "동료 베두인과 같은 배낭·같은 식량을 나눴다",
+     "reason_en": "Shared one pack and one ration with the Bedouin"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "탐험의 공을 늘 베두인 동료들에게 돌렸다",
+     "reason_en": "Always credited his Bedouin companions"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "자동차와 현대 문명이 세상을 망친다고 보았다",
+     "reason_en": "He held that cars and modernity ruined the world"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "사라지는 전통 질서를 마지막까지 찬미했다",
+     "reason_en": "He praised the old order to the end"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "홀로 떠났으나 늘 부족 공동체 속에서 살았다",
+     "reason_en": "Travelled alone yet lived inside tribal communities"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "낙타 식량만으로 미지의 사막 횡단을 감행했다",
+     "reason_en": "Crossed unknown sand on camel rations alone"
+    }
+   },
+   "rationale_ko": "기계 문명을 거부하고 사막 공동체의 삶을 택한 선택이 생애를 가른다. 룹알할리 두 차례 횡단은 대담함이었고, 그 대담함을 지탱한 것은 베두인과 같은 고통을 나눈 절제였다. 전통을 찬미한 보수적 시선이 『아라비아의 모래』를 탐험 문학의 고전으로 만들었다. 2003년 런던에서 아흔셋으로 숨졌다.",
+   "rationale_en": "He rejected machines and chose the life of the desert tribes. The two Empty Quarter crossings were acts of daring, sustained by an austerity that shared the Bedouin's hunger and thirst. His conservatism — a grief for vanishing ways — made Arabian Sands a classic. He died in London in 2003, aged ninety-three."
+  }
+ },
+ "프랜시스 영허즈번드": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1904년 라싸 진입으로 영국-티베트 조약을 관철했다",
+   "political_exp_en": "His 1904 mission forced a treaty on Tibet",
+   "strategic": 4,
+   "strategic_exp": "티베트 침공 원정대를 직접 지휘했다",
+   "strategic_exp_en": "Commanded the armed expedition into Tibet",
+   "tech": 3,
+   "tech_exp": "만주-티베트 종단으로 미지 지역의 지리를 밝혔다",
+   "tech_exp_en": "His crossings opened unknown geography",
+   "social": 3,
+   "social_exp": "세계종교회의를 창립해 초교파 운동을 열었다",
+   "social_exp_en": "Founded a world interfaith council",
+   "economic": 1,
+   "economic_exp": "인도 주재관으로 무역 교섭에 관여했다",
+   "economic_exp_en": "As Resident he dealt in trade negotiations",
+   "cultural": 3,
+   "cultural_exp": "탐험기와 신비주의 저작을 여럿 남겼다",
+   "cultural_exp_en": "Left travel books and mystical writings",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "제국 탐험과 초교파 운동 양쪽에 이름을 남겼다",
+   "transhistoricity_exp_en": "Remembered in both imperial and interfaith history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "1904년 라싸 원정에서 수천의 군대를 지휘했다",
+     "reason_en": "Led thousands of troops to Lhasa in 1904"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "장교로 고비 사막과 티베트 고원을 종단했다",
+     "reason_en": "An officer who crossed the Gobi and Tibet"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "종단 탐험으로 지리학회 금메달, 후에 신비주의 저술가로",
+     "reason_en": "Gold-medal explorer turned mystical writer"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "제국의 영웅에서 종교 운동 지도자로 이름을 유지했다",
+     "reason_en": "Imperial hero, then interfaith figurehead"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "군인의 규율로 말년 신비주의까지 일관했다",
+     "reason_en": "Soldier's discipline carried into mysticism"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "탐험·통치·종교 운동을 반세기 이어갔다",
+     "reason_en": "Half a century of exploring, ruling, and preaching"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "라싸 원정의 폭력을 뒤돌아 종교 회의로 돌아섰다",
+     "reason_en": "Turned from the Lhasa violence to interfaith work"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "미지의 무스타그 고개를 넘고 라싸 무력 진입을 감행했다",
+     "reason_en": "Crossed the unknown Mustagh and forced Lhasa"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "제국을 섬기다 말년에 초교파 신앙 운동으로 옮겼다",
+     "reason_en": "Served empire, then a universalist faith"
+    },
+    "benevolence": {
+     "score": 42,
+     "reason_ko": "1904년 원정에서 수백의 티베트군이 학살됐다",
+     "reason_en": "His 1904 mission massacred hundreds of Tibetans"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "티베트와의 조약을 무력으로 관철했다",
+     "reason_en": "His treaty with Tibet was taken at gunpoint"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "말년에는 제국 영웅 대신 구도자를 자처했다",
+     "reason_en": "In old age he styled himself a seeker, not a hero"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "인류의 영적 진화를 믿고 종교 회의를 열었다",
+     "reason_en": "He believed in humanity's spiritual evolution"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "제국 질서의 수행자가 초교파 연대로 전향했다",
+     "reason_en": "An imperial agent turned interfaith organizer"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "세계종교회의를 만들어 공동체 운동을 이끌었다",
+     "reason_en": "Built a world council of religions"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "단독 종단과 라싸 침공 모두 위험을 감수했다",
+     "reason_en": "Solo crossings and the invasion both took nerve"
+    }
+   },
+   "rationale_ko": "제국의 탐험가와 침공자, 신비주의자라는 세 얼굴이 한 생애에 겹친다. 만주에서 라싸까지 걸어 넘은 대담함이 1904년 라싸 원정의 지휘로 이어졌고, 그 폭력의 기억이 말년의 초교파 운동으로 되돌아왔다. 성찰이 성향을 바꾼 드문 사례다. 1942년 도싯에서 숨졌다.",
+   "rationale_en": "Explorer, invader, and mystic lived in one life. The nerve that walked from Manchuria to Lhasa later commanded the 1904 expedition, and the memory of its violence turned him toward interfaith work in old age. Reflection genuinely changed his course. He died in Dorset in 1942."
+  }
+ }
+}

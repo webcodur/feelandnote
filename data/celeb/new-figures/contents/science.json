@@ -1,0 +1,579 @@
+{
+  "티코 브라헤": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "천구론",
+        "title_en": "De sphaera mundi",
+        "creator": "요한네스 데 사크로보스코",
+        "year": 1230,
+        "status": "FINISHED",
+        "source_url": "https://njrs.dk/12_2017/12_christianson_brahe.pdf",
+        "evidence": "역사학자 존 로버트 크리스천슨의 연구에 따르면 티코는 1560년 일식에 매료된 뒤 사크로보스코의 이 천문학 교재를 사서 가정교사 몰래 독학했고, 멜란히톤의 머리말을 읽었다.",
+        "review": "티코 브라헤는 1560년 일식이 예측대로 일어나는 것을 보고 이 천문학 교재를 사서 법학 감독관 몰래 독학했다. 멜란히톤이 쓴 머리말에서 신이 인간에게 별의 아름다움과 운동을 관측하라고 눈을 주셨다는 문장을 읽고 별을 보는 길을 확신했다.",
+        "review_en": "Tycho Brahe bought this astronomy textbook and studied it in secret from his tutor after watching the 1560 eclipse occur as predicted. In Melanchthon's preface he read that God gave humans eyes to observe the beauty and motions of the stars, confirming his calling to stargazing."
+      },
+      {
+        "type": "BOOK",
+        "title": "알마게스트",
+        "title_en": "Almagest",
+        "creator": "프톨레마이오스",
+        "year": 150,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.55094/holistence.424",
+        "evidence": "'위대한 천문학자들'의 기술에 따르면 소년 티코는 일식의 원리를 알고 싶어 프톨레마이오스 천문학 저작의 라틴어판을 사서 열심히 공부했고, 그가 빼곡히 주석을 단 책이 프라하 대학 도서관에 남아 있다.",
+        "review": "티코 브라헤는 일식의 원리를 알고 싶어 프톨레마이오스의 이 책 라틴어판을 사서 열심히 공부했다. 소년의 손글씨로 빼곡히 주석이 달린 그의 책은 프라하 대학 도서관의 소장품으로 남아 있다.",
+        "review_en": "Tycho Brahe bought a Latin edition of Ptolemy's work and studied it hard because he wanted to understand eclipses. His copy, densely annotated in a schoolboy's hand, survives among the treasures of the Prague university library."
+      },
+      {
+        "type": "BOOK",
+        "title": "코스모그라피아",
+        "title_en": "Cosmographia",
+        "creator": "페트루스 아피아누스",
+        "year": 1524,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Tycho_brahe",
+        "evidence": "위키백과는 티코가 1560년 일식 뒤 천문 역법서와 함께 아피아누스의 이 책 등 천문학 서적을 사 모았다고 기록하며, 티코 본인은 천문학 책을 몰래 사서 읽었다고 회고했다.",
+        "review": "티코 브라헤는 법학을 배우라는 집안의 뜻을 뒤로하고 아피아누스의 이 지리·천문 교재를 비롯한 천문학 책들을 몰래 사서 읽었다.",
+        "review_en": "Tycho Brahe secretly bought and read astronomy books against his family's wish that he study law, among them Apian's geographical-astronomical compendium."
+      },
+      {
+        "type": "BOOK",
+        "title": "모든 종류의 삼각형에 관하여",
+        "title_en": "De triangulis omnimodis",
+        "creator": "레기오몬타누스",
+        "year": 1533,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Tycho_brahe",
+        "evidence": "위키백과는 티코가 대학 시절 레기오몬타누스의 이 삼각법 저작을 비롯한 천문학 서적을 구입했고, 본인 회고로는 몰래 사서 읽었다고 기록한다.",
+        "review": "티코 브라헤는 레기오몬타누스의 이 삼각법 저작을 천문학 책들과 함께 몰래 사서 읽으며 독학으로 관측 수학의 기초를 닦았다.",
+        "review_en": "Tycho Brahe secretly bought and read Regiomontanus's treatise on triangles along with other astronomy books, laying his own mathematical foundation for observation."
+      }
+    ]
+  },
+  "헨리 캐번디시": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "윌리엄 버클랜드": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "클레어 패터슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "배리 마셜": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "뉴스 어린이 백과사전",
+        "title_en": "Newnes' Children's Encyclopaedia",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.nobelprize.org/prizes/medicine/2005/marshall/biographical",
+        "evidence": "노벨상 자전 소개에서 마셜은 어린 시절 가장 좋아한 책이 할아버지가 2차대전 직전에 사서 기증한 낡은 뉴스 어린이 백과사전이었다고 밝혔다.",
+        "review": "배리 마셜은 어린 시절 가장 좋아한 책이 할아버지가 2차대전 직전에 사서 가족에게 기증한 낡은 뉴스 어린이 백과사전이었다고 회고했다. 그는 '남자아이가 할 수 있는 것들' 장에서 프로젝트를 골라 새총, 크리스털 라디오, 폭죽을 직접 만들며 놀았다.",
+        "review_en": "Barry Marshall recalled that his favourite book as a child was an old Newnes' Children's Encyclopaedia his grandfather had bought just before World War II. From its 'Things Boys can Do' chapters he picked projects and built a slingshot, a crystal set, and fireworks."
+      }
+    ]
+  },
+  "스터빈스 퍼스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "베르너 포르스만": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "레오니트 로고조프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "데이비드 한": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "화학 실험 황금책",
+        "title_en": "The Golden Book of Chemistry Experiments",
+        "creator": "로버트 브렌트",
+        "year": 1960,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/David_Hahn",
+        "evidence": "위키백과는 한의 의할아버지가 이 책을 주고 실험을 격려했으며, 한이 책의 지시대로 클로로포름을 만들어 냄새를 맡다 한 시간 넘게 기절했다고 전한다.",
+        "review": "데이비드 한은 열 살 때 의할아버지에게 이 책을 선물받고 화학 실험에 빠져들었다. 책의 지시를 따라 클로로포름을 만들어 냄새를 맡다 한 시간 넘게 기절했고, 이 독서는 뒷마당 원자로 사건으로 이어졌다.",
+        "review_en": "David Hahn received this book from his stepgrandfather at age ten and plunged into chemistry experiments. Following the book's instructions he made chloroform, sniffed it, and blacked out for over an hour; the reading led on to his backyard reactor."
+      }
+    ]
+  },
+  "토머스 미즐리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "배트의 케이시",
+        "title_en": "Casey at the Bat",
+        "creator": "어니스트 세이어",
+        "year": 1888,
+        "status": "FINISHED",
+        "source_url": "https://www.inventionandtech.com/content/thomas-midgley-and-law-unintended-consequences-0",
+        "evidence": "Invention & Technology 지는 미즐리가 'Casey at the Bat' 낭송을 즐겼다고 기록한다.",
+        "review": "토머스 미즐리는 이 야구 시를 낭송하는 것을 즐겼다. 고등학교 야구부로 뛰며 스핏볼용 미끄럼제를 직접 실험했던 발명가다운 선택이었다.",
+        "review_en": "Thomas Midgley liked reciting this baseball poem. It was a fitting choice for an inventor who had pitched on his high school team and experimented on substances to make the spitball slipperier."
+      }
+    ]
+  },
+  "세르주 보로노프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "블라디미르 데미호프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "트로핌 리센코": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "콘스탄틴 치올콥스키": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "지구에서 달까지",
+        "title_en": "From the Earth to the Moon",
+        "creator": "쥘 베른",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://www.russianspaceweb.com/tsiolkovsky_bio.html",
+        "evidence": "치올콥스키 전기 사이트는 그가 모스크바 유학 시절 베른의 이 소설을 읽고 우주비행에 매료됐으며, '처음 씨앗을 뿌린 것은 유명한 공상가 베른'이라고 회고했다고 전한다.",
+        "review": "콘스탄틴 치올콥스키는 모스크바의 도서관에서 쥘 베른의 이 소설을 읽고 우주비행에 매료됐다. 소설 속 거대한 대포로 달에 가는 방식이 승객을 죽일 가속도라고 계산한 그는 '처음 씨앗을 뿌린 것은 유명한 공상가 베른'이라고 회고했다.",
+        "review_en": "Konstantin Tsiolkovsky read this Jules Verne novel during his years in the Moscow library and was captivated by spaceflight. Calculating that Verne's giant cannon would kill its passengers, he later recalled that 'the first seeds were planted by the famous fantasist J. Verne.'"
+      }
+    ]
+  },
+  "로버트 고다드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "우주 전쟁",
+        "title_en": "The War of the Worlds",
+        "creator": "H. G. 웰스",
+        "year": 1898,
+        "status": "FINISHED",
+        "source_url": "https://airandspace.si.edu/air-and-space-quarterly/issue-19/robert-goddard-anniversary",
+        "evidence": "미국 국립항공우주박물관은 고다드가 병으로 집에 머물던 시절 보스턴 신문에 연재된 웰스의 이 소설을 탐독했고, 1932년 웰스에게 자신의 평생 과제를 밝힌 편지를 썼다고 전한다.",
+        "review": "로버트 고다드는 병약해 집에 갇혀 지내던 소년 시절 보스턴 신문에 연재된 이 소설을 탐독했다. 1899년 벚나무 위에서 화성까지 갈 장치를 상상한 그는 30여 년 뒤 웰스에게 이 소설이 자신을 이끌었다는 편지를 썼다.",
+        "review_en": "Robert Goddard devoured this serialized novel in a Boston newspaper during boyhood days spent at home with poor health. Three decades after imagining a device that could reach Mars from a cherry tree, he wrote to Wells about the life's work the book had started."
+      },
+      {
+        "type": "BOOK",
+        "title": "에디슨의 화성 정복",
+        "title_en": "Edison's Conquest of Mars",
+        "creator": "개릿 P. 서비스",
+        "year": 1898,
+        "status": "FINISHED",
+        "source_url": "https://airandspace.si.edu/air-and-space-quarterly/issue-19/robert-goddard-anniversary",
+        "evidence": "미국 국립항공우주박물관은 고다드가 보스턴 신문에 연재된 웰스의 '우주 전쟁'과 함께 서비스의 이 연재 소설도 탐독했다고 전한다.",
+        "review": "로버트 고다드는 '우주 전쟁'과 함께 보스턴 신문에 연재된 서비스의 이 화성 소설도 탐독했다. 그 직후 벚나무 위에서 상상한 우주 장치가 그의 평생 과제가 됐다.",
+        "review_en": "Robert Goddard devoured this serialized Mars novel by Serviss in the Boston newspaper alongside The War of the Worlds. The daydream of a space device that followed in the cherry tree became his life's work."
+      }
+    ]
+  },
+  "레오 실라드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "해방된 세계",
+        "title_en": "The World Set Free",
+        "creator": "H. G. 웰스",
+        "year": 1914,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/news/magazine-33365776",
+        "evidence": "BBC는 실라드가 1932년 이 소설을 읽었고 '원자 에너지의 대규모 해방이 무엇을 뜻하는지' 웰스가 보여줬다고 썼으며, 연쇄반응 특허를 공개하고 싶지 않았던 이유로 이 독서를 들었다고 전한다.",
+        "review": "레오 실라드는 1932년 베를린에서 이 소설을 읽고 '나에게 아주 큰 인상을 남겼다'고 회고했다. 연쇄반응을 떠올린 뒤 그는 '웰스를 읽었기에 그것이 무엇을 뜻하는지 알았다'며 특허가 공개되지 않도록 했다.",
+        "review_en": "Leo Szilard read this novel in Berlin in 1932 and later wrote that it made 'a very great impression' on him. When the chain reaction occurred to him, he kept the patent secret because, as he put it, he knew what it would mean since he had read H. G. Wells."
+      }
+    ]
+  },
+  "버크민스터 풀러": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "종교와 과학",
+        "title_en": "Religion and Science",
+        "creator": "알베르트 아인슈타인",
+        "year": 1930,
+        "status": "FINISHED",
+        "source_url": "https://www.bfi.org/wp-content/uploads/2022/02/CandidConversation-Playboy.pdf",
+        "evidence": "플레이보이 인터뷰에서 풀러는 아인슈타인이 1930년 'Religion and Science'에 쓴 우주적 종교감에 깊은 인상을 받았다고 말하며 그 내용을 인용했다.",
+        "review": "버크민스터 풀러는 아인슈타인이 이 글에서 쓴 우주적 종교감에 깊은 인상을 받았다고 말했다. 그는 위대한 과학자들이 성직자보다 신앙에 충실했다는 아인슈타인의 대목에 자신의 우주관이 겹친다고 답했다.",
+        "review_en": "Buckminster Fuller said he was deeply impressed by the cosmic religious sense Einstein described in this essay. Asked whether his own sense of the universe's mystery resembled Einstein's, he answered 'very much so' and quoted its argument about the great heretical scientists."
+      }
+    ]
+  },
+  "딘 케이먼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "자연철학의 수학적 원리",
+        "title_en": "Philosophiæ Naturalis Principia Mathematica",
+        "creator": "아이작 뉴턴",
+        "year": 1687,
+        "status": "FINISHED",
+        "source_url": "https://www.cbsnews.com/news/the-wizard-of-it/",
+        "evidence": "CBS는 케이먼이 고등학교 물리 교과서에서 뉴턴에 대한 내용을 읽고 도서관에서 뉴턴 본인의 책인 '프린키피아'를 빌려 읽었다고 전한다.",
+        "review": "딘 케이먼은 고등학교 물리 교과서에서 뉴턴에 대한 내용을 읽은 뒤 도서관에서 이 책을 빌려 읽었다. 난독증이어도 수식과 숫자만은 소설보다 빨리 읽을 수 있다고 그는 말한다.",
+        "review_en": "Dean Kamen read about Newton in a high school physics textbook and then went to the library to check out the Principia itself. Despite his dyslexia, he says he can read a page of differential equations as quickly as a comic strip."
+      },
+      {
+        "type": "BOOK",
+        "title": "콜드 마운틴",
+        "title_en": "Cold Mountain",
+        "creator": "찰스 프레이저",
+        "year": 1997,
+        "status": "FINISHED",
+        "source_url": "https://www.telegraph.co.uk/news/science/science-news/3353906/Dean-Kamen-part-man-part-machine.html",
+        "evidence": "텔레그래프는 케이먼이 성인이 되어 읽은 유일한 소설이 존슨앤드존슨 임원에게 크리스마스 선물로 받은 '콜드 마운틴'이라고 전한다.",
+        "review": "딘 케이먼은 성인이 되어 읽은 유일한 소설이 이 책이라고 밝혔다. 존슨앤드존슨 임원에게 크리스마스 선물로 받았고, 부상당한 참전군인의 이야기에 건강 관리적 각도가 있다고 생각해 읽기 시작했다.",
+        "review_en": "Dean Kamen says this is the only novel he has read in his adult life, a Christmas gift from a Johnson & Johnson executive. He embarked on it largely because he thought the story of a wounded veteran had a healthcare angle."
+      }
+    ]
+  },
+  "잭 파슨스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "법의 서",
+        "title_en": "The Book of the Law (Liber AL vel Legis)",
+        "creator": "알레이스터 크롤리",
+        "year": 1904,
+        "status": "FINISHED",
+        "source_url": "https://www.encyclopedia.com/science/encyclopedias-almanacs-transcripts-and-maps/parsons-jack-1914-1952",
+        "evidence": "인명백과는 파슨스가 1939년 크롤리의 책을 접하고 OTO에 입문했으며, 자신이 받은 'Liber 49'를 이 경전의 넷째 장으로 여겼다고 전한다.",
+        "review": "잭 파슨스는 1939년 크롤리의 책을 접한 뒤 OTO에 입문해 패서디나 로지의 지부장이 되었다. 자신이 받아쓴 'Liber 49'를 이 경전의 넷째 장이라 여길 만큼 텔레마의 가르침에 깊이 빠져들었다.",
+        "review_en": "Jack Parsons discovered Crowley's book in 1939, joined the OTO, and rose to lead its Pasadena lodge. He regarded the Liber 49 he had received as a fourth chapter of this scripture."
+      },
+      {
+        "type": "BOOK",
+        "title": "문차일드",
+        "title_en": "Moonchild",
+        "creator": "알레이스터 크롤리",
+        "year": 1929,
+        "status": "FINISHED",
+        "source_url": "https://pure.uva.nl/ws/files/69133345/4874_12242_1_PB.pdf",
+        "evidence": "암스테르담대 학술 논문은 파슨스의 마법적 세계관을 형성한 세 핵심 문학 작품으로 크롤리의 이 소설을 꼽는다.",
+        "review": "잭 파슨스는 크롤리의 이 소설을 자신의 마법적 세계관을 형성한 핵심 문학 작품 가운데 하나로 삼았다. 학술 연구는 펄프와 고딕 문학에서 자기만의 마법 세계를 자유롭게 조합한 그의 방식을 보여준다.",
+        "review_en": "Jack Parsons drew on this Crowley novel as one of the key literary works shaping his magical worldview, freely mixing pulp and gothic fiction into his own magical universe."
+      },
+      {
+        "type": "BOOK",
+        "title": "생각보다 어두운",
+        "title_en": "Darker Than You Think",
+        "creator": "잭 윌리엄슨",
+        "year": 1940,
+        "status": "FINISHED",
+        "source_url": "https://pure.uva.nl/ws/files/69133345/4874_12242_1_PB.pdf",
+        "evidence": "암스테르담대 학술 논문은 파슨스의 마법적 세계관을 형성한 세 핵심 문학 작품으로 윌리엄슨의 이 소설을 꼽는다.",
+        "review": "잭 파슨스는 늑대인간을 다룬 윌리엄슨의 이 소설을 자신의 마법적 세계관을 형성한 핵심 작품 가운데 하나로 삼았다. 그는 이 소설에서 '검은 순례'의 구상을 얻은 것으로 연구된다.",
+        "review_en": "Jack Parsons counted Williamson's werewolf novel among the key works shaping his magical worldview; scholarship traces his notion of the 'black pilgrimage' partly to this story."
+      },
+      {
+        "type": "BOOK",
+        "title": "마그누스 백작",
+        "title_en": "Count Magnus",
+        "creator": "M. R. 제임스",
+        "year": 1904,
+        "status": "FINISHED",
+        "source_url": "https://pure.uva.nl/ws/files/69133345/4874_12242_1_PB.pdf",
+        "evidence": "암스테르담대 학술 논문은 파슨스의 마법적 세계관을 형성한 세 핵심 문학 작품으로 제임스의 이 단편을 꼽는다.",
+        "review": "잭 파슨스는 M. R. 제임스의 이 고딕 단편을 자신의 마법적 세계관을 형성한 핵심 문학 작품 가운데 하나로 삼았다.",
+        "review_en": "Jack Parsons counted this M. R. James ghost story among the key literary works that shaped his magical worldview."
+      }
+    ]
+  },
+  "빌헬름 라이히": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "페르 귄트",
+        "title_en": "Peer Gynt",
+        "creator": "헨리크 입센",
+        "year": 1867,
+        "status": "FINISHED",
+        "source_url": "https://archive.org/details/earlywritings00wilh",
+        "evidence": "라이히의 초기 저작집 목차는 그의 첫 논문이 입센의 '페르 귄트'에 나타난 성욕적 갈등과 망상을 분석한 글이었음을 보여준다.",
+        "review": "빌헬름 라이히는 처녀작 논문으로 입센의 이 희곡 주인공이 보이는 성욕적 갈등과 망상을 정신분석적으로 해석했다. 젊은 의대생의 이 글은 그의 초기 저작집 첫머리에 실려 있다.",
+        "review_en": "Wilhelm Reich's first published paper was a psychoanalytic reading of the libidinal conflicts and delusions in Ibsen's play. Written by the young medical student, it opens his collected early writings."
+      }
+    ]
+  },
+  "존 릴리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "멋진 신세계",
+        "title_en": "Brave New World",
+        "creator": "올더스 헉슬리",
+        "year": 1932,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/John_C._Lilly",
+        "evidence": "위키백과는 릴리가 1934년 이 책을 읽고, 디스토피아의 약물 통제와 뇌의 화학-정신 연결이 그를 물리학에서 생물학·신경생리학으로 돌렸다고 전한다.",
+        "review": "존 릴리는 1934년 이 소설을 읽고 약물로 통제되는 디스토피아와 뇌의 화학 과정이 정신 경험과 맞물린다는 발상에 영감을 받아 물리학을 접고 생물학으로 돌렸다.",
+        "review_en": "John C. Lilly read this novel in 1934, and its pharmacological dystopia and the links between the brain's chemistry and subjective experience helped inspire him to leave physics for biology and neurophysiology."
+      },
+      {
+        "type": "BOOK",
+        "title": "요가의 과학",
+        "title_en": "The Science of Yoga",
+        "creator": "I. K. 타이므니",
+        "year": 1961,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/John_C._Lilly",
+        "evidence": "위키백과는 릴리가 람 다스의 조언으로 파탄잘리 요가를 공부하면서 타이므니의 이 현대식 해설서가 자기 목표에 가장 맞다고 여겼다고 전한다.",
+        "review": "존 릴리는 람 다스의 조언에 따라 파탄잘리 요가를 공부하면서 타이므니의 이 해설서가 자신의 목표에 가장 잘 맞는다고 골랐다.",
+        "review_en": "John C. Lilly studied Patanjali's yoga on Ram Dass's advice and found Taimni's modern interpretation the best suited to his goals."
+      }
+    ]
+  },
+  "티머시 리어리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "뉴로맨서",
+        "title_en": "Neuromancer",
+        "creator": "윌리엄 깁슨",
+        "year": 1984,
+        "status": "FINISHED",
+        "source_url": "https://www.openculture.com/2013/11/timothy-leary-plans-a-neuromancer-video-game.html",
+        "evidence": "오픈 컬처는 리어리가 열렬한 깁슨 팬으로서 이 소설의 게임화를 기획하고 깁슨과 작품 속 인물을 두고 대담했다고 전한다.",
+        "review": "티머시 리어리는 열렬한 깁슨 팬으로 이 소설의 게임화를 기획하고 깁슨과 주인공 케이스의 성격을 두고 대담했다. 기술과 인간성의 융합에서 나오는 자기 계발에 끌렸다고 한다.",
+        "review_en": "Timothy Leary, an ardent Gibson fan, planned to turn this novel into a video game and discussed its characters with the author, drawn to the self-betterment emerging from the fusion of technology and humanity."
+      },
+      {
+        "type": "BOOK",
+        "title": "매직 머시룸을 찾아서",
+        "title_en": "Seeking the Magic Mushroom",
+        "creator": "R. 고든 워슨",
+        "year": 1957,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Seeking_the_magic_mushroom",
+        "evidence": "위키백과는 라이프지에 실린 워슨의 이 포토에세이가 리어리를 포함한 수많은 구도자들을 1960년대 멕시코의 실로시베 버섯을 찾아 이끌었다고 전한다.",
+        "review": "티머시 리어리는 라이프지에 실린 워슨의 이 르포를 접한 세대로, 1960년 멕시코 쿠에르나바카에서 실로시베 버섯을 처음 복용하고 인생이 바뀌었다고 말했다.",
+        "review_en": "Timothy Leary belonged to the generation this Life photo-essay sent searching for psilocybin mushrooms in Mexico; he first took them at Cuernavaca in 1960 and said the experience changed his life."
+      }
+    ]
+  },
+  "아타나시우스 키르허": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "상형문자 보고",
+        "title_en": "Thesaurus Hieroglyphicorum",
+        "creator": "요한 게오르크 헤르바르트 폰 호엔부르크",
+        "year": 1610,
+        "status": "FINISHED",
+        "source_url": "https://www.loc.gov/item/n79065772/athanasius-kircher/",
+        "evidence": "미국 의회도서관 소개문은 키르허가 1628년 서임 후 이 책의 사본을 보고 상형문자에 대한 평생의 관심이 시작됐다고 전한다.",
+        "review": "아타나시우스 키르허는 1628년 슈파이어에서 이 책의 사본을 보고 상형문자에 대한 관심이 시작됐고, 그 관심이 '오이디푸스 아이깁티아쿠스'로 이어지는 평생의 집착이 됐다.",
+        "review_en": "Athanasius Kircher developed his lifelong fascination with hieroglyphics in 1628 after seeing a copy of this thesaurus at Speyer, an obsession that culminated in his Oedipus Aegyptiacus."
+      }
+    ]
+  },
+  "파라켈수스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "의학 정전",
+        "title_en": "The Canon of Medicine",
+        "creator": "아비첸나(이븐 시나)",
+        "year": 1025,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Paracelsus",
+        "evidence": "위키백과는 파라켈수스가 기성 의학에 대한 경멸의 표시로 1527년 6월 23일 시장 광장에서 이 책의 한 부를 태웠다고 전한다.",
+        "review": "파라켈수스는 1527년 성 요한 전날 바젤의 시장 광장 화톳불에 이 책을 던져 태우며 기성 의학의 권위를 공개적으로 부정했다. 그는 '책들의 정수를 성 요한의 불에 던졌다'고 스스로 기록했다.",
+        "review_en": "Paracelsus publicly burned a copy of this enormous pillar of academic medicine in the Basel market square on St. John's Eve 1527, recording that he had thrown 'the summa of books' into the fire of St. John."
+      }
+    ]
+  },
+  "실베스터 그레이엄": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "생리학 논고",
+        "title_en": "Treatise on Physiology",
+        "creator": "프랑수아 브루세",
+        "year": 1826,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Graham_diet",
+        "evidence": "위키백과는 그레이엄의 육식 거부 신념이 1826년 필라델피아에서 나온 브루세의 이 책에 영향받았다고 전한다.",
+        "review": "실베스터 그레이엄은 필라델피아 절제 운동 시절 브루세의 이 생리학 저작을 접하고 식이가 건강에 결정적이라는 신념을 굳혔다.",
+        "review_en": "Sylvester Graham's conviction that meat spurred gluttony was influenced by this Broussais treatise published in Philadelphia in 1826, which argued that diet profoundly shapes health."
+      },
+      {
+        "type": "BOOK",
+        "title": "식품 첨가와 요리 독물에 관한 논고",
+        "title_en": "A Treatise on Adulterations of Food and Culinary Poisons",
+        "creator": "프리드리히 아쿰",
+        "year": 1820,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Graham_diet",
+        "evidence": "위키백과는 그레이엄이 식품 첨가물을 규탄한 아쿰의 이 저작에 영향받았다고 전한다.",
+        "review": "실베스터 그레이엄은 식품의 화학 첨가물을 규탄한 아쿰의 이 저작에 영향받아 통밀빵 운동의 근거를 다졌다.",
+        "review_en": "Sylvester Graham was influenced by Accum's treatise condemning chemical additives in food, especially bread, which helped ground his whole-grain campaign."
+      },
+      {
+        "type": "BOOK",
+        "title": "좋고 건전한 빵 만들기 논고",
+        "title_en": "Treatise on the Art of Making Good and Wholesome Bread",
+        "creator": "프리드리히 아쿰",
+        "year": 1821,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Graham_diet",
+        "evidence": "위키백과는 그레이엄이 아쿰의 빵 제조 저작에도 영향받았다고 전한다.",
+        "review": "실베스터 그레이엄은 아쿰의 이 빵 제조 논고에도 영향받아 표백하지 않은 통밀빵을 건강 개혁의 상징으로 삼았다.",
+        "review_en": "Sylvester Graham was also influenced by Accum's treatise on wholesome breadmaking, making unbleached whole-wheat bread the emblem of his health reform."
+      }
+    ]
+  },
+  "존 하비 켈로그": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "기독교 절제와 성경적 위생",
+        "title_en": "Christian Temperance and Bible Hygiene",
+        "creator": "엘런 G. 화이트·제임스 화이트",
+        "year": 1890,
+        "status": "FINISHED",
+        "source_url": "https://text.egwwritings.org/read/660.3177",
+        "evidence": "엘런 화이트 저작 아카이브는 켈로그가 1890년 이 책의 머리말을 써 화이트의 건강 관련 글들이 수많은 사람의 평생 습관을 바꿨다고 칭송했음을 전한다.",
+        "review": "존 하비 켈로그는 1890년 이 책의 머리말을 직접 써 화이트의 건강 글들이 수많은 사람의 평생 습관을 바꿨다고 칭송했다. 그는 이 글들이 인간 이상의 권위에 의해 입증됐다는 믿음이 그 변화를 이끌었다고 평가했다.",
+        "review_en": "John Harvey Kellogg wrote the preface to this book in 1890, praising how White's health articles had led thousands to renounce lifelong habits, a revolution he attributed to belief in their more-than-human authority."
+      }
+    ]
+  }
+}

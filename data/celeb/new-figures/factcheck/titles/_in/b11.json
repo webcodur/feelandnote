@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "알렉산더 색스",
+    "title": "핵 시대의 전령",
+    "title_en": "The Man Who Carried the Letter",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "케네스 스넬슨",
+    "title": "텐세그리티의 조각가",
+    "title_en": "The sculptor of tensegrity",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "우디 플라워스",
+    "title": "FIRST 로봇 대회 창시자",
+    "title_en": "Creator of FIRST Robotics",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "마조리 캐머런",
+    "title": "로켓 과학자의 붉은 여인",
+    "title_en": "The Scarlet Woman of JPL",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "요하네스 오포리누스",
+    "title": "혁명을 인쇄한 사람",
+    "title_en": "Printer of the Anatomical Revolution",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "마거릿 하우 로바트",
+    "title": "돌고래와 동거한 여자",
+    "title_en": "The Girl Who Talked to Dolphins",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "존 피츠제럴드",
+    "title": "글래스를 버린 사냥꾼",
+    "title_en": "The Man Who Left Glass for Dead",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "우즈 로저스",
+    "title": "로빈슨 크루소를 구한 선장",
+    "title_en": "The Captain Who Rescued Crusoe",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "토머스 스트래들링",
+    "title": "셀커크를 내친 선장",
+    "title_en": "The Captain Who Marooned Selkirk",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "마리아 쾨프케",
+    "title": "판구아나의 조류학자",
+    "title_en": "The Ornithologist of Panguana",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "한스빌헬름 쾨프케",
+    "title": "아마존 연구의 아버지",
+    "title_en": "A Father of Amazonian Zoology",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "마단 카트리 체트리",
+    "title": "에베레스트의 구조 조종사",
+    "title_en": "Everest's Rescue Pilot",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "레이몽 랑베르",
+    "title": "히말라야의 문을 연 가이드",
+    "title_en": "The Guide Who Opened Everest's Door",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "나왕 곰부",
+    "title": "에베레스트를 두 번 오른 첫 인간",
+    "title_en": "First to Summit Everest Twice",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "페터 하벨러",
+    "title": "무산소 에베레스트의 동반자",
+    "title_en": "Messner's Oxygen-Free Partner",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "콘래드 앵커",
+    "title": "말러리를 찾아낸 등반가",
+    "title_en": "The Man Who Found Mallory",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "이와나가 아키라",
+    "title": "공인받지 못한 이중 피폭자",
+    "title_en": "The Uncertified Double Survivor",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "장루이 블롱도",
+    "title": "쿠데타의 사진가",
+    "title_en": "Photographer of the Coup",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "로버트 애벗",
+    "title": "흑인 언론의 거성",
+    "title_en": "The Voice of the Great Migration",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "잭 험프리스",
+    "title": "에이미 존슨의 스승",
+    "title_en": "Amy Johnson's Mentor",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "톰 캠벨 블랙",
+    "title": "마컴에게 하늘을 가르친 남자",
+    "title_en": "The Man Who Taught Markham to Fly",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "알렉시스 카렐",
+    "title": "장기 이식의 개척자",
+    "title_en": "Pioneer of the Transplant",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "샤를 뇽제세르",
+    "title": "사라진 흰 새의 에이스",
+    "title_en": "The Ace of the White Bird",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "프랑수아 콜리",
+    "title": "흰 새의 항법사",
+    "title_en": "Navigator of the White Bird",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "폴 먼츠",
+    "title": "할리우드의 하늘 곡예사",
+    "title_en": "Hollywood's Stunt Pilot",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "해럴드 개티",
+    "title": "세계 일주의 항법사",
+    "title_en": "Navigator of the Winnie Mae",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "아이다 드 아코스타",
+    "title": "최초의 여성 동력 비행사",
+    "title_en": "The First Woman to Fly a Powered Aircraft",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "잭 리들리",
+    "title": "음속 돌파의 설계자",
+    "title_en": "The Engineer Behind the Sound Barrier",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "블라디미르 세료긴",
+    "title": "가가린과 함께 추락한 조종사",
+    "title_en": "The Pilot Who Died With Gagarin",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "에밀 가냥",
+    "title": "아쿠아렁의 공동 발명가",
+    "title_en": "Co-Inventor of the Aqua-Lung",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "프레데리크 뒤마",
+    "title": "세 번째 바다 총사",
+    "title_en": "The Third Musketeer of the Sea",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "오티스 바턴",
+    "title": "철구 속의 심해 개척자",
+    "title_en": "The Man Inside the Bathysphere",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "장 피카르",
+    "title": "성층권의 또 다른 쌍둥이",
+    "title_en": "The Other Piccard Twin",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "파울 키퍼",
+    "title": "최초의 성층권 비행자",
+    "title_en": "Among the First in the Stratosphere",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "그레이엄 혹스",
+    "title": "심해 잠수정의 아키텍트",
+    "title_en": "Architect of the Deep Flight",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "톰 프로스트",
+    "title": "요세미티 황금기의 사진가",
+    "title_en": "Photographer of Yosemite's Golden Age",
+    "file": "round2-survival-extreme.json"
+  },
+  {
+    "nick": "하워드 에이컨",
+    "title": "마크 I의 사령관",
+    "title_en": "Commander of the Mark I",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "아르투로 로젠블루트",
+    "title": "사이버네틱스의 숨은 공저자",
+    "title_en": "Cybernetics' Quiet Co-Founder",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "윌리엄 노리스",
+    "title": "CDC 설립",
+    "title_en": "CDC founder",
+    "file": "round2-tech.json"
+  },
+  {
+    "nick": "J. C. R. 리크라이더",
+    "title": "인터넷의 예언자",
+    "title_en": "Prophet of the Intergalactic Network",
+    "file": "round2-tech.json"
+  }
+]

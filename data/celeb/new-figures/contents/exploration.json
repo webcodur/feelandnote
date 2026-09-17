@@ -1,0 +1,778 @@
+{
+  "어니스트 섀클턴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "로버트 브라우닝 시전집",
+        "title_en": "The Poetical Works of Robert Browning",
+        "creator": "로버트 브라우닝",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://ijms.nmdl.org/article/download/17846/11548",
+        "evidence": "국제항해사학 저널 논문은 그리니치 국립해양박물관에 섀클턴이 주석을 단 《브라우닝 시전집》이 남아 있고, 그가 평생 브라우닝을 애송했다고 전한다.",
+        "review": "어니스트 섀클턴은 평생 브라우닝을 가장 좋아하는 시인으로 꼽으며 이 시전집에 주석을 달 만큼 탐독했다. 그의 주석본은 현재 그리니치 국립해양박물관에 남아 있다.",
+        "review_en": "Ernest Shackleton counted Browning as his favourite poet all his life and pored over this volume enough to annotate it. His annotated copy is now held by the National Maritime Museum in Greenwich."
+      },
+      {
+        "type": "BOOK",
+        "title": "루바이야트",
+        "title_en": "Rubáiyát of Omar Khayyám",
+        "creator": "오마르 카이얌 (에드워드 피츠제럴드 역)",
+        "year": 1859,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a103/",
+        "evidence": "1901년 12월 27일 디스커버리 탐험 일기에서 그는 버나키와 오마르의 시 철학을 논하며 '구절은 아름답고 번역은 훌륭하지만 철학은 감상적이고 남자답지 못하다'고 평했다.",
+        "review": "어니스트 섀클턴은 디스커버리 탐험 중인 1901년 12월, 버나키와 《루바이야트》를 논했다는 일기를 남겼다. 그는 구절이 아름답고 번역이 훌륭하지만 철학은 감상적이라고 평했다.",
+        "review_en": "Ernest Shackleton recorded in his diary for December 1901 that he had discussed 'the philosophy of old Omar' with Bernacchi on the Discovery expedition. He judged the lines beautiful and the translation wonderful, but the philosophy maudlin."
+      },
+      {
+        "type": "BOOK",
+        "title": "헛소동",
+        "title_en": "Much Ado About Nothing",
+        "creator": "윌리엄 셰익스피어",
+        "year": 1600,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a086/",
+        "evidence": "롤랜드 헌트퍼드의 전기는 1908년 11월 님로드 원정의 남극 행군 도중 블리자드에 갇힌 섀클턴이 침낭에 누워 《헛소동》을 읽었다고 전한다.",
+        "review": "어니스트 섀클턴은 1908년 11월 님로드 원정의 남극 행군 도중 블리자드에 발이 묶이자 침낭에 누워 《헛소동》을 읽었다. 헌트퍼드의 전기가 이 장면을 전한다.",
+        "review_en": "Ernest Shackleton, held up by blizzards on the southern march of the Nimrod expedition in November 1908, lay in his sleeping bag reading Much Ado About Nothing, according to Roland Huntford's biography."
+      },
+      {
+        "type": "MUSIC",
+        "title": "머나먼 티페라리 길",
+        "title_en": "It's a Long Way to Tipperary",
+        "creator": "잭 저지·해리 윌리엄스",
+        "year": 1912,
+        "status": "FINISHED",
+        "source_url": "https://eshackleton.com/2015/11/16/its-a-long-way-to-tipperary-3/",
+        "evidence": "섀클턴은 《사우스》에서 이 노래를 '우리가 마지막으로 문명세계에 있을 때 유행하던 노래'라고 인용했고, 인듀어런스호에서 허시가 뱅조로 연주했다.",
+        "review": "어니스트 섀클턴은 회고록 《사우스》에서 이 노래를 '우리가 마지막으로 문명세계에 있을 때 유행하던 노래'라고 적었다. 인듀어런스호에서 허시가 뱅조로 연주하며 대원들이 함께 불렀다.",
+        "review_en": "Ernest Shackleton wrote in South that this was 'the song of the day when we were last in civilisation.' Hussey played it on his banjo aboard Endurance and the men sang along."
+      }
+    ]
+  },
+  "로알 아문센": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "폭스호의 북극해 항해",
+        "title_en": "The Voyage of the 'Fox' in the Arctic Seas",
+        "creator": "프랜시스 레오폴드 매클린턱",
+        "year": 1859,
+        "status": "FINISHED",
+        "source_url": "https://mia.no/roaldamundsen/en/the-first-heroes",
+        "evidence": "자서전에서 아문센은 북서항로 문헌을 통째로 사서 읽었고, 그중 매클린턱의 프랭클린 수색 기록에서 '더 남쪽 항로를 따라가면 진짜 수로를 찾으리라는 예언'을 읽고 항로를 정했다고 밝혔다.",
+        "review": "로알 아문센은 자서전에서 그림스비의 한 노신사에게서 북서항로 문헌 전부를 사들여 읽었다고 적었다. 그는 매클린턱의 이 기록에서 더 남쪽 항로를 예견한 구절을 읽고 실제 항로를 그쪽으로 택했다.",
+        "review_en": "Roald Amundsen wrote in his memoirs that he bought the entire literature on the Northwest Passage from an old gentleman in Grimsby and read it. In this account of the search for Franklin he found a 'prophecy' of a more southerly channel and chose his route accordingly."
+      },
+      {
+        "type": "BOOK",
+        "title": "극해 연안 여행기",
+        "title_en": "Narrative of a Journey to the Shores of the Polar Sea",
+        "creator": "존 프랭클린",
+        "year": 1823,
+        "status": "FINISHED",
+        "source_url": "https://www.pbs.org/wgbh/nova/arctic/amundsen.html",
+        "evidence": "자서전에서 아문센은 열다섯 살 때 프랭클린의 탐험 기록이 손에 들어와 부츠 가죽까지 먹은 귀환길 묘사에 매료됐다고 적었다. 그 묘사는 프랭클린 첫 원정을 다룬 이 기록에 해당한다.",
+        "review": "로알 아문센은 열다섯 살 때 손에 들어온 프랭클린의 탐험 기록을 '인생 전체의 방향을 정한 열렬한 매혹'으로 읽었다고 자서전에 적었다. 그가 인용한 부츠 가죽까지 먹으며 돌아온 여정은 프랭클린 첫 원정을 다룬 이 책의 내용이다.",
+        "review_en": "Roald Amundsen wrote in his memoirs that at fifteen he read Franklin's account of his expedition 'with a fervid fascination which has shaped the whole course of my life.' The starving return march he describes, down to eating boot leather, is the journey recorded in this narrative."
+      }
+    ]
+  },
+  "로버트 팰컨 스콧": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "일러스트리어스 프린스",
+        "title_en": "The Illustrious Prince",
+        "creator": "E. 필립스 오펜하임",
+        "year": 1909,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a148/",
+        "evidence": "1910년 12월 5일 일기에 위그럼 부인이 뉴질랜드를 떠나기 전 준 이 책을 '대단히 즐겁게' 읽었다고 적었다.",
+        "review": "로버트 팰컨 스콧은 테라노바 탐험 출발 직후인 1910년 12월 5일 일기에 이 소설을 '대단히 즐겁게 읽은 책'이라고 적었다. 그는 이것이 귀국 항로까지 읽을 마지막 소설이 될 것이라고 덧붙였다.",
+        "review_en": "Robert Falcon Scott wrote in his diary on 5 December 1910, just after the Terra Nova sailed, that he had been reading this novel and 'thoroughly enjoyed' it, adding it would probably be the last novel he read until the voyage home."
+      },
+      {
+        "type": "BOOK",
+        "title": "인 메모리암",
+        "title_en": "In Memoriam A.H.H.",
+        "creator": "앨프리드 테니슨",
+        "year": 1850,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a148/",
+        "evidence": "1911년 12월 8일 일기에 블리자드 속에서 《인 메모리암》을 '읽고 또 읽으며' 그것을 '믿음과 희망과 종교의 완벽한 한 조각'이라 평했다.",
+        "review": "로버트 팰컨 스콧은 남극점으로 가는 행군 도중 블리자드 속에서 이 시를 '읽고 또 읽었다'고 1911년 12월 8일 일기에 적었다. 그는 그것을 '믿음과 희망과 종교의 완벽한 한 조각'이라 불렀다.",
+        "review_en": "Robert Falcon Scott recorded on 8 December 1911 that he had been 'reading and re-reading' In Memoriam in a blizzard on the march to the Pole. He called it 'a perfect piece of faith and hope and religion.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "모드",
+        "title_en": "Maud",
+        "creator": "앨프리드 테니슨",
+        "year": 1855,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a148/",
+        "evidence": "1911년 12월 6일 일기에 챙겨온 테니슨 시집에서 《공주》와 《모드》를 '상당히 많이 읽었다'고 적었다.",
+        "review": "로버트 팰컨 스콧은 1911년 12월 6일 일기에 블리자드 속에서 가져온 테니슨 시집으로 《공주》와 《모드》를 '상당히 많이 읽었다'고 적었다.",
+        "review_en": "Robert Falcon Scott wrote in his diary on 6 December 1911 that he had 'read a good deal of Tennyson — The Princess, Maud' in a volume he had brought, while pinned down by a blizzard."
+      },
+      {
+        "type": "BOOK",
+        "title": "킴",
+        "title_en": "Kim",
+        "creator": "러디어드 키플링",
+        "year": 1901,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a148/",
+        "evidence": "1911년 8월 26일 일기에 '기분 전환으로 《킴》을 다시 읽었다'고 적었고 9월 3일에 다 읽었다.",
+        "review": "로버트 팰컨 스콧은 1911년 8월 26일 일기에 '기분 전환으로 《킴》을 다시 읽었다'고 적었고 9월 3일에 다 읽었다. 남극 겨울 오두막에서 재독한 책이었다.",
+        "review_en": "Robert Falcon Scott wrote in his diary on 26 August 1911 that he 'read Kim again for a change,' finishing it on 3 September — a reread during the Antarctic winter in the hut."
+      }
+    ]
+  },
+  "압슬리 체리-개러드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "황폐한 집",
+        "title_en": "Bleak House",
+        "creator": "찰스 디킨스",
+        "year": 1853,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a117/",
+        "evidence": "1952년 골동서적상협회 강연에서 그는 첫 썰매 여행에 《황폐한 집》을 가져가 장이 짧아 침낭 안에서 읽기에 알맞았다고 회상했다.",
+        "review": "압슬리 체리-개러드는 1952년 강연에서 첫 썰매 여행, 곧 크로지어 곶 겨울 여정에 《황폐한 집》을 가져갔다고 회상했다. 손이 얼기 전까지 침낭 안에서 읽기에 장이 짧아 알맞았다고 했다.",
+        "review_en": "Apsley Cherry-Garrard recalled in a 1952 talk that on his first sledging journey he took Bleak House, whose chapters were short enough to read in a sleeping bag before his hands got too cold."
+      },
+      {
+        "type": "BOOK",
+        "title": "꺼져가는 빛",
+        "title_en": "The Light that Failed",
+        "creator": "러디어드 키플링",
+        "year": 1891,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a147/",
+        "evidence": "전기 《Cherry》가 인용한 일기에서 그는 케이프 에번스의 침대를 정돈한 날 키플링 책들을 풀어놓고 《꺼져가는 빛》을 다섯 번째인가 여섯 번째로 읽기 시작했다고 전한다.",
+        "review": "압슬리 체리-개러드는 테라노바 탐험의 오두막 정리 첫날 일기에 키플링 책들을 풀어놓고 《꺼져가는 빛》을 '다섯 번째인가 여섯 번째로' 읽기 시작했다고 적었다. 전기 작가는 그가 주인공 딕 헬더에 가장 강하게 동일시했다고 전한다.",
+        "review_en": "Apsley Cherry-Garrard wrote in his diary while settling his bunk at Cape Evans that he was 'getting into The Light that Failed for the fifth or sixth time.' His biographer notes he identified with its hero Dick Heldar more than with any other Kipling character."
+      },
+      {
+        "type": "BOOK",
+        "title": "작은 목사",
+        "title_en": "The Little Minister",
+        "creator": "J. M. 배리",
+        "year": 1891,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a147/",
+        "evidence": "전기 《Cherry》는 남극점 지원대 귀환길 텐트에서 책을 다 읽는 것 외 할 일이 없던 그가 《작은 목사》를 읽고 사일러스와 단테 《지옥편》으로 교환했다고 전한다.",
+        "review": "압슬리 체리-개러드는 남극점 지원대 귀환길의 텐트에서 읽던 《작은 목사》를 다 읽은 뒤 사일러스와 교환했다. 눈에 갇힌 그들에게 책을 다 읽는 것 외에는 할 일이 없었다.",
+        "review_en": "Apsley Cherry-Garrard, tent-bound on the return march from the polar plateau, finished The Little Minister and swapped it with Silas. With nothing to do but finish their books, reading was their only pastime."
+      },
+      {
+        "type": "BOOK",
+        "title": "신곡: 지옥편",
+        "title_en": "Inferno",
+        "creator": "단테 알리기에리",
+        "year": null,
+        "status": "WANT",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a147/",
+        "evidence": "전기 《Cherry》는 귀환길 텐트에서 그가 읽던 《작은 목사》를 사일러스와 단테 《지옥편》으로 교환했다고 전한다.",
+        "review": "압슬리 체리-개러드는 《작은 목사》를 다 읽은 뒤 그 책을 사일러스와 단테 《지옥편》으로 교환했다. 남은 귀환 행군에서 읽기 위해서였다.",
+        "review_en": "Apsley Cherry-Garrard, having finished his own book, swapped The Little Minister with Silas for Dante's Inferno to read on the rest of the march back."
+      }
+    ]
+  },
+  "더글러스 모슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "98년의 길",
+        "title_en": "The Trail of '98",
+        "creator": "로버트 W. 서비스",
+        "year": 1910,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a171/",
+        "evidence": "1912년 5월 30일 일기에 '저녁 식사 때 오락으로 《The Trail of '98》 읽기를 시작한다'고 적었다.",
+        "review": "더글러스 모슨은 1912년 5월 30일 일기에 '저녁 식사 때 오락으로 《98년의 길》 읽기를 시작한다'고 적었다. 겨울 오두막에서 대원들의 오락으로 읽어 나갔다.",
+        "review_en": "Douglas Mawson wrote in his diary on 30 May 1912, 'I commence reading The Trail of '98 at dinner as entertainment,' taking it up as the hut's winter evening reading."
+      },
+      {
+        "type": "BOOK",
+        "title": "처음 겪는 남극의 밤",
+        "title_en": "Through the First Antarctic Night",
+        "creator": "프레더릭 쿡",
+        "year": 1900,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/a171/",
+        "evidence": "모슨의 1912년 일기에 쿡의 이 책 구절 인용이 나오며, 탐험 독서 아카이브의 편찬자는 모슨이 이 책을 읽고 있었다고 해석한다.",
+        "review": "더글러스 모슨은 1912년 오두막에서 지내며 일기에 프레더릭 쿡의 이 책 구절을 인용했다. 탐험 독서 아카이브의 편찬자는 이를 모슨이 쿡의 책을 읽고 있었던 흔적으로 본다.",
+        "review_en": "Douglas Mawson quoted a passage from Frederick Cook's book in his hut diary in 1912, which the editor of the polar-reading archive reads as evidence that he was reading it at the time."
+      }
+    ]
+  },
+  "톰 크린": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "프리드티오프 난센": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "페테르 프로이헨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "아비뇽 교황들과 덴마크의 관계",
+        "title_en": "The Relationship between the Popes in Avignon and Denmark",
+        "creator": "몰테센",
+        "year": 1896,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/e16/",
+        "evidence": "회고록 《북극의 모험》(Arctic Adventure)에서 그는 멜빌만을 건너며 다른 책을 모두 잃고 1년 내내 이 학술서 한 권만을 가지고 '몇 번이고 되풀이해 읽었다'고 적었다.",
+        "review": "페테르 프로이헨은 멜빌만을 건너는 동안 다른 책을 모두 잃고 1년 내내 이 학술서 한 권만을 가지고 있었다고 회고했다. 그는 그 책을 끝없이 되풀이해 읽었고, 나중에는 저자 몰테센을 세상에서 가장 미워하게 됐다고 적었다.",
+        "review_en": "Peter Freuchen recalled that, having lost his other books crossing Melville Bay, he possessed only this scholarly volume for a whole year and read it over and over until he came to hate its author, Moltesen."
+      }
+    ]
+  },
+  "에이다 블랙잭": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "The Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://collections.dartmouth.edu/archive/text/stefansson-wrangel-tei/diplomatic/stefansson-wrangel-09-34-diplomatic.html",
+        "evidence": "1923년 3월 16일 일기에 나이트가 자기 성경을 준다고 했다고 적었고, 기록들은 그녀가 그 성경을 계속 읽으며 구조 뒤에도 평생 사용했다고 전한다.",
+        "review": "에이다 블랙잭은 랭겔섬에서 기독교 책을 달라고 하자 동료 나이트로부터 그의 할아버지의 성경을 받았다. 나이트가 죽은 뒤 혼자 남은 그녀는 이 성경을 희망과 위안의 근원으로 삼아 읽었고 죽을 때까지 곁에 두었다.",
+        "review_en": "Ada Blackjack asked for a religious book on Wrangel Island and was given Lorne Knight's grandfather's Bible. Alone after Knight's death, she read it as a source of hope and comfort and kept it for the rest of her life."
+      }
+    ]
+  },
+  "살로몬 안드레": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "움베르토 노빌레": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로버트 피어리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "북극 탐험기",
+        "title_en": "Arctic Explorations in the Years 1853, '54, '55",
+        "creator": "일라이샤 켄트 케인",
+        "year": 1856,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/u015/",
+        "evidence": "피어리의 저술에서 그는 소년 시절 케인의 '경이로운 책'을 읽고 강렬히 떨렸던 기억이 그린란드 내륙빙하 논문을 접하며 되살아났고, '그 주제에 관해 읽을 수 있는 것은 모두 읽었다'고 밝혔다.",
+        "review": "로버트 피어리는 소년 시절 케인의 '경이로운 책'을 읽고 강렬히 떨렸던 줄이, 워싱턴의 헌책방에서 그린란드 내륙빙하 논문을 다시 접하며 되살아났다고 적었다. 그는 그 뒤 그 주제에 관해 읽을 수 있는 것은 모두 읽었다고 했다.",
+        "review_en": "Robert Peary wrote that a chord which had 'vibrated intensely' in him as a boy at the reading of Kane's wonderful book was touched again when he found a paper on Greenland's inland ice in a Washington bookshop. He then 'read all I could upon the subject.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "가장 북쪽으로",
+        "title_en": "Farthest North",
+        "creator": "프리드티오프 난센",
+        "year": 1897,
+        "status": "FINISHED",
+        "source_url": "https://polar-reading.mysticseaport.org/item/u150/",
+        "evidence": "《The North Pole》에서 그는 1908년 원정 선실의 북극 도서실에 이 책이 포함됐고, 이 책들이 긴 극야의 지루함을 덜어주는 데 아주 유용했다고 적었다.",
+        "review": "로버트 피어리는 1908년 북극점 원정에서 선실에 난센의 《가장 북쪽으로》를 포함한 북극 도서실을 꾸렸다고 적었다. 그는 이 책들이 몇 달씩 이어지는 극야의 지루함을 덜어주는 데 아주 유용했다고 전했다.",
+        "review_en": "Robert Peary recorded that on the 1908 expedition he kept in his cabin an Arctic library that included Nansen's Farthest North, and that these books proved very useful for relieving the tedium of the months-long polar night."
+      }
+    ]
+  },
+  "매슈 헨슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "황폐한 집",
+        "title_en": "Bleak House",
+        "creator": "찰스 디킨스",
+        "year": 1853,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/20923/20923-h/20923-h.htm",
+        "evidence": "자서전에서 그는 자기 선실에 《황폐한 집》을 두었고 '북극 겨울의 긴 한밤에 내 책들과 함께 즐거운 시간을 많이 보냈다'고 적었다.",
+        "review": "매슈 헨슨은 자서전에서 자기 선실에 디킨스의 《황폐한 집》을 두었다고 적었다. 그는 북극의 긴 겨울 한밤을 이 책들과 함께 즐겁게 보냈다고 회상했다.",
+        "review_en": "Matthew Henson wrote in his memoir that he kept Dickens' Bleak House in his own cabin, and that he 'spent many a pleasant hour with my books' through the long dreary midnights of the Arctic winter."
+      },
+      {
+        "type": "BOOK",
+        "title": "막사 발라드",
+        "title_en": "Barrack-Room Ballads",
+        "creator": "러디어드 키플링",
+        "year": 1892,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/20923/20923-h/20923-h.htm",
+        "evidence": "자서전에서 그는 자기 선실에 키플링의 《막사 발라드》를 두었고 '북극 겨울의 긴 한밤에 내 책들과 함께 즐거운 시간을 많이 보냈다'고 적었다.",
+        "review": "매슈 헨슨은 자서전에서 자기 선실에 키플링의 《막사 발라드》를 두었다고 적었다. 그는 북극의 긴 겨울 한밤을 이 책들과 함께 즐겁게 보냈다고 회상했다.",
+        "review_en": "Matthew Henson wrote in his memoir that he kept Kipling's Barrack-Room Ballads in his own cabin, and that he 'spent many a pleasant hour with my books' through the long dreary midnights of the Arctic winter."
+      },
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "The Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/20923/20923-h/20923-h.htm",
+        "evidence": "자서전에서 그는 브루클린의 노부인이 준 성경을 선실에 가져갔고 '북극 겨울의 긴 한밤에 내 책들과 함께 즐거운 시간을 많이 보냈다'고 적었다.",
+        "review": "매슈 헨슨은 브루클린의 한 노부인이 준 성경을 선실에 가져갔다고 자서전에 적었다. 그는 북극의 긴 겨울 한밤을 이 책들과 함께 즐겁게 보냈다고 회상했다.",
+        "review_en": "Matthew Henson recorded that a dear old lady in Brooklyn had given him a copy of the Holy Bible, which he kept in his cabin and read through the long midnights of the Arctic winter."
+      }
+    ]
+  },
+  "프레더릭 쿡": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "북극 탐험기",
+        "title_en": "Arctic Explorations in the Years 1853, '54, '55",
+        "creator": "일라이샤 켄트 케인",
+        "year": 1856,
+        "status": "FINISHED",
+        "source_url": "http://cookandpeary.polarhist.com/chapter1.html",
+        "evidence": "자서전 《Hell is a Cold Place》에서 그는 25세 때까지 '여행기로는 케인의 《북극 탐험기》와 스탠리의 《암흑의 아프리카》뿐이었다'고 적었다.",
+        "review": "프레더릭 쿡은 자서전에서 25세의 평범한 청년이던 시절 읽은 여행기로 케인의 《북극 탐험기》와 스탠리의 책 단 두 권을 꼽았다.",
+        "review_en": "Frederick Cook wrote in his autobiography that by the age of twenty-five the only travel books he had read were Dr. Kane's Arctic Explorations and Stanley's In Darkest Africa."
+      },
+      {
+        "type": "BOOK",
+        "title": "암흑의 아프리카",
+        "title_en": "In Darkest Africa",
+        "creator": "헨리 모턴 스탠리",
+        "year": 1890,
+        "status": "FINISHED",
+        "source_url": "http://cookandpeary.polarhist.com/chapter1.html",
+        "evidence": "자서전 《Hell is a Cold Place》에서 그는 25세 때까지 '여행기로는 케인의 《북극 탐험기》와 스탠리의 《암흑의 아프리카》뿐이었다'고 적었다.",
+        "review": "프레더릭 쿡은 자서전에서 25세의 평범한 청년이던 시절 읽은 여행기로 케인의 책과 스탠리의 《암흑의 아프리카》 단 두 권을 꼽았다.",
+        "review_en": "Frederick Cook wrote in his autobiography that by the age of twenty-five the only travel books he had read were Dr. Kane's Arctic Explorations and Stanley's In Darkest Africa."
+      }
+    ]
+  },
+  "토르 헤예르달": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "살아 있는 인류의 인종들",
+        "title_en": "The Living Races of Mankind",
+        "creator": "헨리 네빌 허친슨 외",
+        "year": 1900,
+        "status": "FINISHED",
+        "source_url": "https://www.upi.com/Archives/1986/03/16/Thor-Heyerdahl-Explorer-Thor-Heyerdahl-Destroying-the-myths-of-science/3093511333200/",
+        "evidence": "1986년 UPI 인터뷰에서 그는 노르웨이어를 읽기도 전에 어머니가 동화 대신 3권짜리 이 책을 주었다고 회상했다.",
+        "review": "토르 헤예르달은 UPI 인터뷰에서 자신이 노르웨이어를 읽기도 전에 어머니가 동화 대신 3권짜리 이 책을 주었다고 회상했다. 박물관장이던 어머니는 어린 그에게 책을 아끼지 않았다.",
+        "review_en": "Thor Heyerdahl recalled in a UPI interview that before he could even read Norwegian, his mother gave him the three volumes of The Living Races of Mankind instead of fairy tales. She showered him with books long before he could read."
+      }
+    ]
+  },
+  "이븐 바투타": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "꾸란",
+        "title_en": "Quran",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.worldhistory.org/Ibn_Battuta/",
+        "evidence": "월드 히스토리 전기는 판사 집안 출신인 그가 꾸란을 암송했고, 본인 기록에 따르면 여행 중 하루에 두 번 꾸란 전체를 암송하기도 했다고 전한다.",
+        "review": "이븐 바투타는 꾸란을 통째로 암송한 법학자 집안 출신의 카드였다. 그는 여행 중 하루에 두 번씩 꾸란 전체를 암송하기도 했다고 스스로 전한다.",
+        "review_en": "Ibn Battuta, a qadi from a family of judges, had memorized the Quran and, as he reports, would sometimes recite it in its entirety twice a day during his travels."
+      }
+    ]
+  },
+  "데이비드 리빙스턴": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "미래 세계의 철학",
+        "title_en": "The Philosophy of a Future State",
+        "creator": "토머스 딕",
+        "year": 1829,
+        "status": "FINISHED",
+        "source_url": "https://livingstoneonline.org/in-his-own-words/missionary-travels-manuscript/two-versions-missionary-travels",
+        "evidence": "《선교 여행기》 서두에서 그는 딕의 이 책과 《종교의 철학》을 '훌륭한 저작'이라 부르며 종교와 과학이 적대하지 않는다는 자기 생각이 거기서 증명됐다고 적었다.",
+        "review": "데이비드 리빙스턴은 《선교 여행기》에서 이 책과 《종교의 철학》을 '훌륭한 저작'이라 부르며, 종교와 과학이 적대하지 않는다는 자기 생각이 거기서 증명됐다고 적었다. 그는 이 책을 성경 다음가는 지적 영향으로 꼽았다.",
+        "review_en": "David Livingstone wrote in Missionary Travels that, having lighted on this 'admirable' work of Thomas Dick, he found his own idea — that religion and science are not hostile — fully proved and enforced. It became perhaps his greatest philosophical influence after the Bible."
+      },
+      {
+        "type": "BOOK",
+        "title": "종교의 철학",
+        "title_en": "The Philosophy of Religion",
+        "creator": "토머스 딕",
+        "year": 1825,
+        "status": "FINISHED",
+        "source_url": "https://livingstoneonline.org/in-his-own-words/missionary-travels-manuscript/two-versions-missionary-travels",
+        "evidence": "《선교 여행기》 서두에서 그는 딕의 이 책과 《미래 세계의 철학》을 함께 '훌륭한 저작'으로 꼽으며 종교와 과학의 조화를 거기서 확인했다고 적었다.",
+        "review": "데이비드 리빙스턴은 《선교 여행기》에서 토머스 딕의 이 책과 《미래 세계의 철학》을 함께 '훌륭한 저작'으로 꼽았다. 소설과 과학책을 금한 아버지와 갈등하던 그는 이 책들에서 종교와 과학의 조화를 확인했다.",
+        "review_en": "David Livingstone named this 'admirable' work of Thomas Dick alongside The Philosophy of a Future State in Missionary Travels. The two books settled his youthful struggle between his father's ban on science books and his own love of nature."
+      }
+    ]
+  },
+  "헨리 모턴 스탠리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "재봉사 재봉",
+        "title_en": "Sartor Resartus",
+        "creator": "토머스 칼라일",
+        "year": 1836,
+        "status": "FINISHED",
+        "source_url": "https://www.futilitycloset.com/2010/10/22/campfire-reading/",
+        "evidence": "1886년 팰몰 가제트 문답에서 그는 아프리카 횡단에 약 180파운드의 책을 싣고 갔고, 《사르토르 레사르투스》가 마지막까지 남은 책 가운데 하나였으며 행군 뒤 오후와 저녁을 책 읽기로 보냈다고 답했다.",
+        "review": "헨리 모턴 스탠리는 팰몰 가제트 문답에서 아프리카 횡단에 약 180파운드의 책을 싣고 갔으며 칼라일의 이 책이 마지막까지 남은 몇 권 중 하나였다고 답했다. 그는 하루 행군 뒤 오후와 밤을 이 책들을 읽으며 보냈다고 했다.",
+        "review_en": "Henry Morton Stanley told the Pall Mall Gazette that he had carried about 180 lb of books across Africa and that Carlyle's Sartor Resartus was among the last handful he still possessed. After the day's march, one of these books would occupy his afternoon and evening."
+      },
+      {
+        "type": "BOOK",
+        "title": "제인 에어",
+        "title_en": "Jane Eyre",
+        "creator": "샬럿 브론테",
+        "year": 1847,
+        "status": "FINISHED",
+        "source_url": "https://www.futilitycloset.com/2010/10/22/campfire-reading/",
+        "evidence": "1886년 팰몰 가제트 문답에서 그는 출발 때 가져간 장서에 《제인 에어》가 있었고, 무게를 줄이려 하나씩 버리며 행군 뒤 오후와 저녁을 책 읽기로 보냈다고 답했다.",
+        "review": "헨리 모턴 스탠리는 팰몰 가제트 문답에서 출발 때 가져간 장서에 《제인 에어》가 있었다고 밝혔다. 그는 그 책이 이투리에 남아 언젠가 고고학자가 발견할 것이라고 농담했다.",
+        "review_en": "Henry Morton Stanley told the Pall Mall Gazette that Jane Eyre was among the books he set out with on the African march, and joked that the 1870 printing might one day puzzle an antiquarian who found it in Ituri."
+      },
+      {
+        "type": "BOOK",
+        "title": "헨리 에스몬드의 역사",
+        "title_en": "The History of Henry Esmond",
+        "creator": "윌리엄 새커리",
+        "year": 1852,
+        "status": "FINISHED",
+        "source_url": "https://www.futilitycloset.com/2010/10/22/campfire-reading/",
+        "evidence": "1886년 팰몰 가제트 문답에서 그는 새커리의 《에스몬드》도 아프리카 행군에 가져간 책이었고, 남은 책 한 권이 꼭 오후와 저녁 시간을 채워 주었다고 답했다.",
+        "review": "헨리 모턴 스탠리는 팰몰 가제트 문답에서 새커리의 《헨리 에스몬드》도 아프리카 행군에 가져간 책이었다고 밝혔다. 그는 남은 책 한 권이 꼭 하루의 오후와 저녁을 채워 주었다고 답했다.",
+        "review_en": "Henry Morton Stanley told the Pall Mall Gazette that Thackeray's Henry Esmond was among the books carried on the African march, one of which would always occupy his afternoon and evening after the day's march."
+      }
+    ]
+  },
+  "리처드 프랜시스 버턴": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "루지아드",
+        "title_en": "Os Lusíadas",
+        "creator": "루이스 드 카몽이스",
+        "year": 1572,
+        "status": "FINISHED",
+        "source_url": "https://standardebooks.org/ebooks/luis-de-camoes/the-lusiads/richard-f-burton/text/preface",
+        "evidence": "자기 번역서 서문에서 그는 '수많은 절망의 날과 잠 못 이루는 밤에 카몽이스가 나의 동료이자 위안이자 벗'이었고 뗏목·카누·낙타·사막·설봉 위에서 함께였다고 적었다.",
+        "review": "리처드 프랜시스 버턴은 자기 번역서 서문에서 카몽이스가 '수많은 절망의 날과 잠 못 이루는 밤에 나의 동료이자 위안이자 벗'이었다고 적었다. 뗏목과 카누, 낙타와 노새, 사막과 설봉 위에서 그는 이 시를 곁에 두고 읽었다.",
+        "review_en": "Richard Francis Burton wrote in the preface to his translation that Camões had been 'my companion, my consoler, my friend' through hopeless days and sleepless nights — on raft and canoe, camel and mule, desert and snow-peak."
+      },
+      {
+        "type": "BOOK",
+        "title": "루바이야트",
+        "title_en": "Rubáiyát of Omar Khayyám",
+        "creator": "오마르 카이얌 (에드워드 피츠제럴드 역)",
+        "year": 1859,
+        "status": "FINISHED",
+        "source_url": "https://burtoniana.org/biography/1906-The%20Life%20of%20Sir%20Richard%20Burton%20-%20Wright/HTML/chapter21.html",
+        "evidence": "토머스 라이트의 전기는 버턴의 시 《카시다》가 피츠제럴드의 《루바이야트》와 유사하며 그 시가 《카시다》의 '진짜 아버지'라고 평한다.",
+        "review": "리처드 프랜시스 버턴은 피츠제럴드 번역 《루바이야트》를 본떠 자신의 시 《카시다》를 썼다. 전기 작가 토머스 라이트는 《루바이야트》가 《카시다》의 '진짜 아버지'라고 평했다.",
+        "review_en": "Richard Francis Burton modelled his own poem The Kasidah on FitzGerald's Rubáiyát, which his biographer Thomas Wright called 'the actual father of it.'"
+      }
+    ]
+  },
+  "아라비아의 로렌스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "아서 왕의 죽음",
+        "title_en": "Le Morte d'Arthur",
+        "creator": "토머스 맬러리",
+        "year": 1485,
+        "status": "FINISHED",
+        "source_url": "https://www.biglow.co.uk/telstudies.co.uk/biography/biog_faq.html",
+        "evidence": "1927년 호가스 앞 편지에서 그는 '아라비아에서의 내 책들' 첫손에 《모르트 다르튀르》를 꼽았고, 그 책은 소년 시절부터 그를 기사도에 심취하게 한 애독서였다.",
+        "review": "아라비아의 로렌스는 1927년 호가스에게 보낸 편지에서 '아라비아에서의 내 책들' 첫 번째로 《아서 왕의 죽음》을 꼽았다. 소년 시절부터 반복해 읽은 이 책을 그는 전장의 짐 속에 넣고 다녔다.",
+        "review_en": "T. E. Lawrence wrote to D. G. Hogarth in 1927 that 'My books in Arabia were the Morte...' — Malory's romance he had read repeatedly since boyhood and carried on campaign."
+      },
+      {
+        "type": "BOOK",
+        "title": "평화",
+        "title_en": "Peace",
+        "creator": "아리스토파네스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.biglow.co.uk/telstudies.co.uk/biography/biog_faq.html",
+        "evidence": "1927년 호가스 앞 편지에서 그는 아리스토파네스 희곡집을 가져갔고 그중 《평화》를 '전부, 대단히 고맙게' 읽었다고 적었다.",
+        "review": "아라비아의 로렌스는 같은 편지에서 아리스토파네스 희곡집을 가져갔고 그중 《평화》를 '전부, 대단히 고맙게' 읽었다고 적었다.",
+        "review_en": "T. E. Lawrence wrote in the same letter that among the books he carried was Aristophanes, of which he 'read all the Peace, very gratefully.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "옥스퍼드 영시 선집",
+        "title_en": "The Oxford Book of English Verse",
+        "creator": "아서 퀼러카우치 (편)",
+        "year": 1900,
+        "status": "WANT",
+        "source_url": "https://www.biglow.co.uk/telstudies.co.uk/biography/biog_faq.html",
+        "evidence": "그의 소장본에는 '1916년 카이로에서 구입. 1917~1918년 헤자즈와 시리아를 거쳐 가지고 다녔다'는 기록이 적혀 있고, 호가스 앞 편지에서도 아라비아에서의 세 권 중 하나로 꼽았다.",
+        "review": "아라비아의 로렌스는 1916년 카이로에서 이 시선집을 사 1917~18년 헤자즈와 시리아 전역을 두루 다니며 가지고 다녔다. 그가 가진 책에 직접 쓴 기록이 남아 있다.",
+        "review_en": "T. E. Lawrence bought this anthology in Cairo in 1916 and, as the inscription in his copy records, carried it 'through Hejaz and Syria 1917-1918,' one of the three books he kept with him in Arabia."
+      }
+    ]
+  },
+  "거트루드 벨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "하페즈 시집",
+        "title_en": "Divan of Hafiz",
+        "creator": "하페즈",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://gutenberg.net.au/ebooks04/0400341h.html",
+        "evidence": "편지에서 그녀는 테헤란의 페르시아 정원 해먹에 누워 바자에서 산 가죽 장정본으로 하페즈의 시를 '원어로' 읽는 아침을 묘사했고, 1897년 그 시집의 번역본을 출판했다.",
+        "review": "거트루드 벨은 페르시아 정원의 해먹에 누워 바자에서 산 가죽 장정본으로 하페즈의 시를 원어로 읽는 아침을 편지에 묘사했다. 그녀는 이 시집을 번역해 1897년 출판했다.",
+        "review_en": "Gertrude Bell described in a letter how she spent her mornings in a hammock in a Persian garden reading the poems of Hafiz 'in the original' from a stamped-leather volume bought in the bazaars. She later published her own translation of the Divan in 1897."
+      },
+      {
+        "type": "BOOK",
+        "title": "해방된 프로메테우스",
+        "title_en": "Prometheus Unbound",
+        "creator": "퍼시 비시 셸리",
+        "year": 1820,
+        "status": "FINISHED",
+        "source_url": "https://gertrudebell.ncl.ac.uk/l/gb-1-1-5-1-2-4",
+        "evidence": "이복동생 몰리 앞 편지에서 그녀는 '가장 셸리답고 최고'인 것은 《해방된 프로메테우스》의 대목들이며 그것들이 '숨을 멎게 한다'고 적었다.",
+        "review": "거트루드 벨은 이복동생 몰리에게 보낸 편지에서 셸리의 《해방된 프로메테우스》를 '가장 셸리답고 최고'라고 평하며 그 대목들이 '숨을 멎게 한다'고 추천했다.",
+        "review_en": "Gertrude Bell wrote to her half-sister Molly that the best and most Shelleyan passages are parts of Prometheus Unbound — 'they take one's breath away.'"
+      }
+    ]
+  },
+  "프레야 스탁": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "천일야화",
+        "title_en": "One Thousand and One Nights",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.worldhistory.org/Freya_Stark/",
+        "evidence": "전기는 그녀가 아홉 살에 이 책 번역본을 선물 받아 즉시 매혹됐고 아라비아와 동방의 세계로 생각이 향했다고 전한다.",
+        "review": "프레야 스탁은 아홉 살 생일에 《천일야화》 번역본을 선물 받았다. 전기에 따르면 그 책은 그녀를 즉시 매혹해 아라비아와 동방의 세계로 생각을 이끌었다.",
+        "review_en": "Freya Stark was given a translation of the One Thousand and One Nights for her ninth birthday; it instantly entranced her and turned her thoughts to Arabia and the East."
+      },
+      {
+        "type": "BOOK",
+        "title": "꾸란",
+        "title_en": "Quran",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.worldhistory.org/Freya_Stark/",
+        "evidence": "전기는 그녀가 아랍어를 배우기 시작한 뒤 얼마 지나지 않아 꾸란을 아랍어로 읽고 있었다고 전한다.",
+        "review": "프레야 스탁은 아랍어를 배우기 시작한 뒤 얼마 지나지 않아 꾸란을 아랍어로 읽고 있었다. 일주일에 두 번 기차를 타고 멀리 사는 선생을 찾아가 배웠다.",
+        "review_en": "Freya Stark, having thrown herself into learning Arabic, was soon reading the Quran in Arabic. She travelled twice a week by train to the only man who could teach her."
+      }
+    ]
+  },
+  "이사벨라 버드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉상드라 다비드넬": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "난 싱": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "윌프레드 테시저": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "행복한 아라비아",
+        "title_en": "Arabia Felix",
+        "creator": "버트럼 토머스",
+        "year": 1932,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Arabian_Sands",
+        "evidence": "《아라비아의 모래》 본문에서 그는 토머스의 이 책과 로런스의 《사막의 반란》을 읽었고 그것들이 아랍에 대한 관심을 불러일으켰다고 밝힌다.",
+        "review": "윌프레드 테시저는 《아라비아의 모래》에서 자신이 버트럼 토머스의 《행복한 아라비아》를 읽었고 그것이 아랍에 대한 관심을 불러일으켰다고 적었다.",
+        "review_en": "Wilfred Thesiger records in Arabian Sands that he had read Bertram Thomas's Arabia Felix, which had helped provoke his interest in the Arabs."
+      },
+      {
+        "type": "BOOK",
+        "title": "사막의 반란",
+        "title_en": "Revolt in the Desert",
+        "creator": "T. E. 로런스",
+        "year": 1927,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Arabian_Sands",
+        "evidence": "《아라비아의 모래》 본문에서 그는 토머스의 책과 로런스의 이 책을 읽었고 그것들이 아랍에 대한 관심을 불러일으켰다고 밝힌다.",
+        "review": "윌프레드 테시저는 《아라비아의 모래》에서 자신이 로런스의 《사막의 반란》을 읽었고 그것이 아랍에 대한 관심을 불러일으켰다고 적었다.",
+        "review_en": "Wilfred Thesiger records in Arabian Sands that he had read T. E. Lawrence's Revolt in the Desert, which had helped provoke his interest in the Arabs."
+      }
+    ]
+  },
+  "프랜시스 영허즈번드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "창조적 진화",
+        "title_en": "Creative Evolution",
+        "creator": "앙리 베르크송",
+        "year": 1907,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Sir_Francis_Edward_Younghusband",
+        "evidence": "전기 기록은 그가 베르크송의 《창조적 진화》에서 영향을 받아 생명력을 통한 우주의 목적을 제시했다고 전한다.",
+        "review": "프랜시스 영허즈번드는 베르크송의 《창조적 진화》에서 영향을 받아 창조적 생명력을 통해 우주에 목적을 보았다. 전기 기록은 그의 사상이 이 책에서 영향을 받았다고 전한다.",
+        "review_en": "Francis Younghusband took influence from Bergson's Creative Evolution, drawing from it a vision of purpose in the cosmos through a creative life force."
+      },
+      {
+        "type": "BOOK",
+        "title": "신성한 삶",
+        "title_en": "The Life Divine",
+        "creator": "오로빈도 고시",
+        "year": 1939,
+        "status": "FINISHED",
+        "source_url": "http://www.theinterfaithobserver.org/journal-articles/2013/6/15/francis-younghusband-explorer-mystic-interfaith-pioneer.html",
+        "evidence": "인터페이스 옵저버 기사는 생애 마지막 해에 그가 이 책의 서평을 쓰고 '축복이 우주 전체의 동력'이라는 구절을 인용했다고 전한다.",
+        "review": "프랜시스 영허즈번드는 생애 마지막 해에 오로빈도의 《신성한 삶》 서평을 쓰고 그 구절을 인용했다. 서평에서 그는 '축복이 우주 전체의 동력'이라는 문장을 옮겼다.",
+        "review_en": "Francis Younghusband, in the last year of his life, wrote a review of Sri Aurobindo's The Life Divine, quoting its teaching that 'Bliss is the motive power of the whole universe.'"
+      }
+    ]
+  }
+}

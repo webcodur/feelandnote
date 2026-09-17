@@ -1,0 +1,456 @@
+{
+  "하워드 휴즈": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "아이스 스테이션 지브라",
+        "title_en": "Ice Station Zebra",
+        "creator": "존 스터지스 감독",
+        "year": 1968,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Ice_Station_Zebra",
+        "evidence": "위키백과가 인용한 기록들은 은둔 생활 중이던 휴즈가 이 영화에 깊이 빠져 자신이 소유한 라스베이거스 방송국 KLAS-TV에서 100번 넘게 재방영하게 했고, 폴 앤카가 새벽 2시와 5시에 연속 방영됐다고 회고했다고 전한다.",
+        "review": "하워드 휴즈는 라스베이거스 데저트 인 펜트하우스에 은둔하던 시절 이 영화에 강하게 집착해, 자신이 소유한 지역 방송국 KLAS-TV에서 밤마다 재방영하게 했다. 가수 폴 앤카는 새벽 2시에 방영이 시작돼 5시면 다시 처음부터 나왔다고 회고했다.",
+        "review_en": "Howard Hughes developed an intense fascination with this film during his reclusive years in the Desert Inn penthouse, having it aired repeatedly on KLAS-TV, the Las Vegas station he owned. Singer Paul Anka recalled it playing at 2 a.m. and starting all over again at 5."
+      },
+      {
+        "type": "VIDEO",
+        "title": "스팅",
+        "title_en": "The Sting",
+        "creator": "조지 로이 힐 감독",
+        "year": 1973,
+        "status": "FINISHED",
+        "source_url": "https://www.newsfromme.com/2006/04/24/from-the-e-mailbag-88-2/",
+        "evidence": "언론인 마크 에바니에의 칼럼은 휴즈가 《스팅》과 숀 코너리 주연 제임스 본드 영화들을 포함한 16mm 필름 라이브러리를 반복해서 돌려 봤다고 전한다.",
+        "review": "하워드 휴즈는 은둔 시절 자신의 16mm 필름 라이브러리에서 《스팅》을 반복해서 돌려 본 작품 가운데 하나로 꼽았다. 숀 코너리 주연의 제임스 본드 시리즈도 함께 반복 상영 목록에 있었다고 그의 상영 습관을 다룬 기록이 전한다.",
+        "review_en": "Howard Hughes ran The Sting over and over from his own 16mm film library during his years of seclusion. Accounts of his screening habits list it alongside the Sean Connery James Bond films among the prints he replayed."
+      }
+    ]
+  },
+  "윌리엄 랜돌프 허스트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "막스와 모리츠",
+        "title_en": "Max und Moritz",
+        "creator": "빌헬름 부시",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://www.pbs.org/wgbh/americanexperience/features/citizen-hearst-boy-collected-comics/",
+        "evidence": "PBS 아메리칸 익스피리언스의 허스트 기사는 그가 어린 시절 빌헬름 부시의 그림책 《막스와 모리츠》를 특별히 아꼈으며 이 책의 악동 형제 이야기가 훗날 그가 만든 《카첸얌머 키즈》의 원형이 됐다고 전한다.",
+        "review": "윌리엄 랜돌프 허스트는 어린 시절 수집벽을 키우던 중 빌헬름 부시의 그림책 《막스와 모리츠》를 특별히 아끼는 책으로 간직했다. 어른을 골탕 먹이는 악동 형제의 이야기는 장난꾸러기였던 그 자신에게 친근했고, 훗날 그의 신문 만평 《카첸얌머 키즈》의 모델이 됐다고 PBS가 전한다.",
+        "review_en": "William Randolph Hearst particularly cherished Wilhelm Busch's cartoon book Max und Moritz as a boy, feeling an affinity for the two prankster brothers, according to PBS's American Experience. The book later served as the direct model for his newspaper strip The Katzenjammer Kids."
+      }
+    ]
+  },
+  "아리스토텔레스 오나시스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "헤티 그린": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "야코프 푸거": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "만사 무사": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "크로이소스": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "칼루스트 굴벤키안": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "바질 자하로프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "파루크 왕": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "페기 구겐하임": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "잃어버린 시간을 찾아서",
+        "title_en": "In Search of Lost Time",
+        "creator": "마르셀 프루스트",
+        "year": 1913,
+        "status": "FINISHED",
+        "source_url": "https://www.countrylife.co.uk/luxury/before-the-palazzo-there-was-petersfield-the-hampshire-cottage-where-peggy-guggenheim-learned-to-love-the-art-world-269928",
+        "evidence": "컨트리 라이프 기사는 구겐하임이 햄프셔 유 트리 코티지에서 보낸 외롭고 우울한 겨울에 모피 장갑을 낀 채 침대에 누워 프루스트를 읽었다고 전한다.",
+        "review": "페기 구겐하임은 햄프셔의 유 트리 코티지에서 보낸 겨울 동안 실내가 추워 모피 장갑을 낀 채 침대에 누워 프루스트의 《잃어버린 시간을 찾아서》를 읽었다. 크리켓을 '지독히 지루하다' 여긴 그녀에게 독서와 음악이 위안이었다고 컨트리 라이프가 전한다.",
+        "review_en": "Peggy Guggenheim spent the lonely winter at Yew Tree Cottage in Hampshire lying in bed in fur gloves reading Proust's In Search of Lost Time. Reading and music were her consolations in a house where she found cricket 'exceedingly dull,' Country Life reports."
+      }
+    ]
+  },
+  "이사벨라 스튜어트 가드너": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "신곡",
+        "title_en": "Divine Comedy",
+        "creator": "단테 알리기에리",
+        "year": 1320,
+        "status": "FINISHED",
+        "source_url": "https://www.gardnermuseum.org/blog/isabella-and-dante-society",
+        "evidence": "가드너 미술관 공식 블로그는 이사벨라가 찰스 엘리엇 노턴의 단테 강의에 참석해 자세한 노트를 남겼고, 단테 협회에 가입해 《신곡》 낭독 모임에 나가며 13개 판본을 수집했다고 전한다.",
+        "review": "이사벨라 스튜어트 가드너는 1878년부터 찰스 엘리엇 노턴의 강의에서 《신곡》을 공부하며 꼼꼼한 노트를 남겼고, 단테 협회 회원으로 낭독 모임에 참석했다. 평생 13개 판본을 수집할 만큼 이 시에 깊이 빠져 있었다고 가드너 미술관이 전한다.",
+        "review_en": "Isabella Stewart Gardner studied the Divine Comedy through Charles Eliot Norton's lectures from 1878, taking meticulous notes, and joined the Dante Society, attending its readings. She collected thirteen editions of the poem over her lifetime, the Gardner Museum recounts."
+      }
+    ]
+  },
+  "제5대 포틀랜드 공작": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "존 미튼": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "레이싱 캘린더",
+        "title_en": "Racing Calendar",
+        "creator": null,
+        "year": 1727,
+        "status": "FINISHED",
+        "source_url": "https://www.historic-uk.com/CultureUK/Mad-Jack-Mytton/",
+        "evidence": "님로드(찰스 제임스 애퍼리)의 미튼 전기를 인용한 기사는 미튼이 옥스퍼드 입학 권유에 '레이싱 캘린더와 스터드 북 외에는 아무것도 읽지 않겠다'는 조건이라면 가겠다고 답했다고 전한다.",
+        "review": "존 미튼은 옥스퍼드 입학을 권유받자 '레이싱 캘린더와 스터드 북 외에는 아무것도 읽지 않아도 된다면' 가겠다고 답했다. 그의 독서가 경마 간행물에 한정돼 있었음을 보여주는 일화로, 님로드의 미튼 전기에 실려 있다.",
+        "review_en": "John Mytton answered a suggestion that he attend Oxford by saying he would go only if he could 'read nothing but the Racing Calendar and the Stud Book.' The quip, recorded in Nimrod's memoir of Mytton, shows that racing periodicals were effectively all he read."
+      },
+      {
+        "type": "BOOK",
+        "title": "제너럴 스터드 북",
+        "title_en": "General Stud Book",
+        "creator": null,
+        "year": 1791,
+        "status": "FINISHED",
+        "source_url": "https://www.historic-uk.com/CultureUK/Mad-Jack-Mytton/",
+        "evidence": "같은 전기 인용에서 미튼은 읽을 수 있는 것으로 레이싱 캘린더와 함께 '스터드 북'을 지명했다.",
+        "review": "존 미튼은 평소 읽는 것으로 《레이싱 캘린더》와 나란히 《스터드 북》을 꼽았다. 경주마 혈통 기록지를 탐독한 그의 일화는 님로드의 전기를 통해 전해진다.",
+        "review_en": "John Mytton named the Stud Book alongside the Racing Calendar as the only reading he would accept. His poring over the racehorse pedigree register is preserved in Nimrod's memoir of him."
+      }
+    ]
+  },
+  "마르케사 카사티": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "윌리엄 베크포드": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "아라비안 나이트",
+        "title_en": "The Arabian Nights (One Thousand and One Nights)",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://gutenberg.org/files/2060/2060-h/2060-h.htm",
+        "evidence": "구텐베르크판 《바텍》의 헨리 몰리 서문은 채텀 백작이 공상적인 소년이었던 베크포드에게서 《아라비안 나이트》를 멀리하라고 그의 어머니에게 조언했고, 《바텍》이 천일야화에 천하고 두 번째 이야기를 더한 것이라고 적는다.",
+        "review": "윌리엄 베크포드는 소년 시절 《아라비안 나이트》에 깊이 빠져, 아버지의 친구였던 체텀 백작이 그의 어머니에게 이 책을 아들에게서 멀리하라고 조언할 정도였다. 구텐베르크판 《바텍》의 서문은 그의 소설이 천일야화의 천하고 두 번째 이야기를 더한 것이라 평한다.",
+        "review_en": "William Beckford was so absorbed in the Arabian Nights as a fanciful boy that the Earl of Chatham advised his mother to keep the book out of his way. The introduction to the Project Gutenberg edition of Vathek judges his novel the thousand-and-second tale added to the thousand and one."
+      }
+    ]
+  },
+  "조슈아 노턴": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "티모시 덱스터": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "P.T. 바넘": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/cache/epub/1576/pg1576.html",
+        "evidence": "조엘 벤턴의 바넘 전기는 어린 시절 주일학교에서 신약과 교리문답을 배운 그가 성경을 읽고 교회에 빠짐없이 다녔으며, 품성의 좋은 면은 초기 신앙 생활에 빚졌다고 평생 말했다고 기록한다.",
+        "review": "P.T. 바넘은 어머니에게 신약과 교리문답을 배우며 자랐고, 성경을 읽고 교회에 빠짐없이 다니는 생활을 지켰다. 자신의 품성에서 좋은 것은 모두 이른 신앙 생활에 빚진 것이라고 평생 말했다고 조엘 벤턴의 전기가 전한다.",
+        "review_en": "P. T. Barnum read his Bible and attended church with unfailing regularity, and to the end of his life declared that whatever was good in his character he owed to his early religious observance, Joel Benton's biography records."
+      }
+    ]
+  },
+  "로버트 리플리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "존 매카피": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "종의 기원",
+        "title_en": "On the Origin of Species",
+        "creator": "찰스 다윈",
+        "year": 1859,
+        "status": "FINISHED",
+        "source_url": "https://hackernoon.com/interviewing-the-wild-john-mcafee-talks-ejbp30xj",
+        "evidence": "해커눈 인터뷰에서 매카피는 과학자·수학자로서 자신의 삶을 바꾼 최고의 책으로 다윈의 《종의 기원》을 꼽으며 '그보다 나를 더 움직인 것은 없다'고 말했다.",
+        "review": "존 매카피는 인터뷰에서 자신의 인생을 바꾼 최고의 책으로 다윈의 《종의 기원》을 꼽으며 '그보다 나를 움직인 책은 없다'고 말했다. 눈의 진화처럼 복잡한 문제를 한 장에서 풀어낸 다윈의 통찰에 그는 감탄했다.",
+        "review_en": "John McAfee named Darwin's On the Origin of Species the book that altered his life most, saying in an interview that nothing had moved him more. He marvelled that Darwin could explain something as complex as the evolution of the eye in a single chapter."
+      },
+      {
+        "type": "BOOK",
+        "title": "종들",
+        "title_en": "The Bells",
+        "creator": "에드거 앨런 포",
+        "year": 1849,
+        "status": "FINISHED",
+        "source_url": "https://blockleaders.io/john-mcafee-lover-adventurer-poet/",
+        "evidence": "블록리더스 인터뷰 기사는 매카피가 에드거 앨런 포를 '대단한 시인'이라 칭하며 《종들》에 등장하는 '틴티너뷸레이션'이라는 단어의 소리를 즐겁게 음미했다고 전한다.",
+        "review": "존 매카피는 말년의 인터뷰에서 에드거 앨런 포를 '대단한 시인'이라 칭하며 《종들》의 '틴티너뷸레이션'이라는 단어의 소리를 소리 내어 음미했다. '시의 핵심은 진실함이다. 그것은 심장의 노래'라는 말도 남겼다.",
+        "review_en": "John McAfee spoke of Edgar Allan Poe with real delight in a late interview, lingering over the sound of The Bells and repeating the word 'tintinnabulation' for the sheer pleasure of it. 'Being truthful is core to poetry. It is a song of the heart,' he said."
+      },
+      {
+        "type": "BOOK",
+        "title": "리어왕",
+        "title_en": "King Lear",
+        "creator": "윌리엄 셰익스피어",
+        "year": 1606,
+        "status": "FINISHED",
+        "source_url": "https://blockleaders.io/john-mcafee-lover-adventurer-poet/",
+        "evidence": "같은 인터뷰 기사는 매카피가 《리어왕》의 어릿광대 대사를 인용한 뒤 숨쉴 틈 없이 《햄릿》으로 넘어갔다고 전한다.",
+        "review": "존 매카피는 인터뷰에서 《리어왕》의 어릿광대 대사를 암송해 보였고, 그 자리에서 곧바로 《햄릿》으로 넘어갔다. 셰익스피어 대사를 줄줄이 인용할 만큼 익숙한 모습이었다고 기사가 전한다.",
+        "review_en": "John McAfee quoted the Fool from King Lear in an interview and moved on to Hamlet without pausing for breath. The piece describes him reciting Shakespeare at length from memory."
+      },
+      {
+        "type": "BOOK",
+        "title": "햄릿",
+        "title_en": "Hamlet",
+        "creator": "윌리엄 셰익스피어",
+        "year": 1600,
+        "status": "FINISHED",
+        "source_url": "https://blockleaders.io/john-mcafee-lover-adventurer-poet/",
+        "evidence": "같은 인터뷰 기사는 매카피가 《리어왕》의 어릿광대를 인용한 뒤 《햄릿》의 대사로 이어갔다고 전한다.",
+        "review": "존 매카피는 《리어왕》의 대사를 암송한 뒤 이어서 《햄릿》의 대사로 넘어가며 셰익스피어를 줄줄이 인용해 보였다. 인터뷰 기사는 그가 숨쉴 틈 없이 두 작품을 이어 암송했다고 전한다.",
+        "review_en": "John McAfee moved straight from quoting King Lear into Hamlet, reciting Shakespeare from memory in the interview. The piece records him passing from one play to the other without pausing for breath."
+      },
+      {
+        "type": "VIDEO",
+        "title": "아키라",
+        "title_en": "Akira",
+        "creator": "오토모 가쓰히로 감독",
+        "year": 1988,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "조타쿠 아니메 인터뷰에서 매카피는 《아키라》가 자신이 본 첫 아니메라고 밝혔다.",
+        "review": "존 매카피는 아니메 인터뷰에서 《아키라》가 자신이 접한 첫 아니메였다고 밝혔다. 자신보다 어린 세대가 태어나기도 전의 작품인데, 같은 세대 중 본 사람이 없어 대화가 안 통한다고도 푹푹 토로했다.",
+        "review_en": "John McAfee told an anime interviewer that Akira was the first anime he ever watched. He lamented that no one over fifty he knew had seen groundbreaking works like it, leaving him no one his age to discuss anime with."
+      },
+      {
+        "type": "VIDEO",
+        "title": "모노노케 히메",
+        "title_en": "Princess Mononoke",
+        "creator": "미야자키 하야오 감독",
+        "year": 1997,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 《모노노케 히메》를 여러 번 보고 마음에 남은 작품으로 꼽았다.",
+        "review": "존 매카피는 자신에게 남은 아니메로 《모노노케 히메》를 꼽으며, 이 영화를 포함한 몇 작품을 여러 번 다시 봤다고 인터뷰에서 말했다. 그는 자신이 지브리 팬이라고 덧붙였다.",
+        "review_en": "John McAfee listed Princess Mononoke among the anime that had stuck with him, saying he had watched it multiple times. He added in the same interview that Ghibli was his favourite studio."
+      },
+      {
+        "type": "VIDEO",
+        "title": "센과 치히로의 행방불명",
+        "title_en": "Spirited Away",
+        "creator": "미야자키 하야오 감독",
+        "year": 2001,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 《센과 치히로의 행방불명》을 마음에 남은 작품으로 꼽고 부모가 돼지로 변하는 장면의 공포를 직접 이야기했다.",
+        "review": "존 매카피는 《센과 치히로의 행방불명》을 마음에 남은 아니메로 꼽고, 부모가 돼지로 변하는 도입부의 공포를 직접 설명했다. 그는 이 장면이 어린 시절에서 어른이 되는 과정의 은유라고 해석을 곁들였다.",
+        "review_en": "John McAfee named Spirited Away among the anime that stuck with him and retold the opening horror of the parents turning into pigs. He read the story as an allegory of the transition from childhood to adulthood."
+      },
+      {
+        "type": "VIDEO",
+        "title": "마녀 배달부 키키",
+        "title_en": "Kiki's Delivery Service",
+        "creator": "미야자키 하야오 감독",
+        "year": 1989,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 《마녀 배달부 키키》를 '우스꽝스러운 것들'이라 칭하면서도 마음에 남은 작품으로 꼽았다.",
+        "review": "존 매카피는 마음에 남은 아니메를 열거하며 《마녀 배달부 키키》를 '우스꽝스러운 것들' 가운데 하나로 함께 꼽았다. 진지한 작품들과 나란히 거론된 작품이다.",
+        "review_en": "John McAfee listed Kiki's Delivery Service among the anime that had stayed with him. He called it one of the 'silly things' alongside the more serious works he named."
+      },
+      {
+        "type": "VIDEO",
+        "title": "반딧불이의 묘",
+        "title_en": "Grave of the Fireflies",
+        "creator": "다카하타 이사오 감독",
+        "year": 1988,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 《반딧불이의 묘》를 보고 나면 일주일은 다운될 '진지한' 작품이라며, 초기 아니메의 정수를 이해하려는 이에게 추천한다고 말했다.",
+        "review": "존 매카피는 《반딧불이의 묘》를 보고 나면 일주일은 다운될 것이라고 말할 만큼 강하게 남은 작품으로 꼽았다. 그는 초기 아니메의 정수를 이해하고 싶다면 이 작품을 보라고 추천했다.",
+        "review_en": "John McAfee described Grave of the Fireflies as a film that would leave you down for a week. He recommended it to anyone wanting to understand the soul of early anime."
+      },
+      {
+        "type": "VIDEO",
+        "title": "붉은 돼지",
+        "title_en": "Porco Rosso",
+        "creator": "미야자키 하야오 감독",
+        "year": 1992,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 '《붉은 돼지》는 물론'이라며 좋은 작품이라고 말했다.",
+        "review": "존 매카피는 마음에 남은 아니메 목록을 말하다 '《붉은 돼지》는 물론 좋은 작품'이라고 덧붙였다. 지브리가 평소 쓰레기를 만들지 않는 자신의 최애 스튜디오라고도 말했다.",
+        "review_en": "John McAfee added 'Porco Rosso, of course' to his list of anime that had stuck with him, calling it good. In the same breath he named Ghibli his favourite studio, saying they did not normally turn out trash."
+      },
+      {
+        "type": "VIDEO",
+        "title": "공각기동대",
+        "title_en": "Ghost in the Shell",
+        "creator": "오시이 마모루 감독",
+        "year": 1995,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 오리지널 《공각기동대》의 음악이 처음부터 매혹적이었다며, 인간성과 영혼의 정의에 대한 물음을 던지는 작품이었다고 길게 평했다.",
+        "review": "존 매카피는 오리지널 《공각기동대》의 음악이 시작부터 매혹적이었다고 회상했다. 이 작품이 인간과 인간처럼 행동하는 존재의 구분, 영혼의 존재 여부에 대한 물음을 불러일으켰다고 그는 말했다.",
+        "review_en": "John McAfee recalled the original Ghost in the Shell's music as enthralling from the very beginning. He said the film raised questions about the definition of humanity and whether such a thing as the soul exists."
+      },
+      {
+        "type": "VIDEO",
+        "title": "메트로폴리스",
+        "title_en": "Metropolis",
+        "creator": "프리츠 랑 감독",
+        "year": 1927,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 서른대 후반이 돼서야 프리츠 랑의 《메트로폴리스》 같은 무성영화를 보며 영화의 원래 충격을 이해하게 됐다고 말했다.",
+        "review": "존 매카피는 서른대 후반에야 무성영화를 보기 시작해 프리츠 랑의 《메트로폴리스》를 통해 영화가 원래 어떤 충격을 주는 매체인지 깨달았다고 말했다. 그는 이 작품이 심장을 관통했다고 표현했다.",
+        "review_en": "John McAfee said he never watched silent movies until his late thirties, and that Fritz Lang's Metropolis made him understand the original impact of cinema. 'That film cut to the core,' he said."
+      },
+      {
+        "type": "VIDEO",
+        "title": "헤비 메탈",
+        "title_en": "Heavy Metal",
+        "creator": "제럴드 포터턴 감독",
+        "year": 1981,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 2000년작이 아닌 1981년 오리지널 《헤비 메탈》을 보라고 권하며 그 정교함과 깊이에 매혹될 것이라고 말했다.",
+        "review": "존 매카피는 일본 애니메이션만 잘 만들었다는 주장에 반박하며 1981년작 《헤비 메탈》을 보라고 권했다. 그 수준의 정교함과 주제의 깊이에 매혹되고 충격받을 것이라고 말했다.",
+        "review_en": "John McAfee disputed the claim that only Japanese animation was well done and urged the interviewer to watch the 1981 Heavy Metal. He promised its sophistication and depth of subject would enthral and shock."
+      },
+      {
+        "type": "VIDEO",
+        "title": "별의 목소리",
+        "title_en": "Voices of a Distant Star",
+        "creator": "신카이 마코토 감독",
+        "year": 2002,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 초기 아니메의 정수를 알고 싶다면 《별의 목소리》를 보라고 추천하며 '아마 지금까지 만들어진 가장 가슴 찢어지는 아니메'라고 말했다.",
+        "review": "존 매카피는 초기 아니메의 정수를 이해하려면 보라며 《별의 목소리》를 추천했다. 아마 지금까지 만들어진 것 중 가장 가슴 찢어지는 아니메라고 그는 평했다.",
+        "review_en": "John McAfee recommended Voices of a Distant Star to anyone seeking the soul of early anime. He called it probably the most heart-rending anime ever made."
+      },
+      {
+        "type": "VIDEO",
+        "title": "아멘네시아라는 바람",
+        "title_en": "A Wind Named Amnesia",
+        "creator": "야마자키 가즈오 감독",
+        "year": 1990,
+        "status": "FINISHED",
+        "source_url": "https://jotaku.net/2020/10/15/john-mcafee-antivirus-creator-talks-anime-loves-ghibli-and-hates-netflix/",
+        "evidence": "같은 인터뷰에서 매카피는 초기 아니메의 정수를 알고 싶다면 《아멘네시아라는 바람》을 보라고 추천했다.",
+        "review": "존 매카피는 초기 아니메의 배경을 이해하고 싶은 이에게 《아멘네시아라는 바람》을 추천 목록에 올렸다. 그는 이 세 작품을 보면 초기 아니메의 역사와 배경을 알 수 있다고 말했다.",
+        "review_en": "John McAfee included A Wind Named Amnesia in the trio of anime he recommended for understanding the background of early anime. Watching them, he said, would reveal how anime came into being."
+      }
+    ]
+  }
+}

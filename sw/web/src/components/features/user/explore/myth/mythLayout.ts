@@ -17,7 +17,7 @@ export const MYTH_LAYOUT = {
   navList: ATLAS_NAV_LAYOUT.navList,
   /* 지역은 알약, 신화는 네모 — 두 줄의 칩이 같은 모양이면 어느 줄을 고르는지 헷갈린다 */
   regionChipShape: ATLAS_NAV_LAYOUT.pill,
-  traditionChipShape: ATLAS_NAV_LAYOUT.square,
+  mythChipShape: ATLAS_NAV_LAYOUT.square,
   /* 그룹은 칩이 아니라 밑줄 탭 — 지역(알약)·신화(네모)보다 한 단계 아래라는 것이 모양으로 보인다 */
   groupTab: ATLAS_NAV_LAYOUT.groupTab,
   memberList: "scrollbar-hide -mx-1 flex gap-2.5 overflow-x-auto overscroll-x-contain px-1 pb-1 select-none pointer-coarse:snap-x md:gap-3",
@@ -27,7 +27,7 @@ export const MYTH_LAYOUT = {
   /* 바깥 윤곽선(atlas)이 이미 있으니 좁은 화면에서는 본문 상자를 한 겹 걷어 바깥 선 바로 다음에 항목이 선다 */
   overview: "overflow-hidden rounded-[24px] md:border md:border-white/[0.08] md:bg-black",
   artwork: "relative aspect-[3/2] w-full overflow-hidden",
-  /* 그룹 개요 — 넓은 화면은 전승 개요와 같은 3:2 판에 왼쪽 핵심 인물·오른쪽 패널, 좁은 화면은 위아래로 쌓는다 */
+  /* 그룹 개요 — 넓은 화면은 신화 개요와 같은 3:2 판에 왼쪽 핵심 인물·오른쪽 패널, 좁은 화면은 위아래로 쌓는다 */
   groupFrame: "relative md:bg-black lg:aspect-[3/2]",
   groupStage: "relative flex w-full flex-col justify-center bg-[radial-gradient(circle_at_30%_0%,rgba(217,181,78,.12),transparent_60%)] px-1 pb-5 pt-5 md:px-7 lg:absolute lg:inset-y-0 lg:start-0 lg:w-[57%] lg:py-8",
   /* 핵심 인물 칸 — 세 칸 폭을 고정해 두 명뿐인 그룹도 칸 크기가 같고 가운데 모인다 */

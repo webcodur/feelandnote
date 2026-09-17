@@ -1,0 +1,996 @@
+[
+ {
+  "pid": "p030",
+  "name": "그리고리 라스푸틴",
+  "flag": "en 당선안의 'monk'는 통용 별칭이나 실제로는 정규 수도승이 아닌 방랑 성직자",
+  "verdict": "corrected",
+  "finding": "영어 위키백스를 비롯한 표준 자료에서 라스푸틴은 러시아 정교회의 공식 직위를 가진 적 없는 '스트란니크'(방랑 순례 성직자)·스타레츠로 기술된다. 'monk'는 통용 별칭일 뿐 수도원 소속 수도승이 아니었다.",
+  "correction": "정규 수도승이 아닌 방랑 성직자(스트란니크)",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Rasputin",
+   "https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/rasputin-grigory-yefimovich"
+  ]
+ },
+ {
+  "pid": "p030",
+  "name": "그리고리 라스푸틴",
+  "flag": "다수 후보가 전설적 3중 살해 일화를 사실로 단정",
+  "verdict": "corrected",
+  "finding": "독살·총격·익사에도 죽지 않았다는 이야기는 암살자 유수포프의 회고록(1928)에 기반한다. 부검 기록상 익사 흔적이 없었고, 2024년 법의학 재평가는 이마에 대한 근접 총격으로 이미 사망한 뒤 강에 버려졌을 가능성을 지지한다. BBC·History.com 등도 전설 과장을 지적한다.",
+  "correction": "독약·총격·익사를 견뎠다는 최후는 암살자들의 회고에 기반한 전설로, 실제로는 총격으로 사살됐을 가능성이 크다",
+  "confidence": "high",
+  "sources": [
+   "https://doi.org/10.1007/s12024-024-00793-9",
+   "https://www.bbc.com/news/world-europe-38469903",
+   "https://www.history.com/articles/rasputin-assassination-murder-romanovs"
+  ]
+ },
+ {
+  "pid": "p014",
+  "name": "아우렐 슈타인",
+  "flag": "ko 후보 3의 '첫 외국인' 주장은 검증이 어려움",
+  "verdict": "corrected",
+  "finding": "스타인 이전에 헤딘(1890년대 누란·타림 지역 탐험), 프르제발스키, 뒤트뢰유 드 렝 등이 이미 중국 투르키스탄을 탐험했다. 스타인은 1900년부터 타림 분지를 본격 발굴한 최초급 체계적 고고학자이지 '첫 외국인'은 아니다.",
+  "correction": "실크로드 오아시스 유적을 본격 발굴한 초기 서양 탐험가",
+  "confidence": "medium",
+  "sources": [
+   "https://www.britishmuseum.org/collection/china/exploring-silk-roads",
+   "https://www.iranicaonline.org/articles/stein-marc-aurel/"
+  ]
+ },
+ {
+  "pid": "p237",
+  "name": "실비아 얼",
+  "flag": "ko 당선안이 수심을 사백 미터로 부풀림(실제 381m)",
+  "verdict": "corrected",
+  "finding": "1979년 9월 19일 JIM 수트 잠수의 수심은 381미터(1,250피트)로 기네스 기록에 등재돼 있다. 400미터는 부풀린 수치다.",
+  "correction": "수심 381미터 해저를 무계류 잠수복으로 걸은 최초의 인간",
+  "confidence": "high",
+  "sources": [
+   "https://www.guinnessworldrecords.com/world-records/630558-deepest-untethered-sea-walk",
+   "https://en.wikipedia.org/wiki/JIM_suit"
+  ]
+ },
+ {
+  "pid": "p167",
+  "name": "조사이어 할런",
+  "flag": "'최초의 미국인' 주장 포함(bio 근거 있음)",
+  "verdict": "confirmed",
+  "finding": "벤 매킨타이어의 표준 전기 제목이 'The Man Who Would Be King: The First American in Afghanistan'이며, 뉴욕타임스 서평도 그를 '아프가니스탄에 발을 디딘 최초의 미국 시민'으로 확인한다. '고르의 왕자' 칭호 등 세부는 할런 본인의 주장에 기반하지만 '최초의 미국인' 표현 자체는 정설로 용인된다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Josiah_Harlan",
+   "https://www.nytimes.com/2004/04/25/books/a-yankee-in-the-great-game.html"
+  ]
+ },
+ {
+  "pid": "p157",
+  "name": "오노다 히로오",
+  "flag": "en 후보 3의 'the last soldier to surrender'는 더 늦게 항복한 나카무라 데루오가 있어 부정확",
+  "verdict": "corrected",
+  "finding": "오노다는 1974년 3월 항복했으나, 대만 아미족 출신 일본군 병사 나카무라 데루오(이광휘)는 같은 해 12월 18일 인도네시아 모로타이섬에서 발견돼 최후의 잔류 일본군으로 기록됐다(기네스). '최후의 항복병'은 오노다가 아니다.",
+  "correction": "29년간 버틴 잔류병 — 다만 최후의 항복자는 1974년 12월에 발견된 나카무라 데루오",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Teruo_Nakamura",
+   "https://www.guinnessworldrecords.com/world-records/91109-last-world-war-ii-veteran-to-surrender"
+  ]
+ },
+ {
+  "pid": "p103",
+  "name": "바질 자하로프",
+  "flag": "일부 후보가 방화범 경력·잠수함 한 척 3국 판매 등 전설적 일화를 사실로 단정",
+  "verdict": "corrected",
+  "finding": "잠수함 판매는 전설이 아니라 실제 기록이다. 노르덴펠트 잠수함을 그리스(1885)·오스만(1886)·러시아에 차례로 판 것은 다수 자료가 확인한다. 다만 콘스탄티노폴리스 소방대 소속 방화범 경력은 영국 국립전기사전에까지 실렸으나 '혐의·추정' 수준이지 확정 사실이 아니다.",
+  "correction": "잠수함을 그리스·오스만·러시아에 차례로 팔아 상대 진영의 위협을 이용해 무기를 판 '죽음의 상인'(방화범 경력은 혐의 수준의 일화)",
+  "confidence": "high",
+  "sources": [
+   "https://www.smithsonianmag.com/history/the-mysterious-mr-zedzed-the-wickedest-man-in-the-world-97435790/",
+   "https://en.wikipedia.org/wiki/Basil_Zaharoff",
+   "https://www.ebsco.com/research-starters/biography/basil-zaharoff"
+  ]
+ },
+ {
+  "pid": "p110",
+  "name": "윌리엄 베크포드",
+  "flag": "en 당선안의 '3일 집필'은 베크포드 본인 주장에 기반한 일화",
+  "verdict": "corrected",
+  "finding": "'사흘과 이틀밤에 썼다'는 것은 베크포드 본인의 전해지는 주장이다. 서신 기록상 『바텍』은 프랑스어로 1782년 초에 착수돼 최소 수개월에 걸쳐 집필됐고(1782년 5월까지도 미완), '3일 집필'은 과장된 일화로 취급된다.",
+  "correction": "고딕소설 『바텍』을 쓴 탐미주의 부호(본인은 사흘 만에 썼다고 주장)",
+  "confidence": "high",
+  "sources": [
+   "http://janushead.org/wp-content/uploads/2020/06/Pannese.pdf",
+   "https://en.wikipedia.org/wiki/Vathek",
+   "https://www.bartleby.com/lit-hub/volume-xi-english-the-period-of-the-french-revolution/4-vathek/"
+  ]
+ },
+ {
+  "pid": "p115",
+  "name": "존 매카피",
+  "flag": "ko3·en3의 문신 인용은 자살 판정 논쟁과 얽힌 일화",
+  "verdict": "confirmed",
+  "finding": "'$WHACKD' 문신과 2019년 '내가 자살하면 아니다'는 트윗은 실물로 확인된다(스놉스 팩트체크). 스페인 당국과 법원은 자살로 결론 내렸으나 미망인이 유서 진위를 포함해 이의를 제기하고 있다. 문신 인용 자체는 사실에 기반하나 자살 판정은 유족 측 논쟁 대상이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.snopes.com/fact-check/john-mcafees-whackd-tattoo/",
+   "https://www.independent.co.uk/news/world/john-mcafee-wife-suicide-note-b1883585.html"
+  ]
+ },
+ {
+  "pid": "p208",
+  "name": "휴 글래스",
+  "flag": "복수 동기(ko3·5, en1·4)는 역사적 논쟁이 있는 전설 요소 — 당선안은 이를 회피",
+  "verdict": "disputed",
+  "finding": "곰 습격·유기·기어서 추적한 골격은 실재하지만, 영화 속 아들 살해 복수는 완전한 창작이고 복수의 '동기' 자체는 문헌상 불명확하다. 실제 글래스는 브리저를 용서했고, 입대한 피츠제럴드에게 손도 못 대고 소총만 되찾았다는 것이 당대 기록의 골자다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://slate.com/culture/2015/12/hugh-glass-how-accurate-is-the-revenant-a-history-of-a-folk-tale.html",
+   "https://www.hollywoodreporter.com/movies/movie-features/real-story-revenant-is-far-867620/",
+   "https://hughglass.org/the-legend/revenant-the-movie/"
+  ]
+ },
+ {
+  "pid": "p118",
+  "name": "프랭크 애버그네일",
+  "flag": "조종사·의사 행세 등 bio 자체가 애버그네일의 자기주장 일화로 과장 논란이 있음",
+  "verdict": "corrected",
+  "finding": "1978년부터 이어진 언론 조사와 앨런 로건의 2020년 저서 『The Greatest Hoax on Earth』는 애버그네일의 극적 이력 대부분이 뒷받침되지 않거나 지어낸 것이라 결론 내렸다. 문서로 확인되는 범죄는 소규모 수표 사기·절도 수준이며 수감 기간과도 일화가 충돌한다. 영화 속 이력을 사실로 단정하기 어렵다.",
+  "correction": "본인 회고와 영화로 유명해진 사기 이력은 독립 검증에서 대부분 입증되지 않은 자기주장",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Frank_Abagnale,_Jr.",
+   "https://whyy.org/segments/the-greatest-hoax-on-earth/",
+   "https://nypost.com/2023/03/13/catch-me-if-you-can-conman-frank-abagnale-lied-about-his-lies/"
+  ]
+ },
+ {
+  "pid": "p096",
+  "name": "윌리엄 랜돌프 허스트",
+  "flag": "ko0·6·en3의 '전쟁은 내가 만든다' 전보 일화는 실재성이 논쟁되는 전설",
+  "verdict": "corrected",
+  "finding": "레밍턴-허스트 전보는 원문이 한 번도 발견된 적 없고 허스트 본인이 부인했으며, 당시 쿠바에서 이미 반란이 진행 중이라 내용상 모순이라는 연구(W. 조지프 캠벨)가 있다. 출처는 크릴먼의 1901년 회고록이 유일해 사실상 아포크리프로 취급된다.",
+  "correction": "'그림은 네가, 전쟁은 내가 만든다'는 전보는 문서 증거가 없는 저널리즘 전설",
+  "confidence": "high",
+  "sources": [
+   "https://doi.org/10.1177/107769900007700212",
+   "https://mediamythalert.com/2022/01/10/ill-furnish-the-war-25-reasons-why-its-a-towering-media-myth/"
+  ]
+ },
+ {
+  "pid": "p146",
+  "name": "세쿼야",
+  "flag": "ko4의 세쿼이아 나무 명명 유래는 전통 설이나 학계 논쟁 있음",
+  "verdict": "disputed",
+  "finding": "속명 Sequoia를 지은 엔들리허는 명명 유래를 남기지 않았다. 세쿼야 기념설이 20세기 통설이었으나 라틴어 'sequor(따르다)' 유래설도 제기되고, 스탠퍼드 소장 연구(Gary Lowe)는 세쿼야설을 반박하며 학계 논쟁이 지속된다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://stacks.stanford.edu/file/druid:tr043hb7881/Lowe_2018_Debunking%20the%20Sequoia%20honoring%20Sequoyah%20Myth.pdf",
+   "https://www.etymonline.com/word/sequoia"
+  ]
+ },
+ {
+  "pid": "p265",
+  "name": "제럴드 코튼",
+  "flag": "ko1은 사망을 단정했으나 실제로는 가짜 사망 의혹이 미해결 논쟁",
+  "verdict": "confirmed",
+  "finding": "인도 자이푸르 병원 기록·사망진단·장례 기록 등 공식 문서는 사망을 뒷받침하며 글로브앤메일 조사도 이상 징후를 찾지 못했다. 고객 측 변호인단이 검시·부검을 요청한 것은 사실이나 '가짜 사망'은 증거 없는 의혹 수준이다. OSC 보고서는 사망이 아니라 사기 행위 자체가 자금 부족의 원인이라 결론 내렸다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.theglobeandmail.com/world/article-how-did-gerald-cotten-die-a-quadriga-mystery-from-india-to-canada/",
+   "https://www.theglobeandmail.com/business/article-lawyers-for-quadriga-customers-ask-rcmp-to-exhume-founder-gerald/",
+   "https://osc.ca/quadrigacxreport/"
+  ]
+ },
+ {
+  "pid": "p287",
+  "name": "제리 엘즈워스",
+  "flag": "ko1의 오큘러스 경력은 bio에 없는 미확인 주장",
+  "verdict": "false",
+  "finding": "엘즈워스의 이력은 밸브 하드웨어 엔지니어(2011–2013) → castAR 창업 → Tilt Five 창업이며, 오큘러스 근무 기록은 어디에도 없다. 그녀는 오히려 밸브가 AR 대신 VR(오큘러스 협업)을 택하면서 해고된 인물이다.",
+  "correction": "밸브 AR 연구실 출신으로 castAR와 Tilt Five를 창업한 자작 칩 설계자",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Jeri_Ellsworth",
+   "https://www.nytimes.com/2019/10/24/technology/jeri-ellsworth-augmented-reality.html",
+   "https://www.polygon.com/features/2017/4/12/15257842/jeri-ellsworth-profile-castar-valve/"
+  ]
+ },
+ {
+  "pid": "p094",
+  "name": "마에자와 유사쿠",
+  "flag": "dearMoon은 예약 단계였으며 이후 취소됨",
+  "verdict": "corrected",
+  "finding": "디어문은 실제 비행이 아니라 예약된 민간 달 주유 계획이었고, 스타십 개발 지연으로 2024년 6월 1일 마에자와가 공식 취소했다. '달 여행을 샀다'는 표현은 예약·계약 단계였음이 드러나야 한다.",
+  "correction": "스페이스X 달 주유선 디어문의 승객으로 예약했으나 개발 지연으로 2024년 취소",
+  "confidence": "high",
+  "sources": [
+   "https://www.reuters.com/technology/space/japanese-billionaire-maezawa-dearmoon-mission-cancels-moon-flyby-2024-06-01/",
+   "https://spacenews.com/japanese-billionaire-cancels-planned-starship-lunar-mission/"
+  ]
+ },
+ {
+  "pid": "p012",
+  "name": "오스니얼 찰스 마시",
+  "flag": "ko 당선안의 '대부분'은 약간의 과장",
+  "verdict": "confirmed",
+  "finding": "마시는 80종 안팎의 비조류 공룡을 명명한 역대 최다 명명자이고 스테고사우루스·트리케라톱스·브론토사우루스·알로사우루스·디플로도쿠스 등 대중에게 가장 친숙한 이름 대부분이 실제로 그의 작명이다. 다만 그가 지은 이름 중 현재 유효한 것은 약 35개뿐이라 '대부분'은 수사적 느슨함이 있다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://doi.org/10.1080/02724634.2010.501462",
+   "https://en.wikipedia.org/wiki/Bone_Wars",
+   "https://ucmp.berkeley.edu/history/marsh.html"
+  ]
+ },
+ {
+  "pid": "p236",
+  "name": "오귀스트 피카르",
+  "flag": "당선 ko안은 bio에 없는 틴틴 일화에 의존(사실 자체는 확립됨)",
+  "verdict": "confirmed",
+  "finding": "에르제가 누마 사둘과의 인터뷰에서 '칼퀼러스는 축소판 피카르'라고 직접 확인했고 브뤼셀 거리에서 본 그의 모습을 모델로 삼았다고 밝혔다. 틴틴 공식 사이트도 같은 내용을 실었다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Professor_Calculus",
+   "https://www.tintin.com/en/news/6063/little-story-of-infinity-the-new-calculus"
+  ]
+ },
+ {
+  "pid": "p236",
+  "name": "오귀스트 피카르",
+  "flag": "다수 ko/en 후보가 아들의 심해 잠수를 본인 공적으로 잘못 돌림",
+  "verdict": "corrected",
+  "finding": "1960년 마리아나 해구 챌린저 해연 최심부(10,916m) 잠수는 아들 자크 피카르와 미 해군 중위 돈 월시가 수행했다. 오귀스트는 트리에스테호를 설계·건조한 설계자이지 탑승 잠수자가 아니다.",
+  "correction": "아들 자크가 탄 심해 잠수정 트리에스테를 설계한 물리학자",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Jacques_Piccard",
+   "https://en.wikipedia.org/wiki/Trieste_(bathyscaphe)",
+   "https://www.usni.org/magazines/proceedings/2020/january/first-deepest-dive"
+  ]
+ },
+ {
+  "pid": "p077",
+  "name": "벙커 헌트",
+  "flag": "ko 당선안 '하루 만에 파산'은 실버 목요일 폭락을 가리키는 압축 표현 — 법적 파산은 이후 수년에 걸쳐 진행",
+  "verdict": "corrected",
+  "finding": "1980년 3월 27일 '실버 목요일'에 은값 폭락으로 포지션이 무너졌으나 법적 파산(챕터 11)은 민사 배상 판결 뒤 1988년 9월에 신청됐다. '하루 만에 파산'은 8년에 걸친 몰락을 압축한 표현이다.",
+  "correction": "1980년 실버 목요일에 은 시장 코너링이 무너지고 8년 뒤 법적 파산에 이른 석유 재벌",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Silver_Thursday",
+   "https://www.nytimes.com/1988/09/22/business/2-hunts-file-for-personal-bankruptcy.html"
+  ]
+ },
+ {
+  "pid": "p153",
+  "name": "시모 해위해",
+  "flag": "사살 수는 본인 기록 기반이라 실제 수치를 두고 논쟁이 있는 주장",
+  "verdict": "disputed",
+  "finding": "2017년 발견된 본인 전쟁 회고록은 '약 500명', 사단장 스벤손은 소총 219명+기관단총 동수, 군목 란타마의 일기는 소총 259명+기관단총 동수로 각각 다르다. 통용되는 '505명'은 본인 신고와 동료 확인에 기반한 추정으로 정확한 수치는 확정 불가다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Simo_H%C3%A4yh%C3%A4",
+   "https://nickswwiiarchive.gumroad.com/l/whitedeath"
+  ]
+ },
+ {
+  "pid": "p035",
+  "name": "에디 채프먼",
+  "flag": "'런던을 살린'은 허위 좌표 보고의 결과에 대한 해석적 표현",
+  "verdict": "confirmed",
+  "finding": "1944년 영국 재침투 후 채프먼이 독일에 V-1 탄착 좌표를 거꾸로 보고해 폭격이 런던 외곽으로 빗나가게 했다는 것은 MI5 공개 기록과 백과사전류가 공통으로 기술하는 내용이다. '런던을 살렸다'는 수사이지만 근거 없는 창작은 아니다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://www.mi5.gov.uk/history/world-war-ii/eddie-chapman-agent-zigzag",
+   "https://en.wikipedia.org/wiki/Eddie_Chapman",
+   "https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/chapman-eddie"
+  ]
+ },
+ {
+  "pid": "p248",
+  "name": "게리 킬달",
+  "flag": "IBM과의 '놓친 미팅' 일화는 널리 통용되지만 세부 경위에 논쟁이 있다",
+  "verdict": "corrected",
+  "finding": "'비행기 타느라 미팅을 날렸다'는 통설은 사실이 아니다. 포브스 등의 재조사에 따르면 킬달은 IBM 방문을 알고 있었고 당일 늦게 합류해 IBM 측과 협상까지 했으며, 결렬 원인은 NDA 서명 거부와 20만 달러 고정 라이선스 조건 등 계약 조건이었다.",
+  "correction": "IBM을 놓친 게 아니라 계약 조건이 안 맞아 결렬된 CP/M의 창조자",
+  "confidence": "high",
+  "sources": [
+   "https://www.forbes.com/asap/2000/1127/072s1.html",
+   "https://www.forbes.com/forbes/1997/0707/6001336a.html",
+   "http://kildall.org/flying.html"
+  ]
+ },
+ {
+  "pid": "p247",
+  "name": "에드 로버츠",
+  "flag": "ko[10]·en[3]은 '상업적'을 빼 '최초의 PC/홈컴퓨터'로 과장",
+  "verdict": "corrected",
+  "finding": "알테어 8800의 표준 서술은 '최초로 상업적 성공을 거둔 개인용 컴퓨터'다(위키백스·스미스소니언·컴퓨팅역사박물관). 알테어 이전에 미크랄 N(1973), 스켈비, 마크-8 등 소형 컴퓨터가 존재했으므로 '최초의 PC' 단정은 과장이다.",
+  "correction": "최초로 상업적 성공을 거둔 개인용 컴퓨터 알테어 8800의 제작자",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Altair_8800",
+   "https://www.americanhistory.si.edu/collections/object/nmah_1759587",
+   "https://www.computinghistory.org.uk/det/572/MITS-launches-the-Altair-8800-on-the-cover-of-Popular-Electronics-magazine/"
+  ]
+ },
+ {
+  "pid": "p120",
+  "name": "생제르맹 백작",
+  "flag": "ko[4] '수십 년간 목격'·ko[6] 볼테르 발언은 bio에 없는 수치·일화",
+  "verdict": "confirmed",
+  "finding": "볼테르의 '죽지 않고 모든 것을 아는 사람' 발언은 1760년 4월 프리드리히 대왕에게 보낸 실제 서한에 있다(풍자적 맥락). 사후 목격담은 아데마르 백작부인의 주장 등으로 수십 년간 이어졌다는 것도 널리 기록된 전설적 사실이다. bio엔 없으나 일화 자체는 문헌에 근거한다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Count_Saint_Germain",
+   "http://authorscalendar.info/germain.htm"
+  ]
+ },
+ {
+  "pid": "p230",
+  "name": "와일리 포스트",
+  "flag": "ko[2]·en[3]의 제트기류 발견 주장은 bio에 없음",
+  "verdict": "confirmed",
+  "finding": "포스트가 고고도 압력복 비행 중 제트기류를 처음 만나 발견했다는 것은 스미스소니언, 텍사스주립사협회(TSHA), EBSCO 등이 공통으로 기술하는 확립된 공적이다. bio에 없을 뿐 사실이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Wiley_Post",
+   "https://www.tshaonline.org/handbook/entries/post-wiley-hardeman",
+   "https://timeandnavigation.si.edu/navigating-air/early-air-navigators/two-men-in-a-hurry/winnie-mae"
+  ]
+ },
+ {
+  "pid": "p278",
+  "name": "제리 로슨",
+  "flag": "ko[7] '흑인 최초' 주장은 bio에 근거 없음",
+  "verdict": "corrected",
+  "finding": "로슨은 '실리콘밸리 최초의 흑인 컴퓨터 엔지니어 중 한 명'(위키백스)이자 극소수 흑인 게임 개발자로 기술될 뿐, 단독 '최초'라는 확정적 기록은 없다. 채널 F의 '최초 카트리지 교체식 콘솔' 공로는 확립됐으나 인종 최초 주장은 검증 곤란하다.",
+  "correction": "실리콘밸리 최초의 흑인 엔지니어 중 한 명으로 카트리지 교체식 콘솔을 이끌었다",
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Jerry_Lawson_(engineer)",
+   "https://www-s1.npr.org/2021/09/17/1037911107/jerry-lawson-video-game-fairchild-channel-f-black-engineer",
+   "https://www.smithsonianmag.com/innovation/unsung-black-developer-unlocked-code-turning-video-game-consolo-into-virtual-living-room-arcade-180988819/"
+  ]
+ },
+ {
+  "pid": "p235",
+  "name": "윌리엄 비비",
+  "flag": "ko[10] '잠수정도 없던 시대'는 사실 오류(1934년엔 잠수함 존재)",
+  "verdict": "corrected",
+  "finding": "1934년 당시 잠수함은 이미 존재했고 383피트까지 잠항한 기록도 있었다. 다만 잠수함엔 관찰창이 없어 심해 생물을 직접 볼 수는 없었고, 그 공백을 메운 것이 바톤이 설계한 관찰창 달린 바티스피어였다. '잠수정조차 없던 시대'는 문자 그대로는 오류다.",
+  "correction": "창문으로 심해를 직접 관찰할 수 있는 잠수 장비가 없던 시대",
+  "confidence": "high",
+  "sources": [
+   "https://www.aps.org/apsnews/2018/08/dive-bathysphere-barton-beebe",
+   "https://www.smithsonianmag.com/science-nature/inside-the-first-deep-sea-dive-in-history-180982128/"
+  ]
+ },
+ {
+  "pid": "p271",
+  "name": "놀란 부시넬",
+  "flag": "ko[6]·en[3]의 '잡스의 첫 직장'은 bio를 넘는 단정",
+  "verdict": "corrected",
+  "finding": "잡스는 1974년 아타리에 기술자로 입사했지만 그 전에 12~13세 때 HP 조립 라인 여름 일자리를 가졌다(본인 회고, 위키백스). 따라서 아타리는 '첫 직장'이 아니라 첫 정규직에 가깝다.",
+  "correction": "스티브 잡스에게 첫 정규 일자리를 준 아타리 창업자",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Steve_Jobs",
+   "https://www.cnbc.com/2018/07/25/how-steve-jobs-cold-called-his-way-to-an-internship-at-hewlett-packard.html"
+  ]
+ },
+ {
+  "pid": "p218",
+  "name": "조지 말러리",
+  "flag": "ko[0] '정상 200미터'는 bio에 없는 정밀 수치",
+  "verdict": "corrected",
+  "finding": "1924년 6월 8일 노엘 오델이 두 사람을 마지막으로 본 지점은 '최종 피라미드 기저에 가까운 능선'으로, 통상 정상 아래 약 800피트(약 245m) 지점으로 추정된다. '200미터'는 정밀 근거 없는 수치이며 실제 위치(제1·제2·제3 스텝)도 논쟁 중이다.",
+  "correction": "정상에서 수백 미터 아래를 마지막으로 목격되고 사라진 등반가",
+  "confidence": "medium",
+  "sources": [
+   "https://jochenhemmleb.com/web/en/mallory-and-irvine/june-8-1924/",
+   "https://www.merton.ox.ac.uk/everest-timeline/mallory-and-irvine-disappear",
+   "https://gripped.com/special-feature/a-century-of-unknowing-on-everest-the-fate-of-mallory-and-irvine/"
+  ]
+ },
+ {
+  "pid": "p078",
+  "name": "버니 매이도프",
+  "flag": "ko[1] '육십오억 달러'는 650억 달러의 오기, en[1] 'fifty years'는 기간 과장 여지",
+  "verdict": "corrected",
+  "finding": "검찰 추정 사기 규모는 648억 달러(통용 표기 650억)이며 '육십오억'은 십의 자리 오기다. 기간은 매이도프 본인은 1992년 시작이라 주장했으나 검찰은 1970년대 초부터 약 40년으로 보았다. 'fifty years'도 다소 과장이다.",
+  "correction": "약 650억 달러 규모, 수십 년간 지속된 역대 최대 폰지 사기",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Madoff_investment_scandal",
+   "https://www.justice.gov/usao-sdny/file/762616/dl?inline=",
+   "https://www.cbsnews.com/newyork/news/prosecutors-ponzi-scheme-lasted-twice-as-long-as-madoff-let-on/"
+  ]
+ },
+ {
+  "pid": "p003",
+  "name": "조반니 벨조니",
+  "flag": "ko[0]·en[2]의 수력기계·펌프 일화, ko[2] '학자들이 못 옮긴'은 bio에 없음",
+  "verdict": "confirmed",
+  "finding": "벨조니가 로마 수도원에서 수력학을 배웠고 무함마드 알리에게 나일강 물을 끌어올리는 자작 수력기계를 제안한 것은 본인 회고록과 위키백스가 확인하는 사실이다(시연은 실패해 채용 불발). 람세스 흉상 운반이 난제였던 것도 사실이나 '학자들이 못 옮긴'은 다소 윤색된 표현이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.m.wikipedia.org/wiki/Giovanni_Battista_Belzoni",
+   "https://www.gutenberg.org/cache/epub/77277/pg77277-images.html",
+   "https://www.fitzmuseum.cam.ac.uk/explore-our-collection/highlights/context/patrons-donors-collectors/the-great-belzoni-1778-1823"
+  ]
+ },
+ {
+  "pid": "p144",
+  "name": "콰나 파커",
+  "flag": "ko[10]·en[3] 어도비 월스, ko[5] 어머니 탐색은 bio에 없는 일화",
+  "verdict": "confirmed",
+  "finding": "콰나가 1874년 어도비 월스 전투에서 콰하디 연합을 이끈 것은 텍사스주립사협회(TSHA) 등이 확인하는 사실이다. 어머니 신시아 앤의 행방을 찾아 묘를 수습한 일화도 NPS·전기 자료에 기록된다. bio에 없을 뿐 실제 사실이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.tshaonline.org/handbook/entries/parker-quanah",
+   "https://www.nps.gov/people/quanah-parker.htm",
+   "https://en.wikipedia.org/wiki/Quanah_Parker"
+  ]
+ },
+ {
+  "pid": "p163",
+  "name": "네스토르 마흐노",
+  "flag": "당선 ko[2]의 기관총 마차(타찬카)는 bio 밖이나 마흐노의 대표 사실",
+  "verdict": "confirmed",
+  "finding": "마흐노 군이 기관총을 실은 마차 '타찬카'를 대규모로 운용해 '바퀴 위의 군대'로 불린 것은 위키백스와 학술 논문 모두 확인하는 대표 사실이며, 다수 자료가 발명을 그에게 돌린다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Tachanka",
+   "https://eprints.gla.ac.uk/296729/1/296729.pdf"
+  ]
+ },
+ {
+  "pid": "p169",
+  "name": "이디 아민",
+  "flag": "ko[8] '칭호를 자수하고'는 조어(자수=자백 의미와 충돌)",
+  "verdict": "confirmed",
+  "finding": "아민이 스스로 '대영제국 정복자(CBE)' 등 수십 개 칭호와 훈장을 자작해 수여한 것은 확립된 사실이다. 다만 한국어 '자수(自授)'는 통용되지 않는 조어로 '자백'의 '자수(自首)'와 충돌하므로 '스스로 내건' 정도로 바꾸는 것이 안전하다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Idi_Amin",
+   "https://www.theguardian.com/news/2003/aug/18/guardianobituaries"
+  ]
+ },
+ {
+  "pid": "p111",
+  "name": "조슈아 노턴",
+  "flag": "ko[4] 경찰 경례·ko[9] 레스토랑 좌석·ko[10] 의회 해산은 bio에 없는 일화",
+  "verdict": "confirmed",
+  "finding": "의회 해산 칙령(1859년 10월), 경찰관 경례(1867년 체포 소동 뒤 경찰청장이 지시), 레스토랑 무료 식사·좌석 제공은 모두 샌프란시스코 가상박물관·주립도서관 등이 기록하는 실재 일화다. 다만 노턴에게 돌려진 칙령 다수가 신문 편집자들의 가짜라는 점은 감안할 필요가 있다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Emperor_Norton",
+   "https://sfmuseum.org/hist1/norton.html",
+   "https://cal170.library.ca.gov/january-21-1867-an-egregious-affront-to-the-emperor-2/"
+  ]
+ },
+ {
+  "pid": "p015",
+  "name": "스벤 헤딘",
+  "flag": "ko[7] 탐험대원 사망은 bio에 없음",
+  "verdict": "disputed",
+  "finding": "헤딘 본인의 1895년 타클라마칸 횡단 기록에는 낙타 7마리와 호종 2명이 갈증사했다고 나오지만, 그의 기록은 '극화됐고 부정확할 가능성'이 지적된다. 브루노 바우만이 2000년 동일 노선을 답사해 '사망'했다던 호종 중 최소 1명이 실제로는 생존했음을 확인했다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Sven_Hedin",
+   "https://svenhedinfoundation.org/lost-cities-of-the-taklamakan-desert/"
+  ]
+ },
+ {
+  "pid": "p026",
+  "name": "장줘린",
+  "flag": "ko[8] '일본이 키우다 폭파한'은 관계를 단순화한 표현",
+  "verdict": "corrected",
+  "finding": "일본이 장줘린을 후원한 것은 사실이나 그는 점차 일본 요구에 저항했고, 1928년 황구둔 폭파는 도쿄 본부 지시가 아닌 관동군 하급 장교(고모토 다이사쿠)들의 월권 음모(게코쿠조)였다. '일본이'라는 주어는 일본 정부와 관동군의 입장 차이를 지운 단순화다.",
+  "correction": "일본의 후원을 받다가 반일 태도를 보이자 관동군 장교들이 도쿄 지시 없이 폭살한 군벌",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Huanggutun_Incident",
+   "https://en.wikipedia.org/wiki/Zhang_Zuolin",
+   "https://en.wikipedia.org/wiki/Kwangtung_Army"
+  ]
+ },
+ {
+  "pid": "p268",
+  "name": "시드 마이어",
+  "flag": "ko[0] '이름을 붙인 최초의 디자이너'는 주체·사실 모두 어긋남, en[0] 'hex grid'는 구형 문명이 사각 타일이라 부정확",
+  "verdict": "corrected",
+  "finding": "마이어의 이름이 타이틀에 들어간 것은 'Sid Meier's Pirates!'(1987)부터이며, 아이디어는 본인이 아니라 공동창업자 스틸리(로빈 윌리엄스의 제안)였고 '최초의' 명명 디자이너라는 단정도 무리다. 육각 격자는 문명 V(2010)에서 도입됐고 1~4편은 사각 타일이다.",
+  "correction": "출판사가 그의 이름을 브랜드로 붙인 문명 시리즈의 창시자(육각 격자는 문명 V부터)",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Sid_Meier",
+   "https://en.wikipedia.org/wiki/Sid_Meier's_Civilization_V"
+  ]
+ },
+ {
+  "pid": "p232",
+  "name": "척 예거",
+  "flag": "en[3] 'broom handle'는 bio에 없는 세부 일화",
+  "verdict": "confirmed",
+  "finding": "비행 이틀 전 승마 사고로 늑골이 부러진 예거가 오른팔로 해치를 못 닫자 잭 리들리가 자른 빗자루 자루를 지렛대로 준 일화는 예거 본인의 회고와 예거 재단이 기록하는 확립된 사실이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://chuckyeager.com/broken-ribs-before-breaking-the-sound-barrier",
+   "https://chuckyeager.com/history/testing-limits/october-13-1947"
+  ]
+ },
+ {
+  "pid": "p011",
+  "name": "에드워드 드링커 코프",
+  "flag": "ko[4]·en[2]가 논란 있는 엘라스모사우루스 머리-꼬리 일화를 사실로 단정",
+  "verdict": "disputed",
+  "finding": "코프가 1868년 엘라스모사우루스의 머리를 꼬리 쪽에 붙여 복원한 오류 자체는 라이디의 지적과 학술 재조사(Davidson 2002)가 확인하는 문서화된 사실이다. 다만 '마시가 지적해 코프가 굴욕당했다'는 유명 장면은 마시가 20년 뒤 신문에 푼 자화자찬식 회고에 기반해 세부가 논쟁 대상이다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://doi.org/10.1635/0097-3157(2002)152[0215:hpovbm]2.0.co;2",
+   "https://oceansofkansas.com/NYHerald.html",
+   "https://www.nationalgeographic.com/history/article/bone-wars-paleontology-feud"
+  ]
+ },
+ {
+  "pid": "p108",
+  "name": "존 미튼",
+  "flag": "ko[7]·en[2]의 곰·옷불 일화는 전해지는 유명 일화로 사실 단정 주의",
+  "verdict": "confirmed",
+  "finding": "곰을 타고 응접실에 들어간 일화와 딸꾹질을 멈추려 셔츠에 불을 붙인 일화는 당대 스포츠 작가 애퍼리('님로드')의 목격 기록에 기반한다. 애퍼리는 옷불 사건 현장에 있었고 기록으로 남겼으므로 단순 전설 이상의 근거가 있다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/John_Mytton",
+   "https://www.thefield.co.uk/features/john-mad-jack-mytton-a-spectacular-eccentric-from-the-regency-era-56552",
+   "https://www.historic-uk.com/CultureUK/Mad-Jack-Mytton/"
+  ]
+ },
+ {
+  "pid": "p226",
+  "name": "에이미 존슨",
+  "flag": "ko bio의 '쌍발기'는 부정확—실제 지프시 모스는 복엽기로 당선안[6]이 역사적으로 맞음",
+  "verdict": "corrected",
+  "finding": "존슨이 런던-호주 단독 비행에 쓴 드 하빌랜드 DH.60 지프시 모스는 단발 엔진 복엽기다. '쌍발기(쌍발엔진기)'로 읽히는 ko bio 표현은 오류이고, '낡은 복엽기'라는 당선안 표현이 정확하다.",
+  "correction": "단발 복엽기(지프시 모스)로 영국-호주 단독 비행에 성공한 조종사",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Amy_Johnson",
+   "https://en.wikipedia.org/wiki/De_Havilland_Gipsy_Moth"
+  ]
+ },
+ {
+  "pid": "p213",
+  "name": "마우로 프로스페리",
+  "flag": "ko 당선안의 자결 시도는 bio에 없지만 널리 알려진 사실",
+  "verdict": "confirmed",
+  "finding": "사원에서 손목을 그어 자결을 시도했으나 탈수로 피가 굳어 살아남았다는 일화는 BBC 인터뷰·가디언 등 본인의 일관된 증언으로 널리 입증된 내용이며 손목 흉터도 보도됐다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.bbc.com/news/magazine-30046426",
+   "https://www.theguardian.com/lifeandstyle/2023/jul/04/how-we-survive-mauro-prosperi-lost-desert-raw-bats-urine",
+   "https://en.wikipedia.org/wiki/Mauro_Prosperi"
+  ]
+ },
+ {
+  "pid": "p060",
+  "name": "매슈 헨슨",
+  "flag": "북극점 최초 도달 주장은 논쟁적이나 당선안은 한정 표현 사용",
+  "verdict": "disputed",
+  "finding": "헨슨은 본인 증언으로 피어리보다 45분 먼저 도착했다고 주장했으나, 피어리 원정대의 북극점 도달 자체가 월리 허버트(1989) 재분석으로 30~60마일 미달 가능성이 제기돼 미해결 논쟁이다. 'may have'류 한정 표현은 적절하다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Matthew_Alexander_Henson",
+   "https://www.history.com/articles/black-explorer-matthew-henson-north-pole",
+   "https://www.nationalgeographic.com/adventure/article/the-legacy-of-arctic-explorer-matthew-henson"
+  ]
+ },
+ {
+  "pid": "p055",
+  "name": "페테르 프로이헨",
+  "flag": "배설물 칼 일화는 검증된 사실이 아니라 전설적 일화로 전한다는 점을 bio도 인정하는데 당선안은 사실처럼 단정함",
+  "verdict": "unverifiable",
+  "finding": "눈속에서 얼린 자기 배설물로 끌을 만들어 탈출했다는 이야기는 1953년 자서전 『Vagrant Viking』에만 나오는 본인 단독 증언이다. 2019년 켄트주립대 실험고고학팀이 얼린 배설물 칼로는 가죽도 못 자른다는 것을 입증해 물리적 개연성까지 부정됐다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.themeateater.com/conservation/anthropology/fact-checker-did-explorer-peter-freuchen-save-his-life-with-a-poop-chisel",
+   "https://www.sapiens.org/archaeology/poop-knife-frozen/"
+  ]
+ },
+ {
+  "pid": "p288",
+  "name": "제럴드 불",
+  "flag": "모사드 소행은 확정이 아닌 추정인데 당선안이 likely로 완충함",
+  "verdict": "confirmed",
+  "finding": "불의 1990년 브뤼셀 암살은 공식 미해결이며 누구도 기소되지 않았다. 모사드설이 가장 유력하게 거론되나 이스라엘·이란·CIA 등 다수 설이 공존해 'likely'류 완충 표현이 적절하다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Gerald_Bull",
+   "https://www.washingtonpost.com/archive/opinions/1991/02/10/who-murdered-gerald-bull/",
+   "https://www.pbs.org/wgbh/frontline/"
+  ]
+ },
+ {
+  "pid": "round2-archaeology.json::소피아 슐리만",
+  "name": "소피아 슐리만",
+  "flag": "프리아모스의 보물 보석을 걸친 사진은 유명하지만 실제 보물을 착용했는지는 전설적 요소가 섞인 일화",
+  "verdict": "disputed",
+  "finding": "사진은 1873년 아테네에서 연출 촬영된 실물이며 그녀가 걸친 것은 히사를리크 출토 금세공품이 맞다. 다만 '소피아가 발굴을 도왔다'는 슐리만의 서사는 서신으로 거짓이 입증됐고, '프리아모스의 보물(헬렌의 보석)' 명명 자체가 슐리만의 창작에 가깝다. 유물 연대도 트로이 전쟁 시대보다 이른 것으로 추정된다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.aegeussociety.org/images/uploads/publications/schliemann/Schliemann_2012_421-424_Fitton.pdf",
+   "https://jenniferstager.com/essays/essay/Stager_Sophia's%20Double_CRJ2022_openaccess-1.pdf",
+   "https://commons.wikimedia.org/wiki/File:Sophia_Schliemann_wearing_Treasure_A,_Troy.jpg"
+  ]
+ },
+ {
+  "pid": "round2-archaeology.json::오브리 허버트",
+  "name": "오브리 허버트",
+  "flag": "the 'twice offered the Albanian throne' anecdote is colorful and often retold; historians treat it loosely",
+  "verdict": "confirmed",
+  "finding": "'두 차례 알바니아 왕위 제의'는 위키백스·RTSH·전기(FitzHerbert)가 모두 기록하는 표준 서사다. 다만 두 제의 모두 비공식이었고 첫 제의는 외무부가 거절, 두 번째는 1920년 이탈리아 격퇴 후 알바니아 정부 측의 비공식 타진이었다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Aubrey_Nigel_Herbert_Molyneux_Herbert",
+   "https://www.lrb.co.uk/the-paper/v05/n19/e.s.-turner/earls-sons",
+   "https://rtsh.al/rti/en/aubrey-herbert-the-british-diplomat-who-championed-albanias-independence/"
+  ]
+ },
+ {
+  "pid": "round2-asia.json::박연",
+  "name": "박연",
+  "flag": "'최초의 네덜란드인'은 bio도 '알려진/likely' 수준의 통설",
+  "verdict": "confirmed",
+  "finding": "벨테브레(박연)는 1627년 조선에 표착해 하멜 일행보다 26년 앞선 최초의 네덜란드인으로 기록된다. 위키백스도 'likely the first Dutch visitor to Korea'로 서술하며, 이는 기록이 불완전해 '확인된 최초'라는 뜻이지 반증이 있어서가 아니다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Jan_Jansz_Weltevree",
+   "https://www.koreatimes.co.kr/opinion/20120209/572-first-westerners-in-korea",
+   "https://www.donga.com/en/article/all/20070623/253718/1"
+  ]
+ },
+ {
+  "pid": "round2-asia.json::펑위샹",
+  "name": "펑위샹",
+  "flag": "winners assert the fire-hose mass baptism as fact — the bio presents it as a famous anecdote (said to have)",
+  "verdict": "unverifiable",
+  "finding": "펑위샹이 군대를 기독교화하고 수천 명이 세례받은 것은 고포스 부흥회 기록 등으로 확인되는 사실이다. 그러나 '소방호스로 집단 세례'는 백과사전도 'reputed/said to have'로 처리하는 근거 문서 없는 유명 일화다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Feng_Y%C3%BC-hsiang",
+   "https://www.encyclopedia.com/people/history/chinese-and-taiwanese-history-biographies/feng-yu-hsiang",
+   "http://www.euppublishing.com/doi/10.3366/swc.2014.0094"
+  ]
+ },
+ {
+  "pid": "round2-espionage.json::다나카 류키치",
+  "name": "다나카 류키치",
+  "flag": "his claim to have scripted the 1932 Shanghai Incident is a self-reported memoir claim disputed by historians",
+  "verdict": "unverifiable",
+  "finding": "1932년 상하이 사변을 자기가 설계했다는 주장은 전후 회고록과 도쿄재판 증언에만 나오며 위키백스도 '본인 회고 외 서면 증거가 없다'고 명시한다. 중국 폭도를 매수해 승려 습격을 사주했다는 부분은 일부 역사가(Fenby 등)가 받아들이지만 전체 '각본' 주장은 본인 자백에 의존한다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Ry%C5%ABkichi_Tanaka",
+   "https://en.wikipedia.org/wiki/January_28_incident"
+  ]
+ },
+ {
+  "pid": "round2-exploration.json::자비에르 메르츠",
+  "name": "자비에르 메르츠",
+  "flag": "사인(비타민A 중독·굶주림) 관련 후보들은 bio가 \"추정\"이라 명시한 부분을 단정하는 경향이 있어 무사인 표현을 선택",
+  "verdict": "disputed",
+  "finding": "메르츠의 사인은 미확정이다. 1969년 연구의 비타민A 과다증(허스키 간 섭취) 가설이 유력설이나, 2005년 Medical Journal of Australia 재평가는 채식주의자였던 그가 개고기 식단을 견디지 못한 기아설을 제기한다. 모슨 본인은 열·맹장염으로 추정했다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.mja.com.au/journal/2005/183/11/mawson-and-mertz-re-evaluation-their-ill-fated-mapping-journey-during-1911-1914",
+   "https://en.wikipedia.org/wiki/Far_Eastern_Party",
+   "https://mawsonshuts.antarctica.gov.au/cape-denison/mawsons-fatal-journey/the-death-of-mertz/"
+  ]
+ },
+ {
+  "pid": "round2-exploration.json::오타",
+  "name": "오타(오타흐)",
+  "flag": "ko winner asserts he stood at the North Pole — Peary's 1909 polar claim is disputed (bio itself says claimed)",
+  "verdict": "disputed",
+  "finding": "오타는 피어리가 '북극점 도달'을 주장한 1909년 최종 파티 6인 중 한 명이 맞다. 그러나 피어리의 도달 주장 자체가 현재 '실제로 도달했을 가능성이 낮다'고 평가되므로(위키백스·허버트 1989 재분석), '북극점에 섰다'는 단정은 '주장된' 수준이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Robert_Peary",
+   "https://en.wikipedia.org/wiki/Peary%27s_Expedition_(1908%E2%80%931909)",
+   "https://www.archives.gov/exhibits/american_originals/peary3.html"
+  ]
+ },
+ {
+  "pid": "round2-exploration.json::키센 싱",
+  "name": "키센 싱",
+  "flag": "en 당선작의 'prayer wheel 속 도구 은닉'은 펀딧 측량사의 유명 일화이나 bio에는 없는 세부 — 전설적으로 들릴 수 있음",
+  "verdict": "confirmed",
+  "finding": "마니차(기도바퀴) 안에 관측 기록지를 숨기고 작은 나침반을 넣는 기법, 108개 대신 100개 구슬 염주로 보폭을 세는 기법은 인도 측량국 펀딧들의 문서화된 실제 기술이다(휘플 박물관·측량국 보고서). 키센 싱 개인 소지품 지정은 없으나 그가 속한 펀딧 제도의 표준 수법이다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Pundit_%28explorer%29",
+   "https://www.whipplemuseum.cam.ac.uk/explore-whipple-collections/astronomy-and-empire/local-knowledge/pundits-and-great-game",
+   "https://en.wikipedia.org/wiki/Krishna_Singh_Rawat"
+  ]
+ },
+ {
+  "pid": "round2-finance.json::존 머헤런",
+  "name": "존 머헤런",
+  "flag": "보스키에게 향하던 목적 자체는 목격담 수준 — 본문도 reportedly로 처리",
+  "verdict": "corrected",
+  "finding": "1988년 2월 머헤런이 장전된 반자동 소총을 싣고 체포된 것은 사실이고, 경찰이 '보스키와 다비도프를 죽이려던 것 같다'고 주장한 것도 보도됐다. 그러나 살해 목적은 경찰 추정이었고 관련 혐의는 이후 기각됐다. '보스키를 죽이러 가던'이라는 단정은 기록을 넘어선다.",
+  "correction": "실탄 소총을 싣고 있다 체포됐고 경찰은 보스키 살해 의도를 주장했으나 혐의는 기각됐다",
+  "confidence": "high",
+  "sources": [
+   "https://www.latimes.com/archives/la-xpm-1988-02-20-fi-11405-story.html",
+   "https://time.com/archive/6711746/breaking-point-2/",
+   "https://www.latimes.com/archives/la-xpm-2003-dec-17-me-mulheren17-story.html"
+  ]
+ },
+ {
+  "pid": "round2-fortune-eccentric.json::로베르 드 몽테스키우",
+  "name": "로베르 드 몽테스키우",
+  "flag": "데제생트·샤를뤼스의 모델설은 '전설화/reputedly' 표현",
+  "verdict": "confirmed",
+  "finding": "위스망스 『거꾸로』의 데제생트와 프루스트의 샤를뤼스 남작의 모델이라는 것은 오르세 미술관 등 공인 기관까지 인용하는 문학사의 표준 서술이다. '모델' 관계 특성상 단일 원형 단정은 불가하지만 학계·기관 통설로 확립됐다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Robert_de_Montesquiou",
+   "https://www.musee-orsay.fr/en/program/whats-on/exhibitions/presentation/robert-de-montesquiou-or-art-showing"
+  ]
+ },
+ {
+  "pid": "round2-fortune-eccentric.json::노버트 펄로스",
+  "name": "노버트 펄로스",
+  "flag": "52년간 오류 한 건은 '전해진다/reported' 수준의 일화",
+  "verdict": "unverifiable",
+  "finding": "'52년간 딱 한 번 틀렸다(Seaborn이 항구 정박선에서 태어남)'는 것은 펄로스 본인이 1979년 시카고 트리뷴 인터뷰에서 한 주장일 뿐 독립 검증은 없다. 52년 근무 자체는 NYT 부고 등이 확인한다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Norbert_Pearlroth",
+   "https://generalist.academy/2022/02/09/the-generalist/",
+   "https://www.nytimes.com/1983/04/15/obituaries/norbert-pearlroth-89-researcher-for-52-years-for-believe-it-or-not.html"
+  ]
+ },
+ {
+  "pid": "round2-fraud-mystery.json::글레프 보트킨",
+  "name": "글레프 보트킨",
+  "flag": "당선작들이 애나 앤더슨을 '사칭자/impostor'로 단정 — 역사적 통설(DNA 확인)과 일치하지만 bio 자체는 중립 표현",
+  "verdict": "confirmed",
+  "finding": "앤더슨의 미토콘드리아 DNA는 로마노프 유해·친족과 불일치하고 프란치스카 샨츠코프스카의 조카손 칼 마우허와 일치해, 사칭자라는 것은 과학적으로 확정된 통설이다. '사칭자' 단정은 정확하다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Anna_Anderson",
+   "https://en.wikipedia.org/wiki/Gleb_Botkin"
+  ]
+ },
+ {
+  "pid": "round2-fraud-mystery.json::펠릭스 슈칸코프스키",
+  "name": "펠릭스 슈칸코프스키",
+  "flag": "여동생을 알아보고 침묵했다는 것은 사후 가족 증언에 의존하는 일화",
+  "verdict": "unverifiable",
+  "finding": "1927년 대면에서 펠릭스가 앤더슨을 알아보고도 침묵했다는 극적 서사는 사후 가족의 증언이다. 당시 그가 서명한 진술서는 '강한 유사성'만 인정하고 신체 차이를 지적하며 '그녀는 나를 알아보지 못했다'고 기록해, 극적 판본과 당대 문서가 어긋난다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Anna_Anderson",
+   "https://www.historicmysteries.com/history/anna-anderson/4049/"
+  ]
+ },
+ {
+  "pid": "round2-fraud-mystery.json::엘미르 드 오리",
+  "name": "엘미르 드 오리",
+  "flag": "en winner claims his fake Picassos hang in museums — a much-repeated but unverifiable part of the de Hory legend",
+  "verdict": "unverifiable",
+  "finding": "드 오리의 위작이 지금도 세계 미술관에 걸려 있다는 주장은 매우 널리 반복되고 가능성도 있지만(1,000점 이상 유통 추정), 특정 미술관 소장이 확인된 사례가 없어 본질적으로 검증 불가능한 전설의 일부다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Elmyr_de_Hory",
+   "https://english.elpais.com/elpais/2013/02/18/inenglish/1361201892_286250.html",
+   "https://www.widewalls.ch/magazine/elmyr-de-hory-art-forger"
+  ]
+ },
+ {
+  "pid": "round2-fraud-mystery.json::베니뉴 드 생마르",
+  "name": "베니뉴 드 생마르",
+  "flag": "철가면 자체가 전설적 명칭 — 실제 가면 소재는 미상(벨벳 설 등), 수인 신원도 미해결",
+  "verdict": "confirmed",
+  "finding": "당대 유일의 가면 기록(바스티유 기록관 뒤 장카)은 '검은 벨벳 마스크'이며 철 가면은 후대 전설의 명칭이다. 수인 신원은 '외스타슈 도제' 수감명 외에 마티올리설 등 50여 후보가 난립하는 미해결 문제다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Man_in_the_Iron_Mask",
+   "https://www.straightdope.com/21343200/who-was-the-man-in-the-iron-mask",
+   "https://en.wikipedia.org/wiki/B%C3%A9nigne_Dauvergne_de_Saint-Mars"
+  ]
+ },
+ {
+  "pid": "round2-frontier.json::카미아웨이트",
+  "name": "카미아웨이트",
+  "flag": "Sacagawea sibling recognition rests on the expedition journals; sometimes described as possible clan-kin rather than literal brother",
+  "verdict": "confirmed",
+  "finding": "1805년 8월 17일 원정 일지 자체가 '우리와 동행한 여인의 오빠로 밝혀진' 족장이라 기록해 형제 재회는 1차 사료가 지지한다. 다만 담요를 덮어씌운 포옹 장면은 비들의 1814년 윤색이고, 일지의 'brother'가 친형제인지 씨족 친족인지는 학계에서 가끔 문제 삼는다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://www.nps.gov/jeff/learn/historyculture/shoshone.htm",
+   "https://lewisandclarkresearch.org/analysis/cameahwait-the-lemhi-shoshone-chief-who-traded-horses/",
+   "https://lewisandclarkjournals.unl.edu/item/lc.sup.lavender.01.14"
+  ]
+ },
+ {
+  "pid": "round2-military.json::엘리자베스 '에지워스 베스' 라이언",
+  "name": "엘리자베스 '에지워스 베스' 라이언",
+  "flag": "셰퍼드를 '범죄로 이끈' 서사는 통속적 전기의 과장 요소가 있어 반전설적 일화로 들릴 수 있음",
+  "verdict": "corrected",
+  "finding": "'베스가 순진한 셰퍼드를 범죄로 이끌었다'는 서사는 셰퍼드 자서전의 자기변명과 디포 류 당대 범죄 전기의 '악녀 유혹' 도식에서 왔다. 내셔널 지오그래픽은 셰퍼드가 만나기 전부터 소규모 절도를 했다고 지적한다. 라이언이 범죄 파트너였던 것은 사실이나 '유혹자' 서사는 과장이다.",
+  "correction": "범죄 파트너이자 탈옥 조력자였으나 '그를 범죄로 이끈 악녀' 서사는 당대 통속 전기의 도식",
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Elizabeth_Lyon_(criminal)",
+   "https://en.wikipedia.org/wiki/Jack_Sheppard",
+   "https://www.nationalgeographic.com/history/article/jack-sheppard-london-thief"
+  ]
+ },
+ {
+  "pid": "round2-power.json::보리스 시흐무라도프",
+  "name": "보리스 시흐무라도프",
+  "flag": "state-TV confession widely viewed as coerced; his role in the 2002 plot is disputed",
+  "verdict": "disputed",
+  "finding": "2002년 국영 TV 자백은 스탈린식 모조재판으로 널리 비교되며 OSCE 미국 대표가 고문 추출 자백 의혹 조사를 요구했다. 11월 25일 '암살 시도' 자체의 실체와 그의 역할도 독재정권 발표 외 검증이 어려워 논쟁 대상이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.rferl.org/a/1101773.html",
+   "https://www.nytimes.com/2003/01/27/world/show-trials-like-stalin-s-in-turkmenistan.html",
+   "https://www.bbc.com/news/world-asia-20815114"
+  ]
+ },
+ {
+  "pid": "round2-power.json::커티스 그린",
+  "name": "커티스 그린",
+  "flag": "울브리히트의 살인 청부는 alleged — 요원 조작 극단이었고 실제 청부 성립 여부는 논쟁",
+  "verdict": "disputed",
+  "finding": "검찰은 울브리히트(DPR)가 8만 달러를 지급해 청부했다는 채팅 기록을 제시했으나, 실제 '살인'은 부패 요원들(포스·브리지스)이 연출한 가짜였고 메릴랜드 살인청부 혐의는 유죄 평결 없이 2018년 기소 취하됐다. 청부 의도는 검찰 주장 수준으로 재판에서 입증된 바 없다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://www.wired.com/2013/11/ross-ulbricht-loses-bail/",
+   "https://www.theverge.com/2013/11/8/5080182/silk-road-assassination-allegations-curtis-clark-green",
+   "https://arstechnica.com/tech-policy/2015/04/new-silk-road-docs-show-how-site-got-looted-by-cop-who-hijacked-dealers-accounts/"
+  ]
+ },
+ {
+  "pid": "round2-science.json::케네스 스넬슨",
+  "name": "케네스 스넬슨",
+  "flag": "텐세그리티 발명 공로가 풀러와 평생 분쟁 중인 사안 — 진짜 주인 단정은 일방 주장",
+  "verdict": "disputed",
+  "finding": "스넬슨이 1948년 블랙마운틴에서 최초의 텐세그리티 구조 조각을 만들고 풀러가 용어를 만들어 대중화했다는 것이 스넬슨 측 설명이나, 풀러·에메리히까지 세 명이 발명을 주장한 실제 분쟁 사안이다. '진짜 발명가' 단정은 한쪽 주장이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://riunet.upv.es/bitstream/10251/6781/1/PAP_GOMEZ_1642.pdf",
+   "https://www.grunch.net/snelson/rmoto.html",
+   "https://doi.org/10.1007/s00419-022-02192-4"
+  ]
+ },
+ {
+  "pid": "round2-survival-extreme.json::존 피츠제럴드",
+  "name": "존 피츠제럴드",
+  "flag": "Hugh Glass ordeal is semi-legendary; abandonment details rest on later accounts",
+  "verdict": "disputed",
+  "finding": "피츠제럴드는 실존 인물로 글래스를 버린 두 사람 중 하나로 지목되나, 유기 과정의 세부는 1825년 제임스 홀의 소묘 등 후대 기록에 의존한다. 글래스는 끝내 그를 해치지 못했고(입대해 보호됨) 소총만 회수했다는 것이 확인 가능한 골격이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://hughglass.org/the-legend/revenant-the-movie/",
+   "https://slate.com/culture/2015/12/hugh-glass-how-accurate-is-the-revenant-a-history-of-a-folk-tale.html",
+   "https://en.wikipedia.org/wiki/Hugh_Glass"
+  ]
+ },
+ {
+  "pid": "round2-survival-extreme.json::토머스 스트래들링",
+  "name": "토머스 스트래들링",
+  "flag": "ko 당선작의 \"버린 선원\"은 통상적 서사지만 bio상 셀커크 본인의 하선 요구를 받아들인 것",
+  "verdict": "corrected",
+  "finding": "셀커크는 싱크 포츠호의 내항성을 문제 삼아 후안 페르난데스섬 하선을 자초했고, 스트래들링이 그 제안을 받아들여 상륙시킨 뒤 재승선을 거절했다. '버려진'보다 '자초했으나 번복 불가'가 정확하며, 배는 이후 실제로 침몰해 셀커크의 판단이 옳았다.",
+  "correction": "배가 불안하다며 하선을 자초한 셀커크를 받아들였다가 되돌리길 거부한 선장",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Alexander_Selkirk",
+   "https://en.wikipedia.org/wiki/Cinque_Ports_(1703_ship)",
+   "https://en.wikisource.org/wiki/Dictionary_of_National_Biography,_1885-1900/Selkirk,_Alexander"
+  ]
+ },
+ {
+  "pid": "round2-survival-extreme.json::이와나가 아키라",
+  "name": "이와나가 아키라",
+  "flag": "double-survival rests on his own testimony; never officially certified by the government",
+  "verdict": "unverifiable",
+  "finding": "이와나가는 야마구치의 동료로 두 폭격을 겪은 이중 피폭자 중 한 명으로 전해지나 정부 공인을 받지 못했다. 공식 인증된 이중 피폭자는 야마구치 쓰토무가 유일하며(2009), 두 폭격 경험자는 약 160명으로 추정된다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Tsutomu_Yamaguchi",
+   "https://www.japantimes.co.jp/news/2009/03/26/national/man-93-officially-declared-survivor-of-both-bombs/",
+   "https://www.the-wau.com/post/blog/the-man-who-survived-two-atomic-bombs/19325?pg=3"
+  ]
+ },
+ {
+  "pid": "round2-survival-extreme.json::아이다 드 아코스타",
+  "name": "아이다 드 아코스타",
+  "flag": "당선작이 담은 '부친의 비밀 맹세' 일화는 검증 불가한 가족 전승 성격 — 비행 자체(1903년 9호 단독 조종)는 입증됨",
+  "verdict": "unverifiable",
+  "finding": "1903년 6월 산토스뒤몽 9호 비구를 단독 조종한 최초의 여성 동력 비행은 당대 신문 보도와 산토스뒤몽 기록으로 입증된다. 부모가 몰래 덮었다는 '비밀 맹세'류 일화는 후대 회고·가족 전승 성격으로 독립 검증이 불가하다.",
+  "correction": null,
+  "confidence": "medium",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Aida_de_Acosta",
+   "http://www.thedanward.com/wp-content/uploads/2019/12/LIFT-Excerpt-Ch3.pdf"
+  ]
+ },
+ {
+  "pid": "round2-tech.json::데이브 클라이먼",
+  "name": "데이브 클라이먼",
+  "flag": "사토시 후보 지목 자체가 크레이그 라이트의 일방 주장 — 공동 창설 여부는 미해결 논쟁",
+  "verdict": "unverifiable",
+  "finding": "'라이트와 클라이먼이 사토시 공동 창설' 주장은 라이트 본인과 그가 낸 소송 서류에서 나온 것으로, 법정에서 그의 증거 일부는 위조·날짜 조작 정황이 지적됐고 배심도 클라이먼의 비트코인 창설 기여를 입증할 증거 부족을 확인했다. 클라이먼의 사토시 여부는 증거 없는 미해결 논쟁이다.",
+  "correction": null,
+  "confidence": "high",
+  "sources": [
+   "https://storage.courtlistener.com/recap/gov.uscourts.flsd.521536/gov.uscourts.flsd.521536.159.9.pdf",
+   "https://news.bitcoin.com/experts-dissect-craig-wrights-satoshi-testimony-and-court-documents/"
+  ]
+ },
+ {
+  "pid": "round2-tech.json::제프 브릭스",
+  "name": "제프 브릭스",
+  "flag": "'바바 예투'는 크리스토퍼 틴 작곡 — bio의 '그의 Civ IV 테마' 서술은 오류 소지",
+  "verdict": "corrected",
+  "finding": "'Baba Yetu'는 크리스토퍼 틴이 작곡해 소렌 존슨을 통해 문명 IV 테마로 채택됐고 게임 음악 최초의 그래미 수상곡이다. 브릭스는 문명 III 리드 디자이너·파이랙시스 창업자이지 이 곡의 작곡가가 아니므로 '그의 Civ IV 테마'는 오류 소지가 있다.",
+  "correction": "크리스토퍼 틴이 작곡한 문명 IV 테마 '바바 예투'가 수록된 시리즈의 파이랙시스 창업자",
+  "confidence": "high",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Baba_Yetu",
+   "https://christophertin.com/blogs/works/baba-yetu",
+   "https://www.designer-notes.com/baba-yetu/"
+  ]
+ }
+]

@@ -50,7 +50,7 @@ export default function BottomNav() {
       className="fixed bottom-0 left-0 right-0 md:hidden shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
       style={{ zIndex: Z_INDEX.bottomNav }}
     >
-      {/* 음악 창이 내비와 그 위 띠를 통째로 비켜 바로 위에 뜨는 자리. 높이가 없어 아래를 가리지 않는다 */}
+      {/* 음악 창이 포털로 들어가는 자리. 이 고정 틀 안에 있어야 창(화면 가운데 모달)이 내비와 같은 층에서 뜬다. 높이가 없어 아래를 가리지 않는다 */}
       <div ref={setMusicNavPanelSlot} className="pointer-events-none absolute inset-x-0 bottom-full" />
       <div ref={setBottomNavDock} />
       <nav className="relative h-16 bg-bg-main/80 backdrop-blur-xl border-t border-accent/10 flex items-center safe-area-bottom">

@@ -1,0 +1,2342 @@
+{
+ "하인리히 슐리만": {
+  "influence": {
+   "political": 1,
+   "political_exp": "보물 반출로 오스만과 소송을 치른 정도",
+   "political_exp_en": "Smuggling the hoard out sparked only a lawsuit.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 6,
+   "tech_exp": "트로이·미케네 발굴로 청동기 에게해 연구를 엶",
+   "tech_exp_en": "Opened Bronze Age Aegean studies at Troy and Mycenae.",
+   "social": 3,
+   "social_exp": "고고학 열풍을 대중 담론에 올림",
+   "social_exp_en": "Brought archaeology into public discourse.",
+   "economic": 2,
+   "economic_exp": "무역으로 거부를 모았으나 제도 변화는 없음",
+   "economic_exp_en": "Made a fortune in trade but changed no system.",
+   "cultural": 7,
+   "cultural_exp": "트로이 발견이 고대사 상상력을 다시 씀",
+   "cultural_exp_en": "The Troy find rewrote the popular imagination of antiquity.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "고고학 영웅 시대를 연 원조 발굴자",
+   "transhistoricity_exp_en": "The founding figure of heroic-era archaeology."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "1871~73년 히사를리크 발굴에 인부 백여 명을 고용해 지휘",
+     "reason_en": "Hired and directed a hundred-plus workmen at Hisarlik, 1871-73."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "20년 가까이 발굴 현장 노동을 견딘 건강",
+     "reason_en": "Two decades of dig-site labour on a merchant's frame."
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "독학으로 십수 개 언어를 익혀 상업과 발굴에 활용",
+     "reason_en": "Self-taught in over a dozen languages for trade and digging."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "1873년 트로이 보물 공개로 유럽 언론을 사로잡음",
+     "reason_en": "The 1873 treasure reveal made him a European sensation."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "1873년 보물을 몰래 반출하고 공적을 독차지",
+     "reason_en": "Smuggled out the treasure in 1873 and kept the glory."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "42세에 은퇴해 20년간 발굴을 멈추지 않음",
+     "reason_en": "Retired at 42 and dug for twenty more years."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "다언어 일기를 남겼으나 자기 신화를 지어냄",
+     "reason_en": "Kept polyglot diaries yet fabricated his own legend."
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "1871년 재산과 평판을 걸고 언덕 발굴을 감행",
+     "reason_en": "Staked fortune and name on the 1871 dig."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "소피아와 발굴을 함께했으나 첫 가정은 저버림",
+     "reason_en": "Shared the digs with Sophia but abandoned his first family."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "발굴 수익을 고고학에 쏟고 유물을 베를린에 기증",
+     "reason_en": "Poured profits into digs and gave the hoard to Berlin."
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "캘버트가 알려준 발굴지의 공을 혼자 차지",
+     "reason_en": "Took sole credit for the site Calvert showed him."
+    },
+    "humility": {
+     "score": 22,
+     "reason_ko": "황금 가면에 아가멤논의 이름을 붙여 발견을 극화",
+     "reason_en": "Branded a mask 'Agamemnon' to dramatise his find."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "학계의 조롱 속에서도 트로이 실재를 확신",
+     "reason_en": "Bet on Troy's reality against scholarly scorn."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "신부를 공개 모집해 열일곱 소피아와 혼인",
+     "reason_en": "Advertised for a bride and wed seventeen-year-old Sophia."
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "사재를 들여 자기 이름의 발견을 홀로 좇음",
+     "reason_en": "Chased discoveries in his own name with his own money."
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "허가도 없이 언덕을 파고 보물을 국외로 반출",
+     "reason_en": "Dug without proper permits and shipped the hoard abroad."
+    }
+   },
+   "rationale_ko": "상인으로 번 재산을 통째로 걸고 호메로스의 문자를 믿은 대담함이 트로이와 미케네를 흙에서 끌어냈다. 독학으로 익힌 십수 개 언어와 20년의 근면이 아마추어의 한계를 메웠다. 보물 반출과 공적 독점에서 드러나듯 절제·공정·겸양은 낮다. 거친 발굴 방식은 피트리 세대의 과학적 고고학이 교정할 과제로 남겼다.",
+   "rationale_en": "He staked a merchant's fortune on the literal truth of Homer, and that boldness pulled Troy and Mycenae out of the earth. A dozen self-taught languages and twenty years of toil covered the amateur's gaps. Smuggling and self-credit mark him, as his low temperance, fairness, and humility reflect. His crude trenching became the problem Petrie's generation had to solve."
+  }
+ },
+ "하워드 카터": {
+  "influence": {
+   "political": 1,
+   "political_exp": "유물 소유권을 두고 이집트 당국과 다툰 정도",
+   "political_exp_en": "Clashed with Egyptian authorities over the finds.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 6,
+   "tech_exp": "유물 정리·보존 절차로 발굴 기준을 높임",
+   "tech_exp_en": "Raised the standards of recording and conservation.",
+   "social": 4,
+   "social_exp": "투탕카멘이 이집트 국가 자긍심의 상징이 됨",
+   "social_exp_en": "Tutankhamun became a symbol of Egyptian pride.",
+   "economic": 3,
+   "economic_exp": "발견이 이집트 관광 열풍을 촉발",
+   "economic_exp_en": "The find ignited Egypt's tourism boom.",
+   "cultural": 8,
+   "cultural_exp": "고고학사 최대 발견으로 투탕카멘 신드롬을 낳음",
+   "cultural_exp_en": "The greatest find in archaeology spawned Tutmania.",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "3천 년 무덤을 연 세기의 발견자로 남음",
+   "transhistoricity_exp_en": "Remembered as the century's greatest tomb discoverer."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "1922~32년 무덤 정리에 전문가 팀을 지휘",
+     "reason_en": "Directed the tomb's ten-year clearance team, 1922-32."
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "30년 이집트 발굴 현장을 견딘 현장 체력",
+     "reason_en": "Thirty years of dig seasons under the Egyptian sun."
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "피트리 밑에서 배운 측량으로 수석감독관까지 오름",
+     "reason_en": "Rose from Petrie's draughtsman to chief inspector."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "세기의 발견 주인공이 됐으나 괴팍한 성격",
+     "reason_en": "The find made him famous; the man stayed prickly."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "1905년 사과를 거부해 감독관 자리를 잃음",
+     "reason_en": "Lost his inspector post in 1905 rather than apologise."
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "유물 5천여 점을 십 년에 걸쳐 정리·기록",
+     "reason_en": "Catalogued five thousand objects over a decade."
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "발굴 일지는 남겼으나 다툼을 되짚진 않음",
+     "reason_en": "Kept fine journals but never revisited his feuds."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "1922년 마지막 시즌을 걸고 계곡 바닥을 팜",
+     "reason_en": "Bet the final 1922 season on the valley floor."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "카니번과의 약속과 무덤 정리를 끝까지 수행",
+     "reason_en": "Kept faith with Carnarvon and the tomb to the end."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "현지 작업반장들을 개봉 기록과 사진에 남김",
+     "reason_en": "Named his Egyptian foremen in the tomb's record."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "유물은 이집트에 남아야 한다며 후원자와 각을 세움",
+     "reason_en": "Insisted the treasures stay in Egypt."
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "발견 보도권을 놓고 언론·당국과 갈등",
+     "reason_en": "Fought press and authorities over the scoop rights."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "자금이 끊기려는 순간까지 무덤 존재를 확신",
+     "reason_en": "Held that the tomb existed to the last funded season."
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "유물 소유권 논쟁에서 제국 관행보다 이집트 손을 듦",
+     "reason_en": "Backed Egypt over colonial custom on the finds."
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "평생 혼자 작업하며 조력자와 잘 어울리지 못함",
+     "reason_en": "A solitary worker who rubbed helpers the wrong way."
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "마지막 계절에 걸되 무덤 정리는 십 년을 들임",
+     "reason_en": "Gambled on one last season, then cleared for a decade."
+    }
+   },
+   "rationale_ko": "비어 있던 계절들을 견디고 마지막 자금에 모든 것을 건 고집이 1922년의 순간을 만들었다. 발견 뒤에는 십 년에 걸쳐 유물 5천 점을 일일이 정리한 근면이 이어졌다. 사과 한 마디를 거부해 자리를 잃을 만큼 까다로운 성격은 매력과 성찰을 깎았다. 유물은 이집트에 남아야 한다는 원칙만큼은 후원자와 다투면서도 지켰다.",
+   "rationale_en": "Carter's stubborn optimism through empty seasons produced the 1922 discovery, and a decade of cataloguing five thousand objects proved the find was earned. The prickliness that cost him his post over an apology curbed his charm and reflection. Yet on one principle he never wavered: the treasures belonged to Egypt."
+  }
+ },
+ "카니번 경": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공식 정치 활동과 거리가 먼 귀족",
+   "political_exp_en": "A peer who held no political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 4,
+   "tech_exp": "15년 발굴 자금이 세기의 발견을 가능케 함",
+   "tech_exp_en": "Fifteen years of funding enabled the find.",
+   "social": 2,
+   "social_exp": "후원 문화의 고전적 사례로 회자",
+   "social_exp_en": "Became the classic case of an archaeology patron.",
+   "economic": 2,
+   "economic_exp": "사재로 발굴을 지원해 관광 자산의 씨를 뿌림",
+   "economic_exp_en": "Private money that seeded a tourism asset.",
+   "cultural": 6,
+   "cultural_exp": "그의 급사가 '파라오의 저주' 전설을 낳음",
+   "cultural_exp_en": "His sudden death invented the mummy's curse.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "무덤 개봉의 후원자이자 저주 전설의 주인",
+   "transhistoricity_exp_en": "The patron at the tomb door and the curse's first name."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "발굴 허가권을 쥐고 카터를 고용해 시즌을 운영",
+     "reason_en": "Held the concession and employed Carter season after season."
+    },
+    "martial": {
+     "score": 30,
+     "reason_ko": "1901년 자동차 사고 후유증으로 만성 쇠약",
+     "reason_en": "A 1901 motor crash left him chronically frail."
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "고고학 열정은 높았으나 판단은 카터에 의탁",
+     "reason_en": "High enthusiasm, judgment delegated to Carter."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "경마와 자동차를 즐긴 신사로 무덤 개봉의 주인공",
+     "reason_en": "A racing, motoring peer who stood at the tomb's opening."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "경주마와 고속 자동차에 돈을 아끼지 않음",
+     "reason_en": "Spent freely on racehorses and fast cars."
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "건강 악화에도 1907년부터 매 시즌 발굴을 후원",
+     "reason_en": "Funded every season from 1907 despite failing health."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "1922년 자금 중단을 검토하다 마지막 시즌을 허락",
+     "reason_en": "Weighed stopping funds, then granted the decisive 1922 season."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "열다섯 해 빈손 위험을 안고 발굴 자금을 댐",
+     "reason_en": "Carried fifteen years of empty seasons' risk."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "1922년까지 15년간 카터를 후원자로서 지원",
+     "reason_en": "Backed Carter for fifteen years through to 1922."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "수익 없는 발굴비를 사재로 오래 부담",
+     "reason_en": "Long bore the dig's costs from his own purse."
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "유물 분배를 이집트 당국과 사전 계약으로 정함",
+     "reason_en": "Set artefact division by prior contract with Egypt."
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "발굴의 얼굴을 카터에게 내주고 후원자로 물러남",
+     "reason_en": "Gave Carter the spotlight and stayed the backer."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "빈 시즌이 이어져도 카터의 확신에 계속 걸음",
+     "reason_en": "Kept betting on Carter through empty seasons."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "작위와 영지를 이어받은 기존 질서의 수혜 귀족",
+     "reason_en": "An earl by inheritance, settled in the old order."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "취미 발굴을 개인 자금으로 진행해 조직화하지 않음",
+     "reason_en": "Ran the dig as a private hobby, not an institution."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "고속 자동차를 몰다 크게 다치고도 취미를 지속",
+     "reason_en": "Kept driving fast cars even after a near-fatal crash."
+    }
+   },
+   "rationale_ko": "빈 시즌이 십수 년 이어져도 자금을 끊지 않은 인내가 세기의 발견을 열었다. 경마와 고속 자동차를 즐기는 대담한 취미 생활은 그를 일찍 병약하게 만들었다. 발견의 얼굴은 카터에게 내주고 후원자의 자리를 지키는 겸손이 있었다. 무덤 개봉 수개월 뒤 감염으로 숨져 '파라오의 저주'라는 유산을 남겼다.",
+   "rationale_en": "His refusal to cut the money through fifteen empty seasons opened the tomb. The same taste for speed that wrecked his health in a 1901 crash made him a gambler by nature. He let Carter take the fame and kept the patron's quiet role. Months after the opening he died of an infected bite — the strange gift of a 'pharaoh's curse.'"
+  }
+ },
+ "조반니 벨조니": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 5,
+   "tech_exp": "거석 운반 공학과 발굴 기록이 초기 이집트학에 기여",
+   "tech_exp_en": "His haulage feats and records fed early Egyptology.",
+   "social": 2,
+   "social_exp": "유물 수집 열풍의 상징적 인물",
+   "social_exp_en": "An emblem of the antiquities rush.",
+   "economic": 2,
+   "economic_exp": "유물 수집으로 박물관 수집 경제에 기여",
+   "economic_exp_en": "Supplied the museum-collecting economy.",
+   "cultural": 6,
+   "cultural_exp": "1821년 런던 전시로 이집트 열풍에 불을 붙임",
+   "cultural_exp_en": "His 1821 London show lit Britain's Egyptomania.",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "대영박물관 컬렉션의 원조 수집가로 남음",
+   "transhistoricity_exp_en": "A founding supplier of the British Museum's Egypt."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1817년 7톤 흉상 운반에 노동자 수십을 지휘",
+     "reason_en": "Directed dozens of labourers hauling the Memnon in 1817."
+    },
+    "martial": {
+     "score": 86,
+     "reason_ko": "서커스 괴력 장사 출신으로 7톤 거석을 이동",
+     "reason_en": "A circus strongman who shifted seven-ton statues."
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "지레와 수차 공학을 독학해 운반을 설계",
+     "reason_en": "Self-taught the levers and hydraulics of his hauls."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "1821년 런던 전시에서 세티 무덤 모형으로 흥행",
+     "reason_en": "His 1821 tomb replica packed London's Egyptian Hall."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 48,
+     "reason_ko": "선점 경쟁 속에서 유물 파손도 감수한 조급함",
+     "reason_en": "In the collecting race he broke what he could not take."
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "1815년부터 수집을 쉬지 않고 서아프리카로 향함",
+     "reason_en": "Collected without pause from 1815 to his last trek."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "1820년 회고록에 성공과 파손을 함께 적음",
+     "reason_en": "His 1820 Narrative recorded both triumphs and breakages."
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1823년 팀북투 원정을 감행하다 이질로 숨짐",
+     "reason_en": "Died of dysentery pressing on to Timbuktu in 1823."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "솔트의 의뢰를 수행했으나 공로 배분에서 갈등",
+     "reason_en": "Served Salt's commissions yet quarrelled over credit."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "현지 인부에게 품삯을 직접 지급하며 일을 맡김",
+     "reason_en": "Paid and trusted local workmen on every haul."
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "드로베티 측과의 유물 선점 다툼에서 물러서지 않음",
+     "reason_en": "Conceded nothing in the scramble against Drovetti's men."
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "회고록에서 자기 공적을 부풀려 판매를 노림",
+     "reason_en": "Puffed his feats in the memoir he sold."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "이발사 아들에서 탐험가로 스스로를 거듭 바꿈",
+     "reason_en": "Remade himself from barber's son to explorer."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "제국 시대 박물관 수집 관행 안에서 활동",
+     "reason_en": "Worked squarely inside the imperial collecting system."
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "고용주 밑에서도 현장 판단은 홀로 내림",
+     "reason_en": "Employed, yet every field decision was his own."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "1818년 카프레 피라미드에 유럽인 최초로 진입",
+     "reason_en": "First modern man inside Khafre's pyramid, 1818."
+    }
+   },
+   "rationale_ko": "서커스에서 단련된 괴력과 독학으로 익힌 운반 공학이 파라오의 거석을 런던까지 옮겼다. 수집 경쟁에서는 물러서지 않아 파손과 다툼을 남겼지만 회고록에 그 과오도 함께 적었다. 고용 관계 안에서도 현장 판단은 늘 혼자 내렸다. 팀북투를 찾아 나선 마지막 원정에서 이질로 숨졌다.",
+   "rationale_en": "Circus-hardened strength and self-taught engineering carried pharaohs to London. The collecting race made him ruthless enough to break what he could not take, though his memoir kept an honest ledger. Every field call was his alone. He died of dysentery on the road to Timbuktu in 1823."
+  }
+ },
+ "퍼시 포셋": {
+  "influence": {
+   "political": 3,
+   "political_exp": "국경 측량 지도가 남미 국경 협상 자료가 됨",
+   "political_exp_en": "His border surveys fed South American boundary talks.",
+   "strategic": 2,
+   "strategic_exp": "1차대전 포병 장교로 복무",
+   "strategic_exp_en": "WWI artillery officer.",
+   "tech": 4,
+   "tech_exp": "소수 정예 정글 탐사 기법을 정립",
+   "tech_exp_en": "Codified small-party jungle survey methods.",
+   "social": 3,
+   "social_exp": "원주민 접촉 방식을 비교적 우호적으로 실천",
+   "social_exp_en": "Practised unusually friendly contact with native tribes.",
+   "economic": 1,
+   "economic_exp": "측량 외 산업 기여는 미미",
+   "economic_exp_en": "Little beyond his surveys.",
+   "cultural": 7,
+   "cultural_exp": "실종 전설이 『잃어버린 도시 Z』로 재생산",
+   "cultural_exp_en": "His disappearance became 'The Lost City of Z.'",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "탐험사 최대의 실종 미스터리로 남음",
+   "transhistoricity_exp_en": "Exploration's most famous missing man."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 68,
+     "reason_ko": "1914~18년 서부전선에서 포병 여단급 부대를 지휘",
+     "reason_en": "Commanded artillery on the Western Front, 1914-18."
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "여덟 차례 정글 원정과 전시 복무를 견딘 강인함",
+     "reason_en": "Eight jungle expeditions and a war on one tough frame."
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "왕립지리학회 측량술은 정예였으나 'Z'는 문서를 과신",
+     "reason_en": "A trained surveyor who trusted old manuscripts too far."
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "실종 뒤 수십 년간 수색대가 그의 흔적을 좇음",
+     "reason_en": "Searchers chased his legend for decades after 1925."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "정글에서 소수 편성과 절약 보급을 고집",
+     "reason_en": "Insisted on tiny parties and lean rations."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1906~25년 아마존 탐사를 거듭해 마지막 원정에 나감",
+     "reason_en": "Mapped the Amazon from 1906 to his final trek."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "원정 일지를 남겼으나 'Z'의 전제는 의심하지 않음",
+     "reason_en": "Logged everything but never questioned 'Z.'"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1925년 지도 없는 마투그로수로 마지막 진입",
+     "reason_en": "Walked into the unmapped Mato Grosso in 1925."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "국경 측량 임무와 군 복무를 끝까지 수행",
+     "reason_en": "Saw every survey and his war service through."
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "무장 대치 대신 선물 교환으로 원주민을 접함",
+     "reason_en": "Met the tribes with gifts instead of rifles."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "대원에게 자신과 같은 배급과 행군을 요구",
+     "reason_en": "Ate and marched exactly what his men did."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "탐험 공로를 동료와 현지 안내자에게 돌림",
+     "reason_en": "Shared expedition credit with guides and companions."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "고문서와 목격담으로 'Z'의 발견을 확신",
+     "reason_en": "Certain that 'Z' waited to be found."
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "제국 장교 체제 안에서 일하되 원주민 지식을 인정",
+     "reason_en": "An imperial officer who still credited native knowledge."
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "소수 정예를 선호해 대조직 탐사는 피함",
+     "reason_en": "Preferred tiny parties to organised expeditions."
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "귀환 보장 없이 세 명으로 정글 심층에 진입",
+     "reason_en": "Entered the deep jungle three men strong, no rescue planned."
+    }
+   },
+   "rationale_ko": "측량 장교의 몸과 성격이 여덟 번의 정글 원정과 한 번의 세계대전을 견뎌냈다. 원주민에게 무기 대신 선물을 내미는 방식은 시대 기준으로 드문 인자함이었다. 고문서에 대한 과신이 'Z'라는 환상을 키웠고 대담함이 그 환상을 좇게 했다. 1925년 아들과 함께 사라진 실종 자체가 그의 가장 큰 유산이 됐다.",
+   "rationale_en": "A surveyor's toughness carried him through eight Amazon expeditions and a world war. His gift-not-rifles approach to the tribes was rare benevolence for his era. Over-trust in old manuscripts fed the mirage of 'Z,' and boldness sent him after it. Vanishing with his son in 1925 became his largest legacy."
+  }
+ },
+ "로이 채프먼 앤드루스": {
+  "influence": {
+   "political": 2,
+   "political_exp": "군벌 치하 중국과 탐사 협정을 협상",
+   "political_exp_en": "Negotiated digs amid China's warlord politics.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 7,
+   "tech_exp": "자동차 동원 대탐사와 최초의 공룡 알 발견",
+   "tech_exp_en": "Motorised science caravans and the first dinosaur eggs.",
+   "social": 2,
+   "social_exp": "표본 반출 논쟁의 전형적 사례",
+   "social_exp_en": "A textbook case in the fossils-removal debate.",
+   "economic": 3,
+   "economic_exp": "기업 후원·언론 연계의 탐사 자금 모델을 보임",
+   "economic_exp_en": "Pioneered sponsor-driven expedition funding.",
+   "cultural": 7,
+   "cultural_exp": "인디아나 존스의 실사 모델로 회자되는 모험 과학자",
+   "cultural_exp_en": "The adventure-scientist behind the Indiana Jones image.",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "고비 화석군을 세계에 연 탐사의 대표자",
+   "transhistoricity_exp_en": "Opened the Gobi's fossil beds to the world."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "1922~30년 고비 원정대를 이끌고 1934년 박물관장 취임",
+     "reason_en": "Led the Gobi caravans, then ran the AMNH from 1934."
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "사막 행군과 도적 구간 통과를 반복한 현장 체력",
+     "reason_en": "Desert marches and bandit country, year after year."
+    },
+    "intellect": {
+     "score": 66,
+     "reason_ko": "고래 연구에서 대륙 규모 탐사 기획으로 확장",
+     "reason_en": "Scaled from whale work to continent-wide expeditions."
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "강연과 저술로 미국을 탐험 이야기에 몰입시킴",
+     "reason_en": "Lectures and bestsellers made him a national hero."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "언론에 발굴 성과를 과장해 알리는 습관",
+     "reason_en": "Oversold his finds to the press."
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "청소부로 입사해 탐사대장과 관장까지 오름",
+     "reason_en": "From mopping museum floors to directing it."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "여러 저작에서 성공담 위주로 회고해 과오는 적게 다룸",
+     "reason_en": "His memoirs dwelt on triumphs, thin on regrets."
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "1920년대 군벌 충돌 속 고비 원정을 강행",
+     "reason_en": "Drove into warlord-era Mongolia in the 1920s."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "평생 자연사박물관 하나에 몸담아 관장까지 수행",
+     "reason_en": "One museum for life, floor mop to director."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "탐사 수확을 박물관 공공 컬렉션에 귀속",
+     "reason_en": "His hauls went to public museum collections."
+    },
+    "fairness": {
+     "score": 42,
+     "reason_ko": "표본 반출로 중국 반발을 사 1930년 탐사 중단",
+     "reason_en": "Hauling fossils out got the expeditions banned in 1930."
+    },
+    "humility": {
+     "score": 42,
+     "reason_ko": "자기 모험담을 저술과 강연에서 극적으로 부풀림",
+     "reason_en": "Polished his own legend in every lecture."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "불가능하던 사막 자동차 횡단을 성공으로 낙관",
+     "reason_en": "Bet that cars could cross the Gobi — and they did."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "제국 시대 표본 수집 관행을 그대로 따름",
+     "reason_en": "Followed imperial collecting custom without question."
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "다학제 원정팀과 박물관 조직을 경력의 축으로 삼음",
+     "reason_en": "Built his career on team expeditions and one institution."
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "1922년 자동차 대열로 미답의 고비에 진입",
+     "reason_en": "Pointed a motorcade at the unmapped Gobi in 1922."
+    }
+   },
+   "rationale_ko": "박물관 청소부로 시작해 관장까지 오른 경력 자체가 근면의 증거다. 자동차 대열로 고비를 횡단하는 대담한 기획이 최초의 공룡 알을 낳았다. 성과를 과장해 알리고 표본을 반출한 탓에 절제와 공정은 낮다. 1930년 중국의 탐사 금지가 그 방식의 한계를 보여줬다.",
+   "rationale_en": "Rising from museum floor-mopper to director is the diligence record in itself. The audacious motor caravans across the warlord-era Gobi produced the first dinosaur eggs. Overselling finds and shipping fossils home cost him on temperance and fairness. China's 1930 ban on his expeditions marked the limit of that method."
+  }
+ },
+ "히럼 빙엄": {
+  "influence": {
+   "political": 5,
+   "political_exp": "코네티컷 주지사와 상원의원을 지냄",
+   "political_exp_en": "Governor then US senator for Connecticut.",
+   "strategic": 3,
+   "strategic_exp": "1차대전 항공 병과 조직과 군사 항공 옹호",
+   "strategic_exp_en": "Built army aviation schools in WWI.",
+   "tech": 5,
+   "tech_exp": "마추픽추를 학계에 보고했으나 해석은 빗나감",
+   "tech_exp_en": "Reported Machu Picchu though he misread it.",
+   "social": 4,
+   "social_exp": "유물 반출이 페루와 백 년 반환 분쟁을 낳음",
+   "social_exp_en": "His removals seeded a century-long restitution dispute.",
+   "economic": 4,
+   "economic_exp": "발견 보도가 마추픽추 관광의 기반이 됨",
+   "economic_exp_en": "His reports founded Machu Picchu's tourist fame.",
+   "cultural": 7,
+   "cultural_exp": "잉카의 잃어버린 도시를 세계적 아이콘으로 만듦",
+   "cultural_exp_en": "Made Machu Picchu a world icon.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "마추픽추 발견자로 기억되는 탐험가 상원의원",
+   "transhistoricity_exp_en": "The explorer-senator tied forever to Machu Picchu."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "예일 페루 원정대와 1차대전 항공 학교 조직을 지휘",
+     "reason_en": "Ran Yale's Peru expeditions and WWI aviation schools."
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "안데스 원정과 40대의 조종사 훈련을 이수",
+     "reason_en": "Andes treks and pilot training in his forties."
+    },
+    "intellect": {
+     "score": 63,
+     "reason_ko": "예일 라틴아메리카사 연구와 현지 탐사를 병행",
+     "reason_en": "A Yale historian who verified his books in the field."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "1911년 발견의 명성으로 상원의원 자리까지 얻음",
+     "reason_en": "The 1911 fame carried him to the Senate."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "1929년 유급 로비스트를 직원으로 써 상원 견책",
+     "reason_en": "Senate-censured in 1929 for a lobbyist on staff."
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "탐사·저술·군복무·정치를 연속으로 수행",
+     "reason_en": "Explored, wrote, served, and legislated in one life."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "마추픽추 해석이 빗나가도 자기 주장을 고수",
+     "reason_en": "Held his Vilcabamba theory even when wrong."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "안데스 오지 탐사와 중년의 군사 항공 도전을 감행",
+     "reason_en": "Took on the Andes and wartime aviation."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "예일의 명분 아래 유물 반출 방침을 고수",
+     "reason_en": "Kept Yale's claim on the artefacts to the end."
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "페루 유물 수만 점을 예일로 반출해 분쟁의 씨를 뿌림",
+     "reason_en": "Shipped Peru's heritage to Yale, seeding a century of dispute."
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "선행 발견자와 안내자의 공을 인정하지 않음",
+     "reason_en": "Gave local guides and earlier visitors little credit."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "현지인이 알던 도시를 자기 '발견'으로 내세움",
+     "reason_en": "Claimed 'discovery' of a city locals already knew."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "잃어버린 잉카 도시를 찾는다는 목표로 원정 조직",
+     "reason_en": "Mounted expeditions sure a lost Inca city existed."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "공화당 상원의원으로 보호관세 등 기존 노선을 지지",
+     "reason_en": "A regular-order Republican senator of the 1920s."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "조직을 활용하되 발견과 공직의 공은 자기 명의로",
+     "reason_en": "Used institutions but kept the credit in his own name."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "미측량 안데스 원정과 중년의 비행사 도전을 택함",
+     "reason_en": "Chose unmapped Andes and mid-life flight school."
+    }
+   },
+   "rationale_ko": "잃어버린 도시를 찾겠다는 확신이 안데스 원정을 만들었고 1911년 마추픽추가 그 보답이었다. 발견의 명성은 상원의원까지 실어 날랐으나 유급 로비스트 채용으로 견책을 받았다. 현지인이 알던 곳을 자기 발견으로 내세우는 공정·겸양의 부재가 페루와의 백 년 분쟁을 낳았다. 유물은 2011년에야 페루로 돌아갔다.",
+   "rationale_en": "The conviction that a lost Inca city existed launched his Andes expeditions, and Machu Picchu rewarded it in 1911. Discovery fame carried him to the Senate, where a paid lobbyist on staff earned him censure. Claiming a place locals already knew left the fairness and humility deficits behind a century-long dispute with Peru. The artefacts only went home in 2011."
+  }
+ },
+ "아서 에번스": {
+  "influence": {
+   "political": 3,
+   "political_exp": "발칸 보도와 남슬라브 옹호로 오스트리아에 추방",
+   "political_exp_en": "Expelled by Austria for pro-Slav Balkan reporting.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 7,
+   "tech_exp": "미노아 문명 발굴과 선형문자 B 자료를 학계에 제공",
+   "tech_exp_en": "Opened Minoan studies and published the Linear B corpus.",
+   "social": 4,
+   "social_exp": "'미노아'라는 문명 개념을 유럽사에 심음",
+   "social_exp_en": "Planted 'Minoan' into Europe's story of itself.",
+   "economic": 3,
+   "economic_exp": "크노소스 복원이 크레타 관광 유산을 만듦",
+   "economic_exp_en": "The rebuilt palace became Crete's tourist anchor.",
+   "cultural": 8,
+   "cultural_exp": "미궁·미노타우로스 이미지를 현대 문화에 재각인",
+   "cultural_exp_en": "Re-seeded the labyrinth myth into modern culture.",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "유럽 청동기 연구의 토대를 놓은 발굴자",
+   "transhistoricity_exp_en": "Laid the foundation of Aegean Bronze Age studies."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "애슈몰리언 관장 24년과 30년 크노소스 발굴 지휘",
+     "reason_en": "Ran the Ashmolean 24 years and Knossos for thirty."
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "발칸 취재와 크레타 발굴 현장을 노년까지 소화",
+     "reason_en": "Kept up Balkan roads and dig seasons into old age."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "인장돌 흔적에서 문명 전체를 추론해 '미노아'를 명명",
+     "reason_en": "Read a whole civilisation out of seal stones."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "크노소스 복원에 유럽 지식인의 발길이 끊이지 않음",
+     "reason_en": "Knossos became Europe's scholarly pilgrimage."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "유적을 자기 구상대로 콘크리트 복원해 논란",
+     "reason_en": "Rebuilt the palace in concrete to his own vision."
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "1900년부터 30년간 발굴과 대작 저술을 병행",
+     "reason_en": "Dug and published 'The Palace of Minos' for thirty years."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "방대한 보고를 남겼으나 비판에는 쉽게 굴하지 않음",
+     "reason_en": "Published massively, yielded rarely to critics."
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "남슬라브 옹호로 추방당한 뒤 사재로 발굴을 감행",
+     "reason_en": "Expelled for pro-Slav work; bought the site and dug anyway."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "크노소스 유적을 영국학교에 기증하고 크레타에 정착",
+     "reason_en": "Deeded Knossos to the British School and lived in Crete."
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "발굴지와 소장품을 학교·박물관에 기증",
+     "reason_en": "Gave the site and collections to public institutions."
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "복원 부분과 원래 유적의 구분을 관람객에게 흐림",
+     "reason_en": "Blurred where ruins ended and his guesswork began."
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "자기 해석을 문명의 이름과 복원 형태로 각인",
+     "reason_en": "Named a civilisation and rebuilt it in his own image."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "유럽 문명의 뿌리를 크레타에서 찾아낸다는 확신",
+     "reason_en": "Certain Crete held Europe's first civilisation."
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "오스만·오스트리아 제국 아래 남슬라브 자치를 지지",
+     "reason_en": "Backed South Slav self-rule against the empires."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "사재와 사유지로 발굴을 지배해 개인 사업처럼 운영",
+     "reason_en": "Bought the dig outright and ran it as a personal domain."
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "추정이면 콘크리트로 재건해 유적에 새겨버림",
+     "reason_en": "Cast his conjectures in concrete on the ruins."
+    }
+   },
+   "rationale_ko": "골동품 가게의 인장돌 하나에서 문명 전체를 읽어낸 추론력이 '미노아'라는 이름을 만들었다. 사재로 땅을 사고 30년을 파낸 집요함이 크노소스를 일궜다. 추정을 콘크리트로 재건해 관람객에게 원형처럼 보이게 한 대담함은 공정성 논란을 남겼다. 발굴지는 영국학교에 기증해 공적 자산이 됐다.",
+   "rationale_en": "He inferred an entire civilisation from seal-stones in an Athens shop and named it 'Minoan.' Buying the ground himself and digging for thirty years laid Knossos bare. Casting conjecture into concrete bold enough to look original left lasting questions of fairness. He deeded the site to the British School, making his dig a public asset."
+  }
+ },
+ "장 프랑수아 샹폴리옹": {
+  "influence": {
+   "political": 1,
+   "political_exp": "나폴레옹 계열 성향으로 직위를 잃은 정도",
+   "political_exp_en": "Lost posts for Bonapartist sympathies.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 9,
+   "tech_exp": "상형문자 해독으로 사라진 문자 복원의 방법을 세움",
+   "tech_exp_en": "His decipherment founded the recovery of dead scripts.",
+   "social": 4,
+   "social_exp": "인류 기록사를 천오백 년 앞당겨 읽게 함",
+   "social_exp_en": "Added fifteen centuries to readable history.",
+   "economic": 1,
+   "economic_exp": "학문 외 산업 기여 없음",
+   "economic_exp_en": "No contribution outside scholarship.",
+   "cultural": 7,
+   "cultural_exp": "이집트학 창설로 이집트 열풍을 학문화",
+   "cultural_exp_en": "Turned Egyptomania into a discipline.",
+   "transhistoricity": 25,
+   "transhistoricity_exp": "이집트학이라는 학문 자체의 창설자",
+   "transhistoricity_exp_en": "The founder of Egyptology itself."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "1826년 루브르 이집트 부서를 맡고 1828년 답사대 이끔",
+     "reason_en": "Ran the Louvre's Egyptian division and the 1828 mission."
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "과로로 건강이 무너져 41세에 뇌졸중으로 숨짐",
+     "reason_en": "Burnout and strokes killed him at 41."
+    },
+    "intellect": {
+     "score": 94,
+     "reason_ko": "열여섯에 콥트어를 익히고 1822년 상형문자를 해독",
+     "reason_en": "Coptic at sixteen; the hieroglyphs cracked by 1822."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "해독 발표로 학계를 뒤집고 '해냈다' 일화를 남김",
+     "reason_en": "Stunned the academy with 'Je tiens l'affaire.'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "해독 선공 논쟁에서 토머스 영의 공을 좁게 인정",
+     "reason_en": "Grudged Thomas Young's share of the decipherment."
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "짧은 생애에 십여 개 언어와 문법·사전을 남김",
+     "reason_en": "A dozen languages, a grammar and dictionary by 41."
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "형에게 보낸 편지에 연구의 고비와 회의를 솔직히 적음",
+     "reason_en": "Told his brother the doubts behind the breakthrough."
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "왕정복기의 불이익을 감수하고 학문과 신념을 지킴",
+     "reason_en": "Kept his work and politics through Restoration purges."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "형 샹폴리옹피제악과 평생 학문 공동체를 이룸",
+     "reason_en": "Worked as one team with his elder brother for life."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "제자와 젊은 연구자에게 해독법을 아낌없이 가르침",
+     "reason_en": "Taught his method freely to younger scholars."
+    },
+    "fairness": {
+     "score": 42,
+     "reason_ko": "영의 선행 기여를 공식 석상에서 축소",
+     "reason_en": "Played down Young's groundwork in public."
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "해독의 공을 확정하려 앞다퉈 출판",
+     "reason_en": "Rushed into print to seal the credit."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "가난과 병약 속에서도 해독 성공을 확신",
+     "reason_en": "Sure the script would yield despite poverty and illness."
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "왕정복기 프랑스에서 나폴레옹 계열 신념을 유지",
+     "reason_en": "Kept Bonapartist faith under the restored monarchy."
+    },
+    "individual_social": {
+     "score": 0,
+     "reason_ko": "해독은 혼자 이뤘으나 학회·박물관 안에서 활동",
+     "reason_en": "Cracked it alone but worked inside institutions."
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "검증이 끝나기 전에 해독 체계를 단번에 발표",
+     "reason_en": "Published the whole system before full proof."
+    }
+   },
+   "rationale_ko": "열여섯에 콥트어까지 익힌 언어 천재성이 죽은 문자를 살려냈다. 가난과 병을 밀어내고 짧은 생애에 학문 하나를 세운 근면이 이집트학을 열었다. 선공을 둘러싼 다툼에서 토머스 영의 공을 좁게 인정한 것은 절제와 공정의 흠이다. 41세의 나이로 뇌졸중으로 쓰러졌다.",
+   "rationale_en": "A prodigy who had Coptic by sixteen brought a dead script back to life. Working through poverty and illness, he founded a discipline inside two decades. His grudging credit to Thomas Young marks the temperance and fairness flaws. A stroke felled him at 41."
+  }
+ },
+ "메리 애닝": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 8,
+   "tech_exp": "최초 완형 골격들이 고생물학의 실증 토대가 됨",
+   "tech_exp_en": "Her complete skeletons grounded vertebrate palaeontology.",
+   "social": 5,
+   "social_exp": "배제된 여성 과학자의 상징으로 재조명",
+   "social_exp_en": "Now the emblem of women shut out of science.",
+   "economic": 2,
+   "economic_exp": "화석 판매로 생계를 이었을 뿐",
+   "economic_exp_en": "Sold fossils to keep the household fed.",
+   "cultural": 6,
+   "cultural_exp": "화석 사냥꾼 여성상을 문화 아이콘으로 남김",
+   "cultural_exp_en": "Left the fossil-hunting woman as a cultural icon.",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "고생물학 탄생기의 핵심 발견자",
+   "transhistoricity_exp_en": "A founding discoverer of palaeontology."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "화석 판매점을 운영하고 학자들의 채집을 안내",
+     "reason_en": "Ran the family fossil shop and guided scholars' hunts."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "30년간 붕괴 위험의 절벽에서 직접 골격을 캐냄",
+     "reason_en": "Three decades digging skeletons from collapsing cliffs."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "독학으로 해부학·지질학을 익혀 학자들과 대등히 논함",
+     "reason_en": "Self-taught anatomy and geology enough to debate experts."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "런던 학자들이 라임레지스까지 그녀를 찾아옴",
+     "reason_en": "London's geologists travelled to Lyme to meet her."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "판매 수입으로 빚을 갚고 가족을 부양하며 삶",
+     "reason_en": "Sold finds to pay debts and feed her family."
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "날씨와 조수를 가리지 않고 평생 절벽 채집",
+     "reason_en": "Worked the tides and cliffs her whole life."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "학자들과의 서신에서 자기 관찰을 검증하며 다듬음",
+     "reason_en": "Tested her observations in letters to the savants."
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "산사태로 개를 잃고도 절벽 채집을 계속",
+     "reason_en": "Kept to the cliffs after a landslide killed her dog."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "평생 고향을 떠나지 않고 가족 부양을 이어감",
+     "reason_en": "Never left Lyme; carried the family till the end."
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "발견 정보와 현장 안내를 학자들에게 제공",
+     "reason_en": "Shared her finds and her shore with visiting science."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "화석 가격과 판매 기록을 정직하게 관리",
+     "reason_en": "Dealt honestly in price and provenance."
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "학계의 배제 속에서도 명예보다 채집에 집중",
+     "reason_en": "Shut out of the societies, she kept collecting anyway."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "자기 기여가 인정되지 않는 학계를 씁쓸하게 봄",
+     "reason_en": "Saw plainly that science used her unkindly."
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "여성 배제 관습을 실력으로 뚫고 학계와 논함",
+     "reason_en": "Argued with the learned world that barred her sex."
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "채집은 홀로 해도 수입은 가족과 마을에 쓰임",
+     "reason_en": "Dug alone but lived for household and town."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "붕괴 직후의 절벽에서 노출 골격을 서둘러 회수",
+     "reason_en": "Raced the tides to lift bones from fresh falls."
+    }
+   },
+   "rationale_ko": "열세 살이 되기도 전에 바다괴물 골격을 캐낸 솜씨가 30년 절벽 채집으로 이어졌다. 독학으로 쌓은 지질학·해부학 지식이 런던 학자들을 라임레지스로 불렀으나 여성과 하층민이라는 벽이 명예를 막았다. 산사태로 개를 잃은 절벽에서도 채집을 멈추지 않은 용기와 근면이 남았다. 생전에는 골동품상으로, 죽어서는 고생물학의 어머니로 불린다.",
+   "rationale_en": "The girl who dug out a sea-dragon at twelve spent thirty years on the cliffs. Self-taught geology brought London's scholars to her door, yet sex and class kept the credit away. She worked the same ledges that killed her dog, and kept working. An antique-seller in life, she became the mother of palaeontology in death."
+  }
+ },
+ "바넘 브라운": {
+  "influence": {
+   "political": 1,
+   "political_exp": "두 차례 대전 때 수집 여행이 정보 수집을 겸함",
+   "political_exp_en": "His collecting trips doubled as wartime intelligence work.",
+   "strategic": 1,
+   "strategic_exp": "전시 정보 보고가 소규모 기여",
+   "strategic_exp_en": "Passed minor wartime intelligence reports.",
+   "tech": 7,
+   "tech_exp": "최초의 티라노사우루스와 대규모 채집 기법",
+   "tech_exp_en": "The first T. rex and mass-collecting technique.",
+   "social": 2,
+   "social_exp": "공룡 붐의 원동력이 된 수집",
+   "social_exp_en": "His hauls powered the dinosaur craze.",
+   "economic": 3,
+   "economic_exp": "화석 지층 지식을 석유사 자문에 활용",
+   "economic_exp_en": "Sold stratigraphic skill to oil companies.",
+   "cultural": 7,
+   "cultural_exp": "모피 차림 화석 사냥꾼이 공룡 시대의 이미지가 됨",
+   "cultural_exp_en": "The fur-coated bone hunter became the field's image.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "세계 박물관을 채운 세기의 수집가",
+   "transhistoricity_exp_en": "Filled the world's museums for a century."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "1910년대 뗏목 발굴선과 채집대를 운영",
+     "reason_en": "Ran barge digs and collecting crews on the Red Deer."
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "평생 발굴 노동과 세계 각지 원정을 소화",
+     "reason_en": "Dig labour and world expeditions into his eighties."
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "수집량은 방대했으나 분석 저술은 적게 남김",
+     "reason_en": "Collected mountains, published little analysis."
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "수트와 모피 차림으로 발굴지에 나가는 괴짜",
+     "reason_en": "Dug in suit and fur coat — the dandy of the badlands."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "수집 예산을 아낌없이 쓰고 호사한 차림을 즐김",
+     "reason_en": "Spent budgets lavishly and dressed like a showman."
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "1897년부터 66년간 박물관 표본 수집을 지속",
+     "reason_en": "Collected for the museum for sixty-six years."
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "발굴 기록은 남겼으나 연구보다 수집을 앞세움",
+     "reason_en": "Logged finds but chose the next quarry over study."
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "전시 유럽과 미답지에서 수집과 정보 활동을 병행",
+     "reason_en": "Collected through war zones and unmapped country."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "66년간 자연사박물관 소속 수집가로 일관",
+     "reason_en": "The AMNH's bone hunter for life."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "동행한 아내의 탐사 회고록 집필을 적극 도움",
+     "reason_en": "Backed his wife Lilian's expedition memoirs."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "표본 흥정에서 박물관 이익을 우선",
+     "reason_en": "Bargained hard for the museum's share."
+    },
+    "humility": {
+     "score": 32,
+     "reason_ko": "자기 이름과 쇼맨 별명을 수집 마케팅에 활용",
+     "reason_en": "Used his showman name to sell the bones."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "어디든 화석이 있다는 낙관으로 세계를 누빔",
+     "reason_en": "Hunted every continent sure the bones were there."
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "박물관 체계와 기업 의뢰 안에서 활동",
+     "reason_en": "Worked inside museum and corporate structures."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "수집은 혼자 판단하고 처리도 자기 방식대로",
+     "reason_en": "Collected and hoarded on his own say-so."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "뗏목을 띄워 절벽을 다이너마이트로 까며 수집",
+     "reason_en": "Floated barges and blasted cliffs for specimens."
+    }
+   },
+   "rationale_ko": "쇼맨의 이름을 물려받은 남자가 평생 화석 사냥으로 그 이름에 걸맞게 살았다. 뗏목과 다이너마이트를 동원한 대담한 수집이 최초의 티라노사우루스를 세상에 꺼냈다. 66년간 한 박물관을 채운 충실함과, 연구보다 수집을 앞세운 절제 부족이 공존한다. 두 차례 대전 때는 수집 여행이 정보 활동을 겸했다.",
+   "rationale_en": "Named for a showman, he spent a lifetime living up to it as the field's greatest collector. Barge expeditions and dynamited cliffs produced the first Tyrannosaurus. Sixty-six years of loyalty to one museum sat beside a temperance gap — he always chose the next quarry over the write-up. His collecting trips quietly doubled as wartime intelligence work."
+  }
+ },
+ "에드워드 드링커 코프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 7,
+   "tech_exp": "1,000종 명명으로 미국 척추동물학의 틀을 세움",
+   "tech_exp_en": "Named a thousand species and framed the field.",
+   "social": 2,
+   "social_exp": "공개 학설 전쟁으로 과학계 양상을 드러냄",
+   "social_exp_en": "His public feud exposed science's rivalries.",
+   "economic": 1,
+   "economic_exp": "재산을 경쟁에 탕진해 파산 직전",
+   "economic_exp_en": "Burned his fortune on the Bone Wars.",
+   "cultural": 6,
+   "cultural_exp": "'화석 전쟁'의 주인공으로 과학사 이야기에 남음",
+   "cultural_exp_en": "Half of the Bone Wars legend.",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "공룡 분류학 초석을 놓은 대표적 명명자",
+   "transhistoricity_exp_en": "A cornerstone namer of dinosaur taxonomy."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "서부 탐사대를 이끌었으나 교수직 관리는 금방 놓음",
+     "reason_en": "Led survey teams but quit his professorship fast."
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "1870년대 서부 황야 탐사를 수차례 소화",
+     "reason_en": "Rode the wild surveys of the 1870s West."
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "19세에 첫 논문, 평생 1,400편과 1,000종 명명",
+     "reason_en": "Published at nineteen; 1,400 papers, 1,000 species."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "신문 지상 공개 논쟁으로 학계와 척을 짐",
+     "reason_en": "Waged his feud in the newspapers and lost friends."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "경쟁에 재산과 건강을 태우며 싸움을 멈추지 못함",
+     "reason_en": "Could not stop fighting until it ruined him."
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "죽을 때까지 매년 수십 편의 논문을 쏟아냄",
+     "reason_en": "Poured out papers to the year he died."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "복원 오류는 고쳤으나 전쟁 같은 경쟁은 되짚지 않음",
+     "reason_en": "Fixed his Elasmosaurus, never his war."
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "인디언 전쟁기 서부 탐사와 공개 논쟁을 감행",
+     "reason_en": "Dug through Indian Wars territory and feuded in print."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "학파 신념에는 일관했으나 동료 관계를 깨뜨림",
+     "reason_en": "True to his theories, careless of his colleagues."
+    },
+    "benevolence": {
+     "score": 32,
+     "reason_ko": "라이벌 채석장 파괴와 수집가 포섭 공작",
+     "reason_en": "Wrecked rivals' quarries and poached their diggers."
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "돈으로 상대 수집가를 포섭해 표본을 가로챔",
+     "reason_en": "Bought his rival's collectors out from under him."
+    },
+    "humility": {
+     "score": 22,
+     "reason_ko": "엘라스모사우루스 오류 지적에 굴하지 않고 반격",
+     "reason_en": "Met his blunder's correction with counterattack."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -12,
+     "reason_ko": "라이벌의 손이 닿았다며 주변을 경계",
+     "reason_en": "Saw Marsh's hand behind every setback."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "과학 논쟁엔 앞섰으나 질서 문제엔 침묵",
+     "reason_en": "Radical in science, silent on the social order."
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "기관 직위보다 개인 탐사와 사설 학회지로 활동",
+     "reason_en": "Bought his own journal rather than serve institutions."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "검증보다 속도를 택해 방대한 명명을 밀어붙임",
+     "reason_en": "Named at speed, verified later if at all."
+    }
+   },
+   "rationale_ko": "19세에 논문을 낸 천재성이 1,400편의 저작과 1,000종의 명명으로 폭발했다. 마시와의 화석 전쟁이 그 천재를 갉아먹어 재산과 평판을 함께 태웠다. 복원 오류를 지적받아도 굴하지 않는 기질이 절제·공정·겸양을 낮췄다. 파산 직전에 숨지며 자기 두개골을 인간 표본으로 남겼다.",
+   "rationale_en": "The prodigy who published at nineteen exploded into 1,400 papers and a thousand named species. The Bone Wars devoured that genius along with his fortune and good name. The temper that met corrections with counterattacks shows in his low temperance, fairness, and humility. Nearly bankrupt at death, he willed his own skull to science."
+  }
+ },
+ "오스니얼 찰스 마시": {
+  "influence": {
+   "political": 3,
+   "political_exp": "국립과학원장과 지질조사국 직으로 과학 행정에 참여",
+   "political_exp_en": "Ran the National Academy and USGS vertebrate work.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 8,
+   "tech_exp": "예일 박물관과 명명 체계로 미국 고생물학을 제도화",
+   "tech_exp_en": "Institutionalised American palaeontology from Yale.",
+   "social": 2,
+   "social_exp": "화석 전쟁의 승자로 과학계 경쟁 양상을 보임",
+   "social_exp_en": "Won the Bone Wars and showed science's dark side.",
+   "economic": 2,
+   "economic_exp": "박물관 조직과 고용 수집 경제를 만듦",
+   "economic_exp_en": "Built a paid collecting economy.",
+   "cultural": 7,
+   "cultural_exp": "스테고·트리케라톱스·브론토 이름의 주인",
+   "cultural_exp_en": "Named the dinosaurs children know.",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "공룡 분류 체계의 실질적 설계자",
+   "transhistoricity_exp_en": "The effective architect of dinosaur taxonomy."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "예일 박물관을 세우고 수십 명 수집 조직을 운영",
+     "reason_en": "Built the Peabody and a network of paid collectors."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "초기 탐사 이후 현장은 고용 수집가에게 맡김",
+     "reason_en": "Left the fieldwork to hired men after early trips."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "80여 속의 공룡을 체계적으로 명명해 분류 틀을 세움",
+     "reason_en": "Named eighty dinosaur genera into a working system."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "대중보다 학회와 정부 인맥으로 영향을 미침",
+     "reason_en": "Moved power through academies, not the public."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "경쟁에 은밀한 공작으로 응수하며 겉으론 침착",
+     "reason_en": "Answered the feud with covert moves and calm."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "30년간 수집·기재·학회 운영을 꾸준히 수행",
+     "reason_en": "Thirty years of steady collecting and administration."
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "표본과 기록을 박물관에 체계화해 남김",
+     "reason_en": "Systematised specimens and records for posterity."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "라이벌 공세에 물러서지 않고 20년 경쟁을 수행",
+     "reason_en": "Never blinked through twenty years of war."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "삼촌의 유산을 박물관으로 만들어 평생 지킴",
+     "reason_en": "Turned his uncle's fortune into a museum and kept it."
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "수집가들에게 고용 관계를 강요해 이탈도 겪음",
+     "reason_en": "Bound his collectors so hard that Hatcher walked."
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "정보원을 두어 상대 발견을 먼저 빼앗으려 함",
+     "reason_en": "Ran spies inside Cope's quarries."
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "공룡 명명 경쟁에서 자기 이름 남기기에 집착",
+     "reason_en": "Chased his own name onto every genus."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "장기 수집 조직의 승리를 확신",
+     "reason_en": "Trusted his collecting machine to win."
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "학회와 정부 기구라는 기존 틀에서 권력을 운용",
+     "reason_en": "Exercised power through established institutions."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "수집가 네트워크와 학회 조직으로 성과를 축적",
+     "reason_en": "Won through networks, not solo genius."
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "명명에선 속전속결, 조직 운영은 치밀",
+     "reason_en": "Rushed names to print, ran the network with care."
+    }
+   },
+   "rationale_ko": "삼촌의 유산을 예일 박물관으로 바꾸고 수집가 조직을 세운 조직력이 화석 전쟁의 승패를 갈랐다. 코프가 전선에서 싸울 때 그는 체계로 이겨 80여 속의 공룡을 자기 이름으로 남겼다. 정보원을 두고 상대 채석장을 흔든 공작은 공정성을 깎는다. 아이들이 아는 공룡 이름 대부분이 그의 작명이다.",
+   "rationale_en": "He turned an uncle's fortune into a museum and a paid collecting network, and organisation won him the Bone Wars. While Cope fought in the open, Marsh won by system and put his name on eighty dinosaur genera. Spies in rival quarries cost him on fairness. The dinosaurs every child can name are mostly his coinages."
+  }
+ },
+ "헬게 잉스타드": {
+  "influence": {
+   "political": 4,
+   "political_exp": "스발바르·동그린란드 행정관으로 영유 확장에 관여",
+   "political_exp_en": "Governed Svalbard and backed Norway's Greenland claim.",
+   "strategic": 1,
+   "strategic_exp": "전시 노르웨이 측 활동은 제한적",
+   "strategic_exp_en": "Limited wartime service.",
+   "tech": 6,
+   "tech_exp": "사가 문헌과 지형을 대조해 빈란드를 실증",
+   "tech_exp_en": "Matched saga texts to terrain and proved Vinland.",
+   "social": 4,
+   "social_exp": "콜럼버스 이전 유럽인 도달을 확정해 서사를 교정",
+   "social_exp_en": "Corrected the Columbus-first narrative.",
+   "economic": 1,
+   "economic_exp": "북극 덫사냥 생계 외 산업 기여 미미",
+   "economic_exp_en": "Trapped for a living; little else.",
+   "cultural": 6,
+   "cultural_exp": "바이킹 아메리카를 대중 서사로 정착시킴",
+   "cultural_exp_en": "Fixed Vikings-in-America in popular history.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "사가의 실증으로 발견사를 다시 쓴 탐험가",
+   "transhistoricity_exp_en": "Rewrote discovery history with a shovel."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1930년대 스발바르 시세르만과 동그린란드 행정 수행",
+     "reason_en": "Governed Svalbard and Erik the Red's Land."
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "캐나다 북극권에서 4년간 덫사냥꾼 생활을 견딤",
+     "reason_en": "Four years as an Arctic trapper."
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "사가 텍스트와 해안 지형을 대조해 빈란드를 특정",
+     "reason_en": "Read the sagas against the coastline and hit Vinland."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "북극 체험기와 빈란드 발견으로 국민 탐험가가 됨",
+     "reason_en": "Bestselling trapper turned national treasure."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "변호사 생활을 접고 몇 년간 북극 덫사냥을 자처",
+     "reason_en": "Traded law practice for years in the bush."
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "사가 연구와 현지 답사를 수십 년 병행해 장수 활동",
+     "reason_en": "Chased the sagas for decades and worked past 100."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "현지인의 구전과 자기 실패를 책에 함께 기록",
+     "reason_en": "Wrote his failures beside the locals' lore."
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "안정된 법조를 버리고 북극 오지 생활을 택함",
+     "reason_en": "Dropped a safe career for the Arctic."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "아내 안네 스티네와 발굴 공적을 평생 공유",
+     "reason_en": "Shared the discovery with Anne Stine for life."
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "이누이트와 함께 살며 그 생활방식을 존중",
+     "reason_en": "Lived with the Inuit and honoured their ways."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "유적 안내자 데커의 역할을 기록에 남김",
+     "reason_en": "Put Decker the fisherman's part on record."
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "발견의 공을 고고학자 아내와 안내자에게 나눔",
+     "reason_en": "Split the credit with his wife and the guide."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "학계가 전설로 본 사가를 사실로 믿고 추적",
+     "reason_en": "Trusted the sagas when scholarship called them myth."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "노르웨이의 그린란드 영유 주장을 행정관으로 뒷받침",
+     "reason_en": "Served Norway's territorial claim as governor."
+    },
+    "individual_social": {
+     "score": -8,
+     "reason_ko": "혼자 북극에서 살다 발굴 땐 부부 팀으로 전환",
+     "reason_en": "A loner in the wild, a team at the dig."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "직업을 바꾸는 도박은 감행하되 탐색은 순차 검증",
+     "reason_en": "Gambled his career, then searched methodically."
+    }
+   },
+   "rationale_ko": "변호사 가운을 벗고 북극 덫사냥꾼이 된 선택이 4년의 야생 생활을 만들었다. 사가를 전설이 아닌 지도로 읽은 통찰이 란스 오 메도우를 찾아냈고 부부 팀의 발굴이 그것을 증명했다. 안내한 어부와 아내에게 공을 나누는 겸양이 있었다. 노르웨이의 그린란드 영유 시도에 행정관으로 참여한 것은 보수적 충성의 흔적이다.",
+   "rationale_en": "He traded a lawyer's gown for four years as an Arctic trapper. Reading the sagas as maps rather than myth led him to L'Anse aux Meadows, and the husband-and-wife dig proved it. Credit went to the fisherman who showed him the mounds and to Anne Stine. His service to Norway's Greenland claim remains the mark of an establishment loyalist."
+  }
+ },
+ "아우렐 슈타인": {
+  "influence": {
+   "political": 4,
+   "political_exp": "영국 인도 관리로서 측량이 전략 정보를 겸함",
+   "political_exp_en": "His surveys served British India's strategic needs.",
+   "strategic": 3,
+   "strategic_exp": "중앙아시아 지도가 그레이트 게임 정보가 됨",
+   "strategic_exp_en": "His maps fed the Great Game.",
+   "tech": 8,
+   "tech_exp": "실크로드 고고학과 둔황학의 기반 자료를 축적",
+   "tech_exp_en": "Founded Silk Road archaeology and Dunhuang studies.",
+   "social": 4,
+   "social_exp": "문화재 반출의 국제 논쟁을 남긴 인물",
+   "social_exp_en": "A central name in the restitution debate.",
+   "economic": 2,
+   "economic_exp": "실크로드 연구 자산을 남겼을 뿐",
+   "economic_exp_en": "Left research assets, not industry.",
+   "cultural": 6,
+   "cultural_exp": "실크로드를 세계적 상상의 길로 만듦",
+   "cultural_exp_en": "Made the Silk Road a global idea.",
+   "transhistoricity": 19,
+   "transhistoricity_exp": "둔황 문서군을 세계에 연 발굴의 거인",
+   "transhistoricity_exp_en": "Opened the Dunhuang library to the world."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "네 차례 원정에서 대상·측량대 수십 명을 조직",
+     "reason_en": "Ran caravans of dozens on four expeditions."
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "80세까지 사막·고산 도보 답사를 지속한 지구력",
+     "reason_en": "Marched deserts and glaciers into his eightieth year."
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "산스크리트 연구와 측지를 결합해 사막 유적을 특정",
+     "reason_en": "Fused philology and geodesy to find buried cities."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "영국에선 기사, 학계에선 존경받는 탐험가",
+     "reason_en": "Knighted at home, revered in scholarship."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "평생 소박한 식사와 노숙에 가까운 원정 생활",
+     "reason_en": "Lived on little — camps, dry rations, no family."
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "80대에도 아프가니스탄 답사를 준비하다 생을 마침",
+     "reason_en": "Died at 80 planning the next survey."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "방대한 보고를 남겼으나 반출의 정당성은 되묻지 않음",
+     "reason_en": "Wrote volumes; never re-examined the taking."
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "타클라마칸 사막 횡단을 네 차례 감행",
+     "reason_en": "Crossed the Taklamakan four times."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "귀화한 영국과 인도 관직에 평생 충실",
+     "reason_en": "Served his adopted Britain and India for life."
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "대원과 개는 아꼈으나 문서는 헐값에 반출",
+     "reason_en": "Kind to men and dogs, ruthless with manuscripts."
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "장경동 문서 수만 점을 헐값에 사들여 반출",
+     "reason_en": "Bought the Library Cave's hoard for a pittance."
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "생활은 검소했으나 발견의 명예는 적극 주장",
+     "reason_en": "Austere in life, avid for honours."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "사막 아래 사라진 도시들의 존재를 확신",
+     "reason_en": "Certain the desert hid whole cities."
+    },
+    "conservative_progressive": {
+     "score": -30,
+     "reason_ko": "영국 인도 통치의 관리로 평생 복무",
+     "reason_en": "A lifelong officer of the Raj."
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "독신으로 평생 원정길에 살며 개만 곁에 둠",
+     "reason_en": "A bachelor of the trail with only his dogs."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "측량은 치밀하게, 사막 돌입은 과감하게 반복",
+     "reason_en": "Mapped with care, marched with nerve."
+    }
+   },
+   "rationale_ko": "헝가리 이민자가 영국 인도의 관리가 되어 그 직무를 탐험의 발판으로 삼았다. 소박한 생활과 80세까지의 도보 답사가 보여주듯 절제와 근면은 최상급이다. 장경동 문서를 헐값에 사들여 반출한 행위는 공정성의 큰 흠으로 남았다. 1943년 카불에서 다음 답사를 준비하다 숨졌다.",
+   "rationale_en": "A Hungarian immigrant became an officer of the Raj and made the job a launchpad for exploration. Frugal living and desert marches into his eighties mark rare temperance and diligence. The Library Cave purchase for a pittance is the standing blot on his fairness. He died in Kabul in 1943, planning one more survey."
+  }
+ },
+ "스벤 헤딘": {
+  "influence": {
+   "political": 3,
+   "political_exp": "나치 지도부와 친분으로 전시 친독 여론에 기여",
+   "political_exp_en": "His Nazi friendships fed wartime propaganda.",
+   "strategic": 2,
+   "strategic_exp": "중앙아시아 지도가 전략적 가치를 가짐",
+   "strategic_exp_en": "His maps had strategic value.",
+   "tech": 8,
+   "tech_exp": "중앙아시아·티베트 지도의 백지를 메운 측량",
+   "tech_exp_en": "Filled the map's blanks across Central Asia.",
+   "social": 3,
+   "social_exp": "탐험 지리학을 대중에 널린 전도사",
+   "social_exp_en": "Popularised the geography of inner Asia.",
+   "economic": 2,
+   "economic_exp": "교통·통상 후보지 탐사를 지원",
+   "economic_exp_en": "Scouted routes of potential commerce.",
+   "cultural": 7,
+   "cultural_exp": "탐험 저작이 세계적으로 번역·애독됨",
+   "cultural_exp_en": "His travel books were read worldwide.",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "누란 발견과 대탐사로 지리학사에 남음",
+   "transhistoricity_exp_en": "Loulan and the great surveys keep his name."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "1927~35년 중·스웨덴 합작 대탐사를 이끔",
+     "reason_en": "Led the joint Sino-Swedish expedition, 1927-35."
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "1895년 사막 조난에서 살아남아 수십 년 답사를 계속",
+     "reason_en": "Crawled out of the Taklamakan in 1895, kept exploring."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "지리학 박사로 중앙아시아 측량과 수십 권의 저작",
+     "reason_en": "A doctorate's maps and a shelf of books."
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "세계 강연 투어와 귀족 작위까지 받은 명탐험가",
+     "reason_en": "Lecture-star of two continents, ennobled at home."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "전후에도 나치 지도부와의 친분을 부정하지 않음",
+     "reason_en": "Never disowned his Nazi friendships."
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "반세기 동안 답사와 집필을 쉬지 않음",
+     "reason_en": "Fifty years without pausing the pen or the march."
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "조난 실패는 적었으나 정치적 오점은 뉘우치지 않음",
+     "reason_en": "Owned the desert disaster, never the politics."
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "변장하고 티베트 진입을 시도하는 등 위험 답사 반복",
+     "reason_en": "Tried Tibet in disguise; risk was his method."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "스웨덴과 독일에 대한 충심이 맹목으로 변함",
+     "reason_en": "Loyalty to Germany hardened into blindness."
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "나치 인맥으로 박해받는 학자 석방을 청원",
+     "reason_en": "Used his Nazi ties to plead for persecuted scholars."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "중국 측과 공동 지휘·표본 공유의 합작 탐사 성사",
+     "reason_en": "Shared command and specimens with China fairly."
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "탐험 영웅 이미지를 저작과 연설로 스스로 키움",
+     "reason_en": "Curated his own legend in print."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "죽음 직전의 조난에서도 돌파구를 믿고 기어감",
+     "reason_en": "Believed a way out existed even dying in the dunes."
+    },
+    "conservative_progressive": {
+     "score": -40,
+     "reason_ko": "나치 지도부와 교유하고 전시 친독 저술을 남김",
+     "reason_en": "Kept company with Hitler's circle and wrote for them."
+    },
+    "individual_social": {
+     "score": -12,
+     "reason_ko": "영웅 서사의 중심은 늘 자기 자신",
+     "reason_en": "The hero of every story he told was himself."
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "1895년 보급 부족 속 사막 횡단을 감행해 대원을 잃음",
+     "reason_en": "Pushed into the desert short of water and lost men."
+    }
+   },
+   "rationale_ko": "지도의 백지를 메우겠다는 집념이 반세기의 답사를 만들고 누란 유적을 드러냈다. 1895년 조난에서 기어서 살아남은 강인함과 무모함이 한 몸에 있었다. 중국과의 합작 탐사는 공정한 모범이었으나 나치 지도부와의 친분은 끝내 뉘우치지 않은 오점이다. 1952년 스톡홀름에서 명예가 바랜 채 숨졌다.",
+   "rationale_en": "The will to fill the map's blanks produced fifty years of expeditions and the ruins of Loulan. The man who crawled out of the Taklamakan in 1895 was as bold as he was tough. His joint expedition with China was a model of fairness; his refusal to renounce Nazi friends was the permanent stain. He died in Stockholm in 1952, honour faded."
+  }
+ },
+ "플린더스 피트리": {
+  "influence": {
+   "political": 1,
+   "political_exp": "인종론·우생학 저술로 당시 담론에 기여",
+   "political_exp_en": "His race writings fed the era's eugenics discourse.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 9,
+   "tech_exp": "층위·기록·순서연대기법으로 발굴을 과학으로 바꿈",
+   "tech_exp_en": "Gave archaeology its scientific method.",
+   "social": 3,
+   "social_exp": "인종 위계 서술로 시대의 해로운 담론에 가담",
+   "social_exp_en": "Lent his name to racial hierarchy writing.",
+   "economic": 2,
+   "economic_exp": "박물관·강좌 제도의 실무 토대",
+   "economic_exp_en": "Built the working base of Egyptology's institutions.",
+   "cultural": 7,
+   "cultural_exp": "미라 초상·이스라엘 비석 등 상징적 발견 다수",
+   "cultural_exp_en": "Found the Israel stela and the mummy portraits.",
+   "transhistoricity": 25,
+   "transhistoricity_exp": "과학적 고고학의 아버지로 방법이 살아남음",
+   "transhistoricity_exp_en": "His method still defines excavation."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "40년간 발굴 시즌마다 수백 명 현지 인부를 지휘",
+     "reason_en": "Commanded hundreds of workmen for forty seasons."
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "70대까지 발굴지 야영 생활을 견딘 지구력",
+     "reason_en": "Camped at digs into his seventies."
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "층위와 형식 배열로 연대기를 짜는 순서연대기법을 창안",
+     "reason_en": "Invented sequence dating from potsherd order."
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "괴짜 교수로 불렸으나 제자 세대가 학문을 이어받음",
+     "reason_en": "The eccentric professor who trained a field."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 85,
+     "reason_ko": "발굴 캠프에서 식량 통조림을 묻어 다음 시즌에 씀",
+     "reason_en": "Buried next season's rations in the sand."
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "1892년부터 교수직과 매년 발굴·저술을 50년 지속",
+     "reason_en": "Fifty years of professorship, digs and books."
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "발굴 기록은 엄밀했으나 자기 인종론은 검증하지 않음",
+     "reason_en": "Exact in the trench, unexamined in his race theory."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "학위 없이 발굴 관행 전체에 도전해 규율을 세움",
+     "reason_en": "Took on the whole dig tradition without a degree."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "에드워즈 강좌를 40년 지키며 후학을 길러냄",
+     "reason_en": "Held the Edwards chair forty years and made successors."
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "인종 우열 서술을 남겨 해로운 학문 유산을 만듦",
+     "reason_en": "Left race-ranking writings that did harm."
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "층위 판단은 공정했으나 인간을 민족 유형으로 서열화",
+     "reason_en": "Fair to strata, ranked peoples by race."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "자기 방법의 우월을 공언하고 반대자를 깎아내림",
+     "reason_en": "Proclaimed his method and belittled doubters."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "어떤 유적도 측량과 기록으로 해석 가능하다고 봄",
+     "reason_en": "Believed method could decode any site."
+    },
+    "conservative_progressive": {
+     "score": -35,
+     "reason_ko": "인종 우열론과 계급적 유전론을 학술로 지지",
+     "reason_en": "Wrote racial hierarchy as science."
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "위원회 절차를 싫어하고 혼자 발굴을 결정",
+     "reason_en": "Hated committees; chose his sites alone."
+    },
+    "cautious_bold": {
+     "score": -18,
+     "reason_ko": "발굴 속도를 늦추고 흙층 기록을 우선한 신중파",
+     "reason_en": "Slowed the dig to save every layer of dirt."
+    }
+   },
+   "rationale_ko": "정규 교육을 거의 받지 않은 사람이 발굴에 측량·기록·층위의 규율을 세워 학문을 바꿨다. 식량 통조림을 묻어 다음 시즌에 쓰는 절제와 50년의 근면이 그 방법을 지탱했다. 인종 위계를 학술로 쓴 서술은 공정성과 인자함을 크게 깎는 오점이다. 제자들이 그의 방법을 이어받아 현대 고고학이 됐다.",
+   "rationale_en": "A man with almost no schooling imposed surveying, recording and stratigraphy on an entire discipline. Temperance that buried rations for next season and fifty years of diligence sustained his method. The race-science writing he left behind is the deep flaw in his fairness and benevolence. His students carried the method into modern archaeology."
+  }
+ },
+ "존 로이드 스티븐스": {
+  "influence": {
+   "political": 3,
+   "political_exp": "중앙아메리카 특명 사절과 파나마 철도 경영",
+   "political_exp_en": "US envoy in Central America and railroad executive.",
+   "strategic": 1,
+   "strategic_exp": "이스머스 횡단로의 전략적 가치에 간접 기여",
+   "strategic_exp_en": "His isthmus route had strategic value.",
+   "tech": 7,
+   "tech_exp": "마야 유적 44곳 기록으로 마야 연구를 개척",
+   "tech_exp_en": "Documented 44 sites and founded Maya studies.",
+   "social": 4,
+   "social_exp": "토착 문명의 독자성을 주장해 인식을 교정",
+   "social_exp_en": "Proved the Maya cities were native-built.",
+   "economic": 4,
+   "economic_exp": "파나마 횡단 철도로 대륙간 이동 경로를 바꿈",
+   "economic_exp_en": "The Panama Railway rewired intercontinental travel.",
+   "cultural": 7,
+   "cultural_exp": "베스트셀러 여행기로 마야를 세계에 알림",
+   "cultural_exp_en": "Bestsellers introduced the world to the Maya.",
+   "transhistoricity": 16,
+   "transhistoricity_exp": "마야 연구 개착의 기록자로 남음",
+   "transhistoricity_exp_en": "The recorder who opened Maya civilisation."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "파나마 철도 부사장으로 지협 횡단 공사를 관리",
+     "reason_en": "Ran isthmian construction as railroad VP."
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "중앙아메리카 정글 답사와 철도 현장을 열병 속에 소화",
+     "reason_en": "Worked fever jungles and rail cuts."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "마야 유적이 토착 문명임을 증거로 논증",
+     "reason_en": "Argued the ruins were native Maya, and was right."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "여행기가 베스트셀러가 되어 독자를 마야로 이끎",
+     "reason_en": "His books made the Maya famous."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "내전 지역에서 분쟁에 휘말리지 않고 답사 수행",
+     "reason_en": "Kept his head through a civil war."
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "유적 44곳 기록과 두 권의 대작을 3년 만에 냄",
+     "reason_en": "44 sites and two big books in three years."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "여행기에 자기 판단의 한계와 현지 해석을 병기",
+     "reason_en": "Recorded his doubts beside the evidence."
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "정부가 소멸한 내전지에 사절로 들어가 임무 수행",
+     "reason_en": "Carried credentials into a country with no government."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "캐더우드와의 동행과 철도 임무를 끝까지 수행",
+     "reason_en": "Kept faith with Catherwood and the railroad."
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "마야 유적을 토착민의 조상 문명으로 존중해 기술",
+     "reason_en": "Wrote the Maya as ancestors of living peoples."
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "유적 판단을 전설이 아니라 증거로 내림",
+     "reason_en": "Judged the sites by evidence, not legend."
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "책의 성공을 캐더우드의 삽화와 공유",
+     "reason_en": "Gave the artist equal billing in his success."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "낯선 땅과 신생 철도 사업을 연거푸 감행",
+     "reason_en": "Kept betting on new countries and new ventures."
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "토착 문명 독자성을 당대 통념에 맞서 주장",
+     "reason_en": "Defied the era's dogma on native civilisation."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "화가·회사·정부와 협력해 성과를 냄",
+     "reason_en": "Won through partners, firms and governments."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "코판 유적 소유권을 50달러에 사들이는 즉결",
+     "reason_en": "Bought Copán for fifty dollars on the spot."
+    }
+   },
+   "rationale_ko": "변호사의 증거 감각으로 마야 유적을 토착 문명의 산물로 판단해 당대 통념을 바로잡았다. 화가 캐더우드와의 동행과 정부·회사와의 협력이 유적 44곳의 기록과 베스트셀러를 만들었다. 코판을 50달러에 사들이는 결단과 내전지 잠입의 용기가 있었다. 파나마 철도 현장에서 열병으로 46세에 숨졌다.",
+   "rationale_en": "A lawyer's eye for evidence let him call the ruins native Maya work against the era's theories. Partnership with Catherwood, governments and a railroad company produced the record and the bestsellers. He had the nerve to buy Copán outright and to carry credentials into a dissolved state. Fever from the Panama railway killed him at 46."
+  }
+ },
+ "프레드릭 캐더우드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 6,
+   "tech_exp": "정밀 도면이 마야 비문·건축 연구의 1차 자료",
+   "tech_exp_en": "His plates remain primary evidence for Maya studies.",
+   "social": 2,
+   "social_exp": "유적의 시각 기록으로 인식 변화에 기여",
+   "social_exp_en": "His images changed how the Maya were seen.",
+   "economic": 2,
+   "economic_exp": "이집트·남미 철도 실무 경력",
+   "economic_exp_en": "Worked railways after the expeditions.",
+   "cultural": 6,
+   "cultural_exp": "마야의 모습을 세계에 각인한 삽화를 남김",
+   "cultural_exp_en": "His lithographs fixed the Maya's image.",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "마야 연구가 그의 도면 위에 세워짐",
+   "transhistoricity_exp_en": "Maya studies was built on his drawings."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 38,
+     "reason_ko": "헤이의 기록팀과 스티븐스 원정에서 실무 수행",
+     "reason_en": "Served as draftsman under Hay and Stephens."
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "십수 년 이집트 측량과 정글 답사를 소화",
+     "reason_en": "A decade of Nile surveys, then jungle treks."
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "건축 지식으로 무너진 신전의 원형을 도면에 복원",
+     "reason_en": "Reconstructed fallen temples on paper as an architect."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "그의 석판화가 마야의 이미지를 세계에 각인",
+     "reason_en": "His lithographs gave a lost world its face."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "카메라 루시다로 유적을 치밀하게 옮기는 꼼꼼함",
+     "reason_en": "Traced ruins stone by stone through a camera lucida."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "10년 이집트 기록과 두 차례 마야 원정을 수행",
+     "reason_en": "Ten years recording Egypt, two Maya expeditions."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "도면에 측량 수치를 병기해 검증 가능하게 남김",
+     "reason_en": "Annotated every plate so others could check him."
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "열병과 절벽의 유적지 작업을 두 차례 원정",
+     "reason_en": "Worked fever sites and cliffs on two expeditions."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "헤이와 스티븐스 밑에서 십수 년 기록자로 충실",
+     "reason_en": "Faithful recorder to Hay and then Stephens."
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "팀 기록 사업에 재능을 바쳐 공저자로 기여",
+     "reason_en": "Gave his gift to team projects as co-author."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "유적을 미화하지 않고 보이는 대로 측량해 그림",
+     "reason_en": "Drew what stood there, no romantic additions."
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "책의 명성을 스티븐스에 양보하고 도면에 이름을 남김",
+     "reason_en": "Let Stephens take the fame; signed the plates."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "무명에 가까운 기록 작업을 십수 년 지속",
+     "reason_en": "Kept recording through years of near-anonymity."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기록 실무에 전념해 질서 논쟁을 남기지 않음",
+     "reason_en": "Kept to the work; left no politics."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "평생 다른 사람의 프로젝트에 그림으로 기여",
+     "reason_en": "Spent his life illustrating other men's expeditions."
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "어떤 유적도 측량 없이 그리지 않는 신중한 기록자",
+     "reason_en": "Drew nothing he had not measured first."
+    }
+   },
+   "rationale_ko": "건축가의 눈과 화가의 손으로 무너진 도시를 도면 위에 세운 사람이다. 10년의 이집트 측량과 두 번의 정글 원정을 묵묵히 소화한 근면과 충성심이 남았다. 명성은 글쓴이에게 양보하고 서명은 석판화에만 남기는 겸양이었다. 대서양에서 배가 침몰해 55세에 익사했다.",
+   "rationale_en": "With an architect's eye he rebuilt fallen cities on paper. Ten years of Nile surveys and two jungle expeditions mark the diligence and loyalty of a born second man. He yielded the fame to Stephens and signed only the plates. A mid-Atlantic collision drowned him at 55."
+  }
+ },
+ "피오트르 코즐로프": {
+  "influence": {
+   "political": 2,
+   "political_exp": "제정·소련의 국가 탐사 임무를 수행",
+   "political_exp_en": "Served tsarist and Soviet expedition programs.",
+   "strategic": 1,
+   "strategic_exp": "프르제발스키 계열 원정이 군사 호위를 동반",
+   "strategic_exp_en": "His expeditions moved with armed escorts.",
+   "tech": 7,
+   "tech_exp": "카라호토 발굴로 서하(탕구트) 연구를 개창",
+   "tech_exp_en": "Khara-Khoto founded Tangut studies.",
+   "social": 2,
+   "social_exp": "실크로드 고대 문화를 러시아 학계에 소개",
+   "social_exp_en": "Introduced Tangut and Xiongnu cultures to scholarship.",
+   "economic": 1,
+   "economic_exp": "탐사 외 산업 기여 미미",
+   "economic_exp_en": "Little beyond the expeditions.",
+   "cultural": 5,
+   "cultural_exp": "탕구트 문서·훈노 무덤 유물로 박물관을 채움",
+   "cultural_exp_en": "Filled museums with Tangut texts and Xiongnu tombs.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "탕구트학과 훈노 고고학의 토대를 놓음",
+   "transhistoricity_exp_en": "Founded Tangut and Xiongnu archaeology."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "스승 사후 몽골·티베트 원정대를 이어받아 지휘",
+     "reason_en": "Took over the Central Asian expeditions after Przhevalsky."
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "20년 가까운 사막·고원 대상 원정을 견딤",
+     "reason_en": "Two decades of desert and plateau caravans."
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "카라호토 문서군의 학술 가치를 알아보고 체계 발굴",
+     "reason_en": "Recognised the dead city's library and dug it properly."
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "러시아 지리학회의 영예를 받은 국내 탐험가",
+     "reason_en": "Honoured by the Russian Geographical Society."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "제국 지원 원정의 규율을 평생 준수",
+     "reason_en": "Kept expedition discipline for forty years."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1883년부터 40년 넘게 중앙아시아 원정을 지속",
+     "reason_en": "Rode the deserts from 1883 to the 1920s."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "원정 보고서를 남겨 후속 연구의 토대를 제공",
+     "reason_en": "Left reports that grounded later research."
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "프르제발스키 사망 후에도 원정을 중단하지 않음",
+     "reason_en": "Marched on after his leader died on the trail."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "스승의 탐사 계승과 전기 저술에 헌신",
+     "reason_en": "Devoted himself to Przhevalsky's legacy and biography."
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "발굴물을 국가 기관에 넘겨 공공 소장으로 삼음",
+     "reason_en": "Turned all finds over to state collections."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "탐사 규약과 표본 처리를 관례대로 수행",
+     "reason_en": "Followed the era's conventions on finds."
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "발견의 공을 스승과 학회 전통에 돌림",
+     "reason_en": "Gave the credit to his teacher's school."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "사라진 도시 전설을 실재로 믿고 사막을 탐색",
+     "reason_en": "Believed the dead city was out there and found it."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "제정과 소련 체제 양쪽의 기관 과업을 충실 수행",
+     "reason_en": "Served both empire and Soviet state without dissent."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "학회와 국가 원정 체계 안에서 평생 활동",
+     "reason_en": "A lifelong explorer inside state institutions."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "무장 호위를 갖춘 사막 원정을 거듭 감행",
+     "reason_en": "Crossed bandit deserts under escort, repeatedly."
+    }
+   },
+   "rationale_ko": "프르제발스키의 발자취를 물려받아 스승이 쓰러진 길을 이어 걸은 제자다. 카라호토에서 죽은 도시의 서고를 파내 탕구트학을 세우고 노인울라 고분을 열어 훈노 역사를 넓혔다. 두 체제의 국가 임무를 소신보다 충실로 수행한 관료적 탐험가였다. 1935년 레닌그라드에서 숨졌다.",
+   "rationale_en": "He inherited Przhevalsky's road and walked on past the place his master fell. The library he dug out of dead Khara-Khoto founded Tangut studies, and the Noin-Ula tombs opened Xiongnu history. He served two regimes with bureaucratic loyalty rather than conviction. He died in Leningrad in 1935."
+  }
+ }
+}

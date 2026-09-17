@@ -229,7 +229,7 @@ function LeadWork({ item, memberCount, isEn, buyable, t }: { item: SharedContent
         </h4>
         {creator && <p className="mt-1 text-sm text-text-secondary">{creator}</p>}
         {/* YES24 판매 정보 — 제목·저자의 책정보 흐름에 붙이고 구매 단추와는 뗀다 */}
-        {buyable && <Yes24Sales contentId={item.contentId} editionId={item.editionId} className="mt-3" />}
+        {buyable && <Yes24Sales contentId={item.contentId} editionId={item.editionId} full className="mt-3" />}
         <Readers item={item} memberCount={memberCount} isEn={isEn} faces={6} t={t} />
         {buyable ? (
           <AffiliateBookAction contentId={item.contentId} editionId={item.editionId} coupangUrl={item.coupangUrl} hideSales className="mt-4 w-full max-w-sm" />

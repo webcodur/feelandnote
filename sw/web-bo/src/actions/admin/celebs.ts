@@ -417,22 +417,22 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   let tagCelebIds: string[] | undefined
   if (tagId && tagId !== 'all') {
-    // 상위 테마를 고르면 그 아래 세력에 속한 인물까지 함께 담는다
-    const childTags = await selectAllPages<{ id: string }>((from, to) => db
-      .from('celeb_tags')
+    // 분류(L1)를 고르면 그 아래 세력(L2)에 속한 인물까지 함께 담는다
+    const childFactions = await selectAllPages<{ id: string }>((from, to) => db
+      .from('faction_lv2')
       .select('id')
-      .eq('parent_id', tagId)
+      .eq('lv1_id', tagId)
       .order('id')
       .range(from, to))
 
-    const targetTagIds = [tagId, ...childTags.map((t) => t.id)]
+    const targetLv2Ids = [tagId, ...childFactions.map((t) => t.id)]
 
-    const tagAssignments = await selectInChunks<{ celeb_id: string }>(targetTagIds, async (tagIds) => ({
+    const tagAssignments = await selectInChunks<{ celeb_id: string }>(targetLv2Ids, async (lv2Ids) => ({
       data: await selectAllPages<{ celeb_id: string }>((from, to) => db
-        .from('faction_atlas_members')
+        .from('faction_member_rows')
         .select('celeb_id')
-        .in('tag_id', tagIds)
-        .order('assignment_id')
+        .in('lv2_id', lv2Ids)
+        .order('member_id')
         .range(from, to)),
       error: null,
     }))

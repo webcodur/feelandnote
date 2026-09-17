@@ -56,7 +56,7 @@ const TABLE_ORDERS: Record<string, readonly string[]> = {
   celeb_timeline_events: ['id'],
   celeb_relations: ['id'],
   celeb_relations_external: ['id'],
-  faction_atlas_members: ['tag_id', 'celeb_id', 'assignment_id'],
+  faction_member_rows: ['lv2_id', 'celeb_id', 'member_id'],
   contents: ['id'],
   content_locales: ['content_id', 'locale'],
   celebs: ['id'],
@@ -654,8 +654,8 @@ async function main() {
     byIds('celeb_relations', 'id,from_id,to_id', ids, 'to_id'),
     byIds('celeb_relations_external', 'id,from_id', ids, 'from_id'),
     byIds(
-      'faction_atlas_members',
-      'tag_id,celeb_id,short_desc,short_desc_en,long_desc,long_desc_en,hidden,assignment_id',
+      'faction_member_rows',
+      'lv2_id,celeb_id,short_desc,short_desc_en,long_desc,long_desc_en,hidden,member_id',
       ids,
     ),
   ])

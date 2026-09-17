@@ -29,6 +29,8 @@ import {
   SPECTRUM_ANCHORS,
   MARTIAL_GRADES,
   MARTIAL_FLOOR_RULE,
+  MILITARY_MARTIAL_BANDS,
+  PERFORMER_MARTIAL_BANDS,
   FEMALE_MARTIAL_ADJUSTMENT_RULE,
   SCORING_PRINCIPLES,
   axisRange,
@@ -68,7 +70,9 @@ function axisSpec(): string {
 
 function martialSpec(): string {
   const grades = MARTIAL_GRADES.map((g) => `${g.min}~${g.max} ${g.name} — ${g.criterion}`).join('\n  ')
-  return `무력(martial)만 등급제를 쓴다.\n  ${grades}\n\n${MARTIAL_FLOOR_RULE}\n\n${FEMALE_MARTIAL_ADJUSTMENT_RULE}`
+  const bands = (list: readonly { condition: string; min: number; max: number }[]) =>
+    list.map((b) => `${b.min}~${b.max} ${b.condition}`).join('\n  ')
+  return `무력(martial)만 등급제를 쓴다.\n  ${grades}\n\n군 경력 밴드:\n  ${bands(MILITARY_MARTIAL_BANDS)}\n\n배우·음악인 밴드:\n  ${bands(PERFORMER_MARTIAL_BANDS)}\n\n${MARTIAL_FLOOR_RULE}\n\n${FEMALE_MARTIAL_ADJUSTMENT_RULE}`
 }
 
 function buildPrompt(rows: any[]): string {

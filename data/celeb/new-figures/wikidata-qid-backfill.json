@@ -1,0 +1,3450 @@
+{
+  "matched": [
+    {
+      "nick": "하인리히 슐리만",
+      "en": "Heinrich Schliemann",
+      "qid": "Q57106",
+      "celeb_id": "35d9018b-bf6b-4c1d-b261-6a5627212515"
+    },
+    {
+      "nick": "퍼시 포셋",
+      "en": "Percy Fawcett",
+      "qid": "Q370705",
+      "celeb_id": "c04f0e66-7900-462e-8c47-b3e691de9fd9"
+    },
+    {
+      "nick": "로이 채프먼 앤드루스",
+      "en": "Roy Chapman Andrews",
+      "qid": "Q266266",
+      "celeb_id": "0faa56a1-b860-4dba-83d8-e4fef444ba1b"
+    },
+    {
+      "nick": "히럼 빙엄",
+      "en": "Hiram Bingham III",
+      "qid": "Q237220",
+      "celeb_id": "2d39fa2d-a82b-4c46-9617-eedc842506b6"
+    },
+    {
+      "nick": "장 프랑수아 샹폴리옹",
+      "en": "Jean-François Champollion",
+      "qid": "Q260",
+      "celeb_id": "03cc1c5a-77b2-4ff5-98c9-8b71e95a94f0"
+    },
+    {
+      "nick": "메리 애닝",
+      "en": "Mary Anning",
+      "qid": "Q230491",
+      "celeb_id": "93f56eab-60ae-4b70-ae50-1657ab386caf"
+    },
+    {
+      "nick": "바넘 브라운",
+      "en": "Barnum Brown",
+      "qid": "Q23139",
+      "celeb_id": "0c02b0b5-2fcc-49ed-95da-14896ba76a0a"
+    },
+    {
+      "nick": "에드워드 드링커 코프",
+      "en": "Edward Drinker Cope",
+      "qid": "Q298933",
+      "celeb_id": "5e787b60-8775-40ba-a0c6-c5e955907f77"
+    },
+    {
+      "nick": "오스니얼 찰스 마시",
+      "en": "Othniel Charles Marsh",
+      "qid": "Q299756",
+      "celeb_id": "707d0f6e-468b-4c3c-8e0f-fe7b274634ca"
+    },
+    {
+      "nick": "헬게 잉스타드",
+      "en": "Helge Ingstad",
+      "qid": "Q119687",
+      "celeb_id": "4696a1c6-5b9c-47e1-b27c-21ee053bddfa"
+    },
+    {
+      "nick": "아우렐 슈타인",
+      "en": "Aurel Stein",
+      "qid": "Q313061",
+      "celeb_id": "46f8c4e3-9067-4c4a-828e-52ded2da8c21"
+    },
+    {
+      "nick": "스벤 헤딘",
+      "en": "Sven Hedin",
+      "qid": "Q154759",
+      "celeb_id": "bf15b904-f68b-4ac2-b0cf-fbd660db78c2"
+    },
+    {
+      "nick": "플린더스 피트리",
+      "en": "Flinders Petrie",
+      "qid": "Q220130",
+      "celeb_id": "10efae2f-8610-4863-82b2-813f29ecfc1b"
+    },
+    {
+      "nick": "존 로이드 스티븐스",
+      "en": "John Lloyd Stephens",
+      "qid": "Q56635",
+      "celeb_id": "43c75d4d-d94a-47f2-8ec7-c399e17c8a51"
+    },
+    {
+      "nick": "프레드릭 캐더우드",
+      "en": "Frederick Catherwood",
+      "qid": "Q33567",
+      "celeb_id": "78b33284-79af-46ec-b368-fd96f65f6a9a"
+    },
+    {
+      "nick": "피오트르 코즐로프",
+      "en": "Pyotr Kozlov",
+      "qid": "Q1377678",
+      "celeb_id": "7af1ead4-849b-48da-8bf7-fd26997d1267"
+    },
+    {
+      "nick": "마테오 리치",
+      "en": "Matteo Ricci",
+      "qid": "Q233340",
+      "celeb_id": "9023e983-0429-4288-be54-6f9b9560ef1c"
+    },
+    {
+      "nick": "필리프 프란츠 폰 지볼트",
+      "en": "Philipp Franz von Siebold",
+      "qid": "Q77140",
+      "celeb_id": "bedcf0f4-e35a-4706-864f-388442588e8e"
+    },
+    {
+      "nick": "의정",
+      "en": "Yijing",
+      "qid": "Q457629",
+      "celeb_id": "e71e17d5-7ec1-4eb6-bf3d-314aa187362d"
+    },
+    {
+      "nick": "두웨성",
+      "en": "Du Yuesheng",
+      "qid": "Q699442",
+      "celeb_id": "d0929a37-5a9d-4c20-995c-5d2d9e75efac"
+    },
+    {
+      "nick": "메이란팡",
+      "en": "Mei Lanfang",
+      "qid": "Q526989",
+      "celeb_id": "17834328-8720-4d79-baf0-15509b5f192f"
+    },
+    {
+      "nick": "푸이",
+      "en": "Puyi",
+      "qid": "Q185152",
+      "celeb_id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65"
+    },
+    {
+      "nick": "그리고리 라스푸틴",
+      "en": "Grigori Rasputin",
+      "qid": "Q43989",
+      "celeb_id": "4a08a302-bc55-4055-a8d1-0976e985a4de"
+    },
+    {
+      "nick": "마타 하리",
+      "en": "Mata Hari",
+      "qid": "Q82180",
+      "celeb_id": "fc151813-8701-4660-a52f-9e55113eb67c"
+    },
+    {
+      "nick": "리하르트 조르게",
+      "en": "Richard Sorge",
+      "qid": "Q44580",
+      "celeb_id": "a9c576ff-7705-487c-bb0a-f02cafbd2b4b"
+    },
+    {
+      "nick": "시드니 라일리",
+      "en": "Sidney Reilly",
+      "qid": "Q171958",
+      "celeb_id": "5e5eec67-976d-424b-8da1-dafc0b4c4dc8"
+    },
+    {
+      "nick": "에디 채프먼",
+      "en": "Eddie Chapman",
+      "qid": "Q951385",
+      "celeb_id": "427a9d0e-0888-4b22-b2c4-58c5d065705f"
+    },
+    {
+      "nick": "버지니아 홀",
+      "en": "Virginia Hall",
+      "qid": "Q2198070",
+      "celeb_id": "084909c4-c83f-4f62-9c9a-f5228a283b55"
+    },
+    {
+      "nick": "누르 이나야트 칸",
+      "en": "Noor Inayat Khan",
+      "qid": "Q464957",
+      "celeb_id": "2777b607-51e7-49ac-9294-bf33dc500cb3"
+    },
+    {
+      "nick": "낸시 웨이크",
+      "en": "Nancy Wake",
+      "qid": "Q234134",
+      "celeb_id": "7bb5cc16-f094-4a79-a836-f881b74af1ff"
+    },
+    {
+      "nick": "슈발리에 데옹",
+      "en": "Chevalier d'Éon",
+      "qid": "Q715027",
+      "celeb_id": "f2de25c1-ec7c-496c-a7dc-ea7cc020756e"
+    },
+    {
+      "nick": "가와시마 요시코",
+      "en": "Yoshiko Kawashima",
+      "qid": "Q233531",
+      "celeb_id": "18ba1b3e-4568-45e9-aaa7-fbe3e317b6bd"
+    },
+    {
+      "nick": "엘리아스 바즈나",
+      "en": "Elyesa Bazna",
+      "qid": "Q265814",
+      "celeb_id": "3aa9b802-9622-410e-b826-74bf1c433ec2"
+    },
+    {
+      "nick": "올레크 펜콥스키",
+      "en": "Oleg Penkovsky",
+      "qid": "Q138420",
+      "celeb_id": "1c03ab9d-9826-4566-a53e-c0024dbc1350"
+    },
+    {
+      "nick": "올레크 고르디옙스키",
+      "en": "Oleg Gordievsky",
+      "qid": "Q562371",
+      "celeb_id": "36f2144e-1dcd-4b83-b02d-e2c89faa60aa"
+    },
+    {
+      "nick": "조지 코발",
+      "en": "George Koval",
+      "qid": "Q460016",
+      "celeb_id": "0bd6b1a7-143c-405e-a456-c4139fa70630"
+    },
+    {
+      "nick": "멜리타 노우드",
+      "en": "Melita Norwood",
+      "qid": "Q463784",
+      "celeb_id": "99017081-a3c3-4909-9430-76d7e93b2ba5"
+    },
+    {
+      "nick": "프리츠 콜베",
+      "en": "Fritz Kolbe",
+      "qid": "Q68178",
+      "celeb_id": "ed2e94fa-2a63-478d-aabe-3b3a2f522b30"
+    },
+    {
+      "nick": "우르술라 쿠친스키",
+      "en": "Ursula Kuczynski",
+      "qid": "Q75151",
+      "celeb_id": "c11b5149-b2dd-4489-a57c-a0d1c4b6e297"
+    },
+    {
+      "nick": "어니스트 섀클턴",
+      "en": "Ernest Shackleton",
+      "qid": "Q957543",
+      "celeb_id": "885c2fb3-ba16-4d3f-b3e3-64735f8fc502"
+    },
+    {
+      "nick": "로알 아문센",
+      "en": "Roald Amundsen",
+      "qid": "Q926",
+      "celeb_id": "9bddb8f3-1bce-405d-bc20-7be726e48af1"
+    },
+    {
+      "nick": "로버트 팰컨 스콧",
+      "en": "Robert Falcon Scott",
+      "qid": "Q102527",
+      "celeb_id": "446a2446-b5e6-4431-ab93-7f6428f783a4"
+    },
+    {
+      "nick": "압슬리 체리-개러드",
+      "en": "Apsley Cherry-Garrard",
+      "qid": "Q498976",
+      "celeb_id": "1c03614f-53ed-4f6c-a6fd-4018f10d3f51"
+    },
+    {
+      "nick": "더글러스 모슨",
+      "en": "Douglas Mawson",
+      "qid": "Q434281",
+      "celeb_id": "53b9c40b-8195-4765-966d-fd89e155ede0"
+    },
+    {
+      "nick": "프리드티오프 난센",
+      "en": "Fridtjof Nansen",
+      "qid": "Q72292",
+      "celeb_id": "21dbe99e-28ad-4c52-94b9-7dec0c958afc"
+    },
+    {
+      "nick": "페테르 프로이헨",
+      "en": "Peter Freuchen",
+      "qid": "Q945641",
+      "celeb_id": "8d7ba326-15ed-47bc-8720-881bead655d1"
+    },
+    {
+      "nick": "에이다 블랙잭",
+      "en": "Ada Blackjack",
+      "qid": "Q4678225",
+      "celeb_id": "4f26f8d3-3241-4c30-b1f6-6667de54216c"
+    },
+    {
+      "nick": "살로몬 안드레",
+      "en": "Salomon August Andrée",
+      "qid": "Q350420",
+      "celeb_id": "2de4a1c8-58cb-451e-a28a-1a5b79ff00ba"
+    },
+    {
+      "nick": "움베르토 노빌레",
+      "en": "Umberto Nobile",
+      "qid": "Q291200",
+      "celeb_id": "d67fbc87-6739-458d-b2c1-f48d7fc7e77f"
+    },
+    {
+      "nick": "로버트 피어리",
+      "en": "Robert Peary",
+      "qid": "Q186585",
+      "celeb_id": "989e95d8-5329-4063-9216-09e10769d064"
+    },
+    {
+      "nick": "매슈 헨슨",
+      "en": "Matthew Henson",
+      "qid": "Q976683",
+      "celeb_id": "217e3e04-113d-49c6-a5a0-fa1533b4867f"
+    },
+    {
+      "nick": "프레더릭 쿡",
+      "en": "Frederick Cook",
+      "qid": "Q350190",
+      "celeb_id": "aa36db8c-31e9-47b6-a094-be3ae302e4fa"
+    },
+    {
+      "nick": "토르 헤예르달",
+      "en": "Thor Heyerdahl",
+      "qid": "Q133622",
+      "celeb_id": "73d09123-5a4c-4d63-86ba-0c77286203f6"
+    },
+    {
+      "nick": "헨리 모턴 스탠리",
+      "en": "Henry Morton Stanley",
+      "qid": "Q171421",
+      "celeb_id": "e5b46c5d-b95c-486e-9164-b4f9fde85b59"
+    },
+    {
+      "nick": "리처드 프랜시스 버턴",
+      "en": "Richard Francis Burton",
+      "qid": "Q125057",
+      "celeb_id": "228de020-0867-49e5-b49c-91d618836ada"
+    },
+    {
+      "nick": "이사벨라 버드",
+      "en": "Isabella Bird",
+      "qid": "Q288210",
+      "celeb_id": "ed0a8be4-a6cb-410a-a941-27dc34eaa500"
+    },
+    {
+      "nick": "알렉상드라 다비드넬",
+      "en": "Alexandra David-Néel",
+      "qid": "Q230456",
+      "celeb_id": "8dc84b74-ef95-4f81-993c-02cb358d7ffb"
+    },
+    {
+      "nick": "윌프레드 테시저",
+      "en": "Wilfred Thesiger",
+      "qid": "Q540031",
+      "celeb_id": "1d93f9cc-5574-44ab-950d-5a001935ef4f"
+    },
+    {
+      "nick": "조던 벨포트",
+      "en": "Jordan Belfort",
+      "qid": "Q3183674",
+      "celeb_id": "9ff14814-e32d-4d81-9d35-e40aae33d996"
+    },
+    {
+      "nick": "닉 리슨",
+      "en": "Nick Leeson",
+      "qid": "Q463502",
+      "celeb_id": "76276248-fd55-4df3-b8ef-456d1ac0e63b"
+    },
+    {
+      "nick": "마이클 밀켄",
+      "en": "Michael Milken",
+      "qid": "Q918376",
+      "celeb_id": "d9344e86-10cd-4dbe-b347-801bf28fc1c1"
+    },
+    {
+      "nick": "이반 보스키",
+      "en": "Ivan Boesky",
+      "qid": "Q704997",
+      "celeb_id": "3b21093f-e47f-42ad-b342-23c1368c57fe"
+    },
+    {
+      "nick": "제롬 케르비엘",
+      "en": "Jérôme Kerviel",
+      "qid": "Q442162",
+      "celeb_id": "df7e1846-e030-40b8-9b80-ab430566c8cf"
+    },
+    {
+      "nick": "하마나카 야스오",
+      "en": "Yasuo Hamanaka",
+      "qid": "Q508072",
+      "celeb_id": "0a3d4d30-c2ff-4e80-8a53-58c5b2fff113"
+    },
+    {
+      "nick": "앨런 스탠퍼드",
+      "en": "Allen Stanford",
+      "qid": "Q786517",
+      "celeb_id": "ffa68450-cdb6-408e-b3be-f6f2da2ee414"
+    },
+    {
+      "nick": "마크 리치",
+      "en": "Marc Rich",
+      "qid": "Q706542",
+      "celeb_id": "e0846f28-9627-4ef1-8b58-fe14d89ea269"
+    },
+    {
+      "nick": "로버트 베스코",
+      "en": "Robert Vesco",
+      "qid": "Q7350607",
+      "celeb_id": "bb00b9b1-7405-488b-aa92-418d708fe9e2"
+    },
+    {
+      "nick": "로스 페로",
+      "en": "Ross Perot",
+      "qid": "Q313697",
+      "celeb_id": "a8ae2d30-0f6b-4cf8-af89-282f4c19a0f5"
+    },
+    {
+      "nick": "존 딜로런",
+      "en": "John DeLorean",
+      "qid": "Q558510",
+      "celeb_id": "669e9af9-97f5-492b-b27c-af4108f9b6f5"
+    },
+    {
+      "nick": "프레스턴 터커",
+      "en": "Preston Tucker",
+      "qid": "Q722400",
+      "celeb_id": "f9c8fbc9-0eba-49b7-a4dd-3f78c4413575"
+    },
+    {
+      "nick": "마에자와 유사쿠",
+      "en": "Yusaku Maezawa",
+      "qid": "Q8061829",
+      "celeb_id": "01f845a4-4616-4014-9bfd-911cf0b21a78"
+    },
+    {
+      "nick": "하워드 휴즈",
+      "en": "Howard Hughes",
+      "qid": "Q189081",
+      "celeb_id": "024ba282-15f7-4a99-97cd-9922ddef72ed"
+    },
+    {
+      "nick": "윌리엄 랜돌프 허스트",
+      "en": "William Randolph Hearst",
+      "qid": "Q294931",
+      "celeb_id": "fc2c0ec4-1134-43cf-9793-8d2e065ca4f4"
+    },
+    {
+      "nick": "아리스토텔레스 오나시스",
+      "en": "Aristotle Onassis",
+      "qid": "Q180455",
+      "celeb_id": "d8dcd3ff-0091-4347-8980-e8fef7f8fd58"
+    },
+    {
+      "nick": "헤티 그린",
+      "en": "Hetty Green",
+      "qid": "Q446490",
+      "celeb_id": "143179d8-e61a-4ab0-9ba4-286f3e8c2094"
+    },
+    {
+      "nick": "야코프 푸거",
+      "en": "Jakob Fugger",
+      "qid": "Q110261996",
+      "celeb_id": "3b2c3aa9-3ceb-4b72-9897-6def3b48eaa5"
+    },
+    {
+      "nick": "만사 무사",
+      "en": "Mansa Musa",
+      "qid": "Q309333",
+      "celeb_id": "6ddf46a6-af6e-4f03-90fe-bc6978f60b61"
+    },
+    {
+      "nick": "크로이소스",
+      "en": "Croesus",
+      "qid": "Q184462",
+      "celeb_id": "cc68cca2-2a8b-454e-baaa-004e5923f109"
+    },
+    {
+      "nick": "칼루스트 굴벤키안",
+      "en": "Calouste Gulbenkian",
+      "qid": "Q345538",
+      "celeb_id": "a5b8a610-a2ec-452b-8319-c9f6539f4a3a"
+    },
+    {
+      "nick": "바질 자하로프",
+      "en": "Basil Zaharoff",
+      "qid": "Q283026",
+      "celeb_id": "e0072234-01d4-48bb-a7b4-3153ddd04503"
+    },
+    {
+      "nick": "페기 구겐하임",
+      "en": "Peggy Guggenheim",
+      "qid": "Q233806",
+      "celeb_id": "ec0eb450-8499-4340-b388-eb9339533bad"
+    },
+    {
+      "nick": "이사벨라 스튜어트 가드너",
+      "en": "Isabella Stewart Gardner",
+      "qid": "Q467669",
+      "celeb_id": "2b319207-d88b-41b3-922a-49935eab43bc"
+    },
+    {
+      "nick": "제5대 포틀랜드 공작",
+      "en": "William Cavendish-Scott-Bentinck, 5th Duke of Portland",
+      "qid": "Q334530",
+      "celeb_id": "8be9e639-166d-4896-9058-07535e36f8aa"
+    },
+    {
+      "nick": "마르케사 카사티",
+      "en": "Luisa Casati",
+      "qid": "Q461416",
+      "celeb_id": "371747a7-c575-4fa6-bdce-bdce55be920e"
+    },
+    {
+      "nick": "윌리엄 베크포드",
+      "en": "William Beckford",
+      "qid": "Q361026",
+      "celeb_id": "08c93dd7-4af5-40da-86d5-504899cdd583"
+    },
+    {
+      "nick": "P.T. 바넘",
+      "en": "P. T. Barnum",
+      "qid": "Q223766",
+      "celeb_id": "c1b2f48e-c9ce-4dd3-9bd2-6ef4d2132633"
+    },
+    {
+      "nick": "로버트 리플리",
+      "en": "Robert Ripley",
+      "qid": "Q732327",
+      "celeb_id": "2b3d1713-e84f-4e01-925b-78c5206cb63f"
+    },
+    {
+      "nick": "존 매카피",
+      "en": "John McAfee",
+      "qid": "Q45864",
+      "celeb_id": "32edf7cd-a184-4d8a-bd1f-b3dfff2607aa"
+    },
+    {
+      "nick": "빅토르 루스티히",
+      "en": "Victor Lustig",
+      "qid": "Q347318",
+      "celeb_id": "cb072eed-f6f0-472d-92e1-7ff09b9dc9b3"
+    },
+    {
+      "nick": "그레고어 맥그리거",
+      "en": "Gregor MacGregor",
+      "qid": "Q330882",
+      "celeb_id": "c3e6e926-9fcb-427d-8dde-772ff8f9c098"
+    },
+    {
+      "nick": "찰스 폰지",
+      "en": "Charles Ponzi",
+      "qid": "Q360145",
+      "celeb_id": "70732a63-dfac-4605-bd1e-fa4097e92931"
+    },
+    {
+      "nick": "생제르맹 백작",
+      "en": "Count of St. Germain",
+      "qid": "Q158208",
+      "celeb_id": "81fa6ee9-c066-441c-81f8-0bf3a9db1aad"
+    },
+    {
+      "nick": "조지 살마나자르",
+      "en": "George Psalmanazar",
+      "qid": "Q1508116",
+      "celeb_id": "3edd6a35-5a29-4e15-b45d-7457873c07ff"
+    },
+    {
+      "nick": "그레이 아울",
+      "en": "Grey Owl",
+      "qid": "Q1377706",
+      "celeb_id": "92dce8bf-2f5f-4163-942f-3348e469bc69"
+    },
+    {
+      "nick": "한 반 메이허런",
+      "en": "Han van Meegeren",
+      "qid": "Q436161",
+      "celeb_id": "70d9febf-bcd4-4df3-8873-bb76d76eb31a"
+    },
+    {
+      "nick": "콘라트 쿠야우",
+      "en": "Konrad Kujau",
+      "qid": "Q447925",
+      "celeb_id": "26b92e35-9235-4bc5-9fb8-aa0f3913fba4"
+    },
+    {
+      "nick": "클리퍼드 어빙",
+      "en": "Clifford Irving",
+      "qid": "Q960612",
+      "celeb_id": "695ae44f-85db-4482-a769-a281685d3603"
+    },
+    {
+      "nick": "마르탱 게르",
+      "en": "Martin Guerre",
+      "qid": "Q542183",
+      "celeb_id": "2735d04b-a939-4fa4-a758-90743a639659"
+    },
+    {
+      "nick": "예멜리안 푸가초프",
+      "en": "Yemelyan Pugachev",
+      "qid": "Q154240",
+      "celeb_id": "29d46eff-ad37-4b45-a921-62f08e729d06"
+    },
+    {
+      "nick": "보리스 스코시레프",
+      "en": "Boris Skossyreff",
+      "qid": "Q176731",
+      "celeb_id": "aa2e5035-fb27-4153-991f-1fa8d90821a6"
+    },
+    {
+      "nick": "오렐리 앙투안 드 투넨",
+      "en": "Orélie-Antoine de Tounens",
+      "qid": "Q886786",
+      "celeb_id": "e8c6fd9e-1fbc-4189-a2d4-1018eab52944"
+    },
+    {
+      "nick": "D.B. 쿠퍼",
+      "en": "D. B. Cooper",
+      "qid": "Q348970",
+      "celeb_id": "794a5491-fd84-4cda-b7d4-eab5219c7344"
+    },
+    {
+      "nick": "배스 리브스",
+      "en": "Bass Reeves",
+      "qid": "Q4867957",
+      "celeb_id": "1f6cd484-90f1-4fba-a0cd-dd9bd0898ad1"
+    },
+    {
+      "nick": "메리 필즈",
+      "en": "Mary Fields",
+      "qid": "Q6003189",
+      "celeb_id": "10370bd5-6da1-4360-9425-df395f9427d6"
+    },
+    {
+      "nick": "칼라미티 제인",
+      "en": "Calamity Jane",
+      "qid": "Q236795",
+      "celeb_id": "86d31496-8045-4921-8df3-aaca2852d1a6"
+    },
+    {
+      "nick": "시팅 불",
+      "en": "Sitting Bull",
+      "qid": "Q43527",
+      "celeb_id": "daa2b714-35a6-43fb-a3f2-7149c632a6e9"
+    },
+    {
+      "nick": "크레이지 호스",
+      "en": "Crazy Horse",
+      "qid": "Q131747787",
+      "celeb_id": "bf9aa365-94df-41b7-a5ad-cf9afee7391b"
+    },
+    {
+      "nick": "콰나 파커",
+      "en": "Quanah Parker",
+      "qid": "Q1343075",
+      "celeb_id": "8e2975ed-5e42-45fc-ac5f-9a37f749d913"
+    },
+    {
+      "nick": "세쿼야",
+      "en": "Sequoyah",
+      "qid": "Q313595",
+      "celeb_id": "be1047a9-2536-4c22-8165-de23af731e88"
+    },
+    {
+      "nick": "짐 브리저",
+      "en": "Jim Bridger",
+      "qid": "Q713423",
+      "celeb_id": "1c2ed943-f85b-41c5-8c29-a5092d924d7d"
+    },
+    {
+      "nick": "에이드리언 카턴 드 비야르",
+      "en": "Adrian Carton de Wiart",
+      "qid": "Q372748",
+      "celeb_id": "388ada25-1a6a-4ac2-a8c1-c8e4994e178b"
+    },
+    {
+      "nick": "시모 해위해",
+      "en": "Simo Häyhä",
+      "qid": "Q185489",
+      "celeb_id": "d7be10d1-c6e1-42b0-a9ae-ff09658bf915"
+    },
+    {
+      "nick": "오디 머피",
+      "en": "Audie Murphy",
+      "qid": "Q337185",
+      "celeb_id": "bafcc791-57f5-469e-abe1-8c89af6ac249"
+    },
+    {
+      "nick": "비톨트 필레츠키",
+      "en": "Witold Pilecki",
+      "qid": "Q315691",
+      "celeb_id": "802b2a7d-6109-4e16-bd21-66bb14ad9f89"
+    },
+    {
+      "nick": "데즈먼드 도스",
+      "en": "Desmond Doss",
+      "qid": "Q5264703",
+      "celeb_id": "0d1db35f-8e6e-4272-a369-c908d5f49d48"
+    },
+    {
+      "nick": "오노다 히로오",
+      "en": "Hiroo Onoda",
+      "qid": "Q295162",
+      "celeb_id": "cb4a34bb-32e4-47af-be68-faf1f9ff363c"
+    },
+    {
+      "nick": "스타니슬라프 페트로프",
+      "en": "Stanislav Petrov",
+      "qid": "Q52412",
+      "celeb_id": "ad664194-4c72-4cc9-97ec-64c15f8e5c34"
+    },
+    {
+      "nick": "잭 셰퍼드",
+      "en": "Jack Sheppard",
+      "qid": "Q636214",
+      "celeb_id": "399eec5e-014a-43ed-8fb0-2cc4ed283c89"
+    },
+    {
+      "nick": "로만 폰 운게른슈테른베르크",
+      "en": "Roman von Ungern-Sternberg",
+      "qid": "Q70542",
+      "celeb_id": "c63edd32-9554-4571-b6a9-9f17166df1a2"
+    },
+    {
+      "nick": "네스토르 마흐노",
+      "en": "Nestor Makhno",
+      "qid": "Q47900",
+      "celeb_id": "841b8739-df7e-4428-9dec-0b66e0905faf"
+    },
+    {
+      "nick": "오드 윈게이트",
+      "en": "Orde Wingate",
+      "qid": "Q451466",
+      "celeb_id": "a86d895e-8739-473c-87a5-6ee64c6a33c2"
+    },
+    {
+      "nick": "블라디미르 페니아코프",
+      "en": "Vladimir Peniakoff",
+      "qid": "Q2478036",
+      "celeb_id": "02f8c516-b4c5-4530-aa12-a88e6b673f05"
+    },
+    {
+      "nick": "조사이어 할런",
+      "en": "Josiah Harlan",
+      "qid": "Q166047",
+      "celeb_id": "0bc2003d-0f8a-451b-98e3-a3a251fd4f17"
+    },
+    {
+      "nick": "애런 버",
+      "en": "Aaron Burr",
+      "qid": "Q179090",
+      "celeb_id": "713c7f53-d041-407c-9847-bb5c1d4d3ee5"
+    },
+    {
+      "nick": "이디 아민",
+      "en": "Idi Amin",
+      "qid": "Q48231",
+      "celeb_id": "b322912e-63cc-4a60-8ec5-c290a458aa12"
+    },
+    {
+      "nick": "모부투 세세 세코",
+      "en": "Mobutu Sese Seko",
+      "qid": "Q164535",
+      "celeb_id": "e66869e8-9826-4faa-94ff-4c56496206c9"
+    },
+    {
+      "nick": "파블로 에스코바르",
+      "en": "Pablo Escobar",
+      "qid": "Q187447",
+      "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d"
+    },
+    {
+      "nick": "조그 1세",
+      "en": "Zog I of Albania",
+      "qid": "Q60699",
+      "celeb_id": "1a10a449-c7a3-452e-9562-71ab4aed4465"
+    },
+    {
+      "nick": "수브코만단테 마르코스",
+      "en": "Subcomandante Marcos",
+      "qid": "Q491635",
+      "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118"
+    },
+    {
+      "nick": "빅토르 부트",
+      "en": "Viktor Bout",
+      "qid": "Q314650",
+      "celeb_id": "f5a58738-6e31-408a-aa63-ae0468a958c5"
+    },
+    {
+      "nick": "킴 닷컴",
+      "en": "Kim Dotcom",
+      "qid": "Q60543",
+      "celeb_id": "dbcf9bf1-1ec0-4525-9f00-34de75c88cfd"
+    },
+    {
+      "nick": "로스 울브리히트",
+      "en": "Ross Ulbricht",
+      "qid": "Q15041155",
+      "celeb_id": "5348b784-636d-474b-b266-a45c156c40f0"
+    },
+    {
+      "nick": "프랭크 캘버트",
+      "en": "Frank Calvert",
+      "qid": "Q1385967",
+      "celeb_id": "2cc33fdf-47af-4fd4-9b18-ce75ef041797"
+    },
+    {
+      "nick": "아서 캘런더",
+      "en": "Arthur Callender",
+      "qid": "Q3624255",
+      "celeb_id": "e3146c6b-aba8-4bcd-b652-15e74b12ae72"
+    },
+    {
+      "nick": "알미나 카나번",
+      "en": "Almina Herbert, Countess of Carnarvon",
+      "qid": "Q665436",
+      "celeb_id": "d4275acf-1c92-482e-99d0-11f1caeb7bea"
+    },
+    {
+      "nick": "오브리 허버트",
+      "en": "Aubrey Herbert",
+      "qid": "Q4819126",
+      "celeb_id": "01a23b30-d269-420b-becf-4d1d141e0fc6"
+    },
+    {
+      "nick": "베르나르디노 드로베티",
+      "en": "Bernardino Drovetti",
+      "qid": "Q822895",
+      "celeb_id": "b6a849de-4fda-477b-9596-2072831433e0"
+    },
+    {
+      "nick": "페데리코 할베르",
+      "en": "Federico Halbherr",
+      "qid": "Q202095",
+      "celeb_id": "024556d1-ed59-4bb0-bf78-c4b48386804d"
+    },
+    {
+      "nick": "헨리 드 라 베슈",
+      "en": "Henry De la Beche",
+      "qid": "Q302176",
+      "celeb_id": "b6ebbdc0-ebb9-47bf-abeb-3adb80d8c845"
+    },
+    {
+      "nick": "찰스 스턴버그",
+      "en": "Charles Hazelius Sternberg",
+      "qid": "Q1064705",
+      "celeb_id": "e8cb13dd-2bd1-4ee8-9145-57375b71430f"
+    },
+    {
+      "nick": "존 벨 해처",
+      "en": "John Bell Hatcher",
+      "qid": "Q1041829",
+      "celeb_id": "c266e611-5a8b-4618-acef-7342cedb66ba"
+    },
+    {
+      "nick": "장샤오완",
+      "en": "Jiang Xiaowan",
+      "qid": "Q6191591",
+      "celeb_id": "d3f0fab7-b19f-4269-8fc1-df48feebb445"
+    },
+    {
+      "nick": "아밀리아 에드워즈",
+      "en": "Amelia Edwards",
+      "qid": "Q437356",
+      "celeb_id": "3c290707-832a-4064-854b-8ec894850d60"
+    },
+    {
+      "nick": "알레산드로 발리냐노",
+      "en": "Alessandro Valignano",
+      "qid": "Q2091318",
+      "celeb_id": "036c1b48-4332-486c-96cc-165c109846c2"
+    },
+    {
+      "nick": "얀 요스텐",
+      "en": "Jan Joosten van Lodensteijn",
+      "qid": "Q599058",
+      "celeb_id": "9a48a513-9e90-49e3-a756-d81f52b02ee2"
+    },
+    {
+      "nick": "다카하시 가게야스",
+      "en": "Takahashi Kageyasu",
+      "qid": "Q11671324",
+      "celeb_id": "69405731-3369-4cfd-9229-2d872d6772f0"
+    },
+    {
+      "nick": "황금융",
+      "en": "Huang Jinrong",
+      "qid": "Q4502005",
+      "celeb_id": "007f1580-a369-4cda-b3c9-b222ed72e45c"
+    },
+    {
+      "nick": "로크 완토",
+      "en": "Loke Wan Tho",
+      "qid": "Q836030",
+      "celeb_id": "4ec869f6-6ef8-4340-ad45-0b25e5b12f49"
+    },
+    {
+      "nick": "완롱",
+      "en": "Wanrong",
+      "qid": "Q45637244",
+      "celeb_id": "0dd45b18-6ad5-4572-9699-80b93d2973c4"
+    },
+    {
+      "nick": "레지널드 존스턴",
+      "en": "Reginald Johnston",
+      "qid": "Q557192",
+      "celeb_id": "5ee2ba73-f527-4892-b8fb-b5d2302c8330"
+    },
+    {
+      "nick": "조르주 라두",
+      "en": "Georges Ladoux",
+      "qid": "Q16227175",
+      "celeb_id": "1b5a13a2-ff33-4097-8331-29ac2c8a6885"
+    },
+    {
+      "nick": "오자키 호쓰미",
+      "en": "Hotsumi Ozaki",
+      "qid": "Q1206227",
+      "celeb_id": "9eec326b-805e-4519-b55b-3565d4aaa328"
+    },
+    {
+      "nick": "오이겐 오트",
+      "en": "Eugen Ott",
+      "qid": "Q75802",
+      "celeb_id": "a7e05a9e-f58a-4394-a406-5bff36e5876e"
+    },
+    {
+      "nick": "보리스 사빈코프",
+      "en": "Boris Savinkov",
+      "qid": "Q381859",
+      "celeb_id": "f48045c1-cb03-40ec-bb40-0d21dd427218"
+    },
+    {
+      "nick": "토마스 해리스",
+      "en": "Tomás Harris",
+      "qid": "Q7820472",
+      "celeb_id": "e95e48d2-4a0b-43f8-8536-05d574245e94"
+    },
+    {
+      "nick": "카를에리히 퀼렌탈",
+      "en": "Karl-Erich Kühlenthal",
+      "qid": "Q6738107",
+      "celeb_id": "c220a550-be20-4d6b-95a6-f1fcae2da677"
+    },
+    {
+      "nick": "슈테판 폰 그뢰닝",
+      "en": "Stephan von Gröning",
+      "qid": "Q19309542",
+      "celeb_id": "cf29c246-2caa-47b5-a2f9-cdbe0d8b0a3c"
+    },
+    {
+      "nick": "로니 리드",
+      "en": "Ronnie Reed",
+      "qid": "Q7365965",
+      "celeb_id": "396fe050-0279-480f-a326-d3fcbce91272"
+    },
+    {
+      "nick": "다나카 류키치",
+      "en": "Ryūkichi Tanaka",
+      "qid": "Q6280488",
+      "celeb_id": "6767ffe9-9a05-4bae-bfaa-3ca8651025a9"
+    },
+    {
+      "nick": "휴 네치불-휴게슨",
+      "en": "Hughe Knatchbull-Hugessen",
+      "qid": "Q1634657",
+      "celeb_id": "5ba982cd-f410-4f09-80f8-e2c5ec171e02"
+    },
+    {
+      "nick": "루돌프 함부르거",
+      "en": "Rudolf Hamburger",
+      "qid": "Q2172856",
+      "celeb_id": "bf35b831-66bc-42f9-b68f-35ebec15e01b"
+    },
+    {
+      "nick": "알렉산더 라도",
+      "en": "Alexander Radó",
+      "qid": "Q567610",
+      "celeb_id": "901a1b02-ac76-46bc-ae74-2d835ba33ae7"
+    },
+    {
+      "nick": "렌 버턴",
+      "en": "Len Beurton",
+      "qid": "Q98883",
+      "celeb_id": "ef6395e6-78ac-40bd-a623-4a67cd406cd0"
+    },
+    {
+      "nick": "프랭크 워슬리",
+      "en": "Frank Worsley",
+      "qid": "Q1230344",
+      "celeb_id": "67d55b69-c009-49d0-b2ee-18bd2dbbdcf6"
+    },
+    {
+      "nick": "재닛 스탠콤-윌스",
+      "en": "Janet Stancomb-Wills",
+      "qid": "Q378826",
+      "celeb_id": "9e8bcbff-c326-4d66-a06c-ef300871e659"
+    },
+    {
+      "nick": "레온 아문센",
+      "en": "Leon Amundsen",
+      "qid": "Q18647630",
+      "celeb_id": "c7b60053-8030-4587-9c41-fe9005f4aff1"
+    },
+    {
+      "nick": "오스카 비스팅",
+      "en": "Oscar Wisting",
+      "qid": "Q553187",
+      "celeb_id": "b0847a8f-4f04-4376-80fa-a3ac9901330e"
+    },
+    {
+      "nick": "헬머 한센",
+      "en": "Helmer Hanssen",
+      "qid": "Q561163",
+      "celeb_id": "bba95638-310d-4e15-971a-f7a9ae2f170b"
+    },
+    {
+      "nick": "자비에르 메르츠",
+      "en": "Xavier Mertz",
+      "qid": "Q124562",
+      "celeb_id": "2c011ec9-840f-4726-b997-507bdd402cb9"
+    },
+    {
+      "nick": "존 킹 데이비스",
+      "en": "John King Davis",
+      "qid": "Q2603652",
+      "celeb_id": "7fc57ce9-0f10-46e2-81cc-768a62da564f"
+    },
+    {
+      "nick": "윌리엄 래슐리",
+      "en": "William Lashly",
+      "qid": "Q224709",
+      "celeb_id": "3a4416b1-e98e-4c4e-a2e8-c73880839ece"
+    },
+    {
+      "nick": "앨런 크로퍼드",
+      "en": "Allan Crawford",
+      "qid": "Q114796332",
+      "celeb_id": "6e5f9558-553f-46af-9a14-d3903971e39f"
+    },
+    {
+      "nick": "닐스 스트린드베리",
+      "en": "Nils Strindberg",
+      "qid": "Q1385654",
+      "celeb_id": "d019879c-78b4-4b54-8cb3-bb5880b26e62"
+    },
+    {
+      "nick": "크누트 프렝켈",
+      "en": "Knut Frænkel",
+      "qid": "Q1341315",
+      "celeb_id": "d4ce9209-759e-4bc6-96ed-568429b4c0bb"
+    },
+    {
+      "nick": "핀 말름그렌",
+      "en": "Finn Malmgren",
+      "qid": "Q2734017",
+      "celeb_id": "f44358a3-6a4b-40d3-93bd-248b8177357b"
+    },
+    {
+      "nick": "헤르만 바칭거",
+      "en": "Herman Watzinger",
+      "qid": "Q708594",
+      "celeb_id": "e8def4b7-fd88-42b0-a540-1e54c1c3d115"
+    },
+    {
+      "nick": "포스터 피츠제럴드 아버스놋",
+      "en": "Forster Fitzgerald Arbuthnot",
+      "qid": "Q3077717",
+      "celeb_id": "3f7a0391-822f-46de-9d32-eaeaf8d70ea7"
+    },
+    {
+      "nick": "셀림 아흐메드",
+      "en": "Selim Ahmed",
+      "qid": "Q57920208",
+      "celeb_id": "0ed8d424-dc3b-492a-bb4c-810c64c0dd98"
+    },
+    {
+      "nick": "패니 제인 버틀러",
+      "en": "Fanny Jane Butler",
+      "qid": "Q18759662",
+      "celeb_id": "36e7baf9-b460-4342-9048-967d7a2da077"
+    },
+    {
+      "nick": "시드케옹 툴쿠 남갈",
+      "en": "Sidkeong Tulku Namgyal",
+      "qid": "Q1767027",
+      "celeb_id": "82a827b0-6147-4534-afa6-5056e27bba34"
+    },
+    {
+      "nick": "토머스 조지 몽고메리",
+      "en": "Thomas George Montgomerie",
+      "qid": "Q283400",
+      "celeb_id": "66522102-57fa-4a6f-a17a-1c7acb510168"
+    },
+    {
+      "nick": "아푸르 용덴",
+      "en": "Aphur Yongden",
+      "qid": "Q2858273",
+      "celeb_id": "719dffe7-1497-4e11-87e5-57d3071237f7"
+    },
+    {
+      "nick": "아벨 코빈",
+      "en": "Abel Corbin",
+      "qid": "Q4666549",
+      "celeb_id": "3dbded8f-c898-44da-ab3a-ad4042ce58fb"
+    },
+    {
+      "nick": "허버트 헌트",
+      "en": "William Herbert Hunt",
+      "qid": "Q8012250",
+      "celeb_id": "e1dddbeb-8b0f-42cf-903b-2c9e7086cd22"
+    },
+    {
+      "nick": "프랭크 디파스칼리",
+      "en": "Frank DiPascali",
+      "qid": "Q5486224",
+      "celeb_id": "f506ed39-0d89-46f8-903b-f051b76dbd45"
+    },
+    {
+      "nick": "칼 샤피로",
+      "en": "Carl J. Shapiro",
+      "qid": "Q5040364",
+      "celeb_id": "4cb9f01e-628a-400c-8435-9d8a91c8e536"
+    },
+    {
+      "nick": "토미 정",
+      "en": "Tommy Chong",
+      "qid": "Q369174",
+      "celeb_id": "bd27e1b4-69d1-4df6-9d3e-d97e63c646ef"
+    },
+    {
+      "nick": "프레드 조지프",
+      "en": "Fred Joseph",
+      "qid": "Q5495617",
+      "celeb_id": "5124b6f6-4c04-42d1-ae64-13245f9978db"
+    },
+    {
+      "nick": "데니스 러바인",
+      "en": "Dennis Levine",
+      "qid": "Q5258644",
+      "celeb_id": "703f377a-9e76-4463-9316-03be2063f316"
+    },
+    {
+      "nick": "제임스 데이비스",
+      "en": "James M. Davis",
+      "qid": "Q6138409",
+      "celeb_id": "add2047e-9bc1-4451-9c9c-32942a0428d1"
+    },
+    {
+      "nick": "리로이 킹",
+      "en": "Leroy King",
+      "qid": "Q100984047",
+      "celeb_id": "9ecddd22-9129-4f26-84de-49392668728a"
+    },
+    {
+      "nick": "버나드 콘펠드",
+      "en": "Bernard Cornfeld",
+      "qid": "Q822361",
+      "celeb_id": "295a93af-bef9-4ebf-9ce5-9f4ee94378f3"
+    },
+    {
+      "nick": "알렉스 트레물리스",
+      "en": "Alex Tremulis",
+      "qid": "Q4717907",
+      "celeb_id": "30d89d11-1135-4f5f-b6cf-2a9aa72a9296"
+    },
+    {
+      "nick": "조지프 로이어",
+      "en": "Joseph R. Royer",
+      "qid": "Q141280202",
+      "celeb_id": "3ae4db4d-b2a1-4368-a3c5-1d8f4b5e1b49"
+    },
+    {
+      "nick": "H. B. 리스",
+      "en": "H. B. Reese",
+      "qid": "Q5628080",
+      "celeb_id": "c3843456-dac0-400a-b26c-f95702cfb1f8"
+    },
+    {
+      "nick": "헨리 스트롱",
+      "en": "Henry A. Strong",
+      "qid": "Q5717043",
+      "celeb_id": "19939033-e7f6-453f-b1ad-93aeca7c2aa0"
+    },
+    {
+      "nick": "엘칸 블라우트",
+      "en": "Elkan Blout",
+      "qid": "Q5364176",
+      "celeb_id": "2b398ce3-4658-4817-9648-98e4bae9102d"
+    },
+    {
+      "nick": "노아 디트리히",
+      "en": "Noah Dietrich",
+      "qid": "Q1994618",
+      "celeb_id": "5c122580-cfa1-483d-809c-b683ba6e8a88"
+    },
+    {
+      "nick": "바르톨로메우스 벨저",
+      "en": "Bartholomeus Welser",
+      "qid": "Q19423485",
+      "celeb_id": "759f5e6a-227d-4df5-afaa-392798243d77"
+    },
+    {
+      "nick": "찰스 제임스 애퍼리",
+      "en": "Charles James Apperley",
+      "qid": "Q4068173",
+      "celeb_id": "27a9903f-baef-4c1f-a912-85f7e31558e5"
+    },
+    {
+      "nick": "로베르 드 몽테스키우",
+      "en": "Robert de Montesquiou",
+      "qid": "Q669685",
+      "celeb_id": "ff78e75e-ce30-4dc8-87e4-1003ad5129f0"
+    },
+    {
+      "nick": "윌리엄 코트니",
+      "en": "William Courtenay",
+      "qid": "Q76024785",
+      "celeb_id": "09bd7402-a487-4057-9328-9605ba18be46"
+    },
+    {
+      "nick": "조나선 플러머",
+      "en": "Jonathan Plummer",
+      "qid": "Q111025500",
+      "celeb_id": "afeabc8b-6c21-4b47-9af3-dd6518b64767"
+    },
+    {
+      "nick": "노버트 펄로스",
+      "en": "Norbert Pearlroth",
+      "qid": "Q7050355",
+      "celeb_id": "6a98d083-72f6-4b1b-b9f6-b725e45c964d"
+    },
+    {
+      "nick": "윌리엄 맥마스터스",
+      "en": "William McMasters",
+      "qid": "Q111263070",
+      "celeb_id": "64ebb1d9-1386-47cc-8832-2098c824a8c6"
+    },
+    {
+      "nick": "게오르크 프리드리히 다우머",
+      "en": "Georg Friedrich Daumer",
+      "qid": "Q64661",
+      "celeb_id": "0b302773-e5c6-44a3-9a04-6097ba6b3290"
+    },
+    {
+      "nick": "스탠호프 백작",
+      "en": "Philip Henry Stanhope, 4th Earl Stanhope",
+      "qid": "Q334196",
+      "celeb_id": "f67bd340-d874-43aa-a646-8f8cabff7b5d"
+    },
+    {
+      "nick": "글레프 보트킨",
+      "en": "Gleb Botkin",
+      "qid": "Q5567416",
+      "celeb_id": "c1f633e6-4679-427e-a157-e7b71a594ebd"
+    },
+    {
+      "nick": "아나하레오",
+      "en": "Anahareo",
+      "qid": "Q4750865",
+      "celeb_id": "888b9cd4-a004-45e7-bae1-36e0b9ddcd4d"
+    },
+    {
+      "nick": "바르투스 코르텔링",
+      "en": "Bartus Korteling",
+      "qid": "Q41276115",
+      "celeb_id": "a2eae77a-ff92-4d79-994f-3d98f4dc7089"
+    },
+    {
+      "nick": "게르트 하이데만",
+      "en": "Gerd Heidemann",
+      "qid": "Q124111",
+      "celeb_id": "de0c6bf9-15ad-40df-ae79-c13df24275da"
+    },
+    {
+      "nick": "리처드 서스킨드",
+      "en": "Richard Suskind",
+      "qid": "Q7329300",
+      "celeb_id": "9008c46c-e470-47d0-9d0f-19ed65790aa6"
+    },
+    {
+      "nick": "에디스 어빙",
+      "en": "Edith Irving",
+      "qid": "Q95712714",
+      "celeb_id": "599de3fd-d5be-4440-87c6-fe9157419a51"
+    },
+    {
+      "nick": "엘미르 드 오리",
+      "en": "Elmyr de Hory",
+      "qid": "Q1333126",
+      "celeb_id": "4e09ba3d-d2df-4180-b4a6-bb82ec10fe80"
+    },
+    {
+      "nick": "아르노 뒤 틸",
+      "en": "Arnaud du Tilh",
+      "qid": "Q12359571",
+      "celeb_id": "f3880278-f07f-485d-8d7b-55690419f02b"
+    },
+    {
+      "nick": "베르트랑드 드 롤스",
+      "en": "Bertrande de Rols",
+      "qid": "Q16406982",
+      "celeb_id": "566f7045-35f2-4a5b-8706-ce29a48b9709"
+    },
+    {
+      "nick": "마리나 므니셰크",
+      "en": "Marina Mniszech",
+      "qid": "Q1140161",
+      "celeb_id": "183c7e42-51a4-4166-ad20-778e9707d191"
+    },
+    {
+      "nick": "예지 므니셰크",
+      "en": "Jerzy Mniszech",
+      "qid": "Q2618255",
+      "celeb_id": "656d3152-aa55-428f-86a3-dc73a607440b"
+    },
+    {
+      "nick": "코르넬리오 사베드라",
+      "en": "Cornelio Saavedra Rodríguez",
+      "qid": "Q4233309",
+      "celeb_id": "38a7a89c-1d9c-4702-b719-48804b0ea4c3"
+    },
+    {
+      "nick": "베니뉴 드 생마르",
+      "en": "Bénigne Dauvergne de Saint-Mars",
+      "qid": "Q348806",
+      "celeb_id": "5155c05d-9b83-48ab-a728-7746a5e07f6c"
+    },
+    {
+      "nick": "나이체",
+      "en": "Naiche",
+      "qid": "Q1963825",
+      "celeb_id": "a587916d-77c6-4605-82cc-ca46ed0a365b"
+    },
+    {
+      "nick": "찰스 굿나잇",
+      "en": "Charles Goodnight",
+      "qid": "Q1064563",
+      "celeb_id": "5a3933aa-d250-4ebc-b316-d456fffe7cce"
+    },
+    {
+      "nick": "카미아웨이트",
+      "en": "Cameahwait",
+      "qid": "Q2934719",
+      "celeb_id": "8efd31ea-a7ee-41db-9c85-1379b5272b3e"
+    },
+    {
+      "nick": "색스턴 포프",
+      "en": "Saxton Pope",
+      "qid": "Q1457824",
+      "celeb_id": "41ee850b-3ae5-4f5d-8611-b7d78f0f861b"
+    },
+    {
+      "nick": "제데디어 스미스",
+      "en": "Jedediah Smith",
+      "qid": "Q465232",
+      "celeb_id": "bd12580b-45b6-480c-b8f8-2da27151838e"
+    },
+    {
+      "nick": "에드바르트 치에시엘스키",
+      "en": "Edward Ciesielski",
+      "qid": "Q112535581",
+      "celeb_id": "c4c4c1e7-5aef-4073-b1d5-667bb2f51f08"
+    },
+    {
+      "nick": "다니구치 요시미",
+      "en": "Yoshimi Taniguchi",
+      "qid": "Q90431070",
+      "celeb_id": "dd388a99-e9e5-48c4-b772-1666be792b23"
+    },
+    {
+      "nick": "보그드 칸",
+      "en": "Bogd Khan",
+      "qid": "Q353547",
+      "celeb_id": "ad72e5b0-8a44-4303-adf7-a2c262de4aae"
+    },
+    {
+      "nick": "파트리시오 리바스",
+      "en": "Patricio Rivas",
+      "qid": "Q888502",
+      "celeb_id": "8f91c822-b03c-4648-9619-7f38ad9e4384"
+    },
+    {
+      "nick": "찰스 프레더릭 헤닝센",
+      "en": "Charles Frederick Henningsen",
+      "qid": "Q860209",
+      "celeb_id": "e3d3e80e-4329-4ce0-b8e9-b467257dbcb5"
+    },
+    {
+      "nick": "노웰 새먼",
+      "en": "Nowell Salmon",
+      "qid": "Q7066639",
+      "celeb_id": "8bcb85d8-744b-4c80-b175-b89ecb6603d3"
+    },
+    {
+      "nick": "알렉산더 번스",
+      "en": "Alexander Burnes",
+      "qid": "Q375933",
+      "celeb_id": "9ffc527e-3de5-4ab5-9deb-aec6c6e28cc1"
+    },
+    {
+      "nick": "하먼 블레너해싯",
+      "en": "Harman Blennerhassett",
+      "qid": "Q75663842",
+      "celeb_id": "cef0a27d-d04d-4cc9-90e7-21ffde8ec9f6"
+    },
+    {
+      "nick": "애런 버 시니어",
+      "en": "Aaron Burr Sr.",
+      "qid": "Q301773",
+      "celeb_id": "8dd35923-7012-4d43-8ddc-44c87856e755"
+    },
+    {
+      "nick": "일라이자 주멜",
+      "en": "Eliza Jumel",
+      "qid": "Q5362157",
+      "celeb_id": "77434f94-977f-498a-bf64-f7a1f10adcb7"
+    },
+    {
+      "nick": "사라 쿄라바",
+      "en": "Sarah Kyolaba",
+      "qid": "Q20179441",
+      "celeb_id": "0c80b0a7-20be-47b0-97ae-8e86e8e9e181"
+    },
+    {
+      "nick": "밥 아스틀스",
+      "en": "Bob Astles",
+      "qid": "Q371442",
+      "celeb_id": "530ee76f-ac03-478e-92a9-4a9a5ee32ffd"
+    },
+    {
+      "nick": "알렉상드르 반자",
+      "en": "Alexandre Banza",
+      "qid": "Q2833429",
+      "celeb_id": "08d4a5a2-ae09-429d-a1da-00c03fcddd6f"
+    },
+    {
+      "nick": "이야수 5세",
+      "en": "Iyasu V",
+      "qid": "Q379889",
+      "celeb_id": "480f4697-78e9-45f4-af17-8867ef51952a"
+    },
+    {
+      "nick": "코만단타 라모나",
+      "en": "Comandanta Ramona",
+      "qid": "Q444207",
+      "celeb_id": "903e774d-330d-4929-b1f8-b68c8bc2a06e"
+    },
+    {
+      "nick": "핀 바타토",
+      "en": "Finn Batato",
+      "qid": "Q105499083",
+      "celeb_id": "0e359089-f762-4cf9-b235-c4cbfaea7a00"
+    },
+    {
+      "nick": "로저 토머스 클라크",
+      "en": "Roger Thomas Clark",
+      "qid": "Q55859636",
+      "celeb_id": "fdecc5d1-0e17-48d7-b839-7e3484df3669"
+    },
+    {
+      "nick": "케네스 스넬슨",
+      "en": "Kenneth Snelson",
+      "qid": "Q931065",
+      "celeb_id": "f2aa36d0-c5f7-4086-a3c0-4d56455b3e41"
+    },
+    {
+      "nick": "우디 플라워스",
+      "en": "Woodie Flowers",
+      "qid": "Q3569833",
+      "celeb_id": "54fee148-60b8-494a-bb47-3a27cc48b1ed"
+    },
+    {
+      "nick": "마조리 캐머런",
+      "en": "Marjorie Cameron",
+      "qid": "Q6766231",
+      "celeb_id": "e41cc931-d1a7-456e-ba65-b235737ad74f"
+    },
+    {
+      "nick": "요하네스 오포리누스",
+      "en": "Johannes Oporinus",
+      "qid": "Q115941",
+      "celeb_id": "e003fe8c-d78d-4100-8084-b7e5bff7bf6b"
+    },
+    {
+      "nick": "마거릿 하우 로바트",
+      "en": "Margaret Howe Lovatt",
+      "qid": "Q24716885",
+      "celeb_id": "03248bd4-64f3-4772-8106-861899adcf6f"
+    },
+    {
+      "nick": "존 피츠제럴드",
+      "en": "John S. Fitzgerald",
+      "qid": "Q102312437",
+      "celeb_id": "6ec3597f-6a8c-4182-8a1b-a599738e9623"
+    },
+    {
+      "nick": "우즈 로저스",
+      "en": "Woodes Rogers",
+      "qid": "Q114206",
+      "celeb_id": "c83fdf62-e18c-4a59-ba12-baedee7bea9b"
+    },
+    {
+      "nick": "마리아 쾨프케",
+      "en": "Maria Koepcke",
+      "qid": "Q85746",
+      "celeb_id": "97df23f8-6301-4328-9393-762630eed46c"
+    },
+    {
+      "nick": "나왕 곰부",
+      "en": "Nawang Gombu",
+      "qid": "Q11991013",
+      "celeb_id": "69a6e3d5-0a95-4d12-ac6a-e4a3e2f0fff8"
+    },
+    {
+      "nick": "페터 하벨러",
+      "en": "Peter Habeler",
+      "qid": "Q495503",
+      "celeb_id": "8d1a9fe6-0816-4f57-b7a1-243b9e6e7b9e"
+    },
+    {
+      "nick": "콘래드 앵커",
+      "en": "Conrad Anker",
+      "qid": "Q735984",
+      "celeb_id": "9c0b85a5-3b22-4443-8db0-900b62c0db63"
+    },
+    {
+      "nick": "잭 험프리스",
+      "en": "Jack Humphreys",
+      "qid": "Q23991396",
+      "celeb_id": "1a41b508-e711-4d8d-b058-ec1077eeb6bc"
+    },
+    {
+      "nick": "톰 캠벨 블랙",
+      "en": "Tom Campbell Black",
+      "qid": "Q7815190",
+      "celeb_id": "f29679da-4c0f-4bb1-bbee-00e6d574c200"
+    },
+    {
+      "nick": "알렉시스 카렐",
+      "en": "Alexis Carrel",
+      "qid": "Q185777",
+      "celeb_id": "38356e06-2794-434b-9d14-ae82e0aeec30"
+    },
+    {
+      "nick": "샤를 뇽제세르",
+      "en": "Charles Nungesser",
+      "qid": "Q918462",
+      "celeb_id": "41a5bcd6-9421-4c65-880e-92b9191fa6a8"
+    },
+    {
+      "nick": "프랑수아 콜리",
+      "en": "François Coli",
+      "qid": "Q1347241",
+      "celeb_id": "72a976af-2701-4241-89e2-712a8eb8690d"
+    },
+    {
+      "nick": "폴 먼츠",
+      "en": "Paul Mantz",
+      "qid": "Q3270391",
+      "celeb_id": "9e001d2d-d0d5-4af7-9b8a-e193d644dcd4"
+    },
+    {
+      "nick": "블라디미르 세료긴",
+      "en": "Vladimir Seryogin",
+      "qid": "Q3561867",
+      "celeb_id": "9d6dd7a0-16cc-4880-8b3a-8545a6cc9f16"
+    },
+    {
+      "nick": "오티스 바턴",
+      "en": "Otis Barton",
+      "qid": "Q540947",
+      "celeb_id": "4d2053db-9f9d-4b1b-bad1-e7a5a01a894a"
+    },
+    {
+      "nick": "장 피카르",
+      "en": "Jean Piccard",
+      "qid": "Q116553",
+      "celeb_id": "202fb97c-a77d-4da6-bcdc-0158337cf6b3"
+    },
+    {
+      "nick": "파울 키퍼",
+      "en": "Paul Kipfer",
+      "qid": "Q125122869",
+      "celeb_id": "c341038e-ca59-4dc6-bfed-74d0d6e3e301"
+    },
+    {
+      "nick": "톰 프로스트",
+      "en": "Tom Frost",
+      "qid": "Q3530731",
+      "celeb_id": "4f1600bd-b463-4956-8b66-4ada4402aa83"
+    },
+    {
+      "nick": "아르투로 로젠블루트",
+      "en": "Arturo Rosenblueth",
+      "qid": "Q121729",
+      "celeb_id": "79826d49-51c9-4ff7-968f-fa7296227e3b"
+    },
+    {
+      "nick": "J. C. R. 리크라이더",
+      "en": "J. C. R. Licklider",
+      "qid": "Q92778",
+      "celeb_id": "a4dc9085-ab14-4318-a8ab-a777c80d890d"
+    },
+    {
+      "nick": "빌 잉글리시",
+      "en": "Bill English",
+      "qid": "Q75702389",
+      "celeb_id": "deeb62f4-5709-4fcb-bc35-6174bdfb9800"
+    },
+    {
+      "nick": "아이번 서덜랜드",
+      "en": "Ivan Sutherland",
+      "qid": "Q62866",
+      "celeb_id": "1b9a516c-3fe3-4705-a528-a109de0c86c7"
+    },
+    {
+      "nick": "아델 골드버그",
+      "en": "Adele Goldberg",
+      "qid": "Q11605",
+      "celeb_id": "e10f2936-92db-4e90-9af8-95b5f93d7647"
+    },
+    {
+      "nick": "댄 잉걸스",
+      "en": "Dan Ingalls",
+      "qid": "Q92772",
+      "celeb_id": "b5f9544a-9fe2-40e5-9595-8678fd5031b6"
+    },
+    {
+      "nick": "조지 안타일",
+      "en": "George Antheil",
+      "qid": "Q137739",
+      "celeb_id": "7f1505ad-9e43-40ee-a4b5-2d57470fed02"
+    },
+    {
+      "nick": "팀 패터슨",
+      "en": "Tim Paterson",
+      "qid": "Q92940",
+      "celeb_id": "3ec12e8c-e8a5-4170-b2bf-a8bb183b212c"
+    },
+    {
+      "nick": "브루스 페런스",
+      "en": "Bruce Perens",
+      "qid": "Q92653",
+      "celeb_id": "83324d45-b853-4bfb-ae3b-66bf8bd4a979"
+    },
+    {
+      "nick": "람베르트 메르턴스",
+      "en": "Lambert Meertens",
+      "qid": "Q6481274",
+      "celeb_id": "3e0bd78a-c7da-4107-b005-19d2b5c22092"
+    },
+    {
+      "nick": "제이슨 프라이드",
+      "en": "Jason Fried",
+      "qid": "Q23795888",
+      "celeb_id": "bc5e7c88-a91a-4f13-bfab-fc6e5011445a"
+    },
+    {
+      "nick": "데이브 클라이먼",
+      "en": "Dave Kleiman",
+      "qid": "Q5229111",
+      "celeb_id": "bb90519a-5488-412a-865f-d57ed8c1d26c"
+    },
+    {
+      "nick": "마이클 패트린",
+      "en": "Michael Patryn",
+      "qid": "Q111377163",
+      "celeb_id": "0bfbd6ff-ed4c-4685-91fd-0576f240522c"
+    },
+    {
+      "nick": "빌 스틸리",
+      "en": "Bill Stealey",
+      "qid": "Q328462",
+      "celeb_id": "cf0df865-784e-448e-9737-90433c46d446"
+    },
+    {
+      "nick": "제프 브릭스",
+      "en": "Jeff Briggs",
+      "qid": "Q5586418",
+      "celeb_id": "41077d67-beb1-46f2-b121-c08bfd3b1200"
+    },
+    {
+      "nick": "신카와 요지",
+      "en": "Yoji Shinkawa",
+      "qid": "Q509721",
+      "celeb_id": "93f40b53-4fda-43ce-9ba8-b357ec892b5a"
+    },
+    {
+      "nick": "테드 대브니",
+      "en": "Ted Dabney",
+      "qid": "Q3982507",
+      "celeb_id": "9a5233f4-b6b0-4fe6-b43e-d0522c6bb4af"
+    },
+    {
+      "nick": "헹크 로저스",
+      "en": "Henk Rogers",
+      "qid": "Q1291549",
+      "celeb_id": "f91dd905-b43b-4825-93a0-e3e3bb071bc2"
+    },
+    {
+      "nick": "발렌틴 글루시코",
+      "en": "Valentin Glushko",
+      "qid": "Q342397",
+      "celeb_id": "4a987b80-2c8c-4a3a-83b0-c088dd341809"
+    },
+    {
+      "nick": "테오도르 폰 카먼",
+      "en": "Theodore von Kármán",
+      "qid": "Q164384",
+      "celeb_id": "358a2092-735e-4b02-8448-3af662338dac"
+    },
+    {
+      "nick": "프랭크 말리나",
+      "en": "Frank Malina",
+      "qid": "Q27507",
+      "celeb_id": "4bf51a40-0df3-4cde-9d54-e0db228d58a5"
+    },
+    {
+      "nick": "티코 브라헤",
+      "en": "Tycho Brahe",
+      "qid": "Q36620",
+      "celeb_id": "ea828e5e-fd31-47e3-ba3a-be331175b98c"
+    },
+    {
+      "nick": "윌리엄 버클랜드",
+      "en": "William Buckland",
+      "qid": "Q312389",
+      "celeb_id": "32fa6895-4a87-4e7e-b245-7b639c90fcc4"
+    },
+    {
+      "nick": "배리 마셜",
+      "en": "Barry Marshall",
+      "qid": "Q202136",
+      "celeb_id": "4f7dafec-82af-40f2-9fd5-f367805844b8"
+    },
+    {
+      "nick": "베르너 포르스만",
+      "en": "Werner Forssmann",
+      "qid": "Q77152",
+      "celeb_id": "99b98ed4-dd98-4f46-afcf-fbc6f4b9d004"
+    },
+    {
+      "nick": "레오니트 로고조프",
+      "en": "Leonid Rogozov",
+      "qid": "Q2543762",
+      "celeb_id": "14070579-3738-4b86-aa10-313fde9c8fa4"
+    },
+    {
+      "nick": "세르주 보로노프",
+      "en": "Serge Voronoff",
+      "qid": "Q1497472",
+      "celeb_id": "9020d3e2-d812-4854-88c7-ca931e4ec4f6"
+    },
+    {
+      "nick": "블라디미르 데미호프",
+      "en": "Vladimir Demikhov",
+      "qid": "Q1334851",
+      "celeb_id": "85772ba5-ab52-42b5-8948-bcc0e3d91599"
+    },
+    {
+      "nick": "트로핌 리센코",
+      "en": "Trofim Lysenko",
+      "qid": "Q294234",
+      "celeb_id": "60ae303c-8e40-4f37-83cd-b5795d523dbe"
+    },
+    {
+      "nick": "콘스탄틴 치올콥스키",
+      "en": "Konstantin Tsiolkovsky",
+      "qid": "Q41239",
+      "celeb_id": "f07bbff8-ced6-4562-85b1-822a334f0c22"
+    },
+    {
+      "nick": "로버트 고다드",
+      "en": "Robert Goddard",
+      "qid": "Q75421351",
+      "celeb_id": "161e7d88-761c-44c0-b4dd-2f5ab2dc1617"
+    },
+    {
+      "nick": "딘 케이먼",
+      "en": "Dean Kamen",
+      "qid": "Q720457",
+      "celeb_id": "81067c34-1197-43f4-88a0-47e8f9e1dfeb"
+    },
+    {
+      "nick": "존 릴리",
+      "en": "John C. Lilly",
+      "qid": "Q961640",
+      "celeb_id": "f4b9732b-8226-48d2-bd3a-98974e65ca01"
+    },
+    {
+      "nick": "티머시 리어리",
+      "en": "Timothy Leary",
+      "qid": "Q211731",
+      "celeb_id": "5022500f-1c97-44ac-a965-77fe8c2f72e6"
+    },
+    {
+      "nick": "파라켈수스",
+      "en": "Paracelsus",
+      "qid": "Q83428",
+      "celeb_id": "5602c8ae-b2a9-4fa3-baf8-96e50f53870f"
+    },
+    {
+      "nick": "실베스터 그레이엄",
+      "en": "Sylvester Graham",
+      "qid": "Q1350388",
+      "celeb_id": "18969374-1800-4a8f-a39c-7c305a805ada"
+    },
+    {
+      "nick": "알렉산더 셀커크",
+      "en": "Alexander Selkirk",
+      "qid": "Q223797",
+      "celeb_id": "6a8817ba-ebb8-480d-a18c-3eca8ecdf8a0"
+    },
+    {
+      "nick": "푼 림",
+      "en": "Poon Lim",
+      "qid": "Q201876",
+      "celeb_id": "1e83a0e0-98f6-4951-87ba-e9016d0336aa"
+    },
+    {
+      "nick": "율리아네 쾨프케",
+      "en": "Juliane Koepcke",
+      "qid": "Q95273",
+      "celeb_id": "94eb7951-889b-4c49-aa03-94be4f44bcef"
+    },
+    {
+      "nick": "베스나 불로비치",
+      "en": "Vesna Vulović",
+      "qid": "Q248404",
+      "celeb_id": "01773717-4594-42c9-82fb-3c089e29aabb"
+    },
+    {
+      "nick": "마우로 프로스페리",
+      "en": "Mauro Prosperi",
+      "qid": "Q14167257",
+      "celeb_id": "7aafb164-48b4-4d21-89bc-a6c19a9c9ab5"
+    },
+    {
+      "nick": "벡 웨더스",
+      "en": "Beck Weathers",
+      "qid": "Q813661",
+      "celeb_id": "a9fa43ec-d2f2-4ee6-aef0-e786a10fced0"
+    },
+    {
+      "nick": "텐징 노르가이",
+      "en": "Tenzing Norgay",
+      "qid": "Q80732",
+      "celeb_id": "adb08e4f-4991-4bc8-af23-57c9f9055efd"
+    },
+    {
+      "nick": "라인홀트 메스너",
+      "en": "Reinhold Messner",
+      "qid": "Q189307",
+      "celeb_id": "80e114a9-cfba-4904-9526-32e1cfa94114"
+    },
+    {
+      "nick": "아론 랠스턴",
+      "en": "Aron Ralston",
+      "qid": "Q502868",
+      "celeb_id": "4d9bc3c6-a233-4eee-bf93-92e8142bbad4"
+    },
+    {
+      "nick": "알렉스 호놀드",
+      "en": "Alex Honnold",
+      "qid": "Q979249",
+      "celeb_id": "9e874a14-e2b4-4c2b-ba65-348ee9f444cc"
+    },
+    {
+      "nick": "야마구치 쓰토무",
+      "en": "Tsutomu Yamaguchi",
+      "qid": "Q17579",
+      "celeb_id": "2fe26ba4-a077-4f67-ad11-e9a3ba1f39c8"
+    },
+    {
+      "nick": "이블 니블",
+      "en": "Evel Knievel",
+      "qid": "Q345231",
+      "celeb_id": "1c6ad114-8199-41ae-b4a8-4e012abda123"
+    },
+    {
+      "nick": "빔 호프",
+      "en": "Wim Hof",
+      "qid": "Q926482",
+      "celeb_id": "8d489f7b-478f-4700-a1cb-6a48087f7966"
+    },
+    {
+      "nick": "베시 콜먼",
+      "en": "Bessie Coleman",
+      "qid": "Q254376",
+      "celeb_id": "31327a2d-a6fe-4383-876d-5dabf3200356"
+    },
+    {
+      "nick": "찰스 린드버그",
+      "en": "Charles Lindbergh",
+      "qid": "Q1618",
+      "celeb_id": "c3ca50fa-aa4c-4692-8ffb-102449e25b45"
+    },
+    {
+      "nick": "어밀리아 에어하트",
+      "en": "Amelia Earhart",
+      "qid": "Q3355",
+      "celeb_id": "aaee84fe-c54f-4642-9e0c-15f98109d8e3"
+    },
+    {
+      "nick": "와일리 포스트",
+      "en": "Wiley Post",
+      "qid": "Q264389",
+      "celeb_id": "65d55de2-0355-4bf4-96b7-617ef70e9ab7"
+    },
+    {
+      "nick": "알베르토 산투스두몽",
+      "en": "Alberto Santos-Dumont",
+      "qid": "Q313211",
+      "celeb_id": "2be26315-f3e0-44d5-aa0b-d7f090b7c8ec"
+    },
+    {
+      "nick": "척 예거",
+      "en": "Chuck Yeager",
+      "qid": "Q271939",
+      "celeb_id": "c9f3e1ca-593b-4921-b02c-41b1fe3ddacc"
+    },
+    {
+      "nick": "자크 쿠스토",
+      "en": "Jacques Cousteau",
+      "qid": "Q83233",
+      "celeb_id": "61b19fb4-3fba-438b-a4ed-ce0ced82d814"
+    },
+    {
+      "nick": "오귀스트 피카르",
+      "en": "Auguste Piccard",
+      "qid": "Q210719",
+      "celeb_id": "416a9cc2-5a73-41fd-b51a-e0c48078a514"
+    },
+    {
+      "nick": "이본 취나드",
+      "en": "Yvon Chouinard",
+      "qid": "Q352268",
+      "celeb_id": "405e34a7-6e9f-4fdf-bcce-d7add2d307b2"
+    },
+    {
+      "nick": "더그 톰킨스",
+      "en": "Doug Tompkins",
+      "qid": "Q125273584",
+      "celeb_id": "02670e55-cb36-4544-b018-d36b517c2cc1"
+    },
+    {
+      "nick": "그레이스 호퍼",
+      "en": "Grace Hopper",
+      "qid": "Q11641",
+      "celeb_id": "0a2497ac-875f-4ec8-a58d-d11803ada53c"
+    },
+    {
+      "nick": "노버트 위너",
+      "en": "Norbert Wiener",
+      "qid": "Q178577",
+      "celeb_id": "e19c07c9-3189-43b7-b185-d1873a847b70"
+    },
+    {
+      "nick": "시모어 크레이",
+      "en": "Seymour Cray",
+      "qid": "Q92765",
+      "celeb_id": "d6712519-ac2e-4010-91ff-0f05efbb0f0f"
+    },
+    {
+      "nick": "더글러스 엥겔바트",
+      "en": "Douglas Engelbart",
+      "qid": "Q92614",
+      "celeb_id": "c5a4fe5c-fad9-4602-865d-d7040862511d"
+    },
+    {
+      "nick": "테드 넬슨",
+      "en": "Ted Nelson",
+      "qid": "Q62852",
+      "celeb_id": "89669a08-d727-4def-8e33-a7eb2bc86cd6"
+    },
+    {
+      "nick": "헤디 라머",
+      "en": "Hedy Lamarr",
+      "qid": "Q49034",
+      "celeb_id": "8fe6ca6d-f2f5-47aa-8d1c-796ad9034923"
+    },
+    {
+      "nick": "에드 로버츠",
+      "en": "Ed Roberts",
+      "qid": "Q446839",
+      "celeb_id": "35689842-eadc-47cd-9a32-c25886ff7c6d"
+    },
+    {
+      "nick": "게리 킬달",
+      "en": "Gary Kildall",
+      "qid": "Q92627",
+      "celeb_id": "83756cd2-76ed-4389-a4f1-e099a363b0eb"
+    },
+    {
+      "nick": "테리 데이비스",
+      "en": "Terry A. Davis",
+      "qid": "Q22708720",
+      "celeb_id": "9c2111bc-6bf9-4e6e-896c-67dde716280f"
+    },
+    {
+      "nick": "한스 라이저",
+      "en": "Hans Reiser",
+      "qid": "Q92652",
+      "celeb_id": "07ca9cfb-e1f3-467f-bc71-061e938215b2"
+    },
+    {
+      "nick": "이안 머독",
+      "en": "Ian Murdock",
+      "qid": "Q92761",
+      "celeb_id": "273964d5-2f1f-4a3f-b18f-9724302a269f"
+    },
+    {
+      "nick": "조지 호츠",
+      "en": "George Hotz",
+      "qid": "Q370733",
+      "celeb_id": "be3a86eb-969e-4e7d-9a96-604233bb00e0"
+    },
+    {
+      "nick": "브램 코언",
+      "en": "Bram Cohen",
+      "qid": "Q318489",
+      "celeb_id": "0e8afac7-2a2c-4aff-b23f-74d0f8f94eb9"
+    },
+    {
+      "nick": "저스틴 프랭클",
+      "en": "Justin Frankel",
+      "qid": "Q92964",
+      "celeb_id": "0e02ddc4-7a44-46aa-b102-6b6dd61beef0"
+    },
+    {
+      "nick": "브램 몰레나르",
+      "en": "Bram Moolenaar",
+      "qid": "Q92885",
+      "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39"
+    },
+    {
+      "nick": "귀도 판 로쉼",
+      "en": "Guido van Rossum",
+      "qid": "Q30942",
+      "celeb_id": "db60d483-bdda-40d5-b96b-97a8ade39150"
+    },
+    {
+      "nick": "데이비드 하이네마이어 한손",
+      "en": "David Heinemeier Hansson",
+      "qid": "Q719413",
+      "celeb_id": "8c3b4e5c-5a02-435a-accd-b04ab3ce176e"
+    },
+    {
+      "nick": "닉 재보",
+      "en": "Nick Szabo",
+      "qid": "Q15410426",
+      "celeb_id": "caedb730-c63f-4dbe-85de-87db1db92b33"
+    },
+    {
+      "nick": "로저 버",
+      "en": "Roger Ver",
+      "qid": "Q19600251",
+      "celeb_id": "23622759-ad75-43e9-9a32-04a263829bab"
+    },
+    {
+      "nick": "제럴드 코튼",
+      "en": "Gerald Cotten",
+      "qid": "Q61685581",
+      "celeb_id": "b2c050c8-a0d2-4473-a897-27d6ab01cfb5"
+    },
+    {
+      "nick": "루야 이그나토바",
+      "en": "Ruja Ignatova",
+      "qid": "Q20819716",
+      "celeb_id": "2477dc6c-3201-410d-8607-4123df3c7ff3"
+    },
+    {
+      "nick": "시드 마이어",
+      "en": "Sid Meier",
+      "qid": "Q92616",
+      "celeb_id": "5ffaa2be-ad6b-4d04-b7ce-a7d4351fdd2e"
+    },
+    {
+      "nick": "코지마 히데오",
+      "en": "Hideo Kojima",
+      "qid": "Q315577",
+      "celeb_id": "7986e29b-d3e0-48d7-a79a-8e89d1a146e7"
+    },
+    {
+      "nick": "리처드 개리엇",
+      "en": "Richard Garriott",
+      "qid": "Q319269",
+      "celeb_id": "fa0525a3-6b8c-45f0-b376-492ef5b91c08"
+    },
+    {
+      "nick": "에릭 바론",
+      "en": "Eric Barone",
+      "qid": "Q44914560",
+      "celeb_id": "71c3d563-ea06-489e-91f5-dacc4c87b4a4"
+    },
+    {
+      "nick": "크리스 소여",
+      "en": "Chris Sawyer",
+      "qid": "Q110493786",
+      "celeb_id": "e3ea7151-dca2-4f98-a225-562a5b41acda"
+    },
+    {
+      "nick": "로베르타 윌리엄스",
+      "en": "Roberta Williams",
+      "qid": "Q55176",
+      "celeb_id": "1d34ad23-51d6-4e2a-bcb6-e49dc1c10df8"
+    },
+    {
+      "nick": "앤디 루빈",
+      "en": "Andy Rubin",
+      "qid": "Q115671393",
+      "celeb_id": "76954de9-8e61-46ce-a600-b0267294c99a"
+    },
+    {
+      "nick": "케빈 워릭",
+      "en": "Kevin Warwick",
+      "qid": "Q380459",
+      "celeb_id": "e9dec34e-2577-43bf-af72-a1e6dafb521a"
+    },
+    {
+      "nick": "오브리 드 그레이",
+      "en": "Aubrey de Grey",
+      "qid": "Q175969",
+      "celeb_id": "550a787a-a822-49b2-892e-a63eed4321dd"
+    },
+    {
+      "nick": "제리 엘즈워스",
+      "en": "Jeri Ellsworth",
+      "qid": "Q34965",
+      "celeb_id": "4a8c430e-d8cb-4219-b830-cd2225ae3ff8"
+    },
+    {
+      "nick": "제럴드 불",
+      "en": "Gerald Bull",
+      "qid": "Q364988",
+      "celeb_id": "a3ab620b-7b8a-4455-addf-f010e657144f"
+    },
+    {
+      "nick": "세르게이 코롤료프",
+      "en": "Sergei Korolev",
+      "qid": "Q170842",
+      "celeb_id": "f8fd9ccf-7a96-4ac8-b3aa-fa7fae04f743"
+    },
+    {
+      "nick": "치엔 쉐썬",
+      "en": "Qian Xuesen",
+      "qid": "Q333500",
+      "celeb_id": "fd81adb3-a4c2-4609-b1ed-3c1ec05b6862"
+    },
+    {
+      "nick": "아나톨리 부고르스키",
+      "en": "Anatoli Bugorski",
+      "qid": "Q2027476",
+      "celeb_id": "dae0d8b5-7d67-4ac8-a46c-cb8b3c7229b7"
+    }
+  ],
+  "skipped": [
+    {
+      "nick": "하워드 카터",
+      "en": "Howard Carter",
+      "candidates": 7,
+      "fits": 4
+    },
+    {
+      "nick": "카니번 경",
+      "en": "Lord Carnarvon",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조반니 벨조니",
+      "en": "Giovanni Belzoni",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "아서 에번스",
+      "en": "Arthur Evans",
+      "candidates": 17,
+      "fits": 7
+    },
+    {
+      "nick": "윌리엄 애덤스",
+      "en": "William Adams",
+      "candidates": 56,
+      "fits": 19
+    },
+    {
+      "nick": "헨드릭 하멜",
+      "en": "Hendrik Hamel",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "장줘린",
+      "en": "Zhang Zuolin",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "런런 쇼",
+      "en": "Run Run Shaw",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "후안 푸홀 가르시아",
+      "en": "Juan Pujol García",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "톰 크린",
+      "en": "Tom Crean",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "이븐 바투타",
+      "en": "Ibn Battuta",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "데이비드 리빙스턴",
+      "en": "David Livingstone",
+      "candidates": 8,
+      "fits": 5
+    },
+    {
+      "nick": "아라비아의 로렌스",
+      "en": "T. E. Lawrence",
+      "candidates": 4,
+      "fits": 4
+    },
+    {
+      "nick": "거트루드 벨",
+      "en": "Gertrude Bell",
+      "candidates": 4,
+      "fits": 4
+    },
+    {
+      "nick": "프레야 스탁",
+      "en": "Freya Stark",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "난 싱",
+      "en": "Nain Singh",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "프랜시스 영허즈번드",
+      "en": "Francis Younghusband",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "존 로",
+      "en": "John Law",
+      "candidates": 23,
+      "fits": 5
+    },
+    {
+      "nick": "제이 굴드",
+      "en": "Jay Gould",
+      "candidates": 5,
+      "fits": 2
+    },
+    {
+      "nick": "벙커 헌트",
+      "en": "Bunker Hunt",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "버니 매이도프",
+      "en": "Bernie Madoff",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "밀턴 허시",
+      "en": "Milton Hershey",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조지 이스트먼",
+      "en": "George Eastman",
+      "candidates": 6,
+      "fits": 2
+    },
+    {
+      "nick": "에드윈 랜드",
+      "en": "Edwin Land",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "파루크 왕",
+      "en": "King Farouk",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "존 미튼",
+      "en": "John Mytton",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "조슈아 노턴",
+      "en": "Joshua Norton",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "티모시 덱스터",
+      "en": "Timothy Dexter",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "프랭크 애버그네일",
+      "en": "Frank Abagnale Jr.",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "카스파 하우저",
+      "en": "Kaspar Hauser",
+      "candidates": 5,
+      "fits": 2
+    },
+    {
+      "nick": "프린세스 카라부",
+      "en": "Princess Caraboo",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "애나 앤더슨",
+      "en": "Anna Anderson",
+      "candidates": 6,
+      "fits": 6
+    },
+    {
+      "nick": "가짜 드미트리 1세",
+      "en": "False Dmitry I",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "뱅크시",
+      "en": "Banksy",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "철가면의 사내",
+      "en": "The Man in the Iron Mask",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "버팔로 빌",
+      "en": "Buffalo Bill",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "제로니모",
+      "en": "Geronimo",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "사카가위아",
+      "en": "Sacagawea",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "이시",
+      "en": "Ishi",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "윌리엄 키드",
+      "en": "William Kidd",
+      "candidates": 7,
+      "fits": 2
+    },
+    {
+      "nick": "메리 리드",
+      "en": "Mary Read",
+      "candidates": 7,
+      "fits": 0
+    },
+    {
+      "nick": "매드 잭 처칠",
+      "en": "Jack Churchill",
+      "candidates": 4,
+      "fits": 3
+    },
+    {
+      "nick": "바실리 아르히포프",
+      "en": "Vasily Arkhipov",
+      "candidates": 3,
+      "fits": 0
+    },
+    {
+      "nick": "토머스 블러드",
+      "en": "Thomas Blood",
+      "candidates": 18,
+      "fits": 6
+    },
+    {
+      "nick": "윌리엄 워커",
+      "en": "William Walker",
+      "candidates": 71,
+      "fits": 23
+    },
+    {
+      "nick": "장베델 보카사",
+      "en": "Jean-Bédel Bokassa",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "사파르무라트 니야조프",
+      "en": "Saparmurat Niyazov",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "무아마르 카다피",
+      "en": "Muammar Gaddafi",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "하일레 셀라시에",
+      "en": "Haile Selassie",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "밀란 오블레노비치 1세",
+      "en": "Milan I of Serbia",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "소피아 슐리만",
+      "en": "Sophia Schliemann",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "헨리 솔트",
+      "en": "Henry Salt",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "롤리 리멜",
+      "en": "Raleigh Rimmell",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "헨리 코스틴",
+      "en": "Henry Costin",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "알프레다 빙엄",
+      "en": "Alfreda Mitchell Bingham",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "멜초르 아르테아가",
+      "en": "Melchor Arteaga",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "던컨 매켄지",
+      "en": "Duncan Mackenzie",
+      "candidates": 3,
+      "fits": 2
+    },
+    {
+      "nick": "엘리자베스 필팟",
+      "en": "Elizabeth Philpot",
+      "candidates": 4,
+      "fits": 4
+    },
+    {
+      "nick": "릴리언 브라운",
+      "en": "Lilian MacLaughlin Brown",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조지 데커",
+      "en": "George Decker",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "로버트 헤이",
+      "en": "Robert Hay",
+      "candidates": 18,
+      "fits": 6
+    },
+    {
+      "nick": "박연",
+      "en": "Jan Jansz Weltevree",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "펑위샹",
+      "en": "Feng Yuxiang",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "원수",
+      "en": "Wenxiu",
+      "candidates": 3,
+      "fits": 3
+    },
+    {
+      "nick": "막스 클라우젠",
+      "en": "Max Clausen",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "폴 구이요",
+      "en": "Paul Goillot",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "드니 레이크",
+      "en": "Denis Rake",
+      "candidates": 3,
+      "fits": 2
+    },
+    {
+      "nick": "팻 올리어리",
+      "en": "Pat O'Leary",
+      "candidates": 3,
+      "fits": 2
+    },
+    {
+      "nick": "가와시마 나니와",
+      "en": "Kawashima Naniwa",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "루트비히 모이치슈",
+      "en": "Ludwig Moyzisch",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "재닛 치솜",
+      "en": "Janet Chisholm",
+      "candidates": 6,
+      "fits": 3
+    },
+    {
+      "nick": "카를 리터",
+      "en": "Karl Ritter",
+      "candidates": 11,
+      "fits": 2
+    },
+    {
+      "nick": "에드가 에번스",
+      "en": "Edgar Evans",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "벨그레이브 니니스",
+      "en": "Belgrave Ninnis",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "콜린 아처",
+      "en": "Colin Archer",
+      "candidates": 4,
+      "fits": 3
+    },
+    {
+      "nick": "나바라나 메쿠팔루크",
+      "en": "Navarana Mequpaluk",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "론 나이트",
+      "en": "Lorne Knight",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조세핀 피어리",
+      "en": "Josephine Peary",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "오타",
+      "en": "Ootah",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "에드워드 배릴",
+      "en": "Edward Barrill",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "에리크 헤셀베르그",
+      "en": "Erik Hesselberg",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "이븐 주자이",
+      "en": "Ibn Juzayy",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "윌리엄 코턴 오스웰",
+      "en": "William Cotton Oswell",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "세첼레",
+      "en": "Sechele",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "제임스 추마",
+      "en": "James Chuma",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "베네시아 버디컴",
+      "en": "Venetia Buddicom",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "이토 쓰루키치",
+      "en": "Ito Tsurukichi",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "짐 뉴전트",
+      "en": "Jim Nugent",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "키센 싱",
+      "en": "Kishen Singh",
+      "candidates": 2,
+      "fits": 0
+    },
+    {
+      "nick": "칼리안 싱",
+      "en": "Kalian Singh",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "살림 빈 카비나",
+      "en": "Salim bin Kabina",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "살림 빈 가바이샤",
+      "en": "Salim bin Ghabaisha",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조지 매카트니",
+      "en": "George Macartney",
+      "candidates": 6,
+      "fits": 3
+    },
+    {
+      "nick": "아나우카크",
+      "en": "Anauakaq",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "윌리엄 로",
+      "en": "William Law",
+      "candidates": 9,
+      "fits": 4
+    },
+    {
+      "nick": "조제프 파리-뒤베르네",
+      "en": "Joseph Pâris-Duverney",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "그레고리 콜먼",
+      "en": "Gregory Coleman",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "마틴 시걸",
+      "en": "Martin Siegel",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "존 머헤런",
+      "en": "John Mulheren",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "시미즈 사부로",
+      "en": "Saburo Shimizu",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "존 미첼",
+      "en": "John Mitchell",
+      "candidates": 89,
+      "fits": 39
+    },
+    {
+      "nick": "아서 '불' 사이먼스",
+      "en": "Arthur D. Simons",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "로저 스미스",
+      "en": "Roger B. Smith",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "제임스 호프만",
+      "en": "James Timothy Hoffman",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "에이브 캐러츠",
+      "en": "Abe Karatz",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "오토 커너 주니어",
+      "en": "Otto Kerner Jr.",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "윌리엄 홀 워커",
+      "en": "William Hall Walker",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "프랭크 브라우넬",
+      "en": "Frank Brownell",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조지 휠라이트 3세",
+      "en": "George W. Wheelwright III",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "알-사힐리",
+      "en": "Abu Ishaq al-Sahili",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "댄 콜린스",
+      "en": "Dan Collins",
+      "candidates": 7,
+      "fits": 7
+    },
+    {
+      "nick": "윌리엄 와츠",
+      "en": "William Watts",
+      "candidates": 17,
+      "fits": 17
+    },
+    {
+      "nick": "호세파 맥그리거",
+      "en": "Josefa MacGregor",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "조지 프레데릭 아우구스투스 2세",
+      "en": "George Frederic Augustus I",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "프랭크 애버그네일 시니어",
+      "en": "Frank Abagnale Sr.",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "엘리자베스 워럴",
+      "en": "Elizabeth Worrall",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "윌리엄 이네스",
+      "en": "William Innes",
+      "candidates": 35,
+      "fits": 35
+    },
+    {
+      "nick": "존 마나한",
+      "en": "John Eacott Manahan",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "펠릭스 슈칸코프스키",
+      "en": "Felix Schanzkowsky",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "앙헬 에그우나",
+      "en": "Angele Egwuna",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "소피야 네듀제바",
+      "en": "Sofya Nedyuzheva",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "살라바트 율라예프",
+      "en": "Salavat Yulaev",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "후스티 기타르트",
+      "en": "Justí Guitart i Vilardebó",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "킬라판",
+      "en": "Quilapán",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "신시아 앤 파커",
+      "en": "Cynthia Ann Parker",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "엘리어스 부디노",
+      "en": "Elias Boudinot",
+      "candidates": 3,
+      "fits": 0
+    },
+    {
+      "nick": "래티 팁턴",
+      "en": "Lattie Tipton",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "얀 레제이",
+      "en": "Jan Redzej",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "스즈키 노리오",
+      "en": "Norio Suzuki",
+      "candidates": 9,
+      "fits": 2
+    },
+    {
+      "nick": "고즈카 긴시치",
+      "en": "Kinshichi Kozuka",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "발렌틴 사비츠키",
+      "en": "Valentin Savitsky",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "탤벗 에드워즈",
+      "en": "Talbot Edwards",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "엘리자베스 '에지워스 베스' 라이언",
+      "en": "Elizabeth Lyon",
+      "candidates": 8,
+      "fits": 8
+    },
+    {
+      "nick": "빅토르 빌라시",
+      "en": "Viktor Bilash",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "로버트 파크 유니",
+      "en": "Robert Park Yunnie",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "장 카네리",
+      "en": "Jean Caneri",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "보리스 시흐무라도프",
+      "en": "Boris Shikhmuradov",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "구스타보 가비리아",
+      "en": "Gustavo Gaviria",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "제랄딘 아포니",
+      "en": "Geraldine Apponyi",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "판 놀리",
+      "en": "Fan Noli",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "세르비아의 나탈리예",
+      "en": "Natalie of Serbia",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "드라가 마신",
+      "en": "Draga Mašin",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "페르난도 야녜스 무뇨스",
+      "en": "Fernando Yáñez Muñoz",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "수브코만단테 모이세스",
+      "en": "Subcomandante Moisés",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "리처드 치차클리",
+      "en": "Richard Chichakli",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "마티아스 오르트만",
+      "en": "Mathias Ortmann",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "브람 판데르콜크",
+      "en": "Bram van der Kolk",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "린 울브리히트",
+      "en": "Lyn Ulbricht",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "커티스 그린",
+      "en": "Curtis Green",
+      "candidates": 2,
+      "fits": 0
+    },
+    {
+      "nick": "칼 마크 포스",
+      "en": "Carl Mark Force IV",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "재러드 더예기얀",
+      "en": "Jared Der-Yeghiayan",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "게리 올퍼드",
+      "en": "Gary Alford",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "소피 브라헤",
+      "en": "Sophie Brahe",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "메리 벌클랜드",
+      "en": "Mary Buckland",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "조지 틸턴",
+      "en": "George Tilton",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "로버트 키호",
+      "en": "Robert Kehoe",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "이자크 프레젠트",
+      "en": "Isaak Prezent",
+      "candidates": 3,
+      "fits": 3
+    },
+    {
+      "nick": "니콜라이 표도로프",
+      "en": "Nikolai Fyodorov",
+      "candidates": 4,
+      "fits": 0
+    },
+    {
+      "nick": "알렉산더 색스",
+      "en": "Alexander Sachs",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "토머스 스트래들링",
+      "en": "Thomas Stradling",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "한스빌헬름 쾨프케",
+      "en": "Hans-Wilhelm Koepcke",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "마단 카트리 체트리",
+      "en": "Madan Khatri Chhetri",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "레이몽 랑베르",
+      "en": "Raymond Lambert",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "이와나가 아키라",
+      "en": "Akira Iwanaga",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "장루이 블롱도",
+      "en": "Jean-Louis Blondeau",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "로버트 애벗",
+      "en": "Robert S. Abbott",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "해럴드 개티",
+      "en": "Harold Gatty",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "아이다 드 아코스타",
+      "en": "Aida de Acosta",
+      "candidates": 3,
+      "fits": 3
+    },
+    {
+      "nick": "잭 리들리",
+      "en": "Jack Ridley",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "에밀 가냥",
+      "en": "Émile Gagnan",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "프레데리크 뒤마",
+      "en": "Frédéric Dumas",
+      "candidates": 3,
+      "fits": 3
+    },
+    {
+      "nick": "그레이엄 혹스",
+      "en": "Graham Hawkes",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "하워드 에이컨",
+      "en": "Howard Aiken",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "윌리엄 노리스",
+      "en": "William Norris",
+      "candidates": 24,
+      "fits": 8
+    },
+    {
+      "nick": "레스 솔로몬",
+      "en": "Les Solomon",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "데이비드 실버",
+      "en": "David Silver",
+      "candidates": 6,
+      "fits": 3
+    },
+    {
+      "nick": "피터 다얀",
+      "en": "Peter Dayan",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "팀 톰프슨",
+      "en": "Tim Thompson",
+      "candidates": 6,
+      "fits": 6
+    },
+    {
+      "nick": "웨이 다이",
+      "en": "Wei Dai",
+      "candidates": 25,
+      "fits": 25
+    },
+    {
+      "nick": "제프 브라운",
+      "en": "Jeff Braun",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "빌 러시",
+      "en": "Bill Rusch",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "스타 롱",
+      "en": "Starr Long",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "와다 야스히로",
+      "en": "Yasuhiro Wada",
+      "candidates": 5,
+      "fits": 5
+    },
+    {
+      "nick": "켄 윌리엄스",
+      "en": "Ken Williams",
+      "candidates": 17,
+      "fits": 4
+    },
+    {
+      "nick": "헨리 캐번디시",
+      "en": "Henry Cavendish",
+      "candidates": 8,
+      "fits": 2
+    },
+    {
+      "nick": "클레어 패터슨",
+      "en": "Clair Patterson",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "스터빈스 퍼스",
+      "en": "Stubbins Ffirth",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "데이비드 한",
+      "en": "David Hahn",
+      "candidates": 13,
+      "fits": 6
+    },
+    {
+      "nick": "토머스 미즐리",
+      "en": "Thomas Midgley Jr.",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "레오 실라드",
+      "en": "Leo Szilard",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "버크민스터 풀러",
+      "en": "Buckminster Fuller",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "잭 파슨스",
+      "en": "Jack Parsons",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "빌헬름 라이히",
+      "en": "Wilhelm Reich",
+      "candidates": 8,
+      "fits": 2
+    },
+    {
+      "nick": "아타나시우스 키르허",
+      "en": "Athanasius Kircher",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "존 하비 켈로그",
+      "en": "John Harvey Kellogg",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "휴 글래스",
+      "en": "Hugh Glass",
+      "candidates": 4,
+      "fits": 2
+    },
+    {
+      "nick": "조 심프슨",
+      "en": "Joe Simpson",
+      "candidates": 9,
+      "fits": 4
+    },
+    {
+      "nick": "조지 말러리",
+      "en": "George Mallory",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "필리프 프티",
+      "en": "Philippe Petit",
+      "candidates": 16,
+      "fits": 2
+    },
+    {
+      "nick": "에이미 존슨",
+      "en": "Amy Johnson",
+      "candidates": 9,
+      "fits": 8
+    },
+    {
+      "nick": "베릴 마컴",
+      "en": "Beryl Markham",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "유리 가가린",
+      "en": "Yuri Gagarin",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "윌리엄 비비",
+      "en": "William Beebe",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "실비아 얼",
+      "en": "Sylvia Earle",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "앨런 케이",
+      "en": "Alan Kay",
+      "candidates": 3,
+      "fits": 2
+    },
+    {
+      "nick": "마쓰모토 유키히로",
+      "en": "Yukihiro Matsumoto",
+      "candidates": 3,
+      "fits": 3
+    },
+    {
+      "nick": "크레이그 라이트",
+      "en": "Craig Wright",
+      "candidates": 9,
+      "fits": 3
+    },
+    {
+      "nick": "헤더 모건",
+      "en": "Heather Morgan",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "윌 라이트",
+      "en": "Will Wright",
+      "candidates": 7,
+      "fits": 2
+    },
+    {
+      "nick": "랠프 베어",
+      "en": "Ralph Baer",
+      "candidates": 0,
+      "fits": 0
+    },
+    {
+      "nick": "알렉세이 파지트노프",
+      "en": "Alexey Pajitnov",
+      "candidates": 1,
+      "fits": 0
+    },
+    {
+      "nick": "마르쿠스 페르손",
+      "en": "Markus Persson",
+      "candidates": 2,
+      "fits": 2
+    },
+    {
+      "nick": "제리 로슨",
+      "en": "Jerry Lawson",
+      "candidates": 5,
+      "fits": 2
+    },
+    {
+      "nick": "짐 클라크",
+      "en": "Jim Clark",
+      "candidates": 18,
+      "fits": 5
+    },
+    {
+      "nick": "브라이언 존슨",
+      "en": "Bryan Johnson",
+      "candidates": 9,
+      "fits": 3
+    },
+    {
+      "nick": "리모어 프리드",
+      "en": "Limor Fried",
+      "candidates": 1,
+      "fits": 0
+    }
+  ]
+}

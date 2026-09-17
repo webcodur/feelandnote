@@ -1,0 +1,1523 @@
+{
+ "래티 팁턴": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공적 직책 없는 일개 병사",
+   "political_exp_en": "A private soldier with no public office",
+   "strategic": 1,
+   "strategic_exp": "전술 변화에 기여 없는 전선 보병",
+   "strategic_exp_en": "A front-line soldier; no change to tactics",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 1,
+   "social_exp": "머피 전기 속 전우로서의 사회적 기억에 한정",
+   "social_exp_en": "Remembered socially only inside Murphy's story",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "머피 자서전과 영화에 등장하는 전우애의 상징",
+   "cultural_exp_en": "The emblematic comrade in Murphy's memoir and its film",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "머피 일화의 일부로만 후대에 전해짐",
+   "transhistoricity_exp_en": "Passed down only as part of the Murphy legend"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 18,
+     "reason_ko": "상사 진급을 거절하고 전령 임무를 택함",
+     "reason_en": "Turned down sergeant's stripes to stay a runner"
+    },
+    "martial": {
+     "score": 66,
+     "reason_ko": "시칠리아·안치오·남프랑스를 관통한 전선 보병",
+     "reason_en": "Front-line infantry from Sicily through Anzio to southern France"
+    },
+    "intellect": {
+     "score": 45,
+     "reason_ko": "전투 수행에 충실했고 별도 공적 판단 사례는 적음",
+     "reason_en": "A dutiful soldier with few recorded judgment calls of his own"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "머피가 가장 아낀 전우로 기록된 인물",
+     "reason_en": "Recorded as the comrade Murphy cherished most"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "규율 속에서 묵묵히 복무한 징집 병사",
+     "reason_en": "Served quietly under discipline"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "1943년 시칠리아부터 1944년 전사까지 전선을 지킴",
+     "reason_en": "Held the line from Sicily in 1943 until the day he fell"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "전우와 나눈 편지 외 자기 성찰의 공개 자료는 적음",
+     "reason_en": "Beyond letters to friends, little self-reflection is public"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "기관총 진지의 거짓 항복을 확인하러 직접 일어섬",
+     "reason_en": "Stood up himself to check a false white flag at a gun nest"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "상사 진급을 마다하고 머피 곁의 전령병을 택함",
+     "reason_en": "Refused sergeant's rank to remain at Murphy's side"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "전우와 폭스홀을 나누며 위험을 함께 감수",
+     "reason_en": "Shared foxholes and risks with his friend"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "전우들과 고른 관계를 유지한 전선 병사",
+     "reason_en": "Kept even relations with his comrades"
+    },
+    "humility": {
+     "score": 78,
+     "reason_ko": "공을 친구에게 양보하고 하급자 위치를 자청",
+     "reason_en": "Yielded credit and chose the lower place beside his friend"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "최전선 폭스홀 생활을 묵묵히 견뎌냄",
+     "reason_en": "Endured the foxhole line without complaint"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기존 군 체계 안에서 묵묵히 복무한 병사",
+     "reason_en": "Served quietly inside the army's existing order"
+    },
+    "individual_social": {
+     "score": 38,
+     "reason_ko": "개인 출세보다 소대와 전우 곁을 택함",
+     "reason_en": "Chose his squad and his friend over advancement"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "규율적 수행이 원칙이었으나 확인을 위해 일어섬",
+     "reason_en": "Disciplined service, save the day he stood before a gun nest"
+    }
+   },
+   "rationale_ko": "전설이 아니라 전설 곁의 인물이다. 진급을 거절하고 전우 곁을 지킨 선택이 충성과 겸양의 정점을 만든다. 그의 죽음이 머피의 가장 유명한 전과를 촉발했다. 1944년 8월 15일 남프랑스 라마튜엘에서 전사했다.",
+   "rationale_en": "Not the legend but the man beside it. Refusing promotion to stay with his friend makes the peak of loyalty and humility. His death triggered Murphy's most famous feat. He was killed at Ramatuelle in southern France on 15 August 1944."
+  }
+ },
+ "얀 레제이": {
+  "influence": {
+   "political": 1,
+   "political_exp": "저항군 대원으로서 정치 직책은 없음",
+   "political_exp_en": "A resistance ranker with no political office",
+   "strategic": 1,
+   "strategic_exp": "수용소 지하조직 활동 외 전략 기여 없음",
+   "strategic_exp_en": "No strategic role beyond camp underground work",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 4,
+   "social_exp": "탈출 성공으로 아우슈비츠 실태 보고서 작성에 기여",
+   "social_exp_en": "His escape fed the reports that exposed Auschwitz to the Allies",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "필레츠키 탈출 일화의 공동 주인공으로 회자",
+   "cultural_exp_en": "Recalled as a co-protagonist of Pilecki's escape",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "홀로코스트 증언 사슬의 한 고리로 남음",
+   "transhistoricity_exp_en": "One link in the chain of Auschwitz testimony"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "ZOW 지하조직의 조직원으로 비밀 연락을 수행",
+     "reason_en": "Served as an underground operative in the ZOW network"
+    },
+    "martial": {
+     "score": 64,
+     "reason_ko": "수용소 3년을 견디고 빵공장 탈출과 봉기 전투를 수행",
+     "reason_en": "Endured three years of camp, then escaped and fought in the Uprising"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "가명 수감과 탈출 공모, 실태 보고서 작성에 참여",
+     "reason_en": "Used a false name, plotted the escape and helped the camp report"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "동료 수감자들과 공모 관계를 유지",
+     "reason_en": "Kept working bonds with fellow prisoners"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "수용소 안에서 절제된 지하활동을 지속",
+     "reason_en": "Sustained disciplined underground work inside the camp"
+    },
+    "diligence": {
+     "score": 66,
+     "reason_ko": "1940년 수감부터 1943년 탈출까지 조직 활동을 지속",
+     "reason_en": "Kept at organized resistance from 1940 arrest to the 1943 escape"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "탈출 뒤 실태 보고서 작성으로 경험을 정리",
+     "reason_en": "Helped set his camp experience into the report after escape"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "사형 수용소 탈출과 바르샤바 봉기 참전을 감행",
+     "reason_en": "Dared an escape from a death camp and then the Warsaw Uprising"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 82,
+     "reason_ko": "체포 뒤에도 저항을 멈추지 않고 봉기까지 참여",
+     "reason_en": "Arrest never ended his resistance; he fought on to the Uprising"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "수용소 지하조직에서 동료 생존을 위한 활동",
+     "reason_en": "Worked for fellow prisoners' survival in the underground"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "지하조직의 규율 안에서 임무를 수행",
+     "reason_en": "Carried out duties under underground discipline"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "가명으로 활동하며 이름을 드러내지 않음",
+     "reason_en": "Worked under an alias without claiming a name"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "절명의 수용소에서 탈출과 해방을 기대",
+     "reason_en": "Expected escape and liberation inside a death camp"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "점령 질서에 저항해 조국 해방을 지향",
+     "reason_en": "Resisted the occupation order toward national liberation"
+    },
+    "individual_social": {
+     "score": 40,
+     "reason_ko": "지하조직과 공동 탈출이라는 집단 행동에 참여",
+     "reason_en": "Acted within a collective: the underground and a joint escape"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "치밀한 준비 끝에 야간 탈출을 감행",
+     "reason_en": "Went through with a night escape after careful preparation"
+    }
+   },
+   "rationale_ko": "이름을 숨긴 채 죽음의 수용소에서 조직을 이어간 인물이다. 탈출은 용기와 지력이 합작한 사건이고 봉기 참전은 충성의 연장이다. 그 길의 끝은 전사였다. 1944년 바르샤바 봉기에서 숨졌다.",
+   "rationale_en": "He kept an organization alive inside a death camp under a false name. The escape was a joint product of courage and intellect; the Uprising extended his loyalty. Death in the 1944 Warsaw Uprising closed that road."
+  }
+ },
+ "에드바르트 치에시엘스키": {
+  "influence": {
+   "political": 1,
+   "political_exp": "지하운동가로서 정치 직책 없음",
+   "political_exp_en": "An underground activist without political office",
+   "strategic": 1,
+   "strategic_exp": "저항 활동 외 군사 전략 기여 없음",
+   "strategic_exp_en": "No strategic contribution beyond resistance work",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 3,
+   "social_exp": "스무 살의 탈출로 아우슈비츠 보고서의 증언자가 됨",
+   "social_exp_en": "Escaped at twenty and added testimony to the Auschwitz report",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 2,
+   "cultural_exp": "필레츠키 서사의 조연으로 기록에 남음",
+   "cultural_exp_en": "Survives in the record as a supporting figure in Pilecki's story",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "수용소 탈출 사례의 공동 경험자로 언급",
+   "transhistoricity_exp_en": "Cited as one of the men who got out of the camp"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 25,
+     "reason_ko": "수용소 저항조직의 말단 조직원으로 활동",
+     "reason_en": "Acted as a rank-and-file member of the camp resistance"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "열아홉에 수감돼 수용소와 봉기 전투를 견뎌냄",
+     "reason_en": "Imprisoned at nineteen; endured the camp and fought in the Uprising"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "열여덟에 지하활동을 시작해 탈출 공모에 참여",
+     "reason_en": "Joined underground work at eighteen and the escape plot"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "전우들과 함께 행동한 동료로 기록",
+     "reason_en": "Remembered as a comrade who acted alongside the others"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "수용소에서 규율 있는 비밀활동을 유지",
+     "reason_en": "Kept disciplined clandestine work inside the camp"
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "점령 초기 저항부터 봉기까지 활동을 지속",
+     "reason_en": "Active from the first occupation years through the Uprising"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "전후 조용히 살았고 공개된 자기 성찰은 드묾",
+     "reason_en": "Lived quietly after the war; little public self-reflection"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "스무 살에 수용소 탈출과 봉기 참전을 감행",
+     "reason_en": "At twenty he dared the escape and then the Uprising"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "조국 지하운동에 청년기 전부를 바침",
+     "reason_en": "Gave his whole youth to the country's underground"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "공동 탈출이라는 상호 협력 행동에 참여",
+     "reason_en": "Took part in the cooperative act of a shared escape"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "지하조직의 집단 규율을 따름",
+     "reason_en": "Followed the collective discipline of the underground"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "생환 뒤 공적 조명 없이 조용히 생애를 마침",
+     "reason_en": "Survived and lived out his life away from public notice"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "어린 나이에 탈출과 해방을 향해 행동",
+     "reason_en": "Young, he acted toward escape and liberation"
+    },
+    "conservative_progressive": {
+     "score": 12,
+     "reason_ko": "점령 체제에 맞선 지하운동 노선을 택함",
+     "reason_en": "Chose the underground line against the occupation regime"
+    },
+    "individual_social": {
+     "score": 38,
+     "reason_ko": "지하조직과 공동 탈출의 집단 행동에 헌신",
+     "reason_en": "Committed to collective action in the underground and the escape"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "빵공장 경유 탈출이라는 위험 계획에 동참",
+     "reason_en": "Joined the hazardous bakery-route escape plan"
+    }
+   },
+   "rationale_ko": "열여덟에 지하운동을 시작해 수용소 탈출과 봉기까지 이어갔다. 레제이와 같은 길을 걸었으나 생환해 조용히 여생을 보냈다는 점이 둘을 갈라놓는다. 집단 행동에의 헌신이 공동체 성향을 설명한다. 1962년 서른아홉의 나이로 숨졌다.",
+   "rationale_en": "A youth who entered the underground at eighteen carried that choice through the camp escape and the Uprising. He walked Redzej's road but survived it and lived quietly. Devotion to collective action explains the communal leaning. He died in 1962 at thirty-nine."
+  }
+ },
+ "다니구치 요시미": {
+  "influence": {
+   "political": 1,
+   "political_exp": "관직 없이 민간인으로 행동",
+   "political_exp_en": "Acted as a civilian without office",
+   "strategic": 2,
+   "strategic_exp": "특무대 명령이 한 병사의 29년 유격을 야기",
+   "strategic_exp_en": "His wartime order caused one soldier's 29-year holdout",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 4,
+   "social_exp": "1974년 직접 해제 명령으로 잔류병 문제를 해소",
+   "social_exp_en": "His personal 1974 trip resolved a famous holdout case",
+   "economic": 1,
+   "economic_exp": "전후 서점 경영 외 경제 기여 없음",
+   "economic_exp_en": "None beyond running a postwar bookshop",
+   "cultural": 6,
+   "cultural_exp": "오노다 서사의 결말을 연 핵심 인물로 영화에도 등장",
+   "cultural_exp_en": "A key figure in the Onoda story, portrayed in its film",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "군 명령과 책임의 사례로 오노다 일화와 함께 회자",
+   "transhistoricity_exp_en": "Retold with the Onoda story as a case of orders and responsibility"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "제14방면군 정보특무대의 소좌로 소규모 부대를 지휘",
+     "reason_en": "A major commanding a small intelligence detachment"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "육군 장교 훈련을 거치고 예순셋에 정글을 직접 방문",
+     "reason_en": "A trained army officer who entered the jungle at sixty-three"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "정보장교 출신으로 전후 서점을 경영",
+     "reason_en": "An intelligence officer who later ran a bookshop"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "29년 만의 재회에서 오노다의 경계를 풀어준 인물",
+     "reason_en": "The man whose return finally disarmed Onoda's vigilance"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "종전 뒤 30년을 조용한 서점 주인으로 생활",
+     "reason_en": "Spent thirty postwar years as a quiet bookseller"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "서점 경영을 지속하고 귀환 문제에 응답",
+     "reason_en": "Kept his shop running and answered when the holdout case called"
+    },
+    "reflection": {
+     "score": 70,
+     "reason_ko": "내린 명령의 결말을 스스로 매듭지으러 정글로 감",
+     "reason_en": "Went himself to close the order he had once issued"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "무장 잔류병과 대면할 정글로 직접 향함",
+     "reason_en": "Flew into a jungle to face a still-armed holdout"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "29년 전 내린 명령의 책임을 끝까지 짊",
+     "reason_en": "Carried responsibility for his order to the end, 29 years on"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "부하의 귀환을 위해 직접 루방섬으로 날아감",
+     "reason_en": "Flew to Lubang himself for his subordinate's return"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "명령의 발신자로서 해제의 책임을 자처",
+     "reason_en": "As the order's issuer he claimed the duty of lifting it"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "민간인 신분으로 명예 없이 묵묵히 생활",
+     "reason_en": "Lived on without honors as a private citizen"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "오노다가 살아 있고 설득 가능하다고 봄",
+     "reason_en": "Believed Onoda alive and persuadable"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "제국군 장교로 복무하고 전후 질서에 순응",
+     "reason_en": "Served the imperial army, then accepted the postwar order"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "부하와 조국에 대한 책임을 개인 편의보다 우선",
+     "reason_en": "Put duty to subordinate and country above convenience"
+    },
+    "cautious_bold": {
+     "score": 8,
+     "reason_ko": "정부 절차를 거쳐 정식 해제 명령으로 행동",
+     "reason_en": "Moved through official channels to a formal stand-down order"
+    }
+   },
+   "rationale_ko": "한 줄의 명령이 29년의 정글을 만들었고 같은 입이 그것을 해제했다. 명령의 발신자가 해제까지 직접 수행한 점이 충성과 성찰의 정점을 이룬다. 전후 30년의 조용한 서점 생활은 절제와 겸양의 바탕이다. 1974년 3월 루방섬에서 작전 해제 명령을 낭독했다.",
+   "rationale_en": "One order created twenty-nine years of jungle; the same voice ended it. That the issuer performed the release himself crowns loyalty and reflection. Thirty quiet years as a bookseller ground his temperance and humility. In March 1974 he read the stand-down order on Lubang."
+  }
+ },
+ "스즈키 노리오": {
+  "influence": {
+   "political": 1,
+   "political_exp": "귀환 절차를 촉발했으나 정치 행위는 아님",
+   "political_exp_en": "Triggered a repatriation without any political act",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 4,
+   "social_exp": "오노다 발견이 일본 정부의 귀환 절차를 직접 촉발",
+   "social_exp_en": "His find directly set Japan's repatriation process in motion",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 5,
+   "cultural_exp": "'오노다, 판다, 예티'의 선언이 탐험가 전설로 남음",
+   "cultural_exp_en": "The 'Onoda, then a panda, then a yeti' vow became explorer legend",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "오노다 서사에서 발견자로 계속 인용",
+   "transhistoricity_exp_en": "Permanently cited as the man who found Onoda"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "혼자 떠나는 탐험으로 조직을 이끌지 않음",
+     "reason_en": "Wandered solo; led no organization"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "정글 단독 수색과 히말라야 등반을 수행",
+     "reason_en": "Solo jungle searches and Himalayan climbing"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "수개국이 못 찾은 인물을 나흘 만에 발견",
+     "reason_en": "Found in four days a man nations had sought for decades"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "무장 잔류병을 수일 만에 친구로 만든 친화력",
+     "reason_en": "Turned an armed holdout into a friend within days"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 42,
+     "reason_ko": "세계 방랑과 고위험 탐험을 멈추지 않음",
+     "reason_en": "Never stopped roaming the world on high-risk quests"
+    },
+    "diligence": {
+     "score": 68,
+     "reason_ko": "선언한 세 가지 목표를 순서대로 실제 추적",
+     "reason_en": "Actually pursued his three declared quests in order"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "자기 분석보다 행동이 앞선 순진한 모험가",
+     "reason_en": "An innocent adventurer; action ran ahead of self-analysis"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "무장한 오노다에게 혼자 접근하고 예티 탐색을 지속",
+     "reason_en": "Approached the armed Onoda alone and kept hunting the yeti"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "소속 없는 자유 여행가로 집단 귀속이 약함",
+     "reason_en": "An unattached wanderer with weak institutional ties"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "오노다를 죽이지 않고 귀환의 길을 열어줌",
+     "reason_en": "Opened a way home for Onoda instead of violence"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "오노다를 적이 아닌 사람으로 대함",
+     "reason_en": "Treated Onoda as a person, not an enemy"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "발견의 공을 과시하지 않고 다음 여정으로 떠남",
+     "reason_en": "Claimed no glory for the find and moved to the next quest"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 42,
+     "reason_ko": "불가능해 보이는 세 목표를 장난처럼 선언",
+     "reason_en": "Declared three impossible quests as if in jest"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "제도권 직업을 버린 자유로운 반문화적 생활",
+     "reason_en": "Left a settled career for free-spirited counterculture wandering"
+    },
+    "individual_social": {
+     "score": -42,
+     "reason_ko": "세계를 혼자 누비는 극단적 개인 여행가",
+     "reason_en": "An extreme individualist roaming the world alone"
+    },
+    "cautious_bold": {
+     "score": 44,
+     "reason_ko": "예티를 찾아 다울라기리에 혼자 들어감",
+     "reason_en": "Went alone onto Dhaulagiri to look for the yeti"
+    }
+   },
+   "rationale_ko": "군대가 29년 못 찾은 사람을 나흘 만에 찾아낸 낙천가다. 혼자 떠나는 삶이 개인주의의 극단을 설명하고, 발견 뒤 스쳐 지나간 태도가 겸양을 받친다. 세 번째 목표였던 예티를 찾다가 1986년 다울라기리 눈사태로 숨졌다.",
+   "rationale_en": "Optimism and daring found in four days a man armies missed for 29 years. A life on the road alone explains the individualist pole; leaving without claiming glory underwrites humility. Seeking his third quest, the yeti, he died in a 1986 avalanche on Dhaulagiri."
+  }
+ },
+ "고즈카 긴시치": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 행위 없음",
+   "political_exp_en": "No political act",
+   "strategic": 1,
+   "strategic_exp": "27년 잔류가 군사적보다 인간적 사건으로 남음",
+   "strategic_exp_en": "His 27-year holdout mattered humanly more than militarily",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 3,
+   "social_exp": "그의 전사로 오노다 생존이 세상에 확인됨",
+   "social_exp_en": "His death confirmed to the world that Onoda still lived",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 5,
+   "cultural_exp": "오노다 서사에서 마지막 동료로 기억됨",
+   "cultural_exp_en": "Remembered as Onoda's last companion in the story",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "잔류 일본병 서사의 비극적 장면으로 남음",
+   "transhistoricity_exp_en": "A tragic fixture of the Japanese-holdout narrative"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 12,
+     "reason_ko": "병장으로 상관 오노다의 지휘를 따름",
+     "reason_en": "A corporal under Onoda's command throughout"
+    },
+    "martial": {
+     "score": 72,
+     "reason_ko": "27년간 정글 유격 생활과 식량 확보 활동을 지속",
+     "reason_en": "Kept up jungle guerrilla life and foraging for 27 years"
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "정글 생존 기술을 체득해 장기 생활을 유지",
+     "reason_en": "Mastered jungle survival well enough to last decades"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "오노다와 마지막까지 동행한 묵묵한 전우",
+     "reason_en": "The quiet comrade who stayed with Onoda to the end"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "식량 부족의 정글에서 절제된 군 생활을 유지",
+     "reason_en": "Kept austere military discipline on jungle rations"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "동료 이탈과 전사에도 유격 임무를 27년 지속",
+     "reason_en": "Held to guerrilla duties 27 years despite defections and deaths"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "명령 수행자로서 자기 판단을 드러낸 일화는 드묾",
+     "reason_en": "As an order-taker he left few acts of visible self-judgment"
+    },
+    "courage": {
+     "score": 74,
+     "reason_ko": "경찰·주민과의 교전 위험 속 작전을 계속 수행",
+     "reason_en": "Kept up operations amid shootout risk with police and locals"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 92,
+     "reason_ko": "항복 명령 없이 27년을 전장에 남은 최후의 동료",
+     "reason_en": "Stayed at his post 27 years without a stand-down order"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "주민 재산 파괴와 교전을 수반한 유격 임무 수행",
+     "reason_en": "His guerrilla duties included crop-burning and firefights"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "전시 명령 체계 안에서 행동한 병사",
+     "reason_en": "A soldier acting inside a wartime chain of orders"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "지휘관 오노다 뒤에서 묵묵히 임무를 수행",
+     "reason_en": "Worked quietly behind his commander Onoda"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "귀환 소식 없이도 임무 지속을 믿음",
+     "reason_en": "Kept the mission with no word from home"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "황군 명령 체계와 옛 질서에 절대 복종",
+     "reason_en": "Absolute obedience to the imperial order that sent him"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "명령과 전우라는 최소 공동체에 전 생애를 바침",
+     "reason_en": "Gave his whole life to a minimal community of orders and one comrade"
+    },
+    "cautious_bold": {
+     "score": 8,
+     "reason_ko": "은폐와 기습 위주의 신중한 유격을 수행",
+     "reason_en": "Ran a cautious guerrilla routine of concealment and raids"
+    }
+   },
+   "rationale_ko": "명령 하나를 27년간 지킨 병사다. 절제와 근면, 충성이 극단으로 높고 그 대가로 인자가 깎인다 — 주민 재산을 태우는 작전이 그의 임무였기 때문이다. 1972년 필리핀 경찰의 총에 맞아 전사했고 그 죽음이 오노다의 생존을 세상에 알렸다.",
+   "rationale_en": "A soldier who held one order for 27 years. Temperance, diligence and loyalty run to extremes, while benevolence pays the cost — his missions included burning villagers' crops. Killed by Philippine police in 1972, his death told the world Onoda lived."
+  }
+ },
+ "발렌틴 사비츠키": {
+  "influence": {
+   "political": 2,
+   "political_exp": "발사 준비 결정이 냉전 핵위기 논의의 핵심 사례",
+   "political_exp_en": "His launch-readiness call became a core case of Cold War nuclear risk",
+   "strategic": 3,
+   "strategic_exp": "핵어뢰 사용 직전 상황이 핵지휘 절차의 교과 사례",
+   "strategic_exp_en": "The near-launch is now a textbook case for nuclear command procedure",
+   "tech": 1,
+   "tech_exp": "핵잠 운용 외 기술 기여 없음",
+   "tech_exp_en": "No technical contribution beyond submarine operations",
+   "social": 3,
+   "social_exp": "핵전쟁 직전의 인간 판단 사례로 안보 교육에 인용",
+   "social_exp_en": "Cited in security teaching as human judgment at the nuclear brink",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "B-59 사건의 함장으로 다큐와 저술에 등장",
+   "cultural_exp_en": "Appears in documentaries and books as B-59's captain",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "인류가 핵전쟁에 가장 근접한 순간의 주역 중 하나",
+   "transhistoricity_exp_en": "A protagonist of humanity's closest brush with nuclear war"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "약 70인 승조원의 B-59를 쿠바 위기 전역에서 지휘",
+     "reason_en": "Commanded B-59's crew of about seventy through the crisis"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "고온과 산소 부족의 장기 잠항을 함장으로 견딤",
+     "reason_en": "Endured weeks of submerged heat and thin air as captain"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "디젤 잠수함 함장직의 기술·전술 판단을 수행",
+     "reason_en": "Ran the technical-tactical judgments a diesel-boat command demands"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "격정적 발사 명령으로 기억되는 무뚝뚝한 함장",
+     "reason_en": "A hard-edged captain remembered for a furious order"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 38,
+     "reason_ko": "극한 스트레스 속 격분해 핵어뢰 발사 준비를 명함",
+     "reason_en": "Under crushing stress he raged and ordered the torpedo readied"
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "장기 잠항과 미 함대 추적 속에서 함을 유지",
+     "reason_en": "Kept his boat operating through long submergence and pursuit"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "아르히포프의 설득을 받아들여 부상을 택함",
+     "reason_en": "Accepted Arkhipov's counsel and chose to surface"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "14척에 포위된 채 최악의 상황을 상정해 대비",
+     "reason_en": "Prepared for the worst while ringed by fourteen ships"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 74,
+     "reason_ko": "함대의 명예를 더럽히지 않겠다는 군인 신념",
+     "reason_en": "Swore not to disgrace his navy — a soldier's creed"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "전멸을 각오한 발사 준비와 승조원 생존의 사이",
+     "reason_en": "Between a doomed launch and his crew's survival"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "3인 동의 절차에 따라 발사 결정을 보류",
+     "reason_en": "Held the launch under the three-key consent rule"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "상급 참모장의 반대를 최종적으로 수용",
+     "reason_en": "Ultimately deferred to the senior staff officer's dissent"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -22,
+     "reason_ko": "전쟁이 이미 시작됐다는 최악 가정으로 판단",
+     "reason_en": "Judged on the worst assumption — that war had already begun"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "소련 해군 명령 체계 안에서 행동",
+     "reason_en": "Acted strictly inside the Soviet naval command system"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "함과 함대라는 집단 명예를 판단의 중심에 둠",
+     "reason_en": "Put the collective honor of boat and fleet at the center"
+    },
+    "cautious_bold": {
+     "score": 18,
+     "reason_ko": "발사 준비를 명했으나 부상 결정으로 절차를 따름",
+     "reason_en": "Ordered launch readiness yet obeyed procedure to surface"
+    }
+   },
+   "rationale_ko": "핵전쟁 직전의 함장이다. 최악을 상정한 비관적 판단이 발사 준비 명령을 낳았으나, 3인 동의 절차와 상급자의 반대를 수용한 점이 절제 실패만의 인물로 만들지 않는다. 군인의 명예관이 판단 전체를 지배했다. 1962년 10월 27일 B-59는 부상해 모스크바의 명령을 기다렸다.",
+   "rationale_en": "The captain at the brink of nuclear war. A pessimistic worst-case reading produced the launch order, yet honoring the three-key rule and his senior's dissent keeps him from being only a failure of temperance. A soldier's code of honor governed the judgment. On 27 October 1962 B-59 surfaced and awaited Moscow's orders."
+  }
+ },
+ "탤벗 에드워즈": {
+  "influence": {
+   "political": 0,
+   "political_exp": "왕실 보관인 외 공적 직위 없음",
+   "political_exp_en": "No public office beyond keeping the regalia",
+   "strategic": 1,
+   "strategic_exp": "내전 노병 경력 외 군사 기여 없음",
+   "strategic_exp_en": "No military contribution beyond a Civil War past",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No link to technology",
+   "social": 1,
+   "social_exp": "보석 공개 관람이라는 당대 풍습의 일부",
+   "social_exp_en": "Part of the era's custom of showing the jewels",
+   "economic": 1,
+   "economic_exp": "관람료 수입 관리 외 경제 기여 없음",
+   "economic_exp_en": "None beyond taking visitors' fees",
+   "cultural": 4,
+   "cultural_exp": "왕관 도난극의 피해자로 런던탑 서사에 등장",
+   "cultural_exp_en": "Appears in the Tower's lore as the robbery's victim",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "1671년 도난 사건의 등장인물로만 전해짐",
+   "transhistoricity_exp_en": "Remembered only within the 1671 theft story"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 18,
+     "reason_ko": "마틴 타워 보석고의 단독 관리 직책을 수행",
+     "reason_en": "Held the sole keeper's post at the Martin Tower jewel house"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "내전을 겪은 노군인으로 일흔일곱까지 현직을 유지",
+     "reason_en": "A Civil War veteran still on duty at seventy-seven"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "왕실 보석의 관리와 관람 안내를 수행",
+     "reason_en": "Managed the regalia and guided its viewers"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "시민 관람객에게 왕관을 보여주던 인기 관리인",
+     "reason_en": "A well-liked keeper who showed the crown to citizens"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "일흔일곱의 나이에도 검소하게 직무를 지킴",
+     "reason_en": "Kept to his duty modestly at seventy-seven"
+    },
+    "diligence": {
+     "score": 68,
+     "reason_ko": "노년까지 매일 보석고를 열어 관람을 안내",
+     "reason_en": "Opened the jewel house daily into old age"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "결박에서 풀려나자 곧장 경보를 외쳐 상황을 전환",
+     "reason_en": "Freeing himself, he at once raised the alarm"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "폭행당하면서도 반역을 외쳐 경보를 울림",
+     "reason_en": "Beaten and bound, he still cried 'Treason!' to raise the ward"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 82,
+     "reason_ko": "맡은 왕실 보석을 지키려 폭행을 견디고 경보",
+     "reason_en": "Endured a beating trying to guard the king's regalia"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "관람객에게 친절히 왕관을 보여주던 노인",
+     "reason_en": "An old man kind enough to show visitors the crown"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "정해진 관람 규정에 따라 보석을 공개",
+     "reason_en": "Showed the jewels under the set rules of admission"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "낮은 관직의 직무를 오래 묵묵히 수행",
+     "reason_en": "Long served a humble office without complaint"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "낯선 방문객과도 친분을 쌓는 소탈한 태도",
+     "reason_en": "Readily befriended a strange 'parson'"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "복위된 왕정의 관리로서 기존 질서를 섬김",
+     "reason_en": "Served the restored monarchy as a loyal keeper"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "공동체의 관물을 맡아 시민에게 공개하는 역할",
+     "reason_en": "Kept a communal treasure and opened it to citizens"
+    },
+    "cautious_bold": {
+     "score": -8,
+     "reason_ko": "규정에 따른 보관 임무를 신중히 수행",
+     "reason_en": "Kept to his custodial rules carefully"
+    }
+   },
+   "rationale_ko": "도난극의 주인공이 아니라 그 무대를 지키던 사람이다. 일흔일곱에도 자리를 지킨 근면과 폭행 속에서 울린 경보가 충성의 근거다. 낯선 자를 믿은 소탈함이 사건의 틈이 됐다. 1671년 블러드 일당에게 결박당했으나 아들의 귀국으로 도난은 저지됐다.",
+   "rationale_en": "Not the thief but the man guarding the stage. Duty kept past seventy-seven and an alarm cried out under beating ground his loyalty. His easy trust of a stranger opened the gap. Bound by Blood's gang in 1671, the theft was stopped when his son came home."
+  }
+ },
+ "엘리자베스 '에지워스 베스' 라이언": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공적 활동 없는 런던 하층의 도둑",
+   "political_exp_en": "A London underworld thief with no public role",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technical contribution",
+   "social": 2,
+   "social_exp": "남성 도둑 세계의 이례적 여성 인물로 주목",
+   "social_exp_en": "Noted as a rare woman inside a male thieves' world",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 4,
+   "cultural_exp": "셰퍼드 전설의 동반자로 발라드와 소설에 등장",
+   "cultural_exp_en": "Lives on in ballads and novels as Sheppard's partner",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "뉴게이트 서사의 여성 인물로 이름이 남음",
+   "transhistoricity_exp_en": "Her name survives inside the Newgate literature"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 20,
+     "reason_ko": "강도들과 공모했으나 무리를 이끈 자취는 드묾",
+     "reason_en": "Conspired with highwaymen but rarely led the pack"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "뉴 프리즌과 브라이드웰에서 연달아 탈출을 수행",
+     "reason_en": "Escaped New Prison and Bridewell in succession"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "셰퍼드를 범죄로 이끌고 탈옥 공모를 반복",
+     "reason_en": "Drew Sheppard into crime and repeatedly plotted escapes"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "런던 뒷골목에서 '에지워스 베스'로 통한 인물",
+     "reason_en": "Known across London's underworld as 'Edgeworth Bess'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 18,
+     "reason_ko": "술집과 절도의 생활에서 자제가 보이지 않음",
+     "reason_en": "A life of taverns and theft shows little restraint"
+    },
+    "diligence": {
+     "score": 45,
+     "reason_ko": "셰퍼드 처형 뒤에도 범행을 계속 이어감",
+     "reason_en": "Kept at crime even after Sheppard's death"
+    },
+    "reflection": {
+     "score": 15,
+     "reason_ko": "유배 전까지 같은 범죄 패턴을 되풀이",
+     "reason_en": "Repeated the same criminal pattern until transportation"
+    },
+    "courage": {
+     "score": 74,
+     "reason_ko": "수감된 남자와 함께 연속 탈옥을 감행",
+     "reason_en": "Dared successive escapes alongside a jailed man"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 52,
+     "reason_ko": "셰퍼드의 탈옥을 도왔으나 사후 다른 무리와 행동",
+     "reason_en": "Helped Sheppard's escapes, then ran with other men"
+    },
+    "benevolence": {
+     "score": 28,
+     "reason_ko": "무리의 이익 외 타인을 돌본 자취는 드묾",
+     "reason_en": "Beyond the gang, few traces of care for others"
+    },
+    "fairness": {
+     "score": 28,
+     "reason_ko": "절도와 공모로 생계를 해결한 범죄 생활",
+     "reason_en": "Lived by theft and conspiracy"
+    },
+    "humility": {
+     "score": 25,
+     "reason_ko": "뒷골목의 명성을 즐긴 도도한 여걸로 회자",
+     "reason_en": "Remembered as a proud figure of the underworld"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "동반자 처형과 자신의 체포 속에서도 활동을 계속",
+     "reason_en": "Kept going through her partner's hanging and her own arrests"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "법과 신분 질서를 무시한 뒷골목 생활",
+     "reason_en": "Lived outside the law and rank of the established order"
+    },
+    "individual_social": {
+     "score": -38,
+     "reason_ko": "무리와 함께했으나 생존 중심의 개인 행보",
+     "reason_en": "Ran with gangs yet moved for her own survival"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "경비된 감옥을 연달아 빠져나가는 대담한 행동",
+     "reason_en": "Slipped out of guarded prisons again and again"
+    }
+   },
+   "rationale_ko": "셰퍼드를 범죄로 이끈 동반자이자 공모자다. 탈옥을 도운 대담함과 반복되는 재범이 용기와 성찰을 극단으로 갈라놓는다. 그에 대한 충심은 있었으나 그를 넘어선 헌신은 아니었다. 1726년 메릴랜드 유배 뒤 자취가 끊긴다.",
+   "rationale_en": "The partner who led Sheppard into crime and plotted beside him. Bold escapes set courage high while repeated offending leaves reflection near the floor. Devotion to Sheppard was real but did not outlast him. Transported to Maryland in 1726, she vanishes from the record."
+  }
+ },
+ "보그드 칸": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1911년 독립 몽골의 군주로 국가 성립을 정당화",
+   "political_exp_en": "As monarch he legitimized Mongolia's 1911 independence",
+   "strategic": 1,
+   "strategic_exp": "실권 없는 군주로 전략 결정은 타인에 의존",
+   "strategic_exp_en": "A figurehead; strategic decisions were made by others",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technological contribution",
+   "social": 4,
+   "social_exp": "종교·세속 최고지도자로 몽골 정체성을 결집",
+   "social_exp_en": "As supreme religious-secular figure he fused Mongol identity",
+   "economic": 2,
+   "economic_exp": "신정 국가의 재정을 관리하나 근대 개혁은 미미",
+   "economic_exp_en": "Ran the theocracy's finances with little modernization",
+   "cultural": 6,
+   "cultural_exp": "겨울궁전 박물관과 건국 서사의 상징으로 남음",
+   "cultural_exp_en": "His Winter Palace museum and founding story remain national symbols",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "몽골 근대 국가의 출발점으로 국가 서사에 고정",
+   "transhistoricity_exp_en": "Fixed in the national narrative as modern Mongolia's starting point"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "신정 국가의 수반이나 실권은 귀족과 외세에 의존",
+     "reason_en": "Head of a theocratic state; real power lay with nobles and foreigners"
+    },
+    "martial": {
+     "score": 28,
+     "reason_ko": "알코올 중독과 실명으로 쇠약해진 군주",
+     "reason_en": "A frail ruler half-blind and wrecked by drink"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "승려 교육과 러·중 사이의 정치적 줄타기를 수행",
+     "reason_en": "A cleric's education and deft balancing between Russia and China"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "환생불로서 몽골 민중의 숭배를 한 몸에 받음",
+     "reason_en": "As a living Buddha he drew the Mongol masses' devotion"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 12,
+     "reason_ko": "주색과 사치로 국고를 탕진한 방탕한 군주",
+     "reason_en": "A debauched ruler who drained the treasury on wine and luxury"
+    },
+    "diligence": {
+     "score": 30,
+     "reason_ko": "국정은 각료에 맡기고 유흥에 몰두",
+     "reason_en": "Left affairs to ministers and gave himself to pleasure"
+    },
+    "reflection": {
+     "score": 22,
+     "reason_ko": "폐위와 복위의 파란에도 처신을 바꾸지 않음",
+     "reason_en": "Deposition and restoration changed none of his habits"
+    },
+    "courage": {
+     "score": 38,
+     "reason_ko": "외세 앞에서 저항보다 순응과 도피를 택함",
+     "reason_en": "Chose submission and refuge over resistance to foreign power"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "몽골 독립이라는 대의에는 일관되게 부응",
+     "reason_en": "Stayed consistent with the cause of Mongolian independence"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "가혹한 형벌과 방탕한 통치로 민생을 도외시",
+     "reason_en": "Harsh punishments and dissolute rule neglected his people"
+    },
+    "fairness": {
+     "score": 28,
+     "reason_ko": "총애와 변덕으로 인사와 판단을 좌우",
+     "reason_en": "Favorites and whim governed appointments and judgments"
+    },
+    "humility": {
+     "score": 8,
+     "reason_ko": "신과 군주를 겸한 절대적 지위를 향유",
+     "reason_en": "Enjoyed absolute status as both god and king"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "대권은 누리되 국운은 타인 손에 맡김",
+     "reason_en": "Held the throne while the nation's fate passed to others"
+    },
+    "conservative_progressive": {
+     "score": -42,
+     "reason_ko": "신정 칸국이라는 구질서의 정점에 선 인물",
+     "reason_en": "Stood at the apex of the old order as a theocrat-khan"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "집단의 상징이었으나 사생활은 자기중심적 방탕",
+     "reason_en": "A communal symbol whose private life was self-indulgent"
+    },
+    "cautious_bold": {
+     "score": -12,
+     "reason_ko": "폐위 때도 복위 때도 자기 결단보다 수용",
+     "reason_en": "Accepted rather than decided both deposition and restoration"
+    }
+   },
+   "rationale_ko": "환생불의 권위로 군주의 자리에 올랐으나 그 자리를 채운 것은 방탕이었다. 종교적 매력은 정점에 있고 절제와 근면은 바닥에 있다 — 구질서 꼭짓점에 선 자의 전형이다. 실권 부재는 통솔을 낮춘다. 1924년 그의 죽음과 함께 인민공화국이 선포됐다.",
+   "rationale_en": "A living Buddha's authority made the throne; debauchery filled it. Religious charm sits at the peak while temperance and diligence rest at the floor — the classic apex of the old order. Absent real power drags command down. His death in 1924 brought the proclamation of the People's Republic."
+  }
+ },
+ "빅토르 빌라시": {
+  "influence": {
+   "political": 3,
+   "political_exp": "봉기군 참모총장으로 자유지대 실험의 설계에 참여",
+   "political_exp_en": "As chief of staff he helped design the free-territory experiment",
+   "strategic": 4,
+   "strategic_exp": "마흐노프시치나의 작전 대부분을 직접 설계",
+   "strategic_exp_en": "Designed most of the Makhnovist army's operations",
+   "tech": 0,
+   "tech_exp": "기술 기여 없음",
+   "tech_exp_en": "No technological contribution",
+   "social": 3,
+   "social_exp": "아나키스트 운동의 조직가로 운동사에 남음",
+   "social_exp_en": "Stands in movement history as anarchism's organizer",
+   "economic": 1,
+   "economic_exp": "경제 분야 직접 기여는 미미",
+   "economic_exp_en": "Little direct economic contribution",
+   "cultural": 4,
+   "cultural_exp": "옥중 회고록이 마흐노 연구의 핵심 1차 사료",
+   "cultural_exp_en": "His prison memoir is a core primary source on Makhno",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "게릴라군 참모의 기록으로 혁명사 연구에 남음",
+   "transhistoricity_exp_en": "Survives in revolutionary historiography as the staff officer's record"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 66,
+     "reason_ko": "참모총장으로 작전을 설계하고 망명 뒤 잔군을 지휘",
+     "reason_en": "Planned operations as chief of staff, then led the remnants"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "게릴라 전선을 누비다 중상을 입고 체포",
+     "reason_en": "Ranged the guerrilla fronts until badly wounded and captured"
+    },
+    "intellect": {
+     "score": 76,
+     "reason_ko": "철도 노동자 출신으로 군단급 작전을 설계하고 회고록을 저술",
+     "reason_en": "A railwayman who planned army-scale operations and wrote a memoir"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "마흐노의 그림자에서 움직인 실무형 참모",
+     "reason_en": "A working staff officer who moved in Makhno's shadow"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "비밀 조직 생활과 옥중 집필의 절제된 생활",
+     "reason_en": "A disciplined life of clandestine work and prison writing"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "작전 수립부터 회고록 집필까지 실무를 일관 수행",
+     "reason_en": "Kept at the work from operations to the prison memoir"
+    },
+    "reflection": {
+     "score": 66,
+     "reason_ko": "체카 감독 아래서도 운동의 궤적을 분석해 기록",
+     "reason_en": "Even under Cheka oversight he analyzed the movement's course"
+    },
+    "courage": {
+     "score": 74,
+     "reason_ko": "잔군을 이끌고 끝까지 저항하다 중상과 체포",
+     "reason_en": "Led the remnants resisting until wounded and captured"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "운동이 패한 뒤에도 이탈하지 않고 남음",
+     "reason_en": "Stayed with the beaten movement when others left"
+    },
+    "benevolence": {
+     "score": 48,
+     "reason_ko": "게릴라군 참모로서 인도적 자취는 드묾",
+     "reason_en": "Few humanitarian acts attach to the staff officer's record"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "작전과 조직 운영을 원칙적으로 수행했다는 평",
+     "reason_en": "Regarded as principled in running operations and staff work"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "공이 사령관에게 돌아가는 참모 자리를 지킴",
+     "reason_en": "Kept the staff post where credit flowed to the commander"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "망명과 저항의 실패로 끝난 궤적을 직시",
+     "reason_en": "Faced plainly that resistance and exile had failed"
+    },
+    "conservative_progressive": {
+     "score": 42,
+     "reason_ko": "국가 없는 자유지대를 실현하려 한 아나키스트",
+     "reason_en": "An anarchist working to realize a stateless free territory"
+    },
+    "individual_social": {
+     "score": 38,
+     "reason_ko": "농민 코뮌과 집단 봉기라는 공동체 노선",
+     "reason_en": "Committed to communes and collective rising"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "설계자로서 대담한 작전을 치밀하게 계산",
+     "reason_en": "As designer he calculated bold operations precisely"
+    }
+   },
+   "rationale_ko": "마흐노라는 불꽃 뒤에서 그림을 그린 설계자다. 지력이 그의 정점이고, 패한 뒤에도 남아 저항한 점이 충성을, 옥중 회고록이 성찰을 입증한다. 대담한 작전도 치밀한 계산을 거쳤다. 대숙청기인 1938년 하르키우에서 처형됐다.",
+   "rationale_en": "The designer drawing behind Makhno's flame. Intellect is his summit; staying after defeat proves loyalty, and the prison memoir proves reflection. Bold operations still went through careful calculation. He was executed at Kharkiv in the Great Purge of 1938."
+  }
+ },
+ "로버트 파크 유니": {
+  "influence": {
+   "political": 0,
+   "political_exp": "군인으로서 정치 행위 없음",
+   "political_exp_en": "A soldier with no political activity",
+   "strategic": 3,
+   "strategic_exp": "사막 순찰대 운용으로 특수부대 전술 사례에 기여",
+   "strategic_exp_en": "Desert patrol work added to special-forces practice",
+   "tech": 1,
+   "tech_exp": "차량 기동 순찰 운용 외 기술 기여 없음",
+   "tech_exp_en": "None beyond running motorized patrols",
+   "social": 1,
+   "social_exp": "전우 집단 내부의 기억에 한정",
+   "social_exp_en": "Remembered within the comrades' circle",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "회고록 『바퀴 달린 전사들』로 부대 내부사를 기록",
+   "cultural_exp_en": "His memoir 'Warriors on Wheels' recorded the unit from inside",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "PPA 서사의 주요 증언자로 남음",
+   "transhistoricity_exp_en": "Survives as PPA's principal witness"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 56,
+     "reason_ko": "B순찰대를 이끌어 사막과 이탈리아 전선을 운용",
+     "reason_en": "Led B Patrol through the desert and Italian fronts"
+    },
+    "martial": {
+     "score": 72,
+     "reason_ko": "리비아 사막 장거리 순찰과 이탈리아 전투를 수행",
+     "reason_en": "Ran long desert patrols and fought through Italy"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "회고록을 쓸 만큼 부대 운용을 체계적으로 이해",
+     "reason_en": "Understood the unit well enough to write its memoir"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "페니아코프가 가장 먼저 뽑은 신망받는 동료",
+     "reason_en": "The trusted comrade Peniakoff recruited first"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "전선 생활의 규율을 유지한 직업 군인",
+     "reason_en": "A professional who kept front-line discipline"
+    },
+    "diligence": {
+     "score": 68,
+     "reason_ko": "리비아 아랍군부터 PPA까지 전시 내내 복무",
+     "reason_en": "Served the whole war from the Libyan Arab Force to PPA"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "전후 부대의 내부 이야기를 회고록으로 정리",
+     "reason_en": "Set down the unit's inside story in a postwar memoir"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "사막 적후 순찰과 전투를 거쳐 군십자훈장 수훈",
+     "reason_en": "Desert behind-lines patrols and combat earned the MC"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "친구 페니아코프의 부대에 최초로 합류해 끝까지 수행",
+     "reason_en": "First to join his friend Peniakoff's unit, serving to the end"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "순찰대원의 생명을 책임지는 소대장 역할을 수행",
+     "reason_en": "Carried a patrol leader's responsibility for his men"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "정규군 규율 아래 순찰대를 운영",
+     "reason_en": "Ran his patrol under regular-army discipline"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "창설자가 아닌 순찰대장 위치에서 복무",
+     "reason_en": "Served as patrol leader, not founder"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "사막 원정의 고난을 묵묵히 견뎌냄",
+     "reason_en": "Quietly endured the desert war's hardships"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "영국군 체계 내에서 비정규 임무를 수행",
+     "reason_en": "Did unconventional work inside the conventional army"
+    },
+    "individual_social": {
+     "score": 28,
+     "reason_ko": "23인 부대라는 작은 공동체의 핵심 구성원",
+     "reason_en": "A core member of a tight 23-man community"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "적후 장거리 순찰이라는 위험 임무를 반복 수행",
+     "reason_en": "Repeated the risky work of deep desert patrols"
+    }
+   },
+   "rationale_ko": "폽스키의 첫 번째 선택이 된 인물이다. 창설자 곁에서 순찰대를 이끈 실무형 장교로 통솔과 충성이 어우러진다. 회고록 집필은 성찰의 깊이를 보여준다. 전후 1961년 콩고에서 숨졌다.",
+   "rationale_en": "The first man Popski chose. A working officer leading patrols beside the founder, his command and loyalty run together. Writing the memoir shows reflective depth. After the war he died in the Congo in 1961."
+  }
+ },
+ "장 카네리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 행위 없는 군인",
+   "political_exp_en": "A soldier with no political activity",
+   "strategic": 2,
+   "strategic_exp": "PPA 창설 3인으로 특수부대 사례의 일부",
+   "strategic_exp_en": "One of PPA's founding three within special-forces history",
+   "tech": 1,
+   "tech_exp": "부대 기록 사진 촬영 외 기술 기여 없음",
+   "tech_exp_en": "None beyond photographing the unit's record",
+   "social": 1,
+   "social_exp": "부대 내부의 기억에 한정",
+   "social_exp_en": "Remembered within the unit",
+   "economic": 0,
+   "economic_exp": "경제 기여 없음",
+   "economic_exp_en": "No economic contribution",
+   "cultural": 3,
+   "cultural_exp": "『사설군』에 실린 사진으로 부대의 모습을 남김",
+   "cultural_exp_en": "His photographs in 'Private Army' preserved the unit's look",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "PPA 창설 멤버로 부대사에 이름이 남음",
+   "transhistoricity_exp_en": "His name survives as a PPA founder"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "23인 최소 독립부대의 장교로 임무를 지휘",
+     "reason_en": "An officer in the 23-man independent unit"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "리비아 아랑군부터 사막 원정과 이탈리아 전역에 참가",
+     "reason_en": "Fought from the Libyan Arab Force through desert and Italy"
+    },
+    "intellect": {
+     "score": 58,
+     "reason_ko": "사진 촬영으로 부대의 기록을 체계적으로 남김",
+     "reason_en": "Systematically photographed the unit's record"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "창설 3인의 한 명으로 부대 내에서 신망",
+     "reason_en": "A trusted figure as one of the founding three"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "특수부대 전선 복무의 규율을 유지",
+     "reason_en": "Kept the discipline of front-line special service"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "전투 임무와 기록 촬영을 전시 내내 병행",
+     "reason_en": "Combined combat duty and record-keeping through the war"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "사진이라는 형태로 부대의 기억을 정리",
+     "reason_en": "Ordered the unit's memory through photographs"
+    },
+    "courage": {
+     "score": 76,
+     "reason_ko": "사막 원정과 전투로 군십자훈장을 받음",
+     "reason_en": "Earned the Military Cross in desert operations"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "리비아 아랍군 동료들과 창설부터 함께함",
+     "reason_en": "Stood with his Libyan Arab Force comrades from the founding"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "전우 집단의 기록 보존에 기여",
+     "reason_en": "Helped preserve his comrades' record"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "정규군 규율 아래 임무를 수행",
+     "reason_en": "Served under regular-army discipline"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "사진 뒤의 기록자로서 전면에 나서지 않음",
+     "reason_en": "Stayed behind the camera rather than in front"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "자작 부대의 도박적 시도에 기꺼이 참가",
+     "reason_en": "Gladly joined the gamble of a private unit"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "연합군 편제 안에서 복무한 프랑스계 장교",
+     "reason_en": "A French officer serving inside the Allied establishment"
+    },
+    "individual_social": {
+     "score": 28,
+     "reason_ko": "최소 단위 공동체의 창설 구성원으로 헌신",
+     "reason_en": "Committed as a founding member of a minimal community"
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "23인 독립부대의 적후 작전에 참여",
+     "reason_en": "Joined behind-lines operations of a 23-man unit"
+    }
+   },
+   "rationale_ko": "부대의 눈이 된 창설 멤버다. 전투와 기록을 병행한 근면과 동료 곁을 지킨 충성이 그의 윤곽을 만든다. 카메라 뒤에 머문 태도가 겸양을 설명한다. 사막 원정과 이탈리아 전역으로 군십자훈장을 받았다.",
+   "rationale_en": "A founding member who became the unit's eye. Diligence in pairing combat with the record and loyalty to his comrades shape his profile. Staying behind the camera explains the humility. Desert and Italian service earned him the Military Cross."
+  }
+ }
+}

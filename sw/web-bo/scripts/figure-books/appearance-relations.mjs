@@ -101,7 +101,7 @@ async function main() {
       selections.push({
         contentId,
         relationType: 'appearance',
-        description: scope,
+        description: null,
         rationale: `조사에서 확인한 등장 범위: ${scope}`,
       })
     }

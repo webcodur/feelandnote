@@ -1,0 +1,1640 @@
+{
+ "배스 리브스": {
+  "influence": {
+   "political": 3,
+   "political_exp": "인디언 준주에 연방 사법 질서를 집행한 32년",
+   "political_exp_en": "32 years enforcing federal law in Indian Territory",
+   "strategic": 2,
+   "strategic_exp": "치외법권 지대의 보안관 활동 모델을 남김",
+   "strategic_exp_en": "Left a model of frontier law enforcement",
+   "tech": 0,
+   "tech_exp": "기술과 무관",
+   "tech_exp_en": "No technical contribution",
+   "social": 4,
+   "social_exp": "미시시피 서쪽 최초 흑인 연방 보안관으로 벽을 깸",
+   "social_exp_en": "First Black marshal west of the Mississippi — a racial barrier broken",
+   "economic": 1,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic consequence",
+   "cultural": 4,
+   "cultural_exp": "'론 레인저'의 실제 모델로 거론되는 전설",
+   "cultural_exp_en": "Cited as the real model for the Lone Ranger",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "미국 서부사에서 재발견이 계속되는 인물",
+   "transhistoricity_exp_en": "Continually rediscovered in histories of the American West"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 38,
+     "reason_ko": "1875년부터 단독 순찰과 소규모 수색대를 이끔",
+     "reason_en": "Worked mostly alone, leading small posses"
+    },
+    "martial": {
+     "score": 86,
+     "reason_ko": "1875-1907년 기마 추적·총격전을 버틴 거구의 보안관",
+     "reason_en": "A giant of a marshal who rode out 32 years of gunfights"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "글 대신 영장을 통째로 외우고 변장·추적술을 구사",
+     "reason_en": "Illiterate but memorised warrants and mastered disguise"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "무법자까지 그에게 자수하게 만든 명성",
+     "reason_en": "A name that made outlaws surrender to him"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "32년 복무 내내 스캔들 없이 직무를 수행",
+     "reason_en": "32 scandal-free years on the job"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "32년간 준주 전역을 말로 누비며 3천 명을 체포",
+     "reason_en": "Rode the whole territory to arrest 3,000 fugitives"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자기 기록을 거의 남기지 않아 성찰 단서가 적음",
+     "reason_en": "Left almost no writings; little self-view survives"
+    },
+    "courage": {
+     "score": 93,
+     "reason_ko": "혼자 무법자 소굴에 들어가 체포를 거듭 감행",
+     "reason_en": "Repeatedly rode alone into outlaw camps to make arrests"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 88,
+     "reason_ko": "1875년부터 파커 판사 법원 아래 32년을 복무",
+     "reason_en": "Served one court and one mission for 32 years"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "총 대신 투항을 받는 길을 먼저 택한 보안관",
+     "reason_en": "A marshal who took surrenders before shooting"
+    },
+    "fairness": {
+     "score": 90,
+     "reason_ko": "1902년 아들의 살인 영장을 스스로 집행",
+     "reason_en": "In 1902 he personally served his own son's murder warrant"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "생전 언론의 주목 없이 묵묵히 직무를 수행",
+     "reason_en": "Did the job quietly, unnoticed by the press in life"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "노예 출신이 법 집행관의 자리에 오른 자기 확신",
+     "reason_en": "A self-made certainty that carried him from slavery to badge"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "노예 출신이 연방 법 집행을 몸으로 입증",
+     "reason_en": "An ex-slave embodying federal law challenged the racial order"
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "연방 사법 제도를 위해 홀로 현장을 누빔",
+     "reason_en": "Rode alone in service of federal justice"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "변장으로 적진에 들어가는 고위험 체포를 반복",
+     "reason_en": "Repeated high-risk arrests in disguise behind enemy lines"
+    }
+   },
+   "rationale_ko": "글을 모르는 대신 영장을 외운 기억력과 변장술이 3천 체포의 도구였다. 아들에게까지 영장을 집행한 공정과 혼자 적진에 들어간 용기가 그의 정점이다. 생전엔 알려지지 않았으나 기록이 그를 전설로 만들었다.",
+   "rationale_en": "Memory for warrants and mastery of disguise were the tools of three thousand arrests. Fairness that served his own son a warrant and courage that rode alone into outlaw camps mark his peak. Unheralded in life, the record made him legend."
+  }
+ },
+ "메리 필즈": {
+  "influence": {
+   "political": 1,
+   "political_exp": "흑인 여성 첫 연방 우편 계약",
+   "political_exp_en": "First Black woman US mail carrier",
+   "strategic": 0,
+   "strategic_exp": "전략 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 4,
+   "social_exp": "흑인 여성 노동의 경계를 넓힘",
+   "social_exp_en": "Widened work roles for Black women",
+   "economic": 1,
+   "economic_exp": "산골 마을의 우편 연결을 책임짐",
+   "economic_exp_en": "Kept a mountain town's mail running",
+   "cultural": 5,
+   "cultural_exp": "서부 신화 속 여성 마부의 원형",
+   "cultural_exp_en": "Archetype of the frontier stage driver",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "현대에 전설로 재발견됨",
+   "transhistoricity_exp_en": "Rediscovered as a frontier legend"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "1885년부터 선교소 허드렛일과 시설을 도맡았다",
+     "reason_en": "Ran a mission's heavy work alone"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "예순이 넘어 8년간 눈보라 속 우편마차를 몰았다",
+     "reason_en": "Drove mail coaches at past sixty"
+    },
+    "intellect": {
+     "score": 40,
+     "reason_ko": "글 없이 노선과 마을 사정을 꿰고 다녔다",
+     "reason_en": "Read no letters but knew every route"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "1914년 장례에 마을 아이들이 학교를 빠져 참석했다",
+     "reason_en": "Kids skipped school for her funeral"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "1894년 일꾼과의 총격전으로 선교소에서 추방됐다",
+     "reason_en": "Expelled over a gunfight and a cigar"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1895년부터 8년간 우편 배달을 거르지 않았다",
+     "reason_en": "Never missed a mail run in eight years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "식당이 망하자 세탁소로 업을 바꿔 생활을 이었다",
+     "reason_en": "Broke, she switched to laundry work"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "늑대 떼가 둘러싼 밤에도 우편 자루를 지켜냈다",
+     "reason_en": "Kept the mail sack through a wolf siege"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "아마데우스 수녀장을 따라 몬태나까지 동행했다",
+     "reason_en": "Followed Mother Amadeus to Montana"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "손님에게 밥값을 받지 않아 식당이 망했다",
+     "reason_en": "Fed customers free until bankrupt"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "다툰 상대와 서로 총을 겨눈 채 끝났다",
+     "reason_en": "A mutual draw in a mission quarrel"
+    },
+    "humility": {
+     "score": 38,
+     "reason_ko": "주교의 퇴거 명령에 굽히지 않았다",
+     "reason_en": "Would not bow to the bishop"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "해방 노예에서 연방 우편 계약까지 새 일을 벌였다",
+     "reason_en": "From slavery to a federal mail contract"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "1895년 흑인 여성 최초의 연방 우편 계약을 따냈다",
+     "reason_en": "Took a job closed to Black women"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "홀로 길을 다니면서도 마을 일엔 늘 얼굴을 댔다",
+     "reason_en": "Drove alone, always at town events"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "총격전도 눈보라 길도 피하지 않았다",
+     "reason_en": "Shied from neither guns nor blizzards"
+    }
+   },
+   "rationale_ko": "노예 출신으로 우편 계약을 따낸 집요함이 생애를 관통한다. 다툼을 피하지 않는 성정이 추방과 망한 식당을 낳았으나, 눈보라와 늑대 앞의 무결 배달이 더 크게 남았다. 1914년 캐스케이드의 아이들은 학교를 빠져 그녀의 장례에 참석했다.",
+   "rationale_en": "Born enslaved, she won a federal mail contract and ran it flawlessly for eight years. Her quarrels cost her the mission post and a restaurant, yet blizzards and wolves never stopped a delivery. In 1914 the children of Cascade left school for her funeral."
+  }
+ },
+ "칼라미티 제인": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 기여 없음",
+   "political_exp_en": "None in politics",
+   "strategic": 1,
+   "strategic_exp": "군 정탐으로 복무했다고 주장",
+   "strategic_exp_en": "Claimed army scout service",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 3,
+   "social_exp": "남장 여성의 개척지 생활을 보여줌",
+   "social_exp_en": "Showed women could live frontier roles",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 6,
+   "cultural_exp": "서부 여성 전설의 원형이 됨",
+   "cultural_exp_en": "Became the Wild West heroine archetype",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "영화·소설로 재생산되는 전설",
+   "transhistoricity_exp_en": "Retold endlessly in film and fiction"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "정탐·마부·간호를 오가며 고용된 일꾼이었다",
+     "reason_en": "Scout, teamster, nurse — always a hand"
+    },
+    "martial": {
+     "score": 43,
+     "reason_ko": "남장 차림으로 정탐과 짐마차 일을 해냈다",
+     "reason_en": "Scout and teamster in men's clothes"
+    },
+    "intellect": {
+     "score": 35,
+     "reason_ko": "글을 몰라 자서전도 남의 손으로 찍었다",
+     "reason_en": "Illiterate; her memoir was ghost-told"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "1901년 박람회에 '살아있는 전설'로 출연했다",
+     "reason_en": "A living legend at the 1901 fair"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "술에 지친 몸으로 데드우드에 돌아와 쓰러졌다",
+     "reason_en": "Returned to Deadwood worn out by drink"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "열다섯에 동생들을 데리고 생계를 책임졌다",
+     "reason_en": "At fifteen she provided for her siblings"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "1896년 자서전의 절반을 지어내 팔았다",
+     "reason_en": "Sold a memoir half-invented for money"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "1878년 천연두 환자 곁에 남아 직접 돌봤다",
+     "reason_en": "Stayed to nurse the smallpox-stricken"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "히콕 곁에 묻히기를 바랐고 이뤄졌다",
+     "reason_en": "Won her wish: burial beside Wild Bill"
+    },
+    "benevolence": {
+     "score": 78,
+     "reason_ko": "기피된 천연두 환자 간호를 자처했다",
+     "reason_en": "Nursed patients everyone else avoided"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "남자들과 같은 일을 같은 일당으로 했다",
+     "reason_en": "Worked the same jobs as the men"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "커스터 휘하 복무를 스스로 주장했다",
+     "reason_en": "Claimed exploits records can't confirm"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "고아가 된 삶과 빈곤을 술로 넘겼다",
+     "reason_en": "Drowned a hard life in drink"
+    },
+    "conservative_progressive": {
+     "score": 35,
+     "reason_ko": "남장과 욕설로 여성의 자리를 넘어섰다",
+     "reason_en": "Lived and worked openly as a man"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "떠돌며 혼자 생계를 꾸린 부랑 생활",
+     "reason_en": "Drifted, living by her own hand"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "겁 없는 간호와 허세 가득한 행동",
+     "reason_en": "Fearless nursing, reckless habits"
+    }
+   },
+   "rationale_ko": "사실과 지어낸 이야기가 섞인 채 살았고 그 혼합이 전설을 키웠다. 기피된 천연두 환자 곁에 남은 선행이 실재한 바탕이고, 알코올은 말년의 몸을 갉아먹었다. 1903년 소원대로 와일드 빌 히콕 옆에 묻혔다.",
+   "rationale_en": "She lived half in fact, half in tall tales, and the mix made her a legend. Nursing smallpox patients others fled showed real nerve; drink wore out her last years. In 1903 she was buried beside Wild Bill, as she wished."
+  }
+ },
+ "버팔로 빌": {
+  "influence": {
+   "political": 2,
+   "political_exp": "미 정부 정탐으로 인디언 전쟁에 참여",
+   "political_exp_en": "Army scout in the Indian Wars",
+   "strategic": 2,
+   "strategic_exp": "제5기병대 수석 정탐으로 활동",
+   "strategic_exp_en": "Chief of scouts, Fifth Cavalry",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 4,
+   "social_exp": "원주민·여성 공연자를 정규 고용",
+   "social_exp_en": "Hired Native and women performers",
+   "economic": 6,
+   "economic_exp": "야외 서부쇼라는 관광 산업을 세움",
+   "economic_exp_en": "Built the touring Wild West industry",
+   "cultural": 7,
+   "cultural_exp": "서부 신화를 세계 대중문화로 만들었다",
+   "cultural_exp_en": "Sold the frontier myth worldwide",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "서부극 장르의 원형을 남김",
+   "transhistoricity_exp_en": "The Western genre descends from his show"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 85,
+     "reason_ko": "수백 명의 와일드 웨스트 쇼를 30년간 이끌었다",
+     "reason_en": "Ran a 300-person show for thirty years"
+    },
+    "martial": {
+     "score": 78,
+     "reason_ko": "정탐 복무로 명예훈장, 들소 수천 사냥",
+     "reason_en": "Medal of Honor scout and buffalo hunter"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "다임소설의 영웅 이미지를 사업으로 키웠다",
+     "reason_en": "Turned dime-novel fame into a business"
+    },
+    "charm": {
+     "score": 92,
+     "reason_ko": "1887년 빅토리아 여왕 앞에서도 객석을 채웠다",
+     "reason_en": "Filled seats before Queen Victoria"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "사업 실패와 재정난 속에 쇼를 잃었다",
+     "reason_en": "Bad deals cost him the show"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "30년 넘게 대륙과 대양을 넘나들며 순회했다",
+     "reason_en": "Toured continents for over thirty years"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "말년 재정난을 바로잡지 못한 채 쇼를 잃었다",
+     "reason_en": "Never recovered from late ruin"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "1876년 워보닛 크리크에서 전사와 맞섰다",
+     "reason_en": "Fought at Warbonnet Creek, 1876"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "시팅 불 등 원주민 출연진을 쇼에 기용했다",
+     "reason_en": "Kept Sitting Bull on his payroll"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "원주민 출연자에게 급여와 지위를 줬다",
+     "reason_en": "Paid Native performers real wages"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "출연진을 인종 가리지 않고 기용했다",
+     "reason_en": "Cast performers regardless of race"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "자기 이름을 제목으로 걸고 스스로 주연했다",
+     "reason_en": "Billed himself as the headline act"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "1893년 박람회 거절 뒤 옆 부지에서 최대 흥행",
+     "reason_en": "Rebuffed, posted his biggest season"
+    },
+    "conservative_progressive": {
+     "score": 25,
+     "reason_ko": "원주민과 여성 사수를 간판 스타로 세웠다",
+     "reason_en": "Starred Indians and a woman marksman"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "대규모 공연단을 가족처럼 끌고 다녔다",
+     "reason_en": "His troupe traveled like a family"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "전 재산을 걸고 대서양을 건너 공연했다",
+     "reason_en": "Bet the show on Atlantic crossings"
+    }
+   },
+   "rationale_ko": "정탐으로 쌓은 실전 이력을 무대 사업으로 환산한 드문 경력이다. 수백 명의 공연단을 30년간 유지한 통솔과 원주민·여성을 간판으로 쓴 감각이 세계 흥행을 만들었다. 말년 재정난으로 쇼를 잃고 1917년 덴버에서 죽었다.",
+   "rationale_en": "He converted real frontier service into show business — a rare trade. Command of a few hundred performers over thirty years and the nerve to star Native chiefs and a woman marksman built a global hit. Ruined by bad deals, he died in Denver in 1917."
+  }
+ },
+ "시팅 불": {
+  "influence": {
+   "political": 5,
+   "political_exp": "라코타 연합을 세워 미 정부와 대치",
+   "political_exp_en": "United the Lakota against the US",
+   "strategic": 5,
+   "strategic_exp": "리틀 빅혼에서 제7기병대를 전멸시킴",
+   "strategic_exp_en": "Destroyed Custer at Little Bighorn",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 6,
+   "social_exp": "고스트 댄스 탄압 속 원주민 저항의 상징",
+   "social_exp_en": "Enduring symbol of Native resistance",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 6,
+   "cultural_exp": "미국 대중문화의 원주민 아이콘",
+   "cultural_exp_en": "Icon of Native America in culture",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "식민 저항사에 새겨진 이름",
+   "transhistoricity_exp_en": "Name fixed in resistance history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "1868년 수천의 라코타를 통합한 수석 추장이 됐다",
+     "reason_en": "Raised supreme chief over the Lakota"
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "크로 족과의 전투에서 쿱을 세운 전사 출신",
+     "reason_en": "Counted coup in combat as a young man"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "환상과 정세 판단으로 부족 연합을 설계했다",
+     "reason_en": "Read visions and politics into alliance"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "부족이 기치 아래 모였고 쇼 관객도 따랐다",
+     "reason_en": "Tribes gathered; crowds applauded"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "썬댄스의 고행을 수차례 견뎌냈다",
+     "reason_en": "Endured repeated Sun Dance ordeals"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "캐나다 망명지에서 4년간 무리를 먹여 살렸다",
+     "reason_en": "Fed his people through Canadian exile"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "썬댄스 환상으로 뜻을 헤아리는 지도자였다",
+     "reason_en": "A leader who governed through visions"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1890년 체포에 저항하다 총에 맞아 죽었다",
+     "reason_en": "Died resisting arrest at dawn"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 88,
+     "reason_ko": "끝까지 수용지 이주를 거부하고 족 곁에 남았다",
+     "reason_en": "Never abandoned his people's claim"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "굶주린 추종자를 이끌고 망명지를 지켰다",
+     "reason_en": "Kept his starving followers in exile"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "전쟁과 평화를 부족들과 함께 결정했다",
+     "reason_en": "Decided war and peace with the bands"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "1881년 소총을 어린 아들 손으로 넘기게 해 항복했다",
+     "reason_en": "Surrendered his rifle through his son"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "대승 뒤에도 미국의 총공세를 예상했다",
+     "reason_en": "Saw the reprisal beyond victory"
+    },
+    "conservative_progressive": {
+     "score": -30,
+     "reason_ko": "전통 수렵 생활의 붕괴를 끝까지 거부했다",
+     "reason_en": "Refused the end of the old hunting life"
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "부족 연합과 공동체 수호에 생애를 바쳤다",
+     "reason_en": "His life was the tribe's survival"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "대승을 거둔 뒤에도 연합 유지를 앞세웠다",
+     "reason_en": "Won big yet guarded the alliance"
+    }
+   },
+   "rationale_ko": "전사로 쌓은 명성을 예언과 연합의 정치로 바꾼 지도자다. 리틀 빅혼의 대승이 전멸전을 불렀음을 알면서도 저항을 택했다. 1890년 체포에 저항하다 인디언 경찰의 총에 죽었다.",
+   "rationale_en": "A warrior's fame became prophetic, unifying politics. Knowing the triumph at Little Bighorn would bring total war, he still chose resistance. In 1890 he died resisting arrest by agency police."
+  }
+ },
+ "제로니모": {
+  "influence": {
+   "political": 3,
+   "political_exp": "원주민 전쟁의 마지막 항복 주인공",
+   "political_exp_en": "His surrender ended the Indian Wars",
+   "strategic": 5,
+   "strategic_exp": "수천 명의 군대를 수년간 끈 게릴라전",
+   "strategic_exp_en": "Tied down 5,000 troops for years",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 4,
+   "social_exp": "23년 포로 처우로 원주민 문제를 드러냄",
+   "social_exp_en": "His captivity exposed POW injustice",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 6,
+   "cultural_exp": "낙하산병 구호로 남은 이름",
+   "cultural_exp_en": "Paratroopers still shout his name",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "미군 전통에까지 새겨진 게릴라 이름",
+   "transhistoricity_exp_en": "His name lives in airborne tradition"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "추장은 아니었으나 수십 전사의 탈출을 지휘했다",
+     "reason_en": "Led the breakouts though not chief"
+    },
+    "martial": {
+     "score": 85,
+     "reason_ko": "30년간 양국 군대와 게릴라전을 치른 전사",
+     "reason_en": "Thirty years a guerrilla fighter"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "5천 명 추격을 수년간 따돌린 전술 감각",
+     "reason_en": "Outwitted 5,000 pursuers for years"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "1904년 박람회에서 자필 서명이 팔렸다",
+     "reason_en": "His autographs sold at the fair"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "평생 복수전을 이었고 술에 넘어져 죽었다",
+     "reason_en": "Lifelong raids, a drunken end"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "수용지 탈출과 귀환을 수차례 반복하며 버텼다",
+     "reason_en": "Broke out and fought on for decades"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "죽기 전 조카에게 항복을 후회한다고 말했다",
+     "reason_en": "He said he regretted surrendering"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "수천 대 수십의 전력차에도 끝까지 싸웠다",
+     "reason_en": "Fought thousands with dozens"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "학살된 가족의 원수를 평생 갚으려 했다",
+     "reason_en": "Avenged his murdered family for life"
+    },
+    "benevolence": {
+     "score": 25,
+     "reason_ko": "30년 약탈전이 국경 민간인 피해를 낳았다",
+     "reason_en": "His raids cost border civilians"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "복수 대상 구분 없이 약탈을 이어갔다",
+     "reason_en": "Raids made few distinctions"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "대통령 행렬과 박람회에 스스로 섰다",
+     "reason_en": "Rode in Roosevelt's parade, sold photos"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "항복 뒤에도 고향 귀환을 끝내 의심했다",
+     "reason_en": "He never trusted promises of return"
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "강제 이주와 수용 생활을 거부했다",
+     "reason_en": "Rejected forced reservation life"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "무리를 이끌었으나 복수는 개인의 것이었다",
+     "reason_en": "Led a band on a private vengeance"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "수천의 추격 아래서도 탈출을 반복했다",
+     "reason_en": "Broke out under massive pursuit"
+    }
+   },
+   "rationale_ko": "가족 학살이 그를 30년 복수의 전사로 만들었다. 수십 명으로 수천의 군대를 끈 게릴라 감각은 최상급이고, 추장이 아니면서 탈출전을 지휘했다. 23년 포로 끝에 1909년 포트 실에서 죽었다.",
+   "rationale_en": "The massacre of his family made him a thirty-year warrior of revenge. Dozens of his fighters tied down thousands of troops; never a chief, he still led the breakouts. After 23 years a prisoner, he died at Fort Sill in 1909."
+  }
+ },
+ "크레이지 호스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "조약 서명을 끝내 거부한 저항 지도자",
+   "political_exp_en": "Never signed a treaty; kept the Hills",
+   "strategic": 5,
+   "strategic_exp": "로즈버드·리틀 빅혼 두 전투의 승리 지휘",
+   "strategic_exp_en": "Won at the Rosebud and Little Bighorn",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 4,
+   "social_exp": "저항 원주민의 상징으로 남음",
+   "social_exp_en": "Symbol of uncompromising resistance",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 6,
+   "cultural_exp": "산 조각으로 새겨지는 전설",
+   "cultural_exp_en": "Carved into a mountain as legend",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "사진 없이도 대형 기념물이 남은 전사",
+   "transhistoricity_exp_en": "Unphotographed, yet monumental"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "1876년 리틀 빅혼에서 수백 전사의 돌격을 지휘했다",
+     "reason_en": "Led the assault at Little Bighorn"
+    },
+    "martial": {
+     "score": 88,
+     "reason_ko": "페터먼 매복의 미끼에서 돌격까지 전선을 누볐다",
+     "reason_en": "Front-line warrior from decoy to charge"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "1866년 유인 전술로 페터먼 부대를 전멸시켰다",
+     "reason_en": "His decoy work destroyed Fetterman's men"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "사진 없이도 족 내외의 추앙을 받았다",
+     "reason_en": "Revered though never photographed"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "전사의 절제된 생활 방식을 지켰다",
+     "reason_en": "Lived the disciplined warrior's code"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "수년간 블랙 힐스의 유격 생활을 지속했다",
+     "reason_en": "Years of guerrilla life in the Hills"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "무리의 굶주림 앞에서 항복을 스스로 택했다",
+     "reason_en": "Chose surrender when his people starved"
+    },
+    "courage": {
+     "score": 92,
+     "reason_ko": "조약 거부·전선 돌격·감금 저항으로 일관했다",
+     "reason_en": "Defied treaty, charged, resisted custody"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 88,
+     "reason_ko": "서명하지 않고 블랙 힐스에 끝까지 남았다",
+     "reason_en": "Never signed; stayed in the Black Hills"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "굶주린 무리를 위해 항복을 택했다",
+     "reason_en": "Surrendered so his people might eat"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "전공 배분에서 자기 몫을 앞세우지 않았다",
+     "reason_en": "Took no special share of honors"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "사진 촬영을 한 번도 허락하지 않았다",
+     "reason_en": "Never allowed a single photograph"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "대승 뒤 미국의 총공세를 직감하고 싸웠다",
+     "reason_en": "Fought on knowing the cost"
+    },
+    "conservative_progressive": {
+     "score": -30,
+     "reason_ko": "수용지 이주라는 새 질서를 거부했다",
+     "reason_en": "Refused the reservation order"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "족의 생존을 자기 안위보다 앞세웠다",
+     "reason_en": "Put the band's survival above safety"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "열세 병력에도 유인과 돌격을 감행했다",
+     "reason_en": "Ambushed and charged larger forces"
+    }
+   },
+   "rationale_ko": "전술의 냉정함과 돌격의 용맹이 한 몸에 있던 전사다. 조약에 서명하지 않고 블랙 힐스에 남은 고집이 족의 최후 저항을 만들었다. 사진을 거부한 그는 1877년 수용소의 총검으로 죽었다.",
+   "rationale_en": "Cold tactics and hot-blooded charges lived in one warrior. Refusing every treaty, he stayed in the Black Hills and made the tribe's last stand. Never photographed, he died on a guard's bayonet in 1877."
+  }
+ },
+ "콰나 파커": {
+  "influence": {
+   "political": 5,
+   "political_exp": "항복 뒤 연방이 상대한 수석 추장이 됨",
+   "political_exp_en": "Became the chief Washington dealt with",
+   "strategic": 3,
+   "strategic_exp": "어도비 월스 등 전투 지휘 경험",
+   "strategic_exp_en": "Led the assault on Adobe Walls",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 5,
+   "social_exp": "전사에서 목장주로 족의 전환을 이끎",
+   "social_exp_en": "Led his people into the reservation era",
+   "economic": 3,
+   "economic_exp": "코만치 사회에 목축업을 도입",
+   "economic_exp_en": "Brought cattle ranching to the Comanche",
+   "cultural": 5,
+   "cultural_exp": "납치 서사와 원주민 적응의 양면 아이콘",
+   "cultural_exp_en": "Icon of both captivity and adaptation",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "텍사스-코만치사의 핵심 인물",
+   "transhistoricity_exp_en": "Central figure of Comanche history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "수백 전사를 이끌고 항복 뒤엔 족 전체를 이끌었다",
+     "reason_en": "Led the Quahadi then the whole nation"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "약탈 전사로 이름을 떨친 코만치 기마 전투력",
+     "reason_en": "Feared raider of the plains"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "전사에서 목장주·정치가로 스스로 전환했다",
+     "reason_en": "Reinvented himself as rancher-politician"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "1905년 루스벨트의 늑대 사냥 안내를 맡았다",
+     "reason_en": "Guided Theodore Roosevelt's wolf hunt"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "일곱 아내와 대저택을 거느린 호사",
+     "reason_en": "Seven wives and a mansion of stars"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "항복 뒤 목축업을 배워 대목장주가 됐다",
+     "reason_en": "Learned ranching into a great herd"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "어머니의 성을 스스로 택해 세계관을 다듬었다",
+     "reason_en": "Took his mother's name, bridged worlds"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1874년 수백 전사로 들소 사냥꾼 기지를 쳤다",
+     "reason_en": "Led hundreds against Adobe Walls"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "전쟁과 평화 양쪽에서 족을 끝까지 이끌었다",
+     "reason_en": "Led his people in war and peace"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "토지 권리를 대통령에게 직접 건의했다",
+     "reason_en": "Pressed his people's land claims"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "수용지의 인디언 법정 재판관을 지냈다",
+     "reason_en": "Sat as a Court of Indian Offenses judge"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "두 문화 사이에서 어느 한쪽도 부인하지 않았다",
+     "reason_en": "Denied neither of his two worlds"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "패배를 인정하고 새 생계를 곧장 배웠다",
+     "reason_en": "Accepted defeat and built anew"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "전통 의례를 지키면서 백인식 생업을 받아들였다",
+     "reason_en": "Kept rites yet took up white livelihoods"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "족 전체의 생존을 자기 역할로 삼았다",
+     "reason_en": "Made his life the tribe's survival"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "1875년 마지막 자유 무리의 항복을 결정했다",
+     "reason_en": "Chose the moment of final surrender"
+    }
+   },
+   "rationale_ko": "전사의 용맹과 정치가의 적응이 같은 사람 안에서 이어졌다. 패배를 인정한 뒤 목축업과 협상으로 족을 먹여 살렸고, 대통령과 사냥하며 토지 권리를 건의했다. 어머니의 성을 택한 선택이 두 세계의 다리가 됐다.",
+   "rationale_en": "Warrior's courage and politician's adaptability ran in the same man. Accepting defeat, he fed his people through ranching and pressed land claims while hunting with a president. Taking his mother's name, he became the bridge between two worlds."
+  }
+ },
+ "사카가위아": {
+  "influence": {
+   "political": 3,
+   "political_exp": "원정 성공으로 미국의 태평양 진출을 도움",
+   "political_exp_en": "Helped open the Pacific to the US",
+   "strategic": 1,
+   "strategic_exp": "존재 자체가 전쟁 원정 아님을 알렸다",
+   "strategic_exp_en": "Her presence signaled peaceful intent",
+   "tech": 1,
+   "tech_exp": "식물·지형 지식으로 원정을 보조",
+   "tech_exp_en": "Supplied plant and terrain knowledge",
+   "social": 4,
+   "social_exp": "여성 참정권 운동의 상징으로 소환됨",
+   "social_exp_en": "Suffragists adopted her as a symbol",
+   "economic": 1,
+   "economic_exp": "초기 서부 교역의 통역 연결고리",
+   "economic_exp_en": "A link in early western trade",
+   "cultural": 6,
+   "cultural_exp": "1달러 동전의 얼굴이 된 여성 안내자",
+   "cultural_exp_en": "Her face went on the dollar coin",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "미국 개척 서사의 영구적 상징",
+   "transhistoricity_exp_en": "Permanent emblem of the western saga"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "안내와 통역으로 원정대를 보좌했다",
+     "reason_en": "Served as guide and interpreter"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "갓난아이를 업고 왕복 8천 km를 걸었다",
+     "reason_en": "Marched 8,000 km with an infant"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "쇼쇼니어 통역과 지형·식물 지식을 제공했다",
+     "reason_en": "Gave the corps language and terrain"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "원정 일지가 남긴 존재감으로 후대의 인물이 됐다",
+     "reason_en": "The journals made her unforgettable"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "1805년 카누 전복 속에서도 침착하게 물건을 건졌다",
+     "reason_en": "Calm amid a capsized canoe"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "아이를 업은 채 행군을 끝까지 함께했다",
+     "reason_en": "Marched the whole way, baby on her back"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "고향에서 오빠를 만나고도 원정을 계속했다",
+     "reason_en": "Rejoined the march after reunion"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "납치·매매를 겪고도 미지의 서쪽으로 나아갔다",
+     "reason_en": "Crossed unknown lands after captivity"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "오빠와 재회한 뒤에도 원정대를 끝까지 따랐다",
+     "reason_en": "Stayed with the corps to the Pacific"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "전복된 카누에서 기록물과 약품을 건져냈다",
+     "reason_en": "Saved the journals from the river"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "표결권 없이도 몫의 일을 수행했다",
+     "reason_en": "Did her share without a vote"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "공을 내세우지 않고 조용히 길을 찾았다",
+     "reason_en": "Found the way without claiming it"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "납치된 삶을 원정의 기회로 바꿨다",
+     "reason_en": "Turned captivity into an expedition"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "족내 지위나 제도에 대한 입장이 전하지 않는다",
+     "reason_en": "No stance on order is recorded"
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "원정대 공동체의 성공에 헌신했다",
+     "reason_en": "Served the corps' common purpose"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "갓난아이와 함께 대륙 횡단에 나섰다",
+     "reason_en": "Crossed a continent with a newborn"
+    }
+   },
+   "rationale_ko": "납치와 매매를 겪은 소녀가 원정대의 길잡이가 됐다. 카누 전복의 침착함과 8천 km 행군의 지구력이 원정 성공의 조건이 됐고, 쇼쇼니 마을의 재회가 말을 구해줬다. 1812년 포트 매뉴얼에서 젊은 나이로 죽었다.",
+   "rationale_en": "Kidnapped and sold, she became the expedition's guide. Her calm in the capsized canoe and endurance over 8,000 km helped the corps succeed, and her reunion with the Shoshone bought the horses they needed. She died young at Fort Manuel in 1812."
+  }
+ },
+ "세쿼야": {
+  "influence": {
+   "political": 4,
+   "political_exp": "문자가 체로키 자치의 도구가 됨",
+   "political_exp_en": "His script served Cherokee self-rule",
+   "strategic": 0,
+   "strategic_exp": "전략 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 4,
+   "tech_exp": "86자 음절문자를 홀로 설계·완성",
+   "tech_exp_en": "Single-handedly designed a syllabary",
+   "social": 7,
+   "social_exp": "몇 년 새 한 민족을 문해 사회로 바꿨다",
+   "social_exp_en": "Made a whole nation literate in years",
+   "economic": 1,
+   "economic_exp": "신문 인쇄와 공예 교역에 기여",
+   "economic_exp_en": "Enabled print and craft trade",
+   "cultural": 7,
+   "cultural_exp": "체로키어 신문과 기록 문화의 토대",
+   "cultural_exp_en": "Foundation of Cherokee print culture",
+   "transhistoricity": 22,
+   "transhistoricity_exp": "현존하는 유일한 단독 문자 창제 사례",
+   "transhistoricity_exp_en": "Sole inventor of a writing system"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "1828년 워싱턴 대표단으로 조약 협상에 임했다",
+     "reason_en": "Joined treaty delegations to Washington"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "은세공과 상인으로 생계를 잇는 장인 생활",
+     "reason_en": "A working silversmith and trader"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "알파벳 없이 소리를 분석해 문자 체계를 세웠다",
+     "reason_en": "Analyzed speech into 86 signs alone"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "'말하는 잎'의 발명가로 족 안팎의 존경을 받았다",
+     "reason_en": "Honored as the maker of talking leaves"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "조롱과 방화 속에서도 연구 태도를 지켰다",
+     "reason_en": "Kept working through mockery and arson"
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "12년간 혼자 말소리를 나눠 문자를 완성했다",
+     "reason_en": "Twelve solitary years on one script"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "딸과의 시연으로 배우기 쉬운 체계로 다듬었다",
+     "reason_en": "Refined it until anyone could learn"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "미치광이 소리를 들으며도 연구를 멈추지 않았다",
+     "reason_en": "Worked on though called mad"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "발명을 개인 재산이 아니라 족의 것으로 바쳤다",
+     "reason_en": "Gave his script to the whole nation"
+    },
+    "benevolence": {
+     "score": 75,
+     "reason_ko": "모두가 며칠 만에 배우는 글을 만들었다",
+     "reason_en": "Made letters anyone could learn in days"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "문자를 지위와 무관하게 모두에게 열었다",
+     "reason_en": "Opened literacy to all ranks"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "추장 자리나 명성보다 장인의 삶을 지켰다",
+     "reason_en": "Stayed a craftsman, never a chief"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "족이 읽는 사회가 온다고 믿고 밀어붙였다",
+     "reason_en": "Believed his nation would read"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "새 문자라는 변화로 족의 생존을 꾀했다",
+     "reason_en": "Sought survival through a new invention"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "홀로 연구했으나 목적은 공동체 문해였다",
+     "reason_en": "Worked alone for the nation's literacy"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "1843년 '잃어버린 체로키'를 찾아 멕시코로 나섰다",
+     "reason_en": "Rode to Mexico seeking lost Cherokees"
+    }
+   },
+   "rationale_ko": "알파벳을 모른 채 소리를 나눠 문자를 세운 독보적 발명가다. 12년의 고독한 연구가 며칠이면 배우는 체계로 귀결됐고, 족 전체가 문해 민족이 됐다. 1843년 '잃어버린 체로키'를 찾아 나선 멕시코에서 죽었다.",
+   "rationale_en": "Illiterate in English, he split speech into signs and built a script — a singular feat. Twelve solitary years yielded a system learnable in days, and his nation became literate. In 1843 he died in Mexico seeking a lost Cherokee band."
+  }
+ },
+ "이시": {
+  "influence": {
+   "political": 2,
+   "political_exp": "학살 생존자로 원주민 문제를 드러냄",
+   "political_exp_en": "Embodied the fate of Native peoples",
+   "strategic": 0,
+   "strategic_exp": "전략 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 3,
+   "tech_exp": "야히어와 공예 기록을 인류학에 남김",
+   "tech_exp_en": "Preserved a language for anthropology",
+   "social": 5,
+   "social_exp": "골드러시 학살의 얼굴이 돼 인식을 바꿨다",
+   "social_exp_en": "Humanized a massacred people",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 5,
+   "cultural_exp": "'마지막 야생 인디언'으로 책·영화 소재",
+   "cultural_exp_en": "Subject of enduring books and films",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "소멸한 민족의 마지막 증인",
+   "transhistoricity_exp_en": "Last witness of an extinguished nation"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "박물관 수위로 일하며 이끈 조직이 없었다",
+     "reason_en": "Worked as a museum janitor"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "반세기를 산속에서 사냥과 제작으로 버텼다",
+     "reason_en": "Decades surviving by bow and craft"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "언어·노래·활 제작을 학계 기록으로 남겼다",
+     "reason_en": "Taught language and bowcraft to science"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "온화한 태도로 학자들과 방문객의 신뢰를 얻었다",
+     "reason_en": "Won scholars' trust with quiet warmth"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "전시 대상이 된 처지에서도 품위를 지켰다",
+     "reason_en": "Kept his dignity as an exhibit"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "1911년부터 새피어 등과 언어 기록을 이어갔다",
+     "reason_en": "Recorded his tongue for years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "과거를 조용히 간직한 채 현재의 역할을 했다",
+     "reason_en": "Carried his past in silence"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "반세기 은신 끝에 낯선 세상으로 홀로 나왔다",
+     "reason_en": "Walked alone into an alien world"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "족의 관습대로 본명을 끝내 밝히지 않았다",
+     "reason_en": "Kept his true name secret to the end"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "찾아온 이들에게 활 만들기를 가르쳤다",
+     "reason_en": "Taught visitors his bowcraft"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "관찰 대상의 처지에서도 같은 예의를 지켰다",
+     "reason_en": "Held to courtesy amid scrutiny"
+    },
+    "humility": {
+     "score": 75,
+     "reason_ko": "'사람'이라는 뜻의 이름 외에 내세우지 않았다",
+     "reason_en": "Answered only to 'man'"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "족 전체를 잃고도 하루하루를 살아냈다",
+     "reason_en": "Lived on after losing everyone"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "전통 관습과 언어를 끝까지 지켰다",
+     "reason_en": "Kept the old customs and tongue"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "마지막 생존자로 홀로 세월을 이었다",
+     "reason_en": "Alone by fate, not by choice"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "1911년 걸어 나온 결정 하나가 생애를 바꿨다",
+     "reason_en": "One walk changed everything"
+    }
+   },
+   "rationale_ko": "반세기의 은신이 인내와 절제를 길러냈다. 본명을 끝내 감춘 고집이 사라진 족에 대한 마지막 충성이 됐고, 언어 기록 작업이 야히의 자취를 남겼다. 1916년 샌프란시스코 박물관에서 결핵으로 죽었다.",
+   "rationale_en": "Half a century in hiding bred his patience and restraint. Concealing his true name became his last loyalty to a vanished people, and the recording work preserved Yahi itself. He died of tuberculosis at the museum in 1916."
+  }
+ },
+ "짐 브리저": {
+  "influence": {
+   "political": 2,
+   "political_exp": "모르몬 선발대에 소금호수 경로를 알려줬다",
+   "political_exp_en": "Advised the Mormon migration route",
+   "strategic": 3,
+   "strategic_exp": "육군 레이놀즈 탐험대 수석 안내",
+   "strategic_exp_en": "Chief guide to Army expeditions",
+   "tech": 1,
+   "tech_exp": "지형 지식이 공식 지도에 반영됐다",
+   "tech_exp_en": "His knowledge entered official maps",
+   "social": 2,
+   "social_exp": "세 부족 여성과 혼인해 사이를 잇다",
+   "social_exp_en": "Married into three tribes",
+   "economic": 4,
+   "economic_exp": "오리건 트레일 위 이민 보급 초소를 세움",
+   "economic_exp_en": "Ran a key supply post on the trail",
+   "cultural": 5,
+   "cultural_exp": "허풍과 실력의 산 사나이 원형",
+   "cultural_exp_en": "Prototype of the mountain man",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "고개·초소·길에 남은 이름",
+   "transhistoricity_exp_en": "His name is on the map of the West"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "1843년 브리저 초소를 세워 이민 행렬을 상대했다",
+     "reason_en": "Ran Fort Bridger for the wagon trains"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "수십 년 로키의 겨울과 위험을 견뎌낸 산 사나이",
+     "reason_en": "Decades surviving the Rocky winters"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "1824년 소금호수를 최초로 서구에 보고했다",
+     "reason_en": "First to report Salt Lake and geysers"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "과장된 이야기로 개척지의 유명인이 됐다",
+     "reason_en": "Famous for his towering tales"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "모피 시절의 방탕과 말년의 근면이 섞였다",
+     "reason_en": "Wild years, then settled work"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "안내·교역·측량 협력을 수십 년 이었다",
+     "reason_en": "Guided and traded for forty years"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "1853년 초소를 빼앗기고도 처신을 바꾸지 않았다",
+     "reason_en": "Lost his fort, changed little"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "미지의 산악과 적대 지대를 반복해서 건넜다",
+     "reason_en": "Crossed hostile, unmapped country"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "세 부족과의 혼인으로 산과 족 사이를 지켰다",
+     "reason_en": "Bound to three tribes by marriage"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "이민 행렬에 식량과 길을 팔아 생존을 도왔다",
+     "reason_en": "His post kept emigrants alive"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "이민자와 원주민을 가리지 않고 거래했다",
+     "reason_en": "Traded with emigrant and Indian alike"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "발견담을 부풀려 말하던 이야기꾼",
+     "reason_en": "Embellished his own discoveries"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "모피가 시들자 초소와 안내로 업을 옮겼다",
+     "reason_en": "Shifted trades as the West changed"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "부족 사이를 오가며 경계를 넘나들었다",
+     "reason_en": "Crossed the lines between tribes"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "평생 산속과 길 위에서 혼자 움직였다",
+     "reason_en": "A lone rider of the mountains"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "미지의 유역과 겨울 산맥을 먼저 걸었다",
+     "reason_en": "First into unmapped basins"
+    }
+   },
+   "rationale_ko": "산 사나이의 생존력과 이야기꾼의 과장이 한 사람에 겹쳐 있다. 소금호수와 옐로스톤을 먼저 보고도 거짓말쟁이로 불렸으나 시간이 사실을 증명했다. 브리저 초소로 이민 물결의 보급점을 만들고 1881년 농장에서 죽었다.",
+   "rationale_en": "A mountain man's survival wrapped in a yarn-spinner's exaggeration. He saw the Salt Lake and Yellowstone first and was called a liar — time proved him right. He built Fort Bridger on the emigrant road and died on his farm in 1881."
+  }
+ },
+ "윌리엄 키드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "해적 재판이 런던 정계 스캔들이 됨",
+   "political_exp_en": "His trial shook Whig politics",
+   "strategic": 1,
+   "strategic_exp": "왕실 사략 면허로 해적 사냥에 나섰다",
+   "strategic_exp_en": "Held a royal letter of marque",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 2,
+   "social_exp": "해적법과 사략 경계의 대표 사례",
+   "social_exp_en": "Test case of privateer vs pirate",
+   "economic": 1,
+   "economic_exp": "나포 전리품으로 투자 구조를 움직였다",
+   "economic_exp_en": "Sailed on investor prize money",
+   "cultural": 6,
+   "cultural_exp": "묻힌 보물 전설로 보물찾기 문화를 열었다",
+   "cultural_exp_en": "Father of the buried-treasure legend",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "해적 신화에 남은 상징적 이름",
+   "transhistoricity_exp_en": "A fixture of pirate mythology"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "선원 수십과 34문 갤리선을 이끌고 대양을 누볐다",
+     "reason_en": "Captained the 34-gun Adventure Galley"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "카리브 사략전과 인도양 항해의 선원 생활",
+     "reason_en": "Seasoned privateer of two oceans"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "후원자와 총독을 설득해 사략 면허를 따냈다",
+     "reason_en": "Talked governors into a commission"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "뉴욕 사교계의 신사로 자리 잡았다",
+     "reason_en": "Rose into New York society"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "부하 통제를 잃고 상황 판단도 흔들렸다",
+     "reason_en": "Lost both crew and judgment"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "1696년 해적 사냥 원정을 끝까지 수행했다",
+     "reason_en": "Saw the hunt through to ruin"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "1701년 재판과 교수대까지 결백을 주장했다",
+     "reason_en": "Protested innocence to the gallows"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "1696년 무장 상선으로 인도양 원정을 감행했다",
+     "reason_en": "Sailed armed into the Indian Ocean"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "부하는 도망치고 후원자는 그를 체포했다",
+     "reason_en": "Crew deserted; patrons gave him up"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "격분해 부하 무어를 내리쳐 죽게 했다",
+     "reason_en": "Killed his own gunner in a rage"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "프랑스 통행증의 나포 하나로 해적이 됐다",
+     "reason_en": "Took a lawful prize, branded pirate"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "부유한 과부와 혼인해 신분 상승을 꾀했다",
+     "reason_en": "Married up into moneyed society"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "결백을 믿고 직접 항변하러 돌아갔다",
+     "reason_en": "Returned sure he could clear himself"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "왕실 면허 안에서 움직인 기존 질서의 사람",
+     "reason_en": "A man of the licensed order"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "후원자 틀 안에서 단독 선장으로 행동했다",
+     "reason_en": "Sailed alone inside his backers' frame"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "의심받는 나포를 끝까지 지키다 수배됐다",
+     "reason_en": "Kept the fatal prize too long"
+    }
+   },
+   "rationale_ko": "면허 받은 사냥꾼과 해적 사이의 선을 넘나든 선장이다. 나포 하나가 그를 해적으로 만들었고, 후원자들은 정치 계산으로 그를 넘겼다. 1701년 익스큐션 독에서 교수형에 처해졌다.",
+   "rationale_en": "A captain who crossed the thin line between licensed hunter and pirate. One disputed prize branded him, and his backers traded him for political cover. In 1701 he was hanged at Execution Dock."
+  }
+ },
+ "메리 리드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 기여 없음",
+   "political_exp_en": "None in politics",
+   "strategic": 1,
+   "strategic_exp": "남장한 채 플란더스 전선을 복무했다",
+   "strategic_exp_en": "Served disguised in Flanders",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 3,
+   "social_exp": "해적 황금기에 여성 전사가 있음을 남겼다",
+   "social_exp_en": "Proof that women fought as pirates",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 5,
+   "cultural_exp": "앤 보니와 함께 해적 문화의 아이콘",
+   "cultural_exp_en": "With Bonny, an icon of pirate lore",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "대중문화가 반복 소환하는 여성 해적",
+   "transhistoricity_exp_en": "Recast endlessly in popular culture"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "선원으로 싸웠으나 선장을 맡은 적은 없다",
+     "reason_en": "A fighter, never the captain"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "남장으로 육군·상선·해적선을 거치며 싸웠다",
+     "reason_en": "Fought in army and on pirate decks"
+    },
+    "intellect": {
+     "score": 40,
+     "reason_ko": "남장 위장과 해상 생활의 실전 지혜",
+     "reason_en": "Survived on disguise and seamanship"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "1720년 재판 기록으로 해적사에 새겨졌다",
+     "reason_en": "Immortalized by trial and tale"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "해적 무리의 방탕한 생활을 함께했다",
+     "reason_en": "Shared the pirate crew's disorder"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "남편 죽음 뒤 다시 군복을 입고 바다로 갔다",
+     "reason_en": "Re-enlisted after her husband died"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "사형 선고 뒤 임신을 호소해 목숨을 이었다",
+     "reason_en": "Pleaded her belly at sentencing"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1720년 남자들이 숨을 때 갑판에서 끝까지 싸웠다",
+     "reason_en": "Fought on deck while the men hid"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "앤 보니와 정체를 나누고 함께 저항했다",
+     "reason_en": "Stood with Bonny to the last"
+    },
+    "benevolence": {
+     "score": 40,
+     "reason_ko": "해적 생활 속 자비의 기록이 드물다",
+     "reason_en": "Little mercy in a pirate's life"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "해적단의 전리품 관행에 몸을 맡겼다",
+     "reason_en": "Lived by the crew's share rules"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "전장에서 이름을 떨치기를 즐겼다",
+     "reason_en": "Glad to be known as fierce"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "남장의 위기마다 행동으로 돌파했다",
+     "reason_en": "Met each crisis head-on"
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "남장으로 군대와 해적단의 성별 질서를 깼다",
+     "reason_en": "Broke the sex rules of army and crew"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "남장 뒤에 숨어 자기 길을 직접 골랐다",
+     "reason_en": "Chose her own road in disguise"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "나포의 순간에도 항복 대신 총을 택했다",
+     "reason_en": "Chose her pistols over surrender"
+    }
+   },
+   "rationale_ko": "남장으로 시작된 삶이 군대와 해적선을 거쳐 전설이 됐다. 정체가 드러난 뒤에도 더 사납게 싸웠고, 나포의 순간 남자들이 숨은 갑판 위에 남았다. 1721년 감옥의 열병이 교수대보다 먼저 그녀를 데려갔다.",
+   "rationale_en": "A life begun in men's clothes ran through army and pirate deck into legend. Exposed, she fought the harder; at the capture she stayed above decks while the men hid below. Prison fever took her in 1721 before the gallows could."
+  }
+ }
+}

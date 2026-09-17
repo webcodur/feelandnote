@@ -26,7 +26,7 @@ interface TagRow {
 
 interface TagAssignmentRow {
   celeb_id: string;
-  tag_id: string;
+  lv2_id: string;
   celeb: {
     id: string;
     nickname: string;
@@ -43,7 +43,7 @@ interface TagAssignmentRow {
  * 서로 겹치지 않는 퍼즐 풀을 만든다.
  *
  * 겹침 방지 전략:
- * 1. 태그 묶음: celeb_tag_assignments에서 인원 4명 이상인 태그를 후보로 삼는다.
+ * 1. 세력 묶음: faction_members에서 인원 4명 이상인 세력을 후보로 삼는다.
  * 2. 직군 묶음: 같은 직군 인물 중 국적이 모두 다른 4명을 뽑는다.
  * 3. 국적 묶음: 같은 국적 인물 중 직군이 모두 다른 4명을 뽑는다.
  * 4. 최종 조합 시 인물 중복이 없도록 필터.
@@ -51,23 +51,23 @@ interface TagAssignmentRow {
 async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   const db = createStaticClient();
 
-  // 1) 인원 4명 이상인 세력 태그 조회
+  // 1) 활성 세력(lv2) 조회 — 배정은 세력에 붙으므로 테마(lv1)가 아니라 lv2를 읽는다
   const { data: tags, error: tagError } = await db
-    .from("celeb_tags")
+    .from("faction_lv2")
     .select("id, name, name_en, slug")
-    .is("parent_id", null) // 최상위 태그만
+    .eq("is_featured", true)
     .overrideTypes<TagRow[], { merge: false }>();
 
   if (tagError) throw new Error(`[getGroupsPool] tags: ${tagError.message}`);
 
-  // 2) 태그별 인물 조회
+  // 2) 세력별 인물 조회
   // 배정이 3천 행을 넘어 한 번에 받으면 1,000행에서 잘린다 — 나눠 받는다
   const assignments = await selectAllPages<TagAssignmentRow>((from, to) => db
-    .from("celeb_tag_assignments")
+    .from("faction_members")
     .select(`
       celeb_id,
-      tag_id,
-      celeb:celebs!celeb_tags_celebs_fkey (
+      lv2_id,
+      celeb:celebs!faction_members_celeb_id_fkey (
         id, nickname, nickname_en, avatar_url, profession, nationality, publication_status
       )
     `)
@@ -84,9 +84,9 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   const assignmentsByTag = new Map<string, TagAssignmentRow[]>();
   for (const a of assignments ?? []) {
     if (!a.celeb || a.celeb.publication_status !== "active") continue;
-    const arr = assignmentsByTag.get(a.tag_id) ?? [];
+    const arr = assignmentsByTag.get(a.lv2_id) ?? [];
     arr.push(a);
-    assignmentsByTag.set(a.tag_id, arr);
+    assignmentsByTag.set(a.lv2_id, arr);
   }
 
   for (const [tagId, tagAssignments] of assignmentsByTag.entries()) {

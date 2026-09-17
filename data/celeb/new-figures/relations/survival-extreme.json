@@ -1,0 +1,652 @@
+{
+ "휴 글래스": {
+  "relations": [
+   {
+    "to_en": "John S. Fitzgerald",
+    "to_ko": "존 피츠제럴드",
+    "rel_type": "colleague",
+    "note_ko": "같은 애슐리 원정대의 사냥꾼 피츠제럴드는 곰에게 찢긴 글래스를 돌보겠다고 남았다가 총과 장비를 챙겨 그를 버리고 떠났고, 글래스는 그를 찾아 300km를 기어갔다.",
+    "note_en": "Fellow Ashley's Hundred trapper Fitzgerald volunteered to tend the mauled Glass, then took his rifle and gear and left him — the man Glass crawled 300km to confront.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jim Bridger",
+    "to_ko": "짐 브리저",
+    "rel_type": "colleague",
+    "note_ko": "열아홉의 신참 사냥꾼 브리저는 피츠제럴드와 함께 글래스를 버리고 떠난 두 사람 중 하나였고, 훗날 전설적인 산악인이 됐다.",
+    "note_en": "Nineteen-year-old Bridger was the second man who stayed with Glass then abandoned him with Fitzgerald; he later became a legendary mountain man.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "알렉산더 셀커크": {
+  "relations": [
+   {
+    "to_en": "Woodes Rogers",
+    "to_ko": "우즈 로저스",
+    "rel_type": "colleague",
+    "note_ko": "1709년 사략선 듀크호를 이끈 로저스는 후안 페르난데스섬에서 셀커크를 건져 항해사로 기용해 영국까지 데려왔다.",
+    "note_en": "Privateer captain Rogers found Selkirk on the Juan Fernández island in 1709, signed him on as a mate aboard the Duke, and brought him home.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "William Dampier",
+    "to_ko": "윌리엄 댐피어",
+    "rel_type": "colleague",
+    "note_ko": "댐피어는 셀커크가 버려진 1703년 원정의 총지휘관이었고, 1709년에는 구조선의 조종사로 승선해 그와 재회했다.",
+    "note_en": "Dampier commanded the 1703 expedition on which Selkirk was marooned, then sailed as pilot of the 1709 rescue voyage that found him.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Thomas Stradling",
+    "to_ko": "토머스 스트래들링",
+    "rel_type": "colleague",
+    "note_ko": "신케 포츠호 선장 스트래들링과의 불화 끝에 셀커크는 하선을 요구했고, 스트래들링은 그를 무인도에 남겨 두고 떠났다.",
+    "note_en": "After Selkirk quarrelled with Cinque Ports captain Stradling and asked to be put ashore, Stradling obliged — leaving him on the island for four years.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "푼 림": {
+  "relations": []
+ },
+ "율리아네 쾨프케": {
+  "relations": [
+   {
+    "to_en": "Maria Koepcke",
+    "to_ko": "마리아 쾨프케",
+    "rel_type": "mother",
+    "note_ko": "조류학자인 어머니 마리아는 딸과 나란히 라인서항공 508편에 탔다가 추락 사고로 숨졌다.",
+    "note_en": "Her mother, ornithologist Maria Koepcke, sat beside her on LANSA Flight 508 and died in the crash Juliane survived.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Hans-Wilhelm Koepcke",
+    "to_ko": "한스빌헬름 쾨프케",
+    "rel_type": "father",
+    "note_ko": "동물학자인 아버지 한스빌헬름은 페루에 판구아나 연구소를 세웠고, 쾨프케는 부모가 가르친 정글 생존 지식으로 11일을 걸어 살아남았다.",
+    "note_en": "Her father, zoologist Hans-Wilhelm Koepcke, founded the Panguana research station; the jungle lore her parents taught her carried her through 11 days on foot.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "베스나 불로비치": {
+  "relations": []
+ },
+ "마우로 프로스페리": {
+  "relations": []
+ },
+ "벡 웨더스": {
+  "relations": [
+   {
+    "to_en": "Rob Hall",
+    "to_ko": "롭 홀",
+    "rel_type": "colleague",
+    "note_ko": "1996년 어드벤처 컨설턴츠 원정대 대장 홀은 웨더스를 포함한 대원들을 이끌고 정상에 올랐다가 폭풍 속에서 숨졌다.",
+    "note_en": "Hall led Weathers's 1996 Adventure Consultants expedition to the summit and died in the storm that Weathers barely survived.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jon Krakauer",
+    "to_ko": "존 크라카우어",
+    "rel_type": "colleague",
+    "note_ko": "같은 원정에서 살아남은 크라카우어는 『희박한 공기 속으로』에서 웨더스가 두 번 버려지고도 돌아온 생환을 기록했다.",
+    "note_en": "Fellow survivor Krakauer chronicled Weathers's twice-abandoned, twice-returned survival in 'Into Thin Air'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Madan Khatri Chhetri",
+    "to_ko": "마단 카트리 체트리",
+    "rel_type": "colleague",
+    "note_ko": "네팔군 조종사 체트리는 당시 최고 고도 헬기 구조 중 하나로 캠프에서 웨더스를 공수해 목숨을 구했다.",
+    "note_en": "Nepali army pilot Chhetri lifted Weathers out of the high camp in one of the highest helicopter rescues then flown, saving his life.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "조 심프슨": {
+  "relations": [
+   {
+    "to_en": "Simon Yates",
+    "to_ko": "사이먼 예이츠",
+    "rel_type": "colleague",
+    "note_ko": "1985년 시울라 그란데 하산 중 크레바스에 매달린 심프슨의 무게에 끌려가던 예이츠는 로프를 끊었고, 심프슨은 기어서 베이스캠프까지 돌아와 그 결정을 변호했다.",
+    "note_en": "On the 1985 Siula Grande descent, Yates cut the rope holding Simpson in a crevasse; Simpson crawled back to base camp and defended that cut for life.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "텐징 노르가이": {
+  "relations": [
+   {
+    "to_en": "Edmund Hillary",
+    "to_ko": "에드먼드 힐러리",
+    "rel_type": "colleague",
+    "note_ko": "1953년 5월 29일 힐러리와 텐징은 나란히 에베레스트 정상에 선 인류 최초의 등정자가 됐고, 누가 먼저 올랐는지는 평생 비밀로 했다.",
+    "note_en": "On 29 May 1953 Hillary and Tenzing stood together on Everest's summit — the first humans ever — and kept who stepped first a lifelong secret.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "John Hunt",
+    "to_ko": "존 헌트",
+    "rel_type": "colleague",
+    "note_ko": "1953년 영국 원정대 대장 헌트는 1차 공격조가 돌아서자 텐징-힐러리 조를 최종 정상 공격조로 지목했다.",
+    "note_en": "Expedition leader Hunt named the Tenzing–Hillary pair as the final summit assault team after the first attempt turned back in 1953.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Raymond Lambert",
+    "to_ko": "레이몽 랑베르",
+    "rel_type": "colleague",
+    "note_ko": "1952년 스위스 원정에서 랑베르와 텐징은 정상에서 약 250m 못 미치는 지점까지 함께 올라 당시 최고도 기록을 세웠다.",
+    "note_en": "On the 1952 Swiss expedition Lambert and Tenzing climbed together to within about 250m of the summit, a height record at the time.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Nawang Gombu",
+    "to_ko": "나왕 곰부",
+    "rel_type": "relative",
+    "note_ko": "텐징의 조카 곰부는 삼촌이 세운 히말라얀 등산학교에서 배워 에베레스트를 두 번 오른 최초의 인물이 됐다.",
+    "note_en": "Tenzing's nephew Gombu trained at his uncle's Himalayan Mountaineering Institute and became the first person to summit Everest twice.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "라인홀트 메스너": {
+  "relations": [
+   {
+    "to_en": "Günther Messner",
+    "to_ko": "귄터 메스너",
+    "rel_type": "sibling",
+    "note_ko": "1970년 형제는 함께 낭가파르바트를 등정했으나 하산 중 동생 귄터가 실종됐고, 그 죽음을 둘러싼 논쟁이 라인홀트의 평생을 따라다녔다.",
+    "note_en": "The brothers summited Nanga Parbat together in 1970; Günther vanished on the descent, and the dispute over his death followed Reinhold for life.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Peter Habeler",
+    "to_ko": "페터 하벨러",
+    "rel_type": "colleague",
+    "note_ko": "1978년 메스너와 하벨러는 인류 최초로 보조 산소 없이 에베레스트 정상에 함께 섰다.",
+    "note_en": "In 1978 Messner and Habeler made the first-ever ascent of Everest without supplemental oxygen, together.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jerzy Kukuczka",
+    "to_ko": "예지 쿠쿠치카",
+    "rel_type": "rival",
+    "note_ko": "쿠쿠치카는 8천미터 14좌 완등을 두고 메스너와 경쟁해 두 번째 완등자가 된 폴란드 등반가다.",
+    "note_en": "Polish climber Kukuczka raced Messner for all fourteen 8,000ers, finishing second a year after him.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "조지 말러리": {
+  "relations": [
+   {
+    "to_en": "Andrew Irvine",
+    "to_ko": "앤드루 어바인",
+    "rel_type": "colleague",
+    "note_ko": "1924년 6월 8일 말러리와 어바인은 최후의 정상 공격에 함께 나섰다가 구름 속으로 사라졌고, 둘의 실종은 등산사 최대의 미스터리가 됐다.",
+    "note_en": "On 8 June 1924 Mallory and young partner Irvine set off on the final summit push and vanished into the clouds — mountaineering's greatest mystery.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Conrad Anker",
+    "to_ko": "콘래드 앵커",
+    "rel_type": "colleague",
+    "note_ko": "1999년 수색대의 일원인 앵커는 에베레스트 북벽에서 75년 만에 말러리의 시신을 찾아냈다.",
+    "note_en": "In 1999 search-party climber Anker found Mallory's body on Everest's north face, 75 years after he disappeared.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "아론 랠스턴": {
+  "relations": []
+ },
+ "알렉스 호놀드": {
+  "relations": [
+   {
+    "to_en": "Tommy Caldwell",
+    "to_ko": "토미 칼드웰",
+    "rel_type": "friend",
+    "note_ko": "칼드웰은 호놀드와 엘 캐피탄 노즈 속등 기록을 함께 갈아치우고 프리 솔로 준비를 도운 절친한 클라이머다.",
+    "note_en": "Caldwell and Honnold traded El Capitan's Nose speed records, and Caldwell helped him rehearse the Free Solo climb.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Sanni McCandless",
+    "to_ko": "새니 맥캔들리스",
+    "rel_type": "spouse",
+    "note_ko": "맥캔들리스는 『프리 솔로』 촬영 당시 호놀드의 연인으로 함께 출연했고 2020년 그와 결혼했다.",
+    "note_en": "McCandless was Honnold's girlfriend through the filming of 'Free Solo' and married him in 2020.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Peter Croft",
+    "to_ko": "피터 크로프트",
+    "rel_type": "influence",
+    "note_ko": "호놀드는 회고록에서 크로프트의 무밧줄 등반을 어린 시절부터 우상으로 삼았다고 밝혔다.",
+    "note_en": "Honnold has written that Croft's ropeless climbs were his boyhood inspiration for free soloing.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "야마구치 쓰토무": {
+  "relations": [
+   {
+    "to_en": "Akira Iwanaga",
+    "to_ko": "이와나가 아키라",
+    "rel_type": "colleague",
+    "note_ko": "미쓰비시중공업 동료 이와나가는 야마구치와 같은 출장으로 히로시마에 있다가 피폭됐고, 나가사키에서도 살아남아 함께 공인 이중 피폭자로 인정받았다.",
+    "note_en": "Mitsubishi colleague Iwanaga was on the same Hiroshima business trip when the first bomb fell, survived Nagasaki too, and was recognised alongside Yamaguchi as an official double survivor.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "이블 니블": {
+  "relations": []
+ },
+ "필리프 프티": {
+  "relations": [
+   {
+    "to_en": "Jean-Louis Blondeau",
+    "to_ko": "장루이 블롱도",
+    "rel_type": "friend",
+    "note_ko": "오랜 친구 블롱도는 쌍둥이 빌딩 작전에 공모해 줄을 치는 것을 돕고, 프티가 400m 상공을 걷는 결정적 사진을 찍었다.",
+    "note_en": "Old friend Blondeau was Petit's accomplice in rigging the Twin Towers wire and shot the iconic photos of him 400m above New York.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Annie Allix",
+    "to_ko": "애니 앨릭스",
+    "rel_type": "partner",
+    "note_ko": "당시 연인 앨릭스는 작전 팀의 일원으로 몇 년을 함께 준비했고, 지상에서 그의 45분 공중 산보를 지켜봤다.",
+    "note_en": "Then-girlfriend Allix spent years inside the coup team and watched from the street during his 45-minute walk between the towers.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "빔 호프": {
+  "relations": []
+ },
+ "베시 콜먼": {
+  "relations": [
+   {
+    "to_en": "William D. Wills",
+    "to_ko": "윌리엄 윌스",
+    "rel_type": "colleague",
+    "note_ko": "1926년 공연 연습 비행에서 윌스가 조종하던 기체가 급강하했고, 콜먼과 윌스는 함께 추락사했다.",
+    "note_en": "Wills was piloting the plane on a 1926 exhibition rehearsal when it went into a dive, killing him and Coleman together.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Robert S. Abbott",
+    "to_ko": "로버트 애벗",
+    "rel_type": "influence",
+    "note_ko": "시카고 디펜더 발행인 애벗은 미국 비행학교에 거절당한 콜먼에게 프랑스 유학을 권하고 '퀸 베스'의 곡예비행을 지면에 알렸다.",
+    "note_en": "Chicago Defender publisher Abbott urged the rejected Coleman to train in France and publicised her barnstorming career as 'Queen Bess'.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "에이미 존슨": {
+  "relations": [
+   {
+    "to_en": "Jim Mollison",
+    "to_ko": "짐 몰리슨",
+    "rel_type": "spouse",
+    "note_ko": "몰리슨은 존슨의 단독 비행에 감탄해 제안 전보를 보내 만난 지 8시간 만에 청혼한 기록 비행사로, 부부는 함께 대서양 횡단 비행에 나섰다.",
+    "note_en": "Record pilot Mollison proposed to Johnson eight hours after they met; the 'flying sweethearts' then attempted Atlantic crossings together.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jack Humphreys",
+    "to_ko": "잭 험프리스",
+    "rel_type": "colleague",
+    "note_ko": "1931년 존슨과 험프리스는 함께 비행해 런던-도쿄 구간 신기록을 세웠다.",
+    "note_en": "In 1931 Johnson and co-pilot Humphreys flew together to set a record time from London to Tokyo.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "베릴 마컴": {
+  "relations": [
+   {
+    "to_en": "Denys Finch Hatton",
+    "to_ko": "데니스 핀치 해턴",
+    "rel_type": "partner",
+    "note_ko": "케냐 사파리 사냥꾼 핀치 해턴은 마컴의 연인이자 비행 스승 중 한 사람으로, 그의 죽음이 마컴의 영국행과 비행사 전업을 재촉했다.",
+    "note_en": "Kenya safari hunter Finch Hatton was Markham's lover and an early flying mentor; his death in a crash helped push her toward England and aviation.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Tom Campbell Black",
+    "to_ko": "톰 캠벨 블랙",
+    "rel_type": "teacher",
+    "note_ko": "조종사이자 연인이던 캠벨 블랙은 마컴에게 상급 비행을 가르치고 1936년 대서양 단독 횡단의 항법 계획을 함께 세웠다.",
+    "note_en": "Pilot and lover Campbell Black taught Markham advanced flying and planned the navigation for her 1936 solo Atlantic crossing.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "찰스 린드버그": {
+  "relations": [
+   {
+    "to_en": "Anne Morrow Lindbergh",
+    "to_ko": "앤 모로 린드버그",
+    "rel_type": "spouse",
+    "note_ko": "아내 앤은 부조종사와 무선사 자격을 따 린드버그와 대륙 횡단 측량 비행을 함께했고, 둘의 장남이 유괴·살해되는 비극도 함께 겪었다.",
+    "note_en": "Anne Morrow earned radio-operator and co-pilot licences to fly survey routes with Lindbergh, and the couple together endured their son's kidnapping and murder.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Alexis Carrel",
+    "to_ko": "알렉시스 카렐",
+    "rel_type": "colleague",
+    "note_ko": "노벨상 외과의 카렐은 록펠러연구소에서 린드버그와 함께 장기 관류 펌프를 개발해 과학 잡지 표지를 장식했다.",
+    "note_en": "Nobel surgeon Carrel co-developed a perfusion pump with Lindbergh at the Rockefeller Institute, a collaboration that made the cover of Time.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Charles Nungesser",
+    "to_ko": "샤를 뇽제세르",
+    "rel_type": "rival",
+    "note_ko": "프랑스 전투기 에이스 뇽제세르는 콜리와 함께 오르테이그 상을 노려 린드버그보다 2주 먼저 대서양 횡단에 나섰다가 흔적도 없이 실종됐다.",
+    "note_en": "French ace Nungesser, flying with Coli for the same Orteig Prize, left Paris two weeks before Lindbergh and vanished without a trace.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "François Coli",
+    "to_ko": "프랑수아 콜리",
+    "rel_type": "rival",
+    "note_ko": "베테랑 항해사 콜리는 뇽제세르의 조종석에서 같은 대서양 상금 경쟁에 나섰다가 루아즈 블랑호와 함께 사라졌다.",
+    "note_en": "Veteran navigator Coli flew L'Oiseau Blanc with Nungesser in the same transatlantic prize race and disappeared with the aircraft.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "어밀리아 에어하트": {
+  "relations": [
+   {
+    "to_en": "Fred Noonan",
+    "to_ko": "프레드 누넌",
+    "rel_type": "colleague",
+    "note_ko": "항법사 누넌은 1937년 세계일주 비행의 마지막 구간에서 에어하트와 함께 이륙했고, 하울랜드섬 부근에서 함께 실종됐다.",
+    "note_en": "Navigator Noonan flew the last legs of the 1937 world flight with Earhart and vanished with her near Howland Island.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George P. Putnam",
+    "to_ko": "조지 팔머 퍼트넘",
+    "rel_type": "spouse",
+    "note_ko": "출판인 퍼트넘은 대서양 횡단 여성 선발로 에어하트를 발탁하고 남편이 돼 그녀의 비행과 명성을 기획·홍보했다.",
+    "note_en": "Publisher Putnam picked Earhart for the 1928 Atlantic crossing, married her, and managed the flights and fame that followed.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Eleanor Roosevelt",
+    "to_ko": "엘리너 루스벨트",
+    "rel_type": "friend",
+    "note_ko": "영부인 루스벨트는 백악관 만찬 도중 에어하트와 함께 복장 그대로 밤비행에 나설 만큼 가까운 친구였고, 그녀에게 배워 조종 면허를 신청하기도 했다.",
+    "note_en": "First Lady Roosevelt was close enough to slip out of a White House dinner for a night flight with Earhart, and once applied for a student pilot licence inspired by her.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Paul Mantz",
+    "to_ko": "폴 먼츠",
+    "rel_type": "colleague",
+    "note_ko": "할리우드 스턴트 조종사 먼츠는 에어하트의 기술 고문으로 착륙과 기체 시험을 지도하고 실종 직전까지 함께 비행했다.",
+    "note_en": "Hollywood stunt pilot Mantz served as Earhart's technical advisor, coaching her landings and flying with her up to the disappearance flight.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "와일리 포스트": {
+  "relations": [
+   {
+    "to_en": "Will Rogers",
+    "to_ko": "윌 로저스",
+    "rel_type": "friend",
+    "note_ko": "유머 작가 로저스는 친구 포스트의 비행기로 알래스카 유람 비행에 동승했다가 1935년 함께 추락사했고, 미국은 국민 영웅 둘을 한꺼번에 잃었다.",
+    "note_en": "Humorist Rogers hitched an Alaska sightseeing ride with his friend Post; the 1935 crash that killed both at once plunged America into mourning.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Harold Gatty",
+    "to_ko": "해럴드 개티",
+    "rel_type": "colleague",
+    "note_ko": "1931년 위니 메이호 세계일주에서 호주 출신 개티가 항법을, 포스트가 조종을 맡아 8일 16시간의 세계 기록을 세웠다.",
+    "note_en": "On the 1931 Winnie Mae circumnavigation, Australian Gatty navigated while Post flew — together setting an 8-day world record.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "알베르토 산투스두몽": {
+  "relations": [
+   {
+    "to_en": "Louis Cartier",
+    "to_ko": "루이 카르티에",
+    "rel_type": "friend",
+    "note_ko": "친구 카르티에는 산투스두몽이 비행 중 양손을 쓰면서 시간을 볼 수 있게 손목시계를 만들어 줬고, '산토스' 라인은 지금도 이어진다.",
+    "note_en": "Friend Cartier built Santos-Dumont a wristwatch so he could check the time while flying with both hands — the 'Santos' line still exists.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Wilbur Wright",
+    "to_ko": "윌버 라이트",
+    "rel_type": "rival",
+    "note_ko": "1906년 산투스두몽의 공개 비행과 1903년 라이트 형제의 비공개 비행 사이에서 '최초의 동력비행' 논쟁이 지금까지 이어지고 있다.",
+    "note_en": "Santos-Dumont's public 1906 flight versus the Wrights' unwitnessed 1903 claim still fuels the 'first powered flight' dispute with Wilbur Wright.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Aida de Acosta",
+    "to_ko": "아이다 드 아코스타",
+    "rel_type": "colleague",
+    "note_ko": "1903년 산투스두몽은 미국인 드 아코스타에게 비행선 9호의 조종을 가르쳐, 그녀를 동력 비행기를 단독 조종한 최초의 여성으로 만들었다.",
+    "note_en": "In 1903 Santos-Dumont taught de Acosta to steer his airship No. 9, making her the first woman to solo-pilot a powered aircraft.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "척 예거": {
+  "relations": [
+   {
+    "to_en": "Jack Ridley",
+    "to_ko": "잭 리들리",
+    "rel_type": "colleague",
+    "note_ko": "X-1 프로그램의 엔지니어 리들리는 갈비뼈가 부러진 예거를 위해 해치를 잠글 빗자루 지렛대를 고안해 음속 돌파 비행을 가능하게 했다.",
+    "note_en": "X-1 engineer Ridley rigged the broomstick lever that let the broken-ribbed Yeager seal the hatch — the small fix behind the sound-barrier flight.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bob Hoover",
+    "to_ko": "밥 후버",
+    "rel_type": "rival",
+    "note_ko": "후버는 예거의 X-1 후방기를 몰았던 시험비행사로, 둘은 '누가 더 나은 조종사인가'를 두고 평생 겨룬 친구이자 라이벌이었다.",
+    "note_en": "Chase pilot Hoover and Yeager spent lifetimes as friends and rivals in the perpetual argument over who was the better stick.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Glennis Yeager",
+    "to_ko": "글레니스 예거",
+    "rel_type": "spouse",
+    "note_ko": "예거는 아내 글레니스의 이름을 따 X-1에 '글래머러스 글레니스'라고 명명했고, 부부는 45년을 함께했다.",
+    "note_en": "Yeager named the X-1 'Glamorous Glennis' after his wife; they were married 45 years until her death.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "유리 가가린": {
+  "relations": [
+   {
+    "to_en": "Gherman Titov",
+    "to_ko": "게르만 티토프",
+    "rel_type": "colleague",
+    "note_ko": "티토프는 보스토크 1호 최종 후보 둘 중 남은 자리였던 예비 비행사로, 넉 달 뒤 보스토크 2호로 두 번째 우주인이 됐다.",
+    "note_en": "Titov was the other finalist and Gagarin's backup for Vostok 1; four months later he became the second human in orbit on Vostok 2.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Sergei Korolev",
+    "to_ko": "세르게이 코롤료프",
+    "rel_type": "colleague",
+    "note_ko": "수석 설계자 코롤료프는 최종 면접에서 가가린을 첫 우주인으로 낙점하고, 발사 당일 통신으로 그를 직접 배웅했다.",
+    "note_en": "Chief designer Korolev picked Gagarin at the final interview and personally spoke with him by radio on launch morning.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Vladimir Seryogin",
+    "to_ko": "블라디미르 세료긴",
+    "rel_type": "colleague",
+    "note_ko": "1968년 훈련 비행에서 교관 조종사 세료긴은 가가린과 같은 MiG-15에 탔다가 함께 추락사했다.",
+    "note_en": "Instructor pilot Seryogin was in the cockpit with Gagarin on the 1968 training flight; both died in the same MiG-15 crash.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "자크 쿠스토": {
+  "relations": [
+   {
+    "to_en": "Émile Gagnan",
+    "to_ko": "에밀 가냥",
+    "rel_type": "colleague",
+    "note_ko": "1943년 가스 엔지니어 가냥은 쿠스토와 함께 수요조절식 아쿠아렁을 발명해 인류 최초의 실용 스쿠버를 만들었다.",
+    "note_en": "In 1943 gas engineer Gagnan co-invented the demand-valve Aqua-Lung with Cousteau — the first practical scuba.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Frédéric Dumas",
+    "to_ko": "프레데리크 뒤마",
+    "rel_type": "friend",
+    "note_ko": "뒤마는 전후 쿠스토·타이에와 '바다의 세 총사'로 불리며 수중 사냥과 최초의 스쿠버 실험을 함께한 다이빙 동료다.",
+    "note_en": "Dumas was Cousteau's diving companion in the postwar 'three musketeers of the sea' who pioneered spearfishing and the first scuba trials.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Simone Cousteau",
+    "to_ko": "시몬 쿠스토",
+    "rel_type": "spouse",
+    "note_ko": "아내 시몬은 칼립소호에 상주하며 잠수사이자 재정 후원자로 활동해 승무원들에게 '라 베르제르'로 불렸다.",
+    "note_en": "Wife Simone lived aboard the Calypso as diver and quiet financier of the expeditions; the crew called her 'La Bergère'.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "윌리엄 비비": {
+  "relations": [
+   {
+    "to_en": "Otis Barton",
+    "to_ko": "오티스 바턴",
+    "rel_type": "colleague",
+    "note_ko": "바턴은 강철 공 '바티스피어'를 설계하고 자금을 댔으며, 1934년 비비와 함께 923m까지 잠항해 당시 최심부 기록을 세웠다.",
+    "note_en": "Barton designed and financed the Bathysphere, then crammed in beside Beebe for the record 923m descent in 1934.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Theodore Roosevelt",
+    "to_ko": "시어도어 루스벨트",
+    "rel_type": "friend",
+    "note_ko": "자연학을 사랑한 루스벨트 대통령은 뉴욕동물학회 시절부터 비비의 탐험을 지지하고 필드 이야기를 나눈 친구였다.",
+    "note_en": "Naturalist-president Roosevelt championed Beebe's expeditions from his Bronx Zoo days on and swapped field stories with him as a friend.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "오귀스트 피카르": {
+  "relations": [
+   {
+    "to_en": "Jean Piccard",
+    "to_ko": "장 피카르",
+    "rel_type": "sibling",
+    "note_ko": "쌍둥이 형제인 장은 미국으로 건너가 화학자가 됐고, 형과 마찬가지로 성층권 기구 비행 기록을 세운 탐험가였다.",
+    "note_en": "Identical twin Jean became a chemist in America and, like Auguste, flew balloons into the stratosphere — explorer twins on two continents.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Paul Kipfer",
+    "to_ko": "파울 키퍼",
+    "rel_type": "colleague",
+    "note_ko": "1931년 키퍼는 피카르의 가압 기구에 동승해 약 15,800m까지 올라 인류 최초 성층권 비행을 함께 달성했다.",
+    "note_en": "In 1931 Kipfer rode Piccard's pressurised capsule to about 15,800m — together the first humans to reach the stratosphere.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "실비아 얼": {
+  "relations": [
+   {
+    "to_en": "Graham Hawkes",
+    "to_ko": "그레이엄 혹스",
+    "rel_type": "spouse",
+    "note_ko": "잠수정 설계자 혹스는 얼의 세 번째 남편으로, 둘은 함께 심해 잠수정 회사를 세우고 1인승 잠수정 딥로버를 개발했다.",
+    "note_en": "Submersible designer Hawkes was Earle's third husband; together they founded a deep-sub company and built the one-person Deep Rover.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "이본 취나드": {
+  "relations": [
+   {
+    "to_en": "Doug Tompkins",
+    "to_ko": "더그 톰킨스",
+    "rel_type": "friend",
+    "note_ko": "1968년 취나드와 톰킨스는 차로 남미를 종단해 피츠로이를 함께 올랐고, 아웃도어 기업가에서 보호운동가로 평생 벗이었다.",
+    "note_en": "Chouinard and Tompkins road-tripped to Patagonia in 1968 and climbed Fitz Roy together — lifelong friends from gear business to conservation.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Royal Robbins",
+    "to_ko": "로열 로빈스",
+    "rel_type": "rival",
+    "note_ko": "로빈스는 요세미티에서 취나드와 등반 윤리와 기록을 두고 대립·경쟁한 시대의 라이벌이었다.",
+    "note_en": "Robbins was Chouinard's great Yosemite-era rival, contesting both records and the ethics of how a rock face should be climbed.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Tom Frost",
+    "to_ko": "톰 프로스트",
+    "rel_type": "cofounder",
+    "note_ko": "클라이머 프로스트는 취나드의 대장간 등반 장비 사업을 함께 일군 공동 창업자이자 하프돔 초등 파트너였다.",
+    "note_en": "Climber Frost co-built the Chouinard Equipment blacksmith shop into a company and partnered Chouinard on the first ascent of Half Dome's northwest face.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Malinda Chouinard",
+    "to_ko": "맬린다 취나드",
+    "rel_type": "spouse",
+    "note_ko": "아내 맬린다는 파타고니아를 함께 창업하고 직원 복지와 사내 보육 제도를 주도하며 평생 회사를 함께 경영했다.",
+    "note_en": "Wife Malinda co-founded Patagonia, ran it alongside Chouinard for decades, and drove its employee benefits and on-site childcare.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "더그 톰킨스": {
+  "relations": [
+   {
+    "to_en": "Yvon Chouinard",
+    "to_ko": "이본 취나드",
+    "rel_type": "friend",
+    "note_ko": "1968년 톰킨스는 취나드와 남미를 차로 종단해 피츠로이를 함께 올랐고, 이후 평생 등반·보호운동의 벗이었다.",
+    "note_en": "Tompkins made the 1968 Funhog road trip with Chouinard and climbed Fitz Roy beside him — lifelong friends in climbing and conservation.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Susie Tompkins Buell",
+    "to_ko": "수지 톰킨스 뷰얼",
+    "rel_type": "spouse",
+    "note_ko": "첫째 아내 수지는 노스페이스 창업을 함께하고 이후 에스프리를 공동 창업해 세계적 브랜드로 키웠다.",
+    "note_en": "First wife Susie co-founded The North Face with Tompkins and then Esprit, building it into a global brand before their divorce.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Kristine Tompkins",
+    "to_ko": "크리스틴 톰킨스",
+    "rel_type": "spouse",
+    "note_ko": "둘째 아내 크리스틴은 파타고니아 초대 CEO 출신으로, 남편 사후에도 칠레·아르헨티나 국립공원 기부 사업을 계속 이끌고 있다.",
+    "note_en": "Second wife Kristine, Patagonia's first CEO, has carried on the couple's national-park donations in Chile and Argentina since his death.",
+    "prospect": "candidate"
+   }
+  ]
+ }
+}
