@@ -25,9 +25,11 @@ import {
 import { join, resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import {
-  codexCall,
-  looksRateLimited,
-} from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
+  AGY_TEXT_MODEL,
+  agyCall,
+  looksQuotaLimited,
+} from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
+import { codexCall } from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
 // 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
 if (!process.env.ALLOW_EXTERNAL_CLI) {
@@ -70,6 +72,7 @@ const STATS = process.argv.includes('--stats')
 const RESEARCH = process.argv.includes('--research')
 const DEEP_RESEARCH = process.argv.includes('--deep-research')
 const RESUME = process.argv.includes('--resume')
+const AUDIT = process.argv.includes('--audit')
 const EXPLAIN_HOLDS = process.argv.includes('--explain-holds')
 const VERBOSE = process.argv.includes('--verbose')
 const INCLUDE_EXISTING = process.argv.includes('--include-existing')
@@ -80,7 +83,7 @@ const ALL = process.argv.includes('--all')
 const LIMIT = numberFlag('--limit', Number.POSITIVE_INFINITY)
 const BATCH_SIZE = numberFlag('--batch-size', 8)
 const CONCURRENCY = numberFlag('--conc', 3)
-const MODEL = flagValue('--model') ?? 'gpt-5.5'
+const MODEL = flagValue('--model') ?? AGY_TEXT_MODEL
 const REVIEW_DECISIONS_ARG = flagValue('--review-decisions')
 const EDITORIAL_CANDIDATES_ARG = flagValue('--editorial-candidates')
 const SLUGS = (() => {
@@ -364,7 +367,7 @@ async function waitForResearchFetchSlot() {
   const turn = researchFetchGate.then(async () => {
     const waitMs = Math.max(0, nextResearchFetchAt - Date.now())
     if (waitMs) await new Promise((resolveDelay) => setTimeout(resolveDelay, waitMs))
-    nextResearchFetchAt = Date.now() + 1_100
+    nextResearchFetchAt = Date.now() + 250
   })
   researchFetchGate = turn.catch(() => undefined)
   await turn
@@ -725,22 +728,20 @@ async function researchOneProfile(
   contexts: FactionContext[],
 ): Promise<ResearchExcerpt | null> {
   const verifiedQid = /^Q\d+$/.test(profile.wikidata_qid ?? '') ? profile.wikidata_qid! : null
-  const exactPages = (await Promise.all(exactTitleCandidates(profile).map((candidate) =>
-    wikipediaPageByTitle(candidate.locale, candidate.title).catch(() => null))))
-    .filter((page): page is WikipediaPage => Boolean(page))
 
   if (verifiedQid) {
-    let pages = exactPages.filter((page) => page.qid === verifiedQid)
-    if (!pages.length) {
-      const titles: { ko?: string; en?: string } = await wikidataSitelinkTitles(verifiedQid).catch(() => ({}))
-      pages = (await Promise.all([
-        titles.ko ? wikipediaPageByTitle('ko', titles.ko).catch(() => null) : null,
-        titles.en ? wikipediaPageByTitle('en', titles.en).catch(() => null) : null,
-      ])).filter((page): page is WikipediaPage => Boolean(page && page.qid === verifiedQid))
-    }
+    const titles: { ko?: string; en?: string } = await wikidataSitelinkTitles(verifiedQid).catch(() => ({}))
+    const pages = (await Promise.all([
+      titles.ko ? wikipediaPageByTitle('ko', titles.ko).catch(() => null) : null,
+      titles.en ? wikipediaPageByTitle('en', titles.en).catch(() => null) : null,
+    ])).filter((page): page is WikipediaPage => Boolean(page && page.qid === verifiedQid))
     const page = pages.sort((a, b) => b.summary.length - a.summary.length)[0]
     if (page) return { ...await enrichWikipediaPage(page), matchedBy: 'profile-qid' }
   }
+
+  const exactPages = (await Promise.all(exactTitleCandidates(profile).map((candidate) =>
+    wikipediaPageByTitle(candidate.locale, candidate.title).catch(() => null))))
+    .filter((page): page is WikipediaPage => Boolean(page))
 
   const exact = exactPages
     .filter((page) => researchMatchesIdentity(profile, contexts, page))
@@ -789,7 +790,7 @@ async function researchProfiles(
     return new Map(eligibleProfiles.flatMap((profile) => cached[profile.slug] ? [[profile.slug, cached[profile.slug]!]] : []))
   }
   let researched = 0
-  for (const batch of chunksOf(missing, 6)) {
+  for (const batch of chunksOf(missing, 12)) {
     const results = await Promise.all(batch.map(async (profile) => ({
       slug: profile.slug,
       result: await researchOneProfile(profile, contextsByProfile.get(profile.id) ?? [])
@@ -1029,8 +1030,9 @@ async function callDeepResearch(
   let lastError: unknown
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
+      // 심화 조사는 모델 지식이 아니라 출처 발굴이 일이라 codex에 남겨둔다. agy는 작성에만 쓴다.
       const raw = await codexCall(buildDeepResearchPrompt(profiles, contextsByProfile), {
-        model: MODEL,
+        model: 'gpt-5.5',
         effort: 'medium',
         timeoutMs: 600_000,
       })
@@ -1378,7 +1380,7 @@ ${JSON.stringify(materials.map(inputForModel), null, 2)}`
 }
 
 function buildRevisionPrompt(materials: Material[], drafts: Reading[]): string {
-  return `아래 인물별 재료, 기존 안내, 초안을 대조해 한국어 "인물 안내"를 완성하고 자연스러운 영어 안내를 작성하라. 도구를 사용하거나 웹을 검색하지 말고 제공된 범위만 사용한다. 기존 안내나 초안에 정확하고 자연스러운 문장이 있으면 그대로 살리고, 지적된 문제만 고친다. 전체 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 다시 구성한다.
+  return `아래 인물별 재료, 기존 안내, 초안을 대조해 한국어 "인물 안내"를 완성하라. 도구를 사용하거나 웹을 검색하지 말고 제공된 범위만 사용한다. 기존 안내나 초안에 정확하고 자연스러운 문장이 있으면 그대로 살리고, 지적된 문제만 고친다. 전체 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 다시 구성한다.
 
 rewriteReason이 영어 한 구절, 한국어 한 구절, 중복 문장처럼 국소적인 문제를 가리키면 그 부분만 고친다. 수정하지 않아도 되는 언어와 문장은 입력 그대로 복사한다. 문제와 무관한 업적이나 해석을 보태지 않는다.
 
@@ -1388,14 +1390,11 @@ rewriteReason은 기존 글에서 고칠 문제를 알려 주는 편집 의견�
 
 한국인이 처음부터 한국어로 쓴 글처럼 자연스럽게 쓴다. 소리 내 읽었을 때 주어, 어순, 수식 관계가 바로 이해되어야 한다. 첫 문장에서 명사로 정체를 설명할 때는 "[인물명]은/는 …이다."인 완결문이나, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구 중 하나를 쓴다. bio형도 인물의 정체를 알려야 하며 "본명 이혜빈."처럼 인적사항 한 조각만 쓰지 않는다. "하데스는 그리스 신화에서 망자들을 다스리는 신이다."와 "그리스 신화에서 망자들을 다스리는 신."은 모두 허용한다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓰지 않는다. bio형을 완결문으로 바꿀 때는 끝에 "이다"만 붙이지 말고 이름을 주어로 넣는다. 평범한 동사를 쓰고 번역투, 인명사전 말투, 장식용 문예어, 교훈형 결말을 피한다. “시간을 붙잡다”, “감각을 따라가다”, “방향을 보여 주다”, “같은 태도가 보인다”처럼 사실 대신 분위기와 평가를 말하는 문장을 쓰지 않는다. 재료가 단순하면 짧게 끝낸다.
 
-모든 인물의 한영 안내를 반드시 작성한다. holdReason이나 작성 거절 사유를 출력하지 않는다. JSON 배열만 출력하고 코드펜스와 설명을 붙이지 않는다. 입력의 모든 slug를 정확히 한 번씩 포함한다.
+모든 인물의 한국어 안내를 반드시 작성한다. 영어 안내는 별도 단계에서 다루므로 출력하지 않는다. holdReason이나 작성 거절 사유를 출력하지 않는다. JSON 배열만 출력하고 코드펜스와 설명을 붙이지 않는다. 입력의 모든 slug를 정확히 한 번씩 포함한다.
 [{
   "slug": "입력 slug",
-  "guide": "최종 인물 안내",
-  "guideEn": "faithful and natural English guide"
+  "guide": "최종 인물 안내"
 }]
-
-영문은 한국어 최종본에 없는 사실·인과·평가·확신을 보태거나 빼지 않는다. 기존 영어 안내가 한국어와 같은 사실을 담고 자연스럽다면 불필요하게 바꾸지 않는다. 한국어 어순을 옮기지 말고 영어권 독자가 자연스럽게 읽는 산문으로 쓴다. 작품명과 인명은 확실한 통용 영문 표기만 사용한다. 확실하지 않으면 보수적으로 음역한다. 한국어·한자·일본어, 마크다운, 번역자 주석, em dash와 en dash를 넣지 않는다.
 
 [재료와 초안]
 ${JSON.stringify(materials.map((material) => ({
@@ -1409,17 +1408,16 @@ function buildRepairPrompt(
   readings: Reading[],
   errorsBySlug: Map<string, string[]>,
 ): string {
-  return `아래 한영 인물 안내는 검수에서 오류가 발견됐다. errors에 적힌 문제만 고친다. 문제와 관계없는 문장, 사실, 순서는 가능한 한 그대로 둔다. 전체 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 다시 구성한다.
+  return `아래 한국어 인물 안내는 검수에서 오류가 발견됐다. errors에 적힌 문제만 고친다. 문제와 관계없는 문장, 사실, 순서는 가능한 한 그대로 둔다. 전체 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 다시 구성한다.
 
 재료 안의 사실만 사용한다. rewriteReason은 편집 의견일 뿐 사실 근거가 아니다. 자료에 없는 사실·연도·숫자·동기·인과를 만들지 않고, 팀이나 조직의 일을 개인의 일로 바꾸지 않는다. 대표 업적을 남기고 날짜와 수치는 흐름에 꼭 필요한 것만 쓴다.
 
-처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있게 쓴다. 한국어는 한국인이 처음부터 쓴 글처럼 자연스러워야 한다. 첫 문장에서 명사로 정체를 설명할 때는 "[인물명]은/는 …이다."인 완결문이나, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구 중 하나를 쓴다. bio형도 인물의 정체를 알려야 하며 "본명 이혜빈."처럼 인적사항 한 조각만 쓰지 않는다. "하데스는 그리스 신화에서 망자들을 다스리는 신이다."와 "그리스 신화에서 망자들을 다스리는 신."은 모두 허용한다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓰지 않는다. bio형을 완결문으로 바꿀 때는 끝에 "이다"만 붙이지 말고 이름을 주어로 넣는다. 평범한 동사를 쓰고 번역투, 인명사전 말투, 장식용 문예어, 교훈형 결말을 피한다. 한국어를 먼저 확정하고 영어는 같은 사실과 확신의 정도를 자연스럽게 전달한다. 긴 대시는 쓰지 않는다.
+처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있게 쓴다. 한국어는 한국인이 처음부터 쓴 글처럼 자연스러워야 한다. 첫 문장에서 명사로 정체를 설명할 때는 "[인물명]은/는 …이다."인 완결문이나, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구 중 하나를 쓴다. bio형도 인물의 정체를 알려야 하며 "본명 이혜빈."처럼 인적사항 한 조각만 쓰지 않는다. "하데스는 그리스 신화에서 망자들을 다스리는 신이다."와 "그리스 신화에서 망자들을 다스리는 신."은 모두 허용한다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓰지 않는다. bio형을 완결문으로 바꿀 때는 끝에 "이다"만 붙이지 말고 이름을 주어로 넣는다. 평범한 동사를 쓰고 번역투, 인명사전 말투, 장식용 문예어, 교훈형 결말을 피한다. 긴 대시는 쓰지 않는다.
 
-모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다. holdReason, 코드펜스, 설명은 출력하지 않는다.
+모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다. 영어 안내는 출력하지 않는다. holdReason, 코드펜스, 설명은 출력하지 않는다.
 [{
   "slug": "입력 slug",
-  "guide": "인물 안내",
-  "guideEn": "English guide"
+  "guide": "인물 안내"
 }]
 
 [재료·현재 글·검수 오류]
@@ -1431,7 +1429,7 @@ ${JSON.stringify(materials.map((material) => ({
 }
 
 function buildGuideAuditPrompt(materials: Material[], readings: Reading[]): string {
-  return `아래 한영 인물 안내를 실제로 읽고 판정하라. 글을 새로 쓰지 않으며, 글자 수나 문장 수로 판단하지 않는다.
+  return `아래 한국어 인물 안내를 실제로 읽고 판정하라. 글을 새로 쓰지 않으며, 글자 수나 문장 수로 판단하지 않는다.
 
 quality의 기준은 두 가지다.
 1. 처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있는가.
@@ -1439,15 +1437,12 @@ quality의 기준은 두 가지다.
 
 명백한 사실 오류, 자료에 없는 동기·인과, 팀이나 조직의 일을 개인에게 돌린 표현, 인물을 알아보기 어려운 이력·작품·숫자 나열이 있으면 quality는 false다. 명사로 정체를 설명하는 첫 문장이 "[인물명]은/는 …이다."인 완결문도, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구도 아니면 false다. bio형이 "본명 이혜빈."처럼 정체를 설명하지 못하는 인적사항 한 조각이어도 false다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓴 경우, bio형 끝에 "이다"만 붙여 이름 없는 불완전한 완결문을 만든 경우도 false다. “시간을 붙잡다”, “감각을 따라가다”, “방향을 보여 주다”, “같은 태도가 보인다”처럼 사실을 흐리는 AI식 평론이나 추상적인 마무리가 있어도 false다. 특정 문장 수나 이야기 공식에 맞지 않는다는 이유만으로 실패시키지 않는다. 기존의 좋은 문장을 그대로 살린 것은 실패가 아니다.
 
-faithfulEnglish는 영어가 한국어와 같은 사실, 행동 주체, 완료 여부와 확신의 정도를 자연스럽게 전달할 때만 true다. 한국어에 없는 배경지식을 보태거나 한국어의 핵심을 빼면 false다.
-
 readerLearns에는 이 글만 읽고 독자가 이 인물에 대해 알 수 있는 구체적인 내용을 적는다. 답할 수 없으면 "없음"이라고 적고 quality를 false로 판정한다.
 
 모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다.
 [{
   "slug": "입력 slug",
   "quality": true,
-  "faithfulEnglish": true,
   "readerLearns": "독자가 새로 알게 되는 구체적인 내용 또는 없음",
   "reason": "판정 근거 한 문장"
 }]
@@ -1471,7 +1466,6 @@ function parseGuideAudit(raw: string, expectedSlugs: string[]): Map<string, stri
     return {
       slug: String(row.slug ?? '').trim(),
       quality: row.quality === true,
-      faithfulEnglish: row.faithfulEnglish === true,
       readerLearns: String(row.readerLearns ?? '').trim(),
       reason: String(row.reason ?? '').trim(),
     }
@@ -1483,11 +1477,8 @@ function parseGuideAudit(raw: string, expectedSlugs: string[]): Map<string, stri
   if (missing.length || unexpected.length || duplicates.length) {
     throw new Error(`의미 검수 slug 불일치 missing=${missing.join(',')} unexpected=${unexpected.join(',')} duplicate=${duplicates.join(',')}`)
   }
-  return new Map(rows.filter((row) => !row.quality || !row.faithfulEnglish).map((row) => {
-    const labels = [
-      !row.quality ? '안내 품질 미달' : null,
-      !row.faithfulEnglish ? '한영 의미 불일치' : null,
-    ].filter(Boolean).join(', ')
+  return new Map(rows.filter((row) => !row.quality).map((row) => {
+    const labels = '안내 품질 미달'
     const learned = row.readerLearns || '없음'
     return [row.slug, `${labels}: ${row.reason || '검수를 통과하지 못했다.'} 독자가 새로 아는 것: ${learned}`]
   }))
@@ -1541,7 +1532,6 @@ function validateReading(reading: Reading): string[] {
   if (reading.holdReason) return ['최종 보류 금지']
   const errors: string[] = []
   if (!reading.guide) errors.push('한국어 안내 누락')
-  if (!reading.guideEn) errors.push('영어 안내 누락')
 
   if (reading.guide && !/[가-힣]/.test(reading.guide)) errors.push('한국어 안내 문자 깨짐')
   if ((reading.guide.match(/\?/g) ?? []).length > 3 || reading.guide.includes('�')) {
@@ -1590,10 +1580,10 @@ function validateBatch(readings: Reading[]): Map<string, string[]> {
 async function callModel(prompt: string, effort: 'low' | 'medium'): Promise<string> {
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
-      return await codexCall(prompt, { model: MODEL, effort, timeoutMs: 600_000 })
+      return await agyCall(prompt, { model: MODEL, timeoutMs: 600_000 })
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
-      if (attempt === 2 || looksRateLimited(message)) throw error
+      if (attempt === 2 || looksQuotaLimited(message)) throw error
     }
   }
   throw new Error('모델 호출 실패')
@@ -1675,9 +1665,10 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   }
   const currentErrors = validateReading(reading)
   const persistentErrors = reading.validationErrors
-  if (reading.holdReason || currentErrors.length || persistentErrors.length) {
+  const englishMissing = !reading.guideEn.trim()
+  if (reading.holdReason || currentErrors.length || persistentErrors.length || englishMissing) {
     if (EXPLAIN_HOLDS) {
-      console.log(`HOLD ${reading.slug} | model=${reading.holdReason ?? '-'} | current=${currentErrors.join('; ') || '-'} | saved=${persistentErrors.join('; ') || '-'}`)
+      console.log(`HOLD ${reading.slug} | model=${reading.holdReason ?? '-'} | current=${currentErrors.join('; ') || '-'} | saved=${persistentErrors.join('; ') || '-'} | en=${englishMissing ? '미작성' : '-'}`)
     }
     return 'held'
   }
@@ -1818,10 +1809,10 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
   if (toRevise.length) {
     const draftRows = toRevise.map((material) => drafts.get(material.profile.slug)!)
     const raw = await callModel(buildRevisionPrompt(toRevise, draftRows), 'medium')
-    let revised = parseReadings(raw, toRevise.map((material) => material.profile.slug), true)
-    const guideAuditErrors = await auditGuideQuality(toRevise, revised)
+    let revised = parseReadings(raw, toRevise.map((material) => material.profile.slug), false)
+    const guideAuditErrors = AUDIT ? await auditGuideQuality(toRevise, revised) : new Map<string, string>()
 
-    for (let repairAttempt = 1; repairAttempt <= 2; repairAttempt += 1) {
+    for (let repairAttempt = 1; AUDIT && repairAttempt <= 2; repairAttempt += 1) {
       const batchErrors = validateBatch(revised)
       const errorsBySlug = new Map<string, string[]>()
       for (const reading of revised) {
@@ -1837,10 +1828,10 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
       const repairMaterials = toRevise.filter((material) => errorsBySlug.has(material.profile.slug))
       const repairRows = revised.filter((reading) => errorsBySlug.has(reading.slug))
       const repairRaw = await callModel(buildRepairPrompt(repairMaterials, repairRows, errorsBySlug), 'medium')
-      const repaired = parseReadings(repairRaw, repairMaterials.map((material) => material.profile.slug), true)
+      const repaired = parseReadings(repairRaw, repairMaterials.map((material) => material.profile.slug), false)
       const repairedBySlug = new Map(repaired.map((reading) => [reading.slug, reading]))
       revised = revised.map((reading) => repairedBySlug.get(reading.slug) ?? reading)
-      const repairedGuideAuditErrors = await auditGuideQuality(repairMaterials, repaired)
+      const repairedGuideAuditErrors = AUDIT ? await auditGuideQuality(repairMaterials, repaired) : new Map<string, string>()
       for (const material of repairMaterials) guideAuditErrors.delete(material.profile.slug)
       for (const [slug, error] of repairedGuideAuditErrors) guideAuditErrors.set(slug, error)
     }
@@ -2219,10 +2210,33 @@ async function main() {
         completed += batch.length
         console.log(`✓ 레인 ${laneIndex + 1} | ${slugs.join(',')} | ${Math.round((Date.now() - batchStartedAt) / 1000)}s | 누적 ${completed}/${workable.length}`)
       } catch (error) {
-        failed += batch.length
-        completed += batch.length
         logFailure(slugs, 'batch', error)
         console.error(`✗ 레인 ${laneIndex + 1} | ${slugs.join(',')} | ${error instanceof Error ? error.message : String(error)}`)
+        for (const material of batch) {
+          const saved = readSaved(FINAL_DIR, material.profile.slug)
+          if (!saved) {
+            failed += 1
+            continue
+          }
+          if (saved.holdReason) {
+            held += 1
+            continue
+          }
+          if (APPLY) {
+            try {
+              const result = await applyReading(saved, material)
+              if (result === 'written') written += 1
+              else if (result === 'held') held += 1
+              else if (result === 'existing') alreadyApplied += 1
+            } catch (applyError) {
+              failed += 1
+              logFailure([material.profile.slug], 'apply', applyError)
+            }
+          } else if (saved.validationErrors.length) {
+            held += 1
+          }
+        }
+        completed += batch.length
       }
     }
   }
