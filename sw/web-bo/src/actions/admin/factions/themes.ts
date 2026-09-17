@@ -61,7 +61,7 @@ export async function listFactionThemes(): Promise<FactionThemeSummary[]> {
   })
 }
 
-/** 상위 묶음으로 고를 수 있는 테마 한 건 */
+/** 대분류으로 고를 수 있는 테마 한 건 */
 export interface ThemeParentOption {
   id: string
   name: string
@@ -71,7 +71,7 @@ export interface ThemeParentOption {
 }
 
 /**
- * 테마 편집 화면의 상위 묶음 선택지.
+ * 테마 편집 화면의 대분류 선택지.
  *
  * 후보는 어디에도 속하지 않은 테마 전부다 — 이미 묶음인 테마는 물론, 아직 아무것도
  * 거느리지 않은 테마도 고를 수 있다. 그래야 묶음 만들기용 화면을 따로 두지 않고도
