@@ -210,6 +210,7 @@ async function main(): Promise<void> {
   const profession = argumentValue('profession')
   const output = argumentValue('out')
   const scope = argumentValue('scope') ?? 'unlinked'
+  const since = argumentValue('since')
   const publicOnly = process.argv.includes('--public-only')
   const representativeOnly = process.argv.includes('--representative-only')
   const maximumCandidates = positiveInteger('max-candidates', 12)
@@ -220,10 +221,11 @@ async function main(): Promise<void> {
       let query = db
         .from('celebs')
         .select('id,slug,nickname,nickname_en,profession,headline,bio')
-        .eq('publication_status', 'active')
-        .neq('celeb_tier', 'fiction')
         .order('id')
         .range(from, to)
+      // --since는 신규 등록 인물(비활성 포함)을 대상으로 한다. 없으면 기존 동작인 공개 실존 인물만 본다.
+      if (since) query = query.gte('created_at', since)
+      else query = query.eq('publication_status', 'active').neq('celeb_tier', 'fiction')
       if (profession) query = query.eq('profession', profession)
       const { data, error } = await query
       return { data: data as CelebRow[] | null, error }

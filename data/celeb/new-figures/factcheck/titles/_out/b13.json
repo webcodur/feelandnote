@@ -1,0 +1,34 @@
+[
+  {
+    "nick": "트로핌 리센코",
+    "title": "소련의 사이비 과학",
+    "issue": "en-mismatch",
+    "why": "ko는 현상(리센코이즘)을 지칭하고 en은 인물 역할을 말해 서로 다른 사실. Britannica는 그를 공산주의 생물학의 독재자로 표현.",
+    "fix_ko": "사이비 과학의 독재자",
+    "fix_en": "The Pseudoscience Dictator"
+  },
+  {
+    "nick": "파라켈수스",
+    "title": "화학의학의 아버지",
+    "issue": "en-mismatch",
+    "why": "ko 화학의학의 아버지 vs en Father of Toxicology — 다른 업적. father of toxicology가 가장 널리 통용.",
+    "fix_ko": "독물학의 아버지",
+    "fix_en": "Father of Toxicology"
+  },
+  {
+    "nick": "텐징 노르가이",
+    "title": "에베레스트의 최초 정복자",
+    "issue": "disputed",
+    "why": "1953년 등정은 힐러리와의 공동 업적이며 누가 먼저인지는 분쟁. 단독 표기 위반.",
+    "fix_ko": "에베레스트 최초 공동 등정자",
+    "fix_en": "Joint First on Everest"
+  },
+  {
+    "nick": "에이미 존슨",
+    "title": "낡은 비행기의 여왕",
+    "issue": "en-mismatch",
+    "why": "ko 낡은 비행기의 여왕 vs en The Solo Flyer — 다른 사실이며 실제 통용 별명은 Queen of the Air.",
+    "fix_ko": "하늘의 여왕",
+    "fix_en": "Queen of the Air"
+  }
+]

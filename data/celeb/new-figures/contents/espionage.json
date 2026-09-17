@@ -1,0 +1,351 @@
+{
+  "그리고리 라스푸틴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://s33939bc9149089cf.jimcontent.com/download/version/1299016624/module/4915814150/name/Grigory%20Rasputin.pdf",
+        "evidence": "올레크 플라토노프의 전기 영역본은 라스푸틴이 순례 중 수도원에서 읽기를 배워 성서를 거의 통째로 외우게 됐다고 적고, 그의 발언에서 '복음서가 말하듯'이라며 복음서를 인용한 대목을 인용한다.",
+        "review": "그리고리 라스푸틴은 베르호투리예 수도원에서 글을 배운 뒤 성서를 거의 통째로 외울 만큼 익혔다고 전기 작가 올레크 플라토노프가 전한다. 그의 저술과 발언에는 '복음서가 말하듯'이라는 표현과 함께 복음서 구절이 인용돼 있다.",
+        "review_en": "Grigori Rasputin learned to read at the Verkhoturye monastery and came to know Holy Scripture almost by heart, according to biographer Oleg Platonov. His own words and writings invoke the Gospel with phrases like 'as the Gospel says.'"
+      }
+    ]
+  },
+  "마타 하리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "리하르트 조르게": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "자본",
+        "title_en": "Das Kapital",
+        "creator": "카를 마르크스",
+        "year": 1867,
+        "status": "FINISHED",
+        "source_url": "https://wrp.org.uk/features/richard-sorge-hero-of-the-soviet-union/",
+        "evidence": "조르게의 전기 기사는 1차대전 전상으로 입원한 그에게 간호사가 마르크스의 《자본》과 엥겔스의 《반뒤링론》을 건넸고, 그가 이를 읽은 뒤 공산주의자가 됐다고 서술한다.",
+        "review": "리하르트 조르게는 1차대전에서 다리가 부서지는 중상을 입고 입원했을 때 간호사가 건넨 《자본》을 읽었다. 이 시기의 독서가 우파 국수주의자였던 그를 공산주의 투사로 바꿔 놓았다고 전기가 전한다.",
+        "review_en": "Richard Sorge read Marx's Capital while hospitalised with shattered legs in World War I, a copy handed to him by a nurse. That convalescent reading is credited with turning the young nationalist into a communist."
+      },
+      {
+        "type": "BOOK",
+        "title": "반뒤링론",
+        "title_en": "Anti-Dühring",
+        "creator": "프리드리히 엥겔스",
+        "year": 1878,
+        "status": "FINISHED",
+        "source_url": "https://wrp.org.uk/features/richard-sorge-hero-of-the-soviet-union/",
+        "evidence": "같은 전기 기사는 입원 중인 조르게가 간호사에게서 마르크스의 《자본》과 함께 엥겔스의 《반뒤링론》도 건네받아 읽었다고 명시한다.",
+        "review": "리하르트 조르게는 전상으로 누워 있던 병상에서 간호사가 건넨 엥겔스의 《반뒤링론》을 《자본》과 함께 읽었다. 이 독서가 그의 공산주의 전향의 계기가 됐다고 전기가 전한다.",
+        "review_en": "Richard Sorge read Engels' Anti-Dühring alongside Capital during his wartime convalescence, both supplied by a nurse. That reading underlay his turn to communism."
+      }
+    ]
+  },
+  "시드니 라일리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "후안 푸홀 가르시아": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "블루 가이드 잉글랜드",
+        "title_en": "Blue Guide to England",
+        "creator": "핀들레이 뮤어헤드 편",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.mi5.gov.uk/history/world-war-ii/agent-garbo",
+        "evidence": "MI5의 공식 역사 페이지는 푸홀이 리스본에서 《블루 가이드 잉글랜드》 한 권과 참고서적·잡지들로 무장해 런던발인 것처럼 꾸민 첩보 보고서를 만들었다고 기록한다.",
+        "review": "후안 푸홀 가르시아는 리스본에서 《블루 가이드 잉글랜드》와 영국 해군 참고서적을 탐독해 영국에 있는 것처럼 꾸민 보고서를 지어냈다. MI5의 공식 기록이 이 여행안내서를 그의 기만극의 재료로 꼽는다.",
+        "review_en": "Juan Pujol García pored over a copy of the Blue Guide to England in Lisbon, using it to concoct spy reports that read as if sent from London — a deception tool MI5's official history records."
+      }
+    ]
+  },
+  "에디 채프먼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "버지니아 홀": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "누르 이나야트 칸": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "낸시 웨이크": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "슈발리에 데옹": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://eprints.soton.ac.uk/505564/1/Adventurer_Saint_Celebrity_The_Chevali_re_Deon_s_Transgender_Selves.pdf",
+        "evidence": "사우샘프턴대 박사학위 논문은 데옹이 '성서를 속속들이 알고 있었고' 그의 자서전적 저술이 장·절을 명시한 성서 인용과 주석으로 가득했다고 서술하며 창세기 37:3, 갈라디아서 3:28 등의 예를 든다.",
+        "review": "슈발리에 데옹은 자서전적 저술 곳곳에 성서 구절을 장과 절까지 밝혀가며 인용했다. 요셉이 여성스러운 옷을 입은 창세기 37장, 그리스도 안에서 남녀 구분이 없다는 갈라디아서 3장 28절처럼 그 자신의 처지와 맞닿은 구절에 특히 천착했다.",
+        "review_en": "The Chevalier d'Éon larded his autobiographical writings with scripture quoted chapter and verse — Genesis 37:3, Galatians 3:28 — verses on dress and the sexes that bore directly on his own case."
+      }
+    ]
+  },
+  "가와시마 요시코": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "엘리아스 바즈나": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "올레크 펜콥스키": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "올레크 고르디옙스키": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "마태오 수난곡",
+        "title_en": "St Matthew Passion",
+        "creator": "요한 제바스티안 바흐",
+        "year": 1727,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC '무인도의 음반' 2008년 방송 페이지는 고르디옙스키가 이 곡 중 아리아 '자비를 베푸소서(Erbarme dich)'를 '가장 아끼는 곡'으로 꼽았다고 표시한다.",
+        "review": "올레크 고르디옙스키는 2008년 BBC 라디오 '무인도의 음반'에서 《마태오 수난곡》의 아리아 '자비를 베푸소서'를 여덟 곡 중 가장 아끼는 곡으로 지목했다.",
+        "review_en": "Oleg Gordievsky named the aria 'Erbarme dich' from Bach's St Matthew Passion his favourite of the eight discs he chose on BBC Radio 4's Desert Island Discs in 2008."
+      },
+      {
+        "type": "MUSIC",
+        "title": "피아노 협주곡 23번",
+        "title_en": "Piano Concerto No. 23 in A major",
+        "creator": "볼프강 아마데우스 모차르트",
+        "year": 1786,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC '무인도의 음반' 방송 목록은 고르디옙스키가 이 협주곡 2악장(알프레드 브렌델 연주 음반)을 무인도에 가져갈 여덟 음반 중 하나로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 이 협주곡의 2악장을 무인도에 가져갈 음반으로 골랐다. 그가 고른 음반은 알프레드 브렌델이 연주한 녹음이었다.",
+        "review_en": "Oleg Gordievsky chose the second movement of Mozart's Piano Concerto No. 23 — in Alfred Brendel's recording — as one of his eight discs on Desert Island Discs."
+      },
+      {
+        "type": "MUSIC",
+        "title": "트리스탄과 이졸데",
+        "title_en": "Tristan und Isolde",
+        "creator": "리하르트 바그너",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC 방송 목록은 고르디옙스키가 이 오페라의 '사랑의 죽음(Liebestod)'을 무인도 음반으로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 《트리스탄과 이졸데》의 '사랑의 죽음'을 무인도에 가져갈 음반으로 골랐다. 그가 고른 음반은 비르기트 닐손이 부른 녹음이었다.",
+        "review_en": "Oleg Gordievsky picked the Liebestod from Tristan und Isolde, in Birgit Nilsson's recording, as one of his desert-island discs on the BBC programme."
+      },
+      {
+        "type": "MUSIC",
+        "title": "볼가의 뱃사람들의 노래",
+        "title_en": "Song of the Volga Boatmen",
+        "creator": "러시아 민요",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC 방송 목록은 고르디옙스키가 표도르 샬랴핀의 음반으로 이 민요를 무인도 음반으로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 표도르 샬랴핀이 부른 《볼가의 뱃사람들의 노래》를 무인도에 가져갈 음반으로 골랐다.",
+        "review_en": "Oleg Gordievsky chose Fyodor Chaliapin's recording of the Song of the Volga Boatmen as one of his eight desert-island discs."
+      },
+      {
+        "type": "MUSIC",
+        "title": "베를린의 공기",
+        "title_en": "Berliner Luft",
+        "creator": "파울 링케",
+        "year": 1899,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC 방송 목록은 고르디옙스키가 이 곡(베를린 필하모닉, 다니엘 바렌보임 지휘 음반)을 무인도 음반으로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 파울 링케의 《베를린의 공기》를 무인도에 가져갈 음반으로 골랐다. 그가 고른 녹음은 다니엘 바렌보임이 지휘한 베를린 필하모닉의 연주였다.",
+        "review_en": "Oleg Gordievsky chose Paul Lincke's Berliner Luft — the Berlin Philharmonic under Daniel Barenboim — as one of his desert-island discs."
+      },
+      {
+        "type": "MUSIC",
+        "title": "헤르마",
+        "title_en": "Herma",
+        "creator": "이아니스 크세나키스",
+        "year": 1961,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC 방송 목록은 고르디옙스키가 크세나키스의 피아노곡 《헤르마》를 무인도 음반으로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 크세나키스의 피아노곡 《헤르마》를 무인도에 가져갈 음반으로 골랐다.",
+        "review_en": "Oleg Gordievsky chose Iannis Xenakis's piano work Herma as one of his eight desert-island discs."
+      },
+      {
+        "type": "MUSIC",
+        "title": "현악 사중주곡 10번 '하프'",
+        "title_en": "String Quartet No. 10 in E-flat major \"Harp\"",
+        "creator": "루트비히 판 베토벤",
+        "year": 1809,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC 방송 목록은 고르디옙스키가 내림마장조 현악 사중주 1악장(타카치 사중주단의 작품번호 59·74 수록 음반)을 무인도 음반으로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 베토벤의 내림마장조 현악 사중주 1악장을 무인도에 가져갈 음반으로 골랐다. 그가 고른 녹음은 타카치 사중주단의 연주였다.",
+        "review_en": "Oleg Gordievsky chose the first movement of Beethoven's E-flat-major string quartet, in the Takács Quartet's recording, as one of his desert-island discs."
+      },
+      {
+        "type": "MUSIC",
+        "title": "피터",
+        "title_en": "Peter",
+        "creator": "마를레네 디트리히(노래)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC 방송 목록은 고르디옙스키가 마를레네 디트리히가 부른 'Peter'를 무인도 음반으로 골랐다고 적는다.",
+        "review": "올레크 고르디옙스키는 BBC '무인도의 음반'에서 마를레네 디트리히가 부른 '피터'를 무인도에 가져갈 음반으로 골랐다.",
+        "review_en": "Oleg Gordievsky chose Marlene Dietrich's song 'Peter' as one of his eight desert-island discs."
+      },
+      {
+        "type": "BOOK",
+        "title": "브리태니커 백과사전",
+        "title_en": "Encyclopaedia Britannica",
+        "creator": "브리태니커 편집부",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/b008wv25",
+        "evidence": "BBC '무인도의 음반' 페이지의 '책 선택(Book Choice)' 항목에 고르디옙스키가 《브리태니커 백과사전》을 골랐다고 적혀 있다.",
+        "review": "올레크 고르디옙스키는 2008년 BBC '무인도의 음반'에서 무인도에 가져갈 책으로 《브리태니커 백과사전》을 골랐다.",
+        "review_en": "Oleg Gordievsky chose the Encyclopaedia Britannica as the book he would take to a desert island on BBC Radio 4's Desert Island Discs in 2008."
+      }
+    ]
+  },
+  "조지 코발": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "멜리타 노우드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "VIDEO",
+        "title": "유니버시티 챌린지",
+        "title_en": "University Challenge",
+        "creator": "BBC",
+        "year": 1962,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/politics/2005/jul/03/past.davidrose",
+        "evidence": "가디언의 데이비드 로즈 기사는 노우드가 말년에 제러미 팩스먼의 팬이어서 그가 진행한 '유니버시티 챌린지'를 거의 빼놓지 않고 봤다고 전한다.",
+        "review": "멜리타 노우드는 말년에 제러미 팩스먼이 진행한 퀴즈쇼 《유니버시티 챌린지》를 거의 빼놓지 않고 봤다고 가디언의 부고 기사가 전한다.",
+        "review_en": "Melita Norwood rarely missed Jeremy Paxman's quiz show University Challenge in her final years, the Guardian's obituary reported."
+      },
+      {
+        "type": "VIDEO",
+        "title": "뉴스나이트",
+        "title_en": "Newsnight",
+        "creator": "BBC",
+        "year": 1980,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/politics/2005/jul/03/past.davidrose",
+        "evidence": "같은 가디언 기사는 노우드가 하루를 '뉴스나이트' 시청으로 마감했다고 전한다.",
+        "review": "멜리타 노우드는 BBC 시사 프로그램 《뉴스나이트》로 하루 일과를 마감하는 습관을 갖고 있었다고 가디언이 전한다.",
+        "review_en": "Melita Norwood ended her days watching BBC's Newsnight, according to the Guardian."
+      }
+    ]
+  },
+  "프리츠 콜베": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "우르술라 쿠친스키": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

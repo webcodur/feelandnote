@@ -1,0 +1,1578 @@
+{
+ "댄 콜린스": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "루스티히의 파트너",
+    "title_en": "Lustig's Partner",
+    "description": "미국 사기꾼 '대퍼 댄'으로 빅토르 루스티히의 상시 공범이 됐다.",
+    "description_en": "'Dapper Dan' Collins became Victor Lustig's regular accomplice.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "에펠탑 사기의 '비서'",
+    "title_en": "The 'Official' in the Eiffel Scam",
+    "description": "루스티히의 에펠탑 매각 사기에서 각료 비서 역을 맡아 고철업자들을 안심시켰다.",
+    "description_en": "He played the ministry official who reassured scrap dealers in the Eiffel Tower sale.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1935,
+    "year_end": null,
+    "title": "위조지폐 기소",
+    "title_en": "Indicted",
+    "description": "루스티히의 위조지폐 조직 가담으로 함께 기소돼 유죄를 인정했다.",
+    "description_en": "Indicted with Lustig for the counterfeiting ring, he pled guilty.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "윌리엄 와츠": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "판각공",
+    "title_en": "The Engraver",
+    "description": "네브래스카 약사 겸 판각공으로 루스티히 조직의 '루스티히 머니' 인쇄판을 새겼다.",
+    "description_en": "A pharmacist-engraver who cut the plates for 'Lustig money'.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1935,
+    "year_end": null,
+    "title": "정부 편 증인",
+    "title_en": "Turned State's Witness",
+    "description": "재판에서 정부 편 증인으로 돌아서 10년형을 받았다.",
+    "description_en": "He turned state's evidence and took ten years.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "호세파 맥그리거": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "카라카스 명문가",
+    "title_en": "A Caracas Heiress",
+    "description": "시몬 볼리바르의 사촌인 호세파 아리스테기에타로 카라카스 명문가에서 자랐다.",
+    "description_en": "Born Josefa Aristeguieta — Bolívar's cousin, of Caracas high society.",
+    "kind": "other",
+    "place_name": "카라카스",
+    "place_name_en": "Caracas",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1812,
+    "year_end": null,
+    "title": "맥그리거와 결혼",
+    "title_en": "Marriage to MacGregor",
+    "description": "남미 독립전쟁 용병 그레고어 맥그리거와 결혼했다.",
+    "description_en": "She married the mercenary Gregor MacGregor.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1820,
+    "year_end": 1823,
+    "title": "'포야이스'의 카시카 부인",
+    "title_en": "Princess of Poyais",
+    "description": "런던 사교계에서 가짜 왕국의 귀족 부인 역을 소화해 남편의 사기에 품격을 빌려줬다.",
+    "description_en": "In London she played consort of 'Poyais', lending his fraud aristocratic shine.",
+    "kind": "work",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1838,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "세상을 떠났다.",
+    "description_en": "She died.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "조지 프레데릭 아우구스투스 1세": {
+  "events": [
+   {
+    "year": 1798,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미스키토 해안의 왕실에서 태어났다.",
+    "description_en": "Born into the Miskito royal house.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1816,
+    "year_end": null,
+    "title": "대관식",
+    "title_en": "Crowned",
+    "description": "벨리즈에서 모스키토 왕국의 친영 군주로 대관식을 올렸다.",
+    "description_en": "Crowned at Belize as the British-backed Miskito king.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1820,
+    "year_end": null,
+    "title": "맥그리거에게 영토 양도",
+    "title_en": "The Grant to MacGregor",
+    "description": "그레고어 맥그리거에게 웨일스보다 넓은 영토를 넘겨주는 문서에 서명했다 — '포야이스 사기'의 존재 근거가 됐다.",
+    "description_en": "He signed over Wales-sized territory to MacGregor — the paper Poyais stood on.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1824,
+    "year_end": null,
+    "title": "살해(전승)",
+    "title_en": "Killed (Reported)",
+    "description": "살해된 것으로 전해진다.",
+    "description_en": "He was reportedly murdered.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "프랭크 애버그네일 시니어": {
+  "events": [
+   {
+    "year": 1914,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 문구 사업가가 됐다.",
+    "description_en": "Born in New York; a stationery businessman.",
+    "kind": "birth",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1960,
+    "year_end": 1964,
+    "title": "아들의 롤모델",
+    "title_en": "His Son's First Model",
+    "description": "이혼 뒤 홀로 아들 프랭크 주니어를 키웠고 아들은 곁에서 세일즈맨십을 배웠다.",
+    "description_en": "Raising Frank Jr. alone, he taught the salesmanship his son would abuse.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "사고사",
+    "title_en": "Died",
+    "description": "계단에서 미끄러지는 사고로 숨졌다.",
+    "description_en": "He died in a fall down the stairs.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "윌리엄 맥마스터스": {
+  "events": [
+   {
+    "year": 1874,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 언론인·홍보 전문가가 됐다.",
+    "description_en": "Born in the US; a newspaperman and press agent.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1920,
+    "year_end": null,
+    "title": "폰지의 홍보 담당",
+    "title_en": "Ponzi's Press Agent",
+    "description": "찰스 폰지에게 고용된 지 열흘 만에 사기 구조를 간파했다.",
+    "description_en": "Hired by Ponzi, he saw through the scheme in ten days.",
+    "kind": "work",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1920,
+    "year_end": null,
+    "title": "폭로 기사",
+    "title_en": "The Exposé",
+    "description": "보스턴 포스트에 폭로 기사를 팔아 폰지 제국을 무너뜨렸다 — 공은 신문사로 돌아갔다.",
+    "description_en": "His exposé in the Boston Post toppled Ponzi — the paper took the credit.",
+    "kind": "publish",
+    "place_name": "보스턴",
+    "place_name_en": "Boston",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "93세로 숨졌다 — 이름은 오래 잊혀 있었다.",
+    "description_en": "Died at 93, long forgotten.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "게오르크 프리드리히 다우머": {
+  "events": [
+   {
+    "year": 1800,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉘른베르크에서 태어나 철학자·종교사가가 됐다.",
+    "description_en": "Born in Nuremberg; a philosopher of religion.",
+    "kind": "birth",
+    "place_name": "뉘른베르크",
+    "place_name_en": "Nuremberg",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1829,
+    "year_end": null,
+    "title": "카스파 하우저를 맡다",
+    "title_en": "Taking In Kaspar",
+    "description": "수수께끼 소년 카스파 하우저를 집에 들여 말과 글을 가르쳤다.",
+    "description_en": "He took in the foundling Kaspar Hauser and taught him.",
+    "kind": "meeting",
+    "place_name": "뉘른베르크",
+    "place_name_en": "Nuremberg",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1830,
+    "year_end": null,
+    "title": "결별",
+    "title_en": "The Break",
+    "description": "소년의 회피와 거짓 진술을 견디지 못하고 손을 뗐다.",
+    "description_en": "Worn out by the boy's evasions, he let him go.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1875,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "75세로 숨졌다 — 신화학·종교비판 저작을 남겼다.",
+    "description_en": "Died at 75, leaving works on myth and religion.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "스탠호프 백작": {
+  "events": [
+   {
+    "year": 1781,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국 귀족 가문의 아들로 태어나 하원의원을 지냈다.",
+    "description_en": "Born to the Stanhope earldom; an MP and eccentric.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1832,
+    "year_end": null,
+    "title": "하우저의 후원자",
+    "title_en": "Hauser's Patron",
+    "description": "카스파 하우저의 후원자를 자처해 대규모 신원 조사 자금을 댔다.",
+    "description_en": "He funded a grand investigation into Kaspar Hauser's origins.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1835,
+    "year_end": null,
+    "title": "후원 철회",
+    "title_en": "Withdrawing",
+    "description": "소년에 대한 기대가 꺾이자 후원을 거두고 영국으로 돌아갔다.",
+    "description_en": "Disillusioned, he withdrew support and went home.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1855,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "73세로 숨졌다.",
+    "description_en": "Died at 73.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "엘리자베스 워럴": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "브리스틀의 부인",
+    "title_en": "Mrs. Worrall",
+    "description": "글로스터셔 치안판사 새뮤얼 워럴의 미국 태생 아내.",
+    "description_en": "The American-born wife of a Gloucestershire magistrate.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1817,
+    "year_end": null,
+    "title": "'카라부 공주'를 거두다",
+    "title_en": "Taking In 'Caraboo'",
+    "description": "정체불명의 여인을 저택에 거두고 보호해 브리스틀 사교계의 동경 대상으로 만들었다.",
+    "description_en": "She sheltered the 'Javanese princess' — society's darling until the maid Mary Baker was unmasked.",
+    "kind": "other",
+    "place_name": "브리스틀",
+    "place_name_en": "Bristol",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "윌리엄 이네스": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "스코틀랜드 연대 군목",
+    "title_en": "Regimental Chaplain",
+    "description": "네덜란드 슬뢰위스 주둔 스코틀랜드 연대의 군목.",
+    "description_en": "Chaplain to a Scots regiment at Sluys.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1702,
+    "year_end": null,
+    "title": "'포르모사 개종자' 포장",
+    "title_en": "Creating the 'Formosan'",
+    "description": "방랑자 살마나자르를 '포르모사에서 온 개종자'로 포장해 세례를 주고 런던 주교에게 소개했다.",
+    "description_en": "He baptized Psalmanazar as a 'Formosan convert' and presented him in London — co-author of the myth.",
+    "kind": "other",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "존 마나한": {
+  "events": [
+   {
+    "year": 1919,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "버지니아에서 태어나 역사학자·계보학자가 됐다.",
+    "description_en": "Born in Virginia; a historian and genealogist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "앤더슨과 결혼",
+    "title_en": "Marrying 'Anastasia'",
+    "description": "황녀 아나스타시야 행세를 하던 애나 앤더슨과 결혼해 평생 그녀의 주장을 옹호했다.",
+    "description_en": "He married Anna Anderson and defended her claim for life.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1990,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "'샬러츠빌에서 가장 사랑받는 별난이'로 불리며 숨졌다.",
+    "description_en": "He died Charlottesville's beloved eccentric.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "글레프 보트킨": {
+  "events": [
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "러시아 황실 주치의 보트킨의 아들로 태어나 로마노프 공주들과 놀며 자랐다.",
+    "description_en": "Son of the tsar's physician; he played with the Romanov daughters.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1926,
+    "year_end": null,
+    "title": "'진짜 아나스타시야' 옹호",
+    "title_en": "Championing 'Anastasia'",
+    "description": "애나 앤더슨을 평생 '진짜 공주'로 옹호한 최대 지지자가 됐다.",
+    "description_en": "He became Anna Anderson's loudest lifelong champion.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "'처치 오브 아프로디테'",
+    "title_en": "Church of Aphrodite",
+    "description": "미국으로 건너가 여신 숭배 교회를 창립했다.",
+    "description_en": "In America he founded the Church of Aphrodite.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "69세로 숨졌다.",
+    "description_en": "Died at 69.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "펠릭스 슈칸코프스키": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "폴란드 노동자",
+    "title_en": "A Polish Worker",
+    "description": "앤더슨의 실제 정체로 지목된 프란치스카 슈칸코프스카의 오빠.",
+    "description_en": "Brother of Franziska Schanzkowska — Anderson's true identity.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1927,
+    "year_end": null,
+    "title": "대면",
+    "title_en": "The Meeting",
+    "description": "앤더슨과 대면했으나 '강한 유사'라는 모호한 진술만 남겼다 — 가족들은 그가 침묵했다고 증언했다.",
+    "description_en": "Shown Anderson, he signed only 'strong resemblance' — family later said he recognized and stayed silent.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "아나하레오": {
+  "events": [
+   {
+    "year": 1906,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "모호크·알곤킨 혈통의 거트루드 버나드로 캐나다에서 태어났다.",
+    "description_en": "Born Gertrude Bernard, of Mohawk-Algonquin blood.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "그레이 아울의 동반자",
+    "title_en": "Grey Owl's Partner",
+    "description": "영국인임을 숨긴 '원주민' 그레이 아울과 함께 살며 그가 덫 사냥을 버리고 비버 보호로 전향하게 했다.",
+    "description_en": "With Grey Owl she turned him from trapping to beaver conservation.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "『Devil in Deerskins』",
+    "title_en": "Her Memoir",
+    "description": "자서전으로 자신의 이야기를 직접 남겼다.",
+    "description_en": "Her memoir 'Devil in Deerskins' told her own side.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1986,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "80세로 숨졌다.",
+    "description_en": "Died at 80.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "앙헬 에그우나": {
+  "events": [
+   {
+    "year": 1890,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "온타리오 테마가미 호의 오지브와 여성으로 태어났다.",
+    "description_en": "Born an Ojibwe woman of Lake Temagami.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1910,
+    "year_end": null,
+    "title": "벌레이니와 결혼",
+    "title_en": "Marrying Belaney",
+    "description": "영국 청년 아치볼드 벌레이니와 결혼해 언어·카누·덫 사냥을 가르쳤다 — '그레이 아울'의 밑바탕이 됐다.",
+    "description_en": "She married Archie Belaney and taught him the skills that made 'Grey Owl'.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "바르투스 코르텔링": {
+  "events": [
+   {
+    "year": 1853,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네덜란드에서 태어나 화가·미술 교사가 됐다.",
+    "description_en": "Born in the Netherlands; a painter and teacher.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1875,
+    "year_end": 1890,
+    "title": "메이허런의 스승",
+    "title_en": "Van Meegeren's Master",
+    "description": "제자 반 메이허런에게 페르메이르 기법과 안료 제조를 가르치고 현대미술을 '퇴폐'라 가르쳤다.",
+    "description_en": "He taught Van Meegeren the old masters' craft — and to despise modern art.",
+    "kind": "education",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1930,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "숨졌다 — 그의 가르침이 세기의 위작으로 되돌아올 줄은 몰랐다.",
+    "description_en": "He died unaware his lessons would produce the century's greatest forgeries.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "게르트 하이데만": {
+  "events": [
+   {
+    "year": 1931,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "독일에서 태어나 슈테른지의 스타 기자가 됐다.",
+    "description_en": "Born in Germany; Stern's star reporter.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1981,
+    "year_end": 1983,
+    "title": "'히틀러 일기' 추적",
+    "title_en": "Chasing the 'Hitler Diaries'",
+    "description": "쿠야우의 가짜 일기를 수백만 마르크에 사들이는 과정에서 스스로 사기에 깊이 빠졌다.",
+    "description_en": "Buying Kujau's forged diaries for millions, he sank into the fraud himself.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1985,
+    "year_end": null,
+    "title": "실형",
+    "title_en": "Prison",
+    "description": "위작이 드러난 뒤 공범으로 실형을 살았다.",
+    "description_en": "Convicted alongside the forger, he served prison time.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2024,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "92세로 숨졌다.",
+    "description_en": "Died at 92.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "리처드 서스킨드": {
+  "events": [
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 아동문학 작가가 됐다.",
+    "description_en": "Born in the US; a children's author.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1970,
+    "year_end": null,
+    "title": "'휴즈 자서전' 공모",
+    "title_en": "The Hughes Scheme",
+    "description": "오랜 친구 어빙과 팔마에서 가짜 자서전 사기를 기획해 자료 조사와 허위 인터뷰록을 맡았다.",
+    "description_en": "In Palma he co-planned the fake Hughes autobiography — research and forged transcripts.",
+    "kind": "work",
+    "place_name": "팔마",
+    "place_name_en": "Palma",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "유죄",
+    "title_en": "Guilty",
+    "description": "사기가 드러난 뒤 함께 유죄를 인정해 복역했다.",
+    "description_en": "Exposed, he pled guilty and served time.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1999,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "74세로 숨졌다.",
+    "description_en": "Died at 74.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "에디스 어빙": {
+  "events": [
+   {
+    "year": 1935,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "독일에서 태어나 스위스의 화가가 됐다.",
+    "description_en": "Born in Germany; a Swiss painter.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "'헬가 R. 휴즈'",
+    "title_en": "'Helga R. Hughes'",
+    "description": "남편 클리퍼드 어빙의 사기에서 위장 이름으로 취리히 은행 계좌를 열어 수표 수십만 달러를 현금화했다.",
+    "description_en": "As 'Helga R. Hughes' she opened the Zurich account that cashed the publisher's checks.",
+    "kind": "other",
+    "place_name": "취리히",
+    "place_name_en": "Zurich",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "유죄",
+    "title_en": "Guilty",
+    "description": "유죄를 인정해 두 달을 복역했다.",
+    "description_en": "She pled guilty and served two months.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "엘미르 드 오리": {
+  "events": [
+   {
+    "year": 1906,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "부다페스트에서 태어나 화가 수련을 했다.",
+    "description_en": "Born in Budapest; a trained painter.",
+    "kind": "birth",
+    "place_name": "부다페스트",
+    "place_name_en": "Budapest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1946,
+    "year_end": null,
+    "title": "파리의 위작 데뷔",
+    "title_en": "First Fakes in Paris",
+    "description": "전후 파리에서 피카소 위작을 팔며 전설적 위작가 경력을 시작했다.",
+    "description_en": "Postwar Paris: he began selling fake Picassos.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1950,
+    "year_end": 1960,
+    "title": "수천 점의 가짜",
+    "title_en": "Thousands of Fakes",
+    "description": "마티스·모딜리아니 등 수천 점의 위작이 전 세계 미술관과 수집가에게 흘러들었다.",
+    "description_en": "His Matisses and Modiglianis entered museums worldwide.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1966,
+    "year_end": null,
+    "title": "이비자 은둔",
+    "title_en": "Ibiza",
+    "description": "이비자에 은둔해 어빙의 전기와 웰스의 영화 'F for Fake' 주인공이 됐다.",
+    "description_en": "In Ibiza he became the subject of Irving's 'Fake!' and Welles' film.",
+    "kind": "other",
+    "place_name": "이비자",
+    "place_name_en": "Ibiza",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1976,
+    "year_end": null,
+    "title": "자결",
+    "title_en": "Suicide",
+    "description": "스페인 재판을 앞두고 스스로 목숨을 끊었다.",
+    "description_en": "Facing trial, he took his own life.",
+    "kind": "death",
+    "place_name": "이비자",
+    "place_name_en": "Ibiza",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "아르노 뒤 틸": {
+  "events": [
+   {
+    "year": 1524,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "가스코뉴의 농부 집안에서 태어났다.",
+    "description_en": "Born a Gascon peasant.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1556,
+    "year_end": null,
+    "title": "'마르탱 게르'가 되다",
+    "title_en": "Becoming Martin Guerre",
+    "description": "실종된 마르탱 게르를 사칭해 그의 집과 아내 베르트랑드와 살기 시작했다.",
+    "description_en": "He claimed to be the vanished Martin Guerre — and moved into his house and bed.",
+    "kind": "other",
+    "place_name": "아르티가",
+    "place_name_en": "Artigat",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1559,
+    "year_end": null,
+    "title": "재판",
+    "title_en": "The Trial",
+    "description": "3년의 연기 끝에 신분 소송이 벌어져 마을이 둘로 갈렸다.",
+    "description_en": "After three years the imposture went to trial — the village split.",
+    "kind": "other",
+    "place_name": "툴루즈",
+    "place_name_en": "Toulouse",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1560,
+    "year_end": null,
+    "title": "처형",
+    "title_en": "Executed",
+    "description": "진짜 마르탱이 재판 중 걸어 들어와 무너졌고 교수형에 처해졌다.",
+    "description_en": "The real Martin walked in mid-trial; Arnaud was hanged.",
+    "kind": "death",
+    "place_name": "아르티가",
+    "place_name_en": "Artigat",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "베르트랑드 드 롤스": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "마르탱의 아내",
+    "title_en": "Martin's Wife",
+    "description": "아르티가에서 마르탱 게르와 혼인했다.",
+    "description_en": "She married Martin Guerre in Artigat.",
+    "kind": "other",
+    "place_name": "아르티가",
+    "place_name_en": "Artigat",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1556,
+    "year_end": null,
+    "title": "돌아온 '남편'을 받아들이다",
+    "title_en": "Accepting the Impostor",
+    "description": "남편 실종 뒤 나타난 아르노 뒤 틸을 받아들여 3년을 살았다 — 속았는지 공모했는지는 지금도 논쟁이다.",
+    "description_en": "She accepted Arnaud du Tilh as her husband for three years — dupe or accomplice is still debated.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1560,
+    "year_end": null,
+    "title": "툴루즈 재판",
+    "title_en": "The Toulouse Trial",
+    "description": "재판에서 '속은 아내인가 공모자인가'를 두고 치열한 심리가 벌어졌고 무죄를 얻었다.",
+    "description_en": "At trial she was judged the deceived wife, not an accomplice.",
+    "kind": "other",
+    "place_name": "툴루즈",
+    "place_name_en": "Toulouse",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "마리나 므니셰크": {
+  "events": [
+   {
+    "year": 1588,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "폴란드 마그나트 므니셰크의 딸로 태어났다.",
+    "description_en": "Born daughter of the Polish magnate Mniszech.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1606,
+    "year_end": null,
+    "title": "차리차",
+    "title_en": "Tsaritsa",
+    "description": "가짜 드미트리 1세와 모스크바에서 혼인해 차리차가 됐다 — 열흘 만에 그가 살해됐다.",
+    "description_en": "She married False Dmitry I in Moscow — he was murdered days later.",
+    "kind": "meeting",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1607,
+    "year_end": null,
+    "title": "두 번째 '남편'",
+    "title_en": "The Second Pretender",
+    "description": "가짜 드미트리 2세마저 '돌아온 남편'으로 인정해 동란기의 야심가가 됐다.",
+    "description_en": "She then 'recognized' False Dmitry II as her returned husband.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1614,
+    "year_end": null,
+    "title": "수감 중 사망",
+    "title_en": "Died a Prisoner",
+    "description": "러시아에 수감돼 숨졌다.",
+    "description_en": "She died in Russian captivity.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "예지 므니셰크": {
+  "events": [
+   {
+    "year": 1548,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "폴란드-리투아니아 연방의 마그나트로 태어나 산도미에시 보이보다가 됐다.",
+    "description_en": "Born a magnate; Voivode of Sandomierz.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1604,
+    "year_end": null,
+    "title": "가짜 차르의 후원자",
+    "title_en": "Backer of the Pretender",
+    "description": "사위 가짜 드미트리 1세의 모스크바 진출을 자금과 병력으로 뒷받침했다.",
+    "description_en": "He financed and armed his son-in-law False Dmitry's march on Moscow.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1606,
+    "year_end": null,
+    "title": "모스크바 입성",
+    "title_en": "In Moscow",
+    "description": "사위의 차르 즉위를 지켜봤고 그가 살해될 때 간신히 탈출했다.",
+    "description_en": "He watched the coronation, then barely escaped the massacre.",
+    "kind": "other",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1613,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "러시아로 추방돼 숨졌다.",
+    "description_en": "He died exiled in Russia.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "소피야 네듀제바": {
+  "events": [
+   {
+    "year": 1742,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "돈 카자크 여성으로 태어났다.",
+    "description_en": "Born a Don Cossack woman.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1760,
+    "year_end": null,
+    "title": "푸가초프와 결혼",
+    "title_en": "Marrying Pugachev",
+    "description": "예멜리안 푸가초프와 결혼해 세 자녀를 두었다.",
+    "description_en": "She married Yemelyan Pugachev; three children.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1774,
+    "year_end": null,
+    "title": "인질",
+    "title_en": "Taken Hostage",
+    "description": "남편이 '표트르 3세' 반란을 일으키자 정부의 인질이 돼 심문당했다.",
+    "description_en": "When his revolt erupted she became the state's hostage.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "살라바트 율라예프": {
+  "events": [
+   {
+    "year": 1752,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "바시키르에서 태어나 전사이자 시인이 됐다.",
+    "description_en": "Born among the Bashkirs; a warrior and poet.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1773,
+    "year_end": null,
+    "title": "푸가초프 반란 참전",
+    "title_en": "Joining Pugachev",
+    "description": "바시키르 부족을 이끌고 반란에 참전해 최고 지휘관 중 한 명이 됐다.",
+    "description_en": "He led the Bashkirs into Pugachev's revolt as a top commander.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1774,
+    "year_end": null,
+    "title": "체포",
+    "title_en": "Captured",
+    "description": "반란이 진압되면서 붙잡혀 종신 유배형을 받았다.",
+    "description_en": "Captured, he was sentenced to life exile.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1800,
+    "year_end": null,
+    "title": "유배지에서 사망",
+    "title_en": "Died in Exile",
+    "description": "발트해 로게르비크 요새에서 48세로 숨졌다 — 오늘날 우파에 거대한 기마상이 서 있다.",
+    "description_en": "He died in Baltic exile — today a giant equestrian statue stands in Ufa.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "후스티 기타르트": {
+  "events": [
+   {
+    "year": 1875,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "카탈루냐에서 태어나 우르헬 주교가 됐다.",
+    "description_en": "Born in Catalonia; Bishop of Urgell.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "'보리스 1세'를 거부하다",
+    "title_en": "Rejecting 'King Boris'",
+    "description": "스스로 안도라 국왕을 자칭한 스코시레프를 단호히 거부하고 체포되게 해 '안도라 왕국'의 단명극을 끝냈다.",
+    "description_en": "He refused the self-declared Boris I and had him arrested — ending the eleven-day 'kingdom'.",
+    "kind": "other",
+    "place_name": "안도라",
+    "place_name_en": "Andorra",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1936,
+    "year_end": 1945,
+    "title": "내전과 대전의 공동 영주",
+    "title_en": "Co-Prince Through Wars",
+    "description": "스페인 내전과 2차대전기 안도라의 종교 공동 영주로 국가를 이끌었다.",
+    "description_en": "He steered Andorra through the Civil War and WWII.",
+    "kind": "office",
+    "place_name": "안도라",
+    "place_name_en": "Andorra",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1960,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "84세로 숨졌다.",
+    "description_en": "Died at 84.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "킬라판": {
+  "events": [
+   {
+    "year": 1840,
+    "year_end": null,
+    "title": "출생(추정)",
+    "title_en": "Born (Estimated)",
+    "description": "마푸체 아리바노스 부족에서 태어나 뉴돌 롱코(대추장)가 됐다.",
+    "description_en": "Born among the Arribanos Mapuche; he rose to head chief.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1860,
+    "year_end": null,
+    "title": "'아라우카니아 왕국' 지지",
+    "title_en": "Backing the 'Kingdom'",
+    "description": "칠레군의 점령에 맞서려 투넨의 '아라우카니아·파타고니아 왕국'을 방어 우산으로 지지했다.",
+    "description_en": "He backed de Tounens' 'kingdom' as a shield against Chilean occupation.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1868,
+    "year_end": null,
+    "title": "케체레구아스 전투",
+    "title_en": "Quechereguas",
+    "description": "마푸체 마지막 대회전 승리를 이끌었다.",
+    "description_en": "He led the Mapuche's last great victory at Quechereguas.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1875,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "숨졌다 — 이후 마푸체 영토는 칠레에 편입됐다.",
+    "description_en": "He died; Mapuche lands were soon annexed.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "코르넬리오 사베드라": {
+  "events": [
+   {
+    "year": 1821,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "칠레에서 태어나 군인·정치인이 됐다.",
+    "description_en": "Born in Chile; a soldier-statesman.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1861,
+    "year_end": 1871,
+    "title": "'아라우카니아 점령'",
+    "title_en": "The Occupation of Araucanía",
+    "description": "10년에 걸친 군사 작전으로 마푸체 영토를 칠레에 편입시켰다.",
+    "description_en": "He commanded the decade-long occupation that annexed Mapuche territory.",
+    "kind": "battle",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1862,
+    "year_end": null,
+    "title": "'왕국'의 상대",
+    "title_en": "Facing the 'King'",
+    "description": "투넨의 '아라우카니아·파타고니아 왕국'을 군사적으로 누른 상대였다.",
+    "description_en": "His campaign swept aside de Tounens' 'kingdom'.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1891,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "산티아고 시장과 상원의원을 지낸 뒤 70세로 숨졌다.",
+    "description_en": "Later mayor of Santiago and senator — he died at 70.",
+    "kind": "death",
+    "place_name": "산티아고",
+    "place_name_en": "Santiago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "베니뉴 드 생마르": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "피뇨롤 감옥장",
+    "title_en": "Jailer at Pignerol",
+    "description": "루이 14세 치하 피뇨롤 요새의 감옥 총독.",
+    "description_en": "Governor of Pignerol fortress under Louis XIV.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1669,
+    "year_end": null,
+    "title": "'철가면' 수인 인수",
+    "title_en": "Receiving the Prisoner",
+    "description": "정체불명의 국가 기밀 수인을 맡았다 — 30년 넘게 수용소를 옮길 때마다 데리고 다녔다.",
+    "description_en": "He took charge of the masked state prisoner and carried him from fortress to fortress for thirty years.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1698,
+    "year_end": null,
+    "title": "바스티유로",
+    "title_en": "To the Bastille",
+    "description": "마지막으로 수인을 바스티유로 데려갔다.",
+    "description_en": "His last move brought the prisoner to the Bastille.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1708,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "숨졌다 — 수인의 정체는 끝내 밝혀지지 않았다.",
+    "description_en": "He died; the prisoner's identity died with the era.",
+    "kind": "death",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ }
+}

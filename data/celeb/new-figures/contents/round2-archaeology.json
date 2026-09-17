@@ -1,0 +1,286 @@
+{
+  "소피아 슐리만": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "일리아스",
+        "title_en": "Iliad",
+        "creator": "호메로스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://archive.org/stream/onepassiontwolov000654mbp/onepassiontwolov000654mbp_djvu.txt",
+        "evidence": "슐리만 부부의 전기는 열일곱 살 소피아가 학교에서 고대 그리스어 원문으로 《일리아스》의 헥토르 장송 구절을 암송해 방문객이던 하인리히 슐리만을 눈물나게 했다고 전한다.",
+        "review": "소피아 슐리만은 열일곱 살 때 학교에서 고대 그리스어 원문 그대로 이 서사시의 헥토르 장례 구절을 암송했다. 그녀의 낭송을 들은 하객 하인리히 슐리만이 눈물을 보였다고 전한다.",
+        "review_en": "Sophia Schliemann recited this epic's lament for Hector aloud in classical Greek as a seventeen-year-old schoolgirl. Her rendition is said to have moved the visiting Heinrich Schliemann to tears."
+      }
+    ]
+  },
+  "프랭크 캘버트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "일리아스",
+        "title_en": "Iliad",
+        "creator": "호메로스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Frank_Calvert",
+        "evidence": "위키백과는 캘버트가 호메로스 서사시에 평생 애착을 품고 신화를 허구가 아닌 역사로 굳게 믿었으며 히사를리크를 트로이로 확신해 시굴했다고 전한다.",
+        "review": "프랭크 캘버트는 호메로스 서사시에 평생 깊은 애착을 품고 그 신화를 허구가 아닌 역사로 굳게 믿었다. 그 확신이 그를 히사를리크 언덕의 시굴로 이끌었다.",
+        "review_en": "Frank Calvert held an enduring passion for the Homeric epics and a firm belief that the myths were history, not fiction. That conviction led him to sink trial trenches into the mound of Hisarlik."
+      },
+      {
+        "type": "BOOK",
+        "title": "트로이 평원 지형론",
+        "title_en": "A Dissertation on the Topography of the Plain of Troy",
+        "creator": "찰스 맥라렌",
+        "year": 1822,
+        "status": "FINISHED",
+        "source_url": "https://www.schliemann-museum.de/raum-10/calvert/",
+        "evidence": "슐리만 박물관 자료는 캘버트가 찰스 맥라렌의 보고에 따라 히사를리크 언덕에 트로이가 있다고 의심했다고 전한다.",
+        "review": "프랭크 캘버트는 맥라렌의 이 고지형 연구를 바탕으로 히사를리크 언덕이 트로이라고 의심했다. 언덕의 일부를 사들여 직접 시굴한 뒤 슐리만에게도 그곳을 팔 것을 권했다.",
+        "review_en": "Frank Calvert's suspicion that Troy lay under Hisarlik rested on Maclaren's topographical study. He bought part of the mound, excavated there himself, and then pointed Schliemann to the site."
+      }
+    ]
+  },
+  "아서 캘런더": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알미나 카나번": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오브리 허버트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "헨리 솔트": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "나일강 발원 탐험기",
+        "title_en": "Travels to Discover the Source of the Nile",
+        "creator": "제임스 브루스",
+        "year": 1790,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Henry_Salt_(Egyptologist)",
+        "evidence": "위키백과는 솔트가 1809년 아비시니아 정부 사절 임무 중 선행 여행가 제임스 브루스가 보고한 지역 정보를 검증하고 바로잡는 부수 임무를 떠맡았다고 전한다.",
+        "review": "헨리 솔트는 1809년 아비시니아 정부 사절로 가면서 제임스 브루스가 이 나일 탐험기에 남긴 보고를 검증하고 바로잡는 부수 임무를 떠맡았다. 그는 브루스의 기록을 실제 지역과 대조하며 여정을 이어갔다.",
+        "review_en": "Henry Salt took on a side mission during his 1809 embassy to Abyssinia: verifying and correcting what James Bruce had reported in this account of his search for the Nile's source. He checked Bruce's observations against the ground as he travelled."
+      }
+    ]
+  },
+  "베르나르디노 드로베티": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "롤리 리멜": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "헨리 코스틴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알프레다 빙엄": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "멜초르 아르테아가": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "던컨 매켄지": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "페데리코 할베르": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "크레타 섬 기록",
+        "title_en": "Descrittione dell'isola di Creta",
+        "creator": "프란체스코 바로치",
+        "year": 1577,
+        "status": "FINISHED",
+        "source_url": "https://www.treccani.it/enciclopedia/federico-halbherr_(Dizionario-Biografico)/",
+        "evidence": "이탈리아 백과사전은 할베르에게 맡겨진 1884년 크레타 임무가 1577년 바로치 필사본의 크레타 섬 기록에 베껴 적힌 비문을 찾는 것이었다고 전한다.",
+        "review": "페데리코 할베르는 바로치가 16세기 필사본에 남긴 비문 기록을 바탕으로 그 비문을 찾으러 1884년 크레타로 갔다. 그 탐색이 곧 고르티나의 대법전 비문 발견으로 이어졌다.",
+        "review_en": "Federico Halbherr went to Crete in 1884 to look for an inscription recorded in Barozzi's sixteenth-century manuscript description of the island. That search led directly to his discovery of the great legal inscription of Gortyn."
+      }
+    ]
+  },
+  "엘리자베스 필팟": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "헨리 드 라 베슈": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "릴리언 브라운": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "찰스 스턴버그": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "존 벨 해처": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조지 데커": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "장샤오완": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "아밀리아 에드워즈": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "동방의 삶, 과거와 현재",
+        "title_en": "Eastern Life, Past and Present",
+        "creator": "해리엇 마티노",
+        "year": 1848,
+        "status": "FINISHED",
+        "source_url": "https://www.researchgate.net/publication/375595463_Amelia_B_Edwards_and_Romantic_Egyptology",
+        "evidence": "연구 논문은 에드워즈의 《나일 천 리》가 마티노의 이 이집트 기행서와 레인의 저작, 그리고 어린 시절 《천일야화》 독서에 영감을 빚졌다고 전한다.",
+        "review": "아밀리아 에드워즈는 나일강 기행문을 쓰기에 앞서 마티노의 이 이집트 기행서를 읽었다. 이 책은 그녀의 《나일 천 리》에 영감을 준 선행 저작으로 꼽힌다.",
+        "review_en": "Amelia Edwards read Martineau's Egyptian travel book before writing her own. It is named among the works that inspired A Thousand Miles up the Nile."
+      },
+      {
+        "type": "BOOK",
+        "title": "현대 이집트인의 풍속과 습관",
+        "title_en": "An Account of the Manners and Customs of the Modern Egyptians",
+        "creator": "에드워드 윌리엄 레인",
+        "year": 1836,
+        "status": "FINISHED",
+        "source_url": "https://www.researchgate.net/publication/375595463_Amelia_B_Edwards_and_Romantic_Egyptology",
+        "evidence": "연구 논문은 에드워즈의 《나일 천 리》가 마티노의 기행서와 레인의 이 학술 저작, 그리고 어린 시절 《천일야화》 독서에 영감을 빚졌다고 전한다.",
+        "review": "아밀리아 에드워즈는 이집트 여행에 앞서 이 현대 이집트인 풍습 연구를 읽었다. 이 책은 그녀의 나일 기행문에 영감을 준 선행 저작으로 꼽힌다.",
+        "review_en": "Amelia Edwards read this scholarly study of modern Egyptian life ahead of her Nile journey. It is named among the works that inspired A Thousand Miles up the Nile."
+      },
+      {
+        "type": "BOOK",
+        "title": "천일야화",
+        "title_en": "One Thousand and One Nights",
+        "creator": "작자 미상",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.researchgate.net/publication/375595463_Amelia_B_Edwards_and_Romantic_Egyptology",
+        "evidence": "연구 논문은 에드워즈가 어린 시절 《천일야화》를 애정 어리게 읽었고, 그 독서가 《나일 천 리》에 영감을 준 요소 가운데 하나였다고 전한다.",
+        "review": "아밀리아 에드워즈는 어린 시절 이 책을 애정 어리게 읽었다. 그 독서가 훗날 그녀의 이집트 기행문을 준비한 자양분 가운데 하나로 꼽힌다.",
+        "review_en": "Amelia Edwards read this collection affectionately as a child. That early reading is counted among the things that fed her later Egyptian travel book."
+      }
+    ]
+  },
+  "로버트 헤이": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "이집트와 누비아 발굴 기행",
+        "title_en": "Narrative of the Operations and Recent Discoveries within the Pyramids, Temples, Tombs, and Excavations in Egypt and Nubia",
+        "creator": "조반니 바티스타 벨조니",
+        "year": 1820,
+        "status": "FINISHED",
+        "source_url": "https://thebanmappingproject.com/glossary/hay-robert",
+        "evidence": "테베 지도 프로젝트 자료는 1818년 헤이의 첫 알렉산드리아 방문과 벨조니 저작 독서가 그를 이집트로 돌아가게 한 계기가 됐다고 전한다.",
+        "review": "로버트 헤이는 1818년 해군 복무 중 알렉산드리아를 다녀온 뒤 벨조니의 이 기행록을 읽었다. 그 독서가 그를 이집트로 돌아가게 한 계기 가운데 하나가 됐다.",
+        "review_en": "Robert Hay read Belzoni's narrative after his first glimpse of Egypt on naval service in 1818. That reading was one of the things that drew him back to the country."
+      }
+    ]
+  }
+}

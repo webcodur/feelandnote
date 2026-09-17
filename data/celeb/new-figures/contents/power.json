@@ -1,0 +1,518 @@
+{
+  "윌리엄 워커": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조사이어 할런": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "플루타르코스 영웅전",
+        "title_en": "Parallel Lives (Plutarch's Lives)",
+        "creator": "플루타르코스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Josiah_Harlan",
+        "evidence": "할런에 관한 기록은 그가 열다섯 살 무렵 플루타르코스의 전기들을 읽으며 시간을 보냈고 그리스·로마 고대사, 특히 알렉산드로스 대왕에 깊이 빠졌다고 전한다.",
+        "review": "조사이어 할런은 어머니를 잃은 뒤 독서에 빠져 열다섯 무렵부터 플루타르코스의 영웅전을 읽었다. 벤 매킨타이어의 전기에 따르면 그는 알렉산드로스 관련 대목을 길게 암송할 만큼 이 책에 익숙해졌다.",
+        "review_en": "Josiah Harlan turned to reading after losing his mother and was immersed in Plutarch's Lives by about age fifteen. According to Ben Macintyre's biography, he could recite long passages about Alexander the Great."
+      },
+      {
+        "type": "BOOK",
+        "title": "알렉산드로스 대왕의 역사",
+        "title_en": "History of Alexander (Historiae Alexandri Magni)",
+        "creator": "퀸투스 쿠르티우스 루푸스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.perlego.com/book/669962/josiah-the-great-the-true-story-of-the-man-who-would-be-king-pdf",
+        "evidence": "벤 매킨타이어의 전기 《조사이어 더 그레이트》는 할런이 여행 내내 쿠르티우스 루푸스의 《알렉산드로스 대왕의 역사》 한 부를 지니고 다녔다고 기록한다.",
+        "review": "조사이어 할런은 퀸투스 쿠르티우스 루푸스의 이 역사서를 여행 내내 지니고 다녔다. 알렉산드로스에 대한 어린 시절의 열정을 그는 힌두쿠시를 넘는 원정으로까지 이어갔다.",
+        "review_en": "Josiah Harlan carried a copy of Quintus Curtius Rufus's History of Alexander with him throughout his travels. His boyhood fascination with Alexander eventually took him on an expedition across the Hindu Kush."
+      },
+      {
+        "type": "BOOK",
+        "title": "카 불 왕국에 관한 기록",
+        "title_en": "An Account of the Kingdom of Caubul",
+        "creator": "마운트스튜어트 엘핀스턴",
+        "year": 1815,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Josiah_Harlan",
+        "evidence": "할런은 카르날 주둔 중 엘핀스턴의 1815년 저서를 읽고, 추장들이 패권을 다투는 중세적 아프가니스탄의 모습에 흥미를 품었다.",
+        "review": "조사이어 할런은 카르날에 주둔하며 엘핀스턴의 이 책을 읽고 아프가니스탄에 흥미를 품기 시작했다. 서구인이 거의 밟아본 적 없는 그 땅은 그에게 중세의 무대처럼 다가왔다.",
+        "review_en": "Josiah Harlan read Elphinstone's 1815 account while posted at Karnal, and the picture of a medieval Afghanistan of warring chieftains caught his imagination. That nearly unvisited land soon drew him east."
+      }
+    ]
+  },
+  "애런 버": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "여권의 옹호",
+        "title_en": "A Vindication of the Rights of Woman",
+        "creator": "메리 울스턴크래프트",
+        "year": 1792,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/cache/epub/7850/pg7850.html",
+        "evidence": "《애런 버 회고록》에 실린 아내에게 보낸 편지에서 버는 이 책을 구하자마자 밤을 새워 거의 다 읽었으며 '천재의 작품'이라고 평했다.",
+        "review": "애런 버는 이 책이 냉담한 평을 듣는다는 말을 듣고도 여성의 글이라면 무엇이든 열심히 읽는다며 곧장 구해 밤새 거의 다 읽었다. 그는 아내 테오도시아에게 보낸 편지에서 이를 '천재의 작품'이라 평하고 함께 읽을 날을 기약했다.",
+        "review_en": "Aaron Burr wrote to his wife that he had made haste to procure this book and spent nearly a whole night reading it, calling it a work of genius. He promised himself the pleasure of reading it to her."
+      },
+      {
+        "type": "BOOK",
+        "title": "트리스트럼 샌디",
+        "title_en": "The Life and Opinions of Tristram Shandy, Gentleman",
+        "creator": "로렌스 스턴",
+        "year": 1759,
+        "status": "FINISHED",
+        "source_url": "https://www.nbcnews.com/think/opinion/what-aaron-burr-s-late-regret-about-hamilton-can-teach-us-about-social-media-partisanship-ncna1250274",
+        "evidence": "NBC 기사는 론 처나우의 전기를 인용해, 버가 말년에 이 소설 속 토비 아저씨의 파리 장면을 읽고 '스턴을 더 읽고 볼테르를 덜 읽었다면'이라는 말을 했다는, 다소 전승적일 수 있는 일화를 전한다.",
+        "review": "애런 버는 말년에 이 소설에서 토비 아저씨가 파리를 잡았다 놓아주는 장면을 읽고 '스턴을 더 읽고 볼테르를 덜 읽었다면 세상은 해밀턴과 나 모두에게 충분히 넓다는 것을 알았을 것'이라고 말했다고 전한다. 다소 후대에 덧붙은 일화일 수 있다.",
+        "review_en": "Aaron Burr, late in life, is said to have read the scene in which Uncle Toby catches and releases a fly and remarked that had he read Sterne more and Voltaire less, he would have known the world was wide enough for Hamilton and him. The anecdote may be partly apocryphal."
+      },
+      {
+        "type": "BOOK",
+        "title": "로마 제국 쇠망사",
+        "title_en": "The History of the Decline and Fall of the Roman Empire",
+        "creator": "에드워드 기번",
+        "year": 1776,
+        "status": "WANT",
+        "source_url": "https://cityreaders.nysoclib.org/Detail/entities/164",
+        "evidence": "뉴욕 소사이어티 도서관 대출 장부는 버가 1790년 2월 이 책의 4권을 빌려 약 3주 뒤 반납했음을 보여준다.",
+        "review": "애런 버는 1790년 2월 뉴욕 소사이어티 도서관에서 이 책의 4권을 빌려 약 3주 만에 반납했다. 대출 장부에는 그가 기번을 비롯한 여러 책을 차례로 빌려본 흔적이 남아 있다.",
+        "review_en": "Aaron Burr borrowed the fourth volume of Gibbon's Decline and Fall from the New York Society Library in February 1790 and returned it about three weeks later. The charging ledger records him working through a series of such books."
+      },
+      {
+        "type": "BOOK",
+        "title": "망자들의 대화",
+        "title_en": "Dialogues of the Dead",
+        "creator": "조지 리틀턴",
+        "year": 1760,
+        "status": "WANT",
+        "source_url": "https://cityreaders.nysoclib.org/Detail/entities/164",
+        "evidence": "뉴욕 소사이어티 도서관 대출 장부는 버가 1791년 말 리틀턴의 이 책을 빌려 이듬해 1월 반납했음을 보여준다.",
+        "review": "애런 버는 1791년 12월 말 뉴욕 소사이어티 도서관에서 리틀턴의 이 책을 빌려 보름 가까이 지니다 반납했다. 그의 대출 기록에는 리틀턴의 다른 저작도 이어서 나타난다.",
+        "review_en": "Aaron Burr checked out Lyttelton's Dialogues of the Dead from the New York Society Library in late December 1791 and kept it about a fortnight. Other Lyttelton works appear in his borrowing record soon after."
+      }
+    ]
+  },
+  "이디 아민": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "꾸란",
+        "title_en": "Quran",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/theguardian/1999/feb/17/features11.g2",
+        "evidence": "가디언 인터뷰는 제다 망명지의 아민이 '거의 항상'인 여가 시간을 꾸란 암송과 독서, 아코디언 연주로 보낸다고 전한다.",
+        "review": "이디 아민은 제다 망명 생활에서 여가 시간 대부분을 꾸란 암송으로 보낸다고 기자에게 말했다. 독서와 아코디언 연주, 홍해 바닷가의 수영이 그의 하루를 채웠다.",
+        "review_en": "Idi Amin told a Guardian reporter that he spent most of his ample leisure time in Jeddah exile reciting the Quran, alongside reading and playing his accordion."
+      },
+      {
+        "type": "MUSIC",
+        "title": "네야갈리라 오노 오무토노",
+        "title_en": "Neyagalira Ono Omutono (I Love the Slender One from the War)",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/theguardian/1999/feb/17/features11.g2",
+        "evidence": "가디언 인터뷰는 아민이 제2차대전 시절 노래인 이 곡을 아코디언으로 연주하기를 좋아하며 기자 앞에서 직접 불렀다고 전한다.",
+        "review": "이디 아민은 이 제2차대전 시절 우간다 노래를 아코디언으로 연주하기를 즐겼고, 인터뷰에서 자신의 목소리가 여전히 매력적임을 보이려 직접 불렀다. '전쟁에서 돌아온 날씬한 그대를 사랑하네'라는 노래다.",
+        "review_en": "Idi Amin liked playing this Second World War-era song on his accordion and sang it for his interviewer to show he still had a seductive voice. Its title means 'I love the slender one from the war.'"
+      }
+    ]
+  },
+  "모부투 세세 세코": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "군주론",
+        "title_en": "The Prince",
+        "creator": "니콜로 마키아벨리",
+        "year": 1532,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Mobutu_Sese_Seko",
+        "evidence": "위키백과는 역사책을 탐독한 모부투가 나폴레옹과 드골을 흠모했으며 가장 좋아하는 책이 마키아벨리의 《군주론》이었다고 전한다.",
+        "review": "모부투 세세 세코는 역사책을 탐독했고 마키아벨리의 《군주론》을 가장 좋아하는 책으로 꼽았다. 그는 군인 시절 벨기에 장교들에게 신문과 책을 빌려 초소 근무 중에도 읽었다.",
+        "review_en": "Mobutu Sese Seko was a voracious reader of history whose favourite book was Machiavelli's The Prince. As a soldier he borrowed newspapers and books from Belgian officers and read them on sentry duty."
+      }
+    ]
+  },
+  "장베델 보카사": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "사파르무라트 니야조프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "무아마르 카다피": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "아웃사이더",
+        "title_en": "The Outsider",
+        "creator": "콜린 윌슨",
+        "year": 1956,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Personal_life_of_Muammar_Gaddafi",
+        "evidence": "위키백과는 카다피가 베토벤의 팬이었고 가장 좋아하는 소설로 《톰 아저씨의 오두막》 《뿌리》 《아웃사이더》를 꼽았다고 전한다.",
+        "review": "무아마르 카다피는 콜린 윌슨의 《아웃사이더》를 가장 좋아하는 책으로 꼽았다. 방문 기자들에게 기꺼이 이 사실을 밝혔고, 이 책에 빠진 나머지 윌슨을 리비아로 초청하려 했다는 이야기도 전해진다.",
+        "review_en": "Muammar Gaddafi named Colin Wilson's The Outsider as his favourite book, telling visiting journalists so without hesitation. He reportedly liked it so much that he invited Wilson to meet him in Libya."
+      },
+      {
+        "type": "BOOK",
+        "title": "톰 아저씨의 오두막",
+        "title_en": "Uncle Tom's Cabin",
+        "creator": "해리엇 비처 스토",
+        "year": 1852,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Personal_life_of_Muammar_Gaddafi",
+        "evidence": "위키백과는 카다피가 이 소설을 가장 좋아하는 책 중 하나로 꼽았다고 전한다.",
+        "review": "무아마르 카다피는 가장 좋아하는 소설 중 하나로 스토의 이 책을 꼽았다. 영국 브리검 인근 윌턴파크에서 영어 과정을 밟던 시절 무렵 읽은 것으로 알려졌다.",
+        "review_en": "Muammar Gaddafi counted Uncle Tom's Cabin among his favourite novels. He is said to have read it around the time of his English course in Britain."
+      },
+      {
+        "type": "BOOK",
+        "title": "뿌리",
+        "title_en": "Roots: The Saga of an American Family",
+        "creator": "알렉스 헤일리",
+        "year": 1976,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Personal_life_of_Muammar_Gaddafi",
+        "evidence": "위키백과는 카다피가 이 소설을 가장 좋아하는 책 중 하나로 꼽았다고 전한다.",
+        "review": "무아마르 카다피는 가장 좋아하는 소설 중 하나로 알렉스 헤일리의 《뿌리》를 꼽았다.",
+        "review_en": "Muammar Gaddafi counted Alex Haley's Roots among his favourite novels."
+      },
+      {
+        "type": "BOOK",
+        "title": "자유의 미래",
+        "title_en": "The Future of Freedom: Illiberal Democracy at Home and Abroad",
+        "creator": "파리드 자카리아",
+        "year": 2003,
+        "status": "FINISHED",
+        "source_url": "https://www.cbsnews.com/news/qaddafis-reading-list-obama-tom-friedman-fareed-zakaria/",
+        "evidence": "2008년 위키리크스 공개 외교 전문에 따르면 카다피는 피투리가 요약한 자카리아의 이 책을 '좋아했다'고 한다.",
+        "review": "무아마르 카다피는 파리드 자카리아의 이 책을 관료에게 요약하게 해 읽고 '좋아했다'고 한다. 그는 '중요한' 영어 저작들을 아랍어 요약본으로 받아보는 습관을 갖고 있었다.",
+        "review_en": "Muammar Gaddafi liked Zakaria's The Future of Freedom, according to a leaked U.S. diplomatic cable describing how he had trusted officials summarize significant English-language books for him in Arabic."
+      },
+      {
+        "type": "BOOK",
+        "title": "포스트 아메리칸 월드",
+        "title_en": "The Post-American World",
+        "creator": "파리드 자카리아",
+        "year": 2008,
+        "status": "WANT",
+        "source_url": "https://www.cbsnews.com/news/qaddafis-reading-list-obama-tom-friedman-fareed-zakaria/",
+        "evidence": "외교 전문은 피투리가 당시 자카리아의 이 신작을 요약 중이었고 카다피가 그 요약본을 받아보도록 지시한 구조를 보여준다.",
+        "review": "무아마르 카다피는 자카리아의 이 신간을 외교부 아메리카 담당 국장에게 아랍어 요약본으로 작성하게 했다. 그는 이렇게 해마다 여러 권의 영어 저작 요약을 받아보았다.",
+        "review_en": "Muammar Gaddafi had his Americas desk chief preparing an Arabic summary of Zakaria's new book, part of a standing arrangement under which he received summaries of several English-language titles a year."
+      },
+      {
+        "type": "BOOK",
+        "title": "세계는 평평하다",
+        "title_en": "The World Is Flat 3.0",
+        "creator": "토머스 프리드먼",
+        "year": 2007,
+        "status": "WANT",
+        "source_url": "https://www.cbsnews.com/news/qaddafis-reading-list-obama-tom-friedman-fareed-zakaria/",
+        "evidence": "외교 전문은 피투리가 카다피의 지시로 프리드먼의 이 책 요약 작업에 곧 착수할 예정이었다고 전한다.",
+        "review": "무아마르 카다피는 프리드먼의 이 책도 요약 대상 목록에 올려 두었다. 피투리는 카다피의 지시로 이 책의 요약 작업에 착수할 예정이었다.",
+        "review_en": "Muammar Gaddafi had Friedman's book next in line for an Arabic summary, which an official had been tasked by the Leader to prepare."
+      },
+      {
+        "type": "BOOK",
+        "title": "담대한 희망",
+        "title_en": "The Audacity of Hope",
+        "creator": "버락 오바마",
+        "year": 2006,
+        "status": "WANT",
+        "source_url": "https://www.cbsnews.com/news/qaddafis-reading-list-obama-tom-friedman-fareed-zakaria/",
+        "evidence": "외교 전문이 열거한 카다피의 요약 대상 도서에는 오바마의 이 책이 포함돼 있었다.",
+        "review": "무아마르 카다피는 당시 상원의원이던 오바마의 이 책도 아랍어 요약을 지시한 도서 목록에 올려 두었다.",
+        "review_en": "Muammar Gaddafi's list of books to be summarized in Arabic included then-Senator Obama's The Audacity of Hope."
+      },
+      {
+        "type": "BOOK",
+        "title": "오류의 시대",
+        "title_en": "The Age of Fallibility: Consequences of the War on Terror",
+        "creator": "조지 소로스",
+        "year": 2006,
+        "status": "WANT",
+        "source_url": "https://www.cbsnews.com/news/qaddafis-reading-list-obama-tom-friedman-fareed-zakaria/",
+        "evidence": "외교 전문이 열거한 카다피의 요약 대상 도서에는 소로스의 이 책이 포함돼 있었다.",
+        "review": "무아마르 카다피는 소로스의 이 책도 아랍어 요약을 지시한 도서 목록에 올려 두었다.",
+        "review_en": "Muammar Gaddafi's list of books to be summarized in Arabic included Soros's The Age of Fallibility."
+      }
+    ]
+  },
+  "파블로 에스코바르": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조그 1세": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "하일레 셀라시에": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "The Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://www.greengoldgardens.com/CE/UCI/CIH/Leaders/01-Haile-Selassie-I/Selected_Speeches/HIM-WoW_19610723_On-the-Bible.html",
+        "evidence": "하일레 셀라시에는 1961년 연설에서 어린 시절부터 성경을 소중히 여기도록 배웠고 그 사랑이 세월과 함께 깊어졌으며 모든 고난 속에서 무한한 위로가 됐다고 말했다.",
+        "review": "하일레 셀라시에는 1961년 연설에서 어린 시절부터 성경을 소중히 여기도록 배웠다고 고백했다. 그는 성경에 대한 사랑이 세월과 함께 깊어졌으며 모든 고난 속에서 무한한 위로였다고 말했다.",
+        "review_en": "Haile Selassie said in a 1961 speech that from early childhood he was taught to appreciate the Bible and that his love for it increased with time. He called it a cause of infinite comfort through all his troubles."
+      }
+    ]
+  },
+  "밀란 오블레노비치 1세": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "수브코만단테 마르코스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "돈키호테",
+        "title_en": "Don Quixote de la Mancha",
+        "creator": "미겔 데 세르반테스",
+        "year": 1605,
+        "status": "FINISHED",
+        "source_url": "https://struggle.ws/mexico/ezln/2001/marcos/gg_interview.html",
+        "evidence": "가르시아 마르케스와의 인터뷰에서 마르코스는 《돈키호테》를 침대 곁에 두고 있으며 '최고의 정치 이론서'라고 말했다.",
+        "review": "수브코만단테 마르코스는 열두 살 때 선물받은 양장본 이후 《돈키호테》를 늘 침대 곁에 두고 읽는다고 말했다. 그는 이 책을 '세상에서 가장 뛰어난 정치 이론서'라고 불렀다.",
+        "review_en": "Subcomandante Marcos told Gabriel García Márquez that he keeps Don Quixote by his bedside, a book first given to him as a beautiful hardcover when he was twelve. He called it the best book on political theory there is."
+      },
+      {
+        "type": "BOOK",
+        "title": "햄릿",
+        "title_en": "Hamlet",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://struggle.ws/mexico/ezln/2001/marcos/gg_interview.html",
+        "evidence": "마르코스는 《돈키호테》에 이어 《햄릿》과 《맥베스》가 멕시코 정치의 비극과 희극을 이해하는 데 어떤 정치 분석 칼럼보다 낫다고 말했다.",
+        "review": "수브코만단테 마르코스는 멕시코 정치 체제의 비극과 희극을 이해하는 데 《햄릿》이 어떤 정치 분석 칼럼보다 낫다고 말했다. 《돈키호테》에 이어 꼽은 정치 이론서 중 하나였다.",
+        "review_en": "Subcomandante Marcos said there is no better way to understand the tragedy and comedy of the Mexican political system than Hamlet, naming it just after Don Quixote as superior to any column of political analysis."
+      },
+      {
+        "type": "BOOK",
+        "title": "맥베스",
+        "title_en": "Macbeth",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://struggle.ws/mexico/ezln/2001/marcos/gg_interview.html",
+        "evidence": "마르코스는 《햄릿》과 함께 《맥베스》를 멕시코 정치를 이해하는 데 최고의 책으로 꼽았다.",
+        "review": "수브코만단테 마르코스는 《맥베스》를 《돈키호테》 《햄릿》과 나란히 멕시코 정치의 비극과 희극을 읽는 가장 뛰어난 책으로 꼽았다.",
+        "review_en": "Subcomandante Marcos listed Macbeth alongside Hamlet and Don Quixote as the best reading for grasping the tragedy and comedy of Mexican politics."
+      },
+      {
+        "type": "BOOK",
+        "title": "로망세로 히타노",
+        "title_en": "Romancero gitano (Gypsy Ballads)",
+        "creator": "페데리코 가르시아 로르카",
+        "year": 1928,
+        "status": "FINISHED",
+        "source_url": "https://struggle.ws/mexico/ezln/2001/marcos/gg_interview.html",
+        "evidence": "마르코스는 지금 무엇을 읽고 있느냐는 질문에 가르시아 로르카의 《로망세로 히타노》를 규칙적으로 지니고 다닌다고 답했다.",
+        "review": "수브코만단테 마르코스는 가르시아 로르카의 이 시집을 규칙적으로 지니고 다닌다고 말했다. 청년기에는 '모든 시의 시절'이 있었다고 회고했다.",
+        "review_en": "Subcomandante Marcos said he regularly carries García Lorca's Romancero gitano around with him, recalling that after the Latin American boom and Cervantes there came 'a time of all poetry.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "칸토 헤네랄",
+        "title_en": "Canto general",
+        "creator": "파블로 네루다",
+        "year": 1950,
+        "status": "FINISHED",
+        "source_url": "https://enlacezapatista.ezln.org.mx/1994/03/18/subcomandante-marcos-ya-no-es-tan-lejano-que-sea-posible-un-cambio-democratico/",
+        "evidence": "라디오 UNAM 인터뷰에서 마르코스는 라칸돈 정글로 가져간 열두 권 중 하나로 네루다의 《칸토 헤네랄》을 꼽고, 가장 자주 읽거나 찾아보던 책들을 챙겼다고 설명했다.",
+        "review": "수브코만단테 마르코스는 라칸돈 정글로 떠나며 챙긴 열두 권 중 하나로 네루다의 《칸토 헤네랄》을 꼽았다. 그는 가장 가까이 있어 가장 자주 읽던 책들을 배낭에 넣었다고 설명했다.",
+        "review_en": "Subcomandante Marcos named Neruda's Canto general among the twelve books he took into the Lacandon Jungle, explaining that he had grabbed the ones closest at hand because they were the ones he read or consulted most often."
+      },
+      {
+        "type": "BOOK",
+        "title": "크로노피오와 파마의 이야기",
+        "title_en": "Historia de cronopios y de famas",
+        "creator": "훌리오 코르타사르",
+        "year": 1962,
+        "status": "FINISHED",
+        "source_url": "https://enlacezapatista.ezln.org.mx/1994/03/18/subcomandante-marcos-ya-no-es-tan-lejano-que-sea-posible-un-cambio-democratico/",
+        "evidence": "라디오 UNAM 인터뷰에서 마르코스는 라칸돈 정글로 가져간 책 중 하나로 코르타사르의 이 책을 꼽았다.",
+        "review": "수브코만단테 마르코스는 라칸돈 정글로 떠나며 챙긴 열두 권 중 하나로 코르타사르의 이 책을 꼽았다. 그는 정글에서도 책들을 물품 보관소에 두고 바꿔 가며 읽었다고 말했다.",
+        "review_en": "Subcomandante Marcos named Cortázar's Historia de cronopios y de famas among the twelve books he carried into the Lacandon Jungle, saying he kept swapping books in and out of the supply caches they left in the forest."
+      },
+      {
+        "type": "BOOK",
+        "title": "판초 비야 회고록",
+        "title_en": "Las memorias de Pancho Villa",
+        "creator": "마르틴 루이스 구스만",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://enlacezapatista.ezln.org.mx/1994/03/18/subcomandante-marcos-ya-no-es-tan-lejano-que-sea-posible-un-cambio-democratico/",
+        "evidence": "라디오 UNAM 인터뷰에서 마르코스는 라칸돈 정글로 가져간 책 중 하나로 마르틴 루이스 구스만의 《프란시스코 비야 회고록》을 꼽았다.",
+        "review": "수브코만단테 마르코스는 라칸돈 정글로 떠나며 챙긴 열두 권 중 하나로 마르틴 루이스 구스만의 비야 회고록을 꼽았다.",
+        "review_en": "Subcomandante Marcos named Martín Luis Guzmán's Memoirs of Pancho Villa among the twelve books he carried into the Lacandon Jungle."
+      }
+    ]
+  },
+  "빅토르 부트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "킴 닷컴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "GAME",
+        "title": "콜 오브 듀티: 모던 워페어 3",
+        "title_en": "Call of Duty: Modern Warfare 3",
+        "creator": "인피니티 워드·슬레지해머 게임스",
+        "year": 2011,
+        "status": "FINISHED",
+        "source_url": "https://www.nzherald.co.nz/nz/cars-girls-guns-games-how-dotcom-topped-the-world-photos/3O5AYDBSAOK4ZIWZAIRTCX7WEU/",
+        "evidence": "뉴질랜드 헤럴드는 킴 닷컴이 'MEGARACER'라는 아이디로 수개월 만에 702시간을 플레이해 모던 워페어 3 킬 부문 세계 1위에 올랐다고 보도했다.",
+        "review": "킴 닷컴은 'MEGARACER'라는 이름으로 이 게임을 702시간 플레이해 킬 수와 자유전 리더보드 세계 1위에 올랐다. 그는 1,500만 명이 넘는 플레이어를 제친 기록을 유튜브 영상으로 공개했다.",
+        "review_en": "Kim Dotcom racked up 702 hours in this game to become the world's No. 1 player under the handle MEGARACER, topping the kills and free-for-all leaderboards of more than 15 million players. He uploaded a video of the feat on New Year's Eve."
+      }
+    ]
+  },
+  "로스 울브리히트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "올롱사이드 나이트",
+        "title_en": "Alongside Night",
+        "creator": "J. 닐 슐먼",
+        "year": 1979,
+        "status": "FINISHED",
+        "source_url": "https://www.csmonitor.com/USA/2015/0529/Silk-Road-mastermind-drug-kingpin-or-libertarian-ideologue-gone-astray",
+        "evidence": "CS모니터는 앤디 그린버그를 인용해, 울브리히트가 긴 메시지에서 이 소설을 언급하며 실크로드 구상이 결정됐다고 말했다고 전한다.",
+        "review": "로스 울브리히트는 긴 메시지에서 이 자유지상주의 소설을 언급했고, 기자 앤디 그린버그는 이 책이 실크로드에 대한 그의 구상을 결정짓게 한 책이었다고 전했다. 지하 암시장이 정부에 맞서는 내용의 소설이다.",
+        "review_en": "Ross Ulbricht mentioned this libertarian novel in a long message, and according to reporter Andy Greenberg it was the book that crystallized his idea for Silk Road. The story features an underground black market defying government control."
+      },
+      {
+        "type": "VIDEO",
+        "title": "매트릭스",
+        "title_en": "The Matrix",
+        "creator": "워쇼스키 자매",
+        "year": 1999,
+        "status": "FINISHED",
+        "source_url": "https://www.ibtimes.co.uk/ross-ulbricht-profile-biography-history-alleged-silk-511180",
+        "evidence": "IB타임스는 울브리히트의 페이스북 계정이 영화 《매트릭스》와 《반지의 제왕》을 좋아하는 작품으로 드러내고 있다고 보도했다.",
+        "review": "로스 울브리히트는 페이스북 계정에서 이 영화를 좋아하는 작품으로 표시해 두었다.",
+        "review_en": "Ross Ulbricht's Facebook account listed this film among the movies he liked."
+      },
+      {
+        "type": "VIDEO",
+        "title": "반지의 제왕",
+        "title_en": "The Lord of the Rings (film series)",
+        "creator": "피터 잭슨",
+        "year": 2001,
+        "status": "FINISHED",
+        "source_url": "https://www.ibtimes.co.uk/ross-ulbricht-profile-biography-history-alleged-silk-511180",
+        "evidence": "IB타임스는 울브리히트의 페이스북 계정이 영화 《반지의 제왕》을 좋아하는 작품으로 드러내고 있다고 보도했다.",
+        "review": "로스 울브리히트는 페이스북 계정에서 이 영화 시리즈를 좋아하는 작품으로 표시해 두었다.",
+        "review_en": "Ross Ulbricht's Facebook account listed this film series among the movies he liked."
+      },
+      {
+        "type": "BOOK",
+        "title": "지금 이 순간을 살아라",
+        "title_en": "The Power of Now: A Guide to Spiritual Enlightenment",
+        "creator": "에크하르트 톨레",
+        "year": 1997,
+        "status": "FINISHED",
+        "source_url": "https://www.ibtimes.co.uk/ross-ulbricht-profile-biography-history-alleged-silk-511180",
+        "evidence": "IB타임스는 울브리히트의 페이스북 계정이 이 책을 좋아하는 책으로 드러내고 있다고 보도했다.",
+        "review": "로스 울브리히트는 페이스북 계정에서 에크하르트 톨레의 이 책을 좋아하는 책으로 표시해 두었다.",
+        "review_en": "Ross Ulbricht's Facebook account listed Eckhart Tolle's book among the books he liked."
+      }
+    ]
+  }
+}

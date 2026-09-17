@@ -1,0 +1,464 @@
+[
+ {
+  "nickname": "마테오 리치",
+  "en": "Matteo Ricci",
+  "headline": "지도와 시계를 선물해 명나라 궁정에 든 선교사",
+  "prof": "humanities_scholar",
+  "title": "명나라 궁정의 서양인"
+ },
+ {
+  "nickname": "윌리엄 애덤스",
+  "en": "William Adams",
+  "headline": "일본 이름 '안진'을 얻은 최초의 서양 사무라이",
+  "prof": "other",
+  "title": "최초의 서양 사무라이"
+ },
+ {
+  "nickname": "헨드릭 하멜",
+  "en": "Hendrik Hamel",
+  "headline": "은둔의 나라를 서양에 처음 알린 표류자",
+  "prof": "author",
+  "title": "「하멜 표류기」"
+ },
+ {
+  "nickname": "필리프 프란츠 폰 지볼트",
+  "en": "Philipp Franz von Siebold",
+  "headline": "쫓겨났다 개항 뒤 귀환해 학문을 세운 의사",
+  "prof": "scientist",
+  "title": "일본학의 아버지"
+ },
+ {
+  "nickname": "의정",
+  "en": "Yijing",
+  "headline": "현장이 걸어간 길을 배로 다녀온 스님",
+  "prof": "author",
+  "title": "바닷길의 구법승"
+ },
+ {
+  "nickname": "두웨성",
+  "en": "Du Yuesheng",
+  "headline": "기부도 살인도 마다않은 '상하이의 큰형님'",
+  "prof": "other",
+  "title": "상하이의 대가"
+ },
+ {
+  "nickname": "장줘린",
+  "en": "Zhang Zuolin",
+  "headline": "산적 출신으로 베이징 정부까지 거머쥔 만주왕",
+  "prof": "commander",
+  "title": "만주의 호왕"
+ },
+ {
+  "nickname": "메이란팡",
+  "en": "Mei Lanfang",
+  "headline": "점령군의 부름에 수염으로 답한 국보 배우",
+  "prof": "actor",
+  "title": "경극의 황제"
+ },
+ {
+  "nickname": "런런 쇼",
+  "en": "Run Run Shaw",
+  "headline": "쿵푸 영화의 제국을 세우고 재산을 학교에 바친 사람",
+  "prof": "entrepreneur",
+  "title": "홍콩 영화의 제왕"
+ },
+ {
+  "nickname": "푸이",
+  "en": "Puyi",
+  "headline": "황금 옥좌에서 화분 앞으로 내려온 마지막 황제",
+  "prof": "leader",
+  "title": "마지막 황제"
+ },
+ {
+  "nickname": "윌리엄 워커",
+  "en": "William Walker",
+  "headline": "니카라과에 쳐들어가 대통령을 자처한 침략자",
+  "prof": "leader",
+  "title": "니카라과의 자칭 대통령"
+ },
+ {
+  "nickname": "조사이어 할런",
+  "en": "Josiah Harlan",
+  "headline": "그레이트 게임에 뛰어든 최초의 미국인",
+  "prof": "other",
+  "title": "고르의 왕자"
+ },
+ {
+  "nickname": "애런 버",
+  "en": "Aaron Burr",
+  "headline": "해밀턴을 쏘고도 임기를 마친 부통령",
+  "prof": "politician",
+  "title": "해밀턴을 쏜 부통령"
+ },
+ {
+  "nickname": "이디 아민",
+  "en": "Idi Amin",
+  "headline": "영국군 복싱 선수에서 캄팔라의 도살자로",
+  "prof": "leader",
+  "title": "캄팔라의 도살자"
+ },
+ {
+  "nickname": "모부투 세세 세코",
+  "en": "Mobutu Sese Seko",
+  "headline": "표범 모자 쓰고 나라를 통째로 해먹은 군주",
+  "prof": "leader",
+  "title": "도둑 군주의 표본"
+ },
+ {
+  "nickname": "장베델 보카사",
+  "en": "Jean-Bédel Bokassa",
+  "headline": "국가 예산 사분의 일을 자기 대관식에 쓴 황제",
+  "prof": "leader",
+  "title": "자칭 황제"
+ },
+ {
+  "nickname": "사파르무라트 니야조프",
+  "en": "Saparmurat Niyazov",
+  "headline": "해를 따라 도는 황금 자기 동상을 세운 군주",
+  "prof": "leader",
+  "title": "튀르크멘바시"
+ },
+ {
+  "nickname": "무아마르 카다피",
+  "en": "Muammar Gaddafi",
+  "headline": "배수로에서 끝난 42년 권력",
+  "prof": "leader",
+  "title": "리비아의 형제 지도자"
+ },
+ {
+  "nickname": "파블로 에스코바르",
+  "en": "Pablo Escobar",
+  "headline": "자기 감옥을 짓고 하마를 키운 코카인의 왕",
+  "prof": "other",
+  "title": "메데인 카르텔의 왕"
+ },
+ {
+  "nickname": "조그 1세",
+  "en": "Zog I of Albania",
+  "headline": "수상과 대통령을 거쳐 스스로 왕관을 쓴 촌장",
+  "prof": "leader",
+  "title": "55번의 암살 미수"
+ },
+ {
+  "nickname": "하일레 셀라시에",
+  "en": "Haile Selassie",
+  "headline": "라스타파리가 신으로 떠받드는 에티오피아 마지막 황제",
+  "prof": "leader",
+  "title": "유다의 사자"
+ },
+ {
+  "nickname": "밀란 오블레노비치 1세",
+  "en": "Milan I of Serbia",
+  "headline": "왕후와의 이혼 싸움을 공개극으로 만든 국왕",
+  "prof": "leader",
+  "title": "세르비아의 비극 국왕"
+ },
+ {
+  "nickname": "수브코만단테 마르코스",
+  "en": "Subcomandante Marcos",
+  "headline": "사령관이 아니라 부사령관을 자처한 게릴라",
+  "prof": "commander",
+  "title": "스키마스크의 게릴라"
+ },
+ {
+  "nickname": "빅토르 부트",
+  "en": "Viktor Bout",
+  "headline": "농구 스타와 맞교환돼 풀려난 무기상",
+  "prof": "other",
+  "title": "죽음의 상인"
+ },
+ {
+  "nickname": "킴 닷컴",
+  "en": "Kim Dotcom",
+  "headline": "저택에 헬기 특공대가 들이닥친 인터넷 억만장자",
+  "prof": "entrepreneur",
+  "title": "메가업로드의 왕"
+ },
+ {
+  "nickname": "로스 울브리히트",
+  "en": "Ross Ulbricht",
+  "headline": "도서관에서 노트북 펼친 채 잡힌 다크웹의 왕",
+  "prof": "other",
+  "title": "실크로드의 주인"
+ },
+ {
+  "nickname": "알레산드로 발리냐노",
+  "en": "Alessandro Valignano",
+  "headline": "소년 넷을 태운 덴쇼 사절단의 기획자",
+  "prof": "other",
+  "title": "동양 선교의 총설계자"
+ },
+ {
+  "nickname": "얀 요스텐",
+  "en": "Jan Joosten van Lodensteijn",
+  "headline": "도쿄 야에스 지명의 주인이 된 네덜란드인",
+  "prof": "other",
+  "title": "야에스의 이름 주인"
+ },
+ {
+  "nickname": "박연",
+  "en": "Jan Jansz Weltevree",
+  "headline": "서해안에 표류해 조선 사람이 된 선원",
+  "prof": "other",
+  "title": "조선에 귀화한 네덜란드인"
+ },
+ {
+  "nickname": "다카하시 가게야스",
+  "en": "Takahashi Kageyasu",
+  "headline": "지볼트에게 지도를 건네 옥사한 천문학자",
+  "prof": "scientist",
+  "title": "지볼트 사건의 천문학자"
+ },
+ {
+  "nickname": "황금융",
+  "en": "Huang Jinrong",
+  "headline": "수석 형사이자 청방 두목이었던 상하이 거물",
+  "prof": "other",
+  "title": "상하이 조계의 양두백"
+ },
+ {
+  "nickname": "펑위샹",
+  "en": "Feng Yuxiang",
+  "headline": "소방호스로 부하를 세례했다는 기독교 군벌",
+  "prof": "commander",
+  "title": "기독교 장군"
+ },
+ {
+  "nickname": "로크 완토",
+  "en": "Loke Wan Tho",
+  "headline": "새를 찍던 카메라를 든 동남아 극장왕",
+  "prof": "entrepreneur",
+  "title": "캐세이 제국의 왕"
+ },
+ {
+  "nickname": "완롱",
+  "en": "Wanrong",
+  "headline": "유해조차 찾지 못한 중국의 마지막 황후",
+  "prof": "other",
+  "title": "중국의 마지막 황후"
+ },
+ {
+  "nickname": "원수",
+  "en": "Wenxiu",
+  "headline": "비후 혁명으로 황궁을 박차고 나온 후궁",
+  "prof": "other",
+  "title": "황제를 이혼한 후궁"
+ },
+ {
+  "nickname": "레지널드 존스턴",
+  "en": "Reginald Johnston",
+  "headline": "자금성에서 마지막 황제를 가르친 스코틀랜드인",
+  "prof": "humanities_scholar",
+  "title": "황제의 영어 스승"
+ },
+ {
+  "nickname": "파트리시오 리바스",
+  "en": "Patricio Rivas",
+  "headline": "워커가 앉힌 대통령이 워커에 등을 돌렸다",
+  "prof": "politician",
+  "title": "워커의 꼭두각시 대통령"
+ },
+ {
+  "nickname": "찰스 프레더릭 헤닝센",
+  "en": "Charles Frederick Henningsen",
+  "headline": "세계를 돌며 전쟁을 팔러 다닌 남자",
+  "prof": "commander",
+  "title": "다섯 전쟁을 누빈 용병"
+ },
+ {
+  "nickname": "노웰 새먼",
+  "en": "Nowell Salmon",
+  "headline": "세포이 반란의 영웅, 워커의 체포자",
+  "prof": "commander",
+  "title": "워커를 사형대에 넘긴 제독"
+ },
+ {
+  "nickname": "알렉산더 번스",
+  "en": "Alexander Burnes",
+  "headline": "카불에서 죽어 아프간 전쟁의 서막이 된 탐험가",
+  "prof": "other",
+  "title": "부하라의 번스"
+ },
+ {
+  "nickname": "하먼 블레너해싯",
+  "en": "Harman Blennerhassett",
+  "headline": "부통령의 야망에 섬과 전 재산을 걸다",
+  "prof": "other",
+  "title": "버 음모의 자금줄"
+ },
+ {
+  "nickname": "애런 버 시니어",
+  "en": "Aaron Burr Sr.",
+  "headline": "아들은 부통령, 아버지는 대학의 아버지",
+  "prof": "other",
+  "title": "프린스턴의 두 번째 학장"
+ },
+ {
+  "nickname": "일라이자 주멜",
+  "en": "Eliza Jumel",
+  "headline": "남편이 죽던 날 이혼이 확정된 과부",
+  "prof": "other",
+  "title": "뉴욕 최고 부자 과부"
+ },
+ {
+  "nickname": "사라 쿄라바",
+  "en": "Sarah Kyolaba",
+  "headline": "들러리는 아라파트, 신랑은 이디 아민",
+  "prof": "other",
+  "title": "수어사이드 사라"
+ },
+ {
+  "nickname": "밥 아스틀스",
+  "en": "Bob Astles",
+  "headline": "'우간다의 흰 쥐'로 불린 독재자의 고문",
+  "prof": "other",
+  "title": "우간다의 흰 쥐"
+ },
+ {
+  "nickname": "알렉상드르 반자",
+  "en": "Alexandre Banza",
+  "headline": "보카사의 쿠데타를 돕고 보카사에게 죽다",
+  "prof": "commander",
+  "title": "보카사가 직접 때려죽인 심복"
+ },
+ {
+  "nickname": "보리스 시흐무라도프",
+  "en": "Boris Shikhmuradov",
+  "headline": "감옥에서 흔적도 없이 사라진 외무장관",
+  "prof": "politician",
+  "title": "감옥에서 사라진 외무장관"
+ },
+ {
+  "nickname": "구스타보 가비리아",
+  "en": "Gustavo Gaviria",
+  "headline": "파블로가 총을 들 때 사촌은 장부를 들었다",
+  "prof": "other",
+  "title": "카르텔의 두뇌"
+ },
+ {
+  "nickname": "제랄딘 아포니",
+  "en": "Geraldine Apponyi",
+  "headline": "결혼 일 년 만에 나라를 잃은 왕비",
+  "prof": "leader",
+  "title": "헝가리의 백장미"
+ },
+ {
+  "nickname": "판 놀리",
+  "en": "Fan Noli",
+  "headline": "여섯 달 총리, 평생 주교",
+  "prof": "politician",
+  "title": "셰익스피어를 옮긴 총리"
+ },
+ {
+  "nickname": "이야수 5세",
+  "en": "Iyasu V",
+  "headline": "왕좌에 올랐으나 왕관은 쓰지 못한 황제",
+  "prof": "leader",
+  "title": "대관식 없는 황제"
+ },
+ {
+  "nickname": "세르비아의 나탈리예",
+  "en": "Natalie of Serbia",
+  "headline": "왕비에서 이혼녀로, 다시 수녀로",
+  "prof": "leader",
+  "title": "왕과 싸우다 수녀가 된 왕비"
+ },
+ {
+  "nickname": "드라가 마신",
+  "en": "Draga Mašin",
+  "headline": "궁정 시녀에서 왕비, 창밖으로 던져진 최후",
+  "prof": "leader",
+  "title": "창밖으로 던져진 왕비"
+ },
+ {
+  "nickname": "코만단타 라모나",
+  "en": "Comandanta Ramona",
+  "headline": "자수를 놓던 손으로 산크리스토발을 점령하다",
+  "prof": "commander",
+  "title": "사파티스타의 여성 지휘관"
+ },
+ {
+  "nickname": "페르난도 야녜스 무뇨스",
+  "en": "Fernando Yáñez Muñoz",
+  "headline": "사파티스타의 씨앗을 심은 건축가",
+  "prof": "commander",
+  "title": "마르코스를 만든 사령관"
+ },
+ {
+  "nickname": "수브코만단테 모이세스",
+  "en": "Subcomandante Moisés",
+  "headline": "사파티스타의 목소리를 물려받은 남자",
+  "prof": "commander",
+  "title": "마르코스의 후계 대변인"
+ },
+ {
+  "nickname": "리처드 치차클리",
+  "en": "Richard Chichakli",
+  "headline": "'죽음의 상인' 빅토르 부트의 회계사",
+  "prof": "other",
+  "title": "죽음의 상인의 회계사"
+ },
+ {
+  "nickname": "핀 바타토",
+  "en": "Finn Batato",
+  "headline": "말기 암 판정이 송환 소송을 끝냈다",
+  "prof": "entrepreneur",
+  "title": "메가업로드의 마케팅 총괄"
+ },
+ {
+  "nickname": "마티아스 오르트만",
+  "en": "Mathias Ortmann",
+  "headline": "메가업로드를 짓고 메가까지 세운 개발자",
+  "prof": "entrepreneur",
+  "title": "메가업로드의 2인자"
+ },
+ {
+  "nickname": "브람 판데르콜크",
+  "en": "Bram van der Kolk",
+  "headline": "피고인에서 후속 서비스 메가의 기술 책임자로",
+  "prof": "entrepreneur",
+  "title": "메가업로드의 수석 개발자"
+ },
+ {
+  "nickname": "린 울브리히트",
+  "en": "Lyn Ulbricht",
+  "headline": "아들의 무기징역에 대통령 사면으로 답하다",
+  "prof": "other",
+  "title": "아들을 풀려낸 어머니"
+ },
+ {
+  "nickname": "로저 토머스 클라크",
+  "en": "Roger Thomas Clark",
+  "headline": "다크웹 제국의 운영을 가르친 그림자 멘토",
+  "prof": "other",
+  "title": "공포의 해적 로버츠의 멘토"
+ },
+ {
+  "nickname": "커티스 그린",
+  "en": "Curtis Green",
+  "headline": "부패 요원과 보스의 살인 청부 채팅에 찍힌 남자",
+  "prof": "other",
+  "title": "부패 요원에게 고문당한 관리자"
+ },
+ {
+  "nickname": "칼 마크 포스",
+  "en": "Carl Mark Force IV",
+  "headline": "수사하던 사건의 비트코인을 훔친 요원",
+  "prof": "other",
+  "title": "수사하다 훔친 요원"
+ },
+ {
+  "nickname": "재러드 더예기얀",
+  "en": "Jared Der-Yeghiayan",
+  "headline": "도서관에서 울브리히트와 채팅하며 덫을 놓다",
+  "prof": "other",
+  "title": "다크웹에 잠복한 요원"
+ },
+ {
+  "nickname": "게리 올퍼드",
+  "en": "Gary Alford",
+  "headline": "구글 검색으로 다크웹 제왕을 찾다",
+  "prof": "other",
+  "title": "구글로 제왕을 찾은 세금 요원"
+ }
+]

@@ -1,0 +1,469 @@
+{
+  "하인리히 슐리만": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "일리아스",
+        "title_en": "Iliad",
+        "creator": "호메로스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.dw.com/en/heinrich-schliemann-the-man-who-discovered-troy/a-18946144",
+        "evidence": "독일 도이체벨레 기사는 슐리만이 낡은 《일리아스》 한 권만을 지니고 튀르키예를 누볐으며, 그 책이 트로이 발굴의 '유일한 동행'이자 없어서는 안 될 안내서였다고 전한다.",
+        "review": "하인리히 슐리만은 낡은 《일리아스》 한 권을 지니고 튀르키예를 누비며 호메로스의 지명을 실제 유적과 대조했다. 이 서사시는 그가 고대 그리스어까지 배워가며 곁에 둔, 트로이를 찾는 '유일한 동행'이었다.",
+        "review_en": "Heinrich Schliemann roamed Turkey with little but a worn copy of the Iliad, matching Homer's place names against real ground. The epic was his 'one and only true companion' on the quest for Troy, a book he even learned ancient Greek to read."
+      },
+      {
+        "type": "BOOK",
+        "title": "어린이를 위한 세계사",
+        "title_en": "Weltgeschichte für Kinder (Illustrated History of the World)",
+        "creator": "루트비히 예러",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.dw.com/en/the-archaeologist-who-discovered-troy-heinrich-schliemann/a-60323937",
+        "evidence": "도이체벨레 기사는 일곱 살 슐리만이 아버지에게 받은 이 그림 세계사 속 불타는 트로이 그림에 특히 깊은 인상을 받았다고 전한다.",
+        "review": "하인리히 슐리만은 일곱 살 때 아버지에게 받은 이 그림 세계사에서 불타는 트로이의 삽화를 보고 깊은 인상을 받았다. 그때부터 그는 트로이의 흔적이 어딘가에 남아 있으리라 믿었다.",
+        "review_en": "Heinrich Schliemann was seven when his father gave him this illustrated world history, and its picture of Troy in flames left a deep impression on him. From then on he believed that some remains of the city must survive."
+      }
+    ]
+  },
+  "하워드 카터": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "카니번 경": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조반니 벨조니": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "퍼시 포셋": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "문서 512",
+        "title_en": "Manuscript 512 (Relação histórica de uma oculta e grande povoação)",
+        "creator": "작자 미상 (18세기 포르투갈 탐험대원)",
+        "year": 1753,
+        "status": "FINISHED",
+        "source_url": "https://www.history.com/articles/explorer-percy-fawcett-disappears-in-the-amazon",
+        "evidence": "히스토리 채널 기사는 포셋이 1753년 포르투갈 탐험대가 남긴 석조 대도시 기록에 특히 매료됐고, 그것이 그의 잃어버린 도시 'Z' 신념의 바탕이 됐다고 전한다.",
+        "review": "퍼시 포셋은 리우데자네이루의 도서관 문서고에서 이 문서를 찾아 읽고 깊이 매료됐다. 18세기 탐험대가 본 무인의 석조 대도시 기록이 그가 평생 좇은 도시 'Z'의 믿음 상당 부분을 이루었다.",
+        "review_en": "Percy Fawcett found and read this document in a Rio de Janeiro library archive and was enthralled by it. The eighteenth-century account of a great deserted stone city formed much of the basis for his belief in the lost city he called 'Z.'"
+      }
+    ]
+  },
+  "로이 채프먼 앤드루스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "동북미 조류 핸드북",
+        "title_en": "Handbook of Birds of Eastern North America",
+        "creator": "프랭크 M. 채프먼",
+        "year": 1895,
+        "status": "FINISHED",
+        "source_url": "https://www.boone-crockett.org/bc-member-spotlight-roy-chapman-andrews",
+        "evidence": "분앤드크로킷 클럽 소개문은 소년 앤드루스가 채프먼의 이 조류 도감을 '나의 성서'라 부르며 늘 지니고 다녔다고 전한다.",
+        "review": "로이 채프먼 앤드루스는 소년 시절 이 조류 도감을 '나의 성서'라 부르며 늘 지니고 다녔다. 갈렌캄프의 전기에 따르면 그는 닳아빠진 이 책을 모든 야외 조사에 챙겨갔다.",
+        "review_en": "Roy Chapman Andrews carried this bird handbook everywhere as a boy and called it his 'Bible.' According to Gallenkamp's biography, he took his tattered copy on every field trip."
+      },
+      {
+        "type": "BOOK",
+        "title": "가장 어두운 아프리카",
+        "title_en": "In Darkest Africa",
+        "creator": "헨리 M. 스탠리",
+        "year": 1890,
+        "status": "FINISHED",
+        "source_url": "https://campusstore.miamioh.edu/dragon-hunter-roy-chapman-andrews-central/bk/9780670890934",
+        "evidence": "갈렌캄프 전기 소개문은 앤드루스가 아프리카 탐험가들의 기행을 탐독했고 그중 스탠리의 이 책에 '읽고 나서 밤에 잠이 오지 않을 정도로' 흥분했다고 전한다.",
+        "review": "로이 채프먼 앤드루스는 아프리카 탐험가들의 기행문을 탐독했는데 그중에서도 스탠리의 이 책에 가장 전율해 읽는 동안 잠이 오지 않을 정도였다.",
+        "review_en": "Roy Chapman Andrews pored over the narratives of the great African explorers, and none thrilled him like this one — Stanley's book left him so excited he 'could scarcely sleep at night after reading it.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "아라비아 사막 기행",
+        "title_en": "Travels in Arabia Deserta",
+        "creator": "찰스 M. 도티",
+        "year": 1888,
+        "status": "WANT",
+        "source_url": "https://campusstore.miamioh.edu/dragon-hunter-roy-chapman-andrews-central/bk/9780670890934",
+        "evidence": "갈렌캄프 전기 소개문은 앤드루스가 헌책방에서 도티의 이 고전을 한 권 사들였으며 그것이 사막에 대한 그의 매력을 일깨웠을지 모른다고 전한다.",
+        "review": "로이 채프먼 앤드루스는 헌책방에서 이 책을 한 권 사들였다. 전기 작가는 그것이 사막에 대한 그의 매력을 일깨웠을지도 모른다고 적었다.",
+        "review_en": "Roy Chapman Andrews picked up a copy of this classic in a secondhand bookstore. His biographer suggests it may have helped awaken his attraction to deserts."
+      },
+      {
+        "type": "BOOK",
+        "title": "중앙아시아와 티베트",
+        "title_en": "Central Asia and Tibet: Towards the Holy City of Lassa",
+        "creator": "스벤 헤딘",
+        "year": 1903,
+        "status": "FINISHED",
+        "source_url": "https://campusstore.miamioh.edu/dragon-hunter-roy-chapman-andrews-central/bk/9780670890934",
+        "evidence": "갈렌캄프 전기 소개문은 앤드루스가 1903년에 나온 헤딘의 이 책 영역본에 매료됐다고 전한다.",
+        "review": "로이 채프먼 앤드루스는 1903년에 나온 스벤 헤딘의 중앙아시아 탐험 기록 영역본에 매료됐다. 훗날 그는 스스로 고비 사막 탐험대를 이끄는 탐험가가 됐다.",
+        "review_en": "Roy Chapman Andrews was enthralled by the English edition of Sven Hedin's account of his Central Asian journeys. He would go on to lead his own expeditions into the Gobi Desert."
+      },
+      {
+        "type": "BOOK",
+        "title": "로빈슨 크루소",
+        "title_en": "Robinson Crusoe",
+        "creator": "대니얼 디포",
+        "year": 1719,
+        "status": "FINISHED",
+        "source_url": "https://archive.nytimes.com/www.nytimes.com/books/01/06/03/reviews/010603.03gewent.html",
+        "evidence": "갈렌캄프 전기 《드래곤 헌터》에 대한 뉴욕타임스 서평은 소년 앤드루스가 《로빈슨 크루소》와 전설적 아프리카 탐험가들의 전기에 매료됐다고 전한다.",
+        "review": "로이 채프먼 앤드루스는 어린 시절 이 소설에 매료됐다. 그는 그 책과 함께 전설적인 아프리카 탐험가들의 이야기를 읽으며 자랐다.",
+        "review_en": "Roy Chapman Andrews was enchanted by this novel as a small boy. Alongside it he devoured the lives of the legendary African explorers."
+      },
+      {
+        "type": "BOOK",
+        "title": "박제술과 실내 장식",
+        "title_en": "Taxidermy and Home Decoration",
+        "creator": "윌리엄 T. 호나데이",
+        "year": 1891,
+        "status": "FINISHED",
+        "source_url": "https://www.boone-crockett.org/bc-member-spotlight-roy-chapman-andrews",
+        "evidence": "분앤드크로킷 클럽 소개문은 앤드루스가 호나데이의 이 책으로 독학으로 박제술을 익혀 박제 제작 아르바이트로 대학 학비를 보탰다고 전한다.",
+        "review": "로이 채프먼 앤드루스는 이 책을 보고 독학으로 박제술을 익혀 사슴 트로피부터 죽은 애완동물까지 박제로 만들었다. 그 수입으로 벨로잇 대학 학비를 보탰다.",
+        "review_en": "Roy Chapman Andrews taught himself taxidermy from this book and ran a part-time business mounting everything from trophy deer to dead pets. The earnings helped pay his tuition at Beloit College."
+      }
+    ]
+  },
+  "히럼 빙엄": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "페루: 잉카의 땅에서의 여행과 탐험",
+        "title_en": "Peru: Incidents of Travel and Exploration in the Land of the Incas",
+        "creator": "에브라임 조지 스퀴어",
+        "year": 1877,
+        "status": "FINISHED",
+        "source_url": "https://readingroo.ms/1/0/7/7/10772/10772-h/10772-h.htm",
+        "evidence": "빙엄은 저서 《잉카의 땅》에서 볼리비아의 한 친구가 건네준 스퀴어의 이 책 속 아푸리막 계곡 현수교 그림을 보고 리마까지 육로 여행을 결심했다고 적었다.",
+        "review": "히럼 빙엄은 볼리비아의 한 친구가 건네준 이 책에서 아푸리막 계곡 절벽에 공중으로 매달린 현수교 그림을 보고, 그 계곡을 보고 다리를 건너보겠다는 욕망으로 리마행 육로 여정을 택했다고 자서에 적었다.",
+        "review_en": "Hiram Bingham wrote in Inca Land that a friend in Bolivia placed this book in his hands, and its marvelous picture of a suspension bridge over the Apurimac decided him to see that valley and cross that bridge on the overland journey to Lima."
+      },
+      {
+        "type": "BOOK",
+        "title": "탐험가",
+        "title_en": "The Explorer",
+        "creator": "러디어드 키플링",
+        "year": 1898,
+        "status": "FINISHED",
+        "source_url": "https://readingroo.ms/1/0/7/7/10772/10772-h/10772-h.htm",
+        "evidence": "빙엄은 《잉카의 땅》 머리말에 키플링의 이 시를 인용해 싣고, 본문에서도 '산 너머 잃어버린 것을 찾아가라'는 시구를 다시 불러왔다.",
+        "review": "히럼 빙엄은 저서 《잉카의 땅》 머리에 이 시를 인용해 실었다. '산 너머 숨은 무언가, 잃어버린 것을 찾아가라'는 시구를 그는 미지의 지역을 그리는 문맥에서 다시 불러왔다.",
+        "review_en": "Hiram Bingham set this poem as the epigraph of Inca Land and invoked its lines — 'Something lost behind the Ranges... Go!' — again in the text when describing the pull of the unknown region beyond Choquequirao."
+      }
+    ]
+  },
+  "아서 에번스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "장 프랑수아 샹폴리옹": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "메리 애닝": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "플레시오사우루스의 거의 완전한 골격 발견에 관하여",
+        "title_en": "On the Discovery of an almost perfect Skeleton of the Plesiosaurus",
+        "creator": "윌리엄 코니비어",
+        "year": 1824,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Mary_Anning",
+        "evidence": "위키백과는 애닝이 구하는 대로 학술 문헌을 읽고 남의 논문을 빌려 힘들게 베껴 썼으며, 코니비어의 1824년 해양 파충류 화석 논문을 베낀 사본에는 원본과 구분하기 어려운 정밀 삽화까지 담겼다고 전한다.",
+        "review": "메리 애닝은 부족한 배움을 스스로 채우려고 닿는 대로 학술 문헌을 읽고 논문을 베껴 썼다. 그녀가 손수 베낀 이 논문 사본에는 원본과 구분하기 어려울 만큼 정밀한 기술 삽화까지 함께 담겨 있다.",
+        "review_en": "Mary Anning read whatever scientific literature she could obtain and laboriously copied borrowed papers by hand. Her copy of Conybeare's 1824 paper on marine reptile fossils survives, complete with technical illustrations nearly indistinguishable from the original."
+      }
+    ]
+  },
+  "바넘 브라운": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "에드워드 드링커 코프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오스니얼 찰스 마시": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "종의 기원",
+        "title_en": "On the Origin of Species",
+        "creator": "찰스 다윈",
+        "year": 1859,
+        "status": "FINISHED",
+        "source_url": "https://ucmp.berkeley.edu/history/marsh.html",
+        "evidence": "UC 버클리 고생물학 자료는 마시가 예일 4학년이던 해에 출간된 다윈의 이 책에 미국 최초의 다윈주의 전향자 가운데 한 명이 됐다고 전한다.",
+        "review": "오스니얼 찰스 마시는 예일 마지막 해에 출간된 이 책을 접하고 미국에서 가장 먼저 다윈의 진화론에 전향한 학자 가운데 한 명이 됐다. 그의 서명이 들어간 1860년 미국 초판본이 지금도 남아 있다.",
+        "review_en": "Othniel Charles Marsh encountered this book when it appeared in his senior year at Yale and became one of the first American converts to Darwin's theory of evolution. A copy of the 1860 first American printing bearing his signature survives today."
+      }
+    ]
+  },
+  "헬게 잉스타드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "그린란드인의 사가",
+        "title_en": "Saga of the Greenlanders (Grœnlendinga saga)",
+        "creator": "작자 미상",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.30861/9781407309224",
+        "evidence": "란스오메도스 유적 연구 문헌은 잉스타드가 13세기에 쓰인 《그린란드인의 사가》와 《붉은 에이리크의 사가》에 묘사된 빈란드를 찾아 탐색했고, 란스오메도스 유적이 그 사가의 묘사와 부합해 보였다고 전한다.",
+        "review": "헬게 잉스타드는 13세기에 쓰인 이 사가가 묘사한 빈란드를 찾아 북미 해안을 북쪽으로 수색했다. 그 탐색 끝에 뉴펀들랜드 북단 란스오메도스에서 사가의 묘사와 부합하는 바이킹 유적을 발견했다.",
+        "review_en": "Helge Ingstad searched the North American coast for the Vinland described in this thirteenth-century saga. The search ended at L'Anse aux Meadows in northern Newfoundland, where he found a Norse site that seemed to fit the saga's description."
+      },
+      {
+        "type": "BOOK",
+        "title": "붉은 에이리크의 사가",
+        "title_en": "Saga of Erik the Red (Eiríks saga rauða)",
+        "creator": "작자 미상",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://doi.org/10.30861/9781407309224",
+        "evidence": "란스오메도스 유적 연구 문헌은 잉스타드가 13세기에 쓰인 《그린란드인의 사가》와 《붉은 에이리크의 사가》에 묘사된 빈란드를 찾아 탐색했고, 란스오메도스 유적이 그 사가의 묘사와 부합해 보였다고 전한다.",
+        "review": "헬게 잉스타드는 레이프 에이릭손의 항해를 담은 이 사가의 풍경 묘사를 빈란드 후보지들과 대조하며 해안을 수색했다. 사가가 그린 목초의 땅과 닮은 란스오메도스에서 유럽인의 첫 아메리카 정착지가 확인됐다.",
+        "review_en": "Helge Ingstad compared this saga's account of Leif Erikson's voyage with candidate coastlines while searching for Vinland. At L'Anse aux Meadows, resembling the saga's land of meadows, the first European settlement in the Americas was confirmed."
+      }
+    ]
+  },
+  "아우렐 슈타인": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "알렉산드로스 원정기",
+        "title_en": "The Campaigns of Alexander (Anabasis)",
+        "creator": "아리아노스",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://stein.mtak.hu/en/10-alexanderthegreat.htm",
+        "evidence": "헝가리과학아카데미 슈타인 자료는 1870년대 드레스덴 크로이츠슐레의 교사가 슈타인에게 아리아노스의 이 책을 건넸고, 소년 슈타인이 알렉산드로스에 매료돼 평생 그의 동방 원정 경로와 격전지를 추적했다고 전한다.",
+        "review": "아우렐 슈타인은 드레스덴 학창 시절 교사에게 받은 이 책으로 알렉산드로스 대왕에 매료됐다. 평생 그는 원정기를 따라잡으며 아오르노스 바위부터 히다스페스 전장까지 알렉산드로스의 행로를 현지에서 대조했다.",
+        "review_en": "Aurel Stein received a copy of Arrian's account from a teacher at Dresden's Kreuzschule in the 1870s and became fascinated by Alexander the Great. Throughout his life he devoted expedition after expedition to tracing the routes and battle sites of Alexander's eastern campaign."
+      },
+      {
+        "type": "BOOK",
+        "title": "대당서역기",
+        "title_en": "Si-yu-ki: Buddhist Records of the Western World",
+        "creator": "현장",
+        "year": 646,
+        "status": "FINISHED",
+        "source_url": "https://openjournals.library.sydney.edu.au/SSR/article/view/250/227",
+        "evidence": "시드니대 학술지는 슈타인이 현장을 탐험의 '수호성인'으로 삼아 그의 이 여정기를 모든 순례 여정의 변치 않는 동행으로 곁에 두고, 타림 분지에서 현장이 지나간 왕국들을 다시 발굴해 냈다고 전한다.",
+        "review": "아우렐 슈타인은 현장을 자신의 중앙아시아 탐험의 '수호성인'으로 삼고 이 여정기를 늘 곁에 두었다. 그는 이 책의 기록을 거꾸로 따라가며 현장이 지나간 타림 분지의 왕국들을 다시 발굴해 냈다.",
+        "review_en": "Aurel Stein took Xuanzang as the 'patron saint' of his Central Asian expeditions and kept this travel record as a constant companion on his wanderings. Following its itinerary, he rediscovered many of the Tarim Basin kingdoms the pilgrim had passed through."
+      }
+    ]
+  },
+  "스벤 헤딘": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "프르제발스키의 중앙아시아 탐사",
+        "title_en": "General Przhevalsky's Research Journeys in Central Asia",
+        "creator": "니콜라이 프르제발스키",
+        "year": 1891,
+        "status": "FINISHED",
+        "source_url": "https://bokliv.se/products/bok-sven-hedin-general-prschevalskijs-forskningsresor-i-centralasien-i-sammandrag-efter-de-ryska-tyska-och-franska-originalupplagorna-af-sven-hedin-med-2-kartor-och-79-illustrationer-forord-af-a-e-nordenskiold-boia49756",
+        "evidence": "서지 목록은 헤딘이 프르제발스키의 네 차례 중앙아시아 원정 기록을 러시아어·독일어·프랑스어 원판에서 요약해 이 스웨덴어 책으로 엮었고 노르덴셸드가 서문을 썼다고 전한다.",
+        "review": "스벤 헤딘은 선배 탐험가 프르제발스키의 네 차례 중앙아시아 원정 기록을 러시아어·독일어·프랑스어 원판에서 직접 요약해 이 책으로 엮어냈다. 그의 우상이었던 노르덴셸드가 서문을 써주었다.",
+        "review_en": "Sven Hedin distilled the four Central Asian expeditions of his predecessor Przhevalsky from the Russian, German and French editions into this Swedish volume. His hero Nordenskiöld wrote the foreword."
+      }
+    ]
+  },
+  "플린더스 피트리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "대피라미드의 유산",
+        "title_en": "Our Inheritance in the Great Pyramid",
+        "creator": "찰스 피아치 스미스",
+        "year": 1864,
+        "status": "FINISHED",
+        "source_url": "https://www.kentarchaeology.org.uk/journal/128/william-matthew-flinders-petrie-kentish-years",
+        "evidence": "켄트 고고학회 기사는 열세 살 피트리가 1866년 헌책방에서 피아치 스미스의 이 책을 발견해 사서 읽고, 아버지와 함께 언젠가 이집트에 가 직접 측정하겠다고 결심했다고 전한다.",
+        "review": "플린더스 피트리는 열세 살 때 헌책방을 뒤지다 이 책을 발견해 사서 아버지와 함께 읽었다. 대피라미드가 신의 계시로 세워졌다는 주장에 부자가 함께 흔들렸고, 피트리는 언젠가 직접 가서 측정하겠다고 다짐했다.",
+        "review_en": "Flinders Petrie was thirteen when he found and bought a copy of this book in a secondhand bookshop and read it with his father. Its claim that the Great Pyramid was divinely inspired convinced them that they must one day go to Egypt and take their own measurements."
+      }
+    ]
+  },
+  "존 로이드 스티븐스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "고대 도시 유적에 관한 기술",
+        "title_en": "Description of the Ruins of an Ancient City",
+        "creator": "안토니오 델 리오",
+        "year": 1822,
+        "status": "FINISHED",
+        "source_url": "https://exhibits.lib.unc.edu/exhibits/show/maya/western/incidents-of-travel-1841",
+        "evidence": "UNC 전시 자료는 스티븐스와 캐더우드가 델 리오·뒤파·발데크의 책에 감명받아 마야 유적 탐사를 결심했다고 전하며, 스티븐스는 자신의 기행문에서 팔렝케 궁전의 나무 도리 문제를 다룰 때 델 리오를 직접 인용했다.",
+        "review": "존 로이드 스티븐스는 중앙아메리카행을 결심하기 전 선행 탐험가들의 팔렝케 기록을 읽었다. 자신의 기행문에서 그는 '궁전'의 나무 도리 문제를 다루며 이 보고서를 직접 인용했다.",
+        "review_en": "John Lloyd Stephens read the earlier explorers' accounts of Palenque before resolving to see the Maya ruins himself. In his own travel book he cites this report directly when weighing whether the palace's lintels were made of wood."
+      },
+      {
+        "type": "BOOK",
+        "title": "멕시코 고적",
+        "title_en": "Antiquités Mexicaines",
+        "creator": "기욤 뒤파",
+        "year": 1834,
+        "status": "FINISHED",
+        "source_url": "https://exhibits.lib.unc.edu/exhibits/show/maya/western/incidents-of-travel-1841",
+        "evidence": "UNC 전시 자료는 스티븐스와 캐더우드가 델 리오·뒤파·발데크의 책에 감명받아 마야 유적 탐사를 결심했다고 전하며, 스티븐스는 기행문에서 팔렝케 궁전 기술이 델 리오나 뒤파에도 없는 내용임을 밝혔다.",
+        "review": "존 로이드 스티븐스는 뒤파 원정대의 멕시코 유적 기록집도 탐사 전에 읽은 선행 문헌 가운데 하나였다. 팔렝케 궁전의 나무 도리 판단을 다루며 그는 그것이 델 리오와 뒤파의 기록에 없는 내용임을 밝혔다.",
+        "review_en": "John Lloyd Stephens counted the record of Dupaix's expeditions among the earlier accounts he read before setting out. Discussing the palace at Palenque, he noted the wooden lintels were suggested neither by Del Río nor by Dupaix."
+      },
+      {
+        "type": "BOOK",
+        "title": "유카탄 기행",
+        "title_en": "Voyage pittoresque et archéologique dans la province d'Yucatan",
+        "creator": "장프레데리크 발데크",
+        "year": 1838,
+        "status": "FINISHED",
+        "source_url": "https://exhibits.lib.unc.edu/exhibits/show/maya/western/incidents-of-travel-1841",
+        "evidence": "UNC 전시 자료는 스티븐스와 캐더우드가 델 리오·뒤파·발데크의 책에 감명받아 고대 마야 유적 탐사를 결심했다고 전한다.",
+        "review": "존 로이드 스티븐스는 멕시코 남부와 유카탄의 유적을 기록한 이 책에도 감명받은 것으로 전한다. 그와 캐더우드는 델 리오·뒤파·발데크의 기록을 읽고 함께 중앙아메리카행을 결심했다.",
+        "review_en": "John Lloyd Stephens is counted among those captivated by this account of ruins in Chiapas and Yucatán. He and Catherwood resolved on their Central American journey after reading the books of Del Río, Dupaix and Waldeck."
+      }
+    ]
+  },
+  "프레드릭 캐더우드": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "고대 도시 유적에 관한 기술",
+        "title_en": "Description of the Ruins of an Ancient City",
+        "creator": "안토니오 델 리오",
+        "year": 1822,
+        "status": "FINISHED",
+        "source_url": "https://exhibits.lib.unc.edu/exhibits/show/maya/western/incidents-of-travel-1841",
+        "evidence": "UNC 전시 자료는 캐더우드와 스티븐스가 델 리오·뒤파·발데크의 책에 감명받아 마야 유적 탐사를 결심했다고 전한다.",
+        "review": "프레드릭 캐더우드는 스티븐스와 함께 델 리오의 팔렝케 기록을 비롯한 선행 탐험 서적에 감명받아 마야 유적 탐사를 결심했다.",
+        "review_en": "Frederick Catherwood and Stephens were captivated by the published accounts of earlier explorers such as Del Río and resolved to visit the Maya ruins depicted in them."
+      },
+      {
+        "type": "BOOK",
+        "title": "멕시코 고적",
+        "title_en": "Antiquités Mexicaines",
+        "creator": "기욤 뒤파",
+        "year": 1834,
+        "status": "FINISHED",
+        "source_url": "https://exhibits.lib.unc.edu/exhibits/show/maya/western/incidents-of-travel-1841",
+        "evidence": "UNC 전시 자료는 캐더우드와 스티븐스가 델 리오·뒤파·발데크의 책에 감명받아 마야 유적 탐사를 결심했다고 전한다.",
+        "review": "프레드릭 캐더우드는 뒤파 원정대의 멕시코 고적 기록집에도 매료됐다. 그 기록이 그려낸 유적을 직접 보겠다는 생각이 스티븐스와의 중앙아메리카행으로 이어졌다.",
+        "review_en": "Frederick Catherwood was also taken with the record of Dupaix's Mexican expeditions. The ruins it depicted helped turn his and Stephens' resolve into a journey to Central America."
+      },
+      {
+        "type": "BOOK",
+        "title": "유카탄 기행",
+        "title_en": "Voyage pittoresque et archéologique dans la province d'Yucatan",
+        "creator": "장프레데리크 발데크",
+        "year": 1838,
+        "status": "FINISHED",
+        "source_url": "https://exhibits.lib.unc.edu/exhibits/show/maya/western/incidents-of-travel-1841",
+        "evidence": "UNC 전시 자료는 캐더우드와 스티븐스가 델 리오·뒤파·발데크의 책에 감명받아 마야 유적 탐사를 결심했다고 전한다.",
+        "review": "프레드릭 캐더우드는 발데크의 유카탄 유적 기행록도 함께 읽었다. 이 책들이 그와 스티븐스를 열대 우림 속 고대 도시들로 이끌었다.",
+        "review_en": "Frederick Catherwood read Waldeck's picturesque account of Yucatán along with the other explorers' works. Those books led him and Stephens toward the ancient cities in the tropical forests."
+      }
+    ]
+  },
+  "피오트르 코즐로프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

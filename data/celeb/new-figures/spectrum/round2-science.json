@@ -1,0 +1,1406 @@
+{
+ "소피 브라헤": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 3,
+   "tech_exp": "우라니보르그 관측 보조로 케플러 데이터 토대에 기여",
+   "tech_exp_en": "Her observing aid fed the data behind Kepler's laws.",
+   "social": 2,
+   "social_exp": "당대 여성의 학문 참여 선례를 남김",
+   "social_exp_en": "A precedent of women's scholarship in her age.",
+   "economic": 2,
+   "economic_exp": "트롤레홀름 영지 경영과 대규모 원예 조성",
+   "economic_exp_en": "She ran Trolleholm and built great gardens.",
+   "cultural": 3,
+   "cultural_exp": "900쪽 귀족 족보서가 지금도 사료로 인용",
+   "cultural_exp_en": "Her 900-page genealogy is still cited.",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "족보서와 관측 기록이 연구 사료로 남음",
+   "transhistoricity_exp_en": "Her genealogy and notes remain source material."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "남편 사후 트롤레홀름 영지를 수십 년 직접 경영",
+     "reason_en": "Widowed, she ran Trolleholm estate for decades."
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "야간 관측 보조와 대규모 정원 조성을 소화",
+     "reason_en": "Night observing and estate gardening on a noblewoman's frame."
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "역법 계산을 보조하고 900쪽 족보서를 집필",
+     "reason_en": "She aided calendar work and wrote a 900-page genealogy."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "귀족 사회에서 학식과 정원으로 존경받음",
+     "reason_en": "Learning and gardens earned her regard among nobles."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "영지와 대정원을 규칙적으로 경영·관리",
+     "reason_en": "Ordered management of estate and gardens."
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "수십 년 관측 보조와 대규모 족보 편찬을 완수",
+     "reason_en": "Decades of observing aid and the great genealogy."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "족보서에 일가의 흥망을 담담히 기록",
+     "reason_en": "Her genealogy coolly records her house's fortunes."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "여성에게 닫힌 천문 관측을 귀족 관례 넘어 수행",
+     "reason_en": "She observed the skies beyond what noblewomen were allowed."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "오빠의 관측 사업과 일가의 기록을 충실히 도움",
+     "reason_en": "She faithfully served her brother's work and her family's record."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "가족과 영지 사람들을 두루 챙긴 생활",
+     "reason_en": "She looked after family and estate folk."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "족보서에서 여러 가문을 고르게 기록",
+     "reason_en": "Her genealogy treats many houses evenly."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "자기 이름 없이 관측과 족보 작업을 도맡음",
+     "reason_en": "Unnamed, she carried the observing and the records."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "남편 상실 뒤에도 영지와 정원을 새로 일굼",
+     "reason_en": "Widowed, she rebuilt estate and gardens afresh."
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "여성 금기의 학문 활동을 조용히 넘어섬",
+     "reason_en": "She quietly crossed the line drawn before women."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "오빠의 천문대와 일가 족보에 삶을 바침",
+     "reason_en": "She gave her life to her brother's observatory and her house."
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "남편 사후 영지를 무리 없이 수십 년 지킴",
+     "reason_en": "She kept the estate steady for decades after widowhood."
+    }
+   },
+   "rationale_ko": "여성에게 닫힌 관측실에서 오빠의 측정을 도운 조력자이자, 홀로 영지를 꾸린 경영인이다. 학식·근면·헌신이 두드러지며 이름 없이 일한 겸양이 그 뒤를 받친다. 과감한 도전보다 묵묵한 지킴이 생애의 결이었다. 그녀의 족보서는 지금도 덴마크 귀족사의 사료다.",
+   "rationale_en": "She assisted her brother's observations where women were shut out, then ran an estate alone as a widow. Learning, diligence and devotion stand out, with the humility of unnamed labour beneath them. Keeping rather than daring shaped her life. Her genealogy remains a source for Danish noble history."
+  }
+ },
+ "메리 벌클랜드": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 3,
+   "tech_exp": "최초 공룡 기술 논문의 삽도로 고생물학 시각화를 엶",
+   "tech_exp_en": "Her plates for the Megalosaurus paper opened palaeo-illustration.",
+   "social": 2,
+   "social_exp": "여성의 과학 기여라는 선례를 남김",
+   "social_exp_en": "A precedent of women's scientific work.",
+   "economic": 1,
+   "economic_exp": "화석 삽화 외 산업 영향 미미",
+   "economic_exp_en": "Illustration work; little industrial reach.",
+   "cultural": 3,
+   "cultural_exp": "고생물 복원 삽화의 원형을 만듦",
+   "cultural_exp_en": "She made the prototype of palaeo-art.",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "메갈로사우루스 그림이 학사의 표준 이미지",
+   "transhistoricity_exp_en": "Her Megalosaurus plate remains the field's emblem."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "아홉 자녀와 하숙생 든 학장 가정 살림을 꾸림",
+     "reason_en": "She ran a dean's household of nine children and lodgers."
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "라임 레지스 해안 채집과 화석 운반을 소화",
+     "reason_en": "She worked the Lyme Regis shore hauling fossils."
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "소녀 시절 퀴비에와 서신을 나눈 화석 전문가",
+     "reason_en": "As a girl she corresponded with Cuvier on fossils."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "크라이스트처치의 과학 살롱을 꾸린 안주인",
+     "reason_en": "She kept a scientific salon at Christ Church."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "가정 살림과 채집 여행을 검소하게 꾸림",
+     "reason_en": "She kept house and field trips frugal."
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "자녀 아홉 속에서 삽도·채집·표본 정리를 해냄",
+     "reason_en": "Amid nine children she drew, collected and catalogued."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "회고록 없이 조력자의 위치에 머뭄",
+     "reason_en": "She left no memoir, staying in the helper's place."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "절벽 채집과 남편 병세 속에서 가정·작업을 지킴",
+     "reason_en": "Cliff collecting and a husband's illness did not break her work."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "남편이 병원에 들어간 뒤에도 표본과 유고를 돌봄",
+     "reason_en": "After his confinement she still tended his specimens."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "무등록 채집가 메리 애닝과 동등하게 협력",
+     "reason_en": "She worked Mary Anning as an equal partner."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "삽화 기여가 논문에 명시될 만큼 공로를 나눔",
+     "reason_en": "Her credit appears in the papers themselves."
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "평생 남편의 이름 아래 공동 작업에 만족",
+     "reason_en": "A lifetime content to work under her husband's name."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "남편 병세 속에서도 삽화와 가정을 이어감",
+     "reason_en": "Through his illness she kept drawing and keeping house."
+    },
+    "conservative_progressive": {
+     "score": 5,
+     "reason_ko": "학회 바깥에서 여성의 실질 연구를 수행",
+     "reason_en": "She did real science outside the closed societies."
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "남편·채집가와의 공동 작업이 생애의 중심",
+     "reason_en": "Collaboration was the centre of her life."
+    },
+    "cautious_bold": {
+     "score": -12,
+     "reason_ko": "화석 조각 하나하나를 따져 그리는 세밀한 작업",
+     "reason_en": "Her work was the careful tracing of every bone."
+    }
+   },
+   "rationale_ko": "최초의 공룡 논문에 그림을 놓은 삽화가이자, 절벽 채집과 아홉 자녀 살림을 병행한 조력자다. 무등록 채집가 애닝과 대등하게 일한 겸손한 협업이 그녀의 중심이다. 학회의 문은 닫혔으나 실질 연구는 그녀의 손에서 나왔다. 남편의 병세 속에서도 그녀는 가정과 표본을 지켰다.",
+   "rationale_en": "She put the plates into the first dinosaur paper while raising nine children and collecting on the cliffs. Equal partnership with the unlettered Anning shows her collaborative bent. The learned societies were closed, yet the real work came from her hand. Through her husband's breakdown she kept home and specimens alike."
+  }
+ },
+ "조지 틸턴": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 6,
+   "tech_exp": "U-Pb 연대측정의 우라늄 쪽으로 지구 나이를 정함",
+   "tech_exp_en": "He built the uranium half of the dating that fixed Earth's age.",
+   "social": 1,
+   "social_exp": "사회 운동 개입은 드묾",
+   "social_exp_en": "Little public engagement.",
+   "economic": 0,
+   "economic_exp": "산업·경제 영향 없음",
+   "economic_exp_en": "No economic reach.",
+   "cultural": 2,
+   "cultural_exp": "45.6억 년이라는 지구 나이가 상식이 됨",
+   "cultural_exp_en": "A 4.56-billion-year Earth became common knowledge.",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "U-Pb 측정이 지구과학의 표준 도구로 정착",
+   "transhistoricity_exp_en": "U-Pb dating is now a standard tool of earth science."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "카네기·UCSB 연구팀과 실험실을 수십 년 이끔",
+     "reason_en": "He led lab groups at Carnegie and UCSB for decades."
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "평생 실험실과 지질 답사를 오간 연구자",
+     "reason_en": "A researcher's life of lab and field."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "지르콘 U-Pb 연대측정을 개척한 방법론적 통찰",
+     "reason_en": "He pioneered zircon U-Pb geochronology."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "학계 안에서 조용히 신망받은 공동 연구자",
+     "reason_en": "Quietly esteemed among colleagues."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "60년 연구 경력을 분쟁 없이 지속",
+     "reason_en": "Sixty dispute-free years in research."
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "반세기 넘게 동위원소 측정의 정밀도를 갈고닦음",
+     "reason_en": "Half a century refining isotope precision."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "측정 오차를 추적해 기법을 끊임없이 보정",
+     "reason_en": "He traced errors and endlessly corrected his methods."
+    },
+    "courage": {
+     "score": 48,
+     "reason_ko": "확립 안 된 연대측정법에 경력을 걸어 개척",
+     "reason_en": "He staked a career on an unproven dating method."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "카네기 연구소 한 곳에서 30년 가까이 연구",
+     "reason_en": "Near thirty years at the Carnegie Institution."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "제자들에게 측정 기법을 넘겨 학파를 이음",
+     "reason_en": "He passed the technique to his students."
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "지구 나이 발견의 공로를 패터슨과 나눠 가짐",
+     "reason_en": "He shared the credit for Earth's age with Patterson."
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "세계적 발견에도 학계 밖 명성을 구하지 않음",
+     "reason_en": "He sought no fame beyond the field."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "지구·달·운석의 나이를 풀 수 있다고 믿음",
+     "reason_en": "He trusted Earth, Moon and meteorites could be dated."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "학회 활동 외 사회 현안 발언이 드묾",
+     "reason_en": "He kept to scholarship over public causes."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "패터슨 팀의 공동 연구로 대표 성과를 이룸",
+     "reason_en": "His signature work came from a team."
+    },
+    "cautious_bold": {
+     "score": -20,
+     "reason_ko": "수년간 오차 원인을 추적하는 신중한 측정을 고수",
+     "reason_en": "He spent years chasing measurement error."
+    }
+   },
+   "rationale_ko": "패터슨이 납을 쟀다면 그는 우라늄을 재 지구의 나이를 완성한 측정의 장인이다. 한 연구소에서 반세기 정밀도를 갈고닦은 근면과 공로를 나눈 겸양이 돋보인다. 이름은 덜 알려졌으나 그의 방법은 지구과학의 표준이 됐다. 화려함 대신 오차를 쫓은 생애였다.",
+   "rationale_en": "Where Patterson measured lead, Tilton measured uranium — together they fixed Earth's age. Half a century refining precision in one institution shows his diligence, and sharing the credit shows his humility. Less famous than his partner, his method became the standard of geochronology. His was a life spent chasing error, not glory."
+  }
+ },
+ "로버트 키호": {
+  "influence": {
+   "political": 3,
+   "political_exp": "납 규제를 수십 년 늦춘 증언·기준 논쟁을 주도",
+   "political_exp_en": "His testimony delayed lead regulation for decades.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 3,
+   "tech_exp": "케터링 연구소를 산업독성학 중심지로 키움",
+   "tech_exp_en": "He built Kettering into an industrial-toxicology centre.",
+   "social": 4,
+   "social_exp": "'유해성 입증' 논리가 업계 방어 공식의 원형",
+   "social_exp_en": "His 'proof of harm' rule became industry's defence template.",
+   "economic": 4,
+   "economic_exp": "납 휘발유 산업의 규제 회피를 뒷받침",
+   "economic_exp_en": "He shielded the leaded-petrol industry from regulation.",
+   "cultural": 1,
+   "cultural_exp": "대중 문화 영향은 미미",
+   "cultural_exp_en": "Little cultural reach.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "산업 이해-과학 충돌의 전형 사례로 교재에 남음",
+   "transhistoricity_exp_en": "He stands in textbooks as the case of industry-captured science."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "케터링 연구소 초대 소장으로 30년간 연구를 총괄",
+     "reason_en": "Founding director who ran Kettering for thirty years."
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "98세까지 활동한 장수 연구자의 체력",
+     "reason_en": "A working researcher to the age of 98."
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "납 대사 연구를 제도화한 독성학 방법론",
+     "reason_en": "He institutionalised lead-metabolism research."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "공청회와 학회에서 업계 입장을 설득력 있게 변론",
+     "reason_en": "He argued industry's case persuasively in hearings."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "감정적 논쟁 대신 데이터 형식으로 대응",
+     "reason_en": "He answered critics in data, not temper."
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "40년간 납 측정 데이터를 축적하며 논쟁을 주도",
+     "reason_en": "Forty years accumulating lead data to dominate the debate."
+    },
+    "reflection": {
+     "score": 28,
+     "reason_ko": "대기 납 오염 증거가 쌓여도 입장을 고치지 않음",
+     "reason_en": "Mounting evidence never moved his position."
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "패터슨의 반박과 학계 반전에도 끝까지 대응",
+     "reason_en": "He faced Patterson and a turning consensus to the end."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "납 업계 후원자들을 평생 변호함",
+     "reason_en": "He defended his industry sponsors lifelong."
+    },
+    "benevolence": {
+     "score": 28,
+     "reason_ko": "납 중독 피해보다 산업 안전성 주장을 앞세움",
+     "reason_en": "He put industry's case ahead of the poisoned."
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "자금 받는 업계 편에서 '무해 추정' 잣대를 적용",
+     "reason_en": "Paid by industry, he applied a 'safe until proven' yardstick."
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "납 논쟁에서 스스로를 유일한 심판처럼 내세움",
+     "reason_en": "He posed as the sole arbiter of the lead question."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "납 위해 주장을 과잉 경고로 일관되게 해석",
+     "reason_en": "He read every warning of harm as overreaction."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "기존 산업 질서의 규제 변화에 끝까지 저항",
+     "reason_en": "He resisted regulatory change to the existing order."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "기업 연합의 연구 체제 안에서 평생 일함",
+     "reason_en": "He worked inside an industry-funded apparatus all his life."
+    },
+    "cautious_bold": {
+     "score": -30,
+     "reason_ko": "'입증 전에는 안전' 원칙으로 판단을 늦춤",
+     "reason_en": "His rule deferred judgment until harm was proven."
+    }
+   },
+   "rationale_ko": "산업 자금의 연구소를 30년간 이끈 통솔과 40년 데이터 축적의 근면은 실재하나, 그 역량이 납 산업의 방패로 쓰였다. '입증 전에는 안전'이라는 잣대는 신중의 이름으로 판단을 무기한 미뤘고, 증거가 쌓여도 입장을 고치지 않는 성찰 부재가 드러났다. 그의 생애는 과학이 이해관계에 포획된 전형으로 남았다.",
+   "rationale_en": "He ran an industry-funded laboratory for thirty years and accumulated lead data for forty — real command and diligence spent as industry's shield. His 'safe until proven' rule postponed judgment indefinitely, and accumulating evidence never corrected him. His life remains the textbook case of captured science."
+  }
+ },
+ "이자크 프레젠트": {
+  "influence": {
+   "political": 4,
+   "political_exp": "유전학자 탄압의 이데올로기 틀을 제공",
+   "political_exp_en": "He supplied the ideological frame for purging geneticists.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 4,
+   "tech_exp": "소련 유전학을 수십 년 후퇴시킨 이론 포장",
+   "tech_exp_en": "His packaging set Soviet genetics back decades.",
+   "social": 3,
+   "social_exp": "과학을 계급으로 가르는 담론을 공식화",
+   "social_exp_en": "He formalised 'bourgeois versus proletarian' science.",
+   "economic": 2,
+   "economic_exp": "리센코 농법의 이념 뒷받침으로 농업 실패에 일조",
+   "economic_exp_en": "His ideology underwrote the failed Lysenko agronomy.",
+   "cultural": 1,
+   "cultural_exp": "대중 문화 영향은 미미",
+   "cultural_exp_en": "Little cultural reach.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "과학-이데올로기 결탁의 전형으로 기록",
+   "transhistoricity_exp_en": "He remains a model case of ideology in science."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "레닌그라드에서 철학 강의와 학술 공세를 조직",
+     "reason_en": "He organised lectures and ideological campaigns in Leningrad."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "숙청 시대 학계에서 살아남은 지식인",
+     "reason_en": "A scholar who survived the purge era."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "마르크스주의 용어로 농학 주장을 체계화한 수완",
+     "reason_en": "He systematically dressed agronomy in Marxist terms."
+    },
+    "charm": {
+     "score": 48,
+     "reason_ko": "당 이론지와 학회에서 리센코 진영의 대변자",
+     "reason_en": "He served as the Lysenko camp's spokesman."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "학문 논쟁을 정치 공세로 조직해 토론을 벗어남",
+     "reason_en": "He turned scholarly dispute into political assault."
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "수십 편 이론 논문과 비판문을 조직적으로 생산",
+     "reason_en": "He produced scores of theoretical and denunciatory pieces."
+    },
+    "reflection": {
+     "score": 20,
+     "reason_ko": "리센코주의 붕괴 뒤에도 자기 역할을 돌아보지 않음",
+     "reason_en": "After Lysenkoism fell he never revisited his part."
+    },
+    "courage": {
+     "score": 30,
+     "reason_ko": "체제 편에서 위험 없는 공세를 택함",
+     "reason_en": "He chose the safe attacks from power's side."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "리센코 진영의 이론적 충성파로 끝까지 남음",
+     "reason_en": "He stayed Lysenko's loyal theorist to the end."
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "동료 유전학자의 몰락을 이념 명분으로 밀어붙임",
+     "reason_en": "He helped drive fellow geneticists to ruin."
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "학문을 계급 기준으로 재단해 동료를 단죄",
+     "reason_en": "He judged science by class line and condemned colleagues."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스스로 과학의 이념 심판자를 자처",
+     "reason_en": "He cast himself as science's ideological judge."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "사회주의 농업의 승리를 확신하는 언조",
+     "reason_en": "His tone assured the triumph of socialist agriculture."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "당의 정통 노선을 학문에 강요한 질서 수호자",
+     "reason_en": "He enforced party orthodoxy on scholarship."
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "과학을 계급·집단 사업으로 규정한 이론",
+     "reason_en": "He defined science as a class collective enterprise."
+    },
+    "cautious_bold": {
+     "score": -15,
+     "reason_ko": "권력 동향을 읽고 학문 공세를 조직",
+     "reason_en": "He timed his campaigns to the winds of power."
+    }
+   },
+   "rationale_ko": "리센코의 주장에 철학의 겉옷을 입힌 이념가로, 논리 대신 진영으로 학문을 재단했다. 유전학자 몰락의 이데올로기적 배후라는 점에서 인자·공정은 바닥에 가깝다. 체제 편의 안전한 공세를 택한 점에서 용기와는 거리가 멀다. 소련 유전학은 그와 동료들의 시대를 겪고 수십 년 뒤처졌다.",
+   "rationale_en": "As Lysenkoism's philosopher he dressed agronomy in ideology and judged science by faction. A backstage author of the geneticists' ruin, his benevolence and fairness sit near the floor, and his campaigns were the safe attacks of power's side. Soviet genetics lost decades to the era he helped build."
+  }
+ },
+ "니콜라이 표도로프": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 제도 개입은 거의 없음",
+   "political_exp_en": "Little engagement with politics.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 4,
+   "tech_exp": "치올콥스키에게 우주 사상을 심어 로켓 과학으로 이어짐",
+   "tech_exp_en": "He planted cosmic thought in Tsiolkovsky, seeding rocketry.",
+   "social": 3,
+   "social_exp": "'공동 과업' 사상으로 러시아 지성사에 한 흐름 형성",
+   "social_exp_en": "His 'common task' founded a current in Russian thought.",
+   "economic": 1,
+   "economic_exp": "경제 제도 영향은 미미",
+   "economic_exp_en": "Little economic reach.",
+   "cultural": 5,
+   "cultural_exp": "도스토옙스키·톨스토이에게 직접 영향을 미침",
+   "cultural_exp_en": "He directly influenced Dostoevsky and Tolstoy.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "러시아 우주주의의 원천으로 사상사에 정착",
+   "transhistoricity_exp_en": "He is the fountainhead of Russian cosmism."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 32,
+     "reason_ko": "도서관 사서로 젊은 독자들을 가르치는 정도",
+     "reason_en": "A librarian who informally taught young readers."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "빈곤 속 도보 생활과 금욕적 일상을 견딤",
+     "reason_en": "He endured a life of poverty walked on foot."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "과학·신학을 꿰는 독창적 '공동 과업' 철학",
+     "reason_en": "An original philosophy spanning science and theology."
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "도서관을 찾는 젊은이를 제자처럼 이끈 인격",
+     "reason_en": "Young readers gathered to him as to a teacher."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 88,
+     "reason_ko": "급여를 나눠주고 빵과 차로 연명한 금욕 생활",
+     "reason_en": "He gave his salary away and lived on bread and tea."
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "수십 년 도서관 정리와 후진 교육을 병행",
+     "reason_en": "Decades cataloguing the library and teaching."
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "인류 존재 자체를 성찰 대상으로 삼은 사유",
+     "reason_en": "He made mankind's existence his object of thought."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "검열 시대에 급진 사상을 나누되 출세를 거부",
+     "reason_en": "He shared radical thought under censorship and refused advancement."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "제자들과 '인류 과업'에 평생 헌신",
+     "reason_en": "He served disciples and the common task for life."
+    },
+    "benevolence": {
+     "score": 72,
+     "reason_ko": "자기 급여를 가난한 이에게 나눠주며 삶",
+     "reason_en": "He lived handing his wages to the poor."
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "신분을 묻지 않고 도서관 독자를 가르침",
+     "reason_en": "He taught any reader regardless of rank."
+    },
+    "humility": {
+     "score": 88,
+     "reason_ko": "생전에 저작 출간과 명성을 스스로 거부",
+     "reason_en": "He refused publication and fame in his lifetime."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 40,
+     "reason_ko": "과학으로 죽음 자체를 극복할 수 있다고 확신",
+     "reason_en": "He held that science could defeat death itself."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "정교회 신앙과 전제 질서를 과업의 틀로 여김",
+     "reason_en": "He framed the task within Orthodoxy and autocracy."
+    },
+    "individual_social": {
+     "score": 45,
+     "reason_ko": "전 인류의 공동 과업을 삶의 목적으로 선언",
+     "reason_en": "He declared all mankind's resurrection his life's task."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "죽은 자 부활이라는 인류 최대 과제를 제안",
+     "reason_en": "He proposed mankind's boldest possible task."
+    }
+   },
+   "rationale_ko": "도서관 사서의 몸으로 전 인류 부활이라는 최대의 과제를 설계한 사상가다. 급여를 나눠주는 금욕과 신분 불문의 가르침이 절제·인자·공정을 높였고, 출간과 명성의 거부가 겸양의 절정을 보여준다. 사유는 극단으로 대담하나 생활은 극도로 검소했다. 그의 제자 치올콥스키가 그 꿈을 로켓 공학으로 옮겼다.",
+   "rationale_en": "A librarian who drafted mankind's largest task — the resurrection of the dead. Giving away his wages and teaching all comers lifted temperance, benevolence and fairness; refusing publication crowned his humility. His thought was wildly bold, his life severely frugal. His pupil Tsiolkovsky turned the dream into rocket science."
+  }
+ },
+ "알렉산더 색스": {
+  "influence": {
+   "political": 6,
+   "political_exp": "루스벨트에게 핵개발 결단을 이끌어낸 설득",
+   "political_exp_en": "His persuasion led Roosevelt to the atomic decision.",
+   "strategic": 6,
+   "strategic_exp": "1939년 서한 낭독이 미국 핵개발의 기폭제",
+   "strategic_exp_en": "Reading the 1939 letter triggered the Manhattan Project.",
+   "tech": 4,
+   "tech_exp": "맨해튼 계획 촉발로 핵물리학 시대를 앞당김",
+   "tech_exp_en": "Triggering the project hastened the nuclear age.",
+   "social": 2,
+   "social_exp": "경제 자문으로 뉴딜 정책 논의에 참여",
+   "social_exp_en": "He joined New Deal policy circles as an adviser.",
+   "economic": 4,
+   "economic_exp": "리먼에서 경제조사 부문을 만들어 분석 업종 개척",
+   "economic_exp_en": "He pioneered investment research at Lehman Brothers.",
+   "cultural": 1,
+   "cultural_exp": "대중 문화 영향은 미미",
+   "cultural_exp_en": "Little cultural reach.",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "핵 시대 개막의 전달자로 역사책에 기록",
+   "transhistoricity_exp_en": "He stands in history as the messenger of the nuclear age."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "리먼 경제조사 부문을 이끌고 대통령 자문을 병행",
+     "reason_en": "He directed Lehman's research arm and advised presidents."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "월가와 워싱턴을 오간 실무 지식인",
+     "reason_en": "A desk-working shuttle between Wall Street and Washington."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "경제 분석가로서 핵분열의 전략 의미를 읽어냄",
+     "reason_en": "An economist who grasped fission's strategic meaning."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "나폴레옹 일화로 루스벨트를 단번에 설득",
+     "reason_en": "A parable of Napoleon won Roosevelt in one sitting."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "오랜 자문 관계를 절제된 언사로 유지",
+     "reason_en": "He kept long advisory ties in measured speech."
+    },
+    "diligence": {
+     "score": 68,
+     "reason_ko": "수십 년간 경제 보고서와 정책 제안을 쏟아냄",
+     "reason_en": "Decades of reports and policy proposals."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "핵 결단의 무게를 두고 숙고를 이어감",
+     "reason_en": "He kept weighing the atomic decision's gravity."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "대통령 면담에서 역사의 분기점을 스스로 만듦",
+     "reason_en": "He made history's turning point at the Resolute desk."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "루스벨트 정권의 비공식 자문으로 오래 헌신",
+     "reason_en": "Long service as FDR's unofficial adviser."
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "나치 핵개발을 막아야 한다는 우려로 행동",
+     "reason_en": "He acted from fear of a Nazi bomb."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "자문에서 이해관계보다 데이터를 앞세움",
+     "reason_en": "He put data ahead of interest in counsel."
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "역사적 면담의 공을 아인슈타인과 실라드에게 돌림",
+     "reason_en": "He gave the letter's credit to Einstein and Szilárd."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -8,
+     "reason_ko": "나치 핵개발의 최악 시나리오를 먼저 상정",
+     "reason_en": "He planned around the worst case — a Nazi bomb."
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "뉴딜식 정부 개입 경제를 지지함",
+     "reason_en": "He backed New Deal intervention economics."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "조직과 인맥을 통해 일한 관료형 전문가",
+     "reason_en": "He worked through institutions and networks."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "대통령에게 직접 역사적 청원을 관철",
+     "reason_en": "He carried a fateful petition straight to the president."
+    }
+   },
+   "rationale_ko": "월가 경제 분석가로서 핵분열 보고의 무게를 읽고, 대통령 앞에서 나폴레옹 일화로 결단을 이끌어낸 전달자다. 최악을 먼저 상정하는 신중함과 단번의 과감한 설득이 한 생애에 공존한다. 공은 과학자들에게 돌리고 뒤로 물러난 겸양이 돋보인다. 그의 한 차례 낭독이 맨해튼 계획의 기폭제가 됐다.",
+   "rationale_en": "A Wall Street economist who read fission's weight and, at the presidential desk, won the decision with a parable of Napoleon. Worst-case prudence and one bold hour of persuasion coexist in a single life. He passed the credit to the scientists and stepped back. That single reading lit the fuse of the Manhattan Project."
+  }
+ },
+ "케네스 스넬슨": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 5,
+   "tech_exp": "텐세그리티가 건축 구조와 생체 모형에 활용",
+   "tech_exp_en": "Tensegrity entered structures and cell models.",
+   "social": 1,
+   "social_exp": "사회 제도 영향은 미미",
+   "social_exp_en": "Little institutional reach.",
+   "economic": 1,
+   "economic_exp": "조각 시장 외 경제 영향 미미",
+   "economic_exp_en": "Little beyond the art market.",
+   "cultural": 5,
+   "cultural_exp": "'니들 타워'로 전후 조각의 새 구조 미학을 엶",
+   "cultural_exp_en": "Needle Tower opened a new structural aesthetic.",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "텐세그리티가 조형·구조 분야의 개념으로 정착",
+   "transhistoricity_exp_en": "Tensegrity settled into art and engineering vocabulary."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "대형 조각 제작을 위한 제작팀과 협력",
+     "reason_en": "He worked with fabrication teams on large pieces."
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "수십 m 금속 조각의 제작·설치를 감당",
+     "reason_en": "He built and rigged metalwork towers of tens of metres."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "압축-인장 분리라는 새 구조 원리를 발견",
+     "reason_en": "He found a new principle of floating compression."
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "공공미술로 도시 공간을 바꾼 조형 감각",
+     "reason_en": "His towers reshaped public space."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "풀러와의 공로 다툼을 평생 이어감",
+     "reason_en": "He fought the credit dispute with Fuller for life."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "60년간 긴장 구조 조각을 탐구하며 제작",
+     "reason_en": "Sixty years exploring tension structures."
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "자기 작업의 원리를 글과 도면으로 정리",
+     "reason_en": "He set down his principle in writing and drawings."
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "스승이던 풀러를 상대로 발명권을 주장",
+     "reason_en": "He pressed his claim against his own teacher."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 52,
+     "reason_ko": "한 가지 조형 언어에 평생 충실함",
+     "reason_en": "He stayed faithful to one sculptural language."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "대학 강의와 워크숍으로 후학을 지도",
+     "reason_en": "He taught students in lectures and workshops."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "발명 공로가 지워지는 것을 정면으로 문제 삼음",
+     "reason_en": "He openly contested the erasure of his credit."
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "발명가로서의 자기 공적을 끝까지 주장",
+     "reason_en": "He never stopped claiming his due."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "공로를 뺏긴 뒤에도 조각을 계속 제작",
+     "reason_en": "Denied the credit, he kept on building."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "조형 혁신은 했으나 사회 질서 발언이 드묾",
+     "reason_en": "His revolution was sculptural, not social."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "자기 이름의 발명권을 고집한 독립 작가",
+     "reason_en": "An independent artist guarding his own name."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "물리 직관에 반해 보이는 구조를 작품으로 실현",
+     "reason_en": "He realised structures that seemed to defy physics."
+    }
+   },
+   "rationale_ko": "압축 부재가 공중에 뜨는 구조를 처음 만든 발명가이자, 스승에게 공로를 뺏긴 뒤 평생 다툰 수호자다. 원리 발견의 지력과 거대 조형의 무력이 만나 조각사의 한 장을 열었다. 공로를 주장한 집요함은 공정 요구이자 절제 부재의 그림자다. 텐세그리티는 오늘 건축과 세포 모형에도 살아 있다.",
+   "rationale_en": "He first floated compression in a web of tension, then spent a lifetime contesting the credit his teacher took. Inventive intellect and the physical nerve for giant towers opened a chapter of sculpture. His insistence on credit is both a claim to fairness and a shadow of grievance. Tensegrity lives on in architecture and cell biology."
+  }
+ },
+ "우디 플라워스": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 5,
+   "tech_exp": "FIRST 대회로 10대 공학 교육의 표준을 만듦",
+   "tech_exp_en": "FIRST became a standard model of youth engineering.",
+   "social": 4,
+   "social_exp": "'품격 있는 프로' 정신을 대회 문화에 심음",
+   "social_exp_en": "'Gracious professionalism' entered competition culture.",
+   "economic": 2,
+   "economic_exp": "FIRST가 공학 인력 파이프라인으로 작동",
+   "economic_exp_en": "FIRST works as an engineering pipeline.",
+   "cultural": 3,
+   "cultural_exp": "로봇 대회를 관람 문화로 만든 공동 창시자",
+   "cultural_exp_en": "He co-made robotics a spectator sport.",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "수십만 학생이 거친 로봇 대회 교육 모델",
+   "transhistoricity_exp_en": "Hundreds of thousands have passed through his model."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "FIRST 공동 창설과 MIT 설계 과목을 수십 년 이끔",
+     "reason_en": "He co-founded FIRST and led MIT's design course for decades."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "공학 실습 현장을 종일 뛰어다닌 체력",
+     "reason_en": "All day on his feet in the machine shops."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "MIT 설계 교육을 재창조한 공학 사고",
+     "reason_en": "He re-imagined how engineering design is taught."
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "수십 년간 학생이 가장 사랑한 MIT 교수",
+     "reason_en": "MIT's most beloved professor for a generation."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "경쟁 속에서도 품격 원칙을 스스로 지킴",
+     "reason_en": "He kept his own gracious rule amid competition."
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "40년간 수업·대회·멘토링을 쉬지 않음",
+     "reason_en": "Forty years of teaching, contests and mentoring."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "경쟁 교육의 폐해를 보고 '품격' 원칙을 만들어 실천",
+     "reason_en": "Seeing competition's harms, he built the graciousness rule."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "승리 지상 대회 문화에 '품격'을 정면 제시",
+     "reason_en": "He set graciousness against win-at-all-costs culture."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "한 학교와 한 대회에 평생 헌신함",
+     "reason_en": "One school and one contest took his life's work."
+    },
+    "benevolence": {
+     "score": 78,
+     "reason_ko": "후배·학생을 키우는 데 삶의 중심을 둠",
+     "reason_en": "Raising students stood at the centre of his life."
+    },
+    "fairness": {
+     "score": 68,
+     "reason_ko": "상대 팀을 돕는 것까지 점수로 삼는 규칙을 세움",
+     "reason_en": "His rules score even helping the rival team."
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "대회의 공을 학생과 멘토에게 돌림",
+     "reason_en": "He handed the credit to students and mentors."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "청소년의 창의력을 무조건 믿는 낙관주의",
+     "reason_en": "He trusted young makers' creativity without reserve."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 현안보다 교육 현장에 집중함",
+     "reason_en": "He worked the classroom over public causes."
+    },
+    "individual_social": {
+     "score": 35,
+     "reason_ko": "팀 단위 대회와 멘토 공동체를 설계",
+     "reason_en": "He designed team contests and mentor communities."
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "새 대회 모델을 직접 만들어 현장에 적용",
+     "reason_en": "He built a new contest model and ran it."
+    }
+   },
+   "rationale_ko": "전설의 설계 과목과 FIRST 대회를 만든 교육자로, 이기는 법보다 품격 있게 이기는 법을 가르쳤다. 학생을 삶의 중심에 둔 인자와 공을 돌리는 겸양, 경쟁의 폐해를 성찰한 규칙 설계가 조화를 이룬다. 청소년의 가능성에 대한 낙관이 그의 엔진이었다. 수십만 공학도가 그의 대회를 거쳐 갔다.",
+   "rationale_en": "Builder of MIT's legendary design course and the FIRST league, he taught how to win graciously, not merely to win. Benevolence toward students, humility with credit, and rules born of reflection on competition's harms fit together in one character. Optimism about young makers was his engine. Hundreds of thousands of engineers came through his contest."
+  }
+ },
+ "마조리 캐머런": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 0,
+   "tech_exp": "과학 기여 없음",
+   "tech_exp_en": "No scientific contribution.",
+   "social": 2,
+   "social_exp": "전후 미국 오컬트 부흥의 상징적 인물",
+   "social_exp_en": "An emblem of America's postwar occult revival.",
+   "economic": 0,
+   "economic_exp": "경제 활동 영향 미미",
+   "economic_exp_en": "Little economic reach.",
+   "cultural": 5,
+   "cultural_exp": "사후 재조명된 회화가 아방가르드사에 자리",
+   "cultural_exp_en": "Her rediscovered painting claims a place in avant-garde history.",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "컬트 영화·오컬트 예술의 아이콘으로 회자",
+   "transhistoricity_exp_en": "She endures as a cult icon of film and occult art."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 32,
+     "reason_ko": "소규모 오컬트 서클을 이끈 정도",
+     "reason_en": "She led a small occult circle."
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "해군 복무와 사막 은둔 생활을 견딤",
+     "reason_en": "Navy service and desert hermit years on her frame."
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "독학의 회화 언어와 오컬트 사유를 구축",
+     "reason_en": "She built a self-taught language of paint and magic."
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "'붉은 여인'으로 오컬트·언더그라운드 영화를 매혹",
+     "reason_en": "As the 'Scarlet Woman' she enthralled occult and underground film."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "약물과 격정의 생활로 요동친 생애",
+     "reason_en": "A life swung by drugs and tempests."
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "가난 속에서도 말년까지 회화 작업을 지속",
+     "reason_en": "In poverty she painted on to the end."
+    },
+    "reflection": {
+     "score": 52,
+     "reason_ko": "자기 신화를 그림과 시로 되새기며 삶",
+     "reason_en": "She kept re-carving her myth in paint and verse."
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "1950년대에 오컬트 공동체와 비주류 삶을 택함",
+     "reason_en": "She chose occult and off-map life in the 1950s."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "폭사한 남편의 유산과 오컬트 전통을 지킴",
+     "reason_en": "She kept Parsons's legacy and the occult line."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "언더그라운드 예술가들에게 곁을 내줌",
+     "reason_en": "She opened her circle to underground artists."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "예술 공동체에서 가리지 않고 교류",
+     "reason_en": "She mixed freely in the art underground."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "스스로를 신적 존재의 화신으로 여김",
+     "reason_en": "She held herself an incarnate goddess."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "종말론적 오컬트 세계관을 작품에 담음",
+     "reason_en": "An apocalyptic occult vision fills her work."
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "1950년대 성별·인종 규범을 정면으로 거스름",
+     "reason_en": "She flouted 1950s norms of gender and race."
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "사막 은둔과 독자적 신화 세계에 침잠",
+     "reason_en": "She sank into desert solitude and her own myth."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "규범 밖의 삶을 주저 없이 택해 살아냄",
+     "reason_en": "She chose life beyond convention without hesitation."
+    }
+   },
+   "rationale_ko": "로켓 과학자의 의식에 나타난 '붉은 여인'에서 사후 발견된 초현실 화가로, 그녀의 생애는 신화와 가난 사이를 오갔다. 규범을 거스른 대담함과 남편의 유산을 지킨 충성이 그녀의 축을 이룬다. 자신을 화신으로 여긴 자의식이 겸양을 깎았다. 사막에서 그린 그림은 지금 미술관에 걸린다.",
+   "rationale_en": "From the 'Scarlet Woman' of a rocket scientist's ritual to a rediscovered surrealist, her life ran between myth and poverty. Norm-defying boldness and loyalty to her dead husband's legacy form her axis; seeing herself as an incarnation cut her humility. Painted in the desert, her canvases now hang in museums."
+  }
+ },
+ "요하네스 오포리누스": {
+  "influence": {
+   "political": 1,
+   "political_exp": "금서 인쇄로 당국과 마찰 외 정치 영향 미미",
+   "political_exp_en": "Banned-book printing brought friction, not power.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 5,
+   "tech_exp": "베살리우스 『파브리카』 인쇄로 해부학 혁명을 실현",
+   "tech_exp_en": "Printing the Fabrica realised the anatomical revolution.",
+   "social": 3,
+   "social_exp": "금서 인쇄로 지식 유통의 금기를 넘김",
+   "social_exp_en": "His presses crossed the censorship line.",
+   "economic": 2,
+   "economic_exp": "인쇄소를 운영했으나 사업 성공은 크지 않음",
+   "economic_exp_en": "His shop ran, but fortune stayed modest.",
+   "cultural": 4,
+   "cultural_exp": "근대 인쇄 출판의 미학 수준을 끌어올림",
+   "cultural_exp_en": "He raised the craft standard of scholarly books.",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "인쇄한 책이 500년 의학사의 기념비",
+   "transhistoricity_exp_en": "His books remain monuments of medicine after five centuries."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "바젤에서 인쇄소를 세워 직인들을 거늘림",
+     "reason_en": "He ran a Basel shop with its own journeymen."
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "파라켈수스와 수년간 도보 방랑을 견딘 체력",
+     "reason_en": "Years on foot with Paracelsus hardened him."
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "고전어를 꿰며 베살리우스 원고의 가치를 알아봄",
+     "reason_en": "A classical scholar who saw the Fabrica's worth."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "이단자부터 대학자까지 원고를 맡길 신망",
+     "reason_en": "Heretics and great scholars alike entrusted him."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "위험한 원고를 선별하며 사업의 균형을 잡음",
+     "reason_en": "He balanced risk and business in choosing manuscripts."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "수백 쪽 대본과 목판 삽화를 몇 해에 걸쳐 정밀 인쇄",
+     "reason_en": "Years of exacting presswork on folios and woodcuts."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "파라켈수스 밑의 경험을 스승 평가에 되새김",
+     "reason_en": "He re-weighed his master from the years at his side."
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "금서 인쇄로 수차례 곤경을 겪으면서도 계속",
+     "reason_en": "He kept printing banned books through repeated trouble."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "위험한 저자들의 원고를 끝까지 찍어줌",
+     "reason_en": "He stood by dangerous authors to the last page."
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "곤란한 저자들에게 출판의 길을 열어줌",
+     "reason_en": "He opened a way to print for the embattled."
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "파벨을 가리지 않고 학술·종교 서적을 인쇄",
+     "reason_en": "He printed all factions without favour."
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "저자의 이름 뒤에서 인쇄인으로 남음",
+     "reason_en": "He stayed the printer behind the author's name."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "위험 속에서도 책이 세상을 바꾼다고 믿음",
+     "reason_en": "He believed books change the world and printed on."
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "검열 체제를 넘어 금서를 계속 인쇄",
+     "reason_en": "He printed banned books across the censorship line."
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "저자·학계 네트워크에 봉사하는 삶",
+     "reason_en": "He lived in service to authors and scholars."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "투옥을 무릅쓰고 금서 인쇄를 반복",
+     "reason_en": "He risked prison to keep printing banned books."
+    }
+   },
+   "rationale_ko": "방랑 의사의 비서에서 근대 의학의 산파가 된 인쇄인이다. 고전어 학식과 정밀 인쇄의 근면이 『파브리카』를 세상에 내놓았고, 파벨을 가리지 않는 공정함이 위험한 저자들의 신망을 모았다. 투옥을 감수한 금서 인쇄에서 용기와 대담이 겹친다. 그가 찍은 책은 500년이 지나도 의학사의 기둥이다.",
+   "rationale_en": "A wandering physician's secretary who became midwife to modern medicine. Classical learning and exacting presswork delivered the Fabrica, and even-handed printing earned dangerous authors' trust. Courage and boldness meet in the banned books he risked prison to print. What came off his press still holds up medical history five centuries on."
+  }
+ },
+ "마거릿 하우 로바트": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 활동과 무관",
+   "political_exp_en": "No political role.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military role.",
+   "tech": 3,
+   "tech_exp": "돌고래 언어 모방 실험으로 동물 소통 연구사에 남김",
+   "tech_exp_en": "Her dolphin-speech trials remain in the annals of the field.",
+   "social": 2,
+   "social_exp": "동물 실험 윤리 논의의 상징 사례가 됨",
+   "social_exp_en": "Her story became an emblem in animal-research ethics.",
+   "economic": 1,
+   "economic_exp": "연구 보조 외 경제 활동 미미",
+   "economic_exp_en": "Little beyond lab assistance.",
+   "cultural": 4,
+   "cultural_exp": "'돌고래와 대화한 소녀'로 대중 상상력에 새겨짐",
+   "cultural_exp_en": "The BBC film fixed her in the public imagination.",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "돌고래 실험 일화가 다큐·서적으로 회자",
+   "transhistoricity_exp_en": "Her episode keeps returning in film and print."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "물에 잠긴 집에서 석 달 실험 일과를 스스로 운영",
+     "reason_en": "She ran three months of daily protocol in the flooded house."
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "물에 잠긴 실험실에서 석 달 동거를 감당",
+     "reason_en": "Three months living in knee-deep water took a working body."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "돌고래의 입 모양을 보고 발음 교수법을 고안",
+     "reason_en": "She devised mouth-shaping lessons for the dolphin."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "돌고래 피터와의 유대로 세계에 알려짐",
+     "reason_en": "Her bond with Peter became known worldwide."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "석 달 실험 규칙을 지켰으나 경계 논란을 남김",
+     "reason_en": "She kept the protocol, though one boundary drew debate."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "석 달간 종일 돌고래 곁에서 관찰·기록",
+     "reason_en": "Three months observing and logging at the dolphin's side."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "수십 년 뒤 실험의 빛과 그림자를 담담히 회고",
+     "reason_en": "Decades on, she recalled the experiment's light and shadow plainly."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "스무 살 초반에 물에 잠긴 집의 고립 실험을 자원",
+     "reason_en": "In her early twenties she volunteered for the flooded house."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "피터와의 기억과 실험 이야기를 평생 간직",
+     "reason_en": "She kept faith with Peter's memory for life."
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "돌고래와의 유대를 평생 돌봄의 관계로 간직",
+     "reason_en": "She held the dolphin bond as lifelong care."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "실험 일지를 사실대로 기록하고 회고",
+     "reason_en": "She kept the log honestly and recalled it plainly."
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "유명세 뒤에도 고향에서 조용히 삶",
+     "reason_en": "After fame she lived quietly at home."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "인간-돌고래 소통이 가능하다는 믿음으로 실험",
+     "reason_en": "She worked on the faith that the species could talk."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 제도보다 동물과의 관계에 관심",
+     "reason_en": "Her concern was the animal, not institutions."
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "연구팀의 일원으로 고립 실험을 수행",
+     "reason_en": "She ran the isolation as part of a team."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "물에 잠긴 집에서의 동거 실험을 기꺼이 감행",
+     "reason_en": "She willingly took on the flooded-house experiment."
+    }
+   },
+   "rationale_ko": "스무 살의 자연학자가 물에 잠긴 집에서 석 달을 돌고래와 살며 발음 교수법을 고안했다. 자원한 용기와 종일 관찰의 근면, 수십 년 뒤의 담담한 회고가 그녀를 실험사의 한 면으로 남겼다. 피터에 대한 돌봄의 기억은 평생 이어졌다. 그녀의 이야기는 동물 실험 윤리 논의에서 계속 인용된다.",
+   "rationale_en": "A twenty-something naturalist who lived three months in a flooded house teaching a dolphin to shape sounds. Volunteered courage, round-the-clock diligence, and a candid late-life recollection keep her in the field's memory. Her care for Peter lasted a lifetime, and her story is still cited when animal-research ethics are discussed."
+  }
+ }
+}

@@ -1,0 +1,1006 @@
+{
+ "어니스트 섀클턴": {
+  "relations": [
+   {
+    "to_en": "Robert Falcon Scott",
+    "to_ko": "로버트 팰컨 스콧",
+    "rel_type": "rival",
+    "note_ko": "디스커버리 원정에서 함께 남극 내륙을 걸었던 두 사람은 이후 각자 원정을 이끌고 남극점을 두고 경쟁하는 라이벌이 됐다.",
+    "note_en": "Shipmates sledging south on the Discovery expedition, the two later led rival bids for the South Pole.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Frank Worsley",
+    "to_ko": "프랭크 워슬리",
+    "rel_type": "colleague",
+    "note_ko": "인듀어런스호 선장 워슬리는 제임스 케어드호의 항법을 맡고 섀클턴과 함께 사우스조지아 산맥을 횡단해 구조를 이끌어냈다.",
+    "note_en": "Endurance's captain Worsley navigated the James Caird and crossed South Georgia's mountains with Shackleton to reach rescue.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Frank Wild",
+    "to_ko": "프랭크 와일드",
+    "rel_type": "colleague",
+    "note_ko": "와일드는 님로드·인듀어런스·퀘스트 세 원정에서 섀클턴의 부대장이었고, 엘리펀트섬에 남은 21명을 이끌며 구조를 기다렸다.",
+    "note_en": "Wild was Shackleton's second-in-command on three expeditions and held the 21 men on Elephant Island until rescue came.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Tom Crean",
+    "to_ko": "톰 크린",
+    "rel_type": "colleague",
+    "note_ko": "크린은 제임스 케어드호에 함께 타고 사우스조지아 내부의 마지막 횡단을 섀클턴·워슬리와 함께 걸은 세 사람 중 하나였다.",
+    "note_en": "Crean sailed the James Caird and made the final traverse of South Georgia beside Shackleton and Worsley.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Douglas Mawson",
+    "to_ko": "더글러스 모슨",
+    "rel_type": "colleague",
+    "note_ko": "젊은 지질학도 모슨은 섀클턴의 님로드 원정에 참가해 남자극점 도달조에 들었다.",
+    "note_en": "Mawson joined Shackleton's Nimrod expedition as a young geologist and reached the South Magnetic Pole.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Emily Shackleton",
+    "to_ko": "에밀리 섀클턴",
+    "rel_type": "spouse",
+    "note_ko": "에밀리는 섀클턴의 잇단 원정과 빚, 그리고 그의 조기 죽음까지 겪으며 세 자녀를 키웠다.",
+    "note_en": "Emily raised their three children through his expeditions, debts and early death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Janet Stancomb-Wills",
+    "to_ko": "재닛 스탠콤-윌스",
+    "rel_type": "friend",
+    "note_ko": "담배 재벌 상속녀 재닛은 섀클턴의 마지막 원정 퀘스트호에 자금을 댄 후원자이자 말년의 친한 벗이었다.",
+    "note_en": "The tobacco heiress Janet bankrolled Shackleton's last voyage on Quest and was his close late-life friend.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "로알 아문센": {
+  "relations": [
+   {
+    "to_en": "Robert Falcon Scott",
+    "to_ko": "로버트 팰컨 스콧",
+    "rel_type": "rival",
+    "note_ko": "두 사람은 1911년 남극점을 향해 경주했고, 아문센의 대가 스콧보다 34일 앞서 도달했다.",
+    "note_en": "The two raced for the South Pole in 1911; Amundsen's party arrived 34 days ahead of Scott's.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Fridtjof Nansen",
+    "to_ko": "프리드티오프 난센",
+    "rel_type": "influence",
+    "note_ko": "극지의 선배 난센은 프람호를 빌려주고 조언을 아끼지 않으며 아문센의 원정 계획을 뒷받침했다.",
+    "note_en": "Nansen lent Amundsen the Fram and counselled him, backing the younger man's polar plans.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Leon Amundsen",
+    "to_ko": "레온 아문센",
+    "rel_type": "sibling",
+    "note_ko": "형 레온은 아문센의 원정 재정과 대외 업무를 평생 도맡아 관리했다.",
+    "note_en": "His brother Leon managed the expeditions' finances and public affairs for decades.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Oscar Wisting",
+    "to_ko": "오스카 비스팅",
+    "rel_type": "colleague",
+    "note_ko": "비스팅은 남극점 도달조와 노르게호 비행을 함께한 아문센의 최측근 대원이었다.",
+    "note_en": "Wisting stood beside Amundsen at the South Pole and aboard the Norge — his most trusted expedition man.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Hjalmar Johansen",
+    "to_ko": "얄마르 요한센",
+    "rel_type": "colleague",
+    "note_ko": "난센의 옛 동료 요한센은 남극점 출발 사고로 아문센과 충돌해 극점조에서 제외됐고, 귀환 뒤 스스로 목숨을 끊었다.",
+    "note_en": "Nansen's old companion Johansen quarrelled with Amundsen after the false start, was dropped from the polar party, and took his own life after the return.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Lincoln Ellsworth",
+    "to_ko": "링컨 엘즈워스",
+    "rel_type": "colleague",
+    "note_ko": "미국인 상속자 엘즈워스가 자금을 대고 두 사람은 N-25 수상기와 노르게호로 북극 상공을 함께 날았다.",
+    "note_en": "Ellsworth bankrolled the flights and the two flew the Arctic together in the N-25 and the airship Norge.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Helmer Hanssen",
+    "to_ko": "헬머 한센",
+    "rel_type": "colleague",
+    "note_ko": "썰매견 대가 한센은 남극점 도달조와 마우드호 항해를 아문센과 함께한 핵심 대원이었다.",
+    "note_en": "Dog-driving ace Hanssen was Amundsen's key man on the polar dash and the Maud voyage.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "로버트 팰컨 스콧": {
+  "relations": [
+   {
+    "to_en": "Edward Adrian Wilson",
+    "to_ko": "에드워드 애드리언 윌슨",
+    "rel_type": "colleague",
+    "note_ko": "의사이자 과학자인 윌슨은 디스커버리와 테라노바를 함께한 스콧의 가장 가까운 동료로, 마지막 텐트에서 곁에서 숨을 거뒀다.",
+    "note_en": "Wilson, doctor and scientist, was Scott's closest companion on both expeditions and died beside him in the final tent.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Lawrence Oates",
+    "to_ko": "로런스 오츠",
+    "rel_type": "colleague",
+    "note_ko": "기병 장교 오츠는 귀환길에서 '밖에 좀 다녀오겠습니다'라는 말을 남기고 눈보라 속으로 걸어 나갔다.",
+    "note_en": "Oates, the cavalry officer, walked out of the tent into the blizzard saying 'I am just going outside' so the others might live.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Henry Bowers",
+    "to_ko": "헨리 바워스",
+    "rel_type": "colleague",
+    "note_ko": "해병 출신 바워스는 극점조 다섯 명 중 한 명으로 스콧·윌슨과 함께 마지막 텐트에서 죽었다.",
+    "note_en": "Bowers, the tireless marine, was one of the five who reached the Pole and died in the last tent.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Edgar Evans",
+    "to_ko": "에드가 에번스",
+    "rel_type": "colleague",
+    "note_ko": "거구의 선원 에번스는 극점조에서 가장 먼저 쓰러져 귀환 도중 숨졌다.",
+    "note_en": "Big sailor Evans was the first of the polar party to collapse, dying on the return march.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Kathleen Scott",
+    "to_ko": "캐슬린 스콧",
+    "rel_type": "spouse",
+    "note_ko": "조각가 캐슬린은 스콧의 아내로 그의 마지막 원정을 뒷받침했고, 사후에도 로댕의 친구답게 작품 활동을 이어갔다.",
+    "note_en": "The sculptor Kathleen supported his last expedition and kept sculpting after his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Clements Markham",
+    "to_ko": "클레먼츠 마컴",
+    "rel_type": "colleague",
+    "note_ko": "왕립지리학회장 마컴은 젊은 어뢰장교 스콧을 발탁해 디스커버리 원정대장으로 세운 후원자였다.",
+    "note_en": "RGS president Markham plucked young torpedo officer Scott from the Navy to lead the Discovery expedition.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "압슬리 체리-개러드": {
+  "relations": [
+   {
+    "to_en": "Robert Falcon Scott",
+    "to_ko": "로버트 팰컨 스콧",
+    "rel_type": "colleague",
+    "note_ko": "체리-개러드는 테라노바 원정의 막내 대원으로 스콧을 따랐고, 그의 최후를 회고록으로 남겼다.",
+    "note_en": "Cherry-Garrard was the youngest officer of Scott's Terra Nova expedition and later wrote its classic account.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Edward Adrian Wilson",
+    "to_ko": "에드워드 애드리언 윌슨",
+    "rel_type": "colleague",
+    "note_ko": "윌슨은 한겨울 황제펭귄 알 채취 여행에서 체리-개러드를 이끈 대장이었다.",
+    "note_en": "Wilson led the midwinter journey for penguin eggs on which Cherry-Garrard nearly perished.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Henry Bowers",
+    "to_ko": "헨리 바워스",
+    "rel_type": "colleague",
+    "note_ko": "바워스는 '세계 최악의 여행'을 함께 겪고 살아남은 세 사람 중 한 명이었다.",
+    "note_en": "Bowers was the third man of the trio that survived the 'worst journey'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "T. E. Lawrence",
+    "to_ko": "아라비아의 로렌스",
+    "rel_type": "friend",
+    "note_ko": "로렌스는 체리-개러드의 절친으로 회고록 집필을 격려하고 원고를 함께 다듬었다.",
+    "note_en": "Lawrence was his close friend, urging on the book and helping shape the manuscript.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Bernard Shaw",
+    "to_ko": "조지 버나드 쇼",
+    "rel_type": "friend",
+    "note_ko": "이웃이던 버나드 쇼는 말년의 체리-개러드와 왕래하며 우정을 나눈 친구였다.",
+    "note_en": "Shaw was his neighbour and friend in later life.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "더글러스 모슨": {
+  "relations": [
+   {
+    "to_en": "Edgeworth David",
+    "to_ko": "에지워스 데이비드",
+    "rel_type": "teacher",
+    "note_ko": "지질학 교수 데이비드는 제자 모슨을 님로드 원정에 데려가 함께 남자극점에 처음 도달했다.",
+    "note_en": "Professor David took his student Mawson on the Nimrod expedition, and together they first reached the South Magnetic Pole.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Xavier Mertz",
+    "to_ko": "자비에르 메르츠",
+    "rel_type": "colleague",
+    "note_ko": "스키 챔피언 메르츠는 모슨과 함께 탈출 행군을 하다 썰매견 간을 나눠 먹은 뒤 숨졌다.",
+    "note_en": "Ski champion Mertz died beside Mawson on the retreat after the two ate their sled dogs' livers.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Belgrave Ninnis",
+    "to_ko": "벨그레이브 니니스",
+    "rel_type": "colleague",
+    "note_ko": "니니스는 최상의 개들과 보급품을 실은 썰매째 크레바스에 빠져, 모슨과 메르츠를 절벽 끝에 남겼다.",
+    "note_en": "Ninnis vanished into a crevasse with the sled and the best supplies, stranding Mawson and Mertz.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Frank Hurley",
+    "to_ko": "프랭크 헐리",
+    "rel_type": "colleague",
+    "note_ko": "사진가 헐리는 호주남극원정의 촬영을 맡아 모슨의 탐험을 영상으로 남겼다.",
+    "note_en": "Photographer Hurley documented Mawson's Australasian expedition on film.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "John King Davis",
+    "to_ko": "존 킹 데이비스",
+    "rel_type": "colleague",
+    "note_ko": "오로라호 선장 데이비스는 모슨이 죽었다고 보고 출항했으나 이듬해 다시 돌아와 그를 데려갔다.",
+    "note_en": "Captain Davis of the Aurora sailed believing Mawson dead, then returned a year later to collect him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Paquita Mawson",
+    "to_ko": "파키타 모슨",
+    "rel_type": "spouse",
+    "note_ko": "파키타는 모슨의 생사를 알 수 없던 해를 약혼자로 기다린 뒤 그와 결혼했다.",
+    "note_en": "Paquita waited through his missing year as his fiancée and married him on his return.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "톰 크린": {
+  "relations": [
+   {
+    "to_en": "Robert Falcon Scott",
+    "to_ko": "로버트 팰컨 스콧",
+    "rel_type": "colleague",
+    "note_ko": "크린은 스콧의 두 원정을 모두 겪었고, 테라노바 귀환길에서 쓰러진 에번스를 위해 홀로 56km를 걸어 구조대를 불러왔다.",
+    "note_en": "Crean served on both of Scott's expeditions and made a lone 56 km trek to fetch help for the fallen Evans.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Frank Worsley",
+    "to_ko": "프랭크 워슬리",
+    "rel_type": "colleague",
+    "note_ko": "크린은 워슬리·섀클턴과 함께 제임스 케어드호를 타고 사우스조지아 내부를 횡단한 세 사람 중 하나였다.",
+    "note_en": "Crean was one of the trio with Shackleton and Worsley who sailed the Caird and crossed South Georgia's interior.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Edgar Evans",
+    "to_ko": "에드가 에번스",
+    "rel_type": "colleague",
+    "note_ko": "테라노바 귀환길에 쓰러진 에번스를 두고 크린은 홀로 구조를 청하러 행군했고, 에번스는 며칠 뒤 숨졌다.",
+    "note_en": "When Evans collapsed on the return march, Crean walked alone for help; Evans died days later.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "William Lashly",
+    "to_ko": "윌리엄 래슐리",
+    "rel_type": "colleague",
+    "note_ko": "래슐리는 쓰러진 에번스 곁에 남아 간호하는 동안 크린이 구조를 다녀왔다.",
+    "note_en": "Lashly stayed nursing the fallen Evans while Crean marched for rescue.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Ellen Crean",
+    "to_ko": "엘런 크린",
+    "rel_type": "spouse",
+    "note_ko": "엘런은 크린과 결혼해 고향 마을의 술집 '사우스 폴 인'을 함께 운영했다.",
+    "note_en": "Ellen married Crean and ran the South Pole Inn with him in his home village.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "프리드티오프 난센": {
+  "relations": [
+   {
+    "to_en": "Otto Sverdrup",
+    "to_ko": "오토 스베르드루프",
+    "rel_type": "colleague",
+    "note_ko": "스베르드루프는 1888년 그린란드 횡단을 함께했고, 프람호 표류 원정에서는 선장을 맡았다.",
+    "note_en": "Sverdrup crossed Greenland with him on skis in 1888 and captained the Fram on its drift.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Hjalmar Johansen",
+    "to_ko": "얄마르 요한센",
+    "rel_type": "colleague",
+    "note_ko": "요한센은 프람호를 떠나 극점을 향한 썰매 여정에 동행해 한겨울을 돌오두막에서 함께 났다.",
+    "note_en": "Johansen left the Fram with him for the dash north, and the two wintered together in a stone hut.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Eva Nansen",
+    "to_ko": "에바 난센",
+    "rel_type": "spouse",
+    "note_ko": "성악가 에바는 난센의 아내로, 그의 원정 기간 노르웨이 음악계의 스타로 활동했다.",
+    "note_en": "Eva, a celebrated singer, was Nansen's wife and a star of Norway's music scene in her own right.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Colin Archer",
+    "to_ko": "콜린 아처",
+    "rel_type": "colleague",
+    "note_ko": "조선기술자 아처는 얼음 압력에 떠오르도록 설계된 프람호를 난센과 함께 만들었다.",
+    "note_en": "Shipbuilder Archer worked with Nansen to build the Fram's round hull that rose above the crushing ice.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "페테르 프로이헨": {
+  "relations": [
+   {
+    "to_en": "Knud Rasmussen",
+    "to_ko": "크누드 라스무센",
+    "rel_type": "cofounder",
+    "note_ko": "라스무센과 프로이헨은 1910년 그린란드 툴레 교역소를 함께 세우고 여러 북극 원정을 함께 이끌었다.",
+    "note_en": "Rasmussen and Freuchen founded the Thule trading station in 1910 and led Arctic expeditions together.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Navarana Mequpaluk",
+    "to_ko": "나바라나 메쿠팔루크",
+    "rel_type": "spouse",
+    "note_ko": "이누이트 출신 나바라나는 프로이헨의 첫 아내로 두 자녀를 낳았고 영화에도 출연했으나 유행성 독감으로 숨졌다.",
+    "note_en": "Navarana, his Inuit first wife and mother of two, starred in the film Palo's Wedding before dying in the 1921 flu epidemic.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Dagmar Freuchen",
+    "to_ko": "다그마르 프로이헨",
+    "rel_type": "spouse",
+    "note_ko": "다그마르는 프로이헨의 세 번째 아내로 그의 책에 삽화를 그리고 사교 활동을 함께했다.",
+    "note_en": "Dagmar, his third wife, illustrated his books and shared his public life.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "에이다 블랙잭": {
+  "relations": [
+   {
+    "to_en": "Vilhjalmur Stefansson",
+    "to_ko": "빌햐우뮈르 스테판손",
+    "rel_type": "colleague",
+    "note_ko": "스테판손이 기획한 랭겔섬 점유 원정에 에이다는 재봉사로 고용돼 떠났고, 유일한 생환자로 돌아왔다.",
+    "note_en": "Stefansson organised the Wrangel Island venture that hired Ada as seamstress — and left her its only survivor.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Allan Crawford",
+    "to_ko": "앨런 크로퍼드",
+    "rel_type": "colleague",
+    "note_ko": "대장 크로퍼드는 에이다와 함께 섬에 남았다가 구조를 청하러 떠나 돌아오지 못했다.",
+    "note_en": "Crawford, the expedition's leader, left the island with two others to fetch help and never returned.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Lorne Knight",
+    "to_ko": "론 나이트",
+    "rel_type": "colleague",
+    "note_ko": "괴혈병에 걸려 누운 나이트를 에이다는 그가 죽는 날까지 홀로 간호했다.",
+    "note_en": "Ada nursed the scurvy-stricken Knight alone until he died, leaving her the last one alive.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "살로몬 안드레": {
+  "relations": [
+   {
+    "to_en": "Nils Strindberg",
+    "to_ko": "닐스 스트린드베리",
+    "rel_type": "colleague",
+    "note_ko": "사진사 스트린드베리는 외리든호에 동승해 빙원에서 함께 죽었고, 그의 필름이 33년 뒤 현상돼 최후를 보여줬다.",
+    "note_en": "Photographer Strindberg flew and died with him on the ice; his film was developed 33 years later.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Knut Frænkel",
+    "to_ko": "크누트 프렝켈",
+    "rel_type": "colleague",
+    "note_ko": "기술자 프렝켈은 세 번째 탑승자로 빙상 행군 끝에 함께 숨졌다.",
+    "note_en": "Engineer Frænkel was the third balloonist, dying with them on the march over the ice.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Alfred Nobel",
+    "to_ko": "알프레드 노벨",
+    "rel_type": "colleague",
+    "note_ko": "노벨은 안드레의 첫 북극 비행 시도에 자금 일부를 댄 후원자였다.",
+    "note_en": "Nobel part-funded Andrée's first attempt to fly a balloon to the Pole.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Anna Charlier",
+    "to_ko": "안나 샤를리에",
+    "rel_type": "partner",
+    "note_ko": "약혼녀 안나에게 쓴 안드레의 편지가 33년 만에 시신 곁에서 발견됐다.",
+    "note_en": "His love letters to fiancée Anna were found beside his body 33 years on.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "움베르토 노빌레": {
+  "relations": [
+   {
+    "to_en": "Roald Amundsen",
+    "to_ko": "로알 아문센",
+    "rel_type": "colleague",
+    "note_ko": "아문센은 노빌레의 노르게호로 북극점을 함께 비행했고, 이탈리아호 조난 뒤 그를 구하러 가다 북극해에서 실종됐다.",
+    "note_en": "Amundsen flew the Norge with Nobile, then vanished over the Arctic flying to rescue him after the Italia crash.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Finn Malmgren",
+    "to_ko": "핀 말름그렌",
+    "rel_type": "colleague",
+    "note_ko": "기상학자 말름그렌은 이탈리아호 추락 뒤 도움을 청하러 빙원을 걸어 나가다 숨졌다.",
+    "note_en": "Meteorologist Malmgren walked away from the wrecked Italia's floe to seek help and perished.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Italo Balbo",
+    "to_ko": "이탈로 발보",
+    "rel_type": "rival",
+    "note_ko": "파시스트 공군 수장 발보는 노빌레를 군에서 몰아내고 이탈리아호 사고의 오명을 뒤집어씌운 정적이었다.",
+    "note_en": "Balbo, Fascist air minister, drove Nobile from service and left him carrying the blame for the Italia.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "로버트 피어리": {
+  "relations": [
+   {
+    "to_en": "Frederick Cook",
+    "to_ko": "프레더릭 쿡",
+    "rel_type": "rival",
+    "note_ko": "쿡이 1908년 극점 선점을 주장하자 피어리 진영은 그의 기록을 조작으로 몰아 명예를 무너뜨렸다.",
+    "note_en": "When Cook claimed the Pole a year earlier, Peary's camp demolished his record — and his name.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Josephine Peary",
+    "to_ko": "조세핀 피어리",
+    "rel_type": "spouse",
+    "note_ko": "조세핀은 남편을 따라 그린란드에서 겨울을 나고 북극권에서 딸을 낳은 뒤 자신의 북극 기행문을 썼다.",
+    "note_en": "Josephine wintered in Greenland with him and bore a daughter north of the Arctic Circle, then wrote her own Arctic journal.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Donald MacMillan",
+    "to_ko": "도널드 맥밀런",
+    "rel_type": "colleague",
+    "note_ko": "맥밀런은 1909년 극점 원정에 참여한 뒤 스스로 수십 년간 북극을 탐험했다.",
+    "note_en": "MacMillan went north on the 1909 bid and became an Arctic explorer for decades in his own right.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Robert Bartlett",
+    "to_ko": "로버트 바틀릿",
+    "rel_type": "colleague",
+    "note_ko": "바틀릿은 루스벨트호를 이끌고 극점 돌격조의 길을 뚫어 북위 88도 가까이까지 전진시켰다.",
+    "note_en": "Bartlett captained the Roosevelt and broke trail for the polar party to within about 130 miles of the Pole.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "매슈 헨슨": {
+  "relations": [
+   {
+    "to_en": "Robert Peary",
+    "to_ko": "로버트 피어리",
+    "rel_type": "colleague",
+    "note_ko": "헨슨은 피어리의 일곱 원정에 동행해 이누이트어와 썰매 기술로 극점 돌격의 선두에 섰지만, 생전에는 공로를 인정받지 못했다.",
+    "note_en": "Henson joined all of Peary's polar expeditions and led the final dash, yet waited decades for credit.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Ootah",
+    "to_ko": "오타",
+    "rel_type": "colleague",
+    "note_ko": "오타는 1909년 극점에 함께 선 네 명의 이누이트 대원 중 한 명이었다.",
+    "note_en": "Ootah was one of the four Inuit who stood at the Pole with Henson and Peary in 1909.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Lucy Ross Henson",
+    "to_ko": "루시 로스 헨슨",
+    "rel_type": "spouse",
+    "note_ko": "루시는 헨슨의 미국 아내로 그의 말년 재평가와 아링턴 이장을 함께했다.",
+    "note_en": "Lucy, his American wife, shared his late-life recognition and reburial at Arlington.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "프레더릭 쿡": {
+  "relations": [
+   {
+    "to_en": "Roald Amundsen",
+    "to_ko": "로알 아문센",
+    "rel_type": "colleague",
+    "note_ko": "벨지카호 선의 쿡은 얼어붙은 배에서 탐험대의 사기를 지켰고, 대원이던 아문센은 그 공을 평생 인정했다.",
+    "note_en": "Ship's doctor Cook held the icebound Belgica together — a debt crewman Amundsen always acknowledged.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Edward Barrill",
+    "to_ko": "에드워드 배릴",
+    "rel_type": "colleague",
+    "note_ko": "배릴은 쿡의 매킨리 초등정 주장에 동행한 유일한 동반자로, 훗날 진술서를 통해 등정이 조작됐다고 폭로했다.",
+    "note_en": "Barrill, Cook's sole companion on the claimed Denali climb, later signed an affidavit that it was faked.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "토르 헤예르달": {
+  "relations": [
+   {
+    "to_en": "Herman Watzinger",
+    "to_ko": "헤르만 바칭거",
+    "rel_type": "colleague",
+    "note_ko": "기술자 바칭거는 콘티키호에 무전기를 싣고 온 대원으로 태평양 횡단을 함께했다.",
+    "note_en": "Engineer Watzinger talked his way aboard and brought the raft's radio across the Pacific.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Erik Hesselberg",
+    "to_ko": "에리크 헤셀베르그",
+    "rel_type": "friend",
+    "note_ko": "소꿉친구 헤셀베르그는 콘티키호의 항해사로 태평양을 함께 건넜다.",
+    "note_en": "Childhood friend Hesselberg navigated the Kon-Tiki across the Pacific.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Carlo Mauri",
+    "to_ko": "카를로 마우리",
+    "rel_type": "colleague",
+    "note_ko": "K2 초등정 대원 마우리는 라호와 라 2호의 대서양 횡단을 헤예르달과 함께했다.",
+    "note_en": "Mauri, veteran of K2's first ascent, crewed both Ra crossings of the Atlantic with Heyerdahl.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Liv Coucheron-Torp",
+    "to_ko": "리브 쿠셰롱토르프",
+    "rel_type": "spouse",
+    "note_ko": "첫 아내 리브는 헤예르달과 마르케사스 제도에서 1년을 자급하며 살았고, 그 경험이 콘티키 구상의 밑거름이 됐다.",
+    "note_en": "First wife Liv spent a self-sufficient year with him in the Marquesas, seeding the Kon-Tiki theory.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "이븐 바투타": {
+  "relations": [
+   {
+    "to_en": "Ibn Juzayy",
+    "to_ko": "이븐 주자이",
+    "rel_type": "colleague",
+    "note_ko": "문헌학자 이븐 주자이는 술탄의 명으로 이븐 바투타의 구술을 받아 적어 『리흘라』를 완성했다.",
+    "note_en": "Court scholar Ibn Juzayy wrote down the traveller's dictation, producing the Rihla.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Muhammad ibn Tughluq",
+    "to_ko": "무함마드 이븐 투글루크",
+    "rel_type": "colleague",
+    "note_ko": "델리 술탄은 이븐 바투타를 카디로 등용해 인도에서 8년을 쓰게 했으나, 의심이 생기자 그를 옥에 가두기도 했다.",
+    "note_en": "The Delhi sultan made him qadi and employed him for eight years — then jailed him in a fit of suspicion.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Abu Inan Faris",
+    "to_ko": "아부 이난 파리스",
+    "rel_type": "colleague",
+    "note_ko": "마린 왕조 술탄 아부 이난은 귀환한 이븐 바투타에게 여행기 구술을 명해 『리흘라』를 성립시켰다.",
+    "note_en": "Sultan Abu Inan ordered the returned traveller to dictate his journeys — the book's origin.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "데이비드 리빙스턴": {
+  "relations": [
+   {
+    "to_en": "Mary Livingstone",
+    "to_ko": "메리 리빙스턴",
+    "rel_type": "spouse",
+    "note_ko": "선교사의 딸 메리는 리빙스턴과 결혼해 아프리카 내륙을 함께 다니다 슈팡가에서 숨졌다.",
+    "note_en": "Mary, a missionary's daughter, travelled the interior with him and died at Shupanga.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Robert Moffat",
+    "to_ko": "로버트 모펏",
+    "rel_type": "relative",
+    "note_ko": "장인 모펏의 쿠루만 선교 기지는 리빙스턴의 아프리카 활동 출발점이 됐다.",
+    "note_en": "His father-in-law Moffat ran the Kuruman mission from which Livingstone set out.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "William Cotton Oswell",
+    "to_ko": "윌리엄 코턴 오스웰",
+    "rel_type": "colleague",
+    "note_ko": "오스웰은 리빙스턴의 원정에 자금을 대고 함께 걸으며 은가미호 도달을 도왔다.",
+    "note_en": "Oswell financed and joined Livingstone's journeys, helping him reach Lake Ngami.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Sechele",
+    "to_ko": "세첼레",
+    "rel_type": "friend",
+    "note_ko": "바퀘나 족장 세첼레는 리빙스턴의 유일한 개종자로 남았으나 평생 교분을 이어간 친구였다.",
+    "note_en": "Chief Sechele, his famous convert, remained Livingstone's friend for life.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "James Chuma",
+    "to_ko": "제임스 추마",
+    "rel_type": "colleague",
+    "note_ko": "포터 추마는 수시와 함께 리빙스턴의 유해와 유품을 수천 km 걸어 해안까지 운반해 장례를 가능케 했다.",
+    "note_en": "Porter Chuma, with Susi, carried Livingstone's body and papers to the coast for burial.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "헨리 모턴 스탠리": {
+  "relations": [
+   {
+    "to_en": "David Livingstone",
+    "to_ko": "데이비드 리빙스턴",
+    "rel_type": "colleague",
+    "note_ko": "스탠리는 1871년 우지지에서 실종된 리빙스턴을 찾아내 '리빙스턴 박사시군요'라는 인사를 남겼다.",
+    "note_en": "Stanley found the missing Livingstone at Ujiji in 1871 — 'Dr Livingstone, I presume?'",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "James Gordon Bennett Jr.",
+    "to_ko": "제임스 고든 베넷 주니어",
+    "rel_type": "colleague",
+    "note_ko": "뉴욕 헤럴드 사주 베넷은 리빙스턴 탐색을 기획하고 스탠리를 아프리카로 보낸 언론 프로듀서였다.",
+    "note_en": "Herald owner Bennett dreamed up the search and sent Stanley to Africa.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Leopold II of Belgium",
+    "to_ko": "레오폴드 2세",
+    "rel_type": "colleague",
+    "note_ko": "레오폴드 2세는 스탠리를 고용해 콩고 유역에 교역소와 조약을 확보하게 했고, 그 길이 콩고 식민 지배로 이어졌다.",
+    "note_en": "Leopold II hired Stanley to stake treaties and stations along the Congo — the opening of his colony.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Dorothy Tennant",
+    "to_ko": "도러시 테넌트",
+    "rel_type": "spouse",
+    "note_ko": "화가 도러시는 스탠리와 말년에 결혼해 그의 사후 자서전 편찬을 도왔다.",
+    "note_en": "Painter Dorothy married Stanley late and helped prepare his posthumous autobiography.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "리처드 프랜시스 버턴": {
+  "relations": [
+   {
+    "to_en": "John Hanning Speke",
+    "to_ko": "존 해닝 스피크",
+    "rel_type": "rival",
+    "note_ko": "스피크는 나일강 원류 탐사에 동행했다가 빅토리아호 발견의 공로를 두고 버턴과 격렬히 대립했다.",
+    "note_en": "Speke marched with Burton to Lake Tanganyika, then warred with him over who had found the Nile's source.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Isabel Burton",
+    "to_ko": "이자벨 버턴",
+    "rel_type": "spouse",
+    "note_ko": "이자벨은 버턴의 아내로 그의 경력과 출판을 관리했고, 사후 미출간 원고를 불태워 논란을 남겼다.",
+    "note_en": "Isabel managed his career in life and burned his unpublished manuscripts after his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Forster Fitzgerald Arbuthnot",
+    "to_ko": "포스터 피츠제럴드 아버스놋",
+    "rel_type": "colleague",
+    "note_ko": "아버스놋은 버턴과 함께 『카마수트라』 등 인도 고전의 영역 출판을 공동으로 밀어붙였다.",
+    "note_en": "Arbuthnot partnered Burton to publish the Kama Sutra and other Indian classics in English.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "아라비아의 로렌스": {
+  "relations": [
+   {
+    "to_en": "Faisal I of Iraq",
+    "to_ko": "파이살 1세",
+    "rel_type": "colleague",
+    "note_ko": "파이살은 아랍 반란의 군사 지도자로 로렌스와 함께 다마스쿠스까지 진격했고, 그의 옹호로 이라크 왕이 됐다.",
+    "note_en": "Faisal led the revolt's armies alongside Lawrence, who then championed him for Iraq's throne.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Auda abu Tayi",
+    "to_ko": "아우다 아부 타이",
+    "rel_type": "colleague",
+    "note_ko": "호웨이타트 족장 아우다는 로렌스와 함께 아카바 기습을 이끈 전설적 전사였다.",
+    "note_en": "Howeitat chief Auda rode with Lawrence on the desert charge that took Aqaba.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Lowell Thomas",
+    "to_ko": "로웰 토머스",
+    "rel_type": "colleague",
+    "note_ko": "로웰 토머스는 팔레스타인 전선의 로렌스를 취재해 순회 강연으로 '아라비아의 로렌스' 신화를 만들었다.",
+    "note_en": "Thomas's lecture show turned a quiet officer into the world-famous 'Lawrence of Arabia'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Edmund Allenby",
+    "to_ko": "에드먼드 앨런비",
+    "rel_type": "colleague",
+    "note_ko": "앨런비는 로렌스의 게릴라전을 정규군 작전에 엮어준 팔레스타인 원정군 총사령관이었다.",
+    "note_en": "Allenby, his commander-in-chief, wove Lawrence's raids into the Palestine campaign.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Selim Ahmed",
+    "to_ko": "셀림 아흐메드",
+    "rel_type": "friend",
+    "note_ko": "다훔이라 불린 시리아 동료 셀림 아흐메드는 『지혜의 일곱 기둥』 헌사의 주인공 'S.A.'였다.",
+    "note_en": "Selim Ahmed, called Dahoum, was his Syrian companion and the 'S.A.' of the Seven Pillars dedication.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "거트루드 벨": {
+  "relations": [
+   {
+    "to_en": "T. E. Lawrence",
+    "to_ko": "아라비아의 로렌스",
+    "rel_type": "colleague",
+    "note_ko": "벨과 로렌스는 1921년 카이로 회의에 나란히 앉아 전후 중동의 지도를 다시 그렸다.",
+    "note_en": "Bell and Lawrence sat together at the 1921 Cairo Conference, redrawing the Middle East.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Faisal I of Iraq",
+    "to_ko": "파이살 1세",
+    "rel_type": "colleague",
+    "note_ko": "벨은 파이살을 이라크 왕위에 앉히기 위해 로비하고 그의 최측근 고문이 됐다.",
+    "note_en": "Bell lobbied to seat Faisal on Iraq's throne and became his closest adviser.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "David Hogarth",
+    "to_ko": "데이비드 호가스",
+    "rel_type": "teacher",
+    "note_ko": "애슈몰리언 관장 호가스는 벨의 고고학 스승이자 전시 아랍 정보부의 상관이었다.",
+    "note_en": "Hogarth, keeper of the Ashmolean, was her archaeological mentor and wartime intelligence chief.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Percy Cox",
+    "to_ko": "퍼시 콕스",
+    "rel_type": "colleague",
+    "note_ko": "퍼시 콕스는 벨을 메소포타미아 행정에 등용해 이라크 건국 작업을 함께 이끌었다.",
+    "note_en": "Cox brought Bell into the Mesopotamia administration; together they built the Iraqi state.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles Doughty-Wylie",
+    "to_ko": "찰스 도티와일리",
+    "rel_type": "partner",
+    "note_ko": "유부남 외교관 도티-와일리는 벨의 연인이었고, 그는 갈리폴리에서 전사한 뒤 벨은 평생 그를 잊지 못했다.",
+    "note_en": "Doughty-Wylie, a married diplomat, was her great love; he fell at Gallipoli.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Hugh Bell",
+    "to_ko": "휴 벨",
+    "rel_type": "father",
+    "note_ko": "철강 재벌 휴 벨은 딸의 여행 경비를 대준 아버지이자 평생의 서신 상대였다.",
+    "note_en": "Industrialist Hugh Bell bankrolled her travels and was her lifelong correspondent.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "프레야 스탁": {
+  "relations": [
+   {
+    "to_en": "Flora Stark",
+    "to_ko": "플로라 스탁",
+    "rel_type": "mother",
+    "note_ko": "자유분방한 어머니 플로라는 이탈리아에서 공장을 경영하며 프레야의 독립심과 언어 감각을 길러줬다.",
+    "note_en": "Her free-spirited mother Flora raised her among her Italian factories — the making of a traveller.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Stewart Perowne",
+    "to_ko": "스튜어트 페라운",
+    "rel_type": "spouse",
+    "note_ko": "외교관 페라운과의 짧은 전시 결혼은 몇 년 만에 끝났고, 그는 훗날 성직자가 됐다.",
+    "note_en": "Her brief wartime marriage to diplomat Perowne lasted only a few years; he later became a bishop.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Venetia Buddicom",
+    "to_ko": "베네시아 버디컴",
+    "rel_type": "friend",
+    "note_ko": "버디컴은 하드라마우트 여정에 동행한 친구로 프레야의 아라비아 기행에 함께했다.",
+    "note_en": "Buddicom rode beside her through Hadhramaut on the Arabian journeys.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Gertrude Caton-Thompson",
+    "to_ko": "거트루드 케이턴톰프슨",
+    "rel_type": "friend",
+    "note_ko": "고고학자 케이턴톰프슨은 예맨 유적 발굴지에서 프레야를 맞이한 평생의 벗이었다.",
+    "note_en": "Archaeologist Caton-Thompson hosted her at the Hadhramaut dig and stayed a lifelong friend.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "이사벨라 버드": {
+  "relations": [
+   {
+    "to_en": "John Bishop",
+    "to_ko": "존 비숍",
+    "rel_type": "spouse",
+    "note_ko": "의사 비숍은 이사벨라와 늦게 결혼해 그녀의 간호 속에 5년 만에 세상을 떠났다.",
+    "note_en": "Dr Bishop married her late; she nursed him through five years until his death.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Henrietta Bird",
+    "to_ko": "헨리에타 버드",
+    "rel_type": "sibling",
+    "note_ko": "동생 헨리에타는 병약한 평생 동반자였고, 그녀의 죽음이 이사벨라를 다시 여행길로 내몰았다.",
+    "note_en": "Her ailing sister Henrietta was her lifelong companion; her death sent Isabella abroad again.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Ito Tsurukichi",
+    "to_ko": "이토 쓰루키치",
+    "rel_type": "colleague",
+    "note_ko": "열아홉 통역 이토는 『일본 오지 여행』의 길동무로 그녀를 홋카이도 아이누 마을까지 안내했다.",
+    "note_en": "Ito, her teenage interpreter, guided her unbeaten tracks all the way to the Ainu villages.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jim Nugent",
+    "to_ko": "짐 뉴전트",
+    "rel_type": "friend",
+    "note_ko": "외눈박이 개척자 '록키마운틴 짐' 뉴전트는 록키산맥에서 그녀의 마음을 흔든 인물로, 책이 나오기 전 살해됐다.",
+    "note_en": "One-eyed frontiersman 'Rocky Mountain Jim' was her mountain passion, murdered before her book appeared.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Fanny Jane Butler",
+    "to_ko": "패니 제인 버틀러",
+    "rel_type": "friend",
+    "note_ko": "선교 의사 버틀러는 이사벨라가 캐시미르에 세운 존 비숍 기념 병원을 운영했다.",
+    "note_en": "Dr Butler ran the John Bishop Memorial Hospital that Isabella founded in Kashmir.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "알렉상드라 다비드넬": {
+  "relations": [
+   {
+    "to_en": "Philippe Néel",
+    "to_ko": "필리프 넬",
+    "rel_type": "spouse",
+    "note_ko": "철도기술자 필리프 넬은 아내가 아시아로 떠난 뒤 40년 가까이 여행 경비를 대며 편지로만 함께했다.",
+    "note_en": "Engineer Philippe Néel funded her decades in Asia while she never came home.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Sidkeong Tulku Namgyal",
+    "to_ko": "시드케옹 툴쿠 남갈",
+    "rel_type": "friend",
+    "note_ko": "시킴의 마하라자 시드케옹 툴쿠는 그녀에게 승원의 문을 열어준 친구였다.",
+    "note_en": "The Maharaja of Sikkim opened his monasteries to her; rumours called them lovers.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "난 싱": {
+  "relations": [
+   {
+    "to_en": "Thomas George Montgomerie",
+    "to_ko": "토머스 조지 몽고메리",
+    "rel_type": "teacher",
+    "note_ko": "영국 측량장교 몽고메리는 그를 판딧으로 발탁해 도보 측량과 위장술을 가르쳐 티베트로 보냈다.",
+    "note_en": "Montgomerie recruited and trained him to survey Tibet in disguise as a 'pundit'.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Kishen Singh",
+    "to_ko": "키센 싱",
+    "rel_type": "relative",
+    "note_ko": "사촌 키센 싱 역시 암호명 'A.K.'로 불린 판딧 측량원으로 티베트를 걸었다.",
+    "note_en": "His cousin Kishen, code-named 'A.K.', was a fellow pundit surveyor who walked Tibet.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Kalian Singh",
+    "to_ko": "칼리안 싱",
+    "rel_type": "relative",
+    "note_ko": "사촌 칼리안 싱도 같은 판딧 측량원으로 히말라야 너머 측량을 이어갔다.",
+    "note_en": "His cousin Kalian was another pundit surveyor mapping beyond the Himalaya.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "윌프레드 테시저": {
+  "relations": [
+   {
+    "to_en": "Salim bin Kabina",
+    "to_ko": "살림 빈 카비나",
+    "rel_type": "friend",
+    "note_ko": "빈 카비나는 두 차례 빈 쿼터 횡단을 함께한 라시드족 동료로 테시저의 책 속 최고의 인물이 됐다.",
+    "note_en": "Bin Kabina, his young Rashid companion on both Empty Quarter crossings, became the hero of his books.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Salim bin Ghabaisha",
+    "to_ko": "살림 빈 가바이샤",
+    "rel_type": "friend",
+    "note_ko": "빈 가바이샤는 빈 카비나와 함께 테시저의 사막 행군을 이끈 또 다른 베두인 동료였다.",
+    "note_en": "Bin Ghabaisha was the other Bedu guide and companion of the crossings.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Haile Selassie",
+    "to_ko": "하일레 셀라시에",
+    "rel_type": "colleague",
+    "note_ko": "즉위식을 본 소년 테시저는 훗날 에티오피아 광복전에 참전해 하일레 셀라시에에게 훈장을 받았다.",
+    "note_en": "Thesiger, who saw his 1930 coronation as a boy, later fought for Haile Selassie's restoration and received his star.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "프랜시스 영허즈번드": {
+  "relations": [
+   {
+    "to_en": "George Curzon",
+    "to_ko": "조지 커즌",
+    "rel_type": "colleague",
+    "note_ko": "커즌 총독은 영허즈번드를 라싸 원정대장으로 보냈으나 그의 현지 독단과 요구를 두고 충돌했다.",
+    "note_en": "Viceroy Curzon sent the mission to Lhasa, then clashed with Younghusband's on-the-spot demands.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Macartney",
+    "to_ko": "조지 매카트니",
+    "rel_type": "colleague",
+    "note_ko": "매카트니는 카슈가르 주재 영국 공사로 대트리게임 시절 영허즈번드의 서역 답사를 지원했다.",
+    "note_en": "Macartney, Britain's consul in Kashgar, aided his Great Game journeys in Central Asia.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Helen Younghusband",
+    "to_ko": "헬런 영허즈번드",
+    "rel_type": "spouse",
+    "note_ko": "헬런은 영허즈번드의 아내로 그의 신비주의 저작과 종교 운동을 함께했다.",
+    "note_en": "Helen shared his late turn to mysticism, writing and the world-religion council.",
+    "prospect": "skip"
+   }
+  ]
+ }
+}

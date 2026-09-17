@@ -1,0 +1,3512 @@
+{
+ "파트리시오 리바스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "임시 대통령으로서 워커와의 결별이 전세를 바꾼 변수",
+   "political_exp_en": "His break with Walker as provisional president shifted the war",
+   "strategic": 2,
+   "strategic_exp": "애국 진영 합류로 반워커 전선에 힘을 보탬",
+   "strategic_exp_en": "Joining the patriots strengthened the anti-Walker front",
+   "tech": 0,
+   "tech_exp": "기술·과학과 무관",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "꼭두각시에서 애국자로 재평가된 국가 서사의 인물",
+   "social_exp_en": "Re-evaluated from puppet to patriot in national memory",
+   "economic": 1,
+   "economic_exp": "전란 속 행정으로 경제 유산이 없음",
+   "economic_exp_en": "Wartime administration left no economic legacy",
+   "cultural": 2,
+   "cultural_exp": "'파타스 아리바' 별명이 국가 구전에 남음",
+   "cultural_exp_en": "His nickname 'Patas Arriba' survives in national lore",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "워커 사건의 주역 중 한 명으로 지역사에 남음",
+   "transhistoricity_exp_en": "He endures in regional history as a principal of the Walker affair"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 42,
+     "reason_ko": "임시 대통령직에 올랐으나 실권은 워커에게 있었음",
+     "reason_en": "He held the presidency provisionally while real power sat with Walker"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "내전 시대의 문관 정치인으로 군사 경력이 드묾",
+     "reason_en": "A civilian politician of a civil-war era, with little military service"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "변호사 출신으로 내전 정국을 헤쳐나간 실무형",
+     "reason_en": "A lawyer who worked his way through wartime politics"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "'파타스 아리바'로 불릴 만큼 신망이 엇갈림",
+     "reason_en": "Nicknamed 'Upside-Down Feet' — his standing always split opinion"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "강자에게 기웠다가 돌아서는 기회주의적 처신",
+     "reason_en": "He leaned on the strongman, then turned away — a career of manoeuvre"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "1830년대부터 전란 속 정치 일선을 지킴",
+     "reason_en": "He held the political front line from the 1830s through civil war"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "워커와의 결별로 스스로의 선택을 바로잡음",
+     "reason_en": "Breaking with Walker was his own course-correction"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "점령군 수장이던 워커와 공개 결별해 애국 진영에 합류",
+     "reason_en": "He openly broke with the armed patron and joined the patriots"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "워커를 배신했으나 조국 편으로 돌아와 애국자로 재평가",
+     "reason_en": "He betrayed Walker but returned to his country and was redeemed"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "내전기 행정관으로 선악을 가를 행적이 옅음",
+     "reason_en": "A wartime administrator whose record gives little to weigh"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "변호사 출신으로 법치 절차를 지키려 한 정치인",
+     "reason_en": "A lawyer who tried to keep legal process amid civil war"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "꼭두각시 자리를 수용했으나 끝내 스스로 물러남",
+     "reason_en": "He accepted a puppet seat yet walked away from it in the end"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "전란 속에서도 정치적 생존을 도모한 현실가",
+     "reason_en": "Even in civil war he calculated survival like a realist"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "자유계 소속으로 보수파와 맞선 개혁파 정치인",
+     "reason_en": "A Liberal who fought the Conservative order of his day"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "내전 양 진영 사이에서 당파 노선을 좇음",
+     "reason_en": "Between the two camps he followed his party's line"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "워커 초빙과 결별 모두 목숨 건 도박이었음",
+     "reason_en": "Both inviting Walker and leaving him were gambles with his life"
+    }
+   },
+   "rationale_ko": "자유계 변호사가 외국 용병왕의 손에 대통령이 됐다. 실권 없는 자리에서 그는 후원자와 결별하는 도박을 택했고 그 선택이 후대 평가를 바꿨다. 레온의 명예의 자리에 묻혔다.",
+   "rationale_en": "A liberal lawyer became president by a foreign adventurer's hand. From a powerless office he gambled on breaking with his patron, and that choice rewrote his reputation. He lies in a place of honour in León."
+  }
+ },
+ "찰스 프레더릭 헤닝센": {
+  "influence": {
+   "political": 2,
+   "political_exp": "남군 대령과 워커 휘하 여단장으로 국지 영향",
+   "political_exp_en": "A Walker brigadier and Confederate colonel; local impact only",
+   "strategic": 3,
+   "strategic_exp": "다섯 전쟁의 군사 회고록이 19세기 용병 문헌에 남음",
+   "strategic_exp_en": "His memoirs of five wars remain sources on the soldier of fortune",
+   "tech": 1,
+   "tech_exp": "군사 기술 기여는 확인되지 않음",
+   "tech_exp_en": "No verified technical contribution",
+   "social": 1,
+   "social_exp": "제도·규범에 남긴 흔적 없음",
+   "social_exp_en": "Left no mark on institutions or norms",
+   "economic": 1,
+   "economic_exp": "용병 생활 외 경제 행적 없음",
+   "economic_exp_en": "No economic footprint beyond soldiering",
+   "cultural": 4,
+   "cultural_exp": "워커 원정기 등 다수 저작으로 운명의 군인 원형이 됨",
+   "cultural_exp_en": "His many books made him the type of the soldier of fortune",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "다섯 전쟁을 누빈 용병의 전형으로 군사사에 남음",
+   "transhistoricity_exp_en": "He survives in military history as the archetypal mercenary"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "스페인 외인여단과 니카라과 여단, 리치먼드 방어선을 지휘",
+     "reason_en": "He led a foreign legion in Spain, a brigade in Nicaragua, Richmond's defences"
+    },
+    "martial": {
+     "score": 76,
+     "reason_ko": "다섯 전쟁을 40년간 누빈 직업 용병의 전장력",
+     "reason_en": "A professional soldier who fought through five wars over forty years"
+    },
+    "intellect": {
+     "score": 66,
+     "reason_ko": "여러 언어로 군사 회고록과 소설을 남긴 문필가",
+     "reason_en": "A multilingual author of military memoirs and novels"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "각국 군 사교계를 오가며 자리를 얻은 인물형",
+     "reason_en": "He moved through officers' circles on three continents"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "평화보다 다음 전쟁을 찾아 떠난 삶",
+     "reason_en": "When peace came he went looking for the next war"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "카를로스파 전쟁부터 남북전쟁까지 40년을 전장에서 보냄",
+     "reason_en": "Forty years of battlefields, from the Carlists to the Civil War"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "다수의 회고록을 썼으나 영웅담 위주의 자기 미화",
+     "reason_en": "His many memoirs lean toward self-heroising"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "세 대륙의 전선에 스스로 몸을 던짐",
+     "reason_en": "He threw himself into the front lines of three continents"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "카를로스파·헝가리·워커·남군을 옮겨 다닌 용병",
+     "reason_en": "Carlists, Hungary, Walker, the Confederacy — he served them in turn"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "워커의 명으로 그라나다 소각을 집행한 장교",
+     "reason_en": "As Walker's officer he carried out the burning of Granada"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "군인 규율 안의 처신 외 공정성이 드러나지 않음",
+     "reason_en": "Beyond a soldier's code his record shows little on fairness"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "자기 전공을 다수 저작으로 과시한 문필 용병",
+     "reason_en": "A literary mercenary who publicised his own campaigns"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "전쟁이 끝날 때마다 다음 전쟁을 찾아 나섬",
+     "reason_en": "Each peace sent him looking for the next war"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "반동 왕당파와 혁명군, 노예제 연방을 가리지 않고 섬김",
+     "reason_en": "He served reactionary Carlists, revolutionaries and the slave South alike"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "조국 없이 전쟁만을 좇은 개인 용병",
+     "reason_en": "A countryless soldier who followed only war"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "쉰을 넘겨서도 전장을 찾아다닌 결행력",
+     "reason_en": "Past fifty he was still seeking out front lines"
+    }
+   },
+   "rationale_ko": "열아홉에 용병이 된 그는 다섯 전쟁을 40년간 누볐다. 어느 대의에도 묶이지 않는 용병질이 문필 재능과 만나 다수의 회고록을 남겼다. 워싱턴에서 궁핍하게 숨졌다.",
+   "rationale_en": "A mercenary at nineteen, he spent forty years across five wars. Serving no single cause, he still paired soldiering with a writer's gift and left many memoirs. He died poor in Washington."
+  }
+ },
+ "노웰 새먼": {
+  "influence": {
+   "political": 3,
+   "political_exp": "워커 체포·인도로 필리버스터 시대의 종지부를 찍음",
+   "political_exp_en": "Capturing and handing over Walker ended the filibuster era",
+   "strategic": 3,
+   "strategic_exp": "40년 해군 복무로 제국 해군 최고 계급에 오름",
+   "strategic_exp_en": "Forty years' service carried him to the navy's highest rank",
+   "tech": 1,
+   "tech_exp": "항해 실무 외 기술 기여 없음",
+   "tech_exp_en": "No technical contribution beyond seamanship",
+   "social": 1,
+   "social_exp": "제도 변화와 무관한 직업 군인",
+   "social_exp_en": "A career officer with no institutional mark",
+   "economic": 1,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic consequence",
+   "cultural": 2,
+   "cultural_exp": "VC 수훈과 워커 체포의 두 에피소드로 군사사에 남음",
+   "cultural_exp_en": "The VC and the Walker capture keep him in naval history",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "빅토리아 해군의 성실한 표본으로 기록에 남음",
+   "transhistoricity_exp_en": "He stands in the record as the dutiful Victorian admiral"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "40년 복무 끝에 1899년 영국 해군 최고 계급인 원수에 오름",
+     "reason_en": "After forty years he reached Admiral of the Fleet in 1899"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "1857년 러크나우 공방전에서 최전선 공로로 빅토리아 십자장",
+     "reason_en": "He won the Victoria Cross in the front line at Lucknow in 1857"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "함대 지휘와 항해 실무로 최고 계급에 이른 전문 군인",
+     "reason_en": "A professional who reached the top on fleet command and seamanship"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "해군 안에서 실력으로 신망을 얻은 장교",
+     "reason_en": "He earned his standing inside the service by competence"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "평생 해군 규율 안에서 복무한 직업 군인",
+     "reason_en": "A career spent inside naval discipline"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "스물두 살 VC 수훈부터 원수까지 40년 성실 복무",
+     "reason_en": "From a VC at twenty-two to Admiral of the Fleet — forty steady years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "공적 자기서술 없이 복무 기록으로 말한 군인",
+     "reason_en": "He let the service record speak and left no self-account"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "스물두 살에 러크나우 포화 속에서 VC 공적을 세움",
+     "reason_en": "At twenty-two he earned the VC under fire at Lucknow"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "한 나라 해군에 평생을 바친 복무",
+     "reason_en": "He gave a whole working life to one navy"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "명령에 따라 워커를 넘긴 임무 수행자",
+     "reason_en": "He delivered Walker as orders required — duty, not cruelty"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "포로를 함부로 다루지 않고 관할 당국에 인계",
+     "reason_en": "He treated his prisoner properly and handed him to the lawful authority"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "VC와 원수 계급에도 공적 자랑을 남기지 않은 군인",
+     "reason_en": "VC and Admiral of the Fleet, he left no boasting behind"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "제국 해군의 확신 속에서 복무한 인물",
+     "reason_en": "He served with the confidence of the imperial navy"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "식민 질서를 지킨 제국 해군의 상징적 군인",
+     "reason_en": "An emblematic officer of the order the empire kept"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "함대 조직 안에서 승진한 조직의 사람",
+     "reason_en": "He rose inside the institution as an organisation man"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "워커 체포와 러크나우 돌격 모두 단호한 실행",
+     "reason_en": "Both the Lucknow assault and the Walker capture were decisive acts"
+    }
+   },
+   "rationale_ko": "스물두 살에 러크나우에서 빅토리아 십자장을 받은 수병이 원수까지 올랐다. 명령에 따라 워커를 넘긴 결정이 필리버스터 시대를 닫았다. 일흔여섯에 세상을 떠났다.",
+   "rationale_en": "A sailor who won the Victoria Cross at Lucknow aged twenty-two rose to Admiral of the Fleet. His dutiful handover of Walker closed the filibuster era. He died at seventy-six."
+  }
+ },
+ "알렉산더 번스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "카불 피살이 제1차 영국-아프간 전쟁을 촉발",
+   "political_exp_en": "As envoy in Kabul his murder lit the First Anglo-Afghan War",
+   "strategic": 4,
+   "strategic_exp": "중앙아시아 종단 정보가 그레이트 게임의 초기 토대가 됨",
+   "strategic_exp_en": "His trans-Asian intelligence laid early groundwork of the Great Game",
+   "tech": 2,
+   "tech_exp": "인더스 항해와 지리 측량 기록을 남김",
+   "tech_exp_en": "He left Indus navigation and geographical survey records",
+   "social": 2,
+   "social_exp": "외교 장교로서 제도 변화는 미미",
+   "social_exp_en": "A diplomatic officer with little institutional effect",
+   "economic": 1,
+   "economic_exp": "경제 변화와 무관",
+   "economic_exp_en": "No economic consequence",
+   "cultural": 3,
+   "cultural_exp": "'부하라의 번스'로 베스트셀러 여행기를 남김",
+   "cultural_exp_en": "'Bokhara Burnes' left a bestselling 1830s travel book",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "그레이트 게임의 서막 인물로 계속 회자",
+   "transhistoricity_exp_en": "Still recalled as the opening figure of the Great Game"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "탐험대와 카불 공사관 실무를 이끈 외교 장교",
+     "reason_en": "He led expeditions and the working of the Kabul residency"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "인더스와 힌두쿠시를 넘나든 군인 탐험가의 행군력",
+     "reason_en": "A soldier-explorer who marched the Indus and the Hindu Kush"
+    },
+    "intellect": {
+     "score": 76,
+     "reason_ko": "여러 현지어로 『부하라 여행기』를 쓴 언어 천재",
+     "reason_en": "A linguistic prodigy who wrote 'Travels into Bokhara'"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "런던 살롱과 카불 궁정을 모두 매혹한 스타 탐험가",
+     "reason_en": "He charmed London salons and the Kabul court alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "카불에서의 문란한 사생활이 현지 반감을 키움",
+     "reason_en": "His Kabul liaisons fed local resentment"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "여행 내내 상세한 지리·정세 기록을 남김",
+     "reason_en": "Throughout his travels he kept detailed geographic and political notes"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "기록은 풍부했으나 카불의 위험을 과소평가함",
+     "reason_en": "For all his notes he underestimated the danger in Kabul"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "유럽인이 처형되던 부하라로 홀로 들어감",
+     "reason_en": "He entered Bukhara alone where Europeans had been executed"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "동인도회사와 영국 국익에 충실한 정보 장교",
+     "reason_en": "A faithful intelligence officer of Company and Crown"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "제국 정보원으로서 선행보다 임무가 우선이었음",
+     "reason_en": "An imperial agent for whom the mission outranked charity"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "현지인과 친교하면서도 제국 임무의 대리인이었음",
+     "reason_en": "He befriended locals while serving imperial ends"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "'부하라의 번스' 명성을 적극적으로 활용함",
+     "reason_en": "He traded actively on the fame of 'Bokhara Burnes'"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "위험한 카불 주재를 영광으로 여기고 자청",
+     "reason_en": "He sought the Kabul posting as an honour, not a hazard"
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "영제국의 확장 질서를 섬긴 선두 정보원",
+     "reason_en": "A forward agent of the empire's expanding order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "자기 명성을 좇아 홀로 대륙을 넘은 모험가",
+     "reason_en": "He crossed a continent alone in pursuit of his name"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "경고를 무릅쓰고 부하라·카불 한복판에 들어감",
+     "reason_en": "Against warnings he walked into the heart of Bukhara and Kabul"
+    }
+   },
+   "rationale_ko": "언어 천재가 중앙아시아를 종단해 '부하라의 번스'가 됐다. 명성과 카불 주재 자리를 얻었으나 자만이 위험 감지를 늦췄다. 반란 군중이 그를 난도질해 죽였고 영국군 전멸이 뒤따랐다.",
+   "rationale_en": "A linguistic prodigy crossed Central Asia and became 'Bokhara Burnes'. Fame and the Kabul posting followed, but complacency dulled his sense of danger. A mob hacked him to death, and the destruction of a British army followed."
+  }
+ },
+ "하먼 블레너해싯": {
+  "influence": {
+   "political": 2,
+   "political_exp": "버 음모의 자금줄로 미국 초기 최대 반역 사건에 연루",
+   "political_exp_en": "Burr's financier in America's first great treason case",
+   "strategic": 1,
+   "strategic_exp": "군사 행적 없음",
+   "strategic_exp_en": "No military record",
+   "tech": 1,
+   "tech_exp": "섬 저택의 아마추어 과학 실험에 그침",
+   "tech_exp_en": "His amateur science stayed on the island",
+   "social": 1,
+   "social_exp": "제도 변화와 무관",
+   "social_exp_en": "No institutional mark",
+   "economic": 1,
+   "economic_exp": "원정 자금 제공이 전 재산의 몰락으로 끝남",
+   "economic_exp_en": "Funding the expedition ended in his ruin",
+   "cultural": 3,
+   "cultural_exp": "블레너해싯섬 맨션이 박물관으로 남고 문학 소재가 됨",
+   "cultural_exp_en": "His island mansion survives as a museum and literary subject",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "버 사건의 비극적 후원자로 미국사 각주에 남음",
+   "transhistoricity_exp_en": "He remains the tragic footnote financier of the Burr affair"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "섬 저택과 재산을 굴렸으나 조직을 이끌지 않음",
+     "reason_en": "He ran an estate and a fortune but led no organisation"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "저택을 경영한 법률가로 신체 활동 이력이 드묾",
+     "reason_en": "A lawyer and estate-keeper with little physical history"
+    },
+    "intellect": {
+     "score": 63,
+     "reason_ko": "트리니티 법학과 과학 실험실을 갖춘 아마추어 학자",
+     "reason_en": "A Trinity lawyer who kept a laboratory and library on the frontier"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "오하이오강 저택 살롱으로 방문객을 매혹한 주인",
+     "reason_en": "His river-island salon charmed the travellers who came"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "조카와의 결혼과 전 재산을 건 음모 지원",
+     "reason_en": "He married his niece and staked his fortune on a conspiracy"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "저택 건설과 실험에 열정을 쏟았으나 사업은 실패",
+     "reason_en": "He poured energy into mansion and experiments; his ventures failed"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "파산 뒤 서신에서 스스로의 우남을 뉘우침",
+     "reason_en": "In letters after ruin he lamented his own folly"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "반역 혐의로 두 번 체포되고도 버의 모험을 도움",
+     "reason_en": "Twice arrested for treason, he had still backed Burr's venture"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "버의 계획에 섬과 전 재산을 내준 후원자",
+     "reason_en": "He lent Burr his island and his entire fortune"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "방문객에게 저택을 활짝 연 후한 주인",
+     "reason_en": "A generous host who opened his doors to travellers"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "법률가 출신이나 공적 판단 기록이 옅음",
+     "reason_en": "A lawyer by training with little public judgment on record"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "변방에 궁전 같은 저택을 지은 과시욕",
+     "reason_en": "He built a palace in the wilderness to be seen"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "버의 서부 제국 계획에 장밋빛 전망을 걸었음",
+     "reason_en": "He bet on rosy prospects in Burr's western scheme"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "근친 결혼으로 관습을 깼으나 귀족적 생활을 지향",
+     "reason_en": "He defied convention in marriage yet aspired to aristocratic life"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "섬 저택에서 사회와 떨어진 은둔형 생활을 꿈꿈",
+     "reason_en": "He dreamed of retreat from society on his island"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "알 수 없는 음모에 섬과 전 재산을 건 도박",
+     "reason_en": "He wagered island and fortune on an unproven scheme"
+    }
+   },
+   "rationale_ko": "조카와의 결혼으로 고향을 떠나 강 한가운데 궁전을 지었다. 버의 계획에 섬과 전 재산을 건 선택이 그를 파산으로 몰았다. 건지섬에서 쓸쓸히 숨졌다.",
+   "rationale_en": "Driven from home by marriage to his niece, he built a palace on a river island. Staking the island and his fortune on Burr's scheme ruined him. He died a quiet exile on Guernsey."
+  }
+ },
+ "애런 버 시니어": {
+  "influence": {
+   "political": 1,
+   "political_exp": "식민지 목사로 정치와 거리가 멂",
+   "political_exp_en": "A colonial minister far from politics",
+   "strategic": 0,
+   "strategic_exp": "전략·안보와 무관",
+   "strategic_exp_en": "No bearing on strategy or security",
+   "tech": 1,
+   "tech_exp": "위험하던 시기의 천연두 접종을 수용하고 장려",
+   "tech_exp_en": "He accepted and encouraged smallpox inoculation when it was risky",
+   "social": 5,
+   "social_exp": "뉴저지 칼리지를 이끌어 프린스턴의 토대를 놓음",
+   "social_exp_en": "He led the College of New Jersey — the foundation of Princeton",
+   "economic": 1,
+   "economic_exp": "경제와 무관",
+   "economic_exp_en": "No economic consequence",
+   "cultural": 2,
+   "cultural_exp": "대각성 신학 서클의 인물로 교회사에 남음",
+   "cultural_exp_en": "A figure of the Great Awakening circle in church history",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "프린스턴이라는 지속 기관의 초기 건설자",
+   "transhistoricity_exp_en": "An early builder of an institution that endures"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "9년간 신생 대학을 이끌어 프린스턴 캠퍼스를 정착시킴",
+     "reason_en": "Nine years as president settled the college at Princeton"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "목사·교육자로 과로 속에 마흔하나에 급서",
+     "reason_en": "A minister-scholar who died at forty-one from overwork"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "예일 출신으로 신생 대학의 교육과정을 세운 학자",
+     "reason_en": "A Yale man who built the young college's course of study"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "모금과 설교로 대학 지지 세력을 모은 지도자",
+     "reason_en": "He raised funds and congregations for the college"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "청빈한 목사 생활과 규칙적 학장직 수행",
+     "reason_en": "A frugal minister's life and regular presidency"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "대학 정착을 위해 과로로 생을 다한 노동",
+     "reason_en": "He worked himself to death settling the college"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "목회자로서 자기 성찰을 훈련한 신학자",
+     "reason_en": "A divine trained in self-examination"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "위험했던 천연두 접종을 스스로 받은 결단",
+     "reason_en": "He took the risky smallpox inoculation himself"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "신생 대학과 교회, 에드워즈 가문에 헌신",
+     "reason_en": "He gave himself to college, church and the Edwards family"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "식민지 청년 교육에 생을 바친 목회자",
+     "reason_en": "He spent his life educating colonial youth"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "학장으로서 학칙과 장학 행정을 집행",
+     "reason_en": "As president he administered rules and scholarships"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "학장직을 맡았으나 목사의 검소함을 유지",
+     "reason_en": "He kept a minister's plainness in the president's chair"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "신생 대학의 장래를 믿고 기반을 다짐",
+     "reason_en": "He believed in the young college's future and laid its base"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "대각성 계열의 새 대학을 세운 개혁파 목회자",
+     "reason_en": "A New Light minister who helped found a reformist college"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "공동체 교육 기관 건설에 생을 바침",
+     "reason_en": "He gave his life to building a community institution"
+    },
+    "cautious_bold": {
+     "score": 5,
+     "reason_ko": "위험한 접종을 택했으나 생애 전반은 근실한 건설자",
+     "reason_en": "He took one bold risk; the rest of life was steady building"
+    }
+   },
+   "rationale_ko": "목사가 신생 대학의 학장이 되어 프린스턴의 뿌리를 내렸다. 과로를 두려워하지 않는 헌신이 대학을 세웠으나 그 자신을 마흔한 살에 데려갔다. 그의 아들이 미국 부통령이 됐다.",
+   "rationale_en": "A minister took a young college's presidency and planted the roots of Princeton. Zeal that did not fear overwork built the school but carried him off at forty-one. His son became vice president of the United States."
+  }
+ },
+ "일라이자 주멜": {
+  "influence": {
+   "political": 1,
+   "political_exp": "버와의 결혼·이혼으로 정치사의 각주가 됨",
+   "political_exp_en": "Her Burr marriage and divorce made her a political footnote",
+   "strategic": 0,
+   "strategic_exp": "전략·안보와 무관",
+   "strategic_exp_en": "No bearing on strategy or security",
+   "tech": 0,
+   "tech_exp": "기술·과학과 무관",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "여성이 스스로 재산을 굴린 시대 이례의 사례",
+   "social_exp_en": "A rare case of a woman running her own fortune in her era",
+   "economic": 3,
+   "economic_exp": "부동산 운영으로 미국 최고 부호 여성 반열에 오름",
+   "economic_exp_en": "Real-estate management made her one of America's richest women",
+   "cultural": 4,
+   "cultural_exp": "모리스-주멜 맨션이 맨해튼 최고령 가옥 박물관으로 남음",
+   "cultural_exp_en": "The Morris-Jumel Mansion survives as Manhattan's oldest house museum",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "버 전기와 뉴욕 사교사의 단골 인물로 남음",
+   "transhistoricity_exp_en": "She persists in Burr biography and New York society lore"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "남편 사후 부동산과 재산을 직접 30년 넘게 운영",
+     "reason_en": "She ran the properties and fortune herself for over thirty years"
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "비신체직 사교가로 아흔까지 활동한 건강한 삶",
+     "reason_en": "A society woman who stayed active to ninety"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "빈민가 출신이 재정을 다루고 소송에서 이긴 수완",
+     "reason_en": "From the poorhouse she mastered finance and won her lawsuits"
+    },
+    "charm": {
+     "score": 70,
+     "reason_ko": "뉴욕과 파리 사교계를 오간 시대의 명사",
+     "reason_en": "She moved through the salons of New York and Paris"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "사치와 검약이 교차한 재산 관리",
+     "reason_en": "Her money management mixed display and stinginess"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "아흔이 될 때까지 재산 관리를 손수 챙김",
+     "reason_en": "She minded her fortune with her own hand to ninety"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "평생 소송과 재산 다툼으로 자기 정당화에 몰두",
+     "reason_en": "A life of litigation served mostly to justify herself"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "세속의 눈을 무릅쓰고 부통령과의 결혼·이혼을 감행",
+     "reason_en": "She dared opinion in marrying and divorcing a vice president"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "버와 넉 달 만에 별거하고 사망 당일 이혼을 성립시킴",
+     "reason_en": "She left Burr in four months; the divorce landed the day he died"
+    },
+    "benevolence": {
+     "score": 42,
+     "reason_ko": "자선 행적보다 소송과 재산 지키기에 치중한 말년",
+     "reason_en": "Her later years favoured lawsuits over charity"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "남편 유산과 이혼 소송에서 자기 이익을 앞세움",
+     "reason_en": "In estate and divorce suits she put her own interest first"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "신분을 부풀려 사교계 정상을 노린 출세주의",
+     "reason_en": "She embellished her origins to climb society"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "빈민 출신이 최고 부호를 꿈꾸고 이룸",
+     "reason_en": "Born poor, she aimed at the top fortune and reached it"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "여성 스스로 재산을 관리·소송한 시대 이례의 행보",
+     "reason_en": "She managed and litigated her own estate, unusual for her time"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "사교계에 올랐으나 평생 자기 재산 지키기가 우선",
+     "reason_en": "She rose in society but put guarding her fortune first"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "전 부통령과의 결혼·이혼을 계산된 도박으로 감행",
+     "reason_en": "Marriage to and divorce from an ex-vice president were calculated gambles"
+    }
+   },
+   "rationale_ko": "빈민가에서 태어난 여성이 두 번의 결혼과 부동산 수완으로 최고 부호가 됐다. 타인에 대한 충성보다 자기 재산 지키기가 우선이었고 그 집요함이 아흔 해의 부를 지켰다. 맨해튼에 모리스-주멜 맨션을 남겼다.",
+   "rationale_en": "Born in a poorhouse, she became one of America's richest women through two marriages and real-estate skill. Guarding her fortune outranked loyalty to anyone, and that tenacity preserved her wealth for ninety years. She left Manhattan the Morris-Jumel Mansion."
+  }
+ },
+ "사라 쿄라바": {
+  "influence": {
+   "political": 1,
+   "political_exp": "궁정에 있었으나 정책 결정 흔적은 없다",
+   "political_exp_en": "At Amin's court, with no recorded hand in policy",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "독재자의 부인으로 체제 의전에 이용됨",
+   "social_exp_en": "Used in the regime's pageantry as the dictator's wife",
+   "economic": 1,
+   "economic_exp": "망명 뒤 런던에서 식당·미용실을 운영",
+   "economic_exp_en": "Ran a London café and salon in exile",
+   "cultural": 3,
+   "cultural_exp": "아라파트 들러리 결혼식으로 아민 시대 상징 일화가 됨",
+   "cultural_exp_en": "Her Arafat-escorted wedding became an emblematic Amin-era tale",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "독재자 곁의 일화적 존재로 남음",
+   "transhistoricity_exp_en": "Survives as an anecdote of Amin's court"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 26,
+     "reason_ko": "망명 뒤 런던 토트넘에서 식당과 미용실을 직접 운영",
+     "reason_en": "Ran her own café and salon in Tottenham after exile"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "군악대 고고 댄서로 공연하다 아민의 눈에 들음",
+     "reason_en": "An army-band go-go dancer who caught Amin's eye onstage"
+    },
+    "intellect": {
+     "score": 48,
+     "reason_ko": "독재 궁정과 런던 자영업을 오가며 실용적 처세를 보임",
+     "reason_en": "Showed practical sense from palace to London small business"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "아민이 반하고 아라파트가 들러리를 선 결혼식의 주인공",
+     "reason_en": "Amin fell for her onstage; Arafat stood as best man"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "궁에 있으면서도 사치 행각이 크게 알려지지 않음",
+     "reason_en": "No recorded extravagance despite life at Amin's court"
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "망명지에서 식당·미용실을 십수 년간 직접 운영",
+     "reason_en": "Ran her London businesses for decades"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "인터뷰에서 아민을 따뜻한 남편으로 회고",
+     "reason_en": "Late interviews recalled Amin as a warm husband"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "독재 궁정에 들어갔고 붕괴 뒤 망명을 견뎌냄",
+     "reason_en": "Entered a dictator's court and endured the exile that followed"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "아민 몰락까지 부인으로 남았고 말년에도 원망을 표하지 않음",
+     "reason_en": "Stayed his wife through the fall and spoke kindly of him to the end"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "공적 선행보다 자기 가족과 생계에 집중한 삶",
+     "reason_en": "A life centred on family and livelihood over public charity"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "독재 체제 곁에 있었으나 인권 관련 행적이 남지 않음",
+     "reason_en": "Beside a dictatorship yet left no human-rights record"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "독재자의 부인에서 런던 자영업자로 낮춰 삶",
+     "reason_en": "Stepped down from palace to shopkeeper without protest"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "체제 붕괴 뒤에도 망명지에서 새 삶을 일굼",
+     "reason_en": "Built a new life in exile after the regime fell"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "체제 비판·옹호 발언 없이 궁과 망명지에서 적응",
+     "reason_en": "Adapted to palace and exile without staking a position"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "부인 지위와 개인 생계 중심으로 움직이며 집단 운동에 가담하지 않음",
+     "reason_en": "Moved as wife and shopkeeper, never in collective causes"
+    },
+    "cautious_bold": {
+     "score": -5,
+     "reason_ko": "독재자 곁에 들어간 도약 이후에는 조심스레 생존에 집중",
+     "reason_en": "One leap into the palace, then careful survival"
+    }
+   },
+   "rationale_ko": "군악대 무대에서 독재자의 눈에 들어 궁으로 들어갔다. 권력의 중심에서 누린 것보다 빠져나와 다시 일어선 힘이 삶을 규정했다. 망명 런던에서 식당과 미용실을 직접 운영하며 조용한 후반전을 보냈다. 2015년 런던에서 암으로 숨졌다.",
+   "rationale_en": "A stage dancer carried into a dictator's palace. What defined her was less the power beside her than the life she rebuilt after it. In London she ran her own café and salon for decades. She died of cancer in London in 2015."
+  }
+ },
+ "밥 아스틀스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "아민의 최측근 고문으로 우간다 국정에 관여",
+   "political_exp_en": "Amin's closest adviser, involved in Ugandan state affairs",
+   "strategic": 1,
+   "strategic_exp": "군사 고문 역할은 크지 않았음",
+   "strategic_exp_en": "Adviser without a real military hand",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "독재 체제의 백인 얼굴로 체제 이미지를 뒷받침",
+   "social_exp_en": "The regime's white face lent it a facade",
+   "economic": 2,
+   "economic_exp": "체제의 수족으로 국가 자원 운영에 관여",
+   "economic_exp_en": "A regime hand in the state's workings",
+   "cultural": 2,
+   "cultural_exp": "'라스트 킹 오브 스코틀랜드' 캐릭터의 모델 중 하나",
+   "cultural_exp_en": "A model for the doctor in The Last King of Scotland",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "아민 체제의 상징적 측근으로 기억됨",
+   "transhistoricity_exp_en": "Remembered as the emblematic insider of Amin's regime"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "식민지 관료와 아민 측근 고문으로 8년간 체제 중심에서 일함",
+     "reason_en": "Colonial officer then Amin's right hand for eight years"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "2차대전 복무와 식민지 치안 현장의 군인 경력",
+     "reason_en": "WWII veteran who stayed a field man in colonial Uganda"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "두 정권 아래 실무 고문으로 버틴 처세와 언어 능력",
+     "reason_en": "Pragmatic fixer who served two rival Ugandan regimes"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "아민의 신뢰는 얻었으나 '흰 쥐'로 공공의 증오를 삼",
+     "reason_en": "Won Amin's trust but became the hated 'White Rat'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "권력 곁에서 위세를 누렸다는 비난이 따름",
+     "reason_en": "Accused of enjoying the trappings of Amin's court"
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "두 정권 걸쳐 십수 년간 실무 고문으로 일함",
+     "reason_en": "Worked the Uganda file across two regimes for years"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "수감 뒤 자신의 역할을 옹호하는 해석을 내놓음",
+     "reason_en": "After prison he defended his role rather than recant"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "독재자 곁에 남았고 6년 수감을 견뎌냄",
+     "reason_en": "Stayed at a dictator's side and endured six years in jail"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "아민 체제에 끝까지 붙어 붕괴 뒤에도 비난 발언을 안 함",
+     "reason_en": "Never denounced Amin, even after six years' imprisonment"
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "체제의 폭력 곁에서 시민들의 고통에 가담했다는 증언",
+     "reason_en": "Survivors accused him of aiding the regime's violence"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "'반부패' 구실로 체제의 폭압에 협력했다는 고발",
+     "reason_en": "Ran an 'anti-corruption' unit that served regime terror"
+    },
+    "humility": {
+     "score": 32,
+     "reason_ko": "독재자 측근의 위세를 적극 활용해 '쥐'라 불림",
+     "reason_en": "Wielded borrowed power eagerly enough to earn his nickname"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "감옥과 몰락 뒤에도 자기 정당화를 멈추지 않음",
+     "reason_en": "Kept defending his Uganda choices after prison"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "독재 체제 유지에 기여하고 민주화 편에 서지 않음",
+     "reason_en": "Propped a dictatorship; no reform cause on record"
+    },
+    "individual_social": {
+     "score": -18,
+     "reason_ko": "개인 인맥과 충성으로 체제에 기생한 존재",
+     "reason_en": "A personal retainer, not an institution builder"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "낯선 나라에 정착하고 권력의 한복판으로 들어감",
+     "reason_en": "Settled in a foreign land and walked into its power centre"
+    }
+   },
+   "rationale_ko": "두 정권 아래 살아남은 식민지 관료의 처세가 독재자의 측근 자리로 이어졌다. 아민의 신뢰를 얻은 대가로 '흰 쥐'라 불리며 체제의 폭력에 공범이라는 고발을 받았다. 붕괴 뒤 6년 수감을 견뎠고 끝내 아민을 탓하지 않았다. 2012년 영국에서 숨졌다.",
+   "rationale_en": "A colonial officer's survival instinct carried him to a dictator's side. Amin's trust earned him the name 'White Rat' and accusations of complicity in the regime's violence. He endured six years in prison and never denounced his master. He died in England in 2012."
+  }
+ },
+ "알렉상드르 반자": {
+  "influence": {
+   "political": 4,
+   "political_exp": "1965년 쿠데타를 도와 보카사 집권을 가능케 함",
+   "political_exp_en": "Enabled Bokassa's 1965 coup and built his early regime",
+   "strategic": 3,
+   "strategic_exp": "카사이 기지 병력으로 쿠데타의 군사적 토대를 만듦",
+   "strategic_exp_en": "His command of Camp Kassaï made the coup militarily possible",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "정권 비판 시도 외 사회적 유산은 적음",
+   "social_exp_en": "Little social legacy beyond his dissent",
+   "economic": 3,
+   "economic_exp": "재무장관으로 신정권의 재정 기초를 다짐",
+   "economic_exp_en": "As finance minister he organised the new state's purse",
+   "cultural": 1,
+   "cultural_exp": "보카사에게 죽은 심복의 비극으로 회자",
+   "cultural_exp_en": "Remembered for his brutal end at Bokassa's hands",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "보카사 체제사에서 숙청된 조력자로 남음",
+   "transhistoricity_exp_en": "A footnote-turned-warning in the Bokassa story"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "카사이 기지 사령관으로 병력을 휘하에 두고 쿠데타를 실행",
+     "reason_en": "Commanded Camp Kassaï's troops and ran the 1965 coup"
+    },
+    "martial": {
+     "score": 68,
+     "reason_ko": "인도차이나 전선에서 싸운 프랑스군 경력의 직업 군인",
+     "reason_en": "Combat-tested colonial soldier from the Indochina war"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "재무장관으로 국정을 굴리고 대외 위상을 세운 실무자",
+     "reason_en": "Ran finance and foreign standing as minister of state"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "장교들을 규합해 전복 모의까지 이끈 인맥",
+     "reason_en": "Charismatic enough to rally officers for a counter-coup"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "보카사의 사치를 비판한 것 자체가 절제의 성향",
+     "reason_en": "He criticised Bokassa's extravagance — austerity by instinct"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "군인에서 장관까지 국정 실무를 도맡아 수행",
+     "reason_en": "Carried the new regime's day-to-day as minister"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "체제 건설에 기여했으나 권력의 위험을 늦게 읽음",
+     "reason_en": "Built the regime yet misread the danger he was in"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "보카사의 사치를 면전에서 비판하고 쿠데타를 꾀함",
+     "reason_en": "Criticised Bokassa to his face, then plotted against him"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 38,
+     "reason_ko": "은인이던 보카사에게 등을 돌려 전복을 꾀함",
+     "reason_en": "Turned on the patron he had raised"
+    },
+    "benevolence": {
+     "score": 48,
+     "reason_ko": "국고 사치 비판 외 민생 행적이 크게 남지 않음",
+     "reason_en": "His frugality plea aside, little public-welfare record"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "재무장관으로 국가 기강을 세우려 함",
+     "reason_en": "Sought fiscal discipline as finance minister"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "최고 자리를 노린 야망이 전복 모의로 이어짐",
+     "reason_en": "Ambition for the top seat moved his hand in 1969"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "체제 내부 문제를 보고 어두운 판단을 내려 움직임",
+     "reason_en": "Saw the rot early and acted on a bleak reading"
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "군사 정권 수립을 도왔고 신분·민주 개혁은 없음",
+     "reason_en": "Built a military regime; no egalitarian reform on record"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "개인 신념과 장교 인맥으로 움직인 엘리트 군인",
+     "reason_en": "Acted on personal conviction and officer networks"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "집권한 보카사를 상대로 전복 모의를 감행",
+     "reason_en": "Dared to plot against the man who owned the army"
+    }
+   },
+   "rationale_ko": "쿠데타를 성공시킨 공신에서 정권의 2인자로 올랐다. 보카사의 사치를 비판한 양심이 실각을 불렀고 전복 모의로까지 이어졌다. 밀고와 구타 끝에 그가 세운 체제가 그를 총살했다. 1969년 방기에서 처형됐다.",
+   "rationale_en": "The coup's kingmaker became the regime's second man. The conscience that faulted Bokassa's extravagance cost him his post, then drove him to plot. The system he built shot him. He was executed in Bangui in 1969."
+  }
+ },
+ "보리스 시흐무라도프": {
+  "influence": {
+   "political": 5,
+   "political_exp": "외무장관 5년과 야당 지도자로 정국을 흔듦",
+   "political_exp_en": "Five years as foreign minister, then opposition leader",
+   "strategic": 1,
+   "strategic_exp": "군사 행적 없이 외교·정치 분야에 국한",
+   "strategic_exp_en": "A diplomat, not a military actor",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "독재에 맞선 야당 운동으로 저항의 상징이 됨",
+   "social_exp_en": "His opposition made him a symbol against Turkmen dictatorship",
+   "economic": 2,
+   "economic_exp": "외무장관 재임 중 경제 정책 주도 기록은 적음",
+   "economic_exp_en": "Little economic imprint from the foreign ministry",
+   "cultural": 1,
+   "cultural_exp": "실종 사건으로 독재 비판 보도에 반복 등장",
+   "cultural_exp_en": "His disappearance recurs in accounts of the regime",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "실종된 반대파 지도자로 독재의 잔혹사를 상징",
+   "transhistoricity_exp_en": "His vanishing became a byword for regime terror"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "외무장관으로 외교부를 5년 이끌고 망명 야당 조직을 지휘",
+     "reason_en": "Ran the foreign ministry five years, then an exile opposition"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "외교·정치 경력 중심으로 신체 단련 행적이 드묾",
+     "reason_en": "A diplomat's career; physical exploits never surfaced"
+    },
+    "intellect": {
+     "score": 74,
+     "reason_ko": "모스크바대 출신으로 소련 외교관·장관까지 오른 전문 관료",
+     "reason_en": "Moscow-educated Soviet diplomat who rose to foreign minister"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "니야조프의 신임을 받다가 야당 세력을 규합한 설득력",
+     "reason_en": "Rose on Niyazov's trust, then rallied exiled opposition"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 58,
+     "reason_ko": "권력 정점에서 독재와 결별하는 자제를 보임",
+     "reason_en": "Walked away from power rather than serve it"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "소련·독립국 양 체제에서 십수 년 외교 실무를 지속",
+     "reason_en": "Two decades of diplomatic work across two states"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "TV 자백이 강요로 보이나 자기 비판 자료는 드묾",
+     "reason_en": "His televised 'confession' aside, little self-reckoning surfaced"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "독재자와 공개 결별하고 2002년 귀국해 모의에 가담",
+     "reason_en": "Broke openly with Niyazov and returned for the 2002 plot"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "조국에는 헌신했으나 섬기던 대통령에게 등을 돌림",
+     "reason_en": "Loyal to country, not to the president he served"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "반독재 운동의 공적 동기는 있으나 선행 행적은 적음",
+     "reason_en": "Public-spirited opposition, scant charitable record"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "외교 실무자로서 원칙보다 실리가 보이는 경력",
+     "reason_en": "A pragmatist's diplomatic record more than a principled one"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "야당 지도자로서 자신을 대안 권력으로 내세움",
+     "reason_en": "Cast himself as the alternative president"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "독재 타도를 믿고 귀국해 행동에 나섬",
+     "reason_en": "Believed the regime could be toppled and flew back"
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "신정권 독재에 맞서 변화를 주장한 야당 운동",
+     "reason_en": "Challenged an entrenched dictatorship for change"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "야당 조직을 이끌며 집단 저항을 도모",
+     "reason_en": "Worked through organised collective opposition"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "2002년 독재 국가로 돌아가 체포와 종신형을 감수",
+     "reason_en": "Flew back into a dictatorship that jailed him for life"
+    }
+   },
+   "rationale_ko": "소련 외교관에서 독립국의 외무장관, 다시 야당 지도자로 돌아섰다. 독재와의 결별은 명예보다 위험을 택한 용기였고 귀국은 체포를 알고 한 도박이었다. TV 자백과 종신형 뒤 감옥에서 흔적도 없이 사라졌다. 생사가 지금도 확인되지 않는다.",
+   "rationale_en": "A Soviet diplomat who became foreign minister, then turned opposition leader. Breaking with Niyazov chose danger over office, and his return was a wager made in full knowledge of arrest. After a televised confession and a life sentence he vanished inside the prison system. His fate remains unconfirmed."
+  }
+ },
+ "구스타보 가비리아": {
+  "influence": {
+   "political": 2,
+   "political_exp": "카르텔이 국가와의 전쟁·정치 테러를 낳는 데 기여",
+   "political_exp_en": "His cartel finances fed a war on the Colombian state",
+   "strategic": 2,
+   "strategic_exp": "카르텔 무장·수송 체계로 무력 대치를 가능케 함",
+   "strategic_exp_en": "Cartel logistics underwrote armed confrontation with the state",
+   "tech": 3,
+   "tech_exp": "코카인 생산·밀매 루트의 운영 기법을 체계화",
+   "tech_exp_en": "Systematised cocaine production and smuggling routes",
+   "social": 3,
+   "social_exp": "마약 카르텔 모델의 지역 확산에 기여",
+   "social_exp_en": "Helped build the model cartels across the region copied",
+   "economic": 5,
+   "economic_exp": "메데인 카르텔의 자금·물류를 설계한 총괄",
+   "economic_exp_en": "Engineered the cartel's finances — a pillar of the cocaine economy",
+   "cultural": 2,
+   "cultural_exp": "카르텔 서사의 '두뇌'로 드라마·문학에 재생산",
+   "cultural_exp_en": "Recast as 'the brains' in cartel dramas and books",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "현대 마약 카르텔 조직 모델의 원조 중 하나",
+   "transhistoricity_exp_en": "A template-maker for the modern drug cartel"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 68,
+     "reason_ko": "자금·루트·조직 실무를 총괄한 카르텔 실질 2인자",
+     "reason_en": "Ran the cartel's money and routes as its true number two"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "수년간 밀매 현장을 굴렸고 최후에 경찰과 총격전을 벌임",
+     "reason_en": "Ran smuggling fields for years; died trading fire with police"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "사촌의 폭력 뒤에서 회계·물류·조직 설계를 맡은 두뇌",
+     "reason_en": "The brains behind the cartel — money, routes, organisation"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "그늘에서 일한 관리자로 대중적 인지도는 낮았음",
+     "reason_en": "A shadow operator with little public magnetism"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "마약 부를 축적하고 폭력 조직을 끝까지 운영",
+     "reason_en": "Kept amassing cartel wealth to the end"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "장부와 루트를 십수 년간 직접 관리한 실무 총괄",
+     "reason_en": "Kept the ledgers and routes himself for over a decade"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "카르텔의 유혈 행로를 바꾸려 한 움직임이 전해지지 않음",
+     "reason_en": "No sign he ever questioned the cartel's bloody course"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "범죄 조직의 정점에서 추적과 전선의 위험을 감수",
+     "reason_en": "Ran a hunted empire's core until a shootout ended it"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 75,
+     "reason_ko": "사촌 파블로의 곁을 죽을 때까지 지킴",
+     "reason_en": "Stood by cousin Pablo to the end"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "카르텔 폭력 체계를 운영하며 수많은 희생을 낳음",
+     "reason_en": "His operation fed a machine that killed thousands"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "법망 회피를 위해 사법·치안을 부패시키는 데 가담",
+     "reason_en": "The organisation he ran bought and corrupted justice"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "그늘의 실무자를 자처했으나 부를 숨기지 않았음",
+     "reason_en": "Kept a low profile but lived on cartel riches"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "끝까지 조직을 지키려 한 확신적 태도",
+     "reason_en": "Stayed convinced the cartel could endure"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "사회 질서에 대한 입장보다 지하 경제 구축에 몰두",
+     "reason_en": "No stance on the social order — he burrowed beneath it"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "가족·조직 결속을 축으로 움직인 조직인",
+     "reason_en": "Worked through kinship and organisation, not solo"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "경찰 추적 속에서도 수년간 제국 운영을 지속",
+     "reason_en": "Kept the empire running under a national manhunt"
+    }
+   },
+   "rationale_ko": "사촌의 폭력 뒤에서 장부와 루트를 설계한 조직의 두뇌였다. 지력과 근면이 범죄 제국을 지탱했으나 그 체계는 수많은 희생 위에 서 있었다. 그가 쓰러지자 카르텔은 곧 무너졌다. 1990년 메데인에서 경찰과의 총격전으로 사살됐다.",
+   "rationale_en": "He was the brains behind his cousin's violence — ledgers and routes. Intellect and diligence held up a criminal empire built on countless deaths. When he fell, the cartel fell soon after. He was killed by police in Medellín in 1990."
+  }
+ },
+ "제랄딘 아포니": {
+  "influence": {
+   "political": 2,
+   "political_exp": "1년간의 왕비 재위와 반세기 망명 왕실의 상징",
+   "political_exp_en": "Queen for a year, then the exiled monarchy's public face",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "공산주의 붕괴 뒤 귀환으로 군주제 기억을 다시 심음",
+   "social_exp_en": "Her return kept monarchist memory alive",
+   "economic": 1,
+   "economic_exp": "망명 왕실 가계 유지 수준의 경제 행적",
+   "economic_exp_en": "Her economics were a household in exile",
+   "cultural": 3,
+   "cultural_exp": "'헝가리의 백장미' 왕비 이야기가 유럽에 남음",
+   "cultural_exp_en": "The 'White Rose' tale entered European royal lore",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "사라진 알바니아 왕실의 마지막 얼굴",
+   "transhistoricity_exp_en": "Last face of a vanished Albanian crown"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 28,
+     "reason_ko": "왕비로 의전 역할을 했으나 통치 권한은 없었음",
+     "reason_en": "Ceremonial queen with no governing authority"
+    },
+    "martial": {
+     "score": 29,
+     "reason_ko": "왕비 의전과 망명 생활 중심의 비신체적 삶",
+     "reason_en": "Court ceremony and exile — no physical record"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "다국어를 구사하며 여러 나라 망명 생활을 헤쳐나감",
+     "reason_en": "Navigated five decades of exile across languages and courts"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "백화점 점원에서 국왕이 반한 '헝가리의 백장미'가 됨",
+     "reason_en": "The shop girl a king chose — 'the White Rose of Hungary'"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "망명의 긴 세월을 비교적 검소하게 견뎌냄",
+     "reason_en": "Endured fifty years of exile in relative austerity"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "왕실 가계와 망명 생계를 반세기 지탱",
+     "reason_en": "Sustained a royal household in exile for fifty years"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "회고와 인터뷰로 왕실 시절을 담담히 정리",
+     "reason_en": "Recounted her royal year with measured hindsight"
+    },
+    "courage": {
+     "score": 62,
+     "reason_ko": "1939년 침공 직후 갓난아기를 안고 국경을 넘어 망명",
+     "reason_en": "Fled the 1939 invasion carrying her newborn son"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "조그 사후에도 왕실 명예와 아들의 왕위 주장을 지킴",
+     "reason_en": "Kept the crown's claim and her late husband's memory"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "공적 자선보다 가계와 왕실 명예 유지에 집중",
+     "reason_en": "Focused on family and crown more than public charity"
+    },
+    "fairness": {
+     "score": 52,
+     "reason_ko": "의전적 왕비의 자리를 지키며 정치 개입을 자제",
+     "reason_en": "Stayed ceremonial and out of politics"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "점원 출신 왕비로 격식보다 소박한 인상을 남김",
+     "reason_en": "A shopgirl queen remembered for unpretentious grace"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 18,
+     "reason_ko": "반세기 망명 끝에 귀국을 보고 끝내 희망을 잃지 않음",
+     "reason_en": "Kept the hope of return alive across fifty years"
+    },
+    "conservative_progressive": {
+     "score": -22,
+     "reason_ko": "군주제 왕실의 일원으로 기존 신분 질서를 지킴",
+     "reason_en": "Embodied and defended hereditary monarchy"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "왕실·망명 공동체 중심의 집단적 삶",
+     "reason_en": "Life organised around dynasty and exile community"
+    },
+    "cautious_bold": {
+     "score": 8,
+     "reason_ko": "국왕과의 결혼은 도약이었으나 이후는 인내의 삶",
+     "reason_en": "One bold leap into royalty, then patient endurance"
+    }
+   },
+   "rationale_ko": "백화점 점원에서 하루아침에 왕비가 됐다. 침공으로 왕좌를 잃은 뒤 반세기의 망명을 품위로 견뎌냈다. 인내와 매력이 통치력을 대신한 삶이었다. 2002년 티라나에서 여든일곱으로 숨졌다.",
+   "rationale_en": "A shop girl who became a queen overnight. Losing the throne to invasion, she bore fifty years of exile with dignity. Patience and charm stood in for rule. She died in Tirana in 2002 at eighty-seven."
+  }
+ },
+ "판 놀리": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1924년 혁명으로 총리에 올라 6개월 내각을 이끔",
+   "political_exp_en": "Led Albania's reform government for six months in 1924",
+   "strategic": 1,
+   "strategic_exp": "군사 행적 없이 문화·정치로 활동",
+   "strategic_exp_en": "No military record",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 6,
+   "social_exp": "알바니아 정교회를 세워 민족 종교 독립의 토대를 놓음",
+   "social_exp_en": "Founded the autocephalous Albanian Orthodox Church",
+   "economic": 1,
+   "economic_exp": "내각의 토지개혁 구상이 단명에 그침",
+   "economic_exp_en": "His cabinet's land-reform plans died young",
+   "cultural": 7,
+   "cultural_exp": "셰익스피어 번역으로 알바니아 문학의 근대 기초를 다짐",
+   "cultural_exp_en": "Translated Shakespeare into Albanian; a founder of its modern culture",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "알바니아 민족 문화와 정교회의 설립자로 남음",
+   "transhistoricity_exp_en": "Founder of a national church and of Albanian letters"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "6개월 내각을 이끌고 평생 보스턴 교구의 주교로 교회를 지휘",
+     "reason_en": "Led a cabinet for six months and a diocese for decades"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "성직자·학자로서 신체 단련 행적이 두드러지지 않음",
+     "reason_en": "A scholar-bishop; no physical training on record"
+    },
+    "intellect": {
+     "score": 86,
+     "reason_ko": "하버드에서 공부하고 셰익스피어를 번역한 박학의 성직자",
+     "reason_en": "Harvard-trained polymath — Shakespeare, liturgy, music"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "연설가·시인으로 망명 알바니아인들을 한 교회로 모음",
+     "reason_en": "Orator-poet who gathered a diaspora under one church"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "권좌를 잃은 뒤에도 복수보다 성직으로 돌아감",
+     "reason_en": "Lost power and returned to the cloth, not revenge"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "평생 번역·집필·교회 운영을 병행",
+     "reason_en": "A lifetime of translating, writing and running a church"
+    },
+    "reflection": {
+     "score": 68,
+     "reason_ko": "회고록에서 정치적 실패를 스스로 분석해 남김",
+     "reason_en": "His memoirs dissected his own political failure"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "혁명 정부 수반을 맡았고 패배 뒤에도 신념을 굽히지 않음",
+     "reason_en": "Headed a revolution and never recanted it in exile"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "평생 알바니아 민족과 교회 하나에 헌신",
+     "reason_en": "One nation, one church, one lifelong devotion"
+    },
+    "benevolence": {
+     "score": 68,
+     "reason_ko": "독재에 맞선 개혁과 교민 사목에 헌신",
+     "reason_en": "Served reform and his flock over personal gain"
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "소수파·농민 편에 선 개혁 내각을 이끔",
+     "reason_en": "His cabinet championed peasants and minorities"
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "총리 퇴임 뒤 성직자의 자리로 조용히 돌아감",
+     "reason_en": "Stepped from premier back to priest without drama"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "민주 알바니아를 믿고 실패 뒤에도 그 이상을 저술",
+     "reason_en": "Kept faith in a democratic Albania after his fall"
+    },
+    "conservative_progressive": {
+     "score": 35,
+     "reason_ko": "농민·토지 개혁을 표방한 1924년 혁명 정부를 이끔",
+     "reason_en": "His 1924 government stood for land reform against the old elite"
+    },
+    "individual_social": {
+     "score": 28,
+     "reason_ko": "교회·민족 공동체 건설에 생을 바침",
+     "reason_en": "Built communal institutions — a church, a nation"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "혁명으로 집권하고 개혁을 급하게 밀다가 6개월 만에 무너짐",
+     "reason_en": "Took power by revolution and pushed reform too fast"
+    }
+   },
+   "rationale_ko": "시인·주교·총리라는 세 자리를 한 생애에 채웠다. 종교적 헌신과 민족 문화 건설이 짧은 집권보다 긴 유산을 남겼다. 개혁의 실패를 회고로 정리할 만큼 성찰적이었다. 1965년 보스턴에서 숨졌다.",
+   "rationale_en": "Poet, bishop and prime minister in one life. His church-building and translations outlasted his six months of power. He examined his own failure in memoirs. He died in Boston in 1965."
+  }
+ },
+ "이야수 5세": {
+  "influence": {
+   "political": 5,
+   "political_exp": "1913~16년 제국을 통치하며 종교 포용을 시도",
+   "political_exp_en": "Ruled Ethiopia 1913-16 with a bid to lift Muslim subjects",
+   "strategic": 2,
+   "strategic_exp": "1차대전 동맹국 편의 시도가 폐위의 빌미가 됨",
+   "strategic_exp_en": "His tilt toward the Central Powers helped cost him the throne",
+   "tech": 1,
+   "tech_exp": "건축·기계에 관심을 보였으나 제도화된 기여는 적음",
+   "tech_exp_en": "Fascinated by machines and building, left little institutional gain",
+   "social": 4,
+   "social_exp": "기독교 귀족 질서에 이슬람 포용을 시도해 균열을 남김",
+   "social_exp_en": "Tried to bring Muslims into a Christian order — a lasting fault line",
+   "economic": 2,
+   "economic_exp": "통치기 건설·도시 사업을 벌였으나 체계적 개혁은 부족",
+   "economic_exp_en": "Built roads and towns without systemic reform",
+   "cultural": 3,
+   "cultural_exp": "파문된 '무관의 황제'로 에티오피아 역사 서사에 남음",
+   "cultural_exp_en": "The uncrowned emperor remains a contested figure in Ethiopian memory",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "폐위된 황제로 하일레 셀라시에 시대의 반대편 좌표",
+   "transhistoricity_exp_en": "A counter-image to the Selassie era in Ethiopian history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "5년간 제국을 통치했으나 행정을 등한시해 통제를 잃어감",
+     "reason_en": "Ruled the empire five years but let administration drift"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "제국 곳곳을 직접 순행하며 기마 생활을 즐긴 군주",
+     "reason_en": "A restless horseback ruler who campaigned in the provinces"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "건축·언어·기계에 조예가 있었으나 국정 판단은 불안정",
+     "reason_en": "Curious mind for building and machines; erratic in statecraft"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "이슬람 신민과 지방 세력을 끌어안는 카리스마를 보임",
+     "reason_en": "Won Muslim notables and provincial followings alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "후처·첩을 거듭 두고 향락적 통치로 평가받음",
+     "reason_en": "Accused of serial liaisons and self-indulgent rule"
+    },
+    "diligence": {
+     "score": 35,
+     "reason_ko": "국정을 방치하고 전국 유랑에 몰두해 측근이 대신 통치",
+     "reason_en": "Roamed the country while ministers carried the state"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "파문·폐위 이후에도 자기 과오 인정 행적이 드묾",
+     "reason_en": "No recorded reckoning with his own failures after the fall"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "기독교 귀족 전체를 상대로 종교 포용 정책을 밀어붙임",
+     "reason_en": "Defied the Christian establishment to embrace Muslim subjects"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 38,
+     "reason_ko": "조부의 신하들을 밀어내고 자기 측근으로 교체",
+     "reason_en": "Pushed aside his grandfather's old guard for his own circle"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "이슬람 등 소외 집단을 품으려 했으나 애정 정치에 가까움",
+     "reason_en": "Favoured the marginalised, though as personal patronage"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "친인척과 총신 중심의 인사로 귀족 질서를 흔듦",
+     "reason_en": "Appointments favoured his circle over established merit"
+    },
+    "humility": {
+     "score": 22,
+     "reason_ko": "신성 황제 자처 경향과 화려한 자기 과시로 유명",
+     "reason_en": "Flaunted royal self-image; little self-effacement on record"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "자기 방식의 제국이 가능하다는 자신감으로 통치",
+     "reason_en": "Ruled on the confidence his own vision would prevail"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "기독교 군주제 안에 이슬람 포용과 신분 타파를 시도",
+     "reason_en": "Sought to bend a Christian monarchy toward religious inclusion"
+    },
+    "individual_social": {
+     "score": -18,
+     "reason_ko": "제도보다 개인 통치와 유랑에 기댄 군주",
+     "reason_en": "A ruler of personal whim over institutions"
+    },
+    "cautious_bold": {
+     "score": 28,
+     "reason_ko": "전통 세력의 반발을 무릅쓰고 자기 노선을 감행",
+     "reason_en": "Pressed his course against every vested interest"
+    }
+   },
+   "rationale_ko": "메넬리크의 제국을 물려받았으나 자기 방식으로 다스리려 했다. 이슬람 포용은 시대를 앞섰으나 방종한 통치와 유랑이 지지를 갉아먹었다. 파문과 폐위 뒤 감금된 채 이탈리아 침공의 해를 맞았다. 1935년 유폐지에서 죽었다.",
+   "rationale_en": "He inherited Menelik's empire and tried to rule it his own way. His embrace of Muslims ran ahead of his time, but erratic rule and endless roaming eroded his base. Excommunicated and deposed, he met the year of invasion in confinement. He died in custody in 1935."
+  }
+ },
+ "세르비아의 나탈리예": {
+  "influence": {
+   "political": 3,
+   "political_exp": "왕비로 친러 노선의 한 축이 돼 궁정 정치를 흔듦",
+   "political_exp_en": "Her pro-Russian leanings countered Milan's Austrian tilt",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "가톨릭 개종이 정교회 국가에서 큰 논란을 일으킴",
+   "social_exp_en": "Her conversion scandalised an Orthodox nation",
+   "economic": 1,
+   "economic_exp": "왕실 경제에 별다른 기여 없음",
+   "economic_exp_en": "No economic mark beyond the crown's own",
+   "cultural": 2,
+   "cultural_exp": "비극적 왕비 이야기로 세르비아 궁정사에 남음",
+   "cultural_exp_en": "Her stormy queenship entered Serbian court lore",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "오블레노비치 왕조 말기의 상징적 왕비",
+   "transhistoricity_exp_en": "An emblem of the last Obrenović decades"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "왕실 의전과 자선을 맡았으나 통치 권한은 미미",
+     "reason_en": "Court and charity roles, little governing power"
+    },
+    "martial": {
+     "score": 27,
+     "reason_ko": "왕비·수녀의 비신체적 삶을 이어감",
+     "reason_en": "A queen then a nun — no physical record"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "외교관의 딸로 다국어와 궁정 정세에 밝았음",
+     "reason_en": "A diplomat's daughter fluent in court politics"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "16세에 국왕이 택한 왕비로 유럽 궁정의 주목을 받음",
+     "reason_en": "Charming enough to captivate a king and Europe's courts"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 52,
+     "reason_ko": "부부 갈등과 개종 논란 속에서 절제된 처신을 유지",
+     "reason_en": "Kept composure through marital war and conversion scandal"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "자선 활동과 왕실 의무를 꾸준히 수행",
+     "reason_en": "Steady in charities and royal duties"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "말년 수녀원에서 참회와 묵상의 삶을 택함",
+     "reason_en": "Chose a convent's reflective life after the throne"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "국교와 다른 개종을 감행해 온 나라의 비난을 감수",
+     "reason_en": "Converted to Catholicism despite national outrage"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "왕과 갈등 끝에 이혼했으나 세르비아 왕실과의 인연을 지킴",
+     "reason_en": "Divorced the king yet kept faith with his dynasty"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "자선단체와 병원 후원에 나선 왕비",
+     "reason_en": "Patronised charities and hospitals as queen"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "공적 판단보다 왕실 내전의 당사자로 남음",
+     "reason_en": "Known more as a party in royal feuds than an arbiter"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "왕비 자리를 잃고 수녀로 자신을 낮춤",
+     "reason_en": "Traded a throne for a nun's habit"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "이혼·피살·망명의 연속을 신앙에 기대어 견딤",
+     "reason_en": "A life of losses borne through faith rather than hope"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "왕실 신분 질서를 옹호했으나 개종으로 국교에 저항",
+     "reason_en": "Defended the dynasty while defying its church"
+    },
+    "individual_social": {
+     "score": 8,
+     "reason_ko": "왕실·교회·자선 조직 속에서 삶을 꾸림",
+     "reason_en": "Lived within court, church and charitable circles"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "이혼 소송과 개종을 감행하는 결단을 보임",
+     "reason_en": "Took the risks of divorce suits and conversion"
+    }
+   },
+   "rationale_ko": "열여섯에 왕비가 되고 서른 전에 이혼당했다. 개종의 결단과 수녀의 길이 왕실 논란을 신앙의 삶으로 바꿨다. 국가를 뒤흔든 부부 전쟁의 당사자였으나 말년은 조용했다. 1941년 프랑스에서 숨졌다.",
+   "rationale_en": "Queen at sixteen, divorced before thirty. Her conversion and her convent turned royal scandal into a religious life. She had been a party in a war that shook a kingdom, yet her last decades were quiet. She died in France in 1941."
+  }
+ },
+ "드라가 마신": {
+  "influence": {
+   "political": 2,
+   "political_exp": "왕의 혼인과 처가 등용으로 군부 반발을 키운 왕비",
+   "political_exp_en": "Her marriage and brothers' rise helped provoke the 1903 coup",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "신분을 뛰어넘은 왕비로 왕실 위신 추락의 상징",
+   "social_exp_en": "Her elevation discredited the crown itself",
+   "economic": 1,
+   "economic_exp": "형제들의 특혜 등용이 왕실 비리로 비침",
+   "economic_exp_en": "Her brothers' promotions fed corruption charges",
+   "cultural": 3,
+   "cultural_exp": "창밖으로 던져진 왕비로 유럽 궁정 스캔들사에 남음",
+   "cultural_exp_en": "The queen thrown from the palace — a fixture of royal scandal lore",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "오블레노비치 왕조 멸망의 상징적 비극",
+   "transhistoricity_exp_en": "Her murder closed a dynasty"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "왕비로서 형제들을 요직에 올리려 한 궁정 정치",
+     "reason_en": "Worked court patronage to lift her brothers"
+    },
+    "martial": {
+     "score": 24,
+     "reason_ko": "시녀와 왕비의 궁중 생활로 신체 행적이 드묾",
+     "reason_en": "A life of chambers, not exertion"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "궁정 인맥으로 상승했으나 국정 판단은 비판받음",
+     "reason_en": "Rose by court savvy; state judgment widely faulted"
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "열 살 연하 국왕의 전폭적 총애를 얻어낸 존재감",
+     "reason_en": "Held a younger king's total devotion"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "왕비 지위와 처가 특혜를 끝까지 챙김",
+     "reason_en": "Pressed privilege for herself and her kin"
+    },
+    "diligence": {
+     "score": 48,
+     "reason_ko": "시녀에서 왕비까지 수단을 가리지 않은 상승",
+     "reason_en": "A relentless climb from lady-in-waiting to queen"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "국민적 반감에도 자세를 바꾸지 않았음",
+     "reason_en": "Never adjusted despite mounting public hatred"
+    },
+    "courage": {
+     "score": 48,
+     "reason_ko": "온 나라의 적개심 속에서도 왕비 지위를 고수",
+     "reason_en": "Kept her crown amid a nation's hostility"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 58,
+     "reason_ko": "끝까지 왕 곁에 남아 운명을 함께함",
+     "reason_en": "Stayed beside the king to the last hour"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "처가 특혜와 권력 사유화로 공적 신뢰를 잃음",
+     "reason_en": "Put family profit over the public"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "형제들에게 요직·특권을 몰아줘 균형을 무너뜨림",
+     "reason_en": "Loaded offices onto her brothers at the state's expense"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "전 왕비의 시녀에서 왕비로 올라 최고 권력을 탐함",
+     "reason_en": "From servant to queen — and grasped for more"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 8,
+     "reason_ko": "임신 발표 등으로 위기를 돌파하려 한 낙관적 도박",
+     "reason_en": "Bet on announcements and schemes to survive the storm"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "왕실 특권을 처가 이익으로 사유화해 기존 질서를 공고히 함",
+     "reason_en": "Privatised crown privilege for kin — patronage, not reform"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "가문 이익 중심의 좁은 충성망에 의지",
+     "reason_en": "Ruled through a narrow family web"
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "국민 반감을 무릅쓰고 왕비의 자리를 밀어붙임",
+     "reason_en": "Forced her queenship through against all resistance"
+    }
+   },
+   "rationale_ko": "전 왕비의 시녀에서 왕비로 오른 상승이 처가 특혜로 얼룩졌다. 공정과 겸양이 무너진 권력 사유화가 군부와 국민의 적개심을 키웠다. 그 증오는 1903년 쿠데타의 칼날이 됐다. 왕과 함께 살해돼 창밖으로 던져졌다.",
+   "rationale_en": "Her climb from lady-in-waiting to queen was stained by family patronage. Privatised power without fairness or humility bred the army's hatred. That hatred became the knives of the 1903 coup. She was murdered with the king and thrown from a window."
+  }
+ },
+ "코만단타 라모나": {
+  "influence": {
+   "political": 4,
+   "political_exp": "1994년 봉기 지휘와 협상 대표로 원주민 정치를 재편",
+   "political_exp_en": "Led a rebel seizure and the first peace delegation",
+   "strategic": 3,
+   "strategic_exp": "산크리스토발 점령 작전을 이끈 게릴라 지휘관",
+   "strategic_exp_en": "Commanded the 1994 seizure of San Cristóbal",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 6,
+   "social_exp": "여성 규약 제정으로 원주민 여성 권리 운동의 상징이 됨",
+   "social_exp_en": "Wrote the Zapatista Women's Law — an icon of indigenous women's rights",
+   "economic": 1,
+   "economic_exp": "운동의 자치 경제에 조직 차원에서 기여",
+   "economic_exp_en": "Helped run the movement's autonomous economy",
+   "cultural": 4,
+   "cultural_exp": "사파티스타의 여성 얼굴로 운동의 문화적 상징이 됨",
+   "cultural_exp_en": "The female face of Zapatismo in global imagination",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "원주민 여성 해방 운동사에 새겨진 이름",
+   "transhistoricity_exp_en": "A lasting name in indigenous women's liberation"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "1994년 산크리스토발 점령을 이끌고 정부 협상단을 대표",
+     "reason_en": "Led the San Cristóbal takeover, then the peace delegation"
+    },
+    "martial": {
+     "score": 47,
+     "reason_ko": "밀림에서 7년간 지하 무장 활동을 이어감",
+     "reason_en": "A decade of clandestine jungle life before the uprising"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "여성 규약의 문안을 직접 만들어 조직 원칙을 정식화",
+     "reason_en": "Drafted the Women's Law that codified the movement's rules"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "멕시코시티 첫 공개 등장으로 전국적 상징이 된 지휘관",
+     "reason_en": "The first Zapatista to appear in the capital — instantly iconic"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 78,
+     "reason_ko": "자수공의 검소한 삶을 유지하며 권력을 앞세우지 않음",
+     "reason_en": "Kept an embroiderer's austerity inside a movement"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "자수와 지하 조직 활동을 병행한 십수 년의 헌신",
+     "reason_en": "Years of stitching by day, organising by night"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "여성 지위를 조직 내부부터 되짚어 규약으로 만듦",
+     "reason_en": "Turned inward critique of the movement into written law"
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "정부군에 맞선 도시 점령을 지휘하고 홀로 수도에 나타남",
+     "reason_en": "Commanded an uprising, then faced the capital alone"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "평생 사파티스타와 원주민 공동체에 헌신",
+     "reason_en": "Gave her whole life to the EZLN and her people"
+    },
+    "benevolence": {
+     "score": 78,
+     "reason_ko": "여성·원주민의 고통을 조직 의제로 올린 삶",
+     "reason_en": "Made the suffering of indigenous women a movement cause"
+    },
+    "fairness": {
+     "score": 72,
+     "reason_ko": "여성 규약으로 조직 내 평등 원칙을 제도화",
+     "reason_en": "Her Women's Law forced equality inside the ranks"
+    },
+    "humility": {
+     "score": 78,
+     "reason_ko": "이름보다 '코만단타'로 불리며 공적을 공동체에 돌림",
+     "reason_en": "Known by rank, not name; gave credit to the collective"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "봉기가 더 나은 세계를 낳는다는 확신으로 행동",
+     "reason_en": "Acted on the conviction a better order could be won"
+    },
+    "conservative_progressive": {
+     "score": 45,
+     "reason_ko": "토지·성별·민족 질서 전반의 전복을 요구한 봉기",
+     "reason_en": "Rose against the whole order of land, race and gender"
+    },
+    "individual_social": {
+     "score": 45,
+     "reason_ko": "원주민 공동체의 집단 해방을 위해 싸움",
+     "reason_en": "Fought for communal liberation, never for herself"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "무장 봉기와 도시 점령이라는 극단의 도박을 감행",
+     "reason_en": "Wagered everything on an armed uprising"
+    }
+   },
+   "rationale_ko": "자수공의 손이 여성 규약을 쓰고 도시 점령을 지휘했다. 무력보다 조직력과 용기가 원주민 여성의 상징을 만들었다. 공동체를 앞세우고 자신을 뒤로 미룬 지도자였다. 2006년 신부전으로 숨졌다.",
+   "rationale_en": "An embroiderer's hand wrote the Women's Law and led a city's seizure. Organisation and courage, not force, made her an icon of indigenous women. She put the collective first and herself last. She died of kidney failure in 2006."
+  }
+ },
+ "페르난도 야녜스 무뇨스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "1969년 FLN 창립과 사파티스타 거점의 원년 설계자",
+   "political_exp_en": "Founded the FLN and planted the EZLN's first jungle base",
+   "strategic": 3,
+   "strategic_exp": "라칸돈 밀림 게릴라 거점의 창설 멤버",
+   "strategic_exp_en": "Helped found the Lacandon guerrilla foco",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "사파티스타의 씨앗을 심어 원주민 운동의 전신을 만듦",
+   "social_exp_en": "Seeded the organisation that became Zapatismo",
+   "economic": 0,
+   "economic_exp": "경제 분야 행적이 거의 없음",
+   "economic_exp_en": "Almost no economic record",
+   "cultural": 1,
+   "cultural_exp": "사파티스타 창립 서사의 조력자로 이름이 남음",
+   "cultural_exp_en": "His name survives in the founding story of Zapatismo",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "사파티스타 서사에서 마르코스 뒤의 설립자로 남음",
+   "transhistoricity_exp_en": "The founding figure behind Marcos in Zapatista memory"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "FLN 창립 멤버로 밀림 거점 조직을 건설",
+     "reason_en": "Built the clandestine structure of a liberation army"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "밀림 지하 생활을 10년 넘게 견딘 게릴라",
+     "reason_en": "Endured a decade of jungle clandestinity"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "건축 전공을 무장 조직 건설 설계에 적용",
+     "reason_en": "An architect who designed a guerrilla army instead"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "마르코스의 그늘에 가려진 익명의 설립자",
+     "reason_en": "The shadow founder behind Marcos"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 68,
+     "reason_ko": "지하 생활의 금욕을 수십 년 견딤",
+     "reason_en": "Decades of austere underground life"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "1969년부터 무장 조직 건설에 생을 바침",
+     "reason_en": "Built guerrilla structures for decades"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "마르코스와 결별을 공개했으나 자기 평가는 드묾",
+     "reason_en": "Broke publicly with Marcos; self-critique stayed private"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "살해된 형의 이름을 걸고 지하 무장의 길을 택함",
+     "reason_en": "Took his murdered brother's name and went underground"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "조직에 반생을 바쳤으나 마르코스와 공개 결별",
+     "reason_en": "Decades of service, then a public split with Marcos"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "원주민 해방이라는 명분에 청년기를 바침",
+     "reason_en": "Gave his youth to indigenous liberation"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "조직 내 권한 배분에서 마르코스 측과 갈등",
+     "reason_en": "His rift with Marcos's camp showed contested judgment"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "자기 이름 대신 형의 이름으로 불린 익명의 지도자",
+     "reason_en": "Lived under his dead brother's name"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "반세기에 걸친 혁명 준비의 인내",
+     "reason_en": "Prepared a revolution over decades"
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "게릴라 전복으로 멕시코 질서 전복을 도모",
+     "reason_en": "Sought to overturn Mexico's order by force"
+    },
+    "individual_social": {
+     "score": 40,
+     "reason_ko": "비밀 집단 조직 속에서 평생 활동",
+     "reason_en": "His whole life inside a clandestine collective"
+    },
+    "cautious_bold": {
+     "score": 22,
+     "reason_ko": "수십 년 은폐를 감수한 게릴라 거점 건설",
+     "reason_en": "Built a secret army in the jungle — patience and risk"
+    }
+   },
+   "rationale_ko": "건축가의 설계 능력이 지하 무장 조직의 골조를 만들었다. 형의 이름을 걸고 반세기 혁명을 준비한 익명의 창립자였다. 겸양과 헌신이 마르코스라는 상징 뒤의 그림자로 그를 두었다. 체포와 결별 뒤에도 생존해 있다.",
+   "rationale_en": "An architect's skill framed a clandestine army. Under his murdered brother's name he prepared revolution for decades. Humility kept him a shadow behind the Marcos symbol. He survived arrest and a public split."
+  }
+ },
+ "수브코만단테 모이세스": {
+  "influence": {
+   "political": 3,
+   "political_exp": "2014년부터 EZLN 공식 대변인을 맡음",
+   "political_exp_en": "The EZLN's official voice since 2014",
+   "strategic": 2,
+   "strategic_exp": "1994년 봉기에 지휘 계급으로 참전",
+   "strategic_exp_en": "A field commander in the 1994 rising",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 4,
+   "social_exp": "사파티스타 자치 공동체의 지도자로 원주민 자치를 유지",
+   "social_exp_en": "Keeps Zapatista autonomy alive as its spokesman",
+   "economic": 1,
+   "economic_exp": "자치 공동체 경제 운영에 조직 차원에서 기여",
+   "economic_exp_en": "Shares in running the communes' economy",
+   "cultural": 2,
+   "cultural_exp": "마르코스의 뒤를 이은 운동의 목소리",
+   "cultural_exp_en": "Inherited Marcos's megaphone",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "진행 중인 사파티스타 자치 실험의 현재 얼굴",
+   "transhistoricity_exp_en": "The current voice of a continuing experiment"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "1994년 봉기 지휘관이자 2014년 이후 조직 대변 총괄",
+     "reason_en": "Rose from uprising officer to the EZLN's chief spokesman"
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "1983년 입대 후 밀림 무장 생활을 수십 년 지속",
+     "reason_en": "Decades of armed clandestine life since 1983"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "운동의 성명과 협상을 총괄하는 정치적 판단력",
+     "reason_en": "Drafts the movement's communiqués and positions"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "마르코스의 후계자로 무대에 섰으나 덜 알려진 얼굴",
+     "reason_en": "Followed Marcos as the voice, less famous than the mask"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 72,
+     "reason_ko": "자치 공동체의 집단 규율 속 검소한 생활",
+     "reason_en": "Lives the austerity of collective rule"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "30년 넘게 조직에 남아 계급을 밟아 오름",
+     "reason_en": "Thirty-plus years rising through the ranks"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "마르코스 퇴장 뒤 운동 노선을 조정해 계승",
+     "reason_en": "Recalibrated the movement's course after Marcos"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "무장 봉기 참전과 대외 대표의 위험을 감수",
+     "reason_en": "Fought the uprising and now bears its public risk"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "1983년부터 지금까지 한 조직에 헌신",
+     "reason_en": "One organisation, four decades"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "원주민 자치 공동체의 보건·교육 체계를 지킴",
+     "reason_en": "Upholds the movement's communal services"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "집단 지도 체계 안에서 대표직을 수행",
+     "reason_en": "Serves inside a collective leadership"
+    },
+    "humility": {
+     "score": 72,
+     "reason_ko": "계급명으로 불리며 개인보다 조직을 앞세움",
+     "reason_en": "A masked spokesman who puts the collective first"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "자치 실험의 지속을 믿고 대외 메시지를 이어감",
+     "reason_en": "Speaks as if the autonomous project endures"
+    },
+    "conservative_progressive": {
+     "score": 40,
+     "reason_ko": "자치·공동체 질서를 대안으로 세운 혁명 운동",
+     "reason_en": "Champions a revolutionary communal order"
+    },
+    "individual_social": {
+     "score": 45,
+     "reason_ko": "집단 지도와 자치 공동체의 틀 안에서 활동",
+     "reason_en": "Wholly embedded in collective self-rule"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "무장 노선과 협상 노선을 병행하는 실용적 지휘",
+     "reason_en": "Balances armed posture with negotiation"
+    }
+   },
+   "rationale_ko": "1983년의 병사가 1994년의 지휘관을 거쳐 2014년의 목소리가 됐다. 마르코스의 퇴장 뒤 운동의 연속성을 짊어진 집단 지도의 인물이다. 무장보다 자치와 발언으로 운동을 지탱한다. 지금도 EZLN의 공식 대변인이다.",
+   "rationale_en": "A 1983 recruit became a 1994 commander and the movement's voice in 2014. After Marcos he carried the organisation's continuity as a collective leader. Autonomy and speech, not arms, sustain his work. He remains the EZLN's spokesman."
+  }
+ },
+ "리처드 치차클리": {
+  "influence": {
+   "political": 1,
+   "political_exp": "국제 제재 체제의 사례로 남은 조력자",
+   "political_exp_en": "A case in the sanctions regime",
+   "strategic": 3,
+   "strategic_exp": "부트 무기 유통망의 자금줄로 분쟁지 무기 흐름에 기여",
+   "strategic_exp_en": "His bookkeeping kept a global arms pipeline liquid",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 1,
+   "social_exp": "제재 위반의 대표 사례로 부정적 사회 기여",
+   "social_exp_en": "A negative exemplar of sanctions evasion",
+   "economic": 3,
+   "economic_exp": "무기 밀매 네트워크의 자금 세탁·결제를 관리",
+   "economic_exp_en": "Ran money flows for an arms-trafficking network",
+   "cultural": 1,
+   "cultural_exp": "부트 서사의 회계사로 보도·다큐에 등장",
+   "cultural_exp_en": "Appears in accounts of the Bout saga",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "국제 제재 집행 사례의 한 이름",
+   "transhistoricity_exp_en": "A name in sanctions-enforcement case history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 48,
+     "reason_ko": "회계법인을 운영하고 부트 조직의 재무를 총괄",
+     "reason_en": "Ran his own firm and Bout's money operation"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "미 육군 복무 경력이 있는 제대 군인",
+     "reason_en": "A US Army veteran"
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "국제 금융망을 타고 자금을 숨긴 회계·위장 수완",
+     "reason_en": "Skilled at moving money through shell structures"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "신분을 바꿔가며 도피한 위장술의 인물",
+     "reason_en": "Survived on aliases, not magnetism"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "제재망을 피해 돈 움직임을 멈추지 않음",
+     "reason_en": "Kept the money moving despite sanctions"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "십수 년간 회계 실무와 조직 재무를 유지",
+     "reason_en": "Years of meticulous financial work"
+    },
+    "reflection": {
+     "score": 32,
+     "reason_ko": "유죄 판결 뒤에도 결백 주장을 유지",
+     "reason_en": "Maintained his innocence through conviction"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "도피와 위장 생활을 감수했으나 정면 대응은 회피",
+     "reason_en": "Ran and hid rather than face the case head-on"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "부트 체제에 오래 남았으나 각자도생의 도피",
+     "reason_en": "Long service to Bout, then flight for himself"
+    },
+    "benevolence": {
+     "score": 28,
+     "reason_ko": "분쟁 무기 거래의 자금줄로 희생을 방조",
+     "reason_en": "His ledgers served wars' victims, not relieved them"
+    },
+    "fairness": {
+     "score": 25,
+     "reason_ko": "제재 회피와 허위 서류로 규칙을 우회",
+     "reason_en": "Broke sanctions and bent every rule in the ledger"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "법정에서 자기 결백을 적극 주장",
+     "reason_en": "Argued his own innocence insistently"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "도피 중에도 계속 일을 꾸미던 생존 낙관",
+     "reason_en": "Kept scheming while on the run"
+    },
+    "conservative_progressive": {
+     "score": -8,
+     "reason_ko": "국제 제재 질서를 사익으로 우회한 행위",
+     "reason_en": "Subverted the sanctions order for profit"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "개인 이익과 위장 신분으로 움직인 고독한 회계사",
+     "reason_en": "Moved alone under aliases for personal gain"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "국제 제재 대상과의 거래를 감행",
+     "reason_en": "Kept dealing with a sanctioned arms lord"
+    }
+   },
+   "rationale_ko": "회계의 전문성이 세계 최대 무기상의 자금줄을 움직였다. 지력은 높았으나 절제와 공정이 무너져 제재와 유죄로 끝났다. 도피와 위장은 결국 체포로 마감됐다. 2013년 뉴욕에서 유죄 판결을 받았다.",
+   "rationale_en": "Accountancy skill ran the money of the world's biggest arms dealer. High intellect collapsed without restraint or fairness into sanctions and conviction. Aliases and flight ended in arrest. He was convicted in New York in 2013."
+  }
+ },
+ "핀 바타토": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 분야와 거의 무관",
+   "political_exp_en": "Almost no political bearing",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 3,
+   "tech_exp": "메가업로드 마케팅으로 클라우드 저장 서비스 확산에 기여",
+   "tech_exp_en": "Marketed the service that popularised cloud file hosting",
+   "social": 2,
+   "social_exp": "저작권 소송의 피고인으로 법적 논쟁의 한 축",
+   "social_exp_en": "His case fed the global copyright debate",
+   "economic": 3,
+   "economic_exp": "메가업로드 성장의 마케팅 총괄",
+   "economic_exp_en": "Drove Megaupload's growth as marketing chief",
+   "cultural": 2,
+   "cultural_exp": "메가업로드 사건의 주요 피고인으로 기억",
+   "cultural_exp_en": "A defendant in the landmark file-sharing case",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "저작권 집행의 상징 사건의 한 이름",
+   "transhistoricity_exp_en": "A name in the biggest copyright raid's history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "메가업로드 마케팅 조직을 이끈 최고마케팅책임자",
+     "reason_en": "Led marketing for one of the web's biggest sites"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "사업가로 비신체적 경력, 말년에 병으로 쇠약",
+     "reason_en": "An office career; illness came only at the end"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "광고·마케팅 실무로 대형 서비스의 성장을 도움",
+     "reason_en": "Practical marketing sense behind a giant platform"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "킴 닷컴의 오랜 친구이자 파트너로 신뢰를 얻음",
+     "reason_en": "Kim Dotcom's trusted friend and front man"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "사업 전성기의 화려한 생활을 함께 누림",
+     "reason_en": "Shared the flamboyant Dotcom-era lifestyle"
+    },
+    "diligence": {
+     "score": 62,
+     "reason_ko": "10년간 송환 소송을 끝까지 싸움",
+     "reason_en": "Fought extradition for a decade"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "공개 자기 성찰 행적은 크게 남지 않음",
+     "reason_en": "Little public self-reckoning on record"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "미국의 거대 기소에 10년간 정면으로 맞섬",
+     "reason_en": "Stood against a US prosecution for ten years"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "킴 닷컴의 곁을 끝까지 지킨 오랜 친구",
+     "reason_en": "Stood by Kim Dotcom to the end"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "공적 선행보다 사업과 소송 중심의 삶",
+     "reason_en": "Life centred on business and the legal fight"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "저작권 침해 공모 사업의 임원으로 기소 대상이 됨",
+     "reason_en": "An executive in a business found infringing"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "킴 닷컴의 그늘에서 조용히 역할을 수행",
+     "reason_en": "Worked quietly in his partner's shadow"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "끝까지 승소를 믿고 소송을 지속",
+     "reason_en": "Fought on believing the case could be won"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "저작권 질서에 도전하는 사업 모델에 참여",
+     "reason_en": "His business challenged the copyright order"
+    },
+    "individual_social": {
+     "score": 12,
+     "reason_ko": "창업팀의 일원으로 공동 운명을 함께함",
+     "reason_en": "Stood with the founding team through everything"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "법적 위험을 아는 사업을 계속 키워나감",
+     "reason_en": "Scaled a business he knew was legally exposed"
+    }
+   },
+   "rationale_ko": "거대 파일 공유 서비스의 얼굴로 마케팅을 이끌었다. 친구의 사업에 끝까지 함께한 충성이 10년의 법정 싸움이 됐다. 승소 없이 병으로 소송이 끝났다. 2022년 뉴질랜드에서 숨졌다.",
+   "rationale_en": "He marketed the giant file-sharing service as its public face. Loyalty to a friend's venture became a decade in the courts. Illness ended the case before any verdict. He died in New Zealand in 2022."
+  }
+ },
+ "마티아스 오르트만": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 분야와 거의 무관",
+   "political_exp_en": "Almost no political bearing",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 4,
+   "tech_exp": "메가업로드의 시스템을 설계해 대규모 파일 공유를 구현",
+   "tech_exp_en": "Built the systems behind mass file-sharing",
+   "social": 2,
+   "social_exp": "송환·유죄 인정 과정이 저작권 집행 논쟁의 재료가 됨",
+   "social_exp_en": "His decade-long case shaped copyright and extradition debates",
+   "economic": 4,
+   "economic_exp": "지분 25%의 2인자로 메가업로드 수익 구조를 설계",
+   "economic_exp_en": "Co-owned and architected a business that moved huge traffic",
+   "cultural": 2,
+   "cultural_exp": "메가업로드 사건의 핵심 피고인으로 기억",
+   "cultural_exp_en": "A central defendant in the landmark file-sharing case",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "메가까지 이어진 클라우드 저장 서비스 계보의 개척자",
+   "transhistoricity_exp_en": "From Megaupload to Mega — a cloud-storage lineage"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "CTO로 개발 조직을 이끌고 후속 서비스 메가를 공동 창업",
+     "reason_en": "Led engineering as CTO, then co-founded Mega"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "프로그래머로 비신체적 경력을 이어옴",
+     "reason_en": "A career programmer, no physical record"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "메가업로드 전체 아키텍처를 설계한 수석 기술자",
+     "reason_en": "Architected one of the web's largest platforms"
+    },
+    "charm": {
+     "score": 42,
+     "reason_ko": "기술 실무자로 대중 앞에 잘 서지 않음",
+     "reason_en": "A back-room technologist, little public pull"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 48,
+     "reason_ko": "사업 성공의 부를 누렸으나 과시 행적은 적음",
+     "reason_en": "Took the riches; little flaunting on record"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "20년 넘게 킴 닷컴의 사업을 기술로 뒷받침",
+     "reason_en": "Two decades of building Dotcom's ventures"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "유죄를 인정하고 사업을 재건하는 실용적 정리",
+     "reason_en": "Pleaded guilty and rebuilt pragmatically"
+    },
+    "courage": {
+     "score": 48,
+     "reason_ko": "10년 송환 저항 뒤 실용적 유죄 인정을 선택",
+     "reason_en": "Resisted a decade, then took the practical plea"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 72,
+     "reason_ko": "1990년대부터 킴 닷컴과 함께 일한 최장기 파트너",
+     "reason_en": "With Kim Dotcom since the nineties"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "선행보다 기술과 사업에 집중한 경력",
+     "reason_en": "A career of code and commerce over charity"
+    },
+    "fairness": {
+     "score": 42,
+     "reason_ko": "저작권 침해 수익 구조의 설계 책임을 인정",
+     "reason_en": "Admitted his part in the infringing scheme"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "2인자 자리에 머물며 기술 책임만 맡음",
+     "reason_en": "Stayed number two, owned only the tech"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "소송 뒤에도 같은 분야의 신사업을 다시 세움",
+     "reason_en": "Rebuilt in the same field after conviction"
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "저작권 질서를 넘는 파일 공유 모델을 구현",
+     "reason_en": "Built models that ran past the copyright order"
+    },
+    "individual_social": {
+     "score": 8,
+     "reason_ko": "창업팀·조직 체계 안에서 일한 2인자",
+     "reason_en": "A team man, second in command throughout"
+    },
+    "cautious_bold": {
+     "score": 18,
+     "reason_ko": "법적 리스크를 안 사업을 끝까지 키움",
+     "reason_en": "Kept scaling a legally exposed business"
+    }
+   },
+   "rationale_ko": "메가업로드의 기술 전부를 설계한 2인자였다. 지력과 근면이 두 회사를 세웠고 유죄 인정 뒤에도 같은 길을 다시 걸었다. 스포트라이트보다 시스템을 다룬 실무자였다. 2023년 뉴질랜드에서 유죄를 인정했다.",
+   "rationale_en": "He was the second man who built all of Megaupload's technology. Intellect and diligence raised two companies, and after the plea he walked the same road again. A craftsman of systems, not spotlights. He pleaded guilty in New Zealand in 2023."
+  }
+ },
+ "브람 판데르콜크": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 분야와 거의 무관",
+   "political_exp_en": "Almost no political bearing",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 4,
+   "tech_exp": "메가업로드의 핵심 소프트웨어와 보상 시스템을 개발",
+   "tech_exp_en": "Wrote Megaupload's core software and rewards scheme",
+   "social": 1,
+   "social_exp": "저작권 소송 피고인으로 법 논쟁의 일부",
+   "social_exp_en": "His case fed the global copyright debate",
+   "economic": 3,
+   "economic_exp": "업로더 보상 프로그램으로 트래픽 성장을 견인",
+   "economic_exp_en": "His rewards programme drove the site's growth",
+   "cultural": 2,
+   "cultural_exp": "메가업로드 사건의 피고인으로 기억",
+   "cultural_exp_en": "A defendant in the landmark file-sharing case",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "파일 공유 시대의 핵심 개발자 중 하나",
+   "transhistoricity_exp_en": "A key coder of the file-sharing era"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 52,
+     "reason_ko": "수석 개발자로 개발팀을 이끌고 메가의 기술 총괄이 됨",
+     "reason_en": "Led Megaupload's dev team, now Mega's tech chief"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "스물한 살부터 개발자로 일해온 비신체직 경력",
+     "reason_en": "A developer since twenty-one; an office physique"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "대규모 업로드·삭제 처리 시스템을 설계한 개발자",
+     "reason_en": "Designed the systems handling a giant site's traffic"
+    },
+    "charm": {
+     "score": 40,
+     "reason_ko": "기술 실무에 머문 조용한 개발자",
+     "reason_en": "A quiet coder behind the scenes"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "눈에 띄는 사치 없이 실무에 전념",
+     "reason_en": "Kept to the work without a lavish profile"
+    },
+    "diligence": {
+     "score": 68,
+     "reason_ko": "10년 송환 싸움과 개발을 병행",
+     "reason_en": "Kept coding through a decade of legal war"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "유죄 인정으로 사태를 정리하고 기술 직무로 복귀",
+     "reason_en": "Took the plea and went back to engineering"
+    },
+    "courage": {
+     "score": 48,
+     "reason_ko": "공동 피고로서 10년 소송을 버팀",
+     "reason_en": "Endured ten years as a co-defendant"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "스물한 살에 만난 킴 닷컴 체제를 끝까지 따름",
+     "reason_en": "Loyal to the Dotcom circle since age twenty-one"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "사적 선행보다 직무와 소송에 집중한 삶",
+     "reason_en": "Focused on the work, not public good deeds"
+    },
+    "fairness": {
+     "score": 42,
+     "reason_ko": "콘텐츠 삭제 처리를 맡았으나 침해 구조에도 참여",
+     "reason_en": "Ran takedowns while the scheme infringed"
+    },
+    "humility": {
+     "score": 62,
+     "reason_ko": "창업자들 뒤에서 실무 총괄 역할에 머묾",
+     "reason_en": "Content to run the machinery, not the spotlight"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "유죄 인정 뒤 후속 서비스의 기술 책임으로 재기",
+     "reason_en": "Came back as Mega's tech lead after the plea"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "저작권 질서를 넘는 공유 구조를 코딩",
+     "reason_en": "Coded systems beyond the copyright order"
+    },
+    "individual_social": {
+     "score": 8,
+     "reason_ko": "팀과 조직 안에서 역할을 수행",
+     "reason_en": "A team worker inside the venture"
+    },
+    "cautious_bold": {
+     "score": 12,
+     "reason_ko": "리스크 있는 보상 프로그램 설계를 감행",
+     "reason_en": "Built the rewards scheme that drew the indictment"
+    }
+   },
+   "rationale_ko": "스물한 살에 합류해 핵심 소프트웨어를 짰다. 업로더 보상 프로그램의 설계가 성장과 기소를 동시에 낳았다. 10년 소송을 견디고 후속 서비스의 기술 책임으로 돌아왔다. 2023년 유죄를 인정했다.",
+   "rationale_en": "He joined at twenty-one and wrote the core software. His uploader-rewards scheme drove both the growth and the indictment. He endured ten years of litigation and returned as Mega's tech chief. He pleaded guilty in 2023."
+  }
+ },
+ "린 울브리히트": {
+  "influence": {
+   "political": 4,
+   "political_exp": "10년 캠페인으로 대통령 전면 사면을 끌어냄",
+   "political_exp_en": "Her decade-long campaign won a presidential pardon",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 5,
+   "social_exp": "과형 반대 운동을 조직해 형량 논쟁의 상징 사건을 만듦",
+   "social_exp_en": "Built a movement that made her son's sentence a national case",
+   "economic": 1,
+   "economic_exp": "비영리 운동의 모금을 조직한 수준",
+   "economic_exp_en": "Fundraised for a nonprofit campaign",
+   "cultural": 2,
+   "cultural_exp": "실크로드 서사의 어머니로 다큐·보도에 등장",
+   "cultural_exp_en": "The mother figure in Silk Road retellings",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "사면 운동의 성공 사례로 형사사법 논의에 남음",
+   "transhistoricity_exp_en": "A landmark in clemency campaigning"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "'프리 로스' 운동을 만들어 10년간 전국 조직을 이끎",
+     "reason_en": "Founded and ran the Free Ross campaign for a decade"
+    },
+    "martial": {
+     "score": 27,
+     "reason_ko": "시민 운동가로 비신체적 활동 경력",
+     "reason_en": "An activist's life, not a physical one"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "법률·정치 전선을 공부해 사면 전략을 설계",
+     "reason_en": "Learned law and politics well enough to run a pardon campaign"
+    },
+    "charm": {
+     "score": 68,
+     "reason_ko": "자유주의·암호화폐 진영 전체를 운동으로 규합",
+     "reason_en": "Won over libertarians and the crypto world alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "10년 캠페인을 일정한 결로 지속한 절제",
+     "reason_en": "Sustained a decade of steady advocacy"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "10년 넘게 매년 행사·로비·모금을 조직",
+     "reason_en": "Ten years of rallies, lobbying and fundraising"
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "운동의 성공을 다른 과형 피해자 운동으로 확장",
+     "reason_en": "Turned her win into a wider sentencing-reform cause"
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "거대한 사법 체계를 상대로 공개 투쟁을 택함",
+     "reason_en": "Took on the justice system in public"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "아들의 석방에 평생을 걸어 끝내 성취",
+     "reason_en": "Devoted her life to her son's release — and won"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "아들을 넘어 과형 수감자 전체의 문제로 운동을 넓힘",
+     "reason_en": "Extended her fight to all the over-sentenced"
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "형량의 비례성을 문제 삼아 제도 개선을 주장",
+     "reason_en": "Campaigned on proportionality in sentencing"
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "아들의 사건을 앞세우지 자기 영달은 꾀하지 않음",
+     "reason_en": "Put the cause, not herself, forward"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "불가능해 보인 사면을 이룰 수 있다고 믿고 지속",
+     "reason_en": "Believed a hopeless sentence could be undone"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "무기징역·과형 체계의 개혁을 요구",
+     "reason_en": "Challenged the sentencing status quo"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "가족 운동을 공동체·지지 세력의 집단 운동으로 확장",
+     "reason_en": "Turned a family's plea into a mass movement"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "대통령 사면이라는 높은 목표에 모든 것을 걺",
+     "reason_en": "Aimed at a presidential pardon and got there"
+    }
+   },
+   "rationale_ko": "아들의 무기징역 앞에서 운동가의 길을 택했다. 10년의 근면한 조직이 대통령의 사면을 끌어냈고 그 성공을 과형 반대 운동으로 넓혔다. 충성과 인내가 사법사의 한 페이지를 바꿨다. 2025년 아들은 전면 사면을 받았다.",
+   "rationale_en": "She chose the activist's road at her son's life sentence. A decade of organising won a presidential pardon, which she widened into a sentencing-reform cause. Loyalty and persistence rewrote a page of legal history. Her son received a full pardon in 2025."
+  }
+ },
+ "로저 토머스 클라크": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 분야와 거의 무관",
+   "political_exp_en": "Almost no political bearing",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 3,
+   "tech_exp": "실크로드 운영 기법을 지도해 다크웹 시장을 키움",
+   "tech_exp_en": "Taught the playbook that ran the dark-web's biggest market",
+   "social": 2,
+   "social_exp": "다크웹 시장의 '멘토'로 운영 문화에 영향",
+   "social_exp_en": "Shaped dark-market culture as its mentor",
+   "economic": 3,
+   "economic_exp": "실크로드 거래 구조 운영의 고문",
+   "economic_exp_en": "Advised the operations of a vast illicit market",
+   "cultural": 2,
+   "cultural_exp": "실크로드 서사의 '버라이어티 존스'로 남음",
+   "cultural_exp_en": "Remains 'Variety Jones' in the Silk Road saga",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "다크웹 시장 역사의 핵심 조력자",
+   "transhistoricity_exp_en": "A key operator in dark-web history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "운영자를 지도하고 운영진에게 방향을 제시한 실질 2인자",
+     "reason_en": "Deputy and mentor directing the site's operations"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "온라인 조력자로 비신체적 활동이 중심",
+     "reason_en": "A keyboard criminal; no physical record"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "보안·인프라·심리전까지 지도한 노련한 지하 세계 전략가",
+     "reason_en": "A veteran strategist who coached security and psy-ops"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "'버라이어티 존스'라는 인물상으로 지하 세계에 통함",
+     "reason_en": "Built a legendary persona in the underworld"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "지하 세계의 방종한 생활과 약물 연루 전력",
+     "reason_en": "A life of underground excess and drug-world habits"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "수년간 사이트 운영 조언과 조직 관리를 지속",
+     "reason_en": "Advised daily operations for years"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "살인 청부 조언이 드러났으나 반성 표명은 미미",
+     "reason_en": "His counsel to kill surfaced; remorse did not"
+    },
+    "courage": {
+     "score": 48,
+     "reason_ko": "지하 세계 활동의 위험을 감수했으나 체포 뒤 유죄 인정",
+     "reason_en": "Ran the risks, then took the plea"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "울브리히트를 도왔으나 각자의 생존이 우선이었음",
+     "reason_en": "Helped Ulbricht, but survival came first"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "살인 청부를 조언한 대화록이 재판에서 드러남",
+     "reason_en": "Chat logs showed him counselling a hit"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "법망 밖에서 암시장 질서를 자의로 운영",
+     "reason_en": "Ran an outlaw market by his own rules"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "지하 세계의 '멘토' 자칭에 걸맞은 자기 과시",
+     "reason_en": "The self-styled guru of a criminal empire"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "체포·검거를 상수로 놓고 움직인 냉소적 처세",
+     "reason_en": "Operated with a cynic's view of law and men"
+    },
+    "conservative_progressive": {
+     "score": 12,
+     "reason_ko": "국가 규제를 무시한 지하 시장 질서를 설계",
+     "reason_en": "Built a market that flouted the state's order"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "익명과 위장으로 홀로 움직인 지하 조력자",
+     "reason_en": "Operated alone behind layers of aliases"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "살인 청부 조언까지 서슴지 않은 극단적 행보",
+     "reason_en": "Cautioned murder without flinching"
+    }
+   },
+   "rationale_ko": "지하 세계의 노련한 전략가로 다크웹 제국의 멘토가 됐다. 지력과 수완이 범죄 운영을 가르쳤고 살인 청부 조언까지 나왔다. 체포 뒤 20년형으로 끝났다. 2023년 징역 20년을 선고받았다.",
+   "rationale_en": "A veteran underworld strategist became mentor to a dark-web empire. His cunning taught the operation, down to counsel on murder. Arrest ended in two decades. He was sentenced to twenty years in 2023."
+  }
+ },
+ "커티스 그린": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 분야와 거의 무관",
+   "political_exp_en": "Almost no political bearing",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 1,
+   "tech_exp": "사이트 관리자로 운영 실무를 보조",
+   "tech_exp_en": "Did admin work inside the market",
+   "social": 3,
+   "social_exp": "부패 수사의 피해자이자 증언자로 사건의 도덕 서사가 됨",
+   "social_exp_en": "Victim-witness whose story exposed corrupt policing",
+   "economic": 1,
+   "economic_exp": "사이트 운영 보조 수준의 경제 행적",
+   "economic_exp_en": "His economic role was site admin work",
+   "cultural": 3,
+   "cultural_exp": "재판 증언과 회고록으로 사건의 내부 기록을 남김",
+   "cultural_exp_en": "His testimony and memoir documented the case from inside",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "실크로드 사건의 핵심 증인으로 기록됨",
+   "transhistoricity_exp_en": "A named witness in a landmark cyber-crime case"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "사이트 운영진 '플러시'로 고객 지원 성격의 실무를 맡음",
+     "reason_en": "Ran admin duties as 'Flush'"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "비영리 단체 직원으로 비신체적 경력을 이어옴",
+     "reason_en": "An office and nonprofit worker; no physical record"
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "사이트 운영 실무를 익혔으나 조직 구조 파악은 제한",
+     "reason_en": "Learned the admin work; out of his depth at the top"
+    },
+    "charm": {
+     "score": 52,
+     "reason_ko": "재판 증언과 회고록으로 대중에 사건을 전달",
+     "reason_en": "Became the case's relatable human face"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "약물 소포 수령에 가담했으나 폭력적 욕망은 없었음",
+     "reason_en": "Took part in a drug scheme but shunned violence"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "운영 실무와 이후 회고록 저술을 수행",
+     "reason_en": "Did the admin job, then wrote the inside account"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "자기 역할과 피해를 회고록으로 정리해 남김",
+     "reason_en": "Worked through his ordeal by writing the memoir"
+    },
+    "courage": {
+     "score": 58,
+     "reason_ko": "고문 피해와 살인 청부 대상이 된 뒤에도 법정 증언",
+     "reason_en": "Tortured and marked for death, still testified"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "사건에 휘말린 운영자로 조직 충성보다 생존을 택함",
+     "reason_en": "Cooperated with investigators once cornered"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "비영리 직원 출신으로 공익 성향의 경력",
+     "reason_en": "A nonprofit background before and after"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "함정 수사로 끌려들어간 하급 관리자",
+     "reason_en": "A low-level admin pulled into the sting"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "자신을 피해자·증인 위치에 놓고 과시하지 않음",
+     "reason_en": "Stood as witness and victim, never grandstanding"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -12,
+     "reason_ko": "고문과 살인 청부의 트라우마를 겪은 뒤의 삶",
+     "reason_en": "Life after torture and a death mark"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서에 대한 공개 입장보다 생존자로 남음",
+     "reason_en": "Survivor, not a crusader for the social order"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "혼자 휘말려 각자도생으로 사건을 통과",
+     "reason_en": "Swept in alone, survived alone"
+    },
+    "cautious_bold": {
+     "score": -10,
+     "reason_ko": "깊이 모르고 들어간 사이트에서 신중을 기하지 못함",
+     "reason_en": "Waded in unwisely, then endured"
+    }
+   },
+   "rationale_ko": "비영리 직원에서 다크웹 운영자로, 다시 수사의 소용돌이 속 피해자가 됐다. 부패 요원의 고문과 보스의 살인 청부 대상이 된 피해를 딛고 증언자로 섰다. 회고록으로 사건의 내부를 기록했다. 지금도 생존해 있다.",
+   "rationale_en": "A nonprofit worker became a dark-market admin and was caught in the case's vortex. Tortured by corrupt agents and marked for death by his boss, he rose as a witness. His memoir records the affair from inside. He is alive today."
+  }
+ },
+ "칼 마크 포스": {
+  "influence": {
+   "political": 2,
+   "political_exp": "연방 수사 부패 사례로 수사 신뢰에 타격",
+   "political_exp_en": "His corruption stained a landmark federal case",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 1,
+   "tech_exp": "비트코인 절도 수법이 암호화폐 범죄 논의에 남음",
+   "tech_exp_en": "His bitcoin thefts entered crypto-crime lore",
+   "social": 3,
+   "social_exp": "수사기관 내부 부패의 상징 사건이 됨",
+   "social_exp_en": "Became the emblem of corruption inside the investigation",
+   "economic": 1,
+   "economic_exp": "증거 비트코인을 사취한 수준의 경제 행적",
+   "economic_exp_en": "His economics were stolen bitcoin",
+   "cultural": 2,
+   "cultural_exp": "실크로드 서사의 부패 요원으로 재생산",
+   "cultural_exp_en": "The corrupt agent figure in Silk Road retellings",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "연방 사법 스캔들사의 대표 사례",
+   "transhistoricity_exp_en": "A fixture in federal-corruption case history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "잠복 수사 페르소나들을 운영한 수사관",
+     "reason_en": "Ran multiple undercover personas in the task force"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "DEA 요원으로 수사·체포 현장 경력",
+     "reason_en": "A federal field agent with standard training"
+    },
+    "intellect": {
+     "score": 60,
+     "reason_ko": "복수의 위장 신분을 병행한 교활한 수완",
+     "reason_en": "Clever enough to juggle secret personas"
+    },
+    "charm": {
+     "score": 48,
+     "reason_ko": "울브리히트의 신뢰를 얻은 잠복 연기",
+     "reason_en": "Won the kingpin's trust under cover"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "증거 비트코인을 자기 계좌로 빼돌리는 탐욕",
+     "reason_en": "Stole the case's bitcoin into his own accounts"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "수사와 절도를 동시에 꾸준히 수행",
+     "reason_en": "Worked the case and the skim in parallel"
+    },
+    "reflection": {
+     "score": 20,
+     "reason_ko": "범행이 드러나기까지 자기 통제의 흔적이 없음",
+     "reason_en": "Showed no check on himself until caught"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "이중·삼중 위장의 위험한 게임을 오래 지속",
+     "reason_en": "Ran a dangerous multi-layer game for years"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 15,
+     "reason_ko": "직무와 기관을 배신해 사익을 챙김",
+     "reason_en": "Betrayed badge and agency for profit"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "피의자 협박과 절도로 타인의 고통을 이용",
+     "reason_en": "Used a suspect's peril for personal gain"
+    },
+    "fairness": {
+     "score": 8,
+     "reason_ko": "수사관으로서 증거를 훔치고 정보를 판 중대한 부정",
+     "reason_en": "A sworn agent who stole evidence and sold secrets"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "자기 영리를 위해 기관의 신뢰를 담보로 삼음",
+     "reason_en": "Traded public trust for private gain"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "들키지 않을 것이라는 확신으로 범행을 지속",
+     "reason_en": "Acted as though he'd never be caught"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "법 집행 질서 안에서 일하며 제도 개혁과는 무관",
+     "reason_en": "Worked inside enforcement; no stance beyond self-interest"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "조직과 대중을 속인 철저한 사익의 행보",
+     "reason_en": "Pure self-interest masked as duty"
+    },
+    "cautious_bold": {
+     "score": 28,
+     "reason_ko": "수사 증거를 훔치는 극단적 도박을 감행",
+     "reason_en": "Stole from his own case — breathtaking boldness"
+    }
+   },
+   "rationale_ko": "법을 집행하는 자리에서 법을 팔았다. 잠복 수사의 재량이 절도와 협박으로 뒤틀렸고 공정과 충성이 바닥났다. 부패는 태스크포스 전체의 명예를 갉았다. 2015년 78개월형을 선고받았다.",
+   "rationale_en": "He sold the law from inside the badge. Undercover discretion twisted into theft and extortion; fairness and loyalty hit bottom. His corruption tainted the whole task force. He was sentenced to 78 months in 2015."
+  }
+ },
+ "재러드 더예기얀": {
+  "influence": {
+   "political": 2,
+   "political_exp": "실크로드 검거 작전의 핵심 잠복 요원",
+   "political_exp_en": "The undercover agent inside the landmark takedown",
+   "strategic": 1,
+   "strategic_exp": "안보 수사의 현장 요원으로 제한적 기여",
+   "strategic_exp_en": "A field contribution to security enforcement",
+   "tech": 3,
+   "tech_exp": "다크웹 잠복 수사의 선구적 기법을 실행",
+   "tech_exp_en": "Pioneered deep undercover work inside a dark market",
+   "social": 2,
+   "social_exp": "재판 증언으로 디지털 증거의 법적 토대를 보임",
+   "social_exp_en": "His testimony anchored the digital-evidence case",
+   "economic": 1,
+   "economic_exp": "암시장 검거에 수사 측면에서 기여",
+   "economic_exp_en": "Helped take down an illicit market",
+   "cultural": 2,
+   "cultural_exp": "도서관 체포 순간의 주역으로 수사 일화가 됨",
+   "cultural_exp_en": "His library chat made the arrest possible — now lore",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "사이버 수사사의 대표 잠복 사례",
+   "transhistoricity_exp_en": "A textbook case in cyber-investigation history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "잠복 관리자 역할로 수사의 한 축을 단독 수행",
+     "reason_en": "Held the infiltration line single-handed"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "연방 수사관으로 잠복·체포 현장 경력",
+     "reason_en": "A federal field agent working undercover"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "관리자 신분을 완벽히 연기해 운영 지식을 흡수",
+     "reason_en": "Mastered the market's workings well enough to run it"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "울브리히트에게 신뢰받는 관리자 '키루스'를 연기",
+     "reason_en": "Played 'Cirrus' so well the boss trusted him"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "비트코인 주급과 유혹 속에서도 수사 목적을 지킴",
+     "reason_en": "Paid in bitcoin, never took the bait"
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "석 달간 매일 잠복 근무하며 증거를 축적",
+     "reason_en": "Three months undercover, logging evidence daily"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "수사 과정을 상세히 증언하고 기록으로 남김",
+     "reason_en": "Gave meticulous testimony reconstructing the case"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "범죄 조직 내부에 잠복해 정체 노출 위험을 감수",
+     "reason_en": "Lived inside a criminal enterprise at personal risk"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "수사 임무에 끝까지 충실하고 재판까지 증언",
+     "reason_en": "Saw the case through from infiltration to verdict"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "수사 직무 수행의 공익적 행보",
+     "reason_en": "Public-serving police work throughout"
+    },
+    "fairness": {
+     "score": 68,
+     "reason_ko": "증거 절차를 지키며 수사와 증언을 수행",
+     "reason_en": "Followed evidence procedure through trial"
+    },
+    "humility": {
+     "score": 60,
+     "reason_ko": "체포 성공의 공을 조용히 수행한 요원",
+     "reason_en": "Let the arrest, not himself, make the news"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "장기 잠복 수사가 성과를 낸다는 확신",
+     "reason_en": "Bet on patience paying off"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "기존 법 질서의 집행자로 활동",
+     "reason_en": "An enforcer of the existing legal order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "팀 수사와 기관 체계 안에서 협업",
+     "reason_en": "One node in a multi-agency team"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "체포 당일 실시간 채팅이라는 위험한 순간을 연출",
+     "reason_en": "Stage-managed the arrest in real time"
+    }
+   },
+   "rationale_ko": "범죄 조직 안에 들어가 그 조직의 관리자가 됐다. 절제된 잠복과 치밀한 연기가 체포의 결정적 순간을 만들었다. 수사관의 인내가 디지털 증거의 사슬을 완성했다. 울브리히트 재판의 핵심 증인이었다.",
+   "rationale_en": "He entered a criminal enterprise and became its administrator. Disciplined undercover work and flawless acting staged the arrest's decisive moment. An agent's patience completed the chain of digital evidence. He was the key witness at Ulbricht's trial."
+  }
+ },
+ "게리 올퍼드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "실크로드 수사에서 제왕의 신원을 밝힌 결정적 단서 제공",
+   "political_exp_en": "Found the clue that unmasked the kingpin",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No role in military affairs",
+   "tech": 3,
+   "tech_exp": "공개 검색 데이터로 다크웹 운영자를 특정한 수사 기법",
+   "tech_exp_en": "Showed open-web search could crack a dark-web case",
+   "social": 2,
+   "social_exp": "디지털 수사사의 상징 일화",
+   "social_exp_en": "A defining anecdote in digital policing",
+   "economic": 1,
+   "economic_exp": "세무 수사 직무로 암시장 적발에 기여",
+   "economic_exp_en": "His tax work helped break an illicit market",
+   "cultural": 2,
+   "cultural_exp": "'구글로 제왕을 찾은' 일화가 보도·서적에 반복 인용",
+   "cultural_exp_en": "The 'Google search' story retold in every account",
+   "transhistoricity": 3,
+   "transhistoricity_exp": "사이버 범죄 수사의 유명한 일화",
+   "transhistoricity_exp_en": "A famous beat in cyber-crime history"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "IRS 수사팀의 일원으로 자기 수사선을 추진",
+     "reason_en": "Drove his own investigative line within the IRS team"
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "연방 특별수사관으로 기초 법집행 훈련 경력",
+     "reason_en": "A federal special agent with field training"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "기간 지정 검색 하나로 실크로드 개설자의 발자취를 특정",
+     "reason_en": "One date-filtered search unravelled the kingpin's trail"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "무명 수사관으로 일화가 유명해진 인물",
+     "reason_en": "Obscure agent, famous anecdote"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "눈에 띄지 않는 세부 추적에 집요하게 매달림",
+     "reason_en": "Relentless, unglamorous grunt work"
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "주말까지 게시물을 뒤져 단서를 발굴",
+     "reason_en": "Sifted forums on weekends until the trail appeared"
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "수사 경로를 재검토하며 새 각도의 검색을 시도",
+     "reason_en": "Kept re-checking the trail from new angles"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "기존 수사와 다른 자기 가설을 밀어붙임",
+     "reason_en": "Pushed his own theory against the case's drift"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "부서 벽을 넘어 수사에 기여한 팀 플레이어",
+     "reason_en": "Contributed across agency lines to the case"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "공익 수사 직무로 시민의 피해 회복에 기여",
+     "reason_en": "Public-facing investigative work that served victims"
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "세무·자금 조사의 절차에 따라 신원을 특정",
+     "reason_en": "Worked the identification within procedure"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "공이 알려진 뒤에도 실무 수사관의 자리를 지킴",
+     "reason_en": "Stayed a working agent after the fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "누구나 할 수 있는 검색으로 사건이 풀린다는 직관",
+     "reason_en": "Believed the answer was one search away"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "법 집행 기관의 일원으로 기존 질서 유지에 기여",
+     "reason_en": "Worked inside the enforcement establishment"
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "기관 협업 수사 속에서 자기 몫을 수행",
+     "reason_en": "Did his part inside a joint task force"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "다른 요원들이 놓친 비주류 수사선에 베팅",
+     "reason_en": "Bet on a lead others had missed"
+    }
+   },
+   "rationale_ko": "구글 검색 하나로 다크웹의 제왕을 찾아냈다. 남들이 지나친 게시물의 연대기를 뒤진 근면이 신원 특정의 실마리가 됐다. 화려함 없는 수사가 사건을 풀었다. 울브리히트는 2013년 체포됐다.",
+   "rationale_en": "He found the kingpin with a single Google search. Diligence combing old forum posts supplied the thread to a name. Unglamorous work cracked the case. Ulbricht was arrested in 2013."
+  }
+ }
+}

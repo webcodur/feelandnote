@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-09-16T11:58:48.036Z",
+  "mode": "apply",
+  "totals": {
+    "targets": 15,
+    "insertable": 14,
+    "koOnlyForExisting": 0,
+    "wikidataIdentities": 0,
+    "skipped": 1
+  },
+  "skipped": [
+    {
+      "isbn": "9791158522841",
+      "reason": "title_or_creator_missing"
+    }
+  ]
+}

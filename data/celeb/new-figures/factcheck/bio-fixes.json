@@ -1,0 +1,258 @@
+[
+  {
+    "file": "military.json",
+    "name": "오노다 히로오",
+    "claim": "최후의 잔류병",
+    "verdict": "corrected",
+    "finding": "오노다(1974년 3월 항복)보다 나카무라 데루오가 더 늦게(1974년 12월 모로타이) 나와 '최후'는 부정확. 최장도 아님(나카무라는 1944년부터).",
+    "applied": "가장 유명한 잔류병으로 수정"
+  },
+  {
+    "file": "finance.json",
+    "name": "존 로",
+    "claim": "역사상 최초의 대형 금융 버블",
+    "verdict": "corrected",
+    "finding": "튤립 버블(1637)이 미시시피 버블(1719-20)보다 앞선다. 통상 '최초급 대형 버블들 중 하나'로 표기.",
+    "applied": "역사상 첫 대형 금융 버블 중 하나로 수정"
+  },
+  {
+    "file": "tech.json",
+    "name": "에드 로버츠",
+    "claim": "최초의 상업적 개인용 컴퓨터 알테어 8800",
+    "verdict": "corrected",
+    "finding": "Scelbi-8H(1974) 등 선행 상업 PC가 있다. 알테어는 '최초의 대중적 성공'이 정확하다.",
+    "applied": "개인용 컴퓨터 혁명을 연 알테어 8800으로 수정"
+  },
+  {
+    "file": "exploration.json",
+    "name": "리처드 프랜시스 버턴",
+    "claim": "『천일야화』 최초 영역본",
+    "verdict": "corrected",
+    "finding": "에드워드 레인의 부분·삭제 영역(1838-40)이 선행. 버턴 판은 최초의 무삭제 완역으로 보는 것이 안전하다.",
+    "applied": "무삭제 완역으로 수정"
+  },
+  {
+    "file": "round2-tech.json",
+    "name": "하워드 에이컨",
+    "claim": "최초의 대형 전기기계식 자동계산기",
+    "verdict": "corrected",
+    "finding": "추제 Z3(1941, 릴레이식 프로그램 가능)과 ABC가 선행. 마크 I은 '최초의 대형 자동 계산기 중 하나'가 안전하다.",
+    "applied": "초기 대형으로 수정"
+  },
+  {
+    "file": "military.json",
+    "name": "시모 해위해",
+    "claim": "오백 명을 저격한",
+    "verdict": "corrected",
+    "finding": "사살 수는 본인 전쟁 회고록 기반 추정(219~505 출처별 상이)으로 정확한 수치는 미확정",
+    "applied": "ko 헤드라인 '쏘았다는'으로 헤징"
+  },
+  {
+    "file": "round2-exploration.json",
+    "name": "오타",
+    "claim": "북극점의 다섯 발자국",
+    "verdict": "corrected",
+    "finding": "피어리 1909 북극점 도달 주장 자체가 현재 '미달 가능성'으로 평가됨(허버트 1989)",
+    "applied": "ko 헤드라인 '북극점'에 인용부호"
+  },
+  {
+    "file": "round2-archaeology.json",
+    "name": "소피아 슐리만",
+    "claim": "발굴에 참여하고 트로이의 보물을 걸침",
+    "verdict": "corrected",
+    "finding": "사진 속 금세공품은 히사를리크 실물이나 '발굴 참여' 서사는 슐리만 서신으로 거짓 입증, '프리아모스의 보물' 명명은 슐리만 창작",
+    "applied": "ko 인용부호 헤징, en 'joined the dig' 제거"
+  },
+  {
+    "file": "round2-power.json",
+    "name": "커티스 그린",
+    "claim": "보스가 살인을 청부",
+    "verdict": "corrected",
+    "finding": "청부 채팅·8만 달러 지급 기록은 있으나 살인청부 혐의는 평결 없이 2018년 기소 취하 — alleged 수준",
+    "applied": "ko '청부 채팅에 찍힌', en 'allegedly ordered'로 헤징"
+  },
+  {
+    "file": "round2-science.json",
+    "name": "케네스 스넬슨",
+    "claim": "텐세그리티 발명의 진짜 주인",
+    "verdict": "corrected",
+    "finding": "스넬슨 최초 구조 조각은 사실이나 풀러·에메리히 3자 발명 주장 분쟁 — '진짜 주인' 단정은 일방 주장",
+    "applied": "ko '평생 다툰', en 'built the first sculpture'로 헤징"
+  },
+  {
+    "file": "round2-asia.json",
+    "name": "펑위샹",
+    "claim": "소방호스로 부하 세례",
+    "verdict": "corrected",
+    "finding": "집단 세례는 사실이나 소방호스는 근거 문서 없는 유명 일화(백과사전도 'reputed' 처리)",
+    "applied": "ko '세례했다는', en 'said to baptize'로 헤징"
+  },
+  {
+    "file": "round2-finance.json",
+    "name": "존 머헤런",
+    "claim": "보스키를 죽이러 소총 싣고 이동",
+    "verdict": "corrected",
+    "finding": "실탄 소총 싣고 체포는 사실, 살해 의도는 경찰 추정이며 혐의 기각 — '벤츠' 디테일도 미확인",
+    "applied": "ko·en 헤드라인 목적지 단정 제거"
+  },
+  {
+    "file": "round2-military.json",
+    "name": "엘리자베스 라이언",
+    "claim": "셰퍼드를 범죄로 이끈 악녀",
+    "verdict": "corrected",
+    "finding": "'유혹자' 서사는 셰퍼드 자서전 자기변명·당대 통속 전기 도식 — 범죄 파트너·탈옥 조력은 사실",
+    "applied": "ko '연인이자 범죄 파트너', en 'partner in crime'으로 수정"
+  },
+  {
+    "file": "round2-survival-extreme.json",
+    "name": "토머스 스트래들링",
+    "claim": "선원을 버림",
+    "verdict": "corrected",
+    "finding": "셀커크가 하선을 자초했고 스트래들링이 수락 후 재승선 거부 — '버린'은 통속 서사",
+    "applied": "ko '내리겠다던 선원'으로 수정"
+  },
+  {
+    "file": "round2-fraud-mystery.json",
+    "name": "펠릭스 슈칸코프스키",
+    "claim": "여동생을 알아보고 침묵",
+    "verdict": "corrected",
+    "finding": "극적 인식 서사는 사후 가족 증언 — 당대 진술서는 '강한 유사성'만 인정",
+    "applied": "en 'ambiguous affidavit'로 헤징"
+  },
+  {
+    "file": "round2-fraud-mystery.json",
+    "name": "엘미르 드 오리",
+    "claim": "위작이 미술관에 걸려 있다",
+    "verdict": "corrected",
+    "finding": "널리 반복되나 특정 미술관 확인 사례 없는 검증 불가 전설",
+    "applied": "en 'or so he claimed' 추가"
+  },
+  {
+    "file": "round2-fortune-eccentric.json",
+    "name": "노버트 펄로스",
+    "claim": "52년간 오류 한 건",
+    "verdict": "corrected",
+    "finding": "본인 1979 인터뷰 주장일 뿐 독립 검증 없음",
+    "applied": "en 'they say' 추가"
+  },
+  {
+    "file": "round2-survival-extreme.json",
+    "name": "아이다 드 아코스타",
+    "claim": "부친의 비밀 맹세",
+    "verdict": "corrected",
+    "finding": "1903 단독 비행은 입증되나 '비밀 맹세'는 가족 전승 성격",
+    "applied": "en 'kept her father's secret'으로 완화"
+  },
+  {
+    "file": "exploration.json",
+    "name": "페테르 프로이헨",
+    "claim": "배설물 칼로 탈출",
+    "verdict": "corrected",
+    "finding": "본인 자서전 단독 증언, 2019 실험고고학이 물리적 불가능 입증",
+    "applied": "ko '했다는 전설', en 'claimed'로 헤징"
+  },
+  {
+    "file": "finance.json",
+    "name": "벙커 헌트",
+    "claim": "하루 만에 파산",
+    "verdict": "corrected",
+    "finding": "1980 실버 목요일 붕괴 후 법적 파산은 1988년 — 8년 압축 표현",
+    "applied": "ko '코너링하다 무너진'으로 수정"
+  },
+  {
+    "file": "finance.json",
+    "name": "마에자와 유사쿠",
+    "claim": "달 여행을 샀다",
+    "verdict": "corrected",
+    "finding": "디어문은 예약 단계였고 2024년 6월 공식 취소",
+    "applied": "ko·en 헤드라인 예약·미비행 명시, bio 취소 사실 추가"
+  },
+  {
+    "file": "fortune-eccentric.json",
+    "name": "윌리엄 베크포드",
+    "claim": "바텍 3일 집필",
+    "verdict": "corrected",
+    "finding": "본인 주장일 뿐 서신상 수개월 집필",
+    "applied": "en 'he claimed' 추가"
+  },
+  {
+    "file": "fortune-eccentric.json",
+    "name": "윌리엄 랜돌프 허스트",
+    "claim": "신문이 전쟁을 만들었다",
+    "verdict": "corrected",
+    "finding": "레밍턴 전보는 문서 증거 없는 저널리즘 전설",
+    "applied": "en 'made a war'→'fanned a war'로 완화"
+  },
+  {
+    "file": "espionage.json",
+    "name": "그리고리 라스푸틴",
+    "claim": "monk(수도승)",
+    "verdict": "corrected",
+    "finding": "정교회 공식 직위 없는 스트란니크(방랑 성직자) — 'monk'는 통용 별칭",
+    "applied": "en 'wandering holy man'으로 수정"
+  },
+  {
+    "file": "survival-extreme.json",
+    "name": "실비아 얼",
+    "claim": "사백 미터 해저",
+    "verdict": "corrected",
+    "finding": "기네스 기록 381m — 400m는 부풀림",
+    "applied": "ko 수치 제거 '가장 깊은 해저'로 수정"
+  },
+  {
+    "file": "survival-extreme.json",
+    "name": "에이미 존슨",
+    "claim": "쌍발기",
+    "verdict": "corrected",
+    "finding": "지프시 모스는 단발 복엽기 — 쌍발기는 사실 오류",
+    "applied": "bio·timeline '단발 복엽기'로 수정"
+  },
+  {
+    "file": "tech.json",
+    "name": "게리 킬달",
+    "claim": "IBM 미팅을 놓쳤다",
+    "verdict": "corrected",
+    "finding": "미팅 불참 통설은 오류 — 당일 협상했으나 NDA·라이선스 조건 불일치로 결렬",
+    "applied": "en 'contract dispute'로 수정"
+  },
+  {
+    "file": "tech.json",
+    "name": "에드 로버츠",
+    "claim": "first PC kit",
+    "verdict": "corrected",
+    "finding": "알테어는 '최초 상업적 성공' PC — 스켈비(1974) 등 선행 키트 존재",
+    "applied": "en 'The Altair maker'로 수정"
+  },
+  {
+    "file": "tech.json",
+    "name": "시드 마이어",
+    "claim": "팬들이 이름 브랜드 제작",
+    "verdict": "corrected",
+    "finding": "이름 타이틀은 출판사(스틸리) 아이디어",
+    "applied": "bio '출판사가 그의 이름을'로 수정"
+  },
+  {
+    "file": "asia.json",
+    "name": "장줘린",
+    "claim": "일본이 폭파",
+    "verdict": "corrected",
+    "finding": "황구둔 폭파는 도쿄 지시 없는 관동군 장교(고모토) 월권 음모",
+    "applied": "bio '관동군 장교들이 독자적으로'로 수정"
+  },
+  {
+    "file": "fraud-mystery.json",
+    "name": "프랭크 애버그네일",
+    "claim": "조종사·의사 행세 이력",
+    "verdict": "corrected",
+    "finding": "로건(2020) 조사로 극적 이력 대부분 미입증 — 문서상 소규모 수표 사기 수준",
+    "applied": "bio '본인 회고에 따르면'·검증 실패 문구 추가"
+  },
+  {
+    "file": "power.json",
+    "name": "이디 아민",
+    "claim": "칭호를 자수하고",
+    "verdict": "corrected",
+    "finding": "'자수'는 어휘 오류 — '자칭'이 정확",
+    "applied": "bio '자칭하고'로 수정"
+  }
+]

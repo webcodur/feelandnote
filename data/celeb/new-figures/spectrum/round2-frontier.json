@@ -1,0 +1,821 @@
+{
+ "나이체": {
+  "influence": {
+   "political": 2,
+   "political_exp": "치리카와 아파치의 마지막 혈통 추장",
+   "political_exp_en": "Last hereditary Chiricahua chief",
+   "strategic": 3,
+   "strategic_exp": "제로니모 탈출을 함께 이끌며 미군을 끌었다",
+   "strategic_exp_en": "Co-led the last Apache breakout",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 3,
+   "social_exp": "27년 포로 생활로 원주민 처우를 드러냈다",
+   "social_exp_en": "His 27-year captivity told the cost",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 4,
+   "cultural_exp": "가죽 그림이 박물관에 남은 추장",
+   "cultural_exp_en": "Hide paintings held in museums",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "아파치 최후 전쟁을 지휘한 이름",
+   "transhistoricity_exp_en": "Name of the last Apache war"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "열아홉에 추장이 되어 무리의 마지막 전쟁을 이끌었다",
+     "reason_en": "Chief at nineteen through the last war"
+    },
+    "martial": {
+     "score": 75,
+     "reason_ko": "아파치 전사로 5년간 게릴라 전선을 버텼다",
+     "reason_en": "Apache warrior through five years of war"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "전시와 포로 시절에도 가죽 그림을 그렸다",
+     "reason_en": "Painted hides even in captivity"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "제로니모에게 가려졌으나 진짜 추장이었다",
+     "reason_en": "The real chief in Geronimo's shadow"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "27년의 포로 수용을 차분히 견뎠다",
+     "reason_en": "Bore 27 years of captivity quietly"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "포로 수용 중에도 가죽 그림을 이어갔다",
+     "reason_en": "Kept painting through the prison years"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "포로 시절 그림으로 잃은 세계를 되돌아봤다",
+     "reason_en": "His paintings revisited a lost world"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "미군 수천과 맞선 마지막 전쟁을 이끌었다",
+     "reason_en": "Led a band against thousands"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 85,
+     "reason_ko": "항복 뒤에도 27년간 무리와 함께 수용됐다",
+     "reason_en": "Shared his people's long captivity"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "무리의 생존을 위해 항복을 받아들였다",
+     "reason_en": "Surrendered for his band's survival"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "추장으로서 무리 안의 책무를 다했다",
+     "reason_en": "Did a chief's duty by the band"
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "명성은 제로니모에게 내주고 추장의 책무만 했다",
+     "reason_en": "Let Geronimo take the fame"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "약속 없는 유배에 항의하며 27년을 살았다",
+     "reason_en": "Protested an endless exile"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "수용지 질서를 받아들이지 못하고 싸웠다",
+     "reason_en": "Could not accept the reservation"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "포로 수용의 27년을 무리와 함께했다",
+     "reason_en": "His fate stayed with the band's"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "수용지 탈출과 마지막 저항에 함께 나섰다",
+     "reason_en": "Joined the final breakouts"
+    }
+   },
+   "rationale_ko": "혈통상의 추장이었으나 명성은 제로니모에게 내준 채 무리를 이끌었다. 탈출과 저항 뒤 27년 포로 생활을 견뎠고, 그 시절 가죽에 그린 그림이 박물관에 남았다. 1913년 풀려나 메스칼레로로 돌아갔다.",
+   "rationale_en": "The hereditary chief let Geronimo hold the fame while he led the band. After the breakouts he endured 27 years a prisoner, and the hide paintings of those years survive in museums. Freed in 1913, he went home to Mescalero."
+  }
+ },
+ "신시아 앤 파커": {
+  "influence": {
+   "political": 1,
+   "political_exp": "텍사스-코만치 관계의 상징 인물",
+   "political_exp_en": "A figure in Texas-Comanche memory",
+   "strategic": 0,
+   "strategic_exp": "전략 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 3,
+   "social_exp": "포로 서사가 개척지의 인식을 형성했다",
+   "social_exp_en": "Her captivity shaped frontier thought",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 4,
+   "cultural_exp": "납치 서사가 '서처스'의 원형이 됐다",
+   "cultural_exp_en": "Her story seeded 'The Searchers'",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "텍사스 서사에 남은 포로의 이름",
+   "transhistoricity_exp_en": "A lasting name in Texas memory"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "추장의 아내로 무리 속에서 살았다",
+     "reason_en": "Lived as a chief's wife in the band"
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "24년간 코만치 여인의 초원 생활을 견뎠다",
+     "reason_en": "24 years of hard prairie life"
+    },
+    "intellect": {
+     "score": 40,
+     "reason_ko": "백인과 코만치 두 생활 방식을 익혔다",
+     "reason_en": "Learned two peoples' ways"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "두 번 납치된 삶이 텍사스의 유명 서사가 됐다",
+     "reason_en": "Twice taken, twice famous in Texas"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "긴 포로 생활을 견뎠으나 끝은 극단이었다",
+     "reason_en": "Endured; broke only at the end"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "코만치 여인의 삶을 24년간 살아냈다",
+     "reason_en": "Lived Comanche life 24 years"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "돌아온 뒤에도 코만치 시절을 삶으로 택했다",
+     "reason_en": "Chose her Comanche years to the end"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "구출 뒤에도 코만치로 돌아가려 거듭 시도했다",
+     "reason_en": "Tried again and again to go back"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "코만치 가족을 잊지 못해 끝내 식음을 전폐했다",
+     "reason_en": "Starved rather than forget them"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "코만치 땅에서 세 아이를 길렀다",
+     "reason_en": "Raised three children on the plains"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "두 세계 사이에서 어느 쪽도 헐뜯지 않았다",
+     "reason_en": "Spoke ill of neither world"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "족 안에서 아내와 어머니로 살았다",
+     "reason_en": "A quiet wife and mother"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -35,
+     "reason_ko": "되찾은 세계에서 딸을 잃고 식음을 전폐했다",
+     "reason_en": "Lost her daughter, then refused to eat"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "어느 사회의 질서에도 입장을 남기지 않았다",
+     "reason_en": "No recorded stance on either order"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "코만치 공동체를 평생의 집으로 택했다",
+     "reason_en": "The band became her chosen home"
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "탈출해 코만치로 돌아가려 거듭 시도했다",
+     "reason_en": "Risked repeated attempts to return"
+    }
+   },
+   "rationale_ko": "아홉의 납치가 그녀를 코만치의 사람으로 만들었다. '구출'로 불린 두 번째 납치 뒤에도 돌아가려 애쓴 고집이 깊은 충성심을 보여준다. 딸을 잃은 뒤 식음을 전폐하고 1871년 죽었다.",
+   "rationale_en": "Abducted at nine, she became Comanche to the bone. After the second abduction her rescuers called deliverance, she tried again and again to go back — loyalty deeper than survival. Losing her daughter, she refused food and died in 1871."
+  }
+ },
+ "찰스 굿나잇": {
+  "influence": {
+   "political": 1,
+   "political_exp": "텍사스 개척 지역의 치안 활동",
+   "political_exp_en": "Ranger work on the Texas frontier",
+   "strategic": 2,
+   "strategic_exp": "텍사스 레인저로 전선 정탐을 수행",
+   "strategic_exp_en": "Scouted for the Texas Rangers",
+   "tech": 2,
+   "tech_exp": "척왜건을 고안해 이동 생활을 바꿨다",
+   "tech_exp_en": "Invented the chuckwagon",
+   "social": 3,
+   "social_exp": "버팔로 보호떼와 코만치 우호의 모범",
+   "social_exp_en": "Saved buffalo, befriended the Comanche",
+   "economic": 6,
+   "economic_exp": "굿나잇-러빙 트레일로 목축 경로를 세움",
+   "economic_exp_en": "Blazed the Goodnight-Loving Trail",
+   "cultural": 4,
+   "cultural_exp": "'론섬 도브' 우드로 콜의 실제 원형",
+   "cultural_exp_en": "A model for Lonesome Dove's Call",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "미국 목축 산업의 개척자로 남음",
+   "transhistoricity_exp_en": "A founder of the cattle industry"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "1876년 JA 랜치의 인부와 소떼를 십수 년 경영했다",
+     "reason_en": "Founded and ran the JA Ranch"
+    },
+    "martial": {
+     "score": 72,
+     "reason_ko": "레인저 정탐과 평생의 소몰이로 몸을 단련했다",
+     "reason_en": "A ranger-scout and lifelong rider"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "이동로 개척과 척왜건 고안의 실용가",
+     "reason_en": "Devised trail and chuckwagon alike"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "후대 서부 문학의 모델이 된 목축왕",
+     "reason_en": "Model for the great cattle-drive novel"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "몰이 길에서 엄격한 규율을 세웠다",
+     "reason_en": "Ran his trail crews on strict rules"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "아흔을 넘겨서까지 목장 일을 계속했다",
+     "reason_en": "Worked the ranch past ninety"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "콰나와의 평생 우정에서 상대를 배웠다",
+     "reason_en": "Learned across lines through Quanah"
+    },
+    "courage": {
+     "score": 80,
+     "reason_ko": "1866년 코만치 땅 한가운데로 새 이동로를 뚫었다",
+     "reason_en": "Cut his trail through Comanche land"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "러빙과 콰나에게 평생 의리를 지켰다",
+     "reason_en": "Stood by Loving and Quanah for life"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "1879년 멸종 직전 버팔로 송아지를 거둬 키웠다",
+     "reason_en": "His buffalo herd survives today"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "코만치에게 목장 통과를 허락해 신뢰를 얻었다",
+     "reason_en": "Let the Comanche cross his range"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "이동로에 자기 이름을 남긴 개척자",
+     "reason_en": "Put his name on the trail"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "버팔로도 목장도 살릴 수 있다고 행동했다",
+     "reason_en": "Acted as if herds could be saved"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "목축 질서 안에서 일하며 소수와 우정을 나눴다",
+     "reason_en": "Worked the order, crossed its lines"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "자기 판단으로 길을 내고 목장을 세웠다",
+     "reason_en": "Cut trails and built on his own say"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "아무도 가지 않은 소 이동로를 감행했다",
+     "reason_en": "Drove herds where none had gone"
+    }
+   },
+   "rationale_ko": "레인저의 전선 경험이 이동로 개척과 대목장 경영으로 이어졌다. 척왜건 고안과 버팔로 보호가 실용과 자비를 함께 보여주고, 코만치와의 우정이 경계 너머의 공정함을 남겼다. 1929년 아흔셋까지 목장 곁에서 살다 죽었다.",
+   "rationale_en": "Ranger fieldwork turned into trailblazing and a great ranch. The chuckwagon and the saved buffalo herd show practicality and mercy together; his Comanche friendship crossed the frontier's hard lines. He died in 1929 at ninety-three."
+  }
+ },
+ "카미아웨이트": {
+  "influence": {
+   "political": 3,
+   "political_exp": "말 제공 결정이 대륙 횡단을 가능케 했다",
+   "political_exp_en": "His horses made the crossing possible",
+   "strategic": 1,
+   "strategic_exp": "안내인 제공으로 탐험대 이동을 지원",
+   "strategic_exp_en": "Supplied a guide for the march",
+   "tech": 0,
+   "tech_exp": "기술 분야 기여 없음",
+   "tech_exp_en": "None in technology",
+   "social": 2,
+   "social_exp": "원주민-탐험대 협력의 상징 사례",
+   "social_exp_en": "A case of Native-expedition cooperation",
+   "economic": 1,
+   "economic_exp": "탐험대와의 말 교역으로 족을 도왔다",
+   "economic_exp_en": "Traded horses for his people's gain",
+   "cultural": 3,
+   "cultural_exp": "사카가위아와의 재회가 일지의 명장면이 됐다",
+   "cultural_exp_en": "The reunion became the saga's set piece",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "원정 성공의 결정적 도움을 준 족장",
+   "transhistoricity_exp_en": "A hinge figure of the expedition"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "수백의 렘하이 쇼쇼니 무리를 이끄는 족장이었다",
+     "reason_en": "Led the Lemhi Shoshone band"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "쇼쇼니 전사들을 거느린 산악 족장",
+     "reason_en": "A mountain band's war chief"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "1805년 말 교역 협상에서 족의 이익을 챙겼다",
+     "reason_en": "Drove a hard bargain over horses"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "납치됐던 여동생과의 재회 장면이 전해진다",
+     "reason_en": "The tearful reunion entered the journals"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "탐험대 앞에서도 족의 형편을 먼저 따졌다",
+     "reason_en": "Weighed his people's need first"
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "말이 모자란 족을 위해 협상을 이어갔다",
+     "reason_en": "Kept bargaining for his band"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "낯선 이방인 지원 여부를 신중히 가렸다",
+     "reason_en": "Weighed aid to strangers carefully"
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "경계 대상의 이방인에게 말을 내줬다",
+     "reason_en": "Gave horses to armed strangers"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "협상에서 족의 안위를 먼저 챙겼다",
+     "reason_en": "Put his band's welfare first"
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "굶주린 이방인에게 말과 길잡이를 내줬다",
+     "reason_en": "Fed and mounted a starving expedition"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "여동생의 일행에게도 공정한 대가를 받았다",
+     "reason_en": "Took fair price even from his sister"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "재회의 감동 앞에서도 흥정을 놓지 않았다",
+     "reason_en": "Kept bargaining amid the reunion"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "말 부족과 적대 부족 사이에서 균형을 잡았다",
+     "reason_en": "Balanced need against old enemies"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "족의 기존 체제를 지키는 족장이었다",
+     "reason_en": "A keeper of the band's old order"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "무리의 공동 이익을 앞세운 족장이었다",
+     "reason_en": "Ruled for the band's common good"
+    },
+    "cautious_bold": {
+     "score": 10,
+     "reason_ko": "이방인 지원을 조건을 따져가며 허락했다",
+     "reason_en": "Aided strangers on measured terms"
+    }
+   },
+   "rationale_ko": "기록이 얇은 산악 족장이다. 굶주린 탐험대에 말과 안내를 내준 결정이 대륙 횡단의 성공 조건이 됐고, 협상에서는 족의 이익을 끝까지 챙겼다. 1805년 납치됐던 여동생과 재회했다.",
+   "rationale_en": "A thinly documented mountain chief. His decision to give horses and a guide to a starving expedition made the crossing possible, and he bargained hard for his band's gain. In 1805 he met again the sister stolen years before."
+  }
+ },
+ "엘리어스 부디노": {
+  "influence": {
+   "political": 4,
+   "political_exp": "뉴 에코타 조약으로 이주 결정을 기울였다",
+   "political_exp_en": "His signature helped force removal",
+   "strategic": 0,
+   "strategic_exp": "전략 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 2,
+   "tech_exp": "음절문자 활판 인쇄를 실현했다",
+   "tech_exp_en": "Put the syllabary into print",
+   "social": 5,
+   "social_exp": "최초의 원주민 신문으로 족내 여론을 만들었다",
+   "social_exp_en": "Founded the first Native newspaper",
+   "economic": 0,
+   "economic_exp": "경제 분야 기여 없음",
+   "economic_exp_en": "None in economics",
+   "cultural": 5,
+   "cultural_exp": "체로키어 신문·번역 문화의 개척자",
+   "cultural_exp_en": "Pioneer of Cherokee print culture",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "눈물의 길의 논쟁에 남은 이름",
+   "transhistoricity_exp_en": "A contested name of the Trail of Tears"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "이중언어 주간지의 창간 편집인을 맡았다",
+     "reason_en": "Founding editor of a bilingual weekly"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "선교학교 출신 필사가의 책상 생활",
+     "reason_en": "A scholar's desk life, not a fighter's"
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "선교학교 교육으로 신문과 번역을 이끌었다",
+     "reason_en": "Ran a paper and Bible translation"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "연설과 글로 족 안팎의 주목을 받았다",
+     "reason_en": "Heard on both sides of the line"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "선교학교에서 절제된 생활을 익혔다",
+     "reason_en": "Kept the mission school's discipline"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "주간 신문 편집과 성경 번역을 병행했다",
+     "reason_en": "Ran a weekly and translated scripture"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "이주의 불가피성을 오래 숙고한 뒤 서명했다",
+     "reason_en": "Signed only after long deliberation"
+    },
+    "courage": {
+     "score": 85,
+     "reason_ko": "피의 법을 알면서도 1835년 조약에 서명했다",
+     "reason_en": "Signed knowing the blood law's price"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "족의 생존을 위한 판단이 배신으로 읽혔다",
+     "reason_en": "Acted to save it, read as traitor"
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "저항이 멸망이라 판단해 양보를 택했다",
+     "reason_en": "Chose concession to avert ruin"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "다수의 반대를 알고도 자기 판단으로 서명했다",
+     "reason_en": "Signed against his nation's majority"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "편집인 자리에 머물며 권력을 넘보지 않았다",
+     "reason_en": "Stayed an editor, sought no title"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "체로키의 정치적 패배를 기정사실로 봤다",
+     "reason_en": "Saw the nation's defeat as certain"
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "족의 생존을 위해 미국식 수용 길을 택했다",
+     "reason_en": "Chose accommodation for survival"
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "족의 존망을 자기 결정 하나에 걸었다",
+     "reason_en": "Staked his life on the nation's choice"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "피의 법을 아는 서명을 감행했다",
+     "reason_en": "Made a signature he knew could kill"
+    }
+   },
+   "rationale_ko": "세쿼야의 문자를 활판에 실어 민족의 목소리를 만든 편집인이다. 저항의 끝을 비관해 수용 조약에 서명했고, 그 판단이 그를 배신자로 만들었다. 1839년 피의 법에 따라 동족의 손에 죽었다.",
+   "rationale_en": "The editor who put Sequoyah's script into type gave his nation a voice. Believing resistance meant extinction, he signed the removal treaty — and the signature made him a traitor. In 1839 he was killed under the Cherokee blood law."
+  }
+ },
+ "색스턴 포프": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치적 기여 없음",
+   "political_exp_en": "None in politics",
+   "strategic": 0,
+   "strategic_exp": "전략 분야 기여 없음",
+   "strategic_exp_en": "No strategic contribution",
+   "tech": 3,
+   "tech_exp": "활 성능 실험과 기록을 저술로 남겼다",
+   "tech_exp_en": "Tested and documented the bow",
+   "social": 2,
+   "social_exp": "원주민 궁술을 백인 사회에 옮겼다",
+   "social_exp_en": "Carried Native craft to white readers",
+   "economic": 1,
+   "economic_exp": "보우헌팅 문화 시장의 씨앗을 뿌렸다",
+   "economic_exp_en": "Seeded the bowhunting market",
+   "cultural": 4,
+   "cultural_exp": "근대 보우헌팅의 고전을 쓴 창시자",
+   "cultural_exp_en": "Father of modern bowhunting",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "한 세기 이어진 궁술 운동을 열었다",
+   "transhistoricity_exp_en": "Started a century of bowhunting"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 35,
+     "reason_ko": "외과의사·저술가로 조직 없이 일했다",
+     "reason_en": "A surgeon-author, not an organizer"
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "활로 곰과 산사자를 사냥한 야외 체력",
+     "reason_en": "Hunted bear and lion with the bow"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "외과의사의 눈으로 궁술을 분석·저술했다",
+     "reason_en": "Analyzed the bow with a surgeon's eye"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "이시 곁의 의사로 이름이 알려졌다",
+     "reason_en": "Known as the doctor beside Ishi"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 50,
+     "reason_ko": "사냥과 저술에 몰두한 생활을 이었다",
+     "reason_en": "Absorbed in hunt and page"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "이시에게 배운 궁술을 수년 연마했다",
+     "reason_en": "Drilled the bow for years"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "친구의 유언을 어기고 부검을 집도했다",
+     "reason_en": "Autopsied Ishi against his wish"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "활과 화살만 들고 맹수 사냥에 나섰다",
+     "reason_en": "Faced big game with only a bow"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "친구의 마지막 부탁을 저버린 선택을 했다",
+     "reason_en": "Broke his friend's dying wish"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "이시 곁을 지켰으나 마지막 뜻을 어겼다",
+     "reason_en": "Cared for Ishi, then crossed his wish"
+    },
+    "fairness": {
+     "score": 45,
+     "reason_ko": "과학이라는 이름이 친구의 뜻을 앞섰다",
+     "reason_en": "Put science before his friend"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "스승의 유언보다 자기 판단을 세웠다",
+     "reason_en": "Set his judgment above Ishi's"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "잊힌 궁술이 운동이 된다고 믿었다",
+     "reason_en": "Bet a lost art could live again"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "전통 기술의 현대적 계승을 시도했다",
+     "reason_en": "Bridged old craft and new sport"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "야외 사냥을 개인의 몫으로 삼았다",
+     "reason_en": "Hunted alone, on his own account"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "총 대신 활로 맹수와 맞서는 선택을 했다",
+     "reason_en": "Faced lions armed only with arrows"
+    }
+   },
+   "rationale_ko": "이시에게서 배운 궁술을 저술과 실험으로 근대 운동으로 키웠다. 스승의 유언을 어긴 부검이 성찰과 충성의 자리를 끌어내리며 평가를 오래 가른다. 1926년 폐렴으로 쉰에 죽었다.",
+   "rationale_en": "He turned what Ishi taught him into a modern sport through experiment and writing. The autopsy he performed against his teacher's wish drags down his reflection and loyalty and still divides opinion. He died of pneumonia in 1926 at fifty."
+  }
+ },
+ "제데디어 스미스": {
+  "influence": {
+   "political": 2,
+   "political_exp": "미국인 최초의 육로 캘리포니아 경로",
+   "political_exp_en": "Opened the overland road to California",
+   "strategic": 1,
+   "strategic_exp": "대분지 횡단으로 서부 지형 정보를 넓혔다",
+   "strategic_exp_en": "Mapped ground later armies used",
+   "tech": 2,
+   "tech_exp": "경로와 지형 지식을 기록으로 남겼다",
+   "tech_exp_en": "Left routes and maps behind",
+   "social": 1,
+   "social_exp": "성경을 든 이례적 산악인의 모범",
+   "social_exp_en": "An anomaly: the sober mountain man",
+   "economic": 4,
+   "economic_exp": "모피 무역과 신경로로 서부 상업을 넓혔다",
+   "economic_exp_en": "Widened the fur trade's map",
+   "cultural": 4,
+   "cultural_exp": "독실한 탐험가라는 이색 영웅상",
+   "cultural_exp_en": "Prototype of the western explorer",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "미국 서진 경로의 초기 개척자",
+   "transhistoricity_exp_en": "A first pathfinder of the West"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "모피 원정대 수십 명을 이끌고 미지를 횡단했다",
+     "reason_en": "Led fur brigades across the West"
+    },
+    "martial": {
+     "score": 80,
+     "reason_ko": "곰에게 귀를 뜯기고도 스스로 꿰매고 원정했다",
+     "reason_en": "Sewed his scalp on after a grizzly"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "대분지와 사막의 미지 경로를 읽어냈다",
+     "reason_en": "Read routes through the Great Basin"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "동료의 신임을 샀으나 과묵한 편이었다",
+     "reason_en": "Trusted by men, quiet by habit"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 80,
+     "reason_ko": "술과 욕설이 일상인 모피계에서 금주했다",
+     "reason_en": "Sober amid a hard-drinking trade"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "몇 해 사이 미지의 서부를 잇달아 건넜다",
+     "reason_en": "Crossed the unknown West repeatedly"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "일지와 성경으로 자기 길을 되짚었다",
+     "reason_en": "Kept journal and Bible alike"
+    },
+    "courage": {
+     "score": 90,
+     "reason_ko": "1827년 모하비 매복으로 열 명을 잃고도 멈추지 않았다",
+     "reason_en": "Lost ten men and pressed on"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 70,
+     "reason_ko": "동업자와 신앙을 일관되게 지켰다",
+     "reason_en": "Steady to partners and faith"
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "길 잃은 이들을 도운 전언이 남는다",
+     "reason_en": "Accounts credit aid to the lost"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "원주민과의 마찰을 협상으로 풀었다",
+     "reason_en": "Tried trade before violence"
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "탐험의 공을 신앙과 동료에게 돌렸다",
+     "reason_en": "Gave credit to God and his men"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "전멸 직전에도 길은 있다고 믿었다",
+     "reason_en": "Held that a way existed"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "모피 상인으로 기존 질서 안에서 일했다",
+     "reason_en": "Worked within the trade's order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "남보다 먼저 길로 나서는 고독한 기질",
+     "reason_en": "First out, often alone"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "미지의 사막 횡단을 거듭 감행했다",
+     "reason_en": "Hazarded deserts no one had crossed"
+    }
+   },
+   "rationale_ko": "신앙의 절제와 탐험의 대담함이 드물게 공존한 산악인이다. 곰의 습격과 모하비의 매복을 겪고도 걸음을 멈추지 않았고, 그 발자국이 서부의 지도를 바꿨다. 1831년 산타페 트레일에서 서른둘로 죽었다.",
+   "rationale_en": "Faith's restraint and an explorer's daring rarely met as they did in him. Mauled by a grizzly and ambushed by the Mojave, he kept walking, and his footprints redrew the map of the West. In 1831 he was killed on the Santa Fe Trail at thirty-two."
+  }
+ }
+}

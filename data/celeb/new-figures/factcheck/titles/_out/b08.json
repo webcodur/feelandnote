@@ -1,0 +1,26 @@
+[
+  {
+    "nick": "칼 샤피로",
+    "title": "매이도프의 최대 단골",
+    "issue": "en-mismatch",
+    "why": "ko 최대 vs en Oldest로 다른 사실. 1961년부터 고객이라 최장기가 문헌에 부합.",
+    "fix_ko": "매이도프의 최장기 고객",
+    "fix_en": "Madoff's Oldest Customer"
+  },
+  {
+    "nick": "윌리엄 홀 워커",
+    "title": "카메라와 경주마의 남작",
+    "issue": "wrong",
+    "why": "웨이버트리 남작은 양조업 출신으로 카메라와 무관 — 동명이인 미국 카메라 설계자와 혼동.",
+    "fix_ko": "경주마 번식의 남작",
+    "fix_en": "The Racehorse-Breeding Baron"
+  },
+  {
+    "nick": "조지 프레데릭 아우구스투스 1세",
+    "title": "가짜 나라에 진짜 땅을 준 왕",
+    "issue": "wrong",
+    "why": "1820년 매그리거에게 포야이스 땅을 허가한 모스키토 왕은 2세(재위 1801-1824)이지 1세가 아님 — nick 자체가 오류라 2세로 교정 필요.",
+    "fix_ko": "가짜 나라에 진짜 땅을 준 왕",
+    "fix_en": "The Real King Behind a Fake Country"
+  }
+]

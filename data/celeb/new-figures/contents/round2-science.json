@@ -1,0 +1,189 @@
+{
+  "소피 브라헤": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "메리 벌클랜드": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "동물계",
+        "title_en": "Le Règne Animal",
+        "creator": "조르주 퀴비에",
+        "year": 1817,
+        "status": "FINISHED",
+        "source_url": "https://web.archive.org/web/20190818102525/http:/www.abingdon.gov.uk/history/people/mary-buckland-nee-morland",
+        "evidence": "애빙던 시 자료는 퀴비에가 1817년경 최신 저작인 이 책을 그녀에게 보냈고, 그녀가 마차 여행에서 이 책을 읽다 같은 책을 읽던 윌리엄 버클랜드와 대화가 시작됐다는 일화를 전한다.",
+        "review": "메리 벌클랜드는 퀴비에가 보내준 이 책을 마차 여행 중 읽고 있었고, 같은 책을 펼쳐 든 동승자 윌리엄 버클랜드와 나눈 대화가 인연이 되어 결혼에 이르렀다.",
+        "review_en": "Mary Buckland was reading this book, sent to her by Cuvier, on a coach journey when a fellow passenger reading the identical volume turned out to be William Buckland; the conversation led to marriage."
+      }
+    ]
+  },
+  "조지 틸턴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "로버트 키호": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "이자크 프레젠트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "니콜라이 표도로프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉산더 색스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "케네스 스넬슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "우디 플라워스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "마조리 캐머런": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "마야 팩터",
+        "title_en": "The Mayan Factor",
+        "creator": "호세 아르궤예스",
+        "year": 1987,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Marjorie_Cameron",
+        "evidence": "위키백과는 캐머런이 말년에 아르궤예스의 이 책에 큰 관심을 가졌다고 전한다.",
+        "review": "마조리 캐머런은 말년에 아르궤예스의 이 책에 깊은 관심을 가졌다. 오컬트 수행과 예술을 잇는 그녀의 후기 신비주의 탐구의 한 축이었다.",
+        "review_en": "Marjorie Cameron became deeply interested in Argüelles's book late in life, part of the occult inquiry that intertwined with her art."
+      },
+      {
+        "type": "BOOK",
+        "title": "사자의 길",
+        "title_en": "The Lion Path",
+        "creator": "찰스 무시스",
+        "year": 1985,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Marjorie_Cameron",
+        "evidence": "위키백과는 캐머런이 무시스의 이 책에 큰 관심을 갖고 그것이 권하는 신샤머니즘 수행을 실천했다고 전한다.",
+        "review": "마조리 캐머런은 무시스의 이 책에 깊은 관심을 가졌고, 그것이 권하는 신샤머니즘 수행을 직접 실천했다.",
+        "review_en": "Marjorie Cameron became deeply interested in Musès's book and undertook the neo-shamanic practices it endorsed."
+      },
+      {
+        "type": "BOOK",
+        "title": "여성과 초월여성",
+        "title_en": "Woman and Superwoman",
+        "creator": "A. S. 롤리",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Marjorie_Cameron",
+        "evidence": "위키백과는 캐머런이 롤리의 이 책에 큰 관심을 가졌다고 전한다.",
+        "review": "마조리 캐머런은 A. S. 롤리의 이 오컬트 저작에 큰 관심을 보였다.",
+        "review_en": "Marjorie Cameron took a strong interest in this occult work by A. S. Raleigh."
+      },
+      {
+        "type": "BOOK",
+        "title": "마그누스 백작",
+        "title_en": "Count Magnus",
+        "creator": "M. R. 제임스",
+        "year": 1904,
+        "status": "FINISHED",
+        "source_url": "https://pure.uva.nl/ws/files/69133345/4874_12242_1_PB.pdf",
+        "evidence": "암스테르담대 학술 논문은 파슨스와 캐머런의 '검은 순례' 관념의 문학적 원천으로 제임스의 이 단편을 지목하고, 두 사람이 이 이야기에서 종교적 영감을 얻었다고 분석한다.",
+        "review": "마조리 캐머런은 제임스의 이 고딕 단편에서 종교적 영감을 얻은 것으로 연구된다. 그녀의 '검은 순례' 관념의 문학적 원천 가운데 하나로 지목된다.",
+        "review_en": "Marjorie Cameron derived religious inspiration from this M. R. James story, identified in scholarship as a literary source of her notion of the 'black pilgrimage.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "노란 옷의 왕",
+        "title_en": "The King in Yellow",
+        "creator": "R. W. 체임버스",
+        "year": 1895,
+        "status": "FINISHED",
+        "source_url": "https://pure.uva.nl/ws/files/69133345/4874_12242_1_PB.pdf",
+        "evidence": "암스테르담대 학술 논문은 파슨스와 캐머런의 '검은 순례' 관념의 문학적 원천으로 체임버스의 이 단편집을 지목하고, 두 사람이 이 이야기들에서 종교적 영감을 얻었다고 분석한다.",
+        "review": "마조리 캐머런은 체임버스의 이 단편집에서 종교적 영감을 얻은 것으로 연구된다. 그녀의 '검은 순례' 관념의 문학적 원천 가운데 하나로 지목된다.",
+        "review_en": "Marjorie Cameron derived religious inspiration from Chambers's story collection, identified in scholarship as a literary source of her notion of the 'black pilgrimage.'"
+      }
+    ]
+  },
+  "요하네스 오포리누스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "마거릿 하우 로바트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "미스 켈리",
+        "title_en": "Miss Kelly",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/environment/2014/jun/08/the-dolphin-who-loved-me",
+        "evidence": "가디언 인터뷰에서 로바트는 어머니가 준 이 책 속 말하고 인간을 이해하는 고양이 이야기가 동물과의 대화 가능성에 대한 생각을 심어줬다고 회고했다.",
+        "review": "마거릿 하우 로바트는 어머니가 준 이 책 속 말하는 고양이 이야기가 마음에 남아 동물과 대화할 가능성이 있다고 생각하게 됐다고 회고했다. 그 생각이 그녀를 세인트토머스의 돌고래 연구소로 이끌었다.",
+        "review_en": "Margaret Howe Lovatt recalled that this book her mother gave her, about a cat who could talk and understand humans, planted the idea that communication with animals might be possible — the idea that led her to the St. Thomas dolphin lab."
+      }
+    ]
+  }
+}

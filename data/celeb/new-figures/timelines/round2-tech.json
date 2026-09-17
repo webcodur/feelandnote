@@ -1,0 +1,1996 @@
+{
+ "하워드 에이컨": {
+  "events": [
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴저지에서 태어나 하버드대 물리학자가 됐다.",
+    "description_en": "Born in New Jersey; a Harvard physicist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1937,
+    "year_end": null,
+    "title": "자동 계산기 구상",
+    "title_en": "The Automatic Calculator",
+    "description": "IBM과 협력해 대형 전기기계식 자동계산기 구상을 밀어붙였다.",
+    "description_en": "He pitched IBM an automatic calculating machine.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "하버드 마크 I",
+    "title_en": "Harvard Mark I",
+    "description": "마크 I이 완성돼 해군 탄도 계산을 처리했고 그레이스 호퍼 등 초기 프로그래머들이 그 위에서 일했다.",
+    "description_en": "The Mark I ran Navy ballistics — Grace Hopper programmed it.",
+    "kind": "work",
+    "place_name": "하버드",
+    "place_name_en": "Harvard",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1973,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "72세로 숨졌다 — 부하의 공적에 인색했다는 평가와 함께 하버드 컴퓨테이션 랩을 남겼다.",
+    "description_en": "Dead at 72 — remembered as brilliant but stingy with credit.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "아르투로 로젠블루트": {
+  "events": [
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "멕시코 시우다드 게레로에서 태어나 하버드에서 월터 캐넌의 제자가 됐다.",
+    "description_en": "Born in Chihuahua; Walter Cannon's pupil at Harvard.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "사이버네틱스 논문",
+    "title_en": "Behavior, Purpose and Teleology",
+    "description": "위너·빅걸로와 함께 쓴 논문이 사이버네틱스의 초석이 됐다 — 항상성을 기계의 피드백 제어와 연결했다.",
+    "description_en": "His 1943 paper with Wiener founded cybernetics.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1961,
+    "year_end": null,
+    "title": "귀국",
+    "title_en": "Return to Mexico",
+    "description": "귀국해 국립폴리테크닉의 연구·고등교육센터 설립을 이끌어 멕시코 과학 기반을 닦았다.",
+    "description_en": "Home to build Mexico's research infrastructure.",
+    "kind": "work",
+    "place_name": "멕시코시티",
+    "place_name_en": "Mexico City",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1970,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "69세로 숨졌다.",
+    "description_en": "Died at 69.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "윌리엄 노리스": {
+  "events": [
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네브래스카 농장에서 태어났다.",
+    "description_en": "Born on a Nebraska farm.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1946,
+    "year_end": null,
+    "title": "ERA 공동창업",
+    "title_en": "Founding ERA",
+    "description": "해군 암호 해독 팀이 이어간 회사 ERA를 공동창업했다.",
+    "description_en": "He co-founded ERA from a Navy code-breaking team.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1957,
+    "year_end": null,
+    "title": "CDC 창업",
+    "title_en": "Founding Control Data",
+    "description": "컨트롤 데이터 코퍼레이션을 세워 시모어 크레이에게 전권을 위임했다.",
+    "description_en": "He founded CDC and handed Seymour Cray the keys.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1964,
+    "year_end": null,
+    "title": "CDC 6600",
+    "title_en": "The First Supercomputer",
+    "description": "크레이의 CDC 6600이 세계 최초의 슈퍼컴퓨터로 불렸다.",
+    "description_en": "The CDC 6600 — the world's first supercomputer.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2006,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "도시 빈민 지역에 공장을 지어 고용을 창출한 사회적 기업가로 95세까지 살았다.",
+    "description_en": "Dead at 95 — the CEO who built factories in the inner city.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "J. C. R. 리크라이더": {
+  "events": [
+   {
+    "year": 1915,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "세인트루이스에서 태어나 심리음향학자가 됐다.",
+    "description_en": "Born in St Louis; a psychoacoustician.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1960,
+    "year_end": null,
+    "title": "'인간-컴퓨터 공생'",
+    "title_en": "'Man-Computer Symbiosis'",
+    "description": "대화형 개인 컴퓨팅의 비전을 제시했다.",
+    "description_en": "His paper imagined interactive personal computing.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1962,
+    "year_end": null,
+    "title": "ARPA IPTO 국장",
+    "title_en": "Head of IPTO",
+    "description": "ARPA 정보처리기술국 초대 국장으로 시분할 컴퓨팅과 네트워크 연구에 자금을 댔다.",
+    "description_en": "At ARPA he funded time-sharing and networking research.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1963,
+    "year_end": null,
+    "title": "'성간 컴퓨터 네트워크'",
+    "title_en": "The Intergalactic Network",
+    "description": "메모에서 인터넷 비전을 예언했다 — 그의 연구자 네트워크는 아파넷으로 이어졌다.",
+    "description_en": "His 'Intergalactic Computer Network' memo prophesied the internet.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1990,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "75세로 숨졌다.",
+    "description_en": "Died at 75.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "빌 잉글리시": {
+  "events": [
+   {
+    "year": 1929,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "켄터키에서 태어나 해군과 SRI를 거쳤다.",
+    "description_en": "Born in Kentucky; Navy, then SRI.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1964,
+    "year_end": null,
+    "title": "최초의 마우스",
+    "title_en": "The First Mouse",
+    "description": "엥겔바트의 메모를 바탕으로 세계 최초의 마우스 시제품을 직접 만들고 처음 사용했다.",
+    "description_en": "He built the first mouse from Engelbart's notes — and used it first.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "'모든 데모의 어머니'",
+    "title_en": "The Mother of All Demos",
+    "description": "역사적 시연의 연출을 총괄했다.",
+    "description_en": "He ran the 1968 demo that previewed modern computing.",
+    "kind": "work",
+    "place_name": "샌프란시스코",
+    "place_name_en": "San Francisco",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "제록스 PARC",
+    "title_en": "To PARC",
+    "description": "제록스 PARC로 옮겨 볼 마우스를 개발했다.",
+    "description_en": "At Xerox PARC he built the ball mouse.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2020,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "91세로 숨졌다.",
+    "description_en": "Died at 91.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "아이번 서덜랜드": {
+  "events": [
+   {
+    "year": 1938,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네브래스카에서 태어났다.",
+    "description_en": "Born in Nebraska.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1963,
+    "year_end": null,
+    "title": "스케치패드",
+    "title_en": "Sketchpad",
+    "description": "MIT 박사 논문으로 빛펜 대화형 그래픽 프로그램 스케치패드를 만들었다 — GUI와 객체지향의 원형.",
+    "description_en": "His thesis built Sketchpad — ancestor of the GUI and OOP.",
+    "kind": "education",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "'다모클레스의 검'",
+    "title_en": "Sword of Damocles",
+    "description": "최초의 헤드마운트 디스플레이를 만들어 가상현실의 시초를 열었다.",
+    "description_en": "He built the first head-mounted display — VR's origin.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1988,
+    "year_end": null,
+    "title": "튜링상",
+    "title_en": "Turing Award",
+    "description": "컴퓨터 그래픽스 공로로 튜링상을 받았다.",
+    "description_en": "The Turing Award for computer graphics.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "아델 골드버그": {
+  "events": [
+   {
+    "year": 1945,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "클리블랜드에서 태어났다.",
+    "description_en": "Born in Cleveland.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1973,
+    "year_end": 1980,
+    "title": "제록스 PARC",
+    "title_en": "At Xerox PARC",
+    "description": "앨런 케이 팀의 일원으로 스몰토크-80을 공동 개발하고 객체지향 교본을 집필했다.",
+    "description_en": "With Kay's team she co-developed Smalltalk-80 and wrote its book.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1979,
+    "year_end": null,
+    "title": "잡스에게 시연",
+    "title_en": "Demoing to Jobs",
+    "description": "스티브 잡스에게 알토와 스몰토크를 시연했다 — 매킨토시 GUI의 씨앗이 된 일화.",
+    "description_en": "She demoed the Alto to Steve Jobs — Macintosh's seed moment.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1984,
+    "year_end": null,
+    "title": "ACM 회장",
+    "title_en": "ACM President",
+    "description": "ACM 회장을 지내고 컴퓨팅 역사 보존에 기여했다.",
+    "description_en": "Later ACM president and a guardian of computing history.",
+    "kind": "office",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "댄 잉걸스": {
+  "events": [
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어났다.",
+    "description_en": "Born in the US.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1972,
+    "year_end": 1980,
+    "title": "스몰토크 구현",
+    "title_en": "Implementing Smalltalk",
+    "description": "제록스 PARC에서 언어가 작동할 때까지 7년간 수십 번 구현을 다시 쓰며 스몰토크를 완성했다.",
+    "description_en": "He rewrote Smalltalk dozens of times until it worked.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1975,
+    "year_end": null,
+    "title": "BitBlt",
+    "title_en": "BitBlt",
+    "description": "화면에 비트맵을 고속으로 옮기는 BitBlt 알고리즘을 고안했다 — 그래픽 UI의 심장.",
+    "description_en": "He invented BitBlt — the engine of graphical interfaces.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "조지 안타일": {
+  "events": [
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴저지 트렌턴에서 태어났다.",
+    "description_en": "Born in Trenton, New Jersey.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1924,
+    "year_end": null,
+    "title": "'발레 메카니크'",
+    "title_en": "Ballet Mécanique",
+    "description": "파리에서 플레이어 피아노 16대를 동원한 공연으로 스캔들을 일으킨 '음악계의 악동'이 됐다.",
+    "description_en": "Paris's 'bad boy of music' — sixteen player pianos and a riot.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1942,
+    "year_end": null,
+    "title": "주파수 도약 특허",
+    "title_en": "The Frequency-Hopping Patent",
+    "description": "헤디 라머와 어뢰 무선유도용 주파수 도약 기술 특허를 공동으로 받았다 — 블루투스·와이파이의 이론적 토대.",
+    "description_en": "With Hedy Lamarr he patented frequency hopping — ancestor of Bluetooth and Wi-Fi.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1959,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "할리우드 영화음악가로 활동하다 58세로 숨졌다.",
+    "description_en": "A Hollywood film composer — dead at 58.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "레스 솔로몬": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "'파퓰러 일렉트로닉스' 편집자",
+    "title_en": "The Magazine Editor",
+    "description": "잡지 '파퓰러 일렉트로닉스'의 기술 편집자가 됐다.",
+    "description_en": "Technical editor of Popular Electronics.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1975,
+    "year_end": null,
+    "title": "알테어 8800 표지",
+    "title_en": "The Altair Cover",
+    "description": "앨버커키의 MITS를 발굴해 1975년 1월호 표지에 알테어 8800을 실었다 — 개인용 컴퓨터 혁명의 방아쇠.",
+    "description_en": "His cover on the Altair 8800 triggered the PC revolution.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1975,
+    "year_end": null,
+    "title": "게이츠와 앨런을 움직이다",
+    "title_en": "Moving Gates and Allen",
+    "description": "그 표지 기사가 빌 게이츠와 폴 앨런을 움직였다 — '알테어'라는 이름은 그의 딸이 스타트렉 항성에서 따왔다는 이야기다.",
+    "description_en": "Gates and Allen read it — and wrote BASIC. His daughter named the machine.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "팀 패터슨": {
+  "events": [
+   {
+    "year": 1956,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 시애틀 컴퓨터 프로덕츠의 엔지니어가 됐다.",
+    "description_en": "Born in the US; an engineer at Seattle Computer Products.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1980,
+    "year_end": null,
+    "title": "QDOS",
+    "title_en": "Writing QDOS",
+    "description": "인텔 8086용 OS가 없자 킬달의 CP/M API를 참고해 네 달 만에 QDOS를 썼다.",
+    "description_en": "No OS for the 8086 — he wrote QDOS in four months.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1981,
+    "year_end": null,
+    "title": "MS-DOS가 되다",
+    "title_en": "Becoming MS-DOS",
+    "description": "마이크로소프트가 이를 사들여 IBM PC에 공급하며 MS-DOS로 개명했다 — 'DOS의 원조'로 불렸다.",
+    "description_en": "Microsoft bought it, renamed it MS-DOS — the father of DOS.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "데이비드 실버": {
+  "events": [
+   {
+    "year": 1976,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 캠브리지와 앨버타에서 강화학습을 공부했다.",
+    "description_en": "Born in England; trained in reinforcement learning.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2010,
+    "year_end": null,
+    "title": "딥마인드 합류",
+    "title_en": "Joining DeepMind",
+    "description": "딥마인드의 강화학습 연구를 이끌게 됐다.",
+    "description_en": "He came to lead DeepMind's RL research.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2016,
+    "year_end": null,
+    "title": "알파고",
+    "title_en": "AlphaGo",
+    "description": "알파고가 이세돌을 꺾어 바둑계를 뒤흔들었다.",
+    "description_en": "AlphaGo beat Lee Sedol — and the Go world reeled.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2017,
+    "year_end": null,
+    "title": "알파제로",
+    "title_en": "AlphaZero",
+    "description": "인간 기보 없이 스스로 체스·쇼기·바둑 최강에 오른 알파제로를 만들었다.",
+    "description_en": "AlphaZero taught itself to be the strongest at chess, shogi and Go.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2019,
+    "year_end": null,
+    "title": "ACM 컴퓨팅상",
+    "title_en": "ACM Prize",
+    "description": "ACM 컴퓨팅상을 받았고 UCL 교수·로열소사이어티 펠로가 됐다.",
+    "description_en": "The ACM Prize, UCL chair and Royal Society fellowship followed.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "피터 다얀": {
+  "events": [
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 계산신경과학자가 됐다.",
+    "description_en": "Born in Britain; a computational neuroscientist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1992,
+    "year_end": null,
+    "title": "도파민 예측오류 이론",
+    "title_en": "The Dopamine Theory",
+    "description": "도파민이 보상 예측 오류 신호를 부호화한다는 이론을 세워 강화학습과 신경과학을 연결했다.",
+    "description_en": "His theory tied dopamine to reward-prediction error — RL meets neuroscience.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1998,
+    "year_end": null,
+    "title": "가츠비 유닛 소장",
+    "title_en": "The Gatsby Unit",
+    "description": "UCL 가츠비 계산신경과학 유닛 소장이 됐고 하사비스가 그곳에서 연구했다.",
+    "description_en": "He directed UCL's Gatsby Unit — where Hassabis worked.",
+    "kind": "office",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2017,
+    "year_end": null,
+    "title": "브레인상",
+    "title_en": "The Brain Prize",
+    "description": "브레인상을 받고 막스플랑크 생물사이버네틱스 연구소장이 됐다.",
+    "description_en": "The Brain Prize — and directorship at Max Planck.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "브루스 페런스": {
+  "events": [
+   {
+    "year": 1958,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 자유 소프트웨어 운동가가 됐다.",
+    "description_en": "Born in the US; a free-software activist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "데비안 프로젝트 리더",
+    "title_en": "Debian Leader",
+    "description": "데비안 프로젝트 리더를 지내고 BusyBox 초기 개발자가 됐다.",
+    "description_en": "He led Debian and wrote early BusyBox.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1998,
+    "year_end": null,
+    "title": "오픈 소스 정의",
+    "title_en": "The Open Source Definition",
+    "description": "데비안 지침을 다듬어 '오픈 소스 정의(OSD)'를 만들고 에릭 레이먼드와 OSI를 공동 설립했다.",
+    "description_en": "He drafted the Open Source Definition and co-founded OSI.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "팀 톰프슨": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "프로그래머",
+    "title_en": "The Programmer",
+    "description": "선마이크로시스템즈 등에서 일한 프로그래머다.",
+    "description_en": "A programmer who worked at Sun Microsystems.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1987,
+    "year_end": null,
+    "title": "'스티비'",
+    "title_en": "'STEVIE'",
+    "description": "아타리 ST용 vi 클론 '스티비'를 유즈넷에 소스와 함께 공개했다.",
+    "description_en": "He posted STEVIE, a vi clone for the Atari ST.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1991,
+    "year_end": null,
+    "title": "Vim의 조상",
+    "title_en": "Ancestor of Vim",
+    "description": "브램 몰레나르가 스티비 소스를 기반으로 빔을 만들었다 — 스티비는 Vim의 직계 조상이다.",
+    "description_en": "Bram Moolenaar built Vim on Stevie's source — its direct ancestor.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "람베르트 메르턴스": {
+  "events": [
+   {
+    "year": 1944,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "네덜란드에서 태어나 CWI의 컴퓨터 과학자가 됐다.",
+    "description_en": "Born in the Netherlands; a CWI computer scientist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1974,
+    "year_end": null,
+    "title": "ALGOL 68 개정",
+    "title_en": "Revising ALGOL 68",
+    "description": "ALGOL 68 개정 보고서의 편집을 맡았다.",
+    "description_en": "He edited the revised ALGOL 68 report.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1981,
+    "year_end": null,
+    "title": "언어 ABC",
+    "title_en": "Designing ABC",
+    "description": "초보자를 위한 언어 ABC를 설계했다.",
+    "description_en": "He designed ABC, a language for beginners.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "파이썬의 뿌리",
+    "title_en": "Python's Roots",
+    "description": "그의 연구실에서 일한 귀도 판 로쉼이 ABC의 영향을 이어받아 파이썬을 만들었다.",
+    "description_en": "His student van Rossum built Python on ABC's ideas.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "제이슨 프라이드": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "웹 디자이너",
+    "title_en": "The Web Designer",
+    "description": "시카고에서 웹 디자인을 배웠다.",
+    "description_en": "A Chicago web designer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1999,
+    "year_end": null,
+    "title": "37시그널스 창업",
+    "title_en": "Founding 37signals",
+    "description": "웹 디자인 회사 37시그널스를 창업했다.",
+    "description_en": "He founded 37signals.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2004,
+    "year_end": null,
+    "title": "베이스캠프와 레일스",
+    "title_en": "Basecamp and Rails",
+    "description": "베이스캠프를 만들고 하이네마이어 한손과 함께 루비 온 레일스를 세상에 내놓았다.",
+    "description_en": "Basecamp shipped — and Rails fell out of it.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2010,
+    "year_end": null,
+    "title": "『리워크』",
+    "title_en": "Rework",
+    "description": "'리워크' '리모트'로 실리콘밸리 성장 숭배에 맞서는 실용 경영론을 폈다.",
+    "description_en": "'Rework' made him the apostle of calm companies.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "웨이 다이": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "암호학자",
+    "title_en": "The Cryptographer",
+    "description": "컴퓨터 공학자로 오픈소스 암호화 라이브러리 Crypto++를 만들었다.",
+    "description_en": "A computer engineer — author of Crypto++.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1998,
+    "year_end": null,
+    "title": "'b-money' 제안",
+    "title_en": "The b-money Proposal",
+    "description": "사이퍼펑크 메일링리스트에 분산형 전자화폐 청사진 'b-money'를 올렸다.",
+    "description_en": "He proposed b-money — a blueprint for digital cash.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2008,
+    "year_end": null,
+    "title": "비트코인 백서의 인용",
+    "title_en": "Cited by Satoshi",
+    "description": "사토시 나카모토가 비트코인 백서 첫 문단에서 인용했다 — 극도의 은둔으로 사토시 후보로 거론된다.",
+    "description_en": "Satoshi cited b-money in the Bitcoin white paper — Dai himself is a Satoshi suspect.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "데이브 클라이먼": {
+  "events": [
+   {
+    "year": 1967,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미 육군 헬기 정비병 출신으로 팜비치 카운티 보안관이 됐다.",
+    "description_en": "An army helicopter mechanic turned Florida deputy.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1995,
+    "year_end": null,
+    "title": "하반신 마비",
+    "title_en": "Paralyzed",
+    "description": "오토바이 사고로 하반신이 마비됐다.",
+    "description_en": "A motorcycle crash left him paralyzed.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2000,
+    "year_end": null,
+    "title": "포렌식 전문가",
+    "title_en": "The Forensics Expert",
+    "description": "컴퓨터 포렌식 전문가로 변신해 수사 기술 서적을 여럿 공저했다.",
+    "description_en": "He reinvented himself as a computer forensics author.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "46세로 숨졌다 — 크레이그 라이트가 그를 비트코인 공동 창설자로 지목하면서 사후 사토시 논란의 중심에 섰다.",
+    "description_en": "Dead at 46 — then Craig Wright named him a co-creator of Bitcoin.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "마이클 패트린": {
+  "events": [
+   {
+    "year": 1983,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "본명 오마르 다나니로 태어났다.",
+    "description_en": "Born Omar Dhanani.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 2004,
+    "year_end": null,
+    "title": "'섀도크루' 복역",
+    "title_en": "The ShadowCrew Years",
+    "description": "신분 도용 조직 '섀도크루' 활동으로 미국에서 복역 후 캐나다로 추방됐다.",
+    "description_en": "Prison for ShadowCrew card fraud — then deported to Canada.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2013,
+    "year_end": null,
+    "title": "쿼드리가CX 공동창업",
+    "title_en": "Co-founding QuadrigaCX",
+    "description": "제럴드 코튼과 가상화폐 거래소 쿼드리가CX를 공동 창업했다가 2016년 결별했다.",
+    "description_en": "He co-founded QuadrigaCX with Gerald Cotten — then left.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2022,
+    "year_end": null,
+    "title": "'시푸'의 폭로",
+    "title_en": "Unmasked as 'Sifu'",
+    "description": "디파이에서 '시푸'라는 익명으로 활동하다 또다시 정체가 드러났다.",
+    "description_en": "He resurfaced as DeFi's 'Sifu' — and was unmasked again.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "빌 스틸리": {
+  "events": [
+   {
+    "year": 1947,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미 공군 조종사 출신 '와일드 빌'이다.",
+    "description_en": "A former Air Force pilot — 'Wild Bill'.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1982,
+    "year_end": null,
+    "title": "마이크로프로즈 공동창업",
+    "title_en": "Co-founding MicroProse",
+    "description": "시드 마이어를 만나 마이크로프로즈를 공동 창업하고 CEO를 맡았다.",
+    "description_en": "He met Sid Meier and founded MicroProse — its CEO.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1985,
+    "year_end": 1991,
+    "title": "비행 시뮬의 시대",
+    "title_en": "The Flight-Sim Years",
+    "description": "F-15 스트라이크 이글 등 비행 시뮬레이션과 시빌리제이션의 회사를 키웠다.",
+    "description_en": "MicroProse flew high on F-15 and Civilization.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1993,
+    "year_end": null,
+    "title": "인터랙티브 매직",
+    "title_en": "Interactive Magic",
+    "description": "성장 전략을 두고 마이어와 갈라서 인터랙티브 매직을 창업했다.",
+    "description_en": "He split with Meier and founded Interactive Magic.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "제프 브릭스": {
+  "events": [
+   {
+    "year": 1957,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 작곡 박사 학위를 땄다.",
+    "description_en": "Born in the US — a doctorate in composition.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1991,
+    "year_end": null,
+    "title": "마이크로프로즈",
+    "title_en": "MicroProse",
+    "description": "시빌리제이션 II와 컬로나이제이션을 공동 디자인했다.",
+    "description_en": "He co-designed Civilization II and Colonization.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "파이락시스 창업",
+    "title_en": "Founding Firaxis",
+    "description": "시드 마이어·브라이언 레이놀즈와 파이락시스 게임스를 창업해 CEO가 됐다.",
+    "description_en": "With Meier and Reynolds he founded Firaxis — its CEO.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2011,
+    "year_end": null,
+    "title": "'바바 예투' 그래미상",
+    "title_en": "The Grammy",
+    "description": "시빌리제이션 IV의 '바바 예투'가 게임 음악 최초의 그래미상을 받았다.",
+    "description_en": "'Baba Yetu' — the first Grammy for video game music.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "제프 브라운": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "사업가",
+    "title_en": "The Businessman",
+    "description": "게임 사업가가 됐다.",
+    "description_en": "A games businessman.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1987,
+    "year_end": null,
+    "title": "맥시스 공동창업",
+    "title_en": "Co-founding Maxis",
+    "description": "윌 라이트와 맥시스를 공동 창업해 출판사들이 거절한 '심시티'의 사업화를 밀어붙였다.",
+    "description_en": "With Will Wright he founded Maxis — and published the rejected SimCity.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "심시티 대성공",
+    "title_en": "SimCity Hits",
+    "description": "심시티의 대성공으로 시뮬레이션 게임 회사를 키웠다.",
+    "description_en": "SimCity's success built a simulation empire.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1997,
+    "year_end": null,
+    "title": "EA 매각",
+    "title_en": "Selling to EA",
+    "description": "상장을 거쳐 일렉트로닉 아츠에 매각까지 이끌었다.",
+    "description_en": "He took Maxis public, then sold it to EA.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "신카와 요지": {
+  "events": [
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "일본에서 태어났다.",
+    "description_en": "Born in Japan.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1994,
+    "year_end": null,
+    "title": "코나미 합류",
+    "title_en": "Joining Konami",
+    "description": "코나미에 입사해 코지마 히데오의 아트 디렉터가 됐다.",
+    "description_en": "He joined Konami as Kojima's art director.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1998,
+    "year_end": null,
+    "title": "메탈기어 솔리드",
+    "title_en": "Metal Gear Solid",
+    "description": "메탈기어 솔리드 시리즈의 메카·캐릭터 디자인과 수묵화풍 일러스트를 총괄해 시리즈의 시각 정체성을 만들었다.",
+    "description_en": "Metal Gear Rex, the Cyborg Ninja — he gave MGS its look.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2019,
+    "year_end": null,
+    "title": "'데스 스트랜딩'",
+    "title_en": "Death Stranding",
+    "description": "코지마 프로덕션 독립 후에도 '데스 스트랜딩'까지 동행했다.",
+    "description_en": "He followed Kojima into independence — through Death Stranding.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "테드 대브니": {
+  "events": [
+   {
+    "year": 1937,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "샌프란시스코에서 태어나 전기 엔지니어가 됐다.",
+    "description_en": "Born in San Francisco; an electrical engineer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1971,
+    "year_end": null,
+    "title": "'컴퓨터 스페이스'",
+    "title_en": "Computer Space",
+    "description": "놀란 부시넬과 시지기(후의 아타리)를 공동 창업해 최초의 상용 아케이드 게임의 영상 회로를 만들었다.",
+    "description_en": "He co-founded Atari's ancestor and built Computer Space's video circuit.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1972,
+    "year_end": null,
+    "title": "퐁의 기반",
+    "title_en": "The Basis of Pong",
+    "description": "그의 TV 회로가 퐁의 기반이 됐다.",
+    "description_en": "His circuitry became Pong's foundation.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1973,
+    "year_end": null,
+    "title": "업계를 떠나다",
+    "title_en": "Walking Away",
+    "description": "회사를 떠난 뒤 게임 업계와 거리를 두고 식료품점을 운영했다.",
+    "description_en": "He left Atari, left games — ran a grocery.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2018,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "81세로 숨졌다.",
+    "description_en": "Died at 81.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "빌 러시": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "MIT 출신 엔지니어",
+    "title_en": "The MIT Engineer",
+    "description": "MIT 출신으로 샌더스 어소시에이츠에 들어갔다.",
+    "description_en": "An MIT engineer at Sanders Associates.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1967,
+    "year_end": null,
+    "title": "'브라운 박스'",
+    "title_en": "The Brown Box",
+    "description": "랠프 베어의 '브라운 박스' 개발팀에 합류했다.",
+    "description_en": "He joined Ralph Baer's Brown Box team.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "세 번째 점",
+    "title_en": "The Third Dot",
+    "description": "화면의 세 번째 점을 회로가 스스로 제어하게 만들어 기계가 상대하는 게임을 가능하게 했다 — 매그나복스 오디세이와 초기 비디오게임 특허의 핵심.",
+    "description_en": "He made a machine-controlled dot — the 'player' in Odyssey's games.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "헹크 로저스": {
+  "events": [
+   {
+    "year": 1953,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "암스테르담에서 태어나 하와이에서 자랐다.",
+    "description_en": "Born in Amsterdam, raised in Hawaii.",
+    "kind": "birth",
+    "place_name": "암스테르담",
+    "place_name_en": "Amsterdam",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1983,
+    "year_end": null,
+    "title": "불릿프루프 소프트웨어",
+    "title_en": "Bullet-Proof Software",
+    "description": "일본에서 회사를 세워 일본 최초의 RPG로 꼽히는 '더 블랙 오닉스'를 만들었다.",
+    "description_en": "In Japan he made 'The Black Onyx' — arguably Japan's first RPG.",
+    "kind": "work",
+    "place_name": "도쿄",
+    "place_name_en": "Tokyo",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1988,
+    "year_end": null,
+    "title": "테트리스 발견",
+    "title_en": "Discovering Tetris",
+    "description": "테트리스를 발견하고 그 가능성을 알아봤다.",
+    "description_en": "He saw Tetris at CES and knew.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "모스크바 협상",
+    "title_en": "The Moscow Deal",
+    "description": "모스크바의 엘로르그와 직접 협상해 게임보이 판권을 따냈다.",
+    "description_en": "He flew to Moscow and won Tetris for the Game Boy.",
+    "kind": "travel",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "테트리스 컴퍼니",
+    "title_en": "The Tetris Company",
+    "description": "알렉세이 파지트노프와 테트리스 컴퍼니를 공동 설립했다.",
+    "description_en": "With Pajitnov he co-founded The Tetris Company.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "스타 롱": {
+  "events": [
+   {
+    "year": 1970,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 연극 무대 기술을 전공했다.",
+    "description_en": "Born in the US; trained in theatrical stagecraft.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1992,
+    "year_end": null,
+    "title": "오리진 QA 테스터",
+    "title_en": "QA at Origin",
+    "description": "오리진 시스템즈의 QA 테스터로 입사했다.",
+    "description_en": "He started testing games at Origin Systems.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1997,
+    "year_end": null,
+    "title": "울티마 온라인 디렉터",
+    "title_en": "Directing Ultima Online",
+    "description": "울티마 온라인의 디렉터로 상업적 MMO 시대를 열었다.",
+    "description_en": "He shipped Ultima Online — the commercial MMO era began.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2000,
+    "year_end": null,
+    "title": "데스티네이션 게임즈",
+    "title_en": "Destination Games",
+    "description": "리처드 개리엇과 데스티네이션 게임즈를 공동 창업했다.",
+    "description_en": "He co-founded Destination Games with Richard Garriott.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "와다 야스히로": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "시골의 어린 시절",
+    "title_en": "A Country Childhood",
+    "description": "시골에서 자란 경험이 훗날 게임의 원천이 됐다.",
+    "description_en": "A rural childhood — the seed of his life's work.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "'목장이야기'",
+    "title_en": "Harvest Moon",
+    "description": "마벨러스에서 농장 경영 게임 '목장이야기' 시리즈를 창조했다 — 전투 없이 작물을 기르고 마을 사람과 관계를 쌓는 새 장르.",
+    "description_en": "He created Harvest Moon — farming, not fighting.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 2011,
+    "year_end": null,
+    "title": "토이박스 독립",
+    "title_en": "Founding Toybox",
+    "description": "독립해 토이박스를 세웠다 — 스타듀 밸리 등 수많은 계승작에 영감을 준 장르의 창시자.",
+    "description_en": "He founded Toybox — his genre lives on in Stardew Valley.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "켄 윌리엄스": {
+  "events": [
+   {
+    "year": 1954,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국에서 태어나 프로그래머가 됐다.",
+    "description_en": "Born in the US; a programmer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1980,
+    "year_end": null,
+    "title": "온라인 시스템즈 창업",
+    "title_en": "Founding On-Line Systems",
+    "description": "아내 로베르타와 온라인 시스템즈(후의 시에라 온라인)를 창업했다.",
+    "description_en": "With Roberta he founded what became Sierra On-Line.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1980,
+    "year_end": null,
+    "title": "'미스터리 하우스'",
+    "title_en": "Mystery House",
+    "description": "부부의 첫 작품이 최초의 그래픽 어드벤처 게임이 됐다.",
+    "description_en": "Mystery House — the first graphic adventure.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1984,
+    "year_end": 1995,
+    "title": "어드벤처 황금기",
+    "title_en": "The Golden Age",
+    "description": "킹스 퀘스트·스페이스 퀘스트로 어드벤처 게임의 황금기를 이끌었다.",
+    "description_en": "King's Quest, Space Quest — Sierra's golden age.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1996,
+    "year_end": null,
+    "title": "매각과 은퇴",
+    "title_en": "Selling Out",
+    "description": "회사를 매각하고 은퇴했다가 회고록으로 돌아왔다.",
+    "description_en": "He sold Sierra — and returned to write its memoirs.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "발렌틴 글루시코": {
+  "events": [
+   {
+    "year": 1908,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "오데사에서 태어나 로켓 엔진 설계자가 됐다.",
+    "description_en": "Born in Odessa; a rocket engine designer.",
+    "kind": "birth",
+    "place_name": "오데사",
+    "place_name_en": "Odessa",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1929,
+    "year_end": 1935,
+    "title": "세계 최초 전기·액체 엔진",
+    "title_en": "First Engines",
+    "description": "세계 최초의 전기 로켓과 액체연료 엔진을 개발했다.",
+    "description_en": "He built the first electric and liquid-fuel engines.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1938,
+    "year_end": 1944,
+    "title": "대숙청 수감",
+    "title_en": "The Purges",
+    "description": "코롤료프와 얽힌 고발 논란 속에 수감됐다가 전쟁 중 옥중 설계국에서 일했다.",
+    "description_en": "Purged in the Terror — he designed engines in a prison bureau.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1957,
+    "year_end": 1961,
+    "title": "R-7의 동력",
+    "title_en": "Powering the Space Age",
+    "description": "R-7과 프로톤의 주력 엔진으로 스푸트니크·가가린 시대의 동력을 공급했다.",
+    "description_en": "His engines powered Sputnik and Gagarin.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1989,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "에네르기야를 이끌다 80세로 숨졌다.",
+    "description_en": "Died leading Energia at 80.",
+    "kind": "death",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "테오도르 폰 카먼": {
+  "events": [
+   {
+    "year": 1881,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "부다페스트에서 태어나 괴팅겐에서 공기역학을 배웠다.",
+    "description_en": "Born in Budapest; trained under Prandtl at Göttingen.",
+    "kind": "birth",
+    "place_name": "부다페스트",
+    "place_name_en": "Budapest",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "카르만 와류",
+    "title_en": "Kármán Vortices",
+    "description": "카르만 와류 이론을 세웠다.",
+    "description_en": "He explained the vortex street.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1930,
+    "year_end": null,
+    "title": "칼텍으로",
+    "title_en": "To Caltech",
+    "description": "미국으로 건너와 구겐하임 항공연구소(GALCIT)를 이끌었다 — JPL의 모체가 된 로켓 그룹의 스승이자 치엔 쉐썬의 지도교수.",
+    "description_en": "At Caltech he led GALCIT — and mentored the group that became JPL.",
+    "kind": "work",
+    "place_name": "패서디나",
+    "place_name_en": "Pasadena",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1963,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "미국 최초의 국가과학훈장 수상자로 81세에 숨졌다 — '카르만 라인'에 이름이 남았다.",
+    "description_en": "First National Medal of Science — the Kármán line bears his name.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "프랭크 말리나": {
+  "events": [
+   {
+    "year": 1912,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "텍사스에서 태어나 칼텍에서 폰 카먼의 제자가 됐다.",
+    "description_en": "Born in Texas; von Kármán's student at Caltech.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1936,
+    "year_end": null,
+    "title": "'자살 스쿼드'",
+    "title_en": "The Suicide Squad",
+    "description": "위험하다며 놀림받던 로켓 연구 그룹 '자살 스쿼드'를 이끌었다 — JPL의 시작.",
+    "description_en": "He led the 'Suicide Squad' — the rocket group that became JPL.",
+    "kind": "work",
+    "place_name": "패서디나",
+    "place_name_en": "Pasadena",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1945,
+    "year_end": null,
+    "title": "WAC 코퍼럴",
+    "title_en": "The WAC Corporal",
+    "description": "그의 로켓이 미국 최초로 우주 경계에 도달했고 그는 JPL 초대 소장이 됐다.",
+    "description_en": "His WAC Corporal touched space — he became JPL's first director.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1953,
+    "year_end": null,
+    "title": "파리의 예술가",
+    "title_en": "Exile to Art",
+    "description": "매카시 시대의 공산주의 의혹으로 미국을 떠나 프랑스에서 키네틱 아티스트가 됐고 저널 '레오나르도'를 창간했다.",
+    "description_en": "Hounded by McCarthyism, he became a kinetic artist in Paris and founded 'Leonardo'.",
+    "kind": "work",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1981,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "파리 근교에서 69세로 숨졌다.",
+    "description_en": "Died near Paris at 69.",
+    "kind": "death",
+    "place_name": "파리",
+    "place_name_en": "Paris",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ }
+}

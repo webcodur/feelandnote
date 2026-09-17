@@ -1,0 +1,891 @@
+{
+  "더그 톰킨스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "우리",
+        "title_en": "We",
+        "creator": "예브게니 자먀틴",
+        "year": 1924,
+        "status": "FINISHED",
+        "source_url": "https://dark-mountain.net/doug-tompkins-remembered/",
+        "evidence": "2011년 칠레 자택에서 진행된 다크 마운틴 인터뷰에서 톰킨스가 자먀틴의 《우리》의 설정을 자세히 설명하고 '읽어볼 만하다'며 권한 문장이다.",
+        "review": "더그 톰킨스는 다크 마운틴과의 2011년 대담에서 이 소설을 거론하며 읽어 보라고 권했다. 그는 오웰·헉슬리와 함께 자먀틴을 '거물 3인방'으로 꼽고, 유리 벽으로 자연을 차단한 사회를 그린 이 책이 백 년 전에 거대 기술 문명의 방향을 내다봤다고 말했다.",
+        "review_en": "Doug Tompkins held up this novel in a 2011 Dark Mountain interview at his home in Chile, saying it was worth reading. Grouping Zamyatin with Orwell and Huxley as 'the big three,' he said the book's glass wall sealing off wild nature had seen, a century early, where mega-technology was heading."
+      },
+      {
+        "type": "BOOK",
+        "title": "딥 에콜로지",
+        "title_en": "Deep Ecology: Living As if Nature Mattered",
+        "creator": "빌 디볼·조지 세션스",
+        "year": 1985,
+        "status": "FINISHED",
+        "source_url": "https://www.newstatesman.com/long-reads/2007/01/douglas-tompkins-chile-land",
+        "evidence": "뉴스테이츠먼 프로필은 에스프리 전성기인 1980년대 말 톰킨스가 디볼과 세션스의 이 입문서를 읽고 전환을 결심했다고 적고, 그가 심층생태학 재단 웹사이트에 '몇 시간의 독서로 강렬한 깨달음'을 얻었다고 쓴 문장을 인용한다.",
+        "review": "더그 톰킨스는 에스프리가 전성기였던 1980년대 말 이 책을 읽고 몇 시간 만에 강렬한 깨달음을 얻었다고 밝혔다. 그는 이 책이 환경 영웅 데이비드 브라우어의 행동주의와 시인 로빈슨 제퍼스의 통찰을 결합했다고 평했고, 그 독서 뒤 회사를 떠나 심층생태학 재단을 세웠다.",
+        "review_en": "Doug Tompkins read this primer in the late 1980s while Esprit was flying high and, as he wrote on his Foundation for Deep Ecology site, experienced 'a powerful epiphany' within the few hours it took. He said it joined the activism of his environmental hero David Brower to the insight of his poet hero Robinson Jeffers — then left the company to found the foundation."
+      },
+      {
+        "type": "BOOK",
+        "title": "오버슛",
+        "title_en": "Overshoot: The Ecological Basis of Revolutionary Change",
+        "creator": "윌리엄 캐턴",
+        "year": 1980,
+        "status": "FINISHED",
+        "source_url": "https://www.earthisland.org/journal/index.php/magazine/entry/doug_tompkins/",
+        "evidence": "어스 아일랜드 저널 2012년 대담에서 톰킨스가 '윌리엄 캐턴의 1980년 책 《오버슛》을 다시 보라'며 그 생태 발자취 논의가 오늘날 더 받아들여진다고 말한 문장이다.",
+        "review": "더그 톰킨스는 어스 아일랜드 저널과의 2012년 대담에서 캐턴의 이 책을 짚어 읽어 보라고 권했다. 그는 성장의 한계를 다룬 이 책이 오늘날에는 쓰였을 때보다 더 받아들여진다고 말했다.",
+        "review_en": "Doug Tompkins pointed readers to this book in a 2012 Earth Island Journal conversation — 'Go back and look at William Catton's book, Overshoot, on the ecological footprint from 1980.' He said it lands better today than when it was written, because its limits-to-growth case is now widely accepted."
+      }
+    ]
+  },
+  "휴 글래스": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알렉산더 셀커크": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.ourcivilisation.com/smartboard/shop/steele/selkirk.htm",
+        "evidence": "리처드 스틸이 1711년 셀커크를 만나 쓴 《디 잉글리시먼》 기사는 그가 무인도에서 '성경을 자주 읽으며' 18개월 만에 고독에 적응했다고 전한다.",
+        "review": "알렉산더 셀커크는 후안 페르난데스 무인도에 홀로 남겨진 뒤 가져간 성경을 자주 읽으며 절망을 이겨냈다. 그를 1711년에 인터뷰한 리처드 스틸은 이 독서가 그를 고독과 화해시켰다고 적었다.",
+        "review_en": "Alexander Selkirk, marooned alone on Juan Fernández, reconciled himself to his solitude through frequent reading of the Bible he had brought ashore. Richard Steele recorded this after interviewing him in 1711."
+      }
+    ]
+  },
+  "푼 림": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "율리아네 쾨프케": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "베스나 불로비치": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "The Beatles",
+        "creator": "The Beatles",
+        "status": "FINISHED",
+        "source_url": "https://www.avsec.com/2002/04/01/interview-vesna-vulovic-how-to-survive-a-bombing-at-33000-feet/",
+        "note": "비틀즈에 대한 사랑으로 영국행 결심 — 인터뷰 회고"
+      }
+    ]
+  },
+  "마우로 프로스페리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "벡 웨더스": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "조 심프슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "하얀 거미",
+        "title_en": "The White Spider",
+        "creator": "하인리히 하러",
+        "year": 1959,
+        "status": "FINISHED",
+        "source_url": "https://theartsdesk.com/theatre/end-id-lost-me-joe-simpson-mountaineer-and-writer-interview",
+        "evidence": "디 아츠 데스크 인터뷰에서 심프슨은 14세 때 읽은 이 책이 그를 '산산조각 냈고' 등반에 눈뜨게 했다고 말했다.",
+        "review": "조 심프슨은 열네 살 때 이 아이거 북벽 등반사를 읽고 등산을 시작했다. 그는 '이토록 끔찍한 일을 견딜 만하다고 생각한다면 거기엔 분명 뭔가 대단한 것이 있을 것'이라고 판단했다고 회상했다.",
+        "review_en": "Joe Simpson read this account of the Eiger north face at fourteen and it set him on the path to climbing. 'If they think this is worth enduring,' he recalled reasoning, 'there must be something really good in it.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "세계 최악의 여정",
+        "title_en": "The Worst Journey in the World",
+        "creator": "앱슬리 체리-개러드",
+        "year": 1922,
+        "status": "FINISHED",
+        "source_url": "https://theartsdesk.com/theatre/end-id-lost-me-joe-simpson-mountaineer-and-writer-interview",
+        "evidence": "같은 인터뷰에서 심프슨은 등산가가 되기 전 가장 좋아한 책으로 이 남극 탐험 기록을 꼽고 '비범한 책'이라 불렀다.",
+        "review": "조 심프슨은 등산가가 되기 전 가장 좋아한 책으로 이 스콧 원정대의 남극 기록을 꼽았다. 그는 겨울의 어둠 속 행군을 담은 이 책을 '비범한 책'이라 불렀다.",
+        "review_en": "Joe Simpson named this account of Scott's Antarctic expedition his favourite book before he became a mountaineer, calling it 'an extraordinary book' in an interview."
+      },
+      {
+        "type": "BOOK",
+        "title": "쓸모없는 것들의 정복자",
+        "title_en": "Conquistadors of the Useless",
+        "creator": "리오넬 테레이",
+        "year": 1961,
+        "status": "FINISHED",
+        "source_url": "https://ikhaya.co.uk/mountain/articles/m02-0001.htm",
+        "evidence": "마운틴 온라인 인터뷰에서 심프슨은 테레이의 이 책을 '완전히 환상적'이라 평하며 자신에게 영감을 준 등반서 가운데 하나로 꼽았다.",
+        "review": "조 심프슨은 인터뷰에서 리오넬 테레이의 이 책을 '완전히 환상적'이라 불렀다. 그는 보나티와 카생, 뷸의 책과 함께 자신에게 영감을 준 등반서로 꼽았다.",
+        "review_en": "Joe Simpson called Lionel Terray's book 'absolutely fantastic' in an interview, naming it among the climbing books that most inspired him alongside works by Bonatti, Cassin and Buhl."
+      },
+      {
+        "type": "MUSIC",
+        "title": "I'm a Man You Don't Meet Every Day",
+        "title_en": "I'm a Man You Don't Meet Every Day",
+        "creator": "포그스 (케이트 오리어던)",
+        "year": 1985,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/sounds/play/p00936g4",
+        "evidence": "BBC 《데저트 아일랜드 디스크》 2004년 출연 기록에서 심프슨의 '가장 좋아하는 트랙'으로 케이트 오리어던과 포그스의 이 노래가 명시돼 있다.",
+        "review": "조 심프슨은 2004년 BBC 《데저트 아일랜드 디스크》에서 무인도에 가져갈 가장 좋아하는 트랙으로 포그스의 이 노래를 골랐다. 케이트 오리어던이 노래한 버전이다.",
+        "review_en": "Joe Simpson chose the Pogues' recording of this song, sung by Cait O'Riordan, as his favourite track on BBC's Desert Island Discs in 2004."
+      }
+    ]
+  },
+  "텐징 노르가이": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "라인홀트 메스너": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "알프스의 위험",
+        "title_en": "Die Gefahren der Alpen",
+        "creator": "에밀 치그몬디",
+        "year": 1896,
+        "status": "FINISHED",
+        "source_url": "https://planetoutdoor.de/wissen/interviews-portraets-und-reportagen/messner-buecher",
+        "evidence": "메스너가 플래닛아웃도어에 공개한 '머스트 리드' 산악 문학 목록 첫 권으로, 그는 치그몬디의 무가이드 등반론이 시대를 앞섰다고 평했다.",
+        "review": "라인홀트 메스너는 자신이 꼽은 산악 문학 필독서 첫 자리에 이 책을 뒀다. 그는 치그몬디가 주장한 무가이드 등반의 원칙이 시대를 앞선 것이라고 평했다.",
+        "review_en": "Reinhold Messner placed this book at the top of his own must-read list of alpine literature, judging Zsigmondy's case for guideless climbing ahead of its time."
+      },
+      {
+        "type": "BOOK",
+        "title": "하얀 거미",
+        "title_en": "The White Spider",
+        "creator": "하인리히 하러",
+        "year": 1959,
+        "status": "FINISHED",
+        "source_url": "https://planetoutdoor.de/wissen/interviews-portraets-und-reportagen/messner-buecher",
+        "evidence": "메스너의 필독 목록에 포함되며, 그는 하러가 나치에 우호적 인물이었음을 인정하면서도 이 책은 읽어야 한다고 말했다.",
+        "review": "라인홀트 메스너는 필독 목록에서 저자의 나치 연관 논란을 인정하면서도 이 아이거 북벽 최초 등정 기록은 읽어야 한다고 말했다. 그는 자신의 유발 성에 세계 최대의 산악사 개인 장서를 갖추고 있다.",
+        "review_en": "Reinhold Messner included Harrer's account of the first ascent of the Eiger north face on his must-read list, saying it should be read despite the author's Nazi associations. He keeps what may be the world's largest private library of alpine history at his Juval castle."
+      },
+      {
+        "type": "BOOK",
+        "title": "내 생애의 산들",
+        "title_en": "Berge meines Lebens",
+        "creator": "발터 보나티",
+        "year": 1961,
+        "status": "FINISHED",
+        "source_url": "https://planetoutdoor.de/wissen/interviews-portraets-und-reportagen/messner-buecher",
+        "evidence": "메스너의 '머스트 리드' 목록에 포함된 보나티의 등반 회고록이다.",
+        "review": "라인홀트 메스너는 발터 보나티의 이 회고록을 자신의 필독 산악 문학 목록에 올렸다. 원정 중에는 산악 문헌이 아니라 다른 분야 책을 읽고 귀환 뒤 산악 고전에 깊이 파고든다고 그는 밝혔다.",
+        "review_en": "Reinhold Messner put Walter Bonatti's climbing memoir on his must-read list of alpine literature. He has said he reads non-alpine books on expeditions and then immerses himself in the climbing classics back home."
+      }
+    ]
+  },
+  "조지 말러리": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "인간의 정신",
+        "title_en": "The Spirit of Man",
+        "creator": "로버트 브리지스(편)",
+        "year": 1916,
+        "status": "FINISHED",
+        "source_url": "https://www.aspentimes.com/news/the-hardman-2/",
+        "evidence": "말러리는 1922년 에베레스트 원정 기록에서 해발 6,400미터 캠프에 이 선집을 가져가 동료와 번갈아 소리 내어 읽으며 '매우 유쾌한 저녁'을 보냈다고 적었다.",
+        "review": "조지 말러리는 1922년 에베레스트 원정에서 해발 6,400미터 캠프로 이 선집을 가져가 텐트에서 동료와 번갈아 낭독했다. 그는 그 덕분에 '매우 유쾌한 저녁'을 보냈다고 원정 기록에 적었다.",
+        "review_en": "George Mallory carried this anthology up to a camp at 21,000 feet on the 1922 Everest expedition and read it aloud in turns with his tentmate. It enabled them, he wrote, 'to spend one evening very agreeably.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "햄릿",
+        "title_en": "Hamlet",
+        "creator": "윌리엄 셰익스피어",
+        "year": 1603,
+        "status": "FINISHED",
+        "source_url": "https://www.aspentimes.com/news/the-hardman-2/",
+        "evidence": "같은 기록에서 말러리는 가져간 셰익스피어 전집을 펼쳐 《햄릿》이 유령을 부르는 대목부터 동료와 배역을 나눠 극의 절반을 열정적으로 읽었다고 적었다.",
+        "review": "조지 말러리는 고지대 캠프에서 셰익스피어 전집을 펼치다 《햄릿》이 유령에게 외치는 대목을 만나 동료와 배역을 나눠 극의 절반을 읽었다. 그는 이를 '무인도에 가져갈 책'을 골라보는 시험이라고 적었다.",
+        "review_en": "George Mallory, opening his Shakespeare at high camp, landed on the scene where Hamlet addresses the ghost and read half the play aloud with his companion, taking parts in turn. He called it a test of the old question of what book one would take to a desert island."
+      }
+    ]
+  },
+  "아론 랠스턴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "고스트",
+        "title_en": "Ghost",
+        "creator": "피시",
+        "year": 1998,
+        "status": "FINISHED",
+        "source_url": "https://jambands.com/news/2011/02/27/oscar-special-a-look-at-127-hours-s-phish-and-string-cheese-incident-connections/",
+        "evidence": "잼밴즈닷컴이 인용한 인터뷰에서 랠스턴은 바위에 팔이 끼었을 때 피시 티셔츠를 입고 이 노래의 라이브 버전을 듣고 있었다고 밝혔다.",
+        "review": "아론 랠스턴은 2003년 유타의 블루 존 협곡에서 바위에 팔이 끼인 순간 이 노래의 라이브 버전을 듣고 있었다. 오랜 피시 팬인 그는 그때 피시 티셔츠도 입고 있었다고 밝혔다.",
+        "review_en": "Aron Ralston was listening to a live version of this song, and wearing a Phish T-shirt, when the boulder pinned his arm in Utah's Blue John Canyon in 2003."
+      }
+    ]
+  },
+  "알렉스 호놀드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "새로운 짐 크로",
+        "title_en": "The New Jim Crow",
+        "creator": "미셸 알렉산더",
+        "year": 2010,
+        "status": "FINISHED",
+        "source_url": "https://www.outsideonline.com/culture/books-media/what-alex-honnold-reading-right-now/",
+        "evidence": "아웃사이드 인터뷰에서 호놀드는 이 책이 '형사사법 제도 전체를 보는 시각을 바꿨다'며 '누구에게나 필독서'라고 말했다.",
+        "review": "알렉스 호놀드는 호놀드 재단 임원이 건넨 이 책이 형사사법 제도를 보는 자신의 시각을 통째로 바꿨다고 말했다. 그는 '모든 미국 시민에게 필독서'라고 권했다.",
+        "review_en": "Alex Honnold said this book, given to him by the Honnold Foundation's director, 'definitely changed the way I see the entire criminal-justice system.' He called it a must-read for anybody."
+      },
+      {
+        "type": "BOOK",
+        "title": "노스",
+        "title_en": "North",
+        "creator": "스콧 주렉",
+        "year": 2018,
+        "status": "FINISHED",
+        "source_url": "https://www.outsideonline.com/culture/books-media/what-alex-honnold-reading-right-now/",
+        "evidence": "같은 인터뷰에서 호놀드는 주렉에게서 받은 이 책을 미뤄 읽다가 '놀랍도록 영감적'이라고 평했다.",
+        "review": "알렉스 호놀드는 지은이에게서 직접 받은 이 아팔래치아 종주 기록을 한참 미뤄 읽다가 '놀랍도록 영감적'이라고 평했다.",
+        "review_en": "Alex Honnold lagged on reading this Appalachian Trail memoir given to him by its author, but found it 'surprisingly inspiring' when he finally sat down with it."
+      },
+      {
+        "type": "BOOK",
+        "title": "사피엔스",
+        "title_en": "Sapiens",
+        "creator": "유발 노아 하라리",
+        "year": 2011,
+        "status": "FINISHED",
+        "source_url": "https://www.outsideonline.com/culture/books-media/what-alex-honnold-reading-right-now/",
+        "evidence": "같은 인터뷰에서 호놀드는 《호모 데우스》를 읽기 시작하면서 같은 저자의 《사피엔스》를 '정말 즐겁게 읽었다'고 말했다.",
+        "review": "알렉스 호놀드는 인터뷰에서 하라리의 이 책을 '정말 즐겁게 읽었다'고 말했다. 그는 여행 가방에 같은 저자의 후속작 《호모 데우스》를 넣어 다녔다.",
+        "review_en": "Alex Honnold said he 'really enjoyed' Harari's book in an interview. He was carrying the author's follow-up, Homo Deus, in his travel bag at the time."
+      },
+      {
+        "type": "BOOK",
+        "title": "바바리안 데이즈",
+        "title_en": "Barbarian Days",
+        "creator": "윌리엄 피네건",
+        "year": 2015,
+        "status": "FINISHED",
+        "source_url": "https://www.honnoldfoundation.org/news/the-power-of-a-good-book",
+        "evidence": "호놀드 재단이 공개한 '알렉스가 가장 좋아하는 책 23권' 목록에 피네건의 이 서핑 회고록이 포함돼 있다.",
+        "review": "알렉스 호놀드는 재단이 공개한 자신의 애독서 목록에 이 서핑 회고록을 올렸다. 그는 이 책들을 모아 보면 '내 뇌가 어떻게 작동하는지 감이 온다'고 말했다.",
+        "review_en": "Alex Honnold included this surfing memoir on the list of his favourite books published by his foundation. 'If you look at all the books together,' he said, 'it gives a pretty good sense of how my brain works.'"
+      },
+      {
+        "type": "VIDEO",
+        "title": "클리프행어",
+        "title_en": "Cliffhanger",
+        "creator": "레니 할린(감독)",
+        "year": 1993,
+        "status": "FINISHED",
+        "source_url": "https://www.theguardian.com/film/2019/jan/26/alex-honnold-free-solo-documentary-interview-climbing-oscar-nominated",
+        "evidence": "가디언 인터뷰에서 호놀드는 '정말 엉뚱하지만 《클리프행어》가 정말 좋다'고 말했고, GQ에서도 '가장 좋아하는 영화 중 하나'라고 했다.",
+        "review": "알렉스 호놀드는 실베스터 스탤론의 이 영화를 '정말 엉뚱하지만 정말 좋아하는' 작품으로 꼽았다. GQ의 클라이밍 장면 해설에서도 '가장 좋아하는 영화 중 하나'라고 말했다.",
+        "review_en": "Alex Honnold named this Sylvester Stallone film a favourite even while calling it 'really over the top.' In GQ's climbing-scene breakdown he counted it 'among my favourite films.'"
+      },
+      {
+        "type": "MUSIC",
+        "title": "라스트 오브 모히칸 영화음악",
+        "title_en": "The Last of the Mohicans (Original Motion Picture Soundtrack)",
+        "creator": "트레버 존스·랜디 에덜만",
+        "year": 1992,
+        "status": "FINISHED",
+        "source_url": "https://nymag.com/strategist/article/alex-honnold-favorite-things.html",
+        "evidence": "스트래티지스트 인터뷰에서 호놀드는 비행기에서 영화음악을 듣는다며 이 사운드트랙을 '최고 중 하나'라고 말했다.",
+        "review": "알렉스 호놀드는 비행기에서 클래식과 영화음악을 듣는다며 이 사운드트랙을 '최고 중 하나'로 꼽았다. 그는 한스 치머와 존 윌리엄스의 악보도 함께 거론했다.",
+        "review_en": "Alex Honnold said he listens to classical music and movie soundtracks when flying, calling this score 'one of the best.' He also praised Hans Zimmer and John Williams in the same breath."
+      },
+      {
+        "type": "MUSIC",
+        "title": "트와일라잇 영화음악",
+        "title_en": "Twilight (Original Motion Picture Soundtrack)",
+        "creator": "VA(옴니버스)",
+        "year": 2008,
+        "status": "FINISHED",
+        "source_url": "https://nymag.com/strategist/article/alex-honnold-favorite-things.html",
+        "evidence": "같은 인터뷰에서 호놀드는 첫 번째 트와일라잇 영화 사운드트랙이 '꽤 훌륭하다'며 잠들 때 자주 듣는다고 말했다.",
+        "review": "알렉스 호놀드는 첫 번째 《트와일라잇》 영화의 사운드트랙이 '의외로 훌륭하다'며 잠들 때 자주 듣는다고 말했다. 영화 자체를 옹호하는 것은 아니라고 덧붙였다.",
+        "review_en": "Alex Honnold said the first Twilight film's soundtrack is 'kind of great' and that he sleeps to it a lot. He added he wouldn't necessarily endorse the movie itself."
+      }
+    ]
+  },
+  "야마구치 쓰토무": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "이블 니블": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "긍정적 사고방식으로 성공하라",
+        "title_en": "Success Through a Positive Mental Attitude",
+        "creator": "너폴레언 힐·W. 클레먼트 스톤",
+        "year": 1960,
+        "status": "FINISHED",
+        "source_url": "https://www.leadersedge.com/lifestyle/evel-knievel",
+        "evidence": "리더스 에지는 니블이 1962년 보험 판매원으로 일할 때 상사 W. 클레먼트 스톤이 공저한 이 책을 읽고 그 체계를 실천했다고 전한다.",
+        "review": "이블 니블은 1962년 보험회사에서 일할 때 상사 W. 클레먼트 스톤이 공저한 이 책을 읽고 그 체계를 실천했다. 태도가 너무 적극적이어서 몇 달 만에 부사장 승진을 요구했다가 되려 회사를 그만뒀다.",
+        "review_en": "Evel Knievel read this book, co-written by his boss W. Clement Stone, while selling insurance in 1962 and pursued its system. His attitude was so positive he asked to be made vice president within months — and quit when it didn't happen."
+      }
+    ]
+  },
+  "필리프 프티": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "바이올린과 피아노를 위한 소나티네 G장조",
+        "title_en": "Sonatina in G major for violin and piano, Op. 100",
+        "creator": "안토닌 드보르자크",
+        "year": 1893,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/p00935tx",
+        "evidence": "BBC 《데저트 아일랜드 디스크》 출연 기록에서 프티의 '가장 좋아하는 트랙'으로 이 곡 1악장이 명시돼 있다.",
+        "review": "필리프 프티는 BBC 《데저트 아일랜드 디스크》에서 무인도에 가져갈 가장 좋아하는 트랙으로 드보르자크의 이 소나티네 1악장을 골랐다.",
+        "review_en": "Philippe Petit chose the first movement of Dvořák's Sonatina in G major as his favourite track on BBC's Desert Island Discs."
+      },
+      {
+        "type": "BOOK",
+        "title": "애슐리 매듭 대전",
+        "title_en": "The Ashley Book of Knots",
+        "creator": "클리퍼드 W. 애슐리",
+        "year": 1944,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/p00935tx",
+        "evidence": "같은 《데저트 아일랜드 디스크》 출연에서 프티가 무인도에 가져갈 책으로 이 매듭 대전과 단편집을 골랐다.",
+        "review": "필리프 프티는 《데저트 아일랜드 디스크》에서 무인도에 가져갈 책으로 줄타기 곡예사다운 이 매듭 대전을 골랐다. 단편소설집도 함께 선택했다.",
+        "review_en": "Philippe Petit picked this knot encyclopedia — a fitting choice for a wire-walker — as his book on Desert Island Discs, along with a book of short stories."
+      },
+      {
+        "type": "BOOK",
+        "title": "나무 위의 남작",
+        "title_en": "The Baron in the Trees",
+        "creator": "이탈로 칼비노",
+        "year": 1957,
+        "status": "FINISHED",
+        "source_url": "https://www.themarginalian.org/2012/08/01/cheating-the-impossible-philippe-petit-tedbooks/",
+        "evidence": "마지널리언은 프티의 책 《Cheating the Impossible》이 장마다 추천 음악과 문학 작품을 싣고 있으며, 그가 칼비노의 이 소설을 추천했다고 소개한다.",
+        "review": "필리프 프티는 자신의 책 《Cheating the Impossible》에서 장의 메시지를 담은 문학 작품으로 칼비노의 이 소설을 추천했다.",
+        "review_en": "Philippe Petit recommended Calvino's novel in his book Cheating the Impossible, which pairs each chapter with a song and a work of literature."
+      },
+      {
+        "type": "MUSIC",
+        "title": "여섯 개의 그노시엔",
+        "title_en": "Six Gnossiennes",
+        "creator": "에릭 사티",
+        "year": 1897,
+        "status": "FINISHED",
+        "source_url": "https://www.themarginalian.org/2012/08/01/cheating-the-impossible-philippe-petit-tedbooks/",
+        "evidence": "같은 책에서 프티는 에블린 크로셰가 연주하는 사티의 이 곡을 추천 음악으로 골랐다.",
+        "review": "필리프 프티는 《Cheating the Impossible》에서 사티의 이 곡을 에블린 크로셰의 연주로 추천했다. 그는 장마다 어울리는 노래 한 곡을 함께 실었다.",
+        "review_en": "Philippe Petit recommended Satie's Six Gnossiennes, performed by pianist Evelyne Crochet, in Cheating the Impossible, which pairs each chapter with a song."
+      }
+    ]
+  },
+  "빔 호프": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "싯다르타",
+        "title_en": "Siddhartha",
+        "creator": "헤르만 헤세",
+        "year": 1922,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/wim-hof-reading-list/",
+        "evidence": "리딩 리스트 인터뷰에서 호프는 '젊은이들에게 《싯다르타》나 《갈매기에게 꿈을》을 읽으라 권한다'며 두려움 너머로 스스로를 밀어붙이게 한다고 말했다.",
+        "review": "빔 호프는 젊은이들에게 이 책을 읽으라 권한다고 말했다. 그는 이 책이 '두려움 너머로 자신을 밀어붙이게 해주며 거대한 세계를 발견하게 할 것'이라고 했다.",
+        "review_en": "Wim Hof said he would encourage young people to read this book. 'It can inspire you to go and challenge yourself beyond your fears,' he said. 'Be uninhibited and you will find great worlds.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "갈매기의 꿈",
+        "title_en": "Jonathan Livingston Seagull",
+        "creator": "리처드 바크",
+        "year": 1970,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/wim-hof-reading-list/",
+        "evidence": "같은 인터뷰에서 호프는 《싯다르타》와 함께 이 책을 젊은이들에게 읽으라 권했다.",
+        "review": "빔 호프는 《싯다르타》와 나란히 이 책을 젊은이들에게 읽으라 권했다. 그는 이 책들이 두려움 너머로 자신을 밀어붙이게 한다고 말했다.",
+        "review_en": "Wim Hof encouraged young people to read this book alongside Siddhartha, saying such books 'can inspire you to go and challenge yourself beyond your fears.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "선과 오토바이 관리술",
+        "title_en": "Zen and the Art of Motorcycle Maintenance",
+        "creator": "로버트 M. 퍼시그",
+        "year": 1974,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/wim-hof-reading-list/",
+        "evidence": "같은 인터뷰에서 호프는 '경전과 《선과 오토바이 관리술》'을 언급하며 '어떤 책들은 계속 시선을 끈다'고 말했다.",
+        "review": "빔 호프는 '인생의 책'을 묻자 경전들과 함께 이 책을 꼽았다. 그는 '어떤 책들은 계속해서 당신의 시선을 끈다'고 말했다.",
+        "review_en": "Wim Hof named this book alongside the scriptures when asked about the books of his life. 'Some books just draw your attention again and again,' he said."
+      },
+      {
+        "type": "BOOK",
+        "title": "돈 후안의 가르침",
+        "title_en": "The Teachings of Don Juan",
+        "creator": "카를로스 카스타네다",
+        "year": 1968,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/wim-hof-reading-list/",
+        "evidence": "같은 인터뷰에서 호프는 카스타네다의 이 책이 '다른 세계의 이야기로 많은 이의 호기심을 열었다'고 말했다.",
+        "review": "빔 호프는 이 책이 '다른 세계의 이야기를 통해 많은 이의 호기심을 열었다'고 말했다. 그는 그 이야기들이 더 깊은 의식을 엿보게 한다고 덧붙였다.",
+        "review_en": "Wim Hof said this book 'opened the curiosity of many through the stories of other realms,' stories he felt hint at a different, deeper consciousness."
+      },
+      {
+        "type": "BOOK",
+        "title": "요가 수트라",
+        "title_en": "Yoga Sutras",
+        "creator": "파탄잘리",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.thereadinglists.com/wim-hof-reading-list/",
+        "evidence": "같은 인터뷰에서 호프는 파탄잘리의 《요가 수트라》가 '추측의 여지를 거의 남기지 않으며 그 점이 좋다'고 말했다.",
+        "review": "빔 호프는 이 경전이 '추측의 여지를 거의 남기지 않으며 바로 그 점이 좋다'고 말했다. 그는 1,300년 된 텍스트가 여전히 최신이라고 평했다.",
+        "review_en": "Wim Hof said the Yoga Sutras 'leave little room for speculation, and that is what I love about them.' He praised the thirteen-centuries-old text as still up to date."
+      }
+    ]
+  },
+  "베시 콜먼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "톰 아저씨의 오두막",
+        "title_en": "Uncle Tom's Cabin",
+        "creator": "해리엇 비처 스토",
+        "year": 1852,
+        "status": "FINISHED",
+        "source_url": "https://www.womenshistory.org/education-resources/biographies/bessie-coleman",
+        "evidence": "전미 여성역사박물관 전기는 콜먼이 여동생들에게 잠자리에서 이 소설을 소리 내어 읽어주고 '난 톱시도 톰 아저씨도 되지 않을 것'이라고 말했다고 전한다.",
+        "review": "베시 콜먼은 어린 시절 여동생들에게 잠자리에서 이 소설을 소리 내어 읽어주곤 했다. 책을 덮으며 그는 '난 톱시도 톰 아저씨도 되지 않을 것'이라고 말했다고 전한다.",
+        "review_en": "Bessie Coleman read this novel aloud to her sisters at bedtime as a girl. Closing the cover, she is said to have declared, 'I'll never be a Topsy or an Uncle Tom.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "성경",
+        "title_en": "Bible",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.ebsco.com/research-starters/history/bessie-coleman",
+        "evidence": "EBSCO 전기는 글을 모르던 어머니를 대신해 콜먼이 가족에게 성경을 소리 내어 읽어줬다고 전한다.",
+        "review": "베시 콜먼은 글을 읽지 못한 어머니를 대신해 가족에게 성경을 소리 내어 읽어줬다. 어머니는 딸들이 책을 접할 수 있도록 이동 도서관을 신청해 뒀다.",
+        "review_en": "Bessie Coleman read the Bible aloud to her family because her mother was illiterate. Her mother had subscribed to a bookmobile so the children would have books."
+      }
+    ]
+  },
+  "에이미 존슨": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "베릴 마컴": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "찰스 린드버그": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "어밀리아 에어하트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "닥터 신택스",
+        "title_en": "The Tour of Doctor Syntax",
+        "creator": "윌리엄 콤",
+        "year": 1812,
+        "status": "FINISHED",
+        "source_url": "https://en.wikisource.org/wiki/The_Fun_of_It/Chapter_1",
+        "evidence": "자서전 《The Fun of It》 1장에서 에어하트는 어린 시절 할머니 댁 서가에서 《닥터 신택스》 같은 '잊힌 책들'까지 독파했다고 적었다.",
+        "review": "어밀리아 에어하트는 자서전 《The Fun of It》에서 어린 시절 할머니 댁의 큰 서가를 탐독했다고 적었다. 그녀는 스콧, 디킨스, 조지 엘리엇과 함께 《닥터 신택스》 같은 '잊힌 책들'도 읽었다고 덧붙였다.",
+        "review_en": "Amelia Earhart wrote in her memoir The Fun of It that as a girl she devoured her grandmother's large library, from Scott, Dickens and George Eliot to 'forgotten books like Dr. Syntax.'"
+      }
+    ]
+  },
+  "와일리 포스트": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "알베르토 산투스두몽": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "해저 2만 리",
+        "title_en": "Twenty Thousand Leagues Under the Seas",
+        "creator": "쥘 베른",
+        "year": 1870,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/42344/42344-h/42344-h.htm",
+        "evidence": "자서전 《My Airships》에서 산투스두몽은 베른을 '어린 시절 가장 좋아한 작가'로 꼽으며 '네모 선장과 함께 노틸러스호로 바닷속을 탐험했다'고 적었다.",
+        "review": "알베르토 산투스두몽은 자서전에서 쥘 베른을 '어린 시절 가장 좋아한 작가'로 꼽았다. 그는 '네모 선장과 난파한 손님들과 함께 노틸러스호로 바닷속을 탐험했다'고 회상했다.",
+        "review_en": "Alberto Santos-Dumont named Jules Verne 'my favourite author' of his youth in his memoir My Airships. 'With Captain Nemo and his shipwrecked guests I explored the depths of the sea,' he recalled."
+      },
+      {
+        "type": "BOOK",
+        "title": "80일간의 세계 일주",
+        "title_en": "Around the World in Eighty Days",
+        "creator": "쥘 베른",
+        "year": 1872,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/42344/42344-h/42344-h.htm",
+        "evidence": "같은 자서전에서 산투스두몽은 '피니어스 포그와 함께 80일간 세계를 일주했다'고 적었다.",
+        "review": "알베르토 산투스두몽은 자서전에서 어린 시절 '피니어스 포그와 함께 80일간 세계를 일주했다'고 적었다. 베른의 소설들이 소년의 마음에 깊은 인상을 남겼다고 그는 덧붙였다.",
+        "review_en": "Alberto Santos-Dumont wrote in his memoir that as a boy 'with Phineas Fogg I went round the world in eighty days.' Verne's novels, he said, left a deep impression on the boy's mind."
+      },
+      {
+        "type": "BOOK",
+        "title": "프로펠러 섬",
+        "title_en": "Propeller Island",
+        "creator": "쥘 베른",
+        "year": 1895,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/42344/42344-h/42344-h.htm",
+        "evidence": "같은 자서전에서 산투스두몽은 《프로펠러 섬》과 《증기의 집》에서 '소년의 믿음이 자동차의 궁극적 승리를 맞이했다'고 적었다.",
+        "review": "알베르토 산투스두몽은 자서전에서 이 소설과 《증기의 집》을 읽으며 소년의 믿음으로 자동차의 승리를 미리 맞이했다고 적었다. 그때는 자동차라는 이름조차 없던 때였다고 그는 덧붙였다.",
+        "review_en": "Alberto Santos-Dumont wrote that in this novel and The Steam House 'my boyish faith leaped out to welcome the ultimate triumphs of an automobilism that in those days had not as yet a name.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "증기의 집",
+        "title_en": "The Steam House",
+        "creator": "쥘 베른",
+        "year": 1880,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/42344/42344-h/42344-h.htm",
+        "evidence": "같은 자서전의 문장에서 산투스두몽은 《프로펠러 섬》과 나란히 이 소설을 어린 시절 읽은 베른의 작품으로 거명했다.",
+        "review": "알베르토 산투스두몽은 자서전에서 《프로펠러 섬》과 나란히 이 소설을 어린 시절 탐독한 베른의 작품으로 거명했다. 그는 베른의 상상력에서 미래의 기술을 보았다고 적었다.",
+        "review_en": "Alberto Santos-Dumont named this novel alongside Propeller Island in his memoir among the Verne works he devoured as a boy. In Verne's daring conceptions he saw 'the mechanics and the science of the coming ages.'"
+      },
+      {
+        "type": "BOOK",
+        "title": "헥토르 세르바닥",
+        "title_en": "Hector Servadac",
+        "creator": "쥘 베른",
+        "year": 1877,
+        "status": "FINISHED",
+        "source_url": "https://www.gutenberg.org/files/42344/42344-h/42344-h.htm",
+        "evidence": "같은 자서전에서 산투스두몽은 '헥토르 세르바닥과 함께 하늘을 항해했다'고 적었다.",
+        "review": "알베르토 산투스두몽은 자서전에서 어린 시절 '헥토르 세르바닥과 함께 하늘을 항해했다'고 적었다. 훗날 진짜 비행선을 만든 그에게 베른의 이 소설은 상상의 비행이었다.",
+        "review_en": "Alberto Santos-Dumont wrote that as a boy 'with Hector Servadac I navigated the air.' For the man who would later build real airships, Verne's novel was an imaginary flight."
+      }
+    ]
+  },
+  "척 예거": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "크룩드 빌",
+        "title_en": "Crooked Bill",
+        "creator": null,
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://chuckyeager.com/american-hero/academy-of-achievement-interview",
+        "evidence": "아카데미 오브 어치브먼트 인터뷰에서 예거는 부리가 삐뚤어진 새 이야기인 《크룩드 빌》을 읽고 독후감을 쓴 것이 그때까지 인생에서 가장 힘든 일이었다고 회상했다.",
+        "review": "척 예거는 학창 시절 부리가 삐뚤어진 새 이야기인 이 책을 읽고 독후감을 썼다. 그는 그 독후감이 '그때까지 인생에서 가장 힘든 일'이었다고 회상하며, 저자는 기억하지 못했다.",
+        "review_en": "Chuck Yeager read this story of a little bird with a crooked bill as a schoolboy and wrote a book report on it. He recalled the report as 'the hardest thing I had ever done in my life,' though he could not remember the author."
+      }
+    ]
+  },
+  "유리 가가린": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "어린 왕자",
+        "title_en": "Le Petit Prince",
+        "creator": "앙투안 드 생텍쥐페리",
+        "year": 1943,
+        "status": "FINISHED",
+        "source_url": "https://kai.ru/web/naucno-tehniceskaa-biblioteka/news/new?id=11983386",
+        "evidence": "카잔 기술대 도서관 기사는 《어린 왕자》가 가가린의 가장 사랑하는 책이었고, 그가 집 서가에서 꺼내 장미 구절을 읽으며 지구에 견줬다는 증언을 실었다.",
+        "review": "유리 가가린은 《어린 왕자》를 가장 사랑하는 책으로 꼽았다. 그는 책을 펼쳐 장미에 관한 구절을 읽고, 우주에서 본 지구가 꼭 그 꽃처럼 작고 무장해제된 모습이라고 말했다.",
+        "review_en": "Yuri Gagarin counted The Little Prince as his most beloved book. Taking it from the shelf, he read the passage about the rose and said that Earth seen from space reminded him of just such a small, defenseless flower."
+      },
+      {
+        "type": "BOOK",
+        "title": "야간 비행",
+        "title_en": "Vol de nuit",
+        "creator": "앙투안 드 생텍쥐페리",
+        "year": 1931,
+        "status": "FINISHED",
+        "source_url": "https://kai.ru/web/naucno-tehniceskaa-biblioteka/news/new?id=11983386",
+        "evidence": "같은 기사에서 딸 옐레나는 아버지의 가장 사랑하는 책 중 하나가 생텍쥐페리의 《야간 비행》이었다고 회상했다.",
+        "review": "유리 가가린은 조종사의 인생을 다룬 소설들을 골라 읽었고, 딸 옐레나는 《야간 비행》이 아버지가 가장 사랑한 책 가운데 하나였다고 회상했다. 그는 아이들에게 책 이야기와 시 읽기를 즐겼다.",
+        "review_en": "Yuri Gagarin chose novels about the lives of pilots, and his daughter Yelena recalled Night Flight as one of her father's most beloved books. He loved talking to his children about books and reading them poems aloud."
+      },
+      {
+        "type": "MUSIC",
+        "title": "부드러움",
+        "title_en": "Nezhnost (Tenderness)",
+        "creator": "알렉산드라 파흐무토바(곡)·세르게이 그레벤니코프·니콜라이 도브론라보프(사)",
+        "year": 1965,
+        "status": "FINISHED",
+        "source_url": "https://portal-kultura.ru/articles/news/332334-nezhnost-istoriya-lyubimoy-pesni-yuriya-gagarina/",
+        "evidence": "러시아 문화 포털은 이 곡을 '유리 가가린이 가장 좋아한 노래'로 소개하고, 비평가들이 받아들이지 않던 곡을 가가린이 애창곡이라고 칭한 뒤 인기를 얻었다고 전한다.",
+        "review": "유리 가가린은 이 노래를 자신이 가장 좋아하는 곡이라고 불렀다. 그의 사망 뒤 가사의 '네가 없는 지구는 텅 비었다'는 구절이 예언처럼 회자됐다.",
+        "review_en": "Yuri Gagarin called this song his favourite. After his death, its line 'the earth is empty without you' was remembered as prophetic."
+      }
+    ]
+  },
+  "자크 쿠스토": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "MUSIC",
+        "title": "반음계적 환상곡과 푸가 라단조",
+        "title_en": "Chromatic Fantasia and Fugue in D minor, BWV 903",
+        "creator": "요한 제바스티안 바흐",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/p009mkks",
+        "evidence": "BBC 《데저트 아일랜드 디스크》 출연 기록에서 쿠스토의 '가장 좋아하는 트랙'으로 바흐의 이 곡이 명시돼 있다.",
+        "review": "자크 쿠스토는 BBC 《데저트 아일랜드 디스크》에서 무인도에 가져갈 가장 좋아하는 트랙으로 바흐의 이 곡을 골랐다.",
+        "review_en": "Jacques Cousteau chose Bach's Chromatic Fantasia and Fugue in D minor as his favourite track on BBC's Desert Island Discs."
+      },
+      {
+        "type": "BOOK",
+        "title": "수상록",
+        "title_en": "Essais",
+        "creator": "미셸 드 몽테뉴",
+        "year": 1580,
+        "status": "FINISHED",
+        "source_url": "https://www.bbc.co.uk/programmes/p009mkks",
+        "evidence": "같은 《데저트 아일랜드 디스크》 출연에서 쿠스토가 무인도에 가져갈 책으로 몽테뉴의 《수상록》을 골랐다.",
+        "review": "자크 쿠스토는 《데저트 아일랜드 디스크》에서 무인도에 가져갈 책으로 몽테뉴의 《수상록》을 골랐다.",
+        "review_en": "Jacques Cousteau picked Montaigne's Essays as his book on Desert Island Discs."
+      }
+    ]
+  },
+  "윌리엄 비비": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "오귀스트 피카르": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "해저 2만 리",
+        "title_en": "Twenty Thousand Leagues Under the Seas",
+        "creator": "쥘 베른",
+        "year": 1870,
+        "status": "FINISHED",
+        "source_url": "https://www.rts.ch/archives/1954/audio/jules-verne-vs-piccard-25227792.html",
+        "evidence": "1954년 스위스 RTS 방송에서 피카르는 이 소설에 등장하는 잠수함 등 베른이 상상한 기술적 수단을 물리학자의 눈으로 하나씩 분석했다.",
+        "review": "오귀스트 피카르는 1954년 스위스 라디오 방송에서 이 소설의 잠수함을 비롯해 베른이 상상한 기술을 하나씩 검토했다. 그는 베른의 소설이 새로운 실재를 꿈꾸게 한다고 말하면서도 과학자로서 그 실현 가능성을 따져보았다.",
+        "review_en": "Auguste Piccard, in a 1954 Swiss radio broadcast, examined one by one the technical means Verne imagined in this novel, including the submarine. He said Verne's novels let us dream of a new reality, then tested their feasibility as a scientist."
+      },
+      {
+        "type": "BOOK",
+        "title": "지구에서 달까지",
+        "title_en": "From the Earth to the Moon",
+        "creator": "쥘 베른",
+        "year": 1865,
+        "status": "FINISHED",
+        "source_url": "https://www.rts.ch/archives/1954/audio/jules-verne-vs-piccard-25227792.html",
+        "evidence": "같은 RTS 방송에서 피카르는 이 소설의 달 로켓 발사 장치도 과학적 타당성을 따져보았다.",
+        "review": "오귀스트 피카르는 같은 방송에서 이 소설 속 달 로켓 발사 장치의 실현 가능성을 물리학자의 눈으로 따져보았다. 베른은 300미터짜리 대포로 사람을 달에 보내는 것을 상상했다.",
+        "review_en": "Auguste Piccard, in the same broadcast, weighed the feasibility of the lunar launch device in this novel, in which Verne imagined a 300-metre cannon to send men to the moon."
+      }
+    ]
+  },
+  "실비아 얼": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "반 마일 아래",
+        "title_en": "Half Mile Down",
+        "creator": "윌리엄 비비",
+        "year": 1934,
+        "status": "FINISHED",
+        "source_url": "https://www.wallacejnichols.org/126/1183/grayce039s-interview-with-dr-sylvia-earle.html",
+        "evidence": "인터뷰에서 얼은 어릴 때 비비의 이 책을 읽고 잠수정으로 가장 깊이 내려간 그의 기록에 매료돼 '윌리엄 비비가 되고 싶었다'고 말했다.",
+        "review": "실비아 얼은 어린 시절 이 책을 읽고 어둠 속 세계의 빛나는 생명체들을 직접 보고 싶어졌다. 그녀는 '윌리엄 비비가 되고 싶었다'고 회상한다.",
+        "review_en": "Sylvia Earle read this book as a child and was hooked by Beebe's account of the deepest dive then made by a human. 'I wanted to be William Beebe,' she recalls."
+      },
+      {
+        "type": "BOOK",
+        "title": "지구의 절반",
+        "title_en": "Half-Earth",
+        "creator": "E. O. 윌슨",
+        "year": 2016,
+        "status": "FINISHED",
+        "source_url": "https://www.ogsociety.org/journal/featured-articles/278-deeper-with-sylvia-earle.html",
+        "evidence": "OG 소사이어티 인터뷰에서 얼은 '가장 중요하게 읽어야 할 책'을 묻자 윌슨의 이 책을 들며 '모두가 마음에 새겨야 한다'고 말했다.",
+        "review": "실비아 얼은 가장 중요하게 읽어야 할 책을 묻자 E. O. 윌슨의 이 책을 꼽았다. 육지와 바다의 절반을 온전히 보전해야 한다는 그 주장을 '모두가 마음에 새겨야 한다'고 말했다.",
+        "review_en": "Sylvia Earle, asked for the most important book to read, named E.O. Wilson's Half-Earth. Its case for protecting half the land and sea, she said, is one everyone should take to heart."
+      }
+    ]
+  },
+  "이본 취나드": {
+    "searched": [
+      "BOOK",
+      "VIDEO",
+      "GAME",
+      "MUSIC"
+    ],
+    "contents": []
+  }
+}

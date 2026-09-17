@@ -1,0 +1,124 @@
+{
+  "배스 리브스": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "메리 필즈": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "칼라미티 제인": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "버팔로 빌": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "시팅 불": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "제로니모": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "크레이지 호스": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "콰나 파커": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "사카가위아": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "세쿼야": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "이시": {
+    "searched": [
+      "BOOK",
+      "MUSIC"
+    ],
+    "contents": []
+  },
+  "짐 브리저": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "셰익스피어 작품",
+        "title_en": "The Works of William Shakespeare",
+        "creator": "윌리엄 셰익스피어",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "http://wyoming-fact-and-fiction.blogspot.com/2015/01/of-jim-bridger-shakespeare-and-laramie.html",
+        "evidence": "문맹이었던 브리저가 셰익스피어 작품을 사랑해 길게 인용하곤 했고, 125달러짜리 소 한 쌍과 셰익스피어 책을 맞바꿨으며 월 40달러를 주고 청년을 고용해 읽어 주게 했다는 내용이다.",
+        "review": "짐 브리저는 글을 읽지 못했지만 이 작품들을 사랑해 길게 인용하곤 했고, 125달러짜리 소 멍에 한 쌍을 책과 맞바꿨으며 월 40달러라는 거금을 주고 청년을 고용해 읽어 주게 했다.",
+        "review_en": "Jim Bridger was illiterate yet loved Shakespeare's works, quoting them at length; he once traded a $125 yoke of oxen for copies of the plays and famously paid a young man $40 a month to read them to him."
+      },
+      {
+        "type": "BOOK",
+        "title": "아이반호",
+        "title_en": "Ivanhoe",
+        "creator": "월터 스콧",
+        "year": 1819,
+        "status": "FINISHED",
+        "source_url": "https://frontierpartisans.com/a-society-of-educated-men/",
+        "evidence": "브리저가 동료에게 월 40달러를 주고 낭독을 들었는데 셰익스피어가 특히 좋아하는 작가였고 스콧의 《아이반호》 같은 중세 무용담도 인기 있었다는 내용이다.",
+        "review": "짐 브리저는 돈을 주고 고용한 낭독자에게 이 소설 같은 중세 무용담을 듣는 것을 즐겼다.",
+        "review_en": "Jim Bridger enjoyed hearing medieval tales of chivalry such as Ivanhoe read aloud by the companion he paid forty dollars a month for the purpose."
+      },
+      {
+        "type": "BOOK",
+        "title": "뮨하우젠 남작의 모험",
+        "title_en": "Baron Munchausen's Narrative of his Marvellous Travels and Campaigns in Russia",
+        "creator": "루돌프 에리히 라스페",
+        "year": 1785,
+        "status": "FINISHED",
+        "source_url": "https://wyominggenealogy.com/uinta/james_bridger_and_his_post.htm",
+        "evidence": "1852~1854년 고어 경의 원정대에서 교양 있는 귀족 일행이 모닥불 곁에서 늙은 트래퍼 브리저에게 셰익스피어와 뮨하우젠 남작 같은 책을 소리 내어 읽어 주었다는 내용이다.",
+        "review": "짐 브리저는 1850년대 초 조지 고어 경의 사냥 원정대에서 모닥불 곁에 앉아 일행이 이 책을 소리 내어 읽어 주는 것을 들었다.",
+        "review_en": "Jim Bridger sat by the campfire on Sir George Gore's hunting expedition in the early 1850s and listened as the educated gentlemen read aloud from books such as Baron Munchausen."
+      }
+    ]
+  },
+  "윌리엄 키드": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "메리 리드": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  }
+}

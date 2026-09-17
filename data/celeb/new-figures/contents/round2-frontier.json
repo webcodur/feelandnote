@@ -1,0 +1,83 @@
+{
+  "나이체": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "신시아 앤 파커": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "찰스 굿나잇": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "카미아웨이트": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": []
+  },
+  "엘리어스 부디노": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "신약성경",
+        "title_en": "New Testament",
+        "creator": "불명(기독교 경전)",
+        "year": null,
+        "status": "FINISHED",
+        "source_url": "https://en.wikipedia.org/wiki/Elias_Boudinot_(Cherokee)",
+        "evidence": "1824년 부디노가 다른 이들과 협력해 신약을 체로키어로 번역하고 세쿼야가 만든 체로키 문자로 인쇄했으며, 이후 복음 번역을 평생 소명으로 이어갔다는 내용이다.",
+        "review": "엘리어스 부디노는 선교사 새뮤얼 우스터 등과 함께 이 책을 세쿼야의 체로키 문자로 옮겨 인쇄했다. 복음 번역은 그의 평생 소명이 됐다.",
+        "review_en": "Elias Boudinot worked with missionary Samuel Worcester and others to translate the New Testament into Cherokee, printed in Sequoyah's syllabary; translating the Gospel became his lifelong vocation."
+      }
+    ]
+  },
+  "색스턴 포프": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "양궁의 매력",
+        "title_en": "The Witchery of Archery",
+        "creator": "모리스 톰프슨",
+        "year": 1878,
+        "status": "FINISHED",
+        "source_url": "https://www.archerylibrary.com/books/pope/hunting-with-bow-and-arrow/chapter09_1.html",
+        "evidence": "포프가 자신의 저서 《활과 화살로 하는 사냥》 9장에서 '미국에서 우리의 심장은 모리스 톰프슨의 책 《양궁의 매력》에서 화살의 낮은 휘파람 소리를 들었다'며 톰프슨 형제에게 갚기 어려운 빚을 졌다고 쓴 대목이다.",
+        "review": "색스턴 포프는 자신의 책 《활과 화살로 하는 사냥》에서 톰프슨 형제의 이 저작에 '갚기 어려운 감사의 빚'을 졌다고 썼다. 그는 '오늘날 활을 쏘는 우리는 그들 환상의 자녀'라며 이 책을 미국 양궁의 부모로 불렀다.",
+        "review_en": "Saxton Pope wrote in his own Hunting with the Bow and Arrow that Americans owed the Thompson brothers 'a debt of gratitude hard to pay' for this book, calling today's archers 'children of their fantasy' and the Thompsons the parents of American archery."
+      }
+    ]
+  },
+  "제데디어 스미스": {
+    "searched": [
+      "BOOK"
+    ],
+    "contents": [
+      {
+        "type": "BOOK",
+        "title": "루이스와 클라크 원정대 역사",
+        "title_en": "History of the Expedition Under the Command of Captains Lewis and Clark",
+        "creator": "메리웨더 루이스, 윌리엄 클라크",
+        "year": 1814,
+        "status": "FINISHED",
+        "source_url": "https://www.americanhistorycentral.com/entries/jedediah-smith/",
+        "evidence": "스미스의 멘토 사이먼스 박사가 그에게 루이스와 클라크 원정대에 관한 이 책을 선물했고, 그 책이 스미스를 서부로 이끄는 계기가 됐으며 전해지기로 그가 평생 지니고 다녔다는 내용이다.",
+        "review": "제데디어 스미스는 소년 시절 멘토 사이먼스 박사에게 이 책을 선물받았고, 그것이 그를 서부로 이끄는 계기가 됐다. 전해지기로 그는 이 책을 평생 곁에 두고 다녔다.",
+        "review_en": "Jedediah Smith received this account of the Lewis and Clark Expedition as a boyhood gift from his mentor Dr. Simons, and it helped inspire him to go West; he is said to have carried the book with him for the rest of his life."
+      }
+    ]
+  }
+}

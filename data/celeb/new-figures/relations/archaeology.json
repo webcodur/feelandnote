@@ -1,0 +1,554 @@
+{
+ "하인리히 슐리만": {
+  "relations": [
+   {
+    "to_en": "Sophia Schliemann",
+    "to_ko": "소피아 슐리만",
+    "rel_type": "spouse",
+    "note_ko": "호메로스를 아는 그리스인 아내로 맞은 소피아는 슐리만과 함께 트로이와 미케네 발굴에 참여하고 그의 사후 유산과 발굴 성과를 지켰다.",
+    "note_en": "Sophia, chosen as a Greek wife who knew Homer, dug alongside Schliemann at Troy and Mycenae and safeguarded his finds and fortune after his death.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Frank Calvert",
+    "to_ko": "프랭크 캘버트",
+    "rel_type": "colleague",
+    "note_ko": "히사를리크 언덕 절반을 소유한 캘버트가 그곳이 트로이라고 슐리만을 설득해 발굴을 시작했지만, 명성은 슐리만이 가져갔다.",
+    "note_en": "Calvert, who owned half of Hisarlik, convinced Schliemann it was Troy and helped start the dig — yet Schliemann took the fame.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Wilhelm Dörpfeld",
+    "to_ko": "빌헬름 되르프펠트",
+    "rel_type": "colleague",
+    "note_ko": "건축가 되르프펠트는 1882년부터 슐리만의 트로이 발굴에 합류해 층위 구분의 규율을 더했고 그의 사후 발굴을 이어받았다.",
+    "note_en": "The architect Dörpfeld joined Schliemann's Troy dig in 1882, brought stratigraphic rigour, and carried the excavation on after his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Rudolf Virchow",
+    "to_ko": "루돌프 피르호",
+    "rel_type": "friend",
+    "note_ko": "병리학자 피르호는 슐리만의 발굴지를 찾고 저작을 후원하며 학계가 그의 트로이 발견을 받아들이게 도왔다.",
+    "note_en": "The pathologist Virchow visited Schliemann's digs and backed his publications, helping the scholarly world accept the Troy finds.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "하워드 카터": {
+  "relations": [
+   {
+    "to_en": "Lord Carnarvon",
+    "to_ko": "카니번 경",
+    "rel_type": "colleague",
+    "note_ko": "카니번 경이 십수 년간 발굴 자금을 대고 카터가 현장을 이끌어 1922년 두 사람이 함께 투탕카멘 무덤을 열었다.",
+    "note_en": "Carnarvon funded the search for over a decade while Carter ran the dig; together they opened Tutankhamun's tomb in 1922.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Flinders Petrie",
+    "to_ko": "플린더스 피트리",
+    "rel_type": "colleague",
+    "note_ko": "젊은 카터는 1892년 피트리의 아마르나 발굴에 배속돼 일했지만, 피트리는 그의 성실성에 의문을 품고 멀어졌다.",
+    "note_en": "Young Carter was attached to Petrie's Amarna dig in 1892, but Petrie doubted his discipline and the two drifted apart.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Arthur Callender",
+    "to_ko": "아서 캘런더",
+    "rel_type": "colleague",
+    "note_ko": "기술자 캘런더는 카터의 오른팔로 무덤 개봉 현장에 함께 있었고 유물 정리와 현장 운영을 맡았다.",
+    "note_en": "The engineer Callender was Carter's right hand, present at the tomb's opening and running the conservation and logistics.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Gaston Maspero",
+    "to_ko": "가스통 마스페로",
+    "rel_type": "colleague",
+    "note_ko": "고대유물청장 마스페로는 1899년 카터를 유적 감독관으로 임명해 이집트 관료 체계 안에서 그의 경력을 열어줬다.",
+    "note_en": "Antiquities Service chief Maspero appointed Carter chief inspector in 1899, opening his career inside Egypt's monument bureaucracy.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "카니번 경": {
+  "relations": [
+   {
+    "to_en": "Almina Herbert, Countess of Carnarvon",
+    "to_ko": "알미나 카나번 백작부인",
+    "rel_type": "spouse",
+    "note_ko": "알미나는 로스차일드 가문의 후원을 받은 상속녀로 남편과 결혼해 하이클리어를 되살렸고, 남편 사후에도 카터의 발굴 자금을 계속 댔다.",
+    "note_en": "Almina, an heiress backed by Rothschild money, married Carnarvon and revived Highclere, and kept funding Carter's digs after his death.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Aubrey Herbert",
+    "to_ko": "오브리 허버트",
+    "rel_type": "sibling",
+    "note_ko": "이복동생 오브리는 외교관이자 첩보원으로 알바니아 왕위를 두 번이나 제안받은 인물로, 형제는 같은 저택에서 자랐다.",
+    "note_en": "His half-brother Aubrey, a diplomat-spy twice offered the Albanian throne, grew up in the same house — a life wilder than the earl's.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "George Herbert, 4th Earl of Carnarvon",
+    "to_ko": "4대 카나번 백작 조지 허버트",
+    "rel_type": "father",
+    "note_ko": "아버지 4대 백작은 디즈레일리 내각의 식민장관을 지냈고 선거법 개정에 반대해 사임한 보수당 중진이었다.",
+    "note_en": "His father, the 4th Earl, was Disraeli's colonial secretary who resigned over the Reform Bill — a grandee of the same house.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "조반니 벨조니": {
+  "relations": [
+   {
+    "to_en": "Henry Salt",
+    "to_ko": "헨리 솔트",
+    "rel_type": "colleague",
+    "note_ko": "영국 총영사 솔트가 벨조니를 고용해 람세스 2세 흉상 등 유물 수집을 맡겼고, 이후 공적과 대가를 두고 두 사람은 갈라졌다.",
+    "note_en": "Consul-general Salt hired Belzoni to haul antiquities like the Ramesses bust, then fell out with him over credit and pay.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bernardino Drovetti",
+    "to_ko": "베르나르디노 드로베티",
+    "rel_type": "rival",
+    "note_ko": "프랑스 총영사 드로베티는 프랑스를 위해 유물을 긁어모으는 맞수로, 그의 수하들과 벨조니는 발굴지에서 충돌까지 벌였다.",
+    "note_en": "Drovetti, the French consul collecting for France, was his great rival — their agents literally came to blows over digging grounds.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Sarah Belzoni",
+    "to_ko": "사라 벨조니",
+    "rel_type": "spouse",
+    "note_ko": "아내 사라는 벨조니와 함께 이집트 발굴 여정을 다니며 무덤 안에서 살기도 했고, 그의 사후 회고록을 남겼다.",
+    "note_en": "His wife Sarah travelled the whole Egyptian venture with him — at times living inside tombs — and later wrote her own account.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "퍼시 포셋": {
+  "relations": [
+   {
+    "to_en": "Nina Fawcett",
+    "to_ko": "니나 포셋",
+    "rel_type": "spouse",
+    "note_ko": "아내 니나는 포셋이 실종된 뒤에도 사망을 인정하지 않고 그가 살아 돌아올 것이라 평생 믿었다.",
+    "note_en": "His wife Nina refused to accept his death and spent the rest of her life believing he would walk out of the jungle.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Raleigh Rimell",
+    "to_ko": "롤리 리멜",
+    "rel_type": "friend",
+    "note_ko": "아들 잭의 친구 리멜은 1925년 최후의 원정에 동행해 포셋 부자와 함께 아마존에서 사라졌다.",
+    "note_en": "Rimell, his son Jack's best friend, joined the final 1925 expedition and vanished into the Amazon with the Fawcetts.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Henry Costin",
+    "to_ko": "헨리 코스틴",
+    "rel_type": "friend",
+    "note_ko": "전직 하사관 코스틴은 포셋의 초기 국경 측량 원정을 함께 걸으며 그가 가장 신뢰한 동행자였다.",
+    "note_en": "Ex-sergeant Costin marched with Fawcett on his early boundary surveys and became the companion he trusted most.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Arthur Conan Doyle",
+    "to_ko": "아서 코난 도일",
+    "rel_type": "friend",
+    "note_ko": "도일과 교분을 나눈 포셋이 잃어버린 고원 이야기를 전했고, 그 보고서는 『잃어버린 세계』의 바탕이 됐다.",
+    "note_en": "Fawcett knew Doyle and fed him accounts of a lost plateau — reports that became the seed of The Lost World.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "로이 채프먼 앤드루스": {
+  "relations": [
+   {
+    "to_en": "Henry Fairfield Osborn",
+    "to_ko": "헨리 페어필드 오스본",
+    "rel_type": "teacher",
+    "note_ko": "미국자연사박물관장 오스본은 앤드루스를 발탁해 중앙아시아 원정대를 구상하고 예산과 명분을 만들어준 스승이었다.",
+    "note_en": "AMNH president Osborn plucked Andrews up, conceived the Central Asiatic Expeditions and supplied the budget and the rationale.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Walter Granger",
+    "to_ko": "월터 그레인저",
+    "rel_type": "colleague",
+    "note_ko": "고생물학자 그레인저는 원정의 학술 책임자로 앤드루스와 고비를 함께 횡단하며 공룡 알 화석의 발굴을 지휘했다.",
+    "note_en": "Palaeontologist Granger was the expedition's science chief, crossing the Gobi with Andrews and directing the dinosaur-egg excavations.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Yvette Borup Andrews",
+    "to_ko": "이베트 보럽 앤드루스",
+    "rel_type": "spouse",
+    "note_ko": "첫 아내 이베트는 사진가로 아시아 원정에 동행해 원정대의 기록 사진 대부분을 남겼다.",
+    "note_en": "His first wife Yvette, a photographer, joined the Asian expeditions and made most of their surviving photographic record.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "히럼 빙엄": {
+  "relations": [
+   {
+    "to_en": "Hiram Bingham II",
+    "to_ko": "히럼 빙엄 2세",
+    "rel_type": "father",
+    "note_ko": "아버지 빙엄 2세는 하와이 선교사로 성경을 하와이어로 옮긴 인물이며, 아들의 탐험가 기질과는 다른 길을 걸었다.",
+    "note_en": "His father Bingham II was a Hawaii missionary who translated the Bible into Hawaiian — a very different calling from his son's.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Alfreda Mitchell Bingham",
+    "to_ko": "알프레다 미첼 빙엄",
+    "rel_type": "spouse",
+    "note_ko": "티파니 창업자의 손녀 알프레다와의 결혼 자금이 마추픽추 원정 비용의 상당 부분을 댔다.",
+    "note_en": "Marrying Alfreda, a Tiffany heiress, supplied much of the money that paid for the Machu Picchu expeditions.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Melchor Arteaga",
+    "to_ko": "멜초르 아르테아가",
+    "rel_type": "colleague",
+    "note_ko": "현지 농부 아르테아가는 이미 유적을 알고 있던 사람으로, 1911년 7월 빙엄을 마추픽추 꼭대기까지 안내했다.",
+    "note_en": "The local farmer Arteaga already knew the ruins and guided Bingham up to Machu Picchu on that July day in 1911.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "아서 에번스": {
+  "relations": [
+   {
+    "to_en": "John Evans",
+    "to_ko": "존 에번스",
+    "rel_type": "father",
+    "note_ko": "아버지 존은 제지업자이자 고고학자로, 그의 재력과 수집 습관이 아들이 크노소스 부지를 사서 파는 길을 열어줬다.",
+    "note_en": "His father John, paper magnate and antiquarian, left the fortune and the collecting habit that let Arthur buy and dig Knossos.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Duncan Mackenzie",
+    "to_ko": "던컨 매켄지",
+    "rel_type": "colleague",
+    "note_ko": "스코틀랜드 고고학자 매켄지는 크노소스 발굴의 현장 총괄로, 그의 일지가 발굴 기록의 실질적 뼈대가 됐다.",
+    "note_en": "Scottish archaeologist Mackenzie ran the Knossos dig day to day; his field notebooks are the excavation's real backbone.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Federico Halbherr",
+    "to_ko": "페데리코 할베르",
+    "rel_type": "friend",
+    "note_ko": "이탈리아 고고학자 할베르는 크레타에서 파이스토스를 맡고 에번스가 크노소스를 맡은 우호적 동료로 평생 교류했다.",
+    "note_en": "Italian archaeologist Halbherr dug Phaistos while Evans took Knossos — a friendly division of Crete and a lifelong correspondence.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Heinrich Schliemann",
+    "to_ko": "하인리히 슐리만",
+    "rel_type": "influence",
+    "note_ko": "에번스는 슐리만을 찾아 미케네 유물을 보고 감명받았고, 슐리만이 파고 싶어 했던 크노소스를 이어받아 발굴했다.",
+    "note_en": "Evans visited Schliemann and was fired by the Mycenae finds; he took up Knossos, the site Schliemann himself had wanted to dig.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "장 프랑수아 샹폴리옹": {
+  "relations": [
+   {
+    "to_en": "Jacques-Joseph Champollion-Figeac",
+    "to_ko": "자크조제프 샹폴리옹피제악",
+    "rel_type": "sibling",
+    "note_ko": "열두 살 위 형 피제악은 가난한 동생을 학비로 뒷받침하고 곤경에서 보호했으며 사후 저작을 정리해 출간했다.",
+    "note_en": "His brother Figeac, twelve years older, paid his way through school, shielded him in disgrace, and published his posthumous works.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Thomas Young",
+    "to_ko": "토머스 영",
+    "rel_type": "rival",
+    "note_ko": "영국의 만물박사 영과 샹폴리옹은 상형문자 해독을 두고 경쟁했고, 샹폴리옹은 영의 선구적 성과를 인정하면서도 격돌했다.",
+    "note_en": "Polymath Young and Champollion raced to crack the hieroglyphs; Champollion built on Young's first steps while fighting him for the credit.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Silvestre de Sacy",
+    "to_ko": "실베스트르 드 사시",
+    "rel_type": "teacher",
+    "note_ko": "동방어 교수 드 사시는 파리에서 샹폴리옹을 가르쳤지만 제자가 스승을 넘어서자 관계가 냉각됐다.",
+    "note_en": "De Sacy taught Champollion Oriental languages in Paris, then cooled toward the pupil who raced past him.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "메리 애닝": {
+  "relations": [
+   {
+    "to_en": "Joseph Anning",
+    "to_ko": "조지프 애닝",
+    "rel_type": "sibling",
+    "note_ko": "오빠 조지프는 1811년 익티오사우루스의 두개골을 먼저 찾아냈고, 메리는 이듬해 나머지 골격을 파냈다.",
+    "note_en": "Her brother Joseph found the ichthyosaur skull in 1811; Mary dug out the rest of the skeleton the following year.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Elizabeth Philpot",
+    "to_ko": "엘리자베스 필팟",
+    "rel_type": "friend",
+    "note_ko": "라임레지스의 화석 수집가 필팟은 애닝과 함께 절벽을 캐고 표본을 나누며 평생 우정을 이어간 동지였다.",
+    "note_en": "Philpot, Lyme's other great collector, scoured the cliffs with Anning, shared specimens and stayed her lifelong friend.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Henry De la Beche",
+    "to_ko": "헨리 드 라 베슈",
+    "rel_type": "friend",
+    "note_ko": "어릴 적 친구이자 지질학자 드 라 베슈는 애닝의 발견을 그린 「두리아 안티퀴오르」 판화를 팔아 가난한 그녀를 도왔다.",
+    "note_en": "Childhood friend and geologist De la Beche painted Duria Antiquior from her finds and sold prints to keep her out of poverty.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "William Buckland",
+    "to_ko": "윌리엄 버클랜드",
+    "rel_type": "colleague",
+    "note_ko": "옥스퍼드 지질학자 버클랜드는 애닝을 정기적으로 찾아 표본을 사고, 그녀가 분석한 공룡 배설물 화석을 바탕으로 코프롤라이트를 명명했다.",
+    "note_en": "Oxford geologist Buckland visited regularly, bought her specimens, and named coprolites on the strength of her analysis.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "바넘 브라운": {
+  "relations": [
+   {
+    "to_en": "Henry Fairfield Osborn",
+    "to_ko": "헨리 페어필드 오스본",
+    "rel_type": "colleague",
+    "note_ko": "박물관장 오스본은 브라운이 몬태나에서 보낸 골격을 바탕으로 1905년 티라노사우루스라는 이름을 발표했다.",
+    "note_en": "Museum president Osborn published the name Tyrannosaurus in 1905 on the strength of the skeleton Brown shipped from Montana.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Walter Granger",
+    "to_ko": "월터 그레인저",
+    "rel_type": "colleague",
+    "note_ko": "같은 박물관의 화석 수집가 그레인저와 브라운은 이집트 파이윰 발굴 등 여러 원정에서 어깨를 나란히 했다.",
+    "note_en": "Fellow museum fossil-hunter Granger worked shoulder to shoulder with Brown on expeditions such as the Fayum dig in Egypt.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Lilian MacLaughlin Brown",
+    "to_ko": "릴리언 브라운",
+    "rel_type": "spouse",
+    "note_ko": "둘째 아내 릴리언은 남편의 화석 원정에 동행해 발굴 현장 생활을 함께했고 『나는 공룡과 결혼했다』는 회고록을 남겼다.",
+    "note_en": "His second wife Lilian joined his fossil expeditions and later wrote the memoir 'I Married a Dinosaur'.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "에드워드 드링커 코프": {
+  "relations": [
+   {
+    "to_en": "Othniel Charles Marsh",
+    "to_ko": "오스니얼 찰스 마시",
+    "rel_type": "rival",
+    "note_ko": "코프와 마시는 이십 년 넘게 화석 전쟁을 벌이며 서로의 채굴지를 훔치고 신문에서 모욕해 둘 다 재산을 탕진했다.",
+    "note_en": "Cope and Marsh fought the twenty-year Bone Wars — raiding each other's quarries and trading newspaper insults until both were ruined.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Joseph Leidy",
+    "to_ko": "조지프 라이디",
+    "rel_type": "teacher",
+    "note_ko": "필라델피아의 해부학자 라이디는 젊은 코프를 척추고생물학으로 이끈 스승이었다.",
+    "note_en": "Philadelphia anatomist Leidy mentored the young Cope and steered him into vertebrate palaeontology.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles Hazelius Sternberg",
+    "to_ko": "찰스 스턴버그",
+    "rel_type": "colleague",
+    "note_ko": "캔자스의 화석 수집가 스턴버그는 코프의 의뢰로 서부 채굴지를 누비며 그에게 표본을 공급했다.",
+    "note_en": "Kansas collector Sternberg roamed the western fossil beds on Cope's commission, shipping him a stream of specimens.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "오스니얼 찰스 마시": {
+  "relations": [
+   {
+    "to_en": "George Peabody",
+    "to_ko": "조지 피바디",
+    "rel_type": "relative",
+    "note_ko": "은행가이자 자선가인 삼촌 피바디의 돈으로 예일 피바디 자연사박물관이 세워지고 마시의 경력 전체가 떠받쳐졌다.",
+    "note_en": "The fortune of his uncle, banker-philanthropist Peabody, built Yale's Peabody Museum and underwrote Marsh's whole career.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "John Bell Hatcher",
+    "to_ko": "존 벨 해처",
+    "rel_type": "colleague",
+    "note_ko": "수집가 해처는 마시를 위해 트리케라톱스 등을 캐낸 최고의 현장 인력이었고, 훗날 마시를 폭로하는 글을 남겼다.",
+    "note_en": "Collector Hatcher dug Triceratops and more for Marsh as his best field man — then wrote a damning account of working for him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Benjamin Franklin Mudge",
+    "to_ko": "벤저민 머지",
+    "rel_type": "colleague",
+    "note_ko": "캔자스의 지질학자 머지는 1870년대부터 마시의 의뢰로 채석장을 파며 서부 표본을 줄줄이 예일로 보냈다.",
+    "note_en": "Kansas geologist Mudge quarried for Marsh from the 1870s, funnelling western specimens back to Yale.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "헬게 잉스타드": {
+  "relations": [
+   {
+    "to_en": "Anne Stine Ingstad",
+    "to_ko": "안네 스티네 잉스타드",
+    "rel_type": "spouse",
+    "note_ko": "고고학자인 아내 안네 스티네는 란스 오 메도우 발굴을 함께 지휘해 건물터가 바이킹 것임을 입증했다.",
+    "note_en": "His wife Anne Stine, the archaeologist, co-led the L'Anse aux Meadows digs and proved the house sites were Norse.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "George Decker",
+    "to_ko": "조지 데커",
+    "rel_type": "colleague",
+    "note_ko": "뉴펀들란드 주민 데커는 옛터를 알고 있던 사람으로, 잉스타드를 언덕터로 직접 안내해 발굴의 시작점을 열어줬다.",
+    "note_en": "Local resident Decker knew of the old mounds and led Ingstad straight to them, opening the way to the excavation.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "아우렐 슈타인": {
+  "relations": [
+   {
+    "to_en": "Sven Hedin",
+    "to_ko": "스벤 헤딘",
+    "rel_type": "friend",
+    "note_ko": "헤딘과 슈타인은 서신과 만남으로 교류하며 서로의 중앙아시아 원정을 응원하고 정보를 나눈 벗이었다.",
+    "note_en": "Hedin and Stein corresponded and met for years, cheering and briefing each other's Central Asian expeditions.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Paul Pelliot",
+    "to_ko": "폴 펠리오",
+    "rel_type": "rival",
+    "note_ko": "프랑스 한학자 펠리오는 슈타인에 이어 둔황에 도착해 장경동 문서를 또다시 대량으로 사들인 경쟁 수집가였다.",
+    "note_en": "French sinologist Pelliot reached Dunhuang right behind Stein and bought up another mass of Library Cave manuscripts — a rival collector.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jiang Xiaowan",
+    "to_ko": "장샤오완",
+    "rel_type": "colleague",
+    "note_ko": "중국인 서기관 장샤오완은 슈타인의 통역과 교섭을 맡아 왕도사와의 장경동 문서 거래를 성사시킨 숨은 공신이었다.",
+    "note_en": "Stein's Chinese secretary Jiang Xiaowan interpreted and negotiated the Library Cave deal with the monk Wang — the deal's unsung broker.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "스벤 헤딘": {
+  "relations": [
+   {
+    "to_en": "Ferdinand von Richthofen",
+    "to_ko": "페르디난트 폰 리히트호펜",
+    "rel_type": "teacher",
+    "note_ko": "『실크로드』라는 말을 만든 지리학자 리히트호펜은 베를린에서 헤딘을 가르치고 중앙아시아 탐험으로보낸 스승이다.",
+    "note_en": "Richthofen, who coined 'Silk Road', taught Hedin geography in Berlin and dispatched him toward Central Asia.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Nikolai Przhevalsky",
+    "to_ko": "니콜라이 프르제발스키",
+    "rel_type": "influence",
+    "note_ko": "헤딘은 러시아 탐험가 프르제발스키를 우상으로 삼아 그의 노선을 이어갔고 무덤까지 찾아 경의를 표했다.",
+    "note_en": "Hedin idolised Przhevalsky, retraced his routes as a conscious heir, and made a pilgrimage to the explorer's grave.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Adolf Hitler",
+    "to_ko": "아돌프 히틀러",
+    "rel_type": "friend",
+    "note_ko": "헤딘은 히틀러와 서신을 주고받고 여러 차례 만나며 나치 정권에 우호적 태도를 유지한 오점을 남겼다.",
+    "note_en": "Hedin corresponded with and repeatedly met Hitler, remaining friendly to the Nazi regime — the lasting stain on his name.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Pyotr Kozlov",
+    "to_ko": "피오트르 코즐로프",
+    "rel_type": "colleague",
+    "note_ko": "헤딘과 코즐로프는 중앙아시아를 오가며 만나 탐험 정보와 발굴 성과를 나눈 동시대 동행 탐험가였다.",
+    "note_en": "Hedin and Kozlov crossed paths in Central Asia and exchanged expedition intelligence and finds as fellow travellers of the same desert.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "플린더스 피트리": {
+  "relations": [
+   {
+    "to_en": "Hilda Petrie",
+    "to_ko": "힐다 피트리",
+    "rel_type": "spouse",
+    "note_ko": "아내 힐다는 수십 년간 남편의 발굴지에서 기록과 캠프 운영을 맡으며 함께 판 동반자였다.",
+    "note_en": "His wife Hilda spent decades beside him on digs, keeping records and running the camps — a digging partner, not just a spouse.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Amelia Edwards",
+    "to_ko": "아밀리아 에드워즈",
+    "rel_type": "colleague",
+    "note_ko": "소설가 출신의 이집트탐사기금 설립자 에드워즈는 피트리를 후원하고 그를 위해 유니버시티칼리지의 강좌를 기증했다.",
+    "note_en": "Edwards, novelist turned Egypt Exploration Fund founder, championed Petrie and endowed his University College chair for him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "William Petrie",
+    "to_ko": "윌리엄 피트리",
+    "rel_type": "father",
+    "note_ko": "엔지니어인 아버지 윌리엄은 어린 피트리에게 측량을 가르치고 스톤헨지 측량을 함께하며 발굴 기술의 뿌리를 놓았다.",
+    "note_en": "His engineer father William taught the boy surveying and measured Stonehenge with him — the root of his dig discipline.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "존 로이드 스티븐스": {
+  "relations": [
+   {
+    "to_en": "Frederick Catherwood",
+    "to_ko": "프레드릭 캐더우드",
+    "rel_type": "colleague",
+    "note_ko": "스티븐스가 글을 쓰고 캐더우드가 그림을 그려 두 차례 마야 원정을 함께해 베스트셀러 여행기를 만들었다.",
+    "note_en": "Stephens wrote and Catherwood drew: two Maya expeditions together produced the bestselling travel books.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "프레드릭 캐더우드": {
+  "relations": [
+   {
+    "to_en": "Robert Hay",
+    "to_ko": "로버트 헤이",
+    "rel_type": "colleague",
+    "note_ko": "캐더우드는 이집트에서 스코틀랜드 수집가 헤이의 원정대에 소속돼 무덤과 신전을 수년간 그려 기록했다.",
+    "note_en": "In Egypt, Catherwood spent years in Scottish collector Hay's expedition, drawing the tombs and temples for his archive.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "피오트르 코즐로프": {
+  "relations": [
+   {
+    "to_en": "Nikolai Przhevalsky",
+    "to_ko": "니콜라이 프르제발스키",
+    "rel_type": "teacher",
+    "note_ko": "스승 프르제발스키는 젊은 코즐로프를 네 번째 중앙아시아 원정에 데려가 탐험의 길을 가르쳤고, 제자는 그 계보를 이었다.",
+    "note_en": "Przhevalsky took young Kozlov on his fourth Central Asian expedition and schooled him in exploration; the pupil carried his line forward.",
+    "prospect": "candidate"
+   }
+  ]
+ }
+}

@@ -71,7 +71,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   /*
     허브 4장은 종류를 섞는다 — 앞 순번만 뽑으면 인공지능 테마만 나온다.
     사람이 고른 편성(HUB_PINNED_SLUGS)이 먼저고, 남은 자리는 자동 규칙이 채운다.
-    자동 규칙: 대분류(상위 묶음)가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
+    자동 규칙: 대분류가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
   */
   const hasPeople = (tag: HubTagRow) => tagIdsWithPeople.has(tag.id)
   const coverOf = (tag: HubTagRow) => toTeamImages(tag.team_images)[0]?.url ?? null

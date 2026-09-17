@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "닉 리슨",
+    "title": "베어링스를 무너뜨린 남자",
+    "title_en": "The Man Who Broke Barings",
+    "file": "finance.json"
+  },
+  {
+    "nick": "마이클 밀켄",
+    "title": "정크본드의 왕",
+    "title_en": "The Junk Bond King",
+    "file": "finance.json"
+  },
+  {
+    "nick": "이반 보스키",
+    "title": "탐욕은 좋은 것",
+    "title_en": "Greed Is Good",
+    "file": "finance.json"
+  },
+  {
+    "nick": "제롬 케르비엘",
+    "title": "역대 최대 불량 트레이더",
+    "title_en": "History's Biggest Rogue Trader",
+    "file": "finance.json"
+  },
+  {
+    "nick": "하마나카 야스오",
+    "title": "미스터 코퍼",
+    "title_en": "Mr. Copper",
+    "file": "finance.json"
+  },
+  {
+    "nick": "앨런 스탠퍼드",
+    "title": "기사 작위의 사기꾼",
+    "title_en": "The Knighted Fraud",
+    "file": "finance.json"
+  },
+  {
+    "nick": "마크 리치",
+    "title": "도피 상품왕",
+    "title_en": "The Fugitive Commodities King",
+    "file": "finance.json"
+  },
+  {
+    "nick": "로버트 베스코",
+    "title": "도망자 자본가",
+    "title_en": "The Fugitive Capitalist",
+    "file": "finance.json"
+  },
+  {
+    "nick": "로스 페로",
+    "title": "무소속 억만장자",
+    "title_en": "The Independent Billionaire",
+    "file": "finance.json"
+  },
+  {
+    "nick": "존 딜로런",
+    "title": "드로리언 설립",
+    "title_en": "DeLorean founder",
+    "file": "finance.json"
+  },
+  {
+    "nick": "프레스턴 터커",
+    "title": "51대의 자동차",
+    "title_en": "The 51-Car Automaker",
+    "file": "finance.json"
+  },
+  {
+    "nick": "밀턴 허시",
+    "title": "초콜릿의 왕",
+    "title_en": "The Chocolate King",
+    "file": "finance.json"
+  },
+  {
+    "nick": "조지 이스트먼",
+    "title": "코닥 설립",
+    "title_en": "Kodak founder",
+    "file": "finance.json"
+  },
+  {
+    "nick": "에드윈 랜드",
+    "title": "폴라로이드 설립",
+    "title_en": "Polaroid founder",
+    "file": "finance.json"
+  },
+  {
+    "nick": "마에자와 유사쿠",
+    "title": "달을 산 남자",
+    "title_en": "The Man Who Bought the Moon Trip",
+    "file": "finance.json"
+  },
+  {
+    "nick": "하워드 휴즈",
+    "title": "아비에이터",
+    "title_en": "The Aviator",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "윌리엄 랜돌프 허스트",
+    "title": "신문왕",
+    "title_en": "The Press Baron",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "아리스토텔레스 오나시스",
+    "title": "선박왕",
+    "title_en": "The Shipping Magnate",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "헤티 그린",
+    "title": "월가의 마녀",
+    "title_en": "The Witch of Wall Street",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "야코프 푸거",
+    "title": "황제의 채권자",
+    "title_en": "The Emperor's Creditor",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "만사 무사",
+    "title": "황금의 왕",
+    "title_en": "The Golden King",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "크로이소스",
+    "title": "최초의 금화",
+    "title_en": "The First Gold Coin",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "칼루스트 굴벤키안",
+    "title": "5% 씨",
+    "title_en": "Mr Five Percent",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "바질 자하로프",
+    "title": "죽음의 상인",
+    "title_en": "The Merchant of Death",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "파루크 왕",
+    "title": "몰락한 수집광 왕",
+    "title_en": "The Collecting King",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "페기 구겐하임",
+    "title": "초현실주의의 후원자",
+    "title_en": "Patron of Surrealism",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "이사벨라 스튜어트 가드너",
+    "title": "가드너 미술관의 주인",
+    "title_en": "Mistress of the Gardner Museum",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "제5대 포틀랜드 공작",
+    "title": "지하의 공작",
+    "title_en": "The Underground Duke",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "존 미튼",
+    "title": "매드 잭",
+    "title_en": "Mad Jack",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "마르케사 카사티",
+    "title": "살아 있는 예술 작품",
+    "title_en": "A Living Work of Art",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "윌리엄 베크포드",
+    "title": "「바텍」의 작가",
+    "title_en": "Author of Vathek",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "조슈아 노턴",
+    "title": "미국 황제 노턴 1세",
+    "title_en": "Emperor Norton I",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "티모시 덱스터",
+    "title": "운 좋은 바보",
+    "title_en": "The Lucky Fool",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "P.T. 바넘",
+    "title": "지상 최대의 쇼",
+    "title_en": "The Greatest Show on Earth",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "로버트 리플리",
+    "title": "믿거나 말거나",
+    "title_en": "Believe It or Not!",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "존 매카피",
+    "title": "백신의 제왕",
+    "title_en": "The Antivirus King",
+    "file": "fortune-eccentric.json"
+  },
+  {
+    "nick": "빅토르 루스티히",
+    "title": "에펠탑을 판 사나이",
+    "title_en": "The Man Who Sold the Eiffel Tower",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "그레고어 맥그리거",
+    "title": "가짜 나라의 왕자",
+    "title_en": "Prince of a Fake Country",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "프랭크 애버그네일",
+    "title": "캐치 미 이프 유 캔",
+    "title_en": "Catch Me If You Can",
+    "file": "fraud-mystery.json"
+  },
+  {
+    "nick": "찰스 폰지",
+    "title": "이름이 사기 수법이 된 남자",
+    "title_en": "The man whose name became a scam",
+    "file": "fraud-mystery.json"
+  }
+]

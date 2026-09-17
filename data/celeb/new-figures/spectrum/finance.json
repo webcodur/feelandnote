@@ -1,0 +1,2342 @@
+{
+ "존 로": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1720년 재무총감으로 프랑스 국가 재정을 총괄",
+   "political_exp_en": "Ran France's entire finances as Controller-General in 1720",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "버블 붕괴로 수많은 가계가 파산하고 화폐 신뢰가 훼손",
+   "social_exp_en": "The crash ruined households and damaged trust in paper money",
+   "economic": 8,
+   "economic_exp": "최초의 지폐 은행과 첫 대형 버블을 만듦",
+   "economic_exp_en": "Created the first paper-money bank and the first great bubble",
+   "cultural": 4,
+   "cultural_exp": "'백만장자'라는 말과 버블 문학의 원형을 남김",
+   "cultural_exp_en": "Coined the 'millionaire' era and the archetype of bubble tales",
+   "transhistoricity": 17,
+   "transhistoricity_exp": "화폐·버블 연구의 원점이 된 삼백 년 전 사건",
+   "transhistoricity_exp_en": "Still the origin case for monetary theory and bubble studies"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 74,
+     "reason_ko": "1716~20년 재무총감으로 국책은행·인도회사를 총괄",
+     "reason_en": "Ran the state bank and Indies Company as Controller-General, 1716-20"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "1694년 런던 결투에서 보 윌슨을 사살한 실전 경험",
+     "reason_en": "Killed Beau Wilson in a 1694 duel — real combat experience"
+    },
+    "intellect": {
+     "score": 84,
+     "reason_ko": "돈과 무역 논고로 지폐·신용 이론을 체계화한 수학자",
+     "reason_en": "A mathematician who systematised money-and-credit theory"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "섭정 오를레앙 공작을 설득해 국고를 통째로 맡음",
+     "reason_en": "Persuaded the Regent to hand him the kingdom's purse"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 26,
+     "reason_ko": "도박과 투기에 평생 빠져 멈추지 못한 삶",
+     "reason_en": "A lifelong gambler who never stopped doubling down"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "은행·식민지 회사·주식 발행을 수년간 밀어붙임",
+     "reason_en": "Drove a bank, a colony company and share issues for years"
+    },
+    "reflection": {
+     "score": 42,
+     "reason_ko": "붕괴 뒤 편지에서 책임보다 이론의 옳음을 되풀이함",
+     "reason_en": "Post-crash letters defended the theory more than the wreckage"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "사형수 신세로 탈출해 왕실에 국가 개혁을 제안",
+     "reason_en": "Escaped a death sentence, then pitched a kingdom on reform"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "판이 기울자 프랑스를 떠나며 채무를 남겨둠",
+     "reason_en": "Left France — and its debts — when the tide turned"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "국가 부채 해소를 공언했으나 사익이 앞섬",
+     "reason_en": "Professed public debt relief while serving himself first"
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "주식 발행·환매 조작으로 내부자에 유리한 판을 만듦",
+     "reason_en": "Rigged issues and buybacks to favour insiders"
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "방돔 저택의 호화 생활과 재무총감 직을 탐함",
+     "reason_en": "Coveted the ministry and a lavish Place Vendôme life"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "금속 없이 지폐가 통한다는 확신을 끝까지 밈",
+     "reason_en": "Held to the end that paper could replace metal"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "왕정 체제 안에서 일했고 신분 질서에는 손대지 않음",
+     "reason_en": "Worked inside the monarchy and left its order untouched"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "홀로 판을 짜고 개인 인맥으로 국가 재정을 움직임",
+     "reason_en": "Designed alone and moved a nation's finance via personal ties"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "검증 안 된 화폐 이론에 대국의 재정 전부를 걺",
+     "reason_en": "Bet a great power's finances on an untested theory"
+    }
+   },
+   "rationale_ko": "도박사의 수학 재능을 국가 금융 설계에 쏟아부었다. 지폐라는 개념을 시대보다 백 년 앞서 실행했으나 그 대담함이 그대로 버블의 크기가 되었다. 절제 없는 욕심과 성찰 없는 낙관이 시스템 붕괴를 불렀다. 1729년 베네치아에서 빈손으로 숨졌다.",
+   "rationale_en": "He poured a gambler's mathematical gift into national finance. Running a century ahead on paper money, his audacity became the bubble's size. Greed without restraint and optimism without reflection doomed the system. He died penniless in Venice in 1729."
+  }
+ },
+ "제이 굴드": {
+  "influence": {
+   "political": 3,
+   "political_exp": "대통령 측근 매수로 그랜트 행정부 스캔들을 만듦",
+   "political_exp_en": "Bought access that became a Grant-administration scandal",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 1,
+   "tech_exp": "철도·전신을 소유했으나 기술 창안은 아님",
+   "tech_exp_en": "Owned rails and telegraph lines without inventing the tech",
+   "social": 3,
+   "social_exp": "탐욕의 상징으로 반독점 여론을 자극",
+   "social_exp_en": "His notoriety fed the era's anti-monopoly sentiment",
+   "economic": 6,
+   "economic_exp": "검은 금요일과 이리 전쟁으로 시장사를 바꿈",
+   "economic_exp_en": "Black Friday and the Erie War rewrote market history",
+   "cultural": 4,
+   "cultural_exp": "미국에서 '약탈 남작'의 원형이 됨",
+   "cultural_exp_en": "Became the archetype of the robber baron",
+   "transhistoricity": 10,
+   "transhistoricity_exp": "자본주의 부정 유산으로 역사책에 남은 인물",
+   "transhistoricity_exp_en": "Survives in history books as capitalism's dark emblem"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 78,
+     "reason_ko": "이리·미주리 퍼시픽·서부유니언을 장악해 수만 명을 지휘",
+     "reason_en": "Ran the Erie, Missouri Pacific and Western Union — tens of thousands of workers"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "왜소한 체격으로 책상과 측량판을 오간 비신체직",
+     "reason_en": "A slight man who shuttled between desks and survey boards"
+    },
+    "intellect": {
+     "score": 76,
+     "reason_ko": "주식 물타기·법망 우회·뇌물을 엮는 계략 설계",
+     "reason_en": "Wove watered stock, legal loopholes and bribes into traps"
+    },
+    "charm": {
+     "score": 28,
+     "reason_ko": "신문에 '미국에서 가장 미운 남자'로 불린 인물",
+     "reason_en": "The press called him the most hated man in America"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "사치는 절제했으나 돈과 판짜기 욕심엔 끝이 없었음",
+     "reason_en": "Frugal in habits, boundless in appetite for schemes"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "빈농 출신이 측량수습부터 자수성가한 평생 집요함",
+     "reason_en": "A poor farm boy who clawed up from survey apprentice"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "수많은 소송 속에서도 자기 행위를 정당화만 함",
+     "reason_en": "Through endless lawsuits he only justified himself"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "밴더빌트와 정면으로 주식 전쟁을 벌여 이김",
+     "reason_en": "Fought Vanderbilt head-on for the Erie — and won"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "동업자 피스크조차 판이 기울자 내친 전과",
+     "reason_en": "Cut loose even Jim Fisk when the game turned"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "투기로 무수한 투자자를 울리고 기부는 미미",
+     "reason_en": "Ruined countless investors; giving stayed minimal"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "위조 주식 살포와 재판 매수로 판 자체를 오염시킴",
+     "reason_en": "Flooded forged shares and bought judges outright"
+    },
+    "humility": {
+     "score": 42,
+     "reason_ko": "검소한 차림으로 숨어 지냈으나 패배는 못 참음",
+     "reason_en": "Dressed plain and hid — yet could not stomach losing"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "시장을 먹잇감으로 보는 냉소적 세계관이었음",
+     "reason_en": "He viewed the market as prey — a cynic's outlook"
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "노동조합을 적대한 길드 시대 자본 질서의 수호자",
+     "reason_en": "A Gilded Age order's defender, hostile to unions"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "동업자도 수단으로 쓴 철저한 혼자 플레이어",
+     "reason_en": "Used every partner as a tool — a pure solo operator"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "1869년 금 코너링을 감행하되 뇌물·법망을 먼저 깔았음",
+     "reason_en": "Bold enough to corner gold in 1869 — after laying the fix"
+    }
+   },
+   "rationale_ko": "치밀한 계략과 지독한 근면으로 약탈 남작의 정점에 올랐다. 공정과 인간적 온기가 극단적으로 결여돼 시대 전체의 증오를 샀다. 인맥·법망·자본을 무기로 삼는 행보는 대담하면서도 교활했다. 1892년 결핵으로 56세에 숨졌다.",
+   "rationale_en": "Meticulous schemes and ferocious work ethic carried him to the top of the robber barons. An utter absence of fairness and warmth made him the most hated man of his age. His moves were at once bold and cunning, armed with bribes, loopholes and capital. He died of tuberculosis in 1892, at fifty-six."
+  }
+ },
+ "벙커 헌트": {
+  "influence": {
+   "political": 2,
+   "political_exp": "우파 단체 후원 외 정치 제도 변화는 없음",
+   "political_exp_en": "Funded right-wing causes without changing policy",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "실버 코너 실패가 거대 부의 무모함 표본이 됨",
+   "social_exp_en": "His failed corner became the emblem of reckless wealth",
+   "economic": 5,
+   "economic_exp": "은 매점 붕괴로 상품거래소 규정 강화를 촉발",
+   "economic_exp_en": "The collapse forced tighter commodity-exchange rules",
+   "cultural": 3,
+   "cultural_exp": "'실버 목요일'로 금융사 회화에 남음",
+   "cultural_exp_en": "Entered financial lore as 'Silver Thursday'",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "원자재 코너링의 대표 사례로 계속 인용됨",
+   "transhistoricity_exp_en": "Still cited as the textbook commodity corner"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "가업 석유·경마 사업과 수십억 달러 매점 자금을 운용",
+     "reason_en": "Ran family oil, horse and billion-dollar corner operations"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "거구이나 트레이딩·목장 감독이 주인 비신체직",
+     "reason_en": "A heavy man whose work was trading floors and ranch oversight"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "매점 설계는 집요했으나 규제 대응·출구 전략이 빈약",
+     "reason_en": "Dogged design of the corner; no exit plan or regulatory foresight"
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "텍사스 유전업자 특유의 쾌활함으로 웃음거리가 됨",
+     "reason_en": "A jovial oilman who ended up more ridiculed than hated"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 22,
+     "reason_ko": "은·경주마·도박에 끝없이 베팅하는 과잉의 화신",
+     "reason_en": "An appetite incarnate — silver, racehorses, wagers without end"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "7년간 은을 쓸어 담는 매집을 꾸준히 실행",
+     "reason_en": "Steadily swept up silver for seven years"
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "파산 뒤에도 규제 당국 탓으로 돌리며 책임을 부인",
+     "reason_en": "After bankruptcy he blamed regulators, never himself"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "가문 재산 대부분을 단일 원자재 매점에 걺",
+     "reason_en": "Staked most of a dynasty on one commodity"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "형제와 가문 중심으로 움직이고 존 버치 단체를 후원",
+     "reason_en": "Moved as a family bloc and bankrolled the John Birch Society"
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "자선보다 우파 운동과 경주마에 돈을 씀",
+     "reason_en": "Spent on right-wing causes and horses more than charity"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "포지션 한도를 피하려 위장 계좌까지 동원한 조종",
+     "reason_en": "Used front accounts to dodge position limits"
+    },
+    "humility": {
+     "score": 32,
+     "reason_ko": "세계 은을 통째로 사겠다는 발상 자체가 오만",
+     "reason_en": "Buying the world's silver was itself monumental hubris"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "인플레 시대에 은은 오른다는 확신을 버리지 않음",
+     "reason_en": "Never wavered that silver must rise in an age of inflation"
+    },
+    "conservative_progressive": {
+     "score": -35,
+     "reason_ko": "존 버치 소사이어티를 후원한 극우 재력가",
+     "reason_en": "A John Birch Society patron of the far right"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "정부 불신·가문 이익 우선의 반연방 개인주의",
+     "reason_en": "Distrusted government, put clan first — anti-federal individualism"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "세계 은 공급을 코너링한 역사상 최대급 베팅",
+     "reason_en": "The boldest commodity bet ever attempted"
+    }
+   },
+   "rationale_ko": "석유 가문의 부를 몽땅 걸고 세계 은 시장을 통째로 사려 했다. 극우 신념과 가문 이기주의가 뒷받침된 대담함은 역대급 코너링을 만들었고 하루 만에 무너졌다. 실패 뒤에도 책임을 인정하지 않은 채 파산 법정을 전전했다. 2014년 댈러스에서 88세로 숨졌다.",
+   "rationale_en": "He bet an oil dynasty on owning the world's silver. Far-right conviction and clan self-interest backed a corner of historic scale — and it collapsed in a day. He spent years in bankruptcy court without ever owning the failure. He died in Dallas in 2014, at eighty-eight."
+  }
+ },
+ "버니 매이도프": {
+  "influence": {
+   "political": 2,
+   "political_exp": "SEC 개혁 논의를 부른 최대 감독 실패 사건",
+   "political_exp_en": "The biggest oversight failure that pushed SEC reform",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 3,
+   "tech_exp": "전자 시장조성 방식을 개척해 나스닥 성장에 기여",
+   "tech_exp_en": "Pioneered electronic market-making that fed Nasdaq's rise",
+   "social": 5,
+   "social_exp": "역대 최대 폰지로 금융 신뢰와 실사 기준을 뒤흔듦",
+   "social_exp_en": "The largest Ponzi ever shook trust and due-diligence norms",
+   "economic": 6,
+   "economic_exp": "650억 달러 사기와 시장조성 업무가 시장 구조에 자국",
+   "economic_exp_en": "A $65B fraud plus genuine market-making both marked the system",
+   "cultural": 5,
+   "cultural_exp": "'매이도프'가 금융 배신의 대명사가 됨",
+   "cultural_exp_en": "'Madoff' became the byword for financial betrayal",
+   "transhistoricity": 11,
+   "transhistoricity_exp": "폰지형 사기의 종착점으로 계속 회자될 기록",
+   "transhistoricity_exp_en": "The endpoint case of Ponzi fraud, certain to be retold"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "수백 명 증권사를 수십 년 경영하고 나스닥 의장을 지냄",
+     "reason_en": "Ran a firm of hundreds for decades and chaired Nasdaq"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "라이프가드 아르바이트 뒤 평생 책상에서 보낸 생애",
+     "reason_en": "A teenage lifeguard, then a lifetime behind desks"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "전자거래 시장 구조를 꿰고 수십 년 감독기관을 속임",
+     "reason_en": "Knew market plumbing well enough to fool regulators for decades"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "자선재단·귀족까지 돈을 맡기러 줄 서게 한 신망",
+     "reason_en": "Foundations and aristocrats queued to hand him money"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 10,
+     "reason_ko": "650억 달러 사기를 무너질 때까지 멈추지 못함",
+     "reason_en": "Could not stop a $65-billion fraud until it broke"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "매일 허위 거래 서류를 찍어내는 작업을 수십 년 유지",
+     "reason_en": "Fabricated confirmations daily for decades"
+    },
+    "reflection": {
+     "score": 18,
+     "reason_ko": "법정에서 유감 표명 뒤 '멈출 수 있었다'로 책임 회피",
+     "reason_en": "In court he claimed he could have stopped — blame deflected"
+    },
+    "courage": {
+     "score": 35,
+     "reason_ko": "들통날 도박을 이어갔고 고백은 아들에게만 함",
+     "reason_en": "Kept a doomed game running; confessed only to his sons"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "친구·동포 자선가까지 고객으로 먹잇감 삼음",
+     "reason_en": "Turned friends and fellow-community charities into prey"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "엘리 위젤 재단 같은 자선기금마저 끌어감",
+     "reason_en": "Took even Elie Wiesel's foundation money"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "신규 자금 돌려막기 구조 자체가 공정의 부정",
+     "reason_en": "Paying old investors with new money is unfairness as a system"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "겸손한 척하며 배타적 회원제로 허세를 부림",
+     "reason_en": "Played humble while weaponising exclusivity"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 0,
+     "reason_ko": "낙관도 비관도 드러내지 않고 평판 관리에 몰두",
+     "reason_en": "Showed neither hope nor despair — only reputation management"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "기성 금융 질서 최상층에 기생하며 질서를 안 건드림",
+     "reason_en": "Parasitised the establishment without touching the order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "유대 커뮤니티 신뢰를 이용한 개인적 착취",
+     "reason_en": "Exploited communal trust for private extraction"
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "650억 규모 이중장부를 수십 년 유지한 대담한 범행",
+     "reason_en": "A double set of books for decades is audacity of a kind"
+    }
+   },
+   "rationale_ko": "금융 구조에 대한 이해와 평판 장사를 사기 유지에 썼다. 수십 년의 치밀한 이중장부는 근면이었으나 방향이 착취였다. 공동체의 신뢰를 가장 깊이 이용한 자가 가장 깊이 배신했다. 2021년 수감 중 82세로 숨졌다.",
+   "rationale_en": "He spent a real grasp of market plumbing on sustaining a fraud. Decades of meticulous double books were diligence aimed at extraction. The man who most exploited communal trust also betrayed it most deeply. He died in prison in 2021, at eighty-two."
+  }
+ },
+ "조던 벨포트": {
+  "influence": {
+   "political": 1,
+   "political_exp": "증권 단속의 대표 사례가 됐을 뿐",
+   "political_exp_en": "A landmark enforcement case, no policy shift",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "월가 과잉 문화의 대명사로 회자",
+   "social_exp_en": "Became the byword for Wall Street excess",
+   "economic": 2,
+   "economic_exp": "펌프앤덤프 피해자를 남겼으나 구조 변화는 미미",
+   "economic_exp_en": "Left defrauded investors but little structural change",
+   "cultural": 6,
+   "cultural_exp": "회고록이 스콜세지 영화가 되어 금융인상을 규정",
+   "cultural_exp_en": "His memoir became Scorsese's film, defining the finance-bro image",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "영화를 통해 남은 동시대 인물",
+   "transhistoricity_exp_en": "A contemporary figure kept alive by a film"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "스트래튼 오크먼트에서 약 천 명의 브로커를 고용·지휘",
+     "reason_en": "Hired and drove roughly a thousand brokers at Stratton Oakmont"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "청년기 아이스 판매 노동 이후 영업 책상직 생애",
+     "reason_en": "Sold Italian ice door-to-door as a teen, then desk sales"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "'직선 판매법'이라는 세일즈 시스템을 설계해 이식",
+     "reason_en": "Built the 'Straight Line' sales system and installed it firm-wide"
+    },
+    "charm": {
+     "score": 80,
+     "reason_ko": "수백 명 브로커를 세뇌하듯 몰입시킨 연설 카리스마",
+     "reason_en": "A rallying charisma that absorbed hundreds of brokers"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 8,
+     "reason_ko": "쿼알루드·코카인 중독으로 회사를 파티장처럼 운영",
+     "reason_en": "Ran the firm like a party on Quaaludes and cocaine"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "영업 조직을 빠르게 키웠으나 절제 없는 확장에 매몰",
+     "reason_en": "Scaled the sales force fast — drowned in unchecked expansion"
+    },
+    "reflection": {
+     "score": 48,
+     "reason_ko": "옥중 회고록에서 잘못을 인정했으나 자기 미화가 큼",
+     "reason_en": "Admitted wrongdoing in memoirs heavily glazed with self-myth"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "수사망이 조여와도 물러서지 않고 사업을 확장",
+     "reason_en": "Expanded even as investigators closed in"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "형량을 줄이려 공범들의 이름을 수사당국에 제공",
+     "reason_en": "Bought a lighter sentence with his partners' names"
+    },
+    "benevolence": {
+     "score": 20,
+     "reason_ko": "부유층 투자자의 돈을 잡주식으로 빼앗음",
+     "reason_en": "Pumped worthless stocks into wealthy clients' accounts"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "주가를 조작해 고객을 조직적으로 등침",
+     "reason_en": "Systematically rigged prices against his own clients"
+    },
+    "humility": {
+     "score": 10,
+     "reason_ko": "스스로 '월 스트리트의 늑대'라 부르는 자화상",
+     "reason_en": "Brands himself the Wolf of Wall Street"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "뭐든 팔 수 있다는 과잉 긍정으로 조직을 몰아감",
+     "reason_en": "Drove his firm on the creed that anything can be sold"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "정치·사회 질서에 관심 없는 쾌락주의 생애",
+     "reason_en": "A hedonist indifferent to the social order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "고객도 직원도 소비재로 쓰는 극단의 자기중심",
+     "reason_en": "Spent clients and staff alike — radical self-centredness"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "SEC 수사 와중에도 IPO 조작을 멈추지 않은 배짱",
+     "reason_en": "Kept rigging IPOs mid-investigation"
+    }
+   },
+   "rationale_ko": "압도적인 세일즈 매력으로 천 명의 브로커를 몰아세운 사기 조직을 세웠다. 절제와 공정이 바닥이었고 그 과잉이 오히려 회고록과 영화의 자산이 됐다. 출소 뒤에는 자기 이야기를 파는 사업으로 제2의 성공을 거뒀다. 현재 강연과 컨설팅으로 활동 중이다.",
+   "rationale_en": "Overwhelming sales charisma built a boiler room of a thousand brokers. Temperance and fairness sat at rock bottom — and that very excess became the memoir and the film. After prison he built a second fortune selling his own story. He now works as a speaker and consultant."
+  }
+ },
+ "닉 리슨": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 제도와 무관",
+   "political_exp_en": "No political consequence",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "불량 트레이딩의 교과서적 사례가 됨",
+   "social_exp_en": "Became the textbook case of rogue trading",
+   "economic": 4,
+   "economic_exp": "베어링스 파산이 은행권 리스크 관리 혁신을 촉발",
+   "economic_exp_en": "Barings' fall forced industry-wide risk-control reform",
+   "cultural": 3,
+   "cultural_exp": "영화 '로그 트레이더'의 실제 모델",
+   "cultural_exp_en": "The real model for the film 'Rogue Trader'",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "경영 교재의 단골 사례로 지속 인용",
+   "transhistoricity_exp_en": "A staple case in business curricula ever since"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "싱가포르 지점의 트레이딩·결제를 함께 쥔 소규모 책임자",
+     "reason_en": "Held both trading and settlement in a small Singapore office"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "석공의 아들로 현장 일을 거친 뒤 금융 책상직",
+     "reason_en": "A plasterer's son who went from site work to a trading desk"
+    },
+    "intellect": {
+     "score": 52,
+     "reason_ko": "결제 공백을 이용한 은폐는 교묘했으나 전략은 묻지마 배팅",
+     "reason_en": "Clever at exploiting settlement gaps, reckless in strategy"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "손실을 감추고도 본사의 신임과 추가 자금을 얻어냄",
+     "reason_en": "Hid losses yet kept winning head-office trust and funds"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "손실 만회를 위해 배팅을 두 배로 늘리길 반복",
+     "reason_en": "Answered every loss by doubling the bet"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "3년간 이중 장부와 허위 보고를 빠짐없이 유지",
+     "reason_en": "Kept fake ledgers and false reports for three years"
+    },
+    "reflection": {
+     "score": 58,
+     "reason_ko": "옥중 회고록과 강연에서 자기 책임을 직접 인정",
+     "reason_en": "Owns his fault plainly in his memoir and lectures"
+    },
+    "courage": {
+     "score": 42,
+     "reason_ko": "붕괴 직전까지 버티다 도주, 추적 끝에 체포에 응함",
+     "reason_en": "Fled at the end, then submitted once caught"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "233년 은행을 3년간 속여 파산시킨 배신의 주역",
+     "reason_en": "Deceived a 233-year-old bank into collapse"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "동료에겐 싹싹했으나 선행으로 회자되는 일화는 드묾",
+     "reason_en": "Pleasant to colleagues; no remembered acts of generosity"
+    },
+    "fairness": {
+     "score": 18,
+     "reason_ko": "손실 계정 88888로 회사·감사·거래소를 함께 속임",
+     "reason_en": "Account 88888 deceived firm, auditors and exchange alike"
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "출소 후 '불량 트레이더' 꼬리표를 스스로 강의 소재로 씀",
+     "reason_en": "Turned his 'rogue trader' stigma into lecture material"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "한 번 더 베팅하면 만회된다는 도박사적 낙관",
+     "reason_en": "Ran on the gambler's hope that one more bet would fix it"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "정치·사회 질서에 대한 입장을 드러내지 않음",
+     "reason_en": "Never voiced a position on the social order"
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "팀과 본사를 배제하고 혼자 판을 키워감",
+     "reason_en": "Cut out team and head office to run a private book"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "은행 전체 자본을 넘는 포지션을 계속 불려감",
+     "reason_en": "Let positions swell beyond the bank's entire capital"
+    }
+   },
+   "rationale_ko": "밑바닥 출신의 영리함이 통제망의 빈틈을 찾아내는 데 쓰였다. 손실을 감추는 3년의 집요함은 근면이었으나 성찰이 없었고 마지막엔 도주를 택했다. 출소 뒤 자기 실패를 강의로 삼는 성찰이 생애를 회복했다. 1999년 출소 후 강연가로 살고 있다.",
+   "rationale_en": "Bottom-rung cleverness found the gaps in a 233-year-old bank's controls. Three years of hiding losses showed diligence without reflection, and he fled at the end. After prison, candid self-examination rebuilt his life around the cautionary tale. Released in 1999, he works as a speaker."
+  }
+ },
+ "마이클 밀켄": {
+  "influence": {
+   "political": 2,
+   "political_exp": "트럼프 사면까지 이어진 논쟁적 인물",
+   "political_exp_en": "A contested figure up to his 2020 pardon",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 1,
+   "tech_exp": "신용 분석 기법의 체계화가 금융공학에 기여",
+   "tech_exp_en": "His credit-analysis method fed financial engineering",
+   "social": 4,
+   "social_exp": "전립선암 재단 등 대규모 기부 활동을 지속",
+   "social_exp_en": "Sustained major giving via the Prostate Cancer Foundation",
+   "economic": 8,
+   "economic_exp": "정크본드 시장을 창설해 기업 금융 구조를 바꿈",
+   "economic_exp_en": "Created the high-yield market and rewrote corporate finance",
+   "cultural": 4,
+   "cultural_exp": "80년대 '탐욕의 시대'를 상징하는 인물",
+   "cultural_exp_en": "The emblem of the 1980s greed era",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "고수익 채권이 세계 금융의 상설 시장으로 정착",
+   "transhistoricity_exp_en": "High-yield debt is now a permanent global market"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 68,
+     "reason_ko": "드렉셀 고수익 채권부서를 사실상 독립 조직으로 이끎",
+     "reason_en": "Ran Drexel's high-yield desk as a near-autonomous empire"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "통근 버스에서 헤드램프로 책을 읽은 책상형 인물",
+     "reason_en": "Read with a miner's headlamp on the 5 a.m. bus — a desk man"
+    },
+    "intellect": {
+     "score": 86,
+     "reason_ko": "버려진 채권의 신용 가치를 분석해 새 시장을 창조",
+     "reason_en": "Saw creditworthiness where others saw junk — built a market"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "기관 매수 네트워크를 결속시킨 강한 설득력",
+     "reason_en": "Held a buying network together by force of persuasion"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "새벽 기상·검소한 식사와 5.5억 연봉의 탐욕이 공존",
+     "reason_en": "Ascetic dawn routines beside a $550M year of appetite"
+    },
+    "diligence": {
+     "score": 92,
+     "reason_ko": "새벽 네시 반 출근과 머리 램프 독서로 상징되는 근면",
+     "reason_en": "The headlamp commute and 4:30 a.m. starts define his grind"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "유죄 인정 뒤에도 '희생양'이라는 자기 서사를 유지",
+     "reason_en": "Kept a scapegoat narrative even after pleading guilty"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "월가가 무시한 채권 시장에 회사 명운을 걸고 개척",
+     "reason_en": "Staked the firm on a market Wall Street despised"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 68,
+     "reason_ko": "정보원·매수자 네트워크와의 결속을 끝까지 지킴",
+     "reason_en": "Kept fierce two-way loyalty inside his network"
+    },
+    "benevolence": {
+     "score": 62,
+     "reason_ko": "전립선암 재단·밀켄 인스티튜트에 거액 기부를 지속",
+     "reason_en": "Poured fortunes into the Milken Institute and PCF"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "보스키와의 주식 보관 거래 등 내부 규칙 회피 전과",
+     "reason_en": "Stock-parking with Boesky — the rules bent from inside"
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "싼 양복을 입었으나 '정크본드 왕' 지위를 즐김",
+     "reason_en": "Wore cheap suits yet relished being the Junk Bond King"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "남이 버린 기업도 자금만 있으면 산다고 확신",
+     "reason_en": "Convinced any cast-off firm could live with capital"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서보다 자본 배분 효율에만 관심을 둠",
+     "reason_en": "Cared for capital efficiency, not the social order"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "개인 네트워크 중심의 제국을 구축함",
+     "reason_en": "Built an empire around a personal web of buyers"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "스스로 검증한 구조에 수십억씩 베팅을 반복",
+     "reason_en": "Bet billions repeatedly on structures he had tested"
+    }
+   },
+   "rationale_ko": "광적인 근면과 신용 분석의 천재성으로 버려진 채권에서 새 시장을 열었다. 시대의 탐욕과 결합해 막대한 부와 유죄 판결을 함께 얻었다. 출소 뒤에는 기부와 연구재단에 헌신하며 제2의 공적을 쌓고 있다. 밀켄 인스티튜트는 지금도 운영 중이다.",
+   "rationale_en": "Manic diligence and a genius for credit analysis opened a market in debt others had discarded. Wedded to the era's greed, it brought him a record paycheck and a prison term alike. Since release he has built a second legacy through philanthropy and research institutes. The Milken Institute still operates."
+  }
+ },
+ "이반 보스키": {
+  "influence": {
+   "political": 2,
+   "political_exp": "내부자거래 단속 시대를 연 첫 도미노",
+   "political_exp_en": "The first domino of the insider-trading crackdown era",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "'탐욕은 좋은 것'으로 자본주의 윤리 논쟁을 자극",
+   "social_exp_en": "His 'greed is good' line forced a debate on capitalist ethics",
+   "economic": 4,
+   "economic_exp": "인수 차익거래를 주류로 만든 시대의 플레이어",
+   "economic_exp_en": "Made merger arbitrage a mainstream trade",
+   "cultural": 6,
+   "cultural_exp": "영화 고든 게코의 실제 원형",
+   "cultural_exp_en": "The real-life seed of Gordon Gekko",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "내부자거래 처벌의 상징 사건으로 남음",
+   "transhistoricity_exp_en": "Remains the emblematic insider-trading conviction"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "자기 차익거래 펀드를 운영했으나 조직은 소규모",
+     "reason_en": "Ran his own arbitrage fund — a small shop"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "디트로이트 상인 출신의 책상형 트레이더 생애",
+     "reason_en": "A Detroit tradesman's son at a desk all his life"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "인수 차익거래를 정밀화해 시대 최고 수익을 올림",
+     "reason_en": "Refined merger arb into the era's top returns"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "버클리 연설이 영화 대사가 될 만큼 시선을 잡는 언변",
+     "reason_en": "A commencement line that Hollywood turned into Gekko's creed"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "'탐욕은 좋은 것'을 신조로 끝없이 정보를 매수",
+     "reason_en": "Lived 'greed is good' — buying tips without limit"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "새벽부터 밤까지 전화를 붙든 작업 중독자",
+     "reason_en": "Glued to phones from dawn to midnight"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "협조는 했으나 시대 탓·체제 탓으로 책임을 돌림",
+     "reason_en": "Cooperated, then blamed the era and the system"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "레버리지를 걸친 대규모 포지션을 감행",
+     "reason_en": "Ran huge leveraged positions"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 25,
+     "reason_ko": "수사가 오자 밀켄까지 밀고해 살길을 찾음",
+     "reason_en": "Gave up Milken himself once investigators arrived"
+    },
+    "benevolence": {
+     "score": 30,
+     "reason_ko": "기부 행적이 있으나 그 돈은 사기 수익이었음",
+     "reason_en": "His giving drew on insider profits"
+    },
+    "fairness": {
+     "score": 10,
+     "reason_ko": "내부 정보로 공정 경쟁 자체를 무력화함",
+     "reason_en": "Inside tips negated fair competition itself"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "자기 신화를 키우며 월가의 스타 행세를 즐김",
+     "reason_en": "Fed his own legend and played the Wall Street star"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "인수 붐이 계속된다는 낙관 속에서 배팅",
+     "reason_en": "Bet on an endless takeover boom"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "체제 옹호도 변혁도 없이 돈만 쫓음",
+     "reason_en": "Neither defended nor challenged the order — only chased money"
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "모든 관계를 정보원·수익원으로 환원한 인물",
+     "reason_en": "Reduced every relationship to a tip or a profit"
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "담보를 끌어 전 재산급 포지션을 반복해 세움",
+     "reason_en": "Repeatedly staked near-everything on leveraged bets"
+    }
+   },
+   "rationale_ko": "차익거래의 수학적 재능을 내부 정보로 오염시켰다. '탐욕은 좋은 것' 한 마디가 시대의 구호가 됐고 곧 그 시대의 수갑이 됐다. 살기 위해 동료를 밀고한 선택으로 스캔들의 도미노가 시작됐다. 이후 월가에서 영구히 추방됐다.",
+   "rationale_en": "He corrupted a mathematician's gift for arbitrage with bought information. 'Greed is good' became the decade's slogan — then its handcuffs. To save himself he informed on his peers, starting the domino run of the era's scandals. Wall Street banned him for life."
+  }
+ },
+ "제롬 케르비엘": {
+  "influence": {
+   "political": 1,
+   "political_exp": "유럽 은행 규제 논의를 자극한 사건의 주인공",
+   "political_exp_en": "His case fed European banking-regulation debate",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "은행 통제 실패 논의의 상징이 됨",
+   "social_exp_en": "Became the emblem of failed bank controls",
+   "economic": 3,
+   "economic_exp": "49억 유로 손실로 역대 최대 트레이딩 사고 기록",
+   "economic_exp_en": "A €4.9B loss — the record rogue-trading accident",
+   "cultural": 3,
+   "cultural_exp": "프랑스에서 영화 '아웃사이더'의 소재가 됨",
+   "cultural_exp_en": "Fictionalised in the French film 'L'Outsider'",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "불량 트레이딩 기록 보유자로 인용됨",
+   "transhistoricity_exp_en": "Cited as the holder of the rogue-trading record"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 30,
+     "reason_ko": "부하 없는 단독 트레이더로 조직 지휘 경험이 없음",
+     "reason_en": "A solo trader who never led an organisation"
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "유도 단 소지자로 고향에서 아이들을 가르침",
+     "reason_en": "A judo black belt who coached children in Brittany"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "백오피스 지식으로 통제망을 우회하는 허위 거래를 설계",
+     "reason_en": "Used back-office knowledge to route around controls"
+    },
+    "charm": {
+     "score": 42,
+     "reason_ko": "무난한 직장인 인상으로 의심을 피했으나 매력은 적음",
+     "reason_en": "A bland persona that deflected suspicion more than it attracted"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "포지션이 불어나도 멈추지 못하고 허위로 덮음",
+     "reason_en": "Could not stop; covered each new exposure with fakes"
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "3년간 수천 건의 가짜 거래를 빈틈없이 처리",
+     "reason_en": "Processed thousands of fake trades over three years"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "자기 책임은 인정하되 '시스템의 산물'로도 규정",
+     "reason_en": "Admitted guilt while framing himself as the system's product"
+    },
+    "courage": {
+     "score": 50,
+     "reason_ko": "은행 전체를 위협할 포지션을 홀로 감당",
+     "reason_en": "Shouldered positions that could sink the whole bank"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 42,
+     "reason_ko": "은행 이익을 위했다 주장하나 3년간 조직을 속임",
+     "reason_en": "Claimed to serve the bank while deceiving it three years"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "고향 유도 교실 봉사 외 두드러진 선행은 드묾",
+     "reason_en": "Beyond coaching kids' judo, little recorded generosity"
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "허위 거래·권한 초과로 리스크 보고 체계를 무력화",
+     "reason_en": "Faked trades that neutralised risk reporting"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "'월급쟁이였을 뿐'이라며 영웅·악당 프레임을 거부",
+     "reason_en": "Rejected both hero and villain frames — 'just a salaried man'"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "포지션이 돌아설 것이라는 낙관으로 버팀",
+     "reason_en": "Held on hoping positions would turn"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "질서에 대한 발언 대신 트레이더 관행을 따름",
+     "reason_en": "Followed trading-desk practice, voiced no social stance"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "상사와의 소통을 끊고 홀로 비밀 포지션을 운영",
+     "reason_en": "Ran his secret book alone, cut off from supervisors"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "유럽지수 선물 500억 유로를 권한 없이 쌓아올림",
+     "reason_en": "Built €50 billion in index futures without authority"
+    }
+   },
+   "rationale_ko": "백오피스 출신의 지식이 통제 우회의 기술이 됐다. 혼자 쌓은 500억 유로 포지션은 대담함이라기보다 멈추지 못하는 집착이었다. 유죄 뒤에는 겸손한 '평범한 직장인' 프레임을 택했다. 2014년 교황을 만나러 로마까지 도보 순례를 했다.",
+   "rationale_en": "Back-office knowledge became the art of evading controls. His secret €50 billion position was less boldness than an obsession that could not stop. After conviction he chose the humble frame of an ordinary employee. In 2014 he walked to Rome to meet the Pope."
+  }
+ },
+ "하마나카 야스오": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 제도와 무관",
+   "political_exp_en": "No political consequence",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "일본 기업 감시 체계의 허점을 드러낸 사건",
+   "social_exp_en": "Exposed the holes in Japanese corporate oversight",
+   "economic": 4,
+   "economic_exp": "세계 구리 가격을 십 년간 사실상 지배",
+   "economic_exp_en": "Effectively steered world copper prices for a decade",
+   "cultural": 2,
+   "cultural_exp": "'미스터 코퍼'라는 금융사 별명을 남김",
+   "cultural_exp_en": "Left the lore-name 'Mr. Copper'",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "원자재 조종 스캔들의 대표 사례로 인용됨",
+   "transhistoricity_exp_en": "Cited as the classic commodity-manipulation scandal"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "스미토모 구리 트레이딩팀을 십 년 가까이 이끎",
+     "reason_en": "Led Sumitomo's copper desk for nearly a decade"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "상사맨으로 해외 출장을 소화한 책상 중심 생애",
+     "reason_en": "A trading-company man's life of desks and overseas postings"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "선물·현물을 오가며 세계 구리 가격을 지배한 전략",
+     "reason_en": "Straddled futures and physical to command the copper price"
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "'미스터 코퍼'로 시장의 존경과 두려움을 함께 받음",
+     "reason_en": "'Mr. Copper' commanded the market's awe and fear alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 20,
+     "reason_ko": "손실 은폐를 10년간 중단하지 못함",
+     "reason_en": "Could not break ten years of concealed losses"
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "위조 서명과 비밀 장부를 10년간 빈틈없이 관리",
+     "reason_en": "Maintained forged signatures and shadow books for a decade"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "재판에서 회사 탓을 하며 뚜렷한 참회를 보이지 않음",
+     "reason_en": "At trial he blamed the firm more than he repented"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "세계 시장을 상대로 홀로 물량 싸움을 감행",
+     "reason_en": "Took on the entire world market single-handed"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "회사 손실 만회가 범행의 출발 동기였음",
+     "reason_en": "The scheme began as an attempt to recover company losses"
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "동료를 끌어들이지 않고 혼자 짊어진 면이 있음",
+     "reason_en": "Kept colleagues out of it and carried the secret alone"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "서명 위조와 가격 조종으로 시장 공정성을 침해",
+     "reason_en": "Forged signatures and rigged prices against market fairness"
+    },
+    "humility": {
+     "score": 50,
+     "reason_ko": "'5% 씨'라 불려도 겉으론 조용한 상사맨 생활",
+     "reason_en": "Outwardly a quiet salaryman despite the 'Mr. 5%' name"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "가격은 결국 자기 편이 된다는 확신으로 버팀",
+     "reason_en": "Held on convinced the market would finally come to him"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서 발언 없이 상사 관행 안에서 움직임",
+     "reason_en": "Moved inside trading-house custom; no social stance"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "회사 명예와 손실 회복을 앞세운 조직중심 사고",
+     "reason_en": "Put the firm's face and balance above his own gain"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "세계 물량의 5%를 쥐고 가격을 통제한 무모한 판",
+     "reason_en": "Held 5% of world supply — a reckless control play"
+    }
+   },
+   "rationale_ko": "세계 구리의 5%를 쥔 채 십 년간 가격을 쥐락펴락했다. 회사를 위한다는 명분이 위조와 은폐의 십 년을 정당화했으나 결과는 일본 최대 트레이딩 스캔들이었다. 조용한 상사맨의 겉모습과 판을 흔드는 대담함이 한 사람에 공존했다. 1998년 8년 실형을 받았다.",
+   "rationale_en": "For a decade he held 5% of world copper and bent its price. The excuse of serving the company justified ten years of forgery and concealment — ending as Japan's largest trading scandal. A quiet salaryman's exterior housed market-moving audacity. He was sentenced to eight years in 1998."
+  }
+ },
+ "앨런 스탠퍼드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "앤티가·미 정치권 매수로 규제를 무력화",
+   "political_exp_en": "Bought Antiguan and U.S. influence to neuter oversight",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 3,
+   "social_exp": "역외 금융 사기의 취약성을 각인시킴",
+   "social_exp_en": "Seared the fragility of offshore finance into memory",
+   "economic": 4,
+   "economic_exp": "80억 달러 폰지로 예금자 수만 명을 파탄시킴",
+   "economic_exp_en": "An $8B Ponzi ruined tens of thousands of depositors",
+   "cultural": 4,
+   "cultural_exp": "스탠퍼드 20-20 크리켓 대회를 통째로 창설·후원",
+   "cultural_exp_en": "Created and bankrolled the Stanford 20/20 cricket series",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "폰지 사기사의 주요 사건으로 기록됨",
+   "transhistoricity_exp_en": "Recorded among the great Ponzi cases"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "수십 개국 지점·수천 명 직원의 금융 그룹을 이끎",
+     "reason_en": "Led a group with branches across dozens of countries"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "텍사스 부동산업 출신의 책상·쇼맨 생애",
+     "reason_en": "A Texas property man's desk-and-showman life"
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "단순 폰지였으나 규제 공백과 낙후 국가를 정확히 골라냄",
+     "reason_en": "A crude Ponzi, but he chose havens and loopholes precisely"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "예금자·정치인·크리켓계를 쇼맨십으로 매수",
+     "reason_en": "Showmanship bought depositors, politicians and cricket boards"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 8,
+     "reason_ko": "예금으로 요트·기사 작위·크리켓 리그를 사치에 소비",
+     "reason_en": "Spent deposits on yachts, a knighthood's shine and a league"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "사기 제국을 15년 넘게 운영·확장",
+     "reason_en": "Ran and grew the fraud for over fifteen years"
+    },
+    "reflection": {
+     "score": 15,
+     "reason_ko": "끝까지 무죄를 주장하고 정부 음모론을 펼침",
+     "reason_en": "Insisted on innocence and government conspiracy to the end"
+    },
+    "courage": {
+     "score": 45,
+     "reason_ko": "미국 수사가 다가와도 도망치지 않고 왕국에 남음",
+     "reason_en": "Stayed inside his empire as U.S. investigators closed in"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 20,
+     "reason_ko": "규제자를 매수하고 CFO를 수년간 범행에 끌어들임",
+     "reason_en": "Bought the regulator and kept his CFO inside the fraud"
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "앤티가 기부는 사기 신용의 장식이었음이 드러남",
+     "reason_en": "His Antiguan largesse proved window-dressing for the fraud"
+    },
+    "fairness": {
+     "score": 8,
+     "reason_ko": "예금자 돈을 사비처럼 쓴 수탁 의무의 전면 부정",
+     "reason_en": "Treated depositors' money as his own — total breach of duty"
+    },
+    "humility": {
+     "score": 8,
+     "reason_ko": "자기 이름 딴 리그·헬기로 과시한 자기숭배",
+     "reason_en": "Named a league after himself and arrived by personal helicopter"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "무너지지 않는다는 과대 낙관으로 제국을 키움",
+     "reason_en": "Grew the empire on grandiose invincibility"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "체제를 논하기보다 체제 안의 빈틈을 이용",
+     "reason_en": "Exploited the system's gaps rather than judging it"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "모든 것을 자기 이름과 자기 과시에 종속시킴",
+     "reason_en": "Subordinated everything to his name and display"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "80억 달러 폰지를 미국 감독망 옆에서 운영한 배짱",
+     "reason_en": "Ran an $8B Ponzi next door to U.S. regulators"
+    }
+   },
+   "rationale_ko": "쇼맨십과 규제 공백을 결합해 카리브해에 가짜 은행 제국을 세웠다. 기사 작위와 크리켓 리그를 예금자 돈으로 산 자기숭배가 제국의 상징이었다. 끝까지 무죄를 주장하며 성찰을 보이지 않았다. 110년형으로 수감 중이다.",
+   "rationale_en": "He fused showmanship with regulatory gaps to raise a fake banking empire in the Caribbean. A knighthood and a cricket league bought with depositors' money were its emblem. To the end he claimed innocence and showed no reflection. He is serving 110 years."
+  }
+ },
+ "마크 리치": {
+  "influence": {
+   "political": 4,
+   "political_exp": "클린턴 임기말 사면이 미국 정치 스캔들이 됨",
+   "political_exp_en": "Clinton's last-day pardon became a political scandal",
+   "strategic": 2,
+   "strategic_exp": "금수국과의 석유 거래가 제재 실효성 논쟁을 낳음",
+   "strategic_exp_en": "Trading with embargoed states fed the sanctions debate",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "도피 자본가의 원형을 남김",
+   "social_exp_en": "Left the model of the fugitive capitalist",
+   "economic": 7,
+   "economic_exp": "현물 원유 시장을 창안하고 글렌코어의 뿌리가 됨",
+   "economic_exp_en": "Invented the spot oil market; his firm became Glencore",
+   "cultural": 3,
+   "cultural_exp": "'오일의 왕' 전기로 금융 문화에 남음",
+   "cultural_exp_en": "Immortalised as 'The King of Oil'",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "원유 현물 시장은 현재 글로벌 표준 구조",
+   "transhistoricity_exp_en": "Spot oil trading is now the world's standard structure"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "마르크 리치사를 세계적 상품 제국으로 키워 수백 명을 지휘",
+     "reason_en": "Built Marc Rich & Co into a global house of hundreds"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "나치를 피해 도망친 유년 이후 책상형 트레이더 생애",
+     "reason_en": "A refugee childhood, then a lifetime at trading desks"
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "장기 계약 시대에 현물 석유 시장이라는 새 판을 설계",
+     "reason_en": "Designed the spot oil market in an age of fixed contracts"
+    },
+    "charm": {
+     "score": 48,
+     "reason_ko": "언론을 피하는 은둔 스타일로 대중적 매력은 희박",
+     "reason_en": "A reclusive style with little popular appeal"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "업무는 치밀했으나 탈세·금수 거래의 욕심을 못 버림",
+     "reason_en": "Precise in work, unable to quit embargoed profits"
+    },
+    "diligence": {
+     "score": 80,
+     "reason_ko": "도피 신세로도 매일 세계 시세를 보고 거래를 지휘",
+     "reason_en": "Ran global trades daily even as a fugitive"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "사면 논란까지 갔으나 잘못을 인정하지 않음",
+     "reason_en": "Never admitted fault, even after the pardon scandal"
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "인질 사태의 이란·남아공 정권과도 거래를 감행",
+     "reason_en": "Traded with hostage-crisis Iran and apartheid South Africa"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 45,
+     "reason_ko": "회사·파트너엔 신의가 있었으나 조국 법은 위반",
+     "reason_en": "Kept faith with partners while breaking his country's law"
+    },
+    "benevolence": {
+     "score": 52,
+     "reason_ko": "이스라엘·스페인에서 재단 기부를 이어감",
+     "reason_en": "Sustained foundation giving in Israel and Spain"
+    },
+    "fairness": {
+     "score": 15,
+     "reason_ko": "인종차별 정권·인질 정권과의 거래로 국제 약속을 깸",
+     "reason_en": "Broke international embargoes for profit"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "자서전 인터뷰 외에는 언론 노출을 철저히 삼감",
+     "reason_en": "Shunned publicity but for one biography"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "어떤 시장에도 기회가 있다는 냉철한 실용주의",
+     "reason_en": "A cool pragmatist — opportunity in every market"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "체제 선택과 무관하게 돈 되는 곳과 거래",
+     "reason_en": "Traded with any regime, indifferent to its order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "조국 수배보다 자기 사업을 앞세운 도피자",
+     "reason_en": "Put his business above his country's warrant"
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "전 세계 금수국과 거래한 초대형 배짱",
+     "reason_en": "Dealt with embargoed states worldwide — huge audacity"
+    }
+   },
+   "rationale_ko": "현물 원유 시장이라는 새 판을 발명한 창조적 트레이더였다. 금수·탈세도 거래가 되면 한다는 냉철함이 그를 도피자로 만들었다. 조국을 버렸으나 그의 회사는 글렌코어로 이어져 지금도 세계 원자재를 움직인다. 2013년 스위스 루체른에서 78세로 숨졌다.",
+   "rationale_en": "A creative trader who invented the spot oil market. The cold logic that any deal is a deal made him a fugitive. He abandoned his country, yet his firm grew into Glencore — still moving the world's commodities. He died in Lucerne in 2013, at seventy-eight."
+  }
+ },
+ "로버트 베스코": {
+  "influence": {
+   "political": 3,
+   "political_exp": "닉슨 불법 정치자금 사건의 한 축이 됨",
+   "political_exp_en": "His $200k gift sat inside a Nixon campaign-finance case",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 0,
+   "tech_exp": "과학·기술 기여가 없음",
+   "tech_exp_en": "No contribution to science or technology",
+   "social": 2,
+   "social_exp": "해외 도피 금융범의 원형을 남김",
+   "social_exp_en": "Left the template of the offshore fugitive",
+   "economic": 3,
+   "economic_exp": "IOS 펀드 붕괴로 수십만 투자자에게 피해",
+   "economic_exp_en": "The IOS collapse hurt hundreds of thousands of investors",
+   "cultural": 3,
+   "cultural_exp": "도망자 자본가로 범죄 문학의 소재가 됨",
+   "cultural_exp_en": "Became a staple of true-crime writing",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "금융 도피사의 상징적 사건으로 남음",
+   "transhistoricity_exp_en": "Stands as the emblematic financial flight"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "IOS 제국을 접수해 잠시 운영하고 도피망을 꾸림",
+     "reason_en": "Seized and briefly ran the IOS empire, then ran a refuge network"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "디트로이트 출신 책상형 사업가로 평생 활동",
+     "reason_en": "A Detroit desk-operator all his life"
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "역외 펀드·독재자·카르텔을 엮어 30년 수사를 따돌림",
+     "reason_en": "Wove offshore funds, dictators and cartels to outrun the FBI 30 years"
+    },
+    "charm": {
+     "score": 58,
+     "reason_ko": "투자자와 정권을 상대로 한 사기꾼 특유의 매력",
+     "reason_en": "A con man's magnetism for investors and regimes alike"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 12,
+     "reason_ko": "타인의 돈 2억 달러를 들고 호화 도피 생활",
+     "reason_en": "Fled with $200 million of others' money into luxury"
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "생존을 위한 뇌물·이전·위장을 평생 반복",
+     "reason_en": "A life of bribes, transfers and disguises, sustained for decades"
+    },
+    "reflection": {
+     "score": 10,
+     "reason_ko": "평생 피해자 언급이나 참회가 전무",
+     "reason_en": "No word of remorse for his victims, ever"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "카스트로의 쿠바까지 넘나들며 FBI와 30년을 견딤",
+     "reason_en": "Outlasted the FBI for three decades, ending in Castro's Cuba"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 15,
+     "reason_ko": "투자자·동업자·인수한 회사를 연거푸 배신",
+     "reason_en": "Betrayed investors, partners and the firm he bought, in turn"
+    },
+    "benevolence": {
+     "score": 8,
+     "reason_ko": "빼앗은 돈으로 호사를 누렸을 뿐 선행이 없음",
+     "reason_en": "Spent the loot on himself; no recorded kindness"
+    },
+    "fairness": {
+     "score": 5,
+     "reason_ko": "펀드 먹튀와 수사 매수 시도의 원조급 부정",
+     "reason_en": "Looted a fund and tried to buy off investigators"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "스스로를 피해받는 금융 천재로 포장",
+     "reason_en": "Cast himself as a persecuted financial genius"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 12,
+     "reason_ko": "항상 다음 도피처가 있다는 낙관으로 도망 다님",
+     "reason_en": "Ran on the optimism of a next haven"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "좌우 정권 가리지 않고 뇌물을 뿌림",
+     "reason_en": "Bribed regimes left and right without distinction"
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "누구와도 오래 함께하지 않은 철저한 자기중심",
+     "reason_en": "Lasted with no one — radical self-service"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "2억 달러를 들고 국제 수배망을 뚫은 배짱",
+     "reason_en": "Slipped global manhunts with $200 million in hand"
+    }
+   },
+   "rationale_ko": "남의 돈을 먹는 기술로 시작해 도망치는 기술로 생을 마감했다. 삼십 년의 도피는 배짱과 계략의 증거였으나 그 과정에서 배신하지 않은 관계가 없었다. 성찰 없이 자기 서사만 부풀린 말년이었다. 2007년 쿠바 하바나에서 숨졌다.",
+   "rationale_en": "He began with the craft of taking others' money and ended a master of escape. Thirty years on the run proved nerve and cunning — and a trail in which no relationship went unbetrayed. His last years inflated the self-legend without reflection. He died in Havana in 2007."
+  }
+ },
+ "로스 페로": {
+  "influence": {
+   "political": 6,
+   "political_exp": "1992년 무소속 19%로 제3당 최대 파란을 일으킴",
+   "political_exp_en": "His 19% in 1992 was the modern third-party shock",
+   "strategic": 1,
+   "strategic_exp": "민간 구출 작전은 전설이나 안보 체계 변화는 없음",
+   "strategic_exp_en": "The Tehran rescue is legend, not a security-doctrine change",
+   "tech": 5,
+   "tech_exp": "EDS로 IT 아웃소싱 산업을 창설",
+   "tech_exp_en": "Founded EDS — the IT outsourcing industry",
+   "social": 3,
+   "social_exp": "재향군인·마약 반대 운동에 적극 참여",
+   "social_exp_en": "Active in veterans' and anti-drug causes",
+   "economic": 6,
+   "economic_exp": "IT 서비스 산업 모델이 세계 표준이 됨",
+   "economic_exp_en": "The IT-services model became a world standard",
+   "cultural": 4,
+   "cultural_exp": "SNL 풍자 대상이 된 독특한 대중 이미지",
+   "cultural_exp_en": "An SNL-parodied figure in American culture",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "아웃소싱 산업과 제3당 유산이 지속 중",
+   "transhistoricity_exp_en": "Outsourcing and the third-party legacy both endure"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "EDS·페로 시스템즈를 창업해 수만 명을 고용·지휘",
+     "reason_en": "Founded EDS and Perot Systems — tens of thousands employed"
+    },
+    "martial": {
+     "score": 58,
+     "reason_ko": "해군사관학교 졸업 후 해군 장교로 복무",
+     "reason_en": "Annapolis graduate who served as a naval officer"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "천 달러로 IT 아웃소싱이라는 새 산업 모델을 고안",
+     "reason_en": "Conceived IT outsourcing on a $1,000 stake"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "TV 토론의 차트와 사투리로 19% 득표를 이끈 매력",
+     "reason_en": "Charts and folksy drawl won him 19% of a presidential vote"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "금주·검소·정해진 일과로 상징되는 규범적 생활",
+     "reason_en": "Teetotal, frugal, disciplined — a life of rules"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "IBM 연간 판매 할당을 1월에 채운 전설적 근면",
+     "reason_en": "Famously filled IBM's yearly quota by January"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자기 확신이 강해 오류 시인이 드물었음",
+     "reason_en": "Strong convictions made admissions rare"
+    },
+    "courage": {
+     "score": 82,
+     "reason_ko": "혁명 이란에 민간 구출대를 보내고 대선에 전 재산급을 걺",
+     "reason_en": "Sent a rescue team into revolutionary Iran, then bet a fortune on a run"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 80,
+     "reason_ko": "억류 직원을 구출하러 간 고용주로서의 헌신",
+     "reason_en": "An employer's devotion — he sent a team to free jailed staff"
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "교육·의료·포로 가족 지원에 수억 달러를 기부",
+     "reason_en": "Gave hundreds of millions to schools, medicine, POW families"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "실적 중심 인사였으나 반대자에겐 격하게 대응",
+     "reason_en": "Meritocratic, but fierce toward dissenters"
+    },
+    "humility": {
+     "score": 48,
+     "reason_ko": "자기 확신은 강했으나 개인 사치는 억제",
+     "reason_en": "Sure of himself, yet restrained in personal luxury"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "미국은 고칠 수 있다는 실행형 낙관주의",
+     "reason_en": "A can-do conviction that America could be fixed"
+    },
+    "conservative_progressive": {
+     "score": -12,
+     "reason_ko": "전통적 애국·가족 가치에 충실한 텍사스 보수",
+     "reason_en": "A Texas traditionalist on flag and family"
+    },
+    "individual_social": {
+     "score": 30,
+     "reason_ko": "직원·지역사회·국가에 대한 책임을 늘 강조",
+     "reason_en": "Preached duty to employees, community and nation"
+    },
+    "cautious_bold": {
+     "score": 28,
+     "reason_ko": "구출 작전과 대선 도전은 과감하되 실행은 철저히 계획",
+     "reason_en": "Bold aims — rescues, a White House run — minutely planned"
+    }
+   },
+   "rationale_ko": "전설적 근면과 직원에 대한 헌신으로 IT 아웃소싱 산업을 만들었다. 해군 출신답게 절제된 생활과 대담한 실행이 공존했다. 기업인의 자기 확신이 대선 도전으로 이어져 제3당 역사를 다시 썼다. 2019년 댈러스에서 89세로 숨졌다.",
+   "rationale_en": "Legendary diligence and devotion to his employees built the IT outsourcing industry. A naval officer's discipline coexisted with daring action. The entrepreneur's self-belief carried him to a third-party run that rewrote modern campaign history. He died in Dallas in 2019, at eighty-nine."
+  }
+ },
+ "존 딜로런": {
+  "influence": {
+   "political": 1,
+   "political_exp": "벨파스트 투자 협상 외 정치 영향은 미미",
+   "political_exp_en": "Little political footprint beyond the Belfast deal",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 4,
+   "tech_exp": "GTO 머슬카 창시와 갈매기 문 스테인리스 차체",
+   "tech_exp_en": "Created the GTO and the stainless gullwing body",
+   "social": 2,
+   "social_exp": "분쟁지 벨파스트에 일자리를 제공하려 시도",
+   "social_exp_en": "Tried to bring jobs to Troubles-era Belfast",
+   "economic": 4,
+   "economic_exp": "독립 자동차사 도전이 산업사 사례로 남음",
+   "economic_exp_en": "His independent challenge remains an industry case",
+   "cultural": 6,
+   "cultural_exp": "DMC-12가 '백 투 더 퓨처' 타임머신으로 불멸",
+   "cultural_exp_en": "The DMC-12 is immortal as the 'Back to the Future' machine",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "차는 망했어도 영화 아이콘으로 계속 생존",
+   "transhistoricity_exp_en": "The car failed; the icon endures through film"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 65,
+     "reason_ko": "GM 최연소 사업부장을 거쳐 자기 자동차 회사를 운영",
+     "reason_en": "GM's youngest division chief, then ran his own car company"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "190cm대 장신에 활동적 이미지의 경영자",
+     "reason_en": "A tall, kinetic executive — 6'4\" and restless"
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "GM 규정을 우회해 GTO를 탄생시킨 기술·마케팅 감각",
+     "reason_en": "Slipped the GTO past GM rules — engineering and marketing flair"
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "최초의 연예인급 자동차 경영자로 잡지 표지를 장식",
+     "reason_en": "The first celebrity car executive, a magazine-cover fixture"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "성형·파티·제트족 생활과 마약 거래 유혹에 빠짐",
+     "reason_en": "Jet-set surgery-and-party life, then the cocaine lure"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "엔지니어 시절은 집요했으나 창업 후 관리가 흐트러짐",
+     "reason_en": "Relentless as an engineer; management frayed after founding"
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "실패를 FBI·영국 정부·시대 탓으로 돌림",
+     "reason_en": "Blamed the FBI, Britain and the times for his fall"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "GM을 박차고 나와 스테인리스 갈매기 문 차에 전부를 걺",
+     "reason_en": "Quit GM to bet everything on a stainless gullwing"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 32,
+     "reason_ko": "투자자와 영국 정부 돈을 날리고 회사를 접음",
+     "reason_en": "Burned investors' and British taxpayers' money, then folded"
+    },
+    "benevolence": {
+     "score": 42,
+     "reason_ko": "벨파스트 일자리 창출 의도는 실했으나 자금이 무너짐",
+     "reason_en": "The Belfast jobs aim was real; the financing collapsed"
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "재무 부정 의혹과 허세 어린 회사 운영 전과",
+     "reason_en": "Financial irregularities and grandstanding management"
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "자기 이름을 건 차에 스스로 포스터 모델이 됨",
+     "reason_en": "Posed as the poster model of his own name-brand car"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "불가능한 자동차 꿈을 끝까지 밀어붙인 낙관",
+     "reason_en": "Pushed an impossible car dream to the very end"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서보다 자기 회사 생존에 몰두",
+     "reason_en": "Cared for his company's survival, not the social order"
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "GM 관료제를 깬 아웃사이더 자기중심성",
+     "reason_en": "An outsider ego that broke with GM's bureaucracy"
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "빅3 앞에서 신생 자동차 회사를 세운 무모함",
+     "reason_en": "Founded a car company in the Big Three's face"
+    }
+   },
+   "rationale_ko": "GM 관료제를 깬 엔지니어이자 최초의 연예인급 자동차 경영자였다. 대담한 독립이 아이코닉한 차를 낳았으나 절제 없는 생활과 무너진 재무가 회사를 삼켰다. 실패를 남 탓으로 돌렸으나 차는 영화로 불멸했다. 2005년 뉴저지에서 80세로 숨졌다.",
+   "rationale_en": "An engineer who broke GM's bureaucracy and became the first celebrity car executive. Bold independence produced an iconic car; undisciplined living and broken finances consumed the company. He blamed others for the fall, but the car won immortality on film. He died in New Jersey in 2005, at eighty."
+  }
+ },
+ "프레스턴 터커": {
+  "influence": {
+   "political": 1,
+   "political_exp": "기소 과정이 규제 남용 논쟁의 사례로 회자됨",
+   "political_exp_en": "His indictment is cited in debates on regulatory overreach",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 4,
+   "tech_exp": "방향 연동 헤드라이트 등 안전 혁신을 앞서 도입",
+   "tech_exp_en": "Pioneered safety features like the turning headlight",
+   "social": 2,
+   "social_exp": "도전자 서사로 약자 혁신의 상징이 됨",
+   "social_exp_en": "Became the emblem of underdog innovation",
+   "economic": 3,
+   "economic_exp": "빅3 도전 실패가 독립 제조사의 전범이 됨",
+   "economic_exp_en": "The model case of an independent challenging the Big Three",
+   "cultural": 5,
+   "cultural_exp": "51대 생산차가 수집가 성배이자 코폴라 영화 소재",
+   "cultural_exp_en": "The 51 cars are collectors' grail and a Coppola film",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "터커 48이 자동차 문화의 전설로 정착",
+   "transhistoricity_exp_en": "The Tucker 48 settled into automotive legend"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "단기간에 공장과 2천 명 가까운 조직을 꾸려 차를 만듦",
+     "reason_en": "Raised a plant and nearly 2,000 staff to build the car"
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "경찰 오토바이 개조로 시작한 손재주형 활동가",
+     "reason_en": "Started modifying police bikes — a hands-on tinkerer"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "안전장치·공력 디자인을 시대보다 앞서 구현",
+     "reason_en": "Put safety and aero design ahead of his era"
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "청중을 압도하는 세일즈 연설로 주식·예약금을 모음",
+     "reason_en": "Electrifying pitches raised stock money and deposits"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "쇼맨십에 자금을 쓰며 재무 통제를 늦춤",
+     "reason_en": "Spent on showmanship while financial control lagged"
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "수개월 만에 시제차 틴 구스를 완성시킨 추진력",
+     "reason_en": "Drove the 'Tin Goose' prototype to completion in months"
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "회사 붕괴 뒤 기획 음모론에 집착",
+     "reason_en": "Dwelt on a Big Three conspiracy after the collapse"
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "빅3·언론·SEC를 상대로 끝까지 싸움",
+     "reason_en": "Fought the Big Three, the press and the SEC to the end"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "가족·소규모 팀과 끝까지 함께한 결속",
+     "reason_en": "Kept family and a small loyal crew to the last"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "안전한 차로 탑승자를 지키겠다는 발상이 공익적",
+     "reason_en": "The safety-first concept itself served the public"
+    },
+    "fairness": {
+     "score": 48,
+     "reason_ko": "주식사기 혐의는 전원 무죄, 회계는 엉망이었음",
+     "reason_en": "Fully acquitted of fraud; the books were simply chaos"
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "자기 이름을 차에 붙이고 언론 플레이를 즐김",
+     "reason_en": "Put his name on the car and courted the press"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 40,
+     "reason_ko": "기소 중에도 다음 차를 구상한 불굴의 낙관",
+     "reason_en": "Sketched his next car even while indicted"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서가 아닌 자동차 산업에만 도전",
+     "reason_en": "Challenged an industry, not the social order"
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "독립 제조사를 꿈꾼 아웃사이더",
+     "reason_en": "An outsider dreaming of an independent marque"
+    },
+    "cautious_bold": {
+     "score": 42,
+     "reason_ko": "생산 설비도 없이 51대 완성에 전 재산을 걺",
+     "reason_en": "Bet everything on 51 cars without real facilities"
+    }
+   },
+   "rationale_ko": "안전이라는 명분을 앞세운 발상가이자 시대 최고의 자동차 세일즈맨이었다. 쉰한 대의 차는 기술적으로 앞섰으나 자본과 정치가 그를 짓눌렀다. 무죄 뒤에도 다음 차를 꿈꾼 낙관주의가 그의 유산이 됐다. 1956년 53세로 숨졌다.",
+   "rationale_en": "A visionary who led with safety and the era's greatest car salesman. Fifty-one cars, ahead of their time, before capital and politics crushed him. Acquitted, he kept dreaming of the next car — that optimism is his legacy. He died in 1956, at fifty-three."
+  }
+ },
+ "밀턴 허시": {
+  "influence": {
+   "political": 1,
+   "political_exp": "기업 도시 모델 외 정치 영향은 미미",
+   "political_exp_en": "Little political reach beyond the company-town model",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 4,
+   "tech_exp": "밀크 초콜릿 대량생산 공법을 발명",
+   "tech_exp_en": "Invented mass production for milk chocolate",
+   "social": 5,
+   "social_exp": "복지 자본주의의 모범 타운과 고아 학교를 건설",
+   "social_exp_en": "Built a model company town and an orphan school",
+   "economic": 7,
+   "economic_exp": "미국 초콜릿 대중화와 세계적 제과 기업을 건설",
+   "economic_exp_en": "Popularised chocolate in America; built a global giant",
+   "cultural": 5,
+   "cultural_exp": "'허시'가 미국에서 초콜릿의 대명사가 됨",
+   "cultural_exp_en": "'Hershey' became the American word for chocolate",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "회사·타운·학교가 한 세기 넘게 지속 중",
+   "transhistoricity_exp_en": "Company, town and school all still stand a century on"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "공장·타운·학교를 통째로 운영해 수천 명을 먹여 살림",
+     "reason_en": "Ran plant, town and school — thousands on his payroll"
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "제과 수습 시절 장시간 육체노동으로 몸을 쓴 이력",
+     "reason_en": "Candy apprenticeship meant long physical hours"
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "4학년 중퇴로 밀크 초콜릿 제조법을 독학 개발",
+     "reason_en": "With a fourth-grade schooling he cracked milk chocolate"
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "타운 주민에게 아버지 같은 존재로 추앙받음",
+     "reason_en": "Revered in his town as a father figure"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "부를 쌓고도 호화 생활보다 타운 건설에 씀",
+     "reason_en": "Spent wealth on the town, not on luxury"
+    },
+    "diligence": {
+     "score": 88,
+     "reason_ko": "세 번 망하고도 네 번째 가게를 연 집념",
+     "reason_en": "Opened a fourth shop after three failures"
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "실패 원인을 분석해 다음 사업에 반영",
+     "reason_en": "Studied each failure into the next venture"
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "파산자 신세로 다시 창업하고 신기술에 올인",
+     "reason_en": "Restarted from bankruptcy and bet on a new process"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 78,
+     "reason_ko": "고아 학교에 전 재산을 넘기고 타운과 평생을 함께함",
+     "reason_en": "Gave his fortune to the orphan school and stayed with the town"
+    },
+    "benevolence": {
+     "score": 88,
+     "reason_ko": "1918년 고아 학교에 전 재산을 조용히 신탁",
+     "reason_en": "Quietly endowed the orphan school with everything in 1918"
+    },
+    "fairness": {
+     "score": 58,
+     "reason_ko": "복지 선구자였으나 1937년 파업 진압의 그림자도 있음",
+     "reason_en": "A welfare pioneer — yet the 1937 strike left a shadow"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "기부 사실을 수년간 비밀로 하고 사치를 멀리함",
+     "reason_en": "Kept the gift secret for years and shunned display"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 35,
+     "reason_ko": "거듭된 실패 뒤에도 다음 가게를 여는 낙관",
+     "reason_en": "After every failure he opened the next shop"
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "기업가 가부장주의에 충실한 전통형 경영자",
+     "reason_en": "A traditionalist of paternalistic capitalism"
+    },
+    "individual_social": {
+     "score": 38,
+     "reason_ko": "회사·마을·학교가 하나의 공동체인 설계",
+     "reason_en": "Designed firm, town and school as one community"
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "대담한 창업가이되 제조·판매는 실험으로 검증",
+     "reason_en": "Bold in founding, methodical in the workshop"
+    }
+   },
+   "rationale_ko": "세 번의 파산이 만든 집념이 초콜릿의 대중화를 열었다. 번 돈을 사치가 아니라 마을과 고아들에게 되돌린 기업가였다. 가부장적 한계가 있었으나 공동체 설계 자체는 시대를 앞섰다. 1945년 허시에서 88세로 숨졌다.",
+   "rationale_en": "Persistence forged in three bankruptcies opened chocolate to the masses. He returned his wealth to the town and its orphans rather than to luxury. Paternalistic limits aside, the community he designed was ahead of its era. He died in Hershey in 1945, at eighty-eight."
+  }
+ },
+ "조지 이스트먼": {
+  "influence": {
+   "political": 1,
+   "political_exp": "공적 직위 없이 정치 영향은 미미",
+   "political_exp_en": "Held no office; political influence was marginal",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 8,
+   "tech_exp": "롤필름·박스 카메라로 사진 산업 자체를 창조",
+   "tech_exp_en": "Roll film and the box camera created the photo industry",
+   "social": 5,
+   "social_exp": "이익공유·익명 기부로 경영 복지의 선구가 됨",
+   "social_exp_en": "Pioneered profit-sharing and anonymous mega-giving",
+   "economic": 7,
+   "economic_exp": "코닥으로 아마추어 사진이라는 신산업을 건설",
+   "economic_exp_en": "Kodak built the amateur-photography industry",
+   "cultural": 7,
+   "cultural_exp": "스냅사진 문화로 인류의 기록 방식을 바꿈",
+   "cultural_exp_en": "Snapshot culture changed how humanity records life",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "대중 사진 문화의 토대로 계속 영향",
+   "transhistoricity_exp_en": "The base layer of mass photography culture"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "코닥을 세계적 기업으로 40년간 이끌며 수만 명을 고용",
+     "reason_en": "Led Kodak as a world company for forty years, tens of thousands employed"
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "척추 질환을 안고도 77세까지 일한 책상형 생애",
+     "reason_en": "Worked to seventy-seven despite a failing spine — a desk life"
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "은행 서기가 독학으로 필름·카메라·유통 체계를 설계",
+     "reason_en": "A bank clerk who taught himself film, cameras and distribution"
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "과묵한 독신으로 직원들의 존경을 샀으나 대중 인기는 제한적",
+     "reason_en": "A reserved bachelor, respected by employees more than adored"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "검소한 식사와 규칙적 생활을 죽을 때까지 지킴",
+     "reason_en": "Plain meals and fixed routines to the end"
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "부엌에서 감광유제 실험을 밤새운 자수성가 발명가",
+     "reason_en": "Nights over kitchen-table emulsion experiments"
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "'내 일은 끝났다'는 유서에 드러난 냉정한 자기 정리",
+     "reason_en": "'My work is done' — a lucid settling of accounts"
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "신생 필름 사업에 전 재산을 걸고 특허 전쟁을 견딤",
+     "reason_en": "Staked all on film and endured patent wars"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "로체스터와 코닥에 일생을 바치고 직원 복지를 앞세움",
+     "reason_en": "A life given to Rochester and Kodak, with welfare first"
+    },
+    "benevolence": {
+     "score": 82,
+     "reason_ko": "'미스터 스미스' 가명으로 MIT·치과병원에 1억 달러 기부",
+     "reason_en": "As 'Mr. Smith' he gave over $100M to MIT and clinics"
+    },
+    "fairness": {
+     "score": 62,
+     "reason_ko": "이익 배당·임금 보너스를 선도했으나 조합은 경계",
+     "reason_en": "Led on wage dividends while keeping unions at bay"
+    },
+    "humility": {
+     "score": 80,
+     "reason_ko": "거액 기부를 익명으로 처리하고 공식 석상을 피함",
+     "reason_en": "Gave anonymously and avoided the podium"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "기술이 대중을 즐겁게 한다는 낙관과 차분한 마무리",
+     "reason_en": "Optimism about technology for all, a calm end"
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "복지 자본주의를 실천한 보수적 경영 관행의 인물",
+     "reason_en": "Welfare capitalism inside a conservative industrial order"
+    },
+    "individual_social": {
+     "score": 15,
+     "reason_ko": "독신으로 홀로 살았으나 로체스터 공동체에 헌신",
+     "reason_en": "Lived alone yet devoted to his city"
+    },
+    "cautious_bold": {
+     "score": 8,
+     "reason_ko": "한 단계씩 검증하며 확장한 조심스러운 발명가",
+     "reason_en": "A step-by-step, verification-first inventor"
+    }
+   },
+   "rationale_ko": "독학 발명가가 사진을 전문가의 손에서 대중의 손으로 옮겼다. 절제된 생활과 익명의 거액 기부가 공존한 드문 자본가였다. 병마가 다가오자 '내 일은 끝났다'는 한 줄로 스스로 마무리를 택했다. 1932년 로체스터에서 생을 마감했다.",
+   "rationale_en": "A self-taught inventor moved photography from experts' hands to everyone's. Rare among capitalists, ascetic habits coexisted with anonymous mega-giving. When disease closed in he chose his own exit — 'My work is done. Why wait?' He ended his life in Rochester in 1932."
+  }
+ },
+ "에드윈 랜드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "연방 정부 과학 자문으로 정책에 참여",
+   "political_exp_en": "Served federal science-advisory panels",
+   "strategic": 2,
+   "strategic_exp": "U-2 정찰기 광학 체계 개발에 참여",
+   "strategic_exp_en": "Contributed to U-2 reconnaissance optics",
+   "tech": 8,
+   "tech_exp": "편광 필름과 즉석사진을 발명, 특허 500여 개",
+   "tech_exp_en": "Invented polarising film and instant photography — 500+ patents",
+   "social": 3,
+   "social_exp": "여성·소수계층 과학자 채용을 선도",
+   "social_exp_en": "Hired women and minority scientists ahead of the industry",
+   "economic": 6,
+   "economic_exp": "폴라로이드로 즉석사진 산업을 창설",
+   "economic_exp_en": "Polaroid created the instant-photography industry",
+   "cultural": 6,
+   "cultural_exp": "폴라로이드 미학이 20세기 시각문화를 규정",
+   "cultural_exp_en": "The Polaroid look shaped 20th-century visual culture",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "즉석 이미지라는 개념이 디지털 시대를 예고",
+   "transhistoricity_exp_en": "Instant imaging foreshadowed the digital era"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 72,
+     "reason_ko": "폴라로이드를 40여 년 이끌며 연구소·공장 수천 명을 지휘",
+     "reason_en": "Led Polaroid forty years — labs and plants of thousands"
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "하버드 물리학 중퇴의 실험실형 생애",
+     "reason_en": "A Harvard physics dropout's laboratory life"
+    },
+    "intellect": {
+     "score": 90,
+     "reason_ko": "편광·즉석 인화를 발명하고 특허 500여 개를 낸 과학자",
+     "reason_en": "Invented two fields and filed over five hundred patents"
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "주주총회를 기술 시연 무대로 바꾼 프레젠터",
+     "reason_en": "Turned shareholder meetings into legendary demo stages"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 62,
+     "reason_ko": "개인 사치보다 연구비에 회사 돈을 쏟아부음",
+     "reason_en": "Poured company money into research rather than himself"
+    },
+    "diligence": {
+     "score": 90,
+     "reason_ko": "한 발명을 수년씩 갈고 닦는 집착의 실험가",
+     "reason_en": "Years of obsessive refinement per invention"
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "SX-70 과잉 투자 뒤에도 자기 비전을 굽히지 않음",
+     "reason_en": "Would not bend the vision even after the SX-70 overreach"
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "전문가들이 불가능하다는 즉석 인화에 회사를 걺",
+     "reason_en": "Bet the company on what experts called impossible"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "평생 한 회사와 과학에 헌신, 퇴장 뒤 연구 재단 설립",
+     "reason_en": "Devoted to one firm and science; founded a research institute after"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "흑인·여성 과학자 채용을 업계보다 앞서 진행",
+     "reason_en": "Brought Black and women scientists in early"
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "연구 실력주의를 고집했으나 반대 의견엔 완강",
+     "reason_en": "Meritocratic in the lab, immovable before critics"
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "언론 인터뷰를 피하고 특허 뒤에 숨는 태도",
+     "reason_en": "Declined interviews; let the patents speak"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "불가능한 것이 도전할 가치라는 발명 낙관주의",
+     "reason_en": "The impossible was his definition of worthwhile"
+    },
+    "conservative_progressive": {
+     "score": 8,
+     "reason_ko": "여성·소수인종 채용을 당대 기업보다 앞서 실천",
+     "reason_en": "Ahead of corporate norms on who could do science"
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "천재 개인주의와 회사 공동체 사이를 오감",
+     "reason_en": "Moved between lone-genius and company-community modes"
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "SX-70처럼 회사 존망이 걸린 기술 도박을 반복",
+     "reason_en": "Repeated company-staking technological gambles"
+    }
+   },
+   "rationale_ko": "하버드를 중퇴하고도 과학자로서 회사와 발명을 동시에 이끌었다. 불가능을 도전 과제로 삼는 낙관이 즉석사진을 탄생시켰다. SX-70에 대한 집착이 회사에서 그를 밀어냈고 떠난 뒤에도 연구에 헌신했다. 1991년 81세로 숨졌다.",
+   "rationale_en": "A Harvard dropout who ran a company and a research career at once. His creed — the impossible is worth attempting — produced instant photography. Obsession with the SX-70 got him pushed out; he still gave his last years to research. He died in 1991, at eighty-one."
+  }
+ },
+ "마에자와 유사쿠": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 제도와 무관",
+   "political_exp_en": "No political consequence",
+   "strategic": 0,
+   "strategic_exp": "군사·안보 분야와 무관",
+   "strategic_exp_en": "No bearing on military or security affairs",
+   "tech": 1,
+   "tech_exp": "민간 달 관광 수요를 만들었으나 기술 기여는 없음",
+   "tech_exp_en": "Created lunar-tourism demand, no technology contribution",
+   "social": 2,
+   "social_exp": "10억 엔 배포로 현금 급여 논쟁을 자극",
+   "social_exp_en": "His ¥1B giveaway fed the cash-handout debate",
+   "economic": 4,
+   "economic_exp": "조조타운으로 일본 온라인 패션 유통을 재편",
+   "economic_exp_en": "Zozotown reshaped Japan's online fashion retail",
+   "cultural": 5,
+   "cultural_exp": "바스키아 구매·ISS 체류로 세계적 화제 인물",
+   "cultural_exp_en": "The Basquiat record and ISS trip made global headlines",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "2010년대 일본 e커머스의 상징적 인물",
+   "transhistoricity_exp_en": "An emblematic figure of 2010s Japanese e-commerce"
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 62,
+     "reason_ko": "조조타운을 일본 최대 패션몰로 키우며 약 천 명을 이끎",
+     "reason_en": "Built Japan's top fashion mall with ~1,000 staff"
+    },
+    "martial": {
+     "score": 52,
+     "reason_ko": "펑크 밴드 드러머 출신으로 리듬 연주 활동 이력",
+     "reason_en": "A punk-band drummer — years of physical performance"
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "통신판매에서 패션 플랫폼으로 사업 모델을 설계",
+     "reason_en": "Designed the mail-order-to-platform business model"
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "10억 엔 현금 이벤트로 세계 트위터를 뒤집은 화제성",
+     "reason_en": "A ¥1B giveaway that broke world retweet records"
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 22,
+     "reason_ko": "바스키아·달 여행·현금 뿌리기로 상징되는 과시형 소비",
+     "reason_en": "Basquiats, a moon seat, cash showers — display spending"
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "드러머에서 기업가로 이십 년간 사업을 키움",
+     "reason_en": "Twenty years from drummer to platform owner"
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "조조 수트 실패·디어문 취소를 겪고 사업을 재편",
+     "reason_en": "Regrouped after Zozo Suit flopped and dearMoon cancelled"
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "고졸 신분으로 창업하고 우주 비행까지 감행",
+     "reason_en": "Founded without a degree, then flew to space"
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 50,
+     "reason_ko": "창업 멤버·아티스트 네트워크와 관계를 유지",
+     "reason_en": "Kept ties with founding members and artists"
+    },
+    "benevolence": {
+     "score": 58,
+     "reason_ko": "10억 엔 배포·재해 기부 등 공개적 나눔을 반복",
+     "reason_en": "Repeated public giving — ¥1B handouts, disaster relief"
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "눈에 띄는 부정·공정 행적이 모두 드묾",
+     "reason_en": "No striking record either way on fairness"
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "우주 여행·슈퍼카를 콘텐츠화하는 자기 과시의 극치",
+     "reason_en": "Turned spaceflight and supercars into self-display"
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 40,
+     "reason_ko": "'돈은 쓰면 들어온다'는 철저한 낙관론",
+     "reason_en": "Preaches that spending money brings money"
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "사회 질서보다 자기 즐거움이 우선인 취향가",
+     "reason_en": "A man of tastes, unmoved by questions of order"
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "개인 취향과 자기 표현이 회사 브랜드 자체가 됨",
+     "reason_en": "His personal taste became the company brand"
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "달 여행 선결제·거액 미술 구매를 즉시 실행",
+     "reason_en": "Prepaid a lunar trip and nine-figure art on impulse"
+    }
+   },
+   "rationale_ko": "펑크 드러머가 일본 최대 패션몰의 주인이 된 자수성가 사업가다. 번 돈을 미술품·우주여행·현금 이벤트로 쓰는 과시가 곧 그의 브랜드다. 실패와 취소를 겪으면서도 다음 장난을 준비하는 낙관파다. 2021년 ISS에 12일간 머물고 돌아왔다.",
+   "rationale_en": "A punk drummer who became the owner of Japan's biggest fashion mall. Spending on art, space travel and cash giveaways is itself his brand. Failures and cancellations never stopped the next stunt. In 2021 he spent twelve days aboard the ISS."
+  }
+ }
+}

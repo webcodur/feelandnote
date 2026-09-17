@@ -1,0 +1,517 @@
+{
+ "빅토르 루스티히": {
+  "relations": [
+   {
+    "to_en": "Al Capone",
+    "to_ko": "알 카포네",
+    "rel_type": "rival",
+    "note_ko": "루스티히는 카포네에게 5만 달러 투자 사기를 걸었다가 돈을 고스란히 돌려줘 '정직함'으로 신뢰와 사례금을 얻었다.",
+    "note_en": "Lustig ran a $50,000 investment con on Capone, then returned the money untouched — impressing him enough to earn a reward.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Dan Collins",
+    "to_ko": "댄 콜린스",
+    "rel_type": "partner",
+    "note_ko": "콜린스는 에펠탑 사기에서 루스티히의 비서 역을 맡았고 이후 위조지폐 공모까지 함께 했다.",
+    "note_en": "Collins played the secretary in Lustig's Eiffel Tower scam and later joined his counterfeiting ring.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "William Watts",
+    "to_ko": "윌리엄 와츠",
+    "rel_type": "partner",
+    "note_ko": "화학자 와츠는 루스티히의 위조지폐 동판을 새겼고 1935년 함께 체포돼 실형을 살았다.",
+    "note_en": "Watts, a chemist, engraved the plates for Lustig's counterfeit bills; both were arrested in 1935 and imprisoned.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "그레고어 맥그리거": {
+  "relations": [
+   {
+    "to_en": "Simón Bolívar",
+    "to_ko": "시몬 볼리바르",
+    "rel_type": "colleague",
+    "note_ko": "맥그리거는 볼리바르의 독립군에서 장군까지 올라 싸웠고, 포야이 사기가 들통난 뒤 베네수엘라로 돌아가 영웅 대접을 받았다.",
+    "note_en": "MacGregor rose to general under Bolívar in Venezuela's independence war; after the Poyais fraud collapsed he returned to a hero's welcome.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Josefa MacGregor",
+    "to_ko": "호세파 맥그리거",
+    "rel_type": "spouse",
+    "note_ko": "볼리바르의 친척인 장군의 딸 호세파는 '포야이 공작부인' 역할을 함께 연기했고 남편을 평생 부양했다.",
+    "note_en": "Josefa, a Venezuelan general's daughter related to Bolívar, played 'Princess of Poyais' beside MacGregor and supported him for life.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "George Frederic Augustus I",
+    "to_ko": "조지 프레데릭 아우구스투스 1세",
+    "rel_type": "friend",
+    "note_ko": "모스키토 해안의 왕은 맥그리거에게 넓은 땅을 내줬고, 맥그리거는 그 땅을 '포야이'로 포장해 채권과 토지를 팔았다.",
+    "note_en": "The Miskito king granted MacGregor a vast coastal tract; MacGregor rebranded it 'Poyais' and sold bonds and land on it.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "프랭크 애버그네일": {
+  "relations": [
+   {
+    "to_en": "Joseph Shea",
+    "to_ko": "조지프 셰이",
+    "rel_type": "rival",
+    "note_ko": "FBI 요원 셰이는 애버그네일을 수년간 추적했고, 그가 보안 전문가로 전업한 뒤에는 30년 넘는 친구가 됐다.",
+    "note_en": "FBI agent Shea chased Abagnale for years; after Abagnale went straight, the two stayed friends for three decades.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Frank Abagnale Sr.",
+    "to_ko": "프랭크 애버그네일 시니어",
+    "rel_type": "father",
+    "note_ko": "아버지의 사업 실패와 부모의 이혼이 애버그네일을 가출로 내몰았고, 그는 도피 중 아버지의 죽음 소식을 들었다.",
+    "note_en": "His father's business failure and the parents' divorce drove Abagnale to run away; he learned of his father's death while still on the run.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Kelly Welbes Abagnale",
+    "to_ko": "켈리 애버그네일",
+    "rel_type": "spouse",
+    "note_ko": "애버그네일은 잠복 수사 중 켈리를 만나 결혼했고, 그녀가 정직한 삶으로 돌아오는 계기가 됐다고 회고했다.",
+    "note_en": "Abagnale met Kelly while undercover, married her, and later credited her with his return to an honest life.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "찰스 폰지": {
+  "relations": [
+   {
+    "to_en": "Rose Gnecco",
+    "to_ko": "로즈 네코",
+    "rel_type": "spouse",
+    "note_ko": "로즈는 남편의 사업을 처음부터 의심했지만 감옥 시절을 함께 견뎠고, 그가 추방된 뒤에야 이혼했다.",
+    "note_en": "Rose distrusted the scheme from the start yet stood by Ponzi through prison, divorcing him only after his deportation.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "William McMasters",
+    "to_ko": "윌리엄 맥마스터스",
+    "rel_type": "colleague",
+    "note_ko": "홍보 담당으로 고용된 맥마스터스는 폰지의 지급불능을 확신하고 보스턴 포스트에 내부를 폭로해 붕괴를 앞당겼다.",
+    "note_en": "His own publicist McMasters saw Ponzi was insolvent and exposed him in the Boston Post, hastening the collapse.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Clarence W. Barron",
+    "to_ko": "클래런스 배런",
+    "rel_type": "rival",
+    "note_ko": "금융인 배런은 폰지 수익에 필요한 답신권이 1억 6천만 장이라는 계산으로 사기를 증명해 뱅크런을 촉발했다.",
+    "note_en": "Publisher Barron proved the returns impossible — 160 million reply coupons would be needed — and triggered the run that felled Ponzi.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "생제르맹 백작": {
+  "relations": [
+   {
+    "to_en": "Madame de Pompadour",
+    "to_ko": "퐁파두르 부인",
+    "rel_type": "friend",
+    "note_ko": "퐁파두르 부인은 생제르맹을 궁정에 불러 루이 15세에게 소개하고 체포 위기 때마다 그를 보호했다.",
+    "note_en": "Madame de Pompadour presented St. Germain to Louis XV's court and shielded him whenever his arrest was sought.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Giacomo Casanova",
+    "to_ko": "카사노바",
+    "rel_type": "friend",
+    "note_ko": "카사노바는 파리에서 생제르맹을 만나 은을 금으로 바꾸는 솜씨를 보았다며 회고록에 그를 사기꾼처럼 묘사했다.",
+    "note_en": "Casanova met St. Germain in Paris, claimed to watch him transmute silver, and portrayed him in his memoirs as a master charlatan.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Charles, Landgrave of Hesse-Kassel",
+    "to_ko": "헤센카셀 방백 카를",
+    "rel_type": "friend",
+    "note_ko": "카를 방백은 생제르맹의 마지막 후원자가 되어 에케른외르데에 연금술 실험실을 내어 주고 죽음까지 곁을 지켰다.",
+    "note_en": "Landgrave Charles of Hesse was St. Germain's last patron, giving him a laboratory at Eckernförde where he spent his final years.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "카스파 하우저": {
+  "relations": [
+   {
+    "to_en": "Georg Friedrich Daumer",
+    "to_ko": "게오르크 프리드리히 다우머",
+    "rel_type": "teacher",
+    "note_ko": "다우머는 카스파를 집에 들여 말과 글을 가르쳤으나 그의 발전 속도를 과장해 논란에 휘말렸다.",
+    "note_en": "Daumer took Kaspar into his home and taught him to speak and read, then was accused of exaggerating his progress.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Anselm von Feuerbach",
+    "to_ko": "안젤름 폰 포이어바흐",
+    "rel_type": "friend",
+    "note_ko": "법률가 포이어바흐는 카스파의 출생 수사를 맡아 『영혼에 대한 범죄』를 썼고, 미스터리를 풀지 못한 채 갑자기 죽었다.",
+    "note_en": "Jurist Feuerbach took up Kaspar's case and wrote 'A Crime Against a Soul' for him, dying suddenly with the mystery unsolved.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Philip Henry Stanhope, 4th Earl Stanhope",
+    "to_ko": "스탠호프 백작",
+    "rel_type": "friend",
+    "note_ko": "영국 귀족 스탠호프는 카스파의 후원자를 자처해 돈을 대다가, 그를 의심하게 되자 미국행을 준비했다.",
+    "note_en": "Lord Stanhope became Kaspar's British patron and paymaster, then grew suspicious and prepared to ship him to America.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "프린세스 카라부": {
+  "relations": [
+   {
+    "to_en": "Elizabeth Worrall",
+    "to_ko": "엘리자베스 워럴",
+    "rel_type": "friend",
+    "note_ko": "치안판사 부인 워럴은 '공주'를 저택에 들여 후하게 대했고, 정체가 들통난 뒤에도 미국행 배삯을 대줬다.",
+    "note_en": "Mrs. Worrall, the magistrate's wife, housed the 'princess' generously and paid her passage to America even after the exposure.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "조지 살마나자르": {
+  "relations": [
+   {
+    "to_en": "Samuel Johnson",
+    "to_ko": "새뮤얼 존슨",
+    "rel_type": "friend",
+    "note_ko": "존슨 박사는 참회하고 문인이 된 말년의 살마나자르를 '내가 아는 가장 훌륭한 사람'으로 꼽았다.",
+    "note_en": "Dr. Johnson held the reformed, literary Psalmanazar in such esteem that he called him the best man he had ever known.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "William Innes",
+    "to_ko": "윌리엄 이네스",
+    "rel_type": "partner",
+    "note_ko": "군종신부 이네스는 포교 실적을 노리고 살마나자르를 '개종한 포르모사인'으로 훈련시켜 런던까지 데려갔다.",
+    "note_en": "Chaplain Innes, hungry for a conversion trophy, coached Psalmanazar to play a converted Formosan and brought him to London.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "애나 앤더슨": {
+  "relations": [
+   {
+    "to_en": "John Eacott Manahan",
+    "to_ko": "존 마나한",
+    "rel_type": "spouse",
+    "note_ko": "역사학자 마나한은 그녀의 주장을 오래 지지하다 1968년 결혼해 그녀를 '대공비'라 불렀다.",
+    "note_en": "Professor Manahan, a longtime supporter of her claim, married Anderson in 1968 and addressed her as 'Grand Duchess'.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Gleb Botkin",
+    "to_ko": "글레프 보트킨",
+    "rel_type": "friend",
+    "note_ko": "로마노프 주치의의 아들 보트킨은 어린 시절 기억으로 그녀를 진짜 공주로 확신하고 미국 이민과 생활을 주선했다.",
+    "note_en": "Botkin, son of the tsar's physician, believed her from childhood memories and arranged her move and life in America.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Ernest Louis, Grand Duke of Hesse",
+    "to_ko": "헤센 대공 에른스트 루트비히",
+    "rel_type": "rival",
+    "note_ko": "에른스트 루트비히 대공은 사립탐정을 고용해 그녀가 이모 카탈리나의 외동딸이 아니라 폴란드 노동자라는 정체를 파냈다.",
+    "note_en": "Grand Duke Ernest Louis hired private detectives who dug up her real identity as a Polish factory worker, not his cousin Anastasia.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Felix Schanzkowsky",
+    "to_ko": "펠릭스 슈칸코프스키",
+    "rel_type": "sibling",
+    "note_ko": "실제 오빠 펠릭스는 1938년 그녀를 대면해 여동생 프란치스카라고 지목했으나, 그녀는 끝내 인정을 거부했다.",
+    "note_en": "Her real brother Felix faced her in 1938 and named her his sister Franziska; she refused to acknowledge him.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "그레이 아울": {
+  "relations": [
+   {
+    "to_en": "Anahareo",
+    "to_ko": "아나하레오",
+    "rel_type": "partner",
+    "note_ko": "모호크 출신 아나하레오는 동고인이 되어 그의 비버 사냥을 보호 운동으로 돌려세웠고 함께 강연 활동을 이끌었다.",
+    "note_en": "Anahareo, a Mohawk woman, became his common-law wife and turned the trapper into a beaver conservationist.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Angele Egwuna",
+    "to_ko": "앙헬 에그우나",
+    "rel_type": "spouse",
+    "note_ko": "첫 아내 오지브웨인 에그우나와 1910년 결혼해 딸을 두었으나 그는 곧 가족 곁을 떠나 떠돌았다.",
+    "note_en": "His first wife Egwuna, an Ojibwe woman, married him in 1910; he soon drifted away from her and their daughter.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "James Harkin",
+    "to_ko": "제임스 하킨",
+    "rel_type": "colleague",
+    "note_ko": "국립공원 위원 하킨은 그레이 아울에게 비버 보호구역과 일자리를 만들어 줘 그를 강연가로 키웠다.",
+    "note_en": "Parks commissioner Harkin gave Grey Owl a job and a beaver sanctuary, launching his career as a lecturer.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "한 반 메이허런": {
+  "relations": [
+   {
+    "to_en": "Bartus Korteling",
+    "to_ko": "바르투스 코르텔링",
+    "rel_type": "teacher",
+    "note_ko": "미술 스승 코르텔링은 베르메르를 숭배했고, 그 취향이 메이허런의 위작 방향과 기법을 정했다.",
+    "note_en": "His drawing teacher Korteling worshipped Vermeer; that taste set the direction and method of Van Meegeren's forgeries.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Hermann Göring",
+    "to_ko": "헤르만 괴링",
+    "rel_type": "rival",
+    "note_ko": "괴링은 가짜 베르메르를 수집품 백여 점과 맞바꿔 샀고, 이 거래가 메이허런의 전후 반역 재판을 낳았다.",
+    "note_en": "Göring swapped over a hundred paintings for the fake Vermeer — the sale that put Van Meegeren on trial as a collaborator.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Abraham Bredius",
+    "to_ko": "아브라함 브레디우스",
+    "rel_type": "rival",
+    "note_ko": "권위자 브레디우스는 '엠마오의 그리스도'를 베르메르 최고 걸작이라 극찬해 위작을 사실상 공인해 줬다.",
+    "note_en": "Expert Bredius hailed 'Christ at Emmaus' as Vermeer's masterpiece, unwittingly certifying the forgery.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "콘라트 쿠야우": {
+  "relations": [
+   {
+    "to_en": "Gerd Heidemann",
+    "to_ko": "게르트 하이데만",
+    "rel_type": "partner",
+    "note_ko": "슈테른 기자 하이데만은 쿠야우의 가짜 일기를 수백만 마르크에 사들이며 사기의 공범이 되어 함께 실형을 살았다.",
+    "note_en": "Stern reporter Heidemann bought Kujau's fake diaries for millions of marks, became his accomplice, and served time alongside him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "David Irving",
+    "to_ko": "데이비드 어빙",
+    "rel_type": "rival",
+    "note_ko": "역사가 어빙은 처음엔 일기가 진짜라고 옹호하다가 공개 석상에서 가짜라고 돌아서며 스캔들을 키웠다.",
+    "note_en": "Historian Irving first vouched for the diaries, then publicly reversed to denounce them as fakes, feeding the scandal.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "클리퍼드 어빙": {
+  "relations": [
+   {
+    "to_en": "Howard Hughes",
+    "to_ko": "하워드 휴즈",
+    "rel_type": "rival",
+    "note_ko": "어빙은 은둔한 휴즈가 반박하지 못할 거라 보고 가짜 자서전을 팔았으나, 휴즈는 전화 기자회견으로 그를 박살 냈다.",
+    "note_en": "Irving bet the reclusive Hughes could not refute the fake memoir; Hughes answered with a telephonic press conference that destroyed him.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Richard Suskind",
+    "to_ko": "리처드 서스킨드",
+    "rel_type": "partner",
+    "note_ko": "오랜 친구 서스킨드는 휴즈 자료 조사를 맡아 가짜 자서전을 함께 쓰고 함께 수감됐다.",
+    "note_en": "His old friend Suskind researched Hughes and co-wrote the fake autobiography — and went to prison with him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Edith Irving",
+    "to_ko": "에디스 어빙",
+    "rel_type": "spouse",
+    "note_ko": "아내 에디스는 '헬가 휴즈'라는 가명으로 계약금 수표를 입금해 부부가 나란히 유죄 판결을 받았다.",
+    "note_en": "His wife Edith deposited the advance cheques under the name 'Helga R. Hughes'; both Irvings were convicted.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Elmyr de Hory",
+    "to_ko": "엘미르 드 오리",
+    "rel_type": "friend",
+    "note_ko": "이비사의 이웃이던 위작 화가 엘미르의 전기 『Fake!』를 어빙이 써, 그가 사기 작가로 발 디디는 계기가 됐다.",
+    "note_en": "His Ibiza neighbor, art forger Elmyr de Hory, let Irving write his biography 'Fake!' — Irving's apprenticeship in fraud.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "마르탱 게르": {
+  "relations": [
+   {
+    "to_en": "Arnaud du Tilh",
+    "to_ko": "아르노 뒤 틸",
+    "rel_type": "rival",
+    "note_ko": "아르노 뒤 틸은 마르탱의 이름·아내·재산을 통째로 차지해 3년을 살았으나, 재판 중 진짜 마르탱이 걸어 들어와 무너졌다.",
+    "note_en": "Arnaud du Tilh lived three years as Martin — his name, wife and property — until the real Martin walked into the courtroom.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bertrande de Rols",
+    "to_ko": "베르트랑드 드 롤스",
+    "rel_type": "spouse",
+    "note_ko": "아내 베르트랑드는 가짜 남편과 3년을 살며 아이까지 낳았고, 진짜 마르탱의 귀환으로 모든 것이 뒤집혔다.",
+    "note_en": "His wife Bertrande lived three years with the impostor and bore him a child; the real Martin's return undid it all.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jean de Coras",
+    "to_ko": "장 드 코라스",
+    "rel_type": "rival",
+    "note_ko": "판사 코라스는 아르노의 무죄 직전까지 기울었다가, 재판 기록을 남겨 이 사건을 불후의 이야기로 만들었다.",
+    "note_en": "Judge Coras nearly acquitted the impostor, then wrote the account that made the case immortal.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "가짜 드미트리 1세": {
+  "relations": [
+   {
+    "to_en": "Marina Mniszech",
+    "to_ko": "마리나 므니셰크",
+    "rel_type": "spouse",
+    "note_ko": "마리나 므니셰크는 참칭자와 결혼해 러시아 역사상 처음으로 관대관을 치른 차리나가 됐고, 그가 죽은 뒤에도 재차 참칭자들과 결혼했다.",
+    "note_en": "Marina Mniszech wed the pretender and became Russia's first crowned tsarina — and married the next pretender after his death.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Boris Godunov",
+    "to_ko": "보리스 고두노프",
+    "rel_type": "rival",
+    "note_ko": "고두노프 차르는 드미트리를 탈승 주술사로 규정해 파문했으나, 그의 진군 도중 급사해 왕위를 내줬다.",
+    "note_en": "Tsar Godunov excommunicated 'the renegade monk' Dmitry — then died mid-invasion, ceding the throne to him.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Vasily Shuisky",
+    "to_ko": "바실리 슈이스키",
+    "rel_type": "rival",
+    "note_ko": "보야르 슈이스키는 드미트리를 진짜라 인정했다가 돌아서 반란을 이끌어 그를 살해하고 스스로 차르가 됐다.",
+    "note_en": "Boyar Shuisky first affirmed Dmitry was genuine, then led the coup that killed him and took the crown himself.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jerzy Mniszech",
+    "to_ko": "예지 므니셰크",
+    "rel_type": "relative",
+    "note_ko": "장인 므니셰크는 폴란드 사병과 궁정의 지원을 사위에게 빌려줘 그를 모스크바 왕좌에 앉혔다.",
+    "note_en": "His father-in-law Mniszech lent him a private Polish army and court backing that put him on the Moscow throne.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "예멜리안 푸가초프": {
+  "relations": [
+   {
+    "to_en": "Catherine the Great",
+    "to_ko": "예카테리나 2세",
+    "rel_type": "rival",
+    "note_ko": "예카테리나 여제는 푸가초프의 반란 진압에 정규군을 풀었고, 그를 철창에 넣어 모스크바에서 처형했다.",
+    "note_en": "Catherine unleashed her armies on Pugachev's revolt and had him brought to Moscow in an iron cage for execution.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Sofya Nedyuzheva",
+    "to_ko": "소피야 네듀제바",
+    "rel_type": "spouse",
+    "note_ko": "코사크 아내 소피야는 남편이 '황제 표트르'를 자칭해 볼가를 누비는 동안 고향에서 다섯 자녀와 그를 기다렸다.",
+    "note_en": "His Cossack wife Sofya waited in their home village with their children while her husband played Emperor Peter on the Volga.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Salavat Yulaev",
+    "to_ko": "살라바트 율라예프",
+    "rel_type": "colleague",
+    "note_ko": "바시키르인 율라예프는 푸가초프 진영에 가담해 전투를 이끌다 붙잡혀 종신노역형을 받았다.",
+    "note_en": "The Bashkir leader Yulaev joined Pugachev's camp, fought in his name, was captured and sentenced to hard labour for life.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "보리스 스코시레프": {
+  "relations": [
+   {
+    "to_en": "Justí Guitart i Vilardebó",
+    "to_ko": "후스티 기타르트",
+    "rel_type": "rival",
+    "note_ko": "우르헬 주교 기타르트는 안도라 공동영주로서 스코시레프의 '전쟁 선포'를 받았고, 스페인군이 그 '국왕'을 체포해 쫓아냈다.",
+    "note_en": "Bishop Guitart, Andorra's co-prince, received Skossyreff's declaration of war; Spanish guards arrested and expelled the 'king'.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "오렐리 앙투안 드 투넨": {
+  "relations": [
+   {
+    "to_en": "Quilapán",
+    "to_ko": "킬라판",
+    "rel_type": "friend",
+    "note_ko": "마푸체 추장 킬라판은 투넨을 왕으로 받아들이고 그가 추방된 뒤에도 칠레에 맞서 싸웠다.",
+    "note_en": "The Mapuche chief Quilapán accepted Tounens as king and kept resisting Chile after his patron was expelled.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Cornelio Saavedra Rodríguez",
+    "to_ko": "코르넬리오 사베드라",
+    "rel_type": "rival",
+    "note_ko": "아라우카니아 점령을 지휘한 칠레 장교 사베드라는 투넨을 붙잡아 정신병자로 몰아 국외로 추방했다.",
+    "note_en": "Saavedra, the Chilean officer occupying Araucanía, had Tounens seized and deported as a madman.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "뱅크시": {
+  "relations": [
+   {
+    "to_en": "Blek le Rat",
+    "to_ko": "블렉 르 라",
+    "rel_type": "influence",
+    "note_ko": "뱅크시는 '내가 새롭다고 한 것마다 블렉이 먼저 했더라'며 스텐실 기법의 원조로 공개적으로 인정했다.",
+    "note_en": "Banksy credited Blek le Rat as stencil pioneer: every time he thought he'd done something original, Blek had done it first.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Steve Lazarides",
+    "to_ko": "스티브 라자리데스",
+    "rel_type": "colleague",
+    "note_ko": "라자리데스는 뱅크시의 에이전트로 익명을 지켜 주며 그의 작품을 미술시장에 팔았다.",
+    "note_en": "Lazarides, Banksy's longtime agent, sold his work to the art market while guarding his anonymity.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Thierry Guetta",
+    "to_ko": "티에리 게타",
+    "rel_type": "friend",
+    "note_ko": "영상광 게타는 뱅크시를 따라다니며 찍다가 그의 조언으로 '미스터 브레인워시'로 데뷔했다.",
+    "note_en": "Guetta filmed Banksy obsessively, then, on his advice, debuted as 'Mr. Brainwash' — the stunt behind Exit Through the Gift Shop.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "D.B. 쿠퍼": {
+  "relations": []
+ },
+ "철가면의 사내": {
+  "relations": [
+   {
+    "to_en": "Bénigne Dauvergne de Saint-Mars",
+    "to_ko": "베니뉴 드 생마르",
+    "rel_type": "rival",
+    "note_ko": "생마르는 30년 넘게 가면의 수인을 전담으로 지켰고, 전속되는 감옥마다 그를 데리고 다녔다.",
+    "note_en": "Saint-Mars guarded the masked prisoner for three decades, taking him along from fortress to fortress with each posting.",
+    "prospect": "hit"
+   }
+  ]
+ }
+}

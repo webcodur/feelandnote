@@ -867,7 +867,12 @@
     "headingRead": "이 인물이 읽은 책",
     "headingProfession": "같은 분야 인물들이 읽은 책",
     "headingOrigin": "이 인물이 등장하는 원전",
-    "buy": "구매하기"
+    "buy": "구매하기",
+    "refGroupPopular": "인기 도서",
+    "refGroupOriginDesc": "인물이 본문에 나오는 작품의 판매 상품입니다.",
+    "refGroupReadDesc": "이 인물이 감상 기록으로 남긴 책입니다.",
+    "refGroupProfessionDesc": "같은 분야의 인물들이 감상한 책입니다.",
+    "refGroupPopularDesc": "서점에서 많이 팔리는 책입니다."
   },
   "share": {
     "label": "공유",

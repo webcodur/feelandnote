@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "에드가 에번스",
+    "title": "스콧 원정대의 괴력 사내",
+    "title_en": "The Strongman of Scott's Party",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "자비에르 메르츠",
+    "title": "빙원에 잠든 스키 챔피언",
+    "title_en": "The Ski Champion on the Ice",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "벨그레이브 니니스",
+    "title": "크레바스에 삼켜진 중위",
+    "title_en": "The Lieutenant Swallowed by the Ice",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "존 킹 데이비스",
+    "title": "빙해의 최고 선장",
+    "title_en": "Master of the Ice Seas",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "윌리엄 래슐리",
+    "title": "스콧의 든든한 지원조",
+    "title_en": "Scott's Dependable Stoker",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "콜린 아처",
+    "title": "프람호의 설계자",
+    "title_en": "Designer of the Fram",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "나바라나 메쿠팔루크",
+    "title": "프로이헨의 북극 아내",
+    "title_en": "Freuchen's Arctic Wife",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "앨런 크로퍼드",
+    "title": "랭겔섬의 젊은 대장",
+    "title_en": "Young Leader of Wrangel Island",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "론 나이트",
+    "title": "랭겔섬의 마지막 사수",
+    "title_en": "Last Man of Wrangel",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "닐스 스트린드베리",
+    "title": "기구에서 내린 사진사",
+    "title_en": "The Balloon's Photographer",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "크누트 프렝켈",
+    "title": "빙해의 기록자",
+    "title_en": "Chronicler of the Ice Drift",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "핀 말름그렌",
+    "title": "구조를 부르러 간 기상학자",
+    "title_en": "The Meteorologist Who Went for Help",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "조세핀 피어리",
+    "title": "북극의 영부인",
+    "title_en": "First Lady of the Arctic",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "오타",
+    "title": "북극점에 선 이누이트",
+    "title_en": "Inuit at the Top of the World",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "에드워드 배릴",
+    "title": "쿡의 거짓을 폭로한 마부",
+    "title_en": "The Packer Who Exposed Cook",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "헤르만 바칭거",
+    "title": "콘티키호의 과학자",
+    "title_en": "The Kon-Tiki's Scientist",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "에리크 헤셀베르그",
+    "title": "콘티키 돛에 얼굴을 그린 화가",
+    "title_en": "The Artist Who Painted the Sail",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "이븐 주자이",
+    "title": "리흘라를 받아 적은 필사가",
+    "title_en": "The Scribe of the Rihla",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "윌리엄 코턴 오스웰",
+    "title": "리빙스턴의 후원 사냥꾼",
+    "title_en": "Livingstone's Patron Hunter",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "세첼레",
+    "title": "리빙스턴의 유일한 개종자",
+    "title_en": "Livingstone's Only Convert",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "제임스 추마",
+    "title": "주인의 시신을 옮긴 충복",
+    "title_en": "The Bearer Who Carried Livingstone Home",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "포스터 피츠제럴드 아버스놋",
+    "title": "카마수트라 번역의 후원자",
+    "title_en": "The Man Behind the Kama Sutra",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "셀림 아흐메드",
+    "title": "로렌스의 소년 시종",
+    "title_en": "Lawrence's Boy Servant",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "베네시아 버디컴",
+    "title": "스탁의 첫 여행 동반자",
+    "title_en": "Stark's First Travel Companion",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "이토 쓰루키치",
+    "title": "버드의 안내인 '이토'",
+    "title_en": "Bird's Guide 'Ito'",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "짐 뉴전트",
+    "title": "록키 마운틴 짐",
+    "title_en": "Rocky Mountain Jim",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "패니 제인 버틀러",
+    "title": "인도의 첫 여성 선교 의사",
+    "title_en": "India's First Woman Medical Missionary",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "시드케옹 툴쿠 남갈",
+    "title": "시킴의 개혁 군주",
+    "title_en": "Sikkim's Reformist King",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "토머스 조지 몽고메리",
+    "title": "펀딧 측량의 총지휘자",
+    "title_en": "Master of the Pundits",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "키센 싱",
+    "title": "암호명 'A-K'의 펀딧",
+    "title_en": "Pundit 'A-K.'",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "칼리안 싱",
+    "title": "암호명 'G-K'의 탐사원",
+    "title_en": "Pundit 'G-K.'",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "살림 빈 카비나",
+    "title": "테시저의 그림자",
+    "title_en": "Thesiger's Shadow",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "살림 빈 가바이샤",
+    "title": "룹알할리의 소년 기수",
+    "title_en": "Boy Rider of the Empty Quarter",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "조지 매카트니",
+    "title": "카슈가르의 영국 영사",
+    "title_en": "Britain's Man in Kashgar",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "아나우카크",
+    "title": "헨슨의 이누이트 아들",
+    "title_en": "Henson's Inuit Son",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "아푸르 용덴",
+    "title": "다비드넬의 양자 라마",
+    "title_en": "David-Néel's Adopted Lama",
+    "file": "round2-exploration.json"
+  },
+  {
+    "nick": "윌리엄 로",
+    "title": "시스템의 공동 설계자",
+    "title_en": "The System's Co-Architect",
+    "file": "round2-finance.json"
+  },
+  {
+    "nick": "조제프 파리-뒤베르네",
+    "title": "버블 뒤의 청산인",
+    "title_en": "Liquidator of the Bubble",
+    "file": "round2-finance.json"
+  },
+  {
+    "nick": "아벨 코빈",
+    "title": "대통령의 매형",
+    "title_en": "The President's Brother-in-Law",
+    "file": "round2-finance.json"
+  },
+  {
+    "nick": "허버트 헌트",
+    "title": "실버 목요일의 공범",
+    "title_en": "Co-Pilot of Silver Thursday",
+    "file": "round2-finance.json"
+  }
+]

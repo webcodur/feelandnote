@@ -1,0 +1,792 @@
+{
+ "소피 브라헤": {
+  "events": [
+   {
+    "year": 1556,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "덴마크 크누드스트룹의 귀족 가문에서 태어났다 — 티코 브라헤의 막내 여동생이다.",
+    "description_en": "Born to Danish nobility at Knudstrup — Tycho Brahe's youngest sister.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1573,
+    "year_end": null,
+    "title": "우라니보르그의 조수",
+    "title_en": "Assistant at Uraniborg",
+    "description": "오빠 티코의 섬 천문대에서 월식과 혜성 관측·역법 계산을 도왔다 — 당대 여성으로서 이례적인 과학 수행이었다.",
+    "description_en": "At Tycho's island observatory she assisted in eclipse and comet observations.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1579,
+    "year_end": null,
+    "title": "혼인과 원예",
+    "title_en": "Marriage and Gardens",
+    "description": "귀족 오토 랑게와 혼인하고, 남편 사후 트롤레홀름 성에 덴마크 최고 수준의 정원을 조성했다.",
+    "description_en": "Married Otto Lange; widowed, she built the renowned gardens of Trolleholm.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1626,
+    "year_end": null,
+    "title": "족보서 집필",
+    "title_en": "The Genealogy",
+    "description": "덴마크 귀족 가계를 정리한 900쪽 분량의 족보서를 완성해 귀중한 사료를 남겼다.",
+    "description_en": "She completed a 900-page genealogy of the Danish nobility — a key source still.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1643,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "86세로 숨졌다.",
+    "description_en": "Died at 86.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "메리 벌클랜드": {
+  "events": [
+   {
+    "year": 1797,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "옥스퍼드셔에서 태어나 소녀 시절 이미 퀴비에와 서신을 주고받을 만큼 화석에 밝았다.",
+    "description_en": "Born in Oxfordshire — as a girl she already corresponded with Cuvier.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1824,
+    "year_end": null,
+    "title": "메갈로사우루스 논문의 그림",
+    "title_en": "Drawing the First Dinosaur",
+    "description": "남편 윌리엄 버클랜드의 메갈로사우루스 기술 논문 — 최초의 공룡 학술 기술 — 의 삽화를 그렸다.",
+    "description_en": "She illustrated her husband's Megalosaurus paper — the first scientific dinosaur description.",
+    "kind": "work",
+    "place_name": "옥스퍼드",
+    "place_name_en": "Oxford",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1825,
+    "year_end": 1856,
+    "title": "버클랜드의 오른팔",
+    "title_en": "The Buckland Partnership",
+    "description": "남편의 논문 삽화·화석 복원·표본 정리를 도맡았고, 라임 레지스에서 메리 애닝과도 함께 채집했다.",
+    "description_en": "She illustrated and curated for her husband, and hunted fossils with Mary Anning.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1857,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "60세로 숨졌다.",
+    "description_en": "Died at 60.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "조지 틸턴": {
+  "events": [
+   {
+    "year": 1923,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국 댄빌에서 태어나 지구화학을 공부했다.",
+    "description_en": "Born in Danville, Illinois; a geochemist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1955,
+    "year_end": null,
+    "title": "지르콘 U-Pb 기법",
+    "title_en": "The Zircon Method",
+    "description": "시카고대에서 클레어 패터슨 팀의 일원으로 우라늄-납 동위원소 분석법을 만들어 지구 나이 45.6억 년 측정의 절반을 담당했다.",
+    "description_en": "With Patterson's Chicago team he built the zircon U-Pb method behind Earth's 4.55-billion-year age.",
+    "kind": "work",
+    "place_name": "시카고",
+    "place_name_en": "Chicago",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1965,
+    "year_end": 1991,
+    "title": "카네기·UCSB의 연구",
+    "title_en": "Carnegie and UCSB",
+    "description": "지르콘 연대측정의 선구자로 지구와 달·운석의 기원을 평생 연구했다.",
+    "description_en": "At Carnegie and UCSB he dated the origins of Earth, Moon and meteorites.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2010,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "87세로 숨졌다.",
+    "description_en": "Died at 87.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "로버트 키호": {
+  "events": [
+   {
+    "year": 1893,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "오하이오 조지타운에서 태어나 신시내티대 의대 교수가 됐다.",
+    "description_en": "Born in Georgetown, Ohio; a University of Cincinnati professor.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1930,
+    "year_end": null,
+    "title": "케터링 연구소 소장",
+    "title_en": "Head of the Kettering Lab",
+    "description": "GM·듀폰·에틸의 자금으로 세워진 연구소의 초대 소장이 됐다.",
+    "description_en": "He became first director of the industry-funded Kettering Laboratory.",
+    "kind": "office",
+    "place_name": "신시내티",
+    "place_name_en": "Cincinnati",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1930,
+    "year_end": 1965,
+    "title": "'키호 규칙'",
+    "title_en": "The Kehoe Rule",
+    "description": "'유해성이 입증되기 전까지는 안전하다'는 논리로 수십 년간 납 휘발유의 방패막이를 했다.",
+    "description_en": "His 'proof of harm first' doctrine shielded leaded gasoline for decades.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "패터슨과의 대결",
+    "title_en": "Losing to Patterson",
+    "description": "클레어 패터슨이 대기 납 오염을 폭로하자 학계 최후의 적수로 맞섰고 결국 졌다.",
+    "description_en": "He fought Clair Patterson's lead-pollution findings — and lost.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1992,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "98세로 숨졌다.",
+    "description_en": "Died at 98.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "이자크 프레젠트": {
+  "events": [
+   {
+    "year": 1902,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "소련에서 태어나 생물학 철학을 전공했다.",
+    "description_en": "Born in the USSR; a philosopher of biology.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1936,
+    "year_end": 1964,
+    "title": "리센코주의의 이론가",
+    "title_en": "Lysenko's Ideologue",
+    "description": "리센코의 주장에 마르크스주의 겉옷을 입혀 유전학을 '부르주아 과학'으로 몰았다.",
+    "description_en": "He clothed Lysenko's claims in Marxist theory and branded genetics 'bourgeois science'.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1940,
+    "year_end": null,
+    "title": "바빌로프 탄압",
+    "title_en": "Behind the Vavilov Purge",
+    "description": "니콜라이 바빌로프 탄압의 이데올로기적 배후 중 한 명으로 꼽힌다.",
+    "description_en": "He is counted among the ideological authors of Vavilov's destruction.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "66세로 숨졌다.",
+    "description_en": "Died at 66.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "니콜라이 표도로프": {
+  "events": [
+   {
+    "year": 1829,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "러시아의 사생아 귀족 가정에서 태어났다.",
+    "description_en": "Born illegitimate into a Russian noble family.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1874,
+    "year_end": 1898,
+    "title": "루먄체프 도서관 사서",
+    "title_en": "The Rumyantsev Librarian",
+    "description": "모스크바 루먄체프 도서관의 전설적 사서로 일하며 청년 치올콥스키를 가르쳤다.",
+    "description_en": "As the legendary Rumyantsev librarian he tutored the young Tsiolkovsky.",
+    "kind": "work",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "'공동 과업'",
+    "title_en": "The Common Task",
+    "description": "과학으로 죽은 자들을 부활시켜 우주로 이주해야 한다는 '러시아 우주주의'의 원전이 사후 출간됐다.",
+    "description_en": "His 'Common Task' — resurrect the dead by science, colonize the cosmos — appeared posthumously.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1903,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "모스크바에서 빈곤 속에 74세로 숨졌다.",
+    "description_en": "Died in poverty in Moscow at 74.",
+    "kind": "death",
+    "place_name": "모스크바",
+    "place_name_en": "Moscow",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "알렉산더 색스": {
+  "events": [
+   {
+    "year": 1893,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "리투아니아에서 태어나 미국으로 건너온 경제학자·은행가가 됐다.",
+    "description_en": "Born in Lithuania; an economist and banker in America.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1933,
+    "year_end": 1939,
+    "title": "루스벨트의 브레인",
+    "title_en": "Roosevelt's Adviser",
+    "description": "리먼 브라더스 경제조사 이사로 뉴딜의 비공식 브레인이 됐다.",
+    "description_en": "At Lehman Brothers he became an unofficial New Deal brain.",
+    "kind": "work",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1939,
+    "year_end": null,
+    "title": "서한을 낭독하다",
+    "title_en": "Reading the Letter to FDR",
+    "description": "아인슈타인-실라드 서한을 루스벨트에게 직접 낭독하고 설득해 미국 핵개발의 기폭제가 됐다.",
+    "description_en": "He read the Einstein-Szilárd letter aloud to Roosevelt — the trigger for the Manhattan Project.",
+    "kind": "meeting",
+    "place_name": "워싱턴",
+    "place_name_en": "Washington",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1973,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "뉴욕에서 79세로 숨졌다.",
+    "description_en": "Died in New York at 79.",
+    "kind": "death",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "케네스 스넬슨": {
+  "events": [
+   {
+    "year": 1927,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "오리건 펜들턴에서 태어났다.",
+    "description_en": "Born in Pendleton, Oregon.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1948,
+    "year_end": null,
+    "title": "블랙마운틴의 발견",
+    "title_en": "The Discovery at Black Mountain",
+    "description": "버크민스터 풀러의 수업에서 압축 부재가 닿지 않는 최초의 텐세그리티 조각을 만들었다.",
+    "description_en": "In Fuller's class at Black Mountain College he built the first tensegrity sculpture.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1949,
+    "year_end": null,
+    "title": "공로 분쟁의 시작",
+    "title_en": "The Credit Dispute",
+    "description": "풀러가 텐세그리티를 자기 개념으로 발표하면서 평생 이어지는 공로 다툼이 시작됐다.",
+    "description_en": "Fuller published tensegrity as his own — starting a lifelong credit dispute.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1968,
+    "year_end": null,
+    "title": "'니들 타워'",
+    "title_en": "Needle Tower",
+    "description": "30m 알루미늄·와이어 거대 긴장 조각 '니들 타워'를 완성했다.",
+    "description_en": "His 30-meter 'Needle Tower' became the emblem of tensegrity art.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 2016,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "뉴욕에서 89세로 숨졌다.",
+    "description_en": "Died in New York at 89.",
+    "kind": "death",
+    "place_name": "뉴욕",
+    "place_name_en": "New York",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "우디 플라워스": {
+  "events": [
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "앨라배마에서 태어나 MIT 기계공학 교수가 됐다.",
+    "description_en": "Born in Alabama; an MIT mechanical engineering professor.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1970,
+    "year_end": 2019,
+    "title": "설계 과목 2.70",
+    "title_en": "Course 2.70",
+    "description": "MIT의 전설적 설계 과목을 이끌며 수많은 엔지니어를 길러냈다.",
+    "description_en": "He ran MIT's legendary design course for decades.",
+    "kind": "work",
+    "place_name": "케임브리지",
+    "place_name_en": "Cambridge",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1992,
+    "year_end": null,
+    "title": "FIRST 로봇 대회 창설",
+    "title_en": "Founding FIRST",
+    "description": "딘 케이먼과 FIRST 로봇 대회를 공동 창설하고 '품격 있는 프로페셔널리즘'이라는 대회 정신을 세웠다.",
+    "description_en": "With Dean Kamen he founded FIRST Robotics and coined 'gracious professionalism'.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 2019,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "75세로 숨졌다.",
+    "description_en": "Died at 75.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "마조리 캐머런": {
+  "events": [
+   {
+    "year": 1922,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "아이오와에서 태어나 제2차대전 중 해군 지도 제작부에서 일했다.",
+    "description_en": "Born in Iowa; she drafted maps for the Navy in WWII.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1946,
+    "year_end": null,
+    "title": "'붉은 여인'",
+    "title_en": "The Scarlet Woman",
+    "description": "로켓 과학자 잭 파슨스의 오컬트 의식 '바빌론 워킹'에서 나타난 '붉은 여인'이 되어 그의 아내가 됐다.",
+    "description_en": "She appeared at Jack Parsons' 'Babalon Working' — his 'Scarlet Woman', then his wife.",
+    "kind": "meeting",
+    "place_name": "패서디나",
+    "place_name_en": "Pasadena",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1952,
+    "year_end": null,
+    "title": "파슨스의 폭사",
+    "title_en": "Parsons' Death",
+    "description": "남편이 실험실 폭발로 죽자 그녀는 예술과 오컬트의 세계로 깊이 들어갔다.",
+    "description_en": "Parsons' lab-explosion death pushed her deeper into art and occultism.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1956,
+    "year_end": null,
+    "title": "앵거의 영화",
+    "title_en": "With Kenneth Anger",
+    "description": "케네스 앵거의 '이누거레이션 오브 더 플레저 돔'에 출연하며 컬트 영화계와 연결됐다.",
+    "description_en": "She starred in Kenneth Anger's 'Inauguration of the Pleasure Dome'.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1995,
+    "year_end": null,
+    "title": "사망과 재발견",
+    "title_en": "Death and Rediscovery",
+    "description": "암으로 숨졌고, 사후 초현실 회화가 재조명돼 아방가르드의 컬트 아이콘이 됐다.",
+    "description_en": "She died of cancer; her surreal paintings were later rediscovered.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "요하네스 오포리누스": {
+  "events": [
+   {
+    "year": 1507,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "바젤에서 태어나 고전어를 익혔다.",
+    "description_en": "Born in Basel; trained in the classics.",
+    "kind": "birth",
+    "place_name": "바젤",
+    "place_name_en": "Basel",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1527,
+    "year_end": null,
+    "title": "파라켈수스의 비서",
+    "title_en": "Secretary to Paracelsus",
+    "description": "젊은 시절 방랑하는 파라켈수스의 비서로 동행해 그의 격식 없는 사유를 가까이서 봤다.",
+    "description_en": "As a youth he served as Paracelsus' travelling secretary.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1543,
+    "year_end": null,
+    "title": "『인체 구조에 관하여』 인쇄",
+    "title_en": "Printing Vesalius",
+    "description": "베살리우스의 대작을 인쇄해 해부학 혁명의 산파가 됐다.",
+    "description_en": "He printed Vesalius' 'De humani corporis fabrica' — midwife of the anatomy revolution.",
+    "kind": "publish",
+    "place_name": "바젤",
+    "place_name_en": "Basel",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1559,
+    "year_end": null,
+    "title": "금서 인쇄의 대가",
+    "title_en": "Printer of Forbidden Books",
+    "description": "이단 서적과 금서를 겁 없이 찍다 여러 차례 투옥과 곤경에 처했다.",
+    "description_en": "Printing heretics and banned books landed him in trouble repeatedly.",
+    "kind": "work",
+    "place_name": "바젤",
+    "place_name_en": "Basel",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1568,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "바젤에서 61세로 숨졌다.",
+    "description_en": "Died in Basel at 61.",
+    "kind": "death",
+    "place_name": "바젤",
+    "place_name_en": "Basel",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "마거릿 하우 로바트": {
+  "events": [
+   {
+    "year": 1942,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "미국령 버진아일랜드 세인트토머스에서 태어났다.",
+    "description_en": "Born on St. Thomas, US Virgin Islands.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "돌고래 연구소 합류",
+    "title_en": "Joining the Dolphin Lab",
+    "description": "존 릴리의 NASA 지원 연구소에서 돌고래 피터에게 영어를 가르치는 실험에 자원했다.",
+    "description_en": "She volunteered at John Lilly's lab to teach English to the dolphin Peter.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1965,
+    "year_end": null,
+    "title": "물에 잠긴 집에서의 석 달",
+    "title_en": "Ten Weeks Underwater",
+    "description": "물이 무릎까지 찬 방에서 피터와 석 달을 함께 살며 언어 실험을 밀어붙였다.",
+    "description_en": "She lived ten weeks with Peter in a flooded house.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1966,
+    "year_end": null,
+    "title": "실험의 붕괴",
+    "title_en": "The Experiment Ends",
+    "description": "자금이 끊기고 실험이 무너지며 피터와 헤어졌다 — 그 뒤의 일은 다큐 '돌고래와 대화한 소녀'로 재조명됐다.",
+    "description_en": "Funding collapsed; she was parted from Peter — retold in the BBC documentary.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ }
+}

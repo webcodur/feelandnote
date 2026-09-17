@@ -1,0 +1,818 @@
+{
+ "윌리엄 워커": {
+  "relations": [
+   {
+    "to_en": "Cornelius Vanderbilt",
+    "to_ko": "코넬리어스 밴더빌트",
+    "rel_type": "rival",
+    "note_ko": "워커가 니카라과에서 밴더빌트의 횡단 운송 회사 특허를 빼앗자, 밴더빌트는 자금과 정보원을 보내 연합군 편에서 워커를 무너뜨렸다.",
+    "note_en": "Walker seized Vanderbilt's transit company charter in Nicaragua; Vanderbilt bankrolled the allied campaign that destroyed his regime.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Patricio Rivas",
+    "to_ko": "파트리시오 리바스",
+    "rel_type": "rival",
+    "note_ko": "워커는 리바스를 허수아비 대통령에 앉혔다가 스스로 대통령에 취임해 밀어냈고, 리바스는 결국 워커에 맞서 싸웠다.",
+    "note_en": "Walker installed Rivas as a puppet provisional president, then ousted him to take the presidency himself; Rivas turned against him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Juan Rafael Mora",
+    "to_ko": "후안 라파엘 모라",
+    "rel_type": "rival",
+    "note_ko": "코스타리카 대통령 모라는 워커에게 선전포고하고 군대를 이끌고 리바스 전투에서 그의 필리버스터 정권을 꺾었다.",
+    "note_en": "Costa Rican president Mora declared war on Walker and led the army that broke his filibuster regime at Rivas.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles Frederick Henningsen",
+    "to_ko": "찰스 프레더릭 헤닝센",
+    "rel_type": "colleague",
+    "note_ko": "유럽 혁명 전쟁 참전 경력의 헤닝센은 워커의 니카라과 군대에서 사단장으로 싸우고 패망 후 그의 회고록을 썼다.",
+    "note_en": "Henningsen, a veteran of Europe's revolutionary wars, fought as Walker's division commander in Nicaragua and later chronicled the campaign.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Nowell Salmon",
+    "to_ko": "노웰 새먼",
+    "rel_type": "rival",
+    "note_ko": "영국 해군 장교 새먼이 트루히요에서 워커의 항복을 받아 온두라스군에 넘겼고, 워커는 총살됐다.",
+    "note_en": "Royal Navy officer Salmon accepted Walker's surrender at Trujillo and handed him to the Hondurans, who shot him.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "조사이어 할런": {
+  "relations": [
+   {
+    "to_en": "Dost Mohammad Khan",
+    "to_ko": "도스트 모하마드 칸",
+    "rel_type": "colleague",
+    "note_ko": "할런은 카불의 에미르 도스트 모하마드의 군사 고문으로 북부 원정을 지휘했고, 그 공로로 '고르의 왕자' 칭호를 받았다.",
+    "note_en": "Harlan served Emir Dost Mohammad as military adviser and commanded his northern campaign, earning the title 'Prince of Ghor'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Ranjit Singh",
+    "to_ko": "란지트 싱",
+    "rel_type": "colleague",
+    "note_ko": "펀자브의 시크 대왕 란지트 싱은 할런을 구조라트와 자스로타의 총독에 앉혔고, 둘은 서로의 야심을 이용하며 일했다.",
+    "note_en": "Sikh Maharaja Ranjit Singh made Harlan governor of Gujrat and Jasrota, each exploiting the other's ambition.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Alexander Burnes",
+    "to_ko": "알렉산더 번스",
+    "rel_type": "friend",
+    "note_ko": "영국 탐험가 번스는 카불에서 할런과 머물며 교류했고, 할런의 모험담은 훗날 그레이트 게임 문학의 자료가 됐다.",
+    "note_en": "British explorer Burnes stayed with Harlan in Kabul; Harlan's adventures later fed the lore of the Great Game.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "애런 버": {
+  "relations": [
+   {
+    "to_en": "Alexander Hamilton",
+    "to_ko": "알렉산더 해밀턴",
+    "rel_type": "rival",
+    "note_ko": "정적 해밀턴과의 오랜 갈등 끝에 부통령 버가 위호켄 결투에서 그를 쏴 죽였고, 둘의 정치 생명이 함께 끝났다.",
+    "note_en": "After years of enmity, Vice President Burr shot Hamilton dead in the Weehawken duel — ending both men's political lives.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Thomas Jefferson",
+    "to_ko": "토머스 제퍼슨",
+    "rel_type": "rival",
+    "note_ko": "1800년 선거에서 동점을 이뤘던 버와 제퍼슨은 대통령·부통령이 됐지만 갈라섰고, 제퍼슨은 버의 반역 재판을 몰아붙였다.",
+    "note_en": "Tied in the 1800 election, Jefferson and Burr became president and vice president, then split — Jefferson drove Burr's treason prosecution.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "James Wilkinson",
+    "to_ko": "제임스 윌킨슨",
+    "rel_type": "colleague",
+    "note_ko": "육군 사령관 윌킨슨은 버의 서부 원정 음모에 동조하다가 재판에서 그를 배신해 반역 증거를 넘겼다.",
+    "note_en": "Army commander Wilkinson conspired in Burr's western scheme, then betrayed him and handed over the cipher letter at the treason trial.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Harman Blennerhassett",
+    "to_ko": "하먼 블레너해싯",
+    "rel_type": "colleague",
+    "note_ko": "아일랜드계 부호 블레너해싯은 자기 섬 저택을 버의 원정 거점으로 내주고 함께 반역죄로 기소됐다.",
+    "note_en": "Anglo-Irish gentleman Blennerhassett lent his island estate as the expedition's base and was indicted for treason alongside Burr.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Aaron Burr Sr.",
+    "to_ko": "애런 버 시니어",
+    "rel_type": "father",
+    "note_ko": "프린스턴대 2대 총장이던 아버지는 버가 두 살 때 세상을 떠났고, 버는 명문 집안의 유복자로 자랐다.",
+    "note_en": "Burr's father, the second president of Princeton, died when Aaron was two, leaving him heir to a famous name.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jonathan Edwards",
+    "to_ko": "조너선 에드워즈",
+    "rel_type": "relative",
+    "note_ko": "대각성 운동의 신학자 에드워즈는 버의 외할아버지였고, 버는 그의 명성과 반대 길을 걸은 당대 최고의 악명 정치인이 됐다.",
+    "note_en": "Great Awakening theologian Edwards was Burr's maternal grandfather — Burr became the era's most notorious scandal politician.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Theodosia Bartow Prevost",
+    "to_ko": "테오도시아 바토 프레보",
+    "rel_type": "spouse",
+    "note_ko": "열 살 연상의 유부녀 테오도시아와 12년 연애 끝에 결혼했고, 그녀가 죽은 뒤 버는 딸에게 같은 이름을 붙여 바쳤다.",
+    "note_en": "Burr married Theodosia, a married mother ten years his senior, after a 12-year courtship; after her death he raised a daughter in her name.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Eliza Jumel",
+    "to_ko": "일라이자 주멜",
+    "rel_type": "spouse",
+    "note_ko": "78세의 버는 뉴욕 최고 부호 과부 주멜과 결혼했고, 그녀는 낭비한 재산을 두고 이혼 소송을 냈다 — 판결은 버의 사망 당일 나왔다.",
+    "note_en": "At 78 Burr married New York's richest widow, Eliza Jumel; she sued for divorce over his spending — the decree came the day he died.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "이디 아민": {
+  "relations": [
+   {
+    "to_en": "Milton Obote",
+    "to_ko": "밀턴 오보테",
+    "rel_type": "rival",
+    "note_ko": "오보테의 군사령관이던 아민은 1971년 쿠데타로 그를 축출했고, 오보테는 1979년 탄자니아군과 함께 돌아와 아민을 끌어내렸다.",
+    "note_en": "Amin, Obote's army commander, ousted him in a 1971 coup; Obote returned with Tanzanian forces in 1979 and toppled Amin in turn.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Julius Nyerere",
+    "to_ko": "줄리어스 니에레레",
+    "rel_type": "rival",
+    "note_ko": "아민이 카게라를 침공하자 탄자니아의 니에레레는 망명 중인 오보테를 품고 반격해 아민 정권을 무너뜨렸다.",
+    "note_en": "When Amin invaded Kagera, Tanzania's Nyerere sheltered the exiled Obote and counterattacked, destroying Amin's regime.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Muammar Gaddafi",
+    "to_ko": "무아마르 카다피",
+    "rel_type": "colleague",
+    "note_ko": "카다피는 아민 정권의 최대 후원자로 1979년 리비아군을 보내 싸웠고, 몰락한 아민은 리비아를 거쳐 사우디로 망명했다.",
+    "note_en": "Gaddafi bankrolled Amin's regime and sent Libyan troops to fight for him in 1979; the fallen Amin fled through Libya to Saudi exile.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Sarah Kyolaba",
+    "to_ko": "사라 쿄라바",
+    "rel_type": "spouse",
+    "note_ko": "혁명군 악단 댄서 출신 '자살 사라'는 아민의 마지막이자 총애하는 아내로, 그의 사망 뒤에도 추모 장소를 지켰다.",
+    "note_en": "Revolutionary-band dancer 'Suicide Sarah' was Amin's last and favourite wife, tending his grave in exile after his death.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Kay Amin",
+    "to_ko": "케이 아민",
+    "rel_type": "spouse",
+    "note_ko": "아민의 넷째 부인 케이는 1974년 토막난 시신으로 발견됐고, 그녀의 죽음은 아민 시대의 공포를 상징하는 사건이 됐다.",
+    "note_en": "Amin's fourth wife Kay was found dismembered in 1974 — her murder became an emblem of the terror of his rule.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bob Astles",
+    "to_ko": "밥 아스틀스",
+    "rel_type": "colleague",
+    "note_ko": "영국인 모험가 아스틀스는 아민의 최측근 '밥 소령'으로 불리며 권력 곁에 붙어 있다가 정권 붕괴 뒤 감옥에 갔다.",
+    "note_en": "British adventurer Astles became Amin's notorious fixer 'Major Bob', staying at his side until the regime fell and he was jailed.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "모부투 세세 세코": {
+  "relations": [
+   {
+    "to_en": "Patrice Lumumba",
+    "to_ko": "파트리스 루뭄바",
+    "rel_type": "rival",
+    "note_ko": "육군참모총장 모부투는 1960년 쿠데타로 총리 루뭄바를 체포해 넘겼고, 루뭄바는 카탕가에서 살해됐다.",
+    "note_en": "Army chief Mobutu arrested Prime Minister Lumumba in the 1960 coup and handed him to the Katanga regime that murdered him.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Joseph Kasa-Vubu",
+    "to_ko": "조제프 카사부부",
+    "rel_type": "rival",
+    "note_ko": "모부투를 군 수장으로 쓴 대통령 카사부부를 1965년 두 번째 쿠데타로 몰아내고 모부투가 직접 권좌에 올랐다.",
+    "note_en": "Mobutu served President Kasa-Vubu as army chief, then overthrew him in the November 1965 coup and took the presidency himself.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Moïse Tshombe",
+    "to_ko": "모이즈 춤베",
+    "rel_type": "rival",
+    "note_ko": "카탕가 분리주의 지도자 춤베는 모부투의 군대에 패해 망명했다가 사형선고 뒤 납치돼 알제리 감옥에서 죽었다.",
+    "note_en": "Katanga secessionist Tshombe was crushed by Mobutu's army, exiled, sentenced to death, kidnapped and died in an Algerian cell.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Laurent-Désiré Kabila",
+    "to_ko": "로랑데지레 카빌라",
+    "rel_type": "rival",
+    "note_ko": "1960년대부터 반군을 이끈 카빌라는 1997년 반란군을 몰고 킨샤사에 입성해 병든 모부투를 망명으로 내몰았다.",
+    "note_en": "Kabila, a rebel since the 1960s, marched on Kinshasa in 1997 and drove the ailing Mobutu into his final exile.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Muhammad Ali",
+    "to_ko": "무하마드 알리",
+    "rel_type": "colleague",
+    "note_ko": "모부투는 국고에서 천만 달러를 풀어 알리-포먼의 '정글의 격돌'을 킨샤사에 유치했고, 알리는 그의 궁에서 챔피언 벨트를 되찾았다.",
+    "note_en": "Mobutu paid $10 million from the treasury to bring the Ali–Foreman 'Rumble in the Jungle' to Kinshasa, where Ali reclaimed his crown.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Marie-Antoinette Mobutu",
+    "to_ko": "마리앙투아네트 모부투",
+    "rel_type": "spouse",
+    "note_ko": "모부투의 첫 부인은 그의 권력 상승기를 함께한 퍼스트레이디였고, 1977년 죽은 뒤 그는 그녀의 쌍둥이 여동생과 재혼했다.",
+    "note_en": "Mobutu's first wife was first lady through his rise; after her 1977 death he married her twin sister.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bobi Ladawa Mobutu",
+    "to_ko": "보비 라다와 모부투",
+    "rel_type": "spouse",
+    "note_ko": "첫 부인의 쌍둥이 여동생 보비는 모부투의 두 번째 부인이 됐고, 망명과 말년을 함께하며 그가 죽을 때까지 곁을 지켰다.",
+    "note_en": "Bobi Ladawa, twin sister of his first wife, became Mobutu's second wife and stayed with him through exile until his death.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "장베델 보카사": {
+  "relations": [
+   {
+    "to_en": "David Dacko",
+    "to_ko": "다비드 다코",
+    "rel_type": "relative",
+    "note_ko": "사촌인 대통령 다코를 1965년 성재야 쿠데타로 끌어내린 보카사는, 1979년 프랑스의 바라쿠다 작전으로 몰락하자 다코가 다시 대통령이 됐다.",
+    "note_en": "Bokassa overthrew his cousin, President Dacko, in the 1965 Saint-Sylvestre coup; when France toppled Bokassa in 1979, Dacko returned to power.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Barthélemy Boganda",
+    "to_ko": "바르텔레미 보간다",
+    "rel_type": "relative",
+    "note_ko": "중앙아프리카 독립의 아버지 보간다는 보카사의 외삼촌이었고, 조카는 그가 세운 나라에서 스스로 황제가 됐다.",
+    "note_en": "Independence father Boganda was Bokassa's uncle; the nephew crowned himself emperor in the country Boganda founded.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles de Gaulle",
+    "to_ko": "샤를 드 골",
+    "rel_type": "friend",
+    "note_ko": "자유프랑스군으로 싸운 보카사는 드 골을 '아버지'라 불렀고, 드 골의 프랑스는 그의 쿠데타 정권을 후원했다.",
+    "note_en": "Bokassa fought for Free France and called de Gaulle 'papa'; de Gaulle's France patronised his coup regime.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Valéry Giscard d'Estaing",
+    "to_ko": "발레리 지스카르 데스탱",
+    "rel_type": "friend",
+    "note_ko": "지스카르는 보카사의 사냥 동반자로 '친구이자 가족'이라 불렀고, 보카사가 준 다이아몬드 선물이 훗날 대통령의 스캔들이 됐다.",
+    "note_en": "Giscard hunted with Bokassa and called him 'friend and family'; the diamonds Bokassa gave him became a French presidential scandal.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Catherine Denguiadé",
+    "to_ko": "카트린 당기아데",
+    "rel_type": "spouse",
+    "note_ko": "보카사는 수많은 부인 가운데 카트린을 골라 대관식에서 함께 황후로 즉위시켰고, 그녀는 황제 폐위 뒤에도 곁에 남았다.",
+    "note_en": "Of his many wives, Bokassa chose Catherine to be crowned empress beside him; she stayed after his dethronement.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Alexandre Banza",
+    "to_ko": "알렉상드르 반자",
+    "rel_type": "rival",
+    "note_ko": "보카사의 참모총장이던 반자는 1969년 쿠데타를 꾸몄다가 발각돼 공개 고문 끝에 처형됐다.",
+    "note_en": "Banza, Bokassa's own chief of staff, plotted a 1969 coup, was exposed, publicly tortured and executed.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "사파르무라트 니야조프": {
+  "relations": [
+   {
+    "to_en": "Gurbanguly Berdimuhamedow",
+    "to_ko": "구르반굴리 베르디무하메도프",
+    "rel_type": "colleague",
+    "note_ko": "니야조프는 자기 치과의사 베르디무하메도프를 보건장관·부총리로 키웠고, 그가 대통령 사후 권력을 이어받았다.",
+    "note_en": "Niyazov raised his personal dentist Berdimuhamedow to health minister and deputy PM — the successor who took power at his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Boris Shikhmuradov",
+    "to_ko": "보리스 시흐무라도프",
+    "rel_type": "rival",
+    "note_ko": "오랜 외무장관 시흐무라도프는 야권으로 돌아서 2002년 쿠데타 음모 혐의로 체포돼 종신형을 선고받았다.",
+    "note_en": "Niyazov's longtime foreign minister Shikhmuradov joined the opposition and was jailed for life over the alleged 2002 coup.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Gurbansoltan Eje",
+    "to_ko": "구르반솔탄 에제",
+    "rel_type": "mother",
+    "note_ko": "1948년 아시가바트 대지진으로 죽은 어머니의 이름을 니야조프는 4월과 국민 빵의 이름으로 올려 국가 숭배 대상으로 만들었다.",
+    "note_en": "His mother died in the 1948 Ashgabat earthquake; Niyazov renamed April and the national bread after her, making her an object of the state cult.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Muza Niyazova",
+    "to_ko": "무자 니야조바",
+    "rel_type": "spouse",
+    "note_ko": "레닌그라드에서 만난 러시아인 아내 무자는 니야조프의 권력 우상화에서 밀려나 공개 활동이 거의 없는 퍼스트레이디였다.",
+    "note_en": "Muza, the Russian wife he met in Leningrad, was pushed out of the personality cult — a first lady almost never seen in public.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "무아마르 카다피": {
+  "relations": [
+   {
+    "to_en": "Abdessalam Jalloud",
+    "to_ko": "압데스살람 잘루드",
+    "rel_type": "colleague",
+    "note_ko": "학교 동창 잘루드는 카다피와 함께 1969년 쿠데타를 일으킨 혁명의 2인자였고, 세월이 흘러 권력 밖으로 밀려났다.",
+    "note_en": "Schoolmate Jalloud co-led the 1969 coup with Gaddafi and served as the revolution's number two before being pushed aside.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Idris I of Libya",
+    "to_ko": "리비아의 이드리스 1세",
+    "rel_type": "rival",
+    "note_ko": "27세 대위 카다피는 해외 체류 중이던 이드리스 국왕을 무혈 쿠데타로 폐위시키고 42년 통치를 시작했다.",
+    "note_en": "Twenty-seven-year-old Captain Gaddafi deposed King Idris, who was abroad, in a bloodless coup and began 42 years of rule.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Gamal Abdel Nasser",
+    "to_ko": "가말 압델 나세르",
+    "rel_type": "influence",
+    "note_ko": "카다피는 나세르의 아랍 민족주의를 숭배해 이집트 혁명을 모델로 쿠데타를 벌였고, 국가 원수 대신 '형제 지도자'를 자처했다.",
+    "note_en": "Gaddafi idolised Nasser's Arab nationalism, modelled his coup on the Egyptian revolution and styled himself 'Brother Leader'.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Nelson Mandela",
+    "to_ko": "넬슨 만델라",
+    "rel_type": "friend",
+    "note_ko": "만델라는 아파르트헤이트 반대 투쟁을 지원한 카다피를 '형제'라 불렀고, 서방의 반대를 무릅쓰고 트리폴리를 방문해 포옹했다.",
+    "note_en": "Mandela called Gaddafi, a backer of the anti-apartheid struggle, his 'brother' and defied the West to embrace him in Tripoli.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Idi Amin",
+    "to_ko": "이디 아민",
+    "rel_type": "colleague",
+    "note_ko": "카다피는 아민 정권의 최대 후원자로 1979년 우간다-탄자니아 전쟁에 리비아군을 보냈고, 몰락한 아민은 리비아로 피신했다.",
+    "note_en": "Gaddafi bankrolled Amin and sent Libyan troops into the 1979 Uganda–Tanzania war; the fallen Amin first fled to Libya.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Safia Farkash",
+    "to_ko": "사피아 파르카시",
+    "rel_type": "spouse",
+    "note_ko": "간호사 출신 사피아는 카다피의 둘째 부인으로 일곱 자녀의 어머니였고, 정권 붕괴 뒤 망명 생활을 이어갔다.",
+    "note_en": "Nurse Safia Farkash was Gaddafi's second wife and mother of seven of his children, following him into exile after the fall.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Moussa Koussa",
+    "to_ko": "무사 쿠사",
+    "rel_type": "colleague",
+    "note_ko": "정보총수·외무장관 쿠사는 카다피 체제의 핵심이었다가 2011년 내전 속에 영국으로 망명해 정권에 결정타를 날렸다.",
+    "note_en": "Intelligence chief and foreign minister Koussa was a regime pillar who defected to Britain in 2011, dealing Gaddafi a mortal blow.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "파블로 에스코바르": {
+  "relations": [
+   {
+    "to_en": "Gustavo Gaviria",
+    "to_ko": "구스타보 가비리아",
+    "rel_type": "relative",
+    "note_ko": "사촌 구스타보는 에스코바르와 함께 메데인 카르텔을 일군 재무 두뇌였고, 1990년 그의 죽음이 에스코바르의 전쟁을 불붙였다.",
+    "note_en": "Cousin Gustavo co-built the Medellín cartel as its financial brain; his 1990 killing lit Escobar's war on the state.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jorge Luis Ochoa Vásquez",
+    "to_ko": "호르헤 루이스 오초아",
+    "rel_type": "cofounder",
+    "note_ko": "오초아 가문의 장남은 에스코바르와 함께 메데인 카르텔을 창업하고, 정부와의 투항 협상에서 대응 방식이 갈려 카르텔이 쪼개졌다.",
+    "note_en": "Eldest Ochoa brother co-founded the Medellín cartel with Escobar; their split over surrendering to the state fractured the cartel.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Carlos Lehder",
+    "to_ko": "카를로스 레더",
+    "rel_type": "cofounder",
+    "note_ko": "나치 숭배의 밀수조종사 레더는 노먼스 케이 항로를 열어 카르텔을 세계 기업으로 키웠고, 체포돼 미국에서 종신형을 받았다.",
+    "note_en": "Nazi-admiring smuggler pilot Lehder opened the Norman's Cay pipeline that made the cartel global; he was captured and jailed for life.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "José Gonzalo Rodríguez Gacha",
+    "to_ko": "호세 곤살로 로드리게스 가차",
+    "rel_type": "cofounder",
+    "note_ko": "'멕시코인' 가차는 카르텔 군사 파트를 맡은 공동 창업자로, 에스코바르와 함께 국가와의 전면전을 이끌다 1989년 사살됐다.",
+    "note_en": "'El Mexicano' Gacha ran the cartel's military wing as co-founder and fought the total war on the state beside Escobar until killed in 1989.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Maria Victoria Henao",
+    "to_ko": "마리아 빅토리아 에나오",
+    "rel_type": "spouse",
+    "note_ko": "열다섯에 에스코바르와 결혼한 에나오는 카르텔 전성기와 망명을 함께했고, 남편 사살 뒤 아르헨티나에서 이름을 바꿔 살았다.",
+    "note_en": "Henao married Escobar at fifteen, shared the cartel years and the manhunt, then lived under a new name in Argentina after his death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Virginia Vallejo",
+    "to_ko": "비르히니아 바예호",
+    "rel_type": "partner",
+    "note_ko": "콜롬비아 최고 TV 앵커 바예호는 5년간 에스코바르의 연인이었고, 훗날 회고록으로 카르텔-정계 유착을 폭로했다.",
+    "note_en": "Colombia's top TV anchor Vallejo was Escobar's lover for five years and later exposed cartel–elite collusion in her memoir.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "César Gaviria",
+    "to_ko": "세사르 가비리아",
+    "rel_type": "rival",
+    "note_ko": "암살된 갈란의 뒤를 이어 대통령이 된 가비리아는 에스코바르와의 전면전을 지휘해 그를 옥상에서 최후로 몰았다.",
+    "note_en": "Gaviria succeeded the assassinated Galán as president and commanded the war that ended with Escobar dead on a rooftop.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Luis Carlos Galán",
+    "to_ko": "루이스 카를로스 갈란",
+    "rel_type": "rival",
+    "note_ko": "범죄인 인도를 약속한 대선 후보 갈란은 에스코바르가 풀어준 파괴 작전의 총에 1989년 유세장에서 암살당했다.",
+    "note_en": "Galán, the extradition-pledged front-runner, was assassinated at a 1989 rally on Escobar's orders — the killing that opened total war.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "조그 1세": {
+  "relations": [
+   {
+    "to_en": "Geraldine Apponyi",
+    "to_ko": "제랄딘 아포니",
+    "rel_type": "spouse",
+    "note_ko": "헝가리 백작가 출신 '헝가리의 백장미' 제랄딘은 조그와 결혼해 왕후가 됐고, 왕국 붕괴 뒤에도 망명 생활을 함께했다.",
+    "note_en": "Hungarian countess Geraldine, the 'White Rose of Hungary', married Zog and shared his crown — then decades of exile.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Fan Noli",
+    "to_ko": "판 놀리",
+    "rel_type": "rival",
+    "note_ko": "주교 출신 총리 놀리의 1924년 6월 혁명이 조그를 망명시켰고, 조그는 용병을 이끌고 돌아와 반년 만에 놀리를 몰아냈다.",
+    "note_en": "Bishop-prime minister Noli's June 1924 revolution exiled Zog; Zog returned with mercenaries and drove Noli out within six months.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Enver Hoxha",
+    "to_ko": "엔베르 호자",
+    "rel_type": "rival",
+    "note_ko": "공산주의 파르티잔 지도자 호자는 조그의 복위를 영구히 막았고, 승자로서 40년 독재의 시작점에서 왕을 유고에서 끌어내렸다.",
+    "note_en": "Partisan leader Hoxha made Zog's restoration impossible, toppling the monarchy and beginning his own 40-year dictatorship.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Benito Mussolini",
+    "to_ko": "베니토 무솔리니",
+    "rel_type": "rival",
+    "note_ko": "조그의 재정을 지원하던 무솔리니는 1939년 알바니아를 침공해 그의 왕관을 빼앗았고, 조그는 국고를 싣고 망명했다.",
+    "note_en": "Mussolini bankrolled Zog, then invaded Albania in 1939 and took his crown; Zog fled with the treasury in his car.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Victor Emmanuel III",
+    "to_ko": "비토리오 에마누엘레 3세",
+    "rel_type": "rival",
+    "note_ko": "이탈리아 국왕 비토리오 에마누엘레는 무솔리니의 점령 뒤 '알바니아 국왕' 칭호를 대신 쓰며 조그의 왕위를 차지했다.",
+    "note_en": "Italy's king took Zog's throne for himself, assuming the title King of Albania after the invasion.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Sadije Toptani",
+    "to_ko": "사디예 톱타니",
+    "rel_type": "mother",
+    "note_ko": "씨족 대가문 출신 어머니 사디예는 조그의 즉위 뒤 왕태후로 궁정을 쥐락펴락하며 알바니아 왕실의 실세가 됐다.",
+    "note_en": "His mother Sadije, from a clan dynasty, became Queen Mother and the real power of the court after Zog crowned himself.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "하일레 셀라시에": {
+  "relations": [
+   {
+    "to_en": "Makonnen Wolde Mikael",
+    "to_ko": "마코넨 월데 미카엘",
+    "rel_type": "father",
+    "note_ko": "메넬리크 2세의 장수이자 하라르 총독인 아버지 라스 마코넨의 혈통과 전공 위에 아들 타파리는 섭정에서 황제로 올랐다.",
+    "note_en": "His father Ras Makonnen, Menelik II's general and governor of Harar, left the lineage and fame on which Tafari rose from regent to emperor.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Menen Asfaw",
+    "to_ko": "메넨 아스파우",
+    "rel_type": "spouse",
+    "note_ko": "황후 메넨은 하일레 셀라시에의 50년 반려로 망명과 복위를 함께했고, 대기근 구호 사업으로 국민 황후가 됐다.",
+    "note_en": "Empress Menen shared Selassie's 50-year reign, exile and restoration, beloved for her famine relief work.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Menelik II",
+    "to_ko": "메넬리크 2세",
+    "rel_type": "relative",
+    "note_ko": "아버지의 사촌이자 군주인 메넬리크는 소년 타파리를 궁에 불러 지방 총독으로 키웠고, 그 승계 체계가 황위로 이어졌다.",
+    "note_en": "Menelik, his father's cousin and sovereign, raised young Tafari at court and made him governor — the path that led to the throne.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Zewditu",
+    "to_ko": "제우디투",
+    "rel_type": "rival",
+    "note_ko": "타파리는 친척 황후 제우디투의 섭정으로 14년을 버텼고, 그녀의 사후 보수파를 꺾고 직접 황위에 올랐다.",
+    "note_en": "Tafari served as regent to his kinswoman Empress Zewditu for 14 years, outlasting her court's conservatives to take the throne at her death.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Iyasu V",
+    "to_ko": "이야수 5세",
+    "rel_type": "rival",
+    "note_ko": "메넬리크의 지명 후계자 이야수를 타파리파 귀족들이 1916년 쿠데타로 폐위시켰고, 그 자리에 제우디투와 섭정 타파리가 들어섰다.",
+    "note_en": "Tafari's camp deposed Menelik's designated heir Iyasu in the 1916 coup, installing Zewditu with Tafari as regent.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Benito Mussolini",
+    "to_ko": "베니토 무솔리니",
+    "rel_type": "rival",
+    "note_ko": "무솔리니의 이탈리아가 에티오피아를 침공해 황제를 망명시켰고, 하일레 셀라시에는 국제연맹 연설과 귀환으로 그를 역사에 남겼다.",
+    "note_en": "Mussolini's invasion exiled the emperor; Selassie's League of Nations address and return made their duel a landmark of the century.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Mengistu Haile Mariam",
+    "to_ko": "멘기스투 하일레 마리암",
+    "rel_type": "rival",
+    "note_ko": "데르그 군사위원회의 멘기스투는 1974년 쿠데타로 황제를 폐위시켰고, 이듬해 그를 궁 지하에서 몰래 죽였다는 게 정설이다.",
+    "note_en": "Derg leader Mengistu deposed the emperor in the 1974 coup and, by most accounts, had him secretly killed in the palace a year later.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "밀란 오블레노비치 1세": {
+  "relations": [
+   {
+    "to_en": "Natalie of Serbia",
+    "to_ko": "세르비아의 나탈리예",
+    "rel_type": "spouse",
+    "note_ko": "루마니아계 왕후 나탈리예와의 불화를 밀란은 공개 이혼 전쟁으로 만들었고, 둘의 스캔들은 발칸 왕실의 막장 드라마가 됐다.",
+    "note_en": "Milan turned his rift with Romanian-born Queen Natalie into a public divorce war — the Balkan monarchy's most lurid scandal.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Mihailo Obrenović III",
+    "to_ko": "미하일로 오브레노비치 3세",
+    "rel_type": "relative",
+    "note_ko": "종친 미하일로 대공이 1868년 암살당하자 후사 없는 왕위는 사촌 밀란에게 넘어갔고, 그가 대공에서 국왕으로 올랐다.",
+    "note_en": "When childless Prince Mihailo was assassinated in 1868, the throne passed to his cousin Milan, who then raised it to a kingdom.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Miloš Obrenović I",
+    "to_ko": "밀로시 오브레노비치 1세",
+    "rel_type": "relative",
+    "note_ko": "세르비아를 오스만에서 독립시킨 왕조 창업자 밀로시는 밀란의 대숙부로, 그가 세운 왕조를 조카 손이 왕국으로 승격했다.",
+    "note_en": "Dynasty founder Miloš, Milan's great-uncle, won Serbia's autonomy; the grand-nephew he never knew raised the house to a kingdom.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Draga Mašin",
+    "to_ko": "드라가 마신",
+    "rel_type": "relative",
+    "note_ko": "아들 알렉산다르가 연상의 과부 드라가와 결혼하자 밀란은 군 통수권을 내던지며 반대했고, 둘의 결혼은 왕실의 비극적 결말을 예고했다.",
+    "note_en": "When son Alexander married the older widow Draga, Milan resigned his command in protest — the match ended in the royal couple's murder.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "수브코만단테 마르코스": {
+  "relations": [
+   {
+    "to_en": "Comandanta Ramona",
+    "to_ko": "코만단타 라모나",
+    "rel_type": "colleague",
+    "note_ko": "초톨 여성 사령관 라모나는 마르코스와 함께 사파티스타 봉기와 산크리스토발 평화 협상을 이끈 EZLN의 상징이었다.",
+    "note_en": "Tzotzil commander Ramona stood beside Marcos as the face of the EZLN — leading the uprising and the San Cristóbal peace talks.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Fernando Yáñez Muñoz",
+    "to_ko": "페르난도 야녜스 무뇨스",
+    "rel_type": "cofounder",
+    "note_ko": "'코만단테 헤르만' 야녜스의 국민해방군 경력 위에 철학자 기옌이 합류해 둘은 치아파스 정글에서 EZLN을 세웠다.",
+    "note_en": "Yáñez ('Comandante Germán'), veteran of the National Liberation Forces, and philosopher Guillén founded the EZLN together in the Lacandon jungle.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Subcomandante Moisés",
+    "to_ko": "수브코만단테 모이세스",
+    "rel_type": "colleague",
+    "note_ko": "원주민 지휘관 모이세스는 1997년 악테알 학살 뒤 무력 지휘를 맡았고, 마르코스가 은퇴한 뒤 사파티스타 대변인을 이어받았다.",
+    "note_en": "Indigenous commander Moisés led EZLN's forces after the Acteal massacre and succeeded Marcos as Zapatista spokesman.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Samuel Ruiz García",
+    "to_ko": "사무엘 루이스 가르시아",
+    "rel_type": "friend",
+    "note_ko": "산크리스토발 주교 루이스는 게릴라와 정부 사이 중재자로 봉기의 유혈 종식을 도왔고, 마르코스의 유일한 종교계 동반자로 남았다.",
+    "note_en": "Bishop Samuel Ruiz mediated between Marcos's guerrillas and the state, ending the bloodshed — his lone ally in the church.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Carlos Salinas de Gortari",
+    "to_ko": "카를로스 살리나스",
+    "rel_type": "rival",
+    "note_ko": "NAFTA 발효일인 1994년 1월 1일, 마르코스의 사파티스타는 살리나스 정부에 선전포고하며 봉기를 일으켰다.",
+    "note_en": "On 1 January 1994, the day NAFTA took effect, Marcos's Zapatistas declared war on President Salinas's government.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Manuel Camacho Solís",
+    "to_ko": "마누엘 카마초 솔리스",
+    "rel_type": "rival",
+    "note_ko": "정부 협상 대표 카마초는 대성당 회담에서 마르코스와 마주 앉았고, 둘의 교섭이 봉기를 전면전에서 평화 협상으로 바꿨다.",
+    "note_en": "Government negotiator Camacho faced Marcos at the Cathedral talks — their bargaining turned the uprising from war into negotiation.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "빅토르 부트": {
+  "relations": [
+   {
+    "to_en": "Sergei Bout",
+    "to_ko": "세르게이 부트",
+    "rel_type": "sibling",
+    "note_ko": "형 세르게이는 에어 세스의 실무를 맡아 부트의 항공 화물 제국을 함께 운영했고, UN 조사에서도 공동 사업자로 지목됐다.",
+    "note_en": "Brother Sergei ran Air Cess's daily operations and co-ran the Bout air-cargo empire, named alongside him in UN reports.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Richard Chichakli",
+    "to_ko": "리처드 치차클리",
+    "rel_type": "colleague",
+    "note_ko": "시리아계 미국인 회계사 치차클리는 부트의 '친구이자 형제'를 자처한 사업 관리자로, 부트 체포 뒤에도 자금망 혐의로 수감됐다.",
+    "note_en": "Syrian-American accountant Chichakli, self-styled 'friend and brother', managed Bout's network and was jailed for running its finances.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Andrew Smulian",
+    "to_ko": "앤드루 스물리안",
+    "rel_type": "colleague",
+    "note_ko": "남아공 사업가 스물리안은 부트의 오랜 거래 파트너였다가 DEA 올가미 작전에 협력해 방콕 체포로 그를 끌어냈다.",
+    "note_en": "South African businessman Smulian, Bout's longtime partner, joined the DEA sting that lured him to arrest in Bangkok.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Charles Taylor",
+    "to_ko": "찰스 테일러",
+    "rel_type": "colleague",
+    "note_ko": "UN 보고서는 부트의 항공망이 라이베리아의 테일러 정권과 지역 반군에 무기를 실어 날랐다고 적었고, 그 연결고리가 부트를 세계적 수배자로 만들었다.",
+    "note_en": "UN reports tied Bout's air network to arming Charles Taylor's Liberia and regional rebels — the link that made him the world's most wanted arms dealer.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Jonas Savimbi",
+    "to_ko": "조나스 사빔비",
+    "rel_type": "colleague",
+    "note_ko": "앙골라 반군 지도자 사빔비의 우니타는 부트 화물망의 주요 고객으로 지목됐고, 다이아몬드 대 무기 교환이 내전을 연장했다.",
+    "note_en": "Angolan rebel leader Savimbi's UNITA was named a key client of Bout's cargo network — diamonds for arms that prolonged the civil war.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "킴 닷컴": {
+  "relations": [
+   {
+    "to_en": "Mona Dotcom",
+    "to_ko": "모나 닷컴",
+    "rel_type": "spouse",
+    "note_ko": "필리핀계 모델 모나는 킴 닷컴과 결혼해 다섯 자녀를 두고 코스트워스 저택 시절을 함께했고, 송환 싸움 도중 이혼했다.",
+    "note_en": "Filipina model Mona married Kim Dotcom, raised five children in the mansion era, and divorced him mid-extradition battle.",
+    "prospect": "skip"
+   },
+   {
+    "to_en": "Finn Batato",
+    "to_ko": "핀 바타토",
+    "rel_type": "cofounder",
+    "note_ko": "독일 프로그래머 바타토는 메가업로드 공동 창업자로 헬기 습격에 함께 체포됐고, 10년 소송 끝 암으로 세상을 떠났다.",
+    "note_en": "German programmer Batato co-founded Megaupload, was arrested in the same helicopter raid, and died of cancer after a decade of litigation.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Mathias Ortmann",
+    "to_ko": "마티아스 오르트만",
+    "rel_type": "cofounder",
+    "note_ko": "오르트만은 메가업로드의 기술 공동 창업자로 킴 닷컴과 함께 기소됐다가 2022년 유죄 인정으로 공소에서 빠졌다.",
+    "note_en": "Ortmann, Megaupload's technical co-founder, was indicted alongside Kim Dotcom and pleaded guilty in 2022, exiting the case.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bram van der Kolk",
+    "to_ko": "브람 판데르콜크",
+    "rel_type": "cofounder",
+    "note_ko": "네덜란드 개발자 판데르콜크는 메가업로드 공동 창업자이자 메가의 수석 프로그래머로, 송환 대상에서 유죄 인정으로 벗어났다.",
+    "note_en": "Dutch developer van der Kolk co-founded Megaupload and coded Mega; he too pled guilty to escape extradition.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "John Banks",
+    "to_ko": "존 뱅크스",
+    "rel_type": "rival",
+    "note_ko": "오클랜드 시장 뱅크스는 킴 닷컴의 선거자금을 받았다가 익명 처리를 속인 혐의로 기소돼 둘의 스캔들이 뉴질랜드 정치를 흔들었다.",
+    "note_en": "Auckland mayor Banks took Dotcom's campaign donations and was prosecuted for disguising them — the scandal rocked New Zealand politics.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Julian Assange",
+    "to_ko": "줄리안 어산지",
+    "rel_type": "friend",
+    "note_ko": "킴 닷컴은 어산지의 대표적 지원자를 자처해 위키리크스 변호 비용을 대고 공개 연대했고, 둘은 미국 송환 싸움의 동지로 묶였다.",
+    "note_en": "Kim Dotcom became Assange's most vocal backer, funding WikiLeaks' defence — fellow travellers in extradition fights with the US.",
+    "prospect": "skip"
+   }
+  ]
+ },
+ "로스 울브리히트": {
+  "relations": [
+   {
+    "to_en": "Lyn Ulbricht",
+    "to_ko": "린 울브리히트",
+    "rel_type": "mother",
+    "note_ko": "어머니 린은 아들의 종신형 선고 뒤 '프리 로스' 운동을 이끌며 10년간 사면을 캠페인했고, 2025년 사면으로 마침내 풀려났다.",
+    "note_en": "His mother Lyn ran the 'Free Ross' campaign for a decade after the life sentence — ending in the 2025 presidential pardon.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Roger Thomas Clark",
+    "to_ko": "로저 토머스 클라크",
+    "rel_type": "teacher",
+    "note_ko": "'버라이어티 존스'로 불린 캐나다인 클라크는 무서운 해적 로버츠에게 보안과 조직 운영을 가르친 멘토로, 실크로드 공모죄로 20년형을 받았다.",
+    "note_en": "Canadian Clark, 'Variety Jones', mentored Dread Pirate Roberts on security and operations — later jailed 20 years for the Silk Road conspiracy.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Curtis Green",
+    "to_ko": "커티스 그린",
+    "rel_type": "colleague",
+    "note_ko": "실크로드 관리자 '크로닉페인' 그린은 DPR이 청부를 지시한 대상이 됐고, 그 위장 살해 사진이 울브리히트 재판의 핵심 증거가 됐다.",
+    "note_en": "Silk Road admin 'chronicpain' Green became the target of DPR's staged hit — the fake murder photos central to Ulbricht's trial.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Carl Mark Force IV",
+    "to_ko": "칼 마크 포스",
+    "rel_type": "rival",
+    "note_ko": "잠복 DEA 요원 포스는 실크로드 수사 중 비트코인을 횡령하고 DPR을 협박한 부패 요원으로, 스스로 감옥에 갔다.",
+    "note_en": "Undercover DEA agent Force stole bitcoin and extorted DPR during the investigation — the corrupt cop who went to prison himself.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Jared Der-Yeghiayan",
+    "to_ko": "재러드 더예기얀",
+    "rel_type": "rival",
+    "note_ko": "국토안보수사국 요원 더예기얀은 관리자 계정을 탈취해 DPR과 직접 대화하며 그를 추적한 수사관이었다.",
+    "note_en": "HSI agent Der-Yeghiayan hijacked a Silk Road admin account and chatted with DPR himself while hunting him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Gary Alford",
+    "to_ko": "게리 올퍼드",
+    "rel_type": "rival",
+    "note_ko": "국세청 요원 올퍼드는 2013년 포럼 검색 한 줄로 DPR의 최초 흔적 'altoid'를 찾아 울브리히트의 신원을 풀어냈다.",
+    "note_en": "IRS agent Alford cracked Ulbricht's identity with a single forum search tracing DPR's first alias 'altoid'.",
+    "prospect": "hit"
+   }
+  ]
+ }
+}

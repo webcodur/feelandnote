@@ -1,0 +1,242 @@
+[
+  {
+    "nick": "보그드 칸",
+    "title": "몽골의 마지막 칸",
+    "title_en": "The Last Khan of Mongolia",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "빅토르 빌라시",
+    "title": "마흐노군의 작전 설계자",
+    "title_en": "The Mastermind of the Makhnovists",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "로버트 파크 유니",
+    "title": "사설군의 첫 부대장",
+    "title_en": "First Recruit of the Private Army",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "장 카네리",
+    "title": "사설군의 사진사 장교",
+    "title_en": "The Private Army's Photographer-Officer",
+    "file": "round2-military.json"
+  },
+  {
+    "nick": "파트리시오 리바스",
+    "title": "워커의 꼭두각시 대통령",
+    "title_en": "Walker's Puppet President",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "찰스 프레더릭 헤닝센",
+    "title": "다섯 전쟁을 누빈 용병",
+    "title_en": "A Soldier of Five Wars",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "노웰 새먼",
+    "title": "워커를 사형대에 넘긴 제독",
+    "title_en": "The Admiral Who Delivered Walker",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "알렉산더 번스",
+    "title": "부하라의 번스",
+    "title_en": "Bokhara Burnes",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "하먼 블레너해싯",
+    "title": "버 음모의 자금줄",
+    "title_en": "Burr's Island Financier",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "애런 버 시니어",
+    "title": "프린스턴의 두 번째 학장",
+    "title_en": "Princeton's Second President",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "일라이자 주멜",
+    "title": "뉴욕 최고 부자 과부",
+    "title_en": "New York's Richest Widow",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "사라 쿄라바",
+    "title": "수어사이드 사라",
+    "title_en": "Suicide Sarah",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "밥 아스틀스",
+    "title": "우간다의 흰 쥐",
+    "title_en": "The White Rat of Uganda",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "알렉상드르 반자",
+    "title": "보카사가 직접 때려죽인 심복",
+    "title_en": "The Protégé Bokassa Killed",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "보리스 시흐무라도프",
+    "title": "감옥에서 사라진 외무장관",
+    "title_en": "The Minister Who Vanished in Prison",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "구스타보 가비리아",
+    "title": "카르텔의 두뇌",
+    "title_en": "The Cartel's Brain",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "제랄딘 아포니",
+    "title": "헝가리의 백장미",
+    "title_en": "The White Rose of Hungary",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "판 놀리",
+    "title": "셰익스피어를 옮긴 총리",
+    "title_en": "The Bishop Prime Minister",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "이야수 5세",
+    "title": "대관식 없는 황제",
+    "title_en": "The Uncrowned Emperor",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "세르비아의 나탈리예",
+    "title": "왕과 싸우다 수녀가 된 왕비",
+    "title_en": "The Queen Who Became a Nun",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "드라가 마신",
+    "title": "창밖으로 던져진 왕비",
+    "title_en": "The Queen Thrown from the Palace",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "코만단타 라모나",
+    "title": "사파티스타의 여성 지휘관",
+    "title_en": "The Zapatista Comandanta",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "페르난도 야녜스 무뇨스",
+    "title": "마르코스를 만든 사령관",
+    "title_en": "The Commander Behind Marcos",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "수브코만단테 모이세스",
+    "title": "마르코스의 후계 대변인",
+    "title_en": "Marcos's Successor",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "리처드 치차클리",
+    "title": "죽음의 상인의 회계사",
+    "title_en": "The Merchant of Death's Accountant",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "핀 바타토",
+    "title": "메가업로드의 마케팅 총괄",
+    "title_en": "Megaupload's Marketing Chief",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "마티아스 오르트만",
+    "title": "메가업로드의 2인자",
+    "title_en": "Megaupload's Second Man",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "브람 판데르콜크",
+    "title": "메가업로드의 수석 개발자",
+    "title_en": "Megaupload's Lead Programmer",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "린 울브리히트",
+    "title": "아들을 풀려낸 어머니",
+    "title_en": "The Mother Who Freed Ross",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "로저 토머스 클라크",
+    "title": "공포의 해적 로버츠의 멘토",
+    "title_en": "The Mentor of Dread Pirate Roberts",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "커티스 그린",
+    "title": "부패 요원에게 고문당한 관리자",
+    "title_en": "The Admin Tortured by Rogue Agents",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "칼 마크 포스",
+    "title": "수사하다 훔친 요원",
+    "title_en": "The Agent Who Robbed the Case",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "재러드 더예기얀",
+    "title": "다크웹에 잠복한 요원",
+    "title_en": "The Agent Inside Silk Road",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "게리 올퍼드",
+    "title": "구글로 제왕을 찾은 세금 요원",
+    "title_en": "The Taxman Who Googled the Kingpin",
+    "file": "round2-power.json"
+  },
+  {
+    "nick": "소피 브라헤",
+    "title": "귀족의 길을 거스른 여성 천문학자",
+    "title_en": "Tycho's Star-Gazing Sister",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "메리 벌클랜드",
+    "title": "최초의 공룡 삽화가",
+    "title_en": "The first illustrator of dinosaurs",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "조지 틸턴",
+    "title": "지구 나이의 절반을 잰 사람",
+    "title_en": "The Other Half of Earth's Age",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "로버트 키호",
+    "title": "납 휘발유의 수호자",
+    "title_en": "Leaded Gasoline's Defender",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "이자크 프레젠트",
+    "title": "리센코주의의 이론가",
+    "title_en": "Lysenkoism's Ideologue",
+    "file": "round2-science.json"
+  },
+  {
+    "nick": "니콜라이 표도로프",
+    "title": "우주주의 사상의 아버지",
+    "title_en": "Father of Russian Cosmism",
+    "file": "round2-science.json"
+  }
+]

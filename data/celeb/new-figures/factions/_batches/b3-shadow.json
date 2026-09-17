@@ -1,0 +1,828 @@
+[
+ {
+  "nickname": "그리고리 라스푸틴",
+  "en": "Grigori Rasputin",
+  "headline": "로마노프 왕조를 휘두른 농민 출신 성직자",
+  "prof": "other",
+  "title": "괴물 성직자"
+ },
+ {
+  "nickname": "마타 하리",
+  "en": "Mata Hari",
+  "headline": "진짜 스파이인지 백 년째 논쟁 중인 무희",
+  "prof": "other",
+  "title": "무희 스파이"
+ },
+ {
+  "nickname": "리하르트 조르게",
+  "en": "Richard Sorge",
+  "headline": "대사관 안에서 소련에 전쟁 날짜를 알린 기자",
+  "prof": "other",
+  "title": "도쿄의 간첩"
+ },
+ {
+  "nickname": "시드니 라일리",
+  "en": "Sidney Reilly",
+  "headline": "스파이들 사이에서 왕이라 불린 남자",
+  "prof": "other",
+  "title": "스파이들의 왕"
+ },
+ {
+  "nickname": "후안 푸홀 가르시아",
+  "en": "Juan Pujol García",
+  "headline": "없는 스파이 조직을 꾸며 히틀러를 속인 이중간첩",
+  "prof": "other",
+  "title": "가짜 첩보망의 설계자"
+ },
+ {
+  "nickname": "에디 채프먼",
+  "en": "Eddie Chapman",
+  "headline": "폭격 좌표를 거꾸로 흘려 런던을 살린 도둑",
+  "prof": "other",
+  "title": "지그재그"
+ },
+ {
+  "nickname": "버지니아 홀",
+  "en": "Virginia Hall",
+  "headline": "한쪽 다리로 프랑스 레지스탕스를 세운 여자",
+  "prof": "other",
+  "title": "가장 위험한 간첩"
+ },
+ {
+  "nickname": "누르 이나야트 칸",
+  "en": "Noor Inayat Khan",
+  "headline": "동료가 다 잡혀도 전파를 끊지 않은 여자",
+  "prof": "other",
+  "title": "파리의 무전사"
+ },
+ {
+  "nickname": "낸시 웨이크",
+  "en": "Nancy Wake",
+  "headline": "피레네를 넘어 탈출하고 낙하산으로 돌아온 여자",
+  "prof": "other",
+  "title": "하얀 쥐"
+ },
+ {
+  "nickname": "슈발리에 데옹",
+  "en": "Chevalier d'Éon",
+  "headline": "부검대 위에서야 밝혀진 그의 성별",
+  "prof": "other",
+  "title": "성별을 건 외교관"
+ },
+ {
+  "nickname": "가와시마 요시코",
+  "en": "Yoshiko Kawashima",
+  "headline": "조국 중국이 매국노로 처형한 공주",
+  "prof": "other",
+  "title": "동방의 마타 하리"
+ },
+ {
+  "nickname": "엘리아스 바즈나",
+  "en": "Elyesa Bazna",
+  "headline": "진짜 정보를 팔고 가짜 돈을 받은 남자",
+  "prof": "other",
+  "title": "키케로 작전"
+ },
+ {
+  "nickname": "올레크 펜콥스키",
+  "en": "Oleg Penkovsky",
+  "headline": "소련 미사일 사양을 케네디 손에 쥐여 준 대령",
+  "prof": "other",
+  "title": "쿠바 위기의 내부자"
+ },
+ {
+  "nickname": "올레크 고르디옙스키",
+  "en": "Oleg Gordievsky",
+  "headline": "차 트렁크에 실려 핀란드를 넘은 간첩",
+  "prof": "other",
+  "title": "KGB의 배신자"
+ },
+ {
+  "nickname": "조지 코발",
+  "en": "George Koval",
+  "headline": "죽고 나서야 러시아 영웅이 된 미국인",
+  "prof": "other",
+  "title": "맨해튼 계획의 내부자"
+ },
+ {
+  "nickname": "멜리타 노우드",
+  "en": "Melita Norwood",
+  "headline": "차 마시던 이웃 할머니가 핵스파이였다",
+  "prof": "other",
+  "title": "할머니 스파이"
+ },
+ {
+  "nickname": "프리츠 콜베",
+  "en": "Fritz Kolbe",
+  "headline": "조국을 배신해 조국을 구하려 한 서기",
+  "prof": "other",
+  "title": "최고의 단독 간첩"
+ },
+ {
+  "nickname": "우르술라 쿠친스키",
+  "en": "Ursula Kuczynski",
+  "headline": "잡히지 않고 은퇴해 동화 작가가 된 스파이",
+  "prof": "other",
+  "title": "소냐"
+ },
+ {
+  "nickname": "빅토르 루스티히",
+  "en": "Victor Lustig",
+  "headline": "팔 수도 없는 탑을 두 번 판 남자",
+  "prof": "other",
+  "title": "에펠탑을 판 사나이"
+ },
+ {
+  "nickname": "그레고어 맥그리거",
+  "en": "Gregor MacGregor",
+  "headline": "없는 나라를 지어내 국채까지 판 남자",
+  "prof": "other",
+  "title": "가짜 나라의 왕자"
+ },
+ {
+  "nickname": "프랭크 애버그네일",
+  "en": "Frank Abagnale Jr.",
+  "headline": "신분을 옷 갈아입듯 바꾼 10대 사기꾼",
+  "prof": "other",
+  "title": "캐치 미 이프 유 캔"
+ },
+ {
+  "nickname": "찰스 폰지",
+  "en": "Charles Ponzi",
+  "headline": "자기 이름이 사기 수법 이름이 된 남자",
+  "prof": "other",
+  "title": "폰지 사기"
+ },
+ {
+  "nickname": "생제르맹 백작",
+  "en": "Count of St. Germain",
+  "headline": "죽은 뒤에도 보였다는 정체불명의 백작",
+  "prof": "other",
+  "title": "불로불사의 백작"
+ },
+ {
+  "nickname": "카스파 하우저",
+  "en": "Kaspar Hauser",
+  "headline": "등장도 죽음도 풀리지 않은 독일 최대 미스터리",
+  "prof": "other",
+  "title": "유럽의 아이"
+ },
+ {
+  "nickname": "프린세스 카라부",
+  "en": "Princess Caraboo",
+  "headline": "알 수 없는 언어 하나로 공주가 된 여자",
+  "prof": "other",
+  "title": "카라부 공주"
+ },
+ {
+  "nickname": "조지 살마나자르",
+  "en": "George Psalmanazar",
+  "headline": "가짜 언어 문법책까지 펴낸 가짜 원주민",
+  "prof": "author",
+  "title": "가짜 타이완인"
+ },
+ {
+  "nickname": "애나 앤더슨",
+  "en": "Anna Anderson",
+  "headline": "죽고 나서 DNA에 들통 난 가짜 황녀",
+  "prof": "other",
+  "title": "가짜 아나스타시야"
+ },
+ {
+  "nickname": "그레이 아울",
+  "en": "Grey Owl",
+  "headline": "죽은 뒤 영국인으로 밝혀진 인디언 강연가",
+  "prof": "author",
+  "title": "가짜 인디언"
+ },
+ {
+  "nickname": "한 반 메이허런",
+  "en": "Han van Meegeren",
+  "headline": "가짜 베르메르를 괴링에게 팔아 영웅이 된 위작가",
+  "prof": "visual_artist",
+  "title": "베르메르의 위작가"
+ },
+ {
+  "nickname": "콘라트 쿠야우",
+  "en": "Konrad Kujau",
+  "headline": "히틀러가 쓰지 않은 일기를 써 낸 남자",
+  "prof": "other",
+  "title": "히틀러 일기 위조범"
+ },
+ {
+  "nickname": "클리퍼드 어빙",
+  "en": "Clifford Irving",
+  "headline": "은둔 억만장자의 자서전을 멋대로 써 판 작가",
+  "prof": "author",
+  "title": "가짜 자서전"
+ },
+ {
+  "nickname": "마르탱 게르",
+  "en": "Martin Guerre",
+  "headline": "역사상 가장 유명한 신분 도용의 진짜 주인",
+  "prof": "other",
+  "title": "돌아온 마르탱 게르"
+ },
+ {
+  "nickname": "가짜 드미트리 1세",
+  "en": "False Dmitry I",
+  "headline": "가짜 황태자로 즉위해 진짜 왕좌에 앉은 남자",
+  "prof": "leader",
+  "title": "첫 번째 가짜 차르"
+ },
+ {
+  "nickname": "예멜리안 푸가초프",
+  "en": "Yemelyan Pugachev",
+  "headline": "죽은 차르를 자칭해 볼가를 불태운 코사크",
+  "prof": "leader",
+  "title": "가짜 황제의 반란"
+ },
+ {
+  "nickname": "보리스 스코시레프",
+  "en": "Boris Skossyreff",
+  "headline": "헌법까지 만들고 주교에 전쟁을 선포한 자칭 왕",
+  "prof": "other",
+  "title": "안도라의 자칭 국왕"
+ },
+ {
+  "nickname": "오렐리 앙투안 드 투넨",
+  "en": "Orélie-Antoine de Tounens",
+  "headline": "법정 변호사에서 원주민 왕국의 왕이 된 남자",
+  "prof": "other",
+  "title": "파타고니아의 왕"
+ },
+ {
+  "nickname": "뱅크시",
+  "en": "Banksy",
+  "headline": "경매장에서 자기 그림을 갈아 버린 얼굴 없는 화가",
+  "prof": "visual_artist",
+  "title": "정체불명의 거리 화가"
+ },
+ {
+  "nickname": "D.B. 쿠퍼",
+  "en": "D. B. Cooper",
+  "headline": "넥타이만 남기고 공중에서 증발한 납치범",
+  "prof": "other",
+  "title": "하늘의 사라진 범인"
+ },
+ {
+  "nickname": "철가면의 사내",
+  "en": "The Man in the Iron Mask",
+  "headline": "볼테르도 뒤마도 추측만 남긴 가면의 수인",
+  "prof": "other",
+  "title": "철가면의 사내"
+ },
+ {
+  "nickname": "에이드리언 카턴 드 비야르",
+  "en": "Adrian Carton de Wiart",
+  "headline": "열한 번 총 맞고도 전쟁이 즐거웠다는 장교",
+  "prof": "commander",
+  "title": "죽을 수 없는 장교"
+ },
+ {
+  "nickname": "매드 잭 처칠",
+  "en": "Jack Churchill",
+  "headline": "백파이프를 불며 장검 들고 돌격한 장교",
+  "prof": "commander",
+  "title": "장검의 장교"
+ },
+ {
+  "nickname": "시모 해위해",
+  "en": "Simo Häyhä",
+  "headline": "조준경 없이 오백 명을 쏘았다는 핀란드의 사수",
+  "prof": "commander",
+  "title": "하얀 죽음"
+ },
+ {
+  "nickname": "오디 머피",
+  "en": "Audie Murphy",
+  "headline": "훈장 서른세 개를 달고 할리우드로 간 사나이",
+  "prof": "commander",
+  "title": "미국 최다 훈장 병사"
+ },
+ {
+  "nickname": "비톨트 필레츠키",
+  "en": "Witold Pilecki",
+  "headline": "수용소에서 살아나와 조국에 처형당한 영웅",
+  "prof": "commander",
+  "title": "아우슈비츠의 자원 수감자"
+ },
+ {
+  "nickname": "데즈먼드 도스",
+  "en": "Desmond Doss",
+  "headline": "총 한 자루 안 들고 일흔다섯을 구한 의무병",
+  "prof": "commander",
+  "title": "핵소 고지의 위생병"
+ },
+ {
+  "nickname": "오노다 히로오",
+  "en": "Hiroo Onoda",
+  "headline": "옛 상관이 직접 와야만 항복한 이십구 년의 병사",
+  "prof": "commander",
+  "title": "29년의 잔류병"
+ },
+ {
+  "nickname": "스타니슬라프 페트로프",
+  "en": "Stanislav Petrov",
+  "headline": "규정대로면 전쟁이었을 밤을 조용히 넘긴 장교",
+  "prof": "commander",
+  "title": "핵전쟁을 누른 장교"
+ },
+ {
+  "nickname": "바실리 아르히포프",
+  "en": "Vasily Arkhipov",
+  "headline": "만장일치 조건을 깨뜨려 핵전쟁을 막은 사나이",
+  "prof": "commander",
+  "title": "잠수함의 반대표"
+ },
+ {
+  "nickname": "토머스 블러드",
+  "en": "Thomas Blood",
+  "headline": "런던탑 왕관을 훔치고 왕에게 연금을 받은 도둑",
+  "prof": "other",
+  "title": "왕관 도둑"
+ },
+ {
+  "nickname": "잭 셰퍼드",
+  "en": "Jack Sheppard",
+  "headline": "감옥에 네 번 갇혀 네 번 도망친 스물두 살",
+  "prof": "other",
+  "title": "탈옥의 달인"
+ },
+ {
+  "nickname": "로만 폰 운게른슈테른베르크",
+  "en": "Roman von Ungern-Sternberg",
+  "headline": "유목 기병대로 몽골을 휩쓴 미친 남작",
+  "prof": "commander",
+  "title": "미친 남작"
+ },
+ {
+  "nickname": "네스토르 마흐노",
+  "en": "Nestor Makhno",
+  "headline": "기관총 마차로 내전의 초원을 누빈 농민군 대장",
+  "prof": "commander",
+  "title": "아나키스트 사령관"
+ },
+ {
+  "nickname": "오드 윈게이트",
+  "en": "Orde Wingate",
+  "headline": "알몸으로 양파를 씹으며 정글 전술을 짠 장군",
+  "prof": "commander",
+  "title": "친딧의 아버지"
+ },
+ {
+  "nickname": "블라디미르 페니아코프",
+  "en": "Vladimir Peniakoff",
+  "headline": "자기 이름을 단 사립군으로 사막을 누빈 장교",
+  "prof": "commander",
+  "title": "사립군 대장"
+ },
+ {
+  "nickname": "조르주 라두",
+  "en": "Georges Ladoux",
+  "headline": "마타 하리의 운명을 두 번 정했다",
+  "prof": "other",
+  "title": "마타 하리를 세운 손"
+ },
+ {
+  "nickname": "오자키 호쓰미",
+  "en": "Hotsumi Ozaki",
+  "headline": "고노에 총리의 고문이자 모스크바의 눈",
+  "prof": "other",
+  "title": "조르게의 일본인 눈"
+ },
+ {
+  "nickname": "오이겐 오트",
+  "en": "Eugen Ott",
+  "headline": "조르게의 최고 정보원이 된 대사",
+  "prof": "commander",
+  "title": "속아준 대사"
+ },
+ {
+  "nickname": "막스 클라우젠",
+  "en": "Max Clausen",
+  "headline": "조르게망과 모스크바 사이의 유일한 선",
+  "prof": "other",
+  "title": "조르게의 전파"
+ },
+ {
+  "nickname": "보리스 사빈코프",
+  "en": "Boris Savinkov",
+  "headline": "차르의 장관을 암살한 뒤 차관이 됐다",
+  "prof": "politician",
+  "title": "테러리스트 문인"
+ },
+ {
+  "nickname": "토마스 해리스",
+  "en": "Tomás Harris",
+  "headline": "가상 스파이 27명을 지어낸 MI5 미술상",
+  "prof": "other",
+  "title": "가르보의 공동창작자"
+ },
+ {
+  "nickname": "카를에리히 퀼렌탈",
+  "en": "Karl-Erich Kühlenthal",
+  "headline": "영국이 가장 사랑한 독일 스파이",
+  "prof": "other",
+  "title": "가장 잘 속은 스파이"
+ },
+ {
+  "nickname": "슈테판 폰 그뢰닝",
+  "en": "Stephan von Gröning",
+  "headline": "이중간첩의 담당관이 평생 친구가 됐다",
+  "prof": "other",
+  "title": "그라우만 박사"
+ },
+ {
+  "nickname": "로니 리드",
+  "en": "Ronnie Reed",
+  "headline": "존재하지 않았던 사나이의 얼굴 주인",
+  "prof": "other",
+  "title": "지그재그의 뒷배"
+ },
+ {
+  "nickname": "폴 구이요",
+  "en": "Paul Goillot",
+  "headline": "버지니아 홀의 전우이자 남편",
+  "prof": "other",
+  "title": "버지니아 홀의 전우"
+ },
+ {
+  "nickname": "드니 레이크",
+  "en": "Denis Rake",
+  "headline": "서커스 무대에서 비밀무전기를 들었다",
+  "prof": "other",
+  "title": "낸시 웨이크의 무전병"
+ },
+ {
+  "nickname": "팻 올리어리",
+  "en": "Pat O'Leary",
+  "headline": "격추 조종사 600명을 스페인으로 빼냈다",
+  "prof": "commander",
+  "title": "탈출선의 선장"
+ },
+ {
+  "nickname": "가와시마 나니와",
+  "en": "Kawashima Naniwa",
+  "headline": "양녀 가와시마 요시코를 스파이로 만들었다",
+  "prof": "other",
+  "title": "대륙낭인"
+ },
+ {
+  "nickname": "다나카 류키치",
+  "en": "Ryūkichi Tanaka",
+  "headline": "자기가 상하이 사변을 일으켰다고 썼다",
+  "prof": "commander",
+  "title": "상하이의 그림자 장군"
+ },
+ {
+  "nickname": "휴 네치불-휴게슨",
+  "en": "Hughe Knatchbull-Hugessen",
+  "headline": "집사에게 금고를 털린 대사",
+  "prof": "other",
+  "title": "키케로의 주인"
+ },
+ {
+  "nickname": "루트비히 모이치슈",
+  "en": "Ludwig Moyzisch",
+  "headline": "대사 집사에게 영국 비밀을 산 SD 장교",
+  "prof": "other",
+  "title": "키케로를 산 사나이"
+ },
+ {
+  "nickname": "재닛 치솜",
+  "en": "Janet Chisholm",
+  "headline": "유모차에 핵기밀을 실어 나른 부인",
+  "prof": "other",
+  "title": "유모차의 접선자"
+ },
+ {
+  "nickname": "카를 리터",
+  "en": "Karl Ritter",
+  "headline": "자기 부하가 적국의 스파이였다",
+  "prof": "other",
+  "title": "콜베의 상사"
+ },
+ {
+  "nickname": "루돌프 함부르거",
+  "en": "Rudolf Hamburger",
+  "headline": "소련을 위해 일하고 소련 감옥에 갇혔다",
+  "prof": "other",
+  "title": "소냐의 첫 번째 남편"
+ },
+ {
+  "nickname": "알렉산더 라도",
+  "en": "Alexander Radó",
+  "headline": "지도를 그리듯 첩보망을 짠 사나이",
+  "prof": "other",
+  "title": "붉은 삼중주의 지휘자"
+ },
+ {
+  "nickname": "렌 버턴",
+  "en": "Len Beurton",
+  "headline": "위장결혼이 진짜 결혼이 된 스파이",
+  "prof": "other",
+  "title": "여권을 선물한 남편"
+ },
+ {
+  "nickname": "댄 콜린스",
+  "en": "Dan Collins",
+  "headline": "에펠탑 사기에서 각료 비서를 연기한 남자",
+  "prof": "other",
+  "title": "루스티히의 그림자 파트너"
+ },
+ {
+  "nickname": "윌리엄 와츠",
+  "en": "William Watts",
+  "headline": "은행원도 속인 위조지폐의 인쇄판을 새긴 약사",
+  "prof": "other",
+  "title": "위조지폐 판을 새긴 약사"
+ },
+ {
+  "nickname": "호세파 맥그리거",
+  "en": "Josefa MacGregor",
+  "headline": "볼리바르의 사촌이 가짜 왕국의 부인이 되다",
+  "prof": "other",
+  "title": "볼리바르의 사촌, 사기꾼의 부인"
+ },
+ {
+  "nickname": "조지 프레데릭 아우구스투스 1세",
+  "en": "George Frederic Augustus I",
+  "headline": "가짜 왕국 포야이스의 진짜 땅 주인",
+  "prof": "leader",
+  "title": "가짜 나라에 진짜 땅을 준 왕"
+ },
+ {
+  "nickname": "프랭크 애버그네일 시니어",
+  "en": "Frank Abagnale Sr.",
+  "headline": "아들에게 세상을 파는 법을 가르친 아버지",
+  "prof": "entrepreneur",
+  "title": "사기 천재가 본받은 아버지"
+ },
+ {
+  "nickname": "윌리엄 맥마스터스",
+  "en": "William McMasters",
+  "headline": "폰지가 고용한 홍보맨이 폰지의 무덤을 파다",
+  "prof": "other",
+  "title": "폰지를 무너뜨린 홍보맨"
+ },
+ {
+  "nickname": "게오르크 프리드리히 다우머",
+  "en": "Georg Friedrich Daumer",
+  "headline": "철학자의 가르침도 소년의 비밀을 못 열었다",
+  "prof": "humanities_scholar",
+  "title": "카스파 하우저의 첫 스승"
+ },
+ {
+  "nickname": "스탠호프 백작",
+  "en": "Philip Henry Stanhope, 4th Earl Stanhope",
+  "headline": "후원했다 버린, 수수께끼 소년의 보호자",
+  "prof": "politician",
+  "title": "카스파 하우저의 귀족 후원자"
+ },
+ {
+  "nickname": "엘리자베스 워럴",
+  "en": "Elizabeth Worrall",
+  "headline": "낯선 여인을 공주로 대접한 판사의 부인",
+  "prof": "other",
+  "title": "가짜 공주를 거둔 부인"
+ },
+ {
+  "nickname": "윌리엄 이네스",
+  "en": "William Innes",
+  "headline": "세례 한 번으로 대만인을 만든 스코틀랜드 군목",
+  "prof": "other",
+  "title": "가짜 대만인의 발견자"
+ },
+ {
+  "nickname": "존 마나한",
+  "en": "John Eacott Manahan",
+  "headline": "황녀를 자처한 여인과 결혼한 역사학자",
+  "prof": "humanities_scholar",
+  "title": "아나스타시아의 마지막 남편"
+ },
+ {
+  "nickname": "글레프 보트킨",
+  "en": "Gleb Botkin",
+  "headline": "황녀와 놀던 소년이 사칭자의 증인이 되다",
+  "prof": "other",
+  "title": "가짜 황녀의 최대 증인"
+ },
+ {
+  "nickname": "펠릭스 슈칸코프스키",
+  "en": "Felix Schanzkowsky",
+  "headline": "앤더슨과 대면해 모호한 진술만 남긴 오빠",
+  "prof": "other",
+  "title": "진실을 알고 침묵한 오빠"
+ },
+ {
+  "nickname": "아나하레오",
+  "en": "Anahareo",
+  "headline": "가짜 인디언에게 진짜 자연을 가르치다",
+  "prof": "author",
+  "title": "그레이 아울을 바꾼 여성"
+ },
+ {
+  "nickname": "앙헬 에그우나",
+  "en": "Angele Egwuna",
+  "headline": "영국 청년을 인디언으로 만든 여인",
+  "prof": "other",
+  "title": "그레이 아울을 만든 첫 아내"
+ },
+ {
+  "nickname": "바르투스 코르텔링",
+  "en": "Bartus Korteling",
+  "headline": "페르메이르 기법을 가르쳐 위작왕을 키우다",
+  "prof": "visual_artist",
+  "title": "위작왕의 스승"
+ },
+ {
+  "nickname": "게르트 하이데만",
+  "en": "Gerd Heidemann",
+  "headline": "슈테른의 특종 사냥꾼이 사기꾼의 공범으로",
+  "prof": "other",
+  "title": "히틀러 일기에 속은 스타 기자"
+ },
+ {
+  "nickname": "리처드 서스킨드",
+  "en": "Richard Suskind",
+  "headline": "억만장자와 한 번도 만나지 않고 자서전을 쓰다",
+  "prof": "author",
+  "title": "휴즈 자서전 사기의 공동 설계자"
+ },
+ {
+  "nickname": "에디스 어빙",
+  "en": "Edith Irving",
+  "headline": "수십만 달러 수표를 현금으로 바꾼 가짜 휴즈",
+  "prof": "visual_artist",
+  "title": "헬가 휴즈로 변신한 화가"
+ },
+ {
+  "nickname": "엘미르 드 오리",
+  "en": "Elmyr de Hory",
+  "headline": "전 세계 미술관을 속인 위작의 거장",
+  "prof": "visual_artist",
+  "title": "세기의 위작 화가"
+ },
+ {
+  "nickname": "아르노 뒤 틸",
+  "en": "Arnaud du Tilh",
+  "headline": "아내의 곁에서 3년을 남편으로 살다",
+  "prof": "other",
+  "title": "마르탱 게르가 된 남자"
+ },
+ {
+  "nickname": "베르트랑드 드 롤스",
+  "en": "Bertrande de Rols",
+  "headline": "사칭 남편과의 3년, 피해자인가 공범인가",
+  "prof": "other",
+  "title": "가짜 남편의 아내"
+ },
+ {
+  "nickname": "마리나 므니셰크",
+  "en": "Marina Mniszech",
+  "headline": "가짜 드미트리를 두 번 남편으로 삼다",
+  "prof": "leader",
+  "title": "두 명의 가짜 차르의 아내"
+ },
+ {
+  "nickname": "예지 므니셰크",
+  "en": "Jerzy Mniszech",
+  "headline": "사칭자를 차르로 만든 장인",
+  "prof": "politician",
+  "title": "가짜 차르의 장인"
+ },
+ {
+  "nickname": "소피야 네듀제바",
+  "en": "Sofya Nedyuzheva",
+  "headline": "가짜 차르의 진짜 아내가 치른 대가",
+  "prof": "other",
+  "title": "가짜 차르의 진짜 아내"
+ },
+ {
+  "nickname": "살라바트 율라예프",
+  "en": "Salavat Yulaev",
+  "headline": "반란은 졌지만 국민 영웅이 된 시인",
+  "prof": "commander",
+  "title": "바시키르의 국민 영웅"
+ },
+ {
+  "nickname": "후스티 기타르트",
+  "en": "Justí Guitart i Vilardebó",
+  "headline": "보리스 1세의 왕국극을 끝낸 우르헬 주교",
+  "prof": "leader",
+  "title": "가짜 왕을 쫓아낸 주교"
+ },
+ {
+  "nickname": "킬라판",
+  "en": "Quilapán",
+  "headline": "땅을 지키려 자칭 왕의 깃발을 들다",
+  "prof": "commander",
+  "title": "안데스 서쪽 마지막 대추장"
+ },
+ {
+  "nickname": "코르넬리오 사베드라",
+  "en": "Cornelio Saavedra Rodríguez",
+  "headline": "왕국 선언에 군대로 답한 칠레의 장군",
+  "prof": "commander",
+  "title": "아라우카니아 점령의 지휘관"
+ },
+ {
+  "nickname": "베니뉴 드 생마르",
+  "en": "Bénigne Dauvergne de Saint-Mars",
+  "headline": "철가면 수인을 30년간 데리고 다닌 간수",
+  "prof": "commander",
+  "title": "철가면의 간수"
+ },
+ {
+  "nickname": "래티 팁턴",
+  "en": "Lattie Tipton",
+  "headline": "거짓 백기를 확인하다 쓰러진 머피의 전우",
+  "prof": "commander",
+  "title": "머피의 가장 친한 전우"
+ },
+ {
+  "nickname": "얀 레제이",
+  "en": "Jan Redzej",
+  "headline": "빵공장 탈출 뒤 바르샤바 봉기에서 전사하다",
+  "prof": "commander",
+  "title": "빵공장 탈출자"
+ },
+ {
+  "nickname": "에드바르트 치에시엘스키",
+  "en": "Edward Ciesielski",
+  "headline": "필레츠키 탈출조에서 가장 어렸던 스무 살",
+  "prof": "commander",
+  "title": "스무 살의 탈출자"
+ },
+ {
+  "nickname": "다니구치 요시미",
+  "en": "Yoshimi Taniguchi",
+  "headline": "책을 팔던 손으로 작전 해제 명령을 읽다",
+  "prof": "commander",
+  "title": "오노다의 마지막 명령자"
+ },
+ {
+  "nickname": "스즈키 노리오",
+  "en": "Norio Suzuki",
+  "headline": "오노다·판다·예티, 세 가지를 쫓은 사나이",
+  "prof": "other",
+  "title": "오노다를 찾아낸 모험가"
+ },
+ {
+  "nickname": "고즈카 긴시치",
+  "en": "Kinshichi Kozuka",
+  "headline": "그의 죽음이 오노다의 생존을 알렸다",
+  "prof": "commander",
+  "title": "오노다의 마지막 전우"
+ },
+ {
+  "nickname": "발렌틴 사비츠키",
+  "en": "Valentin Savitsky",
+  "headline": "아르히포프의 반대 한 표에 멈춰 선 함장",
+  "prof": "commander",
+  "title": "핵어뢰를 장전한 함장"
+ },
+ {
+  "nickname": "탤벗 에드워즈",
+  "en": "Talbot Edwards",
+  "headline": "왕실보석 지킴이가 도둑의 친구가 되다",
+  "prof": "other",
+  "title": "왕관을 지키던 노인"
+ },
+ {
+  "nickname": "엘리자베스 '에지워스 베스' 라이언",
+  "en": "Elizabeth Lyon",
+  "headline": "탈옥수 셰퍼드의 연인이자 범죄 파트너",
+  "prof": "other",
+  "title": "탈옥왕의 연인"
+ },
+ {
+  "nickname": "보그드 칸",
+  "en": "Bogd Khan",
+  "headline": "라싸에서 태어나 몽골의 왕좌에 오른 환생불",
+  "prof": "leader",
+  "title": "몽골의 마지막 칸"
+ },
+ {
+  "nickname": "빅토르 빌라시",
+  "en": "Viktor Bilash",
+  "headline": "마흐노의 머리였던 철도 노동자",
+  "prof": "commander",
+  "title": "마흐노군의 작전 설계자"
+ },
+ {
+  "nickname": "로버트 파크 유니",
+  "en": "Robert Park Yunnie",
+  "headline": "사설군 1호 대원에서 B순찰대장이 된 남자",
+  "prof": "commander",
+  "title": "사설군의 첫 부대장"
+ },
+ {
+  "nickname": "장 카네리",
+  "en": "Jean Caneri",
+  "headline": "페니아코프 회고록을 사진으로 채운 장교",
+  "prof": "commander",
+  "title": "사설군의 사진사 장교"
+ }
+]

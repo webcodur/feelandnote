@@ -1,0 +1,666 @@
+{
+ "존 로": {
+  "relations": [
+   {
+    "to_en": "Philippe II, Duke of Orléans",
+    "to_ko": "필리프 2세 도를레앙 공작",
+    "rel_type": "partner",
+    "note_ko": "섭정 필리프는 로의 은행과 미시시피 회사 계획을 승인해 국가 권력으로 뒷받침했고, 로는 그 아래에서 재정총감에 올라 '시스템'을 굴렸다.",
+    "note_en": "Regent Philippe approved Law's bank and Mississippi Company and backed the 'System' with state power, under which Law rose to Controller-General of France's finances.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "William Law",
+    "to_ko": "윌리엄 로",
+    "rel_type": "sibling",
+    "note_ko": "동생 윌리엄은 형을 따라 프랑스로 건너가 미시시피 회사 이사로 시스템 운영을 도왔고, 붕괴 뒤에도 프랑스에 남아 관직을 지켰다.",
+    "note_en": "His brother William followed him to France and served as a director of the Mississippi Company, remaining in French service after the System collapsed.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Joseph Pâris-Duverney",
+    "to_ko": "조제프 파리-뒤베르네",
+    "rel_type": "rival",
+    "note_ko": "금융가 파리 형제들은 로의 시스템을 공개 비판하다 유배됐고, 버블이 터진 뒤에는 파리-뒤베르네가 돌아와 채권 정리 작업인 '비자 작전'을 지휘했다.",
+    "note_en": "The Pâris brothers openly attacked Law's System and were exiled; after the bubble burst, Pâris-Duverney returned to direct the 'visa' operation that liquidated its debts.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Richard Cantillon",
+    "to_ko": "리처드 캉티용",
+    "rel_type": "rival",
+    "note_ko": "파리에서 은행을 운영하던 캉티용은 로의 시스템 안에서 거래하면서도 붕괴를 내다보고 지폐를 미리 팔아치워 거액을 벌었다.",
+    "note_en": "Banker Cantillon traded inside Law's Paris while quietly selling the System's paper early, making a fortune by foreseeing the crash.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "제이 굴드": {
+  "relations": [
+   {
+    "to_en": "James Fisk Jr.",
+    "to_ko": "짐 피스크",
+    "rel_type": "partner",
+    "note_ko": "굴드와 피스크는 이리 철도 전쟁에서 위조 주식을 뿌려 밴더빌트를 물리쳤고, 1869년에는 함께 금 시장 코너링을 시도해 '검은 금요일'을 일으켰다.",
+    "note_en": "Gould and Fisk flooded the Erie War with forged stock to beat Vanderbilt, then tried to corner the gold market together, triggering Black Friday 1869.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Cornelius Vanderbilt",
+    "to_ko": "코넬리어스 밴더빌트",
+    "rel_type": "rival",
+    "note_ko": "밴더빌트는 이리 철도를 사들이려다 굴드와 피스크의 위조 주식 물량에 패했고, 매수한 주의회마저 상대 편으로 돌아서자 손을 뗐다.",
+    "note_en": "Vanderbilt tried to buy control of the Erie but was beaten by Gould and Fisk's forged share issues, with even the bribed legislature legalizing them.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Daniel Drew",
+    "to_ko": "다니엘 드루",
+    "rel_type": "rival",
+    "note_ko": "이리 철도 재무이사 드루는 처음엔 굴드·피스크와 손잡고 밴더빌트에 맞섰지만, 두 사람이 배신해 주가 폭락으로 몰아넣었다.",
+    "note_en": "Erie treasurer Drew first allied with Gould and Fisk against Vanderbilt, but the pair double-crossed him and wrecked him in a stock break.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Boss Tweed",
+    "to_ko": "보스 트위드",
+    "rel_type": "partner",
+    "note_ko": "탬머니 보스 트위드는 이리 철도 이사가 되어 굴드와 피스크에게 주의회와 법원의 보호를 제공했고, 둘은 그 대가로 정치자금을 댔다.",
+    "note_en": "Tammany boss Tweed joined the Erie board and gave Gould and Fisk legal cover in Albany and the courts; they bankrolled him in return.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Abel Corbin",
+    "to_ko": "아벨 코빈",
+    "rel_type": "partner",
+    "note_ko": "그랜트 대통령의 처남 코빈은 굴드의 금 코너링에서 재무부의 금 매각을 막는 백악관 내부 연락책 구실을 했다.",
+    "note_en": "President Grant's brother-in-law Corbin served as Gould's inside line to the White House, enlisted to keep the Treasury from selling gold.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Russell Sage",
+    "to_ko": "러셀 세이지",
+    "rel_type": "partner",
+    "note_ko": "세이지는 굴드와 함께 유니언퍼시픽과 웨스턴유니언 이사회에서 공동 투자해 월가에서 '굴드-세이지' 조합으로 불렸다.",
+    "note_en": "Sage co-invested with Gould on the boards of Union Pacific and Western Union, a pairing long known on Wall Street as the 'Gould-Sage' interests.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "벙커 헌트": {
+  "relations": [
+   {
+    "to_en": "H. L. Hunt",
+    "to_ko": "H. L. 헌트",
+    "rel_type": "father",
+    "note_ko": "석유왕 아버지 H. L. 헌트가 일군 재산이 아들들의 밑천이 됐고, 벙커는 그 유산으로 사리르 유전과 은 투기에 뛰어들었다.",
+    "note_en": "Oil tycoon H. L. Hunt's fortune was the seed capital his sons parlayed into the Sarir field and the silver corner.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "William Herbert Hunt",
+    "to_ko": "허버트 헌트",
+    "rel_type": "sibling",
+    "note_ko": "동생 허버트는 사리르 유전 지분을 함께 가졌고, 1979년부터 형과 나란히 세계 은을 사들여 코너링의 공동 주역이 됐다.",
+    "note_en": "Brother Herbert shared the Sarir oil stake and, from 1979, bought silver alongside Bunker as co-architect of the corner.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Lamar Hunt",
+    "to_ko": "러머 헌트",
+    "rel_type": "sibling",
+    "note_ko": "동생 러머도 사리르 지분 일부를 가진 헌트家 사업가였지만, 미식축구 AFC 창설과 '슈퍼볼' 작명으로 따로 유명해졌다.",
+    "note_en": "Brother Lamar shared the family's oil ventures but made his own fame founding the AFL and coining the name 'Super Bowl'.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Muammar Gaddafi",
+    "to_ko": "무아마르 카다피",
+    "rel_type": "rival",
+    "note_ko": "카다피 정권은 1973년 법령에 벙커 헌트 이름을 직접 박아 사리르 유전 지분을 몰수했고, 이 타격이 헌트를 은 시장으로 내몰았다.",
+    "note_en": "Gaddafi's Libya nationalized the Sarir field in a 1973 law naming Nelson Bunker Hunt himself — the blow that pushed the Hunts toward silver.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "버니 매이도프": {
+  "relations": [
+   {
+    "to_en": "Peter Madoff",
+    "to_ko": "피터 매이도프",
+    "rel_type": "sibling",
+    "note_ko": "동생 피터는 수십 년간 회사의 최고준법책임자로 일했고, 사기가 터진 뒤 공모 혐의로 10년형을 살았다.",
+    "note_en": "Brother Peter worked for decades as the firm's chief compliance officer and was jailed for 10 years after the scheme collapsed.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Ruth Madoff",
+    "to_ko": "루스 매이도프",
+    "rel_type": "spouse",
+    "note_ko": "아내 루스는 회사에서 일하며 평생을 함께했고, 붕괴 뒤 재산 대부분을 몰수당했지만 기소는 피했다.",
+    "note_en": "Wife Ruth worked at the firm and shared his life for decades; she forfeited most of her wealth after the collapse but was never charged.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Harry Markopolos",
+    "to_ko": "해리 마코폴로스",
+    "rel_type": "rival",
+    "note_ko": "금융조사관 마코폴로스는 10년 가까이 매이도프의 수익률이 수학적으로 불가능하다며 SEC에 다섯 차례 고발했고, 매번 묵살됐다.",
+    "note_en": "Investigator Markopolos warned the SEC five times over nearly a decade that Madoff's returns were mathematically impossible — and was ignored each time.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Frank DiPascali",
+    "to_ko": "프랭크 디파스칼리",
+    "rel_type": "partner",
+    "note_ko": "디파스칼리는 수십 년간 폰지 장부의 일선 운영을 맡은 2인자로, 체포 뒤 혐의를 인정하고 수사에 협조하다 선고 전에 사망했다.",
+    "note_en": "DiPascali ran the Ponzi's day-to-day books for decades as Madoff's lieutenant; he pleaded guilty and aided prosecutors but died before sentencing.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Carl J. Shapiro",
+    "to_ko": "칼 샤피로",
+    "rel_type": "friend",
+    "note_ko": "보스턴 자선가 샤피로는 1961년부터 매이도프의 가장 오래된 친구이자 출자자였고, 붕괴 직전에도 2억 5천만 달러를 넣었다가 재단까지 6억 달러 가까이 잃었다.",
+    "note_en": "Boston philanthropist Shapiro, Madoff's oldest friend and backer since 1961, wired him $250 million just before the collapse and lost nearly $600 million including his foundation's money.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "조던 벨포트": {
+  "relations": [
+   {
+    "to_en": "Danny Porush",
+    "to_ko": "대니 포루시",
+    "rel_type": "partner",
+    "note_ko": "포루시는 스트래튼 오크먼트의 공동 운영자로 벨포트와 사기 영업을 함께 이끌었고, 영화에서 '도니 애조프'로 그려졌다.",
+    "note_en": "Porush co-ran Stratton Oakmont's fraud with Belfort — the real 'Donnie Azoff' of the film.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Tommy Chong",
+    "to_ko": "토미 정",
+    "rel_type": "friend",
+    "note_ko": "태프트 교도소에서 같은 방을 쓴 토미 정은 매일 밤 나눈 이야기를 '책으로 쓰라'고 충고했고, 그것이 회고록 '울프 오브 월 스트리트'가 됐다.",
+    "note_en": "Prison bunkmate Tommy Chong heard Belfort's nightly stories and told him to write them down — the advice that produced 'The Wolf of Wall Street'.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Steve Madden",
+    "to_ko": "스티브 매든",
+    "rel_type": "partner",
+    "note_ko": "신발 디자이너 매든의 회사 IPO를 스트래튼 오크먼트가 주관했고, 매든은 주가조작 대가 지급 혐의로 실형을 살았다.",
+    "note_en": "Stratton ran shoe designer Steve Madden's IPO; Madden was later jailed for the kickback scheme tied to the deal.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Gregory Coleman",
+    "to_ko": "그레고리 콜먼",
+    "rel_type": "rival",
+    "note_ko": "FBI 요원 콜먼은 6년 넘게 스트래튼 오크먼트를 추적해 벨포트 체포까지 이끈 수사 책임자였다.",
+    "note_en": "FBI agent Coleman spent six years building the Stratton case and personally arrested Belfort.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Nadine Caridi",
+    "to_ko": "나딘 카리디",
+    "rel_type": "spouse",
+    "note_ko": "모델 출신 아내 나딘은 스트래튼 시절 호화 생활을 함께했고, 영화 속 '나오미'의 실제 모델이 됐다.",
+    "note_en": "Model Nadine shared the Stratton-era excess as Belfort's wife — the real-life 'Naomi' of the film.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "닉 리슨": {
+  "relations": [
+   {
+    "to_en": "Lisa Leeson",
+    "to_ko": "리사 리슨",
+    "rel_type": "spouse",
+    "note_ko": "아내 리사는 싱가포르에서 함께 살았고, 베어링스 파산 뒤 함께 도주해 프랑크푸르트에서 붙잡혔으며 복역 중 이혼했다.",
+    "note_en": "Wife Lisa lived with him in Singapore, fled with him when Barings collapsed, was arrested beside him in Frankfurt, and divorced him while he served his sentence.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "마이클 밀켄": {
+  "relations": [
+   {
+    "to_en": "Ivan Boesky",
+    "to_ko": "이반 보스키",
+    "rel_type": "partner",
+    "note_ko": "보스키는 밀켄의 정크본드 네트워크 위에서 인수 차익거래를 굴렸고, 체포 뒤 밀켄과의 비밀 정산 내역을 수사에 넘겨 드렉셀 몰락의 도미노를 세웠다.",
+    "note_en": "Boesky ran his takeover arbitrage on Milken's junk-bond network; after arrest he handed prosecutors their secret settlement records, toppling Milken and Drexel.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Rudolph Giuliani",
+    "to_ko": "루디 줄리아니",
+    "rel_type": "rival",
+    "note_ko": "뉴욕 남부지검장 줄리아니는 1989년 밀켄을 98개 혐의로 기소해 월가 최대 형사사건을 만들었다.",
+    "note_en": "U.S. Attorney Giuliani indicted Milken on 98 counts in 1989, the era's biggest Wall Street prosecution.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Lowell Milken",
+    "to_ko": "로웰 밀켄",
+    "rel_type": "sibling",
+    "note_ko": "동생 로웰은 드렉셀에서 형 곁에서 일하다 함께 기소됐고(혐의는 나중에 취소), 이후 밀켄 가족 재단을 공동으로 이끌었다.",
+    "note_en": "Brother Lowell worked beside him at Drexel and was indicted alongside him (charges later dropped); he now co-runs the Milken family foundations.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Charles Keating",
+    "to_ko": "찰스 키팅",
+    "rel_type": "partner",
+    "note_ko": "저축대부조합 경영자 키팅은 밀켄의 정크본드로 링컨 세이빙스를 부풀렸고, 둘의 거래는 저축대부 스캔들의 심장이 됐다.",
+    "note_en": "S&L boss Keating inflated Lincoln Savings with Milken's junk bonds; their dealings sat at the heart of the savings-and-loan scandal.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Fred Joseph",
+    "to_ko": "프레드 조지프",
+    "rel_type": "colleague",
+    "note_ko": "드렉셀 CEO 조지프는 밀켄의 직속 상사로 정부와 협상해 회사를 지키려 했으나, 1990년 드렉셀 파산으로 함께 몰락했다.",
+    "note_en": "Drexel CEO Joseph, Milken's boss, negotiated with the government to save the firm but went down with its 1990 collapse.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "이반 보스키": {
+  "relations": [
+   {
+    "to_en": "Michael Milken",
+    "to_ko": "마이클 밀켄",
+    "rel_type": "partner",
+    "note_ko": "보스키는 밀켄의 정크본드 네트워크 위에서 인수 차익거래를 굴렸고, 체포 뒤 밀켄과의 비밀 정산 내역을 수사에 넘겨 드렉셀 몰락의 도미노를 세웠다.",
+    "note_en": "Boesky ran his takeover arbitrage on Milken's junk-bond network; after arrest he handed prosecutors their secret settlement records, toppling Milken and Drexel.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Dennis Levine",
+    "to_ko": "데니스 러바인",
+    "rel_type": "partner",
+    "note_ko": "드렉셀 투자은행가 러바인은 미공개 인수 정보를 보스키에게 팔았고, 1986년 그가 먼저 체포되면서 보스키까지 줄줄이 엮였다.",
+    "note_en": "Drexel banker Levine sold Boesky inside deal tips; Levine's 1986 arrest set off the chain that caught Boesky.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Martin Siegel",
+    "to_ko": "마틴 시걸",
+    "rel_type": "partner",
+    "note_ko": "키더피바디의 스타 은행가 시걸은 현금 가방을 받으며 인수 정보를 보스키에게 넘겼고, 둘의 거래는 80년대 내부자거래의 상징이 됐다.",
+    "note_en": "Kidder Peabody star Siegel passed takeover tips to Boesky for suitcases of cash — the emblematic insider ring of the '80s.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "John Mulheren",
+    "to_ko": "존 머헤런",
+    "rel_type": "friend",
+    "note_ko": "절친이던 트레이더 머헤런은 보스키가 수사에 자기 이름을 넘겼다는 소식을 듣고 무기를 싣고 그의 집으로 향하다 체포됐다.",
+    "note_en": "Close friend and fellow trader Mulheren was arrested driving toward Boesky's house with weapons after learning Boesky had implicated him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Seema Silberstein Boesky",
+    "to_ko": "시마 보스키",
+    "rel_type": "spouse",
+    "note_ko": "호텔 부호의 딸인 아내 시마의 가문 자금이 보스키의 차익거래 밑천이 됐고, 사건 뒤 두 사람은 이혼했다.",
+    "note_en": "Hotel heiress wife Seema's family fortune seeded Boesky's arbitrage fund; they divorced after the scandal.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "제롬 케르비엘": {
+  "relations": [
+   {
+    "to_en": "Pope Francis",
+    "to_ko": "프란치스코 교황",
+    "rel_type": "influence",
+    "note_ko": "케르비엘은 '돈의 폭정'을 비판한 교황에게 편지를 보내 2014년 바티칸에서 짧은 만남을 얻었고, 그 뒤 로마에서 파리까지 1,400km 항의 도보 행진을 했다.",
+    "note_en": "Moved by Francis's attacks on the 'tyranny of money', Kerviel wrote to him, met him at the Vatican in 2014, then marched 1,400 km from Rome to Paris in protest.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Daniel Bouton",
+    "to_ko": "다니엘 부통",
+    "rel_type": "rival",
+    "note_ko": "소시에테 제네랄 회장 부통은 케르비엘을 '사기꾼'이라 공개 규탄하고 해임했으나, 스캔들의 책임을 지고 스스로 물러났다.",
+    "note_en": "SocGen chairman Bouton publicly branded Kerviel a fraudster and fired him — then resigned himself under the weight of the scandal.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "하마나카 야스오": {
+  "relations": [
+   {
+    "to_en": "Saburo Shimizu",
+    "to_ko": "시미즈 사부로",
+    "rel_type": "partner",
+    "note_ko": "직속 상사 시미즈는 1985년 하마나카와 함께 손실을 메우려는 무승인 구리 투기를 시작했고, 시미즈가 물러난 뒤 하마나카는 장부를 혼자 10년 더 숨겼다.",
+    "note_en": "His boss Shimizu began unauthorized copper bets with Hamanaka in 1985 to cover an earlier loss; after Shimizu resigned, Hamanaka hid the book alone for another decade.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "앨런 스탠퍼드": {
+  "relations": [
+   {
+    "to_en": "James M. Davis",
+    "to_ko": "제임스 데이비스",
+    "rel_type": "partner",
+    "note_ko": "대학 룸메이트 데이비스는 스탠퍼드 파이낸셜의 CFO로 사기 회계를 총괄했고, 유죄를 인정한 뒤 스탠퍼드 재판에서 증언했다.",
+    "note_en": "College roommate Davis was Stanford Financial's CFO, ran the fraudulent books, then testified against Stanford.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Leroy King",
+    "to_ko": "리로이 킹",
+    "rel_type": "partner",
+    "note_ko": "앤티가 금융규제청 수장 킹은 스탠퍼드의 뇌물과 '혈서 맹세'를 받고 감독 정보를 넘기며 사기를 비호했다.",
+    "note_en": "Antigua's banking regulator King took Stanford's bribes — sealed with a blood oath — and fed him oversight information that shielded the fraud.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Laura Pendergest-Holt",
+    "to_ko": "로라 펜더게스트-홀트",
+    "rel_type": "colleague",
+    "note_ko": "30대 CIO 펜더게스트-홀트는 투자 수익을 지어낸 공모 혐의로 기소돼 실형을 살았다.",
+    "note_en": "CIO Pendergest-Holt helped fabricate the bank's investment returns and was convicted for the scheme.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "James Stanford",
+    "to_ko": "제임스 스탠퍼드",
+    "rel_type": "father",
+    "note_ko": "아버지 제임스가 텍사스에서 세운 보험·부동산 회사를 앨런이 물려받아 앤티가 은행 제국으로 키웠다.",
+    "note_en": "Allen inherited the Texas insurance-and-real-estate firm his father James founded and grew it into the Caribbean banking empire.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "마크 리치": {
+  "relations": [
+   {
+    "to_en": "Pincus Green",
+    "to_ko": "핀커스 그린",
+    "rel_type": "partner",
+    "note_ko": "그린은 필립 브라더스 시절부터 리치의 거래 파트너로 '마크 리치+코'(훗날 글렌코어)를 함께 세웠고, 클린턴 사면 명단에도 함께 올랐다.",
+    "note_en": "Green was Rich's trading partner from Philipp Brothers days, co-founded the firm that became Glencore, and was pardoned alongside him by Clinton.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Denise Rich",
+    "to_ko": "데니스 리치",
+    "rel_type": "spouse",
+    "note_ko": "작곡가인 전 부인 데니스는 이혼 뒤에도 클린턴 진영에 거액을 기부하며 리치의 사면 로비를 벌여 사면 스캔들의 한복판이 됐다.",
+    "note_en": "Ex-wife Denise, a songwriter, bankrolled Clinton causes while lobbying for Rich's pardon — landing at the center of the pardon scandal.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Rudolph Giuliani",
+    "to_ko": "루디 줄리아니",
+    "rel_type": "rival",
+    "note_ko": "뉴욕 남부지검장 줄리아니는 1983년 리치를 탈세와 적성국 거래 등 51개 혐의로 기소해 그의 도피 생활을 만들었다.",
+    "note_en": "As U.S. Attorney, Giuliani's 1983 indictment on 51 counts of tax evasion and trading with the enemy made Rich a fugitive.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "로버트 베스코": {
+  "relations": [
+   {
+    "to_en": "John Mitchell",
+    "to_ko": "존 미첼",
+    "rel_type": "partner",
+    "note_ko": "베스코는 닉슨 재선자금 20만 달러 현금을 비밀리에 건넸고, 미첼 법무장관은 제네바에 수감된 그를 미 대사관 전화로 풀어주고 SEC 수사를 막으려 한 혐의로 함께 기소됐다(무죄).",
+    "note_en": "Vesco secretly funneled $200,000 cash to Nixon's re-election; Attorney General Mitchell was indicted for springing him from a Geneva jail and leaning on the SEC (both were acquitted).",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Fidel Castro",
+    "to_ko": "피델 카스트로",
+    "rel_type": "partner",
+    "note_ko": "카스트로 정권은 베스코에게 14년간 망명처를 제공하고 그의 거래를 용인했으나, 1996년 '국가경제범죄'로 그를 투옥했고 베스코는 쿠바에서 죽었다.",
+    "note_en": "Castro's Cuba sheltered Vesco for 14 years and tolerated his ventures — then jailed him for 'economic crimes against the state'; he died there a prisoner.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Bernard Cornfeld",
+    "to_ko": "버나드 콘펠드",
+    "rel_type": "rival",
+    "note_ko": "베스코는 콘펠드가 세운 뮤추얼펀드 제국 IOS가 무너지자 구제금융을 미끼로 경영권을 빼앗고 2억 달러를 털어 도주했다.",
+    "note_en": "When Cornfeld's IOS mutual-fund empire collapsed, Vesco seized control on a rescue pretext, looted $200 million, and fled.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "로스 페로": {
+  "relations": [
+   {
+    "to_en": "Arthur D. Simons",
+    "to_ko": "아서 '불' 사이먼스",
+    "rel_type": "partner",
+    "note_ko": "페로는 이란에 억류된 자사 직원 구출을 위해 특수부대 전설 사이먼스 대령을 직접 고용했고, 사이먼스는 용병팀을 이끌고 테헤란 탈출 작전을 성공시켰다.",
+    "note_en": "Perot personally hired Green Beret legend Col. 'Bull' Simons, who led the team that broke two EDS employees out of revolutionary Tehran.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Steve Jobs",
+    "to_ko": "스티브 잡스",
+    "rel_type": "partner",
+    "note_ko": "페로는 잡스의 NeXT에 2천만 달러를 넣은 최대 투자자이자 이사였고, 잡스는 그의 자금과 격려로 재기의 발판을 마련했다.",
+    "note_en": "Perot was NeXT's biggest investor and a board member, putting $20 million behind Jobs's comeback venture.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Roger B. Smith",
+    "to_ko": "로저 스미스",
+    "rel_type": "rival",
+    "note_ko": "GM이 EDS를 인수한 뒤 이사가 된 페로는 스미스 회장의 경영을 공개 맹비난했고, GM은 7억 4천만 달러를 주고 그의 지분과 발언권을 사서보냈다.",
+    "note_en": "After GM bought EDS, board member Perot publicly savaged chairman Smith's management; GM paid $742 million to buy back his stock and silence him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "George H. W. Bush",
+    "to_ko": "조지 H. W. 부시",
+    "rel_type": "rival",
+    "note_ko": "페로는 1992년 대선에서 부시의 표를 갉아먹었다는 평을 들었고, 베트남 포로 문제를 둘러싼 두 사람의 앙금은 수년간 이어졌다.",
+    "note_en": "Perot's 1992 run was widely blamed for draining Bush's votes; their feud over Vietnam POW issues simmered for years.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "존 딜로런": {
+  "relations": [
+   {
+    "to_en": "Colin Chapman",
+    "to_ko": "콜린 채프먼",
+    "rel_type": "partner",
+    "note_ko": "로터스 창업자 채프먼은 DMC-12의 엔지니어링을 수주했으나 개발비 수백만 파운드가 껍데기 회사로 새 나간 스캔들에 휘말렸고, 재판 전 심장마비로 숨졌다.",
+    "note_en": "Lotus founder Chapman engineered the DMC-12 — then was caught in the scandal of millions in development money routed to a shell firm, dying before trial.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "James Timothy Hoffman",
+    "to_ko": "제임스 호프만",
+    "rel_type": "rival",
+    "note_ko": "마약 밀수 전과의 옆집 이웃 호프만은 FBI 정보원으로서 딜로런을 코카인 거래에 끌어들여 함정 수사의 미끼 구실을 했다.",
+    "note_en": "Ex-smuggler neighbor Hoffman, working as an FBI informant, drew DeLorean into the staged cocaine deal that destroyed him.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Cristina Ferrare",
+    "to_ko": "크리스티나 페라레",
+    "rel_type": "spouse",
+    "note_ko": "모델 출신 아내 페라레는 코카인 재판 내내 남편 곁을 지켰으나 무죄 평결 직후 이혼했다.",
+    "note_en": "Model wife Ferrare stood beside DeLorean through the cocaine trial, then divorced him soon after his acquittal.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "프레스턴 터커": {
+  "relations": [
+   {
+    "to_en": "Alex Tremulis",
+    "to_ko": "알렉스 트레물리스",
+    "rel_type": "colleague",
+    "note_ko": "디자이너 트레물리스는 단 며칠 만에 터커 48의 유선형 차체를 완성해 51대의 명차에 디자인을 입혔다.",
+    "note_en": "Designer Tremulis styled the Tucker 48's streamlined body in a matter of days, giving the 51-car run its iconic shape.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Abe Karatz",
+    "to_ko": "에이브 캐러츠",
+    "rel_type": "partner",
+    "note_ko": "기획자 캐러츠는 터커의 자금 조달과 홍보를 맡았고, 과거 사기 전과가 재판에서 불거져 터커와 함께 기소됐다.",
+    "note_en": "Promoter Karatz handled Tucker's fundraising and publicity; his old fraud conviction surfaced when the two were indicted together.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Otto Kerner Jr.",
+    "to_ko": "오토 커너 주니어",
+    "rel_type": "rival",
+    "note_ko": "연방검사 커너는 터커를 기소해 회사를 파산으로 몰았고, 훗날 일리노이 주지사가 됐지만 스스로도 주식 뇌물죄로 수감된 최초의 연방 항소법원 판사가 됐다.",
+    "note_en": "U.S. Attorney Kerner's prosecution killed Tucker's company despite the acquittal; the future Illinois governor was later jailed himself for stock bribery.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "밀턴 허시": {
+  "relations": [
+   {
+    "to_en": "Joseph R. Royer",
+    "to_ko": "조지프 로이어",
+    "rel_type": "teacher",
+    "note_ko": "랭커스터 제과점 주인 로이어는 열네 살 허시를 도제로 받아 4년간 캔디 만드는 기술을 가르친 스승이다.",
+    "note_en": "Lancaster confectioner Royer took 14-year-old Hershey as an apprentice and taught him candy-making over four years.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "H. B. Reese",
+    "to_ko": "H. B. 리스",
+    "rel_type": "colleague",
+    "note_ko": "리스는 허시의 낙농장과 공장에서 일한 직원 출신으로, 독립해 만든 '리스 피넛버터 컵'에 허시 초콜릿을 쓰는 협정을 맺었다.",
+    "note_en": "Reese worked on Hershey's dairy farms and in the factory before founding his own candy line, coating his peanut butter cups in Hershey chocolate by agreement.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Frank Mars",
+    "to_ko": "프랭크 마스",
+    "rel_type": "rival",
+    "note_ko": "경쟁사 창업자 마스는 밀키웨이 코팅용 초콜릿을 처음엔 허시에서 사 쓰다가 훗날 최대 라이벌로 성장했다.",
+    "note_en": "Mars bought Hershey's chocolate to coat the first Milky Ways before growing into Hershey's fiercest rival.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Catherine Hershey",
+    "to_ko": "캐서린 허시",
+    "rel_type": "spouse",
+    "note_ko": "아내 키티는 병약했지만 허시의 사업과 기부 계획의 동반자였고, 부부는 자식 대신 고아 학교에 재산을 바쳤다.",
+    "note_en": "Wife Kitty shared his plans despite illness; childless, they gave their fortune to a school for orphans.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Henry Hershey",
+    "to_ko": "헨리 허시",
+    "rel_type": "father",
+    "note_ko": "몽상가 아버지 헨리는 수십 가지 사업을 벌이고 실패를 거듭한 인물로, 밀턴은 그 아래에서 자라 같은 길로 실패를 겪은 뒤 성공했다.",
+    "note_en": "Dreamer father Henry drifted through a string of failed ventures; Milton grew up under him, repeated his failures, then succeeded.",
+    "prospect": "candidate"
+   }
+  ]
+ },
+ "조지 이스트먼": {
+  "relations": [
+   {
+    "to_en": "Henry A. Strong",
+    "to_ko": "헨리 스트롱",
+    "rel_type": "partner",
+    "note_ko": "로체스터의 채찍 제조 부호 스트롱은 젊은 은행원 이스트먼의 건판 사업에 첫 투자금을 댄 후원자이자 공동 창업자다.",
+    "note_en": "Whip manufacturer Strong put up the first money for bank clerk Eastman's dry-plate business — Kodak's original backer.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "William Hall Walker",
+    "to_ko": "윌리엄 홀 워커",
+    "rel_type": "partner",
+    "note_ko": "카메라 제작자 워커는 롤 필름 홀더 특허를 이스트먼과 공동 사업화해 훗날 코닥 카메라의 기반을 만들었다.",
+    "note_en": "Camera maker Walker commercialized his roll-film holder with Eastman — the technology that led to Kodak's cameras.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Thomas Edison",
+    "to_ko": "토머스 에디슨",
+    "rel_type": "colleague",
+    "note_ko": "에디슨은 활동사진 발명에 이스트먼의 유연 필름을 요구해 썼고, 둘의 협력이 영화 필름 규격을 만들었다.",
+    "note_en": "Edison built his motion-picture work on Eastman's flexible film; their collaboration set the film standard.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Maria Kilbourn Eastman",
+    "to_ko": "마리아 이스트먼",
+    "rel_type": "mother",
+    "note_ko": "이스트먼은 평생 독신으로 어머니 마리아를 부양하며 함께 살았고, 1907년 그녀의 죽음에 깊이 침울해했다.",
+    "note_en": "Eastman lived with and supported his mother Maria all his life; her 1907 death left him deeply depressed.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Frank Brownell",
+    "to_ko": "프랭크 브라우넬",
+    "rel_type": "colleague",
+    "note_ko": "카메라 설계자 브라우넬은 코닥 초기 카메라와 1달러짜리 '브라우니'를 설계해 이스트먼의 대중화를 실현했다.",
+    "note_en": "Camera designer Brownell engineered Kodak's early cameras and the $1 'Brownie' that made Eastman's mass market real.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "에드윈 랜드": {
+  "relations": [
+   {
+    "to_en": "George W. Wheelwright III",
+    "to_ko": "조지 휠라이트 3세",
+    "rel_type": "cofounder",
+    "note_ko": "하버드 물리 강사 휠라이트는 제자 랜드와 1932년 '랜드-휠라이트 연구소'를 세워 편광판을 사업화했고, 이것이 폴라로이드가 됐다.",
+    "note_en": "Harvard physics instructor Wheelwright co-founded Land-Wheelwright Laboratories with his student Land in 1932 — the venture that became Polaroid.",
+    "prospect": "hit"
+   },
+   {
+    "to_en": "Ansel Adams",
+    "to_ko": "안셀 애덤스",
+    "rel_type": "colleague",
+    "note_ko": "사진가 애덤스는 수십 년간 폴라로이드 자문으로 일하며 랜드의 필름과 카메라를 현장에서 시험했다.",
+    "note_en": "Photographer Adams spent decades as Polaroid's consultant, field-testing Land's films and cameras.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Elkan Blout",
+    "to_ko": "엘칸 블라우트",
+    "rel_type": "colleague",
+    "note_ko": "하버드 화학자 블라우트는 폴라로이드에 합류해 랜드의 연구 동료로 특허와 논문을 함께 냈다.",
+    "note_en": "Harvard chemist Blout joined Polaroid as Land's research colleague, co-authoring patents and papers.",
+    "prospect": "hit"
+   }
+  ]
+ },
+ "마에자와 유사쿠": {
+  "relations": [
+   {
+    "to_en": "Elon Musk",
+    "to_ko": "일론 머스크",
+    "rel_type": "partner",
+    "note_ko": "머스크는 스페이스X 첫 민간 달 여행 승객으로 마에자와를 직접 발표했고, 마에자와는 '디어문' 프로젝트 좌석을 통째로 샀다.",
+    "note_en": "Musk personally unveiled Maezawa as SpaceX's first private lunar passenger; Maezawa bought every seat on the dearMoon flyby.",
+    "prospect": "candidate"
+   },
+   {
+    "to_en": "Masayoshi Son",
+    "to_ko": "손정의(손 마사요시)",
+    "rel_type": "friend",
+    "note_ko": "마에자와는 '록하게 살고 싶다'고 손정의에게 인생 상담을 했고, 손정의는 야후재팬의 조조 인수를 주선한 뒤 기자회견에 깜짝 등장해 우정을 과시했다.",
+    "note_en": "Maezawa told his friend Son he wanted to 'live more rock-and-roll'; Son brokered Yahoo Japan's Zozo buyout and made a surprise stage appearance at the press conference.",
+    "prospect": "candidate"
+   }
+  ]
+ }
+}

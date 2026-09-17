@@ -1,0 +1,1252 @@
+{
+ "소피아 슐리만": {
+  "events": [
+   {
+    "year": 1852,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "그리스에서 태어났다.",
+    "description_en": "Born in Greece.",
+    "kind": "birth",
+    "place_name": "아테네",
+    "place_name_en": "Athens",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1869,
+    "year_end": null,
+    "title": "열일곱의 혼인",
+    "title_en": "Married at Seventeen",
+    "description": "하인리히 슐리만과 결혼해 발굴 현장에 동참했다.",
+    "description_en": "She married Heinrich Schliemann at seventeen and joined his digs.",
+    "kind": "meeting",
+    "place_name": "아테네",
+    "place_name_en": "Athens",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1873,
+    "year_end": null,
+    "title": "트로이의 보물",
+    "title_en": "The Treasure of Priam",
+    "description": "트로이 발굴에 참여했고 '프리아모스의 보물' 보석을 몸에 걸친 사진으로 세계에 알려졌다.",
+    "description_en": "Photographed wearing 'Priam's Treasure' — the image went worldwide.",
+    "kind": "work",
+    "place_name": "히사를리크",
+    "place_name_en": "Hisarlik",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1876,
+    "year_end": null,
+    "title": "미케네 발굴",
+    "title_en": "Mycenae",
+    "description": "남편과 함께 미케네의 왕릉 발굴에 동참했다.",
+    "description_en": "She joined the Mycenae excavation of royal tombs.",
+    "kind": "work",
+    "place_name": "미케네",
+    "place_name_en": "Mycenae",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1932,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "남편 사후 아테네에 남아 그의 기록과 유산을 지키다 숨졌다.",
+    "description_en": "She stayed in Athens guarding his records until her death.",
+    "kind": "death",
+    "place_name": "아테네",
+    "place_name_en": "Athens",
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "프랭크 캘버트": {
+  "events": [
+   {
+    "year": 1828,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "몰타에서 영국 영사관 집안으로 태어나 다르다넬스에 정착했다.",
+    "description_en": "Born in Malta; his family settled in the Dardanelles as consular agents.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1865,
+    "year_end": null,
+    "title": "히사를리크 시굴",
+    "title_en": "Digging Hisarlik",
+    "description": "언덕 절반을 소유하고 직접 시굴을 벌여 이곳이 호메로스의 트로이라는 확신을 먼저 얻었다.",
+    "description_en": "Owning half the mound, he dug test trenches — convinced it was Troy.",
+    "kind": "work",
+    "place_name": "히사를리크",
+    "place_name_en": "Hisarlik",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1868,
+    "year_end": null,
+    "title": "슐리만에게 길을 내주다",
+    "title_en": "Guiding Schliemann",
+    "description": "슐리만에게 발굴지를 알려주고 도왔으나 명예는 거의 돌아오지 않았다.",
+    "description_en": "He handed Schliemann the site — and watched the fame go elsewhere.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1908,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "다르다넬스에서 79세로 숨졌다.",
+    "description_en": "Died in the Dardanelles at 79.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "아서 캘런더": {
+  "events": [
+   {
+    "year": 1875,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "영국에서 태어나 철도 기술자가 됐다.",
+    "description_en": "Born in England; a railway engineer.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1922,
+    "year_end": null,
+    "title": "왕가의 계곡 합류",
+    "title_en": "Joining Carter",
+    "description": "이집트 철도청 은퇴 뒤 오랜 친구 카터의 발굴에 합류해 무덤에 전기와 도르래를 설치했다.",
+    "description_en": "Retired, he wired Tutankhamun's tomb and rigged its hoists for Carter.",
+    "kind": "work",
+    "place_name": "룩소르",
+    "place_name_en": "Luxor",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1923,
+    "year_end": 1925,
+    "title": "황금 관龕 해체",
+    "title_en": "Lifting the Shrines",
+    "description": "거대한 황금 관龕들을 무사히 해체해 들어내는 까다로운 작업을 맡았다.",
+    "description_en": "He engineered the dismantling of the nested golden shrines.",
+    "kind": "work",
+    "place_name": "룩소르",
+    "place_name_en": "Luxor",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1936,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "이집트에서 61세로 숨졌다.",
+    "description_en": "Died in Egypt at 61.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "알미나 카나번": {
+  "events": [
+   {
+    "year": 1876,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "로스차일드 은행가의 사생아로 태어나 막대한 유산을 물려받았다.",
+    "description_en": "Born the banking Rothschilds' illegitimate daughter — and heiress.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1895,
+    "year_end": null,
+    "title": "카나번 백작과 혼인",
+    "title_en": "Countess of Carnarvon",
+    "description": "5대 카나번 백작과 혼인해 하이클리어 성의 안주인이 됐다.",
+    "description_en": "She married the 5th Earl of Carnarvon — mistress of Highclere.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1909,
+    "year_end": 1923,
+    "title": "발굴 자금줄",
+    "title_en": "Funding the Dig",
+    "description": "그녀의 돈이 카터의 왕가의 계곡 탐사 자금이 되어 투탕카멘 발견을 가능케 했다.",
+    "description_en": "Her fortune funded Carter's search — and the tomb.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1914,
+    "year_end": null,
+    "title": "성을 병원으로",
+    "title_en": "Highclere Hospital",
+    "description": "제1차 세계대전 때 성을 병원으로 개조해 간호를 지휘했다.",
+    "description_en": "In WWI she turned Highclere into a hospital.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1969,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "남편 사후에도 발굴 후원을 이어가다 93세로 숨졌다.",
+    "description_en": "She kept funding the dig and died at 93.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "오브리 허버트": {
+  "events": [
+   {
+    "year": 1880,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "카나번 백작의 이복동생으로 태어났다 — 거의 실명에 가까운 시력이었다.",
+    "description_en": "Born Carnarvon's half-brother — nearly blind.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1915,
+    "year_end": null,
+    "title": "갈리폴리",
+    "title_en": "Gallipoli",
+    "description": "시력 장애에도 군복을 입고 갈리폴리와 알바니아 전선을 누볐다.",
+    "description_en": "Half-blind, he served at Gallipoli and in Albania.",
+    "kind": "battle",
+    "place_name": "갈리폴리",
+    "place_name_en": "Gallipoli",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1913,
+    "year_end": 1920,
+    "title": "두 번의 왕위 제안",
+    "title_en": "Offered a Throne Twice",
+    "description": "알바니아의 왕위를 두 번 제안받았다.",
+    "description_en": "Albania offered him its crown — twice.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1923,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "43세로 숨졌다 — 존 버컨의 『그린맨틀』 속 영웅의 모델이었다.",
+    "description_en": "Died at 43 — the model for Buchan's 'Greenmantle' hero.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "헨리 솔트": {
+  "events": [
+   {
+    "year": 1780,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "잉글랜드 리치필드에서 태어나 화가 수련을 했다.",
+    "description_en": "Born in Lichfield; trained as a painter.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1816,
+    "year_end": null,
+    "title": "이집트 총영사",
+    "title_en": "Consul-General in Egypt",
+    "description": "이집트 주재 영국 총영사가 됐다.",
+    "description_en": "He became Britain's Consul-General in Egypt.",
+    "kind": "office",
+    "place_name": "카이로",
+    "place_name_en": "Cairo",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1815,
+    "year_end": null,
+    "title": "벨조니 고용",
+    "title_en": "Hiring Belzoni",
+    "description": "벨조니를 고용해 람세스 2세의 거대한 흉상 등 대형 유물을 대영박물관으로 옮겼다.",
+    "description_en": "He hired Belzoni to move colossal antiquities to the British Museum.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1827,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "프랑스 총영사 드로베티와 치열한 수집 경쟁을 벌이던 중 이집트에서 47세로 숨졌다.",
+    "description_en": "Still racing Drovetti for relics, he died in Egypt at 47.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "베르나르디노 드로베티": {
+  "events": [
+   {
+    "year": 1776,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "피에몬테에서 태어나 나폴레옹 전쟁을 거쳤다.",
+    "description_en": "Born in Piedmont; a Napoleonic veteran.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1803,
+    "year_end": null,
+    "title": "프랑스 총영사",
+    "title_en": "French Consul-General",
+    "description": "이집트 주재 프랑스 총영사가 됐다.",
+    "description_en": "He became France's Consul-General in Egypt.",
+    "kind": "office",
+    "place_name": "카이로",
+    "place_name_en": "Cairo",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1815,
+    "year_end": 1827,
+    "title": "솔트와의 수집 경쟁",
+    "title_en": "The Antiquities Race",
+    "description": "헨리 솔트와 무리할 만큼 치열한 유물 수집 경쟁을 벌였다.",
+    "description_en": "He and Salt raided Egypt's tombs in a ruthless rivalry.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1852,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "토리노에서 76세로 숨졌다 — 그의 컬렉션이 토리노 이집트 박물관의 토대가 됐다.",
+    "description_en": "Died in Turin — his collection founded its Egyptian Museum.",
+    "kind": "death",
+    "place_name": "토리노",
+    "place_name_en": "Turin",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "롤리 리멜": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "잭 포셋의 친구",
+    "title_en": "Jack Fawcett's Friend",
+    "description": "영국 데번 출신 청년으로 포셋의 아들 잭의 절친이었다.",
+    "description_en": "A Devon lad and Jack Fawcett's closest friend.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "'Z' 원정 동행",
+    "title_en": "Into the Jungle for 'Z'",
+    "description": "잃어버린 도시 'Z' 원정에 동행해 포셋 부자와 함께 마투그로수에서 흔적 없이 사라졌다.",
+    "description_en": "He followed the Fawcetts into Mato Grosso — and vanished with them.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "실종(사망 추정)",
+    "title_en": "Lost (Presumed Dead)",
+    "description": "탐험사의 유명한 미스터리로 남았다.",
+    "description_en": "Never found — one of exploration's great mysteries.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "헨리 코스틴": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "전직 군인",
+    "title_en": "The Ex-Soldier",
+    "description": "영국의 전직 군인으로 포셋이 가장 신뢰한 탐험 동료가 됐다.",
+    "description_en": "An ex-soldier who became Fawcett's most trusted companion.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1906,
+    "year_end": 1914,
+    "title": "국경 측량 원정들",
+    "title_en": "The Boundary Expeditions",
+    "description": "볼리비아·브라질 국경 측량 원정에 여러 차례 함께하며 정글 생존을 나눴다.",
+    "description_en": "He shared Fawcett's border-survey expeditions through the jungle.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1925,
+    "year_end": null,
+    "title": "마지막 원정 거절",
+    "title_en": "Refusing 'Z'",
+    "description": "도시 'Z'를 찾는 마지막 원정에는 끝내 참가를 거절해 실종의 비극을 비켜 갔다.",
+    "description_en": "He refused the final 'Z' expedition — and survived.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "알프레다 빙엄": {
+  "events": [
+   {
+    "year": 1874,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "보석상 티파니 창업자의 손녀로 태어났다.",
+    "description_en": "Born a granddaughter of Tiffany's founder.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "빙엄과 혼인",
+    "title_en": "Marrying Hiram Bingham",
+    "description": "히럼 빙엄과 혼인했다 — 그녀의 유산이 페루 탐험 자금이 됐다.",
+    "description_en": "Her Tiffany inheritance funded Bingham's Peruvian expeditions.",
+    "kind": "meeting",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "마추픽추의 자금줄",
+    "title_en": "The Money Behind Machu Picchu",
+    "description": "그 자금이 마추픽추의 세계적 발견을 가능케 했다.",
+    "description_en": "That money made the Machu Picchu 'discovery' possible.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1937,
+    "year_end": null,
+    "title": "이혼과 재혼",
+    "title_en": "Divorce and Remarriage",
+    "description": "일곱 아들을 키운 뒤 이혼하고 음악가와 재혼했다.",
+    "description_en": "After seven sons she divorced Bingham and remarried.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   },
+   {
+    "year": 1967,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "93세로 숨졌다.",
+    "description_en": "Died at 93.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 5
+   }
+  ]
+ },
+ "멜초르 아르테아가": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "우루밤바의 농부",
+    "title_en": "The Urubamba Farmer",
+    "description": "마추픽추 산자락에서 살던 페루 농부.",
+    "description_en": "A farmer living on the slopes below Machu Picchu.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1911,
+    "year_end": null,
+    "title": "빙엄의 안내자",
+    "title_en": "Guiding Bingham",
+    "description": "히럼 빙엄에게 산 위 유적을 알려주고 직접 험한 절벽 길을 안내해 세계적 발견의 길잡이가 됐다.",
+    "description_en": "He told Bingham of the ruins and led him up — the discovery's true guide.",
+    "kind": "travel",
+    "place_name": "마추픽추",
+    "place_name_en": "Machu Picchu",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "던컨 매켄지": {
+  "events": [
+   {
+    "year": 1861,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스코틀랜드에서 태어나 고고학자가 됐다.",
+    "description_en": "Born in Scotland; a field archaeologist.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "크노소스 현장 책임",
+    "title_en": "Knossos Site Director",
+    "description": "아서 에번스 아래에서 크노소스 궁전 발굴의 현장 책임자를 맡았다.",
+    "description_en": "He ran the day-to-day digging of Knossos under Evans.",
+    "kind": "work",
+    "place_name": "크노소스",
+    "place_name_en": "Knossos",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1900,
+    "year_end": 1929,
+    "title": "발굴 일지",
+    "title_en": "The Daybooks",
+    "description": "매일 쓴 꼼꼼한 발굴 일지가 미노아 문명 연구의 핵심 1차 자료가 됐다.",
+    "description_en": "His meticulous daybooks remain the core record of the dig.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1934,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "팔레스타인 탐사까지 거쳐 73세로 숨졌다.",
+    "description_en": "After work in Palestine he died at 73.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "페데리코 할베르": {
+  "events": [
+   {
+    "year": 1857,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "이탈리아에서 태어나 고대 비문 연구가가 됐다.",
+    "description_en": "Born in Italy; an epigrapher.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1884,
+    "year_end": null,
+    "title": "고르티나 법전 발견",
+    "title_en": "The Gortyn Code",
+    "description": "크레타 고르티나에서 고대 그리스 최古급 법전 비문을 발견했다.",
+    "description_en": "At Gortyna he found the oldest Greek law code inscription.",
+    "kind": "work",
+    "place_name": "크레타",
+    "place_name_en": "Crete",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1900,
+    "year_end": null,
+    "title": "파이스토스 발굴",
+    "title_en": "Excavating Phaistos",
+    "description": "파이스토스 궁전을 발굴했다.",
+    "description_en": "He excavated the palace of Phaistos.",
+    "kind": "work",
+    "place_name": "크레타",
+    "place_name_en": "Crete",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1930,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "에번스에게 크레타 발굴을 권유한 선배로도 기록된 채 73세로 숨졌다.",
+    "description_en": "Died at 73 — he had urged Evans toward Crete.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "엘리자베스 필팟": {
+  "events": [
+   {
+    "year": 1780,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "라임리지스로 이주한 필팟 자매의 언니로 태어났다.",
+    "description_en": "Born into the Philpot sisters' family, settled in Lyme Regis.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1810,
+    "year_end": 1820,
+    "title": "애닝의 후원자",
+    "title_en": "Anning's Patron",
+    "description": "어린 메리 애닝의 친구가 되어 그녀의 글 공부 비용을 댔다.",
+    "description_en": "She befriended young Mary Anning and paid for her schooling.",
+    "kind": "meeting",
+    "place_name": "라임리지스",
+    "place_name_en": "Lyme Regis",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1820,
+    "year_end": 1850,
+    "title": "화석 물고기 컬렉션",
+    "title_en": "The Fossil Fish Cabinet",
+    "description": "직접 모은 화석 물고기 컬렉션을 대륙의 학자들이 찾아와 연구할 정도로 키웠다.",
+    "description_en": "Her fossil-fish collection drew Agassiz and scholars from abroad.",
+    "kind": "work",
+    "place_name": "라임리지스",
+    "place_name_en": "Lyme Regis",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1857,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "숨졌다 — 그녀의 컬렉션은 옥스퍼드 박물관으로 갔다.",
+    "description_en": "Died; her collection went to Oxford.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "헨리 드 라 베슈": {
+  "events": [
+   {
+    "year": 1796,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "런던에서 태어나 군사학교를 거쳐 지질학자가 됐다.",
+    "description_en": "Born in London; a soldier turned geologist.",
+    "kind": "birth",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1830,
+    "year_end": null,
+    "title": "'두리아 안티퀴오르'",
+    "title_en": "Duria Antiquior",
+    "description": "애닝의 생계가 어려워지자 쥐라기 바다 풍경 판화를 팔아 수익금을 건넸다 — 최초의 고생태 복원화다.",
+    "description_en": "He sold prints of his Jurassic scene to fund Mary Anning — the first paleo-art.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1835,
+    "year_end": null,
+    "title": "지질조사국 초대 국장",
+    "title_en": "Founding the Survey",
+    "description": "영국 지질조사국의 초대 국장이 됐다.",
+    "description_en": "He founded the British Geological Survey.",
+    "kind": "office",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1855,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "런던에서 59세로 숨졌다.",
+    "description_en": "Died in London at 59.",
+    "kind": "death",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "릴리언 브라운": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "캘커타의 신부",
+    "title_en": "A Calcutta Wedding",
+    "description": "미국 작가로 바넘 브라운과 캘커타에서 결혼했다.",
+    "description_en": "An American writer who married Barnum Brown in Calcutta.",
+    "kind": "meeting",
+    "place_name": "캘커타",
+    "place_name_en": "Calcutta",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1923,
+    "year_end": 1924,
+    "title": "인도·버마 탐사",
+    "title_en": "Fossil Hunts in Asia",
+    "description": "남편과 인도와 버마의 화석 탐사에 동행했다.",
+    "description_en": "She joined his fossil expeditions through India and Burma.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1950,
+    "year_end": null,
+    "title": "『I Married a Dinosaur』",
+    "title_en": "Her Memoirs",
+    "description": "탐험 경험을 세 권의 유쾌한 회고록으로 남겼다.",
+    "description_en": "She wrote three memoirs, including 'I Married a Dinosaur'.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ },
+ "찰스 스턴버그": {
+  "events": [
+   {
+    "year": 1850,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "뉴욕에서 태어나 화석 수집가가 됐다.",
+    "description_en": "Born in New York; a fossil hunter.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1876,
+    "year_end": 1892,
+    "title": "'뼈 전쟁'의 수집가",
+    "title_en": "Hunting for Both Sides",
+    "description": "'뼈 전쟁'의 숙적 코프와 마시 양쪽을 위해 화석을 캐냈다.",
+    "description_en": "He collected for both Cope and Marsh — rivals of the Bone Wars.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1908,
+    "year_end": 1920,
+    "title": "캐나다 공룡 황야",
+    "title_en": "The Alberta Badlands",
+    "description": "앨버타 불모지에서 공룡 표본을 캐고 '물고기 속 물고기' 유명 표본을 찾아냈다.",
+    "description_en": "In Alberta he found the famous fish-within-a-fish fossil.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1943,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "세 아들을 화석 수집가로 키운 채 93세로 숨졌다 — 수집 가문의 시조가 됐다.",
+    "description_en": "Died at 93 — father of a fossil-hunting dynasty.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "존 벨 해처": {
+  "events": [
+   {
+    "year": 1861,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "일리노이에서 태어나 예일에서 고생물학을 배웠다.",
+    "description_en": "Born in Illinois; Yale-trained in paleontology.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1884,
+    "year_end": 1893,
+    "title": "마시의 수집가",
+    "title_en": "Marsh's Best Collector",
+    "description": "오스니얼 마시가 가장 아낀 화석 수집가로 서부 황야에서 트리케라톱스와 토로사우루스를 찾아냈다.",
+    "description_en": "Marsh's star collector — he found Triceratops and Torosaurus in the badlands.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1898,
+    "year_end": 1904,
+    "title": "파타고니아 원정",
+    "title_en": "Patagonian Expeditions",
+    "description": "카네기 박물관을 위해 디플로도쿠스를 발굴하며 파타고니아까지 원정을 다녔다.",
+    "description_en": "He dug Diplodocus for Carnegie and led Patagonian expeditions.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1904,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "장티푸스로 42세에 숨졌다.",
+    "description_en": "Died of typhoid at 42.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "조지 데커": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "란스오메도스의 어부",
+    "title_en": "The L'Anse aux Meadows Fisherman",
+    "description": "뉴펀들랜드 어부로 마을 사람들이 '오래된 인디언 야영지'라 부르던 흙더미를 알고 있었다.",
+    "description_en": "A Newfoundland fisherman who knew the old mounds by the shore.",
+    "kind": "other",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1960,
+    "year_end": null,
+    "title": "잉스타드에게 안내",
+    "title_en": "Showing Ingstad",
+    "description": "헬게 잉스타드에게 그 자리를 안내했고 유럽인이 아메리카에 남긴 첫 정착지인 바이킹 유적으로 밝혀졌다.",
+    "description_en": "He led Helge Ingstad there — it proved the first European settlement in America.",
+    "kind": "meeting",
+    "place_name": "란스오메도스",
+    "place_name_en": "L'Anse aux Meadows",
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   }
+  ]
+ },
+ "장샤오완": {
+  "events": [
+   {
+    "year": null,
+    "year_end": null,
+    "title": "청나라 서기",
+    "title_en": "A Qing Secretary",
+    "description": "청나라 말기 관직 서기 출신의 통역사.",
+    "description_en": "A former Qing clerk turned interpreter.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1906,
+    "year_end": 1908,
+    "title": "슈타인의 중국어 선생",
+    "title_en": "Stein's Chinese Teacher",
+    "description": "슈타인의 제2차 중앙아시아 탐험에 동행해 중국어를 가르쳤다.",
+    "description_en": "On Stein's second expedition he served as interpreter and teacher.",
+    "kind": "travel",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1907,
+    "year_end": null,
+    "title": "둔황의 협상가",
+    "title_en": "The Dunhuang Negotiator",
+    "description": "둔황 석굴의 왕 도사를 설득해 장경동 사본 매입을 성사시켰다 — 금강경이 영국으로 건너갔다.",
+    "description_en": "He persuaded Abbot Wang to sell the library scrolls — including the Diamond Sutra.",
+    "kind": "meeting",
+    "place_name": "둔황",
+    "place_name_en": "Dunhuang",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1922,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "숨졌다.",
+    "description_en": "He died.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "아밀리아 에드워즈": {
+  "events": [
+   {
+    "year": 1831,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "런던에서 태어나 인기 소설가가 됐다.",
+    "description_en": "Born in London; a bestselling novelist.",
+    "kind": "birth",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1873,
+    "year_end": null,
+    "title": "나일강 여행",
+    "title_en": "A Thousand Miles Up the Nile",
+    "description": "나일강 여행을 다녀온 뒤 여행기가 베스트셀러가 됐다.",
+    "description_en": "Her Nile journey became a bestselling travel book.",
+    "kind": "publish",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1882,
+    "year_end": null,
+    "title": "이집트 탐험 기금 창설",
+    "title_en": "Founding the EEF",
+    "description": "이집트 탐험 기금을 창설해 플린더스 피트리 등의 발굴을 지원했다.",
+    "description_en": "She founded the Egypt Exploration Fund — Petrie's backer.",
+    "kind": "work",
+    "place_name": "런던",
+    "place_name_en": "London",
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   },
+   {
+    "year": 1892,
+    "year_end": null,
+    "title": "사망과 유산",
+    "title_en": "The Legacy",
+    "description": "유산으로 영국 최초의 이집트학 강좌를 UCL에 세우며 60세로 숨졌다.",
+    "description_en": "Her bequest founded Britain's first Egyptology chair — she died at 60.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 4
+   }
+  ]
+ },
+ "로버트 헤이": {
+  "events": [
+   {
+    "year": 1799,
+    "year_end": null,
+    "title": "출생",
+    "title_en": "Born",
+    "description": "스코틀랜드에서 태어나 해군을 거쳐 이집트로 향했다.",
+    "description_en": "Born in Scotland; a naval officer drawn to Egypt.",
+    "kind": "birth",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 1
+   },
+   {
+    "year": 1824,
+    "year_end": 1838,
+    "title": "이집트 측량 원정",
+    "title_en": "The Egyptian Surveys",
+    "description": "십수 년간 예술가 팀을 이끌고 신전과 무덤을 직접 측량·채색해 방대한 기록을 남겼다 — 젊은 캐더우드도 그의 팀이었다.",
+    "description_en": "For a decade his artist teams recorded Egypt's monuments — young Catherwood among them.",
+    "kind": "work",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 2
+   },
+   {
+    "year": 1863,
+    "year_end": null,
+    "title": "사망",
+    "title_en": "Died",
+    "description": "스코틀랜드에서 64세로 숨졌다 — 그의 필사본과 도면은 대영박물관 소장이 됐다.",
+    "description_en": "Died in Scotland; his drawings went to the British Museum.",
+    "kind": "death",
+    "place_name": null,
+    "place_name_en": null,
+    "lat": null,
+    "lng": null,
+    "sort_order": 3
+   }
+  ]
+ }
+}

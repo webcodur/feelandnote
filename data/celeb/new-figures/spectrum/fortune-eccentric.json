@@ -1,0 +1,2459 @@
+{
+ "하워드 휴즈": {
+  "influence": {
+   "political": 2,
+   "political_exp": "정치 로비와 헌금 스캔들에 이름을 올림",
+   "political_exp_en": "Lobbying and donation scandals put him in Washington's orbit.",
+   "strategic": 3,
+   "strategic_exp": "CIA 글로마 탐사선 프로젝트에 선박을 댐",
+   "strategic_exp_en": "His ship served the CIA's Glomar recovery project.",
+   "tech": 7,
+   "tech_exp": "속도 기록기 설계와 휴즈사의 항공전자 기반 조성",
+   "tech_exp_en": "Record-setting aircraft and Hughes Aircraft's avionics base.",
+   "social": 2,
+   "social_exp": "검열제와 싸워 영화 표현의 경계를 밀어냄",
+   "social_exp_en": "Fought the Hays office over The Outlaw's release.",
+   "economic": 7,
+   "economic_exp": "공구·항공·방산 기업을 키운 미국 최고 부호",
+   "economic_exp_en": "Built tool, aviation and defense firms into a top fortune.",
+   "cultural": 5,
+   "cultural_exp": "항공영화 제작과 은둔 신화로 대중문화에 새겨짐",
+   "cultural_exp_en": "His films and recluse myth entered pop culture.",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "항공 기록과 의학연구소가 사후에도 작동",
+   "transhistoricity_exp_en": "Aviation records and the HHMI still run after him."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "RKO·TWA·휴즈 에어크래프트를 수십 년 직접 경영",
+     "reason_en": "Ran RKO, TWA and Hughes Aircraft himself for decades."
+    },
+    "martial": {
+     "score": 62,
+     "reason_ko": "1938년 91시간 세계일주를 직접 조종하고 추락 중상에서 복귀",
+     "reason_en": "Flew the 91-hour 1938 world flight and returned from a near-fatal crash."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "항공기 설계에 직접 참여해 속도 기록용 H-1을 완성",
+     "reason_en": "Helped engineer the record-setting H-1 racer himself."
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "1930년대 비행 영웅으로 할리우드 스타들과 회자됨",
+     "reason_en": "A 1930s flying hero who romanced Hollywood's stars."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "말년 약물 의존과 집착으로 호텔 방에 갇힘",
+     "reason_en": "Ended addicted and sealed inside hotel rooms."
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "지옥의 천사들 촬영에 수년과 거액을 쏟아부음",
+     "reason_en": "Poured years and millions into Hell's Angels."
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "어빙의 가짜 자서전 논란 때도 공개 해명을 거부",
+     "reason_en": "Even the fake-memoir scandal drew silence, not reflection."
+    },
+    "courage": {
+     "score": 88,
+     "reason_ko": "시제기 XF-11을 직접 몰다 추락해도 다시 조종간을 잡음",
+     "reason_en": "Crashed the prototype XF-11 and flew again."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 38,
+     "reason_ko": "모르몬 수행단에 의지했으나 측근·배우자를 쉽게 갈아침",
+     "reason_en": "Leaned on aides yet cycled through allies and spouses."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "1953년 휴즈 의학연구소를 세워 연구 자금을 댐",
+     "reason_en": "Founded the Howard Hughes Medical Institute in 1953."
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "입찰 조작과 정치 헌금 스캔들에 이름이 오르내림",
+     "reason_en": "His name surfaced in bid-rigging and donation scandals."
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "속도 기록에 이름을 걸었으나 공개 칭송 자리는 회피",
+     "reason_en": "Put his name on records yet ducked public praise."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "불가능하다던 대형 비행정에 전 재산을 걸 만큼 확신",
+     "reason_en": "Bet a fortune on an aircraft others called impossible."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "반노조·반규제 노선과 공화당 지원을 고수",
+     "reason_en": "Held anti-union, anti-regulation Republican lines."
+    },
+    "individual_social": {
+     "score": -45,
+     "reason_ko": "1966년부터 펜트하우스에 숨어 10년간 접촉을 끊음",
+     "reason_en": "Cut human contact for a decade in penthouse seclusion."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "영화·항공·라스베이거스 인수를 전부 사재로 밀어붙임",
+     "reason_en": "Pushed film, aviation and Vegas takeovers on his own dime."
+    }
+   },
+   "rationale_ko": "기계와 사업을 직접 다룬 실행력으로 항공 속도 기록과 거대 비행정을 실현했다. 전 재산을 거는 대담함이 TWA와 휴즈 에어크래프트를 키웠으나, 말년엔 집착과 약물 의존이 판단을 갉아먹었다. 10년의 은둔은 극단적 개인주의의 도착점이었다. 죽음 뒤 남은 의학연구소는 지금도 연구 자금을 댄다.",
+   "rationale_en": "Hands-on command of machines and business turned speed records and the Spruce Goose into reality. All-or-nothing betting built TWA and Hughes Aircraft, but obsession and addiction ate his judgment in the end. A decade of seclusion was radical individualism's endpoint. The medical institute he left still funds research."
+  }
+ },
+ "윌리엄 랜돌프 허스트": {
+  "influence": {
+   "political": 6,
+   "political_exp": "신문 여론전으로 전쟁과 정치 일정을 흔듦",
+   "political_exp_en": "His papers' campaigns moved war and political agendas.",
+   "strategic": 3,
+   "strategic_exp": "미국-스페인 전쟁 여론 형성에 촉매 역할",
+   "strategic_exp_en": "His press was a catalyst for the Spanish-American War.",
+   "tech": 1,
+   "tech_exp": "통신·인쇄 인프라 활용 외 기술 기여 없음",
+   "tech_exp_en": "Used wire and print infrastructure; invented none.",
+   "social": 4,
+   "social_exp": "옐로 저널리즘이 언론 윤리 논쟁을 만듦",
+   "social_exp_en": "Yellow journalism defined the press-ethics debate.",
+   "economic": 7,
+   "economic_exp": "미국 최대 신문 체인의 미디어 모델 구축",
+   "economic_exp_en": "Built America's largest newspaper chain and its model.",
+   "cultural": 5,
+   "cultural_exp": "만화 유통과 시민 케인의 모델로 문화에 새겨짐",
+   "cultural_exp_en": "Comic syndication and Citizen Kane fixed him in culture.",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "선정주의 시대를 연 언론 재벌의 원형",
+   "transhistoricity_exp_en": "The archetype of the sensationalist press baron."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 85,
+     "reason_ko": "28개 신문 체인을 60년 가까이 쥐고 기사 배치까지 관여",
+     "reason_en": "Ran a 28-paper chain for nearly sixty years, down to story placement."
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "산시메온 건설과 장시간 업무를 견딘 건장한 체격",
+     "reason_en": "A big, sound frame that outlasted decades of long workdays."
+    },
+    "intellect": {
+     "score": 70,
+     "reason_ko": "하버드 중퇴 뒤 대중 독자의 욕망을 읽는 감각을 입증",
+     "reason_en": "Harvard dropout who proved a rare instinct for readers' appetites."
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "전성기엔 정가·영화계가 산시메온으로 몰려듦",
+     "reason_en": "At his peak politicians and film stars flocked to San Simeon."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 30,
+     "reason_ko": "성 한 채와 미술품 수집에 빚을 지면서까지 씀",
+     "reason_en": "Spent into debt on a castle and an art hoard."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "신문 편집 지시를 말년까지 직접 전보로 보냄",
+     "reason_en": "Wired editorial orders to his papers into old age."
+    },
+    "reflection": {
+     "score": 38,
+     "reason_ko": "전쟁 조장설은 반박했으나 선정주의 자체는 정당화",
+     "reason_en": "Denied starting the war but defended his sensationalism."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "퓰리처와의 지면 전쟁과 대통령 비판을 감행",
+     "reason_en": "Waged circulation war on Pulitzer and attacked presidents."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "정실 대신 마리언 데이비스와 평생을 함께함",
+     "reason_en": "Kept Marion Davies at his side for life."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "대공황기에 직원 해고를 미룬 고용주로 회자",
+     "reason_en": "Famously slow to lay off staff through the Depression."
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "여론 조작 지시와 허위 기사로 신문의 신뢰를 훼손",
+     "reason_en": "Fabricated stories and bent coverage to his aims."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "자기 얼굴과 이름을 신문·영화에 전면 노출",
+     "reason_en": "Plastered his own name and face across the empire."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "파산 직전까지 성과 미술품 매입을 멈추지 않음",
+     "reason_en": "Kept buying castles and art even near bankruptcy."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "진보 포퓰리스트로 시작해 반뉴딜 보수로 돌아섬",
+     "reason_en": "Began a progressive populist, ended anti-New Deal."
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "신문 왕국을 사유지처럼 썼으나 공직도 탐함",
+     "reason_en": "Ran his chain like private property yet craved office."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "선정주의 선두에서 기사 조작 위험도 감수",
+     "reason_en": "Led yellow journalism and risked fabrication charges."
+    }
+   },
+   "rationale_ko": "아버지의 지방지 하나를 받아 선정주의로 미국 최대 신문 체인을 세웠다. 기사 조작을 감행한 대담함이 전쟁 여론까지 움직였다. 성 짓기와 수집에는 절제가 없었고, 신문의 공정성은 발행부수 앞에 물러났다. 웰스의 「시민 케인」은 그의 억압 시도 덕에 영원한 모델로 남았다.",
+   "rationale_en": "He took one local paper and built America's largest chain on sensationalism. The boldness that fabricated stories moved even the opinion of war. Castle-building and collecting knew no restraint, and fairness yielded to circulation. Citizen Kane survived his campaign to kill it and made him immortal."
+  }
+ },
+ "아리스토텔레스 오나시스": {
+  "influence": {
+   "political": 4,
+   "political_exp": "사우디 유조선 협정과 그리스 정권과의 거래",
+   "political_exp_en": "Struck the Saudi tanker pact and dealt with Greek regimes.",
+   "strategic": 1,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 3,
+   "tech_exp": "초대형 유조선 시대를 앞당긴 선박 발주",
+   "tech_exp_en": "His orders hastened the supertanker era.",
+   "social": 2,
+   "social_exp": "부호와 명성 결합의 신화를 대중에 심음",
+   "social_exp_en": "Fused wealth and fame into a public myth.",
+   "economic": 7,
+   "economic_exp": "세계 최대 유조선 선단과 올림픽 항공 창설",
+   "economic_exp_en": "Built the world's largest tanker fleet and Olympic Airways.",
+   "cultural": 4,
+   "cultural_exp": "칼라스·재클린과의 관계로 세기의 스캔들 생산",
+   "cultural_exp_en": "Callas and Jackie made him the century's scandal.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "현대 해운 재벌의 원형적 이미지",
+   "transhistoricity_exp_en": "The archetype of the modern shipping tycoon."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "세계 최대 유조선 선단과 올림픽 항공을 직접 경영",
+     "reason_en": "Ran the world's largest tanker fleet and Olympic Airways."
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "난민 시절 전화 교환원으로 시작한 비신체직 이력",
+     "reason_en": "Started as a refugee telephone operator; no physical training record."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "대공황 헐값 선박 매입과 편의치국제를 먼저 활용",
+     "reason_en": "Bought Depression-cheap ships and pioneered flags of convenience."
+    },
+    "charm": {
+     "score": 85,
+     "reason_ko": "칼라스와 재클린 케네디를 차례로 곁에 둔 매력의 부호",
+     "reason_en": "Won Callas and Jacqueline Kennedy in turn."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 28,
+     "reason_ko": "요트 크리스티나 호의 사치와 정리되지 않은 연정",
+     "reason_en": "Lavish yacht life and tangled affairs ruled him."
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "무일푼 난민에서 선박왕까지 20년을 밤낮없이 일함",
+     "reason_en": "Worked day and night from penniless refugee to shipowner."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "아들 알렉산드로스의 죽음 뒤 공허 속에 쇠함",
+     "reason_en": "Never recovered after his son Alexander's death."
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "전 재산을 잃은 뒤 이민지에서 사업을 다시 시작",
+     "reason_en": "Restarted from nothing as a refugee in Argentina."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 35,
+     "reason_ko": "칼라스를 두고 재클린과 결혼해 오랜 인연을 저버림",
+     "reason_en": "Left Callas for Jackie Kennedy, breaking old ties."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "유언으로 알렉산드로스 재단을 남겨 공익 기금 조성",
+     "reason_en": "His will created the Onassis public-benefit foundation."
+    },
+    "fairness": {
+     "score": 32,
+     "reason_ko": "고래잡이 불법 조업과 뇌물 스캔들에 연루",
+     "reason_en": "Linked to illegal whaling and bribery scandals."
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "세계 최대 요트와 연인을 과시 수단으로 삼음",
+     "reason_en": "Displayed the world's grandest yacht as a trophy."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "공황기 선박 투매 속에서 상승을 확신하고 매수",
+     "reason_en": "Bought ships in the Depression sure the market would turn."
+    },
+    "conservative_progressive": {
+     "score": 0,
+     "reason_ko": "민주 정부와 군사 정권을 가리지 않고 거래",
+     "reason_en": "Dealt equally with democracies and juntas."
+    },
+    "individual_social": {
+     "score": -25,
+     "reason_ko": "스미르나를 떠난 뒤 조국 없는 개인 사업가로 삶",
+     "reason_en": "Lived as a stateless self-made man after Smyrna."
+    },
+    "cautious_bold": {
+     "score": 38,
+     "reason_ko": "유조선 대형화에 전 재산을 걸고 은행 돈을 끌어옴",
+     "reason_en": "Staked everything on supertankers and borrowed big."
+    }
+   },
+   "rationale_ko": "전 재산을 잃은 난민이 대공황의 헐값 선박을 사 모아 세계 최대 유조선 선단을 세웠다. 상승을 확신한 대담함과 편의치국제 활용이 부의 원천이었다. 사치와 연정에는 절제가 없었고 칼라스를 떠난 선택은 오랜 신의를 깎았다. 재클린 케네디와의 결혼은 그의 이름을 선박보다 크게 남겼다.",
+   "rationale_en": "A refugee who lost everything bought Depression-cheap ships and built the world's largest tanker fleet. Boldness in the trough and flags of convenience made the fortune. Luxury and affairs knew no restraint, and leaving Callas broke old faith. Marrying Jacqueline Kennedy made his name outlast his ships."
+  }
+ },
+ "헤티 그린": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 영역과 무관",
+   "political_exp_en": "No political record.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "남성 월가에서 여성 투자자의 선례를 남김",
+   "social_exp_en": "A precedent for women on Wall Street.",
+   "economic": 6,
+   "economic_exp": "공황마다 최후 대부자로 나선 미국 최고 여성 부호",
+   "economic_exp_en": "America's richest woman and lender in the panics.",
+   "cultural": 3,
+   "cultural_exp": "'월가의 마녀'라는 구두쇠 민속 상징",
+   "cultural_exp_en": "The folk figure of the miserly 'Witch of Wall Street'.",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "최초의 대형 여성 투자자로 이름이 남음",
+   "transhistoricity_exp_en": "Remembered as the first great woman investor."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "조직 없이 50년간 거액 포트폴리오를 혼자 운용",
+     "reason_en": "Ran a huge portfolio alone for fifty years, no staff."
+    },
+    "martial": {
+     "score": 35,
+     "reason_ko": "여든이 넘도록 걸어서 사무실을 직접 다님",
+     "reason_en": "Walked to her offices and kept working past eighty."
+    },
+    "intellect": {
+     "score": 82,
+     "reason_ko": "여섯 살에 장부를 읽었고 철도·부동산 투자로 자산을 불림",
+     "reason_en": "Read ledgers at six; multiplied the fortune in rails and real estate."
+    },
+    "charm": {
+     "score": 35,
+     "reason_ko": "낡은 검은 드레스 차림으로 '월가의 마녀' 소문을 얻음",
+     "reason_en": "Her shabby dress earned the name 'Witch of Wall Street'."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 90,
+     "reason_ko": "식은 오트밀과 난방 없는 방으로 극단적 검약을 실천",
+     "reason_en": "Cold oatmeal and unheated rooms — frugality to the extreme."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "여든이 넘어서도 매일 금융가를 오가며 투자를 관리",
+     "reason_en": "Managed her investments daily past the age of eighty."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "구두쇠 평판에 개의치 않고 자기 방식을 고수",
+     "reason_en": "Heard the 'miser' talk and changed nothing."
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "남성만의 월가에서 은행·철도 거물과 정면 승부",
+     "reason_en": "Faced down Wall Street's bankers in a man's world."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "퀘이커 가풍과 아들 네드를 끝까지 지킴",
+     "reason_en": "Kept her Quaker creed and stood by her son Ned."
+    },
+    "benevolence": {
+     "score": 15,
+     "reason_ko": "아들 다리 치료를 미뤄 절단하게 했다는 평판",
+     "reason_en": "Said to have delayed her son's surgery until he lost the leg."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "빚을 받아낼 땐 가혹했으나 약정 자체는 지킴",
+     "reason_en": "Ruthless collecting debts yet she honored her contracts."
+    },
+    "humility": {
+     "score": 70,
+     "reason_ko": "명성과 격식을 꾸미지 않고 거리에서 점심을 해결",
+     "reason_en": "Cared nothing for status; ate on the street, not at tables."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -15,
+     "reason_ko": "공황을 예상해 현금을 쌓고 저가 매수를 기다림",
+     "reason_en": "Hoarded cash expecting panics, then bought the crash."
+    },
+    "conservative_progressive": {
+     "score": -5,
+     "reason_ko": "공적 발언 없이 빅토리아 상식권에서 생활",
+     "reason_en": "No public stands; lived inside Victorian convention."
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "누구와도 포트폴리오를 공유하지 않고 홀로 판단",
+     "reason_en": "Shared her portfolio with no one and judged alone."
+    },
+    "cautious_bold": {
+     "score": -30,
+     "reason_ko": "팔 때보다 살 때를 재서 공황마다 저가 매수",
+     "reason_en": "Bought only in panics and sold into strength."
+    }
+   },
+   "rationale_ko": "여섯 살에 장부를 읽은 감각으로 유산을 당대 최고 자산 중 하나로 불렸다. 공황을 기다려 현금을 쌓는 극도의 신중함이 월가의 '최후 대부자' 자리를 만들었다. 낡은 드레스와 식은 오트밀의 검약은 철저했으나 그것은 인색함으로도 읽혔다. 1907년 공황에는 뉴욕시가 그녀에게 돈을 빌렸다.",
+   "rationale_en": "The girl who read ledgers at six turned an inheritance into one of America's greatest fortunes. Extreme caution — cash hoarded for panics — made her Wall Street's lender of last resort. Her frugality of shabby dress and cold oatmeal read to the world as miserliness. In 1907 New York City itself borrowed from her."
+  }
+ },
+ "야코프 푸거": {
+  "influence": {
+   "political": 8,
+   "political_exp": "대출로 카를 5세의 황제 선출을 사실상 매입",
+   "political_exp_en": "His loans effectively bought Charles V's election.",
+   "strategic": 3,
+   "strategic_exp": "용병 전쟁 자금을 댄 간접 기여",
+   "strategic_exp_en": "His money bankrolled mercenary wars.",
+   "tech": 3,
+   "tech_exp": "광산·제련 경영과 유럽 정보망 혁신",
+   "tech_exp_en": "Advanced mining operations and a Europe-wide news network.",
+   "social": 6,
+   "social_exp": "이자 정당성 논쟁과 세계 최초 사회주택 설립",
+   "social_exp_en": "Moved the usury debate and founded the first social housing.",
+   "economic": 9,
+   "economic_exp": "유럽 GDP의 2%를 쥔 초기 금융자본의 정점",
+   "economic_exp_en": "Held near two percent of Europe's GDP — finance capital's peak.",
+   "cultural": 3,
+   "cultural_exp": "가문 예배당과 초상 예술 후원",
+   "cultural_exp_en": "Patron of chapel art and the Fugger portraits.",
+   "transhistoricity": 19,
+   "transhistoricity_exp": "근대 금융 자본가의 원형, 푸거라이는 현존",
+   "transhistoricity_exp_en": "Archetype of modern finance; the Fuggerei still stands."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 82,
+     "reason_ko": "유럽 전역의 대리점과 광산을 30년간 통솔",
+     "reason_en": "Directed agents and mines across Europe for thirty years."
+    },
+    "martial": {
+     "score": 40,
+     "reason_ko": "상인·은행가로 평생을 보낸 비신체직 이력",
+     "reason_en": "A lifelong merchant-banker's frame."
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "복식부기와 정보망 '푸거 신문'으로 유럽 정세를 선점",
+     "reason_en": "Mastered double-entry books and the Fugger news service."
+    },
+    "charm": {
+     "score": 62,
+     "reason_ko": "황제와 추기경이 그의 서신을 기다렸으나 애정과는 거리가 있음",
+     "reason_en": "Emperors awaited his letters — respected, not loved."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 65,
+     "reason_ko": "유럽 최고 부에도 검소한 상인 생활을 유지",
+     "reason_en": "Europe's richest man lived like a sober merchant."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "말년까지 매일 상점에 나가 장부와 편지를 챙김",
+     "reason_en": "Worked the ledgers and letters to his last days."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "이자 수취의 정당성을 신학자들에게 물어 정리",
+     "reason_en": "Commissioned theologians to test the justice of his interest."
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "황제 선거 자금을 통째로 대는 모험을 감행",
+     "reason_en": "Bankrolled an imperial election in one throw."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "합스부르크와의 대출 동맹을 위기 속에도 유지",
+     "reason_en": "Held the Habsburg lending alliance through crises."
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "1521년 빈민 주택 '푸거라이'를 세워 지금도 운영됨",
+     "reason_en": "His 1521 Fuggerei still houses the poor today."
+    },
+    "fairness": {
+     "score": 38,
+     "reason_ko": "담보 광산을 집어삼키고 동업 친척까지 몰아냄",
+     "reason_en": "Seized collateral mines and squeezed out even kin."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "과시보다 장부를 택했으나 자기 예배당과 초상은 지음",
+     "reason_en": "Chose ledgers over display — yet built his chapel and portraits."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "「벌 수 있는 한 계속 벌겠다」며 은퇴를 거부",
+     "reason_en": "Asked to retire, he said he'd earn while he could."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "황제·귀족 금융 체제 안에서 이익을 극대화",
+     "reason_en": "Profited inside, and for, the imperial order."
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "가문 기업 이익을 도시 공동체보다 앞세움",
+     "reason_en": "Put the family firm's gain before the city's."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "회수 불확실에도 막시밀리안에게 계속 대출",
+     "reason_en": "Kept lending to Maximilian despite doubtful repayment."
+    }
+   },
+   "rationale_ko": "복식부기와 유럽 정보망으로 시대를 앞섰고, 대출로 광산과 선제후의 표까지 사들였다. 위험을 무릅쓴 계속된 여신이 카를 5세의 황제관을 만들었다. 이자의 정당성을 스스로 묻고 다진 집요함은 경건과 탐욕의 경계에 있었다. 그가 세운 푸거라이는 500년 뒤에도 빈민을 수용한다.",
+   "rationale_en": "Double-entry books and a European news network put him ahead of his age, and his loans bought mines and electors' votes alike. Lending on through doubt made a crown for Charles V. He pressed theologians to justify his interest — piety and greed on one ledger. His Fuggerei still houses the poor five centuries on."
+  }
+ },
+ "만사 무사": {
+  "influence": {
+   "political": 6,
+   "political_exp": "말리를 서아프리카 최대 제국으로 확장",
+   "political_exp_en": "Expanded Mali into West Africa's greatest empire.",
+   "strategic": 4,
+   "strategic_exp": "사하라 무역로를 군대로 장악",
+   "strategic_exp_en": "Held the Sahara trade routes by force.",
+   "tech": 3,
+   "tech_exp": "팀북투에 벽돌 모스크와 궁전 건설",
+   "tech_exp_en": "Raised fired-brick mosques and palaces at Timbuktu.",
+   "social": 6,
+   "social_exp": "팀북투를 이슬람 학문 중심으로 키움",
+   "social_exp_en": "Made Timbuktu a centre of Islamic learning.",
+   "economic": 7,
+   "economic_exp": "순례의 금 살포로 카이로 금값이 10년 폭락",
+   "economic_exp_en": "His hajj gold broke Cairo's price for a decade.",
+   "cultural": 5,
+   "cultural_exp": "서아프리카 필사본·학문 전통의 토대 조성",
+   "cultural_exp_en": "Laid the base of West Africa's manuscript tradition.",
+   "transhistoricity": 18,
+   "transhistoricity_exp": "역사상 최고 부호의 상징으로 지금도 회자",
+   "transhistoricity_exp_en": "Still cited as history's richest man."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 80,
+     "reason_ko": "말리 제국을 25년간 다스리며 팀북투·가오를 편입",
+     "reason_en": "Ruled Mali twenty-five years and annexed Timbuktu and Gao."
+    },
+    "martial": {
+     "score": 55,
+     "reason_ko": "사하라를 횡단하는 순례 원정을 직접 이끈 체력",
+     "reason_en": "Led a trans-Saharan pilgrimage caravan in person."
+    },
+    "intellect": {
+     "score": 72,
+     "reason_ko": "귀로에 학자와 건축가를 데려와 학문 도시를 설계",
+     "reason_en": "Brought scholars and an architect home to build a city of learning."
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "카이로 체류만으로 지중해 세계에 이름을 퍼뜨림",
+     "reason_en": "One stay in Cairo spread his name across the Mediterranean."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "순례의 금 뿌리기는 경건이었으나 규모는 방만",
+     "reason_en": "The gold he scattered was piety — and extravagance."
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "재위 내내 모스크와 학교 건설을 이어감",
+     "reason_en": "Built mosques and schools throughout his reign."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "이집트 술탄 앞의 예절 논쟁에서 절충안을 택함",
+     "reason_en": "Took the compromise in the etiquette quarrel at Cairo."
+    },
+    "courage": {
+     "score": 70,
+     "reason_ko": "1년 넘는 사막 순례길에 제국을 비우고 떠남",
+     "reason_en": "Left his empire a year for a desert pilgrimage."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "이슬람 교리와 말리 왕실의 결합을 재위 내내 추구",
+     "reason_en": "Bound Mali's crown to Islamic learning his whole reign."
+    },
+    "benevolence": {
+     "score": 78,
+     "reason_ko": "1324년 카이로에 금을 나눠 금값을 10년간 폭락시킴",
+     "reason_en": "His 1324 alms broke Cairo's gold price for a decade."
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "연대기에 공정한 재판관과 학자 보호자로 기록됨",
+     "reason_en": "Chronicles remember a just judge and patron of scholars."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "술탄 앞에서 군주의 격식을 양보해 절충",
+     "reason_en": "Yielded royal pride to compromise before the sultan."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "대서양을 꿈꾼 선왕의 나라를 지중해에 알림",
+     "reason_en": "Opened his predecessor's ocean-dreaming empire to the world."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "전통 왕권 위에 이슬람 제도를 보강",
+     "reason_en": "Layered Islamic institutions onto traditional kingship."
+    },
+    "individual_social": {
+     "score": 25,
+     "reason_ko": "순례를 국가 행사로 만들고 공동 시설에 투자",
+     "reason_en": "Made pilgrimage a state act and invested in public works."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "수만 행렬의 장거리 순례를 감행",
+     "reason_en": "Undertook a caravan of tens of thousands."
+    }
+   },
+   "rationale_ko": "25년 재위에 말리를 서아프리카 최대 제국으로 키웠다. 순례길의 금 뿌리기는 경건과 과시의 결합이었고 그 여파로 카이로 금값이 10년을 폭락했다. 돌아오는 길엔 학자와 건축가를 데려와 팀북투를 학문의 도시로 만들었다. 이슬람 세계에 새긴 말리의 이름이 그의 가장 긴 유산이다.",
+   "rationale_en": "Twenty-five years on the throne made Mali West Africa's greatest empire. The gold scattered on his hajj joined piety to display and broke Cairo's price for a decade. On the way home he carried scholars and an architect to build Timbuktu into a city of learning. Mali's name in the Islamic world is his longest legacy."
+  }
+ },
+ "크로이소스": {
+  "influence": {
+   "political": 6,
+   "political_exp": "이오니아 그리스 도시들을 처음 조공국으로 만듦",
+   "political_exp_en": "First to make Ionia's Greek cities tributary.",
+   "strategic": 4,
+   "strategic_exp": "페르시아 원정을 감행했으나 패해 멸국",
+   "strategic_exp_en": "Marched on Persia and lost his kingdom.",
+   "tech": 2,
+   "tech_exp": "금화 주조는 아버지 대에 이미 시작됨",
+   "tech_exp_en": "Gold minting began under his father.",
+   "social": 3,
+   "social_exp": "솔론 대화 전승이 행복 담론에 영향",
+   "social_exp_en": "The Solon dialogue shaped the discourse on happiness.",
+   "economic": 8,
+   "economic_exp": "금은 복본위 최초 주화로 화폐 제도의 토대",
+   "economic_exp_en": "First bimetallic coinage — a foundation of money.",
+   "cultural": 4,
+   "cultural_exp": "헤로도토스 교훈 서사의 주인공",
+   "cultural_exp_en": "Protagonist of Herodotus' moral tale.",
+   "transhistoricity": 20,
+   "transhistoricity_exp": "화폐 발명과 '크로이소스' 관용구로 불후",
+   "transhistoricity_exp_en": "Coinage and the proverb 'rich as Croesus' endure."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 68,
+     "reason_ko": "리디아를 14년간 다스리고 이오니아를 조공국으로 만듦",
+     "reason_en": "Ruled Lydia fourteen years and made Ionia tributary."
+    },
+    "martial": {
+     "score": 60,
+     "reason_ko": "프테리아 전투와 사르디스 공방전에 직접 참전",
+     "reason_en": "Took the field at Pteria and the siege of Sardis."
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "여러 신탁에 같은 문제를 던져 델포이를 검증하는 실험을 설계",
+     "reason_en": "Tested rival oracles with one question before trusting Delphi."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "델포이에 바친 황금으로 지중해 전역에 명성을 뿌림",
+     "reason_en": "Gold gifts at Delphi spread his fame across the Mediterranean."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "황금을 녹여 델포이에 바치는 등 처분이 화려",
+     "reason_en": "Melted his gold into lavish offerings at Delphi."
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "부친의 영토를 물려받아 꾸준히 세를 넓힘",
+     "reason_en": "Steadily widened the realm his father left him."
+    },
+    "reflection": {
+     "score": 65,
+     "reason_ko": "패망 뒤 솔론의 말을 깨달았다는 헤로도토스 기록",
+     "reason_en": "Herodotus has him grasp Solon's wisdom only in defeat."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "키로스의 페르시아에 정면으로 맞서 싸움",
+     "reason_en": "Marched out to fight Cyrus head-on."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "스파르타·이집트 동맹을 성실히 유지",
+     "reason_en": "Kept his Spartan and Egyptian alliances in good faith."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "신탁 제물 후원은 경건의 표현이지 자선과는 거리가 있음",
+     "reason_en": "His bounty went to oracles, not to the poor."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "조공을 걷되 그리스 도시의 내정은 존중했다는 기록",
+     "reason_en": "Took tribute but left Greek cities their own affairs."
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "스스로 '가장 행복한 자'로 여겼다가 솔론에게 교정당함",
+     "reason_en": "Called himself the happiest of men until Solon corrected him."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "'대제국이 무너진다'는 신탁을 자기 뜻대로 읽음",
+     "reason_en": "Read the oracle's warning as a promise of victory."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "아버지의 왕업과 제물 전통을 그대로 이어받음",
+     "reason_en": "Carried on his father's kingship and pious custom."
+    },
+    "individual_social": {
+     "score": -5,
+     "reason_ko": "왕권과 신탁 사이에서 개인 판단으로 나라를 걸음",
+     "reason_en": "Staked the kingdom on his own reading of the gods."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "할뤼스강을 건너 페르시아 선제공격을 감행",
+     "reason_en": "Crossed the Halys and struck Persia first."
+    }
+   },
+   "rationale_ko": "신탁을 실험으로 검증한 영리함과 할뤼스강을 건너는 대담함이 함께 있었다. 그러나 신탁의 뜻을 자기 쪽으로 읽은 자만이 제국을 잃게 했다. 패망 뒤 솔론의 가르침을 받아들인 성찰은 헤로도토스의 교훈 서사가 됐다. 그가 찍은 금화는 인류 최초의 본격 금화로 남았다.",
+   "rationale_en": "He tested oracles like an experimenter and crossed the Halys like a gambler. Yet the pride that read the prophecy his own way cost him the empire. Accepting Solon's wisdom in defeat became Herodotus' moral tale. The gold coins he minted stand as history's first true coinage."
+  }
+ },
+ "칼루스트 굴벤키안": {
+  "influence": {
+   "political": 5,
+   "political_exp": "레드라인 협정으로 중동 석유 이권의 지형을 그음",
+   "political_exp_en": "The Red Line Agreement drew Middle East oil's map.",
+   "strategic": 1,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 2,
+   "tech_exp": "메소포타미아 지질 보고서로 석유 개발의 근거 제공",
+   "tech_exp_en": "His geological reports grounded Mesopotamian oil development.",
+   "social": 2,
+   "social_exp": "사회 제도 변화 기여는 없음",
+   "social_exp_en": "No change to social institutions.",
+   "economic": 8,
+   "economic_exp": "이라크석유 컨소시엄 설계와 40년 지분 유지",
+   "economic_exp_en": "Designed the Iraq Petroleum consortium and held 5% for decades.",
+   "cultural": 6,
+   "cultural_exp": "유럽 최고 수집품과 굴벤키안 재단·미술관",
+   "cultural_exp_en": "A supreme collection, foundation and museum in Lisbon.",
+   "transhistoricity": 13,
+   "transhistoricity_exp": "석유 이권 지형과 재단이 사후에도 작동",
+   "transhistoricity_exp_en": "The concession map and his foundation still operate."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "소규모 사무실로 거대 석유 협상을 개인적으로 지휘",
+     "reason_en": "Ran giant oil negotiations from a tiny personal office."
+    },
+    "martial": {
+     "score": 38,
+     "reason_ko": "책상과 호텔 사이를 오간 86년의 비신체 이력",
+     "reason_en": "Eighty-six years between desks and hotel rooms."
+    },
+    "intellect": {
+     "score": 85,
+     "reason_ko": "22세에 쓴 메소포타미아 석유 보고서가 이권 설계의 토대가 됨",
+     "reason_en": "His oil reports at 22 shaped the region's concessions."
+    },
+    "charm": {
+     "score": 45,
+     "reason_ko": "무대 뒤 협상가로 존경을 샀으나 대중 인지도는 낮음",
+     "reason_en": "Respected backstage, unknown to the public."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "극도의 절제된 생활로 호텔 위의 수도승처럼 삶",
+     "reason_en": "Monastic discipline inside luxury hotels."
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "50년간 이권 협상과 수집을 한 치도 늦추지 않음",
+     "reason_en": "Fifty years of deals and collecting without slackening."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "젊어 쓴 회고록과 일기로 자기 경로를 정리",
+     "reason_en": "Set down his own path in early memoirs and diaries."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "적성국인으로 몰린 런던 체류와 제국 사이 협상을 감행",
+     "reason_en": "Negotiated between empires, stranded as an enemy alien in London."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 62,
+     "reason_ko": "터키석유 지분 5% 계약을 40년 넘게 유지",
+     "reason_en": "Kept his five-percent contract alive for forty years."
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "전 재산으로 굴벤키안 재단을 세워 예술·의료를 지원",
+     "reason_en": "Left his whole fortune to a foundation for art and care."
+    },
+    "fairness": {
+     "score": 60,
+     "reason_ko": "석유 업계에서 계약 준수로 이름난 협상가",
+     "reason_en": "Known in the oil world as a man of his word."
+    },
+    "humility": {
+     "score": 68,
+     "reason_ko": "사진 한 장 찍기도 꺼린 무대 뒤 인물",
+     "reason_en": "Shunned even photographs — a backstage man."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -10,
+     "reason_ko": "상대가 무너질 때를 기다리는 냉정한 협상가",
+     "reason_en": "Waited calmly for the other side to break."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "제국과 회사의 질서 안에서 이익을 키움",
+     "reason_en": "Grew rich inside the order of empires and companies."
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "혼자 협상하고 혼자 수집한 고독한 수완가",
+     "reason_en": "Negotiated alone, collected alone."
+    },
+    "cautious_bold": {
+     "score": -30,
+     "reason_ko": "직접 시추 대신 지분 계약을 택한 극도의 신중",
+     "reason_en": "Never drilled a well — he chose the contract instead."
+    }
+   },
+   "rationale_ko": "지도에 빨간 선을 긋고 그 안의 5%를 평생 지킨 협상가였다. 스물두 살에 쓴 보고서가 이라크 석유 이권의 설계도가 됐고, 직접 시추하지 않는 신중함이 반세기 수익을 만들었다. 대중에게 이름을 알리지 않았으나 수집품과 재단이 사후의 목소리가 됐다. 리스본의 굴벤키안 미술관은 그 컬렉션을 그대로 품고 있다.",
+   "rationale_en": "He drew a red line on a map and held five percent inside it for life. The report he wrote at twenty-two became the blueprint of Iraq's oil concessions, and the caution of never drilling made half a century of income. The public never knew his name, but his collection and foundation speak after him. Lisbon's Gulbenkian Museum holds it all."
+  }
+ },
+ "바질 자하로프": {
+  "influence": {
+   "political": 5,
+   "political_exp": "각국 정부와 군수 로비로 정책을 흔듦",
+   "political_exp_en": "Lobbied governments into his arms deals.",
+   "strategic": 5,
+   "strategic_exp": "양 진영 무기 판매로 군비 경쟁을 부채질",
+   "strategic_exp_en": "Selling to both sides fed the arms race.",
+   "tech": 1,
+   "tech_exp": "신무기 판매자였으나 개발 기여는 없음",
+   "tech_exp_en": "Sold new weapons but developed none.",
+   "social": 1,
+   "social_exp": "사회 제도와 무관",
+   "social_exp_en": "No social-institution impact.",
+   "economic": 6,
+   "economic_exp": "비커스·은행을 아우른 유럽 군수 무역망 구축",
+   "economic_exp_en": "Built an arms-trade web across Vickers and banking.",
+   "cultural": 3,
+   "cultural_exp": "소설 속 악당의 모델이 된 '죽음의 상인'",
+   "cultural_exp_en": "The 'merchant of death' who modelled pulp villains.",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "현대 무기상의 원형적 이미지",
+   "transhistoricity_exp_en": "The archetype of the modern arms dealer."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 60,
+     "reason_ko": "판매 대리인망과 비커스 이사회를 배후에서 조종",
+     "reason_en": "Pulled the strings of sales networks and the Vickers board."
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "발칸 전장 지대를 누비며 무기를 판 몸으로 뛰는 상인",
+     "reason_en": "Peddled arms across Balkan war zones in person."
+    },
+    "intellect": {
+     "score": 80,
+     "reason_ko": "잠수함과 기관총을 양 진영에 파는 치밀한 수완",
+     "reason_en": "Sold submarines and machine guns to both sides with cold cunning."
+    },
+    "charm": {
+     "score": 65,
+     "reason_ko": "왕과 총리를 만나 설득했으나 정체는 끝까지 베일",
+     "reason_en": "Charmed kings and premiers while staying a mystery."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 60,
+     "reason_ko": "사생활과 재정을 철저히 감춘 자기 절제",
+     "reason_en": "Hid his private life and ledgers with iron discipline."
+    },
+    "diligence": {
+     "score": 78,
+     "reason_ko": "반세기 동안 유럽 전장을 오가며 거래를 이어감",
+     "reason_en": "Worked Europe's battlegrounds for half a century."
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "죽기 전 자기 서류를 불태워 행적을 지움",
+     "reason_en": "Burned his own papers before he died."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "젊어 화재 현장을 뛰고 전쟁 지역을 드나듦",
+     "reason_en": "Ran into fires as a young man, then into war zones."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "양 진영에 무기를 팔았으나 대전 중엔 연합국 자금을 댐",
+     "reason_en": "Sold to all sides, yet bankrolled the Allied cause in WWI."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "자선 기부와 대학 강좌 기증이 기록에 남음",
+     "reason_en": "He endowed chairs and gave to war charities."
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "뇌물과 이중 거래가 일상 수법이었다는 기록",
+     "reason_en": "Bribery and double-dealing were his daily method."
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "언론을 극도로 피했으나 기사작위 등 작위는 수락",
+     "reason_en": "Fled the press yet accepted knighthoods."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "전쟁이 올 것이라 보고 무기 수요에 베팅",
+     "reason_en": "Bet on the demand that war would surely bring."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "제국 군수 질서의 안쪽에서 이익을 추구",
+     "reason_en": "Worked inside the imperial arms order for profit."
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "정체와 동행자를 숨긴 채 홀로 움직임",
+     "reason_en": "Moved alone, his identity and companions concealed."
+    },
+    "cautious_bold": {
+     "score": 20,
+     "reason_ko": "전쟁 지역 판매와 거액 군수 금융을 감행",
+     "reason_en": "Sold into war zones and financed the arms trade."
+    }
+   },
+   "rationale_ko": "출생부터 사후 서류 소각까지 스스로를 감춘 채 유럽 군수 무역을 쥐었다. 양 진영에 잠수함과 기관총을 파는 이중 거래가 그를 '죽음의 상인'으로 만들었다. 1차 대전 중 연합국에 자금을 댄 행적은 신념보다 계산으로 읽힌다. 소설 속 악당의 모델이 된 것이 그가 남긴 가장 선명한 형상이다.",
+   "rationale_en": "He hid himself from birth to a bonfire of papers while gripping Europe's arms trade. Selling submarines and machine guns to both sides made him the 'merchant of death'. His money for the Allies in the Great War reads as calculation, not conviction. His clearest remaining image is the pulp-fiction villain he modelled."
+  }
+ },
+ "파루크 왕": {
+  "influence": {
+   "political": 5,
+   "political_exp": "부실 통치가 1952년 혁명과 공화국의 계기가 됨",
+   "political_exp_en": "His misrule triggered the 1952 revolution and republic.",
+   "strategic": 1,
+   "strategic_exp": "재위 중 1948년 전쟁 패배",
+   "strategic_exp_en": "The 1948 war was lost on his watch.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "왕정의 권위를 스스로 허물어 공화정을 앞당김",
+   "social_exp_en": "He discredited the monarchy and hastened the republic.",
+   "economic": 1,
+   "economic_exp": "국고 탕진 외 경제 기여 없음",
+   "economic_exp_en": "He drained the treasury and changed nothing.",
+   "cultural": 2,
+   "cultural_exp": "퇴폐 군주의 전형적 이미지를 남김",
+   "cultural_exp_en": "Left the stock image of the decadent king.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "이집트 왕정 종말의 상징",
+   "transhistoricity_exp_en": "The symbol of Egypt's monarchic end."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "16세 즉위 뒤 내각을 수시로 갈았으나 통치는 부재",
+     "reason_en": "King at sixteen; cabinets came and went, rule did not."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "젊은 시절 검도·승마를 익힌 왕실 교육",
+     "reason_en": "Fencing and riding in his royal schooling."
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "여러 언어를 익혔으나 학업은 게으름으로 회자",
+     "reason_en": "Knew several languages yet studied lazily."
+    },
+    "charm": {
+     "score": 60,
+     "reason_ko": "즉위 초 국민적 인기를 누렸으나 말년엔 조롱거리",
+     "reason_en": "Beloved at his accession, a punchline by his fall."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 10,
+     "reason_ko": "도박·대식·수집·소매치기까지 탐욕이 끝이 없음",
+     "reason_en": "Gaming, feasting, collecting — even picking pockets."
+    },
+    "diligence": {
+     "score": 25,
+     "reason_ko": "낮에 자고 밤에 노는 생활로 국정을 방치",
+     "reason_en": "Slept by day, played by night, and neglected the state."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "'남을 왕은 다섯뿐'이라는 냉소적 자기 인식",
+     "reason_en": "His 'five kings' quip shows a cold self-awareness."
+    },
+    "courage": {
+     "score": 35,
+     "reason_ko": "쿠데타 앞에서 저항 없이 퇴위·망명을 택함",
+     "reason_en": "Chose abdication and exile without a fight."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "궁정인과 동맹을 시답잖게 갈아치움",
+     "reason_en": "Cycled through courtiers and allies on whim."
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "자선 행사는 있었으나 국고 탕진이 더 큰 기록",
+     "reason_en": "Some royal charity, drowned by his draining of the treasury."
+    },
+    "fairness": {
+     "score": 20,
+     "reason_ko": "처칠의 회중시계를 훔칠 만큼 규칙을 우습게 여김",
+     "reason_en": "Picked Churchill's watch — rules were a joke to him."
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "모든 차량을 세우게 한 붉은 차의 군주",
+     "reason_en": "His red car made all Egypt stop — humility never did."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -5,
+     "reason_ko": "왕정의 종말을 예감하고도 향락을 택함",
+     "reason_en": "Foreseeing the monarchies' end, he chose pleasure anyway."
+    },
+    "conservative_progressive": {
+     "score": -25,
+     "reason_ko": "왕권 옹호를 위해 민족파 와프드 내각과 충돌",
+     "reason_en": "Clashed with the nationalist Wafd to guard royal prerogative."
+    },
+    "individual_social": {
+     "score": -40,
+     "reason_ko": "국가를 수집품 창고처럼 쓴 극단적 사치",
+     "reason_en": "Used a kingdom as his private curiosity cabinet."
+    },
+    "cautious_bold": {
+     "score": 15,
+     "reason_ko": "도박과 과속을 멈추지 않은 무모함",
+     "reason_en": "Reckless at the wheel and the table alike."
+    }
+   },
+   "rationale_ko": "열여섯의 왕위가 그에게 절제를 가르치지 못했다. 국고를 수집품과 도박으로 새게 하고 처칠의 시계까지 훔치는 사이 궁정의 권위는 함께 무너졌다. 쿠데타 앞에서 저항 없이 물러난 것은 이미 잃은 것의 확인이었다. 망명지 로마의 식탁에서 그는 마흔다섯에 숨졌다.",
+   "rationale_en": "A throne at sixteen never taught him restraint. While the treasury leaked into collections and cards and Churchill's watch vanished into his pocket, the palace's authority collapsed with it. His bloodless abdication merely confirmed what was already lost. He died at a Roman dinner table at forty-five."
+  }
+ },
+ "페기 구겐하임": {
+  "influence": {
+   "political": 2,
+   "political_exp": "예술가들의 전시 탈출을 사비로 도움",
+   "political_exp_en": "Paid artists' escape routes out of the war.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "여성 수집가가 아방가르드 후원의 길을 엶",
+   "social_exp_en": "Opened avant-garde patronage for women collectors.",
+   "economic": 2,
+   "economic_exp": "화랑 운영과 미술 거래로 시장에 기여",
+   "economic_exp_en": "Her galleries fed the modern-art market.",
+   "cultural": 8,
+   "cultural_exp": "폴록 발굴과 초현실주의 수집으로 현대미술 지형을 바꿈",
+   "cultural_exp_en": "Discovering Pollock and hoarding surrealism reshaped modern art.",
+   "transhistoricity": 15,
+   "transhistoricity_exp": "미국 추상표현주의 탄생의 직접 촉매",
+   "transhistoricity_exp_en": "A direct catalyst of abstract expressionism."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "런던과 뉴욕의 화랑 두 곳을 직접 기획·운영",
+     "reason_en": "Ran two galleries herself, in London and New York."
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "수집가로 평생을 보낸 비신체 이력",
+     "reason_en": "A collector's life; no physical training on record."
+    },
+    "intellect": {
+     "score": 68,
+     "reason_ko": "뒤샹의 가르침 아래 안목을 갈아 시대를 앞서 읽음",
+     "reason_en": "Schooled by Duchamp, her eye read the era ahead of it."
+    },
+    "charm": {
+     "score": 75,
+     "reason_ko": "화랑 개막마다 아방가르드가 몰려든 살롱의 주인",
+     "reason_en": "The avant-garde thronged her salons."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "전시·연정·수집 모두에 절제 없이 쏟아부음",
+     "reason_en": "Poured herself into shows, love affairs and buying."
+    },
+    "diligence": {
+     "score": 72,
+     "reason_ko": "말년까지 베네치아 미술관을 직접 꾸미고 관리",
+     "reason_en": "Ran her Venice museum herself into old age."
+    },
+    "reflection": {
+     "score": 62,
+     "reason_ko": "회고록에 자기 치부까지 담담히 적음",
+     "reason_en": "Her memoirs recorded even her own failings."
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "파리 함락 직전 하루 한 점씩 그림을 사 모음",
+     "reason_en": "Bought a painting a day as Paris fell."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "발굴한 작가들을 계약으로 끝까지 지원",
+     "reason_en": "Kept her discovered artists under contract and fed."
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "전쟁을 피해 도망치는 예술가들에게 사비로 길을 냄",
+     "reason_en": "Paid artists' way out of war-torn Europe."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "총애하는 작가와 아닌 작가의 차별이 분명",
+     "reason_en": "Her favor and her neglect were equally plain."
+    },
+    "humility": {
+     "score": 45,
+     "reason_ko": "컬렉션에 이름을 남겼으나 공은 작가 발굴에 둠",
+     "reason_en": "Put her name on the museum but gave artists the glory."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "유럽이 불타는 와중에 미술의 미래를 사 모음",
+     "reason_en": "Bought the future of art while Europe burned."
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "남성 화랑가들의 시대에 여성 수집가로 정면 진입",
+     "reason_en": "Entered a male art world on her own terms."
+    },
+    "individual_social": {
+     "score": -15,
+     "reason_ko": "가문의 기대를 어기고 독자 취향으로 수집",
+     "reason_en": "Defied her family's expectations and bought on her own eye."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "헐값의 전시 미술을 남들이 보기 전에 쓸어 담음",
+     "reason_en": "Swept up cheap masterpieces before anyone looked."
+    }
+   },
+   "rationale_ko": "타이타닉에 아버지를 잃고 남겨진 유산을 아방가르드에 걸었다. 파리 함락 직전 하루 한 점의 매수는 대담함과 안목의 합작이었다. 그 돈으로 폴록의 첫 개인전이 열렸고 추상표현주의가 싹텄다. 베네치아의 궁전은 지금도 그 컬렉션을 간직한다.",
+   "rationale_en": "The inheritance left by a father lost on the Titanic went to the avant-garde. A painting a day as Paris fell was boldness wedded to a trained eye. That money gave Jackson Pollock his first show and helped birth abstract expressionism. Her Venetian palazzo still holds the collection."
+  }
+ },
+ "이사벨라 스튜어트 가드너": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 영역과 무관",
+   "political_exp_en": "No political record.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 2,
+   "social_exp": "보스턴 여성 규범을 깬 사교계 반역자",
+   "social_exp_en": "Defied Boston's rules for women in society.",
+   "economic": 1,
+   "economic_exp": "경제 제도와 무관",
+   "economic_exp_en": "No economic-system impact.",
+   "cultural": 6,
+   "cultural_exp": "자기 미술관을 지어 미국 미술 후원의 모델을 만듦",
+   "cultural_exp_en": "Her own museum modelled American art patronage.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "유언으로 봉인된 미술관과 미제 도난 사건",
+   "transhistoricity_exp_en": "A will-frozen museum and history's largest art theft."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "펜웨이 코트 설계부터 배치까지 전 과정을 지휘",
+     "reason_en": "Directed Fenway Court from design to the last nail."
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "유럽 수집 여행을 소화한 튼튼한 체격",
+     "reason_en": "A hardy traveller through Europe's sale-rooms."
+    },
+    "intellect": {
+     "score": 65,
+     "reason_ko": "베렌슨과 협업하며 미술사 안목을 독학으로 쌓음",
+     "reason_en": "Built her connoisseurship beside Berenson's counsel."
+    },
+    "charm": {
+     "score": 78,
+     "reason_ko": "'미세스 잭'이라 불리며 보스턴 사교계를 제패",
+     "reason_en": "As 'Mrs Jack' she ruled Boston society."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 45,
+     "reason_ko": "미술품엔 거액을 썼으나 개인 사치는 절제된 편",
+     "reason_en": "Millions for paintings, restraint for herself."
+    },
+    "diligence": {
+     "score": 75,
+     "reason_ko": "30년 넘게 수집과 미술관 운영을 이어감",
+     "reason_en": "Collected and ran her museum for thirty years."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "아들 상실 뒤 수집으로 삶의 방향을 재정립",
+     "reason_en": "After her son's death, collecting became her refounding."
+    },
+    "courage": {
+     "score": 72,
+     "reason_ko": "복싱 관람과 사자 산책으로 보스턴 관습을 깸",
+     "reason_en": "Broke Boston's rules in public — prize fights and a leashed lion."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "남편 잭의 뜻을 이어 미술관을 부부의 기념물로 지킴",
+     "reason_en": "Made the museum a monument to Jack and kept it so."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "병원 기부와 작가 후원이 기록에 남음",
+     "reason_en": "Gave to hospitals and quietly backed artists."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "유언의 변경 금지 조건은 엄격하나 일관",
+     "reason_en": "Her will's no-change clause is strict but evenhanded."
+    },
+    "humility": {
+     "score": 35,
+     "reason_ko": "자기 초상 스캔들을 즐긴 자기 과시의 대가",
+     "reason_en": "Courted the scandal of her own portraits."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 10,
+     "reason_ko": "아들을 잃은 뒤에도 수집으로 인생을 다시 세움",
+     "reason_en": "Rebuilt her life around art after losing her son."
+    },
+    "conservative_progressive": {
+     "score": 10,
+     "reason_ko": "청교도 보스턴의 여성 규범을 차례로 깸",
+     "reason_en": "Broke Puritan Boston's rules for women one by one."
+    },
+    "individual_social": {
+     "score": -10,
+     "reason_ko": "사교계 중심이었으나 판단은 언제나 자기 기준",
+     "reason_en": "Society's center, but always by her own rules."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "베네치아 궁전을 보스턴에 통째로 옮기는 작업을 감행",
+     "reason_en": "Dared to transplant a Venetian palazzo to Boston."
+    }
+   },
+   "rationale_ko": "보스턴의 관습을 하나씩 깨며 자기만의 미의 나라를 세웠다. 베렌슨의 안목을 빌렸으나 선택과 배치는 언제나 본인의 것이었다. '손대지 말라'는 유언으로 미술관을 시간 속에 봉인한 것은 집요함이자 자기 확신이었다. 1990년 도난의 빈 액자들이 그 유언을 지금도 지키고 있다.",
+   "rationale_en": "She broke Boston's conventions one by one and built her own kingdom of beauty. Berenson's eye guided her, but every choice and placement was hers. Sealing the museum by will was stubbornness and self-belief at once. The empty frames of the 1990 theft still obey her command."
+  }
+ },
+ "제5대 포틀랜드 공작": {
+  "influence": {
+   "political": 1,
+   "political_exp": "하원의원 시절 눈에 띄는 공적이 없음",
+   "political_exp_en": "His time as an MP left no mark.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 1,
+   "tech_exp": "사유 지하 건축 외 기술 기여 없음",
+   "tech_exp_en": "His tunnels were private works, not advances.",
+   "social": 2,
+   "social_exp": "지하 공사로 지역 일자리를 장기 제공",
+   "social_exp_en": "His digging gave the district decades of work.",
+   "economic": 1,
+   "economic_exp": "영지 경영 외 경제 기여 없음",
+   "economic_exp_en": "Ran his estate; changed no system.",
+   "cultural": 3,
+   "cultural_exp": "은둔 공작의 민속 전설과 웰벡 지하 유산",
+   "cultural_exp_en": "The recluse-duke legend and Welbeck's tunnels remain.",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "빅토리아 괴짜 귀족의 상징으로 회자",
+   "transhistoricity_exp_en": "Cited as the archetypal eccentric Victorian peer."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 55,
+     "reason_ko": "수백 명의 인부를 고용해 수십 년간 지하 공사를 지휘",
+     "reason_en": "Kept hundreds of workmen digging under his estate for decades."
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "젊어 군 경력을 잠시 거친 장신의 귀족",
+     "reason_en": "Briefly an army officer; a tall, sound frame."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "방대한 장서를 모아 지하 도서관에 채움",
+     "reason_en": "Filled an underground library with his vast collection."
+    },
+    "charm": {
+     "score": 25,
+     "reason_ko": "하인도 눈 마주침을 금한 극도의 회피",
+     "reason_en": "Even servants were forbidden to acknowledge him."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 75,
+     "reason_ko": "부를 누리지 않고 닭고기 반 마리의 저녁으로 삶",
+     "reason_en": "Ate the same half-chicken nightly beneath his wealth."
+    },
+    "diligence": {
+     "score": 60,
+     "reason_ko": "20년 넘게 터널 굴착을 계속한 집요함",
+     "reason_en": "Dug his tunnels for twenty years on end."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "은둔의 이유를 세상에 설명한 적이 없음",
+     "reason_en": "Never explained his seclusion to anyone."
+    },
+    "courage": {
+     "score": 30,
+     "reason_ko": "사람을 만나는 일 자체를 피해 다님",
+     "reason_en": "Fled the very act of meeting people."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "웰벡 애비의 가문 유산과 고용을 지킴",
+     "reason_en": "Kept the family estate and its people employed."
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "불황기에도 인부를 해고하지 않고 공사로 일자리를 댐",
+     "reason_en": "Kept men on payroll through hard times with his digging."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "고용주로서 대우는 후했다고 지역에 전해짐",
+     "reason_en": "By local account he treated his workers well."
+    },
+    "humility": {
+     "score": 65,
+     "reason_ko": "공작의 체면 대신 손수레 배달과 야간 산책을 택함",
+     "reason_en": "Chose wheelbarrow deliveries and midnight walks over a duke's pride."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -20,
+     "reason_ko": "세상과의 접촉을 해악으로 여긴 회피 세계관",
+     "reason_en": "Read human contact itself as harm."
+    },
+    "conservative_progressive": {
+     "score": -20,
+     "reason_ko": "귀족 영지 질서 안에서 은둔을 택함",
+     "reason_en": "Withdrew inside the aristocratic order he kept."
+    },
+    "individual_social": {
+     "score": -45,
+     "reason_ko": "24km 지하 터널을 파 인간을 차단",
+     "reason_en": "Dug fifteen miles of tunnels to wall out mankind."
+    },
+    "cautious_bold": {
+     "score": -25,
+     "reason_ko": "우산과 스카프로 몸을 가릴 만큼 신변 노출을 기피",
+     "reason_en": "Hid behind scarves and umbrellas from any exposure."
+    }
+   },
+   "rationale_ko": "빅토리아 귀족 사회의 정점에서 인간 접촉 자체를 거부한 극단의 은둔자였다. 24km의 지하 터널과 무도장·도서관은 회피의 기록이면서 수십 년의 고용이기도 했다. 하인의 인사까지 금한 그가 불황기 인부의 일자리는 지켰다는 것이 역설이다. 웰벡 애비의 지하는 지금도 남아 있다.",
+   "rationale_en": "At the top of Victorian society he refused human contact itself. Fifteen miles of tunnels, ballroom and library are both a record of avoidance and decades of employment. The man who banned servants' greetings kept his workers paid through hard times. The underworld at Welbeck Abbey still survives."
+  }
+ },
+ "존 미튼": {
+  "influence": {
+   "political": 1,
+   "political_exp": "하원의원을 잠시 지냈으나 공적은 미미",
+   "political_exp_en": "A brief MP with little to show.",
+   "strategic": 1,
+   "strategic_exp": "군 경력이 짧아 전략 기여 없음",
+   "strategic_exp_en": "A short army spell; no strategic mark.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 1,
+   "social_exp": "사회 제도 변화와 무관",
+   "social_exp_en": "No change to social institutions.",
+   "economic": 1,
+   "economic_exp": "재산 탕진 외 경제 기여 없음",
+   "economic_exp_en": "He spent a fortune and built nothing.",
+   "cultural": 3,
+   "cultural_exp": "리젠시 망나니의 전형으로 민속에 남음",
+   "cultural_exp_en": "The stock Regency rake of folklore.",
+   "transhistoricity": 4,
+   "transhistoricity_exp": "'매드 잭' 일화가 지금도 회자",
+   "transhistoricity_exp_en": "'Mad Jack' anecdotes are still retold."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "영지와 사냥개 무리를 관리했으나 조직 경영은 없음",
+     "reason_en": "Kept estate and hounds but ran no organization."
+    },
+    "martial": {
+     "score": 70,
+     "reason_ko": "맨몸 사냥과 장애물 경주에서 수차례 중상을 견딘 몸",
+     "reason_en": "Hunted naked and rode steeplechases through repeated injuries."
+    },
+    "intellect": {
+     "score": 35,
+     "reason_ko": "해로·이튼 교육을 받았으나 지적 유산을 남기지 않음",
+     "reason_en": "Harrow and Eton left him little of the mind."
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "슈롭셔의 환대와 기행으로 '매드 잭' 애칭을 얻음",
+     "reason_en": "Shropshire's beloved 'Mad Jack'."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 8,
+     "reason_ko": "하루 수 병의 포트와 15년 만의 전 재산 탕진",
+     "reason_en": "Bottles of port a day; a fortune gone in fifteen years."
+    },
+    "diligence": {
+     "score": 40,
+     "reason_ko": "사냥엔 매일 나갔으나 지속된 일은 없음",
+     "reason_en": "Hunted daily; worked never."
+    },
+    "reflection": {
+     "score": 35,
+     "reason_ko": "파산 직전까지 자기 방식을 의심하지 않음",
+     "reason_en": "Doubts never caught up with his spending."
+    },
+    "courage": {
+     "score": 78,
+     "reason_ko": "곰과 몸싸움하고 불붙은 잠옷으로 딸꾹질을 다스렸다는 일화",
+     "reason_en": "Wrestled his bear and set his nightshirt alight to cure hiccups."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "사냥개와 하인·친구에겐 끝까지 너그러움",
+     "reason_en": "Stayed generous to hounds, servants and friends."
+    },
+    "benevolence": {
+     "score": 65,
+     "reason_ko": "빈민 구제와 손님 접대에 돈을 아끼지 않음",
+     "reason_en": "Open-handed to the poor and to every guest."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "하원의원·지방관 시절 불공정 흠결은 남기지 않음",
+     "reason_en": "His brief public service left no scandal of injustice."
+    },
+    "humility": {
+     "score": 55,
+     "reason_ko": "계급을 가리지 않고 어울린 괴짜 지주",
+     "reason_en": "A squire who drank with every class."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 20,
+     "reason_ko": "파산 속에서도 내일의 사냥을 믿는 낙천",
+     "reason_en": "Bankrupt, he still believed in tomorrow's hunt."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "토리 지주로서 옛 질서에 안주",
+     "reason_en": "A Tory squire at ease in the old order."
+    },
+    "individual_social": {
+     "score": 10,
+     "reason_ko": "사냥 모임과 만찬의 중심에서 공동체를 즐김",
+     "reason_en": "Lived for the hunt and the table, never alone."
+    },
+    "cautious_bold": {
+     "score": 45,
+     "reason_ko": "불·곰·맨몸 사냥을 아랑곳 않은 극단의 무모함",
+     "reason_en": "Fire, bears and naked hunts — fear was unknown to him."
+    }
+   },
+   "rationale_ko": "무엇이든 겁 없이 감행한 무모함이 '매드 잭'이라는 이름을 만들었다. 맨몸 사냥과 곰 길들이기는 몸의 강인함과 절제의 부재를 함께 보여준다. 하루 수 병의 포트와 탕진이 그를 15년 만에 빚쟁이 감옥으로 옮겼다. 그러나 이웃과 빈자에게 너그러운 손이었기에 전설은 아직 따뜻하다.",
+   "rationale_en": "Fearless indulgence made him 'Mad Jack'. Naked hunts and a pet bear show both a tough frame and an empty brake. Bottles of port a day spent half a million pounds in fifteen years and ended in debtors' prison. Yet the legend stays warm because his hand was open to neighbors and the poor."
+  }
+ },
+ "마르케사 카사티": {
+  "influence": {
+   "political": 0,
+   "political_exp": "정치 영역과 무관",
+   "political_exp_en": "No political record.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 3,
+   "social_exp": "여성의 자기표현 규범을 의상으로 해체",
+   "social_exp_en": "Undid the rules of women's self-presentation.",
+   "economic": 1,
+   "economic_exp": "전 재산 탕진 외 경제 기여 없음",
+   "economic_exp_en": "She spent a fortune; she changed no system.",
+   "cultural": 6,
+   "cultural_exp": "세기의 뮤즈로 아방가르드 미학을 자극",
+   "cultural_exp_en": "Muse of the century; she fed the avant-garde eye.",
+   "transhistoricity": 9,
+   "transhistoricity_exp": "후대 디자이너들이 끄집어내는 스타일 원형",
+   "transhistoricity_exp_en": "Designers still mine her image."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 45,
+     "reason_ko": "금분 입힌 하인들과 연회 기획을 지휘",
+     "reason_en": "Commanded gilded servants and legendary soirées."
+    },
+    "martial": {
+     "score": 31,
+     "reason_ko": "치타 산책을 제외하면 신체 훈련 이력은 드묾",
+     "reason_en": "Her exercise was walking cheetahs."
+    },
+    "intellect": {
+     "score": 50,
+     "reason_ko": "예술 감각은 탁월했으나 학문·사업 기록은 드묾",
+     "reason_en": "An exquisite eye for art, little else pursued."
+    },
+    "charm": {
+     "score": 88,
+     "reason_ko": "볼디니·만 레이가 다투어 그린 세기의 뮤즈",
+     "reason_en": "Boldini and Man Ray competed to fix her image."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 15,
+     "reason_ko": "전 재산을 의상·연회·수집에 탕진",
+     "reason_en": "Burned a fortune on costumes, parties and objects."
+    },
+    "diligence": {
+     "score": 55,
+     "reason_ko": "20년 넘게 '살아 있는 작품' 기획을 지속",
+     "reason_en": "Sustained her living-artwork project for two decades."
+    },
+    "reflection": {
+     "score": 50,
+     "reason_ko": "자신을 작품으로 만든 기획은 치밀한 자기 인식",
+     "reason_en": "Making herself the artwork took cold self-awareness."
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "뱀을 두르고 거의 벌거벗은 채 공공장소에 나섬",
+     "reason_en": "Wore snakes and near-nudity in public squares."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "예술가 후원은 지속했으나 가정은 버려둠",
+     "reason_en": "Faithful to artists, distant from husband and child."
+    },
+    "benevolence": {
+     "score": 60,
+     "reason_ko": "재산이 있을 때 예술가들을 관대히 후원",
+     "reason_en": "Generous patron while the money lasted."
+    },
+    "fairness": {
+     "score": 50,
+     "reason_ko": "후원의 선택은 취향 기준이었고 그 외 판단 기록은 드묾",
+     "reason_en": "Her patronage ran on taste, for good or ill."
+    },
+    "humility": {
+     "score": 12,
+     "reason_ko": "스스로를 '살아 있는 예술 작품'으로 내세움",
+     "reason_en": "Declared herself a living work of art."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 15,
+     "reason_ko": "파산 뒤 런던 하숙에서도 예술적 자아를 포기하지 않음",
+     "reason_en": "Kept her artistic self through a bankrupt London ending."
+    },
+    "conservative_progressive": {
+     "score": 25,
+     "reason_ko": "여성의 사회적 역할 자체를 의상으로 해체",
+     "reason_en": "Turned a woman's expected role into costume and defiance."
+    },
+    "individual_social": {
+     "score": -45,
+     "reason_ko": "남편·딸을 떠나 자기 무대 하나를 좇음",
+     "reason_en": "Left husband and child to pursue her own stage."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "치타·뱀·벌거벗은 연회를 공개 감행",
+     "reason_en": "Cheetahs, snakes and scandal — all performed in public."
+    }
+   },
+   "rationale_ko": "부를 탕진해 자기 자신을 작품으로 만들겠다는 극단적 기획이었다. 베네치아의 치타 산책과 뱀 목걸이 연회는 대중의 시선을 강제로 샀다. 볼디니와 만 레이가 다투어 그린 것은 그녀가 정확히 의도한 결과였다. 파산 뒤 런던에서도 예술적 자아는 버리지 않았다.",
+   "rationale_en": "She spent a fortune making herself the artwork. Cheetahs through Venice and snakes at her soirées forced the public's gaze. Boldini and Man Ray competing to paint her was precisely the result she intended. Even bankrupt in London she never put down the artistic self."
+  }
+ },
+ "윌리엄 베크포드": {
+  "influence": {
+   "political": 2,
+   "political_exp": "부패 자치구 하원의원 외 정치 기여 미미",
+   "political_exp_en": "Sat for rotten boroughs; little else.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 2,
+   "tech_exp": "폰트힐 건축이 고딕 부흥 기법을 시험",
+   "tech_exp_en": "Fonthill tested Gothic Revival construction.",
+   "social": 2,
+   "social_exp": "동성 스캔들 추방 사례로 박해사에 회자",
+   "social_exp_en": "His exile over the scandal is cited in persecution history.",
+   "economic": 2,
+   "economic_exp": "노예 농장 수입을 누렸으나 개선한 흔적이 없음",
+   "economic_exp_en": "Lived on slave plantations he never reformed.",
+   "cultural": 7,
+   "cultural_exp": "『바텍』과 폰트힐로 고딕 리바이벌을 자극",
+   "cultural_exp_en": "Vathek and Fonthill spurred the Gothic Revival.",
+   "transhistoricity": 12,
+   "transhistoricity_exp": "고딕 문학의 이정표 『바텍』이 현재도 출간됨",
+   "transhistoricity_exp_en": "Vathek, a Gothic landmark, remains in print."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 58,
+     "reason_ko": "폰트힐 애비 건축에 수백 명의 장인을 20년간 지휘",
+     "reason_en": "Directed hundreds of craftsmen at Fonthill for twenty years."
+    },
+    "martial": {
+     "score": 48,
+     "reason_ko": "유럽 각지를 누빈 여행가로 83세까지 천수",
+     "reason_en": "A tireless traveller who lived to eighty-three."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "프랑스어로 쓴 『바텍』과 여행 문학으로 문학사에 이름",
+     "reason_en": "Vathek in French and travel books earned a literary name."
+    },
+    "charm": {
+     "score": 55,
+     "reason_ko": "스캔들로 쫓겨났으나 폰트힐엔 손님이 몰림",
+     "reason_en": "Cast out by society, yet Fonthill drew its own court."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 25,
+     "reason_ko": "90m 탑과 미술품 수집에 재산을 쏟아부음",
+     "reason_en": "Poured his inheritance into a ninety-metre tower and rarities."
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "은둔 속에서 25년간 집필과 건축을 병행",
+     "reason_en": "Wrote and built through twenty-five years of seclusion."
+    },
+    "reflection": {
+     "score": 60,
+     "reason_ko": "여행 기록과 편지에 자기 감정을 섬세히 적음",
+     "reason_en": "His travel letters record a finely watched inner life."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "사회적 파멸 뒤에도 기념비적 건축을 감행",
+     "reason_en": "Answered social ruin by building a monument."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 55,
+     "reason_ko": "프랑키와 수십 년 동행하고 폰트힐 일꾼들을 아낌",
+     "reason_en": "Kept Franchi at his side for decades and cared for his workmen."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "지역 빈민 구제와 예술 후원 기록",
+     "reason_en": "Gave locally and patronised artists."
+    },
+    "fairness": {
+     "score": 35,
+     "reason_ko": "자메이카 노예 농장 수입으로 살았으나 개선 시도는 없음",
+     "reason_en": "Lived on Jamaican slave plantations he never tried to change."
+    },
+    "humility": {
+     "score": 30,
+     "reason_ko": "자기를 위한 탑을 세우고 무너진 뒤 다시 세움",
+     "reason_en": "Raised a tower to himself — twice, after it fell."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 5,
+     "reason_ko": "동양적 향락의 소설 속에 우울과 야망을 섞음",
+     "reason_en": "Mixed melancholy and ambition in his oriental fantasy."
+    },
+    "conservative_progressive": {
+     "score": -10,
+     "reason_ko": "부패 자치구 의원으로 기존 질서 안에서 부를 누림",
+     "reason_en": "Sat for rotten boroughs and lived inside the old order."
+    },
+    "individual_social": {
+     "score": -35,
+     "reason_ko": "스캔들 뒤 25년간 폰트힐에 은둔",
+     "reason_en": "Hid inside Fonthill for a quarter-century after the scandal."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "건축가 확인 없이 90m 탑을 세우는 무모함",
+     "reason_en": "Raised his tower without an architect's oversight — it fell."
+    }
+   },
+   "rationale_ko": "영국 최고 부자의 아들이 스캔들로 쫓겨난 뒤 택한 답은 은둔과 건축이었다. 프랑스어로 쓴 『바텍』은 고딕 문학의 이정표가 됐고, 90m의 탑은 두 번 무너지며 그 야망을 상징했다. 노예 농장의 수입이 그 사치를 댔다는 것은 지울 수 없는 기록이다. 탑은 없어졌으나 소설은 남았다.",
+   "rationale_en": "England's richest son answered exile with seclusion and building. Vathek, written in French, became a landmark of Gothic literature, while the ninety-metre tower fell twice like his ambitions. The slave-plantation income beneath his luxury cannot be written out. The tower is gone; the novel remains."
+  }
+ },
+ "조슈아 노턴": {
+  "influence": {
+   "political": 3,
+   "political_exp": "만에 다리 건설을 요구한 칙령이 훗날 실현됨",
+   "political_exp_en": "His decree for a bay bridge was eventually built.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 4,
+   "social_exp": "도시 전체가 자칭 황제를 받아들인 관용의 상징",
+   "social_exp_en": "A whole city embracing a self-made emperor — a symbol of tolerance.",
+   "economic": 2,
+   "economic_exp": "자체 화폐가 지역 상점에서 실제 통용",
+   "economic_exp_en": "His own scrip was honoured by city shops.",
+   "cultural": 5,
+   "cultural_exp": "샌프란시스코 민속과 미국 기인 문학의 소재",
+   "cultural_exp_en": "A fixture of San Francisco folklore and letters.",
+   "transhistoricity": 6,
+   "transhistoricity_exp": "도시의 영구 아이콘으로 기념물과 축제가 남음",
+   "transhistoricity_exp_en": "A permanent civic icon with plaques and festivals."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 15,
+     "reason_ko": "권력 없는 자리에서 20년간 칙령을 발표",
+     "reason_en": "Issued decrees for twenty years without a throne to stand on."
+    },
+    "martial": {
+     "score": 42,
+     "reason_ko": "남아공을 거쳐 온 이민 상인으로 도시를 걸어 순찰",
+     "reason_en": "An immigrant merchant who patrolled his city on foot."
+    },
+    "intellect": {
+     "score": 55,
+     "reason_ko": "상인으로 일어섰다 무너진 뒤 신문이 실을 만한 칙령을 씀",
+     "reason_en": "A failed merchant who wrote decrees papers chose to print."
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "도시 전체가 황제 놀이에 동참하고 장례에 3만이 운집",
+     "reason_en": "A whole city played along; 30,000 came to his funeral."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 70,
+     "reason_ko": "하숙방의 검소한 생활로 20년을 일관",
+     "reason_en": "Twenty years in a modest boarding-house room."
+    },
+    "diligence": {
+     "score": 70,
+     "reason_ko": "매일 거리를 순찰하며 도시 상태를 점검",
+     "reason_en": "Patrolled the streets daily, inspecting his domain."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "스스로 세운 역할의 경계를 밝힌 말은 남기지 않음",
+     "reason_en": "He never explained where the role ended and he began."
+    },
+    "courage": {
+     "score": 68,
+     "reason_ko": "신문에 스스로 황제를 선언하고 폭동 현장에 개입",
+     "reason_en": "Crowned himself in print and stepped into a riot to pray."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 65,
+     "reason_ko": "20년간 '황제' 역할과 도시에 대한 헌신을 유지",
+     "reason_en": "Played the part and served the city for twenty years."
+    },
+    "benevolence": {
+     "score": 70,
+     "reason_ko": "반중국 폭동 앞에서 기도로 군중을 멈춘 일화",
+     "reason_en": "He stood before an anti-Chinese mob with bowed head in prayer."
+    },
+    "fairness": {
+     "score": 70,
+     "reason_ko": "칙령으로 인종 차별 철폐와 노동자 보호를 요구",
+     "reason_en": "His decrees demanded equality and protection for workers."
+    },
+    "humility": {
+     "score": 40,
+     "reason_ko": "황제를 자칭했으나 무료 음식과 자선을 겸허히 받음",
+     "reason_en": "Crowned himself emperor yet took free meals gratefully."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "파산한 상인이 자기를 황제로 다시 세움",
+     "reason_en": "A bankrupt man rebuilt himself as an emperor."
+    },
+    "conservative_progressive": {
+     "score": 15,
+     "reason_ko": "의회 해산 요구와 소수자 보호 칙령으로 기존 정치를 비꼼",
+     "reason_en": "Mocked the old order — dissolving Congress, shielding minorities."
+    },
+    "individual_social": {
+     "score": 20,
+     "reason_ko": "자기 화폐와 칙령을 도시 공동체에 바침",
+     "reason_en": "Gave his city a currency and a mythology."
+    },
+    "cautious_bold": {
+     "score": 25,
+     "reason_ko": "공개 선언으로 도시의 관용을 시험에 들게 함",
+     "reason_en": "His declaration dared a whole city to be kind."
+    }
+   },
+   "rationale_ko": "쌀 투기로 무너진 상인이 스스로 황제를 선언했고 도시가 이를 받아들였다. 20년간 매일 거리를 순찰하고 칙령을 냈으며 그의 화폐는 진짜로 상점에서 통했다. 반중국 폭동 앞에서 기도로 막아선 장면은 시민들이 왜 그를 받들었는지 보여준다. 장례에 3만 명이 운집했다.",
+   "rationale_en": "A merchant ruined by rice speculation declared himself emperor, and the city accepted. For twenty years he patrolled daily and issued decrees; his scrip was truly honoured in shops. His prayer before an anti-Chinese mob shows why citizens revered him. Thirty thousand attended his funeral."
+  }
+ },
+ "티모시 덱스터": {
+  "influence": {
+   "political": 1,
+   "political_exp": "정치 영역과 무관",
+   "political_exp_en": "No political record.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 0,
+   "tech_exp": "기술 분야와 무관",
+   "tech_exp_en": "No technical contribution.",
+   "social": 1,
+   "social_exp": "사회 제도 변화와 무관",
+   "social_exp_en": "No change to social institutions.",
+   "economic": 4,
+   "economic_exp": "휴지 대륙불 매수 등 비정상 상술로 거부가 됨",
+   "economic_exp_en": "Absurd ventures — worthless currency, tropical mittens — made him rich.",
+   "cultural": 4,
+   "cultural_exp": "철자 없는 『피클』과 동상 정원의 민속 유산",
+   "cultural_exp_en": "The unpunctuated Pickle and his statue garden live in folklore.",
+   "transhistoricity": 5,
+   "transhistoricity_exp": "뉴잉글랜드 '운 좋은 바보' 전설로 남음",
+   "transhistoricity_exp_en": "New England's legend of the lucky fool."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 40,
+     "reason_ko": "무역 선박과 저택 일꾼을 두었으나 경영보다 운이 컸음",
+     "reason_en": "Kept ships and servants — luck managed better than he did."
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "가죽 장인 출신으로 몸을 쓰는 노동 이력",
+     "reason_en": "A leather worker's trade had trained his hands."
+    },
+    "intellect": {
+     "score": 40,
+     "reason_ko": "철자 없는 책을 썼으나 상술의 판단은 날카로움",
+     "reason_en": "Unschooled spelling, sharp mercantile nose."
+    },
+    "charm": {
+     "score": 50,
+     "reason_ko": "조롱과 존경이 섞인 '티모시 경'의 동네 명물",
+     "reason_en": "Half laughing-stock, half local legend."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 35,
+     "reason_ko": "자기 장례 리허설과 동상 정원에 돈을 씀",
+     "reason_en": "Spent on a funeral rehearsal and a garden of statues."
+    },
+    "diligence": {
+     "score": 65,
+     "reason_ko": "가죽 일꾼에서 시작해 거상까지 스스로 오름",
+     "reason_en": "Rose from leather bench to merchant prince by his own labor."
+    },
+    "reflection": {
+     "score": 40,
+     "reason_ko": "『피클』에서 세상의 비웃음을 자기 방식으로 되받음",
+     "reason_en": "His Pickle answered the world's mockery in kind."
+    },
+    "courage": {
+     "score": 65,
+     "reason_ko": "남들이 비웃는 상품에 전 재산을 걸기를 반복",
+     "reason_en": "Repeatedly bet his fortune on goods people mocked."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 40,
+     "reason_ko": "장례 리허설에서 아내를 채찍질했다는 전승",
+     "reason_en": "Legend says he caned his wife at his own funeral rehearsal."
+    },
+    "benevolence": {
+     "score": 45,
+     "reason_ko": "교회와 이웃에 후원한 기록이 일부 남음",
+     "reason_en": "Gave to church and neighbors, in his fashion."
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "가짜 가문 문장과 허세로 거래 상대를 기만",
+     "reason_en": "Traded on a fake coat of arms and bluster."
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "저택에 자기 동상을 세우고 스스로 '경'을 칭함",
+     "reason_en": "Raised his own statue and styled himself a lord."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "남들이 버린 대륙 달러를 사들이는 자신감",
+     "reason_en": "Bought worthless currency on pure self-belief."
+    },
+    "conservative_progressive": {
+     "score": -15,
+     "reason_ko": "귀족 행세를 모방하며 기존 신분 질서를 흠모",
+     "reason_en": "Aped the gentry he envied."
+    },
+    "individual_social": {
+     "score": -30,
+     "reason_ko": "자기 찬가 동상과 책으로 자기 이름만 새김",
+     "reason_en": "Statues and a book all in praise of himself."
+    },
+    "cautious_bold": {
+     "score": 35,
+     "reason_ko": "온열기를 열대로 파는 상식 밖 베팅을 반복",
+     "reason_en": "Shipped warming pans to the tropics — and won."
+    }
+   },
+   "rationale_ko": "상식을 거스른 거래가 매번 우연히 성공한 '운 좋은 바보'였다. 휴지조각 대륙 달러의 액면가 보상과 열대 수출 대박은 판단과 행운의 구분을 어렵게 한다. 자기 동상과 철자 없는 책은 과시의 극치였고 장례 리허설은 그 자기애의 완성이었다. 뉴잉글랜드의 민속 전설로 남았다.",
+   "rationale_en": "He was the lucky fool whose absurd ventures kept paying off. Face-value redemption of worthless Continentals and tropical exports blur luck from judgment. His statue garden and unpunctuated book were display at its purest, the funeral rehearsal its completion. He survives as a New England folk legend."
+  }
+ },
+ "P.T. 바넘": {
+  "influence": {
+   "political": 4,
+   "political_exp": "주 의원·시장으로 노예해방과 금주를 지지",
+   "political_exp_en": "As legislator and mayor he backed emancipation and temperance.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 2,
+   "tech_exp": "대중 홍보 기법의 원형을 발명",
+   "tech_exp_en": "Invented the template of mass publicity.",
+   "social": 5,
+   "social_exp": "전시 오락의 윤리 논쟁을 남긴 장본인",
+   "social_exp_en": "His exhibits left the debate on human display.",
+   "economic": 7,
+   "economic_exp": "대중 오락 산업의 사업 모델을 창안",
+   "economic_exp_en": "Created the business model of mass entertainment.",
+   "cultural": 8,
+   "cultural_exp": "현대 광고·셀럽 마케팅·서커스의 원형을 만듦",
+   "cultural_exp_en": "Shaped modern advertising, celebrity marketing and the circus.",
+   "transhistoricity": 14,
+   "transhistoricity_exp": "쇼 비즈니스의 창시자로 지금도 인용",
+   "transhistoricity_exp_en": "Still cited as the father of show business."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 75,
+     "reason_ko": "박물관·서커스·순회공연 조직을 반세기 이끔",
+     "reason_en": "Ran museum, circus and touring shows for half a century."
+    },
+    "martial": {
+     "score": 45,
+     "reason_ko": "평생 강행군 여행을 소화한 건강한 체격",
+     "reason_en": "A sturdy frame that survived a lifetime on the road."
+    },
+    "intellect": {
+     "score": 75,
+     "reason_ko": "대중 심리를 읽어 홍보와 공연 설계의 원형을 만듦",
+     "reason_en": "Read crowds like a book and built the template of publicity."
+    },
+    "charm": {
+     "score": 88,
+     "reason_ko": "제니 린드 투어로 미국 전역을 열광시킨 쇼맨",
+     "reason_en": "The Jenny Lind tour set America alight."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 55,
+     "reason_ko": "금주 강연자였으나 사업엔 언제나 크게 걸었음",
+     "reason_en": "Preached temperance yet bet big every time."
+    },
+    "diligence": {
+     "score": 82,
+     "reason_ko": "60세의 파산 뒤 강연 투어로 재기를 이룸",
+     "reason_en": "Bankrupt near sixty, he lectured his way back."
+    },
+    "reflection": {
+     "score": 55,
+     "reason_ko": "자서전을 거듭 고쳐 쓰며 허구와 진실을 섞어 인정",
+     "reason_en": "Rewrote his own legend and admitted the humbug cheerfully."
+    },
+    "courage": {
+     "score": 75,
+     "reason_ko": "전 재산을 잃고도 새 사업을 다시 시작",
+     "reason_en": "Lost everything and started again."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "베일리와의 동업과 가족 중심의 생활 유지",
+     "reason_en": "Kept the Bailey partnership and his family close."
+    },
+    "benevolence": {
+     "score": 50,
+     "reason_ko": "출연자에게 보수를 지급했으나 전시 방식은 착취적",
+     "reason_en": "Paid his performers — and exhibited them anyway."
+    },
+    "fairness": {
+     "score": 40,
+     "reason_ko": "공연광의 허구를 알면서도 판매한 '험벅' 상술",
+     "reason_en": "Sold hoaxes he knew were humbug."
+    },
+    "humility": {
+     "score": 20,
+     "reason_ko": "자기 이름을 쇼보다 크게 새긴 자기 홍보의 대가",
+     "reason_en": "Put his own name above every show."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 30,
+     "reason_ko": "매번 새 관객이 온다는 신념으로 사업을 굴림",
+     "reason_en": "Ran every venture on the faith that crowds would come."
+    },
+    "conservative_progressive": {
+     "score": 20,
+     "reason_ko": "주 의원으로 노예해방 수정헌법을 지지하고 금주 운동",
+     "reason_en": "As a legislator he backed emancipation and temperance."
+    },
+    "individual_social": {
+     "score": 5,
+     "reason_ko": "브리지포트 발전과 공원 기증으로 지역에 환원",
+     "reason_en": "Built up Bridgeport and gave it parks."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "가짜 인어부터 제니 린드까지 보도되기 전에 먼저 걸음",
+     "reason_en": "Bet first and biggest, from a fake mermaid to Jenny Lind."
+    }
+   },
+   "rationale_ko": "가짜 인어로 시작해 '지상 최대의 쇼'까지 대중의 호기심을 상품화하는 법을 발명했다. 전시의 착취성과 허구 홍보는 이름에 남은 그늘이지만, 60세의 파산 뒤 재기는 근면과 대담함의 증거다. 의원으로서 노예해방과 금주를 지지한 면은 쇼맨 너머의 공적 행적이다. 현대 광고와 쇼 비즈니스의 원형은 그가 만든 형상을 따른다.",
+   "rationale_en": "From a fake mermaid to the Greatest Show on Earth, he invented how to sell the public's curiosity. Exploitation and humbug shade his name, yet the comeback after ruin at sixty proves diligence and nerve. As a legislator he backed emancipation and temperance — a record beyond the showman. Modern advertising and show business still follow his template."
+  }
+ },
+ "로버트 리플리": {
+  "influence": {
+   "political": 0,
+   "political_exp": "공직·정치 활동과 거리가 먼 만화가",
+   "political_exp_en": "A cartoonist far from office or politics.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 1,
+   "tech_exp": "1939년 초기 TV 생방송에 출연한 정도",
+   "tech_exp_en": "Appeared on early live TV in 1939.",
+   "social": 3,
+   "social_exp": "기행 수집을 대중 취미로 만듦",
+   "social_exp_en": "Turned oddity-hunting into mass curiosity.",
+   "economic": 4,
+   "economic_exp": "신문·라디오·TV를 잇는 프랜차이즈를 세움",
+   "economic_exp_en": "Built a franchise across press, radio and TV.",
+   "cultural": 6,
+   "cultural_exp": "'믿거나 말거나'가 기묘물 장르의 원형이 됨",
+   "cultural_exp_en": "'Believe It or Not!' became the template of a genre.",
+   "transhistoricity": 7,
+   "transhistoricity_exp": "백 년 가까이 이어지는 기행 프랜차이즈",
+   "transhistoricity_exp_en": "An oddity franchise still running near a century on."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 50,
+     "reason_ko": "1923년부터 전속 연구진을 두고 코너 제국을 운영",
+     "reason_en": "Ran the panel with staff researchers from 1923."
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "청년기 반프로 야구 선수로 자이언츠 입단 테스트를 받음",
+     "reason_en": "A semi-pro pitcher once tried out for the Giants."
+    },
+    "intellect": {
+     "score": 62,
+     "reason_ko": "기묘한 사실을 찾아 검증하는 편집 체계를 만듦",
+     "reason_en": "Built an editorial system to hunt and verify oddities."
+    },
+    "charm": {
+     "score": 82,
+     "reason_ko": "1936년 투표에서 대통령을 제치고 최고 인기 인물로 뽑힘",
+     "reason_en": "A 1936 poll voted him most popular over Roosevelt."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 40,
+     "reason_ko": "기물 수집과 쇼 제작에 재산을 계속 쏟아부음",
+     "reason_en": "Poured his fortune into collecting and shows."
+    },
+    "diligence": {
+     "score": 85,
+     "reason_ko": "1949년 녹화 중 쓰러질 때까지 수십 년 마감을 지킴",
+     "reason_en": "Kept deadlines for decades until collapsing on set in 1949."
+    },
+    "reflection": {
+     "score": 45,
+     "reason_ko": "출처 검증 논쟁엔 자료로 응수했으나 자기 회고는 드묾",
+     "reason_en": "He answered critics with sources but rarely looked inward."
+    },
+    "courage": {
+     "score": 60,
+     "reason_ko": "세계 각지의 오지를 직접 돌며 소재를 채집",
+     "reason_en": "Travelled the world's far corners to gather material."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 60,
+     "reason_ko": "펄로스 등 연구진과 수십 년 협업을 유지",
+     "reason_en": "Kept decades-long collaborators like Pearlroth."
+    },
+    "benevolence": {
+     "score": 55,
+     "reason_ko": "기형적 기예인을 희화화보다 호기심의 대상으로 다룸",
+     "reason_en": "Treated unusual performers with curiosity over ridicule."
+    },
+    "fairness": {
+     "score": 55,
+     "reason_ko": "모든 소재에 출처 증명을 요구하는 검증 절차를 세움",
+     "reason_en": "Required documented proof for every item printed."
+    },
+    "humility": {
+     "score": 58,
+     "reason_ko": "최고 인기 인물로 뽑혀도 자신은 수집가라 칭함",
+     "reason_en": "Voted most popular, he still called himself a collector."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": 25,
+     "reason_ko": "대공황기에도 기행 코너와 신매체에 계속 투자",
+     "reason_en": "Kept betting on the panel and new media through the Depression."
+    },
+    "conservative_progressive": {
+     "score": 5,
+     "reason_ko": "인종·계급보다 기묘함을 기준으로 사람을 다룸",
+     "reason_en": "Judged people by oddity rather than race or class."
+    },
+    "individual_social": {
+     "score": -20,
+     "reason_ko": "자기 이름을 건 코너로 홀로 세계를 누빔",
+     "reason_en": "Roamed the world alone under his own nameplate."
+    },
+    "cautious_bold": {
+     "score": 30,
+     "reason_ko": "신문에서 라디오·초기 TV까지 새 매체마다 먼저 뛰어듦",
+     "reason_en": "Jumped first into each new medium — radio, then early TV."
+    }
+   },
+   "rationale_ko": "신문 만화가로 시작해 세계의 기묘함을 모으는 프랜차이즈를 세운 개척 정신이 정점의 대중 매력과 맞물렸다. 모든 소재에 출처를 요구한 검증 집착이 공정성을 받치고, 수십 년 일한 전속 리서처를 둔 운영이 지속력을 만들었다. 수집과 쇼에 삶을 쏟아 절제는 낮고 공동체보다 개인 브랜드가 앞선다. 1949년 TV 녹화 도중 쓰러져 작업 중에 생을 마쳤다.",
+   "rationale_en": "A newspaper cartoonist built a franchise out of the world's oddities, his pioneering drive matching real mass charm. Insisting on a source for every item grounded his fairness, and the staff researcher he kept for decades gave the panel its staying power. He poured his life into collecting and showmanship, leaving temperance low and the personal brand ahead of community. He collapsed while taping a show in 1949 and died working."
+  }
+ },
+ "존 매카피": {
+  "influence": {
+   "political": 1,
+   "political_exp": "자유당 후보로 대선에 나섰으나 영향은 미미",
+   "political_exp_en": "Ran for president as a Libertarian; little effect.",
+   "strategic": 0,
+   "strategic_exp": "군사 분야와 무관",
+   "strategic_exp_en": "No military connection.",
+   "tech": 7,
+   "tech_exp": "1987년 세계 첫 상용 백신 회사를 세움",
+   "tech_exp_en": "Founded the first commercial antivirus company in 1987.",
+   "social": 2,
+   "social_exp": "도피·살인 용의자 행보가 언론 오락거리가 됨",
+   "social_exp_en": "His fugitive saga became media spectacle.",
+   "economic": 5,
+   "economic_exp": "백신 산업이라는 새 시장의 문을 엶",
+   "economic_exp_en": "Opened the antivirus software market.",
+   "cultural": 3,
+   "cultural_exp": "기술 도피자 캐릭터로 다큐 소재가 됨",
+   "cultural_exp_en": "Became a documentary subject as a tech outlaw.",
+   "transhistoricity": 8,
+   "transhistoricity_exp": "백신 소프트웨어 범주를 연 창업자",
+   "transhistoricity_exp_en": "The founder who opened the antivirus category."
+  },
+  "persona": {
+   "abilities": {
+    "command": {
+     "score": 70,
+     "reason_ko": "1987년 맥아피를 창업해 상장 대기업으로 키움",
+     "reason_en": "Founded McAfee in 1987 and took it public."
+    },
+    "martial": {
+     "score": 50,
+     "reason_ko": "벨리즈에서 무장 경호 아래 자경단식 생활을 함",
+     "reason_en": "Lived under armed guard at his Belize compound."
+    },
+    "intellect": {
+     "score": 78,
+     "reason_ko": "혼자 초기 백신 코드를 짠 수학 전공 프로그래머",
+     "reason_en": "A math-trained programmer who wrote the first antivirus."
+    },
+    "charm": {
+     "score": 72,
+     "reason_ko": "도피 생활조차 다큐와 언론이 따라다닐 화제성",
+     "reason_en": "Even his life on the run drew cameras."
+    }
+   },
+   "inner_virtues": {
+    "temperance": {
+     "score": 18,
+     "reason_ko": "약물·무기·음모론에 빠져 절제가 거의 무너짐",
+     "reason_en": "Drugs, guns and conspiracy broke down restraint."
+    },
+    "diligence": {
+     "score": 50,
+     "reason_ko": "백신 개발엔 몰두했으나 이후 사업들은 중도 흐지부지",
+     "reason_en": "Obsessed over the antivirus; later ventures fizzled."
+    },
+    "reflection": {
+     "score": 30,
+     "reason_ko": "과거 음주는 인정했으나 문제는 줄곧 외부 탓으로 돌림",
+     "reason_en": "Owned past drinking but blamed the rest on others."
+    },
+    "courage": {
+     "score": 55,
+     "reason_ko": "수사망을 비웃듯 도피하며 당국에 공개 맞섬",
+     "reason_en": "Taunted authorities while on the run."
+    }
+   },
+   "outer_virtues": {
+    "loyalty": {
+     "score": 30,
+     "reason_ko": "창업 회사·동료·거처를 수시로 저버리고 떠남",
+     "reason_en": "Walked out on his company, colleagues and homes."
+    },
+    "benevolence": {
+     "score": 35,
+     "reason_ko": "벨리즈 경찰에 기부를 했으나 자기 호위 목적이 컸음",
+     "reason_en": "Donations to Belize police largely bought protection."
+    },
+    "fairness": {
+     "score": 30,
+     "reason_ko": "증거 없는 음모론과 상대방 비난을 반복",
+     "reason_en": "Repeated unsupported conspiracies and accusations."
+    },
+    "humility": {
+     "score": 15,
+     "reason_ko": "자신을 예언자·피해자로 포장한 자기 과시의 극치",
+     "reason_en": "Packaged himself as prophet and victim."
+    }
+   },
+   "dispositions": {
+    "pessimism_optimism": {
+     "score": -30,
+     "reason_ko": "정부·은행·언론이 자신을 노린다는 피해 전망",
+     "reason_en": "Saw government, banks and media arrayed against him."
+    },
+    "conservative_progressive": {
+     "score": 30,
+     "reason_ko": "국가 권위 자체를 부정하는 급진 자유주의",
+     "reason_en": "A radical libertarian who denied state authority."
+    },
+    "individual_social": {
+     "score": -45,
+     "reason_ko": "극단적 개인주의자로 어떤 공동체도 속하지 않음",
+     "reason_en": "An extreme individualist bound to no community."
+    },
+    "cautious_bold": {
+     "score": 40,
+     "reason_ko": "재산·자유·목숨을 걸고 도피와 도발을 감행",
+     "reason_en": "Staked fortune, freedom and life on flight and defiance."
+    }
+   },
+   "rationale_ko": "세계 첫 상용 바이러스 백신을 홀로 만든 재능이 산업 하나를 열었고, 회사를 상장 대기업으로 키운 경영력이 뒤따랐다. 그러나 부를 쥔 뒤의 삶은 약물·도피·음모론으로 흘러 절제와 충성이 무너졌다. 국가 권위를 부정하는 극단 자유주의가 살인 용의자 도피와 대선 출마라는 파격으로 이어졌다. 2021년 미국 송환을 앞둔 스페인 감옥에서 숨졌다.",
+   "rationale_en": "The talent that wrote the first commercial antivirus opened an industry, and the drive that took McAfee public followed it. But life after fortune slid into drugs, flight and conspiracy — temperance and loyalty collapsed. His radical anti-state libertarianism ran from a murder-suspect flight to a presidential bid. He died in a Spanish jail cell in 2021 awaiting extradition."
+  }
+ }
+}
