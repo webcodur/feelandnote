@@ -30,9 +30,9 @@ interface TimelineEvent {
 }
 
 async function main() {
-  const url = process.env.NEXT_PUBLIC_DB_API_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.DB_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) throw new Error('DB 접속 env 필요')
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url || !key) throw new Error('DB 접속 env(NEXT_PUBLIC_DB_API_URL/DB_SECRET_KEY)가 필요합니다.')
   const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
   const ledger = new Map<string, { celeb_id: string; slug: string }>()

@@ -13,7 +13,7 @@ import { createClient } from '@supabase/supabase-js'
 const LEDGER = resolve(process.cwd(), '../../data/celeb/new-figures')
 const PREV = JSON.parse(readFileSync(resolve(LEDGER, 'wikidata-qid-backfill.json'), 'utf8'))
 const APPLY = process.argv.includes('--apply')
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
 const UA = { 'User-Agent': 'FeelNote/1.0 (celeb qid backfill pass2)', Accept: 'application/json' }

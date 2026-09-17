@@ -98,9 +98,9 @@ async function main() {
   if (!dir) throw new Error('--dir <원장 디렉터리>가 필요합니다.')
   const apply = process.argv.includes('--apply')
 
-  const url = process.env.NEXT_PUBLIC_DB_API_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.DB_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) throw new Error('DB 접속 env(NEXT_PUBLIC_DB_API_URL/DB_SECRET_KEY 또는 SUPABASE 계열)이 필요합니다.')
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url || !key) throw new Error('DB 접속 env(NEXT_PUBLIC_DB_API_URL/DB_SECRET_KEY)가 필요합니다.')
   const client = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
   const dirPath = resolve(process.cwd(), dir)

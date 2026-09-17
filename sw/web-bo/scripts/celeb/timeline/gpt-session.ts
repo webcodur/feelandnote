@@ -13,7 +13,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const BO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..')
 const REPO_ROOT = path.resolve(BO_ROOT, '../..')
 
-async function loadSupabase() {
+async function loadDbClient() {
   try {
     return await import('@supabase/supabase-js')
   } catch {
@@ -44,14 +44,14 @@ function loadEnv() {
 }
 loadEnv()
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!supabaseUrl || !serviceRoleKey) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+const dbApiUrl = process.env.NEXT_PUBLIC_DB_API_URL
+const secretKey = process.env.DB_SECRET_KEY
+if (!dbApiUrl || !secretKey) {
+  throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY가 필요합니다.')
 }
 
-const { createClient } = await loadSupabase()
-const db = createClient(supabaseUrl, serviceRoleKey, {
+const { createClient } = await loadDbClient()
+const db = createClient(dbApiUrl, secretKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
 

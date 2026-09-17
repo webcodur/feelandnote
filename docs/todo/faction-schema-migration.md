@@ -50,7 +50,7 @@ faction_members(id, lv2_id→faction_lv2, lv3_id→faction_lv3 null,
 
 ## 후속 정리 (기능과 무관한 잔여)
 
-- [ ] **생성 타입 재생성** — `sw/web/src/types/database.generated.ts`는 수동 정합 상태다. 다음 스키마 변경 때 `supabase gen types`로 실제 재생성해 손으로 박은 정의와 실 DB의 차이를 없앤다.
+- [ ] **생성 타입 재생성** — `sw/web/src/types/database.generated.ts`는 수동 정합 상태다. 자체 호스팅 DB라 `supabase gen types` CLI 경로가 없으므로, 다음 스키마 변경 때 SSH 터널 + `pg` 메타쿼리나 제너레이터로 실 DB에서 재생성해 손으로 박은 정의와의 차이를 없앤다.
 - [ ] **RPC 인자명 `p_tag_id`** — `count_celebs_filtered`·`get_celebs_sorted` 등의 인자명이 아직 tag 명명. PostgREST는 인자를 이름으로 부르므로 바꾸려면 호출부(`db.rpc(..., { p_tag_id })`)와 같은 배포에서 같이 간다. 안 바꿔도 동작엔 무관하다.
 - [ ] **코드 명명 잔재** — `FactionTagItem` 타입, `getTagSharedLibrary`·`getTagChronologicalLibrary`·`getTagFigureBooks` 파일·함수명, `faction-theme-celebs.ts`·`faction-theme-groups.ts`, `tagIds` 지역변수, `tagId` 파라미터. 전부 lv2 세력을 가리키는데 옛 어휘가 남았다. 고칠 때는 파일별로 한 번에 몰아서 — 부분 개명은 검색을 어렵게 한다.
 - [ ] **캐시 태그 `'tags'`** — `web_revalidate_trigger`의 무효화 태그명이 아직 'tags'. 웹 캐시 키와 맞물린 내부 식별자라, 바꾸려면 `revalidateWebLists`의 태그 상수와 DB 트리거 인자를 같은 배포로 움직인다.

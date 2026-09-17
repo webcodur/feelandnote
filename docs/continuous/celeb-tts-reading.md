@@ -29,7 +29,7 @@ node --import tsx scripts/celeb/reading-voice-batch.mjs
 
 배치는 하네스의 백그라운드 작업으로 띄우지 않는다. 하네스는 메모리가 부족하면 백그라운드 작업을 강제 종료한다(2026-09-11 실측, `sw/web` 개발 서버가 10 GB를 쓰는 상태). `sw/web-bo`에서 PowerShell `Start-Process`로 독립 실행하고 PID를 기록해 그 PID만 끈다. 종료 감시는 로그 tail 파이프가 아니라 30초 폴링으로 배치 상태 파일과 PID를 본다.
 
-중단 사유별 대응: `FREE_KEYS_EXHAUSTED: daily`는 정상 종료다. `Could not recheck current DB source`는 Supabase 일시 장애로 연속 실패 상한에 걸린 것이라 바로 재시작하면 이어진다. 파이프라인은 항목마다 임시 파일 후 교체로 체크포인트를 남기므로 강제 종료돼도 확보분은 재사용된다.
+중단 사유별 대응: `FREE_KEYS_EXHAUSTED: daily`는 정상 종료다. `Could not recheck current DB source`는 DB 일시 장애로 연속 실패 상한에 걸린 것이라 바로 재시작하면 이어진다. 파이프라인은 항목마다 임시 파일 후 교체로 체크포인트를 남기므로 강제 종료돼도 확보분은 재사용된다.
 
 `--queue-file`은 26.09.13 이전까지 파서 키 불일치(`result['queue-file']` 대 `result.queueFile`)로 조용히 무시됐고, 합성 단계가 큐 대신 전체를 대상으로 삼았다. 고친 뒤로는 **합성 단계가 큐에 있는 항목만 합성한다.** `pending`으로 되돌린 항목은 반드시 합성 큐에 넣는다. 검수·등록 단계는 큐를 받지 않고 전체를 훑는다. 큐를 넘길 때는 `--dry-run`으로 `queuedFiles`가 큐 건수와 같은지 먼저 확인한다 — Git Bash 경로(`/c/...`)를 넘기면 Node가 파일을 못 찾아 다시 무시된다.
 

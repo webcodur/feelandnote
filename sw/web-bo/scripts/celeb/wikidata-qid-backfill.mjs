@@ -12,7 +12,7 @@ import { createClient } from '@supabase/supabase-js'
 
 const LEDGER = resolve(process.cwd(), '../../data/celeb/new-figures')
 const APPLY = process.argv.includes('--apply')
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
 
