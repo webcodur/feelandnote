@@ -270,7 +270,7 @@
         },
         "relationFallback": "{name}와의 관계가 등록되어 있습니다.",
         "works": "등장 작품",
-        "worksLead": "이 묶음에 등장하는 작품 — 고른 인물의 작품을 앞에 둡니다.",
+        "worksLead": "이 신화의 책과, 그 인물들이 등장하는 다른 작품.",
         "selectedWorks": "연결된 작품 {count}개",
         "traditionWorks": "이 묶음의 작품 {count}개",
         "appearsHere": "등장",
@@ -296,7 +296,12 @@
         "groupMemberCount": "{count}명",
         "groupDescriptionFallback": "이 그룹의 설명을 준비하고 있습니다.",
         "backToGroup": "그룹 개요로",
-        "groupCore": "핵심 인물 {count}인"
+        "groupCore": "핵심 인물 {count}인",
+        "worksDividerTitle": "구분선의 뜻",
+        "worksDividerLeft": "이 신화의 책",
+        "worksDividerLeftDesc": "이 신화를 직접 다루는 원전과 작품.",
+        "worksDividerRight": "다른 작품",
+        "worksDividerRightDesc": "이 신화의 인물이 등장하는 다른 이야기."
       },
       "relationMap": {
         "title": "관계망",

@@ -132,7 +132,7 @@ export default function MythPersonDetail({ person, tradition, works, onClose, ba
 
       {works.length > 0 && (
         <div className="bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
-          <MythWorkShelf works={works} selectedPersonId={person.id} />
+          <MythWorkShelf works={works} selectedPersonId={person.id} traditionName={tradition.name} traditionSlug={tradition.slug} />
         </div>
       )}
     </section>
