@@ -104,6 +104,13 @@ export default function MythAtlas({ data }: Props) {
       .map((id) => byId.get(id))
       .filter((person): person is MythPerson => Boolean(person));
   }, [activeGroup, activePeople]);
+  /* 대표 인물 — 전승이 따로 뽑은 3인을 타이틀 아트에 세운다. 인물 줄의 클러스터 차례와 무관하다 */
+  const leadPeople = useMemo(() => {
+    const byId = new Map(activePeople.map((person) => [person.id, person]));
+    return (activeTradition?.leadPersonIds ?? [])
+      .map((id) => byId.get(id))
+      .filter((person): person is MythPerson => Boolean(person));
+  }, [activeTradition, activePeople]);
   const activeIds = useMemo(() => new Set(activePeople.map((person) => person.id)), [activePeople]);
   const activeWorks = useMemo(
     () => data.works.filter((work) => work.personIds.some((id) => activeIds.has(id))),
@@ -223,7 +230,7 @@ export default function MythAtlas({ data }: Props) {
               {/* 인물을 고르기 전 본문 — 그룹을 고르지 않았으면 전승 개요, 그룹을 고르면 그 그룹 개요다.
                   인물 상세에서 뒤로 가면 보던 그룹 개요로 돌아온다 */}
               {!selectedPerson && !activeGroup && (
-                <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} leadPeople={activePeople.slice(0, 3)} onSelectPerson={choosePerson} />
+                <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} leadPeople={leadPeople} onSelectPerson={choosePerson} />
               )}
               {!selectedPerson && activeGroup && (
                 <MythGroupOverview key={`${activeTradition.id}-${activeGroup.id}`} tradition={activeTradition} group={activeGroup} people={railPeople} onSelectPerson={choosePerson} />

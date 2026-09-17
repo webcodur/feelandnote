@@ -25,6 +25,8 @@ export interface MythTradition {
   /** 이 전승의 테마곡 */
   music: FactionMusic | null;
   personIds: string[];
+  /** 타이틀 아트에 세우는 대표 인물 id — 차례가 곧 세우는 순서다. personIds 안의 id만 담는다 */
+  leadPersonIds: string[];
   /** 인물 묶음. 묶음이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다 */
   groups: MythGroup[];
 }
