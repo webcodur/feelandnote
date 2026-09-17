@@ -272,7 +272,7 @@
         },
         "relationFallback": "A relationship with {name} is recorded.",
         "works": "Works",
-        "worksLead": "Works in this collection — the selected figure’s works appear first.",
+        "worksLead": "This myth's own books, and other works featuring its figures.",
         "selectedWorks": "{count} connected works",
         "traditionWorks": "{count} works in this collection",
         "appearsHere": "APPEARS",
@@ -296,7 +296,12 @@
         "groupMemberCount": "{count, plural, one {# figure} other {# figures}}",
         "groupDescriptionFallback": "A description of this group is on its way.",
         "backToGroup": "Back to group overview",
-        "groupCore": "{count, plural, one {Key figure} other {# key figures}}"
+        "groupCore": "{count, plural, one {Key figure} other {# key figures}}",
+        "worksDividerTitle": "About the divider",
+        "worksDividerLeft": "This myth's books",
+        "worksDividerLeftDesc": "Source works that tell this myth directly.",
+        "worksDividerRight": "Other works",
+        "worksDividerRightDesc": "Other stories where this myth's figures appear."
       },
       "relationMap": {
         "title": "Relation Map",

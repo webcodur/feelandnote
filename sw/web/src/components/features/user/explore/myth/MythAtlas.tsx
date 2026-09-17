@@ -236,7 +236,7 @@ export default function MythAtlas({ data }: Props) {
               {/* 작품 선반 — 인물을 고르기 전 본문 아래에 같은 선반을 띄운다. 인물 상세 안의 선반과 같은 부품·같은 결 */}
               {!selectedPerson && shelfWorks.length > 0 && (
                 <div className="mt-4 overflow-hidden rounded-[24px] bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
-                  <MythWorkShelf key={`${activeTradition.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} selectedPersonId="" />
+                  <MythWorkShelf key={`${activeTradition.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} selectedPersonId="" traditionName={activeTradition.name} traditionSlug={activeTradition.slug} />
                 </div>
               )}
               {(selectedPerson ? selectedWorks : shelfWorks).every((work) => work.editionId === undefined && !work.coupangUrl) && (
