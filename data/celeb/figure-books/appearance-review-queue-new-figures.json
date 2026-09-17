@@ -1,0 +1,1853 @@
+{
+  "generatedAt": "2026-09-16T08:51:36.325Z",
+  "source": "/Users/ysj/Desktop/feelandnote/data/celeb/figure-books/appearance-muse-new-figures.jsonl",
+  "totals": {
+    "people": 573,
+    "peopleWithBooks": 51,
+    "bookRows": 71,
+    "reuseExistingWork": 4,
+    "newWorkCandidates": 62,
+    "newWorkDistinctIsbns": 61,
+    "unverifiedByKakao": 5
+  },
+  "reuse": [
+    {
+      "person": {
+        "id": "0a2497ac-875f-4ec8-a58d-d11803ada53c",
+        "slug": "grace-hopper",
+        "nickname": "그레이스 호퍼",
+        "profession": "scientist",
+        "score": 55
+      },
+      "title": "그레이스 호퍼",
+      "creator": "박주혜 글, 이해정 그림",
+      "publisher": "비룡소",
+      "evidenceUrl": "https://product.kyobobook.co.kr/detail/S000209126288",
+      "scope": "최초 컴파일러 개발부터 COBOL 탄생, 버그 일화까지 그레이스 호퍼의 전 생애를 어린이 독자 눈높이로 다룬 인물 전기.",
+      "kakao": {
+        "title": "그레이스 호퍼",
+        "authors": [
+          "박주혜"
+        ],
+        "translators": [],
+        "publisher": "비룡소",
+        "isbn": "9788949129488",
+        "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6439740%3Ftimestamp%3D20250418153236",
+        "datetime": "2023-09-15T00:00:00.000+09:00",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=6439740&q=%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%8A%A4+%ED%98%B8%ED%8D%BC",
+        "status": "정상판매",
+        "price": 11000,
+        "salePrice": 9900
+      },
+      "kakaoReason": "creator_and_publisher",
+      "contentId": "0d3de47b-29d0-5f51-ab11-d04059171f59",
+      "knownTitle": "그레이스 호퍼",
+      "matchedBy": "content_locales"
+    },
+    {
+      "person": {
+        "id": "0a2497ac-875f-4ec8-a58d-d11803ada53c",
+        "slug": "grace-hopper",
+        "nickname": "그레이스 호퍼",
+        "profession": "scientist",
+        "score": 55
+      },
+      "title": "그레이스 호퍼",
+      "creator": "커트 W. 베이어 저, 이재범 역",
+      "publisher": "지식함지",
+      "evidenceUrl": "https://www.yes24.com/product/goods/57609504",
+      "scope": "하버드 마크 I 참여, 최초 컴파일러 개발, COBOL 표준화 등 그레이스 호퍼의 생애 전체를 컴퓨터 산업 초기 역사와 함께 심층 조명한 단독 전기.",
+      "kakao": {
+        "title": "그레이스 호퍼: 정보시대를 발명한 여인",
+        "authors": [
+          "커트 W 베이어"
+        ],
+        "translators": [
+          "이재범"
+        ],
+        "publisher": "지식함지",
+        "isbn": "9791195258499",
+        "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1649216%3Ftimestamp%3D20251125110937",
+        "datetime": "2017-12-18T00:00:00.000+09:00",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1649216&q=%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%8A%A4+%ED%98%B8%ED%8D%BC%3A+%EC%A0%95%EB%B3%B4%EC%8B%9C%EB%8C%80%EB%A5%BC+%EB%B0%9C%EB%AA%85%ED%95%9C+%EC%97%AC%EC%9D%B8",
+        "status": "정상판매",
+        "price": 14800,
+        "salePrice": 13320
+      },
+      "kakaoReason": "creator_and_publisher",
+      "contentId": "412016ae-c03f-593e-9d4c-6298c8eed5c7",
+      "knownTitle": "그레이스 호퍼: 정보시대를 발명한 여인",
+      "matchedBy": "content_locales"
+    },
+    {
+      "person": {
+        "id": "3b2c3aa9-3ceb-4b72-9897-6def3b48eaa5",
+        "slug": "jakob-fugger",
+        "nickname": "야코프 푸거",
+        "profession": "entrepreneur",
+        "score": 51
+      },
+      "title": "자본가의 탄생",
+      "creator": "그레그 스타인메츠 (노승영 옮김)",
+      "publisher": "부키",
+      "evidenceUrl": "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=176726543",
+      "scope": "야코프 푸거의 생애와 사업 방식을 중심으로 그가 합스부르크 황제 선출과 교황청 금융을 좌지우지한 전 과정을 전기 형식으로 다룬다.",
+      "kakao": {
+        "title": "자본가의 탄생",
+        "authors": [
+          "그레그 스타인메츠"
+        ],
+        "translators": [
+          "노승영"
+        ],
+        "publisher": "부키",
+        "isbn": "9788960516816",
+        "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F4844570%3Ftimestamp%3D20260104113922",
+        "datetime": "2018-12-24T00:00:00.000+09:00",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=4844570&q=%EC%9E%90%EB%B3%B8%EA%B0%80%EC%9D%98+%ED%83%84%EC%83%9D",
+        "status": "정상판매",
+        "price": 18000,
+        "salePrice": 16200
+      },
+      "kakaoReason": "creator_and_publisher",
+      "contentId": "4a851cf9-b29b-5014-8c19-cafb553f645b",
+      "knownTitle": "자본가의 탄생",
+      "matchedBy": "content_locales"
+    },
+    {
+      "person": {
+        "id": "fd81adb3-a4c2-4609-b1ed-3c1ec05b6862",
+        "slug": "qian-xuesen",
+        "nickname": "치엔 쉐썬",
+        "profession": "scientist",
+        "score": 48
+      },
+      "title": "중국 로켓의 아버지 첸쉐썬",
+      "creator": "아이리스 장 (Iris Chang) 저, 이정훈 역",
+      "publisher": "역사인",
+      "evidenceUrl": "https://www.aladin.co.kr/shop/wproduct.aspx?ISBN=9788996724339",
+      "scope": "첸쉐썬의 출생부터 MIT·칼텍 시절, 매카시즘에 의한 추방, 중국 귀환 후 미사일·우주 프로그램 주도까지 전 생애를 중심 대상으로 다룬 전기",
+      "kakao": {
+        "title": "중국 로켓의 아버지 첸쉐썬",
+        "authors": [
+          "아이리스 장"
+        ],
+        "translators": [
+          "이정훈"
+        ],
+        "publisher": "역사인",
+        "isbn": "9788996724339",
+        "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1469440%3Ftimestamp%3D20190130055913",
+        "datetime": "2013-12-10T00:00:00.000+09:00",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1469440&q=%EC%A4%91%EA%B5%AD+%EB%A1%9C%EC%BC%93%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EC%B2%B8%EC%89%90%EC%8D%AC",
+        "status": "정상판매",
+        "price": 23000,
+        "salePrice": 20700
+      },
+      "kakaoReason": "creator_and_publisher",
+      "contentId": "1453bf58-ab9e-58e0-b250-8b9458d0b6e2",
+      "knownTitle": "중국 로켓의 아버지 첸쉐썬",
+      "matchedBy": "content_locales"
+    }
+  ],
+  "fresh": [
+    {
+      "person": {
+        "id": "aaee84fe-c54f-4642-9e0c-15f98109d8e3",
+        "slug": "amelia-earhart",
+        "nickname": "어밀리아 에어하트",
+        "profession": "other",
+        "score": 31
+      },
+      "title": "어밀리아 에어하트(디어 피플)(양장본 HardCover)",
+      "creator": "Isabel Thomas",
+      "publisher": "웅진주니어",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=4888679&q=%EC%96%B4%EB%B0%80%EB%A6%AC%EC%95%84+%EC%97%90%EC%96%B4%ED%95%98%ED%8A%B8%28%EB%94%94%EC%96%B4+%ED%94%BC%ED%94%8C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "어밀리아 에어하트(디어 피플)(양장본 HardCover)",
+        "authors": [
+          "Isabel Thomas"
+        ],
+        "publisher": "웅진주니어",
+        "isbn": "8901229676 9788901229676",
+        "datetime": "2019-02-18T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=4888679&q=%EC%96%B4%EB%B0%80%EB%A6%AC%EC%95%84+%EC%97%90%EC%96%B4%ED%95%98%ED%8A%B8%28%EB%94%94%EC%96%B4+%ED%94%BC%ED%94%8C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "0318cc1c-1d19-49f2-b073-0ab1d4b24b75",
+        "slug": "banksy",
+        "nickname": "뱅크시",
+        "profession": "visual_artist",
+        "score": 30
+      },
+      "title": "뱅크시",
+      "creator": "Antonelli Stefano, Marziani Gianluca",
+      "publisher": "본북스",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=6631360&q=%EB%B1%85%ED%81%AC%EC%8B%9C",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "뱅크시",
+        "authors": [
+          "Antonelli Stefano",
+          "Marziani Gianluca"
+        ],
+        "publisher": "본북스",
+        "isbn": "1187401463 9791187401469",
+        "datetime": "2024-05-10T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=6631360&q=%EB%B1%85%ED%81%AC%EC%8B%9C"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "0318cc1c-1d19-49f2-b073-0ab1d4b24b75",
+        "slug": "banksy",
+        "nickname": "뱅크시",
+        "profession": "visual_artist",
+        "score": 30
+      },
+      "title": "뱅크시: 벽 뒤의 남자",
+      "creator": "윌 엘즈워스-존스",
+      "publisher": "미술문화",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5889136&q=%EB%B1%85%ED%81%AC%EC%8B%9C%3A+%EB%B2%BD+%EB%92%A4%EC%9D%98+%EB%82%A8%EC%9E%90",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "뱅크시: 벽 뒤의 남자",
+        "authors": [
+          "윌 엘즈워스-존스"
+        ],
+        "publisher": "미술문화",
+        "isbn": "1185954813 9791185954813",
+        "datetime": "2021-11-17T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5889136&q=%EB%B1%85%ED%81%AC%EC%8B%9C%3A+%EB%B2%BD+%EB%92%A4%EC%9D%98+%EB%82%A8%EC%9E%90"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "0318cc1c-1d19-49f2-b073-0ab1d4b24b75",
+        "slug": "banksy",
+        "nickname": "뱅크시",
+        "profession": "visual_artist",
+        "score": 30
+      },
+      "title": "아트 테러리스트 뱅크시 그래피티로 세상에 저항하다",
+      "creator": "마틴 불",
+      "publisher": "리스컴",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1347462&q=%EC%95%84%ED%8A%B8+%ED%85%8C%EB%9F%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8+%EB%B1%85%ED%81%AC%EC%8B%9C+%EA%B7%B8%EB%9E%98%ED%94%BC%ED%8B%B0%EB%A1%9C+%EC%84%B8%EC%83%81%EC%97%90+%EC%A0%80%ED%95%AD%ED%95%98%EB%8B%A4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "아트 테러리스트 뱅크시 그래피티로 세상에 저항하다",
+        "authors": [
+          "마틴 불"
+        ],
+        "publisher": "리스컴",
+        "isbn": "899119396X 9788991193963",
+        "datetime": "2013-08-01T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1347462&q=%EC%95%84%ED%8A%B8+%ED%85%8C%EB%9F%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8+%EB%B1%85%ED%81%AC%EC%8B%9C+%EA%B7%B8%EB%9E%98%ED%94%BC%ED%8B%B0%EB%A1%9C+%EC%84%B8%EC%83%81%EC%97%90+%EC%A0%80%ED%95%AD%ED%95%98%EB%8B%A4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "3533dee2-8f85-45bf-98bf-aaae8c9fa52d",
+        "slug": "buffalo-bill",
+        "nickname": "버팔로 빌",
+        "profession": "other",
+        "score": 35
+      },
+      "title": "대지의 슬픔",
+      "creator": "에리크 뷔야르",
+      "publisher": "열린책들",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5247189&q=%EB%8C%80%EC%A7%80%EC%9D%98+%EC%8A%AC%ED%94%94",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "대지의 슬픔",
+        "authors": [
+          "에리크 뷔야르"
+        ],
+        "publisher": "열린책들",
+        "isbn": "8932920044 9788932920047",
+        "datetime": "2020-02-20T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5247189&q=%EB%8C%80%EC%A7%80%EC%9D%98+%EC%8A%AC%ED%94%94"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "81fa6ee9-c066-441c-81f8-0bf3a9db1aad",
+        "slug": "count-of-st.-germain",
+        "nickname": "생제르맹 백작",
+        "profession": "other",
+        "score": 22
+      },
+      "title": "생제르맹 백작 : 죽지 않는 남자?",
+      "creator": "기획부",
+      "publisher": "늘봄B",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=6861029&q=%EC%83%9D%EC%A0%9C%EB%A5%B4%EB%A7%B9+%EB%B0%B1%EC%9E%91+%3A+%EC%A3%BD%EC%A7%80+%EC%95%8A%EB%8A%94+%EB%82%A8%EC%9E%90%3F",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "생제르맹 백작 : 죽지 않는 남자?",
+        "authors": [
+          "기획부"
+        ],
+        "publisher": "늘봄B",
+        "isbn": " 9791194739043",
+        "datetime": "2025-03-06T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=6861029&q=%EC%83%9D%EC%A0%9C%EB%A5%B4%EB%A7%B9+%EB%B0%B1%EC%9E%91+%3A+%EC%A3%BD%EC%A7%80+%EC%95%8A%EB%8A%94+%EB%82%A8%EC%9E%90%3F"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "bf9aa365-94df-41b7-a5ad-cf9afee7391b",
+        "slug": "crazy-horse",
+        "nickname": "크레이지 호스",
+        "profession": "commander",
+        "score": 32
+      },
+      "title": "인디언의 전설 크레이지 호스",
+      "creator": "마리 산도스",
+      "publisher": "휴머니스트",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1311876&q=%EC%9D%B8%EB%94%94%EC%96%B8%EC%9D%98+%EC%A0%84%EC%84%A4+%ED%81%AC%EB%A0%88%EC%9D%B4%EC%A7%80+%ED%98%B8%EC%8A%A4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "인디언의 전설 크레이지 호스",
+        "authors": [
+          "마리 산도스"
+        ],
+        "publisher": "휴머니스트",
+        "isbn": "8989899486 9788989899488",
+        "datetime": "2003-04-21T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1311876&q=%EC%9D%B8%EB%94%94%EC%96%B8%EC%9D%98+%EC%A0%84%EC%84%A4+%ED%81%AC%EB%A0%88%EC%9D%B4%EC%A7%80+%ED%98%B8%EC%8A%A4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "312fbc8c-59c5-4e47-b6ec-640e1470136f",
+        "slug": "david-livingstone",
+        "nickname": "데이비드 리빙스턴",
+        "profession": "humanities_scholar",
+        "score": 36
+      },
+      "title": "데이비드 리빙스턴(믿음의 거장 시리즈 20: 선교)(양장본 HardCover)",
+      "creator": "김학중",
+      "publisher": "넥서스CROSS",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=821624&q=%EB%8D%B0%EC%9D%B4%EB%B9%84%EB%93%9C+%EB%A6%AC%EB%B9%99%EC%8A%A4%ED%84%B4%28%EB%AF%BF%EC%9D%8C%EC%9D%98+%EA%B1%B0%EC%9E%A5+%EC%8B%9C%EB%A6%AC%EC%A6%88+20%3A+%EC%84%A0%EA%B5%90%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "데이비드 리빙스턴(믿음의 거장 시리즈 20: 선교)(양장본 HardCover)",
+        "authors": [
+          "김학중"
+        ],
+        "publisher": "넥서스CROSS",
+        "isbn": "8960008435 9788960008434",
+        "datetime": "2012-02-15T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=821624&q=%EB%8D%B0%EC%9D%B4%EB%B9%84%EB%93%9C+%EB%A6%AC%EB%B9%99%EC%8A%A4%ED%84%B4%28%EB%AF%BF%EC%9D%8C%EC%9D%98+%EA%B1%B0%EC%9E%A5+%EC%8B%9C%EB%A6%AC%EC%A6%88+20%3A+%EC%84%A0%EA%B5%90%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "885c2fb3-ba16-4d3f-b3e3-64735f8fc502",
+        "slug": "ernest-shackleton",
+        "nickname": "어니스트 섀클턴",
+        "profession": "other",
+        "score": 20
+      },
+      "title": "Who? 어니스트 섀클턴",
+      "creator": "박연아",
+      "publisher": "다산어린이",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=4737196&q=Who%3F+%EC%96%B4%EB%8B%88%EC%8A%A4%ED%8A%B8+%EC%84%80%ED%81%B4%ED%84%B4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "Who? 어니스트 섀클턴",
+        "authors": [
+          "박연아"
+        ],
+        "publisher": "다산어린이",
+        "isbn": " 4801185431292",
+        "datetime": "2014-02-25T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=4737196&q=Who%3F+%EC%96%B4%EB%8B%88%EC%8A%A4%ED%8A%B8+%EC%84%80%ED%81%B4%ED%84%B4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "885c2fb3-ba16-4d3f-b3e3-64735f8fc502",
+        "slug": "ernest-shackleton",
+        "nickname": "어니스트 섀클턴",
+        "profession": "other",
+        "score": 20
+      },
+      "title": "어니스트 섀클턴 극한상황 리더십",
+      "creator": "데니스 NT 퍼킨스, 마거릿 P 홀츠먼, 질리언 B 머피",
+      "publisher": "뜨인돌출판사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=772327&q=%EC%96%B4%EB%8B%88%EC%8A%A4%ED%8A%B8+%EC%84%80%ED%81%B4%ED%84%B4+%EA%B7%B9%ED%95%9C%EC%83%81%ED%99%A9+%EB%A6%AC%EB%8D%94%EC%8B%AD",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "어니스트 섀클턴 극한상황 리더십",
+        "authors": [
+          "데니스 NT 퍼킨스",
+          "마거릿 P 홀츠먼",
+          "질리언 B 머피"
+        ],
+        "publisher": "뜨인돌출판사",
+        "isbn": "8958076607 9788958076605",
+        "datetime": "2017-08-28T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=772327&q=%EC%96%B4%EB%8B%88%EC%8A%A4%ED%8A%B8+%EC%84%80%ED%81%B4%ED%84%B4+%EA%B7%B9%ED%95%9C%EC%83%81%ED%99%A9+%EB%A6%AC%EB%8D%94%EC%8B%AD"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "1ce5c8c0-a3f4-4c3d-9044-62c53c75dbc9",
+        "slug": "george-eastman",
+        "nickname": "조지 이스트먼",
+        "profession": "entrepreneur",
+        "score": 46
+      },
+      "title": "조지 이스트먼",
+      "creator": "칼 액커먼",
+      "publisher": "눈빛",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1033610&q=%EC%A1%B0%EC%A7%80+%EC%9D%B4%EC%8A%A4%ED%8A%B8%EB%A8%BC",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "조지 이스트먼",
+        "authors": [
+          "칼 액커먼"
+        ],
+        "publisher": "눈빛",
+        "isbn": "8974097087 9788974097080",
+        "datetime": "2011-04-22T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1033610&q=%EC%A1%B0%EC%A7%80+%EC%9D%B4%EC%8A%A4%ED%8A%B8%EB%A8%BC"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "1ce5c8c0-a3f4-4c3d-9044-62c53c75dbc9",
+        "slug": "george-eastman",
+        "nickname": "조지 이스트먼",
+        "profession": "entrepreneur",
+        "score": 46
+      },
+      "title": "발명가 Mr.코닥(호기심 팡팡 지식이 쏙쏙 2)(양장본 HardCover)",
+      "creator": "모니카 쿨링",
+      "publisher": "달과소",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1345857&q=%EB%B0%9C%EB%AA%85%EA%B0%80+Mr.%EC%BD%94%EB%8B%A5%28%ED%98%B8%EA%B8%B0%EC%8B%AC+%ED%8C%A1%ED%8C%A1+%EC%A7%80%EC%8B%9D%EC%9D%B4+%EC%8F%99%EC%8F%99+2%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "발명가 Mr.코닥(호기심 팡팡 지식이 쏙쏙 2)(양장본 HardCover)",
+        "authors": [
+          "모니카 쿨링"
+        ],
+        "publisher": "달과소",
+        "isbn": "899122363X 9788991223639",
+        "datetime": "2015-04-17T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1345857&q=%EB%B0%9C%EB%AA%85%EA%B0%80+Mr.%EC%BD%94%EB%8B%A5%28%ED%98%B8%EA%B8%B0%EC%8B%AC+%ED%8C%A1%ED%8C%A1+%EC%A7%80%EC%8B%9D%EC%9D%B4+%EC%8F%99%EC%8F%99+2%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "cb3405d3-cbdd-4f02-8cd9-82f8b455a7a7",
+        "slug": "geronimo",
+        "nickname": "제로니모",
+        "profession": "commander",
+        "score": 31
+      },
+      "title": "제로니모",
+      "creator": "포리스터 카터",
+      "publisher": "아름드리미디어",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1271110&q=%EC%A0%9C%EB%A1%9C%EB%8B%88%EB%AA%A8",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "제로니모",
+        "authors": [
+          "포리스터 카터"
+        ],
+        "publisher": "아름드리미디어",
+        "isbn": "8988404289 9788988404287",
+        "datetime": "2001-09-05T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1271110&q=%EC%A0%9C%EB%A1%9C%EB%8B%88%EB%AA%A8"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "8fe6ca6d-f2f5-47aa-8d1c-796ad9034923",
+        "slug": "hedy-lamarr",
+        "nickname": "헤디 라머",
+        "profession": "actor",
+        "score": 33
+      },
+      "title": "와이파이 기술을 발명한 영화배우 헤디 라마",
+      "creator": "로리 월마크",
+      "publisher": "두레아이들",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5458491&q=%EC%99%80%EC%9D%B4%ED%8C%8C%EC%9D%B4+%EA%B8%B0%EC%88%A0%EC%9D%84+%EB%B0%9C%EB%AA%85%ED%95%9C+%EC%98%81%ED%99%94%EB%B0%B0%EC%9A%B0+%ED%97%A4%EB%94%94+%EB%9D%BC%EB%A7%88",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "와이파이 기술을 발명한 영화배우 헤디 라마",
+        "authors": [
+          "로리 월마크"
+        ],
+        "publisher": "두레아이들",
+        "isbn": "8991550495 9788991550490",
+        "datetime": "2020-08-25T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5458491&q=%EC%99%80%EC%9D%B4%ED%8C%8C%EC%9D%B4+%EA%B8%B0%EC%88%A0%EC%9D%84+%EB%B0%9C%EB%AA%85%ED%95%9C+%EC%98%81%ED%99%94%EB%B0%B0%EC%9A%B0+%ED%97%A4%EB%94%94+%EB%9D%BC%EB%A7%88"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "8fe6ca6d-f2f5-47aa-8d1c-796ad9034923",
+        "slug": "hedy-lamarr",
+        "nickname": "헤디 라머",
+        "profession": "actor",
+        "score": 33
+      },
+      "title": "헤디 라마, 가장 경이로운 배우",
+      "creator": "윌리엄 로이",
+      "publisher": "BH balance & harmony",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5136239&q=%ED%97%A4%EB%94%94+%EB%9D%BC%EB%A7%88%2C+%EA%B0%80%EC%9E%A5+%EA%B2%BD%EC%9D%B4%EB%A1%9C%EC%9A%B4+%EB%B0%B0%EC%9A%B0",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "헤디 라마, 가장 경이로운 배우",
+        "authors": [
+          "윌리엄 로이"
+        ],
+        "publisher": "BH balance & harmony",
+        "isbn": "115971228X 9791159712289",
+        "datetime": "2019-11-20T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5136239&q=%ED%97%A4%EB%94%94+%EB%9D%BC%EB%A7%88%2C+%EA%B0%80%EC%9E%A5+%EA%B2%BD%EC%9D%B4%EB%A1%9C%EC%9A%B4+%EB%B0%B0%EC%9A%B0"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "35d9018b-bf6b-4c1d-b261-6a5627212515",
+        "slug": "heinrich-schliemann",
+        "nickname": "하인리히 슐리만",
+        "profession": "entrepreneur",
+        "score": 34
+      },
+      "title": "Who? 하인리히 슐리만",
+      "creator": "이숙자",
+      "publisher": "다산어린이",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=4739608&q=Who%3F+%ED%95%98%EC%9D%B8%EB%A6%AC%ED%9E%88+%EC%8A%90%EB%A6%AC%EB%A7%8C",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "Who? 하인리히 슐리만",
+        "authors": [
+          "이숙자"
+        ],
+        "publisher": "다산어린이",
+        "isbn": " 4801185431735",
+        "datetime": "2014-02-26T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=4739608&q=Who%3F+%ED%95%98%EC%9D%B8%EB%A6%AC%ED%9E%88+%EC%8A%90%EB%A6%AC%EB%A7%8C"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "35d9018b-bf6b-4c1d-b261-6a5627212515",
+        "slug": "heinrich-schliemann",
+        "nickname": "하인리히 슐리만",
+        "profession": "entrepreneur",
+        "score": 34
+      },
+      "title": "하인리히 슐리만의 트로이 발굴",
+      "creator": "에른스트 마이어",
+      "publisher": "삼하",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1245676&q=%ED%95%98%EC%9D%B8%EB%A6%AC%ED%9E%88+%EC%8A%90%EB%A6%AC%EB%A7%8C%EC%9D%98+%ED%8A%B8%EB%A1%9C%EC%9D%B4+%EB%B0%9C%EA%B5%B4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "하인리히 슐리만의 트로이 발굴",
+        "authors": [
+          "에른스트 마이어"
+        ],
+        "publisher": "삼하",
+        "isbn": "8986800098 9788986800098",
+        "datetime": "1996-12-10T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1245676&q=%ED%95%98%EC%9D%B8%EB%A6%AC%ED%9E%88+%EC%8A%90%EB%A6%AC%EB%A7%8C%EC%9D%98+%ED%8A%B8%EB%A1%9C%EC%9D%B4+%EB%B0%9C%EA%B5%B4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "5d9739d9-1cc5-48d3-b7db-fd74c719b2a9",
+        "slug": "hendrik-hamel",
+        "nickname": "헨드릭 하멜",
+        "profession": "author",
+        "score": 19
+      },
+      "title": "헨드릭 하멜",
+      "creator": "박현진",
+      "publisher": "작가와비평",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5430981&q=%ED%97%A8%EB%93%9C%EB%A6%AD+%ED%95%98%EB%A9%9C",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "헨드릭 하멜",
+        "authors": [
+          "박현진"
+        ],
+        "publisher": "작가와비평",
+        "isbn": "1155922530 9791155922538",
+        "datetime": "2020-08-10T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5430981&q=%ED%97%A8%EB%93%9C%EB%A6%AD+%ED%95%98%EB%A9%9C"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "7986e29b-d3e0-48d7-a79a-8e89d1a146e7",
+        "slug": "hideo-kojima",
+        "nickname": "코지마 히데오",
+        "profession": "director",
+        "score": 33
+      },
+      "title": "코지마 히데오의 게임론",
+      "creator": "브라이언 히카리 하츠하임",
+      "publisher": "AK TRVIA BOOK",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=7195597&q=%EC%BD%94%EC%A7%80%EB%A7%88+%ED%9E%88%EB%8D%B0%EC%98%A4%EC%9D%98+%EA%B2%8C%EC%9E%84%EB%A1%A0",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "코지마 히데오의 게임론",
+        "authors": [
+          "브라이언 히카리 하츠하임"
+        ],
+        "publisher": "AK TRVIA BOOK",
+        "isbn": "1127426990 9791127426996",
+        "datetime": "2026-04-10T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=7195597&q=%EC%BD%94%EC%A7%80%EB%A7%88+%ED%9E%88%EB%8D%B0%EC%98%A4%EC%9D%98+%EA%B2%8C%EC%9E%84%EB%A1%A0"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "024ba282-15f7-4a99-97cd-9922ddef72ed",
+        "slug": "howard-hughes",
+        "nickname": "하워드 휴즈",
+        "profession": "entrepreneur",
+        "score": 39
+      },
+      "title": "하워드 휴즈의 제국",
+      "creator": "도널드 발렛",
+      "publisher": "들녘",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1054983&q=%ED%95%98%EC%9B%8C%EB%93%9C+%ED%9C%B4%EC%A6%88%EC%9D%98+%EC%A0%9C%EA%B5%AD",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "하워드 휴즈의 제국",
+        "authors": [
+          "도널드 발렛"
+        ],
+        "publisher": "들녘",
+        "isbn": "8975274624 9788975274626",
+        "datetime": "2005-02-18T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1054983&q=%ED%95%98%EC%9B%8C%EB%93%9C+%ED%9C%B4%EC%A6%88%EC%9D%98+%EC%A0%9C%EA%B5%AD"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "024ba282-15f7-4a99-97cd-9922ddef72ed",
+        "slug": "howard-hughes",
+        "nickname": "하워드 휴즈",
+        "profession": "entrepreneur",
+        "score": 39
+      },
+      "title": "에비에이터 하워드 휴즈",
+      "creator": "조지 J 마레트",
+      "publisher": "달과소",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1336307&q=%EC%97%90%EB%B9%84%EC%97%90%EC%9D%B4%ED%84%B0+%ED%95%98%EC%9B%8C%EB%93%9C+%ED%9C%B4%EC%A6%88",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "에비에이터 하워드 휴즈",
+        "authors": [
+          "조지 J 마레트"
+        ],
+        "publisher": "달과소",
+        "isbn": "8991223060 9788991223066",
+        "datetime": "2005-02-21T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1336307&q=%EC%97%90%EB%B9%84%EC%97%90%EC%9D%B4%ED%84%B0+%ED%95%98%EC%9B%8C%EB%93%9C+%ED%9C%B4%EC%A6%88"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "024ba282-15f7-4a99-97cd-9922ddef72ed",
+        "slug": "howard-hughes",
+        "nickname": "하워드 휴즈",
+        "profession": "entrepreneur",
+        "score": 39
+      },
+      "title": "억만장자 하워드 휴즈",
+      "creator": "노아 디트리히",
+      "publisher": "일신서적출판사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=536801&q=%EC%96%B5%EB%A7%8C%EC%9E%A5%EC%9E%90+%ED%95%98%EC%9B%8C%EB%93%9C+%ED%9C%B4%EC%A6%88",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "억만장자 하워드 휴즈",
+        "authors": [
+          "노아 디트리히"
+        ],
+        "publisher": "일신서적출판사",
+        "isbn": "8936615041 9788936615048",
+        "datetime": "1993-08-01T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=536801&q=%EC%96%B5%EB%A7%8C%EC%9E%A5%EC%9E%90+%ED%95%98%EC%9B%8C%EB%93%9C+%ED%9C%B4%EC%A6%88"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "ddf5db72-aa1d-4cf5-842c-e3887571ec6e",
+        "slug": "ibn-battuta",
+        "nickname": "이븐 바투타",
+        "profession": "author",
+        "score": 35
+      },
+      "title": "이븐 바투타의 오디세이",
+      "creator": "데이비드 웨인스",
+      "publisher": "산처럼",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1311378&q=%EC%9D%B4%EB%B8%90+%EB%B0%94%ED%88%AC%ED%83%80%EC%9D%98+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "이븐 바투타의 오디세이",
+        "authors": [
+          "데이비드 웨인스"
+        ],
+        "publisher": "산처럼",
+        "isbn": "899006239X 9788990062390",
+        "datetime": "2011-03-10T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1311378&q=%EC%9D%B4%EB%B8%90+%EB%B0%94%ED%88%AC%ED%83%80%EC%9D%98+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "ddf5db72-aa1d-4cf5-842c-e3887571ec6e",
+        "slug": "ibn-battuta",
+        "nickname": "이븐 바투타",
+        "profession": "author",
+        "score": 35
+      },
+      "title": "이븐 바투타의 여행",
+      "creator": "제임스 럼포드",
+      "publisher": "풀빛",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1047519&q=%EC%9D%B4%EB%B8%90+%EB%B0%94%ED%88%AC%ED%83%80%EC%9D%98+%EC%97%AC%ED%96%89",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "이븐 바투타의 여행",
+        "authors": [
+          "제임스 럼포드"
+        ],
+        "publisher": "풀빛",
+        "isbn": "8974749548 9788974749545",
+        "datetime": "2003-07-30T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1047519&q=%EC%9D%B4%EB%B8%90+%EB%B0%94%ED%88%AC%ED%83%80%EC%9D%98+%EC%97%AC%ED%96%89"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "b322912e-63cc-4a60-8ec5-c290a458aa12",
+        "slug": "idi-amin",
+        "nickname": "이디 아민",
+        "profession": "leader",
+        "score": 33
+      },
+      "title": "이디아민",
+      "creator": "헨리 키에바",
+      "publisher": "미래문화사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=82785&q=%EC%9D%B4%EB%94%94%EC%95%84%EB%AF%BC",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "이디아민",
+        "authors": [
+          "헨리 키에바"
+        ],
+        "publisher": "미래문화사",
+        "isbn": " 2002292001619",
+        "datetime": "1990-11-01T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=82785&q=%EC%9D%B4%EB%94%94%EC%95%84%EB%AF%BC"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "ed0a8be4-a6cb-410a-a941-27dc34eaa500",
+        "slug": "isabella-bird",
+        "nickname": "이사벨라 버드",
+        "profession": "author",
+        "score": 21
+      },
+      "title": "이사벨라 버드(양장본 Hardcover)",
+      "creator": "이블린 케이",
+      "publisher": "바움",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=788156&q=%EC%9D%B4%EC%82%AC%EB%B2%A8%EB%9D%BC+%EB%B2%84%EB%93%9C%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "이사벨라 버드(양장본 Hardcover)",
+        "authors": [
+          "이블린 케이"
+        ],
+        "publisher": "바움",
+        "isbn": "8958830565 9788958830566",
+        "datetime": "2008-05-06T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=788156&q=%EC%9D%B4%EC%82%AC%EB%B2%A8%EB%9D%BC+%EB%B2%84%EB%93%9C%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "399eec5e-014a-43ed-8fb0-2cc4ed283c89",
+        "slug": "jack-sheppard",
+        "nickname": "잭 셰퍼드",
+        "profession": "other",
+        "score": 23
+      },
+      "title": "잭세퍼드의 인생과 부당한이용.The Life and Surprising Exploits of Jack...",
+      "creator": "Anonymous",
+      "publisher": "뉴가출판사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5392300&q=%EC%9E%AD%EC%84%B8%ED%8D%BC%EB%93%9C%EC%9D%98+%EC%9D%B8%EC%83%9D%EA%B3%BC+%EB%B6%80%EB%8B%B9%ED%95%9C%EC%9D%B4%EC%9A%A9.The+Life+and+Surprising+Exploits+of+Jack+Sheppard%2C+by+Anonymous",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "잭세퍼드의 인생과 부당한이용.The Life and Surprising Exploits of Jack...",
+        "authors": [
+          "Anonymous"
+        ],
+        "publisher": "뉴가출판사",
+        "isbn": " 9791190842341",
+        "datetime": "2020-06-09T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5392300&q=%EC%9E%AD%EC%84%B8%ED%8D%BC%EB%93%9C%EC%9D%98+%EC%9D%B8%EC%83%9D%EA%B3%BC+%EB%B6%80%EB%8B%B9%ED%95%9C%EC%9D%B4%EC%9A%A9.The+Life+and+Surprising+Exploits+of+Jack+Sheppard%2C+by+Anonymous"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "61b19fb4-3fba-438b-a4ed-ce0ced82d814",
+        "slug": "jacques-cousteau",
+        "nickname": "자크 쿠스토",
+        "profession": "other",
+        "score": 48
+      },
+      "title": "자크이브 쿠스토(20세기 최고의 해저 탐험가)",
+      "creator": "베르나르 비올레",
+      "publisher": "사이언스북스",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1167481&q=%EC%9E%90%ED%81%AC%EC%9D%B4%EB%B8%8C+%EC%BF%A0%EC%8A%A4%ED%86%A0%2820%EC%84%B8%EA%B8%B0+%EC%B5%9C%EA%B3%A0%EC%9D%98+%ED%95%B4%EC%A0%80+%ED%83%90%ED%97%98%EA%B0%80%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "자크이브 쿠스토(20세기 최고의 해저 탐험가)",
+        "authors": [
+          "베르나르 비올레"
+        ],
+        "publisher": "사이언스북스",
+        "isbn": "898371168X 9788983711687",
+        "datetime": "2005-09-27T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1167481&q=%EC%9E%90%ED%81%AC%EC%9D%B4%EB%B8%8C+%EC%BF%A0%EC%8A%A4%ED%86%A0%2820%EC%84%B8%EA%B8%B0+%EC%B5%9C%EA%B3%A0%EC%9D%98+%ED%95%B4%EC%A0%80+%ED%83%90%ED%97%98%EA%B0%80%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "a59ef3d3-2b0a-4046-81a1-5eea0747c060",
+        "slug": "jan-jansz-weltevree",
+        "nickname": "박연",
+        "profession": "other",
+        "score": 12
+      },
+      "title": "박연",
+      "creator": "김승연",
+      "publisher": "작가와비평",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5430890&q=%EB%B0%95%EC%97%B0",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "박연",
+        "authors": [
+          "김승연"
+        ],
+        "publisher": "작가와비평",
+        "isbn": "1155922514 9791155922514",
+        "datetime": "2020-08-10T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5430890&q=%EB%B0%95%EC%97%B0"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "a59ef3d3-2b0a-4046-81a1-5eea0747c060",
+        "slug": "jan-jansz-weltevree",
+        "nickname": "박연",
+        "profession": "other",
+        "score": 12
+      },
+      "title": "조선인 박연(상)",
+      "creator": "홍순목",
+      "publisher": "알에이치코리아",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=414885&q=%EC%A1%B0%EC%84%A0%EC%9D%B8+%EB%B0%95%EC%97%B0%28%EC%83%81%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "조선인 박연(상)",
+        "authors": [
+          "홍순목"
+        ],
+        "publisher": "알에이치코리아",
+        "isbn": "892555027X 9788925550275",
+        "datetime": "2013-05-03T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=414885&q=%EC%A1%B0%EC%84%A0%EC%9D%B8+%EB%B0%95%EC%97%B0%28%EC%83%81%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "1a35d3ea-1057-41ab-a5d6-14d48907e6e4",
+        "slug": "jay-gould",
+        "nickname": "제이 굴드",
+        "profession": "investor",
+        "score": 27
+      },
+      "title": "월가의 마법사, 제이 굴드",
+      "creator": "트럼벌 화이트",
+      "publisher": "유페이퍼",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=7079575&q=%EC%9B%94%EA%B0%80%EC%9D%98+%EB%A7%88%EB%B2%95%EC%82%AC%2C+%EC%A0%9C%EC%9D%B4+%EA%B5%B4%EB%93%9C",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "월가의 마법사, 제이 굴드",
+        "authors": [
+          "트럼벌 화이트"
+        ],
+        "publisher": "유페이퍼",
+        "isbn": " 9791175629110",
+        "datetime": "2025-11-19T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=7079575&q=%EC%9B%94%EA%B0%80%EC%9D%98+%EB%A7%88%EB%B2%95%EC%82%AC%2C+%EC%A0%9C%EC%9D%B4+%EA%B5%B4%EB%93%9C"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "8bceadb6-26c1-4b88-a8de-22e12faa687f",
+        "slug": "jim-clark",
+        "nickname": "짐 클라크",
+        "profession": "entrepreneur",
+        "score": 44
+      },
+      "title": "짐 클라크의 수익모델 엿보기",
+      "creator": "임은모",
+      "publisher": "진한도서",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1183695&q=%EC%A7%90+%ED%81%B4%EB%9D%BC%ED%81%AC%EC%9D%98+%EC%88%98%EC%9D%B5%EB%AA%A8%EB%8D%B8+%EC%97%BF%EB%B3%B4%EA%B8%B0",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "짐 클라크의 수익모델 엿보기",
+        "authors": [
+          "임은모"
+        ],
+        "publisher": "진한도서",
+        "isbn": "898432065X 9788984320659",
+        "datetime": "2001-05-20T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1183695&q=%EC%A7%90+%ED%81%B4%EB%9D%BC%ED%81%AC%EC%9D%98+%EC%88%98%EC%9D%B5%EB%AA%A8%EB%8D%B8+%EC%97%BF%EB%B3%B4%EA%B8%B0"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "3be13eac-151a-4353-9b16-e1f561711a2b",
+        "slug": "lorne-knight",
+        "nickname": "론 나이트",
+        "profession": "other",
+        "score": 4
+      },
+      "title": "론 나이트 1",
+      "creator": "삼희 편집부",
+      "publisher": "삼희",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=112494&q=%EB%A1%A0+%EB%82%98%EC%9D%B4%ED%8A%B8+1",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "론 나이트 1",
+        "authors": [
+          "삼희 편집부"
+        ],
+        "publisher": "삼희",
+        "isbn": " 2003096000310",
+        "datetime": "1994-03-01T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=112494&q=%EB%A1%A0+%EB%82%98%EC%9D%B4%ED%8A%B8+1"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "2735d04b-a939-4fa4-a758-90743a639659",
+        "slug": "martin-guerre",
+        "nickname": "마르탱 게르",
+        "profession": "other",
+        "score": 17
+      },
+      "title": "마르탱 게르의 귀향",
+      "creator": "나탈리 제먼 데이비스",
+      "publisher": "지식의풍경",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1299345&q=%EB%A7%88%EB%A5%B4%ED%83%B1+%EA%B2%8C%EB%A5%B4%EC%9D%98+%EA%B7%80%ED%96%A5",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마르탱 게르의 귀향",
+        "authors": [
+          "나탈리 제먼 데이비스"
+        ],
+        "publisher": "지식의풍경",
+        "isbn": "8989047005 9788989047001",
+        "datetime": "2000-03-04T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1299345&q=%EB%A7%88%EB%A5%B4%ED%83%B1+%EA%B2%8C%EB%A5%B4%EC%9D%98+%EA%B7%80%ED%96%A5"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "93f56eab-60ae-4b70-ae50-1657ab386caf",
+        "slug": "mary-anning",
+        "nickname": "메리 애닝",
+        "profession": "scientist",
+        "score": 41
+      },
+      "title": "메리 애닝",
+      "creator": "쉴라 콜",
+      "publisher": "에디슨북",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1262472&q=%EB%A9%94%EB%A6%AC+%EC%95%A0%EB%8B%9D",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "메리 애닝",
+        "authors": [
+          "쉴라 콜"
+        ],
+        "publisher": "에디슨북",
+        "isbn": "8988017560 9788988017562",
+        "datetime": "2002-10-07T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1262472&q=%EB%A9%94%EB%A6%AC+%EC%95%A0%EB%8B%9D"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "93f56eab-60ae-4b70-ae50-1657ab386caf",
+        "slug": "mary-anning",
+        "nickname": "메리 애닝",
+        "profession": "scientist",
+        "score": 41
+      },
+      "title": "화석 수집가 메리 애닝",
+      "creator": "찰스 디킨스",
+      "publisher": "지구라트",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5617181&q=%ED%99%94%EC%84%9D+%EC%88%98%EC%A7%91%EA%B0%80+%EB%A9%94%EB%A6%AC+%EC%95%A0%EB%8B%9D",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "화석 수집가 메리 애닝",
+        "authors": [
+          "찰스 디킨스"
+        ],
+        "publisher": "지구라트",
+        "isbn": " 9791190974271",
+        "datetime": "2021-03-08T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5617181&q=%ED%99%94%EC%84%9D+%EC%88%98%EC%A7%91%EA%B0%80+%EB%A9%94%EB%A6%AC+%EC%95%A0%EB%8B%9D"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "fc151813-8701-4660-a52f-9e55113eb67c",
+        "slug": "mata-hari",
+        "nickname": "마타 하리",
+        "profession": "other",
+        "score": 24
+      },
+      "title": "마타 하리(Mata Hari)",
+      "creator": "박희영",
+      "publisher": "스칼렛",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1607236&q=%EB%A7%88%ED%83%80+%ED%95%98%EB%A6%AC%28Mata+Hari%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마타 하리(Mata Hari)",
+        "authors": [
+          "박희영"
+        ],
+        "publisher": "스칼렛",
+        "isbn": "1161810005 9791161810003",
+        "datetime": "2017-06-14T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1607236&q=%EB%A7%88%ED%83%80+%ED%95%98%EB%A6%AC%28Mata+Hari%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "fc151813-8701-4660-a52f-9e55113eb67c",
+        "slug": "mata-hari",
+        "nickname": "마타 하리",
+        "profession": "other",
+        "score": 24
+      },
+      "title": "마타 하리(합본)(전2권)",
+      "creator": "박희영",
+      "publisher": "알에스미디어",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=3704668&q=%EB%A7%88%ED%83%80+%ED%95%98%EB%A6%AC%28%ED%95%A9%EB%B3%B8%29%28%EC%A0%842%EA%B6%8C%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마타 하리(합본)(전2권)",
+        "authors": [
+          "박희영"
+        ],
+        "publisher": "알에스미디어",
+        "isbn": " 9791161811611",
+        "datetime": "2018-01-22T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=3704668&q=%EB%A7%88%ED%83%80+%ED%95%98%EB%A6%AC%28%ED%95%A9%EB%B3%B8%29%28%EC%A0%842%EA%B6%8C%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "9023e983-0429-4288-be54-6f9b9560ef1c",
+        "slug": "matteo-ricci",
+        "nickname": "마테오 리치",
+        "profession": "humanities_scholar",
+        "score": 42
+      },
+      "title": "마테오 리치",
+      "creator": "히라카와 스케히로",
+      "publisher": "동아시아",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1265504&q=%EB%A7%88%ED%85%8C%EC%98%A4+%EB%A6%AC%EC%B9%98",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마테오 리치",
+        "authors": [
+          "히라카와 스케히로"
+        ],
+        "publisher": "동아시아",
+        "isbn": "8988165209 9788988165201",
+        "datetime": "2002-03-25T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1265504&q=%EB%A7%88%ED%85%8C%EC%98%A4+%EB%A6%AC%EC%B9%98"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "9023e983-0429-4288-be54-6f9b9560ef1c",
+        "slug": "matteo-ricci",
+        "nickname": "마테오 리치",
+        "profession": "humanities_scholar",
+        "score": 42
+      },
+      "title": "마테오 리치 기억의 궁전",
+      "creator": "조너선 D. 스펜스",
+      "publisher": "이산",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1256272&q=%EB%A7%88%ED%85%8C%EC%98%A4+%EB%A6%AC%EC%B9%98+%EA%B8%B0%EC%96%B5%EC%9D%98+%EA%B6%81%EC%A0%84",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마테오 리치 기억의 궁전",
+        "authors": [
+          "조너선 D. 스펜스"
+        ],
+        "publisher": "이산",
+        "isbn": "8987608115 9788987608112",
+        "datetime": "1999-08-03T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1256272&q=%EB%A7%88%ED%85%8C%EC%98%A4+%EB%A6%AC%EC%B9%98+%EA%B8%B0%EC%96%B5%EC%9D%98+%EA%B6%81%EC%A0%84"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "17834328-8720-4d79-baf0-15509b5f192f",
+        "slug": "mei-lanfang",
+        "nickname": "메이란팡",
+        "profession": "actor",
+        "score": 34
+      },
+      "title": "경극 미국에 가다",
+      "creator": "신지영",
+      "publisher": "서강대학교출판부",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5840717&q=%EA%B2%BD%EA%B7%B9+%EB%AF%B8%EA%B5%AD%EC%97%90+%EA%B0%80%EB%8B%A4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "경극 미국에 가다",
+        "authors": [
+          "신지영"
+        ],
+        "publisher": "서강대학교출판부",
+        "isbn": "8972733768 9788972733768",
+        "datetime": "2021-09-09T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5840717&q=%EA%B2%BD%EA%B7%B9+%EB%AF%B8%EA%B5%AD%EC%97%90+%EA%B0%80%EB%8B%A4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "157dc4e8-1be0-4878-b924-71bcab89a615",
+        "slug": "muammar-gaddafi",
+        "nickname": "무아마르 카다피",
+        "profession": "leader",
+        "score": 41
+      },
+      "title": "무아마르 카다피(세계지도자열전 W 15)",
+      "creator": "벤저민 킬",
+      "publisher": "대현출판사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=58140&q=%EB%AC%B4%EC%95%84%EB%A7%88%EB%A5%B4+%EC%B9%B4%EB%8B%A4%ED%94%BC%28%EC%84%B8%EA%B3%84%EC%A7%80%EB%8F%84%EC%9E%90%EC%97%B4%EC%A0%84+W+15%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "무아마르 카다피(세계지도자열전 W 15)",
+        "authors": [
+          "벤저민 킬"
+        ],
+        "publisher": "대현출판사",
+        "isbn": " 2001522000460",
+        "datetime": "1987-09-01T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=58140&q=%EB%AC%B4%EC%95%84%EB%A7%88%EB%A5%B4+%EC%B9%B4%EB%8B%A4%ED%94%BC%28%EC%84%B8%EA%B3%84%EC%A7%80%EB%8F%84%EC%9E%90%EC%97%B4%EC%A0%84+W+15%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "36f2144e-1dcd-4b83-b02d-e2c89faa60aa",
+        "slug": "oleg-gordievsky",
+        "nickname": "올레크 고르디옙스키",
+        "profession": "other",
+        "score": 30
+      },
+      "title": "스파이와 배신자",
+      "creator": "벤 매킨타이어",
+      "publisher": "열린책들",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=6401208&q=%EC%8A%A4%ED%8C%8C%EC%9D%B4%EC%99%80+%EB%B0%B0%EC%8B%A0%EC%9E%90",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "스파이와 배신자",
+        "authors": [
+          "벤 매킨타이어"
+        ],
+        "publisher": "열린책들",
+        "isbn": "8932923450 9788932923451",
+        "datetime": "2023-07-15T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=6401208&q=%EC%8A%A4%ED%8C%8C%EC%9D%B4%EC%99%80+%EB%B0%B0%EC%8B%A0%EC%9E%90"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "341489ee-d435-47b4-92d8-e75419cb427d",
+        "slug": "pablo-escobar",
+        "nickname": "파블로 에스코바르",
+        "profession": "other",
+        "score": 43
+      },
+      "title": "마약왕 파블로 에스코바르의 반전",
+      "creator": "윤성학",
+      "publisher": "K북스",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=6098478&q=%EB%A7%88%EC%95%BD%EC%99%95+%ED%8C%8C%EB%B8%94%EB%A1%9C+%EC%97%90%EC%8A%A4%EC%BD%94%EB%B0%94%EB%A5%B4%EC%9D%98+%EB%B0%98%EC%A0%84",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마약왕 파블로 에스코바르의 반전",
+        "authors": [
+          "윤성학"
+        ],
+        "publisher": "K북스",
+        "isbn": "1197489673 9791197489679",
+        "datetime": "2022-07-05T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=6098478&q=%EB%A7%88%EC%95%BD%EC%99%95+%ED%8C%8C%EB%B8%94%EB%A1%9C+%EC%97%90%EC%8A%A4%EC%BD%94%EB%B0%94%EB%A5%B4%EC%9D%98+%EB%B0%98%EC%A0%84"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "5602c8ae-b2a9-4fa3-baf8-96e50f53870f",
+        "slug": "paracelsus",
+        "nickname": "파라켈수스",
+        "profession": "scientist",
+        "score": 39
+      },
+      "title": "파라켈수스",
+      "creator": "도발리스",
+      "publisher": "젤리빈",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5581587&q=%ED%8C%8C%EB%9D%BC%EC%BC%88%EC%88%98%EC%8A%A4",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "파라켈수스",
+        "authors": [
+          "도발리스"
+        ],
+        "publisher": "젤리빈",
+        "isbn": " 9791165485221",
+        "datetime": "2021-01-20T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5581587&q=%ED%8C%8C%EB%9D%BC%EC%BC%88%EC%88%98%EC%8A%A4"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "ec0eb450-8499-4340-b388-eb9339533bad",
+        "slug": "peggy-guggenheim",
+        "nickname": "페기 구겐하임",
+        "profession": "other",
+        "score": 30
+      },
+      "title": "페기 구겐하임",
+      "creator": "메리 V. 디어본",
+      "publisher": "을유문화사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=502038&q=%ED%8E%98%EA%B8%B0+%EA%B5%AC%EA%B2%90%ED%95%98%EC%9E%84",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "페기 구겐하임",
+        "authors": [
+          "메리 V. 디어본"
+        ],
+        "publisher": "을유문화사",
+        "isbn": "8932431167 9788932431161",
+        "datetime": "2006-10-25T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=502038&q=%ED%8E%98%EA%B8%B0+%EA%B5%AC%EA%B2%90%ED%95%98%EC%9E%84"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65",
+        "slug": "puyi",
+        "nickname": "푸이",
+        "profession": "leader",
+        "score": 30
+      },
+      "title": "마지막 황제 푸이 II",
+      "creator": "장길수, 김선형",
+      "publisher": "삼성비엔씨",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=4922280&q=%EB%A7%88%EC%A7%80%EB%A7%89+%ED%99%A9%EC%A0%9C+%ED%91%B8%EC%9D%B4+II",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마지막 황제 푸이 II",
+        "authors": [
+          "장길수",
+          "김선형"
+        ],
+        "publisher": "삼성비엔씨",
+        "isbn": " 9788963676258",
+        "datetime": "2019-04-08T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=4922280&q=%EB%A7%88%EC%A7%80%EB%A7%89+%ED%99%A9%EC%A0%9C+%ED%91%B8%EC%9D%B4+II"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65",
+        "slug": "puyi",
+        "nickname": "푸이",
+        "profession": "leader",
+        "score": 30
+      },
+      "title": "마지막 황제 푸이와 다섯 여인",
+      "creator": "구자룡",
+      "publisher": "오카시오",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5697887&q=%EB%A7%88%EC%A7%80%EB%A7%89+%ED%99%A9%EC%A0%9C+%ED%91%B8%EC%9D%B4%EC%99%80+%EB%8B%A4%EC%84%AF+%EC%97%AC%EC%9D%B8",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "마지막 황제 푸이와 다섯 여인",
+        "authors": [
+          "구자룡"
+        ],
+        "publisher": "오카시오",
+        "isbn": "1197475206 9791197475207",
+        "datetime": "2021-05-31T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5697887&q=%EB%A7%88%EC%A7%80%EB%A7%89+%ED%99%A9%EC%A0%9C+%ED%91%B8%EC%9D%B4%EC%99%80+%EB%8B%A4%EC%84%AF+%EC%97%AC%EC%9D%B8"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "9bddb8f3-1bce-405d-bc20-7be726e48af1",
+        "slug": "roald-amundsen",
+        "nickname": "로알 아문센",
+        "profession": "other",
+        "score": 28
+      },
+      "title": "로알 아문센",
+      "creator": "유순희",
+      "publisher": "금성출판사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=5324172&q=%EB%A1%9C%EC%95%8C+%EC%95%84%EB%AC%B8%EC%84%BC",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "로알 아문센",
+        "authors": [
+          "유순희"
+        ],
+        "publisher": "금성출판사",
+        "isbn": " 9788907912183",
+        "datetime": "2020-03-19T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=5324172&q=%EB%A1%9C%EC%95%8C+%EC%95%84%EB%AC%B8%EC%84%BC"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "a8ae2d30-0f6b-4cf8-af89-282f4c19a0f5",
+        "slug": "ross-perot",
+        "nickname": "로스 페로",
+        "profession": "entrepreneur",
+        "score": 37
+      },
+      "title": "로스 페로",
+      "creator": "토니 츄",
+      "publisher": "고려원",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=381990&q=%EB%A1%9C%EC%8A%A4+%ED%8E%98%EB%A1%9C",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "로스 페로",
+        "authors": [
+          "토니 츄"
+        ],
+        "publisher": "고려원",
+        "isbn": "8912123165 9788912123161",
+        "datetime": "1992-10-01T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=381990&q=%EB%A1%9C%EC%8A%A4+%ED%8E%98%EB%A1%9C"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "a8ae2d30-0f6b-4cf8-af89-282f4c19a0f5",
+        "slug": "ross-perot",
+        "nickname": "로스 페로",
+        "profession": "entrepreneur",
+        "score": 37
+      },
+      "title": "로스 페로",
+      "creator": "토니 츄",
+      "publisher": "고려원",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=381990&q=%EB%A1%9C%EC%8A%A4+%ED%8E%98%EB%A1%9C",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "로스 페로",
+        "authors": [
+          "토니 츄"
+        ],
+        "publisher": "고려원",
+        "isbn": "8912123165 9788912123161",
+        "datetime": "1992-10-01T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=381990&q=%EB%A1%9C%EC%8A%A4+%ED%8E%98%EB%A1%9C"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "d6712519-ac2e-4010-91ff-0f05efbb0f0f",
+        "slug": "seymour-cray",
+        "nickname": "시모어 크레이",
+        "profession": "scientist",
+        "score": 43
+      },
+      "title": "슈퍼컴퓨터를 사랑한 슈퍼맨",
+      "creator": "찰스 J 머리",
+      "publisher": "지식함지",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1654396&q=%EC%8A%88%ED%8D%BC%EC%BB%B4%ED%93%A8%ED%84%B0%EB%A5%BC+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%8A%88%ED%8D%BC%EB%A7%A8",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "슈퍼컴퓨터를 사랑한 슈퍼맨",
+        "authors": [
+          "찰스 J 머리"
+        ],
+        "publisher": "지식함지",
+        "isbn": "1195258445 9791195258444",
+        "datetime": "2015-08-11T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1654396&q=%EC%8A%88%ED%8D%BC%EC%BB%B4%ED%93%A8%ED%84%B0%EB%A5%BC+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%8A%88%ED%8D%BC%EB%A7%A8"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "daa2b714-35a6-43fb-a3f2-7149c632a6e9",
+        "slug": "sitting-bull",
+        "nickname": "시팅 불",
+        "profession": "commander",
+        "score": 37
+      },
+      "title": "시팅불(인디언의 창과 방패)",
+      "creator": "로버트M어틀리",
+      "publisher": "두레",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=67091&q=%EC%8B%9C%ED%8C%85%EB%B6%88%28%EC%9D%B8%EB%94%94%EC%96%B8%EC%9D%98+%EC%B0%BD%EA%B3%BC+%EB%B0%A9%ED%8C%A8%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "시팅불(인디언의 창과 방패)",
+        "authors": [
+          "로버트M어틀리"
+        ],
+        "publisher": "두레",
+        "isbn": " 2001792001006",
+        "datetime": "2001-04-30T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=67091&q=%EC%8B%9C%ED%8C%85%EB%B6%88%28%EC%9D%B8%EB%94%94%EC%96%B8%EC%9D%98+%EC%B0%BD%EA%B3%BC+%EB%B0%A9%ED%8C%A8%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "4469e726-ec1c-48a1-b2d4-bc8a2306cf77",
+        "slug": "sylvia-earle",
+        "nickname": "실비아 얼",
+        "profession": "scientist",
+        "score": 31
+      },
+      "title": "나의 아름다운 바다(바다 밑 7000시간)(양장본 HardCover)",
+      "creator": "클레어 A 니콜라",
+      "publisher": "봄나무",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1362213&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%A6%84%EB%8B%A4%EC%9A%B4+%EB%B0%94%EB%8B%A4%28%EB%B0%94%EB%8B%A4+%EB%B0%91+7000%EC%8B%9C%EA%B0%84%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "나의 아름다운 바다(바다 밑 7000시간)(양장본 HardCover)",
+        "authors": [
+          "클레어 A 니콜라"
+        ],
+        "publisher": "봄나무",
+        "isbn": "8992026846 9788992026840",
+        "datetime": "2012-04-10T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1362213&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%A6%84%EB%8B%A4%EC%9A%B4+%EB%B0%94%EB%8B%A4%28%EB%B0%94%EB%8B%A4+%EB%B0%91+7000%EC%8B%9C%EA%B0%84%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "5da29faf-87af-4824-ac11-8caaf10e8521",
+        "slug": "t.-e.-lawrence",
+        "nickname": "아라비아의 로렌스",
+        "profession": "commander",
+        "score": 35
+      },
+      "title": "아라비아의 로렌스(걸작 논픽션 12)(양장본 HardCover)",
+      "creator": "스콧 앤더슨",
+      "publisher": "글항아리",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=936806&q=%EC%95%84%EB%9D%BC%EB%B9%84%EC%95%84%EC%9D%98+%EB%A1%9C%EB%A0%8C%EC%8A%A4%28%EA%B1%B8%EC%9E%91+%EB%85%BC%ED%94%BD%EC%85%98+12%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "아라비아의 로렌스(걸작 논픽션 12)(양장본 HardCover)",
+        "authors": [
+          "스콧 앤더슨"
+        ],
+        "publisher": "글항아리",
+        "isbn": "8967354304 9788967354305",
+        "datetime": "2017-06-12T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=936806&q=%EC%95%84%EB%9D%BC%EB%B9%84%EC%95%84%EC%9D%98+%EB%A1%9C%EB%A0%8C%EC%8A%A4%28%EA%B1%B8%EC%9E%91+%EB%85%BC%ED%94%BD%EC%85%98+12%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "adb08e4f-4991-4bc8-af23-57c9f9055efd",
+        "slug": "tenzing-norgay",
+        "nickname": "텐징 노르가이",
+        "profession": "other",
+        "score": 34
+      },
+      "title": "텐징 노르가이(히말라야가 처음 허락한사람)",
+      "creator": "에드 더글러스",
+      "publisher": "시공사",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=642548&q=%ED%85%90%EC%A7%95+%EB%85%B8%EB%A5%B4%EA%B0%80%EC%9D%B4%28%ED%9E%88%EB%A7%90%EB%9D%BC%EC%95%BC%EA%B0%80+%EC%B2%98%EC%9D%8C+%ED%97%88%EB%9D%BD%ED%95%9C%EC%82%AC%EB%9E%8C%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "텐징 노르가이(히말라야가 처음 허락한사람)",
+        "authors": [
+          "에드 더글러스"
+        ],
+        "publisher": "시공사",
+        "isbn": "8952731727 9788952731722",
+        "datetime": "2003-05-27T00:00:00.000+09:00",
+        "status": "",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=642548&q=%ED%85%90%EC%A7%95+%EB%85%B8%EB%A5%B4%EA%B0%80%EC%9D%B4%28%ED%9E%88%EB%A7%90%EB%9D%BC%EC%95%BC%EA%B0%80+%EC%B2%98%EC%9D%8C+%ED%97%88%EB%9D%BD%ED%95%9C%EC%82%AC%EB%9E%8C%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "db3ae0d4-12be-4cec-a6c8-ec64a3936870",
+        "slug": "tom-crean",
+        "nickname": "톰 크린",
+        "profession": "other",
+        "score": 8
+      },
+      "title": "남극 탐험의 영웅 톰 크린",
+      "creator": "제니퍼 썸스",
+      "publisher": "보물창고",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=6728519&q=%EB%82%A8%EA%B7%B9+%ED%83%90%ED%97%98%EC%9D%98+%EC%98%81%EC%9B%85+%ED%86%B0+%ED%81%AC%EB%A6%B0",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "남극 탐험의 영웅 톰 크린",
+        "authors": [
+          "제니퍼 썸스"
+        ],
+        "publisher": "보물창고",
+        "isbn": "8961701223 9788961701228",
+        "datetime": "2024-10-20T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=6728519&q=%EB%82%A8%EA%B7%B9+%ED%83%90%ED%97%98%EC%9D%98+%EC%98%81%EC%9B%85+%ED%86%B0+%ED%81%AC%EB%A6%B0"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "db3ae0d4-12be-4cec-a6c8-ec64a3936870",
+        "slug": "tom-crean",
+        "nickname": "톰 크린",
+        "profession": "other",
+        "score": 8
+      },
+      "title": "위대한 탐험의 숨은 영웅 톰 크린",
+      "creator": "마이클 스미스",
+      "publisher": "지혜로울자유",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1504811&q=%EC%9C%84%EB%8C%80%ED%95%9C+%ED%83%90%ED%97%98%EC%9D%98+%EC%88%A8%EC%9D%80+%EC%98%81%EC%9B%85+%ED%86%B0+%ED%81%AC%EB%A6%B0",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "위대한 탐험의 숨은 영웅 톰 크린",
+        "authors": [
+          "마이클 스미스"
+        ],
+        "publisher": "지혜로울자유",
+        "isbn": "899819922X 9788998199227",
+        "datetime": "2017-03-01T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1504811&q=%EC%9C%84%EB%8C%80%ED%95%9C+%ED%83%90%ED%97%98%EC%9D%98+%EC%88%A8%EC%9D%80+%EC%98%81%EC%9B%85+%ED%86%B0+%ED%81%AC%EB%A6%B0"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "ea828e5e-fd31-47e3-ba3a-be331175b98c",
+        "slug": "tycho-brahe",
+        "nickname": "티코 브라헤",
+        "profession": "scientist",
+        "score": 36
+      },
+      "title": "티코 브라헤(양장본 HardCover)",
+      "creator": "윌리엄 J 보어스트",
+      "publisher": "대명",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=773784&q=%ED%8B%B0%EC%BD%94+%EB%B8%8C%EB%9D%BC%ED%97%A4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "티코 브라헤(양장본 HardCover)",
+        "authors": [
+          "윌리엄 J 보어스트"
+        ],
+        "publisher": "대명",
+        "isbn": "8958163445 9788958163442",
+        "datetime": "2010-10-30T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=773784&q=%ED%8B%B0%EC%BD%94+%EB%B8%8C%EB%9D%BC%ED%97%A4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "0ba4c1fe-96cd-4366-9548-9e6f9c5ff7d1",
+        "slug": "wilhelm-reich",
+        "nickname": "빌헬름 라이히",
+        "profession": "scientist",
+        "score": 22
+      },
+      "title": "빌헬름 라이히",
+      "creator": "마이런 섀라프",
+      "publisher": "양문",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=1253487&q=%EB%B9%8C%ED%97%AC%EB%A6%84+%EB%9D%BC%EC%9D%B4%ED%9E%88",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "빌헬름 라이히",
+        "authors": [
+          "마이런 섀라프"
+        ],
+        "publisher": "양문",
+        "isbn": "8987203719 9788987203713",
+        "datetime": "2005-01-30T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=1253487&q=%EB%B9%8C%ED%97%AC%EB%A6%84+%EB%9D%BC%EC%9D%B4%ED%9E%88"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "70b8e581-22cb-428e-b73e-ab4daf9ade6f",
+        "slug": "william-beebe",
+        "nickname": "윌리엄 비비",
+        "profession": "scientist",
+        "score": 24
+      },
+      "title": "윌리엄 비비의 심해 탐험(지식 다다익선 53)(양장본 HardCover)",
+      "creator": "데이비드 셸던",
+      "publisher": "비룡소",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=616200&q=%EC%9C%8C%EB%A6%AC%EC%97%84+%EB%B9%84%EB%B9%84%EC%9D%98+%EC%8B%AC%ED%95%B4+%ED%83%90%ED%97%98%28%EC%A7%80%EC%8B%9D+%EB%8B%A4%EB%8B%A4%EC%9D%B5%EC%84%A0+53%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "윌리엄 비비의 심해 탐험(지식 다다익선 53)(양장본 HardCover)",
+        "authors": [
+          "데이비드 셸던"
+        ],
+        "publisher": "비룡소",
+        "isbn": "8949182599 9788949182599",
+        "datetime": "2013-04-25T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=616200&q=%EC%9C%8C%EB%A6%AC%EC%97%84+%EB%B9%84%EB%B9%84%EC%9D%98+%EC%8B%AC%ED%95%B4+%ED%83%90%ED%97%98%28%EC%A7%80%EC%8B%9D+%EB%8B%A4%EB%8B%A4%EC%9D%B5%EC%84%A0+53%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+      },
+      "kakaoReason": "person_subject_match"
+    },
+    {
+      "person": {
+        "id": "18ba1b3e-4568-45e9-aaa7-fbe3e317b6bd",
+        "slug": "yoshiko-kawashima",
+        "nickname": "가와시마 요시코",
+        "profession": "other",
+        "score": 20
+      },
+      "title": "가와시마 요시코",
+      "creator": "필리스 번바움",
+      "publisher": "사일런스북",
+      "evidenceUrl": "https://search.daum.net/search?w=bookpage&bookId=4367049&q=%EA%B0%80%EC%99%80%EC%8B%9C%EB%A7%88+%EC%9A%94%EC%8B%9C%EC%BD%94",
+      "scope": "인물이 책의 중심 대상인 전기·평전(카카오 인물명 검색으로 확인)",
+      "kakao": {
+        "title": "가와시마 요시코",
+        "authors": [
+          "필리스 번바움"
+        ],
+        "publisher": "사일런스북",
+        "isbn": "1189437023 9791189437022",
+        "datetime": "2018-10-29T00:00:00.000+09:00",
+        "status": "정상판매",
+        "url": "https://search.daum.net/search?w=bookpage&bookId=4367049&q=%EA%B0%80%EC%99%80%EC%8B%9C%EB%A7%88+%EC%9A%94%EC%8B%9C%EC%BD%94"
+      },
+      "kakaoReason": "person_subject_match"
+    }
+  ],
+  "unverified": [
+    {
+      "person": {
+        "id": "6f4103c1-433e-44cd-98f7-daf474ca8670",
+        "slug": "yuri-gagarin",
+        "nickname": "유리 가가린",
+        "profession": "commander",
+        "score": 54
+      },
+      "title": "지구는 푸른빛이었다",
+      "creator": "유리 알렉세예비치 가가린",
+      "publisher": "갈라파고스",
+      "evidenceUrl": "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=1983527",
+      "scope": "인류 최초의 우주비행사인 유리 가가린이 자신의 성장 과정과 훈련, 1961년 보스토크 1호 탑승 및 비행 경험을 직접 기록한 자서전이다.",
+      "kakao": null,
+      "kakaoReason": "creator_mismatch"
+    },
+    {
+      "person": {
+        "id": "0a2497ac-875f-4ec8-a58d-d11803ada53c",
+        "slug": "grace-hopper",
+        "nickname": "그레이스 호퍼",
+        "profession": "scientist",
+        "score": 55
+      },
+      "title": "교보문고** — `그레이스 호퍼` (새싹인물전 68)",
+      "creator": "저자: 박주혜 글, 이이해정 그림",
+      "publisher": "비룡소",
+      "evidenceUrl": "2023.08.30",
+      "scope": null,
+      "kakao": null,
+      "kakaoReason": "title_not_found"
+    },
+    {
+      "person": {
+        "id": "0a2497ac-875f-4ec8-a58d-d11803ada53c",
+        "slug": "grace-hopper",
+        "nickname": "그레이스 호퍼",
+        "profession": "scientist",
+        "score": 55
+      },
+      "title": "예스24** — `그레이스 호퍼` (원제: *Grace Hopper and the Invention of the Information Age*)",
+      "creator": "저자: 커트 W. 베이어, 역자: 이재범",
+      "publisher": "지식함지",
+      "evidenceUrl": "2017.12.18",
+      "scope": null,
+      "kakao": null,
+      "kakaoReason": "title_not_found"
+    },
+    {
+      "person": {
+        "id": "fd81adb3-a4c2-4609-b1ed-3c1ec05b6862",
+        "slug": "qian-xuesen",
+        "nickname": "치엔 쉐썬",
+        "profession": "scientist",
+        "score": 48
+      },
+      "title": "첸쉐썬 전기",
+      "creator": "둥쑤핑·싱웨이웨이 편찬, 신선옥·장문등·이청신 역",
+      "publisher": "(천진사범대 번역 프로젝트, 2025)",
+      "evidenceUrl": "https://www.aladin.co.kr/shop/wproduct.aspx?ISBN=9791173961083",
+      "scope": "첸쉐썬의 일생을 주인공으로 삼아 과학자 경력과 역사적 맥락 전반을 서술한 전기",
+      "kakao": null,
+      "kakaoReason": "creator_mismatch"
+    },
+    {
+      "person": {
+        "id": "6ddf46a6-af6e-4f03-90fe-bc6978f60b61",
+        "slug": "mansa-musa",
+        "nickname": "만사 무사",
+        "profession": "leader",
+        "score": 49
+      },
+      "title": "황금으로 물들인 사하라 말리 제국과 만사 무사",
+      "creator": "루미너리북스 인문출판 에디팅 팀",
+      "publisher": "루미너리북스",
+      "evidenceUrl": "https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000012538354",
+      "scope": "1324년 메카 순례 행렬에서 금을 대량 살포해 이집트 금값을 폭락시킨 말리 제국의 만사 무사를 책 전체의 중심 인물로 다룬다.",
+      "kakao": null,
+      "kakaoReason": "title_not_found"
+    }
+  ]
+}

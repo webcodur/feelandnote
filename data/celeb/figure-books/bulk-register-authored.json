@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2026-09-16T09:01:20.353Z",
+  "mode": "apply",
+  "totals": {
+    "targets": 98,
+    "insertable": 98,
+    "koOnlyForExisting": 0,
+    "wikidataIdentities": 0,
+    "skipped": 0
+  },
+  "skipped": []
+}

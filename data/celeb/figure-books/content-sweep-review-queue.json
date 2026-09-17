@@ -1,0 +1,1874 @@
+[
+ {
+  "slug": "richard-francis-burton",
+  "type": "consumption",
+  "title": null,
+  "note": "역자 서문 'labour of love, 권태와 절망의 부적' — 유배지에서 위로가 된 작품",
+  "url": null,
+  "existing_relations": 10
+ },
+ {
+  "slug": "reinhold-messner",
+  "type": "consumption",
+  "title": null,
+  "note": "FOCUS 인터뷰 권장 알파인 고전 목록 직접 제시",
+  "url": null,
+  "existing_relations": 9
+ },
+ {
+  "slug": "yellow-emperor",
+  "type": "authored",
+  "title": "황제내경",
+  "note": "전통적 저작 귀속 — 황제와 기백의 문답 형식 의서",
+  "url": null,
+  "existing_relations": 7
+ },
+ {
+  "slug": "ernest-shackleton",
+  "type": "consumption",
+  "title": null,
+  "note": "필사 주석 브라우닝 경매 96K달러·묘비명이 브라우닝 인용 — 'vital mental medicine', 탐험대 도서목록 BBC 확인",
+  "url": null,
+  "existing_relations": 6
+ },
+ {
+  "slug": "heinrich-schliemann",
+  "type": "consumption",
+  "title": null,
+  "note": "8세 크리스마스 선물 세계사가 트로이 발굴 결심의 계기, 술취한 방앗간 일꾼의 호메로스 낭송에 매료 — 자서전 기록",
+  "url": null,
+  "existing_relations": 6
+ },
+ {
+  "slug": "jason-fried",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 블로그 'Heard/Read/Saw' 시리즈 + REWORK 팟캐스트 직접 추천",
+  "url": null,
+  "existing_relations": 6
+ },
+ {
+  "slug": "matteo-ricci",
+  "type": "consumption",
+  "title": null,
+  "note": "에픽테토스 수록집을 二十五言으로 번안 — 사서를 중국 문인 지도로 공부·번역",
+  "url": null,
+  "existing_relations": 6
+ },
+ {
+  "slug": "jordan-belfort",
+  "type": "consumption",
+  "title": null,
+  "note": "NYT+인터뷰 — 옥중에서 5회독·교과서처럼 밑줄, 자서전 집필의 영감",
+  "url": null,
+  "existing_relations": 5
+ },
+ {
+  "slug": "david-heinemeier-hansson",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 연간 독서목록 공개 — '지난 몇 년간 최애는 프롬', 스토아 3부작을 '가장 강력한 책들'로",
+  "url": null,
+  "existing_relations": 5
+ },
+ {
+  "slug": "sven-hedin",
+  "type": "consumption",
+  "title": null,
+  "note": "Adventures in Tibet 1장에 소년시절 독서 영감으로 직접 명시",
+  "url": null,
+  "existing_relations": 4
+ },
+ {
+  "slug": "ibn-battuta",
+  "type": "consumption",
+  "title": null,
+  "note": "말리키파 법관 — 다마스쿠스에서 수학·이자자 취득, 코란·법학 텍스트 연구",
+  "url": null,
+  "existing_relations": 4
+ },
+ {
+  "slug": "boris-savinkov",
+  "type": "consumption",
+  "title": null,
+  "note": "전쟁과 평화를 소설 모델로 사용(학술) + 레온티예프·슈티르너 영향 문서화",
+  "url": null,
+  "existing_relations": 3
+ },
+ {
+  "slug": "hideo-kojima",
+  "type": "consumption",
+  "title": null,
+  "note": "인터뷰 다수 — 아베 고보 '가장 큰 영향', 박스맨이 MGS 박스의 원천",
+  "url": null,
+  "existing_relations": 3
+ },
+ {
+  "slug": "howard-hughes",
+  "type": "consumption",
+  "title": null,
+  "note": "아이스 스테이션 제브라 150회 상영 — 방송국까지 사서 편성",
+  "url": null,
+  "existing_relations": 3
+ },
+ {
+  "slug": "norbert-wiener",
+  "type": "consumption",
+  "title": null,
+  "note": "자서전 Ex-Prodigy — 7세에 단테·다윈 독파, 주일학교 도서관 러스킨 감명 기록",
+  "url": null,
+  "existing_relations": 3
+ },
+ {
+  "slug": "t.-e.-lawrence",
+  "type": "consumption",
+  "title": null,
+  "note": "다우티 '위대한 애독' 직접 서문 집필 + 오디세이 번역, 말로리를 원정에 휴대",
+  "url": null,
+  "existing_relations": 3
+ },
+ {
+  "slug": "timothy-leary",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 회고 '그날 밤 헉슬리를 읽고 또 읽고 또 읽었다 — 모든 것이 거기 있었다'",
+  "url": null,
+  "existing_relations": 3
+ },
+ {
+  "slug": "william-beckford",
+  "type": "authored",
+  "title": "『Vathek』·『Dreams, Waking Thoughts and Incidents』·『Memoirs of Extraordinary Painters』·『Letters from Italy』",
+  "note": "본인 저작 — 기존 cc:1(아마 Vathek) 외 3종 후보",
+  "url": "https://en.wikipedia.org/wiki/William_Beckford_(novelist)",
+  "existing_relations": 3
+ },
+ {
+  "slug": "john-lloyd-stephens",
+  "type": "authored",
+  "title": "『Incidents of Travel in Central America』·『Incidents of Travel in Egypt, Arabia Petraea』 등 4권",
+  "note": "본인 저작 — 미국 베스트셀러 탐험 문학, 마야 문명 각성시킨 고전",
+  "url": "https://www.cambridge.org/core/books/incidents-of-travel-in-central-america-chiapas-and-yucatan/F366594FAF910E8F6977406E50AFB8FF",
+  "existing_relations": 3
+ },
+ {
+  "slug": "henry-salt",
+  "type": "authored",
+  "title": "『A Voyage to Abyssinia』·『Essay on Young's and Champollion's Phonetic System』",
+  "note": "본인 저작",
+  "url": "https://en.wikisource.org/wiki/A_voyage_to_Abyssinia_(Salt)",
+  "existing_relations": 3
+ },
+ {
+  "slug": "yvon-chouinard",
+  "type": "consumption",
+  "title": null,
+  "note": "UCTV 강연 — 'John Muir와 Thoreau, Emerson을 읽고 자랐다'",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "amelia-earhart",
+  "type": "consumption",
+  "title": null,
+  "note": "덴버공립도서관 보관 '소녀시절 애독서' 서명 목록 + 여동생 회고",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "aubrey-de-grey",
+  "type": "consumption",
+  "title": null,
+  "note": "Reading Lists 인터뷰 — 'massive fan', 추천 3권 직접 답변",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "grey-owl",
+  "type": "consumption",
+  "title": null,
+  "note": "소년시절 쿠퍼·롱펠로 독서가 '전쟁춤' 창작의 원천 — 전기 명시",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "muammar-gaddafi",
+  "type": "consumption",
+  "title": null,
+  "note": "코란으로 독해를 배움 — BBC, 녹서는 마오 어록 모델",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "roald-amundsen",
+  "type": "consumption",
+  "title": null,
+  "note": "자서전 '15세에 프랭클린 저작이 내 인생의 전 과정을 결정'",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "frank-abagnale-jr.",
+  "type": "authored",
+  "title": "『Catch Me If You Can』·『The Art of the Steal』·『Stealing Your Life』·『Scam Me If You Can』",
+  "note": "본인 저작 4권 이상",
+  "url": "https://www.abagnale.com/Books-By-Frank-Abagnale-Jr.html",
+  "existing_relations": 2
+ },
+ {
+  "slug": "jean-francois-champollion",
+  "type": "book",
+  "title": "쾨가 편 콥트 사본 카탈로그·토마스 영 상형문자 저작·드 사시 강의",
+  "note": "콥트어 사본에 직접 주석, 영의 해독 저작 위에 구축 — 명시적 소비·영향",
+  "url": "https://www.coptist.com/2024/12/01/a-note-by-champollion-in-coptic/",
+  "existing_relations": 2
+ },
+ {
+  "slug": "paracelsus",
+  "type": "authored",
+  "title": "『Paragranum』·『Opus Paramirum』·『Grosse Wundarznei』 등 약 30권",
+  "note": "본인 저작",
+  "url": "https://www.paracelsus.uzh.ch/paracelsus-works.html",
+  "existing_relations": 2
+ },
+ {
+  "slug": "wim-hof",
+  "type": "book",
+  "title": "『갈매기에게 나는 법을』·『싯다르타』·성경",
+  "note": "Ferriss 팟캐스트 — 수백 권 읽다 얼음물에서 답 찾음, 선물로 주는 책",
+  "url": "https://tim.blog/wp-content/uploads/2018/08/102-wim-hof.pdf",
+  "existing_relations": 2
+ },
+ {
+  "slug": "puyi",
+  "type": "book",
+  "title": "『이상한 나라의 앨리스』·유교 사서(논어·맹자·대학·중용) 영역본",
+  "note": "존스턴 교수가 허가된 5종으로 가르침 — 위키 기록, 『마지막 황제』 원전 저작도 본인 회고록『나의 전반생』",
+  "url": "https://en.wikipedia.org/wiki/Puyi",
+  "existing_relations": 2
+ },
+ {
+  "slug": "jan-jansz-weltevree",
+  "type": "appearance",
+  "title": "하멜 『하멜표류기』(Journal van de Ongeluckige Voyage)",
+  "note": "하멜 일기의 핵심 등장 인물(통역·고문)",
+  "url": "https://en.wikipedia.org/wiki/Jan_Jansz_Weltevree",
+  "existing_relations": 2
+ },
+ {
+  "slug": "the-man-in-the-iron-mask",
+  "type": "related",
+  "title": "뒤 부아고베 『철가면』",
+  "note": "실존 인물의 픽션 재창작 — 전기 아니므로 related",
+  "url": null,
+  "existing_relations": 2
+ },
+ {
+  "slug": "oghuz-khagan",
+  "type": "appearance",
+  "title": "『오구즈나메』",
+  "note": "오구즈 서사 문헌의 주인공",
+  "url": "https://en.wikipedia.org/wiki/Oghuz_Khagan",
+  "existing_relations": 2
+ },
+ {
+  "slug": "dan",
+  "type": "appearance",
+  "title": "창세기·민수기 — 야곱의 아들",
+  "note": "성경 인물",
+  "url": "https://en.wikipedia.org/wiki/Dan_(son_of_Jacob)",
+  "existing_relations": 2
+ },
+ {
+  "slug": "audie-murphy",
+  "type": "consumption",
+  "title": null,
+  "note": "컨트리 음악 팬, 위키백과",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "pablo-escobar",
+  "type": "consumption",
+  "title": null,
+  "note": "동생 회고록 The Accountant's Story — 라 카테드랄 감옥 소장",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "ross-perot",
+  "type": "consumption",
+  "title": null,
+  "note": "이발소 리더스다이제스트 소로 인용이 EDS 창업 계기 — 본인 인터뷰",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "alex-honnold",
+  "type": "consumption",
+  "title": null,
+  "note": "Outside·Mountaineers 인터뷰 — 독서가로 유명",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "apsley-cherry-garrard",
+  "type": "consumption",
+  "title": null,
+  "note": "전기 Cherry — 침대에서 난센, 키플링 5~6회독 '나의 키플링들', 디킨스 낭독",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "aron-ralston",
+  "type": "consumption",
+  "title": null,
+  "note": "팔 절단 결정 순간 피시를 듣고 있었다고 본인 팟캐스트; 애비를 '환경주의의 현인'으로 자서전에 명시",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "barry-marshall",
+  "type": "consumption",
+  "title": null,
+  "note": "노벨 자서전 — 어린 시절 애독서 + 아버지 기술서·어머니 의학서 탐독",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "guido-van-rossum",
+  "type": "consumption",
+  "title": null,
+  "note": "Lex 팟캐스트 '20대 초 가장 영향받은 책' + 본인 블로그 해리포터 사랑 + 파이썬 명명 유래",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "idi-amin",
+  "type": "consumption",
+  "title": null,
+  "note": "망명지에서 코란 암송이 일과 — 가디언 인터뷰",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "konstantin-tsiolkovsky",
+  "type": "consumption",
+  "title": null,
+  "note": "회고 직접 발언 '로켓 계산의 첫 씨앗은 베른' — 루먄체프 도서관 독서",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "oleg-gordievsky",
+  "type": "consumption",
+  "title": null,
+  "note": "BBC Desert Island Discs — 무인도 도서로 브리태니커, 최애곡 바흐",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "richard-garriott",
+  "type": "consumption",
+  "title": null,
+  "note": "인터뷰 다수 — 톨킨 전작+미완성작+칼레발라까지, 기브란이 미덕 체계의 참고문헌",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "sid-meier",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 인터뷰 — Civ 설계의 직접 영감으로 언급한 게임들",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "yuri-gagarin",
+  "type": "consumption",
+  "title": null,
+  "note": "딸 옐레나 증언 '최애서는 어린왕자가 아니라 야간비행'",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "witold-pilecki",
+  "type": "consumption",
+  "title": null,
+  "note": "처형 전 아내에게 유언 '아이들에게 항상 읽게 하라 — 평생 방향과 용기를 준 책'",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "david-livingstone",
+  "type": "consumption",
+  "title": null,
+  "note": "일기 '성경이 나의 주된 자원' / 토마스 딕의 책이 종교·과학 화해관 형성",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "type": "consumption",
+  "title": null,
+  "note": "GGM 인터뷰 직접 답변 — '돈키호테는 최고의 정치이론서, 침대 옆에 둔다' 라칸동 정글에 가져간 12권 목록 공개",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "type": "consumption",
+  "title": null,
+  "note": "EL PAÍS 2024 — 플레이리스트에 수록된 아티스트, 춤 추천 지침까지 공표(음악 관계 후보)",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "osman-i",
+  "type": "book",
+  "title": "코란",
+  "note": "네슈리 전승: 에데발리 댁에서 코란을 밤새 낭송한 건국 일화 — 전설적 근거이나 인물-콘텐츠 대표 서사",
+  "url": "https://www.dailysabah.com/arts/quran-basis-of-ottoman-empire-from-establishment-to-topkapi-palace/news",
+  "existing_relations": 1
+ },
+ {
+  "slug": "moses",
+  "type": "authored",
+  "title": "토라(모세오경)",
+  "note": "전통적 저작 귀속 — 유대·기독교 전통의 표준 귀속",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "david",
+  "type": "authored",
+  "title": "시편",
+  "note": "전통적 저작 귀속 — 시편 73편에 다윗 표기",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "solomon",
+  "type": "authored",
+  "title": "잠언·전도서·아가",
+  "note": "전통적 저작 귀속",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "isaiah",
+  "type": "authored",
+  "title": "이사야서",
+  "note": "전통적 저작 귀속(학계는 다중 저작론)",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "frederick-cook",
+  "type": "authored",
+  "title": "『My Attainment of the Pole』(1911)",
+  "note": "본인 저작",
+  "url": "https://www.gutenberg.org/ebooks/36962",
+  "existing_relations": 1
+ },
+ {
+  "slug": "kevin-warwick",
+  "type": "book",
+  "title": "크라이튼 『터미널 맨』·웰스 『우주 전쟁』",
+  "note": "이전 라운드 반영 완료",
+  "url": null,
+  "existing_relations": 1
+ },
+ {
+  "slug": "eric-barone",
+  "type": "film",
+  "title": "데이비드 린치·트윈 픽스·하베스트 문·파이널 판타지·어스바운드·크로노 트리거·젤다·Eldritch Horror",
+  "note": "IGN/Nintendo Life 인터뷰 — 린치 'transcendental understanding', RPG들이 성장기를 형성",
+  "url": "https://www.nintendolife.com/features/i-donrt-want-to-see-it-fizzle-outr-stardew-valley-creator-on-why-he-cant-give-it-up",
+  "existing_relations": 1
+ },
+ {
+  "slug": "reginald-johnston",
+  "type": "authored",
+  "title": "『Twilight in the Forbidden City』·『From Peking to Mandalay』·『Buddhist China』·『Confucianism and Modern China』",
+  "note": "본인 저작 — 푸이가 직접 서문을 써준 회고록, 『마지막 황제』 영화 원전",
+  "url": "https://en.wikipedia.org/wiki/Reginald_Johnston",
+  "existing_relations": 1
+ },
+ {
+  "slug": "jack-sheppard",
+  "type": "appearance",
+  "title": "디포 『A Narrative of All the Robberies, Escapes of John Sheppard』·에인즈워스 『Jack Sheppard』·『거지 오페라』의 마키스 원형",
+  "note": "동시대 디포 팸플릿+빅토리아 베스트셀러 소설의 주인공 — 픽션 재창작 관계",
+  "url": "https://en.wikipedia.org/wiki/Jack_Sheppard_(novel)",
+  "existing_relations": 1
+ },
+ {
+  "slug": "nuwa",
+  "type": "appearance",
+  "title": "『산해경』·『회남자』",
+  "note": "창세신화 원전 등장",
+  "url": "https://en.wikipedia.org/wiki/N%C3%BCwa",
+  "existing_relations": 1
+ },
+ {
+  "slug": "jamshid",
+  "type": "appearance",
+  "title": "피르도우시 『샤나메』",
+  "note": "페르시아 국민 서사시의 주요 군주",
+  "url": "https://en.wikipedia.org/wiki/Jamshid",
+  "existing_relations": 1
+ },
+ {
+  "slug": "fereydun",
+  "type": "appearance",
+  "title": "피르도우시 『샤나메』",
+  "note": "서사시 주요 군주",
+  "url": "https://en.wikipedia.org/wiki/Fereydun",
+  "existing_relations": 1
+ },
+ {
+  "slug": "bharata-2",
+  "type": "appearance",
+  "title": "『마하바라타』",
+  "note": "서사시 군주",
+  "url": "https://en.wikipedia.org/wiki/Bharata_(Mahabharata)",
+  "existing_relations": 1
+ },
+ {
+  "slug": "brutus-of-troy",
+  "type": "appearance",
+  "title": "제프리 오브 몬머스 『브리타니아 왕사』",
+  "note": "영국 건국전설 문학의 주인공",
+  "url": "https://en.wikipedia.org/wiki/Brutus_of_Troy",
+  "existing_relations": 1
+ },
+ {
+  "slug": "hayk",
+  "type": "appearance",
+  "title": "모브세스 호레나치 『아르메니아사』",
+  "note": "아르메니아 시조 전설의 문헌 원전",
+  "url": "https://en.wikipedia.org/wiki/Hayk",
+  "existing_relations": 1
+ },
+ {
+  "slug": "tubal",
+  "type": "appearance",
+  "title": "창세기 족보",
+  "note": "성경 인물 — 창세기 등장",
+  "url": "https://en.wikipedia.org/wiki/Tubal",
+  "existing_relations": 1
+ },
+ {
+  "slug": "zahhak",
+  "type": "appearance",
+  "title": "피르도우시 『샤나메』",
+  "note": "서사시의 폭군 캐릭터",
+  "url": "https://en.wikipedia.org/wiki/Zahhak",
+  "existing_relations": 1
+ },
+ {
+  "slug": "manas",
+  "type": "appearance",
+  "title": "『마나스』 서사시",
+  "note": "키르기스 국민서사시 주인공",
+  "url": "https://en.wikipedia.org/wiki/Epic_of_Manas",
+  "existing_relations": 1
+ },
+ {
+  "slug": "etana",
+  "type": "appearance",
+  "title": "『에타나 서사시』·수메르 왕명록",
+  "note": "고대 서사시 문헌의 주인공",
+  "url": "https://en.wikipedia.org/wiki/Etana",
+  "existing_relations": 1
+ },
+ {
+  "slug": "menelik-i",
+  "type": "appearance",
+  "title": "『케브라 나가스트』",
+  "note": "에티오피아 국민전서의 주인공 — 솔로몬과 시바 여왕의 아들",
+  "url": "https://en.wikipedia.org/wiki/Menelik_I",
+  "existing_relations": 1
+ },
+ {
+  "slug": "shakuntala",
+  "type": "appearance",
+  "title": "『마하바라타』·칼리다사 희곡 『사쿤탈라』",
+  "note": "산스크리트 문학의 주인공",
+  "url": "https://en.wikipedia.org/wiki/Shakuntala",
+  "existing_relations": 1
+ },
+ {
+  "slug": "alexandra-david-neel",
+  "type": "consumption",
+  "title": null,
+  "note": "Overman Foundation·WorldHistory·Tricycle — 직접 텍스트 탐독 기록",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "beck-weathers",
+  "type": "consumption",
+  "title": null,
+  "note": "MountainZone 인터뷰에서 \"very good books\"로 직접 평가",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "ivan-boesky",
+  "type": "consumption",
+  "title": null,
+  "note": "UPI 'favorite singers' + Vanity Fair 서재 목록",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "alan-kay",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 공식 독서목록(c2 wiki) — 5천권 서재, 맥루한·파퍼트·드러커·포스트먼·뷔고츠키 등 99종",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "bernie-madoff",
+  "type": "consumption",
+  "title": null,
+  "note": "FT 인터뷰 '대니얼 스틸이 비밀' + Behar 전기 'Battle Cry가 애독'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "buckminster-fuller",
+  "type": "consumption",
+  "title": null,
+  "note": "코지브스키 일반의미론 세미나 참석·기념강연 — Synergetics 서문에 명시; 작업서고 200권 목록 존재",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "alberto-santos-dumont",
+  "type": "consumption",
+  "title": null,
+  "note": "자서전 My Airships — '나의 애독 작가는 쥘 베른'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "alexander-selkirk",
+  "type": "consumption",
+  "title": null,
+  "note": "구조선장 로저스 기록 — 무인도에서 성경·경건서적·항해서 탐독",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "alexey-pajitnov",
+  "type": "consumption",
+  "title": null,
+  "note": "Seattle Times '인생을 바꾼 발견' + Polygon 인터뷰 채플린 팬",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "ada-blackjack",
+  "type": "consumption",
+  "title": null,
+  "note": "미션스쿨서 성경 배움, 나이트의 성경을 선물받고 일기에 기록 — 다트머스 소장 일기 원문",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "auguste-piccard",
+  "type": "consumption",
+  "title": null,
+  "note": "어린 시절 베른 탐독(전기) + 자서전에 발디비아 탐사 기록 독서 명시",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "bram-cohen",
+  "type": "consumption",
+  "title": null,
+  "note": "TorrentFreak 인터뷰 — CD 천장 컬렉션·인더스트리얼, 최애 영화; Wired — 심플라이프 시즌1 애청",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "david-hahn",
+  "type": "consumption",
+  "title": null,
+  "note": "10세에 할아버지 선물 — 원자로 프로젝트의 촉매, Silverstein 전기",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "desmond-doss",
+  "type": "consumption",
+  "title": null,
+  "note": "전장에 성경 소지·안식일학교 교과로 혼자 예배 — 아내에게 보낸 편지 원문",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "gertrude-bell",
+  "type": "consumption",
+  "title": null,
+  "note": "하페즈 디완을 영역한 최고 번역본 저자 — 원전 탐독",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "haile-selassie",
+  "type": "consumption",
+  "title": null,
+  "note": "공식 연설 '유년부터 성경을 사랑, 세월이 갈수록 커진다' + 암하라어 번역 지시, 망명지 애독 외교사",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "joe-simpson",
+  "type": "consumption",
+  "title": null,
+  "note": "인터뷰 직접 발언 — '14세에 읽고 등산 결심'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "john-mcafee",
+  "type": "consumption",
+  "title": null,
+  "note": "인터뷰 직접 추천 — '내 인생을 바꾼 최고의 책'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "leo-szilard",
+  "type": "consumption",
+  "title": null,
+  "note": "'very great impression' — 핵연쇄반응 특허 비공개 결정의 직접 근거로 인용",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "mansa-musa",
+  "type": "consumption",
+  "title": null,
+  "note": "하지 귀국길에 대량 장서 구입·말리키 법서 배포, 코란 장려 — 역사 기록",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "markus-persson",
+  "type": "consumption",
+  "title": null,
+  "note": "모장 공식 'Notch!' 페이지 취미 목록 + AMA 최애 게임",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "michael-milken",
+  "type": "consumption",
+  "title": null,
+  "note": "포브스 사무실 기사 'favorite book' — 손주 9명에게 낭독",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "mobutu-sese-seko",
+  "type": "consumption",
+  "title": null,
+  "note": "최애서 '군주론' — 초소 근무 중 독서 기록",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "nestor-makhno",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 회고록·논문에서 이론가들을 직접 인용·평가",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "nick-szabo",
+  "type": "consumption",
+  "title": null,
+  "note": "Ferriss 인터뷰 '인생을 바꾼 책' + 트윗 '가장 중요한 책 중 하나'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "orde-wingate",
+  "type": "consumption",
+  "title": null,
+  "note": "구약을 역사·전술교범으로 간주, 매일 성경 암송 교육, 기드온에 자신을 동일시",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "robert-falcon-scott",
+  "type": "consumption",
+  "title": null,
+  "note": "디스커버리·테라노바 선상 서재 실물 목록 + 스콧 독서 기록 문서화",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "robert-goddard",
+  "type": "consumption",
+  "title": null,
+  "note": "보스턴 포스트 연재 — 벚나무 깨달음의 직접 계기, 웰스에게 직접 편지",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "robert-peary",
+  "type": "consumption",
+  "title": null,
+  "note": "일기 직접 기록 '읽으며 큰 즐거움' + 루스벨트호 서재 실물 목록",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "ross-ulbricht",
+  "type": "consumption",
+  "title": null,
+  "note": "법정·언론 기록 — 실크로드 설계의 교리적 핵심으로 읽은 저작들",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "sergei-korolev",
+  "type": "consumption",
+  "title": null,
+  "note": "'읽기 시작해 놓을 수 없었다' + 개인 서재 소장본이 연필 메모로 가득 — 전기작가 골로바노프",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "yukihiro-matsumoto",
+  "type": "consumption",
+  "title": null,
+  "note": "인터뷰 직접 답변 — 최애 영화 매트릭스 1편, 만화 애독",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "will-wright",
+  "type": "consumption",
+  "title": null,
+  "note": "GDC·BAFTA·가디언 인터뷰 — 각 게임의 직접 영감으로 지목한 책들",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "terry-a.-davis",
+  "type": "consumption",
+  "title": null,
+  "note": "성경의 제3성전 예언을 OS 설계 지침으로 — 본인 진술",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "yusaku-maezawa",
+  "type": "consumption",
+  "title": null,
+  "note": "ISS에 유일하게 가져간 책 '나 같은 우주덕에겐 성경 같은 만화' — 본인 유튜브, 하드코어 펑크 수집이 창업 기원",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "doug-tompkins",
+  "type": "consumption",
+  "title": null,
+  "note": "심층생태학의 아버지 네스에 '깊은 영향' — 서재에 스펭글러·멈포드·맨더",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "douglas-engelbart",
+  "type": "consumption",
+  "title": null,
+  "note": "필리핀 적십자 도서관에서 발견 — '매우 흥미로웠다', 지능증강 비전의 직접 계기",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "freya-stark",
+  "type": "consumption",
+  "title": null,
+  "note": "9세 생일 선물 천일야화로 오리엔트 매혹 — 오리엔트 탐험의 직접 계기 / 뒤마 애독",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "jack-parsons",
+  "type": "consumption",
+  "title": null,
+  "note": "크롤리 텍스트 소유·주석·의식 실 사용 / SF 펄프 애독 — 학술논문이 문학적 세계관 3저작 지목",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "edwin-land",
+  "type": "consumption",
+  "title": null,
+  "note": "소년 시절 베개 밑에 두고 잔 책 — 광학자로의 각성 계기",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "dean-kamen",
+  "type": "consumption",
+  "title": null,
+  "note": "'교과서 한 단락 대신 원전을 읽었다' — 인터뷰 직접 발언",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "william-randolph-hearst",
+  "type": "consumption",
+  "title": null,
+  "note": "최애 작가 디킨스 — 서명 초판본 세트 수집",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "isabella-stewart-gardner",
+  "type": "consumption",
+  "title": null,
+  "note": "'책은 가장 매혹적이고 위험한 추구' 본인 편지 — 노턴 지도로 단테 소장·단테협회 회원",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "marjorie-cameron",
+  "type": "consumption",
+  "title": null,
+  "note": "파슨스 권유로 독서 — 버먼이 준 스테펜울프에 감명",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "george-hotz",
+  "type": "consumption",
+  "title": null,
+  "note": "'죄와 벌 읽기 전까진 더 범죄자 같은 마음이었다 — 젠장, 나잖아' 본인 발언 + 추천 목록 공개",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "limor-fried",
+  "type": "consumption",
+  "title": null,
+  "note": "The Verge 인터뷰 — '무라카미 팬, 1Q84 막 끝냈다', 최애 STEM 캐릭터 슈리",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "yijing",
+  "type": "consumption",
+  "title": null,
+  "note": "날란다 수학 — 불경 400부 번역, 경전 연구·번역이 평생 작업",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "roger-ver",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 자전적 에세이 — '중학교 때 미제스 사회주의를 읽고 자유주의자가 됐다, 로스바드 전작을 탐독'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "wei-dai",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 추천서 목록 메일링 게시 + '팀 메이의 크립토아나키에 매혹' — b-money 에세이 서두",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "gerald-cotten",
+  "type": "consumption",
+  "title": null,
+  "note": "미망인 회고록 — '게리는 Arrested Development 팬이었다', 바나나 스탠드 개그를 회사 은폐에 빗댐",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "george-koval",
+  "type": "consumption",
+  "title": null,
+  "note": "전기 「Sleeper Agent」 — '올아메리칸 보이로 야구를 하고 휘트먼 시를 사랑했다'",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "chris-sawyer",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 사이트에 '롤러코스터 책 top 20' 직접 게재 — RCT 개발의 직접 영감",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "run-run-shaw",
+  "type": "consumption",
+  "title": null,
+  "note": "최애 프로그램 미스터 빈 — 연 600~700편 영화 시청으로 유명",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "tim-paterson",
+  "type": "consumption",
+  "title": null,
+  "note": "본인 글에서 기본 사실 확인용으로 Gates를 읽으라 추천",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "woodie-flowers",
+  "type": "consumption",
+  "title": null,
+  "note": "부부의 '새벽 4시 독서모임' — MIT Tech Review 프로필 직접 보도",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "pyotr-kozlov",
+  "type": "consumption",
+  "title": null,
+  "note": "소년기에 프르제발스키의 기행문·기사를 탐독해 아시아 탐험을 결심 — 본인 회고에 명시",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "viktor-bout",
+  "type": "consumption",
+  "title": null,
+  "note": "NYT 매거진 「Arms and the Man」(2003) — 최애 작가로 코엘료·카스타네다 직접 언급, 러시아 고전 탐독가",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "robert-de-montesquiou",
+  "type": "consumption",
+  "title": null,
+  "note": "문학 연구 — 그의 시집 『박쥐들』이 위고·고티에·에레디아에서 파생한 명시적 영향",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "stubbins-ffirth",
+  "type": "consumption",
+  "title": null,
+  "note": "논문에서 인디언 전염병 최초 기록으로 카르티에 항해기를 직접 인용 — 읽은 증거",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "tim-thompson",
+  "type": "book",
+  "title": "Pascal 『Traitez de l'Equilibre des Liqueurs』·Airy 『Gravitation』 등",
+  "note": "개인 'Musty Old Books' 페이지: 수천 권 서재 전부 실독, 과학·체스·언어·군사사 고서 수집",
+  "url": "http://www.tim-thompson.com/books.html",
+  "existing_relations": 0
+ },
+ {
+  "slug": "ur-nammu",
+  "type": "authored",
+  "title": "우르남무 법전",
+  "note": "현존 최고(最古) 성문법전 — 우르남무 명의 귀속",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "emperor-hirohito",
+  "type": "authored",
+  "title": "『Myxomycetes of the Nasu District』·『Flora Nasuensis』 등 해양생물 도감 32책",
+  "note": "해양생물학 저작 다수(일부 타인 명의)",
+  "url": "https://www.nytimes.com/1964/11/01/35-treatise-by-hirohito-was-signed-by-another.html",
+  "existing_relations": 0
+ },
+ {
+  "slug": "jean-bedel-bokassa",
+  "type": "film",
+  "title": "나폴레옹 영화들·장 베델 문법서",
+  "note": "시네클럽에서 나폴레옹 영화 상영·연구(베니티페어); 소년시절 장 베델 문법책을 애독해 이름까지 땀",
+  "url": "https://archive.vanityfair.com/article/1987/6/1/fall-of-a-savage-emperor",
+  "existing_relations": 0
+ },
+ {
+  "slug": "sophie-brahe",
+  "type": "book",
+  "title": "파라켈수스 저작",
+  "note": "파라켈수스식 화학·의학 연구로 저소득층 치료 — 저작 숙독 명시",
+  "url": "https://en.wikipedia.org/wiki/Sophia_Brahe",
+  "existing_relations": 0
+ },
+ {
+  "slug": "william-buckland",
+  "type": "authored",
+  "title": "『Reliquiae Diluvianae』·브리지워터 논설 『Geology and Mineralogy』·『Vindiciae Geologiae』",
+  "note": "본인 저작; 퀴비에 애독(영향)",
+  "url": "https://oumnh.ox.ac.uk/william-buckland",
+  "existing_relations": 0
+ },
+ {
+  "slug": "philip-henry-stanhope,-4th-earl-stanhope",
+  "type": "authored",
+  "title": "『Tracts Relating to Caspar Hauser』",
+  "note": "카스파 하우저 옹호 저작 1836 — 『Life of Belisarius』는 5대 백작 저작",
+  "url": "https://en.wikipedia.org/wiki/Philip_Stanhope,_4th_Earl_Stanhope",
+  "existing_relations": 0
+ },
+ {
+  "slug": "salavat-yulaev",
+  "type": "authored",
+  "title": "시집(졸레이하·나의 우랄·전투 등 500행)",
+  "note": "본인 시·노래 — 바시키르 구전+문자 병행",
+  "url": "https://en.wikipedia.org/wiki/Salawat_Yulayev",
+  "existing_relations": 0
+ },
+ {
+  "slug": "isaak-prezent",
+  "type": "authored",
+  "title": "『미추린과 그의 학설』·『다윈 이론과 변증법적 유물론』 등",
+  "note": "본인 저작 다수",
+  "url": "https://rusist.info/author/282387",
+  "existing_relations": 0
+ },
+ {
+  "slug": "mauro-prosperi",
+  "type": "authored",
+  "title": "『Quei 10 giorni oltre la vita』",
+  "note": "본인 자서전 2020",
+  "url": "https://www.mauroprosperi.com/shop/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "bob-astles",
+  "type": "authored",
+  "title": "회고록(2013)·키엠바 『State of Blood』",
+  "note": "본인 회고록 + 키엠바 저작을 읽고 반박(소비 근거 명시)",
+  "url": "https://www.theeastafrican.co.ke/tea/magazine/mythical-idi-amin-did-writers-get-the-real-truth-about-him-3576696",
+  "existing_relations": 0
+ },
+ {
+  "slug": "maria-koepcke",
+  "type": "authored",
+  "title": "『Las aves del Departamento de Lima』 등 22편+",
+  "note": "본인 저작 — 조류도감·논문, 직접 삽화",
+  "url": "https://en.wikipedia.org/wiki/Maria_Koepcke",
+  "existing_relations": 0
+ },
+ {
+  "slug": "georg-friedrich-daumer",
+  "type": "authored",
+  "title": "카스파 하우저 저작 3종(『Mittheilungen』1832·『Enthüllungen』1859·『Kaspar Hauser』1873)",
+  "note": "본인 저작",
+  "url": "https://onlinebooks.library.upenn.edu/webbin/who/Daumer%2c%20Georg%20Friedrich%2c%201800%2d1875",
+  "existing_relations": 0
+ },
+ {
+  "slug": "georges-ladoux",
+  "type": "authored",
+  "title": "『Comment j'ai fait arrêter Mata-Hari』·『Mes souvenirs』 등 전시 회고록",
+  "note": "본인 저작 다수(마르셀 베르제 정리)",
+  "url": "https://fr.wikipedia.org/wiki/Georges_Ladoux",
+  "existing_relations": 0
+ },
+ {
+  "slug": "gleb-botkin",
+  "type": "authored",
+  "title": "『The Woman Who Rose Again』·『The Real Romanovs』·『Lost Tales』",
+  "note": "본인 저작 3종",
+  "url": "https://en.wikipedia.org/wiki/Gleb_Botkin",
+  "existing_relations": 0
+ },
+ {
+  "slug": "richard-suskind",
+  "type": "authored",
+  "title": "『Crusades』 등 아동 역사서 12권·어빙 공저 『What Really Happened』",
+  "note": "본인 저작",
+  "url": "https://en.wikipedia.org/wiki/Richard_Suskind",
+  "existing_relations": 0
+ },
+ {
+  "slug": "sidkeong-tulku-namgyal",
+  "type": "authored",
+  "title": "승원 지침서 bCa' yig(1909)·다비드닐 불교 서적 왕복 서신",
+  "note": "본인 저작 + 다비드닐 불교서 주문 서신(소비 신호)",
+  "url": "https://www.cambridge.org/core/journals/journal-of-the-royal-asiatic-society/article/abs/monastic-guidelines-bca-yig-by-sidkeong-tulku-monasteries-sex-and-reform-in-sikkim1/A0A9CFD32E9AD96CBE1BCCCD358B85E7",
+  "existing_relations": 0
+ },
+ {
+  "slug": "joseph-paris-duverney",
+  "type": "authored",
+  "title": "『Examen du livre intitulé réflexions politiques』(1740)",
+  "note": "뒤토 저작 반박서 — 본인 구술 저작",
+  "url": "https://en.wikipedia.org/wiki/Joseph_P%C3%A2ris_Duverney",
+  "existing_relations": 0
+ },
+ {
+  "slug": "jeff-briggs",
+  "type": "music",
+  "title": "바르톡·스트라빈스키",
+  "note": "14세 부상 요양 중 두 작곡가 음악을 듣고 작곡 입문 — 명시적 영향",
+  "url": "http://jefferylbriggs.com/long-bio",
+  "existing_relations": 0
+ },
+ {
+  "slug": "john-eacott-manahan",
+  "type": "authored",
+  "title": "『The Manahan Family』·박사논문 『The Cavalier Remounted』",
+  "note": "본인 저작 + 족보 장서 2.5만권(소장은 참고)",
+  "url": "https://dissdb.dev.rrchnm.org/scholar/46900/manahan-john/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "william-law",
+  "type": "authored",
+  "title": "『A Serious Call to a Devout and Holy Life』 등",
+  "note": "본인 저작 — 신학서 다수",
+  "url": "https://en.wikipedia.org/wiki/William_Law",
+  "existing_relations": 0
+ },
+ {
+  "slug": "william-norris",
+  "type": "authored",
+  "title": "『New Frontiers for Business Leadership』(1983)",
+  "note": "본인 저작",
+  "url": "https://www.minnpost.com/politics-policy/2009/06/william-norris-saw-coming-business-greed-isnt-always-good/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "lilian-maclaughlin-brown",
+  "type": "authored",
+  "title": "『I Married a Dinosaur』·『Bring 'em Back Petrified』·『Cleopatra Slept Here』",
+  "note": "본인 저작 3종",
+  "url": "https://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha001249755",
+  "existing_relations": 0
+ },
+ {
+  "slug": "francis-younghusband",
+  "type": "authored",
+  "title": "『The Heart of a Continent』·『Kashmir』·『India and Tibet』 등 26권",
+  "note": "본인 저작",
+  "url": "https://openlibrary.org/authors/OL208920A/Sir_Francis_Edward_Younghusband",
+  "existing_relations": 0
+ },
+ {
+  "slug": "milton-hershey",
+  "type": "book",
+  "title": "레 미제라블(빅토르 위고)",
+  "note": "3일간 방에 틀어박혀 전권 통독한 일화 — MHS 공식 블로그",
+  "url": "https://www.mhskids.org/blog/milton-hersheys-passion-for-reading-literacy/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "valentin-glushko",
+  "type": "book",
+  "title": "쥘 베른 『지구에서 달까지』·『달 세계 일주』·치올콥스키 저작",
+  "note": "14세에 베른 소설 읽고 우주 인생 결정, 도서관에서 치올콥스키 발견 후 편지·서신 교환",
+  "url": "https://kpi.ua/en/glushko-about",
+  "existing_relations": 0
+ },
+ {
+  "slug": "george-psalmanazar",
+  "type": "authored",
+  "title": "『Formosa 역사지리』(1704)·『Memoirs』(1765)",
+  "note": "본인 저작 — 대표 사기서와 자전적 회고록",
+  "url": "https://archive.org/details/bim_eighteenth-century_memoirs-of-commonl_psalmanazar-george_1765",
+  "existing_relations": 0
+ },
+ {
+  "slug": "orelie-antoine-de-tounens",
+  "type": "book",
+  "title": "알론소 데 에르시야 『라 아라우카나』",
+  "note": "1858년 이 책을 읽고 아라우카니아 왕이 되기로 결심해 칠레로 출발",
+  "url": "https://en.wikipedia.org/wiki/Or%C3%A9lie-Antoine_de_Tounens",
+  "existing_relations": 0
+ },
+ {
+  "slug": "sophia-schliemann",
+  "type": "authored",
+  "title": "남편 자서전 편집 간행(1892)·『Heinrich Schliemann and the Mycenaean Civilization』(1912)",
+  "note": "본인 편저·저작",
+  "url": "https://ascsa.edu.gr/index.php/archives/sophia-schliemann-papers",
+  "existing_relations": 0
+ },
+ {
+  "slug": "feng-yuxiang",
+  "type": "book",
+  "title": "성경 + 본인 저작 『나의 생활』(我的生活)",
+  "note": "성경공부 후 1914년 세례·기독교 장군, 자서전 2권 저술",
+  "url": "https://en.wikipedia.org/wiki/Feng_Y%C3%BC-hsiang",
+  "existing_relations": 0
+ },
+ {
+  "slug": "josephine-peary",
+  "type": "authored",
+  "title": "『My Arctic Journal』·『The Snow Baby』·『Children of the Arctic』",
+  "note": "본인 저작 3권",
+  "url": "https://library.une.edu/mwwc/collections/collections-a-z/josephine-diebitsch-peary-papers-1861-2003/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "ibn-juzayy",
+  "type": "authored",
+  "title": "『리흘라』 집필·『Al-Tashil』·『Al-Qawanin al-Fiqhiyyah』",
+  "note": "본인 저작 — 이븐 바투타 여행기 문학 형태로 성문화",
+  "url": "https://en.wikipedia.org/wiki/Ibn_Juzayy",
+  "existing_relations": 0
+ },
+ {
+  "slug": "sechele",
+  "type": "book",
+  "title": "성경(츠와나어판)",
+  "note": "이틀 만에 자모 습득, 유일한 츠와나어 서적 성경을 닳도록 읽음 — 이사야 최애·바울 연설 감상, 리빙스턴 『Missionary Travels』 1차 기록",
+  "url": "https://www.thuto.org/ubh/etext/mtrav/liv01.htm",
+  "existing_relations": 0
+ },
+ {
+  "slug": "elias-boudinot",
+  "type": "authored",
+  "title": "『Poor Sarah』 체로키어 번역·체로키 찬송가·신약 번역(워스터 공역)",
+  "note": "본인 번역·저작 — 체로키 문자 최초 인쇄본 공저자",
+  "url": "https://www.georgiawritershalloffame.org/honorees/elias-boudinot",
+  "existing_relations": 0
+ },
+ {
+  "slug": "fan-noli",
+  "type": "authored",
+  "title": "셰익스피어(오셀로·햄릿·맥베스·리어왕 등)·세르반테스·입센·오마르 하이얌 알바니아어 번역·신약 영역(1961)",
+  "note": "본인 번역 다수 — 그리스어역으로 셰익스피어 접한 후 영어 습득해 직접 번역",
+  "url": "http://www.albanianliterature.net/authors/classical/noli/noli_prose.html",
+  "existing_relations": 0
+ },
+ {
+  "slug": "aaron-burr",
+  "type": "book",
+  "title": "볼테르·스위프트·기번 『로마제국 쇠망사』·보즈웰 『존슨전』 등",
+  "note": "뉴욕 소사이어티 도서관 실제 대출 장부 — 대여 기록으로 확정된 독서",
+  "url": "https://cityreaders.nysoclib.org/Detail/entities/164",
+  "existing_relations": 0
+ },
+ {
+  "slug": "ralph-baer",
+  "type": "authored",
+  "title": "『Videogames: In the Beginning』",
+  "note": "본인 저작",
+  "url": "http://www.rolentapress.com/Products/Videogames%20-%20In%20The%20Beginning/Preview.htm",
+  "existing_relations": 0
+ },
+ {
+  "slug": "bram-moolenaar",
+  "type": "book",
+  "title": "코비 『성공하는 사람들의 7가지 습관』·스콧 애덤스 딜버트 서적·마이크 올드필드·드페시 모드·장 미셸 자르·비요크",
+  "note": "본인 강연 슬라이드·인터뷰 추천 + 최애 아티스트",
+  "url": "https://www.moolenaar.net/habits_2007.pdf",
+  "existing_relations": 0
+ },
+ {
+  "slug": "david-silver",
+  "type": "book",
+  "title": "서턴·바토 『Reinforcement Learning: An Introduction』·카스파로프 『Deep Thinking』",
+  "note": "ACM 인터뷰 '그 책을 읽는 순간 연결됐다' — 커리어 전환 계기",
+  "url": "https://dl.acm.org/doi/fullHtml/10.1145/3474361",
+  "existing_relations": 0
+ },
+ {
+  "slug": "vesna-vulovic",
+  "type": "music",
+  "title": "비틀즈",
+  "note": "이전 라운드 반영 완료",
+  "url": null,
+  "existing_relations": 0
+ },
+ {
+  "slug": "conrad-anker",
+  "type": "book",
+  "title": "잭 런던 전집(무인도 도서)·레뷔파 『Starlight and Storm』·메스너 『Big Walls』·한산시(冷山)",
+  "note": "BBC Desert Island Discs 도서 선택 + 인터뷰에서 기자에게 레뷔파 책 직접 건넴 + 15세에 메스너 서적 독파",
+  "url": "https://www.bbc.co.uk/programmes/b02lrl30",
+  "existing_relations": 0
+ },
+ {
+  "slug": "saxton-pope",
+  "type": "authored",
+  "title": "『Hunting with the Bow and Arrow』·『Yahi Archery』·『The Adventurous Bowmen』 등",
+  "note": "본인 저작 — 현대 궁술 사냥의 바이블",
+  "url": "https://en.m.wikipedia.org/wiki/Saxton_Pope",
+  "existing_relations": 0
+ },
+ {
+  "slug": "heather-morgan",
+  "type": "music",
+  "title": "릴 디키·로널리 아일랜드",
+  "note": "Forbes — 대학 시절 avid fan, 프리스타일 랩으로 발전",
+  "url": "https://www.forbes.com/sites/cyrusfarivar/2022/03/17/razzlekhan-bitcoin-heather-morgan/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "yoji-shinkawa",
+  "type": "book",
+  "title": "아키라·아시타노 조·건담·파이브 스타 스토리·WildCATS·헬보이·캡틴 퓨처·D&D",
+  "note": "본인 인터뷰 — 야스히코의 아리온 붓펜화가 화풍 형성, 아마노·미야자키·뫼비우스·비랄 영향",
+  "url": "https://shmuplations.com/yojishinkawa/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "justin-frankel",
+  "type": "book",
+  "title": "『Masters of Doom』·『Nona the Ninth』·『삼체』·『Catch-22』·『Flatland』",
+  "note": "Metacast 팟캐스트 본인 독서 목록",
+  "url": "https://www.metacastpodcast.com/p/014-justin-frankel-creator-winamp-reaper",
+  "existing_relations": 0
+ },
+ {
+  "slug": "roberta-williams",
+  "type": "book",
+  "title": "앤드루 랭 동화 시리즈·오즈의 마법사·이상한 나라의 앨리스·애거서 크리스티",
+  "note": "본인 인터뷰 — 동화책 반복독서가 킹스퀘스트의 직접 원천",
+  "url": "https://www.atarimagazines.com/v2n8/wizardprincess.html",
+  "existing_relations": 0
+ },
+ {
+  "slug": "ken-williams",
+  "type": "book",
+  "title": "『Masters of Doom』·『Console Wars』·『Hackers』(리바이)·빌 게이츠·디즈니 관련 서적 전부",
+  "note": "Wired 인터뷰 — 'I read every book written on both companies', Hackers 추천",
+  "url": "https://www.wired.com/story/sierra-online-ken-williams-interview-memoir/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "henk-rogers",
+  "type": "authored",
+  "title": "『The Perfect Game: Tetris, from Russia with Love』",
+  "note": "본인 저작 2025",
+  "url": "https://www.theguardian.com/games/2025/may/12/henk-rogers-interview-tetris-kgb",
+  "existing_relations": 0
+ },
+ {
+  "slug": "yasuhiro-wada",
+  "type": "book",
+  "title": "도라에몽(지구창조 에피소드)·젤다·심시티·심어스·포퓰러스",
+  "note": "GameSpot 인터뷰 — 도라에몽 지구제작기구 에피소드가 Birthdays의 직접 원천",
+  "url": "https://www.gamespot.com/articles/harvest-moon-creator-on-his-new-game-and-how-stard/1100-6445583/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "matthew-henson",
+  "type": "authored",
+  "title": "『A Negro Explorer at the North Pole』",
+  "note": "본인 회고록 1912 — 피어리 서문·부커 T. 워싱턴 소개문",
+  "url": "https://gutenberg.org/files/20923/20923-h/20923-h.htm",
+  "existing_relations": 0
+ },
+ {
+  "slug": "george-antheil",
+  "type": "authored",
+  "title": "『Bad Boy of Music』·『Death in the Dark』·『Every Man His Own Detective』",
+  "note": "본인 자서전(베스트셀러)·미스터리 소설 — T.S.엘리엇 편집",
+  "url": "https://en.wikipedia.org/wiki/George_Antheil",
+  "existing_relations": 0
+ },
+ {
+  "slug": "theodore-von-karman",
+  "type": "authored",
+  "title": "『The Wind and Beyond』·저작 5권·논문 200편",
+  "note": "본인 자서전(리 에드슨 공저) — Caltech 컬렉션 문서",
+  "url": "https://authors.library.caltech.edu/25071",
+  "existing_relations": 0
+ },
+ {
+  "slug": "amelia-edwards",
+  "type": "book",
+  "title": "윌킨슨 『고대 이집트인의 풍습』·천일야화 — 유년기 매료 / 저작: 『A Thousand Miles up the Nile』·소설 9권",
+  "note": "본인 회고 — '손에 책이 없는 적이 없었다', 윌킨슨 저작이 이집트학 소양의 원천",
+  "url": "https://www.ees.ac.uk/resource/amelia-b-edwards-her-life-and-legacy.html",
+  "existing_relations": 0
+ },
+ {
+  "slug": "hiram-bingham-iii",
+  "type": "authored",
+  "title": "『Lost City of the Incas』·『Machu Picchu: A Citadel of the Incas』 등",
+  "note": "본인 저작",
+  "url": "https://openlibrary.org/books/OL22064925M/Lost_city_of_the_Incas",
+  "existing_relations": 0
+ },
+ {
+  "slug": "arturo-rosenblueth",
+  "type": "authored",
+  "title": "『Behavior, Purpose and Teleology』(위너·빅글로 공저) 등",
+  "note": "본인 논문 — 사이버네틱스 창시 문헌",
+  "url": "https://www.sfipress.org/06-rosenblueth-wiener-bigelow-1943",
+  "existing_relations": 0
+ },
+ {
+  "slug": "sylvester-graham",
+  "type": "authored",
+  "title": "『Lectures on the Science of Human Life』",
+  "note": "본인 저작 — 19세기 건강 개혁 운동의 고전",
+  "url": "https://wellcomecollection.org/works/d5rt6pap",
+  "existing_relations": 0
+ },
+ {
+  "slug": "jerry-lawson",
+  "type": "book",
+  "title": "『101 BASIC Computer Games』·SF 서적·영화 탐독",
+  "note": "아들·조카에게 준 책이 컴퓨터과학 진로 결정 — NPR 인터뷰, 'devoured sci-fi books'",
+  "url": "https://www-s1.npr.org/2021/09/17/1037911107/jerry-lawson-video-game-fairchild-channel-f-black-engineer",
+  "existing_relations": 0
+ },
+ {
+  "slug": "margaret-howe-lovatt",
+  "type": "book",
+  "title": "『Miss Kelly』(말하는 고양이 동화)·릴리 『Man and Dolphin』",
+  "note": "Guardian 인터뷰 — '어머니가 준 책이 평생 집착의 원천이었다' 직접 회고",
+  "url": "https://www.theguardian.com/environment/2014/jun/08/the-dolphin-who-loved-me",
+  "existing_relations": 0
+ },
+ {
+  "slug": "hotsumi-ozaki",
+  "type": "authored",
+  "title": "『만성(漫成)』 옥중 서간집·중국 관련 저작 다수",
+  "note": "본인 저작·서간 — '일본과 중국의 고전에 깊이 젖은 교육' 기록",
+  "url": "https://en.wikipedia.org/wiki/Hotsumi_Ozaki",
+  "existing_relations": 0
+ },
+ {
+  "slug": "helge-ingstad",
+  "type": "authored",
+  "title": "『Land of Feast and Famine』·『The Apache Indians』·『Nunamiut』 등",
+  "note": "본인 저작 — 노르웨이 베스트셀러 탐험 문학",
+  "url": "https://en.wikipedia.org/wiki/Helge_Ingstad",
+  "existing_relations": 0
+ },
+ {
+  "slug": "philipp-franz-von-siebold",
+  "type": "authored",
+  "title": "『Nippon』·『Flora Japonica』·『Bibliotheca Japonica』",
+  "note": "본인 저작 — 일본학 기초 문헌",
+  "url": "https://en.wikipedia.org/wiki/Philipp_Franz_von_Siebold",
+  "existing_relations": 0
+ },
+ {
+  "slug": "tommy-chong",
+  "type": "book",
+  "title": "『The Runner's Bible』·에밋 폭스·역경·성경·코믹북",
+  "note": "Uproxx/Good Times 인터뷰 — '매일 아침 랜덤하게 펼쳐 읽는다', 만화책 애호",
+  "url": "https://uproxx.com/life/tommy-chong-interview-cheech-and-chongs-takeout/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "frederick-catherwood",
+  "type": "book",
+  "title": "갈린도의 코판 유적 기록 — 읽고 중앙아메리카행 결정 / 저작: 『Views of Ancient Monuments』",
+  "note": "위키 — Stephens와 함께 Galindo의 보고서를 읽고 원정을 결의",
+  "url": "https://en.wikipedia.org/wiki/Frederick_Catherwood",
+  "existing_relations": 0
+ },
+ {
+  "slug": "henry-de-la-beche",
+  "type": "authored",
+  "title": "『A Geological Manual』·『The Geological Observer』·『Researches in Theoretical Geology』",
+  "note": "본인 저작 다수",
+  "url": "https://en.wikipedia.org/wiki/Henry_de_la_Beche",
+  "existing_relations": 0
+ },
+ {
+  "slug": "jedediah-smith",
+  "type": "book",
+  "title": "루이스·클라크 원정 일지·성경",
+  "note": "소년기에 루이스·클라크 일지를 읽고 서부 개척을 꿈꿈, 성경은 평생 휴대('his Bible and his rifle')",
+  "url": "https://spartacus-educational.com/WWsmithJ.htm",
+  "existing_relations": 0
+ },
+ {
+  "slug": "natalie-of-serbia",
+  "type": "authored",
+  "title": "회고록·아포리즘집(1897)",
+  "note": "본인 저작 — 회고록 바티칸 보관 후 1999 베오그라드 출간",
+  "url": "https://en.wikipedia.org/wiki/Natalija_Obrenovi%C4%87",
+  "existing_relations": 0
+ },
+ {
+  "slug": "draga-masin",
+  "type": "authored",
+  "title": "크사비에 드 몽테팽 추리소설 세르비아어 번역 다수·소설·기사",
+  "note": "본인 번역·저작 — 18세에 몽테팽 『Simone & Marie』 번역, Domaćica지 편집위원",
+  "url": "http://knjizenstvo.etf.bg.ac.rs/en/authors/draga-masin",
+  "existing_relations": 0
+ },
+ {
+  "slug": "peter-dayan",
+  "type": "authored",
+  "title": "『Theoretical Neuroscience』(애봇 공저)",
+  "note": "본인 저작 — 계산신경과학 표준 교과서",
+  "url": "https://www.kiphub.com/paper/61e50d116f80cb0c7bf63470",
+  "existing_relations": 0
+ },
+ {
+  "slug": "takahashi-kageyasu",
+  "type": "book",
+  "title": "라랑드 『천문학』·켐퍼 『일본사』·쇼멜 『경제사전』 네덜란드어판 번역",
+  "note": "본인 번역 저작 — 난학 연구의 핵심 문헌들, 『만字随筆』 등 저작",
+  "url": "https://www.persee.fr/doc/dhjap_0000-0000_1993_dic_19_1_947_t1_0028_0000_2",
+  "existing_relations": 0
+ },
+ {
+  "slug": "howard-aiken",
+  "type": "book",
+  "title": "배비지 해석기관 저작·기록 — ASCC를 '배비지가 시작한 과업의 완성'으로 인식",
+  "note": "MacTutor — 배비지 아들이 기증한 시연 세트를 보고 배비지 저작을 연구, 제안서에 인용 추가",
+  "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Aiken/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "harald-fairhair",
+  "type": "appearance",
+  "title": "『Hrafnsmál』·『Glymdrápa』(궁정 시인 토르비외른)",
+  "note": "그의 궁정 시인이 지은 찬미시 — 그를 주제로 한 동시대 문학",
+  "url": "https://en.wikipedia.org/wiki/Haraldskv%C3%A6%C3%B0i",
+  "existing_relations": 0
+ },
+ {
+  "slug": "leonid-rogozov",
+  "type": "authored",
+  "title": "『Self Operation』보고·식도암 논문·남극 일기",
+  "note": "본인 저작·일기 — 자기 맹장 절제 수술 기록 문헌",
+  "url": "https://litfl.com/leonid-rogozov/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "john-king-davis",
+  "type": "authored",
+  "title": "『With the Aurora in the Antarctic』·『High Latitude』·『Trial by Ice』일지",
+  "note": "본인 저작·일지",
+  "url": "https://en.wikipedia.org/wiki/J.K._Davis",
+  "existing_relations": 0
+ },
+ {
+  "slug": "oscar-wisting",
+  "type": "authored",
+  "title": "『16 år med Roald Amundsen』",
+  "note": "본인 저작",
+  "url": "https://en.wikipedia.org/wiki/Oscar_Wisting",
+  "existing_relations": 0
+ },
+ {
+  "slug": "harold-gatty",
+  "type": "authored",
+  "title": "『The Raft Book』·『Nature Is Your Guide』·『Around the World in Eight Days』",
+  "note": "본인 저작 — 연합군 생존 키트 표준 매뉴얼",
+  "url": "https://en.wikipedia.org/wiki/Harold_Gatty",
+  "existing_relations": 0
+ },
+ {
+  "slug": "craig-wright",
+  "type": "book",
+  "title": "『아틀라스 슈러그드』·아시모프 『파운데이션』·하이에크·미제스 저작·『블랙 미러』",
+  "note": "본인 에세이에서 랜드 문구·아시모프·오스트리아학파 인용 — 직접 인용문 확보",
+  "url": "https://singulargrit.substack.com/p/the-economy-has-always-been-data",
+  "existing_relations": 0
+ },
+ {
+  "slug": "anawrahta",
+  "type": "book",
+  "title": "팔리 삼장(티피타카)",
+  "note": "연대기 기록 — 타톤 정벌의 명분이 '정통 경전 사본 요구'였고, 스리랑카에 경전·승려 파견",
+  "url": "https://en.wikipedia.org/wiki/Anawrahta",
+  "existing_relations": 0
+ },
+ {
+  "slug": "kawashima-naniwa",
+  "type": "authored",
+  "title": "『만주건국비화』(満州建国秘話)",
+  "note": "본인 저작 — 와세다대 소장",
+  "url": "https://www.wul.waseda.ac.jp/kotenseki/html/monjo27/monjo27_g0041/index.html",
+  "existing_relations": 0
+ },
+ {
+  "slug": "ryūkichi-tanaka",
+  "type": "authored",
+  "title": "『패인을 찌르다: 군벌전횡의 실상』(敗因を衝く)",
+  "note": "본인 저작 1946 — 도쿄 재판 증인 기록물",
+  "url": "https://imtfe.law.virginia.edu/collections/phelps/1/1/military-clique-ry%C5%ABkichi-tanaka",
+  "existing_relations": 0
+ },
+ {
+  "slug": "william-mcmasters",
+  "type": "authored",
+  "title": "『Originality and Other Essays』·『Somewhere in Eternity』·희곡 3편",
+  "note": "본인 저작 — 폰지 폭로 기자이자 작가",
+  "url": "https://en.wikipedia.org/wiki/William_McMasters",
+  "existing_relations": 0
+ },
+ {
+  "slug": "helmer-hanssen",
+  "type": "authored",
+  "title": "『Voyages of a Modern Viking』(노어판 『Gjennem isbaksen』)",
+  "note": "본인 자서전 1936",
+  "url": "https://en.wikipedia.org/wiki/Helmer_Hanssen",
+  "existing_relations": 0
+ },
+ {
+  "slug": "raymond-lambert",
+  "type": "authored",
+  "title": "『À l’assaut des quatre mille』·『Forerunners to Everest』(공저)",
+  "note": "본인 저작 — 1952년 스위스 에베레스트 원정 기록",
+  "url": "https://page8.fr/produit/a-lassaut-des-quatre-mille-raymond-lambert/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "forster-fitzgerald-arbuthnot",
+  "type": "translated",
+  "title": "버턴과 공역 『카마 수트라』·『아난가 랑가』·저작 『Early Ideas』·『Sex Mythology』",
+  "note": "본인 번역·저작 — 카마 샤스트라 소사이어티 공동 설립자",
+  "url": "https://en.wikipedia.org/wiki/Forster_Fitzgerald_Arbuthnot",
+  "existing_relations": 0
+ },
+ {
+  "slug": "federico-halbherr",
+  "type": "authored",
+  "title": "『Leggi antiche della città di Gortyna』·발굴 보고서 다수·『Inscriptiones Creticae』 편집 기반",
+  "note": "본인 저작 — 고르틴 법전 발견 보고서",
+  "url": "https://en.wikipedia.org/wiki/Federico_Halbherr",
+  "existing_relations": 0
+ },
+ {
+  "slug": "nils-strindberg",
+  "type": "authored",
+  "title": "『안드레 일기』(Med Örnen mot polen / The Andrée Diaries) 공저",
+  "note": "본인 일기·관측록·편지 — 1930년 사후 출간",
+  "url": "https://runeberg.org/medornen/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "marina-mniszech",
+  "type": "appearance",
+  "title": "푸시킨 희곡 『보리스 고두노프』",
+  "note": "푸시킨 희곡의 여주인공 — 픽션 재창작 등장",
+  "url": "https://russianlife.com/magazine/sep-oct-2015/two-dmitrys-and-a-marina/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "herman-watzinger",
+  "type": "appearance",
+  "title": "헤예르달 『콘티키 원정대』",
+  "note": "부지휘관으로 책의 주요 등장 인물",
+  "url": "https://en.wikipedia.org/wiki/Herman_Watzinger",
+  "existing_relations": 0
+ },
+ {
+  "slug": "naiche",
+  "type": "appearance",
+  "title": "『제로니모: 그의 삶의 이야기』·트루디 그리핀피어스 『Chiricahua Apache Enduring Power』(가죽그림 주인공)",
+  "note": "전기·인류학 저작의 주요 대상",
+  "url": "https://www.uapress.ua.edu/9780817381349/chiricahua-apache-enduring-power/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "cameahwait",
+  "type": "appearance",
+  "title": "『루이스와 클라크 탐험일지』",
+  "note": "일지의 주요 등장 인물 — 사카가웨아 재회 장면",
+  "url": "https://lewisandclarkjournals.unl.edu/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "xavier-mertz",
+  "type": "authored",
+  "title": "『Swiss Alps to Antarctic Glaciers: The Journals of Dr Xavier Mertz』",
+  "note": "본인 남극 일지 — 사후 출간",
+  "url": "https://eoas.info/bib/HASB09080.htm",
+  "existing_relations": 0
+ },
+ {
+  "slug": "william-lashly",
+  "type": "authored",
+  "title": "『Under Scott’s Command: Lashly’s Antarctic Diaries』",
+  "note": "본인 일지 — 사후 출간",
+  "url": "https://search.worldcat.org/title/768016364",
+  "existing_relations": 0
+ },
+ {
+  "slug": "viktor-bilash",
+  "type": "authored",
+  "title": "『Дороги Нестора Махно』(네스토르 마흐노의 길)",
+  "note": "본인 회고록 — 사후 출간, 마흐노 참모의 1차 기록",
+  "url": "https://en.wikipedia.org/wiki/Viktor_Belash",
+  "existing_relations": 0
+ },
+ {
+  "slug": "hughe-knatchbull-hugessen",
+  "type": "authored",
+  "title": "『Diplomat in Peace and War』",
+  "note": "본인 회고록 1949 — 시세로 사건의 당사자 대사",
+  "url": "https://en.wikipedia.org/wiki/Hughe_Knatchbull-Hugessen",
+  "existing_relations": 0
+ },
+ {
+  "slug": "salim-bin-kabina",
+  "type": "appearance",
+  "title": "테지거 『아라비안 샌즈』(Arabian Sands)",
+  "note": "테지거의 동반자로 책의 주요 등장 인물",
+  "url": "https://en.wikipedia.org/wiki/Arabian_Sands",
+  "existing_relations": 0
+ },
+ {
+  "slug": "salim-bin-ghabaisha",
+  "type": "appearance",
+  "title": "테지거 『아라비안 샌즈』(Arabian Sands)",
+  "note": "동상 — 루브 알 칼리 횡단 동행",
+  "url": "https://en.wikipedia.org/wiki/Arabian_Sands",
+  "existing_relations": 0
+ },
+ {
+  "slug": "jack-ridley",
+  "type": "appearance",
+  "title": "톰 울프 『더 라이트 스터프』",
+  "note": "예거의 엔지니어로 책의 주요 등장 인물",
+  "url": "https://en.wikipedia.org/wiki/Jack_Ridley_(pilot)",
+  "existing_relations": 0
+ },
+ {
+  "slug": "melchor-arteaga",
+  "type": "appearance",
+  "title": "빙엄 『잃어버린 잉카의 도시』(Lost City of the Incas)",
+  "note": "빙엄을 마추픽추로 안내한 현지인 — 책에 등장",
+  "url": "https://en.wikipedia.org/wiki/Melchor_Arteaga",
+  "existing_relations": 0
+ },
+ {
+  "slug": "sacagawea",
+  "type": "appearance",
+  "title": "『루이스와 클라크 탐험일지』·애나 리 월도 『Sacajawea』",
+  "note": "일지·전기 문학의 주요 등장 인물",
+  "url": "https://lewisandclarkjournals.unl.edu/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "knut-frænkel",
+  "type": "authored",
+  "title": "『안드레 일기』공저 — 기상 저널",
+  "note": "본인 기상 일지 — 사후 출간",
+  "url": "https://runeberg.org/medornen/",
+  "existing_relations": 0
+ },
+ {
+  "slug": "richard-sorge",
+  "type": "book",
+  "title": "마르크스·엥겔스 저작·루돌프 힐퍼딩 『금융자본』",
+  "note": "부상 요양 중 마르크스주의 고전 탐독 — 전기 기록",
+  "url": "https://en.wikipedia.org/wiki/Richard_Sorge",
+  "existing_relations": 0
+ }
+]

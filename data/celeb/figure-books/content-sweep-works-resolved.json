@@ -1,0 +1,3950 @@
+[
+ {
+  "slug": "alexandra-david-neel",
+  "rel": "read",
+  "work": "에픽테토스 수첩(Encheiridion)",
+  "content_id": "162ec414-346a-4d76-99ed-ce56036c7fa5",
+  "unresolved": null,
+  "celeb_id": "8dc84b74-ef95-4f81-993c-02cb358d7ffb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alexandra-david-neel",
+  "rel": "read",
+  "work": "바가바드기타",
+  "content_id": "2d3f2d22-2064-4f93-8c93-561f327ada6c",
+  "unresolved": null,
+  "celeb_id": "8dc84b74-ef95-4f81-993c-02cb358d7ffb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alexandra-david-neel",
+  "rel": "read",
+  "work": "담마파다",
+  "content_id": "1cfc80f9-e6d9-45d9-9d16-7dceb4781e9b",
+  "unresolved": null,
+  "celeb_id": "8dc84b74-ef95-4f81-993c-02cb358d7ffb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alexandra-david-neel",
+  "rel": "read",
+  "work": "리그베다",
+  "content_id": "2bab21da-9f9e-4947-a72c-61db5c2ae907",
+  "unresolved": null,
+  "celeb_id": "8dc84b74-ef95-4f81-993c-02cb358d7ffb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "audie-murphy",
+  "rel": "needs_review",
+  "work": "컨트리 음악(아티스트급 확인 필요)",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "bafcc791-57f5-469e-abe1-8c89af6ac249",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "beck-weathers",
+  "rel": "read",
+  "work": "Into Thin Air",
+  "content_id": "9350baa3-f16a-51b6-bfe2-4b6b6e21040d",
+  "unresolved": null,
+  "celeb_id": "a9fa43ec-d2f2-4ee6-aef0-e786a10fced0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "beck-weathers",
+  "rel": "read",
+  "work": "High Exposure",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "a9fa43ec-d2f2-4ee6-aef0-e786a10fced0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ivan-boesky",
+  "rel": "music",
+  "work": "플라시도 도밍고",
+  "content_id": "48b23307-e904-44f8-98bc-b2303b585f99",
+  "unresolved": null,
+  "celeb_id": "3b21093f-e47f-42ad-b342-23c1368c57fe",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ivan-boesky",
+  "rel": "music",
+  "work": "존 덴버",
+  "content_id": "e6250532-9988-46eb-922e-d7736e6339c2",
+  "unresolved": null,
+  "celeb_id": "3b21093f-e47f-42ad-b342-23c1368c57fe",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yvon-chouinard",
+  "rel": "read",
+  "work": "월든",
+  "content_id": "6d03cefd-8fed-45be-8c61-794663fba803",
+  "unresolved": null,
+  "celeb_id": "405e34a7-6e9f-4fdf-bcce-d7add2d307b2",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yvon-chouinard",
+  "rel": "read",
+  "work": "존 뮤어 저작들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "405e34a7-6e9f-4fdf-bcce-d7add2d307b2",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yvon-chouinard",
+  "rel": "read",
+  "work": "에머슨 수필집",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "405e34a7-6e9f-4fdf-bcce-d7add2d307b2",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pablo-escobar",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pablo-escobar",
+  "rel": "read",
+  "work": "백년의 고독",
+  "content_id": "8a9c7d31-8feb-42e9-b510-59fc61c9a1f5",
+  "unresolved": null,
+  "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pablo-escobar",
+  "rel": "read",
+  "work": "슈테판 츠바이크 저작",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pablo-escobar",
+  "rel": "film",
+  "work": "대부(The Godfather)",
+  "content_id": "5ea098b8-ebd7-4a86-a18e-32eeba67e7c0",
+  "unresolved": null,
+  "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pablo-escobar",
+  "rel": "music",
+  "work": "프랭크 시나트라",
+  "content_id": "6261c193-ba6b-4fa6-8391-347e1e2894b3",
+  "unresolved": null,
+  "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pablo-escobar",
+  "rel": "music",
+  "work": "엘비스 프레슬리",
+  "content_id": "eb2a588b-c013-4498-af3e-4d747a9d8fe9",
+  "unresolved": null,
+  "celeb_id": "341489ee-d435-47b4-92d8-e75419cb427d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ross-perot",
+  "rel": "read",
+  "work": "월든",
+  "content_id": "6d03cefd-8fed-45be-8c61-794663fba803",
+  "unresolved": null,
+  "celeb_id": "a8ae2d30-0f6b-4cf8-af89-282f4c19a0f5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ross-perot",
+  "rel": "read",
+  "work": "On Wings of Eagles",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "a8ae2d30-0f6b-4cf8-af89-282f4c19a0f5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alan-kay",
+  "rel": "read",
+  "work": "Understanding Media",
+  "content_id": "704eed47-8792-4a7d-8a87-d9226a00d170",
+  "unresolved": null,
+  "celeb_id": "fdd7f703-a81e-4f29-bdb3-b00f8699a2ce",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alan-kay",
+  "rel": "read",
+  "work": "Mindstorms",
+  "content_id": "37b7f005-37d2-40bc-86e6-1e70c0b7b6a8",
+  "unresolved": null,
+  "celeb_id": "fdd7f703-a81e-4f29-bdb3-b00f8699a2ce",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alan-kay",
+  "rel": "read",
+  "work": "Amusing Ourselves to Death",
+  "content_id": "1a1b776c-7ad1-59d9-b192-566d7530e2ab",
+  "unresolved": null,
+  "celeb_id": "fdd7f703-a81e-4f29-bdb3-b00f8699a2ce",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alan-kay",
+  "rel": "read",
+  "work": "Thought and Language",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "fdd7f703-a81e-4f29-bdb3-b00f8699a2ce",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alan-kay",
+  "rel": "read",
+  "work": "As We May Think",
+  "content_id": "707c7dd1-d38c-4116-8b09-37b204b0cfb6",
+  "unresolved": null,
+  "celeb_id": "fdd7f703-a81e-4f29-bdb3-b00f8699a2ce",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "amelia-earhart",
+  "rel": "needs_review",
+  "work": "소녀시절 애독서 목록(덴버공립도서관 서명 목록 확인 필요)",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "aaee84fe-c54f-4642-9e0c-15f98109d8e3",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alex-honnold",
+  "rel": "needs_review",
+  "work": "구체 도서명 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "9e874a14-e2b4-4c2b-ba65-348ee9f444cc",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bernie-madoff",
+  "rel": "read",
+  "work": "대니얼 스틸 소설들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "7332d2ca-d4d6-4b7a-ad21-933753020215",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bernie-madoff",
+  "rel": "read",
+  "work": "Battle Cry",
+  "content_id": "2f72771f-ea7a-4470-a39d-4af4183f3191",
+  "unresolved": null,
+  "celeb_id": "7332d2ca-d4d6-4b7a-ad21-933753020215",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "buckminster-fuller",
+  "rel": "read",
+  "work": "Science and Sanity",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "e863094c-f8d7-4d42-9490-a67b580a3d2f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alberto-santos-dumont",
+  "rel": "read",
+  "work": "쥘 베른 작품들",
+  "content_id": "638279c3-a2a1-4fac-815e-3a6a2620f962",
+  "unresolved": null,
+  "celeb_id": "2be26315-f3e0-44d5-aa0b-d7f090b7c8ec",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alberto-santos-dumont",
+  "rel": "authored",
+  "work": "My Airships",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "2be26315-f3e0-44d5-aa0b-d7f090b7c8ec",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "alexander-selkirk",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "6a8817ba-ebb8-480d-a18c-3eca8ecdf8a0",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "alexey-pajitnov",
+  "rel": "needs_review",
+  "work": "'인생을 바꾼 발견' 대상 확인 + 채플린 영화",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "4bc5a694-751a-4657-a527-77da1a392af4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ada-blackjack",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "4f26f8d3-3241-4c30-b1f6-6667de54216c",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "apsley-cherry-garrard",
+  "rel": "read",
+  "work": "Farthest North",
+  "content_id": "e17ee893-b975-43a6-8fff-ae5a7daec812",
+  "unresolved": null,
+  "celeb_id": "1c03614f-53ed-4f6c-a6fd-4018f10d3f51",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "apsley-cherry-garrard",
+  "rel": "read",
+  "work": "키플링 작품들",
+  "content_id": "8d7228f5-9b4e-449f-a339-47cd00548116",
+  "unresolved": null,
+  "celeb_id": "1c03614f-53ed-4f6c-a6fd-4018f10d3f51",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "apsley-cherry-garrard",
+  "rel": "read",
+  "work": "디킨스 작품들",
+  "content_id": "e58bb479-13bc-5f3f-befe-0b4c16ed12e8",
+  "unresolved": null,
+  "celeb_id": "1c03614f-53ed-4f6c-a6fd-4018f10d3f51",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "apsley-cherry-garrard",
+  "rel": "authored",
+  "work": "The Worst Journey in the World",
+  "content_id": "2c286893-8632-4b99-a115-abb3034ff179",
+  "unresolved": null,
+  "celeb_id": "1c03614f-53ed-4f6c-a6fd-4018f10d3f51",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "aron-ralston",
+  "rel": "music",
+  "work": "Phish",
+  "content_id": "833bdb49-cd46-4bef-9661-4f343c59614a",
+  "unresolved": null,
+  "celeb_id": "4d9bc3c6-a233-4eee-bf93-92e8142bbad4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "aron-ralston",
+  "rel": "read",
+  "work": "Desert Solitaire",
+  "content_id": "d5e77833-4f56-5de9-9500-e054c1d610ff",
+  "unresolved": null,
+  "celeb_id": "4d9bc3c6-a233-4eee-bf93-92e8142bbad4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "aubrey-de-grey",
+  "rel": "needs_review",
+  "work": "Reading Lists 추천 3권 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "550a787a-a822-49b2-892e-a63eed4321dd",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "auguste-piccard",
+  "rel": "read",
+  "work": "쥘 베른 작품들",
+  "content_id": "638279c3-a2a1-4fac-815e-3a6a2620f962",
+  "unresolved": null,
+  "celeb_id": "416a9cc2-5a73-41fd-b51a-e0c48078a514",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "auguste-piccard",
+  "rel": "authored",
+  "work": "Earth, Sky and Sea",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "416a9cc2-5a73-41fd-b51a-e0c48078a514",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "barry-marshall",
+  "rel": "needs_review",
+  "work": "어린시절 애독서 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "4f7dafec-82af-40f2-9fd5-f367805844b8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "boris-savinkov",
+  "rel": "read",
+  "work": "전쟁과 평화",
+  "content_id": "0f0b374d-cf65-406a-8dd2-f8f3e785c858",
+  "unresolved": null,
+  "celeb_id": "f48045c1-cb03-40ec-bb40-0d21dd427218",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "boris-savinkov",
+  "rel": "read",
+  "work": "유일자와 그 소유",
+  "content_id": "f822fc0d-5f41-4c7d-9cb1-eef3078d6a0b",
+  "unresolved": null,
+  "celeb_id": "f48045c1-cb03-40ec-bb40-0d21dd427218",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "boris-savinkov",
+  "rel": "authored",
+  "work": "테러리스트의 수기",
+  "content_id": "54cf92ae-66eb-574c-9cbf-6d172fe18d98",
+  "unresolved": null,
+  "celeb_id": "f48045c1-cb03-40ec-bb40-0d21dd427218",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "bram-cohen",
+  "rel": "music",
+  "work": "인더스트리얼 음악(장르)",
+  "content_id": null,
+  "unresolved": "genre",
+  "celeb_id": "0e8afac7-2a2c-4aff-b23f-74d0f8f94eb9",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-cohen",
+  "rel": "tv",
+  "work": "심플라이프(The Simple Life) 시즌1",
+  "content_id": "29cd7959-5191-448c-b743-778ba31e87d5",
+  "unresolved": null,
+  "celeb_id": "0e8afac7-2a2c-4aff-b23f-74d0f8f94eb9",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "carl-sagan",
+  "rel": "read",
+  "work": "A Princess of Mars",
+  "content_id": "19ba905b-b9fd-4acd-ad9d-e4329eab85f7",
+  "unresolved": null,
+  "celeb_id": "0cd0e630-6cc1-4a71-9100-4f5b3c041f9d",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "carl-sagan",
+  "rel": "needs_review",
+  "work": "1954년 시카고대 독서목록 99종",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "0cd0e630-6cc1-4a71-9100-4f5b3c041f9d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "carlos-hathcock",
+  "rel": "read",
+  "work": "헤밍웨이 작품",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "che-guevara",
+  "rel": "needs_review",
+  "work": "일기 독서목록 106종 — 대표작 선별 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "dd9b8081-afd4-489e-9455-3471221b9a75",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "chris-mccandless",
+  "rel": "read",
+  "work": "Family Happiness",
+  "content_id": "46712877-9f91-5f2a-ba17-6cd9650ce402",
+  "unresolved": null,
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "chris-mccandless",
+  "rel": "read",
+  "work": "닥터 지바고",
+  "content_id": "506d6079-4e84-4cc9-a1f9-c8576dca103f",
+  "unresolved": null,
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "chris-mccandless",
+  "rel": "read",
+  "work": "잭 런던 작품들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "chris-mccandless",
+  "rel": "read",
+  "work": "월든",
+  "content_id": "6d03cefd-8fed-45be-8c61-794663fba803",
+  "unresolved": null,
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "claus-von-stauffenberg",
+  "rel": "read",
+  "work": "슈테판 게오르게 시집",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "claus-von-stauffenberg",
+  "rel": "read",
+  "work": "신곡",
+  "content_id": "70d75785-5f1e-45fb-99ef-f936e6fd8298",
+  "unresolved": null,
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "claus-von-stauffenberg",
+  "rel": "read",
+  "work": "횔더린 작품들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "daniel-boorstin",
+  "rel": "needs_review",
+  "work": "'역사 글쓰기를 깨운 책' 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-hahn",
+  "rel": "read",
+  "work": "The Golden Book of Chemistry Experiments",
+  "content_id": "93309503-68e3-4d5e-9335-eff8028b9eee",
+  "unresolved": null,
+  "celeb_id": "c8cec016-68e5-4ee1-96f1-ba1bbbd193b8",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-thompson",
+  "rel": "read",
+  "work": "존 밀턴 시집",
+  "content_id": "d34b3df2-d4a6-4a48-ad62-a48fa6f38143",
+  "unresolved": null,
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-thompson",
+  "rel": "read",
+  "work": "새뮤얼 존슨 사전",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ernest-shackleton",
+  "rel": "read",
+  "work": "로버트 브라우닝 시집",
+  "content_id": "3e1a8cb6-913c-4e10-a261-dcc7ecb8a1e4",
+  "unresolved": null,
+  "celeb_id": "885c2fb3-ba16-4d3f-b3e3-64735f8fc502",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "desmond-doss",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "0d1db35f-8e6e-4272-a369-c908d5f49d48",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "gertrude-bell",
+  "rel": "translated",
+  "work": "하페즈 디완(Divan of Hafez)",
+  "content_id": "bb6ee32f-e5c3-41f0-a2bf-1b074e4d9f42",
+  "unresolved": null,
+  "celeb_id": "fe8a97a9-9950-4681-a1b7-80f67da7f4ce",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "heinrich-schliemann",
+  "rel": "read",
+  "work": "일리아스·오디세이",
+  "content_id": "f44760c9-113f-4a04-89da-6eaca5f8af13",
+  "unresolved": null,
+  "celeb_id": "35d9018b-bf6b-4c1d-b261-6a5627212515",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "heinrich-schliemann",
+  "rel": "authored",
+  "work": "Troja und seine Ruinen 자서전류",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "35d9018b-bf6b-4c1d-b261-6a5627212515",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "grey-owl",
+  "rel": "read",
+  "work": "모히칸족의 최후",
+  "content_id": "5a18584e-708a-4521-9bc4-39d187f0d9b9",
+  "unresolved": null,
+  "celeb_id": "92dce8bf-2f5f-4163-942f-3348e469bc69",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "grey-owl",
+  "rel": "read",
+  "work": "하이어워사의 노래",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "92dce8bf-2f5f-4163-942f-3348e469bc69",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "guido-van-rossum",
+  "rel": "read",
+  "work": "해리 포터 시리즈",
+  "content_id": "d7c1936d-1ad7-41a3-9eba-7b626f92136d",
+  "unresolved": null,
+  "celeb_id": "db60d483-bdda-40d5-b96b-97a8ade39150",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "guido-van-rossum",
+  "rel": "tv",
+  "work": "몬티 파이튼의 비행 서커스",
+  "content_id": "b08a2bdb-8e9f-4b6f-a125-110d59ba37f6",
+  "unresolved": null,
+  "celeb_id": "db60d483-bdda-40d5-b96b-97a8ade39150",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "haile-selassie",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "3689cafc-a002-4972-81dd-7cb414ef3431",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "hideo-kojima",
+  "rel": "read",
+  "work": "상자 남자(箱男)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7986e29b-d3e0-48d7-a79a-8e89d1a146e7",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "howard-hughes",
+  "rel": "film",
+  "work": "Ice Station Zebra",
+  "content_id": "4c9e452b-7c85-41cd-ae4a-82d4a64634c8",
+  "unresolved": null,
+  "celeb_id": "024ba282-15f7-4a99-97cd-9922ddef72ed",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "idi-amin",
+  "rel": "read",
+  "work": "코란",
+  "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+  "unresolved": null,
+  "celeb_id": "b322912e-63cc-4a60-8ec5-c290a458aa12",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "joe-simpson",
+  "rel": "needs_review",
+  "work": "14세에 읽고 등산 결심한 책 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "e927c938-2350-4b90-9726-1f96599d9aea",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-mcafee",
+  "rel": "needs_review",
+  "work": "'인생을 바꾼 최고의 책' 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "32edf7cd-a184-4d8a-bd1f-b3dfff2607aa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jason-fried",
+  "rel": "needs_review",
+  "work": "추천 도서 목록 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "bc5e7c88-a91a-4f13-bfab-fc6e5011445a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jordan-belfort",
+  "rel": "read",
+  "work": "Bonfire of the Vanities",
+  "content_id": "efa992de-85a4-4033-805b-7e53a5efe045",
+  "unresolved": null,
+  "celeb_id": "9ff14814-e32d-4d81-9d35-e40aae33d996",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "konstantin-tsiolkovsky",
+  "rel": "read",
+  "work": "지구에서 달까지",
+  "content_id": "d773dd79-b2c1-4467-8aa7-b7bebf1b14cb",
+  "unresolved": null,
+  "celeb_id": "f07bbff8-ced6-4562-85b1-822a334f0c22",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "konstantin-tsiolkovsky",
+  "rel": "authored",
+  "work": "고체연료로 움직이는 로켓에 의한 우주공간 탐구",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "f07bbff8-ced6-4562-85b1-822a334f0c22",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "leo-szilard",
+  "rel": "read",
+  "work": "The World Set Free",
+  "content_id": "8bba1a1b-77f9-45dc-b828-0d9b6743009a",
+  "unresolved": null,
+  "celeb_id": "2cfecfc1-f7d8-4c60-a4f9-5c8f7276a189",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "mansa-musa",
+  "rel": "read",
+  "work": "코란",
+  "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+  "unresolved": null,
+  "celeb_id": "6ddf46a6-af6e-4f03-90fe-bc6978f60b61",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "mansa-musa",
+  "rel": "read",
+  "work": "알 무와타(말리키 법서)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "6ddf46a6-af6e-4f03-90fe-bc6978f60b61",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "markus-persson",
+  "rel": "needs_review",
+  "work": "취미 목록·최애 게임 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "5f56c8d0-020f-495a-b1fb-36ddb6c8eff7",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "michael-milken",
+  "rel": "needs_review",
+  "work": "최애서 확인 필요(Forbes 기사)",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "d9344e86-10cd-4dbe-b347-801bf28fc1c1",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "mobutu-sese-seko",
+  "rel": "read",
+  "work": "군주론",
+  "content_id": "df094f0f-db6b-458f-99bf-66ffdb45de30",
+  "unresolved": null,
+  "celeb_id": "e66869e8-9826-4faa-94ff-4c56496206c9",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "muammar-gaddafi",
+  "rel": "read",
+  "work": "코란",
+  "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+  "unresolved": null,
+  "celeb_id": "157dc4e8-1be0-4878-b924-71bcab89a615",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "muammar-gaddafi",
+  "rel": "read",
+  "work": "마오 어록(홍보수)",
+  "content_id": "40673592-47b8-446b-ac58-2516300d7406",
+  "unresolved": null,
+  "celeb_id": "157dc4e8-1be0-4878-b924-71bcab89a615",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "muammar-gaddafi",
+  "rel": "authored",
+  "work": "녹서(The Green Book)",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "157dc4e8-1be0-4878-b924-71bcab89a615",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nestor-makhno",
+  "rel": "read",
+  "work": "크로포트킨 저작들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "841b8739-df7e-4428-9dec-0b66e0905faf",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nestor-makhno",
+  "rel": "read",
+  "work": "바쿠닌 저작들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "841b8739-df7e-4428-9dec-0b66e0905faf",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nestor-makhno",
+  "rel": "authored",
+  "work": "러시아 혁명 회고록 3권",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "841b8739-df7e-4428-9dec-0b66e0905faf",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nick-szabo",
+  "rel": "needs_review",
+  "work": "'인생을 바꾼 책'·'가장 중요한 책' 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "caedb730-c63f-4dbe-85de-87db1db92b33",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "norbert-wiener",
+  "rel": "read",
+  "work": "신곡",
+  "content_id": "70d75785-5f1e-45fb-99ef-f936e6fd8298",
+  "unresolved": null,
+  "celeb_id": "e19c07c9-3189-43b7-b185-d1873a847b70",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "norbert-wiener",
+  "rel": "read",
+  "work": "종의 기원",
+  "content_id": "ed393fdb-66e2-40d0-8dc7-aee58947e842",
+  "unresolved": null,
+  "celeb_id": "e19c07c9-3189-43b7-b185-d1873a847b70",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "norbert-wiener",
+  "rel": "read",
+  "work": "러스킨 작품들",
+  "content_id": "fdf207f1-985a-567b-9e07-4fbaec1ec83b",
+  "unresolved": null,
+  "celeb_id": "e19c07c9-3189-43b7-b185-d1873a847b70",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "norbert-wiener",
+  "rel": "authored",
+  "work": "Ex-Prodigy·사이버네틱스",
+  "content_id": "0c970d4c-71d2-48ad-974b-b458defe0802",
+  "unresolved": null,
+  "celeb_id": "e19c07c9-3189-43b7-b185-d1873a847b70",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "oleg-gordievsky",
+  "rel": "read",
+  "work": "브리태니커 백과사전",
+  "content_id": "53061433-86a0-4571-a785-b141fcc3ddea",
+  "unresolved": null,
+  "celeb_id": "36f2144e-1dcd-4b83-b02d-e2c89faa60aa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "oleg-gordievsky",
+  "rel": "music",
+  "work": "바흐",
+  "content_id": "bd4e4308-79ec-4fc3-b452-79e20e13f154",
+  "unresolved": null,
+  "celeb_id": "36f2144e-1dcd-4b83-b02d-e2c89faa60aa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "orde-wingate",
+  "rel": "read",
+  "work": "성경(구약)",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "a86d895e-8739-473c-87a5-6ee64c6a33c2",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "reinhold-messner",
+  "rel": "needs_review",
+  "work": "FOCUS 권장 알파인 고전 목록 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "80e114a9-cfba-4904-9526-32e1cfa94114",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "reinhold-messner",
+  "rel": "authored",
+  "work": "메스너 저작(세 번의 시도·무모한 도전 등)",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "80e114a9-cfba-4904-9526-32e1cfa94114",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-francis-burton",
+  "rel": "translated",
+  "work": "천일야화(Arabian Nights) 영역",
+  "content_id": "db736fc4-9a34-460b-b57f-760d57a997eb",
+  "unresolved": null,
+  "celeb_id": "228de020-0867-49e5-b49c-91d618836ada",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-francis-burton",
+  "rel": "translated",
+  "work": "카마 수트라 영역",
+  "content_id": "951fe741-2d7b-431c-9646-f09766d2facb",
+  "unresolved": null,
+  "celeb_id": "228de020-0867-49e5-b49c-91d618836ada",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-garriott",
+  "rel": "read",
+  "work": "반지의 제왕",
+  "content_id": "896656ce-6884-4493-8f54-7900ca9438d5",
+  "unresolved": null,
+  "celeb_id": "fa0525a3-6b8c-45f0-b376-492ef5b91c08",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-garriott",
+  "rel": "read",
+  "work": "실마릴리온",
+  "content_id": "355d4aef-7db8-4cfc-9bf1-74e6776ef612",
+  "unresolved": null,
+  "celeb_id": "fa0525a3-6b8c-45f0-b376-492ef5b91c08",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-garriott",
+  "rel": "read",
+  "work": "칼레발라",
+  "content_id": "0a56da48-5057-4f0d-a2ea-20d1ca6c4b08",
+  "unresolved": null,
+  "celeb_id": "fa0525a3-6b8c-45f0-b376-492ef5b91c08",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-garriott",
+  "rel": "read",
+  "work": "예언자",
+  "content_id": "41081f7c-119e-4436-a97c-edd11c0162d9",
+  "unresolved": null,
+  "celeb_id": "fa0525a3-6b8c-45f0-b376-492ef5b91c08",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "roald-amundsen",
+  "rel": "read",
+  "work": "존 프랭클린 북극 탐험 기록들",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "9bddb8f3-1bce-405d-bc20-7be726e48af1",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "robert-falcon-scott",
+  "rel": "needs_review",
+  "work": "선상 서재 목록 중 스콧 소비작 선별",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "446a2446-b5e6-4431-ab93-7f6428f783a4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "robert-goddard",
+  "rel": "read",
+  "work": "우주 전쟁",
+  "content_id": "9f59abdf-4e02-4061-9eb4-3bfe6790f859",
+  "unresolved": null,
+  "celeb_id": "161e7d88-761c-44c0-b4dd-2f5ab2dc1617",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "robert-peary",
+  "rel": "needs_review",
+  "work": "일기 기록 도서 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "989e95d8-5329-4063-9216-09e10769d064",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ross-ulbricht",
+  "rel": "read",
+  "work": "인간행동",
+  "content_id": "277cfe5d-85fe-5919-84fa-bfac602033ff",
+  "unresolved": null,
+  "celeb_id": "5348b784-636d-474b-b266-a45c156c40f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ross-ulbricht",
+  "rel": "read",
+  "work": "자유 윤리",
+  "content_id": "559bdd61-bdea-516d-aebc-b6b6dddf1d09",
+  "unresolved": null,
+  "celeb_id": "5348b784-636d-474b-b266-a45c156c40f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ross-ulbricht",
+  "rel": "read",
+  "work": "하이에크 저작들",
+  "content_id": "fe7a0a66-af6a-413e-abba-de9fae799a30",
+  "unresolved": null,
+  "celeb_id": "5348b784-636d-474b-b266-a45c156c40f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sergei-korolev",
+  "rel": "read",
+  "work": "치올콥스키 우주 저작들",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "f8fd9ccf-7a96-4ac8-b3aa-fa7fae04f743",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sid-meier",
+  "rel": "needs_review",
+  "work": "Civ 영감 게임 목록 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "5ffaa2be-ad6b-4d04-b7ce-a7d4351fdd2e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sven-hedin",
+  "rel": "needs_review",
+  "work": "소년시절 독서 영감 대상 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "bf15b904-f68b-4ac2-b0cf-fbd660db78c2",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "t.-e.-lawrence",
+  "rel": "read",
+  "work": "Travels in Arabia Deserta",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5da29faf-87af-4824-ac11-8caaf10e8521",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "t.-e.-lawrence",
+  "rel": "read",
+  "work": "아서왕의 죽음",
+  "content_id": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+  "unresolved": null,
+  "celeb_id": "5da29faf-87af-4824-ac11-8caaf10e8521",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "t.-e.-lawrence",
+  "rel": "translated",
+  "work": "오디세이 영역",
+  "content_id": "0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd",
+  "unresolved": null,
+  "celeb_id": "5da29faf-87af-4824-ac11-8caaf10e8521",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "timothy-leary",
+  "rel": "read",
+  "work": "지각의 문",
+  "content_id": "5eda8b47-565d-4fe9-a32d-5c0a0b83c9df",
+  "unresolved": null,
+  "celeb_id": "5022500f-1c97-44ac-a965-77fe8c2f72e6",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yukihiro-matsumoto",
+  "rel": "film",
+  "work": "매트릭스(The Matrix)",
+  "content_id": "8ed415ba-02a1-42da-aaef-825fed52fea6",
+  "unresolved": null,
+  "celeb_id": "62e07ac8-46be-4823-ba67-b3b99a847826",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "yukihiro-matsumoto",
+  "rel": "needs_review",
+  "work": "애독 만화 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "62e07ac8-46be-4823-ba67-b3b99a847826",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yuri-gagarin",
+  "rel": "read",
+  "work": "야간비행",
+  "content_id": "1845dad1-6ddd-4fbd-a49d-a20cd79e5a5f",
+  "unresolved": null,
+  "celeb_id": "6f4103c1-433e-44cd-98f7-daf474ca8670",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yuri-gagarin",
+  "rel": "read",
+  "work": "푸시킨 작품들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "6f4103c1-433e-44cd-98f7-daf474ca8670",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "will-wright",
+  "rel": "read",
+  "work": "Urban Dynamics",
+  "content_id": "d53d0727-965d-4cbb-bcad-2953d874daec",
+  "unresolved": null,
+  "celeb_id": "0246fcb1-e068-4eaa-a5a4-6e4ae52ad8b9",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "will-wright",
+  "rel": "read",
+  "work": "사이버리아드",
+  "content_id": "d1027505-fdb1-5956-bc34-5422f2c302ce",
+  "unresolved": null,
+  "celeb_id": "0246fcb1-e068-4eaa-a5a4-6e4ae52ad8b9",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "witold-pilecki",
+  "rel": "read",
+  "work": "그리스도를 본받아",
+  "content_id": "ad01d37e-4fbd-41a2-8990-d6858374e82b",
+  "unresolved": null,
+  "celeb_id": "802b2a7d-6109-4e16-bd21-66bb14ad9f89",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "terry-a.-davis",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "9c2111bc-6bf9-4e6e-896c-67dde716280f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yusaku-maezawa",
+  "rel": "read",
+  "work": "우주형제(宇宙兄弟)",
+  "content_id": "b98c66a3-6a3c-4b66-a1e7-c7f3bc7bdf21",
+  "unresolved": null,
+  "celeb_id": "01f845a4-4616-4014-9bfd-911cf0b21a78",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-heinemeier-hansson",
+  "rel": "read",
+  "work": "사랑의 기술",
+  "content_id": "e843087c-f3e8-4d8f-b773-4a772a22abec",
+  "unresolved": null,
+  "celeb_id": "8c3b4e5c-5a02-435a-accd-b04ab3ce176e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-heinemeier-hansson",
+  "rel": "read",
+  "work": "명상록",
+  "content_id": "935e7cf2-872a-4f3b-b486-3e04b6e4f4b3",
+  "unresolved": null,
+  "celeb_id": "8c3b4e5c-5a02-435a-accd-b04ab3ce176e",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-heinemeier-hansson",
+  "rel": "read",
+  "work": "에픽테토스 수첩",
+  "content_id": "162ec414-346a-4d76-99ed-ce56036c7fa5",
+  "unresolved": null,
+  "celeb_id": "8c3b4e5c-5a02-435a-accd-b04ab3ce176e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-livingstone",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "312fbc8c-59c5-4e47-b6ec-640e1470136f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-livingstone",
+  "rel": "read",
+  "work": "The Christian Philosopher",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "312fbc8c-59c5-4e47-b6ec-640e1470136f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "doug-tompkins",
+  "rel": "read",
+  "work": "아르네 네스 저작(심층생태학)",
+  "content_id": "21ccb443-720f-50d5-a465-1d1f65eb7856",
+  "unresolved": null,
+  "celeb_id": "02670e55-cb36-4544-b018-d36b517c2cc1",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "doug-tompkins",
+  "rel": "read",
+  "work": "서구의 몰락",
+  "content_id": "5f8aee16-c99c-4362-aa75-72d17064e0bf",
+  "unresolved": null,
+  "celeb_id": "02670e55-cb36-4544-b018-d36b517c2cc1",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "douglas-engelbart",
+  "rel": "read",
+  "work": "As We May Think",
+  "content_id": "707c7dd1-d38c-4116-8b09-37b204b0cfb6",
+  "unresolved": null,
+  "celeb_id": "c5a4fe5c-fad9-4602-865d-d7040862511d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "freya-stark",
+  "rel": "read",
+  "work": "천일야화(Arabian Nights)",
+  "content_id": "db736fc4-9a34-460b-b57f-760d57a997eb",
+  "unresolved": null,
+  "celeb_id": "596b6828-bf1f-4446-bf9f-b110a7513f2a",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "freya-stark",
+  "rel": "read",
+  "work": "뒤마 작품들",
+  "content_id": "919fdffb-6807-4ccd-aac4-b5ce6aaea776",
+  "unresolved": null,
+  "celeb_id": "596b6828-bf1f-4446-bf9f-b110a7513f2a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jack-parsons",
+  "rel": "read",
+  "work": "율법서(The Book of the Law)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "ebded64d-f41b-4ae1-bab5-f536d45a6a72",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "rel": "read",
+  "work": "돈키호테",
+  "content_id": "8884dd67-8867-4ac8-94d9-c7aaf8d89a8b",
+  "unresolved": null,
+  "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "rel": "read",
+  "work": "햄릿·맥베스",
+  "content_id": "43e3bc6a-5f95-45c9-ad89-6f22a6a0c33d",
+  "unresolved": null,
+  "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "rel": "read",
+  "work": "로르카 작품들",
+  "content_id": "a575d58c-a9b8-477e-9a19-d766013a12e1",
+  "unresolved": null,
+  "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "rel": "read",
+  "work": "네루다 시집",
+  "content_id": "5fd2e159-4a2a-4859-98d4-36d6fe90b94e",
+  "unresolved": null,
+  "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "rel": "read",
+  "work": "팔방놀이(Rayuela)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "subcomandante-marcos",
+  "rel": "music",
+  "work": "플레이리스트 아티스트들(상세 확인 필요)",
+  "content_id": null,
+  "unresolved": "generic",
+  "celeb_id": "1e99970e-7730-4976-a54c-2deff37a6118",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "edwin-land",
+  "rel": "read",
+  "work": "Physical Optics",
+  "content_id": "5b98bb34-dfda-4564-92f2-cdf9d897df66",
+  "unresolved": null,
+  "celeb_id": "fdff710d-e931-4945-a220-f10a41bc8e9b",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "dean-kamen",
+  "rel": "read",
+  "work": "프린키피아",
+  "content_id": "c3d277eb-bbd6-4dc7-b55a-8d4b203fae82",
+  "unresolved": null,
+  "celeb_id": "81067c34-1197-43f4-88a0-47e8f9e1dfeb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-randolph-hearst",
+  "rel": "read",
+  "work": "디킨스 작품들",
+  "content_id": "e58bb479-13bc-5f3f-befe-0b4c16ed12e8",
+  "unresolved": null,
+  "celeb_id": "fc2c0ec4-1134-43cf-9793-8d2e065ca4f4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "isabella-stewart-gardner",
+  "rel": "read",
+  "work": "신곡",
+  "content_id": "70d75785-5f1e-45fb-99ef-f936e6fd8298",
+  "unresolved": null,
+  "celeb_id": "2b319207-d88b-41b3-922a-49935eab43bc",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "marjorie-cameron",
+  "rel": "read",
+  "work": "황야의 늑대(Steppenwolf)",
+  "content_id": "ccaa4dc5-ecf3-48b7-b74a-bc84c928556d",
+  "unresolved": null,
+  "celeb_id": "e41cc931-d1a7-456e-ba65-b235737ad74f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "marjorie-cameron",
+  "rel": "read",
+  "work": "황금가지",
+  "content_id": "c6e2dab4-3dbc-4c0d-b2c6-99712ab5c918",
+  "unresolved": null,
+  "celeb_id": "e41cc931-d1a7-456e-ba65-b235737ad74f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "marjorie-cameron",
+  "rel": "read",
+  "work": "천의 얼굴을 가진 영웅",
+  "content_id": "d5a0db2f-7999-4edd-9d8e-ec6388d5c079",
+  "unresolved": null,
+  "celeb_id": "e41cc931-d1a7-456e-ba65-b235737ad74f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "george-hotz",
+  "rel": "read",
+  "work": "죄와 벌",
+  "content_id": "e2592298-13bd-4d0f-a964-4aa851d2258b",
+  "unresolved": null,
+  "celeb_id": "be3a86eb-969e-4e7d-9a96-604233bb00e0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "limor-fried",
+  "rel": "read",
+  "work": "1Q84",
+  "content_id": "ef554875-6715-4211-88d3-5e271a044041",
+  "unresolved": null,
+  "celeb_id": "5411b612-ff3f-4a0a-9de3-bd870faffd44",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "matteo-ricci",
+  "rel": "translated",
+  "work": "이십오언(二十五言) — 에픽테토스 번안",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "9023e983-0429-4288-be54-6f9b9560ef1c",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ibn-battuta",
+  "rel": "read",
+  "work": "코란",
+  "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+  "unresolved": null,
+  "celeb_id": "ddf5db72-aa1d-4cf5-842c-e3887571ec6e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ibn-battuta",
+  "rel": "authored",
+  "work": "리흘라(여행기)",
+  "content_id": "910e4b48-3dd4-4087-80d8-51a523e01082",
+  "unresolved": null,
+  "celeb_id": "ddf5db72-aa1d-4cf5-842c-e3887571ec6e",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "yijing",
+  "rel": "translated",
+  "work": "불경 번역 400부",
+  "content_id": null,
+  "unresolved": "corpus",
+  "celeb_id": "e71e17d5-7ec1-4eb6-bf3d-314aa187362d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yijing",
+  "rel": "authored",
+  "work": "남해기귀내법전·대당서역구법고승전",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "e71e17d5-7ec1-4eb6-bf3d-314aa187362d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "roger-ver",
+  "rel": "read",
+  "work": "사회주의",
+  "content_id": "b4f86fdb-e5fa-4858-9c20-538575205c91",
+  "unresolved": null,
+  "celeb_id": "23622759-ad75-43e9-9a32-04a263829bab",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "roger-ver",
+  "rel": "read",
+  "work": "로스바드 저작들",
+  "content_id": "559bdd61-bdea-516d-aebc-b6b6dddf1d09",
+  "unresolved": null,
+  "celeb_id": "23622759-ad75-43e9-9a32-04a263829bab",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "wei-dai",
+  "rel": "needs_review",
+  "work": "추천서 목록 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "8663aac6-28aa-4c17-9c8b-35bb816afd19",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "gerald-cotten",
+  "rel": "tv",
+  "work": "Arrested Development",
+  "content_id": "fd37e760-28d3-47c8-b35a-6b9b058c1afd",
+  "unresolved": null,
+  "celeb_id": "b2c050c8-a0d2-4473-a897-27d6ab01cfb5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "george-koval",
+  "rel": "read",
+  "work": "풀잎(Leaves of Grass)",
+  "content_id": "caa6ab7a-d8ed-4cc7-8c8a-7ff621dad5d8",
+  "unresolved": null,
+  "celeb_id": "0bd6b1a7-143c-405e-a456-c4139fa70630",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "chris-sawyer",
+  "rel": "needs_review",
+  "work": "롤러코스터 도서 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "e3ea7151-dca2-4f98-a225-562a5b41acda",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "run-run-shaw",
+  "rel": "tv",
+  "work": "미스터 빈(Mr. Bean)",
+  "content_id": "914183bb-72ba-4ae3-aacc-4ffe36f6b7f8",
+  "unresolved": null,
+  "celeb_id": "660e30c5-a883-4358-bcfd-5801b401782d",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "tim-paterson",
+  "rel": "read",
+  "work": "Hard Drive: Bill Gates and the Making of the Microsoft Empire",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3ec12e8c-e8a5-4170-b2bf-a8bb183b212c",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "woodie-flowers",
+  "rel": "needs_review",
+  "work": "새벽 독서모임 도서 확인 필요",
+  "content_id": null,
+  "unresolved": "needs_review",
+  "celeb_id": "54fee148-60b8-494a-bb47-3a27cc48b1ed",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "pyotr-kozlov",
+  "rel": "read",
+  "work": "프르제발스키 기행문들",
+  "content_id": "c506bf89-f1d4-4c5d-bff1-4b3b4c15e03a",
+  "unresolved": null,
+  "celeb_id": "7af1ead4-849b-48da-8bf7-fd26997d1267",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "viktor-bout",
+  "rel": "read",
+  "work": "파울로 코엘료 작품들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "f5a58738-6e31-408a-aa63-ae0468a958c5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "viktor-bout",
+  "rel": "read",
+  "work": "카를로스 카스타네다 작품들",
+  "content_id": "425c34fe-cd09-4396-8d9f-5e23109a9039",
+  "unresolved": null,
+  "celeb_id": "f5a58738-6e31-408a-aa63-ae0468a958c5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "robert-de-montesquiou",
+  "rel": "authored",
+  "work": "Les Chauves-Souris(박쥐들) 시집",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "ff78e75e-ce30-4dc8-87e4-1003ad5129f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "stubbins-ffirth",
+  "rel": "read",
+  "work": "자크 카르티에 항해기",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7fdb0851-e304-4371-9f4d-bde18d7f2939",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "stubbins-ffirth",
+  "rel": "authored",
+  "work": "황열병 논문(A Treatise on Malignant Fever)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7fdb0851-e304-4371-9f4d-bde18d7f2939",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "osman-i",
+  "rel": "read",
+  "work": "코란",
+  "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+  "unresolved": null,
+  "celeb_id": "3c89a993-c011-4a75-98e5-25521f559551",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "tim-thompson",
+  "rel": "read",
+  "work": "파스칼 『Traitez de l'Equilibre des Liqueurs』",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "89cc3737-92ca-4db6-993c-2e47fffae4eb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "tim-thompson",
+  "rel": "read",
+  "work": "Airy 『Gravitation』",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "89cc3737-92ca-4db6-993c-2e47fffae4eb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "moses",
+  "rel": "authored",
+  "work": "토라(모세오경) — 전통 귀속",
+  "content_id": "b38b6332-35f6-53eb-88e6-757987103551",
+  "unresolved": null,
+  "celeb_id": "afaaeba2-9731-47a4-a326-c5d9102f81c3",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david",
+  "rel": "authored",
+  "work": "시편 — 전통 귀속",
+  "content_id": "24ed933a-a790-4a5a-9362-79268be9ed76",
+  "unresolved": null,
+  "celeb_id": "c797cb70-6d1d-4828-8ae1-d1eaaad316f9",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "solomon",
+  "rel": "authored",
+  "work": "잠언·전도서·아가 — 전통 귀속",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "0612975d-91a1-4366-80d7-3ce52d0d6d3d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "isaiah",
+  "rel": "authored",
+  "work": "이사야서 — 전통 귀속",
+  "content_id": "e8d77f2d-3434-4e2e-bc2a-6fadc76f9137",
+  "unresolved": null,
+  "celeb_id": "648b6950-7002-4d28-a121-20acf7ca2000",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yellow-emperor",
+  "rel": "authored",
+  "work": "황제내경 — 전통 귀속",
+  "content_id": "456c2070-cd29-4aa7-908c-aa5d9c027a92",
+  "unresolved": null,
+  "celeb_id": "46c1cbe1-e215-41b2-837b-41a46d56c7b8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ur-nammu",
+  "rel": "authored",
+  "work": "우르남무 법전",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "118d51f1-6408-4396-b6a6-ddca43db9720",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "frank-abagnale-jr.",
+  "rel": "authored",
+  "work": "Catch Me If You Can",
+  "content_id": "c192848c-b71c-5b78-8e78-b175a481e13d",
+  "unresolved": null,
+  "celeb_id": "b4dae935-c2f8-4ce8-84d3-a07d51495a9f",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "frank-abagnale-jr.",
+  "rel": "authored",
+  "work": "The Art of the Steal",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "b4dae935-c2f8-4ce8-84d3-a07d51495a9f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "emperor-hirohito",
+  "rel": "authored",
+  "work": "나스의 점균류 도감 등 해양생물 저작",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "2f1a1e88-279e-4365-96f7-6270ef78508a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jean-francois-champollion",
+  "rel": "read",
+  "work": "토마스 영 상형문자 저작",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "03cc1c5a-77b2-4ff5-98c9-8b71e95a94f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jean-francois-champollion",
+  "rel": "read",
+  "work": "콥트 사본 카탈로그",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "03cc1c5a-77b2-4ff5-98c9-8b71e95a94f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jean-bedel-bokassa",
+  "rel": "film",
+  "work": "나폴레옹 영화들",
+  "content_id": null,
+  "unresolved": "generic",
+  "celeb_id": "03f32351-9f48-45b7-bf09-d3b7128be5e4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jean-bedel-bokassa",
+  "rel": "read",
+  "work": "장 베델 문법서",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "03f32351-9f48-45b7-bf09-d3b7128be5e4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sophie-brahe",
+  "rel": "read",
+  "work": "파라켈수스 저작들",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "c23514ef-3b08-465a-8494-af2583af0b44",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-buckland",
+  "rel": "authored",
+  "work": "Reliquiae Diluvianae",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "32fa6895-4a87-4e7e-b245-7b639c90fcc4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-buckland",
+  "rel": "authored",
+  "work": "Geology and Mineralogy(브리지워터 논설)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "32fa6895-4a87-4e7e-b245-7b639c90fcc4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "philip-henry-stanhope,-4th-earl-stanhope",
+  "rel": "authored",
+  "work": "Tracts Relating to Caspar Hauser",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "f67bd340-d874-43aa-a646-8f8cabff7b5d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "salavat-yulaev",
+  "rel": "authored",
+  "work": "시집(졸레이하·나의 우랄 등)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "ec90a2e0-2dc1-493a-91e5-82ce00741a77",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "isaak-prezent",
+  "rel": "authored",
+  "work": "미추린과 그의 학설",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "fe4743d6-03e3-4252-a049-5f73276e5e2f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "mauro-prosperi",
+  "rel": "authored",
+  "work": "Quei 10 giorni oltre la vita",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7aafb164-48b4-4d21-89bc-a6c19a9c9ab5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bob-astles",
+  "rel": "authored",
+  "work": "회고록(2013)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "530ee76f-ac03-478e-92a9-4a9a5ee32ffd",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bob-astles",
+  "rel": "read",
+  "work": "State of Blood",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "530ee76f-ac03-478e-92a9-4a9a5ee32ffd",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "maria-koepcke",
+  "rel": "authored",
+  "work": "Las aves del Departamento de Lima",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "97df23f8-6301-4328-9393-762630eed46c",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "georg-friedrich-daumer",
+  "rel": "authored",
+  "work": "카스파 하우저 관련 저작 3종",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "0b302773-e5c6-44a3-9a04-6097ba6b3290",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "georges-ladoux",
+  "rel": "authored",
+  "work": "Comment j'ai fait arrêter Mata-Hari",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "1b5a13a2-ff33-4097-8331-29ac2c8a6885",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "gleb-botkin",
+  "rel": "authored",
+  "work": "The Real Romanovs",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "c1f633e6-4679-427e-a157-e7b71a594ebd",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-suskind",
+  "rel": "authored",
+  "work": "Crusades 등 아동 역사서",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "9008c46c-e470-47d0-9d0f-19ed65790aa6",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sidkeong-tulku-namgyal",
+  "rel": "authored",
+  "work": "승원 지침서 bCa' yig",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "82a827b0-6147-4534-afa6-5056e27bba34",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "joseph-paris-duverney",
+  "rel": "authored",
+  "work": "Examen du livre intitulé réflexions politiques",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3455f304-1ab4-4d68-8571-c2ec8ffdc098",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jeff-briggs",
+  "rel": "music",
+  "work": "바르톡",
+  "content_id": "4a1432f4-53d6-4650-be93-fdbaeadbafe0",
+  "unresolved": null,
+  "celeb_id": "41077d67-beb1-46f2-b121-c08bfd3b1200",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jeff-briggs",
+  "rel": "music",
+  "work": "스트라빈스키",
+  "content_id": "0735fdf5-f933-485b-8ab2-ea6f6138d07a",
+  "unresolved": null,
+  "celeb_id": "41077d67-beb1-46f2-b121-c08bfd3b1200",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-eacott-manahan",
+  "rel": "authored",
+  "work": "The Manahan Family",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "d3db4213-47dd-46e2-8293-5b4527346d41",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-law",
+  "rel": "authored",
+  "work": "A Serious Call to a Devout and Holy Life",
+  "content_id": "09b5f248-4e79-41f7-81e7-5e98f04caacf",
+  "unresolved": null,
+  "celeb_id": "0ac10720-3849-40e2-a71c-292ef03554cd",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-norris",
+  "rel": "authored",
+  "work": "New Frontiers for Business Leadership",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4ff928f4-9299-4845-8490-5b2ef68757f2",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "lilian-maclaughlin-brown",
+  "rel": "authored",
+  "work": "I Married a Dinosaur",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "0aca30ac-71c0-4e7e-b809-c2bffef99e59",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "frederick-cook",
+  "rel": "authored",
+  "work": "My Attainment of the Pole",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "aa36db8c-31e9-47b6-a094-be3ae302e4fa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "francis-younghusband",
+  "rel": "authored",
+  "work": "The Heart of a Continent",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4fd7d663-c72f-4d23-a759-2cf6057adfd0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "francis-younghusband",
+  "rel": "authored",
+  "work": "India and Tibet",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4fd7d663-c72f-4d23-a759-2cf6057adfd0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "milton-hershey",
+  "rel": "read",
+  "work": "레 미제라블",
+  "content_id": "fd62028f-898e-4207-9af8-91fa83de7bbc",
+  "unresolved": null,
+  "celeb_id": "55414f3f-91ce-405d-8ac9-c0d404e5af49",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "valentin-glushko",
+  "rel": "read",
+  "work": "지구에서 달까지",
+  "content_id": "d773dd79-b2c1-4467-8aa7-b7bebf1b14cb",
+  "unresolved": null,
+  "celeb_id": "4a987b80-2c8c-4a3a-83b0-c088dd341809",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "valentin-glushko",
+  "rel": "read",
+  "work": "치올콥스키 저작들",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4a987b80-2c8c-4a3a-83b0-c088dd341809",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "george-psalmanazar",
+  "rel": "authored",
+  "work": "An Historical and Geographical Description of Formosa",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3edd6a35-5a29-4e15-b45d-7457873c07ff",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "george-psalmanazar",
+  "rel": "authored",
+  "work": "Memoirs of ****",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3edd6a35-5a29-4e15-b45d-7457873c07ff",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "orelie-antoine-de-tounens",
+  "rel": "read",
+  "work": "라 아라우카나",
+  "content_id": "642303a5-c8b8-4d76-bca2-869e8b2133be",
+  "unresolved": null,
+  "celeb_id": "e8c6fd9e-1fbc-4189-a2d4-1018eab52944",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "sophia-schliemann",
+  "rel": "authored",
+  "work": "Heinrich Schliemann and the Mycenaean Civilization",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "49cdb5c5-dd32-41c2-89a7-02325731462b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "feng-yuxiang",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "4ffb7a6a-35f1-4545-93cf-ec68641eed81",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "feng-yuxiang",
+  "rel": "authored",
+  "work": "나의 생활(我的生活)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4ffb7a6a-35f1-4545-93cf-ec68641eed81",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "josephine-peary",
+  "rel": "authored",
+  "work": "My Arctic Journal",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "814595b4-63e5-4197-9e45-2db99a25928a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "josephine-peary",
+  "rel": "authored",
+  "work": "The Snow Baby",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "814595b4-63e5-4197-9e45-2db99a25928a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ibn-juzayy",
+  "rel": "authored",
+  "work": "리흘라(집필자)",
+  "content_id": "910e4b48-3dd4-4087-80d8-51a523e01082",
+  "unresolved": null,
+  "celeb_id": "4743d8df-5daf-435e-8042-e0148564fbde",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sechele",
+  "rel": "read",
+  "work": "성경(츠와나어판)",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "53390424-a1a6-4a19-b8b7-a52149474d76",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "elias-boudinot",
+  "rel": "translated",
+  "work": "신약 체로키어 번역(워스터 공역)",
+  "content_id": "b3ecae23-7c89-47d9-b1d5-ab7996ed12e6",
+  "unresolved": null,
+  "celeb_id": "c292c11e-2205-4095-8986-d0c86526c6f3",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "fan-noli",
+  "rel": "translated",
+  "work": "셰익스피어 알바니아어역(오셀로·햄릿·맥베스·리어왕)",
+  "content_id": "aa0d0fab-50da-4daa-abb8-c5a2d3950cb4",
+  "unresolved": null,
+  "celeb_id": "bf055eb6-efbe-429d-b2ba-bb945c5b82db",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "fan-noli",
+  "rel": "translated",
+  "work": "돈키호테·입센·오마르 하이얌 알바니아어역",
+  "content_id": "8884dd67-8867-4ac8-94d9-c7aaf8d89a8b",
+  "unresolved": null,
+  "celeb_id": "bf055eb6-efbe-429d-b2ba-bb945c5b82db",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-beckford",
+  "rel": "authored",
+  "work": "Vathek",
+  "content_id": "9062dd7d-f293-5688-b8e3-fd9aac71e3db",
+  "unresolved": null,
+  "celeb_id": "08c93dd7-4af5-40da-86d5-504899cdd583",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "william-beckford",
+  "rel": "authored",
+  "work": "Dreams, Waking Thoughts and Incidents",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "08c93dd7-4af5-40da-86d5-504899cdd583",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "aaron-burr",
+  "rel": "read",
+  "work": "기번 『로마제국 쇠망사』",
+  "content_id": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+  "unresolved": null,
+  "celeb_id": "713c7f53-d041-407c-9847-bb5c1d4d3ee5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "aaron-burr",
+  "rel": "read",
+  "work": "볼테르 작품들",
+  "content_id": "9f8e8802-0190-4c74-9b0a-4c562049a8ae",
+  "unresolved": null,
+  "celeb_id": "713c7f53-d041-407c-9847-bb5c1d4d3ee5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "aaron-burr",
+  "rel": "read",
+  "work": "스위프트 작품들",
+  "content_id": "780746c4-46b5-4c8f-9df9-1fb35ec954fe",
+  "unresolved": null,
+  "celeb_id": "713c7f53-d041-407c-9847-bb5c1d4d3ee5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "aaron-burr",
+  "rel": "read",
+  "work": "보즈웰 『존슨전』",
+  "content_id": "47a9fc2d-ba6a-428b-b7a8-7659b894e3f2",
+  "unresolved": null,
+  "celeb_id": "713c7f53-d041-407c-9847-bb5c1d4d3ee5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "paracelsus",
+  "rel": "authored",
+  "work": "Paragranum",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5602c8ae-b2a9-4fa3-baf8-96e50f53870f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "paracelsus",
+  "rel": "authored",
+  "work": "Grosse Wundarznei(대외과서)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5602c8ae-b2a9-4fa3-baf8-96e50f53870f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ralph-baer",
+  "rel": "authored",
+  "work": "Videogames: In the Beginning",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "c80edc9c-2d2c-4a35-92f5-d634b4fdcf69",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-moolenaar",
+  "rel": "read",
+  "work": "성공하는 사람들의 7가지 습관",
+  "content_id": "f27315a1-d4db-435e-95a8-0d891dcb1238",
+  "unresolved": null,
+  "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-moolenaar",
+  "rel": "read",
+  "work": "The Dilbert Principle",
+  "content_id": "b71d31c2-63d2-521b-b54b-2d6d2d525383",
+  "unresolved": null,
+  "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-moolenaar",
+  "rel": "music",
+  "work": "마이크 올드필드",
+  "content_id": "e6b8224b-0927-4620-9665-74647c09f88b",
+  "unresolved": null,
+  "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-moolenaar",
+  "rel": "music",
+  "work": "드페시 모드",
+  "content_id": "a4afa126-a42c-49b2-976a-9be49b5fbccd",
+  "unresolved": null,
+  "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-moolenaar",
+  "rel": "music",
+  "work": "장 미셸 자르",
+  "content_id": "c7bc4709-2e4b-440b-92a7-98f111dca426",
+  "unresolved": null,
+  "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "bram-moolenaar",
+  "rel": "music",
+  "work": "비요크",
+  "content_id": "91991803-81e8-4c13-8467-10ab535d893a",
+  "unresolved": null,
+  "celeb_id": "174b1414-6cc3-4878-acad-967ed98d4a39",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-silver",
+  "rel": "read",
+  "work": "Reinforcement Learning: An Introduction",
+  "content_id": "f61d4164-4542-48c2-839d-afb63c3991de",
+  "unresolved": null,
+  "celeb_id": "5f1d9866-b722-4dc1-86d2-f630c63351e8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "david-silver",
+  "rel": "read",
+  "work": "Deep Thinking",
+  "content_id": "7d1c7e2c-95d4-52c7-8abe-5ab181df1b2b",
+  "unresolved": null,
+  "celeb_id": "5f1d9866-b722-4dc1-86d2-f630c63351e8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "kevin-warwick",
+  "rel": "read",
+  "work": "터미널 맨",
+  "content_id": "f6c4a243-45a1-585e-b0ca-7717f67f62df",
+  "unresolved": null,
+  "celeb_id": "e9dec34e-2577-43bf-af72-a1e6dafb521a",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "kevin-warwick",
+  "rel": "read",
+  "work": "우주 전쟁",
+  "content_id": "9f59abdf-4e02-4061-9eb4-3bfe6790f859",
+  "unresolved": null,
+  "celeb_id": "e9dec34e-2577-43bf-af72-a1e6dafb521a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "vesna-vulovic",
+  "rel": "music",
+  "work": "비틀즈",
+  "content_id": null,
+  "unresolved": "no-match",
+  "celeb_id": "01773717-4594-42c9-82fb-3c089e29aabb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "conrad-anker",
+  "rel": "read",
+  "work": "잭 런던 전집",
+  "content_id": null,
+  "unresolved": "author-generic",
+  "celeb_id": "9c0b85a5-3b22-4443-8db0-900b62c0db63",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "conrad-anker",
+  "rel": "read",
+  "work": "Starlight and Storm",
+  "content_id": "9dbf9e2e-7d2c-4486-8816-05bf31cb1d56",
+  "unresolved": null,
+  "celeb_id": "9c0b85a5-3b22-4443-8db0-900b62c0db63",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "conrad-anker",
+  "rel": "read",
+  "work": "The Big Walls",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "9c0b85a5-3b22-4443-8db0-900b62c0db63",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "conrad-anker",
+  "rel": "read",
+  "work": "한산시(冷山詩)",
+  "content_id": "3d203a71-9936-5be1-834b-c7c5d067c07d",
+  "unresolved": null,
+  "celeb_id": "9c0b85a5-3b22-4443-8db0-900b62c0db63",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "saxton-pope",
+  "rel": "authored",
+  "work": "Hunting with the Bow and Arrow",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "41ee850b-3ae5-4f5d-8611-b7d78f0f861b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "saxton-pope",
+  "rel": "authored",
+  "work": "Yahi Archery",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "41ee850b-3ae5-4f5d-8611-b7d78f0f861b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "heather-morgan",
+  "rel": "music",
+  "work": "릴 디키",
+  "content_id": "05c21c6a-ff8d-4dab-8e4e-bc8caa9eddb5",
+  "unresolved": null,
+  "celeb_id": "a9007a48-7405-4abc-b275-68a41ee8726e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "heather-morgan",
+  "rel": "music",
+  "work": "로널리 아일랜드",
+  "content_id": "731bddee-9f33-4414-9c9c-054c362ad52c",
+  "unresolved": null,
+  "celeb_id": "a9007a48-7405-4abc-b275-68a41ee8726e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "heather-morgan",
+  "rel": "authored",
+  "work": "랩 음악·에세이(Razzlekhan)",
+  "content_id": null,
+  "unresolved": "self-release",
+  "celeb_id": "a9007a48-7405-4abc-b275-68a41ee8726e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yoji-shinkawa",
+  "rel": "read",
+  "work": "아키라(AKIRA)",
+  "content_id": "18f49fe7-5df3-4a80-a01e-0ec911841425",
+  "unresolved": null,
+  "celeb_id": "93f40b53-4fda-43ce-9ba8-b357ec892b5a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yoji-shinkawa",
+  "rel": "read",
+  "work": "내일의 조(あしたのジョー)",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "93f40b53-4fda-43ce-9ba8-b357ec892b5a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yoji-shinkawa",
+  "rel": "read",
+  "work": "파이브 스타 스토리",
+  "content_id": "9d67d297-68db-5e38-b88a-71103b9fe764",
+  "unresolved": null,
+  "celeb_id": "93f40b53-4fda-43ce-9ba8-b357ec892b5a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yoji-shinkawa",
+  "rel": "read",
+  "work": "헬보이(Hellboy)",
+  "content_id": null,
+  "unresolved": "comic-no-match",
+  "celeb_id": "93f40b53-4fda-43ce-9ba8-b357ec892b5a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "justin-frankel",
+  "rel": "read",
+  "work": "Masters of Doom",
+  "content_id": "c2df4487-91d9-4aa2-824d-a82ce0403f65",
+  "unresolved": null,
+  "celeb_id": "0e02ddc4-7a44-46aa-b102-6b6dd61beef0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "justin-frankel",
+  "rel": "read",
+  "work": "Nona the Ninth",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "0e02ddc4-7a44-46aa-b102-6b6dd61beef0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "justin-frankel",
+  "rel": "read",
+  "work": "삼체",
+  "content_id": "a7c87a3f-713f-4096-ae45-cc92de4e9070",
+  "unresolved": null,
+  "celeb_id": "0e02ddc4-7a44-46aa-b102-6b6dd61beef0",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "justin-frankel",
+  "rel": "read",
+  "work": "Catch-22",
+  "content_id": "1e916d4c-dd3f-47a7-b87c-981c852fa669",
+  "unresolved": null,
+  "celeb_id": "0e02ddc4-7a44-46aa-b102-6b6dd61beef0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "justin-frankel",
+  "rel": "read",
+  "work": "Flatland",
+  "content_id": "4e82f9ef-f3ba-4056-9d34-f49a80640b26",
+  "unresolved": null,
+  "celeb_id": "0e02ddc4-7a44-46aa-b102-6b6dd61beef0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "wim-hof",
+  "rel": "read",
+  "work": "갈매기에게 나는 법을",
+  "content_id": "47284bcf-5f60-45f8-9c74-476c2a2aeb3e",
+  "unresolved": null,
+  "celeb_id": "8d489f7b-478f-4700-a1cb-6a48087f7966",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "wim-hof",
+  "rel": "read",
+  "work": "싯다르타",
+  "content_id": "993c40e6-16e9-41e7-9aae-ca0e15e999b9",
+  "unresolved": null,
+  "celeb_id": "8d489f7b-478f-4700-a1cb-6a48087f7966",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "wim-hof",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "8d489f7b-478f-4700-a1cb-6a48087f7966",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "eric-barone",
+  "rel": "tv",
+  "work": "트윈 픽스",
+  "content_id": "419d1587-5709-4569-aad2-5f96a64ccea0",
+  "unresolved": null,
+  "celeb_id": "71c3d563-ea06-489e-91f5-dacc4c87b4a4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "eric-barone",
+  "rel": "game",
+  "work": "하베스트 문(Harvest Moon)",
+  "content_id": "dfd7e8a0-e858-4e1e-9df2-76422ccf944e",
+  "unresolved": null,
+  "celeb_id": "71c3d563-ea06-489e-91f5-dacc4c87b4a4",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "eric-barone",
+  "rel": "game",
+  "work": "파이널 판타지",
+  "content_id": "2f4f3986-198e-49ac-bf43-f38f60d62bd9",
+  "unresolved": null,
+  "celeb_id": "71c3d563-ea06-489e-91f5-dacc4c87b4a4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "eric-barone",
+  "rel": "game",
+  "work": "어스바운드(EarthBound)",
+  "content_id": "d46444e2-0df7-4009-a088-c8dd61497714",
+  "unresolved": null,
+  "celeb_id": "71c3d563-ea06-489e-91f5-dacc4c87b4a4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "eric-barone",
+  "rel": "game",
+  "work": "크로노 트리거",
+  "content_id": "792b6809-0dfe-4642-875e-846fbe18250e",
+  "unresolved": null,
+  "celeb_id": "71c3d563-ea06-489e-91f5-dacc4c87b4a4",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "roberta-williams",
+  "rel": "read",
+  "work": "앤드루 랭 동화 시리즈",
+  "content_id": null,
+  "unresolved": "series-generic",
+  "celeb_id": "1d34ad23-51d6-4e2a-bcb6-e49dc1c10df8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "roberta-williams",
+  "rel": "read",
+  "work": "오즈의 마법사",
+  "content_id": "8c197b1e-615c-48c6-8e80-1b2631f34c5d",
+  "unresolved": null,
+  "celeb_id": "1d34ad23-51d6-4e2a-bcb6-e49dc1c10df8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "roberta-williams",
+  "rel": "read",
+  "work": "이상한 나라의 앨리스",
+  "content_id": "383fdab2-d4a1-4ab1-80c1-dbd85231e4ab",
+  "unresolved": null,
+  "celeb_id": "1d34ad23-51d6-4e2a-bcb6-e49dc1c10df8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "roberta-williams",
+  "rel": "read",
+  "work": "애거서 크리스티 작품들",
+  "content_id": null,
+  "unresolved": "no-match",
+  "celeb_id": "1d34ad23-51d6-4e2a-bcb6-e49dc1c10df8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ken-williams",
+  "rel": "read",
+  "work": "Masters of Doom",
+  "content_id": "c2df4487-91d9-4aa2-824d-a82ce0403f65",
+  "unresolved": null,
+  "celeb_id": "f5cdc030-25ae-4f26-a5c5-1781d833f363",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ken-williams",
+  "rel": "read",
+  "work": "Console Wars",
+  "content_id": "0ffe7fa9-3e64-48b4-9a8b-e0d2c72033be",
+  "unresolved": null,
+  "celeb_id": "f5cdc030-25ae-4f26-a5c5-1781d833f363",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ken-williams",
+  "rel": "read",
+  "work": "Hackers",
+  "content_id": "74c3ff65-abf8-4c2b-aaa8-777c8214e90b",
+  "unresolved": null,
+  "celeb_id": "f5cdc030-25ae-4f26-a5c5-1781d833f363",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "henk-rogers",
+  "rel": "authored",
+  "work": "The Perfect Game: Tetris, from Russia with Love",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "f91dd905-b43b-4825-93a0-e3e3bb071bc2",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yasuhiro-wada",
+  "rel": "read",
+  "work": "도라에몽",
+  "content_id": "169144f3-b7f8-4a86-8587-495ed6dc5c45",
+  "unresolved": null,
+  "celeb_id": "b7b58d3e-b05f-48d8-a7b3-8f4784a8c6b0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "yasuhiro-wada",
+  "rel": "game",
+  "work": "젤다의 전설",
+  "content_id": "7a7c911f-9872-4fcf-b97c-daec0a8820dc",
+  "unresolved": null,
+  "celeb_id": "b7b58d3e-b05f-48d8-a7b3-8f4784a8c6b0",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "yasuhiro-wada",
+  "rel": "game",
+  "work": "심시티",
+  "content_id": "2c78d7d1-e685-4c82-9ad9-375c66706d81",
+  "unresolved": null,
+  "celeb_id": "b7b58d3e-b05f-48d8-a7b3-8f4784a8c6b0",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "matthew-henson",
+  "rel": "authored",
+  "work": "A Negro Explorer at the North Pole",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "217e3e04-113d-49c6-a5a0-fa1533b4867f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "reginald-johnston",
+  "rel": "authored",
+  "work": "Twilight in the Forbidden City",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5ee2ba73-f527-4892-b8fb-b5d2302c8330",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "reginald-johnston",
+  "rel": "authored",
+  "work": "From Peking to Mandalay",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5ee2ba73-f527-4892-b8fb-b5d2302c8330",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "reginald-johnston",
+  "rel": "authored",
+  "work": "Buddhist China",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5ee2ba73-f527-4892-b8fb-b5d2302c8330",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "george-antheil",
+  "rel": "authored",
+  "work": "Bad Boy of Music",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7f1505ad-9e43-40ee-a4b5-2d57470fed02",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "theodore-von-karman",
+  "rel": "authored",
+  "work": "The Wind and Beyond",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "358a2092-735e-4b02-8448-3af662338dac",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "amelia-edwards",
+  "rel": "read",
+  "work": "윌킨슨 『고대 이집트인의 풍습』",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3c290707-832a-4064-854b-8ec894850d60",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "amelia-edwards",
+  "rel": "read",
+  "work": "천일야화",
+  "content_id": "db736fc4-9a34-460b-b57f-760d57a997eb",
+  "unresolved": null,
+  "celeb_id": "3c290707-832a-4064-854b-8ec894850d60",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "amelia-edwards",
+  "rel": "authored",
+  "work": "A Thousand Miles up the Nile",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3c290707-832a-4064-854b-8ec894850d60",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "hiram-bingham-iii",
+  "rel": "authored",
+  "work": "Lost City of the Incas",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "2d39fa2d-a82b-4c46-9617-eedc842506b6",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "arturo-rosenblueth",
+  "rel": "authored",
+  "work": "Behavior, Purpose and Teleology(공저)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "79826d49-51c9-4ff7-968f-fa7296227e3b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sylvester-graham",
+  "rel": "authored",
+  "work": "Lectures on the Science of Human Life",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "18969374-1800-4a8f-a39c-7c305a805ada",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jerry-lawson",
+  "rel": "read",
+  "work": "101 BASIC Computer Games",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3da08d46-4f54-470e-889f-f34ed6fa66a6",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "margaret-howe-lovatt",
+  "rel": "read",
+  "work": "Miss Kelly",
+  "content_id": "d630c9bd-c589-42bd-a7a5-ac778f62cf13",
+  "unresolved": null,
+  "celeb_id": "03248bd4-64f3-4772-8106-861899adcf6f",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "margaret-howe-lovatt",
+  "rel": "read",
+  "work": "Man and Dolphin",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "03248bd4-64f3-4772-8106-861899adcf6f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "hotsumi-ozaki",
+  "rel": "authored",
+  "work": "만성(漫成) 옥중 서간집",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "9eec326b-805e-4519-b55b-3565d4aaa328",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "helge-ingstad",
+  "rel": "authored",
+  "work": "Land of Feast and Famine",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4696a1c6-5b9c-47e1-b27c-21ee053bddfa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "helge-ingstad",
+  "rel": "authored",
+  "work": "Nunamiut",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4696a1c6-5b9c-47e1-b27c-21ee053bddfa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-lloyd-stephens",
+  "rel": "authored",
+  "work": "Incidents of Travel in Central America",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "43c75d4d-d94a-47f2-8ec7-c399e17c8a51",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-lloyd-stephens",
+  "rel": "authored",
+  "work": "Incidents of Travel in Egypt, Arabia Petraea",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "43c75d4d-d94a-47f2-8ec7-c399e17c8a51",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "philipp-franz-von-siebold",
+  "rel": "authored",
+  "work": "Nippon",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "bedcf0f4-e35a-4706-864f-388442588e8e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "philipp-franz-von-siebold",
+  "rel": "authored",
+  "work": "Flora Japonica",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "bedcf0f4-e35a-4706-864f-388442588e8e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "henry-salt",
+  "rel": "authored",
+  "work": "A Voyage to Abyssinia",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "2aa96aae-6f56-47f7-89cb-b2c17be82a11",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "tommy-chong",
+  "rel": "read",
+  "work": "The Runner's Bible",
+  "content_id": "5d6bb238-68e1-429b-980b-9bdc023916ce",
+  "unresolved": null,
+  "celeb_id": "bd27e1b4-69d1-4df6-9d3e-d97e63c646ef",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "tommy-chong",
+  "rel": "read",
+  "work": "역경",
+  "content_id": "731d7204-7017-4b54-9b0c-4beddf13f11d",
+  "unresolved": null,
+  "celeb_id": "bd27e1b4-69d1-4df6-9d3e-d97e63c646ef",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "tommy-chong",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "bd27e1b4-69d1-4df6-9d3e-d97e63c646ef",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "puyi",
+  "rel": "read",
+  "work": "이상한 나라의 앨리스",
+  "content_id": "383fdab2-d4a1-4ab1-80c1-dbd85231e4ab",
+  "unresolved": null,
+  "celeb_id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "puyi",
+  "rel": "read",
+  "work": "유교 사서(논어·맹자·대학·중용)",
+  "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+  "unresolved": null,
+  "celeb_id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "puyi",
+  "rel": "authored",
+  "work": "나의 전반생",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "4c7e6edd-4d40-4617-8ca3-e4cc06f24b65",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "frederick-catherwood",
+  "rel": "read",
+  "work": "갈린도 코판 유적 기록",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "78b33284-79af-46ec-b368-fd96f65f6a9a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "frederick-catherwood",
+  "rel": "authored",
+  "work": "Views of Ancient Monuments",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "78b33284-79af-46ec-b368-fd96f65f6a9a",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "henry-de-la-beche",
+  "rel": "authored",
+  "work": "A Geological Manual",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "b6ebbdc0-ebb9-47bf-abeb-3adb80d8c845",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jedediah-smith",
+  "rel": "read",
+  "work": "루이스·클라크 원정 일지",
+  "content_id": "07de7198-51c6-4442-a6c3-0add6ed7aca8",
+  "unresolved": null,
+  "celeb_id": "bd12580b-45b6-480c-b8f8-2da27151838e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jedediah-smith",
+  "rel": "read",
+  "work": "성경",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "bd12580b-45b6-480c-b8f8-2da27151838e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "natalie-of-serbia",
+  "rel": "authored",
+  "work": "회고록·아포리즘집",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "9261f674-c817-423d-9f68-d0cd560aada8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "draga-masin",
+  "rel": "translated",
+  "work": "크사비에 드 몽테팽 소설 세르비아어역",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "055436f9-9a1e-4523-bb32-33bd845b901e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "peter-dayan",
+  "rel": "authored",
+  "work": "Theoretical Neuroscience(애봇 공저)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "57def858-0f99-4171-84aa-fa3064ebfdf8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "takahashi-kageyasu",
+  "rel": "translated",
+  "work": "라랑드 천문학·켐퍼 일본사 등 네덜란드어판 번역",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "69405731-3369-4cfd-9229-2d872d6772f0",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "howard-aiken",
+  "rel": "read",
+  "work": "배비지 해석기관 저작·기록",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "821d78cb-a0a1-47fa-860e-f1ba60b5c4ee",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "harald-fairhair",
+  "rel": "appearance",
+  "work": "Hrafnsmál·Glymdrápa",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "8592c55e-a54a-4628-bb76-5c18b885156e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "leonid-rogozov",
+  "rel": "authored",
+  "work": "Self Operation 보고·남극 일기",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "14070579-3738-4b86-aa10-313fde9c8fa4",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-king-davis",
+  "rel": "authored",
+  "work": "With the Aurora in the Antarctic",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7fc57ce9-0f10-46e2-81cc-768a62da564f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-king-davis",
+  "rel": "authored",
+  "work": "High Latitude",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7fc57ce9-0f10-46e2-81cc-768a62da564f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "john-king-davis",
+  "rel": "authored",
+  "work": "Trial by Ice",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7fc57ce9-0f10-46e2-81cc-768a62da564f",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "oscar-wisting",
+  "rel": "authored",
+  "work": "16 år med Roald Amundsen",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "b0847a8f-4f04-4376-80fa-a3ac9901330e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "harold-gatty",
+  "rel": "authored",
+  "work": "The Raft Book",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "ada70c1a-592c-42e1-b143-e43d26384abe",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "harold-gatty",
+  "rel": "authored",
+  "work": "Nature Is Your Guide",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "ada70c1a-592c-42e1-b143-e43d26384abe",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jack-sheppard",
+  "rel": "appearance",
+  "work": "A Narrative of All the Robberies, Escapes of John Sheppard",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "399eec5e-014a-43ed-8fb0-2cc4ed283c89",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jack-sheppard",
+  "rel": "appearance",
+  "work": "Jack Sheppard: A Romance",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "399eec5e-014a-43ed-8fb0-2cc4ed283c89",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "craig-wright",
+  "rel": "read",
+  "work": "아틀라스 슈러그드",
+  "content_id": "b5cbab85-94f8-4c52-8eba-6b5c49a7fc42",
+  "unresolved": null,
+  "celeb_id": "0e9dc4df-695d-4dcc-8099-faed40452c70",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "craig-wright",
+  "rel": "read",
+  "work": "파운데이션",
+  "content_id": "ad8766ac-df94-45eb-b3b5-9a07276d5191",
+  "unresolved": null,
+  "celeb_id": "0e9dc4df-695d-4dcc-8099-faed40452c70",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "craig-wright",
+  "rel": "read",
+  "work": "노예의 길",
+  "content_id": "fe7a0a66-af6a-413e-abba-de9fae799a30",
+  "unresolved": null,
+  "celeb_id": "0e9dc4df-695d-4dcc-8099-faed40452c70",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "anawrahta",
+  "rel": "read",
+  "work": "팔리 삼장(티피타카)",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "d358b7c9-0ec9-4cc3-b219-7cf9d2a2ba86",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "kawashima-naniwa",
+  "rel": "authored",
+  "work": "만주건국비화",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "306fbc68-f007-4141-9353-b9d4cfbd4356",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "ryūkichi-tanaka",
+  "rel": "authored",
+  "work": "패인을 찌르다(敗因を衝く)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "6767ffe9-9a05-4bae-bfaa-3ca8651025a9",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-mcmasters",
+  "rel": "authored",
+  "work": "Originality and Other Essays",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "64ebb1d9-1386-47cc-8832-2098c824a8c6",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "helmer-hanssen",
+  "rel": "authored",
+  "work": "Voyages of a Modern Viking",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "bba95638-310d-4e15-971a-f7a9ae2f170b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "raymond-lambert",
+  "rel": "authored",
+  "work": "À l'assaut des quatre mille",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "1fff9240-f3e5-41c7-a4e5-b3c2bfe64134",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "raymond-lambert",
+  "rel": "authored",
+  "work": "Forerunners to Everest(공저)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "1fff9240-f3e5-41c7-a4e5-b3c2bfe64134",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "forster-fitzgerald-arbuthnot",
+  "rel": "translated",
+  "work": "카마 수트라(버턴 공역)",
+  "content_id": "951fe741-2d7b-431c-9646-f09766d2facb",
+  "unresolved": null,
+  "celeb_id": "3f7a0391-822f-46de-9d32-eaeaf8d70ea7",
+  "dup_cc": true,
+  "dup_fb": false
+ },
+ {
+  "slug": "forster-fitzgerald-arbuthnot",
+  "rel": "translated",
+  "work": "아난가 랑가(버턴 공역)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3f7a0391-822f-46de-9d32-eaeaf8d70ea7",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "forster-fitzgerald-arbuthnot",
+  "rel": "authored",
+  "work": "Early Ideas",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3f7a0391-822f-46de-9d32-eaeaf8d70ea7",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "federico-halbherr",
+  "rel": "authored",
+  "work": "Leggi antiche della città di Gortyna",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "024556d1-ed59-4bb0-bf78-c4b48386804d",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nils-strindberg",
+  "rel": "authored",
+  "work": "안드레 일기(공저)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "d019879c-78b4-4b54-8cb3-bb5880b26e62",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "knut-fraenkel",
+  "rel": "authored",
+  "work": "안드레 일기(공저)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "knut-frænkel",
+  "rel": "authored",
+  "work": "안드레 일기(공저)",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "d4ce9209-759e-4bc6-96ed-568429b4c0bb",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "marina-mniszech",
+  "rel": "appearance",
+  "work": "보리스 고두노프",
+  "content_id": "c0ebcca0-ebdd-575c-ae31-3b550bd31196",
+  "unresolved": null,
+  "celeb_id": "183c7e42-51a4-4166-ad20-778e9707d191",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "herman-watzinger",
+  "rel": "appearance",
+  "work": "콘티키 원정대",
+  "content_id": "55a35aa4-2765-55c0-941f-c0770a88b0fb",
+  "unresolved": null,
+  "celeb_id": "e8def4b7-fd88-42b0-a540-1e54c1c3d115",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jan-jansz-weltevree",
+  "rel": "appearance",
+  "work": "하멜표류기",
+  "content_id": "d5c3a7c5-0491-5d7a-b9a3-52986685f2a0",
+  "unresolved": null,
+  "celeb_id": "a59ef3d3-2b0a-4046-81a1-5eea0747c060",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "naiche",
+  "rel": "appearance",
+  "work": "제로니모: 그의 삶의 이야기",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "a587916d-77c6-4605-82cc-ca46ed0a365b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "naiche",
+  "rel": "appearance",
+  "work": "Chiricahua Apache Enduring Power",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "a587916d-77c6-4605-82cc-ca46ed0a365b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "cameahwait",
+  "rel": "appearance",
+  "work": "루이스와 클라크 탐험일지",
+  "content_id": "07de7198-51c6-4442-a6c3-0add6ed7aca8",
+  "unresolved": null,
+  "celeb_id": "8efd31ea-a7ee-41db-9c85-1379b5272b3e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "xavier-mertz",
+  "rel": "authored",
+  "work": "Swiss Alps to Antarctic Glaciers",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "2c011ec9-840f-4726-b997-507bdd402cb9",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "william-lashly",
+  "rel": "authored",
+  "work": "Under Scott's Command",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "3a4416b1-e98e-4c4e-a2e8-c73880839ece",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "viktor-bilash",
+  "rel": "authored",
+  "work": "Дороги Нестора Махно",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "6fa0d585-493f-4cb1-84c1-2b1fd31c3ffa",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "hughe-knatchbull-hugessen",
+  "rel": "authored",
+  "work": "Diplomat in Peace and War",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "5ba982cd-f410-4f09-80f8-e2c5ec171e02",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "salim-bin-kabina",
+  "rel": "appearance",
+  "work": "아라비안 샌즈",
+  "content_id": "8ca2b43e-8977-558e-8d55-21d8efa57362",
+  "unresolved": null,
+  "celeb_id": "72c5e93a-0630-4a5d-acca-0aae6f8ca578",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "salim-bin-ghabaisha",
+  "rel": "appearance",
+  "work": "아라비안 샌즈",
+  "content_id": "8ca2b43e-8977-558e-8d55-21d8efa57362",
+  "unresolved": null,
+  "celeb_id": "f1a0e4b9-4cdf-46b3-9ea2-aa7249547ef8",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jack-ridley",
+  "rel": "appearance",
+  "work": "더 라이트 스터프",
+  "content_id": "6712ac15-a2c8-496f-b5b1-49e1cbd67d4d",
+  "unresolved": null,
+  "celeb_id": "f6a73c6e-e281-483b-b734-0884a92f2048",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "melchor-arteaga",
+  "rel": "appearance",
+  "work": "잃어버린 잉카의 도시",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "05241aad-ca65-40be-bb4e-948e6ff92b99",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "the-man-in-the-iron-mask",
+  "rel": "related",
+  "work": "철가면",
+  "content_id": "878d9f82-c8b8-4d43-ad0b-001bbb5801c5",
+  "unresolved": null,
+  "celeb_id": "1a2c7a38-b01a-4aae-a9d7-34462f141cdb",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "sacagawea",
+  "rel": "appearance",
+  "work": "루이스와 클라크 탐험일지",
+  "content_id": "07de7198-51c6-4442-a6c3-0add6ed7aca8",
+  "unresolved": null,
+  "celeb_id": "7c22385d-add6-4f74-9039-95b5cf422ea7",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "sacagawea",
+  "rel": "appearance",
+  "work": "Sacajawea",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "7c22385d-add6-4f74-9039-95b5cf422ea7",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-sorge",
+  "rel": "read",
+  "work": "자본론·마르크스-엥겔스 저작",
+  "content_id": "b6b20ee9-d6aa-4ffd-a42d-3af6e55fd134",
+  "unresolved": null,
+  "celeb_id": "a9c576ff-7705-487c-bb0a-f02cafbd2b4b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "richard-sorge",
+  "rel": "read",
+  "work": "금융자본",
+  "content_id": "a70af2fa-b770-4661-8b6e-650e7eb301b2",
+  "unresolved": null,
+  "celeb_id": "a9c576ff-7705-487c-bb0a-f02cafbd2b4b",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nuwa",
+  "rel": "appearance",
+  "work": "산해경",
+  "content_id": "27a88ed7-ad15-4b09-bac0-e208f7c44a9d",
+  "unresolved": null,
+  "celeb_id": "532034c5-e4fd-4cbf-ac66-8d682b071383",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "nuwa",
+  "rel": "appearance",
+  "work": "회남자",
+  "content_id": "b0733646-56ff-40d8-98eb-f9b26200fc60",
+  "unresolved": null,
+  "celeb_id": "532034c5-e4fd-4cbf-ac66-8d682b071383",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "jamshid",
+  "rel": "appearance",
+  "work": "샤나메",
+  "content_id": "802259e0-fd3a-48ca-9d79-195c389c1e95",
+  "unresolved": null,
+  "celeb_id": "0170e0b7-9593-492a-964f-39ae68ab78a3",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "fereydun",
+  "rel": "appearance",
+  "work": "샤나메",
+  "content_id": "802259e0-fd3a-48ca-9d79-195c389c1e95",
+  "unresolved": null,
+  "celeb_id": "173be99f-07c3-4c74-a4ea-0cfa4cdc6ed4",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "bharata-2",
+  "rel": "appearance",
+  "work": "마하바라타",
+  "content_id": "1ca908d5-f3c1-4f97-afb5-3cb8fcb880c7",
+  "unresolved": null,
+  "celeb_id": "219db041-df14-477a-a47e-41841ebab25e",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "brutus-of-troy",
+  "rel": "appearance",
+  "work": "브리타니아 왕사",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "2dae5d2e-ea24-4394-8bbf-eeea02a42f05",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "hayk",
+  "rel": "appearance",
+  "work": "아르메니아사",
+  "content_id": null,
+  "unresolved": "foreign-only",
+  "celeb_id": "309408c3-5c0a-4fa6-abe5-5c468ddeac49",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "tubal",
+  "rel": "appearance",
+  "work": "창세기",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "42154d97-3f0b-4b81-9830-3784cccc9791",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "zahhak",
+  "rel": "appearance",
+  "work": "샤나메",
+  "content_id": "802259e0-fd3a-48ca-9d79-195c389c1e95",
+  "unresolved": null,
+  "celeb_id": "4b7408d6-edb1-4f73-bdcb-a92cd1037bd8",
+  "dup_cc": false,
+  "dup_fb": true
+ },
+ {
+  "slug": "manas",
+  "rel": "appearance",
+  "work": "마나스 서사시",
+  "content_id": "b162dcd9-4f6d-53ce-9adc-15259a4eb469",
+  "unresolved": null,
+  "celeb_id": "82fefaa6-8624-4db3-92a7-fd63833e9f1c",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "etana",
+  "rel": "appearance",
+  "work": "에타나 서사시",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "ac3e14e2-ae22-442a-a4f6-7d72591ba5a5",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "menelik-i",
+  "rel": "appearance",
+  "work": "케브라 나가스트",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "b96d838e-3dc7-4d40-862b-4d443e7aba93",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "shakuntala",
+  "rel": "appearance",
+  "work": "사쿤탈라",
+  "content_id": "f3aae06c-6124-41c1-aa00-d93c951e5dab",
+  "unresolved": null,
+  "celeb_id": "bd9a65fe-7754-41e9-a998-aa1d6c3586f3",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "shakuntala",
+  "rel": "appearance",
+  "work": "마하바라타",
+  "content_id": "1ca908d5-f3c1-4f97-afb5-3cb8fcb880c7",
+  "unresolved": null,
+  "celeb_id": "bd9a65fe-7754-41e9-a998-aa1d6c3586f3",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "oghuz-khagan",
+  "rel": "appearance",
+  "work": "오구즈나메",
+  "content_id": null,
+  "unresolved": "no-korean-edition",
+  "celeb_id": "a4898089-7642-40c5-8a9f-984cd078bbed",
+  "dup_cc": false,
+  "dup_fb": false
+ },
+ {
+  "slug": "dan",
+  "rel": "appearance",
+  "work": "창세기",
+  "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+  "unresolved": null,
+  "celeb_id": "223b58b3-28b7-4dad-850a-2e90e3792eee",
+  "dup_cc": false,
+  "dup_fb": false
+ }
+]
