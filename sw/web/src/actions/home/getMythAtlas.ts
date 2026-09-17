@@ -99,6 +99,49 @@ const TITLE_ART_BY_NAME: Record<string, string> = {
   "헤라클레스의 열두 과제": "heracles.png",
 };
 
+/* 전승 대표 3인 — 타이틀 아트 우측에 세우는 얼굴이다. 차례가 곧 세우는 순서다.
+   인물 줄의 클러스터 차례(sort_order)와는 따로 쥔다. 값은 인물 slug다.
+   뽑은 인물이 숨김이라 그 전승 명단에 없으면 빠지고, 남은 자리는 명단 앞쪽으로 채운다 */
+const MYTH_LEAD_BY_SLUG: Record<string, string[]> = {
+  "argonauts": ["jason", "medea", "heracles"],
+  "arthur-round-table": ["arthur", "merlin", "lancelot"],
+  "greek-roman-myth": ["zeus", "athena", "heracles"],
+  "heracles": ["heracles", "hera", "deianira"],
+  "homer-iliad": ["achilles", "hector", "helen-of-troy"],
+  "homer-odyssey": ["odysseus", "penelope", "telemachus"],
+  "house-of-atreus": ["agamemnon", "clytemnestra", "orestes"],
+  "myth-africa": ["sundiata-keita", "makeda", "menelik-i"],
+  "myth-americas": ["quetzalcoatl", "manco-capac", "huitzilopochtli"],
+  "myth-celtic": ["nuada-airgetlam", "merlin", "brutus-of-troy"],
+  "myth-china-ancient": ["nuwa", "yellow-emperor", "yu-the-great"],
+  "myth-china-fengshen": ["jiang-ziya", "nezha", "daji"],
+  "myth-china-xiyou": ["sun-wukong", "tang-sanzang", "zhu-bajie"],
+  "myth-egypt": ["ra", "osiris", "isis"],
+  "myth-germanic": ["odin", "william-tell", "pelayo"],
+  "myth-hindu-lineage": ["vaivasvata-manu", "bharata-2", "yayati"],
+  "myth-hindu-mahabharata": ["krishna", "arjuna", "duryodhana"],
+  "myth-hindu-ramayana": ["rama", "sita", "ravana"],
+  "myth-japan": ["amaterasu", "susanoo", "izanagi"],
+  "myth-korea-baekje": ["onjo", "soseono", "biryu"],
+  "myth-korea-buyeo-goguryeo": ["jumong", "haemosu", "yuhwa"],
+  "myth-korea-gaya": ["kim-suro", "heo-hwang-ok", "seok-talhae"],
+  "myth-korea-gojoseon": ["dangun", "hwanung", "ungnyeo"],
+  "myth-korea-goryeo-segye": ["jakjegeon", "the-dragon-maiden", "yonggeon"],
+  "myth-korea-jeju-bonpuri": ["seolmundae-halmang", "jacheongbi", "princess-bari"],
+  "myth-korea-silla": ["bak-hyeokgeose", "lady-aryeong", "kim-alji"],
+  "myth-korea-tamna": ["go-eulla", "yang-eulla", "bu-eulla"],
+  "myth-mesopotamia": ["gilgamesh", "enkidu", "ishtar"],
+  "myth-norse": ["odin", "thor", "loki"],
+  "myth-oceania": ["māui", "tagaloa", "wākea"],
+  "myth-persia": ["jamshid", "zahhak", "fereydun"],
+  "myth-roman": ["jupiter", "aeneas", "romulus"],
+  "myth-slavic": ["rurik", "kyi", "lech"],
+  "myth-southeast-asia": ["lạc-long-quan", "au-cơ", "sang-nila-utama"],
+  "myth-steppe": ["oghuz-khagan", "manas", "alan-gua"],
+  "myth-west-asia": ["hayk", "ishmael", "kartlos"],
+  "virgil-aeneid": ["aeneas", "dido", "turnus"],
+};
+
 function titleArtForTradition(slug: string, name: string) {
   const fileName = TITLE_ART_BY_SLUG[slug] ?? TITLE_ART_BY_NAME[name];
   return fileName ? `/images/myth-atlas/title-art/${fileName}` : null;
@@ -256,6 +299,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   /* 차례는 전승이 쥔다(tradition.personIds). 여기서 연결 작품 수로 다시 줄을 세우면
      전승마다 잡아 둔 계보·이야기 순서가 화면에서 통째로 뒤집힌다 */
 
+  const personIdBySlug = new Map(profiles.flatMap((profile) => profile.slug ? [[profile.slug, profile.id] as const] : []));
   const parentIdsWithPopulatedChildren = new Set(
     nestedTags
       .filter((tag) => members.some((member) => member.tag_id === tag.id && validIds.has(member.celeb_id)))
@@ -268,7 +312,15 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const region = regionForTradition(tag.slug, tag.name, isEn);
     const titleArt = titleArtForTradition(tag.slug, tag.name);
     const images = titleArt ? [{ url: titleArt, label: null }] : [];
-    return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name,
+    /* 대표 3인은 뽑은 인물이 먼저다. 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
+    const leadPersonIds = (MYTH_LEAD_BY_SLUG[tag.slug] ?? [])
+      .flatMap((slug) => personIdBySlug.get(slug) ?? [])
+      .filter((id) => ids.includes(id));
+    for (const id of ids) {
+      if (leadPersonIds.length >= 3) break;
+      if (!leadPersonIds.includes(id)) leadPersonIds.push(id);
+    }
+    return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name, leadPersonIds,
       description: isEn ? tag.description_en || tag.description : tag.description,
       isPublished: tag.atlas_published === true,
       regionId: region.id, images, personIds: ids, music: toFactionMusic(tag.theme_music),

@@ -22,6 +22,7 @@ export function getMythAtlasClientData(data: MythAtlasData, developerMode: boole
       description: null,
       images: [],
       personIds: [],
+      leadPersonIds: [],
       groups: [],
     }),
     people,
