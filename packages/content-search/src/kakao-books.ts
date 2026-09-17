@@ -154,6 +154,20 @@ export function normalizeKakaoBookTitle(title: string, creator = ''): string {
   return mainTitle.trim()
 }
 
+/*
+  카카오 contents는 개행 없이 공백 런으로 줄바꿈을 표기한다 — 2~3칸이 줄급, 4칸 이상이 덩어리급이다.
+  화면 규약(\n = 붙는 줄, \n\n = 문단)에 맞춰 복원하고, 큰 간격은 표식(\n\n\n)으로 남긴다.
+*/
+export function normalizeKakaoContents(contents: string): string {
+  return decodeHtmlEntities(contents.replace(/<[^>]+>/g, ' '))
+    .replace(/\r\n?/g, '\n')
+    .replace(/[^\S\n]{4,}/g, '\n\n\n')
+    .replace(/[^\S\n]{2,3}/g, '\n')
+    .replace(/[^\S\n]+/g, ' ')
+    .replace(/ *\n */g, '\n')
+    .trim()
+}
+
 function toResult(book: KakaoBook): KakaoBookSearchResult {
   const isbn = pickIsbn(book.isbn)
   const creator = normalizeKakaoBookCreator(book.authors, book.translators)
@@ -170,7 +184,7 @@ function toResult(book: KakaoBook): KakaoBookSearchResult {
       publishDate: formatPubDate(book.datetime),
       isbn,
       genre: '',
-      description: decodeHtmlEntities(book.contents.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim(),
+      description: normalizeKakaoContents(book.contents),
       link: book.url,
       salesStatus: book.status,
     },
@@ -216,7 +230,8 @@ export function parseDaumBookDescription(html: string): string | null {
     .replace(/\u00a0/g, ' ')
     .replace(/[ \t]+/g, ' ')
     .replace(/ *\n */g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
+    // <br> 넷 이상의 큰 간격은 덩어리 경계 표식(\n\n\n)으로 남긴다 — \n\n으로 접으면 문단 경계와 시 구절이 구별되지 않는다
+    .replace(/\n{4,}/g, '\n\n\n')
     .trim()
 
   return text || null

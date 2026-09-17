@@ -1,3 +1,5 @@
+import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
+
 const HTML_ENTITY_PATTERN = /&(#(?:x[\da-f]+|\d+)|amp|apos|gt|lt|nbsp|quot);/gi;
 
 const NAMED_HTML_ENTITIES = {
@@ -51,11 +53,7 @@ export function decodeContentIntroEntities(text: string) {
   });
 }
 
-/** 소개 본문의 줄바꿈을 통일하고, 문단 사이에는 빈 줄 하나만 남긴다. */
+/** 소개 본문의 HTML 엔티티를 복원하고, 개행은 화면 규약(\n=붙는 줄, \n\n=문단)으로 맞춘다. */
 export function normalizeContentIntroText(text: string) {
-  return decodeContentIntroEntities(text)
-    .replace(/\r\n?/g, "\n")
-    .replace(/[ \t]+\n/g, "\n")
-    .replace(/\n(?:[ \t]*\n)+/g, "\n\n")
-    .trim();
+  return normalizeIntroBreaks(decodeContentIntroEntities(text));
 }
