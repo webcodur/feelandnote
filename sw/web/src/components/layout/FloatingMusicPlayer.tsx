@@ -17,7 +17,7 @@ import { createPortal } from 'react-dom'
 import { ArrowUpRight, Check, ChevronDown, ListMusic, Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { mythTraditionHref } from '@/components/features/user/explore/myth/mythTraditionHref'
+import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import AnimatedHeight from '@/components/ui/AnimatedHeight'
 import Modal from '@/components/ui/Modal'
 import { PendingBlock } from '@/components/ui/pending'
@@ -184,13 +184,13 @@ const toGameTracks = (locale: string, groupName: (key: string) => string): Facti
     }))
   })
 
-// 곡에서 그 곡의 자리로 가는 주소 — 세력도감 테마, 신화 전승, 게임 자리, 감상목록 작품 상세
+// 곡에서 그 곡의 자리로 가는 주소 — 세력도감 테마, 신화, 게임 자리, 감상목록 작품 상세
 const trackHref = (track: ListTrack): string | null => {
   const mode = sourceMode(track.id)
   if (mode === 'game') return 'gameHref' in track ? (track.gameHref ?? null) : null
   if (!isThemeTrack(track)) return `/content/${track.id}?category=music`
   if (!track.slug) return null
-  return mode === 'myth' ? mythTraditionHref(track.slug) : `/explore/faction/${track.slug}`
+  return mode === 'myth' ? mythHref(track.slug) : `/explore/faction/${track.slug}`
 }
 
 export default function FloatingMusicPlayer() {
