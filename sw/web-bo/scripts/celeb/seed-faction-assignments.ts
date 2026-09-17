@@ -5,11 +5,11 @@
  *   pnpm --dir sw/web-bo celeb:seed:factions --apply    # 실제 반영
  *
  * 안전 장치
- * - 신규 테마는 is_featured=false·atlas_published=false로 만든다(도감에 '준비 중'으로만 보임).
+ * - 신규 세력은 is_featured=false·published=false로 만든다(도감에 '준비 중'으로만 보임).
  * - 배정 행은 전부 hidden=true — 비활성 인물이 웹 도감에 새지 않는다
  *   (getFeaturedTags는 배정의 hidden만 본다. publication_status로는 거르지 않는다).
- * - (celeb_id, tag_id) 기존 배정이 있으면 건너뛴다. 덮어쓰지 않는다.
- * - secondary 태그는 별도 배정 행으로 넣는다(한 인물이 여러 테마에 등재되는 기존 관례).
+ * - (celeb_id, lv2_id) 기존 배정이 있으면 건너뛴다. 덮어쓰지 않는다.
+ * - secondary 세력은 별도 배정 행으로 넣는다(한 인물이 여러 세력에 등재되는 기존 관례).
  */
 import { config } from 'dotenv'
 import { resolve } from 'node:path'
@@ -30,7 +30,6 @@ interface Assignment {
   tag: string | null; secondary: string | null; reason: string
   short_desc?: string | null; short_desc_en?: string | null
   long_desc?: string | null; long_desc_en?: string | null
-  quote?: string | null; quote_en?: string | null
 }
 interface LedgerRow { nickname: string; celeb_id?: string; slug?: string }
 
@@ -57,11 +56,14 @@ async function main() {
   }
 
   // ── 1. 기존 태그 지도 ─────────────────────────────────────────────
-  const { data: allTags, error: tagErr } = await client
-    .from('celeb_tags').select('id, slug, parent_id, sort_order')
+  const { data: allL1, error: l1Err } = await client
+    .from('faction_lv1').select('id, slug')
+  if (l1Err) throw l1Err
+  const { data: allLv2, error: tagErr } = await client
+    .from('faction_lv2').select('id, slug, lv1_id, sort_order')
   if (tagErr) throw tagErr
-  const tagBySlug = new Map((allTags ?? []).map(t => [t.slug as string, t]))
-  const parentBySlug = new Map((allTags ?? []).filter(t => !t.parent_id).map(t => [t.slug as string, t]))
+  const tagBySlug = new Map((allLv2 ?? []).map(t => [t.slug as string, t]))
+  const parentBySlug = new Map((allL1 ?? []).map(t => [t.slug as string, t]))
 
   const missingParents = newTags.filter(t => !parentBySlug.get(t.parent))
   const slugClashes = newTags.filter(t => tagBySlug.get(t.slug))
@@ -73,10 +75,9 @@ async function main() {
 
   // 대분류별 마지막 sort_order
   const maxSortByParent = new Map<string, number>()
-  for (const t of allTags ?? []) {
-    if (!t.parent_id) continue
-    const cur = maxSortByParent.get(t.parent_id) ?? 0
-    if ((t.sort_order ?? 0) > cur) maxSortByParent.set(t.parent_id, t.sort_order ?? 0)
+  for (const t of allLv2 ?? []) {
+    const cur = maxSortByParent.get(t.lv1_id) ?? 0
+    if ((t.sort_order ?? 0) > cur) maxSortByParent.set(t.lv1_id, t.sort_order ?? 0)
   }
 
   // ── 2. 배정 계획 ──────────────────────────────────────────────────
@@ -100,17 +101,17 @@ async function main() {
   const tagMaxSort = new Map<string, number>()
   for (let i = 0; i < celebIds.length; i += 100) {
     const { data, error } = await client
-      .from('celeb_tag_assignments').select('celeb_id, tag_id')
+      .from('faction_members').select('celeb_id, lv2_id')
       .in('celeb_id', celebIds.slice(i, i + 100))
     if (error) throw error
-    for (const r of data ?? []) existingPairs.add(`${r.celeb_id}|${r.tag_id}`)
+    for (const r of data ?? []) existingPairs.add(`${r.celeb_id}|${r.lv2_id}`)
   }
   // 태그별 기존 최대 sort_order — 새 배정은 그 뒤에 붙인다
   const involvedTagIds = new Set<string>()
   for (const p of plan) { const t = tagBySlug.get(p.slug); if (t) involvedTagIds.add(t.id) }
   for (const tagId of involvedTagIds) {
-    const { data } = await client.from('celeb_tag_assignments')
-      .select('sort_order').eq('tag_id', tagId)
+    const { data } = await client.from('faction_members')
+      .select('sort_order').eq('lv2_id', tagId)
       .order('sort_order', { ascending: false }).limit(1)
     tagMaxSort.set(tagId, data?.[0]?.sort_order ?? 0)
   }
@@ -133,15 +134,15 @@ async function main() {
     const parent = parentBySlug.get(t.parent)!
     const sortOrder = (maxSortByParent.get(parent.id) ?? 0) + 10
     maxSortByParent.set(parent.id, sortOrder)
-    const { data, error } = await client.from('celeb_tags').insert({
+    const { data, error } = await client.from('faction_lv2').insert({
       name: t.name, name_en: t.name_en, slug: t.slug,
       description: t.description, description_en: t.description_en,
-      color: t.color, parent_id: parent.id, sort_order: sortOrder,
-      is_featured: false, is_fiction: false, atlas_published: false, team_images: [],
+      color: t.color, lv1_id: parent.id, sort_order: sortOrder,
+      is_featured: false, is_fiction: false, is_myth: false, published: false, team_images: [],
     }).select('id').single()
-    if (error) { console.log(`⛔ 테마 실패 ${t.slug}: ${error.message}`); process.exit(1) }
-    tagBySlug.set(t.slug, { id: data.id, slug: t.slug, parent_id: parent.id, sort_order: sortOrder })
-    console.log(`테마 생성: ${t.slug} (${t.name}) → ${t.parent}`)
+    if (error) { console.log(`⛔ 세력 실패 ${t.slug}: ${error.message}`); process.exit(1) }
+    tagBySlug.set(t.slug, { id: data.id, slug: t.slug, lv1_id: parent.id, sort_order: sortOrder })
+    console.log(`세력 생성: ${t.slug} (${t.name}) → ${t.parent}`)
   }
 
   // ── 5. 배정 삽입 ─────────────────────────────────────────────────
@@ -155,32 +156,31 @@ async function main() {
     const next = (sortCursor.get(tag.id) ?? 0) + 10
     sortCursor.set(tag.id, next)
     rows.push({
-      celeb_id: p.celeb_id, tag_id: tag.id,
+      celeb_id: p.celeb_id, lv2_id: tag.id,
       short_desc: p.rec.short_desc ?? null, short_desc_en: p.rec.short_desc_en ?? null,
       long_desc: p.rec.long_desc ?? null, long_desc_en: p.rec.long_desc_en ?? null,
-      quote: p.rec.quote ?? null, quote_en: p.rec.quote_en ?? null,
       hidden: true, sort_order: next,
     })
     existingPairs.add(`${p.celeb_id}|${tag.id}`)
   }
   for (let i = 0; i < rows.length; i += CHUNK) {
-    const { error } = await client.from('celeb_tag_assignments').insert(rows.slice(i, i + CHUNK))
+    const { error } = await client.from('faction_members').insert(rows.slice(i, i + CHUNK))
     if (error) { console.log(`⛔ 배정 삽입 실패(${i}~): ${error.message}`); process.exit(1) }
     inserted += Math.min(CHUNK, rows.length - i)
   }
   console.log(`\n배정 삽입: ${inserted}행, 중복 스킵: ${skipped}행`)
 
   // ── 6. readback 검증 ─────────────────────────────────────────────
-  const { data: checkTags } = await client.from('celeb_tags')
-    .select('slug, is_featured, atlas_published').in('slug', newTags.map(t => t.slug))
-  const badTags = (checkTags ?? []).filter(t => t.is_featured || t.atlas_published)
+  const { data: checkTags } = await client.from('faction_lv2')
+    .select('slug, is_featured, published').in('slug', newTags.map(t => t.slug))
+  const badTags = (checkTags ?? []).filter(t => t.is_featured || t.published)
   let hiddenBad = 0, totalNew = 0
   for (let i = 0; i < celebIds.length; i += 100) {
-    const { data } = await client.from('celeb_tag_assignments')
+    const { data } = await client.from('faction_members')
       .select('hidden').in('celeb_id', celebIds.slice(i, i + 100))
     for (const r of data ?? []) { totalNew++; if (!r.hidden) hiddenBad++ }
   }
-  console.log(`readback — 테마 ${checkTags?.length ?? 0}/19 (featured 누설 ${badTags.length}), 배정 행 확인 ${totalNew}건 중 hidden=false ${hiddenBad}건`)
+  console.log(`readback — 세력 ${checkTags?.length ?? 0}/19 (featured 누설 ${badTags.length}), 배정 행 확인 ${totalNew}건 중 hidden=false ${hiddenBad}건`)
   if (badTags.length || hiddenBad) { console.log('⚠ 누설 위험 있음 — 위 건수 확인'); process.exit(1) }
   console.log('완료 — 전원 비노출 상태로 등록됨')
 }
