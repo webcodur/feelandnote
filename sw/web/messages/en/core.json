@@ -866,7 +866,12 @@
     "headingRead": "Books this figure read",
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",
-    "buy": "Buy"
+    "buy": "Buy",
+    "refGroupPopular": "Popular books",
+    "refGroupOriginDesc": "Products of works this figure appears in.",
+    "refGroupReadDesc": "Books this figure recorded as read.",
+    "refGroupProfessionDesc": "Books read by figures in the same field.",
+    "refGroupPopularDesc": "Bestselling books in the store."
   },
   "share": {
     "label": "Share",

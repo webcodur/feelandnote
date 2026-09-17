@@ -14,7 +14,7 @@ export function mapRelatedFigureBooksToAffiliateBooks(
   const books: AffiliateBook[] = []
   const seen = new Set<string>()
   for (const book of relatedBooks) {
-    if (book.relationType !== 'related' || book.type !== 'BOOK' || seen.has(book.id)) continue
+    if (book.relationType === 'authored' || book.type !== 'BOOK' || seen.has(book.id)) continue
 
     const candidates = book.editions.filter((item) => (
       item.title.trim() !== '' && (item.platform === platform || item.platform === null)
