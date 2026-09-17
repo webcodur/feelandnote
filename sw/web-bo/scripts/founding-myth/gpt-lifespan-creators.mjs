@@ -31,12 +31,12 @@ async function main() {
   const ids = all.map((c) => c.id)
   const asg = []
   for (let i = 0; i < ids.length; i += 100) {
-    const { data } = await db.from('celeb_tag_assignments').select('celeb_id,tag_id').in('celeb_id', ids.slice(i, i + 100))
+    const { data } = await db.from('faction_members').select('celeb_id,lv2_id').in('celeb_id', ids.slice(i, i + 100))
     asg.push(...(data ?? []))
   }
-  const { data: tags } = await db.from('celeb_tags').select('id,name')
+  const { data: tags } = await db.from('faction_lv2').select('id,name')
   const tn = new Map(tags.map((t) => [t.id, t.name]))
-  const tof = new Map(asg.map((a) => [a.celeb_id, tn.get(a.tag_id)]))
+  const tof = new Map(asg.map((a) => [a.celeb_id, tn.get(a.lv2_id)]))
 
   const todo = all.filter((c) => !c.birth_date)
   if (!todo.length) { console.log('대상 없음'); return }

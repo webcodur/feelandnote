@@ -24,9 +24,9 @@ const getCachedFactionLongDescs = unstable_cache(
   async (tagId: string): Promise<FactionLongDescs> => {
     const db = createStaticClient()
     const { data, error } = await db
-      .from('faction_atlas_members')
+      .from('faction_member_rows')
       .select('celeb_id, long_desc, long_desc_en')
-      .eq('tag_id', tagId)
+      .eq('lv2_id', tagId)
       .eq('hidden', false)
       .overrideTypes<LongDescRow[], { merge: false }>()
 

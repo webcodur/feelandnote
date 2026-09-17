@@ -47,11 +47,11 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 }> {
   const db = createStaticClient();
 
-  // 1. 태그에 속한 셀럽 ID 조회 — 원천은 웹 배정 표(celeb_tag_assignments), 뷰로 읽는다
+  // 1. 태그에 속한 셀럽 ID 조회 — 원천은 웹 배정 표(faction_members), 뷰로 읽는다
   const { data: assignments, error: assignmentsError } = await db
-    .from("faction_atlas_members")
+    .from("faction_member_rows")
     .select("celeb_id")
-    .eq("tag_id", tagId)
+    .eq("lv2_id", tagId)
     .eq("hidden", false);
 
   // 조회 실패를 「인물 없음」으로 캐시하지 않는다
@@ -136,7 +136,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 const getTagChronologicalLibraryCached = unstable_cache(
   fetchTagChronologicalLibrary,
   ['tag-chronological-library'],
-  // faction_atlas_members(편성) + celebs + celeb_contents
+  // faction_member_rows(편성) + celebs + celeb_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 

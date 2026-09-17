@@ -143,25 +143,25 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 전승 하나가 화면 한 장이다(`?tag=<전승 id>`). 왼쪽은 `myth-and-fiction` 아래 전승 목록(공개 여부·노출 인원), 오른쪽은 전승 이름·소개·공개 스위치, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·전승 전용 사진·숨김·넣기·빼기)이다 | `celeb_tags`, `celeb_tag_groups`, `celeb_tag_assignments`(뷰 `faction_atlas_members`로 읽음) |
+| `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 신화 하나가 화면 한 장이다(`?myth=<신화 id>`). 왼쪽은 지역(`faction_lv1`의 `is_myth`) 머리 아래 신화 카드 목록(공개 여부·노출 인원), 오른쪽은 신화 이름·소개·공개 스위치, 대표 인물 3인, 테마 음악, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·신화 전용 사진·숨김·넣기·빼기)이다 | `faction_lv1`, `faction_lv2`, `faction_lv3`, `faction_members`(뷰 `faction_member_rows`로 읽음) |
 
-세력도감 테마 편집 화면과 따로 두되 같은 표를 쓴다. 신화 화면이 쓰지 않는 칸(상세 소개·단체 사진·색·기간)은 이 화면에 두지 않는다. 조회는 `src/actions/admin/myths.ts`, 쓰기는 `src/actions/admin/tags.ts`의 테마·그룹 액션을 그대로 부른다. 그룹의 이름·차례·설명은 여기서만 고친다 — 세력도감 테마 명단에는 두 벌 두지 않는다.
+세력도감 편집 화면과 따로 두되 같은 표를 쓴다 — 신화는 `is_myth=true`인 행이다. 신화 화면이 쓰지 않는 칸(상세 소개·단체 사진·색·기간)은 이 화면에 두지 않는다. 조회는 `src/actions/admin/myths.ts`, 쓰기는 `src/actions/admin/factions/entries.ts`의 세력·그룹 액션을 그대로 부른다. 그룹의 이름·차례·설명은 여기서만 고친다 — 세력도감 명단에는 두 벌 두지 않는다. 대표 인물(`faction_lv2.lead_person_ids`)은 타이틀 아트에 세우는 3인을 명단 안에서 따로 고른다.
 
 ### 세력도감
 
-서비스 세력도감(`/explore/faction`)에 나가는 테마와 인물 명단을 편집한다. 영상 제작 표는 없다. 테마는 `celeb_tags`, 명단은 웹 배정 `celeb_tag_assignments`, 진영(그룹)은 `celeb_tag_groups`가 원천이다. 화면은 공개 뷰 `faction_atlas_members`로 읽고, 쓰기는 `src/actions/admin/tags.ts`의 테마·배정·그룹 액션이 맡는다. 사용자 화면 규격은 [explore.md](../service/explore.md) 「세력도감」이 쥔다.
+서비스 세력도감(`/explore/faction`)에 나가는 분류·세력과 인물 명단을 편집한다. 영상 제작 표는 없다. 분류(L1)는 `faction_lv1`, 세력(L2)은 `faction_lv2`, 진영(그룹, L3)은 `faction_lv3`, 명단(인물 배정)은 `faction_members`가 원천이다. 화면은 읽기 뷰 `faction_member_rows`로 읽고, 쓰기는 `src/actions/admin/factions/entries.ts`가 맡는다. 사용자 화면 규격은 [explore.md](../service/explore.md) 「세력도감」이 쥔다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도감 | 테마 목록 표 하나. 상위분류로 묶어 접고 펴며 이름·설명·주소로 검색한다. 줄마다 소속 인물 수·단체 사진 장수·개인화보를 가진 인물 수를 보이고, 테마 이름을 바로 고치고, 웹 노출(`is_featured`)을 켜고 끈다. 신화 갈래 테마에는 「신화 공개」(`atlas_published`) 스위치가 함께 선다. 「새 테마」로 만들면 그 테마 편집 화면으로 간다 | `celeb_tags`, `faction_atlas_members` |
-| `/factions/[theme]` | (테마 이름) | 테마 id 또는 slug로 연다. 설정: 이름·영문명, 주소(slug, 영문명에서 자동 생성), 설명(한영), 상위 묶음, 진열 순서, 색, 도감 노출과 기간, 단체 사진 여러 장, 테마 삭제. 명단: 기존 셀럽 검색 추가·끌어 정렬·제거, 한 줄·상세 소개(한영), 숨김, 개인화보, 그룹 지정·새 그룹 추가 | `celeb_tags`, `celeb_tag_assignments`, `celeb_tag_groups` |
+| `/factions` | 세력도감 | 도감 목록 표 하나. 분류(L1) 머리 아래 세력(L2)을 묶어 보이고 접고 펴며 이름·설명·주소로 검색한다. 줄마다 소속 인물 수·단체 사진 장수·개인화보를 가진 인물 수를 보이고, 이름을 바로 고치고, 웹 노출(`is_featured`)을 켜고 끈다. 신화 세력에는 「신화 공개」(`published`) 스위치가 함께 선다. 「새 도감 행」으로 분류·세력을 만들면 그 편집 화면으로 간다 | `faction_lv1`, `faction_lv2`, `faction_member_rows` |
+| `/factions/[entry]` | (행 이름) | 도감 행 id 또는 slug로 연다. L1 분류: 이름·영문명·설명·색·차례. L2 세력: 같은 칸 + 소속 분류·노출·기간·공개(신화만)·단체 사진·대표 인물·삭제. L2 명단: 기존 셀럽 검색 추가·끌어 정렬·제거, 한 줄·상세 소개(한영), 숨김, 개인화보, 그룹 지정·새 그룹 추가 | `faction_lv1`, `faction_lv2`, `faction_lv3`, `faction_members` |
 
-- **상위 묶음은 `celeb_tags.parent_id` 하나가 쥔다.** 위계는 두 단계다. 아래에 테마를 거느린 테마가 곧 상위분류이고, 목록에서는 한 줄이 아니라 묶음 머리로 선다. 서비스 도감도 같은 값으로 섹션을 세운다.
+- **소속 분류는 `faction_lv2.lv1_id`가 쥔다(NOT NULL).** 세력은 반드시 분류 하나에 속하고, 분류는 목록에서 한 줄이 아니라 묶음 머리로 선다. 서비스 도감도 같은 값으로 섹션을 세운다. 분류 삭제는 아래 세력이 비어 있을 때만 된다.
 - **인물 검색은 기존 셀럽을 고르는 기능만 가진다.** 신규 인물은 `/celebs/new`에서 정식 등록한 뒤 추가한다. 신화 인물을 비공개로 한꺼번에 선등록할 때는 `pnpm --dir sw/web-bo faction:seed:inactive`를 쓴다([셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)).
-- **그룹의 설명·영문 이름·차례는 신화 편집(`/myths`)만 고친다.** 테마 편집 화면은 그룹 지정과 새 그룹 추가만 한다.
-- 테마 목록·편집 데이터 조회는 `src/actions/admin/factions/themes.ts`, 화면 부품은 `src/components/factions/ThemeAtlas/`다.
-- 이미지 R2 키: 개인화보 `faction/{tagId}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `celeb_tag_assignments.faction_image_url`), 단체 사진 `faction/{tagId}/team/<uuid>.webp`(주소 배열은 `celeb_tags.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
-- 쓰기 액션은 백오피스 화면(`/factions`·`/factions/[theme]`·`/myths`)을 `revalidatePath`로, 서비스 캐시를 `revalidateWebLists`로 갱신한다.
+- **그룹의 설명·영문 이름·차례는 신화 편집(`/myths`)만 고친다.** 세력 편집 화면은 그룹 지정과 새 그룹 추가만 한다.
+- 목록·편집 데이터 조회는 `src/actions/admin/factions/board.ts`, 화면 부품은 `src/components/factions/entry/`다.
+- 이미지 R2 키: 개인화보 `faction/{lv2Id}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `faction_members.image_url`), 단체 사진 `faction/{lv2Id}/team/<uuid>.webp`(주소 배열은 `faction_lv2.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
+- 쓰기 액션은 백오피스 화면(`/factions`·`/factions/[entry]`·`/myths`)을 `revalidatePath`로, 서비스 캐시를 `revalidateWebLists`로 갱신한다.
 
 ### 가상 담화
 
@@ -208,7 +208,7 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 원천 |
 | --- | --- | --- | --- |
 | `/rankings` | 랭킹 | 편 목록 표 하나. 축 수·인물 수. 「새 랭킹」은 표 위 | `public/rankings/*/ranking-data.json` |
-| `/rankings/[episode]` | (편 이름) | 도감 테마를 걸고, 제목·축·순위·설명을 고친다. 「인물 사진」에서 아바타·대표 사진을 셀럽에 바로 등록하거나, 테마에 없는 이름을 연결한다. 오른쪽 사진 목록은 그 칸에 놓는다 | 위 JSON(`themeSlug`) + `celeb_tags`·`celebs`·개인화보 |
+| `/rankings/[episode]` | (편 이름) | 도감 세력을 걸고, 제목·축·순위·설명을 고친다. 「인물 사진」에서 아바타·대표 사진을 셀럽에 바로 등록하거나, 세력에 없는 이름을 연결한다. 오른쪽 사진 목록은 그 칸에 놓는다 | 위 JSON(`themeSlug` = `faction_lv2.slug`) + `faction_lv2`·`faction_members`·`celebs` |
 
 목록·저장·사진 창구는 렌더 저장소가 같은 컴퓨터에 있을 때만 동작한다(`.env`의 `REMOTION_LOCAL=1`). 사진 창구는 `/api/ranking/media`이며 라우트마다 `guardRankingRoute()`로 막는다. `src/proxy.ts` matcher가 이미지 확장자 주소를 로그인 검사에서 빼기 때문이다.
 

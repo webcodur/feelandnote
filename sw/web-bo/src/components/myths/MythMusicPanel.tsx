@@ -7,8 +7,8 @@ import { MYTH_CARD, MYTH_BUTTON } from './styles'
 const statusLabel = {
   ready: '반영 대기',
   linked: '서비스 연결됨',
-  unmatched: '전승명 확인 필요',
-  'tag-missing': 'DB 전승 없음',
+  unmatched: '신화명 확인 필요',
+  'myth-missing': 'DB 신화 없음',
 } as const
 
 function statusClass(status: keyof typeof statusLabel) {
@@ -18,7 +18,7 @@ function statusClass(status: keyof typeof statusLabel) {
 export default function MythMusicPanel({ catalog, onSynced }: { catalog: MythMusicCatalog; onSynced: () => void }) {
   const ready = catalog.entries.filter((entry) => entry.status === 'ready')
   const linked = catalog.entries.filter((entry) => entry.status === 'linked')
-  const unresolved = catalog.entries.filter((entry) => entry.status === 'unmatched' || entry.status === 'tag-missing')
+  const unresolved = catalog.entries.filter((entry) => entry.status === 'unmatched' || entry.status === 'myth-missing')
   const canSync = catalog.folderExists && catalog.r2Ready && ready.length > 0
 
   const apply = async () => {
@@ -63,7 +63,7 @@ export default function MythMusicPanel({ catalog, onSynced }: { catalog: MythMus
         {catalog.entries.map((entry) => (
           <li key={entry.file} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 text-sm">
             <span className="min-w-0 flex-1 truncate font-medium text-text-primary">{entry.file}</span>
-            <span className="text-text-secondary">{entry.tagName ?? entry.targetName ?? '연결할 전승 없음'}</span>
+            <span className="text-text-secondary">{entry.mythName ?? entry.targetName ?? '연결할 신화 없음'}</span>
             <span className={'inline-flex items-center gap-1 text-xs ' + statusClass(entry.status)}>
               {entry.status === 'linked' ? <CheckCircle2 size={13} aria-hidden /> : <AlertCircle size={13} aria-hidden />}
               {statusLabel[entry.status]}

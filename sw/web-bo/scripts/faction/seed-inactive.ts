@@ -3,7 +3,7 @@
  *
  * 명세 형식:
  * {
- *   "tag_slug": "myth-korea",
+ *   "faction_slug": "myth-korea",
  *   "people": [
  *     {
  *       "nickname": "바리공주",
@@ -47,7 +47,7 @@ type ExistingProfile = {
   publication_status: string | null
 }
 
-type TagRow = {
+type FactionRow = {
   id: string
   slug: string
   name: string
@@ -111,7 +111,7 @@ async function cleanupFailedBatch(
   const cleanupErrors: unknown[] = []
   if (createdAssignmentIds.length > 0) {
     const { error } = await client
-      .from('celeb_tag_assignments')
+      .from('faction_members')
       .delete()
       .in('id', createdAssignmentIds)
     if (error) cleanupErrors.push(error)
@@ -131,7 +131,7 @@ async function cleanupFailedBatch(
 
 async function verifyApplied(
   client: DatabaseClient,
-  tagId: string,
+  lv2Id: string,
   applied: PlannedSeed[],
 ) {
   if (applied.length === 0) return
@@ -145,9 +145,9 @@ async function verifyApplied(
       .select('id,nickname,nickname_en,bio,celeb_tier,celeb_reality,publication_status')
       .in('id', celebIds),
     client
-      .from('celeb_tag_assignments')
+      .from('faction_members')
       .select('celeb_id,hidden')
-      .eq('tag_id', tagId)
+      .eq('lv2_id', lv2Id)
       .in('celeb_id', celebIds),
     createdCelebIds.length > 0
       ? client.from('celeb_metrics').select('celeb_id').in('celeb_id', createdCelebIds)
@@ -200,15 +200,15 @@ async function main() {
     { auth: { autoRefreshToken: false, persistSession: false } },
   )
 
-  const { data: tagData, error: tagError } = await client
-    .from('celeb_tags')
+  const { data: factionData, error: factionError } = await client
+    .from('faction_lv2')
     .select('id,slug,name,is_fiction')
-    .eq('slug', manifest.tag_slug)
+    .eq('slug', manifest.faction_slug)
     .maybeSingle()
-  if (tagError) throw tagError
-  if (!tagData) throw new Error(`fiction 태그를 찾을 수 없습니다: ${manifest.tag_slug}`)
-  const tag = tagData as TagRow
-  if (!tag.is_fiction) throw new Error(`${tag.slug}: is_fiction=true인 태그가 아닙니다.`)
+  if (factionError) throw factionError
+  if (!factionData) throw new Error(`세력을 찾을 수 없습니다: ${manifest.faction_slug}`)
+  const faction = factionData as FactionRow
+  if (!faction.is_fiction) throw new Error(`${faction.slug}: is_fiction=true인 세력이 아닙니다.`)
 
   const [profiles, atlasMembers, assignments] = await Promise.all([
     allRows<ExistingProfile>(
@@ -217,13 +217,13 @@ async function main() {
       'id,slug,nickname,nickname_en,bio,celeb_tier,celeb_reality,publication_status',
     ),
     client
-      .from('faction_atlas_members')
+      .from('faction_member_rows')
       .select('celeb_id,hidden')
-      .eq('tag_id', tag.id),
+      .eq('lv2_id', faction.id),
     client
-      .from('celeb_tag_assignments')
+      .from('faction_members')
       .select('celeb_id,sort_order,hidden')
-      .eq('tag_id', tag.id),
+      .eq('lv2_id', faction.id),
   ])
   if (atlasMembers.error) throw atlasMembers.error
   if (assignments.error) throw assignments.error
@@ -295,7 +295,7 @@ async function main() {
   }
   console.log(JSON.stringify({
     mode: apply ? 'APPLY' : 'DRY-RUN',
-    tag: { slug: tag.slug, name: tag.name },
+    faction: { slug: faction.slug, name: faction.name },
     totals: {
       create: plans.filter((plan) => plan.kind === 'create').length,
       link: plans.filter((plan) => plan.kind === 'link').length,
@@ -344,19 +344,19 @@ async function main() {
 
   const assignmentRows = applied.map((plan) => ({
     celeb_id: plan.celebId,
-    tag_id: tag.id,
+    lv2_id: faction.id,
     sort_order: nextSortOrder++,
     hidden: true,
   }))
   const assignmentResult = assignmentRows.length > 0
-    ? await client.from('celeb_tag_assignments').insert(assignmentRows).select('id,celeb_id')
+    ? await client.from('faction_members').insert(assignmentRows).select('id,celeb_id')
     : { data: [], error: null }
   if (assignmentResult.error) {
     await cleanupFailedBatch(client, createdCelebIds, [], assignmentResult.error)
   }
   const createdAssignmentIds = (assignmentResult.data ?? []).map((row) => row.id)
   try {
-    await verifyApplied(client, tag.id, applied)
+    await verifyApplied(client, faction.id, applied)
   } catch (error) {
     await cleanupFailedBatch(client, createdCelebIds, createdAssignmentIds, error)
   }

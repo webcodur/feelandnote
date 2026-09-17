@@ -9,8 +9,8 @@ import { MYTH_LAYOUT as layout } from "./mythLayout";
 
 // Approximate chip widths; each list stays on one line like the live rails.
 const CHIP_WIDTHS = {
-  ko: { regions: [50, 50, 50, 50, 95, 62, 100, 62, 62], traditions: [97, 110, 84, 166, 71, 84, 97, 84] },
-  en: { regions: [59, 61, 59, 53, 110, 59, 121, 64, 130], traditions: [118, 154, 96, 221, 77, 107, 133, 139] },
+  ko: { regions: [50, 50, 50, 50, 95, 62, 100, 62, 62], myths: [97, 110, 84, 166, 71, 84, 97, 84] },
+  en: { regions: [59, 61, 59, 53, 110, 59, 121, 64, 130], myths: [118, 154, 96, 221, 77, 107, 133, 139] },
 } as const;
 
 function NavChips({ widths, shape }: { widths: readonly number[]; shape: string }) {
@@ -41,7 +41,7 @@ export default function MythAtlasSkeleton() {
               <div className="col-span-2 flex h-[38px] items-center rounded-lg border border-white/[0.08] px-3.5"><Ghost className="h-2.5 w-1/2" /></div>
             </div>
             <div className={layout.chipNav}><NavChips widths={chips.regions} shape={layout.regionChipShape} /></div>
-            <div className={layout.chipNav}><NavChips widths={chips.traditions} shape={layout.traditionChipShape} /></div>
+            <div className={layout.chipNav}><NavChips widths={chips.myths} shape={layout.mythChipShape} /></div>
             <div className={layout.chipNav}>
               <div className={layout.navList}>
                 {Array.from({ length: 5 }, (_, index) => (

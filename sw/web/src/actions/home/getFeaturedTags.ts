@@ -3,8 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
-import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
-import { selectVisibleAtlasMembers } from '@/lib/faction-atlas-members'
+import { selectVisibleFactionMembers } from '@/lib/faction-members'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getInfluenceRanking } from './getCelebs'
@@ -23,10 +22,10 @@ export interface FeaturedCeleb {
   short_desc: string | null
   short_desc_en: string | null
   /* 긴 소개(long_desc)는 싣지 않는다 — 명단이 캐시 상한 2MB를 넘어 getFactionLongDescs가 테마별로 준다 */
-  faction_image_url: string | null
+  faction_image_url: string | null  // faction_members.image_url — 세력 전용 화보
   /**
-   * 이 인물이 속한 세력(그룹) 이름 — 배정의 그룹(`celeb_tag_groups`)에서 온다. 그룹 없는 배정은 null이다.
-   * 목록에서 인물을 세력별로 묶어 보여주는 데 쓴다.
+   * 이 인물이 속한 그룹 이름 — 배정의 그룹(`faction_lv3`)에서 온다. 그룹 없는 배정은 null이다.
+   * 목록에서 인물을 그룹별로 묶어 보여주는 데 쓴다.
    */
   group_label: string | null
   group_label_en: string | null
@@ -61,20 +60,21 @@ export interface FeaturedTag {
   isGroup?: boolean
 }
 
-// 세력도감 인물 행 — 원천은 웹 배정 표(celeb_tag_assignments)이고, DB 뷰 faction_atlas_members가
-// 그룹 이름을 붙여 내놓는다. 읽는 칸만 로컬로 정의한다.
-interface AtlasMemberRow {
-  tag_id: string
+// 세력도감 인물 행 — DB 뷰 faction_member_rows(faction_members + faction_lv3 그룹 이름)를 읽는다.
+// 읽는 칸만 로컬로 정의한다.
+interface MemberRow {
+  lv2_id: string
   celeb_id: string
   short_desc: string | null
   short_desc_en: string | null
-  faction_image_url: string | null
+  image_url: string | null
   sort_order: number | null
-  group_label: string | null
-  group_label_en: string | null
+  group_name: string | null
+  group_name_en: string | null
   group_position: number | null
 }
 
+// lv1(테마)와 lv2(세력)를 한 형태로 펼친 행 — parentSlug·isGroup은 조회 시점에 확정된다
 interface FeaturedTagRow {
   id: string
   name: string
@@ -87,7 +87,8 @@ interface FeaturedTagRow {
   theme_music: unknown
   is_featured: boolean | null
   is_fiction: boolean | null
-  parent_id: string | null
+  parentSlug: string | null
+  isGroup: boolean
 }
 
 // team_images Json → 사진 목록 (옛 문자열 배열도 그대로 읽힌다)
@@ -127,38 +128,49 @@ interface FeaturedProfileRow {
 
 // --- 공개 데이터 캐싱 (1시간) ---
 
-/** 태그 행 전부 — 신화 갈래는 신화 화면(/explore/myth)이 따로 다루므로 뺀다(26.09.14) */
+/** 테마(lv1)·세력(lv2) 행 전부 — 신화 가지는 신화 화면(/explore/myth)이 따로 다루므로 뺀다(26.09.14) */
 async function fetchTagRows(): Promise<FeaturedTagRow[]> {
   const db = createStaticClient()
-  const { data: allTags, error: tagsError } = await db
-    .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, slug, team_images, theme_music, is_featured, is_fiction, parent_id')
-    .order('is_featured', { ascending: false })
-    .order('sort_order', { ascending: true })
+  const [lv1Result, lv2Result] = await Promise.all([
+    db.from('faction_lv1')
+      .select('id, name, name_en, description, description_en, color, slug, is_featured, is_fiction')
+      .eq('is_myth', false)
+      .order('sort_order', { ascending: true }),
+    db.from('faction_lv2')
+      .select('id, lv1_id, name, name_en, description, description_en, color, slug, team_images, theme_music, is_featured, is_fiction')
+      .eq('is_myth', false)
+      .order('sort_order', { ascending: true }),
+  ])
+  if (lv1Result.error) throw new Error(lv1Result.error.message)
+  if (lv2Result.error) throw new Error(lv2Result.error.message)
 
-  if (tagsError) throw new Error(tagsError.message)
-  if (!allTags?.length) return []
-
-  const mythTagIds = mythBranchTagIds(allTags as FeaturedTagRow[])
-  return (allTags as FeaturedTagRow[]).filter((tag) => !mythTagIds.has(tag.id))
+  const lv1ById = new Map((lv1Result.data ?? []).map((row) => [row.id, row]))
+  return [
+    ...(lv1Result.data ?? []).map((row): FeaturedTagRow => ({
+      ...row, team_images: null, theme_music: null, parentSlug: null, isGroup: true,
+    })),
+    ...(lv2Result.data ?? []).map((row): FeaturedTagRow => ({
+      ...row, parentSlug: lv1ById.get(row.lv1_id)?.slug ?? null, isGroup: false,
+    })),
+  ]
 }
 
-/** 테마 한 덩어리의 인물 — 테마 id → 명단 차례대로 */
-async function fetchTagMembers(tagIds: string[]): Promise<Record<string, FeaturedCeleb[]>> {
+/** 세력 한 덩어리의 인물 — 세력 id → 명단 차례대로 */
+async function fetchTagMembers(lv2Ids: string[]): Promise<Record<string, FeaturedCeleb[]>> {
   const db = createStaticClient()
 
   // 감춘 배정은 빼고, 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다.
   // 한 번에 읽던 때 테마를 전원 공개하자 3천 행을 넘어 모든 테마가 첫 그룹 몇 명만 받았다(26.09.14)
-  const allAssignments = await selectVisibleAtlasMembers<AtlasMemberRow>(
+  const allAssignments = await selectVisibleFactionMembers<MemberRow>(
     db,
-    'celeb_id, tag_id, short_desc, short_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_position',
-    tagIds,
+    'celeb_id, lv2_id, short_desc, short_desc_en, image_url, sort_order, group_name, group_name_en, group_position',
+    lv2Ids,
   )
-  const assignmentsByTag: Record<string, AtlasMemberRow[]> = {}
+  const assignmentsByTag: Record<string, MemberRow[]> = {}
   const allCelebIds = new Set<string>()
-  for (const tagId of tagIds) {
-    const tagAssignments = (allAssignments ?? []).filter((a) => a.tag_id === tagId).slice(0, MAX_CELEBS_PER_TAG)
-    assignmentsByTag[tagId] = tagAssignments
+  for (const lv2Id of lv2Ids) {
+    const tagAssignments = (allAssignments ?? []).filter((a) => a.lv2_id === lv2Id).slice(0, MAX_CELEBS_PER_TAG)
+    assignmentsByTag[lv2Id] = tagAssignments
     tagAssignments.forEach((a) => allCelebIds.add(a.celeb_id))
   }
   if (allCelebIds.size === 0) return {}
@@ -188,8 +200,8 @@ async function fetchTagMembers(tagIds: string[]): Promise<Record<string, Feature
   const profileMap = new Map(celebRows.map((p) => [p.id, p]))
 
   const membersByTag: Record<string, FeaturedCeleb[]> = {}
-  for (const tagId of tagIds) {
-    membersByTag[tagId] = (assignmentsByTag[tagId] ?? []).flatMap((a): FeaturedCeleb[] => {
+  for (const lv2Id of lv2Ids) {
+    membersByTag[lv2Id] = (assignmentsByTag[lv2Id] ?? []).flatMap((a): FeaturedCeleb[] => {
       const c = profileMap.get(a.celeb_id)
       if (!c) return []
       return [{
@@ -203,9 +215,9 @@ async function fetchTagMembers(tagIds: string[]): Promise<Record<string, Feature
         speech_tone: c.speech_tone ?? null,
         short_desc: a.short_desc,
         short_desc_en: a.short_desc_en,
-        faction_image_url: a.faction_image_url ?? null,
-        group_label: a.group_label ?? null,
-        group_label_en: a.group_label_en ?? null,
+        faction_image_url: a.image_url ?? null,
+        group_label: a.group_name ?? null,
+        group_label_en: a.group_name_en ?? null,
         group_position: a.group_position ?? null,
         influence: influenceMap[c.id] ?? null,
       }]
@@ -251,41 +263,32 @@ export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   const activeTags = tagRows.filter((t) => t.is_featured)
   if (!activeTags.length) return []
 
-  // 상위 그룹 위계 — celeb_tags.parent_id 가 정본이다(26.07.26 코드 상수에서 승격).
-  // 그룹 헤더는 따로 표시하는 값이 아니라 "자식을 하나라도 가진 태그"로 판정한다.
-  // 노출 여부와 무관하게 전체 행으로 계산해야 숨긴 자식·숨긴 부모가 섞여도 위계가 유지된다.
-  const slugById = new Map<string, string>()
-  const childCountByParent = new Map<string, number>()
-  for (const t of tagRows) {
-    if (t.slug) slugById.set(t.id, t.slug)
-    if (t.parent_id) childCountByParent.set(t.parent_id, (childCountByParent.get(t.parent_id) ?? 0) + 1)
-  }
-  const hierarchy = (t: FeaturedTagRow) => ({
-    parentSlug: t.parent_id ? slugById.get(t.parent_id) ?? null : null,
-    isGroup: (childCountByParent.get(t.id) ?? 0) > 0,
-  })
+  // 위계는 조회 시점에 확정돼 행에 실린다 — lv1 행은 isGroup, lv2 행은 parentSlug를 든다.
+  // 멤버는 세력(lv2)에만 붙으므로 테마 헤더는 건너뛴다
+  const memberTags = activeTags.filter((t) => !t.isGroup)
 
   // 덩어리는 차례로 채운다 — 캐시가 비었을 때 한꺼번에 조회하면 DB 풀이 막힌다
   const membersByTag: Record<string, FeaturedCeleb[]> = {}
-  for (let i = 0; i < activeTags.length; i += MEMBER_CACHE_CHUNK) {
-    Object.assign(membersByTag, await getCachedTagMembers(activeTags.slice(i, i + MEMBER_CACHE_CHUNK).map((t) => t.id)))
+  for (let i = 0; i < memberTags.length; i += MEMBER_CACHE_CHUNK) {
+    Object.assign(membersByTag, await getCachedTagMembers(memberTags.slice(i, i + MEMBER_CACHE_CHUNK).map((t) => t.id)))
   }
 
   // 배정된 인물이 한 명도 없으면 태그만 늘어놓는다
   if (Object.keys(membersByTag).length === 0) {
-    return tagRows.map((tag) => toFeaturedTag(tag, [], hierarchy(tag)))
+    return tagRows.map((tag) => toFeaturedTag(tag, [], { parentSlug: tag.parentSlug, isGroup: tag.isGroup }))
   }
 
   const result: FeaturedTag[] = []
   for (const tag of activeTags) {
-    const { parentSlug, isGroup } = hierarchy(tag)
     const celebs = membersByTag[tag.id] ?? []
-    // 그룹 헤더는 배정이 없어도 목록에 포함한다
-    if (celebs.length > 0 || isGroup) result.push(toFeaturedTag(tag, celebs, { parentSlug, isGroup }))
+    // 테마 헤더는 배정이 없어도 목록에 포함한다
+    if (celebs.length > 0 || tag.isGroup) {
+      result.push(toFeaturedTag(tag, celebs, { parentSlug: tag.parentSlug, isGroup: tag.isGroup }))
+    }
   }
   // 비활성 태그 추가
   for (const tag of tagRows.filter((t) => !t.is_featured)) {
-    result.push(toFeaturedTag(tag, [], hierarchy(tag)))
+    result.push(toFeaturedTag(tag, [], { parentSlug: tag.parentSlug, isGroup: tag.isGroup }))
   }
   return result
 }

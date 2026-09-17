@@ -106,7 +106,7 @@ export default function FactionShowcase({
 
   /*
     세력이 둘 이상인 테마는 세력으로 묶고 단체 사진 묶음은 쓰지 않는다. 세력(뷰의 group_label — 영상
-    세력 또는 웹 그룹 표 celeb_tag_groups)은 도감과 신화 탐색이 함께 읽는 그룹 원천이라, 사진 묶음을
+    세력 또는 웹 그룹 표 faction_lv3)은 도감과 신화 탐색이 함께 읽는 그룹 원천이라, 사진 묶음을
     앞세우면 두 화면의 묶음이 갈린다. 사진 묶음은 한 회사처럼 세력이 하나뿐인 테마를 잘게 나눌 때만 쓴다.
   */
   const groupCount = new Set(celebs.map((celeb) => celeb.group_label).filter(Boolean)).size;

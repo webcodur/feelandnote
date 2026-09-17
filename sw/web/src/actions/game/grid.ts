@@ -24,7 +24,7 @@ interface ProfileRow {
 
 interface TagAssignmentRow {
   celeb_id: string;
-  tag_id: string;
+  lv2_id: string;
 }
 
 interface TagRow {
@@ -61,8 +61,8 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
   // 2) 세력 태그 배정
   const assignments = await selectAllPages<TagAssignmentRow>((from, to) =>
     db
-      .from("celeb_tag_assignments")
-      .select("celeb_id, tag_id")
+      .from("faction_members")
+      .select("celeb_id, lv2_id")
       .eq("hidden", false)
       .order("celeb_id", { ascending: true })
       .range(from, to)
@@ -76,7 +76,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
   const tagMap = new Map<string, string[]>();
   for (const row of assignments) {
     const arr = tagMap.get(row.celeb_id) ?? [];
-    arr.push(row.tag_id);
+    arr.push(row.lv2_id);
     tagMap.set(row.celeb_id, arr);
   }
 
@@ -102,7 +102,7 @@ async function fetchGridConditionLabels(): Promise<{
   const db = createStaticClient();
 
   const { data: tags, error } = await db
-    .from("celeb_tags")
+    .from("faction_lv2")
     .select("id, name, name_en, slug")
     .eq("is_featured", true)
     .order("sort_order", { ascending: true })

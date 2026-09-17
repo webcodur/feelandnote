@@ -122,12 +122,12 @@ async function main() {
   const ids = data.map((c) => c.id)
   const assigns = []
   for (let i = 0; i < ids.length; i += 100) {
-    const { data: a } = await db.from('celeb_tag_assignments').select('celeb_id,tag_id').in('celeb_id', ids.slice(i, i + 100))
+    const { data: a } = await db.from('faction_members').select('celeb_id,lv2_id').in('celeb_id', ids.slice(i, i + 100))
     assigns.push(...(a ?? []))
   }
-  const { data: tags } = await db.from('celeb_tags').select('id,name')
+  const { data: tags } = await db.from('faction_lv2').select('id,name')
   const tagName = new Map(tags.map((t) => [t.id, t.name]))
-  const tradOf = new Map(assigns.map((a) => [a.celeb_id, tagName.get(a.tag_id) ?? '(배정없음)']))
+  const tradOf = new Map(assigns.map((a) => [a.celeb_id, tagName.get(a.lv2_id) ?? '(배정없음)']))
 
   const generated = new Set()
   for (const f of fs.readdirSync(OUT_DIR)) {

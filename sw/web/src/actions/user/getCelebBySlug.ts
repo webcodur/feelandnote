@@ -18,7 +18,6 @@ import {
   type DialogueProfile,
 } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, type FactionMusic } from '@/lib/faction-music'
-import { getMythBranchTagIds } from '@/lib/faction-atlas-members'
 import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
 
 export interface ContentTypeCounts {
@@ -30,8 +29,7 @@ export interface ContentTypeCounts {
 
 const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
-// 셀럽이 배정된 세력도감 태그. 그룹 헤더 태그는 배정이 0이라 여기 걸리지 않으므로
-// 상위 그룹 계층(celeb_tags.parent_id)은 참조하지 않는다.
+// 셀럽이 배정된 세력도감 세력(faction_lv2). 테마 헤더(lv1)는 배정이 0이라 여기 걸리지 않는다.
 export interface FactionTagItem {
   id: string
   /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
@@ -52,8 +50,8 @@ export interface FactionTagItem {
 }
 
 interface FactionTagAssignmentRow {
-  tag_id: string
-  faction_image_url: string | null
+  lv2_id: string
+  image_url: string | null
   sort_order: number | null
   short_desc: string | null
   short_desc_en: string | null
@@ -68,6 +66,7 @@ interface FactionTagAssignmentRow {
     description: string | null
     description_en: string | null
     theme_music: unknown
+    is_myth: boolean
   } | null
 }
 
@@ -238,12 +237,12 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .eq('celeb_id', celebId)
       .maybeSingle(),
     db.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
-    // 세력도감 소속 — 원천은 웹 배정 표(celeb_tag_assignments)이고 DB 뷰 faction_atlas_members로 읽는다.
-    // 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
+    // 세력도감 소속 — 원천은 배정 표(faction_members)이고 DB 뷰 faction_member_rows로 읽는다.
+    // 뷰는 세력 embed가 안 되므로 뷰 → faction_lv2 두 단계로 읽는다.
     (async (): Promise<FactionTagAssignmentRow[]> => {
       const { data: memberRows, error: memberRowsError } = await db
-        .from('faction_atlas_members')
-        .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
+        .from('faction_member_rows')
+        .select('lv2_id, image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
         .order('sort_order', { ascending: true })
@@ -251,17 +250,17 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       throwOnQueryError('getCelebBySlug/faction-members', memberRowsError)
       if (!memberRows?.length) return []
 
-      const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
+      const lv2Ids = [...new Set(memberRows.map((r) => r.lv2_id))]
       const { data: tagRows, error: tagRowsError } = await db
-        .from('celeb_tags')
-        .select('id, name, name_en, slug, color, description, description_en, theme_music')
-        .in('id', tagIds)
+        .from('faction_lv2')
+        .select('id, name, name_en, slug, color, description, description_en, theme_music, is_myth')
+        .in('id', lv2Ids)
         .eq('is_featured', true)
         .overrideTypes<NonNullable<FactionTagAssignmentRow['tag']>[], { merge: false }>()
       throwOnQueryError('getCelebBySlug/faction-tags', tagRowsError)
       const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
 
-      return memberRows.map((r) => ({ ...r, tag: tagById.get(r.tag_id) ?? null }))
+      return memberRows.map((r) => ({ ...r, tag: tagById.get(r.lv2_id) ?? null }))
     })(),
     relationDb
       .from('celeb_relations')
@@ -302,20 +301,19 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     if (CONTENT_TYPES.includes(type)) contentTypeCounts[type] = Number(row.total)
   }
 
-  // 신화 갈래 표시 — 세력도감 명단은 신화를 싣지 않는다. 세력 탭은 신화가 아닌 소속이 있을 때만 켠다(26.09.14).
+  // 신화 가지 표시 — 세력도감 명단은 신화를 싣지 않는다. 세력 탭은 신화가 아닌 소속이 있을 때만 켠다(26.09.14).
   // 목록에서 지우지는 않는다 — 대표 사진이 없을 때 세력 화보로 대신하는 자리가 신화 인물에게도 필요하다
-  const mythTagIds = new Set(await getMythBranchTagIds())
-  // 슬러그 없는 태그는 세력도감 딥링크로 이동할 수 없어 제외한다
+  // 슬러그 없는 세력은 세력도감 딥링크로 이동할 수 없어 제외한다
   const factionTags: FactionTagItem[] = factionTagRows
     .filter((a): a is FactionTagAssignmentRow & { tag: NonNullable<FactionTagAssignmentRow['tag']> } => !!a.tag?.slug)
     .map((a) => ({
       id: a.tag.id,
-      isMyth: mythTagIds.has(a.tag.id),
+      isMyth: a.tag.is_myth === true,
       name: a.tag.name,
       name_en: a.tag.name_en,
       slug: a.tag.slug as string,
       color: a.tag.color ?? '#b4965a',
-      factionImageUrl: a.faction_image_url ?? null,
+      factionImageUrl: a.image_url ?? null,
       description: a.tag.description ?? null,
       description_en: a.tag.description_en ?? null,
       roleShort: a.short_desc ?? null,
@@ -408,7 +406,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 }
 
 /* 인물 한 명짜리 조회라 항목 태그를 단다 — 한 명을 고쳐도 나머지 인물 화면은 그대로 둔다.
-   celebs(셀럽 본체) + celeb_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)를 읽는다.
+   celebs(셀럽 본체) + celeb_contents(서고 수) + celeb_dialogues + faction_member_rows(소속 세력도감)를 읽는다.
    여기서는 slug가 곧 그 인물의 식별자다(id를 아직 모르는 시점의 조회다). */
 const getCelebBySlugCached = (slug: string) =>
   cachedDetail(

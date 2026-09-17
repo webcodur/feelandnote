@@ -2,7 +2,7 @@
  * 넷씩 넷 (Groups) — 체험 표본 데이터
  *
  * 🔴 사실 날조 금지: 인물 이름·직군·국적은 실제 사실만.
- * 묶음 축은 DB에 실재하는 값(profession, nationality, celeb_tags)을 기반으로 한다.
+ * 묶음 축은 DB에 실재하는 값(profession, nationality, faction_lv2)을 기반으로 한다.
  *
  * 표본 설계 원칙:
  * - 각 인물은 정확히 한 묶음에만 해당하도록 배치한다.
