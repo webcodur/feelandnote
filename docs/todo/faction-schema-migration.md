@@ -50,8 +50,9 @@ faction_members(id, lv2_id→faction_lv2, lv3_id→faction_lv3 null,
 
 ## 후속 정리 (26.09.18 완료)
 
-- [x] **RPC 인자명** — `p_tag_id`→`p_faction_id`. `20260918120000_faction_naming_cleanup.sql`이 `count_celebs_filtered`·`get_celebs_sorted`를 DROP+재생성하고, 호출부(web getCelebs·BO celebs)도 함께 바꿨다. 생성 타입의 Args·Returns도 라이브 서명과 대조해 맞췄다(빠져 있던 `p_celeb_realities`·생년 범위·`consumption_philosophy`·`celeb_reality` 보정, stale `cultural_journey` 제거).
-- [x] **캐시 태그 `'tags'`→`'factions'`** — `CACHE_TAGS.FACTIONS`, DB 허용 도메인·트리거 인자를 같은 마이그레이션으로. 전환기 호환은 `normalizeLegacyCacheTag`가 `'tags'`→`'factions'`를 정규화해 받는다.
+- [x] **RPC 인자명** — `p_tag_id`→`p_faction_id`. `20260918120000_faction_naming_cleanup.sql`이 `count_celebs_filtered`·`get_celebs_sorted`를 DROP+재생성하고, 호출부(web getCelebs·BO celebs)도 함께 바꿨다. 카나리가 하드 전환 창을 잡아 함수는 `p_tag_id`·`p_faction_id` 공존 인자로 적용했다(coalesce) — 구·신 코드 양쪽 호출이 같은 함수에 도달해 배포 순서와 무관하게 무중단이다. 생성 타입의 Args·Returns도 라이브 서명과 대조해 맞췄다(빠져 있던 `p_celeb_realities`·생년 범위·`consumption_philosophy`·`celeb_reality` 보정, stale `cultural_journey` 제거).
+- [x] **캐시 태그 `'tags'`→`'factions'`** — `CACHE_TAGS.FACTIONS`, DB 허용 도메인·트리거 인자를 같은 마이그레이션으로. 트리거가 보낸 'factions'를 구 웹이 거절해도 pg_net 비동기라 쓰기는 깨지지 않는다.
+- [ ] **`p_tag_id` 제거(후속)** — 공존 인자의 `p_tag_id`는 롤백 슬롯이 살아 있는 동안 유지한다. 다음 배포 이후 DROP+재생성으로 걷어낸다.
 - [x] **코드 명명 잔재 전수 개명** — `getTag*`→`getFaction*` 파일·함수, `getFeaturedTags`→`getFeaturedFactions`, `FeaturedTag`→`FeaturedFaction`, `FactionTagItem`→`FactionItem`, `CelebTagInfo`→`CelebFactionInfo`, `CelebProfile.tags`→`factions`, `CelebTagsModal`→`CelebFactionsModal`, `getFactionTagName`→`getFactionName`, `faction-theme-*`→`faction-*`, `FactionAtlasScreen`→`FactionScreen`, `faction/atlas/`→`faction/entry/`(`FactionThemeView`→`FactionEntryView`·`FactionThemeMusic`→`FactionMusic`·`FactionAtlasNav`→`FactionNav`), `getMythAtlas`→`getMythData`+`mythAtlas*`→`myth*`(`MythAtlas`→`MythScreen`), 공용 선택기 `AtlasNav`→`ExploreNav`·`AtlasPickerSheet`→`ExplorePickerSheet`·`AtlasStage`→`RankingStage`, `FactionSection.tag/themes`→`faction/entries`, 내부 `tagId`/`tagIds`→`factionId`/`factionIds`, 게임 `axis: "tag"`·엣지 `type: "tag"`→`"faction"`.
 - [x] **BO `RankingEditor.tsx` hook 경고** — `names`/`slugs`를 effect 안에서 key로부터 펼쳐 의존성 누락 해소.
 - [x] **저장소 스크래프 삭제** — `sw/web-bo/.tmp/`, `sw/web/.next-html-size-audit/`, `.claude/worktrees/expressive-whistling-lollipop/`.
