@@ -271,8 +271,8 @@ export default function HeaderSearch() {
 
         {/* Keyboard hint */}
         <div className="hidden sm:flex h-full items-center gap-1 px-3 text-xs text-text-secondary border-l border-white/5">
-          <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-[10px]">Ctrl</kbd>
-          <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-[10px]">K</kbd>
+          <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-[11px]">Ctrl</kbd>
+          <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-[11px]">K</kbd>
         </div>
       </div>
 

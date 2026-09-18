@@ -36,7 +36,7 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
     <div className="mb-3 md:mb-5 group/item">
       <div className="flex gap-1.5 md:gap-3">
         <div className="w-[38px] md:w-[120px] flex items-start justify-end shrink-0 pt-3">
-          <span className="text-[10px] md:text-sm text-text-primary/80 font-mono mr-1 md:mr-2">{formatYear(getYear(celeb.birth_date!))}</span>
+          <span className="text-xs md:text-sm text-text-primary font-mono mr-1 md:mr-2">{formatYear(getYear(celeb.birth_date!))}</span>
           <span className="mt-1 w-2 h-2 md:w-3 md:h-3 rounded-full shrink-0 z-10 bg-bg-card border-2 border-accent/40" />
         </div>
         <div className="min-w-0 flex-1 py-1.5 md:p-2.5">
@@ -48,7 +48,7 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
               <div className="flex items-start gap-1 md:gap-2">
                 <div className="min-w-0 flex-1">
                   <Link href={href} prefetch={false} className="block rounded-sm text-sm md:text-lg font-semibold text-text-primary leading-tight hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">{displayName}</Link>
-                  <p className="text-[11px] md:text-sm text-text-primary/60">{formatLifespan(celeb.birth_date, celeb.death_date)}</p>
+                  <p className="text-[11px] md:text-sm text-text-secondary">{formatLifespan(celeb.birth_date, celeb.death_date)}</p>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   {celeb.has_voice && (
@@ -67,7 +67,7 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
               {displayTitle && <p className="text-[11px] md:text-sm text-amber-400/80 truncate mt-0.5">{displayTitle}</p>}
               {displayBio && (
                 <button type="button" onClick={() => onToggleBio(celeb.id)} aria-expanded={isBioExpanded}
-                  className={`block w-full text-left text-[11px] md:text-sm text-text-primary/60 mt-1 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent ${isBioExpanded ? "" : "line-clamp-2"}`}>
+                  className={`block w-full text-left text-[11px] md:text-sm text-text-secondary mt-1 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent ${isBioExpanded ? "" : "line-clamp-2"}`}>
                   {displayBio}
                 </button>
               )}

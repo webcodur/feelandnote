@@ -100,7 +100,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
           <div className="flex items-center gap-6">
             <div className="text-right">
               <div className="text-xl font-bold text-text-primary">{unlockedTitles} <span className="text-text-secondary text-base">/ {totalTitles}</span></div>
-              <div className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">{t("unlocked")}</div>
+              <div className="text-[11px] text-text-secondary uppercase tracking-widest font-bold">{t("unlocked")}</div>
             </div>
 
             {isOwner && (
@@ -167,7 +167,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                       <span className="text-[#d4af37]"><CategoryIcon size={16} /></span>
                       <span className="font-bold text-xs uppercase tracking-wider text-text-primary">{categoryLabel(category)}</span>
                     </div>
-                    <div className="text-[10px] font-mono text-text-secondary">{Math.round(progress)}%</div>
+                    <div className="text-[11px] font-mono text-text-secondary">{Math.round(progress)}%</div>
                   </div>
                   <div className="mt-2 h-1 bg-[#222] rounded-full overflow-hidden">
                     <div className="h-full bg-[#d4af37] rounded-full shadow-[0_0_10px_rgba(212,175,55,0.5)]" style={{ width: `${progress}%` }} />
@@ -207,8 +207,8 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                              return <IconComponent size={16} />;
                            })()}
                            </div>
-                           <div className="text-[10px] text-[#444] font-bold uppercase tracking-widest text-center">{t("locked")}</div>
-                           <div className="text-[10px] text-[#444] text-center px-1 opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-2 inset-x-2 bg-[#111]/90 py-1 rounded">
+                           <div className="text-[11px] text-[#444] font-bold uppercase tracking-widest text-center">{t("locked")}</div>
+                           <div className="text-[11px] text-[#444] text-center px-1 opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-2 inset-x-2 bg-[#111]/90 py-1 rounded">
                              {formatCondition(title.condition)}
                            </div>
                         </div>
@@ -245,7 +245,7 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
                            <div className="font-bold text-xs sm:text-sm leading-tight mb-1 truncate px-1">
                              {tTitle.has(`titles.${title.code}.name`) ? tTitle(`titles.${title.code}.name`) : title.name}
                            </div>
-                           <div className="text-[10px] opacity-70 truncate px-1">
+                           <div className="text-[11px] opacity-70 truncate px-1">
                              {tTitle.has(`titles.${title.code}.description`) ? tTitle(`titles.${title.code}.description`) : title.description}
                            </div>
                          </div>

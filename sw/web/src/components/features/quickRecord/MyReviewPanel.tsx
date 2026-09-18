@@ -180,7 +180,7 @@ export default function MyReviewPanel({
             <div className="flex flex-col h-full relative">
                 {/* Review Presets Chips Area */}
                 <div className="px-4 py-3 flex flex-wrap gap-2 items-center border-b border-white/5 bg-black/10">
-                    <span className="text-[10px] font-bold uppercase tracking-wider mr-1">Keywords</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider mr-1">Keywords</span>
                     
                     {/* Selected Presets (Always visible) */}
                     {presets.map((presetKeyword) => {
@@ -275,7 +275,7 @@ export default function MyReviewPanel({
       {/* Unified Rating Bar (Moved to Bottom) */}
       <div className="px-6 py-4 flex items-center justify-between bg-white/2 border-t border-white/5 backdrop-blur-md">
           <div className="flex items-center gap-4">
-              <span className="text-xs font-bold text-accent/60 tracking-widest uppercase mt-0.5">Rating</span>
+              <span className="text-xs font-bold text-accent tracking-widest uppercase mt-0.5">Rating</span>
               <StarRatingInput
                   value={rating}
                   onChange={setRating}
@@ -293,7 +293,7 @@ export default function MyReviewPanel({
                           </span>
                       </div>
                   ) : (
-                      <span className="text-[10px] italic">{t("notRated")}</span>
+                      <span className="text-[11px] italic">{t("notRated")}</span>
                   )}
               </div>
               <button

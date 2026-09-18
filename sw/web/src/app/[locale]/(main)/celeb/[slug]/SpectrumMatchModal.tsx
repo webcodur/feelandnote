@@ -329,7 +329,7 @@ export default function SpectrumMatchModal({
                         key={row.axis}
                         className="grid grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-x-3 py-2.5 first:pt-0 last:pb-0"
                       >
-                        <p className="text-balance break-keep text-center text-[11px] font-bold leading-tight tracking-[0.06em] text-text-primary/50 md:text-xs">
+                        <p className="text-balance break-keep text-center text-[11px] font-bold leading-tight tracking-[0.06em] text-text-secondary md:text-xs">
                           {row.label}
                         </p>
                         <div className="min-w-0 space-y-1.5">

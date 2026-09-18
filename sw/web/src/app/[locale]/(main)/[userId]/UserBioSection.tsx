@@ -136,13 +136,13 @@ export default function UserBioSection({ profile, isOwner }: UserBioSectionProps
       {/* bio */}
       {isEditing ? (
         <div className="mb-3">
-          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("bioPlaceholder")} className="w-full bg-black/30 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-secondary/50" rows={3} maxLength={200} />
+          <textarea value={bioValue} onChange={(e) => setBioValue(e.target.value)} placeholder={t("bioPlaceholder")} className="w-full bg-black/30 border border-accent/20 rounded-sm p-3 text-sm text-text-primary resize-none focus:outline-none focus:border-accent/50 placeholder:text-text-tertiary" rows={3} maxLength={200} />
           <span className="text-xs text-text-secondary">{bioValue.length} / 200</span>
         </div>
       ) : bioValue ? (
         <p className="text-sm text-text-primary leading-relaxed mb-3">{bioValue}</p>
       ) : isOwner ? (
-        <p className="text-sm text-text-secondary/50 mb-3">{t("bioEmpty")}</p>
+        <p className="text-sm text-text-tertiary mb-3">{t("bioEmpty")}</p>
       ) : null}
 
       {/* 사진 변경 안내 (편집 모드에서만) */}

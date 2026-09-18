@@ -26,7 +26,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
   if (contemporaries.length === 0) {
     return (
       <div className="ml-[40px] md:ml-[120px] pl-4 pt-1 pb-2 animate-slide-down">
-        <p className="text-xs text-text-secondary/60">
+        <p className="text-xs text-text-secondary">
           {t("noContemporaries")}
         </p>
       </div>
@@ -35,7 +35,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
 
   return (
     <div className="ml-[40px] md:ml-[120px] pl-4 pt-1 pb-2 animate-slide-down">
-      <p className="text-xs text-text-secondary/60 mb-2">
+      <p className="text-xs text-text-secondary mb-2">
         {t("figureEra", { name: locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname })}
       </p>
       <div className="flex flex-wrap gap-2">
@@ -60,7 +60,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
               <span className="text-sm text-text-primary group-hover/cont:text-accent transition-colors">
                 {cName}
               </span>
-              <span className="text-xs text-text-secondary/50">
+              <span className="text-xs text-text-tertiary">
                 {formatLifespan(c.birth_date, c.death_date)}
               </span>
             </Link>

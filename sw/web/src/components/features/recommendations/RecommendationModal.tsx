@@ -147,7 +147,7 @@ export default function RecommendationModal({
                 )}
                 {/* 카테고리 뱃지 */}
                 <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-stone-800 border border-accent/40 rounded-full">
-                  <span className="text-[10px] text-accent font-bold tracking-wide">
+                  <span className="text-[11px] text-accent font-bold tracking-wide">
                     {categoryInfo?.label ?? contentType}
                   </span>
                 </div>
@@ -279,7 +279,7 @@ export default function RecommendationModal({
                     rows={2}
                     className="w-full px-3 py-2.5 bg-stone-900/50 border border-border/50 rounded-lg text-sm font-sans text-text-primary placeholder: focus:outline-none focus:border-accent/50 transition-colors resize-none pr-14"
                   />
-                  <span className="absolute bottom-2.5 right-3 text-[10px]">
+                  <span className="absolute bottom-2.5 right-3 text-[11px]">
                     {message.length}/200
                   </span>
                 </div>

@@ -37,7 +37,7 @@ export default function PersonCardMetrics({
 
   return (
     <>
-      <span className="flex flex-col items-center justify-center gap-0.5 whitespace-nowrap text-[10px] font-semibold leading-tight text-text-secondary md:text-[11px]">
+      <span className="flex flex-col items-center justify-center gap-0.5 whitespace-nowrap text-[11px] font-semibold leading-tight text-text-secondary md:text-xs">
         <span>
           {t("explorer.fieldMetric", {
             field: shortFieldLabel(firstField),
@@ -51,7 +51,7 @@ export default function PersonCardMetrics({
           })}
         </span>
       </span>
-      <span className="block font-mono text-[10px] font-bold leading-tight tabular-nums text-accent/90 md:text-[11px]">
+      <span className="block font-mono text-[11px] font-bold leading-tight tabular-nums text-accent md:text-xs">
         {t("explorer.totalScore", { score: person.total_score })}
       </span>
     </>

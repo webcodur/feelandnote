@@ -233,7 +233,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
               e.stopPropagation();
               setIsFactionsModalOpen(true);
             }}
-            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] font-bold border border-border hover:bg-bg-stone-light hover:text-text-primary"
+            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[11px] font-bold border border-border hover:bg-bg-stone-light hover:text-text-primary"
           >
             +{remainingFactionCount}
           </button>
@@ -285,7 +285,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         />
 
         {displayTitle && (
-          <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
+          <p className="text-[11px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
         )}
 
         <h2 className="text-2xl md:text-3xl font-black font-serif text-text-primary leading-tight text-center break-all mb-3">

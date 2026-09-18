@@ -199,7 +199,7 @@ export default function MuseumEraSection({ era, index, eras, keyContentsLabel, t
           transition={{ duration: 0.5, delay: 0.3 }}
           className="pb-3"
         >
-          <h4 className="text-[11px] sm:text-xs text-white/40 uppercase tracking-widest mb-1.5 sm:mb-2 font-semibold">{keyContentsLabel}</h4>
+          <h4 className="text-[11px] sm:text-xs text-text-tertiary uppercase tracking-widest mb-1.5 sm:mb-2 font-semibold">{keyContentsLabel}</h4>
           <div className="flex flex-col">
             {era.contents.map((content, idx) => {
               const match = targetProducts.find((item) => item.label === content);

@@ -145,7 +145,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
           </div>
           <div className="h-px bg-white/10" />
           <div className="p-1.5 md:p-2 pt-1.5">
-            <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 text-center">
+            <p className="text-xs text-text-secondary line-clamp-1 text-center">
               {editionUnavailable ? (creator ? creator.replace(/\^/g, ", ") : "\u00A0") : (displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0")}
             </p>
           </div>
@@ -169,8 +169,9 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     );
   }
 
+  // 모서리 장식은 group/card에 반응한다 — href 분기와 같은 이름을 써야 onClick 카드에도 hover 장식이 선다
   return (
-    <div className="relative group">
+    <div className="relative group/card">
       <CornerAccents />
       <div className={containerClass} onClick={handleClick}>
         {cardContent}

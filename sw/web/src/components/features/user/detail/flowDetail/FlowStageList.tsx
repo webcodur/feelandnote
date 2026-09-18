@@ -106,7 +106,7 @@ export default function FlowStageList({
       <div className="text-center py-20 border-2 border-dashed border-white/[0.04] rounded-2xl">
         <Layers size={40} className="mx-auto mb-4 text-white/10" />
         <p className="font-serif text-base text-white/60 mb-2">{t("emptyFlow")}</p>
-        <p className="text-sm text-white/25 mb-6">{t("emptyFlowGuide")}</p>
+        <p className="text-sm text-text-tertiary mb-6">{t("emptyFlowGuide")}</p>
         {isOwner && (
           <Button onClick={() => setIsEditMode(true)} className="px-5 py-2 bg-accent text-black font-bold hover:bg-accent-hover rounded-full text-sm">
             {t("startEdit")}
@@ -179,7 +179,7 @@ export default function FlowStageList({
               ) : (
                 <div className="relative ms-3 ps-6 md:ms-5 md:ps-8 py-2">
                   <div className="absolute start-3 md:start-5 top-0 h-full w-px bg-white/[0.06]" />
-                  <p className="text-xs text-white/15 py-4">{t("emptyStage")}</p>
+                  <p className="text-xs text-text-tertiary py-4">{t("emptyStage")}</p>
                 </div>
               )}
             </div>

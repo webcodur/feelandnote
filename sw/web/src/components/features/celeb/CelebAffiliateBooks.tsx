@@ -19,7 +19,6 @@ import { mapRelatedFigureBooksToAffiliateBooks } from './CelebRelatedAffiliateBo
 interface CelebAffiliateBooksProps {
   userId: string
   actualOnly?: boolean
-  embedded?: boolean
   hideHeading?: boolean
   /** 「연관 작품」 구획에 뜨는 도서. 상품이 걸린 것을 참고도서 앞에 둔다. */
   figureBooks?: FigureBookContent[]
@@ -67,7 +66,6 @@ const GROUP_DESC_KEY = {
 export default function CelebAffiliateBooks({
   userId,
   actualOnly = false,
-  embedded = false,
   hideHeading = false,
   figureBooks,
   excludeContentIds,
@@ -150,8 +148,6 @@ export default function CelebAffiliateBooks({
           books={products}
           heading={hasFigureBookProducts || !data ? tPage('relatedProducts') : t(HEADING_KEY[data.source])}
           buyLabel={platform === 'amazon' ? tPage('sourceWorkBuyAmazon') : t('buy')}
-          detailLabel={t('viewBookDetails')}
-          compact={embedded}
           hideHeading={hideHeading}
           platform={platform}
           groups={shelfGroups}

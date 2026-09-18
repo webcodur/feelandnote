@@ -137,6 +137,12 @@
         "deny": "금지"
       },
       "gameLyricsNotice": "한국어 가사가 담긴 곡은 영문 버전으로도 제작해 함께 올립니다."
+    },
+    "swipeRail": {
+      "label": "끌어서 위아래로 이동",
+      "settings": "스와이프 설정",
+      "sensitivity": "감도",
+      "sensitivityNote": "손이 1px 움직일 때 페이지가 가는 거리입니다."
     }
   },
   "pages": {
@@ -863,7 +869,6 @@
   "popularBooks": {
     "title": "추천 도서",
     "buyOnCoupang": "쿠팡 구매",
-    "viewBookDetails": "책 상세 보기",
     "headingRead": "이 인물이 읽은 책",
     "headingProfession": "같은 분야 인물들이 읽은 책",
     "headingOrigin": "이 인물이 등장하는 원전",

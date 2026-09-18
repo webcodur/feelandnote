@@ -27,7 +27,7 @@ export default function UgcTermsNotice({
 
   if (variant === "compact") {
     return (
-      <p className={`text-[10px] leading-relaxed text-text-secondary opacity-70 ${className}`}>
+      <p className={`text-[11px] leading-relaxed text-text-secondary ${className}`}>
         <Link href="/terms" className="underline underline-offset-2 hover:text-accent">
           {t("linkShort")}
         </Link>

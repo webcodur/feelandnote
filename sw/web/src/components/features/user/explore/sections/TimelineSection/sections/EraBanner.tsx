@@ -37,7 +37,7 @@ export default function EraBanner({ era, count, isCollapsed, onToggle }: Props) 
               <span className="text-base md:text-lg font-bold text-accent tracking-wider">
                 {era.label}
               </span>
-              <span className="text-[11px] text-text-secondary/50 tracking-wide uppercase">
+              <span className="text-[11px] text-text-tertiary tracking-wide uppercase">
                 {era.labelEn}
               </span>
             </div>
@@ -52,7 +52,7 @@ export default function EraBanner({ era, count, isCollapsed, onToggle }: Props) 
               <span className="text-lg font-semibold text-text-primary">
                 {count}
               </span>
-              <span className="text-xs text-text-secondary/50">
+              <span className="text-xs text-text-secondary">
                 {t("figureCount", { count })}
               </span>
             </div>

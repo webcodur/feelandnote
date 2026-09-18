@@ -96,7 +96,7 @@ export default function HubCard({
 
       {/* 영문 라벨 */}
       {label && (
-        <span className="text-[10px] font-cinzel font-bold tracking-[0.15em] uppercase text-accent/60">
+        <span className="text-[11px] font-cinzel font-bold tracking-[0.15em] uppercase text-accent">
           {label}
         </span>
       )}

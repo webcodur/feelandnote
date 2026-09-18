@@ -106,7 +106,7 @@ export default function WriteForm({
           aria-label={placeholder}
           className={`${
             isCeleb
-              ? "min-h-[132px] px-4 py-4 text-[14px] leading-7 placeholder:text-text-secondary/50 sm:min-h-[148px] sm:px-5 sm:py-5 sm:text-[15px]"
+              ? "min-h-[132px] px-4 py-4 text-[14px] leading-7 placeholder:text-text-tertiary sm:min-h-[148px] sm:px-5 sm:py-5 sm:text-[15px]"
               : "min-h-[72px] px-4 pt-4 pb-2 text-sm leading-relaxed"
           } w-full resize-none border-none bg-transparent font-sans font-normal text-text-primary outline-none focus:ring-0`}
           rows={isCeleb ? 4 : 3}
@@ -137,7 +137,7 @@ export default function WriteForm({
 
           {isCeleb && (
             <span
-              className={`font-mono text-[11px] tabular-nums text-text-secondary/55 ${content.length > 450 ? "text-red-400" : ""}`}
+              className={`font-mono text-[11px] tabular-nums text-text-tertiary ${content.length > 450 ? "text-red-400" : ""}`}
             >
               {content.length} / 500
             </span>
@@ -145,12 +145,12 @@ export default function WriteForm({
 
           <UgcTermsNotice
             variant="compact"
-            className={`${isCeleb ? "text-[11px] sm:text-xs" : "text-[10px]"} min-w-0 justify-self-center text-center opacity-100`}
+            className={`${isCeleb ? "text-[11px] sm:text-xs" : "text-[11px]"} min-w-0 justify-self-center text-center opacity-100`}
           />
 
           {!isCeleb && (
             <span
-              className={`font-mono text-[10px] tabular-nums ${content.length > 450 ? "text-red-400" : ""}`}
+              className={`font-mono text-[11px] tabular-nums ${content.length > 450 ? "text-red-400" : ""}`}
             >
               {content.length} / 500
             </span>

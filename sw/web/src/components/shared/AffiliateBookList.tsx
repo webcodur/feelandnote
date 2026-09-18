@@ -1,10 +1,10 @@
 /*
   파일명: /components/shared/AffiliateBookList.tsx
-  기능: 책 상품 목록 — 표지·제목·저자, YES24·쿠팡·아마존 단추
-  책임: 인물 상세 「참고도서」, 세력도감 인물 모달, 서재 베스트셀러 차트가 같은 상품 카드를 쓴다.
+  기능: 책 상품 선반 — 서비스 공통 작품 카드(ContentCard) 아래에 YES24·쿠팡·아마존 단추
+  책임: 홈 추천도서, 인물 상세 「참고도서」, 세력도감 인물 모달·작품 선반, 서재 베스트셀러 차트가 같은 선반을 쓴다.
+        카드는 ContentCard 한 벌이다 — 표지 좌하단 인원 뱃지(감상 인물 명단), 우하단 소개 뱃지(작품 소개), 번역본 없음·절판 띠까지 공통 카드가 쥔다.
         카드 본체는 언제나 「보기」다 — 우리 작품은 작품 상세로, 상세가 없는 외부 차트 항목은 onDetail이 띄우는 책 정보 모달로.
         사러 가는 길은 카드 아래 판매처 단추 하나다. 우리 작품이 아닌 외부 차트 항목은 그 단추가 purchaseHref로 서점 제휴 주소를 연다.
-        번역본 없음·절판은 표지 한가운데 띠로 알린다.
         groups를 넘기면 책의 종류가 갈리는 자리마다 세로 구분선이 서고, 누르면 좌우 구간의 뜻을 설명한다.
 */
 "use client";
@@ -12,9 +12,7 @@
 import { Fragment, useState } from 'react'
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import BookPurchaseInfo from '@/components/shared/BookPurchaseInfo'
-import Link from 'next/link'
-import ContentImage from '@/components/ui/ContentImage'
-import NoEditionBadge from '@/components/ui/NoEditionBadge'
+import ContentCard from '@/components/ui/cards/ContentCard'
 import Modal, { ModalBody } from '@/components/ui/Modal'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import CenteredSectionHeading from '@/components/ui/CenteredSectionHeading'
@@ -26,14 +24,12 @@ interface AffiliateBookListProps {
   books: AffiliateBook[]
   heading: string
   buyLabel: string
-  detailLabel: string
-  compact?: boolean
   /** 판매 기준 서점 — yes24는 YES24 단추에 쿠팡 보조 단추가 붙고, amazon은 아마존 주소(상품 또는 검색)로 잇는다 */
   platform?: BookStorePlatform
   hideHeading?: boolean
   /** 순위가 있는 목록에서 화면 낭독용 순위 문구(예: 「3위」) */
   rankLabel?: (rank: number) => string
-  /** 우리 작품 상세가 없는 목록(서재 차트) — 카드 본체가 상세 대신 이 함수를 불러 책 정보 모달을 띄운다. detailLabel도 그 문구를 넘긴다 */
+  /** 우리 작품 상세가 없는 목록(서재 차트) — 카드 본체가 상세 대신 이 함수를 불러 책 정보 모달을 띄운다. 인원 뱃지는 붙지 않는다 */
   onDetail?: (book: AffiliateBook) => void
   /** books와 같은 순서의 구간 정보 — 구간이 둘 이상일 때 경계에 세로 구분선을 세운다. count 합계는 books 길이와 같아야 한다 */
   groups?: { label: string; desc?: string; count: number }[]
@@ -47,7 +43,7 @@ interface GroupBoundary {
   right: { label: string; desc?: string }
 }
 
-export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, buyLabel, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle }: AffiliateBookListProps) {
   const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
 
   // 구간 경계를 카드 위치로 환산한다 — 신화 선반의 세로 구분선을 일반 상품 선반으로 가져온 것이다.
@@ -66,7 +62,7 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
   return (
     <section className={cn(
       "w-full border-t border-white/5",
-      hideHeading ? "mt-0 pb-0 pt-4 md:pt-6" : compact ? "mt-3 pb-0 pt-2 md:mt-4" : "mt-12 pb-2 pt-6 md:mt-20 md:pt-10",
+      hideHeading ? "mt-0 pb-0 pt-4 md:pt-6" : "mt-12 pb-2 pt-6 md:mt-20 md:pt-10",
     )}>
       {!hideHeading && (
         <CenteredSectionHeading
@@ -75,64 +71,29 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           titleAddon={platform === 'yes24' ? (
             <BookPurchaseInfo className="ms-1.5 inline-flex size-6 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
           ) : undefined}
-          className={compact
-            ? "mb-1 items-start px-4 text-start [&>span]:hidden [&_h2]:text-sm [&_h2]:leading-5"
-            : "mb-4 md:mb-7"}
+          className="mb-4 md:mb-7"
         />
       )}
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
-      <div className={cn(
-        "flex overflow-x-auto px-4 pb-1 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-        compact
-          ? "gap-3 md:px-4"
-          : "gap-3 md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0",
-      )}>
+      <div className="flex gap-3 overflow-x-auto px-4 pb-1 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0">
         {books.map((book, index) => {
           const boundary = boundaryAt.get(index)
-          const viewTitle = `${book.title} · ${detailLabel}`
-          const viewClass = cn(
-            "flex min-w-0 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset",
-            compact ? "flex-row" : "flex-col",
-            compact && (platform === 'yes24' ? "h-22" : "h-16"),
-          )
-          const viewBody = (
-            <>
-              <div className={cn(
-                "relative shrink-0 overflow-hidden bg-white/[0.04]",
-                compact ? "w-10" : "w-full aspect-[2/3]",
-                compact && (platform === 'yes24' ? "h-22" : "h-16"),
-              )}>
-                <ContentImage
-                  src={book.thumbnail}
-                  alt={book.title}
-                  sizes={compact ? "40px" : platform === 'yes24' ? "(max-width: 767px) 144px, 180px" : "(max-width: 767px) 128px, 180px"}
-                  className="object-cover"
-                />
-                {/* 번역본 없음·절판은 표지 한가운데 띠로 — 서비스 공통 작품 카드와 같은 표시. 작은 표지에는 두지 않는다 */}
-                {!compact && <NoEditionBadge variant="cover" badge={book.titleBadge} />}
-              </div>
-              <div className={cn(
-                "flex min-w-0 flex-col",
-                compact
-                  ? "min-w-0 flex-1 items-start px-2 text-start"
-                  : "w-full shrink-0 items-center px-2.5 pb-3 text-center",
-                compact && (platform === 'yes24' ? "justify-end" : "justify-center"),
-              )}>
-                <div className="flex min-w-0 w-full flex-col gap-1 pt-2">
-                <div className={cn("flex min-w-0 w-full shrink-0 items-center", compact ? "h-5" : "h-10")}>
-                  <p className={cn(
-                    "min-w-0 w-full font-semibold text-text-primary group-hover/purchase:text-accent",
-                    compact ? "truncate text-sm leading-5" : "line-clamp-2 break-words text-[15px] leading-5 [&:lang(ko)]:break-keep [&:lang(ko)]:text-balance",
-                  )} title={book.title}>
-                    {book.title}
-                  </p>
-                </div>
-                <p className="h-4 min-w-0 w-full shrink-0 truncate text-[13px] leading-4 text-text-secondary group-hover/purchase:text-accent" title={book.creator ?? undefined}>{book.creator}</p>
-                </div>
-              </div>
-            </>
-          )
+
+          // 사러 가는 길은 판매처 단추 하나 — 한국어는 YES24(쿠팡 보조), 영어는 아마존
+          const purchaseNode = platform === 'yes24' ? (
+            <AffiliateBookAction contentId={book.contentId} editionId={book.editionId} coupangUrl={book.url} yes24Href={book.purchaseHref} salesIsbn={book.isbn} compact />
+          ) : book.url ? (
+            <a
+              href={book.url}
+              target="_blank"
+              rel="noopener noreferrer nofollow sponsored"
+              className="flex min-h-11 items-center justify-center gap-1 rounded-lg border border-[#FF9900]/40 bg-[#FF9900]/10 px-2 py-2 text-sm font-semibold text-[#FFBF66] hover:border-[#FF9900] hover:bg-[#FF9900]/25 active:bg-[#FF9900]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#FF9900]"
+            >
+              {buyLabel}
+              <ExternalLink size={11} aria-hidden />
+            </a>
+          ) : undefined
 
           return (
           <Fragment key={book.contentId}>
@@ -157,44 +118,33 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           <div
             className={cn(
               // relative — 안의 화면 낭독용 순위 문구(sr-only, 절대 위치)가 가로 스크롤 상자 밖을 기준으로 잡혀 페이지 폭을 넓히지 않게 카드가 기준 상자가 된다
-              "relative min-w-0 shrink-0 snap-start flex flex-col gap-1",
-              compact ? "w-[190px] md:w-[200px]" : "md:w-[180px]",
-              !compact && (platform === 'yes24' ? "w-[144px]" : "w-[128px]"),
+              "relative min-w-0 shrink-0 snap-start md:w-[180px]",
+              platform === 'yes24' ? "w-[144px]" : "w-[128px]",
             )}
           >
-            {book.rank !== undefined && !compact && (
+            {book.rank !== undefined && (
               <span className="mb-1 block text-2xl leading-none tabular-nums text-accent">
                 {rankLabel && <span className="sr-only">{rankLabel(book.rank)}</span>}
                 <span aria-hidden={rankLabel ? true : undefined}>{book.rank}</span>
               </span>
             )}
-            {/* 카드 본체는 언제나 「보기」 — 우리 작품은 상세로, 상세 없는 외부 차트 항목은 책 정보 모달로 */}
-            <div className="group/purchase relative flex min-w-0 shrink-0 flex-col overflow-hidden rounded-lg border border-border/60 bg-bg-card hover:border-accent/70 hover:bg-accent/10">
-              {onDetail ? (
-                <button type="button" aria-haspopup="dialog" onClick={() => onDetail(book)} className={viewClass} title={viewTitle}>
-                  {viewBody}
-                </button>
-              ) : (
-                <Link href={`/content/${book.contentId}?category=book`} className={viewClass} title={viewTitle}>
-                  {viewBody}
-                </Link>
-              )}
-            </div>
-
-            {/* 사러 가는 길은 판매처 단추 하나 — 한국어는 YES24(쿠팡 보조), 영어는 아마존 */}
-            {platform === 'yes24' ? (
-              <AffiliateBookAction contentId={book.contentId} editionId={book.editionId} coupangUrl={book.url} yes24Href={book.purchaseHref} salesIsbn={book.isbn} compact />
-            ) : book.url ? (
-              <a
-                href={book.url}
-                target="_blank"
-                rel="noopener noreferrer nofollow sponsored"
-                className="flex min-h-11 items-center justify-center gap-1 rounded-lg border border-[#FF9900]/40 bg-[#FF9900]/10 px-2 py-2 text-sm font-semibold text-[#FFBF66] hover:border-[#FF9900] hover:bg-[#FF9900]/25 active:bg-[#FF9900]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#FF9900]"
-              >
-                {buyLabel}
-                <ExternalLink size={11} aria-hidden />
-              </a>
-            ) : null}
+            {/* 카드는 공통 작품 카드 한 벌 — 우리 작품은 상세로 잇고, 상세 없는 외부 차트 항목은 onDetail로 책 정보 모달을 띄운다.
+                외부 항목은 우리 기록이 없어 인원 뱃지를 뺀다 */}
+            <ContentCard
+              contentId={book.contentId}
+              contentType="BOOK"
+              title={book.title}
+              titleBadge={book.titleBadge}
+              creator={book.creator}
+              thumbnail={book.thumbnail}
+              href={onDetail ? undefined : `/content/${book.contentId}?category=book`}
+              onClick={onDetail ? () => onDetail(book) : undefined}
+              showHeader={false}
+              showStats={!onDetail}
+              fallbackDescription={book.description}
+              fallbackMetadata={book.metadata}
+              posterFooterNode={purchaseNode}
+            />
           </div>
           </Fragment>
           )
@@ -222,7 +172,6 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           </ModalBody>
         )}
       </Modal>
-
     </section>
   )
 }

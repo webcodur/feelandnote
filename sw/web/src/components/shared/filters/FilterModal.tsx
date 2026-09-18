@@ -68,7 +68,7 @@ export default function FilterModal({
       >
         {icon && <span className="flex-shrink-0 w-5 text-center">{icon}</span>}
         <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? "font-bold" : ""}`}>{label}</span>
-        {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? "text-accent/80" : ""}`}>{count}</span>}
+        {count !== undefined && <span className={`text-xs ${isActive ? "text-accent" : ""}`}>{count}</span>}
         {isActive && <Check size={14} aria-hidden />}
       </Button>
     );

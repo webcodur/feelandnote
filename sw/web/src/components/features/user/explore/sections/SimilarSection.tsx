@@ -45,7 +45,7 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
           <Info size={14} /> {t("algorithm")}
         </Button>
         {algorithm === "content_overlap" && similarUsers.length > 0 && (
-          <span className="text-[10px] bg-bg-main px-2 py-0.5 rounded-full">
+          <span className="text-[11px] bg-bg-main px-2 py-0.5 rounded-full">
             {t("contentOverlapBased")}
           </span>
         )}

@@ -634,7 +634,7 @@ export default function FloatingMusicPlayer() {
             <span className={cn('min-w-0 flex-1 truncate text-[13px] font-medium', active ? tone.text : 'text-[#ece8df]')}>
               {t(`modes.${musicMode}`)}
             </span>
-            {!loading && count > 0 && <span className="text-[11px] tabular-nums text-white/40">{count}</span>}
+            {!loading && count > 0 && <span className="text-[11px] tabular-nums text-text-tertiary">{count}</span>}
             <span className="flex w-3.5 shrink-0 justify-center">
               {active && <Check size={ICON.sm} className={tone.text} {...ICON_PROPS} />}
             </span>
@@ -673,7 +673,7 @@ export default function FloatingMusicPlayer() {
 
   // 게임 음악 묶음 맨 아래에 붙는 한 줄 각주 — 한국어 가사 곡은 영문 버전도 나온다는 소식
   const gameNotice = (
-    <p className="px-5 pb-2 pt-1.5 text-[10px] leading-snug text-white/35">{t('gameLyricsNotice')}</p>
+    <p className="px-5 pb-2 pt-1.5 text-[11px] leading-snug text-text-tertiary">{t('gameLyricsNotice')}</p>
   )
 
   const listBody = loading ? (
@@ -850,7 +850,7 @@ export default function FloatingMusicPlayer() {
               <ListMusic size={ICON.md} className={cn('shrink-0', MODE_TONE[activeMode].text)} {...ICON_PROPS} />
               <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[#f5f1e8]">{t(`modes.${activeMode}`)}</span>
               {!loading && modeTracks(activeMode).length > 0 && (
-                <span className="text-[11px] tabular-nums text-white/40">{modeTracks(activeMode).length}</span>
+                <span className="text-[11px] tabular-nums text-text-tertiary">{modeTracks(activeMode).length}</span>
               )}
               <ChevronDown
                 size={ICON.sm}
@@ -1026,7 +1026,7 @@ function MusicOpener({
           <span ref={pulseRingRef} aria-hidden="true" className={cn(PULSE_RING_CLASS, '-inset-2 rounded-full')} />
           {glyph(NEIGHBOR_ICON_SIZE)}
         </span>
-        <span className="font-serif text-[9px] font-medium tracking-tighter">{tabLabel}</span>
+        <span className="font-serif text-[11px] font-medium tracking-tighter">{tabLabel}</span>
       </button>
     )
   }
@@ -1095,7 +1095,7 @@ function MusicProgress({
 
   // 시간 칸은 너비를 고정해 자릿수가 바뀌어도 막대 길이가 흔들리지 않는다
   return (
-    <div className="mt-2.5 flex h-4 items-center gap-2 text-[11px] tabular-nums text-white/45">
+    <div className="mt-2.5 flex h-4 items-center gap-2 text-[11px] tabular-nums text-text-tertiary">
       <span className="w-9 shrink-0">{formatTime(currentTime)}</span>
       <input
         type="range"
@@ -1185,7 +1185,7 @@ function Artwork({ url, className, iconSize }: { url: string | null; className: 
 // 색(tone)을 받으면 목록 소속 묶음이라 색 점과 색 글자로 쓴다
 function GroupHeading({ children, tone }: { children: ReactNode; tone?: ModeTone }) {
   return (
-    <p className={cn('sticky top-0 z-[1] flex h-8 items-center gap-2 bg-[#161615] px-5 text-[11px] font-semibold text-white/45', tone?.text)}>
+    <p className={cn('sticky top-0 z-[1] flex h-8 items-center gap-2 bg-[#161615] px-5 text-[11px] font-semibold text-text-tertiary', tone?.text)}>
       {tone && <span aria-hidden="true" className={cn('size-1.5 shrink-0 rounded-full', tone.dot)} />}
       <span className="shrink-0">{children}</span>
       <span aria-hidden="true" className="h-px flex-1 bg-white/[0.06]" />
@@ -1200,7 +1200,7 @@ function EmptyState({ title, hint }: { title: string; hint?: string }) {
         <Music size={ICON.md} {...ICON_PROPS} />
       </span>
       <p className="mt-3 text-xs text-white/70">{title}</p>
-      {hint && <p className="mt-1 text-[11px] leading-relaxed text-white/40">{hint}</p>}
+      {hint && <p className="mt-1 text-xs leading-relaxed text-text-secondary">{hint}</p>}
     </div>
   )
 }
@@ -1250,10 +1250,10 @@ function TrackRow({
         {artwork !== undefined && <Artwork url={artwork} className="size-8 rounded-md" iconSize={ICON.sm} />}
         <span className="min-w-0 flex-1">
           <span className={cn('block truncate text-[13px] font-medium leading-[18px]', current ? tone : 'text-[#ece8df]')}>{title}</span>
-          {subtitle && <span className="block truncate text-[11px] leading-4 text-white/45">{subtitle}</span>}
+          {subtitle && <span className="block truncate text-[11px] leading-4 text-text-tertiary">{subtitle}</span>}
         </span>
         <span className="flex w-[4.5rem] shrink-0 items-center justify-end gap-2">
-          {badge && <span className="rounded-full border border-accent/40 px-1.5 text-[10px] leading-4 text-accent">{badge}</span>}
+          {badge && <span className="rounded-full border border-accent/40 px-1.5 text-[11px] leading-4 text-accent">{badge}</span>}
           <span className={cn('flex size-6 items-center justify-center', tone)}>
             {state === 'loading' && <Loader2 size={ICON.sm} className="animate-spin" {...ICON_PROPS} />}
             {state === 'playing' && (

@@ -54,7 +54,7 @@ export default function ProfessionCarousel({
           <h3 className="text-sm md:text-base font-bold text-white tracking-tight">
             {getProfLabel(label)}
           </h3>
-          <span className="text-xs text-white/40 font-medium">{totalCount}</span>
+          <span className="text-xs text-text-tertiary font-medium">{totalCount}</span>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export default function ProfessionCarousel({
             >
               <div className="aspect-[13/19] rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-accent/30 transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer">
                 <span className="text-2xl md:text-3xl font-bold text-accent/80">+{totalCount - celebs.length}</span>
-                <span className="text-[10px] md:text-xs text-white/50 font-medium">{t("viewMore")}</span>
+                <span className="text-xs text-text-secondary font-medium">{t("viewMore")}</span>
               </div>
             </Link>
           )}

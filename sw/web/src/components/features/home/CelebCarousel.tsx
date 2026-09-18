@@ -391,7 +391,7 @@ function MoreLink() {
       <div className="w-8 h-8 rounded-full border border-accent/30 flex items-center justify-center group-hover:scale-110 transition-transform">
         <span className="text-accent text-lg">→</span>
       </div>
-      <span className="text-[9px] font-bold text-accent tracking-widest uppercase">MORE</span>
+      <span className="text-[11px] font-bold text-accent tracking-widest uppercase">MORE</span>
     </Link>
   );
 }

@@ -36,8 +36,6 @@ const EXTREME_MIN_COUNT = 12
 const MIN_SHARED_READERS = 2
 /** 축·방향당 작품 수 */
 const TOP_WORKS_LIMIT = 6
-/** 카드에 얼굴을 보여줄 독자 수 */
-const READER_PREVIEW_LIMIT = 4
 
 export interface AxisLibraryReader {
   id: string
@@ -54,9 +52,9 @@ export interface AxisLibraryWork {
   title_en: string | null
   thumbnail_url: string | null
   thumbnail_en: string | null
+  creator: string | null
+  creator_en: string | null
   readerCount: number
-  /** 집단 안에서 이 작품을 감상한 인물 — 축 점수가 극단인 순 */
-  readers: AxisLibraryReader[]
 }
 
 export interface SpectrumAxisLibrary {
@@ -85,7 +83,7 @@ interface LibraryRow {
 interface WorkMetaRow {
   id: string
   type: string | null
-  content_locales: { locale: string; title: string | null; thumbnail_url: string | null }[] | null
+  content_locales: { locale: string; title: string | null; creator: string | null; thumbnail_url: string | null }[] | null
 }
 
 interface Person {
@@ -137,6 +135,8 @@ interface WorkMeta {
   title_en: string | null
   thumbnail_url: string | null
   thumbnail_en: string | null
+  creator: string | null
+  creator_en: string | null
 }
 
 /**
@@ -180,7 +180,7 @@ async function fetchWorkMeta(contentIds: string[]): Promise<Map<string, WorkMeta
   const rows = await selectInChunks<WorkMetaRow>(contentIds, (chunk) =>
     db
       .from('contents')
-      .select('id, type, content_locales (locale, title, thumbnail_url)')
+      .select('id, type, content_locales (locale, title, creator, thumbnail_url)')
       .in('id', chunk) as unknown as PromiseLike<{
       data: WorkMetaRow[] | null
       error: { message: string } | null
@@ -200,6 +200,8 @@ async function fetchWorkMeta(contentIds: string[]): Promise<Map<string, WorkMeta
       title_en: en?.title ?? null,
       thumbnail_url: ko?.thumbnail_url ?? en?.thumbnail_url ?? null,
       thumbnail_en: en?.thumbnail_url ?? null,
+      creator: ko?.creator ?? en?.creator ?? null,
+      creator_en: en?.creator ?? null,
     })
   }
   return resolved
@@ -282,7 +284,6 @@ function toAxisLibraryWorks(
       content_id: contentId,
       ...meta,
       readerCount: readers.length,
-      readers: readers.slice(0, READER_PREVIEW_LIMIT),
     })
   }
   return works
@@ -338,7 +339,8 @@ async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
 
 const getCachedSpectrumAxisLibraries = unstable_cache(
   fetchSpectrumAxisLibraries,
-  ['spectrum-axis-libraries'],
+  // v3: 작가(creator·creator_en)를 붙이고 감상 인물 미리보기(readers)를 뺐다 — 담기는 모양이 바뀌면 키를 올린다
+  ['spectrum-axis-libraries-v3'],
   // celeb_persona 점수 + celeb_contents 감상 관계 + content_locales 메타.
   // 만료는 키마다 어긋나게 잡는다 — 성향 화면의 큰 캐시들이 한 시각에 같이 식으면 3초 제한에 걸린다
   {

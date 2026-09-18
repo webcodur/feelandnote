@@ -70,7 +70,7 @@ function CoverCard({
           </div>
           <div className="h-px bg-white/10" />
           <div className="p-1.5 pt-1.5 md:p-2">
-            <p className="line-clamp-1 text-center text-[10px] text-text-secondary md:text-xs">
+            <p className="line-clamp-1 text-center text-xs text-text-secondary">
               {item.rawCreator ?? " "}
             </p>
           </div>

@@ -60,7 +60,7 @@ export default function TimelineNode({
 
       {/* 번호 원 */}
       <div className={cn(
-        "absolute start-3 md:start-5 top-3 -translate-x-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[9px] md:text-[10px] font-bold z-10 border transition-colors",
+        "absolute start-3 md:start-5 top-3 -translate-x-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[11px] md:text-[11px] font-bold z-10 border transition-colors",
         isDragging
           ? "bg-accent/30 border-accent/60 text-accent"
           : "bg-[#141414] border-white/10 text-white/40"
@@ -99,14 +99,14 @@ export default function TimelineNode({
             {node.content.title}
           </h4>
           {node.content.creator && (
-            <p className="text-[11px] text-text-secondary/50 line-clamp-1 mt-0.5">
+            <p className="text-[11px] text-text-tertiary line-clamp-1 mt-0.5">
               {node.content.creator.replace(/\^/g, ", ")}
             </p>
           )}
 
           {/* 설명 (뷰 모드) */}
           {!isEditMode && node.description && (
-            <p className="text-[11px] text-white/30 line-clamp-2 mt-1.5 leading-relaxed italic">
+            <p className="text-[11px] text-text-tertiary line-clamp-2 mt-1.5 leading-relaxed italic">
               {node.description}
             </p>
           )}

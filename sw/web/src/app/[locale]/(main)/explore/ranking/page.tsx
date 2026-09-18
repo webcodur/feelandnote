@@ -7,10 +7,9 @@
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { getCategoryByDbType } from "@/constants/categories";
-import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
-import ExploreNav from "@/components/shared/ExploreNav";
-import RankingStage from "@/components/shared/RankingStage";
+import type { RankingNavRow } from "@/components/features/user/explore/figureRankingBoard/FigureRankingBoard";
+import FigureRankingBoard from "@/components/features/user/explore/figureRankingBoard/FigureRankingBoard";
 import { CONTENT_TYPES, TYPE_COLORS, getRankingHref, resolveRankingType } from "./constants";
 import { TopByTypeMedia } from "./sections";
 
@@ -44,47 +43,31 @@ export default async function TopByTypePage({ searchParams }: PageProps) {
     getTranslations("explore.topByType"),
   ]);
 
+  /* 매체 분류 — 칩 모양은 순위판이 정한다. 각 칩은 매체 고유색과 아이콘을 물려받고, 주소 이동(href) 항목이다 */
+  const navRows: RankingNavRow[] = [{
+    id: "type",
+    label: tr("metaTitle"),
+    wide: true,
+    items: CONTENT_TYPES.map((entry) => {
+      const Icon = getCategoryByDbType(entry)?.lucideIcon;
+      return {
+        id: entry,
+        name: tc(entry.toLowerCase()),
+        icon: Icon ? <Icon size={13} aria-hidden /> : undefined,
+        color: TYPE_COLORS[entry],
+        href: getRankingHref(entry),
+      };
+    }),
+    activeId: type,
+  }];
+
+  /* 화면 배치는 인물 순위판이 쥔다 — 기다리는 동안에도 같은 순위판이 선택기와 빈 무대를 먼저 세운다 */
   return (
-    <div className="space-y-8">
-      {/* 매체 분류 — 스펙트럼과 같은 공용 선택기(ExploreNav)의 알약 칩으로 고른다.
-          각 칩은 매체 고유색과 아이콘을 물려받고, 주소 이동(href) 항목이다 */}
-      <ExploreNav
-        rows={[{
-          id: "type",
-          label: tr("metaTitle"),
-          shape: "pill",
-          wide: true,
-          items: CONTENT_TYPES.map((entry) => {
-            const Icon = getCategoryByDbType(entry)?.lucideIcon;
-            return {
-              id: entry,
-              name: tc(entry.toLowerCase()),
-              icon: Icon ? <Icon size={13} aria-hidden /> : undefined,
-              color: TYPE_COLORS[entry],
-              href: getRankingHref(entry),
-            };
-          }),
-          activeId: type,
-        }]}
-      />
-      {/* 본문 무대 — 스펙트럼 축 무대와 같은 공용 프레임(RankingStage), 색만 매체색 */}
-      <RankingStage accent={TYPE_COLORS[type]}>
-        <div className="px-4 py-6 sm:px-6 md:px-10 md:py-10">
-          <Lane
-            key={type}
-            fallback={
-              <PendingBlock
-                variant="grid"
-                cols="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-                count={10}
-                label={t("loading")}
-              />
-            }
-          >
-            <TopByTypeMedia type={type} />
-          </Lane>
-        </div>
-      </RankingStage>
-    </div>
+    <Lane
+      key={type}
+      fallback={<FigureRankingBoard navRows={navRows} accent={TYPE_COLORS[type]} pendingLabel={t("loading")} />}
+    >
+      <TopByTypeMedia type={type} navRows={navRows} />
+    </Lane>
   );
 }

@@ -91,7 +91,7 @@ export function EmptyStageDropZone({ stageId }: { stageId: string }) {
             : "min-h-[60px] border-white/[0.04]"
         )}
       >
-        <span className="text-xs text-white/20">
+        <span className="text-xs text-text-tertiary">
           {isOver && isDragging ? t("dropHere") : t("dragGuide")}
         </span>
       </div>

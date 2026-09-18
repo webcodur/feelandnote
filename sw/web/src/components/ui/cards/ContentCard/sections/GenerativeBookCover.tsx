@@ -182,7 +182,7 @@ export default function GenerativeBookCover({
           <div className="flex flex-col items-center gap-1.5 bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 border border-white/10 shadow-lg">
             {ContentIcon && <ContentIcon size={iconSize} className="text-white/80" />}
             {label && (
-              <p className="text-[10px] font-medium text-white/90 text-center leading-snug">
+              <p className="text-[11px] font-medium text-white/90 text-center leading-snug">
                 {label}
               </p>
             )}

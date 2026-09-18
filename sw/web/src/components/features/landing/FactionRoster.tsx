@@ -47,7 +47,7 @@ export default function FactionRoster({
     >
       <header className="border-b border-white/10 px-4 py-3">
         <p
-          className="text-[10px] font-bold uppercase tracking-[0.16em]"
+          className="text-[11px] font-bold uppercase tracking-[0.16em]"
           style={{ color: accentColor }}
         >
           {rosterLabel}

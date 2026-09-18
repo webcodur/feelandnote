@@ -145,7 +145,7 @@ export default function MobileIndexModal({
             >
               <LibraryBig size={14} strokeWidth={1.7} aria-hidden />
               <span>{t("category.all")}</span>
-              <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
+              <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
                 {groups.reduce((total, group) => total + group.items.length, 0)}
               </span>
             </button>
@@ -173,7 +173,7 @@ export default function MobileIndexModal({
                 <span className="truncate">
                   {category ? t(`category.${category.id}`) : dbType}
                 </span>
-                <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
+                <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
                   {count}
                 </span>
               </button>

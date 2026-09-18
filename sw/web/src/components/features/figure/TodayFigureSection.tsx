@@ -145,11 +145,11 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                             />
                         </BlurDissolve>
                         {/* 콘텐츠 개수 뱃지 */}
-                        <div className="absolute -top-1 -right-1 z-20 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center bg-accent text-black text-[10px] font-bold rounded-full border-2 border-[#121212] shadow-lg">
+                        <div className="absolute -top-1 -right-1 z-20 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center bg-accent text-black text-[11px] font-bold rounded-full border-2 border-[#121212] shadow-lg">
                             {contents.length}
                         </div>
                         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-black/80 border border-white/10 rounded-full">
-                            <span className="text-[10px] font-bold text-accent tracking-wider uppercase">Today</span>
+                            <span className="text-[11px] font-bold text-accent tracking-wider uppercase">Today</span>
                         </div>
                     </div>
 

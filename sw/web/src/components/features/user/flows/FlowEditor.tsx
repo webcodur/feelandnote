@@ -188,7 +188,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
                 {/* 스테이지 헤더 */}
                 <div className="flex items-center gap-3 px-4 py-3">
                   <GripVertical size={16} className="text-white/30 cursor-grab" />
-                  <span className="text-xs font-bold text-accent/60 font-serif">{index + 1}</span>
+                  <span className="text-xs font-bold text-accent font-serif">{index + 1}</span>
                   <input
                     type="text"
                     value={stage.name}

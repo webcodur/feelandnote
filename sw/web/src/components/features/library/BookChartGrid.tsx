@@ -31,6 +31,13 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
       rank: item.rank,
       purchaseHref: item.purchase_url ?? item.source_url,
       isbn: item.isbn ?? undefined,
+      // 우리 DB에 없는 책이라 카드의 소개 뱃지는 차트가 준 소개문·서지를 그대로 띄운다
+      description: item.description,
+      metadata: {
+        publisher: item.publisher ?? undefined,
+        publishDate: item.published_date ?? undefined,
+        isbn: item.isbn ?? undefined,
+      },
     }]
     : []);
   const openItem = openId ? items.find((item) => item.id === openId) : undefined;
@@ -41,7 +48,6 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
         books={books}
         heading={t("chartTitle")}
         buyLabel={t("viewAtStore")}
-        detailLabel={t("detail.open")}
         platform={locale === "en" ? "amazon" : "yes24"}
         rankLabel={(rank) => t("rank", { rank })}
         onDetail={(book) => setOpenId(book.contentId)}

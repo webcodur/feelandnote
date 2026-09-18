@@ -31,7 +31,7 @@ function NavItem({ href, active, icon, label }: NavItemProps) {
       <div className={active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}>
         {icon}
       </div>
-      <span className={`text-[9px] font-serif tracking-tighter ${active ? "font-black" : "font-medium"}`}>{label}</span>
+      <span className={`text-[11px] font-serif tracking-tighter ${active ? "font-black" : "font-medium"}`}>{label}</span>
       <LinkPending className="absolute top-1 end-[22%]" />
     </Link>
   );

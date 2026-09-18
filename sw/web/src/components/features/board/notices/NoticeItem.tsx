@@ -46,11 +46,11 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
           <h3 className="flex items-center gap-2 text-[15px] sm:text-base font-serif font-medium text-text-primary group-hover:text-accent">
             <span className="truncate">{notice.title}</span>
             {scheduled ? (
-              <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded border border-accent/40 text-accent">
+              <span className="shrink-0 px-1.5 py-0.5 text-[11px] font-sans font-bold leading-none rounded border border-accent/40 text-accent">
                 {t('notice.scheduledBadge')}
               </span>
             ) : isNew(notice.created_at) && (
-              <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent text-bg-main">
+              <span className="shrink-0 px-1.5 py-0.5 text-[11px] font-sans font-bold leading-none rounded bg-accent text-bg-main">
                 N
               </span>
             )}

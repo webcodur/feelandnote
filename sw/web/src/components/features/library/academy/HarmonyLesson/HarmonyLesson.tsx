@@ -32,7 +32,7 @@ function DifficultyBadge({ difficulty }: { difficulty: keyof typeof DIFFICULTY_S
   const style = DIFFICULTY_STYLES[difficulty];
 
   return (
-    <span className={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${style.bg} ${style.border} ${style.text}`}>
+    <span className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${style.bg} ${style.border} ${style.text}`}>
       {t(difficulty)}
     </span>
   );
@@ -235,14 +235,14 @@ export default function HarmonyLesson({
           />
         ) : (
           <div className="text-center">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/40">Lesson 1/1</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">Lesson 1/1</span>
             <p className="text-sm font-bold tracking-[0.05em] text-[#d4af37]/80 sm:text-base">{lessonTitles[0]}</p>
           </div>
         )}
         {(isCompleted || savingLessonId === activeLesson.id) && (
           <div className="flex items-center justify-center gap-2 mt-1.5">
             {isCompleted && (
-              <span className="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300/80">
+              <span className="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
                 {t("lesson.completedBadge")}
               </span>
             )}
@@ -264,7 +264,7 @@ export default function HarmonyLesson({
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <DifficultyBadge difficulty={activeLesson.difficulty} />
               {isRecentLesson && (
-                <span className="rounded-full border border-[#d4af37]/20 bg-[#d4af37]/10 px-2 py-0.5 text-[10px] font-medium text-[#d4af37]/80">
+                <span className="rounded-full border border-[#d4af37]/20 bg-[#d4af37]/10 px-2 py-0.5 text-[11px] font-medium text-[#d4af37]">
                   {t("lesson.recentBadge")}
                 </span>
               )}
@@ -296,7 +296,7 @@ export default function HarmonyLesson({
               />
             ) : (
               <div className="text-center">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/40">Step 1/1</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-tertiary">Step 1/1</span>
                 <p className="text-sm font-bold tracking-[0.05em] text-[#d4af37]/80 sm:text-base">{stepTitles[0]}</p>
               </div>
             )}

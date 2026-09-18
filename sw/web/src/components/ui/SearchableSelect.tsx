@@ -94,7 +94,7 @@ export default function SearchableSelect({
             onClick={(e) => e.stopPropagation()}
           />
         ) : (
-          <span className={`flex-1 text-sm ${selectedOption ? "text-text-primary" : "text-text-secondary/50"}`}>
+          <span className={`flex-1 text-sm ${selectedOption ? "text-text-primary" : "text-text-tertiary"}`}>
             {selectedOption?.label || resolvedPlaceholder}
           </span>
         )}

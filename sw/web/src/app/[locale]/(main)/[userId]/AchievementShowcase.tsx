@@ -85,7 +85,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
                         <div className="font-serif font-black text-xs sm:text-xl leading-tight break-keep drop-shadow-sm line-clamp-2 min-h-[2em] sm:min-h-[2.5em] flex items-center justify-center">
                           {title.name}
                         </div>
-                        <div className={`text-[9px] sm:text-xs font-bold uppercase tracking-widest opacity-70 ${isRareOrAbove ? 'font-cinzel' : ''}`}>
+                        <div className={`text-[11px] sm:text-xs font-bold uppercase tracking-widest opacity-70 ${isRareOrAbove ? 'font-cinzel' : ''}`}>
                           {gradeConfig.label}
                         </div>
                       </div>
@@ -118,7 +118,7 @@ export default function ShowcaseSection({ showcaseCodes, titles, isOwner, isUpda
               <div key={`empty-${i}`} className="aspect-square rounded-lg bg-[#0a0a0a]/40 border border-[#333] flex flex-col items-center justify-center p-2 sm:p-4 relative overflow-hidden group/empty shadow-inner hover:border-[#d4af37]/30 hover:bg-[#0a0a0a]/60 transition-all duration-300">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4af37]/5 to-transparent opacity-0 group-hover/empty:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <Plus className="size-6 sm:size-8 text-[#333] group-hover/empty:text-[#d4af37] transition-all duration-300 mb-1 sm:mb-3 group-hover/empty:scale-110 group-hover/empty:rotate-90" />
-                <span className="text-[9px] sm:text-xs text-[#444] font-cinzel font-bold tracking-widest group-hover/empty:text-[#d4af37] transition-colors duration-300 uppercase">
+                <span className="text-[11px] sm:text-xs text-[#444] font-cinzel font-bold tracking-widest group-hover/empty:text-[#d4af37] transition-colors duration-300 uppercase">
                   Empty Niche
                 </span>
               </div>

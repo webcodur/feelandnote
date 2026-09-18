@@ -5,11 +5,15 @@ import { usePathname } from "@/i18n/navigation";
 import Header from "./header/Header";
 import BottomNav from "./BottomNav";
 import FloatingMusicPlayer from "./FloatingMusicPlayer";
+import SwipeRail from "./SwipeRail";
 import RecentProfilesSection from "@/components/features/profile/RecentProfilesSection";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
-  const isExplore = usePathname() === "/explore";
+  const pathname = usePathname();
+  const isExplore = pathname === "/explore";
+  // 인물 상세는 틀 안에 자기 여백과 좌측 목차 레일을 이미 두고 있다. 바깥 여백을 더 주지 않는다.
+  const isCeleb = pathname.startsWith("/celeb/");
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -38,7 +42,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <div className="absolute top-0 right-[-4px] w-[4px] h-full bg-gradient-to-l from-black/20 to-transparent hidden md:block"></div>
           </>}
 
-          <div data-main-content-region className="relative z-10 py-6 md:py-8">
+          {/* PC(xl+)에서는 틀 안쪽 좌우 150px을 비워 오른쪽 스와이프 판이 틀 안에 본문과 나란히 선다.
+              바깥 틀 폭은 그대로라 화면 전체 인상이 바뀌지 않는다. 인물 상세는 자기 여백이 있어 제외 */}
+          <div data-main-content-region className={`relative z-10 py-6 md:py-8 ${isCeleb ? "" : "xl:px-[150px]"}`}>
             {children}
           </div>
         </div>
@@ -46,6 +52,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       {isMobile && <BottomNav />}
       <FloatingMusicPlayer />
       {!isMobile && <RecentProfilesSection />}
+      {/* PC 오른쪽의 위아래 스와이프 막대. 게임 전체 화면과 짧은 화면은 스스로 물러난다 */}
+      {!isMobile && <SwipeRail celeb={isCeleb} />}
     </>
   );
 }

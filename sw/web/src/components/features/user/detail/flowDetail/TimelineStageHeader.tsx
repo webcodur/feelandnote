@@ -64,7 +64,7 @@ export default function TimelineStageHeader({
             {stage.name}
           </h3>
         )}
-        <span className="text-[10px] text-white/20 shrink-0 tabular-nums">
+        <span className="text-[11px] text-text-tertiary shrink-0 tabular-nums">
           {t("itemCount", { count: stage.nodes.length })}
         </span>
       </div>

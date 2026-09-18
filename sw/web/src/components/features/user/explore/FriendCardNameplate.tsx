@@ -149,7 +149,7 @@ export default function FriendCardNameplate({ friend, onClick, level, materialKe
           >
             {friend.nickname}
           </h3>
-          <p className="text-[10px] mt-0.5" style={{ color: mat.colors.text, opacity: 0.7 }}>
+          <p className="text-[11px] mt-0.5" style={{ color: mat.colors.text, opacity: 0.85 }}>
             {level ? mat.normalLevel : t("friend")}
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function FriendCardNameplate({ friend, onClick, level, materialKe
             {friend.content_count || 0}
           </span>
           <span
-            className="text-[8px] uppercase tracking-wider mt-1"
+            className="text-[11px] uppercase tracking-wider mt-1"
             style={{ color: mat.colors.text, opacity: 0.6 }}
           >
             {t("record")}

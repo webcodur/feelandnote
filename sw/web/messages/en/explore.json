@@ -353,28 +353,21 @@
       "metaDescription": "Top 10 rankings by books, movies, games, and music — discover who engages the most in each category.",
       "rank": "#{rank}",
       "count": "{count} items",
-      "sharedTitle": "Shared {media}",
-      "sharedDesc": "Sorted by how many figures enjoyed each work.",
-      "sharedBy": "Appreciated by",
-      "rankDesc": "Who enjoyed the most {media}",
-      "sharedCount": "{count}"
+      "rankDesc": "Who enjoyed the most {media}"
+    },
+    "rankingBoard": {
+      "shelfTitle": "Shared {media}",
+      "shelfTitleAll": "Shared Works",
+      "shelfDesc": "Works the figures above enjoyed"
     },
     "spectrum": {
       "metaTitle": "16-Axis Spectrum | Figures",
       "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition.",
       "groupNav": "Category",
       "axisNav": "Axis",
-      "axisLibrary": {
-        "heading": "Library of Temperament",
-        "sub": "Works shared by figures at the extremes of this axis",
-        "prevWork": "Previous work",
-        "nextWork": "Next work",
-        "dot": "Item {index} of {count}",
-        "highDisposition": "What {pole}-leaning figures shared",
-        "lowDisposition": "What {pole}-leaning figures shared",
-        "highMetric": "What top-{label} figures shared",
-        "lowMetric": "What low-{label} figures shared"
-      }
+      "shelfPole": "{pole}-leaning figures",
+      "rankDesc": "Figures with the highest {label} scores",
+      "rankDescPoles": "Figures at the far ends of {positive} and {negative}"
     },
     "timelinePage": {
       "metaTitle": "Celebrity Timeline by Country | Figures",

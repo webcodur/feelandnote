@@ -1,12 +1,14 @@
 "use client";
 
 import { getCelebProfileUrl } from "@/lib/url";
-import { useId } from "react";
-import { ArrowUpRight, BookOpenText, UserRound, type LucideIcon } from "lucide-react";
+import { useId, useState } from "react";
+import { ArrowUpRight, BookOpenText, Quote, UserRound, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythPerson, Myth, MythWork } from "@/actions/home/mythTypes";
 import { FormattedText } from "@/components/ui";
+import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
+import { useCelebVirtualMonologue } from "@/hooks/useCelebVirtualMonologue";
 import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
 import MythPortraitMedia, { type MythPortrait } from "./MythPortraitMedia";
 import MythSigilHeader, { DetailBackButton } from "./MythSigilHeader";
@@ -62,6 +64,10 @@ function IconLedParagraphs({ icon, label, text, emptyText }: { icon: LucideIcon;
 
 function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
   const t = useTranslations("explore.hub.myth");
+  const tCeleb = useTranslations("celebPage");
+  // 가상독백 — 인물을 고를 때 따로 받고, 없는 인물은 단추를 두지 않는다
+  const monologue = useCelebVirtualMonologue(person.id);
+  const [monologueOpen, setMonologueOpen] = useState(false);
   const appearance = person.appearances.find((item) => item.mythId === myth.id)?.summary ?? null;
   const lead = person.headline ?? person.summary;
 
@@ -84,9 +90,25 @@ function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
         )}
       </div>
 
-      <Link href={getCelebProfileUrl(person)} className="mt-8 inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent">
-        {t("openFigure")}<ArrowUpRight size={16} />
-      </Link>
+      <div className="mt-8 flex flex-wrap gap-2">
+        {monologue && (
+          <button
+            type="button"
+            onClick={() => setMonologueOpen(true)}
+            aria-haspopup="dialog"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <Quote size={16} aria-hidden />{tCeleb("virtualMonologue")}
+          </button>
+        )}
+        <Link href={getCelebProfileUrl(person)} className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent">
+          {t("openFigure")}<ArrowUpRight size={16} />
+        </Link>
+      </div>
+
+      {monologueOpen && monologue && (
+        <VirtualMonologueModal name={person.name} text={monologue} onClose={() => setMonologueOpen(false)} />
+      )}
     </div>
   );
 }

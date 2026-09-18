@@ -157,7 +157,6 @@ export default function FactionEntryView({ factionId, factionName, celebs, clust
             books={visibleBooks}
             heading={t("works")}
             buyLabel={isEn ? tCeleb("sourceWorkBuyAmazon") : tBooks("buy")}
-            detailLabel={tBooks("viewBookDetails")}
             platform={platform}
           />
           {hiddenBookCount > 0 && (

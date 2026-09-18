@@ -189,7 +189,7 @@ function ExpandIndexGroup({
               )}
             >
               <span>{label}</span>
-              <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
+              <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
                 {items.length}
               </span>
             </span>

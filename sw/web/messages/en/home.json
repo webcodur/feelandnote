@@ -64,7 +64,7 @@
         "composite": "Composite Score",
         "follower": "Followers",
         "influence": "Influence",
-        "content_count": "Most works",
+        "content_count": "Most records",
         "name_asc": "Name",
         "birth_date_desc": "Recent Birth",
         "birth_date_asc": "Oldest Birth",
@@ -180,28 +180,28 @@
         "real": "Fact",
         "fiction": "Fiction"
       },
-      "filterContentPresence": "Works",
+      "filterContentPresence": "Records",
       "contentPresence": {
         "all": "All",
-        "with": "With works",
-        "without": "Without works"
+        "with": "With records",
+        "without": "Without records"
       },
       "compactFilters": {
         "open": "Filters",
         "results": "Show results",
         "remove": "Remove {label}",
         "works": {
-          "all": "All works",
-          "with": "With works",
-          "without": "Without works"
+          "all": "All records",
+          "with": "With records",
+          "without": "Without records"
         }
       },
       "trends": {
         "country": "Trend country",
         "loading": "Loading trends...",
         "description": "Figures with rising search interest in {country} appear first.",
-        "unavailable": "Trends for this country are unavailable. Showing figures by most works instead.",
-        "noMatches": "No trending figures match these filters. Showing figures by most works instead.",
+        "unavailable": "Trends for this country are unavailable. Showing figures by most records instead.",
+        "noMatches": "No trending figures match these filters. Showing figures by most records instead.",
         "source": "Google Trends · Past {days, plural, one {# day} other {# days}}"
       }
     },

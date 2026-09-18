@@ -81,7 +81,7 @@ function PasswordChangeCard() {
         <div>
           <label className="text-xs text-text-secondary mb-1 block">{t("currentPassword")}</label>
           <div className="relative">
-            <input type={showCurrent ? "text" : "password"} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder={t("currentPasswordPlaceholder")} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+            <input type={showCurrent ? "text" : "password"} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder={t("currentPasswordPlaceholder")} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-tertiary" />
             <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute end-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary">
               {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
@@ -91,7 +91,7 @@ function PasswordChangeCard() {
         <div>
           <label className="text-xs text-text-secondary mb-1 block">{t("newPassword")}</label>
           <div className="relative">
-            <input type={showNew ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder={t("newPasswordPlaceholder")} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+            <input type={showNew ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder={t("newPasswordPlaceholder")} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 pe-10 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-tertiary" />
             <button type="button" onClick={() => setShowNew(!showNew)} className="absolute end-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary">
               {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
@@ -100,7 +100,7 @@ function PasswordChangeCard() {
 
         <div>
           <label className="text-xs text-text-secondary mb-1 block">{t("confirmPassword")}</label>
-          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder={t("confirmPasswordPlaceholder")} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-secondary/50" />
+          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder={t("confirmPasswordPlaceholder")} className="w-full h-10 bg-black/30 border border-accent/20 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-accent/50 placeholder:text-text-tertiary" />
           {confirmPassword && newPassword !== confirmPassword && (
             <p className="text-xs text-red-400 mt-1">{t("passwordNotMatch")}</p>
           )}
@@ -152,7 +152,7 @@ function DangerZoneCard() {
           </div>
           <div>
             <p className="text-xs text-text-secondary mb-2">{t("confirmInputGuide", { word: confirmText })}</p>
-            <input type="text" value={confirmInput} onChange={(e) => setConfirmInput(e.target.value)} placeholder={confirmText} className="w-full h-10 bg-black/30 border border-red-500/30 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-red-500/50 placeholder:text-text-secondary/50" />
+            <input type="text" value={confirmInput} onChange={(e) => setConfirmInput(e.target.value)} placeholder={confirmText} className="w-full h-10 bg-black/30 border border-red-500/30 rounded-sm px-3 text-sm text-text-primary outline-none focus:border-red-500/50 placeholder:text-text-tertiary" />
           </div>
           <div className="flex gap-3">
             <button onClick={() => { setShowConfirm(false); setConfirmInput(""); }} disabled={isDeleting} className="flex-1 px-4 py-2 text-sm text-text-secondary border border-border rounded-sm hover:bg-white/5">{t("cancel")}</button>

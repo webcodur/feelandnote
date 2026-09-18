@@ -15,7 +15,7 @@ export default function TitleBadge({ title, size = "sm" }: TitleBadgeProps) {
 
   const config = TITLE_GRADE_CONFIG[title.grade as TitleGrade];
   const sizeStyles = {
-    sm: "text-[10px] px-1.5 py-0.5",
+    sm: "text-[11px] px-1.5 py-0.5",
     md: "text-xs px-2 py-1",
   };
 

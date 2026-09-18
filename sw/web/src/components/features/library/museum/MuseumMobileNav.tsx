@@ -52,7 +52,7 @@ export default function MuseumMobileNav({ activeId, eras }: Props) {
               data-era-id={era.id}
               onClick={() => handleClick(era.id)}
               className={`
-                flex-shrink-0 flex items-center gap-1.5 text-[10px] sm:text-[11px] px-3 py-2 rounded-full
+                flex-shrink-0 flex items-center gap-1.5 text-[11px] px-3 py-2 rounded-full
                 transition-all duration-300 whitespace-nowrap
                 ${isActive
                   ? "text-[#d4af37] bg-[#d4af37]/15 font-semibold shadow-[0_0_8px_rgba(212,175,55,0.15)]"

@@ -1,7 +1,9 @@
 /*
   파일명: /components/features/user/explore/sections/SpectrumFullSection/SpectrumFullSection.tsx
   기능: 비범한 기록가 전체 보기
-  책임: spectrum 4그룹 탭 전환 + 축 네비게이션 + 축별 시상대·순위 표시.
+  책임: 고른 범주·축을 기억하고, 그 축의 극단값과 기질의 서재를 인물 순위판(FigureRankingBoard)의
+        content로 바꾼다. 화면 배치는 순위판이 쥔다 — 여기는 선택 상태와 변환만 한다.
+        덕목·능력 축은 시상대, 성향 축은 양극 매치업으로 넘긴다(반대 극 자료가 없으면 시상대).
 */ // ------------------------------
 
 "use client";
@@ -9,115 +11,134 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
-import type { SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
-import { GROUPS, AXIS_COLORS, AXIS_SHORT_LABELS } from "../../spectrumAxis";
-import ExploreNav, { type ExploreNavRow } from "@/components/shared/ExploreNav";
-import RankingStage from "@/components/shared/RankingStage";
-import AxisCard from "./sections/AxisCard";
-import AxisLibraryPanel from "./sections/AxisLibraryPanel";
-import DispositionCard from "./sections/DispositionCard";
+import type { AxisLibraryWork, SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
+import { getCelebProfileUrl } from "@/lib/url";
+import FigureRankingBoard, { type FigureRankingBoardContent } from "../../figureRankingBoard/FigureRankingBoard";
+import type { RankingShelfGroup } from "../../figureRankingBoard/RankingShelf";
+import { GROUPS, AXIS_COLORS, AXIS_SHORT_LABELS, getAxisSides } from "../../spectrumAxis";
+import { buildSpectrumNavRows } from "./navRows";
 
 interface SpectrumFullSectionProps {
   entries: SpectrumExtremeEntry[];
   libraries?: SpectrumAxisLibrary[];
 }
 
+const DISPOSITION_TAB = 3;
+
 export default function SpectrumFullSection({ entries, libraries = [] }: SpectrumFullSectionProps) {
   const locale = useLocale();
   const t = useTranslations("explore.spectrum");
+  const td = useTranslations("explore.ui.spectrumDistribution");
   const [activeTab, setActiveTab] = useState(0);
-  const [activeAxisIdx, setActiveAxisIdx] = useState(0);
+  const [activeAxis, setActiveAxis] = useState<string | null>(null);
 
   if (entries.length === 0) return null;
 
-  const entryMap = new Map(entries.map(e => [e.axis, e]));
-  const currentGroup = GROUPS[activeTab];
-  const currentEntries = currentGroup.keys
-    .map(k => entryMap.get(k))
-    .filter(Boolean) as SpectrumExtremeEntry[];
-
-  const isDispositions = activeTab === 3;
-  const activeEntry = currentEntries[activeAxisIdx];
-  if (!activeEntry) return null;
-
   const isEn = locale === "en";
-  const color = AXIS_COLORS[activeEntry.axis] ?? "#d4af37";
+  const entryMap = new Map(entries.map((e) => [e.axis as string, e]));
+  const groupKeys: readonly string[] = GROUPS[activeTab].keys;
+  /* 고른 축이 이 범주에 없으면(범주를 막 바꿨으면) 범주의 첫 축을 편다 */
+  const entry = (activeAxis && groupKeys.includes(activeAxis) ? entryMap.get(activeAxis) : undefined)
+    ?? groupKeys.map((key) => entryMap.get(key)).find(Boolean);
+  if (!entry) return null;
 
-  /* 범주·축 두 줄 — 신화 탐색·세력도감과 같은 공용 선택기(ExploreNav)의 네모 칩으로 고른다.
-     축 칩은 축 고유색을 물려받아 고른 칩이 그 색으로 그려진다 */
-  const navRows: ExploreNavRow[] = [
+  const color = AXIS_COLORS[entry.axis] ?? "#d4af37";
+  const isDisposition = activeTab === DISPOSITION_TAB;
+  const shortLabel = AXIS_SHORT_LABELS[entry.axis];
+  const chip = shortLabel ? (isEn ? shortLabel.en : shortLabel.ko) : undefined;
+  const [positivePole, negativePole] = getAxisSides(entry.label, locale);
+  const topPercent = (percentile: number) => td("topPercent", { percentile: percentile < 0.1 ? "<0.1" : percentile });
+
+  const runnersUp = entry.runnersUp.map((r) => ({
+    href: getCelebProfileUrl(r),
+    nickname: r.nickname,
+    nickname_en: r.nickname_en,
+    avatarUrl: r.avatar_url,
+    value: r.score,
+  }));
+  const champion = {
+    href: getCelebProfileUrl(entry.celeb),
+    nickname: entry.celeb.nickname,
+    nickname_en: entry.celeb.nickname_en,
+    avatarUrl: entry.celeb.avatar_url,
+    value: entry.score,
+    sub: topPercent(entry.percentile),
+    note: isEn ? entry.reason.en : entry.reason.ko,
+  };
+
+  const library = libraries.find((axisLibrary) => axisLibrary.axis === entry.axis);
+  const toWorks = (works: AxisLibraryWork[]) => works.map((work) => ({
+    contentId: work.content_id,
+    type: work.type,
+    title: isEn && work.title_en ? work.title_en : work.title,
+    creator: isEn && work.creator_en ? work.creator_en : work.creator,
+    thumbnail: isEn && work.thumbnail_en ? work.thumbnail_en : work.thumbnail_url,
+  }));
+  const shelfGroups: RankingShelfGroup[] = library ? [
     {
-      id: "group",
-      label: t("groupNav"),
-      shape: "square",
-      items: GROUPS.map((group, i) => ({ id: String(i), name: isEn ? group.en : group.ko })),
-      activeId: String(activeTab),
-      onSelect: (id) => { setActiveTab(Number(id)); setActiveAxisIdx(0); },
+      id: "high",
+      title: t("shelfPole", { pole: positivePole }),
+      accented: true,
+      works: toWorks(library.high),
     },
     {
-      id: "axis",
-      label: t("axisNav"),
-      shape: "square",
-      items: currentGroup.keys.flatMap((k, idx) => {
-        const e = entryMap.get(k);
-        if (!e) return [];
-        return [{
-          id: String(idx),
-          name: isEn ? (AXIS_SHORT_LABELS[k]?.en || e.label.en) : (AXIS_SHORT_LABELS[k]?.ko || e.label.ko),
-          color: AXIS_COLORS[k] ?? "#d4af37",
-        }];
-      }),
-      activeId: String((currentGroup.keys as readonly string[]).indexOf(activeEntry.axis)),
-      onSelect: (id) => { setActiveAxisIdx(Number(id)); },
+      id: "low",
+      title: t("shelfPole", { pole: negativePole }),
+      works: toWorks(library.low),
     },
-  ];
+  ].filter((group) => group.works.length > 0) : [];
 
-  /* 축 머리 칩은 짧은 축 이름이 있는 축(덕목·능력)만 단다 — 성향은 전체 라벨이 이미 두 극을 말한다 */
-  const shortLabel = AXIS_SHORT_LABELS[activeEntry.axis]
-    ? (isEn ? AXIS_SHORT_LABELS[activeEntry.axis].en : AXIS_SHORT_LABELS[activeEntry.axis].ko)
-    : null;
+  const content: FigureRankingBoardContent = {
+    head: {
+      chip,
+      title: isEn ? entry.label.en : entry.label.ko,
+      description: isDisposition
+        ? t("rankDescPoles", { positive: positivePole, negative: negativePole })
+        : t("rankDesc", { label: chip ?? (isEn ? entry.label.en : entry.label.ko) }),
+    },
+    ranking: isDisposition && entry.opposing
+      ? {
+          kind: "versus",
+          /* 왼쪽이 음극, 오른쪽이 양극. 음극 percentile은 「위에 있는 사람 비율」(극단자≈100)이라 표시용 상위%로 뒤집는다 */
+          left: {
+            chip: negativePole,
+            nickname: entry.opposing.celeb.nickname,
+            nickname_en: entry.opposing.celeb.nickname_en,
+            avatarUrl: entry.opposing.celeb.avatar_url,
+            value: entry.opposing.score,
+            sub: topPercent(Math.max(0, Math.min(100, 100 - entry.opposing.percentile))),
+            note: isEn ? entry.opposing.reason.en : entry.opposing.reason.ko,
+            href: getCelebProfileUrl(entry.opposing.celeb),
+          },
+          right: { chip: positivePole, ...champion },
+          restLabel: `${positivePole} ${td("runnersUp")}`,
+          rest: runnersUp,
+        }
+      : {
+          kind: "podium",
+          /* 시상대는 1위만 상위%·호칭을 담는다 */
+          items: [
+            { ...champion, subtitle: isEn ? (entry.celeb.title_en || entry.celeb.profession) : (entry.celeb.title || entry.celeb.profession) },
+            ...runnersUp,
+          ],
+        },
+    /* 서가의 제목·부제는 순위판이 정한다. 여러 매체가 섞여 매체 이름은 넘기지 않는다 */
+    shelf: shelfGroups.length > 0 ? { groups: shelfGroups } : undefined,
+    shelfFallback: (
+      <DeveloperCommerceFallback target={{ title: entry.label.ko.replace(" vs ", " "), type: "TOPIC" }} placement="spectrum-axis" />
+    ),
+  };
 
-  return (
-    <div className="space-y-8">
-      <ExploreNav rows={navRows} />
+  const navRows = buildSpectrumNavRows({
+    isEn,
+    labels: { group: t("groupNav"), axis: t("axisNav") },
+    activeTab,
+    activeAxis: entry.axis,
+    axisLabels: new Map(entries.map((e) => [e.axis as string, e.label])),
+    onSelectGroup: (tab) => { setActiveTab(tab); setActiveAxis(null); },
+    onSelectAxis: setActiveAxis,
+  });
 
-      {/* 무대 — 축 머리·시상대·순위를 한 프레임에 묶는다(공용 RankingStage, 축색 accent).
-          축이 바뀌면 무대를 새로 그린다 */}
-      <RankingStage key={activeEntry.axis} accent={color} className="animate-hero-fade-in">
-        <div className="relative px-4 py-6 sm:px-6 md:px-10 md:py-10">
-          {/* 축 머리 */}
-          <header className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1.5 text-center">
-            {shortLabel && (
-              <span
-                className="self-center rounded border px-1.5 py-0.5 text-[10px] font-black uppercase tracking-widest"
-                style={{ borderColor: `${color}55`, color }}
-              >
-                {shortLabel}
-              </span>
-            )}
-            <h2 className="font-serif text-2xl font-bold text-text-primary md:text-3xl">
-              {isEn ? activeEntry.label.en : activeEntry.label.ko}
-            </h2>
-          </header>
-
-          {/* 순위 — 덕목·능력은 시상대+순위 행, 성향은 양극 매치업+순위 행 */}
-          <div className="mt-8 md:mt-10">
-            {isDispositions
-              ? <DispositionCard entry={activeEntry} locale={locale} color={color} />
-              : <AxisCard entry={activeEntry} locale={locale} color={color} />
-            }
-          </div>
-        </div>
-      </RankingStage>
-
-      {/* 기질의 서재 — 이 축의 극단 집단이 공통으로 감상한 작품 */}
-      <AxisLibraryPanel
-        library={libraries.find((axisLibrary) => axisLibrary.axis === activeEntry.axis)}
-        entry={activeEntry}
-        isDisposition={isDispositions}
-        locale={locale}
-        color={color}
-      />
-    </div>
-  );
+  return <FigureRankingBoard navRows={navRows} accent={color} stageKey={entry.axis} content={content} />;
 }

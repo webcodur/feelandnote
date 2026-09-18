@@ -2,14 +2,14 @@
   파일명: /components/features/faction/entry/FactionMemberModal.tsx
   기능: 세력도감 인물 소개 모달
   책임: 카드를 누른 인물을 이 테마 안에서 소개한다 — 인물 상세와 같은 아바타 모듈(확대 보기·인사 음성), 테마·진영, 이름·직함,
-        테마에서의 역할과 긴 소개. 아래에는 이 인물 관련 책과 이 인물이 읽은 책을 탭으로 나눠, 인물 상세 「참고도서」와 같은 공통 상품 목록으로 보인다.
+        테마에서의 역할과 긴 소개, 가상독백(있는 인물만, 겹쳐 뜨는 읽기 모달). 아래에는 이 인물 관련 책과 이 인물이 읽은 책을 탭으로 나눠, 인물 상세 「참고도서」와 같은 공통 상품 목록으로 보인다.
         좁은 화면은 머리의 값(뱃지·이름·직함·역할·링크)을 가운데 두고, 긴 소개 본문만 왼쪽 정렬한다.
 */ // ------------------------------
 
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Quote } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { getPublicCelebContents } from "@/actions/contents/getUserContents";
 import { getFigureBookPurchasePlatform, pickPurchaseEdition } from "@/actions/figure-books/figureBookLocale";
@@ -19,12 +19,14 @@ import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFa
 import AffiliateBookList from "@/components/shared/AffiliateBookList";
 import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
+import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import Modal from "@/components/ui/Modal";
 import { RetryBlock } from "@/components/ui/pending";
 import { getBookStorePlatform } from "@/constants/affiliatePlatforms";
+import { useCelebVirtualMonologue } from "@/hooks/useCelebVirtualMonologue";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
 import { Link } from "@/i18n/navigation";
 import { getEnglishBookAmazonUrl } from "@/lib/books/amazonBookSearch";
@@ -75,6 +77,9 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
   const [attempt, setAttempt] = useState(0);
   const [tab, setTab] = useState<BookTab | null>(null);
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [monologueOpen, setMonologueOpen] = useState(false);
+  // 가상독백 — 인물 단위로 따로 받고, 없는 인물은 단추를 두지 않는다
+  const monologue = useCelebVirtualMonologue(celeb.id);
 
   const name = (isEn && celeb.nickname_en) || celeb.nickname;
   const title = (isEn && celeb.title_en) || celeb.title;
@@ -244,7 +249,18 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
               </>
             )}
 
-            <div className="mt-5 flex justify-center md:justify-start">
+            <div className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start">
+              {monologue && (
+                <button
+                  type="button"
+                  onClick={() => setMonologueOpen(true)}
+                  aria-haspopup="dialog"
+                  className="effect-bevel inline-flex items-center gap-1.5 rounded-md border border-accent/45 bg-accent/10 px-3.5 py-2 text-sm font-semibold text-accent outline-none hover:border-accent hover:bg-accent/20 focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <Quote size={14} aria-hidden />
+                  {tCeleb("virtualMonologue")}
+                </button>
+              )}
               <Link
                 href={getCelebProfileUrl({ id: celeb.id, slug: celeb.slug })}
                 prefetch={false}
@@ -304,7 +320,6 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
               books={list}
               heading={t(activeTab)}
               buyLabel={isEn ? tCeleb("sourceWorkBuyAmazon") : tBooks("buy")}
-              detailLabel={tBooks("viewBookDetails")}
               platform={platform}
               hideHeading
             />
@@ -314,6 +329,9 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
 
       {celeb.avatar_url && (
         <ImageViewerModal src={celeb.avatar_url} alt={name} isOpen={zoomOpen} onClose={() => setZoomOpen(false)} />
+      )}
+      {monologueOpen && monologue && (
+        <VirtualMonologueModal name={name} text={monologue} onClose={() => setMonologueOpen(false)} nested />
       )}
     </Modal>
   );

@@ -9,6 +9,9 @@
     1. 뉴스  — 최근 48시간 제목 언급이 임계 이상인 인물 중 최다. 최근 재등장은 막는다
     2. 생일  — 오늘이 생일인 인물 중 기록이 많은 순(5건 이상 우선)
     3. 시드  — 날짜 시드로 고정 선택
+
+  세 갈래 모두 추천 노출 제외 인물(shared/constants/celeb-feature-exclusion.ts)은 후보에서 뺀다.
+  뉴스 규칙은 화제도만 보므로 독재자가 뉴스에 오르면 그대로 세웠다(26.09.18 시진핑).
 */
 
 import { NextResponse } from 'next/server'
@@ -16,6 +19,7 @@ import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/s
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { countRecentTitleMentions } from '@feelandnote/content-search/naver-news'
 import { getKSTDateKey } from '@/lib/game/date-seed'
+import { fetchFeatureExcludedCelebIds } from '@/lib/celeb-feature-exclusion'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 /* 뉴스 조회를 후보 수만큼 이어 부르므로 기본 상한(10초)으로는 모자란다 */
@@ -75,6 +79,7 @@ async function countPublicContents(
 async function pickNewsCeleb(
   db: DatabaseClient,
   today: string,
+  excluded: ReadonlySet<string>,
 ): Promise<{ id: string; mentions: number } | null> {
   /* 생존 인물이 1,500명을 넘어 한 번에 받으면 1,000명에서 잘린다 — 나눠 받는다 */
   const rows = await selectAllPages<{ id: string; nickname: string }>((from, to) => db
@@ -96,9 +101,9 @@ async function pickNewsCeleb(
     .from('daily_figures')
     .select('celeb_id')
     .gte('date', since)
-  const excluded = new Set((recent ?? []).map((r) => (r as { celeb_id: string }).celeb_id))
+  const recentIds = new Set((recent ?? []).map((r) => (r as { celeb_id: string }).celeb_id))
 
-  const fresh = rows.filter((r) => !excluded.has(r.id))
+  const fresh = rows.filter((r) => !recentIds.has(r.id) && !excluded.has(r.id))
   if (fresh.length === 0) return null
 
   // 기록이 많은 순으로 후보를 자른다(동수는 id 순으로 고정)
@@ -128,7 +133,11 @@ async function pickNewsCeleb(
 }
 
 /** 오늘 생일인 인물 중 기록이 많은 한 명. 없으면 null */
-async function pickBirthdayCeleb(db: DatabaseClient, today: string): Promise<string | null> {
+async function pickBirthdayCeleb(
+  db: DatabaseClient,
+  today: string,
+  excluded: ReadonlySet<string>,
+): Promise<string | null> {
   const monthDay = today.slice(5) // "MM-DD"
 
   const { data } = await db
@@ -139,7 +148,7 @@ async function pickBirthdayCeleb(db: DatabaseClient, today: string): Promise<str
     .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .like('birth_date', `%-${monthDay}`)
 
-  const ids = ((data ?? []) as { id: string }[]).map((c) => c.id)
+  const ids = ((data ?? []) as { id: string }[]).map((c) => c.id).filter((id) => !excluded.has(id))
   if (ids.length === 0) return null
 
   const counts = await countPublicContents(db, ids)
@@ -170,15 +179,17 @@ export async function GET(request: Request) {
   let source: 'news' | 'birthday' | 'seed'
   let newsCount = 0
 
+  const excluded = await fetchFeatureExcludedCelebIds(db)
+
   // 1. 뉴스 — 오늘 실제로 화제인 사람
-  const news = await pickNewsCeleb(db, today)
+  const news = await pickNewsCeleb(db, today, excluded)
   if (news) {
     selectedId = news.id
     source = 'news'
     newsCount = news.mentions
   } else {
     // 2. 생일
-    const birthday = await pickBirthdayCeleb(db, today)
+    const birthday = await pickBirthdayCeleb(db, today, excluded)
     if (birthday) {
       selectedId = birthday
       source = 'birthday'
@@ -186,13 +197,13 @@ export async function GET(request: Request) {
       // 3. 시드
       // 신화·관계 인물은 목록에서 제외한다. 활성 인물이 3천 명을 넘어 나눠 받고,
       // 시드가 날마다 같은 사람을 짚도록 id로 줄을 고정한다(전에는 DB가 내주는 순서대로 앞 1,000명만 받았다)
-      const pool = await selectAllPages<{ id: string }>((from, to) => db
+      const pool = (await selectAllPages<{ id: string }>((from, to) => db
         .from('celebs')
         .select('id')
         .eq('publication_status', 'active')
         .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
         .order('id', { ascending: true })
-        .range(from, to))
+        .range(from, to))).filter((c) => !excluded.has(c.id))
       if (pool.length === 0) {
         return NextResponse.json({ message: 'No celebs found' })
       }

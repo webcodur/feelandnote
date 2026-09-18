@@ -104,7 +104,7 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                                             <p className="text-xs line-clamp-2 w-full leading-relaxed">
                                                 {item.description}
                                             </p>
-                                            <div className="flex items-center gap-2 text-[10px] mt-1">
+                                            <div className="flex items-center gap-2 text-[11px] mt-1">
                                                 <span className="font-medium">{item.bloggerName}</span>
                                                 <span>•</span>
                                                 <span>{item.postDate}</span>

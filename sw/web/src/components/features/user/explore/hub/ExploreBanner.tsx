@@ -129,7 +129,7 @@ export default function ExploreBanner() {
               {hubTitle}
             </div>
             {hubEnglish.toLowerCase() !== hubTitle.toLowerCase() && (
-              <p className="text-[#d4af37] tracking-[0.3em] text-[10px] mt-1.5 uppercase font-cinzel text-center">
+              <p className="text-[#d4af37] tracking-[0.3em] text-[11px] mt-1.5 uppercase font-cinzel text-center">
                 {hubEnglish}
               </p>
             )}

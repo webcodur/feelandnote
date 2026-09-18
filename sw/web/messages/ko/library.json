@@ -453,8 +453,7 @@
         "rating": "평점 {score}",
         "introduction": "책 소개",
         "source": "정보 제공: 예스24",
-        "failed": "책 정보를 불러오지 못했습니다.",
-        "open": "책 정보"
+        "failed": "책 정보를 불러오지 못했습니다."
       }
     }
   }

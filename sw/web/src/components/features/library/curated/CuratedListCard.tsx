@@ -82,7 +82,7 @@ export default function CuratedListCard({
       {/* ── 1. 카드 상단: 공식 아카이브 인덱스 & 기관 헤더 ── */}
       <div className="relative space-y-2.5">
         {/* 상단 마이크로 밴드: 영문 기관/학술명 + 편수 칩 */}
-        <div className="flex items-center justify-between gap-2 text-[10px] tracking-wider text-text-tertiary">
+        <div className="flex items-center justify-between gap-2 text-[11px] tracking-wider text-text-tertiary">
           <div className="flex min-w-0 items-center gap-1.5 font-mono uppercase">
             <span
               className="inline-block size-1.5 rounded-full"
@@ -94,7 +94,7 @@ export default function CuratedListCard({
           </div>
 
           <span
-            className="shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold"
+            className="shrink-0 rounded-full px-2 py-0.5 font-mono text-[11px] font-semibold"
             style={{
               backgroundColor: `${brand.primary}55`,
               color: brand.accent,
@@ -174,7 +174,7 @@ export default function CuratedListCard({
               {list.topics.map((topic) => (
                 <span
                   key={topic}
-                  className="rounded bg-white/[0.04] px-1.5 py-0.5 text-[10px] text-text-tertiary group-hover:text-text-secondary"
+                  className="rounded bg-white/[0.04] px-1.5 py-0.5 text-[11px] text-text-tertiary group-hover:text-text-secondary"
                 >
                   {t.has(`topicLabel.${topic}`) ? t(`topicLabel.${topic}`) : topic}
                 </span>

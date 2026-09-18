@@ -54,7 +54,7 @@ export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvat
   return (
     <div className="relative size-full">
       {!src && (
-        <div className="flex size-full items-center justify-center text-[10px] font-bold text-text-secondary">
+        <div className="flex size-full items-center justify-center text-[11px] font-bold text-text-secondary">
           {initials(name)}
         </div>
       )}

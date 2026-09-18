@@ -86,7 +86,9 @@
       "salePoint": "판매지수",
       "pages": "쪽수",
       "pageCount": "{count}쪽",
-      "published": "출간일"
+      "published": "출간일",
+      "changed": "상품 확인중",
+      "changedNotice": "YES24에서 이 판본의 판매가 중단되었거나 상품 정보가 바뀌었습니다. 개정판이 나온 경우 서점 페이지에서 새 판본을 확인해 주세요."
     }
   },
   "contentDetail": {

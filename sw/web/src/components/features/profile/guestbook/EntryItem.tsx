@@ -72,7 +72,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-[10px] font-sans">
+              <div className="w-full h-full flex items-center justify-center text-[11px] font-sans">
                 {(entry.author.nickname ?? "?")[0]}
               </div>
             )}
@@ -85,7 +85,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
             <span className={cn("font-sans font-medium text-text-primary", isCeleb ? "text-[13px]" : "text-xs")}>
               {entry.author.nickname ?? "Anonymous"}
             </span>
-            <span className={cn("font-mono text-text-secondary/60", isCeleb ? "text-[11px]" : "text-[10px]")}>
+            <span className={cn("font-mono text-text-tertiary", "text-[11px]")}>
               {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko })}
             </span>
             {entry.is_private && (

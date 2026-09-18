@@ -58,7 +58,7 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
             sizes="36px"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[8px] text-white/20">
+          <div className="w-full h-full flex items-center justify-center text-[11px] text-white/20">
             {item.content.title.slice(0, 4)}
           </div>
         )}
@@ -70,7 +70,7 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
           <NoEditionBadge badge={item.content.title_badge} />
           {item.content.title}
         </p>
-        <p className="text-[10px] text-text-secondary/50 truncate">{item.content.creator}</p>
+        <p className="text-[11px] text-text-tertiary truncate">{item.content.creator}</p>
       </div>
     </div>
   );

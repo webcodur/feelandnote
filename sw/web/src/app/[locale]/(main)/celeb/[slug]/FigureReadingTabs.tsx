@@ -96,7 +96,7 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {
             </NarrationButton>
             <NarrationButton label={t("readingBack")} onClick={() => seek(currentTime - 10)} disabled={currentTime <= 0}>
               <RotateCcw size={14} strokeWidth={1.6} aria-hidden />
-              <span className="text-[10px] font-medium leading-none tabular-nums">10</span>
+              <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
             </NarrationButton>
             <NarrationButton
               label={active ? t("readingPause") : status === "paused" ? t("readingResume") : t("readingPlay")}
@@ -108,7 +108,7 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {
             </NarrationButton>
             <NarrationButton label={t("readingForward")} onClick={() => seek(currentTime + 10)} disabled={currentTime >= duration}>
               <RotateCw size={14} strokeWidth={1.6} aria-hidden />
-              <span className="text-[10px] font-medium leading-none tabular-nums">10</span>
+              <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
             </NarrationButton>
             <select
               aria-label={t("readingSpeed")}
@@ -120,7 +120,7 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {
               {READING_PLAYBACK_RATES.map((rate) => <option className="bg-bg-card" key={rate} value={rate}>{rate}×</option>)}
             </select>
           </div>
-          <div className="mt-1.5 flex items-center gap-2 text-[10px] tabular-nums text-text-secondary">
+          <div className="mt-1.5 flex items-center gap-2 text-[11px] tabular-nums text-text-secondary">
           <span className="min-w-7">{formatTime(currentTime)}</span>
           <input
             type="range" min={0} max={duration} step={0.1}

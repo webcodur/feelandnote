@@ -143,7 +143,7 @@ export default function CelebCard({
             )}
             {isCard && realityLabel && (
               <span
-                className="absolute bottom-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] z-20 flex h-[clamp(17px,13cqw,24px)] items-center rounded-full border border-white/15 bg-black/70 px-[clamp(4px,2cqw,8px)] text-[clamp(9px,6.5cqw,12px)] font-bold leading-none text-white/75 group-hover:border-white/35 group-hover:text-white"
+                className="absolute bottom-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] z-20 flex h-[clamp(17px,13cqw,24px)] items-center rounded-full border border-white/15 bg-black/70 px-[clamp(4px,2cqw,8px)] text-[clamp(11px,6.5cqw,12px)] font-bold leading-none text-white/75 group-hover:border-white/35 group-hover:text-white"
                 title={realityLabel}
               >
                 {realityLabel}
@@ -155,7 +155,7 @@ export default function CelebCard({
             <div className={`mt-1.5 w-full rounded-md px-0.5 py-0.5 text-center ${emphasize ? "group-hover:bg-white/[0.06]" : ""}`}>
               <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
               {displayTitle && (
-                <p className={`text-[10px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400/80"} truncate leading-tight mt-0.5`}>{displayTitle}</p>
+                <p className={`text-[11px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400"} truncate leading-tight mt-0.5`}>{displayTitle}</p>
               )}
             </div>
           ) : isCircle ? (
@@ -184,7 +184,7 @@ export default function CelebCard({
               onClick={() => setIsViewsOpen(true)}
               aria-label={`${displayNickname} · ${t("viewsBadge", { count: badgeViews })}`}
               title={t("viewsBadge", { count: badgeViews })}
-              className="absolute bottom-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-20 pointer-events-auto flex items-center gap-[clamp(2px,1cqw,4px)] h-[clamp(17px,13cqw,24px)] px-[clamp(4px,2cqw,8px)] rounded-full bg-black/70 border border-white/15 text-white/75 text-[clamp(9px,6.5cqw,12px)] hover:bg-white hover:border-white hover:text-black outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="absolute bottom-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-20 pointer-events-auto flex items-center gap-[clamp(2px,1cqw,4px)] h-[clamp(17px,13cqw,24px)] px-[clamp(4px,2cqw,8px)] rounded-full bg-black/70 border border-white/15 text-white/75 text-[clamp(11px,6.5cqw,12px)] hover:bg-white hover:border-white hover:text-black outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <Eye className="shrink-0 opacity-70 w-[clamp(8px,6cqw,14px)] h-[clamp(8px,6cqw,14px)]" />
               <span className="font-bold leading-none tabular-nums">{badgeViews}</span>
