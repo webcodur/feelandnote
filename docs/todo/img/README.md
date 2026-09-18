@@ -8,6 +8,7 @@
 | [`hero-photo.md`](hero-photo.md) | 아바타·대표 사진이 둘 다 없는 인물의 화보. 아바타를 먼저 만들고 그 얼굴로 화보를 찍는다 |
 | [`hero-avatar-grok.md`](hero-avatar-grok.md) | 위 화보의 1단계 아바타를 Grok 웹으로 뽑는 실행서 |
 | [`avatar-backlog.md`](avatar-backlog.md) | 아바타가 없어 공개하지 못하는 인물의 명단과 권역별 얼굴·복식 지침 |
+| [`avatar-normalize.md`](avatar-normalize.md) | 아바타 정규화 미결분 — 얼굴 미검출 5명 수동 크롭만 남았다(2026-09-18 재회차·누끼·가장자리찬 회수 완료). 별도로 누끼 검토 후보 156명 감사 |
 
 ## 다른 문서에 섞인 이미지 일
 

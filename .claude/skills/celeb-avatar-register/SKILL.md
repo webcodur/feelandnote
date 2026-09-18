@@ -15,6 +15,7 @@ description: 셀럽 아바타의 신원을 확인하고 얼굴 크롭을 검수�
 - 일괄 등록: `sw/web-bo/scripts/avatar/batch.ts`
 - 단건 등록·교체: `sw/web-bo/scripts/avatar/upload.ts`
 - 출처 로그: `sw/web-bo/scripts/avatar/credits.log`
+- 등록된 아바타의 정수리·쇄골 구도 통일: `celeb-avatar-reframe` 스킬
 
 문서에 기하 숫자나 스크립트 기본값을 복제하지 않는다. 실제 값과 허용 인자는 코드를 따른다.
 
@@ -76,6 +77,20 @@ npx tsx scripts/avatar/upload.ts \
 - 사람이 이미 규격에 맞춘 완성 정사각을 그대로 등록해야 할 때만 `--face-detect false --crop-gravity center`를 쓴다.
 
 얼굴 검출을 우회한 결과는 기하 합격으로 간주하지 않고 직접 비교한다. 원본 여백 부족, 상자 기반 폴백, 중심축 이탈 등 스크립트 경고도 무시하지 않는다.
+
+## 등록의 마지막 단계 — 정규화
+
+이 스킬의 크롭은 원본에서 얼굴을 잘라내는 1차 규격이다. 서비스에 보이는 최종 구도와 빛 방향은 `celeb-avatar-reframe`가 맞추며, **등록은 재배치·재등록까지 끝내야 완료다**. 별도 회차로 미루지 않는다 — 등록·교체 배치마다 그 배치의 명단으로 아래를 이어 실행한다.
+
+```bash
+node scripts/avatar/pull-avatars.mjs --slugs <이번 배치 slug들>
+npx tsx scripts/avatar/light-unify.ts <내려받기 폴더> <폴더>-lit
+npx tsx scripts/avatar/reframe.ts <폴더>-lit <폴더>-reframed --sheet
+# 대조 시트를 눈으로 검수한 뒤
+npx tsx scripts/avatar/upload-reframed.ts <폴더>-reframed
+```
+
+배경이 남은 아바타는 먼저 `nobg-cutout`을 거친다. 모피·갈기·큰 머리처럼 소재가 프레임 가장자리에 닿아 `실루엣 없음`이나 미검출로 건너뛰는 인물은 투명 패딩을 붙여 다시 돌린다 — 절차와 판정은 `celeb-avatar-reframe` 스킬을 따른다.
 
 ## 검수와 보고
 
