@@ -51,7 +51,7 @@ export default function FilterChip({
           {icon ? (
             <span className={isActive ? 'text-accent opacity-90' : ' opacity-60'}>{icon}</span>
           ) : (
-            <span className={`text-[9px] uppercase font-sans font-bold tracking-wide leading-none text-center ${isActive ? 'text-accent opacity-90' : ' opacity-60'}`}>
+            <span className={`text-[11px] uppercase font-sans font-bold tracking-wide leading-none text-center ${isActive ? 'text-accent' : 'text-text-secondary'}`}>
               {label}
             </span>
           )}

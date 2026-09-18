@@ -55,7 +55,7 @@ export default function RankCardList({
                   <User size={18} className="text-white/20" aria-hidden />
                 </span>
               )}
-              <span className="absolute bottom-0 left-0 flex h-5 min-w-5 items-center justify-center rounded-tr-md bg-black/70 px-1 font-cinzel text-[10px] font-black text-white/90">
+              <span className="absolute bottom-0 left-0 flex h-5 min-w-5 items-center justify-center rounded-tr-md bg-black/70 px-1 font-cinzel text-[11px] font-black text-white/90">
                 {String(startRank + i).padStart(2, "0")}
               </span>
             </span>
@@ -65,14 +65,14 @@ export default function RankCardList({
                   {name}
                 </span>
                 {item.subtitle && (
-                  <span className="mt-0.5 block truncate text-[11px] leading-tight text-text-tertiary sm:text-xs">
+                  <span className="mt-0.5 block truncate text-xs leading-tight text-text-secondary sm:text-[13px]">
                     {item.subtitle}
                   </span>
                 )}
               </span>
               <span className="shrink-0 font-cinzel text-base font-black tabular-nums sm:text-lg" style={{ color: accent }}>
                 {item.value}
-                {item.unit && <span className="ml-0.5 font-sans text-[10px] font-medium text-text-tertiary">{item.unit}</span>}
+                {item.unit && <span className="ml-0.5 font-sans text-xs font-medium text-text-secondary sm:text-[13px]">{item.unit}</span>}
               </span>
             </span>
           </Link>

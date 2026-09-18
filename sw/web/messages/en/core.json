@@ -136,6 +136,12 @@
         "deny": "Deny"
       },
       "gameLyricsNotice": "Tracks with Korean lyrics will also be released in English versions."
+    },
+    "swipeRail": {
+      "label": "Drag to move up and down",
+      "settings": "Swipe settings",
+      "sensitivity": "Sensitivity",
+      "sensitivityNote": "How far the page moves per pixel of drag."
     }
   },
   "pages": {
@@ -862,7 +868,6 @@
   "popularBooks": {
     "title": "Most Read Books",
     "buyOnCoupang": "Buy on Coupang",
-    "viewBookDetails": "Book details",
     "headingRead": "Books this figure read",
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",

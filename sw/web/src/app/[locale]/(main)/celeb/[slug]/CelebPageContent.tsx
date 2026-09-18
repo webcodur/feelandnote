@@ -21,7 +21,6 @@ import type { Locale } from "@/types/locale";
 import styles from "./CelebPageContent.module.css";
 import CelebHeroSection from "./detail/CelebHeroSection";
 import CelebRecordSections from "./detail/CelebRecordSections";
-import CelebSwipeRail from "./CelebSwipeRail";
 import {
   useCelebServiceModel,
   type CelebSideAvailability,
@@ -84,7 +83,9 @@ export default function CelebPageContent({
   });
   useSectionViewTracking(contentRef);
 
-  /* ── 2. 아틀라스 위치 실측 ── */
+  /* ── 2. 아틀라스 위치 실측 ──
+     좌측 목차 레일이 이 변수로 자리를 잡고, 전역 스와이프 막대(layout/SwipeRail)도
+     같은 변수를 읽어 오른쪽 대칭 자리에 선다. */
   useEffect(() => {
     const page = contentRef.current;
     const mainRegion = page?.closest<HTMLElement>("[data-main-content-region]");
@@ -158,8 +159,6 @@ export default function CelebPageContent({
         widestLabel={serviceModel.widestSectionLabel}
         externalLinksSlot={externalLinksSlot}
       />
-
-      <CelebSwipeRail />
 
       <CelebRecordSections
         profile={profile}

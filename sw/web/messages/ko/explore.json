@@ -353,28 +353,21 @@
       "metaDescription": "책·영화·게임·음악 분야별 가장 왕성한 감상을 남긴 인물 Top 10 랭킹.",
       "rank": "{rank}위",
       "count": "{count}개 감상",
-      "sharedTitle": "감상 {media}",
-      "sharedDesc": "함께 감상한 인물이 많은 순입니다.",
-      "sharedBy": "감상한 인물",
-      "rankDesc": "{media}를 가장 많이 감상한 인물",
-      "sharedCount": "{count}명"
+      "rankDesc": "{media}를 가장 많이 감상한 인물"
+    },
+    "rankingBoard": {
+      "shelfTitle": "감상 {media}",
+      "shelfTitleAll": "감상 작품",
+      "shelfDesc": "위 인물들이 감상한 작품들"
     },
     "spectrum": {
       "metaTitle": "16축 스펙트럼 | 인물",
       "metaDescription": "역량·덕목·성향 16개 축에서 두드러지는 인물을 살펴보세요.",
       "groupNav": "범주",
       "axisNav": "축",
-      "axisLibrary": {
-        "heading": "기질의 서재",
-        "sub": "이 축의 극단에 선 인물들이 함께 감상한 작품",
-        "prevWork": "이전 작품",
-        "nextWork": "다음 작품",
-        "dot": "{index}번째 / 전체 {count}개",
-        "highDisposition": "{pole} 쪽 기록가들의 공통 감상작",
-        "lowDisposition": "{pole} 쪽 기록가들의 공통 감상작",
-        "highMetric": "{label} 상위 기록가들의 공통 감상작",
-        "lowMetric": "{label} 하위 기록가들의 공통 감상작"
-      }
+      "shelfPole": "{pole} 쪽 인물",
+      "rankDesc": "{label} 점수가 가장 높은 인물",
+      "rankDescPoles": "{positive}·{negative} 양 끝에 선 인물"
     },
     "timelinePage": {
       "metaTitle": "국가별 셀럽 연대기 | 인물",

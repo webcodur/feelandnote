@@ -48,7 +48,7 @@ const ACTIVE_SUBTLE_PILL =
 
 // 전체 모드용 절반 농도 pill — 선택 상태의 절반 느낌으로만 살짝 깔아준다
 const FAINT_ALL_PILL =
-  "text-accent/60 bg-accent/[0.07] border border-accent/20 font-medium";
+  "text-accent bg-accent/[0.07] border border-accent/20 font-medium";
 
 export function CategoryTabFilter<T extends string>({
   options,

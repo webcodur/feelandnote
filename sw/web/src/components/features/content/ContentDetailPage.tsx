@@ -120,7 +120,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           <AccordionSection
             title={t("fictionCharacters")}
             badge={(
-              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[10px] text-accent">
+              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[11px] text-accent">
                 {t("fictionCharactersCount", { count: fictionCharacters.length })}
               </span>
             )}
@@ -135,7 +135,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           <AccordionSection
             title={tCurated("onContent.title")}
             badge={(
-              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[10px] text-accent">
+              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[11px] text-accent">
                 {tCurated("onContent.badge", { count: curatedEntries.length })}
               </span>
             )}
@@ -168,7 +168,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
         {userRecord && isLoggedIn && (
           <AccordionSection
             title={t("myNote")}
-            badge={<span className="text-[10px] bg-white/5 px-1.5 py-0.5 rounded">{t("private")}</span>}
+            badge={<span className="text-[11px] bg-white/5 px-1.5 py-0.5 rounded">{t("private")}</span>}
             defaultOpen={false}
           >
             <MyNoteSection contentId={content.id} />

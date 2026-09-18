@@ -38,7 +38,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                                 className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500"
                             />
                             {/* 콘텐츠 개수 뱃지 */}
-                            <div className="absolute -top-1 -right-1 z-20 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center bg-accent text-black text-[10px] font-bold rounded-full border-2 border-[#121212] shadow-lg">
+                            <div className="absolute -top-1 -right-1 z-20 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center bg-accent text-black text-[11px] font-bold rounded-full border-2 border-[#121212] shadow-lg">
                                 {contentCount}
                             </div>
                         </div>

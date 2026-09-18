@@ -90,7 +90,7 @@ export default function Book3D({
                   ))}
                 </h2>
                 <div className="w-8 h-[2px] my-3" style={{ backgroundColor: `${accentColor}80` }} />
-                <span className="font-cinzel text-[10px] md:text-xs tracking-[0.3em] font-bold uppercase">
+                <span className="font-cinzel text-[11px] md:text-xs tracking-[0.3em] font-bold uppercase">
                   {author}
                 </span>
               </div>
@@ -126,7 +126,7 @@ export default function Book3D({
 
             {/* 상단 장식 */}
             <span
-              className={`relative z-10 w-4 h-4 text-[8px] rounded-full border flex items-center justify-center font-serif mb-auto`}
+              className={`relative z-10 w-4 h-4 text-[11px] rounded-full border flex items-center justify-center font-serif mb-auto`}
               style={{ borderColor: `${accentColor}50`, color: accentColor }}
             >
               {title[0]}

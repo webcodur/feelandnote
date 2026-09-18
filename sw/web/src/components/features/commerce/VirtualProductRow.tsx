@@ -65,7 +65,7 @@ export default function VirtualProductRow({ id, name, spec, label, context, prod
       className="w-full rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3"
     >
       <div className="mb-2 flex items-center gap-2">
-        <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[10px] font-bold text-accent">
+        <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[11px] font-bold text-accent">
           쿠팡 상품
         </span>
         <span className="text-xs text-text-secondary">

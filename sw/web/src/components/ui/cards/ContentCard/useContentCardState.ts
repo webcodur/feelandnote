@@ -14,6 +14,18 @@ import { useContentCounts } from "./hooks/useCelebCount";
 import { useEditionThumbnail } from "./hooks/useEditionThumbnail";
 import { hasReviewContent } from "./reviewContent";
 
+// 같은 화면에 카드가 스무 장 서면 로그인 확인도 스무 번 나갔다 — 진행 중인 확인 하나를 카드들이 나눠 쓴다.
+// 끝나면 비워서 다음에 뜨는 카드는 새로 묻는다(로그인·로그아웃 뒤 상태를 오래 붙들지 않는다).
+let inflightUser: Promise<User | null> | null = null;
+function fetchCurrentUser(): Promise<User | null> {
+  if (!inflightUser) {
+    inflightUser = createClient().auth.getUser()
+      .then(({ data }) => data.user)
+      .finally(() => { inflightUser = null; });
+  }
+  return inflightUser;
+}
+
 export function useContentCardState(props: ContentCardProps) {
   const {
     thumbnail,
@@ -47,6 +59,7 @@ export function useContentCardState(props: ContentCardProps) {
     showInfo = true,
     showGradient = true,
     showStats = true,
+    showHeader = true,
     effectsEnabled = true,
   } = props;
 
@@ -55,29 +68,26 @@ export function useContentCardState(props: ContentCardProps) {
   const locale = useLocale();
   const t = useTranslations("content");
 
-  // 인증 상태 확인
+  // 인증 상태 확인 — 로그인 여부는 헤더 바의 액션 메뉴만 쓴다. 헤더를 숨긴 카드(상품 선반·순위 서가)는 묻지 않는다
+  const needsUser = effectsEnabled && showHeader;
   const [user, setUser] = useState<User | null>(null);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(needsUser);
 
   useEffect(() => {
-    if (!effectsEnabled) return;
+    if (!needsUser) return;
     let cancelled = false;
-    const checkAuth = async () => {
-      try {
-        const db = createClient();
-        const { data: { user } } = await db.auth.getUser();
-        if (!cancelled) {
-          setUser(user);
-          setIsCheckingAuth(false);
-        }
-      } catch (err) {
+    fetchCurrentUser()
+      .then((user) => {
+        if (cancelled) return;
+        setUser(user);
+        setIsCheckingAuth(false);
+      })
+      .catch((err) => {
         if (err instanceof Error && err.name === 'AbortError') return;
         if (!cancelled) setIsCheckingAuth(false);
-      }
-    };
-    checkAuth();
+      });
     return () => { cancelled = true; };
-  }, [effectsEnabled]);
+  }, [needsUser]);
 
   // 내부 saved 상태 관리 (props 기본값 + 동적 업데이트)
   const [internalSaved, setInternalSaved] = useState(saved);
@@ -116,9 +126,9 @@ export function useContentCardState(props: ContentCardProps) {
   const effectiveCelebCount = celebCount ?? fetched.celebCount;
   const effectiveUserCount = userCount ?? fetched.userCount ?? 0;
 
-  // 에디션 토글 (BOOK 전용 — 내부 자동 계산)
+  // 에디션 토글 (BOOK 전용 — 내부 자동 계산). 토글은 헤더 바에 살므로 헤더를 숨긴 카드는 영문 표지를 조회하지 않는다
   const resolvedThumbnailEn = useEditionThumbnail(
-    effectsEnabled ? contentId : undefined,
+    effectsEnabled && showHeader ? contentId : undefined,
     contentType,
     thumbnailEn,
   );

@@ -92,7 +92,7 @@ export default function AcademyPreview({ continueLink }: AcademyPreviewProps) {
               <h3 className="text-lg font-serif font-bold text-white/70 mb-1.5">
                 {t(`category.${cat.id}.label`)}
               </h3>
-              <p className="text-white/40 text-xs text-center mb-4 leading-relaxed break-keep">
+              <p className="text-text-secondary text-xs text-center mb-4 leading-relaxed break-keep">
                 {t(`category.${cat.id}.description`)}
               </p>
 

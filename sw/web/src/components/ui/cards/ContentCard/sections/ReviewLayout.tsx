@@ -157,7 +157,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             {displayCreator && (
               <>
                 <div className="h-px bg-white/10 mt-2 -mx-3 sm:-mx-4" />
-                <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 text-center pt-2">
+                <p className="text-xs text-text-secondary line-clamp-1 text-center pt-2">
                   {displayCreator.replace(/\^/g, ", ")}
                 </p>
               </>
@@ -184,7 +184,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
                   return (
                     <span
                       key={`${presetKeyword}-${idx}`}
-                      className={`px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
+                      className={`px-2 py-0.5 rounded-full border text-[11px] sm:text-xs font-medium whitespace-nowrap ${colorClasses}`}
                     >
                       {presetKeyword}
                     </span>
@@ -196,7 +196,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             {(displayReview && !isSpoiler) && (
               <div className="flex-1 relative min-h-0 overflow-hidden">
                 {reviewIsOriginalLanguage && (
-                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
+                  <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-amber-200">
                     {t("reviewModal.originalLanguage")}
                   </p>
                 )}
@@ -228,7 +228,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
                     rel="noopener noreferrer"
                     title={sourceUrl}
                     onClick={(e) => e.stopPropagation()}
-                    className="block max-w-full truncate text-accent/60 hover:text-accent underline underline-offset-2"
+                    className="block max-w-full truncate text-accent hover:text-accent-hover underline underline-offset-2"
                   >
                     {t("reviewModal.source")}
                   </a>

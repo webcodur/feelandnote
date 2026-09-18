@@ -64,7 +64,7 @@ export default function MonthSection({
           )}>
             {month.padStart(2, '0')}
           </span>
-          <span className="text-sm sm:text-base font-serif font-black text-text-secondary/40 group-hover:text-text-secondary/60 tracking-tight">
+          <span className="text-sm sm:text-base font-serif font-black text-text-tertiary group-hover:text-text-secondary/60 tracking-tight">
             {year}
           </span>
           <ChevronIcon

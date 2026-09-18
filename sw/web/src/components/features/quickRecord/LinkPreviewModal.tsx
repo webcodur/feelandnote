@@ -72,7 +72,7 @@ export default function LinkPreviewModal({
             </div>
             <div className="flex flex-col overflow-hidden">
                 <span className="text-sm font-bold text-text-primary truncate">{title || readerContent?.title || t("webPage")}</span>
-                <span className="text-[10px] truncate max-w-[300px]">{url}</span>
+                <span className="text-[11px] truncate max-w-[300px]">{url}</span>
             </div>
           </div>
           
@@ -197,7 +197,7 @@ export default function LinkPreviewModal({
         </div>
         
         {/* Footer */}
-        <div className="h-8 bg-[#121212] border-t border-white/5 flex items-center justify-center text-[10px] shrink-0">
+        <div className="h-8 bg-[#121212] border-t border-white/5 flex items-center justify-center text-[11px] shrink-0">
             {mode === 'READER'
                 ? <span>{t("readerHint")}</span>
                 : <span>{t("originalHint")}</span>

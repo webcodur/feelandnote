@@ -101,7 +101,7 @@ function LocaleDropdown({ locale, pathname, className, label }: { locale: string
                 key={option.code}
                 type="button"
                 onClick={() => handleSoon(option.soonMessage ?? "")}
-                className="w-full flex items-center justify-between px-4 py-2 text-[13px] text-text-secondary/40 hover:bg-white/[0.03] hover:text-text-secondary/70"
+                className="w-full flex items-center justify-between px-4 py-2 text-[13px] text-text-secondary hover:bg-white/[0.03] hover:text-text-secondary/70"
               >
                 <span>{option.nativeName}</span>
                 <Hourglass size={12} className="opacity-50" />

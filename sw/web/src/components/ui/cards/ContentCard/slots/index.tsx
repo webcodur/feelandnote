@@ -57,10 +57,10 @@ export function StatsBadge({
     >
       <div className={`flex items-center gap-0.5 bg-black/70 backdrop-blur-sm px-1 py-0.5 md:px-1.5 rounded-md border border-white/10 shadow-lg ${onClick ? "hover:bg-accent hover:border-accent cursor-pointer group/stats" : ""}`}>
         <Crown size={9} className={`text-accent ${onClick ? "group-hover/stats:text-white" : ""}`} />
-        <span className={`text-[9px] md:text-[10px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{celebCount}</span>
-        <span className={` text-[9px] md:text-[10px] mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
+        <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{celebCount}</span>
+        <span className={` text-[11px] mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
         <User size={9} className={`text-text-secondary ${onClick ? "group-hover/stats:text-white/80" : ""}`} />
-        <span className={`text-[9px] md:text-[10px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
+        <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
       </div>
     </div>
   );
@@ -90,7 +90,7 @@ export function RatingBadge({
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
     >
-      <span className={`text-[9px] md:text-[10px] text-text-primary font-medium ${onClick ? "group-hover/rating:text-white" : ""}`}>{hasRating ? rating.toFixed(1) : "-"}</span>
+      <span className={`text-[11px] text-text-primary font-medium ${onClick ? "group-hover/rating:text-white" : ""}`}>{hasRating ? rating.toFixed(1) : "-"}</span>
     </div>
   );
 }
@@ -112,7 +112,7 @@ export function IntroBadge({ onClick }: { onClick?: (e: React.MouseEvent) => voi
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
     >
-      <span className={`text-[9px] md:text-[10px] text-text-primary font-medium ${onClick ? "group-hover/intro:text-white" : ""}`}>{t("badgeShort")}</span>
+      <span className={`text-[11px] text-text-primary font-medium ${onClick ? "group-hover/intro:text-white" : ""}`}>{t("badgeShort")}</span>
     </div>
   );
 }

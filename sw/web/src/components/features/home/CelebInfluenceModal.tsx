@@ -130,7 +130,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
               <span className="text-2xl font-black text-accent">{data!.total_score}</span>
               <span className="text-xs">/100</span>
             </div>
-            <p className="text-[9px] uppercase tracking-wider">Score</p>
+            <p className="text-[11px] uppercase tracking-wider">Score</p>
           </div>
 
           {/* 구분선 */}

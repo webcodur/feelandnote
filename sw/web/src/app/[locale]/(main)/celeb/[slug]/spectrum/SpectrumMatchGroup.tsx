@@ -147,7 +147,7 @@ export function SpectrumMatchGroup({
         )}
         <p
           className={cn(
-            "text-balance break-keep text-[13px] font-medium leading-relaxed text-text-primary/65 md:text-sm",
+            "text-balance break-keep text-[13px] font-medium leading-relaxed text-text-secondary md:text-sm",
             !bare && "mt-1",
           )}
         >

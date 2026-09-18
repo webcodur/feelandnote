@@ -92,7 +92,7 @@ export default function FlowCard({ flow, onClick, className = "" }: FlowCardProp
         {flow.node_count > 0 && (
           <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/70 backdrop-blur-sm rounded-full flex items-center gap-1.5 border border-white/[0.08]">
             <Layers size={10} className="text-accent" />
-            <span className="text-[10px] font-serif font-bold text-white/80">
+            <span className="text-[11px] font-serif font-bold text-white/80">
               {flow.node_count}
             </span>
           </div>
@@ -115,14 +115,14 @@ export default function FlowCard({ flow, onClick, className = "" }: FlowCardProp
           {flow.name}
         </h3>
 
-        <div className="mt-auto pt-2 flex items-center gap-1.5 text-[10px] md:text-[11px] text-text-secondary font-serif">
+        <div className="mt-auto pt-2 flex items-center gap-1.5 text-[11px] md:text-xs text-text-secondary font-serif">
           {flow.stage_count > 0 && (
             <span>{t("stageCount", { count: flow.stage_count })}</span>
           )}
           {flow.difficulty && (
             <>
               <span className="opacity-30">·</span>
-              <span className="text-accent/50">Lv.{flow.difficulty}</span>
+              <span className="text-accent">Lv.{flow.difficulty}</span>
             </>
           )}
         </div>

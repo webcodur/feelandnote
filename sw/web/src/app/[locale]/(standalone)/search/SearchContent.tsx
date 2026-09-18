@@ -105,7 +105,7 @@ export default function SearchContent() {
                       href={API_SOURCE_URL[category as Exclude<CategoryId, "all">]}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-accent/60 hover:text-accent underline underline-offset-2 transition-colors"
+                      className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors"
                     >
                       {t(`apiSource.${category}`)}
                     </a>

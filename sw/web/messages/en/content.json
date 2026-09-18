@@ -86,7 +86,9 @@
       "salePoint": "Sales index",
       "pages": "Pages",
       "pageCount": "{count} pages",
-      "published": "Published"
+      "published": "Published",
+      "changed": "Checking product",
+      "changedNotice": "This edition is no longer on sale at YES24 or its listing has changed. If a revised edition has been released, check the store page for the latest version."
     }
   },
   "contentDetail": {

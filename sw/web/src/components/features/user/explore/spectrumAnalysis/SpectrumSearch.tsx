@@ -107,7 +107,7 @@ export default function SpectrumSearch({ onSelect }: SpectrumSearchProps) {
                   <FadeAvatar src={p.avatar_url} name={p.nickname} />
                 </div>
                 <span className="flex-1 truncate text-sm font-semibold text-text-primary">{locale === "en" ? (p.nickname_en || p.nickname) : p.nickname}</span>
-                <span className="shrink-0 text-xs tabular-nums text-text-secondary/60">{t("influence", { score: p.influence })}</span>
+                <span className="shrink-0 text-xs tabular-nums text-text-tertiary">{t("influence", { score: p.influence })}</span>
               </button>
             </li>
           ))}

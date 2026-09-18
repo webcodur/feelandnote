@@ -28,7 +28,7 @@ export default function MobileBanner({ title, subtitle }: MobileBannerProps) {
       </div>
 
       {subtitle && subtitle.toLowerCase() !== title.toLowerCase() && (
-        <p className="text-[#d4af37] tracking-[0.3em] text-[10px] mt-1.5 uppercase font-cinzel text-center">
+        <p className="text-[#d4af37] tracking-[0.3em] text-[11px] mt-1.5 uppercase font-cinzel text-center">
           {subtitle}
         </p>
       )}

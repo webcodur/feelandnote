@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [공통] 도서 판매대의 YES24 판매 정보
  * - 데이터: getYes24SalesInfo(작품·판본). 한국어 화면에서만 조회한다
- * - 모양: 「평점 9.3 | 22,500원」 한 줄 값표. 팔리지 않는 판본이면 빈 칸이다
+ * - 모양: 「평점 9.3 | 22,500원」 한 줄 값표. 팔리지 않는 판본이면 「상품 확인중」 안내를 띄우고, 상품이 없으면 빈 칸이다
  * - 누르면 YES24 제공 안내·상세 값·YES24 구매 단추를 담은 창(Yes24SalesModal)이 뜬다
  * - 함께 보기: AffiliateBookAction.tsx, ContentInfoSection.tsx
  * ───────────────────────────────────────────── */
@@ -9,7 +9,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { Star } from "lucide-react";
+import { Info, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { getYes24SalesInfo, getYes24SalesInfoByIsbn } from "@/actions/contents/getYes24PurchaseLink";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
@@ -33,6 +33,8 @@ interface Yes24SalesProps {
   /** 외부 차트 항목 — 창 안 구매 단추가 곧바로 여는 서점 주소(제휴 주소 우선) */
   yes24Href?: string;
   className?: string;
+  /** 값표 단추에 덧붙일 클래스 — 자리마다 정렬·여백을 맞춘다. 빈 칸일 때는 붙지 않는다 */
+  chipClassName?: string;
 }
 
 // 같은 판본을 여러 판매대가 물어도 요청 하나를 공유한다. 실패는 다시 물을 수 있게 지운다.
@@ -72,6 +74,7 @@ export default function Yes24Sales({
   full = false,
   yes24Href,
   className,
+  chipClassName,
 }: Yes24SalesProps) {
   const locale = useLocale();
   const t = useTranslations("content.purchaseSales");
@@ -94,13 +97,14 @@ export default function Yes24Sales({
 
   const sales = active && result?.key === key ? result.sales : null;
   const number = new Intl.NumberFormat(locale);
-  const hasRating = Boolean(sales?.starScore);
-  const hasPrice = sales?.salePrice != null;
+  const onSale = Boolean(sales?.onSale);
+  const hasRating = onSale && Boolean(sales?.starScore);
+  const hasPrice = onSale && sales?.salePrice != null;
 
-  // 팔리지 않는 판본이면 빈 칸이다. 칸은 격자 줄 수를 지키려고 늘 둔다.
+  // 상품이 없으면 빈 칸이다. 팔리지 않는 판본이면 시세 대신 「상품 확인중」 안내를 띄운다. 칸은 격자 줄 수를 지키려고 늘 둔다.
   return (
     <AnimatedHeight independent duration={320} className={className}>
-      {sales && (hasRating || hasPrice) && (
+      {sales && (!onSale || hasRating || hasPrice) && (
         <button
           type="button"
           aria-haspopup="dialog"
@@ -113,21 +117,31 @@ export default function Yes24Sales({
             setIsOpen(true);
           }}
           className={cn(
-            "flex cursor-pointer items-center justify-center gap-2.5 rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-3 py-1.5 text-sm text-text-tertiary hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            "flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-2 py-1 text-xs text-text-tertiary sm:gap-2.5 sm:px-3 sm:py-1.5 sm:text-sm hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
             full ? "w-full" : "mx-auto w-fit max-w-full",
+            chipClassName,
           )}
         >
-          {hasRating && (
+          {onSale ? (
+            <>
+              {hasRating && (
+                <span className="inline-flex items-center gap-1">
+                  <Star size={13} className="fill-current text-accent" aria-hidden />
+                  <strong className="font-bold tabular-nums text-text-primary">{sales!.starScore}</strong>
+                </span>
+              )}
+              {hasRating && hasPrice && <span className="text-white/20" aria-hidden>|</span>}
+              {hasPrice && (
+                <strong className="font-bold tabular-nums text-text-primary">
+                  {t("price", { price: number.format(sales!.salePrice!) })}
+                </strong>
+              )}
+            </>
+          ) : (
             <span className="inline-flex items-center gap-1">
-              <Star size={13} className="fill-current text-accent" aria-hidden />
-              <strong className="font-bold tabular-nums text-text-primary">{sales!.starScore}</strong>
+              <Info size={13} className="text-accent" aria-hidden />
+              <strong className="font-semibold text-text-primary">{t("changed")}</strong>
             </span>
-          )}
-          {hasRating && hasPrice && <span className="text-white/20" aria-hidden>|</span>}
-          {hasPrice && (
-            <strong className="font-bold tabular-nums text-text-primary">
-              {t("price", { price: number.format(sales!.salePrice!) })}
-            </strong>
           )}
           <span className="sr-only">{t("open")}</span>
         </button>

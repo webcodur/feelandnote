@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
-import { EXPLORE_NAV_LAYOUT as atlas } from "@/components/shared/exploreNavLayout";
+import { EXPLORE_NAV_LAYOUT as nav } from "@/components/shared/exploreNavLayout";
 import { MYTH_LAYOUT as layout } from "@/components/features/user/explore/myth/mythLayout";
 import { getTimelinePath } from "../pagination";
 import { getCountryContinent, groupTimelineCountries } from "../continents";
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const focusClass = "outline-none focus-visible:ring-2 focus-visible:ring-accent";
-/** 모달 안의 칩 — 손가락으로 누르므로 넓은 화면 칩 줄(atlas.chip)보다 높게 둔다 */
+/** 모달 안의 칩 — 손가락으로 누르므로 넓은 화면 칩 줄(nav.chip)보다 높게 둔다 */
 const SHEET_CHIP = "flex min-h-10 w-full items-center gap-1.5 rounded-lg border px-3 text-sm font-semibold";
 
 export default function CountryPicker({ countries, selectedCountry, countrySearch, onSearchChange, defaultCountry }: Props) {
@@ -56,7 +56,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
     return <Link key={group.id}
       href={getTimelinePath(isActive ? selectedCountry : group.countries[0].code, defaultCountry)}
       prefetch={false} aria-current={isActive ? "page" : undefined} onClick={() => setSheet(null)}
-      className={`${mobile ? SHEET_CHIP : `${atlas.chip} ${layout.regionChipShape}`} ${focusClass} ${isActive ? atlas.chipSelected : atlas.chipIdle.pill}`}>
+      className={`${mobile ? SHEET_CHIP : `${nav.chip} ${layout.regionChipShape}`} ${focusClass} ${isActive ? nav.chipSelected : nav.chipIdle.pill}`}>
       {t(`continent.${group.id}`)}
     </Link>;
   });
@@ -65,7 +65,7 @@ export default function CountryPicker({ countries, selectedCountry, countrySearc
     const isActive = country.code === selectedCountry;
     return <Link key={country.code} href={getTimelinePath(country.code, defaultCountry)} prefetch={false}
       aria-current={isActive ? "page" : undefined} onClick={() => setSheet(null)}
-      className={`${mobile ? SHEET_CHIP : `${atlas.chip} ${atlas.square} whitespace-nowrap`} ${focusClass} ${isActive ? atlas.chipSelected : atlas.chipIdle.square}`}>
+      className={`${mobile ? SHEET_CHIP : `${nav.chip} ${nav.square} whitespace-nowrap`} ${focusClass} ${isActive ? nav.chipSelected : nav.chipIdle.square}`}>
       <span aria-hidden>{getCountryFlag(country.code)}</span>
       <span className="min-w-0 truncate">{country.name}</span>
       <span className="ml-auto text-xs opacity-60">{country.count}</span>

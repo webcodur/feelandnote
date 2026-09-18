@@ -152,7 +152,7 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
       {/* 정확한 연도 입력 */}
       <div className="mt-5 flex items-center gap-2">
         <label className="flex-1">
-          <span className="mb-1 block text-[10px] uppercase tracking-wide text-text-secondary">{t("minLabel")}</span>
+          <span className="mb-1 block text-[11px] uppercase tracking-wide text-text-secondary">{t("minLabel")}</span>
           <input
             type="number"
             defaultValue={draft.min}
@@ -164,7 +164,7 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
         </label>
         <span className="pt-4 text-text-secondary">~</span>
         <label className="flex-1">
-          <span className="mb-1 block text-[10px] uppercase tracking-wide text-text-secondary">{t("maxLabel")}</span>
+          <span className="mb-1 block text-[11px] uppercase tracking-wide text-text-secondary">{t("maxLabel")}</span>
           <input
             type="number"
             defaultValue={draft.max}
@@ -175,7 +175,7 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
           />
         </label>
       </div>
-      <p className="mt-2 text-[10px] text-text-secondary/70">{t("bcHint")}</p>
+      <p className="mt-2 text-[11px] text-text-tertiary">{t("bcHint")}</p>
     </div>
   );
 }

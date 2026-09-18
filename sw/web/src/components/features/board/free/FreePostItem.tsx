@@ -38,7 +38,7 @@ export default function FreePostItem({ post, unread = true, onOpen }: FreePostIt
           <h3 className="text-sm sm:text-base font-serif font-medium text-text-primary group-hover:text-accent flex items-center gap-2">
             <span className="truncate">{post.title}</span>
             {isNew(post.created_at) && unread && (
-              <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent text-bg-main">
+              <span className="shrink-0 px-1.5 py-0.5 text-[11px] font-sans font-bold leading-none rounded bg-accent text-bg-main">
                 N
               </span>
             )}

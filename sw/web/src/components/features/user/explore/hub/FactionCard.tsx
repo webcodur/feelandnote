@@ -69,7 +69,7 @@ export default function FactionCard({ locale = "ko", factions = [] }: FactionCar
                 className="h-0.5 w-9 rounded-full shadow-[0_0_12px_currentColor] md:w-12"
                 style={{ color: faction.color, backgroundColor: faction.color }}
               />
-              <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-white/60 md:text-xs">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.18em] text-text-secondary md:text-xs">
                 {String(index + 1).padStart(2, "0")}
               </span>
             </div>

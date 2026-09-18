@@ -97,7 +97,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
         </BlurDissolve>
 
         {displayTitle && (
-          <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
+          <p className="text-[11px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
         )}
 
         <h2 className="text-2xl md:text-3xl font-black font-serif text-text-primary leading-tight text-center break-all mb-3">

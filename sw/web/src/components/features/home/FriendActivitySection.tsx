@@ -46,7 +46,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
           </button>
           <TitleBadge title={activity.user_title ?? null} size="sm" />
         </div>
-        <p className="text-[9px] sm:text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+        <p className="text-[11px] text-accent font-medium font-sans uppercase tracking-wider">
           {config?.verb || t("activity")} · {formatRelativeTime(activity.created_at)}
         </p>
       </div>

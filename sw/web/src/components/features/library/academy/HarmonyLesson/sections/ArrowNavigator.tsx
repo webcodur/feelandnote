@@ -37,7 +37,7 @@ export default function ArrowNavigator({
 
       <div className={`flex flex-col items-center ${compact ? "min-w-[140px] gap-0.5" : "min-w-[200px] gap-1"}`}>
         {prefix && (
-          <span className={`font-semibold uppercase tracking-[0.16em] ${compact ? "text-[10px] text-white/30" : "text-[11px] text-white/45"}`}>
+          <span className={`font-semibold uppercase tracking-[0.16em] ${compact ? "text-[11px] text-text-tertiary" : "text-[11px] text-text-secondary"}`}>
             {prefix} {activeIndex + 1}/{items.length}
           </span>
         )}

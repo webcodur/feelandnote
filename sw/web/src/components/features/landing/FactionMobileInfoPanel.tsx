@@ -41,7 +41,7 @@ export default function FactionMobileInfoPanel({
 
       <div className="px-5 pb-5 pt-5">
         <p
-          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em]"
+          className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em]"
           style={{ color: accentColor }}
         >
           {kind === "team" ? <Users size={13} aria-hidden /> : <UserRound size={13} aria-hidden />}

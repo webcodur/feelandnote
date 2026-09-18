@@ -54,12 +54,12 @@ export function CelebReviewCard({ review, celeb, modalZIndex }: { review: CelebR
           </button>
           <TitleBadge title={null} size="sm" />
           {celeb.is_verified && (
-            <span className="bg-[#d4af37] text-black text-[8px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
+            <span className="bg-[#d4af37] text-black text-[11px] px-1.5 py-0.5 font-black font-cinzel leading-none tracking-tight">
               OFFICIAL
             </span>
           )}
         </div>
-        <p className="text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+        <p className="text-[11px] text-accent font-medium font-sans uppercase tracking-wider">
           {reviewDisplayTitle || t("recorder")} · {timeAgo}
         </p>
       </div>

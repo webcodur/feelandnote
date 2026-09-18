@@ -6,6 +6,7 @@
   "exports": {
     "./constants/celeb-professions": "./src/constants/celeb-professions.ts",
     "./constants/celeb-tiers": "./src/constants/celeb-tiers.ts",
+    "./constants/celeb-feature-exclusion": "./src/constants/celeb-feature-exclusion.ts",
     "./constants/celeb-publication": "./src/constants/celeb-publication.ts",
     "./constants/celeb-content-research": "./src/constants/celeb-content-research.ts",
     "./constants/celeb-speech": "./src/constants/celeb-speech.ts",

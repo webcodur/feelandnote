@@ -80,7 +80,7 @@ export default function RecentProfilesSection() {
                     {isEn && item.nickname_en ? item.nickname_en : item.nickname_ko || item.nickname}
                   </p>
                   {item.title && (
-                    <p className="text-[10px]">
+                    <p className="text-[11px]">
                       {isEn && item.title_en ? item.title_en : item.title_ko || item.title}
                     </p>
                   )}

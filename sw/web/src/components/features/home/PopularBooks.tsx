@@ -20,7 +20,6 @@ export default async function PopularBooks() {
       books={books}
       heading={t('title')}
       buyLabel={platform === 'amazon' ? tPage('sourceWorkBuyAmazon') : t('buy')}
-      detailLabel={t('viewBookDetails')}
       platform={platform}
     />
   )

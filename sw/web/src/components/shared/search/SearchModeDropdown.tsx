@@ -82,7 +82,7 @@ export default function SearchModeDropdown({
         <div className="fixed inset-0" style={{ zIndex: Z_INDEX.dropdown - 1 }} onClick={onClose} />
         <div className="absolute top-full left-0 mt-2 bg-[#0a0a0a] border border-accent/20 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] py-1 min-w-[180px] backdrop-blur-xl" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 콘텐츠 카테고리 */}
-          <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-b border-white/5">{t("sectionContent")}</div>
+          <div className="px-3 py-1.5 text-xs text-text-tertiary font-medium border-b border-white/5">{t("sectionContent")}</div>
           {CONTENT_CATEGORIES.map((cat) => (
             <Button
               unstyled
@@ -96,7 +96,7 @@ export default function SearchModeDropdown({
           ))}
 
           {/* 기타 모드 */}
-          <div className="px-3 py-1.5 text-xs text-text-secondary/50 font-medium border-t border-b border-white/5 mt-1">{t("sectionOther")}</div>
+          <div className="px-3 py-1.5 text-xs text-text-tertiary font-medium border-t border-b border-white/5 mt-1">{t("sectionOther")}</div>
           {SEARCH_MODE_IDS.filter((id) => id !== "content").map((id) => (
             <Button
               unstyled

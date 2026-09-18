@@ -9,7 +9,7 @@ import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
-import ExploreCardArtwork from "./ExploreCardArtwork";
+import Image from "next/image";
 
 export const maxDuration = 30;
 
@@ -52,12 +52,21 @@ export default async function ExplorePage({ searchParams }: {
                 key={page.key}
                 href={page.href}
                 prefetch={false}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-white/15 bg-[#101112] hover:border-accent/60 hover:bg-[#171714] active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-accent/15 bg-[#101112] shadow-[0_10px_40px_-12px_rgba(0,0,0,0.9)] hover:border-accent/60 hover:bg-[#171714] active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <div className="relative h-28 overflow-hidden border-b border-white/[0.06] bg-black/25 sm:h-36 md:h-44">
-                  <ExploreCardArtwork variant={page.key!} />
-                  <span className="absolute inset-x-0 bottom-0 h-6 bg-linear-to-t from-[#101112] to-transparent" aria-hidden />
+                {/* 그림 띠 — 생성 이미지(1536×512, 3:1)를 가운데 기준으로 잘라 채운다. 즉각 축은 테두리·제목, 그림 확대는 곁들이는 연출.
+                    SVG 판(ExploreCardArtwork)은 비교용으로 남겨 두었다 */}
+                <div className="relative aspect-[4/3] overflow-hidden border-b border-white/[0.06] bg-black/25 sm:aspect-[3/1]">
+                  <Image
+                    src={`/images/explore/quicknav/${page.key}.webp`}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 680px"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-[#101112] to-transparent" aria-hidden />
                 </div>
+                <span aria-hidden className="pointer-events-none absolute inset-[3px] rounded-[9px] border border-white/[0.07]" />
                 <div className="flex flex-1 flex-col p-3 md:px-6 md:pb-6 md:pt-5">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="text-base font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">{nav(page.key!)}</h3>
@@ -70,7 +79,7 @@ export default async function ExplorePage({ searchParams }: {
               </Link>
           ))}
         </div>
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3 md:mt-4 md:gap-4">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-4 md:gap-4">
           {secondaryPages.map((page) => {
             const Icon = secondaryIcons[page.key!] ?? Search;
             return (
@@ -78,7 +87,7 @@ export default async function ExplorePage({ searchParams }: {
                 key={page.key}
                 href={page.href}
                 prefetch={false}
-                className="group flex items-start gap-3 rounded-xl border border-white/10 px-3 py-3.5 hover:border-accent/40 hover:bg-white/5 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:px-5 md:py-5"
+                className="group flex items-start gap-3 rounded-xl border border-accent/10 px-3 py-3.5 hover:border-accent/50 hover:bg-white/5 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:px-5 md:py-5"
               >
                 <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-text-secondary group-hover:text-accent" aria-hidden />
                 <div className="min-w-0 flex-1">

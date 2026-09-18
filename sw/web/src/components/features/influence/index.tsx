@@ -382,7 +382,7 @@ export function TranshistoricityGauge({
       {/* 인물 고유 시대초월성 해설 스토리 문구 */}
       <div className="p-3.5 md:p-4 rounded-xl bg-stone-heavy/60 border border-white/10">
         {isTranslationFallback && (
-          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-amber-200">
             {t("originalKorean")}
           </p>
         )}
@@ -473,11 +473,11 @@ export function CategoryDetail({
       labelClassName={locale === "en" ? "w-[5.5rem]" : "w-10"}
       description={
         !showDescription ? null : isNoRel ? (
-          <span className="text-text-secondary/55 italic">{t("noDetails")}</span>
+          <span className="text-text-tertiary italic">{t("noDetails")}</span>
         ) : (
           <span className="block animate-fade-in">
             {isTranslationFallback && (
-              <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
+              <span className="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-amber-200">
                 {t("originalKorean")}
               </span>
             )}
@@ -523,7 +523,7 @@ export function TopInfluenceTags({ data }: { data: CelebInfluenceDetail }) {
               <span className={`text-xs font-black ${isTop ? "text-text-primary" : ""}`}>
                 {cat.value}
               </span>
-              {isTop && <span className="text-[10px] text-accent font-bold ml-0.5">★</span>}
+              {isTop && <span className="text-[11px] text-accent font-bold ml-0.5">★</span>}
             </div>
           );
         })}

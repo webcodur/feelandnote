@@ -1399,7 +1399,7 @@ export default function WorldGlobe({
           className={`pointer-events-none absolute z-10 rounded border border-white/10 bg-black/45 font-mono tracking-wide text-text-secondary/70 backdrop-blur-sm ${
             fillContainer
               ? "left-3 top-3 px-2.5 py-1.5 text-[11px]"
-              : "left-2 top-2 px-2 py-1 text-[9px]"
+              : "left-2 top-2 px-2 py-1 text-[11px]"
           }`}
         >
           {mapNote}
@@ -1420,7 +1420,7 @@ export default function WorldGlobe({
         <button
           type="button"
           onClick={handleReset}
-          className={`${btnClass} ${fillContainer ? "text-xs" : "text-[10px]"}`}
+          className={`${btnClass} ${fillContainer ? "text-xs" : "text-[11px]"}`}
           aria-label={controlLabels?.reset}
         >
           ↺
@@ -1431,7 +1431,7 @@ export default function WorldGlobe({
         <button
           type="button"
           onClick={onExpand}
-          className="absolute bottom-2 right-2 z-10 flex h-8 items-center gap-1.5 rounded border border-accent-dim/45 bg-bg-secondary/90 px-2.5 font-mono text-[10px] text-text-secondary shadow-lg backdrop-blur-sm hover:border-accent hover:text-accent cursor-pointer"
+          className="absolute bottom-2 right-2 z-10 flex h-8 items-center gap-1.5 rounded border border-accent-dim/45 bg-bg-secondary/90 px-2.5 font-mono text-[11px] text-text-secondary shadow-lg backdrop-blur-sm hover:border-accent hover:text-accent cursor-pointer"
           aria-label={expandAriaLabel ?? expandLabel}
         >
           <Maximize2 size={13} strokeWidth={1.8} aria-hidden />
@@ -1514,7 +1514,7 @@ export default function WorldGlobe({
           {tooltipMarkerCount > 0 && formatMarkerCount && (
             <span
               className={`whitespace-nowrap rounded bg-accent/15 px-1.5 py-0.5 font-mono text-accent ${
-                fillContainer ? "text-[10px]" : "text-[9px]"
+                fillContainer ? "text-[11px]" : "text-[11px]"
               }`}
             >
               {formatMarkerCount(tooltipMarkerCount)}

@@ -453,8 +453,7 @@
         "rating": "Rating {score}",
         "introduction": "About this book",
         "source": "Details from YES24",
-        "failed": "Couldn't load book details.",
-        "open": "Book info"
+        "failed": "Couldn't load book details."
       }
     }
   }

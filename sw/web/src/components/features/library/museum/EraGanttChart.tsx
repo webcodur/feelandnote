@@ -127,7 +127,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                   <span className="text-[11px] text-white/80 group-hover:text-[#d4af37] font-medium transition-colors truncate leading-none">
                     {era.name}
                   </span>
-                  <span className="text-[9px] font-mono text-white/45 whitespace-nowrap flex-shrink-0 leading-none">
+                  <span className="text-[11px] font-mono text-text-secondary whitespace-nowrap flex-shrink-0 leading-none">
                     {formatYear(era.startYear)}–{isOngoing ? t("present") : formatYear(era.endYear!)}
                   </span>
                 </div>
@@ -158,7 +158,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                   className="absolute top-0 -translate-x-1/2"
                   style={{ left: `${pos}%` }}
                 >
-                  <span className="text-[10px] text-white/30 font-mono whitespace-nowrap">
+                  <span className="text-[11px] text-text-tertiary font-mono whitespace-nowrap">
                     {tick.label}
                   </span>
                 </div>
@@ -218,7 +218,7 @@ export default function EraGanttChart({ eras }: { eras: HistoryEra[] }) {
                       }}
                     >
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <span className="text-[9px] font-mono text-black/80 font-bold whitespace-nowrap px-1">
+                        <span className="text-[11px] font-mono text-black/80 font-bold whitespace-nowrap px-1">
                           {formatYear(era.startYear)}
                           {" ~ "}
                           {isOngoing ? t("present") : formatYear(era.endYear!)}

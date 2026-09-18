@@ -81,7 +81,7 @@ export default function FlowHeader({
             {isOwner ? (
               <Button
                 onClick={handleTogglePublic}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-bold tracking-wider transition-colors ${
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-bold tracking-wider transition-colors ${
                   flow.is_public
                     ? "bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20"
                     : "bg-white/5 border-white/10 text-text-secondary hover:bg-white/10"
@@ -91,17 +91,17 @@ export default function FlowHeader({
                 {flow.is_public ? t("public") : t("private")}
               </Button>
             ) : flow.is_public ? (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[10px] font-bold text-green-400 tracking-wider">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[11px] font-bold text-green-400 tracking-wider">
                 <Globe size={10} /> {t("public")}
               </span>
             ) : (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-text-secondary tracking-wider">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-text-secondary tracking-wider">
                 <Lock size={10} /> {t("private")}
               </span>
             )}
 
             {flow.difficulty && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 text-[10px] font-bold text-accent tracking-wider">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 text-[11px] font-bold text-accent tracking-wider">
                 Lv.{flow.difficulty}
               </span>
             )}
@@ -162,7 +162,7 @@ export default function FlowHeader({
 
         {/* Description */}
         {flow.description && (
-          <p className="text-sm text-text-secondary/60 mb-4 line-clamp-3 max-w-2xl">
+          <p className="text-sm text-text-secondary mb-4 line-clamp-3 max-w-2xl">
             {flow.description}
           </p>
         )}

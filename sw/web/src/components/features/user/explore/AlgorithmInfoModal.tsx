@@ -37,15 +37,15 @@ export default function AlgorithmInfoModal({ isOpen, onClose }: AlgorithmInfoMod
             <h4 className="text-xs font-medium text-text-secondary mb-3">{t("howItWorks")}</h4>
             <div className="space-y-2 text-xs">
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center text-[10px] font-bold">1</span>
+                <span className="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center text-[11px] font-bold">1</span>
                 <span>{t("step1")}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center text-[10px] font-bold">2</span>
+                <span className="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center text-[11px] font-bold">2</span>
                 <span>{t("step2")}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center text-[10px] font-bold">3</span>
+                <span className="w-5 h-5 rounded bg-accent/20 text-accent flex items-center justify-center text-[11px] font-bold">3</span>
                 <span>{t("step3")}</span>
               </div>
             </div>

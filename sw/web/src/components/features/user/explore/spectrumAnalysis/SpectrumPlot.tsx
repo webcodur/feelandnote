@@ -49,7 +49,7 @@ export default function SpectrumPlot({ axis, dot, step, placed, overflow, barBuc
         {[-50, -25, 25, 50].map((tick) => (
           <span
             key={tick}
-            className="pointer-events-none absolute -translate-x-1/2 text-[10px] tabular-nums text-text-secondary/40"
+            className="pointer-events-none absolute -translate-x-1/2 text-[11px] tabular-nums text-text-tertiary"
             style={{ left: `${tick + 50}%`, bottom: AXIS_BOTTOM - 18 }}
           >
             {tick > 0 ? `+${tick}` : tick}
@@ -142,7 +142,7 @@ export default function SpectrumPlot({ axis, dot, step, placed, overflow, barBuc
           return (
             <div
               key={`ov-${key}`}
-              className="pointer-events-none absolute hidden -translate-x-1/2 rounded-full border border-border/60 bg-bg-card px-1.5 py-0.5 text-[10px] font-bold text-text-secondary @min-[640px]:block"
+              className="pointer-events-none absolute hidden -translate-x-1/2 rounded-full border border-border/60 bg-bg-card px-1.5 py-0.5 text-[11px] font-bold text-text-secondary @min-[640px]:block"
               style={{ left: `${left}%`, bottom: `${bottom}px` }}
             >
               +{extra}

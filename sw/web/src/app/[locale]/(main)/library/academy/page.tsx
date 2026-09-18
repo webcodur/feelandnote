@@ -65,7 +65,7 @@ export default async function AcademyPage() {
         <div className="mb-10 sm:mb-14 md:mb-16 text-center px-4">
           <div className="inline-flex items-center justify-center space-x-2 border border-white/10 bg-white/5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-4 sm:mb-6">
             <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#d4af37]" />
-            <span className="text-[10px] sm:text-xs text-white/80 font-medium tracking-widest uppercase">{t("eyebrow")}</span>
+            <span className="text-[11px] sm:text-xs text-white/80 font-medium tracking-widest uppercase">{t("eyebrow")}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
             {t("pageTitle")}
@@ -96,7 +96,7 @@ export default async function AcademyPage() {
 
                 <div className="flex flex-wrap justify-center gap-1.5">
                   {cat.courses.map((course) => (
-                    <span key={course.id} className={`${TAG} text-white/40 group-hover:text-white/70 group-hover:border-white/15 group-hover:bg-white/[0.08]`}>
+                    <span key={course.id} className={`${TAG} text-text-secondary group-hover:text-white group-hover:border-white/15 group-hover:bg-white/[0.08]`}>
                       {t(`course.${cat.id}.${course.id}.label`)}
                     </span>
                   ))}
@@ -119,13 +119,13 @@ export default async function AcademyPage() {
                 <h2 className="text-lg sm:text-xl font-serif font-bold text-white/70 mb-2">
                   {t(`category.${cat.id}.label`)}
                 </h2>
-                <p className="text-white/40 text-xs sm:text-sm text-center mb-4 sm:mb-5">
+                <p className="text-text-secondary text-xs sm:text-sm text-center mb-4 sm:mb-5">
                   {t(`category.${cat.id}.description`)}
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-1.5">
                   <span className={`${TAG} text-white/50`}>{t("upcomingBadge")}</span>
-                  <span className={`${TAG} text-white/35`}>{t("upcomingNote")}</span>
+                  <span className={`${TAG} text-text-tertiary`}>{t("upcomingNote")}</span>
                 </div>
 
                 <div className="mt-auto pt-5 sm:pt-6 w-full">
@@ -166,7 +166,7 @@ export default async function AcademyPage() {
                 </p>
                 <div className="flex flex-wrap justify-center sm:justify-start gap-1.5">
                   {AI_CATEGORY.courses.map((course) => (
-                    <span key={course.id} className={`${TAG} text-white/40 group-hover:text-white/70 group-hover:border-white/15 group-hover:bg-white/[0.08]`}>
+                    <span key={course.id} className={`${TAG} text-text-secondary group-hover:text-white group-hover:border-white/15 group-hover:bg-white/[0.08]`}>
                       {t(`course.${AI_CATEGORY.id}.${course.id}.label`)}
                     </span>
                   ))}

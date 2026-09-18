@@ -65,7 +65,7 @@ export default function HomeNoticeList({ notices }: Props) {
                   </span>
                 )}
                 {isNew(notice.created_at) && (
-                  <span className="shrink-0 rounded bg-accent px-1.5 py-0.5 font-sans text-[10px] font-bold leading-none text-bg-main">
+                  <span className="shrink-0 rounded bg-accent px-1.5 py-0.5 font-sans text-[11px] font-bold leading-none text-bg-main">
                     N
                   </span>
                 )}

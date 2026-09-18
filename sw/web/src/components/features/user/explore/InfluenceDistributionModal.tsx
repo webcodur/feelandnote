@@ -76,7 +76,7 @@ function AuraListItem({
       <div className="flex-1 min-w-0 flex flex-col justify-center">
          <div className="flex items-center gap-2 mb-1">
             <span className="font-bold text-text-primary text-sm">{t(`auraTitle.${aura}`)}</span>
-            <span className="text-xs bg-bg-secondary px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">{t(`scoreRanges.${aura}`)}</span>
+            <span className="text-xs bg-bg-secondary px-1.5 py-0.5 rounded whitespace-nowrap">{t(`scoreRanges.${aura}`)}</span>
          </div>
          {/* Distribution Bar */}
          <div className="w-full h-1 bg-bg-secondary rounded-full overflow-hidden">
@@ -107,14 +107,14 @@ function AuraListItem({
                   shape="circle"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[10px] font-bold" style={{ color: mat.colors.text }}>
+                <div className="w-full h-full flex items-center justify-center text-[11px] font-bold" style={{ color: mat.colors.text }}>
                   {celeb.nickname.charAt(0)}
                 </div>
               )}
             </div>
           ))}
           {celebs.length > 4 && (
-            <div className="w-7 h-7 rounded-full bg-bg-secondary flex items-center justify-center text-[9px] font-bold text-text-secondary border-2 border-bg-card z-10">
+            <div className="w-7 h-7 rounded-full bg-bg-secondary flex items-center justify-center text-[11px] font-bold text-text-secondary border-2 border-bg-card z-10">
               +{celebs.length - 4}
             </div>
           )}
@@ -124,7 +124,7 @@ function AuraListItem({
       {/* Stats */}
       <div className="text-right shrink-0 min-w-[50px] flex flex-col items-end">
          <div className="font-bold text-text-primary text-sm">{t("countUnit", { count })}</div>
-         <div className="text-[10px]">{percentage}%</div>
+         <div className="text-xs">{percentage}%</div>
       </div>
 
       <ChevronRight className="text-text-tertiary group-hover:text-accent transition-colors shrink-0" size={16} />
@@ -176,7 +176,7 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
                   <div className="font-bold text-sm text-text-primary">{t("scoreUnit", { score: celeb.total_score })}</div>
                   <div className="flex items-center justify-end gap-1 mt-0.5">
                     <span 
-                      className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold border border-black/5"
+                      className="inline-block px-1.5 py-0.5 rounded text-[11px] font-bold border border-black/5"
                       style={{
                           background: mat.gradient.simple,
                           color: badgeTextColor,
@@ -297,7 +297,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
                     <div className="flex-1">
                         <div className="flex items-center gap-2">
                             <span 
-                                className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-black font-cinzel border border-black/5"
+                                className="w-6 h-6 rounded flex items-center justify-center text-[11px] font-black font-cinzel border border-black/5"
                                 style={{ 
                                     background: selectedAuraMat?.gradient.simple,
                                     color: (selectedAura || 0) <= 5 ? 'black' : 'white',

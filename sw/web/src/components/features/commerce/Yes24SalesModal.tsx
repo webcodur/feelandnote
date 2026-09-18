@@ -27,11 +27,12 @@ export default function Yes24SalesModal({ contentId, editionId, yes24Href, sales
   const t = useTranslations("content.purchaseSales");
   const number = new Intl.NumberFormat(useLocale());
   const price = (value: number) => t("price", { price: number.format(value) });
-  const { starScore, salePrice, shopPrice, salePoint, pages, publishDate } = sales;
-  const discountRate = salePrice != null && shopPrice != null && shopPrice > salePrice
+  const { starScore, salePrice, shopPrice, salePoint, pages, publishDate, onSale } = sales;
+  const discountRate = onSale && salePrice != null && shopPrice != null && shopPrice > salePrice
     ? Math.round((1 - salePrice / shopPrice) * 100)
     : 0;
 
+  // 팔리지 않는 판본이면 판매가·정가·판매지수처럼 지금과 어긋난 시세 값은 숨긴다
   const facts = [
     starScore ? {
       label: t("rating"),
@@ -42,7 +43,7 @@ export default function Yes24SalesModal({ contentId, editionId, yes24Href, sales
         </span>
       ),
     } : null,
-    salePrice != null ? {
+    onSale && salePrice != null ? {
       label: t("salePrice"),
       value: (
         <span className="inline-flex flex-wrap items-center gap-x-2">
@@ -55,7 +56,7 @@ export default function Yes24SalesModal({ contentId, editionId, yes24Href, sales
       label: t("shopPrice"),
       value: <span className="tabular-nums line-through">{price(shopPrice)}</span>,
     } : null,
-    salePoint ? { label: t("salePoint"), value: <span className="tabular-nums">{number.format(salePoint)}</span> } : null,
+    onSale && salePoint ? { label: t("salePoint"), value: <span className="tabular-nums">{number.format(salePoint)}</span> } : null,
     pages ? { label: t("pages"), value: t("pageCount", { count: pages }) } : null,
     publishDate ? { label: t("published"), value: <span className="tabular-nums">{publishDate}</span> } : null,
   ].filter((fact) => fact !== null);
@@ -65,7 +66,7 @@ export default function Yes24SalesModal({ contentId, editionId, yes24Href, sales
       <ModalBody className="space-y-4 p-4 sm:p-5">
         <p className="flex items-start gap-2 rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-3 py-2 text-xs leading-relaxed text-text-secondary">
           <Info size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-          {t("notice")}
+          {onSale ? t("notice") : t("changedNotice")}
         </p>
 
         <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-sm">

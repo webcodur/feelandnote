@@ -52,12 +52,12 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
             <div className="flex items-center gap-2">
               {/* 랭크 표시 (옵션) */}
               {rank && (
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 border border-accent/20 text-[10px] font-bold text-accent">
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 border border-accent/20 text-[11px] font-bold text-accent">
                   {rank}
                 </div>
               )}
               {/* 등급/역할 뱃지 (예시) */}
-              <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-[10px] text-white/60">
+              <div className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-[11px] text-text-secondary">
                 MEMBER
               </div>
             </div>

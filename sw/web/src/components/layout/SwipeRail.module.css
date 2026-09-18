@@ -1,0 +1,198 @@
+/*
+  파일명: /components/layout/SwipeRail.module.css
+  기능: 위아래 스와이프 막대의 생김새
+  책임: 휴대폰 폭에서는 숨기고, PC 폭에서 화면 오른쪽에 넓고 반투명한 판으로 세운다.
+        스크롤바처럼 보이면 안 된다 — 좁은 띠가 아니라 손바닥으로 밀 만한 넓은 유리판이다.
+        좌측 목차 레일과 달리 헤더 아래부터 음악 단추 위까지 길게 서서 구분된다.
+        끌기 연출은 SwipeRail.tsx가 track에 올리는 CSS 변수(--pin-y·--pin-shift)로 그린다.
+        판 전체는 hover·끌기에 반응하지 않는다. 반응은 커서와 누른 자리의 선 하나뿐이다.
+*/
+
+.rail {
+  display: none;
+}
+
+/* 본문 틀 안쪽 여백(LayoutMain의 본문 영역 xl:px-[150px])에 선다. 인물 상세는 좌측 목차 레일의
+   폭·중심을 변수로 알리므로 그 값을 받아 대칭으로 서고, 변수가 없는 화면은 여백 한가운데에 선다.
+   틀은 최대 폭(1400·1800px)이 있어 넓은 화면에서는 화면 벽보다 안쪽에 선다 — 그래서 화면이 아니라
+   틀 오른쪽 끝을 기준으로 잰다: 틀 바깥 여백 (100% - 틀 폭) / 2 + 테두리 4px + 안쪽 32px + 150px
+   안에서 판을 가운데 둔다. 100%는 fixed 요소의 기준(스크롤바를 뺀 뷰포트)이라 100vw보다 정확하다 */
+@media (min-width: 1280px) {
+  .rail {
+    --rail-width: var(--celeb-atlas-width, 140px);
+    --frame-max: 1400px;
+    --frame-gap: calc((100% - min(100% - 40px, var(--frame-max))) / 2);
+    --gutter-center: calc(var(--frame-gap) + 4px + (32px + 150px) / 2);
+
+    position: fixed;
+    /* 아래는 음악 단추(bottom 32px + 44px)를 피해 100px을 비운다. 위도 헤더 아래 같은 100px을 비워 위아래가 같다 */
+    top: calc(var(--layer-header-h) + 100px);
+    right: calc(var(--celeb-atlas-center-inline, var(--gutter-center)) - var(--rail-width) / 2);
+    bottom: 100px;
+    display: flex;
+    box-sizing: border-box;
+    width: var(--rail-width);
+    padding: 4px 0;
+    flex-direction: column;
+    align-items: center;
+    /* 테두리는 두지 않는다. 바탕이 그 자리만 살짝 밝은 정도로, 판이 따로 떠 있지 않게 한다 */
+    border: 0;
+    border-radius: 4px;
+    /* 반투명 유리판. 어두운 바탕 위라 패널색을 섞으면 불투명해 보인다 — 흰 빛을 아주 옅게만 얹어
+       뒤의 바탕 무늬가 그대로 비치게 한다. 흐림도 두지 않는다(무늬가 뭉개져 불투명해 보인다) */
+    background: color-mix(in srgb, white 4%, transparent);
+    /* 떠 있는 물건이 아니라 바탕 자체를 짚는 자리다 — 그림자·빛 번짐을 두지 않는다 */
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, white 3%, transparent);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+/* 틀 최대 폭이 넓어지는 지점(Tailwind 2xl)에서 기준도 함께 바꾼다 */
+@media (min-width: 1536px) {
+  .rail {
+    --frame-max: 1800px;
+  }
+}
+
+/* 인물 상세는 좌측 목차 레일이 서는 1340px부터만 옆 여백이 생긴다. 그 아래에서는 판도 물러난다 */
+@media (max-width: 1339px) {
+  .rail[data-celeb] {
+    display: none;
+  }
+}
+
+/* 손을 올리거나 잡아도 판은 밝아지지 않는다. 바탕을 짚는 느낌이라 판 전체가 반응하면 어색하다.
+   반응은 커서와, 누른 자리의 선 하나뿐이다 */
+.rail[data-dragging] {
+  cursor: grabbing;
+}
+
+.rail:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ── 판: 자국이 움직이는 면. 눈금·결·화살표 같은 스크롤바 요소는 두지 않는다 ── */
+.track {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+/* 누른 자리에 남는 짚은 자국 — 판을 가로지르는 흰 선 하나(금색 없음). 화면이 간 만큼 판과 함께 움직인다 */
+.pin {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--pin-y, 0px) + var(--pin-shift, 0px));
+  right: 0;
+  left: 0;
+  display: none;
+  height: 1px;
+  background: color-mix(in srgb, white 32%, transparent);
+  transform: translateY(-50%);
+}
+
+/* 선이 지나온 자리의 잔상 띠. 위치·높이·방향은 SwipeRail.tsx가 프레임마다 쓴다 */
+.trail {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: none;
+  height: 0;
+  pointer-events: none;
+}
+
+.rail[data-dragging] .trail {
+  display: block;
+}
+
+.rail[data-dragging] .pin {
+  display: block;
+}
+
+
+/* ── 발치: 설정 단추와 감도 창 ── */
+.foot {
+  position: relative;
+  display: grid;
+  width: calc(100% - 20px);
+  margin-top: 4px;
+  padding-top: 4px;
+  place-items: center;
+  border-top: 1px solid color-mix(in srgb, white 8%, transparent);
+}
+
+.gear {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  border-radius: 2px;
+  color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background: transparent;
+  cursor: pointer;
+}
+
+.gear:hover,
+.gear[data-open] {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.gear:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.settings {
+  position: absolute;
+  right: calc(100% + 12px);
+  bottom: 0;
+  width: 200px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--color-bg-card) 96%, black 4%);
+  box-shadow: 0 12px 28px color-mix(in srgb, black 40%, transparent);
+  cursor: default;
+}
+
+.settingsRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.settingsLabel {
+  color: var(--color-text-primary);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.settingsValue {
+  color: var(--color-accent);
+  font: 700 12px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.slider {
+  width: 100%;
+  margin: 6px 0 0;
+  grid-column: 1 / -1;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.settingsNote {
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.4;
+}

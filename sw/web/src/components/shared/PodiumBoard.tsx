@@ -84,11 +84,11 @@ export default function PodiumBoard({
                 />
               </div>
               <div className="px-1 pb-1.5 pt-1 text-center sm:px-1.5 sm:pb-2 sm:pt-1.5">
-                <p className="truncate text-[11px] font-semibold leading-tight text-text-primary group-hover:text-(--rk-accent) sm:text-sm">
+                <p className="truncate text-xs font-semibold leading-tight text-text-primary group-hover:text-(--rk-accent) sm:text-base">
                   {name}
                 </p>
                 {item.subtitle && (
-                  <p className="mt-0.5 truncate text-[9px] leading-tight sm:text-[11px]" style={{ color: `${accent}cc` }}>
+                  <p className="mt-0.5 truncate text-[11px] leading-tight text-text-secondary sm:text-[13px]">
                     {item.subtitle}
                   </p>
                 )}
@@ -96,12 +96,12 @@ export default function PodiumBoard({
                   {valuePrefix}
                   <span className="font-cinzel text-xs font-black tabular-nums sm:text-sm" style={{ color: accent }}>
                     {item.value}
-                    {item.unit && <span className="ml-0.5 font-sans text-[10px] font-medium text-text-tertiary">{item.unit}</span>}
+                    {item.unit && <span className="ml-0.5 font-sans text-[11px] font-medium text-text-secondary sm:text-xs">{item.unit}</span>}
                   </span>
                 </div>
-                {item.sub && <p className="mt-0.5 text-[9px] font-bold text-white/35 sm:text-[10px]">{item.sub}</p>}
+                {item.sub && <p className="mt-0.5 text-[11px] font-bold text-text-secondary sm:text-xs">{item.sub}</p>}
                 {item.note && idx === 0 && (
-                  <p className="mt-1.5 hidden line-clamp-2 text-[10px] leading-relaxed text-text-secondary sm:block">
+                  <p className="mt-1.5 hidden line-clamp-2 text-xs leading-relaxed text-text-secondary sm:block">
                     {item.note}
                   </p>
                 )}

@@ -57,12 +57,12 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
           </button>
           <TitleBadge title={null} size="sm" />
           {review.celeb.is_verified && (
-            <span className="bg-[#d4af37] text-black text-[8px] px-1 py-0.5 font-black font-cinzel leading-none tracking-tight">
+            <span className="bg-[#d4af37] text-black text-[11px] px-1 py-0.5 font-black font-cinzel leading-none tracking-tight">
               OFFICIAL
             </span>
           )}
         </div>
-        <p className="text-[9px] sm:text-[10px] text-accent/60 font-medium font-sans uppercase tracking-wider">
+        <p className="text-[11px] text-accent font-medium font-sans uppercase tracking-wider">
           {(review.celeb.profession && tProf.has(review.celeb.profession) ? tProf(review.celeb.profession) : review.celeb.profession) || t("wisdomSeeker")} · {formatRelativeTime(review.updated_at)}
         </p>
       </div>

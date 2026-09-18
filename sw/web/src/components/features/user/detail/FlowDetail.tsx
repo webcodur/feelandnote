@@ -38,7 +38,7 @@ function DragOverlayContent({ content }: { content: Content }) {
         {content.thumbnail_url ? (
           <ContentImage src={content.thumbnail_url} alt="" sizes="32px" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[7px] text-white/20">
+          <div className="w-full h-full flex items-center justify-center text-[11px] text-white/20">
             {content.title.slice(0, 4)}
           </div>
         )}
@@ -48,7 +48,7 @@ function DragOverlayContent({ content }: { content: Content }) {
           <NoEditionBadge badge={content.title_badge} />
           {content.title}
         </p>
-        <p className="text-[10px] text-text-secondary truncate">{content.creator}</p>
+        <p className="text-[11px] text-text-secondary truncate">{content.creator}</p>
       </div>
     </div>
   );

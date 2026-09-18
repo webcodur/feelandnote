@@ -9,6 +9,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
 import { getKSTDateKey } from '@/lib/game/date-seed'
+import { fetchFeatureExcludedCelebIds } from '@/lib/celeb-feature-exclusion'
 import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
 import type { Tables } from '@/types/database.generated'
@@ -57,6 +58,7 @@ export interface TodayFigureResult {
 async function pickBirthdayCeleb(
   db: StaticDatabaseClient,
   today: string,
+  excluded: ReadonlySet<string>,
 ): Promise<string | null> {
   const monthDay = today.slice(5) // "MM-DD"
 
@@ -69,9 +71,9 @@ async function pickBirthdayCeleb(
     .like('birth_date', `%-${monthDay}`)
 
   throwOnQueryError('getTodayFigure 생일 인물 조회', celebsError)
-  if (!celebs?.length) return null
 
-  const ids = celebs.map((c) => c.id)
+  const ids = (celebs ?? []).map((c) => c.id).filter((id) => !excluded.has(id))
+  if (ids.length === 0) return null
   const { data: contentRows, error: contentRowsError } = await db
     .from('celeb_contents')
     .select('celeb_id')
@@ -120,9 +122,12 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 
   const seedSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
+  // 크론과 같은 명단이다 — 추천 노출 제외 인물은 생일·시드 어느 갈래로도 세우지 않는다
+  const excluded = await fetchFeatureExcludedCelebIds(db)
+
   // 편성 행이 없어도 생일은 날짜만으로 정해진다 — 크론이 못 돌았다고 생일인 사람을
   // 시드로 덮지 않는다. 크론과 같은 규칙(기록 많은 순, 5건 이상 우선)을 쓴다.
-  const birthdayFigure = await pickBirthdayCeleb(db, today)
+  const birthdayFigure = await pickBirthdayCeleb(db, today, excluded)
   if (birthdayFigure) {
     const result = await fetchFigureContents(db, birthdayFigure, locale)
     return { ...result, source: { type: 'birthday', newsCount: 0 } }
@@ -130,10 +135,10 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 
   // 공개 감상 5개 이상 보유한 활성 셀럽만 RPC로 카운트 수신
   // 후보가 천 명을 넘어 한 번에 받으면 1,000명에서 잘린다 — 나눠 받는다(26.09.14)
-  const eligibleData = await selectAllPages<SeedEligibleRow>((from, to) => db
+  const eligibleData = (await selectAllPages<SeedEligibleRow>((from, to) => db
     .rpc('get_seed_eligible_celebs')
     .order('celeb_id', { ascending: true })
-    .range(from, to))
+    .range(from, to))).filter((row) => !excluded.has(row.celeb_id))
 
   if (!eligibleData.length) {
     return { figure: null, contents: [], source: seedSource }

@@ -70,7 +70,7 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
 
         {/* 수치 근거 */}
         {loading ? (
-          <p className="mt-4 text-sm text-text-secondary/50">{t("loading")}</p>
+          <p className="mt-4 text-sm text-text-tertiary">{t("loading")}</p>
         ) : (
           reasonText && <p className="mt-4 text-sm leading-relaxed text-text-secondary">{reasonText}</p>
         )}

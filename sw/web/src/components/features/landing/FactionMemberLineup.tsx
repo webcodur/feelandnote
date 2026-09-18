@@ -220,7 +220,7 @@ export default function FactionMemberLineup({
                     {member.avatarUrl ? (
                       <BlurDissolve key={member.avatarUrl} className="absolute inset-0"><Image src={member.avatarUrl} alt="" fill unoptimized sizes="24px" className="object-cover object-top" /></BlurDissolve>
                     ) : (
-                      <span aria-hidden className="grid h-full place-items-center text-[10px] font-black text-white/50">{member.name[0]}</span>
+                      <span aria-hidden className="grid h-full place-items-center text-[11px] font-black text-white/50">{member.name[0]}</span>
                     )}
                   </span>
                   {member.name}

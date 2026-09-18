@@ -29,11 +29,11 @@ export function StepQuizQuestion({
     <div className="mt-5 border-t border-white/[0.06] pt-4">
       <div className="mb-3 flex items-center gap-2">
         <CheckCircle2 className="h-3.5 w-3.5 text-[#d4af37]/60" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#d4af37]/60">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#d4af37]">
           {t("title")} Q{questionIndex + 1}
         </span>
         {revealed && (
-          <span className={`ml-auto text-[10px] font-medium ${isCorrect ? "text-emerald-400/70" : "text-rose-400/70"}`}>
+          <span className={`ml-auto text-[11px] font-medium ${isCorrect ? "text-emerald-400" : "text-rose-400"}`}>
             {isCorrect ? t("correct") : t("incorrect")}
           </span>
         )}

@@ -185,7 +185,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
                       <p className={`text-[13px] leading-snug line-clamp-2 ${!notif.is_read ? "text-text-primary font-medium" : "text-text-secondary"}`}>
                         {notif.message}
                       </p>
-                      <p className="text-[10px] text-text-secondary/70 mt-0.5">{notifTime(notif.created_at)}</p>
+                      <p className="text-[11px] text-text-tertiary mt-0.5">{notifTime(notif.created_at)}</p>
                     </div>
                     {!notif.is_read && <div className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1.5" />}
                   </button>

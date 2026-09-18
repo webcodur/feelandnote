@@ -41,6 +41,10 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
   }
   // 사실·가상 — '사실'이 명부 기본이라 벗어났을 때만 조건 칩으로 뜬다
   if (filters.realityValue !== "real") conditions.push({ key: "reality", label: `${t("filterReality")}: ${t(`reality.${filters.realityValue}`)}`, clear: () => filters.handleRealityChange("real") });
+  // 감상 유무 — 처음부터 걸려 있는 필터(감상 있음)라 기본값이라도 칩으로 띄워 X로 풀 수 있게 한다.
+  // 상세 모달 항목이 아니므로 상세 버튼의 건수에는 넣지 않는다.
+  const chips = filters.contentPresence === "all" ? conditions
+    : [{ key: "contentPresence", label: `${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`, clear: () => filters.handleContentPresenceChange("all") }, ...conditions];
 
   return (
     <div className="mb-6 space-y-3">
@@ -94,9 +98,9 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
           </a>
         </div>
       )}
-      {conditions.length > 0 && (
+      {chips.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {conditions.map(condition => (
+          {chips.map(condition => (
             <button key={condition.key} type="button" disabled={filters.isLoading} onClick={() => { onInteraction?.(); condition.clear(); }}
               aria-label={t("compactFilters.remove", { label: condition.label })}
               className="flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-xs text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50">

@@ -6,14 +6,14 @@
 export const badgeStyles = {
   /* 반응 2단: 카드에 손을 올리면 옅게 밝아지고(group-hover), 뱃지를 직접 가리키면 색을 뒤집어
      카드 애니메이션에 묻히지 않게 한다(hover). 둘 다 transition 없이 즉시 — 즉각 반응 축이다. */
-  card: "absolute top-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] min-w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)] px-[clamp(3px,1.5cqw,8px)] bg-black/70 rounded-full border border-accent/50 text-accent text-[clamp(9px,7cqw,12px)] shadow-sm group-hover:bg-black/70 group-hover:border-accent group-hover:text-accent-hover hover:bg-accent hover:border-accent hover:text-black hover:shadow-[0_0_10px_rgba(212,175,55,0.5)]",
+  card: "absolute top-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] min-w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)] px-[clamp(3px,1.5cqw,8px)] bg-black/70 rounded-full border border-accent/50 text-accent text-[clamp(11px,7cqw,12px)] shadow-sm group-hover:bg-black/70 group-hover:border-accent group-hover:text-accent-hover hover:bg-accent hover:border-accent hover:text-black hover:shadow-[0_0_10px_rgba(212,175,55,0.5)]",
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 bg-accent text-black rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent text-black rounded-full border border-black/20 shadow-lg text-[10px]",
 };
 // #endregion
 
 export const quietBadgeStyles = {
-  card: "absolute top-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] min-w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)] px-[clamp(3px,1.5cqw,8px)] rounded-full text-[clamp(9px,7cqw,12px)]",
+  card: "absolute top-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] min-w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)] px-[clamp(3px,1.5cqw,8px)] rounded-full text-[clamp(11px,7cqw,12px)]",
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px]",
 };

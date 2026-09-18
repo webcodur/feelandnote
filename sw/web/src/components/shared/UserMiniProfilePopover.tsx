@@ -93,11 +93,11 @@ export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProf
           <div className="px-4 py-3 border-t border-white/5 flex justify-around text-center">
             <div>
               <p className="text-sm font-semibold">{profile.content_count}</p>
-              <p className="text-[10px] text-text-secondary">{t("records")}</p>
+              <p className="text-[11px] text-text-secondary">{t("records")}</p>
             </div>
             <div>
               <p className="text-sm font-semibold">{profile.follower_count}</p>
-              <p className="text-[10px] text-text-secondary">{t("followers")}</p>
+              <p className="text-[11px] text-text-secondary">{t("followers")}</p>
             </div>
           </div>
 

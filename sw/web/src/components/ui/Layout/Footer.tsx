@@ -168,13 +168,13 @@ export default async function Footer() {
             {isDev ? (
               <Link
                 href="/lab"
-                className="text-[10px] font-sans tracking-wider text-text-tertiary hover:text-text-secondary"
+                className="text-[11px] font-sans tracking-wider text-text-tertiary hover:text-text-secondary"
                 title="Lab"
               >
                 &copy; {currentYear} {t("layout.footer.copyright")}
               </Link>
             ) : (
-              <p className="text-[10px] font-sans tracking-wider text-text-tertiary">
+              <p className="text-[11px] font-sans tracking-wider text-text-tertiary">
                 &copy; {currentYear} {t("layout.footer.copyright")}
               </p>
             )}

@@ -86,7 +86,7 @@ function StatBar({
         />
         {/* 퍼센트 표시 (바 안쪽/바깥쪽) */}
         <span 
-          className={`absolute top-1/2 -translate-y-1/2 text-[10px] font-bold ${
+          className={`absolute top-1/2 -translate-y-1/2 text-xs font-bold ${
             percentage > 15 ? "left-2 text-white" : "left-full ml-2 text-text-secondary"
           }`}
         >
@@ -244,7 +244,7 @@ function ContentTypeStats({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-bg-card flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
-            <span className="text-[10px] font-medium">{t("totalContent")}</span>
+            <span className="text-xs font-medium">{t("totalContent")}</span>
           </div>
         </div>
       </div>
@@ -264,7 +264,7 @@ function ContentTypeStats({
               />
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-bold text-text-primary truncate">{item.label}</div>
-                <div className="text-[10px]">{t("countUnit", { count: item.count })} ({percent}%)</div>
+                <div className="text-xs">{t("countUnit", { count: item.count })} ({percent}%)</div>
               </div>
             </div>
           );
@@ -310,7 +310,7 @@ function GenderStats({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-bg-card flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
-            <span className="text-[10px] font-medium">{t("totalPeople")}</span>
+            <span className="text-xs font-medium">{t("totalPeople")}</span>
           </div>
         </div>
       </div>

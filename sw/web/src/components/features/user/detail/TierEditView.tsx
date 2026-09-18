@@ -190,7 +190,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
           </Button>
           <div>
             <h1 className="font-serif font-black text-xl text-white tracking-wide">HALL OF JUDGMENT</h1>
-            <p className="text-xs text-accent/60 font-serif tracking-widest uppercase">{flow.name}</p>
+            <p className="text-xs text-accent font-serif tracking-widest uppercase">{flow.name}</p>
           </div>
         </div>
 
@@ -253,7 +253,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
               {/* Tier Label (Left Pillar) */}
               <div className={`w-24 md:w-32 flex-shrink-0 flex flex-col items-center justify-center gap-2 border-r border-white/5 ${TIER_CONFIG[tier].bg} relative overflow-hidden group`}>
                 <span className={`text-4xl md:text-5xl font-black font-serif ${TIER_CONFIG[tier].color} drop-shadow-lg z-10`}>{tier}</span>
-                <span className={`text-[10px] font-bold tracking-[0.2em] ${TIER_CONFIG[tier].color} opacity-60 z-10`}>{t(`tierLabels.${tier}`)}</span>
+                <span className={`text-[11px] font-bold tracking-[0.2em] ${TIER_CONFIG[tier].color} opacity-60 z-10`}>{t(`tierLabels.${tier}`)}</span>
                 
                 {/* Background Glow */}
                 <div className={`absolute inset-0 opacity-20 ${tier === 'S' ? 'animate-pulse' : ''} bg-gradient-to-br from-transparent via-${TIER_CONFIG[tier].color.split('-')[1]}-500/20 to-transparent`} />
@@ -284,7 +284,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                           <div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
-                           <p className="text-[10px] text-white line-clamp-2 leading-tight">
+                           <p className="text-[11px] text-white line-clamp-2 leading-tight">
                              <NoEditionBadge badge={item.content.title_badge} />
                              {item.content.title}
                            </p>
@@ -315,7 +315,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
               
               <div className="flex flex-wrap gap-2">
                 {getFilteredIds(unranked).length === 0 && (
-                   <div className="w-full py-12 text-center text-white/20 text-sm font-serif italic">
+                   <div className="w-full py-12 text-center text-text-tertiary text-sm font-serif italic">
                       {t("allJudged")}
                    </div>
                 )}
@@ -332,7 +332,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                       {item.content.thumbnail_url ? (
                         <ContentImage src={item.content.thumbnail_url} alt={item.content.title} sizes="64px" className="object-cover opacity-60 hover:opacity-100 transition-opacity" />
                       ) : (
-                        <div className="w-full h-full bg-[#111] flex items-center justify-center text-[10px] text-white/20 p-1 text-center">{item.content.title.slice(0, 4)}</div>
+                        <div className="w-full h-full bg-[#111] flex items-center justify-center text-[11px] text-white/20 p-1 text-center">{item.content.title.slice(0, 4)}</div>
                       )}
                     </div>
                   );

@@ -155,7 +155,7 @@ export default function FilterCombobox({
             {icon ? (
               <span className={isActive ? 'text-accent' : ' opacity-70'}>{icon}</span>
             ) : (
-              <span className={`text-[10px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent opacity-100' : ' opacity-70'}`}>
+              <span className={`text-[11px] uppercase font-sans font-bold tracking-wider leading-none text-center ${isActive ? 'text-accent' : 'text-text-secondary'}`}>
                 {label}
               </span>
             )}
