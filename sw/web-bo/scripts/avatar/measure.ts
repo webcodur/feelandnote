@@ -142,10 +142,12 @@ async function measureOne(buf: Buffer, file: string): Promise<Row> {
     const box = d.detection.box
     const lm = d.landmarks
     const eyePts = [...lm.getLeftEye(), ...lm.getRightEye()]
-    const anchors: FaceAnchors = {
+    const jaw = lm.getJawOutline()
+    const anchors: FaceAnchors & { centerX: number } = {
       eyeX: eyePts.reduce((s, p) => s + p.x, 0) / eyePts.length,
       eyeY: eyePts.reduce((s, p) => s + p.y, 0) / eyePts.length,
-      chinY: lm.getJawOutline()[Math.floor(lm.getJawOutline().length / 2)].y,
+      chinY: jaw[Math.floor(jaw.length / 2)].y,
+      centerX: (jaw[0].x + jaw[jaw.length - 1].x) / 2,
     }
     // 이미 정사각으로 잘려 있는 이미지를 그대로 프레임으로 본다.
     const v = judgeGeometry(anchors, { left: 0, top: 0, size: H })
@@ -157,7 +159,7 @@ async function measureOne(buf: Buffer, file: string): Promise<Row> {
       score: +d.detection.score.toFixed(3),
       eyeLine: +(v.eyeLine * 100).toFixed(1),
       chinLine: +(v.chinLine * 100).toFixed(1),
-      centerX: +((anchors.eyeX / W) * 100).toFixed(1),
+      centerX: +((anchors.centerX / W) * 100).toFixed(1),
       pass: v.pass,
       faults: v.faults,
       boxRatioObserved: +(AVATAR_SPEC.eyeChinSpan / ((anchors.chinY - anchors.eyeY) / base)).toFixed(4),
