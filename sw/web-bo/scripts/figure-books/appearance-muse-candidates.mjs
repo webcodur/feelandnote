@@ -15,6 +15,7 @@ import { dirname, join, resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import { museCall } from '../../../../.agents/skills/opencode-muse/scripts/muse-call.mjs'
 import { agyCall, AGY_TEXT_MODEL } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
+import { devinCallWithRetry } from '../../../../.agents/skills/devin-swe/scripts/devin-call.mjs'
 
 // 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
 if (!process.env.ALLOW_EXTERNAL_CLI) {
@@ -71,8 +72,19 @@ function codexCall(prompt, { model, timeoutMs }) {
   })
 }
 
-// 조사 엔진은 갈아끼운다. opencode 라인이 막히면 agy로, agy 쿼터가 끝나면 claude·codex로 넘어간다.
+// 조사 엔진은 갈아끼운다. opencode 라인이 막히면 agy로, agy 쿼터가 끝나면 claude·codex·devin으로 넘어간다.
+const DEVIN_MODEL = process.env.DEVIN_MODEL ?? 'swe-2-high'
+
 async function research(prompt, { backend, model, timeoutMs }) {
+  if (backend === 'devin') {
+    const text = await devinCallWithRetry(prompt, {
+      model: model === DEFAULT_MODEL ? DEVIN_MODEL : model,
+      timeoutMs,
+    }, {
+      onWait: (waitMs, attempt) => console.log(`… devin 메시지 한도 — ${Math.round(waitMs / 1000)}초 쉬고 재시도(${attempt})`),
+    })
+    return { text: String(text ?? '').trim(), attempts: 1 }
+  }
   if (backend === 'codex') {
     const text = await codexCall(prompt, { model: model === DEFAULT_MODEL ? CODEX_MODEL : model, timeoutMs })
     return { text, attempts: 1 }
@@ -156,6 +168,33 @@ async function loadTargets(scope, since) {
 
   return celebs
     .filter((celeb) => !hasAppearance.has(celeb.id))
+    .map((celeb) => ({ ...celeb, score: scoreById.get(celeb.id) ?? 0 }))
+    .sort((left, right) => right.score - left.score || left.slug.localeCompare(right.slug))
+}
+
+// --slugs 지정 시는 appearance 보유 여부와 무관하게 그 slug를 그대로 대상으로 삼는다.
+// AR1 2권째처럼 이미 1권이 있는 인물의 추가 후보를 조사할 때 쓴다. 지정 없는 기본 경로는 위와 같다.
+async function loadSlugTargets(slugs) {
+  const celebs = await allRows('celebs', (from, to) => db
+    .from('celebs')
+    .select('id,slug,nickname,nickname_en,profession,headline,bio,celeb_reality')
+    .in('slug', slugs)
+    .order('id')
+    .range(from, to))
+
+  const influence = await allRows('celeb_influence', (from, to) => db
+    .from('celeb_influence')
+    .select('celeb_id,total_score')
+    .order('celeb_id')
+    .range(from, to))
+
+  const scoreById = new Map(influence.map((row) => [row.celeb_id, row.total_score ?? 0]))
+  const found = new Set(celebs.map((celeb) => celeb.slug))
+  for (const slug of slugs) {
+    if (!found.has(slug)) console.log(`! slug 없음: ${slug}`)
+  }
+
+  return celebs
     .map((celeb) => ({ ...celeb, score: scoreById.get(celeb.id) ?? 0 }))
     .sort((left, right) => right.score - left.score || left.slug.localeCompare(right.slug))
 }
@@ -315,11 +354,11 @@ async function main() {
     }
   }
 
-  const all = await loadTargets(scope, since)
-  const scoped = onlySlugs.length ? all.filter((person) => onlySlugs.includes(person.slug)) : all
+  const all = onlySlugs.length ? await loadSlugTargets(onlySlugs) : await loadTargets(scope, since)
+  const scoped = all
   const pending = scoped.filter((person) => !done.has(person.slug))
   const targets = limit > 0 ? pending.slice(0, limit) : pending
-  console.log(`대상 ${all.length}명 / 완료 ${done.size}명 / 이번 실행 ${targets.length}명 (scope=${scope}, 동시 ${concurrency}, ${backend} / ${backend === 'agy' ? '기본 gemini' : model})`)
+  console.log(`대상 ${all.length}명 / 완료 ${done.size}명 / 이번 실행 ${targets.length}명 (scope=${scope}${onlySlugs.length ? ', slugs지정=외부선정포함' : ''}, 동시 ${concurrency}, ${backend} / ${backend === 'agy' ? '기본 gemini' : model})`)
 
   let processed = 0
   let withBooks = 0

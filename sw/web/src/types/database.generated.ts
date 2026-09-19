@@ -449,7 +449,6 @@ export type Database = {
           plain_text_en: string | null
           profile_id: string
           published_at: string | null
-          review_status: string | null
           updated_at: string
         }
         Insert: {
@@ -462,7 +461,6 @@ export type Database = {
           plain_text_en?: string | null
           profile_id: string
           published_at?: string | null
-          review_status?: string | null
           updated_at?: string
         }
         Update: {
@@ -475,7 +473,6 @@ export type Database = {
           plain_text_en?: string | null
           profile_id?: string
           published_at?: string | null
-          review_status?: string | null
           updated_at?: string
         }
         Relationships: [

@@ -12,9 +12,7 @@ import { useId, useMemo, useState } from "react";
 import { ArrowUpRight, Book, Film, Gamepad2, Music } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { SharedContent } from "@/actions/home/getFactionSharedLibrary";
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import Yes24Sales from "@/components/features/commerce/Yes24Sales";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import { celebDisplayName } from "@/lib/celeb/displayName";
 import CelebImage from "@/components/ui/CelebImage";
 import ContentImage from "@/components/ui/ContentImage";
@@ -72,7 +70,6 @@ export default function SharedLibraryShelf({ heading, items, memberCount }: Shar
   const filtered = (items ?? []).filter((item) => filter === "ALL" || item.type === filter);
   const [lead, ...rest] = filtered.slice(0, limit);
   const canBuy = (item: SharedContent) => !isEn && item.type === "BOOK";
-  const hasPurchase = filtered.some(canBuy);
 
   const chooseFilter = (next: WorkType | "ALL") => {
     setFilter(next);
@@ -90,12 +87,6 @@ export default function SharedLibraryShelf({ heading, items, memberCount }: Shar
             </p>
           )}
         </div>
-        {hasPurchase && (
-          <div className="flex items-center gap-1 text-xs text-text-tertiary">
-            {t("purchaseInfo")}
-            <BookPurchaseInfo className="inline-flex size-7" />
-          </div>
-        )}
       </header>
 
       {availableTypes.length > 1 && (
@@ -228,12 +219,20 @@ function LeadWork({ item, memberCount, isEn, buyable, t }: { item: SharedContent
           </Link>
         </h4>
         {creator && <p className="mt-1 text-sm text-text-secondary">{creator}</p>}
-        {/* YES24 판매 정보 — 제목·저자의 책정보 흐름에 붙이고 구매 단추와는 뗀다 */}
-        {buyable && <Yes24Sales contentId={item.contentId} editionId={item.editionId} full className="mt-3" />}
+        {/* 통합 구매 모듈 — 제목·저자의 책정보 흐름에 붙인다. 누르면 서점 링크·주의 안내 창이 뜬다 */}
+        {buyable && (
+          <BookPurchaseSummary
+            contentId={item.contentId}
+            editionId={item.editionId}
+            title={title}
+            creator={creator}
+            links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
+            full
+            className="mt-3"
+          />
+        )}
         <Readers item={item} memberCount={memberCount} isEn={isEn} faces={6} t={t} />
-        {buyable ? (
-          <AffiliateBookAction contentId={item.contentId} editionId={item.editionId} coupangUrl={item.coupangUrl} hideSales className="mt-4 w-full max-w-sm" />
-        ) : (
+        {!buyable && (
           <Link href={href} prefetch={false} className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-accent outline-none hover:underline focus-visible:underline">
             {t("viewWork")}
             <ArrowUpRight size={14} aria-hidden />
@@ -274,7 +273,16 @@ function WorkCard({ item, memberCount, isEn, buyable, t }: { item: SharedContent
         </div>
       </Link>
       {buyable && (
-        <AffiliateBookAction contentId={item.contentId} editionId={item.editionId} coupangUrl={item.coupangUrl} compact className="mt-2" />
+        /* 통합 구매 모듈 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다 */
+        <BookPurchaseSummary
+          contentId={item.contentId}
+          editionId={item.editionId}
+          title={title}
+          creator={creator}
+          links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
+          full
+          className="mt-2"
+        />
       )}
     </li>
   );

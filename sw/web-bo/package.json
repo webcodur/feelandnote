@@ -83,8 +83,11 @@
     "naver:audit-titles": "node scripts/naver-blog/audit-titles.mjs",
     "naver:audit-links": "node scripts/naver-blog/audit-links.mjs",
     "naver:audit-drafts": "node scripts/naver-blog/audit-drafts.mjs",
+    "naver:audit-reservations": "node scripts/naver-blog/audit-reservations.mjs",
+    "naver:verify-body": "node scripts/naver-blog/verify-body.mjs",
     "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs",
     "contents:book-sources": "node --env-file=.env --import tsx scripts/contents/book-description-sources.ts",
+    "contents:edition-refresh": "node --env-file=.env scripts/contents/book-edition-refresh.mjs",
     "celeb:seed:factions": "tsx scripts/celeb/seed-faction-assignments.ts"
   },
   "dependencies": {

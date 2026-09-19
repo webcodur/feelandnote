@@ -1,42 +1,29 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] sourceWorks — 원전 바로가기·구매 단추
+ * [celeb 상세] sourceWorks — 원전 바로가기 단추
  * - 목차 위치: sourceWorks
  * - 데이터: source/edition props
+ * - 구매 링크는 여기 두지 않는다 — 제목 아래 통합 구매 모듈(BookPurchaseSummary)이 서점 링크를 창으로 연다
  * - 함께 보기: FigureBookFeature.tsx, FigureBookWorksSection.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
 import { ArrowUpRight, BookOpenText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import type {
-  FigureBookContent,
-  FigureBookEdition,
-} from "@/actions/figure-books/getFigureBooks";
-import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 
 interface FigureBookActionsProps {
   source: FigureBookContent;
-  edition: FigureBookEdition;
   className: string;
   compact?: boolean;
 }
 
 export default function FigureBookActions({
   source,
-  edition,
   className,
   compact = false,
 }: FigureBookActionsProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
-  const existingLinks = edition.purchaseUrl && edition.platform
-    ? [{ platform: edition.platform, url: edition.purchaseUrl }]
-    : [];
-  const purchaseLinks = source.type === "BOOK" && locale === "en"
-    ? getEnglishBookPurchaseLinks({ locale, title: edition.title || source.title, creator: edition.creator || source.creator, links: existingLinks })
-    : existingLinks;
   const contentHref = `${locale === "en" ? "/en" : ""}/content/${source.id}?category=${source.category}`;
 
   return (
@@ -55,16 +42,6 @@ export default function FigureBookActions({
           />
         )}
       </a>
-
-      {locale === "ko" && source.type === "BOOK" ? (
-        <AffiliateBookAction
-          contentId={source.id}
-          editionId={edition.id}
-          coupangUrl={edition.platform === "coupang" ? edition.purchaseUrl : null}
-          hideSales
-          className="w-full"
-        />
-      ) : <BookPurchaseLinks links={purchaseLinks} className="w-full" />}
     </div>
   );
 }

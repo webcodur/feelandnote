@@ -5,7 +5,8 @@ import { ChevronDown, Search, X } from 'lucide-react'
 import { useCountries } from '@/hooks/useCountries'
 import { useCelebTableQuery } from './CelebTableQuery'
 
-const CONTROL_CLASS = 'flex h-7 w-full min-w-16 items-center justify-between gap-1 rounded border bg-bg-card px-1.5 text-left text-[11px] font-normal hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-wait disabled:opacity-50'
+// 글자는 상자 전체 폭 기준으로 가운데, 화살표는 오른쪽 끝에 붙인다 — 네이티브 select와 같은 자리다.
+const CONTROL_CLASS = 'relative flex h-7 w-full min-w-16 items-center justify-center rounded border bg-bg-card px-1.5 text-center text-[11px] font-normal hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-wait disabled:opacity-50'
 const INPUT_CLASS = 'h-8 w-full min-w-0 rounded border border-border bg-bg-secondary px-2 text-xs text-text-primary hover:border-accent focus:border-accent focus:outline-none'
 const TEXT_BUTTON_CLASS = 'rounded px-2 py-1.5 text-xs text-text-secondary hover:bg-white/5 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent'
 
@@ -55,7 +56,7 @@ function FilterPopover({ label, summary, active, children }: { label: string; su
   return (
     <>
       <button ref={buttonRef} type="button" disabled={pending} aria-label={`${label} 필터: ${summary}`} aria-expanded={open} aria-haspopup="dialog" aria-controls={id} title={summary} onClick={toggle} className={`${CONTROL_CLASS} ${active ? 'border-accent/60 text-accent' : 'border-border text-text-tertiary'}`}>
-        <span className="truncate">{summary}</span><ChevronDown className="size-3 shrink-0" />
+        <span className="truncate px-3">{summary}</span><ChevronDown className="absolute right-1.5 size-3" />
       </button>
       <div ref={panelRef} id={id} popover="auto" role="dialog" aria-label={`${label} 필터`} onToggle={(event) => setOpen(event.newState === 'open')} className="fixed m-0 w-72 max-w-[calc(100vw-16px)] rounded-lg border border-border bg-bg-card p-3 text-left text-text-primary shadow-xl" style={{ margin: 0 }}>
         <div className="mb-3 flex items-center justify-between gap-2">
@@ -126,7 +127,7 @@ function RangeForm({ label, low, high, minimum, date, onApply }: { label: string
       {error ? <p id={errorId} role="alert" className="text-xs text-red-400">{error}</p> : null}
       <div className="flex items-center justify-between border-t border-border pt-2">
         <button type="button" onClick={() => { onApply('', ''); close() }} className={TEXT_BUTTON_CLASS}>해제</button>
-        <button type="submit" className="rounded border border-accent/50 bg-accent/10 px-3 py-1.5 text-xs font-medium text-accent hover:border-accent hover:bg-accent/20 focus-visible:outline-2 focus-visible:outline-accent">적용</button>
+        <button type="submit" className="rounded border border-accent/50 bg-accent/10 px-3 py-1.5 text-xs font-medium text-accent hover:border-accent hover:bg-accent/20 focus-visible:outline-2 focus-visible:outline-accent">담기</button>
       </div>
     </form>
   )
@@ -138,7 +139,7 @@ export function NationalityFilter() {
   const nationality = params.get('nationality') || ''
   const country = countries.find((item) => item.code === nationality)
   return (
-    <FilterPopover label="nationality" summary={country?.name || nationality || '전체'} active={Boolean(nationality)}>
+    <FilterPopover label="국적" summary={country?.name || nationality || '전체'} active={Boolean(nationality)}>
       <NationalityOptions countries={countries} loading={loading} error={error} selected={nationality} onChoose={(value) => update({ nationality: value })} />
     </FilterPopover>
   )

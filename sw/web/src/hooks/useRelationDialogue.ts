@@ -10,7 +10,12 @@ import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/use
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import type { Locale } from "@/types/locale";
 
-import type { PersonNode } from "./types";
+/** 대사를 읊을 수 있는지 가리는 데 필요한 인물의 최소 모습. PersonNode·인물 카드가 그대로 만족한다 */
+export interface DialoguePerson {
+  id: string;
+  slug: string | null;
+  listed: boolean;
+}
 
 const hasDialogue = (profile: CelebGreetingProfile) => Boolean(
   profile.greeting?.length || profile.greeting_en?.length
@@ -25,7 +30,7 @@ export default function useRelationDialogue(locale: string) {
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [pulse, setPulse] = useState({ personId: "", count: 0 });
 
-  const speak = useCallback(async (person: PersonNode) => {
+  const speak = useCallback(async (person: DialoguePerson) => {
     if (!person.listed || !person.slug || loadingId === person.id) return;
     let profile = cacheRef.current.get(person.id);
     if (!cacheRef.current.has(person.id)) {
@@ -52,7 +57,7 @@ export default function useRelationDialogue(locale: string) {
     }));
   }, [fireGreeting, loadingId, locale]);
 
-  const stateFor = useCallback((person: PersonNode) => {
+  const stateFor = useCallback((person: DialoguePerson) => {
     const profile = profiles[person.id];
     const eligible = person.listed && Boolean(person.slug);
     return {

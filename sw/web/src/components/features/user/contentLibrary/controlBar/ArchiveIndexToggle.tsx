@@ -30,6 +30,7 @@ export default function ArchiveIndexToggle({
       onClick={onToggle}
       aria-expanded={isOpen}
       aria-label={resolvedLabel}
+      data-testid="archive-index-toggle"
       title={resolvedLabel}
       className={cn(
         "flex min-h-[2.5rem] shrink-0 items-center justify-center gap-1.5 rounded-lg border border-accent/25 bg-white/5 px-3 text-sm font-semibold text-text-primary hover:border-accent/50 hover:bg-white/10 hover:text-text-primary",

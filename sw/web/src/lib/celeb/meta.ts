@@ -150,18 +150,18 @@ export function buildCelebDescriptionKo(input: CelebMetaInput): string {
   if (reality !== "REAL") {
     const source = primarySource(input);
     const parts = [source ? `《${source}》 등 원전과 등장 작품` : "신화와 이야기 속 행적"];
-    if (input.hasReading) parts.push("인물 안내와 탐구");
+    if (input.hasReading) parts.push("인물 안내");
     if (input.hasConnections) parts.push("이야기 속 관계");
     return composeDescription(descriptionHeadKo(input), `${parts.join(", ")}까지 살펴보세요.`);
   }
   if (tier === "light") {
     const parts = ["영향력 평가와 16축 스펙트럼"];
-    if (input.hasReading) parts.push("인물 안내와 탐구");
+    if (input.hasReading) parts.push("인물 안내");
     if (input.hasConnections) parts.push("인물 관계");
     return composeDescription(descriptionHeadKo(input), `${parts.join(", ")}까지 살펴보세요.`);
   }
   const parts = countPartsKo(input.counts);
-  if (input.hasReading) parts.push("인물 안내와 탐구");
+  if (input.hasReading) parts.push("인물 안내");
   if (input.hasConnections) parts.push("인물 관계");
   const tail = parts.length > 0 ? `${parts.join(", ")}까지 한 페이지에서 살펴보세요.`
     : "소개와 인물 기록을 한 페이지에서 살펴보세요.";

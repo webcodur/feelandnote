@@ -83,9 +83,25 @@ function translatedOriginalProvider(sources: unknown, depth = 0): BookIntroducti
   return sourceProvider(originalIntroductionUrl(source))
 }
 
+// 카카오 출처는 재조회용 API 주소(dapi)를 저장한다 — 인증 키 없이 열면 빈 화면이라
+// 사람이 여는 링크는 같은 도서 데이터의 소비자 페이지인 다음 책 검색으로 바꾼다.
+function introductionDisplayUrl(url: string | null): string | null {
+  if (!url) return null
+  const api = new URL(url)
+  if (api.hostname !== 'dapi.kakao.com') return url
+  if (api.pathname !== '/v3/search/book' || api.searchParams.get('target') !== 'isbn') return null
+  const isbn = api.searchParams.get('query')
+  if (!isbn) return null
+  const page = new URL('https://search.daum.net/search')
+  page.searchParams.set('w', 'book')
+  page.searchParams.set('q', isbn)
+  return page.toString()
+}
+
 function introductionAttribution(row: StoredBookIntroduction): BookIntroductionAttribution {
   const source = fields(row.sources), description = fields(source.description)
-  const url = originalIntroductionUrl(source)
+  const originalUrl = originalIntroductionUrl(source)
+  const url = introductionDisplayUrl(originalUrl)
   // 예약값은 조회할 원천 자체다. 이전 본문에 남았던 번역 표식으로 바꾸지 않는다.
   if (isBookIntroductionSource(row.description)) return { provider: MARKER_PROVIDER[row.description], url, translated: false }
   const translationValues = [source.description_translation, source.descriptionTranslation]
@@ -96,7 +112,7 @@ function introductionAttribution(row: StoredBookIntroduction): BookIntroductionA
     || (['ko', 'en'].includes(String(source.description_source_locale)) && source.description_source_locale !== row.locale)
   const manual = source.manual === true || methods.some(value => typeof value === 'string'
     && /^(manual|manually[-_]written|original[-_]writing|feelandnote|generated|rewrite)(?:[-_].*)?$/i.test(value))
-  return { provider: translated ? translatedOriginalProvider(source) : manual ? 'feelandnote' : sourceProvider(url), url, translated }
+  return { provider: translated ? translatedOriginalProvider(source) : manual ? 'feelandnote' : sourceProvider(originalUrl), url, translated }
 }
 
 /** 예약값은 지정된 원천만 조회한다. NULL은 다른 소개로 대체하지 않는다. */

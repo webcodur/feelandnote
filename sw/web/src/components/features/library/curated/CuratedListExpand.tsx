@@ -25,9 +25,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import Yes24Sales from "@/components/features/commerce/Yes24Sales";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
 import ContentMetaPanel from "@/components/features/user/contentLibrary/expand/ContentMetaPanel";
 import {
@@ -95,7 +93,6 @@ export default function CuratedListExpand({
 }: CuratedListExpandProps) {
   const t = useTranslations("library.curated");
   const tArchive = useTranslations("archiveSearch");
-  const locale = useLocale();
   const { items } = list;
   const total = items.length;
   const rootRef = useRef<HTMLElement>(null);
@@ -175,8 +172,7 @@ export default function CuratedListExpand({
   if (!selected) return null;
   const isNavigationDisabled = total <= 1;
   const number = numberLabel(selectedIndex);
-  /* 수수료 안내 — 판매 단추 안에 묻지 않고 작품 제목 옆에 둔다. 미등록 작품은 단추가 서지 않으니 아이콘도 없다 */
-  const showPurchaseInfo = locale === "ko" && (selected.contentType ?? list.contentType) === "BOOK" && !!selected.contentId;
+  /* 수수료·주의 안내는 통합 구매 창(BookPurchaseModal)이 싣는다 */
 
   return (
     <div>
@@ -193,9 +189,6 @@ export default function CuratedListExpand({
             disabled={isNavigationDisabled}
             onPrevious={goPrevious}
             onNext={goNext}
-            titleAddon={showPurchaseInfo ? (
-              <BookPurchaseInfo className="inline-flex size-6 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
-            ) : undefined}
           />
         </div>
       </div>
@@ -336,11 +329,6 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
         <ContentMetaPanel brief={brief} isLoading={isLoading} internalHref="" />
       )}
 
-      {/* YES24 판매 정보 — 출판사·ISBN의 작품 정보 칸에 붙이고 발판(구매)과는 뗀다 */}
-      {showPurchase && item.contentId && (
-        <Yes24Sales contentId={item.contentId} full className="px-3 pb-4 sm:px-4 md:px-5" />
-      )}
-
       {/* 발판 — 작품 열기·구매. 링크가 없어도 자리를 비우지 않는다 */}
       <div className="border-t border-white/10 px-3 py-4 sm:px-4 md:px-5">
         <div className={cn("grid gap-2", showPurchase && "sm:grid-cols-2")}>
@@ -357,7 +345,14 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
           )}
           {showPurchase &&
             (item.contentId ? (
-              <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} hideSales />
+              /* 통합 구매 모듈 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다 */
+              <BookPurchaseSummary
+                contentId={item.contentId}
+                title={item.title}
+                creator={item.creator}
+                links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
+                full
+              />
             ) : (
               <PendingSlot label={t("purchasePending")} tone="purchase" />
             ))}

@@ -59,6 +59,9 @@ export const BASE_MESSAGE_PATHS = [
   "celebPage.playGreetingVoice",
   "celebPage.dialogue_greeting",
   "celebPage.enlargePhoto",
+  // 공용 인물 행(FigurePersonRows)이 어느 화면에서든 우측 바로가기·외부 안내를 단다
+  "celebPage.relGoPersonPage",
+  "celebPage.relViewWikidata",
   "celebPage.playQuoteVoice",
   "celebPage.showDetail",
   "celebPage.hideDetail",

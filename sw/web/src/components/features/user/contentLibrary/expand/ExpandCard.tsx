@@ -1,7 +1,8 @@
 /*
   파일명: /components/features/user/contentLibrary/expand/ExpandCard.tsx
   기능: 펼침 보기의 카드 한 장.
-  책임: 세 칸을 위에서 아래로 쌓는다 — 표지와 작품 소개, 인물의 감상배경, 작품의 나머지 정보.
+  책임: 본문을 두 모드로 가른다 — 표지와 작품 소개, 인물의 감상배경. 카드 맨 위 탭으로 넘기고
+        어느 모드를 보는지는 작품을 넘겨도 유지되게 카드 밖(ExpandDetailView)이 쥔다.
         소개는 표지 열이 정한 높이만큼만 보이고, 감상배경은 상자 높이를 두고 넘치는 긴 글을 그 안에서 굴린다.
         제목과 작품 선택 목록은 카드 밖의 ExpandDetailView가 맡는다.
 */ // ------------------------------
@@ -14,7 +15,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 import ContentImage from "@/components/ui/ContentImage";
-import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
 import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
 import FormattedText from "@/components/ui/FormattedText";
@@ -25,23 +25,17 @@ import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import type { TitleBadge } from "@/lib/utils/content-locale";
 
-import ContentIntro from "./ContentIntro";
+import ContentIntro, { INTRO_HEADING_KEY } from "./ContentIntro";
+import ExpandModeTabs, { type ExpandCardMode } from "./ExpandModeTabs";
 import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
-import AffiliateBookAction from "../AffiliateBookAction";
-import Yes24Sales from "@/components/features/commerce/Yes24Sales";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
-import { getCoupangAffiliateUrl } from "../contentAffiliate";
-import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
-import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
-import { findAffiliateLink } from "@/actions/home/affiliateLinks";
+import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
-  /** 요청 언어판이 확인되지 않은 작품의 표시(번역본 없음·절판). 제목 머리글과 같은 판정값이다 */
-  titleBadge?: TitleBadge | null;
   brief: ContentBrief | null;
   isBriefLoading: boolean;
   isRecordLoading: boolean;
@@ -53,11 +47,13 @@ interface ExpandCardProps {
   isActive: boolean;
   /** 이 감상배경을 남긴 인물 이름 */
   ownerNickname?: string;
+  /** 지금 보는 본문 모드. 작품을 넘겨도 유지되게 카드 밖이 쥔다 */
+  mode: ExpandCardMode;
+  onModeChange: (mode: ExpandCardMode) => void;
 }
 
 function ExpandCard({
   item,
-  titleBadge,
   brief,
   isBriefLoading,
   isRecordLoading,
@@ -67,6 +63,8 @@ function ExpandCard({
   onRetryRecord,
   isActive,
   ownerNickname,
+  mode,
+  onModeChange,
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
@@ -85,20 +83,27 @@ function ExpandCard({
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const href = `/content/${item.content_id}?category=${category}`;
   const coverUrl = item.content.thumbnail_url;
-  const amazonLink = findAffiliateLink(item.content.affiliate_url, "amazon");
-  const englishPurchaseLinks = item.content.type === "BOOK"
-    ? getEnglishBookPurchaseLinks({ locale, title, creator, links: amazonLink ? [amazonLink] : [] })
-    : [];
-  const hasBookPurchase = item.content.type === "BOOK" && (locale === "ko" || englishPurchaseLinks.length > 0);
+  const purchaseLinks = toAffiliateLinks(item.content.affiliate_url);
+  const hasBookPurchase = item.content.type === "BOOK";
 
   return (
     <>
       <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-bg-card">
-        {/* 윗칸 — 표지와 작품 소개 */}
-        {/* 첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
-            소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */}
-        <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5">
-          <div className="relative mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
+        {/* 본문 모드 — 작품 소개와 감상 배경을 겹쳐 쌓지 않고 탭으로 가른다 */}
+        <ExpandModeTabs
+          ariaLabel={tExpand("expandModeSwitch")}
+          introLabel={tExpand(INTRO_HEADING_KEY[brief?.category ?? category])}
+          reviewLabel={tExpand("expandReview")}
+          active={mode}
+          onChange={onModeChange}
+        />
+
+        {mode === "intro" ? (
+        /* 윗칸 — 표지와 작품 소개 */
+        /* 첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
+            소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */
+        <div id="expand-panel-intro" role="tabpanel" aria-labelledby="expand-tab-intro" className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5">
+          <div data-testid="expand-cover" className="relative mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
           {coverUrl ? (
             <button
               type="button"
@@ -123,16 +128,14 @@ function ExpandCard({
             </button>
           ) : (
             <div className="relative h-56 w-full overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg sm:h-72">
-              {/* 표지가 없으면 목록 카드와 같은 생성 표지를 그린다. 판본 띠가 가운데를 지나면 아이콘 상자를 뺀다 */}
+              {/* 표지가 없으면 목록 카드와 같은 생성 표지를 그린다 */}
               <GenerativeBookCover
                 title={title}
-                ContentIcon={titleBadge ? undefined : TYPE_ICONS[item.content.type]}
+                ContentIcon={TYPE_ICONS[item.content.type]}
                 iconSize={28}
               />
             </div>
           )}
-          {/* 목록 카드와 같이 표지가 있든 없든 표지 한가운데를 가로지르는 띠로 판본 상태를 알린다 */}
-          <NoEditionBadge variant="cover" badge={titleBadge} />
           </div>
 
           {/* 소개 칸은 제 높이를 내지 않고(contain-size) 표지 열이 정한 높이만큼 늘어난다.
@@ -151,30 +154,26 @@ function ExpandCard({
                 <div className="flex flex-col sm:min-h-0 sm:flex-1">
                   <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
                 </div>
-                {/* YES24 판매 정보 — 작품 소개 칸의 발꿈치. 구매 단추와 떼어 책정보 구역에 둔다 */}
-                <Yes24Sales contentId={item.content_id} enabled={item.content.type === "BOOK"} full className="mt-2 shrink-0" />
               </div>
             )}
           </div>
-          {hasBookPurchase && locale === "ko" && (
-            <AffiliateBookAction
+          {hasBookPurchase && (
+            /* 통합 구매 모듈 — 표지 아래 구매 자리. 값표+서점 마커를 누르면 서점별 링크·주의 안내가 든 창이 뜬다 */
+            <BookPurchaseSummary
               contentId={item.content_id}
-              coupangUrl={getCoupangAffiliateUrl(item.content)}
-              hideSales
-              className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
-            />
-          )}
-          {englishPurchaseLinks.length > 0 && (
-            <BookPurchaseLinks
-              links={englishPurchaseLinks}
+              title={title}
+              creator={creator}
+              links={purchaseLinks}
+              enabled={item.content.type === "BOOK"}
+              full
               className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
             />
           )}
         </div>
-
-        {/* 가운뎃칸 — 이 인물이 왜 이 작품을 골랐는지.
-          이 서비스의 알맹이라 제목을 가운데 두고 위 칸들과 바탕색·윗선으로 갈라 놓는다. */}
-        <section className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:px-5 md:py-6">
+        ) : (
+        /* 가운뎃칸 — 이 인물이 왜 이 작품을 골랐는지.
+          이 서비스의 알맹이라 제목을 가운데 두고 위 칸들과 바탕색·윗선으로 갈라 놓는다. */
+        <section id="expand-panel-review" role="tabpanel" aria-labelledby="expand-tab-review" className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:px-5 md:py-6">
           <div className="mb-4 flex flex-col items-center gap-0.5">
             <h4 className={EXPAND_SECTION_HEADING_CLASS}>{reviewHeading}</h4>
             {item.rating != null && item.rating > 0 && (
@@ -240,17 +239,19 @@ function ExpandCard({
               <span className="font-semibold text-red-500">{t("reviewModal.noSource")}</span>
             )}
           </div>}
-        </section>
 
-        {/* 아랫칸 — 작품 상세 페이지(다른 이들의 리뷰)로 가는 길 */}
-        <div className="border-t border-white/10 px-3 py-4 sm:px-4 md:px-5">
-          <Link
-            href={href}
-            className="inline-flex min-h-10 w-full items-center justify-center rounded-md border border-accent/35 bg-accent/10 px-3 py-2 text-center text-sm font-medium text-accent hover:border-accent/65 hover:bg-accent/15"
-          >
-            {tShared("allReviews")}
-          </Link>
-        </div>
+          {/* 작품 상세 페이지(다른 이들의 리뷰)로 가는 길 — 감상 배경을 읽는 자리에 둔다 */}
+          <div className="mt-5 border-t border-white/10 pt-4">
+            <Link
+              href={href}
+              className="inline-flex min-h-10 w-full items-center justify-center rounded-md border border-accent/35 bg-accent/10 px-3 py-2 text-center text-sm font-medium text-accent hover:border-accent/65 hover:bg-accent/15"
+            >
+              {tShared("allReviews")}
+            </Link>
+          </div>
+        </section>
+        )}
+
         {isActive && !hasBookPurchase && (
           <DeveloperCollectionJourney
             target={{ title, creator: item.content.creator, type: item.content.type, contentId: item.content_id }}

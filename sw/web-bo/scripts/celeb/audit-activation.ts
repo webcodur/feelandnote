@@ -458,7 +458,7 @@ async function assertActivationReadback(
     byIds('celebs', 'id,publication_status', profileIds, 'id'),
     byIds(
       'celeb_explanations',
-      'profile_id,review_status,published_at',
+      'profile_id,published_at',
       profileIds,
       'profile_id',
     ),
@@ -476,10 +476,7 @@ async function assertActivationReadback(
 
     const reading = readingById.get(profileId)
     if (!reading) failures.push(`${profileId}:reading_missing`)
-    else if (expectedStatus === 'active') {
-      if (blank(reading.review_status)) failures.push(`${profileId}:review_status=null`)
-      if (!reading.published_at) failures.push(`${profileId}:published_at=null`)
-    } else if (!sameTimestamp(reading.published_at, expectedPublishedAt.get(profileId) ?? null)) {
+    else if (!sameTimestamp(reading.published_at, expectedPublishedAt.get(profileId) ?? null)) {
       failures.push(`${profileId}:published_at=${reading.published_at ?? 'null'}`)
     }
   }
@@ -502,8 +499,7 @@ async function compensateActivation(
 ): Promise<string[]> {
   const failures: string[] = []
 
-  // 먼저 프로필을 비활성으로 되돌린다. 되돌아가지 않은 프로필의 읽어보기를 미게시로
-  // 만들면 active + 미게시 상태가 되므로, 상태 readback으로 확인한 행만 다음 단계에서 복구한다.
+  // 이번 실행에서 활성화한 프로필만 되돌린다. DB가 안내의 게시 시각도 비운다.
   for (const group of chunks(activatedProfileIds)) {
     const { error } = await db
       .from('celebs')
@@ -544,18 +540,13 @@ async function activateReadyProfiles(
   for (const profileId of profileIds) {
     const explanation = explanationById.get(profileId)
     if (!explanation) throw new Error(`활성화 대상의 읽어보기 행 없음: ${profileId}`)
-    if (blank(explanation.review_status)) {
-      throw new Error(`활성화 대상의 읽어보기 미검수: ${profileId}`)
-    }
     originalPublishedAt.set(profileId, explanation.published_at ?? null)
   }
 
   const activatedProfileIds: string[] = []
 
   try {
-    // DB 불변식이 inactive 인물의 published_at을 항상 null로 유지하고,
-    // publication_status가 active로 바뀌는 같은 문장 뒤에 검수된 안내를 자동 게시한다.
-    // 따라서 자식 행을 먼저 게시하려 하지 말고 현재 inactive 상태를 확인한 뒤 부모만 바꾼다.
+    // 인물 활성화는 안내를 자동 게시하지 않는다. 기존 게시 시각이 유지되는지 확인한다.
     await assertActivationReadback(profileIds, 'inactive', originalPublishedAt)
 
     for (const group of chunks(profileIds)) {
@@ -635,7 +626,7 @@ async function main() {
     byIds('celeb_dialogues', 'celeb_id,lines,lines_en', ids),
     byIds(
       'celeb_explanations',
-      'profile_id,plain_text,plain_text_en,review_status,published_at',
+      'profile_id,plain_text,plain_text_en,published_at',
       ids,
       'profile_id',
     ),
@@ -853,7 +844,6 @@ async function main() {
 
       addFictionSpeechGaps(profile, dialogueById.get(profile.id), nonAvatarGaps)
       addFictionTimelineGaps(events, nonAvatarGaps)
-      if (explanation && blank(explanation.review_status)) nonAvatarGaps.push('reading:review_status')
       if (profile.publication_status === 'inactive' && explanation?.published_at) {
         nonAvatarGaps.push('reading:published_while_inactive')
       }

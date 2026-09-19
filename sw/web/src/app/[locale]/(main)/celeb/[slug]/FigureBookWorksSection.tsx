@@ -7,10 +7,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
+import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import FigureBookFeature from "./FigureBookFeature";
 import styles from "./CelebPageContent.module.css";
 
@@ -22,13 +22,13 @@ export default function FigureBookWorksSection({
   sources,
 }: FigureBookWorksSectionProps) {
   const t = useTranslations("celebPage");
-  const locale = useLocale();
   /* 등장과 연관을 한 섹션에 묶는다. 등장 여부는 판본 본문을 열어야 확정되는데 그럴 수 없어,
      확인하지 못한 것을 등장이라 단정하지 않고 「연관 작품」 하나로 보여 준다.
      창작(authored)은 저작 목록이 따로 있으므로 여기서 뺀다. */
   const appearanceSources = sources.filter((source) => source.relationType !== "authored");
   const [selectedId, setSelectedId] = useState(appearanceSources[0]?.id ?? "");
-  const railRef = useRef<HTMLDivElement>(null);
+  /* 고른 칸을 가운데로 보내는 effect가 같은 ref를 쓰므로 훅의 ref를 그대로 이어 받는다 */
+  const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>();
   const selectedButtonRef = useRef<HTMLButtonElement>(null);
   const selected = appearanceSources.find((source) => source.id === selectedId) ?? appearanceSources[0];
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function FigureBookWorksSection({
       left: Math.min(maxScrollLeft, Math.max(0, target)),
       behavior: reduceMotion ? "auto" : "smooth",
     });
-  }, [selected?.id]);
+  }, [railRef, selected?.id]);
   if (!selected) return null;
 
   return (
@@ -60,13 +60,10 @@ export default function FigureBookWorksSection({
             <p className="min-w-0 truncate text-[15px] font-medium leading-5 tracking-[0.01em] text-text-secondary">
               {t("sourceWorksIntro")}
             </p>
-            {/* 수수료 안내 — 판매 단추 안에 묻지 않고 구획 머리말에 둔다 */}
-            {locale === "ko" && appearanceSources.some((source) => source.type === "BOOK") && (
-              <BookPurchaseInfo className="ms-auto inline-flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
-            )}
+            {/* 수수료·주의 안내는 통합 구매 창(BookPurchaseModal)이 싣는다 */}
           </header>
           <div className="relative bg-stone-heavy bg-texture-noise px-2 py-2.5 sm:px-3 sm:py-3 md:px-4">
-            <div ref={railRef} className="flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 [overflow-anchor:none] [scrollbar-width:thin] sm:scroll-px-3">
+            <div ref={railRef} {...dragProps} className={`flex gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 select-none scrollbar-hide pointer-coarse:snap-x pointer-coarse:snap-proximity [overflow-anchor:none] sm:scroll-px-3 ${cursorClassName}`}>
               {appearanceSources.map((source) => {
                 const active = source.id === selected.id;
                 return (

@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
-import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 
 interface ArrowButtonProps {
@@ -37,6 +36,7 @@ export function ExpandArrowButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
+      data-testid={`expand-${placement}-${direction === "previous" ? "prev" : "next"}`}
       className={`${placementClass} items-center justify-center border-white/10 bg-bg-secondary/55 text-text-secondary hover:bg-accent/[0.08] hover:text-accent active:bg-accent/[0.13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:bg-bg-secondary/35 disabled:text-text-tertiary md:bg-bg-secondary/55`}
     >
       <Icon className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.6} aria-hidden />
@@ -82,11 +82,10 @@ export function ExpandTitleHeader({
           <div className="flex min-w-0 items-center justify-center gap-1">
             <h3
               data-testid="expand-selected-title"
-              className="min-w-0 truncate font-sans text-sm font-bold text-text-primary sm:text-base md:text-lg"
+              className={`min-w-0 truncate font-sans text-sm font-bold sm:text-base md:text-lg ${titleBadge ? "text-text-tertiary line-through decoration-text-tertiary/70" : "text-text-primary"}`}
               title={title}
               aria-live="polite"
             >
-              <NoEditionBadge badge={titleBadge} />
               {title}
             </h3>
             {titleAddon}

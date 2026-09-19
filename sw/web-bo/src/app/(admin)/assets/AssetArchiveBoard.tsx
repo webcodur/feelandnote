@@ -3,9 +3,10 @@
 import { useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { HardDrive, Search } from 'lucide-react'
+import type { AssetUnit } from '@feelandnote/shared/bo/asset-archive'
 import {
   archiveAsset, stageAsset, unstageAsset,
-  type AssetArchiveSnapshot, type AssetUnit,
+  type AssetArchiveSnapshot,
 } from '@/actions/admin/assets'
 
 type Series = 'episodes' | 'discourses'

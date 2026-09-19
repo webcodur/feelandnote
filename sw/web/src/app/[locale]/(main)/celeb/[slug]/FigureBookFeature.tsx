@@ -15,7 +15,8 @@ import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import FigureBookActions from "./FigureBookActions";
 import FigureBookEditionPicker from "./FigureBookEditionPicker";
 import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
-import Yes24Sales from "@/components/features/commerce/Yes24Sales";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
@@ -58,6 +59,13 @@ export default function FigureBookFeature({
   if (!edition) return null;
 
   const releaseDate = formatDate(edition.releaseDate, locale);
+  // 구매 모듈의 서점 링크 — 판본 상품 주소(쿠팡·아마존)에 작품의 보유 서점 링크를 잇는다
+  const purchaseModuleLinks: AffiliateLink[] = [
+    ...(edition.purchaseUrl && edition.platform
+      ? [{ platform: edition.platform, url: edition.purchaseUrl }]
+      : []),
+    ...(source.affiliateLinks ?? []),
+  ];
   const meta = [
     { label: t("sourceWorkPublisher"), value: edition.publisher },
     { label: t("sourceWorkReleaseDate"), value: releaseDate },
@@ -96,9 +104,21 @@ export default function FigureBookFeature({
           </div>
           <FigureBookActions
             source={source}
-            edition={edition}
             compact
             className="mt-5 hidden flex-col gap-2 lg:flex"
+          />
+          {/* 구매 모듈 — 포스터·열기 단추 아래에 둔다. 값표를 누르면 서점별 구매 단추와
+              주의 안내가 든 창이 뜬다 */}
+          <BookPurchaseSummary
+            contentId={source.id}
+            editionId={edition.id}
+            isbn={edition.isbn ?? undefined}
+            title={edition.title || source.title}
+            creator={edition.creator || source.creator}
+            links={purchaseModuleLinks}
+            enabled={source.type === "BOOK"}
+            className="hidden lg:block"
+            chipClassName="mt-3"
           />
         </div>
 
@@ -115,16 +135,6 @@ export default function FigureBookFeature({
               </p>
             )}
           </header>
-
-          {/* 팔리고 있는 판본은 제목 바로 아래에 YES24 판매 정보를 띄운다. md에서는 표지가 제목·판매 정보·소개 세 줄에 걸친다.
-              제목·저자·값표는 모든 폭에서 열 가운데에 선다. lg의 header는 self-stretch로 열 폭을 채워야 가운데가 잡힌다 */}
-          <Yes24Sales
-            contentId={source.id}
-            editionId={edition.id}
-            enabled={source.type === "BOOK" && Boolean(edition.isbn)}
-            className="col-span-2 min-w-0 md:col-span-1 md:col-start-2"
-            chipClassName="mt-3"
-          />
 
           {/* AnimatedHeight는 안쪽 높이를 재서 바깥 상자에 인라인 height로 박는다. 그 상자를 flex로 늘리면 그 값이
               행 높이에 되먹어 창을 줄여도 안 줄어든다. 그래서 lg에서는 바깥 상자를 contents로 지우고 안쪽 상자를
@@ -174,8 +184,19 @@ export default function FigureBookFeature({
 
           <FigureBookActions
             source={source}
-            edition={edition}
             className="col-span-2 mt-5 flex flex-col gap-2 sm:flex-row lg:hidden"
+          />
+          {/* 구매 모듈 — 좁은 화면에서는 카드 맨 아래 열기 단추 뒤에 선다 */}
+          <BookPurchaseSummary
+            contentId={source.id}
+            editionId={edition.id}
+            isbn={edition.isbn ?? undefined}
+            title={edition.title || source.title}
+            creator={edition.creator || source.creator}
+            links={purchaseModuleLinks}
+            enabled={source.type === "BOOK"}
+            className="col-span-2 lg:hidden"
+            chipClassName="mt-3"
           />
         </div>
       </div>

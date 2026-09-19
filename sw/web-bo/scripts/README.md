@@ -53,7 +53,7 @@ scripts/
 | `celeb:fill` | 결손 조건부 반영. 빈칸만 채운다. `--replace-spectrum`은 스펙트럼 재채점 덮어쓰기. 스펙트럼은 근거문 중복 게이트를 거친다 |
 | `celeb:defer` | 근거 부재 항목을 보류 장부에 기록해 선점에서 제외 |
 | `celeb:i18n-backfill` | 활성 셀럽 상세의 KO→EN 누락 필드 백필 |
-| `celeb:readings` | 읽어보기(인물 안내·인물 탐구) 집필 배치 |
+| `celeb:readings` | 한영 인물 안내 작성·검수·수정 배치 |
 | `celeb:readings:translate` | 읽어보기 영문 번역 |
 | `celeb:relations` | 위키데이터 기반 인물 관계망 수집 |
 | `celeb:dialogue-repair` | 대사 데이터 최상위 구조 교정 |

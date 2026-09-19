@@ -43,20 +43,15 @@ const HEADING_KEY: Record<AffiliateBookSource, 'headingOrigin' | 'headingRead' |
   mixed: 'title',
 }
 
-// 구분선에 매다는 구간 이름 — heading* 키를 재쓰되 원전은 앞의 「연관 작품」 구간에 흡수돼 여기엔 안 온다.
-const GROUP_LABEL_KEY = {
-  origin: 'headingOrigin',
-  read: 'headingRead',
-  profession: 'headingProfession',
-  popular: 'refGroupPopular',
-} as const
-
-const GROUP_DESC_KEY = {
-  origin: 'refGroupOriginDesc',
-  read: 'refGroupReadDesc',
-  profession: 'refGroupProfessionDesc',
-  popular: 'refGroupPopularDesc',
-} as const
+// 구분선 설명의 구간 이름 — 인물과 직접 엮인 묶음(연관 작품·원전·읽은 책)은
+// 「해당 인물 관련 작품」으로 묶어 부르고, 직군·인기 묶음만 따로 이름을 둔다
+const groupLabel = (source: 'works' | 'origin' | 'read' | 'profession' | 'popular',
+  tPage: ReturnType<typeof useTranslations>, t: ReturnType<typeof useTranslations>) =>
+  source === 'profession'
+    ? tPage('refGroupProfessionWorks')
+    : source === 'popular'
+      ? t('refGroupPopular')
+      : tPage('refGroupFigureWorks')
 
 /**
  * 인물 화면 아래에 붙는 제휴 도서 구획.
@@ -131,12 +126,7 @@ export default function CelebAffiliateBooks({
   }, [])
   const shelfGroups = mergedGroups.length > 1
     ? mergedGroups.map((group) => ({
-      label: group.source === 'works'
-        ? tPage('sourceWorks')
-        : t(GROUP_LABEL_KEY[group.source as Exclude<AffiliateBookSource, 'mixed'>]),
-      desc: group.source === 'works'
-        ? tPage('refGroupWorksDesc')
-        : t(GROUP_DESC_KEY[group.source as Exclude<AffiliateBookSource, 'mixed'>]),
+      label: groupLabel(group.source, tPage, t),
       count: group.count,
     }))
     : undefined

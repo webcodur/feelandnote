@@ -7,28 +7,9 @@ import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/db/server'
 import { createContentFromExternal } from './external-search'
 import { addCelebContent } from './celebs'
-import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage, type ApiKey } from './api-keys'
 import { buildExternalSearchPlan } from './ai-collect-search'
 
 // #region Types
-// API 키 가져오기 헬퍼
-async function getApiKey(selectedKeyId?: string): Promise<{ key: ApiKey | null; error?: string }> {
-  if (selectedKeyId) {
-    const result = await getApiKeyById(selectedKeyId)
-    if (result.success && result.data) {
-      return { key: result.data }
-    }
-    // 선택된 키가 없으면 자동 선택으로 fallback
-  }
-
-  const result = await getBestAvailableKey()
-  if (result.success && result.data) {
-    return { key: result.data }
-  }
-
-  return { key: null, error: result.error || '사용 가능한 API 키가 없습니다.' }
-}
-
 interface SearchResultItem {
   externalId: string
   externalSource: string
@@ -59,7 +40,6 @@ interface ProcessItemsInput {
   extractedItems: ExtractedContent[]
   startIndex: number
   batchSize: number
-  selectedKeyId?: string
 }
 
 // 처리 결과

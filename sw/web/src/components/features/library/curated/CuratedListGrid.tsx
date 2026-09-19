@@ -14,7 +14,7 @@ import { BookOpen, Film } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentCard from "@/components/ui/cards/ContentCard";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -129,7 +129,14 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
             {showPurchase && (
               <div className="mt-auto pt-1.5">
                 {item.contentId ? (
-                  <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} compact />
+                  /* 통합 구매 모듈 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다 */
+                  <BookPurchaseSummary
+                    contentId={item.contentId}
+                    title={item.title}
+                    creator={item.creator}
+                    links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
+                    full
+                  />
                 ) : (
                   <div
                     aria-disabled="true"

@@ -11,6 +11,12 @@
  *   node scripts/naver-blog/compose-celebs.mjs --dry --slug han-kang     # 한 명 조립해 보기(저장 안 함)
  *   node scripts/naver-blog/compose-celebs.mjs --n 10                    # write 판정 상위 10명 조립
  *   node scripts/naver-blog/compose-celebs.mjs --slug a,b,c              # 지정한 인물만
+ *   node scripts/naver-blog/compose-celebs.mjs --slug a --fills 빈칸.json  # 빈칸을 파일로 받아 조립(외부 CLI 호출 없음)
+ *
+ * --fills 파일은 slug 를 키로 둔다: { "ali-abdaal": { "suffix", "profile", "blurbs": [5], "outro" } }
+ * 빈칸 항목에 "exclude": ["content_id", …] 를 두면 그 책을 빼고 다음 순번으로 채운다. 한국어판이
+ * 특정 장정·묶음 상품(가죽 성경전서 등)이라 안내글에 맞지 않을 때만 쓰고, 이유는 "excludeReason" 에 적는다.
+ * 본문 양식은 기존 59편의 최종 양식(인물 사진·정중체 정리·고정 안내문·인용구 감상)과 같다.
  *
  * 재실행 안전 — celeb-drafts.json 에 이미 있는 인물은 건너뛴다.
  */
@@ -19,13 +25,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ASSETS } from '../blog-assets.mjs';
-import { agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs';
+
+const args = process.argv.slice(2);
+const opt = (k) => { const i = args.indexOf(`--${k}`); return i >= 0 ? args[i + 1] : null; };
+const fillsPath = opt('fills');
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
 
 // 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
-if (!process.env.ALLOW_EXTERNAL_CLI) {
-  console.error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행한다.')
+// 빈칸을 파일로 받는 --fills 실행은 외부 CLI를 부르지 않으므로 이 승인을 요구하지 않는다.
+if (isMain && !fillsPath && !process.env.ALLOW_EXTERNAL_CLI) {
+  console.error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행하거나 --fills 로 빈칸을 넘긴다.')
   process.exit(1)
 }
+const agyCall = isMain && !fillsPath ? (await import('../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs')).agyCall : null;
 
 const ROOT = path.resolve(import.meta.dirname, '../../../..');
 const WORK = path.join(ASSETS, 'naver-blog');
@@ -45,9 +57,7 @@ loadEnv(path.join(ROOT, 'sw/web-bo/.env'));
 loadEnv(path.join(ROOT, 'sw/web/.env'));
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY ?? process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY);
 
-const args = process.argv.slice(2);
 const dry = args.includes('--dry');
-const opt = (k) => { const i = args.indexOf(`--${k}`); return i >= 0 ? args[i + 1] : null; };
 const slugArg = opt('slug');
 const N = Number(opt('n') ?? 5);
 
@@ -148,6 +158,14 @@ const CATEGORY = {
   influencer: '인플루엔서', athlete: '스포츠인',
 };
 
+/** 인물 이름 옆에 붙는 직군 표시(「한강 · 작가」). prepare-celeb-revisions.mjs 의 표와 같다. */
+const PROF_LABEL = {
+  author: '작가', writer: '작가', poet: '시인', director: '감독', musician: '음악가', artist: '예술가', actor: '배우',
+  entrepreneur: '기업가', investor: '투자자', politician: '정치인', leader: '지도자', commander: '군인',
+  scholar: '학자', scientist: '과학자', philosopher: '철학자', humanities_scholar: '인문학자', social_scientist: '사회과학자',
+  natural_scientist: '자연과학자', influencer: '인플루언서', athlete: '스포츠인',
+};
+
 export async function material(slug) {
   const { data: c, error } = await db
     .from('celebs')
@@ -240,48 +258,63 @@ function inspect(m, w) {
   return bad;
 }
 
+/**
+ * 기존 59편의 최종 양식으로 조립한다.
+ *
+ * 첫 줄 링크 → 인물 사진([avatar:], 액자 없음) → 「이름 · 직군」 → 고정 도입 → 정중체 인물 정리 → 고정 안내
+ * → 책마다 「제목 — 저자」·표지·소개·[q]DB 감상 원문[/q] → 마무리 → 링크. 나레이터 두 줄은 고정 문구다
+ * (fix-opening.mjs 참고). 감상은 celeb_contents.review 원문 그대로 인용구에 넣는다.
+ */
 function assemble(m, w) {
   const { celeb: c, books, totalBooks } = m;
   const five = pickFive(books);
   const link = `${SITE}/celeb/${c.slug}`;
+  const label = PROF_LABEL[c.profession];
+  if (!c.avatar_url) throw new Error('인물 아바타가 없다 — 사진 없이 조립하지 않는다');
+  if (!label) throw new Error(`직군 '${c.profession}' 이 이름 표시 표에 없다 — PROF_LABEL 에 넣고 다시 돌려라`);
+  const blurbs = Array.isArray(w.blurbs) ? w.blurbs.map((b) => String(b ?? '').trim()) : [];
+  if (blurbs.length !== five.length || blurbs.some((b) => !b)) throw new Error('책 소개가 다섯 권 모두 있어야 한다');
+  const bad = [w.profile, w.outro, ...blurbs].find((t) => /\[(?:img|avatar|q|c)\]|━|\*\*/.test(String(t)));
+  if (bad) throw new Error(`빈칸에 서식 표시가 들어 있다: ${String(bad).slice(0, 30)}`);
   const L = [];
   L.push(`📚 ${c.nickname}의 감상 기록 전체 보기 → ${link}`);
   L.push('');
   // 🔴 seo-image 는 사이트 다크 테마에 맞춰 검은 배경을 깐다. 흰 바탕인 블로그에서는
   //    시커먼 덩어리로 보인다. 배경을 지운 아바타 원본을 쓰고, 흰색 합성은 발행기가 한다.
-  L.push(`[img:${c.avatar_url ?? `${SITE}/seo-image/celeb/${c.slug}?locale=ko`}|420|${c.nickname} 사진]`);
+  L.push(`[avatar:${c.avatar_url}|100|${c.nickname}]`);
   L.push('');
-  L.push(`[c]${w.intro}[/c]`);
+  L.push(`[c]**${c.nickname} · ${label}**[/c]`);
   L.push('');
-  L.push(w.profile);
+  L.push(`[c]오늘 만나볼 인물은 ${c.nickname}입니다.[/c]`);
   L.push('');
-  L.push(w.bridge);
+  L.push(String(w.profile).trim());
   L.push('');
-  L.push('---');
+  L.push(`[c]${c.nickname}${subjectParticle(c.nickname)} 읽은 책들을 살펴볼까요?[/c]`);
+  L.push('');
+  L.push('━━━━━━');
   L.push('');
   five.forEach((b, i) => {
     L.push(`[c]**『${b.title}』 — ${b.creator ?? ''}**[/c]`);
     L.push('');
     L.push(`[img:${b.thumbnail_url}|240|${b.title} 표지]`);
     L.push('');
-    const blurb = Array.isArray(w.blurbs) ? String(w.blurbs[i] ?? "").trim() : "";
-    if (blurb) { L.push(blurb); L.push(""); }
-    // 신규 발행기는 평문 문단을 받는다. 기존 59편의 인용구 개편은 prepare-celeb-revisions.mjs가 맡는다.
-    L.push(b.review);
-    if (i < five.length - 1) L.push('');
+    L.push(blurbs[i]);
+    L.push('');
+    L.push(`[q]${String(b.review).replace(/\s*\n\s*/g, ' ').trim()}[/q]`);
+    L.push('');
+    L.push('━━━━━━');
+    L.push('');
   });
+  L.push(`[c]여기까지가 ${totalBooks}권 가운데 다섯 권입니다.[/c]`);
   L.push('');
-  L.push('---');
-  L.push('');
-  L.push(`[c]여기까지가 ${koCount(totalBooks)} 권 가운데 다섯 권입니다.[/c]`);
-  L.push('');
-  L.push(w.outro);
+  L.push(String(w.outro).trim());
   L.push(`→ ${link}`);
 
   const title = `${w.suffix} ${c.nickname}${subjectParticle(c.nickname)} 읽은 ${totalBooks}권의 책${c.nickname_en ? ` (${c.nickname_en})` : ''}`;
   const cat = CATEGORY[c.profession];
   if (!cat) throw new Error(`직군 '${c.profession}' 이 카테고리 표에 없다 — CATEGORY 에 넣고 다시 돌려라`);
-  const tags = [c.nickname, cat, '책추천', '독서', '추천도서'];
+  // 네이버 태그 입력은 공백에서 갈라진다(「알리 압달」→ #알리 #압달). 인물명은 공백을 빼고 한 태그로 넣는다.
+  const tags = [c.nickname.replace(/\s+/g, ''), cat, '책추천', '독서', '추천도서'];
   return {
     kind: 'celeb',
     target: `/celeb/${c.slug}`,
@@ -290,12 +323,15 @@ function assemble(m, w) {
     tags,
     category: cat,
     status: 'draft',
+    // 고른 다섯 권과 감상 행 — 발행 뒤 DB 원문 대조와 서비스 링크 확인에 쓴다.
+    books: five.map((b) => ({ content_id: b.content_id, review_id: b.id, title: b.title, creator: b.creator ?? null, source_url: b.source_url ?? null })),
   };
 }
 
 async function main() {
   const drafts = fs.existsSync(DRAFTS) ? JSON.parse(fs.readFileSync(DRAFTS, 'utf8')) : [];
   const have = new Set(drafts.map((d) => String(d.target ?? '').split('/').pop()));
+  const fills = fillsPath ? JSON.parse(fs.readFileSync(fillsPath, 'utf8')) : null;
 
   let slugs;
   if (slugArg) slugs = slugArg.split(',').map((s) => s.trim()).filter(Boolean);
@@ -318,7 +354,17 @@ async function main() {
       if (m.books.length < 5) { skip++; console.log(`건너뜀 ${slug} — 쓸 수 있는 책 ${m.books.length}권`); continue; }
       let j = null;
       let notes = [];
-      for (let attempt = 0; attempt < 2; attempt++) {
+      if (fills) {
+        j = fills[slug];
+        if (!j) { skip++; console.log(`건너뜀 ${slug} — 빈칸 파일에 없다`); continue; }
+        if (Array.isArray(j.exclude) && j.exclude.length) {
+          const drop = new Set(j.exclude);
+          m.books = m.books.filter((b) => !drop.has(b.content_id));
+          console.log(`   제외 ${j.exclude.length}권 (${j.excludeReason ?? '이유 미기재'})`);
+          if (m.books.length < 5) { skip++; console.log(`건너뜀 ${slug} — 제외 뒤 쓸 수 있는 책 ${m.books.length}권`); continue; }
+        }
+      }
+      for (let attempt = 0; !fills && attempt < 2; attempt++) {
         const extra = notes.length
           ? `\n\n## 앞선 시도에서 어긋난 점 — 이번에는 반드시 고쳐라\n${notes.map((n) => `- ${n}`).join("\n")}`
           : "";
@@ -354,4 +400,4 @@ async function main() {
   console.log(`\n완료 — 조립 ${ok} / 건너뜀 ${skip} / 실패 ${fail}`);
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) await main();
+if (isMain) await main();

@@ -77,7 +77,6 @@ const attribution = (sources: unknown) => bookIntroductionDisplay('ko', {
 test('stored descriptions identify their explicit description URL, never the metadata provider', () => {
   for (const [url, provider] of [
     ['https://www.yes24.com/product/goods/123', 'yes24'],
-    ['https://dapi.kakao.com/v3/search/book', 'kakao'],
     ['https://search.daum.net/search?w=bookpage&bookId=1', 'daum'],
     ['https://openlibrary.org/works/OL1W', 'openlibrary'],
     ['https://publisher.example/book', 'other'],
@@ -131,6 +130,22 @@ test('backup restoration and bibliographic verification do not imply F&N authors
 test('marker attribution follows the actual selected external source despite old translation flags', () => {
   assert.deepEqual(bookIntroductionDisplay('ko', { locale: 'ko', description: 'KAKAO',
     sources: { description_translation: 'en_to_ko' } }).introductionAttribution, {
+    provider: 'kakao', url: null, translated: false,
+  })
+})
+
+test('kakao API source links open the public Daum book page, never the auth-gated endpoint', () => {
+  const api = 'https://dapi.kakao.com/v3/search/book?target=isbn&query=9788952710161'
+  const page = 'https://search.daum.net/search?w=book&q=9788952710161'
+  // 저장 본문의 출처 표기와 마커 선택 모두 사람용 페이지로 바꾼다
+  assert.deepEqual(attribution({ description: api }), { provider: 'kakao', url: page, translated: false })
+  const marker = bookIntroductionDisplay('ko', { locale: 'ko', isbn: '9788952710161',
+    description: 'KAKAO', sources: { description: api } })
+  assert.deepEqual(marker.introductionAttribution, { provider: 'kakao', url: page, translated: false })
+  // 재조회 계약은 여전히 API 주소를 요구한다
+  assert.equal(marker.bookIntroduction?.sourceUrl, api)
+  // ISBN이 안 잡히는 dapi 주소는 인증 없이 열 수 없으므로 링크를 걸지 않는다
+  assert.deepEqual(attribution({ description: 'https://dapi.kakao.com/v3/search/book' }), {
     provider: 'kakao', url: null, translated: false,
   })
 })

@@ -17,21 +17,25 @@ interface ReviewScrollBoxProps {
   /** 눌러 전문을 여는 조작. 모달이 다른 읽기 화면이라 길이와 무관하게 항상 눌리게 한다 */
   onOpen?: () => void;
   openLabel?: string;
+  /** 상자 테두리·안쪽 여백·높이 제한을 좁은 화면에만 둔다. 넓은 화면은 글을 펼쳐 두되 눌러 여는 조작은 남는다 */
+  mobileOnly?: boolean;
 }
 
-export default function ReviewScrollBox({ children, onOpen, openLabel }: ReviewScrollBoxProps) {
+export default function ReviewScrollBox({ children, onOpen, openLabel, mobileOnly = false }: ReviewScrollBoxProps) {
   const { ref, isClipped } = useClippedText<HTMLDivElement>(null);
   const interactive = !!onOpen;
 
   return (
     <div
       className={`min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.02] ${
-        interactive ? "hover:border-accent/50" : ""
-      }`}
+        mobileOnly ? "md:border-transparent md:bg-transparent" : ""
+      } ${interactive ? "hover:border-accent/50" : ""}`}
     >
       <div
         ref={ref}
         className={`custom-scrollbar max-h-[29.6em] min-w-0 w-full overflow-y-auto overscroll-y-auto whitespace-pre-line break-words px-4 py-3 font-sans text-[15px] leading-[1.85] text-text-secondary ${
+          mobileOnly ? "md:max-h-none md:overflow-y-visible md:px-0 md:py-0" : ""
+        } ${
           isClipped ? "clip-fade-end" : ""
         } ${interactive ? "cursor-pointer hover:brightness-125 focus-visible:outline-none" : ""}`}
         role={interactive ? "button" : undefined}

@@ -121,7 +121,7 @@ function buildWriterPrompt(row, reasons = []) {
   const name = row.nickname_en
     ? `${row.nickname}(${row.nickname_en})`
     : row.nickname
-  const base = `${name}. 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.`
+  const base = `${name}. 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지. 첫 문장은 남들이 나를 두고 하는 평가나 질문으로 시작하지 않는다. 정중한 말투를 기본으로 한다. 다만 인물 고유의 말투는 자유롭게 써도 된다.`
   // 이름만 주면 같은 이름의 더 유명한 대상(작품 속 인물·사물·다른 사람)으로 쓴다(119편 실측). 누구인지는 소개 한 줄로 늘 고정한다.
   const bio = String(row.bio ?? '').trim()
   const lines = bio ? [base, `인물 소개: ${bio}`] : [base]
@@ -403,7 +403,7 @@ function mechanicalIssues(text) {
   if (/(^|\n)#{1,6}\s|\*\*|```/.test(text)) issues.push('마크다운 혼입')
   if (/https?:\/\//i.test(text)) issues.push('최종본문 URL 혼입')
   if (/[一-鿿]/.test(text)) issues.push('한자 혼입')
-  if (/—/.test(text)) issues.push('em dash 혼입')
+  if (/[—–―]/.test(text)) issues.push('긴 줄표 혼입')
   // 모델이 본문 밖에 붙이는 해설("…독백입니다"), 동명이인 되묻기, 인용 상자다.
   if (/<<<|MATERIALS|VOICE|FINAL|검수 결과|작성하겠습니다|요청하신|의도하신|말씀해 주시|독백입니다/.test(text)) issues.push('작업 문구 혼입')
   if (/^\s*>/m.test(text) || /\[!(NOTE|TIP|INFO|WARNING)\]/i.test(text)) issues.push('인용 상자 혼입')
@@ -880,8 +880,12 @@ function selfTestCommand() {
   assert.equal(resumed.geminiReview, review)
   assert.deepEqual(resumed.names, ['writer', 'gemini-review'])
   assert.deepEqual(resumableStages(resumable, hypatiaRow, true).names, [])
-  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: null }), '히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.')
-  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: '알렉산드리아의 철학자.' }), '히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지.\n인물 소개: 알렉산드리아의 철학자.')
+  const writerBase = '히파티아(Hypatia). 자신만의 말투로 자신의 삶과 철학을 독백한다. 분량은 A4 반 페이지. 첫 문장은 남들이 나를 두고 하는 평가나 질문으로 시작하지 않는다. 정중한 말투를 기본으로 한다. 다만 인물 고유의 말투는 자유롭게 써도 된다.'
+  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: null }), writerBase)
+  assert.equal(buildWriterPrompt({ ...hypatiaRow, bio: '알렉산드리아의 철학자.' }), `${writerBase}\n인물 소개: 알렉산드리아의 철학자.`)
+  assert.deepEqual(registerTally('나는 걸었다.\n\n그리고 멈췄다.'), { polite: 0, flat: 2, other: 0 })
+  assert.deepEqual(registerTally('나는 걸었습니다.\n\n그리고 멈췄어요.'), { polite: 2, flat: 0, other: 0 })
+  assert.equal(registerTally('그것은 아니다. 내 길이 아니니까.').flat, 2)
   const geminiPrompt = buildReviewPrompt(hypatiaRow, '첫 초안', ancient)
   const opusPrompt = buildOpusReviewPrompt(hypatiaRow, '첫 초안', review, ancient)
   assert.match(geminiPrompt, /final은 A4 반 페이지 분량으로 쓴다/)
@@ -1042,7 +1046,7 @@ async function loadEmptyTargets(db) {
   const rows = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await db.from('celebs').select(TARGET_COLUMNS)
-      .eq('publication_status', 'active')
+      .eq('publication_status', argValue('--status') ?? 'active')
       .is('virtual_monologue', null)
       .is('virtual_monologue_locked_at', null)
       .order('slug')
@@ -1333,6 +1337,163 @@ async function repairCommand() {
   if (stopped) process.exitCode = 3
 }
 
+// ── 말투 개편(후진 레인) ─────────────────────────────────────────────
+// 생성과 분리된 뒤처리다. 한다체가 과반인 원고만 골라 agy가 말투만 고친다.
+// 내용·문단·분량은 바꾸지 못하게 닫고, 잠긴 원고는 건드리지 않는다.
+// 영어는 종결어미 체계가 없어 이 레인은 번역과 무관하다.
+
+const REGISTER_VERSION = 1
+const DEFAULT_REGISTER_OUT = resolve(REPO_ROOT, 'data/celeb/virtual-monologue/register.jsonl')
+
+// 문장 끝을 셈한다. `ㅂ니다`·`습니까`는 앞 글자에 받침이 있어야 존댓말이다
+// ("아니다"·"하니까"는 반말). `…다`·`…오`·`…소` 계열은 한다체·하오체로 묶는다.
+function registerTally(text) {
+  let polite = 0, flat = 0, other = 0
+  for (const sent of text.split(/(?<=[.!?…])\s+/)) {
+    const tail = sent.trim().replace(/[.!?…'"”’)\]]+$/, '').trim()
+    if (!tail) continue
+    if (/(요|죠|네요|군요|시오|세요|십시오|랍니다)$/.test(tail)) { polite += 1; continue }
+    const formal = tail.match(/(니다|니까)$/)
+    if (formal) {
+      const code = tail.charCodeAt(tail.length - formal[1].length - 1)
+      if (code >= 0xAC00 && code <= 0xD7A3 && (code - 0xAC00) % 28 !== 0) { polite += 1; continue }
+    }
+    if (/[다라냐니까지오소랴마자세걸렴]$/.test(tail)) flat += 1
+    else other += 1
+  }
+  return { polite, flat, other }
+}
+
+function isDeclarativeHeavy(text) {
+  const { polite, flat } = registerTally(text)
+  return flat > 0 && flat > polite
+}
+
+function buildRegisterPrompt(row) {
+  const name = row.nickname_en ? `${row.nickname}(${row.nickname_en})` : row.nickname
+  const bio = String(row.bio ?? '').trim()
+  const lines = [
+    `아래는 ${name}의 1인칭 독백이다. 이 원고의 말투만 이 인물에 어울리게 고친다. 기본은 정중한 말투다. 인물 고유의 말투가 분명히 어울리면 그대로 둔다. 내용·사실·문단 구성·분량은 바꾸지 않는다. 고친 전문만 출력한다.`,
+  ]
+  if (bio) lines.push(`인물 소개: ${bio}`)
+  lines.push(row.virtual_monologue)
+  return lines.join('\n')
+}
+
+async function registerOne(row) {
+  const raw = await agyCall(buildRegisterPrompt(row), { model: AGY_TEXT_MODEL, timeoutMs: LIGHT_TIMEOUT_MS })
+  const fixed = sanitizeLight(raw.trim())
+  const before = nonWhitespaceLength(row.virtual_monologue)
+  const after = nonWhitespaceLength(fixed)
+  if (!fixed || fixed === row.virtual_monologue) return { status: 'hold', reason: '그대로 돌아옴', final: fixed }
+  const beforeParas = row.virtual_monologue.split(/\n\s*\n/).filter((part) => part.trim()).length
+  const afterParas = fixed.split(/\n\s*\n/).filter((part) => part.trim()).length
+  if (afterParas !== beforeParas) return { status: 'hold', reason: `문단 수 ${beforeParas}→${afterParas} 변경`, final: fixed }
+  if (after < before * 0.7 || after > before * 1.3) return { status: 'hold', reason: `분량이 ${before}→${after}자로 흔들림`, final: fixed }
+  const issues = mechanicalIssues(fixed)
+  return issues.length
+    ? { status: 'hold', reason: issues.join(', '), final: fixed }
+    : { status: 'ready', reason: '', final: fixed }
+}
+
+async function loadRegisterRows(db) {
+  const rows = []
+  const status = argValue('--status') ?? 'active'
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await db.from('celebs')
+      .select('id,slug,nickname,nickname_en,bio,virtual_monologue')
+      .eq('publication_status', status)
+      .not('virtual_monologue', 'is', null)
+      .is('virtual_monologue_locked_at', null)
+      .order('slug')
+      .range(from, from + 999)
+    if (error) throw error
+    rows.push(...data)
+    if (data.length < 1000) break
+  }
+  return rows
+}
+
+// light 기록에서 이번 배치가 쓴 slug만 모은다. 후진 1차 범위를 오늘 생성분으로 닫는 장치다.
+async function slugsFromJsonl(path) {
+  const slugs = new Set()
+  for (const line of (await readFile(path, 'utf8')).split('\n')) {
+    if (!line.trim()) continue
+    try {
+      const record = JSON.parse(line)
+      if (record.slug && record.applied) slugs.add(record.slug)
+    } catch {
+      // 끊겨 반쯤 쓰인 줄은 건너뛴다.
+    }
+  }
+  return slugs
+}
+
+async function registerCommand() {
+  const apply = hasFlag('--apply')
+  const limit = Number.parseInt(argValue('--limit') ?? '', 10)
+  const out = argValue('--out') ?? DEFAULT_REGISTER_OUT
+  const slugs = new Set(parseSlugs())
+  const from = argValue('--from')
+  if (from) for (const slug of await slugsFromJsonl(from)) slugs.add(slug)
+  const db = createDb()
+  const rows = await loadRegisterRows(db)
+
+  const tried = new Set()
+  if (existsSync(out)) {
+    for (const line of (await readFile(out, 'utf8')).split('\n')) {
+      if (!line.trim()) continue
+      try {
+        const record = JSON.parse(line)
+        if (record.version === REGISTER_VERSION && record.status !== 'error') tried.add(record.slug)
+      } catch {
+        // 끊겨 반쯤 쓰인 줄은 건너뛴다.
+      }
+    }
+  }
+
+  const targets = []
+  for (const row of rows) {
+    if (slugs.size > 0 && !slugs.has(row.slug)) continue
+    if (tried.has(row.slug) || !isDeclarativeHeavy(row.virtual_monologue)) continue
+    targets.push(row)
+  }
+  const picked = limit > 0 ? targets.slice(0, limit) : targets
+
+  if (hasFlag('--scan')) {
+    for (const row of picked) {
+      const tally = registerTally(row.virtual_monologue)
+      console.log(`${row.slug} 정중 ${tally.polite} / 한다체 ${tally.flat} / 기타 ${tally.other}`)
+    }
+    console.log(JSON.stringify({ command: 'register', scan: true, candidates: picked.length }))
+    return
+  }
+
+  const counts = { ready: 0, hold: 0, error: 0, applied: 0 }
+  let stopped = null
+  for (const row of picked) {
+    let result
+    try {
+      result = await registerOne(row)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      const timedOut = /시간 초과/.test(message)
+      if (/Authentication required|로그인/.test(message)) stopped = 'agy 로그인 필요'
+      else if (looksQuotaLimited(message) || (timedOut && agyQuotaExhausted())) stopped = 'agy 쿼터 소진'
+      else if (timedOut && !(await agyAlive())) stopped = 'agy 무응답'
+      if (stopped) break
+      result = { status: 'error', reason: excerpt(message, 160), final: '' }
+    }
+    counts[result.status] += 1
+    const applied = apply && result.status === 'ready' && await updateMonologue(db, row.id, row.virtual_monologue, result.final)
+    if (applied) counts.applied += 1
+    await appendRecord(out, { slug: row.slug, version: REGISTER_VERSION, ...result, applied })
+    console.log(`${row.slug} ${result.status}${applied ? ' applied' : ''}${result.reason ? ` ${result.reason}` : ''}`)
+  }
+  console.log(JSON.stringify({ command: 'register', targets: picked.length, ...counts, stopped }))
+  if (stopped) process.exitCode = 3
+}
+
 // ── 표기 정리(음성화 준비) ────────────────────────────────────────────
 // 1) 한글이 없는 괄호는 기계로 뗀다. 2) 괄호 밖 로마자는 그대로 둔다.
 // 3) 한글 뜻풀이 괄호와 4) 로마자가 섞인 자리, 5) 본문에 섞인 제목 줄은 모델이 고친다.
@@ -1546,7 +1707,7 @@ async function loadMonologueRows(db, slugs, untranslatedOnly) {
   for (let from = 0; ; from += 1000) {
     let query = db.from('celebs')
       .select('id,slug,nickname,nickname_en,bio,virtual_monologue,virtual_monologue_en')
-      .eq('publication_status', 'active')
+      .eq('publication_status', argValue('--status') ?? 'active')
       .not('virtual_monologue', 'is', null)
     if (slugs.length > 0) query = query.in('slug', slugs)
     if (untranslatedOnly) query = query.is('virtual_monologue_en', null)
@@ -1786,10 +1947,11 @@ function selfTestMuseParsers() {
 function printHelp() {
   console.log(`가상독백 — 빈칸은 light → notation → identity → translate 순서로 채운다
 
-light --slugs a,b | [--limit N] [--apply] [--out PATH] [--reuse JSONL]  agy Gemini 1회(한국 전근대만 검수 1회 추가). --out 기본 data/celeb/virtual-monologue/light.jsonl
+light --slugs a,b | [--limit N] [--apply] [--status active] [--out PATH] [--reuse JSONL]  agy Gemini 1회(한국 전근대만 검수 1회 추가). --out 기본 data/celeb/virtual-monologue/light.jsonl
+register [--slugs a,b] [--limit N] [--apply] [--scan] [--status active] [--out PATH]   한다체 과반 원고의 말투만 agy가 고친다. --scan은 후보만 나열. --out 기본 data/celeb/virtual-monologue/register.jsonl
 notation [--apply] [--model] [--limit N] [--batch 8] [--sessions 2] [--work DIR]   음성화용 표기 정리
-identity [--slugs a,b] [--limit N] [--size 8] [--concurrency 6] [--line go|free] [--apply] [--out PATH]   화자 판정. 기본은 영문 전 원고, --apply면 other를 비운다
-translate [--slugs a,b] [--limit N] [--size 3] [--concurrency 6] [--line go|free] [--backend muse|devin] [--apply] [--out PATH]   영문이 빈 원고 번역
+identity [--slugs a,b] [--limit N] [--size 8] [--concurrency 6] [--line go|free] [--status active] [--apply] [--out PATH]   화자 판정. 기본은 영문 전 원고, --apply면 other를 비운다
+translate [--slugs a,b] [--limit N] [--size 3] [--concurrency 6] [--line go|free] [--status active] [--backend muse|devin] [--apply] [--out PATH]   영문이 빈 원고 번역
 self-test
 
 집필·수정에 쓰지 않는 경로(celeb-04-03 「쓰지 않는 경로」)
@@ -1804,6 +1966,7 @@ apply --slugs a,b --apply [--approve-high] [--out-dir PATH]`)
 async function main() {
   const command = process.argv[2] ?? 'help'
   if (command === 'light') await lightCommand()
+  else if (command === 'register') await registerCommand()
   else if (command === 'notation') await notationCommand()
   else if (command === 'identity') await identityCommand()
   else if (command === 'translate') await translateCommand()

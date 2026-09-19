@@ -14,8 +14,52 @@ import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedC
 import PersistedCelebAwakenedImageEditor from '@/components/celeb/awakened/PersistedCelebAwakenedImageEditor'
 import NationalityBadge from '../../members/components/NationalityBadge'
 import CelebColumnHeaders from './columnFilters/CelebColumnHeader'
+import { useColumnVisibility } from './columnFilters/ColumnVisibility'
+import { CELL_BORDER_CLASS, COLUMNS } from './columnFilters/columns'
+
+const CELL_CLASS = 'px-3 py-3 md:px-4'
+const CENTER_CELL_CLASS = `${CELL_CLASS} text-center`
+/** 이미지 셀은 여백 없이 행 높이(h-16)를 꽉 채운다. 이웃과의 경계는 셀 세로선이 맡는다. */
+const IMAGE_CELL_CLASS = 'w-16 p-0'
+const ROW_CLASS = 'h-16 odd:bg-white/[0.02] hover:bg-bg-secondary/50'
+
+/** 열 순서는 COLUMNS가 쥔다. 여기서는 열마다 무엇을 그릴지만 정한다. */
+const CELLS: Record<string, { className: string; render: (celeb: Member) => React.ReactNode }> = {
+  avatar_url: { className: IMAGE_CELL_CLASS, render: (celeb) => <AvatarCell celebId={celeb.id} avatarUrl={celeb.avatar_url} name={celeb.nickname} /> },
+  portrait_url: { className: IMAGE_CELL_CLASS, render: (celeb) => <PortraitCell celebId={celeb.id} portraitUrl={celeb.portrait_url} name={celeb.nickname} /> },
+  awakened_image_url: { className: IMAGE_CELL_CLASS, render: (celeb) => <AwakenedImageCell celebId={celeb.id} awakenedImageUrl={celeb.awakened_image_url} name={celeb.nickname} /> },
+  title: { className: CELL_CLASS, render: (celeb) => celeb.title && <p className="max-w-[120px] truncate text-xs text-accent">{celeb.title}</p> },
+  nickname: { className: CELL_CLASS, render: (celeb) => <NameCell celeb={celeb} /> },
+  celeb_reality: { className: CENTER_CELL_CLASS, render: (celeb) => <RealityBadge reality={celeb.celeb_reality} /> },
+  profession: { className: CELL_CLASS, render: (celeb) => celeb.profession && <p className="max-w-[100px] truncate text-xs text-text-tertiary">{getCelebProfessionLabel(celeb.profession)}</p> },
+  nationality: { className: `min-w-24 whitespace-nowrap ${CENTER_CELL_CLASS}`, render: (celeb) => celeb.nationality && <NationalityBadge code={celeb.nationality} /> },
+  gender: { className: CENTER_CELL_CLASS, render: (celeb) => <GenderBadge gender={celeb.gender} /> },
+  status: { className: CENTER_CELL_CLASS, render: (celeb) => <StatusToggleIcon celebId={celeb.id} status={celeb.status} /> },
+  influence_total: {
+    className: CENTER_CELL_CLASS,
+    render: (celeb) => <span className="inline-flex items-center gap-1 text-xs text-text-secondary md:text-sm"><Zap className="h-3.5 w-3.5" />{celeb.influence_total || 0}</span>,
+  },
+  celeb_tier: { className: CENTER_CELL_CLASS, render: (celeb) => <TierToggle celebId={celeb.id} tier={celeb.celeb_tier || 'full'} /> },
+  content_count: {
+    className: CENTER_CELL_CLASS,
+    render: (celeb) => celeb.slug ? (
+      <Link href={`/celebs/${celeb.slug}/contents`} className="inline-flex items-center gap-1 text-xs text-text-secondary hover:text-accent md:text-sm">
+        <BookOpen className="h-3.5 w-3.5" />{celeb.content_count}
+      </Link>
+    ) : (
+      <span className="inline-flex items-center gap-1 text-xs text-text-tertiary md:text-sm"><BookOpen className="h-3.5 w-3.5" />{celeb.content_count}</span>
+    ),
+  },
+  follower_count: {
+    className: CENTER_CELL_CLASS,
+    render: (celeb) => <span className="inline-flex items-center gap-1 text-xs text-text-secondary md:text-sm"><Star className="h-3.5 w-3.5" />{celeb.follower_count}</span>,
+  },
+  created_at: { className: CENTER_CELL_CLASS, render: (celeb) => <DateTimeCell date={celeb.created_at} /> },
+}
 
 export default function CelebTable({ celebs }: { celebs: Member[] }) {
+  const { isVisible } = useColumnVisibility()
+  const columns = COLUMNS.filter((column) => isVisible(column.field))
   return (
     <table className="w-full min-w-[1360px]">
       <thead className="bg-bg-secondary border-b border-border">
@@ -23,107 +67,46 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={15} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={columns.length} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
-            <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
-              <td className="px-3 md:px-4 py-3">
-                <AvatarCell celebId={celeb.id} avatarUrl={celeb.avatar_url} name={celeb.nickname} />
-              </td>
-              <td className="px-3 py-3 md:px-4">
-                <PortraitCell
-                  celebId={celeb.id}
-                  portraitUrl={celeb.portrait_url}
-                  name={celeb.nickname}
-                />
-              </td>
-              <td className="px-3 py-3 md:px-4">
-                <AwakenedImageCell
-                  celebId={celeb.id}
-                  awakenedImageUrl={celeb.awakened_image_url}
-                  name={celeb.nickname}
-                />
-              </td>
-              <td className="px-3 md:px-4 py-3">
-                {celeb.title && (
-                  <p className="text-xs text-accent truncate max-w-[120px]">{celeb.title}</p>
-                )}
-              </td>
-              <td className="px-3 md:px-4 py-3">
-                <div className="flex items-center gap-1.5">
-                  <div className="flex flex-col">
-                    {celeb.slug ? (
-                      <Link
-                        href={`/celebs/${celeb.slug}`}
-                        className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[120px] hover:text-accent hover:underline"
-                      >
-                        {celeb.nickname || '이름 없음'}
-                      </Link>
-                    ) : (
-                      <span className="text-xs md:text-sm font-medium text-red-400 truncate max-w-[120px]" title="nickname_en 미설정">
-                        {celeb.nickname || '이름 없음'}
-                      </span>
-                    )}
-                    {celeb.slug && (
-                      <span className="text-[10px] font-mono text-text-tertiary truncate max-w-[120px]">/{celeb.slug}</span>
-                    )}
-                  </div>
-                  {celeb.is_verified && <BadgeCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
-                  <CopyButton text={celeb.nickname || ''} />
-                </div>
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <RealityBadge reality={celeb.celeb_reality} />
-              </td>
-              <td className="px-3 md:px-4 py-3">
-                {celeb.profession && (
-                  <p className="text-xs text-text-tertiary truncate max-w-[100px]">{getCelebProfessionLabel(celeb.profession)}</p>
-                )}
-              </td>
-              <td className="min-w-24 whitespace-nowrap px-3 md:px-4 py-3 text-center">
-                {celeb.nationality && <NationalityBadge code={celeb.nationality} />}
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <GenderBadge gender={celeb.gender} />
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <StatusToggleIcon celebId={celeb.id} status={celeb.status} />
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
-                  <Zap className="w-3.5 h-3.5" />{celeb.influence_total || 0}
-                </span>
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <TierToggle celebId={celeb.id} tier={celeb.celeb_tier || 'full'} />
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                {celeb.slug ? (
-                  <Link
-                    href={`/celebs/${celeb.slug}/contents`}
-                    className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary hover:text-accent"
-                  >
-                    <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
-                  </Link>
-                ) : (
-                  <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-tertiary">
-                    <BookOpen className="w-3.5 h-3.5" />{celeb.content_count}
-                  </span>
-                )}
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-text-secondary">
-                  <Star className="w-3.5 h-3.5" />{celeb.follower_count}
-                </span>
-              </td>
-              <td className="px-3 md:px-4 py-3 text-center">
-                <DateTimeCell date={celeb.created_at} />
-              </td>
+            <tr key={celeb.id} className={ROW_CLASS}>
+              {columns.map((column) => {
+                const cell = CELLS[column.field]
+                return <td key={column.field} className={`${CELL_BORDER_CLASS} ${cell.className}`}>{cell.render(celeb)}</td>
+              })}
             </tr>
           ))
         )}
       </tbody>
     </table>
+  )
+}
+
+/** 복사 버튼은 이름 앞에 고정한다. 이름 길이에 따라 자리가 흔들리지 않게 한다. */
+function NameCell({ celeb }: { celeb: Member }) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <CopyButton text={celeb.nickname || ''} />
+      <div className="flex min-w-0 flex-col">
+        {celeb.slug ? (
+          <Link
+            href={`/celebs/${celeb.slug}`}
+            className="max-w-[120px] truncate text-xs font-medium text-text-primary hover:text-accent hover:underline md:text-sm"
+          >
+            {celeb.nickname || '이름 없음'}
+          </Link>
+        ) : (
+          <span className="max-w-[120px] truncate text-xs font-medium text-red-400 md:text-sm" title="nickname_en 미설정">
+            {celeb.nickname || '이름 없음'}
+          </span>
+        )}
+        {celeb.slug && (
+          <span className="max-w-[120px] truncate font-mono text-[10px] text-text-tertiary">/{celeb.slug}</span>
+        )}
+      </div>
+      {celeb.is_verified && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-blue-400" />}
+    </div>
   )
 }
 
@@ -245,15 +228,20 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
+/** 빈 이미지 칸은 사람 눈에 들어오지 않게 흐린 점 하나로 둔다. 있는 이미지가 도드라져야 한다. */
+function EmptyImageMark() {
+  return <span aria-label="없음" className="text-text-tertiary/50">·</span>
+}
+
 function AvatarCell({ celebId, avatarUrl, name }: { celebId: string; avatarUrl: string | null; name: string | null }) {
   return (
     <PersistedCelebAvatarEditor
       celebId={celebId}
       avatarUrl={avatarUrl}
       name={name}
-      className="h-8 w-8 shrink-0 md:h-9 md:w-9"
-      previewClassName="h-full w-full rounded-lg border border-transparent hover:border-accent"
-      empty={<span className="text-[10px] text-text-tertiary">N/A</span>}
+      className="h-16 w-16 shrink-0"
+      previewClassName="flex h-full w-full items-center justify-center border border-transparent hover:border-accent"
+      empty={<EmptyImageMark />}
     />
   )
 }
@@ -273,8 +261,8 @@ function PortraitCell({
       portraitUrl={portraitUrl}
       name={name}
       compact
-      className="group/portrait relative h-8 w-8 shrink-0 overflow-hidden rounded-md border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30 md:h-9 md:w-9"
-      empty={<span className="text-[9px] font-medium text-text-tertiary">N/A</span>}
+      className="group/portrait relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden border border-border/40 hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30"
+      empty={<EmptyImageMark />}
     />
   )
 }
@@ -294,8 +282,8 @@ function AwakenedImageCell({
       awakenedImageUrl={awakenedImageUrl}
       name={name}
       compact
-      className="group/portrait relative h-8 w-8 shrink-0 overflow-hidden rounded-md border border-amber-500/25 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30 md:h-9 md:w-9"
-      empty={<span className="text-[9px] font-medium text-amber-400/55">N/A</span>}
+      className="group/portrait relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden border border-amber-500/20 hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
+      empty={<EmptyImageMark />}
     />
   )
 }

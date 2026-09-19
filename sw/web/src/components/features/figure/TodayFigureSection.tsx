@@ -14,7 +14,6 @@ import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
 import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import type { ContentType } from "@/types/database";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -83,7 +82,6 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
     // 홈은 티저다 — 두 행까지만 세우고 나머지는 상세(전체 보기)로 보낸다
     const visibleContents = filteredContents.slice(0, 4);
     /* 수수료 안내 — 카드의 판매 단추 안에 묻지 않고 분류 칩 줄 끝에 둔다(인물 서재 조작대와 같은 규칙) */
-    const showPurchaseInfo = locale === "ko" && visibleContents.some(c => c.type === "BOOK");
 
     // 날짜 포맷
     const today = new Date();
@@ -182,9 +180,6 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                         onChange={(type) => setCategoryFilter(type)}
                         size="md"
                     />
-                    {showPurchaseInfo && (
-                        <BookPurchaseInfo className="inline-flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
-                    )}
                 </div>
 
                 {filteredContents.length > 0 ? (

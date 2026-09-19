@@ -17,7 +17,6 @@ import { getFigureBooksForCeleb } from "@/actions/figure-books/getFigureBooks";
 import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFactionLongDescs";
 import AffiliateBookList from "@/components/shared/AffiliateBookList";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
 import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
@@ -276,9 +275,6 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
         <section aria-label={t("shelf")} className="relative mt-8 border-t border-accent-dim/30 pt-6">
           <CenteredSectionHeading
             title={t("shelf")}
-            titleAddon={platform === "yes24" ? (
-              <BookPurchaseInfo className="ms-1.5 inline-flex size-6 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
-            ) : undefined}
             className="mb-4"
           />
           <div className="flex justify-center">

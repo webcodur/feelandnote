@@ -23,7 +23,7 @@ test('rejects wrong TMDB work, locale, existing text, unsafe URLs and absent evi
 })
 test('transaction locks external identity and checks the entire reviewed locale snapshot', () => {
   const sql = mediaIntroductionSql({ ...input, description: "The director's family and the $media_introduction$ journey." })
-  assert.match(sql, /external_source = 'tmdb' FOR SHARE/)
+  assert.match(sql, /external_source IS NOT DISTINCT FROM 'tmdb' FOR SHARE/)
   assert.match(sql, /jsonb_build_object\('description',description,'sources',sources,'isbn',isbn/)
   assert.match(sql, /director''s/)
   assert.match(sql, /DO \$media_introduction_x\$/)
@@ -39,6 +39,18 @@ test('translations retain the original source and require an original in the oth
   assert.throws(() => prepareMediaIntroduction({ ...translated, sourceText: undefined }), /locale/)
   assert.throws(() => prepareMediaIntroduction({ ...translated, sourceLocale: 'ko' }), /locale/)
 })
+test('a translation without recorded source provenance keeps sources.description unset and needs no evidence', () => {
+  const orphan: ReviewedMediaIntroduction = {
+    content: { id: 'm1', type: 'MUSIC', external_source: 'itunes', external_id: 'itunes-1' },
+    target: { content_id: 'm1', locale: 'en', title: 'A Song', creator: 'Singer', publisher: null, isbn: null, description: null, sources: { primary: 'itunes' } },
+    description: 'The song deals with a traveler and his family on a long journey through the mountains.', sourceUrl: null,
+    method: 'translation', sourceLocale: 'ko', sourceText: '이 노래는 한 여행자와 그의 가족이 산을 넘어 긴 여정을 떠나는 이야기를 다루고 있다.', identityEvidence: [] }
+  const result = prepareMediaIntroduction(orphan)
+  assert.equal(result.sources.description, undefined)
+  assert.equal(result.sources.description_method, 'translation')
+  assert.throws(() => prepareMediaIntroduction({ ...orphan, method: 'provider', sourceLocale: 'en' }), /source URL/)
+  assert.throws(() => prepareMediaIntroduction({ ...orphan, description: "The song deals with a traveler's kin.", sourceUrl: 'https://example.org/x' }), /source URL|evidence/)
+})
 test('a batch has one transaction and cannot contain the same locale twice', () => {
   const second = { ...input, target: { ...input.target, locale: 'ko' as const }, sourceLocale: 'ko' as const,
     description: '한 여행자와 가족의 이야기를 다루는 영화다.' }
@@ -47,6 +59,13 @@ test('a batch has one transaction and cannot contain the same locale twice', () 
   assert.equal(sql.match(/^COMMIT;/gm)?.length, 1)
   assert.throws(() => mediaIntroductionBatchSql([input, input]), /duplicate/)
   assert.throws(() => mediaIntroductionBatchSql([]), /Empty/)
+})
+test('legacy rows with provider-prefixed external_id and null external_source pass with an IS NOT DISTINCT FROM check', () => {
+  const legacy: ReviewedMediaIntroduction = { ...input,
+    content: { ...input.content, external_source: null } }
+  const sql = mediaIntroductionSql(legacy)
+  assert.match(sql, /external_source IS NOT DISTINCT FROM NULL FOR SHARE/)
+  assert.throws(() => prepareMediaIntroduction({ ...input, content: { ...input.content, external_source: undefined as unknown as null } }), /identity/)
 })
 test('Korean prose can contain long original artist and label names; a Korean name alone is not Korean prose', () => {
   const text = 'Boat는 영국 싱어송라이터 Ed Sheeran의 노래이다. Asylum과 Atlantic Records를 통해 발매되었다. Sheeran은 프로듀서 Aaron Dessner와 함께 이 곡을 썼다.'

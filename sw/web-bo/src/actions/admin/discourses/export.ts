@@ -18,7 +18,6 @@ import { discourseAdminClient, requireDiscourseAdmin } from '@/lib/discourse-db'
 import { assertRemotionLocal } from '@/lib/remotion-local'
 import { runDiscourseExport, type DiscourseExportResult } from '@/lib/discourse-export-run'
 
-export type { DiscourseExportResult }
 
 /**
  * 한 편을 세 파일로 내보낸다. 몸통은 `lib/discourse-export-run` — 저장 액션이 같은 몸통을

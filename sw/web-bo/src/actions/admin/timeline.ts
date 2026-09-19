@@ -124,6 +124,9 @@ function validate(e: Partial<EventInput>, reality: string) {
   const hasSequence = !!e.sequence_label?.trim()
   const hasSequenceEn = !!e.sequence_label_en?.trim()
   if (!e.title?.trim()) throw new Error('제목을 넣으세요.')
+  for (const [name, v] of [['제목', e.title], ['서술', e.description], ['장소', e.place_name], ['서사 단계', e.sequence_label]] as const) {
+    if (v && /[—–―]/.test(v)) throw new Error(`${name}에 긴 줄표(— – ―)를 쓰지 마세요. 쉼표·마침표로 푸세요.`)
+  }
   const isSequenceRow = e.year == null && e.year_end == null && e.month == null && hasSequence && hasSequenceEn
   const isCalendarRow = !e.sequence_label?.trim() && !e.sequence_label_en?.trim()
     && (hasYear || (e.year === null && e.year_end == null))
