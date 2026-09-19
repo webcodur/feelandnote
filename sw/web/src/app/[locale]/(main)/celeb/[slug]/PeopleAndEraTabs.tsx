@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { FeaturedFaction } from "@/actions/home/getFeaturedFactions";
-import type { CelebBySlugProfile, CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import type { CelebBySlugProfile, CelebRelationItem, FactionItem } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
@@ -25,6 +25,7 @@ interface Props {
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
   factions: FeaturedFaction[];
+  memberships: FactionItem[];
   currentCelebId: string;
   isFiction: boolean;
   centerProfile?: CelebBySlugProfile;
@@ -38,6 +39,7 @@ export default function PeopleAndEraTabs({
   centerAvatarUrl,
   relations,
   factions,
+  memberships,
   currentCelebId,
   isFiction,
   centerProfile,
@@ -92,7 +94,13 @@ export default function PeopleAndEraTabs({
         )}
 
         {activeKey === "faction" && (
-          <FactionSection factions={factions} currentCelebId={currentCelebId} />
+          <FactionSection
+            factions={factions}
+            memberships={memberships}
+            currentCelebId={currentCelebId}
+            ownerName={centerName}
+            ownerAvatarUrl={centerAvatarUrl}
+          />
         )}
       </div>
     </div>

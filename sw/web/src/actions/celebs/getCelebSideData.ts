@@ -14,11 +14,13 @@ import { getInfluenceExplorer, type InfluenceExplorerData } from '@/actions/home
 import { getFactionsByIds, type FeaturedFaction } from '@/actions/home/getFeaturedFactions'
 import { getSimilarByCelebId, type SimilarByCelebResult } from '@/actions/spectrum/getSimilarByCelebId'
 import { getCelebBySlug } from '@/actions/user/getCelebBySlug'
-import type { CelebRelationItem } from '@/actions/user/getCelebBySlug'
+import type { CelebRelationItem, FactionItem } from '@/actions/user/getCelebBySlug'
 
 export interface CelebConnectionsData {
   relations: CelebRelationItem[]
   factions: FeaturedFaction[]
+  /** 이 인물 자신의 세력 배정 — 세력별 역할·긴 소개·세력 화보를 든다 */
+  memberships: FactionItem[]
 }
 
 export interface CelebAnalysisData {
@@ -34,7 +36,7 @@ export async function getCelebConnections(
 ): Promise<CelebConnectionsData> {
   const result = await getCelebBySlug(slug, locale)
   if (!result.success || !result.data) {
-    return { relations: [], factions: [] }
+    return { relations: [], factions: [], memberships: [] }
   }
 
   const profile = result.data
@@ -42,7 +44,11 @@ export async function getCelebConnections(
     profile.factions.map((faction) => faction.id),
   )
 
-  return { relations: profile.relations, factions }
+  // 화면에 서는 세력에 대응하는 배정만 남긴다 — 신화·비공개 세력 배정은 factions와 같은 기준으로 걸러진다
+  const featuredIds = new Set(factions.map((faction) => faction.id))
+  const memberships = profile.factions.filter((faction) => featuredIds.has(faction.id))
+
+  return { relations: profile.relations, factions, memberships }
 }
 
 /** 분석 구획 — 성향 스펙트럼·영향력 */
