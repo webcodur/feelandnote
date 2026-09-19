@@ -107,11 +107,13 @@
   pointer-events: none;
 }
 
-.rail[data-dragging] .trail {
+.rail[data-dragging] .trail,
+.rail[data-gliding] .trail {
   display: block;
 }
 
-.rail[data-dragging] .pin {
+.rail[data-dragging] .pin,
+.rail[data-gliding] .pin {
   display: block;
 }
 
@@ -195,4 +197,19 @@
   color: var(--color-text-secondary);
   font-size: 11px;
   line-height: 1.4;
+}
+
+/* 두 번째 설정 줄은 감도와 구분선을 둔다 */
+.settingsRowSwitch {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, white 8%, transparent);
+}
+
+.switch {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
 }

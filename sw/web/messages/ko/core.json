@@ -142,7 +142,9 @@
       "label": "끌어서 위아래로 이동",
       "settings": "스와이프 설정",
       "sensitivity": "감도",
-      "sensitivityNote": "손이 1px 움직일 때 페이지가 가는 거리입니다."
+      "sensitivityNote": "손이 1px 움직일 때 페이지가 가는 거리입니다.",
+      "momentum": "미끄러짐",
+      "momentumNote": "손을 놓은 뒤에도 페이지가 조금 더 미끄러집니다."
     }
   },
   "pages": {
