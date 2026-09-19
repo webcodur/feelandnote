@@ -3,35 +3,34 @@
 import { MousePointerClick } from 'lucide-react'
 import type { ImageSlot } from './useQuickImageInbox'
 
-/** 즉시 등록의 다음 차례를 알려주고, 받기 범위를 조절하는 안내줄. */
+export const SLOT_LABEL: Record<ImageSlot, string> = {
+  avatar: '아바타',
+  portrait: '대표 사진',
+  awakened: '각성 이미지',
+}
+
+/** 밀어넣은 사진이 어디로 들어갈지 알려주고, 받기를 켜고 끄는 안내줄. */
 export default function QuickImageBar({
   on,
-  avatarOnly,
   editing,
-  nextName,
-  nextSlot,
+  targetName,
+  targetSlot,
   onToggle,
-  onToggleAvatarOnly,
 }: {
   on: boolean
-  avatarOnly: boolean
   /** 밀어넣은 사진의 편집 창이 떠 있는 상태. */
   editing: boolean
-  nextName: string | null
-  nextSlot: ImageSlot | null
+  targetName: string | null
+  targetSlot: ImageSlot | null
   onToggle: () => void
-  onToggleAvatarOnly: () => void
 }) {
-  const slotLabel = nextSlot === 'portrait' ? '대표사진' : '얼굴 사진'
   const message = !on
     ? '다른 브라우저에서 바로 받기 꺼짐'
     : editing
       ? '사진이 도착했습니다. 열린 창에서 마무리해 주세요.'
-      : nextName
-        ? `다른 브라우저에서 Alt+클릭하면 «${nextName}»의 ${slotLabel} 자리에 들어갑니다.`
-        : avatarOnly
-          ? '이 페이지에는 얼굴 사진이 빠진 인물이 없습니다.'
-          : '이 페이지에는 빈 자리가 없습니다.'
+      : targetName && targetSlot
+        ? `Alt+클릭이나 Ctrl+V로 «${targetName}»의 ${SLOT_LABEL[targetSlot]} 자리에 들어갑니다.`
+        : '받을 자리가 없습니다. 목록을 스크롤하거나 1·2·3을 눌러 자리를 고르세요.'
 
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border bg-bg-secondary/40 px-3 py-2">
@@ -40,20 +39,11 @@ export default function QuickImageBar({
         <span className="truncate">{message}</span>
       </p>
       <div className="flex shrink-0 items-center gap-1.5">
-        {on && (
-          <button
-            type="button"
-            onClick={onToggleAvatarOnly}
-            aria-pressed={avatarOnly}
-            className={`rounded-md border px-2 py-1 text-xs font-semibold ${
-              avatarOnly
-                ? 'border-accent bg-accent/10 text-accent'
-                : 'border-border text-text-secondary hover:border-accent hover:text-accent'
-            }`}
-          >
-            얼굴만
-          </button>
-        )}
+        <span className="hidden items-center gap-1 text-[11px] text-text-tertiary sm:flex">
+          <SlotKey digit="1" slot="avatar" active={targetSlot === 'avatar'} />
+          <SlotKey digit="2" slot="portrait" active={targetSlot === 'portrait'} />
+          <SlotKey digit="3" slot="awakened" active={targetSlot === 'awakened'} />
+        </span>
         <button
           type="button"
           onClick={onToggle}
@@ -63,5 +53,18 @@ export default function QuickImageBar({
         </button>
       </div>
     </div>
+  )
+}
+
+/** 숫자키와 자리의 대응을 늘 보여 준다. 고른 자리는 강조한다. */
+function SlotKey({ digit, slot, active }: { digit: string; slot: ImageSlot; active: boolean }) {
+  return (
+    <span
+      className={`rounded border px-1.5 py-0.5 font-semibold ${
+        active ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-tertiary'
+      }`}
+    >
+      {digit} {SLOT_LABEL[slot]}
+    </span>
   )
 }

@@ -22,7 +22,6 @@ import type { Locale } from "@/types/locale";
 import { CelebAtlasBottomBar, CelebExploreNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 import CelebSectionHeading from "../CelebSectionHeading";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import FigureBookWorksSection from "../FigureBookWorksSection";
 import FigureMediaTabs from "../FigureMediaTabs";
 import FigureReadingTabs from "../FigureReadingTabs";
@@ -116,12 +115,6 @@ export default function CelebRecordSections({
         nextItem={serviceItems[index + 1]}
         onNavigate={navigate}
         widestLabel={widestSectionLabel}
-        /* 수수료 안내 — 「참고 도서」의 판매 단추 안에 묻지 않고 구획 제목 옆에 둔다 */
-        titleAddon={
-          key === "affiliateBooks" && locale === "ko" ? (
-            <BookPurchaseInfo className="inline-flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
-          ) : undefined
-        }
         loopTarget={
           isFirst
             ? serviceItems[serviceItems.length - 1]?.target
@@ -189,6 +182,7 @@ export default function CelebRecordSections({
                 reading={profile.reading}
                 virtualMonologue={profile.virtualMonologue}
                 celebId={userId}
+                celebName={profile.nickname}
                 voiceV={profile.voice_v}
                 readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
               />
@@ -276,15 +270,29 @@ export default function CelebRecordSections({
           </section>
         )}
 
-        {/* ── 7. 방명록 ── */}
+        {/* ── 7. 후행 구획 — 참고도서·관련 인물·방명록 순으로 페이지 끝을 닫는다 ── */}
+        {serviceItemsByKey.has("affiliateBooks") && affiliateBooksSlot ? (
+          <section id="affiliate-books" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("affiliateBooks")}
+            <SectionSurface>{affiliateBooksSlot}</SectionSurface>
+          </section>
+        ) : null}
+
+        {serviceItemsByKey.has("relatedFigures") && relatedFiguresSlot ? (
+          <section id="related-figures" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("relatedFigures")}
+            <SectionSurface>{relatedFiguresSlot}</SectionSurface>
+          </section>
+        ) : null}
+
+        {/* 방명록은 색인 가치가 없고 캐시에 굳으면 안 되는 자료라 맨 뒤에 두고
+            화면이 다가올 때 비로소 불러온다. 제목은 서버 HTML에 그대로 남는다. */}
         <section
           id="guestbook"
           tabIndex={-1}
           className={`${SECTION_CLASS_NAME} ${styles.guestbookSection}`}
         >
           {renderSectionHeading("guestbook")}
-          {/* 방명록은 색인 가치가 없고 맨 아래에 있으며 캐시에 굳으면 안 되는 자료라
-              화면이 다가올 때 비로소 불러온다. 제목은 서버 HTML에 그대로 남는다. */}
           <SectionSurface>
             {/* 방명록은 모드 없이 본문이 바로 오므로 위를 떼어 시작한다 */}
             <div className="pt-4 md:pt-6">
@@ -302,21 +310,6 @@ export default function CelebRecordSections({
             </div>
           </SectionSurface>
         </section>
-
-        {/* ── 8. 후행 구획 — 서버가 그린 자리를 본문 섹션 형태로 잇는다 ── */}
-        {serviceItemsByKey.has("relatedFigures") && relatedFiguresSlot ? (
-          <section id="related-figures" tabIndex={-1} className={SECTION_CLASS_NAME}>
-            {renderSectionHeading("relatedFigures")}
-            <SectionSurface>{relatedFiguresSlot}</SectionSurface>
-          </section>
-        ) : null}
-
-        {serviceItemsByKey.has("affiliateBooks") && affiliateBooksSlot ? (
-          <section id="affiliate-books" tabIndex={-1} className={SECTION_CLASS_NAME}>
-            {renderSectionHeading("affiliateBooks")}
-            <SectionSurface>{affiliateBooksSlot}</SectionSurface>
-          </section>
-        ) : null}
       </div>
     </div>
   );

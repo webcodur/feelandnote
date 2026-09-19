@@ -15,7 +15,6 @@ import { DISCOURSES_DIR, EPISODES_DIR } from '@feelandnote/shared/bo/episode-sto
 import { requireAdmin } from '@/lib/admin-auth'
 import { REMOTION_LOCAL, assertRemotionLocal } from '@/lib/remotion-local'
 
-export type { AssetSeries, AssetUnit }
 
 const SERIES_DIR: Record<AssetSeries, string> = {
   episodes: EPISODES_DIR,

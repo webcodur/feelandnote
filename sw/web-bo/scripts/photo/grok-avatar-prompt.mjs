@@ -10,12 +10,12 @@
  *   node scripts/photo/grok-avatar-prompt.mjs <slug> [slug ...]
  *   node scripts/photo/grok-avatar-prompt.mjs --next 5      아직 안 만든 인물 5명
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync, readdirSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
 import { join, basename } from 'path'
 
 const T = '.tmp/'
-// 첨부 도구는 세션에 공유된 폴더의 파일만 받는다. 세션이 바뀌면 새 세션의 scratchpad로 고친다.
-const SEED_DIR = 'C:/Users/webco/AppData/Local/Temp/claude/C--project-feelandnote/b37d0bd4-769c-4920-83dd-cd668e31f2b4/scratchpad/ref'
+// 씨앗은 hero-batch.json의 원본 얼굴 재료(facePath)를 그대로 가리킨다.
+// 브라우저 도구가 file input에 그 경로를 넣는다 — 세션 폴더 복사는 특정 도구 전용 우회였고 폐기했다.
 const QUEUE = join(T, 'grok-queue')
 const DONE = join(T, 'hero-out', '_avatars')
 mkdirSync(QUEUE, { recursive: true })
@@ -61,8 +61,7 @@ let slugs = process.argv.slice(2)
 if (slugs[0] === '--next') {
   const n = Number(slugs[1] ?? 5)
   const done = new Set(readdirSync(DONE).filter((f) => /\.(jpg|png|webp)$/i.test(f)).map((f) => basename(f, '.' + f.split('.').pop())))
-  const HOLD = new Set(['baiame']) // 보류 사유는 docs/todo/img/hero-avatar-grok.md 「보류」
-  slugs = targets.filter((r) => !done.has(r.nickname) && !done.has(r.slug) && !HOLD.has(r.slug)).slice(0, n).map((r) => r.slug)
+  slugs = targets.filter((r) => !done.has(r.nickname) && !done.has(r.slug)).slice(0, n).map((r) => r.slug)
 }
 
 const made = []
@@ -71,12 +70,7 @@ for (const slug of slugs) {
   if (!row) { console.log(`${slug}: 대상에 없음`); continue }
   const b = batch.get(slug)
   const seedSrc = b?.facePath
-  let seed = null
-  if (seedSrc && existsSync(seedSrc)) {
-    seed = join(SEED_DIR, `seed-${slug}.png`).replace(/\\/g, '/')
-    mkdirSync(SEED_DIR, { recursive: true })
-    copyFileSync(seedSrc, seed)
-  }
+  const seed = seedSrc && existsSync(seedSrc) ? seedSrc.replace(/\\/g, '/') : null
   const out = { slug, nickname: row.nickname, seed, prompt: buildPrompt(row) }
   writeFileSync(join(QUEUE, `${slug}.json`), JSON.stringify(out, null, 1), 'utf-8')
   made.push(out)

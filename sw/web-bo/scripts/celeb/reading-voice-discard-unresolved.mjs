@@ -56,7 +56,8 @@ export function describeTiming(prepared) {
 }
 
 export async function findUnresolved(manifest, options, prepare = prepareReadingTiming) {
-  const entries = Object.values(manifest.entries || {}).filter((entry) => entry.status === 'published' && (!options.slug || entry.slug === options.slug) && (!options.locale || entry.locale === options.locale)).slice(0, options.limit)
+  // 로컬 mp3가 없는 published 스텁(R2 목록으로 프라이밍한 항목)은 타이밍을 다시 만들 수 없어 검사·폐기 대상에서 뺀다.
+  const entries = Object.values(manifest.entries || {}).filter((entry) => entry.status === 'published' && entry.mp3 && (!options.slug || entry.slug === options.slug) && (!options.locale || entry.locale === options.locale)).slice(0, options.limit)
   const unresolved = []
   for (const entry of entries) {
     // 최종 검수 기록이 등록 mp3와 맞지 않아 타이밍을 만들 수 없는 등록분도 문장 강조를 보장하지 못하므로 폐기 대상이다.

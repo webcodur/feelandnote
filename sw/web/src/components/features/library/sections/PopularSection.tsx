@@ -9,7 +9,7 @@
 import { useState, useTransition } from "react";
 import { CategoryTabFilter, type CategoryTabOption } from "@/components/ui/CategoryTabFilter";
 import { Pagination } from "@/components/ui/Pagination";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getChosenLibrary, getEraContents, getLibraryByProfession } from "@/actions/library";
 import type { BestsellerItem } from "@/actions/library/types";
@@ -18,7 +18,6 @@ import type { ContentType } from "@/types/database";
 import BestsellerFreshness, { type BestsellerFreshnessProps } from "../BestsellerFreshness";
 import BookChartGrid from "../BookChartGrid";
 import ClassicsGrid from "../ClassicsGrid";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 
 const ITEMS_PER_PAGE = 12;
 const ERAS = ["ancient", "medieval", "modern", "contemporary"] as const;
@@ -38,7 +37,6 @@ interface Props {
 }
 
 export default function PopularSection({ initialBestsellers, initialClassicsData, professions, initialMode }: Props) {
-  const locale = useLocale();
   const t = useTranslations("library.popular");
   const te = useTranslations("library.page.eraPage.eraTabs");
   const tp = useTranslations("profession");
@@ -113,9 +111,6 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
       <header className="text-center">
         <h2 className="font-serif text-2xl md:text-3xl text-text-primary">
           {mode === "bestseller" ? t("chartTitle") : t("title")}
-          {locale === "ko" && (
-            <BookPurchaseInfo className="ms-2 inline-flex size-7 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
-          )}
         </h2>
         <p className="mt-2 text-sm md:text-base text-text-secondary max-w-2xl mx-auto">
           {mode === "bestseller" ? t("descBestseller") : t("description")}

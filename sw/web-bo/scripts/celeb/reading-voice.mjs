@@ -13,7 +13,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parseEnv } from 'node:util'
 import { createInterface } from 'node:readline'
 import { createClient } from '@supabase/supabase-js'
-import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, GetObjectCommand, HeadObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import { publishReadingTiming } from './reading-voice-timing.mjs'
 
@@ -43,7 +43,7 @@ const log = (event, values = {}) => console.log(JSON.stringify({ at: now(), even
 const required = (name) => { if (!process.env[name]) throw new Error(`Missing ${name}`); return process.env[name] }
 
 export function args(argv = process.argv.slice(2)) {
-  const flags = new Set(['--all-active', '--generate', '--publish', '--dry-run', '--help', '--single-pass', '--synthesize-only', '--existing-only'])
+  const flags = new Set(['--all-active', '--generate', '--publish', '--dry-run', '--help', '--single-pass', '--synthesize-only', '--existing-only', '--include-inactive'])
   const values = new Set(['--slug', '--locale', '--locales', '--run', '--python', '--device', '--limit', '--concurrency', '--requests-per-second', '--queue-file'])
   const result = {}
   for (let i = 0; i < argv.length; i++) {
@@ -178,7 +178,9 @@ export async function targets(db, options) {
     const ids = [...new Set(items.map((item) => item.id).filter(Boolean))]
     const people = []
     for (let offset = 0; offset < ids.length; offset += 100) {
-      const { data, error } = await db.from('celebs').select('id,slug,nickname,voice_v').eq('publication_status', 'active').in('id', ids.slice(offset, offset + 100))
+      let query = db.from('celebs').select('id,slug,nickname,voice_v').in('id', ids.slice(offset, offset + 100))
+      query = options['include-inactive'] ? query.in('publication_status', ['active', 'inactive']) : query.eq('publication_status', 'active')
+      const { data, error } = await query
       if (error) throw new Error(`Target queue query failed: ${error.message}`)
       people.push(...data)
     }
@@ -201,7 +203,8 @@ export async function targets(db, options) {
   }
   const people = []
   for (let offset = 0; ; offset += 500) {
-    let query = db.from('celebs').select('id,slug,nickname,voice_v').eq('publication_status', 'active').order('id').range(offset, offset + 499)
+    let query = db.from('celebs').select('id,slug,nickname,voice_v').order('id').range(offset, offset + 499)
+    query = options['include-inactive'] ? query.in('publication_status', ['active', 'inactive']) : query.eq('publication_status', 'active')
     if (options.slug) query = query.eq('slug', options.slug)
     const { data, error } = await query
     if (error) throw new Error(`Target query failed: ${error.message}`)
@@ -508,13 +511,14 @@ class QcWorker {
   close() { this.child.stdin.end(); this.child.kill() }
 }
 
-export async function currentSource(db, row) {
+export async function currentSource(db, row, options) {
   const [{ data: celeb, error: a }, { data: reading, error: b }] = await Promise.all([
     db.from('celebs').select('id,slug,voice_v,publication_status').eq('id', row.id).single(),
     db.from('celeb_explanations').select('plain_text,plain_text_en').eq('profile_id', row.id).single(),
   ])
   if (a || b) throw new Error('Could not recheck current DB source')
-  if (celeb.publication_status !== 'active' || celeb.slug !== row.slug || sha((reading[row.locale === 'ko' ? 'plain_text' : 'plain_text_en'] || '').trim()) !== row.sourceHash) throw new Error('STALE_SOURCE: current DB text/identity/publication differs; regenerate from current source')
+  const statuses = options?.['include-inactive'] ? ['active', 'inactive'] : ['active']
+  if (!statuses.includes(celeb.publication_status) || celeb.slug !== row.slug || sha((reading[row.locale === 'ko' ? 'plain_text' : 'plain_text_en'] || '').trim()) !== row.sourceHash) throw new Error('STALE_SOURCE: current DB text/identity/publication differs; regenerate from current source')
   return celeb
 }
 
@@ -530,7 +534,7 @@ export async function publish(db, r2, row, entry, options, checkpoint, helpers, 
     entry.qcScriptHash = options.qcScriptHash
     await checkpoint()
   }
-  await currentSource(db, row)
+  await currentSource(db, row, options)
   const key = helpers.voiceR2Key(row.id, row.locale, helpers.voiceFileName('reading'))
   const bucket = required('R2_BUCKET_NAME')
   const send = (command) => r2.send(command, { abortSignal: AbortSignal.timeout(60_000) })
@@ -570,7 +574,7 @@ export async function publish(db, r2, row, entry, options, checkpoint, helpers, 
     entry.status = 'uploaded'; entry.key = key; await checkpoint()
     let version
     for (let attempt = 0; attempt < 8; attempt++) {
-      const celeb = await currentSource(db, row)
+      const celeb = await currentSource(db, row, options)
       version = (celeb.voice_v || 0) + 1
       let query = db.from('celebs').update({ voice_v: version }).eq('id', row.id)
       query = celeb.voice_v == null ? query.is('voice_v', null) : query.eq('voice_v', celeb.voice_v)
@@ -706,7 +710,7 @@ async function main() {
           if (entry.status === 'held') return
           const reused = await reusableSynthesis(entry, options.processingHash)
           if (reused) { consecutiveFailures = 0; return }
-          await currentSource(db, row)
+          await currentSource(db, row, options)
           log('synthesize', { progress: `${index + 1}/${rows.length}`, slug: row.slug, locale: row.locale })
           const result = await synthesizeEntry(row, entry, options, gemini, checkpoint)
           consecutiveFailures = 0
@@ -716,6 +720,20 @@ async function main() {
         if (options['existing-only'] && !entry.mp3 && !entry.attempts.some((a) => a.wav)) {
           const orphanFiles = await Promise.all(entry.attempts.map((a) => exists(join(options.run, row.id, row.locale, `attempt-${a.number}.wav`))))
           if (!orphanFiles.some(Boolean)) { log('skipped-missing-audio', { slug: row.slug, locale: row.locale }); return }
+        }
+        if (options.publish && r2 && entry.status === 'published' && !entry.mp3 && !entry.attempts.some((a) => a.wav)) {
+          // 로컬 원본이 사라진 등록분이다. R2에 음원이 살아 있으면 재생성하지 않고 넘긴다.
+          const remoteKey = helpers.voiceR2Key(row.id, row.locale, helpers.voiceFileName('reading'))
+          let remoteExists = false
+          try {
+            await r2.send(new HeadObjectCommand({ Bucket: required('R2_BUCKET_NAME'), Key: remoteKey }), { abortSignal: AbortSignal.timeout(30_000) })
+            remoteExists = true
+          } catch (error) {
+            if (!['NoSuchKey', 'NotFound'].includes(error.name) && error.$metadata?.httpStatusCode !== 404) throw error
+          }
+          if (remoteExists) { log('remote-published', { progress: `${index + 1}/${rows.length}`, slug: row.slug, locale: row.locale, key: remoteKey }); return }
+          entry.status = 'pending'
+          await checkpoint()
         }
         if (entry.mp3 && entry.mp3Hash && sha(await readFile(entry.mp3)) !== entry.mp3Hash) throw new Error('Local MP3 hash mismatch; original run must be preserved')
         if (entry.mp3) {
@@ -750,7 +768,7 @@ async function main() {
             await checkpoint()
             try {
               log('generate', { progress: `${index + 1}/${rows.length}`, slug: row.slug, locale: row.locale, attempt: attempt.number })
-              await currentSource(db, row)
+              await currentSource(db, row, options)
               const wav = join(directory, `attempt-${attempt.number}.wav`)
               if (await adoptAttemptWav(attempt, wav)) {
                 if (options['single-pass']) entry.singlePassGenerationUsed = true

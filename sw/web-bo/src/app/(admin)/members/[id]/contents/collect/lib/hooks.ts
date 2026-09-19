@@ -10,8 +10,6 @@ import {
 import { parseJsonInput } from './utils'
 import type { InputMode, ProcessedItem, SearchResultItem } from './types'
 
-const SELECTED_KEY_STORAGE = 'feelandnote_selected_api_key'
-
 // 저자 일치 여부로 최적 결과 선택
 function findBestMatchByCreator(
   results: SearchResultItem[],
@@ -108,10 +106,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
     }
   }
 
-  function getSelectedKeyId(): string | undefined {
-    return localStorage.getItem(SELECTED_KEY_STORAGE) || undefined
-  }
-
   // #region Handlers
   async function handleExtract() {
     if (inputMode === 'url' && !url.trim()) return
@@ -154,14 +148,12 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
     setError(null)
 
     try {
-      const selectedKeyId = getSelectedKeyId()
       const itemsToProcess = [...selectedIndices].map((i) => extractedItems[i])
 
       const result = await processExtractedItems({
         extractedItems: itemsToProcess,
         startIndex: 0,
         batchSize: itemsToProcess.length,
-        selectedKeyId,
       })
 
       if (!result.success) throw new Error(result.error)

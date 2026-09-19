@@ -1,7 +1,6 @@
 "use client";
 
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import { Fragment, useState } from "react";
 import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -74,10 +73,6 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
           <h3 id="myth-works-title" className="flex items-center gap-2 text-lg font-black text-text-primary">
             <BookOpen size={18} className="text-accent" />
             {t("works")}
-            {/* 수수료 안내 — 판매 단추 안에 묻지 않고 선반 제목 옆에 둔다 */}
-            {locale === "ko" && visible.some((work) => work.category === "book") && (
-              <BookPurchaseInfo className="inline-flex size-6 items-center justify-center self-center rounded-full border border-white/10" />
-            )}
           </h3>
           <p className="mt-1 text-sm text-text-secondary">{t("worksLead")}</p>
         </div>
@@ -137,7 +132,18 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
               <Link href={workHref} draggable={false} className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-accent/70 hover:bg-accent/5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${selected ? "border-accent/60" : "border-stone-heavy"}`}>
                 {cardBody}
               </Link>
-              {showPurchase && <AffiliateBookAction contentId={work.id} editionId={work.editionId} coupangUrl={work.coupangUrl} compact className="mt-2" />}
+              {showPurchase && (
+                /* 통합 구매 모듈 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다 */
+                <BookPurchaseSummary
+                  contentId={work.id}
+                  editionId={work.editionId}
+                  title={work.title}
+                  creator={work.creator}
+                  links={work.coupangUrl ? [{ platform: "coupang", url: work.coupangUrl }] : []}
+                  full
+                  className="mt-2"
+                />
+              )}
               </div>
             </Fragment>
           );

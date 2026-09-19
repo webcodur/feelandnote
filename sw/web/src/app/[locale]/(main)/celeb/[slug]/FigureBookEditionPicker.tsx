@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { BookOpenText } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
+import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import ContentImage from "@/components/ui/ContentImage";
 
@@ -22,6 +23,7 @@ export default function FigureBookEditionPicker({
   onSelect,
 }: FigureBookEditionPickerProps) {
   const t = useTranslations("celebPage");
+  const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>();
   const hasEditionPicker = source.editions.length > 1;
   const [panelMounted, setPanelMounted] = useState(hasEditionPicker);
   const [contentMounted, setContentMounted] = useState(hasEditionPicker);
@@ -81,7 +83,7 @@ export default function FigureBookEditionPicker({
                 {t("sourceEditionIntro")}
               </p>
             </header>
-            <div className="relative flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain bg-stone-heavy bg-texture-noise px-2 py-2.5 pb-1 [overflow-anchor:none] [scrollbar-width:thin] sm:px-3 sm:py-3 md:px-4">
+            <div ref={railRef} {...dragProps} className={`relative flex gap-2 overflow-x-auto overscroll-x-contain bg-stone-heavy bg-texture-noise px-2 py-2.5 pb-1 select-none scrollbar-hide pointer-coarse:snap-x pointer-coarse:snap-proximity [overflow-anchor:none] sm:px-3 sm:py-3 md:px-4 ${cursorClassName}`}>
               {source.editions.map((option) => {
                 const active = option.id === selectedEditionId;
                 return (

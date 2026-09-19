@@ -60,14 +60,15 @@ async function main() {
   }
 
   // 이미 안내가 있는 인물은 덮지 않는다
-  const has = new Set<string>()
+  const existing = new Map<string, { plain_text: string; updated_at: string }>()
   const allIds = [...ids.values()]
   for (let i = 0; i < allIds.length; i += 200) {
-    const { data } = await db.from('celeb_explanations').select('profile_id, plain_text').in('profile_id', allIds.slice(i, i + 200))
-    for (const r of data ?? []) if (String(r.plain_text ?? '').trim()) has.add(r.profile_id)
+    const { data, error } = await db.from('celeb_explanations').select('profile_id, plain_text, updated_at').in('profile_id', allIds.slice(i, i + 200))
+    if (error) throw new Error(error.message)
+    for (const r of data ?? []) existing.set(r.profile_id, r)
   }
 
-  const todo = items.filter((x) => ids.has(x.slug) && !has.has(ids.get(x.slug)!))
+  const todo = items.filter((x) => ids.has(x.slug) && !String(existing.get(ids.get(x.slug)!)?.plain_text ?? '').trim())
   const skipped = items.length - todo.length
 
   console.log('파일 ' + files.length + ' / 파싱 통과 ' + items.length + ' / 반려 ' + rejected.length)
@@ -80,22 +81,28 @@ async function main() {
   const fail: string[] = []
   for (const it of todo) {
     const pid = ids.get(it.slug)!
-    const { error } = await db.from('celeb_explanations')
-      // interpretive_* 는 NOT NULL 이라 값이 필요하다. 탐구는 2026-08-22에 화면에서 닫혀 노출되지 않는다.
-      // 기존 신규 행이 쓰던 '미작성'을 그대로 따른다.
-      .upsert({
+    const current = existing.get(pid)
+    const query = current
+      ? db.from('celeb_explanations')
+        .update({ plain_text: it.ko, plain_text_en: it.en })
+        .eq('profile_id', pid)
+        .eq('updated_at', current.updated_at)
+      : db.from('celeb_explanations').insert({
         profile_id: pid,
         plain_text: it.ko,
         plain_text_en: it.en,
         interpretive_title: '미작성',
         interpretive_text: '미작성',
-        review_status: 'ai_reviewed',
-      }, { onConflict: 'profile_id' })
+        published_at: null,
+      })
+    const { data, error } = await query.select('profile_id').maybeSingle()
     if (error) fail.push(it.slug + ': ' + error.message)
+    else if (!data) fail.push(it.slug + ': 안내가 조회 뒤 바뀌어 반영 중단')
     else ok++
   }
   console.log('\n반영 ' + ok + ' / 실패 ' + fail.length)
   for (const f of fail.slice(0, 10)) console.log('  ' + f)
+  if (fail.length) process.exitCode = 1
 }
 
 main().catch((e) => { console.error(e?.message ?? e); process.exit(1) })

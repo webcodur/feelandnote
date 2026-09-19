@@ -3,7 +3,7 @@
  * 로컬 화보(배경 포함 연출컷) → 공용 비율 중앙 크롭 webp → R2 celebs/{celebId}/photo.webp → celebs 갱신
  *
  * ※ 아바타(avatar_url, 얼굴 크롭 800×800)와 별개다. 여기서는 인물 상세용 세로 화보를 만든다.
- * ※ 세력도감 개인화보(celeb_tag_assignments.faction_image_url)와도 별개다.
+ * ※ 세력도감 개인화보(faction_members.image_url)와도 별개다.
  *    대문이 비어 있으면 화면이 세력도감 화보를 자동으로 끌어다 쓴다(getCelebBySlug).
  *
  * 입력: scratchpad/hero_photo_batch.json  [{slug, celeb_id, nickname, image}]

@@ -87,6 +87,17 @@ const LABS = [
       },
     ],
   },
+  {
+    section: '디자인 시안 — 서비스에서 내린 안 보관',
+    items: [
+      {
+        to: '/explore-art',
+        title: '탐색 카드 그림 시안',
+        desc: '금선 세공 양식의 바로가기 카드 그림 중 내린 안(천칭·신들의 산·아치). 실제 카드 크기로 본다.',
+        tag: 'svg',
+      },
+    ],
+  },
 ]
 
 export function Dashboard() {

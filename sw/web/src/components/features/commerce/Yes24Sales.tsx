@@ -7,14 +7,13 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Info, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { getYes24SalesInfo, getYes24SalesInfoByIsbn } from "@/actions/contents/getYes24PurchaseLink";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import { cn } from "@/lib/utils";
-import type { Yes24SalesInfo } from "@/lib/books/yes24Purchase";
+import { useYes24Sales } from "./useYes24Sales";
 
 /* 값표는 목록 카드마다 붙는다. 창은 누를 때만 불러오고, 구매 단추(AffiliateBookAction)가 다시 값표를 import하는 순환도 끊는다 */
 const Yes24SalesModal = dynamic(() => import("./Yes24SalesModal"), { ssr: false });
@@ -37,35 +36,6 @@ interface Yes24SalesProps {
   chipClassName?: string;
 }
 
-// 같은 판본을 여러 판매대가 물어도 요청 하나를 공유한다. 실패는 다시 물을 수 있게 지운다.
-const requests = new Map<string, Promise<Yes24SalesInfo | null>>();
-
-function requestSales(contentId: string, editionId?: number): Promise<Yes24SalesInfo | null> {
-  const key = `${contentId}:${editionId ?? "default"}`;
-  const existing = requests.get(key);
-  if (existing) return existing;
-  const request = getYes24SalesInfo(contentId, "ko", editionId).catch(() => {
-    requests.delete(key);
-    return null;
-  });
-  requests.set(key, request);
-  if (requests.size > 100) requests.delete(requests.keys().next().value!);
-  return request;
-}
-
-function requestSalesByIsbn(isbn: string): Promise<Yes24SalesInfo | null> {
-  const key = `isbn:${isbn}`;
-  const existing = requests.get(key);
-  if (existing) return existing;
-  const request = getYes24SalesInfoByIsbn(isbn).catch(() => {
-    requests.delete(key);
-    return null;
-  });
-  requests.set(key, request);
-  if (requests.size > 100) requests.delete(requests.keys().next().value!);
-  return request;
-}
-
 export default function Yes24Sales({
   contentId,
   editionId,
@@ -78,24 +48,14 @@ export default function Yes24Sales({
 }: Yes24SalesProps) {
   const locale = useLocale();
   const t = useTranslations("content.purchaseSales");
-  const active = enabled && locale === "ko" && (isbn != null || contentId != null);
-  const key = isbn ? `isbn:${isbn}` : `${contentId}:${editionId ?? "default"}`;
-  const [result, setResult] = useState<{ key: string; sales: Yes24SalesInfo | null } | null>(null);
+  const sales = useYes24Sales({
+    contentId,
+    editionId,
+    isbn,
+    active: enabled && locale === "ko",
+  });
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (!active) return;
-    let alive = true;
-    const request = isbn ? requestSalesByIsbn(isbn) : requestSales(contentId!, editionId);
-    request.then((sales) => {
-      if (alive) setResult({ key, sales });
-    });
-    return () => {
-      alive = false;
-    };
-  }, [contentId, editionId, isbn, active, key]);
-
-  const sales = active && result?.key === key ? result.sales : null;
   const number = new Intl.NumberFormat(locale);
   const onSale = Boolean(sales?.onSale);
   const hasRating = onSale && Boolean(sales?.starScore);

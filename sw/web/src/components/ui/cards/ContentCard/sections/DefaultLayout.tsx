@@ -102,7 +102,9 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
             src={displayThumbnail}
             alt={title}
             sizes="(max-width: 768px) 50vw, 25vw"
-            className={`object-cover transition-transform duration-300 delay-150 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105" : ""}`}
+            /* 호버 반응 — 밝기는 즉각 붙고(필터는 transition-transform 대상이 아니라 지연 없이
+               바뀐다), 살짝 커지는 배율도 지연 없이 바로 움직인다 */
+            className={`object-cover transition-transform duration-200 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105 group-hover/card:scale-110 group-hover/card:brightness-110" : ""}`}
             onError={() => setImageError(true)}
             onLoad={handleImageLoad}
           />
@@ -158,11 +160,15 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
 
   if (href && !selectable) {
     return (
-      <div className="relative group/card">
-        <CornerAccents />
-        <Link href={href} className={containerClass} onClick={handleClick}>
-          {cardContent}
-        </Link>
+      <div className="relative">
+        {/* 모서리 장식은 카드 본체에만 단다 — 아래 덧붙은 모듈(구매 값표 등)까지
+            group/card가 덮으면 아랫단에 올려도 카드가 함께 빛나 한 덩어리가 된다 */}
+        <div className="relative group/card">
+          <CornerAccents />
+          <Link href={href} className={containerClass} onClick={handleClick}>
+            {cardContent}
+          </Link>
+        </div>
         {props.posterFooterNode && <div className="mt-2">{props.posterFooterNode}</div>}
         {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
       </div>
@@ -171,10 +177,12 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
 
   // 모서리 장식은 group/card에 반응한다 — href 분기와 같은 이름을 써야 onClick 카드에도 hover 장식이 선다
   return (
-    <div className="relative group/card">
-      <CornerAccents />
-      <div className={containerClass} onClick={handleClick}>
-        {cardContent}
+    <div className="relative">
+      <div className="relative group/card">
+        <CornerAccents />
+        <div className={containerClass} onClick={handleClick}>
+          {cardContent}
+        </div>
       </div>
       {props.posterFooterNode && <div className="mt-2">{props.posterFooterNode}</div>}
       {props.effectsEnabled !== false && <CardModals props={props} state={state} />}

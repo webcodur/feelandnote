@@ -223,8 +223,8 @@ async function main() {
     updated += 1
     if (!row.en?.isbn || enSet.has(row.contentId)) continue
     const sources = { primary: 'openlibrary', title: row.en.sourceUrl, creator: row.en.sourceUrl, isbn: row.en.sourceUrl, publisher: row.en.sourceUrl, thumbnail: row.en.sourceUrl }
-    const introduction = await fetchBookIntroduction({ isbn: row.en.isbn, locale: 'en' })
-    if (introduction.source && introduction.sourceUrl) sources.description = introduction.sourceUrl
+    const introduction = await fetchBookIntroduction({ isbn: row.en.isbn, locale: 'en' }).catch(() => null)
+    if (introduction?.source && introduction?.sourceUrl) sources.description = introduction.sourceUrl
     const locale = { description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, verified: true, sources }
     const l = await db.from('content_locales').upsert(locale, { onConflict: 'content_id,locale', ignoreDuplicates: true })
     if (l.error) { console.log(`  en locale 실패 ${row.contentId}: ${l.error.message}`); continue }

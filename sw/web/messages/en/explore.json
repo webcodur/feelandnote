@@ -476,6 +476,7 @@
     "expandBottomNavigation": "Bottom item navigation",
     "expandPrevBook": "Previous item",
     "expandNextBook": "Next item",
+    "expandModeSwitch": "Switch between intro and review",
     "expandIndexLabel": "Record list",
     "expandIndexTitle": "Review list",
     "expandIndexExpand": "Expand list",

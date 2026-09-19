@@ -11,6 +11,8 @@
 이 폴더의 CLI는 CDP 연결이 가능한 Chrome을 사용한다. 아래는 이 CLI를 사용할 때의 연결 예시다.
 세션에 제공된 브라우저 도구로 작업할 때는 그 도구의 지침을 따른다.
 과거 특정 확장의 도메인 제한을 모든 브라우저의 제한으로 취급하지 않는다.
+`www.coupang.com` 검색·상품 페이지가 CDP Chrome에서 Akamai 403(Access Denied)으로 막힐 때는
+[aside-browser 스킬](../../../../.agents/skills/aside-browser/SKILL.md)의 repl 경로로 화면을 연다.
 
 ```bash
 # 1) 크롬을 원격 조작 가능하게 띄운다 (평소 쓰는 크롬과 섞이지 않는 별도 프로필)

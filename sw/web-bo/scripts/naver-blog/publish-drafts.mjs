@@ -90,6 +90,16 @@ async function typeTitle(page, title) {
 // [img:주소] 또는 [img:주소|폭] — 이미지를 내려받아 편집기에 넣는다.
 const IMG_RE = /^\[img:([^|\]]+)(?:\|(\d+))?(?:\|([^\]]+))?\]$/;   // [img:주소|폭|이름]
 const isImg = (l) => IMG_RE.test(l.trim());
+// [avatar:주소|폭|이름] — 인물 사진. 표지와 같은 방법으로 넣되 액자를 두르지 않는다(apply-institution-revisions.mjs 와 같은 표시).
+const AVATAR_RE = /^\[avatar:(https?:\/\/[^|\]]+)\|(\d+)\|([^\]]+)\]$/;
+const isAvatar = (l) => AVATAR_RE.test(l.trim());
+// 본문 단락 전부를 인용구 안까지 문서 순서대로 읽는다. 자리표(placeholder) 글자는 뺀다.
+const allParas = (page) => page.evaluate(() =>
+  [...document.querySelectorAll('.se-component:not(.se-documentTitle) .se-text-paragraph')].map((p) => {
+    const copy = p.cloneNode(true);
+    copy.querySelectorAll('.se-placeholder').forEach((n) => n.remove());
+    return copy.textContent.replace(/​/g, '').trim();
+  }));
 const IMGDIR = path.join(os.tmpdir(), 'naver-blog', 'img');
 
 // 파일 이름이 그대로 대체 텍스트가 되므로 뜻이 통하는 이름을 붙인다.
@@ -561,6 +571,35 @@ async function setSchedule(page, when) {
   return `${now.date} ${hh}:${mm}`;
 }
 
+
+/**
+ * 발행 패널에서 검색 허용·블로그/카페 공유(링크 허용)·외부 공유를 켠다.
+ * 새 글의 기본값은 공유가 꺼져 있어 assertPublishOptions 에 걸린다(26.09.18 실측: 외부 공유 비허용).
+ * 켜는 법은 repair-search.mjs 와 같다. 켠 뒤의 확인은 assertPublishOptions 가 맡는다.
+ */
+async function enableSharing(page) {
+  const checked = (id) => page.evaluate((i) => { const e = document.getElementById(i); return e ? { checked: e.checked, disabled: e.disabled } : null; }, id);
+  for (const id of ["publish-option-search", "publish-option-scrap", "publish-option-outside"]) {
+    const st = await checked(id);
+    if (!st) throw new Error(`발행 옵션을 찾지 못했다: ${id}`);
+    if (st.disabled) throw new Error(`발행 옵션이 비활성이다: ${id}`);
+    if (!st.checked) { await page.click(`label[for="${id}"]`); await wait(400); }
+    if (!(await checked(id))?.checked) throw new Error(`발행 옵션을 켜지 못했다: ${id}`);
+  }
+  const mode = () => page.evaluate(() => document.querySelector("#publish-option-scrap")?.closest("li")?.querySelector("a")?.textContent.replace(/\s/g, "") ?? null);
+  if ((await mode()) !== "링크허용") {
+    const anchor = await page.evaluateHandle(() => document.querySelector("#publish-option-scrap")?.closest("li")?.querySelector("a"));
+    if (!anchor.asElement()) throw new Error("공유 방식을 선택할 수 없다");
+    await anchor.asElement().click(); await wait(400);
+    await page.waitForSelector(`label[for="publish-option-allow-link"]`, { visible: true, timeout: 5000 });
+    await page.click(`label[for="publish-option-allow-link"]`); await wait(400);
+    if (await page.$("#publish-option-allow-link")) await anchor.asElement().click();
+    await anchor.dispose();
+    await page.waitForSelector("#publish-option-allow-link", { hidden: true, timeout: 5000 }).catch(() => {});
+    const m2 = await mode(); if (m2 !== "링크허용") throw new Error(`링크 공유 방식이 선택되지 않았다(현재: ${m2})`);
+  }
+}
+
 async function addTags(page, tags) {
   const input = await page.$('input[class*=tag_input]');
   await input.click(); await wait(200);
@@ -775,22 +814,29 @@ for (const d of drafts) {
     const b = await page.evaluate(() => { const p = [...document.querySelectorAll('.se-component.se-text')].find((c) => !c.classList.contains('se-documentTitle')).querySelector('.se-text-paragraph'); const r = p.getBoundingClientRect(); return { x: r.left + 20, y: r.top + r.height / 2 }; });
     await page.mouse.click(b.x, b.y); await wait(300);
     const lines = d.body.split('\n');
+    const coverIds = [];   // 액자를 두를 책 표지. 인물 사진([avatar:])은 두르지 않는다.
     for (const ln of lines) {
       if (isDivider(ln)) { await insertDivider(page); continue; }
+      if (isQuote(ln)) { await insertQuote(page, strip(ln).trim()); continue; }
+      const av = ln.trim().match(AVATAR_RE);
+      if (av) { await insertImage(page, cdp, av[1], Number(av[2]), av[3]); continue; }
       const im = ln.trim().match(IMG_RE);
-      if (im) { await insertImage(page, cdp, im[1], Number(im[2] ?? 400), im[3]); continue; }
+      if (im) { coverIds.push(await insertImage(page, cdp, im[1], Number(im[2] ?? 400), im[3])); continue; }
       await typeLine(page, ln);
     }
     await wait(800);
-    const got = (await bodyParas(page)).filter(Boolean);
-    const want = lines.filter((l) => l && !isDivider(l) && !isImg(l)).map(strip);
+    // 인용구 안의 단락도 본문 순서에 들어 있으므로 인용구까지 포함해 읽어 대조한다.
+    const got = (await allParas(page)).filter(Boolean);
+    const want = lines.filter((l) => l && !isDivider(l) && !isImg(l) && !isAvatar(l)).map(strip);
     const same = got.length === want.length && got.every((g, i) => g === want[i]);
-    if (!same) throw new Error('본문 불일치: ' + JSON.stringify({ got: got.slice(0, 3).map((x) => x.slice(0, 40)), want: want.slice(0, 3).map((x) => x.slice(0, 40)), gl: got.length, wl: want.length }));
+    if (!same) throw new Error('본문 불일치: ' + JSON.stringify({ got: got.slice(0, 3).map((x) => x.slice(0, 40)), want: want.slice(0, 3).map((x) => x.slice(0, 40)), gl: got.length, wl: want.length, firstDiff: got.findIndex((g, i) => g !== want[i]) }));
+    if (coverIds.length && !(await applyPhotoFrame(page, 5, { imageIds: coverIds }))) throw new Error('책 표지에 액자를 두르지 못했다');
 
     // 발행 패널
     await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
     if (!(await selectCategory(page, d.category))) throw new Error('카테고리 선택 실패: ' + d.category);
     const tagCount = await addTags(page, d.tags);
+    await enableSharing(page);   // 검색·링크 공유·외부 공유를 켠다. 확인은 assertPublishOptions 가 한다.
     if (scheduling) { const when = slotList[n]; if (!when) throw new Error('예약 슬롯 부족'); schedText = await setSchedule(page, when); }
     if (dry) {
       await assertPublishOptions(page);
@@ -823,7 +869,7 @@ await cdp.send('Page.setInterceptFileChooserDialog', { enabled: false }).catch((
 if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다
 }
 
-export { bodyParas, typeTitle, typeLine, insertImage, insertDivider, insertQuote, applyPhotoFrame, IMG_RE, strip, isDivider, isImg, isQuote };
+export { bodyParas, typeTitle, typeLine, insertImage, insertDivider, insertQuote, applyPhotoFrame, enableSharing, IMG_RE, strip, isDivider, isImg, isQuote };
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   main().catch(error => { console.error(error); process.exitCode = 1; });
 }

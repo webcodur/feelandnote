@@ -1,7 +1,5 @@
 "use client";
 
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { BookOpenText } from "lucide-react";
@@ -11,9 +9,8 @@ import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
-import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
-import Yes24Sales from "@/components/features/commerce/Yes24Sales";
-import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 
 export default function AuthoredBookListItem({ book }: { book: FigureBookContent }) {
   const locale = useLocale();
@@ -29,12 +26,13 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
   const title = edition?.title || book.title;
   const thumbnail = edition ? edition.thumbnailUrl : book.thumbnailUrl;
   const creator = edition?.creator || book.creator;
-  const purchaseLinks = book.type === "BOOK"
-    ? getEnglishBookPurchaseLinks({
-      locale, title, creator,
-      links: edition?.purchaseUrl && edition.platform ? [{ platform: edition.platform, url: edition.purchaseUrl }] : [],
-    })
-    : [];
+  // 통합 구매 모듈의 서점 링크 — 판본 상품 주소에 작품의 보유 서점 링크를 잇는다
+  const purchaseModuleLinks: AffiliateLink[] = [
+    ...(edition?.purchaseUrl && edition.platform
+      ? [{ platform: edition.platform, url: edition.purchaseUrl }]
+      : []),
+    ...(book.affiliateLinks ?? []),
+  ];
   const href = `${locale === "en" ? "/en" : ""}/content/${book.id}?category=book`;
 
   return (
@@ -80,8 +78,17 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
         </div>
       )}
       {failed && <RetryBlock onRetry={retry} className="px-3 py-3" />}
-      {/* YES24 판매 정보 — 출판사·소개·판본의 책정보 흐름에 붙인다. 구매 단추와는 뗀다 */}
-      <Yes24Sales contentId={book.id} editionId={edition?.id} enabled={book.type === "BOOK"} full className="px-3 pb-2" />
+      {/* 통합 구매 모듈 — 출판사·소개·판본의 책정보 흐름에 붙인다. 누르면 서점 링크·주의 안내 창이 뜬다 */}
+      <BookPurchaseSummary
+        contentId={book.id}
+        editionId={edition?.id}
+        title={title}
+        creator={creator}
+        links={purchaseModuleLinks}
+        enabled={book.type === "BOOK"}
+        full
+        className="px-3 pb-3"
+      />
       {book.editions.length > 1 && (
         <div className="px-3 pb-2">
           <select
@@ -98,21 +105,6 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
           </select>
         </div>
       )}
-      {locale === "ko" && book.type === "BOOK" && (
-        <div className="px-3 pb-3">
-          {/* 수수료 안내 — 판매 단추 안에 묻지 않고 구매 칸 오른쪽 어깨에 둔다 */}
-          <div className="mb-1 flex items-center justify-end">
-            <BookPurchaseInfo className="inline-flex size-6 items-center justify-center rounded-full border border-white/10" />
-          </div>
-          <AffiliateBookAction
-            contentId={book.id}
-            editionId={edition?.id}
-            coupangUrl={edition?.platform === "coupang" ? edition.purchaseUrl : null}
-            hideSales
-          />
-        </div>
-      )}
-      <BookPurchaseLinks links={purchaseLinks} className="px-3 pb-3" />
     </article>
   );
 }

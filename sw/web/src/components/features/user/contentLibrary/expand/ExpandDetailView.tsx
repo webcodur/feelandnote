@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -14,12 +14,11 @@ import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import type { ExpandCardMode } from "./ExpandModeTabs";
 import MobileIndexModal from "./MobileIndexModal";
 import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
   ExpandArrowButton,
-  ExpandBottomNavigation,
   ExpandTitleHeader,
 } from "./ExpandNavigation";
 import { useContentBrief } from "./useContentBrief";
@@ -132,6 +131,9 @@ export default function ExpandDetailView({
   );
   const selectedItem = record?.content_id === selectedContentId ? record : selectedPlaceholder;
   const isNavigationDisabled = total <= 1;
+  /* 본문 모드(소개·감상 배경)는 색인에서 곧바로 고를 때는 유지하고, 좌우 화살표로
+     작품을 넘길 때는 소개로 되돌린다 */
+  const [cardMode, setCardMode] = useState<ExpandCardMode>("intro");
   /* 작품을 바꾸면 소개·기록이 오기 전까지 뼈대만 그려져 상자가 뼈대 크기로 줄었다 다시 늘어난다.
      그 사이엔 직전 카드의 높이를 그대로 붙들고, 두 응답이 다 온 뒤에 한 번만 새 높이로 옮긴다. */
   const cardRef = useHeldHeight(isBriefLoading || isRecordLoading);
@@ -142,12 +144,16 @@ export default function ExpandDetailView({
      위로 벗어났을 때만 위쪽으로 맞추고, 제목이 이미 보이면 화면을 건드리지 않는다. */
   const rootRef = useRef<HTMLElement>(null);
   const revealRequestedAtRef = useRef(0);
+  /* 감상 배경을 읽다가 작품을 넘기면 소개 모드로 돌려 보낸다 — 새 작품의 감상 배경
+     한가운데로 떨어지지 않게 */
   const goPrevious = useCallback(() => {
     revealRequestedAtRef.current = performance.now();
+    setCardMode("intro");
     selectPrevious();
   }, [selectPrevious]);
   const goNext = useCallback(() => {
     revealRequestedAtRef.current = performance.now();
+    setCardMode("intro");
     selectNext();
   }, [selectNext]);
 
@@ -194,10 +200,6 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         onPrevious={goPrevious}
         onNext={goNext}
-        /* 수수료 안내 — 판매 단추 안에 묻지 않고 작품 제목 옆에 둔다 */
-        titleAddon={locale === "ko" && selectedItem?.content.type === "BOOK" ? (
-          <BookPurchaseInfo className="inline-flex size-6 shrink-0 items-center justify-center self-center rounded-full border border-white/10" />
-        ) : undefined}
       />
 
       <div
@@ -209,7 +211,6 @@ export default function ExpandDetailView({
           <ExpandCard
             key={selectedItem.id}
             item={selectedItem}
-            titleBadge={presentation.titleBadges[selectedIndex]}
             brief={brief}
             isBriefLoading={isBriefLoading}
             isRecordLoading={isRecordLoading}
@@ -219,16 +220,11 @@ export default function ExpandDetailView({
             onRetryRecord={retryRecord}
             isActive={isActive}
             ownerNickname={ownerNickname}
+            mode={cardMode}
+            onModeChange={setCardMode}
           />
         </div>
-        <ExpandBottomNavigation
-          label={t("expandBottomNavigation")}
-          previousLabel={t("expandPrevBook")}
-          nextLabel={t("expandNextBook")}
-          disabled={isNavigationDisabled}
-          onPrevious={goPrevious}
-          onNext={goNext}
-        />
+        {/* 모드 탭이 본문을 짧게 묶어 카드 아래가 머리 가까이에 온다 — 머리 화살표가 있어 아래쪽 이동 단추는 둘 이유가 없다 */}
       </div>
 
       <ExpandArrowButton

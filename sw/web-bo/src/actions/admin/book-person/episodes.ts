@@ -19,7 +19,6 @@ export type RegisteredBook = {
   text: string
 }
 
-export type { BookPersonScript, BookPersonSummary }
 
 type CelebRow = {
   slug: string | null

@@ -44,6 +44,7 @@ import {
   BookMarked,
   Landmark,
   Images,
+  LayoutGrid,
   ClipboardCheck,
   Quote,
   ScrollText,
@@ -67,6 +68,7 @@ const menuGroups: MenuGroup[] = [
     key: 'celebs', label: '셀럽', icon: Star,
     children: [
       { href: '/celebs', label: '목록', icon: Star },
+      { href: '/celebs/cards', label: '카드', icon: LayoutGrid },
       { href: '/celebs/images', label: '이미지 작업', icon: Images },
       { href: '/celebs/titles', label: '수식어', icon: Sparkles },
       { href: '/celebs/headlines', label: '헤드라인', icon: Quote },
@@ -132,7 +134,6 @@ const menuGroups: MenuGroup[] = [
     key: 'system', label: '시스템', icon: MonitorCog,
     children: [
       { href: '/activity-logs', label: '활동 로그', icon: Activity },
-      { href: '/api-usage', label: 'API 사용량', icon: BarChart3 },
       { href: '/settings', label: '설정', icon: Settings },
     ],
   },

@@ -57,8 +57,8 @@ async function main() {
         for (let attempt = 0; attempt < 5; attempt++) {
           const { data: row, error: readError } = await db.from('content_locales').select('description,isbn,sources').eq('content_id', id).eq('locale', 'ko').single()
           if (!readError && row.description === change.description && row.isbn === change.before.isbn
-            && row.sources?.description === input.sourceUrl && row.sources?.description_method === 'translation'
-            && row.sources?.description_source_locale === 'en') { confirmed = true; break }
+            && (row.sources?.description ?? null) === input.sourceUrl && row.sources?.description_method === 'translation'
+            && row.sources?.description_source_locale === (input.sourceLocale ?? 'en')) { confirmed = true; break }
           await delay(500)
         }
         if (!confirmed) throw new Error(`Translation readback failed: ${id}`)

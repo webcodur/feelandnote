@@ -63,7 +63,7 @@ async function main() {
       if (readError) throw readError
       for (const { input, result } of pending) {
         const readback = rows.find(r => r.content_id === input.content.id && r.locale === input.target.locale)
-        if (!readback || readback.description !== result.description || readback.sources?.description !== input.sourceUrl
+        if (!readback || readback.description !== result.description || (readback.sources?.description ?? null) !== input.sourceUrl
         || readback.sources?.description_method !== input.method || readback.sources?.description_source_locale !== input.sourceLocale
         || (['isbn', 'title', 'creator', 'publisher'] as const).some(key => readback[key] !== input.target[key])) {
           throw new Error(`Media readback failed: ${input.content.id}:${input.target.locale}`)

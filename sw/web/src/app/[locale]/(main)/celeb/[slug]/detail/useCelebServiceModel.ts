@@ -21,6 +21,7 @@ import {
   useCelebServiceItems,
 } from "../celebServiceItems";
 import { CELEB_SERVICE_ICONS } from "../celebServiceIcons";
+import { getCelebSectionOrder } from "../celebSectionChapters";
 
 /**
  * 관계·분석 구획은 화면이 다가왔을 때 브라우저가 직접 불러온다.
@@ -94,10 +95,13 @@ export function useCelebServiceModel({
     availability,
   });
 
-  // 관련 인물·참고도서는 페이지 끝에 둔다.
-  // 장 번호는 매기지 않는다(히어로는 앞 두 항목만 쓴다).
+  // 참고도서·관련 인물은 구획 순서표(celebSectionChapters)의 꼬리 자리로 끼운다 —
+  // 참고도서가 관련 인물보다 앞, 방명록이 맨 끝. 장 번호는 매기지 않는다(히어로는 앞 두 항목만 쓴다).
   const t = useTranslations("celebPage");
   const items = useMemo(() => {
+    const positionByKey = new Map(
+      getCelebSectionOrder(celebReality).map((key, index) => [key, index]),
+    );
     const ordered: ServiceItem[] = [...baseItems];
     if (sideAvailability.relatedFigures) {
       ordered.push({
@@ -119,8 +123,12 @@ export function useCelebServiceModel({
         target: { sectionId: "affiliate-books" },
       });
     }
-    return ordered;
-  }, [baseItems, sideAvailability.relatedFigures, sideAvailability.affiliateBooks, t]);
+    return ordered.toSorted(
+      (first, second) =>
+        (positionByKey.get(first.key) ?? Number.MAX_SAFE_INTEGER) -
+        (positionByKey.get(second.key) ?? Number.MAX_SAFE_INTEGER),
+    );
+  }, [baseItems, sideAvailability.relatedFigures, sideAvailability.affiliateBooks, t, celebReality]);
 
   const widestSectionLabel = useMemo(
     () =>

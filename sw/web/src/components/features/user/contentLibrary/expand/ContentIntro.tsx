@@ -22,7 +22,7 @@ import { normalizeContentIntroText, selectContentIntroText } from "./contentIntr
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 
 // 매체마다 제목을 달리 붙인다 — 영화를 "작품 소개"라 부르면 무엇의 소개인지 흐려진다
-const INTRO_HEADING_KEY: Record<CategoryId, string> = {
+export const INTRO_HEADING_KEY: Record<CategoryId, string> = {
   all: "expandContentIntro",
   book: "expandBookIntro",
   video: "expandVideoIntro",
@@ -78,7 +78,8 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const { ref: bodyRef, isClipped: isBodyClipped } = useClippedText(fullText, !isLoading);
   const isClipped = !isLoading && !!fullText && isBodyClipped;
   const bodyClass = isClipped ? `${INTRO_BODY_CLASS} ${INTRO_CLIPPED_CLASS}` : INTRO_BODY_CLASS;
-  const openModal = isClipped ? () => setIsModalOpen(true) : undefined;
+  // 짧아 다 보이는 글도 눌러 모달로 읽는다 — 모달은 잘린 글의 더보기가 아니라 다른 읽기 화면이다
+  const openModal = () => setIsModalOpen(true);
   // 책은 보존된 소개 출처로, 음악은 지금 고른 바깥 소개로 나간다
   const modalSourceUrl = brief?.introductionAttribution?.url ?? active?.url ?? null;
 
