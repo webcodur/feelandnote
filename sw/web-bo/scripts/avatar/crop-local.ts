@@ -62,10 +62,19 @@ async function loadModels() {
 }
 
 async function anchorsOf(buf: Buffer): Promise<{ anchors: FaceAnchors; W: number; H: number } | null> {
-  const meta = await sharp(buf).rotate().metadata()
+  const meta = await sharp(buf, { limitInputPixels: false }).rotate().metadata()
   const W = meta.width ?? 0
   const H = meta.height ?? 0
-  const { data, info } = await sharp(buf).rotate().removeAlpha().raw().toBuffer({ resolveWithObject: true })
+  // 대형 스캔은 디텍션 전 긴 변 1024로 줄인다 — 그대로 올리면 wasm concat이 터진다.
+  // 좌표는 원본 배율로 환원한다.
+  const scale = Math.max(W, H) > 1024 ? 1024 / Math.max(W, H) : 1
+  const inv = 1 / scale
+  const { data, info } = await sharp(buf, { limitInputPixels: false })
+    .rotate()
+    .resize(Math.round(W * scale), Math.round(H * scale), { fit: 'inside' })
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
   const tensor = tf.tensor3d(
     new Uint8Array(data),
     [info.height, info.width, 3],
@@ -84,9 +93,9 @@ async function anchorsOf(buf: Buffer): Promise<{ anchors: FaceAnchors; W: number
       W,
       H,
       anchors: {
-        eyeX: eyePts.reduce((s, p) => s + p.x, 0) / eyePts.length,
-        eyeY: eyePts.reduce((s, p) => s + p.y, 0) / eyePts.length,
-        chinY: jaw[Math.floor(jaw.length / 2)].y,
+        eyeX: (eyePts.reduce((s, p) => s + p.x, 0) / eyePts.length) * inv,
+        eyeY: (eyePts.reduce((s, p) => s + p.y, 0) / eyePts.length) * inv,
+        chinY: jaw[Math.floor(jaw.length / 2)].y * inv,
       },
     }
   } finally {
@@ -105,7 +114,7 @@ async function padToFit(buf: Buffer, want: { left: number; top: number; size: nu
   const padBottom = Math.max(0, Math.ceil(want.top + want.size - H))
   if (!padLeft && !padTop && !padRight && !padBottom) return { buf, dx: 0, dy: 0, pad: 0 }
 
-  const padded = await sharp(buf)
+  const padded = await sharp(buf, { limitInputPixels: false })
     .extend({ left: padLeft, top: padTop, right: padRight, bottom: padBottom, extendWith: 'copy' })
     .toBuffer()
   const pad = Math.max(padLeft, padTop, padRight, padBottom) / want.size
@@ -157,14 +166,14 @@ async function main() {
     }
     const { buf: canvas, dx, dy, pad } = await padToFit(buf, crop, W, H)
     // 반올림과 랜드마크 오차로 좌표가 캔버스 밖으로 삐져나가는 일이 있다(실측: left -17).
-    const canvasMeta = await sharp(canvas).metadata()
+    const canvasMeta = await sharp(canvas, { limitInputPixels: false }).metadata()
     const canvasW = canvasMeta.width ?? W
     const canvasH = canvasMeta.height ?? H
     const side = Math.max(16, Math.min(Math.round(crop.size), canvasW, canvasH))
     const left = Math.max(0, Math.min(canvasW - side, Math.round(crop.left + dx)))
     const top = Math.max(0, Math.min(canvasH - side, Math.round(crop.top + dy)))
 
-    const out = sharp(canvas).extract({ left, top, width: side, height: side }).resize(size, size)
+    const out = sharp(canvas, { limitInputPixels: false }).extract({ left, top, width: side, height: side }).resize(size, size)
     const outPath = join(outDir, `${name}.${asPng ? 'png' : 'webp'}`)
     await (asPng ? out.png() : out.webp({ quality })).toFile(outPath)
 
