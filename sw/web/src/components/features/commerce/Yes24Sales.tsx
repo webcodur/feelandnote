@@ -107,7 +107,7 @@ export default function Yes24Sales({
         </button>
       )}
       {isOpen && sales && (
-        <Yes24SalesModal contentId={contentId ?? ""} editionId={editionId} yes24Href={yes24Href} sales={sales} onClose={() => setIsOpen(false)} />
+        <Yes24SalesModal contentId={contentId ?? ""} editionId={editionId} isbn={isbn} yes24Href={yes24Href} sales={sales} onClose={() => setIsOpen(false)} />
       )}
     </AnimatedHeight>
   );

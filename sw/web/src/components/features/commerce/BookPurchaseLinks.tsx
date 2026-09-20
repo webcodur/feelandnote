@@ -3,6 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { isLinkPriceUrl } from "@/lib/books/bookPurchaseRedirect";
 import { cn } from "@/lib/utils";
 
 function isYes24Affiliate(url: string) {
@@ -24,7 +25,9 @@ export default function BookPurchaseLinks({ links, className }: {
       <div className="relative flex flex-wrap gap-2">
         {links.map((link) => {
           const isYes24 = link.platform === "yes24";
-          const sponsored = link.linkKind !== "search" && (!isYes24 || isYes24Affiliate(link.url));
+          const sponsored = link.linkKind !== "search"
+            ? !isYes24 || isYes24Affiliate(link.url)
+            : isLinkPriceUrl(link.url);
           return (
             <div key={`${link.platform}:${link.url}`} className="group/purchase relative min-w-0 flex-[1_1_9rem]">
               <a

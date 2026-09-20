@@ -17,13 +17,15 @@ interface Yes24SalesModalProps {
   /** 우리 작품이 아닌 외부 차트 항목은 빈 값이 온다 — 그때는 yes24Href가 구매 단추를 받는다 */
   contentId: string;
   editionId?: number;
+  /** 외부 차트 항목의 ISBN — 교보문고 단추가 이 값으로 바코드 상품 주소를 연다 */
+  isbn?: string;
   /** 외부 차트 항목의 서점 제휴 주소 — 우리 작품의 구매 경로를 거칠 수 없을 때 단추가 곧바로 연다 */
   yes24Href?: string;
   sales: Yes24SalesInfo;
   onClose: () => void;
 }
 
-export default function Yes24SalesModal({ contentId, editionId, yes24Href, sales, onClose }: Yes24SalesModalProps) {
+export default function Yes24SalesModal({ contentId, editionId, isbn, yes24Href, sales, onClose }: Yes24SalesModalProps) {
   const t = useTranslations("content.purchaseSales");
   const number = new Intl.NumberFormat(useLocale());
   const price = (value: number) => t("price", { price: number.format(value) });
@@ -79,7 +81,7 @@ export default function Yes24SalesModal({ contentId, editionId, yes24Href, sales
         </dl>
 
         {/* YES24 구매 단추 — 값표를 이미 보여 줬으므로 단추 위 값표 칸은 뺀다 */}
-        <AffiliateBookAction contentId={contentId} editionId={editionId} yes24Href={yes24Href} hideSales />
+        <AffiliateBookAction contentId={contentId} editionId={editionId} yes24Href={yes24Href} salesIsbn={isbn} hideSales />
       </ModalBody>
     </Modal>
   );

@@ -18,7 +18,13 @@ export function toAffiliateLinks(value: unknown): AffiliateLink[] {
 export const AFFILIATE_PLATFORMS = {
   // ko
   yes24: { label: 'YES24', color: '#2563EB', locale: 'ko', notice: null },
-  kyobo: { label: '교보문고', color: '#22A355', locale: 'ko', notice: null },
+  kyobo: {
+    label: '교보문고',
+    color: '#22A355',
+    locale: 'ko',
+    // 링크프라이스 제휴(kbbook) — 대가성 표시 의무 문구
+    notice: '이 포스팅은 제휴마케팅이 포함된 광고로 커미션을 지급 받습니다.',
+  },
   coupang: {
     label: '쿠팡',
     color: '#E44232',
