@@ -12,9 +12,10 @@
 | [수익화와 상품 판매](../project/operations/monetization.md) | 홈·탐색·서재 메인·셀럽 페이지의 상품 배치 연구와 개발자모드 UI 시안. 아마존 가입·지급 준비와 AdSense 검토는 하위 운영 문서 참조 |
 | [`video-review-audit-remainder.md`](video-review-audit-remainder.md) | 교정 대상 밖의 영상 리뷰 1,327건: 영화 765·그 외 영상 562 |
 | [`tistory-cinema-handoff.md`](tistory-cinema-handoff.md) | 로컬 951편 완성. 59편 예약·대표이미지·하위 카테고리 정비 완료. 신규 작성은 계정 한도에서 종료, 남은 892편 |
-| [`img/README.md`](img/README.md) | **이미지가 있어야 끝나는 일** — 세력 테마·신화 전승 대표 이미지, 인물 화보와 Grok 아바타 실행서, 아바타 대기 인물 |
+| [`img/README.md`](img/README.md) | **이미지가 있어야 끝나는 일** — 세력 테마·신화 전승 대표 이미지, 인물 화보와 Grok 아바타 실행서, 아바타 대기 인물, 아바타 정규화 미결분 |
 | [`chatgpt-web-quota-test.md`](chatgpt-web-quota-test.md) | ChatGPT 일반 채팅 사용량으로 Codex·Work 소비를 줄이는지 실측 |
 | [`celeb-locale-fallback.md`](celeb-locale-fallback.md) | 셀럽 서가 한영 판본 표시 잔여. 논어 완료, 전수 조사 1·배포 대기 1·데이터 보완 2 |
 | [`faction-web.md`](faction-web.md) | 세력도감 웹 남은 일: 뷰 잔재 칸 제거(웹 배포 뒤), 허브 표지·단체화보 묶음 흡수·누끼 보장·그룹 편집 칸 |
 | [`faction-schema-migration.md`](faction-schema-migration.md) | 도감 스키마 이관 완료(배포·구표 드롭까지): celeb_tags 계열 → faction_lv1/lv2/lv3 + faction_members. 남은 것은 명명·생성 타입 같은 후속 정리 |
 | [`ko-dash-cleanup.md`](ko-dash-cleanup.md) | 한국어 장문의 대시 일괄 정리: 작품소개·감상배경 중심 직접 재작문. 검출만 기계, 기계 치환 금지 |
+| [`coupang-links.md`](coupang-links.md) | 수거한 쿠팡 링크 후속: 도서/비도서 분류 → 링크프라이스 `coupang` 승인 시 도서분 폐기·비도서분 검증 재등록 |

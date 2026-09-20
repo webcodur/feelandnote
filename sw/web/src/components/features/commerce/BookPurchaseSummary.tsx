@@ -15,6 +15,8 @@ import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
+import { coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
+import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
 import { cn } from "@/lib/utils";
 import { useYes24Sales } from "./useYes24Sales";
 
@@ -75,7 +77,7 @@ export default function BookPurchaseSummary({
     active: enabled && locale === "ko",
   });
 
-  /* 구매 링크 — 한국어는 YES24 경유 주소를 맨 앞에 두고 보유 서점을 잇는다.
+  /* 구매 링크 — 한국어는 YES24 경유 주소를 맨 앞에 두고 교보문고·보유 서점을 잇는다.
      영어는 아마존(상품 주소가 없으면 검색)이 기준이다 */
   const links = useMemo<AffiliateLink[]>(() => {
     if (!enabled) return [];
@@ -87,18 +89,33 @@ export default function BookPurchaseSummary({
         all.findIndex((other) => other.platform === link.platform) === index,
     );
     if (locale === "ko") {
+      // 경유 주소는 우리 작품(UUID)만 만든다 — 차트 항목의 yes24-… 같은 외부 id는 경유가 못 푼다
+      const ownId = contentId && isYes24PurchaseRequest(contentId, "ko", editionId) ? contentId : undefined;
       const yes24 = yes24Href
         ? { platform: "yes24" as const, url: yes24Href }
-        : contentId
-          ? { platform: "yes24" as const, url: getBookPurchaseHref(contentId, editionId, "yes24") }
+        : ownId
+          ? { platform: "yes24" as const, url: getBookPurchaseHref(ownId, editionId, "yes24") }
           : usable.find((link) => link.platform === "yes24");
+      const kyobo = usable.find((link) => link.platform === "kyobo")
+        ?? (ownId
+          ? { platform: "kyobo" as const, url: getBookPurchaseHref(ownId, editionId, "kyobo") }
+          : kyoboBookLink({ isbn, title, creator }));
+      // 쿠팡 — 링크프라이스 승인 전까지 만들지 않는다. 승인되면 우리 작품은 경유, 차트 항목은 ISBN 검색으로 잇는다
+      const coupang = usable.find((link) => link.platform === "coupang")
+        ?? (LINKPRICE_COUPANG_APPROVED
+          ? ownId
+            ? { platform: "coupang" as const, url: getBookPurchaseHref(ownId, editionId, "coupang") }
+            : coupangBookLink({ isbn, title, creator })
+          : null);
       return [
         ...(yes24 ? [yes24] : []),
-        ...usable.filter((link) => link.platform !== "yes24"),
+        ...(kyobo ? [kyobo] : []),
+        ...(coupang ? [coupang] : []),
+        ...usable.filter((link) => link.platform !== "yes24" && link.platform !== "kyobo" && link.platform !== "coupang"),
       ];
     }
     return getEnglishBookPurchaseLinks({ locale, title, creator, links: usable });
-  }, [enabled, existingLinks, locale, yes24Href, contentId, editionId, title, creator]);
+  }, [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
 
   const number = new Intl.NumberFormat(locale);
   const onSale = Boolean(sales?.onSale);

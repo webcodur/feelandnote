@@ -6,7 +6,7 @@ import ts from 'typescript'
 import * as redirects from './bookPurchaseRedirect'
 import { isYes24PurchaseRequest } from './yes24Purchase'
 import { getBookPurchaseHref } from './bookPurchaseHref'
-import { BOOK_PURCHASE_REDIRECT_HEADERS, resolveBookPurchaseRedirect, type BookPurchaseRecord } from './bookPurchaseRedirect'
+import { BOOK_PURCHASE_REDIRECT_HEADERS, coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED, resolveBookPurchaseRedirect, resolveCoupangPurchaseRedirect, resolveKyoboPurchaseRedirect, type BookPurchaseRecord } from './bookPurchaseRedirect'
 
 const id = 'c53aab37-7ed8-42b6-9f06-929b8825c006'
 const record: BookPurchaseRecord = { contentId: id, type: 'BOOK', locale: 'ko' }
@@ -17,6 +17,8 @@ test('purchase href keeps edition identity and response must never be cached or 
   assert.equal(getBookPurchaseHref(id, 23), `/api/books/purchase/${id}?editionId=23`)
   assert.equal(getBookPurchaseHref(id, 23, 'yes24'), `/api/books/purchase/${id}?editionId=23&seller=yes24`)
   assert.equal(getBookPurchaseHref(id, undefined, 'yes24'), `/api/books/purchase/${id}?seller=yes24`)
+  assert.equal(getBookPurchaseHref(id, 23, 'kyobo'), `/api/books/purchase/${id}?editionId=23&seller=kyobo`)
+  assert.equal(getBookPurchaseHref(id, 23, 'coupang'), `/api/books/purchase/${id}?editionId=23&seller=coupang`)
   assert.match(BOOK_PURCHASE_REDIRECT_HEADERS['Cache-Control'], /no-store/)
   assert.equal(BOOK_PURCHASE_REDIRECT_HEADERS['X-Robots-Tag'], 'noindex, nofollow')
 })
@@ -43,9 +45,75 @@ test('wrong content, language, type, or edition cannot use another edition as fa
     let called = false
     assert.equal(await resolveBookPurchaseRedirect(id, undefined, changed, async () => { called = true; return yes24 }), null)
     assert.equal(called, false)
+    assert.equal(resolveKyoboPurchaseRedirect(id, undefined, changed), null)
   }
   assert.equal(await resolveBookPurchaseRedirect(id, 2, record, async () => yes24), null)
   assert.equal(await resolveBookPurchaseRedirect(id, 2, { ...record, editionId: 2 }, async () => null), `/content/${id}?category=book`)
+  assert.equal(resolveKyoboPurchaseRedirect(id, 2, record), null)
+})
+
+test('kyobo link wraps the bookstore barcode product URL in the LinkPrice gateway, else title search', () => {
+  const product = kyoboBookLink({ isbn: '9788966260959', title: '클린 코드' })!
+  const gateway = new URL(product.url)
+  assert.equal(gateway.hostname, 'linkmoa.kr')
+  assert.equal(gateway.pathname, '/click.php')
+  assert.equal(gateway.searchParams.get('m'), 'kbbook')
+  assert.equal(gateway.searchParams.get('a'), 'A100707726')
+  const productUrl = new URL(gateway.searchParams.get('tu')!)
+  assert.equal(productUrl.hostname, 'www.kyobobook.co.kr')
+  assert.equal(productUrl.pathname, '/product/detailViewKor.laf')
+  assert.equal(productUrl.searchParams.get('barcode'), '9788966260959')
+  assert.equal(product.linkKind, undefined)
+  const searched = kyoboBookLink({ title: '기억 & 기록', creator: '작가 이름' })!
+  const searchUrl = new URL(new URL(searched.url).searchParams.get('tu')!)
+  assert.equal(searchUrl.hostname, 'search.kyobobook.co.kr')
+  assert.equal(searchUrl.searchParams.get('keyword'), '기억 & 기록 작가 이름')
+  assert.equal(searched.linkKind, 'search')
+  assert.equal(kyoboBookLink({}), null)
+  assert.equal(kyoboBookLink({ isbn: 'invalid-isbn' }), null)
+})
+
+test('coupang link wraps the ISBN-or-title search URL in the LinkPrice gateway once approved', () => {
+  const withIsbn = coupangBookLink({ isbn: '9788966260959', title: '클린 코드' })!
+  const searched = coupangBookLink({ title: '기억 & 기록', creator: '작가 이름' })!
+  if (!LINKPRICE_COUPANG_APPROVED) {
+    // 머천트 승인대기 — 아래 형태 검증은 승인 후 플래그를 켤 때 스스로 살아난다
+    assert.equal(LINKPRICE_COUPANG_APPROVED, false)
+    return
+  }
+  const product = new URL(withIsbn.url)
+  assert.equal(product.hostname, 'linkmoa.kr')
+  assert.equal(product.searchParams.get('m'), 'coupang')
+  assert.equal(product.searchParams.get('a'), 'A100707726')
+  const destination = new URL(product.searchParams.get('tu')!)
+  assert.equal(destination.hostname, 'www.coupang.com')
+  assert.equal(destination.pathname, '/np/search')
+  assert.equal(destination.searchParams.get('q'), '9788966260959')
+  assert.equal(withIsbn.linkKind, 'search')
+  assert.equal(new URL(new URL(searched.url).searchParams.get('tu')!).searchParams.get('q'), '기억 & 기록 작가 이름')
+  assert.equal(coupangBookLink({}), null)
+})
+
+test('coupang redirect holds the content page while the merchant approval is pending', () => {
+  const withIsbn = { ...record, editionId: 2, isbn: '9791158881931', title: 'HHhH' }
+  const target = resolveCoupangPurchaseRedirect(id, 2, withIsbn)!
+  if (!LINKPRICE_COUPANG_APPROVED) {
+    assert.equal(target, `/content/${id}?category=book`)
+  } else {
+    const gateway = new URL(target)
+    assert.equal(gateway.searchParams.get('m'), 'coupang')
+    assert.equal(new URL(gateway.searchParams.get('tu')!).searchParams.get('q'), '9791158881931')
+  }
+  assert.equal(resolveCoupangPurchaseRedirect(id, undefined, { ...record, contentId: 'other' }), null)
+  assert.equal(resolveCoupangPurchaseRedirect(id, undefined, record), `/content/${id}?category=book`)
+})
+
+test('kyobo redirect uses the stored edition ISBN and falls back to the content page without identifiers', () => {
+  const withIsbn = { ...record, editionId: 2, isbn: '9791158881931', title: 'HHhH' }
+  const target = new URL(resolveKyoboPurchaseRedirect(id, 2, withIsbn)!)
+  assert.equal(target.hostname, 'linkmoa.kr')
+  assert.equal(new URL(target.searchParams.get('tu')!).searchParams.get('barcode'), '9791158881931')
+  assert.equal(resolveKyoboPurchaseRedirect(id, undefined, record), `/content/${id}?category=book`)
 })
 
 const compiled = ts.transpileModule(readFileSync(new URL('../../app/api/books/purchase/[contentId]/route.ts', import.meta.url), 'utf8'), {
@@ -94,6 +162,37 @@ test('GET seller=yes24 searches only the requested Korean edition without loadin
   assert.equal(f.queries.some(query => query.table === 'figure_book_purchase_options'), false)
   f.rows.figure_book_editions = { id: 2, content_id: 'other-content', locale: 'ko', isbn: '9791158881931' }
   assert.equal((await f.read('?editionId=2&seller=yes24')).status, 400)
+})
+test('GET seller=kyobo resolves the stored ISBN to the LinkPrice Kyobo URL without the YES24 API', async () => {
+  const f = routeFixture()
+  const response = await f.read('?seller=kyobo')
+  assert.equal(response.status, 307)
+  const location = new URL(response.headers.get('location')!)
+  assert.equal(location.hostname, 'linkmoa.kr')
+  assert.equal(location.searchParams.get('m'), 'kbbook')
+  const destination = new URL(location.searchParams.get('tu')!)
+  assert.equal(destination.hostname, 'www.kyobobook.co.kr')
+  assert.equal(destination.pathname, '/product/detailViewKor.laf')
+  assert.equal(destination.searchParams.get('barcode'), '9788966260959')
+  const edition = await f.read('?editionId=2&seller=kyobo')
+  assert.equal(new URL(new URL(edition.headers.get('location')!).searchParams.get('tu')!).searchParams.get('barcode'), '9791158881931')
+  f.rows.figure_book_editions = { id: 2, content_id: 'other-content', locale: 'ko', isbn: '9791158881931' }
+  assert.equal((await f.read('?editionId=2&seller=kyobo')).status, 400)
+})
+test('GET seller=coupang accepts the seller param and resolves to search while pending approval', async () => {
+  const f = routeFixture()
+  const response = await f.read('?seller=coupang')
+  assert.equal(response.status, 307)
+  const location = new URL(response.headers.get('location')!, 'http://localhost')
+  if (!LINKPRICE_COUPANG_APPROVED) {
+    assert.equal(location.pathname, `/content/${id}`)
+  } else {
+    assert.equal(location.hostname, 'linkmoa.kr')
+    assert.equal(location.searchParams.get('m'), 'coupang')
+    assert.equal(new URL(location.searchParams.get('tu')!).searchParams.get('q'), '9788966260959')
+  }
+  f.rows.figure_book_editions = { id: 2, content_id: 'other-content', locale: 'ko', isbn: '9791158881931' }
+  assert.equal((await f.read('?editionId=2&seller=coupang')).status, 400)
 })
 test('GET uses exact stored edition filters, returns non-indexable no-store 307, and rejects ownership mismatch', async () => {
   const f = routeFixture()

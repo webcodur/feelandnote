@@ -3,7 +3,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { isYes24PurchaseRequest } from '@/lib/books/yes24Purchase'
 import {
   BOOK_PURCHASE_REDIRECT_HEADERS, getBookPurchaseFallback, resolveBookPurchaseRedirect,
-  type BookPurchaseRecord,
+  resolveCoupangPurchaseRedirect, resolveKyoboPurchaseRedirect, type BookPurchaseRecord,
 } from '@/lib/books/bookPurchaseRedirect'
 
 export const dynamic = 'force-dynamic'
@@ -42,13 +42,17 @@ export async function GET(request: Request, context: { params: Promise<{ content
   const rawEdition = params.get('editionId')
   const rawSeller = params.get('seller')
   if ([...params.keys()].some(key => key !== 'editionId' && key !== 'seller') || params.getAll('editionId').length > 1
-    || params.getAll('seller').length > 1 || (rawSeller !== null && rawSeller !== 'yes24')
+    || params.getAll('seller').length > 1 || (rawSeller !== null && rawSeller !== 'yes24' && rawSeller !== 'kyobo' && rawSeller !== 'coupang')
     || (rawEdition !== null && !/^[1-9]\d*$/.test(rawEdition))) return invalid()
   const editionId = rawEdition === null ? undefined : Number(rawEdition)
   if (!isYes24PurchaseRequest(contentId, 'ko', editionId)) return invalid()
   try {
     const record = await getStoredPurchase(contentId, editionId)
-    const target = await resolveBookPurchaseRedirect(contentId, editionId, record, () => getYes24PurchaseLink(contentId, 'ko', editionId))
+    const target = rawSeller === 'kyobo'
+      ? resolveKyoboPurchaseRedirect(contentId, editionId, record)
+      : rawSeller === 'coupang'
+        ? resolveCoupangPurchaseRedirect(contentId, editionId, record)
+        : await resolveBookPurchaseRedirect(contentId, editionId, record, () => getYes24PurchaseLink(contentId, 'ko', editionId))
     return target ? redirect(target) : invalid()
   } catch {
     return redirect(getBookPurchaseFallback(contentId))
