@@ -141,7 +141,9 @@
       "label": "Drag to move up and down",
       "settings": "Swipe settings",
       "sensitivity": "Sensitivity",
-      "sensitivityNote": "How far the page moves per pixel of drag."
+      "sensitivityNote": "How far the page moves per pixel of drag.",
+      "momentum": "Glide",
+      "momentumNote": "The page keeps gliding for a moment after you let go."
     }
   },
   "pages": {
@@ -872,11 +874,7 @@
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",
     "buy": "Buy",
-    "refGroupPopular": "Popular books",
-    "refGroupOriginDesc": "Products of works this figure appears in.",
-    "refGroupReadDesc": "Books this figure recorded as read.",
-    "refGroupProfessionDesc": "Books read by figures in the same field.",
-    "refGroupPopularDesc": "Bestselling books in the store."
+    "refGroupPopular": "Popular books"
   },
   "share": {
     "label": "Share",

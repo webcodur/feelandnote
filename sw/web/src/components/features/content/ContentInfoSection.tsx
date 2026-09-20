@@ -8,12 +8,8 @@
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
-import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
-import Yes24Sales from "@/components/features/commerce/Yes24Sales";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
-import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
-import { useBookPurchaseLinks } from "@/components/features/commerce/useBookPurchaseLinks";
 import {
   Book,
   Film,
@@ -73,20 +69,6 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
 
   const Icon = TYPE_ICONS[content.type];
 
-  /* 도서 구매·검색 링크 */
-  const affiliateLinks = useBookPurchaseLinks({
-    contentId: content.id,
-    locale,
-    isBook: content.type === "BOOK",
-    title: content.title,
-    creator: content.creator,
-    editionId: content.purchaseEditionId,
-    existingLinks: content.affiliateLinks,
-  });
-  /* 수수료 안내 — 판매 단추 안에 묻지 않고 표지 우상단에 띄운다 */
-  const showPurchaseInfo = affiliateLinks.some(
-    (link) => link.linkKind !== "search" && (link.platform === "yes24" || link.platform === "coupang"),
-  );
 
   const metadata = content.metadata as unknown as ContentMetadata | null;
 
@@ -111,7 +93,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
     <div className="pt-2 space-y-6">
       {/* 메인 상단 2열 인포: 좌측 포스터 + 우측 메인 영역 */}
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-7 items-start">
-        {/* 좌측: 포스터 & 제휴 구매 링크 */}
+        {/* 좌측: 포스터 & 통합 구매 모듈 */}
         <div className="flex flex-col gap-3 shrink-0 self-center sm:self-start w-32 sm:w-40 md:w-48">
           {/* 포스터 + 글로우 */}
           <div className="relative group w-full">
@@ -136,14 +118,17 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
               )}
             </div>
 
-            {/* 구매 안내 — 표지 우상단에 띄운다 */}
-            {showPurchaseInfo && (
-              <BookPurchaseInfo className="absolute end-1.5 top-1.5 z-10 inline-flex size-7 items-center justify-center rounded-full border border-white/15 bg-black/60 backdrop-blur-sm" />
-            )}
           </div>
 
-          {/* PC 전용: 포스터 아래 제휴 구매 링크 */}
-          <BookPurchaseLinks links={affiliateLinks} className="hidden sm:block w-full pt-1" />
+          {/* 통합 구매 모듈 — 포스터 밑에 둔다. 누르면 서점 링크·주의 안내 창이 뜬다 */}
+          <BookPurchaseSummary
+            contentId={content.id}
+            editionId={content.purchaseEditionId}
+            title={content.title}
+            creator={content.creator}
+            links={content.affiliateLinks}
+            enabled={content.type === "BOOK"}
+          />
         </div>
 
         {/* 우측 메인 영역: 제목, 인라인 메타, 클린 소개 줄거리. 나란히 서는 폭부터 좌측 열 높이를 받아 소개 칸이 남는 높이를 채운다 */}
@@ -168,9 +153,6 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
               </p>
             )}
           </div>
-
-          {/* YES24 판매 정보 — 제목 바로 아래 책정보 흐름에 둔다(셀럽 상세 원전과 같은 자리). 팔리지 않는 판본이면 빈 칸 */}
-          <Yes24Sales contentId={content.id} editionId={content.purchaseEditionId} enabled={content.type === "BOOK"} />
 
           {/* 2. 클린 인라인 메타 스펙 (저자 · 출간일 · 출판사 · ISBN · 러닝타임 · 장르) */}
           <div className="flex flex-wrap items-center justify-center text-center gap-y-1.5 gap-x-3 text-[13px] text-text-secondary leading-relaxed pb-1 border-b border-white/[0.06]">
@@ -321,14 +303,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
         </div>
       </div>
 
-      {/* 모바일 전용: 하단 제휴 구매 링크 */}
-      <BookPurchaseLinks links={affiliateLinks} className="sm:hidden pt-1" />
       <MediaEmbed contentId={content.id} type={content.type} />
-      {/* 연결된 책 구매처가 없으면 개발자용 도서·상품 시안을 보여준다. */}
-      {(content.type !== "BOOK" || affiliateLinks.length === 0) && <DeveloperCollectionJourney
-        target={{ title: content.title, creator: content.creator, type: content.type, contentId: content.id }}
-        placement="content-detail"
-      />}
 
       {/* 5. 영상 전용: 출연진 (Cast) 캡슐 칩 리스트 */}
       {isMovieOrTv && metadata?.cast && metadata.cast.length > 0 && (

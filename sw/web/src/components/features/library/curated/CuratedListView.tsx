@@ -7,11 +7,10 @@
         원문 순서·순위를 그대로 따르고 아직 등록되지 않은 작품도 빼지 않는다 — 100선은 100편이어야 한다.
 */ // ------------------------------
 
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import NationalityText from "@/components/ui/NationalityText";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { getCuratedHub } from "@/actions/library";
 import type { CuratedListDetail } from "@/actions/library/types";
 import CuratedListBrowseLinks from "./CuratedListBrowseLinks";
@@ -20,7 +19,6 @@ import CuratedListMobile from "./CuratedListMobile";
 
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
   const t = await getTranslations("library.curated");
-  const locale = await getLocale();
   // 탭은 화면 안 구성을 바꾸지 않고 허브 조합으로 이동만 한다 — 링크 전용
   const hub = await getCuratedHub();
 
@@ -39,10 +37,6 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           {/* 상위(기관 상세) 제목 text-2xl보다 한 단 크게 — 깊이 들어갈수록 제목이 작아지는 역전을 막는다 */}
           <h2 className="font-serif text-2xl font-bold leading-tight text-text-primary md:text-3xl">
             {list.title}
-            {/* 수수료 안내 — 판매 단추 안에 묻지 않고 목록 제목 옆에 둔다 */}
-            {locale === "ko" && list.contentType === "BOOK" && (
-              <BookPurchaseInfo className="ms-2 inline-flex size-7 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
-            )}
           </h2>
 
           {/* 기관 구분만 강조색, 나머지는 같은 회색 칩으로 통일한다 */}

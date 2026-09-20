@@ -15,6 +15,7 @@ const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || 50
 const INTERVAL_MS = 2000
 const TIMEOUT_MS = 12000
 const RETRY_ERRORS = process.argv.includes('--retry-errors')
+const ERRORS_ONLY = process.argv.includes('--errors-only')
 const SOURCE_MODE = process.argv.includes('--search-missing')
 const LINKS_MODE = process.argv.includes('--language-links')
 const REMAINING_MODE = process.argv.includes('--remaining')
@@ -174,6 +175,7 @@ async function main() {
   for (const content of targets) {
     if (process.argv.includes('--recheck')) break
     const output = path.join(OUT, 'results', `${content.id}-${MODE}.json`)
+    if (ERRORS_ONLY && !fs.existsSync(output)) continue
     if (fs.existsSync(output)) { const previous = JSON.parse(fs.readFileSync(output, 'utf8')); if (!RETRY_ERRORS || previous.status !== 'error') continue }
     if (processed >= LIMIT) break
     processed += 1

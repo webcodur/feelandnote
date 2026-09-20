@@ -12,8 +12,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import RankingStage from "@/components/shared/RankingStage";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import WorkPurchaseAction from "@/components/features/commerce/WorkPurchaseAction";
 import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
@@ -54,7 +53,7 @@ function ShelfWork({ work, index, isKo }: { work: RankingShelfWork; index: numbe
         showHeader={false}
         posterFooterNode={
           !isKo ? undefined
-            : work.type === "BOOK" ? <AffiliateBookAction contentId={work.contentId} compact />
+            : work.type === "BOOK" ? <BookPurchaseSummary contentId={work.contentId} title={work.title} creator={work.creator} full />
             : <WorkPurchaseAction target={{ title: work.title, creator: work.creator, contentId: work.contentId, type: work.type }} />
         }
         overlayTopLeft={
@@ -80,9 +79,6 @@ export default function RankingShelf({ shelf, accent }: { shelf: RankingShelfDat
           {shelf.media ? t("shelfTitle", { media: shelf.media }) : t("shelfTitleAll")}
         </h3>
         <p className="break-keep text-xs text-text-secondary">{t("shelfDesc")}</p>
-        {isKo && (
-          <BookPurchaseInfo className="ml-auto flex h-7 w-7 items-center justify-center self-center rounded-full border border-white/10" />
-        )}
       </div>
 
       <div className="divide-y divide-white/[0.07]">

@@ -142,7 +142,9 @@
       "label": "끌어서 위아래로 이동",
       "settings": "스와이프 설정",
       "sensitivity": "감도",
-      "sensitivityNote": "손이 1px 움직일 때 페이지가 가는 거리입니다."
+      "sensitivityNote": "손이 1px 움직일 때 페이지가 가는 거리입니다.",
+      "momentum": "미끄러짐",
+      "momentumNote": "손을 놓은 뒤에도 페이지가 조금 더 미끄러집니다."
     }
   },
   "pages": {
@@ -873,11 +875,7 @@
     "headingProfession": "같은 분야 인물들이 읽은 책",
     "headingOrigin": "이 인물이 등장하는 원전",
     "buy": "구매하기",
-    "refGroupPopular": "인기 도서",
-    "refGroupOriginDesc": "인물이 본문에 나오는 작품의 판매 상품입니다.",
-    "refGroupReadDesc": "이 인물이 감상 기록으로 남긴 책입니다.",
-    "refGroupProfessionDesc": "같은 분야의 인물들이 감상한 책입니다.",
-    "refGroupPopularDesc": "서점에서 많이 팔리는 책입니다."
+    "refGroupPopular": "인기 도서"
   },
   "share": {
     "label": "공유",

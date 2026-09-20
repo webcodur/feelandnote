@@ -18,6 +18,7 @@ import { validateAt, kindOf } from './lib/schedule.mjs';
 import { categoryForMeta } from './lib/categories.mjs';
 import { readPost, compareHtml, listManagedPosts, findManagedPost, writeEditorTags, sameTags } from './lib/post-integrity.mjs';
 import { PUBLICATION_REQUESTS, assertPageAvailable, pauseRequests, waitForAvailablePage } from './lib/publication-requests.mjs';
+import { setReservation } from './fill-body.mjs';
 import { startChallengeSession, throwIfChallengeFailed } from './lib/challenge-session.mjs';
 import { fileAnswerStream, challengeLogger } from './lib/challenge-file.mjs';
 import { prepareRepresentativeImage, uploadRepresentativeImage, assertRepresentativeImage } from './lib/representative-image.mjs';
@@ -48,7 +49,10 @@ async function pickMenu(page, text, label) {
     const e = [...document.querySelectorAll('span.mce-text, span.mce-txt, li, a, button')]
       .find((x) => x.offsetParent && x.textContent.trim() === t);
     if (!e) return null;
-    const r = (e.closest('li, button, a') ?? e).getBoundingClientRect();
+    // 41개짜리 카테고리 목록의 끝(「- 영화제」)은 화면 밖에 있어 좌표 클릭이 빗나간다. 보이게 한 뒤 잰다.
+    const target = e.closest('li, button, a') ?? e;
+    target.scrollIntoView({ block: 'center' });
+    const r = target.getBoundingClientRect();
     return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
   }, text);
   if (!pos) throw new Error(`${label}에서 「${text}」를 찾지 못했다`);
@@ -168,59 +172,9 @@ export async function publishNow(page, title, at, { cover } = {}) {
   await wait(600)
 
   if (at) {
-    const [ymd, hm] = at.split(' ')
-    const [Y, M, D] = ymd.split('-').map(Number)
-    const [h, mi] = (hm ?? '09:00').split(':').map(Number)
-
-    await page.evaluate(() => [...document.querySelectorAll('button.btn_date')].find((b) => b.offsetParent && b.textContent.trim() === '예약')?.click())
-    await wait(1500)
-    await hit(page, 'button.btn_reserve', '날짜 단추')
-    await wait(1800)
-
-    // 달이 다르면 화살표로 옮긴다
-    for (let i = 0; i < 14; i++) {
-      const cur = await page.evaluate(() => document.querySelector('.txt_calendar')?.textContent.trim() ?? '')
-      const m = cur.match(/(\d{4})년\s*(\d{1,2})월/)
-      if (!m) break
-      const [cy, cm] = [Number(m[1]), Number(m[2])]
-      if (cy === Y && cm === M) break
-      const next = cy < Y || (cy === Y && cm < M)
-      const moved = await page.evaluate((n) => {
-        const b = [...document.querySelectorAll('.box_calendar button')].find((x) => x.offsetParent && new RegExp(n ? '다음|next' : '이전|prev', 'i').test(x.className + x.textContent + (x.getAttribute('aria-label') ?? '')))
-        if (!b) return false
-        b.click(); return true
-      }, next)
-      if (!moved) throw new Error(`달력을 ${Y}-${M} 로 옮기지 못했다(현재 ${cur})`)
-      await wait(900)
-    }
-
-    const dayOk = await page.evaluate((d) => {
-      const b = [...document.querySelectorAll('button.btn_day')].find((x) => x.offsetParent && Number(x.textContent.trim()) === d && !x.disabled)
-      if (!b) return false
-      b.click(); return true
-    }, D)
-    if (!dayOk) throw new Error(`${D}일을 고르지 못했다`)
-    await wait(1200)
-
-    await page.evaluate(({ h, mi }) => {
-      const set = (sel, v) => {
-        const el = document.querySelector(sel); if (!el) return
-        const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set
-        setter ? setter.call(el, String(v).padStart(2, '0')) : (el.value = String(v))
-        el.dispatchEvent(new Event('input', { bubbles: true }))
-        el.dispatchEvent(new Event('change', { bubbles: true }))
-      }
-      set('#dateHour', h); set('#dateMinute', mi)
-    }, { h, mi })
-    await wait(900)
-
-    const shown = await page.evaluate(() => ({
-      date: document.querySelector('button.btn_reserve')?.textContent.trim(),
-      h: document.querySelector('#dateHour')?.value, m: document.querySelector('#dateMinute')?.value,
-    }))
-    const want = `${Y}-${String(M).padStart(2, '0')}-${String(D).padStart(2, '0')}`
-    if (shown.date !== want || Number(shown.h) !== h || Number(shown.m) !== mi) throw new Error(`예약시각이 어긋났다(원한 ${at}, 화면 ${shown.date} ${shown.h}:${shown.m})`)
-    console.log(`   예약 ${shown.date} ${shown.h}:${shown.m}`)
+    // 기존 글 수정과 같은 절차를 쓴다: 현재→예약 전환, 달력 대기, 날짜·시각 입력, 화면 재확인.
+    await setReservation(page, at)
+    console.log(`   예약 ${at}`)
   }
 
   if (!cover?.file) throw new Error('새 글의 대표이미지 원본이 준비되지 않았다.');
@@ -304,6 +258,8 @@ export async function createPublisher(page, cdp, {
       inventory.set(actual.id, { ...row, title: actual.title, url: actual.url });
       return { name, kind: kindOf(name), title: actual.title, id: actual.id, at: actual.at ?? null,
         url: actual.url, visibility: actual.visibility, at_iso: new Date().toISOString(),
+        // 저장 후 대조를 통과한 분류를 sync-categories.mjs와 같은 형태로 남긴다.
+        category: actual.category, categoryPath: meta.categoryPath ?? null,
         representativeImage: actual.representativeImage, representativeSource: verifiedSource, representativeVerifiedAt: new Date().toISOString() };
     } catch (error) {
       failed = true;

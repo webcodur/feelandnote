@@ -2,10 +2,11 @@
   파일명: /components/layout/SwipeRail.tsx
   기능: PC 화면 오른쪽에 떠 있는 반투명 스와이프 판
   책임: 휴대폰에서 화면을 손가락으로 밀듯, 마우스로 이 판을 잡아끌면 페이지가 따라온다.
-        놓으면 그 자리에서 멈춘다(마우스에는 미끄러짐이 어색하다). 스크롤바처럼 보이는 요소(화살표·트랙·눈금)는 두지 않는다.
+        놓으면 손이 가진 속도로 페이지가 조금 더 미끄러지다 마찰에 멈춘다(관성, 기본 켜짐).
+        스크롤바처럼 보이는 요소(화살표·트랙·눈금)는 두지 않는다.
         끄는 동안은 누른 자리에 짚은 자국이 남고, 자국은 화면이 실제로 움직인 거리만큼
         (손보다 감도 배율만큼 앞서) 오르내리며 판 밖으로 나가면 그대로 사라진다.
-        맨 아래 설정 단추로 감도(손 1px당 페이지 몇 px)를 고르며, 값은 브라우저에 남는다.
+        맨 아래 설정 단추로 감도(손 1px당 페이지 몇 px)와 미끄러짐 켜기를 고르며, 값은 브라우저에 남는다.
         휴대폰 폭·게임 전체 화면·스크롤할 것이 없는 짧은 화면에서는 서지 않는다.
         인물 상세는 좌측 목차 레일의 중심을 CSS 변수로 알리므로 그 자리에 대칭으로 서고(1340px+),
         그 밖의 화면은 LayoutMain이 본문 틀 안쪽에 비워 둔 오른쪽 여백에 선다(1280px+). SwipeRail.module.css.
@@ -38,6 +39,26 @@ function readStoredRatio(): number {
     return RATIO_DEFAULT;
   }
 }
+
+/** 놓은 뒤에도 페이지가 미끄러지는 관성. 기본은 켜짐, 설정 창에서 끈다 */
+const MOMENTUM_STORAGE_KEY = "feelandnote.swipeRail.momentum";
+
+function readStoredMomentum(): boolean {
+  try {
+    return window.localStorage.getItem(MOMENTUM_STORAGE_KEY) !== "0";
+  } catch {
+    return true;
+  }
+}
+
+/** 손 속도는 놓기 직전 이 창(ms) 안의 페이지 이동으로 잰다 */
+const VELOCITY_WINDOW_MS = 90;
+/** 놓는 순간 페이지 속도가 이 값(px/ms)보다 느리면 미끄러지지 않고 그 자리에 선다 */
+const GLIDE_MIN_SPEED = 0.08;
+/** 미끄러지는 속도가 이 값(px/ms) 아래로 떨어지면 판을 접는다 */
+const GLIDE_STOP_SPEED = 0.02;
+/** 마찰 계수 — 프레임마다 속도를 exp(-dt·계수)로 식힌다 */
+const GLIDE_FRICTION = 0.0045;
 /** 이보다 짧으면 딸려온 진동으로 보고 무시한다 */
 const DEADZONE_PX = 3;
 /** 이만큼도 못 내려가는 화면에는 막대를 세우지 않는다 */
@@ -54,17 +75,32 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
   const [dragging, setDragging] = useState(false);
   // 첫 렌더는 어차피 null(스크롤 가능 여부를 잰 뒤에야 그린다)이라 초기값에서 저장소를 읽어도 서버와 어긋나지 않는다
   const [ratio, setRatio] = useState(() => (typeof window === "undefined" ? RATIO_DEFAULT : readStoredRatio()));
+  const [momentum, setMomentum] = useState(() => (typeof window === "undefined" ? true : readStoredMomentum()));
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [gliding, setGliding] = useState(false);
   // 포인터 핸들러는 렌더와 무관하게 최신 감도를 읽는다
   const ratioRef = useRef(ratio);
+  const momentumRef = useRef(momentum);
   const settingsRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLSpanElement>(null);
   const trailBandRef = useRef<HTMLSpanElement>(null);
-  const dragRef = useRef<{ startY: number; startScroll: number } | null>(null);
+  const dragRef = useRef<{
+    startY: number;
+    startScroll: number;
+    samples: { t: number; y: number }[];
+  } | null>(null);
+  // 미끄러짐: 놓은 뒤 페이지 속도·마지막 프레임 시각·도달해야 할 위치·애니메이션 손잡이
+  const glideRef = useRef<{
+    v: number;
+    last: number;
+    expected: number;
+    startScroll: number;
+    raf: number;
+  } | null>(null);
   // 잔상 자취: 최근 이동량과 시각, 그리고 띠를 갱신하는 애니메이션 손잡이
   const trailPathRef = useRef<{ points: { shift: number; t: number }[]; raf: number }>({ points: [], raf: 0 });
 
-  /* ── 0. 감도 저장·설정 창 닫기 ── */
+  /* ── 0. 감도·미끄러짐 저장, 설정 창 닫기 ── */
   const changeRatio = useCallback((next: number) => {
     ratioRef.current = next;
     setRatio(next);
@@ -162,15 +198,91 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
     runTrail();
   }, [runTrail]);
 
-  useEffect(() => () => cancelAnimationFrame(trailPathRef.current.raf), []);
+  useEffect(() => () => {
+    cancelAnimationFrame(trailPathRef.current.raf);
+    if (glideRef.current) cancelAnimationFrame(glideRef.current.raf);
+  }, []);
 
-  // 놓으면 페이지는 그 자리에서 멈춘다. 손이 멈춘 곳이 곧 페이지가 선 곳이다.
-  const endDrag = useCallback(() => {
+  /** 미끄러짐을 접고 판의 자국을 지운다 */
+  const stopGlide = useCallback(() => {
+    const glide = glideRef.current;
+    if (!glide) return;
+    cancelAnimationFrame(glide.raf);
+    glideRef.current = null;
+    setGliding(false);
     paintTrack(null);
+  }, [paintTrack]);
+
+  /* 놓으면 손의 속도를 잰다 — 빠르면 페이지가 이어받아 미끄러지고, 느리면 그 자리에 선다.
+     미끄러짐은 프레임마다 마찰로 식히고, 페이지 끝에 닿거나 바깥 스크롤(휠·키)이
+     끼어들어 실제 위치가 기대와 어긋나면 접는다. */
+  const endDrag = useCallback(() => {
+    const drag = dragRef.current;
     dragRef.current = null;
     setDragging(false);
     document.body.style.cursor = "";
-  }, [paintTrack]);
+    if (!drag) {
+      paintTrack(null);
+      return;
+    }
+    const now = performance.now();
+    const samples = drag.samples.filter((s) => now - s.t <= VELOCITY_WINDOW_MS);
+    let v = 0;
+    if (samples.length >= 2) {
+      const first = samples[0];
+      const last = samples[samples.length - 1];
+      const dt = last.t - first.t;
+      if (dt > 0) v = (last.y - first.y) / dt;
+    }
+    if (!momentumRef.current || Math.abs(v) < GLIDE_MIN_SPEED) {
+      paintTrack(null);
+      return;
+    }
+    glideRef.current = {
+      v,
+      last: now,
+      expected: window.scrollY,
+      startScroll: drag.startScroll,
+      raf: 0,
+    };
+    setGliding(true);
+    const step = () => {
+      const glide = glideRef.current;
+      if (!glide) return;
+      // 지난 프레임 사이에 바깥에서 화면이 움직였으면 미끄러짐을 넘긴다
+      if (Math.abs(window.scrollY - glide.expected) > 2) {
+        stopGlide();
+        return;
+      }
+      const frameNow = performance.now();
+      const dt = Math.min(frameNow - glide.last, 64);
+      glide.last = frameNow;
+      glide.v *= Math.exp(-dt * GLIDE_FRICTION);
+      glide.expected += glide.v * dt;
+      window.scrollTo({ top: glide.expected, behavior: "instant" });
+      const actual = window.scrollY;
+      // 자국은 미끄러지는 동안에도 화면이 간 거리만큼 함께 움직인다
+      paintTrack(-(actual - glide.startScroll));
+      // 벽에 닿아 기대만큼 못 갔거나 충분히 느려지면 멈춘다
+      if (Math.abs(actual - glide.expected) > 2 || Math.abs(glide.v) < GLIDE_STOP_SPEED) {
+        stopGlide();
+        return;
+      }
+      glide.raf = requestAnimationFrame(step);
+    };
+    glideRef.current.raf = requestAnimationFrame(step);
+  }, [paintTrack, stopGlide]);
+
+  const changeMomentum = useCallback((next: boolean) => {
+    momentumRef.current = next;
+    setMomentum(next);
+    if (!next) stopGlide();
+    try {
+      window.localStorage.setItem(MOMENTUM_STORAGE_KEY, next ? "1" : "0");
+    } catch {
+      // 저장이 막힌 브라우저에서는 이번 방문에만 적용된다
+    }
+  }, [stopGlide]);
 
   // 포인터가 막대를 벗어나도 잡은 손은 유지된다. 놓치면 커서를 되돌린다.
   useEffect(() => {
@@ -193,6 +305,7 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
       style={{ zIndex: Z_INDEX.fab }}
       data-celeb={celeb || undefined}
       data-dragging={dragging || undefined}
+      data-gliding={gliding || undefined}
       role="separator"
       aria-orientation="vertical"
       aria-label={t("label")}
@@ -201,11 +314,17 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
         if (event.button !== 0) return;
         event.preventDefault();
         event.currentTarget.setPointerCapture(event.pointerId);
+        // 미끄러지는 페이지를 다시 잡으면 그 자리에서 새 끌기가 시작된다
+        stopGlide();
         const track = trackRef.current;
         const box = track?.getBoundingClientRect();
         // 누른 자리를 판 좌표로 옮겨 자국을 찍는다. 자국은 판과 함께 화면이 간 만큼 움직인다
         const pinY = box ? event.clientY - box.top : 0;
-        dragRef.current = { startY: event.clientY, startScroll: window.scrollY };
+        dragRef.current = {
+          startY: event.clientY,
+          startScroll: window.scrollY,
+          samples: [{ t: performance.now(), y: window.scrollY }],
+        };
         track?.style.setProperty("--pin-y", `${pinY}px`);
         paintTrack(0);
         setDragging(true);
@@ -218,6 +337,12 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
         if (Math.abs(dy) < DEADZONE_PX) return;
         // 전역 smooth를 타면 늦게 따라오므로 즉시 이동을 명시한다
         window.scrollTo({ top: drag.startScroll - dy * ratioRef.current, behavior: "instant" });
+        // 손 속도 표본 — 놓는 순간 미끄러질 속도를 잰다. 페이지 위치 기준으로 쌓는다
+        const now = performance.now();
+        drag.samples.push({ t: now, y: window.scrollY });
+        while (drag.samples.length > 2 && now - drag.samples[0].t > VELOCITY_WINDOW_MS * 2) {
+          drag.samples.shift();
+        }
         // 자국은 손이 아니라 화면이 실제로 움직인 거리만큼 간다. 손보다 감도 배율만큼 빠르고,
         // 페이지가 끝에 닿아 더 못 가면 자국도 거기서 멈춘다
         paintTrack(-(window.scrollY - drag.startScroll));
@@ -277,6 +402,16 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
               />
             </label>
             <p className={styles.settingsNote}>{t("sensitivityNote")}</p>
+            <label className={`${styles.settingsRow} ${styles.settingsRowSwitch}`}>
+              <span className={styles.settingsLabel}>{t("momentum")}</span>
+              <input
+                type="checkbox"
+                className={styles.switch}
+                checked={momentum}
+                onChange={(event) => changeMomentum(event.target.checked)}
+              />
+            </label>
+            <p className={styles.settingsNote}>{t("momentumNote")}</p>
           </div>
         )}
       </div>

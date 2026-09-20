@@ -72,7 +72,7 @@ export function validateSpeechLinesKo(
       const body = stripEleTag(value)
       const max = SPEECH_LINE_MAX_KO[situation]
       if (body.length > max) violations.push(`${situation}: ${body.length}자 (상한 ${max}) | ${value}`)
-      if (body.includes('—')) violations.push(`${situation}: 줄표는 쓰지 않는다 | ${value}`)
+      if (/[—–―]/.test(body)) violations.push(`${situation}: 줄표는 쓰지 않는다 | ${value}`)
       all.push(body)
     }
   }

@@ -2,7 +2,28 @@ import { CELEB_CONTENT_COUNT } from '@feelandnote/shared/constants/celeb-content
 
 export type ImagePresenceFilter = 'all' | 'present' | 'missing'
 
+/** 등록순 구간(registration block): 등록 시각 오름차순으로 천 명씩 끊은 묶음. 1이 가장 먼저 등록된 천 명이다. */
+export const CELEB_LIST_BLOCK_SIZE = 1000
+
+/** 한 화면에 보이는 인원. 첫 값이 기본이다. */
+export const CELEB_LIST_PAGE_SIZES = [20, 100] as const
+export type CelebListPageSize = (typeof CELEB_LIST_PAGE_SIZES)[number]
+export const DEFAULT_CELEB_LIST_PAGE_SIZE: CelebListPageSize = CELEB_LIST_PAGE_SIZES[0]
+
+export function parseCelebPageSize(value: string | undefined): CelebListPageSize {
+  const size = Number(value)
+  return CELEB_LIST_PAGE_SIZES.find((allowed) => allowed === size) ?? DEFAULT_CELEB_LIST_PAGE_SIZE
+}
+
+export function getCelebBlockLabel(block: number, total: number): string {
+  const start = (block - 1) * CELEB_LIST_BLOCK_SIZE + 1
+  const end = Math.min(block * CELEB_LIST_BLOCK_SIZE, total)
+  return `${start.toLocaleString()}~${end.toLocaleString()}번`
+}
+
 export interface CelebColumnFilters {
+  /** 등록순 구간 번호. 초기화로 지워지지 않는 작업 범위라 CELEB_COLUMN_FILTER_KEYS에 넣지 않는다. */
+  block?: number
   nationality?: string
   gender?: 'all' | 'male' | 'female' | 'unknown'
   avatar?: ImagePresenceFilter
@@ -19,6 +40,17 @@ export interface CelebColumnFilters {
 }
 
 export type CelebColumnSearchParams = Partial<Record<keyof CelebColumnFilters, string>>
+
+/** 등록순 구간의 양 끝. 일괄 등록분은 등록 시각이 같을 수 있어 id까지 함께 비교한다. */
+export interface CelebBlockEdge {
+  created_at: string
+  id: string
+}
+export interface CelebBlockBounds {
+  start: CelebBlockEdge
+  /** 마지막 구간이면 없다. */
+  end?: CelebBlockEdge
+}
 
 export const CELEB_COLUMN_FILTER_KEYS = [
   'nationality', 'gender', 'avatar', 'portrait', 'awakened',
@@ -41,6 +73,8 @@ function parseCalendarDate(value: string | undefined): string | undefined {
 /** URL inputs are optional; blank fields must never become a numeric zero filter. */
 export function parseCelebColumnFilters(params: CelebColumnSearchParams): CelebColumnFilters {
   const filters: CelebColumnFilters = {}
+  const block = params.block?.trim()
+  if (block && /^\d+$/.test(block) && Number(block) >= 1) filters.block = Number(block)
   const nationality = params.nationality?.trim()
   if (nationality && nationality !== 'all') filters.nationality = nationality
   if (params.gender === 'male' || params.gender === 'female' || params.gender === 'unknown') {
@@ -66,6 +100,7 @@ export function parseCelebColumnFilters(params: CelebColumnSearchParams): CelebC
 }
 
 export function hasCelebColumnFilters(filters: CelebColumnFilters): boolean {
+  if (filters.block !== undefined) return true
   return CELEB_COLUMN_FILTER_KEYS.some((key) => {
     const value = filters[key]
     return value !== undefined && value !== '' && value !== 'all'

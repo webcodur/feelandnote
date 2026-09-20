@@ -2,7 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_BUTTON_STYLES, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { cn } from "@/lib/utils";
 
 function isYes24Affiliate(url: string) {
@@ -34,10 +34,7 @@ export default function BookPurchaseLinks({ links, className }: {
                 onClick={(event) => event.stopPropagation()}
                 className={cn(
                   "flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2",
-                  isYes24
-                    ? BOOK_PURCHASE_BUTTON_STYLES.yes24
-                    : link.platform === "coupang" ? BOOK_PURCHASE_BUTTON_STYLES.coupang
-                    : "border-border bg-bg-secondary text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-accent",
+                  purchaseButtonStyle(link.platform),
                 )}
               >
                 <span>{t(link.linkKind === "search" ? "searchAt" : "buyAt", { platform: AFFILIATE_PLATFORMS[link.platform].label })}</span>

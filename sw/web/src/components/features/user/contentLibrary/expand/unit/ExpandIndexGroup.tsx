@@ -6,7 +6,6 @@ import type { LucideIcon } from "lucide-react";
 import { Check, ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
 import styles from "../ExpandDetailView.module.css";
 import type { ExpandIndexEntry } from "../groupExpandIndexItems";
@@ -88,9 +87,10 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
         className={cn(
           "min-w-0 flex-1 truncate text-center text-sm leading-snug transition-opacity duration-150 ease-out",
           styles.indexItemTitle,
+          // 확인된 언어판이 없는 제목은 칩 대신 취소선으로 흐린다
+          item.titleBadge && "text-text-tertiary line-through decoration-text-tertiary/70",
         )}
       >
-        <NoEditionBadge badge={item.titleBadge} />
         {item.title}
       </span>
       <span aria-hidden className={cn("flex w-5 shrink-0 justify-center", styles.indexItemTitle)}>

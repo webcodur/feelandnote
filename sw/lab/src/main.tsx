@@ -14,6 +14,7 @@ import { P5Lab } from './labs/p5-gen/P5Lab'
 import { MorphingBlobLab } from './labs/morphing-blob/MorphingBlobLab'
 import { VoxelLab } from './labs/voxel/VoxelLab'
 import { ParticleLab } from './labs/particle/ParticleLab'
+import { ExploreArtLab } from './labs/explore-art/ExploreArtLab'
 import './style.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -33,6 +34,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/phaser" element={<PhaserTest />} />
           <Route path="/model-viewer" element={<ModelViewer />} />
           <Route path="/particle" element={<ParticleLab />} />
+          <Route path="/explore-art" element={<ExploreArtLab />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -11,7 +11,7 @@ import RelationInspector from "./RelationInspector";
 import RelationToolbar, { type FocusOption } from "./RelationToolbar";
 import { buildRelationModel, OTHER_FOCUS, peopleForFocuses, relationFocusesForMode, typesForMode } from "./relationModel";
 import type { DiagramLabels, PersonNode, RelationFocus, RelationGraphProps, RelationMode } from "./types";
-import useRelationDialogue from "./useRelationDialogue";
+import useRelationDialogue from "@/hooks/useRelationDialogue";
 import useViewportAnchor from "./useViewportAnchor";
 
 const RelationDiagram = dynamic(() => import("./RelationDiagram"), { ssr: false });

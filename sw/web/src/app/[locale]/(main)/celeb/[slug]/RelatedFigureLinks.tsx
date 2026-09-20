@@ -11,13 +11,14 @@
         여기서 실제 <a> 링크를 세워 인물 상세끼리 그물로 잇는다.
         근거 있는 사이를 먼저 세우고, 관계가 얇은 인물은 남은 자리를 직군·시대·나라가
         가까운 인물로 채운다 — 순위 규칙은 lib/celeb/relatedFigures.ts가 쥔다.
-        카드는 FigureLinkGrid가 그린다.
+        행은 공용 FigurePersonRows가 그린다 — 얼굴은 확대, 중앙은 대사, 우측 단추는 인물 상세다.
 */
 
 import { getLocale, getTranslations } from "next-intl/server";
 import { getRelatedFigures } from "@/actions/celebs/getRelatedFigures";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
-import FigureLinkGrid from "@/components/features/celeb/FigureLinkGrid";
+import FigurePersonRows from "@/components/features/celeb/FigurePersonRows";
+import type { PersonNode } from "./relation-graph/types";
 
 /** 세울 링크 상한 — 관계가 수십이면 다 걸지 않고 가까운 순으로 앞을 취한다 */
 const MAX_LINKS = 12;
@@ -63,24 +64,39 @@ export default async function RelatedFigureLinks({
   // 상자 윗변에서 목록을 떼어 시작한다. 아래 여백과 같은 값으로 맞춘다
   return (
     <div className="w-full pt-4 md:pt-6">
-      {/* 제목은 본문 구획 머리(relatedFigures 목차 항목)가 맡는다. 여기서 또 달면 겹친다 */}
-      <FigureLinkGrid
+      {/* 제목은 본문 구획 머리(relatedFigures 목차 항목)가 맡는다. 여기서 또 달면 겹친다.
+          얼굴은 확대, 중앙은 대사 읊기, 우측 단추는 인물 상세 — 조작은 클라이언트 행이 맡고,
+          상세로 가는 실링크는 행 안 앵커로 남아 크롤러 경로가 끊기지 않는다 */}
+      <FigurePersonRows
+        locale={locale}
         gridClassName="mx-auto w-full max-w-4xl"
         // 좁은 화면에서 네 명씩 한 쪽으로 묶어 옆으로 넘긴다 — 세로로 다 훑지 않아도 된다
         mobilePageSize={4}
         mobileScrollable
-        figures={figures.map(({ candidate, kind, relGroup, note, noteEn }) => {
+        rows={figures.map(({ candidate, kind, relGroup, note, noteEn }) => {
           // 왜 이 사람이 섰는지를 부제로 밝힌다. 근거 한 줄이 짧으면 그것부터 —
           // 「동료」보다 「방탄소년단 소속」이 먼저 읽힌다. 길면 관계 이름으로 물러난다.
           // 계산으로 채운 자리는 직군을 적고, 직군이 비면 계산이라고만 말한다.
           const reason = locale === "en" ? noteEn ?? note : note;
           return {
-            id: candidate.id,
-            slug: candidate.slug,
-            nickname: candidate.nickname,
-            nickname_en: candidate.nickname_en,
-            avatar_url: candidate.avatar_url,
-            title: null,
+            person: {
+              id: candidate.id,
+              slug: candidate.slug,
+              listed: Boolean(candidate.slug),
+              name:
+                locale === "en" && candidate.nickname_en
+                  ? candidate.nickname_en
+                  : candidate.nickname,
+              avatarUrl: candidate.avatar_url,
+              types: [],
+              groups: relGroup ? [relGroup as PersonNode["groups"][number]] : [],
+              note: reason ?? null,
+              profession: candidate.profession,
+              nationality: candidate.nationality,
+              birthDate: null,
+              deathDate: null,
+              qid: null,
+            } satisfies PersonNode,
             subtitle:
               kind === "relation"
                 ? reason && reason.length <= noteMax

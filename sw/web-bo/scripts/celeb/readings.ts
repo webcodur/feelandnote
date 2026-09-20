@@ -7,8 +7,7 @@
  *   pnpm exec tsx scripts/celeb/readings.ts --slugs=hegel,werner-heisenberg --rewrite-existing --generate
  *   pnpm exec tsx scripts/celeb/readings.ts --slugs=hegel,werner-heisenberg --rewrite-existing --apply --resume
  *   pnpm exec tsx scripts/celeb/readings.ts --all --review-existing --rewrite-existing --generate --resume
- *   pnpm exec tsx scripts/celeb/readings.ts --all --review-existing --recheck-reviewed --rewrite-existing --generate --resume
- *   pnpm exec tsx scripts/celeb/readings.ts --slugs=hegel,werner-heisenberg --review-existing --recheck-reviewed --review-decisions=reviews.json --rewrite-existing --research --deep-research --generate --resume
+ *   pnpm exec tsx scripts/celeb/readings.ts --slugs=hegel,werner-heisenberg --review-existing --review-decisions=reviews.json --rewrite-existing --research --deep-research --generate --resume
  */
 
 import { createHash } from 'node:crypto'
@@ -22,7 +21,8 @@ import {
   unlinkSync,
   writeFileSync,
 } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createClient } from '@supabase/supabase-js'
 import {
   AGY_TEXT_MODEL,
@@ -32,9 +32,10 @@ import {
 import { codexCall } from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
 // 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
-if (!process.env.ALLOW_EXTERNAL_CLI) {
-  console.error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행한다.')
-  process.exit(1)
+function requireExternalCliApproval() {
+  if (!process.env.ALLOW_EXTERNAL_CLI) {
+    throw new Error('이 스크립트는 외부 CLI 모델을 호출한다. 사용자 승인 후 ALLOW_EXTERNAL_CLI=1로 실행한다.')
+  }
 }
 
 function loadEnv() {
@@ -68,7 +69,9 @@ const numberFlag = (name: string, fallback: number) => {
 const PLAN = process.argv.includes('--plan')
 const GENERATE = process.argv.includes('--generate')
 const APPLY = process.argv.includes('--apply')
+const PUBLISH = process.argv.includes('--publish')
 const STATS = process.argv.includes('--stats')
+if (!STATS) requireExternalCliApproval()
 const RESEARCH = process.argv.includes('--research')
 const DEEP_RESEARCH = process.argv.includes('--deep-research')
 const RESUME = process.argv.includes('--resume')
@@ -78,7 +81,6 @@ const VERBOSE = process.argv.includes('--verbose')
 const INCLUDE_EXISTING = process.argv.includes('--include-existing')
 const REWRITE_EXISTING = process.argv.includes('--rewrite-existing')
 const REVIEW_EXISTING = process.argv.includes('--review-existing')
-const RECHECK_REVIEWED = process.argv.includes('--recheck-reviewed')
 const ALL = process.argv.includes('--all')
 const LIMIT = numberFlag('--limit', Number.POSITIVE_INFINITY)
 const BATCH_SIZE = numberFlag('--batch-size', 8)
@@ -90,10 +92,6 @@ const SLUGS = (() => {
   const raw = flagValue('--slugs')
   return raw ? new Set(raw.split(',').map((slug) => slug.trim()).filter(Boolean)) : null
 })()
-const FULL_AUDIT = REVIEW_EXISTING
-  && RECHECK_REVIEWED
-  && REWRITE_EXISTING
-  && (ALL || Boolean(SLUGS?.size))
 const REVIEW_DECISIONS_FILE = REVIEW_DECISIONS_ARG
   && !REVIEW_DECISIONS_ARG.startsWith('--')
   ? resolve(process.cwd(), REVIEW_DECISIONS_ARG)
@@ -109,6 +107,9 @@ if (!PLAN && !GENERATE && !APPLY && !STATS) {
 if (!STATS && !ALL && !SLUGS && LIMIT === Number.POSITIVE_INFINITY) {
   throw new Error('안전 중단: --all, --slugs, 유한한 --limit 가운데 하나가 필요하다.')
 }
+if (PUBLISH && !APPLY) {
+  throw new Error('--publish는 --apply와 함께 지정한다.')
+}
 if (APPLY && !GENERATE && !RESUME) {
   throw new Error('저장된 개선본만 반영할 때는 --apply --resume을 함께 지정한다.')
 }
@@ -123,9 +124,6 @@ if (INCLUDE_EXISTING && !PLAN && !STATS) {
 }
 if (REVIEW_EXISTING && !REWRITE_EXISTING) {
   throw new Error('--review-existing은 --rewrite-existing과 함께 지정한다.')
-}
-if (RECHECK_REVIEWED && !FULL_AUDIT) {
-  throw new Error('--recheck-reviewed는 --review-existing --rewrite-existing과 --all 또는 --slugs를 함께 지정한다.')
 }
 if (REVIEW_DECISIONS_ARG !== null && !REVIEW_DECISIONS_FILE) {
   throw new Error('--review-decisions에 JSON 파일 경로가 필요하다.')
@@ -159,6 +157,11 @@ const PIPELINE_VERSION = '2026-09-01-guide-only-v25-bio-identity'
 const REVIEW_VERSION = '2026-09-01-guide-only-pre-review-v7-bio-identity'
 const DEEP_RESEARCH_VERSION = '2026-08-29-guide-sources-v3'
 const NEW_EXPLANATION_PLACEHOLDER = '미작성'
+const READING_RULEBOOK = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../docs/project/celeb/celeb-05-01-reading.md')
+const WRITING_GUIDE = readFileSync(READING_RULEBOOK, 'utf8')
+  .match(/^## 집필\s*\r?\n([\s\S]*?)(?=^## |$(?![\s\S]))/m)?.[1].trim()
+if (!WRITING_GUIDE) throw new Error('인물 안내 룰북의 집필 절이 비어 있다.')
+const WRITING_CONTEXT = `[집필 기준]\n${WRITING_GUIDE}\n\n제공된 프로필과 확인된 출처의 사실에 근거한다. rewriteReason과 초안은 사실 근거가 아니다. 기존 글은 이 기준에 맞는 부분을 보존하고 필요한 부분을 고친다.`
 for (const directory of [ROOT, DRAFT_DIR, FINAL_DIR, REVIEW_DIR]) {
   if (!existsSync(directory)) mkdirSync(directory, { recursive: true })
 }
@@ -236,7 +239,6 @@ type ProfileRow = {
 
 type ExplanationRow = {
   profile_id: string
-  review_status: 'ai_reviewed' | 'human_reviewed' | null
   published_at: string | null
   plain_text: string
   interpretive_title: string
@@ -1031,6 +1033,7 @@ async function callDeepResearch(
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
       // 심화 조사는 모델 지식이 아니라 출처 발굴이 일이라 codex에 남겨둔다. agy는 작성에만 쓴다.
+      requireExternalCliApproval()
       const raw = await codexCall(buildDeepResearchPrompt(profiles, contextsByProfile), {
         model: 'gpt-5.5',
         effort: 'medium',
@@ -1144,18 +1147,16 @@ function existingReviewInput(material: Material) {
 
 function existingReviewInputHash(material: Material): string {
   return createHash('sha256')
-    .update(`${REVIEW_VERSION}\n${JSON.stringify(existingReviewInput(material))}`, 'utf8')
+    .update(`${REVIEW_VERSION}\n${WRITING_GUIDE}\n${JSON.stringify(existingReviewInput(material))}`, 'utf8')
     .digest('hex')
 }
 
 function buildExistingReviewPrompt(materials: Material[]): string {
-  return `아래 기존 한국어·영어 "인물 안내"를 계속 사용할 수 있는지 엄격히 판정하라. 글을 고치거나 새로 쓰지 않는다. 외부 검색도 하지 않는다.
+  return `아래 기존 한국어·영어 인물 안내를 읽고 집필 기준과 한영 의미 일치 여부를 판정하라. 제공된 자료만 사용하고 JSON 판정만 반환한다.
 
-pass는 다음 두 조건을 만족하면 준다.
-1. 처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있다.
-2. 한국인이 처음부터 한국어로 쓴 글처럼 자연스럽게 읽힌다.
+${WRITING_CONTEXT}
 
-명백한 사실 오류, 한영 의미 차이, 이력·작품·수치만 늘어놓아 인물을 알아보기 어려운 경우만 rewrite다. 두 조건을 이미 만족하면 표현을 더 고칠 수 있다는 이유만으로 rewrite하지 않는다. 짧아도 인물을 알아볼 수 있고 자연스러우면 pass다. reason에는 판정 근거를 구체적으로 한 문장으로 적는다.
+기준에 맞으면 pass, 보완이 필요하면 rewrite로 판정하고 reason에 구체적인 근거를 적는다.
 
 모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다.
 [{
@@ -1292,33 +1293,31 @@ async function reviewExistingMaterials(materials: Material[]): Promise<Map<strin
   return results
 }
 
-async function markExistingReviewPassed(material: Material): Promise<'reviewed' | 'existing'> {
+function publicationFor(material: Material): string | null {
+  if (material.profile.publication_status !== 'active') return null
+  return material.existingExplanation?.published_at ?? (PUBLISH ? new Date().toISOString() : null)
+}
+
+async function publishExistingReading(material: Material): Promise<void> {
+  if (!APPLY || !PUBLISH) throw new Error('게시하려면 --apply --publish를 명시해야 한다.')
   const current = material.existingExplanation
-  if (!current) throw new Error(`${material.profile.slug}: 검수 완료로 표시할 기존 읽어보기가 없다.`)
-  if (current.review_status) return 'existing'
-  const publishedAt = material.profile.publication_status === 'active'
-    ? current.published_at ?? new Date().toISOString()
-    : null
+  if (!current || current.published_at || material.profile.publication_status !== 'active') return
+  const publishedAt = publicationFor(material)
   const { data, error } = await db
     .from('celeb_explanations')
-    .update({ review_status: 'ai_reviewed', published_at: publishedAt })
+    .update({ published_at: publishedAt })
     .eq('profile_id', material.profile.id)
     .eq('updated_at', current.updated_at)
-    .is('review_status', null)
-    .select('review_status, published_at, interpretive_title, interpretive_text, interpretive_title_en, interpretive_text_en')
+    .select('published_at, interpretive_title, interpretive_text, interpretive_title_en, interpretive_text_en')
     .maybeSingle()
   if (error) throw error
-  if (!data) throw new Error(`${material.profile.slug}: 선검수 뒤 행이 바뀌어 상태 반영을 중단했다.`)
-  if (data.review_status !== 'ai_reviewed') throw new Error(`${material.profile.slug}: AI 검수 상태 재조회가 일치하지 않는다.`)
-  const returnedPublishedAt = data.published_at ? new Date(data.published_at).getTime() : null
-  const expectedPublishedAt = publishedAt ? new Date(publishedAt).getTime() : null
-  if (returnedPublishedAt !== expectedPublishedAt) {
-    throw new Error(`${material.profile.slug}: 검수 상태 반영 중 게시 시각이 일치하지 않는다.`)
+  if (!data) throw new Error(`${material.profile.slug}: 안내가 조회 뒤 바뀌어 게시를 중단했다.`)
+  if (new Date(data.published_at).getTime() !== new Date(publishedAt!).getTime()) {
+    throw new Error(`${material.profile.slug}: 게시 시각이 요청한 값과 다르다.`)
   }
   if (!interpretiveFieldsMatch(data, current)) {
-    throw new Error(`${material.profile.slug}: 검수 상태 반영 중 닫힌 인물 탐구가 바뀌었다.`)
+    throw new Error(`${material.profile.slug}: 게시 중 보존할 인물 탐구가 바뀌었다.`)
   }
-  return 'reviewed'
 }
 
 function inputForModel(material: Material) {
@@ -1352,24 +1351,16 @@ function inputForModel(material: Material) {
 
 function inputHash(material: Material): string {
   return createHash('sha256')
-    .update(`${PIPELINE_VERSION}\n${JSON.stringify(inputForModel(material))}`, 'utf8')
+    .update(`${PIPELINE_VERSION}\n${WRITING_GUIDE}\n${JSON.stringify(inputForModel(material))}`, 'utf8')
     .digest('hex')
 }
 
 function buildDraftPrompt(materials: Material[]): string {
-  return `아래 여러 인물에 대해 한국어 "인물 안내" 초안을 써라. 도구를 사용하거나 웹을 검색하지 말고 제공한 재료만 사용한다.
+  return `아래 인물별 재료로 한국어 인물 안내 초안을 작성하라. 도구와 웹 검색 없이 제공된 재료만 사용한다.
 
-rewriteReason은 기존 글에서 고칠 문제를 알려 주는 편집 의견이며 사실 근거가 아니다. verifiedResearch가 있으면 기본 프로필과 그 출처 요약에 명시된 사실만 쓴다. 모델의 기억이나 일반 상식으로 사건·업적·인과를 보태지 않는다. 출처 요약끼리 충돌하거나 확인 범위가 좁으면 더 보수적으로 쓴다. 기본 프로필의 이름이 verifiedResearch 및 영문 이름과 명백히 충돌하고 여러 출처가 같은 인물을 하나의 통용 이름으로 일관되게 식별할 때만 안내 본문에 그 통용 이름을 쓴다. 근거 없이 이름을 고치지 않으며 프로필 값 자체를 수정하지 않는다. URL이나 조사 과정을 본문에 쓰지 않는다.
+${WRITING_CONTEXT}
 
-existingReadingToImprove가 있으면 기존 글부터 읽는다. 이 글만으로 인물이 누구이고 왜 알려졌는지 알 수 있으며 한국어가 자연스러우면 좋은 문장을 그대로 살린다. rewriteReason의 문제가 현재 글에도 남아 있으면 그 부분만 고친다. 기존 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 새로 구성한다.
-
-rewriteReason이 영어 한 구절, 한국어 한 구절, 중복 문장처럼 국소적인 문제를 가리키면 그 부분만 고치고 나머지 언어와 문장은 그대로 둔다. 문제와 무관한 내용을 더 넣지 않는다.
-
-생애와 업적을 줄줄이 적지 말고, 이 인물을 알아보는 데 필요한 행동·생각·사건을 중심으로 짧게 쓴다. 대표 업적은 남긴다. 날짜와 수치는 흐름에 꼭 필요한 것만 쓴다. 팀이나 조직의 일을 개인이 한 것처럼 쓰지 않고, 아직 실행되지 않은 계획을 완료된 결과처럼 쓰지 않는다. 극적인 일화·반전·교훈을 만들지 않는다.
-
-한국인이 처음부터 한국어로 쓴 글처럼 자연스럽게 쓴다. 소리 내 읽었을 때 주어, 어순, 수식 관계가 바로 이해되어야 한다. 첫 문장에서 명사로 정체를 설명할 때는 "[인물명]은/는 …이다."인 완결문이나, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구 중 하나를 쓴다. bio형도 인물의 정체를 알려야 하며 "본명 이혜빈."처럼 인적사항 한 조각만 쓰지 않는다. "하데스는 그리스 신화에서 망자들을 다스리는 신이다."와 "그리스 신화에서 망자들을 다스리는 신."은 모두 허용한다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓰지 않는다. bio형을 완결문으로 바꿀 때는 끝에 "이다"만 붙이지 말고 이름을 주어로 넣는다. 평범한 동사를 쓰고 번역투, 인명사전 말투, 장식용 문예어, 교훈형 결말을 피한다. 재료가 단순하면 짧게 끝낸다.
-
-모든 인물의 안내를 반드시 작성한다. holdReason이나 작성 거절 사유를 출력하지 않는다. JSON 배열만 출력하고 코드펜스와 설명을 붙이지 않는다.
+입력의 모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다.
 [{
   "slug": "입력 slug",
   "guide": "인물 안내"
@@ -1380,17 +1371,11 @@ ${JSON.stringify(materials.map(inputForModel), null, 2)}`
 }
 
 function buildRevisionPrompt(materials: Material[], drafts: Reading[]): string {
-  return `아래 인물별 재료, 기존 안내, 초안을 대조해 한국어 "인물 안내"를 완성하라. 도구를 사용하거나 웹을 검색하지 말고 제공된 범위만 사용한다. 기존 안내나 초안에 정확하고 자연스러운 문장이 있으면 그대로 살리고, 지적된 문제만 고친다. 전체 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 다시 구성한다.
+  return `아래 인물별 재료, 기존 안내와 초안을 대조해 한국어 인물 안내를 완성하라. 도구와 웹 검색 없이 제공된 재료만 사용한다.
 
-rewriteReason이 영어 한 구절, 한국어 한 구절, 중복 문장처럼 국소적인 문제를 가리키면 그 부분만 고친다. 수정하지 않아도 되는 언어와 문장은 입력 그대로 복사한다. 문제와 무관한 업적이나 해석을 보태지 않는다.
+${WRITING_CONTEXT}
 
-rewriteReason은 기존 글에서 고칠 문제를 알려 주는 편집 의견이며 사실 근거가 아니다. verifiedResearch가 있으면 기본 프로필과 그 출처 요약에 명시된 사실만 쓴다. 초안이나 모델의 기억에만 있는 사건·업적·인과는 삭제한다. 출처 요약끼리 충돌하거나 확인 범위가 좁으면 더 보수적으로 쓴다. 기본 프로필의 이름이 verifiedResearch 및 영문 이름과 명백히 충돌하고 여러 출처가 같은 인물을 하나의 통용 이름으로 일관되게 식별할 때만 안내 본문에 그 통용 이름을 쓴다. 근거 없이 이름을 고치지 않으며 프로필 값 자체를 수정하지 않는다. URL이나 조사 과정을 본문에 쓰지 않는다.
-
-처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있게 쓴다. 생애·직함·작품·수상을 줄줄이 적지 않고 필요한 행동·생각·사건만 남긴다. 대표 업적은 보존하고 날짜와 수치는 흐름에 꼭 필요한 것만 쓴다. 팀이나 조직의 일을 개인이 한 것처럼 쓰지 않으며, 자료에 없는 동기·인과·감정을 만들지 않는다.
-
-한국인이 처음부터 한국어로 쓴 글처럼 자연스럽게 쓴다. 소리 내 읽었을 때 주어, 어순, 수식 관계가 바로 이해되어야 한다. 첫 문장에서 명사로 정체를 설명할 때는 "[인물명]은/는 …이다."인 완결문이나, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구 중 하나를 쓴다. bio형도 인물의 정체를 알려야 하며 "본명 이혜빈."처럼 인적사항 한 조각만 쓰지 않는다. "하데스는 그리스 신화에서 망자들을 다스리는 신이다."와 "그리스 신화에서 망자들을 다스리는 신."은 모두 허용한다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓰지 않는다. bio형을 완결문으로 바꿀 때는 끝에 "이다"만 붙이지 말고 이름을 주어로 넣는다. 평범한 동사를 쓰고 번역투, 인명사전 말투, 장식용 문예어, 교훈형 결말을 피한다. “시간을 붙잡다”, “감각을 따라가다”, “방향을 보여 주다”, “같은 태도가 보인다”처럼 사실 대신 분위기와 평가를 말하는 문장을 쓰지 않는다. 재료가 단순하면 짧게 끝낸다.
-
-모든 인물의 한국어 안내를 반드시 작성한다. 영어 안내는 별도 단계에서 다루므로 출력하지 않는다. holdReason이나 작성 거절 사유를 출력하지 않는다. JSON 배열만 출력하고 코드펜스와 설명을 붙이지 않는다. 입력의 모든 slug를 정확히 한 번씩 포함한다.
+입력의 모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다. 영어 안내는 별도 단계에서 다룬다.
 [{
   "slug": "입력 slug",
   "guide": "최종 인물 안내"
@@ -1408,13 +1393,11 @@ function buildRepairPrompt(
   readings: Reading[],
   errorsBySlug: Map<string, string[]>,
 ): string {
-  return `아래 한국어 인물 안내는 검수에서 오류가 발견됐다. errors에 적힌 문제만 고친다. 문제와 관계없는 문장, 사실, 순서는 가능한 한 그대로 둔다. 전체 글로 인물을 알아보기 어렵거나 한국어가 전반적으로 어색할 때만 다시 구성한다.
+  return `아래 인물별 errors에 적힌 문제를 재료와 대조해 고쳐라. 도구와 웹 검색 없이 제공된 재료만 사용한다.
 
-재료 안의 사실만 사용한다. rewriteReason은 편집 의견일 뿐 사실 근거가 아니다. 자료에 없는 사실·연도·숫자·동기·인과를 만들지 않고, 팀이나 조직의 일을 개인의 일로 바꾸지 않는다. 대표 업적을 남기고 날짜와 수치는 흐름에 꼭 필요한 것만 쓴다.
+${WRITING_CONTEXT}
 
-처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있게 쓴다. 한국어는 한국인이 처음부터 쓴 글처럼 자연스러워야 한다. 첫 문장에서 명사로 정체를 설명할 때는 "[인물명]은/는 …이다."인 완결문이나, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구 중 하나를 쓴다. bio형도 인물의 정체를 알려야 하며 "본명 이혜빈."처럼 인적사항 한 조각만 쓰지 않는다. "하데스는 그리스 신화에서 망자들을 다스리는 신이다."와 "그리스 신화에서 망자들을 다스리는 신."은 모두 허용한다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓰지 않는다. bio형을 완결문으로 바꿀 때는 끝에 "이다"만 붙이지 말고 이름을 주어로 넣는다. 평범한 동사를 쓰고 번역투, 인명사전 말투, 장식용 문예어, 교훈형 결말을 피한다. 긴 대시는 쓰지 않는다.
-
-모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다. 영어 안내는 출력하지 않는다. holdReason, 코드펜스, 설명은 출력하지 않는다.
+입력의 모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다. 영어 안내는 별도 단계에서 다룬다.
 [{
   "slug": "입력 slug",
   "guide": "인물 안내"
@@ -1429,17 +1412,12 @@ ${JSON.stringify(materials.map((material) => ({
 }
 
 function buildGuideAuditPrompt(materials: Material[], readings: Reading[]): string {
-  return `아래 한국어 인물 안내를 실제로 읽고 판정하라. 글을 새로 쓰지 않으며, 글자 수나 문장 수로 판단하지 않는다.
+  return `아래 한국어 인물 안내를 읽고 집필 기준에 맞으면 quality를 true, 보완이 필요하면 false로 판정하라. 제공된 자료만 사용하고 JSON 판정만 반환한다.
 
-quality의 기준은 두 가지다.
-1. 처음 보는 독자가 이 사람이 누구이고 무엇으로 알려졌는지 알아볼 수 있는가.
-2. 한국인이 처음부터 한국어로 쓴 글처럼 자연스럽게 읽히는가.
+${WRITING_CONTEXT}
 
-명백한 사실 오류, 자료에 없는 동기·인과, 팀이나 조직의 일을 개인에게 돌린 표현, 인물을 알아보기 어려운 이력·작품·숫자 나열이 있으면 quality는 false다. 명사로 정체를 설명하는 첫 문장이 "[인물명]은/는 …이다."인 완결문도, 이름과 서술격 조사를 함께 생략한 "…명사."형 bio 명사구도 아니면 false다. bio형이 "본명 이혜빈."처럼 정체를 설명하지 못하는 인적사항 한 조각이어도 false다. "…신다."처럼 "이다"만 "다"로 줄이거나 "…신입니다."로 쓴 경우, bio형 끝에 "이다"만 붙여 이름 없는 불완전한 완결문을 만든 경우도 false다. “시간을 붙잡다”, “감각을 따라가다”, “방향을 보여 주다”, “같은 태도가 보인다”처럼 사실을 흐리는 AI식 평론이나 추상적인 마무리가 있어도 false다. 특정 문장 수나 이야기 공식에 맞지 않는다는 이유만으로 실패시키지 않는다. 기존의 좋은 문장을 그대로 살린 것은 실패가 아니다.
-
-readerLearns에는 이 글만 읽고 독자가 이 인물에 대해 알 수 있는 구체적인 내용을 적는다. 답할 수 없으면 "없음"이라고 적고 quality를 false로 판정한다.
-
-모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다.
+readerLearns에는 글에서 알 수 있는 인물의 생각과 활동 방향을, reason에는 판정 근거를 적는다.
+입력의 모든 slug를 정확히 한 번 포함한 JSON 배열만 출력한다.
 [{
   "slug": "입력 slug",
   "quality": true,
@@ -1529,55 +1507,19 @@ function parseReadings(raw: string, expectedSlugs: string[], requireEnglish: boo
 }
 
 function validateReading(reading: Reading): string[] {
-  if (reading.holdReason) return ['최종 보류 금지']
+  if (reading.holdReason) return ['작성 보류']
   const errors: string[] = []
-  if (!reading.guide) errors.push('한국어 안내 누락')
-
+  if (!reading.guide.trim()) errors.push('한국어 안내 누락')
   if (reading.guide && !/[가-힣]/.test(reading.guide)) errors.push('한국어 안내 문자 깨짐')
-  if ((reading.guide.match(/\?/g) ?? []).length > 3 || reading.guide.includes('�')) {
-    errors.push('한국어 안내 문자 깨짐')
-  }
-  if (/[一-鿿]/.test(reading.guide)) errors.push('한자 혼입')
-  if (/https?:\/\/|\]\(|```|^#{1,6}\s/m.test(reading.guide)) errors.push('URL 또는 마크다운 혼입')
-  if (/[—–]/.test(reading.guide)) errors.push('긴 대시 혼입')
-  if (/(^|[.!?]\s*)(나는|저는|내가|제가)\s/.test(reading.guide)) errors.push('가상독백식 1인칭 혼입')
-  if (/(현재 제공된|제공된 기록|기록(?:되어 있지|이 없)|설명할 수 없|단서(?:가|는) 없|확인할 수 없)/.test(reading.guide)) {
-    errors.push('자료 부재를 본문으로 대신함')
-  }
-  if (/(?:공식|외부) (?:프로필|기록|자료|출처)|신원 (?:확인|자료)|동명이인|구별하는 자료|명시되어 있/.test(reading.guide)) {
-    errors.push('조사 메모를 본문으로 대신함')
-  }
-  if (/[0-9가-힣]+\s*명조/.test(reading.guide)) errors.push('비문: 명조')
-  if (/(포개|벼리|빚어|꿰뚫|녹아들|스며들|깃들|아로새|눌러 담|길어 올|삶으로 증명|온몸으로 (?:증명|보여)|그렇게 한 시대의 문을 열)/.test(reading.guide)) {
-    errors.push('상투적 문예어 또는 교훈형 마무리')
-  }
-  if (/[\p{Script=Hangul}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(reading.guideEn)) {
-    errors.push('영어 안내 CJK 혼입')
-  }
-  if (/https?:\/\/|```|^#{1,6}\s|translator(?:'s)? note|\bas an ai\b/im.test(reading.guideEn)) {
-    errors.push('영문 URL·마크다운·번역 메모 혼입')
-  }
-  if (/[—–]/.test(reading.guideEn)) errors.push('영문 긴 대시 혼입')
-  return errors
-}
-
-function validateBatch(readings: Reading[]): Map<string, string[]> {
-  const errors = new Map<string, string[]>()
-  const seenOpenings = new Map<string, string>()
-  for (const reading of readings) {
-    if (reading.holdReason) continue
-    const openingKey = reading.guide.replace(/\s+/g, ' ').slice(0, 24)
-    const previous = seenOpenings.get(openingKey)
-    if (previous) {
-      errors.set(reading.slug, [...(errors.get(reading.slug) ?? []), `첫 문장 판박이: ${previous}`])
-    } else {
-      seenOpenings.set(openingKey, reading.slug)
-    }
+  for (const [label, text] of [['한국어', reading.guide], ['영어', reading.guideEn]]) {
+    if (text.includes('�')) errors.push(`${label} 안내 문자 깨짐`)
+    if (/https?:\/\/|\]\(|```|^#{1,6}\s/m.test(text)) errors.push(`${label} 안내 URL 또는 마크다운 혼입`)
   }
   return errors
 }
 
 async function callModel(prompt: string, effort: 'low' | 'medium'): Promise<string> {
+  requireExternalCliApproval()
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
       return await agyCall(prompt, { model: MODEL, timeoutMs: 600_000 })
@@ -1631,23 +1573,13 @@ function readingAlreadyApplied(reading: SavedReading, material: Material): boole
   return Boolean(current
     && current.plain_text === reading.guide
     && current.plain_text_en === reading.guideEn
-    && current.review_status === 'ai_reviewed'
-    && Boolean(current.published_at) === (material.profile.publication_status === 'active'))
-}
-
-function isCompletedGuideOnlyRow(row: ExplanationRow | null): boolean {
-  return Boolean(row
-    && row.review_status === 'ai_reviewed'
-    && row.interpretive_title === NEW_EXPLANATION_PLACEHOLDER
-    && row.interpretive_text === NEW_EXPLANATION_PLACEHOLDER
-    && row.interpretive_title_en === null
-    && row.interpretive_text_en === null)
+    && (!PUBLISH || material.profile.publication_status !== 'active' || Boolean(current.published_at)))
 }
 
 async function quarantineInsertedReading(row: ExplanationRow): Promise<void> {
   const { data, error } = await db
     .from('celeb_explanations')
-    .update({ review_status: null, published_at: null })
+    .update({ published_at: null })
     .eq('profile_id', row.profile_id)
     .eq('updated_at', row.updated_at)
     .select('profile_id')
@@ -1657,8 +1589,8 @@ async function quarantineInsertedReading(row: ExplanationRow): Promise<void> {
 }
 
 async function applyReading(reading: SavedReading, material: Material): Promise<'written' | 'held' | 'existing'> {
+  if (!APPLY) throw new Error('DB에 반영하려면 --apply를 명시해야 한다.')
   const current = material.existingExplanation
-  if (current?.review_status === 'human_reviewed') return 'existing'
   if (readingAlreadyApplied(reading, material)) return 'existing'
   if (reading.inputHash !== inputHash(material)) {
     throw new Error('저장된 최종본의 조사 재료가 현재 재료와 달라 다시 생성해야 한다.')
@@ -1679,10 +1611,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   const payload = {
     plain_text: reading.guide,
     plain_text_en: reading.guideEn,
-    review_status: 'ai_reviewed',
-    published_at: material.profile.publication_status === 'active'
-      ? current?.published_at ?? new Date().toISOString()
-      : null,
+    published_at: publicationFor(material),
   }
   const expectedInterpretive: InterpretiveFields = current ?? {
     interpretive_title: NEW_EXPLANATION_PLACEHOLDER,
@@ -1697,7 +1626,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
       .update(payload)
       .eq('profile_id', material.profile.id)
       .eq('updated_at', current.updated_at)
-      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, review_status, published_at, updated_at')
+      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, published_at, updated_at')
       .maybeSingle()
     if (error) throw error
     updated = data
@@ -1709,7 +1638,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
         ...payload,
         ...expectedInterpretive,
       })
-      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, review_status, published_at, updated_at')
+      .select('profile_id, plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, published_at, updated_at')
       .single()
     if (error) throw error
     updated = data
@@ -1727,7 +1656,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
 
   const { data: verified, error: verifyError } = await db
     .from('celeb_explanations')
-    .select('plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, review_status, published_at')
+    .select('plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, published_at')
     .eq('profile_id', material.profile.id)
     .single()
   if (verifyError) return abortAppliedReading('DB 재조회에 실패했다.', verifyError)
@@ -1740,11 +1669,10 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   if (!interpretiveFieldsMatch(verified, expectedInterpretive)) {
     return abortAppliedReading('DB 재조회에서 닫힌 인물 탐구가 바뀌었다.')
   }
-  if (verified.review_status !== 'ai_reviewed') {
-    return abortAppliedReading('DB 재조회 AI 검수 상태가 개선본과 다르다.')
-  }
-  if (material.profile.publication_status === 'active' && !verified.published_at) {
-    return abortAppliedReading('활성 프로필의 게시 시각이 비어 있다.')
+  const actualPublishedAt = verified.published_at ? new Date(verified.published_at).getTime() : null
+  const expectedPublishedAt = payload.published_at ? new Date(payload.published_at).getTime() : null
+  if (actualPublishedAt !== expectedPublishedAt) {
+    return abortAppliedReading('DB 재조회 게시 시각이 요청한 값과 다르다.')
   }
   if (material.profile.publication_status !== 'active' && verified.published_at) {
     return abortAppliedReading('비활성·정지 프로필이 게시됐다.')
@@ -1813,12 +1741,10 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
     const guideAuditErrors = AUDIT ? await auditGuideQuality(toRevise, revised) : new Map<string, string>()
 
     for (let repairAttempt = 1; AUDIT && repairAttempt <= 2; repairAttempt += 1) {
-      const batchErrors = validateBatch(revised)
       const errorsBySlug = new Map<string, string[]>()
       for (const reading of revised) {
         const errors = [
           ...validateReading(reading),
-          ...(batchErrors.get(reading.slug) ?? []),
           ...(guideAuditErrors.has(reading.slug) ? [guideAuditErrors.get(reading.slug)!] : []),
         ]
         if (errors.length) errorsBySlug.set(reading.slug, errors)
@@ -1836,12 +1762,10 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
       for (const [slug, error] of repairedGuideAuditErrors) guideAuditErrors.set(slug, error)
     }
 
-    const batchErrors = validateBatch(revised)
     for (const reading of revised) {
       const material = toRevise.find((item) => item.profile.slug === reading.slug)!
       const errors = [
         ...validateReading(reading),
-        ...(batchErrors.get(reading.slug) ?? []),
         ...(guideAuditErrors.has(reading.slug) ? [guideAuditErrors.get(reading.slug)!] : []),
       ]
       saveReading(FINAL_DIR, 'final', reading, material, errors)
@@ -1862,7 +1786,7 @@ function batchesOf<T>(items: T[], size: number): T[][] {
 
 async function main() {
   const profileSelect = 'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,publication_status,celeb_tier,celeb_reality,wikidata_qid'
-  const explanationSelect = 'profile_id,review_status,published_at,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at'
+  const explanationSelect = 'profile_id,published_at,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at'
   let profiles: ProfileRow[]
   let explanations: ExplanationRow[]
 
@@ -1932,31 +1856,13 @@ async function main() {
     rewriteReason: null,
     research: null,
   }))
-  const humanReviewed = preReviewMaterials.filter((material) =>
-    material.existingExplanation?.review_status === 'human_reviewed')
-  const automaticMaterials = preReviewMaterials.filter((material) =>
-    material.existingExplanation?.review_status !== 'human_reviewed')
-  const newMaterials = automaticMaterials.filter((material) => !material.existingExplanation)
-  const completedGuideOnlyMaterials = automaticMaterials.filter((material) =>
-    !FULL_AUDIT
-    && isCompletedGuideOnlyRow(material.existingExplanation)
-    && !editorialCandidates.has(material.profile.slug))
-  const existingAutomaticMaterials = automaticMaterials.filter((material) =>
-    material.existingExplanation
-    && (FULL_AUDIT
-      || !isCompletedGuideOnlyRow(material.existingExplanation)
-      || editorialCandidates.has(material.profile.slug)))
-  let statusSkipped = humanReviewed.length + completedGuideOnlyMaterials.length
+  const newMaterials = preReviewMaterials.filter((material) => !material.existingExplanation)
   let reviewPassed = 0
-  let reviewRewrite = automaticMaterials.length
-  let reviewStatusWritten = 0
-  let selectedMaterials = automaticMaterials
+  let reviewRewrite = preReviewMaterials.length
+  let selectedMaterials = preReviewMaterials
 
   if (REVIEW_EXISTING && !STATS) {
-    const pendingReview = FULL_AUDIT
-      ? existingAutomaticMaterials
-      : existingAutomaticMaterials.filter((material) => !material.existingExplanation?.review_status)
-    statusSkipped += existingAutomaticMaterials.length - pendingReview.length
+    const pendingReview = preReviewMaterials.filter((material) => material.existingExplanation)
     const reviews = REVIEW_DECISIONS_FILE
       ? readReviewDecisions(
           REVIEW_DECISIONS_FILE,
@@ -1977,10 +1883,9 @@ async function main() {
     reviewPassed = passed.length
     reviewRewrite = selectedMaterials.length
 
-    if (APPLY) {
+    if (APPLY && PUBLISH) {
       for (const batch of chunksOf(passed, 16)) {
-        const results = await Promise.all(batch.map((material) => markExistingReviewPassed(material)))
-        reviewStatusWritten += results.filter((result) => result === 'reviewed').length
+        await Promise.all(batch.map((material) => publishExistingReading(material)))
       }
     }
   }
@@ -2028,9 +1933,6 @@ async function main() {
         profiles: statusProfiles.length,
         readings: statusRows.length,
         published: statusRows.filter((row) => row.published_at).length,
-        unreviewed: statusRows.filter((row) => row.review_status === null).length,
-        aiReviewed: statusRows.filter((row) => row.review_status === 'ai_reviewed').length,
-        humanReviewed: statusRows.filter((row) => row.review_status === 'human_reviewed').length,
       }]
     }))
     const missingBreakdown = {
@@ -2087,7 +1989,7 @@ async function main() {
     }
     const publishedMismatch = explanations.filter((row) => {
       const profile = profileById.get(row.profile_id)
-      return Boolean(row.published_at) !== (profile?.publication_status === 'active')
+      return Boolean(row.published_at) && profile?.publication_status !== 'active'
     }).length
     const missingByStatus = Object.fromEntries(['active', 'inactive'].map((status) => [
       status,
@@ -2118,11 +2020,6 @@ async function main() {
       published: explanations.filter((row) => row.published_at).length,
       unpublished: explanations.filter((row) => !row.published_at).length,
       publishedMismatch,
-      reviewStatus: {
-        unreviewed: explanations.filter((row) => row.review_status === null).length,
-        aiReviewed: explanations.filter((row) => row.review_status === 'ai_reviewed').length,
-        humanReviewed: explanations.filter((row) => row.review_status === 'human_reviewed').length,
-      },
       publicRls,
       byStatus,
       missingByStatus,
@@ -2139,7 +2036,6 @@ async function main() {
     `전체 셀럽 ${profiles.length}`,
     `기존 읽어보기 ${explanations.length}`,
     `검수 대상 ${targets.length}`,
-    REVIEW_EXISTING ? `상태 스킵 ${statusSkipped}` : null,
     REVIEW_EXISTING ? `본문 유지 ${reviewPassed}` : null,
     REVIEW_EXISTING ? `재작성 ${reviewRewrite}` : null,
     RESEARCH ? `조사 보류 ${researchFailedMaterials.length}` : null,
@@ -2243,7 +2139,7 @@ async function main() {
 
   await Promise.all(lanes.map((lane, index) => runLane(index, lane)))
 
-  console.log(`완료 | 검수 대상 ${targets.length} | 상태 스킵 ${statusSkipped} | 본문 유지 ${reviewPassed} | 검수상태 반영 ${reviewStatusWritten} | 조사 보류 ${researchFailedMaterials.length} | 재작성 처리 ${completed} | DB 본문 반영 ${written} | 이미 반영 ${alreadyApplied} | 보류 ${held} | 실패 ${failed} | ${Math.round((Date.now() - startedAt) / 1000)}s`)
+  console.log(`완료 | 검수 대상 ${targets.length} | 본문 유지 ${reviewPassed} | 조사 보류 ${researchFailedMaterials.length} | 재작성 처리 ${completed} | DB 본문 반영 ${written} | 이미 반영 ${alreadyApplied} | 보류 ${held} | 실패 ${failed} | ${Math.round((Date.now() - startedAt) / 1000)}s`)
   if (failed || researchFailedMaterials.length) process.exitCode = 1
 }
 

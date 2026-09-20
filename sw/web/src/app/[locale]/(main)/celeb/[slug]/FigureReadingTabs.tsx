@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Loader2, Pause, Play, RotateCcw, RotateCw, Square } from "lucide-react";
 import { useReadingTiming } from "@/hooks/useReadingTiming";
 import { activeReadingSegment } from "@/lib/reading-timing";
@@ -9,6 +9,9 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 import { getReadingVoiceUrl } from "@/lib/game/voice/voiceUrl";
 import { READING_PLAYBACK_RATES, useReadingNarration } from "@/hooks/useReadingNarration";
+import ReviewScrollBox from "@/components/features/user/contentLibrary/expand/ReviewScrollBox";
+import ContentTextModal from "@/components/ui/ContentTextModal";
+import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 
@@ -19,6 +22,8 @@ interface Props {
   /** 화면 언어로 고른 가상독백. 영문이 없으면 한국어가 온다 */
   virtualMonologue: string | null;
   celebId: string;
+  /** 가상독백 모달의 화자 표시 */
+  celebName: string;
   voiceV?: number;
   readingLocale: Locale;
 }
@@ -32,14 +37,43 @@ function formatTime(seconds: number) {
 export default function FigureReadingTabs(props: Props) {
   const t = useTranslations("celebPage");
   const [tab, setTab] = useState<ReadingTab>("guide");
+  const [openText, setOpenText] = useState<ReadingTab | null>(null);
   const guide = props.reading?.guide.trim() ?? "";
   const monologue = props.virtualMonologue?.trim() ?? "";
   if (!guide && !monologue) return null;
 
-  const player = <ReadingPlayer key={`${props.celebId}:${props.readingLocale}:${props.voiceV}:${props.reading?.guide}`} {...props} />;
+  const player = (
+    <ReadingPlayer
+      key={`${props.celebId}:${props.readingLocale}:${props.voiceV}:${props.reading?.guide}`}
+      {...props}
+      onOpenText={() => setOpenText("guide")}
+    />
+  );
+  // 인물 안내는 좁은 화면에서만, 가상독백은 폭과 무관하게 높이를 가두고 눌러 모달로 읽는다(감상배경 상자와 같은 모듈)
+  const monologueBox = (
+    <ReviewScrollBox onOpen={() => setOpenText("monologue")} openLabel={t("readingExpandMonologue")}>
+      <MonologueText text={monologue} />
+    </ReviewScrollBox>
+  );
+  const modals = (
+    <>
+      {openText === "guide" && guide ? (
+        <ContentTextModal isOpen onClose={() => setOpenText(null)} title={t("personGuide")} text={guide} />
+      ) : null}
+      {openText === "monologue" && monologue ? (
+        <VirtualMonologueModal name={props.celebName} text={monologue} onClose={() => setOpenText(null)} />
+      ) : null}
+    </>
+  );
+
   // 모드가 하나면 탭 없이 상자 윗변에서 글을 소폭 떼어 시작한다
   if (!guide || !monologue) {
-    return <div className="pt-4 md:pt-6">{guide ? player : <MonologueText text={monologue} />}</div>;
+    return (
+      <>
+        <div className="pt-4 md:pt-6">{guide ? player : monologueBox}</div>
+        {modals}
+      </>
+    );
   }
 
   const tabs: ArchiveTabItem<ReadingTab>[] = [
@@ -47,18 +81,21 @@ export default function FigureReadingTabs(props: Props) {
     { key: "monologue", label: t("virtualMonologue") },
   ];
   return (
-    <div>
-      <ArchiveTabsHeader
-        tabs={tabs}
-        activeKey={tab}
-        onChange={setTab}
-        columnsClassName="grid-cols-2"
-        ariaLabel={t("reading")}
-      />
-      <div id={`archive-panel-${tab}`} role="tabpanel" aria-labelledby={`archive-tab-${tab}`}>
-        {tab === "guide" ? player : <MonologueText text={monologue} />}
+    <>
+      <div>
+        <ArchiveTabsHeader
+          tabs={tabs}
+          activeKey={tab}
+          onChange={setTab}
+          columnsClassName="grid-cols-2"
+          ariaLabel={t("reading")}
+        />
+        <div id={`archive-panel-${tab}`} role="tabpanel" aria-labelledby={`archive-tab-${tab}`}>
+          {tab === "guide" ? player : monologueBox}
+        </div>
       </div>
-    </div>
+      {modals}
+    </>
   );
 }
 
@@ -74,7 +111,7 @@ function MonologueText({ text }: { text: string }) {
   );
 }
 
-function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {
+function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText }: Props & { onOpenText?: () => void }) {
   const t = useTranslations("celebPage");
   const text = reading?.guide.trim() ?? "";
   const paragraphs = useMemo(() => Array.from(text.matchAll(/[^\n]+(?:\n(?!\n)[^\n]+)*/g), (match) => ({ text: match[0], start: match.index })), [text]);
@@ -85,6 +122,21 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {
   const timing = useReadingTiming(celebId, readingLocale, voiceV, text, duration, available);
   const sentence = activeReadingSegment(timing, currentTime, status);
   const active = status === "playing" || status === "loading";
+
+  const activeMarkRef = useRef<HTMLElement | null>(null);
+  const sentenceStart = sentence?.textStart;
+  useEffect(() => {
+    if (status !== "playing" || sentenceStart === undefined) return;
+    const mark = activeMarkRef.current;
+    if (!mark) return;
+    /* 높이를 가둔 상자(좁은 화면)가 읽는 문장을 숨길 때만 상자 안에서 따라간다.
+       펼쳐 둔 넓은 화면이나 페이지 스크롤은 건드리지 않는다 */
+    let box = mark.parentElement;
+    while (box && box.scrollHeight <= box.clientHeight + 1) box = box.parentElement;
+    if (box && box !== document.body && box !== document.documentElement) {
+      mark.scrollIntoView({ block: "nearest" });
+    }
+  }, [sentenceStart, status]);
 
   return (
     <div>
@@ -135,17 +187,20 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {
           </div>
         </div>
       ) : null}
-      <div className="mx-auto max-w-3xl space-y-4 font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
-        {paragraphs.map((paragraph) => {
-          const start = sentence ? Math.max(0, sentence.textStart - paragraph.start) : 0;
-          const end = sentence ? Math.min(paragraph.text.length, sentence.textEnd - paragraph.start) : 0;
-          return <p key={paragraph.start}>{end > start ? <>
-            {paragraph.text.slice(0, start)}
-            <mark className="rounded-sm bg-accent/15 text-accent [box-decoration-break:clone]" aria-current="true">{paragraph.text.slice(start, end)}</mark>
-            {paragraph.text.slice(end)}
-          </> : paragraph.text}</p>;
-        })}
-      </div>
+      <ReviewScrollBox mobileOnly onOpen={onOpenText} openLabel={t("readingExpandGuide")}>
+        <div className="mx-auto max-w-3xl space-y-4 font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
+          {paragraphs.map((paragraph) => {
+            const start = sentence ? Math.max(0, sentence.textStart - paragraph.start) : 0;
+            const end = sentence ? Math.min(paragraph.text.length, sentence.textEnd - paragraph.start) : 0;
+            const beginsHere = !!sentence && sentence.textStart >= paragraph.start && sentence.textStart < paragraph.start + paragraph.text.length;
+            return <p key={paragraph.start}>{end > start ? <>
+              {paragraph.text.slice(0, start)}
+              <mark ref={beginsHere ? activeMarkRef : undefined} className="rounded-sm bg-accent/15 text-accent [box-decoration-break:clone]" aria-current="true">{paragraph.text.slice(start, end)}</mark>
+              {paragraph.text.slice(end)}
+            </> : paragraph.text}</p>;
+          })}
+        </div>
+      </ReviewScrollBox>
     </div>
   );
 }

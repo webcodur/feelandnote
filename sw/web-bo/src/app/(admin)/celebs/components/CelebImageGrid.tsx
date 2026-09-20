@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { Check, Copy, ImageIcon, Loader2, Star, Zap } from 'lucide-react'
 import type { Member } from '@/actions/admin/members'
@@ -16,9 +16,40 @@ import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButt
 import { useToast } from '@/contexts/ToastContext'
 import NobgBatchBar from './NobgBatchBar'
 import QuickImageBar from './QuickImageBar'
-import { useQuickImageInbox, type ImageSlot } from './useQuickImageInbox'
+import { useQuickImageInbox, type ImageSlot, type ImageTarget } from './useQuickImageInbox'
 
-type EditableImageSlot = ImageSlot | 'awakened'
+/** 숫자키와 자리의 대응. 자판 배열과 무관하게 물리 키(code)로 본다. */
+const SLOT_KEYS: Record<string, ImageSlot> = {
+  Digit1: 'avatar',
+  Digit2: 'portrait',
+  Digit3: 'awakened',
+  Numpad1: 'avatar',
+  Numpad2: 'portrait',
+  Numpad3: 'awakened',
+}
+
+/**
+ * 화면에 가장 크게 보이는 행을 고른다. 본문은 창이 아니라 레이아웃의 스크롤 칸이
+ * 굴러가므로, 그 칸의 위아래 경계와 겹치는 높이로 잰다.
+ */
+function findMostVisibleCelebId(rows: Map<string, HTMLElement>): string | null {
+  const container = document.querySelector('main')
+  const bounds = container?.getBoundingClientRect()
+  const top = bounds?.top ?? 0
+  const bottom = bounds?.bottom ?? window.innerHeight
+
+  let bestId: string | null = null
+  let bestHeight = 0
+  for (const [celebId, element] of rows) {
+    const rect = element.getBoundingClientRect()
+    const visible = Math.min(rect.bottom, bottom) - Math.max(rect.top, top)
+    if (visible > bestHeight) {
+      bestHeight = visible
+      bestId = celebId
+    }
+  }
+  return bestHeight > 0 ? bestId : null
+}
 
 export default function CelebImageGrid({
   celebs,
@@ -29,7 +60,12 @@ export default function CelebImageGrid({
 }) {
   const { showToast } = useToast()
   const [jobsByCeleb, setJobsByCeleb] = useState(imageProcessingJobs)
-  const [activeImage, setActiveImage] = useState<{ celebId: string; slot: EditableImageSlot } | null>(null)
+  // 받을 자리 = 행 + 종류. 행은 스크롤을 따라가고, 종류는 숫자키·타일 클릭이 정한다.
+  // 타일을 직접 누르면 그 행에 잠깐 묶어 두고, 목록을 굴리면 다시 화면을 따라간다.
+  const [targetSlot, setTargetSlot] = useState<ImageSlot>('avatar')
+  const [pinnedCelebId, setPinnedCelebId] = useState<string | null>(null)
+  const [visibleCelebId, setVisibleCelebId] = useState<string | null>(null)
+  const rowsRef = useRef(new Map<string, HTMLElement>())
   const [avatarUrls, setAvatarUrls] = useState<Record<string, string | null>>(() =>
     Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.avatar_url ?? null]))
   )
@@ -40,16 +76,65 @@ export default function CelebImageGrid({
     Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.awakened_image_url ?? null]))
   )
   const [quickImageOn, setQuickImageOn] = useState(true)
-  const [avatarOnly, setAvatarOnly] = useState(false)
   const [batchCelebIds, setBatchCelebIds] = useState<string[]>([])
   const [batchSubmitting, setBatchSubmitting] = useState(false)
-  const { nextTarget, incoming, clearIncoming } = useQuickImageInbox({
-    celebs,
-    avatarUrls,
-    portraitUrls,
-    avatarOnly,
+
+  const targetCelebId = pinnedCelebId ?? visibleCelebId
+  const target: ImageTarget | null = targetCelebId
+    ? { celebId: targetCelebId, slot: targetSlot }
+    : null
+  // 사진이 도착한 순간의 자리를 답한다. 화면이 그 사이 굴러갔어도 지금 보이는 행으로 간다.
+  const resolveTarget = useCallback((): ImageTarget | null => {
+    const celebId = pinnedCelebId ?? findMostVisibleCelebId(rowsRef.current)
+    return celebId ? { celebId, slot: targetSlot } : null
+  }, [pinnedCelebId, targetSlot])
+  const { incoming, clearIncoming } = useQuickImageInbox({
+    resolveTarget,
     enabled: quickImageOn,
   })
+
+  // 목록을 굴리면 받을 행이 따라 움직인다. 타일을 눌러 묶어 둔 것도 이때 풀린다.
+  useEffect(() => {
+    const container = document.querySelector('main')
+    let frame = 0
+
+    function measure() {
+      frame = 0
+      setVisibleCelebId(findMostVisibleCelebId(rowsRef.current))
+    }
+    function schedule() {
+      setPinnedCelebId(null)
+      if (frame) return
+      frame = requestAnimationFrame(measure)
+    }
+
+    measure()
+    container?.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      if (frame) cancelAnimationFrame(frame)
+      container?.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+    }
+  }, [celebs])
+
+  // 1·2·3으로 받을 자리의 종류를 고른다. 글자를 치는 중에는 듣지 않는다.
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+      if (event.repeat || event.isComposing) return
+      const slot = SLOT_KEYS[event.code]
+      if (!slot) return
+      const element = event.target as HTMLElement | null
+      if (element?.closest('input, textarea, select, [contenteditable="true"]')) return
+
+      event.preventDefault()
+      setTargetSlot(slot)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
   // 얼굴 사진이 있고 지금 처리 중이 아닌 인물만 일괄 대상이다.
   const nobgTargets = celebs.filter((celeb) => {
     if (!avatarUrls[celeb.id]) return false
@@ -157,12 +242,10 @@ export default function CelebImageGrid({
     <>
       <QuickImageBar
         on={quickImageOn}
-        avatarOnly={avatarOnly}
         editing={incoming !== null}
-        nextName={nextTarget?.celeb.nickname?.trim() || null}
-        nextSlot={nextTarget?.slot ?? null}
+        targetName={celebs.find((celeb) => celeb.id === target?.celebId)?.nickname?.trim() || null}
+        targetSlot={target ? target.slot : null}
         onToggle={() => setQuickImageOn((current) => !current)}
-        onToggleAvatarOnly={() => setAvatarOnly((current) => !current)}
       />
       <NobgBatchBar
         targetCount={nobgTargets.length}
@@ -182,10 +265,15 @@ export default function CelebImageGrid({
           awakenedImageUrl={awakenedImageUrls[celeb.id] ?? null}
           imageJob={jobsByCeleb[celeb.id] ?? null}
           quietJobNotice={batchSet.has(celeb.id)}
-          activeImageSlot={activeImage?.celebId === celeb.id ? activeImage.slot : null}
+          targeted={target?.celebId === celeb.id}
+          targetSlot={target?.celebId === celeb.id ? target.slot : null}
           incomingSlot={incoming?.celebId === celeb.id ? incoming.slot : null}
           incomingFile={incoming?.celebId === celeb.id ? incoming.file : null}
           onIncomingDone={clearIncoming}
+          registerRow={(element) => {
+            if (element) rowsRef.current.set(celeb.id, element)
+            else rowsRef.current.delete(celeb.id)
+          }}
           onAvatarUrlChange={(url) => setAvatarUrls((current) => ({
             ...current,
             [celeb.id]: url,
@@ -202,7 +290,10 @@ export default function CelebImageGrid({
             ...current,
             [celeb.id]: job,
           }))}
-          onActivateImage={(slot) => setActiveImage({ celebId: celeb.id, slot })}
+          onSelectSlot={(slot) => {
+            setTargetSlot(slot)
+            setPinnedCelebId(celeb.id)
+          }}
         />
       ))}
       </div>
@@ -217,15 +308,17 @@ function CelebImageCard({
   awakenedImageUrl,
   imageJob,
   quietJobNotice,
-  activeImageSlot,
+  targeted,
+  targetSlot,
   incomingSlot,
   incomingFile,
   onIncomingDone,
+  registerRow,
   onAvatarUrlChange,
   onPortraitUrlChange,
   onAwakenedImageUrlChange,
   onImageJobChange,
-  onActivateImage,
+  onSelectSlot,
 }: {
   celeb: Member
   avatarUrl: string | null
@@ -233,15 +326,18 @@ function CelebImageCard({
   awakenedImageUrl: string | null
   imageJob: ImageProcessingJob | null
   quietJobNotice: boolean
-  activeImageSlot: EditableImageSlot | null
+  /** 지금 사진을 받을 행이다. */
+  targeted: boolean
+  targetSlot: ImageSlot | null
   incomingSlot: ImageSlot | null
   incomingFile: File | null
   onIncomingDone: () => void
+  registerRow: (element: HTMLElement | null) => void
   onAvatarUrlChange: (url: string | null) => void
   onPortraitUrlChange: (url: string | null) => void
   onAwakenedImageUrlChange: (url: string | null) => void
   onImageJobChange: (job: ImageProcessingJob) => void
-  onActivateImage: (slot: EditableImageSlot) => void
+  onSelectSlot: (slot: ImageSlot) => void
 }) {
   const { showToast } = useToast()
   const [copied, setCopied] = useState(false)
@@ -261,7 +357,17 @@ function CelebImageCard({
   }
 
   return (
-    <article className="min-w-0 overflow-x-auto bg-bg-card p-4 md:p-5">
+    <article
+      ref={registerRow}
+      className={`relative min-w-0 overflow-x-auto p-4 md:p-5 ${
+        targeted ? 'bg-accent/[0.06] ring-2 ring-inset ring-accent/60' : 'bg-bg-card'
+      }`}
+    >
+      {targeted && (
+        <span className="pointer-events-none absolute right-3 top-3 rounded-md bg-accent px-2 py-0.5 text-[11px] font-bold text-white">
+          받을 자리
+        </span>
+      )}
       <div className="mb-4 flex min-w-[520px] items-start gap-3 border-b border-border pb-3">
         <div className="flex min-w-0 shrink-0 items-center gap-1">
           {celeb.slug ? (
@@ -304,12 +410,13 @@ function CelebImageCard({
             avatarUrl={avatarUrl}
             name={celeb.nickname}
             onSaved={onAvatarUrlChange}
+            onBackgroundRemovalQueued={onImageJobChange}
             refreshAfterSave={false}
             openOnClick
-            pasteActive={activeImageSlot === 'avatar'}
+            pasteActive={targetSlot === 'avatar'}
             incomingFile={incomingSlot === 'avatar' ? incomingFile : null}
             onIncomingDone={onIncomingDone}
-            onActivate={() => onActivateImage('avatar')}
+            onActivate={() => onSelectSlot('avatar')}
             className="h-[280px] w-[280px] shrink-0 rounded-xl"
             previewClassName="h-[280px] w-[280px] rounded-xl border border-border hover:border-accent"
             empty={<Star className="h-10 w-10 text-text-tertiary" />}
@@ -336,10 +443,10 @@ function CelebImageCard({
             onSaved={onPortraitUrlChange}
             refreshAfterSave={false}
             openOnClick
-            pasteActive={activeImageSlot === 'portrait'}
+            pasteActive={targetSlot === 'portrait'}
             incomingFile={incomingSlot === 'portrait' ? incomingFile : null}
             onIncomingDone={onIncomingDone}
-            onActivate={() => onActivateImage('portrait')}
+            onActivate={() => onSelectSlot('portrait')}
             className="group/portrait relative h-[280px] w-[224px] shrink-0 overflow-hidden rounded-xl border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30"
             empty={<ImageIcon className="h-10 w-10 text-text-tertiary" />}
           />
@@ -354,8 +461,10 @@ function CelebImageCard({
             onSaved={onAwakenedImageUrlChange}
             refreshAfterSave={false}
             openOnClick
-            pasteActive={activeImageSlot === 'awakened'}
-            onActivate={() => onActivateImage('awakened')}
+            pasteActive={targetSlot === 'awakened'}
+            incomingFile={incomingSlot === 'awakened' ? incomingFile : null}
+            onIncomingDone={onIncomingDone}
+            onActivate={() => onSelectSlot('awakened')}
             className="group/portrait relative h-[280px] w-[280px] shrink-0 overflow-hidden rounded-xl border border-amber-500/30 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
             empty={<Zap className="h-10 w-10 text-amber-400/55" />}
           />

@@ -20,11 +20,14 @@ import {
 import { requireAdmin } from '@/lib/admin-auth'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '@/lib/celeb-slug'
 import {
+  CELEB_LIST_BLOCK_SIZE,
   getCelebCreatedAtBounds,
   hasCelebColumnFilters,
   hasCelebContentRange,
   hasCelebNumericRanges,
   matchesCelebNumericRanges,
+  type CelebBlockBounds,
+  type CelebBlockEdge,
   type CelebColumnFilters,
 } from '@/lib/celeb-list-filters'
 
@@ -76,6 +79,8 @@ interface GetCelebsParams extends CelebColumnFilters {
   factionId?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
+  /** block 번호를 DB 경계로 푼 값. getCelebsByDirectQuery가 채운다. */
+  blockBounds?: CelebBlockBounds
 }
 
 interface CreateCelebInput {
@@ -229,9 +234,11 @@ async function getCelebContentCounts(db: ReturnType<typeof createAdminClient>, c
   return counts
 }
 
+/** 빈 값은 방향과 무관하게 맨 뒤다. 수식어 없는 인물 수천 명이 오름차순 맨 앞을 차지하면 정렬이 안 된 것처럼 보인다. */
 function compareText(a: string | null | undefined, b: string | null | undefined, ascending: boolean) {
   const left = a ?? ''
   const right = b ?? ''
+  if (!left || !right) return Number(!left) - Number(!right)
   const result = left.localeCompare(right, 'ko', { numeric: true, sensitivity: 'base' })
   return ascending ? result : -result
 }
@@ -366,6 +373,13 @@ function buildCelebListQuery(
     if (params[key] === 'present') query = query.not(column, 'is', null).neq(column, '')
   }
 
+  // 등록순 구간은 (created_at, id) 튜플 비교다. PostgREST에 튜플 연산자가 없어 or·and로 푼다.
+  if (params.blockBounds) {
+    const { start, end } = params.blockBounds
+    conditions.push(`or(created_at.gt."${start.created_at}",and(created_at.eq."${start.created_at}",id.gte.${start.id}))`)
+    if (end) conditions.push(`or(created_at.lt."${end.created_at}",and(created_at.eq."${end.created_at}",id.lt.${end.id}))`)
+  }
+
   // A single AND group keeps search and each image column independent.
   if (conditions.length > 0) query = query.or(`and(${conditions.join(',')})`)
 
@@ -401,11 +415,51 @@ const CELEB_SORT_COLUMNS: Record<string, string> = {
   awakened_image_url: 'awakened_image_url',
 }
 
+/** 등록순 구간의 인원 기준 모집단은 관리 대상 상태 전체다. 검색·필터와 무관하게 번호가 고정된다. */
+function managedCelebsInRegistrationOrder(db: ReturnType<typeof createAdminClient>) {
+  return db
+    .from('celebs')
+    .select('created_at, id')
+    .in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
+    .order('created_at', { ascending: true })
+    .order('id', { ascending: true })
+}
+
+async function getCelebAtRegistrationIndex(db: ReturnType<typeof createAdminClient>, index: number): Promise<CelebBlockEdge | null> {
+  const { data, error } = await managedCelebsInRegistrationOrder(db).range(index, index).maybeSingle()
+  if (error) throw error
+  return data
+}
+
+/** 구간 밖(등록 인원보다 큰 번호)이면 null이다. */
+async function resolveCelebBlockBounds(db: ReturnType<typeof createAdminClient>, block: number): Promise<CelebBlockBounds | null> {
+  const first = (block - 1) * CELEB_LIST_BLOCK_SIZE
+  const [start, end] = await Promise.all([
+    getCelebAtRegistrationIndex(db, first),
+    getCelebAtRegistrationIndex(db, first + CELEB_LIST_BLOCK_SIZE),
+  ])
+  if (!start) return null
+  return { start, end: end ?? undefined }
+}
+
+/** 등록순 구간 선택지를 만들 때 쓰는 관리 대상 인원이다. */
+export async function countManagedCelebs(): Promise<number> {
+  const db = createAdminClient()
+  const { count, error } = await db
+    .from('celebs')
+    .select('id', { count: 'exact', head: true })
+    .in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
+  if (error) throw error
+  return count ?? 0
+}
+
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, factionId, sort = 'created_at', sortOrder = 'desc' } = params
   const db = createAdminClient()
   const offset = (page - 1) * limit
-  const filters = params
+  const blockBounds = params.block ? await resolveCelebBlockBounds(db, params.block) : undefined
+  if (blockBounds === null) return { celebs: [], total: 0 }
+  const filters: GetCelebsParams = { ...params, blockBounds }
   const selectFields = `
     id, slug, nickname, avatar_url, portrait_url, awakened_image_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey:consumption_philosophy,
@@ -466,10 +520,9 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   if (!factionRows && sortColumn && !hasCelebNumericRanges(filters)) {
     const ascending = sortOrder === 'asc'
-    // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
-    // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
+    // 값이 빈 행은 방향과 무관하게 맨 뒤다(JS 정렬 compareText와 같은 규칙).
     let query = buildCelebListQuery(db, filters, selectFields, undefined, tagCelebIds)
-      .order(sortColumn, { ascending, nullsFirst: ascending })
+      .order(sortColumn, { ascending, nullsFirst: false })
     if (sortColumn !== 'created_at') query = query.order('created_at', { ascending: false })
     query = query.order('nickname', { ascending: true, nullsFirst: true }).order('id')
 

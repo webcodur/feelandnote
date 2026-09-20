@@ -263,7 +263,6 @@ export function CelebAtlasBottomBar({
         >
           <span className={styles.atlasBarChapter}>{current.chapter}</span>
           <span className={styles.atlasBarLabel}>{current.label}</span>
-          <Compass size={15} strokeWidth={1.8} aria-hidden />
         </button>
 
         <button

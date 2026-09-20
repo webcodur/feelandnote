@@ -59,6 +59,9 @@ export const BASE_MESSAGE_PATHS = [
   "celebPage.playGreetingVoice",
   "celebPage.dialogue_greeting",
   "celebPage.enlargePhoto",
+  // 공용 인물 행(FigurePersonRows)이 어느 화면에서든 우측 바로가기·외부 안내를 단다
+  "celebPage.relGoPersonPage",
+  "celebPage.relViewWikidata",
   "celebPage.playQuoteVoice",
   "celebPage.showDetail",
   "celebPage.hideDetail",
@@ -72,9 +75,11 @@ export const CELEB_MESSAGE_PATHS = [
   "moderation",
   "home.ui",
   "profilePage.influence",
-  // 세력도감(FactionShowcase)과 게임 갈무리 화면이 통째로 기댄다. 빠지면 화면에
-  // LANDING.FACTIONROSTER 같은 키 이름이 그대로 뜬다.
+  // 게임 갈무리 화면(GameScreenshots)이 통째로 기댄다. 빠지면 화면에
+  // 키 이름이 그대로 뜬다.
   "landing",
+  // 세력도감 구획에서 뜨는 도감 인물 소개 모달(FactionMemberModal)이 기댄다
+  "explore.faction.member",
 ] as const;
 
 /** 작품 상세가 공통 뼈대에 더해 필요로 하는 문구 */

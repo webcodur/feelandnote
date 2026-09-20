@@ -1,4 +1,4 @@
-import { Images, Rows3 } from 'lucide-react'
+import { Images, LayoutGrid, Rows3 } from 'lucide-react'
 import Link from 'next/link'
 
 export function buildCelebViewHref(
@@ -33,15 +33,19 @@ function ViewLink({ href, active, children }: {
   )
 }
 
-export default function CelebViewNavigation({ tableHref, imagesHref, activeView }: {
+export default function CelebViewNavigation({ tableHref, cardsHref, imagesHref, activeView }: {
   tableHref: string
+  cardsHref: string
   imagesHref: string
-  activeView: 'table' | 'images'
+  activeView: 'table' | 'cards' | 'images'
 }) {
   return (
     <>
       <ViewLink href={tableHref} active={activeView === 'table'}>
         <Rows3 className="h-4 w-4" />표
+      </ViewLink>
+      <ViewLink href={cardsHref} active={activeView === 'cards'}>
+        <LayoutGrid className="h-4 w-4" />카드
       </ViewLink>
       <ViewLink href={imagesHref} active={activeView === 'images'}>
         <Images className="h-4 w-4" />이미지

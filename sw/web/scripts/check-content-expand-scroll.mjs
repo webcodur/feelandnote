@@ -7,8 +7,6 @@ const normalizedBaseUrl = baseUrl.replace(/\/+$/, "");
 const locale = process.env.DETAIL_SCROLL_CHECK_LOCALE ?? "ko";
 const timeout = Number(process.env.DETAIL_SCROLL_CHECK_TIMEOUT ?? 30_000);
 const entryStableDuration = Number(process.env.DETAIL_SCROLL_CHECK_ENTRY_DURATION ?? 2_500);
-const expectedMobileEntryItems = Number(process.env.DETAIL_SCROLL_CHECK_ENTRY_ITEMS ?? 4);
-const minimumExpandedIndexItems = Number(process.env.DETAIL_SCROLL_CHECK_MIN_FULL_ITEMS ?? 35);
 const maximumInitialActionRequests = Number(
   process.env.DETAIL_SCROLL_CHECK_MAX_INITIAL_ACTIONS ?? 24,
 );
@@ -40,15 +38,14 @@ try {
 
   const selectionPage = await openPage(browser, routes.selection, {
     traceEntry: false,
-    traceSeed: true,
   });
-  const seedToFull = await checkSeedToFullTransition(selectionPage);
+  const index = await checkExpandIndexContents(selectionPage);
   const selection = await checkDirectSelection(selectionPage);
-  const navigation = await checkCollapsedGroupNavigation(selectionPage);
+  const navigation = await checkArrowNavigationReveal(selectionPage);
   await selectionPage.close();
 
   const reviewMobilePage = await openPage(browser, routes.review, { viewport: viewports.mobile });
-  const reviewMobileEntry = await checkStableListEntry(reviewMobilePage, "mobile");
+  const reviewMobileEntry = await checkStableExpandedEntryMobile(reviewMobilePage, "mobile");
   await reviewMobilePage.close();
 
   console.log(JSON.stringify({
@@ -58,8 +55,8 @@ try {
       mobile: reviewMobileEntry,
     },
     review,
+    index,
     selection,
-    seedToFull,
     navigation,
   }, null, 2));
 } finally {
@@ -69,21 +66,71 @@ try {
 async function openPage(
   browserInstance,
   slug,
-  { traceEntry = true, traceSeed = false, viewport = viewports.desktop } = {},
+  { traceEntry = true, viewport = viewports.desktop } = {},
 ) {
   const page = await browserInstance.newPage();
   await page.setViewport(viewport);
   installRequestTrace(page);
   if (traceEntry) await installEntryTrace(page);
-  if (traceSeed) await installSeedTrace(page);
   await page.goto(`${normalizedBaseUrl}/${locale}/celeb/${slug}`, {
     waitUntil: "networkidle2",
     timeout,
   });
   await page.waitForSelector("#library", { timeout });
-  await page.waitForSelector('#library [data-testid="archive-view-toggle"]', { timeout });
+  // 인물 서가는 펼침으로 고정이라 보기 전환 버튼이 없다 — 펼침 머리 제목이 뜨면 준비된 것이다
+  await page.waitForSelector('#library [data-testid="expand-selected-title"]', { timeout });
   await settleLayout(page);
   return page;
+}
+
+/* 색인은 상단 「리뷰 목록」 토글이 여는 공용 모달이다 — 본문 안에 상주하지 않는다.
+   고르는 순간 모달이 닫히므로 재는 동안에만 열어 둔다. */
+async function openExpandIndexModal(page) {
+  const clicked = await page.evaluate(() => {
+    const toggle = [...document.querySelectorAll('[data-testid="archive-index-toggle"]')]
+      .find((element) => element.getClientRects().length > 0);
+    if (!(toggle instanceof HTMLElement)) return false;
+    if (toggle.getAttribute("aria-expanded") !== "true") toggle.click();
+    return true;
+  });
+  assert(clicked, "Missing archive index toggle");
+  await page.waitForSelector('[role="dialog"] nav button[aria-label]', { timeout });
+  await settleLayout(page);
+  // 열리면 선택 항목을 가운데로 맞춘다 — 그 배치가 끝나고 재야 수치가 흔들리지 않는다
+  await new Promise((resolve) => setTimeout(resolve, 200));
+}
+
+async function closeExpandIndexModal(page) {
+  await page.keyboard.press("Escape");
+  await page.waitForFunction(
+    () => !document.querySelector('[role="dialog"] nav'),
+    { timeout },
+  );
+}
+
+function readExpandIndexNav(page) {
+  return page.evaluate(() => {
+    const nav = document.querySelector('[role="dialog"] nav');
+    if (!(nav instanceof HTMLElement)) return null;
+    const items = [...nav.querySelectorAll("button[aria-label]")];
+    const selected = nav.querySelector('button[aria-current="true"]');
+    const navRect = nav.getBoundingClientRect();
+    const selectedRect = selected?.getBoundingClientRect();
+    return {
+      itemCount: items.length,
+      identities: items.map((button) => button.getAttribute("data-original-index") ?? ""),
+      selectedLabel: selected?.getAttribute("aria-label") ?? null,
+      selectedVisible: Boolean(
+        selectedRect
+        && selectedRect.top >= navRect.top
+        && selectedRect.bottom <= navRect.bottom,
+      ),
+      navScrollTop: nav.scrollTop,
+      navScrollRange: Math.max(0, nav.scrollHeight - nav.clientHeight),
+      navWidth: Math.round(navRect.width),
+      windowY: window.scrollY,
+    };
+  });
 }
 
 function installRequestTrace(page) {
@@ -343,7 +390,7 @@ async function installEntryTrace(page) {
 async function checkStableExpandedEntry(page) {
   try {
     await page.waitForFunction(
-      ({ duration, minimumItems }) => {
+      ({ duration }) => {
         const trace = window.__libraryEntryTrace;
         const current = trace?.lastRecord;
         const stableSince = Math.max(
@@ -353,7 +400,6 @@ async function checkStableExpandedEntry(page) {
         return Boolean(
           trace?.firstExpandAt !== null
           && current?.mode === "expand"
-          && current.indexItemCount >= minimumItems
           && current.articleCount === 1
           && !current.hasSkeleton
           && stableSince > 0
@@ -361,7 +407,7 @@ async function checkStableExpandedEntry(page) {
         );
       },
       { timeout },
-      { duration: entryStableDuration, minimumItems: minimumExpandedIndexItems },
+      { duration: entryStableDuration },
     );
   } catch (error) {
     const trace = await page.evaluate(() => window.__libraryEntryTrace);
@@ -404,7 +450,7 @@ async function checkStableExpandedEntry(page) {
       .find(isRendered);
     const expandedSection = expandedTitle?.closest("section");
     const article = expandedSection?.querySelector("article");
-    const cover = article?.querySelector("img");
+    const cover = article?.querySelector('[data-testid="expand-cover"]');
     const articleRect = article?.getBoundingClientRect();
     const coverRect = cover?.getBoundingClientRect();
     const sectionRect = expandedSection?.getBoundingClientRect();
@@ -483,11 +529,9 @@ async function checkStableExpandedEntry(page) {
   assert.equal(result.pagination?.wrapperHeight, 0, `Desktop hidden pagination occupied layout height: ${JSON.stringify(result)}`);
   assert.equal(result.pagination?.dividerVisibleCount, 0, `Desktop hidden pagination left its divider visible: ${JSON.stringify(result)}`);
   assert.equal(result.pagination?.footprintHeight, 0, `Desktop hidden pagination occupied a layout footprint: ${JSON.stringify(result)}`);
-  assert(result.indexItemCount >= minimumExpandedIndexItems, `Desktop expanded index did not load the content list: ${JSON.stringify(result)}`);
   assert(result.sectionWidth >= 900, `Desktop expanded presentation is not full-width: ${JSON.stringify(result)}`);
   assert(result.detailWidth >= 600, `Desktop selected detail card is too narrow: ${JSON.stringify(result)}`);
   assert(result.coverWidth >= 180 && result.coverHeight >= 270, `Desktop selected cover is not the large presentation: ${JSON.stringify(result)}`);
-  assert(result.indexWidth >= 170, `Desktop expanded title rail is not open: ${JSON.stringify(result)}`);
   assert(result.windowDelta <= tolerance, `Desktop fresh entry moved the document without input: ${JSON.stringify(result)}`);
   assert(result.navDelta <= tolerance, `Desktop fresh entry moved the expanded index without input: ${JSON.stringify(result)}`);
   assert.equal(result.urls.length, 1, `Desktop fresh entry changed URL/hash without input: ${JSON.stringify(result)}`);
@@ -529,37 +573,39 @@ function summarizeEntryRequests(page) {
   };
 }
 
-async function checkStableListEntry(page, profile = "mobile") {
+/* 모바일도 펼침으로 곧장 들어간다 — 첫 그림이 펼침 한 장으로 안정되는지 본다 */
+async function checkStableExpandedEntryMobile(page, profile = "mobile") {
   try {
     await page.waitForFunction(
-      ({ duration, itemCount }) => {
+      ({ duration }) => {
         const trace = window.__libraryEntryTrace;
         const current = trace?.lastRecord;
         const stableSince = Math.max(
-          trace?.firstExpectedListAt ?? 0,
+          trace?.firstExpandAt ?? 0,
           trace?.lastStateChangeAt ?? 0,
         );
         return Boolean(
-          trace?.firstExpectedListAt !== null
-          && current?.mode === "list"
-          && current.listItemCount === itemCount
+          trace?.firstExpandAt !== null
+          && current?.mode === "expand"
+          && current.articleCount === 1
+          && !current.hasSkeleton
           && stableSince > 0
           && performance.now() - stableSince >= duration,
         );
       },
       { timeout },
-      { duration: entryStableDuration, itemCount: expectedMobileEntryItems },
+      { duration: entryStableDuration },
     );
   } catch (error) {
     const trace = await page.evaluate(() => window.__libraryEntryTrace);
-    throw new Error(`Fresh ${profile} entry did not keep a ${expectedMobileEntryItems}-item list stable for ${entryStableDuration}ms: ${JSON.stringify(trace)}`, { cause: error });
+    throw new Error(`Fresh ${profile} entry did not settle into the expanded library: ${JSON.stringify(trace)}`, { cause: error });
   }
 
   const baselineAt = await page.evaluate(() => {
     const trace = window.__libraryEntryTrace;
-    return trace?.firstExpectedListAt ?? 0;
+    return trace?.firstExpandAt ?? 0;
   });
-  const result = await page.evaluate(({ baselineAt: startedAt, itemCount }) => {
+  const result = await page.evaluate(({ baselineAt: startedAt }) => {
     const trace = window.__libraryEntryTrace;
     if (!trace) throw new Error("Missing fresh-entry trace");
     const paintEntries = performance.getEntriesByType("paint");
@@ -584,69 +630,59 @@ async function checkStableListEntry(page, profile = "mobile") {
       firstLibraryAt: trace.firstLibraryAt,
       firstLibraryRecord: trace.firstLibraryRecord,
       currentMode: current?.mode ?? "pending",
-      currentItemCount: current?.listItemCount ?? 0,
-      hiddenExpandCount: current?.hiddenExpandCount ?? 0,
-      visibleExpandRecords: paintedRecords
-        .filter((record) => record.mode === "expand" || record.mode === "conflict")
+      articleCount: current?.articleCount ?? 0,
+      visibleListRecords: paintedRecords
+        .filter((record) => record.mode === "list" || record.mode === "conflict")
         .slice(0, 12),
-      pagination: current
-        ? {
-            candidateCount: current.paginationCandidateCount,
-            visibleCount: current.visiblePaginationCount,
-            wrapperHeight: current.paginationWrapperHeight,
-            dividerVisibleCount: current.paginationDividerVisibleCount,
-            footprintHeight: current.paginationFootprintHeight,
-          }
-        : null,
       minHeight: Math.min(...heights),
       maxHeight: Math.max(...heights),
       heightDelta: Math.max(...heights) - Math.min(...heights),
       windowDelta: Math.max(...windowPositions) - Math.min(...windowPositions),
       unexpectedStates: records
-        .filter((record) => record.mode !== "list" || record.listItemCount !== itemCount)
+        .filter((record) => record.mode !== "expand")
         .slice(0, 12),
       samples: records.slice(0, 12),
     };
-  }, { baselineAt, itemCount: expectedMobileEntryItems });
+  }, { baselineAt });
 
   assert(result.firstPaintAt !== null, `Fresh ${profile} entry did not expose browser paint timing: ${JSON.stringify(result)}`);
-  assert.equal(result.firstPaintedMode, "list", `Fresh ${profile} first painted library mode was not the list: ${JSON.stringify(result)}`);
-  assert.equal(result.currentMode, "list", `Fresh ${profile} entry switched view mode without input: ${JSON.stringify(result)}`);
-  assert.equal(result.currentItemCount, expectedMobileEntryItems, `Fresh ${profile} entry did not retain ${expectedMobileEntryItems} list items: ${JSON.stringify(result)}`);
-  assert.deepEqual(result.visibleExpandRecords, [], `Fresh ${profile} entry visibly rendered expand mode: ${JSON.stringify(result)}`);
-  assert.deepEqual(result.unexpectedStates, [], `Fresh ${profile} entry changed mode or item count after its baseline: ${JSON.stringify(result)}`);
-  assert.equal(result.pagination?.candidateCount, 1, `Fresh ${profile} entry did not retain one pagination block: ${JSON.stringify(result)}`);
-  assert.equal(result.pagination?.visibleCount, 1, `Fresh ${profile} list pagination was not visible: ${JSON.stringify(result)}`);
-  assert.equal(result.pagination?.dividerVisibleCount, 1, `Fresh ${profile} list pagination divider was not visible: ${JSON.stringify(result)}`);
-  assert((result.pagination?.wrapperHeight ?? 0) >= 60, `Fresh ${profile} pagination wrapper lost its full height: ${JSON.stringify(result)}`);
-  assert(
-    (result.pagination?.footprintHeight ?? 0) >= (result.pagination?.wrapperHeight ?? 0) + 48,
-    `Fresh ${profile} pagination divider/margins are missing from its layout footprint: ${JSON.stringify(result)}`,
-  );
+  assert.equal(result.firstPaintedMode, "expand", `Fresh ${profile} first painted library mode was not expanded: ${JSON.stringify(result)}`);
+  assert.equal(result.currentMode, "expand", `Fresh ${profile} entry switched view mode without input: ${JSON.stringify(result)}`);
+  assert.equal(result.articleCount, 1, `Fresh ${profile} entry must render exactly one detail card: ${JSON.stringify(result)}`);
+  assert.deepEqual(result.visibleListRecords, [], `Fresh ${profile} entry visibly rendered the list grid: ${JSON.stringify(result)}`);
+  assert.deepEqual(result.unexpectedStates, [], `Fresh ${profile} entry changed mode after its baseline: ${JSON.stringify(result)}`);
   assert(result.windowDelta <= tolerance, `Fresh ${profile} entry moved the document without input: ${JSON.stringify(result)}`);
   assert(result.heightDelta <= 160, `Fresh ${profile} entry caused a large library height flip: ${JSON.stringify(result)}`);
   return result;
 }
 
-async function checkReviewScroll(page) {
-  const sections = await page.evaluate(() => {
-    const assertElement = (value, label) => {
-      if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
-    };
-    const library = document.querySelector("#library");
-    assertElement(library, "#library");
+// 카드 본문은 작품 소개와 감상 배경을 탭으로 가른다. 재려는 칸의 탭을 먼저 누른다
+async function selectExpandMode(page, mode) {
+  const found = await page.evaluate((target) => {
+    const tab = document.querySelector(`[data-testid="expand-mode-${target}"]`);
+    if (!(tab instanceof HTMLElement)) return false;
+    if (tab.getAttribute("aria-selected") !== "true") tab.click();
+    return true;
+  }, mode);
+  assert(found, `Missing expand mode tab "${mode}"`);
+  await settleLayout(page);
+}
 
-    const headings = [...library.querySelectorAll("h4")];
-    const findSection = (patterns, label) => {
-      const heading = headings.find((item) =>
-        patterns.some((pattern) => pattern.test(item.textContent?.trim() ?? "")),
+function readSectionScrollables(page, patterns, label) {
+  return page.evaluate(
+    (sources, sectionLabel) => {
+      const assertElement = (value, name) => {
+        if (!(value instanceof Element)) throw new Error(`Missing ${name}`);
+      };
+      const library = document.querySelector("#library");
+      assertElement(library, "#library");
+      const regexes = sources.map((source) => new RegExp(source, "i"));
+      const heading = [...library.querySelectorAll("h4")].find((item) =>
+        regexes.some((pattern) => pattern.test(item.textContent?.trim() ?? "")),
       );
-      assertElement(heading, label);
-      return heading.closest("section") ?? heading.parentElement;
-    };
-
-    const readSection = (section, label) => {
-      assertElement(section, label);
+      assertElement(heading, `${sectionLabel} section`);
+      const section = heading.closest("section") ?? heading.parentElement;
+      assertElement(section, `${sectionLabel} section`);
       const scrollables = [section, ...section.querySelectorAll("*")]
         .filter((element) => {
           const style = getComputedStyle(element);
@@ -661,24 +697,24 @@ async function checkReviewScroll(page) {
           clientHeight: element.clientHeight,
         }))
         .filter((element) => element.range > 0);
+      return { label: sectionLabel, scrollables };
+    },
+    patterns,
+    label,
+  );
+}
 
-      return { label, scrollables };
-    };
-
-    return {
-      intro: readSection(
-        findSection(
-          [/작품\s*소개/, /책\s*소개/, /영상\s*소개/, /게임\s*소개/, /음악\s*소개/, /(?:content|book|video|game|music)\s*intro/i],
-          "content introduction section",
-        ),
-        "content introduction",
-      ),
-      review: readSection(
-        findSection([/감상\s*배경/, /review/i], "review section"),
-        "review",
-      ),
-    };
-  });
+async function checkReviewScroll(page) {
+  // 두 칸은 탭 뒤에 나뉘어 있어 한 번에 하나만 문서에 있다 — 재는 순서대로 탭을 넘긴다
+  await selectExpandMode(page, "intro");
+  const intro = await readSectionScrollables(
+    page,
+    ["작품\\s*소개", "책\\s*소개", "영상\\s*소개", "게임\\s*소개", "음악\\s*소개", "(?:content|book|video|game|music)\\s*intro"],
+    "content introduction",
+  );
+  await selectExpandMode(page, "review");
+  const review = await readSectionScrollables(page, ["감상\\s*배경", "review"], "review");
+  const sections = { intro, review };
 
   assert.equal(
     sections.intro.scrollables.length,
@@ -832,263 +868,68 @@ async function wheelOverReview(page) {
   };
 }
 
-async function installSeedTrace(page) {
-  await page.evaluateOnNewDocument(() => {
-    const trace = {
-      baseline: null,
-      firstSelected: null,
-      maxCount: 0,
-      lastCountChangeAt: 0,
-      records: [],
-      lastRecord: null,
-      scrolledForCheck: false,
-    };
-    window.__expandSeedTrace = trace;
-
-    const stableIdentity = (button) => {
-      if (!(button instanceof Element)) return null;
-      const explicitId = ["id", "data-item-id", "data-content-id", "data-testid"]
-        .map((name) => button.getAttribute(name))
-        .find(Boolean);
-      if (explicitId) return `id=${explicitId}`;
-      const title = button.getAttribute("title") ?? button.querySelector("span:last-child")?.textContent?.trim();
-      if (title) return `title=${title}`;
-      const ariaLabel = button.getAttribute("aria-label");
-      if (ariaLabel) return `aria=${ariaLabel}`;
-      return null;
-    };
-
-    const scan = () => {
-      const library = document.querySelector("#library");
-      const nav = library?.querySelector("nav button[aria-label]")?.closest("nav");
-      if (!(library instanceof Element) || !(nav instanceof HTMLElement)) return;
-      const buttons = [...nav.querySelectorAll("button[aria-label]")];
-      const selected = nav.querySelector('button[aria-current="true"]');
-      const selectedIdentity = stableIdentity(selected);
-      const identities = buttons.map(stableIdentity).filter(Boolean);
-
-      if (!trace.scrolledForCheck && buttons.length > 0) {
-        const rect = library.getBoundingClientRect();
-        window.scrollTo({
-          top: Math.max(0, window.scrollY + rect.top + 350),
-          behavior: "instant",
-        });
-        trace.scrolledForCheck = true;
-        trace.baseline = {
-          windowY: window.scrollY,
-          navScrollTop: nav.scrollTop,
-          libraryTop: library.getBoundingClientRect().top,
-          initialCount: buttons.length,
-          initialIdentities: identities,
-        };
-        trace.firstSelected = selectedIdentity;
-      }
-
-      if (!trace.scrolledForCheck) return;
-      const now = performance.now();
-      const record = {
-        at: Math.round(now),
-        count: buttons.length,
-        identities,
-        navScrollTop: nav.scrollTop,
-        windowY: window.scrollY,
-        selectedIdentity,
-      };
-      trace.maxCount = Math.max(trace.maxCount, record.count);
-      if (record.count !== trace.lastRecord?.count) trace.lastCountChangeAt = now;
-      const changed =
-        !trace.lastRecord ||
-        record.count !== trace.lastRecord.count ||
-        record.navScrollTop !== trace.lastRecord.navScrollTop ||
-        record.windowY !== trace.lastRecord.windowY ||
-        record.selectedIdentity !== trace.lastRecord.selectedIdentity;
-      if (changed || trace.records.length < 5) trace.records.push(record);
-      trace.lastRecord = record;
-    };
-
-    const observer = new MutationObserver(scan);
-    const start = () => {
-      if (!document.documentElement) {
-        window.setTimeout(start, 0);
-        return;
-      }
-      observer.observe(document.documentElement, {
-        subtree: true,
-        childList: true,
-        attributes: true,
-        attributeFilter: ["aria-current", "aria-expanded", "class"],
-      });
-      window.addEventListener("DOMContentLoaded", scan, { once: false, passive: true });
-      const intervalId = window.setInterval(scan, 50);
-      window.__expandSeedTraceStop = () => {
-        observer.disconnect();
-        window.clearInterval(intervalId);
-      };
-      scan();
-    };
-    start();
+/* 색인은 모달로 열리고 지금 고른 분류의 목록만 담는다 — 모달이 약속한 수만큼
+   빠짐없이 실렸는지, 선택 항목이 표시·노출됐는지 본다. */
+async function checkExpandIndexContents(page) {
+  await openExpandIndexModal(page);
+  const result = await readExpandIndexNav(page);
+  assert(result, "Expand index modal did not render its nav");
+  const promised = await page.evaluate(() => {
+    const checked = document.querySelector('[role="dialog"] [role="radiogroup"] [aria-checked="true"]');
+    const countText = checked?.querySelector(".tabular-nums")?.textContent?.trim() ?? "";
+    const parsed = Number.parseInt(countText, 10);
+    return Number.isFinite(parsed) ? parsed : null;
   });
-}
-
-async function checkSeedToFullTransition(page) {
-  const minimumFullItems = Number(process.env.DETAIL_SCROLL_CHECK_MIN_FULL_ITEMS ?? 35);
-  const configuredMaximum = process.env.DETAIL_SCROLL_CHECK_MAX_FULL_ITEMS;
-  const maximumFullItems = configuredMaximum ? Number(configuredMaximum) : null;
-
-  try {
-    await page.waitForFunction(
-      ({ minimum }) => {
-        const trace = window.__expandSeedTrace;
-        return Boolean(
-          trace?.scrolledForCheck &&
-          trace.maxCount >= minimum &&
-          performance.now() - trace.lastCountChangeAt >= 500,
-        );
-      },
-      { timeout },
-      { minimum: minimumFullItems },
+  assert(result.itemCount >= 1, `Expand index rendered no items: ${JSON.stringify(result)}`);
+  if (promised !== null) {
+    assert.equal(
+      result.itemCount,
+      promised,
+      `Expand index did not load the promised category list: ${JSON.stringify({ promised, result })}`,
     );
-  } catch (error) {
-    const trace = await page.evaluate(() => window.__expandSeedTrace);
-    throw new Error(`Seed-to-full trace did not reach ${minimumFullItems} items: ${JSON.stringify(trace)}`, { cause: error });
   }
-  await settleLayout(page);
-
-  const result = await page.evaluate(() => {
-    const trace = window.__expandSeedTrace;
-    if (!trace?.baseline) throw new Error("Seed trace did not establish a scrolled baseline");
-    const finalRecord = trace.lastRecord;
-    if (!finalRecord) throw new Error("Seed trace did not record a post-baseline sample");
-    const navDeltas = trace.records.map((record) =>
-      Math.abs(record.navScrollTop - trace.baseline.navScrollTop),
-    );
-    const windowDeltas = trace.records.map((record) =>
-      Math.abs(record.windowY - trace.baseline.windowY),
-    );
-    const result = {
-      baseline: trace.baseline,
-      firstSelected: trace.firstSelected,
-      maxCount: trace.maxCount,
-      final: {
-        at: finalRecord.at,
-        count: finalRecord.count,
-        navScrollTop: finalRecord.navScrollTop,
-        windowY: finalRecord.windowY,
-        selectedIdentity: finalRecord.selectedIdentity,
-      },
-      initialPresentInFinal: Boolean(
-        trace.firstSelected && finalRecord.identities.includes(trace.firstSelected),
-      ),
-      initialItemsPresentInFinal: trace.baseline.initialIdentities.every((identity) =>
-        finalRecord.identities.includes(identity),
-      ),
-      finalIdentityCount: finalRecord.identities.length,
-      finalUniqueIdentityCount: new Set(finalRecord.identities).size,
-      maxNavDelta: Math.max(...navDeltas, 0),
-      maxWindowDelta: Math.max(...windowDeltas, 0),
-      samples: trace.records.slice(0, 12).map((record) => ({
-        at: record.at,
-        count: record.count,
-        navScrollTop: record.navScrollTop,
-        windowY: record.windowY,
-        selectedIdentity: record.selectedIdentity,
-      })),
-    };
-    window.__expandSeedTraceStop?.();
-    return result;
-  });
-
-  assert(
-    result.maxCount >= minimumFullItems &&
-      (maximumFullItems === null || result.maxCount <= maximumFullItems),
-    `Unexpected full index count: ${JSON.stringify({ minimumFullItems, maximumFullItems, result })}`,
-  );
-  assert(
-    result.maxCount > result.baseline.initialCount,
-    `Seed-to-full transition did not produce a second, larger list state: ${JSON.stringify(result)}`,
-  );
-  assert(
-    result.firstSelected,
-    `Seed-to-full transition did not establish an initially selected item: ${JSON.stringify(result)}`,
+  const identities = result.identities.filter(Boolean);
+  assert.equal(
+    identities.length,
+    result.itemCount,
+    `Expand index contains an item without a stable identity: ${JSON.stringify(result)}`,
   );
   assert.equal(
-    result.initialPresentInFinal,
-    true,
-    `Seed-to-full transition dropped the initially selected item: ${JSON.stringify(result)}`,
-  );
-  assert.equal(
-    result.initialItemsPresentInFinal,
-    true,
-    `Seed-to-full transition dropped one or more seed items: ${JSON.stringify(result)}`,
-  );
-  assert.equal(
-    result.finalIdentityCount,
-    result.final.count,
-    `Full index contains an item without a stable identity: ${JSON.stringify(result)}`,
-  );
-  assert.equal(
-    result.finalUniqueIdentityCount,
-    result.finalIdentityCount,
-    `Full index contains duplicate item identities: ${JSON.stringify(result)}`,
-  );
-  assert.equal(
-    result.final.count,
-    result.maxCount,
-    `Final seed trace sample did not retain the full list count: ${JSON.stringify(result)}`,
+    new Set(identities).size,
+    identities.length,
+    `Expand index contains duplicate item identities: ${JSON.stringify(result)}`,
   );
   assert(
-    result.baseline.libraryTop <= -300,
-    `Seed trace did not run with #library scrolled into the page: ${JSON.stringify(result.baseline)}`,
+    result.selectedLabel,
+    `Expand index did not mark the selected item: ${JSON.stringify(result)}`,
   );
   assert(
-    result.maxNavDelta <= tolerance,
-    `Seed-to-full hydration moved the index scroll position: ${JSON.stringify(result)}`,
+    result.selectedVisible,
+    `Expand index did not reveal the selected item: ${JSON.stringify(result)}`,
   );
-  assert(
-    result.maxWindowDelta <= tolerance,
-    `Seed-to-full hydration moved the document without input: ${JSON.stringify(result)}`,
-  );
-  assert.equal(
-    result.final.selectedIdentity,
-    result.firstSelected,
-    `Seed-to-full hydration changed the selected content: ${JSON.stringify(result)}`,
-  );
-
+  assert(result.navWidth >= 170, `Expand index rail is too narrow: ${JSON.stringify(result)}`);
+  await closeExpandIndexModal(page);
   return result;
 }
 
+/* 색인 항목을 직접 누르면 그 작품이 고르해지고 모달은 닫힌다.
+   문서가 밀리지 않는지, 선택 표시가 유지되는지 본다. */
 async function checkDirectSelection(page) {
-  await page.evaluate(() => {
-    const assertElement = (value, label) => {
-      if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
-    };
-    const library = document.querySelector("#library");
-    assertElement(library, "#library");
-    window.scrollTo({
-      top: Math.max(0, window.scrollY + library.getBoundingClientRect().top + 350),
-      behavior: "instant",
-    });
-    const nav = library.querySelector("nav button[aria-label]")?.closest("nav");
-    assertElement(nav, "expand index nav");
-    nav.scrollTop = 0;
-  });
-  await settleLayout(page);
+  await openExpandIndexModal(page);
 
   const target = await page.evaluate(() => {
     const assertElement = (value, label) => {
       if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
     };
-    const library = document.querySelector("#library");
-    assertElement(library, "#library");
-    const nav = library.querySelector("nav button[aria-label]")?.closest("nav");
+    const nav = document.querySelector('[role="dialog"] nav');
     assertElement(nav, "expand index nav");
+    const navRect = nav.getBoundingClientRect();
     const candidates = [...nav.querySelectorAll("button[aria-label]")].filter((button) => {
       const rect = button.getBoundingClientRect();
-      const navRect = nav.getBoundingClientRect();
       return (
-        button.getAttribute("aria-current") !== "true" &&
-        rect.top >= navRect.top &&
-        rect.bottom <= navRect.bottom
+        button.getAttribute("aria-current") !== "true"
+        && rect.top >= navRect.top
+        && rect.bottom <= navRect.bottom
       );
     });
     const button = candidates
@@ -1096,173 +937,97 @@ async function checkDirectSelection(page) {
       .at(-1);
     assertElement(button, "visible non-selected index item");
     const rect = button.getBoundingClientRect();
-    const navRect = nav.getBoundingClientRect();
-    if (!(rect.top >= navRect.top && rect.bottom <= navRect.bottom)) {
-      throw new Error("target index item must be visible before click");
-    }
     return {
       label: button.getAttribute("aria-label"),
       title: button.getAttribute("title")?.trim() ?? "",
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
-      navBottom: navRect.bottom,
-      targetBottom: rect.bottom,
-      bottomGap: navRect.bottom - rect.bottom,
+      windowY: window.scrollY,
     };
   });
-
-  const before = await readSelectionMetrics(page, target.label);
-  assert(
-    before.targetBottom >= before.navBottom - 60,
-    `Direct-click fixture did not place the target near the index viewport bottom: ${JSON.stringify({ target, before })}`,
-  );
   assert(target.title, `Direct-click target is missing its content title: ${JSON.stringify(target)}`);
+
   await page.mouse.click(target.x, target.y);
+  // 고르면 색인 모달이 닫히고 머리 제목이 새 작품으로 바뀐다
   await page.waitForFunction(
-    ({ label, title }) => {
-      const targetButton = [...document.querySelectorAll("#library nav button[aria-label]")].find(
-        (button) => button.getAttribute("aria-label") === label,
-      );
-      const selectedTitle = document
-        .querySelector('[data-testid="expand-selected-title"]')
-        ?.textContent
-        ?.trim();
-      return targetButton?.getAttribute("aria-current") === "true" && selectedTitle === title;
-    },
+    (title) => (
+      document.querySelector('[data-testid="expand-selected-title"]')?.textContent?.trim() === title
+      && !document.querySelector('[role="dialog"] nav')
+    ),
     { timeout },
-    { label: target.label, title: target.title },
-  );
-  const samples = [];
-  for (const delay of [0, 100, 250, 500, 1_000]) {
-    if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay));
-    samples.push(await readSelectionMetrics(page, target.label));
-  }
-
-  const maxDelta = Math.max(
-    ...samples.flatMap((sample) => [
-      Math.abs(sample.windowY - before.windowY),
-      Math.abs(sample.navScrollTop - before.navScrollTop),
-      Math.abs(sample.targetTop - before.targetTop),
-    ]),
-  );
-  assert(
-    maxDelta <= tolerance,
-    `Direct selection moved the document, index, or clicked item: ${JSON.stringify({ before, samples })}`,
-  );
-  assert(
-    samples.every((sample) => sample.isSelected),
-    `Direct click did not keep the clicked index item selected: ${JSON.stringify({ target, before, samples })}`,
-  );
-  assert(
-    samples.every((sample) => sample.selectedTitle === target.title),
-    `Direct click did not keep the selected detail title in sync: ${JSON.stringify({ target, before, samples })}`,
+    target.title,
   );
 
-  return { target, before, samples, maxDelta };
-}
+  const afterWindowY = await page.evaluate(() => window.scrollY);
+  assert(
+    Math.abs(afterWindowY - target.windowY) <= tolerance,
+    `Direct selection moved the document: ${JSON.stringify({ target, afterWindowY })}`,
+  );
 
-async function readSelectionMetrics(page, label) {
-  return page.evaluate((targetLabel) => {
-    const assertElement = (value, label) => {
-      if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
-    };
-    const library = document.querySelector("#library");
-    const target = [...(library?.querySelectorAll("nav button[aria-label]") ?? [])].find(
-      (button) => button.getAttribute("aria-label") === targetLabel,
-    );
-    assertElement(library, "#library");
-    assertElement(target, targetLabel);
-    const nav = target.closest("nav");
-    assertElement(nav, "expand index nav");
-    const navRect = nav.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
+  // 모달을 다시 열어 누른 항목에 선택 표시가 남았는지 본다
+  await openExpandIndexModal(page);
+  const after = await page.evaluate((label) => {
+    const button = [...document.querySelectorAll('[role="dialog"] nav button[aria-label]')]
+      .find((element) => element.getAttribute("aria-label") === label);
     return {
-      windowY: window.scrollY,
-      navScrollTop: nav.scrollTop,
-      navBottom: navRect.bottom,
-      targetTop: targetRect.top,
-      targetBottom: targetRect.bottom,
-      isSelected: target.getAttribute("aria-current") === "true",
+      isSelected: button?.getAttribute("aria-current") === "true",
       selectedTitle: document.querySelector('[data-testid="expand-selected-title"]')?.textContent?.trim() ?? "",
     };
-  }, label);
+  }, target.label);
+  assert(
+    after.isSelected,
+    `Direct click did not keep the clicked index item selected: ${JSON.stringify({ target, after })}`,
+  );
+  assert.equal(
+    after.selectedTitle,
+    target.title,
+    `Direct click did not keep the selected detail title in sync: ${JSON.stringify({ target, after })}`,
+  );
+  await closeExpandIndexModal(page);
+
+  return { target, afterWindowY, after };
 }
 
-async function checkCollapsedGroupNavigation(page) {
-  const before = await page.evaluate(() => {
-    const assertElement = (value, label) => {
-      if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
-    };
-    const library = document.querySelector("#library");
-    assertElement(library, "#library");
-    const nav = library.querySelector("nav button[aria-label]")?.closest("nav");
-    assertElement(nav, "expand index nav");
-    const selected = nav.querySelector('button[aria-current="true"]');
-    assertElement(selected, "selected index item");
-    const selectedGroup = selected.closest("section");
-    assertElement(selectedGroup, "selected index group");
-    const heading = selectedGroup.querySelector("h3 > button[aria-expanded]");
-    assertElement(heading, "selected group heading");
-    if (heading.getAttribute("aria-expanded") !== "false") heading.click();
-    return { group: heading.id, selected: selected.getAttribute("aria-label") };
-  });
-  await settleLayout(page);
+/* 화살표로 작품을 넘기면 색인을 다시 열었을 때 새 선택 항목이 보여야 한다.
+   색인 모달은 열릴 때 선택 항목을 가운데로 맞춘다 — 그 약속을 확인한다. */
+async function checkArrowNavigationReveal(page) {
+  const before = await page.evaluate(() => ({
+    title: document.querySelector('[data-testid="expand-selected-title"]')?.textContent?.trim() ?? "",
+    windowY: window.scrollY,
+  }));
 
-  const expandedGroupIds = await page.$$eval(
-    '#library nav h3 > button[aria-expanded="true"]',
-    (headings) => headings.map((heading) => heading.id),
-  );
-  for (const headingId of expandedGroupIds) {
-    await page.evaluate((id) => document.getElementById(id)?.click(), headingId);
-    await settleLayout(page);
-  }
-
-  const collapsed = await page.evaluate(() =>
-    [...document.querySelectorAll("#library nav h3 > button[aria-expanded]")].map((heading) => ({
-      id: heading.id,
-      expanded: heading.getAttribute("aria-expanded"),
-    })),
-  );
-  assert(
-    collapsed.every((group) => group.expanded === "false"),
-    `Could not close every index group before navigation: ${JSON.stringify(collapsed)}`,
-  );
-
-  const navigationSelector = (await page.$('[data-testid="expand-bottom-next"]:not([disabled])'))
-    ? '[data-testid="expand-bottom-next"]'
-    : '[data-testid="expand-bottom-prev"]:not([disabled])';
+  const navigationSelector = (await page.$('[data-testid="expand-desktop-next"]:not([disabled])'))
+    ? '[data-testid="expand-desktop-next"]'
+    : '[data-testid="expand-desktop-prev"]:not([disabled])';
   const button = await page.$(navigationSelector);
   assert(button, "enabled previous/next navigation button");
   await page.evaluate((selector) => document.querySelector(selector)?.click(), navigationSelector);
   await settleLayout(page);
   await new Promise((resolve) => setTimeout(resolve, 260));
 
-  const after = await page.evaluate(() => {
-    const assertElement = (value, label) => {
-      if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
-    };
-    const nav = document.querySelector("#library nav button[aria-label]")?.closest("nav");
-    assertElement(nav, "expand index nav");
-    const selected = nav.querySelector('button[aria-current="true"]');
-    assertElement(selected, "selected index item after navigation");
-    const group = selected.closest("section");
-    assertElement(group, "selected index group after navigation");
-    const heading = group.querySelector("h3 > button[aria-expanded]");
-    assertElement(heading, "selected group heading after navigation");
-    const navRect = nav.getBoundingClientRect();
-    const selectedRect = selected.getBoundingClientRect();
-    return {
-      selected: selected.getAttribute("aria-label"),
-      group: heading.id,
-      expanded: heading.getAttribute("aria-expanded"),
-      visible: selectedRect.top >= navRect.top && selectedRect.bottom <= navRect.bottom,
-      navScrollTop: nav.scrollTop,
-    };
-  });
+  const moved = await page.evaluate(() => ({
+    title: document.querySelector('[data-testid="expand-selected-title"]')?.textContent?.trim() ?? "",
+    windowY: window.scrollY,
+  }));
+  assert(
+    moved.title && moved.title !== before.title,
+    `Navigation did not change the selected work: ${JSON.stringify({ before, moved })}`,
+  );
 
-  assert.equal(after.expanded, "true", `Navigation left the selected group collapsed: ${JSON.stringify({ before, after })}`);
-  assert(after.visible, `Navigation did not reveal the selected item: ${JSON.stringify({ before, after })}`);
-  return { before, after };
+  await openExpandIndexModal(page);
+  const after = await readExpandIndexNav(page);
+  assert(after, "Expand index modal did not render its nav after navigation");
+  assert(
+    after.selectedLabel,
+    `Navigation left no selected index item: ${JSON.stringify({ before, after })}`,
+  );
+  assert(
+    after.selectedVisible,
+    `Navigation did not reveal the selected item in the index: ${JSON.stringify({ before, after })}`,
+  );
+  await closeExpandIndexModal(page);
+
+  return { before, moved, after };
 }
 
 async function settleLayout(page) {
@@ -1278,22 +1043,4 @@ function assertElement(value, label) {
   if (!(value instanceof Element)) throw new Error(`Missing ${label}`);
 }
 
-function readInnerScrollRange() {
-  const library = document.querySelector("#library");
-  if (!(library instanceof Element)) return 0;
-  const reviewHeading = [...library.querySelectorAll("h4")].find((item) =>
-    /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
-  );
-  if (!(reviewHeading instanceof Element)) return 0;
-  const section = reviewHeading.closest("section") ?? reviewHeading.parentElement;
-  if (!(section instanceof Element)) return 0;
-  return Math.max(
-    0,
-    ...[section, ...section.querySelectorAll("*")].map((element) =>
-      Math.max(0, element.scrollHeight - element.clientHeight),
-    ),
-  );
-}
-
 void assertElement;
-void readInnerScrollRange;

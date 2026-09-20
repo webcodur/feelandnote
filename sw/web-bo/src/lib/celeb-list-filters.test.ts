@@ -2,12 +2,31 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import {
+  getCelebBlockLabel,
   getCelebCreatedAtBounds,
   hasCelebColumnFilters,
   hasCelebContentRange,
   matchesCelebNumericRanges,
   parseCelebColumnFilters,
+  parseCelebPageSize,
 } from './celeb-list-filters'
+
+test('registration block is a positive integer that counts as an exact filter', () => {
+  assert.deepEqual(parseCelebColumnFilters({ block: '3' }), { block: 3 })
+  assert.deepEqual(parseCelebColumnFilters({ block: '0' }), {})
+  assert.deepEqual(parseCelebColumnFilters({ block: 'all' }), {})
+  assert.deepEqual(parseCelebColumnFilters({ block: '-1' }), {})
+  assert.equal(hasCelebColumnFilters({ block: 1 }), true)
+  assert.equal(getCelebBlockLabel(1, 4338), '1~1,000번')
+  assert.equal(getCelebBlockLabel(5, 4338), '4,001~4,338번')
+})
+
+test('page size falls back to the default unless it is an allowed value', () => {
+  assert.equal(parseCelebPageSize(undefined), 20)
+  assert.equal(parseCelebPageSize('100'), 100)
+  assert.equal(parseCelebPageSize('1000'), 20)
+  assert.equal(parseCelebPageSize('abc'), 20)
+})
 
 test('blank and all filters do not become zero or active filters', () => {
   const filters = parseCelebColumnFilters({

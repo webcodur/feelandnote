@@ -10,11 +10,10 @@
 "use client";
 
 import { Fragment, useState } from 'react'
-import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import BookPurchaseInfo from '@/components/shared/BookPurchaseInfo'
+import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentCard from '@/components/ui/cards/ContentCard'
 import Modal, { ModalBody } from '@/components/ui/Modal'
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import CenteredSectionHeading from '@/components/ui/CenteredSectionHeading'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { BookStorePlatform } from '@/constants/affiliatePlatforms'
@@ -23,7 +22,8 @@ import { cn } from '@/lib/utils'
 interface AffiliateBookListProps {
   books: AffiliateBook[]
   heading: string
-  buyLabel: string
+  /** @deprecated 통합 구매 모듈이 서점 이름을 스스로 보여 준다 — 호환을 위해 남긴다 */
+  buyLabel?: string
   /** 판매 기준 서점 — yes24는 YES24 단추에 쿠팡 보조 단추가 붙고, amazon은 아마존 주소(상품 또는 검색)로 잇는다 */
   platform?: BookStorePlatform
   hideHeading?: boolean
@@ -43,7 +43,7 @@ interface GroupBoundary {
   right: { label: string; desc?: string }
 }
 
-export default function AffiliateBookList({ books, heading, buyLabel, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle }: AffiliateBookListProps) {
   const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
 
   // 구간 경계를 카드 위치로 환산한다 — 신화 선반의 세로 구분선을 일반 상품 선반으로 가져온 것이다.
@@ -65,12 +65,9 @@ export default function AffiliateBookList({ books, heading, buyLabel, hideHeadin
       hideHeading ? "mt-0 pb-0 pt-4 md:pt-6" : "mt-12 pb-2 pt-6 md:mt-20 md:pt-10",
     )}>
       {!hideHeading && (
+        /* 수수료·주의 안내는 각 카드의 통합 구매 창(BookPurchaseModal)이 싣는다 */
         <CenteredSectionHeading
           title={heading}
-          /* 수수료 안내는 단추 안에 묻지 않고 구획 제목 옆에 둔다. 제목을 숨기는 자리(hideHeading)는 부르는 쪽이 책임진다 */
-          titleAddon={platform === 'yes24' ? (
-            <BookPurchaseInfo className="ms-1.5 inline-flex size-6 items-center justify-center self-center rounded-full border border-white/10 align-middle" />
-          ) : undefined}
           className="mb-4 md:mb-7"
         />
       )}
@@ -80,19 +77,21 @@ export default function AffiliateBookList({ books, heading, buyLabel, hideHeadin
         {books.map((book, index) => {
           const boundary = boundaryAt.get(index)
 
-          // 사러 가는 길은 판매처 단추 하나 — 한국어는 YES24(쿠팡 보조), 영어는 아마존
+          // 사러 가는 길은 통합 구매 모듈 하나 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다
           const purchaseNode = platform === 'yes24' ? (
-            <AffiliateBookAction contentId={book.contentId} editionId={book.editionId} coupangUrl={book.url} yes24Href={book.purchaseHref} salesIsbn={book.isbn} compact />
+            <BookPurchaseSummary
+              contentId={book.contentId}
+              editionId={book.editionId}
+              isbn={book.isbn}
+              yes24Href={book.purchaseHref}
+              links={book.url ? [{ platform: 'coupang', url: book.url }] : []}
+              full
+            />
           ) : book.url ? (
-            <a
-              href={book.url}
-              target="_blank"
-              rel="noopener noreferrer nofollow sponsored"
-              className="flex min-h-11 items-center justify-center gap-1 rounded-lg border border-[#FF9900]/40 bg-[#FF9900]/10 px-2 py-2 text-sm font-semibold text-[#FFBF66] hover:border-[#FF9900] hover:bg-[#FF9900]/25 active:bg-[#FF9900]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#FF9900]"
-            >
-              {buyLabel}
-              <ExternalLink size={11} aria-hidden />
-            </a>
+            <BookPurchaseSummary
+              links={[{ platform: 'amazon', url: book.url }]}
+              full
+            />
           ) : undefined
 
           return (

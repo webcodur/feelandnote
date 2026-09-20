@@ -6,11 +6,12 @@ import type { CategoryId } from '@/constants/categories'
 import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import {
-  CL_SELECT_LIST,
+  CL_SELECT_LIST_WITH_AFFILIATE,
   flattenLocales,
   type ContentLocaleRow,
   type TitleBadge,
 } from '@/lib/utils/content-locale'
+import { toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import type { ContentType } from '@/types/database'
 import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import {
@@ -51,6 +52,8 @@ export interface FigureBookContent {
   workTitle?: string | null
   wikidataQid?: string | null
   creatorNames?: string[]
+  /** 작품에 실린 서점 링크 — 구매 모듈이 쿠팡 상품 링크에 이어 붙여 서점 마커를 채운다 */
+  affiliateLinks?: AffiliateLink[]
 }
 
 export interface FigureBookCharacter {
@@ -108,7 +111,7 @@ async function fetchSourcesByCeleb(
         contentIds,
         (ids) => db
           .from('contents')
-          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST},description,isbn)`)
+          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST_WITH_AFFILIATE},description,isbn)`)
           .in('id', ids)
           .overrideTypes<ContentRow[], { merge: false }>(),
       ),
@@ -193,6 +196,7 @@ async function fetchSourcesByCeleb(
         ...(content.content_locales ?? []).map((row) => row.creator),
         content.figureBook?.workCreator,
       ].filter((name): name is string => Boolean(name?.trim())))],
+      affiliateLinks: toAffiliateLinks(flat.affiliate_url),
     }]
   })
 

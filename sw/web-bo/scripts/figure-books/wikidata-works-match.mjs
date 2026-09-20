@@ -338,6 +338,8 @@ async function buildRows(work, enriched) {
  * 못 받으면 관계째 지운다. 영어권 ISBN이 아닌 en 카드는 OpenLibrary 언어를 다시 확인해 영어가 아니면 뗀다.
  */
 async function repair(db, canonical, enrichCachePath) {
+  // 26.09.18 사고: 이 함수가 --apply를 보지 않고 삭제를 실행해 영문 표시용 제목 행 153건이 사라졌다. 기본은 dry-run이다.
+  if (!apply) console.log('dry-run이다. 반영하려면 --apply를 붙인다.')
   const enrichCache = existsSync(enrichCachePath) ? JSON.parse(readFileSync(enrichCachePath, 'utf8')) : {}
   const mine = await allRows('contents', (f, t) => db.from('contents').select('id,external_id,metadata').eq('type', 'BOOK').contains('metadata', { figureBook: { source: 'wikidata-works' } }).order('id').range(f, t))
   const ids = mine.map((row) => row.id)
@@ -352,6 +354,7 @@ async function repair(db, canonical, enrichCachePath) {
 
   const must = async (label, promise) => { const { error } = await promise; if (error) throw new Error(`${label}: ${error.message}`) }
   const dropContent = async (id) => {
+    if (!apply) { console.log(`  (dry-run) 작품 삭제 예정 ${id.slice(0, 8)}`); return }
     // contents 를 가리키는 다른 표(인물 감상·회원 기록·기관 선정 목록·컬렉션·기록·노트)가 있으면 지우지 않는다. 26.09.11 목록 참조를 안 본 삭제로 연결 93건이 끊겼다.
     for (const table of ['celeb_contents', 'member_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes']) {
       const { count } = await db.from(table).select('content_id', { count: 'exact', head: true }).eq('content_id', id)
@@ -390,6 +393,7 @@ async function repair(db, canonical, enrichCachePath) {
     if (seen % 50 === 0) { writeFileSync(enrichCachePath, JSON.stringify(enrichCache), 'utf8'); console.log(`  미완성 작품 복구 ${seen}/${orphans.length} (채움 ${filled}, 삭제 ${dropped})`) }
     if (!enriched.ko && !enriched.en) { await dropContent(row.id); dropped += 1; continue }
     const built = await buildRows(work, enriched)
+    if (!apply) { console.log(`  (dry-run) 미완성 작품 채움 예정 ${row.id.slice(0, 8)} 「${built.content.metadata.figureBook.workTitle}」`); filled += 1; continue }
     // 책 정보가 다른 기존 작품과 겹치면(ISBN 유니크) 이 행은 중복이다. 지운다.
     const { error: upsertError } = await db.from('contents').upsert(built.content, { onConflict: 'id' })
     if (upsertError) { await dropContent(row.id); dropped += 1; continue }
@@ -401,21 +405,20 @@ async function repair(db, canonical, enrichCachePath) {
   writeFileSync(enrichCachePath, JSON.stringify(enrichCache), 'utf8')
   console.log(`미완성 작품 복구 — 채움 ${filled} / 삭제 ${dropped}`)
 
-  // 2) 잘못 붙은 영문 카드: 영어권 ISBN이 아닌 en 카드는 OpenLibrary 언어를 다시 본다
-  const suspects = locales.filter((row) => row.locale === 'en' && !/^(9780|9781|9798)/.test(bareIsbn(row.isbn)))
-  let detached = 0
-  let removed = 0
+  // 2) 잘못 붙은 영문 카드: 영어권 ISBN이 아닌 en 카드는 OpenLibrary 언어를 다시 본다.
+  //    ISBN이 없는 행은 이미 표시용 제목 행(sources.primary='none')이라 대상이 아니다 — 26.09.18에 이 행들을 의심 대상으로 잡아 153건을 지웠다.
+  //    비영어 판본으로 확정돼도 카드를 지우지 않는다(룰북 「작품 정체성」: 표시용 제목 행으로 바꾼다). locale-display-title.mjs 계획 파일로 넘긴다.
+  const suspects = locales.filter((row) => row.locale === 'en' && bareIsbn(row.isbn).length === 13 && !/^(9780|9781|9798)/.test(bareIsbn(row.isbn)))
+  const plan = []
   console.log(`비영어권 ISBN en 카드 ${suspects.length}`)
   for (const row of suspects) {
     const again = await openLibraryByIsbn(bareIsbn(row.isbn)).catch(() => null)
     if (again && again.languages.includes('/languages/eng')) continue
-    await must('en 판본 삭제', db.from('figure_book_editions').delete().eq('content_id', row.content_id).eq('locale', 'en'))
-    await must('en locale 삭제', db.from('content_locales').delete().eq('content_id', row.content_id).eq('locale', 'en'))
-    detached += 1
-    const remaining = (localesByContent.get(row.content_id) ?? []).filter((l) => l.locale !== 'en')
-    if (remaining.length === 0) { await dropContent(row.content_id); removed += 1 }
+    plan.push({ id: row.content_id, locale: 'en', mark: 'original', isbn: bareIsbn(row.isbn) })
   }
-  console.log(`잘못 붙은 영문 카드 제거 — 카드 뗌 ${detached} / 작품 삭제 ${removed}`)
+  const planPath = resolve(dirname(enrichCachePath), 'en-display-title-plan.json')
+  writeFileSync(planPath, JSON.stringify(plan.map(({ id, locale, mark }) => ({ id, locale, mark })), null, 1), 'utf8')
+  console.log(`잘못 붙은 영문 카드 ${plan.length}건 — 표시용 제목 행 전환 계획을 ${planPath}에 썼다. 제목이 영어가 아니면 통용 영어 제목을 채운 뒤 locale-display-title.mjs --plan <파일> [--apply]로 반영한다.`)
 }
 
 // ── 본문 ─────────────────────────────────────────────────────────────────

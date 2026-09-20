@@ -166,7 +166,8 @@ test("fiction without a linked source falls back to its existing title", () => {
     }),
     "에티오피아의 왕, 멤논",
   );
-  assert.match(ko, /인물 안내와 탐구/);
+  assert.match(ko, /인물 안내/);
+  assert.doesNotMatch(ko, /탐구/);
   assert.match(ko, /이야기 속 관계/);
   assert.doesNotMatch(ko, /영향력|스펙트럼|감상한/);
   assert.doesNotMatch(en, /influence|spectrum|recommended/i);
