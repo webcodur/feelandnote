@@ -17,12 +17,15 @@ import {
   useLayoutEffect,
   type ReactNode,
 } from "react";
+import { resizeSectionSurface } from "@/lib/scroll/resizeSectionSurface";
 
 interface AnimatedHeightProps {
   children: ReactNode;
   className?: string;
   duration?: number;
   independent?: boolean;
+  /** 긴 문서의 구획: 높이 전환 없이 반영하고, 화면 위쪽 변화만 같은 프레임에서 보정한다. */
+  stabilizeScroll?: boolean;
   /** 안쪽 상자에 얹는 클래스. 바깥 상자를 lg:contents로 지우고 안쪽을 부모 flex에 직접 넣어 높이를 채울 때 쓴다 */
   innerClassName?: string;
 }
@@ -46,8 +49,34 @@ export default function AnimatedHeight(props: AnimatedHeightProps) {
 
   return (
     <HeightAnimationContext.Provider value={true}>
-      <MeasuredHeight {...props} />
+      {props.stabilizeScroll ? <StableHeight {...props} /> : <MeasuredHeight {...props} />}
     </HeightAnimationContext.Provider>
+  );
+}
+
+function StableHeight({ children, className = "", innerClassName = "" }: AnimatedHeightProps) {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  useIsomorphicLayoutEffect(() => {
+    const outer = outerRef.current;
+    const inner = innerRef.current;
+    if (!outer || !inner) return;
+    // Freeze the SSR height before observing. Child loading can now change only the inner box.
+    outer.style.height = `${inner.offsetHeight}px`;
+    const observer = new ResizeObserver(() => {
+      const section = outer.closest("section");
+      const inset = section ? parseFloat(getComputedStyle(section).scrollMarginTop) || 0 : 0;
+      resizeSectionSurface(outer, inner.offsetHeight, inset);
+    });
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={outerRef} className={className} data-stable-height>
+      <div ref={innerRef} className={`w-full flow-root ${innerClassName}`}>{children}</div>
+    </div>
   );
 }
 

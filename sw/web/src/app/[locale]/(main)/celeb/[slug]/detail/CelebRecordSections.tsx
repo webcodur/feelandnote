@@ -44,7 +44,7 @@ function SectionSurface({
 }) {
   return (
     <div className={`${styles.sectionSurface} ${className}`}>
-      <AnimatedHeight>{children}</AnimatedHeight>
+      <AnimatedHeight stabilizeScroll>{children}</AnimatedHeight>
     </div>
   );
 }
