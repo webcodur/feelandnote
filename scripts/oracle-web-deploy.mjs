@@ -23,12 +23,11 @@ import {
 } from './lib/cloudflare-purge-impact.mjs'
 import {
   createBridgeCaddyConfig,
-  extractNextStaticAssetUrls,
   inspectCaddyProxyPort,
   parseJpegDimensions,
-  probeStaticAssetUrls,
   PRIMARY_PORT,
 } from './lib/oracle-web-remote.mjs'
+import { observeProduction } from './lib/oracle-web-observe.mjs'
 
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const WEB_RELATIVE_PATH = 'sw/web'
@@ -77,6 +76,7 @@ function run(command, args, options = {}) {
     encoding: 'utf8',
     env: options.env ?? process.env,
     stdio: options.inherit ? 'inherit' : ['ignore', 'pipe', 'pipe'],
+    timeout: options.timeoutMs,
   })
 
   if (result.error) throw result.error
@@ -536,7 +536,7 @@ function runRemoteHelper(config, uploaded, command, extraArgs = [], options = {}
     '--release-id',
     options.releaseId,
     ...extraArgs,
-  ], { inherit: options.inherit })
+  ], { inherit: options.inherit, timeoutMs: command === 'status' ? 15_000 : undefined })
 }
 
 async function verifyPublicSeoImage(releaseId, probeSlug) {
@@ -562,20 +562,7 @@ async function verifyPublicSeoImage(releaseId, probeSlug) {
 }
 
 async function verifyPublicPageAssets(releaseId, probeSlug) {
-  const pageUrl = new URL(`/celeb/${encodeURIComponent(probeSlug)}`, PRODUCTION_SITE_URL)
-  pageUrl.searchParams.set('deploy-page-probe', releaseId)
-  const response = await fetch(pageUrl, { signal: AbortSignal.timeout(20_000) })
-  if (!response.ok) throw new Error(`Public page returned HTTP ${response.status}`)
-
-  const html = await response.text()
-  const assetUrls = extractNextStaticAssetUrls(html, pageUrl.href)
-  const staticAssets = await probeStaticAssetUrls(assetUrls)
-  return {
-    url: pageUrl.href,
-    status: response.status,
-    cache: response.headers.get('cf-cache-status') ?? 'unknown',
-    staticAssets,
-  }
+  return observeProduction({ origin: PRODUCTION_SITE_URL, releaseId, probeSlug, durationMs: 0 })
 }
 
 function cleanupRemoteUploads(config, uploaded) {
@@ -749,6 +736,22 @@ async function main() {
     ], { releaseId, inherit: false }).stdout
     const canaryCleanup = JSON.parse(canaryCleanupOutput)
     canaryCleanupPending = false
+    // Release canary memory before the longer check. A late failure must not be reported as success;
+    // keep the live release for diagnosis, since the old release can share the same runtime fault.
+    let observation
+    try {
+      observation = await observeProduction({
+        origin: PRODUCTION_SITE_URL,
+        releaseId,
+        probeSlug: config.probeSlug,
+        readRuntime: async () => JSON.parse(runRemoteHelper(config, uploaded, 'status', [], { releaseId }).stdout),
+        onPass: ({ pass, elapsedMs, runtime }) => process.stdout.write(
+          `[oracle-web-deploy] Observation ${pass}: ${Math.round(elapsedMs / 1000)}s, pid=${runtime.mainPid}, RSS=${Math.round(runtime.rssBytes / 1048576)}MiB\n`,
+        ),
+      })
+    } catch (error) {
+      throw new Error(`Deployment remains live, but the 20-minute stability check failed; inspect before retrying: ${error.message}`)
+    }
     deployed = true
     const requiredPurgeScopes = purgePlan.scopes.filter((scope) => scope !== 'none')
     printPlan({
@@ -759,6 +762,7 @@ async function main() {
       canaryCleanup,
       publicPage,
       publicSeoImage,
+      observation,
       cloudflarePurgeRequired: requiredPurgeScopes,
       // 배포는 여기서 끝나지 않는다. 남은 범위를 비우는 명령을 바로 손에 쥐여 준다.
       cloudflarePurgeCommands: requiredPurgeScopes.map(

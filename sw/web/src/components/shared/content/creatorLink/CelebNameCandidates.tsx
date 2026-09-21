@@ -7,9 +7,9 @@
 */ // ------------------------------
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { getCelebProfileUrl } from "@/lib/url";
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/navigation";
@@ -115,13 +115,12 @@ export default function CelebNameCandidates({
                 >
                   <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full border border-white/10 bg-bg-secondary">
                     {match.avatarUrl ? (
-                      <Image
+                      <CelebAvatarImage
                         src={match.avatarUrl}
                         alt=""
                         width={40}
                         height={40}
                         className="h-full w-full object-cover"
-                        unoptimized
                       />
                     ) : (
                       <span className="flex h-full w-full items-center justify-center font-serif text-sm text-text-tertiary">

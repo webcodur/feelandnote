@@ -2,8 +2,8 @@
   MobileCardChips — 모바일 카드 칩 (좌 아군 | 우 적군) + 초상화 + 군령패 + 출전 버튼
   lg:hidden block
 */
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import type { BattleCard as BattleCardType, Command, Mandate } from "@/lib/game/types";
-import Image from "next/image";
 import { COMMANDS, MANDATE_BONUS } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
 import { getBattlePlaqueLabel, getBattleSealLabel } from "../../i18n";
@@ -307,12 +307,9 @@ export default function MobileCardChips({
               {selectedCard ? (
                 <div className="absolute inset-1 rounded-[1px] overflow-hidden bg-black">
                   <BlurDissolve className="relative w-full h-full">
-                    <Image
+                    <CelebAvatarImage
                       src={selectedCard.avatarUrl || `/images/cards/${selectedCard.id}.png`}
                       alt={selectedCard.nickname}
-                      fill
-                      sizes="150px"
-                      unoptimized
                       className="w-full h-full object-cover object-top opacity-90 transition-opacity duration-300"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;

@@ -1,7 +1,7 @@
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import React, { useState } from "react";
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Check, UserPlus } from "lucide-react";
 import styles from "./styles.module.css";
@@ -185,11 +185,11 @@ export default function NeoCelebCard({
         <div className={`${styles.lpBase} ${lpClass || ""}`} />
 
         {/* Metal Texture Overlay */}
-        <div 
-          className="absolute inset-0 opacity-40 pointer-events-none mix-blend-overlay z-0" 
-          style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")`, backgroundSize: '150px 150px' }} 
+        <div
+          className="absolute inset-0 opacity-40 pointer-events-none mix-blend-overlay z-0"
+          style={{ backgroundImage: `url("https://res.cloudinary.com/dchkzn79d/image/upload/v1737077656/noise_w9lq5j.png")`, backgroundSize: '150px 150px' }}
         />
-        
+
         {/* Content Layer (z-10) */}
         <div className={`relative z-10 flex flex-col items-center h-full ${config.contentPadding}`}>
 
@@ -198,12 +198,9 @@ export default function NeoCelebCard({
               <div className={`absolute ${config.imageBorder} overflow-hidden bg-black shadow-inner`}>
                 {celeb.avatar_url ? (
                   <BlurDissolve className="relative w-full h-full">
-                    <Image
+                    <CelebAvatarImage
                       src={celeb.avatar_url}
                       alt={celeb.nickname}
-                      fill
-                      sizes="120px"
-                      unoptimized
                       className={`w-full h-full object-cover ${styles.celebImage}`}
                     />
                   </BlurDissolve>

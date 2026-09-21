@@ -10,6 +10,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronDown, ChevronUp, User } from "lucide-react";
@@ -183,12 +184,9 @@ export default function FactionMembershipCard({
             </h4>
             <span className="relative block h-7 w-7 shrink-0 overflow-hidden rounded-full bg-white/[0.06] ring-1 ring-accent/45">
               {ownerAvatarUrl ? (
-                <Image
+                <CelebAvatarImage
                   src={ownerAvatarUrl}
                   alt=""
-                  fill
-                  unoptimized
-                  sizes="28px"
                   className="object-cover"
                 />
               ) : (

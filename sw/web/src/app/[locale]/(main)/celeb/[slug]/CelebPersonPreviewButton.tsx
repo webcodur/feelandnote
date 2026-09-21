@@ -6,8 +6,8 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import type { CSSProperties, ReactNode } from "react";
-import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -64,13 +64,12 @@ export default function CelebPersonPreviewButton({
       >
         {avatarUrl ? (
           <BlurDissolve className="w-full">
-            <Image
+            <CelebAvatarImage
               src={avatarUrl}
               alt={name}
               width={800}
               height={800}
               className="block h-auto w-full"
-              unoptimized
             />
           </BlurDissolve>
         ) : (

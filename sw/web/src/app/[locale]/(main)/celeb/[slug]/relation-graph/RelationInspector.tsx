@@ -1,7 +1,7 @@
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { LoaderCircle } from "lucide-react";
-import Image from "next/image";
 
 import { Link } from "@/i18n/navigation";
 
@@ -76,7 +76,7 @@ function InspectorCard(props: Props) {
     : null;
   const href = isCenter ? "#introduction" : person.listed && person.slug ? getCelebProfileUrl(person) : null;
   const portrait = person.avatarUrl
-    ? <Image src={person.avatarUrl} alt="" width={208} height={208} unoptimized />
+    ? <CelebAvatarImage src={person.avatarUrl} alt="" width={208} height={208} />
     : <ProfileFallback />;
   return <div className={styles.inspectorCard}>
     <div className={styles.inspectorPortrait}>

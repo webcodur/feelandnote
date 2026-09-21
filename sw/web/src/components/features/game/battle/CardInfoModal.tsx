@@ -5,7 +5,7 @@
 */
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { X, Swords, ScrollText, Landmark } from "lucide-react";
 import { useLocale } from "next-intl";
 import Modal from "@/components/ui/Modal";
@@ -64,12 +64,10 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
         {/* header: 초상화 + 기본 정보 */}
         <div className="relative h-36 bg-[#0a0a0c] overflow-hidden">
           {card.avatarUrl ? (
-            <Image
+            <CelebAvatarImage
               src={card.avatarUrl}
               alt={card.nickname}
-              fill
               className="object-cover opacity-40 blur-sm scale-110"
-              sizes="400px"
             />
           ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-[#111115] via-transparent to-transparent" />
@@ -86,7 +84,7 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
           <div className="absolute bottom-3 left-4 flex items-end gap-3">
             <div className="w-16 h-16 rounded-lg overflow-hidden border border-white/10 bg-[#0a0a0c] shrink-0">
               {card.avatarUrl ? (
-                <Image src={card.avatarUrl} alt={card.nickname} width={64} height={64} className="object-cover w-full h-full" />
+                <CelebAvatarImage src={card.avatarUrl} alt={card.nickname} width={64} height={64} className="object-cover w-full h-full" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <span className="text-white/10 text-xl font-cinzel">{card.nickname[0]}</span>

@@ -5,6 +5,8 @@
 */ // ------------------------------
 
 import Image from "next/image";
+import CelebAvatarImage from "./CelebAvatarImage";
+import { celebAvatarMediumUrl } from "@feelandnote/shared/constants/celeb-avatar-small";
 import { BadgeCheck } from "lucide-react";
 
 interface AvatarProps {
@@ -33,10 +35,20 @@ export default function Avatar({ url, name, size = "md", gradient, verified, cla
   const styles = sizeStyles[size];
   const initial = name?.charAt(0).toUpperCase() || "?";
   const bg = gradient || defaultGradient;
+  const isCelebAvatar = !!url && celebAvatarMediumUrl(url) !== url;
 
   return (
     <div className="relative inline-block">
-      {url ? (
+      {url && isCelebAvatar ? (
+        <CelebAvatarImage
+          src={url}
+          alt={name || "avatar"}
+          boxPx={styles.pixels}
+          className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 transition-all duration-300 ${className}`}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : undefined}
+        />
+      ) : url ? (
         <Image
           src={url}
           alt={name || "avatar"}

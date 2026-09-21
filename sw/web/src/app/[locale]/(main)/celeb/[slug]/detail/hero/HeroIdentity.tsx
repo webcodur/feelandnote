@@ -6,7 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useTranslations } from "next-intl";
 
 import ProfessionInfoButton from "@/components/features/celeb/ProfessionInfoButton";
@@ -68,12 +68,9 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
         >
           {profile.photo_url && profile.avatar_url ? (
             <div className={styles.identityAvatar}>
-              <Image
+              <CelebAvatarImage
                 src={profile.avatar_url}
                 alt=""
-                fill
-                unoptimized
-                sizes="(max-width: 767px) 52px, 64px"
                 className={styles.identityAvatarImage}
               />
             </div>

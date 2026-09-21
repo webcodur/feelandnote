@@ -117,6 +117,7 @@ export default function FigureBookFeature({
             creator={edition.creator || source.creator}
             links={purchaseModuleLinks}
             enabled={source.type === "BOOK"}
+            full
             className="hidden lg:block"
             chipClassName="mt-3"
           />
@@ -195,6 +196,7 @@ export default function FigureBookFeature({
             creator={edition.creator || source.creator}
             links={purchaseModuleLinks}
             enabled={source.type === "BOOK"}
+            full
             className="col-span-2 lg:hidden"
             chipClassName="mt-3"
           />
