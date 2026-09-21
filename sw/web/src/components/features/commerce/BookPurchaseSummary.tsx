@@ -161,7 +161,7 @@ export default function BookPurchaseSummary({
           className={cn(
             links.length > 0
               ? // 골드 CTA — 금속 그라데이션+광휘. 어느 서점 색과도 겹치지 않는다
-                "effect-bevel shadow-glow flex cursor-pointer items-center justify-center gap-1 whitespace-nowrap rounded-md border border-accent-dim/60 bg-[linear-gradient(180deg,var(--color-accent-hover)_0%,var(--color-accent)_55%,var(--color-accent-dim)_150%)] px-3 py-1.5 text-xs font-bold text-bg-main sm:text-sm hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-hover"
+                "effect-bevel shadow-glow relative flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md border border-accent-dim/60 bg-[linear-gradient(180deg,var(--color-accent-hover)_0%,var(--color-accent)_55%,var(--color-accent-dim)_150%)] px-3 py-1.5 text-xs font-bold text-bg-main sm:text-sm hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-hover"
               : "relative flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-2 py-1 text-xs text-text-tertiary sm:gap-2.5 sm:px-3 sm:py-1.5 sm:text-sm hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
             full ? "w-full" : "mx-auto w-fit max-w-full",
             chipClassName,
@@ -170,7 +170,8 @@ export default function BookPurchaseSummary({
           {links.length > 0 ? (
             <>
               {tBuy("buy")}
-              <ArrowUpRight size={13} className="shrink-0 drop-shadow-sm" aria-hidden />
+              {/* 화살표는 우측 가장자리에 띄운다 — 중앙 정렬된 텍스트를 밀지 않게 */}
+              <ArrowUpRight size={13} className="absolute right-1.5 top-1/2 -translate-y-1/2 drop-shadow-sm" aria-hidden />
             </>
           ) : showSales ? (
             onSale ? (
