@@ -1100,6 +1100,7 @@ async function activateRelease(releaseId, bridgePort, probeSlug) {
     currentSlot: slot,
     probes: transition.primary.probes,
     exploreWarmup: transition.primary.exploreWarmup,
+    routeWarmup: transition.primary.routeWarmup,
     trafficBridge: transition.trafficBridge,
   }
 }
