@@ -3,7 +3,9 @@
   기능: PC 화면 오른쪽에 떠 있는 반투명 스와이프 판
   책임: 휴대폰에서 화면을 손가락으로 밀듯, 마우스로 이 판을 잡아끌면 페이지가 따라온다.
         놓으면 손이 가진 속도로 페이지가 조금 더 미끄러지다 마찰에 멈춘다(관성, 기본 켜짐).
-        스크롤바처럼 보이는 요소(화살표·트랙·눈금)는 두지 않는다.
+        스크롤바처럼 보이는 장식(트랙·눈금)은 두지 않는다.
+        판 맨 위·맨 아래는 누르면 그쪽 끝으로 빠르고 부드럽게 미끄러지는 구역이다.
+        설정 단추는 가로 띠를 차지하지 않고 판 우상단에 뜬다.
         끄는 동안은 누른 자리에 짚은 자국이 남고, 자국은 화면이 실제로 움직인 거리만큼
         (손보다 감도 배율만큼 앞서) 오르내리며 판 밖으로 나가면 그대로 사라진다.
         맨 아래 설정 단추로 감도(손 1px당 페이지 몇 px)와 미끄러짐 켜기를 고르며, 값은 브라우저에 남는다.
@@ -67,6 +69,8 @@ const MIN_SCROLLABLE_PX = 80;
    선이 지나온 자리에 옅은 띠가 잠깐 남았다 사라진다. 최근 TRAIL_WINDOW_MS 동안 지나온
    구간을 띠로 그리므로, 멈추면 오래된 자취부터 창 밖으로 빠지며 띠가 저절로 줄어든다. */
 const TRAIL_WINDOW_MS = 140;
+/** 누름 구역에서 끝으로 가는 이동은 이 시간(ms) 동안 빠르게 달리다 감속해 선다 */
+const JUMP_MS = 450;
 
 export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
   const t = useTranslations("layout.swipeRail");
@@ -97,6 +101,8 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
     startScroll: number;
     raf: number;
   } | null>(null);
+  // 끝으로 가는 이동의 애니메이션 손잡이
+  const jumpRef = useRef(0);
   // 잔상 자취: 최근 이동량과 시각, 그리고 띠를 갱신하는 애니메이션 손잡이
   const trailPathRef = useRef<{ points: { shift: number; t: number }[]; raf: number }>({ points: [], raf: 0 });
 
@@ -200,6 +206,7 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
 
   useEffect(() => () => {
     cancelAnimationFrame(trailPathRef.current.raf);
+    cancelAnimationFrame(jumpRef.current);
     if (glideRef.current) cancelAnimationFrame(glideRef.current.raf);
   }, []);
 
@@ -296,6 +303,21 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
     };
   }, [dragging, endDrag]);
 
+  /** 구역을 누르면 미끄러짐을 접고 그 끝으로 빠르고 부드럽게 이동한다 — 짧게 달리다 감속해 선다 */
+  const jumpTo = useCallback((edge: "top" | "bottom") => {
+    stopGlide();
+    cancelAnimationFrame(jumpRef.current);
+    const start = window.scrollY;
+    const target = edge === "top" ? 0 : document.documentElement.scrollHeight;
+    const t0 = performance.now();
+    const step = (now: number) => {
+      const p = Math.min(1, (now - t0) / JUMP_MS);
+      window.scrollTo({ top: start + (target - start) * (1 - (1 - p) ** 3), behavior: "instant" });
+      jumpRef.current = p < 1 ? requestAnimationFrame(step) : 0;
+    };
+    jumpRef.current = requestAnimationFrame(step);
+  }, [stopGlide]);
+
   // 게임 전체 화면이 덮고 있거나 내려갈 데가 없으면 서지 않는다
   if (gameLayer || !scrollable) return null;
 
@@ -314,8 +336,9 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
         if (event.button !== 0) return;
         event.preventDefault();
         event.currentTarget.setPointerCapture(event.pointerId);
-        // 미끄러지는 페이지를 다시 잡으면 그 자리에서 새 끌기가 시작된다
+        // 미끄러지거나 이동 중인 페이지를 다시 잡으면 그 자리에서 새 끌기가 시작된다
         stopGlide();
+        cancelAnimationFrame(jumpRef.current);
         const track = trackRef.current;
         const box = track?.getBoundingClientRect();
         // 누른 자리를 판 좌표로 옮겨 자국을 찍는다. 자국은 판과 함께 화면이 간 만큼 움직인다
@@ -373,6 +396,30 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
         {/* 누른 자리의 자국 — 판 폭 전체의 가는 눈금. 화면이 간 만큼 움직이고 판을 넘으면 잘려 보이지 않는다 */}
         <span className={styles.pin} />
       </span>
+
+      {/* 위·아래 끝으로 가는 누름 구역 — 판 맨 위·맨 아래가 누름 자리고 채운 화살표가 방향을 가리킨다. 끌기로는 올라가지 않게 막는다 */}
+      <button
+        type="button"
+        className={`${styles.jump} ${styles.jumpUp}`}
+        aria-label={t("toTop")}
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={() => jumpTo("top")}
+      >
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="currentColor" aria-hidden>
+          <path d="M6 0l6 8H0z" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        className={`${styles.jump} ${styles.jumpDown}`}
+        aria-label={t("toBottom")}
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={() => jumpTo("bottom")}
+      >
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="currentColor" aria-hidden>
+          <path d="M6 8 0 0h12z" />
+        </svg>
+      </button>
 
       {/* 설정: 감도. 단추와 창 모두 판의 끌기로 올라가지 않게 막는다 */}
       <div ref={settingsRef} className={styles.foot} onPointerDown={(event) => event.stopPropagation()}>

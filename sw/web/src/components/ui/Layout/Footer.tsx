@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Youtube } from "lucide-react";
 import { FOOTER_SECTIONS } from "@/constants/navigation";
+import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { getYoutubeChannel } from "@/constants/youtube";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
@@ -102,19 +103,26 @@ export default async function Footer() {
 
           {/* Bottom: Pediment */}
           <div className="mt-12 pt-5 border-t border-white/[0.06] flex items-center justify-between">
-            {isDev ? (
-              <Link
-                href="/lab"
-                className="text-[11px] font-sans tracking-wider text-text-tertiary hover:text-text-secondary"
-                title="Lab"
-              >
-                &copy; {currentYear} {t("layout.footer.copyright")}
-              </Link>
-            ) : (
-              <p className="text-[11px] font-sans tracking-wider text-text-tertiary">
-                &copy; {currentYear} {t("layout.footer.copyright")}
-              </p>
-            )}
+            <div>
+              {isDev ? (
+                <Link
+                  href="/lab"
+                  className="text-[11px] font-sans tracking-wider text-text-tertiary hover:text-text-secondary"
+                  title="Lab"
+                >
+                  &copy; {currentYear} {t("layout.footer.copyright")}
+                </Link>
+              ) : (
+                <p className="text-[11px] font-sans tracking-wider text-text-tertiary">
+                  &copy; {currentYear} {t("layout.footer.copyright")}
+                </p>
+              )}
+              {isEn && (
+                <p className="mt-1.5 text-[10px] font-sans tracking-wide text-text-tertiary/60">
+                  {AFFILIATE_PLATFORMS.amazon.notice}
+                </p>
+              )}
+            </div>
             <div className="flex items-center gap-5">
               <YoutubeLink size={18} url={youtube.url} label={youtube.label} />
               <LocaleSwitcher variant="text" />
@@ -176,6 +184,11 @@ export default async function Footer() {
             ) : (
               <p className="text-[11px] font-sans tracking-wider text-text-tertiary">
                 &copy; {currentYear} {t("layout.footer.copyright")}
+              </p>
+            )}
+            {isEn && (
+              <p className="text-[10px] font-sans tracking-wide text-text-tertiary/60">
+                {AFFILIATE_PLATFORMS.amazon.notice}
               </p>
             )}
           </div>

@@ -12,15 +12,31 @@ export interface RegisteredTrendPerson {
   birth_date?: string | null
 }
 
+/** A registered person matched to one trending row. (type, not interface — coalescePublicRead needs an index signature) */
+export type TrendMatch = {
+  id: string
+  /** Title of the trend row that matched — the person's own trending query. */
+  trendTitle: string
+  /** 1-based position of the matched trend row in the volume-sorted window — the number chips show. */
+  rank: number
+  /** Search volume Google's row reports — the scale behind the rank. */
+  volume: number
+  /** When the surge started (epoch ms). */
+  started: number
+}
+
 export interface CountryTrendingPeople {
-  ids: string[]
+  matches: TrendMatch[]
   available: boolean
 }
 
-/** One trending search and the queries Google groups under it. */
+/** One trending search. */
 export interface TrendSearch {
   title: string
-  related: string[]
+  /** Search volume Google's row reports. */
+  volume: number
+  /** When the surge started (epoch ms). */
+  started: number
 }
 
 /** Searches drop or add spaces ("런정 페이"), so spaces are ignored. Keep punctuation and accents: broad token matching can mistake companies or namesakes for people. */
@@ -65,24 +81,24 @@ export function parseTrendPage(html: string, country: TrendCountry, now = Date.n
   return rows
     .filter((row) => row.started >= now - TREND_PERIOD_HOURS * 3_600_000)
     .sort((a, b) => b.volume - a.volume || b.started - a.started || (a.title < b.title ? -1 : a.title > b.title ? 1 : 0))
-    .map(({ title, related }) => ({ title, related }))
+    .map(({ title, volume, started }) => ({ title, volume, started }))
 }
 
 /**
  * The directory must include every accessible registered person, before any UI filters.
- * Related queries also name people around a story (a co-star, a founder's company), but one-word
- * names (Cher, 준) collide with unrelated queries there, so only multi-word names match them.
+ * Only the trend row's primary title matches a person. Related queries also name people
+ * around a story (a co-star, a founder's company), but those riders kept reading as noise
+ * next to people whose own name is trending, so they are not surfaced.
+ * Matches form a single list ordered by trend-row rank: the chip shows that rank.
  */
-export function matchTrendingPeople(trends: TrendSearch[], directory: RegisteredTrendPerson[]): string[] {
+export function matchTrendingPeople(trends: TrendSearch[], directory: RegisteredTrendPerson[]): TrendMatch[] {
   const peopleByName = new Map<string, Set<string>>()
-  const fullNameIds = new Set<string>()
   for (const person of directory) {
     // Excluded before indexing, so a modern namesake stops counting as ambiguous.
     const born = getCelebYear(person.birth_date)
     if (born !== null && born < TREND_MIN_BIRTH_YEAR) continue
     for (const name of [person.nickname, person.nickname_en]) {
       if (!name) continue
-      if (/\S\s+\S/u.test(name)) fullNameIds.add(person.id)
       const key = normalizeTrendName(name)
       if (!key) continue
       const ids = peopleByName.get(key) ?? new Set<string>()
@@ -90,29 +106,26 @@ export function matchTrendingPeople(trends: TrendSearch[], directory: Registered
       peopleByName.set(key, ids)
     }
   }
-  const result = new Set<string>()
-  const add = (query: string, fullNameOnly: boolean) => {
-    const ids = peopleByName.get(normalizeTrendName(query))
+  // Maps preserve insertion order, which is first-match (trend row rank) order.
+  const matched = new Map<string, { title: string; rank: number; volume: number; started: number }>()
+  trends.forEach((trend, index) => {
+    const ids = peopleByName.get(normalizeTrendName(trend.title))
     if (ids?.size !== 1) return
     const id = ids.values().next().value!
-    if (!fullNameOnly || fullNameIds.has(id)) result.add(id)
-  }
-  for (const trend of trends) {
-    add(trend.title, false)
-    for (const query of trend.related) add(query, true)
-  }
-  return [...result]
+    if (!matched.has(id)) matched.set(id, { title: trend.title, rank: index + 1, volume: trend.volume, started: trend.started })
+  })
+  return [...matched].map(([id, hit]) => ({ id, trendTitle: hit.title, rank: hit.rank, volume: hit.volume, started: hit.started }))
 }
 
 export async function resolveCountryTrendingPeople(
   country: unknown,
-  loader: (country: TrendCountry) => Promise<string[]>,
+  loader: (country: TrendCountry) => Promise<TrendMatch[]>,
 ): Promise<CountryTrendingPeople> {
   const parsed = parseTrendCountry(country)
-  if (!parsed) return { ids: [], available: false }
+  if (!parsed) return { matches: [], available: false }
   try {
-    return { ids: await loader(parsed), available: true }
+    return { matches: await loader(parsed), available: true }
   } catch {
-    return { ids: [], available: false }
+    return { matches: [], available: false }
   }
 }
