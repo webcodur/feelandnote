@@ -1,5 +1,6 @@
 "use client";
 import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
+import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { Minus, Plus } from "lucide-react";
 import { bindCanvasPan } from "./canvasPan";
 import GraphBoundaryFeedback, { type GraphBoundaryFeedbackHandle } from "./GraphBoundaryFeedback";
@@ -189,6 +190,7 @@ function RelationDiagram(props: Props) {
       <div className={styles.diagramStage} style={{ height: mobile ? mobileGraphStageHeight(mode, model, focuses, defaultZoom) : graphStageHeight(mode, model, focuses) }}>
         <div ref={containerRef} className={styles.graphCanvas} data-ready={ready} />
         <GraphBoundaryFeedback ref={boundaryFeedbackRef} />
+        {!ready && !error && <div className="pointer-events-none absolute inset-0 z-10"><CelebSectionSkeleton kind="graph" /></div>}
       </div>
     </div>
     <div className={styles.zoomControls} role="group" aria-label={`${zoomInLabel} · ${zoomOutLabel}`}>
@@ -201,7 +203,6 @@ function RelationDiagram(props: Props) {
         <Minus aria-hidden="true" />
       </button>
     </div>
-    {!graphRef.current && !error && <div className={styles.graphStatus}>RELATION DRAWING</div>}
     {error && <div className={styles.graphStatus}>RELATION DRAWING ERROR</div>}
   </div>;
 }

@@ -1,8 +1,9 @@
 "use client";
 
+import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useState } from "react";
 import { getCelebInitialAnalysis, type CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
-import { PendingBlock, RetryBlock } from "@/components/ui/pending";
+import { RetryBlock } from "@/components/ui/pending";
 import type { ServiceItem } from "../celebServiceItems";
 import FigureAnalysisTabs from "../FigureAnalysisTabs";
 
@@ -27,6 +28,6 @@ export default function CelebAnalysisRetry({ celebId, locale, item }: {
   };
   if (data) return <FigureAnalysisTabs item={item} celebId={celebId} spectrumData={data.spectrum}
     influenceData={data.influence} influenceExplorerData={data.influenceExplorer} />;
-  if (loading) return <PendingBlock variant="panel" minHeight="min-h-64" />;
+  if (loading) return <CelebSectionSkeleton kind={item.children?.some(child => child.key === "spectrum") ? "spectrum" : "influence"} />;
   return <RetryBlock onRetry={() => void retry()} />;
 }
