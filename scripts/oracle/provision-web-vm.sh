@@ -181,16 +181,25 @@ EOF
 sudo tee /usr/local/sbin/feelandnote-rendercache-clean >/dev/null <<'EOF'
 #!/bin/sh
 set -eu
-# 활성 슬롯의 런타임 렌더 산출물(en/ko)은 하루에 수GB씩 자란다.
-# 3일 이상 안 쓰인 것만 지운다 — Next는 없으면 요청 시 다시 렌더한다.
-APP=/opt/feelandnote/web/current/sw/web/.next-verify/server/app
-for d in "$APP/en" "$APP/ko"; do
+# 활성 슬롯의 런타임 렌더 산출물(en/ko)은 하루에 수GB씩 자란다 — 3일 지난 것만 지운다.
+# ISR fetch 캐시는 7일 보존. 없으면 Next가 요청 시 다시 렌더·조회한다.
+APP=/opt/feelandnote/web/current/sw/web/.next-verify
+for d in "$APP/server/app/en" "$APP/server/app/ko"; do
   [ -d "$d" ] || continue
   find "$d" -type f -mtime +3 -delete 2>/dev/null || true
   find "$d" -mindepth 1 -type d -empty -delete 2>/dev/null || true
 done
+if [ -d "$APP/cache/fetch-cache" ]; then
+  find "$APP/cache/fetch-cache" -type f -mtime +7 -delete 2>/dev/null || true
+fi
 EOF
 sudo chmod 0755 /usr/local/sbin/feelandnote-rendercache-clean
+# 저널 상한 — 기본값은 디스크의 ~10%라 방치하면 수GB까지 부푼다
+sudo mkdir -p /etc/systemd/journald.conf.d
+sudo tee /etc/systemd/journald.conf.d/99-feelandnote.conf >/dev/null <<'EOF'
+[Journal]
+SystemMaxUse=300M
+EOF
 sudo systemctl daemon-reload
 sudo systemctl enable feelandnote-web.service >/dev/null 2>&1 || true
 # 로컬 파일만 지우는 청소 타이머는 이중 실행 위험이 없어 바로 켠다
