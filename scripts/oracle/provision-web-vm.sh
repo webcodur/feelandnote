@@ -157,8 +157,44 @@ curl --fail --silent --show-error --max-time 600 --retry 2 \
   https://feelandnote.com/api/cron/today-figure -o /dev/null
 EOF
 sudo chmod 0755 /usr/local/sbin/feelandnote-today-figure
+sudo tee /etc/systemd/system/feelandnote-rendercache-clean.service >/dev/null <<'EOF'
+[Unit]
+Description=Prune Feel&Note web render cache
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/feelandnote-rendercache-clean
+EOF
+sudo tee /etc/systemd/system/feelandnote-rendercache-clean.timer >/dev/null <<'EOF'
+[Unit]
+Description=Prune Feel&Note web render cache every day
+
+[Timer]
+OnCalendar=*-*-* 04:30:00 UTC
+Persistent=true
+AccuracySec=1min
+Unit=feelandnote-rendercache-clean.service
+
+[Install]
+WantedBy=timers.target
+EOF
+sudo tee /usr/local/sbin/feelandnote-rendercache-clean >/dev/null <<'EOF'
+#!/bin/sh
+set -eu
+# 활성 슬롯의 런타임 렌더 산출물(en/ko)은 하루에 수GB씩 자란다.
+# 3일 이상 안 쓰인 것만 지운다 — Next는 없으면 요청 시 다시 렌더한다.
+APP=/opt/feelandnote/web/current/sw/web/.next-verify/server/app
+for d in "$APP/en" "$APP/ko"; do
+  [ -d "$d" ] || continue
+  find "$d" -type f -mtime +3 -delete 2>/dev/null || true
+  find "$d" -mindepth 1 -type d -empty -delete 2>/dev/null || true
+done
+EOF
+sudo chmod 0755 /usr/local/sbin/feelandnote-rendercache-clean
 sudo systemctl daemon-reload
 sudo systemctl enable feelandnote-web.service >/dev/null 2>&1 || true
+# 로컬 파일만 지우는 청소 타이머는 이중 실행 위험이 없어 바로 켠다
+sudo systemctl enable --now feelandnote-rendercache-clean.timer >/dev/null 2>&1 || true
 # 타이머는 DNS 전환 뒤에 켠다(옛 VM 과 이중 실행 방지)
 
 log "8. hostname"
