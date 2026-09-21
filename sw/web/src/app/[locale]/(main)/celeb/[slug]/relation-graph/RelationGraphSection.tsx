@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
 import MobileRelationList from "./MobileRelationList";
@@ -16,7 +17,10 @@ import { graphStageHeight } from "./graphLayout";
 import { useNearViewport } from "@/components/ui/pending";
 import useViewportAnchor from "./useViewportAnchor";
 
-const RelationDiagram = dynamic(() => import("./RelationDiagram"), { ssr: false });
+const RelationDiagram = dynamic(() => import("./RelationDiagram"), {
+  ssr: false,
+  loading: () => <CelebSectionSkeleton kind="graph" />,
+});
 
 export default function RelationGraphSection({
   centerName,
@@ -218,6 +222,7 @@ export default function RelationGraphSection({
 
     <div className={styles.diagramOnly}>
       <div ref={diagramRef} className="hidden min-[901px]:block" style={{ height: graphStageHeight(effectiveMode, model, effectiveFocuses) }}>
+        {!(desktopDiagramReady && isNear) && <CelebSectionSkeleton kind="graph" />}
         {desktopDiagramReady && isNear && <RelationDiagram mode={effectiveMode} focuses={effectiveFocuses} model={model} centerName={centerName} centerAvatarUrl={centerAvatarUrl}
         labels={labels} zoomInLabel={t("timelineZoomIn")} zoomOutLabel={t("timelineZoomOut")}
         selectedId={isCenterSelected ? "__CENTER__" : (selected?.id ?? null)}

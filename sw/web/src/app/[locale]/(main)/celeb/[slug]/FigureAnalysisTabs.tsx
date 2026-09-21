@@ -6,6 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -20,7 +21,7 @@ import SpectrumSection from "./SpectrumSection";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getInfluenceExplorer } from "@/actions/home/getInfluenceExplorer";
-import { PendingBlock, RetryBlock } from "@/components/ui/pending";
+import { RetryBlock } from "@/components/ui/pending";
 
 type AnalysisTab = "spectrum" | "influence";
 
@@ -115,6 +116,6 @@ function InfluencePanel({ celebId, initialData, initialExplorer }: {
     return () => { active = false; };
   }, [celebId, locale, initialData, attempt]);
   if (failed) return <RetryBlock onRetry={() => { setFailed(false); setAttempt(v => v + 1); }} />;
-  if (!result) return <PendingBlock variant="panel" minHeight="min-h-64" />;
+  if (!result) return <CelebSectionSkeleton kind="influence" />;
   return <CelebInfluenceSection data={result.data} explorerData={result.explorer} />;
 }

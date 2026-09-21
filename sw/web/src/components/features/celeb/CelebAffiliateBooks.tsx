@@ -7,9 +7,10 @@ import {
   getAffiliateBooksForCeleb,
   type AffiliateBookSource,
 } from '@/actions/home/getAffiliateBooks'
+import CelebSectionSkeleton from './CelebSectionSkeleton'
 import AffiliateBookList from '@/components/shared/AffiliateBookList'
 import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
-import { PendingBlock, RetryBlock } from '@/components/ui/pending'
+import { RetryBlock } from '@/components/ui/pending'
 import {
   createAffiliateBooksLoadGate,
   type AffiliateBooksResult,
@@ -150,7 +151,7 @@ export default function CelebAffiliateBooks({
           className="my-4 w-full rounded border border-white/15 px-4 py-4 text-sm text-text-secondary hover:border-accent/50 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           {tPage('moreRecommendations')}
         </button>
-      ) : !isCurrentRequest || loadState.status === 'idle' ? <PendingBlock variant="rows" count={1} /> : null}
+      ) : !isCurrentRequest || loadState.status === 'idle' ? <CelebSectionSkeleton kind="books" english={platform === 'amazon'} /> : null}
       {requested && isCurrentRequest && loadState.status === 'ready' && products.length === initialProductCount && (
         <p className="py-4 text-center text-sm text-text-secondary">{tPage('noFurtherRecommendations')}</p>
       )}

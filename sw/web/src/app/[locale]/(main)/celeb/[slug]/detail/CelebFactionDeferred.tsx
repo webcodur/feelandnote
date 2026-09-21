@@ -1,13 +1,14 @@
 /** 사용자 선택 뒤 세력도감만 조회한다. 시간 단위 목록 캐시를 초기 ISR에 섞지 않는다. */
 "use client";
 
+import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useEffect, useState } from "react";
 
 import {
   getCelebFactions,
   type CelebFactionsData,
 } from "@/actions/celebs/getCelebSideData";
-import { PendingBlock, RetryBlock } from "@/components/ui/pending";
+import { RetryBlock } from "@/components/ui/pending";
 
 import FactionSection from "../FactionSection";
 
@@ -61,7 +62,7 @@ export default function CelebFactionDeferred({
 
   if (status === "failed") return <RetryBlock onRetry={handleRetry} />;
   if (status !== "ready" || !data) {
-    return <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />;
+    return <CelebSectionSkeleton kind="faction" />;
   }
 
   return (

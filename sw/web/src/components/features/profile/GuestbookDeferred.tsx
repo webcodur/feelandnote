@@ -1,10 +1,11 @@
 "use client";
 
+import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { getGuestbookEntries } from "@/actions/guestbook";
 import { createClient } from "@/lib/db/client";
-import { PendingBlock, RetryBlock } from "@/components/ui/pending";
+import { RetryBlock } from "@/components/ui/pending";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import GuestbookContent from "./GuestbookContent";
 
@@ -40,7 +41,7 @@ export default function GuestbookDeferred({ profileId, isFiction = false }: {
     </button>
   );
   if (status === "failed") return <RetryBlock onRetry={() => void load()} />;
-  if (!result) return <PendingBlock variant="rows" count={3} />;
+  if (!result) return <CelebSectionSkeleton kind="guestbook" />;
   return <GuestbookContent profileId={profileId} currentUserId={result.userId} isOwner={false}
     initialEntries={result.entries} initialTotal={result.total} isFiction={isFiction} variant="celeb" />;
 }
