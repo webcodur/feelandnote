@@ -9,7 +9,7 @@
 | 영역 | 문서 | 책임 |
 |---|---|---|
 | 영상 형식 | [`longform.md`](longform.md) · [`shorts.md`](shorts.md) · [`solo.md`](solo.md) | 롱폼·쇼츠·1권 SOLO 구성 |
-| 글쓰기 | [`writer/`](writer/README.md) · [`shorts-best-cases.md`](shorts-best-cases.md) | 초안부터 번역까지의 0~7단계와 쇼츠 모범 사례 |
+| 글쓰기 | [`writer/`](writer/README.md) · [`shorts-best-cases.md`](shorts-best-cases.md) | 초안부터 번역까지의 단계별 규칙과 쇼츠 모범 사례 |
 | 음성 | [`voice/`](voice/README.md) | 보이스 배정·TTS·메타데이터·5단계 타이밍 파이프라인 |
 | 편성 | [`lineup/`](lineup/README.md) | 배포 순서, 제작 현황, 후보 풀 |
 | 이미지 | [`image-requirements.md`](image-requirements.md) · [`image-generation-techniques.md`](image-generation-techniques.md) | 이미지 요구사항과 생성 표현법 |

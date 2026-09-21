@@ -17,5 +17,4 @@
 | [`celeb-locale-fallback.md`](celeb-locale-fallback.md) | 셀럽 서가 한영 판본 표시 잔여. 논어 완료, 전수 조사 1·배포 대기 1·데이터 보완 2 |
 | [`faction-web.md`](faction-web.md) | 세력도감 웹 남은 일: 뷰 잔재 칸 제거(웹 배포 뒤), 허브 표지·단체화보 묶음 흡수·누끼 보장·그룹 편집 칸 |
 | [`faction-schema-migration.md`](faction-schema-migration.md) | 도감 스키마 이관 완료(배포·구표 드롭까지): celeb_tags 계열 → faction_lv1/lv2/lv3 + faction_members. 남은 것은 명명·생성 타입 같은 후속 정리 |
-| [`ko-dash-cleanup.md`](ko-dash-cleanup.md) | 한국어 장문의 대시 일괄 정리: 작품소개·감상배경 중심 직접 재작문. 검출만 기계, 기계 치환 금지 |
 | [`coupang-links.md`](coupang-links.md) | 수거한 쿠팡 링크 후속: 도서/비도서 분류 → 링크프라이스 `coupang` 승인 시 도서분 폐기·비도서분 검증 재등록 |
