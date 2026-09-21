@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test, { type TestContext } from "node:test";
-import { cancelSectionNavigation, scrollToSection } from "./sectionNavigation";
+import { scrollToSection } from "./sectionNavigation";
 
 function page(t: TestContext) {
   const original = new Map<string, PropertyDescriptor | undefined>();
@@ -36,7 +36,6 @@ function page(t: TestContext) {
     Object.defineProperty(globalThis, key, { configurable: true, value });
   }
   t.after(() => {
-    cancelSectionNavigation();
     for (const [key, descriptor] of original) {
       if (descriptor) Object.defineProperty(globalThis, key, descriptor);
       else Reflect.deleteProperty(globalThis, key);
@@ -50,42 +49,25 @@ function page(t: TestContext) {
   };
 }
 
-test("late sections above the destination can expand and shrink without moving its heading", (t) => {
+test("heading navigation respects the sticky header", (t) => {
   const p = page(t);
   scrollToSection(p.section);
   assert.equal(p.top(), 64);
-  p.shift(2562);
-  assert.equal(p.top(), 64);
-  p.shift(-1500);
-  assert.equal(p.top(), 64);
 });
 
-test("short last sections clamp to the bottom and realign when the page grows", (t) => {
+test("navigation clamps short final sections to the document bottom", (t) => {
   const p = page(t);
   p.root.scrollHeight = 5500;
   scrollToSection(p.section);
   assert.equal(p.win.scrollY, 4600);
-  p.root.scrollHeight += 600;
-  p.shift(0);
-  assert.equal(p.top(), 64);
 });
 
-for (const event of ["wheel", "touchstart", "pointerdown", "keydown", "popstate", "pagehide"]) {
-  test(`${event} releases the heading so later loading does not undo user movement`, (t) => {
-    const p = page(t);
-    scrollToSection(p.section);
-    p.win.dispatchEvent(new Event(event));
-    assert(p.disconnected());
-    p.win.scrollY += 300;
-    const y = p.win.scrollY;
-    p.shift(2562);
-    assert.equal(p.win.scrollY, y);
-  });
-}
-
-test("unmount cleanup releases the observer", (t) => {
+test("navigation never takes the camera back after the reader moves", (t) => {
   const p = page(t);
   scrollToSection(p.section);
-  cancelSectionNavigation();
-  assert(p.disconnected());
+  p.win.scrollY += 300;
+  const y = p.win.scrollY;
+  p.shift(2500);
+  p.shift(-1500);
+  assert.equal(p.win.scrollY, y);
 });

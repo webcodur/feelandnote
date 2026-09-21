@@ -1,84 +1,46 @@
-/*
-  파일명: /components/features/profile/GuestbookDeferred.tsx
-  기능: 인물 상세 방명록의 첫 목록을 화면이 다가왔을 때 불러온다
-  책임: 인물 상세는 ISR로 굳는 화면이라 방명록을 서버 HTML에 실으면 7일간 옛 글이 남는다.
-        마운트 시점에 공개 목록을 직접 조회해 GuestbookContent에 seed로 넘긴다.
-        기다리는 동안은 자리만 지키고, 실패하면 제자리에 다시 시도 단추를 세운다.
-*/ // ------------------------------
-
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-
-import { getPublicGuestbookEntries } from "@/actions/guestbook";
+import { getGuestbookEntries } from "@/actions/guestbook";
+import { createClient } from "@/lib/db/client";
 import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
-
 import GuestbookContent from "./GuestbookContent";
 
-type LoadStatus = "loading" | "ready" | "failed";
-
-interface Props {
+/** 실시간 목록과 로그인 상태는 독자가 방명록을 열 때 함께 준비한다. */
+export default function GuestbookDeferred({ profileId, isFiction = false }: {
   profileId: string;
   isFiction?: boolean;
-}
+}) {
+  const t = useTranslations("celebPage");
+  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "failed">("idle");
+  const [result, setResult] = useState<{
+    entries: GuestbookEntryWithAuthor[]; total: number; userId: string | null;
+  } | null>(null);
 
-export default function GuestbookDeferred({
-  profileId,
-  isFiction = false,
-}: Props) {
-  const t = useTranslations("pending");
-  const [status, setStatus] = useState<LoadStatus>("loading");
-  const [entries, setEntries] = useState<GuestbookEntryWithAuthor[]>([]);
-  const [total, setTotal] = useState(0);
-  // 다시 시도 횟수. 값이 바뀌면 조회를 한 번 더 돌린다.
-  const [attempt, setAttempt] = useState(0);
-
-  useEffect(() => {
-    let isActive = true;
-
-    const loadEntries = async () => {
-      try {
-        const result = await getPublicGuestbookEntries({ profileId });
-        if (!isActive) return;
-        setEntries(result.entries);
-        setTotal(result.total);
-        setStatus("ready");
-      } catch (error) {
-        console.error(`Load celeb guestbook error (try ${attempt + 1}):`, error);
-        if (isActive) setStatus("failed");
-      }
-    };
-    void loadEntries();
-
-    return () => {
-      isActive = false;
-    };
-  }, [attempt, profileId]);
-
-  const handleRetry = () => {
+  const load = async () => {
     setStatus("loading");
-    setAttempt((prev) => prev + 1);
+    try {
+      const [entries, auth] = await Promise.all([
+        getGuestbookEntries({ profileId, subjectKind: "celeb", limit: 10, offset: 0 }),
+        createClient().auth.getUser(),
+      ]);
+      setResult({ ...entries, userId: auth.data.user?.id ?? null });
+      setStatus("ready");
+    } catch {
+      setStatus("failed");
+    }
   };
 
-  if (status === "failed") {
-    return <RetryBlock onRetry={handleRetry} />;
-  }
-
-  if (status === "loading") {
-    return <PendingBlock variant="rows" count={3} label={t("loading")} />;
-  }
-
-  return (
-    <GuestbookContent
-      profileId={profileId}
-      isOwner={false}
-      initialEntries={entries}
-      initialTotal={total}
-      hideEmptyState
-      isFiction={isFiction}
-      variant="celeb"
-    />
+  if (status === "idle") return (
+    <button type="button" onClick={() => void load()} aria-expanded={false}
+      className="w-full rounded border border-white/15 px-4 py-5 text-sm text-text-secondary hover:border-accent/50 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+      {t("guestbookOpen")}
+    </button>
   );
+  if (status === "failed") return <RetryBlock onRetry={() => void load()} />;
+  if (!result) return <PendingBlock variant="rows" count={3} />;
+  return <GuestbookContent profileId={profileId} currentUserId={result.userId} isOwner={false}
+    initialEntries={result.entries} initialTotal={result.total} isFiction={isFiction} variant="celeb" />;
 }

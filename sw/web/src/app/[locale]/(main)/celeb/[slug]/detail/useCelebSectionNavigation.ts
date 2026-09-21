@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { trackEvent } from "@/lib/analytics/track";
-import { cancelSectionNavigation, scrollToSection } from "@/lib/scroll/sectionNavigation";
+import { scrollToSection } from "@/lib/scroll/sectionNavigation";
 
 import type { ServiceTarget } from "../celebServiceItems";
 
@@ -111,7 +111,6 @@ export function useCelebSectionNavigation(sectionIds: string[]) {
   useEffect(
     () => () => {
       window.clearTimeout(navReleaseRef.current);
-      cancelSectionNavigation();
     },
     [],
   );

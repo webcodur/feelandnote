@@ -140,7 +140,7 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText
 
   return (
     <div>
-      {available ? (
+      <div inert={!available} aria-hidden={!available} style={{ visibility: available ? "visible" : "hidden" }}>
         <div className="mx-auto mb-4 max-w-sm rounded-xl border border-white/15 bg-white/[0.045] px-4 py-2.5" role="group" aria-label={t("readingControls")}>
           <div className="mx-auto grid w-fit grid-cols-5 items-center gap-1.5">
             <NarrationButton label={t("readingStop")} onClick={stop} disabled={status === "idle" && currentTime === 0}>
@@ -186,7 +186,7 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText
           <span className="min-w-7 text-right">{formatTime(duration)}</span>
           </div>
         </div>
-      ) : null}
+      </div>
       <ReviewScrollBox mobileOnly onOpen={onOpenText} openLabel={t("readingExpandGuide")}>
         <div className="mx-auto max-w-3xl space-y-4 font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
           {paragraphs.map((paragraph) => {

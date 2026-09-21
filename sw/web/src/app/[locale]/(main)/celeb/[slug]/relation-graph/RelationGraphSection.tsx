@@ -12,6 +12,8 @@ import RelationToolbar, { type FocusOption } from "./RelationToolbar";
 import { buildRelationModel, OTHER_FOCUS, peopleForFocuses, relationFocusesForMode, typesForMode } from "./relationModel";
 import type { DiagramLabels, PersonNode, RelationFocus, RelationGraphProps, RelationMode } from "./types";
 import useRelationDialogue from "@/hooks/useRelationDialogue";
+import { graphStageHeight } from "./graphLayout";
+import { useNearViewport } from "@/components/ui/pending";
 import useViewportAnchor from "./useViewportAnchor";
 
 const RelationDiagram = dynamic(() => import("./RelationDiagram"), { ssr: false });
@@ -37,6 +39,7 @@ export default function RelationGraphSection({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [desktopDiagramReady, setDesktopDiagramReady] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
+  const { ref: diagramRef, isNear } = useNearViewport();
   const captureViewportAnchor = useViewportAnchor();
   const { speak, stateFor } = useRelationDialogue(locale);
 
@@ -214,17 +217,19 @@ export default function RelationGraphSection({
       onModeChange={changeMode} onFocusChange={changeFocus} />
 
     <div className={styles.diagramOnly}>
-      {desktopDiagramReady ? <RelationDiagram mode={effectiveMode} focuses={effectiveFocuses} model={model} centerName={centerName} centerAvatarUrl={centerAvatarUrl}
+      <div ref={diagramRef} className="hidden min-[901px]:block" style={{ height: graphStageHeight(effectiveMode, model, effectiveFocuses) }}>
+        {desktopDiagramReady && isNear && <RelationDiagram mode={effectiveMode} focuses={effectiveFocuses} model={model} centerName={centerName} centerAvatarUrl={centerAvatarUrl}
         labels={labels} zoomInLabel={t("timelineZoomIn")} zoomOutLabel={t("timelineZoomOut")}
         selectedId={isCenterSelected ? "__CENTER__" : (selected?.id ?? null)}
         onSelect={selectDesktop}
-        onSelectCenter={selectCenter} /> : null}
+        onSelectCenter={selectCenter} />}
+      </div>
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
         selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
         onSpeak={(person) => void speak(person)} speakerFor={stateFor}
         speakLabels={{ voice: t("playGreetingVoice"), text: t("dialogue_greeting") }}
         goLabel={t("relGoPersonPage")} wikidataLabel={t("relViewWikidata")} />
-      {desktopDiagramReady && inspectorProps && <RelationInspector {...inspectorProps} />}
+      {inspectorProps && <RelationInspector {...inspectorProps} />}
     </div>
 
     {/* 실존 인물의 관계는 플랫폼에서 직접 편집하므로 출처를 한 곳으로 못 박지 않는다.
