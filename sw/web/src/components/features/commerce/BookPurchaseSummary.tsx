@@ -10,6 +10,7 @@
 
 import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
@@ -18,6 +19,7 @@ import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 import { coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
 import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
+import { trackCommerceClick } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 import { useYes24Sales } from "./useYes24Sales";
 
@@ -40,7 +42,7 @@ interface BookPurchaseSummaryProps {
   yes24Href?: string;
   /** 켜기 조건 — 도서 판매대에서만 true로 넘긴다 */
   enabled?: boolean;
-  /** 카드 위에 붙을 때는 버튼 폭을 칸에 맞춰 늘린다 */
+  /** 기본은 칸 전체 폭. 작은 단추가 필요한 자리만 false로 지정한다 */
   full?: boolean;
   className?: string;
   /** 단추에 덧붙일 클래스 — 자리마다 정렬·여백을 맞춘다 */
@@ -61,11 +63,12 @@ export default function BookPurchaseSummary({
   links: existingLinks = [],
   yes24Href,
   enabled = true,
-  full = false,
+  full = true,
   className,
   chipClassName,
 }: BookPurchaseSummaryProps) {
   const locale = useLocale();
+  const pathname = usePathname();
   const t = useTranslations("content.purchaseSales");
   const tBuy = useTranslations("content.purchase");
   const [isOpen, setIsOpen] = useState(false);
@@ -135,9 +138,16 @@ export default function BookPurchaseSummary({
           href={directLink.url}
           target="_blank"
           rel={directLink.platform === "amazon" ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
-          onClick={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            trackCommerceClick({
+              screen: pathname,
+              target: directLink.linkKind === "search" ? "search" : "product",
+              contentId, editionId, platform: directLink.platform, locale,
+            });
+          }}
           className={cn(
-            "relative flex items-center justify-center whitespace-nowrap rounded-md border px-2 py-1 text-xs font-semibold sm:px-3 sm:py-1.5 sm:text-sm focus-visible:outline-none focus-visible:ring-2",
+            "relative flex min-h-11 items-center justify-center whitespace-nowrap rounded-md border px-2 py-1 text-xs font-semibold sm:px-3 sm:py-1.5 sm:text-sm focus-visible:outline-none focus-visible:ring-2",
             purchaseButtonStyle(directLink.platform),
             full ? "w-full" : "mx-auto w-fit max-w-full",
             chipClassName,
@@ -159,6 +169,7 @@ export default function BookPurchaseSummary({
             setIsOpen(true);
           }}
           className={cn(
+            "min-h-11",
             links.length > 0
               ? // 골드 CTA — 금속 그라데이션+광휘. 어느 서점 색과도 겹치지 않는다
                 "effect-bevel shadow-glow relative flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md border border-accent-dim/60 bg-[linear-gradient(180deg,var(--color-accent-hover)_0%,var(--color-accent)_55%,var(--color-accent-dim)_150%)] px-3 py-1.5 text-xs font-bold text-bg-main sm:text-sm hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-hover"
@@ -196,7 +207,7 @@ export default function BookPurchaseSummary({
         </button>
       )}
       {isOpen && (
-        <BookPurchaseModal sales={sales} links={links} onClose={() => setIsOpen(false)} />
+        <BookPurchaseModal sales={sales} links={links} onClose={() => setIsOpen(false)} tracking={{ contentId, editionId }} />
       )}
     </AnimatedHeight>
   );

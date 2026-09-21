@@ -1,4 +1,4 @@
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useMemo, useRef } from "react";
 import { LoaderCircle } from "lucide-react";
 
@@ -109,7 +109,7 @@ export default function MobileRelationList(props: Props) {
           const speaker = props.speakerFor(person);
           const speakLabel = speaker.hasVoice ? props.speakLabels.voice : props.speakLabels.text;
           const face = person.avatarUrl
-            ? <Image src={person.avatarUrl} alt="" width={200} height={200} unoptimized />
+            ? <CelebAvatarImage src={person.avatarUrl} alt="" width={200} height={200} />
             : <ProfileFallback />;
           const identity = <>
             <strong>{person.name}</strong>

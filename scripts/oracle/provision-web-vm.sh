@@ -3,6 +3,10 @@
 # 기존 VM(168.107.58.90) 조사 결과를 재현한다. 비밀 파일(web.env, origin.key)과 인증서, 슬롯은
 # 이 스크립트가 아니라 로컬 경유 scp / rsync 로 따로 넣는다. 여러 번 실행해도 안전하다.
 set -euo pipefail
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+# Copy this script together with these two runtime helpers when provisioning a VM.
+test -f "$SCRIPT_DIR/web-runtime-metrics.cjs"
+test -f "$SCRIPT_DIR/prune-render-cache.py"
 
 NODE_VER=v24.19.0
 HEAP_MB=${HEAP_MB:-1280}
@@ -38,6 +42,10 @@ sudo install -d -o root -g ubuntu -m 0750 /etc/feelandnote
 sudo install -d -o root -g caddy -m 0750 /etc/caddy/certs
 sudo mkdir -p /opt/feelandnote/web
 sudo install -d -o ubuntu -g ubuntu -m 0750 /opt/feelandnote/web/slots
+sudo install -d -m 0755 /opt/feelandnote/observability
+sudo install -o root -g root -m 0644 "$SCRIPT_DIR/web-runtime-metrics.cjs" /opt/feelandnote/observability/web-runtime-metrics.cjs
+sudo install -o root -g root -m 0755 "$SCRIPT_DIR/prune-render-cache.py" /usr/local/sbin/feelandnote-prune-render-cache.py
+sudo install -d -o caddy -g caddy -m 0750 /var/log/caddy
 
 log "5. Caddyfile (공인 IP 는 메타데이터에서)"
 PUB_IP=${PUB_IP:-$(curl -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/vnics/ | grep -o "\"publicIp\" *: *\"[0-9.]*\"" | head -1 | grep -o "[0-9.]*$" || true)}; [ -n "$PUB_IP" ] || { echo "PUB_IP missing"; exit 1; }
@@ -71,6 +79,32 @@ www.feelandnote.com {
 }
 http://${PUB_IP} {
 	redir https://feelandnote.com{uri} permanent
+}
+# Cloudflare Tunnel only; never expose this listener on a public interface.
+http://:8080 {
+	log {
+		output file /var/log/caddy/web-access.jsonl {
+			roll_size 20mb
+			roll_keep 3
+			roll_keep_for 48h
+		}
+		format filter {
+			wrap json
+			fields {
+				request>headers delete
+				request>remote_ip delete
+				request>remote_port delete
+				request>client_ip delete
+				request>tls delete
+				resp_headers delete
+				request>uri regexp "[?].*\$" ""
+			}
+		}
+	}
+	bind 127.0.0.1
+	@www host www.feelandnote.com
+	redir @www https://feelandnote.com{uri} permanent
+	import feelandnote_app
 }
 EOF
 
@@ -107,7 +141,7 @@ EnvironmentFile=/etc/feelandnote/web.env
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=NODE_OPTIONS=--max-old-space-size=${HEAP_MB}
-ExecStart=/usr/local/bin/node server.js
+ExecStart=/usr/local/bin/node --require /opt/feelandnote/observability/web-runtime-metrics.cjs server.js
 Restart=always
 RestartSec=5
 TimeoutStopSec=15
@@ -163,15 +197,21 @@ Description=Prune Feel&Note web render cache
 
 [Service]
 Type=oneshot
+User=ubuntu
+Group=ubuntu
+Nice=19
+IOSchedulingClass=idle
+MemoryMax=192M
+TimeoutStartSec=120
 ExecStart=/usr/local/sbin/feelandnote-rendercache-clean
 EOF
 sudo tee /etc/systemd/system/feelandnote-rendercache-clean.timer >/dev/null <<'EOF'
 [Unit]
-Description=Prune Feel&Note web render cache every day
+Description=Prune Feel&Note web render cache in bounded batches
 
 [Timer]
-OnCalendar=*-*-* 04:30:00 UTC
-Persistent=true
+OnBootSec=15min
+OnUnitActiveSec=15min
 AccuracySec=1min
 Unit=feelandnote-rendercache-clean.service
 
@@ -181,17 +221,12 @@ EOF
 sudo tee /usr/local/sbin/feelandnote-rendercache-clean >/dev/null <<'EOF'
 #!/bin/sh
 set -eu
-# 활성 슬롯의 런타임 렌더 산출물(en/ko)은 하루에 수GB씩 자란다 — 3일 지난 것만 지운다.
-# ISR fetch 캐시는 7일 보존. 없으면 Next가 요청 시 다시 렌더·조회한다.
-APP=/opt/feelandnote/web/current/sw/web/.next-verify
-for d in "$APP/server/app/en" "$APP/server/app/ko"; do
-  [ -d "$d" ] || continue
-  find "$d" -type f -mtime +3 -delete 2>/dev/null || true
-  find "$d" -mindepth 1 -type d -empty -delete 2>/dev/null || true
-done
-if [ -d "$APP/cache/fetch-cache" ]; then
-  find "$APP/cache/fetch-cache" -type f -mtime +7 -delete 2>/dev/null || true
+# A canary means deployment is in progress; do not compete with its warmup.
+if systemctl list-units 'feelandnote-web-canary-*' --state=active --no-legend | grep -q .; then
+  echo 'Skipped cache eviction during deployment'
+  exit 0
 fi
+exec /usr/bin/python3 /usr/local/sbin/feelandnote-prune-render-cache.py --execute
 EOF
 sudo chmod 0755 /usr/local/sbin/feelandnote-rendercache-clean
 # 저널 상한 — 기본값은 디스크의 ~10%라 방치하면 수GB까지 부푼다

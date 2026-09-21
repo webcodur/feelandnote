@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
+import { Link } from "@/i18n/navigation";
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 
@@ -112,15 +113,22 @@ interface BottomNavigationProps {
   label: string;
   previousLabel: string;
   nextLabel: string;
+  /** 가운데 칸 — 지금 보는 작품의 상세 페이지로 가는 링크. 없으면 이동 단추만 둔다 */
+  detailHref?: string;
+  detailLabel?: string;
   disabled: boolean;
   onPrevious: () => void;
   onNext: () => void;
 }
 
+/* 카드 아래쪽 이동·연결 바. 좁은 화면은 [← 이전 | 작품 상세 | 다음 →] 세 칸이고,
+   넓은 화면은 양옆 화살표가 이동을 맡으므로 가운데 작품 상세 링크만 남는다 */
 export function ExpandBottomNavigation({
   label,
   previousLabel,
   nextLabel,
+  detailHref,
+  detailLabel,
   disabled,
   onPrevious,
   onNext,
@@ -129,27 +137,38 @@ export function ExpandBottomNavigation({
     <nav
       aria-label={label}
       data-testid="expand-bottom-navigation"
-      className="grid grid-cols-2 border-t border-white/10 bg-bg-secondary/55 md:hidden"
+      className="flex items-stretch justify-center border-t border-white/10 bg-bg-secondary/55"
     >
       <button
         type="button"
         onClick={onPrevious}
         data-testid="expand-bottom-prev"
         disabled={disabled}
-        className="flex min-h-[48px] items-center justify-center gap-2 border-e border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary"
+        aria-label={previousLabel}
+        title={previousLabel}
+        className="flex min-h-[44px] flex-1 items-center justify-center border-e border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary md:hidden"
       >
-        <ArrowLeft className="h-4 w-4" strokeWidth={1.7} aria-hidden />
-        <span>{previousLabel}</span>
+        <ArrowLeft className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
       </button>
+      {detailHref && detailLabel ? (
+        <Link
+          href={detailHref}
+          data-testid="expand-bottom-detail"
+          className="flex min-h-[44px] flex-1 items-center justify-center px-3 text-center text-sm font-medium text-accent hover:bg-accent/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 md:flex-none md:px-10"
+        >
+          <span className="truncate">{detailLabel}</span>
+        </Link>
+      ) : null}
       <button
         type="button"
         onClick={onNext}
         data-testid="expand-bottom-next"
         disabled={disabled}
-        className="flex min-h-[48px] items-center justify-center gap-2 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary"
+        aria-label={nextLabel}
+        title={nextLabel}
+        className="flex min-h-[44px] flex-1 items-center justify-center border-s border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary md:hidden"
       >
-        <span>{nextLabel}</span>
-        <ArrowRight className="h-4 w-4" strokeWidth={1.7} aria-hidden />
+        <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
       </button>
     </nav>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
+import ResponsivePortraitImage from "@/components/ui/ResponsivePortraitImage";
 import { Maximize2 } from "lucide-react";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -109,14 +110,10 @@ export default function CelebProfileMedia({
           } ${canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
         >
           <BlurDissolve key={photoUrl} className="absolute inset-0">
-            <Image
+            <ResponsivePortraitImage
               src={photoUrl}
               alt={nickname}
-              fill
-              unoptimized
               priority
-              fetchPriority="high"
-              sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
               className="object-cover"
               style={{ filter: "none" }}
             />
@@ -146,14 +143,13 @@ export default function CelebProfileMedia({
       >
         {avatarUrl ? (
           <BlurDissolve className="h-full w-full">
-            <Image
+            <CelebAvatarImage
               src={avatarUrl}
               alt={nickname}
               width={224}
               height={224}
               className="h-full w-full object-cover"
               style={{ filter: "none" }}
-              unoptimized
             />
           </BlurDissolve>
         ) : (

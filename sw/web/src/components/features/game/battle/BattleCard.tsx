@@ -6,7 +6,7 @@
 */
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { Swords, ScrollText, Landmark, Crown } from "lucide-react";
 import type { BattleCard as BattleCardType, Command } from "@/lib/game/types";
 import { COMMANDS } from "@/lib/game/types";
@@ -108,7 +108,7 @@ export default function BattleCard({
       {/* ── 1행: 초상화 ── */}
       <div className="relative w-full aspect-square" style={{ background: "radial-gradient(circle at 50% 40%, #24242e 0%, #14141a 70%, #0e0e14 100%)" }}>
         {card.avatarUrl ? (
-          <Image src={card.avatarUrl} alt={card.nickname} fill className="object-cover" sizes="120px" />
+          <CelebAvatarImage src={card.avatarUrl} alt={card.nickname} className="object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-white/[0.06] text-xl font-cinzel">{card.nickname[0]}</span>

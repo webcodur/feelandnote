@@ -1,8 +1,11 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { isLinkPriceUrl } from "@/lib/books/bookPurchaseRedirect";
+import { trackCommerceClick } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
 function isYes24Affiliate(url: string) {
@@ -12,10 +15,14 @@ function isYes24Affiliate(url: string) {
   } catch { return false; }
 }
 
-export default function BookPurchaseLinks({ links, className }: {
+export default function BookPurchaseLinks({ links, className, tracking }: {
   links: readonly AffiliateLink[];
   className?: string;
+  /** 클릭 계측에 실을 대상 식별자 */
+  tracking?: { contentId?: string; editionId?: number };
 }) {
+  const pathname = usePathname();
+  const locale = useLocale();
   if (!links.length) return null;
 
   return (
@@ -32,7 +39,17 @@ export default function BookPurchaseLinks({ links, className }: {
                 href={link.url}
                 target="_blank"
                 rel={sponsored ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
-                onClick={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  trackCommerceClick({
+                    screen: pathname,
+                    target: link.linkKind === "search" ? "search" : "product",
+                    contentId: tracking?.contentId,
+                    editionId: tracking?.editionId,
+                    platform: link.platform,
+                    locale,
+                  });
+                }}
                 className={cn(
                   "relative flex min-h-11 w-full items-center justify-center rounded-lg border px-3 py-2.5 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2",
                   purchaseButtonStyle(link.platform),

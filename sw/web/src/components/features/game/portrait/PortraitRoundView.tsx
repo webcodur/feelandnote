@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useEffect, useRef } from "react";
 import { Check, LoaderCircle, X } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -124,13 +124,11 @@ export default function PortraitRoundView({
       <div className="grid min-h-0 flex-1 items-center gap-3 md:grid-cols-[minmax(240px,0.82fr)_minmax(320px,1.18fr)] md:gap-8">
         <div className="mx-auto w-full max-w-[160px] sm:max-w-[230px] md:max-w-[290px]">
           <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-accent/30 bg-stone-heavy shadow-[0_24px_70px_-28px_rgba(0,0,0,1)] sm:rounded-2xl">
-            <Image
+            <CelebAvatarImage
               key={round.target.id}
               src={round.target.avatarUrl}
               alt={isAnswered && answer.kind !== "skipped" ? round.target.name : t("hiddenPortraitAlt")}
-              fill
-              priority
-              sizes="(max-width: 640px) 160px, (max-width: 768px) 230px, 290px"
+              loading="eager" fetchPriority="high"
               className="object-cover transition-[filter,transform] duration-700 ease-out"
               style={imageStyle}
               onLoad={onImageLoad}
