@@ -6,8 +6,8 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
@@ -18,6 +18,9 @@ import CelebInfluenceSection from "./CelebInfluenceSection";
 import type { ServiceItem } from "./celebServiceItems";
 import SpectrumSection from "./SpectrumSection";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
+import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
+import { getInfluenceExplorer } from "@/actions/home/getInfluenceExplorer";
+import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 
 type AnalysisTab = "spectrum" | "influence";
 
@@ -25,6 +28,7 @@ const TAB_KEYS: readonly AnalysisTab[] = ["spectrum", "influence"];
 
 interface Props {
   item: ServiceItem;
+  celebId: string;
   spectrumData: SimilarByCelebResult | null;
   influenceData: CelebInfluenceDetail | null;
   influenceExplorerData: InfluenceExplorerData | null;
@@ -32,6 +36,7 @@ interface Props {
 
 export default function FigureAnalysisTabs({
   item,
+  celebId,
   spectrumData,
   influenceData,
   influenceExplorerData,
@@ -80,14 +85,36 @@ export default function FigureAnalysisTabs({
             />
           )}
 
-          {activeKey === "influence" && influenceData && (
-            <CelebInfluenceSection
-              data={influenceData}
-              explorerData={influenceExplorerData}
-            />
+          {activeKey === "influence" && (
+            <InfluencePanel celebId={celebId} initialData={influenceData} initialExplorer={influenceExplorerData} />
           )}
         </div>
       </AnimatedHeight>
     </div>
   );
+}
+
+function InfluencePanel({ celebId, initialData, initialExplorer }: {
+  celebId: string;
+  initialData: CelebInfluenceDetail | null;
+  initialExplorer: InfluenceExplorerData | null;
+}) {
+  const locale = useLocale();
+  const [result, setResult] = useState(initialData ? { data: initialData, explorer: initialExplorer } : null);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    if (initialData) return;
+    let active = true;
+    Promise.all([getCelebInfluence(celebId, locale), getInfluenceExplorer(celebId, locale)])
+      .then(([data, explorer]) => {
+        if (!active) return;
+        if (data) setResult({ data, explorer });
+        else setFailed(true);
+      }).catch(() => { if (active) setFailed(true); });
+    return () => { active = false; };
+  }, [celebId, locale, initialData, attempt]);
+  if (failed) return <RetryBlock onRetry={() => { setFailed(false); setAttempt(v => v + 1); }} />;
+  if (!result) return <PendingBlock variant="panel" minHeight="min-h-64" />;
+  return <CelebInfluenceSection data={result.data} explorerData={result.explorer} />;
 }

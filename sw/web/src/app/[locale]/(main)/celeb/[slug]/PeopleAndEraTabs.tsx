@@ -7,14 +7,13 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
-import type { FeaturedFaction } from "@/actions/home/getFeaturedFactions";
-import type { CelebBySlugProfile, CelebRelationItem, FactionItem } from "@/actions/user/getCelebBySlug";
+import type { CelebBySlugProfile, CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
-import FactionSection from "./FactionSection";
+import CelebFactionDeferred from "./detail/CelebFactionDeferred";
 import RelationGraphSection from "./RelationGraphSection";
 
 type PeopleAndEraTab = "relations" | "faction";
@@ -24,8 +23,7 @@ interface Props {
   centerName: string;
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
-  factions: FeaturedFaction[];
-  memberships: FactionItem[];
+  slug: string;
   currentCelebId: string;
   isFiction: boolean;
   centerProfile?: CelebBySlugProfile;
@@ -38,13 +36,14 @@ export default function PeopleAndEraTabs({
   centerName,
   centerAvatarUrl,
   relations,
-  factions,
-  memberships,
+  slug,
   currentCelebId,
   isFiction,
   centerProfile,
 }: Props) {
   const t = useTranslations("celebPage");
+  const locale = useLocale();
+  const [factionOpened, setFactionOpened] = useState(false);
   const childItems = item.children ?? [];
   const visibleTabs = TAB_KEYS.flatMap((key) => {
     const child = childItems.find((candidate) => candidate.key === key);
@@ -72,7 +71,7 @@ export default function PeopleAndEraTabs({
       <ArchiveTabsHeader
         tabs={tabs}
         activeKey={activeKey}
-        onChange={setTab}
+        onChange={(next) => { setTab(next); if (next === "faction") setFactionOpened(true); }}
         columnsClassName={columnsClassName}
         ariaLabel={t(isFiction ? "fictionConnections" : "connections")}
         className="mb-0 sm:mb-0"
@@ -94,13 +93,13 @@ export default function PeopleAndEraTabs({
         )}
 
         {activeKey === "faction" && (
-          <FactionSection
-            factions={factions}
-            memberships={memberships}
-            currentCelebId={currentCelebId}
-            ownerName={centerName}
-            ownerAvatarUrl={centerAvatarUrl}
-          />
+          factionOpened ? <CelebFactionDeferred
+            slug={slug} locale={locale} currentCelebId={currentCelebId}
+            centerName={centerName} centerAvatarUrl={centerAvatarUrl}
+          /> : <button type="button" onClick={() => setFactionOpened(true)}
+            className="my-4 w-full rounded border border-white/15 px-4 py-4 text-sm text-text-secondary hover:border-accent/50 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            {t("factionLoad")}
+          </button>
         )}
       </div>
     </div>

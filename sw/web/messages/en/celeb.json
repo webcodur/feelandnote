@@ -339,6 +339,10 @@
     "refGroupProfessionWorks": "Works in this profession",
     "factionExpand": "Expand faction",
     "factionCluster": "Group",
-    "factionClusterOthers": "Other figures"
+    "factionClusterOthers": "Other figures",
+    "guestbookOpen": "Read or sign the guestbook",
+    "moreRecommendations": "More book recommendations",
+    "noFurtherRecommendations": "There are no additional recommendations.",
+    "factionLoad": "Explore factions"
   }
 }
