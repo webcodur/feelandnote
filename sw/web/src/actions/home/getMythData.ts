@@ -57,6 +57,9 @@ const TITLE_ART_BY_SLUG: Record<string, string> = {
   "myth-hindu-mahabharata": "myth-hindu-mahabharata.png",
   "myth-hindu-ramayana": "myth-hindu-ramayana.png",
   "myth-japan": "myth-japan.png",
+  "myth-korea-buyeo-goguryeo": "myth-korea-buyeo-goguryeo.png",
+  "myth-korea-gojoseon": "myth-korea-gojoseon.png",
+  "myth-korea-jeju-bonpuri": "myth-korea-jeju-bonpuri.png",
   "myth-mesopotamia": "myth-mesopotamia.png",
   "myth-norse": "myth-norse.png",
 };
