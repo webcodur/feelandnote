@@ -117,8 +117,15 @@ export function parseAppleBooksChart(value: unknown, now = Date.now()): BookChar
   return { items: unique(items), updatedAt, fetchedAt: new Date(now).toISOString(), sources: sources.en }
 }
 
+// Apple 피드는 User-Agent 없는 요청(undici 기본값)을 연결만 받고 응답 없이 붙잡아 둔다 — 명시 UA가 필수다
+const FEED_USER_AGENT = 'feelandnote/1.0 (+https://feelandnote.com)'
+
 async function fetchJson(fetcher: typeof fetch, url: string, headers: HeadersInit): Promise<unknown> {
-  const response = await fetcher(url, { headers, signal: AbortSignal.timeout(15_000), redirect: 'error' })
+  const response = await fetcher(url, {
+    headers: { 'User-Agent': FEED_USER_AGENT, ...headers },
+    signal: AbortSignal.timeout(15_000),
+    redirect: 'error',
+  })
     .catch(() => { throw new Error('Book chart network request failed') })
   if (!response.ok) throw new Error(`Book chart HTTP ${response.status}`)
   if (!response.headers.get('content-type')?.includes('application/json')) throw new Error('Invalid chart content type')
