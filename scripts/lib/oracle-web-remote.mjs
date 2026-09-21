@@ -689,6 +689,35 @@ async function warmExplorePage(port, expectedDeploymentId, passes = 2) {
   return { url: pageUrl, runs }
 }
 
+/**
+ * 전환 전 주요 진입 경로를 두 로케일로 데운다.
+ * /explore 하나만 데우면 홈·상세·서재는 빈 렌더 캐시로 첫 방문자를 맞는다 —
+ * 카나리는 슬롯의 파일 캐시를, 본 프로세스는 인메모리 캐시를 채운다.
+ */
+const MAIN_WARMUP_ROUTES = (probeSlug) => [
+  '/', '/ko', '/en',
+  '/explore', '/en/explore',
+  `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`,
+  '/library', '/en/library',
+]
+
+async function warmMainRoutes(port, probeSlug) {
+  const origin = `http://127.0.0.1:${port}`
+  const runs = []
+  for (const route of MAIN_WARMUP_ROUTES(probeSlug)) {
+    const url = `${origin}${route}`
+    const startedAt = Date.now()
+    const response = await fetchWithTimeout(url, {
+      headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+      timeoutMs: 60_000,
+    })
+    await response.text()
+    if (!response.ok) throw new Error(`Warmup route returned HTTP ${response.status}: ${url}`)
+    runs.push({ route, status: response.status, durationMs: Date.now() - startedAt })
+  }
+  return runs
+}
+
 function canConnect(port) {
   return new Promise((resolve) => {
     const socket = net.createConnection({ host: '127.0.0.1', port })
@@ -809,6 +838,7 @@ async function runCanary(releaseId, port, probeSlug) {
 
     const probes = await verifyApplication(port, probeSlug, releaseId, releaseId)
     const exploreWarmup = await warmExplorePage(port, releaseId)
+    const routeWarmup = await warmMainRoutes(port, probeSlug)
     keepRunning = true
     return {
       unit,
@@ -817,6 +847,7 @@ async function runCanary(releaseId, port, probeSlug) {
       releaseId: metadata.releaseId,
       probes,
       exploreWarmup,
+      routeWarmup,
       keptRunningForTrafficBridge: true,
     }
   } catch (error) {
@@ -862,7 +893,8 @@ async function restartPrimaryApplication(releasePath, linkId, probeSlug, expecte
   const exploreWarmup = expectedDeploymentId
     ? await warmExplorePage(PRIMARY_PORT, expectedDeploymentId, 1)
     : null
-  return { probes, exploreWarmup }
+  const routeWarmup = await warmMainRoutes(PRIMARY_PORT, probeSlug)
+  return { probes, exploreWarmup, routeWarmup }
 }
 
 async function waitForTrafficDrain() {
