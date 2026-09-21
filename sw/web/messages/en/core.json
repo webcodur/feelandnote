@@ -143,7 +143,9 @@
       "sensitivity": "Sensitivity",
       "sensitivityNote": "How far the page moves per pixel of drag.",
       "momentum": "Glide",
-      "momentumNote": "The page keeps gliding for a moment after you let go."
+      "momentumNote": "The page keeps gliding for a moment after you let go.",
+      "toTop": "Jump to top",
+      "toBottom": "Jump to bottom"
     }
   },
   "pages": {
@@ -584,7 +586,16 @@
         "both": "Fact | Fiction"
       },
       "viewCard": "View figure card",
-      "playDialogue": "Show dialogue"
+      "playDialogue": "Show dialogue",
+      "trendChipDirect": "Trending top {rank}",
+      "trendChipRank": "top {rank}",
+      "trendInfoOpen": "See trend details",
+      "trendModalQuery": "Trending search \"{title}\" · #{rank}",
+      "trendModalBodyDirect": "This figure's own name is surging on Google Trends in {country}.",
+      "trendModalSource": "View on Google Trends",
+      "trendModalPeriod": "Past {days} days",
+      "trendChipSurge": "Trending top",
+      "trendModalStats": "{volume}+ searches · trending {ago}"
     },
     "celebViews": {
       "title": "Who viewed this profile",

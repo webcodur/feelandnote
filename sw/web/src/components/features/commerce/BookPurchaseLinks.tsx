@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { isLinkPriceUrl } from "@/lib/books/bookPurchaseRedirect";
 import { cn } from "@/lib/utils";
@@ -17,7 +16,6 @@ export default function BookPurchaseLinks({ links, className }: {
   links: readonly AffiliateLink[];
   className?: string;
 }) {
-  const t = useTranslations("content.purchase");
   if (!links.length) return null;
 
   return (
@@ -36,12 +34,12 @@ export default function BookPurchaseLinks({ links, className }: {
                 rel={sponsored ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
                 onClick={(event) => event.stopPropagation()}
                 className={cn(
-                  "flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2",
+                  "relative flex min-h-11 w-full items-center justify-center rounded-lg border px-3 py-2.5 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2",
                   purchaseButtonStyle(link.platform),
                 )}
               >
-                <span>{t(link.linkKind === "search" ? "searchAt" : "buyAt", { platform: AFFILIATE_PLATFORMS[link.platform].label })}</span>
-                <ArrowUpRight size={14} className="shrink-0" aria-hidden />
+                <span>{AFFILIATE_PLATFORMS[link.platform].label}</span>
+                <ArrowUpRight size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2" aria-hidden />
               </a>
             </div>
           );

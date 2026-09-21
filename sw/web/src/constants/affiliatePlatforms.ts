@@ -34,7 +34,15 @@ export const AFFILIATE_PLATFORMS = {
   },
   aladin: { label: '알라딘', color: '#8B5CF6', locale: 'ko', notice: null },
   // en
-  amazon: { label: 'Amazon', color: '#FF9900', locale: 'en', notice: null },
+  amazon: {
+    label: 'Amazon',
+    color: '#FF9900',
+    locale: 'en',
+    // 어소시에이트 추적 ID(2026-09-21 계정 생성) — 상품·검색 링크에 tag로 얹는다
+    tag: 'feelandnote-20',
+    // 운영계약 §5 필수 고지 원문 — 바꾸거나 번역하지 않는다
+    notice: 'As an Amazon Associate I earn from qualifying purchases.',
+  },
   google_books: { label: 'Google Books', color: '#4285F4', locale: 'en', notice: null },
 } as const
 

@@ -1,6 +1,7 @@
 /* ─────────────────────────────────────────────
- * [공통] 통합 구매 모듈 — 바깥 값표 + 구매 창
- * - 바깥: 「평점 | 가격」 값표 단추 하나. 서점 표시는 두지 않는다
+ * [공통] 통합 구매 모듈 — 바깥 구매 단추 + 구매 창
+ * - 바깥: 골드 채우기 「구매하기」 단추 하나. 서점 표시는 두지 않는다
+ *   (구매 링크가 없고 판매 정보만 있으면 예전 「평점 | 가격」 값표로 떨어진다)
  * - 누르면 서점별 구매 단추(서점 색)와 수수료·주의 안내를 담은 창(BookPurchaseModal)이 뜬다
  * - 예전 [YES24 판매정보] + [쿠팡|YES24 링크] + [주의사항 ⓘ] 세 모듈의 자리를 이 한 모듈이 받는다
  * - 데이터: useYes24Sales(한국어), links prop(쿠팡·교보·알라딘·아마존 등 보유 링크), getBookPurchaseHref(YES24 경유)
@@ -9,10 +10,10 @@
 
 import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import { Star } from "lucide-react";
+import { ArrowUpRight, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
-import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 import { coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
@@ -67,7 +68,6 @@ export default function BookPurchaseSummary({
   const locale = useLocale();
   const t = useTranslations("content.purchaseSales");
   const tBuy = useTranslations("content.purchase");
-  const tInfo = useTranslations("content.purchaseInfo");
   const [isOpen, setIsOpen] = useState(false);
 
   const sales = useYes24Sales({
@@ -125,16 +125,33 @@ export default function BookPurchaseSummary({
 
   // 살 수 있는 서점도 판매 정보도 없으면 빈 칸이다. 링크만 있어도 구매 문구로 칩을 세운다.
   const showChip = enabled && (showSales || links.length > 0);
+  // 영어는 서점 하나(아마존)뿐이라 창을 거치지 않고 서점 주소로 바로 보낸다 — 고지는 영어 화면 푸터가 싣는다
+  const directLink = locale === "en" && !sales && links.length === 1 ? links[0] : null;
 
   return (
     <AnimatedHeight independent duration={320} className={className}>
-      {showChip && (
+      {showChip && directLink && (
+        <a
+          href={directLink.url}
+          target="_blank"
+          rel={directLink.platform === "amazon" ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
+          onClick={(event) => event.stopPropagation()}
+          className={cn(
+            "relative flex items-center justify-center whitespace-nowrap rounded-md border px-2 py-1 text-xs font-semibold sm:px-3 sm:py-1.5 sm:text-sm focus-visible:outline-none focus-visible:ring-2",
+            purchaseButtonStyle(directLink.platform),
+            full ? "w-full" : "mx-auto w-fit max-w-full",
+            chipClassName,
+          )}
+        >
+          {AFFILIATE_PLATFORMS[directLink.platform].label}
+          <ArrowUpRight size={13} className="absolute right-1.5 top-1/2 -translate-y-1/2" aria-hidden />
+        </a>
+      )}
+      {showChip && !directLink && (
         <button
           type="button"
           aria-haspopup="dialog"
           aria-expanded={isOpen}
-          aria-label={tInfo("trigger")}
-          title={tInfo("trigger")}
           onClick={(event) => {
             // 카드·펼침 안에 붙는 값표다 — 누름이 바깥 링크·카드 토글로 번지지 않게 막는다
             event.preventDefault();
@@ -142,12 +159,20 @@ export default function BookPurchaseSummary({
             setIsOpen(true);
           }}
           className={cn(
-            "flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-2 py-1 text-xs text-text-tertiary sm:gap-2.5 sm:px-3 sm:py-1.5 sm:text-sm hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            links.length > 0
+              ? // 골드 CTA — 금속 그라데이션+광휘. 어느 서점 색과도 겹치지 않는다
+                "effect-bevel shadow-glow flex cursor-pointer items-center justify-center gap-1 whitespace-nowrap rounded-md border border-accent-dim/60 bg-[linear-gradient(180deg,var(--color-accent-hover)_0%,var(--color-accent)_55%,var(--color-accent-dim)_150%)] px-3 py-1.5 text-xs font-bold text-bg-main sm:text-sm hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-hover"
+              : "relative flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-2 py-1 text-xs text-text-tertiary sm:gap-2.5 sm:px-3 sm:py-1.5 sm:text-sm hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
             full ? "w-full" : "mx-auto w-fit max-w-full",
             chipClassName,
           )}
         >
-          {showSales ? (
+          {links.length > 0 ? (
+            <>
+              {tBuy("buy")}
+              <ArrowUpRight size={13} className="shrink-0 drop-shadow-sm" aria-hidden />
+            </>
+          ) : showSales ? (
             onSale ? (
               <span className="inline-flex items-center gap-1.5 sm:gap-2.5">
                 {hasRating && (
@@ -166,13 +191,7 @@ export default function BookPurchaseSummary({
             ) : (
               <strong className="font-semibold text-text-primary">{t("changed")}</strong>
             )
-          ) : (
-            <strong className="font-semibold text-text-primary">
-              {links.length === 1
-                ? tBuy("buyAt", { platform: AFFILIATE_PLATFORMS[links[0].platform].label })
-                : tBuy("buy")}
-            </strong>
-          )}
+          ) : null}
         </button>
       )}
       {isOpen && (
