@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { TREND_CHIP_BASE, TREND_CHIP_DIRECT, TREND_CHIP_FLAME_BG } from "@/components/shared/CelebCard.styles";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
 import { PINNED_TREND_COUNTRIES, TREND_PERIOD_HOURS, type TrendCountry } from "@/constants/trendCountries";
@@ -22,6 +23,7 @@ const controlClass = "flex min-h-11 min-w-0 items-center justify-center gap-1.5 
 
 export default function CelebCompactControls({ filters, trendCountryOptions = PINNED_TREND_COUNTRIES, onInteraction }: Props) {
   const t = useTranslations("home.ui");
+  const tCeleb = useTranslations("shared.celeb");
   const year = useTranslations("home.ui.birthYear");
   const getProfession = useProfessionLabel();
   const getNationality = useNationalityLabel();
@@ -91,6 +93,15 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
               : filters.trend.matchedCount === 0 ? t("trends.noMatches")
               : t("trends.description", { country: getNationality(filters.trendCountry) })}
           </p>
+          {/* 칩 범례 — 카드·명부의 네모 칩과 같은 모양으로 급상승 표지를 설명한다 */}
+          {!filters.isLoading && filters.trend?.available && filters.trend.matchedCount > 0 && (
+            <ul className="space-y-1 text-xs text-text-secondary">
+              <li className="flex items-center gap-2">
+                <span className={`${TREND_CHIP_BASE} ${TREND_CHIP_DIRECT}`} style={{ background: TREND_CHIP_FLAME_BG }}>{tCeleb("trendChipSurge")}</span>
+                <span>{t("trends.legendDirect", { count: filters.trend.matchedCount })}</span>
+              </li>
+            </ul>
+          )}
           <a href={`https://trends.google.com/trending?geo=${filters.trendCountry}&hl=en&hours=${TREND_PERIOD_HOURS}`}
             target="_blank" rel="noopener noreferrer"
             className="inline-flex min-h-9 items-center rounded text-xs text-text-secondary underline decoration-white/20 underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">

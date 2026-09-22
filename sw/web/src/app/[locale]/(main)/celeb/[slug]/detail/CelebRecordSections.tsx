@@ -9,13 +9,13 @@
 import { useMemo, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 
+import type { CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
-import { Deferred, PendingBlock } from "@/components/ui/pending";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import type { Locale } from "@/types/locale";
 
@@ -27,12 +27,13 @@ import FigureMediaTabs from "../FigureMediaTabs";
 import FigureReadingTabs from "../FigureReadingTabs";
 import JourneySection from "../JourneySection";
 import LibraryTabs from "../LibraryTabs";
-import CelebAnalysisDeferred from "./CelebAnalysisDeferred";
-import CelebConnectionsDeferred from "./CelebConnectionsDeferred";
+import FigureAnalysisTabs from "../FigureAnalysisTabs";
+import CelebAnalysisRetry from "./CelebAnalysisRetry";
+import PeopleAndEraTabs from "../PeopleAndEraTabs";
 import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
-const SECTION_CLASS_NAME = `animate-fade-in ${styles.recordSection}`;
+const SECTION_CLASS_NAME = styles.recordSection;
 
 /* ── 1. 구획 공용 표면 — 바깥 상자 규격은 CSS 한 곳(sectionSurface)이 쥔다 ── */
 function SectionSurface({
@@ -44,7 +45,7 @@ function SectionSurface({
 }) {
   return (
     <div className={`${styles.sectionSurface} ${className}`}>
-      <AnimatedHeight>{children}</AnimatedHeight>
+      <AnimatedHeight disabled>{children}</AnimatedHeight>
     </div>
   );
 }
@@ -56,6 +57,7 @@ interface CelebRecordSectionsProps {
   locale: Locale;
   dialogueLines?: Record<string, string[]> | null;
   timelineEvents: CelebTimelineEvent[];
+  initialAnalysis: CelebAnalysisData | null;
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
   figureBooks: FigureBookContent[];
@@ -72,6 +74,7 @@ export default function CelebRecordSections({
   locale,
   dialogueLines,
   timelineEvents,
+  initialAnalysis,
   initialContents,
   initialContentBrief,
   figureBooks,
@@ -133,25 +136,17 @@ export default function CelebRecordSections({
     return (
       <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
         {renderSectionHeading("connections")}
-        {/* 인물 목록과 세력 화보는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다.
-            제목은 서버 HTML에 그대로 남는다. */}
         <SectionSurface>
-          <Deferred
-            fallback={
-              <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
-            }
-          >
-            <CelebConnectionsDeferred
-              slug={slug}
-              locale={locale}
-              item={serviceItemsByKey.get("connections")!}
-              centerName={profile.nickname}
-              centerAvatarUrl={profile.avatar_url}
-              currentCelebId={profile.id}
-              isFiction={isFiction}
-              centerProfile={profile}
-            />
-          </Deferred>
+          <PeopleAndEraTabs
+            item={serviceItemsByKey.get("connections")!}
+            centerName={profile.nickname}
+            centerAvatarUrl={profile.avatar_url}
+            relations={profile.relations}
+            currentCelebId={profile.id}
+            isFiction={isFiction}
+            centerProfile={profile}
+            slug={slug}
+          />
         </SectionSurface>
       </section>
     );
@@ -182,7 +177,6 @@ export default function CelebRecordSections({
                 reading={profile.reading}
                 virtualMonologue={profile.virtualMonologue}
                 celebId={userId}
-                celebName={profile.nickname}
                 voiceV={profile.voice_v}
                 readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
               />
@@ -210,6 +204,7 @@ export default function CelebRecordSections({
                 userId={userId}
                 slug={slug}
                 nickname={profile.nickname}
+                avatarUrl={profile.avatar_url}
                 emptyMessage={t("libraryEmpty")}
                 wikidataQid={profile.wikidata_qid ?? null}
                 authoredBooks={authoredBooks}
@@ -233,19 +228,14 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("analysis") && (
           <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("analysis")}
-            {/* 점수와 그래프는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다 */}
             <SectionSurface>
-              <Deferred
-                fallback={
-                  <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
-                }
-              >
-                <CelebAnalysisDeferred
-                  celebId={userId}
-                  locale={locale}
-                  item={serviceItemsByKey.get("analysis")!}
-                />
-              </Deferred>
+              {initialAnalysis ? <FigureAnalysisTabs
+                item={serviceItemsByKey.get("analysis")!}
+                spectrumData={initialAnalysis.spectrum}
+                influenceData={initialAnalysis.influence}
+                influenceExplorerData={initialAnalysis.influenceExplorer}
+                celebId={userId}
+              /> : <CelebAnalysisRetry celebId={userId} locale={locale} item={serviceItemsByKey.get("analysis")!} />}
             </SectionSurface>
           </section>
         )}
@@ -285,8 +275,7 @@ export default function CelebRecordSections({
           </section>
         ) : null}
 
-        {/* 방명록은 색인 가치가 없고 캐시에 굳으면 안 되는 자료라 맨 뒤에 두고
-            화면이 다가올 때 비로소 불러온다. 제목은 서버 HTML에 그대로 남는다. */}
+        {/* 실시간 방명록은 사용자가 펼칠 때 조회한다. */}
         <section
           id="guestbook"
           tabIndex={-1}
@@ -296,17 +285,7 @@ export default function CelebRecordSections({
           <SectionSurface>
             {/* 방명록은 모드 없이 본문이 바로 오므로 위를 떼어 시작한다 */}
             <div className="pt-4 md:pt-6">
-              <Deferred
-                fallback={
-                  <PendingBlock
-                    variant="rows"
-                    count={3}
-                    className="pb-2 pt-4 sm:pb-3 sm:pt-5 md:pb-4 md:pt-6"
-                  />
-                }
-              >
-                <GuestbookDeferred profileId={userId} isFiction={isFiction} />
-              </Deferred>
+              <GuestbookDeferred profileId={userId} isFiction={isFiction} />
             </div>
           </SectionSurface>
         </section>

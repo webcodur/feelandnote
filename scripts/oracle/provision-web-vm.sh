@@ -3,6 +3,10 @@
 # 기존 VM(168.107.58.90) 조사 결과를 재현한다. 비밀 파일(web.env, origin.key)과 인증서, 슬롯은
 # 이 스크립트가 아니라 로컬 경유 scp / rsync 로 따로 넣는다. 여러 번 실행해도 안전하다.
 set -euo pipefail
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+# Copy this script together with these two runtime helpers when provisioning a VM.
+test -f "$SCRIPT_DIR/web-runtime-metrics.cjs"
+test -f "$SCRIPT_DIR/prune-render-cache.py"
 
 NODE_VER=v24.19.0
 HEAP_MB=${HEAP_MB:-1280}
@@ -38,6 +42,10 @@ sudo install -d -o root -g ubuntu -m 0750 /etc/feelandnote
 sudo install -d -o root -g caddy -m 0750 /etc/caddy/certs
 sudo mkdir -p /opt/feelandnote/web
 sudo install -d -o ubuntu -g ubuntu -m 0750 /opt/feelandnote/web/slots
+sudo install -d -m 0755 /opt/feelandnote/observability
+sudo install -o root -g root -m 0644 "$SCRIPT_DIR/web-runtime-metrics.cjs" /opt/feelandnote/observability/web-runtime-metrics.cjs
+sudo install -o root -g root -m 0755 "$SCRIPT_DIR/prune-render-cache.py" /usr/local/sbin/feelandnote-prune-render-cache.py
+sudo install -d -o caddy -g caddy -m 0750 /var/log/caddy
 
 log "5. Caddyfile (공인 IP 는 메타데이터에서)"
 PUB_IP=${PUB_IP:-$(curl -s -H "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/vnics/ | grep -o "\"publicIp\" *: *\"[0-9.]*\"" | head -1 | grep -o "[0-9.]*$" || true)}; [ -n "$PUB_IP" ] || { echo "PUB_IP missing"; exit 1; }
@@ -71,6 +79,32 @@ www.feelandnote.com {
 }
 http://${PUB_IP} {
 	redir https://feelandnote.com{uri} permanent
+}
+# Cloudflare Tunnel only; never expose this listener on a public interface.
+http://:8080 {
+	log {
+		output file /var/log/caddy/web-access.jsonl {
+			roll_size 20mb
+			roll_keep 3
+			roll_keep_for 48h
+		}
+		format filter {
+			wrap json
+			fields {
+				request>headers delete
+				request>remote_ip delete
+				request>remote_port delete
+				request>client_ip delete
+				request>tls delete
+				resp_headers delete
+				request>uri regexp "[?].*\$" ""
+			}
+		}
+	}
+	bind 127.0.0.1
+	@www host www.feelandnote.com
+	redir @www https://feelandnote.com{uri} permanent
+	import feelandnote_app
 }
 EOF
 
@@ -107,7 +141,7 @@ EnvironmentFile=/etc/feelandnote/web.env
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=NODE_OPTIONS=--max-old-space-size=${HEAP_MB}
-ExecStart=/usr/local/bin/node server.js
+ExecStart=/usr/local/bin/node --require /opt/feelandnote/observability/web-runtime-metrics.cjs server.js
 Restart=always
 RestartSec=5
 TimeoutStopSec=15
@@ -157,8 +191,54 @@ curl --fail --silent --show-error --max-time 600 --retry 2 \
   https://feelandnote.com/api/cron/today-figure -o /dev/null
 EOF
 sudo chmod 0755 /usr/local/sbin/feelandnote-today-figure
+sudo tee /etc/systemd/system/feelandnote-rendercache-clean.service >/dev/null <<'EOF'
+[Unit]
+Description=Prune Feel&Note web render cache
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+Nice=19
+IOSchedulingClass=idle
+MemoryMax=192M
+TimeoutStartSec=120
+ExecStart=/usr/local/sbin/feelandnote-rendercache-clean
+EOF
+sudo tee /etc/systemd/system/feelandnote-rendercache-clean.timer >/dev/null <<'EOF'
+[Unit]
+Description=Prune Feel&Note web render cache in bounded batches
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=15min
+AccuracySec=1min
+Unit=feelandnote-rendercache-clean.service
+
+[Install]
+WantedBy=timers.target
+EOF
+sudo tee /usr/local/sbin/feelandnote-rendercache-clean >/dev/null <<'EOF'
+#!/bin/sh
+set -eu
+# A canary means deployment is in progress; do not compete with its warmup.
+if systemctl list-units 'feelandnote-web-canary-*' --state=active --no-legend | grep -q .; then
+  echo 'Skipped cache eviction during deployment'
+  exit 0
+fi
+exec /usr/bin/python3 /usr/local/sbin/feelandnote-prune-render-cache.py --execute
+EOF
+sudo chmod 0755 /usr/local/sbin/feelandnote-rendercache-clean
+# 저널 상한 — 기본값은 디스크의 ~10%라 방치하면 수GB까지 부푼다
+sudo mkdir -p /etc/systemd/journald.conf.d
+sudo tee /etc/systemd/journald.conf.d/99-feelandnote.conf >/dev/null <<'EOF'
+[Journal]
+SystemMaxUse=300M
+EOF
 sudo systemctl daemon-reload
 sudo systemctl enable feelandnote-web.service >/dev/null 2>&1 || true
+# 로컬 파일만 지우는 청소 타이머는 이중 실행 위험이 없어 바로 켠다
+sudo systemctl enable --now feelandnote-rendercache-clean.timer >/dev/null 2>&1 || true
 # 타이머는 DNS 전환 뒤에 켠다(옛 VM 과 이중 실행 방지)
 
 log "8. hostname"

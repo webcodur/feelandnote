@@ -52,7 +52,8 @@
     "./bo/voice-age": "./src/bo/voice-age.ts",
     "./bo/voice-normalize": "./src/bo/voice-normalize.ts",
     "./bo/voice-cleanup": "./src/bo/voice-cleanup.ts",
-    "./lib/book-metadata": "./src/lib/book-metadata.ts"
+    "./lib/book-metadata": "./src/lib/book-metadata.ts",
+    "./constants/responsive-artwork": "./src/constants/responsive-artwork.ts"
   },
   "peerDependencies": {
     "next": ">=15",
@@ -60,8 +61,12 @@
     "react-dom": "^19.0.0"
   },
   "peerDependenciesMeta": {
-    "next": { "optional": true },
-    "react-dom": { "optional": true }
+    "next": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/react": "^19",

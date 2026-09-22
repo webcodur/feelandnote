@@ -23,6 +23,8 @@ interface AnimatedHeightProps {
   className?: string;
   duration?: number;
   independent?: boolean;
+  /** 문서 본문은 자연 높이로 배치하고 중첩 높이 애니메이션도 생략한다. */
+  disabled?: boolean;
   /** 안쪽 상자에 얹는 클래스. 바깥 상자를 lg:contents로 지우고 안쪽을 부모 flex에 직접 넣어 높이를 채울 때 쓴다 */
   innerClassName?: string;
 }
@@ -46,7 +48,9 @@ export default function AnimatedHeight(props: AnimatedHeightProps) {
 
   return (
     <HeightAnimationContext.Provider value={true}>
-      <MeasuredHeight {...props} />
+      {props.disabled ? (
+        <div className={props.className}><div className={`w-full flow-root ${props.innerClassName ?? ""}`}>{props.children}</div></div>
+      ) : <MeasuredHeight {...props} />}
     </HeightAnimationContext.Provider>
   );
 }

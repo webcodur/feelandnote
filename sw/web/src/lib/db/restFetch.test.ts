@@ -58,3 +58,49 @@ test('a 503 from the gateway is not retried against the saturated pool', async (
 test('the default budget covers pool wait plus the anon statement timeout', () => {
   assert(REST_TIMEOUT_MS > 25_000 && REST_TIMEOUT_MS < 100_000)
 })
+
+const terminated = () => new Response(
+  'upstream connect error or disconnect/reset before headers. reset reason: connection termination',
+  { status: 503 },
+)
+
+test('a GET recovers one Envoy connection termination with the same timeout budget', async (t) => {
+  const signals: (AbortSignal | null | undefined)[] = []
+  t.mock.method(globalThis, 'fetch', async (_input: RequestInfo | URL, init?: RequestInit) => {
+    signals.push(init?.signal)
+    return signals.length === 1 ? terminated() : new Response('[{"id":"ok"}]', {
+      headers: { 'content-type': 'application/json' },
+    })
+  })
+  const { data, error } = await serverClient().from('celebs').select('id')
+  assert.equal(error, null)
+  assert.deepEqual(data, [{ id: 'ok' }])
+  assert.equal(signals.length, 2)
+  assert.strictEqual(signals[0], signals[1])
+})
+
+test('persistent upstream failure stops after one GET retry', async (t) => {
+  const failing = t.mock.method(globalThis, 'fetch', async () => terminated())
+  const { error } = await serverClient().from('celebs').select('id')
+  assert(error)
+  assert.equal(failing.mock.callCount(), 2)
+})
+
+test('writes and POST RPCs are never replayed after a gateway termination', async (t) => {
+  const failing = t.mock.method(globalThis, 'fetch', async () => terminated())
+  for (const method of ['POST', 'PATCH', 'DELETE']) {
+    const before = failing.mock.callCount()
+    await createRestFetch()('https://db.example.test/rest/v1/celebs', { method })
+    assert.equal(failing.mock.callCount(), before + 1)
+  }
+})
+
+test('pool timeouts are not retried', async (t) => {
+  const failing = t.mock.method(globalThis, 'fetch', async () => new Response(
+    '{"code":"PGRST003","message":"Timed out acquiring connection from connection pool."}',
+    { status: 503 },
+  ))
+  const response = await createRestFetch()('https://db.example.test/rest/v1/celebs')
+  assert.match(await response.text(), /PGRST003/)
+  assert.equal(failing.mock.callCount(), 1)
+})

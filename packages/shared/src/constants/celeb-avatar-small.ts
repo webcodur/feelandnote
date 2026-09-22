@@ -1,4 +1,4 @@
-/** 아바타 원본과 작은 판의 파일·출력 규격을 공유하는 코드 원천. */
+/** 아바타 대·중·소의 파일·출력 규격을 공유하는 코드 원천. */
 const ORIGINAL_SIZE_PX = 800
 const ORIGINAL_WEBP_QUALITY = 95
 const ORIGINAL_FILE = 'avatar.webp'
@@ -21,6 +21,14 @@ export const CELEB_AVATAR_SMALL = {
   smallFile: SMALL_FILE,
 } as const
 
+export const CELEB_AVATAR_MEDIUM = {
+  sizePx: 384,
+  webpQuality: 82,
+  file: 'avatar-md.webp',
+} as const
+
+export type CelebAvatarTier = 'small' | 'medium' | 'original'
+
 /** `celebs/{id}/avatar.webp` 를 같은 자리의 작은 판으로 바꾼다. 캐시 버스터(?v=)는 그대로 둔다. */
 const AVATAR_PATH = /^([^?#]*\/celebs\/[^/?#]+\/)avatar\.webp(?=[?#]|$)/
 
@@ -32,6 +40,18 @@ const AVATAR_PATH = /^([^?#]*\/celebs\/[^/?#]+\/)avatar\.webp(?=[?#]|$)/
 export function celebAvatarSmallUrl(url: string | null | undefined): string | null {
   if (!url) return null
   return url.replace(AVATAR_PATH, `$1${SMALL_FILE}`)
+}
+
+export function celebAvatarMediumUrl(url: string | null | undefined): string | null {
+  if (!url) return null
+  return url.replace(AVATAR_PATH, `$1${CELEB_AVATAR_MEDIUM.file}`)
+}
+
+export function celebAvatarTier(width: number, height: number, pixelRatio: number): CelebAvatarTier {
+  if (![width, height, pixelRatio].every((value) => Number.isFinite(value) && value > 0)) return 'original'
+  const required = Math.max(width, height) * pixelRatio
+  if (required <= CELEB_AVATAR_SMALL.sizePx) return 'small'
+  return required <= CELEB_AVATAR_MEDIUM.sizePx ? 'medium' : 'original'
 }
 
 // 정사각 원본의 cover 확대는 가로·세로 중 긴 쪽을 기준으로 한다.

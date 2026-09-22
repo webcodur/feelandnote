@@ -5,8 +5,8 @@
 */
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useState, useMemo } from "react";
-import Image from "next/image";
 import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
@@ -108,7 +108,7 @@ export default function TrackerResult({
         {correct && (
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-accent/10 blur-[40px] rounded-full mix-blend-screen pointer-events-none" />
         )}
-        
+
         <button
           type="button"
           onClick={() => {
@@ -131,7 +131,7 @@ export default function TrackerResult({
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full bg-accent/20 blur-[25px] opacity-60 pointer-events-none mix-blend-screen animate-pulse" />
           {avatarUrl ? (
             <BlurDissolve className="absolute inset-0 z-10">
-              <Image src={avatarUrl} alt={nickname} fill sizes="128px" className="object-cover drop-shadow-[0_15px_20px_rgba(0,0,0,0.9)]" />
+              <CelebAvatarImage src={avatarUrl} alt={nickname} className="object-cover drop-shadow-[0_15px_20px_rgba(0,0,0,0.9)]" />
             </BlurDissolve>
           ) : (
             <div className="relative z-10 flex h-full w-full items-center justify-center text-4xl font-serif text-text-secondary">
@@ -185,7 +185,7 @@ export default function TrackerResult({
                       {c.title}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pl-11 sm:pl-0 sm:shrink-0">
                     {c.creator && (
                       <span className="text-[13px] font-medium truncate max-w-[140px]">{c.creator}</span>

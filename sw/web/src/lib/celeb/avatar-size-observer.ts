@@ -1,8 +1,8 @@
 // 아바타마다 관찰기·전역 이벤트를 만들지 않고 한 관찰기를 공유한다.
-import { usesSmallAvatar } from "@feelandnote/shared/constants/celeb-avatar-small";
+import { celebAvatarTier, type CelebAvatarTier } from "@feelandnote/shared/constants/celeb-avatar-small";
 
 interface ObservedAvatar {
-  notify: (small: boolean) => void;
+  notify: (tier: CelebAvatarTier) => void;
   width: number;
   height: number;
 }
@@ -14,13 +14,15 @@ let densityQuery: MediaQueryList | undefined;
 function notifySize(avatar: ObservedAvatar) {
   // 숨겨진 칸은 펼쳐져 실제 크기가 생긴 뒤에 요청한다.
   if (avatar.width <= 0 || avatar.height <= 0) return;
-  avatar.notify(usesSmallAvatar(avatar.width, avatar.height, window.devicePixelRatio || 1));
+  avatar.notify(celebAvatarTier(avatar.width, avatar.height, window.devicePixelRatio || 1));
 }
 
 function measure(image: HTMLImageElement, avatar: ObservedAvatar) {
   const rect = image.getBoundingClientRect();
-  avatar.width = rect.width;
-  avatar.height = rect.height;
+  // 등장 애니메이션의 일시적인 축소로 작은 파일을 고르면 transform 종료를
+  // ResizeObserver가 알리지 않아 계속 흐리게 남는다. 배치 크기를 하한으로 둔다.
+  avatar.width = Math.max(rect.width, image.clientWidth);
+  avatar.height = Math.max(rect.height, image.clientHeight);
   notifySize(avatar);
 }
 
@@ -46,7 +48,7 @@ export function observeAvatarSize(image: HTMLImageElement, notify: ObservedAvata
         for (const entry of entries) {
           const avatar = avatars.get(entry.target as HTMLImageElement);
           if (!avatar) continue;
-          // 최초 측정과 같은 기준으로 transform까지 포함한 실제 표시 크기를 쓴다.
+          // 최초 측정과 같은 기준으로 배치 크기와 transform 확대를 함께 본다.
           measure(entry.target as HTMLImageElement, avatar);
         }
       });

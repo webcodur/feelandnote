@@ -6,8 +6,8 @@
 */
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { VB, CX, CY, type DuelFighterProps } from "./types";
 import { SlashEffect } from "./sections/SlashEffect";
@@ -293,7 +293,7 @@ export default function DuelFighter({
         >
           {avatarUrl ? (
             <BlurDissolve className="w-full h-full">
-              <Image
+              <CelebAvatarImage
                 src={avatarUrl}
                 alt={nickname}
                 width={avatarSize}

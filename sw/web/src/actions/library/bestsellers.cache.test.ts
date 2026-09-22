@@ -79,12 +79,18 @@ test('failed background refresh retains the last successful official chart', asy
   assert.equal((await f.read()).items[0].title, 'First chart')
   assert.equal((await f.read()).items[0].title, 'First chart')
 })
-test('cold failure is unavailable without a legacy snapshot and recovers next request', async () => {
+test('cold failure backs off briefly so a dead feed cannot stall every request', async (t) => {
+  let clock = Date.now()
+  t.mock.method(Date, 'now', () => clock)
   const f = fixture()
   f.fail(true)
   assert.equal((await f.read()).status, 'unavailable')
   assert.equal(f.entries.size, 0)
+  // 백오프 중에는 업스트림이 살아나도 재시도하지 않는다 — 요청당 타임아웃 반복을 막는 장치
   f.fail(false); f.publish('Recovered')
+  assert.equal((await f.read()).status, 'unavailable')
+  assert.equal(f.calls(), 1)
+  clock += 11 * 60_000
   assert.equal((await f.read()).items[0].title, 'Recovered')
 })
 test('disabled or missing YES24 credentials never call a source', async () => {

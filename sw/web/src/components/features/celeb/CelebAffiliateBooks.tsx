@@ -7,9 +7,10 @@ import {
   getAffiliateBooksForCeleb,
   type AffiliateBookSource,
 } from '@/actions/home/getAffiliateBooks'
+import CelebSectionSkeleton from './CelebSectionSkeleton'
 import AffiliateBookList from '@/components/shared/AffiliateBookList'
 import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
-import { RetryBlock, useNearViewport } from '@/components/ui/pending'
+import { RetryBlock } from '@/components/ui/pending'
 import {
   createAffiliateBooksLoadGate,
   type AffiliateBooksResult,
@@ -69,7 +70,7 @@ export default function CelebAffiliateBooks({
   const t = useTranslations('popularBooks')
   const tPage = useTranslations('celebPage')
   const platform = getBookStorePlatform(locale)
-  const { ref, isNear } = useNearViewport('600px 0px')
+  const [requested, setRequested] = useState(false)
   const [attempt, setAttempt] = useState(0)
   const [loadGate] = useState(() => createAffiliateBooksLoadGate(
     (celebId) => getAffiliateBooksForCeleb(celebId, locale === 'en' ? 'en' : 'ko', 6),
@@ -78,7 +79,7 @@ export default function CelebAffiliateBooks({
   const requestKey = `${userId}:${attempt}`
 
   useEffect(() => loadGate.observe({
-    enabled: isNear,
+    enabled: requested,
     key: requestKey,
     userId,
     onReady: (data) => setLoadState({ key: requestKey, status: 'ready', data }),
@@ -86,7 +87,7 @@ export default function CelebAffiliateBooks({
       console.error('Load celeb affiliate books error:', error)
       setLoadState({ key: requestKey, status: 'failed', data: null })
     },
-  }), [isNear, loadGate, locale, requestKey, userId])
+  }), [requested, loadGate, locale, requestKey, userId])
 
   const handleRetry = () => {
     setLoadState({ key: '', status: 'idle', data: null })
@@ -96,6 +97,7 @@ export default function CelebAffiliateBooks({
   const isCurrentRequest = loadState.key === requestKey
   const data = isCurrentRequest ? loadState.data : null
   const products = mapRelatedFigureBooksToAffiliateBooks(figureBooks ?? [], locale)
+  const initialProductCount = products.length
   const hasFigureBookProducts = products.length > 0
   // groups는 책 배열과 같은 순서의 구간 정보다 — 책의 종류가 갈리는 자리마다 세로 구분선이 선다.
   const groups: { source: Exclude<AffiliateBookSource, 'mixed'> | 'works'; count: number }[] = []
@@ -132,7 +134,7 @@ export default function CelebAffiliateBooks({
     : undefined
 
   return (
-    <div ref={ref}>
+    <div>
       {products.length > 0 ? (
         <AffiliateBookList
           books={products}
@@ -144,6 +146,15 @@ export default function CelebAffiliateBooks({
           dividerTitle={tPage('refGroupDividerTitle')}
         />
       ) : null}
+      {!requested ? (
+        <button type="button" onClick={() => setRequested(true)}
+          className="my-4 w-full rounded border border-white/15 px-4 py-4 text-sm text-text-secondary hover:border-accent/50 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          {tPage('moreRecommendations')}
+        </button>
+      ) : !isCurrentRequest || loadState.status === 'idle' ? <CelebSectionSkeleton kind="books" english={platform === 'amazon'} /> : null}
+      {requested && isCurrentRequest && loadState.status === 'ready' && products.length === initialProductCount && (
+        <p className="py-4 text-center text-sm text-text-secondary">{tPage('noFurtherRecommendations')}</p>
+      )}
       {isCurrentRequest && loadState.status === 'failed' ? (
         <RetryBlock onRetry={handleRetry} />
       ) : null}

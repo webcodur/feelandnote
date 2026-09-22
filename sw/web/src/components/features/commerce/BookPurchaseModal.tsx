@@ -21,9 +21,11 @@ interface BookPurchaseModalProps {
   /** 구매 가능한 서점 링크 — 서점 하나당 단추 하나 */
   links: readonly AffiliateLink[];
   onClose: () => void;
+  /** 클릭 계측에 실을 대상 식별자 */
+  tracking?: { contentId?: string; editionId?: number };
 }
 
-export default function BookPurchaseModal({ sales, links, onClose }: BookPurchaseModalProps) {
+export default function BookPurchaseModal({ sales, links, onClose, tracking }: BookPurchaseModalProps) {
   const t = useTranslations("content.purchaseSales");
   const tInfo = useTranslations("content.purchaseInfo");
   const number = new Intl.NumberFormat(useLocale());
@@ -90,7 +92,7 @@ export default function BookPurchaseModal({ sales, links, onClose }: BookPurchas
         )}
 
         {/* 서점별 구매 단추 — 서점 브랜드 색을 단추 테두리·글자에 그대로 쓴다 */}
-        {links.length > 0 && <BookPurchaseLinks links={links} />}
+        {links.length > 0 && <BookPurchaseLinks links={links} tracking={tracking} />}
 
         {/* 수수료·주의 안내 — 제목 옆 ⓘ에 흩어져 있던 문구를 이 창의 한 단락으로 모았다 */}
         <p className="border-t border-white/10 pt-3 text-xs leading-relaxed text-text-tertiary">

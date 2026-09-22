@@ -54,10 +54,7 @@
       "badgeShort": "Intro"
     },
     "purchase": {
-      "buyAt": "Buy at {platform}",
-      "buy": "Buy book",
-      "viewAt": "View on {platform}",
-      "searchAt": "Search {platform}"
+      "buy": "Buy book"
     },
     "purchaseInfo": {
       "trigger": "Purchase information",

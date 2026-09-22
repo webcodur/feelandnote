@@ -24,8 +24,8 @@ import { CELEB_SERVICE_ICONS } from "../celebServiceIcons";
 import { getCelebSectionOrder } from "../celebSectionChapters";
 
 /**
- * 관계·분석 구획은 화면이 다가왔을 때 브라우저가 직접 불러온다.
- * 목차는 그보다 먼저 그려져야 하므로 「있다·없다」만 서버에서 넘겨받는다.
+ * 부가 구획의 목차 가용도는 서버가 확정한다.
+ * 초기 본문과 사용자 선택 뒤 조회하는 탭이 같은 목차를 공유한다.
  */
 export interface CelebSideAvailability {
   relations: boolean;

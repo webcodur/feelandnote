@@ -67,7 +67,7 @@
     "sourceWorksIntro": "Books featuring this figure directly or indirectly",
     "sourceWorksLabel": "Work",
     "sourceWorkCount": "{count} works",
-    "sourceWorkOpen": "View work details",
+    "sourceWorkOpen": "Work details",
     "sourceWorkBuyCoupang": "Buy on Coupang",
     "sourceWorkBuyAmazon": "View on Amazon",
     "sourceWorkSelect": "View work: {title}",
@@ -339,6 +339,10 @@
     "refGroupProfessionWorks": "Works in this profession",
     "factionExpand": "Expand faction",
     "factionCluster": "Group",
-    "factionClusterOthers": "Other figures"
+    "factionClusterOthers": "Other figures",
+    "guestbookOpen": "Read or sign the guestbook",
+    "moreRecommendations": "More book recommendations",
+    "noFurtherRecommendations": "There are no additional recommendations.",
+    "factionLoad": "Explore factions"
   }
 }

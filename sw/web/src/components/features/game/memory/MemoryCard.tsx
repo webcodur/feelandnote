@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { Brain } from "lucide-react";
 import {
   MEMORY_RESULT_TIMING,
@@ -81,11 +81,9 @@ export default function MemoryCard({
           }`}
           style={{ transitionDuration: `${MEMORY_RESULT_TIMING.effectTransitionMs}ms` }}
         >
-          <Image
+          <CelebAvatarImage
             src={card.figure.avatarUrl}
             alt=""
-            fill
-            sizes="(max-width: 640px) 20vw, 140px"
             className="object-cover"
             style={{ filter: "none" }}
           />

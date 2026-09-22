@@ -17,7 +17,8 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
-import { badgeStyles, quietBadgeStyles } from "./CelebCard.styles";
+import { badgeStyles, quietBadgeStyles, FLAME_EDGE, trendEdgeDelay } from "./CelebCard.styles";
+import TrendMatchChip from "./TrendMatchChip";
 
 type Variant = "card" | "circle" | "medallion";
 type CardShape = "circle" | "square";
@@ -65,6 +66,9 @@ export default function CelebCard({
   const locale = useLocale();
   const reality = celebProfile?.celeb_reality;
   const realityLabel = reality === "FICTION" ? t("reality.myth") : reality === "BOTH" ? t("reality.both") : null;
+  /* 국가 트렌드 승격 근거 — 본인 이름이 급상승한 인물 → 「top n」칩 + 화염 테두리. */
+  const trendMatch = celebProfile?.trend_match;
+  const trendAria = trendMatch ? ` · ${t("trendChipRank", { rank: trendMatch.rank })}` : "";
   const displayNickname = celebDisplayName({ nickname, nickname_en: celebProfile?.nickname_en ?? null }, locale);
   const displayTitle = locale === "en" && celebProfile?.title_en ? celebProfile.title_en : title;
   // UUID 주소도 기존 프로필 라우트가 정식 slug 주소로 연결한다.
@@ -89,6 +93,11 @@ export default function CelebCard({
   const frameHover = emphasize
     ? "group-hover:border-accent/70 group-hover:bg-accent/[0.07] group-hover:shadow-[0_12px_30px_-14px_rgba(212,175,55,0.55)]"
     : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
+  /* 트렌드 카드는 테두리 자체가 근거 표시다 — 맥박치는 화염 링(style의 2층 배경)+광휘.
+     기본 테두리·hover와 색이 충돌하지 않게 통째로 갈아끼운다. */
+  const frameEdge = trendMatch
+    ? "animate-flame-edge border-2 border-transparent ring-1 ring-inset ring-orange-400/40 shadow-[0_0_16px_-4px_rgba(249,115,22,0.55)] group-hover:shadow-[0_0_28px_-4px_rgba(249,115,22,0.8)]"
+    : `${isQuiet ? "border border-white/10 bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}`;
   const config = isCard
     ? { container: "aspect-square w-full", fallbackSize: 32 }
     : isCircle
@@ -101,7 +110,7 @@ export default function CelebCard({
         <Link
           href={profileHref}
           prefetch={false}
-          aria-label={displayNickname}
+          aria-label={`${displayNickname}${trendAria}`}
           aria-haspopup={onSelect ? "dialog" : undefined}
           onClick={onSelect ? (event) => {
             // 가운데 누름·보조키 누름은 새 탭 열기이므로 링크 그대로 둔다
@@ -113,10 +122,15 @@ export default function CelebCard({
         >
           <div
             className={`relative shrink-0 ${config.container} ${roundedClass}
-              ${isQuiet ? "border border-white/10 bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}
+              ${frameEdge}
               group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
             `}
-            style={isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
+            style={trendMatch
+              ? {
+                  background: `${isQuiet ? "linear-gradient(#1a1a1a, #1a1a1a)" : "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)"} padding-box, ${FLAME_EDGE} border-box`,
+                  animationDelay: trendEdgeDelay(id),
+                }
+              : isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
           >
             <div className={`absolute inset-0 overflow-hidden ${roundedClass}`}>
               <div
@@ -156,6 +170,11 @@ export default function CelebCard({
               <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
               {displayTitle && (
                 <p className={`text-[11px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400"} truncate leading-tight mt-0.5`}>{displayTitle}</p>
+              )}
+              {trendMatch && (
+                <p className="mt-1">
+                  <TrendMatchChip match={trendMatch} name={displayNickname} variant="plain" />
+                </p>
               )}
             </div>
           ) : isCircle ? (

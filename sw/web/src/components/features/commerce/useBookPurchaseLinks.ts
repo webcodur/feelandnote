@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { getYes24PurchaseLink } from "@/actions/contents/getYes24PurchaseLink";
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
+import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
+import { LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
+import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
 
 const LINK_TTL_MS = 5 * 60 * 1000;
 const EMPTY_TTL_MS = 30 * 1000;
@@ -85,5 +88,21 @@ export function useBookPurchaseLinks({
   if (enabled && isBook && locale === "en") {
     return getEnglishBookPurchaseLinks({ locale, title, creator, links });
   }
-  return yes24 ? [yes24, ...links] : links;
+  if (!enabled || !useYes24) return links;
+  // 교보문고 — 저장 링크가 있으면 그것, 없으면 저장 ISBN을 푸는 경유 주소로 잇는다
+  const kyobo = links.find((link) => link.platform === "kyobo")
+    ?? (isYes24PurchaseRequest(contentId, locale, editionId)
+      ? { platform: "kyobo" as const, url: getBookPurchaseHref(contentId, editionId, "kyobo") }
+      : null);
+  // 쿠팡 — 링크프라이스 승인 전까지 만들지 않는다
+  const coupang = links.find((link) => link.platform === "coupang")
+    ?? (LINKPRICE_COUPANG_APPROVED && isYes24PurchaseRequest(contentId, locale, editionId)
+      ? { platform: "coupang" as const, url: getBookPurchaseHref(contentId, editionId, "coupang") }
+      : null);
+  return [
+    ...(yes24 ? [yes24] : []),
+    ...(kyobo ? [kyobo] : []),
+    ...(coupang ? [coupang] : []),
+    ...links.filter((link) => link.platform !== "kyobo" && link.platform !== "coupang"),
+  ];
 }
