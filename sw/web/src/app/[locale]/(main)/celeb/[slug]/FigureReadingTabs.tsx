@@ -1,16 +1,17 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Loader2, Pause, Play, RotateCcw, RotateCw, Square } from "lucide-react";
 import { useReadingTiming } from "@/hooks/useReadingTiming";
 import { activeReadingSegment } from "@/lib/reading-timing";
 import { useTranslations } from "next-intl";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
-import { getReadingVoiceUrl } from "@/lib/game/voice/voiceUrl";
-import { READING_PLAYBACK_RATES, useReadingNarration } from "@/hooks/useReadingNarration";
+import { getReadingVoiceUrl, getVirtualMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { READING_PLAYBACK_RATES, useAudioAvailable, useReadingNarration } from "@/hooks/useReadingNarration";
 import ReviewScrollBox from "@/components/features/user/contentLibrary/expand/ReviewScrollBox";
 import ContentTextModal from "@/components/ui/ContentTextModal";
+import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
 import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
@@ -24,6 +25,8 @@ interface Props {
   celebId: string;
   voiceV?: number;
   readingLocale: Locale;
+  /** 가상독백 본문이 실제로 쓰인 언어 — 표시 fallback과 따로 둔다 */
+  monologueLocale: Locale;
 }
 
 function formatTime(seconds: number) {
@@ -32,98 +35,109 @@ function formatTime(seconds: number) {
 }
 
 /** Changing the person, language or source stops the previous recording. */
+/** 음원이 실제로 올라간 모드는 탭 이름 뒤에 초록 배경이 맥박해 듣기 가능을 표시한다 */
+function AudioTabLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="relative inline-flex items-center">
+      <span
+        aria-hidden
+        className="absolute -inset-x-2 -inset-y-1 rounded-md bg-emerald-400/15 motion-safe:animate-pulse"
+      />
+      <span className="relative text-emerald-400">{children}</span>
+    </span>
+  );
+}
+
 export default function FigureReadingTabs(props: Props) {
   const t = useTranslations("celebPage");
   const [tab, setTab] = useState<ReadingTab>("guide");
-  const [openText, setOpenText] = useState<ReadingTab | null>(null);
   const guide = props.reading?.guide.trim() ?? "";
   const monologue = props.virtualMonologue?.trim() ?? "";
+  const guideUrl = guide ? getReadingVoiceUrl(props.celebId, props.readingLocale, props.voiceV ?? 0) : "";
+  const monologueUrl = monologue ? getVirtualMonologueVoiceUrl(props.celebId, props.monologueLocale, props.voiceV ?? 0) : "";
+  const guideAudio = useAudioAvailable(guideUrl);
+  const monologueAudio = useAudioAvailable(monologueUrl);
   if (!guide && !monologue) return null;
 
   const player = (
     <ReadingPlayer
       key={`${props.celebId}:${props.readingLocale}:${props.voiceV}:${props.reading?.guide}`}
-      {...props}
-      onOpenText={() => setOpenText("guide")}
+      text={guide}
+      audioUrl={guideUrl}
+      timingKind="reading"
+      celebId={props.celebId}
+      readingLocale={props.readingLocale}
+      voiceV={props.voiceV}
+      openLabel={t("readingExpandGuide")}
     />
   );
   // 인물 안내·가상독백 모두 짧게 미리 보고, 눌러 전문을 읽는다.
   const monologueBox = (
-    <ReviewScrollBox onOpen={() => setOpenText("monologue")} openLabel={t("readingExpandMonologue")}>
-      <MonologueText text={monologue} />
-    </ReviewScrollBox>
-  );
-  const modals = (
-    <>
-      {openText === "guide" && guide ? (
-        <ContentTextModal isOpen onClose={() => setOpenText(null)} title={t("personGuide")} text={guide} />
-      ) : null}
-      {openText === "monologue" && monologue ? (
-        <VirtualMonologueModal text={monologue} onClose={() => setOpenText(null)} />
-      ) : null}
-    </>
+    <ReadingPlayer
+      key={`${props.celebId}:${props.monologueLocale}:${props.voiceV}:vmonologue:${monologue}`}
+      text={monologue}
+      audioUrl={monologueUrl}
+      timingKind="monologue"
+      celebId={props.celebId}
+      readingLocale={props.monologueLocale}
+      voiceV={props.voiceV}
+      openLabel={t("readingExpandMonologue")}
+    />
   );
 
   // 모드가 하나면 탭 없이 상자 윗변에서 글을 소폭 떼어 시작한다
   if (!guide || !monologue) {
-    return (
-      <>
-        <div className="pt-4 md:pt-6">{guide ? player : monologueBox}</div>
-        {modals}
-      </>
-    );
+    return <div className="pt-4 md:pt-6">{guide ? player : monologueBox}</div>;
   }
 
   const tabs: ArchiveTabItem<ReadingTab>[] = [
-    { key: "guide", label: t("personGuide") },
-    { key: "monologue", label: t("virtualMonologue") },
+    { key: "guide", label: guideAudio ? <AudioTabLabel>{t("personGuide")}</AudioTabLabel> : t("personGuide") },
+    { key: "monologue", label: monologueAudio ? <AudioTabLabel>{t("virtualMonologue")}</AudioTabLabel> : t("virtualMonologue") },
   ];
   return (
-    <>
-      <div>
-        <ArchiveTabsHeader
-          tabs={tabs}
-          activeKey={tab}
-          onChange={setTab}
-          columnsClassName="grid-cols-2"
-          ariaLabel={t("reading")}
-        />
-        <div id={`archive-panel-${tab}`} role="tabpanel" aria-labelledby={`archive-tab-${tab}`}>
-          {tab === "guide" ? player : monologueBox}
-        </div>
+    <div>
+      <ArchiveTabsHeader
+        tabs={tabs}
+        activeKey={tab}
+        onChange={setTab}
+        columnsClassName="grid-cols-2"
+        ariaLabel={t("reading")}
+      />
+      <div id={`archive-panel-${tab}`} role="tabpanel" aria-labelledby={`archive-tab-${tab}`}>
+        {tab === "guide" ? player : monologueBox}
       </div>
-      {modals}
-    </>
-  );
-}
-
-function MonologueText({ text }: { text: string }) {
-  const paragraphs = useMemo(
-    () => text.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean),
-    [text],
-  );
-  return (
-    <div className="mx-auto max-w-3xl space-y-4 whitespace-pre-line font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
-      {paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
     </div>
   );
 }
 
-function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText }: Props & { onOpenText?: () => void }) {
+function ReadingPlayer({ text, audioUrl, timingKind, celebId, voiceV = 0, readingLocale, openLabel }: {
+  text: string;
+  audioUrl: string;
+  timingKind: "reading" | "monologue";
+  celebId: string;
+  voiceV?: number;
+  readingLocale: Locale;
+  openLabel: string;
+}) {
   const t = useTranslations("celebPage");
-  const text = reading?.guide.trim() ?? "";
-  const paragraphs = useMemo(() => Array.from(text.matchAll(/[^\n]+(?:\n(?!\n)[^\n]+)*/g), (match) => ({ text: match[0], start: match.index })), [text]);
+  const [textOpen, setTextOpen] = useState(false);
   const {
     available, status, currentTime, duration, playbackRate,
     play, pause, resume, stop, seek, setPlaybackRate,
-  } = useReadingNarration(getReadingVoiceUrl(celebId, readingLocale, voiceV));
-  const timing = useReadingTiming(celebId, readingLocale, voiceV, text, duration, available);
+  } = useReadingNarration(audioUrl);
+  const timing = useReadingTiming(celebId, readingLocale, voiceV, text, duration, available, timingKind);
   const sentence = activeReadingSegment(timing, currentTime, status);
+  const mark = sentence ? { start: sentence.textStart, end: sentence.textEnd } : null;
   const active = status === "playing" || status === "loading";
 
   return (
     <div>
-      <div inert={!available} aria-hidden={!available} style={{ visibility: available ? "visible" : "hidden" }}>
+      {/* 플레이어는 자리를 항상 지킨다 — 음원이 없거나 아직 확인 중이면 비활성 형상으로 둔다 */}
+      <div
+        inert={!available}
+        aria-disabled={!available || undefined}
+        className={available ? "" : "opacity-40 transition-opacity"}
+      >
         <div className="mx-auto mb-4 max-w-sm rounded-xl border border-white/15 bg-white/[0.045] px-4 py-2.5" role="group" aria-label={t("readingControls")}>
           <div className="mx-auto grid w-fit grid-cols-5 items-center gap-1.5">
             <NarrationButton label={t("readingStop")} onClick={stop} disabled={status === "idle" && currentTime === 0}>
@@ -170,19 +184,17 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText
           </div>
         </div>
       </div>
-      <ReviewScrollBox onOpen={onOpenText} openLabel={t("readingExpandGuide")}>
+      <ReviewScrollBox onOpen={() => setTextOpen(true)} openLabel={openLabel}>
         <div className="mx-auto max-w-3xl space-y-4 font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
-          {paragraphs.map((paragraph) => {
-            const start = sentence ? Math.max(0, sentence.textStart - paragraph.start) : 0;
-            const end = sentence ? Math.min(paragraph.text.length, sentence.textEnd - paragraph.start) : 0;
-            return <p key={paragraph.start}>{end > start ? <>
-              {paragraph.text.slice(0, start)}
-              <mark className="rounded-sm bg-accent/15 text-accent [box-decoration-break:clone]" aria-current="true">{paragraph.text.slice(start, end)}</mark>
-              {paragraph.text.slice(end)}
-            </> : paragraph.text}</p>;
-          })}
+          <ReadingHighlightText text={text} mark={mark} />
         </div>
       </ReviewScrollBox>
+      {textOpen && timingKind === "monologue" ? (
+        <VirtualMonologueModal text={text} mark={mark} onClose={() => setTextOpen(false)} />
+      ) : null}
+      {textOpen && timingKind === "reading" ? (
+        <ContentTextModal isOpen onClose={() => setTextOpen(false)} title={t("personGuide")} text={text} mark={mark} />
+      ) : null}
     </div>
   );
 }
