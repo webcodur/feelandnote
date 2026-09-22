@@ -622,7 +622,9 @@ export async function verifyApplication(
   // Readiness must not render the detail: retrying it would hide a first-visit failure.
   await waitForPort(port)
 
-  const page = await fetchWithTimeout(pageUrl)
+  // A freshly unpacked release can be slower on its first render while the VM
+  // settles. Probe that first render once, with a bounded cold-start allowance.
+  const page = await fetchWithTimeout(pageUrl, { timeoutMs: 30_000 })
   if (!page.ok) throw new Error(`Canary page returned HTTP ${page.status}: ${pageUrl}`)
   const html = await page.text()
   if (!html.includes(`/seo-image/celeb/${probeSlug}`)) {
