@@ -37,6 +37,8 @@ interface ContentTextModalProps {
   title: string;
   text: string;
   notice?: ReactNode;
+  /** 원문 기준 강조 범위(재생 문장 등) */
+  mark?: { start: number; end: number } | null;
   source?: {
     href: string;
     label: ReactNode;
@@ -49,6 +51,7 @@ export default function ContentTextModal({
   title,
   text,
   notice,
+  mark,
   source,
 }: ContentTextModalProps) {
   return (
@@ -71,6 +74,7 @@ export default function ContentTextModal({
           size="modal"
           highlightClassName={MODAL_GOLD_CLASS}
           highlightStyle={MODAL_GOLD_STYLE}
+          mark={mark}
         />
         {source && (
           <a

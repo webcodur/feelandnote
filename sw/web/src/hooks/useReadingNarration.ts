@@ -58,6 +58,45 @@ const INITIAL_STATE: PlaybackState = {
   playbackRate: 1,
 };
 
+/** 음원 파일의 메타데이터가 열리는지만 본다. 재생 장치 없이 존재 여부가 필요한 자리(탭 표시 등)용.
+    null = 아직 확인 중, true = 재생 가능, false = 파일이 없거나 비어 있다. */
+export function useAudioAvailable(audioUrl: string): boolean | null {
+  const [state, setState] = useState<{ url: string; available: boolean | null }>({
+    url: audioUrl,
+    available: audioUrl ? null : false,
+  });
+  const available = state.url === audioUrl ? state.available : audioUrl ? null : false;
+  if (state.url !== audioUrl) setState({ url: audioUrl, available: audioUrl ? null : false });
+
+  useEffect(() => {
+    if (!audioUrl || typeof Audio === "undefined") return;
+    const audio = new Audio();
+    audio.preload = "metadata";
+    let done = false;
+    const finish = (value: boolean) => {
+      if (done) return;
+      done = true;
+      setState({ url: audioUrl, available: value });
+    };
+    const loaded = () =>
+      finish(!audio.error && Number.isFinite(audio.duration) && audio.duration > 0);
+    const failed = () => finish(false);
+    audio.addEventListener("loadedmetadata", loaded);
+    audio.addEventListener("error", failed);
+    audio.src = audioUrl;
+    audio.load();
+    return () => {
+      done = true;
+      audio.removeEventListener("loadedmetadata", loaded);
+      audio.removeEventListener("error", failed);
+      audio.removeAttribute("src");
+      audio.load();
+    };
+  }, [audioUrl]);
+
+  return available;
+}
+
 /** Only expose playback after the recorded file's metadata has loaded. */
 export function useReadingNarration(audioUrl: string) {
   const [snapshot, setSnapshot] = useState({ url: audioUrl, ...INITIAL_STATE });
