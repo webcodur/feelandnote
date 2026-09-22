@@ -47,6 +47,8 @@ interface BookPurchaseSummaryProps {
   className?: string;
   /** 단추에 덧붙일 클래스 — 자리마다 정렬·여백을 맞춘다 */
   chipClassName?: string;
+  /** 모바일 표지 폭에 맞춘 작은 버튼에서는 문구가 화살표와 겹치지 않게 한다 */
+  hideArrowOnMobile?: boolean;
 }
 
 function isPurchaseUrl(url: string) {
@@ -66,6 +68,7 @@ export default function BookPurchaseSummary({
   full = true,
   className,
   chipClassName,
+  hideArrowOnMobile = false,
 }: BookPurchaseSummaryProps) {
   const locale = useLocale();
   const pathname = usePathname();
@@ -154,7 +157,7 @@ export default function BookPurchaseSummary({
           )}
         >
           {AFFILIATE_PLATFORMS[directLink.platform].label}
-          <ArrowUpRight size={13} className="absolute right-1.5 top-1/2 -translate-y-1/2" aria-hidden />
+          <ArrowUpRight size={13} className={cn("absolute right-1.5 top-1/2 -translate-y-1/2", hideArrowOnMobile && "max-sm:hidden")} aria-hidden />
         </a>
       )}
       {showChip && !directLink && (
@@ -182,7 +185,7 @@ export default function BookPurchaseSummary({
             <>
               {tBuy("buy")}
               {/* 화살표는 우측 가장자리에 띄운다 — 중앙 정렬된 텍스트를 밀지 않게 */}
-              <ArrowUpRight size={13} className="absolute right-1.5 top-1/2 -translate-y-1/2 drop-shadow-sm" aria-hidden />
+              <ArrowUpRight size={13} className={cn("absolute right-1.5 top-1/2 -translate-y-1/2 drop-shadow-sm", hideArrowOnMobile && "max-sm:hidden")} aria-hidden />
             </>
           ) : showSales ? (
             onSale ? (

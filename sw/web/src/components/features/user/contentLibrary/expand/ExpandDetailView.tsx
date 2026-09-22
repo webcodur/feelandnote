@@ -10,7 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import { getCategoryByDbType, type CategoryId } from "@/constants/categories";
+import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
@@ -57,6 +57,7 @@ const REVEAL_WINDOW_MS = 400;
 interface ExpandDetailViewProps {
   items: UserContentWithContent[];
   ownerNickname?: string;
+  ownerAvatarUrl?: string | null;
   isActive?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
@@ -75,6 +76,7 @@ interface ExpandDetailViewProps {
 export default function ExpandDetailView({
   items,
   ownerNickname,
+  ownerAvatarUrl,
   isActive = true,
   initialContentBrief,
   initialContentRecord,
@@ -88,7 +90,6 @@ export default function ExpandDetailView({
   onActiveContentChange,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
-  const tShared = useTranslations("shared.content");
   const locale = useLocale();
   const indexId = useId();
   const presentation = useMemo(() => buildExpandPresentation(items, locale), [items, locale]);
@@ -154,7 +155,6 @@ export default function ExpandDetailView({
     isActive,
   );
   const selectedItem = record?.content_id === selectedContentId ? record : selectedPlaceholder;
-  const detailHref = `/content/${selectedItem?.content_id}?category=${getCategoryByDbType(selectedItem?.content.type ?? "")?.id ?? "book"}`;
   const isNavigationDisabled = total <= 1;
   /* 작품을 바꾸면 소개·기록이 오기 전까지 뼈대만 그려져 상자가 뼈대 크기로 줄었다 다시 늘어난다.
      그 사이엔 직전 카드의 높이를 그대로 붙들고, 두 응답이 다 온 뒤에 한 번만 새 높이로 옮긴다. */
@@ -239,17 +239,16 @@ export default function ExpandDetailView({
             onRetryRecord={retryRecord}
             isActive={isActive}
             ownerNickname={ownerNickname}
+            ownerAvatarUrl={ownerAvatarUrl}
           />
         </div>
         {/* 소개와 감상 배경이 한 덩어리라 카드가 길다 — 다 읽은 자리에서 바로
-            이전·다음·작품 상세로 넘어가게 카드 아래에 이동 바를 둔다.
-            넓은 화면은 양옆 화살표가 이동을 맡아 가운데 링크만 남는다 */}
+            이전·다음으로 넘어가게 카드 아래에 이동 바를 둔다.
+            넓은 화면은 양옆 화살표가 이동을 맡는다 */}
         <ExpandBottomNavigation
           label={t("expandBottomNavigation")}
           previousLabel={t("expandPrev")}
           nextLabel={t("expandNext")}
-          detailHref={detailHref}
-          detailLabel={tShared("openContent")}
           disabled={isNavigationDisabled}
           onPrevious={goPrevious}
           onNext={goNext}
