@@ -12,7 +12,8 @@ import { cn } from "@/lib/utils";
 
 export interface ArchiveTabItem<T extends string> {
   key: T;
-  label: string;
+  /** 문자열 또는 상태 표시를 얹은 노드(음원 보유 배지 등) */
+  label: ReactNode;
 }
 
 interface Props<T extends string> {

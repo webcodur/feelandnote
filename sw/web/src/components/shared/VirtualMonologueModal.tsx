@@ -7,10 +7,10 @@
 
 "use client";
 
-import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "@/components/ui/Modal";
 import ContentReadingText from "@/components/ui/ContentReadingText";
+import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
 import { Z_INDEX } from "@/constants/zIndex";
 
 interface VirtualMonologueModalProps {
@@ -18,14 +18,12 @@ interface VirtualMonologueModalProps {
   onClose: () => void;
   /** 다른 모달(세력도감 인물 모달) 위에 겹쳐 열 때 — 위에 띄우고 ESC가 바깥 모달까지 닫지 않게 한다 */
   nested?: boolean;
+  /** 원문 기준 강조 범위(재생 문장) — 음성 재생 중 모달에서도 같은 구간을 밝힌다 */
+  mark?: { start: number; end: number } | null;
 }
 
-export default function VirtualMonologueModal({ text, onClose, nested = false }: VirtualMonologueModalProps) {
+export default function VirtualMonologueModal({ text, onClose, nested = false, mark }: VirtualMonologueModalProps) {
   const t = useTranslations("celebPage");
-  const paragraphs = useMemo(
-    () => text.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean),
-    [text],
-  );
 
   return (
     <Modal
@@ -42,7 +40,7 @@ export default function VirtualMonologueModal({ text, onClose, nested = false }:
     >
       <ModalBody className="p-4 sm:p-6">
         <ContentReadingText size="modal" className="space-y-4">
-          {paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          <ReadingHighlightText text={text} mark={mark} />
         </ContentReadingText>
       </ModalBody>
     </Modal>

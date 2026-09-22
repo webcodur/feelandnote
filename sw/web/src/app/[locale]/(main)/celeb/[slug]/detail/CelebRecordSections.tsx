@@ -179,6 +179,7 @@ export default function CelebRecordSections({
                 celebId={userId}
                 voiceV={profile.voice_v}
                 readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
+                monologueLocale={profile.translationFallbacks?.includes("virtualMonologue") ? (locale === "en" ? "ko" : "en") : locale}
               />
             </SectionSurface>
           </section>
