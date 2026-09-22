@@ -5,16 +5,18 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getInfluenceRanking } from '@/actions/home/getCelebs'
+import { getVirtualMonologueVoiceUrl } from '@/lib/game/voice/voiceUrl'
 
 /* ── 가상독백이 있는 인물 명부 ──
    /explore/monologue 전용. 독백이 채워진 공개 인물을 전부 읽고,
    R2의 vmonologue.mp3 존재를 HEAD로 재서 「낭독 보유」를 가른다.
-   (celebs.has_voice는 고유 대사 음성 플래그라 독백 낭독과 무관해 쓰지 않는다)
+   has_voice는 다른 음성도 포함하므로 후보만 좁히고, 낭독 판정은 실제 파일로 한다.
    캐시에는 독백 전문이 아니라 언어별 발췌만 둔다. */
 
 const QUOTE_LIMIT = 90
 const EXCERPT_LIMIT = 240
-const VOICE_CHECK_BATCH = 16
+const MONOLOGUE_PAGE_SIZE = 500
+const VOICE_CHECK_BATCH = 64
 const VOICE_CHECK_TIMEOUT_MS = 8_000
 
 const R2_PUBLIC_URL = (process.env.NEXT_PUBLIC_R2_PUBLIC_URL || process.env.R2_PUBLIC_URL || '').replace(/\/$/, '')
@@ -27,6 +29,8 @@ interface MonologueCelebRow {
   title: string | null
   title_en: string | null
   avatar_url: string | null
+  voice_v: number | null
+  voice_candidate: boolean
   /** 한영 첫 문장 — 텍스트 명부 카드의 발췌 */
   quote_ko: string | null
   quote_en: string | null
@@ -50,19 +54,14 @@ export interface VirtualMonologueCeleb {
   excerpt: string
   /** 화면 언어 독백의 낭독 음원 존재 */
   hasVoice: boolean
+  voiceUrl: string | null
+  voiceLocale: 'ko' | 'en'
+  voiceV: number
 }
 
 async function fetchRows(): Promise<MonologueCelebRow[]> {
   const db = createStaticClient()
-  const { data, error } = await db
-    .from('celebs')
-    .select('id, slug, nickname, nickname_en, title, title_en, avatar_url, virtual_monologue, virtual_monologue_en')
-    .eq('publication_status', 'active')
-    .not('virtual_monologue', 'is', null)
-
-  // 조용한 폴백 금지 — 조회가 깨지면 「독백 없음」으로 캐시되지 않게 드러낸다
-  if (error) throw new Error(`가상독백 인물 명부 조회 실패: ${error.message}`)
-  const celebs = (data ?? []) as {
+  type CelebRow = {
     id: string
     slug: string | null
     nickname: string | null
@@ -70,10 +69,34 @@ async function fetchRows(): Promise<MonologueCelebRow[]> {
     title: string | null
     title_en: string | null
     avatar_url: string | null
+    voice_v: number | null
+    has_voice: boolean | null
     virtual_monologue: string | null
     virtual_monologue_en: string | null
-  }[]
-  if (!celebs.length) return []
+  }
+  const { count, error: countError } = await db
+    .from('celebs')
+    .select('id', { count: 'exact', head: true })
+    .eq('publication_status', 'active')
+    .not('virtual_monologue', 'is', null)
+  if (countError || count === null) throw new Error(`Monologue count failed: ${countError?.message ?? 'unavailable'}`)
+  if (count === 0) return []
+
+  const pages = await Promise.all(Array.from({ length: Math.ceil(count / MONOLOGUE_PAGE_SIZE) }, async (_, index) => {
+    const from = index * MONOLOGUE_PAGE_SIZE
+    const { data, error } = await db
+      .from('celebs')
+      .select('id, slug, nickname, nickname_en, title, title_en, avatar_url, voice_v, has_voice, virtual_monologue, virtual_monologue_en')
+      .eq('publication_status', 'active')
+      .not('virtual_monologue', 'is', null)
+      .order('id')
+      .range(from, from + MONOLOGUE_PAGE_SIZE - 1)
+    if (error) throw new Error(`Monologue page ${from} failed: ${error.message}`)
+    return (data ?? []) as CelebRow[]
+  }))
+  const celebs = pages.flat()
+  if (celebs.length !== count) throw new Error(`Monologue count changed during fetch: ${celebs.length}/${count}`)
+
 
   // 영향력순 — 공유 랭킹 캐시의 점수표로 정렬한다
   const { scoreMap } = await getInfluenceRanking()
@@ -92,6 +115,8 @@ async function fetchRows(): Promise<MonologueCelebRow[]> {
       title: row.title,
       title_en: row.title_en,
       avatar_url: row.avatar_url,
+      voice_v: row.voice_v,
+      voice_candidate: row.has_voice === true,
       quote_ko: ko ? firstSentence(ko) : null,
       quote_en: en ? firstSentence(en) : null,
       excerpt_ko: ko ? firstParagraph(ko) : null,
@@ -102,6 +127,9 @@ async function fetchRows(): Promise<MonologueCelebRow[]> {
   })
   for (let i = 0; i < rows.length; i += VOICE_CHECK_BATCH) {
     await Promise.all(rows.slice(i, i + VOICE_CHECK_BATCH).map(async (row) => {
+      // 독백 음원 게시 경로는 has_voice도 세운다. 다른 음성도 이 플래그를 세우므로
+      // 후보에 한해서 vmonologue.mp3를 확인해야 정확한 낭독 명부가 된다.
+      if (!row.voice_candidate) return
       const [ko, en] = await Promise.all([
         row.quote_ko ? voiceExists(row.id, 'ko') : Promise.resolve(false),
         row.quote_en ? voiceExists(row.id, 'en') : Promise.resolve(false),
@@ -129,7 +157,7 @@ async function voiceExists(celebId: string, locale: 'ko' | 'en'): Promise<boolea
   }
 }
 
-const getCachedRows = unstable_cache(fetchRows, ['virtual-monologue-celebs-v2'], {
+const getCachedRows = unstable_cache(fetchRows, ['virtual-monologue-celebs-v5'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CELEBS],
 })
@@ -171,6 +199,11 @@ export async function getVirtualMonologueCelebs(locale: string = 'ko'): Promise<
         quote,
         excerpt: excerpt ?? quote,
         hasVoice: useEn ? row.voice_en : row.voice_ko,
+        voiceUrl: (useEn ? row.voice_en : row.voice_ko)
+          ? getVirtualMonologueVoiceUrl(row.id, useEn ? 'en' : 'ko', row.voice_v ?? 0)
+          : null,
+        voiceLocale: useEn ? 'en' : 'ko',
+        voiceV: row.voice_v ?? 0,
       }
     })
     .filter((row): row is VirtualMonologueCeleb => row !== null)
