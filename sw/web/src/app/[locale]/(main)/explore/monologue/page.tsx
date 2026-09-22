@@ -9,7 +9,15 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { getVirtualMonologueCelebs } from "@/actions/celebs/getVirtualMonologueCelebs";
 import MonologueScreen from "@/components/features/user/explore/monologue/MonologueScreen";
 
-export async function generateMetadata() {
+export const revalidate = 604800;
+
+export function generateStaticParams() {
+  return [];
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("explore.monologue");
   return {
     title: t("metaTitle"),
