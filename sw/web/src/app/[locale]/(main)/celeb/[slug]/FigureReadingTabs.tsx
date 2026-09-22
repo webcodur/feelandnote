@@ -128,6 +128,8 @@ function ReadingPlayer({ text, audioUrl, timingKind, celebId, voiceV = 0, readin
   const timing = useReadingTiming(celebId, readingLocale, voiceV, text, duration, available, timingKind);
   const sentence = activeReadingSegment(timing, currentTime, status);
   const mark = sentence ? { start: sentence.textStart, end: sentence.textEnd } : null;
+  // 모달 본문에서 문장을 누르면 그 시점으로 건너뛰어 재생한다
+  const playFrom = (seconds: number) => { seek(seconds); play(); };
   const active = status === "playing" || status === "loading";
 
   return (
@@ -190,10 +192,10 @@ function ReadingPlayer({ text, audioUrl, timingKind, celebId, voiceV = 0, readin
         </div>
       </ReviewScrollBox>
       {textOpen && timingKind === "monologue" ? (
-        <VirtualMonologueModal text={text} mark={mark} onClose={() => setTextOpen(false)} />
+        <VirtualMonologueModal text={text} mark={mark} segments={timing?.segments} onPlayFrom={playFrom} onClose={() => setTextOpen(false)} />
       ) : null}
       {textOpen && timingKind === "reading" ? (
-        <ContentTextModal isOpen onClose={() => setTextOpen(false)} title={t("personGuide")} text={text} mark={mark} />
+        <ContentTextModal isOpen onClose={() => setTextOpen(false)} title={t("personGuide")} text={text} mark={mark} segments={timing?.segments} onPlayFrom={playFrom} sentenceLabel={t("readingPlayFromHere")} />
       ) : null}
     </div>
   );

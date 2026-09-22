@@ -3,6 +3,8 @@ import { Maximize2 } from "lucide-react";
 
 import ContentReadingText from "./ContentReadingText";
 import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "./Modal";
+import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
+import type { ReadingSegment } from "@/lib/reading-timing";
 
 const MODAL_GOLD_CLASS = "text-3d-gold-bright";
 const MODAL_GOLD_STYLE: CSSProperties = {
@@ -39,6 +41,11 @@ interface ContentTextModalProps {
   notice?: ReactNode;
   /** 원문 기준 강조 범위(재생 문장 등) */
   mark?: { start: number; end: number } | null;
+  /** 문장 타이밍 — 주면 문장을 눌러 그 시점부터 재생한다 */
+  segments?: ReadingSegment[] | null;
+  onPlayFrom?: (seconds: number) => void;
+  /** 문장 조각 버튼의 접근성 라벨 */
+  sentenceLabel?: string;
   source?: {
     href: string;
     label: ReactNode;
@@ -52,6 +59,9 @@ export default function ContentTextModal({
   text,
   notice,
   mark,
+  segments,
+  onPlayFrom,
+  sentenceLabel,
   source,
 }: ContentTextModalProps) {
   return (
@@ -69,13 +79,25 @@ export default function ContentTextModal({
       <ModalBody className="p-4 sm:p-6">
         {notice}
         <ContentReadingText
-          text={text}
+          text={segments?.length && onPlayFrom ? undefined : text}
           tone="primary"
           size="modal"
           highlightClassName={MODAL_GOLD_CLASS}
           highlightStyle={MODAL_GOLD_STYLE}
-          mark={mark}
-        />
+          mark={segments?.length && onPlayFrom ? undefined : mark}
+        >
+          {segments?.length && onPlayFrom ? (
+            <ReadingHighlightText
+              text={text}
+              mark={mark}
+              segments={segments}
+              onPlayFrom={onPlayFrom}
+              sentenceLabel={sentenceLabel}
+              highlightClassName={MODAL_GOLD_CLASS}
+              highlightStyle={MODAL_GOLD_STYLE}
+            />
+          ) : null}
+        </ContentReadingText>
         {source && (
           <a
             href={source.href}
