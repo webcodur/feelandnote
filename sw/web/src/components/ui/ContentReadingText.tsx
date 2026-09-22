@@ -24,7 +24,7 @@ interface ContentReadingTextProps {
 const SIZE_CLASSES: Record<ContentReadingSize, string> = {
   compact: "text-sm leading-relaxed",
   reader: "text-base leading-relaxed lg:text-lg",
-  modal: "text-base leading-[1.9]",
+  modal: "text-[15px] leading-[1.8] sm:text-base",
 };
 
 const TONE_CLASSES: Record<ContentReadingTone, string> = {

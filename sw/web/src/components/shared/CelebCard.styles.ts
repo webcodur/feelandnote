@@ -17,3 +17,33 @@ export const quietBadgeStyles = {
   circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 rounded-full text-xs",
   medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px]",
 };
+
+/* 트렌드 직접 매칭 카드의 화염 테두리. border에는 그라데이션이 없으니 배경 2층으로 그린다:
+   1층은 카드 바탕을 padding-box에, 2층은 이 원추 그라데이션을 border-box에 깔고
+   border를 투명하게 두면 둥근 모서리를 따라 불길이 보인다.
+   아래(180°)는 연노랑, 위로 갈수록 주황→빨강으로 타오른다.
+   --flame-angle은 globals.css의 @property 등록 각도로, animate-flame-edge가 느리게 돌려
+   불꽃이 테두리를 핥듯 움직인다. 미지원 환경은 180deg 정적 링. */
+export const FLAME_EDGE =
+  "conic-gradient(from var(--flame-angle, 180deg), #fde68a, #fbbf24 12%, #f97316 32%, #ef4444 50%, #b91c1c 66%, #f97316 82%, #fbbf24 94%, #fde68a)";
+
+/* 트렌드 매칭 표기 — 네모 칩이 급상승 표지다. auto 칩은 맥박치는 화염 테두리를 입는다
+   (칩 자체가 [급상승 top n] 표기). 탐색 설명대 범례가 같은 모양을 쓰도록 여기 한 곳에서 쥔다. */
+export const TREND_CHIP_BASE =
+  "inline-flex items-center whitespace-nowrap rounded px-1.5 py-px text-[10px] font-semibold leading-tight";
+export const TREND_CHIP_DIRECT = "border-2 border-transparent animate-flame-edge text-accent";
+/* 탐색 카드처럼 테두리가 이미 표지인 자리의 평범한 테두리 칩 */
+export const TREND_CHIP_PLAIN = "border border-white/20 text-text-secondary";
+/* 홈 명부 칩 — 금박 테두리 하나로 단순하게 */
+export const TREND_CHIP_GOLD = "border border-accent/60 text-accent";
+/* 칩의 안쪽 면 — 칩이 놓이는 자리가 달라도 같은 색이 되도록 카드 바탕을 올린다 */
+export const TREND_CHIP_FLAME_BG =
+  `linear-gradient(var(--color-bg-card), var(--color-bg-card)) padding-box, ${FLAME_EDGE} border-box`;
+
+/* 같은 애니메이션이 여러 카드·칩에 걸리면 위상이 같아 전부 동시에 뛴다.
+   시드(인물 id·이름)로 음수 지연을 뽑아 각자 다른 시점부터 재생되게 어긋나게 한다. */
+export function trendEdgeDelay(seed: string): string {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
+  return `${-(Math.abs(h) % 2600) / 1000}s`;
+}

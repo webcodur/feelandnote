@@ -9,9 +9,6 @@ const MODAL_GOLD_STYLE: CSSProperties = {
   filter: "none",
   backgroundImage: "linear-gradient(to bottom, #f0c948, #c9a33a)",
 };
-const MODAL_BODY_STYLE: CSSProperties = {
-  fontSize: "clamp(15px, 1.25vw, 16px)",
-};
 const MODAL_SOURCE_CLASS =
   `mt-5 block break-all text-sm font-medium leading-relaxed ${MODAL_GOLD_CLASS} underline decoration-accent/60 underline-offset-4 hover:brightness-125 hover:decoration-accent-hover`;
 
@@ -72,7 +69,6 @@ export default function ContentTextModal({
           text={text}
           tone="primary"
           size="modal"
-          style={MODAL_BODY_STYLE}
           highlightClassName={MODAL_GOLD_CLASS}
           highlightStyle={MODAL_GOLD_STYLE}
         />

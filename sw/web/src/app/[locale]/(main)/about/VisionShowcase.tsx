@@ -8,7 +8,7 @@
   짧은 안내만 뜬다. 글자는 code-rules.md 기준(14px 이상·또렷한 색)을 지킨다.
 */ // ------------------------------
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import ContentImage from "@/components/ui/ContentImage";
 import type { AboutInfo, AboutShowcase } from "@/actions/policy/getAboutShowcase";
 import InfoPeek from "./InfoPeek";
@@ -41,7 +41,7 @@ function Face({
         <span
           className={`relative block ${box} rounded-full overflow-hidden border border-accent-dim hover:border-accent`}
         >
-          <Image src={avatarUrl} alt={name} fill sizes="112px" className="object-cover" />
+          <CelebAvatarImage src={avatarUrl} alt={name} className="object-cover" />
         </span>
         <span className={`text-sm text-text-primary text-center leading-tight ${width} truncate`}>
           {name}

@@ -1,8 +1,11 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { isLinkPriceUrl } from "@/lib/books/bookPurchaseRedirect";
+import { trackCommerceClick } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
 function isYes24Affiliate(url: string) {
@@ -12,11 +15,14 @@ function isYes24Affiliate(url: string) {
   } catch { return false; }
 }
 
-export default function BookPurchaseLinks({ links, className }: {
+export default function BookPurchaseLinks({ links, className, tracking }: {
   links: readonly AffiliateLink[];
   className?: string;
+  /** 클릭 계측에 실을 대상 식별자 */
+  tracking?: { contentId?: string; editionId?: number };
 }) {
-  const t = useTranslations("content.purchase");
+  const pathname = usePathname();
+  const locale = useLocale();
   if (!links.length) return null;
 
   return (
@@ -24,21 +30,33 @@ export default function BookPurchaseLinks({ links, className }: {
       <div className="relative flex flex-wrap gap-2">
         {links.map((link) => {
           const isYes24 = link.platform === "yes24";
-          const sponsored = link.linkKind !== "search" && (!isYes24 || isYes24Affiliate(link.url));
+          const sponsored = link.linkKind !== "search"
+            ? !isYes24 || isYes24Affiliate(link.url)
+            : isLinkPriceUrl(link.url);
           return (
             <div key={`${link.platform}:${link.url}`} className="group/purchase relative min-w-0 flex-[1_1_9rem]">
               <a
                 href={link.url}
                 target="_blank"
                 rel={sponsored ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
-                onClick={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  trackCommerceClick({
+                    screen: pathname,
+                    target: link.linkKind === "search" ? "search" : "product",
+                    contentId: tracking?.contentId,
+                    editionId: tracking?.editionId,
+                    platform: link.platform,
+                    locale,
+                  });
+                }}
                 className={cn(
-                  "flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2",
+                  "relative flex min-h-11 w-full items-center justify-center rounded-lg border px-3 py-2.5 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2",
                   purchaseButtonStyle(link.platform),
                 )}
               >
-                <span>{t(link.linkKind === "search" ? "searchAt" : "buyAt", { platform: AFFILIATE_PLATFORMS[link.platform].label })}</span>
-                <ArrowUpRight size={14} className="shrink-0" aria-hidden />
+                <span>{AFFILIATE_PLATFORMS[link.platform].label}</span>
+                <ArrowUpRight size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2" aria-hidden />
               </a>
             </div>
           );

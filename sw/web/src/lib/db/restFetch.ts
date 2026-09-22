@@ -17,8 +17,24 @@ export const REST_TIMEOUT_MS = 30_000
 
 /** 호출자가 signal을 주지 않은 요청에만 시간 제한을 건다. 명시적 signal은 그대로 쓴다. */
 export function createRestFetch(timeoutMs: number = REST_TIMEOUT_MS): typeof fetch {
-  return (input, init) =>
-    rawFetch(input, { ...init, signal: init?.signal ?? AbortSignal.timeout(timeoutMs) })
+  return async (input, init) => {
+    const signal = init?.signal ?? AbortSignal.timeout(timeoutMs)
+    const options = { ...init, signal }
+    const response = await rawFetch(input, options)
+    const method = (init?.method ?? (input instanceof Request ? input.method : 'GET')).toUpperCase()
+
+    // Envoy가 응답 헤더를 받기 전에 upstream 연결을 잃은 경우만 복구한다.
+    // 쓰기/RPC, pool 포화(PGRST003), no healthy upstream, timeout은 재시도하지 않는다.
+    if (method !== 'GET' || response.status !== 503 || signal.aborted) return response
+    const body = await response.clone().text()
+    if (!body.includes('upstream connect error or disconnect/reset before headers.') ||
+        !body.includes('reset reason: connection termination')) return response
+
+    await response.body?.cancel()
+    signal.throwIfAborted()
+    // 같은 signal을 써서 첫 시도의 대기 시간까지 전체 제한에 포함한다.
+    return rawFetch(input, options)
+  }
 }
 
 export const restFetch = createRestFetch()

@@ -16,6 +16,7 @@ import path from 'node:path'
 import test from 'node:test'
 import {
   assertBridgePort,
+  assertCanaryMemoryHeadroom,
   assertCommitHash,
   assertReleaseId,
   assertUnixAccountName,
@@ -36,7 +37,35 @@ import {
   STATIC_ASSET_RETENTION_MS,
   TRAFFIC_DRAIN_MS,
   verifyApplication,
+  warmMainRoutes,
 } from './oracle-web-remote.mjs'
+
+test('canary admission uses reclaimable available RAM and rejects missing or insufficient headroom', () => {
+  assert.doesNotThrow(() => assertCanaryMemoryHeadroom('MemFree: 10000 kB\nMemAvailable: 2000000 kB\n'))
+  assert.throws(() => assertCanaryMemoryHeadroom('MemAvailable: 600000 kB\n'), /Not enough available RAM/)
+  assert.throws(() => assertCanaryMemoryHeadroom('MemFree: 2000000 kB\n'), /Not enough available RAM/)
+})
+
+test('all warmup routes must return the new build and finish promptly on the second pass', async t => {
+  const counts = new Map()
+  let stall = false
+  const id = 'a351550f-web-20260827t111605z'
+  const server = createServer((req, res) => {
+    res.setHeader('connection', 'close')
+    counts.set(req.url, (counts.get(req.url) ?? 0) + 1)
+    if (stall && req.url === '/en/library' && counts.get(req.url) === 2) {
+      res.writeHead(200); res.write('<html>'); return
+    }
+    res.end(`<html><script src="/_next/static/app.js?dpl=${id}"></script></html>`)
+  })
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+  t.after(() => new Promise(resolve => { server.close(resolve); server.closeAllConnections() }))
+  const result = await warmMainRoutes(server.address().port, 'bill-gates', id)
+  assert.equal(result.length, 18)
+  assert.ok([...counts.values()].every(count => count === 2))
+  counts.clear(); stall = true
+  await assert.rejects(warmMainRoutes(server.address().port, 'bill-gates', id, { readyTimeoutMs: 100 }))
+})
 
 async function serveDeploymentFixture(t, firstPageStatus = 200) {
   const requests = []
@@ -209,6 +238,27 @@ test('Caddy traffic bridge changes only the loopback upstream and its redirect c
     '^https?://(?:localhost|127[.]0[.]0[.]1):3100(.*)$',
   )
   assert.equal(TRAFFIC_DRAIN_MS, 5_000)
+})
+
+test('Caddy bridges both the HTTPS listener and the loopback tunnel listener atomically', () => {
+  const proxy = {
+    handler: 'reverse_proxy',
+    upstreams: [{ dial: '127.0.0.1:3000' }],
+    headers: { response: { replace: { Location: [{
+      search_regexp: '^https?://localhost:3000(.*)$',
+      replace: 'https://feelandnote.com$1',
+    }] } } },
+  }
+  const config = { routes: [structuredClone(proxy), structuredClone(proxy)] }
+  const bridged = createBridgeCaddyConfig(config, 3100)
+  assert.equal(inspectCaddyProxyPort(config), 3000)
+  assert.equal(inspectCaddyProxyPort(bridged), 3100)
+  for (const handler of bridged.routes) {
+    assert.equal(handler.upstreams[0].dial, '127.0.0.1:3100')
+    assert.equal(handler.headers.response.replace.Location[0].search_regexp, '^https?://localhost:3100(.*)$')
+  }
+  delete config.routes[1].headers
+  assert.throws(() => createBridgeCaddyConfig(config, 3100), /Expected one upstream Location rewrite/u)
 })
 
 test('Caddy traffic bridge rejects the primary port and ambiguous proxy configs', () => {

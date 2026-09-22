@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Loader2, Pause, Play, RotateCcw, RotateCw, Square } from "lucide-react";
 import { useReadingTiming } from "@/hooks/useReadingTiming";
 import { activeReadingSegment } from "@/lib/reading-timing";
@@ -22,8 +22,6 @@ interface Props {
   /** 화면 언어로 고른 가상독백. 영문이 없으면 한국어가 온다 */
   virtualMonologue: string | null;
   celebId: string;
-  /** 가상독백 모달의 화자 표시 */
-  celebName: string;
   voiceV?: number;
   readingLocale: Locale;
 }
@@ -49,7 +47,7 @@ export default function FigureReadingTabs(props: Props) {
       onOpenText={() => setOpenText("guide")}
     />
   );
-  // 인물 안내는 좁은 화면에서만, 가상독백은 폭과 무관하게 높이를 가두고 눌러 모달로 읽는다(감상배경 상자와 같은 모듈)
+  // 인물 안내·가상독백 모두 짧게 미리 보고, 눌러 전문을 읽는다.
   const monologueBox = (
     <ReviewScrollBox onOpen={() => setOpenText("monologue")} openLabel={t("readingExpandMonologue")}>
       <MonologueText text={monologue} />
@@ -61,7 +59,7 @@ export default function FigureReadingTabs(props: Props) {
         <ContentTextModal isOpen onClose={() => setOpenText(null)} title={t("personGuide")} text={guide} />
       ) : null}
       {openText === "monologue" && monologue ? (
-        <VirtualMonologueModal name={props.celebName} text={monologue} onClose={() => setOpenText(null)} />
+        <VirtualMonologueModal text={monologue} onClose={() => setOpenText(null)} />
       ) : null}
     </>
   );
@@ -123,24 +121,9 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText
   const sentence = activeReadingSegment(timing, currentTime, status);
   const active = status === "playing" || status === "loading";
 
-  const activeMarkRef = useRef<HTMLElement | null>(null);
-  const sentenceStart = sentence?.textStart;
-  useEffect(() => {
-    if (status !== "playing" || sentenceStart === undefined) return;
-    const mark = activeMarkRef.current;
-    if (!mark) return;
-    /* 높이를 가둔 상자(좁은 화면)가 읽는 문장을 숨길 때만 상자 안에서 따라간다.
-       펼쳐 둔 넓은 화면이나 페이지 스크롤은 건드리지 않는다 */
-    let box = mark.parentElement;
-    while (box && box.scrollHeight <= box.clientHeight + 1) box = box.parentElement;
-    if (box && box !== document.body && box !== document.documentElement) {
-      mark.scrollIntoView({ block: "nearest" });
-    }
-  }, [sentenceStart, status]);
-
   return (
     <div>
-      {available ? (
+      <div inert={!available} aria-hidden={!available} style={{ visibility: available ? "visible" : "hidden" }}>
         <div className="mx-auto mb-4 max-w-sm rounded-xl border border-white/15 bg-white/[0.045] px-4 py-2.5" role="group" aria-label={t("readingControls")}>
           <div className="mx-auto grid w-fit grid-cols-5 items-center gap-1.5">
             <NarrationButton label={t("readingStop")} onClick={stop} disabled={status === "idle" && currentTime === 0}>
@@ -186,16 +169,15 @@ function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale, onOpenText
           <span className="min-w-7 text-right">{formatTime(duration)}</span>
           </div>
         </div>
-      ) : null}
-      <ReviewScrollBox mobileOnly onOpen={onOpenText} openLabel={t("readingExpandGuide")}>
+      </div>
+      <ReviewScrollBox onOpen={onOpenText} openLabel={t("readingExpandGuide")}>
         <div className="mx-auto max-w-3xl space-y-4 font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
           {paragraphs.map((paragraph) => {
             const start = sentence ? Math.max(0, sentence.textStart - paragraph.start) : 0;
             const end = sentence ? Math.min(paragraph.text.length, sentence.textEnd - paragraph.start) : 0;
-            const beginsHere = !!sentence && sentence.textStart >= paragraph.start && sentence.textStart < paragraph.start + paragraph.text.length;
             return <p key={paragraph.start}>{end > start ? <>
               {paragraph.text.slice(0, start)}
-              <mark ref={beginsHere ? activeMarkRef : undefined} className="rounded-sm bg-accent/15 text-accent [box-decoration-break:clone]" aria-current="true">{paragraph.text.slice(start, end)}</mark>
+              <mark className="rounded-sm bg-accent/15 text-accent [box-decoration-break:clone]" aria-current="true">{paragraph.text.slice(start, end)}</mark>
               {paragraph.text.slice(end)}
             </> : paragraph.text}</p>;
           })}

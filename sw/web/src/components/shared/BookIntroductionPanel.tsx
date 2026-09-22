@@ -13,9 +13,10 @@
 "use client";
 
 import { useCallback, useId, useRef, useState } from "react";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, BookOpenText, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import FormattedText from "@/components/ui/FormattedText";
+import ContentReadingText from "@/components/ui/ContentReadingText";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import type { BookIntroductionAttribution } from "@/lib/utils/book-description";
 import Modal, { READING_MODAL_MAX_HEIGHT_CLASS } from "@/components/ui/Modal";
@@ -59,6 +60,8 @@ interface BookIntroductionPanelProps {
   className?: string;
   /** 이웃 열 높이만큼 칸을 채우기 시작하는 폭. 부모가 그 폭부터 flex 열로 높이를 내려줘야 한다 */
   fillFrom?: keyof typeof FILL_CLASSES;
+  /** 모바일에서 바깥의 포스터·버튼 float를 감싸며 소개가 이어진다 */
+  wrapAroundMedia?: boolean;
 }
 
 interface SourceChipProps {
@@ -78,6 +81,7 @@ export default function BookIntroductionPanel({
   sourceTitleBadge,
   className,
   fillFrom = "lg",
+  wrapAroundMedia = false,
 }: BookIntroductionPanelProps) {
   const fill = FILL_CLASSES[fillFrom];
   const t = useTranslations("celebPage");
@@ -108,12 +112,12 @@ export default function BookIntroductionPanel({
 
   return (
     <div
-      className={cn("engraved-plate relative mt-5 min-h-28 border-s-2 border-accent px-4 py-3", fill.root, className)}
+      className={cn("engraved-plate relative mt-5 min-h-28 border-s-2 border-accent px-4 py-3", fill.root, wrapAroundMedia && "max-sm:contents max-sm:backdrop-filter-none!", className)}
       role={loading ? "status" : undefined}
       aria-busy={loading || undefined}
     >
       {loading ? (
-        <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
+        <div className={cn("absolute inset-0 flex items-center justify-center", wrapAroundMedia && "max-sm:relative max-sm:min-h-28")} aria-hidden>
           <PendingMark size="sm" />
         </div>
       ) : (
@@ -143,15 +147,17 @@ export default function BookIntroductionPanel({
             className={cn(
               PREVIEW_CLASS,
               fill.preview,
+              wrapAroundMedia && "max-sm:overflow-clip max-sm:max-h-[calc(var(--intro-media-height)+5lh)] max-sm:text-sm max-sm:leading-relaxed",
               // 끝 흐림은 폭과 무관하게 글이 실제로 잘릴 때만 붙는다 — 좁은 화면의 네 줄 접힘도 같다
               isClipped && "clip-fade-end",
               "cursor-pointer text-start hover:brightness-125 active:brightness-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
             )}
           >
+            {wrapAroundMedia && <BookOpenText size={18} aria-hidden className="me-1.5 inline-block align-[-0.15em] text-accent sm:hidden" />}
             <FormattedText text={introText} />
           </p>
           {(source.providerName || source.sourceUrl) && (
-            <div className={cn("mt-2 flex justify-end", fill.footer)}>
+            <div className={cn("mt-2 flex justify-end", fill.footer, wrapAroundMedia && "max-sm:clear-both max-sm:mt-3 max-sm:border-t max-sm:border-white/[0.08] max-sm:pt-2")}>
               <SourceChip {...source} />
             </div>
           )}
@@ -159,7 +165,7 @@ export default function BookIntroductionPanel({
               빛은 칸 바깥으로만 번져 글자를 가리지 않고, 누름은 통과해 본문이 받는다 */}
           {isClipped && (
             <span
-              className="pointer-events-none absolute inset-0 hidden animate-[domainPulse_1.8s_ease-in-out_3] pointer-coarse:block motion-reduce:hidden"
+              className={cn("pointer-events-none absolute inset-0 hidden animate-[domainPulse_1.8s_ease-in-out_3] motion-reduce:hidden", wrapAroundMedia ? "sm:pointer-coarse:block" : "pointer-coarse:block")}
               aria-hidden
             />
           )}
@@ -268,9 +274,7 @@ function IntroductionModal({
           </button>
         </header>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-texture-noise px-5 py-6 [overflow-anchor:none] sm:px-8 sm:py-8">
-          <p className="whitespace-pre-wrap break-words text-base leading-8 text-text-primary">
-            <FormattedText text={description} />
-          </p>
+          <ContentReadingText text={description} size="modal" />
           {(source.providerName || source.sourceUrl) && (
             <div className="mt-6 flex justify-end">
               <SourceChip {...source} />

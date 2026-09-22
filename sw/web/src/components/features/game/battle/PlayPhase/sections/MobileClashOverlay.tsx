@@ -2,7 +2,7 @@
   MobileClashOverlay — 모바일 충돌 연출 (clashing) + 라운드 결과 (resolving)
   lg:hidden fixed overlays
 */
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import type { RoundAction, RoundRecord } from "@/lib/game/types";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getBattleCommandLabel } from "../../i18n";
@@ -40,7 +40,7 @@ export default function MobileClashOverlay({
             <div className="flex flex-col items-center gap-2" style={{ animation: "clash-left 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }}>
               <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-accent/50 shadow-[0_0_16px_rgba(212,175,55,0.3)]">
                 {pendingRound.playerAction.card.avatarUrl ? (
-                  <Image src={pendingRound.playerAction.card.avatarUrl} alt={pendingRound.playerAction.card.nickname} width={80} height={80} className="object-cover w-full h-full" />
+                  <CelebAvatarImage src={pendingRound.playerAction.card.avatarUrl} alt={pendingRound.playerAction.card.nickname} width={80} height={80} className="object-cover w-full h-full" />
                 ) : (
                   <div className="w-full h-full bg-[#1a1a20] flex items-center justify-center">
                     <span className="text-2xl text-white/30 font-bold">{pendingRound.playerAction.card.nickname[0]}</span>
@@ -67,7 +67,7 @@ export default function MobileClashOverlay({
             <div className="flex flex-col items-center gap-2" style={{ animation: "clash-right 0.6s cubic-bezier(0.22,1,0.36,1) forwards" }}>
               <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-red-400/50 shadow-[0_0_16px_rgba(248,113,113,0.3)]">
                 {pendingRound.aiAction.card.avatarUrl ? (
-                  <Image src={pendingRound.aiAction.card.avatarUrl} alt={pendingRound.aiAction.card.nickname} width={80} height={80} className="object-cover w-full h-full" />
+                  <CelebAvatarImage src={pendingRound.aiAction.card.avatarUrl} alt={pendingRound.aiAction.card.nickname} width={80} height={80} className="object-cover w-full h-full" />
                 ) : (
                   <div className="w-full h-full bg-[#1a1a20] flex items-center justify-center">
                     <span className="text-2xl text-white/30 font-bold">{pendingRound.aiAction.card.nickname[0]}</span>

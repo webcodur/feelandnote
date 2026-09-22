@@ -62,10 +62,12 @@ const SIZE_CLASSES = {
 };
 
 /** 긴 글을 읽는 모달의 세로 상한. 기본(상하 2rem)보다 넉넉한 여백을 남겨 바깥을 눌러 닫을 수 있게 한다 */
-export const READING_MODAL_MAX_HEIGHT_CLASS = "max-h-[78dvh]";
+export const READING_MODAL_MAX_HEIGHT_CLASS = "max-h-[66dvh]";
 
-const DEFAULT_CLOSE_BUTTON =
-  "absolute right-2 top-2 z-[70] flex h-8 w-8 items-center justify-center rounded-full border border-accent-dim/40 bg-bg-card/70 text-accent backdrop-blur-sm hover:bg-accent/10 hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:right-4 sm:top-4";
+const CLOSE_BUTTON_STYLE =
+  "z-[70] flex h-8 w-8 items-center justify-center rounded-full border border-accent-dim/40 bg-bg-card/70 text-accent backdrop-blur-sm hover:bg-accent/10 hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70";
+const DEFAULT_CLOSE_BUTTON = `absolute end-2 top-2 sm:end-4 sm:top-4 ${CLOSE_BUTTON_STYLE}`;
+const HEADER_CLOSE_BUTTON = `absolute end-3 top-1/2 -translate-y-1/2 sm:end-4 ${CLOSE_BUTTON_STYLE}`;
 
 export default function Modal({
   isOpen,
@@ -146,21 +148,23 @@ export default function Modal({
   };
 
   const boxClass = `w-full ${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "rounded-lg" : "relative"} ${boxClassName ?? ""}`;
+  const closeInHeader = Boolean(title && stickyHeader && !closeButtonClassName);
+  const closeButton = showCloseButton && (
+    <button
+      type="button"
+      onClick={onClose}
+      disabled={closeButtonDisabled}
+      aria-label={t("close")}
+      className={`${closeButtonClassName ?? (closeInHeader ? HEADER_CLOSE_BUTTON : DEFAULT_CLOSE_BUTTON)} disabled:cursor-wait disabled:opacity-40`}
+    >
+      <X size={20} />
+    </button>
+  );
 
   const inner = (
     <>
-      {/* 우상단 플로팅 닫기 버튼 — 스크롤 영역 밖 */}
-      {showCloseButton && (
-        <button
-          type="button"
-          onClick={onClose}
-          disabled={closeButtonDisabled}
-          aria-label={t("close")}
-          className={`${closeButtonClassName ?? DEFAULT_CLOSE_BUTTON} disabled:cursor-wait disabled:opacity-40`}
-        >
-          <X size={20} />
-        </button>
-      )}
+      {/* 고정 헤더가 없는 모달과 별도 배치 버튼은 스크롤 영역 밖에 둔다. */}
+      {!closeInHeader && closeButton}
 
       {/* 스크롤 영역 */}
       <div
@@ -169,11 +173,12 @@ export default function Modal({
       >
         {/* 헤더 - title이 있을 때만 렌더링 */}
         {title && (
-          <div className={`relative flex items-center justify-center border-b border-border px-3 py-3 ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : ""}`}>
-            <div className="flex items-center gap-1.5">
+          <div className={`flex items-center justify-center border-b border-border py-3 ${closeInHeader ? "px-14" : "px-3"} ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : "relative"}`}>
+            <div className="flex min-w-0 items-center gap-1.5 text-center">
               {Icon && <Icon size={16} className="text-accent" />}
               <h2 className={`text-base sm:text-lg ${titleClassName ?? "text-text-primary"}`} style={titleStyle}>{title}</h2>
             </div>
+            {closeInHeader && closeButton}
           </div>
         )}
 

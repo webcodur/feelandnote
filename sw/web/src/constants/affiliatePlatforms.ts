@@ -18,7 +18,13 @@ export function toAffiliateLinks(value: unknown): AffiliateLink[] {
 export const AFFILIATE_PLATFORMS = {
   // ko
   yes24: { label: 'YES24', color: '#2563EB', locale: 'ko', notice: null },
-  kyobo: { label: '교보문고', color: '#22A355', locale: 'ko', notice: null },
+  kyobo: {
+    label: '교보문고',
+    color: '#22A355',
+    locale: 'ko',
+    // 링크프라이스 제휴(kbbook) — 대가성 표시 의무 문구
+    notice: '이 포스팅은 제휴마케팅이 포함된 광고로 커미션을 지급 받습니다.',
+  },
   coupang: {
     label: '쿠팡',
     color: '#E44232',
@@ -28,7 +34,15 @@ export const AFFILIATE_PLATFORMS = {
   },
   aladin: { label: '알라딘', color: '#8B5CF6', locale: 'ko', notice: null },
   // en
-  amazon: { label: 'Amazon', color: '#FF9900', locale: 'en', notice: null },
+  amazon: {
+    label: 'Amazon',
+    color: '#FF9900',
+    locale: 'en',
+    // 어소시에이트 추적 ID(2026-09-21 계정 생성) — 상품·검색 링크에 tag로 얹는다
+    tag: 'feelandnote-20',
+    // 운영계약 §5 필수 고지 원문 — 바꾸거나 번역하지 않는다
+    notice: 'As an Amazon Associate I earn from qualifying purchases.',
+  },
   google_books: { label: 'Google Books', color: '#4285F4', locale: 'en', notice: null },
 } as const
 

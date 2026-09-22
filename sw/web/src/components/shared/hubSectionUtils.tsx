@@ -56,7 +56,7 @@ export const HOME_GROUP_ID = "home";
 
 export const HOME_SECTIONS = [
   { key: "todayFigure", moreHref: "/explore/today",     titleKey: "todayFigure", subtitleKey: "todayFigureSub", moreKey: "viewAll" },
-  { key: "figureLinks", moreHref: "/explore?sortBy=content_count", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll" },
+  { key: "figureLinks", moreHref: "/explore?sortBy=country_trending", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll" },
   { key: "notice",      moreHref: "/agora/board/notice", titleKey: "notice",     subtitleKey: "noticeSub",      moreKey: "viewAll" },
 ] as const;
 // #endregion

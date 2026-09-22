@@ -6,10 +6,7 @@
 
 | 주제 | 파일 | 용도 |
 |---|---|---|
-| 한국어 문체 | [ai-writing-style.md](./ai-writing-style.md) | AI식 표현을 줄이고 사람의 문장과 목소리를 보존하는 편집 기준 |
-| 검증 하네스 | [ai-writing-validation.md](./ai-writing-validation.md) | 근거 수집, 규칙 검사, 의미 검사, 재시도, 사람 검토 |
 | 저장소 공유 | [shared-repositories.md](./shared-repositories.md) | 대화에서 공유된 AI 문체·문서·에이전트·브라우저·검색 저장소와 용도 |
-| SDS Humanizer 감사 | [sds-humanizer-audit-2026-08-09.md](./sds-humanizer-audit-2026-08-09.md) | 별도 수령한 sds-humanizer v1.9.0의 AI 문체 처리 범위·강점·한계 |
 | 모델·에이전트 운영 | [agent-operations.md](./agent-operations.md) | 모델 역할 분담, 병렬화, 장기 작업, 자동화 경계 |
 | 브라우저 채팅 활용 | [browser-chat-automation.md](./browser-chat-automation.md) | 로그인된 브라우저로 구글 AI 모드·ChatGPT를 무료로 부리는 기법, 막히는 경로, 실측 |
 | 문서·출판 | [document-publishing.md](./document-publishing.md) | HTML·Markdown·DOCX·PDF를 출판물로 만드는 절차 |
@@ -26,6 +23,4 @@
 
 ## 외부 참고
 
-- [Humanizer](https://github.com/blader/humanizer)
-- [Korean Writing Reviewer](https://github.com/CreatoonForge/korean-writing-reviewer)
 - [WikiProject](https://en.wikipedia.org/wiki/WikiProject)

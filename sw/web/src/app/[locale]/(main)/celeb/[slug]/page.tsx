@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getCelebRouteProfile } from "@/lib/profile-route";
+import { getCelebInitialAnalysis } from "@/actions/celebs/getCelebSideData";
 import { getCelebSidePresence } from "@/actions/celebs/getCelebSidePresence";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
@@ -106,10 +107,11 @@ export default async function CelebPage({ params }: PageProps) {
   });
   const worldBannerImages = getWorldBannerImages(worldId);
 
-  // 방명록은 캐시되지 않는 조회라 ISR HTML에 굳으면 7일간 새 글이 안 보인다.
-  // 색인 가치도 없고 화면 맨 아래에 있어 클라이언트가 뷰포트 근접 시 직접 불러온다.
-  // 관계·분석 구획의 본문은 브라우저가 화면 근처에서 직접 불러온다. 여기서는 목차가
-  // 필요로 하는 「있다·없다」만 확인하고 자료 자체는 HTML에 싣지 않는다.
+  // 첫 분석 탭은 초기 HTML에 배치한다. 숨겨진 탭과 방명록은 사용자 선택 때 조회한다.
+  const sidePresencePromise = getCelebSidePresence({ celebId: userId, reality: profile.celeb_reality });
+  const initialAnalysisPromise = sidePresencePromise.then((presence) =>
+    getCelebInitialAnalysis(userId, locale, presence),
+  );
   const initialContentsPromise = profile.celeb_tier === 'full'
     ? getPublicUserContents({
         userId,
@@ -123,11 +125,8 @@ export default async function CelebPage({ params }: PageProps) {
     const firstContentId = contents.items[0]?.content_id;
     return firstContentId ? getContentBrief(firstContentId, locale) : null;
   });
-  // 페이지末 관련 상품은 서버에서 미리 싣지 않는다. 그 조회만 수명이 한 시간이라
-  // (풀에 태그를 못 달아 시간 만료로만 새 후보를 흡수한다) 초기 렌더가 그것을 쓰면
-  // Next가 인물 상세 한 장의 수명을 통째로 한 시간으로 끌어내렸다. 본문·연표·서가까지
-  // 한 시간마다 다시 만들어지던 원인이다. 화면 맨 아래 구획이라 스크롤해야 보이므로
-  // 브라우저가 근접했을 때 직접 불러온다.
+  // 시간 단위로 갱신되는 추가 추천은 사용자가 요청할 때 조회한다.
+  // 초기 렌더에 섞어 인물 상세 전체의 ISR 수명을 한 시간으로 줄이지 않는다.
   const [
     sidePresence,
     dialogueData,
@@ -136,12 +135,10 @@ export default async function CelebPage({ params }: PageProps) {
     allFigureBooks,
     initialContentBrief,
     externalLinks,
+    initialAnalysis,
   ] = await Promise.all([
     // 목차 가용도·외부 링크·작품 소개는 액션이 자기 안에서 실패를 받는다 — 이름표가 필요 없다.
-    getCelebSidePresence({
-      celebId: userId,
-      reality: profile.celeb_reality,
-    }),
+    sidePresencePromise,
     named(slug, "대사", getCelebDialogueFull(userId)),
     named(slug, "연표", getCelebTimelineEvents(userId, locale)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
@@ -150,6 +147,11 @@ export default async function CelebPage({ params }: PageProps) {
     named(slug, "등장 작품", getFigureBookPresentationsForCeleb(userId, locale)),
     initialContentBriefPromise,
     getCelebExternalLinks(profile.wikidata_qid, locale),
+    initialAnalysisPromise.catch((error: unknown) => {
+      // 부가 분석 장애로 인물 페이지 전체를 막지 않는다. 제자리의 수동 재시도로 복구한다.
+      console.error(`[celeb/${slug}] 분석 첫 화면 조회 실패:`, error);
+      return null;
+    }),
   ]);
 
   // 직접 등장과 간접 연관은 중단 「연관작품」에 함께 표시하고, 창작은 「창작」 탭으로 보낸다.
@@ -198,14 +200,13 @@ export default async function CelebPage({ params }: PageProps) {
     affiliateBooks: hasAffiliateBooks,
   };
 
-  // 관계 목록과 세력 배정표는 관계 구획이 화면에 다가올 때 브라우저가 다시 받는다.
-  // 화면에 그리지 않는 자료를 HTML에 실으면 ISR 한 장이 그만큼 무거워진다.
+  // 관계 목록은 초기 높이 계산과 모바일 목록에 재사용한다. 세력 상세는 탭 선택 때 받는다.
   // reading은 explanation에서 locale 해석을 마친 값이라 원문 explanation은
   // 클라이언트에서 쓰지 않고, dialogue도 dialogueLines prop으로 따로 넘긴다.
   // 둘 다 본문급 텍스트라 RSC 직렬화에서 제외한다(서버 메타·JSON-LD는 profile 원본 사용).
   const clientProfile = {
     ...profile,
-    relations: [],
+    relations: profile.relations,
     factions: [],
     explanation: null,
     dialogue: null,
@@ -239,6 +240,7 @@ export default async function CelebPage({ params }: PageProps) {
         dialogueLines={dialogueLines}
         timelineEvents={timelineEvents}
         sideAvailability={sideAvailability}
+        initialAnalysis={initialAnalysis}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief ?? undefined}
         // 절판 작품은 화면 목록에서만 뒤로 보낸다. 제목·구조화 데이터는 저장 순서의 첫 등장 작품을 그대로 쓴다.

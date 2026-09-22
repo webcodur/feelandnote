@@ -172,6 +172,10 @@ export default function CuratedListExpand({
   if (!selected) return null;
   const isNavigationDisabled = total <= 1;
   const number = numberLabel(selectedIndex);
+  /* 아래 이동 바 가운데 칸 — 지금 보는 작품의 상세 페이지. 미등록 작품은 갈 곳이 없어 칸을 비운다 */
+  const detailHref = activeContentId
+    ? `/content/${activeContentId}?category=${getCategoryByDbType(selected.contentType ?? list.contentType)?.id ?? "book"}`
+    : undefined;
   /* 수수료·주의 안내는 통합 구매 창(BookPurchaseModal)이 싣는다 */
 
   return (
@@ -215,6 +219,8 @@ export default function CuratedListExpand({
             label={tArchive("expandBottomNavigation")}
             previousLabel={tArchive("expandPrevBook")}
             nextLabel={tArchive("expandNextBook")}
+            detailHref={detailHref}
+            detailLabel={t("openContent")}
             disabled={isNavigationDisabled}
             onPrevious={goPrevious}
             onNext={goNext}

@@ -10,12 +10,13 @@ import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getCelebLevelByRanking } from '@/constants/materials'
-import type { CelebProfile, CelebFactionInfo } from '@/types/home'
+import type { CelebProfile, CelebFactionInfo, CelebTrendMatch } from '@/types/home'
 import type { Tables } from '@/types/database.generated'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 import { parseCelebContentPresence, type CelebContentPresence } from '@/constants/celebContentPresence'
 import { parseTrendCountry } from '@/constants/trendCountries'
 import { getCountryTrendingPeople } from '@/lib/trends/countryTrending'
+import type { TrendMatch } from '@/lib/trends/trendMatching'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
 
@@ -125,6 +126,48 @@ export async function getMostRecordedCelebLinks(limit: number, minContentCount: 
   return getMostRecordedCelebLinksCached(limit, minContentCount)
 }
 
+export interface TrendingCelebLink extends Omit<CelebLinkRow, 'nickname'> {
+  nickname: string
+  trend: CelebTrendMatch
+}
+
+/* 홈 급상승 명부 — 탐색의 국가 트렌드 매칭 결과에서 명부 자격(기록수·실존·활성)을 통과한 인물만 뽑는다.
+   matches 순서(트렌드 행 순위)가 곧 명부 순서다. */
+async function fetchTrendingCelebLinks(country: string, limit: number, minContentCount: number): Promise<TrendingCelebLink[]> {
+  const { matches, available } = await getCountryTrendingPeople(country)
+  if (!available || matches.length === 0) return []
+  const db = createStaticClient()
+  const { data, error } = await db.rpc('get_celebs_sorted', {
+    p_sort_by: 'content_count', p_limit: null, p_offset: 0,
+    p_min_content_count: minContentCount, p_include_inactive: false,
+    p_celeb_realities: [...LISTING_DEFAULT_REALITIES],
+  }).select('id, slug, nickname, nickname_en, avatar_url, title, title_en, content_count')
+    .in('id', matches.map(match => match.id))
+  throwOnQueryError('검색 급상승 인물 명부', error)
+  const positions = new Map(matches.map((match, index) => [match.id, index]))
+  const matchById = new Map(matches.map(match => [match.id, match]))
+  return ((data ?? []) as CelebLinkRow[])
+    .sort((a, b) => positions.get(a.id)! - positions.get(b.id)!)
+    .slice(0, limit)
+    .map(row => {
+      const match = matchById.get(row.id)!
+      return { ...row, nickname: row.nickname ?? '', trend: { title: match.trendTitle, rank: match.rank, country, volume: match.volume, started: match.started } }
+    })
+}
+
+const getTrendingCelebLinksCached = unstable_cache(
+  coalescePublicRead(fetchTrendingCelebLinks),
+  ['trending-celeb-links-v5'],
+  {
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['trending-celeb-links-v5']),
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  },
+)
+
+export async function getTrendingCelebLinks(country: string, limit: number, minContentCount: number) {
+  return getTrendingCelebLinksCached(country, limit, minContentCount)
+}
+
 // RPC 함수 반환 타입
 interface CelebRow {
   id: string
@@ -181,6 +224,8 @@ interface FactionAssignmentJoinRow {
 
 interface PublicCelebData {
   trendMatchedCount?: number
+  /** 승격된 인물의 트렌드 매칭 근거 — 카드 배지가 읽는다 */
+  trendMatchMap?: Record<string, CelebTrendMatch>
   rows: CelebRow[]
   total: number
   totalPages: number
@@ -200,7 +245,7 @@ async function fetchCelebsPublic(
   search: string | null, factionId: string | null, minContentCount: number,
   includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean,
   birthYearMin: number | null, birthYearMax: number | null,
-  contentPresence: CelebContentPresence, trendingIds: string[]
+  contentPresence: CelebContentPresence, trendMatches: TrendMatch[], trendCountry: string
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
@@ -208,6 +253,7 @@ async function fetchCelebsPublic(
   let rows: CelebRow[]
   let total: number
   let trendMatchedCount: number | undefined
+  let trendMatchMap: Record<string, CelebTrendMatch> | undefined
 
   if (sortBy === 'country_trending') {
     // Disable the RPC limit: all listing filters must precede promotion and pagination.
@@ -223,14 +269,22 @@ async function fetchCelebsPublic(
       if (contentPresence === 'without') request = request.eq('content_count', 0)
       return request
     }
-    const promotedResult = trendingIds.length
-      ? await query().in('id', trendingIds)
+    const promotedResult = trendMatches.length
+      ? await query().in('id', trendMatches.map(match => match.id))
       : { data: [], error: null }
     throwOnQueryError('Trending people', promotedResult.error)
-    const positions = new Map(trendingIds.map((id, index) => [id, index]))
+    // matches 배열은 이미 트렌드 행 순위 순이다. 그 순서가 곧 승격 순위다.
+    const positions = new Map(trendMatches.map((match, index) => [match.id, index]))
+    const matchById = new Map(trendMatches.map(match => [match.id, match]))
     const promoted = ((promotedResult.data ?? []) as CelebRow[])
       .sort((a, b) => positions.get(a.id)! - positions.get(b.id)!)
     trendMatchedCount = promoted.length
+    trendMatchMap = {}
+    for (const row of promoted) {
+      const match = matchById.get(row.id)
+      if (!match) continue
+      trendMatchMap[row.id] = { title: match.trendTitle, rank: match.rank, country: trendCountry, volume: match.volume, started: match.started }
+    }
     const promotedPage = promoted.slice(offset, offset + limit)
     const remainingLimit = limit - promotedPage.length
     const remainingOffset = Math.max(0, offset - promoted.length)
@@ -309,7 +363,7 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, trendMatchedCount, factionMap: {}, factionSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
+    return { rows: [], total, totalPages, trendMatchedCount, trendMatchMap, factionMap: {}, factionSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
   }
 
   // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각
@@ -396,7 +450,8 @@ async function fetchCelebsPublic(
   })
 
   return {
-    rows, total, totalPages, trendMatchedCount, factionMap, factionSortOrderMap,
+    rows, total, totalPages, trendMatchedCount, trendMatchMap,
+    factionMap, factionSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
     voiceMap, contentResearchConfirmedEmptyMap,
   }
@@ -409,11 +464,11 @@ const fetchCelebsPublicOnce = coalescePublicRead(fetchCelebsPublic)
 const getCelebsCached = unstable_cache(
   fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
-  ['celebs-public-v4-separate-ranking'],
+  ['celebs-public-v9-separate-ranking'],
   // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v4-separate-ranking']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v9-separate-ranking']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -421,9 +476,9 @@ const getCelebsCached = unstable_cache(
 // 인기(trending)만 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 순위가 나온다
 const getCelebsTrendingCached = unstable_cache(
   fetchCelebsPublicOnce,
-  ['celebs-public-trending-v2-separate-ranking'],
+  ['celebs-public-trending-v6-separate-ranking'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v2-separate-ranking']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v6-separate-ranking']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -463,9 +518,13 @@ export async function getCelebs(
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, factionId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
     includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
-    birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.ids ?? []
+    birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.matches ?? [],
+    countryTrend ? country : ''
   )
-  const trend = countryTrend ? { country, available: countryTrend.available, matchedCount: pub.trendMatchedCount ?? 0 } : undefined
+  const trend = countryTrend ? {
+    country, available: countryTrend.available,
+    matchedCount: pub.trendMatchedCount ?? 0,
+  } : undefined
 
   if (pub.rows.length === 0) {
     return { celebs: [], total: pub.total, page, totalPages: pub.totalPages, error: null, trend }
@@ -551,6 +610,7 @@ export async function getCelebs(
       view_count: row.view_count ?? null,
       views_window_start: row.window_start ?? null,
       views_window_end: row.window_end ?? null,
+      trend_match: pub.trendMatchMap?.[row.id] ?? null,
     }
   })
 

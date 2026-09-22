@@ -9,6 +9,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 
+import type { CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
@@ -34,7 +35,8 @@ interface CelebPageContentProps {
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   timelineEvents: CelebTimelineEvent[];
-  /** 관계·분석 구획은 브라우저가 직접 불러오므로 「있다·없다」만 받는다 */
+  initialAnalysis: CelebAnalysisData | null;
+  /** 목차에 노출할 부가 구획 */
   sideAvailability: CelebSideAvailability;
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
@@ -56,6 +58,7 @@ export default function CelebPageContent({
   greeting,
   dialogueLines,
   timelineEvents,
+  initialAnalysis,
   sideAvailability,
   initialContents,
   initialContentBrief,
@@ -167,6 +170,7 @@ export default function CelebPageContent({
         locale={locale}
         dialogueLines={dialogueLines}
         timelineEvents={timelineEvents}
+        initialAnalysis={initialAnalysis}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief}
         figureBooks={figureBooks}

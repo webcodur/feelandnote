@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -14,11 +14,11 @@ import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
-import type { ExpandCardMode } from "./ExpandModeTabs";
 import MobileIndexModal from "./MobileIndexModal";
 import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
   ExpandArrowButton,
+  ExpandBottomNavigation,
   ExpandTitleHeader,
 } from "./ExpandNavigation";
 import { useContentBrief } from "./useContentBrief";
@@ -26,14 +26,38 @@ import { useCelebContentRecord } from "./useCelebContentRecord";
 import { useExpandIndexSelection } from "./useExpandIndexSelection";
 import { useHeldHeight } from "./useHeldHeight";
 
-/** 화면 맨 위 고정 머리글(64px)에 제목이 가리지 않을 최소 높이 */
+/** 화면 위 고정 띠를 재지 못했을 때 쓰는 최소 오프셋 — 머리글(64px)보다 조금 크게 */
 const HEADER_OFFSET = 80;
+
+/** 화면 위에 붙어 본문을 덮는 띠(머리글·구획 제목·탭)가 지금 차지하는 아랫변을 잰다.
+   페이지마다 겹쳐 쌓인 띠의 수와 높이가 달라 고정값으로는 제목이 띠 뒤에 가려진다.
+   맨 위부터 끊기지 않고 이어진 띠만 센다 — 중간에 뜬 고정 요소까지 세면 과하게 내린다 */
+function topOverlayBottom(exclude: HTMLElement) {
+  const bands: { top: number; bottom: number }[] = [];
+  document.querySelectorAll("body *").forEach((el) => {
+    if (exclude.contains(el)) return;
+    const { position } = getComputedStyle(el);
+    if (position !== "sticky" && position !== "fixed") return;
+    const r = el.getBoundingClientRect();
+    if (r.height > 10 && r.height < 240 && r.top < 400 && r.bottom > 0) {
+      bands.push({ top: r.top, bottom: r.bottom });
+    }
+  });
+  bands.sort((a, b) => a.top - b.top);
+  let bottom = 0;
+  for (const band of bands) {
+    if (band.top > bottom + 4) break;
+    bottom = Math.max(bottom, band.bottom);
+  }
+  return Math.max(bottom, HEADER_OFFSET);
+}
 /** 화살표를 누른 직후로 볼 시간. 이보다 늦게 온 선택 변화는 화살표가 부른 것이 아니다 */
 const REVEAL_WINDOW_MS = 400;
 
 interface ExpandDetailViewProps {
   items: UserContentWithContent[];
   ownerNickname?: string;
+  ownerAvatarUrl?: string | null;
   isActive?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
@@ -52,6 +76,7 @@ interface ExpandDetailViewProps {
 export default function ExpandDetailView({
   items,
   ownerNickname,
+  ownerAvatarUrl,
   isActive = true,
   initialContentBrief,
   initialContentRecord,
@@ -131,9 +156,6 @@ export default function ExpandDetailView({
   );
   const selectedItem = record?.content_id === selectedContentId ? record : selectedPlaceholder;
   const isNavigationDisabled = total <= 1;
-  /* 본문 모드(소개·감상 배경)는 색인에서 곧바로 고를 때는 유지하고, 좌우 화살표로
-     작품을 넘길 때는 소개로 되돌린다 */
-  const [cardMode, setCardMode] = useState<ExpandCardMode>("intro");
   /* 작품을 바꾸면 소개·기록이 오기 전까지 뼈대만 그려져 상자가 뼈대 크기로 줄었다 다시 늘어난다.
      그 사이엔 직전 카드의 높이를 그대로 붙들고, 두 응답이 다 온 뒤에 한 번만 새 높이로 옮긴다. */
   const cardRef = useHeldHeight(isBriefLoading || isRecordLoading);
@@ -144,16 +166,12 @@ export default function ExpandDetailView({
      위로 벗어났을 때만 위쪽으로 맞추고, 제목이 이미 보이면 화면을 건드리지 않는다. */
   const rootRef = useRef<HTMLElement>(null);
   const revealRequestedAtRef = useRef(0);
-  /* 감상 배경을 읽다가 작품을 넘기면 소개 모드로 돌려 보낸다 — 새 작품의 감상 배경
-     한가운데로 떨어지지 않게 */
   const goPrevious = useCallback(() => {
     revealRequestedAtRef.current = performance.now();
-    setCardMode("intro");
     selectPrevious();
   }, [selectPrevious]);
   const goNext = useCallback(() => {
     revealRequestedAtRef.current = performance.now();
-    setCardMode("intro");
     selectNext();
   }, [selectNext]);
 
@@ -171,9 +189,10 @@ export default function ExpandDetailView({
 
     const root = rootRef.current;
     if (!root) return;
+    const limit = topOverlayBottom(root) + 8;
     const { top } = root.getBoundingClientRect();
-    if (top >= HEADER_OFFSET) return;
-    window.scrollTo({ top: window.scrollY + top - HEADER_OFFSET, behavior: "instant" });
+    if (top >= limit) return;
+    window.scrollTo({ top: window.scrollY + top - limit, behavior: "instant" });
   }, [selectedIndex]);
 
   if (total === 0) return null;
@@ -220,11 +239,20 @@ export default function ExpandDetailView({
             onRetryRecord={retryRecord}
             isActive={isActive}
             ownerNickname={ownerNickname}
-            mode={cardMode}
-            onModeChange={setCardMode}
+            ownerAvatarUrl={ownerAvatarUrl}
           />
         </div>
-        {/* 모드 탭이 본문을 짧게 묶어 카드 아래가 머리 가까이에 온다 — 머리 화살표가 있어 아래쪽 이동 단추는 둘 이유가 없다 */}
+        {/* 소개와 감상 배경이 한 덩어리라 카드가 길다 — 다 읽은 자리에서 바로
+            이전·다음으로 넘어가게 카드 아래에 이동 바를 둔다.
+            넓은 화면은 양옆 화살표가 이동을 맡는다 */}
+        <ExpandBottomNavigation
+          label={t("expandBottomNavigation")}
+          previousLabel={t("expandPrev")}
+          nextLabel={t("expandNext")}
+          disabled={isNavigationDisabled}
+          onPrevious={goPrevious}
+          onNext={goNext}
+        />
       </div>
 
       <ExpandArrowButton

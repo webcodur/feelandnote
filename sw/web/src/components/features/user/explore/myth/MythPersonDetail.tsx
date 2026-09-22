@@ -107,7 +107,7 @@ function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
       </div>
 
       {monologueOpen && monologue && (
-        <VirtualMonologueModal name={person.name} text={monologue} onClose={() => setMonologueOpen(false)} />
+        <VirtualMonologueModal text={monologue} onClose={() => setMonologueOpen(false)} />
       )}
     </div>
   );
