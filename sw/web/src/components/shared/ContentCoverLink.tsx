@@ -39,7 +39,7 @@ export default function ContentCoverLink({
       <span
         data-cover-detail-hint
         aria-hidden
-        className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-black/85 px-2 py-1 text-[11px] font-semibold text-white opacity-0 max-sm:opacity-100 sm:min-h-12 sm:border-t sm:border-accent/50 sm:bg-black/95 sm:px-6 sm:py-3 sm:text-sm sm:font-bold sm:text-accent [@media(hover:none)]:opacity-100 [@media(hover:hover)]:group-hover/cover:opacity-100 group-focus-within/cover:opacity-100 hover:border-accent hover:bg-accent hover:text-bg-main active:bg-accent-hover group-focus-visible/detail:border-accent group-focus-visible/detail:bg-accent group-focus-visible/detail:text-bg-main"
+        className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-black/85 px-2 py-1 text-[11px] font-semibold text-white opacity-0 max-sm:opacity-100 sm:min-h-12 sm:border-t sm:border-accent/50 sm:bg-black/95 sm:px-6 sm:py-3 sm:text-sm sm:font-bold sm:text-accent [@media(hover:none)]:opacity-100 [@media(hover:hover)]:group-hover/cover:opacity-100 group-focus-within/cover:opacity-100 group-hover/detail:border-accent group-hover/detail:bg-bg-secondary group-hover/detail:text-white group-hover/detail:ring-1 group-hover/detail:ring-inset group-hover/detail:ring-accent group-active/detail:bg-black group-focus-visible/detail:border-accent group-focus-visible/detail:bg-bg-secondary group-focus-visible/detail:text-white group-focus-visible/detail:ring-1 group-focus-visible/detail:ring-inset group-focus-visible/detail:ring-accent"
       >
         <span className="text-center">{label}</span>
         <ArrowRight size={13} className="absolute end-1.5 top-1/2 hidden -translate-y-1/2 sm:block" />
