@@ -329,8 +329,10 @@
         "myth": "Explore figures from world mythology and the works they appear in.",
         "faction": "Discover the stories and connections of figures brought together by a shared theme.",
         "timeline": "Discover who lived in the same era, in timelines organized by country.",
-        "directory": "Browse all figures at a glance, organized by name and profession."
-      }
+        "directory": "Browse all figures at a glance, organized by name and profession.",
+        "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
+      },
+      "navMonologue": "Monologues"
     },
     "directory": {
       "metaTitle": "Celebrity Directory - 1,000+ Figures",
@@ -402,6 +404,22 @@
         "shelf": "Bookshelf"
       },
       "works": "Related Works"
+    },
+    "monologue": {
+      "metaTitle": "Virtual Monologues | Figures",
+      "metaDescription": "Life and philosophy told in each figure's own voice. Narrated monologues and written monologues in one place.",
+      "eyebrow": "Virtual Monologue",
+      "lead": "What would they say in their own voice? First-person monologues in which each figure looks back on life and philosophy.",
+      "stats": "{voiced} narrated · {silent} written",
+      "voicedTitle": "Narrated Monologues",
+      "voicedDesc": "Monologues narrated in each figure's own voice. Open a card to read the full text with audio.",
+      "voiceBadge": "Narrated",
+      "listenCta": "Listen",
+      "silentTitle": "Written Monologues",
+      "silentDesc": "Monologues without narration yet. Search by name, read the opening lines, and continue on the figure page.",
+      "searchPlaceholder": "Search by figure name",
+      "noResults": "No results found.",
+      "showAll": "Show all {count} more"
     }
   },
   "searchResult": {

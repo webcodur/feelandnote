@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "@/components/ui/Modal";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
+import type { ReadingSegment } from "@/lib/reading-timing";
 import { Z_INDEX } from "@/constants/zIndex";
 
 interface VirtualMonologueModalProps {
@@ -20,9 +21,12 @@ interface VirtualMonologueModalProps {
   nested?: boolean;
   /** 원문 기준 강조 범위(재생 문장) — 음성 재생 중 모달에서도 같은 구간을 밝힌다 */
   mark?: { start: number; end: number } | null;
+  /** 문장 타이밍 — 주면 문장을 눌러 그 시점부터 재생한다 */
+  segments?: ReadingSegment[] | null;
+  onPlayFrom?: (seconds: number) => void;
 }
 
-export default function VirtualMonologueModal({ text, onClose, nested = false, mark }: VirtualMonologueModalProps) {
+export default function VirtualMonologueModal({ text, onClose, nested = false, mark, segments, onPlayFrom }: VirtualMonologueModalProps) {
   const t = useTranslations("celebPage");
 
   return (
@@ -40,7 +44,7 @@ export default function VirtualMonologueModal({ text, onClose, nested = false, m
     >
       <ModalBody className="p-4 sm:p-6">
         <ContentReadingText size="modal" className="space-y-4">
-          <ReadingHighlightText text={text} mark={mark} />
+          <ReadingHighlightText text={text} mark={mark} segments={segments} onPlayFrom={onPlayFrom} sentenceLabel={t("readingPlayFromHere")} />
         </ContentReadingText>
       </ModalBody>
     </Modal>

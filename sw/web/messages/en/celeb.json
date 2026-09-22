@@ -343,6 +343,7 @@
     "guestbookOpen": "Read or sign the guestbook",
     "moreRecommendations": "More book recommendations",
     "noFurtherRecommendations": "There are no additional recommendations.",
-    "factionLoad": "Explore factions"
+    "factionLoad": "Explore factions",
+    "readingPlayFromHere": "Play from this sentence"
   }
 }
