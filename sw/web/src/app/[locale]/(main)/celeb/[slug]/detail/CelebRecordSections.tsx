@@ -177,7 +177,6 @@ export default function CelebRecordSections({
                 reading={profile.reading}
                 virtualMonologue={profile.virtualMonologue}
                 celebId={userId}
-                celebName={profile.nickname}
                 voiceV={profile.voice_v}
                 readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
               />
@@ -205,6 +204,7 @@ export default function CelebRecordSections({
                 userId={userId}
                 slug={slug}
                 nickname={profile.nickname}
+                avatarUrl={profile.avatar_url}
                 emptyMessage={t("libraryEmpty")}
                 wikidataQid={profile.wikidata_qid ?? null}
                 authoredBooks={authoredBooks}

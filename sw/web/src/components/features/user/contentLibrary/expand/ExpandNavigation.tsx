@@ -121,8 +121,7 @@ interface BottomNavigationProps {
   onNext: () => void;
 }
 
-/* 카드 아래쪽 이동·연결 바. 좁은 화면은 [← 이전 | 작품 상세 | 다음 →] 세 칸이고,
-   넓은 화면은 양옆 화살표가 이동을 맡으므로 가운데 작품 상세 링크만 남는다 */
+/* 좁은 화면에서 이전·다음으로 이동한다. 상세 링크를 쓰는 화면만 가운데 칸과 PC 연결 바를 둔다. */
 export function ExpandBottomNavigation({
   label,
   previousLabel,
@@ -137,7 +136,7 @@ export function ExpandBottomNavigation({
     <nav
       aria-label={label}
       data-testid="expand-bottom-navigation"
-      className="flex items-stretch justify-center border-t border-white/10 bg-bg-secondary/55"
+      className={`flex items-stretch justify-center border-t border-white/10 bg-bg-secondary/55 ${detailHref && detailLabel ? "" : "md:hidden"}`}
     >
       <button
         type="button"
@@ -166,7 +165,7 @@ export function ExpandBottomNavigation({
         disabled={disabled}
         aria-label={nextLabel}
         title={nextLabel}
-        className="flex min-h-[44px] flex-1 items-center justify-center border-s border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary md:hidden"
+        className={`flex min-h-[44px] flex-1 items-center justify-center text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary md:hidden ${detailHref && detailLabel ? "border-s border-white/10" : ""}`}
       >
         <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
       </button>
