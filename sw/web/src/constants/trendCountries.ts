@@ -13,8 +13,8 @@ export const TREND_PERIOD_HOURS = 168 as const
 
 export type TrendCountry = (typeof TREND_COUNTRIES)[number]
 
-/** Always offered, whatever the visitor's country. */
-export const PINNED_TREND_COUNTRIES: readonly TrendCountry[] = ['KR', 'US']
+/** Always offered, whatever the visitor's country. Major Trending now markets across regions; the rest open in the country picker. */
+export const PINNED_TREND_COUNTRIES: readonly TrendCountry[] = ['KR', 'US', 'JP', 'GB', 'FR', 'DE', 'IN', 'BR']
 
 export function parseTrendCountry(value: unknown): TrendCountry | undefined {
   if (typeof value !== 'string') return undefined

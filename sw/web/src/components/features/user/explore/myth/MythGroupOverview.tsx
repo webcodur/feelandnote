@@ -81,7 +81,7 @@ export default function MythGroupOverview({ myth, group, people, onSelectPerson 
             </div>
 
             <div className={layout.description}>
-              <div className="space-y-4 break-keep text-[15px] leading-[1.9] text-text-secondary md:text-[16px]">
+              <div className="space-y-4 text-[15px] leading-[1.9] text-text-secondary md:text-[16px]">
                 {group.description ? (
                   splitReadableParagraphs(group.description).map((paragraph, index) => (
                     <p key={index}><FormattedText text={paragraph} /></p>

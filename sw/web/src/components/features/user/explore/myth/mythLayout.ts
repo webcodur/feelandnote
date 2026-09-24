@@ -40,5 +40,5 @@ export const MYTH_LAYOUT = {
   overviewBody: "flex w-full min-w-0 flex-col",
   overviewHeader: "flex flex-wrap items-center justify-between gap-x-3 gap-y-2",
   overviewStats: "min-w-0 text-end text-[11px] font-semibold leading-5 text-text-tertiary md:text-xs",
-  description: "scrollbar-thin mt-4 h-56 overflow-y-auto pe-2 [overflow-anchor:none] md:h-64 lg:min-h-0 lg:flex-1",
+  description: "mt-4 h-56 overflow-clip md:h-64 lg:min-h-0 lg:flex-1",
 } as const;

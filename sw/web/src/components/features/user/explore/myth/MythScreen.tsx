@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { MythData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythTypes";
 import ExploreNav, { type ExploreNavRow } from "@/components/shared/ExploreNav";
 import { mythGroupName } from "./mythGroupName";
@@ -27,6 +27,7 @@ function focusedMyth(data: MythData, personId: string | null) {
 }
 
 export default function MythScreen({ data }: Props) {
+  const locale = useLocale();
   const t = useTranslations("explore.hub.myth");
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
   /* 주소에 신화가 있으면(음악 재생기 바로가기 등) 그 신화를 고른 채 연다 */
@@ -104,13 +105,6 @@ export default function MythScreen({ data }: Props) {
       .map((id) => byId.get(id))
       .filter((person): person is MythPerson => Boolean(person));
   }, [activeGroup, activePeople]);
-  /* 대표 인물 — 신화가 따로 뽑은 3인을 타이틀 아트에 세운다. 인물 줄의 클러스터 차례와 무관하다 */
-  const leadPeople = useMemo(() => {
-    const byId = new Map(activePeople.map((person) => [person.id, person]));
-    return (activeMyth?.leadPersonIds ?? [])
-      .map((id) => byId.get(id))
-      .filter((person): person is MythPerson => Boolean(person));
-  }, [activeMyth, activePeople]);
   const activeIds = useMemo(() => new Set(activePeople.map((person) => person.id)), [activePeople]);
   const activeWorks = useMemo(
     () => data.works.filter((work) => work.personIds.some((id) => activeIds.has(id))),
@@ -175,6 +169,7 @@ export default function MythScreen({ data }: Props) {
       id: "regions",
       label: t("regionNav"),
       shape: "pill",
+      mobileArrows: true,
       activeId: activeRegion.id,
       items: data.regions.map((region) => ({ id: region.id, name: region.name })),
       onSelect: chooseRegion,
@@ -183,6 +178,7 @@ export default function MythScreen({ data }: Props) {
       id: "myths",
       label: t("mythNav"),
       shape: "square",
+      mobileArrows: true,
       activeId: activeMyth?.id ?? null,
       emptyLabel: t("comingSoon"),
       items: regionMyths.map((myth) => ({ id: myth.id, name: myth.name, disabled: !myth.isPublished })),
@@ -201,6 +197,7 @@ export default function MythScreen({ data }: Props) {
       label: t("groupNav"),
       shape: "tab",
       wide: true,
+      mobileArrows: true,
       activeId: activeGroup?.id ?? null,
       emptyLabel: t("groupNav"),
       items: activeMyth.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
@@ -211,7 +208,7 @@ export default function MythScreen({ data }: Props) {
   }
 
   return (
-    <section id="myth" aria-label={t("title")} className={layout.shell}>
+    <section id="myth" aria-label={t("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
       <div className={layout.navigationOuter}>
         <ExploreNav rows={rows} bareOnMobile>
           {/* 마지막 줄 — 인물. 지역·신화·그룹 줄과 같은 상자에 같은 결로 쌓는다 */}
@@ -230,7 +227,7 @@ export default function MythScreen({ data }: Props) {
               {/* 인물을 고르기 전 본문 — 그룹을 고르지 않았으면 신화 개요, 그룹을 고르면 그 그룹 개요다.
                   인물 상세에서 뒤로 가면 보던 그룹 개요로 돌아온다 */}
               {!selectedPerson && !activeGroup && (
-                <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} leadPeople={leadPeople} onSelectPerson={choosePerson} />
+                <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} />
               )}
               {!selectedPerson && activeGroup && (
                 <MythGroupOverview key={`${activeMyth.id}-${activeGroup.id}`} myth={activeMyth} group={activeGroup} people={railPeople} onSelectPerson={choosePerson} />

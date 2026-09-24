@@ -12,15 +12,17 @@ import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEdition
 import { pickPurchaseEdition, type FigureBookEdition } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
+import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import { MYTH_OTHER_GROUP_ID, type Myth, type MythData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythTypes";
 
 interface Lv1Row {
-  id: string; name: string; name_en: string | null; sort_order: number;
+  id: string; slug: string | null; name: string; name_en: string | null; sort_order: number;
 }
 interface Lv2Row {
   id: string; lv1_id: string; slug: string | null; name: string; name_en: string | null;
   description: string | null; description_en: string | null;
   theme_music: unknown;
+  team_images: unknown;
   lead_person_ids: string[] | null;
   /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 신화 하나를 잠그는 데도 배포가 필요했다 */
   published: boolean;
@@ -49,36 +51,6 @@ const CATEGORY: Record<ContentType, MythWork["category"]> = {
 };
 
 const unique = <T,>(items: T[]) => [...new Set(items)];
-
-const TITLE_ART_BY_SLUG: Record<string, string> = {
-  "myth-china-fengshen": "myth-china-fengshen.png",
-  "myth-china-xiyou": "myth-china-xiyou.png",
-  "myth-egypt": "myth-egypt.png",
-  "myth-hindu-mahabharata": "myth-hindu-mahabharata.png",
-  "myth-hindu-ramayana": "myth-hindu-ramayana.png",
-  "myth-japan": "myth-japan.png",
-  "myth-korea-buyeo-goguryeo": "myth-korea-buyeo-goguryeo.png",
-  "myth-korea-gojoseon": "myth-korea-gojoseon.png",
-  "myth-korea-jeju-bonpuri": "myth-korea-jeju-bonpuri.png",
-  "myth-mesopotamia": "myth-mesopotamia.png",
-  "myth-norse": "myth-norse.png",
-};
-
-const TITLE_ART_BY_NAME: Record<string, string> = {
-  "아르고 원정대": "argonauts.png",
-  "아트레우스 가문": "house-of-atreus.png",
-  "아서왕과 원탁의 기사들": "arthur-round-table.png",
-  "그리스 신화": "myth-greek-roman.png",
-  "일리아스": "homer-iliad.png",
-  "오디세이아": "homer-odyssey.png",
-  "아이네이스": "virgil-aeneid.png",
-  "헤라클레스의 열두 과제": "heracles.png",
-};
-
-function titleArtForMyth(slug: string, name: string) {
-  const fileName = TITLE_ART_BY_SLUG[slug] ?? TITLE_ART_BY_NAME[name];
-  return fileName ? `/images/myth-atlas/title-art/${fileName}` : null;
-}
 
 /* 신화 안의 인물을 배정의 그룹(group_name)으로 나눈다. 순서는 그룹의 최소
    group_position, 그룹 안은 신화 차례 그대로다. 그룹이 없는 인물은 맨 끝 「그 외」로
@@ -127,10 +99,10 @@ async function fetchMythData(locale: string): Promise<MythData> {
      전에는 지역을 코드 상수 + slug 앞머리로 추측했다 — 이제 lv1 행이 지역 자체다 */
   const [lv1Result, lv2Result] = await Promise.all([
     db.from("faction_lv1")
-      .select("id,name,name_en,sort_order")
+      .select("id,slug,name,name_en,sort_order")
       .eq("is_myth", true).order("sort_order"),
     db.from("faction_lv2")
-      .select("id,lv1_id,slug,name,name_en,description,description_en,published,theme_music,lead_person_ids")
+      .select("id,lv1_id,slug,name,name_en,description,description_en,published,theme_music,lead_person_ids,team_images")
       .eq("is_myth", true).order("sort_order"),
   ]);
   if (lv1Result.error) throw new Error(`신화 지역 조회 실패: ${lv1Result.error.message}`);
@@ -174,15 +146,17 @@ async function fetchMythData(locale: string): Promise<MythData> {
     selectInChunks<ContentRow>(contentIds, (ids) => db.from("contents")
       .select(`id,type,content_locales(${CL_SELECT_LIST})`).in("id", ids)
       .overrideTypes<ContentRow[], { merge: false }>()),
-    isEn ? Promise.resolve(new Map<string, FigureBookEdition[]>()) : loadFigureBookEditions(db, contentIds, "ko"),
+    loadFigureBookEditions(db, contentIds, locale),
   ]);
 
   const explanationByPerson = new Map(explanationRows.map((row) => [row.profile_id, row]));
 
   const works = contents.map((content): MythWork => {
     const flat = flattenLocales(content.content_locales, locale);
-    const edition = pickPurchaseEdition(editionsByContent.get(content.id) ?? [], "ko");
-    return { id: content.id, title: edition?.title ?? flat.title, creator: edition?.creator ?? flat.creator,
+    const edition = pickPurchaseEdition(editionsByContent.get(content.id) ?? [], locale);
+    return { id: content.id, title: edition?.title ?? flat.title,
+      titleBadge: content.type === "BOOK" && (!edition?.title || flat.title_badge === "out-of-print") ? flat.title_badge : null,
+      creator: edition?.creator ?? flat.creator,
       thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
       category: CATEGORY[content.type], coupangUrl: isEn || edition?.platform !== "coupang" ? null : edition.purchaseUrl,
       editionId: isEn ? undefined : edition?.id,
@@ -226,8 +200,8 @@ async function fetchMythData(locale: string): Promise<MythData> {
     if (!faction.slug) return [];
     const ids = unique(members.filter((member) => member.lv2_id === faction.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
     if (ids.length === 0) return [];
-    const titleArt = titleArtForMyth(faction.slug, faction.name);
-    const images = titleArt ? [{ url: titleArt, label: null }] : [];
+    const titleArt = toTeamImages(faction.team_images).find(image => image.url.includes("/myth/title-art/"));
+    const images = titleArt ? [{ url: titleArt.url, label: (isEn ? titleArt.labelEn : titleArt.label) ?? null }] : [];
     /* 대표 3인은 DB가 쥔다(faction_lv2.lead_person_ids). 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
     const leadPersonIds = (faction.lead_person_ids ?? []).filter((id) => ids.includes(id));
     for (const id of ids) {
@@ -244,16 +218,17 @@ async function fetchMythData(locale: string): Promise<MythData> {
   });
   const regions = regionRows.map((region): MythRegion => ({
     id: region.id,
+    slug: region.slug ?? "",
     name: isEn ? region.name_en || region.name : region.name,
     mythIds: myths.filter((myth) => myth.regionId === region.id).map((myth) => myth.id),
   })).filter((region) => region.mythIds.length > 0);
   const otherMythIds = myths.filter((myth) => myth.regionId === "other").map((myth) => myth.id);
-  if (otherMythIds.length > 0) regions.push({ id: "other", name: isEn ? "Other myths" : "기타 신화", mythIds: otherMythIds });
+  if (otherMythIds.length > 0) regions.push({ id: "other", slug: "other", name: isEn ? "Other myths" : "기타 신화", mythIds: otherMythIds });
 
   return { regions, myths, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v21'], {
+const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v25'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

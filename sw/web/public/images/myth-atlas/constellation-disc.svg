@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="rim" x1="18" y1="12" x2="109" y2="119" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f3d587"/>
+      <stop offset=".28" stop-color="#a2702d"/>
+      <stop offset=".58" stop-color="#d9af58"/>
+      <stop offset="1" stop-color="#674417"/>
+    </linearGradient>
+    <radialGradient id="face" cx="0" cy="0" r="1" gradientTransform="translate(42 37) rotate(47) scale(93)">
+      <stop stop-color="#49351b"/>
+      <stop offset=".58" stop-color="#211b13"/>
+      <stop offset="1" stop-color="#0d0d0b"/>
+    </radialGradient>
+    <radialGradient id="star" cx="0" cy="0" r="1" gradientTransform="translate(0 -1) scale(4)">
+      <stop stop-color="#fff4c7"/>
+      <stop offset=".45" stop-color="#e5bd68"/>
+      <stop offset="1" stop-color="#9b6b2e"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="#090909" stroke="#3a2812" stroke-width="2"/>
+  <circle cx="64" cy="64" r="58" fill="url(#rim)"/>
+  <circle cx="64" cy="64" r="53" fill="url(#face)" stroke="#f2d485" stroke-opacity=".8" stroke-width=".8"/>
+  <circle cx="64" cy="64" r="48" stroke="#b58a46" stroke-opacity=".55" stroke-width=".7"/>
+  <circle cx="64" cy="64" r="43" stroke="#d5ad62" stroke-opacity=".48" stroke-width=".9" stroke-dasharray=".8 6.7" stroke-linecap="round"/>
+  <circle cx="64" cy="64" r="35" stroke="#b58a46" stroke-opacity=".2" stroke-width=".7"/>
+  <path d="M17 63a47 47 0 0 1 19-37M91 109a48 48 0 0 0 21-29" stroke="#ffe2a0" stroke-opacity=".65" stroke-width="1.1" stroke-linecap="round"/>
+  <path d="m34 78 17-24 14 8 15-24 12 17-10 23-20 9-28-9Zm17-24-4-16m33 0 7-9" stroke="#d9b46d" stroke-opacity=".88" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="url(#star)" stroke="#f8dda0" stroke-width=".45">
+    <circle cx="34" cy="78" r="2.5"/><circle cx="51" cy="54" r="2.6"/>
+    <circle cx="65" cy="62" r="2"/><circle cx="80" cy="38" r="3.1"/>
+    <circle cx="92" cy="55" r="2.2"/><circle cx="82" cy="78" r="2.5"/>
+    <circle cx="62" cy="87" r="2"/><circle cx="47" cy="38" r="1.6"/>
+    <circle cx="87" cy="29" r="1.5"/>
+  </g>
+  <path d="M80 30v16m-8-8h16M34 72v12m-6-6h12" stroke="#f5d78f" stroke-opacity=".65" stroke-width=".65" stroke-linecap="round"/>
+  <circle cx="64" cy="64" r="58" stroke="#f7db96" stroke-opacity=".4" stroke-width=".55"/>
+</svg>

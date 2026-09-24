@@ -301,7 +301,8 @@
         "worksDividerLeft": "This myth's books",
         "worksDividerLeftDesc": "Source works that tell this myth directly.",
         "worksDividerRight": "Other works",
-        "worksDividerRightDesc": "Other stories where this myth's figures appear."
+        "worksDividerRightDesc": "Other stories where this myth's figures appear.",
+        "linkedToWork": "WORK LINK"
       },
       "relationMap": {
         "title": "Relation Map",
@@ -329,8 +330,10 @@
         "myth": "Explore figures from world mythology and the works they appear in.",
         "faction": "Discover the stories and connections of figures brought together by a shared theme.",
         "timeline": "Discover who lived in the same era, in timelines organized by country.",
-        "directory": "Browse all figures at a glance, organized by name and profession."
-      }
+        "directory": "Browse all figures at a glance, organized by name and profession.",
+        "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
+      },
+      "navMonologue": "Monologues"
     },
     "directory": {
       "metaTitle": "Celebrity Directory - 1,000+ Figures",
@@ -402,6 +405,33 @@
         "shelf": "Bookshelf"
       },
       "works": "Related Works"
+    },
+    "monologue": {
+      "metaTitle": "Virtual Monologues | Figures",
+      "metaDescription": "Life and philosophy told in each figure's own voice. Narrated first-person monologues in one place.",
+      "eyebrow": "Virtual Monologue",
+      "lead": "What would they say in their own voice? First-person monologues in which each figure looks back on life and philosophy.",
+      "stats": "{voiced} narrated",
+      "voicedTitle": "Narrated Monologues",
+      "voicedDesc": "Choose a figure to listen to the narration, read the full monologue, and browse their books.",
+      "monologueTitle": "{name}’s Monologue",
+      "openProfile": "View figure page",
+      "searchPlaceholder": "Search by figure name",
+      "noResults": "No results found.",
+      "showing": "Showing {shown} of {total}",
+      "openMonologue": "Open monologue by {name}",
+      "listen": "Listen and read",
+      "loadMore": "Show more",
+      "loading": "Loading monologue…",
+      "loadFailed": "Could not load this monologue.",
+      "retry": "Try again",
+      "bookShelfLoading": "Loading books…",
+      "bookShelfFailed": "Could not load the books.",
+      "bookShelf": "Bookshelf",
+      "bookGroupAuthored": "Books by this figure",
+      "bookGroupRelated": "Books about this figure",
+      "bookGroupRead": "Books this figure read",
+      "shelfViewAll": "View all {count}"
     }
   },
   "searchResult": {

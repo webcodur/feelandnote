@@ -50,7 +50,7 @@ function DetailLeadIcon({ icon: Icon, label }: { icon: LucideIcon; label: string
 
 function IconLedParagraphs({ icon, label, text, emptyText }: { icon: LucideIcon; label: string; text: string | null; emptyText: string }) {
   return (
-    <section className="break-keep text-[15px] leading-7 text-text-secondary md:text-base md:leading-8">
+    <section className="text-[15px] leading-7 text-text-secondary md:text-base md:leading-8">
       <DetailLeadIcon icon={icon} label={label} />
       {text ? (
         <div className="space-y-3.5">
@@ -74,7 +74,7 @@ function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
   return (
     <div className="flex min-w-0 flex-col bg-bg-secondary px-6 py-7 md:px-8 md:py-9 lg:px-10 lg:py-10">
       <div className="space-y-7">
-        {lead && <p className="break-keep font-serif text-xl font-bold leading-8 text-text-primary md:text-2xl md:leading-9">{lead}</p>}
+        {lead && <p className="font-serif text-xl font-bold leading-8 text-text-primary md:text-2xl md:leading-9">{lead}</p>}
 
         <IconLedParagraphs
           icon={BookOpenText}
@@ -90,19 +90,19 @@ function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
         )}
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-2">
+      <div className="mt-8 flex min-w-0 gap-2">
         {monologue && (
           <button
             type="button"
             onClick={() => setMonologueOpen(true)}
             aria-haspopup="dialog"
-            className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="inline-flex min-w-0 flex-1 items-center justify-center gap-1 rounded-md border border-accent/50 px-2 py-2.5 text-center text-sm font-bold leading-tight text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:flex-none sm:gap-2 sm:px-4"
           >
-            <Quote size={16} aria-hidden />{tCeleb("virtualMonologue")}
+            <Quote size={16} className="hidden shrink-0 sm:block" aria-hidden /><span className="min-w-0">{tCeleb("virtualMonologue")}</span>
           </button>
         )}
-        <Link href={getCelebProfileUrl(person)} className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent">
-          {t("openFigure")}<ArrowUpRight size={16} />
+        <Link href={getCelebProfileUrl(person)} className={`inline-flex min-w-0 items-center justify-center gap-1 rounded-md border border-accent/50 px-2 py-2.5 text-center text-sm font-bold leading-tight text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent sm:gap-2 sm:px-4 ${monologue ? "flex-1 sm:flex-none" : "flex-none"}`}>
+          <span className="min-w-0">{t("openFigure")}</span><ArrowUpRight size={16} className="hidden shrink-0 sm:block" />
         </Link>
       </div>
 

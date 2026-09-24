@@ -1,7 +1,7 @@
 import { parseExploreSort } from "@/constants/celebSort";
 import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
-import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
+import { DEFAULT_EXPLORE_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { parseTrendCountry } from "@/constants/trendCountries";
 
@@ -46,7 +46,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     profession: notAll(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION),
     nationality: notAll(parseParam(params, "nationality")),
     contentType: notAll(parseParam(params, "contentType")),
-    contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence"), DEFAULT_CELEB_CONTENT_PRESENCE),
+    contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence"), DEFAULT_EXPLORE_CONTENT_PRESENCE),
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search") || undefined,
     factionId: notAll(parseParam(params, "tagId")),

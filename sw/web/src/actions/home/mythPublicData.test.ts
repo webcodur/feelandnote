@@ -17,10 +17,10 @@ function fixture(): MythData {
     avatarUrl: null, imageUrl: null, portraitUrl: null, images: [], mythIds, sourceIds,
   });
   const work = (id: string, personIds: string[]): MythWork => ({
-    id, title: id, personIds, creator: null, thumbnailUrl: null, category: "book", coupangUrl: null,
+    id, title: id, titleBadge: null, personIds, creator: null, thumbnailUrl: null, category: "book", coupangUrl: null,
   });
   return {
-    regions: [{ id: "region", name: "region", mythIds: ["public", "private"] }],
+    regions: [{ id: "region", slug: "greek-roman", name: "region", mythIds: ["public", "private"] }],
     myths: [myth("public", true, ["public-person", "shared-person"]), myth("private", false, ["private-person", "shared-person"])],
     people: [person("private-person", ["private"], ["private-work", "shared-work"]), person("public-person", ["public"], ["public-work"]), person("shared-person", ["private", "public"], ["shared-work"])],
     works: [work("private-work", ["private-person"]), work("public-work", ["public-person"]), work("shared-work", ["private-person", "shared-person"])],
@@ -70,4 +70,16 @@ test("developer preview keeps every story, work and opening selection available"
   assert.equal(result.openingPersonId, data.openingPersonId);
   assert.deepEqual(result.myths, data.myths.map((myth) => ({ ...myth, isPublished: true })));
   assert.equal(data.myths[1].isPublished, false);
+});
+
+test("public view exposes only the Greek-Roman L1 while keeping its unpublished L2 locked", () => {
+  const data = fixture();
+  data.regions.push({ id: "other", slug: "korea", name: "other", mythIds: ["other-public"] });
+  data.myths.push({ ...data.myths[0], id: "other-public", slug: "other-public", regionId: "other" });
+  const result = getMythClientData(data, false);
+  assert.deepEqual(result.regions.map((region) => region.slug), ["greek-roman"]);
+  assert.deepEqual(result.myths.map((myth) => myth.id), ["public", "private"]);
+  assert.equal(result.myths[1].isPublished, false);
+  assert.equal(result.myths[1].description, null);
+  assert.equal(data.myths[2].isPublished, true);
 });

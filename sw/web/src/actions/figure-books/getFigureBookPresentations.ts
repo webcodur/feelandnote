@@ -8,8 +8,9 @@ export async function getFigureBookPresentationsForCeleb(
   locale: string = 'ko',
 ): Promise<FigureBookContent[]> {
   const sources = await getFigureBooksForCeleb(celebId, locale, true)
-  // 첫 작품의 첫 판본만 서버에서 준비한다. 나머지는 선택할 때 같은 ISBN 캐시를 읽는다.
-  const first = sources.find((source) => source.relationType === 'appearance' && source.editions.length)
+  // 화면에 보일 첫 작품의 첫 판본만 서버에서 준비한다 — 절판·번역본 없음 표식 작품은 「연관 작품」에 세우지 않는다.
+  // 나머지는 선택할 때 같은 ISBN 캐시를 읽는다.
+  const first = sources.find((source) => source.relationType !== 'authored' && source.editions.length && !source.titleBadge)
   const edition = first?.editions[0]
   if (!first || !edition?.bookIntroduction) return sources
   try {

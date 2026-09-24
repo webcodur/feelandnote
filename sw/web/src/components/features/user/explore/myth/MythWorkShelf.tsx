@@ -4,6 +4,7 @@ import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSumm
 import { Fragment, useState } from "react";
 import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -92,7 +93,8 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
                 ) : (
                   <div className="flex h-full items-center justify-center p-4 text-center text-lg font-black text-accent/50">{work.title}</div>
                 )}
-                {selected && <span className="absolute start-2 top-2 rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary">{t("appearsHere")}</span>}
+                <NoEditionBadge badge={work.titleBadge} variant="cover" />
+                {selected && <span className="absolute start-2 top-2 rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary">{t("linkedToWork")}</span>}
                 <span className="absolute end-2 top-2 grid size-8 place-items-center rounded-full bg-black/85 text-text-tertiary" aria-hidden>
                   <ArrowUpRight size={15} />
                 </span>
@@ -103,7 +105,6 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
                   <h4 className="line-clamp-2 text-sm font-bold leading-5 text-text-primary group-hover:text-accent">{work.title}</h4>
                   <p className="w-full truncate text-sm text-text-secondary">{work.creator ?? " "}</p>
                 </div>
-                <p className="pt-2 text-sm font-semibold text-accent">{t("castCount", { count: work.personIds.length })}</p>
               </div>
             </>
           );

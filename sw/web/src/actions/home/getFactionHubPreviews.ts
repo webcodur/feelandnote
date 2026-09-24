@@ -32,12 +32,15 @@ interface HubFactionRow {
   is_featured: boolean | null
 }
 
+type LinkableHubFactionRow = HubFactionRow & { slug: string }
+
 interface HubAssignmentRow {
   lv2_id: string
 }
 
 export interface FactionHubPreview {
   id: string
+  slug: string
   name: string
   name_en: string | null
   description: string | null
@@ -61,7 +64,9 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   }
   if (!factions?.length) return []
 
-  const factionRows = (factions as HubFactionRow[]).filter((faction) => faction.is_featured === true)
+  const factionRows = (factions as HubFactionRow[]).filter(
+    (faction): faction is LinkableHubFactionRow => faction.is_featured === true && Boolean(faction.slug),
+  )
   const factionIds = factionRows.map((faction) => faction.id)
   // 사람이 있는 세력만 가려낸다. 태그 묶음으로 읽던 때 한 묶음이 1,000행을 넘어 잘려, 잘린 세력이
   // 「사람 없음」으로 빠졌다(26.09.14). 공통 읽기로 끝까지 받는다
@@ -76,7 +81,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   const hasPeople = (faction: HubFactionRow) => factionIdsWithPeople.has(faction.id)
   const coverOf = (faction: HubFactionRow) => toTeamImages(faction.team_images)[0]?.url ?? null
 
-  const selectedFactions: HubFactionRow[] = []
+  const selectedFactions: LinkableHubFactionRow[] = []
   const usedParents = new Set<string>()
 
   const factionBySlug = new Map(factionRows.flatMap((faction) => (faction.slug ? [[faction.slug, faction] as const] : [])))
@@ -106,6 +111,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
 
   return selectedFactions.map((faction) => ({
     id: faction.id,
+    slug: faction.slug,
     name: faction.name,
     name_en: faction.name_en,
     description: faction.description,
@@ -117,7 +123,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
 
 const getCachedFactionHubPreviews = unstable_cache(
   fetchFactionHubPreviews,
-  ['faction-hub-previews'],
+  ['faction-hub-previews-v2'],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS],

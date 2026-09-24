@@ -162,24 +162,28 @@ async function fetchSourcesByCeleb(
       optionRowsByContent.get(content.id) ?? [],
       locale,
     )
-    // 창작 목록은 판매 판본이 없어도 확인된 해당 언어의 작품 메타로 보여줄 수 있다.
+    // 인물의 등장·연관 도서는 요청 언어 판본이 없어도 관계 자체를 보여준다.
+    // 창작 목록은 기존대로 해당 언어의 작품 메타가 있을 때만 판본 없이 허용한다.
     const exactLocale = content.content_locales?.find((row) => row.locale === locale)
-    if (editions.length === 0 && (!includeCatalogOnly || !exactLocale?.title?.trim())) return []
+    const isRelatedBook = content.type === 'BOOK' && assignment.relation_type !== 'authored'
+    if (editions.length === 0 && (!includeCatalogOnly || (!isRelatedBook && !exactLocale?.title?.trim()))) return []
 
     const flat = flattenLocales(content.content_locales, locale)
     const leadEdition = editions[0]
+    const title = (flat.title_badge && flat.title_badge !== 'out-of-print' && leadEdition?.title)
+      || flat.title || content.figureBook?.workTitle || leadEdition?.title || ''
+    if (!title.trim()) return []
     return [{
       id: content.id,
-      title: flat.title || content.figureBook?.workTitle || leadEdition?.title || '',
+      title,
       creator: flat.creator || content.figureBook?.workCreator || leadEdition?.creator || null,
       thumbnailUrl: leadEdition?.thumbnailUrl || flat.thumbnail_url,
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
-      // 확인된 판본 제목으로 세운 자리에는 미확인 표시를 붙이지 않는다.
-      titleBadge: !flat.title && !content.figureBook?.workTitle && leadEdition?.title
-        ? null
-        : flat.title_badge,
+      // 표시용 번역 제목 행이 남아 있어도 요청 언어의 실제 판본이 있으면 번역본 없음이 아니다.
+      // 절판은 판본 존재와 별개인 유통 상태이므로 유지한다.
+      titleBadge: leadEdition && flat.title_badge !== 'out-of-print' ? null : flat.title_badge,
       ...selectBookIntroduction(locale, null, exactLocale),
       editions: editions.map((edition) => ({
         ...edition,
@@ -257,7 +261,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v10-original-source', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v12-confirmed-edition-badge', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

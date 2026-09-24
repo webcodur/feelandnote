@@ -11,7 +11,8 @@
 "use client";
 
 import { useEffect, type CSSProperties, type ReactNode } from "react";
-import { Clock3, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import ExplorePickerSheet from "@/components/shared/ExplorePickerSheet";
 import { EXPLORE_NAV_LAYOUT as layout } from "@/components/shared/exploreNavLayout";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
@@ -50,6 +51,8 @@ export interface ExploreNavRow {
   emptyLabel?: string;
   /** 좁은 화면 단추를 한 줄 전체 폭으로 — 기본은 반 폭 */
   wide?: boolean;
+  /** 좁은 화면에서 선택기 양옆에 이전·다음 화살표를 붙인다. onSelect 줄에서 사용한다 */
+  mobileArrows?: boolean;
   /** 있으면 고른 항목을 다시 눌러 선택을 푼다(신화 그룹 줄). 화면 안 선택(onSelect) 줄에서만 쓴다 */
   onClear?: () => void;
   /** 선택 풀기 안내 — 고른 칩의 제목·읽기 도구 이름에 붙는다 */
@@ -157,7 +160,19 @@ function ChipRow({ row }: { row: ExploreNavRow }) {
 }
 
 function MobileRow({ row }: { row: ExploreNavRow }) {
+  const t = useTranslations("explore.ui");
   const active = row.items.find((item) => item.id === row.activeId);
+  const choices = row.items.filter((item) => !item.disabled && !item.href);
+  const cycleIds = row.onClear ? [null, ...choices.map((item) => item.id)] : choices.map((item) => item.id);
+  const canStep = Boolean(row.onSelect && cycleIds.length > 1);
+  const step = (direction: -1 | 1) => {
+    if (!canStep) return;
+    const currentIndex = cycleIds.indexOf(row.activeId);
+    const nextIndex = (currentIndex + direction + cycleIds.length) % cycleIds.length;
+    const nextId = cycleIds[nextIndex];
+    if (nextId === null) row.onClear?.();
+    else row.onSelect?.(nextId);
+  };
   const notice = (
     <span aria-hidden className="flex shrink-0 items-center gap-1 text-xs font-medium text-text-secondary">
       <Clock3 size={13} aria-hidden />
@@ -165,9 +180,9 @@ function MobileRow({ row }: { row: ExploreNavRow }) {
     </span>
   );
 
-  return (
+  const picker = (
     <ExplorePickerSheet
-      className={row.wide ? "col-span-2" : undefined}
+      className={row.wide && !row.mobileArrows ? "col-span-2" : undefined}
       title={row.label}
       label={
         active ? (
@@ -195,7 +210,23 @@ function MobileRow({ row }: { row: ExploreNavRow }) {
       }]}
       onSelect={(_, id) => (row.onClear && id === row.activeId ? row.onClear() : row.onSelect?.(id))}
       onDisabledSelect={row.onDisabledSelect}
+      wrapLabel={row.mobileArrows}
     />
+  );
+
+  if (!row.mobileArrows) return picker;
+
+  const arrowClass = "grid size-10 place-items-center rounded-lg border border-accent/35 bg-accent/[0.06] text-accent hover:border-accent hover:bg-accent/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-default disabled:border-white/10 disabled:bg-transparent disabled:text-text-tertiary";
+  return (
+    <div className="col-span-2 grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-2">
+      <button type="button" onClick={() => step(-1)} disabled={!canStep} aria-label={`${t("prev")} ${row.label}`} className={arrowClass}>
+        <ChevronLeft size={18} aria-hidden />
+      </button>
+      {picker}
+      <button type="button" onClick={() => step(1)} disabled={!canStep} aria-label={`${t("next")} ${row.label}`} className={arrowClass}>
+        <ChevronRight size={18} aria-hidden />
+      </button>
+    </div>
   );
 }
 

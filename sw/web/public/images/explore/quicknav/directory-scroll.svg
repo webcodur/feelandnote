@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="sheet" x1="13" y1="18" x2="51" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bc8a42"/>
+      <stop offset=".48" stop-color="#604320"/>
+      <stop offset="1" stop-color="#2d2115"/>
+    </linearGradient>
+    <linearGradient id="curl" x1="7" y1="8" x2="57" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f1d18c"/>
+      <stop offset=".46" stop-color="#a57332"/>
+      <stop offset="1" stop-color="#563717"/>
+    </linearGradient>
+  </defs>
+  <path d="M14 16c4 3 9 3 14 2h23v28H28c-5-1-10-1-14 2V16Z" fill="url(#sheet)" stroke="#b9853a" stroke-width="1.8"/>
+  <path d="M14 20c4 2 9 2 14 1h22M14 44c4-2 9-2 14-1h22" stroke="#f3d18a" stroke-opacity=".5" stroke-width="1.4"/>
+  <path d="M13 7h38a7 7 0 0 1 0 14H13a7 7 0 0 1 0-14Z" fill="url(#curl)" stroke="#f4d38c" stroke-width="2"/>
+  <path d="M13 43h38a7 7 0 0 1 0 14H13a7 7 0 0 1 0-14Z" fill="url(#curl)" stroke="#f4d38c" stroke-width="2"/>
+  <path d="M13 12h35M16 48h35" stroke="#ffe1a0" stroke-opacity=".7" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M52 11c-2 0-3 1-3 3s1 3 3 3 3-1 3-3-1-3-3-3Zm-39 36c-2 0-3 1-3 3s1 3 3 3 3-1 3-3-1-3-3-3Z" fill="#5d3d1b" stroke="#efc77c" stroke-width="1.3"/>
+  <path d="M53 14c-.5-1-2-1-2 0m-39 36c.5-1 2-1 2 0" stroke="#f4d38c" stroke-width=".9" stroke-linecap="round"/>
+</svg>

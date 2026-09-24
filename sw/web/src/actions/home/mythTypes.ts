@@ -1,5 +1,6 @@
 
 import type { FactionMusic } from "@/lib/faction-music";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";
@@ -35,6 +36,7 @@ export interface Myth {
 
 export interface MythRegion {
   id: string;
+  slug: string;
   name: string;
   mythIds: string[];
 }
@@ -67,6 +69,7 @@ export interface MythWork {
   id: string;
   editionId?: number;
   title: string;
+  titleBadge: TitleBadge | null;
   creator: string | null;
   thumbnailUrl: string | null;
   category: "book" | "video" | "game" | "music";

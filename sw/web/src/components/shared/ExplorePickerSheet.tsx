@@ -42,6 +42,7 @@ interface ExplorePickerSheetProps {
   onSelect?: (groupId: string, itemId: string) => void;
   onDisabledSelect?: (itemId: string) => void;
   className?: string;
+  wrapLabel?: boolean;
 }
 
 const BUTTON =
@@ -59,6 +60,7 @@ export default function ExplorePickerSheet({
   onSelect,
   onDisabledSelect,
   className,
+  wrapLabel = false,
 }: ExplorePickerSheetProps) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -76,7 +78,7 @@ export default function ExplorePickerSheet({
   return (
     <>
       <button type="button" aria-haspopup="dialog" aria-label={title} onClick={() => setOpen(true)} className={cn(BUTTON, className)}>
-        <span className="min-w-0 truncate">{label}</span>
+        <span className={cn("min-w-0", wrapLabel ? "line-clamp-2 break-keep text-start leading-tight" : "truncate")}>{label}</span>
         <ChevronDown size={15} className="shrink-0" aria-hidden />
       </button>
 

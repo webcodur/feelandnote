@@ -130,8 +130,8 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
       getContentTypeCounts(),
       getGenderCounts(),
       // 헤드라인용 실존 축별 명부 수 — 필터 없이 축만 바꿔 센다. 캐시된 조회라 저렴하다
-      getCelebs({ page: 1, limit: 1, realities: ["FICTION", "BOTH"], includeViewerState: false }),
-      getCelebs({ page: 1, limit: 1, realities: [...CELEB_REALITIES], includeViewerState: false }),
+      getCelebs({ page: 1, limit: 1, sortBy: "name_asc", realities: ["FICTION", "BOTH"], includeViewerState: false }),
+      getCelebs({ page: 1, limit: 1, sortBy: "name_asc", realities: [...CELEB_REALITIES], includeViewerState: false }),
     ]);
   } catch (e) {
     console.error("[FiguresPage] 필터 결과 조회 실패:", e);

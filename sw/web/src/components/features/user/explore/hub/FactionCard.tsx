@@ -11,6 +11,7 @@ import { HUB_FACTION_CARD, HUB_FACTION_GRID } from "./ExploreSkeleton";
 
 interface FactionPreview {
   id: string;
+  slug: string;
   name: string;
   name_en: string | null;
   description?: string | null;
@@ -36,7 +37,7 @@ export default function FactionCard({ locale = "ko", factions = [] }: FactionCar
         return (
           <Link
             key={faction.id}
-            href={`/explore/faction?faction=${faction.id}`}
+            href={`/explore/faction/${faction.slug}`}
             className={`${HUB_FACTION_CARD} group border-white/10 bg-[#0d0c0b] shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none hover:border-white/35 focus-visible:border-[#d4af37] focus-visible:ring-2 focus-visible:ring-[#d4af37]/55`}
           >
             {faction.cover ? (

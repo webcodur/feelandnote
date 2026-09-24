@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="cloth" x1="21" y1="12" x2="53" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f2cf83"/>
+      <stop offset=".35" stop-color="#a77532"/>
+      <stop offset=".72" stop-color="#4e351a"/>
+      <stop offset="1" stop-color="#c49348"/>
+    </linearGradient>
+    <linearGradient id="pole" x1="13" y1="9" x2="23" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f6d994"/>
+      <stop offset=".55" stop-color="#9c6a2d"/>
+      <stop offset="1" stop-color="#483018"/>
+    </linearGradient>
+  </defs>
+  <path d="M19 11v43" stroke="#3d2814" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M19 11v43" stroke="url(#pole)" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="19" cy="9" r="3.2" fill="#d8ab62" stroke="#f7dc9b" stroke-width="1.2"/>
+  <path d="M21 15c9-6 18 5 32-1v22c-14 6-23-5-32 1V15Z" fill="url(#cloth)" stroke="#edc679" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M28 14c4 4 5 13 3 21m11-19c-3 6-1 12 1 20" stroke="#f5d990" stroke-opacity=".5" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M15 55h8" stroke="#d5a457" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

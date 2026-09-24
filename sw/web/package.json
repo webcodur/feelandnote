@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node --max-old-space-size=8192 ./node_modules/next/dist/bin/next dev --turbopack --disable-source-maps",
-    "build": "pnpm images:myth && next build --webpack && node scripts/check-standalone-runtime.mjs",
+    "dev": "node --max-old-space-size=8192 ./node_modules/next/dist/bin/next dev --webpack --disable-source-maps",
+    "build": "next build --webpack && node scripts/check-standalone-runtime.mjs",
     "start": "next start",
     "lint": "eslint",
     "lint:egress": "node scripts/check-egress-patterns.mjs",
@@ -26,7 +26,6 @@
     "test:content-locale": "tsx --test src/lib/utils/content-locale.test.ts src/lib/utils/content-locale-text.test.ts",
     "test:creator-names": "tsx --test src/lib/utils/creator-names.test.ts",
     "test:relation-map": "tsx --test src/lib/celeb/relationRows.test.ts src/lib/celeb/relationShapes.test.ts src/lib/celeb/relationNeighborhood.test.ts",
-    "images:myth": "tsx scripts/build-myth-title-images.mts",
     "check:artwork-images": "node scripts/check-artwork-images.mjs"
   },
   "dependencies": {

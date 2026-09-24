@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { readFile } from 'node:fs/promises';
 import puppeteer from 'puppeteer';
 import sharp from 'sharp';
 
@@ -20,9 +19,10 @@ const { outputFiles } = await build({ absWorkingDir: root, stdin: { resolveDir: 
       {kind==='title' ? <Title src={src} alt="title" priority /> : <Portrait src={src} alt="portrait" priority style={{objectPosition:'35% 20%'}} />}
     </div></StrictMode>));
   window.clearArtwork = () => flushSync(() => root.unmount());
-` }, bundle: true, write: false, platform: 'browser', jsx: 'automatic', define: { 'process.env.NODE_ENV': '"development"' } });
+` }, bundle: true, write: false, platform: 'browser', jsx: 'automatic', define: { 'process.env.NODE_ENV': '"development"', 'process.env.NEXT_PUBLIC_DEPLOYMENT_ID': '""' } });
 const photo = 'https://assets.feelandnote.com/celebs/person/photo.webp?v=test';
-const title = '/images/myth-atlas/title-art/homer-iliad.png';
+const title = 'https://assets.feelandnote.com/myth/title-art/homer-iliad-000000000000.png';
+const titleBody = await sharp({create:{width:1600,height:1000,channels:3,background:'#486785'}}).png().toBuffer();
 const browser = await puppeteer.launch({ headless: true });
 let passed = 0;
 async function scenario(name, dpr, run, missing = false) {
@@ -33,19 +33,27 @@ async function scenario(name, dpr, run, missing = false) {
   page.on('pageerror', e => errors.push(e.message));
   page.on('request', async request => {
     const url=request.url(); requests.push(url);
-    if (missing && (/\.display-\d+\.webp/.test(url) || /title-art\/.*\.webp/.test(url))) {
+    const parsed=new URL(url), path=parsed.pathname;
+    if (missing && (/\.display-\d+\.webp/.test(url) || path.startsWith('/api/myth-title/'))) {
       await request.respond({status:404,body:''}); return;
     }
-    const path=new URL(url).pathname;
-    const body=path.startsWith('/images/') ? await readFile(root+'public'+path) : await sharp({create:{width:Number(/display-(\d+)/.exec(url)?.[1]??1080),height:Math.round(Number(/display-(\d+)/.exec(url)?.[1]??1080)*1.25),channels:3,background:'#487890'}}).webp().toBuffer();
-    await request.respond({status:200,contentType:path.endsWith('.png')?'image/png':'image/webp',body});
+    const titleVariant=path.startsWith('/api/myth-title/');
+    const body=titleVariant
+      ? await sharp(titleBody).resize({width:Number(parsed.searchParams.get('w'))}).webp().toBuffer()
+      : path.startsWith('/myth/title-art/') ? titleBody
+      : await sharp({create:{width:Number(/display-(\d+)/.exec(url)?.[1]??1080),height:Math.round(Number(/display-(\d+)/.exec(url)?.[1]??1080)*1.25),channels:3,background:'#487890'}}).webp().toBuffer();
+    await request.respond({status:200,contentType:!titleVariant && path.endsWith('.png')?'image/png':'image/webp',body});
   });
   try {
     await page.setContent('<base href="https://feelandnote.com"><style>.object-cover{object-fit:cover}</style><div id="root"></div>');
     await page.addScriptTag({content:outputFiles[0].text});
     const render = data => page.evaluate(data=>window.renderArtwork(data),data);
     const loaded = part => page.waitForFunction(part => {const i=document.querySelector('img');return i?.complete&&i.naturalWidth>0&&i.currentSrc.includes(part);},{timeout:6000},part);
-    await run({page,requests,render,loaded});
+    try { await run({page,requests,render,loaded}); }
+    catch (error) {
+      console.error(name, {requests, errors, image: await page.$eval('img', i => ({src:i.src,currentSrc:i.currentSrc,complete:i.complete,naturalWidth:i.naturalWidth})).catch(() => null)});
+      throw error;
+    }
     assert.deepEqual(errors,[]);
     await page.evaluate(()=>window.clearArtwork());
     console.log('PASS '+name);passed++;
@@ -53,8 +61,8 @@ async function scenario(name, dpr, run, missing = false) {
 }
 try {
   for(const [dpr,width]of [[2,768],[3,1024]]) await scenario('mobile title DPR '+dpr,dpr,async({requests,render,loaded})=>{
-    await render({kind:'title',src:title,width:332,height:221});await loaded('.'+width+'.webp');
-    assert.equal(requests.length,1);assert.ok(!requests[0].endsWith('.png'));
+    await render({kind:'title',src:title,width:332,height:221});await loaded('w='+width);
+    assert.equal(requests.length,1);assert.ok(new URL(requests[0]).pathname.startsWith('/api/myth-title/'));
   });
   await scenario('desktop portrait selects display image without original request',2,async({page,requests,render,loaded})=>{
     await render({src:photo});await loaded('display-768');assert.equal(requests.length,1);

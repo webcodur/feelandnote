@@ -1,13 +1,16 @@
 "use client";
 
-import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useState } from "react";
 import MythTitleImage from "./MythTitleImage";
 import { BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslations } from "next-intl";
-import type { MythPerson, Myth } from "@/actions/home/mythTypes";
-import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
-import { mythLeadImage } from "./mythLeadImage";
+import { useLocale, useTranslations } from "next-intl";
+import type { Myth } from "@/actions/home/mythTypes";
+import { BlurDissolve, ClippedContentReadingText, FormattedText, splitReadableParagraphs } from "@/components/ui";
+import ContentTextModal from "@/components/ui/ContentTextModal";
+import ReadingNarrationControls from "@/components/shared/ReadingNarrationControls";
+import { useReadingNarration } from "@/hooks/useReadingNarration";
+import { useFactionDescVoice } from "@/hooks/useFactionDescVoice";
+import { activeReadingSegment } from "@/lib/reading-timing";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
@@ -15,18 +18,30 @@ interface Props {
   myth: Myth | null;
   memberCount: number;
   workCount: number;
-  /** 신화 차례의 앞 인물들 — 타이틀 아트의 빈 우측에 아바타로 세우는 대표 인물이다 */
-  leadPeople: MythPerson[];
-  /** 아바타를 누르면 그 인물 상세로 간다 */
-  onSelectPerson: (id: string) => void;
 }
 
-export default function MythOverview({ myth, memberCount, workCount, leadPeople, onSelectPerson }: Props) {
+export default function MythOverview({ myth, memberCount, workCount }: Props) {
   const t = useTranslations("explore.hub.myth");
+  const tCeleb = useTranslations("celebPage");
+  const locale = useLocale() === "en" ? "en" : "ko";
   const [imageIndex, setImageIndex] = useState(0);
+  const [overviewOpen, setOverviewOpen] = useState(false);
   const images = myth?.images ?? [];
   const activeImage = images[imageIndex] ?? images[0] ?? null;
   const description = myth?.description ?? t("mythOverviewFallback");
+  const paragraphs = splitReadableParagraphs(description);
+  const overviewTitle = myth?.name ?? t("allMyths");
+  const isLongTitle = overviewTitle.length > 8;
+  const overviewButtonLabel = `${overviewTitle} · ${t("mythOverview")}`;
+
+  /* 개요 낭독 — 타이밍 JSON이 있을 때만 재생을 연다. 문장 강조는 개요 모달에 싣는다 */
+  const descVoice = useFactionDescVoice(myth?.id, locale, myth?.description ?? "");
+  const narration = useReadingNarration(descVoice?.audioUrl ?? "");
+  const timing = descVoice?.timing && narration.duration > 0
+    && Math.abs(descVoice.timing.duration - narration.duration) <= 0.15 ? descVoice.timing : null;
+  const sentence = activeReadingSegment(timing, narration.currentTime, narration.status);
+  const mark = sentence ? { start: sentence.textStart, end: sentence.textEnd } : null;
+  const playFrom = (seconds: number) => { narration.seek(seconds); narration.play(); };
 
   const moveImage = (direction: -1 | 1) => {
     if (images.length < 2) return;
@@ -49,7 +64,7 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
             <div className="absolute inset-0 bg-bg-secondary" />
           )}
           {images.length > 1 && (
-            <div className="absolute end-5 top-5 z-10 flex items-center gap-1 rounded-2xl border border-white/10 bg-black/75 p-1 shadow-lg lg:end-[calc(43%+2rem)]" aria-label={t("titleArtControls")}>
+            <div className="absolute start-5 top-5 z-10 flex items-center gap-1 rounded-2xl border border-white/10 bg-black/75 p-1 shadow-lg" aria-label={t("titleArtControls")}>
               <button
                 type="button"
                 onClick={() => moveImage(-1)}
@@ -69,31 +84,7 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
               </button>
             </div>
           )}
-          {/* 대표 인물 — 그림의 빈 우측에 얼굴 셋을 세운다. 넓은 화면은 패널 기둥과 그림의 경계에 걸친다. 누르면 그 인물 상세로 간다 */}
-          {leadPeople.length > 0 && (
-            <div className="absolute end-3 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-2 rounded-full bg-black/55 p-1.5 ring-1 ring-white/15 backdrop-blur-sm lg:end-[calc(43%+2rem)]">
-              {leadPeople.map((person) => {
-                const face = person.avatarUrl ?? (myth ? mythLeadImage(person, myth.id) : null);
-                return (
-                  <button
-                    key={person.id}
-                    type="button"
-                    onClick={() => onSelectPerson(person.id)}
-                    aria-label={person.name}
-                    title={person.name}
-                    className="group relative block size-11 overflow-hidden rounded-full bg-white/[0.06] ring-2 ring-black/60 hover:ring-accent focus-visible:outline-none focus-visible:ring-accent md:size-12"
-                  >
-                    {face ? (
-                      <CelebAvatarImage src={face} alt="" className="object-cover object-top" />
-                    ) : (
-                      <span aria-hidden className="grid h-full place-items-center font-serif text-lg font-black text-white/40">{person.name[0]}</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-          <h3 id="myth-overview-title" className="absolute bottom-5 start-5 z-10 max-w-[calc(100%-2.5rem)] text-[2.1rem] font-black leading-[1.05] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.75)] md:bottom-7 md:start-7 md:max-w-[calc(100%-3.5rem)] md:text-5xl lg:bottom-8 lg:start-8 lg:max-w-[53%] xl:text-[3.5rem]">
+          <h3 id="myth-overview-title" className={`absolute bottom-5 end-5 z-10 max-w-[56%] text-end text-balance font-black leading-[1.05] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.75)] sm:text-[2.1rem] md:bottom-7 md:start-7 md:end-auto md:max-w-[calc(100%-3.5rem)] md:text-start md:text-5xl lg:bottom-8 lg:start-8 lg:max-w-[53%] xl:text-[3.5rem] ${isLongTitle ? "text-[1.5rem] max-[360px]:text-[1.25rem]" : "text-[1.75rem] max-[360px]:text-[1.5rem]"}`}>
             <span
               className="box-decoration-clone px-1.5 py-0.5 [box-decoration-break:clone]"
               style={{ textShadow: "0 2px 5px rgba(0,0,0,.98), 0 0 22px rgba(0,0,0,.72)" }}
@@ -104,6 +95,14 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
         </figure>
 
         <div className={layout.overviewPanel}>
+          <button
+            type="button"
+            onClick={() => setOverviewOpen(true)}
+            aria-label={overviewButtonLabel}
+            aria-haspopup="dialog"
+            title={overviewButtonLabel}
+            className="absolute inset-0 z-20 hidden cursor-pointer rounded-[20px] outline-none ring-inset hover:bg-white/[0.04] hover:ring-1 hover:ring-accent/50 focus-visible:ring-2 focus-visible:ring-accent md:block"
+          />
           <div className={layout.overviewBody}>
             <div className={layout.overviewHeader}>
               <p className="flex shrink-0 items-center gap-2 text-xs font-bold tracking-[.16em] text-accent md:text-sm">
@@ -115,15 +114,29 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
               </p>
             </div>
 
-            <div className={layout.description}>
-              <div className="space-y-5 break-keep text-[15px] leading-[1.9] text-text-secondary md:text-[16.5px] md:leading-[1.95]">
-                {splitReadableParagraphs(description).map((paragraph, index) => (
+            {descVoice ? (
+              <div className="relative z-30 mt-1 -mb-3">
+                <ReadingNarrationControls narration={narration} />
+              </div>
+            ) : null}
+
+            <ClippedContentReadingText text={description} className={`${layout.description} relative`}>
+              <div className="space-y-5 text-[15px] leading-[1.9] text-text-secondary md:text-[16.5px] md:leading-[1.95]">
+                {paragraphs.map((paragraph, index) => (
                   <p key={index}>
                     <FormattedText text={paragraph} />
                   </p>
                 ))}
               </div>
-            </div>
+              <button
+                type="button"
+                onClick={() => setOverviewOpen(true)}
+                aria-label={overviewButtonLabel}
+                aria-haspopup="dialog"
+                title={overviewButtonLabel}
+                className="absolute inset-0 z-10 cursor-pointer outline-none hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:hidden"
+              />
+            </ClippedContentReadingText>
 
             {images.length > 1 && (
               <div className="mt-4 flex items-center justify-end gap-1.5" aria-hidden>
@@ -135,6 +148,21 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
           </div>
         </div>
       </div>
+      {overviewOpen && (
+        <ContentTextModal
+          isOpen
+          onClose={() => setOverviewOpen(false)}
+          title={overviewTitle}
+          text={paragraphs.join("\n\n")}
+          notice={descVoice ? <ReadingNarrationControls narration={narration} /> : null}
+          mark={mark}
+          segments={timing?.segments}
+          status={narration.status}
+          currentTime={narration.currentTime}
+          onPlayFrom={playFrom}
+          sentenceLabel={tCeleb("readingPlayFromHere")}
+        />
+      )}
     </section>
   );
 }

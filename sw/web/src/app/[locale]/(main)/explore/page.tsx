@@ -1,6 +1,7 @@
-import { ArrowUpRight, History, Search, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Search } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS, NAV_ITEMS } from "@/constants/navigation";
 import { getTrendCountryOptions, parseTrendCountry } from "@/constants/trendCountries";
@@ -9,11 +10,13 @@ import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
-import Image from "next/image";
 
 export const maxDuration = 30;
 
-const secondaryIcons: Record<string, LucideIcon> = { timeline: History, directory: Search };
+const secondaryIcons: Record<string, string> = {
+  timeline: "/images/explore/quicknav/timeline-flag.svg",
+  directory: "/images/explore/quicknav/directory-scroll.svg",
+};
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");
@@ -37,7 +40,8 @@ export default async function ExplorePage({ searchParams }: {
   const nav = await getTranslations("nav.sub");
   const pending = await getTranslations("pending");
   const pages = NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!;
-  const secondaryPages = pages.filter((page) => !EXPLORE_FEATURED_LINKS.some((featured) => featured.key === page.key));
+  const monologuePage = pages.find((page) => page.key === "monologue");
+  const secondaryPages = pages.filter((page) => page.key !== "monologue" && !EXPLORE_FEATURED_LINKS.some((featured) => featured.key === page.key));
 
   return (
     <div className="space-y-8 md:space-y-10">
@@ -46,55 +50,92 @@ export default async function ExplorePage({ searchParams }: {
       </Lane>
       <nav aria-label={t("quickNav")} className="border-t border-white/10 pt-6 md:pt-8">
         <h2 className="mb-4 text-center font-serif text-base font-bold tracking-tight text-text-primary md:mb-5 md:text-lg">{t("quickNav")}</h2>
-        <div className="grid auto-rows-fr grid-cols-2 gap-3 md:gap-4">
+        {monologuePage && (
+          <Link
+            href={monologuePage.href}
+            prefetch={false}
+            className="group relative mb-3 grid min-h-40 grid-cols-[minmax(0,1fr)_42%] items-center overflow-hidden rounded-xl border border-accent/15 bg-[#0a0a0a] hover:border-accent/60 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:mb-4 md:min-h-56 lg:grid-cols-[minmax(0,1fr)_21%]"
+          >
+            <div className="relative order-2 aspect-square w-full overflow-hidden bg-[#0a0a0a]">
+              <Image
+                src="/images/explore/quicknav/monologue-right-square.webp"
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 208px, 42vw"
+                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
+              />
+            </div>
+            <span aria-hidden className="pointer-events-none absolute inset-[3px] rounded-[9px] border border-white/[0.07]" />
+            <div className="relative z-10 flex min-w-0 flex-col justify-center px-5 py-5 md:px-6 lg:items-center lg:self-stretch lg:px-10 lg:text-center">
+              <h3 className="text-lg font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl lg:text-2xl lg:font-bold">
+                <span className="relative inline-block">
+                  {nav(monologuePage.key!)}
+                  <ArrowUpRight size={18} className="absolute left-full top-1/2 ml-1.5 -translate-y-1/2 text-accent group-hover:text-accent-hover" aria-hidden />
+                </span>
+              </h3>
+              <p className="mt-2 max-w-md break-keep text-sm leading-relaxed text-text-secondary lg:mt-3 lg:max-w-xl lg:text-base">{t("pageDescriptions.monologue")}</p>
+            </div>
+          </Link>
+        )}
+        <div className="grid grid-cols-1 gap-3 md:gap-4 lg:grid-cols-2">
           {EXPLORE_FEATURED_LINKS.map((page) => (
               <Link
                 key={page.key}
                 href={page.href}
                 prefetch={false}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-accent/15 bg-[#101112] shadow-[0_10px_40px_-12px_rgba(0,0,0,0.9)] hover:border-accent/60 hover:bg-[#171714] active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="group relative grid min-h-40 grid-cols-[minmax(0,1fr)_42%] items-center overflow-hidden rounded-xl border border-accent/15 bg-[#0a0a0a] hover:border-accent/60 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:min-h-56"
               >
-                {/* 그림 띠 — 생성 이미지(1536×512, 3:1)를 가운데 기준으로 잘라 채운다. 즉각 축은 테두리·제목, 그림 확대는 곁들이는 연출.
-                    SVG 판(ExploreCardArtwork)은 비교용으로 남겨 두었다 */}
-                <div className="relative aspect-[4/3] overflow-hidden border-b border-white/[0.06] bg-black/25 sm:aspect-[3/1]">
+                <div className="relative order-2 aspect-square w-full overflow-hidden bg-[#0a0a0a]">
                   <Image
-                    src={`/images/explore/quicknav/${page.key}.webp`}
+                    src={`/images/explore/quicknav/${page.key}${page.key === "spectrum" ? "" : "-square"}.webp`}
                     alt=""
                     fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 680px"
-                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    sizes="(max-width: 640px) 660px, 780px"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
                   />
-                  <span className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-[#101112] to-transparent" aria-hidden />
                 </div>
                 <span aria-hidden className="pointer-events-none absolute inset-[3px] rounded-[9px] border border-white/[0.07]" />
-                <div className="flex flex-1 flex-col p-3 md:px-6 md:pb-6 md:pt-5">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-base font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">{nav(page.key!)}</h3>
-                    <ArrowUpRight size={18} className="mt-0.5 shrink-0 text-accent/50 group-hover:text-accent" aria-hidden />
-                  </div>
-                  <p className="mt-2 max-w-md break-keep text-xs leading-relaxed text-text-secondary md:text-sm">
-                    {t(`pageDescriptions.${page.key}`)}
-                  </p>
+                <div className="relative z-10 flex min-w-0 flex-col justify-center px-5 py-5 md:px-6 lg:items-center lg:self-stretch lg:text-center">
+                  <h3 className="text-lg font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">
+                    <span className="relative inline-block">
+                      {nav(page.key!)}
+                      <ArrowUpRight size={18} className="absolute left-full top-1/2 ml-1.5 -translate-y-1/2 text-accent group-hover:text-accent-hover" aria-hidden />
+                    </span>
+                  </h3>
+                  <p className="mt-2 max-w-md break-keep text-sm leading-relaxed text-text-secondary lg:mx-auto">{t(`pageDescriptions.${page.key}`)}</p>
                 </div>
               </Link>
           ))}
         </div>
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-4 md:gap-4">
           {secondaryPages.map((page) => {
-            const Icon = secondaryIcons[page.key!] ?? Search;
+            const iconSrc = secondaryIcons[page.key!];
             return (
               <Link
                 key={page.key}
                 href={page.href}
                 prefetch={false}
-                className="group flex items-start gap-3 rounded-xl border border-accent/10 px-3 py-3.5 hover:border-accent/50 hover:bg-white/5 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:px-5 md:py-5"
+                className="group relative grid min-h-24 grid-cols-[minmax(0,1fr)_88px] items-center overflow-hidden rounded-xl border border-accent/15 bg-[#0a0a0a] hover:border-accent/60 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:min-h-28"
               >
-                <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-text-secondary group-hover:text-accent" aria-hidden />
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-semibold text-text-primary">{nav(page.key!)}</h3>
-                  <p className="mt-1.5 break-keep text-xs leading-relaxed text-text-secondary">{t(`pageDescriptions.${page.key}`)}</p>
+                <div className="relative order-2 flex h-full items-center justify-center bg-bg-secondary">
+                  <span className="flex size-14 items-center justify-center rounded-full border border-accent/25 bg-accent/5 shadow-[inset_0_0_24px_rgba(212,175,55,0.06)]">
+                    {iconSrc ? (
+                      <Image src={iconSrc} alt="" width={32} height={32} aria-hidden className="size-8 transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:transform-none" />
+                    ) : (
+                      <Search size={24} strokeWidth={1.5} className="text-accent" aria-hidden />
+                    )}
+                  </span>
                 </div>
-                <ArrowUpRight size={14} className="mt-0.5 shrink-0 text-text-tertiary group-hover:text-accent" aria-hidden />
+                <span aria-hidden className="pointer-events-none absolute inset-[3px] rounded-[9px] border border-white/[0.07]" />
+                <div className="relative z-10 flex min-w-0 flex-col justify-center px-4 py-3 md:px-5 md:py-4 lg:items-center lg:self-stretch lg:text-center">
+                  <h3 className="text-base font-semibold leading-snug text-text-primary group-hover:text-accent md:text-lg">
+                    <span className="relative inline-block">
+                      {nav(page.key!)}
+                      <ArrowUpRight size={16} className="absolute left-full top-1/2 ml-1.5 -translate-y-1/2 text-accent group-hover:text-accent-hover" aria-hidden />
+                    </span>
+                  </h3>
+                  <p className="mt-2 max-w-md break-keep text-sm leading-relaxed text-text-secondary lg:mx-auto">{t(`pageDescriptions.${page.key}`)}</p>
+                </div>
               </Link>
             );
           })}
