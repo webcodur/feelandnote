@@ -4,12 +4,12 @@
 
 | 문서 | 다음 작업 |
 |---|---|
-| [`faction-entry-image.md`](faction-entry-image.md) | 신화 전승 18개의 제목 그림과 일반 테마 186개의 이미지 자리 결정 |
-| [`myth-title-art.md`](myth-title-art.md) | 아직 그림이 없는 신화 전승 18개의 발주서. 서비스에 등록된 인물 이미지로 제작한다 |
+| [`faction-entry-image.md`](faction-entry-image.md) | 일반 테마 이미지의 사용 자리 결정 |
 | [`hero-photo.md`](hero-photo.md) | 아바타·대표 사진이 둘 다 없는 인물의 화보. 아바타를 먼저 만들고 그 얼굴로 화보를 찍는다 |
 | [`hero-avatar-grok.md`](hero-avatar-grok.md) | 위 화보의 1단계 아바타를 Grok 웹으로 뽑는 실행서 |
 | [`avatar-backlog.md`](avatar-backlog.md) | 아바타가 없어 공개하지 못하는 인물의 명단과 권역별 얼굴·복식 지침 |
 | [`avatar-normalize.md`](avatar-normalize.md) | 아바타 정규화 미결분 — 얼굴 미검출 5명 수동 크롭만 남았다(2026-09-18 재회차·누끼·가장자리찬 회수 완료). 별도로 누끼 검토 후보 156명 감사 |
+| [`myth-avatar-source.md`](myth-avatar-source.md) | 신화 인물 아바타 확대본을 Aside 계정 순회로 바스트샷 재생성·REFRAME — 심한 확대 14명과 검토 후보 54명 |
 
 ## 다른 문서에 섞인 이미지 일
 
