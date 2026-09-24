@@ -32,6 +32,7 @@ interface ContentItemRendererProps {
   readOnly?: boolean;
   targetUserId?: string;
   ownerNickname?: string;
+  ownerAvatarUrl?: string | null;
   // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
   savedContentIds?: Set<string> | null;
   initialContentBrief?: ContentBrief | null;
@@ -55,6 +56,7 @@ function ContentItemRenderer({
   onAddContent,
   readOnly = false,
   ownerNickname,
+  ownerAvatarUrl,
   savedContentIds,
   initialContentBrief,
   initialContentRecord,
@@ -93,6 +95,7 @@ function ContentItemRenderer({
       <ExpandDetailView
         items={items}
         ownerNickname={ownerNickname}
+        ownerAvatarUrl={ownerAvatarUrl}
         initialContentBrief={initialContentBrief}
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}

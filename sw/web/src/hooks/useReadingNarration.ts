@@ -48,7 +48,10 @@ type PlaybackSession = {
   audio: HTMLAudioElement;
   wantsPlayback: boolean;
   request: number;
+  interrupt: () => void;
 };
+
+let activeSession: PlaybackSession | null = null;
 
 const INITIAL_STATE: PlaybackState = {
   available: false,
@@ -57,6 +60,45 @@ const INITIAL_STATE: PlaybackState = {
   duration: 0,
   playbackRate: 1,
 };
+
+/** 음원 파일의 메타데이터가 열리는지만 본다. 재생 장치 없이 존재 여부가 필요한 자리(탭 표시 등)용.
+    null = 아직 확인 중, true = 재생 가능, false = 파일이 없거나 비어 있다. */
+export function useAudioAvailable(audioUrl: string): boolean | null {
+  const [state, setState] = useState<{ url: string; available: boolean | null }>({
+    url: audioUrl,
+    available: audioUrl ? null : false,
+  });
+  const available = state.url === audioUrl ? state.available : audioUrl ? null : false;
+  if (state.url !== audioUrl) setState({ url: audioUrl, available: audioUrl ? null : false });
+
+  useEffect(() => {
+    if (!audioUrl || typeof Audio === "undefined") return;
+    const audio = new Audio();
+    audio.preload = "metadata";
+    let done = false;
+    const finish = (value: boolean) => {
+      if (done) return;
+      done = true;
+      setState({ url: audioUrl, available: value });
+    };
+    const loaded = () =>
+      finish(!audio.error && Number.isFinite(audio.duration) && audio.duration > 0);
+    const failed = () => finish(false);
+    audio.addEventListener("loadedmetadata", loaded);
+    audio.addEventListener("error", failed);
+    audio.src = audioUrl;
+    audio.load();
+    return () => {
+      done = true;
+      audio.removeEventListener("loadedmetadata", loaded);
+      audio.removeEventListener("error", failed);
+      audio.removeAttribute("src");
+      audio.load();
+    };
+  }, [audioUrl]);
+
+  return available;
+}
 
 /** Only expose playback after the recorded file's metadata has loaded. */
 export function useReadingNarration(audioUrl: string) {
@@ -77,8 +119,14 @@ export function useReadingNarration(audioUrl: string) {
   useEffect(() => {
     if (!audioUrl || typeof Audio === "undefined") return;
     const audio = new Audio();
-    const session: PlaybackSession = { url: audioUrl, audio, wantsPlayback: false, request: 0 };
+    const session: PlaybackSession = { url: audioUrl, audio, wantsPlayback: false, request: 0, interrupt: () => {} };
     sessionRef.current = session;
+    session.interrupt = () => {
+      session.wantsPlayback = false;
+      session.request += 1;
+      audio.pause();
+      update(session, { status: "paused" });
+    };
     audio.preload = "metadata";
     audio.preservesPitch = true;
 
@@ -102,17 +150,20 @@ export function useReadingNarration(audioUrl: string) {
       if (!audio.paused || !session.wantsPlayback || audio.ended) return;
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       update(session, { status: "paused" });
     };
     const ended = () => {
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       audio.currentTime = 0;
       update(session, { status: "idle", currentTime: 0 });
     };
     const failed = () => {
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       audio.pause();
       update(session, { ...INITIAL_STATE, playbackRate: audio.playbackRate });
     };
@@ -140,6 +191,7 @@ export function useReadingNarration(audioUrl: string) {
     return () => {
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       if (sessionRef.current === session) sessionRef.current = null;
       for (const [event, listener] of Object.entries(listeners)) audio.removeEventListener(event, listener);
       audio.pause();
@@ -154,6 +206,8 @@ export function useReadingNarration(audioUrl: string) {
     const { audio } = session;
     if (audio.error || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
     if (audio.ended || audio.currentTime >= audio.duration) audio.currentTime = 0;
+    if (activeSession && activeSession !== session) activeSession.interrupt();
+    activeSession = session;
     session.wantsPlayback = true;
     const request = ++session.request;
     update(session, { status: "loading" });
@@ -163,6 +217,7 @@ export function useReadingNarration(audioUrl: string) {
     }).catch(() => {
       if (sessionRef.current !== session || session.request !== request || !session.wantsPlayback) return;
       session.wantsPlayback = false;
+      if (activeSession === session) activeSession = null;
       // A rejected user-gesture/autoplay request does not mean the file is missing.
       update(session, { status: "paused" });
     });
@@ -173,6 +228,7 @@ export function useReadingNarration(audioUrl: string) {
     if (!session || session.url !== audioUrl) return;
     session.wantsPlayback = false;
     session.request += 1;
+    if (activeSession === session) activeSession = null;
     session.audio.pause();
     update(session, { status: "paused" });
   }, [audioUrl, update]);
@@ -182,6 +238,7 @@ export function useReadingNarration(audioUrl: string) {
     if (!session || session.url !== audioUrl) return;
     session.wantsPlayback = false;
     session.request += 1;
+    if (activeSession === session) activeSession = null;
     session.audio.pause();
     session.audio.currentTime = 0;
     update(session, { status: "idle", currentTime: 0 });

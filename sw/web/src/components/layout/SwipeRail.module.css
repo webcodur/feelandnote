@@ -118,15 +118,43 @@
 }
 
 
-/* ── 발치: 설정 단추와 감도 창 ── */
-.foot {
-  position: relative;
+/* ── 위·아래 끝으로 가는 누름 구역 — 판의 맨 위·맨 아래가 그대로 누름 자리다.
+   윤곽선 없는 채운 화살표가 방향을 가리키고, 구역 표시는 가운데가 짙어지는 원형 그라데이션이다 ── */
+.jump {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
   display: grid;
-  width: calc(100% - 20px);
-  margin-top: 4px;
-  padding-top: 4px;
+  height: 84px;
   place-items: center;
-  border-top: 1px solid color-mix(in srgb, white 8%, transparent);
+  border: 0;
+  border-radius: 4px;
+  color: color-mix(in srgb, white 30%, transparent);
+  background: radial-gradient(circle closest-side at center, color-mix(in srgb, white 5%, transparent), transparent 72%);
+  cursor: pointer;
+  outline: none;
+}
+
+.jumpUp { top: 0; }
+.jumpDown { bottom: 0; }
+
+.jump:hover {
+  color: var(--color-accent);
+  background: radial-gradient(circle closest-side at center, color-mix(in srgb, var(--color-accent) 22%, transparent), transparent 72%);
+}
+
+.jump:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+/* ── 설정: 판 우상단에 뜬 단추와 감도 창 ── */
+.foot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 3;
 }
 
 .gear {
@@ -154,8 +182,8 @@
 
 .settings {
   position: absolute;
-  right: calc(100% + 12px);
-  bottom: 0;
+  top: calc(100% + 8px);
+  right: 0;
   width: 200px;
   padding: 12px 14px;
   border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);

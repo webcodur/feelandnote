@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { isReadingTiming, type ReadingTiming } from "@/lib/reading-timing";
 import type { Locale } from "@/types/locale";
 
-export function useReadingTiming(id: string, locale: Locale, version: number, text: string, duration: number, available: boolean) {
-  const key = `${id}:${locale}:${version}:${text}`;
+export type ReadingTimingKind = "reading" | "monologue";
+
+export function useReadingTiming(id: string, locale: Locale, version: number, text: string, duration: number, available: boolean, kind: ReadingTimingKind = "reading") {
+  const key = `${id}:${locale}:${version}:${kind}:${text}`;
   const [loaded, setLoaded] = useState<{ key: string; data: ReadingTiming } | null>(null);
   useEffect(() => {
     if (!available || !duration) return;
@@ -13,7 +15,7 @@ export function useReadingTiming(id: string, locale: Locale, version: number, te
     let current = true;
     const load = async () => {
       try {
-        const response = await fetch(`/api/reading-timing?${new URLSearchParams({ id, locale, v: String(version) })}`, { signal: controller.signal });
+        const response = await fetch(`/api/reading-timing?${new URLSearchParams({ id, locale, v: String(version), kind })}`, { signal: controller.signal });
         if (!response.ok || response.status === 204) return;
         const data: unknown = await response.json();
         if (!isReadingTiming(data) || Math.abs(data.duration - duration) > 0.15
@@ -27,6 +29,6 @@ export function useReadingTiming(id: string, locale: Locale, version: number, te
     };
     void load();
     return () => { current = false; controller.abort(); };
-  }, [id, locale, version, text, duration, available, key]);
+  }, [id, locale, version, text, duration, available, kind, key]);
   return available && loaded?.key === key ? loaded.data : null;
 }

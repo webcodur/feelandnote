@@ -54,10 +54,7 @@
       "badgeShort": "소개"
     },
     "purchase": {
-      "buyAt": "{platform}에서 구매",
-      "buy": "구매하기",
-      "viewAt": "{platform}에서 보기",
-      "searchAt": "{platform}에서 검색"
+      "buy": "구매하기"
     },
     "purchaseInfo": {
       "trigger": "구매 안내",

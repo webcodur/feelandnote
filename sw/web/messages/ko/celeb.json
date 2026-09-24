@@ -67,7 +67,7 @@
     "sourceWorksIntro": "인물이 직간접적으로 등장하는 책",
     "sourceWorksLabel": "작품",
     "sourceWorkCount": "작품 {count}편",
-    "sourceWorkOpen": "작품 상세보기",
+    "sourceWorkOpen": "작품 상세",
     "sourceWorkBuyCoupang": "쿠팡 구매",
     "sourceWorkBuyAmazon": "Amazon에서 보기",
     "sourceWorkSelect": "작품 보기: {title}",
@@ -339,6 +339,11 @@
     "refGroupProfessionWorks": "해당 직군 관련 작품",
     "factionExpand": "세력 정보 펼치기",
     "factionCluster": "진영",
-    "factionClusterOthers": "그 밖의 인물"
+    "factionClusterOthers": "그 밖의 인물",
+    "guestbookOpen": "방명록 보기 · 글 남기기",
+    "moreRecommendations": "추천 도서 더 보기",
+    "noFurtherRecommendations": "추가로 추천할 도서가 없습니다.",
+    "factionLoad": "세력도감 열기",
+    "readingPlayFromHere": "이 문장부터 듣기"
   }
 }

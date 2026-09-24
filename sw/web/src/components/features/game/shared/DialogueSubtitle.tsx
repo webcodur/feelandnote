@@ -8,8 +8,8 @@
 */
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useEffect, useState, useRef, useCallback, useEffectEvent } from "react";
-import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeOff, GripVertical, RotateCcw } from "lucide-react";
@@ -380,12 +380,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                   <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-stone-700 border border-stone-600 shadow-inner">
                     {current.avatarUrl ? (
                       <BlurDissolve className="relative w-full h-full">
-                        <Image
+                        <CelebAvatarImage
                           src={current.avatarUrl}
                           alt={current.nickname ?? ""}
-                          fill
-                          sizes="64px"
-                          unoptimized
                           className="w-full h-full object-cover pointer-events-none"
                           draggable={false}
                         />

@@ -199,17 +199,18 @@
       "trends": {
         "country": "Trend country",
         "loading": "Loading trends...",
-        "description": "Figures with rising search interest in {country} appear first.",
+        "description": "Figures surging in {country} searches come first.",
         "unavailable": "Trends for this country are unavailable. Showing figures by most records instead.",
         "noMatches": "No trending figures match these filters. Showing figures by most records instead.",
-        "source": "Google Trends · Past {days, plural, one {# day} other {# days}}"
+        "source": "Google Trends · Past {days, plural, one {# day} other {# days}}",
+        "legendDirect": "{count, plural, one {# figure} other {# figures}} surging in search"
       }
     },
     "hub": {
       "todayFigure": "Today's Figure",
       "todayFigureSub": "A new figure every day, with the works they loved",
-      "figureLinks": "Most Documented Figures",
-      "figureLinksSub": "Start with the figures who left the most behind",
+      "figureLinks": "Surging in Search",
+      "figureLinksSub": "People whose names are surging on Google right now",
       "viewAll": "View all",
       "aboutLink": "What is feelandnote?",
       "notice": "Announcements",

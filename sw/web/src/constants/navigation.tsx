@@ -64,6 +64,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "faction", href: "/explore/faction", label: "세력도감" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
       { key: "directory", href: "/explore/directory", label: "디렉토리" },
+      { key: "monologue", href: "/explore/monologue", label: "가상독백" },
     ],
   },
   {

@@ -1,4 +1,5 @@
-type PublicReadArgument = string | number | boolean | null | readonly (string | number | boolean | null)[]
+// 인자는 JSON.stringify 키가 되므로 직렬화 가능한 값만 허용한다.
+type PublicReadArgument = string | number | boolean | null | readonly PublicReadArgument[] | { [key: string]: PublicReadArgument }
 
 /**
  * 동일 인자의 공개 DB 조회가 실행 중일 때만 결과를 공유한다.

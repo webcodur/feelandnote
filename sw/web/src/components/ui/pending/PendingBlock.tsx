@@ -6,6 +6,7 @@
 */ // ------------------------------
 
 import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 import PendingMark from "./PendingMark";
 
 /** 고스트 한 칸. 잿빛 맥동 대신 아주 옅은 면과 테두리만 남긴다. */
@@ -33,6 +34,8 @@ interface Props {
   className?: string;
   /** 화면 낭독기에만 읽히는 안내 문구 */
   label?: string;
+  /** 구획 고유의 윤곽. 대기 표식과 접근성 처리는 공용으로 유지한다. */
+  children?: ReactNode;
 }
 
 export default function PendingBlock({
@@ -43,6 +46,7 @@ export default function PendingBlock({
   minHeight = "min-h-40",
   className,
   label,
+  children,
 }: Props) {
   const ghosts = Array.from(
     { length: count ?? DEFAULT_COUNT[variant] },
@@ -69,7 +73,7 @@ export default function PendingBlock({
 
   return (
     <div role="status" aria-busy="true" className={cn("relative", className)}>
-      {body}
+      {children ? <div aria-hidden="true" className="h-full">{children}</div> : body}
       <div className="absolute inset-0 flex items-center justify-center">
         <PendingMark />
       </div>

@@ -114,7 +114,7 @@ export default function Yes24BookModal({ item, onClose }: { item: BestsellerItem
 
             <div className="mt-5 max-w-sm">
               {isYes24 ? (
-                purchaseHref && <AffiliateBookAction contentId={item.id} yes24Href={purchaseHref} hideSales />
+                purchaseHref && <AffiliateBookAction contentId={item.id} yes24Href={purchaseHref} salesIsbn={isbn ?? undefined} hideSales />
               ) : (
                 item.source_url && (
                   <a

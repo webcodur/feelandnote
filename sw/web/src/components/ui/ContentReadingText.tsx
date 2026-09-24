@@ -16,6 +16,8 @@ interface ContentReadingTextProps {
   style?: CSSProperties;
   highlightClassName?: string;
   highlightStyle?: CSSProperties;
+  /** 원문 기준 강조 범위(재생 문장 등) — FormattedText에 전달한다 */
+  mark?: { start: number; end: number } | null;
   /** 본문을 눌러 전문을 여는 조작. 있으면 버튼 역할·키보드·즉각 hover 반응을 단다 */
   onClick?: () => void;
   clickLabel?: string;
@@ -24,7 +26,7 @@ interface ContentReadingTextProps {
 const SIZE_CLASSES: Record<ContentReadingSize, string> = {
   compact: "text-sm leading-relaxed",
   reader: "text-base leading-relaxed lg:text-lg",
-  modal: "text-base leading-[1.9]",
+  modal: "text-[15px] leading-[1.8] sm:text-base",
 };
 
 const TONE_CLASSES: Record<ContentReadingTone, string> = {
@@ -44,6 +46,7 @@ export default function ContentReadingText({
   highlightStyle,
   onClick,
   clickLabel,
+  mark,
   ref,
 }: ContentReadingTextProps) {
   const content = children ?? (
@@ -52,6 +55,7 @@ export default function ContentReadingText({
         text={text}
         highlightClassName={highlightClassName}
         highlightStyle={highlightStyle}
+        mark={mark}
       />
     ) : null
   );

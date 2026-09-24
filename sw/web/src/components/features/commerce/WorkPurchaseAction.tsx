@@ -9,9 +9,11 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 import { getVerifiedGameProduct } from "./targetProducts";
+import { trackCommerceClick } from "@/lib/analytics/track";
 
 export interface WorkPurchaseTarget {
   title: string;
@@ -23,6 +25,7 @@ export interface WorkPurchaseTarget {
 /** 작품 목록에서는 설명을 반복하지 않고 현재 작품의 판매처 확인만 제공한다. */
 export default function WorkPurchaseAction({ target }: { target: WorkPurchaseTarget }) {
   const locale = useLocale();
+  const pathname = usePathname();
   if (locale !== "ko" || !target.title.trim()) return null;
   const isBook = target.type === "BOOK";
   const isGame = target.type === "GAME";
@@ -38,6 +41,13 @@ export default function WorkPurchaseAction({ target }: { target: WorkPurchaseTar
   const label = isBook ? "YES24에서 보기" : isMusic ? "YES24에서 음반 찾기" : "쿠팡에서 보기";
   return <div className="mt-2">
     <a href={href} target="_blank" rel={`noopener noreferrer nofollow${direct ? " sponsored" : ""}`}
+      onClick={() => trackCommerceClick({
+        screen: pathname,
+        target: direct || isGame ? "product" : "search",
+        contentId: target.contentId,
+        platform: isGame ? "coupang" : "yes24",
+        locale,
+      })}
       className="flex min-h-11 items-center justify-center gap-1 whitespace-nowrap rounded-md border border-white/15 px-2 text-xs font-semibold text-accent outline-none hover:border-accent hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">
       {label}<ArrowUpRight size={12} aria-hidden />
     </a>

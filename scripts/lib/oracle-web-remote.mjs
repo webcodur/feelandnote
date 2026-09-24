@@ -29,9 +29,19 @@ const DIST_DIR = '.next-verify'
 const RELEASE_METADATA_FILE = '.feelandnote-release.json'
 const SLOT_NAMES = ['blue', 'green']
 const CADDY_ADMIN_URL = 'http://127.0.0.1:2019'
+const CANARY_MEMORY_MAX_MB = 850
+const CANARY_MEMORY_RESERVE_MB = 256
 export const PRIMARY_PORT = 3000
 export const TRAFFIC_DRAIN_MS = 5_000
 export const STATIC_ASSET_RETENTION_MS = 35 * 24 * 60 * 60 * 1_000
+
+export function assertCanaryMemoryHeadroom(meminfo) {
+  const availableKb = Number(meminfo.match(/^MemAvailable:\s+(\d+)\s+kB$/mu)?.[1])
+  const requiredKb = (CANARY_MEMORY_MAX_MB + CANARY_MEMORY_RESERVE_MB) * 1024
+  if (!Number.isFinite(availableKb) || availableKb < requiredKb) {
+    throw new Error(`Not enough available RAM for deployment canary: ${Math.round(availableKb / 1024)}MiB available, ${requiredKb / 1024}MiB required; production was not switched`)
+  }
+}
 
 function collectReverseProxyHandlers(value, found = []) {
   if (Array.isArray(value)) {
@@ -57,10 +67,10 @@ export function assertBridgePort(port) {
 
 export function inspectCaddyProxyPort(config) {
   const handlers = collectReverseProxyHandlers(config)
-  const ports = handlers.flatMap((handler) => handler.upstreams)
+  const ports = [...new Set(handlers.flatMap((handler) => handler.upstreams)
     .map((upstream) => upstream?.dial?.match(/^127[.]0[.]0[.]1:(\d+)$/u)?.[1])
     .filter(Boolean)
-    .map(Number)
+    .map(Number))]
 
   if (ports.length !== 1 || !Number.isInteger(ports[0])) {
     throw new Error(`Expected exactly one loopback Caddy upstream, found ${ports.length}`)
@@ -80,29 +90,31 @@ export function createBridgeCaddyConfig(config, bridgePort) {
     handler.upstreams.length === 1
     && handler.upstreams[0]?.dial === loopbackDial(PRIMARY_PORT)
   ))
-  if (matchingHandlers.length !== 1) {
-    throw new Error(`Expected one primary Caddy reverse proxy, found ${matchingHandlers.length}`)
+  if (!matchingHandlers.length) {
+    throw new Error('Expected at least one primary Caddy reverse proxy')
   }
 
-  const handler = matchingHandlers[0]
-  handler.upstreams[0].dial = loopbackDial(bridgePort)
+  // The public HTTPS and private Tunnel listeners must switch together.
+  for (const handler of matchingHandlers) {
+    handler.upstreams[0].dial = loopbackDial(bridgePort)
 
-  const locationReplacements = handler.headers?.response?.replace?.Location
-  const matchingLocationReplacements = Array.isArray(locationReplacements)
-    ? locationReplacements.filter((entry) => (
-        entry
-        && typeof entry === 'object'
-        && typeof entry.search_regexp === 'string'
-        && entry.search_regexp.split(`:${PRIMARY_PORT}`).length === 2
-      ))
-    : []
-  if (matchingLocationReplacements.length !== 1) {
-    throw new Error(`Expected one upstream Location rewrite, found ${matchingLocationReplacements.length}`)
+    const locationReplacements = handler.headers?.response?.replace?.Location
+    const matchingLocationReplacements = Array.isArray(locationReplacements)
+      ? locationReplacements.filter((entry) => (
+          entry
+          && typeof entry === 'object'
+          && typeof entry.search_regexp === 'string'
+          && entry.search_regexp.split(`:${PRIMARY_PORT}`).length === 2
+        ))
+      : []
+    if (matchingLocationReplacements.length !== 1) {
+      throw new Error(`Expected one upstream Location rewrite, found ${matchingLocationReplacements.length}`)
+    }
+    matchingLocationReplacements[0].search_regexp = matchingLocationReplacements[0].search_regexp.replace(
+      `:${PRIMARY_PORT}`,
+      `:${bridgePort}`,
+    )
   }
-  matchingLocationReplacements[0].search_regexp = matchingLocationReplacements[0].search_regexp.replace(
-    `:${PRIMARY_PORT}`,
-    `:${bridgePort}`,
-  )
 
   if (inspectCaddyProxyPort(bridged) !== bridgePort) {
     throw new Error(`Bridge Caddy configuration did not select port ${bridgePort}`)
@@ -610,7 +622,9 @@ export async function verifyApplication(
   // Readiness must not render the detail: retrying it would hide a first-visit failure.
   await waitForPort(port)
 
-  const page = await fetchWithTimeout(pageUrl)
+  // A freshly unpacked release can be slower on its first render while the VM
+  // settles. Probe that first render once, with a bounded cold-start allowance.
+  const page = await fetchWithTimeout(pageUrl, { timeoutMs: 30_000 })
   if (!page.ok) throw new Error(`Canary page returned HTTP ${page.status}: ${pageUrl}`)
   const html = await page.text()
   if (!html.includes(`/seo-image/celeb/${probeSlug}`)) {
@@ -687,6 +701,38 @@ async function warmExplorePage(port, expectedDeploymentId, passes = 2) {
   }
 
   return { url: pageUrl, runs }
+}
+
+/**
+ * 전환 전 주요 진입 경로를 두 로케일로 데운다.
+ * /explore 하나만 데우면 홈·상세·서재는 빈 렌더 캐시로 첫 방문자를 맞는다 —
+ * 카나리는 슬롯의 파일 캐시를, 본 프로세스는 인메모리 캐시를 채운다.
+ */
+const MAIN_WARMUP_ROUTES = (probeSlug) => [
+  '/', '/ko', '/en',
+  '/explore', '/en/explore',
+  `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`,
+  '/library', '/en/library',
+]
+
+export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { readyTimeoutMs = 5_000 } = {}) {
+  const origin = `http://127.0.0.1:${port}`
+  const runs = []
+  for (const pass of ['warm', 'ready']) {
+    for (const route of MAIN_WARMUP_ROUTES(probeSlug)) {
+      const url = `${origin}${route}`
+      const startedAt = Date.now()
+      const response = await fetchWithTimeout(url, {
+        headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+        timeoutMs: pass === 'warm' ? 60_000 : readyTimeoutMs,
+      })
+      const html = await response.text()
+      if (!response.ok) throw new Error(`Warmup route returned HTTP ${response.status}: ${url}`)
+      if (expectedDeploymentId) inspectVersionedDeploymentHtml(html, url, expectedDeploymentId)
+      runs.push({ pass, route, status: response.status, durationMs: Date.now() - startedAt })
+    }
+  }
+  return runs
 }
 
 function canConnect(port) {
@@ -781,6 +827,7 @@ async function runCanary(releaseId, port, probeSlug) {
   }
   const appRoot = assertPreparedRelease(slotRoot)
   const unit = canaryUnitName(releaseId)
+  assertCanaryMemoryHeadroom(readFileSync('/proc/meminfo', 'utf8'))
 
   let keepRunning = false
   try {
@@ -796,7 +843,7 @@ async function runCanary(releaseId, port, probeSlug) {
       '--property=NoNewPrivileges=true',
       '--property=PrivateTmp=true',
       '--property=MemoryHigh=700M',
-      '--property=MemoryMax=850M',
+      `--property=MemoryMax=${CANARY_MEMORY_MAX_MB}M`,
       '--property=Restart=on-failure',
       '--property=RestartSec=2s',
       '--property=TimeoutStopSec=15s',
@@ -809,6 +856,9 @@ async function runCanary(releaseId, port, probeSlug) {
 
     const probes = await verifyApplication(port, probeSlug, releaseId, releaseId)
     const exploreWarmup = await warmExplorePage(port, releaseId)
+    const routeWarmup = await warmMainRoutes(port, probeSlug, releaseId)
+    const restarts = Number(run('systemctl', ['show', unit, '--property=NRestarts', '--value']).stdout)
+    if (restarts !== 0) throw new Error(`Canary restarted ${restarts} times during warmup`)
     keepRunning = true
     return {
       unit,
@@ -817,6 +867,7 @@ async function runCanary(releaseId, port, probeSlug) {
       releaseId: metadata.releaseId,
       probes,
       exploreWarmup,
+      routeWarmup,
       keptRunningForTrafficBridge: true,
     }
   } catch (error) {
@@ -862,7 +913,8 @@ async function restartPrimaryApplication(releasePath, linkId, probeSlug, expecte
   const exploreWarmup = expectedDeploymentId
     ? await warmExplorePage(PRIMARY_PORT, expectedDeploymentId, 1)
     : null
-  return { probes, exploreWarmup }
+  const routeWarmup = await warmMainRoutes(PRIMARY_PORT, probeSlug, expectedDeploymentId)
+  return { probes, exploreWarmup, routeWarmup }
 }
 
 async function waitForTrafficDrain() {
@@ -1068,6 +1120,7 @@ async function activateRelease(releaseId, bridgePort, probeSlug) {
     currentSlot: slot,
     probes: transition.primary.probes,
     exploreWarmup: transition.primary.exploreWarmup,
+    routeWarmup: transition.primary.routeWarmup,
     trafficBridge: transition.trafficBridge,
   }
 }
@@ -1241,11 +1294,25 @@ function finalizeRelease(releaseId, previousTarget, previousCommit) {
 
 function status() {
   const service = run('sudo', ['systemctl', 'is-active', SERVICE_NAME], { allowFailure: true }).stdout
+  const properties = Object.fromEntries(run('systemctl', [
+    'show', SERVICE_NAME, '--property=MainPID,NRestarts,MemoryCurrent,MemoryPeak',
+  ]).stdout.split('\n').map(line => line.split('=')))
+  const mainPid = Number(properties.MainPID)
+  let rssBytes = null
+  if (mainPid && existsSync(`/proc/${mainPid}/status`)) {
+    rssBytes = Number(readFileSync(`/proc/${mainPid}/status`, 'utf8').match(/^VmRSS:\s+(\d+)/mu)?.[1] ?? 0) * 1024
+  }
   const currentPath = currentDeploymentPath()
   const currentSlot = slotNameForPath(currentPath)
   const metadata = currentSlot ? readReleaseMetadata(currentPath, true) : null
   return {
     service,
+    mainPid,
+    restarts: Number(properties.NRestarts),
+    memoryBytes: Number(properties.MemoryCurrent),
+    memoryPeakBytes: Number(properties.MemoryPeak),
+    rssBytes,
+    tunnel: run('systemctl', ['is-active', 'feelandnote-web-tunnel.service'], { allowFailure: true }).stdout,
     currentRelease: metadata?.releaseId ?? currentPath,
     currentCommit: metadata?.commit ?? null,
     currentPath,

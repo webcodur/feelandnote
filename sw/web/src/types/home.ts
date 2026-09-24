@@ -29,6 +29,20 @@ export interface CelebFactionInfo {
   long_desc_en: string | null
 }
 
+/** 국가 트렌드 정렬에서 카드가 상단에 선 근거 — 본인 이름이 급상승한 인물만 오른다 */
+export interface CelebTrendMatch {
+  /** 매칭된 트렌드 행의 제목 — 이 인물의 급상승 검색어 */
+  title: string
+  /** 매칭된 트렌드 행의 순위(볼륨 정렬 창 기준, 1부터) — 칩이 표기한다 */
+  rank: number
+  /** 매칭이 일어난 트렌드 국가 — 칩 모달이 안내·원본 링크에 쓴다 */
+  country: string
+  /** 구글이 그 행에 박은 검색량 — 순위 뒤의 규모 */
+  volume: number
+  /** 급상승이 시작된 시각(epoch ms) */
+  started: number
+}
+
 export interface CelebProfile {
   id: string
   slug: string | null
@@ -70,6 +84,8 @@ export interface CelebProfile {
   views_window_start?: string | null
   /** 최근 기간 창의 마지막 날짜 (YYYY-MM-DD) */
   views_window_end?: string | null
+  /** country_trending 정렬로 승격된 인물에만 담긴다 — 배지와 근거 표시용 */
+  trend_match?: CelebTrendMatch | null
 }
 
 export interface CelebReview {

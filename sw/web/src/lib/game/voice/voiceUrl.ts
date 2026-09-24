@@ -52,6 +52,17 @@ export function getMonologueVoiceUrl(
   return voiceV > 0 ? `${base}?v=${voiceV}` : base;
 }
 
+/** 가상독백 낭독 음성 URL — 인물 고유 보이스로 문단 단위 합성 뒤 하나로 잇는다. */
+export function getVirtualMonologueVoiceUrl(
+  celebId: string,
+  locale: Locale,
+  voiceV = 0
+): string {
+  if (!R2_PUBLIC_URL) return "";
+  const base = `${R2_PUBLIC_URL}/celebs/${celebId}/voice/${locale}/vmonologue.mp3`;
+  return voiceV > 0 ? `${base}?v=${voiceV}` : base;
+}
+
 /** 명언 음성 URL */
 export function getQuoteVoiceUrl(
   celebId: string,

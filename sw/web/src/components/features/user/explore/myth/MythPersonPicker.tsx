@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythTypes";
@@ -37,7 +37,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect }: Props
             {/* 브라우저 기본 포커스 테두리 대신 키보드 포커스일 때만 사진 틀을 강조색으로 바꾼다 */}
             <span className={`relative aspect-square w-full overflow-hidden rounded-[14px] border group-focus-visible:border-accent ${selected ? "border-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.07] bg-bg-card hover:border-accent/60"}`}>
               {thumbUrl ? (
-                <BlurDissolve key={thumbUrl} className="absolute inset-0"><Image src={thumbUrl} alt="" fill unoptimized draggable={false} sizes="(max-width: 767px) 96px, 108px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} /></BlurDissolve>
+                <BlurDissolve key={thumbUrl} className="absolute inset-0"><CelebAvatarImage src={thumbUrl} alt="" draggable={false} className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} /></BlurDissolve>
               ) : (
                 <span aria-hidden className="flex h-full items-center justify-center text-2xl font-black text-accent">{person.name.slice(0, 1)}</span>
               )}

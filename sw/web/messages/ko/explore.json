@@ -329,8 +329,10 @@
         "myth": "지역과 신화을 따라 신화 속 인물과 등장 작품을 찾아보세요.",
         "faction": "하나의 주제로 모인 인물들의 이야기와 관계를 살펴보세요.",
         "timeline": "같은 시대를 살았던 인물들을 국가별 연대기로 살펴보세요.",
-        "directory": "전체 인물을 이름과 직군별로 한눈에 찾아보세요."
-      }
+        "directory": "전체 인물을 이름과 직군별로 한눈에 찾아보세요.",
+        "monologue": "인물이 자기 목소리로 말하는 삶과 철학. 낭독으로 듣거나 글로 읽습니다."
+      },
+      "navMonologue": "가상독백"
     },
     "directory": {
       "metaTitle": "셀럽 전체 목록 | 추천 책·영화 디렉토리",
@@ -402,6 +404,23 @@
         "shelf": "인물의 책장"
       },
       "works": "등장 작품"
+    },
+    "monologue": {
+      "metaTitle": "가상독백 | 인물",
+      "metaDescription": "인물이 자기 목소리로 되돌아보는 삶과 철학. 낭독 음성이 깃든 독백과 글로 읽는 독백을 한자리에 모았습니다.",
+      "eyebrow": "Virtual Monologue",
+      "lead": "그가 직접 말한다면 어떤 이야기를 들려줄까. 인물이 자기 목소리로 되돌아보는 삶과 철학을 담은 가상독백을 모았습니다.",
+      "stats": "낭독 {voiced}명 · 글 {silent}명",
+      "voicedTitle": "낭독으로 듣는 독백",
+      "voicedDesc": "인물 고유의 음성으로 낭독하는 독백입니다. 카드에서 바로 듣고 전문을 읽을 수 있습니다.",
+      "voiceBadge": "낭독",
+      "listenCta": "낭독 듣기",
+      "openProfile": "인물 상세 보기",
+      "silentTitle": "글로 읽는 독백",
+      "silentDesc": "아직 낭독이 없는 독백입니다. 이름으로 찾아 첫 구절을 읽고 인물 페이지에서 전문을 이어 보세요.",
+      "searchPlaceholder": "인물 이름으로 찾기",
+      "noResults": "검색 결과가 없습니다.",
+      "showAll": "외 {count}명 모두 보기"
     }
   },
   "searchResult": {
@@ -476,7 +495,6 @@
     "expandBottomNavigation": "아래쪽 작품 이동",
     "expandPrevBook": "이전 작품",
     "expandNextBook": "다음 작품",
-    "expandModeSwitch": "소개와 감상 배경 전환",
     "expandIndexLabel": "기록 목록",
     "expandIndexTitle": "리뷰 목록",
     "expandIndexExpand": "목록 펼치기",

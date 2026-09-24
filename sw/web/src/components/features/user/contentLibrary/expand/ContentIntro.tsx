@@ -2,20 +2,22 @@
   파일명: /components/features/user/contentLibrary/expand/ContentIntro.tsx
   기능: 펼침 보기 윗칸 — 표지 옆에 붙는 작품 소개.
   책임: 그 작품이 무엇인지만 말한다. 인물의 감상배경은 다음 칸이 맡는다.
-        넓은 화면은 표지 열이 주는 높이만큼 채우고, 모바일은 여덟 줄에서 접는다. 넘친 글은 모달로 마저 본다.
+        넓은 화면은 표지 열이 주는 높이만큼 채우고, 모바일은 표지·구매 버튼을 감싸 흐른 뒤 접는다. 넘친 글은 모달로 마저 본다.
         음악은 애플이 소개를 주지 않아 바깥 출처를 여러 곳에서 받아 오고, 둘 이상이면 탭으로 보여 준다.
 */ // ------------------------------
 "use client";
 
 import { useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { BookOpen } from "lucide-react";
 
 import ContentReadingText from "@/components/ui/ContentReadingText";
+import FormattedText from "@/components/ui/FormattedText";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
-import type { CategoryId } from "@/constants/categories";
+import { getCategoryById, type CategoryId } from "@/constants/categories";
 import { useClippedText } from "@/hooks/useClippedText";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
@@ -37,10 +39,10 @@ const PROVIDER_LABEL: Record<ContentIntroSource["provider"], string> = {
 };
 
 /* 줄 수를 미리 박지 않는다. 넓은 화면은 칸이 주는 높이(표지 열, ExpandCard가 정한다)만큼 채우고
-   나머지를 자른다. 모바일은 표지 아래로 쌓여 기준 높이가 없으므로 여덟 줄에서 접는다. 조합은 useClippedText 참고 */
-const INTRO_BODY_CLASS = "max-sm:line-clamp-8 sm:min-h-0 sm:flex-1 sm:overflow-hidden";
-/* 넓은 화면에서 잘린 글은 끝을 흐린다. 모바일은 말줄임표가 그 일을 한다 */
-const INTRO_CLIPPED_CLASS = "sm:clip-fade-end";
+   나머지를 자른다. 모바일은 표지·구매 버튼 아래로 본문이 이어지는 여유를 둔다. overflow-clip은 float를 막는 별도 서식 영역을 만들지 않는다. */
+const INTRO_BODY_CLASS = "overflow-clip max-sm:max-h-[calc(var(--intro-media-height,198px)+5lh)] sm:min-h-0 sm:flex-1";
+/* PC·모바일 모두 잘린 글은 말줄임표 대신 아래쪽을 서서히 흐린다 */
+const INTRO_CLIPPED_CLASS = "clip-fade-end";
 
 interface ContentIntroProps {
   brief: ContentBrief | null;
@@ -58,6 +60,12 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
   const headingCategory = brief?.category ?? category;
+  const IntroIcon = getCategoryById(headingCategory)?.lucideIcon ?? BookOpen;
+  const inlineIcon = (
+    <span data-intro-inline-marker aria-hidden className="me-1.5 inline-block align-[-0.15em] text-accent sm:hidden">
+      <IntroIcon size={18} />
+    </span>
+  );
   // 책 소개는 출처를 제목에 합쳐 「다음 책 소개」처럼 한 덩어리로 읽는다
   const provider = headingCategory === "book" ? brief?.introductionAttribution?.provider : undefined;
   const providerName =
@@ -84,8 +92,8 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const modalSourceUrl = brief?.introductionAttribution?.url ?? active?.url ?? null;
 
   return (
-    <section aria-labelledby={headingId} className="flex flex-col sm:h-full">
-      <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 shrink-0 text-center`}>
+    <section aria-labelledby={headingId} className="sm:flex sm:h-full sm:flex-col">
+      <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 hidden shrink-0 text-center sm:block`}>
         {providerName ? (
           <>
             {/* 출처는 칩이 아니라 색만 다른 글자로 — 「다음 책 소개」처럼 한 덩어리로 읽는다 */}
@@ -116,9 +124,11 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
           className={bodyClass}
           onClick={openModal}
           clickLabel={t("expandIntroMore")}
-        />
+        >
+          {inlineIcon}<FormattedText text={text} />
+        </ContentReadingText>
       ) : active ? (
-        <div className="flex min-h-0 flex-1 flex-col">
+        <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
           {sources.length > 1 && (
             <div role="tablist" className="mb-3 flex shrink-0 gap-1.5">
               {sources.map((item) => {
@@ -151,7 +161,9 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
             className={bodyClass}
             onClick={openModal}
             clickLabel={t("expandIntroMore")}
-          />
+          >
+            {inlineIcon}<FormattedText text={activeText} />
+          </ContentReadingText>
 
           {active.url && (
             <a

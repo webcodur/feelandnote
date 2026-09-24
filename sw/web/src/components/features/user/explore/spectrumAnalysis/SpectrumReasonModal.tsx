@@ -6,6 +6,7 @@
 
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { getCelebProfileUrl } from "@/lib/url";
 import { useLocale, useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
@@ -53,8 +54,7 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
           <div className="size-16 shrink-0 overflow-hidden rounded-full border-2 bg-bg-card" style={{ borderColor: sideColor }}>
             {person.avatar_url ? (
               <BlurDissolve className="size-full">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={person.avatar_url} alt={shownName} className="size-full object-cover" />
+                <CelebAvatarImage src={person.avatar_url} alt={shownName} width={64} height={64} className="size-full object-cover" />
               </BlurDissolve>
             ) : (
               <div className="flex size-full items-center justify-center text-sm font-bold text-text-secondary">{initials(shownName)}</div>

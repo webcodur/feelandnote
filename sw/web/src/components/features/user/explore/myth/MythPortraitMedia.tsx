@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ResponsivePortraitImage from "@/components/ui/ResponsivePortraitImage";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythTypes";
@@ -44,16 +44,12 @@ export default function MythPortraitMedia({ person, images, index, onMove }: Pro
     <>
       {activeImage && (
         <BlurDissolve key={activeImage.url} className="absolute inset-0">
-          <Image
+          <ResponsivePortraitImage
             src={activeImage.url}
             alt={person.name}
-            fill
-            unoptimized
-            sizes="(max-width: 1023px) 100vw, 42vw"
             className="object-cover"
             style={{
               objectPosition: activeImage.focus ? `${activeImage.focus.x}% ${activeImage.focus.y}%` : "50% 20%",
-              // 대형 화보는 원본 그대로 둔다.
               filter: "none",
             }}
           />

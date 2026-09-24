@@ -2,7 +2,7 @@
  * [celeb 상세] sourceWorks — 원전 대표 서지·소개
  * - 목차 위치: sourceWorks
  * - 데이터: source props, editions 판본 선택
- * - 함께 보기: FigureBookWorksSection.tsx, FigureBookActions.tsx, shared/BookIntroductionPanel.tsx
+ * - 함께 보기: FigureBookWorksSection.tsx, shared/BookIntroductionPanel.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -11,8 +11,8 @@ import { BookOpenText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
+import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
-import FigureBookActions from "./FigureBookActions";
 import FigureBookEditionPicker from "./FigureBookEditionPicker";
 import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
@@ -80,34 +80,36 @@ export default function FigureBookFeature({
         onSelect={(editionId) => setEditionSelection({ sourceId: source.id, editionId })}
       />
       {/* ── 3. 표지·소개·서지 ── */}
-      <div className="relative grid grid-cols-[80px_minmax(0,1fr)] gap-x-3 rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
-        <span className="pointer-events-none absolute inset-y-0 start-0 w-1/3 bg-gradient-to-r from-transparent to-accent/[0.04]" aria-hidden />
-        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent-dim to-transparent" aria-hidden />
+      <div className="relative flow-root rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-3 [--intro-media-height:190px] max-sm:rounded-xl max-sm:border-white/[0.08] max-sm:bg-bg-card max-sm:bg-none! sm:grid sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
+        <span className="pointer-events-none absolute inset-y-0 start-0 hidden w-1/3 bg-gradient-to-r from-transparent to-accent/[0.04] sm:block" aria-hidden />
+        <span className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-gradient-to-r from-transparent via-accent-dim to-transparent sm:block" aria-hidden />
 
-        <div className="relative w-full self-start md:row-span-3 lg:row-span-1">
-          <span className="effect-engraved absolute -inset-2 border border-accent-dim/40 bg-stone-heavy" aria-hidden />
-          <span className="absolute -bottom-4 -end-4 h-20 w-16 bg-accent/10" aria-hidden />
-          <div className="effect-bevel relative aspect-[2/3] overflow-hidden border border-accent/50 bg-bg-secondary shadow-2xl">
-            {edition.thumbnailUrl ? (
-              <ContentImage
-                src={edition.thumbnailUrl}
-                alt={edition.title}
-                sizes="(max-width: 639px) 80px, (max-width: 1023px) 132px, 168px"
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-3 text-accent">
-                <BookOpenText size={36} strokeWidth={1.3} aria-hidden />
-                <span className="px-4 text-center text-sm font-bold">{edition.title}</span>
-              </div>
-            )}
+        <div data-testid="related-book-media" className="relative z-10 float-start me-3 w-24 self-start sm:z-auto sm:float-none sm:me-0 sm:w-full md:row-span-3 lg:row-span-1">
+          <span className="effect-engraved absolute -inset-2 hidden border border-accent-dim/40 bg-stone-heavy sm:block" aria-hidden />
+          <span className="absolute -bottom-4 -end-4 hidden h-20 w-16 bg-accent/10 sm:block" aria-hidden />
+          <div className="effect-bevel relative h-[150px] overflow-hidden rounded-lg border border-accent/50 bg-bg-secondary shadow-2xl max-sm:border-white/10 max-sm:shadow-none! sm:aspect-[2/3] sm:h-auto sm:rounded-none">
+            <ContentCoverLink
+              href={`/content/${source.id}?category=${source.category}`}
+              title={edition.title}
+              imageSrc={edition.thumbnailUrl}
+              className="absolute inset-0 h-full w-full"
+            >
+              {edition.thumbnailUrl ? (
+                <ContentImage
+                  src={edition.thumbnailUrl}
+                  alt={edition.title}
+                  sizes="(max-width: 639px) 96px, (max-width: 1023px) 132px, 168px"
+                  className="object-contain sm:object-cover"
+                />
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-3 text-accent">
+                  <BookOpenText size={36} strokeWidth={1.3} aria-hidden />
+                  <span className="px-4 text-center text-sm font-bold">{edition.title}</span>
+                </div>
+              )}
+            </ContentCoverLink>
           </div>
-          <FigureBookActions
-            source={source}
-            compact
-            className="mt-5 hidden flex-col gap-2 lg:flex"
-          />
-          {/* 구매 모듈 — 포스터·열기 단추 아래에 둔다. 값표를 누르면 서점별 구매 단추와
+          {/* 구매 모듈 — 포스터 아래에 둔다. 값표를 누르면 서점별 구매 단추와
               주의 안내가 든 창이 뜬다 */}
           <BookPurchaseSummary
             contentId={source.id}
@@ -117,14 +119,16 @@ export default function FigureBookFeature({
             creator={edition.creator || source.creator}
             links={purchaseModuleLinks}
             enabled={source.type === "BOOK"}
-            className="hidden lg:block"
-            chipClassName="mt-3"
+            full
+            hideArrowOnMobile
+            className="sm:hidden lg:block"
+            chipClassName="mt-1 h-11 text-sm max-sm:h-9 max-sm:min-h-9 max-sm:border-accent/35 max-sm:bg-none max-sm:bg-accent/15 max-sm:font-semibold max-sm:text-accent max-sm:shadow-none! sm:mt-2"
           />
         </div>
 
         {/* 넓은 화면은 오른쪽 열을 세로로 쌓고, 표지 열이 더 길어 남는 높이를 소개 칸이 전부 받는다 */}
         <div className="contents lg:relative lg:flex lg:min-w-0 lg:flex-col">
-          <header className="col-start-2 flex min-w-0 flex-col items-center justify-center self-center text-center md:self-start lg:flex-row lg:items-baseline lg:justify-center lg:gap-4 lg:self-stretch lg:text-center">
+          <header className="col-start-2 hidden min-w-0 flex-col items-center justify-center self-center text-center sm:flex md:self-start lg:flex-row lg:items-baseline lg:justify-center lg:gap-4 lg:self-stretch lg:text-center">
             <h3 className="text-3d-gold max-w-3xl break-keep text-lg font-black leading-tight sm:text-2xl md:text-3xl lg:min-w-0 lg:truncate lg:whitespace-nowrap">
               <NoEditionBadge badge={source.titleBadge} className="align-middle" />
               {source.title}
@@ -143,8 +147,8 @@ export default function FigureBookFeature({
             <AnimatedHeight
               independent
               duration={320}
-              className="w-full lg:contents"
-              innerClassName="lg:flex lg:min-h-0 lg:flex-1 lg:flex-col"
+              className="w-full max-sm:contents lg:contents"
+              innerClassName="max-sm:contents lg:flex lg:min-h-0 lg:flex-1 lg:flex-col"
             >
               {introduction.failed ? (
                 <RetryBlock onRetry={introduction.retry} />
@@ -158,12 +162,13 @@ export default function FigureBookFeature({
                   loading={introduction.loading}
                   sourceTitle={source.title}
                   sourceTitleBadge={source.titleBadge}
+                  wrapAroundMedia
                 />
               )}
             </AnimatedHeight>
           </div>
           {meta.length > 0 && (
-            <AnimatedHeight independent duration={320} className="col-span-2 mt-5 lg:col-span-1">
+            <AnimatedHeight independent duration={320} className="clear-both col-span-2 mt-5 lg:col-span-1">
               <dl className="effect-engraved border-s border-t border-stone-light bg-stone-heavy/70">
                 {meta.map(({ label, value }) => (
                   <div
@@ -182,11 +187,7 @@ export default function FigureBookFeature({
             </AnimatedHeight>
           )}
 
-          <FigureBookActions
-            source={source}
-            className="col-span-2 mt-5 flex flex-col gap-2 sm:flex-row lg:hidden"
-          />
-          {/* 구매 모듈 — 좁은 화면에서는 카드 맨 아래 열기 단추 뒤에 선다 */}
+          {/* 구매 모듈 — 태블릿에서는 서지 정보 아래에 둔다 */}
           <BookPurchaseSummary
             contentId={source.id}
             editionId={edition.id}
@@ -195,8 +196,9 @@ export default function FigureBookFeature({
             creator={edition.creator || source.creator}
             links={purchaseModuleLinks}
             enabled={source.type === "BOOK"}
-            className="col-span-2 lg:hidden"
-            chipClassName="mt-3"
+            full
+            className="col-span-2 hidden sm:block lg:hidden"
+            chipClassName="mt-2 h-11 text-sm"
           />
         </div>
       </div>
