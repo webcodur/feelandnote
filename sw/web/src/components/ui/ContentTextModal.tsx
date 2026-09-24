@@ -3,14 +3,13 @@ import { Maximize2 } from "lucide-react";
 
 import ContentReadingText from "./ContentReadingText";
 import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "./Modal";
+import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
+import type { ReadingSegment } from "@/lib/reading-timing";
 
 const MODAL_GOLD_CLASS = "text-3d-gold-bright";
 const MODAL_GOLD_STYLE: CSSProperties = {
   filter: "none",
   backgroundImage: "linear-gradient(to bottom, #f0c948, #c9a33a)",
-};
-const MODAL_BODY_STYLE: CSSProperties = {
-  fontSize: "clamp(15px, 1.25vw, 16px)",
 };
 const MODAL_SOURCE_CLASS =
   `mt-5 block break-all text-sm font-medium leading-relaxed ${MODAL_GOLD_CLASS} underline decoration-accent/60 underline-offset-4 hover:brightness-125 hover:decoration-accent-hover`;
@@ -40,6 +39,13 @@ interface ContentTextModalProps {
   title: string;
   text: string;
   notice?: ReactNode;
+  /** 원문 기준 강조 범위(재생 문장 등) */
+  mark?: { start: number; end: number } | null;
+  /** 문장 타이밍 — 주면 문장을 눌러 그 시점부터 재생한다 */
+  segments?: ReadingSegment[] | null;
+  onPlayFrom?: (seconds: number) => void;
+  /** 문장 조각 버튼의 접근성 라벨 */
+  sentenceLabel?: string;
   source?: {
     href: string;
     label: ReactNode;
@@ -52,6 +58,10 @@ export default function ContentTextModal({
   title,
   text,
   notice,
+  mark,
+  segments,
+  onPlayFrom,
+  sentenceLabel,
   source,
 }: ContentTextModalProps) {
   return (
@@ -69,13 +79,25 @@ export default function ContentTextModal({
       <ModalBody className="p-4 sm:p-6">
         {notice}
         <ContentReadingText
-          text={text}
+          text={segments?.length && onPlayFrom ? undefined : text}
           tone="primary"
           size="modal"
-          style={MODAL_BODY_STYLE}
           highlightClassName={MODAL_GOLD_CLASS}
           highlightStyle={MODAL_GOLD_STYLE}
-        />
+          mark={segments?.length && onPlayFrom ? undefined : mark}
+        >
+          {segments?.length && onPlayFrom ? (
+            <ReadingHighlightText
+              text={text}
+              mark={mark}
+              segments={segments}
+              onPlayFrom={onPlayFrom}
+              sentenceLabel={sentenceLabel}
+              highlightClassName={MODAL_GOLD_CLASS}
+              highlightStyle={MODAL_GOLD_STYLE}
+            />
+          ) : null}
+        </ContentReadingText>
         {source && (
           <a
             href={source.href}

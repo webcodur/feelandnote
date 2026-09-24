@@ -59,9 +59,9 @@ function fixture(trendIds: string[] = [], available = true) {
     'next/cache': { unstable_cache: (fn: unknown) => fn },
     '@/lib/db/static': { createStaticClient: () => db },
     '@/lib/db/server': { createClient: () => { throw new Error('No viewer reads'); } },
-    '@/lib/trends/countryTrending': { getCountryTrendingPeople: async () => ({ ids: trendIds, available }) },
+    '@/lib/trends/countryTrending': { getCountryTrendingPeople: async () => ({ matches: trendIds.map(id => ({ id, trendTitle: 'x', rank: 1, volume: 1000, started: 1700000000000 })), available }) },
   }
-  const loaded = { exports: {} as { getCelebs: (params: Record<string, unknown>) => Promise<{ celebs: { id: string; content_count: number }[]; total: number; totalPages: number; trend?: { country: string; available: boolean; matchedCount: number } }> } }
+  const loaded = { exports: {} as { getCelebs: (params: Record<string, unknown>) => Promise<{ celebs: { id: string; content_count: number; trend_match?: { title: string; rank: number; country: string; volume: number; started: number } | null }[]; total: number; totalPages: number; trend?: { country: string; available: boolean; matchedCount: number } }> } }
   new Function('require', 'module', 'exports', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
   return { calls, getCelebs: loaded.exports.getCelebs }
 }
@@ -101,6 +101,8 @@ test('country trends promote filtered matches across pages without omissions or 
   assert.ok(all.every(row => row.content_count > 0))
   assert.ok(pages.every(page => page.total === 82 && page.totalPages === 41))
   assert.deepEqual(pages[0].trend, { country: 'US', available: true, matchedCount: 3 })
+  assert.deepEqual(pages[0].celebs[0].trend_match, { title: 'x', rank: 1, country: 'US', volume: 1000, started: 1700000000000 })
+  assert.equal(pages[1].celebs[1].trend_match, null)
   for (const call of f.calls) {
     assert.equal(call.name, 'get_celebs_sorted')
     assert.equal(call.args.p_limit, null)

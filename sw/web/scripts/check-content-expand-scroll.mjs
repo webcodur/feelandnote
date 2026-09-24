@@ -656,18 +656,6 @@ async function checkStableExpandedEntryMobile(page, profile = "mobile") {
   return result;
 }
 
-// 카드 본문은 작품 소개와 감상 배경을 탭으로 가른다. 재려는 칸의 탭을 먼저 누른다
-async function selectExpandMode(page, mode) {
-  const found = await page.evaluate((target) => {
-    const tab = document.querySelector(`[data-testid="expand-mode-${target}"]`);
-    if (!(tab instanceof HTMLElement)) return false;
-    if (tab.getAttribute("aria-selected") !== "true") tab.click();
-    return true;
-  }, mode);
-  assert(found, `Missing expand mode tab "${mode}"`);
-  await settleLayout(page);
-}
-
 function readSectionScrollables(page, patterns, label) {
   return page.evaluate(
     (sources, sectionLabel) => {
@@ -705,14 +693,12 @@ function readSectionScrollables(page, patterns, label) {
 }
 
 async function checkReviewScroll(page) {
-  // 두 칸은 탭 뒤에 나뉘어 있어 한 번에 하나만 문서에 있다 — 재는 순서대로 탭을 넘긴다
-  await selectExpandMode(page, "intro");
+  // 소개와 감상 배경이 한 덩어리로 함께 문서에 있다 — 두 칸을 순서대로 잰다
   const intro = await readSectionScrollables(
     page,
     ["작품\\s*소개", "책\\s*소개", "영상\\s*소개", "게임\\s*소개", "음악\\s*소개", "(?:content|book|video|game|music)\\s*intro"],
     "content introduction",
   );
-  await selectExpandMode(page, "review");
   const review = await readSectionScrollables(page, ["감상\\s*배경", "review"], "review");
   const sections = { intro, review };
 

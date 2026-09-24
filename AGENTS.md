@@ -124,10 +124,10 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 |------|-----------|
 | 셀럽 파이프라인 전 단계 | `docs/project/celeb/celeb-00-01-pipeline.md` (단계별 룰북 표를 그 안에서 쥔다) |
 | 셀럽 콘텐츠 감사 | `docs/project/celeb/celeb-02-04-content-audit.md` |
-| 영상 원고 0~7단계 | `docs/project/remotion/book-recommend/rules.md` + `writer/<단계>.md` |
+| 영상 원고 0~7단계(4번 폐기) | `docs/project/remotion/book-recommend/rules.md` + `writer/<단계>.md` |
 | 천도 게임 개발 | `docs/games/suikoden/dev-guide.md` |
 
-글쓰기와 이미지 제작은 각각 `docs/project/production/writing-rules.md`, `docs/project/production/image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
+한국어 값 생성에는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 매번 agent에 전달한다. 이미지 제작은 `docs/project/production/image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
 
 ## 문서 수명주기
 

@@ -1,7 +1,8 @@
 "use client";
 
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useState } from "react";
-import Image from "next/image";
+import MythTitleImage from "./MythTitleImage";
 import { BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson, Myth } from "@/actions/home/mythTypes";
@@ -38,15 +39,10 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
         <figure className={layout.artwork} aria-label={myth?.name ?? t("allMyths")}>
           {activeImage ? (
             <BlurDissolve key={activeImage.url} className="absolute inset-0">
-              <Image
+              <MythTitleImage
                 src={activeImage.url}
                 alt={activeImage.label ?? myth?.name ?? ""}
-                fill
-                unoptimized
                 priority={imageIndex === 0}
-                sizes="100vw"
-                className="object-contain"
-                style={{ filter: "none" }}
               />
             </BlurDissolve>
           ) : (
@@ -88,7 +84,7 @@ export default function MythOverview({ myth, memberCount, workCount, leadPeople,
                     className="group relative block size-11 overflow-hidden rounded-full bg-white/[0.06] ring-2 ring-black/60 hover:ring-accent focus-visible:outline-none focus-visible:ring-accent md:size-12"
                   >
                     {face ? (
-                      <Image src={face} alt="" fill unoptimized sizes="48px" className="object-cover object-top" />
+                      <CelebAvatarImage src={face} alt="" className="object-cover object-top" />
                     ) : (
                       <span aria-hidden className="grid h-full place-items-center font-serif text-lg font-black text-white/40">{person.name[0]}</span>
                     )}

@@ -4,6 +4,8 @@ import { memo } from "react";
 
 import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_BUTTON_STYLES } from "@/constants/affiliatePlatforms";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
+import { coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
+import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
 import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import { cn } from "@/lib/utils";
 
@@ -32,13 +34,26 @@ function AffiliateBookAction({
   compact = false,
   hideSales = false,
 }: AffiliateBookActionProps) {
-  const hasCoupang = !!coupangUrl && coupangUrl.startsWith("https://");
+  /* 교보문고 — 우리 작품은 경유 주소가 저장 ISBN을 바코드 상품으로 잇고,
+     외부 차트 항목(비UUID id)은 차트가 준 ISBN으로 곧바로 잇는다. 둘 다 없으면 단추를 세우지 않는다 */
+  const kyobo = isYes24PurchaseRequest(contentId, "ko", editionId)
+    ? { platform: "kyobo" as const, url: getBookPurchaseHref(contentId, editionId, "kyobo") }
+    : kyoboBookLink({ isbn: salesIsbn });
+  /* 쿠팡 — 저장 링크가 있으면 그것, 없으면 링크프라이스 승인 후 같은 규칙(경유 또는 ISBN 검색)으로 잇는다 */
+  const coupang = coupangUrl && coupangUrl.startsWith("https://")
+    ? { platform: "coupang" as const, url: coupangUrl }
+    : LINKPRICE_COUPANG_APPROVED
+      ? isYes24PurchaseRequest(contentId, "ko", editionId)
+        ? { platform: "coupang" as const, url: getBookPurchaseHref(contentId, editionId, "coupang") }
+        : coupangBookLink({ isbn: salesIsbn })
+      : null;
+  const sellers = 1 + (kyobo ? 1 : 0) + (coupang ? 1 : 0);
   const radius = compact ? "rounded-md" : "rounded-lg";
-  /* 판매처가 둘이면 한 틀을 세로선으로 가르지 않고 틈을 둔 낱개 칩으로 띄운다 — 칩마다 판매처 색 테두리가 선다.
+  /* 판매처가 둘 이상이면 한 틀을 세로선으로 가르지 않고 틈을 둔 낱개 칩으로 띄운다 — 칩마다 판매처 색 테두리가 선다.
      수수료 안내(ⓘ)는 단추 안에 묻지 않고 구획 머리말에 둔다(BookPurchaseInfo) */
   const buttonClass = cn(
     "flex min-h-11 min-w-0 items-center justify-center px-2 py-2 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset",
-    hasCoupang && ["border", radius],
+    sellers > 1 && ["border", radius],
   );
 
   return (
@@ -47,8 +62,8 @@ function AffiliateBookAction({
       {!hideSales && <Yes24Sales contentId={contentId} editionId={editionId} isbn={salesIsbn} yes24Href={yes24Href} full className="mb-1.5" />}
       <div className={cn(
         "relative grid",
-        hasCoupang
-          ? "gap-1 grid-cols-2"
+        sellers > 1
+          ? ["gap-1", sellers > 2 ? "grid-cols-3" : "grid-cols-2"]
           : ["grid-cols-1 overflow-hidden border border-white/15", radius],
       )}>
         <a
@@ -61,9 +76,20 @@ function AffiliateBookAction({
         >
           {AFFILIATE_PLATFORMS.yes24.label}
         </a>
-        {hasCoupang && (
+        {kyobo && (
           <a
-            href={coupangUrl}
+            href={kyobo.url}
+            target="_blank"
+            rel="noopener noreferrer nofollow sponsored"
+            onClick={(event) => event.stopPropagation()}
+            className={cn(buttonClass, BOOK_PURCHASE_BUTTON_STYLES.kyobo)}
+          >
+            {AFFILIATE_PLATFORMS.kyobo.label}
+          </a>
+        )}
+        {coupang && (
+          <a
+            href={coupang.url}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             onClick={(event) => event.stopPropagation()}

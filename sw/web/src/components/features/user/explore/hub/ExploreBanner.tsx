@@ -25,6 +25,7 @@ const SUBPAGE_KEY: Record<string, string> = {
   feed: "navFeed",
   timeline: "navTimeline",
   directory: "navDirectory",
+  monologue: "navMonologue",
   today: "navToday",
   // 레거시 경로 (리다이렉트 전 직접 접근 대비)
   celebs: "navCelebs",

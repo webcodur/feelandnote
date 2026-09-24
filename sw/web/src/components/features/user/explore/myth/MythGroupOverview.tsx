@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Users } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -57,7 +57,7 @@ export default function MythGroupOverview({ myth, group, people, onSelectPerson 
                   <button type="button" onClick={() => onSelectPerson(person.id)} className="group block w-full text-center focus-visible:outline-none">
                     <span className="relative mx-auto block aspect-square w-full max-w-28 overflow-hidden rounded-full bg-white/[0.04] ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-accent group-focus-visible:ring-2 group-focus-visible:ring-accent">
                       {image ? (
-                        <BlurDissolve key={image} className="absolute inset-0"><Image src={image} alt="" fill unoptimized sizes="112px" className="object-cover object-top" /></BlurDissolve>
+                        <BlurDissolve key={image} className="absolute inset-0"><CelebAvatarImage src={image} alt="" className="object-cover object-top" /></BlurDissolve>
                       ) : (
                         <span aria-hidden className="grid h-full place-items-center font-serif text-3xl font-black text-white/30">{person.name[0]}</span>
                       )}

@@ -1,4 +1,4 @@
-import { ArrowUpRight, History, Search, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, History, Search, Speech, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
@@ -13,7 +13,7 @@ import Image from "next/image";
 
 export const maxDuration = 30;
 
-const secondaryIcons: Record<string, LucideIcon> = { timeline: History, directory: Search };
+const secondaryIcons: Record<string, LucideIcon> = { timeline: History, directory: Search, monologue: Speech };
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");

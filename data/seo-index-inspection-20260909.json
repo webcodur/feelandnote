@@ -7067,6 +7067,328 @@
         "https://feelandnote.com/celeb/michelle-williams"
       ],
       "completedAt": "2026-09-15T11:06:12.008126+00:00"
+    },
+    {
+      "date": "2026-09-17",
+      "property": "sc-domain:feelandnote.com",
+      "propertyNote": "URL 접두어 속성은 이번 세션의 Google 계정(webcodur@gmail.com)에 권한이 없어 도메인 속성으로 신청했다. 도메인 속성에서도 검사·색인 요청이 동일하게 동작했다.",
+      "priorRecheck": "09-15 접수 45건 전부 URL Inspection API에서 PASS/제출되고 색인이 생성되었습니다. 09-15에 크롤링됨-미색인이던 /en/celeb/benjamin-franklin도 색인됨.",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/celeb/michelle-williams",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/gerard-butler",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/gerard-butler",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/conor-mcgregor",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/conor-mcgregor",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/yelu-chucai",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/yelu-chucai",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/scott-adkins",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/scott-adkins",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/ingvar-kamprad",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/ingvar-kamprad",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/bernard-arnault",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        }
+      ],
+      "limit": {
+        "url": "https://feelandnote.com/en/celeb/bernard-arnault",
+        "status": "quota exceeded",
+        "note": "실시간 테스트 후 할당량 문구 대화상자가 떠 접수되지 않았고, 결과 페이지의 요청 버튼이 미요청 상태로 되돌아갔다. 도메인 속성 기준 하루 접수 한도는 12건이었다."
+      },
+      "nextQueue": [
+        "https://feelandnote.com/en/celeb/bernard-arnault",
+        "https://feelandnote.com/celeb/daniela-amodei",
+        "https://feelandnote.com/en/celeb/daniela-amodei",
+        "https://feelandnote.com/celeb/li-zhi",
+        "https://feelandnote.com/en/celeb/li-zhi",
+        "https://feelandnote.com/celeb/mike-tyson",
+        "https://feelandnote.com/en/celeb/mike-tyson",
+        "https://feelandnote.com/celeb/oda-nobunaga",
+        "https://feelandnote.com/en/celeb/oda-nobunaga",
+        "https://feelandnote.com/celeb/syngman-rhee",
+        "https://feelandnote.com/en/celeb/syngman-rhee",
+        "https://feelandnote.com/celeb/ben-affleck",
+        "https://feelandnote.com/en/celeb/ben-affleck",
+        "https://feelandnote.com/en/celeb/mark-wahlberg",
+        "https://feelandnote.com/celeb/donnie-yen",
+        "https://feelandnote.com/en/celeb/donnie-yen",
+        "https://feelandnote.com/en/celeb/abraham-lincoln",
+        "https://feelandnote.com/celeb/achilles",
+        "https://feelandnote.com/en/celeb/achilles",
+        "https://feelandnote.com/celeb/daniel-craig",
+        "https://feelandnote.com/en/celeb/daniel-craig",
+        "https://feelandnote.com/celeb/eiichiro-oda",
+        "https://feelandnote.com/en/celeb/eiichiro-oda",
+        "https://feelandnote.com/celeb/liv-tyler",
+        "https://feelandnote.com/en/celeb/liv-tyler",
+        "https://feelandnote.com/celeb/ibn-sina",
+        "https://feelandnote.com/en/celeb/ibn-sina",
+        "https://feelandnote.com/celeb/uma-thurman",
+        "https://feelandnote.com/en/celeb/uma-thurman"
+      ]
+    },
+    {
+      "date": "2026-09-18",
+      "property": "sc-domain:feelandnote.com",
+      "propertyNote": "Aside 기본 Google 계정(webcodur3)은 도메인 속성 접근 불가. authuser=webcodur@gmail.com(/u/5/)으로 열어 신청했다.",
+      "priorRecheck": "09-17 접수 12건 중 11건이 URL Inspection API에서 PASS/제출되고 색인이 생성되었습니다(마지막 크롤 09-17 06:24~06:43Z). 마지막 접수분 /celeb/bernard-arnault만 발견됨-현재 미색인(크롤 이력 없음).",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/en/celeb/bernard-arnault",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/daniela-amodei",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/daniela-amodei",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/li-zhi",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        }
+      ],
+      "limit": {
+        "url": "https://feelandnote.com/en/celeb/li-zhi",
+        "status": "quota exceeded",
+        "note": "4건 접수 뒤 「할당량 초과 — 일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.」 자동화 도중 검사 로딩 판정이 어긋나 daniela-amodei 한국어 결과 화면에서 클릭이 한 번 더 들어갔을 수 있어 실제 소모는 5건일 수 있다."
+      },
+      "nextQueue": [
+        "https://feelandnote.com/en/celeb/li-zhi",
+        "https://feelandnote.com/celeb/mike-tyson",
+        "https://feelandnote.com/en/celeb/mike-tyson",
+        "https://feelandnote.com/celeb/oda-nobunaga",
+        "https://feelandnote.com/en/celeb/oda-nobunaga",
+        "https://feelandnote.com/celeb/syngman-rhee",
+        "https://feelandnote.com/en/celeb/syngman-rhee",
+        "https://feelandnote.com/celeb/ben-affleck",
+        "https://feelandnote.com/en/celeb/ben-affleck",
+        "https://feelandnote.com/en/celeb/mark-wahlberg",
+        "https://feelandnote.com/celeb/donnie-yen",
+        "https://feelandnote.com/en/celeb/donnie-yen",
+        "https://feelandnote.com/en/celeb/abraham-lincoln",
+        "https://feelandnote.com/celeb/achilles",
+        "https://feelandnote.com/en/celeb/achilles",
+        "https://feelandnote.com/celeb/daniel-craig",
+        "https://feelandnote.com/en/celeb/daniel-craig",
+        "https://feelandnote.com/celeb/eiichiro-oda",
+        "https://feelandnote.com/en/celeb/eiichiro-oda",
+        "https://feelandnote.com/celeb/liv-tyler",
+        "https://feelandnote.com/en/celeb/liv-tyler",
+        "https://feelandnote.com/celeb/ibn-sina",
+        "https://feelandnote.com/en/celeb/ibn-sina",
+        "https://feelandnote.com/celeb/uma-thurman",
+        "https://feelandnote.com/en/celeb/uma-thurman"
+      ]
+    },
+    {
+      "date": "2026-09-20",
+      "property": "sc-domain:feelandnote.com",
+      "propertyNote": "Aside 브라우저 webcodur@gmail.com 세션이 Signed out이었고 Google 10계정 상한으로 추가 로그인이 막혀, 다른 세션 전체 로그아웃 뒤 Vault 자동완성으로 재로그인해 도메인 속성을 열었다.",
+      "priorRecheck": "09-18 접수 4건 중 3건 색인됨(en/bernard-arnault·en/daniela-amodei·celeb/li-zhi, 마지막 크롤 09-18 04:45~04:51Z). /celeb/daniela-amodei는 발견됨-현재 미색인(referring: en 버전). 재신청하지 않고 대기.",
+      "precheck": "기존 nextQueue 25건 전량 미색인 확인(en/li-zhi는 크롤됨-미색인, 나머지 대부분 발견됨-미색인). 조회수 순 추가 후보 검사: jensen-huang·elon-musk·larry-fink·steve-jobs·ernest-hemingway·ana-de-armas·oprah-winfrey ko는 이미 색인됨. 미색인 23건(mark-zuckerberg ko·maria-sharapova ko/en·stefan-zweig ko/en·alexander-the-great ko/en·suleiman-the-magnificent ko/en·pom-klementieff ko/en·rachel-mcadams ko/en·chung-ji-yong ko/en·daniel-day-lewis ko/en·joseph-gordon-levitt ko/en·floyd-mayweather-jr ko/en·kang-full ko/en)을 큐에 추가해 총 48건.",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/en/celeb/li-zhi",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/mike-tyson",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "note": "헬퍼가 같은 URL을 재검사해 클릭이 한 번 더 들어갔을 수 있어 실제 한도 소모는 11건일 수 있다."
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/mike-tyson",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/oda-nobunaga",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/oda-nobunaga",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/syngman-rhee",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/syngman-rhee",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/ben-affleck",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/ben-affleck",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/mark-wahlberg",
+          "status": "request accepted",
+          "source": "Search Console UI (sc-domain)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "note": "stale 「색인 생성 요청됨」 대화상자 오판으로 1차 스킵됐다가 URL 헤더 확인 후 재검사로 정상 접수."
+        }
+      ],
+      "limit": {
+        "url": "https://feelandnote.com/celeb/donnie-yen",
+        "status": "quota exceeded",
+        "note": "10건 접수 뒤 「할당량 초과 — 일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.」 확인, 즉시 중단."
+      },
+      "nextQueue": [
+        "celeb/donnie-yen",
+        "en/celeb/donnie-yen",
+        "en/celeb/abraham-lincoln",
+        "celeb/achilles",
+        "en/celeb/achilles",
+        "celeb/daniel-craig",
+        "en/celeb/daniel-craig",
+        "celeb/eiichiro-oda",
+        "en/celeb/eiichiro-oda",
+        "celeb/liv-tyler",
+        "en/celeb/liv-tyler",
+        "celeb/ibn-sina",
+        "en/celeb/ibn-sina",
+        "celeb/uma-thurman",
+        "en/celeb/uma-thurman",
+        "celeb/mark-zuckerberg",
+        "celeb/maria-sharapova",
+        "en/celeb/maria-sharapova",
+        "celeb/stefan-zweig",
+        "en/celeb/stefan-zweig",
+        "celeb/alexander-the-great",
+        "en/celeb/alexander-the-great",
+        "celeb/suleiman-the-magnificent",
+        "en/celeb/suleiman-the-magnificent",
+        "celeb/pom-klementieff",
+        "en/celeb/pom-klementieff",
+        "celeb/rachel-mcadams",
+        "en/celeb/rachel-mcadams",
+        "celeb/chung-ji-yong",
+        "en/celeb/chung-ji-yong",
+        "celeb/daniel-day-lewis",
+        "en/celeb/daniel-day-lewis",
+        "celeb/joseph-gordon-levitt",
+        "en/celeb/joseph-gordon-levitt",
+        "celeb/floyd-mayweather-jr",
+        "en/celeb/floyd-mayweather-jr",
+        "celeb/kang-full",
+        "en/celeb/kang-full"
+      ]
     }
   ],
   "hubInspection20260913": {

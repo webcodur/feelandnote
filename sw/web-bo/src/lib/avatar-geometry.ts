@@ -276,9 +276,11 @@ export function computeCropFromSilhouette(
   a: SilhouetteAnchors,
   s: SilhouetteInfo,
   imgW: number,
-  imgH: number
+  imgH: number,
+  /** 머리 장식·부피 머리처럼 정수리 여백보다 상단 보존이 중요한 입력용 완화값 */
+  overrides?: { eyeLineMax?: number; eyeChinSpanRange?: readonly [number, number] }
 ): SilhouetteCropResult {
-  const S = AVATAR_SILHOUETTE_SPEC
+  const S = { ...AVATAR_SILHOUETTE_SPEC, ...overrides }
   const span = a.chinY - a.eyeY
   if (!(span > 0)) throw new Error('턱이 눈보다 위에 있다 — 랜드마크가 잘못됐다')
   const warnings: string[] = []

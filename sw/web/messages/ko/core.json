@@ -144,7 +144,9 @@
       "sensitivity": "감도",
       "sensitivityNote": "손이 1px 움직일 때 페이지가 가는 거리입니다.",
       "momentum": "미끄러짐",
-      "momentumNote": "손을 놓은 뒤에도 페이지가 조금 더 미끄러집니다."
+      "momentumNote": "손을 놓은 뒤에도 페이지가 조금 더 미끄러집니다.",
+      "toTop": "맨 위로 이동",
+      "toBottom": "맨 아래로 이동"
     }
   },
   "pages": {
@@ -552,6 +554,7 @@
     "content": {
       "addToRecord": "기록하기",
       "viewDetails": "상세정보 보기",
+      "openContent": "작품 상세",
       "allReviews": "다른 이들의 리뷰",
       "bookDetails": "도서 정보",
       "unverified": "미확인",
@@ -585,7 +588,16 @@
         "both": "사실 | 가상"
       },
       "viewCard": "인물 카드 보기",
-      "playDialogue": "대사 보기"
+      "playDialogue": "대사 보기",
+      "trendChipDirect": "급상승 top {rank}",
+      "trendChipRank": "top {rank}",
+      "trendInfoOpen": "트렌드 근거 보기",
+      "trendModalQuery": "급상승 검색어 「{title}」 · {rank}위",
+      "trendModalBodyDirect": "{country} 구글 트렌드에서 본인 이름으로 검색이 급증한 인물입니다.",
+      "trendModalSource": "Google Trends에서 보기",
+      "trendModalPeriod": "최근 {days}일",
+      "trendChipSurge": "급상승 top",
+      "trendModalStats": "검색 {volume}+ · {ago} 급상승"
     },
     "celebViews": {
       "title": "이 프로필을 본 사람",

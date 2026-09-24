@@ -13,6 +13,8 @@ import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import SwipeControls from "@/components/ui/SwipeControls";
 import { PendingBlock } from "@/components/ui/pending";
+import TrendMatchChip from "@/components/shared/TrendMatchChip";
+import type { CelebTrendMatch } from "@/types/home";
 
 /** 격자 열 구성. 기다림 표시가 같은 모양으로 서도록 카드와 한 규칙을 쓴다.
  *  항목이 적을 때 4열을 쓰면 마지막 줄이 반만 차서 빈자리가 눈에 띈다 — 6개 이하는 3열로 접는다.
@@ -61,6 +63,8 @@ export interface FigureLinkItem {
   subtitle?: string;
   /** 감상 항목 수. 넘기면 카드 오른쪽에 세운다 */
   content_count?: number;
+  /** 국가 트렌드 승격 근거 — 금박 top 칩으로 세운다 */
+  trendMatch?: CelebTrendMatch;
 }
 
 interface FigureLinkGridProps {
@@ -185,8 +189,10 @@ export default async function FigureLinkGrid({
                     </span>
                   )}
                 </span>
-                {/* 감상 항목 수 — 인물을 고르는 기준이라 이름 반대편에 세운다 */}
-                {figure.content_count !== undefined && figure.content_count > 0 && (
+                {/* 트렌드 인물은 top X 칩이, 그 외에는 감상 항목 수가 오른쪽에 선다 — 둘 다 선정 기준 표기다 */}
+                {figure.trendMatch ? (
+                  <TrendMatchChip match={figure.trendMatch} name={name} variant="gold" className="mr-3.5 shrink-0 self-center" />
+                ) : figure.content_count !== undefined && figure.content_count > 0 && (
                   <span className="flex shrink-0 items-center pr-3.5 text-xs font-medium tabular-nums text-text-secondary group-hover:text-accent">
                     {figure.content_count}
                   </span>

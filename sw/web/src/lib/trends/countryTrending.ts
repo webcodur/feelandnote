@@ -10,6 +10,7 @@ import {
   resolveCountryTrendingPeople,
   type CountryTrendingPeople,
   type RegisteredTrendPerson,
+  type TrendMatch,
 } from './trendMatching'
 
 const TREND_REVALIDATE_SECONDS = 3600
@@ -30,7 +31,7 @@ const getRegisteredPeople = unstable_cache(async (): Promise<RegisteredTrendPers
   tags: [CACHE_TAGS.CELEBS],
 })
 
-async function fetchCountryIds(country: TrendCountry): Promise<string[]> {
+async function fetchCountryMatches(country: TrendCountry): Promise<TrendMatch[]> {
   const response = await rawFetch(`https://trends.google.com/trending?geo=${country}&hl=en&hours=${TREND_PERIOD_HOURS}`, {
     signal: AbortSignal.timeout(TREND_REQUEST_TIMEOUT_MS),
     headers: { Accept: 'text/html' },
@@ -42,11 +43,11 @@ async function fetchCountryIds(country: TrendCountry): Promise<string[]> {
 }
 
 // unstable_cache includes the country argument in its key; failed reads throw and aren't stored as an empty feed.
-const getCountryIds = unstable_cache(fetchCountryIds, ['country-trending-people-page-v4'], {
+const getCountryMatches = unstable_cache(fetchCountryMatches, ['country-trending-people-page-v8'], {
   revalidate: TREND_REVALIDATE_SECONDS,
   tags: [CACHE_TAGS.CELEBS],
 })
 
 export async function getCountryTrendingPeople(country: string): Promise<CountryTrendingPeople> {
-  return resolveCountryTrendingPeople(country, getCountryIds)
+  return resolveCountryTrendingPeople(country, getCountryMatches)
 }

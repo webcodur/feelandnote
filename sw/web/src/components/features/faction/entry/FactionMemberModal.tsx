@@ -327,7 +327,7 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
         <ImageViewerModal src={celeb.avatar_url} alt={name} isOpen={zoomOpen} onClose={() => setZoomOpen(false)} />
       )}
       {monologueOpen && monologue && (
-        <VirtualMonologueModal name={name} text={monologue} onClose={() => setMonologueOpen(false)} nested />
+        <VirtualMonologueModal text={monologue} onClose={() => setMonologueOpen(false)} nested />
       )}
     </Modal>
   );

@@ -35,7 +35,9 @@ export function useExpandIndexSelection({
   onIndexPreferenceChange,
 }: UseExpandIndexSelectionParams) {
   const [selection, setSelection] = useState<ExpandSelection>(() => ({
-    contentId: items[0]?.content_id ?? null,
+    // 직접 고르기 전에는 현재 목록의 첫 작품을 따른다. 초기 일부 목록의 첫 ID를
+    // 고정하면 전체 목록을 정렬한 뒤에도 중간 작품이 열린 채로 남는다.
+    contentId: null,
     keepIndexItemVisible: false,
   }));
   const [localIndexPreference, setLocalIndexPreference] = useState<boolean | null>(null);

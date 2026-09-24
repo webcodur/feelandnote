@@ -13,17 +13,25 @@ const getYes24Chart = unstable_cache((basisDate: string) => fetchYes24Chart(rawF
   revalidate: CHART_CACHE_SECONDS.ko,
 })
 
+/* 업스트림 실패는 캐시에 남지 않는다 — 다운된 피드가 요청마다 타임아웃(15초)을 먹지 않게
+   마지막 실패 시각을 프로세스에 기억해 잠시 재시도를 쉰다 */
+const CHART_RETRY_BACKOFF_MS = 10 * 60 * 1000
+let appleDownUntil = 0
+
 export async function getBestsellers(_categoryKey: string = 'ALL', locale: string = 'ko') {
   void _categoryKey // Legacy callers keep their signature; this feed contains books only.
   const language = locale.toLowerCase().startsWith('en') ? 'en' : 'ko'
   let chart: BookChart | null = null
   const enabled = language === 'en' || yes24ChartEnabled(process.env)
   if (enabled && language === 'en') {
-    try {
-      chart = await getAppleChart()
-    } catch {
-      // Never log upstream errors: they may contain request headers or credentials.
-      console.error('[library] Apple Books chart unavailable')
+    if (Date.now() >= appleDownUntil) {
+      try {
+        chart = await getAppleChart()
+      } catch {
+        appleDownUntil = Date.now() + CHART_RETRY_BACKOFF_MS
+        // Never log upstream errors: they may contain request headers or credentials.
+        console.error('[library] Apple Books chart unavailable')
+      }
     }
   } else if (enabled) {
     // YES24의 전일 순위는 자정이 지나도 바로 나오지 않는다 — 최신 발행본이 잡힐 때까지 이전 날짜로 넘긴다

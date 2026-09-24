@@ -90,10 +90,21 @@
 사진이 남지 않거나 쓸 만한 얼굴이 없는 실존 근현대 인물은 씨앗 이미지를 참조로 실사 스튜디오 헤드숏을 생성해 등록한다. 작업 루트는 `data/celeb/avatar-collect/_gen/`이며 스크립트가 파이프라인 그대로다. 산출물은 문서가 아니라 데이터 폴더에 둔다.
 
 1. **대상·씨앗** — `targets.json`(id·slug·qid·팩션)에 대상을 모으고, 씨앗 얼굴은 `avatar-collect/faces-final/` 등 수집분을 쓴다. 씨앗 자체의 신원 근거는 「신원」 절이 정한 것과 같다.
+
+### 씨앗 신원 인증 게이트 (필수)
+
+`faces-final/`에 들어가는 씨앗은 **신원이 인증된 것**만 허용한다. 인증 없이 파일만 있으면 생성 큐에 올리지 않는다 — 오인물 씨앗은 Gemini가 그대로 다른 사람을 그리게 된다(실사고: 잭 처칠 자리에 19세기 여성, 로니 리드 자리에 무관한 군인).
+
+- 등급은 `seed-class.json`이 쥔다. **1LV**(못찾음/미검증) · **2LV**(근거 있으나 불확실: 부분 이름일치·단체사진·저해상) · **3LV**(본인 확인: 파일명 완전일치+단독 얼굴+충분 해상도, 또는 육안 검수 통과).
+- `classify-seed.mjs`가 출처(P18/QID)·파일명↔이름 토큰·원본 얼굴 픽셀·얼굴 수로 1차 판정한다. 파일명 토큰 부분일치만으로는 3LV가 안 된다 — 본명·필명·외국어 표기("溥仪"=푸이, "MacLeod Zelle"=마타하리)가 함정이다.
+- 얼굴검출 실패는 1LV 근거가 아니다 — 흑백·저대비 옛 사진은 검출기가 못 잡아도 본인일 수 있다(로니 리드 1945 초상). 출처·육안 검수가 우선한다.
+- 오인물·미검증 씨앗은 `faces-rejected/`로 격리한다(삭제 아님 — 재검증 후 복귀 가능).
+- 3LV도 사람 승인 전에는 미확정이다. 검수판은 `build-lv-gallery.mjs`가 만드는 `review/seed-lv.html` — 카드에 씨앗·생성결과·조사 후보·근거(`ev`)를 함께 보여준다.
+- 인물 조사 근거는 `lv1-research.json`(인물별 판정+근거 문장)에 누적한다. 후보 원본은 `lv1-cand/<slug>/`다.
 2. **생성** — `gen-gemini.mjs`가 Aside로 Gemini 웹을 조작해 씨앗+프롬프트를 넣고 결과를 `out/<slug>-gem.jpg`로 받는다. 프롬프트는 스튜디오 반신(bust-up) 계열(매끈한 피부·심리스 배경·정면·머리는 상단 1/3)을 쓴다 — 하이퍼리얼 지시는 피부가 거칠게 나온다. **반신 구도가 핵심이다: 우하단 다이아몬드(~0.88)가 얼굴 중심 크롭 밖에 떨어져 워터마크 제거 단계가 필요 없다.** 헤드샷으로 꽉 채우면 마크가 크롭 안에 남아 3번 처리가 필요하고, 얼굴도 커져 업스케일이 줄어드는 대신 그 비용을 치른다. 병렬은 큐 파일을 워커 수로 나눠 독립 실행한다. slug에 작은따옴표가 있으면 생성 JS가 깨지므로 `JSON.stringify`로 박는다.
-3. **워터마크 제거** — 반신 구도로 생성한 결과는 마크가 크롭 밖이라 이 단계를 건넌다. 헤드샷 등 마크가 크롭에 걸치는 원본만 `clean-local.mjs`가 지운다: 주변이 매끄러우면(테두리 std 낮음) 사방 테두리색을 양방향 보간한 채움, 텍스처가 있으면 톤이 가장 가까운 인접 패치를 복제해 평균색을 보정한다. Photoroom 웹 자동화(`clean-photoroom.mjs`)는 Turnstile 익명 한도에 막혀 대량 처리에 쓰지 않는다.
+3. **워터마크 제거** — 반신 구도로 생성한 결과는 마크가 크롭 밖이라 이 단계를 건넌다. 헤드샷 등 마크가 크롭에 걸치는 원본만 `clean-gem-logo.mjs`가 지운다: 주변이 매끄러우면(테두리 std 낮음) 사방 테두리색을 양방향 보간한 채움, 텍스처가 있으면 톤이 가장 가까운 인접 패치를 복제해 평균색을 보정한다. Photoroom 웹 자동화(`clean-photoroom.mjs`)는 Turnstile 익명 한도에 막혀 대량 처리에 쓰지 않는다.
 4. **타이트 크롭** — `crop-tight.mjs`가 랜드마크로 얼굴 비율을 키워(span 0.4) `final/<slug>.webp`를 만든다. 모자·관모는 프레임 상단에서 잘리는 게 정상이며 얼굴 규격은 모든 인물이 같다. 원본 얼굴이 작아 800px 미만 크롭이 나오면 확대 플래그를 `_report.json`에 남긴다 — 뭉개짐 검수 대상이다.
-5. **등록** — `sw/web-bo`의 `scripts/avatar/upload-local.ts`가 완성 정사각을 R2+DB에 넣는다(크롭은 하지 않는다). **`upload-local` 계열은 Node 22로 실행한다** — Node 20에는 네이티브 WebSocket이 없어 supabase 클라이언트가 생성 즉시 죽는다. 이 머신의 Node 22는 `~/AppData/Roaming/nvm/v22.14.0`다. id·slug 쌍은 `targets.json`에서 뽑아 배치한다.
+5. **재배치·등록** — 배치 등록은 두 경로다. 투명본은 누끼(`C:\project\nobg` birefnet) → `light-unify.ts` → `reframe.ts`(알파 실루엣) → `upload-reframed.ts`. **불투명 원본은 `reframe-opaque.ts` → `upload-reframed.ts`** — 생성본의 균일 회색 배경과의 색차로 실루엣을 추정하고 랜드마크는 같은 `computeCropFromSilhouette`를 쓴다. 머리 장식·부피 머리가 eye-line 규칙에 잘리면 `--loose slug[:eyeMax:minSpan]`로 완화한다(기본 0.58 — 면류관·제돔·털모자 살리기). 실루엣 미검출은 코너 배경색 30% 패딩으로 회수한다. **`upload-*` 계열은 Node 22+로 실행한다** — Node 20에는 네이티브 WebSocket이 없어 supabase 클라이언트가 생성 즉시 죽는다. 이 머신의 Node 24는 `C:\tools\node24\node.exe`다. 단건은 `upload-local.ts`, id·slug 쌍은 `targets.json`에서 뽑는다.
 6. **검수** — `build-gallery.mjs`가 `review/final-grid.html`에 정사각 격자를 만든다. 얼굴 닮음·잔여 마크·모자 잘림·확대 뭉개짐을 눈으로 보고 이상분만 재생성·재처리한다.
 
 기타 함정: 이 폴더의 스크립트는 sharp를 `sw/web-bo/package.json` 기준 `createRequire`로 풀고, puppeteer는 저장소 고정 버전 경로를 직접 가리킨다. Windows에서 프로세스 조회 명령의 `$_`는 bash에 먹히므로 PowerShell 셸로 실행한다.

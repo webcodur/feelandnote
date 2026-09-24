@@ -26,6 +26,7 @@ export default function ContentLibrary({
   ownerKind = "member",
   targetUserId,
   ownerNickname,
+  ownerAvatarUrl,
   defaultViewMode,
   defaultPageSize,
   hideControlWrapper = false,
@@ -73,6 +74,7 @@ export default function ContentLibrary({
       readOnly={isViewer}
       targetUserId={targetUserId}
       ownerNickname={ownerNickname}
+      ownerAvatarUrl={ownerAvatarUrl}
       savedContentIds={lib.savedContentIds}
       expandIndexPreference={isExpandIndexOpen}
       onExpandIndexPreferenceChange={setIsExpandIndexOpen}

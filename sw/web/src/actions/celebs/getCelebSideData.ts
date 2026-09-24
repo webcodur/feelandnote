@@ -1,23 +1,16 @@
 'use server'
 
-/*
-  파일명: /actions/celebs/getCelebSideData.ts
-  기능: 인물 상세의 관계·분석 구획 자료를 화면이 다가왔을 때 한 번에 내준다
-  책임: 이 두 구획은 첫 화면 밖이고 검색 본문이 아니면서 덩치가 크다.
-        서버 HTML에 실으면 ISR 한 장이 굳을 때마다 그대로 복사된다
-        (external-services.md「ISR 쓰기 비용 규칙」).
-        조회 자체는 기존 캐시 함수를 그대로 재사용한다.
-*/ // ------------------------------
+// 분석 첫 탭은 초기 HTML에, 나머지 부가 자료는 사용자 선택 시 전달한다.
+// 조회는 기존 캐시 함수를 재사용한다.
 
 import { getCelebInfluence, type CelebInfluenceDetail } from '@/actions/home/getCelebInfluence'
 import { getInfluenceExplorer, type InfluenceExplorerData } from '@/actions/home/getInfluenceExplorer'
 import { getFactionsByIds, type FeaturedFaction } from '@/actions/home/getFeaturedFactions'
 import { getSimilarByCelebId, type SimilarByCelebResult } from '@/actions/spectrum/getSimilarByCelebId'
 import { getCelebBySlug } from '@/actions/user/getCelebBySlug'
-import type { CelebRelationItem, FactionItem } from '@/actions/user/getCelebBySlug'
+import type { FactionItem } from '@/actions/user/getCelebBySlug'
 
-export interface CelebConnectionsData {
-  relations: CelebRelationItem[]
+export interface CelebFactionsData {
   factions: FeaturedFaction[]
   /** 이 인물 자신의 세력 배정 — 세력별 역할·긴 소개·세력 화보를 든다 */
   memberships: FactionItem[]
@@ -29,14 +22,14 @@ export interface CelebAnalysisData {
   spectrum: SimilarByCelebResult | null
 }
 
-/** 관계 구획 — 인연·동시대 인물·세력도감 */
-export async function getCelebConnections(
+/** 선택한 세력 탭의 화보와 소속 정보 */
+export async function getCelebFactions(
   slug: string,
   locale: string,
-): Promise<CelebConnectionsData> {
+): Promise<CelebFactionsData> {
   const result = await getCelebBySlug(slug, locale)
   if (!result.success || !result.data) {
-    return { relations: [], factions: [], memberships: [] }
+    return { factions: [], memberships: [] }
   }
 
   const profile = result.data
@@ -48,19 +41,23 @@ export async function getCelebConnections(
   const featuredIds = new Set(factions.map((faction) => faction.id))
   const memberships = profile.factions.filter((faction) => featuredIds.has(faction.id))
 
-  return { relations: profile.relations, factions, memberships }
+  return { factions, memberships }
 }
 
-/** 분석 구획 — 성향 스펙트럼·영향력 */
-export async function getCelebAnalysis(
+/** 초기 배치에는 첫 탭만 포함한다. 숨겨진 영향력 탐색기는 선택할 때 조회한다. */
+export async function getCelebInitialAnalysis(
   celebId: string,
   locale: string,
+  presence: { spectrum: boolean; influence: boolean },
 ): Promise<CelebAnalysisData> {
-  const [influence, influenceExplorer, spectrum] = await Promise.all([
-    getCelebInfluence(celebId, locale),
-    getInfluenceExplorer(celebId, locale),
-    getSimilarByCelebId(celebId, 3, locale),
-  ])
-
-  return { influence, influenceExplorer, spectrum }
+  if (presence.spectrum) {
+    return { spectrum: await getSimilarByCelebId(celebId, 3, locale), influence: null, influenceExplorer: null }
+  }
+  if (presence.influence) {
+    const [influence, influenceExplorer] = await Promise.all([
+      getCelebInfluence(celebId, locale), getInfluenceExplorer(celebId, locale),
+    ])
+    return { spectrum: null, influence, influenceExplorer }
+  }
+  return { spectrum: null, influence: null, influenceExplorer: null }
 }
