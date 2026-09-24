@@ -16,7 +16,6 @@ import { getRelationShapes } from "@/actions/home/getRelationShapes";
 import { getRelationNeighborhood } from "@/actions/home/getRelationNeighborhood";
 import { getMythData } from "@/actions/home/getMythData";
 import { getMythClientData } from "@/actions/home/mythPublicData";
-import { isDeveloperMode } from "@/lib/developer-mode";
 import { shouldStreamForRequest } from "@/lib/render-mode";
 import { RetryBlock } from "@/components/ui/pending";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
@@ -92,10 +91,10 @@ export async function MythSection() {
   const locale = await getLocale();
   const data = await load("신화 탐색", () => getMythData(locale));
   if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
-  if (data.people.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
-  // 운영은 작업 예정 칩만 남기고 열 수 없는 전승의 상세 자료를 HTML에 싣지 않는다.
-  // 로컬 개발 서버에서는 기존처럼 전체 명단·그룹을 열어 검수한다.
-  return <MythScreen data={getMythClientData(data, isDeveloperMode())} />;
+  const publicData = getMythClientData(data);
+  if (publicData.regions.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
+  // 공개 대상은 DB의 faction_lv2.published가 정한다. 닫힌 전승은 메뉴만 남긴다.
+  return <MythScreen data={publicData} />;
 }
 
 /* 성향 분포 */

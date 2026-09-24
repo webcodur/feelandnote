@@ -10,7 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import Modal, { ModalBody } from "@/components/ui/Modal";
-import type { MythWork } from "@/actions/home/mythTypes";
+import { GRAVES_GREEK_MYTHS_ID, type MythWork } from "@/actions/home/mythTypes";
 
 interface Props { works: MythWork[]; selectedPersonId: string; mythName: string; mythSlug: string }
 
@@ -41,10 +41,17 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
   /* 인물 줄과 같은 공용 훅 — 터치는 기본 스크롤, PC는 마우스로 끌어 넘긴다(ui-rail) */
   const { ref, cursorClassName, dragProps } = useMouseDragScroll();
   const mythKey = normalizeTitle(mythName);
+  // 오디세우스의 방랑·귀향은 그레이브스 2권에 있다. 작품은 공유하되 이 신화의 카드만 해당 권으로 보여 준다.
+  const displayWorks = works.map((work) => {
+    if (locale !== "ko" || mythSlug !== "homer-odyssey" || work.id !== GRAVES_GREEK_MYTHS_ID) return work;
+    const volume = work.editions?.find((edition) => edition.textScope === "volume-2");
+    return volume ? { ...work, editionId: volume.id, title: volume.title, creator: volume.creator,
+      thumbnailUrl: volume.thumbnailUrl, coupangUrl: volume.coupangUrl } : work;
+  });
   const ownWorkIds = new Set(MYTH_OWN_WORK_IDS[mythSlug] ?? []);
-  const ownWorks = works.filter((work) => ownWorkIds.has(work.id) || (mythKey && normalizeTitle(work.title).startsWith(mythKey)));
+  const ownWorks = displayWorks.filter((work) => ownWorkIds.has(work.id) || (mythKey && normalizeTitle(work.title).startsWith(mythKey)));
   const ownIds = new Set(ownWorks.map((work) => work.id));
-  const selectedWorks = works.filter((work) => !ownIds.has(work.id) && work.personIds.includes(selectedPersonId));
+  const selectedWorks = displayWorks.filter((work) => !ownIds.has(work.id) && work.personIds.includes(selectedPersonId));
   const selectedIds = new Set(selectedWorks.map((work) => work.id));
 
   /* YES24로 이을 한국어 판본이 있는 책을 앞에 세운다. 연결 인물이 가장 많은 원전이 정작 판본이 없어
@@ -57,7 +64,7 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
   const ordered = [
     ...buyableFirst(ownWorks),
     ...buyableFirst(selectedWorks),
-    ...buyableFirst(works.filter((work) => !ownIds.has(work.id) && !selectedIds.has(work.id))),
+    ...buyableFirst(displayWorks.filter((work) => !ownIds.has(work.id) && !selectedIds.has(work.id))),
   ];
   const visible = expanded ? ordered : ordered.slice(0, 10);
   const remaining = ordered.length - visible.length;

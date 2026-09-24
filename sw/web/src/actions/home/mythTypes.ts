@@ -4,6 +4,7 @@ import type { TitleBadge } from "@/lib/utils/content-locale";
 
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";
+export const GRAVES_GREEK_MYTHS_ID = "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528";
 
 export interface MythGroup {
   /** 묶음 이름(한국어 원문)을 id로 쓴다. 「그 외」 묶음은 MYTH_OTHER_GROUP_ID */
@@ -68,6 +69,14 @@ export interface MythPerson {
 export interface MythWork {
   id: string;
   editionId?: number;
+  editions?: Array<{
+    id: number;
+    title: string;
+    creator: string | null;
+    thumbnailUrl: string | null;
+    coupangUrl: string | null;
+    textScope: string | null;
+  }>;
   title: string;
   titleBadge: TitleBadge | null;
   creator: string | null;

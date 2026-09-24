@@ -31,7 +31,7 @@ function fixture(): MythData {
 test("public view retains complete public stories and shared works without private details", () => {
   const data = fixture();
   const original = structuredClone(data);
-  const result = getMythClientData(data, false);
+  const result = getMythClientData(data);
   assert.deepEqual(result.people.map((person) => person.id), ["public-person", "shared-person"]);
   assert.deepEqual(result.people[0], data.people[1]);
   assert.equal(result.people[1].reading?.guide, "complete reading guide");
@@ -46,39 +46,40 @@ test("public view retains complete public stories and shared works without priva
   assert.deepEqual(data, original, "the shared cached data must stay unchanged");
   // The overview shelf selects works by work.personIds, independently of a person's detail shelf.
   data.people[1].sourceIds = [];
-  assert.ok(getMythClientData(data, false).works.some((work) => work.id === "public-work"));
+  assert.ok(getMythClientData(data).works.some((work) => work.id === "public-work"));
 });
 
-test("public opening person remains selected and an entirely closed atlas retains only menus", () => {
+test("public opening person remains selected and an entirely closed atlas exports no regions", () => {
   const data = fixture();
   data.openingPersonId = "shared-person";
-  assert.equal(getMythClientData(data, false).openingPersonId, "shared-person");
+  assert.equal(getMythClientData(data).openingPersonId, "shared-person");
   data.myths.forEach((myth) => { myth.isPublished = false; });
-  const result = getMythClientData(data, false);
+  const result = getMythClientData(data);
   assert.equal(result.people.length, 0);
   assert.equal(result.works.length, 0);
-  assert.equal(result.myths.length, 2);
-  assert.equal(result.regions.length, 1);
+  assert.equal(result.myths.length, 0);
+  assert.equal(result.regions.length, 0);
   assert.equal(result.openingPersonId, null);
 });
 
-test("developer preview keeps every story, work and opening selection available", () => {
+test("local data keeps closed stories locked and out of the client payload", () => {
   const data = fixture();
-  const result = getMythClientData(data, true);
-  assert.deepEqual(result.people, data.people);
-  assert.deepEqual(result.works, data.works);
-  assert.equal(result.openingPersonId, data.openingPersonId);
-  assert.deepEqual(result.myths, data.myths.map((myth) => ({ ...myth, isPublished: true })));
+  const result = getMythClientData(data);
+  assert.deepEqual(result.people.map((person) => person.id), ["public-person", "shared-person"]);
+  assert.deepEqual(result.works.map((work) => work.id), ["public-work", "shared-work"]);
+  assert.equal(result.openingPersonId, null);
+  assert.equal(result.myths[1].isPublished, false);
+  assert.equal(result.myths[1].description, null);
   assert.equal(data.myths[1].isPublished, false);
 });
 
-test("public view exposes only the Greek-Roman L1 while keeping its unpublished L2 locked", () => {
+test("published myths expose their region while unpublished siblings stay locked", () => {
   const data = fixture();
   data.regions.push({ id: "other", slug: "korea", name: "other", mythIds: ["other-public"] });
   data.myths.push({ ...data.myths[0], id: "other-public", slug: "other-public", regionId: "other" });
-  const result = getMythClientData(data, false);
-  assert.deepEqual(result.regions.map((region) => region.slug), ["greek-roman"]);
-  assert.deepEqual(result.myths.map((myth) => myth.id), ["public", "private"]);
+  const result = getMythClientData(data);
+  assert.deepEqual(result.regions.map((region) => region.slug), ["greek-roman", "korea"]);
+  assert.deepEqual(result.myths.map((myth) => myth.id), ["public", "private", "other-public"]);
   assert.equal(result.myths[1].isPublished, false);
   assert.equal(result.myths[1].description, null);
   assert.equal(data.myths[2].isPublished, true);

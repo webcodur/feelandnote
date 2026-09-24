@@ -1,14 +1,9 @@
 import type { MythData } from "./mythTypes";
 
-const PUBLIC_MYTH_REGION_SLUG = "greek-roman";
-
 /** Keep the coming-soon menu, but serialize detail data only for myths visitors can open. */
-export function getMythClientData(data: MythData, developerMode: boolean): MythData {
-  if (developerMode) {
-    return { ...data, myths: data.myths.map((myth) => ({ ...myth, isPublished: true })) };
-  }
-
-  const regions = data.regions.filter((region) => region.slug === PUBLIC_MYTH_REGION_SLUG);
+export function getMythClientData(data: MythData): MythData {
+  const publishedIds = new Set(data.myths.filter((myth) => myth.isPublished).map((myth) => myth.id));
+  const regions = data.regions.filter((region) => region.mythIds.some((id) => publishedIds.has(id)));
   const visibleMythIds = new Set(regions.flatMap((region) => region.mythIds));
   const myths = data.myths.filter((myth) => visibleMythIds.has(myth.id));
   const published = myths.filter((myth) => myth.isPublished);

@@ -9,11 +9,11 @@ import { selectVisibleFactionMembers } from "@/lib/faction-members";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
 import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEditions";
-import { pickPurchaseEdition, type FigureBookEdition } from "@/actions/figure-books/figureBookLocale";
+import { pickPurchaseEdition } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
-import { MYTH_OTHER_GROUP_ID, type Myth, type MythData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythTypes";
+import { GRAVES_GREEK_MYTHS_ID, MYTH_OTHER_GROUP_ID, type Myth, type MythData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythTypes";
 
 interface Lv1Row {
   id: string; slug: string | null; name: string; name_en: string | null; sort_order: number;
@@ -153,8 +153,15 @@ async function fetchMythData(locale: string): Promise<MythData> {
 
   const works = contents.map((content): MythWork => {
     const flat = flattenLocales(content.content_locales, locale);
-    const edition = pickPurchaseEdition(editionsByContent.get(content.id) ?? [], locale);
+    const availableEditions = editionsByContent.get(content.id) ?? [];
+    const edition = pickPurchaseEdition(availableEditions, locale);
     return { id: content.id, title: edition?.title ?? flat.title,
+      editions: content.id === GRAVES_GREEK_MYTHS_ID ? availableEditions.map((choice) => ({
+        id: choice.id, title: choice.title, creator: choice.creator,
+        thumbnailUrl: choice.thumbnailUrl,
+        coupangUrl: isEn || choice.platform !== "coupang" ? null : choice.purchaseUrl,
+        textScope: choice.textScope,
+      })) : undefined,
       titleBadge: content.type === "BOOK" && (!edition?.title || flat.title_badge === "out-of-print") ? flat.title_badge : null,
       creator: edition?.creator ?? flat.creator,
       thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
