@@ -90,11 +90,13 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
   };
 
   return (
-    <Modal isOpen onClose={onClose} title={t("compactFilters.open")} titleClassName="text-center" size="lg" animateHeight={false}>
+    <Modal isOpen onClose={onClose} title={t("compactFilters.open")} titleClassName="text-center" size="lg" animateHeightDuration={200}>
+      {/* 차원 탭 — flex-1(basis 0%)이면 wrap이 안 걸려 7개가 한 줄로 압축·절단된다.
+          basis 25%로 행당 4개를 강제해 4+3 두 행으로 고정하고, 좁은 칸에서는 글자를 줄인다 */}
       <div className="flex flex-wrap gap-2 border-b border-white/10 p-3">
         {DETAIL_FILTERS.map(({ value, label }) => (
           <button key={value} type="button" aria-pressed={active === value} onClick={() => setActive(value)}
-            className={`min-h-11 min-w-0 flex-1 whitespace-nowrap rounded-md border px-2.5 py-2 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${active === value ? "border-accent/30 bg-accent/10 text-accent hover:bg-accent/20" : "border-transparent text-text-secondary hover:border-white/20 hover:bg-white/5 hover:text-text-primary"}`}>
+            className={`min-h-9 min-w-0 grow basis-[calc(25%-_0.4rem)] truncate whitespace-nowrap rounded-md border px-1 py-1.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:px-1.5 ${active === value ? "border-accent/30 bg-accent/10 text-accent hover:bg-accent/20" : "border-white/15 text-text-secondary hover:border-white/35 hover:bg-white/5 hover:text-text-primary"}`}>
             {t(label)}
           </button>
         ))}

@@ -5,4 +5,4 @@ export {
   getCelebProfessionLabel,
 } from '@feelandnote/shared/constants/celeb-professions'
 
-export const DEFAULT_EXPLORE_PROFESSION = 'entrepreneur'
+export const DEFAULT_EXPLORE_PROFESSION = 'all'

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { Search, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
@@ -15,6 +15,9 @@ import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, getCelebs } from "@/actions/home";
 import type { TrendCountry } from "@/constants/trendCountries";
 import { useTranslations } from "next-intl";
+
+// 인물 카드 눌러 뜨는 요약 모달 — 첫 클릭 때만 늦게 받는다
+const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
@@ -70,6 +73,10 @@ export default function CelebCarousel({
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);
+  // 카드를 누르면 상세로 가지 않고 요약 모달 — 목록 위치를 쥐어 ‹ › 넘김도 둔다
+  const [previewId, setPreviewId] = useState<string | null>(null);
+  const previewIndex = previewId ? filters.celebs.findIndex((c) => c.id === previewId) : -1;
+  const previewCeleb = previewIndex >= 0 ? filters.celebs[previewIndex] : null;
   const t = useTranslations("home.ui");
   const tExplore = useTranslations("explore.ui");
   const tHub = useTranslations("explore.hub");
@@ -256,7 +263,7 @@ export default function CelebCarousel({
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (
             <>
-              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} />
+              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} onSelect={setPreviewId} />
               <div className="mt-8">
                 <Pagination
                   presentation={syncToUrl ? "quiet" : "default"}
@@ -274,6 +281,22 @@ export default function CelebCarousel({
             </>
           )}
         </section>
+      )}
+
+      {previewCeleb && (
+        <Suspense fallback={null}>
+          <CelebDetailModal
+            celeb={previewCeleb}
+            isOpen
+            onClose={() => setPreviewId(null)}
+            onNavigate={(direction) => {
+              const next = filters.celebs[previewIndex + (direction === "prev" ? -1 : 1)];
+              if (next) setPreviewId(next.id);
+            }}
+            hasPrev={previewIndex > 0}
+            hasNext={previewIndex < filters.celebs.length - 1}
+          />
+        </Suspense>
       )}
     </div>
   );

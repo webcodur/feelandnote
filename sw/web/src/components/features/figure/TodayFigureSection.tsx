@@ -3,7 +3,7 @@
 "use client";
 
 import { getCelebProfileUrl } from "@/lib/url";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
@@ -70,6 +70,18 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
     const tProfession = useTranslations("profession");
     const locale = useLocale();
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+    // 선정 사유 마크 — 터치는 호버 툴팁이 없으므로 눌러 여는 말풍선을 둔다
+    const [reasonOpen, setReasonOpen] = useState(false);
+    const reasonMarkRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        if (!reasonOpen) return;
+        const close = (e: PointerEvent) => {
+            if (!reasonMarkRef.current?.contains(e.target as Node)) setReasonOpen(false);
+        };
+        document.addEventListener("pointerdown", close);
+        return () => document.removeEventListener("pointerdown", close);
+    }, [reasonOpen]);
 
     // figure 부재의 이른 반환은 모든 훅(useMemo) 뒤에서 한다 — react-hooks/rules-of-hooks
     const displayName = (locale === "en" && figure?.nickname_en ? figure.nickname_en : figure?.nickname) ?? "";
@@ -91,6 +103,13 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
 
     if (!figure) return null;
 
+    // 선정 사유 마크 — 알약 오른쪽 위에 걸리는 표시 하나에 문구·아이콘·색을 묶는다
+    const reasonMark = source?.type === "birthday"
+        ? { label: t("birthdayChip"), icon: <Cake size={9} strokeWidth={2.5} />, className: "bg-amber-500/90 text-black" }
+        : source?.type === "news"
+            ? { label: t("newsChip", { count: source.newsCount }), icon: <Newspaper size={9} strokeWidth={2.5} />, className: "bg-blue-500/90 text-white" }
+            : null;
+
     return (
         <div className="w-full">
             {/* 섹션 헤더 */}
@@ -102,22 +121,23 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                     <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">
                         <Calendar size={12} />
                         <span>{dateStr}</span>
-                        {source?.type === 'birthday' && (
-                            <span
-                                title={t("birthdayChip")}
-                                className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full border border-[#121212] bg-amber-500/90 text-black"
-                            >
-                                <Cake size={9} strokeWidth={2.5} />
-                                <span className="sr-only">{t("birthdayChip")}</span>
-                            </span>
-                        )}
-                        {source?.type === 'news' && (
-                            <span
-                                title={t("newsChip", { count: source.newsCount })}
-                                className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full border border-[#121212] bg-blue-500/90 text-white"
-                            >
-                                <Newspaper size={9} strokeWidth={2.5} />
-                                <span className="sr-only">{t("newsChip", { count: source.newsCount })}</span>
+                        {reasonMark && (
+                            <span ref={reasonMarkRef} className="absolute -right-1.5 -top-1.5">
+                                <button
+                                    type="button"
+                                    title={reasonMark.label}
+                                    aria-label={reasonMark.label}
+                                    aria-expanded={reasonOpen}
+                                    onClick={() => setReasonOpen((v) => !v)}
+                                    className={`relative flex size-4 items-center justify-center rounded-full border border-[#121212] before:absolute before:-inset-2 before:content-[''] ${reasonMark.className}`}
+                                >
+                                    {reasonMark.icon}
+                                </button>
+                                {reasonOpen && (
+                                    <span className="absolute right-0 top-full z-20 mt-1.5 whitespace-nowrap rounded-full border border-white/10 bg-black/90 px-2 py-0.5 text-[10px] font-medium text-white shadow-lg">
+                                        {reasonMark.label}
+                                    </span>
+                                )}
                             </span>
                         )}
                     </div>

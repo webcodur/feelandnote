@@ -9,7 +9,7 @@ import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { CELEB_TIERS, CELEB_REALITIES, LISTING_DEFAULT_REALITIES, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
-import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
+import { DEFAULT_EXPLORE_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
 import { parseTrendCountry, type TrendCountry } from "@/constants/trendCountries";
 
@@ -73,9 +73,9 @@ export function useCelebFilters({
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", syncToUrl ? DEFAULT_EXPLORE_PROFESSION : "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
-  const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined, syncToUrl ? DEFAULT_CELEB_CONTENT_PRESENCE : "all"));
-  const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", syncToUrl ? DEFAULT_EXPLORE_SORT : "daily_recommend", SORT_VALUES));
+  const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined, syncToUrl ? DEFAULT_EXPLORE_CONTENT_PRESENCE : "all"));
+  const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
   const [trendCountry, setTrendCountry] = useState<TrendCountry>(() => (syncToUrl ? parseTrendCountry(searchParams.get("trendCountry")) : undefined) ?? initialTrendCountry);
   const [trend, setTrend] = useState(initialTrend);
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
@@ -132,12 +132,12 @@ export function useCelebFilters({
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
   const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
     if (!syncToUrl) return;
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
     if (sortBy === "country_trending") params.set("trendCountry", trendCountry);
     Object.entries(updates).forEach(([key, value]) => {
       const isDefault = key === "profession" ? value === DEFAULT_EXPLORE_PROFESSION
-        : key === "contentPresence" ? value === DEFAULT_CELEB_CONTENT_PRESENCE : value === "all";
-      if (value === null || isDefault || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === DEFAULT_EXPLORE_SORT)) {
+        : key === "contentPresence" ? value === DEFAULT_EXPLORE_CONTENT_PRESENCE : value === "all";
+      if (value === null || isDefault || value === "" || (key === "page" && value === "1")) {
         params.delete(key);
       } else {
         params.set(key, value);
@@ -146,7 +146,7 @@ export function useCelebFilters({
     const pathname = window.location.pathname;
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
     window.history.replaceState(null, "", `${newUrl}${window.location.hash}`);
-  }, [syncToUrl, searchParams, sortBy, trendCountry]);
+  }, [syncToUrl, sortBy, trendCountry]);
 
   // A country inferred on the server becomes explicit before sharing or reloading.
   useEffect(() => {

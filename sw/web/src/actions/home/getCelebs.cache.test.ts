@@ -111,7 +111,7 @@ function fixture() {
 test('12 cold requests share public reads, reuse warm ranking, and retain separate viewer state', async () => {
   const f = fixture()
   await f.run(() => f.getInfluenceRanking())
-  const requests = Array.from({ length: 12 }, (_, i) => f.start(() => f.getCelebs(), i % 2 ? 'b' : 'a'))
+  const requests = Array.from({ length: 12 }, (_, i) => f.start(() => f.getCelebs({ sortBy: 'name_asc' }), i % 2 ? 'b' : 'a'))
   const results = await Promise.all(requests.map(request => request.result))
   await Promise.all(requests.flatMap(request => Object.values(request.store.pendingRevalidates ?? {})))
   assert.equal(f.counts.lists, 1)
@@ -129,14 +129,14 @@ test('12 cold requests share public reads, reuse warm ranking, and retain separa
 test('different public arguments remain separate and settled reads are not retained after invalidation', async () => {
   const f = fixture()
   const values = await Promise.all([1, 2].flatMap(page => Array.from({ length: 6 }, () =>
-    f.run(() => f.getCelebs({ page, limit: 1, includeViewerState: false })),
+    f.run(() => f.getCelebs({ page, limit: 1, sortBy: 'name_asc', includeViewerState: false })),
   )))
   assert.equal(f.counts.lists, 2)
   assert.equal(f.counts.ranking, 1)
   assert.equal(f.counts.auth, 0)
   assert.deepEqual(new Set(values.map(result => result.celebs[0].id)), new Set(['a', 'b']))
   f.invalidate('celebs')
-  await f.run(() => f.getCelebs({ page: 1, limit: 1, includeViewerState: false }))
+  await f.run(() => f.getCelebs({ page: 1, limit: 1, sortBy: 'name_asc', includeViewerState: false }))
   assert.equal(f.counts.lists, 3)
   assert.equal(f.counts.ranking, 2)
 })
@@ -147,23 +147,23 @@ test('failed pending list and ranking reads are removed and can retry', async ()
     const setFailure = target === 'list' ? f.failList : f.failRanking
     setFailure(true)
     const results = await Promise.allSettled(Array.from({ length: 12 }, () => f.run(() =>
-      target === 'list' ? f.getCelebs({ includeViewerState: false }) : f.getInfluenceRanking(),
+      target === 'list' ? f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }) : f.getInfluenceRanking(),
     )))
     assert.ok(results.every(result => result.status === 'rejected'))
     assert.equal(target === 'list' ? f.counts.lists : f.counts.ranking, 1)
     setFailure(false)
-    await f.run(() => target === 'list' ? f.getCelebs({ includeViewerState: false }) : f.getInfluenceRanking())
+    await f.run(() => target === 'list' ? f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }) : f.getInfluenceRanking())
     assert.equal(target === 'list' ? f.counts.lists : f.counts.ranking, 2)
   }
 })
 
 test('stale reads return immediately while one public refresh runs across requests', { timeout: 3000 }, async () => {
   const f = fixture()
-  await f.run(() => f.getCelebs({ includeViewerState: false }))
+  await f.run(() => f.getCelebs({ sortBy: 'name_asc', includeViewerState: false }))
   for (const entry of f.entries.values()) entry.isStale = true
   let release!: () => void
   f.pause(new Promise<void>(resolve => { release = resolve }))
-  const requests = Array.from({ length: 12 }, () => f.start(() => f.getCelebs({ includeViewerState: false })))
+  const requests = Array.from({ length: 12 }, () => f.start(() => f.getCelebs({ sortBy: 'name_asc', includeViewerState: false })))
   try {
     const values = await Promise.all(requests.map(request => request.result))
     assert.ok(values.every(value => value.celebs[0].id === 'a'))

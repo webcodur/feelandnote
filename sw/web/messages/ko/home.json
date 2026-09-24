@@ -49,18 +49,19 @@
       "go": "이동",
       "activity": "활동",
       "wisdomSeeker": "지혜의 탐구자",
-      "recorder": "기록자",
       "followingLabel": "팔로잉",
       "followLabel": "팔로우",
       "prevSection": "이전 섹션으로",
       "nextSection": "다음 섹션으로",
+      "prevPerson": "이전 인물",
+      "nextPerson": "다음 인물",
       "toTop": "맨 위로",
       "loginRequired": "로그인이 필요합니다.",
       "celebArchive": "인물 아카이브",
       "friendActivity": "친구 동향",
       "contentUnit": "개",
       "sort": {
-        "daily_recommend": "랜덤",
+        "daily_recommend": "오늘의 추천",
         "composite": "종합 점수",
         "follower": "팔로워",
         "influence": "영향력",
@@ -85,9 +86,6 @@
       "loadingRecords": "기록을 불러오는 중...",
       "viewProfile": "프로필 보기",
       "reviewCount": "{name}의 {count}개의 감상 기록",
-      "featuredWorks": "{name}의 감상 기록",
-      "viewAllRecordsOnProfile": "전체 감상 기록은 인물 페이지에서 확인할 수 있습니다.",
-      "viewAllRecords": "감상 기록 전체 보기",
       "keywords": "{name}의 키워드",
       "followerUnit": "{count}명",
       "loadMore": "더보기 ({count}개 남음)",
@@ -180,7 +178,7 @@
         "real": "사실",
         "fiction": "가상"
       },
-      "filterContentPresence": "감상 유무",
+      "filterContentPresence": "리뷰 유무",
       "contentPresence": {
         "all": "전체",
         "with": "있음",
@@ -189,21 +187,19 @@
       "compactFilters": {
         "open": "필터",
         "results": "결과 보기",
-        "remove": "{label} 해제",
-        "works": {
-          "all": "감상 전체",
-          "with": "감상 있음",
-          "without": "감상 없음"
-        }
+        "remove": "{label} 해제"
       },
       "trends": {
         "country": "트렌드 기준 국가",
         "loading": "트렌드를 불러오고 있습니다.",
-        "description": "{country}에서 검색이 급증한 인물부터 보여줍니다.",
         "unavailable": "현재 이 국가의 트렌드를 불러올 수 없어 감상 수순으로 보여줍니다.",
         "noMatches": "현재 필터에 맞는 트렌드 인물이 없어 감상 수순으로 보여줍니다.",
-        "source": "Google Trends · 최근 {days}일",
-        "legendDirect": "검색이 급증한 인물 {count}명"
+        "legendDirect": "검색이 급증한 인물 {count}명",
+        "more": "더 보기",
+        "allCountries": "전체 국가",
+        "searchCountry": "국가 이름 검색",
+        "modalDescription": "선택한 국가의 Google Trends 최근 {days}일 급상승 검색어와 일치한 인물을 먼저 보여줍니다.",
+        "sourceLink": "Google Trends에서 보기"
       }
     },
     "hub": {

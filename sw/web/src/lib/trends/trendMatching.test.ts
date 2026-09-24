@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { getTrendCountryOptions, parseTrendCountry, TREND_PERIOD_HOURS } from '../../constants/trendCountries'
+import { getTrendCountryOptions, parseTrendCountry, PINNED_TREND_COUNTRIES, TREND_PERIOD_HOURS } from '../../constants/trendCountries'
 import { matchTrendingPeople, parseTrendPage, resolveCountryTrendingPeople } from './trendMatching'
 
 const now = Date.UTC(2026, 8, 13, 10, 50)
@@ -109,7 +109,7 @@ test('country whitelist prevents arbitrary feed URLs; errors differ from a valid
 })
 
 test('country options put the visitor first, then pinned countries, then a shared selection', () => {
-  assert.deepEqual(getTrendCountryOptions('JP', 'KR'), ['JP', 'KR', 'US'])
-  assert.deepEqual(getTrendCountryOptions(undefined, 'DE'), ['KR', 'US', 'DE'])
-  assert.deepEqual(getTrendCountryOptions('US', 'US'), ['US', 'KR'])
+  assert.deepEqual(getTrendCountryOptions('JP', 'KR'), ['JP', ...PINNED_TREND_COUNTRIES.filter(c => c !== 'JP')])
+  assert.deepEqual(getTrendCountryOptions(undefined, 'IT'), [...PINNED_TREND_COUNTRIES, 'IT'])
+  assert.deepEqual(getTrendCountryOptions('US', 'US'), ['US', ...PINNED_TREND_COUNTRIES.filter(c => c !== 'US')])
 })

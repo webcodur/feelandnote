@@ -49,18 +49,19 @@
       "go": "Go",
       "activity": "Activity",
       "wisdomSeeker": "Seeker of Wisdom",
-      "recorder": "Recorder",
       "followingLabel": "Following",
       "followLabel": "Follow",
       "prevSection": "Previous section",
       "nextSection": "Next section",
+      "prevPerson": "Previous figure",
+      "nextPerson": "Next figure",
       "toTop": "Back to top",
       "loginRequired": "Login required.",
       "celebArchive": "Figure Archives",
       "friendActivity": "Friend Activity",
       "contentUnit": "items",
       "sort": {
-        "daily_recommend": "Random",
+        "daily_recommend": "Today's Picks",
         "composite": "Composite Score",
         "follower": "Followers",
         "influence": "Influence",
@@ -85,9 +86,6 @@
       "loadingRecords": "Loading records...",
       "viewProfile": "View Profile",
       "reviewCount": "{name}'s {count} records",
-      "featuredWorks": "Records from {name}",
-      "viewAllRecordsOnProfile": "View all of their records on the full profile.",
-      "viewAllRecords": "View all records",
       "keywords": "{name}'s Keywords",
       "followerUnit": "{count}",
       "loadMore": "Load more ({count} remaining)",
@@ -180,30 +178,28 @@
         "real": "Fact",
         "fiction": "Fiction"
       },
-      "filterContentPresence": "Records",
+      "filterContentPresence": "Reviews",
       "contentPresence": {
         "all": "All",
-        "with": "With records",
-        "without": "Without records"
+        "with": "With reviews",
+        "without": "No reviews"
       },
       "compactFilters": {
         "open": "Filters",
         "results": "Show results",
-        "remove": "Remove {label}",
-        "works": {
-          "all": "All records",
-          "with": "With records",
-          "without": "Without records"
-        }
+        "remove": "Remove {label}"
       },
       "trends": {
         "country": "Trend country",
         "loading": "Loading trends...",
-        "description": "Figures surging in {country} searches come first.",
         "unavailable": "Trends for this country are unavailable. Showing figures by most records instead.",
         "noMatches": "No trending figures match these filters. Showing figures by most records instead.",
-        "source": "Google Trends · Past {days, plural, one {# day} other {# days}}",
-        "legendDirect": "{count, plural, one {# figure} other {# figures}} surging in search"
+        "legendDirect": "{count, plural, one {# figure} other {# figures}} surging in search",
+        "more": "More",
+        "allCountries": "All countries",
+        "searchCountry": "Search countries",
+        "modalDescription": "Figures matching search terms trending on Google Trends in the selected country over the past {days} days appear first.",
+        "sourceLink": "View on Google Trends"
       }
     },
     "hub": {

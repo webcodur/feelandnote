@@ -14,25 +14,29 @@ const compiled = ts.transpileModule(readFileSync(new URL('./getCelebs.ts', impor
 
 function fixture(trendIds: string[] = [], available = true) {
   const calls: { name: string; args: Record<string, unknown>; options?: { count?: string }; filter?: unknown[]; range?: number[] }[] = []
+  const directCalls: string[] = []
   const population = Array.from({ length: 123 }, (_, i) => ({ id: String(i), nickname: String(i), content_count: i % 3 === 0 ? 0 : 4 }))
   const db = {
     rpc(name: string, args: Record<string, unknown>, options?: { count?: string }) {
       const call = { name, args, options, filter: undefined as unknown[] | undefined, range: undefined as number[] | undefined }
       calls.push(call)
+      let selected = false
       const filtered = population.filter(row => row.content_count >= Number(args.p_min_content_count ?? 0))
       if (name === 'count_celebs_filtered') return Promise.resolve({ data: filtered.length, error: null })
       let rows = args.p_limit === null ? filtered : filtered.slice(Number(args.p_offset), Number(args.p_offset) + Number(args.p_limit))
       let total = rows.length
       const builder = {
-        in(_column: string, ids: string[]) { rows = rows.filter(row => ids.includes(row.id)); total = rows.length; return builder },
+        in(column: string, ids: string[]) { call.filter = [column, ids]; rows = rows.filter(row => ids.includes(row.id)); total = rows.length; return builder },
         not(_column: string, _operator: string, value: string) {
           const ids = value.slice(1, -1).split(',')
           rows = rows.filter(row => !ids.includes(row.id)); total = rows.length; return builder
         },
         order(column: string, options: { ascending: boolean }) {
           if (column === 'content_count') rows.sort((a, b) => options.ascending ? a.content_count - b.content_count : b.content_count - a.content_count)
+          if (column === 'id' && selected) rows.sort((a, b) => options.ascending ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id))
           return builder
         },
+        select() { selected = true; return builder },
         eq(column: string, value: unknown) {
           call.filter = [column, value]
           rows = rows.filter(row => row.content_count === value)
@@ -49,9 +53,24 @@ function fixture(trendIds: string[] = [], available = true) {
       }
       return builder
     },
-    from() {
-      const builder: Record<string, unknown> = { then: (resolve: (value: unknown) => void) => resolve({ data: [], error: null }) }
-      for (const method of ['select', 'gt', 'order', 'range', 'in', 'eq', 'overrideTypes']) builder[method] = () => builder
+    from(table: string) {
+      let ids: string[] = []
+      let direct = false
+      const builder = {
+        select(columns: string) {
+          direct = table === 'celeb_metrics' || (table === 'celebs' && columns.startsWith('id,slug,nickname,nickname_en,avatar_url'))
+          if (direct) directCalls.push(table)
+          return builder
+        },
+        in(_column: string, values: string[]) { ids = values; return builder },
+        gt() { return builder }, order() { return builder }, range() { return builder },
+        eq() { return builder }, overrideTypes() { return builder },
+        then(resolve: (value: unknown) => void) {
+          resolve({ data: direct ? ids.map(id => table === 'celebs'
+            ? { id, nickname: id, celeb_tier: 'full', celeb_reality: 'REAL' }
+            : { celeb_id: id, follower_count: 0, content_count: 4 }) : [], error: null })
+        },
+      }
       return builder
     },
   }
@@ -63,13 +82,13 @@ function fixture(trendIds: string[] = [], available = true) {
   }
   const loaded = { exports: {} as { getCelebs: (params: Record<string, unknown>) => Promise<{ celebs: { id: string; content_count: number; trend_match?: { title: string; rank: number; country: string; volume: number; started: number } | null }[]; total: number; totalPages: number; trend?: { country: string; available: boolean; matchedCount: number } }> } }
   new Function('require', 'module', 'exports', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)
-  return { calls, getCelebs: loaded.exports.getCelebs }
+  return { calls, directCalls, getCelebs: loaded.exports.getCelebs }
 }
 
 test('without works filters the complete RPC result before range and uses the matching exact count', async () => {
   const f = fixture()
-  const first = await f.getCelebs({ contentPresence: 'without', page: 1, limit: 24, includeViewerState: false })
-  const second = await f.getCelebs({ contentPresence: 'without', page: 2, limit: 24, includeViewerState: false })
+  const first = await f.getCelebs({ sortBy: 'name_asc', contentPresence: 'without', page: 1, limit: 24, includeViewerState: false })
+  const second = await f.getCelebs({ sortBy: 'name_asc', contentPresence: 'without', page: 2, limit: 24, includeViewerState: false })
   assert.equal(first.total, 41)
   assert.equal(first.totalPages, 2)
   assert.equal(first.celebs.length, 24)
@@ -151,7 +170,7 @@ test('missing or unavailable country trends fall back to works order with honest
 
 test('with works passes the same positive minimum to count and row RPCs', async () => {
   const f = fixture()
-  const result = await f.getCelebs({ contentPresence: 'with', page: 2, limit: 24, contentType: 'BOOK', includeViewerState: false })
+  const result = await f.getCelebs({ sortBy: 'name_asc', contentPresence: 'with', page: 2, limit: 24, contentType: 'BOOK', includeViewerState: false })
   assert.ok(result.celebs.every(row => row.content_count > 0))
   assert.equal(result.total, 82)
   assert.equal(f.calls.length, 2)
@@ -173,15 +192,21 @@ test('URL parsing retains valid work filters for SSR and rejects unknown values'
   assert.equal(parseCelebContentPresence('bad'), 'all')
 })
 
-test('explore defaults to country trends and retains explicit works and random URLs', () => {
-  assert.equal(DEFAULT_EXPLORE_SORT, 'country_trending')
+test('explore defaults to today recommendations with records and retains explicit trend URLs', () => {
+  assert.equal(DEFAULT_EXPLORE_SORT, 'daily_recommend')
   assert.equal(parseFilterParams({}).sortBy, DEFAULT_EXPLORE_SORT)
+  assert.equal(parseFilterParams({}).contentPresence, 'with')
+  assert.equal(parseFilterParams({ sortBy: 'country_trending' }).contentPresence, 'with')
+  assert.equal(parseFilterParams({ sortBy: 'content_count' }).contentPresence, 'with')
+  assert.equal(parseFilterParams({ sortBy: 'daily_recommend' }).contentPresence, 'with')
+  assert.equal(parseFilterParams({ sortBy: 'daily_recommend', contentPresence: 'all' }).contentPresence, 'all')
+  assert.equal(parseFilterParams({ sortBy: 'daily_recommend', contentPresence: 'without' }).contentPresence, 'without')
   assert.equal(parseFilterParams({ sortBy: 'bad' }).sortBy, DEFAULT_EXPLORE_SORT)
   assert.equal(parseFilterParams({ sortBy: ['daily_recommend'] }).sortBy, DEFAULT_EXPLORE_SORT)
   assert.equal(parseFilterParams({ sortBy: 'daily_recommend', page: '2' }).sortBy, 'daily_recommend')
   assert.equal(parseFilterParams({ sortBy: 'content_count', page: '2' }).sortBy, 'content_count')
   assert.equal(CELEB_SORT_OPTIONS[0], DEFAULT_EXPLORE_SORT)
-  assert.equal(CELEB_SORT_OPTIONS.at(-1), 'daily_recommend')
+  assert.equal(CELEB_SORT_OPTIONS[1], 'country_trending')
   for (const sortBy of CELEB_SORT_OPTIONS) assert.equal(parseFilterParams({ sortBy }).sortBy, sortBy)
 })
 
@@ -196,11 +221,26 @@ test('trend country is independent of nationality and survives filter URLs', () 
   assert.equal(parseFilterParams({ trendCountry: ['US'] }).trendCountry, undefined)
 })
 
-test('explore starts with entrepreneurs but explicit all and other professions survive URL reloads', () => {
-  assert.equal(parseFilterParams({}).profession, 'entrepreneur')
-  assert.equal(parseFilterParams({ page: '2' }).profession, 'entrepreneur')
-  assert.equal(parseFilterParams({ profession: '' }).profession, 'entrepreneur')
+test('explore starts with every profession and retains explicit profession URLs', () => {
+  assert.equal(parseFilterParams({}).profession, undefined)
+  assert.equal(parseFilterParams({ page: '2' }).profession, undefined)
+  assert.equal(parseFilterParams({ profession: '' }).profession, undefined)
   assert.equal(parseFilterParams({ profession: 'all' }).profession, undefined)
   assert.equal(parseFilterParams({ profession: 'all', page: '2' }).profession, undefined)
   assert.equal(parseFilterParams({ profession: 'author', page: '2' }).profession, 'author')
+})
+
+test('today recommendations use the existing sorted listing and preserve pagination', async () => {
+  const f = fixture()
+  const params = { sortBy: 'daily_recommend', contentPresence: parseFilterParams({ sortBy: 'daily_recommend' }).contentPresence, limit: 24, includeViewerState: false }
+  const first = await f.getCelebs({ ...params, page: 1 })
+  const second = await f.getCelebs({ ...params, page: 2 })
+  assert.equal(first.total, 82)
+  assert.equal(second.total, 82)
+  assert.equal(first.totalPages, 4)
+  assert.equal(new Set([...first.celebs, ...second.celebs].map(row => row.id)).size, 48)
+  const sortedCalls = f.calls.filter(call => call.name === 'get_celebs_sorted')
+  assert.equal(sortedCalls.length, 2)
+  assert.ok(sortedCalls.every(call => call.args.p_sort_by === 'daily_recommend'))
+  assert.equal(f.directCalls.length, 0)
 })
