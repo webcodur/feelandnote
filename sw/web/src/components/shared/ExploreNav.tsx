@@ -16,7 +16,7 @@ import { useTranslations } from "next-intl";
 import ExplorePickerSheet from "@/components/shared/ExplorePickerSheet";
 import { EXPLORE_NAV_LAYOUT as layout } from "@/components/shared/exploreNavLayout";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 export interface ExploreNavItem {
@@ -51,7 +51,7 @@ export interface ExploreNavRow {
   emptyLabel?: string;
   /** 좁은 화면 단추를 한 줄 전체 폭으로 — 기본은 반 폭 */
   wide?: boolean;
-  /** 좁은 화면에서 선택기 양옆에 이전·다음 화살표를 붙인다. onSelect 줄에서 사용한다 */
+  /** 좁은 화면에서 선택기 양옆에 이전·다음 화살표를 붙인다 */
   mobileArrows?: boolean;
   /** 있으면 고른 항목을 다시 눌러 선택을 푼다(신화 그룹 줄). 화면 안 선택(onSelect) 줄에서만 쓴다 */
   onClear?: () => void;
@@ -161,16 +161,22 @@ function ChipRow({ row }: { row: ExploreNavRow }) {
 
 function MobileRow({ row }: { row: ExploreNavRow }) {
   const t = useTranslations("explore.ui");
+  const router = useRouter();
   const active = row.items.find((item) => item.id === row.activeId);
-  const choices = row.items.filter((item) => !item.disabled && !item.href);
+  const choices = row.items.filter((item) => !item.disabled && (item.href || row.onSelect));
   const cycleIds = row.onClear ? [null, ...choices.map((item) => item.id)] : choices.map((item) => item.id);
-  const canStep = Boolean(row.onSelect && cycleIds.length > 1);
+  const canStep = cycleIds.length > 1;
   const step = (direction: -1 | 1) => {
     if (!canStep) return;
     const currentIndex = cycleIds.indexOf(row.activeId);
     const nextIndex = (currentIndex + direction + cycleIds.length) % cycleIds.length;
     const nextId = cycleIds[nextIndex];
-    if (nextId === null) row.onClear?.();
+    if (nextId === null) {
+      row.onClear?.();
+      return;
+    }
+    const next = choices.find((item) => item.id === nextId);
+    if (next?.href) router.push(next.href, { scroll: false });
     else row.onSelect?.(nextId);
   };
   const notice = (

@@ -33,6 +33,7 @@ export default function FactionNav({ sections, activeSectionKey, activeEntrySlug
       id: "sections",
       label: t("sectionNav"),
       shape: "pill",
+      mobileArrows: true,
       activeId: activeSection?.key ?? null,
       items: sections.map((section) => ({ id: section.key, name: section.name, href: `/explore/faction?section=${section.key}` })),
     },
@@ -40,6 +41,7 @@ export default function FactionNav({ sections, activeSectionKey, activeEntrySlug
       id: "entries",
       label: t("themeNav"),
       shape: "square",
+      mobileArrows: true,
       activeId: activeEntrySlug,
       items: (activeSection?.entries ?? []).map((entry) => ({
         id: entry.slug,
@@ -55,6 +57,7 @@ export default function FactionNav({ sections, activeSectionKey, activeEntrySlug
       label: t("clusterLabel"),
       shape: "tab",
       wide: true,
+      mobileArrows: true,
       activeId: groupKey,
       items: groups.map((group) => ({ id: group.key, name: group.label ?? t("clusterOthers"), count: group.count })),
       onSelect: setGroupKey,
