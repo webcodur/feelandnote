@@ -60,15 +60,16 @@ export default function ReadingNarrationControls({ narration }: { narration: Nar
             <RotateCw size={14} strokeWidth={1.6} aria-hidden />
             <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
           </NarrationButton>
-          <select
-            aria-label={t("readingSpeed")}
-            title={t("readingSpeed")}
-            value={playbackRate}
-            onChange={(event) => setPlaybackRate(Number(event.target.value))}
-            className="h-10 w-11 cursor-pointer appearance-none rounded-lg border border-white/20 bg-black/20 text-center text-[11px] font-medium tabular-nums text-text-secondary hover:border-accent/60 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          {/* 네이티브 select 팝업은 본문 자동 스크롤(AutoScrollReadingText)에 닫힌다 — 누를 때마다 다음 배속으로 도는 버튼으로 둔다 */}
+          <NarrationButton
+            label={`${t("readingSpeed")} ${playbackRate}×`}
+            onClick={() => {
+              const index = READING_PLAYBACK_RATES.findIndex((rate) => rate === playbackRate);
+              setPlaybackRate(READING_PLAYBACK_RATES[(index + 1) % READING_PLAYBACK_RATES.length]);
+            }}
           >
-            {READING_PLAYBACK_RATES.map((rate) => <option className="bg-bg-card" key={rate} value={rate}>{rate}×</option>)}
-          </select>
+            <span className="text-[11px] font-medium leading-none tabular-nums">{playbackRate}×</span>
+          </NarrationButton>
         </div>
         <div className="mt-1.5 flex items-center gap-2 text-[11px] tabular-nums text-text-secondary">
           <span className="min-w-7">{formatTime(currentTime)}</span>
