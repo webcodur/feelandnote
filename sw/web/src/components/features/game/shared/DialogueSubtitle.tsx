@@ -11,6 +11,7 @@
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useEffect, useState, useRef, useCallback, useEffectEvent } from "react";
 import { createPortal } from "react-dom";
+import { registerVoice, releaseAudio } from "@/lib/audio-ducking";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeOff, GripVertical, RotateCcw } from "lucide-react";
 import { BlurDissolve, VoiceBadge } from "@/components/ui";
@@ -114,10 +115,12 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     clearLoadTimer();
     if (audioRef.current) {
       // 받아지기를 기다리던 핸들러까지 떼어야 뒤늦게 도착한 음원이 혼자 울리지 않는다
-      audioRef.current.oncanplay = null;
-      audioRef.current.oncanplaythrough = null;
-      audioRef.current.pause();
+      const audio = audioRef.current;
       audioRef.current = null;
+      audio.oncanplay = null;
+      audio.oncanplaythrough = null;
+      audio.pause();
+      releaseAudio(audio);
     }
     setAudioPhase("idle");
     setAudioProgress(0);
@@ -166,6 +169,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       // 인물별 재생 배속. 게임 대사에서는 한국어에만 걸린다(docs/continuous/celeb-tts-dialogue.md).
       const rate = locale === "ko" && subtitle.voiceSpeed ? subtitle.voiceSpeed : 1;
       const audio = new Audio();
+      registerVoice(audio);
       audio.volume = 0.7;
       audio.preload = "auto";
       // load()는 playbackRate를 defaultPlaybackRate로 되돌리므로 둘 다 맞춘다
@@ -183,8 +187,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
         clearLoadTimer();
         audio.oncanplay = null;
         audio.oncanplaythrough = null;
-        audio.pause();
         audioRef.current = null;
+        audio.pause();
+        releaseAudio(audio);
         setAudioPhase("dropped");
         setAudioProgress(0);
         finishExternalPlayback();
@@ -213,10 +218,14 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
         setAudioProgress(1);
         setAudioPhase("idle");
         audioRef.current = null;
+        releaseAudio(audio);
         setVisible(false);
         finishExternalPlayback();
       }, { once: true });
       audio.addEventListener("error", dropAudio, { once: true });
+      audio.addEventListener("pause", () => {
+        if (audioRef.current === audio && !audio.ended) dropAudio();
+      });
 
       // 끊김 없이 통으로 낼 만큼 받아진 뒤에 소리와 진행바를 함께 시작한다.
       // 받아지기 전에 재생을 걸면 진행바만 흐르고 소리는 뒤늦게 얹혀 대사의 절반이 잘린다.

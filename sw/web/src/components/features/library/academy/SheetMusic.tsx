@@ -9,6 +9,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Play, Square, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { beginOtherEffect } from "@/lib/audio-ducking";
 
 interface SheetMusicProps {
   abc: string;
@@ -26,6 +27,7 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
   const synthRef = useRef<AbcSynth | null>(null);
   const timerRef = useRef<AbcTimer | null>(null);
   const playbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const releaseAudioRef = useRef<(() => void) | null>(null);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const [abcjsMod, setAbcjsMod] = useState<AbcjsModule | null>(null);
@@ -92,6 +94,8 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
       if (playbackTimeoutRef.current) {
         clearTimeout(playbackTimeoutRef.current);
       }
+      releaseAudioRef.current?.();
+      releaseAudioRef.current = null;
       synthRef.current?.stop();
       timerRef.current?.stop();
     };
@@ -105,6 +109,8 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
         clearTimeout(playbackTimeoutRef.current);
         playbackTimeoutRef.current = null;
       }
+      releaseAudioRef.current?.();
+      releaseAudioRef.current = null;
       synthRef.current?.stop();
       timerRef.current?.stop();
       setPlaying(false);
@@ -169,6 +175,36 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
       timerRef.current = timer;
 
       synth.start();
+      // abcjs connects its buffer sources directly to the context output. Route them
+      // through one gain so the shared voice channel can duck this preview too.
+      const duck = audioContext.createGain();
+      duck.connect(audioContext.destination);
+      const sources = (synth as AbcSynth & { directSource?: AudioBufferSourceNode[] }).directSource ?? [];
+      for (const source of sources) {
+        source.disconnect();
+        source.connect(duck);
+      }
+      let detached = false;
+      const detach = () => {
+        if (detached) return;
+        detached = true;
+        duck.disconnect();
+      };
+      const finishChannel = beginOtherEffect(
+        () => {
+          if (playbackTimeoutRef.current) clearTimeout(playbackTimeoutRef.current);
+          playbackTimeoutRef.current = null;
+          releaseAudioRef.current = null;
+          synth.stop();
+          timer.stop();
+          detach();
+          setPlaying(false);
+          if (containerRef.current) patchSvgColors(containerRef.current);
+        },
+        (factor) => { duck.gain.value = factor; },
+        { transient: false },
+      );
+      releaseAudioRef.current = () => { finishChannel(); detach(); };
       timer.start();
       setPlaying(true);
 
@@ -176,11 +212,17 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
         clearTimeout(playbackTimeoutRef.current);
       }
       playbackTimeoutRef.current = setTimeout(() => {
+        releaseAudioRef.current?.();
+        releaseAudioRef.current = null;
         setPlaying(false);
         patchSvgColors(containerRef.current!);
         playbackTimeoutRef.current = null;
       }, duration * 1000 + 500);
     } catch {
+      releaseAudioRef.current?.();
+      releaseAudioRef.current = null;
+      synthRef.current?.stop();
+      timerRef.current?.stop();
       // synth 지원 안 되는 환경 대비
       setPlaying(false);
     } finally {

@@ -72,3 +72,16 @@ export function getQuoteVoiceUrl(
   const base = `${R2_PUBLIC_URL}/celebs/${celebId}/voice/${locale}/quote.mp3`;
   return voiceV > 0 ? `${base}?v=${voiceV}` : base;
 }
+
+/** 세력 개요 낭독 음성 URL — faction_lv2.description을 읽는다. voice_v가 없어
+    캐시 버스터는 음원 sha-256 앞 12자이며 타이밍 JSON(description.json)의 audioHash에서 온다.
+    경로 규칙 SSoT: web-bo는 scripts/faction/faction-desc-voice.mjs */
+export function getFactionDescVoiceUrl(
+  factionId: string,
+  locale: Locale,
+  audioHash = ""
+): string {
+  if (!R2_PUBLIC_URL) return "";
+  const base = `${R2_PUBLIC_URL}/factions/${factionId}/voice/${locale}/description.mp3`;
+  return audioHash ? `${base}?v=${audioHash.slice(0, 12)}` : base;
+}

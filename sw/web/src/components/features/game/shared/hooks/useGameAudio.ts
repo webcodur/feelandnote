@@ -9,6 +9,7 @@
 import { useRef, useCallback, useEffect, useState, useMemo } from "react";
 import { useLocale } from "next-intl";
 import type { GameAudioControls } from "@/components/shared/GameAudioPlayer";
+import { getOtherBaseVolume, registerOther, releaseAudio, setOtherBaseVolume } from "@/lib/audio-ducking";
 
 export interface BgmTrack { src: string; label: string; labelEn?: string }
 
@@ -92,7 +93,7 @@ export function useGameAudio(config: GameAudioConfig) {
   // Audio 리소스 정리 헬퍼
   const disposeAudio = useCallback((audio: HTMLAudioElement | null) => {
     if (!audio) return;
-    audio.pause();
+    releaseAudio(audio);
     audio.removeAttribute("src");
     audio.load();
   }, []);
@@ -100,17 +101,17 @@ export function useGameAudio(config: GameAudioConfig) {
   // BGM 페이드아웃 후 콜백
   const fadeOut = useCallback((audio: HTMLAudioElement, onDone?: () => void) => {
     if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
-    const step = audio.volume / (fadeMs / 50);
+    const step = getOtherBaseVolume(audio) / (fadeMs / 50);
     fadeTimerRef.current = setInterval(() => {
-      const next = audio.volume - step;
+      const next = getOtherBaseVolume(audio) - step;
       if (next <= 0) {
-        audio.volume = 0;
+        setOtherBaseVolume(audio, 0);
         disposeAudio(audio);
         if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
         fadeTimerRef.current = null;
         onDone?.();
       } else {
-        audio.volume = next;
+        setOtherBaseVolume(audio, next);
       }
     }, 50);
   }, [disposeAudio, fadeMs]);
@@ -136,7 +137,8 @@ export function useGameAudio(config: GameAudioConfig) {
           return;
         }
         const audio = new Audio(track.src);
-        audio.volume = volumeRef.current;
+        registerOther(audio);
+        setOtherBaseVolume(audio, volumeRef.current);
         audio.muted = bgmMutedRef.current;
         audio.loop = tracksRef.current.length <= 1;
         audio.play().then(() => setIsPlaying(true)).catch(() => {
@@ -214,12 +216,16 @@ export function useGameAudio(config: GameAudioConfig) {
     const cached = cache?.get(name);
     if (cached) {
       const clone = cached.cloneNode(true) as HTMLAudioElement;
-      clone.volume = sfxVolume;
-      clone.play().catch(() => {});
+      registerOther(clone, { transient: true });
+      setOtherBaseVolume(clone, sfxVolume);
+      for (const event of ["pause", "ended", "error"]) clone.addEventListener(event, () => releaseAudio(clone), { once: true });
+      void clone.play().catch(() => releaseAudio(clone));
     } else {
       const audio = new Audio(`${sfxBase}/${name}`);
-      audio.volume = sfxVolume;
-      audio.play().catch(() => {});
+      registerOther(audio, { transient: true });
+      setOtherBaseVolume(audio, sfxVolume);
+      for (const event of ["pause", "ended", "error"]) audio.addEventListener(event, () => releaseAudio(audio), { once: true });
+      void audio.play().catch(() => releaseAudio(audio));
     }
   }, [sfxBase, sfxVolume]);
 
@@ -249,7 +255,7 @@ export function useGameAudio(config: GameAudioConfig) {
     volumeRef.current = v;
     setVolumeState(v);
     if (bgmRef.current) {
-      bgmRef.current.volume = v;
+      setOtherBaseVolume(bgmRef.current, v);
     }
   }, []);
 
@@ -351,14 +357,12 @@ export function useGameAudio(config: GameAudioConfig) {
       if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
       fadeTimerRef.current = null;
       if (bgmRef.current) {
-        bgmRef.current.pause();
-        bgmRef.current.removeAttribute("src");
-        bgmRef.current.load();
+        disposeAudio(bgmRef.current);
         bgmRef.current = null;
       }
       currentSrcRef.current = null;
     };
-  }, []);
+  }, [disposeAudio]);
 
   return { setBgm, playSfx, stopAll, audioControls, bgmMuted, sfxMuted, toggleBgmMuted, toggleSfxMuted };
 }

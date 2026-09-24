@@ -3,10 +3,10 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Background Colors (Dark Stone Theme) */
-  --color-bg-main: #121212; /* Deep Stone Dark */
+  /* Background Colors */
+  --color-bg-main: #121212;
   --color-bg-secondary: #0a0a0a; /* Obsidian */
-  --color-bg-card: #1a1a1a; /* Dark Marble Panel */
+  --color-bg-card: #1a1a1a;
   --color-bg-stone-light: #2a2a2a;
 
   /* Accent Colors (Gold/Bronze) */
@@ -16,14 +16,14 @@
   --color-accent-dim: #8a732a; /* Dim Gold (for borders) */
   
   /* Text Colors */
-  --color-text-primary: #e0e0e0; /* Off-white Marble */
-  --color-text-secondary: #a0a0a0; /* Aged Stone Gray */
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #a0a0a0;
   /* 보조 설명·개수·빈 상태 문구. 기본 바탕 대비 약 4.7:1 — 읽히되 secondary보다 확실히 한 단계 흐리다 */
   --color-text-tertiary: #808080;
   --color-text-gold: #d4af37;
 
   /* Border Colors */
-  --color-border: #333333; /* Dark Stone Border */
+  --color-border: #333333;
   --color-border-gold: #8a732a;
   --color-glass: rgba(18, 18, 18, 0.85);
 
@@ -49,7 +49,7 @@
   /* Texture Patterns */
   --pattern-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
   
-  /* Stone & Sarcophagus Theme */
+  /* Existing stone utility colors */
   --color-stone-heavy: #1a1a1b;
   --color-stone-light: #2a2a2c;
   --color-stone-border: #3c3c3e;

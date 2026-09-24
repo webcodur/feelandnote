@@ -1,85 +1,178 @@
-/**
- * BGM 덕킹 — 음성·대사 재생 중 배경음악 음량을 자동으로 낮추고 끝나면 복원한다.
- *
- * Remotion의 FactionBgm.tsx 덕킹(음성 구간 BGM을 musicDuckVolume으로)에서 따왔으며,
- * 브라우저 Web Audio API(GainNode + linearRampToValueAtTime)로 구현했다.
- *
- * 쓰는 법:
- * 1. BGM 컴포넌트에서 connectBgm(audioEl) — <audio>를 GainNode 경유로 연결
- * 2. 음성 재생 시작 시 duckBgm() → 돌려받은 함수를 저장
- * 3. 음성 재생 끝날 때 저장한 함수 호출 → BGM 원음 복원
- */
+/** One voice and one other sound may play at a time. Voice lowers the other sound without changing its saved volume. */
+const DUCK_FACTOR = 0.3;
 
-const DUCK_VOLUME = 0.3 // 대사 중 BGM 30%
-const RAMP_SEC = 0.15 // 전환 시간(초) — 짧고 부드럽게
+type Channel = "voice" | "other";
+type AudioState = {
+  audio: HTMLAudioElement;
+  channel: Channel;
+  transient: boolean;
+  baseVolume: number;
+  appliedVolume: number;
+  listeners: Array<[string, EventListener]>;
+};
+type OtherEffect = { stop: () => void; setDuck: (factor: number) => void };
+type OtherSource = HTMLAudioElement | OtherEffect;
 
-let ctx: AudioContext | null = null
-let bgmGain: GainNode | null = null
-let disconnectCurrent: (() => void) | null = null
+const states = new WeakMap<HTMLAudioElement, AudioState>();
+let activeVoice: HTMLAudioElement | null = null;
+let activeOther: OtherSource | null = null;
+let suspendedOther: HTMLAudioElement | null = null;
+let bridgeInstalled = false;
 
-function ensureCtx(): AudioContext {
-  if (!ctx) ctx = new AudioContext()
-  if (ctx.state === "suspended") void ctx.resume()
-  return ctx
+function isAudio(source: OtherSource): source is HTMLAudioElement {
+  return states.has(source as HTMLAudioElement);
 }
 
-/**
- * <audio> 요소의 출력을 GainNode 경유로 돌려 덕킹 제어 아래 둔다.
- * 한 번에 한 BGM만 이 경로에 물린다 — 새 BGM이 연결되면 이전 것은 끊긴다.
- *
- * @returns 연결 해제 함수 — 컴포넌트가 언마운트될 때 호출
- */
-export function connectBgm(audioEl: HTMLAudioElement): () => void {
-  disconnectCurrent?.()
+function stopOther(source: OtherSource) {
+  if (isAudio(source)) source.pause();
+  else source.stop();
+}
 
-  const c = ensureCtx()
-  const source = c.createMediaElementSource(audioEl)
-  const gain = c.createGain()
-  gain.gain.value = 1
-  source.connect(gain)
-  gain.connect(c.destination)
-  bgmGain = gain
+function clamp(volume: number) {
+  return Math.max(0, Math.min(1, volume));
+}
 
-  const cleanup = () => {
-    // 노드가 이미 다른 BGM으로 교체됐다면 건드리지 않는다
-    if (bgmGain !== gain) return
-    source.disconnect()
-    gain.disconnect()
-    bgmGain = null
-    disconnectCurrent = null
+function applyVolume(state: AudioState) {
+  const factor = state.channel === "other" && activeOther === state.audio && activeVoice ? DUCK_FACTOR : 1;
+  const next = clamp(state.baseVolume * factor);
+  state.appliedVolume = next;
+  if (Math.abs(state.audio.volume - next) > 0.001) state.audio.volume = next;
+}
+
+function refreshOther() {
+  if (!activeOther) return;
+  if (isAudio(activeOther)) applyVolume(states.get(activeOther)!);
+  else activeOther.setDuck(activeVoice ? DUCK_FACTOR : 1);
+}
+
+function resumeSuspendedOther() {
+  const resume = suspendedOther;
+  suspendedOther = null;
+  if (!resume || !states.has(resume)) return;
+  activeOther = resume;
+  refreshOther();
+  void resume.play().catch(() => {
+    const resumedState = states.get(resume);
+    if (activeOther === resume && resumedState) deactivate(resumedState);
+  });
+}
+
+function activate(state: AudioState) {
+  const { audio, channel } = state;
+  if (channel === "voice") {
+    if (activeVoice !== audio) {
+      const previous = activeVoice;
+      activeVoice = audio;
+      previous?.pause();
+    }
+    refreshOther();
+    return;
   }
-  disconnectCurrent = cleanup
-  return cleanup
+  if (activeOther !== audio) {
+    const previous = activeOther;
+    if (state.transient && previous && isAudio(previous) && !states.get(previous)?.transient) suspendedOther = previous;
+    if (!state.transient) suspendedOther = null;
+    activeOther = audio;
+    if (previous) stopOther(previous);
+  }
+  refreshOther();
 }
 
-/**
- * BGM 음량을 30%로 부드럽게 낮춘다. 음성·대사 재생 직전에 호출.
- *
- * @returns 복원 함수 — 음성이 끝나면 호출해 BGM을 다시 100%로 올린다.
- *          아무 BGM도 연결돼 있지 않으면 빈 함수(no-op)를 반환한다.
- */
-export function duckBgm(): () => void {
-  const gain = bgmGain
-  if (!gain) return () => {}
+function deactivate(state: AudioState) {
+  if (state.channel === "voice" && activeVoice === state.audio) {
+    activeVoice = null;
+    refreshOther();
+  } else if (state.channel === "other" && activeOther === state.audio) {
+    activeOther = null;
+    applyVolume(state);
+    if (state.transient) resumeSuspendedOther();
+    else suspendedOther = null;
+  }
+}
 
-  const c = ensureCtx()
-  const now = c.currentTime
+function register(audio: HTMLAudioElement, channel: Channel, transient = false) {
+  const existing = states.get(audio);
+  if (existing) {
+    if (existing.channel !== channel) throw new Error("An audio element cannot change channels");
+    return;
+  }
+  const state: AudioState = {
+    audio, channel, transient, baseVolume: audio.volume, appliedVolume: audio.volume, listeners: [],
+  };
+  states.set(audio, state);
+  const listen = (event: string, handler: EventListener) => {
+    audio.addEventListener(event, handler);
+    state.listeners.push([event, handler]);
+  };
+  listen("play", () => { if (!audio.paused && !audio.ended) activate(state); });
+  listen("pause", () => { if (audio.paused) deactivate(state); });
+  for (const event of ["ended", "error"]) listen(event, () => deactivate(state));
+  if (channel === "other") {
+    listen("volumechange", () => {
+      if (Math.abs(audio.volume - state.appliedVolume) < 0.001) return;
+      state.baseVolume = clamp(audio.volume);
+      applyVolume(state);
+    });
+  }
+  if (!audio.paused && !audio.ended) activate(state);
+}
 
-  // 이전에 예약된 값 변경을 취소하고 현재 값에서 시작
-  gain.gain.cancelScheduledValues(now)
-  gain.gain.setValueAtTime(gain.gain.value, now)
-  gain.gain.linearRampToValueAtTime(DUCK_VOLUME, now + RAMP_SEC)
+export function registerVoice(audio: HTMLAudioElement) {
+  register(audio, "voice");
+}
 
-  let done = false
+export function registerOther(audio: HTMLAudioElement, options: { transient?: boolean } = {}) {
+  register(audio, "other", options.transient ?? false);
+}
+
+export function getOtherBaseVolume(audio: HTMLAudioElement) {
+  return states.get(audio)?.baseVolume ?? audio.volume;
+}
+
+export function setOtherBaseVolume(audio: HTMLAudioElement, volume: number) {
+  registerOther(audio);
+  const state = states.get(audio)!;
+  state.baseVolume = clamp(volume);
+  applyVolume(state);
+}
+
+/** Register Web Audio output in the other channel. Transient effects resume the sound they interrupted. */
+export function beginOtherEffect(stop: () => void, setDuck: (factor: number) => void, options: { transient?: boolean } = {}) {
+  const effect: OtherEffect = { stop, setDuck };
+  const previous = activeOther;
+  if (options.transient !== false && previous && isAudio(previous) && !states.get(previous)?.transient) suspendedOther = previous;
+  if (options.transient === false) suspendedOther = null;
+  activeOther = effect;
+  if (previous) stopOther(previous);
+  refreshOther();
   return () => {
-    if (done) return
-    done = true
-    // 이 BGM이 이미 교체됐으면 조용히 무시
-    if (bgmGain !== gain) return
-    const c2 = ensureCtx()
-    const n = c2.currentTime
-    gain.gain.cancelScheduledValues(n)
-    gain.gain.setValueAtTime(gain.gain.value, n)
-    gain.gain.linearRampToValueAtTime(1, n + RAMP_SEC)
-  }
+    if (activeOther !== effect) return;
+    activeOther = null;
+    effect.setDuck(1);
+    if (options.transient === false) suspendedOther = null;
+    else resumeSuspendedOther();
+  };
+}
+
+export function releaseAudio(audio: HTMLAudioElement) {
+  const state = states.get(audio);
+  if (!state) return;
+  audio.pause();
+  deactivate(state);
+  if (suspendedOther === audio) suspendedOther = null;
+  for (const [event, handler] of state.listeners) audio.removeEventListener(event, handler);
+  states.delete(audio);
+}
+
+/** Native audio controls and the floating player join the other-sound channel. */
+export function installDomAudioBridge() {
+  if (bridgeInstalled || typeof document === "undefined") return;
+  bridgeInstalled = true;
+  document.addEventListener("play", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLAudioElement && !states.has(target)) registerOther(target);
+  }, true);
+  document.querySelectorAll("audio").forEach((audio) => {
+    if (!audio.paused && !states.has(audio)) registerOther(audio);
+  });
 }

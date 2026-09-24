@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { beginOtherEffect } from "@/lib/audio-ducking";
 import {
   useGameAudio,
   type BgmTrack,
@@ -36,13 +37,15 @@ const MEMORY_AUDIO_CONFIG: GameAudioConfig = {
 let mismatchAudioContext: AudioContext | null = null;
 
 function playMismatchSfx() {
+  let finish = () => {};
   try {
     mismatchAudioContext ??= new AudioContext();
     const context = mismatchAudioContext;
-    if (context.state === "suspended") void context.resume();
+    if (context.state === "suspended") void context.resume().catch(() => finish());
 
     const oscillator = context.createOscillator();
     const gain = context.createGain();
+    const duck = context.createGain();
     const startAt = context.currentTime;
 
     oscillator.type = "triangle";
@@ -52,10 +55,16 @@ function playMismatchSfx() {
     gain.gain.linearRampToValueAtTime(0.075, startAt + 0.008);
     gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.14);
 
-    oscillator.connect(gain).connect(context.destination);
+    oscillator.connect(gain).connect(duck).connect(context.destination);
+    finish = beginOtherEffect(
+      () => { try { oscillator.stop(); } catch { /* already ended */ } },
+      (factor) => { duck.gain.value = factor; },
+    );
+    oscillator.onended = finish;
     oscillator.start(startAt);
     oscillator.stop(startAt + 0.14);
   } catch {
+    finish();
     // 오디오를 지원하지 않는 환경에서는 게임 진행만 유지한다.
   }
 }

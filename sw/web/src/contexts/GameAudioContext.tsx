@@ -7,6 +7,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
 import type { GameAudioControls } from '@/components/shared/GameAudioPlayer'
+import { installDomAudioBridge } from '@/lib/audio-ducking'
 
 interface GameAudioContextValue {
   controls: GameAudioControls | null
@@ -24,6 +25,8 @@ export function GameAudioProvider({ children }: { children: ReactNode }) {
   const [controls, setControls] = useState<GameAudioControls | null>(null)
   const register = useCallback((c: GameAudioControls) => setControls(c), [])
   const unregister = useCallback(() => setControls(null), [])
+
+  useEffect(() => { installDomAudioBridge() }, [])
 
   return (
     <GameAudioContext.Provider value={{ controls, register, unregister }}>

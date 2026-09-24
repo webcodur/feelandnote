@@ -9,6 +9,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import type { BattleCard } from "@/lib/game/types";
+import { beginOtherEffect } from "@/lib/audio-ducking";
 import {
   GRID_SIZE,
   MAX_ROUNDS,
@@ -61,19 +62,26 @@ function getAudioCtx(): AudioContext | null {
 function playNote(cellIdx: number) {
   const ctx = getAudioCtx();
   if (!ctx) return;
+  let finish = () => {};
   try {
     // suspended 상태면 resume (모바일 자동재생 정책)
-    if (ctx.state === "suspended") ctx.resume();
+    if (ctx.state === "suspended") void ctx.resume().catch(() => finish());
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
+    const duck = ctx.createGain();
     osc.type = "sine";
     osc.frequency.value = NOTE_FREQS[cellIdx] ?? 523.25;
     gain.gain.setValueAtTime(0.25, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-    osc.connect(gain).connect(ctx.destination);
+    osc.connect(gain).connect(duck).connect(ctx.destination);
+    finish = beginOtherEffect(
+      () => { try { osc.stop(); } catch { /* already ended */ } },
+      (factor) => { duck.gain.value = factor; },
+    );
+    osc.onended = finish;
     osc.start();
     osc.stop(ctx.currentTime + 0.35);
-  } catch { /* 미지원 환경 무시 */ }
+  } catch { finish(); /* 미지원 환경 무시 */ }
 }
 
 // ─── 컴포넌트 ───

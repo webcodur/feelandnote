@@ -29,7 +29,9 @@ import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicLi
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
 import { READING_PLAYBACK_RATES } from '@/hooks/useReadingNarration'
+import { releaseAudio } from '@/lib/audio-ducking'
 import { useGameFullScreenLayer, useMusicNavPanelSlot, useMusicNavTabSlot } from './musicPlayerSlots'
+import MusicHarpIcon from './MusicHarpIcon'
 
 interface FactionTrack {
   id: string
@@ -468,7 +470,7 @@ export default function FloatingMusicPlayer() {
 
   useEffect(() => {
     const audio = audioRef.current
-    return () => audio?.pause()
+    return () => { audio?.pause(); if (audio) releaseAudio(audio) }
   }, [currentTrack?.id])
 
   // 곡을 오디오에 올리고, 읽히는 대로 재생한다
@@ -740,11 +742,20 @@ export default function FloatingMusicPlayer() {
         ref={panelRef}
         role="dialog"
         aria-label={label}
-        className={cn(PANEL_BASE, layout.className)}
+        className={cn(
+          PANEL_BASE,
+          layout.className,
+          placement === 'corner' && 'border-[#9a7135]/60 bg-[#0a0a0a] shadow-[inset_0_1px_0_rgba(240,207,135,0.18),0_32px_80px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(0,0,0,0.55)]',
+        )}
         style={{ zIndex: layout.zIndex }}
       >
         {/* 곡 정보(제목·상태) / 진행 막대(시간 양끝) / 조작 단추의 세 줄. 줄마다 높이를 고정해 상태가 바뀌어도 목록이 밀리지 않는다 */}
-        <div className="relative rounded-t-[21px] bg-[radial-gradient(120%_100%_at_50%_0%,rgba(212,175,55,0.15)_0%,rgba(212,175,55,0.04)_45%,transparent_75%)] px-4 pb-2 pt-3.5">
+        <div className={cn(
+          'relative rounded-t-[21px] px-4 pb-2 pt-3.5',
+          placement === 'corner'
+            ? 'bg-[radial-gradient(110%_95%_at_25%_0%,rgba(144,101,43,0.26)_0%,rgba(54,38,21,0.13)_46%,transparent_80%)]'
+            : 'bg-[radial-gradient(120%_100%_at_50%_0%,rgba(212,175,55,0.15)_0%,rgba(212,175,55,0.04)_45%,transparent_75%)]',
+        )}>
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-12 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,175,55,0.65),transparent)]"
@@ -1007,7 +1018,7 @@ function MusicOpener({
     'aria-expanded': isOpen,
     'aria-haspopup': 'dialog' as const,
   }
-  // 재생 중에는 음표 대신 막대가 움직여 단추만 봐도 소리가 나는 중인지 알 수 있다
+  // 모바일 내비는 재생 중 막대를 보여주고, 떠 있는 단추는 하프와 바깥 맥동으로 재생 상태를 드러낸다.
   const glyph = (size: number, iconProps?: typeof ICON_PROPS) =>
     isPlaying
       ? <EqBars playing className="h-4 w-4" />
@@ -1038,15 +1049,23 @@ function MusicOpener({
       {...buttonProps}
       aria-label={label}
       className={cn(
-        'fixed end-4 size-11 items-center justify-center rounded-full border bg-bg-card text-accent shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+        'group fixed end-4 size-11 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
         // PC 자리는 휴대폰 폭에서 숨긴다 — 하단 내비가 서기 전 첫 그림에서 비치지 않게
         isCorner ? 'bottom-8 hidden md:flex' : 'bottom-20 flex md:bottom-4',
-        highlighted ? 'border-accent hover:bg-[#242424]' : 'border-accent/30 hover:border-accent hover:bg-[#242424]',
+        isCorner
+          ? cn(
+              'border-[#b68a44] bg-[radial-gradient(circle_at_34%_24%,#5b4121_0%,#2b2115_36%,#110f0b_72%,#090909_100%)] text-[#efd18a] shadow-[inset_0_1px_0_rgba(255,229,164,0.46),inset_0_-3px_6px_rgba(0,0,0,0.7),0_9px_22px_rgba(0,0,0,0.65)] hover:border-[#f1d18a] hover:brightness-110',
+              highlighted && 'border-[#f1d18a] ring-2 ring-[#d8ad5d]/30',
+            )
+          : cn('bg-bg-card text-accent shadow-lg', highlighted ? 'border-accent hover:bg-[#242424]' : 'border-accent/30 hover:border-accent hover:bg-[#242424]'),
       )}
       style={{ zIndex: isCorner ? Z_INDEX.floatingPlayer : Z_INDEX.floatingPlayerGame }}
     >
       <span ref={pulseRingRef} aria-hidden="true" className={cn(PULSE_RING_CLASS, '-inset-px rounded-full')} />
-      {glyph(ICON.lg, ICON_PROPS)}
+      {isCorner && <span aria-hidden="true" className="pointer-events-none absolute inset-[3px] rounded-full border border-[#e7bd70]/35 shadow-[inset_0_1px_2px_rgba(255,230,169,0.15)]" />}
+      <span className={cn('relative flex items-center justify-center', isCorner && 'drop-shadow-[0_1px_1px_rgba(0,0,0,0.9)] transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:transform-none')}>
+        {isCorner ? <MusicHarpIcon iconRef={iconRef} /> : glyph(ICON.lg, ICON_PROPS)}
+      </span>
     </button>
   )
 }
