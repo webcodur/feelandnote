@@ -34,7 +34,6 @@ for (const locale of ["ko", "en"] as const) {
     const home = scoped.home as AbstractIntlMessages;
     const celebPage = scoped.celebPage as AbstractIntlMessages;
     const followLabel = (home.ui as AbstractIntlMessages | undefined)?.followLabel;
-    const personGuide = celebPage.personGuide;
     const modalLabels = [
       celebPage.playGreetingVoice,
       celebPage.dialogue_greeting,
@@ -43,12 +42,10 @@ for (const locale of ["ko", "en"] as const) {
     ];
 
     assert.equal(typeof followLabel, "string");
-    assert.equal(typeof personGuide, "string");
     modalLabels.forEach((label) => assert.equal(typeof label, "string"));
 
     if (locale === "en") {
       assert.equal(followLabel, "Follow");
-      assert.equal(personGuide, "Figure Guide");
     }
   });
 }

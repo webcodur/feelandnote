@@ -17,14 +17,8 @@ export interface CelebDetailModalProps {
   celeb: CelebProfile;
   isOpen: boolean;
   onClose: () => void;
-  context?: {
-    label: string;
-    description?: string | null;
-    color?: string;
-  };
   hideBirthDate?: boolean;
-  hideQuotes?: boolean;
-  // 리스트 컨텍스트 네비게이션 (선택)
+  /** 목록에서 이전·다음 인물로 넘길 때 (미지정 시 버튼 자체를 두지 않는다) */
   onNavigate?: (direction: "prev" | "next") => void;
   hasPrev?: boolean;
   hasNext?: boolean;

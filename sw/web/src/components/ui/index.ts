@@ -13,6 +13,7 @@ export { default as TitleBadge, type TitleInfo } from "./TitleBadge";
 export { default as NoEditionBadge } from "./NoEditionBadge";
 export { default as FormattedText, splitReadableParagraphs } from "./FormattedText";
 export { default as ContentReadingText } from "./ContentReadingText";
+export { default as ClippedContentReadingText } from "./ClippedContentReadingText";
 export { default as ContentTextModal, ExpandTextButton } from "./ContentTextModal";
 export { default as Popover } from "./Popover";
 export { default as CelebImage } from "./CelebImage";

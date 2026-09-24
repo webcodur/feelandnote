@@ -51,10 +51,11 @@
       "empty": "No introduction has been written for this work yet.",
       "releasedLabel": "Released",
       "genresLabel": "Genres",
-      "badgeShort": "Intro"
+      "badgeShort": "Intro",
+      "viewDetail": "View details"
     },
     "purchase": {
-      "buy": "Buy book"
+      "buy": "Where to buy"
     },
     "purchaseInfo": {
       "trigger": "Purchase information",

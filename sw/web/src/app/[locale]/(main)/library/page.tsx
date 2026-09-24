@@ -71,7 +71,9 @@ export default async function ScripturesPage() {
       </div>
 
       {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다 */}
-      <PopularBooks />
+      <Lane fallback={null}>
+        <PopularBooks />
+      </Lane>
     </div>
   );
 }

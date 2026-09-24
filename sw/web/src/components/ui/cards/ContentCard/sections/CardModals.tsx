@@ -92,6 +92,7 @@ export default function CardModals({ props, state }: CardModalsProps) {
         contentThumbnail={displayThumbnail}
         fallbackDescription={fallbackDescription ?? null}
         fallbackMetadata={fallbackMetadata ?? null}
+        detailHref={contentId ? contentDetailUrl : undefined}
       />
       {internalSaved && internalUserContentId && (
         <RecommendationModal

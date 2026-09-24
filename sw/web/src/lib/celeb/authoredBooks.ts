@@ -28,3 +28,17 @@ export function placeOutOfPrintLast<T extends Pick<FigureBookContent, 'titleBadg
     ...books.filter((book) => book.titleBadge === 'out-of-print'),
   ]
 }
+
+/**
+ * 「연관 작품」 구획은 기존 판본 도서와 절판 순서를 유지하고, 영문 화면에서는 번역본 없는 도서의 등장 관계도 보여준다.
+ * 영어판이 없는 작품은 배지만 표시하며 판본·구매 정보는 만들지 않는다.
+ */
+export function pickDisplayFigureBooks<T extends Pick<FigureBookContent, 'type' | 'titleBadge' | 'editions'>>(
+  books: readonly T[],
+  locale: string,
+): T[] {
+  return placeOutOfPrintLast(books.filter((book) => (
+    book.editions.length > 0
+    || (locale === 'en' && book.type === 'BOOK' && book.titleBadge === 'no-en')
+  )))
+}

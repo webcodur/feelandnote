@@ -15,6 +15,7 @@ import ContentCard from '@/components/ui/cards/ContentCard'
 import Modal, { ModalBody } from '@/components/ui/Modal'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import CenteredSectionHeading from '@/components/ui/CenteredSectionHeading'
+import { useMouseDragScroll } from '@/hooks/useMouseDragScroll'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { BookStorePlatform } from '@/constants/affiliatePlatforms'
 import { cn } from '@/lib/utils'
@@ -35,6 +36,8 @@ interface AffiliateBookListProps {
   groups?: { label: string; desc?: string; count: number }[]
   /** 구분선 접근성 문구·설명 모달 제목 (예: 「구분선의 뜻」) */
   dividerTitle?: string
+  /** 넓은 화면에서도 줄바꿈하지 않고 한 줄 가로 스크롤로 둔다 — 카드·모달 안쪽 선반용 */
+  scroll?: boolean
 }
 
 interface GroupBoundary {
@@ -43,8 +46,10 @@ interface GroupBoundary {
   right: { label: string; desc?: string }
 }
 
-export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle, scroll = false }: AffiliateBookListProps) {
   const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
+  // 한 줄 넘김 선반 — 마우스로 잡아끌어 넘긴다(터치는 브라우저 기본 스크롤이 담당). 규칙은 ui-rail 스킬이 쥔다
+  const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>()
 
   // 구간 경계를 카드 위치로 환산한다 — 신화 선반의 세로 구분선을 일반 상품 선반으로 가져온 것이다.
   const boundaries: GroupBoundary[] = []
@@ -72,8 +77,18 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
         />
       )}
 
-      {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
-      <div className="flex gap-3 overflow-x-auto px-4 pb-1 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0">
+      {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 — scroll이면 넓은 화면에서도 한 줄 넘김을 유지한다 */}
+      <div
+        ref={scroll ? railRef : undefined}
+        {...(scroll ? dragProps : {})}
+        className={cn(
+          "flex gap-3 overflow-x-auto pb-1 snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          scroll
+            // 끌기는 마우스만 받는다 — 칸 맞춤(스냅)은 터치에만 걸어 끌기 중 튐을 막는다
+            ? cn("select-none overscroll-x-contain px-1 pointer-coarse:snap-x", cursorClassName)
+            : "snap-x px-4 md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0",
+        )}
+      >
         {books.map((book, index) => {
           const boundary = boundaryAt.get(index)
 

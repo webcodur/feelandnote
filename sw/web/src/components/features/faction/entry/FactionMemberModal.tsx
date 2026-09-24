@@ -28,7 +28,7 @@ import { getBookStorePlatform } from "@/constants/affiliatePlatforms";
 import { useCelebVirtualMonologue } from "@/hooks/useCelebVirtualMonologue";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
 import { Link } from "@/i18n/navigation";
-import { getEnglishBookAmazonUrl } from "@/lib/books/amazonBookSearch";
+import { canSearchFactionMemberReadBook, getFactionMemberAmazonUrl } from "./memberBookAmazonUrl";
 import { getCelebProfileUrl } from "@/lib/url";
 import { cn } from "@/lib/utils";
 import type { CelebProfile } from "@/types/home";
@@ -108,11 +108,11 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
 
   /* 두 책 목록 — 모달을 열 때 함께 받아 공통 상품 목록의 책 자료로 맞춘다.
      한국어는 YES24가 찾을 ISBN 판본이 기준이고 쿠팡은 같은 판본의 보조 링크다.
-     영문은 아마존 상품 주소가 없으면 제목·저자 검색으로 잇는다 */
+     영문 등장 책은 확인된 판본, 읽은 책은 명시된 EN 제목 행이 있을 때만 아마존 동선을 붙인다. */
   useEffect(() => {
     let alive = true;
     Promise.all([
-      getFigureBooksForCeleb(celeb.id, locale),
+      getFigureBooksForCeleb(celeb.id, locale, true),
       getPublicCelebContents({ userId: celeb.id, type: "BOOK", limit: READ_LIMIT }),
     ])
       .then(([figureBooks, readRecords]) => {
@@ -130,24 +130,40 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
               title,
               creator,
               thumbnail: (edition?.thumbnailUrl ?? book.thumbnailUrl) || undefined,
-              url: isEn ? getEnglishBookAmazonUrl({ title, creator, url: product || null }) : product,
+              url: isEn
+                ? getFactionMemberAmazonUrl({ title, creator, url: product || null, canSearchEnglishBook: Boolean(edition?.title) })
+                : product,
               // 고른 판본에 제목이 있으면 그 언어판이 확인된 것이라 「번역본 없음」만 거둔다 — 절판은 판본이 있어도 남긴다
               titleBadge: book.titleBadge === "out-of-print" || !edition?.title ? book.titleBadge : null,
             };
           });
         const seen = new Set<string>();
+        const figureEditionByContent = new Map(figureBooks.map((book) => [book.id, pickPurchaseEdition(book.editions, locale)]));
         const read = readRecords.items.flatMap((record): AffiliateBook[] => {
           if (seen.has(record.content_id)) return [];
           seen.add(record.content_id);
+          const figureEdition = isEn ? figureEditionByContent.get(record.content_id) : undefined;
+          const title = figureEdition?.title || record.content.title;
+          const creator = figureEdition?.creator ?? record.content.creator;
+          const product = figureEdition?.platform === productPlatform ? httpsUrl(figureEdition.purchaseUrl) : "";
           return [{
             contentId: record.content_id,
-            title: record.content.title,
-            creator: record.content.creator || undefined,
-            thumbnail: record.content.thumbnail_url || undefined,
+            editionId: figureEdition?.id,
+            title,
+            creator: creator || undefined,
+            thumbnail: (figureEdition?.thumbnailUrl ?? record.content.thumbnail_url) || undefined,
             url: isEn
-              ? getEnglishBookAmazonUrl({ title: record.content.title, creator: record.content.creator, url: httpsUrl(record.content.affiliate_url) || null })
+              ? getFactionMemberAmazonUrl({
+                  title,
+                  creator,
+                  url: product || httpsUrl(record.content.affiliate_url) || null,
+                  canSearchEnglishBook: Boolean(figureEdition?.title)
+                    || canSearchFactionMemberReadBook(record.content.title_en, record.content.title_badge),
+                })
               : httpsUrl(record.content.affiliate_url),
-            titleBadge: record.content.title_badge,
+            titleBadge: figureEdition?.title && record.content.title_badge !== "out-of-print"
+              ? null
+              : record.content.title_badge,
           }];
         });
         setBooks({ related, read });

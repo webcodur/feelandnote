@@ -1,6 +1,7 @@
 "use client";
 
 import Modal from "@/components/ui/Modal";
+import { readableFactionColor } from "@/lib/utils/factionColor";
 import type { CelebFactionInfo } from "@/types/home";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
@@ -42,13 +43,14 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, title, z
           <div key={faction.id} className="flex flex-col gap-2">
             <div className="flex items-start">
               <span
-                className="px-3 py-1 rounded-full text-xs font-bold border"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border"
                 style={{
-                  backgroundColor: `${faction.color}15`,
-                  color: faction.color,
-                  borderColor: `${faction.color}30`
+                  backgroundColor: `${faction.color}14`,
+                  color: readableFactionColor(faction.color),
+                  borderColor: `${faction.color}50`
                 }}
               >
+                <span aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: faction.color }} />
                 {locale === 'en' ? (faction.name_en ?? faction.name) : faction.name}
               </span>
             </div>

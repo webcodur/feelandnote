@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { registerVoice, releaseAudio } from "@/lib/audio-ducking";
 
 export const READING_PLAYBACK_RATES = [0.75, 1, 1.25, 1.5, 2] as const;
 export const READING_PLAYBACK_RATE_STORAGE_KEY = "feelandnote:reading-narration:playback-rate:v1";
@@ -48,7 +49,10 @@ type PlaybackSession = {
   audio: HTMLAudioElement;
   wantsPlayback: boolean;
   request: number;
+  interrupt: () => void;
 };
+
+let activeSession: PlaybackSession | null = null;
 
 const INITIAL_STATE: PlaybackState = {
   available: false,
@@ -116,8 +120,15 @@ export function useReadingNarration(audioUrl: string) {
   useEffect(() => {
     if (!audioUrl || typeof Audio === "undefined") return;
     const audio = new Audio();
-    const session: PlaybackSession = { url: audioUrl, audio, wantsPlayback: false, request: 0 };
+    const session: PlaybackSession = { url: audioUrl, audio, wantsPlayback: false, request: 0, interrupt: () => {} };
     sessionRef.current = session;
+    registerVoice(audio);
+    session.interrupt = () => {
+      session.wantsPlayback = false;
+      session.request += 1;
+      audio.pause();
+      update(session, { status: "paused" });
+    };
     audio.preload = "metadata";
     audio.preservesPitch = true;
 
@@ -141,17 +152,20 @@ export function useReadingNarration(audioUrl: string) {
       if (!audio.paused || !session.wantsPlayback || audio.ended) return;
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       update(session, { status: "paused" });
     };
     const ended = () => {
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       audio.currentTime = 0;
       update(session, { status: "idle", currentTime: 0 });
     };
     const failed = () => {
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       audio.pause();
       update(session, { ...INITIAL_STATE, playbackRate: audio.playbackRate });
     };
@@ -179,9 +193,11 @@ export function useReadingNarration(audioUrl: string) {
     return () => {
       session.wantsPlayback = false;
       session.request += 1;
+      if (activeSession === session) activeSession = null;
       if (sessionRef.current === session) sessionRef.current = null;
       for (const [event, listener] of Object.entries(listeners)) audio.removeEventListener(event, listener);
       audio.pause();
+      releaseAudio(audio);
       audio.removeAttribute("src");
       audio.load();
     };
@@ -193,6 +209,8 @@ export function useReadingNarration(audioUrl: string) {
     const { audio } = session;
     if (audio.error || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
     if (audio.ended || audio.currentTime >= audio.duration) audio.currentTime = 0;
+    if (activeSession && activeSession !== session) activeSession.interrupt();
+    activeSession = session;
     session.wantsPlayback = true;
     const request = ++session.request;
     update(session, { status: "loading" });
@@ -202,6 +220,7 @@ export function useReadingNarration(audioUrl: string) {
     }).catch(() => {
       if (sessionRef.current !== session || session.request !== request || !session.wantsPlayback) return;
       session.wantsPlayback = false;
+      if (activeSession === session) activeSession = null;
       // A rejected user-gesture/autoplay request does not mean the file is missing.
       update(session, { status: "paused" });
     });
@@ -212,6 +231,7 @@ export function useReadingNarration(audioUrl: string) {
     if (!session || session.url !== audioUrl) return;
     session.wantsPlayback = false;
     session.request += 1;
+    if (activeSession === session) activeSession = null;
     session.audio.pause();
     update(session, { status: "paused" });
   }, [audioUrl, update]);
@@ -221,6 +241,7 @@ export function useReadingNarration(audioUrl: string) {
     if (!session || session.url !== audioUrl) return;
     session.wantsPlayback = false;
     session.request += 1;
+    if (activeSession === session) activeSession = null;
     session.audio.pause();
     session.audio.currentTime = 0;
     update(session, { status: "idle", currentTime: 0 });

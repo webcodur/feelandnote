@@ -81,7 +81,13 @@ function harness(initialUrl = '/ko.mp3', storage = memoryStorage()) {
     metadata(duration = 100) { this.duration = duration; this.emit('loadedmetadata'); }
   }
   const exports = {};
-  vm.runInNewContext(compiled, { exports, require: () => react, Audio: AudioMock, window: { localStorage: storage } });
+  const audioChannels = { registerVoice() {}, releaseAudio() {} };
+  vm.runInNewContext(compiled, {
+    exports,
+    require: (name) => name === '@/lib/audio-ducking' ? audioChannels : react,
+    Audio: AudioMock,
+    window: { localStorage: storage },
+  });
   function render(nextUrl = url) {
     url = nextUrl;
     let result;

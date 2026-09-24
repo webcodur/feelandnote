@@ -48,6 +48,7 @@ export default function FigureBookFeature({
 }: FigureBookFeatureProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
+  const editionT = useTranslations("content.edition");
   const [editionSelection, setEditionSelection] = useState(() => ({
     sourceId: source.id,
     editionId: source.editions[0]?.id ?? 0,
@@ -56,7 +57,21 @@ export default function FigureBookFeature({
   const edition = source.editions.find((item) => item.id === selectedEditionId)
     ?? source.editions[0];
   const introduction = useBookIntroduction(edition?.bookIntroduction, locale, edition?.description);
-  if (!edition) return null;
+  if (!edition) return (
+    <div className="flex items-center gap-4 rounded-lg border border-accent-dim/30 bg-stone-heavy px-5 py-6">
+      <BookOpenText size={32} strokeWidth={1.3} className="shrink-0 text-accent" aria-hidden />
+      <div className="min-w-0">
+        <h3 className="text-lg font-black text-3d-gold">
+          <NoEditionBadge badge={source.titleBadge} className="align-middle" />
+          {source.title}
+        </h3>
+        {source.creator && <p className="mt-1 text-sm text-text-secondary">{source.creator}</p>}
+        {source.titleBadge === 'no-en' && (
+          <p className="mt-2 text-sm text-text-secondary">{editionT("noEnDesc")}</p>
+        )}
+      </div>
+    </div>
+  );
 
   const releaseDate = formatDate(edition.releaseDate, locale);
   // 구매 모듈의 서점 링크 — 판본 상품 주소(쿠팡·아마존)에 작품의 보유 서점 링크를 잇는다

@@ -343,6 +343,7 @@
     "guestbookOpen": "방명록 보기 · 글 남기기",
     "moreRecommendations": "추천 도서 더 보기",
     "noFurtherRecommendations": "추가로 추천할 도서가 없습니다.",
-    "factionLoad": "세력도감 열기"
+    "factionLoad": "세력도감 열기",
+    "readingPlayFromHere": "이 문장부터 듣기"
   }
 }

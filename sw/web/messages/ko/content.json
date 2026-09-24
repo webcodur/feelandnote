@@ -51,10 +51,11 @@
       "empty": "작품 소개가 아직 없습니다.",
       "releasedLabel": "출간·공개",
       "genresLabel": "장르",
-      "badgeShort": "소개"
+      "badgeShort": "소개",
+      "viewDetail": "작품 상세 보기"
     },
     "purchase": {
-      "buy": "구매하기"
+      "buy": "구매처 보기"
     },
     "purchaseInfo": {
       "trigger": "구매 안내",

@@ -1,12 +1,22 @@
 /*
-  셀럽 상세 모달
-  - PC/모바일: 단일 컬럼 세로 카드 (인물 요약 → 감상 기록)
+  셀럽 요약 모달
+  - celeb props만으로 즉시 뜨는 가벼운 인물 카드다. 감상 기록·읽어보기 같은
+    긴 내용은 싣지 않고 「프로필 보기」로 인물 페이지에 보낸다.
 */
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "@/i18n/navigation";
-import { Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User } from "lucide-react";
+import {
+  ArrowUpRight,
+  Briefcase,
+  Calendar,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  UserPlus,
+} from "lucide-react";
 import { toggleFollow } from "@/actions/user";
 import { getCelebProfileUrl } from "@/lib/url";
 import { trackEvent } from "@/lib/analytics/track";
@@ -17,15 +27,13 @@ import { FormattedText } from "@/components/ui";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
 import CelebQuote from "@/components/shared/CelebQuote";
-import { getCelebModalContent } from "@/actions/home/getCelebReviews";
-import type { CelebReview } from "@/types/home";
 import { useTranslations, useLocale } from "next-intl";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
+import { readableFactionColor } from "@/lib/utils/factionColor";
 import type { Locale } from "@/types/locale";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
-import { CelebReviewCard } from "./sections/CelebReviewCard";
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, context, hideBirthDate = false, hideQuotes = false, zIndex }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
   const tCeleb = useTranslations("celebPage");
   const tProf = useTranslations("profession");
@@ -57,50 +65,16 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const [isFactionsModalOpen, setIsFactionsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
-  const [reviews, setReviews] = useState<CelebReview[]>([]);
-  const [personGuide, setPersonGuide] = useState<string | null>(null);
   const [zoomOpen, setZoomOpen] = useState(false);
-
-  const fetchedForRef = useRef<string | null>(null);
 
   // celeb 전환 시 내부 상태 리셋 (렌더 중 이전 값 비교 — effect 내 setState 금지 규칙 준수)
   const [renderedCelebId, setRenderedCelebId] = useState(celeb.id);
   if (renderedCelebId !== celeb.id) {
     setRenderedCelebId(celeb.id);
-    setReviews([]);
-    setPersonGuide(null);
     setIsFollowing(celeb.is_following);
     setIsFactionsModalOpen(false);
     setZoomOpen(false);
   }
-
-  // 모달 열릴 때 body 스크롤 잠금
-  useEffect(() => {
-    if (!isOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
-  }, [isOpen]);
-
-  // 대표 감상 기록과 인물 안내 로딩 (Strict Mode 중복 fetch는 ref로 방지)
-  useEffect(() => {
-    if (!isOpen) return;
-    if (fetchedForRef.current === celeb.id) return;
-    fetchedForRef.current = celeb.id;
-    getCelebModalContent(celeb.id)
-      .then(data => {
-        if (fetchedForRef.current !== celeb.id) return;
-        setReviews(data.reviews);
-        setPersonGuide(data.personGuide);
-      })
-      .catch(err => {
-        if (err?.name === 'AbortError') return;
-        console.error('[CelebDetailModal] 모달 콘텐츠 로딩 실패:', err);
-        if (fetchedForRef.current !== celeb.id) return;
-        setReviews([]);
-        setPersonGuide(null);
-      });
-  }, [celeb.id, isOpen]);
 
   // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
   const aura: Aura = celeb.influence?.total_score != null
@@ -129,244 +103,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
 
   if (!isOpen) return null;
 
-  // #region 화면 조각 (단일 사용 JSX)
-  const followButton = (
-    <button
-      onClick={handleFollowClick}
-      disabled={isLoading}
-      className={`
-        flex-1 py-3 rounded-2xl md:rounded-sm
-        flex items-center justify-center gap-1.5 font-bold text-xs md:text-sm transition-all active:scale-95
-        ${isFollowing
-          ? "bg-black/40 backdrop-blur-md text-accent border border-accent/40 shadow-inner"
-          : "bg-accent text-black border border-accent shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_20px_rgba(212,175,55,0.6)]"
-        }
-        ${isLoading ? "opacity-50 cursor-not-allowed" : ""}
-      `}
-    >
-      {isFollowing ? (
-        <Check size={14} strokeWidth={3} />
-      ) : (
-        <UserPlus size={14} strokeWidth={3} />
-      )}
-      <span>{isFollowing ? t("followingLabel") : t("followLabel")}</span>
-      <span className="font-extrabold">
-        {t("followerUnit", { count: celeb.follower_count || 0 })}
-      </span>
-    </button>
-  );
-
-  const profileLink = (
-    <Link
-      href={getCelebProfileUrl(celeb)}
-      locale={isEn ? "en" : undefined}
-      onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
-      className="
-        flex-1 py-3 rounded-2xl md:rounded-sm
-        flex items-center justify-center gap-1.5
-        border border-accent/30 hover:border-accent/60
-        text-accent font-bold text-xs md:text-sm
-        hover:bg-accent/5
-        hover:shadow-[0_0_20px_rgba(212,175,55,0.1)]
-        active:scale-[0.98]
-        transition-all duration-300
-        backdrop-blur-sm
-      "
-    >
-      <ExternalLink size={14} strokeWidth={2} />
-      <span>{t("viewProfile")}</span>
-    </Link>
-  );
-
-  const metaInfo = (
-    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs md:text-sm justify-center">
-      {celeb.profession && (
-        <span className="flex items-center gap-1">
-          <Briefcase size={12} />
-          {tProf.has(celeb.profession) ? tProf(celeb.profession) : celeb.profession}
-        </span>
-      )}
-      {celeb.nationality && (
-        <span className="flex items-center gap-1">
-          <MapPin size={12} />
-          {celeb.nationality}
-        </span>
-      )}
-      {!hideBirthDate && celeb.birth_date && (
-        <span className="flex items-center gap-1">
-          <Calendar size={12} />
-          {celeb.birth_date}
-          {celeb.death_date && ` ~ ${celeb.death_date}`}
-        </span>
-      )}
-    </div>
-  );
-
-  // 태그: 최대 2개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지)
-  const maxFactions = 2;
-  const displayFactions = (celeb.factions ?? []).slice(0, maxFactions);
-  const remainingFactionCount = (celeb.factions?.length ?? 0) - maxFactions;
-
-  const factionBadges = displayFactions.length > 0 && (
-    <div className="mt-3 w-full max-w-full overflow-hidden flex justify-center">
-      <div className="flex items-center justify-center gap-2 w-full max-w-full flex-wrap">
-        {displayFactions.map(tag => (
-          <button
-            key={tag.id}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsFactionsModalOpen(true);
-            }}
-            className="shrink-0 px-3 py-1 text-[11px] md:text-xs font-medium rounded-full border border-current/20 backdrop-blur-sm shadow-sm transition-all hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: `${tag.color}15`,
-              color: tag.color,
-              borderColor: `${tag.color}30`
-            }}
-          >
-            {locale === 'en' ? (tag.name_en ?? tag.name) : tag.name}
-          </button>
-        ))}
-        {remainingFactionCount > 0 && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsFactionsModalOpen(true);
-            }}
-            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[11px] font-bold border border-border hover:bg-bg-stone-light hover:text-text-primary"
-          >
-            +{remainingFactionCount}
-          </button>
-        )}
-      </div>
-    </div>
-  );
-
-  const contextBanner = context && (
-    <div
-      className="mx-4 mt-4 border-l-2 bg-white/[0.035] px-3.5 py-3 text-left md:mx-6 shrink-0"
-      style={{ borderColor: context.color ?? "var(--color-accent)" }}
-    >
-      <p
-        className="text-xs font-bold tracking-wide md:text-sm"
-        style={{ color: context.color ?? "var(--color-accent)" }}
-      >
-        {context.label}
-      </p>
-      {context.description && (
-        <p className="mt-1 text-sm leading-relaxed text-text-secondary md:text-[15px]">
-          {context.description}
-        </p>
-      )}
-    </div>
-  );
-  // #endregion
-
-  const modalBody = (
-    <div className="flex flex-col w-full h-full min-h-0 overflow-y-auto overscroll-contain custom-scrollbar bg-bg-main animate-fade-in">
-      {contextBanner}
-
-      {/* 인물 요약: Avatar + 이름 + 메타 + 태그 */}
-      <div className="flex flex-col items-center px-6 pt-8 pb-4 shrink-0">
-        <CelebProfileMedia
-          photoUrl={null}
-          avatarUrl={celeb.avatar_url}
-          nickname={displayNickname}
-          onZoom={handleZoom}
-          zoomLabel={tCeleb("enlargePhoto")}
-          hasVoice={hasGreetingAudio}
-          isVoicePlaying={isVoiceActive}
-          onGreet={canGreet ? handleGreetingPlay : undefined}
-          greetLabel={greetLabel}
-          avatarSize="h-[100px] w-[100px]"
-          initialSize="text-3xl"
-          containerClassName="mb-4"
-          avatarAlignment="center"
-        />
-
-        {displayTitle && (
-          <p className="text-[11px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
-        )}
-
-        <h2 className="text-2xl md:text-3xl font-black font-serif text-text-primary leading-tight text-center break-all mb-3">
-          {displayNickname}
-        </h2>
-
-        {metaInfo}
-        {factionBadges}
-      </div>
-
-      {/* 인용구 */}
-      {!hideQuotes ? (
-        <CelebQuote
-          text={displayQuotes}
-          hasVoice={hasVoice}
-          isQuoteActive={isQuoteActive}
-          onPlay={handleQuotePlay}
-          playLabel={tCeleb("playQuoteVoice")}
-          variant="modal"
-        />
-      ) : null}
-
-      {/* 바이오 */}
-      {displayBio && (
-        <div className="px-6 md:px-8 pt-4 pb-2">
-          <p className="text-xs md:text-sm text-text-secondary leading-relaxed text-left break-all">
-            <User size={16} className="float-left mr-2 text-accent opacity-80 mt-0.5" strokeWidth={2.5} />
-            <FormattedText text={displayBio} />
-          </p>
-        </div>
-      )}
-
-      {/* 가상독백은 인물 상세 읽어보기에서 보인다. 모달에는 싣지 않는다. */}
-      {personGuide ? (
-        <section className="mx-6 md:mx-8 mt-4 border-y border-accent/20 py-5">
-          <h3 className="mb-2 text-center text-base font-serif font-bold text-accent">
-            {tCeleb("personGuide")}
-          </h3>
-          <div className="space-y-3 font-serif text-sm leading-loose text-text-secondary break-keep">
-            {personGuide.split(/\n\n+/).map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      {/* 액션: 팔로우 + 프로필 진입 */}
-      <div className="flex gap-3 px-6 md:px-8 py-5 shrink-0">
-        {followButton}
-        {profileLink}
-      </div>
-
-      {/* 공개 감상문이 있을 때만 대표작 2개를 미리보기로 노출 */}
-      {reviews.length > 0 ? (
-        <section className="border-t border-border/50 px-4 pb-8 pt-6 md:px-8">
-          <h3 className="text-center text-lg font-serif font-bold text-accent">
-            {t("featuredWorks", { name: displayNickname })}
-          </h3>
-          <div className="mx-auto mt-4 grid max-w-4xl grid-cols-1 gap-4">
-            {reviews.map((reviewItem) => (
-              <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} modalZIndex={zIndex ? zIndex + 1 : undefined} />
-            ))}
-          </div>
-          <div className="mt-5 text-center">
-            <p className="mb-3 text-xs text-text-secondary">
-              {t("viewAllRecordsOnProfile")}
-            </p>
-            <Link
-              href={getCelebProfileUrl(celeb)}
-              locale={isEn ? "en" : undefined}
-              onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
-              className="inline-flex items-center gap-1.5 border border-accent/40 px-4 py-2 text-xs font-bold text-accent hover:border-accent hover:bg-accent/5 active:scale-[0.98]"
-            >
-              <ExternalLink size={13} strokeWidth={2} />
-              {t("viewAllRecords")}
-            </Link>
-          </div>
-        </section>
-      ) : null}
-    </div>
-  );
+  const navButtonClass = "absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-bg-main/90 text-text-secondary hover:border-accent hover:text-accent disabled:pointer-events-none disabled:opacity-30";
 
   return (
     <>
@@ -374,15 +111,177 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         isOpen={isOpen}
         onClose={onClose}
         frame="plain"
-        widthClassName="max-w-[520px]"
+        widthClassName="max-w-[420px]"
         overlayClassName="bg-black/70 backdrop-blur-sm"
         boxClassName={`rounded-sm bg-gradient-to-br p-[3px] ${borderGradient} shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]`}
         closeButtonClassName="absolute -top-3 -right-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-bg-main text-text-secondary hover:bg-bg-card hover:text-text-primary"
         animateHeight={false}
         zIndex={zIndex}
       >
-        <div className="relative bg-bg-main h-[720px] max-h-[calc(100dvh-4rem)] overflow-hidden flex flex-col">
-          {modalBody}
+        <div className="relative overflow-hidden rounded-sm bg-bg-main animate-fade-in pb-5">
+          {/* 머리 위로 옅은 금빛 — 장식 상자 없이 인물만 비춘다 */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(ellipse_70%_100%_at_50%_0%,rgba(212,175,55,0.10),transparent_70%)]"
+          />
+
+          {/* 인물 페이지로 가는 문 — 카드 오른쪽 위 구석 */}
+          <Link
+            href={getCelebProfileUrl(celeb)}
+            locale={isEn ? "en" : undefined}
+            onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
+            aria-label={t("viewProfile")}
+            title={t("viewProfile")}
+            className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-black/30 text-text-secondary hover:border-accent hover:text-accent active:scale-95"
+          >
+            <ArrowUpRight size={15} strokeWidth={2.5} />
+          </Link>
+
+          {/* 인물 요약: Avatar + 이름 + 메타 + 태그 */}
+          <div className="relative flex flex-col items-center px-6 pt-8 pb-4">
+            <CelebProfileMedia
+              photoUrl={null}
+              avatarUrl={celeb.avatar_url}
+              nickname={displayNickname}
+              onZoom={handleZoom}
+              zoomLabel={tCeleb("enlargePhoto")}
+              hasVoice={hasGreetingAudio}
+              isVoicePlaying={isVoiceActive}
+              onGreet={canGreet ? handleGreetingPlay : undefined}
+              greetLabel={greetLabel}
+              avatarSize="h-24 w-24"
+              initialSize="text-3xl"
+              containerClassName="mb-4"
+              avatarAlignment="center"
+            />
+
+            {displayTitle && (
+              <p className="text-[11px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
+            )}
+
+            <h2 className="text-2xl font-black font-serif text-text-primary leading-tight text-center break-all mb-3">
+              {displayNickname}
+            </h2>
+
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs justify-center text-text-secondary">
+              {celeb.profession && (
+                <span className="flex items-center gap-1">
+                  <Briefcase size={12} />
+                  {tProf.has(celeb.profession) ? tProf(celeb.profession) : celeb.profession}
+                </span>
+              )}
+              {celeb.nationality && (
+                <span className="flex items-center gap-1">
+                  <MapPin size={12} />
+                  {celeb.nationality}
+                </span>
+              )}
+              {!hideBirthDate && celeb.birth_date && (
+                <span className="flex items-center gap-1">
+                  <Calendar size={12} />
+                  {celeb.birth_date}
+                  {celeb.death_date && ` ~ ${celeb.death_date}`}
+                </span>
+              )}
+            </div>
+
+            {/* 태그: 최대 2개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지) */}
+            {(celeb.factions?.length ?? 0) > 0 && (
+              <div className="mt-3 flex w-full max-w-full flex-wrap items-center justify-center gap-2 overflow-hidden">
+                {celeb.factions.slice(0, 2).map(tag => (
+                  <button
+                    key={tag.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsFactionsModalOpen(true);
+                    }}
+                    className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full border backdrop-blur-sm hover:scale-105 active:scale-95"
+                    style={{
+                      backgroundColor: `${tag.color}14`,
+                      color: readableFactionColor(tag.color),
+                      borderColor: `${tag.color}50`
+                    }}
+                  >
+                    {/* 어두운 세력색도 읽히게 — 점은 원색, 글자는 밝기를 올린 같은 색 */}
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: tag.color }} />
+                    {isEn ? (tag.name_en ?? tag.name) : tag.name}
+                  </button>
+                ))}
+                {celeb.factions.length > 2 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsFactionsModalOpen(true);
+                    }}
+                    className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[11px] font-bold border border-border hover:bg-bg-stone-light hover:text-text-primary"
+                  >
+                    +{celeb.factions.length - 2}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* 인용구 */}
+          <CelebQuote
+            text={displayQuotes}
+            hasVoice={hasVoice}
+            isQuoteActive={isQuoteActive}
+            onPlay={handleQuotePlay}
+            playLabel={tCeleb("playQuoteVoice")}
+            variant="modal"
+          />
+
+          {/* 바이오 — 앞의 아이콘이 팔로우 단추다 */}
+          {displayBio && (
+            <div className="px-6 pt-3">
+              <p className="text-xs md:text-sm text-text-secondary leading-relaxed break-all">
+                <button
+                  type="button"
+                  onClick={handleFollowClick}
+                  disabled={isLoading}
+                  aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
+                  title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
+                  className={`float-left mr-2 mt-0.5 flex h-7 w-7 items-center justify-center rounded-full border active:scale-90 disabled:opacity-50 ${
+                    isFollowing
+                      ? "border-accent/60 bg-accent/15 text-accent"
+                      : "border-white/15 bg-black/30 text-text-secondary hover:border-accent hover:text-accent"
+                  }`}
+                >
+                  {isFollowing ? (
+                    <Check size={13} strokeWidth={3} />
+                  ) : (
+                    <UserPlus size={13} strokeWidth={2.5} />
+                  )}
+                </button>
+                <FormattedText text={displayBio} />
+              </p>
+            </div>
+          )}
+
+          {/* 목록 탐색: 이전·다음 인물 */}
+          {onNavigate && (
+            <>
+              <button
+                type="button"
+                onClick={() => onNavigate("prev")}
+                disabled={!hasPrev}
+                aria-label={t("prevPerson")}
+                className={`${navButtonClass} left-2`}
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate("next")}
+                disabled={!hasNext}
+                aria-label={t("nextPerson")}
+                className={`${navButtonClass} right-2`}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </>
+          )}
         </div>
       </Modal>
 

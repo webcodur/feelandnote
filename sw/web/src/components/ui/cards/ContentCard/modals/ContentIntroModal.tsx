@@ -6,8 +6,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
+import { Link } from "@/i18n/navigation";
 import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
@@ -27,6 +28,8 @@ interface ContentIntroModalProps {
   contentThumbnail?: string | null;
   fallbackDescription?: string | null;
   fallbackMetadata?: ContentMetadata | null;
+  /** 우리 작품 상세 페이지 주소 — 주면 소개 모달 아래에 상세 진입 문이 선다 */
+  detailHref?: string;
 }
 
 export default function ContentIntroModal({
@@ -39,6 +42,7 @@ export default function ContentIntroModal({
   contentThumbnail,
   fallbackDescription,
   fallbackMetadata,
+  detailHref,
 }: ContentIntroModalProps) {
   const locale = useLocale();
   const t = useTranslations("content.intro");
@@ -161,6 +165,16 @@ export default function ContentIntroModal({
                 ))}
               </dl>
             )}
+            {detailHref && !isLoading ? (
+              <div className="mt-5 flex justify-end">
+                <Link
+                  href={detailHref}
+                  className="inline-flex items-center gap-1 rounded-md text-xs font-semibold text-accent hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  {t("viewDetail")}<ArrowUpRight size={13} aria-hidden />
+                </Link>
+              </div>
+            ) : null}
           </div>
         </div>
       </ModalBody>

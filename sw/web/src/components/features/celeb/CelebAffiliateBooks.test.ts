@@ -4,7 +4,7 @@ import test from 'node:test'
 import type { FigureBookContent, FigureBookEdition } from '@/actions/figure-books/getFigureBooks'
 
 import { createAffiliateBooksLoadGate } from './CelebAffiliateBooksLoadGate'
-import { mapRelatedFigureBooksToAffiliateBooks } from './CelebRelatedAffiliateBooks'
+import { isShelfSellable, mapRelatedFigureBooksToAffiliateBooks } from './CelebRelatedAffiliateBooks'
 
 const RESULT = {
   books: [{
@@ -180,6 +180,18 @@ test('창작 도서와 구매 링크·유효 ISBN이 모두 없는 판본은 참
   assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks(books, 'ko').map((book) => book.contentId), ['valid'])
 })
 
+test('창작 탭이 없는 화면은 includeAuthored로 인물 저서도 상품에 올린다', () => {
+  const books = [
+    relatedBook({ id: 'written', relationType: 'authored', editions: [saleEdition()] }),
+    relatedBook({ id: 'related', editions: [saleEdition({ id: 2 })] }),
+  ]
+
+  assert.deepEqual(
+    mapRelatedFigureBooksToAffiliateBooks(books, 'ko', { includeAuthored: true }).map((book) => book.contentId),
+    ['written', 'related'],
+  )
+})
+
 test('한국어 ISBN이 있는 연관 판본은 쿠팡 상품 없이도 제목·판본 ID를 유지해 표시한다', () => {
   const edition = saleEdition({ id: 42, platform: null, purchaseUrl: null, isbn: '978-89-6626-095-9' })
   const books = [relatedBook({ editions: [edition] })]
@@ -224,4 +236,12 @@ test('여러 판본과 중복 작품은 한 상품으로 묶고 연관 상품을
   const products = mapRelatedFigureBooksToAffiliateBooks([...books, books[0]], 'ko')
 
   assert.deepEqual(products.map((book) => book.contentId), books.map((book) => book.id))
+})
+
+test('판촉 선반은 번역본 없음·절판 띠가 붙은 책을 모두 뺀다', () => {
+  for (const titleBadge of ['no-ko', 'no-en', 'out-of-print'] as const) {
+    assert.equal(isShelfSellable({ contentId: 'x', title: 'x', url: '', titleBadge }), false)
+  }
+  assert.equal(isShelfSellable({ contentId: 'x', title: 'x', url: '', titleBadge: null }), true)
+  assert.equal(isShelfSellable({ contentId: 'x', title: 'x', url: '' }), true)
 })

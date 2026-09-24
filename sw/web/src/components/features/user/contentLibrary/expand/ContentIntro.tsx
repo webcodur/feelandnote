@@ -11,14 +11,13 @@ import { useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { BookOpen } from "lucide-react";
 
-import ContentReadingText from "@/components/ui/ContentReadingText";
+import ClippedContentReadingText from "@/components/ui/ClippedContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
 import { getCategoryById, type CategoryId } from "@/constants/categories";
-import { useClippedText } from "@/hooks/useClippedText";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
@@ -41,8 +40,6 @@ const PROVIDER_LABEL: Record<ContentIntroSource["provider"], string> = {
 /* 줄 수를 미리 박지 않는다. 넓은 화면은 칸이 주는 높이(표지 열, ExpandCard가 정한다)만큼 채우고
    나머지를 자른다. 모바일은 표지·구매 버튼 아래로 본문이 이어지는 여유를 둔다. overflow-clip은 float를 막는 별도 서식 영역을 만들지 않는다. */
 const INTRO_BODY_CLASS = "overflow-clip max-sm:max-h-[calc(var(--intro-media-height,198px)+5lh)] sm:min-h-0 sm:flex-1";
-/* PC·모바일 모두 잘린 글은 말줄임표 대신 아래쪽을 서서히 흐린다 */
-const INTRO_CLIPPED_CLASS = "clip-fade-end";
 
 interface ContentIntroProps {
   brief: ContentBrief | null;
@@ -82,10 +79,6 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const activeText = active ? normalizeContentIntroText(active.text) : null;
   const fullText = text ?? activeText;
 
-  // 본문이 없거나 로딩 중이면 직전 카드의 측정값이 남을 수 있어 본문 유무로 한 번 더 가른다
-  const { ref: bodyRef, isClipped: isBodyClipped } = useClippedText(fullText, !isLoading);
-  const isClipped = !isLoading && !!fullText && isBodyClipped;
-  const bodyClass = isClipped ? `${INTRO_BODY_CLASS} ${INTRO_CLIPPED_CLASS}` : INTRO_BODY_CLASS;
   // 짧아 다 보이는 글도 눌러 모달로 읽는다 — 모달은 잘린 글의 더보기가 아니라 다른 읽기 화면이다
   const openModal = () => setIsModalOpen(true);
   // 책은 보존된 소개 출처로, 음악은 지금 고른 바깥 소개로 나간다
@@ -116,17 +109,16 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
           <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
         </div>
       ) : text ? (
-        <ContentReadingText
-          ref={bodyRef}
+        <ClippedContentReadingText
           text={text}
           tone="secondary"
           size="compact"
-          className={bodyClass}
+          className={INTRO_BODY_CLASS}
           onClick={openModal}
           clickLabel={t("expandIntroMore")}
         >
           {inlineIcon}<FormattedText text={text} />
-        </ContentReadingText>
+        </ClippedContentReadingText>
       ) : active ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
           {sources.length > 1 && (
@@ -153,17 +145,16 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
             </div>
           )}
 
-          <ContentReadingText
-            ref={bodyRef}
+          <ClippedContentReadingText
             text={activeText}
             tone="secondary"
             size="compact"
-            className={bodyClass}
+            className={INTRO_BODY_CLASS}
             onClick={openModal}
             clickLabel={t("expandIntroMore")}
           >
             {inlineIcon}<FormattedText text={activeText} />
-          </ContentReadingText>
+          </ClippedContentReadingText>
 
           {active.url && (
             <a

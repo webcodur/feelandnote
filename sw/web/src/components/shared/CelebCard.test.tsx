@@ -14,11 +14,11 @@ const compiled = ts.transpileModule(readFileSync(new URL("./CelebCard.tsx", impo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 
-function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number } = {}) {
+function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number; voice?: boolean } = {}) {
   const locale = options.locale ?? "ko";
   const profile = {
     id: "figure-id", slug: "bill-gates", nickname: "빌 게이츠", nickname_en: "Bill Gates",
-    has_voice: false, greeting: ["안녕하세요"], view_count: 120,
+    has_voice: options.voice !== false, greeting: ["안녕하세요"], view_count: 120,
   } as CelebProfile;
   const mocks: Record<string, unknown> = {
     "@/i18n/navigation": {
@@ -65,7 +65,7 @@ for (const variant of ["card", "circle", "medallion"] as const) {
     const dialogue = $('button[aria-label="빌 게이츠 · Show dialogue"]');
     assert.equal(dialogue.length, 1);
     assert.equal(dialogue.parents("a").length, 0);
-    assert.equal(dialogue.find("[data-voice-active]").attr("data-voice-active"), "false");
+    assert.equal(dialogue.find("[data-voice-active]").attr("data-voice-active"), "true");
     if (variant !== "medallion") assert.ok(link.text().includes("빌 게이츠"));
     if (variant === "card") assert.equal($('button[aria-label*="viewsBadge"]').parents("a").length, 0);
   });
@@ -76,6 +76,12 @@ test("English names and links use the locale while views remain a separate actio
   assert.equal($('a[href="/en/celeb/bill-gates"]').text().trim(), "Bill Gates");
   assert.equal($('button[aria-label="Bill Gates · Show dialogue"]').length, 1);
   assert.equal($('button[aria-label*="viewsBadge"]').length, 1);
+});
+
+test("voiceless figures do not offer a speaker button on any card variant", () => {
+  for (const variant of ["card", "circle", "medallion"] as const) {
+    assert.equal(renderCard({ variant, voice: false })('button[aria-label*="Show dialogue"]').length, 0);
+  }
 });
 
 test("cards without a loaded profile use the figure ID route and offer no unusable dialogue button", () => {

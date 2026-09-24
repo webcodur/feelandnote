@@ -1,13 +1,15 @@
 import { NextRequest } from "next/server";
 import { isReadingTiming } from "@/lib/reading-timing";
-import { getReadingVoiceUrl, getVirtualMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { getFactionDescVoiceUrl, getReadingVoiceUrl, getVirtualMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // The public asset host does not expose CORS headers. Only proxy these fixed asset paths.
 const KIND_URL: Record<string, (id: string, locale: "ko" | "en", v: number) => string> = {
   reading: getReadingVoiceUrl,
   monologue: getVirtualMonologueVoiceUrl,
+  // 세력 개요 음성은 정수 버전이 없다 — 존재 확인은 오브젝트 etag 대조가 맡는다
+  faction: (id, locale) => getFactionDescVoiceUrl(id, locale),
 };
-const KIND_STEM: Record<string, string> = { reading: "reading", monologue: "vmonologue" };
+const KIND_STEM: Record<string, string> = { reading: "reading", monologue: "vmonologue", faction: "description" };
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams;

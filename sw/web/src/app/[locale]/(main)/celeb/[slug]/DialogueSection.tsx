@@ -13,6 +13,7 @@ import { CELEB_DIALOGUE_SITUATIONS } from "@feelandnote/shared/constants/celeb-s
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { getVoiceUrl, getQuoteVoiceUrl, getMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { registerVoice, releaseAudio } from "@/lib/audio-ducking";
 
 /* ── 1. 대사 상황·테마 ── */
 // region 대사 상황 목록
@@ -116,8 +117,9 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
 /* ── 2. 개별 재생 ── */
   // region 개별 재생
   const stopAudio = useCallback(() => {
-    audioRef.current?.pause();
+    const audio = audioRef.current;
     audioRef.current = null;
+    audio?.pause();
     setPlayingKey(null);
     setLoadingKey(null);
   }, []);
@@ -136,6 +138,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     const key = `${type}-${variant}`;
     if (audioCacheRef.current.has(key)) return;
     const audio = new Audio(getUrl(type, variant));
+    registerVoice(audio);
     audio.preload = "auto";
     audioCacheRef.current.set(key, audio);
     audio.load();
@@ -146,11 +149,12 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     const key = `${type}-${variant}`;
     let audio = audioCacheRef.current.get(key) ?? null;
     if (!audio || audio.error) {
-      if (audio) audioCacheRef.current.delete(key);
+      if (audio) { audioCacheRef.current.delete(key); releaseAudio(audio); }
       audio = new Audio(getUrl(type, variant));
       audio.preload = "auto";
       audioCacheRef.current.set(key, audio);
     }
+    registerVoice(audio);
     audio.volume = 0.7;
     // load()는 playbackRate를 defaultPlaybackRate로 되돌리므로 둘 다 맞춘다
     audio.defaultPlaybackRate = voiceSpeed;
@@ -181,6 +185,15 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     // 핸들러는 재생마다 갈아낀다. 보관 엘리먼트를 돌려쓰므로 addEventListener 누적 방지.
     audio.onended = cleanup;
     audio.onerror = fail;
+    audio.onpause = () => {
+      if (audioRef.current !== audio || !audio.paused || audio.ended) return;
+      audioRef.current = null;
+      stoppedRef.current = true;
+      autoQueueRef.current = [];
+      setAutoPlaying(false);
+      setPlayingKey(null);
+      setLoadingKey(null);
+    };
     audioRef.current = audio;
     if (audio.readyState >= 3) {
       // 이미 받아져 있다 — 로딩 표시 없이 처음부터 바로 낸다
@@ -260,7 +273,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   // 언마운트 시 정리. 보관 엘리먼트도 놓아 버퍼를 반환한다.
   useEffect(() => () => {
     stopAudio();
-    audioCacheRef.current.forEach((cached) => cached.pause());
+    audioCacheRef.current.forEach((cached) => releaseAudio(cached));
     audioCacheRef.current.clear();
   }, [stopAudio]);
 

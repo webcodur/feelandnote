@@ -22,7 +22,6 @@ import { ArrowUpRight, Expand, LoaderCircle, User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import SwipeControls from "@/components/ui/SwipeControls";
-import VoiceBadge from "@/components/ui/VoiceBadge";
 import WikiMark from "@/components/ui/icons/WikiMark";
 import { getCelebProfileUrl } from "@/lib/url";
 import useRelationDialogue from "@/hooks/useRelationDialogue";
@@ -159,13 +158,11 @@ export default function FigurePersonRows({
                     aria-busy={speaker.loading || undefined}
                     className="group/speak flex min-w-0 flex-1 flex-col justify-center px-3.5 py-2.5 text-left hover:bg-accent/5 disabled:cursor-default disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
                   >
-                    <span className="flex items-center gap-1.5 truncate font-semibold text-text-primary group-hover/speak:text-accent">
+                    <span className={`flex items-center gap-1.5 truncate font-semibold group-hover/speak:text-accent ${speaker.hasVoice ? "text-emerald-400" : "text-text-primary"}`}>
                       <span className="truncate">{person.name}</span>
-                      {speaker.loading ? (
+                      {speaker.loading && (
                         <LoaderCircle size={13} className="shrink-0 animate-spin text-text-tertiary" aria-hidden />
-                      ) : speaker.hasVoice ? (
-                        <VoiceBadge size="sm" active pulse={speaker.pulse} />
-                      ) : null}
+                      )}
                     </span>
                     {subtitle && (
                       <span className="truncate text-xs text-text-secondary">{subtitle}</span>
@@ -180,7 +177,7 @@ export default function FigurePersonRows({
                       prefetch={false}
                       aria-label={`${t("relGoPersonPage")}: ${person.name}`}
                       title={t("relGoPersonPage")}
-                      className="flex w-10 shrink-0 items-center justify-center border-s border-white/10 text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+                      className="flex w-8 shrink-0 items-center justify-center border-s border-white/10 text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
                     >
                       <ArrowUpRight size={16} aria-hidden />
                     </Link>
@@ -191,7 +188,7 @@ export default function FigurePersonRows({
                       rel="noreferrer"
                       aria-label={`${t("relViewWikidata")}: ${person.name}`}
                       title={t("relViewWikidata")}
-                      className="flex w-10 shrink-0 items-center justify-center border-s border-white/10 text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      className="flex w-8 shrink-0 items-center justify-center border-s border-white/10 text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       <WikiMark size={16} />
                     </a>

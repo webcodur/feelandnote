@@ -28,6 +28,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     href,
     selectable,
     onStatsClick,
+    onClick,
     className,
   } = props;
 
@@ -180,7 +181,18 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     <div className="relative">
       <div className="relative group/card">
         <CornerAccents />
-        <div className={containerClass} onClick={handleClick}>
+        <div
+          className={containerClass}
+          onClick={handleClick}
+          role={onClick ? "button" : undefined}
+          tabIndex={onClick ? 0 : undefined}
+          onKeyDown={onClick ? (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onClick();
+            }
+          } : undefined}
+        >
           {cardContent}
         </div>
       </div>

@@ -1,14 +1,60 @@
 import React from "react";
 
-// 작은따옴표 안의 축약형은 닫는 부호가 아니다. 대시는 짝이 있는 삽입구만 강조한다.
+// 작은따옴표 안의 축약형(don't)은 닫는 부호가 아니다 — 부호가 한글이 아닌 문자·숫자와 붙으면 닫지 않는다.
+// 한국어는 ‘…’는처럼 닫는 부호 뒤에 조사가 바로 붙으므로 한글 뒤따름은 닫는 부호로 인정한다.
+// 대시는 짝이 있는 삽입구만 강조한다.
 // en dash는 양옆 공백으로 문장용 부호를 구분해 숫자 범위와 합성어를 보존한다.
-const EMPHASIS_PATTERN = /("[^"\n]*"|“[^”\n]*”|(?<![\p{L}\p{N}])'(?=\S)[^\n]*?'(?![\p{L}\p{N}])|‘[^\n]*?’(?![\p{L}\p{N}])|『[^』\n]*』|《[^》\n]*》|「[^」\n]*」|〈[^〉\n]*〉|<[^>\n]*>|—[^—\n.!?]+—|(?<=\s)–[^–\n.!?]+–(?=\s|[.,;:!?]|$)|(?<!-)--[^\n.!?]+?--(?!-)|(?<![\p{L}\p{N}\p{M}])\p{L}[\p{L}\p{N}\p{M}’'·-]*[ \t]*\((?=[^()\n]*\p{L})[^()\n]+\))/gu;
+const EMPHASIS_PATTERN = /("[^"\n]*"|“[^”\n]*”|(?<!(?![\uAC00-\uD7A3])[\p{L}\p{N}])'(?=\S)[^\n]*?'(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|‘[^\n]*?’(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|『[^』\n]*』|《[^》\n]*》|「[^」\n]*」|〈[^〉\n]*〉|<[^>\n]*>|—[^—\n.!?]+—|(?<=\s)–[^–\n.!?]+–(?=\s|[.,;:!?]|$)|(?<!-)--[^\n.!?]+?--(?!-)|(?<![\p{L}\p{N}\p{M}])\p{L}[\p{L}\p{N}\p{M}’'·-]*[ \t]*\((?=[^()\n]*\p{L})[^()\n]+\))/gu;
 const TERM_PATTERN = /^(\p{L}[\p{L}\p{N}\p{M}’'·-]*)([ \t]*\(([^()\n]+)\))$/u;
 
 interface TextPart {
   text: string;
   emphasis: boolean;
   term?: "name" | "definition";
+}
+
+/** 강조(인용·용어·삽입구) 조각의 원문 범위 — 청크로 자를 때 강조 쌍이 경계에서 끊기지 않게 넘겨준다 */
+export function emphasisSpans(text: string): { start: number; end: number }[] {
+  return Array.from(text.matchAll(EMPHASIS_PATTERN), (match) => ({ start: match.index, end: match.index + match[0].length }));
+}
+
+/** 문단에서 맞춘 강조 조각의 정규화 부호 — 경계로 잘린 조각 가장자리에 온전한 인용과 같은 부호를 다시 입힐 때 쓴다 */
+export function emphasisDelimiters(matched: string): { open: string; close: string } | undefined {
+  const first = matched[0];
+  if (first === '"' || first === "“") return { open: "“", close: "”" };
+  if (first === "'" || first === "‘" || first === "「" || first === "〈" || first === "<") return { open: "‘", close: "’" };
+  if (first === "『" || first === "《") return { open: "《", close: "》" };
+  return undefined; // 대시·용어는 원문 부호를 그대로 쓴다
+}
+
+/** 문단에서 맞춘 강조 조각의 클래스 — 경계로 잘린 조각은 부호 쌍을 못 보니 쌍째 텍스트로 판정한다. 아래 렌더의 부호 규칙과 같은 분류다 */
+export function emphasisClassName(matched: string, highlightClassName?: string): string | undefined {
+  if (
+    (matched.startsWith('"') && matched.endsWith('"')) ||
+    (matched.startsWith("“") && matched.endsWith("”"))
+  ) {
+    return highlightClassName ? `font-semibold ${highlightClassName}` : "font-medium text-accent-hover";
+  }
+  if (
+    (matched.startsWith('『') && matched.endsWith('』')) ||
+    (matched.startsWith('《') && matched.endsWith('》'))
+  ) {
+    return highlightClassName ? `font-bold ${highlightClassName}` : "text-white font-bold";
+  }
+  if (
+    (matched.startsWith('「') && matched.endsWith('」')) ||
+    (matched.startsWith('〈') && matched.endsWith('〉')) ||
+    (matched.startsWith('<') && matched.endsWith('>')) ||
+    (matched.startsWith("'") && matched.endsWith("'")) ||
+    (matched.startsWith("‘") && matched.endsWith("’")) ||
+    (matched.startsWith("—") && matched.endsWith("—")) ||
+    (matched.startsWith("–") && matched.endsWith("–")) ||
+    (matched.startsWith("--") && matched.endsWith("--"))
+  ) {
+    return highlightClassName ? `font-medium ${highlightClassName}` : "font-serif text-accent";
+  }
+  // 용어는 이름·정의 두 톤이라 조각 강조를 지원하지 않는다 — 문장을 가르는 일이 없어 방어하지 않는다
+  return undefined;
 }
 
 function splitEmphasis(text: string): TextPart[] {
@@ -188,7 +234,7 @@ export default function FormattedText({
         const emit = (value: string, marked: boolean, key: string) =>
           value ? (
             marked ? (
-              <mark key={key} className="rounded-sm bg-accent/15 text-accent [box-decoration-break:clone]" aria-current="true">{lines(value, key)}</mark>
+              <mark key={key} className="rounded-sm bg-[#3dff7a]/10 text-[#3dff7a] [box-decoration-break:clone]" aria-current="true">{lines(value, key)}</mark>
             ) : (
               // 강조 스타일은 인용 조각에만 얹는다 — 일반 글자에 그라디언트가 깔리면 배경 네모가 된다
               <span key={key} className={partClass} style={partClass && highlightClassName ? highlightStyle : undefined}>{lines(value, key)}</span>

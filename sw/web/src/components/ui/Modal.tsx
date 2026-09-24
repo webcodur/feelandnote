@@ -23,10 +23,12 @@ interface ModalProps {
   title?: string;
   titleClassName?: string;
   titleStyle?: CSSProperties;
+  /** 제목 오른쪽에 붙는 보조 조작 — 인물 상세로 가는 화살표 같은 링크·버튼 */
+  titleAction?: ReactNode;
   stickyHeader?: boolean;
   icon?: LucideIcon;
   size?: "sm" | "md" | "lg" | "xl" | "full";
-  /** size 대신 박스 너비 클래스를 직접 준다 (max-w-2xl, w-[min(90vw,340px)] 등) */
+  /** size 대신 박스 너비 클래스를 직접 준다 (max-w-2xl, w-[min(90vw,340px)] 등). w-·size-를 주면 기본 w-full을 뺀다 */
   widthClassName?: string;
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
@@ -35,6 +37,8 @@ interface ModalProps {
   /** ESC를 캡처 단계에서 잡아 같은 문서의 다른 리스너보다 먼저 처리한다 (전체화면 게임 위 모달) */
   escapeCapture?: boolean;
   animateHeight?: boolean;
+  /** 높이 전환 시간(ms). 기본은 AnimatedHeight의 320 — 빠른 반응이 필요한 모달은 200 안팎으로 내린다 */
+  animateHeightDuration?: number;
   /** 세로 상한. 기본은 상하 2rem씩 비워 화면을 꽉 채우지 않는다 */
   maxHeightClassName?: string;
   /** 스크롤 영역 아래에 글이 더 남았을 때 끝을 흐린다. 읽기용 모달에서 켠다 */
@@ -76,6 +80,7 @@ export default function Modal({
   title,
   titleClassName,
   titleStyle,
+  titleAction,
   stickyHeader = false,
   icon: Icon,
   size = "md",
@@ -85,6 +90,7 @@ export default function Modal({
   closeOnEscape = true,
   escapeCapture = false,
   animateHeight = true,
+  animateHeightDuration,
   maxHeightClassName = "max-h-[calc(100dvh-4rem)]",
   fadeClippedEnd = false,
   zIndex,
@@ -147,7 +153,9 @@ export default function Modal({
     if (closeOnOverlayClick) onClose();
   };
 
-  const boxClass = `w-full ${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "rounded-lg" : "relative"} ${boxClassName ?? ""}`;
+  // widthClassName이 너비(w-·size-)를 직접 쥐면 w-full과 같은 속성을 두고 싸워 생성 순서로 진다 — 그 경우 w-full을 뺀다
+  const hasOwnWidth = /(?:^|\s)(?:w-|size-)/.test(widthClassName ?? "");
+  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "rounded-lg" : "relative"} ${boxClassName ?? ""}`;
   const closeInHeader = Boolean(title && stickyHeader && !closeButtonClassName);
   const closeButton = showCloseButton && (
     <button
@@ -177,13 +185,14 @@ export default function Modal({
             <div className="flex min-w-0 items-center gap-1.5 text-center">
               {Icon && <Icon size={16} className="text-accent" />}
               <h2 className={`text-base sm:text-lg ${titleClassName ?? "text-text-primary"}`} style={titleStyle}>{title}</h2>
+              {titleAction}
             </div>
             {closeInHeader && closeButton}
           </div>
         )}
 
         {/* 본문 */}
-        {animateHeight ? <AnimatedHeight independent>{children}</AnimatedHeight> : children}
+        {animateHeight ? <AnimatedHeight independent duration={animateHeightDuration}>{children}</AnimatedHeight> : children}
       </div>
     </>
   );

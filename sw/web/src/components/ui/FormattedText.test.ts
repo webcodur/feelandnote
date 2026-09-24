@@ -87,6 +87,16 @@ test("single-quoted English phrases keep internal apostrophes", () => {
   assert.match(html, /‘a writer’s life’<\/span>/);
 });
 
+test("Korean quotes keep emphasis when a particle hugs the closing quote", () => {
+  const html = renderText("‘빠르게 움직이고 기존의 틀을 깨라’는 모토로 내달렸다.");
+  assert.match(html, /class="font-serif text-accent">‘빠르게 움직이고 기존의 틀을 깨라’<\/span>/);
+  assert.match(html, /<span>는 모토로 내달렸다.<\/span>/);
+
+  const attached = renderText("속으로'안돼'라고 했다.");
+  assert.match(attached, /class="font-serif text-accent">‘안돼’<\/span>/);
+  assert.match(attached, /<span>라고 했다.<\/span>/);
+});
+
 test("dash asides keep the modal highlight style off surrounding prose", () => {
   const html = renderHighlightedTextWithStyle("Books —a lasting influence— shaped him.");
   assert.equal((html.match(/background-image/g) ?? []).length, 1);
@@ -100,6 +110,31 @@ test("narration marks keep source offsets across English punctuation", () => {
   const html = renderToStaticMarkup(React.createElement(FormattedText, { text, mark: { start, end } }));
   const marked = Array.from(html.matchAll(/<mark[^>]*>(.*?)<\/mark>/g), (match) => match[1]).join("");
   assert.equal(marked, text.slice(start, end));
+  // 재생 문장은 에메랄드 — 골드 인용 강조와 색이 갈려야 읽는 위치가 구분된다
+  assert.match(html, /<mark class="[^"]*bg-emerald-400\/15[^"]*text-emerald-300/);
+});
+
+test("quotes split across narration segments still get emphasis", () => {
+  const text = "앞 문장. “싸우자! 싸우자! 싸우자!” 뒤 문장.";
+  const s1 = text.indexOf("싸우자!");
+  const s2 = text.indexOf("싸우자!", s1 + 1);
+  const s3 = text.indexOf("싸우자!", s2 + 1);
+  const q2 = text.indexOf("”") + 1;
+  const segments = [
+    { start: 0, end: 1, textStart: 0, textEnd: s1 },
+    { start: 1, end: 2, textStart: s1, textEnd: s2 },
+    { start: 2, end: 3, textStart: s2, textEnd: s3 },
+    { start: 3, end: 4, textStart: s3, textEnd: q2 },
+    { start: 4, end: 5, textStart: q2, textEnd: text.length },
+  ];
+  const html = renderToStaticMarkup(
+    React.createElement(ReadingHighlightText, { text, segments, onPlayFrom: () => {} }),
+  );
+  // 인용구가 세그먼트 경계에서 잘려도 조각마다 강조가 입혀진다 — “ · 싸우자! · 싸우자! · 싸우자!” 네 조각
+  assert.equal((html.match(/font-medium text-accent-hover/g) ?? []).length, 4);
+  // 조각마다 자기 세그먼트의 재생 버튼을 유지한다 — 클릭한 지점부터 재생되는 게 그대로다
+  assert.equal((html.match(/role="button"/g) ?? []).length, 6);
+  assert.match(html, /싸우자!”<\/span>/);
 });
 
 test("reading previews share English emphasis and paragraph-relative narration marks", () => {

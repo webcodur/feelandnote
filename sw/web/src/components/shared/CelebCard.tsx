@@ -184,9 +184,9 @@ export default function CelebCard({
           ) : null}
         </Link>
 
-        {/* 사진 위에 놓되 링크 밖의 독립 버튼으로 제공한다. */}
+        {/* 사진 위에 놓되 링크 밖의 독립 버튼으로 제공한다. 음성이 실제로 있는 인물만 스피커를 둔다. */}
         <div className={`absolute top-0 pointer-events-none ${config.container}`}>
-          {onSubtitle && celebProfile && (
+          {onSubtitle && celebProfile && hasVoice && (
             <button
               type="button"
               onClick={fireDialogue}

@@ -22,7 +22,7 @@ import CelebPageContent from "./CelebPageContent";
 import RelatedFigureLinks from "./RelatedFigureLinks";
 import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import { mapRelatedFigureBooksToAffiliateBooks } from "@/components/features/celeb/CelebRelatedAffiliateBooks";
-import { partitionFigureBooks, placeOutOfPrintLast } from "@/lib/celeb/authoredBooks";
+import { partitionFigureBooks, placeOutOfPrintLast, pickDisplayFigureBooks } from "@/lib/celeb/authoredBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
@@ -156,7 +156,11 @@ export default async function CelebPage({ params }: PageProps) {
 
   // 직접 등장과 간접 연관은 중단 「연관작품」에 함께 표시하고, 창작은 「창작」 탭으로 보낸다.
   const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(allFigureBooks);
-  const figureBooks = [...appearanceBooks, ...relatedBooks].filter((book) => book.editions.length > 0);
+  const figureBooks = [...appearanceBooks, ...relatedBooks].filter((book) => (
+    book.editions.length > 0 || (locale === 'en' && book.type === 'BOOK' && book.titleBadge === 'no-en')
+  ));
+  // 영어판이 없는 도서도 등장 관계는 보여 준다. 판본·구매 정보는 실제 영어판이 있을 때만 사용한다.
+  const displayFigureBooks = pickDisplayFigureBooks(figureBooks, locale);
   const authoredIds = authoredBooks.map((book) => book.id);
   // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full 인물은
   // 사실상 항상 결과가 있다(한국어 YES24·영어 아마존 검색). 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.
@@ -243,8 +247,8 @@ export default async function CelebPage({ params }: PageProps) {
         initialAnalysis={initialAnalysis}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief ?? undefined}
-        // 절판 작품은 화면 목록에서만 뒤로 보낸다. 제목·구조화 데이터는 저장 순서의 첫 등장 작품을 그대로 쓴다.
-        figureBooks={placeOutOfPrintLast(figureBooks)}
+        // 영문 화면에서는 번역본 없는 도서의 등장 관계도 표식과 함께 보여 준다.
+        figureBooks={displayFigureBooks}
         authoredBooks={authoredBooks}
         worldId={worldId}
         worldBannerImages={worldBannerImages}

@@ -7,6 +7,7 @@ import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 export function mapRelatedFigureBooksToAffiliateBooks(
   relatedBooks: FigureBookContent[],
   locale: string,
+  options?: { includeAuthored?: boolean },
 ): AffiliateBook[] {
   const platform = getFigureBookPurchasePlatform(locale)
   if (!platform) return []
@@ -14,7 +15,8 @@ export function mapRelatedFigureBooksToAffiliateBooks(
   const books: AffiliateBook[] = []
   const seen = new Set<string>()
   for (const book of relatedBooks) {
-    if (book.relationType === 'authored' || book.type !== 'BOOK' || seen.has(book.id)) continue
+    // 인물 저서는 상세 「창작」탭 몫이라 상품 선반에서는 기본으로 뺀다 — 창작 탭이 없는 화면(가상독백 카드)은 includeAuthored로 되살린다
+    if ((book.relationType === 'authored' && !options?.includeAuthored) || book.type !== 'BOOK' || seen.has(book.id)) continue
 
     const candidates = book.editions.filter((item) => (
       item.title.trim() !== '' && (item.platform === platform || item.platform === null)
@@ -47,3 +49,6 @@ export function mapRelatedFigureBooksToAffiliateBooks(
   }
   return books
 }
+
+/** 판촉 선반에 세울 수 있는 책 — 「번역본 없음」·「절판」 띠가 붙으면 지금 화면 말로 살 수 없어 뺀다 */
+export const isShelfSellable = (book: AffiliateBook) => book.titleBadge == null
