@@ -27,7 +27,7 @@ import {
   parseJpegDimensions,
   PRIMARY_PORT,
 } from './lib/oracle-web-remote.mjs'
-import { observeProduction } from './lib/oracle-web-observe.mjs'
+import { verifyProduction } from './lib/oracle-web-verify.mjs'
 
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const WEB_RELATIVE_PATH = 'sw/web'
@@ -561,8 +561,8 @@ async function verifyPublicSeoImage(releaseId, probeSlug) {
   }
 }
 
-async function verifyPublicPageAssets(releaseId, probeSlug) {
-  return observeProduction({ origin: PRODUCTION_SITE_URL, releaseId, probeSlug, durationMs: 0 })
+async function verifyPublicPageAssets(releaseId, probeSlug, readRuntime) {
+  return verifyProduction({ origin: PRODUCTION_SITE_URL, releaseId, probeSlug, readRuntime })
 }
 
 function cleanupRemoteUploads(config, uploaded) {
@@ -711,7 +711,8 @@ async function main() {
     let publicPage
     let publicSeoImage
     try {
-      publicPage = await verifyPublicPageAssets(releaseId, config.probeSlug)
+      publicPage = await verifyPublicPageAssets(releaseId, config.probeSlug,
+        async () => JSON.parse(runRemoteHelper(config, uploaded, 'status', [], { releaseId }).stdout))
       publicSeoImage = await verifyPublicSeoImage(releaseId, config.probeSlug)
     } catch (error) {
       runRemoteHelper(config, uploaded, 'rollback', [
@@ -736,22 +737,6 @@ async function main() {
     ], { releaseId, inherit: false }).stdout
     const canaryCleanup = JSON.parse(canaryCleanupOutput)
     canaryCleanupPending = false
-    // Release canary memory before the longer check. A late failure must not be reported as success;
-    // keep the live release for diagnosis, since the old release can share the same runtime fault.
-    let observation
-    try {
-      observation = await observeProduction({
-        origin: PRODUCTION_SITE_URL,
-        releaseId,
-        probeSlug: config.probeSlug,
-        readRuntime: async () => JSON.parse(runRemoteHelper(config, uploaded, 'status', [], { releaseId }).stdout),
-        onPass: ({ pass, elapsedMs, runtime }) => process.stdout.write(
-          `[oracle-web-deploy] Observation ${pass}: ${Math.round(elapsedMs / 1000)}s, pid=${runtime.mainPid}, RSS=${Math.round(runtime.rssBytes / 1048576)}MiB\n`,
-        ),
-      })
-    } catch (error) {
-      throw new Error(`Deployment remains live, but the 20-minute stability check failed; inspect before retrying: ${error.message}`)
-    }
     deployed = true
     const requiredPurgeScopes = purgePlan.scopes.filter((scope) => scope !== 'none')
     printPlan({
@@ -762,7 +747,6 @@ async function main() {
       canaryCleanup,
       publicPage,
       publicSeoImage,
-      observation,
       cloudflarePurgeRequired: requiredPurgeScopes,
       // 배포는 여기서 끝나지 않는다. 남은 범위를 비우는 명령을 바로 손에 쥐여 준다.
       cloudflarePurgeCommands: requiredPurgeScopes.map(

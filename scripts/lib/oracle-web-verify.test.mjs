@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { createServer } from 'node:http'
 import test from 'node:test'
-import { observeProduction } from './oracle-web-observe.mjs'
+import { verifyProduction } from './oracle-web-verify.mjs'
 
 async function fixture(t, options = {}) {
   const id = 'ffe824ac-web-20260921t122802z'
@@ -29,38 +29,45 @@ async function fixture(t, options = {}) {
   return { id, origin: `http://127.0.0.1:${server.address().port}`, requests }
 }
 
-test('public observation bypasses edge cache and reads the new HTML and complete assets', async t => {
+test('public verification bypasses edge cache and reads the new HTML and complete assets', async t => {
   const f = await fixture(t)
-  const result = await observeProduction({ origin: f.origin, releaseId: f.id, durationMs: 0 })
-  assert.equal(result.passes, 1)
-  assert.equal(result.last.staticAssets.checked, 2)
-  assert.equal(result.last.staticAssets.bytes, 20)
+  const result = await verifyProduction({ origin: f.origin, releaseId: f.id })
+  assert.equal(f.requests.length, 11) // One identity check, eight pages, two deduplicated assets.
+  assert.equal(result.staticAssets.checked, 2)
+  assert.equal(result.staticAssets.bytes, 20)
   assert.ok(f.requests.some(u => u.pathname === '/en/library' && u.searchParams.has('_rsc')))
   assert.ok(f.requests.some(u => u.pathname === '/api/deployment'))
 })
 
 test('a cached 200 is not evidence of origin health', async t => {
   const f = await fixture(t, { cached: true })
-  await assert.rejects(observeProduction({ origin: f.origin, releaseId: f.id, durationMs: 0 }), /cached response/i)
+  await assert.rejects(verifyProduction({ origin: f.origin, releaseId: f.id }), /cached response/i)
 })
 
 test('a fresh deployment endpoint does not hide stale page HTML', async t => {
   const f = await fixture(t, { staleHtml: true })
-  await assert.rejects(observeProduction({ origin: f.origin, releaseId: f.id, durationMs: 0 }), /deployment id/i)
+  await assert.rejects(verifyProduction({ origin: f.origin, releaseId: f.id }), /deployment id/i)
 })
 
-test('200 asset headers with a body that never finishes fail the observation', async t => {
+test('200 asset headers with a body that never finishes fail the verification', async t => {
   const f = await fixture(t, { stalledAsset: true })
-  await assert.rejects(observeProduction({ origin: f.origin, releaseId: f.id, durationMs: 0, timeoutMs: 100 }))
+  await assert.rejects(verifyProduction({ origin: f.origin, releaseId: f.id, timeoutMs: 100 }))
 })
 
-test('a later process restart fails even if every public response is 200', async t => {
+test('an inactive runtime fails before public requests', async t => {
   const f = await fixture(t)
-  let clock = 0
-  let checks = 0
-  await assert.rejects(observeProduction({
-    origin: f.origin, releaseId: f.id, durationMs: 60_000,
-    now: () => clock, sleep: async ms => { clock += ms },
-    readRuntime: async () => ({ service: 'active', mainPid: ++checks === 1 ? 10 : 11, restarts: 0 }),
-  }), /restarted/i)
+  await assert.rejects(verifyProduction({
+    origin: f.origin, releaseId: f.id,
+    readRuntime: async () => ({ service: 'failed', mainPid: 0 }),
+  }), /not active/i)
+  assert.equal(f.requests.length, 0)
+})
+
+test('an inactive tunnel fails before public requests', async t => {
+  const f = await fixture(t)
+  await assert.rejects(verifyProduction({
+    origin: f.origin, releaseId: f.id,
+    readRuntime: async () => ({ service: 'active', mainPid: 10, tunnel: 'inactive' }),
+  }), /Tunnel is not active/i)
+  assert.equal(f.requests.length, 0)
 })
