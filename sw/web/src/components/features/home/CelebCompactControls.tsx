@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { ChevronDown, Funnel, PenLine, Search, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, Funnel, Info, PenLine, Search, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { TREND_CHIP_BASE, TREND_CHIP_DIRECT, TREND_CHIP_FLAME_BG } from "@/components/shared/CelebCard.styles";
 import { FilterModal } from "@/components/shared/filters";
@@ -61,6 +61,10 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
   // 상세 모달 항목이 아니므로 상세 버튼의 건수에는 넣지 않는다.
   const chips = filters.contentPresence === "all" ? conditions
     : [{ key: "contentPresence", label: `${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`, clear: () => filters.handleContentPresenceChange("all") }, ...conditions];
+  // 오늘의 추천에 섞인 급상승 인물 — 카드의 화염 표지가 곧 근거이고, 이 줄이 그 해설이다
+  const dailyTrendHits = filters.sortBy === "daily_recommend"
+    ? filters.celebs.reduce((hit, celeb) => hit + (celeb.trend_match ? 1 : 0), 0)
+    : 0;
 
   return (
     <div className="mb-6 space-y-3">
@@ -142,6 +146,16 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
           )}
         </div>
       )}
+      {dailyTrendHits > 0 && (
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-orange-400/25 bg-orange-500/[0.05] px-3 py-2">
+          <span className={`${TREND_CHIP_BASE} ${TREND_CHIP_DIRECT}`} style={{ background: TREND_CHIP_FLAME_BG }}>{tCeleb("trendChipSurge")}</span>
+          <span className="text-xs leading-5 text-text-secondary">{t("trends.dailyNotice", { count: dailyTrendHits })}</span>
+          <button type="button" onClick={() => setOpen("trendInfo")} aria-haspopup="dialog" aria-label={t("trends.dailyInfoOpen")}
+            className="ml-auto flex min-h-6 min-w-6 items-center justify-center rounded text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            <Info size={13} aria-hidden />
+          </button>
+        </div>
+      )}
       {chips.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {chips.map(condition => (
@@ -167,9 +181,13 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
         options={allCountryOptions} searchable searchPlaceholder={t("trends.searchCountry")}
         onChange={value => { const country = parseTrendCountry(value); if (country) { onInteraction?.(); filters.handleTrendCountryChange(country); } }} onClose={() => setOpen(null)} />}
       {open === "trendInfo" && (
-        <Modal isOpen onClose={() => setOpen(null)} title={t("trends.country")} size="sm" animateHeight={false}>
+        <Modal isOpen onClose={() => setOpen(null)} title={filters.sortBy === "daily_recommend" ? t("trends.dailyInfoTitle") : t("trends.country")} size="sm" animateHeight={false}>
           <div className="space-y-4 p-6 text-sm leading-relaxed">
-            <p className="text-text-secondary">{t("trends.modalDescription", { days: TREND_PERIOD_HOURS / 24 })}</p>
+            <p className="text-text-secondary">
+              {filters.sortBy === "daily_recommend"
+                ? t("trends.dailyInfoBody", { days: TREND_PERIOD_HOURS / 24, country: getNationality(filters.trendCountry) })
+                : t("trends.modalDescription", { days: TREND_PERIOD_HOURS / 24 })}
+            </p>
             <a href={`https://trends.google.com/trending?geo=${filters.trendCountry}&hl=en&hours=${TREND_PERIOD_HOURS}`}
               target="_blank" rel="noopener noreferrer"
               className="inline-flex min-h-9 items-center rounded text-accent underline underline-offset-4 hover:text-accent-hover outline-none focus-visible:ring-2 focus-visible:ring-accent">

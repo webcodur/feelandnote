@@ -199,7 +199,11 @@
         "allCountries": "전체 국가",
         "searchCountry": "국가 이름 검색",
         "modalDescription": "선택한 국가의 Google Trends 최근 {days}일 급상승 검색어와 일치한 인물을 먼저 보여줍니다.",
-        "sourceLink": "Google Trends에서 보기"
+        "sourceLink": "Google Trends에서 보기",
+        "dailyNotice": "지금 검색이 급증한 인물 {count}명이 오늘의 추천에 올라와 있습니다",
+        "dailyInfoOpen": "오늘의 추천 트렌드 안내",
+        "dailyInfoTitle": "오늘의 추천과 검색 트렌드",
+        "dailyInfoBody": "오늘의 추천은 날짜마다 달라지는 추첨으로 인물을 고릅니다. {country} Google Trends 최근 {days}일의 급상승 검색어와 이름이 일치한 인물은 추첨에서 추가 기회를 얻어 더 자주 첫 화면에 오릅니다."
       }
     },
     "hub": {

@@ -6,6 +6,7 @@ import ts from 'typescript'
 import { parseCelebContentPresence } from '@/constants/celebContentPresence'
 import { parseFilterParams } from '@/app/[locale]/(main)/explore/figures/filterParams'
 import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from '@/constants/celebSort'
+import { trendDailyDice, TREND_DAILY_PROMOTE_MAX, TREND_DAILY_PROMOTE_PROB } from '@/lib/celeb/dailyRecommendTrend'
 
 const require = createRequire(import.meta.url)
 const compiled = ts.transpileModule(readFileSync(new URL('./getCelebs.ts', import.meta.url), 'utf8'), {
@@ -243,4 +244,29 @@ test('today recommendations use the existing sorted listing and preserve paginat
   assert.equal(sortedCalls.length, 2)
   assert.ok(sortedCalls.every(call => call.args.p_sort_by === 'daily_recommend'))
   assert.equal(f.directCalls.length, 0)
+})
+
+test('today recommendations deal trend matches into page one by seeded draw', async () => {
+  const f = fixture(['120', '121', '119', '118', '117'])
+  const params = { sortBy: 'daily_recommend', contentPresence: 'with', limit: 24, includeViewerState: false }
+  const pages = await Promise.all([1, 2, 3, 4].map(page => f.getCelebs({ ...params, page })))
+  const all = pages.flatMap(page => page.celebs)
+  // 승격해도 명부는 빠지거나 겹치지 않는다 — 120·117은 작품 0건라 '감상 있음'에서 걸러진다
+  assert.equal(all.length, 82)
+  assert.equal(new Set(all.map(row => row.id)).size, 82)
+  assert.ok(pages.every(page => page.total === 82))
+  const day = new Date().toISOString().slice(0, 10)
+  const winners = ['121', '119', '118']
+    .filter(id => trendDailyDice(id, day).roll < TREND_DAILY_PROMOTE_PROB)
+    .slice(0, TREND_DAILY_PROMOTE_MAX)
+  const pageOne = pages[0].celebs
+  const flamed = pageOne.filter(row => row.trend_match)
+  assert.deepEqual(new Set(flamed.map(row => row.id)), new Set(winners))
+  for (const row of flamed) {
+    assert.deepEqual(row.trend_match, { title: 'x', rank: 1, country: 'KR', volume: 1000, started: 1700000000000 })
+  }
+  // 당첨자는 추첨 칸에 꽂혀 첫 페이지에 오고, 트렌드 상태는 트렌드순 전용이라 비운다
+  assert.ok(winners.every(id => pageOne.some(row => row.id === id)))
+  assert.equal(pages[0].trend, undefined)
+  for (const call of f.calls) assert.equal(call.args.p_sort_by, 'daily_recommend')
 })

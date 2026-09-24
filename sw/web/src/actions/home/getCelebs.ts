@@ -17,6 +17,7 @@ import { parseCelebContentPresence, type CelebContentPresence } from '@/constant
 import { parseTrendCountry } from '@/constants/trendCountries'
 import { getCountryTrendingPeople } from '@/lib/trends/countryTrending'
 import type { TrendMatch } from '@/lib/trends/trendMatching'
+import { mergePromotedIntoPage, selectTrendPromotions } from '@/lib/celeb/dailyRecommendTrend'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
 
@@ -304,6 +305,54 @@ async function fetchCelebsPublic(
     throwOnQueryError('Trending remaining people', remainingResult.error)
     rows = [...promotedPage, ...(remainingLimit ? (remainingResult.data ?? []) as CelebRow[] : [])]
     total = includeTotal ? promoted.length + (remainingResult.count ?? 0) : rows.length
+  } else if (sortBy === 'daily_recommend' && trendMatches.length) {
+    /* 오늘의 추천 + 트렌드 가산 — 점수(SQL)는 그대로 두고, 필터를 통과한 급상승 인물에게
+       일일 시드 추첨으로 첫 페이지 칸을 나눈다. 당첨자는 남은 명부 조회에서 빼고 시드 칸에
+       꽂으므로 페이지를 넘겨도 인물이 빠지거나 겹치지 않는다. */
+    const day = new Date().toISOString().slice(0, 10)
+    const query = (count = false) => {
+      let request = db.rpc('get_celebs_sorted', {
+        p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+        p_sort_by: 'daily_recommend', p_search: search ?? '', p_limit: null, p_offset: 0,
+        p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
+        p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+        p_celeb_realities: realities,
+        p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
+      }, { count: count ? 'exact' : undefined })
+      if (contentPresence === 'without') request = request.eq('content_count', 0)
+      return request
+    }
+    const positions = new Map(trendMatches.map((match, index) => [match.id, index]))
+    const matchById = new Map(trendMatches.map((match) => [match.id, match]))
+    const matchedResult = await query().in('id', trendMatches.map((match) => match.id))
+    throwOnQueryError('오늘의 추천 트렌드 인물', matchedResult.error)
+    const promoted = selectTrendPromotions(
+      ((matchedResult.data ?? []) as CelebRow[]).sort((a, b) => positions.get(a.id)! - positions.get(b.id)!),
+      day,
+    )
+    const promotedPage = promoted.slice(offset, offset + limit)
+    const remainingLimit = limit - promotedPage.length
+    const remainingOffset = Math.max(0, offset - promoted.length)
+    let remainingQuery = query(includeTotal)
+    if (promoted.length) remainingQuery = remainingQuery.not('id', 'in', `(${promoted.map((row) => row.id).join(',')})`)
+    let remainingResult = await remainingQuery.range(remainingOffset, remainingOffset + Math.max(1, remainingLimit) - 1)
+    if (remainingResult.error?.code === 'PGRST103') {
+      const firstRemaining = await remainingQuery.range(0, 0)
+      throwOnQueryError('오늘의 추천 남은 인물 개수', firstRemaining.error)
+      remainingResult = { ...firstRemaining, success: true, error: null, data: [] }
+    }
+    throwOnQueryError('오늘의 추천 남은 인물', remainingResult.error)
+    rows = mergePromotedIntoPage(promotedPage, (remainingResult.data ?? []) as CelebRow[], limit, day)
+    total = includeTotal ? promoted.length + (remainingResult.count ?? 0) : rows.length
+    // 이번 페이지에 오른 매칭 인물(당첨자 + 점수로 오른 인물)이 화염 테두리·칩을 달 근거다
+    trendMatchedCount = 0
+    trendMatchMap = {}
+    for (const row of rows) {
+      const match = matchById.get(row.id)
+      if (!match) continue
+      trendMatchMap[row.id] = { title: match.trendTitle, rank: match.rank, country: trendCountry, volume: match.volume, started: match.started }
+      trendMatchedCount++
+    }
   } else if (sortBy === 'trending') {
     /* 최근 조회수 순 — 기간 창 순위라 필터·페이지 개념이 없다.
        누적으로 뽑으면 앞에 세우는 인물이 영원히 고정되므로 창을 쓴다.
@@ -511,7 +560,8 @@ export async function getCelebs(
   // 1. 캐싱된 공개 데이터 조회
   const country = parseTrendCountry(trendCountry) ?? 'KR'
   // Fetch outside the listing cache so its country-specific freshness is respected.
-  const countryTrend = sortBy === 'country_trending' ? await getCountryTrendingPeople(country) : undefined
+  // 오늘의 추천도 트렌드 매칭을 읽는다 — 급상승 인물의 일일 추첨 가산과 화염 표지에 쓴다.
+  const countryTrend = sortBy === 'country_trending' || sortBy === 'daily_recommend' ? await getCountryTrendingPeople(country) : undefined
   const loadPublic = sortBy === 'trending' || sortBy === 'country_trending' ? getCelebsTrendingCached : getCelebsCached
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
@@ -521,7 +571,8 @@ export async function getCelebs(
     birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.matches ?? [],
     countryTrend ? country : ''
   )
-  const trend = countryTrend ? {
+  // trend 상태는 트렌드순 화면(국가 선택 줄)만 읽는다 — 오늘의 추천은 가산일 뿐 기준이 아니다
+  const trend = sortBy === 'country_trending' && countryTrend ? {
     country, available: countryTrend.available,
     matchedCount: pub.trendMatchedCount ?? 0,
   } : undefined
