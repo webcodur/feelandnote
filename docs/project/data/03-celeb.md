@@ -16,7 +16,7 @@
 | 이미지 | `avatar_url`, `portrait_url`, `portrait_caption(_en)`, `awakened_image_url` | [`celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md) |
 | 발화·음성 | `speech_tone`, `has_voice`, `voice_id_ko`, `voice_id_en`, `voice_v`, `voice_speed` | [`celeb-04-01-speech.md`](../celeb/celeb-04-01-speech.md) · `celeb-dialogue-voice-publish` 스킬 |
 | 가상독백 | `virtual_monologue(_en)`, `virtual_monologue_locked_at` | [`celeb-04-03-virtual-monologue.md`](../celeb/celeb-04-03-virtual-monologue.md) |
-| 보존값 | `cultural_journey(_en)` | 신규 기본 트랙에서 만들지 않으며 기존값만 보존 |
+| 레거시 보관값 | `cultural_journey(_en)`, `consumption_philosophy(_en)` | DB에 남아 있으나 서비스에서 읽거나 쓰지 않음 |
 
 `birth_date`와 `death_date`는 기원전 음수 표기와 연도만 있는 값을 담기 위해 `text`다. `slug`는 `nickname_en`과 선택적인 `slug_suffix`에서 계산되는 열이므로 직접 쓰지 않는다. 영문 이름을 바꾸면 공개 URL도 바뀐다.
 

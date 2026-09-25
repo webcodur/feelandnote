@@ -9,7 +9,7 @@
  *
  * 룰북(`docs/project/celeb/celeb-00-01-pipeline.md`)의 티어·실존 축에 따라 트랙별 필수 여부를 판정한다.
  * 영향력·스펙트럼은 실존 인물 트랙(REAL·BOTH)에만 요구한다. 생몰은 실존 축과 무관하게 요구한다.
- * 가상독백(virtual_monologue)과 폐기 예정 감상 여정은 결손 판정에서 제외한다.
+ * 가상독백(virtual_monologue)은 결손 판정에서 제외한다.
  * active 전환에는 전 티어 공통으로 avatar_url이 필수다.
  *
  * 실행:

@@ -14,7 +14,8 @@
 | 한마디 | `celeb_dialogues.lines.quote`, `lines_en.quote` |
 | 상황 대사 | `celeb_dialogues.lines`, `lines_en`의 문자열 배열 |
 | 상황 키·변형 번호 | `packages/shared/src/constants/celeb-speech.ts`의 `CELEB_DIALOGUE_SITUATIONS`, `CELEB_DIALOGUE_VARIANTS` |
-| 길이 상한·자료 희박 표준값 | `sw/web-bo/scripts/lib/celeb-speech-research.ts` |
+| 길이 상한 | `sw/web-bo/scripts/lib/celeb-speech-research.ts` |
+| 자료 희박 표준값 | `packages/shared/src/constants/celeb-speech.ts` |
 | 조사 묶음과 반영 계약 | 같은 파일의 `SpeechResearch`, `validateSpeechResearch` |
 
 `celebs.quotes`와 `celebs.quotes_en` 컬럼은 없다. 한마디는 다른 대사 키를 보존하는 `set_celeb_quote` RPC로 한영을 함께 갱신한다. 상황 배열의 원소는 항상 문자열이며 `{ text, quote }` 같은 객체를 넣지 않는다.

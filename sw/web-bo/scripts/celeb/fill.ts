@@ -19,7 +19,6 @@
  *     "celeb": { "title": "...", "bio": "...", "title_en": "...", "bio_en": "...",
  *                   "profession": "commander", "nationality": "CN", "birth_date": "-154",
  *                   "death_date": "202", "speech_tone": "bold",
- *                   "cultural_journey": "...", "cultural_journey_en": "..." },
  *     "influence": { "political": 7, "political_exp": "...", "political_exp_en": "...", ... ,
  *                    "transhistoricity": 5, "transhistoricity_exp": "...", "transhistoricity_exp_en": "..." },
  *     "spectrum": { "abilities": { "command": { "score": 70, "reason_ko": "...", "reason_en": "..." }, ... },
@@ -81,7 +80,6 @@ const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSess
 const PROFILE_FIELDS = [
   'nickname', 'nickname_en', 'title', 'title_en', 'headline', 'headline_en', 'bio', 'bio_en', 'profession',
   'nationality', 'birth_date', 'death_date', 'gender', 'speech_tone',
-  'cultural_journey', 'cultural_journey_en',
 ] as const
 
 /** celebs의 boolean 전용 필드 (json → boolean 변환 필요) */

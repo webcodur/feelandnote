@@ -78,10 +78,7 @@ async function selectActiveProfiles() {
     const page = await expect(
       db
         .from("celebs")
-        .select(
-          "id,slug,publication_status,celeb_tier,nickname,nickname_en,bio,bio_en,title,title_en,"
-          + "cultural_journey,cultural_journey_en,consumption_philosophy,consumption_philosophy_en",
-        )
+        .select("id,slug,publication_status,celeb_tier,nickname,nickname_en,bio,bio_en,title,title_en")
         .eq("publication_status", "active")
         .not("slug", "is", null)
         .order("id")
@@ -159,10 +156,6 @@ const DOMAIN_GUIDE = {
     "These are compact epithets shown beneath a person's name. Translate as a concise, polished epithet.",
   profile_bio:
     "These are short factual biographies. Preserve every fact, name, date, and degree of certainty. Do not add context.",
-  profile_journey:
-    "These describe a person's cultural journey. Preserve the paragraph structure and the evidence strength. Do not invent works or episodes.",
-  profile_philosophy:
-    "These summarize a person's approach to cultural consumption. Keep the voice analytical but natural.",
   spectrum_rationale:
     "These explain quantitative figure metrics. Render internal snake_case axes as natural reader-facing English, never as raw identifiers.",
   faction_short:
@@ -325,8 +318,6 @@ async function buildTargets() {
     for (const [source, target, domain] of [
       ["title", "title_en", "profile_title"],
       ["bio", "bio_en", "profile_bio"],
-      // cultural_journey(_en)은 consumption_philosophy(_en)의 generated alias라 직접 쓰지 않는다.
-      ["consumption_philosophy", "consumption_philosophy_en", "profile_philosophy"],
     ]) {
       if (hasText(profile[source]) && !hasText(profile[target])) {
         addText({

@@ -103,8 +103,7 @@
       "spectrumQuickView": {
         "loading": "Analyzing the spectrum...",
         "analysis": "Spectrum Overview",
-        "visitLibrary": "View {name}'s records",
-        "exploreJourney": "Explore their cultural journey and tastes"
+        "visitLibrary": "View {name}'s records"
       },
       "spectrumReason": {
         "loading": "Loading evidence...",

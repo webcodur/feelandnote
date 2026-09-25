@@ -7,6 +7,7 @@
 
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { NO_VERIFIED_QUOTE_EN, NO_VERIFIED_QUOTE_KO } from "@feelandnote/shared/constants/celeb-speech";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
@@ -40,7 +41,7 @@ export interface TrackerOption {
   voiceSpeed?: number;
 }
 
-// fallback 경로 celebs 조회 행 — 본문(여정·소개)은 선정된 1명만 별도 수신
+// fallback 경로 celebs 조회 행 — 소개는 선정된 1명만 별도 수신
 type FallbackCelebRow = Pick<
   Tables<"celebs">,
   | "id" | "slug" | "nickname" | "nickname_en" | "profession" | "avatar_url"
@@ -106,8 +107,7 @@ export interface TrackerRound {
   deathDate: string | null;
   nationalityLabel: string | null;
   bio: string | null;
-  quotes: string | null;
-  culturalJourney: string | null;
+  quote: string | null;
   spectrum: TrackerSpectrum;
   contents: TrackerContent[];
   options: TrackerOption[];
@@ -161,6 +161,11 @@ function censorName(text: string, nickname: string, safeWords: string[] = []): s
   return result;
 }
 
+function playableQuote(value: string | null | undefined): string | null {
+  const quote = value?.trim();
+  return quote && quote !== NO_VERIFIED_QUOTE_KO && quote !== NO_VERIFIED_QUOTE_EN ? quote : null;
+}
+
 /**
  * id 목록을 나눠 in() 조회한다.
  * PostgREST는 in() 목록을 쿼리스트링에 싣는다 — id가 수백 개면 URL 길이 한도를 넘겨
@@ -199,7 +204,7 @@ async function isKoreanLocale(): Promise<boolean> {
 const getCachedTrackerCandidates = unstable_cache(
   async () => {
     const db = createStaticClient();
-    // 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + spectrum + review 있는 콘텐츠 + cultural journey)
+    // 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + spectrum + 감상평 4건 + 한마디)
     const { data, error } = await db.rpc("get_tracker_candidates", {
       exclude_ids: [],
     });
@@ -207,8 +212,8 @@ const getCachedTrackerCandidates = unstable_cache(
     return data ?? [];
   },
   ["tracker-candidates"],
-  // get_tracker_candidates: celebs + celeb_persona 보유 + 감상문 있는 celeb_contents 조건
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.SPECTRUM] }
+  // get_tracker_candidates: celebs + celeb_persona + 감상문 + 한마디 조건
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM] }
 );
 
 export async function getTrackerRound(
@@ -239,28 +244,27 @@ export async function getTrackerRound(
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
 
-  // quote만 JSON path로 조회 + 본문(여정·소개)은 선정된 1명만 수신
+  // 한마디와 소개는 선정된 1명만 수신
   const [{ data: chosenDialogue }, { data: chosenTexts }] = await Promise.all([
     db
       .from("celeb_dialogues")
-      .select("quote:lines->quote, quote_en:lines_en->quote")
+      .select("quote:lines->>quote, quote_en:lines_en->>quote")
       .eq("celeb_id", chosen.id)
       .maybeSingle(),
     db
       .from("celebs")
-      .select("cultural_journey, cultural_journey_en, bio, bio_en")
+      .select("bio, bio_en")
       .eq("id", chosen.id)
       .maybeSingle(),
   ]);
   const chosenQuote = resolve(
-    (chosenDialogue as { quote_en?: string | null } | null)?.quote_en,
-    (chosenDialogue as { quote?: string | null } | null)?.quote
+    playableQuote((chosenDialogue as { quote_en?: string | null } | null)?.quote_en),
+    playableQuote((chosenDialogue as { quote?: string | null } | null)?.quote)
   );
 
   return buildRound(db, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession, chosen.avatar_url,
-    resolve(chosenTexts?.cultural_journey_en, chosenTexts?.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve(chosenTexts?.bio_en, chosenTexts?.bio),
     chosenQuote,
@@ -272,16 +276,14 @@ const getCachedFallbackEligible = unstable_cache(
   async (): Promise<FallbackCelebRow[]> => {
     const db = createStaticClient();
 
-    // 자격 있는 셀럽 목록: spectrum 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
-    // 여정·소개 전문은 여기서 받지 않는다 — 선정된 1명만 별도 수신 (egress 절감)
+    // 자격 있는 셀럽 목록: spectrum + 감상평 4건 + 한마디 존재
+    // 소개 전문은 여기서 받지 않는다 — 선정된 1명만 별도 수신 (egress 절감)
     // 1,000행 상한에 걸리므로 나눠 받는다(실측 1,148행 — 자르면 후보 148명이 조용히 탈락).
     const celebRows = await selectAllPages<FallbackCelebRow>((from, to) =>
       db
         .from("celebs")
         .select("id, slug, nickname, nickname_en, profession, avatar_url, death_date, nationality, birth_date")
         .eq("publication_status", "active")
-        .not("cultural_journey", "is", null)
-        .neq("cultural_journey", "")
         .not("death_date", "is", null)
         .order("id")
         .range(from, to)
@@ -307,6 +309,15 @@ const getCachedFallbackEligible = unstable_cache(
 
     const spectrumSet = new Set(spectra.map((p) => p.celeb_id));
 
+    const dialogueRows = await selectInChunks<{ celeb_id: string; quote: string | null; quote_en: string | null }>(celebIds, (chunk) =>
+      db.from("celeb_dialogues")
+        .select("celeb_id, quote:lines->>quote, quote_en:lines_en->>quote")
+        .in("celeb_id", chunk)
+    );
+    const quoteSet = new Set(dialogueRows
+      .filter((row) => playableQuote(row.quote) || playableQuote(row.quote_en))
+      .map((row) => row.celeb_id));
+
     // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
     const reviewRows = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
       db
@@ -325,14 +336,13 @@ const getCachedFallbackEligible = unstable_cache(
       [...reviewCountMap.entries()].filter(([, count]) => count >= 4).map(([id]) => id)
     );
 
-    // cultural_journey 존재·비어있지 않음은 DB 필터로 보장됨
     return publicDomain.filter(
-      (c) => spectrumSet.has(c.id) && reviewSet.has(c.id)
+      (c) => spectrumSet.has(c.id) && reviewSet.has(c.id) && quoteSet.has(c.id)
     );
   },
   ["tracker-fallback-eligible"],
-  // celebs + celeb_persona + celeb_contents(감상문 수)
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.SPECTRUM] }
+  // celebs + celeb_persona + celeb_contents(감상문 수) + celeb_dialogues(한마디)
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM] }
 );
 
 async function getTrackerRoundFallback(
@@ -352,28 +362,27 @@ async function getTrackerRoundFallback(
   const resolve = (en: string | null | undefined, ko: string | null | undefined) =>
     preferKo ? (ko || en || null) : (en || ko || null);
 
-  // quote만 JSON path로 조회 + 본문(여정·소개)은 선정된 1명만 수신
+  // 한마디와 소개는 선정된 1명만 수신
   const [{ data: chosenDialogue }, { data: chosenTexts }] = await Promise.all([
     db
       .from("celeb_dialogues")
-      .select("quote:lines->quote, quote_en:lines_en->quote")
+      .select("quote:lines->>quote, quote_en:lines_en->>quote")
       .eq("celeb_id", chosen.id)
       .maybeSingle(),
     db
       .from("celebs")
-      .select("cultural_journey, cultural_journey_en, bio, bio_en")
+      .select("bio, bio_en")
       .eq("id", chosen.id)
       .maybeSingle(),
   ]);
   const chosenQuote = resolve(
-    (chosenDialogue as { quote_en?: string | null } | null)?.quote_en,
-    (chosenDialogue as { quote?: string | null } | null)?.quote
+    playableQuote((chosenDialogue as { quote_en?: string | null } | null)?.quote_en),
+    playableQuote((chosenDialogue as { quote?: string | null } | null)?.quote)
   );
 
   return buildRound(db, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession ?? "other", chosen.avatar_url,
-    resolve(chosenTexts?.cultural_journey_en, chosenTexts?.cultural_journey),
     chosen.nationality, chosen.birth_date, chosen.death_date,
     resolve(chosenTexts?.bio_en, chosenTexts?.bio),
     chosenQuote,
@@ -404,12 +413,11 @@ async function buildRound(
   nickname: string,
   profession: string,
   avatarUrl: string | null,
-  culturalJourney: string | null,
   nationality: string | null,
   birthDate: string | null,
   deathDate: string | null,
   bio: string | null,
-  quotes: string | null,
+  quote: string | null,
   preferKo: boolean = true
 ): Promise<TrackerRound | null> {
   // 2+3. 스펙트럼 + 리뷰 콘텐츠 병렬 조회
@@ -576,8 +584,7 @@ async function buildRound(
     deathDate,
     nationalityLabel,
     bio: bio ? censorName(bio, nickname, safeWords) : null,
-    quotes: quotes ? censorName(quotes, nickname, safeWords) : null,
-    culturalJourney: culturalJourney ? censorName(culturalJourney, nickname, safeWords) : null,
+    quote: quote ? censorName(quote, nickname, safeWords) : null,
     spectrum: spectrumData as TrackerSpectrum,
     contents,
     options,

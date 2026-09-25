@@ -58,8 +58,6 @@ type ProfileRow = {
   publication_status: string | null
   celeb_tier: string | null
   speech_tone: string | null
-  cultural_journey: string | null
-  cultural_journey_en: string | null
   virtual_monologue: string | null
   virtual_monologue_en: string | null
 }
@@ -164,7 +162,7 @@ async function main() {
   const profiles = await allRows<ProfileRow>('celebs', async (from, to) => {
     const { data, error } = await db
       .from('celebs')
-      .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, publication_status, celeb_tier, speech_tone, cultural_journey, cultural_journey_en, virtual_monologue, virtual_monologue_en')
+      .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, publication_status, celeb_tier, speech_tone, virtual_monologue, virtual_monologue_en')
       .eq('publication_status', 'active')
       .order('id')
       .range(from, to)
@@ -238,8 +236,6 @@ async function main() {
 
   const fullLightMissing = [
     'speech_tone',
-    'cultural_journey',
-    'cultural_journey_en',
     'virtual_monologue',
     'virtual_monologue_en',
   ].map(field => fieldAudit(fullLight, field as keyof ProfileRow))
@@ -445,7 +441,6 @@ async function main() {
       fullLightMissing: fullLightMissing.filter(row => row.count),
       thinBioKo: profiles.filter(row => text(row.bio).length > 0 && text(row.bio).length < 80).length,
       thinBioEn: profiles.filter(row => text(row.bio_en).length > 0 && text(row.bio_en).length < 160).length,
-      thinPhilosophyKo: fullLight.filter(row => text(row.cultural_journey).length > 0 && text(row.cultural_journey).length < 500).length,
       thinMonologueKo: fullLight.filter(row => text(row.virtual_monologue).length > 0 && text(row.virtual_monologue).length < 700).length,
     },
     influence: {

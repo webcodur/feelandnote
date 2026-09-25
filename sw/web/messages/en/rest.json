@@ -194,8 +194,8 @@
         "startTracking": "Begin Inquiry",
         "startTrackingDesc": "Inquire among 6 sages to find the one you seek",
         "rulesDesc": "A game of examining traces from 6 sages to discover the one you seek",
-        "rulesIntro": "<game>Labyrinth</game> is a game where you discover the one you seek among 6 sages. Confirm that someone is not the one <x>(X)</x> to unlock new traces. When confident, recruit the one you seek <o>(O)</o>.",
-        "clueUnlockTitle": "Trace Unlock Order",
+        "rulesIntro": "<game>Labyrinth</game> is a game where you discover the one you seek among 6 sages. Confirm that someone is not the one <x>(X)</x> to unlock a new clue. When confident, recruit the one you seek <o>(O)</o>.",
+        "clueUnlockTitle": "Clue Unlock Order",
         "clue1": "Trace 1",
         "clue1Desc": "1 content review — revealed at game start",
         "clue2": "Trace 2",
@@ -204,9 +204,7 @@
         "clue3Desc": "3rd content review — unlocked after 2 confirmations",
         "clue4": "Trace 4",
         "clue4Desc": "4th content review — unlocked after 3 confirmations",
-        "clueCulturalJourney": "Cultural Journey",
-        "clueCulturalJourneyDesc": "Cultural journey — unlocked after 4 confirmations",
-        "tip1": "Click a sage card to reveal <o>O</o> (recruit) and <x>X</x> (confirm) buttons. Each confirmation unlocks a new trace, so gather traces to narrow down the sages.",
+        "tip1": "Click a sage card to reveal <o>O</o> (recruit) and <x>X</x> (confirm) buttons. Each confirmation unlocks a new clue, so gather clues to narrow down the sages.",
         "tip2": "You can recruit at any time, but the fewer confirmations with a correct guess, the better. A wrong guess causes the sage to vanish. Judge carefully.",
         "game": {
           "stages": {
@@ -214,14 +212,14 @@
             "stage2": "Trace 2",
             "stage3": "Trace 3",
             "stage4": "Trace 4",
-            "stage5": "Cultural Journey"
+            "stage5": "In Their Words"
           },
           "emptyFirstTrace": "No trace available",
           "emptyAdditionalTrace": "No additional traces",
           "fallbackSage": "Sage",
           "loading": "Preparing the inquiry...",
           "confirmedToast": "{name} ruled out",
-          "prompt": "Study five traces and identify the figure you seek.",
+          "prompt": "Study five clues and identify the figure you seek.",
           "selectionHint": "Rule out the wrong figures or recruit the one you seek.",
           "recruited": "{name} has joined your ranks.",
           "escaped": "Unfortunately, {name} vanished without a trace.",
@@ -230,16 +228,18 @@
           "quit": "Quit",
           "next": "Next Inquiry",
           "actioning": "Checking figure...",
-          "clueUnlocked": "A new trace has been unlocked",
-          "revealClue": "Reveal Trace",
+          "clueUnlocked": "A new clue has been unlocked",
+          "revealClue": "Reveal Clue",
           "contentTypes": {
             "BOOK": "Book",
             "VIDEO": "Video",
             "GAME": "Game",
             "MUSIC": "Music"
           },
-          "culturalJourneyTitle": "Stage 5 — Cultural Journey"
-        }
+          "quoteTitle": "Stage 5: In Their Words"
+        },
+        "clueQuote": "In Their Words",
+        "clueQuoteDesc": "A word from the figure, unlocked after 4 confirmations"
       },
       "hegemony": {
         "label": "Hegemony",

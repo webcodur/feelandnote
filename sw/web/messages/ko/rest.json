@@ -194,8 +194,8 @@
         "startTracking": "탐문 시작",
         "startTrackingDesc": "현자 6인 중 찾고자 하는 인물을 탐문합니다",
         "rulesDesc": "현자 6인의 행적을 살펴 찾고자 하는 인물을 알아내는 게임",
-        "rulesIntro": "<game>미궁</game>은 현자 6인 중 찾고자 하는 인물을 알아내는 게임입니다. 이 분이 아님을 확인<x>(X)</x>하면 새로운 행적이 해금됩니다. 확신이 서면 찾던 인물을 등용<o>(O)</o>하세요.",
-        "clueUnlockTitle": "행적 해금 순서",
+        "rulesIntro": "<game>미궁</game>은 현자 6인 중 찾고자 하는 인물을 알아내는 게임입니다. 이 분이 아님을 확인<x>(X)</x>하면 새로운 단서가 해금됩니다. 확신이 서면 찾던 인물을 등용<o>(O)</o>하세요.",
+        "clueUnlockTitle": "단서 해금 순서",
         "clue1": "행적 1",
         "clue1Desc": "콘텐츠 감상평 1개 — 게임 시작 시 공개",
         "clue2": "행적 2",
@@ -204,9 +204,7 @@
         "clue3Desc": "콘텐츠 감상평 3개째 — 확인 2회로 해금",
         "clue4": "행적 4",
         "clue4Desc": "콘텐츠 감상평 4개째 — 확인 3회로 해금",
-        "clueCulturalJourney": "감상 여정",
-        "clueCulturalJourneyDesc": "감상 여정 — 확인 4회로 해금",
-        "tip1": "현자 카드를 클릭하면 <o>O</o>(등용)와 <x>X</x>(확인) 버튼이 나타납니다. 확인할 때마다 행적이 하나씩 해금되니, 행적을 모아 범위를 좁히세요.",
+        "tip1": "현자 카드를 클릭하면 <o>O</o>(등용)와 <x>X</x>(확인) 버튼이 나타납니다. 확인할 때마다 단서가 하나씩 해금되니, 단서를 모아 범위를 좁히세요.",
         "tip2": "등용은 언제든 가능하지만, 적게 확인하고 빠르게 맞힐수록 좋습니다. 오답 시 현자가 종적을 감춥니다. 신중하게 판단하세요.",
         "game": {
           "stages": {
@@ -214,14 +212,14 @@
             "stage2": "행적 2",
             "stage3": "행적 3",
             "stage4": "행적 4",
-            "stage5": "감상 여정"
+            "stage5": "한마디"
           },
           "emptyFirstTrace": "행적이 없습니다",
           "emptyAdditionalTrace": "추가 행적이 없습니다",
           "fallbackSage": "현자",
           "loading": "현자 탐문 준비 중...",
           "confirmedToast": "{name} 확인 완료",
-          "prompt": "5개의 행적을 살펴 찾는 인물을 알아내세요",
+          "prompt": "5개의 단서를 살펴 찾는 인물을 알아내세요",
           "selectionHint": "해당 없는 인물을 제외하거나 찾는 인물을 등용하세요",
           "recruited": "{name}을(를) 등용했다.",
           "escaped": "아쉽게도 {name}이(가) 종적을 감추었다.",
@@ -230,7 +228,7 @@
           "quit": "그만하기",
           "next": "다음 탐문",
           "actioning": "인물 확인 중...",
-          "clueUnlocked": "새로운 행적이 해금되었습니다",
+          "clueUnlocked": "새로운 단서가 해금되었습니다",
           "revealClue": "단서 확인",
           "contentTypes": {
             "BOOK": "도서",
@@ -238,8 +236,10 @@
             "GAME": "게임",
             "MUSIC": "음악"
           },
-          "culturalJourneyTitle": "Stage 5 — 감상 여정"
-        }
+          "quoteTitle": "Stage 5 — 한마디"
+        },
+        "clueQuote": "한마디",
+        "clueQuoteDesc": "인물이 남긴 말 — 확인 4회로 해금"
       },
       "hegemony": {
         "label": "패권",

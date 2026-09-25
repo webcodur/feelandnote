@@ -34,6 +34,10 @@ export type CelebDialogueSituation = (typeof CELEB_DIALOGUE_SITUATIONS)[number]
 export const CELEB_DIALOGUE_VARIANTS = [1, 2, 3] as const
 export const CELEB_DIALOGUE_VARIANTS_PER_SITUATION = CELEB_DIALOGUE_VARIANTS.length
 
+/** 검증 가능한 한마디를 찾지 못했을 때 저장하는 자리 표시. 게임 단서로 쓰지 않는다. */
+export const NO_VERIFIED_QUOTE_KO = '[확인된 어록이 없습니다]'
+export const NO_VERIFIED_QUOTE_EN = '[No verified quote]'
+
 export function isCelebSpeechTone(value: unknown): value is CelebSpeechTone {
   return typeof value === 'string'
     && (CELEB_SPEECH_TONES as readonly string[]).includes(value)

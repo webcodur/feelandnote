@@ -103,8 +103,7 @@
       "spectrumQuickView": {
         "loading": "스펙트럼을 분석하는 중...",
         "analysis": "스펙트럼 해설",
-        "visitLibrary": "{name}의 기록물 보기",
-        "exploreJourney": "감상 여정과 취향 탐색"
+        "visitLibrary": "{name}의 기록물 보기"
       },
       "spectrumReason": {
         "loading": "근거를 불러오는 중...",
