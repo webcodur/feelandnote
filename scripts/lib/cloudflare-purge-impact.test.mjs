@@ -318,7 +318,7 @@ test('workflow is manual-only and keeps purge targets constrained', () => {
   const workflow = readFileSync(
     path.join(repositoryRoot, '.github/workflows/cloudflare-purge.yml'),
     'utf8',
-  )
+  ).replaceAll('\r\n', '\n')
 
   assert.match(workflow, /^  workflow_dispatch:/mu)
   assert.doesNotMatch(workflow, /deployment_status/u)
