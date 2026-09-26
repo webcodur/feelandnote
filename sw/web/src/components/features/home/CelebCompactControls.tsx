@@ -4,7 +4,6 @@ import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { ArrowDownWideNarrow, ChevronDown, Info, PenLine, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { TREND_CHIP_BASE, TREND_CHIP_DIRECT, TREND_CHIP_FLAME_BG } from "@/components/shared/CelebCard.styles";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
@@ -14,7 +13,7 @@ import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
 import type { CelebSortBy } from "@/actions/home";
 import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
-import ExploreSearchControls, { EXPLORE_CONTROL_CLASS as controlClass } from "@/components/shared/ExploreSearchControls";
+import ExploreSearchControls, { EXPLORE_CONTROL_CLASS as controlClass, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 
 const Modal = dynamic(() => import("@/components/ui/Modal"));
 
@@ -26,7 +25,6 @@ interface Props {
 
 export default function CelebCompactControls({ filters, trendCountryOptions = PINNED_TREND_COUNTRIES, onInteraction }: Props) {
   const t = useTranslations("home.ui");
-  const tCeleb = useTranslations("shared.celeb");
   const year = useTranslations("home.ui.birthYear");
   const getProfession = useProfessionLabel();
   const getNationality = useNationalityLabel();
@@ -64,7 +62,7 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
     : 0;
 
   return (
-    <div className="mx-auto mb-4 w-full max-w-3xl space-y-3 md:mb-6">
+    <div className={EXPLORE_PANEL_CLASS}>
       <ExploreSearchControls value={filters.search} placeholder={t("searchPlaceholder")} searchLabel={t("searchButton")}
         clearLabel={t("compactFilters.remove", { label: filters.search })} disabled={filters.isLoading}
         onChange={filters.handleSearchInput} onSubmit={() => { onInteraction?.(); filters.handleSearchSubmit(); }}
@@ -72,15 +70,15 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
         <button type="button" onClick={() => setOpen("works")} disabled={filters.isLoading}
           aria-label={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`} aria-haspopup="dialog"
           title={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`}
-          className={`flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-md border px-2 py-2 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 md:px-3 md:text-sm ${filters.contentPresence === "all" ? "border-white/15 bg-white/[0.025] text-text-primary hover:border-white/35 hover:bg-white/5" : "border-accent/45 bg-accent/10 text-accent hover:bg-accent/20"}`}>
+          className={`flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-md border px-2 py-2 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${filters.contentPresence === "all" ? "border-transparent text-text-primary hover:bg-white/5" : "border-accent/25 bg-accent/[0.07] text-accent hover:bg-accent/15"}`}>
           <PenLine size={15} className="hidden shrink-0 sm:block" aria-hidden />
           <span className="min-w-0 truncate leading-5">{t(`compactFilters.reviews.${filters.contentPresence}`)}</span>
         </button>
-        <div className={`flex min-h-11 min-w-0 items-stretch rounded-md border text-xs md:text-sm ${filters.sortBy === DEFAULT_EXPLORE_SORT ? "border-white/15 bg-white/[0.025] text-text-primary" : "border-accent/45 bg-accent/10 text-accent"}`}>
+        <div className={`flex min-h-11 min-w-0 items-stretch rounded-md border text-xs ${filters.sortBy === DEFAULT_EXPLORE_SORT ? "border-transparent text-text-primary" : "border-accent/25 bg-accent/[0.07] text-accent"}`}>
           <button type="button" disabled={filters.isLoading} onClick={() => setOpen("sort")}
             aria-label={`${t("filterSort")}: ${t(`sort.${filters.sortBy}`)}`} aria-haspopup="dialog"
             title={`${t("filterSort")}: ${t(`sort.${filters.sortBy}`)}`}
-            className={`flex min-w-0 flex-1 items-center justify-center gap-1.5 px-2 py-1 hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 md:px-3 ${filters.sortBy === DEFAULT_EXPLORE_SORT ? "rounded-md" : "rounded-l-md"}`}>
+            className={`flex min-w-0 flex-1 items-center justify-center gap-1.5 px-2 py-1 hover:bg-white/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${filters.sortBy === DEFAULT_EXPLORE_SORT ? "rounded-md" : "rounded-l-md"}`}>
             <ArrowDownWideNarrow size={15} className="hidden shrink-0 sm:block" aria-hidden />
             <span className="min-w-0 truncate leading-5">{t(`sort.${filters.sortBy}`)}</span>
           </button>
@@ -99,7 +97,7 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
         </button>
       </ExploreSearchControls>
       {filters.sortBy === "country_trending" && (
-        <div className="space-y-2 rounded-md border border-white/10 px-3 py-2.5">
+        <div className="space-y-2 border-t border-white/10 px-1 pt-2">
           <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("trends.country")}>
             <button type="button" onClick={() => setOpen("trendInfo")} aria-haspopup="dialog"
               className="mr-1 min-h-11 rounded text-xs text-text-secondary underline decoration-white/30 underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
@@ -124,11 +122,10 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
                 : t("trends.noMatches")}
             </p>
           )}
-          {/* 칩 범례 — 카드·명부의 네모 칩과 같은 모양으로 급상승 표지를 설명한다 */}
           {!filters.isLoading && filters.trend?.available && filters.trend.matchedCount > 0 && (
             <ul className="space-y-1 text-xs text-text-secondary">
               <li className="flex items-center gap-2">
-                <span className={`${TREND_CHIP_BASE} ${TREND_CHIP_DIRECT}`} style={{ background: TREND_CHIP_FLAME_BG }}>{tCeleb("trendChipSurge")}</span>
+                <Info size={12} className="shrink-0" aria-hidden />
                 <span>{t("trends.legendDirect", { count: filters.trend.matchedCount })}</span>
               </li>
             </ul>
@@ -136,12 +133,13 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
         </div>
       )}
       {dailyTrendHits > 0 && (
+        <div className="border-t border-white/10 pt-1">
         <button type="button" onClick={() => setOpen("trendInfo")} aria-haspopup="dialog" aria-label={t("trends.dailyInfoOpen")}
-          className="flex min-h-11 w-full items-center gap-2 rounded-md px-1 text-left hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent">
-          <span className={`${TREND_CHIP_BASE} ${TREND_CHIP_DIRECT} shrink-0`} style={{ background: TREND_CHIP_FLAME_BG }}>{tCeleb("trendChipSurge")}</span>
-          <span className="min-w-0 flex-1 text-xs leading-5 text-text-secondary">{t("trends.dailyNotice", { count: dailyTrendHits })}</span>
-          <Info size={14} className="shrink-0 text-text-secondary" aria-hidden />
+          className="flex min-h-9 w-full items-center justify-center gap-1.5 rounded-md px-1 text-left text-text-secondary hover:bg-white/5 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <Info size={12} className="shrink-0" aria-hidden />
+          <span className="min-w-0 text-[11px] leading-4">{t("trends.dailyNotice", { count: dailyTrendHits })}</span>
         </button>
+        </div>
       )}
       {chips.length > 0 && (
         <div className="flex flex-wrap gap-2">

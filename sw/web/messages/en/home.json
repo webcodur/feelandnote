@@ -205,7 +205,7 @@
         "searchCountry": "Search countries",
         "modalDescription": "Figures matching search terms trending on Google Trends in the selected country over the past {days} days appear first.",
         "sourceLink": "View on Google Trends",
-        "dailyNotice": "{count, plural, one {# trending figure} other {# trending figures}} in today’s picks",
+        "dailyNotice": "Includes {count, plural, one {# figure} other {# figures}} with rising search interest.",
         "dailyInfoOpen": "About trends in Today's Picks",
         "dailyInfoTitle": "Today's Picks and search trends",
         "dailyInfoBody": "Today's Picks are drawn fresh each day. Figures whose names match search terms surging on Google Trends in {country} over the past {days} days get extra draws, so they reach the first page more often."
