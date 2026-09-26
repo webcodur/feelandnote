@@ -8,7 +8,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { ArrowDownWideNarrow, SlidersHorizontal, X } from "lucide-react";
 import type { CuratedHub } from "@/actions/library/types";
 import { Pagination } from "@/components/ui/Pagination";
-import ExploreSearchControls, { EXPLORE_CONTROL_CLASS } from "@/components/shared/ExploreSearchControls";
+import ExploreSearchControls, { EXPLORE_CONTROL_CLASS, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 import { FilterModal } from "@/components/shared/filters";
 import { summarizeBrowse } from "./useCuratedBrowse";
 import CuratorLogoCard from "../hub/CuratorLogoCard";
@@ -63,13 +63,13 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
 
   return (
     <div>
-      <div className="mx-auto mb-4 w-full max-w-3xl space-y-3 md:mb-6">
-          <nav aria-label={t("media")} className="flex min-h-11 items-stretch gap-1 rounded-md border border-white/15 bg-white/[0.025] p-1">
+      <div className={EXPLORE_PANEL_CLASS}>
+          <nav aria-label={t("media")} className="flex min-h-11 items-stretch gap-1 border-b border-white/10 pb-2">
             {allSummary.medias.map(media => <Link key={media} href={`${pathname}${queryFor({ media, kind: "all", topic: "all" })}`} prefetch={false}
               aria-current={filters.media === media ? "page" : undefined} onClick={event => {
                 if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
                 event.preventDefault(); update({ media, kind: "all", topic: "all" });
-              }} className={`flex min-h-9 min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded px-1 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent md:min-w-16 md:px-4 md:text-sm ${filters.media === media ? "bg-accent/15 text-accent hover:bg-accent/25" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
+              }} className={`flex min-h-9 min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-md px-1 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent ${filters.media === media ? "bg-accent/10 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
               {t.has(`mediaShort.${media}`) ? t(`mediaShort.${media}`) : curated(`mediaLabel.${media}`)}
             </Link>)}
           </nav>
