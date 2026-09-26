@@ -4,6 +4,7 @@ const SQUARE_LOGOS = new Set([
   "sogang-university", "university-of-seoul", "yonsei-university", "inha-university",
   "chosun-ilbo", "chung-ang-university", "postech", "kaist", "hanyang-university",
   "sight-and-sound", "seoul-national-university", "st-johns-college",
+  "academy-of-interactive-arts-and-sciences", "golden-joystick-awards",
   "blue-dragon-film-awards", "cannes-film-festival", "hankook-ilbo",
 ]);
 
