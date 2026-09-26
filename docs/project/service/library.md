@@ -123,7 +123,7 @@ AI 학당의 데이터와 `/explore/works/academy/ai/{foundations|prompting|crea
 | `celebs.ts` | 시대 전반 상위 인물 |
 | `curated.ts` | 기관 선정 — 기관·목록·작품 조회 |
 | `samples.ts` | 직군별 콘텐츠 표본 |
-| `today-figure.ts` | 오늘의 인물 |
+| `today-figure.ts` | 오늘의 인물. 조회 결과에 KST 편성일을 함께 담고 홈·상세의 날짜 표시에 그대로 사용한다 |
 | `academyProgress.ts` | 학당 진도 |
 | `helpers.ts` · `types.ts` · `index.ts` | 공용 헬퍼·타입·배럴 |
 

@@ -38,6 +38,7 @@ export async function FigureSection() {
       <TodayFigureSection
         figure={result.figure}
         contents={result.contents}
+        date={result.date}
         source={result.source}
         embedded
       />

@@ -60,12 +60,13 @@ interface TodayFigureSource {
 interface TodayFigureSectionProps {
     figure: Figure;
     contents: Content[];
+    date: string;
     source?: TodayFigureSource;
     /** 홈 HubSection 안에 들어갈 때 true — 제목·부제는 밖이 쥐므로 날짜 뱃지만 남긴다 */
     embedded?: boolean;
 }
 
-export default function TodayFigureSection({ figure, contents, source, embedded = false }: TodayFigureSectionProps) {
+export default function TodayFigureSection({ figure, contents, date, source, embedded = false }: TodayFigureSectionProps) {
     const t = useTranslations("todayFigure");
     const tProfession = useTranslations("profession");
     const locale = useLocale();
@@ -95,9 +96,9 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
     const visibleContents = filteredContents.slice(0, 4);
     /* 수수료 안내 — 카드의 판매 단추 안에 묻지 않고 분류 칩 줄 끝에 둔다(인물 서재 조작대와 같은 규칙) */
 
-    // 날짜 포맷
-    const today = new Date();
-    const dateStr = t("dateLabel", { month: today.getMonth() + 1, day: today.getDate() });
+    // 서버가 인물을 고를 때 사용한 날짜를 그대로 쓴다. 방문자 시간대나 자정 경계에 흔들리지 않는다.
+    const [, month, day] = date.split("-").map(Number);
+    const dateStr = t("dateLabel", { month, day });
 
     // 제목은 칩만 둔다. 종류별 개수는 분류 칩이 이미 말하므로 문구로 되풀이하지 않는다
 

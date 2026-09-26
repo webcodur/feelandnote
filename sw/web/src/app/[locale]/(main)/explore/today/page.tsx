@@ -16,11 +16,11 @@ export async function generateMetadata() {
 }
 
 async function FigureContent() {
-  const { figure, contents, source } = await getTodayFigure();
+  const { figure, contents, date, source } = await getTodayFigure();
   if (!figure) return null;
   return (
     <AsyncIntlProvider>
-      <TodayFigureSection figure={figure} contents={contents} source={source} />
+      <TodayFigureSection figure={figure} contents={contents} date={date} source={source} />
     </AsyncIntlProvider>
   );
 }

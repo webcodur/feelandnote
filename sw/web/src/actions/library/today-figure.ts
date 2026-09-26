@@ -42,10 +42,15 @@ interface TodayFigureSource {
   newsCount: number
 }
 
-export interface TodayFigureResult {
+interface TodayFigureData {
   figure: TodayFigure | null
   contents: LibraryContent[]
   source: TodayFigureSource
+}
+
+export interface TodayFigureResult extends TodayFigureData {
+  /** 인물 편성에 사용한 KST 날짜. 화면에서도 같은 날짜를 표시한다. */
+  date: string
 }
 
 /**
@@ -97,7 +102,7 @@ async function pickBirthdayCeleb(
   return sorted.find((id) => (counts.get(id) ?? 0) >= 5) ?? sorted[0]
 }
 
-async function fetchTodayFigure(today: string, locale: string): Promise<TodayFigureResult> {
+async function fetchTodayFigure(today: string, locale: string): Promise<TodayFigureData> {
   const db = createStaticClient()
 
   const { data: dailyFigure, error: dailyFigureError } = await db
@@ -166,7 +171,8 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   const locale = await getLocale()
   // 편성(크론)과 같은 KST 날짜를 써야 한다 — 기준이 어긋나면 편성을 못 찾고 seed로 흐른다
   const today = getKSTDateKey()
-  return withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
+  const result: TodayFigureData = await withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
+  return { ...result, date: today }
 }
 
 // 오늘의 인물 celebs 조회 행
@@ -190,7 +196,7 @@ async function fetchFigureContents(
   db: StaticDatabaseClient,
   celebId: string,
   locale: string,
-): Promise<TodayFigureResult> {
+): Promise<TodayFigureData> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
   const [
