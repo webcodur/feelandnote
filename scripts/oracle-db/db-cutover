@@ -99,7 +99,7 @@ log "7) 공개 경로 확인"
 key=$($SSH $NEW "sudo grep -oE '^SUPABASE_PUBLISHABLE_KEY=.*' /opt/feelandnote/supabase/.env | cut -d= -f2-")
 for _ in 1 2 3 4 5 6 7 8; do code=$(curl -s -o /dev/null -m 15 -w '%{http_code}' "https://db.feelandnote.com/rest/v1/celebs?select=slug&limit=1" -H "apikey: $key"); echo "db.feelandnote.com REST HTTP $code $(date -u +%T)"; [[ "$code" == 200 ]] && break; sleep 5; done
 test "$code" == 200
-for u in https://feelandnote.com/celeb/barack-obama https://feelandnote.com/library/curated/yonsei-university https://feelandnote.com/; do
+for u in https://feelandnote.com/celeb/barack-obama https://feelandnote.com/explore/works/curated/yonsei-university https://feelandnote.com/; do
   curl -s -o /dev/null -m 40 -w "$u HTTP %{http_code} %{time_total}s\n" -H "Accept: text/html" -H "Cache-Control: no-cache" "$u"
 done
 

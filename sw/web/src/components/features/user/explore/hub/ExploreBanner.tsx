@@ -75,13 +75,7 @@ export default function ExploreBanner() {
   return (
     <>
       {/* 모바일 배너 */}
-      <div className="md:hidden relative py-4 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
-        <div className="flex items-center gap-3 opacity-40 mb-3">
-          <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#d4af37]" />
-          <div className="w-1.5 h-1.5 rotate-45 bg-[#d4af37]" />
-          <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#d4af37]" />
-        </div>
-
+      <div className="md:hidden relative px-4 py-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
         {isSubpage ? (
           <div
             role="heading"
@@ -90,7 +84,7 @@ export default function ExploreBanner() {
           >
             <Link
               href="/explore"
-              className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300"
+              className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {hubTitle}
             </Link>
@@ -99,14 +93,14 @@ export default function ExploreBanner() {
               <>
                 <Link
                   href="/explore/faction"
-                  className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300"
+                  className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   {pageTitle}
                 </Link>
                 <ChevronRight size={20} className="text-white/30 shrink-0" />
                 <button
                   onClick={handleRefresh}
-                  className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                  className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
                 >
                   {themeName}
                 </button>
@@ -114,7 +108,7 @@ export default function ExploreBanner() {
             ) : (
               <button
                 onClick={handleRefresh}
-                className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                className="text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
               >
                 {pageTitle}
               </button>
@@ -130,7 +124,7 @@ export default function ExploreBanner() {
               {hubTitle}
             </div>
             {hubEnglish.toLowerCase() !== hubTitle.toLowerCase() && (
-              <p className="text-[#d4af37] tracking-[0.3em] text-[11px] mt-1.5 uppercase font-cinzel text-center">
+              <p className="text-[#d4af37] tracking-[0.2em] text-[10px] uppercase font-cinzel text-center">
                 {hubEnglish}
               </p>
             )}
@@ -147,7 +141,7 @@ export default function ExploreBanner() {
             <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
               <Link
                 href="/explore"
-                className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300"
+                className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 {hubTitle}
               </Link>
@@ -156,14 +150,14 @@ export default function ExploreBanner() {
                 <>
                   <Link
                     href="/explore/faction"
-                    className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300"
+                    className="pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   >
                     {pageTitle}
                   </Link>
                   <ChevronRight size={36} className="text-white/30 shrink-0" strokeWidth={1.5} />
                   <button
                     onClick={handleRefresh}
-                    className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                    className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
                   >
                     {themeName}
                   </button>
@@ -171,7 +165,7 @@ export default function ExploreBanner() {
               ) : (
                 <button
                   onClick={handleRefresh}
-                  className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer"
+                  className="pointer-events-auto text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
                 >
                   {pageTitle}
                 </button>

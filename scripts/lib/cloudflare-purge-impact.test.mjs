@@ -234,6 +234,9 @@ test('cache-tag aggregate contract and revalidation API changes do not evict HTM
 
 test('uncached login, home, library, spectrum, lab, and game runtime require no purge', () => {
   const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/app/[locale]/(main)/explore/works/curated/page.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/works/popular/page.tsx',
+    'sw/web/src/app/[locale]/(main)/explore/works/sections.tsx',
     'sw/web/src/actions/auth/login.ts',
     'sw/web/src/actions/home/getCelebFeed.ts',
     'sw/web/src/actions/library/helpers.ts',

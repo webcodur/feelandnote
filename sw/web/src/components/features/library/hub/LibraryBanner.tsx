@@ -11,7 +11,7 @@
 
 import { usePathname, Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import TreeBanner from "@/components/lab/TreeBanner";
+import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { ChevronRight } from "lucide-react";
 import { useExtraCrumbs } from "./LibraryCrumbs";
 
@@ -85,21 +85,15 @@ export default function LibraryBanner() {
   };
 
   // --- 공통 breadcrumb 렌더 ---
-  const parentStyle = "text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300";
-  const parentStyleDesktop = "pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300";
-  const currentStyle = "text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer";
+  const parentStyle = "text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  const parentStyleDesktop = "pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  const currentStyle = "text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer";
   const currentStyleDesktop = "pointer-events-auto " + currentStyle;
 
   return (
     <>
       {/* 모바일 배너 */}
-      <div className="md:hidden relative py-4 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
-        <div className="flex items-center gap-3 opacity-40 mb-3">
-          <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#d4af37]" />
-          <div className="w-1.5 h-1.5 rotate-45 bg-[#d4af37]" />
-          <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#d4af37]" />
-        </div>
-
+      <div className="md:hidden relative px-4 py-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
         {isSubpage ? (
           <div
             role="heading"
@@ -137,7 +131,7 @@ export default function LibraryBanner() {
               {hubTitle}
             </div>
             {hubEnglish.toLowerCase() !== hubTitle.toLowerCase() && (
-              <p className="text-[#d4af37] tracking-[0.3em] text-[11px] mt-1.5 uppercase font-cinzel text-center">
+              <p className="text-[#d4af37] tracking-[0.2em] text-[10px] uppercase font-cinzel text-center">
                 {hubEnglish}
               </p>
             )}
@@ -149,7 +143,7 @@ export default function LibraryBanner() {
 
       {/* 데스크탑 배너 */}
       <div className="hidden md:block">
-        <TreeBanner compact>
+        <ConstellationBanner compact>
           {isSubpage ? (
             <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
               <Link href="/explore/works" className={parentStyleDesktop}>
@@ -185,7 +179,7 @@ export default function LibraryBanner() {
               )}
             </>
           )}
-        </TreeBanner>
+        </ConstellationBanner>
       </div>
     </>
   );

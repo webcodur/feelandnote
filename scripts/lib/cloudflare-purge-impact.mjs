@@ -207,7 +207,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/auth/login.ts',
   'sw/web/src/actions/home/getCelebFeed.ts',
   'sw/web/src/actions/library/helpers.ts',
-  // 인기 작품(/library/popular)의 직군별 집계다. 서재는 보관 대상이 아니라 helpers 와 같다.
+  // 인기 작품(/explore/works/popular)의 직군별 집계다. 서재는 보관 대상이 아니라 helpers 와 같다.
   'sw/web/src/actions/library/profession.ts',
   'sw/web/src/actions/library/today-figure.ts',
   'sw/web/src/actions/spectrum/getSimilarByCelebId.ts',
@@ -244,9 +244,9 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/library/hub/CuratedHubBrowse.tsx',
   // 종류별 개수 칩의 소비자는 오늘의 인물 구획(홈·explore/today)뿐이다.
   'sw/web/src/components/ui/ContentTypeSummary.tsx',
-  'sw/web/src/app/[locale]/(main)/library/curated/page.tsx',
-  'sw/web/src/app/[locale]/(main)/library/popular/page.tsx',
-  'sw/web/src/app/[locale]/(main)/library/sections.tsx',
+  'sw/web/src/app/[locale]/(main)/explore/works/curated/page.tsx',
+  'sw/web/src/app/[locale]/(main)/explore/works/popular/page.tsx',
+  'sw/web/src/app/[locale]/(main)/explore/works/sections.tsx',
   'sw/web/src/components/features/landing/FactionShowcase.tsx',
   'sw/web/src/components/features/library/curated/CuratedListView.tsx',
   'sw/web/src/components/features/library/hub/PopularPreview.tsx',

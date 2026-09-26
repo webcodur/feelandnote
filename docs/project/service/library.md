@@ -28,7 +28,7 @@
 
 ## 레이아웃·허브
 
-`explore/works/layout.tsx`가 작품 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다.
+`explore/works/layout.tsx`가 작품 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. PC 배너는 인물 모드와 같은 별자리(`ConstellationBanner`)를 쓴다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다.
 
 허브(`/explore/works`)는 `HubNav`와 `HubSection`으로 구성한다. 순서·라벨키·더보기 주소는 `hubSectionUtils.tsx`의 `LIBRARY_SECTIONS`가 단일원천이다.
 
