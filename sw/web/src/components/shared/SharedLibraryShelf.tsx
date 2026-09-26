@@ -214,7 +214,7 @@ function LeadWork({ item, memberCount, isEn, buyable, t }: { item: SharedContent
         <p className="text-xs font-bold tracking-[0.14em] text-accent">{t("mostShared")}</p>
         <h4 className="mt-1 font-serif text-xl font-bold leading-snug text-text-primary md:text-2xl">
           <Link href={href} prefetch={false} className="outline-none hover:text-accent focus-visible:text-accent">
-            <NoEditionBadge badge={badge} />
+            <NoEditionBadge contentType={item.type} badge={badge} />
             {title}
           </Link>
         </h4>
@@ -265,7 +265,7 @@ function WorkCard({ item, memberCount, isEn, buyable, t }: { item: SharedContent
         </div>
         <div className="flex flex-1 flex-col p-3">
           <h4 className="line-clamp-2 text-sm font-bold leading-5 text-text-primary group-hover:text-accent">
-            <NoEditionBadge badge={badge} />
+            <NoEditionBadge contentType={item.type} badge={badge} />
             {title}
           </h4>
           {creator && <p className="mt-0.5 truncate text-xs text-text-secondary">{creator}</p>}

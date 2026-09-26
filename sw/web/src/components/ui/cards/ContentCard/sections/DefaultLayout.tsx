@@ -130,7 +130,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         )}
 
         {props.overlayTopLeft && <div className="absolute left-1.5 top-1.5 z-10">{props.overlayTopLeft}</div>}
-        <NoEditionBadge variant="cover" badge={displayTitleBadge} />
+        <NoEditionBadge contentType={props.contentType ?? "BOOK"} variant="cover" badge={displayTitleBadge} />
         {props.overlayTopRight && <div className="absolute right-1.5 top-1.5 z-10">{props.overlayTopRight}</div>}
 
         {renderBottomLeft()}

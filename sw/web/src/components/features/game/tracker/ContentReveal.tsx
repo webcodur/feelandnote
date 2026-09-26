@@ -53,7 +53,7 @@ export default function ContentReveal({ content }: ContentRevealProps) {
             </span>
           </div>
           <h4 className="text-base sm:text-lg font-bold text-white leading-snug">
-            <NoEditionBadge badge={content.titleBadge} />
+            <NoEditionBadge contentType={content.type} badge={content.titleBadge} />
             {content.title}
           </h4>
           {content.creator && (

@@ -7,19 +7,21 @@
         170px대에 두 줄 잘림이라 칩이 제목을 더 잘랐다. 조작 요소가 아니므로 hover 반응을 두지 않는다.
 */
 import { useTranslations } from "next-intl";
-import type { TitleBadge } from "@/lib/utils/content-locale";
+import { getBookTitleBadge, type TitleBadge } from "@/lib/utils/content-locale";
 
 interface NoEditionBadgeProps {
+  contentType: string | null | undefined;
   badge?: TitleBadge | null;
   className?: string;
   /** chip: 제목 앞 고정 표기(목록 행) · cover: 표지 한가운데 가로 띠(표지 카드) */
   variant?: "chip" | "cover";
 }
 
-export default function NoEditionBadge({ badge, className, variant = "chip" }: NoEditionBadgeProps) {
-  if (!badge) return null;
-  if (variant === "cover") return <EditionCoverBand badge={badge} className={className} />;
-  return <EditionChip badge={badge} className={className} />;
+export default function NoEditionBadge({ contentType, badge, className, variant = "chip" }: NoEditionBadgeProps) {
+  const bookBadge = getBookTitleBadge(contentType, badge);
+  if (!bookBadge) return null;
+  if (variant === "cover") return <EditionCoverBand badge={bookBadge} className={className} />;
+  return <EditionChip badge={bookBadge} className={className} />;
 }
 
 /** 목록 행의 제목 앞 칩. 표지 띠와 같은 독자 말 문구를 쓴다(「번역본 없음 / Untranslated」). */

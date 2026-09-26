@@ -123,7 +123,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 targetContent.title.length > 10 ? 'text-2xl md:text-3xl' :
                                 'text-3xl md:text-4xl'
                             } font-serif font-bold text-text-primary leading-tight break-keep mt-2`}>
-                                <NoEditionBadge badge={targetContent.titleBadge} />
+                                <NoEditionBadge contentType={targetContent.type} badge={targetContent.titleBadge} />
                                 {targetContent.title}
                             </h2>
 

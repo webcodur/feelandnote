@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { flattenLocales, type ContentLocaleRow } from './content-locale'
+import { flattenLocales, getBookTitleBadge, type ContentLocaleRow } from './content-locale'
 
 const koRow: ContentLocaleRow = {
   locale: 'ko',
@@ -20,6 +20,21 @@ const enRow: ContentLocaleRow = {
   isbn: '9780140123456',
   sources: { primary: 'openlibrary' },
 }
+
+test('영상·게임·음악은 제목 언어가 없거나 절판 표식이 있어도 도서 배지를 표시하지 않는다', () => {
+  for (const contentType of ['VIDEO', 'GAME', 'MUSIC', undefined, null]) {
+    for (const badge of ['no-ko', 'no-en', 'out-of-print', null, undefined] as const) {
+      assert.equal(getBookTitleBadge(contentType, badge), null)
+    }
+  }
+})
+
+test('도서는 한국어·영어 판본과 절판 판정을 그대로 표시한다', () => {
+  for (const badge of ['no-ko', 'no-en', 'out-of-print', null] as const) {
+    assert.equal(getBookTitleBadge('BOOK', badge), badge)
+  }
+  assert.equal(getBookTitleBadge('BOOK', undefined), null)
+})
 
 /** 표시용 제목 행 — 제목만 있고 sources.title로 번역·음차를 밝힌다 */
 function displayTitleRow(locale: string, title: string, kind: string): ContentLocaleRow {

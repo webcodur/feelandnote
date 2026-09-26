@@ -32,6 +32,14 @@ export interface ContentLocaleRow {
 /** 요청 locale의 제목이 확인된 판본 제목이 아닐 때 붙는 배지. out-of-print는 절판·유통 판본 없음(sources.availability). */
 export type TitleBadge = 'no-ko' | 'no-en' | 'out-of-print'
 
+// 번역 판본·절판 표시는 도서에만 쓴다. 영상·게임·음악의 제목 언어와는 별개다.
+export function getBookTitleBadge(
+  contentType: string | null | undefined,
+  badge: TitleBadge | null | undefined,
+): TitleBadge | null {
+  return contentType === 'BOOK' ? badge ?? null : null
+}
+
 /** sources JSONB에서 표시용 제목 표기만 좁혀 읽는다. */
 interface LocaleSources {
   primary?: unknown

@@ -45,7 +45,7 @@ function DragOverlayContent({ content }: { content: Content }) {
       </div>
       <div className="min-w-0 max-w-[120px]">
         <p className="text-xs text-white truncate">
-          <NoEditionBadge badge={content.title_badge} />
+          <NoEditionBadge contentType={content.type} badge={content.title_badge} />
           {content.title}
         </p>
         <p className="text-[11px] text-text-secondary truncate">{content.creator}</p>

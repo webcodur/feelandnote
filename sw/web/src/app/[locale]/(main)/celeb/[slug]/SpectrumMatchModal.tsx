@@ -420,7 +420,7 @@ export default function SpectrumMatchModal({
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="text-base font-bold text-text-primary">
-                          <NoEditionBadge badge={item.content.title_badge} />
+                          <NoEditionBadge contentType={item.content.type} badge={item.content.title_badge} />
                           {item.content.title}
                         </p>
                         {item.content.creator ? (

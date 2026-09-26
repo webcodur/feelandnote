@@ -88,7 +88,7 @@ export default function FigureBookWorksSection({
                   >
                     <span className={`flex min-w-0 items-center justify-center ${source.creator ? "" : "row-span-2"}`}>
                       <span className="block truncate text-[15px] font-black leading-[1.25] tracking-[-0.01em] text-3d-gold">
-                        <NoEditionBadge badge={source.titleBadge} />
+                        <NoEditionBadge contentType={"BOOK"} badge={source.titleBadge} />
                         {source.title}
                       </span>
                     </span>

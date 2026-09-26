@@ -148,6 +148,7 @@ export default function MemoryResult({
 
       {/* 감상배경 모달 — 게임 전체화면 위에 띄운다 */}
       <ContentReviewModal
+        contentType={reviewContent?.content.type}
         isOpen={!!reviewContent}
         onClose={() => setReviewContent(null)}
         title={reviewContent?.content.title ?? ""}

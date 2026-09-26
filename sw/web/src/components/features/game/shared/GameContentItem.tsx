@@ -96,7 +96,7 @@ export default function GameContentItem({
       </div>
       <div className="min-w-0 flex-1">
         <p className={`${cfg.title} font-bold text-white truncate`}>
-          <NoEditionBadge badge={titleBadge} />
+          <NoEditionBadge contentType={type} badge={titleBadge} />
           {title}
         </p>
         {creator && (
@@ -121,6 +121,7 @@ export default function GameContentItem({
         </button>
         {!onClickOverride && (
           <ContentReviewModal
+            contentType={type}
             isOpen={showReview}
             onClose={() => setShowReview(false)}
             title={title}

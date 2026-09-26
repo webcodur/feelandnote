@@ -179,6 +179,7 @@ export default function CardModals({ props, state }: CardModalsProps) {
         </ModalBody>
       </Modal>
       <ContentReviewModal
+        contentType={contentType}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title={displayTitle}

@@ -121,7 +121,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
                 <span aria-hidden className="pointer-events-none absolute inset-[2px] rounded-[10px] border border-white/[0.06]" />
               </div>
               <p className="text-xs text-text-secondary line-clamp-2 leading-tight mt-1.5 group-hover:text-accent">
-                <NoEditionBadge badge={item.titleBadge} />
+                <NoEditionBadge contentType={item.type} badge={item.titleBadge} />
                 {item.title}
               </p>
             </Link>

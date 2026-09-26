@@ -7,6 +7,7 @@ import { createClient } from "@/lib/db/client";
 import type { User } from "@supabase/supabase-js";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getBookEditions } from "@/lib/utils/editions";
+import { getBookTitleBadge } from "@/lib/utils/content-locale";
 
 import type { ContentCardProps } from "./types";
 import { TYPE_ICONS, ASPECT_STYLES } from "./constants";
@@ -140,7 +141,7 @@ export function useContentCardState(props: ContentCardProps) {
   const [activeEdition, setActiveEdition] = useState<Locale>(requestedEdition);
 
   // 배지는 요청 locale의 제목에 대한 판정이다. 카드 안에서 반대 판으로 넘기면 붙이지 않는다.
-  const displayTitleBadge = activeEdition === requestedEdition ? titleBadge ?? null : null;
+  const displayTitleBadge = activeEdition === requestedEdition ? getBookTitleBadge(contentType, titleBadge) : null;
 
   const displayTitle = showEditionToggle && editions![activeEdition]
     ? editions![activeEdition]!.title
