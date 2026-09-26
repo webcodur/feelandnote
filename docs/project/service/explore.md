@@ -6,6 +6,8 @@
 
 인물 모드에서는 원하는 사람을 찾고, 별도 페이지에서 분야·성향·신화·세력을 탐색한다. 인물 주소와 상세(`/celeb/[slug]`·`/content/[id]`)는 유지한다.
 
+두 모드의 상단 배너는 「탐색 / EXPLORE」다. 아래에서 인물·작품 모드를 고르고, 「인물로 탐색하기 / 작품으로 탐색하기」 소개(`ExploreHubIntro`) → 공용 검색·정렬·필터(`ExploreSearchControls`) → 결과 수와 카드 → 다른 탐색 방법 순서로 그린다. 작품의 기관 로고 격자는 인물 격자와 같은 열 구성을 쓰며 이미지 안내 카드는 `ExploreFeatureCard`를 공유한다.
+
 ## 탐색 첫 화면
 
 `/explore`는 필터·검색·정렬·페이지네이션을 갖춘 인물 그리드다. 첫 진입은 「감상 있음」 필터와 「오늘의 추천」 정렬을 사용한다. 사용자가 감상 조건이나 정렬을 직접 바꾸면 그 선택을 따른다. 「오늘의 추천」은 영향력·감상 작품 수·날짜별 변화에 생존·기업가 속성 가산을 얹는 `daily_recommend` 조회를 사용한다. 여기에 국가별 트렌드 매칭 인물이 일일 시드 추첨으로 첫 페이지 칸을 얹는다 — 당첨 확률과 상한은 `lib/celeb/dailyRecommendTrend.ts`가 쥐고, 그려진 인물은 카드의 화염 표지·급상승 칩과 필터 아래 안내 줄로 드러난다. 기본값과 허용값은 `constants/celebProfessions.ts`, `celebContentPresence.ts`, `celebSort.ts`, URL 해석은 `explore/figures/filterParams.ts`가 쥔다.

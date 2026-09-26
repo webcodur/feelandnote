@@ -32,7 +32,7 @@ interface Props {
   };
   initialClassicsData: LibraryResult;
   professions: { profession: string; count: number }[];
-  /** 허브 미리보기의 더 보기처럼 모드를 골라 들어오는 길 (?mode=classics) */
+  /** 첫 화면의 별도 카드와 주소가 지정한 모드 */
   initialMode?: Mode;
 }
 
@@ -42,7 +42,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
   const tp = useTranslations("profession");
   const tc = useTranslations("content.category");
 
-  const [mode, setMode] = useState<Mode>(initialMode ?? "bestseller");
+  const mode = initialMode ?? "bestseller";
   
   const bestsellers = initialBestsellers.items;
 
@@ -122,7 +122,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
         <CategoryTabFilter
           options={modeChips}
           value={mode}
-          onChange={(v) => setMode(v as Mode)}
+          linkTo={v => `/explore/works/popular${v === "classics" ? "?mode=classics" : ""}`}
           size="md"
         />
       </div>

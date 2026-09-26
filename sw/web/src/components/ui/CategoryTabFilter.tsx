@@ -102,7 +102,7 @@ export function CategoryTabFilter<T extends string>({
           const faint = showFaintAll;
 
           const cls = [
-            `${compact ? "rounded-lg" : "rounded-xl"} whitespace-nowrap border`,
+            `${compact ? "rounded-lg" : "inline-flex min-h-11 items-center justify-center rounded-xl"} whitespace-nowrap border outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset`,
             pad,
             isActive
               ? subtle

@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
+import ExploreHubIntro from "@/components/shared/ExploreHubIntro";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -116,24 +117,9 @@ export default function CelebCarousel({
 
   return (
     <div>
-      {/* 명부 헤드라인 — 인원이 사실·가상 선택을 따라간다 */}
+      {/* 두 탐색 모드는 같은 소개 위계를 쓴다. 명부 규모는 결과 수 옆에서 보인다. */}
       {syncToUrl && realityTotals && (
-        <header className="mb-4 flex flex-col gap-1.5 md:mb-8 md:items-center md:gap-2 md:text-center">
-          <div className="hidden items-center gap-2 opacity-60 md:mb-2 md:flex" aria-hidden>
-            <span className="h-px w-8 bg-gradient-to-r from-transparent to-accent/60" />
-            <span className="h-1 w-1 rotate-45 bg-accent/70" />
-            <span className="h-px w-8 bg-gradient-to-l from-transparent to-accent/60" />
-          </div>
-          <h2 id="explore-figures-heading" className="break-keep font-serif text-xl font-bold leading-snug tracking-tight text-text-primary md:text-3xl">
-            {tHub.rich("archiveHeadline", {
-              count: realityTotals[filters.realityValue],
-              num: (chunks) => <span className="tabular-nums text-accent">{chunks}</span>,
-            })}
-          </h2>
-          <p className="max-w-md break-keep text-xs leading-relaxed text-text-secondary md:text-sm">
-            {tHub("archiveSub")}
-          </p>
-        </header>
+        <ExploreHubIntro id="explore-figures-heading" title={tHub("archiveHeadline")} description={tHub("archiveSub")} />
       )}
       {syncToUrl ? (
         <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction} />
@@ -253,10 +239,10 @@ export default function CelebCarousel({
       ) : (
         <section key="grid" ref={resultsRef} tabIndex={-1} aria-label={t("celebArchive")} aria-busy={filters.isLoading}
           className="relative scroll-mt-20 outline-none animate-fade-in md:scroll-mt-24">
-          {/* 현재 결과 수 — 헤드라인이 쥐는 명부 전체 수와 달리 좁히기에 따라 바뀌는 값이다 */}
+          {/* 전체 명부 수와 현재 조건에 맞는 결과 수 */}
           {syncToUrl && (
             <p role="status" className="mb-3 text-xs tabular-nums text-text-secondary md:mb-4">
-              {tExplore("totalCount", { count: filters.total })}
+              {realityTotals ? tHub("archiveResults", { count: filters.total, total: realityTotals[filters.realityValue] }) : tExplore("totalCount", { count: filters.total })}
             </p>
           )}
           {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}

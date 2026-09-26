@@ -14,9 +14,9 @@ import CuratedBrowseTabs from "./CuratedBrowseTabs";
 import CuratedListCard from "./CuratedListCard";
 import { useCuratedBrowse } from "./useCuratedBrowse";
 
-export default function CuratorBrowse({ curator }: { curator: CuratorDetail }) {
+export default function CuratorBrowse({ curator, initialBrowse }: { curator: CuratorDetail; initialBrowse?: { media?: string; topic?: string } }) {
   const t = useTranslations("library.curated");
-  const browse = useCuratedBrowse([curator]);
+  const browse = useCuratedBrowse([curator], initialBrowse);
 
   if (curator.lists.length === 0) {
     return <p className="py-10 text-center text-[14px] text-text-tertiary">{t("emptyLists")}</p>;

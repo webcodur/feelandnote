@@ -98,13 +98,13 @@
 
 | 경로 | 역할 | 화면 |
 |---|---|---|
-| `/explore/works/curated` | 허브. 성격별(대학·언론·상·서점·투표) 기관 진열 | `curated/CuratedHubView.tsx` |
+| `/explore/works/curated` | 기관 로고 격자. 기관·선정 목록 검색, 정렬, 매체·기관 종류·주제 교차 필터 | `curated/CuratedHubView.tsx` |
 | `/explore/works/curated/[curator]` | 기관 소개 + 그 기관이 낸 목록 전부 | `curated/CuratorView.tsx` |
 | `/explore/works/curated/[curator]/[list]` | 목록. 데스크톱은 상자로 감싼 카드 격자, 모바일은 2열 격자·한 편씩 보는 펼침 선택 + 같은 계열 연도 전환 | `curated/CuratedListView.tsx` · `CuratedListGrid.tsx` · `CuratedListMobile.tsx` · `CuratedListExpand.tsx` |
 
 - 컴포넌트는 `sw/web/src/components/features/library/curated/`. 목록 카드(`CuratedListCard`)는 허브·기관 화면이 공유한다.
 - 조회는 `sw/web/src/actions/library/curated.ts` 하나가 전담한다(허브·기관·목록·작품 역조회 4종). 캐시 태그는 `CACHE_TAGS.CURATED`다. DB 조회의 `error`는 행 없음과 구분해 던져야 하며, 일시 장애를 빈 기관·빈 목록으로 바꾸어 7일 캐시에 저장하지 않는다. 이 오류 미캐시 규칙의 회귀 검사는 `sw/web/src/actions/library/curated.cache.test.ts`에 있다.
-- 서가 허브(`LIBRARY_SECTIONS`)의 4번째 구획으로 들어갔다. 네비게이션 하위 링크(`navigation.tsx`)에도 등록.
+- 작품 모드(`/explore/works`)의 핵심 목록이다. 기관별 전체 보기와 개별 목록 주소는 유지하며 탐색·푸터 링크는 `navigation.tsx`가 쥔다.
 - 🔴 **주소 짝 검증** — 목록 화면은 주소의 기관과 목록이 실제로 맺어진 짝인지 확인하고 어긋나면 `notFound()`로 보낸다. 확인하지 않으면 아무 기관 이름으로나 남의 목록이 열린다.
 - 미연결 작품은 링크로 감싸지 않고 흐리게 두며 "아직 등록되지 않은 작품"을 붙인다. **목록에서 빼지 않는다.**
 - 사이트맵에 기관·목록 주소를 개별 등재한다(`sitemap.ts`의 `fetchCuratedPaths`). "서울대 권장도서 100선" 같은 검색어와 정면으로 맞는 자리다.

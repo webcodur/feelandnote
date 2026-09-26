@@ -13,9 +13,11 @@ import NationalityText from "@/components/ui/NationalityText";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { CuratorDetail } from "@/actions/library/types";
 import CuratorBrowse from "./CuratorBrowse";
+import { getCuratorLogoUrl } from "./curatorLogos";
 
-export default async function CuratorView({ curator }: { curator: CuratorDetail }) {
+export default async function CuratorView({ curator, initialBrowse }: { curator: CuratorDetail; initialBrowse?: { media?: string; topic?: string } }) {
   const t = await getTranslations("library.curated");
+  const logoUrl = getCuratorLogoUrl(curator.slug, curator.logoUrl);
 
   return (
     <div className="space-y-8">
@@ -28,12 +30,12 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
       </Link>
 
       <header className="mx-auto flex max-w-3xl flex-col items-center text-center">
-        {curator.logoUrl && (
+        {logoUrl && (
           // 로고는 흰 종이를 전제로 만들어진 것이 많아 어두운 화면에 그대로 얹으면 묻힌다
           // 여백은 로고 파일에 이미 들어 있다. 여기서 또 주면 그림이 작아진다
           <div className="relative mb-4 size-24 overflow-hidden rounded-xl bg-white shadow-lg">
             <BlurDissolve className="absolute inset-0">
-              <Image src={curator.logoUrl} alt={curator.name} fill className="object-contain" sizes="96px" />
+              <Image src={logoUrl} alt={curator.name} fill className="object-contain" sizes="96px" />
             </BlurDissolve>
           </div>
         )}
@@ -66,7 +68,7 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
       </header>
 
       {/* 목록 진열 — 허브와 같은 조작대로 훑는다. 데이터는 서버가 실어 보낸 것 안에서만 섞는다 */}
-      <CuratorBrowse curator={curator} />
+      <CuratorBrowse key={`${initialBrowse?.media ?? ""}:${initialBrowse?.topic ?? ""}`} curator={curator} initialBrowse={initialBrowse} />
     </div>
   );
 }

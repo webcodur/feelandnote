@@ -729,6 +729,7 @@ const MAIN_WARMUP_ROUTES = (probeSlug) => [
   `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`,
   '/explore/works', '/en/explore/works',
   '/explore/works/popular', '/en/explore/works/popular',
+  '/explore/works/popular?mode=classics', '/en/explore/works/popular?mode=classics',
   '/explore/works/curated', '/en/explore/works/curated',
   '/explore/works/museum', '/en/explore/works/museum',
   '/explore/works/academy', '/en/explore/works/academy',

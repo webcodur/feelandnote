@@ -9,6 +9,8 @@ import { getCuratedHub } from "@/actions/library";
 // getTranslations는 generateMetadata에서만 쓴다
 import { getLocalizedAlternates } from "@/lib/seo";
 import CuratedHubView from "@/components/features/library/curated/CuratedHubView";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 
 export async function generateMetadata() {
   const t = await getTranslations("library.curated");
@@ -19,23 +21,14 @@ export async function generateMetadata() {
   };
 }
 
-export default async function CuratedPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ kind?: string; media?: string; topic?: string }>;
-}) {
-  const { kind, media, topic } = await searchParams;
+export default async function CuratedPage() {
   const hub = await getCuratedHub();
+  const t = await getTranslations("pending");
 
   // 제목은 배너 breadcrumb(서가 > 기관 선정)이 맡는다. 여기서 또 쓰면 같은 말이 두 번 나온다
   return (
     <div className="pb-20">
-      <CuratedHubView
-        hub={hub}
-        selectedKind={kind ?? null}
-        selectedMedia={media ?? null}
-        selectedTopic={topic ?? null}
-      />
+      <Lane fallback={<PendingBlock variant="grid" count={12} label={t("loading")} />}><CuratedHubView hub={hub} /></Lane>
     </div>
   );
 }

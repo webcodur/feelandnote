@@ -153,6 +153,7 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/feed', 'daily', 0.7],
   ['/explore/works', 'daily', 0.8],
   ['/explore/works/popular', 'weekly', 0.8],
+  ['/explore/works/popular?mode=classics', 'weekly', 0.8],
   ['/explore/works/museum', 'monthly', 0.7],
   ['/explore/works/academy', 'monthly', 0.7],
   ['/explore/works/curated', 'weekly', 0.8],

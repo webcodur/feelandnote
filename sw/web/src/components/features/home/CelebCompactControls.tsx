@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { ArrowDownWideNarrow, ChevronDown, Info, PenLine, Search, SlidersHorizontal, X } from "lucide-react";
+import { ArrowDownWideNarrow, ChevronDown, Info, PenLine, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { TREND_CHIP_BASE, TREND_CHIP_DIRECT, TREND_CHIP_FLAME_BG } from "@/components/shared/CelebCard.styles";
 import { FilterModal } from "@/components/shared/filters";
@@ -14,6 +14,7 @@ import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
 import type { CelebSortBy } from "@/actions/home";
 import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
+import ExploreSearchControls, { EXPLORE_CONTROL_CLASS as controlClass } from "@/components/shared/ExploreSearchControls";
 
 const Modal = dynamic(() => import("@/components/ui/Modal"));
 
@@ -22,8 +23,6 @@ interface Props {
   trendCountryOptions?: readonly TrendCountry[];
   onInteraction?: () => void;
 }
-
-const controlClass = "flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/[0.025] px-2 py-2 md:px-3 text-xs md:text-sm font-medium text-text-primary hover:border-white/35 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50";
 
 export default function CelebCompactControls({ filters, trendCountryOptions = PINNED_TREND_COUNTRIES, onInteraction }: Props) {
   const t = useTranslations("home.ui");
@@ -66,18 +65,10 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
 
   return (
     <div className="mb-4 space-y-3 md:mb-6">
-      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] gap-2 md:flex md:flex-wrap">
-        <form className="col-span-3 flex min-h-11 min-w-0 flex-1 items-center rounded-md border border-white/15 bg-white/[0.025] focus-within:border-accent/60 md:min-w-56"
-          onSubmit={event => { event.preventDefault(); onInteraction?.(); filters.handleSearchSubmit(); }}>
-          <input value={filters.search} onChange={event => filters.handleSearchInput(event.target.value)} placeholder={t("searchPlaceholder")}
-            aria-label={t("searchPlaceholder")} className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-text-primary outline-none placeholder:text-text-secondary/60" />
-          {filters.search && (
-            <button type="button" onClick={() => { onInteraction?.(); filters.handleSearchClear(); }} aria-label={t("compactFilters.remove", { label: filters.search })}
-              className="rounded p-1.5 text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent"><X size={14} /></button>
-          )}
-          <button type="submit" disabled={filters.isLoading} aria-label={t("searchButton")}
-            className="m-1 flex h-8 w-8 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"><Search size={17} /></button>
-        </form>
+      <ExploreSearchControls value={filters.search} placeholder={t("searchPlaceholder")} searchLabel={t("searchButton")}
+        clearLabel={t("compactFilters.remove", { label: filters.search })} disabled={filters.isLoading}
+        onChange={filters.handleSearchInput} onSubmit={() => { onInteraction?.(); filters.handleSearchSubmit(); }}
+        onClear={() => { onInteraction?.(); filters.handleSearchClear(); }}>
         <button type="button" onClick={() => setOpen("works")} disabled={filters.isLoading}
           aria-label={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`} aria-haspopup="dialog"
           title={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`}
@@ -106,7 +97,7 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
           <SlidersHorizontal size={15} /><span>{t("compactFilters.open")}</span>
           {conditions.length > 0 && <span className="text-xs tabular-nums text-accent">{conditions.length}</span>}
         </button>
-      </div>
+      </ExploreSearchControls>
       {filters.sortBy === "country_trending" && (
         <div className="space-y-2 rounded-md border border-white/10 px-3 py-2.5">
           <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("trends.country")}>
