@@ -24,8 +24,6 @@ interface GameShellConfig<StartArgs extends unknown[]> {
     onPhaseChange?: (phase: string) => void;
     onStartRef?: React.MutableRefObject<((...args: StartArgs) => void) | null>;
   }>;
-  /** GameFullScreen 하단 푸터 (오디오 플레이어 등) */
-  footerExtra?: ReactNode;
   /** 초기 전체화면 모드 여부 */
   initialFullScreen?: boolean;
   /** 외부에서 phase 변화를 감지하기 위한 콜백 */
@@ -34,7 +32,7 @@ interface GameShellConfig<StartArgs extends unknown[]> {
   onExitFullScreenExternal?: () => void;
 }
 
-export default function GameShell<StartArgs extends unknown[]>({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, footerExtra, initialFullScreen, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig<StartArgs>) {
+export default function GameShell<StartArgs extends unknown[]>({ gameName, gateIcon, gateSubtitle, phaseLabels, Background, Lobby, Game, initialFullScreen, onPhaseChangeExternal, onExitFullScreenExternal }: GameShellConfig<StartArgs>) {
   const t = useTranslations("shared.game");
   const homeRef = useRef<(() => void) | null>(null);
   const startRef = useRef<((...args: StartArgs) => void) | null>(null);
@@ -98,7 +96,6 @@ export default function GameShell<StartArgs extends unknown[]>({ gameName, gateI
   return (
     <GameFullScreen
       breadcrumbs={breadcrumbs}
-      footerExtra={footerExtra}
       onHome={handleHome}
       onExitFullScreen={handleExitFullScreen}
       background={<Background phase={phase} />}

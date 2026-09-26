@@ -9,7 +9,6 @@ import { useCallback, useMemo } from "react";
 import { Crosshair } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
-import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import GameShell from "../shared/GameShell";
 import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import TrackerGame from "../TrackerGame";
@@ -64,7 +63,6 @@ export default function LabyrinthGame({ bgImages, initialFullScreen, onExitFullS
       Background={Background}
       Lobby={LabyrinthLobby}
       Game={TrackerGame}
-      footerExtra={<div className="md:hidden"><GameAudioPlayer controls={audioControls} /></div>}
       initialFullScreen={initialFullScreen}
       onPhaseChangeExternal={handlePhaseChange}
       onExitFullScreenExternal={() => {

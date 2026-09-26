@@ -171,7 +171,9 @@ async function fetchAffiliatePool(locale: AffiliateBookLocale): Promise<PoolEntr
     ...popularRows,
   ]
   for (const row of rows) {
-    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources)) continue
+    // 절판(유통 판본 없음)은 우리가 잇는 서점에서 살 수 없다 — 제휴 링크를 직접 건 상품만 예외로 둔다
+    const outOfPrint = (row.sources as { availability?: unknown } | null | undefined)?.availability === 'out_of_print'
+    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || (outOfPrint && !row.affiliate_url)) continue
     const url = locale === 'en'
       ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
       : findAffiliateLink(row.affiliate_url, 'coupang')?.url ?? ''
@@ -365,6 +367,7 @@ async function fetchAffiliateBooksForCeleb(
   celebId: string,
   limit: number,
   pool: PoolEntry[],
+  excludeIds?: ReadonlySet<string>,
 ): Promise<{ books: AffiliateBook[]; groups: AffiliateBookGroup[]; source: AffiliateBookSource }> {
   if (pool.length === 0) return { books: [], groups: [], source: 'popular' }
 
@@ -382,7 +385,9 @@ async function fetchAffiliateBooksForCeleb(
     let count = 0
     for (const p of pool) {
       if (picked.length >= limit) break
-      if (seen.has(p.book.contentId) || !ids.has(p.book.contentId)) continue
+      // 이미 다른 모드가 보여 주는 책(excludeIds)은 칸을 차지하기 전에 건너뛴다 —
+      // 나중에 화면에서 걸러내면 채운 칸이 통째로 빠진다
+      if (seen.has(p.book.contentId) || excludeIds?.has(p.book.contentId) || !ids.has(p.book.contentId)) continue
       seen.add(p.book.contentId)
       picked.push(p)
       count += 1
@@ -402,17 +407,27 @@ async function fetchAffiliateBooksForCeleb(
 /* unstable_cache 콜백 안에서 부른 unstable_cache는 안쪽 캐시를 읽지 않고 매번 다시 만든다
    (26.09.10 실측 — 풀을 인물 캐시 안에서 읽자 인물마다 풀 전량 재조회로 2.5~3초, 인물 상세 콜드 10초대).
    풀은 반드시 바깥에서 읽어 콜백에 넘긴다. 아래 태그 조회도 같다. */
+/** 제외 목록을 캐시 키에 얹는 짧은 지문 — 같은 목록이면 순서와 무관하게 같은 값 */
+function exclusionFingerprint(ids: readonly string[]): string {
+  const joined = [...ids].sort().join(',')
+  let hash = 5381
+  for (let i = 0; i < joined.length; i += 1) hash = ((hash << 5) + hash + joined.charCodeAt(i)) >>> 0
+  return hash.toString(36)
+}
+
 async function getAffiliateBooksForCelebInner(
   celebId: string,
   locale: AffiliateBookLocale = 'ko',
   limit = 6,
+  excludeIds?: readonly string[],
 ): Promise<{ books: AffiliateBook[]; groups: AffiliateBookGroup[]; source: AffiliateBookSource }> {
   const pool = await fetchAffiliatePoolCached(locale)
+  const excluded = excludeIds?.length ? new Set(excludeIds) : undefined
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v7-groups', celebId, locale, String(limit)],
-    () => fetchAffiliateBooksForCeleb(celebId, limit, pool),
+    ['affiliate-books-celeb-v7-groups', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
+    () => fetchAffiliateBooksForCeleb(celebId, limit, pool, excluded),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },

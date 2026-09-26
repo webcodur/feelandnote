@@ -118,8 +118,8 @@ export default function CelebCarousel({
     <div>
       {/* 명부 헤드라인 — 인원이 사실·가상 선택을 따라간다 */}
       {syncToUrl && realityTotals && (
-        <header className="mb-6 flex flex-col items-center gap-1.5 text-center md:mb-8 md:gap-2">
-          <div className="mb-1 flex items-center gap-2 opacity-60 md:mb-2" aria-hidden>
+        <header className="mb-4 flex flex-col gap-1.5 md:mb-8 md:items-center md:gap-2 md:text-center">
+          <div className="hidden items-center gap-2 opacity-60 md:mb-2 md:flex" aria-hidden>
             <span className="h-px w-8 bg-gradient-to-r from-transparent to-accent/60" />
             <span className="h-1 w-1 rotate-45 bg-accent/70" />
             <span className="h-px w-8 bg-gradient-to-l from-transparent to-accent/60" />

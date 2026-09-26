@@ -17,19 +17,19 @@ export const CELEB_SERVICE_CHAPTERS = {
   guestbook: "08",
 } as const;
 
-/* 꼬리는 참고도서→관련 인물→방명록 순이다 — 옛 순서(guestbook·relatedFigures·affiliateBooks)에서
-   참고도서와 관련 인물의 자리를 바꾸고 방명록을 맨 끝으로 보냈다.
+/* 리뷰(library)는 기록만 남긴 구획으로 연표 다음에 서고, 참고도서(affiliateBooks)는
+   인물과 책의 관계별 모드(등장·감상·집필·추천)를 그 다음 한 구획에 담는다.
+   꼬리는 관련 인물→방명록 순이고 방명록이 맨 끝이다.
    본문 구획 순서(CelebRecordSections)와 반드시 같게 둔다 */
 const STANDARD_SECTION_ORDER = [
   "introduction",
   "reading",
   "timeline",
   "library",
-  "sourceWorks",
+  "affiliateBooks",
   "analysis",
   "connections",
   "media",
-  "affiliateBooks",
   "relatedFigures",
   "guestbook",
 ] as const;
@@ -39,9 +39,8 @@ const FICTION_SECTION_ORDER = [
   "reading",
   "timeline",
   "connections",
-  "sourceWorks",
-  "media",
   "affiliateBooks",
+  "media",
   "relatedFigures",
   "guestbook",
 ] as const;

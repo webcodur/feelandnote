@@ -35,7 +35,7 @@ test('public verification bypasses edge cache and reads the new HTML and complet
   assert.equal(f.requests.length, 11) // One identity check, eight pages, two deduplicated assets.
   assert.equal(result.staticAssets.checked, 2)
   assert.equal(result.staticAssets.bytes, 20)
-  assert.ok(f.requests.some(u => u.pathname === '/en/library' && u.searchParams.has('_rsc')))
+  assert.ok(f.requests.some(u => u.pathname === '/en/explore/works' && u.searchParams.has('_rsc')))
   assert.ok(f.requests.some(u => u.pathname === '/api/deployment'))
 })
 

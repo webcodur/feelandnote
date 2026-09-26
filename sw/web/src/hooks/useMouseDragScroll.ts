@@ -8,7 +8,7 @@
 
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type DragEvent, type MouseEvent, type PointerEvent } from "react";
 
 interface DragState {
   pointerId: number;
@@ -67,6 +67,9 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
     suppressClickRef.current = false;
     const el = ref.current;
     if (!el || event.pointerType !== "mouse" || event.button !== 0) return;
+    /* 조작 요소 위에서 누른 건 끌기로 받지 않는다 — 뱃지·단추 위의 클릭이 문턱만큼
+       움직였다는 이유로 끌기 판정에 삼켜지지 않게. 칸 안의 조작부는 data-no-drag를 단다 */
+    if (event.target instanceof HTMLElement && event.target.closest("[data-no-drag]")) return;
     stopGlide();
     dragRef.current = {
       pointerId: event.pointerId,
@@ -131,9 +134,15 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
     event.stopPropagation();
   };
 
+  /* 칸 안의 링크·이미지는 브라우저가 네이티브 드래그(dragstart)를 시작해 pointerup·click을 삼킨다 —
+     눌러서 조금 움직인 클릭이 뱃지·단추까지 닿지 못하게 된다. 네이티브 드래그는 줄 안에서 전부 막는다 */
+  const onDragStart = (event: DragEvent<T>) => {
+    event.preventDefault();
+  };
+
   return {
     ref,
     cursorClassName: isDragging ? "cursor-grabbing" : "cursor-grab",
-    dragProps: { onPointerDown, onPointerMove, onPointerUp: onPointerEnd, onPointerCancel: onPointerEnd, onClickCapture },
+    dragProps: { onPointerDown, onPointerMove, onPointerUp: onPointerEnd, onPointerCancel: onPointerEnd, onClickCapture, onDragStart },
   };
 }

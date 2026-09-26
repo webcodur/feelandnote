@@ -170,7 +170,8 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
             {cardContent}
           </Link>
         </div>
-        {props.posterFooterNode && <div className="mt-2">{props.posterFooterNode}</div>}
+        {/* 구매 단추 영역은 끌기 판정에서 뺀다 — 단추 위의 클릭이 끌기로 삼켜지지 않게 */}
+        {props.posterFooterNode && <div className="mt-2" data-no-drag>{props.posterFooterNode}</div>}
         {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
       </div>
     );
@@ -196,7 +197,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
           {cardContent}
         </div>
       </div>
-      {props.posterFooterNode && <div className="mt-2">{props.posterFooterNode}</div>}
+      {props.posterFooterNode && <div className="mt-2" data-no-drag>{props.posterFooterNode}</div>}
       {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
     </div>
   );

@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "explore": "Figures",
+    "explore": "Explore",
     "library": "Works",
     "rest": "Rest",
     "agora": "Agora",
@@ -58,13 +58,17 @@
       "privacy": "Privacy Policy",
       "spectrum": "Spectrum",
       "myth": "Worlds of Myth"
+    },
+    "modes": {
+      "figures": "Figures",
+      "works": "Works"
     }
   },
   "moreMenu": {
     "shortcuts": "Shortcuts",
     "home": "Home",
     "playlists": "Playlists",
-    "explore": "Figures",
+    "explore": "Explore",
     "library": "Works",
     "board": "Board",
     "notice": "Announcements",

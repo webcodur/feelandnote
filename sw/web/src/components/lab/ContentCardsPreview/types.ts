@@ -72,7 +72,7 @@ export const PAGE_CARD_MAP: PageCardInfo[] = [
     ],
   },
   {
-    url: "/library",
+    url: "/explore/works",
     pageName: "작품 (서가)",
     sections: [
       {

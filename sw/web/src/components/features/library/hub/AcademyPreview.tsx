@@ -31,7 +31,7 @@ const TAG = "px-2.5 py-1 rounded-md text-[11px] font-medium bg-white/[0.04] bord
 const TAG_HOVER = "text-white/40 group-hover:text-white/70 group-hover:border-white/15 group-hover:bg-white/[0.08]";
 
 /*
-  학당 미리보기 — 학당 허브(/library/academy)의 카테고리 카드 문법을 그대로 축약한다.
+  학당 미리보기 — 학당 허브(/explore/works/academy)의 카테고리 카드 문법을 그대로 축약한다.
   본 화면과 마찬가지로 매체(도서·영상·음악·게임)와 AI를 줄로 가른다. AI를 매체 옆에
   나란히 두면 "다섯 번째 매체"로 읽히기 때문이다.
   다른 구획(박물관·기관 선정)처럼 "내용물 격자"로 보여 주고, 배너식 홍보 블록을 쓰지 않는다.
@@ -48,7 +48,7 @@ export default function AcademyPreview({ continueLink }: AcademyPreviewProps) {
           const Icon = CATEGORY_ICONS[cat.id as keyof typeof CATEGORY_ICONS];
           const firstCourseId = cat.courses[0].id;
           return (
-            <Link key={cat.id} href={`/library/academy/${cat.id}/${firstCourseId}`} className={CARD_LINK}>
+            <Link key={cat.id} href={`/explore/works/academy/${cat.id}/${firstCourseId}`} className={CARD_LINK}>
               <div className={`${ICON_BOX} group-hover:bg-accent/20 group-hover:border-accent/50`}>
                 <Icon className="w-6 h-6 text-accent" />
               </div>
@@ -111,7 +111,7 @@ export default function AcademyPreview({ continueLink }: AcademyPreviewProps) {
       {/* 그 모두가 만나는 다음 장 — 본 화면의 이음말을 한 줄로 줄인다 */}
       {AI_CATEGORY && (
         <Link
-          href={`/library/academy/${AI_CATEGORY.id}/${AI_CATEGORY.courses[0].id}`}
+          href={`/explore/works/academy/${AI_CATEGORY.id}/${AI_CATEGORY.courses[0].id}`}
           className={`${CARD_LINK} sm:flex-row sm:items-center sm:gap-5`}
         >
           <div className={`${ICON_BOX} shrink-0 sm:mb-0 group-hover:bg-accent/20 group-hover:border-accent/50`}>

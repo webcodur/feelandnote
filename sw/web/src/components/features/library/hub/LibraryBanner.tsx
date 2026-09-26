@@ -2,16 +2,16 @@
   파일명: /components/features/library/hub/LibraryBanner.tsx
   기능: 서가 배너 (동적 breadcrumb, N단 지원)
   책임: 현재 경로 depth에 따라 배너 breadcrumb을 동적으로 표시한다.
-        - /library → 허브 타이틀만
-        - /library/academy → 서가 > 학당
-        - /library/academy/video/composition → 서가 > 학당 > 영상 제작
+        - /explore/works → 허브 타이틀만
+        - /explore/works/academy → 서가 > 학당
+        - /explore/works/academy/video/composition → 서가 > 학당 > 영상 제작
 */ // ------------------------------
 
 "use client";
 
 import { usePathname, Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import TreeBanner from "@/components/lab/TreeBanner";
+import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { ChevronRight } from "lucide-react";
 import { useExtraCrumbs } from "./LibraryCrumbs";
 
@@ -44,8 +44,8 @@ export default function LibraryBanner() {
   const hubTitle = tNav("library");
   const hubEnglish = tHome("library.englishTitle");
 
-  // segments: ["library", "academy", "video", "composition"]
-  const segments = pathname.replace(/^\//, "").split("/");
+  // 탐색 접두어를 제외해 기존 작품 하위 경로의 깊이를 유지한다.
+  const segments = pathname.replace(/^\/explore\//, "").split("/");
   const subSegment = segments[1];
   const subKey = subSegment ? SUBPAGE_KEY[subSegment] : undefined;
 
@@ -53,10 +53,10 @@ export default function LibraryBanner() {
   const crumbs: Crumb[] = [];
 
   if (subKey) {
-    // 1단: /library/{sub}
+    // 1단: /explore/works/{sub}
     crumbs.push({
       label: tNav(`sub.${subKey}`),
-      href: `/library/${subSegment}`,
+      href: `/explore/works/${subSegment}`,
     });
 
     // 2단+: academy 카테고리 (segments[2])
@@ -66,7 +66,7 @@ export default function LibraryBanner() {
         const catLabel = tAcademy(`category.${categoryId}.label`);
         crumbs.push({
           label: catLabel,
-          href: `/library/academy/${categoryId}`,
+          href: `/explore/works/academy/${categoryId}`,
         });
       } catch {
         // 번역 키 없으면 무시
@@ -85,28 +85,22 @@ export default function LibraryBanner() {
   };
 
   // --- 공통 breadcrumb 렌더 ---
-  const parentStyle = "text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300";
-  const parentStyleDesktop = "pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] transition-all duration-300";
-  const currentStyle = "text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] transition-all duration-300 cursor-pointer";
+  const parentStyle = "text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  const parentStyleDesktop = "pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  const currentStyle = "text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer";
   const currentStyleDesktop = "pointer-events-auto " + currentStyle;
 
   return (
     <>
       {/* 모바일 배너 */}
-      <div className="md:hidden relative py-4 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
-        <div className="flex items-center gap-3 opacity-40 mb-3">
-          <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#d4af37]" />
-          <div className="w-1.5 h-1.5 rotate-45 bg-[#d4af37]" />
-          <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#d4af37]" />
-        </div>
-
+      <div className="md:hidden relative px-4 py-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
         {isSubpage ? (
           <div
             role="heading"
             aria-level={1}
             className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center"
           >
-            <Link href="/library" className={parentStyle}>
+            <Link href="/explore/works" className={parentStyle}>
               {hubTitle}
             </Link>
             {crumbs.map((crumb, i) => {
@@ -137,7 +131,7 @@ export default function LibraryBanner() {
               {hubTitle}
             </div>
             {hubEnglish.toLowerCase() !== hubTitle.toLowerCase() && (
-              <p className="text-[#d4af37] tracking-[0.3em] text-[11px] mt-1.5 uppercase font-cinzel text-center">
+              <p className="text-[#d4af37] tracking-[0.2em] text-[10px] uppercase font-cinzel text-center">
                 {hubEnglish}
               </p>
             )}
@@ -149,10 +143,10 @@ export default function LibraryBanner() {
 
       {/* 데스크탑 배너 */}
       <div className="hidden md:block">
-        <TreeBanner compact>
+        <ConstellationBanner compact>
           {isSubpage ? (
             <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
-              <Link href="/library" className={parentStyleDesktop}>
+              <Link href="/explore/works" className={parentStyleDesktop}>
                 {hubTitle}
               </Link>
               {crumbs.map((crumb, i) => {
@@ -185,7 +179,7 @@ export default function LibraryBanner() {
               )}
             </>
           )}
-        </TreeBanner>
+        </ConstellationBanner>
       </div>
     </>
   );

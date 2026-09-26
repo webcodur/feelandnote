@@ -707,12 +707,34 @@ async function warmExplorePage(port, expectedDeploymentId, passes = 2) {
  * 전환 전 주요 진입 경로를 두 로케일로 데운다.
  * /explore 하나만 데우면 홈·상세·서재는 빈 렌더 캐시로 첫 방문자를 맞는다 —
  * 카나리는 슬롯의 파일 캐시를, 본 프로세스는 인메모리 캐시를 채운다.
+ * 탐색·서재의 내비 노출 하위 페이지도 같은 이유로 넣는다 — 쿠키 기반 개인화 화면
+ * (아고라 게시판·알림)과 클라이언트 셸(/search), 빌드 때 만들어지는 정책 페이지는
+ * 데워도 얻는 캐시가 없어 제외한다.
  */
 const MAIN_WARMUP_ROUTES = (probeSlug) => [
   '/', '/ko', '/en',
   '/explore', '/en/explore',
+  '/explore/ranking', '/en/explore/ranking',
+  // 매체별 순위판은 별도 캐시다 — 사이트맵에도 변형 주소가 실려 있어 각각 데운다
+  '/explore/ranking?category=video', '/en/explore/ranking?category=video',
+  '/explore/ranking?category=game', '/en/explore/ranking?category=game',
+  '/explore/ranking?category=music', '/en/explore/ranking?category=music',
+  '/explore/spectrum', '/en/explore/spectrum',
+  '/explore/myth', '/en/explore/myth',
+  '/explore/faction', '/en/explore/faction',
+  '/explore/timeline', '/en/explore/timeline',
+  '/explore/directory', '/en/explore/directory',
+  '/explore/monologue', '/en/explore/monologue',
+  // 내비에는 안 달렸지만 사이트맵에 실린 live 주소 — 첫 타자가 크롤러일 수 있다
+  '/explore/today', '/en/explore/today',
+  '/explore/feed', '/en/explore/feed',
   `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`,
-  '/library', '/en/library',
+  '/explore/works', '/en/explore/works',
+  '/explore/works/popular', '/en/explore/works/popular',
+  '/explore/works/curated', '/en/explore/works/curated',
+  '/explore/works/museum', '/en/explore/works/museum',
+  '/explore/works/academy', '/en/explore/works/academy',
+  '/rest', '/en/rest',
 ]
 
 export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { readyTimeoutMs = 5_000 } = {}) {

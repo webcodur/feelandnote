@@ -53,7 +53,7 @@ test('all warmup routes must return the new build and finish promptly on the sec
   const server = createServer((req, res) => {
     res.setHeader('connection', 'close')
     counts.set(req.url, (counts.get(req.url) ?? 0) + 1)
-    if (stall && req.url === '/en/library' && counts.get(req.url) === 2) {
+    if (stall && req.url === '/en/explore/works' && counts.get(req.url) === 2) {
       res.writeHead(200); res.write('<html>'); return
     }
     res.end(`<html><script src="/_next/static/app.js?dpl=${id}"></script></html>`)
@@ -61,7 +61,7 @@ test('all warmup routes must return the new build and finish promptly on the sec
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
   t.after(() => new Promise(resolve => { server.close(resolve); server.closeAllConnections() }))
   const result = await warmMainRoutes(server.address().port, 'bill-gates', id)
-  assert.equal(result.length, 18)
+  assert.equal(result.length, 86)
   assert.ok([...counts.values()].every(count => count === 2))
   counts.clear(); stall = true
   await assert.rejects(warmMainRoutes(server.address().port, 'bill-gates', id, { readyTimeoutMs: 100 }))

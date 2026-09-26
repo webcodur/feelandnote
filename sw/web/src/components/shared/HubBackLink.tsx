@@ -22,7 +22,7 @@ interface HubBackLinkProps {
  * 그런 화면은 자기 화면에 맞는 뒤로가기를 직접 두므로, 두 개가 겹치지 않게 비운다.
  */
 const SELF_HANDLED = [
-  /^\/library\/curated\/[^/]+/, // 기관 화면·목록 화면(기관 선정 허브는 제외)
+  /^\/explore\/works\/curated\/[^/]+/, // 기관 화면·목록 화면(기관 선정 허브는 제외)
 ];
 // 세력도감(/explore/faction)은 여기 넣지 않는다. 섹션·테마를 칩 줄로 옮겨 다니고 자체 뒤로가기가 없어,
 // 빼면 대문에서도 테마 주소에서도 탐색으로 갈 길이 사라진다.
@@ -39,7 +39,7 @@ export default function HubBackLink({ hubPath, label }: HubBackLinkProps) {
     <div className="mb-4">
       <Link
         href={hubPath}
-        className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
         <ArrowLeft size={14} />
         {label}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
-import { partitionFigureBooks, placeOutOfPrintLast, pickDisplayFigureBooks } from './authoredBooks'
+import { partitionFigureBooks, pickDisplayFigureBooks } from './authoredBooks'
 
 function book(overrides: Partial<FigureBookContent> = {}): FigureBookContent {
   return {
@@ -35,18 +35,7 @@ test('입력 순서를 구획 안에서 지킨다', () => {
   assert.deepEqual(partitionFigureBooks([first, second]).authoredBooks, [first, second])
 })
 
-test('절판 작품만 뒤로 보내고 나머지 순서는 지킨다', () => {
-  const outFirst = book({ id: 'out-1', titleBadge: 'out-of-print' })
-  const sale = book({ id: 'sale' })
-  const noKo = book({ id: 'no-ko', titleBadge: 'no-ko' })
-  const outSecond = book({ id: 'out-2', titleBadge: 'out-of-print' })
-  assert.deepEqual(
-    placeOutOfPrintLast([outFirst, sale, outSecond, noKo]).map(({ id }) => id),
-    ['sale', 'no-ko', 'out-1', 'out-2'],
-  )
-})
-
-test('영문 연관 작품에서 번역본 없는 도서는 남기고 실제 판본 없는 작품의 구매 정보는 요구하지 않는다', () => {
+test('요청 언어의 판본이 없는 작품(미번역본)과 절판은 어떤 화면에도 세우지 않는다', () => {
   const edition = {
     id: 1, title: '판본', creator: null, description: null, isbn: '9788900000000',
     publisher: null, thumbnailUrl: null, releaseDate: null, editionKind: null,
@@ -58,11 +47,7 @@ test('영문 연관 작품에서 번역본 없는 도서는 남기고 실제 판
   const noEn = book({ id: 'no-en', editions: [], titleBadge: 'no-en' })
   const noEdition = book({ id: 'empty', editions: [] })
   assert.deepEqual(
-    pickDisplayFigureBooks([confirmed, outOfPrint, noKo, noEn, noEdition], 'en').map(({ id }) => id),
-    ['confirmed', 'no-ko', 'no-en', 'out'],
-  )
-  assert.deepEqual(
-    pickDisplayFigureBooks([confirmed, outOfPrint, noKo, noEn, noEdition], 'ko').map(({ id }) => id),
-    ['confirmed', 'no-ko', 'out'],
+    pickDisplayFigureBooks([confirmed, outOfPrint, noKo, noEn, noEdition]).map(({ id }) => id),
+    ['confirmed', 'no-ko'],
   )
 })

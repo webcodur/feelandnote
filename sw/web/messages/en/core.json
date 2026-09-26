@@ -188,7 +188,6 @@
       "epic": "Epic"
     },
     "category": {
-      "volume": "Volume",
       "diversity": "Diversity",
       "depth": "Depth"
     },
@@ -614,6 +613,7 @@
       "pause": "Pause",
       "mute": "Mute",
       "unmute": "Unmute",
+      "volume": "Volume",
       "enterGame": "Enter Game",
       "soundInfo": "Includes sound effects",
       "startGame": "Start Game",

@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] spectrum — 모바일 비교 묶음 겹창(캐러셀)
+ * [celeb 상세] spectrum — 비교 묶음 겹창(캐러셀)
  * - 목차 위치: spectrum(분석 구획, service key `spectrum` / sectionId `analysis`)
  * - 데이터: categories·subjectName·matchesByCategory·suspended·onClose·onOpenMatch
  * - 함께 보기: SpectrumMatchGroup.tsx, SpectrumSectionMain.tsx
@@ -22,7 +22,7 @@ import {
   SpectrumMatchGroup,
 } from "./SpectrumMatchGroup";
 
-/* ── 1. 모바일 비교 묶음 겹창 ── */
+/* ── 1. 비교 묶음 겹창 ── */
 
 export function SpectrumMatchGroupsModal({
   categories,

@@ -30,7 +30,7 @@ import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
 import { READING_PLAYBACK_RATES } from '@/hooks/useReadingNarration'
 import { releaseAudio } from '@/lib/audio-ducking'
-import { useGameFullScreenLayer, useMusicNavPanelSlot, useMusicNavTabSlot } from './musicPlayerSlots'
+import { useGameFullScreenLayer, useGameMusicTabSlot, useMusicNavPanelSlot, useMusicNavTabSlot } from './musicPlayerSlots'
 import MusicHarpIcon from './MusicHarpIcon'
 
 interface FactionTrack {
@@ -50,7 +50,7 @@ type MusicMode = 'all' | SourceMode
 type ThemePrefix = 'faction' | 'myth' | 'game'
 type AudioStatus = 'idle' | 'loading' | 'playing' | 'paused'
 type RowState = 'idle' | 'loading' | 'paused' | 'playing'
-type Placement = 'nav' | 'corner' | 'floating'
+type Placement = 'nav' | 'corner' | 'floating' | 'gameNav'
 type ModeTone = { text: string; dot: string }
 
 // 곡이 실제로 담긴 목록과, 그 목록들을 고르는 메뉴 순서. 늘어나면 여기와 layout.musicPlayer.modes·MODE_TONE에만 더한다.
@@ -99,6 +99,14 @@ const PANEL_LAYOUT: Record<Placement, { className: string; listClassName: string
     className:
       'fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2 md:bottom-20 md:end-4 md:left-auto md:top-auto md:origin-bottom-right md:translate-x-0 md:translate-y-0',
     listClassName: 'max-h-[min(40vh,19rem)] md:max-h-[min(50vh,22rem)]',
+    offsetY: 12,
+    zIndex: Z_INDEX.floatingPlayerGame,
+  },
+  // 게임 헤더 칸에 선 휴대폰 — 창은 게임 층 위로 화면 가운데 모달로 뜬다
+  gameNav: {
+    className:
+      'pointer-events-auto fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2',
+    listClassName: 'max-h-[min(40vh,19rem)]',
     offsetY: 12,
     zIndex: Z_INDEX.floatingPlayerGame,
   },
@@ -201,6 +209,7 @@ export default function FloatingMusicPlayer() {
   const { controls: gameAudio } = useGameAudioContext()
   const { music: contextMusic } = useFactionMusicContext()
   const gameLayer = useGameFullScreenLayer()
+  const gameTabSlot = useGameMusicTabSlot()
   const navTabSlot = useMusicNavTabSlot()
   const navPanelSlot = useMusicNavPanelSlot()
   const [isOpen, setIsOpen] = useState(false)
@@ -239,8 +248,8 @@ export default function FloatingMusicPlayer() {
   const modeTriggerRef = useRef<HTMLButtonElement | null>(null)
   const modeMenuRef = useRef<HTMLDivElement | null>(null)
 
-  // 게임 전체 화면이 내비를 덮으면 게임 위 떠 있는 단추로, 하단 내비가 서 있으면(휴대폰) 그 칸으로, 아니면 PC 오른쪽 아래로 간다.
-  const placement: Placement = gameLayer ? 'floating' : navTabSlot ? 'nav' : 'corner'
+  // 게임 전체 화면이 내비를 덮으면 휴대폰은 헤더 칸으로 PC는 게임 위 떠 있는 단추로, 하단 내비가 서 있으면 그 칸으로, 아니면 PC 오른쪽 아래로 간다.
+  const placement: Placement = gameLayer ? (navTabSlot && gameTabSlot ? 'gameNav' : 'floating') : navTabSlot ? 'nav' : 'corner'
   const layout = PANEL_LAYOUT[placement]
   const panelOffsetY = layout.offsetY
 
@@ -731,11 +740,12 @@ export default function FloatingMusicPlayer() {
 
   const panel = isOpen && (
     <>
-      {/* 휴대폰 모달 뒤 딤 — 내비 층 안에서 내비(층 자동) 위로 올려 창만 남긴다 */}
-      {placement === 'nav' && (
+      {/* 휴대폰 모달 뒤 딤 — 내비에서는 내비 층 안에서, 게임에서는 게임 층 위로 창만 남긴다 */}
+      {(placement === 'nav' || placement === 'gameNav') && (
         <div
           aria-hidden="true"
-          className="pointer-events-auto fixed inset-0 z-[1] animate-modal-overlay bg-black/60 backdrop-blur-sm"
+          className={cn('pointer-events-auto fixed inset-0 animate-modal-overlay bg-black/60 backdrop-blur-sm', placement === 'nav' && 'z-[1]')}
+          style={placement === 'gameNav' ? { zIndex: Z_INDEX.floatingPlayerGame } : undefined}
         />
       )}
       <div
@@ -883,6 +893,7 @@ export default function FloatingMusicPlayer() {
   )
 
   const isNav = placement === 'nav' && navTabSlot && navPanelSlot
+  const isGameNav = placement === 'gameNav' && gameTabSlot
 
   // 전환을 묻는 안내 모달. 게임 전체 화면 위에도 떠야 하므로 전용 층(musicNotice)을 쓴다.
   const transitionModal = (
@@ -931,7 +942,7 @@ export default function FloatingMusicPlayer() {
 
   return (
     <>
-      {isNav ? createPortal(opener, navTabSlot) : opener}
+      {isNav ? createPortal(opener, navTabSlot) : isGameNav ? createPortal(opener, gameTabSlot) : opener}
       {panel && (isNav ? createPortal(panel, navPanelSlot) : panel)}
       {transitionModal}
 
@@ -1038,6 +1049,23 @@ function MusicOpener({
           {glyph(NEIGHBOR_ICON_SIZE)}
         </span>
         <span className="font-serif text-[11px] font-medium tracking-tighter">{tabLabel}</span>
+      </button>
+    )
+  }
+
+  // 게임 헤더 칸 — 헤더 흐름에 서는 작은 원. 뜨는 단추가 아니라 게임 틀 안에 들어간다
+  if (placement === 'gameNav') {
+    return (
+      <button
+        {...buttonProps}
+        aria-label={label}
+        className={cn(
+          'relative flex size-8 items-center justify-center rounded-full border bg-bg-card text-accent shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+          highlighted ? 'border-accent' : 'border-accent/30 hover:border-accent hover:bg-[#242424]',
+        )}
+      >
+        <span ref={pulseRingRef} aria-hidden="true" className={cn(PULSE_RING_CLASS, '-inset-px rounded-full')} />
+        {glyph(ICON.md, ICON_PROPS)}
       </button>
     )
   }

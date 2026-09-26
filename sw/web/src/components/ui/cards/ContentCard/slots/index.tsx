@@ -50,7 +50,9 @@ export function StatsBadge({
   };
 
   return (
+    /* data-no-drag — 가로 끌기 선반 안에 실리면 끌기 판정이 뱃지 클릭을 삼키므로, 뱃지 위의 누름은 끌기로 받지 않는다 */
     <div
+      data-no-drag
       className="absolute bottom-1 left-1"
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
@@ -107,7 +109,9 @@ export function IntroBadge({ onClick }: { onClick?: (e: React.MouseEvent) => voi
   };
 
   return (
+    /* data-no-drag — 가로 끌기 선반 안에 실리면 끌기 판정이 뱃지 클릭을 삼키므로, 뱃지 위의 누름은 끌기로 받지 않는다 */
     <div
+      data-no-drag
       className={`absolute bottom-1 right-1 flex items-center bg-black/70 backdrop-blur-sm px-1.5 py-0.5 md:px-2 rounded-md border border-white/10 shadow-lg ${onClick ? "cursor-pointer hover:bg-accent hover:border-accent group/intro" : ""}`}
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}

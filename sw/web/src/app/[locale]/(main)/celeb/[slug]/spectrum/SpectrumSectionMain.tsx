@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] spectrum — 스펙트럼 구획 조립(좁은/넓은 배치와 겹창 상태)
+ * [celeb 상세] spectrum — 스펙트럼 구획 조립(압축 탭 배치와 겹창 상태)
  * - 목차 위치: spectrum(분석 구획, service key `spectrum` / sectionId `analysis`)
  * - 데이터: spectrum(수치)·spectrumJsonb(근거)·matchesByCategory·highlights·population
- * - 함께 보기: SpectrumMetricPanels.tsx, SpectrumHighlights.tsx, SpectrumMatchGroup.tsx, SpectrumMatchGroupsModal.tsx, ../SpectrumMatchModal.tsx
+ * - 함께 보기: SpectrumMetricPanels.tsx, SpectrumHighlights.tsx, SpectrumMatchGroupsModal.tsx, ../SpectrumMatchModal.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -21,7 +21,6 @@ import type {
 import SpectrumMatchModal from "../SpectrumMatchModal";
 import { useCelebPreview } from "../useCelebPreview";
 import { SpectrumHighlights } from "./SpectrumHighlights";
-import { SpectrumMatchGroup } from "./SpectrumMatchGroup";
 import { SpectrumMatchGroupsModal } from "./SpectrumMatchGroupsModal";
 import { useSpectrumMetricPanels } from "./SpectrumMetricPanels";
 
@@ -49,7 +48,7 @@ export default function SpectrumSection({
     openCelebPreview,
     closeCelebPreview,
   } = useCelebPreview("spectrum");
-  const [mobileMatchCategories, setMobileMatchCategories] = useState<
+  const [matchGroupCategories, setMatchGroupCategories] = useState<
     SpectrumMatchCategory[] | null
   >(null);
   const [selectedMatch, setSelectedMatch] = useState<{
@@ -65,17 +64,11 @@ export default function SpectrumSection({
 
   /* ── 2. 수치 패널 조립 ── */
 
-  const {
-    abilityPanel,
-    dispositionPanel,
-    virtuePanel,
-    metricPanels,
-    dispositionCompareCategories,
-  } = useSpectrumMetricPanels({
+  const { metricPanels } = useSpectrumMetricPanels({
     spectrum,
     spectrumJsonb,
     matchesByCategory,
-    onOpenMobile: setMobileMatchCategories,
+    onOpenMatchGroups: setMatchGroupCategories,
   });
 
   return (
@@ -86,9 +79,9 @@ export default function SpectrumSection({
         population={population}
       />
 
-      {/* ── 3. 좁은 화면 — 능력·성향·덕목을 옆으로 넘겨본다 ── */}
-      {/* 능력·성향·덕목 근거는 각 항목을 눌러 연다 */}
-      <div className="md:hidden">
+      {/* ── 3. 능력·성향·덕목 — 너비와 관계없이 탭으로 넘겨보는 압축 배치 ── */}
+      {/* 근거는 각 항목을, 비교 인물(분류별·전체 유사)은 패널 아래 단추를 눌러 겹창으로 연다 */}
+      <div className="mx-auto w-full max-w-xl">
         <Carousel
           isolateInactiveSlides
           fitActiveHeight
@@ -106,92 +99,14 @@ export default function SpectrumSection({
         </Carousel>
       </div>
 
-      {/* ── 4. 넓은 화면 — 지표와 비교 인물을 나란히 ── */}
-      <div className="hidden space-y-6 md:block">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch">
-          {abilityPanel}
-          {matchesByCategory.ability.length > 0 ? (
-            <div className="hidden min-w-0 md:block">
-              <SpectrumMatchGroup
-                category="ability"
-                subjectName={spectrum.nickname}
-                matches={matchesByCategory.ability}
-                onOpen={(match) =>
-                  setSelectedMatch({ category: "ability", match })
-                }
-                className="h-full"
-              />
-            </div>
-          ) : null}
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch md:border-t md:border-white/5 md:pt-6">
-          {dispositionPanel}
-          {dispositionCompareCategories.length > 0 ? (
-            <div className="hidden min-w-0 md:block">
-              <Carousel
-                labels={{
-                  previous: t("carouselDispositionPrev"),
-                  next: t("carouselDispositionNext"),
-                  dot: (index, count) => t("carouselDot", { index, count }),
-                }}
-                arrowsAlign="top"
-                showDots={false}
-              >
-                {dispositionCompareCategories.map((category) => (
-                  <SpectrumMatchGroup
-                    key={category}
-                    category={category}
-                    subjectName={spectrum.nickname}
-                    matches={matchesByCategory[category]}
-                    onOpen={(match) => setSelectedMatch({ category, match })}
-                    className="h-full"
-                  />
-                ))}
-              </Carousel>
-            </div>
-          ) : null}
-        </div>
-
-        {/* 내면·외적 덕목 */}
-        <div className="grid grid-cols-1 gap-6 border-t border-white/5 pt-6 md:grid-cols-2 md:items-stretch">
-          {virtuePanel}
-          {matchesByCategory.virtue.length > 0 ? (
-            <div className="hidden min-w-0 md:block">
-              <SpectrumMatchGroup
-                category="virtue"
-                subjectName={spectrum.nickname}
-                matches={matchesByCategory.virtue}
-                onOpen={(match) =>
-                  setSelectedMatch({ category: "virtue", match })
-                }
-                className="h-full"
-              />
-            </div>
-          ) : null}
-        </div>
-      </div>
-
-      {/* ── 5. 전체 유사 인물과 겹창 ── */}
-      {/* 전체 스펙트럼 유사 인물 — 좁은 화면에서는 위 단추로 대신한다 */}
-      {matchesByCategory.overall.length > 0 ? (
-        <div className="hidden border-t border-white/5 pt-7 md:block">
-          <SpectrumMatchGroup
-            category="overall"
-            subjectName={spectrum.nickname}
-            matches={matchesByCategory.overall}
-            onOpen={(match) => setSelectedMatch({ category: "overall", match })}
-          />
-        </div>
-      ) : null}
-
-      {mobileMatchCategories ? (
+      {/* ── 4. 비교 묶음·인물 상세 겹창 ── */}
+      {matchGroupCategories ? (
         <SpectrumMatchGroupsModal
-          categories={mobileMatchCategories}
+          categories={matchGroupCategories}
           subjectName={spectrum.nickname}
           matchesByCategory={matchesByCategory}
           suspended={selectedMatch !== null || previewCeleb !== null}
-          onClose={() => setMobileMatchCategories(null)}
+          onClose={() => setMatchGroupCategories(null)}
           onOpenMatch={(category, match) =>
             setSelectedMatch({ category, match })
           }

@@ -2,20 +2,20 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getInfluenceRanking } from '@/actions/home/getCelebs'
 import { getVirtualMonologueVoiceUrl } from '@/lib/game/voice/voiceUrl'
 
-/* ── 가상독백이 있는 인물 명부 ──
-   /explore/monologue 전용. 독백이 채워진 공개 인물을 전부 읽고,
+/* ── 가상독백 낭독 인물 명부 ──
+   /explore/monologue 전용. 화면은 음원이 있는 카드만 그리므로 후보(has_voice)만 읽고,
    R2의 vmonologue.mp3 존재를 HEAD로 재서 「낭독 보유」를 가른다.
    has_voice는 다른 음성도 포함하므로 후보만 좁히고, 낭독 판정은 실제 파일로 한다.
    캐시에는 독백 전문이 아니라 언어별 발췌만 둔다. */
 
 const QUOTE_LIMIT = 90
 const EXCERPT_LIMIT = 240
-const MONOLOGUE_PAGE_SIZE = 500
 const VOICE_CHECK_BATCH = 64
 const VOICE_CHECK_TIMEOUT_MS = 8_000
 
@@ -74,29 +74,18 @@ async function fetchRows(): Promise<MonologueCelebRow[]> {
     virtual_monologue: string | null
     virtual_monologue_en: string | null
   }
-  const { count, error: countError } = await db
+  // 화면은 낭독 카드만 그린다 — 음원 후보(has_voice)만 읽는다. 독백 인물 전원의 전문을
+  // 당기면 3,814행·13MB가 되어 콜드 렌더가 수 초 걸렸다(26.09 실측). 후보만 읽으면
+  // 92행·0.3MB로 끝나고, 후보가 아닌 인물은 어차피 hasVoice=false로 화면에 못 선다.
+  const celebs = await selectAllPages<CelebRow>((from, to) => db
     .from('celebs')
-    .select('id', { count: 'exact', head: true })
+    .select('id, slug, nickname, nickname_en, title, title_en, avatar_url, voice_v, has_voice, virtual_monologue, virtual_monologue_en')
     .eq('publication_status', 'active')
     .not('virtual_monologue', 'is', null)
-  if (countError || count === null) throw new Error(`Monologue count failed: ${countError?.message ?? 'unavailable'}`)
-  if (count === 0) return []
-
-  const pages = await Promise.all(Array.from({ length: Math.ceil(count / MONOLOGUE_PAGE_SIZE) }, async (_, index) => {
-    const from = index * MONOLOGUE_PAGE_SIZE
-    const { data, error } = await db
-      .from('celebs')
-      .select('id, slug, nickname, nickname_en, title, title_en, avatar_url, voice_v, has_voice, virtual_monologue, virtual_monologue_en')
-      .eq('publication_status', 'active')
-      .not('virtual_monologue', 'is', null)
-      .order('id')
-      .range(from, from + MONOLOGUE_PAGE_SIZE - 1)
-    if (error) throw new Error(`Monologue page ${from} failed: ${error.message}`)
-    return (data ?? []) as CelebRow[]
-  }))
-  const celebs = pages.flat()
-  if (celebs.length !== count) throw new Error(`Monologue count changed during fetch: ${celebs.length}/${count}`)
-
+    .eq('has_voice', true)
+    .order('id')
+    .range(from, to))
+  if (celebs.length === 0) return []
 
   // 영향력순 — 공유 랭킹 캐시의 점수표로 정렬한다
   const { scoreMap } = await getInfluenceRanking()
@@ -158,8 +147,9 @@ async function voiceExists(celebId: string, locale: 'ko' | 'en'): Promise<boolea
 }
 
 /* ── 명부 캐시 — 조각 캐시 ──
-   독백 인물이 늘어 발췌만 담긴 명부도 2MB 항목 상한을 넘었다(26.09, 3.1MB 실측 — 저장 실패로
-   매 요청 전량 재조회 + 서버 에러). 명부를 K조각으로 나눠 각각 캐시해 한 항목이 상한을 넘지 않게 한다.
+   독백 전원 명부 시절 발췌만 담긴 캐시도 2MB 항목 상한을 넘은 적이 있다(26.09, 3.1MB 실측 —
+   저장 실패로 매 요청 전량 재조회 + 서버 에러). 지금은 후보 수십~수백 행이라 여유가 있지만,
+   음원 보급이 늘어 명부가 다시 커져도 한 항목이 상한을 넘지 않게 K조각으로 나눠 캐시한다.
    조각끼리 수명이 어긋나면 순서가 섞인 채로 캐시에 남으므로 spread 없이 같은 수명을 쓰고,
    동시 miss는 in-flight 공유로 실제 조회는 한 번만 돈다(조각 수만큼 명부를 읽지 않는다). */
 const ROW_CACHE_SLICES = 4

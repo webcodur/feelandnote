@@ -21,24 +21,12 @@ export function partitionFigureBooks(books: FigureBookContent[]): {
   return { appearanceBooks, authoredBooks, relatedBooks }
 }
 
-/** 절판 표식이 붙은 작품을 뒤로 보낸다. 나머지 작품끼리의 저장 순서는 그대로 둔다. */
-export function placeOutOfPrintLast<T extends Pick<FigureBookContent, 'titleBadge'>>(books: readonly T[]): T[] {
-  return [
-    ...books.filter((book) => book.titleBadge !== 'out-of-print'),
-    ...books.filter((book) => book.titleBadge === 'out-of-print'),
-  ]
-}
-
 /**
- * 「연관 작품」 구획은 기존 판본 도서와 절판 순서를 유지하고, 영문 화면에서는 번역본 없는 도서의 등장 관계도 보여준다.
- * 영어판이 없는 작품은 배지만 표시하며 판본·구매 정보는 만들지 않는다.
+ * 「참고도서」 구획의 작품 목록은 요청 언어의 실제 판본이 있는 작품만 세운다 — 판본이 없는
+ * 미번역본과 절판(유통 판본 없음, 살 수 없는 책)은 어떤 언어 화면에서도 보여 주지 않는다.
  */
-export function pickDisplayFigureBooks<T extends Pick<FigureBookContent, 'type' | 'titleBadge' | 'editions'>>(
+export function pickDisplayFigureBooks<T extends Pick<FigureBookContent, 'titleBadge' | 'editions'>>(
   books: readonly T[],
-  locale: string,
 ): T[] {
-  return placeOutOfPrintLast(books.filter((book) => (
-    book.editions.length > 0
-    || (locale === 'en' && book.type === 'BOOK' && book.titleBadge === 'no-en')
-  )))
+  return books.filter((book) => book.editions.length > 0 && book.titleBadge !== 'out-of-print')
 }

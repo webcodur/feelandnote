@@ -9,7 +9,6 @@ import { useCallback, useMemo } from "react";
 import { Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
-import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import GameShell from "../shared/GameShell";
 import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import DawnGame from "../DawnGame";
@@ -58,7 +57,6 @@ export default function DawnGameWrapper({ bgImages, initialFullScreen, onExitFul
       Background={Background}
       Lobby={DawnLobby}
       Game={DawnGame}
-      footerExtra={<div className="md:hidden"><GameAudioPlayer controls={audioControls} /></div>}
       initialFullScreen={initialFullScreen}
       onPhaseChangeExternal={handlePhaseChange}
       onExitFullScreenExternal={() => {

@@ -13,7 +13,7 @@ import { FactionGroupProvider, type FactionGroupMeta } from "@/components/featur
 import FactionGroupIntro from "@/components/features/faction/entry/FactionGroupIntro";
 import FactionMusic from "@/components/features/faction/entry/FactionMusic";
 import FactionEntryView from "@/components/features/faction/entry/FactionEntryView";
-import { FormattedText, splitReadableParagraphs } from "@/components/ui";
+import FactionDescVoice from "@/components/features/faction/entry/FactionDescVoice";
 import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import {
@@ -142,7 +142,7 @@ export default async function FactionScreen({ sections, section, entry, locale, 
     }),
   ]);
   const name = localizedFactionName(entry, locale);
-  const paragraphs = splitReadableParagraphs(localizedFactionDescription(entry, locale));
+  const description = localizedFactionDescription(entry, locale);
 
   // 영문 설명이 비면 한국어를 내보내지 않는다 — 신화 그룹 개요와 같은 규칙
   const groupDescriptions = new Map(groupRows.map((group) => [
@@ -194,15 +194,12 @@ export default async function FactionScreen({ sections, section, entry, locale, 
                   </span>
                 </h2>
               </div>
-              {paragraphs.length > 0 && (
-                <div className="mt-4 space-y-3 break-keep text-sm leading-7 text-text-secondary md:text-[15px] md:leading-8">
-                  {paragraphs.map((paragraph, index) => (
-                    <p key={index}>
-                      <FormattedText text={paragraph} />
-                    </p>
-                  ))}
-                </div>
-              )}
+              {/* 개요 본문 — 낭독 음원이 발행된 테마는 재생 조작과 문장 강조가 붙는다(신화 개요와 같은 규칙) */}
+              <FactionDescVoice
+                factionId={entry.id}
+                locale={locale}
+                text={description ?? ""}
+              />
               {/* 칩 상자에서 고른 진영의 설명 — 테마 설명 바로 아래 */}
               <FactionGroupIntro groups={groups} />
             </div>

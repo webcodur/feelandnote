@@ -20,7 +20,7 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
   return (
     <div className="space-y-8">
       <Link
-        href="/library/curated"
+        href="/explore/works/curated"
         className="inline-flex items-center gap-1.5 text-[13px] text-text-tertiary hover:text-accent"
       >
         <ArrowLeft size={14} />

@@ -1,29 +1,27 @@
-/** One voice and one other sound may play at a time. Voice lowers the other sound without changing its saved volume. */
+/** Voice, music, and sfx play in independent lanes. Voice lowers music; music replaces music; sfx overlaps freely. */
 const DUCK_FACTOR = 0.3;
 
-type Channel = "voice" | "other";
+type Channel = "voice" | "music" | "sfx";
 type AudioState = {
   audio: HTMLAudioElement;
   channel: Channel;
-  transient: boolean;
   baseVolume: number;
   appliedVolume: number;
   listeners: Array<[string, EventListener]>;
 };
-type OtherEffect = { stop: () => void; setDuck: (factor: number) => void };
-type OtherSource = HTMLAudioElement | OtherEffect;
+type MusicEffect = { stop: () => void; setDuck: (factor: number) => void };
+type MusicSource = HTMLAudioElement | MusicEffect;
 
 const states = new WeakMap<HTMLAudioElement, AudioState>();
 let activeVoice: HTMLAudioElement | null = null;
-let activeOther: OtherSource | null = null;
-let suspendedOther: HTMLAudioElement | null = null;
+let activeMusic: MusicSource | null = null;
 let bridgeInstalled = false;
 
-function isAudio(source: OtherSource): source is HTMLAudioElement {
+function isAudio(source: MusicSource): source is HTMLAudioElement {
   return states.has(source as HTMLAudioElement);
 }
 
-function stopOther(source: OtherSource) {
+function stopMusic(source: MusicSource) {
   if (isAudio(source)) source.pause();
   else source.stop();
 }
@@ -33,28 +31,16 @@ function clamp(volume: number) {
 }
 
 function applyVolume(state: AudioState) {
-  const factor = state.channel === "other" && activeOther === state.audio && activeVoice ? DUCK_FACTOR : 1;
+  const factor = state.channel === "music" && activeMusic === state.audio && activeVoice ? DUCK_FACTOR : 1;
   const next = clamp(state.baseVolume * factor);
   state.appliedVolume = next;
   if (Math.abs(state.audio.volume - next) > 0.001) state.audio.volume = next;
 }
 
-function refreshOther() {
-  if (!activeOther) return;
-  if (isAudio(activeOther)) applyVolume(states.get(activeOther)!);
-  else activeOther.setDuck(activeVoice ? DUCK_FACTOR : 1);
-}
-
-function resumeSuspendedOther() {
-  const resume = suspendedOther;
-  suspendedOther = null;
-  if (!resume || !states.has(resume)) return;
-  activeOther = resume;
-  refreshOther();
-  void resume.play().catch(() => {
-    const resumedState = states.get(resume);
-    if (activeOther === resume && resumedState) deactivate(resumedState);
-  });
+function refreshMusic() {
+  if (!activeMusic) return;
+  if (isAudio(activeMusic)) applyVolume(states.get(activeMusic)!);
+  else activeMusic.setDuck(activeVoice ? DUCK_FACTOR : 1);
 }
 
 function activate(state: AudioState) {
@@ -65,39 +51,36 @@ function activate(state: AudioState) {
       activeVoice = audio;
       previous?.pause();
     }
-    refreshOther();
+    refreshMusic();
     return;
   }
-  if (activeOther !== audio) {
-    const previous = activeOther;
-    if (state.transient && previous && isAudio(previous) && !states.get(previous)?.transient) suspendedOther = previous;
-    if (!state.transient) suspendedOther = null;
-    activeOther = audio;
-    if (previous) stopOther(previous);
+  if (channel === "sfx") return;
+  if (activeMusic !== audio) {
+    const previous = activeMusic;
+    activeMusic = audio;
+    if (previous) stopMusic(previous);
   }
-  refreshOther();
+  refreshMusic();
 }
 
 function deactivate(state: AudioState) {
   if (state.channel === "voice" && activeVoice === state.audio) {
     activeVoice = null;
-    refreshOther();
-  } else if (state.channel === "other" && activeOther === state.audio) {
-    activeOther = null;
+    refreshMusic();
+  } else if (state.channel === "music" && activeMusic === state.audio) {
+    activeMusic = null;
     applyVolume(state);
-    if (state.transient) resumeSuspendedOther();
-    else suspendedOther = null;
   }
 }
 
-function register(audio: HTMLAudioElement, channel: Channel, transient = false) {
+function register(audio: HTMLAudioElement, channel: Channel) {
   const existing = states.get(audio);
   if (existing) {
     if (existing.channel !== channel) throw new Error("An audio element cannot change channels");
     return;
   }
   const state: AudioState = {
-    audio, channel, transient, baseVolume: audio.volume, appliedVolume: audio.volume, listeners: [],
+    audio, channel, baseVolume: audio.volume, appliedVolume: audio.volume, listeners: [],
   };
   states.set(audio, state);
   const listen = (event: string, handler: EventListener) => {
@@ -107,7 +90,7 @@ function register(audio: HTMLAudioElement, channel: Channel, transient = false) 
   listen("play", () => { if (!audio.paused && !audio.ended) activate(state); });
   listen("pause", () => { if (audio.paused) deactivate(state); });
   for (const event of ["ended", "error"]) listen(event, () => deactivate(state));
-  if (channel === "other") {
+  if (channel !== "voice") {
     listen("volumechange", () => {
       if (Math.abs(audio.volume - state.appliedVolume) < 0.001) return;
       state.baseVolume = clamp(audio.volume);
@@ -121,36 +104,36 @@ export function registerVoice(audio: HTMLAudioElement) {
   register(audio, "voice");
 }
 
-export function registerOther(audio: HTMLAudioElement, options: { transient?: boolean } = {}) {
-  register(audio, "other", options.transient ?? false);
+export function registerMusic(audio: HTMLAudioElement) {
+  register(audio, "music");
 }
 
-export function getOtherBaseVolume(audio: HTMLAudioElement) {
+export function registerSfx(audio: HTMLAudioElement) {
+  register(audio, "sfx");
+}
+
+export function getBaseVolume(audio: HTMLAudioElement) {
   return states.get(audio)?.baseVolume ?? audio.volume;
 }
 
-export function setOtherBaseVolume(audio: HTMLAudioElement, volume: number) {
-  registerOther(audio);
+export function setBaseVolume(audio: HTMLAudioElement, volume: number) {
+  if (!states.has(audio)) registerMusic(audio);
   const state = states.get(audio)!;
   state.baseVolume = clamp(volume);
   applyVolume(state);
 }
 
-/** Register Web Audio output in the other channel. Transient effects resume the sound they interrupted. */
-export function beginOtherEffect(stop: () => void, setDuck: (factor: number) => void, options: { transient?: boolean } = {}) {
-  const effect: OtherEffect = { stop, setDuck };
-  const previous = activeOther;
-  if (options.transient !== false && previous && isAudio(previous) && !states.get(previous)?.transient) suspendedOther = previous;
-  if (options.transient === false) suspendedOther = null;
-  activeOther = effect;
-  if (previous) stopOther(previous);
-  refreshOther();
+/** Register Web Audio output in the music lane. It replaces the current music and ends it when released. */
+export function beginMusicEffect(stop: () => void, setDuck: (factor: number) => void) {
+  const effect: MusicEffect = { stop, setDuck };
+  const previous = activeMusic;
+  activeMusic = effect;
+  if (previous) stopMusic(previous);
+  refreshMusic();
   return () => {
-    if (activeOther !== effect) return;
-    activeOther = null;
+    if (activeMusic !== effect) return;
+    activeMusic = null;
     effect.setDuck(1);
-    if (options.transient === false) suspendedOther = null;
-    else resumeSuspendedOther();
   };
 }
 
@@ -159,20 +142,19 @@ export function releaseAudio(audio: HTMLAudioElement) {
   if (!state) return;
   audio.pause();
   deactivate(state);
-  if (suspendedOther === audio) suspendedOther = null;
   for (const [event, handler] of state.listeners) audio.removeEventListener(event, handler);
   states.delete(audio);
 }
 
-/** Native audio controls and the floating player join the other-sound channel. */
+/** Native audio controls and the floating player join the music lane. */
 export function installDomAudioBridge() {
   if (bridgeInstalled || typeof document === "undefined") return;
   bridgeInstalled = true;
   document.addEventListener("play", (event) => {
     const target = event.target;
-    if (target instanceof HTMLAudioElement && !states.has(target)) registerOther(target);
+    if (target instanceof HTMLAudioElement && !states.has(target)) registerMusic(target);
   }, true);
   document.querySelectorAll("audio").forEach((audio) => {
-    if (!audio.paused && !states.has(audio)) registerOther(audio);
+    if (!audio.paused && !states.has(audio)) registerMusic(audio);
   });
 }

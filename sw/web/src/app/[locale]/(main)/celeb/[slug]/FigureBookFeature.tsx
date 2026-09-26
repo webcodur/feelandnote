@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] sourceWorks — 원전 대표 서지·소개
- * - 목차 위치: sourceWorks
+ * [celeb 상세] 참고도서(affiliateBooks) — 원전 대표 서지·소개
+ * - 목차 위치: affiliateBooks
  * - 데이터: source props, editions 판본 선택
  * - 함께 보기: FigureBookWorksSection.tsx, shared/BookIntroductionPanel.tsx
  * ───────────────────────────────────────────── */

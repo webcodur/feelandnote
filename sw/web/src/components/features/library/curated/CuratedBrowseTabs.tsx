@@ -80,7 +80,7 @@ export default function CuratedBrowseTabs({
     if (query.topic) params.set("topic", query.topic);
     if (!query.topic && query.kind) params.set("kind", query.kind);
     const qs = params.toString();
-    return qs ? `/library/curated?${qs}` : "/library/curated";
+    return qs ? `/explore/works/curated?${qs}` : "/explore/works/curated";
   };
 
   // 보여줄 매체 — 목록이 없는 매체는 탭을 세우지 않는다. 게임·음악도 목록이 생기면 저절로 탭이 선다
