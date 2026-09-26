@@ -143,7 +143,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
             )}
 
             <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-extrabold text-text-primary leading-tight tracking-tight mt-0.5">
-              <NoEditionBadge badge={content.titleBadge} className="me-1.5 align-middle" />
+              <NoEditionBadge contentType={content.type} badge={content.titleBadge} className="me-1.5 align-middle" />
               {content.title}
             </h1>
 
@@ -243,6 +243,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
           {description && (
             <div className="relative py-0.5 sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
               <BookIntroductionPanel
+                contentType={content.type}
                 description={description}
                 label={tCeleb("sourceWorkIntroduction")}
                 attribution={content.type === "BOOK" ? content.introductionAttribution : undefined}

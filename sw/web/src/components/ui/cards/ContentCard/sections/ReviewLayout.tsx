@@ -133,7 +133,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
               }
             />
           )}
-          <NoEditionBadge variant="cover" badge={displayTitleBadge} />
+          <NoEditionBadge contentType={props.contentType ?? "BOOK"} variant="cover" badge={displayTitleBadge} />
           {renderBottomLeft()}
           {renderSelectOverlay()}
           {renderBottomRight()}

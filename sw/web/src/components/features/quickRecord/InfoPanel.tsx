@@ -153,7 +153,7 @@ export default function InfoPanel({
                     <div className="flex flex-col items-center text-center min-w-0">
                         <div className="w-full space-y-6 flex flex-col items-center">
                             <h3 className="text-2xl font-serif font-bold text-text-primary leading-snug break-keep line-clamp-4 tracking-tight">
-                                <NoEditionBadge badge={content.titleBadge} />
+                                <NoEditionBadge contentType={content.type} badge={content.titleBadge} />
                                 {content.title}
                             </h3>
                             

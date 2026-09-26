@@ -181,7 +181,7 @@ export default function TrackerResult({
                       )}
                     </div>
                     <span className="flex-1 min-w-0 text-[15px] font-bold text-white/90 truncate group-hover:text-white transition-colors">
-                      <NoEditionBadge badge={c.titleBadge} />
+                      <NoEditionBadge contentType={c.type} badge={c.titleBadge} />
                       {c.title}
                     </span>
                   </div>
@@ -236,6 +236,7 @@ export default function TrackerResult({
 
       {/* 리뷰 모달 */}
       <ContentReviewModal
+        contentType={reviewContent?.type}
         isOpen={!!reviewContent}
         onClose={() => setReviewContent(null)}
         title={reviewContent?.title ?? ""}

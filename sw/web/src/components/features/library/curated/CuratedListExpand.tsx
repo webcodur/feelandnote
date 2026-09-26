@@ -230,6 +230,7 @@ export default function CuratedListExpand({
 
       {isIndexOpen && (
         <CuratedIndexModal
+          contentType={list.contentType}
           items={items}
           selectedIndex={selectedIndex}
           numberLabel={numberLabel}
@@ -419,6 +420,7 @@ function PendingSlot({ label, tone = "muted" }: { label: string; tone?: "muted" 
 
 /* ── 「작품 목록」 모달 — 열 단위 묶음으로 접고 편다 ── */
 interface CuratedIndexModalProps {
+  contentType: CuratedListDetail["contentType"];
   items: CuratedListItem[];
   selectedIndex: number;
   numberLabel: (index: number) => string;
@@ -429,6 +431,7 @@ interface CuratedIndexModalProps {
 }
 
 function CuratedIndexModal({
+  contentType,
   items,
   selectedIndex,
   numberLabel,
@@ -536,7 +539,7 @@ function CuratedIndexModal({
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-sm leading-snug">
-                            <NoEditionBadge badge={item.titleBadge} />
+                            <NoEditionBadge contentType={item.contentType ?? contentType} badge={item.titleBadge} />
                             {item.title}
                           </span>
                           {(item.creator || !isRegistered) && (

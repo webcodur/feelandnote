@@ -49,6 +49,7 @@ const SOURCE_CHIP_CLASS =
   "inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/40 bg-black/30 py-0.5 text-xs leading-5";
 
 interface BookIntroductionPanelProps {
+  contentType?: string;
   description: string;
   label: string;
   loading?: boolean;
@@ -72,6 +73,7 @@ interface SourceChipProps {
 }
 
 export default function BookIntroductionPanel({
+  contentType = "BOOK",
   description,
   label,
   loading = false,
@@ -174,6 +176,7 @@ export default function BookIntroductionPanel({
 
       {isOpen ? (
         <IntroductionModal
+          contentType={contentType}
           description={introText}
           label={label}
           source={source}
@@ -226,6 +229,7 @@ function SourceChip({ providerName, sourceUrl, title, originalLabel }: SourceChi
 
 /* ── 2. 전체 보기 모달 ── */
 function IntroductionModal({
+  contentType,
   description,
   label,
   source,
@@ -234,6 +238,7 @@ function IntroductionModal({
   closeLabel,
   onClose,
 }: {
+  contentType: string;
   description: string;
   label: string;
   source: SourceChipProps;
@@ -261,7 +266,7 @@ function IntroductionModal({
         <header className="grid shrink-0 grid-cols-[1fr_auto] items-center gap-4 border-b border-stone-light bg-bg-secondary bg-texture-marble px-5 py-4 sm:px-7 sm:py-5">
           <h2 id={titleId} className="min-w-0 text-xl font-black text-text-primary sm:text-2xl">
             <span className="sr-only">{label} — </span>
-            <NoEditionBadge badge={sourceTitleBadge} className="align-middle" />
+            <NoEditionBadge contentType={contentType} badge={sourceTitleBadge} className="align-middle" />
             {sourceTitle}
           </h2>
           <button

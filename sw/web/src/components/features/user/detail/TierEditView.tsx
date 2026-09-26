@@ -285,7 +285,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
                            <p className="text-[11px] text-white line-clamp-2 leading-tight">
-                             <NoEditionBadge badge={item.content.title_badge} />
+                             <NoEditionBadge contentType={item.content.type} badge={item.content.title_badge} />
                              {item.content.title}
                            </p>
                         </div>

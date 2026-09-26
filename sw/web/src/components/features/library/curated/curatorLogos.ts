@@ -10,5 +10,7 @@ const SQUARE_LOGOS = new Set([
 
 /** Versioned local assets keep the grid, preview and institution detail in sync. */
 export function getCuratorLogoUrl(slug: string, fallback?: string | null) {
+  // 새로 등록한 정사각형 로고를 기존 로컬 이미지보다 우선한다.
+  if (fallback?.includes(`/curators/${slug}/logo-square-`)) return fallback;
   return SQUARE_LOGOS.has(slug) ? `/images/curated/${slug}-square-v2.webp` : fallback;
 }

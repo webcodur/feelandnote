@@ -67,7 +67,7 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
       {/* 정보 */}
       <div className="flex-1 min-w-0 pointer-events-none">
         <p className="text-xs text-white truncate">
-          <NoEditionBadge badge={item.content.title_badge} />
+          <NoEditionBadge contentType={item.content.type} badge={item.content.title_badge} />
           {item.content.title}
         </p>
         <p className="text-[11px] text-text-tertiary truncate">{item.content.creator}</p>

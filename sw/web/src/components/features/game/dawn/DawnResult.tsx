@@ -138,6 +138,7 @@ export default function DawnResult({
 
     {/* 리뷰 모달 (호이스팅, 게임 전체화면 위에 표시) */}
     <ContentReviewModal
+      contentType={reviewContent?.content.type}
       isOpen={!!reviewContent}
       onClose={() => setReviewContent(null)}
       title={reviewContent?.content.title ?? ""}

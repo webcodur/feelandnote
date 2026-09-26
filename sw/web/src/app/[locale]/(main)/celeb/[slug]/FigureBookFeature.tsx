@@ -62,7 +62,7 @@ export default function FigureBookFeature({
       <BookOpenText size={32} strokeWidth={1.3} className="shrink-0 text-accent" aria-hidden />
       <div className="min-w-0">
         <h3 className="text-lg font-black text-3d-gold">
-          <NoEditionBadge badge={source.titleBadge} className="align-middle" />
+          <NoEditionBadge contentType={"BOOK"} badge={source.titleBadge} className="align-middle" />
           {source.title}
         </h3>
         {source.creator && <p className="mt-1 text-sm text-text-secondary">{source.creator}</p>}
@@ -145,7 +145,7 @@ export default function FigureBookFeature({
         <div className="contents lg:relative lg:flex lg:min-w-0 lg:flex-col">
           <header className="col-start-2 hidden min-w-0 flex-col items-center justify-center self-center text-center sm:flex md:self-start lg:flex-row lg:items-baseline lg:justify-center lg:gap-4 lg:self-stretch lg:text-center">
             <h3 className="text-3d-gold max-w-3xl break-keep text-lg font-black leading-tight sm:text-2xl md:text-3xl lg:min-w-0 lg:truncate lg:whitespace-nowrap">
-              <NoEditionBadge badge={source.titleBadge} className="align-middle" />
+              <NoEditionBadge contentType={"BOOK"} badge={source.titleBadge} className="align-middle" />
               {source.title}
             </h3>
             {(source.creator || edition.creator) && (

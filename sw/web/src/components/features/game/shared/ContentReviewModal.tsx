@@ -18,6 +18,7 @@ import {
 import { useTranslations } from "next-intl";
 
 export interface ContentReviewModalProps {
+  contentType: string | null | undefined;
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -33,6 +34,7 @@ export interface ContentReviewModalProps {
 }
 
 export default function ContentReviewModal({
+  contentType,
   isOpen,
   onClose,
   title,
@@ -53,7 +55,7 @@ export default function ContentReviewModal({
       <ModalBody>
         <div className="mb-4 pb-3 border-b border-border/30">
           <h3 className="text-base font-semibold text-text-primary line-clamp-2">
-            <NoEditionBadge badge={titleBadge} />
+            <NoEditionBadge contentType={contentType} badge={titleBadge} />
             {title}
           </h3>
           {creator && (

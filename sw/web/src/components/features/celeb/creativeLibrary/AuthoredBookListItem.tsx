@@ -61,7 +61,7 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
             <span className="rounded bg-accent/10 px-1.5 py-0.5 text-accent">{t("roleAuthor")}</span>
           </span>
           <span className="line-clamp-2 text-sm font-medium leading-snug text-text-primary group-hover:text-accent">
-            <NoEditionBadge badge={edition?.title ? null : book.titleBadge} />
+            <NoEditionBadge contentType={"BOOK"} badge={edition?.title ? null : book.titleBadge} />
             {title}
           </span>
           {creator && <span className="mt-0.5 block truncate text-sm text-text-secondary">{creator}</span>}

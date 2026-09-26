@@ -100,7 +100,7 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
                 ) : (
                   <div className="flex h-full items-center justify-center p-4 text-center text-lg font-black text-accent/50">{work.title}</div>
                 )}
-                <NoEditionBadge badge={work.titleBadge} variant="cover" />
+                <NoEditionBadge contentType={work.category.toUpperCase()} badge={work.titleBadge} variant="cover" />
                 {selected && <span className="absolute start-2 top-2 rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary">{t("linkedToWork")}</span>}
                 <span className="absolute end-2 top-2 grid size-8 place-items-center rounded-full bg-black/85 text-text-tertiary" aria-hidden>
                   <ArrowUpRight size={15} />
