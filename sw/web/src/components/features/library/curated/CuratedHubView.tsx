@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -32,7 +32,6 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   const [draft, setDraft] = useState<string | undefined>();
   const [dialog, setDialog] = useState<"sort" | "detail" | null>(null);
   const [previewSlug, setPreviewSlug] = useState<string | null>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
   const shown = filterCurators(hub.curators, filters, locale);
   const totalPages = Math.max(1, Math.ceil(shown.length / CURATOR_PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
@@ -64,8 +63,8 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
 
   return (
     <div>
-      <div className="mb-4 space-y-3 md:mb-6">
-          <nav aria-label={t("media")} className="flex min-h-11 items-stretch gap-1 rounded-md border border-white/15 bg-white/[0.025] p-1 md:w-fit">
+      <div className="mx-auto mb-4 w-full max-w-3xl space-y-3 md:mb-6">
+          <nav aria-label={t("media")} className="flex min-h-11 items-stretch gap-1 rounded-md border border-white/15 bg-white/[0.025] p-1">
             {allSummary.medias.map(media => <Link key={media} href={`${pathname}${queryFor({ media, kind: "all", topic: "all" })}`} prefetch={false}
               aria-current={filters.media === media ? "page" : undefined} onClick={event => {
                 if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -92,7 +91,7 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
           </button>
         ))}</div>}
       </div>
-      <div ref={resultsRef} tabIndex={-1} className="scroll-mt-20 outline-none md:scroll-mt-24">
+      <div>
         <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 md:mb-4">
           <h3 className="text-sm font-semibold text-text-primary">{t("institutionHeading")}</h3>
           <p role="status" className="text-xs tabular-nums text-text-secondary">{t("institutionResults", { count: shown.length, lists: shown.reduce((n, c) => n + c.lists.length, 0) })}</p>
@@ -105,11 +104,7 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
         </div>}
       </div>
       <div className="mt-8"><Pagination presentation="quiet" currentPage={page} totalPages={totalPages}
-        getPageHref={next => `${pathname}${queryFor({ page: next })}`} onPageChange={next => {
-          update({ page: next });
-          resultsRef.current?.focus({ preventScroll: true });
-          resultsRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
-        }} /></div>
+        getPageHref={next => `${pathname}${queryFor({ page: next })}`} onPageChange={next => update({ page: next })} /></div>
       {dialog === "sort" && <FilterModal isOpen title={ui("filterSort")} current={filters.sort} options={CURATOR_SORTS.map(value => ({ value, label: t(`sort.${value}`) }))}
         onChange={sort => update({ sort: sort as CuratorExploreFilters["sort"] })} onClose={() => setDialog(null)} />}
       {dialog === "detail" && <CuratorFiltersModal kind={filters.kind} topic={filters.topic} kinds={summary.kinds} topics={summary.topics}

@@ -64,7 +64,7 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
     : 0;
 
   return (
-    <div className="mb-4 space-y-3 md:mb-6">
+    <div className="mx-auto mb-4 w-full max-w-3xl space-y-3 md:mb-6">
       <ExploreSearchControls value={filters.search} placeholder={t("searchPlaceholder")} searchLabel={t("searchButton")}
         clearLabel={t("compactFilters.remove", { label: filters.search })} disabled={filters.isLoading}
         onChange={filters.handleSearchInput} onSubmit={() => { onInteraction?.(); filters.handleSearchSubmit(); }}

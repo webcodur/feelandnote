@@ -18,8 +18,8 @@ export default function ExploreSearchControls({ value, placeholder, searchLabel,
   children: ReactNode;
 }) {
   return (
-    <div className={`grid gap-2 md:flex md:flex-wrap ${controlColumns === 2 ? "grid-cols-2" : "grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto]"}`}>
-      <form className="col-span-full flex min-h-11 min-w-0 flex-1 items-center rounded-md border border-white/15 bg-white/[0.025] focus-within:border-accent/60 md:min-w-56"
+    <div className={`grid gap-2 ${controlColumns === 2 ? "grid-cols-2" : "grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_auto] md:grid-cols-3"}`}>
+      <form className="col-span-full flex min-h-11 min-w-0 items-center rounded-md border border-white/15 bg-white/[0.025] focus-within:border-accent/60"
         onSubmit={event => { event.preventDefault(); onSubmit(); }}>
         <input type="search" value={value} onChange={event => onChange(event.target.value)} placeholder={placeholder}
           aria-label={placeholder} className="min-h-11 min-w-0 flex-1 bg-transparent px-3 text-sm text-text-primary outline-none placeholder:text-text-secondary/60 [&::-webkit-search-cancel-button]:appearance-none" />

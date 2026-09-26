@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Search, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
@@ -81,21 +81,6 @@ export default function CelebCarousel({
   const t = useTranslations("home.ui");
   const tExplore = useTranslations("explore.ui");
   const tHub = useTranslations("explore.hub");
-  const resultsRef = useRef<HTMLElement>(null);
-  const pageNavigationPending = useRef(false);
-
-  useEffect(() => {
-    if (!filters.isLoading && pageNavigationPending.current) {
-      pageNavigationPending.current = false;
-      resultsRef.current?.focus({ preventScroll: true });
-      resultsRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
-    }
-  }, [filters.isLoading]);
-
-  const navigateResults = (value: number, handler: (value: number) => void) => {
-    pageNavigationPending.current = syncToUrl;
-    handler(value);
-  };
 
   // 캐러셀 모드
   if (mode === "carousel") {
@@ -237,8 +222,8 @@ export default function CelebCarousel({
           {customContent}
         </div>
       ) : (
-        <section key="grid" ref={resultsRef} tabIndex={-1} aria-label={t("celebArchive")} aria-busy={filters.isLoading}
-          className="relative scroll-mt-20 outline-none animate-fade-in md:scroll-mt-24">
+        <section key="grid" aria-label={t("celebArchive")} aria-busy={filters.isLoading}
+          className="relative animate-fade-in">
           {/* 전체 명부 수와 현재 조건에 맞는 결과 수 */}
           {syncToUrl && (
             <p role="status" className="mb-3 text-xs tabular-nums text-text-secondary md:mb-4">
@@ -257,10 +242,10 @@ export default function CelebCarousel({
                   isLoading={filters.isLoading}
                   currentPage={filters.currentPage}
                   totalPages={filters.totalPages}
-                  onPageChange={page => navigateResults(page, filters.handlePageChange)}
+                  onPageChange={filters.handlePageChange}
                   pageSize={filters.pageSize}
                   pageSizeOptions={PAGE_SIZE_OPTIONS}
-                  onPageSizeChange={size => navigateResults(size, filters.handlePageSizeChange)}
+                  onPageSizeChange={filters.handlePageSizeChange}
                   showPageSizeSelector
                 />
               </div>
