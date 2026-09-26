@@ -2,15 +2,17 @@
 
 import Image from "next/image";
 import { ArrowUpRight, List } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Modal from "@/components/ui/Modal";
 import type { CuratedHub } from "@/actions/library/types";
 import { getCuratorLogoUrl } from "../curated/curatorLogos";
+import { getCountryNameByLocale } from "@/lib/countries";
 
 export default function CuratorPreviewModal({ curator, query, onClose }: { curator: CuratedHub["curators"][number]; query: string; onClose: () => void }) {
   const t = useTranslations("library.hub");
   const tc = useTranslations("library.curated");
+  const locale = useLocale();
   const logoUrl = getCuratorLogoUrl(curator.slug, curator.logoUrl);
   const href = `/explore/works/curated/${curator.slug}${query}`;
   return (
@@ -20,7 +22,11 @@ export default function CuratorPreviewModal({ curator, query, onClose }: { curat
         <div className="flex items-start gap-3">
           {logoUrl && <div className="relative size-16 shrink-0 overflow-hidden rounded-md"><Image src={logoUrl} alt="" fill sizes="64px" className="object-contain" /></div>}
           <div className="min-w-0 space-y-1.5">
-            <p className="text-xs text-accent">{tc(`kind.${curator.kind}`)} ? {tc("listCount", { count: curator.lists.length })}</p>
+            <p className="text-xs text-accent">{[
+              tc(`kind.${curator.kind}`),
+              curator.country ? getCountryNameByLocale(curator.country, locale) : null,
+              tc("listCount", { count: curator.lists.length }),
+            ].filter(Boolean).join(" · ")}</p>
             {curator.description && <p className="line-clamp-4 text-sm leading-relaxed text-text-secondary">{curator.description}</p>}
           </div>
         </div>

@@ -438,7 +438,8 @@
       "filterAll": "All",
       "backToLibrary": "Back to Works",
       "overview": "Overview",
-      "purchasePending": "Purchase link unavailable"
+      "purchasePending": "Purchase link unavailable",
+      "filterCountry": "Country"
     },
     "popular": {
       "metaTitle": "Popular Works - Paid Ebooks & All-Time Classics",

@@ -438,7 +438,8 @@
       "filterAll": "전체",
       "backToLibrary": "작품으로",
       "overview": "개요",
-      "purchasePending": "구매 링크 없음"
+      "purchasePending": "구매 링크 없음",
+      "filterCountry": "국가"
     },
     "popular": {
       "metaTitle": "인기 작품 - 지금 많이 팔리는 책과 불후의 고전",
