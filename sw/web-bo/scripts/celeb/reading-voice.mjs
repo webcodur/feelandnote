@@ -166,7 +166,14 @@ export async function environment() {
       if (!process.env[key]) process.env[key] = value
     }
   }
-  return [...new Set([...free.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true })).map(([, value]) => value))]
+  const all = [...new Set([...free.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true })).map(([, value]) => value))]
+  // 병렬 샤드 실행 시 FREE_KEY_SHARD=i/n 으로 각 프로세스가 키의 1/n만 쓰게 한다.
+  const shard = /^(\d+)\/(\d+)$/.exec(process.env.FREE_KEY_SHARD || '')
+  if (shard) {
+    const i = Number(shard[1]), n = Number(shard[2])
+    if (i >= 0 && i < n) return all.filter((_, index) => index % n === i)
+  }
+  return all
 }
 
 export async function targets(db, options) {

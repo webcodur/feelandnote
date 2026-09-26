@@ -48,8 +48,10 @@ async function main() {
   for (const f of readdirSync(C_DIR)) {
     if (!f.endsWith('.json') || f.startsWith('_')) continue
     const d = JSON.parse(readFileSync(resolve(C_DIR, f), 'utf8'))
-    for (const [nick, r] of Object.entries(d as Record<string, { contents?: Draft[] }>)) {
-      const cid = ledger.get(nick)
+    for (const [nick, r] of Object.entries(d as Record<string, { celeb_id?: string; contents?: Draft[] }>)) {
+      const cid = r.celeb_id ?? ledger.get(nick)
+      // 적용할 항목이 없는 초안은 원장 매칭 없이도 건너뛴다(명칭 불일치 빈 초안이 배치를 막지 않게)
+      if (!cid && (r.contents ?? []).length === 0) continue
       if (!cid) { problems.push(`원장 없음: ${nick}`); continue }
       for (const c of r.contents ?? []) {
         if (!c.type || !c.title) { problems.push(`${nick}: type/title 누락`); continue }
@@ -97,12 +99,23 @@ async function main() {
       }
     }
     const wantCreator = norm(d.creator)
+    // 제작자 미상류는 빈 값 취급한다 — 표기 차이로 매칭이 깨지는 것을 막기 위함
+    const UNKNOWN_C = new Set(['미상', 'unknown', 'anon', 'anonymous', '작자미상', '전승', '불명', '미상(전승)'])
+    const wantUnk = !wantCreator || UNKNOWN_C.has(wantCreator) || wantCreator.startsWith('불명')
+    const hasHangul = (s: string) => /[가-힣]/.test(s)
+    let pick: string | null = null
     for (const [cid, creators] of candidates) {
       // 제작자가 둘 다 비거나, 한쪽이 다른 쪽을 포함하면 같은 작품으로 본다
-      if (!wantCreator || creators.some(c => !c || c.includes(wantCreator) || wantCreator.includes(c))) {
-        existingContent.set(key, cid); matched++; break
+      if (wantUnk || creators.some(c => !c || UNKNOWN_C.has(c) || c.includes(wantCreator) || wantCreator.includes(c))) {
+        pick = cid; break
       }
     }
+    // 교차 문자(한글↔로마자) 제작자는 대조 불가 — 후보가 하나뿐이고 제목+유형이 일치하면 같은 작품으로 본다
+    if (!pick && candidates.size === 1 && !wantUnk) {
+      const [cid, creators] = [...candidates.entries()][0]
+      if (creators.every(c => !c || hasHangul(c) !== hasHangul(wantCreator))) pick = cid
+    }
+    if (pick) { existingContent.set(key, pick); matched++ }
   }
 
   // 기존 celeb_contents 쌍

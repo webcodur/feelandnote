@@ -5,7 +5,7 @@
 인물 ID: `1ab7e089-040f-4aa1-b0a1-81dc1dd510d7`  
 주요 원출처: [Gates Notes](https://www.gatesnotes.com)
 
-정밀 원자료는 [Gates Notes 조사 스냅샷](../../../../data/celeb/viewing-research/2026-09-10-bill-gates-gatesnotes.json)에 있다. 이 문서는 그 자료에서 사이트 구성, DB 반영 결과, 남은 판단 항목만 추려 적은 현재 정리본이다.
+조사 원자료(사이트 스냅샷·공식 원문 추출·번역·교정본)는 전량 DB 반영과 왕복 검증을 마치고 폐기했다. 이 문서는 그 자료에서 사이트 구성, DB 반영 결과, 남은 판단 항목만 추려 적은 현재 정리본이다.
 
 ## 현재 DB 반영
 
@@ -25,7 +25,7 @@
 
 이 방식은 등록 규칙([`celeb-02-02-content-registration.md`](../celeb-02-02-content-registration.md) 「한국어판 확인」: 한국어판을 확인하지 못했으면 한국어 locale을 꾸며 만들지 않는다)과 어긋났다. 2026-09-11에 BOOK 21개의 Korean locale을 정리했다. 카카오에서 한국어판이 확인된 4권(「아우슈비츠의 무용수」·「나는 이 빌어먹을 지구를 살려보기로 했다」·「우리가 했던 최선의 선택」·「지미 카터」〈A Full Life〉)은 그 판본으로 교체했고, 나머지 17권은 Korean locale을 지웠다(원행은 `data/celeb/figure-books/locale-gates21-deleted-ko-backup.jsonl`). MUSIC 67·VIDEO 8·GAME 4의 Korean locale 79개는 같은 날 대조했다. VIDEO 8개는 TMDB `ko-KR` 제목과, MUSIC 63개는 iTunes 한국 스토어 표기와 글자 그대로 일치한다. 값은 맞으므로 `sources.primary`를 `tmdb`·`itunes`·`igdb`로 바로잡고 `verified=true`로 올리는 일만 남았고, `sw/web-bo/scripts/figure-books/locale-gates-nonbook-verify.mjs --apply`가 그것을 한다(기록은 `data/celeb/figure-books/locale-gates-nonbook-verify-log.jsonl`). 한국 스토어에 없는 MUSIC 4곡은 그대로 `verified=false`다.
 
-도서 리뷰의 대상은 기존 156권과 신규 21권을 합친 **177권 전부**다. `review_en`에는 Gates Notes 공식 API의 `body_content`에서 HTML을 제거하고 문단을 유지한 본문을 저장한다. 3인칭 요약으로 바꾸지 않는다. `review`는 그 본문의 AGY 한국어 번역이며, 원문의 화자와 의미를 유지한다. [177권 공식 원문](../../../../data/celeb/viewing-research/2026-09-11-bill-gates-all-book-reviews.json)에 원본 HTML·추출 본문·출처·관계 ID를 함께 보존했다. 번역은 10건씩, 각 리뷰마다 새 AGY 호출로 처리한다. 이 도서 본문 복구는 영상·음악·게임 리뷰나 작품 locale 메타를 변경하지 않는다.
+도서 리뷰의 대상은 기존 156권과 신규 21권을 합친 **177권 전부**다. `review_en`에는 Gates Notes 공식 API의 `body_content`에서 HTML을 제거하고 문단을 유지한 본문을 저장한다. 3인칭 요약으로 바꾸지 않는다. `review`는 그 본문의 AGY 한국어 번역이며, 원문의 화자와 의미를 유지한다. 번역은 10건씩, 각 리뷰마다 새 AGY 호출로 처리했다. 이 도서 본문 복구는 영상·음악·게임 리뷰나 작품 locale 메타를 변경하지 않는다. 검수에서 나온 국문 교정 25건은 전부 DB에 반영했고(초안·교정본·공식 원문 추출 파일은 검증 후 폐기), 번역·교정 이후 자연어화 패스가 일부 행을 추가로 다듬었다.
 
 현재 Bill Gates의 268개 관계에는 English locale 268개와 Korean locale 240개가 있다. 이번 범위 밖의 기존 관계 28개는 Korean locale이 아직 없으며, 기존 데이터를 임의로 바꾸지 않았다.
 
@@ -119,4 +119,4 @@ Gates Notes의 두 Spotify playlist를 기준으로 Spotify track 88개를 확�
 
 ## 보류한 항목
 
-자동 등록하지 않은 항목은 불확실한 provider identity나 근거 수준을 임의로 확정하지 않기 위해 남겨 둔 것이다. 전체 목록과 각 후보의 quote·note·provider 응답은 [조사 스냅샷](../../../../data/celeb/viewing-research/2026-09-10-bill-gates-gatesnotes.json)에서 확인한다.
+자동 등록하지 않은 항목은 불확실한 provider identity나 근거 수준을 임의로 확정하지 않기 위해 남겨 둔 것이다. 보류 목록: 영상은 시청 근거가 언급 수준인 `Best of Enemies`·`20 Feet from Stardom`·`A Star Is Born`과 비표준 강의류 5건, 게임은 `Settlers of Catan`(보드게임인데 IGDB 레코드는 DOS 팬게임)과 `Heads Up`·Bridge·Bridge Base·운동 언급, 음악은 iTunes 미검증 15곡이다. 재조사할 때는 Gates Notes 원문과 provider 응답을 다시 수집한다.

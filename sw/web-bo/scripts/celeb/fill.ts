@@ -53,6 +53,7 @@ import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
 import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
+import { celebTitleEnIssue, celebTitleKoIssue } from '@feelandnote/shared/constants/celeb-title'
 import {
   CELEB_DIALOGUE_SITUATIONS,
   CELEB_DIALOGUE_VARIANTS,
@@ -307,6 +308,10 @@ async function applyPatches(patches: Patch[], doWrite: boolean, replaceSpectrum 
         if (k === 'profession' && !PROFESSIONS.includes(String(v))) {
           preserved.push(`profession(코드 아님: ${v} — 제외)`)
           continue
+        }
+        if (k === 'title' || k === 'title_en') {
+          const issue = k === 'title' ? celebTitleKoIssue(String(v)) : celebTitleEnIssue(String(v))
+          if (issue) { preserved.push(`${k}(${issue} — 제외)`); continue }
         }
         profPayload[k] = String(v)
       }

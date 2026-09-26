@@ -56,7 +56,7 @@ function buildPrompt(rows, tradition, existingTitles) {
 ## 채울 필드와 규격
 
 **title** — 인물 이름 앞에 붙는 짧은 한국어 수식어. 화면에서 단독으로도 읽힌다.
-- 길이 2~12자. 13자 이상은 무효다.
+- 길이 2~8자로 최대한 짧게. 작품명·통용 호칭처럼 줄일 수 없을 때만 12자까지 허용하고 13자 이상은 무효다.
 - 우선순위: (1) 역사·원전에서 실제로 통용되는 호칭이나 추존명 (2) 그 인물만의 대표 역할·정체성.
   추존명이 bio 에 있으면 그것을 최우선으로 쓴다(예: 「세조로 추존됐다」 → title 「고려 세조」).
 - **headline 을 그대로 옮기거나 앞부분을 자르지 않는다.** headline 은 한 줄 정의이고 title 은 호칭이다. 서로 다른 말이어야 한다.
@@ -65,7 +65,7 @@ function buildPrompt(rows, tradition, existingTitles) {
 - 아래 이미 쓰이고 있는 title 과 겹치면 안 된다:
 ${existingTitles}
 
-**title_en** — title 의 영어 대응. 직역이 아니라 영어에서 자연스러운 호칭으로 쓴다.
+**title_en** — title 의 영어 대응. 직역이 아니라 영어에서 자연스러운 호칭으로 쓴다. 대개 25자 이내, 41자 이상은 무효다.
 
 **headline_en** — 한국어 headline 에 대응하는 영어 한 줄. 90자 이내.
 - **한국어를 직역하지 않는다.** 같은 사실을 영어 캐치프레이즈로 다시 쓴다.
@@ -140,6 +140,7 @@ function validate(text, rows) {
       if (!c[f] || typeof c[f] !== 'string' || !c[f].trim()) bad.push(`${f} 없음`)
     }
     if (c.title && [...c.title].length > 12) bad.push(`title ${[...c.title].length}자`)
+    if (c.title_en && c.title_en.length > 40) bad.push(`title_en ${c.title_en.length}자`)
     if (c.headline_en && c.headline_en.length > 90) bad.push(`headline_en ${c.headline_en.length}자`)
     if (c.profession && !VALID_PROF.has(c.profession)) bad.push(`profession=${c.profession}`)
     if (c.speech_tone && !VALID_TONE.has(c.speech_tone)) bad.push(`speech_tone=${c.speech_tone}`)

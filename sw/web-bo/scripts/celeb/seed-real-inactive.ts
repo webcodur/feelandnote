@@ -19,6 +19,7 @@ import { resolve } from 'node:path'
 import { config } from 'dotenv'
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '../../src/lib/celeb-slug'
+import { celebTitleEnIssue, celebTitleKoIssue } from '@feelandnote/shared/constants/celeb-title'
 import { reserveGeneratedSlug } from '../faction/seed-inactive-contract'
 
 config({ path: resolve(process.cwd(), '.env'), quiet: true })
@@ -38,6 +39,7 @@ type LedgerRecord = {
   headline?: string | null
   headline_en?: string | null
   celeb_reality?: 'REAL' | 'BOTH' | 'FICTION'
+  wikidata_qid?: string | null
   status?: string
   celeb_id?: string
   slug?: string
@@ -199,6 +201,17 @@ async function main() {
   }
   if (!apply) return
 
+  // 수식어 규격 — 나쁜 값은 원장에서 고친 뒤 다시 돌린다
+  const titleIssues = creates.flatMap((plan) => [
+    ...(plan.record.title && celebTitleKoIssue(plan.record.title)
+      ? [`${plan.record.nickname}: title ${celebTitleKoIssue(plan.record.title)}`] : []),
+    ...(plan.record.title_en && celebTitleEnIssue(plan.record.title_en)
+      ? [`${plan.record.nickname}: ${celebTitleEnIssue(plan.record.title_en)}`] : []),
+  ])
+  if (titleIssues.length) {
+    throw new Error(`수식어 규격 위반 ${titleIssues.length}건 — ${titleIssues.slice(0, 10).join(' | ')}`)
+  }
+
   // createCeleb와 같은 규칙으로 삽입 — slug는 generated column(nickname_en+slug_suffix).
   const CHUNK = 50
   for (let i = 0; i < creates.length; i += CHUNK) {
@@ -222,6 +235,7 @@ async function main() {
         bio: emptyToNull(plan.record.bio),
         bio_en: emptyToNull(plan.record.bio_en),
         is_verified: false,
+        wikidata_qid: emptyToNull(plan.record.wikidata_qid),
         publication_status: 'inactive',
         celeb_tier: 'light',
         celeb_reality: plan.record.celeb_reality ?? 'REAL',

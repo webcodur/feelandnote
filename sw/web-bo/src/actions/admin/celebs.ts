@@ -10,6 +10,7 @@ import {
   revalidateWebLists,
 } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { celebTitleEnIssue, celebTitleKoIssue } from '@feelandnote/shared/constants/celeb-title'
 import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import {
@@ -829,6 +830,8 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 
   const nickname = input.nickname.trim()
   if (!nickname) throw new Error('닉네임을 입력해주세요.')
+  const createTitleIssue = input.title ? celebTitleKoIssue(input.title) : null
+  if (createTitleIssue) throw new Error(`수식어 규격 위반 — ${createTitleIssue}`)
   const nicknameEn = input.nickname_en?.trim() ?? ''
   if (!nicknameEn) throw new Error('신규 CELEB의 slug 생성을 위해 영문 이름이 필요합니다.')
   const baseSlug = previewGeneratedCelebSlug(nicknameEn)
@@ -959,6 +962,11 @@ export async function updateCeleb(
   const adminClient = createAdminClient()
 
   const updateData: Record<string, unknown> = {}
+
+  const updateTitleIssue = input.title ? celebTitleKoIssue(input.title) : null
+  if (updateTitleIssue) throw new Error(`수식어 규격 위반 — ${updateTitleIssue}`)
+  const updateTitleEnIssue = input.title_en ? celebTitleEnIssue(input.title_en) : null
+  if (updateTitleEnIssue) throw new Error(`수식어 규격 위반 — ${updateTitleEnIssue}`)
 
   if (input.nickname !== undefined) updateData.nickname = input.nickname
   if (input.nickname_en !== undefined) updateData.nickname_en = input.nickname_en || null
@@ -1523,6 +1531,9 @@ export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
   await requireAdmin()
   const db = createAdminClient()
+
+  const titleIssue = title ? celebTitleKoIssue(title) : null
+  if (titleIssue) throw new Error(`수식어 규격 위반 — ${titleIssue}`)
 
   const { data: updated, error } = await db
     .from('celebs')

@@ -123,5 +123,5 @@ import하는 컴포넌트가 그 커밋에 안 들어갔다. 워킹트리에서�
 - `.agents/skills/figure-book-curation/`·`docs/continuous/figure-books.md`·
   `data/celeb/figure-books/*`·`scripts/figure-books/appearance-*.mjs`·`data/coupang/*` —
   등장·연관 도서 작업
-- `data/celeb/fiction/` 17개 — 19명 등록에 쓴 원전 도서 등장 관계 자료(`relationType:"appearance"`)다.
-  옛 이름 폴더지만 추적 밖이고 쓰이던 데이터라 지우지 않았다.
+- `data/celeb/fiction/` — 19명 등록에 쓴 원전 도서 등장 관계 자료(`relationType:"appearance"`)였다.
+  전량 `figure_book_characters` 반영이 확인돼 삭제했다. 경위는 `git show HEAD`로 복구 가능하다.

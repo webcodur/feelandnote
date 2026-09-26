@@ -18,6 +18,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import { SPEECH_LINES_PER_SITUATION, SPEECH_SITUATIONS } from '../lib/celeb-speech-research'
+import { celebTitleEnIssue } from '@feelandnote/shared/constants/celeb-title'
 
 function loadEnv() {
   for (const filename of ['.env.local', '.env']) {
@@ -182,7 +183,9 @@ async function main() {
       titleEn = koWrapped ? `「${bare}」` : bare
     }
     if (titleEn && !(row.title_en && row.title_en.trim())) {
-      titlePatches.push({ slug: row.slug, title_en: titleEn })
+      const titleIssue = celebTitleEnIssue(titleEn)
+      if (titleIssue) failed.push(`${row.slug} title_en: ${titleIssue} — ${titleEn}`)
+      else titlePatches.push({ slug: row.slug, title_en: titleEn })
     }
   }
 

@@ -84,6 +84,9 @@ async function main() {
     if (c.profession === 'other') flags.push(`${src.nickname}: profession=other — 직군 재판정 필요`)
     // 3자 이하 일반명사 title 은 단독으로 읽힐 때 인물을 특정하지 못한다
     if ([...c.title].length <= 3) flags.push(`${src.nickname}: title "${c.title}" 이 ${[...c.title].length}자 — 인물 특정 여부 확인`)
+    // SSoT: packages/shared/src/constants/celeb-title.ts (상한 12·40)
+    if ([...c.title].length > 12) flags.push(`${src.nickname}: title "${c.title}" 이 ${[...c.title].length}자 — 상한 12자 초과`)
+    if (c.title_en && c.title_en.length > 40) flags.push(`${src.nickname}: title_en "${c.title_en}" 이 ${c.title_en.length}자 — 상한 40자 초과`)
   }
 
   // headline_en 유사도 — 같은 문장 틀을 돌려 쓴 것을 찾는다

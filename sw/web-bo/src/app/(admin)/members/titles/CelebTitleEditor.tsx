@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Star, Check, X, Loader2, Trash2 } from 'lucide-react'
 import { updateCelebTitle, deleteCeleb, type CelebTitleItem } from '@/actions/admin/celebs'
+import { CELEB_TITLE_KO_MAX } from '@feelandnote/shared/constants/celeb-title'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import { useToast } from '@/contexts/ToastContext'
 
@@ -43,6 +44,11 @@ export default function CelebTitleEditor({ celebs }: Props) {
   async function saveTitle(celebId: string) {
     const newTitle = editValue.trim() || null
     const oldTitle = titles[celebId]
+
+    if (newTitle && [...newTitle].length > CELEB_TITLE_KO_MAX) {
+      showToast('error', `수식어는 ${CELEB_TITLE_KO_MAX}자를 넘길 수 없습니다. (현재 ${[...newTitle].length}자)`)
+      return
+    }
 
     if (newTitle === oldTitle) {
       cancelEdit()

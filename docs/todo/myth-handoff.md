@@ -92,8 +92,12 @@ pnpm purge:web:cloudflare -- --scope <범위> --execute       # 출력이 요구
 
 ## 쿠팡 상품을 다룰 때
 
-공개 전승이 쓰는 링크 10건은 전수 대조를 마쳤다. 기록은
-`data/coupang/myth-edition-verify-2026-09-05.json`과 `data/coupang/myth-source-picks-2026-09-05.json`에 있다.
+공개 전승이 쓰는 링크 10건은 전수 대조를 마쳤고 결과는 DB에 반영돼 있다
+(판본·상품 대조 로그 `data/coupang/myth-edition-verify-2026-09-05.json`·`myth-source-picks-2026-09-05.json`은
+DB 확인 뒤 폐기). 링크를 못 단 3건의 사유: 「그리스 신화(아폴로도로스)」— 로켓 상품은 있으나
+파트너스 검색에 안 잡혀 링크 생성 불가, 잡히는 숲판 3종은 로켓 배지 없는 일반 택배.
+「아르고호의 모험」— 메티스판이 조건부 무료배송뿐이고 로켓 배지 없음. 「호메로스 찬가」—
+앤드류 랭 한국어판이 쿠팡에 없음.
 
 - `inspect.mjs`의 `hasDeliveryEvidence`를 1차 판정으로 쓰지 않는다. 페이지 전역을 긁어
   상단 메뉴의 로켓 아이콘까지 담는다. 후보 7건이 전부 「근거 있음」으로 나왔지만 실제 배지는

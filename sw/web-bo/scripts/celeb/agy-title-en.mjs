@@ -87,6 +87,8 @@ function validate(text, rows) {
     const t = String(it.title_en ?? '').trim().replace(/\.$/, '')
     if (!t) { issues.push(`${it.slug}: 빈 값`); continue }
     if (/[가-힣]/.test(t)) { issues.push(`${it.slug}: 한글 잔존`); continue }
+    // SSoT: packages/shared/src/constants/celeb-title.ts (CELEB_TITLE_EN_MAX)
+    if (t.length > 40) { issues.push(`${it.slug}: 40자 초과 — ${t}`); continue }
     if (t.split(/\s+/).length > 7) issues.push(`${it.slug}: 7단어 초과 — ${t}`)
     if (seen.has(t.toLowerCase())) issues.push(`중복: ${t} (${seen.get(t.toLowerCase())} / ${it.slug})`)
     seen.set(t.toLowerCase(), it.slug)
