@@ -49,7 +49,7 @@ type SourceGroup = { source: Exclude<AffiliateBookSource, 'mixed'>; count: numbe
 
 /** 이어 받은 묶음의 구간을 기존 구간 뒤에 붙인다 — 같은 종류가 연달아 서면 경계가 두 번 서지 않게 합친다 */
 function appendSourceGroups(prev: SourceGroup[], next: readonly SourceGroup[]): SourceGroup[] {
-  const merged = [...prev]
+  const merged = prev.map(group => ({ ...group }))
   for (const group of next) {
     const last = merged[merged.length - 1]
     if (last && last.source === group.source) last.count += group.count
