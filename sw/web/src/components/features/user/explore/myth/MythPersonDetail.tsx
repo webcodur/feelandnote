@@ -1,162 +1,51 @@
 "use client";
 
-import { getCelebProfileUrl } from "@/lib/url";
-import { useId, useState } from "react";
-import { ArrowUpRight, BookOpenText, Quote, UserRound, type LucideIcon } from "lucide-react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import type { MythPerson, Myth, MythWork } from "@/actions/home/mythTypes";
-import { FormattedText } from "@/components/ui";
+import type { MythPerson, Myth } from "@/actions/home/mythTypes";
+import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
 import { useCelebVirtualMonologue } from "@/hooks/useCelebVirtualMonologue";
-import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
-import MythPortraitMedia, { type MythPortrait } from "./MythPortraitMedia";
-import MythSigilHeader, { DetailBackButton } from "./MythSigilHeader";
-import MythWorkShelf from "./MythWorkShelf";
+import FactionPersonHeader from "@/components/features/faction/entry/FactionPersonHeader";
+import FactionPersonBooks from "@/components/features/faction/entry/FactionPersonBooks";
+import { FACTION_PERSON_LAYOUT as layout } from "@/components/features/faction/entry/factionPersonLayout";
+import Modal from "@/components/ui/Modal";
 import { mythLeadImage } from "./mythLeadImage";
 
 interface Props {
   person: MythPerson;
   myth: Myth;
-  works: MythWork[];
   onClose: () => void;
-  /** 뒤로 가기 단추 이름 — 돌아갈 곳(그룹 개요·신화 개요)을 부른다 */
-  backLabel: string;
 }
 
-function DetailLeadIcon({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
-  const tooltipId = useId();
-
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      aria-describedby={tooltipId}
-      title={label}
-      onClick={(event) => event.currentTarget.blur()}
-      className="group relative float-start me-2 mt-1 grid size-6 place-items-center rounded-full text-accent hover:bg-accent/15 focus-visible:bg-accent/15 focus-visible:outline-none"
-    >
-      <Icon size={18} strokeWidth={2.2} aria-hidden />
-      <span
-        id={tooltipId}
-        role="tooltip"
-        className="pointer-events-none invisible absolute start-0 top-full z-30 mt-2 w-max max-w-52 rounded-lg border border-white/10 bg-black px-2.5 py-1.5 text-xs font-semibold text-white shadow-xl group-hover:visible group-focus-visible:visible"
-      >
-        {label}
-      </span>
-    </button>
-  );
-}
-
-function IconLedParagraphs({ icon, label, text, emptyText }: { icon: LucideIcon; label: string; text: string | null; emptyText: string }) {
-  return (
-    <section className="text-[15px] leading-7 text-text-secondary md:text-base md:leading-8">
-      <DetailLeadIcon icon={icon} label={label} />
-      {text ? (
-        <div className="space-y-3.5">
-          {text.split(/\n\n+/).map((paragraph, index) => <p key={index}><FormattedText text={paragraph} /></p>)}
-        </div>
-      ) : <p className="text-text-tertiary">{emptyText}</p>}
-    </section>
-  );
-}
-
-
-function DetailBody({ person, myth }: { person: MythPerson; myth: Myth }) {
+export default function MythPersonDetail({ person, myth, onClose }: Props) {
   const t = useTranslations("explore.hub.myth");
-  const tCeleb = useTranslations("celebPage");
-  // 가상독백 — 인물을 고를 때 따로 받고, 없는 인물은 단추를 두지 않는다
   const monologue = useCelebVirtualMonologue(person.id);
   const [monologueOpen, setMonologueOpen] = useState(false);
   const appearance = person.appearances.find((item) => item.mythId === myth.id)?.summary ?? null;
-  const lead = person.headline ?? person.summary;
+  const lead = person.headline;
+  const body = person.reading?.guide?.trim() || person.bio?.trim();
+  const paragraphs = splitReadableParagraphs(body ?? "");
+  const group = myth.groups.find((item) => item.personIds.includes(person.id));
 
   return (
-    <div className="flex min-w-0 flex-col bg-bg-secondary px-6 py-7 md:px-8 md:py-9 lg:px-10 lg:py-10">
-      <div className="space-y-7">
-        {lead && <p className="font-serif text-xl font-bold leading-8 text-text-primary md:text-2xl md:leading-9">{lead}</p>}
-
-        <IconLedParagraphs
-          icon={BookOpenText}
-          label={t("appearanceInMyth", { name: myth.name })}
-          text={appearance}
-          emptyText={t("noMythAppearance")}
-        />
-
-        <IconLedParagraphs icon={UserRound} label={t("bio")} text={person.bio} emptyText={t("noBio")} />
-
-        {person.reading && (
-          <IconLedParagraphs icon={BookOpenText} label={t("reading")} text={person.reading.guide} emptyText="" />
-        )}
-      </div>
-
-      <div className="mt-8 flex min-w-0 gap-2">
-        {monologue && (
-          <button
-            type="button"
-            onClick={() => setMonologueOpen(true)}
-            aria-haspopup="dialog"
-            className="inline-flex min-w-0 flex-1 items-center justify-center gap-1 rounded-md border border-accent/50 px-2 py-2.5 text-center text-sm font-bold leading-tight text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:flex-none sm:gap-2 sm:px-4"
-          >
-            <Quote size={16} className="hidden shrink-0 sm:block" aria-hidden /><span className="min-w-0">{tCeleb("virtualMonologue")}</span>
-          </button>
-        )}
-        <Link href={getCelebProfileUrl(person)} className={`inline-flex min-w-0 items-center justify-center gap-1 rounded-md border border-accent/50 px-2 py-2.5 text-center text-sm font-bold leading-tight text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent sm:gap-2 sm:px-4 ${monologue ? "flex-1 sm:flex-none" : "flex-none"}`}>
-          <span className="min-w-0">{t("openFigure")}</span><ArrowUpRight size={16} className="hidden shrink-0 sm:block" />
-        </Link>
-      </div>
-
-      {monologueOpen && monologue && (
-        <VirtualMonologueModal text={monologue} onClose={() => setMonologueOpen(false)} />
-      )}
-    </div>
-  );
-}
-
-export default function MythPersonDetail({ person, myth, works, onClose, backLabel }: Props) {
-  /* 화면에 거는 사진은 이 신화의 대표 사진 하나다(mythLeadImage — 신화 전용 개인샷, 없으면 인물 대표 사진).
-     아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다.
-     전에는 어록 음성에 딸린 화보를 둘째 장부터 이어 붙였다 — 어록을 걷어 내면서 함께 빠졌다.
-     화보를 여러 장 다시 걸게 되면 gallery가 그대로 넘겨 준다 */
-  const lead = mythLeadImage(person, myth.id);
-  const portraits: MythPortrait[] = lead ? [{ url: lead }] : [];
-  const gallery = useFactionPortraits(portraits.length);
-
-  return (
-    <section aria-labelledby="myth-person-detail-title" className="bg-bg-secondary">
-      {portraits.length > 0 ? (
-        <div className="grid min-w-0 lg:grid-cols-[minmax(300px,0.82fr)_minmax(0,1.18fr)]">
-          <article className="relative min-h-[380px] overflow-hidden bg-black sm:min-h-[460px] lg:min-h-[600px]">
-            <MythPortraitMedia key={person.id} person={person} images={portraits} index={gallery.index} onMove={gallery.move} />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-black/20" />
-
-            <DetailBackButton onClose={onClose} label={backLabel} />
-
-            <header className="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8">
-              {person.title && <p className="text-sm font-bold text-accent md:text-base">{person.title}</p>}
-              <h3 id="myth-person-detail-title" className="mt-1 font-serif text-4xl font-bold leading-none text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.65)] md:text-5xl">{person.name}</h3>
-            </header>
-          </article>
-
-          <DetailBody person={person} myth={myth} />
-        </div>
-      ) : (
-        <div className="min-w-0">
-          <MythSigilHeader
-            person={person}
-            myth={myth}
-            onClose={onClose}
-            backLabel={backLabel}
-          />
-          <DetailBody person={person} myth={myth} />
-        </div>
-      )}
-
-      {works.length > 0 && (
-        <div className="bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
-          <MythWorkShelf works={works} selectedPersonId={person.id} mythName={myth.name} mythSlug={myth.slug} />
-        </div>
-      )}
-    </section>
+    <Modal isOpen onClose={onClose} ariaLabel={person.name} size="full" animateHeight={false} frame="plain" boxClassName={layout.modal}>
+      <article className={layout.article}>
+        <FactionPersonHeader nested person={person} factionName={myth.name} group={group?.name}
+          portraitUrl={mythLeadImage(person, myth.id)} onMonologue={monologue ? () => setMonologueOpen(true) : undefined}>
+          {lead && <p className={layout.lead}>{lead}</p>}
+          {appearance && appearance !== lead && appearance !== body && (
+            <p className="text-sm leading-6 text-text-secondary" aria-label={t("appearanceInMyth", { name: myth.name })}>{appearance}</p>
+          )}
+          <div className={layout.paragraphs}>
+            {paragraphs.length > 0
+              ? paragraphs.map((paragraph, index) => <p key={index}><FormattedText text={paragraph} /></p>)
+              : <p className="text-text-tertiary">{t("noBio")}</p>}
+          </div>
+        </FactionPersonHeader>
+        <FactionPersonBooks celebId={person.id} />
+      </article>
+      {monologueOpen && monologue && <VirtualMonologueModal nested text={monologue} onClose={() => setMonologueOpen(false)} />}
+    </Modal>
   );
 }

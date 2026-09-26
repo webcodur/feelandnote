@@ -126,6 +126,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
             editionId={content.purchaseEditionId}
             title={content.title}
             creator={content.creator}
+            thumbnail={content.thumbnail}
             links={content.affiliateLinks}
             enabled={content.type === "BOOK"}
           />

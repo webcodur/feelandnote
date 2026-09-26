@@ -87,8 +87,6 @@ export default function ContentTextModal({
           text={segments?.length && onPlayFrom ? undefined : text}
           tone="primary"
           size="modal"
-          highlightClassName={MODAL_GOLD_CLASS}
-          highlightStyle={MODAL_GOLD_STYLE}
           mark={segments?.length && onPlayFrom ? undefined : mark}
         >
           {segments?.length && onPlayFrom ? (
@@ -100,8 +98,6 @@ export default function ContentTextModal({
               currentTime={currentTime ?? 0}
               onPlayFrom={onPlayFrom}
               sentenceLabel={sentenceLabel}
-              highlightClassName={MODAL_GOLD_CLASS}
-              highlightStyle={MODAL_GOLD_STYLE}
             />
           ) : null}
         </ContentReadingText>

@@ -88,7 +88,7 @@ function ExpandCard({
         {/* 윗칸 — 표지와 작품 소개. 아래 감상배경 칸과 가로선 하나로 이어진다
             첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
             소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */}
-        <div className={`flow-root p-3 sm:grid sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-4 sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5 ${hasBookPurchase ? "[--intro-media-height:190px]" : "[--intro-media-height:150px]"}`}>
+        <div className={`flow-root p-3 sm:grid sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-4 sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5 ${hasBookPurchase ? "[--intro-media-height:198px]" : "[--intro-media-height:150px]"}`}>
           {/* 모바일은 본문이 이 묶음을 감싸 흐른다. 본문의 fade mask보다 위에 두어 상세 이동·구매 클릭을 지킨다. */}
           <div data-testid="expand-media" className="relative z-10 float-start me-3 w-24 sm:static sm:z-auto sm:contents">
           <div data-testid="expand-cover" className="relative w-full shrink-0">
@@ -121,12 +121,11 @@ function ExpandCard({
               contentId={item.content_id}
               title={title}
               creator={creator}
+              thumbnail={coverUrl}
               links={purchaseLinks}
               enabled
               full
-              hideArrowOnMobile
               className="mt-1 w-full sm:col-span-2 sm:row-start-2 sm:mt-0 md:col-span-1 md:col-start-1 md:self-start"
-              chipClassName="max-sm:h-9 max-sm:min-h-9 max-sm:border-accent-dim/40 max-sm:bg-none max-sm:bg-bg-secondary max-sm:text-sm max-sm:font-medium max-sm:text-accent max-sm:shadow-none!"
             />
           )}
           </div>
@@ -218,12 +217,11 @@ function ExpandCard({
         </section>
         )}
 
-        {isActive && !hasBookPurchase && (
+        {isActive && !hasBookPurchase && item.content.type !== "MUSIC" && (
           <DeveloperCollectionJourney
             target={{ title, creator: item.content.creator, type: item.content.type, contentId: item.content_id }}
             placement="celeb-review"
-            showPreview={!isBriefLoading && (hasBriefError || !brief?.metadata?.previewUrl)}
-            context={item.content.type === "MUSIC" ? "음반 소장" : item.content.type === "GAME" ? "게임 구매" : "연관 도서"}
+            context={item.content.type === "GAME" ? "게임 구매" : "연관 도서"}
           />
         )}
       </article>

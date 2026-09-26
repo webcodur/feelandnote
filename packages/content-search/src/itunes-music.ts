@@ -55,6 +55,17 @@ export interface ItunesMusicResult {
 
 export type MusicSearchResult = ItunesMusicResult
 
+/** 앨범 검색 후보. 저장 전 getTrackById로 수록곡의 미리듣기까지 확인한다. */
+export interface ItunesAlbumCandidate {
+  externalId: string
+  title: string
+  creator: string
+  coverImageUrl: string | null
+  releaseDate: string
+  totalTracks: number
+  itunesUrl: string
+}
+
 /** 표지를 원하는 크기로. 아이튠즈는 URL의 치수 부분만 바꾸면 된다 */
 function artwork(track: ItunesTrack, size = 600): string | null {
   const url = track.artworkUrl100 || track.artworkUrl60
@@ -155,13 +166,30 @@ export async function searchMusic(
   return { items: [], total: 0, hasMore: false }
 }
 
-/** 아이튠즈 식별자로 단건 조회. `itunes-123` 형태와 숫자 모두 받는다 */
-export async function getTrackById(externalId: string): Promise<ItunesMusicResult | null> {
+/** 곡과 동명인 음반을 혼동하지 않도록 앨범만 검색한다. */
+export async function searchMusicAlbums(query: string, country = 'US', limit = 20): Promise<ItunesAlbumCandidate[]> {
+  const params = new URLSearchParams({ term: query, entity: 'album', country, limit: String(Math.min(Math.max(limit, 1), 200)) })
+  const results = await call(`${ITUNES_SEARCH_URL}?${params}`)
+  return results.filter(result => result.wrapperType === 'collection' && typeof result.collectionId === 'number')
+    .map(result => ({
+      externalId: `itunes-${result.collectionId}`,
+      title: (result.collectionName || '').trim(),
+      creator: result.artistName || '',
+      coverImageUrl: artwork(result),
+      releaseDate: (result.releaseDate || '').slice(0, 10),
+      totalTracks: result.trackCount ?? 0,
+      itunesUrl: result.collectionViewUrl || '',
+    }))
+}
+
+/** 아이튠즈 식별자로 곡·앨범 단건 조회. `itunes-123` 형태와 숫자 모두 받는다 */
+export async function getTrackById(externalId: string, country = 'US'): Promise<ItunesMusicResult | null> {
   const id = externalId.replace(/^itunes[-_]/, '')
   if (!/^\d+$/.test(id)) return null
 
-  for (const country of ['US', 'KR']) {
-    const results = await call(`${ITUNES_LOOKUP_URL}?id=${id}&entity=song&country=${country}&limit=200`)
+  const preferredCountry = /^[a-z]{2}$/i.test(country) ? country.toUpperCase() : 'US'
+  for (const storefront of new Set([preferredCountry, 'US', 'KR'])) {
+    const results = await call(`${ITUNES_LOOKUP_URL}?id=${id}&entity=song&country=${storefront}&limit=200`)
     const directTrack = results.find((result) => result.trackId === Number(id) && isPlayableTrack(result))
     if (directTrack && isPlayableTrack(directTrack)) return toResult(directTrack)
 

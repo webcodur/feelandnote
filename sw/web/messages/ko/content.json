@@ -55,13 +55,20 @@
       "viewDetail": "작품 상세 보기"
     },
     "purchase": {
-      "buy": "구매처 보기"
+      "buy": "판매 서점 보기",
+      "visitStore": "{store}에서 보기",
+      "paidLink": "제휴 링크",
+      "searchStore": "{store}에서 찾기",
+      "compact": "판매 서점 보기",
+      "searchLabel": "검색",
+      "adLabel": "광고"
     },
     "purchaseInfo": {
       "trigger": "구매 안내",
-      "title": "구매 안내",
-      "notice": "구매 링크를 통해 구매하면 필앤노트가 서점으로부터 수수료를 받을 수 있습니다.",
-      "benefit": "각 서점의 판매 가격과 배송 조건을 확인해 구매하세요."
+      "title": "판매 서점 보기",
+      "notice": "제휴 링크를 통해 구매하시면 필앤노트가 소정의 수수료를 받습니다.",
+      "benefit": "원하는 서점에서 가격과 배송 조건을 확인하세요.",
+      "support": "여러분의 구매가 필앤노트 운영에 힘이 됩니다."
     },
     "introductionSource": {
       "unknown": "출처 미확인",
@@ -76,7 +83,6 @@
       "label": "YES24 판매 정보",
       "price": "{price}원",
       "open": "YES24 판매 정보 자세히 보기",
-      "notice": "아래 정보는 YES24가 제공합니다. 가격과 평점은 YES24에서 바뀔 수 있습니다.",
       "rating": "평점",
       "salePrice": "판매가",
       "shopPrice": "정가",
@@ -86,7 +92,9 @@
       "pageCount": "{count}쪽",
       "published": "출간일",
       "changed": "상품 확인중",
-      "changedNotice": "YES24에서 이 판본의 판매가 중단되었거나 상품 정보가 바뀌었습니다. 개정판이 나온 경우 서점 페이지에서 새 판본을 확인해 주세요."
+      "changedNotice": "YES24에서 이 판본의 판매가 중단되었거나 상품 정보가 바뀌었습니다. 개정판이 나온 경우 서점 페이지에서 새 판본을 확인해 주세요.",
+      "details": "YES24 가격·도서 정보",
+      "fallback": "최신 가격과 판매 상태는 서점에서 확인해 주세요."
     }
   },
   "contentDetail": {

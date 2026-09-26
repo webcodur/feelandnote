@@ -1,7 +1,7 @@
 "use client";
 
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
-import { Fragment, useState } from "react";
+import { Fragment, useId, useState } from "react";
 import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
@@ -36,6 +36,8 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
   const t = useTranslations("explore.hub.myth");
   const tMore = useTranslations("shared.libraryShelf");
   const locale = useLocale();
+  const titleId = useId();
+  const personShelf = Boolean(selectedPersonId);
   const [expanded, setExpanded] = useState(false);
   const [dividerInfoOpen, setDividerInfoOpen] = useState(false);
   /* 인물 줄과 같은 공용 훅 — 터치는 기본 스크롤, PC는 마우스로 끌어 넘긴다(ui-rail) */
@@ -70,21 +72,21 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
   const remaining = ordered.length - visible.length;
   /* 이 신화의 책과 다른 등장 작품 사이의 구분선 — 이 신화의 책이 다 보이고 뒤에 작품이 남을 때만 선다 */
   const dividerIndex = ownWorks.length;
-  const showDivider = dividerIndex > 0 && dividerIndex < visible.length;
+  const showDivider = !personShelf && dividerIndex > 0 && dividerIndex < visible.length;
 
   if (visible.length === 0) return null;
 
   return (
-    <section aria-labelledby="myth-works-title" className="pt-1">
-      <div className="mb-5 flex items-end justify-between gap-4">
+    <section aria-labelledby={titleId} className="pt-1">
+      <div className="mb-4 flex items-end justify-between gap-4">
         <div>
-          <h3 id="myth-works-title" className="flex items-center gap-2 text-lg font-black text-text-primary">
+          <h3 id={titleId} className="flex items-center gap-2 text-lg font-bold text-text-primary">
             <BookOpen size={18} className="text-accent" />
             {t("works")}
           </h3>
-          <p className="mt-1 text-sm text-text-secondary">{t("worksLead")}</p>
+          {!personShelf && <p className="mt-1 text-sm text-text-secondary">{t("worksLead")}</p>}
         </div>
-        <span className="text-sm text-text-tertiary">{selectedWorks.length > 0 ? t("selectedWorks", { count: selectedWorks.length }) : t("mythWorks", { count: works.length })}</span>
+        <span className="text-sm text-text-tertiary">{personShelf ? t("selectedWorks", { count: works.length }) : t("mythWorks", { count: works.length })}</span>
       </div>
 
       <div ref={ref} {...dragProps} className={`scrollbar-hide -mx-1 flex gap-3 overflow-x-auto overscroll-x-contain px-1 pb-2 select-none pointer-coarse:snap-x md:gap-4 ${cursorClassName}`}>
@@ -101,10 +103,10 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
                   <div className="flex h-full items-center justify-center p-4 text-center text-lg font-black text-accent/50">{work.title}</div>
                 )}
                 <NoEditionBadge contentType={work.category.toUpperCase()} badge={work.titleBadge} variant="cover" />
-                {selected && <span className="absolute start-2 top-2 rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary">{t("linkedToWork")}</span>}
-                <span className="absolute end-2 top-2 grid size-8 place-items-center rounded-full bg-black/85 text-text-tertiary" aria-hidden>
+                {selected && !personShelf && <span className="absolute start-2 top-2 rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary">{t("linkedToWork")}</span>}
+                {!personShelf && <span className="absolute end-2 top-2 grid size-8 place-items-center rounded-full bg-black/85 text-text-tertiary" aria-hidden>
                   <ArrowUpRight size={15} />
-                </span>
+                </span>}
               </div>
               {/* 제목·저자는 남은 공간 한가운데 한 쌍으로 묶어 둔다 — 쌍이 갈라져 위아래로 퍼지지 않게 justify-center로 붙인다 */}
               <div className="flex flex-1 flex-col p-3 text-center">
@@ -136,8 +138,8 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
                   <span className="w-px flex-1 bg-gradient-to-b from-accent/60 via-accent/30 to-transparent" />
                 </button>
               )}
-              <div className="flex w-36 shrink-0 snap-start flex-col md:w-44">
-              <Link href={workHref} draggable={false} className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-accent/70 hover:bg-accent/5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${selected ? "border-accent/60" : "border-stone-heavy"}`}>
+              <div className={`flex shrink-0 snap-start flex-col ${personShelf ? "w-32 md:w-36" : "w-36 md:w-44"}`}>
+              <Link href={workHref} draggable={false} className={`group flex flex-1 flex-col overflow-hidden rounded-xl border bg-bg-card hover:border-accent/70 hover:bg-accent/5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${selected && !personShelf ? "border-accent/60" : "border-stone-heavy"}`}>
                 {cardBody}
               </Link>
               {showPurchase && (
@@ -147,6 +149,7 @@ export default function MythWorkShelf({ works, selectedPersonId, mythName, mythS
                   editionId={work.editionId}
                   title={work.title}
                   creator={work.creator}
+                  thumbnail={work.thumbnailUrl}
                   links={work.coupangUrl ? [{ platform: "coupang", url: work.coupangUrl }] : []}
                   full
                   className="mt-2"

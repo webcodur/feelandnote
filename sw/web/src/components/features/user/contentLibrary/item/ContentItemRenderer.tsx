@@ -170,6 +170,7 @@ function ContentItemRenderer({
                   contentId={item.content_id}
                   title={localizedContent.title}
                   creator={localizedContent.creator}
+                  thumbnail={item.content.thumbnail_url}
                   affiliateUrl={item.content.affiliate_url}
                 />
               )}

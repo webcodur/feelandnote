@@ -8,10 +8,12 @@
 
 import { usePathname, Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface HubBackLinkProps {
   hubPath: string;
   label: string;
+  className?: string;
 }
 
 /**
@@ -27,7 +29,7 @@ const SELF_HANDLED = [
 // 세력도감(/explore/faction)은 여기 넣지 않는다. 섹션·테마를 칩 줄로 옮겨 다니고 자체 뒤로가기가 없어,
 // 빼면 대문에서도 테마 주소에서도 탐색으로 갈 길이 사라진다.
 
-export default function HubBackLink({ hubPath, label }: HubBackLinkProps) {
+export default function HubBackLink({ hubPath, label, className }: HubBackLinkProps) {
   const pathname = usePathname();
 
   // 허브 루트에서는 표시하지 않음
@@ -36,7 +38,7 @@ export default function HubBackLink({ hubPath, label }: HubBackLinkProps) {
   if (SELF_HANDLED.some((re) => re.test(pathname))) return null;
 
   return (
-    <div className="mb-4">
+    <div className={cn("mb-4", className)}>
       <Link
         href={hubPath}
         className="inline-flex items-center gap-1.5 text-sm hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent"

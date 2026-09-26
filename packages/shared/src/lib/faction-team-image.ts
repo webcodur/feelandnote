@@ -18,6 +18,9 @@ export interface FactionTeamImage {
   /** 이 사진이 담은 묶음의 제목 (예: "안전을 설계한 사람들") */
   label?: string
   labelEn?: string
+  /** 그림에 담긴 장면 설명. 신화 제목 그림에 사용한다. */
+  caption?: string
+  captionEn?: string
   /** 이 사진에 나오는 인물들의 셀럽 id. 도감에서 이름을 띄우고 그 사람으로 넘어가는 데 쓴다 */
   celebIds?: string[]
 }
@@ -37,6 +40,8 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
     if (!url) continue
     const label = typeof row.label === 'string' && row.label.trim() ? row.label.trim() : undefined
     const labelEn = typeof row.labelEn === 'string' && row.labelEn.trim() ? row.labelEn.trim() : undefined
+    const caption = typeof row.caption === 'string' && row.caption.trim() ? row.caption.trim() : undefined
+    const captionEn = typeof row.captionEn === 'string' && row.captionEn.trim() ? row.captionEn.trim() : undefined
     const celebIds = Array.isArray(row.celebIds)
       ? row.celebIds.filter((x): x is string => typeof x === 'string' && x.length > 0)
       : undefined
@@ -44,6 +49,8 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
       url,
       ...(label ? { label } : {}),
       ...(labelEn ? { labelEn } : {}),
+      ...(caption ? { caption } : {}),
+      ...(captionEn ? { captionEn } : {}),
       ...(celebIds && celebIds.length ? { celebIds } : {}),
     })
   }
@@ -63,6 +70,8 @@ export function serializeTeamImages(images: FactionTeamImage[]): FactionTeamImag
       url: img.url,
       ...(img.label?.trim() ? { label: img.label.trim() } : {}),
       ...(img.labelEn?.trim() ? { labelEn: img.labelEn.trim() } : {}),
+      ...(img.caption?.trim() ? { caption: img.caption.trim() } : {}),
+      ...(img.captionEn?.trim() ? { captionEn: img.captionEn.trim() } : {}),
       ...(img.celebIds?.length ? { celebIds: [...img.celebIds] } : {}),
     }))
 }

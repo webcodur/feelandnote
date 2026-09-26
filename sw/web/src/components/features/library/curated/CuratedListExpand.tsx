@@ -357,6 +357,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
                 contentId={item.contentId}
                 title={item.title}
                 creator={item.creator}
+                thumbnail={item.thumbnailUrl}
                 links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
                 full
               />

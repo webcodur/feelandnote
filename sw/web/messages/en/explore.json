@@ -193,6 +193,18 @@
         "7": "61–70",
         "8": "71–80",
         "9": "81+"
+      },
+      "atlas": {
+        "theme": "Theme",
+        "faction": "Faction",
+        "region": "Region",
+        "myth": "Myth",
+        "group": "Group",
+        "allMembers": "All members",
+        "browseAll": "Selector",
+        "comingSoon": "Coming soon",
+        "confirmSelection": "Confirm selection",
+        "optionCount": "{count} options available"
       }
     },
     "hub": {
@@ -301,7 +313,9 @@
         "worksDividerLeftDesc": "Source works that tell this myth directly.",
         "worksDividerRight": "Other works",
         "worksDividerRightDesc": "Other stories where this myth's figures appear.",
-        "linkedToWork": "WORK LINK"
+        "linkedToWork": "WORK LINK",
+        "enlargeImage": "Enlarge image",
+        "portraitImage": "Portrait image"
       },
       "relationMap": {
         "title": "Relation Map",
@@ -404,7 +418,11 @@
         "emptyRead": "No reading records yet.",
         "shelf": "Bookshelf"
       },
-      "works": "Related Works"
+      "works": "Related Works",
+      "title": "Factions",
+      "overview": "Faction overview",
+      "overviewFallback": "Choose a figure above to explore their role and story within this theme.",
+      "backToOverview": "Back to theme overview"
     },
     "monologue": {
       "metaTitle": "Virtual Monologues | Figures",

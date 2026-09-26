@@ -25,6 +25,7 @@ export default function BookPurchaseInfoModal({ onClose }: { onClose: () => void
       <div ref={contentRef} tabIndex={-1} className="space-y-3 break-keep p-6 text-sm leading-relaxed outline-none">
         <p className="text-text-primary">{t("benefit")}</p>
         <p className="text-text-secondary">{t("notice")}</p>
+        <p className="text-text-primary">{t("support")}</p>
       </div>
     </Modal>
   );

@@ -1,7 +1,6 @@
 import type { JourneyId } from "./catalog";
 
 export interface JourneySelection {
-  format: "lp" | "cd";
   device: "switch" | "switch2";
   owned: boolean;
   subscription: boolean;
@@ -9,7 +8,7 @@ export interface JourneySelection {
   size: "small" | "medium" | "large" | "xl";
 }
 export const INITIAL_SELECTION: JourneySelection = {
-  format: "lp", device: "switch", owned: false, subscription: false, material: "paper", size: "small",
+  device: "switch", owned: false, subscription: false, material: "paper", size: "small",
 };
 // 판매 페이지의 image size(인치). 용지/액자의 외경과 다르다.
 export const PRINT_SIZES = [
@@ -34,21 +33,6 @@ export interface JourneyOffer {
 const nintendoGuide = "https://www.nintendo.com/kr/games/zelda/botw/edition/guide/";
 const met = "https://customprints.metmuseum.org/detail/489070/van-gogh-wheat-field-with-cypresses";
 export function getJourneyOffer(id: JourneyId, selection: JourneySelection): JourneyOffer {
-  if (id === "low-end-theory") {
-    if (selection.format === "cd") return {
-      title: "CD · 현재 연결할 상품이 없습니다", summary: "CD로 듣고 싶다면 이 작품을 보관해두세요.",
-      facts: ["확인한 YES24 2019년 발매 CD는 절판 표시", "다른 판매처의 CD 재고까지 확인된 것은 아닙니다"],
-      note: "위의 감상 링크로 먼저 음악을 들을 수 있습니다.",
-      seller: "YES24", evidenceUrl: "https://www.yes24.com/product/author/goods/9448", evidence: "CD 절판 표시 · 판매처 작가 목록 확인", status: "unavailable",
-    };
-    return {
-      title: "The Low End Theory · 2LP", summary: "재킷과 두 장의 레코드로 소장하는 앨범.",
-      facts: ["Sony Music / Jive Legacy · 2024년 발매 상품", "LP 2장 · 턴테이블 필요", "Excursions · Check the Rhime · Scenario 등 수록"],
-      note: "이미 가지고 있는 재생 장비를 먼저 확인하세요. 가격과 현재 배송일은 판매처에서 확인합니다.",
-      link: "https://www.yes24.com/product/goods/129990621", linkLabel: "이 2LP를 YES24에서 보기", seller: "YES24",
-      evidenceUrl: "https://www.yes24.com/product/goods/129990621", evidence: "실제 상품 페이지의 판매중 표시·2LP 구성 확인", status: "product",
-    };
-  }
   if (id === "breath-of-the-wild") {
     if (selection.owned) {
       if (selection.device === "switch") return {

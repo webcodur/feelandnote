@@ -1,29 +1,19 @@
-/* ─────────────────────────────────────────────
- * [공통] 통합 구매 모듈 — 바깥 구매 단추 + 구매 창
- * - 바깥: 골드 채우기 「구매처 보기」 단추 하나. 서점 표시는 두지 않는다
- *   (구매 링크가 없고 판매 정보만 있으면 예전 「평점 | 가격」 값표로 떨어진다)
- * - 누르면 서점별 구매 단추(서점 색)와 수수료·주의 안내를 담은 창(BookPurchaseModal)이 뜬다
- * - 예전 [YES24 판매정보] + [쿠팡|YES24 링크] + [주의사항 ⓘ] 세 모듈의 자리를 이 한 모듈이 받는다
- * - 데이터: useYes24Sales(한국어), links prop(쿠팡·교보·알라딘·아마존 등 보유 링크), getBookPurchaseHref(YES24 경유)
- * ───────────────────────────────────────────── */
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import AnimatedHeight from "@/components/ui/AnimatedHeight";
-import { AFFILIATE_PLATFORMS, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_LABEL_STYLE, BOOK_PURCHASE_OPENER_STYLE, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
-import { coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
+import { aladinBookLink, coupangBookLink, kyoboBookLink } from "@/lib/books/bookPurchaseRedirect";
 import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
-import { trackCommerceClick } from "@/lib/analytics/track";
+import { trackCommerceClick, trackEvent } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
-import { useYes24Sales } from "./useYes24Sales";
 
-/* 값표는 목록 카드마다 붙는다. 창은 누를 때만 불러와 초기 번들을 늘리지 않는다 */
+// 서점 선택창과 판매 정보 조회는 버튼을 누를 때만 불러온다.
 const BookPurchaseModal = dynamic(() => import("./BookPurchaseModal"), { ssr: false });
 
 interface BookPurchaseSummaryProps {
@@ -33,9 +23,11 @@ interface BookPurchaseSummaryProps {
   editionId?: number;
   /** 외부 차트 항목처럼 우리 작품이 아닐 때 — ISBN으로 곧바로 조회한다 */
   isbn?: string;
-  /** 아마존 검색 링크를 세울 책 이름·저자 */
+  /** 선택창의 작품 표시와 서점 검색에 쓸 책 이름·저자 */
   title?: string | null;
   creator?: string | null;
+  /** 현재 화면에서 선택한 판본의 표지 */
+  thumbnail?: string | null;
   /** 보유 서점 링크 — 쿠팡·아마존·교보·알라딘 등. 언어가 다른 링크는 걸러낸다 */
   links?: readonly AffiliateLink[];
   /** 우리 작품이 아닌 외부 항목의 YES24 직통 주소(제휴 주소 우선) */
@@ -47,8 +39,6 @@ interface BookPurchaseSummaryProps {
   className?: string;
   /** 단추에 덧붙일 클래스 — 자리마다 정렬·여백을 맞춘다 */
   chipClassName?: string;
-  /** 모바일 표지 폭에 맞춘 작은 버튼에서는 문구가 화살표와 겹치지 않게 한다 */
-  hideArrowOnMobile?: boolean;
 }
 
 function isPurchaseUrl(url: string) {
@@ -62,26 +52,20 @@ export default function BookPurchaseSummary({
   isbn,
   title,
   creator,
+  thumbnail,
   links: existingLinks = [],
   yes24Href,
   enabled = true,
   full = true,
   className,
   chipClassName,
-  hideArrowOnMobile = false,
 }: BookPurchaseSummaryProps) {
   const locale = useLocale();
   const pathname = usePathname();
-  const t = useTranslations("content.purchaseSales");
   const tBuy = useTranslations("content.purchase");
   const [isOpen, setIsOpen] = useState(false);
 
-  const sales = useYes24Sales({
-    contentId,
-    editionId,
-    isbn,
-    active: enabled && locale === "ko",
-  });
+  const closeModal = useCallback(() => setIsOpen(false), []);
 
   /* 구매 링크 — 한국어는 YES24 경유 주소를 맨 앞에 두고 교보문고·보유 서점을 잇는다.
      영어는 아마존(상품 주소가 없으면 검색)이 기준이다 */
@@ -106,112 +90,94 @@ export default function BookPurchaseSummary({
         ?? (ownId
           ? { platform: "kyobo" as const, url: getBookPurchaseHref(ownId, editionId, "kyobo") }
           : kyoboBookLink({ isbn, title, creator }));
-      // 쿠팡 — 링크프라이스 승인 전까지 만들지 않는다. 승인되면 우리 작품은 경유, 차트 항목은 ISBN 검색으로 잇는다
+      // 쿠팡·알라딘 — 머천트 승인을 기다리는 동안은 수수료 없는 일반 링크로 먼저 선다.
+      // 우리 작품은 경유가 저장 ISBN을 풀고, 차트 항목은 ISBN·제목 검색으로 잇는다
       const coupang = usable.find((link) => link.platform === "coupang")
-        ?? (LINKPRICE_COUPANG_APPROVED
-          ? ownId
-            ? { platform: "coupang" as const, url: getBookPurchaseHref(ownId, editionId, "coupang") }
-            : coupangBookLink({ isbn, title, creator })
-          : null);
+        ?? (ownId
+          ? { platform: "coupang" as const, url: getBookPurchaseHref(ownId, editionId, "coupang"), linkKind: "search" as const }
+          : coupangBookLink({ isbn, title, creator }));
+      const aladin = usable.find((link) => link.platform === "aladin")
+        ?? (ownId
+          ? { platform: "aladin" as const, url: getBookPurchaseHref(ownId, editionId, "aladin") }
+          : aladinBookLink({ isbn, title, creator }));
       return [
         ...(yes24 ? [yes24] : []),
         ...(kyobo ? [kyobo] : []),
         ...(coupang ? [coupang] : []),
-        ...usable.filter((link) => link.platform !== "yes24" && link.platform !== "kyobo" && link.platform !== "coupang"),
+        ...(aladin ? [aladin] : []),
+        ...usable.filter((link) => link.platform !== "yes24" && link.platform !== "kyobo" && link.platform !== "coupang" && link.platform !== "aladin"),
       ];
     }
     return getEnglishBookPurchaseLinks({ locale, title, creator, links: usable });
   }, [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
 
-  const number = new Intl.NumberFormat(locale);
-  const onSale = Boolean(sales?.onSale);
-  const hasRating = onSale && Boolean(sales?.starScore);
-  const hasPrice = onSale && sales?.salePrice != null;
-  const showSales = Boolean(sales) && (!onSale || hasRating || hasPrice);
-
-  // 살 수 있는 서점도 판매 정보도 없으면 빈 칸이다. 링크만 있어도 구매 문구로 칩을 세운다.
-  const showChip = enabled && (showSales || links.length > 0);
-  // 영어는 서점 하나(아마존)뿐이라 창을 거치지 않고 서점 주소로 바로 보낸다 — 고지는 영어 화면 푸터가 싣는다
-  const directLink = locale === "en" && !sales && links.length === 1 ? links[0] : null;
+  const directLink = locale === "en" && links.length === 1 ? links[0] : null;
+  if (!enabled || !links.length) return null;
 
   return (
-    <AnimatedHeight independent duration={320} className={className}>
-      {showChip && directLink && (
+    <div className={cn("@container/purchase min-w-0", className)}>
+      {directLink && (
         <a
           href={directLink.url}
           target="_blank"
           rel={directLink.platform === "amazon" ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
+          aria-label={[
+            tBuy(directLink.linkKind === "search" ? "searchStore" : "visitStore", { store: AFFILIATE_PLATFORMS[directLink.platform].label }),
+            ...(directLink.platform === "amazon" ? [tBuy("paidLink")] : []),
+          ].join(" · ")}
           onClick={(event) => {
             event.stopPropagation();
-            trackCommerceClick({
-              screen: pathname,
-              target: directLink.linkKind === "search" ? "search" : "product",
-              contentId, editionId, platform: directLink.platform, locale,
-            });
+            trackCommerceClick({ screen: pathname, target: directLink.linkKind === "search" ? "search" : "product",
+              contentId, editionId, platform: directLink.platform, locale });
           }}
           className={cn(
-            "relative flex min-h-11 items-center justify-center whitespace-nowrap rounded-md border px-2 py-1 text-xs font-semibold sm:px-3 sm:py-1.5 sm:text-sm focus-visible:outline-none focus-visible:ring-2",
-            purchaseButtonStyle(directLink.platform),
-            full ? "w-full" : "mx-auto w-fit max-w-full",
-            chipClassName,
+            "group/purchase relative flex h-11 items-center justify-center whitespace-nowrap rounded-md border px-5 text-[13px] font-semibold [--purchase-label-scale:1.04] focus-visible:outline-none focus-visible:ring-2 @min-[160px]/purchase:px-7 @min-[160px]/purchase:text-sm @min-[160px]/purchase:[--purchase-label-scale:1.07]",
+            purchaseButtonStyle(directLink.platform), full ? "w-full" : "mx-auto w-fit max-w-full", chipClassName,
           )}
         >
-          {AFFILIATE_PLATFORMS[directLink.platform].label}
-          <ArrowUpRight size={13} className={cn("absolute right-1.5 top-1/2 -translate-y-1/2", hideArrowOnMobile && "max-sm:hidden")} aria-hidden />
+          <span className={BOOK_PURCHASE_LABEL_STYLE}>
+            <span className="@min-[240px]/purchase:hidden">{AFFILIATE_PLATFORMS[directLink.platform].label}</span>
+            <span className="hidden @min-[240px]/purchase:inline">
+              {tBuy(directLink.linkKind === "search" ? "searchStore" : "visitStore", { store: AFFILIATE_PLATFORMS[directLink.platform].label })}
+            </span>
+          </span>
+          {directLink.platform === "amazon" && <span className="pointer-events-none absolute start-1.5 top-1/2 -translate-y-1/2 text-[11px] font-normal @min-[160px]/purchase:start-2" title={tBuy("paidLink")}>{tBuy("adLabel")}</span>}
+          <ArrowUpRight size={13} className="pointer-events-none absolute end-1.5 top-1/2 -translate-y-1/2 @min-[160px]/purchase:end-2" aria-hidden />
         </a>
       )}
-      {showChip && !directLink && (
+      {!directLink && (
         <button
           type="button"
           aria-haspopup="dialog"
           aria-expanded={isOpen}
           onClick={(event) => {
-            // 카드·펼침 안에 붙는 값표다 — 누름이 바깥 링크·카드 토글로 번지지 않게 막는다
             event.preventDefault();
             event.stopPropagation();
             setIsOpen(true);
+            trackEvent("commerce_open", { screen: pathname, locale, store_count: links.length,
+              ...(contentId !== undefined && { content_id: contentId }),
+              ...(editionId !== undefined && { edition_id: editionId }) });
           }}
           className={cn(
-            "min-h-11",
-            links.length > 0
-              ? // 골드 CTA — 금속 그라데이션+광휘. 어느 서점 색과도 겹치지 않는다
-                "effect-bevel shadow-glow relative flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md border border-accent-dim/60 bg-[linear-gradient(180deg,var(--color-accent-hover)_0%,var(--color-accent)_55%,var(--color-accent-dim)_150%)] px-3 py-1.5 text-xs font-bold text-bg-main sm:text-sm hover:brightness-110 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-hover"
-              : "relative flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-2 py-1 text-xs text-text-tertiary sm:gap-2.5 sm:px-3 sm:py-1.5 sm:text-sm hover:border-accent/70 hover:bg-accent/10 active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-            full ? "w-full" : "mx-auto w-fit max-w-full",
-            chipClassName,
+            "group/purchase relative flex h-11 cursor-pointer items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-md border px-1 [--purchase-label-scale:1.04] focus-visible:outline-none focus-visible:ring-2 @min-[160px]/purchase:gap-3 @min-[160px]/purchase:px-3 @min-[160px]/purchase:[--purchase-label-scale:1.07]",
+            BOOK_PURCHASE_OPENER_STYLE,
+            full ? "w-full" : "mx-auto w-fit max-w-full", chipClassName,
           )}
         >
-          {links.length > 0 ? (
-            <>
-              {tBuy("buy")}
-              {/* 화살표는 우측 가장자리에 띄운다 — 중앙 정렬된 텍스트를 밀지 않게 */}
-              <ArrowUpRight size={13} className={cn("absolute right-1.5 top-1/2 -translate-y-1/2 drop-shadow-sm", hideArrowOnMobile && "max-sm:hidden")} aria-hidden />
-            </>
-          ) : showSales ? (
-            onSale ? (
-              <span className="inline-flex items-center gap-1.5 sm:gap-2.5">
-                {hasRating && (
-                  <span className="inline-flex items-center gap-1">
-                    <Star size={13} className="fill-current text-accent" aria-hidden />
-                    <strong className="font-bold tabular-nums text-text-primary">{sales!.starScore}</strong>
-                  </span>
-                )}
-                {hasRating && hasPrice && <span className="text-white/20" aria-hidden>|</span>}
-                {hasPrice && (
-                  <strong className="font-bold tabular-nums text-text-primary">
-                    {t("price", { price: number.format(sales!.salePrice!) })}
-                  </strong>
-                )}
+          <span className={cn(BOOK_PURCHASE_LABEL_STYLE, "shrink-0 text-[13px] font-semibold @min-[160px]/purchase:text-[15px]")}>
+            <span className="@min-[160px]/purchase:hidden">{tBuy("compact")}</span>
+            <span className="hidden @min-[160px]/purchase:inline">{tBuy("buy")}</span>
+          </span>
+          <span className="hidden items-center gap-2 border-s border-purchase-ink/30 ps-3 text-xs font-normal text-purchase-ink @min-[360px]/purchase:flex">
+            {links.map((link) => (
+              <span key={link.platform} className="whitespace-nowrap">
+                {AFFILIATE_PLATFORMS[link.platform].label}
               </span>
-            ) : (
-              <strong className="font-semibold text-text-primary">{t("changed")}</strong>
-            )
-          ) : null}
+            ))}
+          </span>
         </button>
       )}
-      {isOpen && (
-        <BookPurchaseModal sales={sales} links={links} onClose={() => setIsOpen(false)} tracking={{ contentId, editionId }} />
-      )}
-    </AnimatedHeight>
+      {isOpen && <BookPurchaseModal title={title} creator={creator} thumbnail={thumbnail} isbn={isbn} links={links} onClose={closeModal} tracking={{ contentId, editionId }} />}
+    </div>
   );
 }

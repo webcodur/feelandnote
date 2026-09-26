@@ -14,6 +14,23 @@
   --color-accent-rgb: 212, 175, 55;
   --color-accent-hover: #f9d76e; /* Bright Gold */
   --color-accent-dim: #8a732a; /* Dim Gold (for borders) */
+
+  /* 서점 구매 버튼 — 브랜드 그라데이션의 기준색과 대비되는 글자 */
+  --color-store-yes24: #2563eb;
+  --color-store-kyobo: #047857;
+  --color-store-coupang: #dc2626;
+  --color-store-aladin: #7c3aed;
+  --color-store-yes24-from: #087fa9;
+  --color-store-yes24-to: #3c2a9f;
+  --color-store-kyobo-from: #3b821e;
+  --color-store-kyobo-to: #006778;
+  --color-store-coupang-from: #c64d13;
+  --color-store-coupang-to: #a11242;
+  --color-store-aladin-from: #6332d0;
+  --color-store-aladin-to: #b02079;
+  --color-store-amazon: #ff9900;
+  --color-store-google-books: #1967d2;
+  --color-purchase-ink: #ffffff;
   
   /* Text Colors */
   --color-text-primary: #e0e0e0;
@@ -21,6 +38,9 @@
   /* 보조 설명·개수·빈 상태 문구. 기본 바탕 대비 약 4.7:1 — 읽히되 secondary보다 확실히 한 단계 흐리다 */
   --color-text-tertiary: #808080;
   --color-text-gold: #d4af37;
+
+  /* 현재 낭독 구간의 배경·밑줄. 본문의 인용·작품명 강조색과는 별개다. */
+  --color-reading-active: #6fe3a0;
 
   /* Border Colors */
   --color-border: #333333;

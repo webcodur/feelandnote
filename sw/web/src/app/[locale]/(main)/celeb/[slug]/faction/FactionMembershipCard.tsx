@@ -11,7 +11,7 @@
 "use client";
 
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronDown, ChevronUp, User } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -109,8 +109,7 @@ export default function FactionMembershipCard({
   const [descRef, descClipped] = useClipped(descExpanded, [locale, descText]);
   const [roleRef, roleClipped] = useClipped(roleExpanded, [locale]);
 
-  /* 개요 낭독 — 도감 페이지(FactionDescVoice)와 같은 조합이다. 접힌 미리보기는
-     줄임 유지를 위해 평문을 두고, 펼치면 재생 문장 강조·문장 눌러 재생으로 바뀐다 */
+  /* 접힌 미리보기와 펼친 본문은 같은 재생 문장을 강조한다. 읽는 위치가 가려져도 접힘은 유지한다. */
   const descVoice = useFactionDescVoice(faction.id, locale, descText);
   const narration = useReadingNarration(descVoice?.audioUrl ?? "");
   const descTiming = descVoice?.timing && narration.duration > 0
@@ -121,12 +120,6 @@ export default function FactionMembershipCard({
   /* 짧은 개요(잘림 없음)는 펼칠 이유가 없으니 문장 강조·문장 눌러 재생을 곧바로 둔다 —
      긴 개요만 접힌 미리보기를 지키고 「더 보기」 뒤에 강조 본문을 연다 */
   const showVoiceText = !!(descVoice && (descExpanded || !descClipped));
-  /* 재생이 시작되면 잘린 긴 개요를 펼친다 — 접힌 본문에는 재생 강조가 닿지 않아
-     소리만 나고 글이 안 따라오는 사각이 생긴다 */
-  const narrActive = narration.status === "playing" || narration.status === "loading";
-  useEffect(() => {
-    if (narrActive && descClipped) setDescExpanded(true);
-  }, [narrActive, descClipped]);
 
   const memberRole = (celeb: FeaturedCeleb) =>
     ((isEn ? celeb.short_desc_en : celeb.short_desc) ??
@@ -167,8 +160,7 @@ export default function FactionMembershipCard({
                   !descExpanded && "line-clamp-3",
                 )}
               >
-                {/* 강조 본문은 펼침 뒤(긴 개요) 또는 처음부터(잘리지 않는 짧은 개요) — 접힌 긴 미리보기는 평문이라 line-clamp가 그대로 먹는다 */}
-                {showVoiceText ? (
+                {showVoiceText && (
                   <ReadingHighlightText
                     text={descText}
                     mark={descMark}
@@ -176,7 +168,9 @@ export default function FactionMembershipCard({
                     onPlayFrom={playFrom}
                     sentenceLabel={t("readingPlayFromHere")}
                   />
-                ) : (
+                )}
+                {!showVoiceText && descVoice && <FormattedText text={descText} mark={descMark} />}
+                {!showVoiceText && !descVoice && (
                   descParagraphs.map((paragraph, index) => (
                     <p key={index}>
                       <FormattedText text={paragraph} />

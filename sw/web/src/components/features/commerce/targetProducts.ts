@@ -32,15 +32,6 @@ export const TARGET_PRODUCTS: TargetProductMatch[] = [
     },
   },
   {
-    timelineKey: 'music/media', eraId: 'lp_vinyl', label: "비틀즈 Sgt. Pepper's (1967)",
-    product: {
-      id: 'sgt-pepper', name: "Sgt. Pepper’s Lonely Hearts Club Band",
-      imageUrl: 'https://thumbnail.coupangcdn.com/thumbnails/remote/640x640ex/image/vendor_inventory/7d4b/b92bb472e4c9f290f83a83e08e5cff5212dbd3393f9125a0c13e576d9826.png',
-      productUrl: 'https://www.coupang.com/vp/products/7362671012?itemId=18972779700&vendorItemId=86098316206',
-      format: 'LP · 발매 50주년 기념반', variant: 'caption', checkedAt: '2026-09-14',
-    },
-  },
-  {
     timelineKey: 'game/graphics', eraId: 'seamless_openworld', label: '젤다: 야생의 숨결 (2017)',
     product: {
       id: 'breath-of-the-wild', name: '젤다의 전설 브레스 오브 더 와일드',
@@ -66,9 +57,32 @@ const NINTENDO_CREATORS = new Set([
   normalizeGameText('Nintendo Entertainment Planning & Development'),
 ])
 
+const MARIO_KART_8_DELUXE_TITLES = new Set([
+  normalizeGameText('마리오 카트 8 디럭스'),
+  normalizeGameText('Mario Kart 8 Deluxe'),
+])
+
+const MARIO_KART_8_DELUXE_PRODUCT: TargetProductData = {
+  id: 'mario-kart-8-deluxe', name: '마리오 카트 8 디럭스',
+  imageUrl: 'https://thumbnail.coupangcdn.com/thumbnails/remote/640x640ex/image/1025_amir_coupang_oct_80k/687e/c5722f17c343d92b13c68a40a65b9b90b61c6254e5ef306cf346aa6ac938.jpg',
+  productUrl: 'https://www.coupang.com/vp/products/8224657857?itemId=18457463538&vendorItemId=3519201755',
+  format: 'Nintendo Switch · 한국어 본편 패키지', variant: 'compact', checkedAt: '2026-09-26',
+}
+
 /** 검색 결과가 아니라 현재 확인한 상품만 작품 카드에서 직접 연결한다. */
-export function getVerifiedGameProduct({ title, creator }: { title: string; creator?: string | null }) {
+export function getVerifiedGameProduct(
+  { title, creator, contentId }: { title: string; creator?: string | null; contentId?: string },
+  { includePreview = false }: { includePreview?: boolean } = {},
+) {
   const normalizedCreator = normalizeGameText(creator)
+  // 쿠팡 제휴 승인 전 상품이다. 개발자 화면만 이 미리보기를 요청한다.
+  if (
+    includePreview
+    && MARIO_KART_8_DELUXE_TITLES.has(normalizeGameText(title))
+    && NINTENDO_CREATORS.has(normalizedCreator)
+    && (!contentId || contentId === '76101e55-6bef-4f8c-a8c1-953801d1eafa')
+  ) return MARIO_KART_8_DELUXE_PRODUCT
+
   if (
     BREATH_OF_THE_WILD_TITLES.has(normalizeGameText(title))
     && (!normalizedCreator || NINTENDO_CREATORS.has(normalizedCreator))

@@ -1,6 +1,6 @@
 /*
   파일명: /hooks/useMouseDragScroll.ts
-  기능: 가로 목록을 마우스로 잡아끌어 넘긴다
+  기능: 가로·세로 목록을 마우스로 잡아끌어 넘긴다
   책임: 마우스 끌기, 놓은 뒤 미끄러짐, 끈 직후 클릭 막기를 한곳에 둔다.
         터치는 손대지 않는다 — 브라우저 기본 스크롤이어야 관성이 붙어 부드럽다.
         규칙과 경위는 ui-rail 스킬이 쥔다.
@@ -14,27 +14,32 @@ interface DragState {
   pointerId: number;
   startX: number;
   startY: number;
-  startScrollLeft: number;
+  startScroll: number;
   dragging: boolean;
   /* 손을 뗀 뒤 이어 미끄러질 속도(px/ms)를 재려고 마지막 움직임을 기억한다 */
-  lastX: number;
+  lastPosition: number;
   lastTime: number;
   velocity: number;
 }
 
-/** 이만큼 옆으로 움직여야 끌기로 본다. 그 전까지는 클릭이다 */
+/** 선택한 축으로 이만큼 움직여야 끌기로 본다. 그 전까지는 클릭이다 */
 const DRAG_THRESHOLD_PX = 6;
 /** 미끄러짐이 1ms마다 남기는 속도 비율 — 작을수록 빨리 멈춘다 */
 const GLIDE_FRICTION = 0.995;
 /** 마지막 움직임 뒤 이보다 오래 멈췄다 놓으면 미끄러지지 않는다 */
 const GLIDE_RELEASE_MS = 80;
 
-export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
+export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>(axis: "x" | "y" = "x") {
   const ref = useRef<T>(null);
   const dragRef = useRef<DragState | null>(null);
   const glideFrameRef = useRef<number | null>(null);
   const suppressClickRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
+
+  const scrollPosition = (el: T) => axis === "x" ? el.scrollLeft : el.scrollTop;
+  const maxScroll = (el: T) => axis === "x" ? el.scrollWidth - el.clientWidth : el.scrollHeight - el.clientHeight;
+  const setScroll = (el: T, value: number) => { if (axis === "x") el.scrollLeft = value; else el.scrollTop = value; };
+  const pointerPosition = (event: PointerEvent<T>) => axis === "x" ? event.clientX : event.clientY;
 
   const stopGlide = () => {
     if (glideFrameRef.current !== null) cancelAnimationFrame(glideFrameRef.current);
@@ -47,17 +52,17 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
 
   /* 끌다 놓으면 손 속도대로 조금 더 미끄러지다 멈춘다 — 그 자리에 뚝 서면 둔탁하다 */
   const glide = (el: T, pointerVelocity: number) => {
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    let position = el.scrollLeft;
+    const limit = maxScroll(el);
+    let position = scrollPosition(el);
     let velocity = -pointerVelocity;
     let lastTime = performance.now();
     const step = (now: number) => {
       const elapsed = now - lastTime;
       lastTime = now;
-      position = Math.min(maxScroll, Math.max(0, position + velocity * elapsed));
-      el.scrollLeft = position;
+      position = Math.min(limit, Math.max(0, position + velocity * elapsed));
+      setScroll(el, position);
       velocity *= GLIDE_FRICTION ** elapsed;
-      const atEdge = position <= 0 || position >= maxScroll;
+      const atEdge = position <= 0 || position >= limit;
       glideFrameRef.current = Math.abs(velocity) > 0.02 && !atEdge ? requestAnimationFrame(step) : null;
     };
     glideFrameRef.current = requestAnimationFrame(step);
@@ -71,13 +76,14 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
        움직였다는 이유로 끌기 판정에 삼켜지지 않게. 칸 안의 조작부는 data-no-drag를 단다 */
     if (event.target instanceof HTMLElement && event.target.closest("[data-no-drag]")) return;
     stopGlide();
+    if (maxScroll(el) <= 0) return;
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      startScrollLeft: el.scrollLeft,
+      startScroll: scrollPosition(el),
       dragging: false,
-      lastX: event.clientX,
+      lastPosition: pointerPosition(event),
       lastTime: event.timeStamp,
       velocity: 0,
     };
@@ -91,11 +97,14 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
     if (!drag.dragging) {
       const deltaX = event.clientX - drag.startX;
       const deltaY = event.clientY - drag.startY;
-      if (Math.abs(deltaX) < DRAG_THRESHOLD_PX || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+      const distance = axis === "x" ? Math.abs(deltaX) : Math.abs(deltaY);
+      const crossDistance = axis === "x" ? Math.abs(deltaY) : Math.abs(deltaX);
+      if (distance < DRAG_THRESHOLD_PX || distance <= crossDistance) return;
       drag.dragging = true;
       /* 끌기로 판정한 지점을 새 기준으로 삼는다 — 문턱만큼 한 번에 건너뛰지 않게 */
       drag.startX = event.clientX;
-      drag.lastX = event.clientX;
+      drag.startY = event.clientY;
+      drag.lastPosition = pointerPosition(event);
       drag.lastTime = event.timeStamp;
       suppressClickRef.current = true;
       setIsDragging(true);
@@ -103,10 +112,11 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>() {
     }
 
     event.preventDefault();
-    el.scrollLeft = drag.startScrollLeft - (event.clientX - drag.startX);
+    const position = pointerPosition(event);
+    setScroll(el, drag.startScroll - (position - (axis === "x" ? drag.startX : drag.startY)));
     const elapsed = event.timeStamp - drag.lastTime;
-    if (elapsed > 0) drag.velocity = 0.8 * ((event.clientX - drag.lastX) / elapsed) + 0.2 * drag.velocity;
-    drag.lastX = event.clientX;
+    if (elapsed > 0) drag.velocity = 0.8 * ((position - drag.lastPosition) / elapsed) + 0.2 * drag.velocity;
+    drag.lastPosition = position;
     drag.lastTime = event.timeStamp;
   };
 

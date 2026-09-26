@@ -53,7 +53,7 @@ export function emphasisClassName(matched: string, highlightClassName?: string):
   ) {
     return highlightClassName ? `font-medium ${highlightClassName}` : "font-serif text-accent";
   }
-  // 용어는 이름·정의 두 톤이라 조각 강조를 지원하지 않는다 — 문장을 가르는 일이 없어 방어하지 않는다
+  // 용어는 이름·정의 굵기를 나눠야 해서 조각 강조를 지원하지 않는다 — 문장을 가르는 일이 없어 방어하지 않는다
   return undefined;
 }
 
@@ -233,12 +233,15 @@ export default function FormattedText({
 
         const emit = (value: string, marked: boolean, key: string) =>
           value ? (
-            marked ? (
-              <mark key={key} className="rounded-sm bg-[#3dff7a]/10 text-[#3dff7a] [box-decoration-break:clone]" aria-current="true">{lines(value, key)}</mark>
-            ) : (
-              // 강조 스타일은 인용 조각에만 얹는다 — 일반 글자에 그라디언트가 깔리면 배경 네모가 된다
-              <span key={key} className={partClass} style={partClass && highlightClassName ? highlightStyle : undefined}>{lines(value, key)}</span>
-            )
+            // 원래 글자색·굵기는 그대로 두고 현재 읽는 구간에만 초록 배경·밑줄을 더한다.
+            <span key={key} className={partClass} style={partClass && highlightClassName ? highlightStyle : undefined}>
+              {marked && (
+                <mark className="rounded-sm bg-reading-active/10 text-inherit underline decoration-reading-active/70 decoration-1 underline-offset-4 [box-decoration-break:clone]" aria-current="true">
+                  {lines(value, key)}
+                </mark>
+              )}
+              {!marked && lines(value, key)}
+            </span>
           ) : null;
 
         const localStart = mark ? Math.max(0, mark.start - partStart) : 0;

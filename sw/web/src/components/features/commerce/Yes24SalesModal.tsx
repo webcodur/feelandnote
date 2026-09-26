@@ -66,10 +66,12 @@ export default function Yes24SalesModal({ contentId, editionId, isbn, yes24Href,
   return (
     <Modal isOpen onClose={onClose} title={t("label")} size="sm">
       <ModalBody className="space-y-4 p-4 sm:p-5">
-        <p className="flex items-start gap-2 rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-3 py-2 text-xs leading-relaxed text-text-secondary">
-          <Info size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-          {onSale ? t("notice") : t("changedNotice")}
-        </p>
+        {!onSale && (
+          <p className="flex items-start gap-2 rounded-md border border-accent-dim/40 bg-bg-secondary/60 px-3 py-2 text-xs leading-relaxed text-text-secondary">
+            <Info size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+            {t("changedNotice")}
+          </p>
+        )}
 
         <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-sm">
           {facts.map((fact) => (

@@ -53,7 +53,7 @@ function ShelfWork({ work, index, isKo }: { work: RankingShelfWork; index: numbe
         showHeader={false}
         posterFooterNode={
           !isKo ? undefined
-            : work.type === "BOOK" ? <BookPurchaseSummary contentId={work.contentId} title={work.title} creator={work.creator} full />
+            : work.type === "BOOK" ? <BookPurchaseSummary contentId={work.contentId} title={work.title} creator={work.creator} thumbnail={work.thumbnail} full />
             : <WorkPurchaseAction target={{ title: work.title, creator: work.creator, contentId: work.contentId, type: work.type }} />
         }
         overlayTopLeft={

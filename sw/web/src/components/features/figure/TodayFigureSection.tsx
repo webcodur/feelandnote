@@ -238,6 +238,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                                         contentId={content.id}
                                         title={localized.title}
                                         creator={localized.creator}
+                                        thumbnail={content.thumbnail_url}
                                         affiliateUrl={content.affiliate_url}
                                     />
                                 )}

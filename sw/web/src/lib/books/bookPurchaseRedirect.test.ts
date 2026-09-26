@@ -6,7 +6,7 @@ import ts from 'typescript'
 import * as redirects from './bookPurchaseRedirect'
 import { isYes24PurchaseRequest } from './yes24Purchase'
 import { getBookPurchaseHref } from './bookPurchaseHref'
-import { BOOK_PURCHASE_REDIRECT_HEADERS, coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED, resolveBookPurchaseRedirect, resolveCoupangPurchaseRedirect, resolveKyoboPurchaseRedirect, type BookPurchaseRecord } from './bookPurchaseRedirect'
+import { aladinBookLink, BOOK_PURCHASE_REDIRECT_HEADERS, coupangBookLink, isAffiliatePurchaseLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED, resolveAladinPurchaseRedirect, resolveBookPurchaseRedirect, resolveCoupangPurchaseRedirect, resolveKyoboPurchaseRedirect, type BookPurchaseRecord } from './bookPurchaseRedirect'
 
 const id = 'c53aab37-7ed8-42b6-9f06-929b8825c006'
 const record: BookPurchaseRecord = { contentId: id, type: 'BOOK', locale: 'ko' }
@@ -19,6 +19,7 @@ test('purchase href keeps edition identity and response must never be cached or 
   assert.equal(getBookPurchaseHref(id, undefined, 'yes24'), `/api/books/purchase/${id}?seller=yes24`)
   assert.equal(getBookPurchaseHref(id, 23, 'kyobo'), `/api/books/purchase/${id}?editionId=23&seller=kyobo`)
   assert.equal(getBookPurchaseHref(id, 23, 'coupang'), `/api/books/purchase/${id}?editionId=23&seller=coupang`)
+  assert.equal(getBookPurchaseHref(id, 23, 'aladin'), `/api/books/purchase/${id}?editionId=23&seller=aladin`)
   assert.match(BOOK_PURCHASE_REDIRECT_HEADERS['Cache-Control'], /no-store/)
   assert.equal(BOOK_PURCHASE_REDIRECT_HEADERS['X-Robots-Tag'], 'noindex, nofollow')
 })
@@ -73,12 +74,16 @@ test('kyobo link wraps the bookstore barcode product URL in the LinkPrice gatewa
   assert.equal(kyoboBookLink({ isbn: 'invalid-isbn' }), null)
 })
 
-test('coupang link wraps the ISBN-or-title search URL in the LinkPrice gateway once approved', () => {
+test('coupang link serves a plain search URL while pending and the LinkPrice gateway once approved', () => {
   const withIsbn = coupangBookLink({ isbn: '9788966260959', title: '클린 코드' })!
   const searched = coupangBookLink({ title: '기억 & 기록', creator: '작가 이름' })!
+  assert.equal(withIsbn.linkKind, 'search')
   if (!LINKPRICE_COUPANG_APPROVED) {
-    // 머천트 승인대기 — 아래 형태 검증은 승인 후 플래그를 켤 때 스스로 살아난다
-    assert.equal(LINKPRICE_COUPANG_APPROVED, false)
+    const plain = new URL(withIsbn.url)
+    assert.equal(plain.hostname, 'www.coupang.com')
+    assert.equal(plain.pathname, '/np/search')
+    assert.equal(plain.searchParams.get('q'), '9788966260959')
+    assert.equal(new URL(searched.url).searchParams.get('q'), '기억 & 기록 작가 이름')
     return
   }
   const product = new URL(withIsbn.url)
@@ -89,16 +94,34 @@ test('coupang link wraps the ISBN-or-title search URL in the LinkPrice gateway o
   assert.equal(destination.hostname, 'www.coupang.com')
   assert.equal(destination.pathname, '/np/search')
   assert.equal(destination.searchParams.get('q'), '9788966260959')
-  assert.equal(withIsbn.linkKind, 'search')
   assert.equal(new URL(new URL(searched.url).searchParams.get('tu')!).searchParams.get('q'), '기억 & 기록 작가 이름')
   assert.equal(coupangBookLink({}), null)
 })
 
-test('coupang redirect holds the content page while the merchant approval is pending', () => {
+test('aladin link resolves ISBN to the bookstore product page, else title search', () => {
+  const product = aladinBookLink({ isbn: '9788966260959', title: '클린 코드' })!
+  const productUrl = new URL(product.url)
+  assert.equal(productUrl.hostname, 'www.aladin.co.kr')
+  assert.equal(productUrl.pathname, '/shop/wproduct.aspx')
+  assert.equal(productUrl.searchParams.get('ISBN'), '9788966260959')
+  assert.equal(product.linkKind, undefined)
+  const searched = aladinBookLink({ title: '기억 & 기록', creator: '작가 이름' })!
+  const searchUrl = new URL(searched.url)
+  assert.equal(searchUrl.hostname, 'www.aladin.co.kr')
+  assert.equal(searchUrl.pathname, '/search/wsearchresult.aspx')
+  assert.equal(searchUrl.searchParams.get('SearchWord'), '기억 & 기록 작가 이름')
+  assert.equal(searched.linkKind, 'search')
+  assert.equal(aladinBookLink({}), null)
+})
+
+test('coupang redirect reaches the search page while pending and the gateway once approved', () => {
   const withIsbn = { ...record, editionId: 2, isbn: '9791158881931', title: 'HHhH' }
   const target = resolveCoupangPurchaseRedirect(id, 2, withIsbn)!
   if (!LINKPRICE_COUPANG_APPROVED) {
-    assert.equal(target, `/content/${id}?category=book`)
+    const plain = new URL(target)
+    assert.equal(plain.hostname, 'www.coupang.com')
+    assert.equal(plain.pathname, '/np/search')
+    assert.equal(plain.searchParams.get('q'), '9791158881931')
   } else {
     const gateway = new URL(target)
     assert.equal(gateway.searchParams.get('m'), 'coupang')
@@ -106,6 +129,26 @@ test('coupang redirect holds the content page while the merchant approval is pen
   }
   assert.equal(resolveCoupangPurchaseRedirect(id, undefined, { ...record, contentId: 'other' }), null)
   assert.equal(resolveCoupangPurchaseRedirect(id, undefined, record), `/content/${id}?category=book`)
+})
+
+test('aladin redirect resolves the stored ISBN to the product page without a commission', () => {
+  const withIsbn = { ...record, editionId: 2, isbn: '9791158881931', title: 'HHhH' }
+  const target = new URL(resolveAladinPurchaseRedirect(id, 2, withIsbn)!)
+  assert.equal(target.hostname, 'www.aladin.co.kr')
+  assert.equal(target.searchParams.get('ISBN'), '9791158881931')
+  assert.equal(resolveAladinPurchaseRedirect(id, undefined, { ...record, contentId: 'other' }), null)
+  assert.equal(resolveAladinPurchaseRedirect(id, undefined, record), `/content/${id}?category=book`)
+})
+
+test('affiliate flag follows the actual commission, not the store name', () => {
+  assert.equal(isAffiliatePurchaseLink({ platform: 'kyobo', url: 'https://linkmoa.kr/click.php?m=kbbook&a=A100707726' }), true)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'amazon', url: 'https://www.amazon.com/s?k=x' }), true)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'yes24', url: 'https://apis.yes24.com/a/key/goods/1' }), true)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'yes24', url: 'https://www.yes24.com/Product/Search?query=x' }), false)
+  const coupangSearch = coupangBookLink({ isbn: '9791158881931' })!
+  assert.equal(isAffiliatePurchaseLink(coupangSearch), LINKPRICE_COUPANG_APPROVED)
+  assert.equal(isAffiliatePurchaseLink(aladinBookLink({ isbn: '9791158881931' })!), false)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'aladin', url: 'https://www.aladin.co.kr/shop/wproduct.aspx?ISBN=1' }), false)
 })
 
 test('kyobo redirect uses the stored edition ISBN and falls back to the content page without identifiers', () => {
@@ -179,13 +222,15 @@ test('GET seller=kyobo resolves the stored ISBN to the LinkPrice Kyobo URL witho
   f.rows.figure_book_editions = { id: 2, content_id: 'other-content', locale: 'ko', isbn: '9791158881931' }
   assert.equal((await f.read('?editionId=2&seller=kyobo')).status, 400)
 })
-test('GET seller=coupang accepts the seller param and resolves to search while pending approval', async () => {
+test('GET seller=coupang resolves to the search page while pending and the gateway once approved', async () => {
   const f = routeFixture()
   const response = await f.read('?seller=coupang')
   assert.equal(response.status, 307)
   const location = new URL(response.headers.get('location')!, 'http://localhost')
   if (!LINKPRICE_COUPANG_APPROVED) {
-    assert.equal(location.pathname, `/content/${id}`)
+    assert.equal(location.hostname, 'www.coupang.com')
+    assert.equal(location.pathname, '/np/search')
+    assert.equal(location.searchParams.get('q'), '9788966260959')
   } else {
     assert.equal(location.hostname, 'linkmoa.kr')
     assert.equal(location.searchParams.get('m'), 'coupang')
@@ -193,6 +238,19 @@ test('GET seller=coupang accepts the seller param and resolves to search while p
   }
   f.rows.figure_book_editions = { id: 2, content_id: 'other-content', locale: 'ko', isbn: '9791158881931' }
   assert.equal((await f.read('?editionId=2&seller=coupang')).status, 400)
+})
+test('GET seller=aladin resolves the stored ISBN to the plain bookstore product page', async () => {
+  const f = routeFixture()
+  const response = await f.read('?seller=aladin')
+  assert.equal(response.status, 307)
+  const location = new URL(response.headers.get('location')!)
+  assert.equal(location.hostname, 'www.aladin.co.kr')
+  assert.equal(location.pathname, '/shop/wproduct.aspx')
+  assert.equal(location.searchParams.get('ISBN'), '9788966260959')
+  const edition = await f.read('?editionId=2&seller=aladin')
+  assert.equal(new URL(edition.headers.get('location')!).searchParams.get('ISBN'), '9791158881931')
+  f.rows.figure_book_editions = { id: 2, content_id: 'other-content', locale: 'ko', isbn: '9791158881931' }
+  assert.equal((await f.read('?editionId=2&seller=aladin')).status, 400)
 })
 test('GET uses exact stored edition filters, returns non-indexable no-store 307, and rejects ownership mismatch', async () => {
   const f = routeFixture()

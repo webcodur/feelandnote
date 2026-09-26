@@ -25,7 +25,7 @@ interface AutoScrollReadingTextProps {
   text: string;
   /** 문장 타이밍 — 재생 문장 강조·읽기 위치 계산·눌러 그 시점부터 재생에 쓴다 */
   segments?: ReadingSegment[] | null;
-  /** 낭독 상태(idle·loading·playing·paused) — 재생 중에만 자동 스크롤이 쪽을 끈다 */
+  /** 재생 중에는 문장을 따라가고, 일시정지 중에는 열기·위치 탐색 때만 맞춘다 */
   status: string;
   /** 재생 위치(초) — 문장 안쪽 진행률로 읽기 위치를 잇는다 */
   currentTime: number;
@@ -43,7 +43,7 @@ const findScroller = (el: HTMLElement): HTMLElement | null => {
   let node = el.parentElement;
   while (node) {
     const overflowY = getComputedStyle(node).overflowY;
-    if ((overflowY === "auto" || overflowY === "scroll") && node.scrollHeight > node.clientHeight) return node;
+    if (overflowY === "auto" || overflowY === "scroll") return node;
     node = node.parentElement;
   }
   return null;
@@ -55,7 +55,9 @@ export default function AutoScrollReadingText({
   const selfRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [parentScroller, setParentScroller] = useState<HTMLElement | null>(null);
+  const [layoutVersion, setLayoutVersion] = useState(0);
   const userHoldUntil = useRef(0);
+  const lastPosition = useRef<{ scroller: HTMLElement; text: string; time: number; layout: number } | null>(null);
 
   /* parent 모드 — 마운트되면 모달 본문 같은 가장 가까운 스크롤 조상을 찾아 단다 */
   useLayoutEffect(() => {
@@ -73,9 +75,16 @@ export default function AutoScrollReadingText({
      읽기 위치 = 강조 문장의 맨 위 + (문장 높이 × 문장 안 재생 진행률) — 서재탐방의 readPos.
      그 위치가 아래 3줄에 닿거나 위로 벗어나면 위쪽 2줄 자리로 부드럽게 민다. */
   useLayoutEffect(() => {
-    if (!playing || !active) return;
+    if (!active) return;
     const scroller = viewport === "parent" ? parentScroller : selfRef.current;
-    if (!scroller || Date.now() < userHoldUntil.current) return;
+    if (!scroller || !scroller.clientHeight) return;
+    const previous = lastPosition.current;
+    const changed = previous?.scroller !== scroller || previous.text !== text
+      || previous.time !== currentTime || previous.layout !== layoutVersion;
+    // 일시정지한 채 열거나 탐색해도 현재 문장으로 간다. 이후 손으로 읽는 위치는 건드리지 않는다.
+    if (!playing && !changed) return;
+    lastPosition.current = { scroller, text, time: currentTime, layout: layoutVersion };
+    if (Date.now() < userHoldUntil.current) return;
     const marks = contentRef.current?.querySelectorAll<HTMLElement>('mark[aria-current="true"]');
     if (!marks?.length) return;
     const first = marks[0].getBoundingClientRect();
@@ -93,19 +102,24 @@ export default function AutoScrollReadingText({
     if (readPos < visibleTop || readPos > visibleBottom - lineH * BTM_LINES) {
       scroller.scrollTo({
         top: Math.max(0, Math.min(readPos - lineH * TOP_LINES, scroller.scrollHeight - scroller.clientHeight)),
-        behavior: "smooth",
+        behavior: !previous || !playing ? "instant" : "smooth",
       });
     }
-  }, [currentTime, playing, active, viewport, parentScroller]);
+  }, [text, currentTime, playing, active, viewport, parentScroller, layoutVersion]);
 
   /* 사용자가 직접 스크롤하면 잠시 자동 스크롤을 쉰다 */
   useEffect(() => {
     const target = viewport === "parent" ? parentScroller : selfRef.current;
     if (!target) return;
+    // 모달이 열리거나 글꼴·창 크기가 바뀌어 높이가 정해진 뒤에도 현재 위치를 맞춘다.
+    const observer = new ResizeObserver(() => setLayoutVersion((version) => version + 1));
+    observer.observe(target);
+    if (contentRef.current) observer.observe(contentRef.current);
     const hold = () => { userHoldUntil.current = Date.now() + USER_SCROLL_HOLD_MS; };
     target.addEventListener("wheel", hold, { passive: true });
     target.addEventListener("touchmove", hold, { passive: true });
     return () => {
+      observer.disconnect();
       target.removeEventListener("wheel", hold);
       target.removeEventListener("touchmove", hold);
     };

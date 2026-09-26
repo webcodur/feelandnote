@@ -19,6 +19,8 @@ export type TrackEventName =
   | "celeb_person_go"
   /** 인물 음성을 재생했다 */
   | "celeb_voice_play"
+  /** 서점 선택창을 열었다 — 외부 서점으로 나간 클릭과 구별한다 */
+  | "commerce_open"
   /** 상품·구매 연결을 눌렀다 — 어느 화면·대상·상품에서 클릭이 나는지 판별.
    *  노출 수와 클릭 수를 매출처럼 보지 않는다. 실매출은 제휴 대시보드에서 대조한다 */
   | "commerce_click";

@@ -5,7 +5,6 @@ import { getYes24PurchaseLink } from "@/actions/contents/getYes24PurchaseLink";
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
-import { LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
 import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
 
 const LINK_TTL_MS = 5 * 60 * 1000;
@@ -94,15 +93,20 @@ export function useBookPurchaseLinks({
     ?? (isYes24PurchaseRequest(contentId, locale, editionId)
       ? { platform: "kyobo" as const, url: getBookPurchaseHref(contentId, editionId, "kyobo") }
       : null);
-  // 쿠팡 — 링크프라이스 승인 전까지 만들지 않는다
+  // 쿠팡·알라딘 — 머천트 승인을 기다리는 동안은 수수료 없는 일반 링크로 먼저 선다
   const coupang = links.find((link) => link.platform === "coupang")
-    ?? (LINKPRICE_COUPANG_APPROVED && isYes24PurchaseRequest(contentId, locale, editionId)
+    ?? (isYes24PurchaseRequest(contentId, locale, editionId)
       ? { platform: "coupang" as const, url: getBookPurchaseHref(contentId, editionId, "coupang") }
+      : null);
+  const aladin = links.find((link) => link.platform === "aladin")
+    ?? (isYes24PurchaseRequest(contentId, locale, editionId)
+      ? { platform: "aladin" as const, url: getBookPurchaseHref(contentId, editionId, "aladin") }
       : null);
   return [
     ...(yes24 ? [yes24] : []),
     ...(kyobo ? [kyobo] : []),
     ...(coupang ? [coupang] : []),
-    ...links.filter((link) => link.platform !== "kyobo" && link.platform !== "coupang"),
+    ...(aladin ? [aladin] : []),
+    ...links.filter((link) => link.platform !== "kyobo" && link.platform !== "coupang" && link.platform !== "aladin"),
   ];
 }

@@ -4,7 +4,7 @@ import { memo } from "react";
 
 import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_BUTTON_STYLES } from "@/constants/affiliatePlatforms";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
-import { coupangBookLink, kyoboBookLink, LINKPRICE_COUPANG_APPROVED } from "@/lib/books/bookPurchaseRedirect";
+import { aladinBookLink, coupangBookLink, isAffiliatePurchaseLink, kyoboBookLink } from "@/lib/books/bookPurchaseRedirect";
 import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
 import Yes24Sales from "@/components/features/commerce/Yes24Sales";
 import { cn } from "@/lib/utils";
@@ -39,15 +39,17 @@ function AffiliateBookAction({
   const kyobo = isYes24PurchaseRequest(contentId, "ko", editionId)
     ? { platform: "kyobo" as const, url: getBookPurchaseHref(contentId, editionId, "kyobo") }
     : kyoboBookLink({ isbn: salesIsbn });
-  /* 쿠팡 — 저장 링크가 있으면 그것, 없으면 링크프라이스 승인 후 같은 규칙(경유 또는 ISBN 검색)으로 잇는다 */
+  /* 쿠팡·알라딘 — 머천트 승인을 기다리는 동안은 수수료 없는 일반 링크로 먼저 선다.
+     우리 작품은 경유가 저장 ISBN을 풀고, 차트 항목은 차트가 준 ISBN으로 곧바로 잇는다 */
   const coupang = coupangUrl && coupangUrl.startsWith("https://")
     ? { platform: "coupang" as const, url: coupangUrl }
-    : LINKPRICE_COUPANG_APPROVED
-      ? isYes24PurchaseRequest(contentId, "ko", editionId)
-        ? { platform: "coupang" as const, url: getBookPurchaseHref(contentId, editionId, "coupang") }
-        : coupangBookLink({ isbn: salesIsbn })
-      : null;
-  const sellers = 1 + (kyobo ? 1 : 0) + (coupang ? 1 : 0);
+    : isYes24PurchaseRequest(contentId, "ko", editionId)
+      ? { platform: "coupang" as const, url: getBookPurchaseHref(contentId, editionId, "coupang") }
+      : coupangBookLink({ isbn: salesIsbn });
+  const aladin = isYes24PurchaseRequest(contentId, "ko", editionId)
+    ? { platform: "aladin" as const, url: getBookPurchaseHref(contentId, editionId, "aladin") }
+    : aladinBookLink({ isbn: salesIsbn });
+  const sellers = 1 + (kyobo ? 1 : 0) + (coupang ? 1 : 0) + (aladin ? 1 : 0);
   const radius = compact ? "rounded-md" : "rounded-lg";
   /* 판매처가 둘 이상이면 한 틀을 세로선으로 가르지 않고 틈을 둔 낱개 칩으로 띄운다 — 칩마다 판매처 색 테두리가 선다.
      수수료 안내(ⓘ)는 단추 안에 묻지 않고 구획 머리말에 둔다(BookPurchaseInfo) */
@@ -63,7 +65,7 @@ function AffiliateBookAction({
       <div className={cn(
         "relative grid",
         sellers > 1
-          ? ["gap-1", sellers > 2 ? "grid-cols-3" : "grid-cols-2"]
+          ? ["gap-1", sellers === 3 ? "grid-cols-3" : "grid-cols-2"]
           : ["grid-cols-1 overflow-hidden border border-white/15", radius],
       )}>
         <a
@@ -91,11 +93,22 @@ function AffiliateBookAction({
           <a
             href={coupang.url}
             target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
+            rel={isAffiliatePurchaseLink(coupang) ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
             onClick={(event) => event.stopPropagation()}
             className={cn(buttonClass, BOOK_PURCHASE_BUTTON_STYLES.coupang)}
           >
             {AFFILIATE_PLATFORMS.coupang.label}
+          </a>
+        )}
+        {aladin && (
+          <a
+            href={aladin.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(event) => event.stopPropagation()}
+            className={cn(buttonClass, BOOK_PURCHASE_BUTTON_STYLES.aladin)}
+          >
+            {AFFILIATE_PLATFORMS.aladin.label}
           </a>
         )}
       </div>

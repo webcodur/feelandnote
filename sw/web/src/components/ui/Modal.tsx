@@ -21,6 +21,8 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   title?: string;
+  /** 보이는 머리말 없이 여는 이미지 창 등의 접근성 이름 */
+  ariaLabel?: string;
   titleClassName?: string;
   titleStyle?: CSSProperties;
   /** 제목 오른쪽에 붙는 보조 조작 — 인물 상세로 가는 화살표 같은 링크·버튼 */
@@ -78,6 +80,7 @@ export default function Modal({
   onClose,
   children,
   title,
+  ariaLabel,
   titleClassName,
   titleStyle,
   titleAction,
@@ -210,7 +213,7 @@ export default function Modal({
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
-          aria-label={title}
+          aria-label={ariaLabel ?? title}
           ref={boxRef}
           tabIndex={-1}
         >
@@ -222,7 +225,7 @@ export default function Modal({
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
-          aria-label={title}
+          aria-label={ariaLabel ?? title}
           ref={boxRef}
           tabIndex={-1}
         >

@@ -8,9 +8,11 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "@/components/ui/Modal";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
+import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
 import type { ReadingSegment } from "@/lib/reading-timing";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -24,10 +26,15 @@ interface VirtualMonologueModalProps {
   /** 문장 타이밍 — 주면 문장을 눌러 그 시점부터 재생한다 */
   segments?: ReadingSegment[] | null;
   onPlayFrom?: (seconds: number) => void;
+  /** 바깥 미리보기와 같은 재생 상태·조작을 받는다. 모달은 음원을 따로 만들지 않는다. */
+  status?: string;
+  currentTime?: number;
+  notice?: ReactNode;
 }
 
-export default function VirtualMonologueModal({ text, onClose, nested = false, mark, segments, onPlayFrom }: VirtualMonologueModalProps) {
+export default function VirtualMonologueModal({ text, onClose, nested = false, mark, segments, onPlayFrom, status, currentTime = 0, notice }: VirtualMonologueModalProps) {
   const t = useTranslations("celebPage");
+  const followsNarration = status !== undefined && !!segments?.length;
 
   return (
     <Modal
@@ -43,8 +50,18 @@ export default function VirtualMonologueModal({ text, onClose, nested = false, m
       escapeCapture={nested}
     >
       <ModalBody className="p-4 sm:p-6">
+        {notice}
         <ContentReadingText size="modal" className="space-y-4">
-          <ReadingHighlightText text={text} mark={mark} segments={segments} onPlayFrom={onPlayFrom} sentenceLabel={t("readingPlayFromHere")} />
+          {followsNarration && (
+            <AutoScrollReadingText
+              viewport="parent" text={text} segments={segments}
+              status={status} currentTime={currentTime} onPlayFrom={onPlayFrom}
+              sentenceLabel={t("readingPlayFromHere")}
+            />
+          )}
+          {!followsNarration && (
+            <ReadingHighlightText text={text} mark={mark} segments={segments} onPlayFrom={onPlayFrom} sentenceLabel={t("readingPlayFromHere")} />
+          )}
         </ContentReadingText>
       </ModalBody>
     </Modal>

@@ -43,12 +43,14 @@ interface ExplorePickerSheetProps {
   onDisabledSelect?: (itemId: string) => void;
   className?: string;
   wrapLabel?: boolean;
+  /** 접힌 선택 버튼에 이름만 중앙 정렬한다. */
+  textOnly?: boolean;
 }
 
 const BUTTON =
-  "flex w-full min-w-0 items-center justify-between gap-1.5 rounded-lg border border-accent/50 bg-accent/10 px-3.5 py-2 text-sm font-semibold text-accent hover:border-accent";
-const CHIP = "flex min-h-10 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-start text-sm font-semibold";
-const CHIP_ACTIVE = "border-accent bg-accent/10 text-accent";
+  "flex w-full min-w-0 items-center justify-between gap-1.5 rounded-lg border border-accent/50 bg-accent/10 px-3.5 py-2 text-sm font-semibold text-accent outline-none hover:border-accent focus-visible:ring-2 focus-visible:ring-accent";
+const CHIP = "flex min-h-10 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-start text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-accent";
+const CHIP_ACTIVE = "border-accent bg-accent/10 text-accent hover:bg-accent/20";
 const CHIP_IDLE = "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:text-text-primary";
 const CHIP_DISABLED = "cursor-not-allowed border-dashed border-white/[0.1] text-white/35";
 
@@ -61,6 +63,7 @@ export default function ExplorePickerSheet({
   onDisabledSelect,
   className,
   wrapLabel = false,
+  textOnly = false,
 }: ExplorePickerSheetProps) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -77,9 +80,9 @@ export default function ExplorePickerSheet({
 
   return (
     <>
-      <button type="button" aria-haspopup="dialog" aria-label={title} onClick={() => setOpen(true)} className={cn(BUTTON, className)}>
-        <span className={cn("min-w-0", wrapLabel ? "line-clamp-2 break-keep text-start leading-tight" : "truncate")}>{label}</span>
-        <ChevronDown size={15} className="shrink-0" aria-hidden />
+      <button type="button" aria-haspopup="dialog" aria-label={title} onClick={() => setOpen(true)} className={cn(BUTTON, textOnly && "justify-center", className)}>
+        <span className={cn("min-w-0", textOnly ? "line-clamp-2 break-keep text-center leading-tight" : wrapLabel ? "line-clamp-2 break-keep text-start leading-tight" : "truncate")}>{label}</span>
+        {!textOnly && <ChevronDown size={15} className="shrink-0" aria-hidden />}
       </button>
 
       <Modal isOpen={open} onClose={close} title={title} animateHeight={false}>

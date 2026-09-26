@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { load } from "cheerio";
 
 import FormattedText from "./FormattedText";
 import ReadingHighlightText from "../shared/ReadingHighlightText";
@@ -110,8 +111,8 @@ test("narration marks keep source offsets across English punctuation", () => {
   const html = renderToStaticMarkup(React.createElement(FormattedText, { text, mark: { start, end } }));
   const marked = Array.from(html.matchAll(/<mark[^>]*>(.*?)<\/mark>/g), (match) => match[1]).join("");
   assert.equal(marked, text.slice(start, end));
-  // 재생 문장은 에메랄드 — 골드 인용 강조와 색이 갈려야 읽는 위치가 구분된다
-  assert.match(html, /<mark class="[^"]*bg-emerald-400\/15[^"]*text-emerald-300/);
+  assert.match(html, /<mark class="[^"]*bg-reading-active\/10[^"]*text-inherit/);
+  assert.doesNotMatch(html, /3dff7a|emerald/);
 });
 
 test("quotes split across narration segments still get emphasis", () => {
@@ -197,4 +198,39 @@ test("term emphasis respects modal colors without styling the surrounding text",
   assert.match(html, /<span>He studies <\/span>/);
   assert.match(html, /class="font-semibold text-3d-gold-bright"/);
   assert.match(html, /class="font-normal text-3d-gold-bright"/);
+});
+
+test("active narration preserves the colors and weights of quotes, titles and terms", () => {
+  const text = '본문 “직접 인용”과 《작품명》, ‘짧은 강조’, 인공지능(AI).';
+  const $ = load(renderToStaticMarkup(React.createElement(FormattedText, {
+    text, mark: { start: 0, end: text.length },
+  })));
+  const parentStyle = (text: string) => $('mark').filter((_, el) => $(el).text() === text).parent().attr('class');
+  assert.equal(parentStyle('“직접 인용”'), 'font-medium text-accent-hover');
+  assert.equal(parentStyle('《작품명》'), 'text-white font-bold');
+  assert.equal(parentStyle('‘짧은 강조’'), 'font-serif text-accent');
+  assert.equal(parentStyle('인공지능'), 'font-semibold text-accent-hover');
+  assert.equal(parentStyle('(AI)'), 'font-normal text-accent');
+  assert.ok($('mark').filter((_, el) => $(el).text() === '본문 ').hasClass('text-inherit'));
+  assert.ok($('mark').filter((_, el) => $(el).text() === '“직접 인용”').hasClass('text-inherit'));
+  assert.equal($('mark').map((_, el) => $(el).text()).get().join(''), text);
+});
+
+test("an active quote keeps emphasis when narration splits it across sentences", () => {
+  const text = '“첫 문장! 둘째 문장!”';
+  const split = text.indexOf('둘째');
+  const $ = load(renderToStaticMarkup(React.createElement(ReadingHighlightText, {
+    text, mark: { start: split, end: text.length },
+    segments: [
+      { start: 0, end: 1, textStart: 0, textEnd: split },
+      { start: 1, end: 2, textStart: split, textEnd: text.length },
+    ],
+    onPlayFrom: () => {},
+  })));
+  assert.equal($('mark').text(), '둘째 문장!”');
+  assert.ok($('mark').closest('.text-accent-hover').length > 0);
+  assert.ok($('mark').hasClass('text-inherit'));
+  assert.ok($('mark').hasClass('decoration-reading-active/70'));
+  assert.equal($('mark').length, 1);
+  assert.ok($('span.text-accent-hover').first().text().startsWith('“첫 문장!'));
 });

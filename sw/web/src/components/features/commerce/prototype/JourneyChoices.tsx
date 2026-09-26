@@ -24,9 +24,6 @@ export default function JourneyChoices({ id, selection, onChange }: {
   id: JourneyId; selection: JourneySelection; onChange: (next: JourneySelection) => void;
 }) {
   const update = (patch: Partial<JourneySelection>) => onChange({ ...selection, ...patch });
-  if (id === "low-end-theory") return <Choices label="어떤 형태로 소장할까요?" value={selection.format}
-    options={[{ value: "lp", label: "LP", detail: "레코드 2장 · 턴테이블 필요" }, { value: "cd", label: "CD", detail: "확인한 판매처는 절판" }]}
-    onChange={(format) => update({ format })} />;
   if (id === "breath-of-the-wild") return <div className="space-y-5">
     <Choices label="가지고 있는 게임기" value={selection.device}
       options={[{ value: "switch", label: "Nintendo Switch", detail: "OLED · Lite 포함" }, { value: "switch2", label: "Nintendo Switch 2" }]}

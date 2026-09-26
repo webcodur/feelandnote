@@ -193,6 +193,18 @@
         "7": "61 ~ 70점",
         "8": "71 ~ 80점",
         "9": "81점 +"
+      },
+      "atlas": {
+        "theme": "테마",
+        "faction": "팩션",
+        "region": "지역",
+        "myth": "신화",
+        "group": "그룹",
+        "allMembers": "전체 구성원",
+        "browseAll": "선택기",
+        "comingSoon": "준비 중",
+        "confirmSelection": "선택 완료",
+        "optionCount": "{count}개 선택 가능"
       }
     },
     "hub": {
@@ -301,7 +313,9 @@
         "worksDividerLeftDesc": "이 신화를 직접 다루는 원전과 작품.",
         "worksDividerRight": "다른 작품",
         "worksDividerRightDesc": "이 신화의 인물이 등장하는 다른 이야기.",
-        "linkedToWork": "작품 연결"
+        "linkedToWork": "작품 연결",
+        "enlargeImage": "이미지 확대",
+        "portraitImage": "상세 이미지"
       },
       "relationMap": {
         "title": "관계망",
@@ -404,7 +418,11 @@
         "emptyRead": "아직 정리된 감상 기록이 없습니다.",
         "shelf": "인물의 책장"
       },
-      "works": "등장 작품"
+      "works": "등장 작품",
+      "title": "세력도감",
+      "overview": "팩션 개요",
+      "overviewFallback": "위의 인물을 골라 이 테마에서의 역할과 이야기를 살펴보세요.",
+      "backToOverview": "테마 개요로"
     },
     "monologue": {
       "metaTitle": "가상독백 | 인물",

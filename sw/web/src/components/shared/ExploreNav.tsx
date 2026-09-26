@@ -1,9 +1,9 @@
 /*
   파일명: /components/shared/ExploreNav.tsx
   기능: 탐색 도감 선택기 — 신화 탐색(지역·신화·그룹)과 세력도감(섹션·테마·진영)이 함께 쓴다
-  책임: 줄 목록 하나로 넓은 화면의 칩 줄(알약·네모·밑줄 탭)과 좁은 화면의 줄별 선택 단추·창(ExplorePickerSheet)을 그린다.
+  책임: 줄 목록 하나로 넓은 화면의 칩 줄과 좁은 화면의 줄별 선택 단추·창(ExplorePickerSheet)을 그린다.
         항목은 주소 이동(href)이나 화면 안 선택(onSelect) 둘 다 받고, 고를 수 없는 항목은 누르면 잠깐 안내를 띄운다.
-        선택을 풀 수 있는 줄(onClear)은 고른 항목 끝에 ×를 붙이고, 그 항목을 다시 누르면 선택을 푼다.
+        선택을 풀 수 있는 줄(onClear)은 고른 항목을 다시 누르면 선택을 푼다.
         고른 칩은 줄 가운데로 옮긴다. 상자 안에 덧붙는 줄(신화 인물 줄)은 children으로 받는다.
         바깥 윤곽선이 따로 있는 화면(신화 탐색)은 bareOnMobile로 좁은 화면의 상자 겹침을 걷는다.
 */ // ------------------------------
@@ -11,7 +11,7 @@
 "use client";
 
 import { useEffect, type CSSProperties, type ReactNode } from "react";
-import { ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import ExplorePickerSheet from "@/components/shared/ExplorePickerSheet";
 import { EXPLORE_NAV_LAYOUT as layout } from "@/components/shared/exploreNavLayout";
@@ -37,7 +37,7 @@ export interface ExploreNavRow {
   id: string;
   /** 줄 이름 — 넓은 화면 nav의 aria-label, 좁은 화면 창 제목·단추 설명 */
   label: string;
-  /** 윗줄 알약 · 아랫줄 네모 · 셋째 줄 밑줄 탭 */
+  /** 윗줄 알약 · 아랫줄 네모 · 셋째 줄 그룹 칩 */
   shape: "pill" | "square" | "tab";
   items: ExploreNavItem[];
   activeId: string | null;
@@ -63,40 +63,40 @@ const DISABLED = "cursor-not-allowed border-dashed border-white/[0.1] bg-transpa
 const DISABLED_NOTICE = "cursor-not-allowed border-dashed border-white/25 bg-white/[0.05] text-text-secondary";
 const COUNT = "text-xs font-medium text-text-tertiary";
 
-function itemClass(row: ExploreNavRow, item: ExploreNavItem, selected: boolean) {
-  if (row.shape === "tab") {
-    return cn(layout.groupTab, selected
-      ? item.color ? "border-(--chip-c) text-(--chip-c)" : "border-accent text-accent"
-      : "border-transparent text-text-secondary hover:text-text-primary");
-  }
+function itemClass(row: ExploreNavRow, item: ExploreNavItem, selected: boolean, large: boolean) {
   const tone = selected
     ? item.color
       ? "border-(--chip-c) bg-(--chip-c)/10 text-(--chip-c) hover:bg-(--chip-c)/20"
       : layout.chipSelected
-    : item.disabled ? (row.noticeId === item.id ? DISABLED_NOTICE : DISABLED) : layout.chipIdle[row.shape];
-  return cn(layout.chip, row.shape === "pill" ? layout.pill : layout.square, tone);
+    : item.disabled ? (row.noticeId === item.id ? DISABLED_NOTICE : DISABLED) : layout.chipIdle[row.shape === "pill" ? "pill" : "square"];
+  return cn(layout.chip, large && layout.chipLarge, row.shape === "pill" ? layout.pill : row.shape === "tab" ? layout.groupTab : layout.square, tone);
 }
 
-function ChipRow({ row }: { row: ExploreNavRow }) {
+function ChipRow({ row, large, wrap }: { row: ExploreNavRow; large: boolean; wrap: boolean }) {
   const { ref, cursorClassName, dragProps } = useMouseDragScroll();
 
-  /* 고른 칩을 줄 가운데로 옮긴다 — 한 줄짜리 목록이라 고른 칩이 화면 밖에 있을 수 있다 */
+  /* 가로 줄은 고른 칩을 가운데로, 줄바꿈 목록은 칩이 가려졌을 때만 내부 스크롤로 드러낸다. */
   useEffect(() => {
     const scroller = ref.current;
     const selected = scroller?.querySelector<HTMLElement>("[data-selected]");
     if (!scroller || !selected) return;
     const scrollerRect = scroller.getBoundingClientRect();
     const selectedRect = selected.getBoundingClientRect();
+    if (wrap) {
+      if (selectedRect.top < scrollerRect.top) scroller.scrollTop += selectedRect.top - scrollerRect.top - 4;
+      else if (selectedRect.bottom > scrollerRect.bottom) scroller.scrollTop += selectedRect.bottom - scrollerRect.bottom + 4;
+      return;
+    }
     scroller.scrollLeft += selectedRect.left - scrollerRect.left - (scrollerRect.width - selectedRect.width) / 2;
-  }, [row.activeId, ref]);
+  }, [row.activeId, ref, wrap]);
 
   return (
-    <nav className={layout.chipNav} aria-label={row.label}>
-      <div ref={ref} {...dragProps} className={cn(layout.navList, cursorClassName)}>
+    <nav className={cn(layout.chipNav, wrap && layout.chipNavWrapped)} aria-label={row.label}>
+      <div ref={ref} {...(wrap ? {} : dragProps)} className={wrap ? layout.navListWrapped : cn(layout.navList, large && layout.navListLarge, cursorClassName)}>
         {row.items.map((item) => {
           const selected = item.id === row.activeId;
           const clears = selected && Boolean(row.onClear);
-          const className = itemClass(row, item, selected);
+          const className = cn(itemClass(row, item, selected, large), wrap && layout.chipWrapped);
           const style = item.color ? { "--chip-c": item.color } as CSSProperties : undefined;
           const showingNotice = row.noticeId === item.id;
           const content = item.disabled ? (
@@ -111,9 +111,8 @@ function ChipRow({ row }: { row: ExploreNavRow }) {
           ) : (
             <>
               {item.icon}
-              {item.name}
-              {item.count !== undefined && <span className={cn(COUNT, row.shape === "tab" && "ms-1.5")}>{item.count}</span>}
-              {clears && <X size={12} aria-hidden className="ms-1 shrink-0" />}
+              {wrap ? <span className="min-w-0 break-words">{item.name}</span> : item.name}
+              {item.count !== undefined && <span className={cn(COUNT, "shrink-0", large && "md:text-sm")}>{item.count}</span>}
             </>
           );
 
@@ -159,7 +158,7 @@ function ChipRow({ row }: { row: ExploreNavRow }) {
   );
 }
 
-function MobileRow({ row }: { row: ExploreNavRow }) {
+function MobileRow({ row, textOnly }: { row: ExploreNavRow; textOnly: boolean }) {
   const t = useTranslations("explore.ui");
   const router = useRouter();
   const active = row.items.find((item) => item.id === row.activeId);
@@ -188,13 +187,13 @@ function MobileRow({ row }: { row: ExploreNavRow }) {
 
   const picker = (
     <ExplorePickerSheet
-      className={row.wide && !row.mobileArrows ? "col-span-2" : undefined}
+      className={textOnly || (row.wide && !row.mobileArrows) ? "col-span-2" : undefined}
       title={row.label}
       label={
         active ? (
           <>
             {active.name}
-            {active.count !== undefined && <span className={cn(COUNT, "ms-1.5")}>{active.count}</span>}
+            {!textOnly && active.count !== undefined && <span className={cn(COUNT, "ms-1.5")}>{active.count}</span>}
           </>
         ) : (
           row.emptyLabel ?? ""
@@ -206,21 +205,20 @@ function MobileRow({ row }: { row: ExploreNavRow }) {
         items: row.items.map((item) => ({
           id: item.id,
           name: item.name,
-          count: item.count,
+          count: textOnly ? undefined : item.count,
           href: item.href,
           disabled: item.disabled,
-          note: row.noticeId === item.id
-            ? notice
-            : row.onClear && item.id === row.activeId ? <X size={13} aria-hidden className="shrink-0" /> : undefined,
+          note: row.noticeId === item.id ? notice : undefined,
         })),
       }]}
       onSelect={(_, id) => (row.onClear && id === row.activeId ? row.onClear() : row.onSelect?.(id))}
       onDisabledSelect={row.onDisabledSelect}
       wrapLabel={row.mobileArrows}
+      textOnly={textOnly}
     />
   );
 
-  if (!row.mobileArrows) return picker;
+  if (textOnly || !row.mobileArrows) return picker;
 
   const arrowClass = "grid size-10 place-items-center rounded-lg border border-accent/35 bg-accent/[0.06] text-accent hover:border-accent hover:bg-accent/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-default disabled:border-white/10 disabled:bg-transparent disabled:text-text-tertiary";
   return (
@@ -236,13 +234,13 @@ function MobileRow({ row }: { row: ExploreNavRow }) {
   );
 }
 
-export default function ExploreNav({ rows, children, bareOnMobile = false }: { rows: ExploreNavRow[]; children?: ReactNode; bareOnMobile?: boolean }) {
+export default function ExploreNav({ rows, children, bareOnMobile = false, bare = false, largeChips = false, wrapChips = false, textOnlyMobile = false }: { rows: ExploreNavRow[]; children?: ReactNode; bareOnMobile?: boolean; bare?: boolean; largeChips?: boolean; wrapChips?: boolean; textOnlyMobile?: boolean }) {
   return (
-    <div className={cn(layout.navigation, bareOnMobile && layout.navigationBareMobile)}>
+    <div className={cn(layout.navigation, bareOnMobile && layout.navigationBareMobile, bare && layout.navigationBare, wrapChips && layout.navigationWrapped)}>
       <div className={layout.mobilePicker}>
-        {rows.map((row) => <MobileRow key={row.id} row={row} />)}
+        {rows.map((row) => <MobileRow key={row.id} row={row} textOnly={textOnlyMobile} />)}
       </div>
-      {rows.map((row) => <ChipRow key={row.id} row={row} />)}
+      {rows.map((row) => <ChipRow key={row.id} row={row} large={largeChips} wrap={wrapChips} />)}
       {children}
     </div>
   );

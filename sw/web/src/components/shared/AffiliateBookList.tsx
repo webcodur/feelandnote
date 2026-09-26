@@ -98,6 +98,9 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
               contentId={book.contentId}
               editionId={book.editionId}
               isbn={book.isbn}
+              title={book.title}
+              creator={book.creator}
+              thumbnail={book.thumbnail}
               yes24Href={book.purchaseHref}
               links={book.url ? [{ platform: 'coupang', url: book.url }] : []}
               full
@@ -105,6 +108,9 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
           ) : book.url ? (
             <BookPurchaseSummary
               links={[{ platform: 'amazon', url: book.url }]}
+              title={book.title}
+              creator={book.creator}
+              thumbnail={book.thumbnail}
               full
             />
           ) : undefined

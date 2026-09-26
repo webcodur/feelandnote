@@ -208,7 +208,11 @@ async function fetchMythData(locale: string): Promise<MythData> {
     const ids = unique(members.filter((member) => member.lv2_id === faction.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
     if (ids.length === 0) return [];
     const titleArt = toTeamImages(faction.team_images).find(image => image.url.includes("/myth/title-art/"));
-    const images = titleArt ? [{ url: titleArt.url, label: (isEn ? titleArt.labelEn : titleArt.label) ?? null }] : [];
+    const images = titleArt ? [{
+      url: titleArt.url,
+      label: (isEn ? titleArt.labelEn : titleArt.label) ?? null,
+      caption: (isEn ? titleArt.captionEn : titleArt.caption) ?? null,
+    }] : [];
     /* 대표 3인은 DB가 쥔다(faction_lv2.lead_person_ids). 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
     const leadPersonIds = (faction.lead_person_ids ?? []).filter((id) => ids.includes(id));
     for (const id of ids) {
@@ -235,7 +239,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v25'], {
+const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v26'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

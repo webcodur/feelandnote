@@ -15,6 +15,7 @@ export interface FeaturedCeleb {
   nickname: string
   nickname_en: string | null
   avatar_url: string | null
+  portrait_url?: string | null
   title: string | null
   title_en: string | null
   profession: string | null
@@ -120,6 +121,7 @@ interface FeaturedProfileRow {
   nickname: string
   nickname_en: string | null
   avatar_url: string | null
+  portrait_url: string | null
   title: string | null
   title_en: string | null
   profession: string | null
@@ -191,7 +193,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
   const [celebRows, { scoreMap: influenceMap }] = await Promise.all([
     selectInChunks<FeaturedProfileRow>(Array.from(allCelebIds), (chunk) =>
       db.from('celebs').select(`
-        id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
+        id, nickname, nickname_en, avatar_url, portrait_url, title, title_en, profession, speech_tone
       `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
     ),
     // 출연진 판이 핵심 인물을 가르는 점수 — 인물 목록과 같은 영향력 캐시를 쓴다
@@ -209,6 +211,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
         nickname: c.nickname,
         nickname_en: c.nickname_en ?? null,
         avatar_url: c.avatar_url,
+        portrait_url: c.portrait_url ?? null,
         title: c.title,
         title_en: c.title_en ?? null,
         profession: c.profession,
@@ -233,7 +236,7 @@ const getCachedFactionRows = unstable_cache(fetchFactionRows, ['featured-faction
   tags: [CACHE_TAGS.FACTIONS],
 })
 // 인자(테마 id 덩어리)가 캐시 키에 들어가 덩어리마다 따로 저장된다
-const getCachedFactionMembers = unstable_cache(fetchFactionMembers, ['featured-faction-members-v1'], {
+const getCachedFactionMembers = unstable_cache(fetchFactionMembers, ['featured-faction-members-v2'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })

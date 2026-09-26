@@ -17,7 +17,7 @@ export interface GameAudioControls {
   togglePlay: () => void
   setVolume: (v: number) => void
   seek: (time: number) => void
-  /** 오디오 엘리먼트 ref — 플레이어가 자체 폴링으로 currentTime을 읽는다 */
+  /** 오디오 엘리먼트 ref — 플레이어가 시간 변경 이벤트를 구독한다 */
   bgmRef?: MutableRefObject<HTMLAudioElement | null>
   /** 플레이리스트 지원 */
   trackLabel?: string

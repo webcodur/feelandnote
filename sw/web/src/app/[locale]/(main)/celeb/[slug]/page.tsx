@@ -13,6 +13,7 @@ import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents"
 import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
+import { getCelebReadShelf } from "@/actions/celebs/getCelebReferenceBooks";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { getFigureBookPresentationsForCeleb } from "@/actions/figure-books/getFigureBookPresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
@@ -23,10 +24,9 @@ import RelatedFigureLinks from "./RelatedFigureLinks";
 import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import {
-  mapReadContentsToAffiliateBooks,
   mapRelatedFigureBooksToAffiliateBooks,
 } from "@/components/features/celeb/CelebRelatedAffiliateBooks";
-import { partitionFigureBooks, pickDisplayFigureBooks } from "@/lib/celeb/authoredBooks";
+import { getDisplayFigureBookGroups } from "@/lib/celeb/authoredBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
@@ -55,10 +55,6 @@ export function generateStaticParams() {
 // 서버에서 미리 그릴 서가 첫 화면 항목 수. 펼쳐보기가 색인을 받기 전까지
 // 첫 카드와 이전·다음 상태를 이 항목들로 그린다.
 const LIBRARY_FIRST_PAGE_SIZE = 4;
-const READ_BOOKS_PAGE_SIZE = 24;
-// 「감상」 선반의 첫 화면 목표 수량 — 한 쪽이 전부 판매 불가여도 쪽을 넘겨 채운다
-const READ_SHELF_TARGET = 12;
-const READ_SHELF_MAX_PAGES = 5;
 
 // 서가를 못 불러왔거나 서가가 없는 티어일 때 쓰는 빈 결과.
 const EMPTY_CONTENTS = {
@@ -132,30 +128,7 @@ export default async function CelebPage({ params }: PageProps) {
   // 「감상」 선반은 기록 속 책을 상품 카드로 모으는데, 판매 불가 책(미번역·절판)은 뺀다 —
   // 한 쪽이 전부 빠져도 다음 쪽으로 채우고, 그 뒤는 클라이언트의 「더 보기」가 같은 방식으로 잇는다.
   const readShelfPromise = profile.celeb_tier === 'full'
-    ? (async () => {
-        const seen = new Set<string>();
-        const books: AffiliateBook[] = [];
-        let nextPage = 1;
-        let hasMore = false;
-        for (let page = 1; page <= READ_SHELF_MAX_PAGES && books.length < READ_SHELF_TARGET; page += 1) {
-          const result = await getPublicUserContents({
-            userId,
-            type: "BOOK",
-            page,
-            limit: READ_BOOKS_PAGE_SIZE,
-            sortBy: 'recent',
-          }, locale);
-          for (const book of mapReadContentsToAffiliateBooks(result.items, locale === 'en' ? 'en' : 'ko')) {
-            if (seen.has(book.contentId)) continue;
-            seen.add(book.contentId);
-            books.push(book);
-          }
-          nextPage = page + 1;
-          hasMore = result.hasMore;
-          if (!result.hasMore) break;
-        }
-        return { books, nextPage, hasMore };
-      })()
+    ? getCelebReadShelf(userId, locale)
     : Promise.resolve({ books: [] as AffiliateBook[], nextPage: 1, hasMore: false });
   const initialContentBriefPromise = initialContentsPromise.then((contents) => {
     const firstContentId = contents.items[0]?.content_id;
@@ -193,13 +166,8 @@ export default async function CelebPage({ params }: PageProps) {
   ]);
 
   // 직접 등장과 간접 연관은 「등장」 모드에 함께, 창작은 「집필」 모드에 보낸다.
-  const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(allFigureBooks);
-  // 요청 언어의 판본이 없는 작품(미번역본)과 절판은 보여 주지 않는다 — 읽거나 살 수 없는 책은 추천이 아니다.
-  const figureBooks = [...appearanceBooks, ...relatedBooks].filter(
-    (book) => book.editions.length > 0 && book.titleBadge !== 'out-of-print',
-  );
-  const displayFigureBooks = pickDisplayFigureBooks(figureBooks);
-  const displayAuthoredBooks = pickDisplayFigureBooks(authoredBooks);
+  const { appeared: figureBooks, authored: displayAuthoredBooks } = getDisplayFigureBookGroups(allFigureBooks);
+  const displayFigureBooks = figureBooks;
   const readBooks = readShelf.books;
   // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full 인물은
   // 사실상 항상 결과가 있다(한국어 YES24·영어 아마존 검색). 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.

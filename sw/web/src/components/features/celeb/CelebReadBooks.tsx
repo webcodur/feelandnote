@@ -15,8 +15,8 @@ import CelebSectionSkeleton from './CelebSectionSkeleton'
 import AffiliateBookList from '@/components/shared/AffiliateBookList'
 import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
 import { RetryBlock } from '@/components/ui/pending'
+import { CELEB_READ_BOOKS_PAGE_SIZE } from '@/lib/celeb/authoredBooks'
 
-const PAGE_SIZE = 24
 /** 클릭 한 번에 선반에 올리는 권 수 — 추천 모드의 묶음 크기와 같게 맞춘다 */
 const BATCH_SIZE = 6
 /** 클릭 한 번에 읽는 쪽 수 상한 — 판매 불가 책만 이어져도 무한정 물지 않는다 */
@@ -68,7 +68,7 @@ export default function CelebReadBooks({ userId, initialBooks, initialNextPage, 
       // 버퍼가 한 묶음보다 적으면 쪽을 더 읽는다 — 한 쪽이 전부 판매 불가여도 다음 쪽으로 채운다
       while (pendingRef.current.length < BATCH_SIZE && hasMoreNow && fetched < MAX_PAGES_PER_CLICK) {
         const result = await getPublicUserContents(
-          { userId, type: 'BOOK', page: nextPage, limit: PAGE_SIZE, sortBy: 'recent' },
+          { userId, type: 'BOOK', page: nextPage, limit: CELEB_READ_BOOKS_PAGE_SIZE, sortBy: 'recent' },
           locale,
         )
         // 같은 책이 기록 여러 건에 걸쳐 다시 나와도 선반에는 한 번만 선다

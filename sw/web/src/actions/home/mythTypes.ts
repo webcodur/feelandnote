@@ -1,6 +1,7 @@
 
 import type { FactionMusic } from "@/lib/faction-music";
 import type { TitleBadge } from "@/lib/utils/content-locale";
+import type { CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";
@@ -25,7 +26,7 @@ export interface Myth {
   isPublished: boolean;
   /** 지역(faction_lv1) id. 어느 지역에도 못 걸리면 "other" */
   regionId: string;
-  images: Array<{ url: string; label: string | null }>;
+  images: Array<{ url: string; label: string | null; caption?: string | null }>;
   /** 이 신화의 테마곡 */
   music: FactionMusic | null;
   personIds: string[];
@@ -46,6 +47,7 @@ export interface MythPerson {
   id: string;
   slug: string;
   name: string;
+  reality?: CelebReality | null;
   title: string | null;
   headline: string | null;
   bio: string | null;

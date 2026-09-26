@@ -42,6 +42,7 @@ export default function ClassicsGrid({ contents }: { contents: LibraryContent[] 
               contentId={content.id}
               title={content.title}
               creator={content.creator}
+              thumbnail={content.thumbnail_url}
               affiliateUrl={content.affiliate_url}
             />
           )}

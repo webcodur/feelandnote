@@ -2,8 +2,8 @@ import { getYes24PurchaseLink } from '@/actions/contents/getYes24PurchaseLink'
 import { createStaticClient } from '@/lib/db/static'
 import { isYes24PurchaseRequest } from '@/lib/books/yes24Purchase'
 import {
-  BOOK_PURCHASE_REDIRECT_HEADERS, getBookPurchaseFallback, resolveBookPurchaseRedirect,
-  resolveCoupangPurchaseRedirect, resolveKyoboPurchaseRedirect, type BookPurchaseRecord,
+  BOOK_PURCHASE_REDIRECT_HEADERS, getBookPurchaseFallback, resolveAladinPurchaseRedirect,
+  resolveBookPurchaseRedirect, resolveCoupangPurchaseRedirect, resolveKyoboPurchaseRedirect, type BookPurchaseRecord,
 } from '@/lib/books/bookPurchaseRedirect'
 
 export const dynamic = 'force-dynamic'
@@ -42,7 +42,7 @@ export async function GET(request: Request, context: { params: Promise<{ content
   const rawEdition = params.get('editionId')
   const rawSeller = params.get('seller')
   if ([...params.keys()].some(key => key !== 'editionId' && key !== 'seller') || params.getAll('editionId').length > 1
-    || params.getAll('seller').length > 1 || (rawSeller !== null && rawSeller !== 'yes24' && rawSeller !== 'kyobo' && rawSeller !== 'coupang')
+    || params.getAll('seller').length > 1 || (rawSeller !== null && rawSeller !== 'yes24' && rawSeller !== 'kyobo' && rawSeller !== 'coupang' && rawSeller !== 'aladin')
     || (rawEdition !== null && !/^[1-9]\d*$/.test(rawEdition))) return invalid()
   const editionId = rawEdition === null ? undefined : Number(rawEdition)
   if (!isYes24PurchaseRequest(contentId, 'ko', editionId)) return invalid()
@@ -52,7 +52,9 @@ export async function GET(request: Request, context: { params: Promise<{ content
       ? resolveKyoboPurchaseRedirect(contentId, editionId, record)
       : rawSeller === 'coupang'
         ? resolveCoupangPurchaseRedirect(contentId, editionId, record)
-        : await resolveBookPurchaseRedirect(contentId, editionId, record, () => getYes24PurchaseLink(contentId, 'ko', editionId))
+        : rawSeller === 'aladin'
+          ? resolveAladinPurchaseRedirect(contentId, editionId, record)
+          : await resolveBookPurchaseRedirect(contentId, editionId, record, () => getYes24PurchaseLink(contentId, 'ko', editionId))
     return target ? redirect(target) : invalid()
   } catch {
     return redirect(getBookPurchaseFallback(contentId))

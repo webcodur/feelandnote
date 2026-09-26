@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { ArrowUpRight, BookOpen, Disc3, Gamepad2 } from "lucide-react";
+import { ArrowUpRight, BookOpen, Gamepad2 } from "lucide-react";
 import { isDeveloperMode } from "@/lib/developer-mode";
 import { PLATFORM_LINKS } from "@/constants/platformLinks";
 import type { JourneyTarget } from "./prototype/catalog";
@@ -12,19 +12,17 @@ export default function DeveloperCommerceFallback({ target, placement, context }
   target: JourneyTarget; placement: string; context?: string;
 }) {
   const locale = useLocale();
-  if (!isDeveloperMode() || locale !== "ko" || !target.title.trim()) return null;
-  const music = target.type === "MUSIC";
+  if (!isDeveloperMode() || locale !== "ko" || !target.title.trim() || target.type === "MUSIC") return null;
   const game = target.type === "GAME";
   const book = target.type === "BOOK";
-  const gameProduct = game ? getVerifiedGameProduct(target) : null;
+  const gameProduct = game ? getVerifiedGameProduct(target, { includePreview: true }) : null;
   if (game && !gameProduct) return null;
-  const query = [target.title, book || music || game ? target.creator : null].filter(Boolean).join(" ");
+  const query = [target.title, book || game ? target.creator : null].filter(Boolean).join(" ");
   const href = game ? gameProduct!.productUrl
-    : music ? `https://www.yes24.com/Product/Search?domain=ALL&query=${encodeURIComponent(query)}`
     : PLATFORM_LINKS.BOOK.find((platform) => platform.key === "yes24")!.buildUrl({ id: "", externalId: encodeURIComponent(query), title: target.title });
-  const Icon = music ? Disc3 : game ? Gamepad2 : BookOpen;
-  const label = music ? "음반 찾기" : game ? "쿠팡에서 보기" : book ? "판본 찾기" : "관련 도서 찾기";
-  const detail = music ? "LP·CD와 수록곡을 확인하세요." : game ? `${gameProduct!.format} 상품을 확인하세요.`
+  const Icon = game ? Gamepad2 : BookOpen;
+  const label = game ? "쿠팡에서 보기" : book ? "판본 찾기" : "관련 도서 찾기";
+  const detail = game ? `${gameProduct!.format} 상품을 확인하세요.`
     : book ? "번역자·출판사·완역 여부를 비교하세요." : "현재 주제의 도서 검색입니다. 개별 책과의 관계는 아직 확인 전입니다.";
 
   return <aside data-commerce-fallback={placement} data-commerce-context={target.title}

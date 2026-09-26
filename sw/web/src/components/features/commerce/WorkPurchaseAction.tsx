@@ -14,6 +14,7 @@ import { ArrowUpRight } from "lucide-react";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 import { getVerifiedGameProduct } from "./targetProducts";
 import { trackCommerceClick } from "@/lib/analytics/track";
+import { isDeveloperMode } from "@/lib/developer-mode";
 
 export interface WorkPurchaseTarget {
   title: string;
@@ -29,18 +30,19 @@ export default function WorkPurchaseAction({ target }: { target: WorkPurchaseTar
   if (locale !== "ko" || !target.title.trim()) return null;
   const isBook = target.type === "BOOK";
   const isGame = target.type === "GAME";
-  const isMusic = target.type === "MUSIC";
-  if (!isBook && !isGame && !isMusic) return null;
-  const gameProduct = isGame ? getVerifiedGameProduct(target) : null;
+  if (!isBook && !isGame) return null;
+  const gameProduct = isGame ? getVerifiedGameProduct(target, { includePreview: isDeveloperMode() }) : null;
   if (isGame && !gameProduct) return null;
   const query = encodeURIComponent([target.title, target.creator].filter(Boolean).join(" "));
   const direct = isBook && !!target.contentId;
   const href = direct ? getBookPurchaseHref(target.contentId!, undefined, "yes24")
     : isGame ? gameProduct!.productUrl
-    : `https://www.yes24.com/Product/Search?domain=${isBook ? "BOOK" : "ALL"}&query=${query}`;
-  const label = isBook ? "YES24에서 보기" : isMusic ? "YES24에서 음반 찾기" : "쿠팡에서 보기";
+    : `https://www.yes24.com/Product/Search?domain=BOOK&query=${query}`;
+  const label = isBook ? "YES24에서 보기" : "Switch 패키지 · 쿠팡";
   return <div className="mt-2">
     <a href={href} target="_blank" rel={`noopener noreferrer nofollow${direct ? " sponsored" : ""}`}
+      aria-label={isGame ? `${target.title} · ${gameProduct!.format} · 쿠팡에서 보기 (새 창)` : undefined}
+      title={gameProduct?.format}
       onClick={() => trackCommerceClick({
         screen: pathname,
         target: direct || isGame ? "product" : "search",

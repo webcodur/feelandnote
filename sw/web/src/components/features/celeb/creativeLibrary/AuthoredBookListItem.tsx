@@ -84,6 +84,7 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
         editionId={edition?.id}
         title={title}
         creator={creator}
+        thumbnail={thumbnail}
         links={purchaseModuleLinks}
         enabled={book.type === "BOOK"}
         full

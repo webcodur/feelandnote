@@ -11,10 +11,10 @@ import JourneyChoices from "./JourneyChoices";
 import { usePrototypeSaved } from "./prototypeStore";
 
 const focus = "outline-none focus-visible:ring-2 focus-visible:ring-accent";
-export type PrototypeAction = "preview" | "open" | "choice" | "outbound";
+export type PrototypeAction = "open" | "choice" | "outbound";
 
-export default function CollectionJourney({ id, placement, context, expanded = false, compact = false, showPreview = true, onActivity }: {
-  id: JourneyId; placement: string; context?: string; expanded?: boolean; compact?: boolean; showPreview?: boolean;
+export default function CollectionJourney({ id, placement, context, expanded = false, compact = false, onActivity }: {
+  id: JourneyId; placement: string; context?: string; expanded?: boolean; compact?: boolean;
   onActivity?: (action: PrototypeAction) => void;
 }) {
   const locale = useLocale();
@@ -22,7 +22,6 @@ export default function CollectionJourney({ id, placement, context, expanded = f
   const [open, setOpen] = useState(expanded);
   const [selection, setSelection] = useState<JourneySelection>(INITIAL_SELECTION);
   const [saveMessage, setSaveMessage] = useState("");
-  const [previewFailed, setPreviewFailed] = useState(false);
   const { saved, toggle } = usePrototypeSaved();
   if (!isDeveloperMode() || locale !== "ko") return null;
   const work = JOURNEY_WORKS[id];
@@ -38,7 +37,7 @@ export default function CollectionJourney({ id, placement, context, expanded = f
   return <section data-commerce-prototype={id} data-commerce-placement={placement}
     className="@container my-4 min-w-0 overflow-hidden rounded-xl border border-accent/20 bg-[#171814] text-text-primary [overflow-anchor:none]">
     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 px-4 py-2.5 sm:px-5">
-      <p className="text-xs text-text-secondary">{compact ? `${work.title} · ${work.kind === "music" ? "음반 소장" : work.kind === "game" ? "기종·구매 안내" : "프린트 선택"}` : context ?? work.eyebrow}</p>
+      <p className="text-xs text-text-secondary">{compact ? `${work.title} · ${work.kind === "game" ? "기종·구매 안내" : "프린트 선택"}` : context ?? work.eyebrow}</p>
       <span className="rounded border border-accent/30 px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-accent">개발자 모형</span>
     </div>
     {!compact && <div className="flex items-start gap-4 p-4 sm:gap-5 sm:p-5">
@@ -49,20 +48,13 @@ export default function CollectionJourney({ id, placement, context, expanded = f
         <p className="mb-1 text-[11px] text-accent">{work.creator}</p>
         <h3 className="break-keep text-base font-semibold leading-snug sm:text-lg">{work.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-          {work.kind === "music" ? "먼저 듣고, 마음에 남으면 음반으로." : work.kind === "game" ? "내 게임기와 본편 보유 여부에 맞춰 고르세요." : "지금 보는 그림의 소재와 크기를 골라보세요."}
+          {work.kind === "game" ? "내 게임기와 본편 보유 여부에 맞춰 고르세요." : "지금 보는 그림의 소재와 크기를 골라보세요."}
         </p>
         <a href={work.experience.url} target="_blank" rel="noopener noreferrer"
           className={`mt-2 inline-flex min-h-9 items-center gap-1 rounded text-xs text-text-secondary hover:text-accent hover:underline ${focus}`}>
           {work.experience.label}<ArrowUpRight size={13} aria-hidden />
         </a>
       </div>
-    </div>}
-    {work.preview && showPreview && <div className="px-4 py-3 sm:px-5">
-      <p className="mb-2 text-xs text-text-secondary">{work.preview.title} · Apple Music 미리듣기</p>
-      {previewFailed ? <p role="status" className="text-xs text-text-secondary">미리듣기를 불러오지 못했습니다. <a href={work.experience.url} target="_blank" rel="noopener noreferrer" className={`text-accent underline hover:text-accent-hover ${focus}`}>Apple Music에서 듣기</a></p> :
-        <audio aria-label={`${work.preview.title} 미리듣기`} src={work.preview.url} controls preload="none"
-          onPlay={() => onActivity?.("preview")} onError={() => setPreviewFailed(true)}
-          className="h-10 w-full [color-scheme:dark]" />}
     </div>}
     <div className="flex flex-wrap items-center gap-2 px-4 py-3 sm:px-5">
       <button type="button" aria-expanded={open} aria-controls={panelId}

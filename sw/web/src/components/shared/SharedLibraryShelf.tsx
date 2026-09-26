@@ -226,6 +226,7 @@ function LeadWork({ item, memberCount, isEn, buyable, t }: { item: SharedContent
             editionId={item.editionId}
             title={title}
             creator={creator}
+            thumbnail={item.thumbnailUrl}
             links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
             full
             className="mt-3"
@@ -279,6 +280,7 @@ function WorkCard({ item, memberCount, isEn, buyable, t }: { item: SharedContent
           editionId={item.editionId}
           title={title}
           creator={creator}
+          thumbnail={item.thumbnailUrl}
           links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
           full
           className="mt-2"

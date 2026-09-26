@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { useReadingTiming } from "@/hooks/useReadingTiming";
 import { activeReadingSegment } from "@/lib/reading-timing";
 import { useTranslations } from "next-intl";
@@ -116,6 +116,7 @@ function ReadingPlayer({ text, audioUrl, timingKind, celebId, voiceV = 0, readin
 }) {
   const t = useTranslations("celebPage");
   const [textOpen, setTextOpen] = useState(false);
+  const closeText = useCallback(() => setTextOpen(false), []);
   const narration = useReadingNarration(audioUrl);
   const { available, status, currentTime, duration, play, seek } = narration;
   const timing = useReadingTiming(celebId, readingLocale, voiceV, text, duration, available, timingKind);
@@ -132,12 +133,23 @@ function ReadingPlayer({ text, audioUrl, timingKind, celebId, voiceV = 0, readin
           <ReadingHighlightText text={text} mark={mark} />
         </div>
       </ReviewScrollBox>
-      {textOpen && timingKind === "monologue" ? (
-        <VirtualMonologueModal text={text} mark={mark} segments={timing?.segments} onPlayFrom={playFrom} onClose={() => setTextOpen(false)} />
-      ) : null}
-      {textOpen && timingKind === "reading" ? (
-        <ContentTextModal isOpen onClose={() => setTextOpen(false)} title={t("personGuide")} text={text} mark={mark} segments={timing?.segments} onPlayFrom={playFrom} sentenceLabel={t("readingPlayFromHere")} />
-      ) : null}
+      {textOpen && timingKind === "monologue" && (
+        <VirtualMonologueModal
+          text={text} mark={mark} segments={timing?.segments} onPlayFrom={playFrom}
+          status={status} currentTime={currentTime}
+          notice={<ReadingNarrationControls narration={narration} />}
+          onClose={closeText}
+        />
+      )}
+      {textOpen && timingKind === "reading" && (
+        <ContentTextModal
+          isOpen onClose={closeText} title={t("personGuide")} text={text}
+          mark={mark} segments={timing?.segments} onPlayFrom={playFrom}
+          status={status} currentTime={currentTime}
+          notice={<ReadingNarrationControls narration={narration} />}
+          sentenceLabel={t("readingPlayFromHere")}
+        />
+      )}
     </div>
   );
 }

@@ -106,7 +106,7 @@ export default function FactionSection({
     setClusterKey(null);
   };
 
-  // 도감 페이지와 같은 선택기 줄 — 세력은 네모 칩(세력 고유색), 진영은 밑줄 탭
+  // 도감 페이지와 같은 윤곽선 칩 — 선택한 세력·진영은 세력 고유색으로 구분한다.
   const navRows: ExploreNavRow[] = [];
   if (cards.length > 1) {
     navRows.push({

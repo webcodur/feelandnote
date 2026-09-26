@@ -18,7 +18,8 @@
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
 | `/explore/works` | 기관 선정 목록과 다른 탐색 방법 안내 | `getCuratedHub` |
-| `/explore/works/popular` | **인기 작품.** 판매처의 도서 순위와 불후의 고전(시대·직군)을 본다 | `getBestsellers`, `getChosenLibrary`, `getProfessionContentCounts` |
+| `/explore/works/popular` | **베스트셀러.** 판매처의 도서 순위 | `getBestsellers` |
+| `/explore/works/popular?mode=classics` | **불후의 명작.** 인물이 감상한 작품을 시대·직군·매체로 탐색 | `getChosenLibrary`, `getProfessionContentCounts` |
 | `/explore/works/curated` | **기관 선정 허브.** 대학·언론·시상 기관이 발표한 목록 | `getCuratedHub` |
 | `/explore/works/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
 | `/explore/works/museum` | 박물관. 매체 역사 전시 | `constants/libraryMuseum.ts` (정적 JSON) |
@@ -28,11 +29,9 @@
 
 ## 레이아웃·허브
 
-`explore/works/layout.tsx`가 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. 두 모드의 첫 배너는 「탐색 / EXPLORE」이며 PC에서 같은 별자리(`ConstellationBanner`)를 쓴다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다.
+`explore/works/layout.tsx`가 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다. 두 모드의 공통 배너·소개·검색 패널·카드 반응·페이지 이동 규칙은 [탐색](explore.md)이 쥔다.
 
-첫 화면은 「인물로 탐색하기 / 작품으로 탐색하기」 소개(`ExploreHubIntro`) → 공용 검색·정렬·필터(`ExploreSearchControls`) → 결과 수와 카드 → 다른 탐색 방법 순서다. 기관 로고 카드(`CuratorLogoCard`)는 인물 격자와 같은 열 구성을 쓴다.
-
-`CuratedHubView`는 작품 첫 화면과 기관 선정 허브가 공유한다. 「기관의 선택」 아래 기관명·선정 목록명 검색, 이름·목록 수·수록 수 정렬, 기관 종류·주제·국가 필터와 페이지를 주소에 보존한다. 매체는 책·영상·게임·음악 중 하나를 고르는 모드이며 전체 선택은 없다. 필터 선택지는 현재 매체 안에서만 집계한다. 기관 카드는 소개·국가·선정 목록을 보는 `CuratorPreviewModal`을 열고, 상세 진입 시 매체·주제 조건을 넘긴다. 로고 정사각 자산은 `curatorLogos.ts`가 격자·모달·상세에 함께 적용하며 카드에 별도 틀이나 여백을 더하지 않는다. 베스트셀러·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/image-generation.md#fnn-흑동주조) 이미지로 안내한다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
+첫 화면의 「기관의 선택」은 [기관 선정](curated-lists.md#31-사용자-웹)의 `CuratedHubView`를 사용한다. 그 아래 베스트셀러·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/image-generation.md#fnn-흑동주조) 이미지로 안내한다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
 
 베스트셀러와 불후의 명작은 첫 화면부터 별도 카드다. 베스트셀러는 `/explore/works/popular`, 명작은 `?mode=classics`로 진입하며 메타·canonical·사이트맵과 한영 웜업도 두 진입점을 구분한다.
 
@@ -144,6 +143,7 @@ const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
 ## 연계 문서
 
 - 화면 지도: [README.md](README.md)
-- 탐색(오늘의 인물 본편): [explore.md](explore.md)
+- 탐색 공통 구조·인물 모드: [explore.md](explore.md)
+- 기관 선정 허브·목록·로고: [curated-lists.md](curated-lists.md)
 - 콘텐츠·셀럽 데이터: `docs/project/data/02-content.md`, `docs/project/data/03-celeb.md`, `docs/project/celeb/`
 - 다국어: `docs/project/platform/i18n.md`

@@ -13,6 +13,7 @@ export interface CelebProfileMediaProps {
   nickname: string;
   onZoom: () => void;
   zoomLabel: string;
+  imageAction?: "greet" | "zoom";
   hasVoice: boolean;
   isVoicePlaying?: boolean;
   onGreet?: () => void;
@@ -33,6 +34,7 @@ export default function CelebProfileMedia({
   nickname,
   onZoom,
   zoomLabel,
+  imageAction = "greet",
   hasVoice,
   isVoicePlaying = false,
   onGreet,
@@ -43,6 +45,8 @@ export default function CelebProfileMedia({
   avatarAlignment = "start",
 }: CelebProfileMediaProps) {
   const canShowGreeting = Boolean(onGreet);
+  const zoomOnClick = imageAction === "zoom";
+  const canClickImage = zoomOnClick || canShowGreeting;
   const ringClass =
     "ring-1 ring-accent/20 hover:ring-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
   // 원형 아바타는 배지를 테두리 밖으로 반쯤 빼 얼굴을 덜 가린다. 사각 사진은 모서리 안에 둔다.
@@ -100,15 +104,16 @@ export default function CelebProfileMedia({
       >
         <button
           type="button"
-          onClick={handleGreetingClick}
-          aria-label={greetLabel}
-          aria-pressed={hasVoice ? isVoicePlaying : undefined}
-          disabled={!canShowGreeting}
+          onClick={zoomOnClick ? onZoom : handleGreetingClick}
+          aria-label={zoomOnClick ? zoomLabel : greetLabel}
+          aria-haspopup={zoomOnClick ? "dialog" : undefined}
+          aria-pressed={!zoomOnClick && hasVoice ? isVoicePlaying : undefined}
+          disabled={!canClickImage}
           className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} ${
             isVoicePlaying
               ? "ring-2 ring-emerald-400/80 shadow-[0_0_20px_rgba(52,211,153,0.22)]"
               : ""
-          } ${canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
+          } ${zoomOnClick ? "cursor-zoom-in" : canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
         >
           <BlurDissolve key={photoUrl} className="absolute inset-0">
             <ResponsivePortraitImage
@@ -132,15 +137,16 @@ export default function CelebProfileMedia({
     >
       <button
         type="button"
-        onClick={handleGreetingClick}
-        aria-label={greetLabel}
-        aria-pressed={hasVoice ? isVoicePlaying : undefined}
-        disabled={!canShowGreeting}
+        onClick={zoomOnClick ? onZoom : handleGreetingClick}
+        aria-label={zoomOnClick ? zoomLabel : greetLabel}
+        aria-haspopup={zoomOnClick ? "dialog" : undefined}
+        aria-pressed={!zoomOnClick && hasVoice ? isVoicePlaying : undefined}
+        disabled={!canClickImage || (zoomOnClick && !avatarUrl)}
         className={`block h-full w-full overflow-hidden rounded-full bg-portrait-stage ${ringClass} ${
           isVoicePlaying
             ? "ring-2 ring-emerald-400/80 shadow-[0_0_20px_rgba(52,211,153,0.22)]"
             : ""
-        } ${canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
+        } ${zoomOnClick ? "cursor-zoom-in" : canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
       >
         {avatarUrl ? (
           <BlurDissolve className="h-full w-full">

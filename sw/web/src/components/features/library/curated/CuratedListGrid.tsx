@@ -134,6 +134,7 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
                     contentId={item.contentId}
                     title={item.title}
                     creator={item.creator}
+                    thumbnail={item.thumbnailUrl}
                     links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
                     full
                   />

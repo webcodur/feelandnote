@@ -1,5 +1,13 @@
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 
+export const CELEB_REFERENCE_BOOK_MODES = [
+  { key: 'appeared', label: 'groupAppeared' },
+  { key: 'read', label: 'groupRead' },
+  { key: 'authored', label: 'groupAuthored' },
+] as const
+
+export const CELEB_READ_BOOKS_PAGE_SIZE = 24
+
 /**
  * 인물 도서를 관계 유형으로 가른다. 등장(appearance)·창작(authored)·연관(related).
  * 창작은 DB 값이다. 예전에는 책의 저자 표기와 인물 이름을 글자로 비교했는데 푸시킨/푸쉬킨 같은 표기 변형마다 어긋나
@@ -29,4 +37,13 @@ export function pickDisplayFigureBooks<T extends Pick<FigureBookContent, 'titleB
   books: readonly T[],
 ): T[] {
   return books.filter((book) => book.editions.length > 0 && book.titleBadge !== 'out-of-print')
+}
+
+// 인물 상세와 신화·팩션 모달의 작품 분류·노출 기준을 함께 쥔다.
+export function getDisplayFigureBookGroups(books: FigureBookContent[]) {
+  const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(books)
+  return {
+    appeared: pickDisplayFigureBooks([...appearanceBooks, ...relatedBooks]),
+    authored: pickDisplayFigureBooks(authoredBooks),
+  }
 }

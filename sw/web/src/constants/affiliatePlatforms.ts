@@ -22,15 +22,15 @@ export const AFFILIATE_PLATFORMS = {
     label: '교보문고',
     color: '#22A355',
     locale: 'ko',
-    // 링크프라이스 제휴(kbbook) — 대가성 표시 의무 문구
-    notice: '이 포스팅은 제휴마케팅이 포함된 광고로 커미션을 지급 받습니다.',
+    // 링크프라이스 제휴(kbbook) — 수수료 고지는 공통 번역(content.purchaseInfo.notice)을 쓴다.
+    notice: null,
   },
   coupang: {
     label: '쿠팡',
     color: '#E44232',
     locale: 'ko',
-    notice:
-      '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.',
+    // 링크프라이스 제휴에 공통 수수료 고지를 쓴다. 승인대기 중인 일반 링크에는 고지를 붙이지 않는다.
+    notice: null,
   },
   aladin: { label: '알라딘', color: '#8B5CF6', locale: 'ko', notice: null },
   // en
@@ -56,14 +56,34 @@ export function getBookStorePlatform(locale: string): BookStorePlatform {
   return locale === 'en' ? 'amazon' : 'yes24'
 }
 
+const BOOK_PURCHASE_LINK_STYLE = [
+  'border-purchase-ink/25',
+  'bg-[linear-gradient(110deg,var(--purchase-from,color-mix(in_srgb,var(--purchase-color)_68%,var(--color-bg-stone-light)))_0%,var(--purchase-to,color-mix(in_srgb,var(--purchase-color)_38%,var(--color-bg-stone-light)))_100%)]',
+  'shadow-sm shadow-bg-secondary/35',
+  'hover:border-purchase-ink/75 hover:shadow-[0_3px_14px] hover:shadow-[color:color-mix(in_srgb,var(--purchase-color)_24%,transparent)] active:brightness-95',
+].join(' ')
+
+// 테두리는 즉각 반응하고, 이름만 짧게 확대한다. 작은 서가 단추는 확대 폭을 줄인다.
+export const BOOK_PURCHASE_LABEL_STYLE = [
+  'inline-flex origin-center items-center justify-center transition-transform duration-150 ease-out',
+  'motion-safe:group-hover/purchase:scale-[var(--purchase-label-scale,1.07)] motion-safe:group-focus-visible/purchase:scale-[var(--purchase-label-scale,1.07)] group-active/purchase:scale-100',
+  'motion-reduce:transition-none',
+].join(' ')
+
 export const BOOK_PURCHASE_BUTTON_STYLES = {
-  yes24: 'border-blue-400/40 bg-blue-500/10 text-blue-100 hover:border-blue-300 hover:bg-blue-500/25 active:bg-blue-500/30 focus-visible:ring-blue-400',
-  kyobo: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/25 active:bg-emerald-500/30 focus-visible:ring-emerald-400',
-  coupang: 'border-red-400/40 bg-red-500/10 text-red-100 hover:border-red-300 hover:bg-red-500/25 active:bg-red-500/30 focus-visible:ring-red-400',
-  aladin: 'border-violet-400/40 bg-violet-500/10 text-violet-100 hover:border-violet-300 hover:bg-violet-500/25 active:bg-violet-500/30 focus-visible:ring-violet-400',
-  amazon: 'border-[#FF9900]/40 bg-[#FF9900]/10 text-[#FFBF66] hover:border-[#FF9900] hover:bg-[#FF9900]/25 active:bg-[#FF9900]/30 focus-visible:ring-[#FF9900]',
-  google_books: 'border-sky-400/40 bg-sky-500/10 text-sky-100 hover:border-sky-300 hover:bg-sky-500/25 active:bg-sky-500/30 focus-visible:ring-sky-400',
+  yes24: `${BOOK_PURCHASE_LINK_STYLE} [--purchase-color:var(--color-store-yes24)] [--purchase-from:var(--color-store-yes24-from)] [--purchase-to:var(--color-store-yes24-to)] text-purchase-ink focus-visible:ring-store-yes24`,
+  kyobo: `${BOOK_PURCHASE_LINK_STYLE} [--purchase-color:var(--color-store-kyobo)] [--purchase-from:var(--color-store-kyobo-from)] [--purchase-to:var(--color-store-kyobo-to)] text-purchase-ink focus-visible:ring-store-kyobo`,
+  coupang: `${BOOK_PURCHASE_LINK_STYLE} [--purchase-color:var(--color-store-coupang)] [--purchase-from:var(--color-store-coupang-from)] [--purchase-to:var(--color-store-coupang-to)] text-purchase-ink focus-visible:ring-store-coupang`,
+  aladin: `${BOOK_PURCHASE_LINK_STYLE} [--purchase-color:var(--color-store-aladin)] [--purchase-from:var(--color-store-aladin-from)] [--purchase-to:var(--color-store-aladin-to)] text-purchase-ink focus-visible:ring-store-aladin`,
+  amazon: `${BOOK_PURCHASE_LINK_STYLE} [--purchase-color:color-mix(in_srgb,var(--color-store-amazon)_84%,var(--color-bg-main))] text-purchase-ink focus-visible:ring-store-amazon`,
+  google_books: `${BOOK_PURCHASE_LINK_STYLE} [--purchase-color:var(--color-store-google-books)] text-purchase-ink focus-visible:ring-store-google-books`,
 } as const
+
+export const BOOK_PURCHASE_OPENER_STYLE = [
+  '[--purchase-spectrum:linear-gradient(110deg,var(--color-store-coupang)_0%,var(--color-store-coupang)_18%,var(--color-store-yes24)_32%,var(--color-store-yes24)_43%,var(--color-store-kyobo)_57%,var(--color-store-kyobo)_68%,var(--color-store-aladin)_82%,var(--color-store-aladin)_100%)]',
+  'border-accent/45 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-bg-main)_35%,transparent),color-mix(in_srgb,var(--color-bg-main)_42%,transparent)),var(--purchase-spectrum)] text-purchase-ink shadow-sm shadow-bg-secondary/35',
+  'hover:border-accent hover:shadow-[0_3px_14px] hover:shadow-accent/18 active:brightness-95 focus-visible:ring-accent',
+].join(' ')
 
 const BOOK_PURCHASE_BUTTON_FALLBACK =
   'border-border bg-bg-secondary text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-accent'

@@ -19,6 +19,7 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import type { Locale } from "@/types/locale";
+import { CELEB_REFERENCE_BOOK_MODES } from "@/lib/celeb/authoredBooks";
 
 import { CelebAtlasBottomBar, CelebExploreNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
@@ -148,9 +149,9 @@ export default function CelebRecordSections({
   const bookModes = useMemo(
     () =>
       [
-        figureBooks.length > 0 ? { key: "appeared" as const, label: t("groupAppeared") } : null,
-        readBooks.length > 0 ? { key: "read" as const, label: t("groupRead") } : null,
-        authoredBooks.length > 0 ? { key: "authored" as const, label: t("groupAuthored") } : null,
+        ...CELEB_REFERENCE_BOOK_MODES
+          .filter(({ key }) => ({ appeared: figureBooks.length, read: readBooks.length, authored: authoredBooks.length })[key] > 0)
+          .map(({ key, label }) => ({ key, label: t(label) })),
         affiliateBooksSlot ? { key: "related" as const, label: t("groupRelated") } : null,
       ].filter((mode): mode is { key: BookMode; label: string } => mode !== null),
     [figureBooks.length, readBooks.length, authoredBooks.length, affiliateBooksSlot, t],

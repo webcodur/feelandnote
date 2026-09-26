@@ -4,6 +4,7 @@
   책임: 감싼 이미지의 로드가 늦으면(임계 초과) 도착하는 순간 뿌옇게 뭉갠 상태에서
         서서히 또렷해지며 나타나게 한다(팩션 영상의 컷 진입 전환과 같은 연출).
         캐시 등으로 빨리 오는 이미지는 효과 없이 즉시 보인다 — 로딩 애니메이션이지 등장 연출이 아니다.
+        확대 창은 animateOnMount로 캐시된 이미지에도 진입 효과를 켤 수 있다.
         내부 <img>의 로드 상태를 스스로 감지하므로 호출부는 감싸기만 하면 된다.
 */ // ------------------------------
 
@@ -24,11 +25,12 @@ type Phase = "idle" | "armed" | "play" | "done";
 interface BlurDissolveProps {
   children: React.ReactNode;
   className?: string;
+  animateOnMount?: boolean;
 }
 
-export default function BlurDissolve({ children, className = "" }: BlurDissolveProps) {
+export default function BlurDissolve({ children, className = "", animateOnMount = false }: BlurDissolveProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<Phase>("idle");
+  const [phase, setPhase] = useState<Phase>(animateOnMount ? "armed" : "idle");
 
   // 첫 페인트 전에 판정한다 — 이미 로드된 이미지에 불필요한 상태 변화가 없게(레이아웃 이펙트)
   useIsoLayoutEffect(() => {
@@ -36,12 +38,41 @@ export default function BlurDissolve({ children, className = "" }: BlurDissolveP
     if (!el) return;
     const img = el.querySelector("img");
 
-    // 이미지가 없거나 이미 로드됨 → 효과 없음. 움직임 최소화 설정도 동일.
+    // 이미지가 없거나 움직임 최소화 설정이면 효과를 생략한다.
     if (
       !img ||
-      (img.complete && img.naturalWidth > 0) ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
+      setPhase("done");
+      return;
+    }
+
+    if (animateOnMount) {
+      let firstFrame = 0;
+      let secondFrame = 0;
+      // 캐시된 그림도 흐린 첫 프레임을 그린 다음 전환한다.
+      const reveal = () => {
+        firstFrame = requestAnimationFrame(() => {
+          secondFrame = requestAnimationFrame(() => setPhase("play"));
+        });
+      };
+      const fail = () => setPhase("done");
+      if (img.complete) {
+        if (img.naturalWidth > 0) reveal();
+        else fail();
+      } else {
+        img.addEventListener("load", reveal);
+        img.addEventListener("error", fail);
+      }
+      return () => {
+        cancelAnimationFrame(firstFrame);
+        cancelAnimationFrame(secondFrame);
+        img.removeEventListener("load", reveal);
+        img.removeEventListener("error", fail);
+      };
+    }
+
+    if (img.complete && img.naturalWidth > 0) {
       setPhase("done");
       return;
     }
@@ -57,7 +88,7 @@ export default function BlurDissolve({ children, className = "" }: BlurDissolveP
       img.removeEventListener("load", onArrive);
       img.removeEventListener("error", onArrive);
     };
-  }, []);
+  }, [animateOnMount]);
 
   // 대기(뿌옇게 숨김) → 재생(또렷한 목표 상태 + transition)으로 클래스가 바뀌며 브라우저가 사이를 채운다
   const fx =

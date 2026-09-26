@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import type { MythData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythTypes";
-import ExploreNav, { type ExploreNavRow } from "@/components/shared/ExploreNav";
+import type { MythData, MythPerson, MythWork } from "@/actions/home/mythTypes";
+import { useRouter } from "@/i18n/navigation";
+import AtlasNavigation from "./AtlasNavigation";
+import { ATLAS_GROUP_PARAM, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
 import { mythGroupName } from "./mythGroupName";
-import MythGroupOverview from "./MythGroupOverview";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythOverview from "./MythOverview";
@@ -18,7 +19,24 @@ import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 import { MYTH_PARAM } from "./mythHref";
 
-interface Props { data: MythData }
+/** 팩션도 같은 선택·개요·그룹·본문을 쓴다. 주소 이동과 인물별 자료만 호출부가 제공한다. */
+export interface ThemeScreenOptions {
+  navigationTree: AtlasTheme[];
+  themeId: string;
+  title: string;
+  overviewLabel: string;
+  overviewFallback: string;
+  renderPerson: (person: MythPerson, onClose: () => void) => ReactNode;
+  renderWorks: (personIds: string[]) => ReactNode;
+}
+
+interface Props { data: MythData; faction?: ThemeScreenOptions }
+
+function FactionPerson({ renderPerson, person, onClose }: Pick<ThemeScreenOptions, "renderPerson"> & {
+  person: MythPerson; onClose: () => void;
+}) {
+  return renderPerson(person, onClose);
+}
 
 function focusedMyth(data: MythData, personId: string | null) {
   const published = data.myths.filter((item) => item.isPublished);
@@ -26,22 +44,30 @@ function focusedMyth(data: MythData, personId: string | null) {
   return matches.sort((a, b) => a.personIds.length - b.personIds.length)[0]?.id ?? published[0]?.id ?? null;
 }
 
-export default function MythScreen({ data }: Props) {
+export default function MythScreen({ data, faction }: Props) {
   const locale = useLocale();
+  const router = useRouter();
   const t = useTranslations("explore.hub.myth");
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
   /* 주소에 신화가 있으면(음악 재생기 바로가기 등) 그 신화를 고른 채 연다 */
-  const requestedSlug = useSearchParams().get(MYTH_PARAM);
+  const searchParams = useSearchParams();
+  const requestedSlug = faction ? null : searchParams.get(MYTH_PARAM);
   const requestedMyth = data.myths.find((myth) => myth.isPublished && myth.slug === requestedSlug);
   const openingMythId = requestedMyth?.id ?? focusedMyth(data, data.openingPersonId);
   const openingMyth = data.myths.find((myth) => myth.id === openingMythId);
   const [regionId, setRegionId] = useState<string | null>(openingMyth?.regionId ?? data.regions[0]?.id ?? null);
   const [mythId, setMythId] = useState<string | null>(openingMythId);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
-  const [comingSoonId, setComingSoonId] = useState<string | null>(null);
-  const [groupId, setGroupId] = useState<string | null>(null);
+  const requestedGroup = searchParams.get(ATLAS_GROUP_PARAM);
+  const [groupId, setGroupId] = useState<string | null>(requestedGroup);
+  const [appliedGroup, setAppliedGroup] = useState(requestedGroup);
   const [appliedSlug, setAppliedSlug] = useState(requestedSlug);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const closePerson = useCallback(() => setSelectedPersonId(null), []);
+
+  if (requestedGroup !== appliedGroup) {
+    setAppliedGroup(requestedGroup);
+    setGroupId(requestedGroup);
+  }
 
   /* 신화 화면에 머문 채 다른 신화 주소로 오면 그 신화로 옮긴다 */
   if (requestedSlug !== appliedSlug) {
@@ -49,34 +75,23 @@ export default function MythScreen({ data }: Props) {
     if (requestedMyth && requestedMyth.id !== mythId) {
       setRegionId(requestedMyth.regionId);
       setMythId(requestedMyth.id);
-      setGroupId(null);
+      setGroupId(requestedGroup);
       setSelectedPersonId(null);
     }
   }
 
   /* 화면에서 고른 신화를 주소에 남긴다. 주소가 늘 보이는 신화를 가리켜야 같은 바로가기를 다시 눌러도 그 신화로 돌아온다 */
-  const rememberMyth = (slug: string | undefined) => {
+  const rememberMyth = (slug: string | undefined, group: string | null) => {
+    if (faction) return;
     const url = new URL(window.location.href);
     if (slug) url.searchParams.set(MYTH_PARAM, slug);
     else url.searchParams.delete(MYTH_PARAM);
+    if (group) url.searchParams.set(ATLAS_GROUP_PARAM, group);
+    else url.searchParams.delete(ATLAS_GROUP_PARAM);
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   };
 
-  useEffect(() => {
-    if (!comingSoonId) return;
-    const timer = setTimeout(() => setComingSoonId(null), 2000);
-    return () => clearTimeout(timer);
-  }, [comingSoonId]);
-
-  const publishedMythIds = useMemo(
-    () => new Set(data.myths.filter((myth) => myth.isPublished).map((myth) => myth.id)),
-    [data.myths],
-  );
-  const isRegionPublished = (region: MythRegion) => region.mythIds.some((id) => publishedMythIds.has(id));
-  /* 지역은 준비 여부와 무관하게 전부 고를 수 있다. 준비 중인 지역은 신화 칩이 잠긴 채 안내만 보인다 */
-  const activeRegion = data.regions.find((region) => region.id === regionId)
-    ?? data.regions.find(isRegionPublished)
-    ?? null;
+  const activeRegion = data.regions.find((region) => region.id === regionId) ?? data.regions[0] ?? null;
   const regionMyths = useMemo(
     () => data.myths.filter((myth) => activeRegion?.mythIds.includes(myth.id)),
     [activeRegion, data.myths],
@@ -85,7 +100,7 @@ export default function MythScreen({ data }: Props) {
     ?? regionMyths.find((myth) => myth.isPublished)
     ?? null;
   useRegisterFactionMusic(activeMyth?.music
-    ? { id: activeMyth.id, title: activeMyth.name, url: activeMyth.music.url, kind: "myth" }
+    ? { id: activeMyth.id, title: activeMyth.name, url: activeMyth.music.url, kind: faction ? "faction" : "myth" }
     : null);
   /* 신화가 정한 차례를 그대로 따른다. 인물 목록을 훑어 거르면 신화와 무관한 전역 차례가
      나오고, 한 인물이 여러 신화에 속할 때 각 신화에서 잡아 둔 자리도 잃는다 */
@@ -95,8 +110,7 @@ export default function MythScreen({ data }: Props) {
       .map((id) => byId.get(id))
       .filter((person): person is MythPerson => Boolean(person));
   }, [activeMyth, data.people]);
-  /* 그룹을 고르면 그 그룹의 인물만 인물 줄에 세운다. 고르지 않으면 인물 줄은 전원,
-     본문은 신화 개요다. 작품·인원 수는 늘 신화 전체 기준이다 */
+  // 그룹 선택은 인물·작품을 거른다. 표지와 개요 통계는 늘 전체 기준이다.
   const activeGroup = activeMyth?.groups.find((group) => group.id === groupId) ?? null;
   const railPeople = useMemo(() => {
     if (!activeGroup) return activePeople;
@@ -111,12 +125,11 @@ export default function MythScreen({ data }: Props) {
     [activeIds, data.works],
   );
   const selectedPerson = activePeople.find((person) => person.id === selectedPersonId) ?? null;
-  const selectedWorks = selectedPerson ? activeWorks.filter((work) => selectedPerson.sourceIds.includes(work.id)) : [];
 
-  /* 개요 아래 작품 선반 — 지금 보이는 인물 범위(신화 전원 또는 고른 그룹)의 작품을 띄운다.
+  /* 인물 목록 아래 작품 선반 — 지금 보이는 인물 범위(신화 전원 또는 고른 그룹)의 작품을 띄운다.
      차례는 그 범위 안에 인물을 가장 많이 담은 책부터 — 이 신화의 대표 원전(오디세이아의 호메로스)이
      신화 전체에 걸쳐 인물이 많은 참고서(그리스 신화 전편)에 밀리지 않게 범위 안 수로 센다.
-     인물을 고르면 선반은 인물 상세 안으로 들어가 그 사람의 작품만 보인다 */
+     인물 모달이 떠도 뒤의 선반은 유지해 닫을 때 스크롤 위치가 바뀌지 않게 한다 */
   const railIds = useMemo(() => new Set(railPeople.map((person) => person.id)), [railPeople]);
   const shelfWorks = useMemo(() => {
     const castHere = (work: MythWork) => work.personIds.filter((id) => railIds.has(id)).length;
@@ -125,127 +138,78 @@ export default function MythScreen({ data }: Props) {
       .sort((a, b) => castHere(b) - castHere(a) || a.title.localeCompare(b.title));
   }, [activeWorks, railIds]);
 
-  useEffect(() => {
-    if (!selectedPersonId || !window.matchMedia("(max-width: 1023px)").matches) return;
-    contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [selectedPersonId]);
-
-  const chooseRegion = (nextRegionId: string) => {
-    const nextRegion = data.regions.find((region) => region.id === nextRegionId);
-    if (!nextRegion) return;
-    const nextMyth = data.myths.find(
-      (myth) => nextRegion.mythIds.includes(myth.id) && myth.isPublished,
-    );
-    setRegionId(nextRegionId);
-    setMythId(nextMyth?.id ?? null);
-    setGroupId(null);
-    setSelectedPersonId(null);
-    rememberMyth(nextMyth?.slug);
-  };
-
-  const chooseMyth = (nextId: string) => {
-    const nextMyth = data.myths.find((myth) => myth.id === nextId && myth.isPublished);
-    if (!nextMyth) return;
-    setMythId(nextId);
-    setGroupId(null);
-    setSelectedPersonId(null);
-    rememberMyth(nextMyth.slug);
-  };
-
-  /** null이면 그룹 선택을 푼다 — 본문이 신화 개요로 돌아간다 */
-  const chooseGroup = (nextId: string | null) => {
-    setGroupId(nextId);
+  const navigationTree: AtlasTheme[] = faction?.navigationTree ?? data.regions.map((region) => ({
+    id: region.id, name: region.name,
+    entries: data.myths.filter((myth) => region.mythIds.includes(myth.id)).map((myth) => ({
+      id: myth.id, name: myth.name, count: myth.personIds.length, disabled: !myth.isPublished,
+      groups: myth.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
+    })),
+  }));
+  const chooseAtlas = (selection: AtlasSelection) => {
+    if (faction && selection.entryId !== activeMyth?.id) {
+      const entry = navigationTree.find((item) => item.id === selection.themeId)?.entries.find((item) => item.id === selection.entryId);
+      if (entry?.href) {
+        const query = selection.groupId ? `?${ATLAS_GROUP_PARAM}=${encodeURIComponent(selection.groupId)}` : "";
+        router.push(`${entry.href}${query}`, { scroll: false });
+      }
+      return;
+    }
+    if (!faction) {
+      setRegionId(selection.themeId);
+      setMythId(selection.entryId);
+      rememberMyth(data.myths.find((myth) => myth.id === selection.entryId)?.slug, selection.groupId);
+    } else {
+      const url = new URL(window.location.href);
+      if (selection.groupId) url.searchParams.set(ATLAS_GROUP_PARAM, selection.groupId);
+      else url.searchParams.delete(ATLAS_GROUP_PARAM);
+      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+    setGroupId(selection.groupId);
     setSelectedPersonId(null);
   };
-
-  const choosePerson = (id: string) => setSelectedPersonId((current) => current === id ? null : id);
-
   if (!activeRegion) return null;
   const hasContent = Boolean(activeMyth) && activePeople.length > 0;
-
-  /* 지역(알약)·신화(네모)·그룹(밑줄 탭) — 세력도감과 같은 공용 선택기에 줄로 넘긴다 */
-  const rows: ExploreNavRow[] = [
-    {
-      id: "regions",
-      label: t("regionNav"),
-      shape: "pill",
-      mobileArrows: true,
-      activeId: activeRegion.id,
-      items: data.regions.map((region) => ({ id: region.id, name: region.name })),
-      onSelect: chooseRegion,
-    },
-    {
-      id: "myths",
-      label: t("mythNav"),
-      shape: "square",
-      mobileArrows: true,
-      activeId: activeMyth?.id ?? null,
-      emptyLabel: t("comingSoon"),
-      items: regionMyths.map((myth) => ({ id: myth.id, name: myth.name, disabled: !myth.isPublished })),
-      onSelect: chooseMyth,
-      onDisabledSelect: setComingSoonId,
-      noticeId: comingSoonId,
-      noticeLabel: t("comingSoon"),
-    },
-  ];
-  /* 그룹 — 인물이 많은 신화를 묶음별로 나눠 보인다. 묶음이 없는 신화는 줄을 숨긴다.
-     「전체」 항목은 두지 않는다. 처음에는 아무 그룹도 고르지 않은 채 신화 개요를 보이고,
-     고른 그룹을 다시 누르면 선택을 풀어 신화 개요로 돌아간다 */
-  if (hasContent && activeMyth && activeMyth.groups.length > 0) {
-    rows.push({
-      id: "groups",
-      label: t("groupNav"),
-      shape: "tab",
-      wide: true,
-      mobileArrows: true,
-      activeId: activeGroup?.id ?? null,
-      emptyLabel: t("groupNav"),
-      items: activeMyth.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
-      onSelect: chooseGroup,
-      onClear: () => chooseGroup(null),
-      clearLabel: t("clearGroup"),
-    });
-  }
+  const navigation = (overview?: ReactNode) => (
+    <AtlasNavigation tree={navigationTree} myth={!faction} onSelect={chooseAtlas} overview={overview}
+      selection={{ themeId: faction?.themeId ?? activeRegion.id, entryId: activeMyth?.id ?? null, groupId: activeGroup?.id ?? null }} />
+  );
 
   return (
-    <section id="myth" aria-label={t("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
+    <section id={faction ? "faction" : "myth"} aria-label={faction?.title ?? t("title")} className={`${layout.shell} ${locale === "ko" ? "break-all" : ""}`}>
       <div className={layout.navigationOuter}>
-        <ExploreNav rows={rows} bareOnMobile>
-          {/* 마지막 줄 — 인물. 지역·신화·그룹 줄과 같은 상자에 같은 결로 쌓는다 */}
-          {hasContent && (
-            <div className={layout.nav}>
-              <MythPersonPicker people={railPeople} selectedId={selectedPersonId} onSelect={choosePerson} />
-            </div>
-          )}
-        </ExploreNav>
+        <div className={layout.selectionPanel} data-faction-selection>
+          {hasContent && activeMyth ? (
+            <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} overviewLabel={faction?.overviewLabel} fallback={faction?.overviewFallback}
+              navigation={navigation} />
+          ) : navigation()}
+        </div>
       </div>
 
       {hasContent && activeMyth ? (
         <>
+          <div className={layout.membersOuter}>
+            <div className={layout.container}>
+              <MythPersonPicker key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`}
+                people={railPeople} selectedId={selectedPersonId} onSelect={setSelectedPersonId}
+                name={activeGroup ? mythGroupName(activeGroup, groupLabels) : t("memberList")}
+                groupDescription={activeGroup?.description} />
+            </div>
+          </div>
+          {selectedPerson && (faction
+            ? <FactionPerson renderPerson={faction.renderPerson} person={selectedPerson} onClose={closePerson} />
+            : <MythPersonDetail key={`${activeMyth.id}-${selectedPerson.id}`} person={selectedPerson} myth={activeMyth} onClose={closePerson} />
+          )}
           <div className={layout.overviewOuter}>
             <div className={layout.container}>
-              {/* 인물을 고르기 전 본문 — 그룹을 고르지 않았으면 신화 개요, 그룹을 고르면 그 그룹 개요다.
-                  인물 상세에서 뒤로 가면 보던 그룹 개요로 돌아온다 */}
-              {!selectedPerson && !activeGroup && (
-                <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} />
-              )}
-              {!selectedPerson && activeGroup && (
-                <MythGroupOverview key={`${activeMyth.id}-${activeGroup.id}`} myth={activeMyth} group={activeGroup} people={railPeople} onSelectPerson={choosePerson} />
-              )}
-              {selectedPerson && (
-                <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] scroll-mt-20 md:border md:border-white/[0.08]">
-                  <MythPersonDetail key={`${activeMyth.id}-${selectedPerson.id}`} person={selectedPerson} myth={activeMyth} works={selectedWorks} onClose={() => setSelectedPersonId(null)} backLabel={activeGroup ? t("backToGroup") : t("backToOverview")} />
-                </div>
-              )}
-              {/* 작품 선반 — 인물을 고르기 전 본문 아래에 같은 선반을 띄운다. 인물 상세 안의 선반과 같은 부품·같은 결 */}
-              {!selectedPerson && shelfWorks.length > 0 && (
+              {/* 모달을 열어도 목록·책장의 높이와 스크롤 위치는 그대로 유지한다. */}
+              {(faction ? faction.renderWorks(railPeople.map((person) => person.id)) : shelfWorks.length > 0 && (
                 <div className="mt-4 overflow-hidden rounded-[24px] bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
                   <MythWorkShelf key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} selectedPersonId="" mythName={activeMyth.name} mythSlug={activeMyth.slug} />
                 </div>
-              )}
-              {(selectedPerson ? selectedWorks : shelfWorks).every((work) => work.editionId === undefined && !work.coupangUrl) && (
+              ))}
+              {!faction && shelfWorks.every((work) => work.editionId === undefined && !work.coupangUrl) && (
                 <DeveloperCommerceFallback
-                  target={{ title: [activeMyth.name, selectedPerson?.name ?? (activeGroup ? mythGroupName(activeGroup, groupLabels) : null)].filter(Boolean).join(" "), type: "TOPIC" }}
+                  target={{ title: [activeMyth.name, activeGroup ? mythGroupName(activeGroup, groupLabels) : null].filter(Boolean).join(" "), type: "TOPIC" }}
                   placement="myth-selection"
                 />
               )}

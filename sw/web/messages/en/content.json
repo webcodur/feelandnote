@@ -55,13 +55,20 @@
       "viewDetail": "View details"
     },
     "purchase": {
-      "buy": "Where to buy"
+      "buy": "Choose a bookstore",
+      "visitStore": "View on {store}",
+      "paidLink": "Paid link",
+      "searchStore": "Search on {store}",
+      "compact": "Bookstores",
+      "searchLabel": "Search",
+      "adLabel": "ad"
     },
     "purchaseInfo": {
       "trigger": "Purchase information",
-      "title": "Purchase information",
-      "notice": "Feel & Note may earn a commission from the bookstore when you buy through these links.",
-      "benefit": "Check each store's price and shipping terms before you buy."
+      "title": "Choose a bookstore",
+      "notice": "Feel & Note earns a small commission when you buy through affiliate links.",
+      "benefit": "Check prices and delivery at your preferred store.",
+      "support": "Your purchases help keep Feel & Note running."
     },
     "introductionSource": {
       "unknown": "Source unverified",
@@ -76,7 +83,6 @@
       "label": "YES24 sales information",
       "price": "₩{price}",
       "open": "View YES24 sales details",
-      "notice": "This information is provided by YES24. Prices and ratings may change on YES24.",
       "rating": "Rating",
       "salePrice": "Sale price",
       "shopPrice": "List price",
@@ -86,7 +92,9 @@
       "pageCount": "{count} pages",
       "published": "Published",
       "changed": "Checking product",
-      "changedNotice": "This edition is no longer on sale at YES24 or its listing has changed. If a revised edition has been released, check the store page for the latest version."
+      "changedNotice": "This edition is no longer on sale at YES24 or its listing has changed. If a revised edition has been released, check the store page for the latest version.",
+      "details": "YES24 price & book details",
+      "fallback": "Check the store for the latest price and availability."
     }
   },
   "contentDetail": {

@@ -166,7 +166,7 @@ export default function WorkDetailModal({
             )}
 
             {/* 관련 링크 */}
-            {(item.workType === "MUSIC" || item.workType === "GAME") && (
+            {item.workType === "GAME" && (
               <DeveloperCollectionJourney target={{ title: item.title, creator: item.creator, type: item.workType }} placement="creative-work" />
             )}
             <div className="flex flex-wrap items-center gap-2 pt-2">

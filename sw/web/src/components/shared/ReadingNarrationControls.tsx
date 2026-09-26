@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { Loader2, Pause, Play, RotateCcw, RotateCw, Square } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Modal, { ModalBody } from "@/components/ui/Modal";
+import { Z_INDEX } from "@/constants/zIndex";
 import {
   READING_PLAYBACK_RATE_MAX,
   READING_PLAYBACK_RATE_MIN,
@@ -50,6 +51,7 @@ export default function ReadingNarrationControls({ narration, label }: { narrati
   const { available, status, currentTime, duration, playbackRate, play, pause, resume, stop, seek, setPlaybackRate } = narration;
   const active = status === "playing" || status === "loading";
   const [speedOpen, setSpeedOpen] = useState(false);
+  const closeSpeed = useCallback(() => setSpeedOpen(false), []);
 
   return (
     <div inert={!available} aria-disabled={!available || undefined} className={available ? "" : "opacity-40 transition-opacity"}>
@@ -96,7 +98,7 @@ export default function ReadingNarrationControls({ narration, label }: { narrati
           <span className="min-w-7 text-right">{formatTime(duration)}</span>
         </div>
       </div>
-      <Modal isOpen={speedOpen && available} onClose={() => setSpeedOpen(false)} title={t("readingSpeed")} size="sm" animateHeight={false}>
+      <Modal isOpen={speedOpen && available} onClose={closeSpeed} title={t("readingSpeed")} size="sm" animateHeight={false} escapeCapture zIndex={Z_INDEX.modal + 1}>
         <ModalBody className="px-5 pb-4 pt-1">
           <div className="text-center text-2xl font-semibold tabular-nums text-accent">{playbackRate}×</div>
           <div className="mt-3 flex items-center gap-2 text-[11px] tabular-nums text-text-secondary">

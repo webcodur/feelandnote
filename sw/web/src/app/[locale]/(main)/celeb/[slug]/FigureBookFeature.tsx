@@ -95,7 +95,7 @@ export default function FigureBookFeature({
         onSelect={(editionId) => setEditionSelection({ sourceId: source.id, editionId })}
       />
       {/* ── 3. 표지·소개·서지 ── */}
-      <div className="relative flow-root rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-3 [--intro-media-height:190px] max-sm:rounded-xl max-sm:border-white/[0.08] max-sm:bg-bg-card max-sm:bg-none! sm:grid sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
+      <div className="relative flow-root rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-3 [--intro-media-height:198px] max-sm:rounded-xl max-sm:border-white/[0.08] max-sm:bg-bg-card max-sm:bg-none! sm:grid sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
         <span className="pointer-events-none absolute inset-y-0 start-0 hidden w-1/3 bg-gradient-to-r from-transparent to-accent/[0.04] sm:block" aria-hidden />
         <span className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-gradient-to-r from-transparent via-accent-dim to-transparent sm:block" aria-hidden />
 
@@ -132,12 +132,12 @@ export default function FigureBookFeature({
             isbn={edition.isbn ?? undefined}
             title={edition.title || source.title}
             creator={edition.creator || source.creator}
+            thumbnail={edition.thumbnailUrl}
             links={purchaseModuleLinks}
             enabled={source.type === "BOOK"}
             full
-            hideArrowOnMobile
             className="sm:hidden lg:block"
-            chipClassName="mt-1 h-11 text-sm max-sm:h-9 max-sm:min-h-9 max-sm:border-accent/35 max-sm:bg-none max-sm:bg-accent/15 max-sm:font-semibold max-sm:text-accent max-sm:shadow-none! sm:mt-2"
+            chipClassName="mt-1 sm:mt-2"
           />
         </div>
 
@@ -209,11 +209,12 @@ export default function FigureBookFeature({
             isbn={edition.isbn ?? undefined}
             title={edition.title || source.title}
             creator={edition.creator || source.creator}
+            thumbnail={edition.thumbnailUrl}
             links={purchaseModuleLinks}
             enabled={source.type === "BOOK"}
             full
             className="col-span-2 hidden sm:block lg:hidden"
-            chipClassName="mt-2 h-11 text-sm"
+            chipClassName="mt-2"
           />
         </div>
       </div>

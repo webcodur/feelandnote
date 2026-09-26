@@ -224,6 +224,7 @@ export default function FloatingMusicPlayer() {
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [audioStatus, setAudioStatus] = useState<AudioStatus>('idle')
   const [audioCurrentTime, setAudioCurrentTime] = useState(0)
+  const [gameCurrentTime, setGameCurrentTime] = useState(0)
   const [audioDuration, setAudioDuration] = useState(0)
   const [playbackRate, setPlaybackRate] = useState(1)
   const [selection, setSelection] = useState<{ contextKey: string | null; trackId: string | null }>({
@@ -297,7 +298,7 @@ export default function FloatingMusicPlayer() {
   const isTrackPlaying = playingId === currentTrack?.id
   const isGamePlaying = Boolean(gameAudio?.isPlaying)
   const isPlaying = isGamePlaying || isTrackPlaying
-  const currentPlayerTime = isGamePlaying && gameAudio ? gameAudio.currentTime : audioCurrentTime
+  const currentPlayerTime = isGamePlaying ? gameCurrentTime : audioCurrentTime
   const currentPlayerDuration = isGamePlaying && gameAudio ? gameAudio.duration : audioDuration
   // 테마곡을 듣던 중 화면을 옮겨 새 곡이 올라왔고 아직 재생이 시작되지 않은 사이
   const isHandingOff = Boolean(playingId && isThemeId(playingId) && playingId !== currentTrack?.id)
@@ -421,6 +422,23 @@ export default function FloatingMusicPlayer() {
   useEffect(() => {
     listRef.current?.scrollTo({ top: 0 })
   }, [activeMode])
+
+  // 게임 시간은 ref라 스스로 화면을 갱신하지 않는다. 창이 열려 있을 때만 오디오 이벤트를 구독한다.
+  useEffect(() => {
+    if (!isOpen || !gameAudio?.isPlaying) return
+    const audio = gameAudio.bgmRef?.current
+    const syncTime = () => setGameCurrentTime(audio?.currentTime ?? gameAudio.currentTime)
+    syncTime()
+    if (!audio) return
+    audio.addEventListener('timeupdate', syncTime)
+    audio.addEventListener('seeking', syncTime)
+    audio.addEventListener('seeked', syncTime)
+    return () => {
+      audio.removeEventListener('timeupdate', syncTime)
+      audio.removeEventListener('seeking', syncTime)
+      audio.removeEventListener('seeked', syncTime)
+    }
+  }, [isOpen, gameAudio])
 
   // 화면(테마곡)이 바뀐 렌더에서만 — 다른 화면 곡을 둔 전환 제안은 거두고,
   // 듣던 곡이 새 화면의 곡과 다르면 모달로 바꿀지 묻는다. 금지한 화면은 다시 묻지 않는다.
@@ -568,6 +586,7 @@ export default function FloatingMusicPlayer() {
     const nextTime = Math.max(0, Math.min(time, currentPlayerDuration || 0))
     if (isGamePlaying && gameAudio) {
       gameAudio.seek(nextTime)
+      setGameCurrentTime(nextTime)
       return
     }
     const audio = audioRef.current
