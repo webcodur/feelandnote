@@ -30,7 +30,7 @@ export default function CuratedListBrowseLinks({
     // 기관(성격) 탭은 매체만 기억한다 — 허브의 기관별은 카테고리 안에서 갈린다
     if (!q.topic && q.kind) params.set("kind", q.kind);
     const qs = params.toString();
-    return qs ? `/library/curated?${qs}` : "/library/curated";
+    return qs ? `/explore/works/curated?${qs}` : "/explore/works/curated";
   };
 
   // 링크 모드지만 기관별/주제별 갈아타기는 탭 행이 바뀌므로 살아 있어야 한다

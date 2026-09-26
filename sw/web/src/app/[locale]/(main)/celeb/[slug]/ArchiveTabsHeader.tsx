@@ -2,7 +2,7 @@
  * [celeb 상세] 공통 — 기록 탭 머리(공용 탭 UI)
  * - 목차 위치: 공통 (library/media 등 탭 구획)
  * - 데이터: tabs/activeKey props
- * - 함께 보기: LibraryTabs.tsx, FigureMediaTabs.tsx
+ * - 함께 보기: FigureMediaTabs.tsx
  * ───────────────────────────────────────────── */
 "use client";
 

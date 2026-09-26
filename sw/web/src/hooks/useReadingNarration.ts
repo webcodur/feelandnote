@@ -4,13 +4,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { registerVoice, releaseAudio } from "@/lib/audio-ducking";
 
 export const READING_PLAYBACK_RATES = [0.75, 1, 1.25, 1.5, 2] as const;
+export const READING_PLAYBACK_RATE_MIN = 0.5;
+export const READING_PLAYBACK_RATE_MAX = 2.5;
+export const READING_PLAYBACK_RATE_STEP = 0.05;
 export const READING_PLAYBACK_RATE_STORAGE_KEY = "feelandnote:reading-narration:playback-rate:v1";
 
 let rememberedPlaybackRate = 1;
 let playbackRateLoaded = false;
 
 function isPlaybackRate(value: unknown): value is number {
-  return typeof value === "number" && READING_PLAYBACK_RATES.some((rate) => rate === value);
+  return (
+    typeof value === "number" &&
+    Number.isFinite(value) &&
+    value >= READING_PLAYBACK_RATE_MIN &&
+    value <= READING_PLAYBACK_RATE_MAX
+  );
 }
 
 function readPlaybackRate() {
@@ -259,11 +267,13 @@ export function useReadingNarration(audioUrl: string) {
 
   const setPlaybackRate = useCallback((rate: number) => {
     const session = sessionRef.current;
-    if (!session || session.url !== audioUrl || !isPlaybackRate(rate)) return;
-    session.audio.defaultPlaybackRate = rate;
-    session.audio.playbackRate = rate;
-    rememberPlaybackRate(rate);
-    update(session, { playbackRate: rate });
+    const snapped = Math.round(rate / READING_PLAYBACK_RATE_STEP) * READING_PLAYBACK_RATE_STEP;
+    const rounded = Math.round(snapped * 100) / 100;
+    if (!session || session.url !== audioUrl || !isPlaybackRate(rounded)) return;
+    session.audio.defaultPlaybackRate = rounded;
+    session.audio.playbackRate = rounded;
+    rememberPlaybackRate(rounded);
+    update(session, { playbackRate: rounded });
   }, [audioUrl, update]);
 
   return { ...state, play, pause, resume: play, stop, seek, setPlaybackRate };

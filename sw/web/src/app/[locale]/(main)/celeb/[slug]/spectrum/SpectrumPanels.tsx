@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] spectrum — 수치 패널 뼈대와 모바일 진입 단추
+ * [celeb 상세] spectrum — 수치 패널 뼈대와 비교 묶음 진입 단추
  * - 목차 위치: spectrum(분석 구획, service key `spectrum` / sectionId `analysis`)
- * - 데이터: props 없음(SectionHeader 제목만, MetricPanel 자식만, MobileMatchButton 라벨·onClick만)
+ * - 데이터: props 없음(SectionHeader 제목만, MetricPanel 자식만, MatchGroupsButton 라벨·onClick만)
  * - 함께 보기: SpectrumMetricPanels.tsx, SpectrumSectionMain.tsx
  * ───────────────────────────────────────────── */
 "use client";
@@ -34,11 +34,9 @@ export function SectionHeader({ title }: { title: string }) {
 /* ── 2. 지표 패널 뼈대 ── */
 
 export function MetricPanel({
-  title,
   tone,
   children,
 }: {
-  title: string;
   tone: string;
   children: ReactNode;
 }) {
@@ -49,21 +47,15 @@ export function MetricPanel({
         tone,
       )}
     >
-      {/* 좁은 화면에서는 제목이 넘김 단추 줄에 이미 있어 머리칸을 통째로 숨긴다 */}
-      <header className="hidden border-b border-white/[0.06] pb-3 text-center md:block">
-        <h3 className="font-serif text-base font-bold text-text-primary">
-          {title}
-        </h3>
-      </header>
       {/* 넘길 때 아래 단추가 들썩이지 않도록 남는 높이를 본문이 먹는다 */}
       <div className="mt-4 flex flex-1 flex-col">{children}</div>
     </section>
   );
 }
 
-/* ── 3. 모바일 비교 진입 단추 ── */
+/* ── 3. 비교 묶음 겹창 진입 단추 ── */
 
-export function MobileMatchButton({
+export function MatchGroupsButton({
   label,
   onClick,
   className,
@@ -77,7 +69,7 @@ export function MobileMatchButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border border-accent/45 bg-accent/[0.1] px-3 py-2.5 text-center text-sm font-bold text-accent hover:border-accent hover:bg-accent/[0.18] active:bg-accent/[0.24] md:hidden",
+        "mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border border-accent/45 bg-accent/[0.1] px-3 py-2.5 text-center text-sm font-bold text-accent hover:border-accent hover:bg-accent/[0.18] active:bg-accent/[0.24]",
         className,
       )}
     >

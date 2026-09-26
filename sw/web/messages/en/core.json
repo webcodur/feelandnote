@@ -14,7 +14,6 @@
       "book recommendations",
       "movie recommendations",
       "music recommendations",
-      "cultural journeys",
       "notable figures",
       "feelandnote"
     ]
@@ -164,7 +163,7 @@
     "userFallback": "User",
     "about": {
       "title": "feelandnote",
-      "description": "A cultural archive platform for discovering books, movies, and music recommended by 1,000+ celebrities. Record your own cultural journey."
+      "description": "A cultural archive platform for discovering books, movies, and music recommended by 1,000+ celebrities. Keep a record of the works you enjoy."
     },
     "lab": "Lab"
   },
@@ -189,7 +188,6 @@
       "epic": "Epic"
     },
     "category": {
-      "volume": "Volume",
       "diversity": "Diversity",
       "depth": "Depth"
     },
@@ -615,6 +613,7 @@
       "pause": "Pause",
       "mute": "Mute",
       "unmute": "Unmute",
+      "volume": "Volume",
       "enterGame": "Enter Game",
       "soundInfo": "Includes sound effects",
       "startGame": "Start Game",

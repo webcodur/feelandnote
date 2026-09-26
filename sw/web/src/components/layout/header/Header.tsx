@@ -9,7 +9,6 @@
 import { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Landmark } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
 import HeaderRecentProfiles from "./HeaderRecentProfiles";
 import HeaderProfileMenu from "./HeaderProfileMenu";
@@ -34,8 +33,6 @@ interface HeaderProps {
   isMobile?: boolean;
 }
 
-const ICON_BUTTON_CLASS = "w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5";
-const ICON_SIZE = 20;
 export default function Header({ isMobile }: HeaderProps) {
   const pathname = usePathname();
   const t = useTranslations();
@@ -112,18 +109,6 @@ export default function Header({ isMobile }: HeaderProps) {
         <div className="flex items-center gap-0.5 sm:gap-1 ms-auto shrink-0">
           {/* 최근 방문 (모바일만 — 데스크톱은 좌측 중앙 패널이 쥔다) */}
           <HeaderRecentProfiles />
-
-          {/* 광장 진입 */}
-          <Link
-            href="/agora"
-            aria-label={t("agora.section")}
-            title={t("agora.section")}
-            className={`${ICON_BUTTON_CLASS} ${
-              isNavActive("/agora") ? "text-accent" : "text-text-secondary hover:text-text-primary"
-            }`}
-          >
-            <Landmark size={ICON_SIZE} />
-          </Link>
 
           {/* 언어 전환 (데스크톱) */}
           <LocaleSwitcher variant="icon" />

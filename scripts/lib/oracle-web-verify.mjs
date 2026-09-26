@@ -8,7 +8,7 @@ export async function verifyProduction({
   timeoutMs = 10_000, readRuntime, now = Date.now,
 } = {}) {
   if (!releaseId) throw new Error('Expected release ID is required')
-  const routes = ['/', '/en', '/explore', '/en/explore', '/library', '/en/library',
+  const routes = ['/', '/en', '/explore', '/en/explore', '/explore/works', '/en/explore/works',
     `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`]
   const started = now()
   async function read(url, { json = false, asset = false } = {}) {

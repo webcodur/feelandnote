@@ -80,32 +80,29 @@ const nextConfig: NextConfig = {
       { source: '/:locale(ko|en)/explore/celeb-feed', destination: '/:locale/explore/feed', permanent: true },
       { source: '/explore/top-by-type', destination: '/explore/ranking', permanent: true },
       { source: '/:locale(ko|en)/explore/top-by-type', destination: '/:locale/explore/ranking', permanent: true },
-      { source: '/library/figure', destination: '/explore/today', permanent: true },
-      { source: '/:locale(ko|en)/library/figure', destination: '/:locale/explore/today', permanent: true },
+      { source: '/explore/persona', destination: '/explore/spectrum', permanent: true },
+      { source: '/ko/explore/persona', destination: '/explore/spectrum', permanent: true },
+      { source: '/en/explore/persona', destination: '/en/explore/spectrum', permanent: true },
       // 영상관은 서재 탐방 형태를 바꾸는 동안 내려 둔다(26.09.16) — 되살리면 이 두 줄을 지운다
       { source: '/explore/youtube', destination: '/explore', permanent: false },
       { source: '/:locale(ko|en)/explore/youtube', destination: '/:locale/explore', permanent: false },
-      // /scriptures → /library 경로 변경 (2026-03-26)
-      {
-        source: '/scriptures',
-        destination: '/library',
-        permanent: true,
-      },
-      {
-        source: '/scriptures/:path*',
-        destination: '/library/:path*',
-        permanent: true,
-      },
-      {
-        source: '/:locale(ko|en)/scriptures',
-        destination: '/:locale/library',
-        permanent: true,
-      },
-      {
-        source: '/:locale(ko|en)/scriptures/:path*',
-        destination: '/:locale/library/:path*',
-        permanent: true,
-      },
+      // 두 세대의 옛 작품 주소를 정본으로 바로 보낸다. 특정 경로가 catch-all보다 먼저다.
+      ...['library', 'scriptures'].flatMap((legacy) =>
+        ['', '/ko', '/en'].flatMap((prefix) => {
+          const destinationPrefix = prefix === '/ko' ? '' : prefix;
+          return [
+            ['figure', '/explore/today'],
+            ['era', '/explore/works/popular'],
+            ['profession', '/explore/works/popular?view=profession'],
+            ['', '/explore/works'],
+            [':path*', '/explore/works/:path*'],
+          ].map(([suffix, destination]) => ({
+            source: `${prefix}/${legacy}${suffix ? `/${suffix}` : ''}`,
+            destination: `${destinationPrefix}${destination}`,
+            permanent: true,
+          }));
+        }),
+      ),
       // 문의하기 → 서비스 소개 흡수 (2026-08-01)
       { source: '/contact', destination: '/about#contact', permanent: true },
       { source: '/:locale(ko|en)/contact', destination: '/:locale/about#contact', permanent: true },
@@ -128,27 +125,6 @@ const nextConfig: NextConfig = {
       {
         source: '/:locale(ko|en)/explore/spotlight/:path*',
         destination: '/:locale/explore/faction/:path*',
-        permanent: true,
-      },
-      // 시대별·직업별 목록을 「인기 작품」 한 화면으로 합쳤다 (2026-08-02)
-      {
-        source: '/library/era',
-        destination: '/library/popular',
-        permanent: true,
-      },
-      {
-        source: '/:locale(ko|en)/library/era',
-        destination: '/:locale/library/popular',
-        permanent: true,
-      },
-      {
-        source: '/library/profession',
-        destination: '/library/popular?view=profession',
-        permanent: true,
-      },
-      {
-        source: '/:locale(ko|en)/library/profession',
-        destination: '/:locale/library/popular?view=profession',
         permanent: true,
       },
     ];

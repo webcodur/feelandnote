@@ -135,7 +135,7 @@ export default function AutoScrollReadingText({
   return (
     <div
       ref={selfRef}
-      className={cn("relative min-w-0 overflow-y-auto overscroll-contain", className)}
+      className={cn("relative min-w-0 overflow-y-auto", className)}
       style={{
         maxHeight: "min(420px, 52dvh)",
         maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",

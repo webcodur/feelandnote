@@ -25,7 +25,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
   return (
     <div className="space-y-7">
       <Link
-        href={`/library/curated/${list.curator.slug}`}
+        href={`/explore/works/curated/${list.curator.slug}`}
         className="inline-flex items-center gap-1.5 text-xs text-text-tertiary hover:text-accent"
       >
         <ArrowLeft size={14} />
@@ -114,7 +114,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           {list.siblings.map((s) => (
             <Link
               key={s.slug}
-              href={`/library/curated/${list.curator.slug}/${s.slug}`}
+              href={`/explore/works/curated/${list.curator.slug}/${s.slug}`}
               aria-current={s.isCurrent ? "page" : undefined}
               className={
                 s.isCurrent

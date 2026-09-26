@@ -16,7 +16,6 @@ import {
   PenLine,
   Radar,
   Route,
-  ShoppingBag,
   Sparkles,
   User,
   Users,
@@ -27,7 +26,6 @@ export const CELEB_SERVICE_ICONS = {
   reading: BookOpenText,
   personGuide: BookOpen,
   library: BookOpen,
-  sourceWorks: BookOpenText,
   works: PenLine,
   connections: Network,
   relations: Network,
@@ -41,5 +39,5 @@ export const CELEB_SERVICE_ICONS = {
   faction: Sparkles,
   guestbook: PenLine,
   relatedFigures: Users,
-  affiliateBooks: ShoppingBag,
+  affiliateBooks: BookOpenText,
 } as const;

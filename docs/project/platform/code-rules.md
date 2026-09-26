@@ -43,13 +43,17 @@ export default function Page() {
 }
 ```
 
+- **개발 서버에서만 나는 간헐 500**: 「Failed to call `useTranslations` … `NextIntlClientProvider` was not found」·「No intl context found」가 같은 화면에서 어쩌다 한 번씩 나면(봇 경로 기준 10~20%) 코드가 아니라 오래 돈 개발 서버(Turbopack)의 모듈 묶음이 꼬인 것이다. 폴더 개명·파일 삭제가 많이 쌓인 뒤에 나타나고 「module factory is not available」 오류가 같이 보인다. 개발 서버를 다시 띄우면 사라진다. 운영 빌드는 webpack이라 넘어가지 않는다.
+- 의심되면 운영 방식으로 확인한다: `sw/web`에서 `NEXT_DIST_DIR=.next-verify npx next build --webpack`(개발 서버의 `.next`와 부딪히지 않는다) → `.next-verify/standalone/sw/web/server.js`를 `PORT=3100 HOSTNAME=localhost`·`node --env-file=.env`로 띄워 요청한다. `HOSTNAME`을 `127.0.0.1`로 두면 모든 요청이 자기 자신으로 307을 낸다. 연속 요청은 1초 이상 띄운다 — 개발 서버에 화면을 짧은 간격으로 백 번 넘게 요청했다가 서버가 죽은 일이 있다(26.09.18).
+- `.next/types`에 옛 빌드의 생성물이 남으면 없어진 경로를 가리켜 `tsc`와 검증 빌드의 타입 단계가 가짜 오류로 멈춘다. 개발 서버는 `.next/dev/types`를 쓰므로 `.next/types`는 치워도 된다.
+
 ## 주석/경로
 - 한국어, JSDoc 금지, region/endregion 그룹화
 - 대규모 외부: 절대경로(@/), 소규모 내부: 상대경로(./)
 
 # 디자인 시스템
 
-**컨셉**: 고대 신전의 권위 + 현대적 선명함. 다크 스톤 테마.
+**시각 테마 — 밤의 아카이브.** 인물·작품·감상 기록을 어두운 공간에서 하나씩 발견하고 읽는 경험을 지향한다. 넓은 어두운 면은 콘텐츠가 머무는 자리로 두고, 따뜻한 금빛은 선택·연결·발견의 순간에 집중한다. 이미지의 주조 청동 질감은 이 테마의 한 표현법인 [`FNN-흑동주조`](../production/image-generation.md#fnn-흑동주조)를 따른다. 사진·표지·본문은 각각의 내용이 먼저 읽히게 한다.
 
 ## 컬러
 - 배경: `bg-main`(#121212), `bg-secondary`(#0a0a0a), `bg-card`(#1a1a1a), `stone-heavy/light`
@@ -69,6 +73,8 @@ export default function Page() {
 **금지 사항**:
 - 임의 hex/rgb 색상 직접 지정 금지. 반드시 `globals.css` @theme 토큰만 사용
 - **opacity 남용 금지**: `text-text-secondary/60`, `text-accent/40` 등 불투명도를 낮춰 읽기 어렵게 만드는 패턴 금지. 가독성이 최우선이다
+- 글자색에 `text-white/NN`도 쓰지 않는다 — 같은 불투명도 남용이다(`text-white/35`는 기본 바탕 대비 약 3:1로 기준 4.5:1에 못 미친다). 흐리게 할 글자는 `text-text-tertiary`까지만 내린다. 장식(구분선·아이콘·빈 얼굴 자리의 머리글자)과 비활성 상태는 예외다
+- **글자 크기 하한은 11px이다.** `text-[9px]`·`text-[10px]`는 메타·캡션·배지에도 쓰지 않는다. 흐린 색과 작은 크기를 겹치면 대비 기준을 통과해도 읽히지 않는다
 - 사용자가 읽어야 하는 텍스트(소개글, 명언, 설명문 등)에 `text-xs`(12px) 이하 사용 금지. 최소 `text-sm`(14px) 이상
 - "고급스러움 = 작고 흐린 텍스트"가 아니다. 선명하고 읽기 쉬운 것이 좋은 디자인이다
 
@@ -129,10 +135,10 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 
 | 화면·구획 | 옛 이름 | 정본 |
 |---|---|---|
-| `/library` | 지혜의 서가 | **서가** |
-| `/library/academy` | 지혜의 학당 / Academy of Wisdom | **학당** / Academy |
-| `/library/museum` | 콘텐츠의 연대기 / Chronicle of Content | **박물관** / Museum |
-| `/library/popular` (신설) | 불후의 명작 + 길의 갈래 | **인기 작품** / Popular Works |
+| `/explore/works` | 지혜의 서가·서가·서재 | **작품** / Works |
+| `/explore/works/academy` | 지혜의 학당 / Academy of Wisdom | **학당** / Academy |
+| `/explore/works/museum` | 콘텐츠의 연대기 / Chronicle of Content | **박물관** / Museum |
+| `/explore/works/popular` (신설) | 불후의 명작 + 길의 갈래 | **인기 작품** / Popular Works |
 
 「불후의 명작」(시대별)과 「길의 갈래」(직업별)는 **같은 자료를 다르게 자른 것**이라 26.08.02에 한 화면으로 합쳤다. 안에서 「시대별로 보기 / 직군으로 보기」로 전환하고, 시대별의 '전체' 탭이 모든 시대를 합친 순위다. 옛 주소 둘은 새 주소로 넘긴다.
 

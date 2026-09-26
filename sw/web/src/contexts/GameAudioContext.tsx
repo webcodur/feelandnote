@@ -5,9 +5,31 @@
 */
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
-import type { GameAudioControls } from '@/components/shared/GameAudioPlayer'
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode, type MutableRefObject } from 'react'
 import { installDomAudioBridge } from '@/lib/audio-ducking'
+
+/** 게임이 올려 두면 음악 재생기가 읽는 게임 오디오 조종 계약 */
+export interface GameAudioControls {
+  isPlaying: boolean
+  volume: number
+  currentTime: number
+  duration: number
+  togglePlay: () => void
+  setVolume: (v: number) => void
+  seek: (time: number) => void
+  /** 오디오 엘리먼트 ref — 플레이어가 자체 폴링으로 currentTime을 읽는다 */
+  bgmRef?: MutableRefObject<HTMLAudioElement | null>
+  /** 플레이리스트 지원 */
+  trackLabel?: string
+  /** 지금 곡의 src — 음악 재생기 목록이 같은 곡을 찾아 상태를 맞춘다 */
+  trackSrc?: string | null
+  trackIndex?: number
+  trackCount?: number
+  nextTrack?: () => void
+  prevTrack?: () => void
+  /** src가 지금 플레이리스트에 있으면 그 곡을 재생하고 true를 돌린다 */
+  playSrc?: (src: string) => boolean
+}
 
 interface GameAudioContextValue {
   controls: GameAudioControls | null

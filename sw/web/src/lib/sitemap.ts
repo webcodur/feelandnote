@@ -90,9 +90,9 @@ async function fetchCuratedPaths(): Promise<string[]> {
   const data: { slug: string; curated_lists: { slug: string }[] | null }[] =
     await response.json()
   return data.flatMap((curator) => [
-    `/library/curated/${curator.slug}`,
+    `/explore/works/curated/${curator.slug}`,
     ...(curator.curated_lists ?? []).map(
-      (list) => `/library/curated/${curator.slug}/${list.slug}`,
+      (list) => `/explore/works/curated/${curator.slug}/${list.slug}`,
     ),
   ])
 }
@@ -151,11 +151,11 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
     ],
   ),
   ['/explore/feed', 'daily', 0.7],
-  ['/library', 'daily', 0.8],
-  ['/library/popular', 'weekly', 0.8],
-  ['/library/museum', 'monthly', 0.7],
-  ['/library/academy', 'monthly', 0.7],
-  ['/library/curated', 'weekly', 0.8],
+  ['/explore/works', 'daily', 0.8],
+  ['/explore/works/popular', 'weekly', 0.8],
+  ['/explore/works/museum', 'monthly', 0.7],
+  ['/explore/works/academy', 'monthly', 0.7],
+  ['/explore/works/curated', 'weekly', 0.8],
   ['/rest', 'monthly', 0.5],
   ['/about', 'monthly', 0.7],
   ['/terms', 'yearly', 0.3],

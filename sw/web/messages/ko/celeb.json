@@ -61,11 +61,16 @@
     "influence": "영향력",
     "realityChipReal": "사실",
     "realityChipFiction": "가상",
-    "library": "기록",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
     "sourceWorks": "연관 작품",
     "sourceWorksIntro": "인물이 직간접적으로 등장하는 책",
-    "sourceWorksLabel": "작품",
+    "groupAppeared": "등장",
+    "groupRead": "감상",
+    "groupAuthored": "집필",
+    "groupRelated": "추천",
+    "authoredWorksIntro": "인물이 직접 지은 책",
+    "readShelfIntro": "인물이 감상한 책 (리뷰 섹션과 동일)",
+    "relatedShelfIntro": "같은 직종 인물들이 찾는 책",
     "sourceWorkCount": "작품 {count}편",
     "sourceWorkOpen": "작품 상세",
     "sourceWorkBuyCoupang": "쿠팡 구매",
@@ -331,6 +336,7 @@
     "readingForward": "10초 앞으로",
     "readingPosition": "재생 위치",
     "readingSpeed": "재생 속도",
+    "readingTimeLeft": "남은 재생 시간",
     "readingExpandGuide": "인물 안내 크게 보기",
     "readingExpandMonologue": "가상독백 크게 보기",
     "dialogueDescriptionTitle": "고유 대사 안내",
@@ -344,6 +350,7 @@
     "moreRecommendations": "추천 도서 더 보기",
     "noFurtherRecommendations": "추가로 추천할 도서가 없습니다.",
     "factionLoad": "세력도감 열기",
-    "readingPlayFromHere": "이 문장부터 듣기"
+    "readingPlayFromHere": "이 문장부터 듣기",
+    "moreReadBooks": "감상한 책 더 보기"
   }
 }

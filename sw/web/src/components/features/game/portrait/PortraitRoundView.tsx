@@ -123,44 +123,47 @@ export default function PortraitRoundView({
 
       <div className="grid min-h-0 flex-1 items-center gap-3 md:grid-cols-[minmax(240px,0.82fr)_minmax(320px,1.18fr)] md:gap-8">
         <div className="mx-auto w-full max-w-[160px] sm:max-w-[230px] md:max-w-[290px]">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-accent/30 bg-stone-heavy shadow-[0_24px_70px_-28px_rgba(0,0,0,1)] sm:rounded-2xl">
-            <CelebAvatarImage
-              key={round.target.id}
-              src={round.target.avatarUrl}
-              alt={isAnswered && answer.kind !== "skipped" ? round.target.name : t("hiddenPortraitAlt")}
-              loading="eager" fetchPriority="high"
-              className="object-cover transition-[filter,transform] duration-700 ease-out"
-              style={imageStyle}
-              onLoad={onImageLoad}
-              onError={onImageError}
-            />
+          <div className="overflow-hidden rounded-xl border border-accent/30 bg-stone-heavy shadow-[0_24px_70px_-28px_rgba(0,0,0,1)] sm:rounded-2xl">
+            <div className="relative aspect-[4/5]">
+              <CelebAvatarImage
+                key={round.target.id}
+                src={round.target.avatarUrl}
+                alt={isAnswered && answer.kind !== "skipped" ? round.target.name : t("hiddenPortraitAlt")}
+                loading="eager" fetchPriority="high"
+                className="object-cover transition-[filter,transform] duration-700 ease-out"
+                style={imageStyle}
+                onLoad={onImageLoad}
+                onError={onImageError}
+              />
 
-            {imageStatus === "loading" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-bg-main/85 text-accent">
-                <LoaderCircle className="h-6 w-6 animate-spin" aria-hidden />
-                <span className="text-[10px] font-bold">{t("loadingPortrait")}</span>
-              </div>
-            )}
-
-            {imageStatus === "error" && (
-              <div className="absolute inset-0 flex items-center justify-center bg-bg-main/95 px-4 text-center text-xs leading-relaxed text-text-secondary">
-                {t("imageError")}
-              </div>
-            )}
-
-            {!isAnswered && isReady && (
-              <>
-                <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent_0,transparent_5px,rgba(212,175,55,0.035)_6px)]" aria-hidden />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main/95 to-transparent px-2 pb-2 pt-8 text-center sm:px-3 sm:pb-3 sm:pt-10">
-                  <p className="text-[9px] font-bold tracking-[0.12em] text-accent/75 sm:text-[10px] sm:tracking-[0.15em]">
-                    {t(`revealStages.${revealStep}`)}
-                  </p>
+              {imageStatus === "loading" && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-bg-main/85 text-accent">
+                  <LoaderCircle className="h-6 w-6 animate-spin" aria-hidden />
+                  <span className="text-[10px] font-bold">{t("loadingPortrait")}</span>
                 </div>
-              </>
-            )}
+              )}
 
+              {imageStatus === "error" && (
+                <div className="absolute inset-0 flex items-center justify-center bg-bg-main/95 px-4 text-center text-xs leading-relaxed text-text-secondary">
+                  {t("imageError")}
+                </div>
+              )}
+
+              {!isAnswered && isReady && (
+                <>
+                  <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent_0,transparent_5px,rgba(212,175,55,0.035)_6px)]" aria-hidden />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main/95 to-transparent px-2 pb-2 pt-8 text-center sm:px-3 sm:pb-3 sm:pt-10">
+                    <p className="text-[9px] font-bold tracking-[0.12em] text-accent/75 sm:text-[10px] sm:tracking-[0.15em]">
+                      {t(`revealStages.${revealStep}`)}
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* 이름은 얼굴을 가리지 않게 카드 하단에 별도 칸으로 둔다 */}
             {isAnswered && answer.kind !== "skipped" && (
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main via-bg-main/85 to-transparent px-2 pb-2 pt-8 text-center sm:px-3 sm:pb-4 sm:pt-12">
+              <div className="border-t border-accent/20 bg-bg-main/95 px-2 py-1.5 text-center sm:py-2">
                 <p className="font-serif text-base font-black text-text-primary sm:text-xl">{round.target.name}</p>
               </div>
             )}

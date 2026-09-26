@@ -2,9 +2,9 @@
   파일명: /components/features/library/hub/LibraryBanner.tsx
   기능: 서가 배너 (동적 breadcrumb, N단 지원)
   책임: 현재 경로 depth에 따라 배너 breadcrumb을 동적으로 표시한다.
-        - /library → 허브 타이틀만
-        - /library/academy → 서가 > 학당
-        - /library/academy/video/composition → 서가 > 학당 > 영상 제작
+        - /explore/works → 허브 타이틀만
+        - /explore/works/academy → 서가 > 학당
+        - /explore/works/academy/video/composition → 서가 > 학당 > 영상 제작
 */ // ------------------------------
 
 "use client";
@@ -44,8 +44,8 @@ export default function LibraryBanner() {
   const hubTitle = tNav("library");
   const hubEnglish = tHome("library.englishTitle");
 
-  // segments: ["library", "academy", "video", "composition"]
-  const segments = pathname.replace(/^\//, "").split("/");
+  // 탐색 접두어를 제외해 기존 작품 하위 경로의 깊이를 유지한다.
+  const segments = pathname.replace(/^\/explore\//, "").split("/");
   const subSegment = segments[1];
   const subKey = subSegment ? SUBPAGE_KEY[subSegment] : undefined;
 
@@ -53,10 +53,10 @@ export default function LibraryBanner() {
   const crumbs: Crumb[] = [];
 
   if (subKey) {
-    // 1단: /library/{sub}
+    // 1단: /explore/works/{sub}
     crumbs.push({
       label: tNav(`sub.${subKey}`),
-      href: `/library/${subSegment}`,
+      href: `/explore/works/${subSegment}`,
     });
 
     // 2단+: academy 카테고리 (segments[2])
@@ -66,7 +66,7 @@ export default function LibraryBanner() {
         const catLabel = tAcademy(`category.${categoryId}.label`);
         crumbs.push({
           label: catLabel,
-          href: `/library/academy/${categoryId}`,
+          href: `/explore/works/academy/${categoryId}`,
         });
       } catch {
         // 번역 키 없으면 무시
@@ -106,7 +106,7 @@ export default function LibraryBanner() {
             aria-level={1}
             className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center"
           >
-            <Link href="/library" className={parentStyle}>
+            <Link href="/explore/works" className={parentStyle}>
               {hubTitle}
             </Link>
             {crumbs.map((crumb, i) => {
@@ -152,7 +152,7 @@ export default function LibraryBanner() {
         <TreeBanner compact>
           {isSubpage ? (
             <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
-              <Link href="/library" className={parentStyleDesktop}>
+              <Link href="/explore/works" className={parentStyleDesktop}>
                 {hubTitle}
               </Link>
               {crumbs.map((crumb, i) => {

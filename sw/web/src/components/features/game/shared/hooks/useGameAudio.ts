@@ -8,8 +8,8 @@
 
 import { useRef, useCallback, useEffect, useState, useMemo } from "react";
 import { useLocale } from "next-intl";
-import type { GameAudioControls } from "@/components/shared/GameAudioPlayer";
-import { getOtherBaseVolume, registerOther, releaseAudio, setOtherBaseVolume } from "@/lib/audio-ducking";
+import type { GameAudioControls } from "@/contexts/GameAudioContext";
+import { getBaseVolume, registerMusic, registerSfx, releaseAudio, setBaseVolume } from "@/lib/audio-ducking";
 
 export interface BgmTrack { src: string; label: string; labelEn?: string }
 
@@ -101,17 +101,17 @@ export function useGameAudio(config: GameAudioConfig) {
   // BGM 페이드아웃 후 콜백
   const fadeOut = useCallback((audio: HTMLAudioElement, onDone?: () => void) => {
     if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
-    const step = getOtherBaseVolume(audio) / (fadeMs / 50);
+    const step = getBaseVolume(audio) / (fadeMs / 50);
     fadeTimerRef.current = setInterval(() => {
-      const next = getOtherBaseVolume(audio) - step;
+      const next = getBaseVolume(audio) - step;
       if (next <= 0) {
-        setOtherBaseVolume(audio, 0);
+        setBaseVolume(audio, 0);
         disposeAudio(audio);
         if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
         fadeTimerRef.current = null;
         onDone?.();
       } else {
-        setOtherBaseVolume(audio, next);
+        setBaseVolume(audio, next);
       }
     }, 50);
   }, [disposeAudio, fadeMs]);
@@ -137,8 +137,8 @@ export function useGameAudio(config: GameAudioConfig) {
           return;
         }
         const audio = new Audio(track.src);
-        registerOther(audio);
-        setOtherBaseVolume(audio, volumeRef.current);
+        registerMusic(audio);
+        setBaseVolume(audio, volumeRef.current);
         audio.muted = bgmMutedRef.current;
         audio.loop = tracksRef.current.length <= 1;
         audio.play().then(() => setIsPlaying(true)).catch(() => {
@@ -216,14 +216,14 @@ export function useGameAudio(config: GameAudioConfig) {
     const cached = cache?.get(name);
     if (cached) {
       const clone = cached.cloneNode(true) as HTMLAudioElement;
-      registerOther(clone, { transient: true });
-      setOtherBaseVolume(clone, sfxVolume);
+      registerSfx(clone);
+      setBaseVolume(clone, sfxVolume);
       for (const event of ["pause", "ended", "error"]) clone.addEventListener(event, () => releaseAudio(clone), { once: true });
       void clone.play().catch(() => releaseAudio(clone));
     } else {
       const audio = new Audio(`${sfxBase}/${name}`);
-      registerOther(audio, { transient: true });
-      setOtherBaseVolume(audio, sfxVolume);
+      registerSfx(audio);
+      setBaseVolume(audio, sfxVolume);
       for (const event of ["pause", "ended", "error"]) audio.addEventListener(event, () => releaseAudio(audio), { once: true });
       void audio.play().catch(() => releaseAudio(audio));
     }
@@ -255,7 +255,7 @@ export function useGameAudio(config: GameAudioConfig) {
     volumeRef.current = v;
     setVolumeState(v);
     if (bgmRef.current) {
-      setOtherBaseVolume(bgmRef.current, v);
+      setBaseVolume(bgmRef.current, v);
     }
   }, []);
 

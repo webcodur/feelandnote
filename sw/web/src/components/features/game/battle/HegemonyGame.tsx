@@ -8,7 +8,6 @@
 import { useCallback, useRef, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
-import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { useBattleAudio } from "./hooks/useBattleAudio";
@@ -59,7 +58,6 @@ export default function HegemonyGame({ bgImages, initialFullScreen, onExitFullSc
   return (
     <GameFullScreen
       breadcrumbs={breadcrumbs}
-      footerExtra={<div className="md:hidden"><GameAudioPlayer controls={audioControls} /></div>}
       initialFullScreen={initialFullScreen}
       onExitFullScreen={(() => {
         stopAll();

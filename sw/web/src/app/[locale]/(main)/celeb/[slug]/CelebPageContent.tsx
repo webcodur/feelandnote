@@ -14,6 +14,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
+import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
@@ -42,6 +43,12 @@ interface CelebPageContentProps {
   initialContentBrief?: ContentBrief;
   figureBooks: FigureBookContent[];
   authoredBooks: FigureBookContent[];
+  /** 「감상」 모드 — 감상 기록의 책을 상품 카드로 모은 첫 묶음 */
+  readBooks: AffiliateBook[];
+  /** 서버가 마지막으로 읽은 기록 쪽 다음 */
+  readBooksNextPage: number;
+  /** 아직 읽지 않은 감상 기록이 있는가 */
+  readBooksHasMore: boolean;
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
@@ -64,6 +71,9 @@ export default function CelebPageContent({
   initialContentBrief,
   figureBooks,
   authoredBooks,
+  readBooks,
+  readBooksNextPage,
+  readBooksHasMore,
   worldId,
   worldBannerImages,
   externalLinksSlot,
@@ -82,6 +92,7 @@ export default function CelebPageContent({
     dialogueLines,
     figureBooks,
     authoredBooks,
+    readBooks,
     initialContents,
   });
   useSectionViewTracking(contentRef);
@@ -175,6 +186,9 @@ export default function CelebPageContent({
         initialContentBrief={initialContentBrief}
         figureBooks={figureBooks}
         authoredBooks={authoredBooks}
+        readBooks={readBooks}
+        readBooksNextPage={readBooksNextPage}
+        readBooksHasMore={readBooksHasMore}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
         affiliateBooksSlot={affiliateBooksSlot}

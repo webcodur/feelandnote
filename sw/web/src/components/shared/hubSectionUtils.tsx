@@ -69,10 +69,10 @@ export const LIBRARY_GROUP_ID = "library";
  * 오늘의 인물은 26.08.07에 뺐다. 인물은 탐색·홈이 이미 맡고 있고, 더보기가 탐색으로 나가 사용자를 밖으로 내보냈다.
  */
 export const LIBRARY_SECTIONS = [
-  { key: "popular",    moreHref: "/library/popular",    titleKey: "popularLabel",    subtitleKey: "popular",    moreKey: "moreDetail" },
-  { key: "curated",    moreHref: "/library/curated",    titleKey: "curatedLabel",    subtitleKey: "curated",    moreKey: "exploreCurated" },
-  { key: "museum",     moreHref: "/library/museum",     titleKey: "museumLabel",     subtitleKey: "museum",     moreKey: "exploreMuseum" },
-  { key: "academy",    moreHref: "/library/academy",    titleKey: "academyLabel",    subtitleKey: "academy",    moreKey: "enterAcademy" },
+  { key: "popular",    moreHref: "/explore/works/popular",    titleKey: "popularLabel",    subtitleKey: "popular",    moreKey: "moreDetail" },
+  { key: "curated",    moreHref: "/explore/works/curated",    titleKey: "curatedLabel",    subtitleKey: "curated",    moreKey: "exploreCurated" },
+  { key: "museum",     moreHref: "/explore/works/museum",     titleKey: "museumLabel",     subtitleKey: "museum",     moreKey: "exploreMuseum" },
+  { key: "academy",    moreHref: "/explore/works/academy",    titleKey: "academyLabel",    subtitleKey: "academy",    moreKey: "enterAcademy" },
 ] as const;
 
 export const librarySection = (key: (typeof LIBRARY_SECTIONS)[number]["key"], t: (k: string) => string) =>

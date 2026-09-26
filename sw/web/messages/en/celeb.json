@@ -61,11 +61,16 @@
     "influence": "Influence",
     "realityChipReal": "Fact",
     "realityChipFiction": "Fiction",
-    "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
     "sourceWorks": "Related Works",
     "sourceWorksIntro": "Books featuring this figure directly or indirectly",
-    "sourceWorksLabel": "Work",
+    "groupAppeared": "Appearing",
+    "groupRead": "Read",
+    "groupAuthored": "Written",
+    "groupRelated": "Picks",
+    "authoredWorksIntro": "Books this figure wrote",
+    "readShelfIntro": "Books this figure read (same as the Reviews section)",
+    "relatedShelfIntro": "Books sought by figures in the same field",
     "sourceWorkCount": "{count} works",
     "sourceWorkOpen": "Work details",
     "sourceWorkBuyCoupang": "Buy on Coupang",
@@ -331,6 +336,7 @@
     "readingForward": "Forward 10 seconds",
     "readingPosition": "Playback position",
     "readingSpeed": "Playback speed",
+    "readingTimeLeft": "Time remaining",
     "readingExpandGuide": "Expand figure guide",
     "readingExpandMonologue": "Expand monologue",
     "dialogueDescriptionTitle": "About signature lines",
@@ -344,6 +350,7 @@
     "moreRecommendations": "More book recommendations",
     "noFurtherRecommendations": "There are no additional recommendations.",
     "factionLoad": "Explore factions",
-    "readingPlayFromHere": "Play from this sentence"
+    "readingPlayFromHere": "Play from this sentence",
+    "moreReadBooks": "More books read"
   }
 }

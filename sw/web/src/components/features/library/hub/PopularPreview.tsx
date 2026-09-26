@@ -75,7 +75,7 @@ export default function PopularPreview({
 
       {/* 더 보기 — 보고 있는 모드 그대로 안쪽 화면으로 잇는다 */}
       <HubMoreLink
-        href={mode === "classics" ? "/library/popular?mode=classics" : "/library/popular"}
+        href={mode === "classics" ? "/explore/works/popular?mode=classics" : "/explore/works/popular"}
         label={tHub("moreDetail")}
       />
     </div>

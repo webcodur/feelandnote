@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/library/hub/CuratedHubBrowse.tsx
   기능: 서가 허브의 「기관 선정」 구획 (클라이언트)
-  책임: 기관 선정 허브(/library/curated)와 같은 조작대(카테고리·기관별/주제별)를 얹고
+  책임: 기관 선정 허브(/explore/works/curated)와 같은 조작대(카테고리·기관별/주제별)를 얹고
         고른 갈래의 목록 몇 건을 보여준다. 안(전체 허브 화면)과 밖(서가 허브 구획)이
         같은 공용 부품(useCuratedBrowse + CuratedBrowseTabs + CuratedListCard)을 쓴다.
         구획 특성상 목록 수는 제한한다 — 나머지는 「더 보기」가 잇는다.

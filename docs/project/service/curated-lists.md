@@ -1,4 +1,4 @@
-# 기관 선정 (`(main)/library/curated/*`)
+# 기관 선정 (`(main)/explore/works/curated/*`)
 
 > **최종 실측 체크: 26.08.01** — 실 DB 전량 집계(기관 25·목록 25·항목 2,529·표지 85%), 화면 응답·렌더 내용 대조, 실서비스 반영 확인
 >
@@ -98,9 +98,9 @@
 
 | 경로 | 역할 | 화면 |
 |---|---|---|
-| `/library/curated` | 허브. 성격별(대학·언론·상·서점·투표) 기관 진열 | `curated/CuratedHubView.tsx` |
-| `/library/curated/[curator]` | 기관 소개 + 그 기관이 낸 목록 전부 | `curated/CuratorView.tsx` |
-| `/library/curated/[curator]/[list]` | 목록. 데스크톱은 상자로 감싼 카드 격자, 모바일은 2열 격자·한 편씩 보는 펼침 선택 + 같은 계열 연도 전환 | `curated/CuratedListView.tsx` · `CuratedListGrid.tsx` · `CuratedListMobile.tsx` · `CuratedListExpand.tsx` |
+| `/explore/works/curated` | 허브. 성격별(대학·언론·상·서점·투표) 기관 진열 | `curated/CuratedHubView.tsx` |
+| `/explore/works/curated/[curator]` | 기관 소개 + 그 기관이 낸 목록 전부 | `curated/CuratorView.tsx` |
+| `/explore/works/curated/[curator]/[list]` | 목록. 데스크톱은 상자로 감싼 카드 격자, 모바일은 2열 격자·한 편씩 보는 펼침 선택 + 같은 계열 연도 전환 | `curated/CuratedListView.tsx` · `CuratedListGrid.tsx` · `CuratedListMobile.tsx` · `CuratedListExpand.tsx` |
 
 - 컴포넌트는 `sw/web/src/components/features/library/curated/`. 목록 카드(`CuratedListCard`)는 허브·기관 화면이 공유한다.
 - 조회는 `sw/web/src/actions/library/curated.ts` 하나가 전담한다(허브·기관·목록·작품 역조회 4종). 캐시 태그는 `CACHE_TAGS.CURATED`다. DB 조회의 `error`는 행 없음과 구분해 던져야 하며, 일시 장애를 빈 기관·빈 목록으로 바꾸어 7일 캐시에 저장하지 않는다. 이 오류 미캐시 규칙의 회귀 검사는 `sw/web/src/actions/library/curated.cache.test.ts`에 있다.
@@ -181,7 +181,7 @@
 
 **원인 하나로 모인다 — 목록 원문(영문 원제)을 그대로 한국 서점에 던졌다.** 번역서는 원제로 걸리지 않는다. 그래서 못 찾거나(미연결), 영문 원서에 붙거나(한국어 서비스에 영문 표지), 제목 일부가 겹치는 엉뚱한 한국 책에 붙었다. 저자 대조 규칙이 있었지만 저자가 서로 다른 문자로 적힌 경우의 예외를 뚫고 들어왔다.
 
-**대책 — 잇기 전에 「한국어 정식 출간명」을 먼저 알아낸다.** 이건 검색으로 풀 문제가 아니라 아는 사람이 답할 문제여서 GPT(codex)에 묻는다.
+**대책 — 잇기 전에 「한국어 정식 출간명」을 먼저 알아낸다.** 이건 검색으로 풀 문제가 아니라 아는 사람이 답할 문제여서 LLM에 묻는다. 어느 엔진을 쓸지는 그때 지시를 따른다.
 
 | 파일 | 역할 |
 |---|---|

@@ -72,7 +72,7 @@ export default function MemoryCard({
         </span>
 
         <span
-          className={`absolute inset-0 overflow-hidden rounded-[7px] bg-stone-heavy transition-transform ease-out motion-reduce:transform-none motion-reduce:transition-none ${
+          className={`absolute inset-0 flex flex-col overflow-hidden rounded-[7px] bg-stone-heavy transition-transform ease-out motion-reduce:transform-none motion-reduce:transition-none ${
             revealed ? "visible" : "invisible"
           } ${
             showsSuccessEffect
@@ -81,12 +81,20 @@ export default function MemoryCard({
           }`}
           style={{ transitionDuration: `${MEMORY_RESULT_TIMING.effectTransitionMs}ms` }}
         >
-          <CelebAvatarImage
-            src={card.figure.avatarUrl}
-            alt=""
-            className="object-cover"
-            style={{ filter: "none" }}
-          />
+          <span className="relative min-h-0 flex-1">
+            <CelebAvatarImage
+              src={card.figure.avatarUrl}
+              alt=""
+              className="object-cover"
+              style={{ filter: "none" }}
+            />
+          </span>
+          {/* 이름은 얼굴을 가리지 않게 카드 하단에 별도 칸으로 둔다. 좁거나 낮은 화면은 보드의 이름 자리가 대신 읽는다 */}
+          <span className="hidden shrink-0 items-center justify-center border-t border-white/10 bg-bg-main/80 px-1 py-0.5 landscape:[@media(min-height:600px)]:flex">
+            <span className="block truncate text-center font-serif text-xs font-bold text-text-primary @min-[7rem]:text-sm">
+              {card.figure.name}
+            </span>
+          </span>
           <span
             className={`pointer-events-none absolute inset-0 bg-bg-main/60 transition-opacity ease-out motion-reduce:transition-none ${
               showsSuccessEffect
@@ -95,12 +103,6 @@ export default function MemoryCard({
             }`}
             style={{ transitionDuration: `${MEMORY_RESULT_TIMING.effectTransitionMs}ms` }}
           />
-          {/* 카드가 넉넉한 가로 화면에서만 이름을 얹는다. 좁거나 낮은 화면은 보드의 이름 자리가 대신 읽는다 */}
-          <span className="absolute inset-x-0 bottom-0 hidden bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent px-1 pb-1.5 pt-6 landscape:[@media(min-height:600px)]:block">
-            <span className="block truncate text-center font-serif text-xs font-bold text-text-primary @min-[7rem]:text-sm">
-              {card.figure.name}
-            </span>
-          </span>
         </span>
       </span>
     </button>

@@ -33,7 +33,7 @@ export default function CuratedListCard({
 
   return (
     <Link
-      href={`/library/curated/${list.curatorSlug}/${list.slug}`}
+      href={`/explore/works/curated/${list.curatorSlug}/${list.slug}`}
       onClick={(e) => {
         if (onSelect) {
           e.preventDefault();

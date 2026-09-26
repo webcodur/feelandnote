@@ -39,7 +39,7 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
     >
       {/* ── 좌측: 세로폭에 꽉 채운 1:1 로고 영역 (전용관 링크) ── */}
       <Link
-        href={`/library/curated/${curator.slug}`}
+        href={`/explore/works/curated/${curator.slug}`}
         className="group/logo relative flex h-full aspect-square shrink-0 items-center justify-center overflow-hidden bg-[#141414] hover:opacity-95"
       >
         {curator.logoUrl ? (
@@ -70,7 +70,7 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
       <div className="flex flex-1 min-w-0 flex-col justify-between overflow-hidden border-l border-white/[0.08]">
         {/* ── 기관 머리 — 전용관으로 가는 링크 ── */}
         <Link
-          href={`/library/curated/${curator.slug}`}
+          href={`/explore/works/curated/${curator.slug}`}
           className="group/head flex items-center justify-between gap-2 p-3 sm:gap-3 sm:p-4"
         >
           <div className="min-w-0 flex-1">
@@ -114,7 +114,7 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
             {shownLists.map((list) => (
               <Link
                 key={list.slug}
-                href={`/library/curated/${curator.slug}/${list.slug}`}
+                href={`/explore/works/curated/${curator.slug}/${list.slug}`}
                 className="shrink-0 whitespace-nowrap rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11.5px] text-text-secondary hover:border-accent/40 hover:text-accent sm:text-[12px]"
               >
                 {list.title}
@@ -124,7 +124,7 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
 
             {restCount > 0 && (
               <Link
-                href={`/library/curated/${curator.slug}`}
+                href={`/explore/works/curated/${curator.slug}`}
                 className="shrink-0 whitespace-nowrap rounded-lg border border-dashed border-white/[0.12] px-2.5 py-1 text-[11.5px] text-text-tertiary hover:border-accent/40 hover:text-accent sm:text-[12px]"
               >
                 +{restCount}

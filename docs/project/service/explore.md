@@ -1,6 +1,10 @@
-# 인물 (`/explore`)
+# 탐색 (`/explore`)
 
-인물 목록에서 원하는 사람을 찾고, 별도 페이지에서 분야·성향·신화·세력을 탐색한다. 화면 배치와 링크의 원천은 `sw/web/src/app/[locale]/(main)/explore/page.tsx`와 `sw/web/src/constants/navigation.tsx`다.
+탐색은 인물(`/explore`)과 작품(`/explore/works`) 두 모드로 나뉜다. `navigation.tsx`의 `EXPLORE_MODES`를 공통 모드 탭(`ExploreModeTabs`)이 그리며, 허브와 하위 화면에서 현재 모드를 강조한다. 작품 구획은 [library.md](library.md)가 설명한다.
+
+상위 메뉴는 탐색·광장·쉼터다. 모바일은 홈·탐색·광장·쉼터와 음악 재생기 칸을 두며, 내 기록은 헤더 프로필 메뉴로 들어간다. 푸터는 인물·작품 두 칼럼을 유지한다. 메뉴와 링크의 원천은 `sw/web/src/constants/navigation.tsx`다.
+
+인물 모드에서는 원하는 사람을 찾고, 별도 페이지에서 분야·성향·신화·세력을 탐색한다. 인물 주소와 상세(`/celeb/[slug]`·`/content/[id]`)는 유지한다.
 
 ## 탐색 첫 화면
 
@@ -30,7 +34,7 @@
 | `/explore/directory`, `/explore/directory/[profession]` | 전체·직군별 인물 주소를 발견하는 명부 |
 | `/explore/today`, `/explore/feed` | 기존 주소 유지. 탐색 메뉴에는 노출하지 않음 |
 
-`/explore/figures`는 검색 조건을 보존해 `/explore`로 영구 이동한다. 다른 옛 주소의 목적지는 `sw/web/next.config.ts`와 해당 리다이렉트 페이지가 쥔다. 새 링크와 워밍 점검에는 현재 정본 주소를 쓴다.
+`/explore/figures`·`celebs`는 검색 조건을 보존해 `/explore`로 영구 이동한다. `persona`는 `/explore/spectrum`으로 308 이전한다. 옛 주소의 목적지는 `sw/web/next.config.ts`가 쥐며 중복 리다이렉트 페이지는 두지 않는다. `youtube`는 영상관 재개를 고려해 임시 이전을 유지한다. 새 링크와 워밍 점검에는 현재 정본 주소를 쓴다.
 
 분야별 챔피언과 스펙트럼은 같은 부모 화면 **인물 순위판(Figure Ranking Board, `components/features/user/explore/figureRankingBoard/`)** 위에 선다. 선택기 → 무대(머리·시상대·순위) → 함께 감상한 작품 서가의 배치와 대기 화면을 순위판이 전부 쥐고, 두 화면은 자기 자료를 순위판의 입력으로 바꿔 넘기기만 한다. 갈리는 조건은 머리 앞 표식(글자 칩 | 아이콘), 순위 형식(시상대 | 양극 매치업), 서가 묶음 수(하나 | 둘) 셋뿐이다. 머리는 두 화면 모두 「표식·제목·Top N」 한 줄에 설명 한 줄이고, 두 화면 모두 Top 10이다. 선택기 칩 모양(네모), 머리의 「Top N」(인원 수에서 만든다), 서가의 제목·부제(문구 `explore.rankingBoard`)는 순위판이 정하고 화면은 넘기지 못한다 — 화면이 고르게 두면 두 화면이 다시 갈린다. 서가의 작품 낱장은 사이트 공통 작품 카드(`ContentCard`)를 그대로 쓴다 — 감상 인원은 카드 기본 표시(표지 왼쪽 아래, 누르면 감상 인물 창)에 맡기고 순번 칩만 얹는다. 두 화면의 모양을 바꿀 때는 각 화면이 아니라 순위판을 고친다.
 

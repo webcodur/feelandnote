@@ -30,7 +30,7 @@ export default function CuratedEntriesSection({ entries }: { entries: ContentCur
           return (
             <Link
               key={`${e.curatorSlug}/${e.listSlug}`}
-              href={`/library/curated/${e.curatorSlug}/${e.listSlug}`}
+              href={`/explore/works/curated/${e.curatorSlug}/${e.listSlug}`}
               className="group flex items-start gap-2.5 overflow-hidden rounded-lg border border-white/[0.06] bg-[#161616]/60 py-2.5 pe-3 hover:border-accent/40 hover:bg-[#1b1b1b]/70"
             >
               {e.curatorLogoUrl ? (

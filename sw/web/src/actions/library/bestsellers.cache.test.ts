@@ -48,7 +48,7 @@ function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: s
     set: async (key: string, value: unknown) => { entries.set(key, { value, isStale: false }) },
   }
   async function read(locale = 'en') {
-    const store = { route: '/library', incrementalCache, pendingRevalidates: {} as { [key: string]: Promise<unknown> } }
+    const store = { route: '/explore/works', incrementalCache, pendingRevalidates: {} as { [key: string]: Promise<unknown> } }
     const result = await workAsyncStorage.run(store, () => workUnitAsyncStorage.run(
       { type: 'prerender-legacy', phase: 'render', tags: null, revalidate: Infinity },
       () => loaded.exports.getBestsellers('ALL', locale),

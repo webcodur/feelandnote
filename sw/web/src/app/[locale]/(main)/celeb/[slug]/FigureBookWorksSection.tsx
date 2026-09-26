@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] sourceWorks — 연관 작품 고름틀
- * - 목차 위치: sourceWorks
+ * [celeb 상세] 참고도서(affiliateBooks) — 연관 작품 고름틀
+ * - 목차 위치: affiliateBooks
  * - 데이터: sources props
  * - 함께 보기: FigureBookFeature.tsx, detail/CelebRecordSections.tsx
  * ───────────────────────────────────────────── */
@@ -16,21 +16,25 @@ import styles from "./CelebPageContent.module.css";
 
 interface FigureBookWorksSectionProps {
   sources: FigureBookContent[];
+  /** 고름틀 헤더의 굵은 라벨 — 모드 탭이 그룹 이름을 대신할 때는 비운다 */
+  label?: string;
+  /** 라벨 뒤에 이어지는 가는 설명 */
+  intro: string;
 }
 
 export default function FigureBookWorksSection({
   sources,
+  label,
+  intro,
 }: FigureBookWorksSectionProps) {
   const t = useTranslations("celebPage");
-  /* 등장과 연관을 한 섹션에 묶는다. 등장 여부는 판본 본문을 열어야 확정되는데 그럴 수 없어,
-     확인하지 못한 것을 등장이라 단정하지 않고 「연관 작품」 하나로 보여 준다.
-     창작(authored)은 저작 목록이 따로 있으므로 여기서 뺀다. */
-  const appearanceSources = sources.filter((source) => source.relationType !== "authored");
-  const [selectedId, setSelectedId] = useState(appearanceSources[0]?.id ?? "");
+  /* 어떤 관계의 책을 보여 줄지는 호출부가 고른다 — 등장·연관은 「등장」 모드에,
+     창작은 「집필」 모드에 각각 넘긴다. */
+  const [selectedId, setSelectedId] = useState(sources[0]?.id ?? "");
   /* 고른 칸을 가운데로 보내는 effect가 같은 ref를 쓰므로 훅의 ref를 그대로 이어 받는다 */
   const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>();
   const selectedButtonRef = useRef<HTMLButtonElement>(null);
-  const selected = appearanceSources.find((source) => source.id === selectedId) ?? appearanceSources[0];
+  const selected = sources.find((source) => source.id === selectedId) ?? sources[0];
   useEffect(() => {
     const rail = railRef.current;
     const button = selectedButtonRef.current;
@@ -54,17 +58,19 @@ export default function FigureBookWorksSection({
     <div className={`${styles.recordContentGap} space-y-4`}>
       <section className="overflow-hidden rounded-lg border border-accent-dim/50 bg-stone-heavy shadow-[0_8px_24px_rgba(0,0,0,0.22)]">
           <header className="relative flex min-h-11 items-center justify-start gap-2.5 bg-bg-secondary/55 pe-3 ps-8 py-2 text-start before:absolute before:inset-y-2.5 before:start-3 before:w-0.5 before:rounded-full before:bg-accent/80 before:content-['']">
-            <p className="shrink-0 text-[15px] font-black tracking-[0.12em] text-accent">
-              {t("sourceWorksLabel")}<span className="ms-1 text-accent-dim" aria-hidden>:</span>
-            </p>
+            {label ? (
+              <p className="shrink-0 text-[15px] font-black tracking-[0.12em] text-accent">
+                {label}<span className="ms-1 text-accent-dim" aria-hidden>:</span>
+              </p>
+            ) : null}
             <p className="min-w-0 truncate text-[15px] font-medium leading-5 tracking-[0.01em] text-text-secondary">
-              {t("sourceWorksIntro")}
+              {intro}
             </p>
             {/* 수수료·주의 안내는 통합 구매 창(BookPurchaseModal)이 싣는다 */}
           </header>
           <div className="relative bg-stone-heavy bg-texture-noise px-2 py-2.5 sm:px-3 sm:py-3 md:px-4">
             <div ref={railRef} {...dragProps} className={`flex gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 select-none scrollbar-hide pointer-coarse:snap-x pointer-coarse:snap-proximity [overflow-anchor:none] sm:scroll-px-3 ${cursorClassName}`}>
-              {appearanceSources.map((source) => {
+              {sources.map((source) => {
                 const active = source.id === selected.id;
                 return (
                   <button

@@ -4,7 +4,7 @@
   책임: PC 헤더, MB 바텀탭, 메인페이지 섹션의 네비게이션 아이템을 단일 원천으로 관리한다.
 */
 
-import { Home, Compass, BookOpen, Gamepad2, User, type LucideIcon } from "lucide-react";
+import { Home, Compass, Users, Gamepad2, User, type LucideIcon } from "lucide-react";
 
 // #region 타입 정의
 export interface NavSubLink {
@@ -39,6 +39,11 @@ export interface HomeSectionConfig {
 // #endregion
 
 // #region 네비게이션 아이템 정의
+export const EXPLORE_MODES = [
+  { key: "figures", href: "/explore" },
+  { key: "works", href: "/explore/works" },
+] as const;
+
 export const NAV_ITEMS: NavItem[] = [
   {
     key: "home",
@@ -52,7 +57,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "explore",
     href: "/explore",
-    label: "인물",
+    label: "탐색",
     icon: Compass,
     showInHeader: true,
     showInBottomNav: true,
@@ -68,19 +73,13 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    key: "library",
-    href: "/library",
-    label: "작품",
-    icon: BookOpen,
+    key: "agora",
+    href: "/agora",
+    label: "광장",
+    icon: Users,
     showInHeader: true,
     showInBottomNav: true,
-    showInHomePage: true,
-    subLinks: [
-      { key: "popular", href: "/library/popular", label: "인기 작품" },
-      { key: "curated", href: "/library/curated", label: "기관 선정" },
-      { key: "museum", href: "/library/museum", label: "박물관" },
-      { key: "academy", href: "/library/academy", label: "학당" },
-    ],
+    showInHomePage: false,
   },
   {
     key: "rest",
@@ -144,12 +143,12 @@ export const FOOTER_SECTIONS: FooterSection[] = [
   {
     key: "library",
     titleKey: "nav.footer.sectionWorks",
-    href: "/library",
+    href: "/explore/works",
     links: [
-      { key: "popular", href: "/library/popular", label: "인기 작품" },
-      { key: "curated", href: "/library/curated", label: "기관 선정" },
-      { key: "museum", href: "/library/museum", label: "박물관" },
-      { key: "academy", href: "/library/academy", label: "학당" },
+      { key: "popular", href: "/explore/works/popular", label: "인기 작품" },
+      { key: "curated", href: "/explore/works/curated", label: "기관 선정" },
+      { key: "museum", href: "/explore/works/museum", label: "박물관" },
+      { key: "academy", href: "/explore/works/academy", label: "학당" },
     ],
   },
   {
@@ -192,7 +191,7 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     key: "library",
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
-    link: "/library",
+    link: "/explore/works",
   },
   rest: {
     id: "rest-section",

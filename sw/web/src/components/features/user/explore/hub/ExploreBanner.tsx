@@ -40,7 +40,7 @@ export default function ExploreBanner() {
   const hubT = useTranslations("explore.hub");
   const locale = useLocale();
 
-  const hubTitle = t("nav.explore");
+  const hubTitle = t("nav.modes.figures");
   const hubEnglish = t("home.explore.englishTitle");
 
   const segments = pathname.replace(/^\//, "").split("/");

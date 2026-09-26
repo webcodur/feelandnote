@@ -11,20 +11,25 @@
 "use client";
 
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronDown, ChevronUp, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import type { FeaturedCeleb, FeaturedFaction } from "@/actions/home/getFeaturedFactions";
 import type { FactionItem } from "@/actions/user/getCelebBySlug";
+import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
+import ReadingNarrationControls from "@/components/shared/ReadingNarrationControls";
 import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
+import { useFactionDescVoice } from "@/hooks/useFactionDescVoice";
+import { useReadingNarration } from "@/hooks/useReadingNarration";
 import { Link } from "@/i18n/navigation";
 import {
   localizedFactionDescription,
   localizedFactionName,
 } from "@/lib/faction-sections";
+import { activeReadingSegment } from "@/lib/reading-timing";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 
@@ -56,11 +61,13 @@ interface FactionMembershipCardProps {
   pendingMemberId?: string | null;
 }
 
-/** 글줄이 잘렸는지 재서 「더 보기」를 달지 정한다 — [측정 대상 ref, 잘림 여부]를 돌려준다 */
+/** 글줄이 잘렸는지 재서 「더 보기」를 달지 정한다 — [측정 대상 ref, 잘림 여부]를 돌려준다.
+    layout effect로 재므로 첫 화면이 그려지기 전에 잘림 여부가 확정된다 — 잘림이 없는
+    짧은 개요가 낭독 음원을 만나면 곧바로 문장 강조 마크업으로 바뀌어도 번쩍이지 않는다 */
 function useClipped(expanded: boolean, deps: readonly unknown[]) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [clipped, setClipped] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (expanded) return; // 펼친 동안은 접을 단추가 필요하니 다시 재지 않는다
     const measure = () => {
       const el = ref.current;
@@ -88,7 +95,8 @@ export default function FactionMembershipCard({
   const isEn = locale === "en";
 
   const factionName = localizedFactionName(faction, locale);
-  const descParagraphs = splitReadableParagraphs(localizedFactionDescription(faction, locale));
+  const descText = localizedFactionDescription(faction, locale) ?? "";
+  const descParagraphs = splitReadableParagraphs(descText);
   const roleShort = (isEn ? membership.roleShortEn?.trim() || membership.roleShort : membership.roleShort)?.trim() || null;
   const roleParagraphs = splitReadableParagraphs(
     (isEn ? membership.roleLongEn?.trim() || membership.roleLong : membership.roleLong) ?? "",
@@ -98,8 +106,27 @@ export default function FactionMembershipCard({
   const [roleExpanded, setRoleExpanded] = useState(false);
   const [membersExpanded, setMembersExpanded] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
-  const [descRef, descClipped] = useClipped(descExpanded, [locale]);
+  const [descRef, descClipped] = useClipped(descExpanded, [locale, descText]);
   const [roleRef, roleClipped] = useClipped(roleExpanded, [locale]);
+
+  /* 개요 낭독 — 도감 페이지(FactionDescVoice)와 같은 조합이다. 접힌 미리보기는
+     줄임 유지를 위해 평문을 두고, 펼치면 재생 문장 강조·문장 눌러 재생으로 바뀐다 */
+  const descVoice = useFactionDescVoice(faction.id, locale, descText);
+  const narration = useReadingNarration(descVoice?.audioUrl ?? "");
+  const descTiming = descVoice?.timing && narration.duration > 0
+    && Math.abs(descVoice.timing.duration - narration.duration) <= 0.15 ? descVoice.timing : null;
+  const descSentence = activeReadingSegment(descTiming, narration.currentTime, narration.status);
+  const descMark = descSentence ? { start: descSentence.textStart, end: descSentence.textEnd } : null;
+  const playFrom = (seconds: number) => { narration.seek(seconds); narration.play(); };
+  /* 짧은 개요(잘림 없음)는 펼칠 이유가 없으니 문장 강조·문장 눌러 재생을 곧바로 둔다 —
+     긴 개요만 접힌 미리보기를 지키고 「더 보기」 뒤에 강조 본문을 연다 */
+  const showVoiceText = !!(descVoice && (descExpanded || !descClipped));
+  /* 재생이 시작되면 잘린 긴 개요를 펼친다 — 접힌 본문에는 재생 강조가 닿지 않아
+     소리만 나고 글이 안 따라오는 사각이 생긴다 */
+  const narrActive = narration.status === "playing" || narration.status === "loading";
+  useEffect(() => {
+    if (narrActive && descClipped) setDescExpanded(true);
+  }, [narrActive, descClipped]);
 
   const memberRole = (celeb: FeaturedCeleb) =>
     ((isEn ? celeb.short_desc_en : celeb.short_desc) ??
@@ -127,18 +154,35 @@ export default function FactionMembershipCard({
           </div>
           {descParagraphs.length > 0 && (
             <div className="mt-4">
+              {descVoice && (
+                <div className="mb-3">
+                  <ReadingNarrationControls narration={narration} label={`${t("readingControls")} — ${factionName}`} />
+                </div>
+              )}
               <div
                 ref={descRef}
                 className={cn(
-                  "space-y-3 break-keep text-sm leading-7 text-text-secondary md:text-[15px] md:leading-8",
+                  "break-keep text-sm leading-7 text-text-secondary md:text-[15px] md:leading-8",
+                  !showVoiceText && "space-y-5",
                   !descExpanded && "line-clamp-3",
                 )}
               >
-                {descParagraphs.map((paragraph, index) => (
-                  <p key={index}>
-                    <FormattedText text={paragraph} />
-                  </p>
-                ))}
+                {/* 강조 본문은 펼침 뒤(긴 개요) 또는 처음부터(잘리지 않는 짧은 개요) — 접힌 긴 미리보기는 평문이라 line-clamp가 그대로 먹는다 */}
+                {showVoiceText ? (
+                  <ReadingHighlightText
+                    text={descText}
+                    mark={descMark}
+                    segments={descTiming?.segments}
+                    onPlayFrom={playFrom}
+                    sentenceLabel={t("readingPlayFromHere")}
+                  />
+                ) : (
+                  descParagraphs.map((paragraph, index) => (
+                    <p key={index}>
+                      <FormattedText text={paragraph} />
+                    </p>
+                  ))
+                )}
               </div>
               {(descClipped || descExpanded) && (
                 <button

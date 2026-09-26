@@ -9,7 +9,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Play, Square, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { beginOtherEffect } from "@/lib/audio-ducking";
+import { beginMusicEffect } from "@/lib/audio-ducking";
 
 interface SheetMusicProps {
   abc: string;
@@ -190,7 +190,7 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
         detached = true;
         duck.disconnect();
       };
-      const finishChannel = beginOtherEffect(
+      const finishChannel = beginMusicEffect(
         () => {
           if (playbackTimeoutRef.current) clearTimeout(playbackTimeoutRef.current);
           playbackTimeoutRef.current = null;
@@ -202,7 +202,6 @@ export default function SheetMusic({ abc, playable = false }: SheetMusicProps) {
           if (containerRef.current) patchSvgColors(containerRef.current);
         },
         (factor) => { duck.gain.value = factor; },
-        { transient: false },
       );
       releaseAudioRef.current = () => { finishChannel(); detach(); };
       timer.start();

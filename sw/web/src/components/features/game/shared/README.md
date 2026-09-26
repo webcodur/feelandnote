@@ -20,8 +20,7 @@ shared/
 
 | 파일 | 역할 |
 |------|------|
-| `GameFullScreen.tsx` | 전체화면 래퍼 (브레드크럼, 배경, 푸터) |
-| `GameAudioPlayer.tsx` | 하단 오디오 플레이어 UI |
+| `GameFullScreen.tsx` | 전체화면 래퍼 (브레드크럼, 배경, 헤더 음악 칸) |
 
 ---
 
@@ -108,7 +107,7 @@ setBgm(state: string, context?: Record<string, unknown>)
 
 ## 주의사항
 
-1. **GameFullScreen / GameAudioPlayer는 건드리지 않는다** — 이미 게임 무관하게 동작하는 상위 공통 컴포넌트다.
+1. **GameFullScreen은 건드리지 않는다** — 이미 게임 무관하게 동작하는 상위 공통 컴포넌트다. 게임 중 음악 조종은 전역 음악 재생기가 맡는다(휴대폰은 헤더 우측 칸, PC는 떠 있는 단추).
 2. **오디오 CONFIG는 컴포넌트 바깥에 선언한다** — 렌더마다 새 객체가 생성되면 useEffect 무한 루프가 발생한다. 모듈 레벨 상수 또는 useMemo로 안정화할 것.
 3. **sfxFiles 배열도 동일** — 매 렌더 새 배열이면 프리로드가 반복된다. 모듈 레벨에 고정.
 4. **getBgmTracks의 context 타입** — `Record<string, unknown>`이므로 소비측에서 타입 단언이 필요하다. 게임별 wrapper에서 캡슐화하면 외부 노출을 막을 수 있다.

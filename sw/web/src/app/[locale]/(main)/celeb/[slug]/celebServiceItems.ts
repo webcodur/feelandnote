@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 아이템 정의·정렬
  * - 목차 위치: 공통 (전 구획)
- * - 데이터: reality/showLibrary/availability props, next-intl celebPage
+ * - 데이터: reality/availability props, next-intl celebPage
  * - 함께 보기: celebSectionChapters.ts, celebServiceIcons.ts, detail/useCelebServiceModel.ts
  * ───────────────────────────────────────────── */
 "use client";
@@ -46,8 +46,7 @@ export interface CelebServiceAvailability {
   dialogueVoice: boolean;
   influence: boolean;
   spectrum: boolean;
-  sourceWorks: boolean;
-  /** 실제로 등록된 기록물이 있는가. 없으면 서재 구획을 그리지 않는다. */
+  /** 실제로 등록된 감상 기록이 있는가. 없으면 리뷰 구획을 그리지 않는다. */
   library: boolean;
 }
 
@@ -101,22 +100,15 @@ export function useCelebServiceItems({
         ready: availability.timeline,
         target: { sectionId: "timeline" },
       },
-      /* ── 2. 서재·원전 ── */
+      /* ── 2. 리뷰 ── */
       {
         key: "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
-        label: t("library"),
+        // 「기록」이 아니라 「리뷰」로 부른다 — 안에는 감상 기록만 남았다.
+        label: t("tabConsume"),
         icon: CELEB_SERVICE_ICONS.library,
         ready: showLibrary && availability.library,
         target: { sectionId: "library" },
-      },
-      {
-        key: "sourceWorks",
-        chapter: CELEB_SERVICE_CHAPTERS.library,
-        label: t("sourceWorks"),
-        icon: CELEB_SERVICE_ICONS.sourceWorks,
-        ready: availability.sourceWorks,
-        target: { sectionId: "source-works" },
       },
       /* ── 3. 분석·관계 ── */
       {
@@ -173,7 +165,7 @@ export function useCelebServiceItems({
           },
         ],
       },
-      /* ── 4. 미디어·방명록 ── */
+      /* ── 3. 미디어·방명록 ── */
       {
         key: "media",
         chapter: CELEB_SERVICE_CHAPTERS.media,
@@ -244,7 +236,6 @@ export function useCelebServiceItems({
       availability.relations,
       availability.reading,
       availability.library,
-      availability.sourceWorks,
       availability.timeline,
       showLibrary,
       t,

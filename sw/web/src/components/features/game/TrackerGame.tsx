@@ -1,23 +1,23 @@
 /*
   파일명: components/features/game/TrackerGame.tsx
   기능: 미궁(인물등용) 게임 메인 컴포넌트
-  책임: 5단계 확인형 행적 해금 게임 플로우 관리 (6명 현자)
+  책임: 5단계 확인형 단서 해금 게임 플로우 관리 (6명 현자)
     - Stage 1 (행적 1): 콘텐츠 1개 — 시작 시 무료
     - Stage 2 (행적 2): 콘텐츠 2개째 — 확인 1회로 해금
     - Stage 3 (행적 3): 콘텐츠 3개째 — 확인 2회로 해금
     - Stage 4 (행적 4): 콘텐츠 4개째 — 확인 3회로 해금
-    - Stage 5 (감상 여정): 감상 여정 — 확인 4회로 해금
+    - Stage 5 (한마디): 한마디 — 확인 4회로 해금
 */
 "use client";
 
 import { useState, useCallback, useEffect, useMemo, type MutableRefObject } from "react";
-import { BookOpen, Brain, Lock, ShieldCheck, Search } from "lucide-react";
+import { BookOpen, MessageSquareQuote, Lock, ShieldCheck, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { getTrackerRound, type TrackerRound } from "@/actions/game/getTrackerRound";
 import { cn } from "@/lib/utils";
 import ContentReveal from "./tracker/ContentReveal";
-import CulturalJourneyReveal from "./tracker/CulturalJourneyReveal";
+import QuoteReveal from "./tracker/QuoteReveal";
 import MultipleChoice from "./tracker/MultipleChoice";
 import TrackerResult from "./tracker/TrackerResult";
 
@@ -124,7 +124,7 @@ export default function TrackerGame({ onHomeRef, onPhaseChange, onStartRef }: Tr
     { key: "stage2", label: tGame("stages.stage2"), icon: Search },
     { key: "stage3", label: tGame("stages.stage3"), icon: BookOpen },
     { key: "stage4", label: tGame("stages.stage4"), icon: BookOpen },
-    { key: "stage5", label: tGame("stages.stage5"), icon: Brain },
+    { key: "stage5", label: tGame("stages.stage5"), icon: MessageSquareQuote },
   ] as const), [tGame]);
 
   // 해금: stage1 무료, stage2=확인1회, ... stage5=확인4회
@@ -356,11 +356,11 @@ export default function TrackerGame({ onHomeRef, onPhaseChange, onStartRef }: Tr
                         emptyAdditionalLabel={tGame("emptyAdditionalTrace")}
                       />
                     )}
-                    {/* Stage 5: 감상 여정 */}
+                    {/* Stage 5: 한마디 */}
                     {viewStage === "stage5" && (
                       <div className="w-full">
-                        {round.culturalJourney ? (
-                          <CulturalJourneyReveal culturalJourney={round.culturalJourney} />
+                        {round.quote ? (
+                          <QuoteReveal quote={round.quote} />
                         ) : (
                           <div className="flex items-center justify-center py-12 text-text-secondary text-sm font-serif bg-black/20 rounded-xl border border-white/5">
                             {tGame("emptyFirstTrace")}

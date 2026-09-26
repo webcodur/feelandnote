@@ -45,7 +45,7 @@ export const FIGURE_BOOK_TERMS = {
     appearance: { ko: '등장 작품', en: 'Appearing Works' },
     related: { ko: '연관 작품', en: 'Related Works' },
     authored: { ko: '창작 작품', en: 'Created Works' },
-    /** 인물 화면 아래 구매 구획. 연관 작품의 상품에 추천 도서(읽은 책·직군·인기)를 이어 붙인 구획 */
+    /** 인물 화면의 통합 도서 구획. 인물과 책의 관계로 「등장」「감상」「집필」「추천」 모드 탭을 담는다 */
     relatedAndRecommended: { ko: '참고도서', en: 'Reference Books' },
   },
 } as const

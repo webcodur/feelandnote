@@ -483,7 +483,7 @@
   border: 0;
 }
 
-/* 서재(감상·창작) 구획 — 펼침 카드의 이전·다음 네비 아래에 남는 아래쪽 여백을 없앤다.
+/* 리뷰 구획 — 펼침 카드의 이전·다음 네비 아래에 남는 아래쪽 여백을 없앤다.
    sectionSurface의 padding shorthand를 파일 끝의 같은 특이도 규칙으로 덮는다. */
 .librarySurface {
   padding-bottom: 0;

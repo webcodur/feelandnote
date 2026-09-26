@@ -15,7 +15,7 @@ import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { ChevronRight } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
-import { setGameFullScreenLayer } from "@/components/layout/musicPlayerSlots";
+import { setGameFullScreenLayer, setGameMusicTabSlot } from "@/components/layout/musicPlayerSlots";
 
 export interface BreadcrumbItem {
   label: string;
@@ -26,7 +26,6 @@ interface GameFullScreenProps {
   children: React.ReactNode | ((opts: { enterFullScreen: () => void; exitFullScreen: () => void; isFullScreen: boolean }) => React.ReactNode);
   title?: string;
   breadcrumbs?: BreadcrumbItem[];
-  footerExtra?: React.ReactNode;
   onExitFullScreen?: () => void;
   onHome?: () => void;
   /** 전체화면 뒷배경 (콘텐츠 뒤에 렌더링) */
@@ -45,7 +44,7 @@ const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
-export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen, reserveSubtitleSpace = true, exitLabel = "나가기", exitEscLabel = "나가기 (ESC)" }: GameFullScreenProps) {
+export default function GameFullScreen({ children, title, breadcrumbs, onExitFullScreen, onHome, background, initialFullScreen, reserveSubtitleSpace = true, exitLabel = "나가기", exitEscLabel = "나가기 (ESC)" }: GameFullScreenProps) {
   const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [isFullScreen, setIsFullScreen] = useState(initialFullScreen ?? false);
   const [visible, setVisible] = useState(false);
@@ -144,19 +143,14 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
               </>
             ) : null}
           </nav>
+          {/* 음악 재생기 여는 단추가 들어가는 칸 — 휴대폰에서만 선다 */}
+          <div ref={setGameMusicTabSlot} className="ml-auto flex items-center md:hidden" />
         </div>
 
         {/* 콘텐츠 — 기본은 대사 자막 영역을 확보하며, 자막이 없는 게임은 여백을 해제할 수 있다 */}
         <div className={`flex-1 overflow-y-auto px-3 py-2 sm:px-4 md:px-6 lg:px-8 flex flex-col min-h-0 ${reserveSubtitleSpace ? "pb-28" : "pb-3 sm:pb-4"}`}>
           {rendered}
         </div>
-
-        {/* 푸터 */}
-        {footerExtra && (
-          <div className="shrink-0 flex items-center justify-center px-4 py-2 bg-bg-main border-t border-white/10">
-            {footerExtra}
-          </div>
-        )}
       </div>
     </div>,
     document.body
