@@ -13,7 +13,8 @@ import { FilterModal } from "@/components/shared/filters";
 import { summarizeBrowse } from "./useCuratedBrowse";
 import CuratorLogoCard from "../hub/CuratorLogoCard";
 import CuratorFiltersModal from "../hub/CuratorFiltersModal";
-import { CURATOR_PAGE_SIZE, CURATOR_SORTS, filterCurators, parseCuratorFilters, type CuratorExploreFilters } from "../hub/curatorExplore";
+import { CURATOR_PAGE_SIZE, CURATOR_SORTS, filterCurators, getCuratorCountries, parseCuratorFilters, type CuratorExploreFilters } from "../hub/curatorExplore";
+import { getCountryNameByLocale } from "@/lib/countries";
 
 const CuratorPreviewModal = dynamic(() => import("../hub/CuratorPreviewModal"));
 
@@ -25,10 +26,11 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   const params = useSearchParams();
   const pathname = usePathname();
   const allSummary = summarizeBrowse(hub.curators);
-  const initialFilters = parseCuratorFilters(params, allSummary);
+  const initialFilters = parseCuratorFilters(params, { ...allSummary, countries: getCuratorCountries(hub.curators) });
   const mediaCurators = hub.curators.map(curator => ({ ...curator, lists: curator.lists.filter(list => list.contentType === initialFilters.media) })).filter(curator => curator.lists.length);
   const summary = summarizeBrowse(mediaCurators);
-  const filters = parseCuratorFilters(params, { ...summary, medias: allSummary.medias });
+  const countries = getCuratorCountries(mediaCurators);
+  const filters = parseCuratorFilters(params, { ...summary, medias: allSummary.medias, countries });
   const [draft, setDraft] = useState<string | undefined>();
   const [dialog, setDialog] = useState<"sort" | "detail" | null>(null);
   const [previewSlug, setPreviewSlug] = useState<string | null>(null);
@@ -36,7 +38,7 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   const totalPages = Math.max(1, Math.ceil(shown.length / CURATOR_PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
   const search = draft ?? filters.search;
-  const detailCount = Number(filters.kind !== "all") + Number(filters.topic !== "all");
+  const detailCount = Number(filters.kind !== "all") + Number(filters.topic !== "all") + Number(filters.country !== "all");
   const topicLabel = (value: string) => curated.has(`topicLabel.${value}`) ? curated(`topicLabel.${value}`) : value;
   const previewCurator = shown.find(curator => curator.slug === previewSlug);
 
@@ -44,7 +46,7 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
     const next = { ...filters, page: 1, ...patch };
     const query = new URLSearchParams();
     if (next.search) query.set("search", next.search);
-    for (const key of ["media", "kind", "topic"] as const) if (next[key] !== "all") query.set(key, next[key]);
+    for (const key of ["media", "kind", "topic", "country"] as const) if (next[key] !== "all") query.set(key, next[key]);
     if (next.sort !== "name") query.set("sort", next.sort);
     if (next.page > 1) query.set("page", String(next.page));
     return query.size ? `?${query}` : "";
@@ -59,16 +61,17 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   const conditions = [
     ...(filters.kind !== "all" ? [{ key: "kind" as const, label: curated(`kind.${filters.kind}`) }] : []),
     ...(filters.topic !== "all" ? [{ key: "topic" as const, label: topicLabel(filters.topic) }] : []),
+    ...(filters.country !== "all" ? [{ key: "country" as const, label: getCountryNameByLocale(filters.country, locale) }] : []),
   ];
 
   return (
     <div>
       <div className={EXPLORE_PANEL_CLASS}>
           <nav aria-label={t("media")} className="flex min-h-11 items-stretch gap-1 border-b border-white/10 pb-2">
-            {allSummary.medias.map(media => <Link key={media} href={`${pathname}${queryFor({ media, kind: "all", topic: "all" })}`} prefetch={false}
+            {allSummary.medias.map(media => <Link key={media} href={`${pathname}${queryFor({ media, kind: "all", topic: "all", country: "all" })}`} prefetch={false}
               aria-current={filters.media === media ? "page" : undefined} onClick={event => {
                 if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                event.preventDefault(); update({ media, kind: "all", topic: "all" });
+                event.preventDefault(); update({ media, kind: "all", topic: "all", country: "all" });
               }} className={`flex min-h-9 min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-md px-1 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent ${filters.media === media ? "bg-accent/10 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
               {t.has(`mediaShort.${media}`) ? t(`mediaShort.${media}`) : curated(`mediaLabel.${media}`)}
             </Link>)}
@@ -100,14 +103,14 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
           {shown.slice((page - 1) * CURATOR_PAGE_SIZE, page * CURATOR_PAGE_SIZE).map(curator => <CuratorLogoCard key={curator.slug} curator={curator} query={cardQuery.size ? `?${cardQuery}` : ""} onSelect={() => setPreviewSlug(curator.slug)} />)}
         </div> : <div className="space-y-3 py-12 text-center">
           <p className="text-sm text-text-secondary">{t("noResults")}</p>
-          <button type="button" className={`${EXPLORE_CONTROL_CLASS} mx-auto`} onClick={() => update({ search: "", kind: "all", topic: "all", sort: "name" })}>{t("resetFilters")}</button>
+          <button type="button" className={`${EXPLORE_CONTROL_CLASS} mx-auto`} onClick={() => update({ search: "", kind: "all", topic: "all", country: "all", sort: "name" })}>{t("resetFilters")}</button>
         </div>}
       </div>
       <div className="mt-8"><Pagination presentation="quiet" currentPage={page} totalPages={totalPages}
         getPageHref={next => `${pathname}${queryFor({ page: next })}`} onPageChange={next => update({ page: next })} /></div>
       {dialog === "sort" && <FilterModal isOpen title={ui("filterSort")} current={filters.sort} options={CURATOR_SORTS.map(value => ({ value, label: t(`sort.${value}`) }))}
         onChange={sort => update({ sort: sort as CuratorExploreFilters["sort"] })} onClose={() => setDialog(null)} />}
-      {dialog === "detail" && <CuratorFiltersModal kind={filters.kind} topic={filters.topic} kinds={summary.kinds} topics={summary.topics}
+      {dialog === "detail" && <CuratorFiltersModal kind={filters.kind} topic={filters.topic} country={filters.country} kinds={summary.kinds} topics={summary.topics} countries={countries}
         onChange={(key, value) => update({ [key]: value })} onClose={() => setDialog(null)} />}
       {previewCurator && <CuratorPreviewModal curator={previewCurator} query={cardQuery.size ? `?${cardQuery}` : ""} onClose={() => setPreviewSlug(null)} />}
     </div>

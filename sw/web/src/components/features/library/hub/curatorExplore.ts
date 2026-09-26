@@ -8,11 +8,16 @@ export interface CuratorExploreFilters {
   media: string;
   kind: string;
   topic: string;
+  country: string;
   sort: CuratorSort;
   page: number;
 }
 
-export function parseCuratorFilters(params: { get: (key: string) => string | null }, available: { medias: string[]; kinds: string[]; topics: string[] }): CuratorExploreFilters {
+export function getCuratorCountries(curators: CuratedHub["curators"]): string[] {
+  return [...new Set(curators.flatMap(curator => curator.country ? [curator.country] : []))].sort();
+}
+
+export function parseCuratorFilters(params: { get: (key: string) => string | null }, available: { medias: string[]; kinds: string[]; topics: string[]; countries: string[] }): CuratorExploreFilters {
   const sort = params.get("sort");
   const page = Number(params.get("page"));
   return {
@@ -20,6 +25,7 @@ export function parseCuratorFilters(params: { get: (key: string) => string | nul
     media: available.medias.includes(params.get("media") ?? "") ? params.get("media")! : available.medias[0] ?? "BOOK",
     kind: available.kinds.includes(params.get("kind") ?? "") ? params.get("kind")! : "all",
     topic: available.topics.includes(params.get("topic") ?? "") ? params.get("topic")! : "all",
+    country: available.countries.includes(params.get("country") ?? "") ? params.get("country")! : "all",
     sort: CURATOR_SORTS.includes(sort as CuratorSort) ? sort as CuratorSort : "name",
     page: Number.isSafeInteger(page) && page > 0 ? page : 1,
   };
@@ -30,6 +36,7 @@ export function filterCurators(curators: CuratedHub["curators"], filters: Curato
   const query = normalize(filters.search);
   const shown = curators.flatMap(curator => {
     if (filters.kind !== "all" && curator.kind !== filters.kind) return [];
+    if (filters.country !== "all" && curator.country !== filters.country) return [];
     const matchesInstitution = !query || normalize(curator.name).includes(query);
     const lists = curator.lists.filter(list =>
       list.contentType === filters.media
