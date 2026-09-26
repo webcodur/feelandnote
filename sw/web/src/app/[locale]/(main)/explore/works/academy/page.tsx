@@ -18,6 +18,7 @@ import { Link } from "@/i18n/navigation";
 import { ACADEMY_CATEGORY_IDS, ACADEMY_UPCOMING_CATEGORY_IDS } from "@/constants/libraryMuseum";
 import { BookOpen, Film, Music, Gamepad2, Cpu, GraduationCap } from "lucide-react";
 import { getLocalizedAlternates } from "@/lib/seo";
+import WorksRevisionNotice from "@/components/features/library/hub/WorksRevisionNotice";
 
 export async function generateMetadata() {
   const t = await getTranslations("library.academy");
@@ -60,6 +61,7 @@ export default async function AcademyPage() {
 
   return (
     <div className="w-full pb-20">
+      <WorksRevisionNotice section="academy" />
       <div className="w-full max-w-5xl mx-auto py-8 sm:py-12 md:py-20">
         {/* 헤더 */}
         <div className="mb-10 sm:mb-14 md:mb-16 text-center px-4">

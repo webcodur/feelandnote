@@ -1,79 +1,53 @@
-/*
-  파일명: /app/(main)/explore/works/page.tsx
-  기능: 서가 허브 페이지
-  책임: 서가의 서브페이지들을 허브 구조로 묶어 미리보기를 제공하고 각 페이지로 안내한다.
-        목차·구획 헤더는 즉시 그리고, 구획마다 자기 조회만 기다리는 독립 레인을 둔다.
-*/ // ------------------------------
-
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import HubNav from "@/components/shared/HubNav";
-import HubSection from "@/components/shared/HubSection";
-import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, hubSection, withoutMore } from "@/components/shared/hubSectionUtils";
-import PopularBooks from "@/components/features/home/PopularBooks";
+import { WORKS_FEATURED_LINKS } from "@/constants/navigation";
+import ExploreHubIntro from "@/components/shared/ExploreHubIntro";
+import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
-import AcademyPreview from "@/components/features/library/hub/AcademyPreview";
-import MuseumPreview from "@/components/features/library/hub/MuseumPreview";
-import { AcademyContinueLink, CuratedSection, PopularSection } from "./sections";
+import { CuratedSection } from "./sections";
 
 export const maxDuration = 30;
 
 export async function generateMetadata() {
   const t = await getTranslations("library.meta");
-  return { title: t("title"), description: t("description"), alternates: await getLocalizedAlternates("/explore/works") };
+  const title = t("title");
+  const description = t("description");
+  return {
+    title,
+    description,
+    alternates: await getLocalizedAlternates("/explore/works"),
+    openGraph: { title, description },
+  };
 }
 
-export default async function ScripturesPage() {
-  const tHub = await getTranslations("library.hub");
-  const tPending = await getTranslations("pending");
+const featureImages: Record<string, string> = {
+  bestseller: "/images/explore/quicknav/bestsellers-v2-square.webp",
+  classics: "/images/explore/quicknav/classics-v2-square.webp",
+  museum: "/images/explore/quicknav/museum-v2-square.webp",
+  academy: "/images/explore/quicknav/academy-v2-square.webp",
+};
 
-  // 목차·구획 번호는 config 고정이다 — 구획은 자료 유무와 무관하게 항상 그려진다.
-  // 실패·빈 자리는 각 구획 레인이 제자리에서 알아서 처리한다.
-  const sections = LIBRARY_SECTIONS;
-  const section = (key: string) => hubSection(sections, LIBRARY_GROUP_ID, key, tHub);
+export default async function WorksPage() {
+  const t = await getTranslations("library.hub");
+  const pending = await getTranslations("pending");
 
   return (
-    <div className="space-y-8 pb-20">
-      <HubNav hubItems={hubNavItems(sections, tHub)} groupId={LIBRARY_GROUP_ID} />
-
-      <div className="space-y-12 md:space-y-16 mt-4">
-        {/* 1/4 인기 작품 — 베스트셀러·불후의 명작 모드가 허브에서도 선다.
-            더 보기는 보고 있는 모드의 안쪽 화면으로 이어야 하므로 구획 안이 쥔다 */}
-        <HubSection {...withoutMore(section("popular"))}>
-          <Lane fallback={<PendingBlock variant="grid" count={6} label={tPending("loading")} />}>
-            <PopularSection />
-          </Lane>
-        </HubSection>
-
-        {/* 2/4 기관 선정 */}
-        <HubSection {...section("curated")}>
-          <Lane fallback={<PendingBlock variant="grid" count={6} label={tPending("loading")} />}>
-            <CuratedSection />
-          </Lane>
-        </HubSection>
-
-        {/* 3/4 박물관 — 매체가 걸어온 길. 정적 상수라 즉시 그린다 */}
-        <HubSection {...section("museum")}>
-          <MuseumPreview />
-        </HubSection>
-
-        {/* 4/4 학당 — 카드는 정적 상수라 즉시 그리고, 로그인 진도만 작은 레인으로 따로 채운다 */}
-        <HubSection {...section("academy")}>
-          <AcademyPreview
-            continueLink={
-              <Lane fallback={null}>
-                <AcademyContinueLink />
-              </Lane>
-            }
-          />
-        </HubSection>
-      </div>
-
-      {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다 */}
-      <Lane fallback={null}>
-        <PopularBooks />
-      </Lane>
+    <div className="space-y-8 md:space-y-10">
+      <section aria-labelledby="explore-works-heading">
+        <ExploreHubIntro id="explore-works-heading" title={t("headline")} description={t("description")} />
+        <Lane fallback={<PendingBlock variant="grid" count={6} label={pending("loading")} />}>
+          <CuratedSection />
+        </Lane>
+      </section>
+      <nav aria-label={t("quickNav")} className="border-t border-white/10 pt-6 md:pt-8">
+        <h2 className="mb-4 text-center font-serif text-base font-bold tracking-tight text-text-primary md:mb-5 md:text-lg">{t("quickNav")}</h2>
+        <div className="grid grid-cols-1 gap-3 md:gap-4 lg:grid-cols-2">
+          {WORKS_FEATURED_LINKS.map(page => (
+            <ExploreFeatureCard key={page.key} href={page.href} title={t(`${page.key}Label`)} description={t(page.key!)} imageSrc={featureImages[page.key!]} badge={page.key === "museum" || page.key === "academy" ? t("reorganizing") : undefined} />
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

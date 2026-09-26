@@ -128,11 +128,11 @@ BOOK 소개는 저장된 번역문을 그대로 표시하거나, 소개값에 �
 
 광장(`/agora`)은 `NAV_ITEMS`에 없다. 풋터의 `FOOTER_MISC_LINKS`(소셜·공지사항·피드백)로만 노출된다.
 
-`FOOTER_NAV_ITEMS`는 `subLinks`가 있고 `rest`가 아닌 항목만 추린다. 결과적으로 풋터에는 인물·작품 두 항목의 하위 링크가 나열된다. 브랜드 링크(`FOOTER_BRAND_LINKS`)는 서비스 소개·검색·이용약관·개인정보처리방침·문의하기다.
+`FOOTER_SECTIONS`가 인물·작품 두 칼럼의 하위 링크를 정한다. 브랜드 링크(`FOOTER_BRAND_LINKS`)는 서비스 소개·검색·이용약관·개인정보처리방침·문의하기다.
 
 ## 허브 구성 단일원천
 
-인물·작품은 허브 페이지 하나에 미리보기 섹션을 쌓고, 각 섹션에서 하위 화면으로 보낸다. 섹션 순서·라벨키·더보기 주소는 `sw/web/src/components/shared/hubSectionUtils.tsx`가 단일원천이다(`EXPLORE_SECTIONS`, `EXPLORE_STANDALONE`, `LIBRARY_SECTIONS`). 허브 네비게이터(`HubNav`)와 각 섹션(`HubSection`)이 이 설정에서 라벨·순서·번호를 함께 읽는다.
+탐색 두 모드는 공통 소개·검색·정렬·필터 → 카드 목록 → 다른 탐색 방법 순서다. 메뉴와 안내 카드 링크는 `navigation.tsx`가 쥔다. 화면 위계와 세부 동작은 [인물](explore.md)과 [작품](library.md)을 따른다. 홈의 번호 구획은 `hubSectionUtils.tsx`와 `HubSection`을 쓴다.
 
 ## 화면 이름 변경 이력
 

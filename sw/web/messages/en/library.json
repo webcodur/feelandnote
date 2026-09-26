@@ -20,7 +20,7 @@
       }
     },
     "hub": {
-      "quickNav": "Quick Navigation",
+      "quickNav": "More ways to explore works",
       "museum": "See the road books, film, music, and games traveled to get here.",
       "academy": "Learn to work in each medium — and now, to create with AI.",
       "museumLabel": "Museum",
@@ -39,13 +39,38 @@
       "enterAcademy": "Enter Academy",
       "curatedLabel": "Curated by Institutions",
       "curated": "Lists chosen by universities, the press, and award bodies.",
-      "exploreCurated": "Browse the lists",
+      "exploreCurated": "Browse all institutions",
       "popularLabel": "Popular Works",
-      "popular": "Explore the US Apple Books paid ebook chart and classics chosen by notable figures."
+      "popular": "Explore the US Apple Books paid ebook chart and classics chosen by notable figures.",
+      "headline": "Explore by work",
+      "description": "Discover works selected by universities, publications, and award committees.",
+      "bestsellerLabel": "Bestsellers",
+      "bestseller": "See what readers are buying in the US Apple Books paid ebook chart.",
+      "classicsLabel": "Timeless Classics",
+      "classics": "Find works chosen again and again by notable figures across eras and fields.",
+      "searchPlaceholder": "Search institutions or lists...",
+      "media": "Media",
+      "sort": {
+        "name": "Name",
+        "lists": "Most lists",
+        "works": "Most entries"
+      },
+      "institutionResults": "{count, plural, one {# institution} other {# institutions}} · {lists, plural, one {# list} other {# lists}}",
+      "noResults": "No institutions or lists match your search and filters.",
+      "resetFilters": "Reset search and filters",
+      "reorganizing": "Being revised",
+      "museumReorganizing": "We are revising the exhibits and their content. You can still browse the exhibits currently available.",
+      "academyReorganizing": "We are revising the courses and their content. You can still explore the lessons currently available.",
+      "institutionHeading": "Institutional selections",
+      "viewInstitution": "View institution",
+      "mediaShort": {
+        "BOOK": "Books",
+        "VIDEO": "Film"
+      }
     },
     "meta": {
-      "title": "Works - Celebrity Reading Lists & Movie Picks",
-      "description": "Curated archive of celebrity book recommendations and movie picks, organized by era and profession. Explore must-reads chosen by history's greatest minds."
+      "title": "Explore Works - Institutional Book & Film Selections",
+      "description": "Discover books and films selected by universities, the press, and award bodies. Explore popular works, the history of media, and ways to create and appreciate them."
     },
     "museum": {
       "metaTitle": "Museum | Works",
@@ -326,10 +351,10 @@
       }
     },
     "curated": {
-      "metaTitle": "Curated by Institutions - Lists from Universities and the Press",
-      "metaDescription": "Reading lists published by universities, newspapers, and award bodies, from The New York Times' best books of the 21st century to the Booker Prize winners.",
+      "metaTitle": "Curated by Institutions - Books, Film, Games & Music",
+      "metaDescription": "Explore reading lists and award winners chosen by universities, the press and award bodies, from books and films to Game of the Year winners and GRAMMY Albums of the Year.",
       "title": "Curated by Institutions",
-      "intro": "These lists were chosen by institutions rather than individuals. Books universities put before their students, works the press named at the close of a year, titles a jury gave a prize to, transcribed as published.",
+      "intro": "Explore university reading lists, films chosen by the press, Game of the Year winners and GRAMMY-winning albums, with each institution’s selection criteria and original sources.",
       "kind": {
         "university": "Universities",
         "media": "Press & Media",
@@ -340,7 +365,7 @@
         "library": "Libraries",
         "festival": "Festivals"
       },
-      "listCount": "{count} lists",
+      "listCount": "{count, plural, one {# list} other {# lists}}",
       "since": "Since {year}",
       "itemCount": "{count} works",
       "viewList": "View list",

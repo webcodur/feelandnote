@@ -31,7 +31,9 @@
       "curated": "기관 선정",
       "popular": "인기 작품",
       "myth": "신화의 세계",
-      "monologue": "가상독백"
+      "monologue": "가상독백",
+      "bestseller": "베스트셀러",
+      "classics": "불후의 명작"
     },
     "footer": {
       "sectionFigures": "인물",
@@ -57,7 +59,9 @@
       "terms": "이용약관",
       "privacy": "개인정보처리방침",
       "spectrum": "스펙트럼",
-      "myth": "신화의 세계"
+      "myth": "신화의 세계",
+      "bestseller": "베스트셀러",
+      "classics": "불후의 명작"
     },
     "modes": {
       "figures": "인물",

@@ -17,6 +17,7 @@ import NationalityText from "@/components/ui/NationalityText";
 import type { CuratedListSummary } from "@/actions/library/types";
 import FilmHoles from "./FilmHoles";
 import { getCuratorBrand } from "./curatorBrandPalettes";
+import { getCuratorLogoUrl } from "./curatorLogos";
 
 export default function CuratedListCard({
   list,
@@ -30,6 +31,7 @@ export default function CuratedListCard({
   // 기관 고유의 브랜드 시그니처 팔레트 (다크 앰비언트 그라데이션, 엠블럼 모노그램, 액센트)
   const brand = getCuratorBrand(list.curatorSlug, list.curatorKind);
   const isVideo = list.contentType === "VIDEO";
+  const logoUrl = getCuratorLogoUrl(list.curatorSlug, list.curatorLogoUrl);
 
   return (
     <Link
@@ -56,13 +58,13 @@ export default function CuratedListCard({
       />
 
       {/* ── 0. 배경 거대 엠블럼 / 모노그램 워터마크 ── */}
-      {list.curatorLogoUrl ? (
+      {logoUrl ? (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-6 -top-6 size-36 select-none overflow-hidden opacity-[0.06] grayscale contrast-200"
         >
           <Image
-            src={list.curatorLogoUrl}
+            src={logoUrl}
             alt=""
             fill
             className="object-contain"
@@ -107,11 +109,11 @@ export default function CuratedListCard({
 
         {/* 기관 로고 + 명칭 + 분류 */}
         <div className="flex items-center gap-2.5">
-          {list.curatorLogoUrl ? (
-            <div className="relative size-11 shrink-0 overflow-hidden rounded-lg border border-white/20 bg-white/95 shadow-sm sm:size-12">
+          {logoUrl ? (
+            <div className="relative size-11 shrink-0 overflow-hidden rounded-lg sm:size-12">
               <BlurDissolve className="absolute inset-0">
                 <Image
-                  src={list.curatorLogoUrl}
+                  src={logoUrl}
                   alt={list.curatorName ?? ""}
                   fill
                   className="object-contain"

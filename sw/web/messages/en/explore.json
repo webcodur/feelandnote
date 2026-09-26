@@ -200,8 +200,8 @@
       "trendingSub": "The most visited figures over the past month.",
       "ranking": "Profiles",
       "rankingSub": "Discover figures through popularity, activity records, and random picks.",
-      "archiveHeadline": "Meet <num>{count, number}</num> figures",
-      "archiveSub": "Explore the books, films, games, and music that moved them, across eras and fields.",
+      "archiveHeadline": "Explore by figure",
+      "archiveSub": "Find a figure and discover the works they chose.",
       "spectrumAnalysis": "Disposition Analysis",
       "spectrumAnalysisSub": "See where influential figures stand across four dispositions (optimism, progressiveness, community, boldness). You can also search by name.",
       "groupDocumented": "Seekers",
@@ -332,7 +332,8 @@
         "directory": "Browse all figures at a glance, organized by name and profession.",
         "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
       },
-      "navMonologue": "Monologues"
+      "navMonologue": "Monologues",
+      "archiveResults": "{count, number} of {total, number} figures"
     },
     "directory": {
       "metaTitle": "Celebrity Directory - 1,000+ Figures",

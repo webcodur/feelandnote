@@ -61,7 +61,8 @@ test('all warmup routes must return the new build and finish promptly on the sec
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
   t.after(() => new Promise(resolve => { server.close(resolve); server.closeAllConnections() }))
   const result = await warmMainRoutes(server.address().port, 'bill-gates', id)
-  assert.equal(result.length, 86)
+  assert.equal(result.length, 90)
+  assert.equal(counts.get('/explore/works/popular?mode=classics'), 2)
   assert.ok([...counts.values()].every(count => count === 2))
   counts.clear(); stall = true
   await assert.rejects(warmMainRoutes(server.address().port, 'bill-gates', id, { readyTimeoutMs: 100 }))

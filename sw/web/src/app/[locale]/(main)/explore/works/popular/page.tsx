@@ -10,12 +10,16 @@ import PopularSection from "@/components/features/library/sections/PopularSectio
 import { getBestsellers, getChosenLibrary, getProfessionContentCounts } from "@/actions/library";
 import { getLocalizedAlternates } from "@/lib/seo";
 
-export async function generateMetadata() {
-  const t = await getTranslations("library.popular");
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ mode?: string }> }) {
+  const t = await getTranslations("library.hub");
+  const mode = (await searchParams).mode === "classics" ? "classics" : "bestseller";
+  const title = t(`${mode}Label`);
+  const description = t(mode);
   return {
-    title: t("metaTitle"),
-    description: t("metaDescription"),
-    alternates: await getLocalizedAlternates("/explore/works/popular"),
+    title,
+    description,
+    alternates: await getLocalizedAlternates(`/explore/works/popular${mode === "classics" ? "?mode=classics" : ""}`),
+    openGraph: { title, description },
   };
 }
 

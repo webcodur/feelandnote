@@ -9,6 +9,7 @@ import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import MuseumTimeline from "@/components/features/library/museum/MuseumTimeline";
 import getDeveloperProducts from "@/components/features/commerce/getDeveloperProducts";
 import { getLocalizedAlternates } from "@/lib/seo";
+import WorksRevisionNotice from "@/components/features/library/hub/WorksRevisionNotice";
 
 export async function generateMetadata() {
   const t = await getTranslations("library.museum");
@@ -29,6 +30,7 @@ export default async function MuseumPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="w-full pb-20">
+      <WorksRevisionNotice section="museum" />
       <MuseumContent cat={cat} sub={sub} />
     </div>
   );

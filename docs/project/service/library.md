@@ -10,14 +10,14 @@
 | 컴포넌트 | `sw/web/src/components/features/library/` |
 | 상수 | `constants/library.tsx` · `constants/libraryMuseum.ts` · `constants/library/` |
 | i18n 파일 | `sw/web/messages/<locale>/library.json` |
-| 허브 설정 | `LIBRARY_SECTIONS` · `LIBRARY_GROUP_ID` (`components/shared/hubSectionUtils.tsx`) |
+| 탐색 링크 | `WORKS_LINKS` (`constants/navigation.tsx`) |
 | **아직 옛 이름** | DB 함수 `get_chosen_scriptures` · `get_scriptures_by_era` 둘뿐이다. `actions/library/chosen.ts`·`era.ts`가 호출한다 |
 
 ## 화면 목록
 
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
-| `/explore/works` | 허브. 하위 4개 미리보기를 쌓는다 | `getBestsellers`, `getCuratedHub`, `getAcademyLessonProgressState` |
+| `/explore/works` | 기관 선정 목록과 다른 탐색 방법 안내 | `getCuratedHub` |
 | `/explore/works/popular` | **인기 작품.** 판매처의 도서 순위와 불후의 고전(시대·직군)을 본다 | `getBestsellers`, `getChosenLibrary`, `getProfessionContentCounts` |
 | `/explore/works/curated` | **기관 선정 허브.** 대학·언론·시상 기관이 발표한 목록 | `getCuratedHub` |
 | `/explore/works/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
@@ -28,44 +28,19 @@
 
 ## 레이아웃·허브
 
-`explore/works/layout.tsx`가 작품 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. PC 배너는 인물 모드와 같은 별자리(`ConstellationBanner`)를 쓴다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다.
+`explore/works/layout.tsx`가 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. 두 모드의 첫 배너는 「탐색 / EXPLORE」이며 PC에서 같은 별자리(`ConstellationBanner`)를 쓴다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다.
 
-허브(`/explore/works`)는 `HubNav`와 `HubSection`으로 구성한다. 순서·라벨키·더보기 주소는 `hubSectionUtils.tsx`의 `LIBRARY_SECTIONS`가 단일원천이다.
+첫 화면은 「인물로 탐색하기 / 작품으로 탐색하기」 소개(`ExploreHubIntro`) → 공용 검색·정렬·필터(`ExploreSearchControls`) → 결과 수와 카드 → 다른 탐색 방법 순서다. 기관 로고 카드(`CuratorLogoCard`)는 인물 격자와 같은 열 구성을 쓴다.
 
-| # | 섹션 | 미리보기 컴포넌트 | 더보기 |
-|---|---|---|---|
-| 1 | 인기 작품 | `PopularPreview` | `/explore/works/popular` |
-| 2 | 기관 선정 | `CuratedHubBrowse` | `/explore/works/curated` |
-| 3 | 박물관 | `MuseumPreview` | `/explore/works/museum` |
-| 4 | 학당 | `AcademyPreview` | `/explore/works/academy` |
+`CuratedHubView`는 작품 첫 화면과 기관 선정 허브가 공유한다. 「기관의 선택」 아래 기관명·선정 목록명 검색, 이름·목록 수·수록 수 정렬, 기관 종류·주제 필터와 페이지를 주소에 보존한다. 매체는 책·영상·게임·음악 중 하나를 고르는 모드이며 전체 선택은 없다. 필터 선택지는 현재 매체 안에서만 집계한다. 기관 카드는 소개와 선정 목록을 보는 `CuratorPreviewModal`을 열고, 상세 진입 시 매체·주제 조건을 넘긴다. 로고 정사각 자산은 `curatorLogos.ts`가 격자·모달·상세에 함께 적용하며 카드에 별도 틀이나 여백을 더하지 않는다. 베스트셀러·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/image-generation.md#fnn-흑동주조) 이미지로 안내한다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
 
-**이 순서가 곧 이야기다** — 남은 작품(1·2) → 매체가 걸어온 길(3) → 다루는 법과 그 다음(4).
-
-구역 부제(`library.hub`)도 26.08.07에 그 흐름으로 다시 썼다. 앞뒤가 이어지도록 쓰되, **각 부제는 그 구역이 실제로 담은 것만 말한다.**
-
-| 구역 | 부제 |
-|---|---|
-| 박물관 | 책과 영상, 음악과 게임이 어떤 길을 걸어 지금에 이르렀는지 봅니다. |
-| 학당 | 매체를 다루는 법, 그리고 AI와 함께 만드는 법을 배웁니다. |
-
-> 옛 박물관 부제는 "수많은 사상과 창작물들이 어떻게 얽혀있는지"였는데 **이 화면은 사상을 다루지 않는다.** 옛 학당 부제의 "체화하는 수련의 공간"도 실제보다 부풀린 표현이었다.
-
-같은 이유로 두 곳을 더 고쳤다(26.08.07).
-
-- 배너 영문 부제(`home.library.englishTitle`) **Curated Reads → Curated Works.** 이 영역은 책만 담지 않는다. 인물 쪽 `Notable Figures`와 짝이 된다.
-- 학당 화면 머리말(`library.academy.defaultDescription`)에서 AI를 뺐다. 화면은 매체 넷을 먼저 세우고 AI를 그 다음 장으로 두는데, 머리말이 AI를 맨 앞에 부르고 있어 순서가 거꾸로였다. **AI는 아래 이음말이 맡는다.**
-
-4번 미리보기(`AcademyPreview`)는 학당 본 화면과 **같은 두 줄 배치**를 축약해 쓴다(매체 넷 + 개발중 게임 / 이음말과 함께 서는 AI). 한쪽만 고치면 첫 화면과 본 화면의 이야기가 어긋나므로 둘을 함께 바꾼다.
-
-오늘의 인물은 인물 모드와 홈에서 다룬다. 작품 푸터(`navigation.tsx`의 `FOOTER_SECTIONS`)는 허브와 같은 네 구획으로 연결된다.
-
-허브 마지막에는 `PopularBooks`가 제휴 도서를 표시한다. 영문 화면이거나 연결할 도서가 없으면 컴포넌트가 접힌다.
+베스트셀러와 불후의 명작은 첫 화면부터 별도 카드다. 베스트셀러는 `/explore/works/popular`, 명작은 `?mode=classics`로 진입하며 메타·canonical·사이트맵과 한영 웜업도 두 진입점을 구분한다.
 
 ## 인기 작품 갱신
 
-허브와 `/explore/works/popular`는 한국어에서 예스24 전일 베스트셀러, 영문에서 미국 Apple Books 유료 전자책 차트를 보여준다. 한국어는 순위 기준일, 영문은 확인 시각과 출처를 표시한다. 미국 전체 도서 시장이나 실시간 판매량으로 표현하지 않는다. 순위 카드는 원본 판매처로 이동하며, 외부 차트 메타를 DB에 등록하지 않는다. 불후의 명작은 기존 내부 작품 카드와 시대·직군·매체 필터를 유지한다.
+`/explore/works/popular`는 한국어에서 예스24 전일 베스트셀러, 영문에서 미국 Apple Books 유료 전자책 차트를 보여준다. 한국어는 순위 기준일, 영문은 확인 시각과 출처를 표시한다. 미국 전체 도서 시장이나 실시간 판매량으로 표현하지 않는다. 순위 카드는 원본 판매처로 이동하며, 외부 차트 메타를 DB에 등록하지 않는다. 불후의 명작은 기존 내부 작품 카드와 시대·직군·매체 필터를 유지한다.
 
-`actions/library/bestsellers.ts`가 공식 API·피드를 서버 캐시로 읽고 `lib/library/bestsellerFeed.ts`가 검증과 유효기간을 담당한다. 이용할 수 없는 목록은 준비 중으로 표시하며 오래된 수집 파일로 대체하지 않는다. `BookChartGrid`와 `BestsellerFreshness`를 허브·상세에서 공유한다. 차트는 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 순위·표지·YES24 단추·「책 상세 보기」를 그린다. 차트 항목은 우리 작품이 아니므로 YES24 단추와 표지는 차트 API가 준 애드온 제휴 주소(`addOnLink` → `purchase_url`, 모양이 어긋나면 상품 주소)를, 작품 상세 대신 「책 정보」 단추(정보 아이콘·점선 금색 테두리로 다른 목록의 「책 상세 보기」와 구별)가 외부 페이지로 내보내지 않고 YES24 상품 상세 API(`getYes24BookDetail`, ISBN 단위 하루 캐시)로 받은 표지·서지·가격·평점·책 소개를 모달(`Yes24BookModal`)로 띄운다. Apple Books 차트는 차트가 준 정보와 서점 단추만 보인다. 예스24 활성화 조건과 발급처는 [환경변수](../platform/env-vars.md), 공급처 운영 조건은 [외부 서비스](../platform/external-services.md)를 따른다.
+`actions/library/bestsellers.ts`가 공식 API·피드를 서버 캐시로 읽고 `lib/library/bestsellerFeed.ts`가 검증과 유효기간을 담당한다. 이용할 수 없는 목록은 준비 중으로 표시하며 오래된 수집 파일로 대체하지 않는다. `BookChartGrid`와 `BestsellerFreshness`가 차트를 그린다. 차트는 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 순위·표지·YES24 단추·「책 상세 보기」를 그린다. 차트 항목은 우리 작품이 아니므로 YES24 단추와 표지는 차트 API가 준 애드온 제휴 주소(`addOnLink` → `purchase_url`, 모양이 어긋나면 상품 주소)를, 작품 상세 대신 「책 정보」 단추(정보 아이콘·점선 금색 테두리로 다른 목록의 「책 상세 보기」와 구별)가 외부 페이지로 내보내지 않고 YES24 상품 상세 API(`getYes24BookDetail`, ISBN 단위 하루 캐시)로 받은 표지·서지·가격·평점·책 소개를 모달(`Yes24BookModal`)로 띄운다. Apple Books 차트는 차트가 준 정보와 서점 단추만 보인다. 예스24 활성화 조건과 발급처는 [환경변수](../platform/env-vars.md), 공급처 운영 조건은 [외부 서비스](../platform/external-services.md)를 따른다.
 
 ## 박물관 구조
 

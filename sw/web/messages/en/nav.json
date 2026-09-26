@@ -31,7 +31,9 @@
       "curated": "Curated Lists",
       "popular": "Popular Works",
       "myth": "Worlds of Myth",
-      "monologue": "Monologues"
+      "monologue": "Monologues",
+      "bestseller": "Bestsellers",
+      "classics": "Timeless Classics"
     },
     "footer": {
       "sectionFigures": "Figures",
@@ -57,7 +59,9 @@
       "terms": "Terms of Service",
       "privacy": "Privacy Policy",
       "spectrum": "Spectrum",
-      "myth": "Worlds of Myth"
+      "myth": "Worlds of Myth",
+      "bestseller": "Bestsellers",
+      "classics": "Timeless Classics"
     },
     "modes": {
       "figures": "Figures",

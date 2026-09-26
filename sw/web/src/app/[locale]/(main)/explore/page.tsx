@@ -8,6 +8,7 @@ import { getTrendCountryOptions, parseTrendCountry } from "@/constants/trendCoun
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
+import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
 
@@ -51,60 +52,13 @@ export default async function ExplorePage({ searchParams }: {
       <nav aria-label={t("quickNav")} className="border-t border-white/10 pt-6 md:pt-8">
         <h2 className="mb-4 text-center font-serif text-base font-bold tracking-tight text-text-primary md:mb-5 md:text-lg">{t("quickNav")}</h2>
         {monologuePage && (
-          <Link
-            href={monologuePage.href}
-            prefetch={false}
-            className="group relative mb-3 grid min-h-40 grid-cols-[minmax(0,1fr)_42%] items-center overflow-hidden rounded-xl border border-accent/15 bg-[#0a0a0a] hover:border-accent/60 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:mb-4 md:min-h-56 lg:grid-cols-[minmax(0,1fr)_21%]"
-          >
-            <div className="relative order-2 aspect-square w-full overflow-hidden bg-[#0a0a0a]">
-              <Image
-                src="/images/explore/quicknav/monologue-right-square.webp"
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 208px, 42vw"
-                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
-              />
-            </div>
-            <span aria-hidden className="pointer-events-none absolute inset-[3px] rounded-[9px] border border-white/[0.07]" />
-            <div className="relative z-10 flex min-w-0 flex-col justify-center px-5 py-5 md:px-6 lg:items-center lg:self-stretch lg:px-10 lg:text-center">
-              <h3 className="text-lg font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl lg:text-2xl lg:font-bold">
-                <span className="relative inline-block">
-                  {nav(monologuePage.key!)}
-                  <ArrowUpRight size={18} className="absolute left-full top-1/2 ml-1.5 -translate-y-1/2 text-accent group-hover:text-accent-hover" aria-hidden />
-                </span>
-              </h3>
-              <p className="mt-2 max-w-md break-keep text-sm leading-relaxed text-text-secondary lg:mt-3 lg:max-w-xl lg:text-base">{t("pageDescriptions.monologue")}</p>
-            </div>
-          </Link>
+          <div className="mb-3 md:mb-4">
+            <ExploreFeatureCard href={monologuePage.href} title={nav(monologuePage.key!)} description={t("pageDescriptions.monologue")} imageSrc="/images/explore/quicknav/monologue-right-square.webp" wide />
+          </div>
         )}
         <div className="grid grid-cols-1 gap-3 md:gap-4 lg:grid-cols-2">
-          {EXPLORE_FEATURED_LINKS.map((page) => (
-              <Link
-                key={page.key}
-                href={page.href}
-                prefetch={false}
-                className="group relative grid min-h-40 grid-cols-[minmax(0,1fr)_42%] items-center overflow-hidden rounded-xl border border-accent/15 bg-[#0a0a0a] hover:border-accent/60 active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:min-h-56"
-              >
-                <div className="relative order-2 aspect-square w-full overflow-hidden bg-[#0a0a0a]">
-                  <Image
-                    src={`/images/explore/quicknav/${page.key}${page.key === "spectrum" ? "" : "-square"}.webp`}
-                    alt=""
-                    fill
-                    sizes="(max-width: 640px) 660px, 780px"
-                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
-                  />
-                </div>
-                <span aria-hidden className="pointer-events-none absolute inset-[3px] rounded-[9px] border border-white/[0.07]" />
-                <div className="relative z-10 flex min-w-0 flex-col justify-center px-5 py-5 md:px-6 lg:items-center lg:self-stretch lg:text-center">
-                  <h3 className="text-lg font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">
-                    <span className="relative inline-block">
-                      {nav(page.key!)}
-                      <ArrowUpRight size={18} className="absolute left-full top-1/2 ml-1.5 -translate-y-1/2 text-accent group-hover:text-accent-hover" aria-hidden />
-                    </span>
-                  </h3>
-                  <p className="mt-2 max-w-md break-keep text-sm leading-relaxed text-text-secondary lg:mx-auto">{t(`pageDescriptions.${page.key}`)}</p>
-                </div>
-              </Link>
+          {EXPLORE_FEATURED_LINKS.map(page => (
+            <ExploreFeatureCard key={page.key} href={page.href} title={nav(page.key!)} description={t(`pageDescriptions.${page.key}`)} imageSrc={`/images/explore/quicknav/${page.key}${page.key === "spectrum" ? "" : "-square"}.webp`} />
           ))}
         </div>
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-4 md:gap-4">

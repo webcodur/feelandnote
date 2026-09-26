@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ curator: 
   };
 }
 
-export default async function CuratorPage({ params }: { params: Promise<{ curator: string }> }) {
+export default async function CuratorPage({ params, searchParams }: { params: Promise<{ curator: string }>; searchParams: Promise<{ media?: string; topic?: string }> }) {
   const { curator: slug } = await params;
   const curator = await getCuratorBySlug(slug);
   if (!curator) notFound();
@@ -30,7 +30,7 @@ export default async function CuratorPage({ params }: { params: Promise<{ curato
     <div className="pb-20">
       {/* 배너 breadcrumb에 「서가 > 기관 선정 > 기관명」을 만들어 준다 */}
       <SetLibraryCrumbs crumbs={[{ label: curator.name, href: `/explore/works/curated/${slug}` }]} />
-      <CuratorView curator={curator} />
+      <CuratorView curator={curator} initialBrowse={await searchParams} />
     </div>
   );
 }

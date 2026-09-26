@@ -23,7 +23,7 @@ test('works and curated URLs use canonical explore paths in both locales', async
   const entries = await getSitemapEntries('core')
   assert.ok(entries)
   for (const prefix of ['', '/en']) {
-    for (const suffix of ['', '/popular', '/museum', '/academy', '/curated', '/curated/example', '/curated/example/list']) {
+    for (const suffix of ['', '/popular', '/popular?mode=classics', '/museum', '/academy', '/curated', '/curated/example', '/curated/example/list']) {
       const entry: MetadataRoute.Sitemap[number] | undefined = entries.find(({ url }) => url === `https://feelandnote.com${prefix}/explore/works${suffix}`)
       assert.ok(entry, `missing ${prefix}/explore/works${suffix}`)
       assert.equal(entry.alternates?.languages?.ko, `https://feelandnote.com/explore/works${suffix}`)

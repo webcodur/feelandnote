@@ -37,12 +37,11 @@ export default function LibraryBanner() {
   const pathname = usePathname();
   const router = useRouter();
   const tNav = useTranslations("nav");
-  const tHome = useTranslations("home");
   const tAcademy = useTranslations("library.academy");
   const extraCrumbs = useExtraCrumbs();
 
-  const hubTitle = tNav("library");
-  const hubEnglish = tHome("library.englishTitle");
+  const hubTitle = tNav("explore");
+  const hubEnglish = "EXPLORE";
 
   // 탐색 접두어를 제외해 기존 작품 하위 경로의 깊이를 유지한다.
   const segments = pathname.replace(/^\/explore\//, "").split("/");

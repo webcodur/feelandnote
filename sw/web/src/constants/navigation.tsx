@@ -123,6 +123,15 @@ export const EXPLORE_FEATURED_LINKS: NavSubLink[] =
   NAV_ITEMS.find((item) => item.key === "explore")?.subLinks?.filter((link) =>
     ["ranking", "spectrum", "myth", "faction"].includes(link.key ?? ""),
   ) ?? [];
+/** 작품 모드의 중심은 기관 선정 목록이며, 나머지는 별도 탐색 카드로 안내한다. */
+export const WORKS_LINKS: NavSubLink[] = [
+  { key: "curated", href: "/explore/works/curated", label: "기관 선정" },
+  { key: "bestseller", href: "/explore/works/popular", label: "베스트셀러" },
+  { key: "classics", href: "/explore/works/popular?mode=classics", label: "불후의 명작" },
+  { key: "museum", href: "/explore/works/museum", label: "박물관" },
+  { key: "academy", href: "/explore/works/academy", label: "학당" },
+];
+export const WORKS_FEATURED_LINKS = WORKS_LINKS.filter(link => link.key !== "curated");
 // #endregion
 
 // #region 풋터 섹션 구조 정의
@@ -144,12 +153,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     key: "library",
     titleKey: "nav.footer.sectionWorks",
     href: "/explore/works",
-    links: [
-      { key: "popular", href: "/explore/works/popular", label: "인기 작품" },
-      { key: "curated", href: "/explore/works/curated", label: "기관 선정" },
-      { key: "museum", href: "/explore/works/museum", label: "박물관" },
-      { key: "academy", href: "/explore/works/academy", label: "학당" },
-    ],
+    links: WORKS_LINKS,
   },
   {
     key: "community",

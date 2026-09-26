@@ -1,103 +1,120 @@
-/*
-  파일명: /components/features/library/curated/CuratedHubView.tsx
-  기능: 기관 선정 허브 화면
-  책임: 고른 갈래(카테고리·기관·주제)에 따라 선정 기관들을 서가 카드로 진열한다.
-        기관 카드는 늘 펼쳐진 채로 전용관과 선정 목록으로 가는 길을 함께 내보인다.
-*/ // ------------------------------
-
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
+import { ArrowDownWideNarrow, SlidersHorizontal, X } from "lucide-react";
 import type { CuratedHub } from "@/actions/library/types";
-import CuratedBrowseTabs from "./CuratedBrowseTabs";
-import CuratorCard from "./CuratorCard";
-import { useCuratedBrowse, type CuratedBrowseInitial } from "./useCuratedBrowse";
+import { Pagination } from "@/components/ui/Pagination";
+import ExploreSearchControls, { EXPLORE_CONTROL_CLASS } from "@/components/shared/ExploreSearchControls";
+import { FilterModal } from "@/components/shared/filters";
+import { summarizeBrowse } from "./useCuratedBrowse";
+import CuratorLogoCard from "../hub/CuratorLogoCard";
+import CuratorFiltersModal from "../hub/CuratorFiltersModal";
+import { CURATOR_PAGE_SIZE, CURATOR_SORTS, filterCurators, parseCuratorFilters, type CuratorExploreFilters } from "../hub/curatorExplore";
 
-export default function CuratedHubView({
-  hub,
-  selectedKind,
-  selectedMedia,
-  selectedTopic,
-}: {
-  hub: CuratedHub;
-  selectedKind: string | null;
-  selectedMedia: string | null;
-  selectedTopic: string | null;
-}) {
-  const t = useTranslations("library.curated");
+const CuratorPreviewModal = dynamic(() => import("../hub/CuratorPreviewModal"));
 
-  const initial: CuratedBrowseInitial = {
-    media: selectedMedia,
-    kind: selectedKind,
-    topic: selectedTopic,
+export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
+  const t = useTranslations("library.hub");
+  const curated = useTranslations("library.curated");
+  const ui = useTranslations("home.ui");
+  const locale = useLocale();
+  const params = useSearchParams();
+  const pathname = usePathname();
+  const allSummary = summarizeBrowse(hub.curators);
+  const initialFilters = parseCuratorFilters(params, allSummary);
+  const mediaCurators = hub.curators.map(curator => ({ ...curator, lists: curator.lists.filter(list => list.contentType === initialFilters.media) })).filter(curator => curator.lists.length);
+  const summary = summarizeBrowse(mediaCurators);
+  const filters = parseCuratorFilters(params, { ...summary, medias: allSummary.medias });
+  const [draft, setDraft] = useState<string | undefined>();
+  const [dialog, setDialog] = useState<"sort" | "detail" | null>(null);
+  const [previewSlug, setPreviewSlug] = useState<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const shown = filterCurators(hub.curators, filters, locale);
+  const totalPages = Math.max(1, Math.ceil(shown.length / CURATOR_PAGE_SIZE));
+  const page = Math.min(filters.page, totalPages);
+  const search = draft ?? filters.search;
+  const detailCount = Number(filters.kind !== "all") + Number(filters.topic !== "all");
+  const topicLabel = (value: string) => curated.has(`topicLabel.${value}`) ? curated(`topicLabel.${value}`) : value;
+  const previewCurator = shown.find(curator => curator.slug === previewSlug);
+
+  const queryFor = (patch: Partial<CuratorExploreFilters>) => {
+    const next = { ...filters, page: 1, ...patch };
+    const query = new URLSearchParams();
+    if (next.search) query.set("search", next.search);
+    for (const key of ["media", "kind", "topic"] as const) if (next[key] !== "all") query.set(key, next[key]);
+    if (next.sort !== "name") query.set("sort", next.sort);
+    if (next.page > 1) query.set("page", String(next.page));
+    return query.size ? `?${query}` : "";
   };
-  const browse = useCuratedBrowse(hub.curators, initial);
-  const { shown } = browse;
-
-  /**
-   * 탭을 갈아도 서버를 다시 다녀오지 않는다 — 기관 자료는 이미 전부 받아 두었다.
-   * 주소만 바꿔 링크 공유와 새로고침이 듣게 한다.
-   */
-  const syncUrl = (next: {
-    media: string | null;
-    kind?: string | null;
-    topic?: string | null;
-  }) => {
-    const q = new URLSearchParams();
-    if (next.media) q.set("media", next.media);
-    if (next.kind) q.set("kind", next.kind);
-    if (next.topic) q.set("topic", next.topic);
-    window.history.replaceState(
-      null,
-      "",
-      `${window.location.pathname}${q.toString() ? `?${q}` : ""}`
-    );
+  const update = (patch: Partial<CuratorExploreFilters>) => {
+    window.history.pushState(null, "", `${window.location.pathname}${queryFor(patch)}`);
+    setDraft(undefined);
   };
-
-  if (hub.curators.length === 0) {
-    return <p className="py-16 text-center text-[14px] text-text-tertiary">{t("empty")}</p>;
-  }
+  const cardQuery = new URLSearchParams();
+  if (filters.media !== "all") cardQuery.set("media", filters.media);
+  if (filters.topic !== "all") cardQuery.set("topic", filters.topic);
+  const conditions = [
+    ...(filters.kind !== "all" ? [{ key: "kind" as const, label: curated(`kind.${filters.kind}`) }] : []),
+    ...(filters.topic !== "all" ? [{ key: "topic" as const, label: topicLabel(filters.topic) }] : []),
+  ];
 
   return (
-    <div className="space-y-6">
-      {/* 서가로 돌아가는 길은 서가 레이아웃의 공통 뒤두 가지기가 맡는다 */}
-      <p className="mx-auto max-w-3xl text-center text-[14px] leading-relaxed text-text-secondary">
-        {t("intro")}
-      </p>
+    <div>
+      <div className="mb-4 space-y-3 md:mb-6">
+          <nav aria-label={t("media")} className="flex min-h-11 items-stretch gap-1 rounded-md border border-white/15 bg-white/[0.025] p-1 md:w-fit">
+            {allSummary.medias.map(media => <Link key={media} href={`${pathname}${queryFor({ media, kind: "all", topic: "all" })}`} prefetch={false}
+              aria-current={filters.media === media ? "page" : undefined} onClick={event => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                event.preventDefault(); update({ media, kind: "all", topic: "all" });
+              }} className={`flex min-h-9 min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded px-1 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent md:min-w-16 md:px-4 md:text-sm ${filters.media === media ? "bg-accent/15 text-accent hover:bg-accent/25" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
+              {t.has(`mediaShort.${media}`) ? t(`mediaShort.${media}`) : curated(`mediaLabel.${media}`)}
+            </Link>)}
+          </nav>
+        <ExploreSearchControls controlColumns={2} value={search} placeholder={t("searchPlaceholder")} searchLabel={ui("searchButton")}
+          clearLabel={ui("compactFilters.remove", { label: search })} onChange={setDraft}
+          onSubmit={() => update({ search: search.trim() })} onClear={() => update({ search: "" })}>
 
-      {/* 상단 둘러보기 조작대 */}
-      <CuratedBrowseTabs
-        browse={browse}
-        align="center"
-        size="md"
-        onSelectMedia={(m) => {
-          browse.setMedia(m);
-          syncUrl({ media: m });
-        }}
-        onSelectKind={(k) => {
-          browse.setKind(k);
-          syncUrl({ media: browse.activeMedia, kind: k });
-        }}
-        onSelectTopic={(tp) => {
-          browse.setTopic(tp);
-          syncUrl({ media: browse.activeMedia, topic: tp });
-        }}
-        onView={(v) => {
-          browse.setViewTopic(v);
-          syncUrl(
-            v
-              ? { media: browse.activeMedia, topic: browse.activeTopic }
-              : { media: browse.activeMedia, kind: browse.activeKind }
-          );
-        }}
-      />
-
-      {/* ── 기관 서가 카드 ── */}
-      <div className="grid gap-3 pt-1 lg:grid-cols-2">
-        {shown.map((curator) => (
-          <CuratorCard key={curator.slug} curator={curator} />
-        ))}
+          <button type="button" onClick={() => setDialog("sort")} aria-haspopup="dialog" aria-label={`${ui("filterSort")}: ${t(`sort.${filters.sort}`)}`} className={EXPLORE_CONTROL_CLASS}>
+            <ArrowDownWideNarrow size={15} className="hidden shrink-0 sm:block" aria-hidden /><span className="truncate leading-5">{t(`sort.${filters.sort}`)}</span>
+          </button>
+          <button type="button" onClick={() => setDialog("detail")} aria-haspopup="dialog" className={EXPLORE_CONTROL_CLASS}>
+            <SlidersHorizontal size={15} aria-hidden /><span>{ui("compactFilters.open")}</span>{detailCount > 0 && <span className="text-xs tabular-nums text-accent">{detailCount}</span>}
+          </button>
+        </ExploreSearchControls>
+        {conditions.length > 0 && <div className="flex flex-wrap gap-2">{conditions.map(condition => (
+          <button key={condition.key} type="button" onClick={() => update({ [condition.key]: "all" })} aria-label={ui("compactFilters.remove", { label: condition.label })}
+            className="flex min-h-9 items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-xs text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            {condition.label}<X size={12} aria-hidden />
+          </button>
+        ))}</div>}
       </div>
+      <div ref={resultsRef} tabIndex={-1} className="scroll-mt-20 outline-none md:scroll-mt-24">
+        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 md:mb-4">
+          <h3 className="text-sm font-semibold text-text-primary">{t("institutionHeading")}</h3>
+          <p role="status" className="text-xs tabular-nums text-text-secondary">{t("institutionResults", { count: shown.length, lists: shown.reduce((n, c) => n + c.lists.length, 0) })}</p>
+        </div>
+        {shown.length ? <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-6 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+          {shown.slice((page - 1) * CURATOR_PAGE_SIZE, page * CURATOR_PAGE_SIZE).map(curator => <CuratorLogoCard key={curator.slug} curator={curator} query={cardQuery.size ? `?${cardQuery}` : ""} onSelect={() => setPreviewSlug(curator.slug)} />)}
+        </div> : <div className="space-y-3 py-12 text-center">
+          <p className="text-sm text-text-secondary">{t("noResults")}</p>
+          <button type="button" className={`${EXPLORE_CONTROL_CLASS} mx-auto`} onClick={() => update({ search: "", kind: "all", topic: "all", sort: "name" })}>{t("resetFilters")}</button>
+        </div>}
+      </div>
+      <div className="mt-8"><Pagination presentation="quiet" currentPage={page} totalPages={totalPages}
+        getPageHref={next => `${pathname}${queryFor({ page: next })}`} onPageChange={next => {
+          update({ page: next });
+          resultsRef.current?.focus({ preventScroll: true });
+          resultsRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+        }} /></div>
+      {dialog === "sort" && <FilterModal isOpen title={ui("filterSort")} current={filters.sort} options={CURATOR_SORTS.map(value => ({ value, label: t(`sort.${value}`) }))}
+        onChange={sort => update({ sort: sort as CuratorExploreFilters["sort"] })} onClose={() => setDialog(null)} />}
+      {dialog === "detail" && <CuratorFiltersModal kind={filters.kind} topic={filters.topic} kinds={summary.kinds} topics={summary.topics}
+        onChange={(key, value) => update({ [key]: value })} onClose={() => setDialog(null)} />}
+      {previewCurator && <CuratorPreviewModal curator={previewCurator} query={cardQuery.size ? `?${cardQuery}` : ""} onClose={() => setPreviewSlug(null)} />}
     </div>
   );
 }
