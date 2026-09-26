@@ -19,6 +19,7 @@ import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { badgeStyles, quietBadgeStyles, FLAME_EDGE, trendEdgeDelay } from "./CelebCard.styles";
 import TrendMatchChip from "./TrendMatchChip";
+import { EXPLORE_CARD_CAPTION_HOVER, EXPLORE_CARD_FRAME_HOVER, EXPLORE_CARD_GLOW, EXPLORE_CARD_IMAGE_HOVER } from "./ExploreCard.styles";
 
 type Variant = "card" | "circle" | "medallion";
 type CardShape = "circle" | "square";
@@ -91,7 +92,7 @@ export default function CelebCard({
   const roundedClass = isCard && shape === "square" ? "rounded-md" : "rounded-full";
   const emphasize = isCard && emphasizeHover;
   const frameHover = emphasize
-    ? "group-hover:border-accent/70 group-hover:bg-accent/[0.07] group-hover:shadow-[0_12px_30px_-14px_rgba(212,175,55,0.55)]"
+    ? EXPLORE_CARD_FRAME_HOVER
     : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
   /* 트렌드 카드는 테두리 자체가 근거 표시다 — 맥박치는 화염 링(style의 2층 배경)+광휘.
      기본 테두리·hover와 색이 충돌하지 않게 통째로 갈아끼운다. */
@@ -144,10 +145,10 @@ export default function CelebCard({
                 shape={isCard && shape === "square" ? "square" : "circle"}
                 maxPx={isCard ? 300 : undefined}
                 fallbackSize={config.fallbackSize}
-                className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} transition-transform duration-500 group-hover:scale-105`}
+                className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} ${EXPLORE_CARD_IMAGE_HOVER}`}
               />
               {/* 올린 카드가 한눈에 보이게 — 사진 아래에서 금빛이 차오른다. 즉시 반응이라 전환을 걸지 않는다 */}
-              {emphasize && <span aria-hidden className="pointer-events-none absolute inset-0 z-[15] bg-[linear-gradient(to_top,rgba(212,175,55,0.24),rgba(212,175,55,0.06)_45%,transparent_70%)] opacity-0 group-hover:opacity-100" />}
+              {emphasize && <span aria-hidden className={EXPLORE_CARD_GLOW} />}
             </div>
 
             {count !== undefined && count > 0 && (
@@ -166,7 +167,7 @@ export default function CelebCard({
           </div>
 
           {isCard ? (
-            <div className={`mt-1.5 w-full rounded-md px-0.5 py-0.5 text-center ${emphasize ? "group-hover:bg-white/[0.06]" : ""}`}>
+            <div className={`mt-1.5 w-full rounded-md px-0.5 py-0.5 text-center ${emphasize ? EXPLORE_CARD_CAPTION_HOVER : ""}`}>
               <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
               {displayTitle && (
                 <p className={`text-[11px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400"} truncate leading-tight mt-0.5`}>{displayTitle}</p>
