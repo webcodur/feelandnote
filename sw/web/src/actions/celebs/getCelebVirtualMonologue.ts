@@ -27,12 +27,13 @@ async function fetchMonologue(celebId: string): Promise<MonologueRow | null> {
   return data
 }
 
-/** 화면 언어의 가상독백. 영문이 없으면 한국어가 온다. 없으면 null */
-export async function getCelebVirtualMonologue(celebId: string, locale: string = 'ko'): Promise<string | null> {
+/** 화면 언어의 가상독백. 영문이 없으면 한국어가 온다 — locale은 본문이 실제로 쓰인 언어라 낭독 음원을 고를 때 쓴다. 없으면 null */
+export async function getCelebVirtualMonologue(celebId: string, locale: string = 'ko'): Promise<{ text: string; locale: 'ko' | 'en' } | null> {
   const row = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-virtual-monologue', celebId], () =>
     fetchMonologue(celebId),
   )
   const en = row?.virtual_monologue_en?.trim()
   const ko = row?.virtual_monologue?.trim()
-  return (locale === 'en' && en) || ko || null
+  if (locale === 'en' && en) return { text: en, locale: 'en' }
+  return ko ? { text: ko, locale: 'ko' } : null
 }

@@ -110,7 +110,8 @@
         "categoryDetail": "Category Details"
       },
       "tags": {
-        "noDescription": "No detailed description available."
+        "noDescription": "No detailed description available.",
+        "goToFaction": "Go to faction page"
       },
       "banner": {
         "headline": "A Single Line Recorded, A Thousand Years of Echoes",

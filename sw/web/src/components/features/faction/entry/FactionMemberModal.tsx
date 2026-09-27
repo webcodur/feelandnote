@@ -2,8 +2,8 @@
   파일명: /components/features/faction/entry/FactionMemberModal.tsx
   기능: 세력도감 인물 소개 모달
   책임: 카드를 누른 인물을 이 테마 안에서 소개한다 — 인물 상세와 같은 아바타 모듈(확대 보기·인사 음성), 테마·진영, 이름·직함,
-        테마에서의 역할과 긴 소개, 가상독백, 인물 상세와 같은 등장·감상·집필 참고도서를 보여 준다.
-        아바타·신원·상세 버튼을 머리말로 묶고, 역할과 소개는 그 아래 전체 폭에서 읽는다.
+        「인물 안내」·「가상독백」 낭독 항목, 테마 맥락 소개(「{테마}에서의 {이름}」), 인물 상세와 같은 등장·감상·집필 참고도서를 보여 준다.
+        아바타·신원·항목 버튼을 머리말로 묶고, 테마 소개는 그 아래 제목 달린 섹션에서 읽는다.
 */ // ------------------------------
 
 "use client";
@@ -11,20 +11,23 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { getFactionLongDescs, type FactionLongDescs } from "@/actions/home/getFactionLongDescs";
-import VirtualMonologueModal from "@/components/shared/VirtualMonologueModal";
-import { FormattedText, splitReadableParagraphs } from "@/components/ui";
+import NarratedGuideModal from "@/components/shared/NarratedGuideModal";
+import NarratedMonologueModal from "@/components/shared/NarratedMonologueModal";
 import Modal from "@/components/ui/Modal";
+import { splitReadableParagraphs } from "@/components/ui/FormattedText";
 import FactionPersonHeader from "./FactionPersonHeader";
 import FactionPersonBooks from "./FactionPersonBooks";
 import { FACTION_PERSON_LAYOUT as layout } from "./factionPersonLayout";
+import { useAudioAvailable } from "@/hooks/useReadingNarration";
+import { useCelebReadingGuide } from "@/hooks/useCelebReadingGuide";
 import { useCelebVirtualMonologue } from "@/hooks/useCelebVirtualMonologue";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
+import { getReadingVoiceUrl, getVirtualMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
 
 /** 이 테마 안에서의 인물 정보 — 서버가 명단에서 만들어 넘긴다 */
 export interface FactionMemberMeta {
-  role: string | null;
   group: string | null;
 }
 
@@ -39,13 +42,16 @@ interface FactionMemberModalProps {
 }
 
 export default function FactionMemberModal({ factionId, factionName, celeb, meta, onClose, portraitUrl }: FactionMemberModalProps) {
+  const t = useTranslations("explore.faction");
   const tCeleb = useTranslations("celebPage");
   const locale = useLocale() as Locale;
   const isEn = locale === "en";
   const [longDescs, setLongDescs] = useState<{ factionId: string; byCeleb: FactionLongDescs } | null>(null);
+  const [guideOpen, setGuideOpen] = useState(false);
   const [monologueOpen, setMonologueOpen] = useState(false);
-  // 가상독백 — 인물 단위로 따로 받고, 없는 인물은 단추를 두지 않는다
+  // 가상독백·인물 안내 — 인물 단위로 따로 받는다. 없는 인물은 단추를 두지 않거나 fallback 글을 담는다
   const monologue = useCelebVirtualMonologue(celeb.id);
+  const guide = useCelebReadingGuide(celeb.id);
 
   const name = (isEn && celeb.nickname_en) || celeb.nickname;
   const title = (isEn && celeb.title_en) || celeb.title;
@@ -59,7 +65,8 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
     locale,
   });
 
-  /* 긴 소개 — 테마 단위로 캐시된 묶음에서 꺼낸다. 못 받아도 모달의 나머지는 그대로다 */
+  /* 테마별 긴 소개 — 테마 단위로 캐시된 묶음에서 꺼내 「{테마}에서의 {이름}」 섹션 본문이 된다.
+     한 줄 역할(short_desc)은 인물 정의와 겹쳐 읽혀 모달에 표기하지 않는다 */
   useEffect(() => {
     let alive = true;
     getFactionLongDescs(factionId)
@@ -73,8 +80,17 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
     };
   }, [factionId]);
 
-  const desc = longDescs?.byCeleb[celeb.id];
-  const paragraphs = splitReadableParagraphs((isEn ? desc?.en : desc?.ko) ?? "");
+  const desc = longDescs?.factionId === factionId ? longDescs.byCeleb[celeb.id] : undefined;
+  const longDesc = ((isEn ? desc?.en : desc?.ko) ?? "").trim();
+  /* 「인물 안내」 본문은 안내 원문을 우선한다 — 낭독 음원(reading.mp3)이 읽는 텍스트라
+     음성·문장 강조가 어긋나지 않는다. 안내가 없을 때만 약력이 모달을 채운다.
+     테마별 긴 소개는 인물 수준이 아니라 테마 맥락 글이라 안내 모달에 섞지 않는다 */
+  const guideText = guide?.text?.trim() || ((isEn ? celeb.bio_en || celeb.bio : celeb.bio) ?? "").trim();
+  const guideAudioUrl = guide?.text ? getReadingVoiceUrl(celeb.id, guide.locale, celeb.voice_v ?? 0) : "";
+  const monologueAudioUrl = monologue ? getVirtualMonologueVoiceUrl(celeb.id, monologue.locale, celeb.voice_v ?? 0) : "";
+  const guideAudio = useAudioAvailable(guideAudioUrl);
+  const monologueAudio = useAudioAvailable(monologueAudioUrl);
+
   const content = (
     <>
       <article className={layout.article}>
@@ -82,39 +98,34 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
         <FactionPersonHeader
           person={{ id: celeb.id, slug: celeb.slug, name, title, avatarUrl: celeb.avatar_url, reality: celeb.celeb_reality }}
           factionName={factionName} group={meta?.group} portraitUrl={portraitUrl} nested
-          onMonologue={monologue ? () => setMonologueOpen(true) : undefined}
+          guide={guideText ? { onOpen: () => setGuideOpen(true), hasAudio: guideAudio } : undefined}
+          monologue={monologue ? { onOpen: () => setMonologueOpen(true), hasAudio: monologueAudio } : undefined}
           voice={{ hasVoice: hasGreetingAudio, isVoicePlaying: isVoiceActive,
             onGreet: canGreet ? handleGreetingPlay : undefined,
             greetLabel: hasGreetingAudio ? tCeleb("playGreetingVoice") : tCeleb("dialogue_greeting") }}
-        >
-        {meta?.role && (
-          <p className={layout.lead}>
-            {meta.role}
-          </p>
-        )}
+        />
 
-        {longDescs === null ? (
-          <div className="space-y-2" aria-hidden>
-            <div className="h-3.5 w-full animate-pulse rounded bg-white/[0.07]" />
-            <div className="h-3.5 w-11/12 animate-pulse rounded bg-white/[0.07]" />
-            <div className="h-3.5 w-3/4 animate-pulse rounded bg-white/[0.07]" />
-          </div>
-        ) : paragraphs.length > 0 && (
+        {longDesc && (
+          <section className={layout.body}>
+            <h3 className="mb-3 text-lg font-bold text-text-primary">
+              {t("personInTheme", { theme: factionName, name })}
+            </h3>
             <div className={layout.paragraphs}>
-              {paragraphs.map((paragraph, index) => (
-                <p key={index}>
-                  <FormattedText text={paragraph} />
-                </p>
-              ))}
+              {splitReadableParagraphs(longDesc).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
             </div>
+          </section>
         )}
-        </FactionPersonHeader>
 
         <FactionPersonBooks celebId={celeb.id} />
       </article>
 
+      {guideOpen && guideText && (
+        <NarratedGuideModal nested celebId={celeb.id} text={guideText} audioUrl={guideAudioUrl}
+          readingLocale={guide?.locale ?? locale} voiceV={celeb.voice_v ?? 0} onClose={() => setGuideOpen(false)} />
+      )}
       {monologueOpen && monologue && (
-        <VirtualMonologueModal text={monologue} onClose={() => setMonologueOpen(false)} nested />
+        <NarratedMonologueModal nested celebId={celeb.id} text={monologue.text} locale={monologue.locale} voiceV={celeb.voice_v ?? 0}
+          onClose={() => setMonologueOpen(false)} />
       )}
     </>
   );

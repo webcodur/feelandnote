@@ -73,7 +73,7 @@ export default function MonologueDeck({ items }: { items: VirtualMonologueCeleb[
     try {
       // 본문은 음원 언어, 책장은 화면 언어의 판본으로 읽는다.
       await loadMonologueDetail(
-        () => getCelebVirtualMonologue(celeb.id, celeb.voiceLocale),
+        () => getCelebVirtualMonologue(celeb.id, celeb.voiceLocale).then((entry) => entry?.text ?? null),
         () => fetchShelf(celeb, currentRequest),
         (text) => {
           if (currentRequest === requestId.current) setDetail({ id: celeb.id, text, shelf: null, shelfFailed: false });

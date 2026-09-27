@@ -315,7 +315,15 @@
         "worksDividerRightDesc": "Other stories where this myth's figures appear.",
         "linkedToWork": "WORK LINK",
         "enlargeImage": "Enlarge image",
-        "portraitImage": "Portrait image"
+        "portraitImage": "Portrait",
+        "keyScenes": "Key scenes",
+        "selectImage": "Jump to a scene",
+        "imageNumber": "Image number (1–{count})",
+        "goToImage": "Go",
+        "searchImages": "Search scene titles",
+        "noMatchingImages": "No matching scenes.",
+        "readEnding": "Read the ending",
+        "personInTheme": "{name} in {theme}"
       },
       "relationMap": {
         "title": "Relation Map",
@@ -422,7 +430,8 @@
       "title": "Factions",
       "overview": "Faction overview",
       "overviewFallback": "Choose a figure above to explore their role and story within this theme.",
-      "backToOverview": "Back to theme overview"
+      "backToOverview": "Back to theme overview",
+      "personInTheme": "{name} in {theme}"
     },
     "monologue": {
       "metaTitle": "Virtual Monologues | Figures",

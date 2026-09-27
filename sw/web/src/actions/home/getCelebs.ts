@@ -218,7 +218,7 @@ interface FactionAssignmentJoinRow {
   long_desc: string | null
   long_desc_en: string | null
   sort_order: number | null
-  faction: { id: string; name: string; name_en: string | null; color: string } | null
+  faction: { id: string; name: string; name_en: string | null; color: string; slug: string | null; is_featured: boolean } | null
 }
 
 // --- 공개 데이터 캐싱 (1시간) ---
@@ -431,9 +431,9 @@ async function fetchCelebsPublic(
       const memberFactionIds = [...new Set(memberRows.map((r) => r.lv2_id))]
       const { data: factionRows, error: tagError } = await db
         .from('faction_lv2')
-        .select('id, name, name_en, color')
+        .select('id, name, name_en, color, slug, is_featured')
         .in('id', memberFactionIds)
-        .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
+        .overrideTypes<{ id: string; name: string; name_en: string | null; color: string; slug: string | null; is_featured: boolean }[], { merge: false }>()
       throwOnQueryError('인물 세력도감 태그', tagError)
       const factionById = new Map((factionRows ?? []).map((t) => [t.id, t]))
 

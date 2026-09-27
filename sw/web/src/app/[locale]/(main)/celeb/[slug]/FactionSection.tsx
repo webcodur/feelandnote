@@ -163,10 +163,6 @@ export default function FactionSection({
         return;
       }
       const meta: FactionMemberMeta = {
-        // 영문 역할이 비면 한국어를 내보내지 않는다 — 도감 페이지와 같은 규칙
-        role:
-          (locale === "en" ? member.short_desc_en : member.short_desc)?.trim() ||
-          null,
         group:
           clusters.length > 1
             ? (locale === "en"

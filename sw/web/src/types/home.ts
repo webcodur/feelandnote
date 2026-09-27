@@ -23,6 +23,10 @@ export interface CelebFactionInfo {
   name: string
   name_en: string | null
   color: string
+  /** 세력 페이지 주소 조각 — featured만 페이지가 서므로 링크 여부와 함께 쓴다 */
+  slug: string | null
+  /** /explore/faction/[slug] 페이지가 서는 테마인지 */
+  is_featured: boolean
   short_desc: string | null  // 태그 부여 사유 (짧은 문구)
   short_desc_en: string | null
   long_desc: string | null   // 태그 부여 상세 설명

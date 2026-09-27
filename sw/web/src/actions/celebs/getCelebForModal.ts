@@ -79,9 +79,9 @@ async function fetchCelebModalPublic(
       const lv2Ids = [...new Set(memberRows.map((r) => r.lv2_id))]
       const { data: factionRows, error: factionError } = await db
         .from('faction_lv2')
-        .select('id, name, name_en, color')
+        .select('id, name, name_en, color, slug, is_featured')
         .in('id', lv2Ids)
-        .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
+        .overrideTypes<{ id: string; name: string; name_en: string | null; color: string; slug: string | null; is_featured: boolean }[], { merge: false }>()
       throwOnQueryError('getCelebForModal 세력도감 태그', factionError)
       const factionById = new Map((factionRows ?? []).map((t) => [t.id, t]))
 
@@ -93,6 +93,8 @@ async function fetchCelebModalPublic(
           name: faction.name,
           name_en: faction.name_en ?? null,
           color: faction.color,
+          slug: faction.slug ?? null,
+          is_featured: faction.is_featured === true,
           short_desc: r.short_desc,
           short_desc_en: r.short_desc_en,
           long_desc: r.long_desc,

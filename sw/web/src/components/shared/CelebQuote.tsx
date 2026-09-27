@@ -1,6 +1,7 @@
 "use client";
 
 import { FormattedText } from "@/components/ui";
+import { NO_VERIFIED_QUOTE_EN, NO_VERIFIED_QUOTE_KO } from "@feelandnote/shared/constants/celeb-speech";
 import styles from "./CelebQuote.module.css";
 
 export interface CelebQuoteProps {
@@ -22,7 +23,9 @@ export default function CelebQuote({
   variant = "detail",
   className = "",
 }: CelebQuoteProps) {
-  if (!text) return null;
+  // 「확인된 어록이 없습니다」는 어록 부재의 자리 표시이지 보여줄 문구가 아니다 — 빈 값처럼 그리지 않는다
+  const trimmed = text?.trim();
+  if (!trimmed || trimmed === NO_VERIFIED_QUOTE_KO || trimmed === NO_VERIFIED_QUOTE_EN) return null;
 
   const quoteContent = (
     <>

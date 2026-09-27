@@ -6,6 +6,7 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 import {
   createContentRequest,
   createLibrarySeed,
+  getInitialLibraryCategory,
   isInitialSeedQuery,
   resolveDatasetPresentation,
   type ContentLibraryDataOptions,
@@ -123,6 +124,18 @@ test("only the untouched list query can reuse the initial seed", () => {
   assert.equal(isInitialSeedQuery({ ...baseOptions, viewMode: "expand" }), false);
   assert.equal(isInitialSeedQuery({ ...baseOptions, currentPage: 2 }), false);
   assert.equal(isInitialSeedQuery({ ...baseOptions, appliedSearchQuery: "ab" }), false);
+});
+
+test("게임 기록으로 시작한 인물 서재는 게임 탭과 같은 초기 조회를 유지한다", () => {
+  const gameContents: GetUserContentsResponse = {
+    ...initialContents,
+    items: initialContents.items.map(item => ({ ...item, content: { ...item.content, type: "GAME" } })),
+  };
+  assert.equal(getInitialLibraryCategory("celeb", gameContents), "game");
+  assert.equal(getInitialLibraryCategory("celeb", initialContents), "book");
+  assert.equal(getInitialLibraryCategory("member", gameContents), "all");
+  assert.equal(isInitialSeedQuery({ ...baseOptions, initialContents: gameContents, activeTab: "game" }), true);
+  assert.equal(isInitialSeedQuery({ ...baseOptions, initialContents: gameContents, activeTab: "book" }), false);
 });
 
 test("expand to list keeps the completed expand presenter until list data is ready", () => {

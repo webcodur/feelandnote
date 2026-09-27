@@ -6,6 +6,7 @@ import { getCelebReferenceBooks, type CelebReferenceBooks } from "@/actions/cele
 import { CELEB_REFERENCE_BOOK_MODES } from "@/lib/celeb/authoredBooks";
 import FigureBookWorksSection from "@/app/[locale]/(main)/celeb/[slug]/FigureBookWorksSection";
 import CelebReadBooks from "@/components/features/celeb/CelebReadBooks";
+import ShelfMode from "@/components/features/celeb/ShelfMode";
 import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { RetryBlock } from "@/components/ui/pending";
 import { FACTION_PERSON_LAYOUT as layout } from "./factionPersonLayout";
@@ -63,7 +64,7 @@ export default function FactionPersonBooks({ celebId }: { celebId: string }) {
       {!failed && !data && <CelebSectionSkeleton kind="books" english={locale === "en"} />}
       {data && active && <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-${active}`}>
         {active === "appeared" && <FigureBookWorksSection sources={data.appeared} intro={t("sourceWorksIntro")} />}
-        {active === "read" && <CelebReadBooks userId={celebId} initialBooks={data.read.books} initialNextPage={data.read.nextPage} initialHasMore={data.read.hasMore} />}
+        {active === "read" && <ShelfMode intro={t("readShelfIntro")}><CelebReadBooks userId={celebId} initialBooks={data.read.books} initialNextPage={data.read.nextPage} initialHasMore={data.read.hasMore} /></ShelfMode>}
         {active === "authored" && <FigureBookWorksSection sources={data.authored} intro={t("authoredWorksIntro")} />}
       </div>}
     </section>

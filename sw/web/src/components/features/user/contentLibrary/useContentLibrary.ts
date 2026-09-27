@@ -19,6 +19,7 @@ import {
 } from "./contentLibraryTypes";
 import { useContentLibraryData } from "./useContentLibraryData";
 import { useContentLibraryDelete } from "./useContentLibraryDelete";
+import { getInitialLibraryCategory } from "./contentLibraryDataState";
 
 export type { ContentLibraryMode, ReviewFilter, SortOption, ViewMode } from "./contentLibraryTypes";
 
@@ -43,7 +44,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   }, [initialContents, ownerKind, targetUserId]);
 
   const [activeTab, setActiveTabState] = useState<CategoryId>(
-    ownerKind === "celeb" ? "book" : "all",
+    getInitialLibraryCategory(ownerKind, initialContents),
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSizeState] = useState(defaultPageSize ?? 10);

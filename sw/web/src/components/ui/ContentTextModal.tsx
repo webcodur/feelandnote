@@ -5,6 +5,7 @@ import ContentReadingText from "./ContentReadingText";
 import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "./Modal";
 import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
 import type { ReadingSegment } from "@/lib/reading-timing";
+import { Z_INDEX } from "@/constants/zIndex";
 
 const MODAL_GOLD_CLASS = "text-3d-gold-bright";
 const MODAL_GOLD_STYLE: CSSProperties = {
@@ -49,6 +50,8 @@ interface ContentTextModalProps {
   onPlayFrom?: (seconds: number) => void;
   /** 문장 조각 버튼의 접근성 라벨 */
   sentenceLabel?: string;
+  /** 다른 모달(인물 상세 모달) 위에 겹쳐 열 때 — 위에 띄우고 ESC가 바깥 모달까지 닫지 않게 한다 */
+  nested?: boolean;
   source?: {
     href: string;
     label: ReactNode;
@@ -67,6 +70,7 @@ export default function ContentTextModal({
   currentTime,
   onPlayFrom,
   sentenceLabel,
+  nested = false,
   source,
 }: ContentTextModalProps) {
   return (
@@ -80,6 +84,8 @@ export default function ContentTextModal({
       size="xl"
       maxHeightClassName={READING_MODAL_MAX_HEIGHT_CLASS}
       fadeClippedEnd
+      zIndex={nested ? Z_INDEX.modal + 1 : undefined}
+      escapeCapture={nested}
     >
       <ModalBody className="p-4 sm:p-6">
         {notice}

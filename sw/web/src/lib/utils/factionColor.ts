@@ -11,6 +11,14 @@ export function readableFactionColor(hex: string): string {
   const g = (n >> 8) & 255;
   const b = n & 255;
   const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  const mix = lum < 0.35 ? 45 : lum < 0.55 ? 65 : 85;
+  const mix = lum < 0.35 ? 30 : lum < 0.55 ? 55 : 85;
   return `color-mix(in srgb, ${hex} ${mix}%, #f1e9d2)`;
+}
+
+/**
+ * 칩 테두리 — 어두운 원색에 알파를 씌우면 경계가 아예 사라지므로
+ * 표시색을 반투명으로 써 모든 세력의 윤곽이 읽히게 한다.
+ */
+export function readableFactionBorder(hex: string): string {
+  return `color-mix(in srgb, ${readableFactionColor(hex)} 55%, transparent)`;
 }

@@ -315,7 +315,15 @@
         "worksDividerRightDesc": "이 신화의 인물이 등장하는 다른 이야기.",
         "linkedToWork": "작품 연결",
         "enlargeImage": "이미지 확대",
-        "portraitImage": "상세 이미지"
+        "portraitImage": "대표 사진",
+        "keyScenes": "주요 장면",
+        "selectImage": "장면 바로가기",
+        "imageNumber": "이미지 번호 (1–{count})",
+        "goToImage": "이동",
+        "searchImages": "장면 제목 검색",
+        "noMatchingImages": "일치하는 장면이 없습니다.",
+        "readEnding": "후속 이야기 읽기",
+        "personInTheme": "{theme}에서의 {name}"
       },
       "relationMap": {
         "title": "관계망",
@@ -422,7 +430,8 @@
       "title": "세력도감",
       "overview": "팩션 개요",
       "overviewFallback": "위의 인물을 골라 이 테마에서의 역할과 이야기를 살펴보세요.",
-      "backToOverview": "테마 개요로"
+      "backToOverview": "테마 개요로",
+      "personInTheme": "{theme}에서의 {name}"
     },
     "monologue": {
       "metaTitle": "가상독백 | 인물",

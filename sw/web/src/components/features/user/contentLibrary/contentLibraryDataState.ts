@@ -1,6 +1,6 @@
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
-import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
+import { CATEGORY_ID_TO_TYPE, getCategoryByDbType, type CategoryId } from "@/constants/categories";
 import { CELEB_EXPAND_INDEX_LIMIT } from "@/constants/contentLibrary";
 import type { ContentType } from "@/types/database";
 
@@ -98,8 +98,13 @@ export function createContentRequest(input: ContentRequestInput): ContentRequest
   };
 }
 
+export function getInitialLibraryCategory(ownerKind: ContentOwnerKind, initialContents?: GetUserContentsResponse): CategoryId {
+  if (ownerKind !== "celeb") return "all";
+  return getCategoryByDbType(initialContents?.items[0]?.content.type ?? "BOOK")?.id ?? "book";
+}
+
 export function isInitialSeedQuery(options: ContentLibraryDataOptions): boolean {
-  const initialCategory = options.ownerKind === "celeb" ? "book" : "all";
+  const initialCategory = getInitialLibraryCategory(options.ownerKind, options.initialContents);
   return options.activeTab === initialCategory
     && options.currentPage === 1
     && options.pageSize === options.defaultPageSize

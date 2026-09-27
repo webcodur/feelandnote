@@ -1,7 +1,9 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import Modal from "@/components/ui/Modal";
-import { readableFactionColor } from "@/lib/utils/factionColor";
+import { Link } from "@/i18n/navigation";
+import { readableFactionBorder, readableFactionColor } from "@/lib/utils/factionColor";
 import type { CelebFactionInfo } from "@/types/home";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
@@ -39,20 +41,40 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, title, z
 
       {/* List */}
       <div className="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar flex flex-col gap-6">
-        {factions.map((faction) => (
+        {factions.map((faction) => {
+          // 세력 페이지(/explore/faction/[slug])는 featured 테마만 선다 — 그 외는 텍스트 칩으로 둔다
+          const href = faction.is_featured && faction.slug ? `/explore/faction/${faction.slug}` : null;
+          const chipClass = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border";
+          const chipStyle = {
+            backgroundColor: `${faction.color}14`,
+            color: readableFactionColor(faction.color),
+            borderColor: readableFactionBorder(faction.color)
+          };
+          const chipBody = (
+            <>
+              <span aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: faction.color }} />
+              {locale === 'en' ? (faction.name_en ?? faction.name) : faction.name}
+              {href && <ArrowUpRight size={11} strokeWidth={3} aria-hidden />}
+            </>
+          );
+          return (
           <div key={faction.id} className="flex flex-col gap-2">
             <div className="flex items-start">
-              <span
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border"
-                style={{
-                  backgroundColor: `${faction.color}14`,
-                  color: readableFactionColor(faction.color),
-                  borderColor: `${faction.color}50`
-                }}
-              >
-                <span aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: faction.color }} />
-                {locale === 'en' ? (faction.name_en ?? faction.name) : faction.name}
-              </span>
+              {href ? (
+                <Link
+                  href={href}
+                  onClick={onClose}
+                  title={t("goToFaction")}
+                  className={`${chipClass} hover:brightness-125 active:scale-95`}
+                  style={chipStyle}
+                >
+                  {chipBody}
+                </Link>
+              ) : (
+                <span className={chipClass} style={chipStyle}>
+                  {chipBody}
+                </span>
+              )}
             </div>
 
             {((locale === 'en' ? (faction.short_desc_en ?? faction.short_desc) : faction.short_desc) || (locale === 'en' ? (faction.long_desc_en ?? faction.long_desc) : faction.long_desc)) ? (
@@ -74,7 +96,8 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, title, z
               </p>
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
     </Modal>
   );

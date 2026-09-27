@@ -15,6 +15,7 @@ import { getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getCelebReadShelf } from "@/actions/celebs/getCelebReferenceBooks";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
+import { CATEGORIES } from "@/constants/categories";
 import { getFigureBookPresentationsForCeleb } from "@/actions/figure-books/getFigureBookPresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
@@ -119,7 +120,7 @@ export default async function CelebPage({ params }: PageProps) {
   const initialContentsPromise = profile.celeb_tier === 'full'
     ? getPublicUserContents({
         userId,
-        type: "BOOK",
+        type: CATEGORIES.find(category => profile.contentTypeCounts[category.dbType] > 0)?.dbType ?? "BOOK",
         page: 1,
         limit: LIBRARY_FIRST_PAGE_SIZE,
         sortBy: 'recent',

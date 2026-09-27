@@ -110,7 +110,8 @@
         "categoryDetail": "영역별 상세"
       },
       "tags": {
-        "noDescription": "상세 설명이 없습니다."
+        "noDescription": "상세 설명이 없습니다.",
+        "goToFaction": "세력 페이지로 이동"
       },
       "banner": {
         "headline": "한 줄의 기록, 천 년의 울림",
