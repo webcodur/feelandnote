@@ -72,7 +72,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       widthClassName={isScene && !isEnding
         ? "w-full max-w-[min(1200px,100%)] md:w-[calc(var(--scene-image-height)*var(--artwork-ratio)_+_var(--artwork-controls))]"
         : "max-w-[1200px]"}
-      boxClassName="overflow-hidden rounded-2xl border border-white/15 bg-bg-main [--scene-image-height:max(8rem,calc(100dvh_-_17rem))] md:[--scene-image-height:max(8rem,calc(100dvh_-_16rem))]"
+      boxClassName="overflow-hidden rounded-2xl border border-white/15 bg-bg-main text-sm leading-relaxed md:text-base [--scene-caption-height:calc(4lh_+_1.5rem)] md:[--scene-caption-height:calc(3lh_+_1.5rem)] [--scene-image-height:max(8rem,calc(100dvh_-_var(--scene-caption-height)_-_11rem))]"
       boxStyle={{ "--artwork-ratio": ratio, "--artwork-controls": slideCount > 1 ? "6rem" : "0rem" } as CSSProperties}
       closeOnEscape={!navigatorOpen} escapeCapture={nested} zIndex={zIndex}
       /* 본문 3열의 오른쪽 칸(3rem) 중앙에 X를 얹는다 — 칸 중심이 모서리에서 1.5rem이라 버튼 반폭 1rem을 뺀 end-2 */
@@ -110,7 +110,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           </div>
           {image.caption && (
             <div key={image.url} data-artwork-caption-frame className={isScene
-              ? "flex h-24 flex-col overflow-y-auto overscroll-contain px-4 py-3 md:h-20 md:px-6"
+              ? "flex h-[var(--scene-caption-height)] flex-col overflow-y-auto overscroll-contain px-4 py-3 md:px-6"
               : "px-4 py-4 md:px-8 md:py-5"}>
               <p data-artwork-caption className={`mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-sm leading-relaxed text-text-primary [overflow-wrap:anywhere] md:text-base ${isScene ? 'my-auto shrink-0 md:text-balance' : ''}`}>
                 {isScene ? <FactionSceneText text={image.caption} /> : image.caption}
