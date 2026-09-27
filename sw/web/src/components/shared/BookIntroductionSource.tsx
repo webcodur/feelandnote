@@ -10,6 +10,14 @@ const PROVIDER_NAMES = {
   daum: "Daum",
   openlibrary: "OL",
   feelandnote: "F&N",
+  tmdb: "TMDB",
+  igdb: "IGDB",
+  itunes: "Apple",
+  wikipedia: "Wikipedia",
+  lastfm: "Last.fm",
+  ted: "TED",
+  mmorpg: "MMORPG.com",
+  steam: "Steam",
 } as const;
 
 /** 작품 소개 칸 우하단 출처 칩(BookIntroductionPanel)의 안쪽 알약에 들어가는 공급처 이름.
@@ -22,6 +30,14 @@ export const INTRO_PROVIDER_HEADING_NAME: Partial<
   yes24: { ko: "YES24", en: "YES24" },
   openlibrary: { ko: "Open Library", en: "Open Library" },
   feelandnote: { ko: "F&N", en: "F&N" },
+  tmdb: { ko: "TMDB", en: "TMDB" },
+  igdb: { ko: "IGDB", en: "IGDB" },
+  itunes: { ko: "Apple", en: "Apple" },
+  wikipedia: { ko: "위키백과", en: "Wikipedia" },
+  lastfm: { ko: "Last.fm", en: "Last.fm" },
+  ted: { ko: "TED", en: "TED" },
+  mmorpg: { ko: "MMORPG.com", en: "MMORPG.com" },
+  steam: { ko: "Steam", en: "Steam" },
 };
 
 export default function BookIntroductionSource({ attribution, className }: {

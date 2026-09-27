@@ -1,7 +1,37 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { bookIntroductionDisplay, resolveBookIsbn, selectBookIntroduction } from './book-description'
+import { bookIntroductionDisplay, mediaIntroductionAttribution, resolveBookIsbn, selectBookIntroduction } from './book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
+
+test('media introduction credits its recorded source over the metadata supplier', () => {
+  const url = 'https://en.wikipedia.org/wiki/Interstellar_(film)'
+  assert.deepEqual(mediaIntroductionAttribution({ locale: 'ko', description: '영화 소개입니다.', sources: {
+    description: url, description_method: 'translation', description_source_locale: 'en',
+  } }, 'tmdb', 'tmdb-movie-157336'), { provider: 'wikipedia', url, translated: true })
+})
+
+test('media source attribution does not survive missing or rejected locale text', () => {
+  for (const description of [null, '', '한국어로 잘못 저장된 소개']) {
+    assert.equal(mediaIntroductionAttribution({ locale: 'en', description, sources: {
+      description: 'https://ko.wikipedia.org/wiki/Interstellar',
+    } }, 'tmdb', 'tmdb-movie-157336'), null)
+  }
+})
+
+test('legacy media links require a matching external identity', () => {
+  const row = { locale: 'en', description: 'A film about space travel.' }
+  assert.deepEqual(mediaIntroductionAttribution(row, 'tmdb', 'tmdb-movie-157336'), {
+    provider: 'tmdb', url: 'https://www.themoviedb.org/movie/157336', translated: false,
+  })
+  assert.equal(mediaIntroductionAttribution(row, 'igdb', 'tmdb-movie-157336')?.url, null)
+  assert.equal(mediaIntroductionAttribution(row, 'tmdb', 'tmdb-movie-1/../../x')?.url, null)
+})
+
+test('unsafe media source URLs are rejected and lookalike hosts are not credited as providers', () => {
+  const row = { locale: 'en', description: 'A game about an ancient kingdom.' }
+  assert.equal(mediaIntroductionAttribution({ ...row, sources: { description: 'javascript:alert(1)' } }, null, null)?.url, null)
+  assert.equal(mediaIntroductionAttribution({ ...row, sources: { description: 'https://www.igdb.com.evil.example/game' } }, 'igdb', 'igdb-1')?.provider, 'other')
+})
 
 test('selected edition ISBN wins over the work representative ISBN', () => {
   assert.equal(resolveBookIsbn('ko', '979-11-9053375-1', '9788937460449', '9788937460456'), '9791190533751')

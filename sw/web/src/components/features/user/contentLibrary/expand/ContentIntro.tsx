@@ -109,16 +109,31 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
           <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
         </div>
       ) : text ? (
-        <ClippedContentReadingText
-          text={text}
-          tone="secondary"
-          size="compact"
-          className={INTRO_BODY_CLASS}
-          onClick={openModal}
-          clickLabel={t("expandIntroMore")}
-        >
-          {inlineIcon}<FormattedText text={text} />
-        </ClippedContentReadingText>
+        <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
+          <ClippedContentReadingText
+            text={text}
+            tone="secondary"
+            size="compact"
+            className={INTRO_BODY_CLASS}
+            onClick={openModal}
+            clickLabel={t("expandIntroMore")}
+          >
+            {inlineIcon}<FormattedText text={text} />
+          </ClippedContentReadingText>
+          {/* 책은 제목에 출처를 합쳤으니 칸에 따로 붙이지 않는다 — 나머지 유형은 저장된 출처 링크를 둔다 */}
+          {headingCategory !== "book" && brief?.introductionAttribution?.url && (
+            <a
+              href={brief.introductionAttribution.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-block shrink-0 self-center rounded-sm text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              {brief.introductionAttribution.provider !== "unknown" && brief.introductionAttribution.provider !== "other"
+                ? (INTRO_PROVIDER_HEADING_NAME[brief.introductionAttribution.provider]?.[locale === "en" ? "en" : "ko"] ?? t("expandIntroSource"))
+                : t("expandIntroSource")}
+            </a>
+          )}
+        </div>
       ) : active ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
           {sources.length > 1 && (

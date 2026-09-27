@@ -11,7 +11,9 @@ export interface BookIntroductionReference {
 }
 
 export interface BookIntroductionAttribution {
-  provider: 'yes24' | 'kakao' | 'daum' | 'openlibrary' | 'feelandnote' | 'other' | 'unknown'
+  provider: 'yes24' | 'kakao' | 'daum' | 'openlibrary' | 'feelandnote'
+    | 'tmdb' | 'igdb' | 'itunes' | 'wikipedia' | 'lastfm' | 'ted' | 'mmorpg' | 'steam'
+    | 'other' | 'unknown'
   url: string | null
   translated: boolean
 }
@@ -59,7 +61,10 @@ function sourceProvider(url: string | null): BookIntroductionAttribution['provid
   if (!url) return 'unknown'
   const host = new URL(url).hostname
   const domains = { 'yes24.com': 'yes24', 'kakao.com': 'kakao', 'daum.net': 'daum',
-    'openlibrary.org': 'openlibrary', 'feelandnote.com': 'feelandnote' } as const
+    'openlibrary.org': 'openlibrary', 'feelandnote.com': 'feelandnote',
+    'themoviedb.org': 'tmdb', 'igdb.com': 'igdb', 'wikipedia.org': 'wikipedia',
+    'last.fm': 'lastfm', 'ted.com': 'ted', 'mmorpg.com': 'mmorpg',
+    'steampowered.com': 'steam', 'apple.com': 'itunes' } as const
   for (const [domain, provider] of Object.entries(domains)) {
     if (host === domain || host.endsWith(`.${domain}`)) return provider
   }
@@ -138,6 +143,35 @@ export function bookIntroductionDisplay(
   }
   const description = pickIntroForLocale(locale, [row.description])
   return { description, bookIntroduction: null, ...(description ? { introductionAttribution: introductionAttribution(row) } : {}) }
+}
+
+/* VIDEO·GAME·MUSIC은 쓰기 계약이 sources.description에 출처 URL을 남긴다 — 그 기록을 그대로 표기한다.
+   URL이 없는 레거시 행은 external_source로 제공자를 복원하고, 외부 작품 페이지는 external_id로 재구성한다. */
+export function mediaIntroductionAttribution(
+  row: { locale: string; description?: string | null; sources?: unknown } | null | undefined,
+  externalSource: string | null | undefined,
+  externalId: string | null | undefined,
+): BookIntroductionAttribution | null {
+  // 화면에서 탈락한 다른 언어의 소개에 붙은 출처를 대체 본문의 출처로 쓰지 않는다.
+  if (!row || !pickIntroForLocale(row.locale, [row.description])) return null
+  const source = fields(row.sources)
+  const url = safeSourceUrl(source.description) ?? safeSourceUrl(source.url)
+    ?? externalSourceUrl(externalSource, externalId)
+  const method = source.description_method
+  const translated = method === 'translation' || method === 'research'
+    || (['ko', 'en'].includes(String(source.description_source_locale))
+      && source.description_source_locale !== row.locale)
+  return { provider: url ? sourceProvider(url) : legacyProvider(externalSource), url, translated }
+}
+
+function externalSourceUrl(externalSource: string | null | undefined, externalId: string | null | undefined): string | null {
+  const tmdb = /^tmdb-(movie|tv)-(\d+)$/.exec(externalId ?? '')
+  if (externalSource === 'tmdb' && tmdb) return `https://www.themoviedb.org/${tmdb[1]}/${tmdb[2]}`
+  return null
+}
+
+function legacyProvider(externalSource: string | null | undefined): BookIntroductionAttribution['provider'] {
+  return ({ tmdb: 'tmdb', igdb: 'igdb', itunes: 'itunes' } as const)[externalSource as 'tmdb'] ?? 'unknown'
 }
 
 /** 선택 판본이 있으면 그 행만 사용한다. 본문·출처를 대표 판본에서 보충하지 않는다. */

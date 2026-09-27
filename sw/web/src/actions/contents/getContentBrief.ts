@@ -11,7 +11,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { fetchContentMetadata } from './fetchContentMetadata'
 import { getBookIntroduction } from './fetchBookMetadata'
-import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
+import { resolveBookIsbn, selectBookIntroduction, mediaIntroductionAttribution, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchMusicIntros, type ContentIntroSource } from './fetchMusicIntros'
 import type { ContentType } from '@/types/database'
@@ -181,7 +181,12 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
     category: TYPE_TO_CATEGORY[type],
     description: bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [exactLocale?.description, metaDesc, ...storedIntro]),
     ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
-    ...(bookDisplay?.introductionAttribution ? { introductionAttribution: bookDisplay.introductionAttribution } : {}),
+    // 책 외 유형도 쓰기 계약이 남긴 출처 URL(sources.description)로 출처 표기를 소급한다
+    ...(bookDisplay?.introductionAttribution
+      ? { introductionAttribution: bookDisplay.introductionAttribution }
+      : type !== 'BOOK'
+        ? { introductionAttribution: mediaIntroductionAttribution(exactLocale, externalSource, row.external_id as string | null) ?? undefined }
+        : {}),
     releaseDate: (row.release_date as string | null) || (metadata?.publishDate ?? null),
     metadata,
     subtype: fetched.subtype as VideoSubtype | undefined,
@@ -199,7 +204,7 @@ function getCachedContentBrief(contentId: string, safeLocale: string): Promise<C
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-brief-selected-book-intro-v11-original-source', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
+    ['content-brief-v12-media-source', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
     () => fetchBrief(contentId, safeLocale),
   )
 }
