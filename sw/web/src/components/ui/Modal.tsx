@@ -51,6 +51,8 @@ interface ModalProps {
   frame?: "classical" | "plain";
   /** 박스에 덧붙이는 클래스 (배경·테두리·모서리·그림자) */
   boxClassName?: string;
+  /** 콘텐츠 비율처럼 실행 중에 정해지는 박스 크기·CSS 변수 */
+  boxStyle?: CSSProperties;
   /** 오버레이의 배경·흐림을 바꾼다. 기본 bg-black/60 backdrop-blur-md */
   overlayClassName?: string;
   /** 닫기 버튼의 클래스를 통째로 바꾼다 */
@@ -99,6 +101,7 @@ export default function Modal({
   zIndex,
   frame = "classical",
   boxClassName,
+  boxStyle,
   overlayClassName,
   closeButtonClassName,
   closeButtonDisabled = false,
@@ -210,6 +213,7 @@ export default function Modal({
         <ClassicalBox
           hover={false}
           className={boxClass}
+          style={boxStyle}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
@@ -222,6 +226,7 @@ export default function Modal({
       ) : (
         <div
           className={boxClass}
+          style={boxStyle}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"

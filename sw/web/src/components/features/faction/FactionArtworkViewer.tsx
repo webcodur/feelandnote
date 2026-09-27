@@ -1,15 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Modal, { CLOSE_BUTTON_STYLE } from "@/components/ui/Modal";
-import BlurDissolve from "@/components/ui/BlurDissolve";
 import FactionArtworkTitle from "./FactionArtworkTitle";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-image";
 import FactionSceneNavigator from "./FactionSceneNavigator";
+import FactionSceneText from "./FactionSceneText";
 import { usePreloadImages } from "@/hooks/usePreloadImages";
 
 const PRELOAD_AHEAD = 2;
@@ -62,13 +62,19 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const hasScenes = images.some(item => item.kind === 'scene');
   const middleTitle = isEnding ? ending?.title : image.label;
   const fitToImage = titleInArtwork || isScene;
-  const ratio = dimensions?.url === image.url ? dimensions.ratio : 3 / 2;
+  // 다음 그림이 준비될 때까지 이전 비율을 유지해, 넘길 때마다 임시 높이로 줄어들지 않게 한다.
+  const ratio = dimensions?.ratio ?? (isScene ? 1 : 3 / 2);
   const move = (direction: number) => setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
 
   return (
     <>
-    <Modal isOpen onClose={onClose} title={titleInArtwork ? undefined : title} ariaLabel={title} stickyHeader frame="plain" widthClassName="max-w-[1200px]"
-      boxClassName="overflow-hidden rounded-2xl border border-white/15 bg-bg-main" closeOnEscape={!navigatorOpen} escapeCapture={nested} zIndex={zIndex}
+    <Modal isOpen onClose={onClose} title={titleInArtwork ? undefined : title} ariaLabel={title} stickyHeader frame="plain"
+      widthClassName={isScene && !isEnding
+        ? "w-full max-w-[min(1200px,100%)] md:w-[calc(var(--scene-image-height)*var(--artwork-ratio)_+_var(--artwork-controls))]"
+        : "max-w-[1200px]"}
+      boxClassName="overflow-hidden rounded-2xl border border-white/15 bg-bg-main [--scene-image-height:max(8rem,calc(100dvh_-_17rem))] md:[--scene-image-height:max(8rem,calc(100dvh_-_16rem))]"
+      boxStyle={{ "--artwork-ratio": ratio, "--artwork-controls": slideCount > 1 ? "6rem" : "0rem" } as CSSProperties}
+      closeOnEscape={!navigatorOpen} escapeCapture={nested} zIndex={zIndex}
       /* 본문 3열의 오른쪽 칸(3rem) 중앙에 X를 얹는다 — 칸 중심이 모서리에서 1.5rem이라 버튼 반폭 1rem을 뺀 end-2 */
       closeButtonClassName={`absolute end-2 ${titleInArtwork ? "top-2 sm:top-4" : "top-2.5 sm:top-3"} md:end-2 ${CLOSE_BUTTON_STYLE}`}>
       {/* PC에서는 본문 자체가 3열 — 양끝 좁은 칸 전체가 넘기기 버튼이다. 모바일은 하단 바가 담당한다 */}
@@ -81,32 +87,35 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
         )}
         <div className="min-w-0">
           {isEnding && ending ? (
-            <article data-scene-ending className="mx-auto flex min-h-[50dvh] max-w-3xl flex-col justify-center px-6 py-12 sm:px-10 sm:py-16">
+            <article data-scene-ending className="mx-auto flex min-h-[50dvh] max-w-3xl flex-col justify-center px-6 py-12 text-center sm:px-10 sm:py-16">
               <p className="mb-5 text-xs tracking-[0.3em] text-accent">ENDING</p>
-              <h3 className="mb-8 break-keep text-2xl font-bold text-text-primary sm:text-3xl">{ending.title}</h3>
+              <h3 className="mb-8 break-keep text-2xl font-bold text-text-primary sm:text-3xl md:text-balance">{ending.title}</h3>
               <div className="space-y-5 break-keep text-sm leading-7 text-text-primary sm:text-base sm:leading-8">
-                {ending.text.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
+                {ending.text.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <p key={paragraphIndex} className="md:text-balance"><FactionSceneText text={paragraph} /></p>)}
               </div>
             </article>
           ) : <>
-          <div className={fitToImage ? "@container relative mx-auto bg-black/40 motion-safe:transition-[height]" : "relative h-[min(70dvh,800px)] bg-black/40"}
-            style={fitToImage ? { aspectRatio: ratio, height: `${titleInArtwork ? 70 : 50}dvh`, maxWidth: "100%" } : undefined} data-artwork-viewer>
+          <div className={fitToImage ? "@container relative mx-auto bg-black/40" : "relative h-[min(70dvh,800px)] bg-black/40"}
+            // 높이를 고정하면 모바일에서 폭만 줄어 검은 여백이 남는다. 폭을 제한하고 높이는 원본 비율로 정한다.
+            style={fitToImage ? { aspectRatio: ratio, width: `min(100%, ${isScene ? "var(--scene-image-height)" : "70dvh"} * ${ratio})` } : undefined} data-artwork-viewer>
             <button type="button" onClick={onClose} aria-label={tAccess("close")} data-artwork-dismiss
               className="absolute inset-0 cursor-zoom-out outline-none hover:ring-1 hover:ring-inset hover:ring-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-            <BlurDissolve key={image.url} animateOnMount durationMs={240} className="absolute inset-0">
               <Image src={image.url} alt={image.label ?? title} fill unoptimized className="object-contain"
                 onLoad={(event) => {
                   const { naturalWidth, naturalHeight } = event.currentTarget;
                   if (naturalHeight > 0) setDimensions({ url: image.url, ratio: naturalWidth / naturalHeight });
                 }} />
-            </BlurDissolve>
             </button>
             {titleInArtwork && !isScene && <FactionArtworkTitle title={title} heading />}
           </div>
           {image.caption && (
-            <p data-artwork-caption className={`mx-auto max-w-3xl whitespace-pre-line break-keep px-4 py-4 text-sm leading-relaxed text-text-primary [overflow-wrap:anywhere] md:px-8 md:py-5 md:text-base ${isScene ? 'text-left' : 'text-center'}`}>
-              {image.caption}
-            </p>
+            <div key={image.url} data-artwork-caption-frame className={isScene
+              ? "flex h-24 flex-col overflow-y-auto overscroll-contain px-4 py-3 md:h-20 md:px-6"
+              : "px-4 py-4 md:px-8 md:py-5"}>
+              <p data-artwork-caption className={`mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-sm leading-relaxed text-text-primary [overflow-wrap:anywhere] md:text-base ${isScene ? 'my-auto shrink-0 md:text-balance' : ''}`}>
+                {isScene ? <FactionSceneText text={image.caption} /> : image.caption}
+              </p>
+            </div>
           )}
           </>}
         </div>
