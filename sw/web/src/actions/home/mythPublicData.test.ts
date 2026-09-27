@@ -12,7 +12,7 @@ function fixture(): MythData {
   });
   const person = (id: string, mythIds: string[], sourceIds: string[]): MythPerson => ({
     id, slug: id, name: id, title: null, headline: null, bio: "biography",
-    reading: { guide: "complete reading guide" }, summary: null,
+    reading: { guide: "complete reading guide", locale: "ko" }, summary: null, voiceV: 0,
     appearances: mythIds.map((mythId) => ({ mythId, summary: "story", imageUrl: null })),
     avatarUrl: null, imageUrl: null, portraitUrl: null, images: [], mythIds, sourceIds,
   });

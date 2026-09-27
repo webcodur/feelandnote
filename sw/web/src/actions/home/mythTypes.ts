@@ -2,6 +2,8 @@
 import type { FactionMusic } from "@/lib/faction-music";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import type { CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
+import type { Locale } from "@/types/locale";
+import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-image";
 
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";
@@ -26,7 +28,7 @@ export interface Myth {
   isPublished: boolean;
   /** 지역(faction_lv1) id. 어느 지역에도 못 걸리면 "other" */
   regionId: string;
-  images: Array<{ url: string; label: string | null; caption?: string | null }>;
+  images: Array<{ url: string; label: string | null; caption?: string | null; kind?: 'scene'; ending?: LocalizedSceneEnding }>;
   /** 이 신화의 테마곡 */
   music: FactionMusic | null;
   personIds: string[];
@@ -51,7 +53,10 @@ export interface MythPerson {
   title: string | null;
   headline: string | null;
   bio: string | null;
-  reading: { guide: string } | null;
+  /** 인물 안내 본문 — locale은 안내가 실제로 쓰인 언어라 낭독 음원을 고를 때 쓴다 */
+  reading: { guide: string; locale: Locale } | null;
+  /** 음성 파일 캐시 버스터(celebs.voice_v) — 낭독 음원 URL과 문장 타이밍에 쓴다 */
+  voiceV: number;
   summary: string | null;
   /* 한 인물이 여러 신화에 선다. 신화마다 줄거리와 사진이 다르다 */
   appearances: Array<{

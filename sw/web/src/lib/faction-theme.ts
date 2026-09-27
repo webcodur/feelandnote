@@ -1,4 +1,5 @@
 import type { FeaturedFaction } from "@/actions/home/getFeaturedFactions";
+import { toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
 import type { FactionFigureBook } from "@/actions/home/getFactionFigureBooks";
 import { MYTH_OTHER_GROUP_ID, type MythData } from "@/actions/home/mythTypes";
 import type { CelebProfile } from "@/types/home";
@@ -221,7 +222,7 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
     id: entry.id, slug, name: localizedFactionName(entry, locale),
     description: localizedFactionDescription(entry, locale),
     isPublished: true, regionId: "faction", music: entry.music,
-    images: image ? [{ url: image, label: null }] : [],
+    images: [...(image ? [{ url: image, label: null }] : []), ...toSceneImages(entry.team_images, locale)],
     personIds, leadPersonIds: [],
     groups: clusters.length > 1 ? clusters.map((cluster) => ({
       id: cluster.name ?? MYTH_OTHER_GROUP_ID, name: cluster.label,
@@ -242,6 +243,7 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
         reality: person.celeb_reality,
         title: isEn ? person.title_en || person.title : person.title,
         headline: null, bio: isEn ? person.bio_en : person.bio, reading: null, summary,
+        voiceV: person.voice_v ?? 0,
         appearances: [{ mythId: entry.id, summary, imageUrl: member.faction_image_url }],
         avatarUrl: person.avatar_url, imageUrl: null, portraitUrl: member.portrait_url ?? null, images: [],
         mythIds: [entry.id], sourceIds: books.filter((book) => book.memberIds.includes(person.id)).map((book) => book.contentId),

@@ -12,17 +12,46 @@
  * 두 형태를 모두 받는다 — 문자열이면 사진 주소만 있고 제목·인물은 비어 있는 것으로 본다.
  */
 
+export interface FactionSceneEnding {
+  title: string
+  text: string
+  titleEn?: string
+  textEn?: string
+}
+
+export interface LocalizedSceneEnding {
+  title: string
+  text: string
+}
+
 export interface FactionTeamImage {
   /** 사진 주소 */
   url: string
+  /** 직접 검수하고 해설을 붙인 주요 장면. 기존 단체 사진은 자동으로 장면에 포함하지 않는다. */
+  kind?: 'scene'
   /** 이 사진이 담은 묶음의 제목 (예: "안전을 설계한 사람들") */
   label?: string
   labelEn?: string
-  /** 그림에 담긴 장면 설명. 신화 제목 그림에 사용한다. */
+  /** 대표 그림의 짧은 설명 또는 주요 장면의 해설. */
   caption?: string
   captionEn?: string
+  /** 마지막 장면 뒤에 이미지 없이 보여 주는 후속 이야기. */
+  ending?: FactionSceneEnding
   /** 이 사진에 나오는 인물들의 셀럽 id. 도감에서 이름을 띄우고 그 사람으로 넘어가는 데 쓴다 */
   celebIds?: string[]
+}
+
+function toSceneEnding(value: unknown): FactionSceneEnding | undefined {
+  if (!value || typeof value !== 'object') return undefined
+  const row = value as Record<string, unknown>
+  const title = typeof row.title === 'string' ? row.title.trim() : ''
+  const text = typeof row.text === 'string' ? row.text.trim() : ''
+  if (!title || !text) return undefined
+  return {
+    title, text,
+    ...(typeof row.titleEn === 'string' && row.titleEn.trim() ? { titleEn: row.titleEn.trim() } : {}),
+    ...(typeof row.textEn === 'string' && row.textEn.trim() ? { textEn: row.textEn.trim() } : {}),
+  }
 }
 
 /** 저장된 값이 무엇이든 사진 목록으로 정규화한다. 형태가 깨진 항목은 버린다 */
@@ -42,15 +71,18 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
     const labelEn = typeof row.labelEn === 'string' && row.labelEn.trim() ? row.labelEn.trim() : undefined
     const caption = typeof row.caption === 'string' && row.caption.trim() ? row.caption.trim() : undefined
     const captionEn = typeof row.captionEn === 'string' && row.captionEn.trim() ? row.captionEn.trim() : undefined
+    const ending = row.kind === 'scene' ? toSceneEnding(row.ending) : undefined
     const celebIds = Array.isArray(row.celebIds)
       ? row.celebIds.filter((x): x is string => typeof x === 'string' && x.length > 0)
       : undefined
     out.push({
       url,
+      ...(row.kind === 'scene' ? { kind: 'scene' as const } : {}),
       ...(label ? { label } : {}),
       ...(labelEn ? { labelEn } : {}),
       ...(caption ? { caption } : {}),
       ...(captionEn ? { captionEn } : {}),
+      ...(ending ? { ending } : {}),
       ...(celebIds && celebIds.length ? { celebIds } : {}),
     })
   }
@@ -68,10 +100,27 @@ export function serializeTeamImages(images: FactionTeamImage[]): FactionTeamImag
     .filter(img => typeof img.url === 'string' && img.url.length > 0)
     .map(img => ({
       url: img.url,
+      ...(img.kind === 'scene' ? { kind: 'scene' as const } : {}),
       ...(img.label?.trim() ? { label: img.label.trim() } : {}),
       ...(img.labelEn?.trim() ? { labelEn: img.labelEn.trim() } : {}),
       ...(img.caption?.trim() ? { caption: img.caption.trim() } : {}),
       ...(img.captionEn?.trim() ? { captionEn: img.captionEn.trim() } : {}),
+      ...(img.kind === 'scene' && toSceneEnding(img.ending) ? { ending: toSceneEnding(img.ending) } : {}),
       ...(img.celebIds?.length ? { celebIds: [...img.celebIds] } : {}),
     }))
+}
+
+/** 해당 언어의 제목·해설을 갖춘 주요 장면만 저장 순서대로 표시한다. */
+export function toSceneImages(value: unknown, locale: string) {
+  return toTeamImages(value).flatMap(image => {
+    if (image.kind !== 'scene') return []
+    const label = locale === 'en' ? image.labelEn : image.label
+    const caption = locale === 'en' ? image.captionEn : image.caption
+    const endingTitle = locale === 'en' ? image.ending?.titleEn : image.ending?.title
+    const endingText = locale === 'en' ? image.ending?.textEn : image.ending?.text
+    return label && caption ? [{
+      url: image.url, label, caption, kind: 'scene' as const,
+      ...(endingTitle && endingText ? { ending: { title: endingTitle, text: endingText } } : {}),
+    }] : []
+  })
 }

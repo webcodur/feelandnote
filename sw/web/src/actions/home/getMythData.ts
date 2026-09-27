@@ -12,7 +12,7 @@ import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEdition
 import { pickPurchaseEdition } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
-import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
+import { toTeamImages, toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
 import { GRAVES_GREEK_MYTHS_ID, MYTH_OTHER_GROUP_ID, type Myth, type MythData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythTypes";
 
 interface Lv1Row {
@@ -36,6 +36,7 @@ interface PersonRow {
   id: string; slug: string | null; nickname: string; nickname_en: string | null;
   title: string | null; title_en: string | null; headline: string | null; headline_en: string | null;
   bio: string | null; bio_en: string | null; avatar_url: string | null; portrait_url: string | null;
+  voice_v: number | null;
 }
 interface GroupRow {
   lv2_id: string; name: string; description: string | null; description_en: string | null;
@@ -131,7 +132,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
 
   const [profiles, allAssignments, explanationRows] = await Promise.all([
     selectInChunks<PersonRow>(personIds, (ids) => db.from("celebs")
-      .select("id,slug,nickname,nickname_en,title,title_en,headline,headline_en,bio,bio_en,avatar_url,portrait_url")
+      .select("id,slug,nickname,nickname_en,title,title_en,headline,headline_en,bio,bio_en,avatar_url,portrait_url,voice_v")
       .in("id", ids).overrideTypes<PersonRow[], { merge: false }>()),
     getFigureBookAssignmentsByCelebs(personIds),
     selectInChunks<ExplanationRow>(personIds, (ids) => db.from("celeb_explanations")
@@ -181,7 +182,11 @@ async function fetchMythData(locale: string): Promise<MythData> {
     const imageUrl = portraitUrl;
     const images = portraitUrl ? [{ url: portraitUrl }] : [];
     const explanation = explanationByPerson.get(profile.id);
-    const guide = (isEn ? explanation?.plain_text_en || explanation?.plain_text : explanation?.plain_text)?.trim() || null;
+    const guideKo = explanation?.plain_text?.trim() || null;
+    const guideEn = explanation?.plain_text_en?.trim() || null;
+    /* 영문 안내가 비면 한국어로 댄다 — 낭독 음원 언어도 본문이 쓰인 언어를 따라야 한다 */
+    const guide = isEn ? guideEn || guideKo : guideKo;
+    const guideLocale = isEn && guideEn ? "en" as const : "ko" as const;
     const appearances = placements.map((placement) => ({
       mythId: placement.lv2_id,
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
@@ -193,7 +198,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
       title: isEn ? profile.title_en || profile.title : profile.title,
       headline: isEn ? profile.headline_en || profile.headline : profile.headline,
       bio: isEn ? profile.bio_en || profile.bio : profile.bio,
-      reading: guide ? { guide } : null,
+      reading: guide ? { guide, locale: guideLocale } : null, voiceV: profile.voice_v ?? 0,
       summary: (isEn ? lead?.short_desc_en || lead?.short_desc : lead?.short_desc) ?? null,
       appearances,
       avatarUrl: profile.avatar_url, imageUrl, portraitUrl, images,
@@ -208,11 +213,12 @@ async function fetchMythData(locale: string): Promise<MythData> {
     const ids = unique(members.filter((member) => member.lv2_id === faction.id && validIds.has(member.celeb_id)).map((member) => member.celeb_id));
     if (ids.length === 0) return [];
     const titleArt = toTeamImages(faction.team_images).find(image => image.url.includes("/myth/title-art/"));
-    const images = titleArt ? [{
+    const images: Myth['images'] = titleArt ? [{
       url: titleArt.url,
       label: (isEn ? titleArt.labelEn : titleArt.label) ?? null,
       caption: (isEn ? titleArt.captionEn : titleArt.caption) ?? null,
     }] : [];
+    images.push(...toSceneImages(faction.team_images, locale));
     /* 대표 3인은 DB가 쥔다(faction_lv2.lead_person_ids). 빠진 자리(숨김·미지정)는 명단 앞쪽으로 채운다 */
     const leadPersonIds = (faction.lead_person_ids ?? []).filter((id) => ids.includes(id));
     for (const id of ids) {

@@ -8,7 +8,7 @@ const requested = new Set(process.argv.slice(2));
 const entries = [...source.matchAll(/"([a-z0-9-]+)": "(\/images\/factions\/themes\/[^"]+)"/g)]
   .filter(([, slug]) => !requested.size || requested.has(slug));
 assert.ok(entries.length > 0);
-const output = resolve('../../data/faction-theme-art/preview', `artwork-${Date.now()}`);
+const output = resolve('../../.artifacts/faction-theme-artwork', `artwork-${Date.now()}`);
 await mkdir(output, { recursive: true });
 const browser = await puppeteer.launch({ headless: true });
 const errors = [];

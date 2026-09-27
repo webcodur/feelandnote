@@ -142,6 +142,7 @@ export default function MythScreen({ data, faction }: Props) {
     id: region.id, name: region.name,
     entries: data.myths.filter((myth) => region.mythIds.includes(myth.id)).map((myth) => ({
       id: myth.id, name: myth.name, count: myth.personIds.length, disabled: !myth.isPublished,
+      scenes: myth.images.filter((image) => image.kind === "scene").length,
       groups: myth.groups.map((group) => ({ id: group.id, name: mythGroupName(group, groupLabels), count: group.personIds.length })),
     })),
   }));

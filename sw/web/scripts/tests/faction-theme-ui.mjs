@@ -10,37 +10,37 @@ const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const out=resolve('../../.next-cache/faction-ui-review',`atlas-${Date.now()}`);
 await mkdir(out,{recursive:true});console.log(out);
 const center=level=>`[data-atlas-level="${level}"] > button:nth-child(2)`;
-const options=level=>`[data-atlas-column="${level}"] button[aria-pressed]`;
+const options=level=>`[data-atlas-panel][data-atlas-column="${level}"] button[aria-pressed]`;
 async function open(path){await page.goto(`${base}${path}`,{waitUntil:'networkidle2',timeout:90000});await page.waitForSelector('[data-person-id]');await page.$eval('[data-faction-selection]',n=>scrollTo({top:scrollY+n.getBoundingClientRect().top-90,behavior:'instant'}));}
 async function clickText(selector,text){const found=await page.evaluate((s,t)=>{const n=[...document.querySelectorAll(s)].find(n=>n.textContent.includes(t)&&n.getBoundingClientRect().height>0);if(n){n.click();return true;}return false;},selector,text);assert.ok(found,`find ${text}`);}
 async function close(){await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));}
 async function apply(){await page.click('[data-atlas-apply]');await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));}
 async function count(){return page.$$eval('[data-person-id]',ns=>ns.length);}
 async function pickerChecks(name){
-  const counts=await page.$$eval('[data-atlas-count]',ns=>ns.map(n=>Number(n.textContent)));
+  const counts=await page.$$eval('[data-atlas-count]',ns=>ns.map(n=>Number(n.dataset.atlasCount)));
   await page.screenshot({path:`${out}/${name}.png`});
   for(const level of [0,1,2]){
     await page.click(center(level));await page.waitForSelector('[data-atlas-picker]');
-    assert.deepEqual(await page.$$eval('[data-atlas-column]',ns=>ns.map(n=>Number(n.dataset.atlasColumn))),[level]);
+    assert.deepEqual(await page.$$eval('[data-atlas-tab]',ns=>ns.map(n=>Number(n.dataset.atlasTab))),[0,1,2]);
+    for(const other of [0,1,2])assert.equal(await page.$eval(`[data-atlas-tab="${other}"]`,n=>n.getAttribute('aria-selected')),String(other===level));
+    assert.equal(await page.$eval('[data-atlas-panel]',n=>Number(n.dataset.atlasColumn)),level);
     const available=await page.$$eval(options(level),ns=>ns.filter(n=>!n.disabled).length);
     assert.equal(counts[level],available-(level===2?1:0));
-    assert.equal(await page.$('[data-atlas-apply]'),null);
+    assert.equal(await page.$eval('[data-atlas-apply]',n=>n.textContent),'선택 완료');
     assert.ok(await page.$eval('[role="dialog"]',n=>n.scrollWidth<=n.clientWidth+1));
     await page.waitForFunction(()=>[...document.querySelectorAll('.animate-modal-content, .animate-modal-overlay')].every(n=>getComputedStyle(n).opacity==='1'));
     await page.screenshot({path:`${out}/${name}-level-${level}.png`});await close();
   }
   await page.click(center(1));await page.waitForSelector('[data-atlas-picker]');
-  await page.click('[data-atlas-column="1"] button[aria-pressed="true"]');
-  await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));
-  await page.click('[data-atlas-picker-trigger]');await page.waitForSelector('[data-atlas-picker]');
-  assert.equal(await page.$$eval('[data-atlas-column]',ns=>ns.length),3);
-  assert.equal(await page.$eval('[data-atlas-apply]',n=>n.textContent),'선택 완료');await close();
-  console.log('PASS level-only chips, scoped counts, direct selection and combined picker',name,counts);
+  await page.click('[data-atlas-panel] button[aria-pressed="true"]');
+  assert.equal(await page.$eval('[data-atlas-tab="1"]',n=>n.getAttribute('aria-selected')),'true');
+  await apply();
+  console.log('PASS tabbed picker, per-level activation and apply',name,counts);
 }
 async function artworkDissolveChecks(){
   for(let attempt=0;attempt<2;attempt++){
     await page.click('[data-artwork-zoom]');await page.waitForSelector('[data-artwork-dismiss] img');
-    await page.waitForFunction(()=>document.querySelector('[data-artwork-dismiss] img')?.parentElement.className.includes('transition:opacity'));
+    await page.waitForFunction(()=>document.querySelector('[data-artwork-dismiss] img')?.parentElement.style.transition.includes('opacity'));
     await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-artwork-dismiss] img').parentElement).filter==='none');
     await page.click('[data-artwork-dismiss]');await page.waitForFunction(()=>!document.querySelector('[data-artwork-viewer]'));
   }
@@ -72,13 +72,19 @@ async function modals(person){
     assert.ok(await page.$eval(opener,n=>document.activeElement===n));
   }
   const opener=`[data-person-id][aria-label="${person}"]`;
-  await page.focus(opener);const y=await page.evaluate(()=>scrollY);await page.keyboard.press('Enter');await page.waitForSelector('[data-faction-person-body]');
-  assert.ok(await page.evaluate(()=>{const body=document.querySelector('[data-faction-person-body]').getBoundingClientRect(),head=document.querySelector('[data-faction-person-header]').getBoundingClientRect();return Math.abs(body.width-head.width)<2;}));
+  await page.focus(opener);const y=await page.evaluate(()=>scrollY);await page.keyboard.press('Enter');await page.waitForSelector('[data-faction-person-header]');
+  assert.ok(await page.$eval('[data-faction-person-header]',(n,name)=>n.textContent.includes(name),person));
+  const guideButton=await page.evaluate(()=>[...document.querySelectorAll('[data-faction-person-header] button')].some(n=>n.textContent.includes('인물 안내')));
+  if(guideButton){
+    await clickText('[data-faction-person-header] button','인물 안내');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===2);
+    assert.ok(await page.$$eval('[role="dialog"]',ns=>ns[ns.length-1].textContent.trim().length>30));
+    await page.keyboard.press('Escape');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===1);
+  }
   await page.$eval('[data-faction-person-header] img',n=>n.closest('button').click());
   await page.waitForFunction(()=>document.querySelector('[data-artwork-dismiss] img')?.naturalWidth>=800);
   assert.ok(await page.$eval('[data-artwork-dismiss] img',n=>!n.currentSrc.includes('avatar-md')&&!n.currentSrc.includes('avatar-sm')));
   await page.click('[data-artwork-dismiss]');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===1);
-  await clickText('[data-faction-person-header] button','상세 이미지');await page.waitForSelector('[data-artwork-dismiss]');
+  await clickText('[data-faction-person-header] button','대표 사진');await page.waitForSelector('[data-artwork-dismiss]');
   assert.equal(await page.$$eval('[role="dialog"]',ns=>ns.length),2);await page.click('[data-artwork-dismiss]');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===1);
   await page.waitForFunction(()=>[...document.querySelectorAll('[data-faction-person-header] button')].some(n=>n.textContent.includes('가상독백')));
   await clickText('[data-faction-person-header] button','가상독백');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===2);
@@ -103,27 +109,33 @@ async function referenceBooks(){
 }
 try{
   await page.setViewport({width:1920,height:911});await open('/explore/myth?myth=house-of-atreus');await pickerChecks('myth-desktop');await groupChecks();await modals('탄탈로스');await artworkDissolveChecks();
-  await page.click(center(0));await clickText(options(0),'한국');await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));
+  await page.click(center(0));await clickText(options(0),'한국');
+  assert.equal(await page.$eval('[data-atlas-tab="0"]',n=>n.getAttribute('aria-selected')),'true');await apply();
   assert.equal(await page.$eval('[data-atlas-level="0"] [data-atlas-value]',n=>n.textContent),'한국');
   await open('/explore/myth?myth=house-of-atreus');
-  const original=await count();await page.click('[data-atlas-picker-trigger]');await clickText(options(0),'한국');
-  assert.equal(await page.$eval('[data-atlas-column="0"] button[aria-pressed="true"]',n=>n.firstElementChild.textContent),'한국');
-  assert.ok(!(await page.$$eval(options(1),ns=>ns.map(n=>n.textContent))).some(n=>n.includes('아트레우스')));await close();assert.equal(await count(),original);
+  const original=await count();await page.click(center(0));await clickText(options(0),'한국');
+  await page.click('[data-atlas-tab="1"]');
+  assert.ok(!(await page.$$eval(options(1),ns=>ns.map(n=>n.textContent))).some(n=>n.includes('아트레우스')));
+  await page.click('[data-atlas-tab="0"]');
+  assert.equal(await page.$eval('[data-atlas-panel] button[aria-pressed="true"]',n=>n.firstElementChild.textContent),'한국');await close();assert.equal(await count(),original);
   await page.setViewport({width:1440,height:1000});await open('/explore/faction/ai-pioneers');
   assert.equal(await page.$('[data-celeb-reality="REAL"]'),null);await pickerChecks('faction-desktop');await groupChecks();await modals('앨런 튜링');
   await referenceBooks();
-  await page.click('[data-atlas-picker-trigger]');await clickText(options(0),'산업');
+  await page.click(center(0));await clickText(options(0),'산업');
+  await page.click('[data-atlas-tab="1"]');
   assert.ok(!(await page.$$eval(options(1),ns=>ns.map(n=>n.textContent))).some(n=>n.includes('OpenAI')));
-  await clickText(options(0),'AI');await clickText(options(1),'OpenAI');
+  await page.click('[data-atlas-tab="0"]');await clickText(options(0),'AI');
+  await page.click('[data-atlas-tab="1"]');await clickText(options(1),'OpenAI');
+  await page.click('[data-atlas-tab="2"]');
   const target=await page.$$eval(options(2),ns=>({name:ns[1].firstElementChild.textContent,count:Number(ns[1].lastElementChild.textContent)}));
   await clickText(options(2),target.name);await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));await page.waitForFunction(()=>location.pathname.endsWith('/openai'));
   await page.waitForFunction(t=>document.querySelector('[data-atlas-level="2"] [data-atlas-value]')?.textContent===t,{},target.name);
   assert.equal(await count(),target.count);await page.reload({waitUntil:'networkidle2'});assert.equal(await count(),target.count);
   console.log('PASS faction hierarchy, cross-route group and reload');
   await page.setViewport({width:390,height:844,isMobile:true,hasTouch:true});await open('/explore/myth?myth=house-of-atreus');await pickerChecks('myth-mobile');await groupChecks();await modals('탄탈로스');
-  await page.click('[data-atlas-picker-trigger]');await clickText(options(0),'그리스·로마');
-  assert.equal(await page.$eval('[data-atlas-column="1"] h3 button',n=>n.getAttribute('aria-expanded')),'true');
-  await clickText(options(1),'일리아스');assert.equal(await page.$eval('[data-atlas-column="2"] h3 button',n=>n.getAttribute('aria-expanded')),'true');
+  await page.click(center(0));await clickText(options(0),'그리스·로마');
+  await page.click('[data-atlas-tab="1"]');await clickText(options(1),'일리아스');
+  await page.click('[data-atlas-tab="2"]');assert.equal(await page.$eval('[data-atlas-tab="2"]',n=>n.getAttribute('aria-selected')),'true');
   await page.waitForFunction(()=>[...document.querySelectorAll('.animate-modal-content, .animate-modal-overlay')].every(n=>getComputedStyle(n).opacity==='1'));
   await page.screenshot({path:`${out}/mobile-cascade.png`});await apply();await page.waitForFunction(()=>new URL(location.href).searchParams.get('myth')==='homer-iliad');
   console.log('PASS mobile hierarchical expansion');
@@ -135,7 +147,7 @@ try{
     await page.setViewport({width,height});await open(path);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),name);
     assert.equal(await page.$$eval('[data-atlas-level]',ns=>ns.length),3);
-    await page.click('[data-atlas-picker-trigger]');await page.waitForSelector('[data-atlas-picker]');
+    await page.click(center(0));await page.waitForSelector('[data-atlas-picker]');
     assert.ok(await page.$eval('[role="dialog"]',n=>n.scrollWidth<=n.clientWidth+1));
     await page.waitForFunction(()=>[...document.querySelectorAll('.animate-modal-content, .animate-modal-overlay')].every(n=>getComputedStyle(n).opacity==='1'));
     await page.screenshot({path:`${out}/${name}-picker.png`});await close();

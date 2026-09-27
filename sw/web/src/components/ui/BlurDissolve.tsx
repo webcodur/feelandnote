@@ -26,9 +26,11 @@ interface BlurDissolveProps {
   children: React.ReactNode;
   className?: string;
   animateOnMount?: boolean;
+  /** 흐림이 풀리는 시간(ms) — 장면 뷰어처럼 연속으로 넘기는 곳에서는 줄인다 */
+  durationMs?: number;
 }
 
-export default function BlurDissolve({ children, className = "", animateOnMount = false }: BlurDissolveProps) {
+export default function BlurDissolve({ children, className = "", animateOnMount = false, durationMs = 500 }: BlurDissolveProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<Phase>(animateOnMount ? "armed" : "idle");
 
@@ -95,12 +97,13 @@ export default function BlurDissolve({ children, className = "", animateOnMount 
     phase === "armed"
       ? "opacity-0 [filter:blur(16px)_contrast(1.5)]"
       : phase === "play"
-        ? "opacity-100 [filter:blur(0px)_contrast(1)] [transition:opacity_180ms_linear,filter_500ms_linear]"
+        ? "opacity-100 [filter:blur(0px)_contrast(1)]"
         : "";
 
   return (
     <div
       ref={ref}
+      style={phase === "play" ? { transition: `opacity 180ms linear, filter ${durationMs}ms linear` } : undefined}
       onTransitionEnd={(e) => {
         if (e.target === e.currentTarget && e.propertyName === "filter") setPhase("done");
       }}

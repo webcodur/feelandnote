@@ -1,4 +1,3 @@
-import { ATLAS_NAV_LAYOUT } from "./atlasNavigationData";
 import { EXPLORE_NAV_LAYOUT } from "@/components/shared/exploreNavLayout";
 
 // Keep loading geometry tied to the shell at every breakpoint.
@@ -23,5 +22,5 @@ export const MYTH_LAYOUT = {
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
   overviewOuter: "min-w-0 px-4 pb-2 pt-2 md:px-6 md:pb-3",
   overviewImage: "@container absolute inset-0 block h-full w-full overflow-hidden rounded-xl",
-  overviewButton: ATLAS_NAV_LAYOUT.action,
+  overviewButton: "inline-flex min-h-10 flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-lg border border-white/20 bg-bg-main px-2 py-2 text-[13px] font-semibold text-text-primary outline-none hover:border-accent hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-accent md:gap-1.5 md:text-sm",
 } as const;

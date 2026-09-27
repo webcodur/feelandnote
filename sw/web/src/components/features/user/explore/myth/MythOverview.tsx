@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, type ReactNode } from "react";
-import { Loader2, PanelTop, Play, Square } from "lucide-react";
+import { Images, Loader2, PanelTop, Play, Square } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { Myth } from "@/actions/home/mythTypes";
 import { BlurDissolve } from "@/components/ui";
@@ -34,11 +34,14 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   const playbackLabel = tVoice(playing ? "readingStop" : narration.status === "paused" ? "readingResume" : "readingPlay");
   const [reading, setReading] = useState(false);
   const [zoom, setZoom] = useState(false);
+  const [scenesOpen, setScenesOpen] = useState(false);
   const closeReading = useCallback(() => setReading(false), []);
   const closeZoom = useCallback(() => setZoom(false), []);
+  const closeScenes = useCallback(() => setScenesOpen(false), []);
   const [unavailable, setUnavailable] = useState<string[]>([]);
   const images = myth.images.filter((image) => !unavailable.includes(image.url));
   const cover = images[0] ?? null;
+  const scenes = images.filter(image => image.kind === 'scene');
   const label = overviewLabel ?? t("mythOverview");
 
   return (
@@ -47,12 +50,18 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
         className={`${layout.selectionDetails} ${cover ? "" : layout.selectionWithoutArtwork}`}>
         <div className={layout.selectionControls}>
           {navigation(
-            <div className="flex min-w-fit flex-1 items-stretch gap-1.5">
+            <div className="flex min-w-fit flex-1 flex-wrap items-stretch gap-1.5">
               <button type="button" data-overview-trigger aria-label={`${myth.name} · ${label}`}
                 aria-haspopup="dialog" aria-expanded={reading} onClick={() => setReading(true)}
                 className={layout.overviewButton}>
                 <PanelTop size={16} className="shrink-0" aria-hidden />{label}
               </button>
+              {scenes.length > 0 && <button type="button" data-scenes-trigger
+                aria-label={`${myth.name} · ${t('keyScenes')}`} aria-haspopup="dialog" aria-expanded={scenesOpen}
+                onClick={() => setScenesOpen(true)} className={layout.overviewButton}>
+                <Images size={16} className="shrink-0" aria-hidden />{t('keyScenes')}
+                <span className="text-xs tabular-nums text-accent">{scenes.length}</span>
+              </button>}
               {narration.available && <button type="button" data-overview-playback aria-pressed={playing}
                 aria-label={`${label} · ${playbackLabel}`} title={playbackLabel} aria-busy={narration.status === "loading" || undefined}
                 onClick={playing ? narration.stop : narration.play}
@@ -78,6 +87,7 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
         )}
       </div>
       {zoom && <FactionArtworkViewer images={images} title={myth.name} titleInArtwork onClose={closeZoom} />}
+      {scenesOpen && <FactionArtworkViewer images={scenes} title={`${myth.name} · ${t('keyScenes')}`} onClose={closeScenes} />}
       {reading && (
         <MythOverviewReading voice={voice} narration={narration} text={text}
           title={myth.name} onClose={closeReading}
