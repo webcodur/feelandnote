@@ -10,6 +10,7 @@ import { Z_INDEX } from "@/constants/zIndex";
 import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-image";
 import FactionSceneNavigator from "./FactionSceneNavigator";
 import FactionSceneText from "./FactionSceneText";
+import FactionSceneZoom from "./FactionSceneZoom";
 import { usePreloadImages } from "@/hooks/usePreloadImages";
 
 const PRELOAD_AHEAD = 2;
@@ -29,8 +30,10 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const tAccess = useTranslations("shared.accessibility");
   const [index, setIndex] = useState(0);
   const [navigatorOpen, setNavigatorOpen] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
   const selectImage = useCallback((nextIndex: number) => {
+    setZoomed(false);
     setIndex(nextIndex);
     setNavigatorOpen(false);
   }, []);
@@ -46,6 +49,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       if (event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
       event.preventDefault();
+      setZoomed(false);
       setIndex(current => Math.max(0, Math.min(slideCount - 1, current + (event.key === "ArrowLeft" ? -1 : 1))));
     };
     document.addEventListener("keydown", onKeyDown);
@@ -64,7 +68,15 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const fitToImage = titleInArtwork || isScene;
   // 다음 그림이 준비될 때까지 이전 비율을 유지해, 넘길 때마다 임시 높이로 줄어들지 않게 한다.
   const ratio = dimensions?.ratio ?? (isScene ? 1 : 3 / 2);
-  const move = (direction: number) => setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
+  const move = (direction: number) => {
+    setZoomed(false);
+    setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
+  };
+  const artwork = <Image src={image.url} alt={image.label ?? title} fill unoptimized className="object-contain"
+    onLoad={(event) => {
+      const { naturalWidth, naturalHeight } = event.currentTarget;
+      if (naturalHeight > 0) setDimensions({ url: image.url, ratio: naturalWidth / naturalHeight });
+    }} />;
 
   return (
     <>
@@ -74,7 +86,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
         : "max-w-[1200px]"}
       boxClassName="overflow-hidden rounded-2xl border border-white/15 bg-bg-main text-sm leading-relaxed md:text-base [--scene-caption-height:calc(4lh_+_1.5rem)] md:[--scene-caption-height:calc(3lh_+_1.5rem)] [--scene-image-height:max(8rem,calc(100dvh_-_var(--scene-caption-height)_-_11rem))]"
       boxStyle={{ "--artwork-ratio": ratio, "--artwork-controls": slideCount > 1 ? "6rem" : "0rem" } as CSSProperties}
-      closeOnEscape={!navigatorOpen} escapeCapture={nested} zIndex={zIndex}
+      closeOnEscape={!navigatorOpen && !zoomed} escapeCapture={nested} zIndex={zIndex}
       /* 본문 3열의 오른쪽 칸(3rem) 중앙에 X를 얹는다 — 칸 중심이 모서리에서 1.5rem이라 버튼 반폭 1rem을 뺀 end-2 */
       closeButtonClassName={`absolute end-2 ${titleInArtwork ? "top-2 sm:top-4" : "top-2.5 sm:top-3"} md:end-2 ${CLOSE_BUTTON_STYLE}`}>
       {/* PC에서는 본문 자체가 3열 — 양끝 좁은 칸 전체가 넘기기 버튼이다. 모바일은 하단 바가 담당한다 */}
@@ -98,14 +110,11 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           <div className={fitToImage ? "@container relative mx-auto bg-black/40" : "relative h-[min(70dvh,800px)] bg-black/40"}
             // 높이를 고정하면 모바일에서 폭만 줄어 검은 여백이 남는다. 폭을 제한하고 높이는 원본 비율로 정한다.
             style={fitToImage ? { aspectRatio: ratio, width: `min(100%, ${isScene ? "var(--scene-image-height)" : "70dvh"} * ${ratio})` } : undefined} data-artwork-viewer>
+            {isScene ? <FactionSceneZoom key={image.url} zoomed={zoomed} onZoomChange={setZoomed}>{artwork}</FactionSceneZoom> :
             <button type="button" onClick={onClose} aria-label={tAccess("close")} data-artwork-dismiss
               className="absolute inset-0 cursor-zoom-out outline-none hover:ring-1 hover:ring-inset hover:ring-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-              <Image src={image.url} alt={image.label ?? title} fill unoptimized className="object-contain"
-                onLoad={(event) => {
-                  const { naturalWidth, naturalHeight } = event.currentTarget;
-                  if (naturalHeight > 0) setDimensions({ url: image.url, ratio: naturalWidth / naturalHeight });
-                }} />
-            </button>
+              {artwork}
+            </button>}
             {titleInArtwork && !isScene && <FactionArtworkTitle title={title} heading />}
           </div>
           {image.caption && (
@@ -135,7 +144,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           </button>
           <div className="flex items-center justify-center px-2">
             {hasScenes ? (
-              <button type="button" data-scene-select aria-haspopup="dialog" aria-label={t("selectImage")} title={t("selectImage")} onClick={() => setNavigatorOpen(true)}
+              <button type="button" data-scene-select aria-haspopup="dialog" aria-label={t("selectImage")} title={t("selectImage")} onClick={() => { setZoomed(false); setNavigatorOpen(true); }}
                 className="flex h-10 w-[min(52vw,24rem)] items-center justify-center gap-2 rounded-full border border-white/20 bg-bg-main px-3.5 text-sm font-semibold text-text-primary outline-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
                 <span data-scene-counter aria-live="polite" className="shrink-0 tabular-nums text-text-secondary">{isEnding ? "ENDING" : index + 1}</span>
                 {middleTitle && <span data-scene-title className="min-w-0 truncate">{middleTitle}</span>}

@@ -323,7 +323,9 @@
         "searchImages": "Search scene titles",
         "noMatchingImages": "No matching scenes.",
         "readEnding": "Read the ending",
-        "personInTheme": "{name} in {theme}"
+        "personInTheme": "{name} in {theme}",
+        "reduceImage": "Zoom out",
+        "zoomedImageHint": "Drag to move · Tap to zoom out"
       },
       "relationMap": {
         "title": "Relation Map",
