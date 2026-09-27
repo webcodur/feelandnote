@@ -83,6 +83,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
   };
 
   const renderBottomRight = () => {
+    if (props.showIntro === false) return null;
     return (
       <IntroBadge
         onClick={(e) => {
@@ -105,7 +106,9 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
             sizes="(max-width: 768px) 50vw, 25vw"
             /* 호버 반응 — 밝기는 즉각 붙고(필터는 transition-transform 대상이 아니라 지연 없이
                바뀐다), 살짝 커지는 배율도 지연 없이 바로 움직인다 */
-            className={`object-cover transition-transform duration-200 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105 group-hover/card:scale-110 group-hover/card:brightness-110" : ""}`}
+            className={props.imageFit === "contain"
+              ? "object-contain group-hover/card:brightness-110"
+              : `object-cover transition-transform duration-200 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105 group-hover/card:scale-110 group-hover/card:brightness-110" : ""}`}
             onError={() => setImageError(true)}
             onLoad={handleImageLoad}
           />

@@ -12,6 +12,7 @@ import FeaturedWorkModal, { type ModalType, type SelectionTab } from "./Featured
 import FeaturedWorkMetadata from "./FeaturedWorkMetadata";
 
 import { useTranslations } from "next-intl";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 interface FeaturedWorkInfoProps {
     targetContent: QuickRecordTarget;
@@ -103,6 +104,11 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 <ExternalLink size={24} className="text-white drop-shadow-md" />
                              </div>
                         </Link>
+
+                        <div className="w-48">
+                            <ContentPurchaseAction contentId={targetContent.contentId || targetContent.id} type={targetContent.type}
+                                title={targetContent.title} creator={targetContent.creator} thumbnail={targetContent.thumbnailUrl} placement="record-featured" />
+                        </div>
 
                         {/* Select Content Button */}
                         <button

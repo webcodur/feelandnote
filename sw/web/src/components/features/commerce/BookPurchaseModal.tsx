@@ -2,12 +2,12 @@
 
 import { Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import Modal, { ModalBody } from "@/components/ui/Modal";
-import ContentImage from "@/components/ui/ContentImage";
+import AccessDialog, { AccessDisclosure } from "./AccessDialog";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { isAffiliatePurchaseLink } from "@/lib/books/bookPurchaseRedirect";
-import { useYes24Sales } from "./useYes24Sales";
+import { useYes24SalesState } from "./useYes24Sales";
 
 interface BookPurchaseModalProps {
   title?: string | null;
@@ -24,9 +24,18 @@ interface BookPurchaseModalProps {
 export default function BookPurchaseModal({ title, creator, thumbnail, isbn, links, onClose, tracking }: BookPurchaseModalProps) {
   const locale = useLocale();
   // 가격 조회가 늦거나 실패해도 서점 선택은 즉시 가능하다.
-  const sales = useYes24Sales({ ...tracking, isbn, active: locale === "ko" });
+  const { sales, loading } = useYes24SalesState({ ...tracking, isbn, active: locale === "ko" });
   const t = useTranslations("content.purchaseSales");
-  const tInfo = useTranslations("content.purchaseInfo");
+  const tAccess = useTranslations("content.access");
+  const pendingYes24 = loading && links.some(link => link.platform === "yes24" && link.url.startsWith("/api/books/purchase/"));
+  // 같은 ISBN의 실제 목적지를 받아 제휴 표시와 도착 주소를 일치시킨다.
+  // 상품을 확인하지 못했으면 제휴 없는 공식 검색으로 연결한다.
+  const resolvedLinks = links.map(link => {
+    if (link.platform !== "yes24" || !link.url.startsWith("/api/books/purchase/") || loading) return link;
+    if (sales?.onSale && sales.purchaseUrl) return { ...link, url: sales.purchaseUrl };
+    const query = isbn || [title, creator].filter(Boolean).join(" ");
+    return { ...link, url: `https://www.yes24.com/Product/Search?domain=BOOK&query=${encodeURIComponent(query)}`, linkKind: "search" as const };
+  });
   const number = new Intl.NumberFormat(locale);
   const price = (value: number) => t("price", { price: number.format(value) });
   const { starScore, salePrice, shopPrice, salePoint, pages, publishDate, onSale } = sales ?? {};
@@ -41,8 +50,8 @@ export default function BookPurchaseModal({ title, creator, thumbnail, isbn, lin
     publishDate ? { label: t("published"), value: <span className="tabular-nums">{publishDate}</span> } : null,
   ].filter((fact) => fact !== null) : [];
 
-  // 실제 제휴 링크에만 수수료·운영 지원 안내를 붙이고, 지정 고지가 있으면 원문을 쓴다.
-  const affiliateLinks = links.filter(isAffiliatePurchaseLink);
+  // 실제 제휴 링크에만 짧은 수수료 안내를 붙이고, 지정 고지가 있으면 원문을 쓴다.
+  const affiliateLinks = resolvedLinks.filter(isAffiliatePurchaseLink);
   const platformNotices = [...new Set(
     affiliateLinks
       .map((link): string | null | undefined => AFFILIATE_PLATFORMS[link.platform]?.notice)
@@ -50,38 +59,17 @@ export default function BookPurchaseModal({ title, creator, thumbnail, isbn, lin
   )];
 
   return (
-    <Modal isOpen onClose={onClose} title={tInfo("title")} widthClassName="max-w-[420px]" frame="plain" stickyHeader escapeCapture animateHeightDuration={320}
-      boxClassName="overflow-hidden rounded-lg border border-accent/25 bg-bg-card shadow-2xl"
-      overlayClassName="bg-black/60 backdrop-blur-sm"
-      titleClassName="px-10 font-medium text-accent"
-      titleStyle={{ fontSize: "14px" }}
-      closeButtonClassName="absolute end-1 top-1 z-40 flex size-11 items-center justify-center rounded-lg text-text-secondary hover:bg-bg-secondary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-    >
-      <ModalBody className="p-5 sm:p-6">
-        <div className="space-y-5">
-          {(title || creator || thumbnail) && (
-            <div className="flex items-center gap-4">
-              {thumbnail && (
-                <div className="relative h-24 w-16 shrink-0 overflow-hidden rounded-sm border border-purchase-ink/20 bg-bg-main sm:h-27 sm:w-18">
-                  <ContentImage src={thumbnail} alt={title ?? ""} sizes="72px" className="object-contain" loading="eager" dissolve={false} />
-                </div>
-              )}
-              <div className="min-w-0 flex-1 space-y-1.5 text-center">
-                {title && <p className="break-words text-2xl font-semibold leading-snug text-purchase-ink">{title}</p>}
-                {creator && <p className="break-words text-sm leading-relaxed text-text-secondary">{creator}</p>}
-              </div>
-            </div>
-          )}
-          <BookPurchaseLinks links={links} tracking={tracking} />
-        </div>
-        <div className="mt-3 space-y-1.5 break-keep text-sm leading-relaxed text-pretty text-text-secondary">
-          <p>{platformNotices.length > 0 ? platformNotices.join(" ") : tInfo(affiliateLinks.length > 0 ? "notice" : "benefit")}</p>
-          {affiliateLinks.length > 0 && <p className="text-text-primary">{tInfo("support")}</p>}
-        </div>
+    <AccessDialog type="BOOK" title={title} creator={creator} thumbnail={thumbnail} onClose={onClose}>
+        <BookPurchaseLinks links={resolvedLinks} tracking={tracking} pendingYes24={pendingYes24} />
+        <AccessDisclosure hasAffiliates={affiliateLinks.length > 0} notices={platformNotices} />
+        {isDeveloperMode() && (
+          <p className="border-t border-border pt-4 text-xs leading-relaxed text-red-400">{tAccess("method.BOOK")}</p>
+        )}
         {locale === "ko" && (isbn || tracking?.contentId) && (
           <section className="mt-5 space-y-3 border-t border-border pt-5" aria-label={t("details")}>
             <h3 className="text-center text-sm font-semibold text-text-primary">{t("details")}</h3>
-            {!onSale && (
+            {loading && <p role="status" className="text-sm text-text-secondary">{tAccess("bookLoading")}</p>}
+            {!loading && !onSale && (
               <p className="break-keep text-sm leading-relaxed text-pretty text-text-secondary">
                 {sales ? t("changedNotice") : t("fallback")}
               </p>
@@ -123,7 +111,6 @@ export default function BookPurchaseModal({ title, creator, thumbnail, isbn, lin
             )}
           </section>
         )}
-      </ModalBody>
-    </Modal>
+    </AccessDialog>
   );
 }

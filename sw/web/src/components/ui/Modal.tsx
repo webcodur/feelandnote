@@ -70,7 +70,7 @@ const SIZE_CLASSES = {
 /** 긴 글을 읽는 모달의 세로 상한. 기본(상하 2rem)보다 넉넉한 여백을 남겨 바깥을 눌러 닫을 수 있게 한다 */
 export const READING_MODAL_MAX_HEIGHT_CLASS = "max-h-[66dvh]";
 
-const CLOSE_BUTTON_STYLE =
+export const CLOSE_BUTTON_STYLE =
   "z-[70] flex h-8 w-8 items-center justify-center rounded-full border border-accent-dim/40 bg-bg-card/70 text-accent backdrop-blur-sm hover:bg-accent/10 hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70";
 const DEFAULT_CLOSE_BUTTON = `absolute end-2 top-2 sm:end-4 sm:top-4 ${CLOSE_BUTTON_STYLE}`;
 const HEADER_CLOSE_BUTTON = `absolute end-3 top-1/2 -translate-y-1/2 sm:end-4 ${CLOSE_BUTTON_STYLE}`;
@@ -131,7 +131,7 @@ export default function Modal({
       if (!focusable?.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === boxRef.current)) {
         e.preventDefault();
         last.focus();
       } else if (!e.shiftKey && document.activeElement === last) {

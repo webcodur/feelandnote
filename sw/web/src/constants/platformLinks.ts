@@ -46,12 +46,6 @@ export const PLATFORM_LINKS: Record<ContentType, PlatformLink[]> = {
         return "";
       },
     },
-    {
-      key: "watcha",
-      name: "왓챠피디아",
-      buildUrl: ({ title }) =>
-        `https://pedia.watcha.com/ko-KR/search?query=${encodeURIComponent(title)}`,
-    },
   ],
   GAME: [
     {

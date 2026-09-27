@@ -13,9 +13,9 @@ export default function DeveloperCollectionJourney({ target, placement, context 
   target: JourneyTarget; placement: string; context?: string;
 }) {
   const locale = useLocale();
-  if (!isDeveloperMode() || locale !== "ko" || target.type === "MUSIC") return null;
+  if (!isDeveloperMode() || locale !== "ko" || (target.type !== "BOOK" && target.type !== "GAME")) return null;
   const id = findJourney(target);
-  if (!id) return placement === "celeb-review" || placement === "content-detail" || placement === "creative-work"
+  if (!id) return placement === "content-detail" || placement === "creative-work"
     ? <DeveloperCommerceFallback target={target} placement={placement} context={context} />
     : null;
   return <CollectionJourney key={id} id={id} placement={placement} context={context} compact />;

@@ -7,13 +7,12 @@
         묶음이 둘이면(성향 축의 양극) 묶음마다 소제목을 달고, 하나면 소제목 없이 격자만 둔다.
         낱장은 사이트 공통 ContentCard를 그대로 쓴다 — 감상 인원은 카드 기본 표시(표지 왼쪽 아래, 누르면 감상 인물 창)에 맡기고
         여기서는 늘어선 순서를 알리는 순번 칩만 얹는다. 비슷한 인원 칩을 따로 만들지 않는다.
-        한국어 화면에서 도서는 값표가 붙은 구매 모듈, 그 밖의 매체는 판매처 단추를 표지 아래 붙인다.
+        모든 매체의 구매·감상 진입점은 표지 아래에 붙인다.
 */ // ------------------------------
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import RankingStage from "@/components/shared/RankingStage";
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
-import WorkPurchaseAction from "@/components/features/commerce/WorkPurchaseAction";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
 
@@ -40,7 +39,7 @@ export interface RankingShelfData {
   groups: RankingShelfGroup[];
 }
 
-function ShelfWork({ work, index, isKo }: { work: RankingShelfWork; index: number; isKo: boolean }) {
+function ShelfWork({ work, index }: { work: RankingShelfWork; index: number }) {
   return (
     <div className="min-w-0">
       <ContentCard
@@ -52,9 +51,7 @@ function ShelfWork({ work, index, isKo }: { work: RankingShelfWork; index: numbe
         href={`/content/${work.contentId}`}
         showHeader={false}
         posterFooterNode={
-          !isKo ? undefined
-            : work.type === "BOOK" ? <BookPurchaseSummary contentId={work.contentId} title={work.title} creator={work.creator} thumbnail={work.thumbnail} full />
-            : <WorkPurchaseAction target={{ title: work.title, creator: work.creator, contentId: work.contentId, type: work.type }} />
+          <ContentPurchaseAction {...work} placement="ranking-shelf" />
         }
         overlayTopLeft={
           <span className="rounded-md bg-black/75 px-1.5 py-1 font-mono text-[11px] font-bold tabular-nums text-white">
@@ -67,7 +64,6 @@ function ShelfWork({ work, index, isKo }: { work: RankingShelfWork; index: numbe
 }
 
 export default function RankingShelf({ shelf, accent }: { shelf: RankingShelfData; accent: string }) {
-  const isKo = useLocale() === "ko";
   const t = useTranslations("explore.rankingBoard");
   const groups = shelf.groups.filter((group) => group.works.length > 0);
   if (groups.length === 0) return null;
@@ -94,7 +90,7 @@ export default function RankingShelf({ shelf, accent }: { shelf: RankingShelfDat
             )}
             <div className="grid grid-cols-2 gap-3 sm:[grid-template-columns:repeat(auto-fill,minmax(150px,1fr))]">
               {group.works.map((work, index) => (
-                <ShelfWork key={work.contentId} work={work} index={index} isKo={isKo} />
+                <ShelfWork key={work.contentId} work={work} index={index} />
               ))}
             </div>
           </div>

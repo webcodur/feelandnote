@@ -26,6 +26,8 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import { isAccessType } from "@/lib/commerce/contentAccess";
 import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
 import ContentMetaPanel from "@/components/features/user/contentLibrary/expand/ContentMetaPanel";
 import {
@@ -266,6 +268,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
   const href = isRegistered ? `/content/${item.contentId}?category=${category?.id ?? "book"}` : null;
   /* 한국어판 구매 버튼. 링크가 없어도 자리는 지킨다 */
   const showPurchase = locale === "ko" && dbType === "BOOK";
+  const showAccess = isRegistered && isAccessType(dbType);
 
   return (
     <article className="flex w-full flex-col">
@@ -338,7 +341,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
 
       {/* 발판 — 작품 열기·구매. 링크가 없어도 자리를 비우지 않는다 */}
       <div className="border-t border-white/10 px-3 py-4 sm:px-4 md:px-5">
-        <div className={cn("grid gap-2", showPurchase && "sm:grid-cols-2")}>
+        <div className={cn("grid gap-2", (showPurchase || showAccess) && "sm:grid-cols-2")}>
           {href ? (
             <Link
               href={href}
@@ -364,6 +367,9 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
             ) : (
               <PendingSlot label={t("purchasePending")} tone="purchase" />
             ))}
+          {showAccess && item.contentId && (
+            <ContentAccessPanel contentId={item.contentId} type={dbType} title={item.title} creator={item.creator} thumbnail={item.thumbnailUrl} placement="curated-expand" compact />
+          )}
         </div>
       </div>
     </article>

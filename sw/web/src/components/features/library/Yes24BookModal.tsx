@@ -13,7 +13,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { getYes24BookDetail } from "@/actions/library/getYes24BookDetail";
 import type { BestsellerItem } from "@/actions/library/types";
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import ContentImage from "@/components/ui/ContentImage";
 import Modal from "@/components/ui/Modal";
 import type { Yes24BookDetail } from "@/lib/books/yes24Purchase";
@@ -76,10 +75,6 @@ export default function Yes24BookModal({ item, onClose }: { item: BestsellerItem
             <p className="text-sm font-bold tabular-nums text-accent">{t("rank", { rank: item.rank })}</p>
             <div className="mt-1 flex items-start justify-between gap-3">
               <h2 className="text-balance font-serif text-2xl font-bold leading-snug text-text-primary">{title}</h2>
-              {/* 수수료 안내 — 판매 단추 안에 묻지 않고 제목 옆에 둔다 */}
-              {isYes24 && purchaseHref && (
-                <BookPurchaseInfo className="mt-1.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-white/10" />
-              )}
             </div>
             {detail?.subTitle && <p className="mt-1 text-sm text-text-secondary">{detail.subTitle}</p>}
             {author && <p className="mt-2 text-sm text-text-secondary">{author}</p>}

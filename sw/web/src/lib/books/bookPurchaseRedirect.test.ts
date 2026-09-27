@@ -142,7 +142,10 @@ test('aladin redirect resolves the stored ISBN to the product page without a com
 
 test('affiliate flag follows the actual commission, not the store name', () => {
   assert.equal(isAffiliatePurchaseLink({ platform: 'kyobo', url: 'https://linkmoa.kr/click.php?m=kbbook&a=A100707726' }), true)
-  assert.equal(isAffiliatePurchaseLink({ platform: 'amazon', url: 'https://www.amazon.com/s?k=x' }), true)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'amazon', url: 'https://www.amazon.com/s?k=x' }), false)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'amazon', url: 'https://www.amazon.com/s?k=x&tag=feelandnote-20' }), true)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'kyobo', url: 'https://product.kyobobook.co.kr/detail/S000001' }), false)
+  assert.equal(isAffiliatePurchaseLink({ platform: 'kyobo', url: '/api/books/purchase/abc?seller=kyobo' }), true)
   assert.equal(isAffiliatePurchaseLink({ platform: 'yes24', url: 'https://apis.yes24.com/a/key/goods/1' }), true)
   assert.equal(isAffiliatePurchaseLink({ platform: 'yes24', url: 'https://www.yes24.com/Product/Search?query=x' }), false)
   const coupangSearch = coupangBookLink({ isbn: '9791158881931' })!

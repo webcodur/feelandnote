@@ -13,7 +13,7 @@ import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
-import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import type { ContentType } from "@/types/database";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -234,15 +234,17 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                                 creatorEn={content.creator_en}
                                 thumbnailEn={content.thumbnail_en}
                                 hasEnEdition={content.has_en_edition}
-                                posterFooterNode={content.type === "BOOK" && (
-                                    <CardBookPurchase
+                                posterFooterNode={
+                                    <ContentPurchaseAction
                                         contentId={content.id}
+                                        type={content.type}
+                                        placement="home-today-figure"
                                         title={localized.title}
                                         creator={localized.creator}
                                         thumbnail={content.thumbnail_url}
                                         affiliateUrl={content.affiliate_url}
                                     />
-                                )}
+                                }
                             />
                           );
                         })}

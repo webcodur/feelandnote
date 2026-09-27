@@ -22,7 +22,7 @@ async function getAccessToken(): Promise<string> {
 
   const response = await fetch(
     `https://id.twitch.tv/oauth2/token?client_id=${TWITCH_CLIENT_ID}&client_secret=${TWITCH_CLIENT_SECRET}&grant_type=client_credentials`,
-    { method: 'POST' }
+    { method: 'POST', signal: AbortSignal.timeout(8000) }
   )
 
   if (!response.ok) {
@@ -35,6 +35,67 @@ async function getAccessToken(): Promise<string> {
   tokenExpiry = Date.now() + (data.expires_in - 300) * 1000
 
   return accessToken!
+}
+
+export interface IGDBStoreGame {
+  id: number
+  name: string
+  alternative_names?: { name: string }[]
+  game_localizations?: { name: string; region?: { name: string } }[]
+  platforms?: { name: string }[]
+  websites?: { url: string }[]
+  external_games?: { uid: string; url?: string; external_game_source?: { name: string } }[]
+  version_parent?: number
+  version_title?: string
+  parent_game?: number
+  ports?: IGDBStoreGame[]
+  remasters?: IGDBStoreGame[]
+  remakes?: IGDBStoreGame[]
+  bundles?: IGDBStoreGame[]
+  expanded_games?: IGDBStoreGame[]
+}
+
+// Steam 차트 → 공통 판매처 조회. 제목 검색 없이 외부 서비스 ID가 하나의 작품을 가리킬 때만 연결한다.
+export async function getGameIdFromSteam(appId: number): Promise<number | null> {
+  if (!Number.isSafeInteger(appId) || appId <= 0) return null
+  const token = await getAccessToken()
+  const response = await fetch(`${IGDB_BASE_URL}/external_games`, {
+    method: 'POST',
+    headers: { 'Client-ID': TWITCH_CLIENT_ID!, Authorization: `Bearer ${token}`, 'Content-Type': 'text/plain' },
+    body: `fields uid,game,external_game_source.name; where uid = "${appId}" & external_game_source.name = "Steam"; limit 100;`,
+    signal: AbortSignal.timeout(8000), cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(`IGDB Steam identity lookup failed: ${response.status}`)
+  const entries = await response.json()
+  if (!Array.isArray(entries) || entries.length >= 100) return null
+  const ids = [...new Set<number>(entries.filter(entry => entry.uid === String(appId)
+    && entry.external_game_source?.name === 'Steam' && Number.isSafeInteger(entry.game) && entry.game > 0)
+    .map(entry => entry.game))]
+  return ids.length === 1 ? ids[0] : null
+}
+
+// 판매처 연결은 저장 ID와 명시된 판본 관계로 조회한다. 제목 검색으로 다른 게임을 대체하지 않는다.
+export async function getGameStoreReferences(gameId: number): Promise<IGDBStoreGame | null> {
+  if (!Number.isSafeInteger(gameId) || gameId <= 0) return null
+  const token = await getAccessToken()
+  const fields = ['name', 'alternative_names.name', 'game_localizations.name', 'game_localizations.region.name', 'platforms.name', 'websites.url', 'external_games.uid',
+    'external_games.url', 'external_games.external_game_source.name', 'version_parent', 'version_title', 'parent_game']
+  const relationFields = ['ports', 'remasters', 'remakes', 'bundles'].flatMap(relation => fields.map(field => `${relation}.${field}`))
+  const collectionFields = ['ports', 'remasters', 'remakes'].flatMap(relation => fields.map(field => `${relation}.bundles.${field}`))
+  // 원작과 PC 확장판이 별도 항목이면 리마스터가 확장판에만 연결되기도 한다.
+  const expandedFields = [...fields, ...['ports', 'remasters', 'remakes'].flatMap(relation =>
+    fields.map(field => `${relation}.${field}`))].map(field => `expanded_games.${field}`)
+  const response = await fetch(`${IGDB_BASE_URL}/games`, {
+    method: 'POST',
+    headers: { 'Client-ID': TWITCH_CLIENT_ID!, Authorization: `Bearer ${token}`, 'Content-Type': 'text/plain' },
+    body: `fields ${[...fields, ...relationFields, ...collectionFields, ...expandedFields].join(',')}; where id = ${gameId};`,
+    signal: AbortSignal.timeout(8000),
+    cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(`IGDB store lookup failed: ${response.status}`)
+  const games = await response.json()
+  const game = Array.isArray(games) ? games.find((entry) => entry.id === gameId) : null
+  return game && typeof game.name === 'string' ? game : null
 }
 
 interface IGDBGame {

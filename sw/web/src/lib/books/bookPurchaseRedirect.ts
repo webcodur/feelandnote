@@ -1,4 +1,4 @@
-import type { AffiliateLink } from '@/constants/affiliatePlatforms'
+import { AFFILIATE_PLATFORMS, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import { normalizePurchaseIsbn } from './yes24Purchase'
 
 export interface BookPurchaseRecord {
@@ -166,11 +166,25 @@ export function resolveAladinPurchaseRedirect(
   return aladinBookLink(record)?.url ?? getBookPurchaseFallback(contentId)
 }
 
-/** 이 링크에 수수료가 실제로 붙는가 — 고지·sponsored 표시는 플랫폼 이름이 아니라 이 판별로만 가른다.
-    경유 주소(/api/books/purchase)는 서버가 풀 목적지라 플랫폼 규칙으로 판정한다:
-    아마존은 렌더 시 태그를 얹고, 교보는 모든 주소가 linkmoa, 쿠팡은 머천트 승인이 확인된 뒤만 제휴다 */
+/** 플랫폼 이름 대신 실제 추적 주소를 확인한다. 풀지 않은 주소는 비제휴라고 단정하지 않는다. */
+export function purchaseAffiliation(link: AffiliateLink): 'affiliate' | 'ordinary' | 'unknown' {
+  if (isYes24AffiliateUrl(link.url) || isLinkPriceUrl(link.url)) return 'affiliate'
+  try {
+    const url = new URL(link.url, 'https://feelandnote.local')
+    if (link.url.startsWith('/api/books/purchase/')) {
+      const seller = url.searchParams.get('seller') ?? 'yes24'
+      if (seller === 'kyobo' || (seller === 'coupang' && LINKPRICE_COUPANG_APPROVED)) return 'affiliate'
+      return seller === 'yes24' ? 'unknown' : 'ordinary'
+    }
+    if (link.platform === 'amazon') {
+      if (/^(www\.)?amazon\.com$/.test(url.hostname) && url.searchParams.get('tag') === AFFILIATE_PLATFORMS.amazon.tag) return 'affiliate'
+      if (url.hostname === 'amzn.to' || url.searchParams.has('tag')) return 'unknown'
+    }
+    if (link.platform === 'coupang' && url.hostname === 'link.coupang.com') return 'unknown'
+    return 'ordinary'
+  } catch { return 'unknown' }
+}
+
 export function isAffiliatePurchaseLink(link: AffiliateLink): boolean {
-  if (link.platform === 'amazon' || link.platform === 'kyobo') return true
-  if (link.platform === 'coupang') return LINKPRICE_COUPANG_APPROVED || isLinkPriceUrl(link.url)
-  return isYes24AffiliateUrl(link.url) || isLinkPriceUrl(link.url)
+  return purchaseAffiliation(link) === 'affiliate'
 }

@@ -6,6 +6,7 @@ import { ContentCard } from "@/components/ui/cards";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
 import { useTranslations } from "next-intl";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 interface HomeArchiveAreaProps {
     userId?: string;
@@ -43,6 +44,8 @@ export function HomeArchiveArea({
                             titleBadge={item.content.title_badge}
                             creator={item.content.creator}
                             thumbnail={item.content.thumbnail_url}
+                            posterFooterNode={<ContentPurchaseAction contentId={item.content.id} type={item.content.type} title={item.content.title}
+                                creator={item.content.creator} thumbnail={item.content.thumbnail_url} placement="record-archive" />}
                             onClick={() => onItemClick(item, true)}
                             className="hover:ring-2 hover:ring-accent/50 transition-all cursor-pointer shadow-lg"
                             heightClass="h-[200px] md:h-[230px]"
@@ -77,6 +80,8 @@ export function HomeArchiveArea({
                             titleBadge={item.content.title_badge}
                             creator={item.content.creator}
                             thumbnail={item.content.thumbnail_url}
+                            posterFooterNode={<ContentPurchaseAction contentId={item.content.id} type={item.content.type} title={item.content.title}
+                                creator={item.content.creator} thumbnail={item.content.thumbnail_url} placement="record-archive" />}
                             onClick={() => onItemClick(item, true)}
                             className="hover:ring-2 hover:ring-accent/50 transition-all cursor-pointer shadow-lg"
                             heightClass="h-[200px] md:h-[230px]"

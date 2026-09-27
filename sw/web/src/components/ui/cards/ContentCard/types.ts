@@ -28,6 +28,8 @@ export interface ContentCardProps {
 
   // 레이아웃
   aspectRatio?: "2/3" | "3/4";
+  /** 원본 아트워크를 자르지 않고 표지 영역 안에 맞춘다. */
+  imageFit?: "cover" | "contain";
 
   // 선택 모드
   selectable?: boolean;
@@ -68,6 +70,8 @@ export interface ContentCardProps {
   showHeader?: boolean;
   /** false면 좌하단 인원 구성 뱃지를 숨기고 자동 조회도 하지 않는다. 기본 true. */
   showStats?: boolean;
+  /** false면 작품 소개 단추를 숨긴다. 내부 작품 정보가 없는 외부 차트용. */
+  showIntro?: boolean;
 
   // 리뷰 모드
   review?: string | null;

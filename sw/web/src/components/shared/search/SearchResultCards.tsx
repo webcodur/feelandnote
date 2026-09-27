@@ -14,6 +14,7 @@ import { toggleFollow } from "@/actions/user";
 import type { ContentType } from "@/types/database";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import { useTranslations } from "next-intl";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 type ContentResult = ContentSearchResult | RecordsSearchResult;
 
@@ -61,6 +62,8 @@ export function ContentResults({
             titleBadge={"title_badge" in item ? item.title_badge : null}
             creator={item.creator}
             contentType={contentType}
+            posterFooterNode={"contentId" in item && <ContentPurchaseAction contentId={item.contentId} type={contentType}
+              title={item.title} creator={item.creator} thumbnail={thumbnail} placement="search-records" />}
             href={href}
             onClick={() => onBeforeNavigate?.(item)}
             saved={isSaved && showAddButton}

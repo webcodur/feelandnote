@@ -17,6 +17,7 @@ import type { ContentMetadata } from "@/types/content";
 import type { ContentType } from "@/types/database";
 import type { CategoryId } from "@/constants/categories";
 import { useTranslations } from "next-intl";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 type InfoTab = 'BASIC' | 'DETAIL' | 'REVIEW_CELEB' | 'REVIEW_NORMAL';
 
@@ -133,6 +134,7 @@ export default function InfoPanel({
                 {/* 1행: 2열 구조 (포스터 | 정보) - PC 공간 활용을 위해 크기 및 간격 확대 */}
                 <div className="grid grid-cols-2 gap-4 items-center">
                     {/* 1열: 썸네일 */}
+                    <div className="min-w-0 space-y-2">
                     <div className="w-full max-w-[240px] mx-auto aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] shrink-0 bg-black/20 border border-white/10 relative group ring-1 ring-white/5">
                         {content.thumbnailUrl ? (
                             <ContentImage
@@ -147,6 +149,9 @@ export default function InfoPanel({
                                 {t("noImage")}
                             </div>
                         )}
+                    </div>
+                    <ContentPurchaseAction contentId={content.contentId} type={content.type} title={content.title}
+                        creator={content.creator} thumbnail={content.thumbnailUrl} placement="record-info" />
                     </div>
                     
                     {/* 2열: 상세 정보 (중앙 정렬) */}

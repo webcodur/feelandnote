@@ -11,6 +11,7 @@ import { CONTENT_TYPE_FILTERS, getCategoryByDbType, type ContentTypeFilterValue 
 import { formatRelativeTime } from "@/lib/utils/date";
 import { ACTION_CONFIG } from "@/lib/config/activity-actions";
 import { useTranslations } from "next-intl";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 // #region Inline Friend Feed Card
 function FriendFeedCard({ activity }: { activity: FeedActivity }) {
@@ -62,6 +63,8 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         titleBadge={activity.content_title_badge}
         creator={null}
         thumbnail={activity.content_thumbnail}
+        posterFooterNode={activity.content_id && <ContentPurchaseAction contentId={activity.content_id} type={activity.content_type!}
+          title={activity.content_title || ""} thumbnail={activity.content_thumbnail} placement="friend-feed" />}
         review={activity.review!}
         isSpoiler={false}
         sourceUrl={activity.source_url}

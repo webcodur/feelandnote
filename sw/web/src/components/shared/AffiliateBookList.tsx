@@ -38,6 +38,8 @@ interface AffiliateBookListProps {
   dividerTitle?: string
   /** 넓은 화면에서도 줄바꿈하지 않고 한 줄 가로 스크롤로 둔다 — 카드·모달 안쪽 선반용 */
   scroll?: boolean
+  /** 좁은 화면에서 한 줄 가로 넘김 대신 두 열 세로 격자로 둔다 — 베스트셀러 차트용 */
+  mobileGrid?: boolean
 }
 
 interface GroupBoundary {
@@ -46,7 +48,7 @@ interface GroupBoundary {
   right: { label: string; desc?: string }
 }
 
-export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle, scroll = false }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle, scroll = false, mobileGrid = false }: AffiliateBookListProps) {
   const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
   // 한 줄 넘김 선반 — 마우스로 잡아끌어 넘긴다(터치는 브라우저 기본 스크롤이 담당). 규칙은 ui-rail 스킬이 쥔다
   const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>()
@@ -77,16 +79,21 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
         />
       )}
 
-      {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 — scroll이면 넓은 화면에서도 한 줄 넘김을 유지한다 */}
+      {/* 좁은 화면: 한 줄로 옆으로 넘김(mobileGrid면 두 열 세로 격자) · 넓은 화면: 가운데 정렬해 줄바꿈 — scroll이면 넓은 화면에서도 한 줄 넘김을 유지한다 */}
       <div
         ref={scroll ? railRef : undefined}
         {...(scroll ? dragProps : {})}
         className={cn(
-          "flex gap-3 overflow-x-auto pb-1 snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          scroll
-            // 끌기는 마우스만 받는다 — 칸 맞춤(스냅)은 터치에만 걸어 끌기 중 튐을 막는다
-            ? cn("select-none overscroll-x-contain px-1 pointer-coarse:snap-x", cursorClassName)
-            : "snap-x px-4 md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0",
+          mobileGrid
+            // 두 열 세로 격자 — 위아래로 넘겨 전부 보인다(불후의 명작 격자와 같은 배치)
+            ? "grid grid-cols-2 gap-3 md:flex md:flex-wrap md:justify-center md:gap-5"
+            : cn(
+                "flex gap-3 overflow-x-auto pb-1 snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                scroll
+                  // 끌기는 마우스만 받는다 — 칸 맞춤(스냅)은 터치에만 걸어 끌기 중 튐을 막는다
+                  ? cn("select-none overscroll-x-contain px-1 pointer-coarse:snap-x", cursorClassName)
+                  : "snap-x px-4 md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0",
+              ),
         )}
       >
         {books.map((book, index) => {
@@ -138,8 +145,9 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
           <div
             className={cn(
               // relative — 안의 화면 낭독용 순위 문구(sr-only, 절대 위치)가 가로 스크롤 상자 밖을 기준으로 잡혀 페이지 폭을 넓히지 않게 카드가 기준 상자가 된다
-              "relative min-w-0 shrink-0 snap-start md:w-[180px]",
-              platform === 'yes24' ? "w-[144px]" : "w-[128px]",
+              "relative min-w-0 md:w-[180px]",
+              // 격자에서는 열이 폭을 정한다 — 레일에서만 칸 고정폭·스냅을 둔다
+              !mobileGrid && cn("shrink-0 snap-start", platform === 'yes24' ? "w-[144px]" : "w-[128px]"),
             )}
           >
             {book.rank !== undefined && (

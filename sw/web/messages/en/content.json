@@ -55,17 +55,14 @@
       "viewDetail": "View details"
     },
     "purchase": {
-      "buy": "Choose a bookstore",
       "visitStore": "View on {store}",
       "paidLink": "Paid link",
       "searchStore": "Search on {store}",
-      "compact": "Bookstores",
-      "searchLabel": "Search",
       "adLabel": "ad"
     },
     "purchaseInfo": {
       "trigger": "Purchase information",
-      "title": "Choose a bookstore",
+      "title": "Buy & Enjoy",
       "notice": "Feel & Note earns a small commission when you buy through affiliate links.",
       "benefit": "Check prices and delivery at your preferred store.",
       "support": "Your purchases help keep Feel & Note running."
@@ -95,6 +92,56 @@
       "changedNotice": "This edition is no longer on sale at YES24 or its listing has changed. If a revised edition has been released, check the store page for the latest version.",
       "details": "YES24 price & book details",
       "fallback": "Check the store for the latest price and availability."
+    },
+    "access": {
+      "open": "Buy & Enjoy",
+      "loading": "Checking where this title is available…",
+      "newWindow": "Opens in a new tab",
+      "free": "Free to play",
+      "watchCta": "Find viewing links on TMDB",
+      "watchKinds": {
+        "flatrate": "Subscription",
+        "rent": "Rent",
+        "buy": "Buy",
+        "free": "Free",
+        "ads": "With ads"
+      },
+      "gameSource": "Game and edition data: IGDB",
+      "videoSource": "Availability data:",
+      "editionKinds": {
+        "edition": "Edition",
+        "port": "Port",
+        "remaster": "Remaster",
+        "remake": "Remake",
+        "collection": "Bundle"
+      },
+      "affiliation": {
+        "some": "We earn a commission on purchases through some links."
+      },
+      "method": {
+        "BOOK": "Opens the saved Amazon product link, or searches Amazon by the book’s English title and author.",
+        "GAME": "Cross-checks IGDB editions with Korean stores. Prices appear only when verified on Steam.",
+        "VIDEO": "Looks up Korean availability on TMDB / JustWatch and links to the TMDB guide.",
+        "MUSIC": "Matches the saved song or album ID to its Apple Music URL."
+      },
+      "phase": {
+        "identity": "Checking the saved title",
+        "reference": "Checking the game and its editions",
+        "store": "Checking the Korean store and platforms",
+        "edition": "Checking a related edition or collection",
+        "catalog": "Matching the title or ID in the catalog",
+        "providers": "Looking up subscriptions, rentals and purchases in Korea"
+      },
+      "progress": "{done} of {total} sources finished",
+      "complete": "{total} sources finished",
+      "slow": "Some services are taking longer to respond. Links already shown are ready to use.",
+      "failedStore": "The lookup failed.",
+      "emptyStore": "No verified link found.",
+      "retryFailed": "Retry failed sources",
+      "watchProviders": "Korean availability · TMDB / JustWatch",
+      "bookLoading": "Checking the YES24 product and affiliate link by ISBN",
+      "completeSingle": "Check complete",
+      "regionKR": "South Korea"
     }
   },
   "contentDetail": {

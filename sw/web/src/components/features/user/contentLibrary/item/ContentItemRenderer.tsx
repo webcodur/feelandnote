@@ -20,6 +20,7 @@ import { useLocale } from "next-intl";
 import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
+import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -165,7 +166,7 @@ function ContentItemRenderer({
               creatorEn={item.content.creator_en}
               thumbnailEn={item.content.thumbnail_en}
               hasEnEdition={item.content.has_en_edition}
-              posterFooterNode={item.content.type === "BOOK" && (
+              posterFooterNode={item.content.type === "BOOK" ? (
                 <CardBookPurchase
                   contentId={item.content_id}
                   title={localizedContent.title}
@@ -173,6 +174,8 @@ function ContentItemRenderer({
                   thumbnail={item.content.thumbnail_url}
                   affiliateUrl={item.content.affiliate_url}
                 />
+              ) : (
+                <ContentAccessPanel contentId={item.content_id} type={item.content.type} title={localizedContent.title} creator={localizedContent.creator} thumbnail={item.content.thumbnail_url} placement="library-list" compact />
               )}
             />
             </div>

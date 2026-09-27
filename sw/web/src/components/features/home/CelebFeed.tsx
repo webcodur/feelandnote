@@ -16,6 +16,7 @@ import type { ContentTypeCounts } from "@/actions/home";
 import { getCelebProfileUrl } from "@/lib/url";
 import { useTranslations, useLocale } from "next-intl";
 import { getLocalizedContent } from "@/lib/utils/editions";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 // #region Inline Celeb Feed Card
 interface CelebFeedCardProps {
@@ -78,6 +79,9 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         titleBadge={review.content.title_badge}
         creator={getLocalizedContent(review.content, locale).creator}
         thumbnail={review.content.thumbnail_url}
+        posterFooterNode={<ContentPurchaseAction contentId={review.content.id} type={review.content.type}
+          title={getLocalizedContent(review.content, locale).title} creator={getLocalizedContent(review.content, locale).creator}
+          thumbnail={review.content.thumbnail_url} placement="celeb-feed" />}
         review={(locale === 'en' && review.review_en) ? review.review_en : review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}

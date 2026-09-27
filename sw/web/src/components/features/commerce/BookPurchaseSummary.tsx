@@ -3,14 +3,13 @@
 import { useCallback, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_LABEL_STYLE, BOOK_PURCHASE_OPENER_STYLE, purchaseButtonStyle, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_LABEL_STYLE, BOOK_PURCHASE_OPENER_STYLE, type AffiliateLink } from "@/constants/affiliatePlatforms";
 import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 import { aladinBookLink, coupangBookLink, kyoboBookLink } from "@/lib/books/bookPurchaseRedirect";
 import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
-import { trackCommerceClick, trackEvent } from "@/lib/analytics/track";
+import { trackEvent } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
 // 서점 선택창과 판매 정보 조회는 버튼을 누를 때만 불러온다.
@@ -62,7 +61,7 @@ export default function BookPurchaseSummary({
 }: BookPurchaseSummaryProps) {
   const locale = useLocale();
   const pathname = usePathname();
-  const tBuy = useTranslations("content.purchase");
+  const tAccess = useTranslations("content.access");
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = useCallback(() => setIsOpen(false), []);
@@ -111,41 +110,10 @@ export default function BookPurchaseSummary({
     return getEnglishBookPurchaseLinks({ locale, title, creator, links: usable });
   }, [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
 
-  const directLink = locale === "en" && links.length === 1 ? links[0] : null;
   if (!enabled || !links.length) return null;
 
   return (
     <div className={cn("@container/purchase min-w-0", className)}>
-      {directLink && (
-        <a
-          href={directLink.url}
-          target="_blank"
-          rel={directLink.platform === "amazon" ? "noopener noreferrer nofollow sponsored" : "noopener noreferrer"}
-          aria-label={[
-            tBuy(directLink.linkKind === "search" ? "searchStore" : "visitStore", { store: AFFILIATE_PLATFORMS[directLink.platform].label }),
-            ...(directLink.platform === "amazon" ? [tBuy("paidLink")] : []),
-          ].join(" · ")}
-          onClick={(event) => {
-            event.stopPropagation();
-            trackCommerceClick({ screen: pathname, target: directLink.linkKind === "search" ? "search" : "product",
-              contentId, editionId, platform: directLink.platform, locale });
-          }}
-          className={cn(
-            "group/purchase relative flex h-11 items-center justify-center whitespace-nowrap rounded-md border px-5 text-[13px] font-semibold [--purchase-label-scale:1.04] focus-visible:outline-none focus-visible:ring-2 @min-[160px]/purchase:px-7 @min-[160px]/purchase:text-sm @min-[160px]/purchase:[--purchase-label-scale:1.07]",
-            purchaseButtonStyle(directLink.platform), full ? "w-full" : "mx-auto w-fit max-w-full", chipClassName,
-          )}
-        >
-          <span className={BOOK_PURCHASE_LABEL_STYLE}>
-            <span className="@min-[240px]/purchase:hidden">{AFFILIATE_PLATFORMS[directLink.platform].label}</span>
-            <span className="hidden @min-[240px]/purchase:inline">
-              {tBuy(directLink.linkKind === "search" ? "searchStore" : "visitStore", { store: AFFILIATE_PLATFORMS[directLink.platform].label })}
-            </span>
-          </span>
-          {directLink.platform === "amazon" && <span className="pointer-events-none absolute start-1.5 top-1/2 -translate-y-1/2 text-[11px] font-normal @min-[160px]/purchase:start-2" title={tBuy("paidLink")}>{tBuy("adLabel")}</span>}
-          <ArrowUpRight size={13} className="pointer-events-none absolute end-1.5 top-1/2 -translate-y-1/2 @min-[160px]/purchase:end-2" aria-hidden />
-        </a>
-      )}
-      {!directLink && (
         <button
           type="button"
           aria-haspopup="dialog"
@@ -165,8 +133,7 @@ export default function BookPurchaseSummary({
           )}
         >
           <span className={cn(BOOK_PURCHASE_LABEL_STYLE, "shrink-0 text-[13px] font-semibold @min-[160px]/purchase:text-[15px]")}>
-            <span className="@min-[160px]/purchase:hidden">{tBuy("compact")}</span>
-            <span className="hidden @min-[160px]/purchase:inline">{tBuy("buy")}</span>
+            {tAccess("open")}
           </span>
           <span className="hidden items-center gap-2 border-s border-purchase-ink/30 ps-3 text-xs font-normal text-purchase-ink @min-[360px]/purchase:flex">
             {links.map((link) => (
@@ -176,7 +143,6 @@ export default function BookPurchaseSummary({
             ))}
           </span>
         </button>
-      )}
       {isOpen && <BookPurchaseModal title={title} creator={creator} thumbnail={thumbnail} isbn={isbn} links={links} onClose={closeModal} tracking={{ contentId, editionId }} />}
     </div>
   );

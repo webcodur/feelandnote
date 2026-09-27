@@ -8,7 +8,7 @@
 
 import { useLocale } from "next-intl";
 import { ContentCard } from "@/components/ui/cards";
-import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { getCategoryByDbType } from "@/constants/categories";
 import type { LibraryContent } from "@/actions/library/types";
 import type { ContentType } from "@/types/database";
@@ -37,15 +37,17 @@ export default function ClassicsGrid({ contents }: { contents: LibraryContent[] 
           thumbnailEn={content.thumbnail_en}
           hasEnEdition={content.has_en_edition}
           fallbackDescription={locale === "en" ? (content.review_en || content.review || null) : (content.review || content.review_en || null)}
-          posterFooterNode={content.type === "BOOK" && (
-            <CardBookPurchase
+          posterFooterNode={
+            <ContentPurchaseAction
               contentId={content.id}
+              type={content.type}
+              placement="classics-grid"
               title={content.title}
               creator={content.creator}
               thumbnail={content.thumbnail_url}
               affiliateUrl={content.affiliate_url}
             />
-          )}
+          }
         />
       ))}
     </div>

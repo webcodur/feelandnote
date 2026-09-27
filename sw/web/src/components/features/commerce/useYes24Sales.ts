@@ -44,7 +44,7 @@ interface UseYes24SalesOptions {
 }
 
 /** 판매 정보를 불러온다. active가 꺼져 있으면 아무것도 묻지 않고 null을 돌려준다 */
-export function useYes24Sales({ contentId, editionId, isbn, active }: UseYes24SalesOptions) {
+export function useYes24SalesState({ contentId, editionId, isbn, active }: UseYes24SalesOptions) {
   const key = isbn ? `isbn:${isbn}` : `${contentId}:${editionId ?? "default"}`;
   const [result, setResult] = useState<{ key: string; sales: Yes24SalesInfo | null } | null>(null);
 
@@ -60,5 +60,10 @@ export function useYes24Sales({ contentId, editionId, isbn, active }: UseYes24Sa
     };
   }, [contentId, editionId, isbn, active, key]);
 
-  return active && result?.key === key ? result.sales : null;
+  const loading = active && (isbn != null || contentId != null) && result?.key !== key;
+  return { loading, sales: active && result?.key === key ? result.sales : null };
+}
+
+export function useYes24Sales(options: UseYes24SalesOptions) {
+  return useYes24SalesState(options).sales;
 }

@@ -15,6 +15,8 @@ import { useLocale, useTranslations } from "next-intl";
 
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import { isAccessType } from "@/lib/commerce/contentAccess";
 import ContentCard from "@/components/ui/cards/ContentCard";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -126,6 +128,11 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
             className="flex h-full flex-col rounded-xl border border-white/[0.08] bg-black/25 p-1.5"
           >
             <CoverCard item={item} notRegisteredLabel={t("notRegistered")} isVideo={isVideo} />
+            {item.contentId && isAccessType(item.contentType ?? list.contentType) && (
+              <div className="mt-auto pt-1.5">
+                <ContentAccessPanel contentId={item.contentId} type={item.contentType ?? list.contentType} title={item.title} creator={item.creator} thumbnail={item.thumbnailUrl} placement="curated-grid" compact />
+              </div>
+            )}
             {showPurchase && (
               <div className="mt-auto pt-1.5">
                 {item.contentId ? (

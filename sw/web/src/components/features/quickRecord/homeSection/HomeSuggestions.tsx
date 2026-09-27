@@ -7,6 +7,7 @@ import type { LibraryContent } from "@/actions/library";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
 import { useTranslations } from "next-intl";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
 interface HomeSuggestionsProps {
     suggestions: LibraryContent[];
@@ -49,6 +50,8 @@ export function HomeSuggestions({
                                 titleBadge={item.title_badge}
                                 creator={item.creator}
                                 thumbnail={item.thumbnail_url}
+                                posterFooterNode={<ContentPurchaseAction contentId={item.id} type={item.type} title={item.title}
+                                    creator={item.creator} thumbnail={item.thumbnail_url} affiliateUrl={item.affiliate_url} placement="record-suggestions" />}
                                 {...(() => {
                                     const inLibraryItem = localUnreviewedList.find(i => i.content.id === item.id) ||
                                         allReviewedItems.find(i => i.content.id === item.id);

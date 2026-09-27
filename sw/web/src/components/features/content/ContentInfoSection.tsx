@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
 import {
   Book,
@@ -120,7 +121,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
 
           </div>
 
-          {/* 통합 구매 모듈 — 포스터 밑에 둔다. 누르면 서점 링크·주의 안내 창이 뜬다 */}
+          {/* 모든 카테고리의 구매 및 감상 버튼은 표지 바로 아래에 둔다. */}
           <BookPurchaseSummary
             contentId={content.id}
             editionId={content.purchaseEditionId}
@@ -129,6 +130,15 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
             thumbnail={content.thumbnail}
             links={content.affiliateLinks}
             enabled={content.type === "BOOK"}
+          />
+          <ContentAccessPanel
+            contentId={content.id}
+            type={content.type}
+            title={content.title}
+            creator={content.creator}
+            thumbnail={content.thumbnail}
+            placement="content-detail"
+            compact
           />
         </div>
 
