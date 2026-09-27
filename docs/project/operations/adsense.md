@@ -1,7 +1,7 @@
 # AdSense 운영
 
 AdSense 연결, 심사 대응, 광고 게재 시 확인할 기준을 관리한다.
-수익화 방향과 상품 제휴는 [수익화](monetization.md), 검색 설정·색인 지표·회복 판정은 [SEO](seo.md)가 쥔다.
+수익화 방향과 상품 제휴는 [수익화](service-strategy.md), 검색 설정·색인 지표·회복 판정은 [SEO](seo.md)가 쥔다.
 
 ## 승인 판단
 

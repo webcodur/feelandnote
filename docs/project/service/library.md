@@ -18,7 +18,7 @@
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
 | `/explore/works` | 기관 선정 목록과 다른 탐색 방법 안내 | `getCuratedHub` |
-| `/explore/works/popular` | **베스트셀러.** 판매처의 도서 순위 | `getBestsellers` |
+| `/explore/works/popular` | **베스트셀러.** 분야·출처 선택과 도서·영상·게임·음악 목록 | `getBestsellers`, `getMusicChart`, `getStoreChart`, `getSteamChart` |
 | `/explore/works/popular?mode=classics` | **불후의 명작.** 인물이 감상한 작품을 시대·직군·매체로 탐색 | `getChosenLibrary`, `getProfessionContentCounts` |
 | `/explore/works/curated` | **기관 선정 허브.** 대학·언론·시상 기관이 발표한 목록 | `getCuratedHub` |
 | `/explore/works/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
@@ -33,11 +33,15 @@
 
 첫 화면의 「기관의 선택」은 [기관 선정](curated-lists.md#31-사용자-웹)의 `CuratedHubView`를 사용한다. 그 아래 베스트셀러·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/image-generation.md#fnn-흑동주조) 이미지로 안내한다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
 
-베스트셀러와 불후의 명작은 첫 화면부터 별도 카드다. 베스트셀러는 `/explore/works/popular`, 명작은 `?mode=classics`로 진입하며 메타·canonical·사이트맵과 한영 웜업도 두 진입점을 구분한다.
+베스트셀러와 불후의 명작은 첫 화면부터 별도 카드다. 베스트셀러는 `/explore/works/popular`, 명작은 `?mode=classics`로 진입하며 메타·canonical·사이트맵과 한영 웜업도 두 진입점을 구분한다. 세부 화면은 선택한 항목의 이름을 배너와 제목에 표시하고 해당 목록·필터만 보여준다. 두 항목을 다시 고르는 탭은 두지 않으며, 다른 항목으로 가려면 작품 첫 화면으로 돌아간다.
 
 ## 인기 작품 갱신
 
-`/explore/works/popular`는 한국어에서 예스24 전일 베스트셀러, 영문에서 미국 Apple Books 유료 전자책 차트를 보여준다. 한국어는 순위 기준일, 영문은 확인 시각과 출처를 표시한다. 미국 전체 도서 시장이나 실시간 판매량으로 표현하지 않는다. 순위 카드는 원본 판매처로 이동하며, 외부 차트 메타를 DB에 등록하지 않는다. 불후의 명작은 기존 내부 작품 카드와 시대·직군·매체 필터를 유지한다.
+`/explore/works/popular`는 `category=BOOK|VIDEO|GAME|MUSIC`으로 분야를 고른 뒤 `source`로 출처를 고른다. `BestsellerSection`은 출처가 하나여도 선택된 칩을 표시한다. 출처 목록·기본 선택·연동 여부·원본 주소는 `lib/library/chartSources.ts`가 쥐며, 다른 분야나 언어의 출처가 주소에 남아 있으면 해당 분야의 기본 출처를 선택한다. `ChartSourceNotice`는 기본 접힘 상태로 출처·집계 기준을 헤더에 두고 주의사항과 이용 안내를 펼쳐 보인다. 출처를 바꾸면 다시 접힌다. 제휴 수수료가 발생하는 구매 경로는 공통 구매 고지 문구를 접힌 헤더에도 표시하며, 수수료 없는 출처의 안내는 펼친 본문에 둔다. 영상·게임·음악도 도서와 같은 공통 작품 카드로 순위·표지·제목을 나열하며, 좁은 화면에서는 두 열로 나열하고 넓은 화면에서는 가운데 정렬해 줄바꿈한다. 카드와 하단의 「구매 및 감상」은 [공통 구매·감상 모달](../operations/affiliate-commerce.md)로 연결하고, Apple 공식 배지는 모달 안의 실제 서비스 링크에 둔다.
+
+도서는 한국어에서 예스24 일별 베스트셀러, 영문에서 미국 Apple Books 유료 전자책 차트를 보여준다. 한국어는 순위 기준일, 영문은 확인 시각과 출처를 표시하며 전체 도서 시장이나 실시간 판매량으로 표현하지 않는다. 음악은 `actions/library/musicChart.ts`와 `lib/library/musicChart.ts`가 한국·미국 Apple Music 인기곡을 읽고 검증한다. 영상은 `actions/library/storeChart.ts`와 `lib/library/storeChart.ts`가 한국·미국 Apple 영화 스토어의 공개 RSS를 읽으며 극장·OTT 전체나 Apple TV 구독작 순위로 표현하지 않는다. Apple 목록에는 공식 배지·작품 링크·피드 갱신 시각을 함께 표시한다.
+
+게임은 Steam 전 세계 동시 플레이 순위를 기본으로 표시한다. `actions/library/steamChart.ts`와 `lib/library/steamChart.ts`가 공개 Web API의 순위와 상품 정보를 앱 ID로 대조해 게임명·표지·동시 플레이어 수·오늘 최대 인원·집계 시각을 제공한다. 게임이 아닌 소프트웨어와 미확인 상품은 제외하고 공식 순위 번호를 유지한다. 캐시 갱신·만료 기준은 코드가 쥔다. PlayStation·Xbox·IGDB는 실제 목록 연동 전까지 출처 설정에서 주석 처리해 화면에 표시하지 않으며, 해당 출처의 옛 주소로 들어와도 표시 가능한 기본 목록을 연다. 서로 다른 지표를 종합 순위로 합치거나 모바일 앱 차트로 대신하지 않는다. TMDB 트렌딩·IGDB 인기 지표 연동은 별도의 상업 이용 확인을 기다린다. 선택한 분야만 서버에서 조회하며 외부 차트 메타를 DB에 등록하지 않는다. 불후의 명작은 기존 내부 작품 카드와 시대·직군·매체 필터를 유지한다.
 
 `actions/library/bestsellers.ts`가 공식 API·피드를 서버 캐시로 읽고 `lib/library/bestsellerFeed.ts`가 검증과 유효기간을 담당한다. 이용할 수 없는 목록은 준비 중으로 표시하며 오래된 수집 파일로 대체하지 않는다. `BookChartGrid`와 `BestsellerFreshness`가 차트를 그린다. 차트는 인물 상세 「참고도서」와 같은 공통 상품 목록(`components/shared/AffiliateBookList.tsx`)으로 순위·표지·YES24 단추·「책 상세 보기」를 그린다. 차트 항목은 우리 작품이 아니므로 YES24 단추와 표지는 차트 API가 준 애드온 제휴 주소(`addOnLink` → `purchase_url`, 모양이 어긋나면 상품 주소)를, 작품 상세 대신 「책 정보」 단추(정보 아이콘·점선 금색 테두리로 다른 목록의 「책 상세 보기」와 구별)가 외부 페이지로 내보내지 않고 YES24 상품 상세 API(`getYes24BookDetail`, ISBN 단위 하루 캐시)로 받은 표지·서지·가격·평점·책 소개를 모달(`Yes24BookModal`)로 띄운다. Apple Books 차트는 차트가 준 정보와 서점 단추만 보인다. 예스24 활성화 조건과 발급처는 [환경변수](../platform/env-vars.md), 공급처 운영 조건은 [외부 서비스](../platform/external-services.md)를 따른다.
 

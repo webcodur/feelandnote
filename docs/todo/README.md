@@ -11,7 +11,7 @@
 | [`founding-myth.md`](founding-myth.md) | 건국신화 인물 427명 등록 이후의 소개·안내글·공개 판단 |
 | [`film-cast-system.md`](film-cast-system.md) | 영상·영화 인물 관계는 별도 시스템 — 작품 엔티티 중심 감독-배우 라인 자동 확장, 도감은 실재 집단만. MCU·스타워즈·해리 포터 샘플만 도감에 반영 |
 | [`web.md`](web.md) | 사용자 웹 구현·실화면 검수·Oracle 운영·Show GN/디스콰이엇 서비스 소개 |
-| [수익화와 상품 판매](../project/operations/monetization.md) | 홈·탐색·서재 메인·셀럽 페이지의 상품 배치 연구와 개발자모드 UI 시안. 아마존 가입·지급 준비와 AdSense 검토는 하위 운영 문서 참조 |
+| [서비스 방향과 수익화](../project/operations/service-strategy.md) | 수익화 기본 이념과 주요 화면의 구매·감상 연결. 계정·제휴 조건은 [제휴 판매 운영](../project/operations/affiliate-commerce.md) 참조 |
 | [`video-review-audit-remainder.md`](video-review-audit-remainder.md) | 교정 대상 밖의 영상 리뷰 1,327건: 영화 765·그 외 영상 562 |
 | [`tistory-cinema-handoff.md`](tistory-cinema-handoff.md) | 로컬 951편 완성. 59편 예약·대표이미지·하위 카테고리 정비 완료. 신규 작성은 계정 한도에서 종료, 남은 892편 |
 | [`img/README.md`](img/README.md) | **이미지가 있어야 끝나는 일** — 세력 테마·신화 전승 대표 이미지, 인물 화보와 Grok 아바타 실행서, 아바타 대기 인물, 아바타 정규화 미결분 |
