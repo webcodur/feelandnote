@@ -45,7 +45,7 @@
       "headline": "Explore by work",
       "description": "Discover works selected by universities, publications, and award committees.",
       "bestsellerLabel": "Bestsellers",
-      "bestseller": "See what readers are buying in the US Apple Books paid ebook chart.",
+      "bestseller": "Explore popular books, film and TV, games, and music, with the source and availability of each chart.",
       "classicsLabel": "Timeless Classics",
       "classics": "Find works chosen again and again by notable figures across eras and fields.",
       "searchPlaceholder": "Search institutions or lists...",
@@ -446,7 +446,7 @@
       "metaDescription": "Browse the US Apple Books paid ebook chart and classics chosen by notable figures, with chart sources and the time last checked.",
       "title": "Popular Works",
       "description": "Timeless classics chosen by great minds and thinkers across history.",
-      "descBestseller": "The top paid ebooks on Apple Books in the United States.",
+      "descBestseller": "Explore popular books, film and TV, games, and music, with the source and availability of each chart.",
       "criteriaBasisAll": "Aggregated by total recommendations and records across feelandnote figures",
       "criteriaBasisEra": "Aggregated by records of figures from the selected era",
       "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
@@ -480,6 +480,54 @@
         "introduction": "About this book",
         "source": "Details from YES24",
         "failed": "Couldn't load book details."
+      },
+      "charts": {
+        "categories": "Choose a bestseller category",
+        "viewSource": "Visit source",
+        "loadFailed": "We could not load the chart right now. Try again shortly or check the source website.",
+        "updated": "Updated {date} {zone}",
+        "BOOK": {
+          "title": "Apple Books · US paid ebooks",
+          "summary": "US · Paid ebook chart"
+        },
+        "VIDEO": {
+          "title": "Apple Movies · US store chart",
+          "summary": "US store chart"
+        },
+        "GAME": {
+          "steam": {
+            "summary": "PC · Global concurrent players",
+            "title": "Steam · Global concurrent-player chart",
+            "players": "{count} concurrent players",
+            "peak": "Peak today: {count}",
+            "credit": "Data source: Steam · Game artwork and trademarks belong to their respective owners."
+          },
+          "playstation": {
+            "summary": "North America & Europe · Monthly downloads"
+          },
+          "xbox": {
+            "summary": "US · Most-played games"
+          },
+          "igdb": {
+            "summary": "PC & console interest · Coming soon"
+          }
+        },
+        "MUSIC": {
+          "title": "Apple Music · US top songs",
+          "summary": "US · Most-played songs"
+        },
+        "sourceSelection": "Choose a source",
+        "sources": {
+          "yes24": "YES24",
+          "apple-books": "Apple Books",
+          "apple-movies": "Apple Movies",
+          "steam": "Steam",
+          "playstation": "PlayStation",
+          "xbox": "Xbox",
+          "igdb": "IGDB",
+          "apple-music": "Apple Music"
+        },
+        "sourcePending": "{source} · Coming soon"
       }
     }
   }

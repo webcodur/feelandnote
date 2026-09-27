@@ -13,6 +13,7 @@ import { Link } from "@/i18n/navigation";
 export interface CategoryTabOption<T extends string = string> {
   value: T;
   label: string;
+  disabled?: boolean;
 }
 
 interface CategoryTabFilterProps<T extends string> {
@@ -104,14 +105,16 @@ export function CategoryTabFilter<T extends string>({
           const cls = [
             `${compact ? "rounded-lg" : "inline-flex min-h-11 items-center justify-center rounded-xl"} whitespace-nowrap border outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset`,
             pad,
-            isActive
+            option.disabled
+              ? "cursor-not-allowed border-transparent text-text-tertiary"
+              : isActive
               ? subtle
                 ? ACTIVE_SUBTLE_PILL
                 : ACTIVE_PRIMARY_PILL
               : faint
                 ? `${FAINT_ALL_PILL} hover:text-accent hover:border-accent/40 hover:bg-accent/[0.12]`
                 : "border-transparent text-text-secondary hover:bg-white/[0.06] hover:text-white",
-            !linkTo && "active:scale-95",
+            !linkTo && !option.disabled && "active:scale-95",
           ]
             .filter(Boolean)
             .join(" ");
@@ -120,7 +123,7 @@ export function CategoryTabFilter<T extends string>({
             <span className={isActive && !subtle ? "font-serif" : undefined}>{option.label}</span>
           );
 
-          const href = linkTo ? linkTo(option.value) : undefined;
+          const href = linkTo && !option.disabled ? linkTo(option.value) : undefined;
           // 주소와 손잡이를 함께 받으면 링크로 그리되 누름은 가로챈다.
           // 화면은 그대로 갈아 끼우면서, 서버가 보내는 HTML 에는 그 탭으로 가는 길이 남는다.
           return href ? (
@@ -137,6 +140,7 @@ export function CategoryTabFilter<T extends string>({
             <button
               key={option.value}
               type="button"
+              disabled={option.disabled}
               aria-pressed={isActive}
               onClick={() => onChange?.(option.value)}
               className={cls}

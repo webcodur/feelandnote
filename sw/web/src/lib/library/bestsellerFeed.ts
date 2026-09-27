@@ -120,7 +120,7 @@ export function parseAppleBooksChart(value: unknown, now = Date.now()): BookChar
 // Apple 피드는 User-Agent 없는 요청(undici 기본값)을 연결만 받고 응답 없이 붙잡아 둔다 — 명시 UA가 필수다
 const FEED_USER_AGENT = 'feelandnote/1.0 (+https://feelandnote.com)'
 
-async function fetchJson(fetcher: typeof fetch, url: string, headers: HeadersInit): Promise<unknown> {
+export async function fetchChartJson(fetcher: typeof fetch, url: string, headers: HeadersInit, contentTypes: readonly string[] = ['application/json']): Promise<unknown> {
   const response = await fetcher(url, {
     headers: { 'User-Agent': FEED_USER_AGENT, ...headers },
     signal: AbortSignal.timeout(15_000),
@@ -128,7 +128,8 @@ async function fetchJson(fetcher: typeof fetch, url: string, headers: HeadersIni
   })
     .catch(() => { throw new Error('Book chart network request failed') })
   if (!response.ok) throw new Error(`Book chart HTTP ${response.status}`)
-  if (!response.headers.get('content-type')?.includes('application/json')) throw new Error('Invalid chart content type')
+  const contentType = response.headers.get('content-type')?.split(';')[0].trim().toLowerCase()
+  if (!contentType || !contentTypes.includes(contentType)) throw new Error('Invalid chart content type')
   if (Number(response.headers.get('content-length')) > MAX_BYTES) throw new Error('Chart exceeds size limit')
   if (!response.body) throw new Error('Empty chart response')
   const reader = response.body.getReader()
@@ -154,10 +155,10 @@ export async function fetchYes24Chart(fetcher: typeof fetch, apiKey: string, bas
   if (!recentKoreanChartDates(now).includes(basisDate)) throw new Error('Invalid chart basis date')
   const url = new URL('https://apis.yes24.com/v1/category/bestsellerDaily')
   url.search = new URLSearchParams({ categoryId: '001', date: basisDate, page: '1', pageSize: String(LIMIT), detail: 'N' }).toString()
-  return parseYes24Chart(await fetchJson(fetcher, url.href, { Accept: 'application/json', 'X-Api-Key': apiKey }), basisDate, now)
+  return parseYes24Chart(await fetchChartJson(fetcher, url.href, { Accept: 'application/json', 'X-Api-Key': apiKey }), basisDate, now)
 }
 export async function fetchAppleBooksChart(fetcher: typeof fetch, now = Date.now()): Promise<BookChart> {
-  return parseAppleBooksChart(await fetchJson(fetcher, APPLE_BOOKS_FEED_URL, { Accept: 'application/json' }), now)
+  return parseAppleBooksChart(await fetchChartJson(fetcher, APPLE_BOOKS_FEED_URL, { Accept: 'application/json' }), now)
 }
 export function selectBookChart(chart: BookChart | null, locale: 'ko' | 'en', now = Date.now()): BookChartSelection {
   const age = chart ? Math.max(now - Date.parse(chart.updatedAt), now - Date.parse(chart.fetchedAt)) : Infinity

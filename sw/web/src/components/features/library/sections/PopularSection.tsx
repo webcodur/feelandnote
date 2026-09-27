@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/library/sections/PopularSection.tsx
-  기능: 인기 작품 — 현재 도서 판매 순위 및 불후의 고전
-  책임: 판매처의 도서 순위와 전 시대/직군별 고전을 구분해 제공한다.
+  기능: 베스트셀러의 분야별 안내·순위 및 불후의 고전
+  책임: 분야별 차트와 전 시대/직군별 고전을 구분해 제공한다.
 */ // ------------------------------
 
 "use client";
@@ -15,8 +15,12 @@ import { getChosenLibrary, getEraContents, getLibraryByProfession } from "@/acti
 import type { BestsellerItem } from "@/actions/library/types";
 import type { LibraryResult } from "@/actions/library";
 import type { ContentType } from "@/types/database";
-import BestsellerFreshness, { type BestsellerFreshnessProps } from "../BestsellerFreshness";
-import BookChartGrid from "../BookChartGrid";
+import type { BestsellerFreshnessProps } from "../BestsellerFreshness";
+import type { ChartCategory, ChartSourceId } from "@/lib/library/chartSources";
+import type { MusicChartSelection } from "@/lib/library/musicChart";
+import type { StoreChartSelection } from "@/lib/library/storeChart";
+import type { SteamChartSelection } from "@/lib/library/steamChart";
+import BestsellerSection from "./BestsellerSection";
 import ClassicsGrid from "../ClassicsGrid";
 
 const ITEMS_PER_PAGE = 12;
@@ -34,18 +38,22 @@ interface Props {
   professions: { profession: string; count: number }[];
   /** 첫 화면의 별도 카드와 주소가 지정한 모드 */
   initialMode?: Mode;
+  initialCategory?: ChartCategory;
+  initialSource?: ChartSourceId;
+  initialMusic?: MusicChartSelection | null;
+  initialStoreChart?: StoreChartSelection | null;
+  initialSteamChart?: SteamChartSelection | null;
 }
 
-export default function PopularSection({ initialBestsellers, initialClassicsData, professions, initialMode }: Props) {
+export default function PopularSection({ initialBestsellers, initialClassicsData, professions, initialMode, initialCategory = "BOOK", initialSource, initialMusic = null, initialStoreChart = null, initialSteamChart = null }: Props) {
   const t = useTranslations("library.popular");
+  const tHub = useTranslations("library.hub");
   const te = useTranslations("library.page.eraPage.eraTabs");
   const tp = useTranslations("profession");
   const tc = useTranslations("content.category");
 
   const mode = initialMode ?? "bestseller";
   
-  const bestsellers = initialBestsellers.items;
-
   // Classics state
   const [basis, setBasis] = useState<ClassicsBasis>("all");
   const [era, setEra] = useState<string>(ERAS[0]);
@@ -81,11 +89,6 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
     });
   };
 
-  const modeChips: CategoryTabOption[] = [
-    { value: "bestseller", label: t("tabBestseller") },
-    { value: "classics", label: t("tabClassics") },
-  ];
-
   const mediaCategoryOptions: CategoryTabOption<MediaCategory>[] = [
     { value: "ALL", label: tc("all") },
     ...(["BOOK", "VIDEO", "GAME", "MUSIC"] as const).map(v => ({
@@ -107,27 +110,16 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
 
   return (
     <section className="space-y-6">
-      {/* 1. 상단 헤더: 전체 모드 개요 설명 */}
       <header className="text-center">
         <h2 className="font-serif text-2xl md:text-3xl text-text-primary">
-          {mode === "bestseller" ? t("chartTitle") : t("title")}
+          {tHub(`${mode}Label`)}
         </h2>
         <p className="mt-2 text-sm md:text-base text-text-secondary max-w-2xl mx-auto">
           {mode === "bestseller" ? t("descBestseller") : t("description")}
         </p>
       </header>
 
-      {/* 2. 베스트셀러 vs 불후의 고전 모드 전환 (1단 메인) */}
-      <div className="flex justify-center">
-        <CategoryTabFilter
-          options={modeChips}
-          value={mode}
-          linkTo={v => `/explore/works/popular${v === "classics" ? "?mode=classics" : ""}`}
-          size="md"
-        />
-      </div>
-
-      {/* 3. 불후의 고전 필터 */}
+      {/* 불후의 명작 필터 */}
       {mode === "classics" && (
         <div className="space-y-3">
           <div className="flex justify-center">
@@ -167,27 +159,13 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
         </div>
       )}
 
-      {/* 4. 카드 그리드 */}
-      <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
-        {mode === "bestseller" && (
-          <div className="mb-5">
-            {bestsellers.length > 0 && <BestsellerFreshness {...initialBestsellers} />}
-          </div>
-        )}
-        {mode === "bestseller" ? (
-          bestsellers.length > 0 ? (
-            <BookChartGrid items={bestsellers} />
-          ) : (
-            <p className="py-16 text-center text-sm text-text-secondary">{t("chartEmpty")}</p>
-          )
-        ) : (
-          classicsData.contents.length > 0 ? (
-            <ClassicsGrid contents={classicsData.contents} />
-          ) : (
-            <p className="py-16 text-center text-sm text-text-secondary">{t("empty")}</p>
-          )
-        )}
-      </div>
+      {mode === "bestseller" && <BestsellerSection category={initialCategory} sourceId={initialSource} books={initialBestsellers} music={initialMusic} storeChart={initialStoreChart} steamChart={initialSteamChart} />}
+      {mode === "classics" && (
+        <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
+          {classicsData.contents.length > 0 && <ClassicsGrid contents={classicsData.contents} />}
+          {classicsData.contents.length === 0 && <p className="py-16 text-center text-sm text-text-secondary">{t("empty")}</p>}
+        </div>
+      )}
 
       {mode === "classics" && classicsData.totalPages > 1 && (
         <Pagination currentPage={page} totalPages={classicsData.totalPages} onPageChange={(p) => loadClassics({ page: p })} />

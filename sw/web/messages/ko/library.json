@@ -45,7 +45,7 @@
       "headline": "작품으로 탐색하기",
       "description": "대학·언론·시상 기관이 고른 작품부터 살펴보세요.",
       "bestsellerLabel": "베스트셀러",
-      "bestseller": "지금 사람들이 많이 읽는 책을 판매 순위로 만나보세요.",
+      "bestseller": "도서·영상·게임·음악의 인기 목록과 분야별 제공 기준을 살펴보세요.",
       "classicsLabel": "불후의 명작",
       "classics": "시대와 분야를 넘어 인물들이 거듭 선택한 작품을 찾아보세요.",
       "searchPlaceholder": "기관·선정 목록 검색...",
@@ -446,7 +446,7 @@
       "metaDescription": "예스24의 일별 도서 판매 순위와 인물들이 많이 감상한 고전을 살펴보세요. 판매 순위의 기준일과 출처를 함께 표시합니다.",
       "title": "인기 작품",
       "description": "수많은 위인과 사상가들의 선택을 받은 불후의 고전 명작입니다.",
-      "descBestseller": "예스24의 일별 종합 베스트셀러를 소개합니다.",
+      "descBestseller": "도서·영상·게임·음악의 인기 목록과 분야별 제공 기준을 살펴보세요.",
       "criteriaBasisAll": "feelandnote 등록 인물들의 누적 추천 및 감상 기록 수 기준",
       "criteriaBasisEra": "해당 시대(고대·중세·근대·현대) 인물들의 누적 감상 수 기준",
       "criteriaBasisProfession": "해당 직군 인물들의 누적 감상 수 기준",
@@ -480,6 +480,54 @@
         "introduction": "책 소개",
         "source": "정보 제공: 예스24",
         "failed": "책 정보를 불러오지 못했습니다."
+      },
+      "charts": {
+        "categories": "베스트셀러 분야 선택",
+        "viewSource": "원본 사이트 보기",
+        "loadFailed": "지금 순위를 불러오지 못했습니다. 잠시 뒤 다시 시도하거나 원본 사이트에서 확인해 주세요.",
+        "updated": "{date} {zone} 갱신",
+        "BOOK": {
+          "title": "YES24 · 국내 도서 베스트셀러",
+          "summary": "국내 도서 · 일별 판매 순위"
+        },
+        "VIDEO": {
+          "title": "Apple 영화 · 한국 스토어 인기 영화",
+          "summary": "한국 스토어 인기 순위"
+        },
+        "GAME": {
+          "steam": {
+            "summary": "PC · 전 세계 동시 플레이어 수",
+            "title": "Steam · 전 세계 동시 플레이 순위",
+            "players": "동시 플레이어 {count}명",
+            "peak": "오늘 최대 {count}명",
+            "credit": "데이터 출처: Steam · 게임 이미지와 상표의 권리는 각 권리자에게 있습니다."
+          },
+          "playstation": {
+            "summary": "북미·유럽 · 월간 다운로드"
+          },
+          "xbox": {
+            "summary": "미국 · 많이 플레이한 게임"
+          },
+          "igdb": {
+            "summary": "PC·콘솔 관심도 · 준비 중"
+          }
+        },
+        "MUSIC": {
+          "title": "Apple Music · 한국 인기곡",
+          "summary": "한국 · 재생 기준 인기곡"
+        },
+        "sourceSelection": "출처 선택",
+        "sources": {
+          "yes24": "YES24",
+          "apple-books": "Apple Books",
+          "apple-movies": "Apple 영화",
+          "steam": "Steam",
+          "playstation": "PlayStation",
+          "xbox": "Xbox",
+          "igdb": "IGDB",
+          "apple-music": "Apple Music"
+        },
+        "sourcePending": "{source} · 준비 중"
       }
     }
   }

@@ -9,7 +9,9 @@ export interface BestsellerFreshnessProps {
   isStale: boolean;
 }
 
-export default function BestsellerFreshness({ updatedAt, basisDate, sources, isStale }: BestsellerFreshnessProps) {
+// 도서 차트의 기준일·지연 표시. ChartSourceNotice 요약줄 meta로 붙는다 — 인라인 요소만 출력한다.
+// 출처 링크는 아코디언 본문의 「원본 사이트 보기」와 겹치므로 여기서는 그리지 않는다.
+export default function BestsellerFreshness({ updatedAt, basisDate, isStale }: BestsellerFreshnessProps) {
   const locale = useLocale();
   const t = useTranslations("library.popular.freshness");
   const isKorean = locale === "ko";
@@ -24,23 +26,10 @@ export default function BestsellerFreshness({ updatedAt, basisDate, sources, isS
     : "";
 
   return (
-    /* 한 줄 요지 — 좁은 화면에서는 wrap으로 자연스럽게 넘어간다. 출처 링크도 같은 줄에 둔다.
-       판매처·차트 종류는 위 부제/설명이 이미 말하므로 여기서 되풀이하지 않는다 */
-    <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-sm leading-relaxed text-text-secondary">
+    <span className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
       {hasDate && <time dateTime={dateValue}>{t(isKorean ? "basisDate" : "updated", { date: formattedDate })}</time>}
       {!hasDate && <span>{t("unknownDate")}</span>}
       {isStale && <span className="font-medium text-accent">{t("delayed")}</span>}
-      {sources.length > 0 && (
-        <span className="inline-flex items-baseline gap-x-1.5">
-          <span className="text-text-tertiary">{t("source")}</span>
-          {sources.map((source) => (
-            <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer"
-              className="rounded-sm underline decoration-border underline-offset-4 hover:text-accent hover:decoration-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              {source.name}
-            </a>
-          ))}
-        </span>
-      )}
-    </div>
+    </span>
   );
 }

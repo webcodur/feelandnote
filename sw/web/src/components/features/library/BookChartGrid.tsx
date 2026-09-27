@@ -46,6 +46,7 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
     <div className="mx-auto max-w-6xl">
       <AffiliateBookList
         books={books}
+        mobileGrid
         heading={t("chartTitle")}
         buyLabel={t("viewAtStore")}
         platform={locale === "en" ? "amazon" : "yes24"}

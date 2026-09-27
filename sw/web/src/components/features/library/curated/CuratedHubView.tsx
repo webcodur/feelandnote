@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -13,10 +12,9 @@ import { FilterModal } from "@/components/shared/filters";
 import { summarizeBrowse } from "./useCuratedBrowse";
 import CuratorLogoCard from "../hub/CuratorLogoCard";
 import CuratorFiltersModal from "../hub/CuratorFiltersModal";
+import CuratorPreviewModal from "../hub/CuratorPreviewModal";
 import { CURATOR_PAGE_SIZE, CURATOR_SORTS, filterCurators, getCuratorCountries, parseCuratorFilters, type CuratorExploreFilters } from "../hub/curatorExplore";
 import { getCountryNameByLocale } from "@/lib/countries";
-
-const CuratorPreviewModal = dynamic(() => import("../hub/CuratorPreviewModal"));
 
 export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   const t = useTranslations("library.hub");

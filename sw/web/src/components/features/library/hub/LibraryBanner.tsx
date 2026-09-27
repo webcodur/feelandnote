@@ -10,17 +10,13 @@
 "use client";
 
 import { usePathname, Link, useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { ChevronRight } from "lucide-react";
 import { useExtraCrumbs } from "./LibraryCrumbs";
 
-/**
- * 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키
- *
- * 26.08.07 교정 — 없어진 `era`·`profession`이 남아 있고 정작 `popular`가 빠져 있었다.
- * 빠진 경로는 빵부스러기에 이름 없이 뜬다. **하위 화면을 늘리면 여기에도 넣는다.**
- */
+/** 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키 */
 const SUBPAGE_KEY: Record<string, string> = {
   popular: "popular",
   curated: "curated",
@@ -35,8 +31,10 @@ interface Crumb {
 
 export default function LibraryBanner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const tNav = useTranslations("nav");
+  const tHub = useTranslations("library.hub");
   const tAcademy = useTranslations("library.academy");
   const extraCrumbs = useExtraCrumbs();
 
@@ -47,6 +45,7 @@ export default function LibraryBanner() {
   const segments = pathname.replace(/^\/explore\//, "").split("/");
   const subSegment = segments[1];
   const subKey = subSegment ? SUBPAGE_KEY[subSegment] : undefined;
+  const popularMode = searchParams.get("mode") === "classics" ? "classics" : "bestseller";
 
   // breadcrumb 크럼 배열 구성 (허브 제외, 서브페이지부터)
   const crumbs: Crumb[] = [];
@@ -54,8 +53,8 @@ export default function LibraryBanner() {
   if (subKey) {
     // 1단: /explore/works/{sub}
     crumbs.push({
-      label: tNav(`sub.${subKey}`),
-      href: `/explore/works/${subSegment}`,
+      label: subSegment === "popular" ? tHub(`${popularMode}Label`) : tNav(`sub.${subKey}`),
+      href: `/explore/works/${subSegment}${subSegment === "popular" && popularMode === "classics" ? "?mode=classics" : ""}`,
     });
 
     // 2단+: academy 카테고리 (segments[2])
