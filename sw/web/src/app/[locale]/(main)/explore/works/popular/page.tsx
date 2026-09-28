@@ -17,7 +17,7 @@ import { getLocalizedAlternates } from "@/lib/seo";
 type SearchParams = Promise<{ mode?: string; category?: string; source?: string }>;
 
 export async function generateMetadata() {
-  // 「관점별 보기」 카드 문구(library.hub.classics*)는 짧은 안내라 검색 제목·설명으로는 모자란다 — 따로 쓴다
+  // 「주제별 탐색」 카드 문구(library.hub.classics*)는 짧은 안내라 검색 제목·설명으로는 모자란다 — 따로 쓴다
   const t = await getTranslations("library.popular");
   const title = t("classicsMetaTitle");
   const description = t("classicsMetaDescription");

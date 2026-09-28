@@ -113,13 +113,15 @@ export default function HubNav({ hubItems, standaloneItems, featureItem, groupId
         };
         const content = (
           <>
+            {/* 구획 머리 금선의 번호와 같은 「01」 모양 — 서체는 본문과 같은 Pretendard(고정폭 서체를 섞지 않는다) */}
+            {/* 그림(::before)으로 그려 링크 글자가 「01인물 목록」이 되지 않게 한다 */}
             <span
-              className={`text-sm font-mono tabular-nums ${
+              aria-hidden
+              data-number={String(i + 1).padStart(2, "0")}
+              className={`text-xs font-medium tabular-nums before:content-[attr(data-number)] ${
                 isActive ? "text-accent" : "text-accent-dim group-hover:text-accent"
               }`}
-            >
-              {i + 1}
-            </span>
+            />
             <span className="whitespace-nowrap">{item.label}</span>
           </>
         );

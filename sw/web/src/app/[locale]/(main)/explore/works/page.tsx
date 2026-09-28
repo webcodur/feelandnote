@@ -2,7 +2,7 @@
   파일명: /app/(main)/explore/works/page.tsx
   기능: 작품 모드 첫 화면
   책임: 첫 화면에서 곧바로 작품이 보이도록 분야별 베스트셀러(표지 순위 격자)를 세운다.
-        기관 선정·불후의 명작·박물관·학당은 2번 구획 「관점별 보기」 카드로 안내한다(목차 + 번호 구획 둘).
+        기관 선정·불후의 명작·박물관·학당은 2번 구획 「주제별 탐색」 카드로 안내한다(목차 + 번호 구획 둘).
         예전 첫 화면은 기관 선정이었는데 기관 로고·선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체).
         옛 베스트셀러 주소(/explore/works/popular)는 이 화면으로 옮긴다(popular/page.tsx).
 */ // ------------------------------
@@ -44,7 +44,7 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
   const readyPages = WORKS_FEATURED_LINKS.filter(page => !REORGANIZING_WORK_LENSES.has(page.key!));
   const reorganizingPages = WORKS_FEATURED_LINKS.filter(page => REORGANIZING_WORK_LENSES.has(page.key!));
 
-  // 인물 모드와 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(베스트셀러 · 관점별 보기)
+  // 인물 모드와 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(베스트셀러 · 주제별 탐색)
   const hubGroup = EXPLORE_HUB_GROUP.works;
   const titles = [t("bestsellerLabel"), t("quickNav")];
 

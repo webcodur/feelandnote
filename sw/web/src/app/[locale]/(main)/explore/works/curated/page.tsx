@@ -1,7 +1,7 @@
 /*
   파일명: /app/(main)/explore/works/curated/page.tsx
   기능: 기관 선정
-  책임: 대학·언론·시상 기관 등이 발표한 선정 목록을 카드로 진열한다. 작품 모드 아래 「관점별 보기」에서 들어온다.
+  책임: 대학·언론·시상 기관 등이 발표한 선정 목록을 카드로 진열한다. 작품 모드 아래 「주제별 탐색」에서 들어온다.
 */ // ------------------------------
 
 import { getLocale, getTranslations } from "next-intl/server";

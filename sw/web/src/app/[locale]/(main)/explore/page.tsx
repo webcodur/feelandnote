@@ -37,10 +37,10 @@ export default async function ExplorePage({ searchParams }: {
   const t = await getTranslations("explore.hub");
   const nav = await getTranslations("nav.sub");
   const pending = await getTranslations("pending");
-  // 관점별 보기 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
+  // 주제별 탐색 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
   const hrefByKey = new Map(NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!.map((page) => [page.key!, page.href]));
 
-  // 홈과 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(인물 목록 · 관점별 보기). 목차 라벨은 구획 제목과 같은 문구다
+  // 홈과 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(인물 목록 · 주제별 탐색). 목차 라벨은 구획 제목과 같은 문구다
   const hubGroup = EXPLORE_HUB_GROUP.figures;
   const titles = [t("navCelebs"), t("quickNav")];
 

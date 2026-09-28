@@ -1,13 +1,13 @@
 /*
   파일명: /constants/exploreLenses.ts
-  기능: 탐색의 「관점별 보기」 입구 — 그림과 묶음
+  기능: 탐색의 「주제별 탐색」 입구 — 그림과 묶음
   책임: 두 모드 아래 안내 카드의 그림·묶음·순서를 한 곳에서 쥔다.
         주소와 이름은 navigation.tsx(NAV_ITEMS·WORKS_LINKS)가 쥐고, 여기는 그 key로 그림과 묶음만 붙인다.
 */ // ------------------------------
 
 /**
  * 두 모드의 번호 구획 묶음 id — 목차(HubNav)와 구획(HubSection)이 같은 값을 써서 hub-<id>-<번호> 앵커를 맞춘다.
- * 두 모드 모두 「1 목록(인물 목록 | 베스트셀러) · 2 관점별 보기」 두 구획이다(홈과 같은 목차 + 번호 구획 문법, 26.09.28)
+ * 두 모드 모두 「1 목록(인물 목록 | 베스트셀러) · 2 주제별 탐색」 두 구획이다(홈과 같은 목차 + 번호 구획 문법, 26.09.28)
  */
 export const EXPLORE_HUB_GROUP = { figures: "explore-figures", works: "explore-works" } as const;
 

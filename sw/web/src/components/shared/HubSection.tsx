@@ -1,13 +1,12 @@
 /*
   파일명: /components/shared/HubSection.tsx
   기능: 탐색 및 서가 허브 섹션 공통 래퍼
-  책임: 제목 + 넘버링 + 섹션 간 네비게이션 + 선택적 더보기 링크 + children
+  책임: 금선 번호 + 제목 + 선택적 부제·더보기 링크 + children. 구획 사이 이동은 위 목차(HubNav)가 맡는다
 */ // ------------------------------
 
 "use client";
 
-import { useCallback } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { LinkPending } from "@/components/ui/pending";
 
@@ -42,16 +41,8 @@ export default function HubSection({
 }: HubSectionProps) {
   const t = useTranslations("shared.hubSection");
   const resolvedMoreLabel = moreLabel ?? t("more");
-  const hasNav = index !== undefined && total !== undefined && total > 1;
+  const hasNumber = index !== undefined && total !== undefined && total > 1;
   const sectionId = index !== undefined ? hubSectionId(index, groupId) : undefined;
-
-  const scrollTo = useCallback(
-    (targetIndex: number) => {
-      const el = document.getElementById(hubSectionId(targetIndex, groupId));
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
-    },
-    [groupId],
-  );
 
   return (
     <section id={sectionId} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""}`}>
@@ -59,58 +50,26 @@ export default function HubSection({
           (code-rules.md 「구분선」) */}
       {!hideDivider && <div className="mb-12 h-px w-full bg-line md:mb-16" />}
 
-      {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(code-rules.md 「정렬」) */}
+      {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(code-rules.md 「정렬」)
+          윗줄은 금선 사이 번호(「— 01 —」, 책의 장 번호 모양), 아랫줄은 제목 하나다(26.09.28 유저 선택).
+          예전의 「1/3」 줄·제목 옆 번호·좌우 화살표는 걷었다 — 화살표는 바로 위 목차와 같은 이동을 되풀이했고,
+          제목 옆 번호·화살표는 좌우 거리가 달라 머리 규격이 어긋나 보였다 */}
       <div className="flex flex-col items-center text-center mb-6 md:mb-10 px-1 gap-2 md:gap-3">
-        {/* 엑센트 바 — 빛 번짐 없이 금선 하나 */}
-        <div aria-hidden className="h-0.5 w-8 rounded-full bg-accent" />
+        {hasNumber ? (
+          <div aria-hidden className="flex select-none items-center gap-2.5">
+            <span className="h-0.5 w-6 rounded-full bg-accent" />
+            {/* 번호는 글자가 아니라 그림(::before)으로 그린다 — 본문 텍스트에 「01」이 섞이지 않게 */}
+            <span data-number={String(index! + 1).padStart(2, "0")}
+              className="text-xs font-medium tabular-nums text-accent-dim before:content-[attr(data-number)] md:text-sm" />
+            <span className="h-0.5 w-6 rounded-full bg-accent" />
+          </div>
+        ) : (
+          <div aria-hidden className="h-0.5 w-8 rounded-full bg-accent" />
+        )}
 
-        {/* 좌우 화살표 + 번호·제목 한 줄. 예전에는 「1/3」을 제목 윗줄에 따로 두어 머리가 한 줄 더 길었다(26.09.28) */}
-        <div className="flex items-center gap-2">
-          {/* 첫 구획에는 이전이 없다 — 끝으로 감는 단추를 두지 않고 자리만 비워 둔다.
-              자리를 지워 버리면 제목이 구획마다 좌우로 흔들린다 */}
-          {hasNav && (
-            index === 0 ? (
-              <span aria-hidden className="invisible size-9" />
-            ) : (
-              <button
-                type="button"
-                onClick={() => scrollTo(index! - 1)}
-                className="flex size-9 items-center justify-center rounded-full text-text-tertiary hover:bg-white/5 hover:text-text-primary"
-                aria-label={t("previous")}
-              >
-                <ChevronLeft size={18} />
-              </button>
-            )
-          )}
-          {/* 최소 폭 = 가장 긴 제목(오늘의 인물) 5.5em + 좌우 여백. 짧은 제목도 같은 폭을 차지해
-              좌우 화살표가 모든 구획에서 동일한 자리에 선다 (em이라 글자 크기에 비례).
-              번호는 제목 글자 왼쪽 바깥에 띄운다(absolute) — 자리를 차지하지 않아 제목의 가운데 정렬이 번호에 밀리지 않는다.
-              좌우 여백(px-6)은 번호가 들어갈 자리이며 양쪽이 같아 가운데를 흔들지 않는다 */}
-          <h2 className="min-w-[calc(5.5em+3rem)] break-keep px-6 text-center text-xl font-semibold tracking-tight text-text-primary md:text-2xl">
-            <span className="relative inline-block">
-              {/* 번호는 글자가 아니라 그림(::before)으로 그린다 — 제목 텍스트가 「1오늘의 인물」로 읽히지 않게 */}
-              {hasNav && (
-                <span aria-hidden data-number={index! + 1}
-                  className="absolute right-full top-0 select-none pe-2 tabular-nums text-accent-dim before:content-[attr(data-number)]" />
-              )}
-              {title}
-            </span>
-          </h2>
-          {hasNav && (
-            index === total! - 1 ? (
-              <span aria-hidden className="invisible size-9" />
-            ) : (
-              <button
-                type="button"
-                onClick={() => scrollTo(index! + 1)}
-                className="flex size-9 items-center justify-center rounded-full text-text-tertiary hover:bg-white/5 hover:text-text-primary"
-                aria-label={t("next")}
-              >
-                <ChevronRight size={18} />
-              </button>
-            )
-          )}
-        </div>
+        <h2 className="break-keep text-center text-xl font-semibold tracking-tight text-text-primary md:text-2xl">
+          {title}
+        </h2>
 
         {/* 서브타이틀 */}
         {subtitle && (
