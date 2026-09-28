@@ -39,6 +39,11 @@ const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
   'tobias-lütke': 'tobias-lutke',
   // 과거 조 샐다나 프로필의 영문 이름이 잘못 들어가 만들어진 주소다.
   'joe-tsai': 'zoe-saldana',
+  // 26.09.28 영문 이름 정정으로 바뀐 주소다(활동명 RM, 가운데 이름 Kumara).
+  'kim-namjoon': 'rm',
+  'anura-kurankan-dissanayake': 'anura-kumara-dissanayake',
+  // 26.09.28 같은 사람의 중복 프로필을 하나로 합쳤다(히로히토 → 쇼와 천황).
+  'emperor-hirohito': 'emperor-showa',
 }
 
 export async function middleware(request: NextRequest) {

@@ -136,6 +136,7 @@ interface PublicCelebBySlugData {
     slug: string | null
     nickname: string | null
     nickname_en: string | null
+    aliases: string[] | null
     avatar_url: string | null
     bio: string | null
     bio_en: string | null
@@ -187,7 +188,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: celeb, error: profileError } = await db
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, portrait_url, portrait_caption, portrait_caption_en, virtual_monologue, virtual_monologue_en')
+    .select('id, slug, nickname, nickname_en, aliases, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, portrait_url, portrait_caption, portrait_caption_en, virtual_monologue, virtual_monologue_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
     .maybeSingle()
@@ -408,8 +409,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v9: 가상독백을 함께 싣는 조회 결과만 캐시한다.
-    ['celeb-by-slug-v9-virtual-monologue', slug],
+    // v10: 다른 이름(aliases)을 함께 싣는 조회 결과만 캐시한다.
+    ['celeb-by-slug-v10-aliases', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )
@@ -451,6 +452,8 @@ export type CelebBySlugProfile = PublicUserProfile & {
   virtualMonologue: string | null
   /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
   translationFallbacks: string[]
+  /** 다른 이름. 화면에는 보이지 않고 검색과 구조화 데이터(alternateName)에만 쓴다 */
+  aliases: string[]
 }
 
 async function getCelebBySlugInner(
@@ -491,6 +494,7 @@ async function getCelebBySlugInner(
       nickname: resolve('nickname', profile.nickname_en, profile.nickname || 'Unknown'),
       nickname_en: profile.nickname_en,
       nickname_ko: profile.nickname || 'Unknown',
+      aliases: profile.aliases ?? [],
       avatar_url: profile.avatar_url,
       bio: resolve('bio', profile.bio_en, profile.bio),
       quotes: resolve('quotes', quoteEn, quoteKo),

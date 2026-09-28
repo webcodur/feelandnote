@@ -1005,6 +1005,7 @@ export type Database = {
       }
       celebs: {
         Row: {
+          aliases: string[]
           awakened_image_url: string | null
           avatar_url: string | null
           bio: string | null
@@ -1048,6 +1049,7 @@ export type Database = {
           youtube_videos: Json | null
         }
         Insert: {
+          aliases?: string[]
           awakened_image_url?: string | null
           avatar_url?: string | null
           bio?: string | null
@@ -1091,6 +1093,7 @@ export type Database = {
           youtube_videos?: Json | null
         }
         Update: {
+          aliases?: string[]
           awakened_image_url?: string | null
           avatar_url?: string | null
           bio?: string | null

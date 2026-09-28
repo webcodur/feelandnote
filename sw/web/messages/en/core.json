@@ -546,7 +546,8 @@
       "sectionOther": "Other",
       "follower": "Followers",
       "posts": "{count} posts",
-      "showMore": "Show more"
+      "showMore": "Show more",
+      "matchedAlias": "Also known as {alias}"
     },
     "content": {
       "addToRecord": "Add to records",

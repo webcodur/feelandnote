@@ -548,7 +548,8 @@
       "sectionOther": "기타",
       "follower": "팔로워",
       "posts": "게시물 {count}개",
-      "showMore": "더보기"
+      "showMore": "더보기",
+      "matchedAlias": "다른 이름: {alias}"
     },
     "content": {
       "addToRecord": "기록하기",

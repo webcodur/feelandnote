@@ -43,6 +43,7 @@ const categoryToContentType = (category: string): ContentType => {
 
 export function useHeaderSearch() {
   const t = useTranslations("searchResult");
+  const tSearch = useTranslations("shared.search");
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -182,7 +183,8 @@ export function useHeaderSearch() {
           data.items.forEach((item) => {
             searchResults.push({
               id: item.id, slug: item.slug || undefined, type: "celeb", title: item.nickname,
-              subtitle: item.title || undefined,
+              // 다른 이름으로 걸렸으면 수식어 대신 그 이름을 보인다 — 검색어와 다른 이름이 떠도 이유가 보이게
+              subtitle: item.matched_alias ? tSearch("matchedAlias", { alias: item.matched_alias }) : item.title || undefined,
               thumbnail: item.avatar_url || undefined,
               extra: item.profession || undefined,
             });
@@ -216,7 +218,7 @@ export function useHeaderSearch() {
       clearTimeout(timer);
       abortController.abort();
     };
-  }, [query, mode, contentCategory, t]);
+  }, [query, mode, contentCategory, t, tSearch]);
   // #endregion
 
   // #region Keyboard Shortcuts
@@ -264,9 +266,11 @@ export function useHeaderSearch() {
     }
 
     // 셀럽 검색: 탐색 페이지로 이동
+    // 이름으로 찾는 것이라 탐색의 기본 좁히기(기록 있는 인물만)를 풀어 둔다 — 안 풀면 신화 인물처럼
+    // 서재 기록이 없는 사람은 미리보기에는 뜨고 「전체 결과」에서는 사라진다
     if (mode === "celeb") {
       router.push(
-        `/explore?search=${encodeURIComponent(query.trim())}&reality=${CELEB_REALITIES.join(",")}`
+        `/explore?search=${encodeURIComponent(query.trim())}&reality=${CELEB_REALITIES.join(",")}&contentPresence=all`
       );
       setIsOpen(false);
       return;

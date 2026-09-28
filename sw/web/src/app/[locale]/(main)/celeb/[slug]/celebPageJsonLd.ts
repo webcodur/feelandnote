@@ -53,7 +53,8 @@ export function buildCelebPageJsonLd({
     profile.avatar_url ?? profile.photo_url,
   );
   const wikidataQid = profile.wikidata_qid?.match(/^Q\d+$/)?.[0] ?? null;
-  const alternateNames = [profile.nickname_ko, profile.nickname_en]
+  // 화면 언어의 이름을 뺀 다른 언어 이름과 다른 이름(본명·호·한자 독음 등)을 싣는다
+  const alternateNames = [...new Set([profile.nickname_ko, profile.nickname_en, ...(profile.aliases ?? [])])]
     .filter((name): name is string => Boolean(name && name !== profile.nickname));
 
   // 넓은 분야 연관 도서는 이 인물의 저작·등장 작품이라는 구조화 주장을 하지 않는다.

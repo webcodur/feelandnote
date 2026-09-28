@@ -80,6 +80,8 @@ function fixture(trendIds: string[] = [], available = true) {
     '@/lib/db/static': { createStaticClient: () => db },
     '@/lib/db/server': { createClient: () => { throw new Error('No viewer reads'); } },
     '@/lib/trends/countryTrending': { getCountryTrendingPeople: async () => ({ matches: trendIds.map(id => ({ id, trendTitle: 'x', rank: 1, volume: 1000, started: 1700000000000 })), available }) },
+    // 이름 색인에 걸린 사람이 없으면 DB의 글자 포함 검사(p_search)로 찾는다
+    '@/lib/celeb/celebNameSearchIndex': { findCelebsByName: async () => [] },
   }
   const loaded = { exports: {} as { getCelebs: (params: Record<string, unknown>) => Promise<{ celebs: { id: string; content_count: number; trend_match?: { title: string; rank: number; country: string; volume: number; started: number } | null }[]; total: number; totalPages: number; trend?: { country: string; available: boolean; matchedCount: number } }> } }
   new Function('require', 'module', 'exports', compiled)((id: string) => mocks[id] ?? require(id), loaded, loaded.exports)

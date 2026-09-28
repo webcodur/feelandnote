@@ -18,6 +18,7 @@ import { parseTrendCountry } from '@/constants/trendCountries'
 import { getCountryTrendingPeople } from '@/lib/trends/countryTrending'
 import type { TrendMatch } from '@/lib/trends/trendMatching'
 import { mergePromotedIntoPage, selectTrendPromotions } from '@/lib/celeb/dailyRecommendTrend'
+import { findCelebsByName } from '@/lib/celeb/celebNameSearchIndex'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
 
@@ -246,10 +247,13 @@ async function fetchCelebsPublic(
   search: string | null, factionId: string | null, minContentCount: number,
   includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean,
   birthYearMin: number | null, birthYearMax: number | null,
-  contentPresence: CelebContentPresence, trendMatches: TrendMatch[], trendCountry: string
+  contentPresence: CelebContentPresence, trendMatches: TrendMatch[], trendCountry: string,
+  searchIds: string[] | null,
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
+  // 이름 검색을 id로 풀어 왔으면 DB의 글자 포함 검사 대신 그 id로 좁힌다
+  const rpcSearch = searchIds ? '' : (search ?? '')
 
   let rows: CelebRow[]
   let total: number
@@ -261,13 +265,14 @@ async function fetchCelebsPublic(
     const query = (count = false) => {
       let request = db.rpc('get_celebs_sorted', {
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-        p_sort_by: 'content_count', p_search: search ?? '', p_limit: null, p_offset: 0,
+        p_sort_by: 'content_count', p_search: rpcSearch, p_limit: null, p_offset: 0,
         p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
         p_include_inactive: includeInactive, p_celeb_tiers: tiers,
         p_celeb_realities: realities,
         p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
       }, { count: count ? 'exact' : undefined })
       if (contentPresence === 'without') request = request.eq('content_count', 0)
+      if (searchIds) request = request.in('id', searchIds)
       return request
     }
     const promotedResult = trendMatches.length
@@ -313,13 +318,14 @@ async function fetchCelebsPublic(
     const query = (count = false) => {
       let request = db.rpc('get_celebs_sorted', {
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-        p_sort_by: 'daily_recommend', p_search: search ?? '', p_limit: null, p_offset: 0,
+        p_sort_by: 'daily_recommend', p_search: rpcSearch, p_limit: null, p_offset: 0,
         p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
         p_include_inactive: includeInactive, p_celeb_tiers: tiers,
         p_celeb_realities: realities,
         p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
       }, { count: count ? 'exact' : undefined })
       if (contentPresence === 'without') request = request.eq('content_count', 0)
+      if (searchIds) request = request.in('id', searchIds)
       return request
     }
     const positions = new Map(trendMatches.map((match, index) => [match.id, index]))
@@ -363,22 +369,30 @@ async function fetchCelebsPublic(
     throwOnQueryError('인기 인물 목록', error)
     rows = (data || []) as CelebRow[]
     total = rows.length
-  } else if (contentPresence === 'without') {
-    // RPC 내부 LIMIT을 해제하고 PostgREST에서 작품수 조건 → 전체 개수 → 페이지를 적용한다.
-    // 내부 LIMIT 뒤에 0건 조건을 걸면 현재 페이지의 인물만 걸러져 총수와 페이지가 틀린다.
-    const { data, error, count } = await db.rpc('get_celebs_sorted', {
+  } else if (contentPresence === 'without' || searchIds) {
+    // RPC 내부 LIMIT을 해제하고 PostgREST에서 작품수·이름 조건 → 전체 개수 → 페이지를 적용한다.
+    // 내부 LIMIT 뒤에 조건을 걸면 현재 페이지의 인물만 걸러져 총수와 페이지가 틀린다.
+    const label = searchIds ? '이름 검색 인물 목록' : '작품 없는 인물 목록'
+    let request = db.rpc('get_celebs_sorted', {
       p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-      p_sort_by: sortBy, p_search: search ?? '', p_limit: null, p_offset: 0,
+      p_sort_by: sortBy, p_search: rpcSearch, p_limit: null, p_offset: 0,
       p_faction_id: factionId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
       p_celeb_realities: realities,
       p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
     }, { count: includeTotal ? 'exact' : undefined })
-      .eq('content_count', 0)
-      .range(offset, offset + limit - 1)
-    throwOnQueryError('작품 없는 인물 목록', error)
-    rows = (data || []) as CelebRow[]
-    total = includeTotal ? (count ?? 0) : rows.length
+    if (contentPresence === 'without') request = request.eq('content_count', 0)
+    if (searchIds) request = request.in('id', searchIds)
+    let result = await request.range(offset, offset + limit - 1)
+    if (result.error?.code === 'PGRST103') {
+      // 검색 결과보다 뒤쪽 쪽 번호가 주소에 남아 있으면 범위 밖 오류가 난다. 없는 행을 지어내지 않고 개수만 되살린다
+      const first = await request.range(0, 0)
+      throwOnQueryError(label, first.error)
+      result = { ...first, success: true, error: null, data: [] }
+    }
+    throwOnQueryError(label, result.error)
+    rows = (result.data || []) as CelebRow[]
+    total = includeTotal ? (result.count ?? 0) : rows.length
   } else {
     if (includeTotal) {
       const { data: countData, error: countError } = await db.rpc('count_celebs_filtered', {
@@ -513,11 +527,12 @@ const fetchCelebsPublicOnce = coalescePublicRead(fetchCelebsPublic)
 const getCelebsCached = unstable_cache(
   fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
-  ['celebs-public-v9-separate-ranking'],
+  // v10: 이름 검색을 목록 밖에서 id로 풀어 넘긴다 — 옛 글자 포함 검사 결과를 되돌려주지 않게 올렸다
+  ['celebs-public-v10-name-search'],
   // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v9-separate-ranking']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v10-name-search']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -525,12 +540,33 @@ const getCelebsCached = unstable_cache(
 // 인기(trending)만 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 순위가 나온다
 const getCelebsTrendingCached = unstable_cache(
   fetchCelebsPublicOnce,
-  ['celebs-public-trending-v6-separate-ranking'],
+  ['celebs-public-trending-v7-name-search'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v6-separate-ranking']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v7-name-search']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
+
+/** 이름 검색 결과를 목록 조회에 id로 넘길 최대 인원. 주소 길이 한도 안에 든다 */
+const SEARCH_ID_LIMIT = 100
+
+/**
+ * 이름 검색어를 인물 id로 푼다. 목록 캐시 밖에서 부른다(중첩 캐시는 안쪽 캐시를 건너뛴다).
+ * null이면 DB의 글자 포함 검사를 그대로 쓴다 — 걸린 사람이 없거나(DB 쪽 판정에 한 번 더 맡긴다),
+ * 너무 흔한 이름이거나(글자 포함만으로 충분하다), 비공개 인물까지 보는 조회이거나, 색인을 못 읽었을 때다.
+ */
+async function resolveSearchIds(search: string | undefined, includeInactive: boolean): Promise<string[] | null> {
+  if (!search?.trim() || includeInactive) return null
+  try {
+    const hits = await findCelebsByName(search)
+    if (!hits.length || hits.length > SEARCH_ID_LIMIT) return null
+    // 목록 캐시 키가 순서에 흔들리지 않게 정렬해 넘긴다. 목록 순서는 화면의 정렬 기준이 정한다
+    return hits.map((hit) => hit.id).sort()
+  } catch (error) {
+    console.error('인물 이름 색인 조회 실패 — 이번 요청은 글자 포함 검사로 찾는다:', error)
+    return null
+  }
+}
 
 export async function getCelebs(
   params: GetCelebsParams = {}
@@ -563,13 +599,15 @@ export async function getCelebs(
   // 오늘의 추천도 트렌드 매칭을 읽는다 — 급상승 인물의 일일 추첨 가산과 화염 표지에 쓴다.
   const countryTrend = sortBy === 'country_trending' || sortBy === 'daily_recommend' ? await getCountryTrendingPeople(country) : undefined
   const loadPublic = sortBy === 'trending' || sortBy === 'country_trending' ? getCelebsTrendingCached : getCelebsCached
+  // 인기순은 기간 창 순위라 검색어를 읽지 않는다
+  const searchIds = sortBy === 'trending' ? null : await resolveSearchIds(search, includeInactive)
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, factionId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
     includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
     birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.matches ?? [],
-    countryTrend ? country : ''
+    countryTrend ? country : '', searchIds
   )
   // trend 상태는 트렌드순 화면(국가 선택 줄)만 읽는다 — 오늘의 추천은 가산일 뿐 기준이 아니다
   const trend = sortBy === 'country_trending' && countryTrend ? {
