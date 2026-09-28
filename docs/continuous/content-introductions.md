@@ -35,7 +35,7 @@
 - BOOK ko↔en 오매칭 2건: `cab080e5`(Monsoon — en은 캐플런 저서인데 ko는 이소연 희곡)와 `3d159707`(Peacemaker — en은 우 탄트 전기인데 ko는 임동원 회고록). 한 쌍이 같은 content_id에 다른 책이 섞인 상태로 형제번역 대상에서 제외했다.
 - 정보나루 일 한도 해소: 마이페이지 인증키의 「서버 IP」에 로컬 공인 IP를 세미콜론으로 추가하면 된다(최대 3건, 기존 등록 IP는 지우지 않는다). 등록 즉시 효력이 난다.
 - ko→en 직접 번역분 216건: ko 원문 큐 220건 중 출처 URL 기록 38건·레거시 무기록 182건. 계약은 `sourceUrl: null`을 양쪽 모두 무기록일 때 허용해 전량 번역 가능했다. 4건은 적용 시점에 타 채널 선점·원문 drift로 계약 탈락.
-- ko→en 번역 계약은 en 본문의 비라틴 문자(漢字·키릴·아랍 등 원어 병기)를 거절한다 — 위키발 원문 재번역 시 원어 표기는 로마자만 쓰게 지시해야 통과한다(`book-agy-redo.mjs` 참조).
+- ko→en 번역 계약은 en 본문의 비라틴 문자(漢字·키릴·아랍 등 원어 병기)를 거절한다 — 위키발 원문 재번역 시 원어 표기는 로마자만 쓰게 지시해야 통과한다.
 - 작업 산출물은 `data/celeb/book-introductions/`의 유형별 폴더에 둔다. 백업은 `D:/feelandnote-backups/book-descriptions/`에 날짜별로 쌓고 지우지 않는다.
 - 「ko 행에 영문 본문만」 보류분은 형제번역 큐로 전환할 수 있다.
 - 짧은 소개 교체 패스(26.09.27): 80자 미만 행 680건을 휴리스틱 선별 → 실제 비소개(태그라인·발매사실·마케팅) 12쌍을 위키 원문으로 교체 반영(VIDEO Black en/ko·Bigg Boss en/ko, GAME Prince of Persia en/ko·Snood·시저3·KoF XV·애니팡 en/ko·Don Bradman en/ko, MUSIC Skinny Love en/ko·Blue Bash ko — 총 16행). 규칙은 SSoT 「짧은 소개 판정과 교체」절. `replacesReason` 필드로 채워진 행 덮어쓰기가 열렸다.
