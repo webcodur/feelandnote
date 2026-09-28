@@ -15,6 +15,7 @@ TTS가 만든 음성은 경로·엔진과 상관없이 **처음 생긴 자리에
 |---|---|---|
 | 인물 안내 음성 배치 `sw/web-bo/scripts/celeb/reading-voice.mjs` | attempt wav 채택 직후, 인코딩·검수 전 | reading |
 | 인물 대사 배치 `sw/audio-bo/scripts/celeb-dialogue-voice-generate.py` | 합성 mp3 저장 직후 | dialogue |
+| 가상독백 문단 합성 `sw/audio-bo/scripts/celeb-monologue-voice-generate.py` | 문단 mp3 저장 직후, 스티치 전 | reading |
 | 대사 끝부분 복구 `sw/audio-bo/scripts/elevenlabs-safe-tail-dialogues.py` | 안전 문구를 잘라낸 직후 | dialogue |
 | web-bo 대사 작업대·음원 만들기 창구 `generateVoicePreview`(`sw/web-bo/src/actions/admin/voice-gen.ts`) | 미리듣기 응답 전 | dialogue |
 | web-bo 서재 탐방 미리듣기 `sw/web-bo/src/app/api/[series]/voice/*/preview` | 응답 전 | Gemini reading · ElevenLabs dialogue |
@@ -71,7 +72,7 @@ TTS 보이스는 문장 사이마다 숨을 들이쉰다(Gemini Charon이 대표
 |---|---|---|
 | 쉼표 | dialogue | 제갈량 인사3의 0.58초는 자연스럽고, 인사2의 1.16초는 길다 |
 | 문장 사이 | reading | 읽어보기에서 0.82~0.96초가 자연스럽다. 0.55초로 당기면 빠르다 |
-| 문단 사이 | 미구현 | 상한 1.8초·목표 1.5초로 정했다(문장의 1.5배, 2초를 넘으면 음원이 끊긴 것처럼 들린다). 문단 경계를 판정하는 코드가 없어 규칙만 둔다 |
+| 문단 사이 | 가상독백 스티치 | 목표 **총량** 1.0초(26.09.22 청취 조정 — 고정 삽입은 파일별 여백 편차가 그대로 드러나 1.2~1.6초로 들쭉날쭉했다). `celeb-monologue-voice-generate.py`가 단위 양끝 무음을 측정해 가장자리만 남기고 모자란 만큼 룸톤을 끼워 합계를 맞춘다 |
 
 ### 앞뒤 여백
 

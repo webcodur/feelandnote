@@ -86,6 +86,21 @@ pnpm dev:audio-bo
 - 학습이 시작되지 않으면 대본이 문장부호로 끝나는 완결 문장 세 개 이상인지 확인한다.
 - 합성 결과에서 문장이 빠지면 대본을 더 짧은 문장으로 나누고 다시 생성한다.
 
+## 환경 재구성
+
+`D:\audios\interview-cleaner`는 저장소 밖이라 지워지면 아래 절차로 다시 만든다. 2026-09-18에 이 절차로 전부 재구성했다. 시스템 파이썬 3.12에는 CUDA용 torch·faster-whisper가 따로 있고 읽어보기 검수(`reading-voice.mjs`)는 그것을 `py -3`으로 쓴다.
+
+| 구성 | 위치 | 만드는 법 |
+|---|---|---|
+| 받아쓰기·잡음 제거 환경 | `.venv` | 파이썬 **3.11**로 만든다(DeepFilterLib은 3.12 배포본이 없다). `torch==2.5.1 torchaudio==2.5.1`을 `https://download.pytorch.org/whl/cu124`에서, 이어서 `faster-whisper librosa soundfile deepfilternet "numpy<2"`를 설치한다. |
+| CUDA DLL 경로 | `.venv\Lib\site-packages\zz_cuda_dll_dirs.pth` | ctranslate2는 PATH만 보므로 `.pth` 한 줄로 시작 시 `torch\lib`를 PATH 앞에 붙인다. `os.add_dll_directory`로는 안 된다. 이 파일이 있어야 `.venv`에서 `--device cuda`가 된다. |
+| Whisper | `models\whisper` | `faster_whisper.download_model('large-v3-turbo', cache_dir=...)`. 검수 기준이 이 모델에 맞춰져 있어 바꾸지 않는다. HF 가속기 충돌(os error 183)이 나면 `HF_HUB_DISABLE_XET=1`로 받는다. |
+| 잡음 제거 모델 | `models\DeepFilterNet3` | `github.com/Rikorose/DeepFilterNet/raw/main/models/DeepFilterNet3.zip`을 풀어 `config.ini`·`checkpoints/`가 바로 아래 오게 둔다. |
+| 실험용 합성 엔진 | `engines\CosyVoice` + `models\Fun-CosyVoice3-0.5B-2512` | 소스는 `--recursive`로 받는다. 전용 `.venv`를 파이썬 **3.10**으로 만들고 `requirements.txt`를 설치하되, 빌드·실행 모두 `setuptools<70`이 필요하다(`pkg_resources`). 모델은 HuggingFace `FunAudioLLM/Fun-CosyVoice3-0.5B-2512`. `cosyvoice-test.py`에 `--cosyvoice-root`·`--model`로 넘긴다. 첫 로드는 5분 넘게 걸리고 이후 합성은 문장당 수십 초다. |
+| 작업 보관함 | `projects` | 빈 폴더만 만든다. |
+
+`yt-dlp`와 `ffmpeg`는 PATH의 것과 `D:\GPT-SoVITS\...\runtime\ffmpeg.exe`를 쓴다. 재구성 뒤에는 아래 「변경 후 확인」과 함께 `deepFilter`·CUDA 받아쓰기·엔진 합성을 짧은 음원 하나로 실제 실행해 본다.
+
 ## 변경 후 확인
 
 ```bash

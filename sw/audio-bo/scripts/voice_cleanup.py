@@ -23,6 +23,7 @@ Prints one JSON summary per file. IN and OUT may be the same path.
 import argparse
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -70,6 +71,39 @@ def encode(samples, rate, path):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "s16le", "-ac", "1", "-ar", str(rate),
                     "-i", "-", *codec, "-ar", str(rate), path],
                    input=(np.clip(samples, -1, 1) * 32767).astype(np.int16).tobytes(), check=True)
+
+
+# 발행 음원의 청감 볼륨을 인물마다 통일한다 — 팟캐스트/내레이션 웹 표준 -16 LUFS, 천장 -1.5 dBTP.
+TARGET_LUFS_I = -16.0
+TARGET_TRUE_PEAK = -1.5
+
+
+def measure_loudness(path):
+    """ffmpeg loudnorm 측정 패스 — {"i": integrated LUFS, "tp": true peak dBTP}."""
+    proc = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-nostats", "-i", str(path),
+         "-af", "loudnorm=print_format=json", "-f", "null", "-"],
+        capture_output=True, text=True)
+    match = re.search(r'\{[^{}]*"input_i"[^{}]*\}', proc.stderr, re.S)
+    if not match:
+        raise RuntimeError(f"loudnorm measure failed for {path}: {proc.stderr[-400:]}")
+    stats = json.loads(match.group(0))
+    return {"i": float(stats["input_i"]), "tp": float(stats["input_tp"])}
+
+
+def normalize_loudness(path, target_i=TARGET_LUFS_I, true_peak=TARGET_TRUE_PEAK):
+    """선형 게인으로 통합 라우드니스를 target_i로 맞춘다. 피크가 천장을 넘을 때만 리미터가 누른다."""
+    measured = measure_loudness(path)
+    gain_db = target_i - measured["i"]
+    ceiling = 10 ** (true_peak / 20)
+    tmp = Path(str(path) + ".norm.mp3")
+    subprocess.run(
+        ["ffmpeg", "-v", "error", "-y", "-i", str(path),
+         "-af", f"volume={gain_db:.2f}dB,alimiter=limit={ceiling:.6f}:level=false",
+         "-codec:a", "libmp3lame", "-b:a", MP3_BITRATE, str(tmp)],
+        check=True)
+    tmp.replace(path)
+    return {"inputI": measured["i"], "inputTp": measured["tp"], "gainDb": round(gain_db, 2)}
 
 
 def envelope(samples, rate):

@@ -72,6 +72,8 @@ pnpm celeb:fill apply --file .tmp-celeb-fill/patch.json --only-slugs "slug-a,slu
 
 `--only-slugs`에는 패치가 소유한 slug 전체를 명시한다. PowerShell에서는 쉼표 목록을 따옴표로 묶는다. 기본 실행은 dry-run이고 `--apply`는 사용자가 DB 반영을 명시한 경우에만 쓴다.
 
+slug 자체에 쉼표가 있으면 `--only-slugs` 대신 slug 문자열의 JSON 배열 파일을 `--only-slugs-file <경로>`로 넘긴다. 적용기는 배열과 패치의 slug가 정확히 일치하는지 검사한다.
+
 적용기는 쓰기 직전 현재 해시를 다시 확인한다. 달라졌다면 값을 우회해 덮지 말고 3단계 입력에서 다시 조립한다. 반영 뒤에는 대상의 `speech_tone`, `lines`, `lines_en`을 재조회해 한마디·상황 키·기존 값 보존을 확인한다.
 
 full·light의 영문 상황 대사를 별도 생성한 경우 `scripts/celeb/i18n-lines-en-apply.ts`로 구조 검사와 dry-run을 한 뒤 반영한다. 이 도구는 기존 `lines_en.quote`를 보존하며, fiction에는 영문 대사가 작업 범위일 때만 사용한다.

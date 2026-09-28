@@ -66,7 +66,7 @@
 
 ## 대사·음원 대조
 
-- 대조는 공개 음원 전량을 받아써 DB 대사와 비교한다. 받아쓰기 가상환경에는 CUDA 12 cuBLAS가 없으므로 `D:\audios\interview-cleaner\enhance-venv\Lib\site-packages\torch\lib`를 PATH 앞에 붙여 GPU로 돌린다.
+- 대조는 공개 음원 전량을 받아써 DB 대사와 비교한다. `D:\audios\interview-cleaner\.venv`의 파이썬으로 `--device cuda`를 주면 GPU로 돈다. cuBLAS 경로는 가상환경이 시작 시 스스로 등록하므로 PATH를 손볼 필요가 없다(`docs/project/apps/audio-bo.md` 「환경 재구성」).
 - 짧은 돌격 대사와 고유명사는 오인식이 잦다. 어긋나 보이면 무음 필터를 끄고 DB 문장을 힌트로 준 받아쓰기로 한 번 더 듣는다. 힌트를 줘도 다르게 들리면 실제 불일치다.
 - 한마디는 검증된 DB 문장을 두고 음원을 다시 만든다. 상황 대사는 원래 음원 문장으로 되돌린다.
 - 백오피스 대사 편집기는 음량을 키우거나 앞뒤를 잘라 올린 칸을 WAV로 다시 저장한다. 그래서 확장자만 `.mp3`인 WAV가 생긴다. 목소리와는 무관하다. `dialogue-voice-publish.ts`는 MP3만 받으므로 기존 칸을 담아 다시 게시할 때는 MP3로 변환해 올린다.

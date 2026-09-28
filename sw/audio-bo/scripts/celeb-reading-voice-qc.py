@@ -49,8 +49,73 @@ def normalize(value: str) -> str:
     return re.sub(r"[^0-9A-Za-z\uac00-\ud7a3]", "", value).casefold()
 
 
+# 숫자↔발화 단어 변환 — Whisper가 "3,000"을 "three thousand"로 받아쓰는 식의
+# 표기 차이는 내용 오류가 아니므로, 비교 전에 숫자를 발화 단어로 펼쳐 양쪽을 맞춘다.
+_EN_ONES = ("zero one two three four five six seven eight nine ten eleven twelve "
+            "thirteen fourteen fifteen sixteen seventeen eighteen nineteen").split()
+_EN_TENS = ("twenty thirty forty fifty sixty seventy eighty ninety").split()
+
+
+def _en_under1000(n: int) -> str:
+    words = []
+    if n >= 100:
+        words.append(_EN_ONES[n // 100] + " hundred")
+        n %= 100
+    if n >= 20:
+        word = _EN_TENS[n // 10 - 2]
+        n %= 10
+        words.append(word + (f" {_EN_ONES[n]}" if n else ""))
+    elif n:
+        words.append(_EN_ONES[n])
+    return " ".join(words)
+
+
+def _en_number(n: int) -> str:
+    for big, name in ((10**9, "billion"), (10**6, "million"), (10**3, "thousand")):
+        if n >= big:
+            q, r = divmod(n, big)
+            if big == 1000 and r and 1100 <= n <= 2099:
+                # 연도식 읽기 — Whisper는 대개 nineteen ninety two 형태로 받아쓴다.
+                return f"{_en_under1000(n // 100)} {_en_under1000(n % 100)}".strip()
+            head = _en_number(q)
+            return f"{head} {name}" + (f" {_en_number(r)}" if r else "")
+    return _en_under1000(n)
+
+
+_KO_DIGIT = "영일이삼사오육칠팔구"
+_KO_SMALL = ("", "십", "백", "천")
+_KO_BIG = ("", "만", "억", "조", "경")
+
+
+def _ko_number(n: int) -> str:
+    if n == 0:
+        return "영"
+    out = []
+    group = 0
+    while n:
+        chunk = n % 10000
+        if chunk:
+            seg = ""
+            for pos, unit in enumerate(_KO_SMALL):
+                digit = chunk // 10 ** pos % 10
+                if digit:
+                    seg = ("" if pos and digit == 1 else _KO_DIGIT[digit]) + unit + seg
+            out.append(seg + _KO_BIG[group])
+        n //= 10000
+        group += 1
+    return "".join(reversed(out))
+
+
+DIGIT_RUN = re.compile(r"\d[\d,]*\d|\d")
+
+
+def expand_digits(value: str, locale: str) -> str:
+    number = _en_number if locale == "en" else _ko_number
+    return DIGIT_RUN.sub(lambda m: number(int(m.group().replace(",", ""))), value)
+
+
 def source_alignment(expected: str, transcript: str, locale: str) -> tuple[dict, list[str], dict]:
-    source, heard = normalize(expected), normalize(transcript)
+    source, heard = normalize(expand_digits(expected, locale)), normalize(expand_digits(transcript, locale))
     matcher = SequenceMatcher(None, source, heard, autojunk=False)
     mapping = {}
     blocks = [block for block in matcher.get_matching_blocks() if block.size]
@@ -144,9 +209,15 @@ def acoustic_metrics(samples: np.ndarray) -> tuple[dict, list[str]]:
             "isolatedJumpTimes": [round(index / SAMPLE_RATE, 4) for index in isolated[:20]]}, flags
 
 
-def punctuation_offsets(text: str) -> set[int]:
-    offsets, count = set(), 0
-    for index, char in enumerate(text):
+def punctuation_offsets(text: str, locale: str) -> set[int]:
+    offsets, count, index = set(), 0, 0
+    while index < len(text):
+        digit_run = DIGIT_RUN.match(text, index)
+        if digit_run:
+            count += len(normalize(expand_digits(digit_run.group(), locale)))
+            index = digit_run.end()
+            continue
+        char = text[index]
         count += len(normalize(char))
         # Periods inside numbers/abbreviations are not confidently sentence ends.
         if char in ".!?。！？\n" and (index + 1 == len(text) or text[index + 1].isspace()
@@ -160,19 +231,21 @@ def punctuation_offsets(text: str) -> set[int]:
                             "gen", "col", "lt", "capt", "sgt", "hon", "pres", "gov",
                             "vs", "etc", "vol", "no", "fig", "approx", "dept", "inc", "co",
                         }):
+                    index += 1
                     continue
             offsets.add(count)
+        index += 1
     return offsets
 
 
 def pause_repairs(samples: np.ndarray, words: list[dict], text: str,
-                  mapping: dict) -> tuple[list[dict], list[str], list[str]]:
-    boundaries = punctuation_offsets(text)
+                  mapping: dict, locale: str) -> tuple[list[dict], list[str], list[str]]:
+    boundaries = punctuation_offsets(text, locale)
     repairs, flags, warnings = [], [], []
     cursor = 0
     spans = []
     for word in words:
-        size = len(normalize(word["word"]))
+        size = len(normalize(expand_digits(word["word"], locale)))
         spans.append((cursor, cursor + size))
         cursor += size
     for index, (left, right) in enumerate(zip(words, words[1:])):
@@ -296,7 +369,7 @@ class NarrationQC:
         transcript, words = self.transcribe(audio, locale)
         content, content_flags, mapping = source_alignment(text, transcript, locale)
         flags += content_flags
-        repairs, pause_flags, warnings = pause_repairs(samples, words, text, mapping)
+        repairs, pause_flags, warnings = pause_repairs(samples, words, text, mapping, locale)
         flags += pause_flags
         # VAD may hide unexpected sounds at the edges: retain them for review.
         if words:
