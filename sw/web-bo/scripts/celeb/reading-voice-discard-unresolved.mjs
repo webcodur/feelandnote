@@ -97,7 +97,8 @@ async function main() {
     const audit = { version: 1, createdAt: new Date().toISOString(), reason: 'TIMING_UNRESOLVED_DISCARDED', entries: [] }
     await writeJson(join(backupRoot, 'discard-audit.json'), audit)
     for (const { entry, prepared } of unresolved) {
-      await currentSource(db, entry)
+      // 9/19부터 inactive 인물도 등록 대상이다. active 전용 검사를 그대로 두면 inactive 등록분에서 점검이 멈춘다.
+      await currentSource(db, entry, { 'include-inactive': true })
       const sourceDir = resolve(dirname(entry.mp3))
       assertInside(options.run, sourceDir)
       const backupDir = join(backupRoot, entry.id, entry.locale)

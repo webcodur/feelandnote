@@ -13,7 +13,7 @@ export function readingSentences(text, locale) {
   for (const item of new Intl.Segmenter(locale, { granularity: 'sentence' }).segment(text)) {
     const leading = item.segment.length - item.segment.trimStart().length
     const part = { textStart: item.index + leading, textEnd: item.index + item.segment.trimEnd().length }
-    if (part.textStart === part.textEnd) continue
+    if (part.textStart >= part.textEnd) continue
     const previous = result.at(-1)
     // ICU treats some English honorifics and initials as complete sentences.
     if (previous && locale === 'en' && /(?:\b(?:Mr|Mrs|Ms|Dr|Prof|St|Jr|Sr)|\b[A-Z])\.$/.test(text.slice(previous.textStart, previous.textEnd))) previous.textEnd = part.textEnd
@@ -131,13 +131,13 @@ async function objectOrNull(r2, command) {
   catch (error) { if (error.name === 'NoSuchKey' || error.name === 'NotFound' || error.$metadata?.httpStatusCode === 404) return null; throw error }
 }
 
-export async function publishReadingTiming(r2, entry, options, prepared, { audioEtag } = {}) {
+export async function publishReadingTiming(r2, entry, options, prepared, { audioEtag, objectName = 'reading', audioKey: resolvedAudioKey } = {}) {
   const result = prepared || await prepareReadingTiming(entry)
   if (!result.timing.segments.length) return { status: 'unavailable', reason: 'No confidently aligned sentences', rejected: result.rejected.length }
   const bucket = process.env.R2_BUCKET_NAME
   const base = process.env.R2_PUBLIC_URL?.replace(/\/$/, '')
   if (!bucket || !base) throw new Error('Missing R2 timing configuration')
-  const audioKey = `celebs/${entry.id}/voice/${entry.locale}/reading.mp3`
+  const audioKey = resolvedAudioKey || `celebs/${entry.id}/voice/${entry.locale}/${objectName}.mp3`
   const key = audioKey.replace(/\.mp3$/, '.json')
   if (!audioEtag) {
     const object = await objectOrNull(r2, new HeadObjectCommand({ Bucket: bucket, Key: audioKey }))
@@ -151,7 +151,7 @@ export async function publishReadingTiming(r2, entry, options, prepared, { audio
   result.timing.audioEtag = audioEtag
   const body = Buffer.from(JSON.stringify(result.timing) + '\n')
   const hash = timingHash(body)
-  const path = join(options.run, entry.id, entry.locale, `reading-timing-${hash}.json`)
+  const path = join(options.run, entry.id, entry.locale, `${objectName}-timing-${hash}.json`)
   await mkdir(dirname(path), { recursive: true })
   try { await writeFile(path, body, { flag: 'wx' }) } catch (error) { if (error.code !== 'EEXIST') throw error }
   if (timingHash(await readFile(path)) !== hash) throw new Error('TIMING_LOCAL_FILE_HASH_MISMATCH')
@@ -159,7 +159,7 @@ export async function publishReadingTiming(r2, entry, options, prepared, { audio
   const previousBody = previous ? Buffer.from(await previous.Body.transformToByteArray()) : null
   if (!previousBody || timingHash(previousBody) !== hash) {
     if (previousBody) {
-      const backup = join(options.run, '_backup', entry.id, entry.locale, `reading-${timingHash(previousBody)}.json`)
+      const backup = join(options.run, '_backup', entry.id, entry.locale, `${objectName}-${timingHash(previousBody)}.json`)
       await mkdir(dirname(backup), { recursive: true })
       try { await writeFile(backup, previousBody, { flag: 'wx' }) } catch (error) { if (error.code !== 'EEXIST') throw error }
       if (timingHash(await readFile(backup)) !== timingHash(previousBody)) throw new Error('TIMING_BACKUP_HASH_MISMATCH')

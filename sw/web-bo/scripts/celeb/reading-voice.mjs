@@ -18,15 +18,15 @@ import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import { publishReadingTiming } from './reading-voice-timing.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')
-const QC_SCRIPT = join(ROOT, 'sw/audio-bo/scripts/celeb-reading-voice-qc.py')
-const MODEL = 'gemini-2.5-flash-preview-tts'
-const VOICE = 'Charon'
-const PROMPTS = {
+export const QC_SCRIPT = join(ROOT, 'sw/audio-bo/scripts/celeb-reading-voice-qc.py')
+export const MODEL = 'gemini-2.5-flash-preview-tts'
+export const VOICE = 'Charon'
+export const PROMPTS = {
   ko: '편안하고 자연스럽게 읽어 주세요. 아래 본문만 읽어 주세요:\n\n',
   en: 'Read comfortably and naturally. Read only the following text:\n\n',
 }
-const MAX_ATTEMPTS = 3
-const MAX_CONSECUTIVE_FAILURES = 5
+export const MAX_ATTEMPTS = 3
+export const MAX_CONSECUTIVE_FAILURES = 5
 const KEY_COOLDOWN_MS = 65_000
 const REQUEST_TIMEOUT_MS = 180_000
 const QC_TIMEOUT_MS = 600_000
@@ -34,13 +34,13 @@ const TRANSIENT_HTTP_STATUSES = new Set([500, 502, 503, 504])
 const MAX_TRANSIENT_RETRIES = 2
 const TRANSIENT_BACKOFF_MS = 500
 export const SPEED_POLICY = { ko: { target: 6, margin: 6.01, unit: 'cps' }, en: { target: 156, margin: 156.1, unit: 'wpm' }, maxTempo: 1.25, encoderPaddingSeconds: 0.096 }
-const MP3_SETTINGS = { codec: 'libmp3lame', bitrate: '128k', sampleRate: 24000, channels: 1 }
-const sha = (value) => createHash('sha256').update(value).digest('hex')
-const now = () => new Date().toISOString()
-const delay = (ms) => new Promise((done) => setTimeout(done, ms))
-const exists = async (path) => access(path).then(() => true, () => false)
-const log = (event, values = {}) => console.log(JSON.stringify({ at: now(), event, ...values }))
-const required = (name) => { if (!process.env[name]) throw new Error(`Missing ${name}`); return process.env[name] }
+export const MP3_SETTINGS = { codec: 'libmp3lame', bitrate: '128k', sampleRate: 24000, channels: 1 }
+export const sha = (value) => createHash('sha256').update(value).digest('hex')
+export const now = () => new Date().toISOString()
+export const delay = (ms) => new Promise((done) => setTimeout(done, ms))
+export const exists = async (path) => access(path).then(() => true, () => false)
+export const log = (event, values = {}) => console.log(JSON.stringify({ at: now(), event, ...values }))
+export const required = (name) => { if (!process.env[name]) throw new Error(`Missing ${name}`); return process.env[name] }
 
 export function args(argv = process.argv.slice(2)) {
   const flags = new Set(['--all-active', '--generate', '--publish', '--dry-run', '--help', '--single-pass', '--synthesize-only', '--existing-only', '--include-inactive'])
@@ -89,12 +89,12 @@ export function speedPlan(text, locale, duration) {
   return { count, duration, rate, target: policy.target, unit: policy.unit, requiredTempo, tempo: rate >= policy.target ? 1 : Math.min(SPEED_POLICY.maxTempo, Math.max(policy.margin / rate, tempoWithPadding)), status: rate >= policy.target ? 'preserve' : requiredTempo > SPEED_POLICY.maxTempo ? 'speed-too-slow' : 'speed-up' }
 }
 
-async function measuredSpeed(text, locale, file) {
+export async function measuredSpeed(text, locale, file) {
   const duration = Number((await run('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', file])).trim())
   return speedPlan(text, locale, duration)
 }
 
-async function encodeMp3(source, output, tempo = 1) {
+export async function encodeMp3(source, output, tempo = 1) {
   await run('ffmpeg', ['-nostdin', '-n', '-hide_banner', '-loglevel', 'error', '-i', source, ...(tempo === 1 ? [] : ['-af', `atempo=${tempo.toFixed(8)}`]), '-ac', '1', '-ar', '24000', '-c:a', MP3_SETTINGS.codec, '-b:a', MP3_SETTINGS.bitrate, output])
 }
 
@@ -469,7 +469,7 @@ export class Gemini {
   }
 }
 
-function run(command, arguments_, timeout = 120_000) {
+export function run(command, arguments_, timeout = 120_000) {
   return new Promise((done, reject) => {
     const child = spawn(command, arguments_, { windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
     let stderr = ''
@@ -482,7 +482,7 @@ function run(command, arguments_, timeout = 120_000) {
   })
 }
 
-class QcWorker {
+export class QcWorker {
   constructor(options) {
     const command = options.python || 'py'
     const prefix = options.python ? [] : ['-3']
@@ -828,7 +828,12 @@ async function main() {
             await checkpoint()
           }
         }
-        if (!entry.mp3) throw new Error(entry.attempts.at(-1)?.error || 'No generated MP3; use --generate first')
+        if (!entry.mp3) {
+          // A quota error recorded on a no-WAV attempt is stale state, not a fresh failure;
+          // letting it classify the entry aborts the whole scan on every resume.
+          const lastMeaningful = [...entry.attempts].reverse().find((attempt) => attempt.error && !attempt.error.includes('FREE_KEYS_EXHAUSTED'))?.error
+          throw new Error(lastMeaningful || 'No generated MP3; use --generate first')
+        }
         if (options.generate && !verifiedPublished(entry) && (entry.finalQcHash !== entry.mp3Hash || entry.qcScriptHash !== options.qcScriptHash)) {
           const result = await qc.check({ id, audio: entry.mp3, text: row.text, locale: row.locale })
           entry.finalQc = await archiveQcReport(result, options.run)
