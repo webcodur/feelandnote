@@ -14,7 +14,6 @@ function toCelebEditItem(member: Awaited<ReturnType<typeof getMemberBySlug>>): C
     avatar_url: member!.avatar_url ?? null,
     profession: member!.profession ?? null,
     title: member!.title ?? null,
-    cultural_journey: member!.cultural_journey ?? null,
   }
 }
 

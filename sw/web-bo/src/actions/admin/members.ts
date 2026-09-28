@@ -112,8 +112,6 @@ export interface Member {
   headline?: string | null
   headline_en?: string | null
   bio_en?: string | null
-  cultural_journey?: string | null
-  cultural_journey_en?: string | null
   virtual_monologue?: string | null
   virtual_monologue_locked_at?: string | null
   celeb_tier?: string | null
@@ -201,7 +199,6 @@ function celebToMember(c: Celeb): Member {
     gender: c.gender,
     birth_date: c.birth_date,
     death_date: c.death_date,
-    cultural_journey: c.cultural_journey,
     celeb_tier: c.celeb_tier,
     celeb_reality: c.celeb_reality,
     claimed_by: c.claimed_by,
@@ -238,8 +235,6 @@ function userToMember(u: User): Member {
 const CELEB_DETAIL_SELECT = `
   *,
   status:publication_status,
-  cultural_journey:consumption_philosophy,
-  cultural_journey_en:consumption_philosophy_en,
   celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
   celeb_influence!celeb_influence_celebs_fkey (
     political, political_exp, strategic, strategic_exp, tech, tech_exp,
@@ -347,8 +342,6 @@ async function celebProfileToMember(data: any): Promise<Member> {
     headline: data.headline ?? null,
     headline_en: data.headline_en ?? null,
     bio_en: data.bio_en ?? null,
-    cultural_journey: data.cultural_journey,
-    cultural_journey_en: data.cultural_journey_en ?? null,
     virtual_monologue: data.virtual_monologue ?? null,
     virtual_monologue_locked_at: data.virtual_monologue_locked_at ?? null,
     speech_tone: data.speech_tone ?? null,

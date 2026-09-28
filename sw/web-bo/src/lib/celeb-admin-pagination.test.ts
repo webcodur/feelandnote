@@ -22,7 +22,7 @@ function fixture(count: number): Row[] {
       id: `celeb-${number}`, nickname: `Person ${number}`, nickname_en: `English ${number}`,
       slug: `person-${number}`, publication_status: index % 10 === 0 ? 'inactive' : 'active',
       headline: `Headline ${number}`, headline_en: null, avatar_url: null,
-      profession: 'actor', title: null, title_en: null, consumption_philosophy: `Journey ${number}`,
+      profession: 'actor', title: null, title_en: null,
       celeb_tier: 'full', celeb_reality: 'REAL',
     }
   })
@@ -122,7 +122,6 @@ test('title and profession editing receive every active person across all pages'
   const expected = rows.filter((row) => row.publication_status === 'active')
   assert.equal(result.length, expected.length)
   assert.deepEqual(Array.from(result, (row) => row.id), expected.map((row) => row.id))
-  assert.equal(result.at(-1)?.cultural_journey, 'Journey 04507')
 })
 
 test('an L1 section with 1,205 child factions and 4,507 people keeps late members, deduplicates and chunks IDs', async () => {

@@ -169,7 +169,7 @@ const PROF_LABEL = {
 export async function material(slug) {
   const { data: c, error } = await db
     .from('celebs')
-    .select('id,slug,nickname,nickname_en,headline,bio,title,profession,consumption_philosophy,avatar_url')
+    .select('id,slug,nickname,nickname_en,headline,bio,title,profession,avatar_url')
     .eq('slug', slug).single();
   if (error || !c) throw new Error(`인물을 찾지 못했다: ${slug}`);
 
@@ -217,7 +217,6 @@ function buildPrompt(m) {
 인물: ${c.nickname}${c.nickname_en ? ` (${c.nickname_en})` : ''}
 한 줄 정의: ${c.headline ?? ''}
 소개: ${c.bio ?? ''}
-감상 철학: ${String(c.consumption_philosophy ?? '').slice(0, 700)}
 
 고른 책 다섯 권과 그 감상 기록:
 ${five.map((b, i) => `${i + 1}. 『${b.title}』 — ${b.creator ?? ''}\n   감상: ${b.review}\n   출처: ${b.source_url ?? '없음'}`).join('\n')}
@@ -227,7 +226,7 @@ ${five.map((b, i) => `${i + 1}. 『${b.title}』 — ${b.creator ?? ''}\n   감�
 ## 채울 것
 - suffix: 제목 앞에 붙일 수식어. **한국 사람이 그 인물을 알아보는 가장 흔한 손잡이**를 쓴다. 한 줄 정의를 그대로 줄이지 말고, 더 알려진 회사·작품·직함이 있으면 그쪽을 쓴다. 12자 안팎. 예) "배달의민족 창업자", "노벨문학상 수상 작가", "『사피엔스』 저자", "방탄소년단 RM"
 - intro: 도입 한 문장. **위 감상 기록 안에 있는 구체적 사실 하나**로 끌어들인다. 정중체. 30자 안팎.
-- profile: 인물 정리 3~4문장. 위 소개와 감상 철학을 압축한다. **새로 조사하거나 지어내지 마라.** 정중체.
+- profile: 인물 정리 3~4문장. 위 소개와 감상 기록에 있는 사실만 압축한다. **새로 조사하거나 지어내지 마라.** 정중체.
 - bridge: 본문으로 넘어가는 한 문장. 정중체. 20자 안팎.
 - blurbs: 책 다섯 권 각각의 **소개 두세 문장**. 감상 앞에 따로 세운다.
     · 제목만 본 사람이 「아, 그런 책이구나」 하고 넘어갈 수 있게 쓰는 것이 유일한 목표다.

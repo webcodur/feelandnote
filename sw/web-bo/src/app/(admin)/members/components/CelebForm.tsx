@@ -51,8 +51,6 @@ interface CelebFormData {
   status: 'active' | 'inactive'
   celeb_tier: 'full' | 'light'
   celeb_reality: 'REAL' | 'BOTH' | 'FICTION'
-  cultural_journey: string
-  cultural_journey_en: string
 }
 
 interface Props {
@@ -132,8 +130,6 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
     // 실존 축은 티어와 독립이다. 새 인물은 별도 판단이 없으면 실존 인물로 본다
     celeb_reality: (celeb?.celeb_reality as 'REAL' | 'BOTH' | 'FICTION') || 'REAL',
-    cultural_journey: celeb?.cultural_journey || '',
-    cultural_journey_en: celeb?.cultural_journey_en || '',
   }
 }
 
@@ -203,14 +199,10 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
   const [awakenedImageFile, setAwakenedImageFile] = useState<File | null>(null)
   const [awakenedImagePreview, setAwakenedImagePreview] = useState<string | null>(null)
 
-  // 감상 여정 textarea ref (자동 높이 조절용)
-  const journeyTextareaRef = useRef<HTMLTextAreaElement>(null)
-
   // 섹션 접힘 상태
   const [openSections, setOpenSections] = useState({
     basicInfo: true,
     influence: false,
-    journey: false,
     monologue: false,
   })
 
@@ -267,25 +259,6 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     window.addEventListener('beforeunload', handleBeforeUnload)
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [isDirty])
-
-  // 감상 여정 textarea 자동 높이 조절
-  const adjustJourneyHeight = useCallback(() => {
-    const textarea = journeyTextareaRef.current
-    if (textarea) {
-      textarea.style.height = 'auto'
-      textarea.style.height = `${textarea.scrollHeight}px`
-    }
-  }, [])
-
-  useEffect(() => {
-    adjustJourneyHeight()
-  }, [formData.cultural_journey, adjustJourneyHeight])
-
-  // 화면 리사이즈 시 높이 재조정
-  useEffect(() => {
-    window.addEventListener('resize', adjustJourneyHeight)
-    return () => window.removeEventListener('resize', adjustJourneyHeight)
-  }, [adjustJourneyHeight])
 
   function toggleAutoName() {
     setAutoNameFromFile(prev => {
@@ -533,7 +506,6 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           is_verified: formData.is_verified,
           status: formData.status,
           celeb_reality: formData.celeb_reality,
-          cultural_journey: formData.cultural_journey || undefined,
           influence: hasInfluence ? influence : undefined,
         })
 
@@ -610,8 +582,6 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           is_verified: formData.is_verified,
           status: formData.status,
           celeb_tier: formData.celeb_tier,
-          cultural_journey: formData.cultural_journey || undefined,
-          cultural_journey_en: formData.cultural_journey_en,
           influence: hasInfluence ? influence : undefined,
         })
 
@@ -1005,69 +975,6 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
       </div>
 
       {children}
-
-      {/* Cultural Journey */}
-      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
-        <button type="button" onClick={() => toggleSection('journey')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
-          <h2 className="text-base font-semibold text-text-primary">감상 여정</h2>
-          <div className="flex items-center gap-3">
-            {!openSections.journey && formData.cultural_journey && (
-              <span className="text-xs text-text-secondary">{formData.cultural_journey.length}자</span>
-            )}
-            {openSections.journey ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
-          </div>
-        </button>
-        {openSections.journey && (
-        <div className="px-4 pb-4 space-y-3">
-          {langMode === 'both' ? (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="min-w-0 space-y-2">
-                <label htmlFor="consumption_philosophy" className="block font-mono text-[11px] text-text-secondary">consumption_philosophy</label>
-                <textarea id="consumption_philosophy" ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
-                {formData.cultural_journey && (
-                  <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
-                    {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
-                  </div>
-                )}
-              </div>
-              <div className="min-w-0 space-y-2" lang="en">
-                <label htmlFor="consumption_philosophy_en" className="block font-mono text-[11px] text-blue-400/80">consumption_philosophy_en</label>
-                <textarea id="consumption_philosophy_en" value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
-                {formData.cultural_journey_en && (
-                  <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
-                    {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {langMode === 'ko' ? (
-                <>
-                  <label htmlFor="consumption_philosophy" className="block font-mono text-[11px] text-text-secondary">consumption_philosophy</label>
-                  <textarea id="consumption_philosophy" ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
-                  {formData.cultural_journey && (
-                    <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
-                      {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  <label htmlFor="consumption_philosophy_en" className="block font-mono text-[11px] text-blue-400/80">consumption_philosophy_en</label>
-                  <textarea id="consumption_philosophy_en" value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
-                  {formData.cultural_journey_en && (
-                    <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
-                      {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-        </div>
-        )}
-      </div>
 
       {/* 가상 독백 (보존 데이터 - 현재 서비스 미노출) */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">

@@ -46,7 +46,6 @@ export interface Celeb {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  cultural_journey: string | null
   is_verified: boolean | null
   status: string
   celeb_tier: string | null
@@ -93,7 +92,6 @@ interface CreateCelebInput {
   birth_date?: string
   death_date?: string
   bio?: string
-  cultural_journey?: string
   avatar_url?: string
   is_verified?: boolean
   status?: CelebManagedPublicationStatus
@@ -120,8 +118,6 @@ interface UpdateCelebInput {
   bio_en?: string
   quotes?: string
   quotes_en?: string
-  cultural_journey?: string
-  cultural_journey_en?: string
   avatar_url?: string
   /** 인물 상세 상단 대표 화보. 빈 문자열이면 내린다 */
   portrait_url?: string
@@ -152,7 +148,6 @@ type CelebListRow = {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  cultural_journey: string | null
   content_research_confirmed_empty_at: string | null
   is_verified: boolean | null
   status: string
@@ -188,7 +183,6 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     birth_date: row.birth_date,
     death_date: row.death_date,
     bio: row.bio,
-    cultural_journey: row.cultural_journey,
     is_verified: row.is_verified,
     status: row.status,
     celeb_tier: row.celeb_tier || 'full',
@@ -462,7 +456,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const filters: GetCelebsParams = { ...params, blockBounds }
   const selectFields = `
     id, slug, nickname, avatar_url, portrait_url, awakened_image_url, profession, title, nationality, gender,
-    birth_date, death_date, bio, cultural_journey:consumption_philosophy,
+    birth_date, death_date, bio,
     content_research_confirmed_empty_at,
     is_verified, status:publication_status, celeb_tier, celeb_reality, claimed_by:claimed_by_member_id, created_at,
     celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
@@ -702,7 +696,6 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       birth_date: celeb.birth_date,
       death_date: celeb.death_date,
       bio: celeb.bio,
-      cultural_journey: celeb.consumption_philosophy,
       is_verified: celeb.is_verified,
       // RPC는 publication_status·claimed_by_member_id라는 이름으로 돌려준다.
       // 예전에는 celeb.status·celeb.claimed_by로 읽어 전원 active·미청구로 보였다
@@ -758,7 +751,6 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
       *,
       status:publication_status,
       claimed_by:claimed_by_member_id,
-      cultural_journey:consumption_philosophy,
       celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
       celeb_influence!celeb_influence_celebs_fkey (total_score)
     `
@@ -793,7 +785,6 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     birth_date: data.birth_date,
     death_date: data.death_date,
     bio: data.bio,
-    cultural_journey: data.cultural_journey,
     is_verified: data.is_verified,
     status: data.status,
     celeb_tier: data.celeb_tier || 'full',
@@ -884,7 +875,6 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         birth_date: input.birth_date || null,
         death_date: input.death_date || null,
         bio: input.bio || null,
-        consumption_philosophy: input.cultural_journey || null,
         avatar_url: input.avatar_url || null,
         is_verified: input.is_verified || false,
         publication_status: input.status || DEFAULT_CELEB_PUBLICATION_STATUS,
@@ -973,8 +963,6 @@ export async function updateCeleb(
   if (input.death_date !== undefined) updateData.death_date = input.death_date
   if (input.bio !== undefined) updateData.bio = input.bio
   if (input.bio_en !== undefined) updateData.bio_en = input.bio_en || null
-  if (input.cultural_journey !== undefined) updateData.consumption_philosophy = input.cultural_journey
-  if (input.cultural_journey_en !== undefined) updateData.consumption_philosophy_en = input.cultural_journey_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url || null
   if (input.awakened_image_url !== undefined) updateData.awakened_image_url = input.awakened_image_url || null
@@ -1468,14 +1456,13 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
 }
 // #endregion
 
-// #region getCelebsForTitleEdit - 수식어/직군/감상철학 편집용 셀럽 목록
+// #region getCelebsForTitleEdit - 수식어/직군 편집용 셀럽 목록
 export interface CelebTitleItem {
   id: string
   nickname: string | null
   avatar_url: string | null
   profession: string | null
   title: string | null
-  cultural_journey: string | null
 }
 
 export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
@@ -1483,36 +1470,13 @@ export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
 
   return selectAllPages<CelebTitleItem>((from, to) => db
     .from('celebs')
-    .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy')
+    .select('id, nickname, avatar_url, profession, title')
     .eq('publication_status', 'active')
     .order('nickname', { ascending: true })
     .order('id', { ascending: true })
     .range(from, to))
 }
 
-export interface CelebsWithPaginationResponse {
-  celebs: CelebTitleItem[]
-  total: number
-}
-
-export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 50): Promise<CelebsWithPaginationResponse> {
-  const db = await createClient()
-  const offset = (page - 1) * limit
-
-  const { data, error, count } = await db
-    .from('celebs')
-    .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy', { count: 'exact' })
-    .eq('publication_status', 'active')
-    .order('nickname', { ascending: true })
-    .range(offset, offset + limit - 1)
-
-  if (error) throw error
-
-  return {
-    celebs: data || [],
-    total: count || 0,
-  }
-}
 // #endregion
 
 // 명언 편집(getCelebsForQuotesEdit / updateCelebQuotes)은 제거했다.
@@ -1650,32 +1614,6 @@ export async function updateCelebProfession(celebId: string, profession: string 
 }
 // #endregion
 
-// #region updateCelebJourney - 감상 여정만 업데이트
-export async function updateCelebJourney(celebId: string, journey: string | null): Promise<void> {
-  await requireAdmin()
-  const db = createAdminClient()
-
-  const { data: updated, error } = await db
-    .from('celebs')
-    .update({ consumption_philosophy: journey })
-    .eq('id', celebId)
-    .select('slug')
-    .single()
-
-  if (error) throw error
-
-  revalidatePath('/celebs')
-  revalidatePath('/celebs/journeys')
-  revalidatePath('/celebs/[slug]', 'page')
-  await revalidateWebItems(
-    [
-      { domain: CACHE_TAGS.CELEBS, id: celebId },
-      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
-    ],
-    [CACHE_TAGS.CELEBS],
-  )
-}
-// #endregion
 
 // #region setCelebMonologueLock - 가상 독백 확정 잠금 토글
 /**
