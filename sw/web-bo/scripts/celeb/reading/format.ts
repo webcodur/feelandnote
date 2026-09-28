@@ -43,7 +43,8 @@ export function readingFormatErrors(guideRaw: string, guideEnRaw: string, identi
     if (length < READING_FORMAT.koChars.min || length > READING_FORMAT.koChars.max) errors.push(`한국어 분량 ${length}자`)
     if (sentences.length < READING_FORMAT.koSentences.min || sentences.length > READING_FORMAT.koSentences.max) errors.push(`한국어 문장 수 ${sentences.length}`)
     if (/[()（）[\]]/.test(guide)) errors.push('한국어 괄호')
-    if (/[「」『』]/.test(guide)) errors.push('한국어 작품명 부호(《》·〈〉만 쓴다)')
+    // 반각 <>는 〈〉 대신 작품명에 잘못 쓰인 경우뿐이라 같은 위반으로 본다.
+    if (/[「」『』<>]/.test(guide)) errors.push('한국어 작품명 부호(《》·〈〉만 쓴다)')
     if (/(습니다|입니다|합니다|됩니다|세요|어요|해요)[.!?]/.test(guide)) errors.push('한국어 존댓말')
     if (/\b[A-Za-z]\.[A-Za-z]\./.test(guide)) errors.push('한국어 마침표 약칭')
     if (/《[^》]*[.!?][^》]*》|〈[^〉]*[.!?][^〉]*〉/.test(guide)) errors.push('한국어 작품명 안 문장부호')
