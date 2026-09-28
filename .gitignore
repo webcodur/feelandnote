@@ -148,6 +148,8 @@ _backup/
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
 # 아래는 .agents/skills 를 가리키는 로컬 정션이다. 실체가 아니므로 추적하지 않는다.
 # 새 컴퓨터나 새 스킬 추가 시 `.agents/link-skills.ps1` 로 다시 만든다.
+/.claude/skills/agy-accounts/
+/.claude/skills/aside-browser/
 /.claude/skills/audit-web-i18n/
 /.claude/skills/celeb-activation-audit/
 /.claude/skills/celeb-reading/
@@ -156,7 +158,6 @@ _backup/
 /.claude/skills/interview-audio-pipeline/
 /.claude/skills/nobg-cutout/
 /.claude/skills/remo-resource-scanner/
-/.claude/skills/supabase-postgres-best-practices/
 /.claude/skills/ui-scroll/
 /.claude/skills/win-lock-bypass-editor/
 /.claude/skills/writing-for-agents/
@@ -168,6 +169,9 @@ _backup/
 
 # 스케줄러·기타 캐시
 .claude/scheduled_tasks.lock
+
+# agy 계정 장부(로컬 대시보드). 계정 이메일과 쿼터 판정이 담겨 추적하지 않는다
+/data/agm-quota/
 
 # Wrangler cache
 .wrangler/

@@ -159,10 +159,6 @@ async function selectAllProfiles() {
           "title_en",
           "virtual_monologue",
           "virtual_monologue_en",
-          "cultural_journey",
-          "cultural_journey_en",
-          "consumption_philosophy",
-          "consumption_philosophy_en",
         ].join(","));
     if (activeOnly) query = query.eq("publication_status", "active");
     const page = await expectQuery(
@@ -196,10 +192,6 @@ async function selectProfiles() {
       "title_en",
       "virtual_monologue",
       "virtual_monologue_en",
-      "cultural_journey",
-      "cultural_journey_en",
-      "consumption_philosophy",
-      "consumption_philosophy_en",
     ].join(","));
   if (activeOnly) query = query.eq("publication_status", "active");
   return expectQuery(
@@ -272,18 +264,6 @@ function auditProfileRows(profiles) {
         "virtual_monologue_en",
         "PROFILE_MONOLOGUE_EN_MISSING",
         "Virtual monologue",
-      ],
-      [
-        "cultural_journey",
-        "cultural_journey_en",
-        "PROFILE_JOURNEY_EN_MISSING",
-        "Cultural journey",
-      ],
-      [
-        "consumption_philosophy",
-        "consumption_philosophy_en",
-        "PROFILE_PHILOSOPHY_EN_MISSING",
-        "Consumption philosophy",
       ],
     ]) {
       checkPair({ row: profile, ko, en, code, label, context });

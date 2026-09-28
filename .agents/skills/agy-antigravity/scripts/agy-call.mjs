@@ -60,7 +60,7 @@ export function agyCall(prompt, opts = {}) {
   ]
 
   return new Promise((resolveCall, rejectCall) => {
-    const child = spawn(AGY_BIN, args, { cwd: work })
+    const child = spawn(AGY_BIN, args, { cwd: work, windowsHide: true })
     let out = ''
     let err = ''
     child.stdout.setEncoding('utf8')

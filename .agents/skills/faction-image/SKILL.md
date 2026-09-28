@@ -253,11 +253,11 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
    인원은 **최소화**(많을수록 어색).
 4. 단계가 많아질수록 따로 놀 위험이 커진다 — 핵심 3명은 한 컷, 나머지는 마네킹 자리에서 교체.
 
-### 3.1 도구는 강점으로 나눠 쓰고, 산출물은 세션으로 회수한다
+### 3.1 도구 강점 실측과 산출물 회수
 
-한 도구로 전부 밀지 않는다. 실측으로 굳어진 분업이다.
+어느 도구로 뽑을지는 발주 때 지시를 따른다. 과거 실측으로 굳어진 강점 메모다.
 
-- **codex(gpt-5.6-sol)** — 질감·어둠·해부·국소 편집이 가장 정확하다. 편집 발주(§1.96)의 기본 도구다. 이 환경에서는 셸 도구가 죽으므로 프롬프트 첫 줄에 `Return the image. Do not run any shell command.`를 박고, 결과는 `~/.codex/generated_images/<세션>/`에서 꺼낸다.
+- **codex 내장 이미지 생성** — REF·국소 편집에 사용한다. 질감 발주와 검수는 [이미지 제작 규칙 §7.1](../../../docs/project/production/image-generation.md#71-codex-cli-내장-image_gen)을 따른다. 결과는 해당 호출이 반환한 파일 경로에서 회수한다.
 - **agy(Gemini)** — 큰 실내와 군중, 규모가 필요한 장면에 강하다.
 
 **codex 산출물은 반드시 그 실행의 세션 ID로 회수한다.** 실행 로그의 `session id:` 줄을 읽어 그 폴더에서 꺼낸다. 생성 시각만 비교해 최신 파일을 집으면 동시에 도는 다른 세션의 그림을 가져온다 — 실측으로 전혀 무관한 컷이 장면 경로에 반영됐다.
@@ -283,20 +283,12 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
   shadows, high contrast, intense charismatic presence`를 박는다.
 - **서버랙·케이블·실물 기계 같은 잡요소 금지**("말 안 되는 것"). "high-tech space"는 데이터센터 서버랙을
   부르니, 쓸 때 "NO server racks, NO clutter, keep it clean, not literal machinery"를 같이 박는다.
-- **포토리얼 필수 (CG·허술 방지)**: 배경도 **실사 사진 품질**이어야 한다 — 실제 질감·디테일·깊이. CG
-  렌더·일러스트·게임 그래픽 느낌이면 허술하고 가짜처럼 보인다. **공간 고유의 실제 디테일**(질감·구조물·
-  먼지·헤이즈·빛)을 채운다. 프롬프트에 `photorealistic, real photograph quality, realistic textures
-  and fine detail, NOT a CG render, NOT illustration`.
-- **밀랍인형 방지**: 포토리얼을 과하게 밀면(특히 `hyper-realistic`) 인물이 **밀랍·플라스틱·마네킹**처럼
-  (매끈한 피부·죽은 눈·굳은 표정) 나온다. 살아있는 진짜 사람으로 — 자연스러운 피부 질감·모공·미세 결점,
-  생기 있는 눈(캐치라이트), 자연 표정. 프롬프트에 `lifelike real humans with natural skin texture and
-  pores, living eyes with catchlight, natural expression — NOT waxy, NOT plastic, NOT a mannequin`.
+- **실사감은 형태·빛·재질의 일관성으로 만든다.** 배경은 공간과 원근이 읽히고, 얼굴은 생기 있는 눈과 자연스러운 표정이 먼저다. 모공·먼지·미세 결점을 기본으로 더하지 않는다. 매끈한 피부 자체는 결함이 아니다. 표면이 뭉개지거나 지나치게 거칠어지는 GPT 발주·검수는 [이미지 제작 규칙 §7.1](../../../docs/project/production/image-generation.md#71-codex-cli-내장-image_gen)을 따른다.
 - **스타일 강조어 누적이 밀랍을 부른다 (제미나이/안티그래비티 핵심)**: `PHOTOREALISTIC`, `cinematic`,
   `hyper-realistic`, `8k`, `ultra-detailed`를 쌓으면 모델이 오히려 CG·밀랍 톤으로 렌더한다. 강조어를
   빼고 **평범한 사진 언어**로 실사를 부른다 — `a real candid photograph`, `shot on a full-frame
-  camera`, `slight film grain`. 분위기(어둡고 무겁게)는 `cinematic` 단어가 아니라 **조명 묘사**
-  (`moody directional lighting, deep shadows`)로만 만든다. 위 "포토리얼 필수"의 `photorealistic`도
-  과하면 역효과 — 핵심 한두 번만, 나머지는 사진 언어로.
+  camera`, `smooth tonal transitions`. 분위기(어둡고 무겁게)는 `cinematic` 단어가 아니라 **조명 묘사**
+  (`moody directional lighting, deep shadows`)로만 만든다. 실사감 강조어를 반복하지 않는다.
 - **모으되 겹치지 않게 + 시선축 설계 (인물이 흩어지고 시선이 빗나갈 때)**: 자리를 "앞-왼쪽 / 뒤-오른쪽" 식으로
   벌려 적으면 모델이 인물을 넓게 퍼뜨린다. 반대로 "어깨가 닿게 밀착(packed/tight)"을 박으면 이번엔 서로
   **파고들어 겹친다**. 정답은 **자연스러운 단체사진 간격** — `gathered as one group at a natural
@@ -307,9 +299,7 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
 - **시네마틱은 카메라·구도다 (단어가 아님)**: `cinematic`만 붙인다고 안 된다. **앵글·렌즈·깊이·구도를
   설계**한다 — 의미있는 앵글(로우=위압, 하이=왜소, 더치=불안, 오버숄더=관계), 삼분할·전경 가림·리드룸,
   깊이(전경–중경–후경 레이어). **정면 아이레벨 평면 증명사진 금지.** 단체 화보의 시선도 관계와 사건에 맞게 배치하고, 카메라 응시는 연출상 필요한 인물에게만 쓴다.
-- **실사 디테일**: 얕은 피사계심도(`f/1.4–2.8`, 포커스 밖은 적극 블러), 자연광 명시(창문광·역광·단일 광원·
-  골든아워 등 실제 광원), 미세 결함 허용(그레인·렌즈 플레어·비네팅). 모든 게 균일하게 날카로우면 CG처럼
-  보인다 — 약간의 불균일이 실사감을 만든다.
+- **초점과 광원**: 사건이 읽히는 피사계심도와 실제 광원(창문광·역광 등)을 지정한다. 그레인·플레어·비네팅을 실사감의 필수 조건으로 넣지 않는다.
 
 ## 6. 프레이밍 — 그룹샷·단독 화보는 1:1 정사각, 인물이 화면을 가득 채운다
 
@@ -327,7 +317,7 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
 
 - **금지문(`NOT`/`NO`/"~금지")은 원칙적으로 넣지 않는다 — 절대적으로 필요한 때만 쓴다.** 원하는 그림을 **긍정문으로** 명확히 기술하는 것이 기본이다. 원하는 표정·자세·톤을 직접 긍정으로 적으면(예: "웃지 마" 대신 "굳고 결연한 표정") 부정문이 거의 필요 없다. 모델이 한 번 엉뚱하게 뽑았다고 `NOT a dock`·`NOT a tight close-up` 식으로 `NOT ~`을 덧붙이지 않는다 — 부정 나열은 프롬프트만 비대하게 하고 모델이 무시하기도 한다. **부정문을 허용하는 예외는 정말 반복적으로 틀리는 극소수뿐**: 밀랍 방지(`not waxy` 한 번), 안경 강제 방지(`add glasses only if the reference shows them`), 그리고 REF 박제 방지(`do not copy the reference's original pose`). 그 외에는 전부 긍정으로 적는다. 같은 대상을 부정으로 여러 개 나열했으면 다 지우고 긍정 묘사를 강화한다.
 - 시선은 행동·관계가 요구하는 실제 대상에 둠 / **그룹샷·단독 화보는 `1:1 square composition` 명시, 세력 표지는 3:2 가로** / 얼굴 골격·신원은 REF 유지, 머리카락·표정은 장면에 맞게 재설계 /
-  photoreal, fine skin texture, film grain, low-key chiaroscuro.
+  자연스러운 얼굴과 정돈된 재질, 장면에 맞는 명암.
 - **안경 강제 금지**: `KEEP eyeglasses` 처럼 안경을 무조건 박으면 **안경 없는 인물에게도 안경이 생긴다.**
   안경은 REF가 정한다 — `Do NOT add eyeglasses; include glasses ONLY if the references already show them`.
 - **REF 보유 인물은 얼굴 골격·신원만 고정하고, 머리카락·표정은 장면에 맞게 재설계한다**: 얼굴 REF
@@ -352,7 +342,7 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
   expression for the scene; do NOT copy the original pose or body from the reference photo`.
 - **같은 한 장으로 통합 (REF 합치면 따로 논다)**: REF를 여러 장 합치면 각자 다른 조명·질감으로 따로
   논다. 인물이 많을수록 심하다. `as if all of them were photographed together in a single shot with one
-  camera, one light source, one color temperature and one film grain`을 박아 같은 때깔·질감으로 묶는다.
+  camera, consistent lighting and one color temperature`를 박아 같은 때깔·질감으로 묶는다.
   자율 인물은 REF 슬롯(3장)을 안 먹으므로 **REF 3명 + 자율 N명을 한 컷에** 넣을 수 있다(마네킹은 REF
   인물이 4명 이상일 때만 필요).
 - **세력 표지**: **글자·인물 없음**, **3:2 가로(1536×1024)**. **실존 회사·조직이라 널리 알려진 로고가 확실히 있는 세력만 그 심볼을 모티브로 쓴다.** 그 외에는 엠블럼을 발명하지 말고 **그 세력을 상징하는 배경 연출 한 장(풍경·공간)**으로 간다 — 방패·톱니·검·번개를 얹은 문장(紋章)이나 금속 부조 같은 "쇠붙이 엠블럼"은 만들지 않는다. 표지 전체를 덮는 배경으로 쓰이므로 인물 없는 실사 풍경이 훨씬 낫다. 세력이 여럿이면 장소·시간대·빛색으로 서로 구분한다.
@@ -409,7 +399,7 @@ description: 세력도감(웹 도감)의 인물 단체샷·단독 화보·테마
 **등록 자리**
 - 개인화보 = web-bo `/factions/<세력>` 인물 행의 사진 칸 → `faction_members.image_url`(원본 비율, 얼굴 크롭 금지)
 - 단체 사진 = 같은 화면의 「단체 사진」 칸 → `faction_lv2.team_images`
-- 신화 전승 제목 그림 = `sw/web/public/images/myth-atlas/title-art/` + `sw/web/src/actions/home/getMythData.ts` 대응표
+- 신화 전승 제목 그림 = R2 `myth/title-art/` 원본 PNG + `faction_lv2.team_images` 해당 URL 항목
 - 이미지 종류별 원천은 `docs/project/celeb/celeb-08-00-image-map.md`가 쥔다.
 
 **데이터·자산 반영은 유저 승인 후에만.** 발주서·프롬프트 작성, REF 정리까지는 자유롭게 한다. 생성 결과를 도감에 올리거나 기존 화보를 교체하는 일은 **유저의 명시적 승인 이후에만** 한다. 승인 전에는 발주서에 "이렇게 반영하면 된다"는 **안내만** 남긴다.

@@ -53,4 +53,4 @@ node sw/remotion/scripts/sync-solo-story.mjs <story.md> --apply
 
 ## 역할 경계
 
-이 스킬은 원고 추출과 SOLO 본문 반영만 담당한다. 서사 평가는 `remo-write-3-story-power`, 사실검증은 `remo-write-1-fact-check`, 한국어 문장은 `remo-write-4-prose`를 사용한다.
+이 스킬은 원고 추출과 SOLO 본문 반영만 담당한다. 서사 평가는 `remo-write-3-story-power`, 사실검증은 `remo-write-1-fact-check`를 사용한다.

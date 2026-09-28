@@ -12,7 +12,7 @@ description: 손으로 밀어 넘기는 가로 목록(인물 칸·작품 칸 줄
 | 모양 | 쓸 것 |
 |---|---|
 | 한두 장씩 넘기고 점·이름표로 위치를 알린다 | `sw/web/src/components/ui/SnapCarousel.tsx`의 `Carousel`. 새로 짜지 않는다 |
-| 이름이 긴 분류 칩 줄(모바일) | 옆으로 넘기며 찾기 어렵다. 모바일은 지금 고른 이름을 단 버튼으로 접고 누르면 `BottomSheet`에서 고른다. PC는 칩 줄 그대로. 묶음 → 항목 위계가 있는 줄은 공용 `sw/web/src/components/shared/ExploreNav.tsx`가 넓은 화면 칩 줄과 좁은 화면 선택 창(`ExplorePickerSheet.tsx`)을 함께 그린다. 창 하나에 묶음 제목과 항목 칩을 줄바꿈해 모두 펼친다(사용 예 신화 `MythScreen.tsx`, 세력도감 `FactionNav.tsx`). 한 층짜리 선례는 `sw/web/src/components/ui/FilterTabs.tsx` |
+| 이름이 긴 분류 칩 줄(모바일) | 옆으로 넘기며 찾기 어렵다. 모바일은 지금 고른 이름을 단 버튼으로 접고 누르면 `BottomSheet`에서 고른다. PC는 칩 줄 그대로. 묶음 → 항목 위계가 있는 줄은 공용 `sw/web/src/components/shared/ExploreNav.tsx`가 넓은 화면 칩 줄과 좁은 화면 선택 창(`ExplorePickerSheet.tsx`)을 함께 그린다. 창 하나에 묶음 제목과 항목 칩을 줄바꿈해 모두 펼친다(사용 예 신화·세력도감 공용 `MythScreen.tsx`). 한 층짜리 선례는 `sw/web/src/components/ui/FilterTabs.tsx` |
 | 작은 칸·칩 여러 개를 자유롭게 민다(인물 칸 줄, 분류 칩 줄 등) | 아래 규칙. 마우스 끌기는 공용 훅 `sw/web/src/hooks/useMouseDragScroll.ts`를 쓴다(4·5·7번을 훅이 처리한다). 새로 짜지 않는다. 사용 예 `sw/web/src/components/features/user/explore/myth/MythScreen.tsx`(지역·신화·인물 세 줄) |
 
 ## 핵심 규칙
@@ -24,8 +24,10 @@ description: 손으로 밀어 넘기는 가로 목록(인물 칸·작품 칸 줄
 5. **놓으면 미끄러진다.** 끄는 동안 속도를 재 두었다가 놓은 뒤 `requestAnimationFrame`으로 감속하며 더 민다. 마지막 움직임 뒤 80ms 넘게 멈췄다 놓았으면 미끄러지지 않는다. 다시 누르거나 넘김 단추를 누르면 미끄러짐을 즉시 끊고, 언마운트 때도 끊는다.
 6. **끄는 줄에 `scroll-smooth`를 걸지 않는다.** `scrollLeft`를 줄 때마다 애니메이션이 붙어 손보다 늦게 따라온다. 전역 `html { scroll-behavior: smooth }`는 상속되지 않아 줄에는 영향이 없다. 페이지(window)를 JS로 옮길 때는 전역 값을 타므로 `behavior: "instant"`를 명시한다(`CelebSwipeRail.tsx`).
 7. **끈 뒤의 클릭은 막는다.** 끌기로 판정되면 손을 뗀 직후 칸 클릭을 한 번 막는다. 밀려고 잡은 칸이 선택되지 않게 한다.
-8. **칸 아래 이름은 한 줄이다.** `truncate`로 말줄임한다. 두 줄 자리를 비워 두면 줄이 높아진다. 전체 이름은 칸을 눌러서 본다.
-9. **여러 줄로 접지 않는다.** 줄은 한 줄로 두고 민다. 칩이 적어 폭이 남으면 `justify-center-safe`로 가운데 둔다. 넘치는 줄에 `justify-center`를 걸면 앞쪽 칩이 잘려 닿을 수 없다.
+8. **줄 안의 링크·이미지는 네이티브 드래그를 막는다.** `<a>`와 `<img>`는 기본이 draggable이라 눌러 조금 움직이기만 해도 브라우저가 링크·이미지 드래그(dragstart)를 시작하고 그때부터 pointerup·click이 모두 삼켜진다 — 안의 뱃지·단추 클릭도 죽고 JS 끌기도 중간에 끊긴다. 훅이 `onDragStart`로 줄 안 네이티브 드래그를 전부 막으므로 `dragProps`를 빠뜨리지 않는 게 처방이다.
+9. **뱃지·단추처럼 끌기면 안 되는 칸은 `data-no-drag`로 표시한다.** 그 엘리먼트나 조상에서 눌러 움직여도 끌기로 판정하지 않아서 미세 흔들림이 섞인 클릭도 정상 작동한다.
+10. **칸 아래 이름은 한 줄이다.** `truncate`로 말줄임한다. 두 줄 자리를 비워 두면 줄이 높아진다. 전체 이름은 칸을 눌러서 본다.
+11. **여러 줄로 접지 않는다.** 줄은 한 줄로 두고 민다. 칩이 적어 폭이 남으면 `justify-center-safe`로 가운데 둔다. 넘치는 줄에 `justify-center`를 걸면 앞쪽 칩이 잘려 닿을 수 없다.
 
 ```tsx
 // ❌ 가로 터치 차단 + JS 이동 — 관성 없음, 스냅 껐다 켜며 튐

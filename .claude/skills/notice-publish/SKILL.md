@@ -1,6 +1,6 @@
 ---
 name: notice-publish
-description: 서비스 공지사항을 한국어와 영어로 함께 작성해 등록한다. 초안을 공지 문체로 다듬고 영문본을 같이 만들며, 기존 공지의 영문 누락을 메울 때도 쓴다. "공지 써줘", "공지사항 등록", "공지 영문화", "영문 공지 채워줘", "업데이트 공지" 요청에 적용한다.
+description: 서비스 공지사항을 한국어와 영어로 작성하고 DB에 직접 등록한다. 공지 초안 작성, 게시, 기존 공지 영문화 요청에 적용한다.
 ---
 
 # 공지사항 작성·영문화
@@ -40,10 +40,13 @@ description: 서비스 공지사항을 한국어와 영어로 함께 작성해 �
 
 ## 등록 경로
 
-정상 경로는 **웹의 공지 작성 화면**(`/agora/board/notice/write`)이다. 관리자 세션으로
-`createNotice`가 실행되며 `revalidateTag('notices')`까지 함께 처리한다.
+기본 경로는 **DB 직접 등록**이다. 사용자가 게시를 지시하면 `sw/web-bo`의 로컬 `.env`에 있는
+`NEXT_PUBLIC_DB_API_URL` + `DB_SECRET_KEY`로 `notices`에 바로 INSERT한다.
+브라우저 관리자 로그인이나 추가 게시 승인을 요청하지 않는다. 브라우저는 공개 노출 확인에 쓴다.
 
-여러 건을 한 번에 넣을 때만 `sw/web-bo`에서 1회성 스크립트를 쓴다.
+`author_id`는 기존 공지에서 확인하고 `user_accounts.role`이 `admin` 또는 `super_admin`인지 검증한다.
+DB 클라이언트는 `auth: { autoRefreshToken: false, persistSession: false }`로 만든다.
+1회성 코드를 표준입력으로 실행하거나 임시 스크립트를 쓴다. 파일로 실행할 때는 다음과 같다.
 
 ```powershell
 # sw/web-bo 에서
@@ -51,16 +54,15 @@ pnpm exec tsx scripts/<이름>.ts --dry
 pnpm exec tsx scripts/<이름>.ts --apply
 ```
 
-스크립트는 `NEXT_PUBLIC_DB_API_URL` + `DB_SECRET_KEY`로 접속하고, 등록 뒤
-재조회로 확인한 다음 **파일을 지운다.** 1회성 스크립트를 저장소에 남기지 않는다.
+등록 뒤 재조회로 확인하고, 임시 스크립트를 만들었다면 **파일을 지운다.**
+비밀값은 출력하거나 스크립트에 적지 않는다.
 
 ## 예약 발행
 
 `created_at`이 곧 발행 시각이다. 미래로 두면 그때까지 방문자에게 보이지 않는다.
 예약 전용 컬럼은 없고 앞으로도 만들지 않는다.
 
-- 작성 화면의 **「발행 시각」**에 시각을 넣는다. 비우면 지금 올라간다.
-- 스크립트로 넣을 때는 `created_at: '2026-09-05T00:00:00+00:00'`처럼 명시한다.
+- DB 등록 시 `created_at: '2026-09-05T00:00:00+00:00'`처럼 발행 시각을 명시한다. 생략하면 지금 올라간다.
 - 관리자는 목록·상세에서 예약분을 그대로 보며 제목 옆에 「예약」 딱지가 붙는다.
   방문자에게는 목록·홈 티저에서 빠지고, 주소를 알고 들어가도 404다.
 - 시각이 지나면 저절로 올라간다. 배포도 수동 조작도 필요 없다.
@@ -71,15 +73,13 @@ pnpm exec tsx scripts/<이름>.ts --apply
 
 ## 밟으면 터지는 곳
 
-### 스크립트로 직접 넣으면 곧바로 보이지 않는다
+### DB 등록과 목록 노출 사이에 캐시 지연이 있다
 
-`getNotices`는 태그 `['notices','board-comments']`로 캐시되고, 이 태그는
-`/api/revalidate`의 허용 목록(`CACHE_TAGS`)에 없어 외부에서 비울 수 없다. 서버 액션
-`createNotice`만 `revalidateTag`를 호출한다.
-
-다만 캐시 키에 노출 경계가 들어가 버킷마다 새로 조회하므로, 스크립트로 넣어도
-`NOTICE_PUBLISH_BUCKET_MS` 안에는 뜬다. DB에 값이 들어갔는데 화면에 없다고 해서
-등록 실패로 판단하지 않는다. 즉시 노출해야 하면 작성 화면으로 등록한다.
+`getNotices`는 캐시 키에 `currentPublishBoundary()`를 포함하므로 노출 경계가 바뀌면 새로 조회한다.
+경계 간격은 `sw/web/src/lib/board/noticeSchedule.ts`의 `NOTICE_PUBLISH_BUCKET_MS`가 쥔다.
+DB 저장과 상세 본문을 먼저 확인하고, 목록·홈은 다음 경계 이후 다시 확인한다.
+`notices` 태그는 `/api/revalidate`의 허용 목록에 없으므로 이를 호출하거나 전체 캐시를 비우지 않는다.
+노출이 늦다는 이유로 재등록하거나 로그인 경로로 전환하지 않는다.
 
 ### 같은 제목을 두 번 넣는다
 

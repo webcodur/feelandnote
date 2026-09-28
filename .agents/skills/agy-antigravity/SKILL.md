@@ -19,7 +19,7 @@ description: Claude Code에서 agy(Antigravity CLI)를 비대화로 호출해 Ge
 
 ## 로그인 계정 확인법
 
-agy에는 `whoami` 류 서브커맨드가 없다. **실행 로그에서 뽑는 것이 유일한 확실한 방법**이다. 계정은 유저가 수시로 갈아끼우므로 **캐시된 기억을 믿지 말고 매번 새로 확인**한다.
+agy에는 `whoami` 류 서브커맨드가 없다. **적용된 계정은 `agm list`의 `cli` 태그로 본다** — 계정 풀과 전환은 `agy-accounts` 스킬이 쥔다. 아래 로그 추출은 떠 있는 세션이 실제로 쓴 계정을 확인하는 방법이다. 계정은 수시로 갈아끼우므로 **캐시된 기억을 믿지 말고 매번 새로 확인**한다.
 
 ```bash
 # 1) 최신 로그를 만들기 위해 가볍게 한 번 호출(쿼터 상태도 같이 드러남)
@@ -33,7 +33,7 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 - 로그 경로: `~/.gemini/antigravity-cli/log/cli-<YYYYMMDD>_<HHMMSS>.log` (실행마다 새 파일).
 - 쿼터 소진 계정이면 1)이 `Error: Individual quota reached ... Resets in NNNh`로 떨어진다.
 - **배치 호출에서는 쿼터 소진이 오류로 안 떨어질 수 있다(26.09.11 실측).** agy가 내부에서 429 재시도(attempt 3~7)를 반복하며 `--print-timeout`까지 매달려 헬퍼에는 "시간 초과"로만 온다. 그 상태로 계속 돌리면 헛돌기만 한다.
-- **배치의 중단 규약**: 타임아웃이 나면 ① 최신 로그에서 `Individual quota reached`를 grep해 쿼터면 **즉시 멈추고 사용자에게 계정 교체를 요청**한다(자동 재시도·대기 루프 금지). ② 쿼터가 아니면 `Reply with exactly: OK` 같은 인사 프로브를 60초 한도로 한 번 보내 OK가 안 오면 무응답으로 보고 **즉시 멈춘다**. ③ 프로브가 살아 있으면 그 묶음만 실패로 기록하고 계속 간다. 재개는 사용자가 계정을 바꾼 뒤 같은 명령으로 한다(계획 파일이 진행분을 쥐고 있어 이어 돈다). 구현 예: `sw/web-bo/scripts/contents/book-display-title-plan.mjs`의 `agyQuotaExhausted()`·`agyAlive()`, 중단 시 exit 3.
+- **배치의 중단 규약**: 타임아웃이 나면 ① 최신 로그에서 `Individual quota reached`를 grep해 쿼터면 **`agy-accounts` 스킬의 절차로 다음 계정으로 전환하고 이어 돈다**(풀 전원 소진 시에만 사용자에게 보고. 자동 재시도·대기 루프 금지). ② 쿼터가 아니면 `Reply with exactly: OK` 같은 인사 프로브를 60초 한도로 한 번 보내 OK가 안 오면 무응답으로 보고 **즉시 멈춘다**. ③ 프로브가 살아 있으면 그 묶음만 실패로 기록하고 계속 간다. 재개는 계정 전환 뒤 같은 명령으로 한다(계획 파일이 진행분을 쥐고 있어 이어 돈다). 구현 예: `sw/web-bo/scripts/contents/book-display-title-plan.mjs`의 `agyQuotaExhausted()`·`agyAlive()`, 중단 시 exit 3.
 - `~/.antigravity_cockpit/credentials.json`에도 계정 목록(email·projectId)이 있지만 **IDE 쪽 옛 기록이라 CLI 실제 로그인과 다르다**(실측 2026-07-20: 파일엔 webcodur 외 3개, 실제 CLI 계정은 그중에 없던 계정 → 이후 whdmstnv로 교체됨). 이 파일만 보고 단정하지 마라.
 
 ## 핵심 호출법 (텍스트)

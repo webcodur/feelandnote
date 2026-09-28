@@ -33,7 +33,7 @@ description: 이미 등록된 배경 제거 아바타의 빛 방향을 한쪽으
    node scripts/avatar/pull-avatars.mjs --slugs a,b,c                           # 명시 명단
    ```
 
-2. **빛 방향 통일.** 반대쪽 광원인 이미지를 뒤집어 새 폴더에 쓴다. 실존·허구 구분 없이 뒤집는 것이 기본이다(`--skip-real`은 특수 회차에만). 안대·외눈·글자가 있는 인물은 `--exclude`로 뺀다. 재배치보다 먼저 돌린다 — 뒤집으면 부각된 쪽이 바뀐다.
+2. **빛 방향 통일.** 반전·좌측광 재생성의 선택은 아바타 룰북의 「정규화 → 대상과 예외」를 따른다. `light-unify.ts`는 옵션 없이 실행하면 실존 인물도 뒤집으므로, 실존 얼굴의 좌우를 유지할 때는 `--skip-real`을 준다(DB slug로 된 파일명 필요). 개별 제외나 한글 파일명은 `--exclude`에 확장자를 뺀 파일명을 준다. 재배치보다 먼저 돌린다 — 뒤집으면 부각된 쪽이 바뀐다.
 
    ```bash
    npx tsx scripts/avatar/light-unify.ts ../../_backup/faction-avatars/<slug> ../../_backup/faction-avatars/<slug>-lit
