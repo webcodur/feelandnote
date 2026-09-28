@@ -26,8 +26,6 @@ jobs:
             /explore/faction \
             /explore/works \
             /en/explore/works \
-            /explore/works/popular \
-            /en/explore/works/popular \
             /explore/works/popular?mode=classics \
             /en/explore/works/popular?mode=classics \
             /explore/works/curated \
