@@ -6,6 +6,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { revalidateWebItems } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/db/admin'
 import { resolveBookIntroductionEdit } from '@/lib/book-introduction-edit'
+import { validateProductInput } from '@/lib/figure-book-product-validation'
 
 export interface FigureBookContentSummary {
   id: string
@@ -742,40 +743,6 @@ export async function saveFigureBookEdition(input: {
   }
 
   await revalidateSourceCatalog(contentId)
-}
-
-function validateProductInput(input: {
-  platform: string
-  productId: string
-  productUrl: string
-  affiliateUrl: string
-  qualityEvidence: string[]
-}) {
-  if (input.platform !== 'coupang' && input.platform !== 'amazon') {
-    throw new Error('판매처는 coupang 또는 amazon이어야 합니다')
-  }
-  if (!input.productId.trim()) throw new Error('상품 ID가 필요합니다')
-  if (!input.productUrl.startsWith('https://')) throw new Error('HTTPS 상품 주소가 필요합니다')
-  if (!input.affiliateUrl.startsWith('https://')) throw new Error('HTTPS 제휴 주소가 필요합니다')
-  const evidence = input.qualityEvidence.map((value) => value.trim()).filter(Boolean)
-  if (evidence.length === 0) throw new Error('상품 화면에서 확인한 품질 근거가 필요합니다')
-  if (input.platform === 'coupang') {
-    if (!/^\d+$/.test(input.productId)) throw new Error('쿠팡 상품 ID는 숫자여야 합니다')
-    if (!/^https:\/\/(?:www\.)?coupang\.com\/vp\/products\/\d+/.test(input.productUrl)) {
-      throw new Error('쿠팡 상품 상세 주소가 올바르지 않습니다')
-    }
-    const urlProductId = new URL(input.productUrl).pathname.match(/\/vp\/products\/(\d+)/)?.[1]
-    if (urlProductId !== input.productId) {
-      throw new Error('쿠팡 상품 ID와 상품 상세 주소의 상품 번호가 다릅니다')
-    }
-    if (!/^https:\/\/link\.coupang\.com\/a\/[A-Za-z0-9]+\/?$/.test(input.affiliateUrl)) {
-      throw new Error('쿠팡 파트너스 단축 주소가 올바르지 않습니다')
-    }
-    if (!evidence.some((value) => /badge|배지|뱃지|로켓\s*배송|도착\s*보장/i.test(value))) {
-      throw new Error('쿠팡 상품에는 로켓배송·도착 보장 같은 배송 배지 근거가 필요합니다')
-    }
-  }
-  return evidence
 }
 
 export async function replaceFigureBookProduct(input: {

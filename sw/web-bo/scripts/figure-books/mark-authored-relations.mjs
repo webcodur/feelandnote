@@ -1,16 +1,24 @@
 /**
- * 연관(related)으로 들어간 창작 관계를 창작(authored)으로 올린다. 마이그레이션 20260907010000 뒤 한 번 돈다.
+ * 다른 관계로 들어간 창작 관계를 창작(authored)으로 올린다. 마이그레이션 20260907010000 뒤 한 번 돈다.
  * 화면이 저자 이름 비교로 「창작」을 가르던 것을 DB 값으로 옮기는 전환이라, 판정 기준도 화면이 쓰던 것과 같다 —
  * 작품의 ko·en 언어 카드나 판본의 저자 표기에 인물 이름(한국어·영어)이 들어 있으면 창작이다.
  * 위키데이터 P50 근거로 올리는 것은 wikidata-works-match.mjs --apply가 따로 한다.
  *
+ * --from <유형> 바꿀 관계 유형(기본 related, appearance도 가능). --dump <경로> 대상 목록 JSON, --except <파일> 제외할 content_id 배열.
  * node --env-file=.env scripts/figure-books/mark-authored-relations.mjs          (dry-run)
  * node --env-file=.env scripts/figure-books/mark-authored-relations.mjs --apply
  */
 
-import { allRows, dbClient, hasFlag, inChunks } from './lib/figure-work.mjs'
+import { allRows, argumentValue, dbClient, hasFlag, inChunks } from './lib/figure-work.mjs'
+import { readFileSync, writeFileSync } from 'node:fs'
 
 const apply = hasFlag('apply')
+// --from으로 바꿀 관계 유형을 고른다(기본 related). related가 appearance로 통합(26.09.17)된 뒤의 잔여는 --from appearance로 잡는다.
+const from = argumentValue('from', 'related')
+if (!['related', 'appearance'].includes(from)) throw new Error('--from은 related|appearance만 받는다: ' + from)
+const dumpPath = argumentValue('dump')
+const exceptPath = argumentValue('except')
+const exceptIds = new Set(exceptPath ? JSON.parse(readFileSync(exceptPath, 'utf8')) : [])
 const AUTHOR_SUFFIX = /(?:\s+(?:지음|저|저자|글|씀)|\s*\((?:지은이|저자|지음|글|author)\))\s*$/iu
 const AUTHOR_SEPARATOR = /[,;/|、]|\s+(?:·|&|and)\s+/iu
 
@@ -32,7 +40,7 @@ function matchesAuthor(creator, figureNames) {
 async function main() {
   const db = dbClient()
   const [relations, celebs] = await Promise.all([
-    allRows('figure_book_characters', (f, t) => db.from('figure_book_characters').select('content_id,celeb_id,relation_type').eq('relation_type', 'related').order('content_id').order('celeb_id').range(f, t)),
+    allRows('figure_book_characters', (f, t) => db.from('figure_book_characters').select('content_id,celeb_id,relation_type').eq('relation_type', from).order('content_id').order('celeb_id').range(f, t)),
     allRows('celebs', (f, t) => db.from('celebs').select('id,slug,nickname,nickname_en').order('id').range(f, t)),
   ])
   const celebById = new Map(celebs.map((row) => [row.id, row]))
@@ -53,15 +61,20 @@ async function main() {
     if (!celeb) continue
     const figureNames = new Set([celeb.nickname, celeb.nickname_en].filter(Boolean).map(normalizeName).filter(Boolean))
     const creators = creatorsByContent.get(relation.content_id) ?? []
-    if (creators.some((creator) => matchesAuthor(creator, figureNames))) targets.push({ ...relation, slug: celeb.slug, creator: creators[0] })
+    if (creators.some((creator) => matchesAuthor(creator, figureNames))) targets.push({ ...relation, slug: celeb.slug, creators })
   }
-  console.log(`연관 관계 ${relations.length} / 저자 표기가 인물과 맞아 창작으로 올릴 것 ${targets.length}`)
-  for (const row of targets.slice(0, 15)) console.log(`  ${row.slug} ← ${row.creator}`)
+  const applying = targets.filter((row) => !exceptIds.has(row.content_id))
+  console.log(`${from} 관계 ${relations.length} / 저자 표기가 인물과 맞아 창작으로 올릴 것 ${targets.length} (제외 ${targets.length - applying.length})`)
+  for (const row of targets.slice(0, 15)) console.log(`  ${row.slug} ← ${row.creators.join(' | ')}`)
+  if (dumpPath) {
+    writeFileSync(dumpPath, JSON.stringify(targets, null, 1), 'utf8')
+    console.log(`WROTE ${dumpPath}`)
+  }
   if (!apply) { console.log('dry-run이다. 반영하려면 --apply를 붙인다.'); return }
 
   let done = 0
-  for (const row of targets) {
-    const { error } = await db.from('figure_book_characters').update({ relation_type: 'authored' }).eq('content_id', row.content_id).eq('celeb_id', row.celeb_id).eq('relation_type', 'related')
+  for (const row of applying) {
+    const { error } = await db.from('figure_book_characters').update({ relation_type: 'authored' }).eq('content_id', row.content_id).eq('celeb_id', row.celeb_id).eq('relation_type', from)
     if (error) { console.log(`  실패 ${row.slug} ${row.content_id}: ${error.message}`); continue }
     done += 1
   }

@@ -23,7 +23,8 @@ export function preserveIntroduction(previous, next, locale) {
     description: previous.description,
     sources: {
       ...next.sources,
-      ...(previous.sources?.description ? { description: previous.sources.description } : {}),
+      // 소개 본문의 출처 표기(description, description_method, description_source_locale …)는 새 판본·표시 행으로 넘겨도 그대로 유효하다. ISBN·표지 같은 판본 출처 키는 옮기지 않는다.
+      ...Object.fromEntries(Object.entries(previous.sources ?? {}).filter(([key]) => key.startsWith('description'))),
     },
   }
 }

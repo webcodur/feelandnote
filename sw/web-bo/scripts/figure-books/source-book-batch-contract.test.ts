@@ -250,7 +250,7 @@ test('번역본 없음 예외는 영문판·검증 근거를 요구하고 임의
   }), /unsupported key.*title/)
 })
 
-test('번역본 없음 예외의 ko locale은 원제·영문판 ISBN·표지를 그대로 공유한다', () => {
+test('번역본 없음은 한국어 표시용 제목과 실제 영문판만 등록한다', () => {
   const raw = publishedInput() as Record<string, unknown>
   const manifest = parseFigureBookManifest({
     ...raw,
@@ -268,11 +268,23 @@ test('번역본 없음 예외의 ko locale은 원제·영문판 ISBN·표지를 
   assert.equal(registration.representativeExternalSource, 'openlibrary')
   assert.equal(registration.representativeExternalId, EN_ISBN)
   assert.equal(koLocale.title, enLocale.title)
-  assert.equal(koLocale.thumbnail_url, enLocale.thumbnail_url)
-  assert.equal(koLocale.isbn, enLocale.isbn)
+  assert.equal(koLocale.thumbnail_url, null)
+  assert.equal(koLocale.isbn, null)
+  assert.equal(koLocale.publisher, null)
+  assert.equal(koLocale.verified, false)
+  assert.equal(koLocale.sources.primary, 'none')
+  assert.equal(koLocale.sources.title, 'original')
+  assert.equal(enLocale.isbn, EN_ISBN)
+  assert.equal(enLocale.verified, true)
   assert.equal(koLocale.creator, '호메로스')
   assert.equal(koLocale.affiliate_url, null)
   assert.equal(enLocale.affiliate_url, null)
+  const plan = buildFigureBookPlan(manifest, registration, { contents: [], locales: [] })
+  const sql = buildAtomicSourceBookApplySql(plan)
+  assert.ok(sql.indexOf('INSERT INTO public.figure_book_contents') < sql.indexOf('INSERT INTO public.content_locales'))
+  const encoded = sql.match(/decode\('([^']+)', 'base64'\)/)![1]
+  const payload = JSON.parse(Buffer.from(encoded, 'base64').toString('utf8'))
+  assert.deepEqual(payload.editionWrites.map((row: { locale: string }) => row.locale), ['en'])
 })
 
 test('외부 책 소개는 본문 대신 확인한 출처 예약값만 locale·판본에 저장한다', () => {

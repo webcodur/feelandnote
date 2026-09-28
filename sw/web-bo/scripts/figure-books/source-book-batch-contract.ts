@@ -76,9 +76,9 @@ export type ContentLocaleMaterial = {
   title: string
   creator: string
   description: string | null
-  isbn: string
-  publisher: string
-  thumbnail_url: string
+  isbn: string | null
+  publisher: string | null
+  thumbnail_url: string | null
   affiliate_url: AffiliateLink[] | null
   sources: Record<string, unknown>
   verified: boolean
@@ -429,17 +429,18 @@ export function buildResolvedSourceBookRegistration(
       title: enEdition.title,
       creator: manifest.ko.creator,
       description: null,
-      isbn: enEdition.isbn,
-      publisher: enEdition.publisher,
-      thumbnail_url: enEdition.thumbnailUrl,
+      isbn: null,
+      publisher: null,
+      thumbnail_url: null,
       affiliate_url: null,
       sources: {
-        ...Object.fromEntries(Object.entries(localeSources(enEdition)).filter(([key]) => key !== 'description')),
+        primary: 'none',
+        title: 'original',
         creator: 'verified_korean_transliteration',
         translation: 'verified_unavailable',
         translationEvidence: manifest.ko.evidenceUrls,
       },
-      verified: true,
+      verified: false,
     }
   }
 
@@ -462,8 +463,8 @@ export function buildResolvedSourceBookRegistration(
   if (manifest.ko.translationStatus === 'verified_unavailable') {
     const ko = locales.find((row) => row.locale === 'ko')!
     const en = locales.find((row) => row.locale === 'en')!
-    if (ko.title !== en.title || ko.thumbnail_url !== en.thumbnail_url || ko.isbn !== en.isbn) {
-      throw new Error('The untranslated-book exception must reuse the exact English title, cover, and ISBN')
+    if (ko.title !== en.title || ko.thumbnail_url !== null || ko.isbn !== null || ko.publisher !== null) {
+      throw new Error('The untranslated-book exception requires an original display title without Korean edition metadata')
     }
   }
 
@@ -1092,7 +1093,7 @@ export function buildAtomicSourceBookApplySql(plan: FigureBookPlan): string {
     contentInsert: plan.contentInsert,
     contentUpdate: plan.contentUpdate,
     localeWrites: plan.localeChanges.filter((change) => change.kind !== 'unchanged').map((change) => change.after),
-    editionWrites: plan.localeChanges.map((change, index) => ({
+    editionWrites: plan.localeChanges.filter((change) => change.after.isbn).map((change, index) => ({
       ...change.after,
       edition_kind: plan.duplicateMatchers.editionKind,
       text_scope: plan.duplicateMatchers.textScope,
@@ -1259,6 +1260,13 @@ CROSS JOIN LATERAL (SELECT batch.payload -> 'contentUpdate' AS row) AS input
 WHERE jsonb_typeof(row) = 'object'
   AND content.id = row ->> 'id';
 
+-- Designate new works before inserting locale cards: the legacy seed trigger
+-- otherwise turns display-only titles into editions with no ISBN.
+INSERT INTO public.figure_book_contents (content_id)
+SELECT batch.payload ->> 'contentId'
+FROM source_book_batch AS batch
+ON CONFLICT (content_id) DO NOTHING;
+
 INSERT INTO public.content_locales (
   content_id, locale, title, creator, description, isbn, publisher,
   thumbnail_url, affiliate_url, sources, verified
@@ -1301,11 +1309,6 @@ ON CONFLICT (content_id, locale) DO UPDATE SET
   sources = excluded.sources,
   verified = excluded.verified,
   updated_at = now();
-
-INSERT INTO public.figure_book_contents (content_id)
-SELECT batch.payload ->> 'contentId'
-FROM source_book_batch AS batch
-ON CONFLICT (content_id) DO NOTHING;
 
 INSERT INTO public.figure_book_editions (
   content_id, locale, title, creator, description, isbn, publisher,
