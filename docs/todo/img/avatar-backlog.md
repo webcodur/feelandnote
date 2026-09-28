@@ -114,15 +114,6 @@
 
 머리쓰개가 보이면 **절풍모**(고깔형) 또는 **조우관**(새 깃을 꽂은 관, 귀족·왕용)이다. 목깃이 보이면 **왼쪽 여밈**이며, 깃에 다른 색 선이 둘린다. 대소는 부여 왕이라 모피를 얹을 수 있다. 우태는 기록이 몇 줄뿐이라 과하게 극적으로 만들지 않는다.
 
-### 한국 조선 — 실록과 소설
-
-**BOTH**: `hong-gil-dong`(홍길동)
-**홍길동전**: `hong-pan-seo` `chunseom` `hong-in-hyeong`
-**청석골(임꺽정)**: `seorim` `yi-bong-hak` `park-yu-bok` `bae-dol-seok` `gwak-o-ju` `gil-mak-bongi` `hwang-cheonwang-dongi`
-**구월산·장길산**: `unbu` `kim-gi` `ma-gam-dong` `oh-man-seok` `kang-seon-heung` `park-dae-geun` `woo-dae-yong` `yi-gap-song`
-
-관원은 **사모**(검은 관모), 도적·무리는 **패랭이나 맨상투**, 시비는 무명 차림이다. 홍길동은 실록이 문제 삼은 것이 **당상관 사칭**이라 관복 차림이 인물을 설명한다 — 다만 시선에 관리가 아닌 자의 긴장이 남아야 한다. 도술·활빈당은 17세기 소설이 만든 층이라 넣지 않는다.
-
 ### 성경 — 이스라엘·이집트·근동
 
 **족장·출애굽**: `abraham` `isaac` `jacob` `joseph` `moses` `aaron` `noah`

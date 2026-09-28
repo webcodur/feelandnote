@@ -8,13 +8,14 @@
 data/celeb/
 ├── README.md
 ├── video-review-audit-remainder.json # 이번 티스토리 교정에서 빠진 영상 리뷰 대상·원문
-├── dialogue/                    # 인물별 대사 원고와 등록 완료 참고본
-│   ├── 01-괴테.md ... 12-박상영.md
+├── dialogue/                    # DB 대조 후 남은 인물별 대사 원고
+│   ├── *.md
 │   └── _unregistered/{nickname}.json
 ├── fiction/                     # 원전별 인물 조사 묶음
 ├── figure-books/                # 등장·연관 도서 후보와 반영 전 검수본
 ├── book-introductions/          # 작품 소개 수집 원문·검수·번역 자료
 ├── myth-plan/missing-figures.md # 신화 정비안이 넣자고 한 미등록 인물. 등록·배정하면 지운다
+├── myth-opening/                # 신화 공개 전 DB·사료·아바타 점검과 비교 화면
 ├── hero-photo/                  # 대표 사진 연출문 초안. 생성·등록 뒤 삭제
 │   └── scene-manifest.md
 ├── headline-rewrite/            # 회차 중에만 존재. apply 뒤 통째로 삭제
@@ -50,7 +51,7 @@ data/celeb/
 
 ### `dialogue/`
 
-인물별 고유 대사의 등록 전 원고와 등록 완료 참고본이다. 작성·등록 규칙은
+DB와 대조가 끝나지 않은 인물별 고유 대사 원고다. 작성·등록 규칙은
 `docs/project/celeb/celeb-04-01-speech.md`를 따른다. 실제 서비스 값의 원천은
 `celeb_dialogues` 테이블이다.
 

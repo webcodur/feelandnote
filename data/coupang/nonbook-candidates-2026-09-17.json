@@ -1,0 +1,129 @@
+{
+  "researched_at": "2026-09-17",
+  "purpose": "비도서 쿠팡 상품의 작품·매체·배송·판매 옵션 검토. 제휴 승인과 최종 딥링크 검증 전이며, 연결 가능한 상품도 개발자 모드에서만 미리 본다.",
+  "db_inventory": {
+    "MUSIC": 2762,
+    "BOOK": 13588,
+    "VIDEO": 2597,
+    "GAME": 380,
+    "note": "MUSIC 중 entityType/albumType이 album인 것 약 147건, 나머지는 대부분 track — track은 metadata.albumName/collectionName으로 수록 앨범 상품에 매핑한다. GAME은 온라인·F2P·고전 아케이드가 대부분이라 패키지 상품이 있는 종목만 걸러야 한다."
+  },
+  "placement_plan": {
+    "celeb_page_music": "MUSIC 작품 카드·감상 목록에 앨범 LP/CD 상품 연결. album형 147건 우선, track형은 albumName으로 앨범 상품 매핑. 현재 WorkPurchaseAction은 MUSIC을 YES24 검색으로만내므로 확인 상품이 있으면 직접 상품으로 가게 하는 개선이 필요하다.",
+    "content_detail": "content_locales.affiliate_url에는 비도서 링크를 저장할 수 있지만 구매 UI는 도서 경로다. 매체·기종을 표시하는 비도서 UI와 실제 제휴 고지가 함께 필요하며 DB 입력만으로 완료되지 않는다.",
+    "museum": "기존 듀얼센스·Sgt. Pepper·젤다 시안은 유지한다. 일반 기기·문구류 7건은 주요 화면의 인물·작품과 직접 연결할 근거가 없어 이번 확장 후보에서 뺐다.",
+    "video_bluray": "VIDEO 상위(대부·2001·쇼생크·인터스텔라 등 고전 명작)는 4K UHD/블루레이 리마스터가 쿠팡에 다수 있음. 작품별 실존 판본 확인 필요."
+  },
+  "cautions": [
+    "등록된 공개 채널(서비스 페이지)에 놓는 것은 정상 — 비공개·도달 불가 위치는 최종승인 심사에서 불리하다.",
+    "본인 구매·지인 부탁 매출은 부정행위 사례로 보고되므로 15만원 실적도 자연 유입으로 채운다.",
+    "곡(track)을 앨범 상품에 연결할 때 싱글·컴필레이션·리마스터 등판이 다른지 확인한다 — 도서의 판본 일치와 같은 기준.",
+    "레트로·단종 하드웨어(워크맨·아이팟·게임보이)는 신품 상품이 없어 같은 항목이라도 연결 불가할 수 있다."
+  ],
+  "reviewed_at": "2026-09-26",
+  "candidates": [
+    {
+      "query": "마일스 데이비스 Kind of Blue LP",
+      "pick": "Kind Of Blue LP (미개봉)",
+      "productId": "112016243",
+      "price": "31,500원",
+      "fit": "Kind of Blue 앨범 LP",
+      "review": {
+        "checked_at": "2026-09-26",
+        "decision": "연결 제외",
+        "reason": "동일 앨범의 투명 컬러 LP이지만 기본 판매 옵션에 로켓배송·도착 보장 배지가 없다.",
+        "content_id": "55607307-ec27-43b5-953c-fdd6ba1dfcd6",
+        "seller": "예스이십사주식회사",
+        "delivery": "업체직송 · 3~5일 후 전화/문자로 배송일정 안내",
+        "reviews": 22
+      },
+      "source_url": "https://www.coupang.com/vp/products/112016243"
+    },
+    {
+      "query": "핑크 플로이드 Dark Side of the Moon LP",
+      "pick": "The Dark Side Of The Moon 50주년 기념반 LP",
+      "productId": "7821937447",
+      "price": "58,600원",
+      "fit": "The Dark Side of the Moon 50주년 LP",
+      "review": {
+        "checked_at": "2026-09-26",
+        "decision": "연결 제외",
+        "reason": "기본 판매 옵션에 로켓배송·도착 보장 배지가 없다.",
+        "seller": "예스이십사주식회사",
+        "delivery": "업체직송 · 3~5일 후 전화/문자로 배송일정 안내",
+        "reviews": 14
+      },
+      "source_url": "https://www.coupang.com/vp/products/7821937447"
+    },
+    {
+      "query": "방탄소년단 앨범",
+      "pick": "BTS ARIRANG 일반반",
+      "productId": "9582018095",
+      "price": "8,300원",
+      "fit": "BTS ARIRANG · Rooted in Korea ver · CD",
+      "review": {
+        "checked_at": "2026-09-26",
+        "decision": "연결 보류",
+        "reason": "로켓배송 상품이지만 서비스 MUSIC 제목의 ARIRANG·아리랑 조회에서 같은 앨범을 찾지 못했다. 다른 BTS 앨범이나 곡에 대신 연결하지 않는다.",
+        "seller": "우린하나",
+        "delivery": "로켓배송 · 9/27 도착 안내",
+        "item_id": "28602787169",
+        "vendor_item_id": "95754138222",
+        "reviews": 33
+      },
+      "source_url": "https://www.coupang.com/vp/products/9582018095"
+    },
+    {
+      "query": "마리오 카트 8 디럭스 닌텐도 스위치",
+      "pick": "닌텐도 스위치 마리오 카트 8 디럭스",
+      "productId": "8224657857",
+      "price": "53,820원 (표시 쿠폰 적용가)",
+      "evidence": "로켓배송 · 새 상품 · 판매자 쿠팡 · 월 500명 이상 구매 표시 · 상품평 5,977개",
+      "fit": "동일 작품의 Nintendo Switch 한국어 본편 패키지",
+      "review": {
+        "checked_at": "2026-09-26",
+        "decision": "개발자 미리보기 연결",
+        "reason": "동일 작품·기종·한국어 본편과 로켓배송 새 상품을 확인했다. 제휴 승인·최종 딥링크는 미확인.",
+        "content_id": "76101e55-6bef-4f8c-a8c1-953801d1eafa",
+        "item_id": "18457463538",
+        "vendor_item_id": "3519201755",
+        "seller": "쿠팡",
+        "delivery": "로켓배송 · 내일(일) 9/27 도착 (서울·경기 기준)",
+        "product_url": "https://www.coupang.com/vp/products/8224657857?itemId=18457463538&vendorItemId=3519201755",
+        "content_source_url": "https://www.igdb.com/games/mario-kart-8-deluxe",
+        "igdb_id": 26764
+      },
+      "source_url": "https://www.coupang.com/vp/products/8224657857"
+    },
+    {
+      "query": "사이버펑크 2077",
+      "pick": "PS5 사이버펑크 2077 얼티밋 에디션 한국어판",
+      "productId": "7767678351",
+      "price": "41,890원",
+      "fit": "사이버펑크 2077 PS5 얼티밋 에디션 후보",
+      "review": {
+        "checked_at": "2026-09-26",
+        "decision": "미확인",
+        "reason": "상품 페이지가 쿠팡 로그인으로 이동해 현재 옵션·배송·판매 상태를 확인하지 못했다.",
+        "content_id": "af87fe38-074b-4d8f-bbac-9f651a9b8c54"
+      },
+      "source_url": "https://www.coupang.com/vp/products/7767678351"
+    },
+    {
+      "query": "블루레이 영화",
+      "pick": "해리포터 8 필름 콜렉션 블루레이",
+      "productId": "8879836945",
+      "price": "88,000원",
+      "fit": "해리포터 8편 블루레이 묶음",
+      "review": {
+        "checked_at": "2026-09-26",
+        "decision": "연결 제외",
+        "reason": "단일 영화와 범위가 다른 8편 묶음이며 로켓배송·도착 보장 배지도 없다.",
+        "seller": "예스이십사주식회사",
+        "delivery": "업체직송 · 10/2 도착 예정",
+        "reviews": 3
+      },
+      "source_url": "https://www.coupang.com/vp/products/8879836945"
+    }
+  ]
+}
