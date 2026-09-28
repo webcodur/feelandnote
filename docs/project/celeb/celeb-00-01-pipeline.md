@@ -38,7 +38,7 @@
 - 실존 인물 일괄 등록은 원장 `data/celeb/new-figures/*.json`을 `pnpm --dir sw/web-bo celeb:seed:inactive --dir ../../data/celeb/new-figures`로 넣는다. 기본은 dry-run이고 DB 반영 지시 뒤에만 `--apply`한다.
 - 어느 경로든 등록 전에 아래 「중복 확인」을 거친다. 다른 이름(`aliases`)은 등록 때 함께 넣는다. 일괄 경로는 원장·명세의 `aliases`를 싣고, 화면 등록·수정은 인물 폼의 「다른 이름」 칸(한 줄에 하나)에 적는다.
 - 공통 결과 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 사실 판정은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 수식어는 [`celeb-01-03-title.md`](celeb-01-03-title.md), 나머지 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
-- 모든 신규 인물은 공개 전에 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)에 맞는 아바타를 등록한다.
+- 모든 신규 인물은 공개 전에 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)에 맞는 아바타를 등록한다. 등록한 아바타는 같은 문서 「정규화」로 마감하며, 실행은 `celeb-avatar-reframe` 스킬이다.
 
 ### 중복 확인
 
@@ -84,7 +84,7 @@
 인물 등록(light)
   ├─ 기본 프로필·아바타
   ├─ 영향력·스펙트럼·Speech·읽어보기·연표·관계
-  ├─ 공개 뒤 가상독백 한영
+  ├─ 가상독백 한영
   ├─ 콘텐츠 조사
   │    ├─ 한 건 이상 연결 → DB가 full로 자동 승격
   │    ├─ 네 유형 조사 후 0건 → 확정 시각 기록, light 유지
@@ -104,7 +104,7 @@
 | 스펙트럼 | [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
 | 말투·한마디·상황 대사 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md), [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) |
 | 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |
-| 가상독백(공개 뒤) | [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |
+| 가상독백 | [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |
 | 생애 연표 | [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md), [`celeb-06-02-timeline-real-relay.md`](celeb-06-02-timeline-real-relay.md) |
 | 관계 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | 영문 누락 보완 | [`celeb-09-01-i18n.md`](celeb-09-01-i18n.md) |
@@ -125,9 +125,9 @@
   ├─ 인물 안내 한영
   ├─ 원전 기반 서사 연표 한영
   ├─ speech_tone·한마디·한국어 상황 대사
-  └─ 확인된 인물 관계·세력 소속
+  ├─ 확인된 인물 관계·세력 소속
+  └─ 가상독백 한영
   → 공개 전환
-  → 가상독백 한영
 ```
 
 `FICTION`은 다음 경계를 지킨다.
@@ -152,9 +152,11 @@
 
 DB가 `active` 전환에 직접 강제하는 인물 필드는 `avatar_url`이다. `full` 티어에는 별도로 `celeb_contents` 한 건 이상이 필요하다. 전체 데이터 완성도와 공개 전환의 DB 최소조건을 같은 것으로 다루지 않는다.
 
+DB 제약과 별개로 파이프라인상 공개 전환의 필수 여건은 인물 안내(`celeb_explanations.plain_text` 한영)와 가상독백(`virtual_monologue` 한영)이다. 둘 다 채워지지 않은 인물은 공개하지 않는다. 가상독백 집필은 [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md)의 agy CLI(Gemini) 경로로 처리한다 — 외부 CLI 호출이 들어가는 파이프라인 중간 단계다.
+
 ## 닫힌 데이터
 
-- `cultural_journey(_en)` 필드는 기존 값을 보존하지만 현재 신규 기본 프로필 트랙에서 생성하지 않는다. 결손 감사의 필수값으로 되살리지 않는다.
+- 감상여정은 서비스에서 폐기했다. 기존 DB 컬럼은 레거시 보관값이며 신규 프로필 트랙·결손 감사·게임에서 읽거나 쓰지 않는다.
 - `celeb_explanations.interpretive_*`는 화면에서 닫힌 보존값이다. 읽어보기에는 `plain_text(_en)`만 게시한다.
 - `celeb_task_queue`는 물리 테이블만 남은 과거 작업 큐다. 현재 파이프라인의 진행 상태나 새 작업 원장으로 사용하지 않는다.
 
