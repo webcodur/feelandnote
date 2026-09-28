@@ -1,0 +1,1582 @@
+{
+  "reviews": [
+    {
+      "id": "8c6ea574-ca52-4afd-88e3-87a30ff2036e",
+      "person": "장의",
+      "title": "귀곡자",
+      "notes": "사기 원문은 귀곡 선생에게 배웠다는 사제관계만 입증한다. 현전 귀곡자 독서나 책에서 외교 원리를 길어 올렸다는 근거는 확인 못 함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "668425fd-c202-46b2-8074-dcbc490c1275",
+      "content_id": "f626f05d-ade0-4b3f-9a40-2cc8ede46895",
+      "source_url": "https://ctext.org/shiji/zhang-yi-lie-zhuan"
+    },
+    {
+      "id": "6ec9b002-fae7-4423-8080-db24994753ad",
+      "person": "왕유",
+      "title": "도덕경",
+      "notes": "등록 위키 본문 및 집중 검색에서 도덕경을 읽거나 직접 인용한 사료를 확인 못 함. 시의 도가적 해석을 독서 사실로 바꿀 수 없어 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0fade609-aadd-40c6-8f51-97a2bf1c4bce",
+      "content_id": "e3ee89b1-595c-4946-97a6-fbcc4d7d744e",
+      "source_url": "https://en.wikipedia.org/wiki/Wang_Wei_(Tang_dynasty)"
+    },
+    {
+      "id": "b95e7468-69d1-4bca-a3db-b44e39822ca6",
+      "person": "왕유",
+      "title": "능가경",
+      "notes": "등록 위키에 능가경에 능통했다는 문구가 실제로 없다. 집중 검색에서도 작품 특정 독서 사료를 확인 못 해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0fade609-aadd-40c6-8f51-97a2bf1c4bce",
+      "content_id": "12c8eb47-4967-4cf4-af64-86ce3b518c7a",
+      "source_url": "https://en.wikipedia.org/wiki/Wang_Wei_(Tang_dynasty)"
+    },
+    {
+      "id": "82aa3fd5-a5c2-4362-b1e1-a9ed43997d37",
+      "person": "옥타비오 파스",
+      "title": "바쇼의 하이쿠 기행 1: 오쿠로 가는 작은 길",
+      "notes": "원 기사 접근 시 제목·페이지 외 본문을 얻지 못함. 집중 대체 검색은 번역자의 이력서에서 기사만 확인해 원문의 하이쿠 인용과 번역 평가 검증 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ea92d5aa-2c95-4517-b035-b1584bdefcb5",
+      "content_id": "2b62344e-9124-4cbd-929b-407b3ffa24eb",
+      "source_url": "https://latinamericanliteraturetoday.org/2021/02/translation-venture-paz-and-hayashiya-haiku-sendas-de-oku-daisy-saravia/"
+    },
+    {
+      "id": "901e622f-746d-4eb5-962b-1709b3294f28",
+      "person": "이사",
+      "title": "한비자",
+      "notes": "등록 출처와 사기 관련 검색은 동문관계·한비 저자 식별·투옥 사건을 확인하지만 이사의 한비자 독서·구체 인용을 확인하지 못함. 저작을 같은 스승에게 배웠다는 서술도 혼동이 있어 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+      "content_id": "59097447-11cf-4251-acc5-5c0f921b1cce",
+      "source_url": "https://ko.wikipedia.org/wiki/%ED%95%9C%EB%B9%84"
+    },
+    {
+      "id": "f60c12a1-8e2b-45bf-bcbf-44212c4bf33b",
+      "person": "장제스",
+      "title": "증국번 가서 (아들에게 보낸 수신학문 처세에 관한 편지)",
+      "notes": "스펜스의 원 서평은 증국번을 모범으로 삼았다는 사실을 확인하지만 가서 독서·1932년 반복독서·머리맡 소장 근거를 제공하지 않는다. 집중 검색에서도 구체 원기록을 확보 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0c4d5031-84bf-41fd-8755-8e4734c1833f",
+      "content_id": "f680e9ca-142b-49e4-a55d-d997234d8449",
+      "source_url": "https://www.nybooks.com/articles/2009/10/22/the-enigma-of-chiang-kai-shek/"
+    },
+    {
+      "id": "8424c05d-b8cd-4d2f-a9c1-bf8ba013d44d",
+      "person": "강유",
+      "title": "시경",
+      "notes": "삼국지의 정현 학문 선호는 특정 시경 독서가 아니다. 채미·문왕을 부친의 죽음에 겹쳐 읽었다는 서술은 추정이므로 관계 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "37cedfe0-1806-49b4-8a4c-ae1fa0869001",
+      "content_id": "fa0376af-a847-4b15-a5a6-f093261fedde",
+      "source_url": "https://ctext.org/text.pl?node=603816&if=en"
+    },
+    {
+      "id": "9a6a4f90-0f97-4679-88af-dca012865231",
+      "person": "레오나르도 다빈치",
+      "title": "이솝 우화",
+      "notes": "원 기사에는 다빈치의 자작 우화가 있으나 이솝 독서 사료는 없다. 대체 전시 도록 검색은 독서 평가를 제시하지만 본문 접근과 인용 사료 확인을 마치지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "65f9e925-7f8c-4e18-b056-a45d96c6e7b6",
+      "content_id": "f9cca5e0-f0b1-4111-b111-27a35905a8ab",
+      "source_url": "https://www.medievalists.net/2014/03/fables-leonardo-da-vinci/"
+    },
+    {
+      "id": "e79b9547-1639-43cd-bf96-7ed35a62be83",
+      "person": "추근",
+      "title": "근세 제일 여중 영웅 라란부인전",
+      "notes": "기존 인물 사전에는 롤랑 전기 독서 근거가 없고 대체 학술 자료도 여성 혁명가를 본보기로 삼은 사실만 확인. 양계초의 이 정확한 전기를 읽었다는 관계는 미확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "f123f9fb-4f5a-4038-a53c-998767f8e92d",
+      "content_id": "e5dfcb7e-0099-4209-ae3c-78c170766148",
+      "source_url": "https://www.encyclopedia.com/women/encyclopedias-almanacs-transcripts-and-maps/qiu-jin-c-1875-1907"
+    },
+    {
+      "id": "abe3eff9-1420-4d7f-aee5-024ec3c5fe45",
+      "person": "저우언라이",
+      "title": "자본론",
+      "notes": "1917~1919년 일본 체류 중 가와카미 번역 자본론을 읽었다는 원고와 번역 시기가 충돌. 당사 자료에서 확인한 것은 빈곤물어·마르크스 관련 소개 글이며 정확한 자본론 실독은 확인 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8dd36edc-1a7f-4896-a176-0ce79e2e17f5",
+      "content_id": "b6e1e37a-52b3-41b4-b296-8a89d3f43233",
+      "source_url": "https://en.namu.wiki/w/%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4/%EC%83%9D%EC%95%A0"
+    },
+    {
+      "id": "e3467460-c900-4e61-830c-76e8e4e37e2e",
+      "person": "김춘수",
+      "title": "청마시초",
+      "notes": "기존 한국민족문화대백과 인물 항목과 집중 대체 검색에서 청마시초를 가장 자주 읽었다는 근거 미확인. 유치환과의 교류나 헌시만으로 특정 시집 독서 단정 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "b41cef32-185d-4471-9664-136fdf53ad7b",
+      "content_id": "2a6d3ed9-31d4-4ac7-a87f-6b1919efaf46",
+      "source_url": "https://encykorea.aks.ac.kr/Article/E0071327"
+    },
+    {
+      "id": "ccc24f45-dc3a-4bd8-ae5d-e925c16a702f",
+      "person": "증국번",
+      "title": "두보시선",
+      "notes": "원 학술 PDF 접근 실패. 집중 대체 검색에서도 이 원고가 주장하는 두보 독서·정확한 평가 인용을 확인하지 못해 원문 보존.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "60037e9e-a2e7-4b98-b9f5-a6c3c36066dd",
+      "content_id": "570c04e3-ecd5-4adb-bf0a-a2fdb31a7d68",
+      "source_url": "https://tsla.ecnu.edu.cn/CN/article/downloadArticleFile.do?attachType=PDF&id=732"
+    },
+    {
+      "id": "3d577f6f-a6a0-4c15-a243-57f6ca0e8764",
+      "person": "어니스트 헤밍웨이",
+      "title": "위대한 개츠비",
+      "notes": "원 기사 본문 전체 접근 실패. 집중 대체 검색에서 원고의 퍼킨스 편지 최고 미국 소설 찬사는 피츠제럴드 본인의 말과 혼동 정황 확인. 독서 관계는 알려져 있으나 해당 인용을 확정할 수 없어 원문 보존.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0735ff7f-dedd-470d-a028-2de8914e2dcd",
+      "content_id": "a4d43ff1-7568-450b-ace6-69ab9ce51f1a",
+      "source_url": "https://www.thearticle.com/fitzgerald-and-hemingway-a-tortured-friendship"
+    },
+    {
+      "id": "c79b0895-74c1-491c-bd2c-98841b046ba3",
+      "person": "존 F. 케네디",
+      "title": "순례자의 길",
+      "notes": "작품 매칭 오류. 리뷰는 존 버컨의 Pilgrim’s Way/Memory Hold-the-Door에 관한 것이나 연결 콘텐츠는 무명의 러시아 순례자 The Way of a Pilgrim(Olga Savin 번역). 동일 도서가 아니므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "99fbe20c-b1c6-4a76-8fb8-3f83b6f0e01d",
+      "content_id": "13cdf1be-7839-4d29-bc52-fd8ef00161c1",
+      "source_url": "https://www.csmonitor.com/USA/Politics/Decoder/2013/1123/John-F.-Kennedy-Why-books-were-a-big-part-of-his-life"
+    },
+    {
+      "id": "7dfec130-5efe-441c-bc08-a927e627ed9f",
+      "person": "사도 바울",
+      "title": "은총 성경 쓰기: 호세 요엘 아모 오바 요나 미카 나훔 하바 스바 하까 즈카 말라",
+      "notes": "연결 콘텐츠는 현대 생활성서사 성경 필사 교재이며 바울이 인용한 고대 호세아서·하박국서와 작품 단위가 다름. 성경 권별 관계를 현대 필사 교재의 감상으로 등록할 수 없어 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0273e153-6bc2-44cd-a366-414206808e97",
+      "content_id": "fb5e2ceb-5951-5a13-9c68-e4f8b672a73c",
+      "source_url": "https://en.wikipedia.org/wiki/Paul_the_Apostle"
+    },
+    {
+      "id": "b6c67780-6c62-482a-bbdc-bddfde5ab861",
+      "person": "수 양제",
+      "title": "서경 (신완역)",
+      "notes": "원 ctext 접근 실패 후 수서 대체 확인. 사신의 서경 인용은 양제 자신의 실독 증거가 아니며 조서의 일반 문체만으로 특정 편의 독서를 단정할 수 없음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8ede9f37-af5d-4ff6-8b51-477cea8c3ec7",
+      "content_id": "f1260c0d-9e78-4e9e-9bbc-85b26adfdeda",
+      "source_url": "https://ctext.org/wiki.pl?if=en&chapter=436056"
+    },
+    {
+      "id": "d372b443-47c8-49da-bdf3-b06c440e73d5",
+      "person": "페데리코 가르시아 로르카",
+      "title": "비극의 탄생",
+      "notes": "원 대학 저장소 초록은 니체 독서가 로르카 비극관에 영향을 주었다는 연구자의 분석. 정확한 비극의 탄생 독서 시기·본인 인용은 초록에서 미확인, 연결된 논문 전문 서버 오류. 예르마를 자식을 잃은 어머니로 설명한 줄거리 오류도 있어 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "6a3123a0-c37a-435d-8217-157934455592",
+      "content_id": "231adfe7-34a5-4eb9-9e50-eabf265ad442",
+      "source_url": "https://produccioncientifica.ugr.es/documentos/62f465d6d212775243954844?lang=en"
+    },
+    {
+      "id": "9741392a-1415-4efb-98ff-e3324535d355",
+      "person": "동중서",
+      "title": "서경",
+      "notes": "기존 위키는 동중서 일반 사상만 설명. 대체 검색·한서 조회로도 이 원고가 단정하는 서경 홍범의 직접 독법을 확정하지 못함. 춘추번로 오행편의 저자 문제를 고려하지 않은 영향·즉시 재앙 인과도 보류 사유.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8ed75fdb-0d53-4e25-966e-ef0a37660bfa",
+      "content_id": "b78ce08b-4bc8-4498-8756-a11828c04808",
+      "source_url": "https://ko.wikipedia.org/wiki/%EB%8F%99%EC%A4%91%EC%84%9C"
+    },
+    {
+      "id": "20f0bd0f-7231-422b-8787-993f193bf18a",
+      "person": "신기질",
+      "title": "육도·삼략",
+      "notes": "출처 무경칠서 문서에 신기질이 등장하지 않음. 대체 검색은 미근십론 서지와 군사활동만 확인하며 육도·삼략의 실제 인용·독서 근거 미확인. 사상의 유사성을 실전 매뉴얼 사용으로 단정할 수 없음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "41d8f1d7-09db-4f11-b7a5-4c63ef2579d5",
+      "content_id": "44ffb356-001e-4dfd-9115-52efaa965703",
+      "source_url": "https://en.wikipedia.org/wiki/Seven_Military_Classics"
+    },
+    {
+      "id": "1b04645e-9a12-4dfe-b5fb-e211a9091028",
+      "person": "클로드 레비스트로스",
+      "title": "소쉬르의 1차 일반언어학 강의: 1907",
+      "notes": "출처는 구조언어학의 사상적 영향이며 1916년 편집본 일반언어학 강의를 인용. 연결 콘텐츠는 1907년 제1차 강의록이라는 별도 작품. 야콥슨 강의를 들었다는 사실만으로 해당 판본 독서를 확정할 수 없음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "f394ecba-19e5-4090-9789-ef5e05e857d0",
+      "content_id": "a589faa3-6add-4ab8-b0fb-877c61cfeb69",
+      "source_url": "https://en.wikipedia.org/wiki/Structural_anthropology"
+    },
+    {
+      "id": "0f3e3cc2-e7a8-4077-9f2b-5c6425902893",
+      "person": "알렉스 카프",
+      "title": "미국 정신의 종말",
+      "notes": "현재 출처는 카프의 저서 소개이며 블룸의 책을 직접 읽었다는 근거가 없다. 작품 간 비교를 독서 영향으로 단정한 대목을 확인할 수 없어 원문을 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "aa4dee1d-3a8d-4bbc-92ab-07ebe17f2f71",
+      "content_id": "61b6bb13-bcb7-4822-8ef7-d994d0bbc4af",
+      "source_url": "https://www.barnesandnoble.com/w/the-technological-republic-alexander-c-karp/1145616600"
+    },
+    {
+      "id": "50a6a36a-270d-46ba-bd53-9ba7b486136f",
+      "person": "방연",
+      "title": "귀곡자",
+      "notes": "사기 원문에서 확인되는 것은 손빈과 함께 병법을 배웠다는 기록이다. 귀곡자를 스승으로 삼았다는 전승과 특정 책 《귀곡자》의 독서를 구분할 근거가 없어 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "77f69dcf-1dea-4f3f-a7ad-045eeb24029c",
+      "content_id": "8379571e-4134-4c7e-bd96-7a8a58ba5eeb",
+      "source_url": "https://ctext.org/shiji/sun-zi-wu-qi-lie-zhuan"
+    },
+    {
+      "id": "b55368d8-4354-4141-8271-a1cf033db995",
+      "person": "마르쿠스 아우렐리우스",
+      "title": "에우리피데스 비극전집 2",
+      "notes": "명상록 7.38의 벨레로폰 인용은 확인된다. 다만 해당 단편이 등록된 《에우리피데스 비극전집 2》에 수록됐는지 확인되지 않았으며, 전장 장면과 심경은 출처로 입증되지 않는다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "1253573a-395d-42b9-8b4e-dcb2610b709e",
+      "content_id": "2b31267c-e297-4e8e-a6ab-b06d784b8755",
+      "source_url": "https://donaldrobertson.name/2021/02/24/marcus-aurelius-favourite-books/"
+    },
+    {
+      "id": "d13696e0-52ed-44a4-b888-6bd79fdd9e45",
+      "person": "옥타비오 파스",
+      "title": "초현실주의 선언",
+      "notes": "현재 자료는 파스의 브르통 추모문 및 초현실주의 평가이다. 등록 작품 《초현실주의 선언》을 읽고 평가했다는 관계를 해당 본문으로 특정할 수 없어 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ea92d5aa-2c95-4517-b035-b1584bdefcb5",
+      "content_id": "35cca4e5-81aa-4842-acd7-5a3d435948f2",
+      "source_url": "https://icaa.mfah.org/s/en/item/779424"
+    },
+    {
+      "id": "582f86c5-3527-485d-84e0-01e7dd7818a0",
+      "person": "김정은",
+      "title": "World of Tanks",
+      "notes": "기사의 게임 접속 분석 대상은 북한 지도층의 집단 인터넷 활동이다. 김정은 개인이 월드 오브 탱크를 플레이했다는 근거로 사용할 수 없다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+      "content_id": "78018aa6-0af1-4c1d-9198-4ea8d5592e5e",
+      "source_url": "https://www.ibtimes.co.uk/kim-jong-un-world-tanks-internet-habits-north-koreas-elite-revealed-1631894"
+    },
+    {
+      "id": "d1c47fff-b22b-4f76-ab73-0a170e95632c",
+      "person": "장제스",
+      "title": "손자병법",
+      "notes": "기존 기사와 집중 대체 검색에서 장제스의 《손자병법》 독서·평가를 뒷받침할 구절을 확인하지 못했다. 전쟁 수행을 책의 영향으로 연결한 원문을 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0c4d5031-84bf-41fd-8755-8e4734c1833f",
+      "content_id": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+      "source_url": "https://www.epochtimes.com/b5/19/11/21/n11671738.htm"
+    },
+    {
+      "id": "7bd334dc-34f1-4282-8526-c7da34a89deb",
+      "person": "진수",
+      "title": "사기본기 (개정판)",
+      "notes": "진수의 경전 학습과 사기·한서 연구 기록에 대한 대체 사료 후보는 화양국지 권11이다. 원문은 이를 진서에 귀속하고 삼국지 구성을 사기의 거의 그대로인 복제로 단정해 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "64acaafe-0a7a-48eb-a3ee-df5d7b97a90e",
+      "content_id": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+      "source_url": "https://ko.wikipedia.org/wiki/%EC%A7%84%EC%88%98_(%EC%84%9C%EC%A7%84)"
+    },
+    {
+      "id": "f57ca3a9-cdb9-4675-a8ab-a44e5a5e69ca",
+      "person": "매니 파퀴아오",
+      "title": "낫싱스 거너 체인지 마이 러브 포 유",
+      "notes": "기존 공연 기사 본문에 접근하지 못했다. 공연·가창 기록만으로 개인의 감상이나 선호를 확정할 수 없으며, 가족에 관한 심경을 확인하지 못해 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "91b86146-b610-4176-8205-52c8fea52fff",
+      "content_id": "7316b93e-6e04-4805-8c98-6dd5f1635158",
+      "source_url": "https://www.dallasobserver.com/news/only-in-arlington-manny-pacquiao-saved-his-biggest-hits-for-post-fight-concert-7120087/"
+    },
+    {
+      "id": "d856b33b-7d7c-4a37-92cc-e1cfec118e71",
+      "person": "김춘수",
+      "title": "악령",
+      "notes": "기존 논문 본문·초록에 접근하지 못했고, 대체 기사도 본문 인코딩 오류로 내용 대조가 제한된다. 시집에 악령의 스타브로긴이 등장하는 단서는 있으나, 원문의 구체적 심경·정치 경험 연결 및 인용을 확인하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "b41cef32-185d-4471-9664-136fdf53ad7b",
+      "content_id": "9cbaee41-4923-4837-b0cc-e3d1900ae8ff",
+      "source_url": "https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE10867088"
+    },
+    {
+      "id": "dd576bd9-6e1f-4193-bc6f-cbfe759d0d97",
+      "person": "브루스 리",
+      "title": "아는 것으로부터의 자유",
+      "notes": "공식 출처가 구체적으로 소개한 책은 《Commentaries on Living 1st Series》다. 여러 크리슈나무르티 저서를 읽었다는 사실만으로 등록된 《아는 것으로부터의 자유》를 특정하기 어렵다. 전 저작 독파·격언 직접 유래·도장 폐쇄의 인과도 확인되지 않아 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "7431cf57-cf4b-4c1e-8622-8213e3fc61be",
+      "content_id": "561c9759-e914-4ed9-8e81-df6ba132b304",
+      "source_url": "https://brucelee.com/podcast-blog/2018/7/31/110-bruce-lee-library-commentaries-on-living"
+    },
+    {
+      "id": "a35c9a80-a3c4-46bc-a182-697fbfe43f7c",
+      "person": "수 양제",
+      "title": "사기본기 (개정판)",
+      "notes": "원문은 유사한 어휘와 인물 운명을 근거로 수 양제의 사기 독서를 추정한다. 기존 링크는 한고조 본기 본문으로, 수 양제의 독서 기록이 아니며 집중 검색에서도 정확한 관계가 확인되지 않았다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8ede9f37-af5d-4ff6-8b51-477cea8c3ec7",
+      "content_id": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+      "source_url": "https://ctext.org/shiji/gao-zu-ben-ji"
+    },
+    {
+      "id": "b031a52b-a1eb-4fc5-adcb-3a5e6298c3c1",
+      "person": "사마의",
+      "title": "논어",
+      "notes": "진서 선제기의 박학·유교 학습 평은 확인되지만 특정 《논어》의 독서 기록이 아니다. 아들 사마소의 인용과 정치적 행동을 사마의 본인의 논어 독서로 옮길 근거도 확인되지 않아 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+      "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+      "source_url": "https://zh.wikisource.org/wiki/%E6%99%89%E6%9B%B8/%E5%8D%B7001"
+    },
+    {
+      "id": "bbf93d91-e545-4193-aafe-bce7ffbe88c2",
+      "person": "마쓰시타 고노스케",
+      "title": "논어",
+      "notes": "출판사 페이지는 마쓰시타의 말을 논어 형식으로 묶은 《송옹논어》 소개다. 공자의 《논어》를 평생 읽었다는 근거가 아니다. 일신우일신은 논어 구절도 아니며, 집중 검색에서 본인 독서 기록을 확인하지 못했다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "d20f82a5-4db2-4fcf-baa7-c2de923b905b",
+      "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+      "source_url": "https://www.php.co.jp/books/detail.php?isbn=978-4-569-64403-5"
+    },
+    {
+      "id": "0055241d-e2e4-4cf9-8c15-abc3fb836d56",
+      "person": "에드워드 존슨 2세",
+      "title": "어느 주식투자자의 회상",
+      "notes": "기존 아카이브는 전기 서지 정보만 제공하며 해당 인용 본문에 접근하지 못했다. 집중 대체 검색에서도 존슨 본인의 회고 구절을 확인하지 못해 구체적인 독서 장면과 인용을 원문 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "f47f6157-07f5-4715-b7a8-272959174f12",
+      "content_id": "0a244ec3-5af7-4bf3-9516-3f926753529b",
+      "source_url": "https://archive.org/details/gogoyearsdramacr0000broo"
+    },
+    {
+      "id": "11ec391d-e1cc-4298-9297-fd58ab2ff750",
+      "person": "소옹",
+      "title": "논어",
+      "notes": "기존 출처의 유교 경전 학습을 《논어》 특정 독서로 확장했다. 논어를 육경 중 하나로 설명한 대목도 오류다. 집중 검색에서 원문의 인용·독서 관계를 확인하지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "dfd2b875-d94a-47d1-b619-a6555888079f",
+      "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+      "source_url": "https://en.wikipedia.org/wiki/Shao_Yong"
+    },
+    {
+      "id": "bfbf720d-0d64-4876-bcd5-b5cbae9e8c49",
+      "person": "니콜라 테슬라",
+      "title": "비베카난다의 명상",
+      "notes": "테슬라와 비베카난다의 교류·베단타 강의는 특정 책 《비베카난다의 명상》 독서와 다르다. 기존 링크 접근 실패 후 집중 검색에서도 해당 책 관계가 확인되지 않았다. E=mc²가 베단타를 증명했다는 설명도 부정확해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "eed05fe9-cc4a-44c0-9976-e73812531a86",
+      "content_id": "b32241a7-a37e-4906-8d53-8ad2cd11de71",
+      "source_url": "https://www.india.com/viral/when-swami-vivekananda-met-nikola-tesla-he-introduced-him-vedic-concepts-of-prana-and-akashatesla-found-these-ideas-fascinating-7529110/"
+    },
+    {
+      "id": "59a12304-10dd-45b3-8379-770cd598c9b4",
+      "person": "고염무",
+      "title": "국어",
+      "notes": "기존 인물 항목은 원문이 주장하는 《국어》 평가를 뒷받침하지 않는다. 일지록의 국어 인용 흔적은 확인되지만, 동림당의 좌절과 겹쳐 읽었다는 심경이나 직간의 교본이라는 평가를 확인할 수 없어 원문 보류. 교차검토 후 축약 가능성을 재판단했으나 CText 원문 접근이 차단되고 직접 확인할 수 있는 특정 인용·평가가 없어 보류를 유지한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0dc0e441-b87e-49d0-9238-be79f08b4da4",
+      "content_id": "511c3083-ea36-4cde-9ed5-7851f0365858",
+      "source_url": "https://en.wikipedia.org/wiki/Gu_Yanwu"
+    },
+    {
+      "id": "aed4d6c0-bd23-4aa2-8e7a-bf84790f243b",
+      "person": "수전 손택",
+      "title": "소매치기",
+      "notes": "기존 에세이 재수록 링크에 접근하지 못했고, 대체 검색에서 찾은 원서 PDF도 실제 열기는 404였다. 소매치기 분석의 서지 단서는 있으나 최종 감상 문장을 직접 대조할 본문을 확보하지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "31d5560d-e6b2-4d94-86d7-3395932ee11e",
+      "content_id": "0adac766-0b4f-4fdb-921f-86b4ebdcde98",
+      "source_url": "https://scrapsfromtheloft.com/movies/spiritual-style-films-robert-bresson-susan-sontag/"
+    },
+    {
+      "id": "0bb33b0f-21a6-455c-a45f-8803fe52bda2",
+      "person": "클로드 레비스트로스",
+      "title": "인간 불평등 기원론",
+      "notes": "기존 대학 호스팅 원문이 열리지 않고, 제한된 집중 대체 검색에서 해당 에세이 본문을 확보하지 못했다. 직접 인용 및 특정 신대륙 여행기 인용, 후속 저작의 관계를 확인하지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "f394ecba-19e5-4090-9789-ef5e05e857d0",
+      "content_id": "2d2cb76d-eef0-5416-87a5-03bf6984208f",
+      "source_url": "http://www.ucs.mun.ca/~jmaclean/es.rous.cls.html"
+    },
+    {
+      "id": "fa902eec-66ee-4a96-b17c-0fd1c2f0d23f",
+      "person": "정성공",
+      "title": "사마천 사기열전",
+      "notes": "대체 문학관 사전의 검색 본문에서 복대 시와 전횡 고사는 확인되나 기존 상세페이지와 대체 본문 접근이 막혔다. 전횡 구절은 첫 구가 아니라 셋째 구이며, 이 고사 활용만으로 정확한 사기 독서 관계를 단정하지 않고 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "5cf62d05-6292-4e3a-a0d4-8b1355ca0c84",
+      "content_id": "75b629c8-a771-4bb7-a862-29fae16c498b",
+      "source_url": "https://ipoem.nmtl.gov.tw/nmtlpoem?uid=12&pid=467"
+    },
+    {
+      "id": "1e4f48bd-9f7e-4640-b9be-9e9edfb254dc",
+      "person": "김춘수",
+      "title": "디 에센셜: 죄와 벌",
+      "notes": "기존 논문 초록은 도스토예프스키 소설 전반과 시집을 논하며 원문의 구체적 죄와 벌 장면·정치적 자책을 입증하지 않는다. 소냐에게를 다룬 대체 논문 검색문은 찾았지만 원문 접근 실패. 미확인 심경과 인용을 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "b41cef32-185d-4471-9664-136fdf53ad7b",
+      "content_id": "6b8e04a9-c58f-4b89-8d82-9b5dd04f388b",
+      "source_url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002179879"
+    },
+    {
+      "id": "c7aec2b4-e793-473c-a4ae-9b78d9fcca98",
+      "person": "범중엄",
+      "title": "논어",
+      "notes": "기존 인물 항목과 집중 검색에서 범중엄의 특정 논어 독서를 확인하지 못했다. 오경에 통했다는 평을 논어 독서로 확장하고 개혁정책을 곧바로 책의 영향으로 연결한 내용이라 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "2f9898ed-4cb3-40ce-a498-90eb101a22a3",
+      "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+      "source_url": "https://ko.wikipedia.org/wiki/%EB%B2%94%EC%A4%91%EC%97%84"
+    },
+    {
+      "id": "abc5b5fb-ceb1-491d-bdaf-972d8dc539f1",
+      "person": "에이브러햄 링컨",
+      "title": "유클리드 원론",
+      "notes": "원 링크 본문 접근 불가. 집중 검색에서 유클리드 독학 회고를 인용한 자료는 찾았으나, 기존 복합 인용·연설 연결을 대조할 원자료를 확인하지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "c26f8b69-738e-46ea-bb53-929ebfe6166d",
+      "content_id": "361dca2e-8db6-4064-bc0b-263d7e01abaa",
+      "source_url": "https://www.smithsonianmag.com/history/abraham-lincoln-and-the-power-of-euclid-112510521/"
+    },
+    {
+      "id": "8cbb5677-291a-4ac9-ad30-ad234391cad2",
+      "person": "왕유",
+      "title": "장자",
+      "notes": "기존 위키 본문에 장자 독서·특정 인용 근거 없음. 집중 검색에서 학술 주석 후보를 찾았으나 본문이 노출되지 않아 원문 주장과 대조하지 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0fade609-aadd-40c6-8f51-97a2bf1c4bce",
+      "content_id": "289cbc11-0621-486d-b4d7-cbf537fe830a",
+      "source_url": "https://en.wikipedia.org/wiki/Wang_Wei_(Tang_dynasty)"
+    },
+    {
+      "id": "9fdefef2-2163-4c50-9f13-770b2f9518c8",
+      "person": "왕유",
+      "title": "법화경",
+      "notes": "출처에는 일반 불교 수행만 있고 법화경 사경·독송 기록이 없음. 집중 검색으로도 해당 행위와 참회 동기까지 확인하지 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0fade609-aadd-40c6-8f51-97a2bf1c4bce",
+      "content_id": "dd29f2ad-fc98-4c9c-807c-4b7fe2bcf349",
+      "source_url": "https://en.wikipedia.org/wiki/Wang_Wei_(Tang_dynasty)"
+    },
+    {
+      "id": "e8523bf9-ee23-48b1-bfbc-a5fc94e34765",
+      "person": "에이브러햄 링컨",
+      "title": "이솝 우화",
+      "notes": "History 본문은 새어머니의 이솝 우화 선물과 일반 독서 습관만 입증. 1843년 직접 인용과 1864년 연설을 이 책의 독서 영향으로 잇는 부분은 출처에서 확인되지 않아 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "c26f8b69-738e-46ea-bb53-929ebfe6166d",
+      "content_id": "f9cca5e0-f0b1-4111-b111-27a35905a8ab",
+      "source_url": "https://www.history.com/articles/abraham-lincoln-childhood-facts"
+    },
+    {
+      "id": "9f5926cd-dbca-4b57-a3d8-698159e1410e",
+      "person": "정화",
+      "title": "코란(꾸란)",
+      "notes": "위키 본문과 집중 검색에서 특정 꾸란 독서·인용은 확인되지 않음. 무슬림 가계와 순례·사원 지원을 개인의 경전 독서로 바꾼 관계 추정이므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "899d8b39-7a0f-4299-bf4a-c74a0e983d83",
+      "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+      "source_url": "https://en.wikipedia.org/wiki/Zheng_He"
+    },
+    {
+      "id": "e6ad8df2-7e00-4850-a406-ff4f788476b2",
+      "person": "옥타비오 파스",
+      "title": "첫 꿈 (소르 후아나 선집)",
+      "notes": "논문 초록은 소르 후아나 평전 집필만 입증하며 특정 시 『첫 꿈』의 평가·평생 독서와 직접 인용 문구를 확인하지 못함. 본문 확인 전 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ea92d5aa-2c95-4517-b035-b1584bdefcb5",
+      "content_id": "6cdf7b41-9048-4e19-b271-894c756891b5",
+      "source_url": "https://revistas-filologicas.unam.mx/literatura-mexicana/index.php/lm/article/view/833"
+    },
+    {
+      "id": "4ec7babd-8560-44c3-99ce-2a360447a103",
+      "person": "장제스",
+      "title": "논어",
+      "notes": "출처의 1934년 강의와 '모든 도리를 포괄' 평가는 『논어』가 아니라 『대학』에 관한 것. 아홉 살에는 사서 완독이라고만 적혀 있어 원문의 암송 주장도 다름. 인용 오귀속으로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0c4d5031-84bf-41fd-8755-8e4734c1833f",
+      "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+      "source_url": "https://www.epochtimes.com/b5/19/11/21/n11671738.htm"
+    },
+    {
+      "id": "a7357473-9d00-4611-8376-3ad9f083d376",
+      "person": "마르쿠스 아우렐리우스",
+      "title": "국가론",
+      "notes": "출처는 후대 필자가 플라톤의 철인왕과 황제를 비교한 글이며 황제의 『국가』 독서·해당 문구 애독을 입증하지 않음. 저자 비교를 당사자 감상으로 옮긴 관계이므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "1253573a-395d-42b9-8b4e-dcb2610b709e",
+      "content_id": "46765640-ce9c-483d-bd70-0059b63a12b9",
+      "source_url": "https://www.worldhistory.org/article/174/marcus-aurelius-platos-philosopher-king/"
+    },
+    {
+      "id": "0549a696-bd66-44af-8af0-528022b8e974",
+      "person": "이사",
+      "title": "순자",
+      "notes": "출처는 순자의 문하에서 육경을 배웠다는 기록. 스승과의 사제관계를 『순자』라는 특정 책의 독서로 바꿨으며, 독서로 정책·파국을 설명하는 인과도 확인되지 않아 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+      "content_id": "5c4d0874-82b7-43d8-87ce-3228514b53aa",
+      "source_url": "https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%82%AC_(%EC%A7%84%EB%82%98%EB%9D%BC)"
+    },
+    {
+      "id": "5fa20d04-e1db-4796-8c78-61f3b17a3dce",
+      "person": "살라딘",
+      "title": "코란(꾸란)",
+      "notes": "위키는 바하 앗딘의 기록을 통해 꾸란 낭송을 즐겼다는 점만 요약. 기존의 장 번호·낭송 수량·임종 직접 인용을 확인할 원전이 없으므로 보류. 불확실한 직접 인용을 문장 교정으로 확정하지 않음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8f42e8c6-d3ce-4ecc-8e5e-62001198a229",
+      "content_id": "423778f8-08f5-4be1-91e4-b38b38c992fa",
+      "source_url": "https://en.wikipedia.org/wiki/Saladin"
+    },
+    {
+      "id": "37e67e4b-e6fa-4919-b278-0730d71ee364",
+      "person": "샤를 드골",
+      "title": "프랑수아-르네 드 샤또브리앙 전기",
+      "notes": "작품 오매칭 확인. 등록 작품은 앙드레 모루아의 『Chateaubriand』 전기지만 출처와 리뷰는 샤토브리앙 본인의 『무덤 저편의 회고록』. ID 변경 권한 없이 교정할 수 없어 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "5e409e79-ce12-4c33-8663-fb5e55502b3c",
+      "content_id": "014ffae2-281c-4fbe-9da6-c37c6fa2a66b",
+      "source_url": "https://fivebooks.com/best-books/charles-de-gaulle-julian-jackson/"
+    },
+    {
+      "id": "acb470a2-6c26-47ff-8ff3-b2bb3fdf476c",
+      "person": "이홍장",
+      "title": "해국도지 1",
+      "notes": "양무운동 개관은 위원의 기술 수용 주장과 이홍장의 활동을 각각 설명할 뿐 이홍장의 『해국도지』 독서·직접 인용을 입증하지 않음. 사상사적 유사성을 개인 독서로 전환한 관계이므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "02942ce9-99d6-4abb-9171-4fcedc0ddba0",
+      "content_id": "15305d10-5d15-4247-b091-5a1e3dba0d06",
+      "source_url": "https://en.wikipedia.org/wiki/Self-Strengthening_Movement"
+    },
+    {
+      "id": "7716c7ff-1a67-419c-8655-433dc88b47c0",
+      "person": "무하마드 알리",
+      "title": "잭 존슨: 링 안과 밖에서",
+      "notes": "잭 존슨 위키에서 자서전 존재와 알리의 존경은 확인되지만 알리가 그 자서전을 읽었다는 기록·직접 인용은 없음. 인물 존경과 특정 책 독서를 혼동했으므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "cc2636fb-c6da-4b21-a745-f602b87e54c1",
+      "content_id": "241aa66e-7179-442c-99d4-ef05069301a4",
+      "source_url": "https://en.wikipedia.org/wiki/Jack_Johnson_(boxer)"
+    },
+    {
+      "id": "49151995-d0ec-4ba7-8743-cc8504cb0cb0",
+      "person": "고염무",
+      "title": "맹자",
+      "notes": "CText는 본문 대신 접근 확인 페이지만 반환. 집중 검색에서 「일지록」 후보는 찾았으나 제시한 권·항목·맹자 해석을 원문 대조하지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0dc0e441-b87e-49d0-9238-be79f08b4da4",
+      "content_id": "1d46a8e1-a60e-4c7b-be32-7f8a2d86d167",
+      "source_url": "https://ctext.org/wiki.pl?if=en&res=524983"
+    },
+    {
+      "id": "dd24d5ce-6ceb-4b22-82f5-2361c00db6fa",
+      "person": "고염무",
+      "title": "대학·중용",
+      "notes": "기존 위키에 『대학』·『중용』 독서나 해당 문구를 답사 원칙으로 삼았다는 기록 없음. 집중 검색에서도 특정 관계를 원사료로 확인하지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0dc0e441-b87e-49d0-9238-be79f08b4da4",
+      "content_id": "5e52fdd5-baee-484f-93c8-7ed8415cca91",
+      "source_url": "https://en.wikipedia.org/wiki/Gu_Yanwu"
+    },
+    {
+      "id": "6e23a41a-a8e7-4b28-8fd0-03c2091acae5",
+      "person": "고염무",
+      "title": "자치통감 세트",
+      "notes": "출처에 어린 시절 『자치통감』 독서 기록은 있으나, 리뷰의 권26 사법·권8~12 정사·왕안석 신법 비교·직접 인용은 확인되지 않음. 『자치통감』 이후 시대를 이 책의 기본자료로 설명하는 문제도 있어 원문 재검토 필요.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0dc0e441-b87e-49d0-9238-be79f08b4da4",
+      "content_id": "39d37d42-3862-4451-858c-2ef5f18c829e",
+      "source_url": "https://en.wikipedia.org/wiki/Gu_Yanwu"
+    },
+    {
+      "id": "8cc87297-7773-429a-a19b-e75fe31e4b00",
+      "person": "헬무트 폰 몰트케",
+      "title": "전쟁론",
+      "notes": "출처는 몰트케가 전쟁에 대한 정치의 지속적 개입이라는 클라우제비츠의 통찰을 무시했다고 명시. 리뷰의 '정치 연속 명제를 계승' 설명과 충돌하며 핵심 인용의 출처도 다루지 않아 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ee5b4996-d3e5-4021-b97b-892d7ecf5a55",
+      "content_id": "e4d868f1-a867-419c-a078-23bc5910697a",
+      "source_url": "https://companyleader.themilitaryleader.com/2019/05/24/beware-the-casual-clauswitzian/"
+    },
+    {
+      "id": "01f9ffd5-d430-40d0-88bc-add69a612743",
+      "person": "호적",
+      "title": "경험과 교육",
+      "notes": "기존 출처는 듀이와의 사제관계만 확인하며 《경험과 교육》 수령·1939년 일기·직접 인용은 확인 불가. 주중 미국대사라는 한글 직함, 중앙연구원장 취임 시기 및 컬럼비아 30년 전 회고도 부정확. 관계 추정으로 교정하지 않고 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "5c5aa4d1-2c39-46bd-8dce-114c2956063e",
+      "content_id": "07173a2f-fde0-4d63-96ca-e6b45d4f4c37",
+      "source_url": "https://en.wikipedia.org/wiki/Hu_Shih"
+    },
+    {
+      "id": "74f099b1-c1a2-400a-9dd0-d184cf5d4d46",
+      "person": "잭 니클라우스",
+      "title": "페어웨이를 따라",
+      "notes": "공식 출판사 해당 판본 페이지는 Jones/Keeler 작품 정보만 제공하며 Nicklaus 독서·2001년 서문을 확인하지 못함. 집중 검색에서도 확인 가능한 서문 본문을 얻지 못해 십대 정독·직접 인용을 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "b846947b-1826-4080-ab01-8d44bd797309",
+      "content_id": "a22e5a2c-f159-4438-a8c3-6c17e77e811a",
+      "source_url": "https://www.simonandschuster.com/books/Down-the-Fairway/Robert-T-Jones/9781493036998"
+    },
+    {
+      "id": "9e2f9ff6-bff2-4ecb-bda5-b0b4f0543f5c",
+      "person": "왕부지",
+      "title": "맹자",
+      "notes": "기존 위키는 철학·저작 일반 소개로 정확한 맹자 해석과 독서 근거 없음. 대체 학술논문 후보 본문 접근 불가. 청말 황종희라는 시대 오류 및 개인 행적을 특정 구절 독서 결과로 단정하는 인과 포함. 원문 보존 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "a0000001-000e-4000-8000-00000000000e",
+      "content_id": "1d46a8e1-a60e-4c7b-be32-7f8a2d86d167",
+      "source_url": "https://en.wikipedia.org/wiki/Wang_Fuzhi"
+    },
+    {
+      "id": "880ec498-ae6d-4f6f-a122-b0f174435152",
+      "person": "왕부지",
+      "title": "자치통감 세트",
+      "notes": "CText의 독통감론 목차·원문을 대체 근거로 삼았으나 교차검토 시 본문에 접근할 수 없었고 확인 자료도 보존하지 못했다. 독립 검토가 가능한 근거를 제시하지 못해 이번에는 원문을 보존하여 보류한다.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "a0000001-000e-4000-8000-00000000000e",
+      "content_id": "39d37d42-3862-4451-858c-2ef5f18c829e",
+      "source_url": "https://en.wikipedia.org/wiki/Du_Tongjian_lun"
+    },
+    {
+      "id": "395b899a-ab32-4a49-8601-53dda7a9baf5",
+      "person": "마이크 타이슨",
+      "title": "톨스토이 단편선",
+      "notes": "Alta 실명 기사와 자서전 인용으로 톨스토이 저작 일반 독서는 확인된다. 그러나 단편 또는 작품 전반에 대한 구체적 평가를 뒷받침할 인터뷰가 해당 기사에 없고, 현대 작가 비교·공산주의자 발언·2005년 박물관 일화는 대체 검색에서도 확인하지 못함. 대표 선집 관계를 충분히 입증하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "532773fc-755b-4c7e-a882-a93b9af02c74",
+      "content_id": "b65393bd-bc01-440c-a25b-e55f0d24c570",
+      "source_url": "https://www.altaonline.com/dispatches/a62812592/mike-tyson-literary-influences-dumas-benny-leonard/"
+    },
+    {
+      "id": "a5cdbfa0-da4b-4f32-ae64-a910838270dd",
+      "person": "안원",
+      "title": "서경",
+      "notes": "Britannica 본문 접근 불가. 집중 대체 검색에서 《존학편》 원문은 확보했으나 《서경》 우공·홍범 최다 독서, 책상 위에 두고 개혁안을 썼다는 장면은 확인하지 못함. 저자의 실학 일반을 특정 책의 감상으로 대체하지 않고 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "52b27401-6b65-42fa-8d8a-3ca823709219",
+      "content_id": "b78ce08b-4bc8-4498-8756-a11828c04808",
+      "source_url": "https://www.britannica.com/biography/Yan-Yuan"
+    },
+    {
+      "id": "bd7d8c91-9f7f-4c69-9c83-2ecd690e9099",
+      "person": "김정주",
+      "title": "세계는 넓고 할 일은 많다",
+      "notes": "기존 ZUM 링크는 현재 포털 홈으로 돌아가며 해당 기사 없음. 정확한 인물·책 조합 집중 검색에서도 읽기·직접 인용 근거를 얻지 못함. 《플레이》를 김정주의 자서전으로 규정한 대목도 검토 필요. 기업 해외진출 연표로 독서 영향을 단정할 수 없어 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "74d369d9-dc62-4169-b2ad-e44d9aa7dc58",
+      "content_id": "fa6bb7b2-9869-46cc-878c-31118c8f6e30",
+      "source_url": "https://hub.zum.com/invest_24/%EB%84%A5%EC%8A%A8-%EA%B9%80%EC%A0%95%EC%A3%BC-story-1-105149"
+    },
+    {
+      "id": "af25d735-8220-423f-82f9-a4226c5a1e69",
+      "person": "야나이 다다시",
+      "title": "성공하는 사람들의 7가지 습관(30주년 에디션)",
+      "notes": "기존 note 글은 실명 필자이지만 강연 일시·발언 원문 링크 없이 추천목록과 코멘트를 나열한 3자 큐레이션. 2002년 임원 합숙·원칙중심리더십 낭독·전원경영 Win-Win 기원은 전혀 없음. 집중 검색에서 독립 근거를 얻지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "81e57919-7f7d-4181-b37e-1859044b9895",
+      "content_id": "28b921eb-679d-4b44-be68-d97b73b91ea4",
+      "source_url": "https://note.com/gokonishi/n/na5d3544f1e3a"
+    },
+    {
+      "id": "8a3a8810-077f-4877-afef-f69d7bbe5454",
+      "person": "도쿠가와 이에야스",
+      "title": "손자병법",
+      "notes": "기존 일본어 위키에서 이에야스 인용 일화 없음. 대체 공공기관 자료는 1606년 《손자》가 포함된 《무경칠서》 간행을 확인하지만 직접 읽고 오사카 전투에 적용했다는 관계는 입증하지 못함. 출판 후원만으로 실독·전술 인과를 확정하지 않고 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "be551f9e-805d-4940-a70a-a3f70fa63074",
+      "content_id": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+      "source_url": "https://ja.wikipedia.org/wiki/孫子_(書物)"
+    },
+    {
+      "id": "4d135f35-8cd5-46ec-b8d6-8f2c9cbae42d",
+      "person": "신기질",
+      "title": "두보시선",
+      "notes": "기존 위키는 신기질 생애·우국 정조만 제공하며 두보 독서/평가 없음. 대체 학술논문 검색에서 두보 원용 분석은 발견했지만 본문 접근 실패. 진정작의 사중지룡 발언과 두보 비교, 특정 시의 감정 기원을 확인하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "41d8f1d7-09db-4f11-b7a5-4c63ef2579d5",
+      "content_id": "570c04e3-ecd5-4adb-bf0a-a2fdb31a7d68",
+      "source_url": "https://en.wikipedia.org/wiki/Xin_Qiji"
+    },
+    {
+      "id": "418f4d55-00b2-4f1b-a874-20399f31c3d9",
+      "person": "자사",
+      "title": "시경(신완역)(개정증보판)",
+      "notes": "중용 저자 자사 귀속 자체가 논쟁적이며 인용된 시경 구절을 자사의 직접 독서·의도로 단정. 기존 링크는 저자 논란을 명시하므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "c118ac15-e893-404a-9d69-8648badf3ed7",
+      "content_id": "00e65443-1d89-4598-a628-4b900be431d1",
+      "source_url": "https://en.wikipedia.org/wiki/Doctrine_of_the_Mean"
+    },
+    {
+      "id": "057ec4d8-d3dc-4cc7-a016-52504ceeb891",
+      "person": "알렉산더 대왕",
+      "title": "키루스의 교육",
+      "notes": "위키에 키루스의 교육 독서가 서술돼 있으나 고대 인물의 특정 작품 독서를 입증하는 1차 사료 확인이 필요. 무덤 방문·페르시아 정책만으로 독서를 확정하지 않음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "deb5a570-a009-410d-9436-77180a85a058",
+      "content_id": "7754583a-ae07-4c70-bd1a-a07f3077abc6",
+      "source_url": "https://en.wikipedia.org/wiki/Alexander_the_Great"
+    },
+    {
+      "id": "fa32a957-2a99-47f7-b504-ddd73c947619",
+      "person": "알렉스 카프",
+      "title": "문명의 충돌",
+      "notes": "기존 위키는 헌팅턴 인용을 전하지만 원 주주서한 미확인. 1989년에 1996년 출간 책을 들었다는 도입은 시기 모순. 제한 검색으로 원문 확보 못해 원본 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "aa4dee1d-3a8d-4bbc-92ab-07ebe17f2f71",
+      "content_id": "9e63338d-3abe-4c41-a771-715049215758",
+      "source_url": "https://en.wikipedia.org/wiki/Alex_Karp"
+    },
+    {
+      "id": "ba8ba068-183f-459c-9cc8-7efccd3776cc",
+      "person": "김춘수",
+      "title": "두이노의 비가",
+      "notes": "입력은 형상시집·신시집과 꽃의 영향을 설명하며 등록 작품 두이노의 비가와 일치하지 않음. 기존 링크에도 독서 없음. 제한 검색에서 후기 영향 연구는 찾았으나 원문의 일화·작품 혼동 해결 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "b41cef32-185d-4471-9664-136fdf53ad7b",
+      "content_id": "c3bc00b7-ba91-4415-a3c1-82767477b36a",
+      "source_url": "https://ko.wikipedia.org/wiki/%EA%B9%80%EC%B6%98%EC%88%98"
+    },
+    {
+      "id": "3017f16b-c2e7-4a41-8226-9d4f4619ea86",
+      "person": "호적",
+      "title": "민주주의와 교육",
+      "notes": "듀이 사사·일반적 영향과 민주주의와 교육의 직접 독서·평가를 구분해야 함. 기존 링크에 정확한 책 관계 없음. 제한 검색의 학술 초록은 단서지만 원문 주장의 직접 근거 미확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "5c5aa4d1-2c39-46bd-8dce-114c2956063e",
+      "content_id": "0291a170-0725-4404-a474-04f7c575c215",
+      "source_url": "https://en.wikipedia.org/wiki/Hu_Shih"
+    },
+    {
+      "id": "b8b9267d-e0f0-439a-b41e-16c30e9201fa",
+      "person": "옥타비오 파스",
+      "title": "도덕경",
+      "notes": "기존 논문 페이지 본문을 확보하지 못함. 도덕경 독서와 개별 시집·Sun Stone의 인과, 직접 인용을 확인 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ea92d5aa-2c95-4517-b035-b1584bdefcb5",
+      "content_id": "e3ee89b1-595c-4946-97a6-fbcc4d7d744e",
+      "source_url": "https://rupkatha.com/v14n306/"
+    },
+    {
+      "id": "25f34d41-c68a-4d1c-b18d-d259fb694881",
+      "person": "레오나르도 다빈치",
+      "title": "플리니우스 박물지",
+      "notes": "Stanford 기존 페이지 접근 실패, 제한 대체 검색에서도 같은 본문을 확보하지 못함. 구입·소장뿐 아니라 실제 인용 관계를 확인해야 하므로 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "65f9e925-7f8c-4e18-b056-a45d96c6e7b6",
+      "content_id": "0216bece-7d78-4b88-8afd-aa675fe84076",
+      "source_url": "https://spotlight.stanford.edu/leonardo/feature/encyclopedias-of-nature-reading-pliny"
+    },
+    {
+      "id": "340de4f4-b104-496f-81fa-b179bc9cb568",
+      "person": "알렉산더 대왕",
+      "title": "오디세이아",
+      "notes": "플루타르코스의 원정 장비 언급과 꿈 전승은 확인되나 원문도 직접 독서 근거 부재를 명시. 꿈의 시구를 직접 독서로 바꾸지 않고 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "deb5a570-a009-410d-9436-77180a85a058",
+      "content_id": "0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd",
+      "source_url": "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Plutarch/Moralia/Fortuna_Alexandri*/1.html"
+    },
+    {
+      "id": "ecf0d090-d9d7-472a-b231-bcb913268624",
+      "person": "김춘수",
+      "title": "카라마조프가의 형제들",
+      "notes": "원문에 카라마조프의 소냐라는 작품·인물 혼동이 있음. KCI 링크의 초록·서지와 제한 검색에서 해당 작품의 인용·독서 및 인터뷰 문구를 확인 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "b41cef32-185d-4471-9664-136fdf53ad7b",
+      "content_id": "a4a17ce9-7cba-413c-a2e3-c37bd59e655f",
+      "source_url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001502254"
+    },
+    {
+      "id": "e799ba0b-2581-4ae7-85fd-18ed4c6e5d6e",
+      "person": "신기질",
+      "title": "소동파 시선",
+      "notes": "기존 링크는 소식과 문학사적 비교만 제시. 제한 검색에서도 특정 작품을 읽고 평가한 1차 기록 미확인. 문학적 계보를 감상 관계로 대체하지 않음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "41d8f1d7-09db-4f11-b7a5-4c63ef2579d5",
+      "content_id": "7820a570-18a6-462a-a756-cbc23ea691b2",
+      "source_url": "https://en.wikipedia.org/wiki/Xin_Qiji"
+    },
+    {
+      "id": "504238c3-d135-490b-9ae2-12a47d7a1fd4",
+      "person": "워렌 버핏",
+      "title": "데일 카네기 인간관계론",
+      "notes": "원문 전체가 카네기 강좌 수강담이고 인간관계론 책의 독서 행위가 없음. 기존 기사 접근 실패. 제한 검색에 독서 단서가 있으나 출처가 별도인 만큼 이번 원문은 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "fc3dc61e-633d-4b83-ac93-b047173aa0d2",
+      "content_id": "6fe62e0f-ccc3-484e-b3ec-dadb2c02a755",
+      "source_url": "https://www.cnbc.com/2019/03/21/billionaire-warren-buffett-says-a-100-dollar-course-had-the-biggest-impact-on-his-success.html"
+    },
+    {
+      "id": "7e8102f2-372c-435c-ace7-42f57bce18c8",
+      "person": "저우언라이",
+      "title": "루쉰전집 1: 무덤 열풍",
+      "notes": "등록 작품은 루쉰전집 1 무덤·열풍인데 리뷰는 광인일기·아Q정전과 추도 연설을 설명. 기존 링크 오류, 제한 검색에서 해당 권 감상 확인 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8dd36edc-1a7f-4896-a176-0ce79e2e17f5",
+      "content_id": "5e5d74d9-f8bb-4907-b6cb-749d8c6c02ac",
+      "source_url": "https://baike.baidu.com/en/item/Content%20of%20Zhou%20Enlai%27s%20Speech%20at%20the%20Commemoration%20Meeting%20for%20the%20Tenth%20Anniversary%20of%20Lu%20Xun%27s%20Death/926782"
+    },
+    {
+      "id": "fe1ea6c8-9004-4f01-8844-132b24762a49",
+      "person": "이회영",
+      "title": "오스기 사카에 자서전",
+      "notes": "원문은 신민회 시절과 임시정부를 혼동하며 오스기 저작 일반에서 자서전으로 확장. 기존 위키는 저작 독서·감명만 있고 제한 검색에도 자서전 특정 근거 미확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "6b10c7ae-e4ec-458d-8044-b8056270ed95",
+      "content_id": "271c5305-10e4-4cfa-9699-5667b4fdc067",
+      "source_url": "https://ko.wikipedia.org/wiki/%EC%9D%B4%ED%9A%8C%EC%98%81"
+    },
+    {
+      "id": "0a235cfa-58b5-4d83-a6cc-00a68bf452d1",
+      "person": "페데리코 가르시아 로르카",
+      "title": "돈키호테 1",
+      "notes": "대학 서지 링크는 세르반테스 막간극 공연 연구이며 돈키호테 독서 근거 없음. 제한 검색의 어린 시절 받아쓰기 시험은 감상 근거가 될 수 없어 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "6a3123a0-c37a-435d-8217-157934455592",
+      "content_id": "fb69cdfa-29d9-4900-bfcb-8062e9077f24",
+      "source_url": "https://produccioncientifica.ucm.es/documentos/5d399a2c2999520684460ffa"
+    },
+    {
+      "id": "976b476e-efe1-4136-ba7f-4535212fa716",
+      "person": "달라이 라마 14세",
+      "title": "새번역 신약전서",
+      "notes": "기존 링크는 머튼과의 만남 중심이며 신약을 가장 진지하게 읽었다는 최상급·예수 평가 인용 미확인. 공식 주최기관은 Good Heart 세미나를 1994년으로 기록해 1996년과 충돌. 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "42396e8b-c074-4d48-a264-259f1a9f9635",
+      "content_id": "4e8fa49f-4e03-47ce-805c-b7853e6cf0c4",
+      "source_url": "https://www.americamagazine.org/faith/2010/05/25/what-dalai-lama-learned-thomas-merton"
+    },
+    {
+      "id": "5879a89d-6204-4256-95c5-383f865bc47b",
+      "person": "양계초",
+      "title": "학문의 권장",
+      "notes": "기존 링크 접근 실패. 제한 검색의 학술 해설도 학문의 권장 영향은 가능성으로 제시하므로 직접 독서·소년중국설과의 인과·한국 강령 전달을 확정 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "e2c2529d-8ba2-4067-8e22-a1951452c322",
+      "content_id": "9de47468-9df1-4e15-be17-11733764f849",
+      "source_url": "https://en.wikipedia.org/wiki/An_Encouragement_of_Learning"
+    },
+    {
+      "id": "4d776957-55a8-4ce4-a7a0-f7e8b4860a84",
+      "person": "정이",
+      "title": "정몽",
+      "notes": "기존 위키에 정몽·서명 근거 없음. 제한 검색에서 개명 기록은 확인했으나 맹자 이후라는 평가의 발화자가 정호/정이 사이에 혼동됨. 원 인용 대조 전 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "25bb7c39-eb77-4cb3-88fd-04c904975adf",
+      "content_id": "efc44fa6-7213-4e8d-8461-07e19dca74ac",
+      "source_url": "https://ko.wikipedia.org/wiki/%EC%A0%95%EC%9D%B4_(%ED%95%99%EC%9E%90)"
+    },
+    {
+      "id": "8906dd38-1246-463b-9dbc-f77df8926116",
+      "person": "담사동",
+      "title": "주역외전 역주 1",
+      "notes": "왕부지 전반 사상과 특정 주역외전 독서를 구별할 수 없음. 인학 원문에서 왕선산 저작 권독은 확인되지만 이 책명과 원문의 500년 인용은 확인되지 않아 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "cc7765e1-c32d-41ae-979f-ead59ad7fdcc",
+      "content_id": "379285a2-2e3e-4166-8f88-c843f3c469a5",
+      "source_url": "https://zh.wikipedia.org/zh-hant/%E7%8E%8B%E5%A4%AB%E4%B9%8B"
+    },
+    {
+      "id": "94911d64-7429-479f-9e99-5b222df9da29",
+      "person": "수 양제",
+      "title": "한서",
+      "notes": "수서 권3에서 제시한 조서 문구를 찾지 못함. 외교 전례 사용만으로 한서 직접 독서도 확정할 수 없고 고구려 원정·멸망의 인과가 과장됨.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8ede9f37-af5d-4ff6-8b51-477cea8c3ec7",
+      "content_id": "3a90ea58-8c24-4ecf-874c-3e30783178e4",
+      "source_url": "https://zh.wikisource.org/wiki/%E9%9A%8B%E6%9B%B8/%E5%8D%B703"
+    },
+    {
+      "id": "762ee4dc-e615-4f9e-ad39-1adf0233567f",
+      "person": "문천상",
+      "title": "사기본기 (개정판)",
+      "notes": "정기가의 소무·엄안을 사기 인물로 취급한 시대 오류. 소무는 한서, 엄안은 사마천 이후 인물이며 등록 작품은 사기본기라 열전과도 불일치. 직접 독서 근거 없음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ecf47c0f-2f60-4039-be7c-52dd9715546d",
+      "content_id": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+      "source_url": "https://zh.wikisource.org/wiki/%E6%AD%A3%E6%B0%A3%E6%AD%8C"
+    },
+    {
+      "id": "2426e748-5e21-4355-8dc7-8dfc5eeaaaaf",
+      "person": "샘 월튼",
+      "title": "위기에서 벗어나기",
+      "notes": "출처는 데밍 책의 서지로 월튼 독서 근거가 아님. 자서전의 데밍 저술 전반 독서를 1986년 출간한 이 한 권과 1975년 출장의 인과로 묶어 특정 작품을 확정할 수 없음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "98f4df5f-6bc6-4d07-8dfb-d6457b3b83e7",
+      "content_id": "64ae6d8c-5343-49ca-9d9f-1e2751fd4225",
+      "source_url": "https://archive.org/details/outofcrisis0000demi"
+    },
+    {
+      "id": "92224faf-f08f-4ec6-b699-b2f6a4edf58d",
+      "person": "안원",
+      "title": "논어",
+      "notes": "위키 및 제한 검색으로 존학편의 해당 구절과 안원의 논어 해석을 원문 확인하지 못함. 유어예에서 전체 교과과정으로 이어지는 직접 인과까지 검증 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "52b27401-6b65-42fa-8d8a-3ca823709219",
+      "content_id": "32838ac4-4041-430b-b953-ccd98244a52b",
+      "source_url": "https://en.wikipedia.org/wiki/Yan_Yuan_(Qing_dynasty)"
+    },
+    {
+      "id": "774a5856-9057-4cf2-a527-91051a0fa803",
+      "person": "문천상",
+      "title": "도연명 시집",
+      "notes": "원문 링크 접근 불가. 제한 검색에서도 문천상이 도연명 전편에 차운했다는 근거 확인 불가. 도연명 귀거래와 동진 멸망 시점도 혼동하여 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ecf47c0f-2f60-4039-be7c-52dd9715546d",
+      "content_id": "91988b30-befe-4a62-bc8b-30163c2705f8",
+      "source_url": "https://ctext.org/wen-shan-quan-ji"
+    },
+    {
+      "id": "0bc28085-a1e9-4b45-ab94-c82c8fda0a1d",
+      "person": "박정희",
+      "title": "나폴레옹 전기",
+      "notes": "기사 본문 접근 및 제한 대체 검색 실패. 정확한 나폴레옹 전기 판본과 회고 인용을 확인하지 못했으며 적과 흑을 식민지 조선 진로 설명으로 사용한 과장도 있음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "67c8f7ae-53fa-4be4-9f35-6a798b37b603",
+      "content_id": "0c3aa7df-9a2a-4a36-af09-a6bfef8260fe",
+      "source_url": "https://www.idaegu.co.kr/news/articleView.html?idxno=488152"
+    },
+    {
+      "id": "cb3c3e0d-c1c0-4836-9b47-b1f73bb3e30a",
+      "person": "마더 테레사",
+      "title": "준주성범",
+      "notes": "기존 Donna-Marie 글에 서재 목록이 없음. 대체 Fr Brian 인터뷰는 방에 있던 책과 읽었을 법하다는 추정(would have read)이며 매일 이 책을 읽었다는 확인이 아님. 특정 감상과 삶 전체의 인과도 검증 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "d30f5d9d-fcb8-4805-87e7-37b3f1d7ef08",
+      "content_id": "6402068d-1ce0-4aee-9b7f-ef01cb222b32",
+      "source_url": "https://www.donnacooperoboyle.com/blog/2020/09/10/mother-teresas-inspiration-day/"
+    },
+    {
+      "id": "10509b78-e309-4627-98ff-05ba163e057d",
+      "person": "페데리코 가르시아 로르카",
+      "title": "플라테로와 나",
+      "notes": "기존 위키에는 플라테로 독서가 없음. 제한 검색으로 Gatewood의 해당 논문·암기 일화를 찾지 못했으며 출처 및 인용 확인 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "6a3123a0-c37a-435d-8217-157934455592",
+      "content_id": "3825e926-08a1-44d9-b413-f987a44d4f99",
+      "source_url": "https://en.wikipedia.org/wiki/Federico_Garc%C3%ADa_Lorca"
+    },
+    {
+      "id": "75ece372-76e3-440b-8c21-b3e01de64348",
+      "person": "소옹",
+      "title": "중용",
+      "notes": "기존 위키 및 제한 대체 검색에서 중용 직접 독서·정호의 차 대접 인용 확인 불가. 관물론과 중용을 후대 비교하여 실독으로 단정한 가능성.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "dfd2b875-d94a-47d1-b619-a6555888079f",
+      "content_id": "25943fa3-171b-43fc-8c08-19bca927e4c2",
+      "source_url": "https://en.wikipedia.org/wiki/Shao_Yong"
+    },
+    {
+      "id": "8f8eb822-6114-4654-ab9b-3af902ad30d8",
+      "person": "샤를 드골",
+      "title": "창조적 진화",
+      "notes": "베르그송 전반 탐독은 기존 위키에 있으나 창조적 진화 특정 독서와 본인의 저작 전반 평가가 없음. 대표 저작 허용의 본인 독서+평가 조건을 채우지 못해 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "5e409e79-ce12-4c33-8663-fb5e55502b3c",
+      "content_id": "e5e5e8b6-f9eb-4a2b-ba72-144601042cec",
+      "source_url": "https://en.wikipedia.org/wiki/Charles_de_Gaulle"
+    },
+    {
+      "id": "be856e4c-0b6a-4afd-83e0-e130073b0aa7",
+      "person": "노신",
+      "title": "학문의 권장",
+      "notes": "기존 위키 및 제한 검색에서 후쿠자와의 학문의 권장 독서 관계가 확인되지 않음. 일본 유학의 시대적 영향과 광인일기 비교만으로 특정 작품 감상 관계를 확정 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "3094c729-b4d3-4686-925f-331ffa77d44d",
+      "content_id": "9de47468-9df1-4e15-be17-11733764f849",
+      "source_url": "https://en.wikipedia.org/wiki/Lu_Xun"
+    },
+    {
+      "id": "6fce13a9-7cae-41a8-b4a6-335d22f32980",
+      "person": "데이비드 호크니",
+      "title": "Wagner: Tristan und Isolde",
+      "notes": "작가 재단은 트리스탄과 이졸데 무대 디자인을 확인하지만 밤새 녹음을 듣고 색을 잡았다는 감상 일화·중독 인용은 확인 불가. 무대 제작과 특정 등록 음원 청취 관계를 구별할 수 없어 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "38a880f0-4bd4-4d02-93b9-92e93e66010a",
+      "content_id": "9e833013-d1c4-45e2-b81a-28535b1a2254",
+      "source_url": "https://www.designboom.com/design/walk-through-world-david-hockney-immersive-opera-stage-designs/"
+    },
+    {
+      "id": "cf08d729-8e4a-44ab-81d6-2970dff94b71",
+      "person": "이승만",
+      "title": "새번역 신약전서",
+      "notes": "카페 원문 접근 및 제한 검색에서 회고의 근거를 확인하지 못함. 사형 선고·밀반입·페이지 넘김과 직접 기도 인용 검증이 필요하고 옥중 회심을 국가 이념 전체의 원인으로 단정함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+      "content_id": "4e8fa49f-4e03-47ce-805c-b7853e6cf0c4",
+      "source_url": "https://m.cafe.daum.net/WCEC/T3vO/284"
+    },
+    {
+      "id": "a51a72bb-50aa-451f-8435-9a28e395066c",
+      "person": "왕유",
+      "title": "유마경",
+      "notes": "이름·자의 유마힐 유래만 확인. 평생 베껴 읽었다는 구당서 귀속 및 정확한 독서 근거 미확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0fade609-aadd-40c6-8f51-97a2bf1c4bce",
+      "content_id": "37de0d2c-9c7c-4c1e-8211-230a42f4c0c9",
+      "source_url": "https://en.wikipedia.org/wiki/Wang_Wei_(Tang_dynasty)"
+    },
+    {
+      "id": "77666087-f806-4293-a1dd-23c36a023f1d",
+      "person": "알렉산더 대왕",
+      "title": "페르시아 원정기",
+      "notes": "대체 학술 논문도 아나바시스 실독 증거가 부족함을 지적. 전술 유사성과 연설의 인물 언급을 독서로 확정할 수 없음.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "deb5a570-a009-410d-9436-77180a85a058",
+      "content_id": "cca587e8-7ebc-4fb3-8cf8-ccea3a09c836",
+      "source_url": "https://www.historyoftheancientworld.com/2011/06/did-alexander-the-great-read-xenophon"
+    },
+    {
+      "id": "569ec014-e8cd-4219-befe-5b65950d55c4",
+      "person": "이홍장",
+      "title": "증국번 가서 (아들에게 보낸 수신학문 처세에 관한 편지)",
+      "notes": "원 출처와 집중 검색은 증국번의 문하였음을 설명할 뿐 가서의 실독을 특정하지 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "02942ce9-99d6-4abb-9171-4fcedc0ddba0",
+      "content_id": "f680e9ca-142b-49e4-a55d-d997234d8449",
+      "source_url": "https://en.wikipedia.org/wiki/Li_Hongzhang"
+    },
+    {
+      "id": "8cd54ea1-24d1-49e5-a7c5-0b461c04b65b",
+      "person": "알렉스 카프",
+      "title": "의사소통 행위 이론",
+      "notes": "등록 기사 본문 접근 실패. 집중 검색에서도 이 책 자체의 독서·평가를 확인하지 못함; 지도 관계로 추정 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "aa4dee1d-3a8d-4bbc-92ab-07ebe17f2f71",
+      "content_id": "82c5fdf5-ce79-4b97-9ee5-a7f3bf9c5d65",
+      "source_url": "https://www.newstatesman.com/culture/books/book-of-the-day/2025/11/all-your-data-belongs-to-us-the-rise-of-palantir"
+    },
+    {
+      "id": "122f4af7-7d1d-49fb-b0c8-aa7591c33750",
+      "person": "진수",
+      "title": "한서 열전 1",
+      "notes": "진서 진수전 원문에는 초주 사사만 있고 한서 등 통독 목록이 없음. 작품 특정 독서 근거 미확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "64acaafe-0a7a-48eb-a3ee-df5d7b97a90e",
+      "content_id": "e2da27c1-17cd-4253-b399-a5cc1118a6f3",
+      "source_url": "https://ko.wikipedia.org/wiki/%EC%82%BC%EA%B5%AD%EC%A7%80"
+    },
+    {
+      "id": "8ac04fea-718e-4004-aba6-1f0f344f062a",
+      "person": "잭 클락",
+      "title": "팩토리오",
+      "notes": "공식 대담은 팩토리오를 해본 사람들의 사고를 비유할 뿐 본인의 플레이를 밝히지 않음. 시뮬레이션 장르 선호만으로 연결 불가.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "aab64fea-a32a-49ea-aeef-39476885e692",
+      "content_id": "612f54f7-f03d-4454-ba2e-4ab569d522d8",
+      "source_url": "https://conversationswithtyler.com/episodes/jack-clark/"
+    },
+    {
+      "id": "e1bb1a2a-cdba-49b1-b519-f79a8459b418",
+      "person": "강유",
+      "title": "예기",
+      "notes": "삼국지 원문은 정씨학을 좋아했다고만 기록. 예기 실독을 교육 계보로 유추한 관계라 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "37cedfe0-1806-49b4-8a4c-ae1fa0869001",
+      "content_id": "e84d64fa-b765-4194-84f0-ba7e41135cb8",
+      "source_url": "https://ctext.org/text.pl?node=603816&if=en"
+    },
+    {
+      "id": "d14e92d2-4987-47d0-853b-5113973167fd",
+      "person": "장제스",
+      "title": "전습록",
+      "notes": "등록 서평은 왕양명을 모범으로 삼았다고만 함. 전습록 독서를 특정하는 별도 자료 단서는 찾았으나 원문 본문 검증이 막혀 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "0c4d5031-84bf-41fd-8755-8e4734c1833f",
+      "content_id": "65b28522-4ea2-4160-afe0-07d0ab44b218",
+      "source_url": "https://www.nybooks.com/articles/2009/10/22/the-enigma-of-chiang-kai-shek/"
+    },
+    {
+      "id": "4968b38d-dd8b-4c7e-b983-b07549e11e35",
+      "person": "임칙서",
+      "title": "춘추좌씨전(상)",
+      "notes": "등록 전기에서 좌전 인용 연결 및 아편 소각 때 일기 발언을 확인하지 못함. 집중 검색은 시구의 좌전 유래 해설만 확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "1a1eefb3-9cd6-485d-b06d-8f996b12f790",
+      "content_id": "58a77a26-9993-4527-b888-cd07b7b9eb57",
+      "source_url": "https://zh.wikipedia.org/zh-tw/%E6%9E%97%E5%88%99%E5%BE%90"
+    },
+    {
+      "id": "2ebd9ebe-a2d9-4fa5-a9d9-a0b98fc5cf08",
+      "person": "무하마드 알리",
+      "title": "말콤 엑스 자서전",
+      "notes": "알리와 말콤 X의 인연만으로 자서전 실독을 입증할 수 없음. 등록 문서와 집중 검색에서 독서 행위 확인 실패.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "cc2636fb-c6da-4b21-a745-f602b87e54c1",
+      "content_id": "bde92642-bf9e-42ac-9348-e1a6372a9f45",
+      "source_url": "https://en.wikipedia.org/wiki/The_Autobiography_of_Malcolm_X"
+    },
+    {
+      "id": "8f372e21-5a27-41d1-90ce-67398870958c",
+      "person": "조지 워싱턴",
+      "title": "세네카의 대화 인생에 관하여 (라티움어 원전 완역판)",
+      "notes": "등록 작품은 세네카 대화 완역인데 실제 독서 주장은 레스트랑주의 Morals 축약 편역. 같은 본문 범위인지 미확인이고 출처 접근도 실패.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "2804c477-6e94-467a-b066-6ae436e7c48a",
+      "content_id": "bd15e781-9017-44ef-9b31-9db03c4bb02a",
+      "source_url": "https://www.typepunchmatrix.com/pages/books/49018/seneca-roger-lestrange-samuel-hill/senecas-morals-by-way-of-abstract"
+    },
+    {
+      "id": "f3a2a873-be69-42d3-b2c7-f51984a99635",
+      "person": "증국번",
+      "title": "사서집주 (원본)",
+      "notes": "원 출처 접근 실패. 집중 검색에서도 사서집주 자체의 일과 독서와 인용 일기를 확인하지 못함.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "60037e9e-a2e7-4b98-b9f5-a6c3c36066dd",
+      "content_id": "803168e8-7975-4db6-ad31-ebfe9d3205be",
+      "source_url": "http://www.iceaworld.org/rxlw/content.aspx?nodeid=164&page=ContentPage&contentid=1712"
+    },
+    {
+      "id": "55d88fac-94fc-4a85-b488-fd60d4606d31",
+      "person": "임칙서",
+      "title": "해국도지 1",
+      "notes": "원 출처는 임칙서가 자료와 번역 초고를 제공한 제작 관여를 설명함. 해국도지 자체의 감상 관계 미확인.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "1a1eefb3-9cd6-485d-b06d-8f996b12f790",
+      "content_id": "15305d10-5d15-4247-b091-5a1e3dba0d06",
+      "source_url": "https://en.wikipedia.org/wiki/Illustrated_Treatise_on_the_Maritime_Kingdoms"
+    },
+    {
+      "id": "570a62d3-10f5-43c1-a1f9-65543e2979aa",
+      "person": "송 휘종",
+      "title": "장자",
+      "notes": "출판사 소개만으로 장자 독서·평가를 확인하지 못함. 대체 단서는 오히려 장자 어주를 기록해 기존 주장과 충돌하므로 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "3e9abc8b-590a-4d5d-bcf2-21249848ae6d",
+      "content_id": "289cbc11-0621-486d-b4d7-cbf537fe830a",
+      "source_url": "https://www.hup.harvard.edu/books/9780674725256"
+    },
+    {
+      "id": "1e2bf0e7-bf3d-4590-bf44-a213b1211f35",
+      "person": "소옹",
+      "title": "도덕경",
+      "notes": "도가 학통을 도덕경 직접 독서로 바꾼 추론. 기존 출처와 제한 검색에서 특정 작품 독서를 확인하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "dfd2b875-d94a-47d1-b619-a6555888079f",
+      "content_id": "e3ee89b1-595c-4946-97a6-fbcc4d7d744e",
+      "source_url": "https://en.wikipedia.org/wiki/Shao_Yong"
+    },
+    {
+      "id": "7f07835e-1266-485d-af93-aad816de7b77",
+      "person": "시내암",
+      "title": "자치통감 세트",
+      "notes": "자치통감은 오대까지를 다루므로 송 휘종·방랍·송강 기록을 읽었다는 본문은 연대상 성립하지 않는다. 저자의 실제 독서 근거도 확인되지 않아 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "11a56b92-10f3-4f9f-91bb-22a93675c160",
+      "content_id": "39d37d42-3862-4451-858c-2ef5f18c829e",
+      "source_url": "https://product.kyobobook.co.kr/detail/S000000610595"
+    },
+    {
+      "id": "c0e89d71-3935-4f1e-b654-d03f3021d3de",
+      "person": "저우언라이",
+      "title": "공산당 선언",
+      "notes": "공산주의 수용과 유럽 활동을 특정 작품 독서로 단정한 관계. 기존 출처와 제한 검색에서 직접 독서 근거를 확보하지 못함. 영문 저자 David Boyle과 한글 마르크스·엥겔스도 불일치하므로 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8dd36edc-1a7f-4896-a176-0ce79e2e17f5",
+      "content_id": "06998d25-d372-4bcf-81d6-0f2fd8d977a8",
+      "source_url": "https://leftinparis.org/people/zhou-enlai/"
+    },
+    {
+      "id": "be2825cf-dc7c-4c3b-bd53-5f1b9f9f08d6",
+      "person": "제임스 왓슨",
+      "title": "의사과학자 애로우스미스",
+      "notes": "기사 본문 접근 실패 후 제한 검색에서도 왓슨의 해당 소설 독서·인용을 확인하지 못했다. 수상 연도 등 오류 의심도 있어 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "ad7af041-2c8a-44d5-a1ab-45cf97b054d5",
+      "content_id": "398f39b0-f1f7-4184-8a78-4dbdb7098efe",
+      "source_url": "https://www.chicagotribune.com/news/ct-xpm-2004-01-30-0401300053-story.html"
+    },
+    {
+      "id": "58c52fe9-465d-47af-822c-3120174a6481",
+      "person": "사마의",
+      "title": "한서",
+      "notes": "아버지 사마방의 독서를 사마의에게 전이했고 역사적 인물 비유만으로 한서 직접 독서를 확정할 수 없다. 영문 저자 Martin Waddell도 작품과 불일치. 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+      "content_id": "3a90ea58-8c24-4ecf-874c-3e30783178e4",
+      "source_url": "https://zh.wikisource.org/zh-hant/%E4%B8%89%E5%9C%8B%E5%BF%97/%E5%8D%B715"
+    },
+    {
+      "id": "990e27f2-c548-4780-8046-050488762cf4",
+      "person": "동중서",
+      "title": "주역",
+      "notes": "음양 사상과 주역의 직접 독서를 구분할 수 없고 한서 인용도 확인되지 않음. 춘추번로의 복수 저자 문제까지 있어 특정 편의 논의를 본인 감상으로 단정하지 않고 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8ed75fdb-0d53-4e25-966e-ef0a37660bfa",
+      "content_id": "f0a1a3ca-e7db-4534-b915-c98d8b4c2f0b",
+      "source_url": "https://en.wikipedia.org/wiki/Dong_Zhongshu"
+    },
+    {
+      "id": "ed78619a-bf27-4449-9f96-0b625633fa1d",
+      "person": "시내암",
+      "title": "맹자",
+      "notes": "수호전의 주제적 유사성을 작가의 맹자 독서와 영향으로 바꾼 추론. 상품 페이지와 제한 검색에서 관계 근거를 확인하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "11a56b92-10f3-4f9f-91bb-22a93675c160",
+      "content_id": "1d46a8e1-a60e-4c7b-be32-7f8a2d86d167",
+      "source_url": "https://product.kyobobook.co.kr/detail/S000201525252"
+    },
+    {
+      "id": "365de420-5042-4260-a1b5-6850f72f3121",
+      "person": "수 양제",
+      "title": "시경",
+      "notes": "시경 계승 양식을 곧 본인 독서·감상으로 단정한 관계. 제시된 작품은 오언시여서 사언 양식 계승이라는 설명도 부정확. 기존 시집과 제한 검색에서 정확한 직접 인용·독서를 확인하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "8ede9f37-af5d-4ff6-8b51-477cea8c3ec7",
+      "content_id": "f0e6f312-72d3-4413-9042-e948bfc7d97d",
+      "source_url": "https://zh.wikisource.org/wiki/%E5%85%A8%E9%9A%8B%E8%A9%A9/%E5%8D%B7%E4%B8%89"
+    },
+    {
+      "id": "6078b739-442c-412b-8beb-b8859a21f14a",
+      "person": "마더 테레사",
+      "title": "성녀 소화 데레사 자서전",
+      "notes": "수도명과 성인에 대한 존경은 특정 자서전 독서의 증거가 아니다. 기존 출처는 소화 데레사 소개이며 제한 검색에서도 마더 테레사의 해당 작품 감상을 확인하지 못해 원문 보류.",
+      "reasons": [
+        "hold"
+      ],
+      "celeb_id": "d30f5d9d-fcb8-4805-87e7-37b3f1d7ef08",
+      "content_id": "ffd4df0f-5294-42bb-b8e6-8286cb09146d",
+      "source_url": "https://www.littleflower.org/st-therese/who-is-st-therese/"
+    }
+  ],
+  "source_replacements": [
+    {
+      "id": "a52c116f-52d1-4005-9168-2ce986dcc588",
+      "celeb_id": "c26f8b69-738e-46ea-bb53-929ebfe6166d",
+      "content_id": "6e5989e2-0cfb-4a4c-8e47-182d0599bfd0",
+      "person": "에이브러햄 링컨",
+      "title": "성경",
+      "current_source_url": "https://www.loc.gov/exhibits/lincoln/interactives/lincoln-and-the-bible/index.html",
+      "url": "https://www.loc.gov/resource/lprbscsm.scsm0283/?st=text",
+      "confirmed": false,
+      "note": "의회도서관 대체 URL이 접근 제한으로 열리지 않아 독립적인 본문 대조를 완료하지 못했다."
+    },
+    {
+      "id": "6a9960cd-f738-480b-9d5d-206d23d8ba29",
+      "celeb_id": "ea92d5aa-2c95-4517-b035-b1584bdefcb5",
+      "content_id": "88de61d0-b231-4d11-894d-3ec86c315b54",
+      "person": "옥타비오 파스",
+      "title": "황무지",
+      "current_source_url": "https://library.csun.edu/sca/peek-stacks/sunstone",
+      "url": "https://www.ull.es/revistas/index.php/estudios-ingleses/article/download/5114/3486",
+      "confirmed": false,
+      "note": "대체 논문 PDF 본문을 안정적으로 열지 못해 최종본 전체의 독립 대조를 완료하지 못했다."
+    },
+    {
+      "id": "2161ed63-687c-4411-84e7-5fcf741e406c",
+      "celeb_id": "65167113-92bf-4121-aacd-3c3d2e62db53",
+      "content_id": "12c0402c-83d7-461a-a0d5-43f7623ab056",
+      "person": "대진",
+      "title": "시경",
+      "current_source_url": "http://www.chinaknowledge.de/History/Qing/personsdaizhen.html",
+      "url": "https://ctext.org/dictionary.pl?chapter=552531&if=en&remap=gb&sid=3290&trid=330196",
+      "confirmed": false,
+      "note": "ctext 대체 URL의 본문 접근이 막혀 주석서의 구체 서술을 독립 대조하지 못했다."
+    },
+    {
+      "id": "6e7dc97e-81a7-4c62-98af-a620f19a12f8",
+      "celeb_id": "7ce2db48-1d09-43e6-a22f-e32e670b45a8",
+      "content_id": "fe7a0a66-af6a-413e-abba-de9fae799a30",
+      "person": "밀턴 프리드먼",
+      "title": "노예의 길",
+      "current_source_url": "https://en.wikipedia.org/wiki/Friedrich_Hayek",
+      "url": "https://miltonfriedman.hoover.org/objects/57657/introduction-to-the-road-to-serfdom",
+      "confirmed": false,
+      "note": "후버 URL이 서문 본문 대신 일반 안내 페이지를 반환해 독립적인 본문 대조를 완료하지 못했다."
+    },
+    {
+      "id": "001c6aa0-8200-49bf-894c-20cdfb5d98cb",
+      "celeb_id": "64acaafe-0a7a-48eb-a3ee-df5d7b97a90e",
+      "content_id": "e1126c3d-4cf3-4e96-bf56-c82f12af875e",
+      "person": "진수",
+      "title": "춘추좌전(상)",
+      "current_source_url": "https://ko.wikipedia.org/wiki/%EC%82%BC%EA%B5%AD%EC%A7%80",
+      "url": "https://www.shidianguji.com/zh/book/GJTS11/chapter/1lpmfktwtmr7j",
+      "confirmed": false,
+      "note": "교차검토에서는 웹 도구 오류와 직접 요청444로 해당 본문을 확보하지 못했다. 작성자의 확인과 별개로 대체 URL 교체는 승인하지 않는다."
+    },
+    {
+      "id": "60fd7d5f-5356-470f-a116-a99a9c4a55a9",
+      "celeb_id": "e3433c5f-55df-4538-81cc-bac4eded9d56",
+      "content_id": "bb006711-09a1-4b3c-8021-0ef2ea0d8544",
+      "person": "안영",
+      "title": "시경",
+      "current_source_url": "https://ctext.org/yanzi-chun-qiu/jian-shang",
+      "url": "https://zh.wikisource.org/zh-hant/%E5%A4%A9%E4%B8%AD%E8%A8%98_%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29/%E5%8D%B742",
+      "confirmed": false,
+      "note": "본문 독립 접근이 차단되어 교체 승인하지 않음. 문장 검토 통과와 별개로 기존 URL 유지 또는 출처 확인 대기가 필요함."
+    },
+    {
+      "id": "f5199f86-c737-44b0-9ca7-f52e9fca8722",
+      "celeb_id": "ad7af041-2c8a-44d5-a1ab-45cf97b054d5",
+      "content_id": "e59816ff-082a-4779-bae3-c51dacc49055",
+      "person": "제임스 왓슨",
+      "title": "생명이란 무엇인가",
+      "current_source_url": "https://www.nobelprize.org/prizes/medicine/1962/perspectives/",
+      "url": "https://www.nobelprize.org/prizes/medicine/1962/perspectives/?print=1",
+      "confirmed": false,
+      "note": "본문 독립 접근이 차단되어 교체 승인하지 않음. 문장 검토 통과와 별개로 기존 URL 유지 또는 출처 확인 대기가 필요함."
+    },
+    {
+      "id": "d339801e-3e40-4948-81b7-5a38d2d1c4c1",
+      "celeb_id": "e2c2529d-8ba2-4067-8e22-a1951452c322",
+      "content_id": "bd93d3e1-eb0b-4a63-81df-3aafc79b7278",
+      "person": "양계초",
+      "title": "공자개제고 1",
+      "current_source_url": "https://en.wikipedia.org/wiki/A_Study_of_Confucius_as_a_Reformer_of_Institutions",
+      "url": "https://ctext.org/wiki.pl?chapter=636696&if=en",
+      "confirmed": false,
+      "note": "본문 독립 접근이 차단되어 교체 승인하지 않음. 문장 검토 통과와 별개로 기존 URL 유지 또는 출처 확인 대기가 필요함."
+    },
+    {
+      "id": "2fb5a1d6-da1b-49d4-85fb-ec7580e70641",
+      "celeb_id": "94d5dc50-4184-4ddc-83d4-89a25c161eb2",
+      "content_id": "fa0376af-a847-4b15-a5a6-f093261fedde",
+      "person": "자하",
+      "title": "시경",
+      "current_source_url": "https://ko.wikipedia.org/wiki/%EC%8B%9C%EA%B2%BD",
+      "url": "https://ctext.org/si-shu-zhang-ju-ji-zhu/ba-yi-di-san",
+      "confirmed": false,
+      "note": "본문 독립 접근이 차단되어 교체 승인하지 않음. 문장 검토 통과와 별개로 기존 URL 유지 또는 출처 확인 대기가 필요함."
+    }
+  ],
+  "review_rewritten_at": "2026-09-22T06:45:21.414Z"
+}

@@ -1,0 +1,102 @@
+{
+  "celeb": {
+    "id": "c8ac8c9d-c229-4570-ad5f-0b68a59153c0",
+    "nickname": "일론 머스크",
+    "slug": "elon-musk"
+  },
+  "review_rewritten_at": "2026-09-22T06:45:21.414Z",
+  "items": [
+    {
+      "id": "0a46d4aa-8046-41ea-91c6-95e47119f498",
+      "content_id": "9614afd1-ea42-49a0-86c4-f2a29c2e79b2",
+      "source_url": "https://fs.blog/elon-musk-book-recommendations/",
+      "link_status": "valid",
+      "evidence_status": "unresolved",
+      "action": "확인 불가 — 머스크가 아인슈타인 전기를 지목한 원 발언 미확인",
+      "evidence": [
+        {
+          "url": "https://fs.blog/elon-musk-book-recommendations/",
+          "quote": "Musk recommends Benjamin Franklin: An American Life and Einstein: His Life and Universe, both by Walter Isaacson",
+          "note": "재큐레이션 목록의 주장일 뿐 발언 원문·출처 표기 없음 — 원 출처 추적 대상"
+        },
+        {
+          "url": "https://videodb.org/foundation-20-elon-musk/L-s_3b5fRd8",
+          "quote": "Franklin's both his autobiography and ... the biography by Isaacson on the frankness really good",
+          "note": "BI·CNBC·파이낸셜포스트가 귀속한 2012 파운데이션(케빈 로즈) 인터뷰 전사 직접 확인 — 프랭클린 자서전과 아이작슨의 '프랭클린' 전기만 언급되고 아인슈타인 전기 언급은 전사 어디에도 없음"
+        }
+      ],
+      "replacement_url": null,
+      "replacement_covers_review": false,
+      "unsupported_claims": [
+        "'머스크가 아인슈타인 전기를 추천했다'는 관계 주장 — 재큐레이션 목록(fs.blog·BI계열)에만 존재하고 원 발언을 찾지 못함. 각주가 달린 Jorgenson 추천 목록에는 이 책이 아예 없음",
+        "'파운데이션 인터뷰에서 읽고 많이 배웠다고 말했다'는 서술 — 해당 인터뷰 전사에 아인슈타인 전기 언급이 없어 귀속이 성립하지 않음(아이작슨의 '프랭클린' 전기를 아인슈타인 전기와 혼동했을 가능성)"
+      ],
+      "searched": true,
+      "notes": "출처 점검자가 fs.blog 재큐레이션으로 관계를 확정한 오류를 바로잡음. 귀속된 파운데이션 인터뷰 전사를 직접 확인했으나 아인슈타인 언급이 없고, 포브스 2012 프로필·GalleyCat DnA 보도 등 확인된 원 보도에도 이 책이 없다. 틀렸다고 단정할 수는 없으나 원문 근거가 없어 unresolved로 낮춘다"
+    },
+    {
+      "id": "6af1e90d-a629-4dc4-8ab9-f75e21fe3b5e",
+      "content_id": "a8eadd57-067a-59bf-9db6-fb2f51bff190",
+      "source_url": "https://www.esquire.com/entertainment/books/a39712892/elon-musk-favorite-book-recommendations/",
+      "link_status": "broken",
+      "evidence_status": "unresolved",
+      "action": "확인 불가",
+      "evidence": [
+        {
+          "url": "https://recommentions.com/elon-musk/books/the-history-of-the-decline-and-fall-of-the-roman-empire-by-edward-gibbon/",
+          "quote": "There's obviously Gibbon's famous book ... and then they basically forgot about it.",
+          "note": "재큐레이션이 출처를 '2021-02-01 on youtube.com'(클럽하우스 대담 녹화)로 지목하나 영상 음성 원문을 직접 열어 확인할 수 없음"
+        }
+      ],
+      "replacement_url": null,
+      "replacement_covers_review": false,
+      "unsupported_claims": [
+        "'기번의 유명한 책'을 언급하며 로마인이 앞선 기술을 '기본적으로 잊어버렸다'고 말했다는 인터뷰 발언 — 재큐레이션 인용 외에 원문 확인이 안 됨"
+      ],
+      "searched": true,
+      "notes": "에스콰이어 링크 404. 집중 검색으로 해당 발언이 2021-02-01 클럽하우스 대담(유튜브 녹화본)에서 나왔다는 단서를 얻었으나, 유튜브 영상·트랜스크립트 서비스 모두 본문 접근이 안 돼 원문 확인 실패."
+    },
+    {
+      "id": "70ef539b-42fd-4eb3-b4d9-700dec7ff9a0",
+      "content_id": "6defc0d6-d5a2-48a5-882d-207e20e4014d",
+      "source_url": "https://x.com/elonmusk/status/1001344881007079424",
+      "link_status": "valid",
+      "evidence_status": "partial",
+      "action": "완독 후 호평",
+      "evidence": [
+        {
+          "url": "https://x.com/elonmusk/status/1001344881007079424",
+          "quote": "Great book. Read it when it came out.",
+          "note": "oembed·fxtwitter로 본인 트윗 실재 확인(2018-05-29). 문구는 글과 정확히 일치하나 @amasad에 대한 답글 형식이라 트윗 자체에 도서명이 없음"
+        }
+      ],
+      "replacement_url": null,
+      "replacement_covers_review": false,
+      "unsupported_claims": [],
+      "searched": true,
+      "notes": "답글 대상(amasad 트윗 1001344630502244354)이 삭제·비보존되어 원문 맥락 확인 불가. 복수 재큐레이션이 이 트윗을 스티븐 웹의 책에 일관되게 귀속하나, 원문 수준의 작품 연결은 확인 못 해 부분 확인으로 남김."
+    },
+    {
+      "id": "b0b24c02-4771-479e-aefe-57da69193eb1",
+      "content_id": "e4d868f1-a867-419c-a078-23bc5910697a",
+      "source_url": "https://www.shortform.com/best-books/book-list/elon-musk-books",
+      "link_status": "blocked",
+      "evidence_status": "unresolved",
+      "action": "확인 불가 — 머스크가 『전쟁론』을 지목한 원 발언 미확인",
+      "evidence": [
+        {
+          "url": "https://www.dancarlin.com/product/ep-17-engineering-victory-with-elon/",
+          "quote": "Notes and Reading Material: The Wages of Destruction / The Art of War / On War",
+          "note": "Dan Carlin Addendum EP17(머스크 출연 회차) 공식 페이지 본문 확인 — 읽기 자료에 『전쟁론』도 올라 있어 회차와의 연관은 있으나, 머스크 본인이 이 책을 지목·감상했다는 발언을 입증하지는 못함"
+        }
+      ],
+      "replacement_url": null,
+      "replacement_covers_review": false,
+      "unsupported_claims": [
+        "전략적 사고를 경영에 적용하는 인물로 소개된다는 서술 — 원 발언 근거 없음. 재큐레이션 목록도 실제 지목 발언 없이 책만 나열"
+      ],
+      "searched": true,
+      "notes": "출처 페이지가 두 차례 빈 본문을 반환(JS 렌더링·봇 차단 추정, 소실 아님). 'Musk Clausewitz On War' 집중 검색에서 원 발언을 찾지 못했다. Jorgenson 추천 목록은 Dan Carlin 회차 발언(기술 장 부재)을 이 책 항목에 붙였으나 해당 발언의 대상은 손자병법 맥락이고 클라우제비츠 지목이 아니다. EP17 공식 페이지 읽기 자료에는 On War가 올라 있으나 그것만으로는 본인 감상·지목이 성립하지 않아 unresolved 유지."
+    }
+  ]
+}
