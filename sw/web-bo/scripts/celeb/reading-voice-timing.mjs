@@ -15,8 +15,13 @@ export function readingSentences(text, locale) {
     const part = { textStart: item.index + leading, textEnd: item.index + item.segment.trimEnd().length }
     if (part.textStart === part.textEnd) continue
     const previous = result.at(-1)
-    // ICU treats some English honorifics and initials as complete sentences.
-    if (previous && locale === 'en' && /(?:\b(?:Mr|Mrs|Ms|Dr|Prof|St|Jr|Sr)|\b[A-Z])\.$/.test(text.slice(previous.textStart, previous.textEnd))) previous.textEnd = part.textEnd
+    const previousText = previous ? text.slice(previous.textStart, previous.textEnd) : ''
+    // ICU treats some English honorifics and initials as complete sentences. In Korean text a
+    // Latin initial inside a name (사무엘 L. 잭슨, J.K. 롤링) is split the same way.
+    const abbreviation = locale === 'en'
+      ? /(?:\b(?:Mr|Mrs|Ms|Dr|Prof|St|Jr|Sr)|\b[A-Z])\.$/
+      : /(?:^|[^A-Za-z])[A-Za-z]\.$/
+    if (previous && abbreviation.test(previousText)) previous.textEnd = part.textEnd
     else result.push(part)
   }
   return result

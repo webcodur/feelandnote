@@ -18,6 +18,10 @@ test('English initials and honorifics stay with their sentence', () => {
   const text = 'Dr. J. Robert spoke. He left.'
   assert.deepEqual(readingSentences(text, 'en').map((x) => text.slice(x.textStart, x.textEnd)), ['Dr. J. Robert spoke.', 'He left.'])
 })
+test('Latin initials inside Korean names stay with their sentence', () => {
+  const text = '사무엘 L. 잭슨은 미국의 배우이다. J.K. 롤링은 영국의 작가이다. 비타민을 먹었다.'
+  assert.deepEqual(readingSentences(text, 'ko').map((x) => text.slice(x.textStart, x.textEnd)), ['사무엘 L. 잭슨은 미국의 배우이다.', 'J.K. 롤링은 영국의 작가이다.', '비타민을 먹었다.'])
+})
 test('unspoken first sentence is omitted instead of proportionally timed', () => {
   const result = make('Zebras gather quietly. Birds sing.', [{ word: 'Birds', start: 3, end: 4 }, { word: 'sing.', start: 4, end: 5 }])
   assert.ok(result.timing.segments.every((segment) => segment.textStart >= 22))

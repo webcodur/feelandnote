@@ -5,6 +5,9 @@
  */
 
 // 한국어 글자 수는 공백을 포함한 본문 길이, 문장 수는 음성 문장 강조와 같은 Intl.Segmenter 기준이다.
+// @ts-expect-error 분할 규칙의 단일 원천은 음성 타이밍 모듈(.mjs)이다.
+import { readingSentences } from '../reading-voice-timing.mjs'
+
 export const READING_FORMAT = {
   koChars: { min: 180, max: 340 },
   koSentences: { min: 3, max: 5 },
@@ -13,10 +16,9 @@ export const READING_FORMAT = {
 
 export type ReadingIdentity = { nickname: string; nickname_en: string | null }
 
+// 음성 문장 강조와 같은 분할기를 쓴다. 이름 속 라틴 약자(사무엘 L. 잭슨, J.K. 롤링)는 경계로 보지 않는다.
 export function sentencesOf(text: string, locale: 'ko' | 'en'): string[] {
-  return [...new Intl.Segmenter(locale, { granularity: 'sentence' }).segment(text)]
-    .map((item) => item.segment.trim())
-    .filter(Boolean)
+  return readingSentences(text, locale).map((part: { textStart: number; textEnd: number }) => text.slice(part.textStart, part.textEnd).trim()).filter(Boolean)
 }
 
 // 이름 끝 글자의 받침으로 주제 조사를 고른다. 한글이 아니면 둘 다 허용한다.
@@ -46,7 +48,6 @@ export function readingFormatErrors(guideRaw: string, guideEnRaw: string, identi
     // 반각 <>는 〈〉 대신 작품명에 잘못 쓰인 경우뿐이라 같은 위반으로 본다.
     if (/[「」『』<>]/.test(guide)) errors.push('한국어 작품명 부호(《》·〈〉만 쓴다)')
     if (/(습니다|입니다|합니다|됩니다|세요|어요|해요)[.!?]/.test(guide)) errors.push('한국어 존댓말')
-    if (/\b[A-Za-z]\.[A-Za-z]\./.test(guide)) errors.push('한국어 마침표 약칭')
     if (/《[^》]*[.!?][^》]*》|〈[^〉]*[.!?][^〉]*〉/.test(guide)) errors.push('한국어 작품명 안 문장부호')
     const first = sentences[0] ?? ''
     if (identity?.nickname && !topicParticles(identity.nickname).some((particle) => first.startsWith(`${identity.nickname}${particle} `))) {
