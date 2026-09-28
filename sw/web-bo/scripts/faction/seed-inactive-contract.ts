@@ -1,3 +1,5 @@
+import { celebNameIssues, cleanCelebAliases } from '@feelandnote/shared/lib/celeb-identity'
+
 /** 선등록이 넣을 수 있는 실존 축. 실존 인물(REAL)은 이 경로로 넣지 않는다. */
 export const SEEDABLE_REALITIES = ['FICTION', 'BOTH'] as const
 export type SeedableReality = (typeof SEEDABLE_REALITIES)[number]
@@ -5,6 +7,8 @@ export type SeedableReality = (typeof SEEDABLE_REALITIES)[number]
 export type InactiveSeedPerson = {
   nickname: string
   nickname_en: string
+  /** 다른 이름(검색 전용). 적었을 때만 싣는다. 기준은 celeb-01-01-profile-facts.md 「다른 이름」 */
+  aliases?: string[]
   bio: string
   /** 생략하면 FICTION이다. 건국 시조처럼 실존과 전승이 함께 다뤄지는 인물은 BOTH를 적는다. */
   celeb_reality: SeedableReality
@@ -34,6 +38,18 @@ function parseReality(value: unknown, field: string): SeedableReality {
     throw new Error(`${field}는 ${SEEDABLE_REALITIES.join(' 또는 ')}여야 합니다.`)
   }
   return value as SeedableReality
+}
+
+function parseAliases(
+  value: unknown,
+  field: string,
+  own: { nickname: string; nickname_en: string },
+): string[] {
+  if (value === undefined || value === null) return []
+  if (!Array.isArray(value) || value.some((item) => typeof item !== 'string')) {
+    throw new Error(`${field}는 문자열 배열이어야 합니다.`)
+  }
+  return cleanCelebAliases(value as string[], own)
 }
 
 function parseIdentity(value: unknown, field: string): InactiveSeedPerson['identity'] {
@@ -68,13 +84,19 @@ export function parseInactiveSeedManifest(input: unknown): InactiveSeedManifest 
       throw new Error(`people[${index}]는 객체여야 합니다.`)
     }
     const row = value as Record<string, unknown>
-    const person = {
-      nickname: requiredText(row.nickname, `people[${index}].nickname`),
-      nickname_en: requiredText(row.nickname_en, `people[${index}].nickname_en`),
+    const nickname = requiredText(row.nickname, `people[${index}].nickname`)
+    const nicknameEn = requiredText(row.nickname_en, `people[${index}].nickname_en`)
+    const aliases = parseAliases(row.aliases, `people[${index}].aliases`, { nickname, nickname_en: nicknameEn })
+    const person: InactiveSeedPerson = {
+      nickname,
+      nickname_en: nicknameEn,
+      ...(aliases.length ? { aliases } : {}),
       bio: requiredText(row.bio, `people[${index}].bio`),
       celeb_reality: parseReality(row.celeb_reality, `people[${index}].celeb_reality`),
       identity: parseIdentity(row.identity, `people[${index}].identity`),
     }
+    const nameError = celebNameIssues(person).find((issue) => issue.level === 'error')
+    if (nameError) throw new Error(`${person.nickname}: ${nameError.message}`)
     if (person.bio.length > 100) {
       throw new Error(`${person.nickname}: bio는 100자 이하여야 합니다.`)
     }

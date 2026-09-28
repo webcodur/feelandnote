@@ -35,8 +35,31 @@
 
 - 실존 인물은 web-bo `/celebs/new`의 `createCeleb`로 등록한다. 이 경로는 UUID·slug·`celeb_metrics`를 만들고 `light`로 시작하며 공개 상태 기본값은 `inactive`, 실존 축 기본값은 `REAL`이다. 전승·허구 인물은 등록 화면에서 실존 축을 직접 고른다.
 - 전승 인물 일괄 등록은 이름·영문명·식별 가능한 bio를 준비한 뒤 `pnpm --dir sw/web-bo faction:seed:inactive --file <명세.json>`을 사용한다. 이 경로는 `light` 티어에 비공개로 넣는다. 실존 축은 명세의 `celeb_reality`가 정하며 `FICTION`과 `BOTH`만 받는다(생략하면 `FICTION`). 실존 인물은 이 경로로 넣지 않는다. 기본은 dry-run이며 사용자가 DB 반영을 지시했을 때만 `--apply`한다.
+- 실존 인물 일괄 등록은 원장 `data/celeb/new-figures/*.json`을 `pnpm --dir sw/web-bo celeb:seed:inactive --dir ../../data/celeb/new-figures`로 넣는다. 기본은 dry-run이고 DB 반영 지시 뒤에만 `--apply`한다.
+- 어느 경로든 등록 전에 아래 「중복 확인」을 거친다. 다른 이름(`aliases`)은 등록 때 함께 넣는다. 일괄 경로는 원장·명세의 `aliases`를 싣는다. 화면 등록은 편집 칸이 생기기 전까지 등록 뒤 「업데이트 가드」대로 DB에 넣는다.
 - 공통 결과 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 사실 판정은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 수식어는 [`celeb-01-03-title.md`](celeb-01-03-title.md), 나머지 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
 - 모든 신규 인물은 공개 전에 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)에 맞는 아바타를 등록한다.
+
+### 중복 확인
+
+같은 사람의 프로필을 둘 만들지 않는다. 판정 규칙은 [`celeb-identity.ts`](../../../packages/shared/src/lib/celeb-identity.ts) 하나가 쥐고 등록 스크립트와 점검 명령이 함께 쓴다.
+
+- 화면 등록 전에는 `pnpm --dir sw/web-bo celeb:dup-check --nickname <이름> --en <영문> [--alias …] [--qid …] [--birth …] [--death …]`를 돌린다. 위키데이터 번호·생몰일(또는 생년월일과 이름)이 겹치면 「같은 사람 의심」이다. 새로 만들지 않고 기존 프로필을 보강한다.
+- 이름·다른 이름만 겹치면 대개 동명이인이다. 다른 사람임을 확인하고 수식어로 구분되는지 본다. 일괄 등록(`celeb:seed:inactive`)은 같은 검사를 스스로 돌려 겹치면 등록하지 않는다. 다른 사람으로 확인했으면 원장 레코드의 `distinct_from`에 기존 slug를 적는다.
+- 이름 칸 괄호·따옴표와 수식어 「」·괄호는 같은 모듈이 오류로 막는다. 한글 없는 한국어 이름과 12자를 넘는 수식어는 경고만 한다.
+- 이름·영문 이름을 고치거나 다른 이름을 일괄로 넣은 뒤에는 `celeb:dup-check --all`로 전체를 다시 본다. 같은 사람 의심 0쌍·규칙 오류 0건이 정상이다.
+
+### 중복 프로필 통합
+
+같은 사람의 프로필이 둘이면 하나로 합친다. 삭제가 따르므로 사용자 지시 뒤에 한다.
+
+- 남길 쪽은 위키데이터 번호·공개 기록·조회가 많은 쪽, 비슷하면 먼저 만든 쪽이다. slug와 아바타 경로는 남는 쪽 것을 쓴다.
+- 옮기기 전에 두 프로필과 딸린 행 전체를 `data/celeb/_backup/celeb-merge/`에 JSON으로, 덮어쓸 아바타 원본을 같은 폴더에 남긴다.
+- 여러 행 표(감상 기록·연표·관계·등장 도서·세력 소속)는 남는 쪽에 없는 것만 옮긴다. 같은 사건·같은 관계는 옮기지 않는다.
+- 한 행 표(영향력·스펙트럼·대사·인물 안내)와 프로필 칸(수식어·소개·아바타)은 현행 룰북에 맞고 사실이 정확한 쪽을 고른다. 공개·음성이 붙은 쪽은 그대로 둔다. 소개는 두 쪽 사실을 합쳐 다시 쓸 수 있다.
+- 없어지는 쪽 이름은 다른 이름으로 남긴다. 프로필은 행을 지우지 않고 `publication_status='deleted'`로 둔다. 옛 slug는 `sw/web/src/middleware.ts`의 `LEGACY_CELEB_SLUG_REDIRECTS`로 308을 건다.
+- `celeb_contents.celeb_id`만 바꾸면 개수 트리거가 돌지 않는다. 옮긴 뒤 `celeb_metrics.content_count`를 다시 센다.
+- 끝나면 `celeb:dup-check --all`이 0쌍인지 본다.
 
 ### 존재와 속성을 구분한다
 

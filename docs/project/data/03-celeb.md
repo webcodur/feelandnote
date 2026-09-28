@@ -8,7 +8,7 @@
 
 | 필드 묶음 | 주요 필드 | 규칙 소유자 |
 |---|---|---|
-| 이름·분류·생몰 | `nickname(_en)`, `profession`, `gender`, `nationality`, `birth_date`, `death_date`, `wikidata_qid` | [`celeb-01-01-profile-facts.md`](../celeb/celeb-01-01-profile-facts.md) |
+| 이름·분류·생몰 | `nickname(_en)`, `aliases`, `profession`, `gender`, `nationality`, `birth_date`, `death_date`, `wikidata_qid` | [`celeb-01-01-profile-facts.md`](../celeb/celeb-01-01-profile-facts.md) |
 | 소개 | `headline(_en)`, `bio(_en)` | [`celeb-01-02-profile-intro.md`](../celeb/celeb-01-02-profile-intro.md) |
 | 수식어 | `title(_en)` | [`celeb-01-03-title.md`](../celeb/celeb-01-03-title.md) |
 | 티어·공개 | `celeb_tier`, `publication_status`, `content_research_confirmed_empty_at` | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](../celeb/celeb-00-02-publication.md) |

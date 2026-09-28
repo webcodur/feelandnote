@@ -20,6 +20,7 @@
     "celeb:claim": "tsx scripts/celeb/claim.ts",
     "celeb:fill": "tsx scripts/celeb/fill.ts",
     "celeb:seed:inactive": "tsx scripts/celeb/seed-real-inactive.ts",
+    "celeb:dup-check": "node --env-file=.env --import tsx scripts/celeb/dup-check.ts",
     "celeb:profession:reclass": "tsx scripts/celeb/profession-reclass.ts",
     "celeb:speech:1-targets": "tsx scripts/celeb/speech/1-targets.ts",
     "celeb:speech:2-collect": "tsx scripts/celeb/speech/2-collect.ts",

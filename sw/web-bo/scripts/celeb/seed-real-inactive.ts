@@ -9,6 +9,11 @@
  * 기본은 dry-run이다. --apply를 붙여야 DB를 바꾼다.
  * --apply 성공 뒤 원장 레코드에 status='registered'·celeb_id·slug를 기록한다.
  *
+ * 등록 전 검사는 celeb:dup-check와 같은 규칙(@feelandnote/shared/lib/celeb-identity)이다.
+ * 이름·다른 이름·qid·생몰일로 기존 인물(과 같은 실행의 앞 레코드)과 겹치면 conflict로 남기고,
+ * 다른 사람으로 확인했으면 레코드의 distinct_from에 그 slug를 적는다. 이름·수식어 규칙 오류도 conflict다.
+ * 레코드의 aliases·wikidata_qid는 함께 저장한다.
+ *
  * 실행:
  *   pnpm --dir sw/web-bo tsx scripts/celeb/seed-real-inactive.ts --dir ../../data/celeb/new-figures
  *   pnpm --dir sw/web-bo tsx scripts/celeb/seed-real-inactive.ts --dir ../../data/celeb/new-figures --apply
@@ -18,6 +23,13 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { config } from 'dotenv'
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import {
+  celebNameIssues,
+  celebTitleIssues,
+  cleanCelebAliases,
+  findCelebDuplicates,
+  type CelebIdentityRow,
+} from '@feelandnote/shared/lib/celeb-identity'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '../../src/lib/celeb-slug'
 import { reserveGeneratedSlug } from '../faction/seed-inactive-contract'
 
@@ -26,6 +38,11 @@ config({ path: resolve(process.cwd(), '.env'), quiet: true })
 type LedgerRecord = {
   nickname: string
   nickname_en?: string | null
+  /** 다른 이름(검색 전용). 기준은 celeb-01-01-profile-facts.md 「다른 이름」 */
+  aliases?: string[] | null
+  wikidata_qid?: string | null
+  /** 이름·생몰이 겹치지만 다른 사람으로 확인한 기존 slug. 여기 적은 프로필과의 일치는 막지 않는다 */
+  distinct_from?: string[] | null
   profession?: string | null
   nationality?: string | null
   gender?: boolean | null
@@ -43,7 +60,7 @@ type LedgerRecord = {
   slug?: string
 }
 
-type ExistingProfile = {
+type ExistingProfile = CelebIdentityRow & {
   id: string
   slug: string | null
   nickname: string | null
@@ -65,10 +82,6 @@ const argValue = (name: string): string | null => {
   const index = process.argv.indexOf(name)
   return index >= 0 ? process.argv[index + 1] ?? null : null
 }
-
-const normalizedIdentity = (value: string | null | undefined) => (
-  value?.normalize('NFKC').trim().toLocaleLowerCase() ?? ''
-)
 
 const emptyToNull = (value: string | null | undefined) => {
   const trimmed = value?.trim()
@@ -119,9 +132,10 @@ async function main() {
   const profiles = await allRows<ExistingProfile>(
     client,
     'celebs',
-    'id,slug,nickname,nickname_en,publication_status',
+    'id,slug,nickname,nickname_en,aliases,wikidata_qid,birth_date,death_date,publication_status',
   )
-  const alive = profiles.filter((row) => row.publication_status !== 'deleted')
+  // 이번 실행에서 만들 인물도 뒤따르는 레코드의 중복 대상에 넣는다(원장 안의 같은 사람)
+  const pool: ExistingProfile[] = profiles.filter((row) => row.publication_status !== 'deleted')
   const occupiedSlugs = new Set(profiles.flatMap((row) => (row.slug ? [row.slug] : [])))
 
   const plans: PlannedSeed[] = records.map(({ file, record }) => {
@@ -133,12 +147,19 @@ async function main() {
     if (!nickname || !nicknameEn) {
       return { kind: 'conflict', file, record, celebId: null, slug: null, slugSuffix: null, reason: 'nickname/nickname_en 누락' }
     }
-    const dup = alive.find((row) => (
-      normalizedIdentity(row.nickname) === normalizedIdentity(nickname)
-      || normalizedIdentity(row.nickname_en) === normalizedIdentity(nicknameEn)
-    ))
-    if (dup) {
-      return { kind: 'conflict', file, record, celebId: dup.id, slug: dup.slug, slugSuffix: null, reason: `기존 인물과 이름 일치 (${dup.slug ?? dup.id})` }
+    const ruleErrors = [...celebNameIssues(record), ...celebTitleIssues(record)].filter((issue) => issue.level === 'error')
+    if (ruleErrors.length) {
+      return { kind: 'conflict', file, record, celebId: null, slug: null, slugSuffix: null, reason: ruleErrors.map((issue) => issue.message).join('; ') }
+    }
+    // 이름·다른 이름·qid·생몰일로 같은 사람을 찾는다. 다른 사람으로 확인한 slug는 distinct_from에 적어 넘긴다
+    const distinct = new Set(record.distinct_from ?? [])
+    const matches = findCelebDuplicates(record, pool).filter((match) => !(match.row.slug && distinct.has(match.row.slug)))
+    if (matches.length) {
+      const [dup] = matches
+      return {
+        kind: 'conflict', file, record, celebId: dup.row.id, slug: dup.row.slug, slugSuffix: null,
+        reason: `기존 인물과 ${matches.map((match) => `${match.reasons.join('+')} 일치 (${match.row.slug ?? match.row.id})`).join(', ')} — 다른 사람이면 distinct_from에 slug를 적는다`,
+      }
     }
     let baseSlug = ''
     try {
@@ -147,9 +168,11 @@ async function main() {
       return { kind: 'conflict', file, record, celebId: null, slug: null, slugSuffix: null, reason: 'slug 생성 불가' }
     }
     const reserved = reserveGeneratedSlug(baseSlug, occupiedSlugs)
+    const celebId = crypto.randomUUID()
+    pool.push({ ...record, id: celebId, slug: reserved.slug, nickname, nickname_en: nicknameEn, publication_status: 'inactive' })
     return {
       kind: 'create', file, record,
-      celebId: crypto.randomUUID(), slug: reserved.slug, slugSuffix: reserved.slugSuffix,
+      celebId, slug: reserved.slug, slugSuffix: reserved.slugSuffix,
       reason: '신규 등록',
     }
   })
@@ -210,6 +233,8 @@ async function main() {
         nickname: plan.record.nickname!.trim(),
         nickname_en: plan.record.nickname_en!.trim(),
         slug_suffix: plan.slugSuffix,
+        aliases: cleanCelebAliases(plan.record.aliases, plan.record),
+        wikidata_qid: emptyToNull(plan.record.wikidata_qid),
         profession: emptyToNull(plan.record.profession),
         title: emptyToNull(plan.record.title),
         title_en: emptyToNull(plan.record.title_en),

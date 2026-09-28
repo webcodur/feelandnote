@@ -29,6 +29,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { findCelebDuplicates } from '@feelandnote/shared/lib/celeb-identity'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '../../src/lib/celeb-slug'
 import {
   type InactiveSeedPerson,
@@ -41,6 +42,7 @@ type ExistingProfile = {
   slug: string | null
   nickname: string | null
   nickname_en: string | null
+  aliases: string[] | null
   bio: string | null
   celeb_tier: string | null
   celeb_reality: string | null
@@ -214,7 +216,7 @@ async function main() {
     allRows<ExistingProfile>(
       client,
       'celebs',
-      'id,slug,nickname,nickname_en,bio,celeb_tier,celeb_reality,publication_status',
+      'id,slug,nickname,nickname_en,aliases,bio,celeb_tier,celeb_reality,publication_status',
     ),
     client
       .from('faction_member_rows')
@@ -273,10 +275,8 @@ async function main() {
     const baseSlug = assertRouteSafeCelebSlug(previewGeneratedCelebSlug(person.nickname_en))
     if (!baseSlug) throw new Error(`${person.nickname_en}: generated slug를 만들 수 없습니다.`)
     const reserved = reserveGeneratedSlug(baseSlug, occupiedSlugs)
-    const sameNameProfiles = profiles.filter((profile) => (
-      normalizedIdentity(profile.nickname) === normalizedIdentity(person.nickname)
-      || normalizedIdentity(profile.nickname_en) === normalizedIdentity(person.nickname_en)
-    ))
+    // 이름·다른 이름이 겹치는 기존 인물을 드러낸다. 명세의 new는 동명이인으로 확인했다는 뜻이다(celeb-00-01-pipeline.md 「중복 확인」)
+    const sameNameProfiles = findCelebDuplicates(person, profiles).map((match) => match.row)
     return {
       kind: 'create',
       person,
@@ -320,6 +320,7 @@ async function main() {
         nickname: plan.person.nickname,
         nickname_en: plan.person.nickname_en,
         slug_suffix: plan.slugSuffix,
+        aliases: plan.person.aliases ?? [],
         bio: plan.person.bio,
         celeb_tier: 'light',
         celeb_reality: plan.person.celeb_reality,

@@ -53,6 +53,7 @@
     "./bo/voice-normalize": "./src/bo/voice-normalize.ts",
     "./bo/voice-cleanup": "./src/bo/voice-cleanup.ts",
     "./lib/book-metadata": "./src/lib/book-metadata.ts",
+    "./lib/celeb-identity": "./src/lib/celeb-identity.ts",
     "./constants/responsive-artwork": "./src/constants/responsive-artwork.ts"
   },
   "peerDependencies": {
