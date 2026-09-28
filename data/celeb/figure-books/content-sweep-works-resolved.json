@@ -270,22 +270,22 @@
   "dup_fb": false
  },
  {
-  "slug": "bernie-madoff",
+  "slug": "bernard-madoff",
   "rel": "read",
   "work": "대니얼 스틸 소설들",
   "content_id": null,
   "unresolved": "author-generic",
-  "celeb_id": "7332d2ca-d4d6-4b7a-ad21-933753020215",
+  "celeb_id": "486d7998-6e89-4d07-a9c5-1ee0e7b787a5",
   "dup_cc": false,
   "dup_fb": false
  },
  {
-  "slug": "bernie-madoff",
+  "slug": "bernard-madoff",
   "rel": "read",
   "work": "Battle Cry",
   "content_id": "2f72771f-ea7a-4470-a39d-4af4183f3191",
   "unresolved": null,
-  "celeb_id": "7332d2ca-d4d6-4b7a-ad21-933753020215",
+  "celeb_id": "486d7998-6e89-4d07-a9c5-1ee0e7b787a5",
   "dup_cc": true,
   "dup_fb": false
  },
