@@ -36,5 +36,6 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 
 ```powershell
 pnpm exec tsx scripts/celeb/readings.ts --stats --screen-out=.tmp-celeb-reading/format-screen.json
+pnpm exec tsx scripts/celeb/reading/check-format.ts .tmp-celeb-reading/editorial.json
 pnpm exec tsx scripts/celeb/readings.ts --slugs=a,b --rewrite-existing --generate --editorial-candidates=.tmp-celeb-reading/editorial.json --apply --publish
 ```
