@@ -44,9 +44,8 @@ import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import {
   CELEB_AVATAR_ORIGINAL,
-  CELEB_AVATAR_SMALL,
 } from '@feelandnote/shared/constants/celeb-avatar-small'
-import { buildSmallAvatar, smallAvatarKey } from '../../src/lib/avatar-small'
+import { uploadAvatarVariants } from '../../src/lib/avatar-small'
 import {
   computeCropFromBox,
   computeCropFromLandmarks,
@@ -285,14 +284,14 @@ function extractHttpUrls(value: string): string[] {
 
 function assertIdentityEvidence(
   evidence: string,
-  celebTier: string | null,
+  celebReality: string | null,
   r2PublicUrl: string
 ): void {
   const trimmed = evidence.trim()
   if (trimmed.toLowerCase().startsWith('fiction:')) {
-    if (celebTier !== 'fiction') {
+    if (celebReality !== 'FICTION' && celebReality !== 'BOTH') {
       throw new Error(
-        `fiction 신원 근거는 celeb_tier=fiction에만 허용된다. 현재 tier=${celebTier ?? 'null'}`
+        `fiction 신원 근거는 celeb_reality=FICTION 또는 BOTH에만 허용된다. 현재 reality=${celebReality ?? 'null'}`
       )
     }
     if (trimmed.length < 'fiction:x'.length) {
@@ -703,7 +702,7 @@ async function main() {
   )
   const { data: profile, error: profileError } = await db
     .from('celebs')
-    .select('id, slug, nickname, celeb_tier')
+    .select('id, slug, nickname, celeb_reality')
     .eq('id', args.celebId)
     .maybeSingle()
   if (profileError) throw new Error(`업로드 대상 프로필 조회 실패: ${profileError.message}`)
@@ -720,7 +719,7 @@ async function main() {
   }
   assertIdentityEvidence(
     args.identityEvidence as string,
-    profile.celeb_tier as string | null,
+    profile.celeb_reality as string | null,
     env.R2_PUBLIC_URL
   )
 
@@ -816,17 +815,15 @@ async function main() {
   console.log(`     PUT ok: ${publicUrl}`)
 
   // 얼굴이 작게 나오는 화면(성향 분포 등)이 쓸 작은 판. 규격은 shared가 쥔다.
-  const smallBuf = await buildSmallAvatar(conv.buf)
-  await r2.send(
+  await uploadAvatarVariants(args.celebId, conv.buf, (variantKey, body) => r2.send(
     new PutObjectCommand({
       Bucket: env.R2_BUCKET_NAME,
-      Key: smallAvatarKey(args.celebId),
-      Body: smallBuf,
+      Key: variantKey,
+      Body: body,
       ContentType: 'image/webp',
       CacheControl: 'public, max-age=31536000, immutable',
     })
-  )
-  console.log(`     PUT ok: ${CELEB_AVATAR_SMALL.smallFile} (${smallBuf.length} bytes)`)
+  ))
 
   console.log(`[5/6] DB celebs.avatar_url 갱신`)
   const { error } = await db

@@ -8,8 +8,8 @@
  * 사용법 (sw/web-bo 에서):
  *   npx tsx scripts/avatar/light-unify.ts <입력폴더> <출력폴더> [--skip-real] [--exclude a,b]
  *
- *   --skip-real     실존 인물(celebs.celeb_reality = REAL·BOTH)은 뒤집지 않는다. 기본은 실존·허구 구분 없이 뒤집는다 —
- *                   서비스 전체를 한 방향으로 맞추는 것이 원칙이다(2026-09 결정). slug는 파일명 <번호>-<slug>에서 읽는다.
+ *   --skip-real     실존 인물(celebs.celeb_reality = REAL·BOTH)은 뒤집지 않는다. 옵션 없이는 실존·허구 모두 반전 대상이다.
+ *                   반전 선택은 docs/project/celeb/celeb-08-01-avatar.md 「대상과 예외」를 따른다. slug는 파일명 <번호>-<slug>에서 읽는다.
  *                   --include-real 은 옛 표기이며 기본 동작과 같다.
  *   --exclude       안대·외눈·글자처럼 좌우가 의미 있는 인물을 뺀다.
  *

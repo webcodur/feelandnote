@@ -17,6 +17,7 @@ import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/s
 import sharp from 'sharp'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { celebAvatarSmallUrl } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { buildMediumAvatar, mediumAvatarKey } from '../../src/lib/avatar-small'
 import { boPath } from '../lib/paths'
 
 type ScanReason = 'no_alpha' | 'fully_opaque' | 'padded_opaque' | 'opaque_edge'
@@ -480,6 +481,7 @@ async function restoreBackup(
   }
 ): Promise<void> {
   const avatar = await readFile(meta.avatarFile)
+  await dependencies.uploadToR2(mediumAvatarKey(meta.id), await buildMediumAvatar(avatar), 'image/webp')
   await dependencies.uploadToR2(`celebs/${meta.id}/avatar.webp`, avatar, 'image/webp')
   if (meta.smallFile) {
     await dependencies.uploadToR2(`celebs/${meta.id}/avatar-sm.webp`, await readFile(meta.smallFile), 'image/webp')

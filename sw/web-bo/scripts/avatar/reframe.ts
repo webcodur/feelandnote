@@ -153,7 +153,9 @@ async function makeSheet(rows: Row[], srcDir: string, dstDir: string) {
       const rowI = Math.floor(i / pairsPerRow)
       const x0 = col * (cell * 2 + gap * 3) + gap
       const y0 = rowI * (cell + label + gap) + label
-      const before = await sharp(join(srcDir, r.name + '.webp')).resize(cell, cell).png().toBuffer()
+      const before = await sharp(join(srcDir, r.name + '.webp'))
+        .resize(cell, cell, { fit: 'contain', background: '#5a6270' })
+        .png().toBuffer()
       const after = await sharp(join(dstDir, r.name + '.webp')).resize(cell, cell).png().toBuffer()
       composites.push({ input: before, left: x0, top: y0 }, { input: after, left: x0 + cell + gap, top: y0 })
       const tag = `${r.name}  ${((r.spanRatio ?? 0) * 100).toFixed(0)}% ${r.decidedBy}${r.warnings?.length ? ' !' : ''}`
@@ -195,6 +197,14 @@ async function main() {
       // sharp는 한 파이프라인 안에서 extend를 extract 뒤에 적용하므로 넓히기를 별도 단계로 끝내고 자른다.
       const padL = Math.max(0, -crop.left)
       const padR = Math.max(0, crop.left + crop.size - sil.W)
+      // 폭이 모자란 원본의 잘린 어깨 옆에 투명 띠를 붙이면 정사각 화면에 절단선이 드러난다.
+      // 빈 배경만 넓힐 수 있다. 양쪽 변에 실루엣이 닿는 좁은 원본은 재구성이 필요하다.
+      const visibleLeft = sil.rowLeft?.slice(crop.top, crop.top + crop.size) ?? []
+      const visibleRight = sil.rowRight?.slice(crop.top, crop.top + crop.size) ?? []
+      if ((padL && visibleLeft.some((x) => x === 0)) ||
+          (padR && visibleRight.some((x) => x >= sil.W - 1))) {
+        throw new Error('원본 가로폭 부족: 잘린 실루엣 옆 투명 패딩 금지. 더 넓은 원본으로 재구성 필요')
+      }
       const canvas =
         padL || padR
           ? await sharp(buf)

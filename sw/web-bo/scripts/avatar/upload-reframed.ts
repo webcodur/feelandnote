@@ -16,7 +16,7 @@ import sharp from 'sharp'
 import { readFileSync, readdirSync, writeFileSync } from 'fs'
 import { resolve, join } from 'path'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
-import { buildSmallAvatar, smallAvatarKey } from '../../src/lib/avatar-small'
+import { uploadAvatarVariants } from '../../src/lib/avatar-small'
 import { BO_ROOT } from '../lib/paths'
 
 const args = process.argv.slice(2)
@@ -98,7 +98,6 @@ async function main() {
     }
     try {
       const buf = await sharp(join(DIR, t.file)).resize(size, size, { fit: 'cover' }).webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality }).toBuffer()
-      const small = await buildSmallAvatar(buf)
       if (dryRun) {
         ok++
         log.push({ slug: t.slug, status: 'dry-run' })
@@ -106,7 +105,7 @@ async function main() {
       }
       const key = `celebs/${id}/${CELEB_AVATAR_ORIGINAL.file}`
       await put(key, buf)
-      await put(smallAvatarKey(id), small)
+      await uploadAvatarVariants(id, buf, put)
       const url = `${env.R2_PUBLIC_URL}/${key}?v=${Date.now()}`
       const { error } = await db.from('celebs').update({ avatar_url: url }).eq('id', id)
       if (error) throw new Error(`DB 갱신 실패: ${error.message}`)

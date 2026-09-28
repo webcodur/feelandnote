@@ -6,7 +6,7 @@ import sharp from 'sharp'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
-import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
+import { uploadAvatarVariants } from '@/lib/avatar-small'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/db/admin'
 
@@ -154,7 +154,7 @@ async function publishNobgAvatar(
   const key = `celebs/${celeb.id}/${CELEB_AVATAR_ORIGINAL.file}`
   await uploadToR2(key, finalAvatar, 'image/webp')
   // 배경을 지운 새 얼굴로 작은 판도 다시 만든다 — 안 하면 그 인물만 옛 얼굴이 남는다
-  await uploadToR2(smallAvatarKey(celeb.id), await buildSmallAvatar(finalAvatar), 'image/webp')
+  await uploadAvatarVariants(celeb.id, finalAvatar, (variantKey, body) => uploadToR2(variantKey, body, 'image/webp'))
 
   const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
   const admin = createAdminClient()

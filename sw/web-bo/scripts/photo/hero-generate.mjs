@@ -21,6 +21,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
+import { uploadPortraitVariants } from '../../src/lib/portrait-variants.ts'
 import { buildHeroPrompt } from './hero-prompt.mjs'
 import sharp from 'sharp'
 import { spawn, execSync } from 'child_process'
@@ -199,6 +200,9 @@ async function processOne(ctx, row) {
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${publicUrl}/${key}?v=${Date.now()}`
+    await uploadPortraitVariants(key, portrait.data, (Key, Body) => s3.send(new PutObjectCommand({
+      Bucket: bucket, Key, Body, ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
+    })))
     const { error } = await db.from('celebs').update({ portrait_url: url }).eq('id', row.celeb_id)
     if (error) throw new Error(`DB 갱신 실패 ${error.message}`)
     return { ok: true, slug: row.slug, nickname: row.nickname, kb: Math.round(portrait.data.length / 1024), size: `${portrait.info.width}x${portrait.info.height}` }

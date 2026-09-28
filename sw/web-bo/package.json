@@ -89,7 +89,9 @@
     "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs",
     "contents:book-sources": "node --env-file=.env --import tsx scripts/contents/book-description-sources.ts",
     "contents:edition-refresh": "node --env-file=.env scripts/contents/book-edition-refresh.mjs",
-    "celeb:seed:factions": "tsx scripts/celeb/seed-faction-assignments.ts"
+    "celeb:seed:factions": "tsx scripts/celeb/seed-faction-assignments.ts",
+    "avatar:md": "tsx scripts/avatar/md.ts",
+    "photo:display": "tsx scripts/photo/display-variants.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

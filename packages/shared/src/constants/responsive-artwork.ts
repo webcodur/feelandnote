@@ -1,6 +1,8 @@
 /** 기존 원본 옆에 두는 표시용 화보. 원본·구도는 바꾸지 않는다. */
 export const PORTRAIT_DISPLAY = { widths: [480, 768, 1024], quality: 82 } as const
 export const MYTH_TITLE_DISPLAY = { widths: [768, 1024, 1536], quality: 82 } as const
+/** 단체·주요 장면은 기존 해상도와 비율을 유지한 채 전송 형식만 줄인다. */
+export const FACTION_TEAM_DISPLAY = { quality: 82 } as const
 
 export function artworkVariantKey(key: string, width: number): string {
   return key.replace(/\.(?:webp|png|jpe?g)$/i, `.display-${width}.webp`)

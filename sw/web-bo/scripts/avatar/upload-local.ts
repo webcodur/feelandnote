@@ -22,7 +22,7 @@ import { resolve } from 'path'
 import {
   CELEB_AVATAR_ORIGINAL,
 } from '@feelandnote/shared/constants/celeb-avatar-small'
-import { buildSmallAvatar, smallAvatarKey } from '../../src/lib/avatar-small'
+import { uploadAvatarVariants } from '../../src/lib/avatar-small'
 import { BO_ROOT } from '../lib/paths'
 
 const args = process.argv.slice(2)
@@ -81,8 +81,7 @@ async function main() {
     console.warn(`     ⚠ 정사각이 아니다 (${meta.width}x${meta.height}) — crop-local 을 먼저 돌렸는지 확인하라`)
   }
   const buf = await sharp(filePath).resize(size, size, { fit: 'cover' }).webp({ quality }).toBuffer()
-  const smallBuf = await buildSmallAvatar(buf)
-  console.log(`     avatar ${buf.length} bytes · small ${smallBuf.length} bytes`)
+  console.log(`     avatar ${buf.length} bytes`)
 
   if (dryRun) {
     console.log('[3/4] --dry-run 이라 업로드하지 않는다')
@@ -105,7 +104,7 @@ async function main() {
   }))
   const key = `celebs/${targetCelebId}/${CELEB_AVATAR_ORIGINAL.file}`
   await put(key, buf)
-  await put(smallAvatarKey(targetCelebId), smallBuf)
+  await uploadAvatarVariants(targetCelebId, buf, put)
   const publicUrl = `${env.R2_PUBLIC_URL}/${key}?v=${Date.now()}`
   console.log(`     PUT ok: ${publicUrl}`)
 

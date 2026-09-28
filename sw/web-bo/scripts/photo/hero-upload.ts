@@ -12,6 +12,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
+import { uploadPortraitVariants } from '../../src/lib/portrait-variants'
 import sharp from 'sharp'
 import { readFileSync } from 'fs'
 import { boPath } from '../lib/paths'
@@ -104,6 +105,9 @@ async function main() {
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
+    await uploadPortraitVariants(key, webp, (Key, Body) => s3.send(new PutObjectCommand({
+      Bucket: R2_BUCKET_NAME, Key, Body, ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
+    })))
 
     const { error } = await db.from('celebs').update({ portrait_url: url }).eq('id', r.celeb_id)
     if (error) { console.error(`[${r.slug}] 갱신 실패`, error.message); continue }

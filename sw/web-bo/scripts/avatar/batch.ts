@@ -29,7 +29,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
-import { buildSmallAvatar, smallAvatarKey } from '../../src/lib/avatar-small'
+import { uploadAvatarVariants } from '../../src/lib/avatar-small'
 import { readFileSync, appendFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import * as tf from '@tensorflow/tfjs'
@@ -739,16 +739,10 @@ async function processOne(
   )
   const publicUrl = `${env.R2_PUBLIC_URL}/${key}?v=${Date.now()}`
 
-  // 5-1. 얼굴이 작게 나오는 화면(성향 분포 등)이 쓸 작은 판. 규격은 shared가 쥔다.
-  await r2.send(
-    new PutObjectCommand({
-      Bucket: env.R2_BUCKET_NAME,
-      Key: smallAvatarKey(profileId),
-      Body: await buildSmallAvatar(buf),
-      ContentType: 'image/webp',
-      CacheControl: 'public, max-age=31536000, immutable',
-    })
-  )
+  await uploadAvatarVariants(profileId, buf, (variantKey, body) => r2.send(
+    new PutObjectCommand({ Bucket: env.R2_BUCKET_NAME, Key: variantKey, Body: body,
+      ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable' })
+  ))
 
   // 6. DB
   const update: Record<string, string> = { avatar_url: publicUrl }
