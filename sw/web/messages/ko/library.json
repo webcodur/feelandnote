@@ -42,7 +42,6 @@
       "exploreCurated": "기관별 전체 보기",
       "popularLabel": "인기 작품",
       "popular": "예스24의 일별 도서 판매 순위와 인물들이 선택한 고전을 살펴보세요.",
-      "headline": "작품으로 탐색하기",
       "classicsLabel": "불후의 명작",
       "classics": "시대와 분야를 넘어 인물들이 거듭 선택한 작품을 찾아보세요.",
       "searchPlaceholder": "기관·선정 목록 검색...",
@@ -61,8 +60,8 @@
         "topic": "주제",
         "kind": "기관"
       },
-      "listJump": "베스트셀러 보기",
-      "listResults": "선정 목록 {lists, number}개 · 기관 {count, number}곳"
+      "listResults": "선정 목록 {lists, number}개 · 기관 {count, number}곳",
+      "bestsellerLabel": "베스트셀러"
     },
     "meta": {
       "title": "베스트셀러 - 도서·영화·게임·음악 인기 순위",

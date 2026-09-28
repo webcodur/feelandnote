@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { EXPLORE_MODES } from "@/constants/navigation";
-import { EXPLORE_LIST_TOP_ID } from "@/constants/exploreLenses";
 import { cn } from "@/lib/utils";
 
 /*
@@ -17,9 +16,8 @@ export default function ExploreModeTabs({ className }: { className?: string } = 
   const worksPath = EXPLORE_MODES[1].href;
   const activeMode = pathname === worksPath || pathname.startsWith(`${worksPath}/`) ? "works" : "figures";
 
-  // 아래 안내 구획의 「인물별 보기 ↑」가 이 자리로 돌아온다 — 고정 머리글에 탭이 가리지 않게 여백을 둔다
   return (
-    <nav id={EXPLORE_LIST_TOP_ID} aria-label={t("explore")} className={cn("mx-auto mb-4 grid w-full max-w-xs scroll-mt-[calc(var(--layer-header-h)+1rem)] grid-cols-2 border-b border-line md:mb-5", className)}>
+    <nav aria-label={t("explore")} className={cn("mx-auto mb-4 grid w-full max-w-xs grid-cols-2 border-b border-line md:mb-5", className)}>
       {EXPLORE_MODES.map((mode) => {
         const isActive = mode.key === activeMode;
         return (

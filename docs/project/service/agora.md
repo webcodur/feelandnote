@@ -4,7 +4,7 @@
 
 사용자끼리 글을 쓰고 서로를 팔로우하는 커뮤니티 영역이다.
 
-`navigation.tsx`의 `NAV_ITEMS`에는 광장이 없다. 헤더·바텀탭에 노출되지 않고, 풋터의 `FOOTER_MISC_LINKS`(소셜·공지사항·피드백)로만 들어간다.
+`navigation.tsx`의 `NAV_ITEMS`에 광장(`/agora`)이 있어 헤더·바텀탭에 노출된다. 풋터는 `FOOTER_MISC_LINKS`(소셜·공지사항·피드백)로도 잇는다.
 
 ## 색인 제외
 
@@ -16,9 +16,8 @@
 
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
-| `/agora` | `/agora/board/free`로 리다이렉트 | — |
+| `/agora` | 첫 탭(`AGORA_ITEMS[0]`, 공지사항)으로 리다이렉트 | — |
 | `/agora/social` | 친구·팔로잉·팔로워·취향 유사 유저를 한 페이지에 섹션별로 | `getFriends`, `getMyFollowing`, `getFollowers`, `getSimilarUsers`, `getProfile` |
-| `/agora/social-feed` | 친구들의 활동 피드 | `FriendFeedSection` (클라이언트 페칭) |
 | `/agora/board/free` | 자유게시판 목록 | `getFreePosts` |
 | `/agora/board/free/write` | 자유게시판 작성 | — |
 | `/agora/board/free/[id]` | 자유게시판 상세 + 댓글 | `getFreePost`, `getFreeComments`, `incrementFreePostView` |
@@ -29,9 +28,9 @@
 | `/agora/board/feedback/write`, `/[id]`, `/[id]/edit` | 피드백 작성·상세·수정 | `actions/board/feedbacks` |
 | `/agora/feed` | 레거시. `/explore/feed`로 리다이렉트 | — |
 | `/agora/celeb-feed` | 레거시. `/explore/feed`로 리다이렉트 | — |
-| `/agora/friend-feed` | 레거시. `/agora/social-feed`로 리다이렉트 | — |
+| `/agora/social-feed`, `/agora/friend-feed` | 철거한 친구 피드. `/agora/social`로 영구 이동 | — |
 
-레거시 3종은 페이지 리다이렉트만 있고 `next.config.ts`의 `redirects()`에는 대응 규칙이 없다.
+`feed`·`celeb-feed`는 페이지 리다이렉트만 있다. 친구 피드 두 주소는 26.09.28에 탭과 페이지를 걷고 `next.config.ts`의 `redirects()`가 308로 소셜에 보낸다.
 
 ## 레이아웃·탭
 
@@ -41,13 +40,12 @@
 
 | value | href |
 |---|---|
+| `notice` | `/agora/board/notice` |
 | `free` | `/agora/board/free` |
 | `social` | `/agora/social` |
-| `social-feed` | `/agora/social-feed` |
-| `notice` | `/agora/board/notice` |
 | `feedback` | `/agora/board/feedback` |
 
-`AgoraTabs`는 현재 주소가 `item.href`로 시작하는 항목을 활성 탭으로 잡고, 어디에도 맞지 않으면 `social`로 떨어뜨린다. 라벨은 `agora.items.*` 네임스페이스에서 읽되 하이픈을 캐멀케이스로 바꿔 키를 만든다(`celeb-feed` → `celebFeed`).
+순서는 공지사항 → 자유게시판 → 소셜 → 피드백이고 첫 항목이 광장 첫 화면이다(26.09.28 유저 지시). `AgoraTabs`는 현재 주소가 `item.href`로 시작하는 항목을 활성 탭으로 잡고, 어디에도 맞지 않으면 첫 항목으로 떨어뜨린다. 라벨은 `agora.items.*` 네임스페이스에서 읽되 하이픈을 캐멀케이스로 바꿔 키를 만든다.
 
 ## 게시판 3종
 

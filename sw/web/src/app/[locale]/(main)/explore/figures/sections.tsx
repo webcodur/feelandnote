@@ -147,7 +147,7 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
     all: allResult.total,
   };
   return (
-    <section aria-labelledby="explore-figures-heading" className="space-y-6 md:space-y-8">
+    <div className="space-y-6 md:space-y-8">
       <CelebsSection
         initialCelebs={celebsResult.celebs}
         initialTotal={celebsResult.total}
@@ -161,6 +161,6 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
         genderCounts={genderCounts}
         realityTotals={realityTotals}
       />
-    </section>
+    </div>
   );
 }

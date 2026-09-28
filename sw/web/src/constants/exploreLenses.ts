@@ -5,10 +5,11 @@
         주소와 이름은 navigation.tsx(NAV_ITEMS·WORKS_LINKS)가 쥐고, 여기는 그 key로 그림과 묶음만 붙인다.
 */ // ------------------------------
 
-/** 안내 구획의 id — 모드 탭 아래 「관점별 보기 ↓」가 이 자리로 내려온다 */
-export const EXPLORE_LENS_SECTION_ID = "explore-lenses";
-/** 모드 탭의 id — 안내 구획의 「인물별 보기 ↑ / 기관별 보기 ↑」가 이 자리(탭·검색·목록 머리)로 돌아간다 */
-export const EXPLORE_LIST_TOP_ID = "explore-list";
+/**
+ * 두 모드의 번호 구획 묶음 id — 목차(HubNav)와 구획(HubSection)이 같은 값을 써서 hub-<id>-<번호> 앵커를 맞춘다.
+ * 두 모드 모두 「1 목록(인물 목록 | 베스트셀러) · 2 관점별 보기」 두 구획이다(홈과 같은 목차 + 번호 구획 문법, 26.09.28)
+ */
+export const EXPLORE_HUB_GROUP = { figures: "explore-figures", works: "explore-works" } as const;
 
 /** art: 청동 소품 그림(FNN-흑동주조, 칸을 채워 자른다) · icon: 작은 선 아이콘(가운데 둔다) */
 export interface ExploreLensImage {

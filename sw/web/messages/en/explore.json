@@ -212,7 +212,6 @@
       "trendingSub": "The most visited figures over the past month.",
       "ranking": "Profiles",
       "rankingSub": "Discover figures through popularity, activity records, and random picks.",
-      "archiveHeadline": "Explore by figure",
       "spectrumAnalysis": "Disposition Analysis",
       "spectrumAnalysisSub": "See where influential figures stand across four dispositions (optimism, progressiveness, community, boldness). You can also search by name.",
       "groupDocumented": "Seekers",
@@ -361,8 +360,7 @@
         "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
       },
       "navMonologue": "Monologues",
-      "archiveResults": "{count, number} of {total, number} figures",
-      "listJump": "By figure"
+      "archiveResults": "{count, number} of {total, number} figures"
     },
     "directory": {
       "metaTitle": "Figure Directory - Every Figure by Name & Profession",

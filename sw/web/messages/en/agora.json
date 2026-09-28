@@ -6,14 +6,6 @@
         "label": "Free Board",
         "description": "An open space to chat freely and anonymously"
       },
-      "celebFeed": {
-        "label": "Figure Feed",
-        "description": "Explore figure archives"
-      },
-      "friendFeed": {
-        "label": "Friend Feed",
-        "description": "Check your friends' latest updates"
-      },
       "notice": {
         "label": "Announcements",
         "description": "View service announcements"
@@ -25,22 +17,11 @@
       "social": {
         "label": "Social",
         "description": "Browse your friends and connections"
-      },
-      "socialFeed": {
-        "label": "Social Feed",
-        "description": "Check your friends latest updates"
       }
     },
     "meta": {
       "title": "Community",
-      "description": "Community for sharing celebrity book reviews, movie recommendations, and cultural insights. Join the conversation and find inspiration."
-    },
-    "celebFeed": {
-      "metaTitle": "Celebrity Recommendation Feed | Community",
-      "metaDescription": "Real-time feed of celebrity book recommendations, movie reviews, and reading updates from notable figures."
-    },
-    "friendFeed": {
-      "metaTitle": "Friend Feed | Agora"
+      "description": "The feelandnote community: announcements, a free board, social connections, and feedback."
     },
     "freeBoard": "Free Board",
     "freeBoardComingSoon": "Coming Soon",
@@ -59,9 +40,6 @@
     },
     "social": {
       "metaTitle": "Social | Agora"
-    },
-    "socialFeed": {
-      "metaTitle": "Social Feed | Agora"
     }
   },
   "board": {

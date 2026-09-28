@@ -1,11 +1,12 @@
 /*
   파일명: /app/(main)/agora/page.tsx
   기능: 광장 기본 페이지
-  책임: 기본값으로 자유게시판으로 리다이렉트한다.
+  책임: 광장 첫 탭(AGORA_ITEMS[0], 공지사항)으로 보낸다.
 */ // ------------------------------
 
 import { redirect } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
+import { AGORA_ITEMS } from "@/constants/agora";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -19,5 +20,5 @@ export async function generateMetadata() {
 
 export default async function Page() {
   const locale = await getLocale();
-  redirect({ href: "/agora/board/free", locale });
+  redirect({ href: AGORA_ITEMS[0].href, locale });
 }

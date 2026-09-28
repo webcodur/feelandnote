@@ -50,6 +50,15 @@ export function hubNavItems(sections: readonly HubSectionConfig[], t: (k: string
   return sections.map((s) => ({ label: t(s.titleKey), href: s.moreHref }));
 }
 
+/**
+ * 더보기 주소가 없는 구획(탐색 두 모드)의 목차 항목. 주소는 이 화면 안 구획 앵커다 —
+ * 스크립트가 있으면 HubNav가 부드럽게 굴리고, 없으면 앵커로 내려간다.
+ * 라벨은 구획 제목과 같은 문구를 순서대로 넘긴다.
+ */
+export function hubAnchorItems(labels: readonly string[], groupId: string) {
+  return labels.map((label, index) => ({ label, href: `#${hubSectionId(index, groupId)}` }));
+}
+
 // ────────────────────────────────────────────────────
 // #region Home 허브 config — 홈도 탐색·서가와 같은 위계 문법(목차 + 번호 구획)을 쓴다
 export const HOME_GROUP_ID = "home";

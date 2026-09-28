@@ -109,6 +109,11 @@ const nextConfig: NextConfig = {
           }));
         }),
       ),
+      // 광장 친구 피드 철거(26.09.28) — 옛 주소 둘 다 소셜로 보낸다
+      ...['/agora/social-feed', '/agora/friend-feed'].flatMap((source) => [
+        { source, destination: '/agora/social', permanent: true },
+        { source: `/:locale(ko|en)${source}`, destination: '/:locale/agora/social', permanent: true },
+      ]),
       // 문의하기 → 서비스 소개 흡수 (2026-08-01)
       { source: '/contact', destination: '/about#contact', permanent: true },
       { source: '/:locale(ko|en)/contact', destination: '/:locale/about#contact', permanent: true },

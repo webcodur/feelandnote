@@ -4,7 +4,7 @@
   책임: 광장 메뉴 정보를 단일 원천으로 관리한다.
 */
 
-import { Users, Rss, Megaphone, MessageCircle, MessageSquareText, type LucideIcon } from "lucide-react";
+import { Users, Megaphone, MessageCircle, MessageSquareText, type LucideIcon } from "lucide-react";
 
 export interface AgoraItem {
   value: string;
@@ -12,10 +12,13 @@ export interface AgoraItem {
   href: string;
 }
 
+/**
+ * 광장 탭. 첫 항목이 광장 첫 화면(/agora)이다.
+ * 친구 피드(/agora/social-feed)는 26.09.28에 걷었다 — 옛 주소는 소셜로 영구 이동(next.config.ts).
+ */
 export const AGORA_ITEMS: AgoraItem[] = [
+  { value: "notice", icon: Megaphone, href: "/agora/board/notice" },
   { value: "free", icon: MessageSquareText, href: "/agora/board/free" },
   { value: "social", icon: Users, href: "/agora/social" },
-  { value: "social-feed", icon: Rss, href: "/agora/social-feed" },
-  { value: "notice", icon: Megaphone, href: "/agora/board/notice" },
   { value: "feedback", icon: MessageCircle, href: "/agora/board/feedback" },
 ];

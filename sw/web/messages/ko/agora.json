@@ -6,14 +6,6 @@
         "label": "자유게시판",
         "description": "누구나 익명으로 자유롭게 이야기를 나누는 공간"
       },
-      "celebFeed": {
-        "label": "인물 피드",
-        "description": "인물들의 아카이브를 확인하세요"
-      },
-      "friendFeed": {
-        "label": "친구 피드",
-        "description": "친구들의 최신 소식을 확인하세요"
-      },
       "notice": {
         "label": "공지사항",
         "description": "서비스 공지사항을 확인하세요"
@@ -25,22 +17,11 @@
       "social": {
         "label": "소셜",
         "description": "친구와 팔로잉 관계를 확인하세요"
-      },
-      "socialFeed": {
-        "label": "소셜 피드",
-        "description": "친구들의 최신 소식을 확인하세요"
       }
     },
     "meta": {
       "title": "커뮤니티",
-      "description": "셀럽 추천 책·영화 리뷰, 감상 공유 커뮤니티. 인물 피드, 자유 게시판에서 영감을 나누세요."
-    },
-    "celebFeed": {
-      "metaTitle": "셀럽 추천 피드 | 커뮤니티",
-      "metaDescription": "셀럽들의 최신 추천 책, 영화 리뷰와 감상 기록을 실시간으로 확인하세요."
-    },
-    "friendFeed": {
-      "metaTitle": "친구 피드 | 광장"
+      "description": "공지사항, 자유게시판, 소셜, 피드백이 모인 필앤노트 커뮤니티입니다."
     },
     "freeBoard": "자유게시판",
     "freeBoardComingSoon": "준비 중입니다",
@@ -59,9 +40,6 @@
     },
     "social": {
       "metaTitle": "소셜 | 광장"
-    },
-    "socialFeed": {
-      "metaTitle": "소셜 피드 | 광장"
     }
   },
   "board": {

@@ -42,7 +42,6 @@
       "exploreCurated": "Browse all institutions",
       "popularLabel": "Popular Works",
       "popular": "Explore the US Apple Books paid ebook chart and classics chosen by notable figures.",
-      "headline": "Explore by work",
       "classicsLabel": "Timeless Classics",
       "classics": "Find works chosen again and again by notable figures across eras and fields.",
       "searchPlaceholder": "Search institutions or lists...",
@@ -61,8 +60,8 @@
         "topic": "Topic",
         "kind": "Institution"
       },
-      "listJump": "Bestsellers",
-      "listResults": "{lists, plural, one {# list} other {# lists}} · {count, plural, one {# institution} other {# institutions}}"
+      "listResults": "{lists, plural, one {# list} other {# lists}} · {count, plural, one {# institution} other {# institutions}}",
+      "bestsellerLabel": "Bestsellers"
     },
     "meta": {
       "title": "Bestsellers - Top Books, Movies, Games & Music",

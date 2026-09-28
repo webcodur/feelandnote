@@ -2,7 +2,7 @@
   파일명: /app/(main)/explore/works/page.tsx
   기능: 작품 모드 첫 화면
   책임: 첫 화면에서 곧바로 작품이 보이도록 분야별 베스트셀러(표지 순위 격자)를 세운다.
-        기관 선정·불후의 명작·박물관·학당은 아래 「관점별 보기」 카드로 안내한다.
+        기관 선정·불후의 명작·박물관·학당은 2번 구획 「관점별 보기」 카드로 안내한다(목차 + 번호 구획 둘).
         예전 첫 화면은 기관 선정이었는데 기관 로고·선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체).
         옛 베스트셀러 주소(/explore/works/popular)는 이 화면으로 옮긴다(popular/page.tsx).
 */ // ------------------------------
@@ -10,10 +10,11 @@
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { WORKS_FEATURED_LINKS } from "@/constants/navigation";
-import ExploreHubIntro, { ExploreLensHeading } from "@/components/shared/ExploreHubIntro";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
-import { EXPLORE_LENS_IMAGES, EXPLORE_LENS_SECTION_ID, EXPLORE_LIST_TOP_ID, REORGANIZING_WORK_LENSES } from "@/constants/exploreLenses";
-import { EXPLORE_QUICKNAV_SECTION_CLASS } from "@/components/shared/ExploreCard.styles";
+import HubNav from "@/components/shared/HubNav";
+import HubSection from "@/components/shared/HubSection";
+import { hubAnchorItems } from "@/components/shared/hubSectionUtils";
+import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, REORGANIZING_WORK_LENSES } from "@/constants/exploreLenses";
 import { chartCategory } from "@/lib/library/chartSources";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
@@ -43,19 +44,22 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
   const readyPages = WORKS_FEATURED_LINKS.filter(page => !REORGANIZING_WORK_LENSES.has(page.key!));
   const reorganizingPages = WORKS_FEATURED_LINKS.filter(page => REORGANIZING_WORK_LENSES.has(page.key!));
 
+  // 인물 모드와 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(베스트셀러 · 관점별 보기)
+  const hubGroup = EXPLORE_HUB_GROUP.works;
+  const titles = [t("bestsellerLabel"), t("quickNav")];
+
   return (
-    <div className="space-y-8 md:space-y-10">
-      <section aria-labelledby="explore-works-heading">
-        <ExploreHubIntro id="explore-works-heading" title={t("headline")}
-          jump={{ href: `#${EXPLORE_LENS_SECTION_ID}`, label: t("quickNav") }} />
-        {/* 분야를 바꾸면 그 분야 차트를 새로 불러오는 동안 자리표를 보인다 */}
-        <Lane key={`${category}-${source ?? ""}`} fallback={<PendingBlock variant="grid" count={10} label={pending("loading")} />}>
-          <BestsellerMain category={category} source={source} />
-        </Lane>
-      </section>
-      {/* 구분선 위는 짧게(부모 space-y), 아래는 넉넉히 띄운다(code-rules.md 「구분선」) */}
-      <nav id={EXPLORE_LENS_SECTION_ID} aria-label={t("quickNav")} className={EXPLORE_QUICKNAV_SECTION_CLASS}>
-        <ExploreLensHeading title={t("quickNav")} back={{ href: `#${EXPLORE_LIST_TOP_ID}`, label: t("listJump") }} />
+    <div>
+      <HubNav hubItems={hubAnchorItems(titles, hubGroup)} groupId={hubGroup} />
+      <div className="space-y-8 md:space-y-10">
+        <HubSection title={titles[0]} index={0} total={titles.length} groupId={hubGroup} hideDivider>
+          {/* 분야를 바꾸면 그 분야 차트를 새로 불러오는 동안 자리표를 보인다 */}
+          <Lane key={`${category}-${source ?? ""}`} fallback={<PendingBlock variant="grid" count={10} label={pending("loading")} />}>
+            <BestsellerMain category={category} source={source} />
+          </Lane>
+        </HubSection>
+        <HubSection title={titles[1]} index={1} total={titles.length} groupId={hubGroup}>
+          <nav aria-label={titles[1]}>
         {/* 크기는 두 단계 — 큰 카드(휴대폰 두 열 타일) | 낮은 줄 카드 */}
         <div className="grid grid-cols-2 gap-3 md:gap-4">
           {readyPages.map(page => (
@@ -70,7 +74,9 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
             ))}
           </div>
         )}
-      </nav>
+          </nav>
+        </HubSection>
+      </div>
     </div>
   );
 }

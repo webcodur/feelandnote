@@ -6,8 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
-import ExploreHubIntro from "@/components/shared/ExploreHubIntro";
-import { EXPLORE_LENS_SECTION_ID } from "@/constants/exploreLenses";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -103,11 +101,7 @@ export default function CelebCarousel({
 
   return (
     <div>
-      {/* 두 탐색 모드는 같은 소개 위계를 쓴다. 명부 규모는 결과 수 옆에서 보인다. */}
-      {syncToUrl && realityTotals && (
-        <ExploreHubIntro id="explore-figures-heading" title={tHub("archiveHeadline")}
-          jump={{ href: `#${EXPLORE_LENS_SECTION_ID}`, label: tHub("quickNav") }} />
-      )}
+      {/* 구획 제목·목차는 탐색 페이지(HubNav·HubSection)가 쥔다. 명부 규모는 결과 수 옆에서 보인다. */}
       {syncToUrl ? (
         <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction}
           // 전체 명부 수와 현재 조건에 맞는 결과 수 — 조작 아래 한 줄(검색 급증 안내 옆)에 선다

@@ -48,20 +48,22 @@ export default function HubNav({ hubItems, standaloneItems, featureItem, groupId
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const visibleRef = useRef<Set<number>>(new Set());
 
+  // 항목마다 굴러갈 구획 — 구획 묶음(groupId)이 없으면 주소로만 이동한다.
+  // 쉼터는 묶음 없이 /rest#<게임>으로 이동해 그 게임을 바로 연다(RestGameGrid의 hashchange)
+  const targetIds = hubItems.map((_, i) => (groupId ? hubSectionId(i, groupId) : ""));
+  const targetKey = targetIds.join("|");
+
   const handleHubClick = (index: number) => {
-    if (!groupId) return;
-    const el = document.getElementById(hubSectionId(index, groupId));
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const id = targetIds[index];
+    if (!id) return;
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   // 지금 보고 있는 구획을 목차에 표시한다. 화면 위쪽 띠에 걸친 구획 중 가장 위를 현재로 본다.
-  const hubCount = hubItems.length;
   useEffect(() => {
-    if (!groupId) return;
-
-    const pairs = Array.from({ length: hubCount }, (_, i) => ({
+    const pairs = targetKey.split("|").map((id, i) => ({
       i,
-      el: document.getElementById(hubSectionId(i, groupId)),
+      el: id ? document.getElementById(id) : null,
     })).filter((p): p is { i: number; el: HTMLElement } => !!p.el);
     if (pairs.length === 0) return;
 
@@ -83,7 +85,7 @@ export default function HubNav({ hubItems, standaloneItems, featureItem, groupId
     );
     pairs.forEach((p) => io.observe(p.el));
     return () => io.disconnect();
-  }, [groupId, hubCount]);
+  }, [targetKey]);
 
   const hasStandalone = !!standaloneItems && standaloneItems.length > 0;
   const scrollToFeature = () => {
@@ -92,26 +94,25 @@ export default function HubNav({ hubItems, standaloneItems, featureItem, groupId
   };
 
   return (
-    <div className="flex w-full items-center justify-start gap-2 overflow-x-auto px-1 pb-1 scrollbar-hide md:mx-auto md:w-max md:max-w-full md:justify-center">
+    // 모든 폭에서 가운데 — 줄 폭을 내용만큼(w-max) 잡고 mx-auto로 세운다. 넘치면 화면 폭(max-w-full)에서 멈추고
+    // 왼쪽부터 가로로 민다(justify-start). justify-center로 가운데를 잡으면 넘친 앞머리가 잘려 스크롤로도 닿지 않는다
+    <div className="mx-auto flex w-max max-w-full items-center justify-start gap-2 overflow-x-auto px-1 pb-1 scrollbar-hide">
       {/* 이 화면 안의 구획 — 목차 */}
       {hubItems.map((item, i) => {
         const isActive = activeIndex === i;
-        return (
-          <Link
-            key={`${i}-${item.href}`}
-            href={item.href}
-            onClick={(e) => {
-              if (groupId) {
-                e.preventDefault();
-                handleHubClick(i);
-              }
-            }}
-            className={`group shrink-0 flex items-baseline gap-1.5 px-1.5 py-1.5 text-sm font-medium border-b-2 ${
-              isActive
-                ? "border-accent text-text-primary"
-                : "border-transparent text-text-secondary hover:border-stone-light hover:text-text-primary"
-            }`}
-          >
+        const className = `group shrink-0 flex items-baseline gap-1.5 px-1.5 py-1.5 text-sm font-medium border-b-2 ${
+          isActive
+            ? "border-accent text-text-primary"
+            : "border-transparent text-text-secondary hover:border-stone-light hover:text-text-primary"
+        }`;
+        const onClick = (e: React.MouseEvent) => {
+          // 새 탭·창으로 여는 누름은 주소를 그대로 따른다
+          if (!targetIds[i] || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          handleHubClick(i);
+        };
+        const content = (
+          <>
             <span
               className={`text-sm font-mono tabular-nums ${
                 isActive ? "text-accent" : "text-accent-dim group-hover:text-accent"
@@ -120,7 +121,13 @@ export default function HubNav({ hubItems, standaloneItems, featureItem, groupId
               {i + 1}
             </span>
             <span className="whitespace-nowrap">{item.label}</span>
-          </Link>
+          </>
+        );
+        // 이 화면 안 앵커(#…)는 일반 <a>로 둔다 — 로캘 링크가 주소 앞에 로캘 경로를 붙이면 다른 화면으로 떠난다
+        return item.href.startsWith("#") ? (
+          <a key={`${i}-${item.href}`} href={item.href} onClick={onClick} className={className}>{content}</a>
+        ) : (
+          <Link key={`${i}-${item.href}`} href={item.href} onClick={onClick} className={className}>{content}</Link>
         );
       })}
 

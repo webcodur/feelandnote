@@ -30,7 +30,7 @@
 
 `explore/works/layout.tsx`가 배너(`LibraryBanner`), 모드 탭, `PageContainer`를 씌운다. 상위 탐색 레이아웃은 작품 화면을 그대로 통과시켜 배너와 여백이 겹치지 않게 한다. 두 모드의 공통 배너·소개·검색 패널·카드 반응·페이지 이동 규칙은 [탐색](explore.md)이 쥔다.
 
-첫 화면은 **베스트셀러**다(`explore/works/page.tsx` → `sections.tsx`의 `BestsellerMain` → `BestsellerSection`). 첫 화면에서 곧바로 작품의 표지가 보여야 한다 — 기관 선정을 첫 화면에 두었을 때는 기관 로고나 선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체). 그 아래 기관 선정·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/image-generation.md#fnn-흑동주조) 이미지로 안내한다. 그림·재편 표시는 `constants/exploreLenses.ts`가 쥔다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 재편 중 카드는 큰 카드 아래 낮은 줄 카드로 둔다(`REORGANIZING_WORK_LENSES`). 모드 탭 아래의 「관점별 보기 ↓」가 이 카드 구획으로 내려 주고, 구획 제목 밑 「베스트셀러 보기 ↑」가 다시 올려 준다([탐색](explore.md)). 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
+첫 화면은 **베스트셀러**다(`explore/works/page.tsx` → `sections.tsx`의 `BestsellerMain` → `BestsellerSection`). 첫 화면에서 곧바로 작품의 표지가 보여야 한다 — 기관 선정을 첫 화면에 두었을 때는 기관 로고나 선정 목록이 먼저 나와 작품까지 두 번 더 눌러야 했다(26.09.28 유저 지시로 자리 교체). 그 아래 기관 선정·불후의 명작·박물관·학당은 `ExploreFeatureCard`와 [FNN-흑동주조](../production/image-generation.md#fnn-흑동주조) 이미지로 안내한다. 그림·재편 표시는 `constants/exploreLenses.ts`가 쥔다. 박물관·학당은 카드와 진입 화면에 「재편 중」을 표시하되 현재 콘텐츠는 계속 열어 둔다. 재편 중 카드는 큰 카드 아래 낮은 줄 카드로 둔다(`REORGANIZING_WORK_LENSES`). 화면은 목차 「1 베스트셀러 · 2 관점별 보기」와 번호 구획 둘로 나뉘고, 안내 카드는 2번 구획에 선다([탐색](explore.md)). 링크와 푸터는 `navigation.tsx`의 `WORKS_LINKS`를 공유한다.
 
 하위 화면은 선택한 항목의 이름을 배너 경로 줄에 표시하고 해당 목록·필터만 보여준다. 불후의 명작은 `/explore/works/popular?mode=classics`로 진입하며 메타·canonical·사이트맵과 한영 웜업(`scripts/lib/oracle-web-remote.mjs`·`.github/workflows/warm-web.yml`)도 이 주소를 쓴다. 옛 베스트셀러 주소(`/explore/works/popular`, `mode` 없음)는 사이트맵·웜업에서 빼고 페이지가 `/explore/works`로 영구 이동시킨다.
 
