@@ -8,12 +8,12 @@
  */
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Star, X } from 'lucide-react'
 import type { FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 import { setFactionTeamImages, type FactionMember } from '@/actions/admin/factions/entries'
 import { uploadFactionTeamImage, deleteFactionTeamImage } from '@/actions/admin/storage'
-import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
-import ImageCropModal from '@/components/ui/ImageCropModal'
+import { createPreviewUrl } from '@/lib/image'
 import { ImagePickerButton } from './bits'
 
 export function TeamImagesField({
@@ -27,28 +27,19 @@ export function TeamImagesField({
   members: FactionMember[]
 }) {
   const [teamImages, setTeamImages] = useState<FactionTeamImage[]>(initialImages)
-  const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
   const pickImage = async (file: File) => {
-    if (!file.type.startsWith('image/')) return
-    setCropSrc(await createPreviewUrl(file))
-  }
-
-  const handleCropDone = async (dataUrl: string) => {
-    setCropSrc(null)
+    if (busy || !file.type.startsWith('image/')) return
     setBusy(true)
     try {
-      // 자른 결과는 무손실 PNG다. webp 압축은 resizeSingleImage에서 한 번만 한다
-      const blob = await (await fetch(dataUrl)).blob()
-      const file = new File([blob], 'faction.png', { type: 'image/png' })
-      const resized = await resizeSingleImage(file, 'faction')
-      const up = await uploadFactionTeamImage({ lv2Id, image: resized })
+      const up = await uploadFactionTeamImage({ lv2Id, image: await createPreviewUrl(file) })
       if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
       const next = [...teamImages, { url: up.url }]
+      const saved = await setFactionTeamImages(lv2Id, next)
+      if (!saved.success) throw new Error(saved.error ?? '이미지 등록 실패')
       setTeamImages(next)
-      await setFactionTeamImages(lv2Id, next)
     } catch (e) {
       alert(e instanceof Error ? e.message : '단체샷 업로드 실패')
     } finally {
@@ -108,7 +99,8 @@ export function TeamImagesField({
 
   return (
     <div className="flex-1 space-y-2">
-      {teamImages.map((img, index) => (
+      {teamImages.some(image => image.kind === 'scene') && <Link href={`/faction-scenes?entry=${lv2Id}`} className="block rounded-lg border border-accent/30 p-3 text-sm text-accent hover:border-accent hover:bg-accent/10 outline-none focus-visible:ring-2 focus-visible:ring-accent">주요 장면 {teamImages.filter(image => image.kind === 'scene').length}장 · 전용 편집기에서 관리 →</Link>}
+      {teamImages.map((img, index) => img.kind === 'scene' ? null : (
         <div
           key={img.url}
           draggable
@@ -119,7 +111,7 @@ export function TeamImagesField({
         >
           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg border border-border">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={img.url} alt="" className="h-full w-full object-cover" draggable={false} />
+            <img src={img.url} alt="" className="h-full w-full object-contain" draggable={false} />
             {index === 0 ? (
               <span className="absolute bottom-1 left-1 inline-flex items-center gap-0.5 rounded bg-black/80 px-1.5 py-0.5 text-[10px] font-bold text-amber-400 backdrop-blur-sm">
                 <Star size={10} className="fill-amber-400" />
@@ -184,18 +176,10 @@ export function TeamImagesField({
 
       <ImagePickerButton busy={busy} onPick={pickImage} />
       <p className="text-xs text-text-tertiary">
+        이미지는 원본 비율과 크기로 등록합니다.
         여러 장 등록할 수 있고 끌어서 순서를 바꿉니다. 사진마다 무리 이름과 나오는 인물을 지정하면
         도감에서 사진 아래에 그대로 보이고, 이름을 누르면 그 인물로 넘어갑니다.
       </p>
-
-      {cropSrc && (
-        <ImageCropModal
-          imageSrc={cropSrc}
-          aspectRatio={1}
-          onComplete={handleCropDone}
-          onCancel={() => setCropSrc(null)}
-        />
-      )}
     </div>
   )
 }

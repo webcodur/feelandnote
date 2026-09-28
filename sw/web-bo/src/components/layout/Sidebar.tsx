@@ -94,6 +94,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/curated', label: '기관 선정', icon: Landmark },
       { href: '/figure-books', label: '인물 도서', icon: BookMarked },
       { href: '/myths', label: '신화', icon: ScrollText },
+      { href: '/faction-scenes', label: '주요 장면', icon: Images },
       { href: '/records', label: '기록', icon: FileText },
       { href: '/notes', label: '노트', icon: StickyNote },
       { href: '/playlists', label: '플레이리스트', icon: ListMusic },

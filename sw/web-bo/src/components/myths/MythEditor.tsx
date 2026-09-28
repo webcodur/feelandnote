@@ -66,6 +66,10 @@ export default function MythEditor({ myths, selectedId, detail, musicCatalog }: 
 
       {detail ? (
         <div className="min-w-0 space-y-4">
+          <Link href={`/faction-scenes?entry=${detail.entry.slug || detail.entry.id}`} className="flex items-center justify-between rounded-xl border border-accent/30 bg-accent/5 px-4 py-3 text-sm text-accent hover:border-accent hover:bg-accent/10 outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            <span className="font-semibold">시작 이미지 · 주요 장면 관리</span>
+            <span>{detail.entry.team_images.filter(image => image.kind === 'scene').length}장 →</span>
+          </Link>
           <MythInfoCard entry={detail.entry} onSaved={refreshList} />
           <MythLeadPanel
             lv2Id={detail.entry.id}

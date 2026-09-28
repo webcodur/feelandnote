@@ -32,6 +32,7 @@ export function EntryEditor({ data }: { data: FactionEditorData }) {
         </span>
         {entry.name_en && <span className="text-sm text-text-tertiary">{entry.name_en}</span>}
         <span className="text-xs text-text-tertiary">{entry.level === 1 ? '분류' : '세력'}</span>
+        {entry.level === 2 && <Link href={`/faction-scenes?entry=${entry.slug || entry.id}`} className="rounded-lg border border-accent/30 px-3 py-2 text-sm text-accent hover:border-accent hover:bg-accent/10 outline-none focus-visible:ring-2 focus-visible:ring-accent">시작 이미지 · 주요 장면</Link>}
       </div>
 
       <EntrySettings key={entry.id} data={data} />

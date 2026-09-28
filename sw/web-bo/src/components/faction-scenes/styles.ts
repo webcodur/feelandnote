@@ -1,0 +1,2 @@
+export const SCENE_BUTTON = 'inline-flex items-center justify-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-default disabled:opacity-40'
+export const SCENE_INPUT = 'w-full min-w-0 rounded-lg border border-border bg-bg-main px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary outline-none focus-visible:ring-2 focus-visible:ring-accent'
