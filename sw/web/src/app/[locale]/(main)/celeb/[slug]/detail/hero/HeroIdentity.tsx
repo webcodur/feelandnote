@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import ProfessionInfoButton from "@/components/features/celeb/ProfessionInfoButton";
 import NationalityText from "@/components/ui/NationalityText";
 import { getCelebAge } from "@/lib/celeb/lifespan";
+import { formatCelebRecordCounts } from "@/lib/celeb/meta";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
@@ -50,6 +51,10 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
         { age: ageInfo.age },
       )
     : null;
+  // 서가가 있는 full 인물만. light는 기록을 볼 자리가 없어 건수만 띄우면 헛걸음이 된다.
+  const recordCounts = (profile.celeb_tier ?? "full") === "full"
+    ? formatCelebRecordCounts(profile.contentTypeCounts, locale)
+    : [];
   const mobileAgeLabel =
     ageInfo && !ageInfo.deceased && locale === "ko"
       ? `${ageInfo.approximate ? "약 " : ""}${ageInfo.age}세`
@@ -86,6 +91,15 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
 
         {profile.headline ? (
           <p className={styles.headline}>{profile.headline}</p>
+        ) : null}
+
+        {/* 검색 제목의 건수를 화면 머리에서도 같은 말로 보여 준다 — 제목과 화면이 어긋나면
+            Google이 제목을 headline 같은 다른 문구로 바꿔 쓴다(lib/celeb/meta.ts) */}
+        {recordCounts.length > 0 ? (
+          <p className={styles.recordCounts}>
+            <span className={styles.recordCountsLabel}>{t("recordCountsLabel")}</span>
+            <span>{recordCounts.join(" · ")}</span>
+          </p>
         ) : null}
 
         {/* ── 3. 메타(직업·국적·생몰·나이·티어·번역고지) ── */}

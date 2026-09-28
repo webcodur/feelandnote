@@ -5,6 +5,7 @@
     "playAudio": "Play audio",
     "showSimilarityFormula": "Show similarity formula",
     "originalKoreanNotice": "Some text is shown in the original Korean because an English version is not yet available.",
+    "recordCountsLabel": "Records",
     "ageCurrent": "Age {age}",
     "ageCurrentApprox": "Approx. age {age}",
     "ageAtDeath": "Died at {age}",

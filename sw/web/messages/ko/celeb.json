@@ -5,6 +5,7 @@
     "playAudio": "음성 재생",
     "showSimilarityFormula": "유사도 계산 방식 보기",
     "originalKoreanNotice": "영문본이 아직 등록되지 않은 일부 문장은 한국어 원문으로 표시합니다.",
+    "recordCountsLabel": "감상 기록",
     "ageCurrent": "현재 {age}세",
     "ageCurrentApprox": "현재 약 {age}세",
     "ageAtDeath": "사망 당시 {age}세",

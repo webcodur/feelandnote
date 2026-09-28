@@ -38,7 +38,7 @@
 
 1. `WebSite` 구조화 데이터는 도메인 홈페이지(`/`, `/en`)에서만 출력한다. `Organization`은 공통 레이아웃에서 출력한다.
 2. 두 구조화 데이터는 반드시 `lib/seo.ts`의 같은 이름·별칭 상수를 사용한다. 문자열을 페이지에 다시 적지 않는다.
-3. 홈페이지는 설명형 절대 제목을 사용하고, 내부 페이지는 locale별 짧은 브랜드 접미사를 자동으로 붙인다. 개별 메시지에 같은 브랜드 접미사를 또 넣지 않는다.
+3. 홈페이지는 설명형 절대 제목을 사용하고, 내부 페이지는 locale별 짧은 브랜드 접미사를 자동으로 붙인다. 개별 메시지에 같은 브랜드 접미사를 또 넣지 않는다. 인물 상세만 예외로 접미사 없이 절대 제목을 쓴다(아래 「인물 상세 메타데이터」).
 4. 한국어 화면의 한글 표기, 영문 워드마크, 붙여쓰기 별칭 `feelandnote`가 같은 서비스임을 홈페이지 가시 텍스트와 `alternateName`으로 함께 밝힌다.
 5. `meta keywords`는 Google 색인·순위 신호가 아니다. 메시지에 남은 keywords 배열을 브랜드 회복 수단으로 간주하지 않는다.
 
@@ -47,10 +47,33 @@
 인물 상세의 제목과 설명은 `sw/web/src/lib/celeb/meta.ts`가 만들고, 메타 태그 조립은
 `celeb/[slug]/celebPageMetadata.ts`가 맡는다.
 
-- **`headline`(한 줄 정의)**: `fiction`과 `light` 인물에서 `headline`이 등록되어 있으면 최우선으로 `${headline} — ${nickname}` 형식으로 타이틀을 조립한다. `full` 인물도 감상 기록이 0건일 때 `headline`이 있으면 이를 우선 활용한다.
-- **`fiction`**: `headline`이 없을 경우 연결 원전이 있으면 `${nickname}, 《${원전}》의 등장인물`로, 원전 연결도 없으면 기존 수식어(`${title} — ${nickname}`), 수식어도 없으면 이름만 쓴다.
-- **`light`**: `headline`이 없을 경우 기존 수식어(`${title} — ${nickname}`)로 폴백한다.
-- **`full`**: 콘텐츠가 실제로 1건 이상 있는 `full`은 감상 기록과 건수를 제목에 쓴다 (`${title} ${nickname}이 감상한 책 ${count}권...`).
+Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보이는 문구로 제목을 바꿔 쓴다.
+`headline`을 제목 앞에 두던 때 빌 게이츠 검색 결과 제목이 `headline`만 남고 이름이 빠졌다.
+그래서 제목은 이름을 앞쪽에 두고, 한국어는 쉼표로 여러 토막을 내지 않으며, 제목의 말이 화면 머리
+(수식어·이름 h1·`headline`·건수 줄)에도 보이게 한다. [Google — Title links](https://developers.google.com/search/docs/appearance/title-link)
+
+| 대상 | 제목 | 설명문 |
+|---|---|---|
+| 감상 기록이 있는 실존 `full` | `빌 게이츠(MS 설립)가 감상한 책 177권·음악 73곡·영상 13편`. 영어는 `Bill Gates (Microsoft Founder): 177 Books Read`. 분야는 건수 많은 순으로 제목 폭(한글 30자 어림) 안에 드는 만큼 싣는다. 합계 2건 이하는 `이름(수식어)의 책 감상 기록` | `이름, headline.` → 가장 많은 분야의 대표작 3개 → 전 분야 건수. 넘치면 나머지 분야 건수, 대표작 순으로 덜어 낸다 |
+| `light`·`BOTH`·`FICTION`, 기록 없는 `full` | `이름, headline`. `headline`이 없으면 전승 인물은 `이름, 《원전》의 등장인물`, 그다음 `이름, title`, 이름만 | 인물 안내 첫 문장. 없으면 `이름, headline.` + bio 첫 문장(「…에 등장한다.」 같은 공통 첫 문장 제외) → 원전 속 행적·인물 관계, 실존 `light`는 실제 있는 영향력 평가·16축 스펙트럼·인물 관계만 |
+
+- 감상 기록 제목에는 수식어(`title`)를 이름 뒤 괄호로 붙인다. 이름만으로는 누군지 모를 인물이 많아서다.
+  수식어는 화면에서 이름 위에 얹는 딱지라 문장 속 꾸밈말로 두면 어색하거나(「MS 설립 빌 게이츠가」)
+  뜻이 갈린다(「「레미제라블」 빅토르 위고가 감상한」). 조사는 괄호 앞 이름에 맞추고, 괄호는 동명이인도 가른다.
+- `light`·전승 인물 제목은 `이름, headline`에서 끝낸다. 「~의 이야기」를 붙이면 headline이 「~의 X」로 끝나는
+  373명은 「의」가 겹치고(「조조의 책사의 이야기」), 서술형으로 끝나는 96명은 문장이 깨진다(26.09.28 전수).
+- 인물 상세 제목에는 브랜드 접미사를 붙이지 않는다(`celebPageMetadata.ts`의 `title.absolute`).
+  검색 결과의 사이트 이름은 Google이 홈페이지의 `WebSite` 구조화 데이터·제목·헤딩으로 정하므로 인물 제목의
+  접미사는 그 신호가 아니다. [Google — Site names](https://developers.google.com/search/docs/appearance/site-names)
+  접미사 7자는 수식어와 건수에 쓴다. 03-26 전역 접미사 제거와 4월 노출 급락은 시기만 겹쳤고
+  같은 기간 빈 본문 재수집이 더 유력한 원인이다(맨 위 「26.09.11 시점 대조」). 잃는 것은 「필앤노트 + 인물명」
+  질의에서 제목이 브랜드와 맞지 않게 되는 점이다.
+- 대표작은 `actions/celebs/getCelebSignatureWorks.ts`가 고른다. 다른 인물도 많이 감상한 작품
+  (`contents.celeb_count`)부터 쓰며, 영문 화면은 영문 제목이 있는 작품만 쓴다.
+- 인용문과 모든 인물에 똑같이 붙는 안내 문구(「한 페이지에서 살펴보세요」 등)는 설명문에 넣지 않는다.
+- 영문 화면에서 한국어로 대체된 인물 안내·bio는 설명문에 싣지 않는다(`translationFallbacks`).
+- 화면 머리의 건수 줄은 `full` 인물에만 `HeroIdentity.tsx`가 그리고, 문구는 제목과 같은
+  `formatCelebRecordCounts`를 쓴다.
 
 구조화 데이터는 모두 `Person`을 중심 엔터티로 유지한다. `full`의 공개 감상 기록만
 `ItemList`로 연결하고, `fiction`의 원전·등장 작품은 `CreativeWork.character`로 인물과 잇는다.
@@ -531,8 +554,8 @@ verification: {
 - **등재 기준**: 인물은 active이면서 `INDEXABLE_TIERS`에 포함된 티어만. 현행 인물 티어는 모두 고유한 상세 정보를 제공하므로 색인하며, 페이지 robots 기준과 사이트맵 기준은 같은 상수를 쓴다. 작품은 등재하지 않는다(위 항목)
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: PostgREST 기본 제한 1,000행 → 1,000행씩 반복 fetch
-- **hreflang**: ko, en, x-default
-- **lastModified**: 인물은 `celebs.updated_at ?? created_at`, 작품은 그 작품의 공개 감상문 중 가장 최신 `updated_at`을 사용한다. 정적 경로·기관 선정 화면은 정확한 수정 시각을 산출할 수 없어 기록하지 않는다. `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 검색엔진이 신호를 무시하게 만드므로 금지한다
+- **hreflang**: ko, en, x-default. 페이지 HTML은 각 `generateMetadata`의 `alternates`가 같은 https 주소로 선언한다. next-intl 미들웨어의 `Link` 응답 헤더는 프록시 뒤 요청 주소로 만들어져 `http://`로 나갔으므로 `i18n/routing.ts`의 `alternateLinks: false`로 끈다(26.09.28).
+- **lastModified**: 인물은 `celebs.updated_at ?? created_at`을 사용한다. `updated_at`은 트리거 `touch_profile_updated_at`이 조회수·접속 시각·slug·감상여정 열을 뺀 실제 열 변경에만 올린다. 그래서 인물 전량의 lastmod가 최근 날짜로 몰려 있는 것은 한 줄 정의·수식어 일괄 개편 같은 실제 열 수정의 결과다. 다만 화면에 보이지 않는 열만 바뀐 경우까지 거르지는 않는다(26.09.28 확인). 정적 경로·기관 선정 화면은 정확한 수정 시각을 산출할 수 없어 기록하지 않는다. `new Date()` 폴백으로 매 재생성마다 "방금 수정됨"을 신고하지 않는다.
 
 ## RSS 피드
 

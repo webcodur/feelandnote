@@ -176,7 +176,7 @@ export default async function CelebPage({ params }: PageProps) {
     || profile.celeb_tier === 'full';
 
   const pageTitle = buildCelebTitle(
-    createCelebMetaInput(profile, figureBooks),
+    createCelebMetaInput(profile, { sources: figureBooks }),
     locale,
   );
 

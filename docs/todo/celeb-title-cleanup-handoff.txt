@@ -1,0 +1,127 @@
+인물 수식어(title·title_en) 괄호 정리 — 인계 (26.09.28)
+
+이 파일은 끝이 있는 일의 인계서다. 일을 마치면 규칙을 celeb-01-03-title.md에 흡수하고,
+이 파일을 지우고, docs/todo/README.md의 행을 뺀다.
+
+
+1. 무엇을 하는가
+────────────────
+인물 수식어 값에서 「」와 괄호를 없앤다. 코드에서는 값을 가공하지 않는다
+(괄호가 붙어 있으면 떼고 보여 주는 식의 처리를 넣지 않는다). DB 값을 직접 고친다.
+사용자가 값 수정 자체를 승인했다(26.09.28).
+
+작업 범위는 celebs.title, celebs.title_en 두 칸이다. headline·bio·nickname은 건드리지 않는다.
+
+
+2. 왜 하는가
+────────────
+수식어는 이제 두 자리에서 읽힌다. 두 자리 모두에서 자연스러워야 한다.
+
+  (가) 인물 상세 머리: 이름(h1) 바로 위 한 줄. 세력·신화 선택기 카드, 관계 그래프 배지,
+      등장 작품의 인물 목록에도 단독으로 나온다.
+  (나) 검색 제목(구글 <title>): 감상 기록이 있는 FULL 실존 인물만 쓴다.
+        한국어  빌 게이츠(MS 설립)가 감상한 책 177권·음악 73곡·영상 13편
+        영어    Bill Gates (Microsoft Founder): 177 Books Read
+      LIGHT·신화 인물의 검색 제목은 headline을 쓰므로 수식어가 들어가지 않는다.
+      만드는 곳: sw/web/src/lib/celeb/meta.ts 의 namedKo·namedEn
+
+지금 값으로 (나)를 만들면 이렇게 된다.
+  빅토르 위고(「레미제라블」)가 감상한 책 9권·음악 3곡      ← 괄호 안 괄호
+  Victor Hugo (「Les Misérables」): 9 Books Read            ← 영어에 한국식 낫표
+  Kerry Washington (Scandal): …  /  Elizabeth Taylor (「Cleopatra」): …   ← 같은 종류인데 표기가 섞임
+
+「」를 떼기만 하고 작품명만 남기면 (가)에서 「레미제라블 빅토르 위고」처럼 읽혀 뜻이 흐려진다.
+그래서 작품명 수식어에는 역할어를 붙인다.
+
+
+3. 새 규칙 (celeb-01-03-title.md 「대표작 표기」를 이것으로 바꾼다)
+──────────────────────────────────────────────────────────────
+  - 수식어에 「」를 쓰지 않는다. 한국어·영어 모두.
+  - 수식어 안에 괄호 ( ) （ ）를 쓰지 않는다. 검색 제목에서 괄호가 겹친다.
+  - 대표작을 수식어로 쓸 때는 작품명만 두지 않고 역할어를 붙인다.
+    작가·저자·시인·감독·주연·가수·작곡가 등 그 인물과 작품의 관계를 한 낱말로.
+  - 역할어를 붙여 12자를 넘기거나 어색하면, 문서의 우선순위 1(통용 호칭)이나
+    3(대표 정체성)으로 다시 고른다. 글자 수를 맞추려고 작품명을 줄이지 않는다.
+  - 영문은 문서의 영문 규칙을 따른다. 저서는 관용형 Author of X를 허용한다.
+  - 짧을수록 좋다. 수식어가 길면 검색 제목에서 분야별 건수가 먼저 빠진다
+    (제목 폭을 한글 30자로 어림해 넘치는 분야를 뺀다 — meta.ts TITLE_WIDTH_BUDGET).
+
+예시(확정값 아님. 담당자가 인물마다 판정한다)
+  빅토르 위고        「레미제라블」       → 레미제라블 작가      / Author of Les Misérables
+  엘리자베스 테일러  「클레오파트라」     → 클레오파트라 주연    / Star of Cleopatra
+  스티브 커렐        「오피스」           → 오피스 주연          / Star of The Office
+  토머스 프리드먼    「세계는 평평하다」  → 세계는 평평하다 저자 / Author of The World Is Flat
+  케리 워싱턴        「스캔들」 / Scandal → 스캔들 주연          / Star of Scandal
+
+판정할 때 두 문장에 넣어 소리 내어 읽어 본다.
+  (가) 수식어 한 줄 다음 줄에 이름
+  (나) <이름>(<수식어>)가 감상한 책 N권
+둘 다 자연스러우면 통과다. 기존 규칙(2~12자, 금지 표현, 중복 확인)도 그대로 지킨다.
+
+
+4. 대상 규모 (26.09.28 전수, 공개 인물 5,561명 기준)
+─────────────────────────────────────────────────
+                          전체     그중 FULL 실존(3,514명)
+  title   에 「」        1,253     1,190
+  title_en에 「」          860       825
+  title_en에 괄호            8         5
+  title   에 괄호            0         0
+
+비공개(inactive) 인물은 세지 않았다. 나중에 공개되므로 함께 고친다.
+
+대상 추출(예)
+  select id, slug, nickname, title, title_en, celeb_tier, celeb_reality, publication_status
+  from public.celebs
+  where title like '%「%' or title like '%」%'
+     or title_en like '%「%' or title_en like '%」%'
+     or title ~ '[()（）]' or title_en ~ '[()]';
+
+
+5. 진행 방법
+────────────
+  - 후보는 배치 파일로 만들어 data/celeb/ 아래에 둔다(되돌릴 원본 값도 같이 적는다).
+    DB 반영 전 원고·배치는 문서 폴더가 아니라 데이터 폴더에 둔다(AGENTS.md).
+  - 한글이 든 JSON은 편집 도구로 고치지 않는다. Node·Python으로 읽기→파싱→쓰기.
+  - 반영은 web-bo /celebs/titles(전체 수식어 일괄 편집) 또는 스크립트로 한다.
+  - 반영하면 DB 트리거(web_revalidate_trigger)가 그 인물의 웹 캐시를 비운다.
+    사이트맵 lastmod도 그 인물만큼 새 날짜가 된다. 실제 수정이므로 정상이다.
+  - 별칭 작업(docs/todo/celeb-aliases.md, data/celeb/name-title-sweep/)과 섞지 않는다.
+    그 문서가 「수식어 점검은 따로 목록을 만들어 한 번에 반영」이라고 정해 두었다.
+
+주의: celeb-01-03-title.md에는 다른 세션의 미커밋 변경(「행위계열 정리」 절)이 있다.
+「대표작 표기」 절만 고치고, 그 파일을 커밋할 때는 git diff로 남의 변경이 섞이는지 먼저 본다.
+
+
+6. 끝났는지 확인
+────────────────
+  - 4번 추출 쿼리가 0행이다.
+  - 개발 서버(3000, 사용자가 띄워 둔 것. 새로 띄우지 않는다)에서 고친 FULL 인물 몇 명의
+    /celeb/<slug> 와 /en/celeb/<slug> 를 열어 머리 수식어 줄과 <title>을 읽어 본다.
+  - 규칙을 celeb-01-03-title.md에 흡수하고 이 파일과 README 행을 지운다.
+
+
+7. 참고 — 이 인계를 만든 작업의 현재 상태 (검색 제목·설명문 개편)
+────────────────────────────────────────────────────────────
+수식어 담당자가 할 일은 아니다. 같은 흐름을 이어받는 사람을 위해 남긴다.
+
+코드는 개발 서버까지 반영했고 커밋·배포는 하지 않았다.
+  sw/web/src/lib/celeb/meta.ts, meta.test.ts           제목·설명문 규칙
+  sw/web/src/actions/celebs/getCelebSignatureWorks.ts  대표작 조회(새 파일)
+  sw/web/src/app/[locale]/(main)/celeb/[slug]/celebPageMetadata.ts, page.tsx
+  sw/web/src/app/[locale]/(main)/celeb/[slug]/detail/hero/HeroIdentity.tsx, CelebPageContent.module.css
+  sw/web/messages/{ko,en}/celeb.json                   recordCountsLabel 한 줄씩
+  sw/web/src/i18n/routing.ts                           alternateLinks: false (http hreflang 헤더 제거)
+  docs/project/operations/seo.md                       「인물 상세 메타데이터」 절 등
+검증: meta.test.ts 11개 통과, tsc 오류 0, 바뀐 파일 eslint 통과, 개발 서버 한·영 실제 렌더 확인.
+
+커밋할 때 조심할 것
+  - seo.md에는 다른 세션의 미커밋 변경도 있다. 파일 단위 커밋이라 함께 들어간다.
+  - 같은 폴더의 celeb/[slug]/layout.tsx, lib/celeb/celebNameSearch*.ts 는 남의 변경이다. 빼고 커밋한다.
+
+남은 일
+  - 커밋·배포: pnpm deploy:web:oracle 뒤 pnpm purge:web:cloudflare 까지(사용자 지시 뒤).
+  - 운영 확인: <title>·description, 응답 헤더에 hreflang Link가 없어졌는지.
+  - Search Console(사용자): 사이트맵 재제출, 빌 게이츠 등 주요 인물 색인 생성 요청,
+    heracles·achilles URL 검사로 마지막 크롤 날짜와 제외 사유 확인.
+  - 마리아(slug mary)의 headline이 「??? ?? ??? ?? ???」로 깨져 있다(공개 인물 7개 칸 전수 중 유일).
+    headline은 celeb-headline-rewrite 스킬 절차로 1명만 다시 정한다. 영문 headline은 미확인.
