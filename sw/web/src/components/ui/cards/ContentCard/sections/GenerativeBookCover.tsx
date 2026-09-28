@@ -35,20 +35,18 @@ function seededRng(seed: number) {
   };
 }
 
-/* ── 팔레트 (배경 그라디언트 from → to) ── */
+/* ── 팔레트 (배경 그라디언트 from → to) ──
+   오래된 천 장정처럼 채도를 낮춘 짙은 색만 쓴다. 형광 보라·분홍 그라데이션은 어두운 화면에서
+   진짜 표지보다 먼저 눈에 띄어, 표지가 없는 작품이 가장 튀는 역전이 생겼다. */
 const PALETTES: [string, string][] = [
-  ["#6366f1", "#a855f7"], // indigo → purple
-  ["#ec4899", "#f97316"], // pink → orange
-  ["#14b8a6", "#3b82f6"], // teal → blue
-  ["#f59e0b", "#ef4444"], // amber → red
-  ["#8b5cf6", "#ec4899"], // violet → pink
-  ["#10b981", "#6366f1"], // emerald → indigo
-  ["#f43f5e", "#a855f7"], // rose → purple
-  ["#0ea5e9", "#22d3ee"], // sky → cyan
-  ["#d946ef", "#f97316"], // fuchsia → orange
-  ["#84cc16", "#14b8a6"], // lime → teal
-  ["#e11d48", "#7c3aed"], // rose-dark → violet
-  ["#2563eb", "#06b6d4"], // blue → cyan
+  ["#4a3a2c", "#1f1812"], // 청동 갈색
+  ["#34423b", "#161c19"], // 녹청
+  ["#43354a", "#1b161d"], // 먹자주
+  ["#323b4a", "#15191f"], // 먹청
+  ["#4d4028", "#201a10"], // 황토
+  ["#4a3030", "#1d1414"], // 적갈
+  ["#2b3e44", "#11191c"], // 청록 먹
+  ["#403d34", "#1a1916"], // 돌빛
 ];
 
 /* ── 장식 패턴 ── */
@@ -151,7 +149,8 @@ export default function GenerativeBookCover({
   const patternIdx = Math.floor(rng() * PATTERNS.length);
   const angle = Math.round(rng() * 180);
 
-  const accent = rng() > 0.5 ? "#ffffff" : from;
+  // 무늬는 흰색 또는 서비스 금색(accent 토큰과 같은 값)만 쓴다
+  const accent = rng() > 0.5 ? "#ffffff" : "#d4af37";
 
   return (
     <div
@@ -163,26 +162,16 @@ export default function GenerativeBookCover({
       {/* 장식 패턴 */}
       {PATTERNS[patternIdx](rng, accent)}
 
-      {/* 글로우 효과 */}
-      <div
-        className="absolute rounded-full opacity-20 blur-2xl"
-        style={{
-          width: "60%",
-          height: "60%",
-          left: `${Math.round(rng() * 40 + 30)}%`,
-          top: `${Math.round(rng() * 40 + 30)}%`,
-          transform: "translate(-50%, -50%)",
-          background: "white",
-        }}
-      />
+      {/* 등 쪽 그림자 — 장정한 책처럼 왼쪽 가장자리를 살짝 눌러 둔다 */}
+      <div className="absolute inset-y-0 start-0 w-[8%] bg-gradient-to-r from-black/35 to-transparent" />
 
-      {/* 아이콘 + 안내 문구 — 반투명 오버레이로 가독성 확보. 둘 다 없으면 상자도 그리지 않는다 */}
+      {/* 아이콘 + 안내 문구. 둘 다 없으면 상자도 그리지 않는다 */}
       {(ContentIcon || label) && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-1.5 bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 border border-white/10 shadow-lg">
-            {ContentIcon && <ContentIcon size={iconSize} className="text-white/80" />}
+        <div className="absolute inset-0 flex items-center justify-center p-2">
+          <div className="flex max-w-full flex-col items-center gap-1.5 rounded-control bg-black/40 px-3 py-2.5">
+            {ContentIcon && <ContentIcon size={iconSize} strokeWidth={1.5} className="text-text-secondary" />}
             {label && (
-              <p className="text-[11px] font-medium text-white/90 text-center leading-snug">
+              <p className="text-[11px] font-medium text-text-primary text-center leading-snug">
                 {label}
               </p>
             )}

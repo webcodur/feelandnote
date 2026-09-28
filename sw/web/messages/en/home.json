@@ -1,27 +1,22 @@
 {
   "home": {
     "explore": {
-      "englishTitle": "Notable Figures",
       "description": "Follow the trails of appreciation left by great minds.",
       "link": "Go to Figures"
     },
     "library": {
-      "englishTitle": "Curated Works",
       "description": "Works that echoed through centuries, waiting on the shelves.",
       "link": "Go to Works"
     },
     "agora": {
-      "englishTitle": "The Agora",
       "description": "Share your echoes in the square of those who record.",
       "link": "Go to Agora"
     },
     "rest": {
-      "englishTitle": "Take a Rest",
       "description": "A playful pause between records.",
       "link": "Go to Rest"
     },
     "archive": {
-      "englishTitle": "Personal Collection",
       "description": "Build your own library, one line at a time.",
       "link": "Go to My Archives"
     },

@@ -5,7 +5,7 @@
     "brandHeading": "feelandnote",
     "brandAlias": "An archive of remarkable taste",
     "description": "feelandnote is a cultural archive of the books, films, music, and games experienced by historical and contemporary figures.",
-    "twitterDescription": "Explore books, films, music, and games experienced by more than 1,000 remarkable figures on feelandnote.",
+    "twitterDescription": "Explore the books, films, music, and games experienced by historical and contemporary figures on feelandnote.",
     "keywords": [
       "cultural archive",
       "celebrity book recommendations",
@@ -391,7 +391,7 @@
     "contactFeedbackDesc": "Have an idea for a new feature or spotted an error? Leave a note on the feedback board.",
     "contactFeedbackLink": "Go to the Feedback Board",
     "about": "About",
-    "aboutMetaTitle": "About feelandnote — The Cultural Archive of Books, Films & Music",
+    "aboutMetaTitle": "About — The Cultural Archive of Books, Films & Music",
     "aboutTitle": "About feelandnote",
     "aboutDescription": "The books, films, and music that historical figures and well-known people today took in are all here. Leave your own impressions beside theirs.",
     "aboutVisionTitle": "What We Are Building",
@@ -440,7 +440,8 @@
   "shared": {
     "scrollDown": "Scroll down",
     "accessibility": {
-      "close": "Close"
+      "close": "Close",
+      "breadcrumb": "Breadcrumb"
     },
     "hubSection": {
       "more": "View more",
@@ -588,7 +589,7 @@
       "viewCard": "View figure card",
       "playDialogue": "Show dialogue",
       "trendChipDirect": "Trending top {rank}",
-      "trendChipRank": "top {rank}",
+      "trendChipRank": "Search #{rank}",
       "trendInfoOpen": "See trend details",
       "trendModalQuery": "Trending search \"{title}\" · #{rank}",
       "trendModalBodyDirect": "This figure's own name is surging on Google Trends in {country}.",

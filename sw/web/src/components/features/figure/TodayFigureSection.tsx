@@ -113,80 +113,61 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
 
     return (
         <div className="w-full">
-            {/* 섹션 헤더 */}
-            <div className="text-center mb-6 md:mb-10">
-                {/* 날짜 알약은 자기 줄을 차지해야 한다 — 블록 래퍼를 빼면 아래 인물 카드(inline-flex)와
-                    한 줄에 붙어 인물이 오른쪽으로 밀린다(부제를 감추는 embedded에서 드러났다) */}
-                <div className="mb-2">
-                    {/* 선정 사유 마크가 알약 오른쪽 위에 걸리므로 기준점을 알약에 둔다 */}
-                    <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">
-                        <Calendar size={12} />
+            {/* 인물 머리 — 가운데 정렬(code-rules.md 「정렬」). 날짜 → 얼굴 → 이름 → 직업 → 소개 순으로 쌓는다.
+                예전 배지(작품 수·TODAY 알약)는 날짜 줄이 같은 말을 하므로 두지 않는다 */}
+            <div className="mb-6 flex flex-col items-center text-center md:mb-8">
+                {/* 날짜 줄 — 선정 사유 마크는 날짜 바로 뒤에 붙는다(눌러 여는 말풍선의 기준점) */}
+                <div className="mb-4 flex items-center justify-center gap-1.5 text-[13px] font-semibold text-accent">
+                        <Calendar size={13} aria-hidden />
                         <span>{dateStr}</span>
                         {reasonMark && (
-                            <span ref={reasonMarkRef} className="absolute -right-1.5 -top-1.5">
+                            <span ref={reasonMarkRef} className="relative ms-0.5">
                                 <button
                                     type="button"
                                     title={reasonMark.label}
                                     aria-label={reasonMark.label}
                                     aria-expanded={reasonOpen}
                                     onClick={() => setReasonOpen((v) => !v)}
-                                    className={`relative flex size-4 items-center justify-center rounded-full border border-[#121212] before:absolute before:-inset-2 before:content-[''] ${reasonMark.className}`}
+                                    className={`relative flex size-4 items-center justify-center rounded-full border border-bg-main before:absolute before:-inset-2 before:content-[''] ${reasonMark.className}`}
                                 >
                                     {reasonMark.icon}
                                 </button>
                                 {reasonOpen && (
-                                    <span className="absolute right-0 top-full z-20 mt-1.5 whitespace-nowrap rounded-full border border-white/10 bg-black/90 px-2 py-0.5 text-[10px] font-medium text-white shadow-lg">
+                                    <span className="absolute right-0 top-full z-20 mt-1.5 whitespace-nowrap rounded-full border border-line-strong bg-bg-card px-2.5 py-1 text-xs font-medium text-text-primary shadow-lg">
                                         {reasonMark.label}
                                     </span>
                                 )}
                             </span>
                         )}
-                    </div>
                 </div>
-                {!embedded && (
-                    <p className="text-sm mb-4">
-                        {t("subtitle")}
-                    </p>
-                )}
 
-                {/* 인물 프로필 */}
+                {/* 얼굴과 이름을 한 링크로 묶는다. hover는 얼굴 테두리·이름 글자색이 즉시 금색으로 바뀐다 */}
                 <Link
                     href={getCelebProfileUrl(figure)}
-                    className="group relative inline-flex w-full min-w-0 max-w-full flex-col items-center gap-4 px-4 py-6 sm:gap-5 sm:px-10 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent rounded-2xl mb-0"
+                    className="group flex min-w-0 max-w-full flex-col items-center gap-3 rounded-card px-4 md:gap-4"
                 >
-                    <div className="relative">
-                        <BlurDissolve className="inline-block">
-                            <Avatar
-                                url={figure.avatar_url}
-                                name={displayName}
-                                size="2xl"
-                                className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]"
-                            />
-                        </BlurDissolve>
-                        {/* 콘텐츠 개수 뱃지 */}
-                        <div className="absolute -top-1 -right-1 z-20 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center bg-accent text-black text-[11px] font-bold rounded-full border-2 border-[#121212] shadow-lg">
-                            {contents.length}
-                        </div>
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-black/80 border border-white/10 rounded-full">
-                            <span className="text-[11px] font-bold text-accent tracking-wider uppercase">Today</span>
-                        </div>
-                    </div>
-
-                    <div className="text-center space-y-2 min-w-0 max-w-full">
-                        <h2 className="text-[1.65rem] sm:text-3xl md:text-4xl leading-tight font-serif font-bold text-text-primary break-keep group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent">
-                            {displayName}
-                        </h2>
-                        <div className="flex items-center justify-center gap-3">
-                            <span className="text-sm text-text-secondary font-medium px-2 py-0.5 rounded bg-white/5 border border-white/5">
-                                {professionLabel}
-                            </span>
-                        </div>
-                    </div>
+                    <BlurDissolve className="inline-block">
+                        <Avatar
+                            url={figure.avatar_url}
+                            name={displayName}
+                            size="4xl"
+                            // Avatar 4xl의 기본 폭(160px)을 폭별 변형으로 덮는다 — 변형 없는 같은 속성끼리는 생성 순서로 져서 먹지 않는다
+                            className="group-hover:ring-accent/60 max-md:h-[104px] max-md:w-[104px] md:h-[120px] md:w-[120px]"
+                        />
+                    </BlurDissolve>
+                    {/* 구획 제목(h2) 아래라 h3 */}
+                    <h3 className="break-keep text-[1.75rem] font-bold leading-tight tracking-tight text-text-primary group-hover:text-accent md:text-4xl">
+                        {displayName}
+                    </h3>
                 </Link>
+                {professionLabel && (
+                    <p className="mt-1.5 text-sm text-text-secondary md:text-base">{professionLabel}</p>
+                )}
+                {!embedded && <p className="mt-2 text-sm text-text-secondary">{t("subtitle")}</p>}
 
-                {/* 간단한 소개글 — 잘라내지 않고 전문을 보인다. 영역은 가운데, 글은 왼쪽 정렬이다 */}
+                {/* 소개글 — 잘라내지 않고 전문을 보인다. 영역은 가운데, 여러 줄 글은 왼쪽 정렬이다 */}
                 {displayBio && (
-                    <p className="text-left text-sm text-text-secondary max-w-xl mx-auto mb-4 mt-2 px-4 break-keep">
+                    <p className="mx-auto mt-4 max-w-xl break-keep text-left text-[15px] leading-relaxed text-text-secondary">
                         {displayBio}
                     </p>
                 )}
@@ -194,7 +175,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
 
             <div className="min-h-[200px]">
                 {/* 칩은 상자 없이 바로 둔다 — 종류별 박스가 따로 노는 느낌을 없앤다 */}
-                <div className="mb-6 flex items-center justify-center gap-2">
+                <div className="mb-4 flex items-center justify-center gap-2 md:mb-5">
                     <ContentTypeSummary
                         items={contents}
                         value={categoryFilter}
@@ -224,10 +205,10 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                                 isSpoiler={content.is_spoiler}
                                 sourceUrl={content.source_url ?? undefined}
                                 ownerNickname={displayName}
-                                heightClass="h-[280px]"
+                                // 휴대폰 표지 칸(폭 112px)은 2:3 비율 높이만 쓴다 — 280px로 두면 표지 위아래가 비었다
+                                heightClass="h-[168px] sm:h-[280px]"
                                 recommendable={true}
                                 userContentId={content.user_content_id}
-                                className="shadow-lg"
                                 titleBadge={content.title_badge}
                                 titleKo={content.title_ko}
                                 titleEn={content.title_en}
@@ -259,24 +240,18 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
                     ))}
                   </>
                 ) : (
-                    <div className="w-full py-16 text-center flex flex-col items-center justify-center gap-4 min-w-[300px] border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
-                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-2">
-                            <BookOpen size={24} className="opacity-30" />
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-text-secondary font-medium">
-                                {t("emptyCategory")}
-                            </p>
-                        </div>
+                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-card border border-dashed border-line py-14 text-center">
+                        <BookOpen size={24} className="text-text-tertiary" aria-hidden />
+                        <p className="font-medium text-text-secondary">{t("emptyCategory")}</p>
                     </div>
                 )}
 
-                {/* 전체 보기 링크 - 콘텐츠가 있을 때만 */}
+                {/* 전체 보기 링크 - 콘텐츠가 있을 때만. 누르는 칸 44px */}
                 {filteredContents.length > 0 && (
-                    <div className="flex justify-end mt-4">
-                         <Link
+                    <div className="mt-2 flex justify-end">
+                        <Link
                             href={getCelebProfileUrl(figure)}
-                            className="text-xs text-accent/80 hover:text-accent shrink-0"
+                            className="inline-flex min-h-11 shrink-0 items-center px-1 text-sm font-medium text-text-secondary hover:text-accent"
                         >
                             {t("viewAll")} →
                         </Link>

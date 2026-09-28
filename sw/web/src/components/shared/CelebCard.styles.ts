@@ -30,11 +30,11 @@ export const FLAME_EDGE =
 /* 트렌드 매칭 표기 — 네모 칩이 급상승 표지다. auto 칩은 맥박치는 화염 테두리를 입는다
    (칩 자체가 [급상승 top n] 표기). 탐색 설명대 범례가 같은 모양을 쓰도록 여기 한 곳에서 쥔다. */
 export const TREND_CHIP_BASE =
-  "inline-flex items-center whitespace-nowrap rounded px-1.5 py-px text-[10px] font-semibold leading-tight";
+  "inline-flex items-center whitespace-nowrap rounded px-1.5 py-px text-[11px] font-semibold leading-tight";
 export const TREND_CHIP_DIRECT = "border-2 border-transparent animate-flame-edge text-accent";
-/* 탐색 카드처럼 테두리가 이미 표지인 자리의 평범한 테두리 칩 */
+/* 표지가 따로 있는 자리의 평범한 테두리 칩 */
 export const TREND_CHIP_PLAIN = "border border-white/20 text-text-secondary";
-/* 홈 명부 칩 — 금박 테두리 하나로 단순하게 */
+/* 홈 명부·탐색 인물 카드 칩 — 금박 테두리 하나로 단순하게. 탐색 카드는 테두리 대신 이 칩이 급상승 표지다 */
 export const TREND_CHIP_GOLD = "border border-accent/60 text-accent";
 /* 칩의 안쪽 면 — 칩이 놓이는 자리가 달라도 같은 색이 되도록 카드 바탕을 올린다 */
 export const TREND_CHIP_FLAME_BG =

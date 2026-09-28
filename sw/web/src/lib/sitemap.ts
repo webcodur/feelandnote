@@ -151,8 +151,8 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
     ],
   ),
   ['/explore/feed', 'daily', 0.7],
+  // 작품 첫 화면이 베스트셀러다. 옛 /explore/works/popular(베스트셀러)는 이 주소로 옮겨 가므로 싣지 않는다
   ['/explore/works', 'daily', 0.8],
-  ['/explore/works/popular', 'weekly', 0.8],
   ['/explore/works/popular?mode=classics', 'weekly', 0.8],
   ['/explore/works/museum', 'monthly', 0.7],
   ['/explore/works/academy', 'monthly', 0.7],

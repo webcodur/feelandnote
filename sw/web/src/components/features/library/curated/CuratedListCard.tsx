@@ -1,241 +1,99 @@
 /*
   파일명: /components/features/library/curated/CuratedListCard.tsx
-  기능: 선정 목록 한 건을 나타내는 카드
-  책임: 각 기관의 공식 시그니처 컬러, 앰비언트 그라데이션, 거대 엠블럼 워터마크를 통해
-        기관 고유의 압도적인 아우라를 부여하고, 엄선된 도서/영상은 제목 옆에
-        표지 두 장을 겹쳐 세워 카드 높이를 아낀다.
+  기능: 선정 목록 한 건을 나타내는 카드 — 작품 첫 화면과 기관 상세가 같은 카드를 쓴다
+  책임: 위에는 목록 앞머리 작품의 표지 다섯 장을 부채꼴로 펼쳐 "무엇이 담겼는지"를 글자보다 먼저 보이고,
+        아래에는 목록 이름과 편수, 그리고 낸 기관의 작은 서명(로고 + 이름 + 국가)을 둔다.
+        기관은 주인공이 아니라 출처다 — 첫 화면에서 기관 로고를 크게 깔면 제휴사 로고 벽처럼 읽혔다(26.09.28).
+        카드 전체는 목록 화면으로 가는 링크이고, 기관 서명만 따로 기관 화면으로 간다(링크 안에 링크를 넣지 않고 제목 링크를 카드 전체로 편다).
+        기관 상세에서는 모든 카드가 같은 기관이라 서명 대신 목록 설명을 싣는다.
 */ // ------------------------------
 
 "use client";
 
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { ListOrdered, CalendarClock, ShieldCheck } from "lucide-react";
-import BlurDissolve from "@/components/ui/BlurDissolve";
-import NationalityText from "@/components/ui/NationalityText";
+import { useLocale, useTranslations } from "next-intl";
+import { Library } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import type { CuratedListSummary } from "@/actions/library/types";
-import FilmHoles from "./FilmHoles";
+import { getCountryNameByLocale } from "@/lib/countries";
+import { EXPLORE_CARD_FRAME_HOVER } from "@/components/shared/ExploreCard.styles";
 import { getCuratorBrand } from "./curatorBrandPalettes";
 import { getCuratorLogoUrl } from "./curatorLogos";
 
-export default function CuratedListCard({
-  list,
-  onSelect,
-}: {
+/** covers[i]가 설 자리 — 가운데가 1번 작품, 그 양옆에 2·3번, 바깥에 4·5번 */
+const FAN_SLOTS = [0, -1, 1, -2, 2] as const;
+/** 매체마다 표지 비율이 다르다 — 음반은 정사각, 게임 표지는 3:4, 책·영화 포스터는 2:3 */
+const COVER_ASPECT: Record<string, string> = { MUSIC: "aspect-square", GAME: "aspect-[3/4]" };
+
+export default function CuratedListCard({ list, curatorQuery = "", variant = "hub" }: {
   list: CuratedListSummary;
-  onSelect?: (list: CuratedListSummary) => void;
+  /** 기관 서명 링크에 넘길 매체·주제 조건 */
+  curatorQuery?: string;
+  /** hub: 기관 서명을 단다 · curator: 기관 상세 — 서명 대신 목록 설명 */
+  variant?: "hub" | "curator";
 }) {
   const t = useTranslations("library.curated");
-
-  // 기관 고유의 브랜드 시그니처 팔레트 (다크 앰비언트 그라데이션, 엠블럼 모노그램, 액센트)
-  const brand = getCuratorBrand(list.curatorSlug, list.curatorKind);
-  const isVideo = list.contentType === "VIDEO";
+  const locale = useLocale();
+  const covers = list.covers.slice(0, FAN_SLOTS.length);
+  const aspect = COVER_ASPECT[list.contentType] ?? "aspect-[2/3]";
   const logoUrl = getCuratorLogoUrl(list.curatorSlug, list.curatorLogoUrl);
+  const brand = getCuratorBrand(list.curatorSlug, list.curatorKind);
+  const meta = [t("itemCount", { count: list.itemCount }), list.isAnnual ? t("annual") : list.isRanked ? t("ranked") : null].filter(Boolean).join(" · ");
 
   return (
-    <Link
-      href={`/explore/works/curated/${list.curatorSlug}/${list.slug}`}
-      onClick={(e) => {
-        if (onSelect) {
-          e.preventDefault();
-          onSelect(list);
-        }
-      }}
-      className="group relative flex flex-col justify-between gap-3.5 overflow-hidden rounded-2xl border border-white/[0.08] p-4 hover:border-white/[0.2] sm:p-5"
-      style={{
-        background: brand.gradient,
-        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.06)",
-      }}
-    >
-      {/* ── 0. 상단 림 라이트 (Rim Light) ── */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] opacity-70 group-hover:opacity-100"
-        style={{
-          background: `linear-gradient(90deg, transparent 0%, ${brand.accent} 50%, transparent 100%)`,
-        }}
-      />
-
-      {/* ── 0. 배경 거대 엠블럼 / 모노그램 워터마크 ── */}
-      {logoUrl ? (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-6 -top-6 size-36 select-none overflow-hidden opacity-[0.06] grayscale contrast-200"
-        >
-          <Image
-            src={logoUrl}
-            alt=""
-            fill
-            className="object-contain"
-            sizes="144px"
-          />
-        </div>
-      ) : (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-2 -top-2 select-none font-serif text-[64px] font-black tracking-tighter opacity-[0.05]"
-          style={{ color: brand.accent }}
-        >
-          {brand.monogram}
-        </div>
-      )}
-
-      {/* ── 1. 카드 상단: 공식 아카이브 인덱스 & 기관 헤더 ── */}
-      <div className="relative space-y-2.5">
-        {/* 상단 마이크로 밴드: 영문 기관/학술명 + 편수 칩 */}
-        <div className="flex items-center justify-between gap-2 text-[11px] tracking-wider text-text-tertiary">
-          <div className="flex min-w-0 items-center gap-1.5 font-mono uppercase">
-            <span
-              className="inline-block size-1.5 rounded-full"
-              style={{ backgroundColor: brand.accent }}
-            />
-            <span className="truncate font-semibold tracking-widest text-text-secondary">
-              {brand.nameEn ?? (list.curatorKind ? t(`kind.${list.curatorKind}`) : "ARCHIVE")}
-            </span>
-          </div>
-
-          <span
-            className="shrink-0 rounded-full px-2 py-0.5 font-mono text-[11px] font-semibold"
-            style={{
-              backgroundColor: `${brand.primary}55`,
-              color: brand.accent,
-              border: `1px solid ${brand.accent}40`,
-            }}
-          >
-            {t("itemCount", { count: list.itemCount })}
-          </span>
-        </div>
-
-        {/* 기관 로고 + 명칭 + 분류 */}
-        <div className="flex items-center gap-2.5">
-          {logoUrl ? (
-            <div className="relative size-11 shrink-0 overflow-hidden rounded-lg sm:size-12">
-              <BlurDissolve className="absolute inset-0">
-                <Image
-                  src={logoUrl}
-                  alt={list.curatorName ?? ""}
-                  fill
-                  className="object-contain"
-                  sizes="48px"
-                />
-              </BlurDissolve>
-            </div>
-          ) : (
-            <div
-              className="flex size-11 shrink-0 items-center justify-center rounded-lg border font-serif text-[14px] font-bold shadow-inner sm:size-12"
+    <article className={`group relative flex min-w-0 flex-col overflow-hidden rounded-card border border-line bg-bg-card ${EXPLORE_CARD_FRAME_HOVER}`}>
+      {/* 표지 부채꼴 — hover에 조금 더 벌어진다(연출 축: 표지마다 transition-transform). 즉각 축은 카드 테두리·제목 색 */}
+      <div aria-hidden className="relative aspect-[16/10] overflow-hidden border-b border-line bg-bg-raised [--fan-step:54%] [--fan-tilt:6deg] group-hover:[--fan-step:64%] group-hover:[--fan-tilt:8deg]">
+        {covers.length ? covers.map((src, index) => {
+          const slot = FAN_SLOTS[index];
+          const depth = Math.abs(slot);
+          return (
+            <div key={`${index}-${src}`}
+              className={`absolute bottom-[9%] left-1/2 w-[29%] origin-bottom overflow-hidden rounded-[3px] bg-bg-stone-light shadow-lg shadow-black/60 transition-transform duration-300 ease-out ${aspect}`}
               style={{
-                backgroundColor: `${brand.primary}66`,
-                borderColor: `${brand.accent}55`,
-                color: brand.accent,
-              }}
-            >
-              {brand.monogram.slice(0, 3)}
+                zIndex: 10 - depth,
+                transform: `translateX(calc(-50% + ${slot} * var(--fan-step))) rotate(calc(${slot} * var(--fan-tilt))) scale(${1 - depth * 0.06})`,
+                // 뒤로 갈수록 어둡게 — 1번 작품이 앞에 선다
+                filter: depth ? `brightness(${1 - depth * 0.18})` : undefined,
+              }}>
+              <Image src={src} alt="" fill draggable={false} sizes="(min-width: 1024px) 96px, (min-width: 768px) 10vw, 16vw" className="object-cover" />
             </div>
-          )}
-
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="truncate text-[14px] font-bold text-text-primary group-hover:text-accent">
-                {list.curatorName ?? brand.monogram}
-              </span>
-              <ShieldCheck size={15} className="shrink-0 text-accent/80" />
-            </div>
-            <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-text-tertiary">
-              {list.curatorKind && t.has(`kind.${list.curatorKind}`) && (
-                <span className="font-medium" style={{ color: brand.accent }}>
-                  {t(`kind.${list.curatorKind}`)}
-                </span>
-              )}
-              {list.curatorCountry && (
-                <>
-                  <span aria-hidden="true" className="text-white/20">·</span>
-                  <NationalityText code={list.curatorCountry} />
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+          );
+        }) : (
+          <Library size={28} className="absolute inset-0 m-auto text-text-tertiary" />
+        )}
       </div>
 
-      {/* ── 2. 중단: 목록 타이틀 & 선정 관점 + 겹친 표지 두 장 ── */}
-      <div className="relative flex items-start gap-3">
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <h3 className="font-serif text-[16.5px] font-bold leading-snug text-text-primary group-hover:text-accent">
+      <div className="flex flex-1 flex-col gap-1 p-3 md:p-4">
+        <h3 className="line-clamp-2 break-keep text-sm font-semibold leading-snug text-text-primary group-hover:text-accent md:text-[15px]">
+          {/* 제목 링크를 카드 전체로 편다 — 카드 어디를 눌러도 목록 화면으로 간다 */}
+          <Link href={`/explore/works/curated/${list.curatorSlug}/${list.slug}`} prefetch={false}
+            className="outline-none after:absolute after:inset-0 after:z-20 after:rounded-card focus-visible:after:ring-2 focus-visible:after:ring-accent">
             {list.title}
-          </h3>
-
-          {list.description && (
-            <p className="line-clamp-2 text-[12.5px] leading-relaxed text-text-secondary">
-              {list.description}
-            </p>
-          )}
-
-          {list.topics.length > 0 && (
-            <div className="flex flex-wrap gap-1 pt-0.5">
-              {list.topics.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded bg-white/[0.04] px-1.5 py-0.5 text-[11px] text-text-tertiary group-hover:text-text-secondary"
-                >
-                  {t.has(`topicLabel.${topic}`) ? t(`topicLabel.${topic}`) : topic}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* 앞 표지는 1번 작품, 뒤로 비스듬히 한 장 더 — 호버 때 살짝 벌어진다(연출 축) */}
-        {list.covers.length > 0 && (
-          <div aria-hidden="true" className="relative shrink-0 pr-5 pt-1">
-            {list.covers[1] && (
-              <div className="absolute right-0 top-0 w-[58px] origin-bottom-left rotate-[7deg] overflow-hidden rounded-[3px] border border-white/10 shadow-md brightness-75 transition-transform duration-200 group-hover:translate-x-1 group-hover:rotate-[11deg]">
-                <CoverFace src={list.covers[1]} isVideo={isVideo} />
-              </div>
+          </Link>
+        </h3>
+        <p className="text-xs tabular-nums text-text-secondary">{meta}</p>
+        {variant === "curator" ? (
+          list.description && <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-text-secondary">{list.description}</p>
+        ) : (
+          // 출처 서명 — 카드 링크 위에 떠서 따로 눌린다
+          <Link href={`/explore/works/curated/${list.curatorSlug}${curatorQuery}`} prefetch={false}
+            className="relative z-30 mt-auto flex min-h-9 min-w-0 items-center gap-1.5 self-start rounded-control pe-1 pt-2 text-xs text-text-secondary hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            {logoUrl ? (
+              // 로고 파일은 바탕·여백까지 정사각으로 완성돼 있다 — 판을 덧대지 않는다(curated-lists.md 「기관 로고」)
+              <span className="relative size-5 shrink-0 overflow-hidden rounded-[4px]">
+                <Image src={logoUrl} alt="" fill sizes="20px" className="object-contain" />
+              </span>
+            ) : (
+              <span className="flex size-5 shrink-0 items-center justify-center rounded-[4px] bg-bg-raised text-[11px] font-bold" style={{ color: brand.primary }}>{brand.monogram.slice(0, 1)}</span>
             )}
-            <div className="relative w-[58px] -rotate-[3deg] overflow-hidden rounded-[3px] border border-white/15 shadow-[0_8px_18px_rgba(0,0,0,0.6)] transition-transform duration-200 group-hover:-translate-x-0.5 group-hover:-rotate-[5deg]">
-              <CoverFace src={list.covers[0]} isVideo={isVideo} />
-            </div>
-          </div>
+            <span className="truncate">{list.curatorName ?? brand.monogram}</span>
+            {list.curatorCountry && (
+              <span className="shrink-0 text-text-tertiary"><span aria-hidden className="me-1">·</span>{getCountryNameByLocale(list.curatorCountry, locale)}</span>
+            )}
+          </Link>
         )}
       </div>
-
-      {/* ── 4. 최하단: 발표 연도 및 특성 메타 ── */}
-      <div className="relative flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/[0.06] pt-2.5 text-[11px] text-text-tertiary">
-        {list.publishedYear && <span>{t("published", { year: list.publishedYear })}</span>}
-        {list.edition && <span>{list.edition}</span>}
-        {list.isRanked && (
-          <span className="inline-flex items-center gap-1">
-            <ListOrdered size={13} />
-            {t("ranked")}
-          </span>
-        )}
-        {list.isAnnual && (
-          <span className="inline-flex items-center gap-1">
-            <CalendarClock size={13} />
-            {t("annual")}
-          </span>
-        )}
-      </div>
-    </Link>
-  );
-}
-
-/** 겹친 표지 한 장. 포스터와 책 표지는 비율이 같아 영상만 필름 구멍 띠를 위아래로 두른다 */
-function CoverFace({ src, isVideo }: { src: string; isVideo: boolean }) {
-  const image = (
-    <div className="relative aspect-[3/4] bg-neutral-900">
-      <BlurDissolve className="absolute inset-0">
-        <Image src={src} alt="" fill className="object-cover" sizes="58px" />
-      </BlurDissolve>
-    </div>
-  );
-  if (!isVideo) return image;
-  return (
-    <div className="bg-black">
-      <FilmHoles />
-      {image}
-      <FilmHoles />
-    </div>
+    </article>
   );
 }

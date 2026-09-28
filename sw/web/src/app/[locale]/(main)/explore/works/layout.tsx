@@ -5,9 +5,7 @@
 */ // ------------------------------
 
 import { ReactNode } from "react";
-import { getTranslations } from "next-intl/server";
 import PageContainer from "@/components/layout/PageContainer";
-import HubBackLink from "@/components/shared/HubBackLink";
 import ExploreModeTabs from "@/components/shared/ExploreModeTabs";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import LibraryBanner from "@/components/features/library/hub/LibraryBanner";
@@ -18,9 +16,7 @@ interface Props {
   children: ReactNode;
 }
 
-async function LibraryLayoutBody({ children }: Props) {
-  const tNav = await getTranslations("nav");
-
+function LibraryLayoutBody({ children }: Props) {
   return (
     // 비동기 서버 레이아웃이 클라이언트 컴포넌트(배너)를 그리므로 intl 컨텍스트를 재공급한다(code-rules.md)
     <AsyncIntlProvider>
@@ -29,8 +25,7 @@ async function LibraryLayoutBody({ children }: Props) {
         <LibraryBanner />
         <PageContainer>
           <ExploreModeTabs />
-          {/* 하위 화면에서 서가로 돌아가는 길. 자체 뒤로가기를 가진 화면에서는 알아서 숨는다 */}
-          <HubBackLink hubPath="/explore/works" label={tNav("library")} />
+          {/* 하위 화면에서 위로 가는 길은 배너의 경로 줄이 쥔다(BannerHeading) */}
           {children}
         </PageContainer>
       </LibraryCrumbProvider>

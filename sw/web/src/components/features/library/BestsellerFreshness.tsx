@@ -10,7 +10,7 @@ export interface BestsellerFreshnessProps {
 }
 
 // 도서 차트의 기준일·지연 표시. ChartSourceNotice 요약줄 meta로 붙는다 — 인라인 요소만 출력한다.
-// 출처 링크는 아코디언 본문의 「원본 사이트 보기」와 겹치므로 여기서는 그리지 않는다.
+// 출처 링크는 같은 줄의 「YES24에서 원본 보기」와 겹치므로 여기서는 그리지 않는다.
 export default function BestsellerFreshness({ updatedAt, basisDate, isStale }: BestsellerFreshnessProps) {
   const locale = useLocale();
   const t = useTranslations("library.popular.freshness");

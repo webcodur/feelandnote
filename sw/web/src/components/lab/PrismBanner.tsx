@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import { Eye } from "lucide-react";
+import { BANNER_COMPACT_HEIGHT_CLASS } from "@/components/shared/bannerStyles";
 
 interface PrismBannerProps {
   children?: ReactNode;
@@ -76,7 +77,8 @@ export default function PrismBanner({
     };
   }, []);
 
-  const prismSize = compact ? "w-24 h-24 sm:w-32 sm:h-32" : "w-64 h-64";
+  // 낮아진 허브 배너(140px) 안에서 제목 뒤로 물러나도록 작게 둔다
+  const prismSize = compact ? "w-16 h-16 md:w-20 md:h-20" : "w-64 h-64";
   const particleCount = compact ? 10 : 30;
 
   // 파티클 위치를 클라이언트에서만 생성 (hydration 에러 방지)
@@ -94,7 +96,8 @@ export default function PrismBanner({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full bg-black overflow-hidden flex items-center justify-center perspective-[1200px] ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : ""}`}
+      // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
+      className={`relative w-full bg-black overflow-hidden flex items-center justify-center perspective-[1200px] ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`}
       style={compact ? undefined : { height }}
     >
       {/* 0. Ambient Light Background */}

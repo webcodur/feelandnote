@@ -2,23 +2,22 @@
 
 import { Z_INDEX } from "@/constants/zIndex";
 
-const CORNER_SIZE = 16;
-
-const CORNER_RADIUS = {
-  lg: { tl: "rounded-tl-lg", tr: "rounded-tr-lg", bl: "rounded-bl-lg", br: "rounded-br-lg" },
-  xl: { tl: "rounded-tl-xl", tr: "rounded-tr-xl", bl: "rounded-bl-xl", br: "rounded-br-xl" },
+/*
+  카드 hover의 즉각 축 — 손을 올리면 카드 둘레가 옅은 금선으로 바로 켜진다(transition 없음).
+  예전에는 네 모서리에 빛나는 꺽쇠를 세웠는데, 카드가 여럿 모인 격자에서 장식이 먼저 보였다.
+  이름은 호출처를 흔들지 않으려고 그대로 둔다.
+*/
+const RADIUS_CLASS = {
+  lg: "rounded-lg",
+  xl: "rounded-xl",
 };
 
-const CORNER_COMMON = "drop-shadow-[0_0_3px_rgba(212,175,55,0.6)]";
-
 export default function CornerAccents({ radius = "xl" }: { radius?: "lg" | "xl" }) {
-  const r = CORNER_RADIUS[radius];
   return (
-    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover/card:opacity-100" style={{ zIndex: Z_INDEX.cardBadge - 1 }}>
-      <span className={`absolute top-0 left-0 border-t-[2.5px] border-l-[2.5px] border-accent ${CORNER_COMMON} ${r.tl}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
-      <span className={`absolute top-0 right-0 border-t-[2.5px] border-r-[2.5px] border-accent ${CORNER_COMMON} ${r.tr}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
-      <span className={`absolute bottom-0 left-0 border-b-[2.5px] border-l-[2.5px] border-accent ${CORNER_COMMON} ${r.bl}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
-      <span className={`absolute bottom-0 right-0 border-b-[2.5px] border-r-[2.5px] border-accent ${CORNER_COMMON} ${r.br}`} style={{ width: CORNER_SIZE, height: CORNER_SIZE }} />
-    </div>
+    <div
+      aria-hidden
+      className={`pointer-events-none absolute inset-0 opacity-0 ring-1 ring-inset ring-accent/45 group-hover/card:opacity-100 ${RADIUS_CLASS[radius]}`}
+      style={{ zIndex: Z_INDEX.cardBadge - 1 }}
+    />
   );
 }

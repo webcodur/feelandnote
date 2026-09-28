@@ -1,5 +1,8 @@
 "use client";
 
+// 홈 빠른기록 본문. 현재 홈에서 일단 주석 처리해 쓰이지 않는다. 재투입 여부는 상황에 맞게 정한다 —
+// 이 파일과 ./homeSection은 쓰이지 않는다고 지우지 않는다(app/[locale]/(main)/sections.tsx 「빠른기록」 주석).
+
 import { useState, useTransition, useEffect, useRef } from "react";
 import { searchContents } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";

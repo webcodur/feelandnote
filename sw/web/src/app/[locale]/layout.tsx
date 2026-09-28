@@ -4,7 +4,7 @@
   책임: metadata, NextIntlClientProvider, Footer, GA를 제공한다.
 */ // ------------------------------
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
@@ -24,6 +24,16 @@ import {
   SITE_URL,
 } from "@/lib/seo";
 import "../globals.css";
+
+// viewport-fit=cover가 있어야 iOS가 env(safe-area-inset-*)에 홈 표시줄·노치 높이를 돌려준다.
+// 없으면 0이라 하단 탭이 홈 표시줄에 겹친다. 좌우 inset은 고정 헤더·하단 탭이 직접 받는다.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0b0a09",
+  colorScheme: "dark",
+};
 
 export async function generateMetadata({
   params,

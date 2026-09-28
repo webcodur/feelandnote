@@ -24,13 +24,12 @@ interface PageProps {
 
 export async function generateMetadata({ searchParams }: PageProps) {
   const type = resolveRankingType((await searchParams).category);
-  const [t, tc] = await Promise.all([
-    getTranslations("explore.topByType"),
-    getTranslations("content.category"),
-  ]);
+  const t = await getTranslations("explore.topByType");
+  const key = type.toLowerCase();
+  // 분야마다 제목·설명을 따로 쓴다 — 네 주소가 같은 설명을 나눠 쓰면 서로 중복 페이지로 읽힌다
   return {
-    title: `${tc(type.toLowerCase())} · ${t("metaTitle")}`,
-    description: t("metaDescription"),
+    title: t(`metaTitleByType.${key}`),
+    description: t(`metaDescriptionByType.${key}`),
     alternates: await getLocalizedAlternates(getRankingHref(type)),
   };
 }

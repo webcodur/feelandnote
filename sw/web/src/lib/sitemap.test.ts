@@ -23,7 +23,7 @@ test('works and curated URLs use canonical explore paths in both locales', async
   const entries = await getSitemapEntries('core')
   assert.ok(entries)
   for (const prefix of ['', '/en']) {
-    for (const suffix of ['', '/popular', '/popular?mode=classics', '/museum', '/academy', '/curated', '/curated/example', '/curated/example/list']) {
+    for (const suffix of ['', '/popular?mode=classics', '/museum', '/academy', '/curated', '/curated/example', '/curated/example/list']) {
       const entry: MetadataRoute.Sitemap[number] | undefined = entries.find(({ url }) => url === `https://feelandnote.com${prefix}/explore/works${suffix}`)
       assert.ok(entry, `missing ${prefix}/explore/works${suffix}`)
       assert.equal(entry.alternates?.languages?.ko, `https://feelandnote.com/explore/works${suffix}`)
@@ -31,6 +31,8 @@ test('works and curated URLs use canonical explore paths in both locales', async
     }
   }
   assert.ok(entries.every(({ url }) => !url.includes('/library')))
+  // 베스트셀러는 작품 첫 화면이 맡는다 — 옮겨 가는 옛 주소를 싣지 않는다
+  assert.ok(entries.every(({ url }) => !/\/explore\/works\/popular$/.test(url)))
 })
 
 test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한 번씩 싣는다', async (t) => {

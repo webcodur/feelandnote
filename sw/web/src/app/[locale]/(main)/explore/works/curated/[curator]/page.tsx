@@ -5,18 +5,24 @@
 */ // ------------------------------
 
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getCuratorBySlug } from "@/actions/library";
-import { getLocalizedAlternates } from "@/lib/seo";
+import { buildCuratorMetaTitle } from "@/lib/library/curatedMeta";
+import { getLocalizedAlternates, toSeoSummary } from "@/lib/seo";
 import CuratorView from "@/components/features/library/curated/CuratorView";
 import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
 
 export async function generateMetadata({ params }: { params: Promise<{ curator: string }> }) {
   const { curator: slug } = await params;
-  const curator = await getCuratorBySlug(slug);
+  const [curator, t] = await Promise.all([getCuratorBySlug(slug), getTranslations("library.curated.meta")]);
   if (!curator) return {};
+  const listTitles = curator.lists.map((list) => list.title);
   return {
-    title: curator.name,
-    description: curator.description ?? undefined,
+    // 기관명만 쓰면 무엇이 있는 페이지인지 모른다 — 검색어가 되는 목록 이름을 함께 싣는다
+    title: buildCuratorMetaTitle(curator.name, listTitles, (count) => t("moreLists", { count })),
+    description: curator.description
+      ? toSeoSummary(curator.description)
+      : t("curatorFallback", { name: curator.name, lists: listTitles.join(", ") }),
     alternates: await getLocalizedAlternates(`/explore/works/curated/${slug}`),
   };
 }

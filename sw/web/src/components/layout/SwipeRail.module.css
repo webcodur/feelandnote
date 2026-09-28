@@ -8,59 +8,56 @@
         판 전체는 hover·끌기에 반응하지 않는다. 반응은 커서와 누른 자리의 선 하나뿐이다.
 */
 
+/* 판 자체가 손잡이다 — 면 전체를 손바닥으로 밀 수 있게 140px 폭을 지킨다. 좁은 막대로 줄이지 않는다.
+   본문 오른쪽 바깥 여백의 한가운데에 선다. 1440px 이상에서는 본문 기본 폭(--content-max-default)이
+   판 자리(--rail-reserve)만큼 물러나 판이 본문을 가리지 않는다. 그보다 좁은 화면에서는 판을 세우지 않는다
+   (자리를 비우면 본문이 지나치게 좁아진다).
+   여백 = (100% - 본문 폭) / 2, 그 한가운데 = 여백 / 2. 100%는 fixed 요소의 기준(스크롤바를 뺀 뷰포트)이다.
+   인물 상세는 좌측 목차 레일의 폭·중심을 변수로 알리므로 그 값을 받아 좌우 대칭으로 선다. */
 .rail {
+  --rail-width: 140px;
+  --content-max: var(--content-max-default, 1200px);
+  --gutter-center: calc((100% - var(--content-max)) / 4);
+
+  position: fixed;
+  /* 아래는 음악 단추(bottom 32px + 44px)를 피해 100px을 비운다. 위도 헤더 아래 같은 100px을 비워 위아래가 같다 */
+  top: calc(var(--layer-header-h) + 100px);
+  right: calc(var(--gutter-center) - var(--rail-width) / 2);
+  bottom: 100px;
   display: none;
+  box-sizing: border-box;
+  width: var(--rail-width);
+  padding: 4px 0;
+  flex-direction: column;
+  align-items: center;
+  /* 테두리는 두지 않는다. 바탕이 그 자리만 살짝 밝은 정도로, 판이 따로 떠 있지 않게 한다 */
+  border: 0;
+  border-radius: var(--radius-card);
+  /* 반투명 유리판. 어두운 바탕 위라 패널색을 섞으면 불투명해 보인다 — 흰 빛을 옅게 얹고 가는 안쪽 테로
+     면의 가장자리만 알린다. 그림자·빛 번짐은 두지 않는다(바탕 자체를 짚는 자리다) */
+  background: color-mix(in srgb, white 4%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, white 4%, transparent);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-/* 본문 틀 안쪽 여백(LayoutMain의 본문 영역 xl:px-[150px])에 선다. 인물 상세는 좌측 목차 레일의
-   폭·중심을 변수로 알리므로 그 값을 받아 대칭으로 서고, 변수가 없는 화면은 여백 한가운데에 선다.
-   틀은 최대 폭(1400·1800px)이 있어 넓은 화면에서는 화면 벽보다 안쪽에 선다 — 그래서 화면이 아니라
-   틀 오른쪽 끝을 기준으로 잰다: 틀 바깥 여백 (100% - 틀 폭) / 2 + 테두리 4px + 안쪽 32px + 150px
-   안에서 판을 가운데 둔다. 100%는 fixed 요소의 기준(스크롤바를 뺀 뷰포트)이라 100vw보다 정확하다 */
-@media (min-width: 1280px) {
-  .rail {
-    --rail-width: var(--celeb-atlas-width, 140px);
-    --frame-max: 1400px;
-    --frame-gap: calc((100% - min(100% - 40px, var(--frame-max))) / 2);
-    --gutter-center: calc(var(--frame-gap) + 4px + (32px + 150px) / 2);
-
-    position: fixed;
-    /* 아래는 음악 단추(bottom 32px + 44px)를 피해 100px을 비운다. 위도 헤더 아래 같은 100px을 비워 위아래가 같다 */
-    top: calc(var(--layer-header-h) + 100px);
-    right: calc(var(--celeb-atlas-center-inline, var(--gutter-center)) - var(--rail-width) / 2);
-    bottom: 100px;
-    display: flex;
-    box-sizing: border-box;
-    width: var(--rail-width);
-    padding: 4px 0;
-    flex-direction: column;
-    align-items: center;
-    /* 테두리는 두지 않는다. 바탕이 그 자리만 살짝 밝은 정도로, 판이 따로 떠 있지 않게 한다 */
-    border: 0;
-    border-radius: 4px;
-    /* 반투명 유리판. 어두운 바탕 위라 패널색을 섞으면 불투명해 보인다 — 흰 빛을 아주 옅게만 얹어
-       뒤의 바탕 무늬가 그대로 비치게 한다. 흐림도 두지 않는다(무늬가 뭉개져 불투명해 보인다) */
-    background: color-mix(in srgb, white 4%, transparent);
-    /* 떠 있는 물건이 아니라 바탕 자체를 짚는 자리다 — 그림자·빛 번짐을 두지 않는다 */
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, white 3%, transparent);
-    cursor: grab;
-    touch-action: none;
-    user-select: none;
-    -webkit-user-select: none;
-  }
+.rail[data-celeb] {
+  --rail-width: var(--celeb-atlas-width, 140px);
+  right: calc(var(--celeb-atlas-center-inline, var(--gutter-center)) - var(--rail-width) / 2);
 }
 
-/* 틀 최대 폭이 넓어지는 지점(Tailwind 2xl)에서 기준도 함께 바꾼다 */
-@media (min-width: 1536px) {
-  .rail {
-    --frame-max: 1800px;
-  }
-}
-
-/* 인물 상세는 좌측 목차 레일이 서는 1340px부터만 옆 여백이 생긴다. 그 아래에서는 판도 물러난다 */
-@media (max-width: 1339px) {
+/* 인물 상세는 좌측 목차 레일이 서는 1340px부터 옆 여백이 생긴다 */
+@media (min-width: 1340px) {
   .rail[data-celeb] {
-    display: none;
+    display: flex;
+  }
+}
+
+@media (min-width: 1440px) {
+  .rail {
+    display: flex;
   }
 }
 
@@ -163,8 +160,8 @@
   height: 28px;
   place-items: center;
   border: 0;
-  border-radius: 2px;
-  color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  border-radius: var(--radius-control);
+  color: var(--color-text-tertiary);
   background: transparent;
   cursor: pointer;
 }
@@ -186,9 +183,9 @@
   right: 0;
   width: 200px;
   padding: 12px 14px;
-  border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--color-bg-card) 96%, black 4%);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-card);
   box-shadow: 0 12px 28px color-mix(in srgb, black 40%, transparent);
   cursor: default;
 }
@@ -202,9 +199,8 @@
 
 .settingsLabel {
   color: var(--color-text-primary);
-  font-family: var(--font-serif);
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .settingsValue {

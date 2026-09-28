@@ -30,10 +30,11 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("explore.directory");
+  // 인원은 화면의 「총 N명」과 같은 캐시에서 센다 — 문구에 박아 둔 「1,000명 이상」은 실제의 몇 분의 일이었다
+  const [t, celebs] = await Promise.all([getTranslations("explore.directory"), getCelebDirectory()]);
   return {
     title: t("metaTitle"),
-    description: t("metaDescription"),
+    description: t("metaDescription", { count: celebs.length }),
     alternates: await getLocalizedAlternates("/explore/directory"),
   };
 }

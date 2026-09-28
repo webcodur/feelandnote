@@ -5,11 +5,14 @@ interface ClassicalBoxProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   as?: ElementType;
   hover?: boolean;
-  /** 모바일에서는 얇은 1px 상자로 줄이고 md 이상에서만 기존 장식 상자를 적용한다. */
+  /** 옛 호출 호환 — 모바일에서 판을 더 옅게 둔다(선은 같고 바탕만 반투명) */
   mobileSlim?: boolean;
   variant?: "default" | "danger";
   ref?: Ref<HTMLElement>;
 }
+
+// 판 하나 = 카드색 면 + 얇은 선 + 16px 모서리. 그림자는 바탕에서 살짝 뜨는 정도만 둔다
+const BOX = "rounded-panel border border-solid border-line shadow-[0_24px_48px_-24px_rgba(0,0,0,0.7)]";
 
 export default function ClassicalBox({
   children,
@@ -24,19 +27,11 @@ export default function ClassicalBox({
 
   return (
     <Component
-      className={`
-        ${styles.classicalBox}
-        ${hover ? styles.hoverable : ""}
-        ${isDanger ? styles.danger : ""}
-        ${mobileSlim
-          ? "rounded-sm border border-solid bg-bg-card/40 shadow-none md:rounded-none md:border-4 md:border-double md:bg-bg-card md:shadow-lg"
-          : "border-4 border-double bg-bg-card shadow-lg"}
-        ${isDanger ? "border-red-500/40" : "border-accent-dim/40"}
-        ${className}
-      `}
+      className={`${styles.classicalBox} ${hover ? styles.hoverable : ""} ${isDanger ? styles.danger : ""} ${BOX} ${
+        mobileSlim ? "bg-bg-card/60 md:bg-bg-card" : "bg-bg-card"
+      } ${className}`}
       {...rest}
     >
-      {hover && <div className={styles.fillOverlay} />}
       {children}
     </Component>
   );

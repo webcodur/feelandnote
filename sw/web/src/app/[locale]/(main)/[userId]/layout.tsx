@@ -6,6 +6,7 @@ import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSect
 import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageBanner from "@/components/shared/PageBanner";
+import { BANNER_TITLE_CLASS } from "@/components/shared/bannerStyles";
 import { createClient } from "@/lib/db/server";
 import MessageScope from "@/components/shared/MessageScope";
 
@@ -17,29 +18,20 @@ interface LayoutProps {
 async function UserLayoutBody({ children, params }: LayoutProps) {
   const { userId, locale } = await params;
   const db = await createClient();
-  const [profile, authResult, tCtx, tHome] = await Promise.all([
+  const [profile, authResult, tCtx] = await Promise.all([
     getMemberRouteProfile(userId, locale),
     db.auth.getUser(),
     getTranslations("contextHeader"),
-    getTranslations("home"),
   ]);
 
   const isOwner = authResult.data.user?.id === userId;
   const pageTitle = tCtx("recordOf", { title: profile.nickname || "User" });
-  const englishTitle = tHome("archive.englishTitle");
 
   return (
     <>
-      <PageBanner title={pageTitle} subtitle={englishTitle}>
+      <PageBanner title={pageTitle}>
         <PrismBanner height={350} compact>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-            {pageTitle}
-          </h1>
-          {pageTitle.toLowerCase() !== englishTitle.toLowerCase() && (
-            <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
-              {englishTitle}
-            </p>
-          )}
+          <h1 className={BANNER_TITLE_CLASS}>{pageTitle}</h1>
         </PrismBanner>
       </PageBanner>
       <RecentProfileTracker
@@ -57,10 +49,10 @@ async function UserLayoutBody({ children, params }: LayoutProps) {
       />
       <PageContainer>
         <ArchiveTabs userId={userId} isOwner={isOwner} isCeleb={false} />
-        <main className="max-w-3xl mx-auto animate-fade-in">
+        <div className="max-w-3xl mx-auto animate-fade-in">
           <ArchiveSectionHeader userId={userId} isOwner={isOwner} isCeleb={false} />
           {children}
-        </main>
+        </div>
       </PageContainer>
     </>
   );

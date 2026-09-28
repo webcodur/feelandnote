@@ -7,15 +7,35 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { getFeaturedFactions } from "@/actions/home";
 import { redirect } from "@/i18n/navigation";
-import { buildFactionSections, factionSectionKey } from "@/lib/faction-sections";
+import { buildFactionSections, factionSectionKey, localizedFactionName } from "@/lib/faction-sections";
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
 import FactionScreen from "./FactionScreen";
 
+/** 설명문에 이름을 싣는 섹션 수 — 넘치면 「등 N개」로 줄인다 */
+const META_SECTION_NAMES = 4;
+
 export async function generateMetadata() {
-  const t = await getTranslations("explore.faction");
+  const [t, factions, locale] = await Promise.all([
+    getTranslations("explore.faction"),
+    getFeaturedFactions(),
+    getLocale() as Promise<Locale>,
+  ]);
+  // 설명이 없으면 사이트 공통 설명을 물려받아 홈과 중복됐다 — 실제 섹션 이름과 규모로 쓴다
+  const sections = buildFactionSections(factions);
+  const people = new Set(sections.flatMap((section) => section.entries.flatMap((entry) => entry.celebs.map((celeb) => celeb.id))));
+  const themes = sections.reduce((sum, section) => sum + section.entries.length, 0);
+  const names = sections.slice(0, META_SECTION_NAMES).map((section) => localizedFactionName(section.faction, locale));
   return {
-    title: t("metaTitle"),
+    title: t("hubMetaTitle"),
+    description: sections.length > 0
+      ? t("metaDescription", {
+        // 한국어는 뒤에 「등」이 붙으므로 쉼표로만 잇고, 영어는 「A, B, and C」로 잇는다
+        sections: locale === "en" ? new Intl.ListFormat("en", { type: "conjunction" }).format(names) : names.join(", "),
+        themes,
+        people: people.size,
+      })
+      : undefined,
     alternates: await getLocalizedAlternates("/explore/faction"),
   };
 }

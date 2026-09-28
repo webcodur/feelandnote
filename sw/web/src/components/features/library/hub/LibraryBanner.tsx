@@ -3,17 +3,18 @@
   기능: 서가 배너 (동적 breadcrumb, N단 지원)
   책임: 현재 경로 depth에 따라 배너 breadcrumb을 동적으로 표시한다.
         - /explore/works → 허브 타이틀만
-        - /explore/works/academy → 서가 > 학당
-        - /explore/works/academy/video/composition → 서가 > 학당 > 영상 제작
+        - /explore/works/academy → 경로 「탐색 ›」 + 큰 제목 「학당」
+        - /explore/works/academy/video/composition → 경로 「탐색 › 학당 ›」 + 큰 제목 「영상 제작」
+        그리는 모양은 BannerHeading이 쥔다.
 */ // ------------------------------
 
 "use client";
 
-import { usePathname, Link, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
-import { ChevronRight } from "lucide-react";
+import BannerHeading from "@/components/shared/BannerHeading";
+import { BANNER_DESKTOP_SHELL_CLASS, BANNER_MOBILE_SHELL_CLASS } from "@/components/shared/bannerStyles";
 import { useExtraCrumbs } from "./LibraryCrumbs";
 
 /** 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키 */
@@ -31,7 +32,6 @@ interface Crumb {
 
 export default function LibraryBanner() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const router = useRouter();
   const tNav = useTranslations("nav");
   const tHub = useTranslations("library.hub");
@@ -39,22 +39,19 @@ export default function LibraryBanner() {
   const extraCrumbs = useExtraCrumbs();
 
   const hubTitle = tNav("explore");
-  const hubEnglish = "EXPLORE";
 
   // 탐색 접두어를 제외해 기존 작품 하위 경로의 깊이를 유지한다.
   const segments = pathname.replace(/^\/explore\//, "").split("/");
   const subSegment = segments[1];
   const subKey = subSegment ? SUBPAGE_KEY[subSegment] : undefined;
-  const popularMode = searchParams.get("mode") === "classics" ? "classics" : "bestseller";
-
   // breadcrumb 크럼 배열 구성 (허브 제외, 서브페이지부터)
   const crumbs: Crumb[] = [];
 
   if (subKey) {
-    // 1단: /explore/works/{sub}
+    // 1단: /explore/works/{sub}. popular는 불후의 명작만 남았다 — 베스트셀러는 작품 첫 화면(/explore/works)이 맡는다
     crumbs.push({
-      label: subSegment === "popular" ? tHub(`${popularMode}Label`) : tNav(`sub.${subKey}`),
-      href: `/explore/works/${subSegment}${subSegment === "popular" && popularMode === "classics" ? "?mode=classics" : ""}`,
+      label: subSegment === "popular" ? tHub("classicsLabel") : tNav(`sub.${subKey}`),
+      href: `/explore/works/${subSegment}${subSegment === "popular" ? "?mode=classics" : ""}`,
     });
 
     // 2단+: academy 카테고리 (segments[2])
@@ -82,102 +79,21 @@ export default function LibraryBanner() {
     router.refresh();
   };
 
-  // --- 공통 breadcrumb 렌더 ---
-  const parentStyle = "text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent";
-  const parentStyleDesktop = "pointer-events-auto text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] outline-none focus-visible:ring-2 focus-visible:ring-accent";
-  const currentStyle = "text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 hover:from-[#d4af37] hover:to-[#b8962e] outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer";
-  const currentStyleDesktop = "pointer-events-auto " + currentStyle;
+  // 경로는 한 번만 짓고 휴대폰·넓은 화면 배너가 같은 것을 쓴다 — 탐색 › 학당 › (현재) 영상 제작
+  const ancestors: Crumb[] = isSubpage ? [{ label: hubTitle, href: "/explore/works" }, ...crumbs.slice(0, -1)] : [];
+  const current = isSubpage ? crumbs[crumbs.length - 1].label : hubTitle;
+  const heading = (variant: "desktop" | "mobile") => (
+    <BannerHeading ancestors={ancestors} current={current} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} />
+  );
 
   return (
     <>
       {/* 모바일 배너 */}
-      <div className="md:hidden relative px-4 py-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#111] -mx-2 -mt-4">
-        {isSubpage ? (
-          <div
-            role="heading"
-            aria-level={1}
-            className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center"
-          >
-            <Link href="/explore/works" className={parentStyle}>
-              {hubTitle}
-            </Link>
-            {crumbs.map((crumb, i) => {
-              const isLast = i === crumbs.length - 1;
-              return (
-                <span key={crumb.href} className="inline-flex items-center gap-1.5">
-                  <ChevronRight size={20} className="text-white/30 shrink-0" />
-                  {isLast ? (
-                    <button onClick={handleRefresh} className={currentStyle}>
-                      {crumb.label}
-                    </button>
-                  ) : (
-                    <Link href={crumb.href} className={parentStyle}>
-                      {crumb.label}
-                    </Link>
-                  )}
-                </span>
-              );
-            })}
-          </div>
-        ) : (
-          <>
-            <div
-              role="heading"
-              aria-level={1}
-              className="text-2xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center"
-            >
-              {hubTitle}
-            </div>
-            {hubEnglish.toLowerCase() !== hubTitle.toLowerCase() && (
-              <p className="text-[#d4af37] tracking-[0.2em] text-[10px] uppercase font-cinzel text-center">
-                {hubEnglish}
-              </p>
-            )}
-          </>
-        )}
-
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4af37]/20 to-transparent" />
-      </div>
+      <div className={BANNER_MOBILE_SHELL_CLASS}>{heading("mobile")}</div>
 
       {/* 데스크탑 배너 */}
-      <div className="hidden md:block">
-        <ConstellationBanner compact>
-          {isSubpage ? (
-            <h1 className="flex items-center gap-3 text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
-              <Link href="/explore/works" className={parentStyleDesktop}>
-                {hubTitle}
-              </Link>
-              {crumbs.map((crumb, i) => {
-                const isLast = i === crumbs.length - 1;
-                return (
-                  <span key={crumb.href} className="inline-flex items-center gap-3">
-                    <ChevronRight size={36} className="text-white/30 shrink-0" strokeWidth={1.5} />
-                    {isLast ? (
-                      <button onClick={handleRefresh} className={currentStyleDesktop}>
-                        {crumb.label}
-                      </button>
-                    ) : (
-                      <Link href={crumb.href} className={parentStyleDesktop}>
-                        {crumb.label}
-                      </Link>
-                    )}
-                  </span>
-                );
-              })}
-            </h1>
-          ) : (
-            <>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-                {hubTitle}
-              </h1>
-              {hubTitle.toLowerCase() !== hubEnglish.toLowerCase() && (
-                <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
-                  {hubEnglish}
-                </p>
-              )}
-            </>
-          )}
-        </ConstellationBanner>
+      <div className={BANNER_DESKTOP_SHELL_CLASS}>
+        <ConstellationBanner compact>{heading("desktop")}</ConstellationBanner>
       </div>
     </>
   );

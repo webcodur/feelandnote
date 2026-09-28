@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Eye } from "lucide-react";
+import { Eye, Library } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { getCelebProfileUrl } from "@/lib/url";
 import { celebDisplayName } from "@/lib/celeb/displayName";
@@ -17,7 +17,7 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
-import { badgeStyles, quietBadgeStyles, FLAME_EDGE, trendEdgeDelay } from "./CelebCard.styles";
+import { badgeStyles, quietBadgeStyles } from "./CelebCard.styles";
 import TrendMatchChip from "./TrendMatchChip";
 import { EXPLORE_CARD_CAPTION_HOVER, EXPLORE_CARD_FRAME_HOVER, EXPLORE_CARD_GLOW, EXPLORE_CARD_IMAGE_HOVER } from "./ExploreCard.styles";
 
@@ -67,7 +67,9 @@ export default function CelebCard({
   const locale = useLocale();
   const reality = celebProfile?.celeb_reality;
   const realityLabel = reality === "FICTION" ? t("reality.myth") : reality === "BOTH" ? t("reality.both") : null;
-  /* 국가 트렌드 승격 근거 — 본인 이름이 급상승한 인물 → 「top n」칩 + 화염 테두리. */
+  /* 국가 트렌드 승격 근거 — 본인 이름이 급상승한 인물 → 이름 아래 금색 「검색 n위」 칩.
+     예전에는 카드 테두리를 주황 화염으로 바꿨는데, 격자에서 가장 강한 요소가 되어 선택된 카드처럼 읽혔다.
+     카드 틀은 다른 인물과 같게 두고 표지는 칩 하나가 맡는다. */
   const trendMatch = celebProfile?.trend_match;
   const trendAria = trendMatch ? ` · ${t("trendChipRank", { rank: trendMatch.rank })}` : "";
   const displayNickname = celebDisplayName({ nickname, nickname_en: celebProfile?.nickname_en ?? null }, locale);
@@ -94,11 +96,7 @@ export default function CelebCard({
   const frameHover = emphasize
     ? EXPLORE_CARD_FRAME_HOVER
     : isQuiet ? "group-hover:border-white/30" : "group-hover:border-accent/60";
-  /* 트렌드 카드는 테두리 자체가 근거 표시다 — 맥박치는 화염 링(style의 2층 배경)+광휘.
-     기본 테두리·hover와 색이 충돌하지 않게 통째로 갈아끼운다. */
-  const frameEdge = trendMatch
-    ? "animate-flame-edge border-2 border-transparent ring-1 ring-inset ring-orange-400/40 shadow-[0_0_16px_-4px_rgba(249,115,22,0.55)] group-hover:shadow-[0_0_28px_-4px_rgba(249,115,22,0.8)]"
-    : `${isQuiet ? "border border-white/10 bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}`;
+  const frameEdge = `${isQuiet ? "border border-line bg-bg-card" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner"} ${frameHover}`;
   const config = isCard
     ? { container: "aspect-square w-full", fallbackSize: 32 }
     : isCircle
@@ -126,12 +124,7 @@ export default function CelebCard({
               ${frameEdge}
               group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
             `}
-            style={trendMatch
-              ? {
-                  background: `${isQuiet ? "linear-gradient(#1a1a1a, #1a1a1a)" : "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)"} padding-box, ${FLAME_EDGE} border-box`,
-                  animationDelay: trendEdgeDelay(id),
-                }
-              : isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
+            style={isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
           >
             <div className={`absolute inset-0 overflow-hidden ${roundedClass}`}>
               <div
@@ -152,7 +145,9 @@ export default function CelebCard({
             </div>
 
             {count !== undefined && count > 0 && (
-              <span className={`${isQuiet ? `${quietBadgeStyles[variant]} border border-white/15 bg-bg-main text-text-secondary` : badgeStyles[variant]} z-20 flex items-center justify-center font-bold leading-none`} title={t("contentCount", { count })}>
+              <span className={`${isQuiet ? `${quietBadgeStyles[variant]} border border-white/15 bg-bg-main text-text-secondary` : badgeStyles[variant]} z-20 flex items-center justify-center gap-[clamp(2px,1cqw,4px)] font-bold leading-none`} title={t("contentCount", { count })}>
+                {/* 카드 배지는 숫자만 두면 무엇의 수인지 모른다 — 서가 아이콘으로 "보유 작품 수"임을 알린다 */}
+                {isCard && <Library aria-hidden className="shrink-0 opacity-80 w-[clamp(9px,6cqw,12px)] h-[clamp(9px,6cqw,12px)]" />}
                 {count}
               </span>
             )}
@@ -174,7 +169,7 @@ export default function CelebCard({
               )}
               {trendMatch && (
                 <p className="mt-1">
-                  <TrendMatchChip match={trendMatch} name={displayNickname} variant="plain" />
+                  <TrendMatchChip match={trendMatch} name={displayNickname} variant="gold" />
                 </p>
               )}
             </div>

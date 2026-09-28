@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { getSeoImageUrl } from './seo'
+import { getSeoImageUrl, toSeoSummary } from './seo'
 
 test('SEO 이미지 URL은 소스가 없어도 안정적인 버전 키를 갖는다', () => {
   const first = new URL(getSeoImageUrl('celeb', 'jensen-huang', 'ko'))
@@ -15,4 +15,23 @@ test('SEO 이미지 소스가 바뀌면 버전 키도 바뀌다', () => {
   const after = new URL(getSeoImageUrl('content', 'book-1', 'en', 'https://img.example/new.webp'))
 
   assert.notEqual(before.searchParams.get('v'), after.searchParams.get('v'))
+})
+
+test('긴 소개문은 한도 안에 드는 앞 문장까지만 싣는다', () => {
+  const text = '1977년 이상문학상을 제정해 2024년 제47회까지 주관한 한국의 문학 전문 출판사다. 소설가 이상의 문학적 업적을 기리기 위해 상을 만들었고, 해마다 대상 수상작을 표제로 삼은 이상문학상 작품집을 펴냈다. 2025년 제48회부터는 다산북스가 주관사를 이어받았다.'
+  const summary = toSeoSummary(text, 120)
+
+  assert.equal(summary, '1977년 이상문학상을 제정해 2024년 제47회까지 주관한 한국의 문학 전문 출판사다. 소설가 이상의 문학적 업적을 기리기 위해 상을 만들었고, 해마다 대상 수상작을 표제로 삼은 이상문학상 작품집을 펴냈다.')
+  assert.ok(summary.length <= 120)
+})
+
+test('첫 문장부터 넘치면 낱말 경계에서 자른다', () => {
+  const summary = toSeoSummary('one two three four five six seven eight nine ten.', 20)
+
+  assert.ok(summary.endsWith('…'))
+  assert.ok(summary.length <= 20)
+})
+
+test('짧은 소개문은 그대로 둔다', () => {
+  assert.equal(toSeoSummary('짧은 소개다.', 160), '짧은 소개다.')
 })

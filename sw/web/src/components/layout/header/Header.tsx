@@ -29,11 +29,7 @@ interface UserProfile {
   selected_title: { name: string; grade: string } | null;
 }
 
-interface HeaderProps {
-  isMobile?: boolean;
-}
-
-export default function Header({ isMobile }: HeaderProps) {
+export default function Header() {
   const pathname = usePathname();
   const t = useTranslations();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -68,40 +64,43 @@ export default function Header({ isMobile }: HeaderProps) {
   const isNavActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   return (
-    <header className="w-full h-16 bg-black/90 backdrop-blur-md border-b-[1px] border-b-white/5 flex items-center px-3 gap-2 md:px-6 md:gap-4 fixed top-0 start-0" style={{ zIndex: Z_INDEX.header }}>
-      <div className="absolute bottom-0 start-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-
-      <div className="relative z-10 flex items-center w-full gap-2 md:gap-4 min-w-0">
+    // 좌우 여백은 노치가 있는 가로 화면에서 안전 영역만큼 더 들어간다(viewport-fit=cover)
+    <header
+      className="fixed top-0 start-0 flex h-16 w-full items-center border-b border-line bg-bg-secondary/90 backdrop-blur-md pl-[max(12px,env(safe-area-inset-left))] pr-[max(12px,env(safe-area-inset-right))] md:pl-[max(24px,env(safe-area-inset-left))] md:pr-[max(24px,env(safe-area-inset-right))] xl:pl-[max(40px,env(safe-area-inset-left))] xl:pr-[max(40px,env(safe-area-inset-right))]"
+      style={{ zIndex: Z_INDEX.header }}
+    >
+      <div className="relative flex w-full min-w-0 items-center gap-2 md:gap-6">
         <div className="shrink-0 md:translate-y-[2px]">
           <Logo size="md" />
         </div>
 
-        {/* 1차 네비게이션 (데스크톱) */}
-        {!isMobile && (
-          <nav className="hidden md:flex items-center gap-1 ms-2">
-            {HEADER_NAV_ITEMS.map((item) => {
-              const href = item.href.includes("{userId}")
-                ? (profile ? item.href.replace("{userId}", profile.id) : "/login")
-                : item.href;
-              const isActive = item.href.includes("{userId}")
-                ? profile ? pathname.startsWith(`/${profile.id}`) : false
-                : isNavActive(item.href);
+        {/* 1차 네비게이션 (데스크톱) — 현재 위치는 금색 밑줄 하나로만 알린다 */}
+        <nav className="hidden h-16 items-stretch gap-1 md:flex">
+          {HEADER_NAV_ITEMS.map((item) => {
+            const href = item.href.includes("{userId}")
+              ? (profile ? item.href.replace("{userId}", profile.id) : "/login")
+              : item.href;
+            const isActive = item.href.includes("{userId}")
+              ? profile ? pathname.startsWith(`/${profile.id}`) : false
+              : isNavActive(item.href);
 
-              return (
-                <Link
-                  key={item.key}
-                  href={href}
-                  className={`relative px-3 py-2 rounded-lg text-sm font-medium no-underline ${
-                    isActive ? "text-accent bg-accent/10 text-glow" : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
-                  }`}
-                >
-                  {t(`nav.${item.key}`)}
-                  <LinkPending className="absolute top-1.5 end-1.5" />
-                </Link>
-              );
-            })}
-          </nav>
-        )}
+            return (
+              <Link
+                key={item.key}
+                href={href}
+                aria-current={isActive ? "page" : undefined}
+                className={`relative flex items-center px-3 text-[15px] no-underline ${
+                  isActive
+                    ? "font-semibold text-text-primary shadow-[inset_0_-2px_0_var(--color-accent)]"
+                    : "font-medium text-text-secondary hover:text-text-primary"
+                }`}
+              >
+                {t(`nav.${item.key}`)}
+                <LinkPending className="absolute top-3 end-1" />
+              </Link>
+            );
+          })}
+        </nav>
 
         <HeaderSearch />
 

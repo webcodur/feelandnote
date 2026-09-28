@@ -56,10 +56,33 @@ export default function Page() {
 **시각 테마 — 밤의 아카이브.** 인물·작품·감상 기록을 어두운 공간에서 하나씩 발견하고 읽는 경험을 지향한다. 넓은 어두운 면은 콘텐츠가 머무는 자리로 두고, 따뜻한 금빛은 선택·연결·발견의 순간에 집중한다. 이미지의 주조 청동 질감은 이 테마의 한 표현법인 [`FNN-흑동주조`](../production/image-generation.md#fnn-흑동주조)를 따른다. 사진·표지·본문은 각각의 내용이 먼저 읽히게 한다.
 
 ## 컬러
-- 배경: `bg-main`(#121212), `bg-secondary`(#0a0a0a), `bg-card`(#1a1a1a), `stone-heavy/light`
-- 액센트: `accent`(#d4af37 골드), `accent-hover`(#f9d76e), `accent-dim`(#8a732a)
-- 텍스트: `text-primary`(#e0e0e0), `text-secondary`(#a0a0a0)
-- 상태: watching(#3fb950), completed(#9e7aff), paused(#db4d4d), wish(#d4af37)
+값은 `globals.css`의 `@theme`만 쥔다. 여기에는 쓰임만 적는다.
+- 표면은 선을 긋기보다 명도 한 단씩으로 나눈다: `bg-secondary`(헤더·풋터) < `bg-main`(바탕) < `bg-card`(카드) < `bg-raised`(칩·입력·보조 버튼) < `bg-stone-light`(눌림·빈 표지). `stone-heavy`·`stone-light`는 같은 값을 가리키는 옛 이름이다
+- 선은 두 단계뿐이다: `line`(흰색 7% — 기본 구분선·카드 테두리), `line-strong`(흰색 13% — hover·강조). 흰색을 얹는 방식이라 인물 상세의 세계 테마 바탕 위에서도 맞는다
+- 금색(`accent`)은 세 자리에만 쓴다 — 화면당 주요 행동 하나의 면(`Button primary`), 선택·현재 위치(밑줄·`bg-accent/10`), 발견·연결(인물명·작품 링크). 상자마다 금 테두리를 두르거나 금빛 번짐을 넣지 않는다. amber 계열로 두 번째 금색을 만들지 않는다
+- 텍스트: `text-primary`·`text-secondary`·`text-tertiary`
+- 상태: `status-watching`·`status-completed`·`status-paused`(위험 동작에도 쓴다)·`status-wish`
+
+## 정렬
+- 허브·홈의 머리(배너 제목, 구획 제목·부제, 목차, 모드 탭, 오늘의 인물 머리)는 **가운데 정렬**이 이 서비스의 기본 문법이다. 한 화면에서 일부 머리만 왼쪽으로 돌리지 않는다 — 가운데와 왼쪽이 섞이면 둘 다 어긋나 보인다
+- 여러 줄로 읽는 본문(소개·감상배경·게시글)은 가운데 영역 안에서 왼쪽 정렬한다. 한두 줄짜리 부제·안내만 가운데로 둔다
+- 카드 안의 제목·제작자는 가운데, 카드 안 본문은 왼쪽이다
+
+## 구분선
+가로 구분선은 위 묶음을 끝맺는 표시다. **선 위는 위 내용 바로 밑에서 짧게 끊고, 선 아래는 새 항목을 넉넉히 띄워 시작한다**(아래 간격이 위 간격보다 크다). 위아래를 똑같이 띄우거나 위를 더 넓게 두면 선이 아래 항목의 머리처럼 보인다.
+
+## 모서리
+`rounded-control`(6px, 버튼·입력) · `rounded-card`(12px, 카드) · `rounded-panel`(16px, 모달·큰 판) 세 단계와 칩·아바타의 `rounded-full`만 쓴다. 누르는 것이 카드보다 더 각지면 안 된다.
+
+## 레이아웃·반응형
+- 뼈대 전환은 두 곳뿐이다 — `md`(768): 하단 탭 ↔ 헤더 메뉴, `xl`(1280): 옆 레일. 보이기·숨기기는 CSS(`md:hidden`)로 한다. 서버 HTML에 처음부터 들어가야 첫 화면에서 뒤늦게 튀어나오지 않는다
+- 자바스크립트가 폭을 물어야 할 때(포털 자리 등록처럼 CSS로 못 가르는 일)만 `@/hooks/useMediaQuery`와 `@/constants/breakpoints`를 쓴다. `window.innerWidth`로 따로 재지 않는다
+- 폭의 주인은 둘이다. 좌우 여백(16·24·40px)과 최대 폭 1440은 `LayoutMain`의 틀이, 화면별 본문 폭은 `PageContainer`의 `width`(`reading` 720 · `default` 1200 · `wide`)가 쥔다. 페이지가 좌우 `px-*`를 따로 더하지 않는다
+- 오른쪽 스와이프 판(`SwipeRail`)은 면 자체가 손잡이라 140px 폭을 지킨다. 좁은 막대로 줄이지 않는다. 판이 서는 1440px 이상에서는 `default` 본문 폭이 판 자리(`--rail-reserve`)만큼 물러난다(`globals.css`의 `--content-max-default`)
+- 허브 배너(탐색·작품·광장·쉼터·기록관)는 모두 같은 높이(`bannerStyles.ts`의 `BANNER_COMPACT_HEIGHT_CLASS`)를 쓴다. 한 화면만 따로 줄이거나 키우지 않는다. 배너는 제목과 경로를 싣는 자리다 — 하위 화면은 상위 단계를 작은 경로 줄로, 지금 화면을 큰 제목으로 나눠 그린다(`BannerHeading`)
+- 휴대폰·PC용으로 같은 내용을 두 벌 그리지 않는다. 한 벌을 두고 격자 칸 수만 바꾼다(`Footer` 참고). 카드처럼 놓이는 자리마다 폭이 다른 부품은 container query를 쓴다
+- 화면 높이는 `svh`·`dvh`를 쓴다(`100vh`는 휴대폰 주소창만큼 넘친다). 화면 끝에 붙는 고정 요소는 `env(safe-area-inset-*)`를 받는다(`viewport-fit=cover`는 `[locale]/layout.tsx`가 선언)
+- 누르는 칸은 최소 44px(`size-11`·`min-h-11`)이다. 아이콘이 작아도 칸을 줄이지 않는다
 
 ## 텍스트 색상 규칙 (필수)
 
@@ -82,10 +105,12 @@ export default function Page() {
 - 사용자 웹 런타임 서체는 **Pretendard 하나**다. 한글·영문·숫자와 본문·제목·버튼을 나누지 않는다.
 - `font-serif`·`font-cinzel`·`font-cormorant`·`font-maruburi`는 기존 클래스 호환용 이름일 뿐이며 모두 `--font-pretendard`를 가리킨다. 신규 코드에서는 `font-sans` 또는 상속을 쓴다.
 - 시대·페이지·콘텐츠 종류를 이유로 별도 명조나 영문 장식 서체를 추가하지 않는다. 위계는 크기·굵기·간격·색으로 만든다.
+- 굵기 위계: 페이지 제목 700 · 구획 제목 600 · 버튼·탭·메뉴 500 · 본문·입력값 400. `globals.css` 기본층이 이 값을 깔아 두므로 조작 요소에 `font-bold`를 따로 붙이지 않는다. `font-black`은 쓰지 않는다
+- 옛 명조 시절의 넓은 자간(`tracking-widest`·`tracking-[0.3em]`)과 `uppercase` 영문 부제는 새로 쓰지 않는다. 그라데이션 글자(`bg-clip-text`)로 제목을 칠하지 않는다. 단, 로고(`Logo`)와 그 부제(YOUR CULTURAL LEGACY)는 브랜드 표식이라 이 규칙 밖이다 — 모양을 바꾸거나 화면에서 빼려면 사용자 확인을 받는다
 
 ## 효과/텍스처
-- `bg-texture-noise/marble`, `effect-bevel/engraved`, `card-sarcophagus`
-- `shadow-glow`, `text-3d-gold/marble`, `engraved-plate`
+- 공용 판(`ClassicalBox`·기본 `Modal`)은 카드 면 + `line` 테두리 + `rounded-panel` + 얕은 그림자 하나다. 금 이중선·모서리 꺽쇠·비네트는 두지 않는다. 인물 상세의 세계 테마는 `--world-panel-texture`로 판 결만 얹는다
+- `bg-texture-*`·`effect-bevel/engraved`·`card-sarcophagus`·`engraved-plate`·`text-3d-*`·`shadow-glow`는 남은 화면 호환용이다. 새 화면에 쓰지 않고, 그 화면을 손대는 김에 걷어낸다
 
 ## Z-Index (`@/constants/zIndex.ts`)
 ```
@@ -110,9 +135,9 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 ### 값
 - 호버: `hover:bg-white/5`, `hover:text-accent`, `hover:brightness-110` 등 **색·밝기 강조**를 transition 없이 즉시 적용
 - **이동 지양**: hover 시 `-translate-y`(위로 뜸)·`scale`(확대) 같은 위치·크기 이동은 넣지 않는다. 색·상태 강조로 대신한다
-- 활성: `bg-accent/10 text-accent`
+- 활성: `bg-accent/10 text-accent`, 메뉴·탭의 현재 위치는 금색 밑줄 하나
 - 비활성: `opacity-50 cursor-not-allowed`
-- 반응형: 모바일 우선, `md:`(768px) 데스크톱
+- 반응형: 모바일 우선. 전환점은 위 「레이아웃·반응형」을 따른다
 
 ### 포커스 표시
 브라우저 기본 포커스 테두리를 끄고 키보드 포커스에만 강조색 표시를 준다. 상세는 `ui-focus` 스킬.
@@ -138,7 +163,7 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 | `/explore/works` | 지혜의 서가·서가·서재 | **작품** / Works |
 | `/explore/works/academy` | 지혜의 학당 / Academy of Wisdom | **학당** / Academy |
 | `/explore/works/museum` | 콘텐츠의 연대기 / Chronicle of Content | **박물관** / Museum |
-| `/explore/works/popular` (신설) | 불후의 명작 + 길의 갈래 | **인기 작품** / Popular Works |
+| `/explore/works/popular?mode=classics` | 불후의 명작 + 길의 갈래 | **불후의 명작** / Timeless Classics (베스트셀러는 26.09.28 작품 첫 화면 `/explore/works`로 옮겼다) |
 
 「불후의 명작」(시대별)과 「길의 갈래」(직업별)는 **같은 자료를 다르게 자른 것**이라 26.08.02에 한 화면으로 합쳤다. 안에서 「시대별로 보기 / 직군으로 보기」로 전환하고, 시대별의 '전체' 탭이 모든 시대를 합친 순위다. 옛 주소 둘은 새 주소로 넘긴다.
 

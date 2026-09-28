@@ -5,7 +5,7 @@
     "brandHeading": "필앤노트(feelandnote)",
     "brandAlias": "인물의 감상 아카이브",
     "description": "필앤노트(feelandnote)는 역사적 인물과 현대 인사가 읽고, 보고, 듣고, 즐긴 작품과 감상 기록을 모은 문화 아카이브입니다.",
-    "twitterDescription": "필앤노트에서 1,000명 이상의 인물이 남긴 책·영화·음악·게임 감상 기록을 만나보세요.",
+    "twitterDescription": "역사적 인물과 현대 인사가 남긴 책·영화·음악·게임 감상 기록을 필앤노트에서 만나보세요.",
     "keywords": [
       "감상 기록",
       "셀럽 추천 책",
@@ -393,7 +393,7 @@
     "contactFeedbackDesc": "새 기능을 제안하거나 오류를 발견하셨다면 피드백 게시판에 남겨 주세요.",
     "contactFeedbackLink": "피드백 게시판으로 가기",
     "about": "서비스 소개",
-    "aboutMetaTitle": "필앤노트 서비스 소개 — 인물의 책·영화·음악 아카이브",
+    "aboutMetaTitle": "서비스 소개 — 인물의 책·영화·음악 아카이브",
     "aboutTitle": "서비스 소개",
     "aboutDescription": "역사 속 인물과 오늘의 유명인이 읽고 보고 들은 작품이 여기 있습니다. 나만의 감상을 그 곁에 남겨 보세요.",
     "aboutVisionTitle": "우리가 만들려는 것",
@@ -442,7 +442,8 @@
   "shared": {
     "scrollDown": "아래로 이동",
     "accessibility": {
-      "close": "닫기"
+      "close": "닫기",
+      "breadcrumb": "현재 위치"
     },
     "hubSection": {
       "more": "더보기",
@@ -590,7 +591,7 @@
       "viewCard": "인물 카드 보기",
       "playDialogue": "대사 보기",
       "trendChipDirect": "급상승 top {rank}",
-      "trendChipRank": "top {rank}",
+      "trendChipRank": "검색 {rank}위",
       "trendInfoOpen": "트렌드 근거 보기",
       "trendModalQuery": "급상승 검색어 「{title}」 · {rank}위",
       "trendModalBodyDirect": "{country} 구글 트렌드에서 본인 이름으로 검색이 급증한 인물입니다.",

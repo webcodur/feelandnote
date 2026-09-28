@@ -29,7 +29,8 @@ const sizeStyles = {
   "4xl": { container: "w-[160px] h-[160px]", pixels: 160, text: "text-5xl", badge: "w-7 h-7" },
 };
 
-const defaultGradient = "linear-gradient(135deg, #8b5cf6, #ec4899)";
+// 얼굴 사진이 없을 때의 바탕 — 서비스 표면색 안에서 머리글자만 보이게 한다
+const defaultGradient = "linear-gradient(135deg, var(--color-stone-border), var(--color-bg-raised))";
 
 export default function Avatar({ url, name, size = "md", gradient, verified, className = "", priority = false }: AvatarProps) {
   const styles = sizeStyles[size];
@@ -44,7 +45,7 @@ export default function Avatar({ url, name, size = "md", gradient, verified, cla
           src={url}
           alt={name || "avatar"}
           boxPx={styles.pixels}
-          className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 transition-all duration-300 ${className}`}
+          className={`${styles.container} rounded-full object-cover ring-1 ring-line-strong ${className}`}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
         />
@@ -54,13 +55,13 @@ export default function Avatar({ url, name, size = "md", gradient, verified, cla
           alt={name || "avatar"}
           width={styles.pixels}
           height={styles.pixels}
-          className={`${styles.container} rounded-full object-cover ring-2 ring-accent/20 transition-all duration-300 ${className}`}
+          className={`${styles.container} rounded-full object-cover ring-1 ring-line-strong ${className}`}
           unoptimized
           priority={priority}
         />
       ) : (
         <div
-          className={`${styles.container} rounded-full flex items-center justify-center font-bold text-white ring-2 ring-accent/20 transition-all duration-300 ${styles.text} ${className}`}
+          className={`${styles.container} rounded-full flex items-center justify-center font-bold text-white ring-1 ring-line-strong ${styles.text} ${className}`}
           style={{ background: bg }}
         >
           {initial}

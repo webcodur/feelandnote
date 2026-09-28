@@ -12,7 +12,7 @@
 | [agora.md](agora.md) | 광장 | `(main)/agora/*` |
 | [profile.md](profile.md) | 프로필·기록관 | `(main)/[userId]/*` |
 | [explore.md](explore.md) | 탐색 공통 배너·조작·카드와 인물 모드 | `(main)/explore/*` |
-| [curated-lists.md](curated-lists.md) | 기관 선정의 검색·미리보기·로고·목록·데이터 | 작품 첫 화면 및 `(main)/explore/works/curated/*` |
+| [curated-lists.md](curated-lists.md) | 기관 선정의 검색·목록 카드·로고·목록·데이터 | `(main)/explore/works/curated/*` |
 
 쉼터(`(main)/rest/*`)는 게임 영역이라 이 묶음에서 제외한다. 게임 문서는 [`docs/games/README.md`](../../games/README.md)에서 찾는다.
 
@@ -121,31 +121,29 @@ BOOK 소개는 저장된 번역문을 그대로 표시하거나, 소개값에 �
 | key | 라벨 | href | 헤더 | 바텀탭 | 홈 섹션 |
 |---|---|---|---|---|---|
 | `home` | 홈 | `/` | — | O | — |
-| `explore` | 인물 | `/explore` | O | O | O |
-| `library` | 작품 | `/explore/works` | O | O | O |
+| `explore` | 탐색 | `/explore` | O | O | O |
+| `agora` | 광장 | `/agora` | O | O | — |
 | `rest` | 쉼터 | `/rest` | O | O | — |
-| `archive` | 내 기록 | `/{userId}` | — | O | O |
+| `archive` | 내 기록 | `/{userId}` | — | — | O |
 
-광장(`/agora`)은 `NAV_ITEMS`에 없다. 풋터의 `FOOTER_MISC_LINKS`(소셜·공지사항·피드백)로만 노출된다.
+작품(`/explore/works`)은 `NAV_ITEMS`가 아니라 탐색 안의 모드(`EXPLORE_MODES`)다. 바텀탭 마지막 칸은 음악 재생기가 쓰고, 내 기록 입구는 헤더 프로필 메뉴 하나다.
 
-`FOOTER_SECTIONS`가 인물·작품 두 칼럼의 하위 링크를 정한다. 브랜드 링크(`FOOTER_BRAND_LINKS`)는 서비스 소개·검색·이용약관·개인정보처리방침·문의하기다.
+`FOOTER_SECTIONS`가 풋터 네 칼럼(인물·작품·쉼터·광장·서비스 안내)의 링크를 정한다.
 
 ## 허브 구성 단일원천
 
 탐색 두 모드는 공통 소개·검색·정렬·필터 → 카드 목록 → 다른 탐색 방법 순서다. 메뉴와 안내 카드 링크는 `navigation.tsx`가 쥔다. 화면 위계와 세부 동작은 [인물](explore.md)과 [작품](library.md)을 따른다. 홈의 번호 구획은 `hubSectionUtils.tsx`와 `HubSection`을 쓴다.
 
-## 화면 이름 변경 이력
+## 화면 이름
 
-**26.08.07 — 「탐색」을 「인물」로, 「서가」를 「작품」으로 바꿨다.** 두 메뉴가 사람 축과 작품 축으로 짝을 이루게 하려는 것이다. 「서가」는 도서관 용어라 일상어가 아니라는 지적이 있었고, 책만 담는 어감인데 실제로는 영상·음악·게임도 담고 있었다. 주소(`/explore`·`/explore/works`)와 코드 키는 바꾸지 않았다.
+헤더·하단 탭 메뉴는 **「탐색」** 하나다. 탐색 안에서 **「인물」**(`/explore`)과 **「작품」**(`/explore/works`) 두 모드로 나뉘어 사람 축과 작품 축이 짝을 이룬다(`EXPLORE_MODES`, 전환 탭은 `ExploreModeTabs`). 「서가」는 책만 담는 어감이라 쓰지 않는다 — 작품 모드는 영상·음악·게임도 담는다. 주소와 코드 키는 그대로다.
 
-- 화면에 뜨는 글자: `messages/<locale>/nav.json`의 `nav.explore`·`nav.library`
+- 화면에 뜨는 글자: 메뉴는 `messages/<locale>/nav.json`의 `nav.explore`, 모드는 `nav.modes.<key>`
 - `navigation.tsx`의 `label`은 **개발용 참고값이라 화면에 안 뜬다.** 이름을 바꿀 때 둘을 함께 고친다
-- 화면 제목 접미도 함께 정리했다 — 상위 이름을 접미로 쓰되, 제목에 같은 말이 이미 있으면 접미를 뺀다("오늘의 인물 | 인물"이 되지 않도록)
-- 배너 영문 부제는 `home.<key>.englishTitle`에 있다. 인물 `Notable Figures` / 작품 `Curated Works`
+- 화면 제목 접미는 상위 이름을 쓰되, 제목에 같은 말이 이미 있으면 접미를 뺀다("오늘의 인물 | 인물"이 되지 않도록)
+- 허브 배너는 한국어 제목만 둔다. 영문 부제는 그리지 않는다(`components/shared/bannerStyles.ts`)
 
-**26.08.07 실제 화면 확인** — 개발 서버에서 두 허브·학당·인기 작품을 열어 배너 제목, 헤더 메뉴, 하단 탭, 빵부스러기, 화면 제목이 모두 새 이름으로 바뀐 것을 눈으로 확인했다. 하단 탭은 글자 수가 이전과 같아(두 글자) 좁은 화면에서도 줄바꿈이 없다.
-
-> 인기 작품 조회는 실패한 빈 목록을 캐시하지 않는다. 26.08.07에 이 규칙을 적용하고 기존 캐시를 비워 복구했다.
+> 인기 작품 조회는 실패한 빈 목록을 캐시하지 않는다.
 
 ## 코드 명칭과 화면 명칭의 불일치
 

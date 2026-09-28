@@ -2,7 +2,7 @@
   "explore": {
     "meta": {
       "title": "Explore Figures - Books, Films & Music",
-      "description": "Explore the books, films, music, and viewing records of more than 1,000 historical and contemporary figures on feelandnote."
+      "description": "Explore the books, films, and music that historical and contemporary figures read, watched, and heard, through category rankings, country timelines, and relationship maps."
     },
     "celebs": {
       "metaTitle": "Celebrity Recommendations | Books, Movies & Music",
@@ -213,7 +213,6 @@
       "ranking": "Profiles",
       "rankingSub": "Discover figures through popularity, activity records, and random picks.",
       "archiveHeadline": "Explore by figure",
-      "archiveSub": "Find a figure and discover the works they chose.",
       "spectrumAnalysis": "Disposition Analysis",
       "spectrumAnalysisSub": "See where influential figures stand across four dispositions (optimism, progressiveness, community, boldness). You can also search by name.",
       "groupDocumented": "Seekers",
@@ -233,7 +232,12 @@
       "viewMore": "View more",
       "viewAll": "View all",
       "viewAllProfiles": "All",
-      "quickNav": "Quick Navigation",
+      "quickNav": "Perspectives",
+      "lensGroups": {
+        "relation": "By connection",
+        "ranking": "By ranking & comparison",
+        "more": "More to explore"
+      },
       "navCelebs": "Figures",
       "navTopByType": "Category Champions",
       "navSpectrum": "Spectrum",
@@ -357,13 +361,14 @@
         "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
       },
       "navMonologue": "Monologues",
-      "archiveResults": "{count, number} of {total, number} figures"
+      "archiveResults": "{count, number} of {total, number} figures",
+      "listJump": "By figure"
     },
     "directory": {
-      "metaTitle": "Celebrity Directory - 1,000+ Figures",
-      "metaDescription": "Browse the complete directory of 1,000+ celebrities with their book recommendations, movie picks, and reading lists.",
+      "metaTitle": "Figure Directory - Every Figure by Name & Profession",
+      "metaDescription": "Browse all {count, number} figures by name and profession, each linked to the books, films, and music they read, watched, and heard.",
       "totalCount": "{count} figures in total",
-      "professionMetaTitle": "{profession} Figures | Books, Films & Music They Loved",
+      "professionMetaTitle": "{profession} Figures - Books, Films & Music They Loved",
       "professionMetaDescription": "Browse the books, films, and music cherished by {count} {profession} figures.",
       "professionHeading": "{profession} Figures",
       "professionCount": "{count} figures",
@@ -372,15 +377,26 @@
       "otherProfessions": "Other fields"
     },
     "celebFeed": {
-      "metaTitle": "Celebrity Feed - Latest Recommendations | Figures",
-      "metaDescription": "Real-time feed of celebrity book recommendations, movie reviews, and music picks. See what notable figures are reading now."
+      "metaTitle": "Figure Feed - Recent Records",
+      "metaDescription": "Records of the books, films, and music that notable figures read, watched, and heard, with the most recently added or updated first."
     },
     "topByType": {
-      "metaTitle": "Category Champions | Figures",
-      "metaDescription": "Top 10 rankings by books, movies, games, and music — discover who engages the most in each category.",
+      "metaTitle": "Category Champions",
       "rank": "#{rank}",
       "count": "{count} items",
-      "rankDesc": "Who enjoyed the most {media}"
+      "rankDesc": "Who enjoyed the most {media}",
+      "metaTitleByType": {
+        "book": "Top 10 Figures Who Read the Most Books",
+        "video": "Top 10 Figures Who Watched the Most Films & Shows",
+        "game": "Top 10 Figures Who Played the Most Games",
+        "music": "Top 10 Figures Who Listened to the Most Music"
+      },
+      "metaDescriptionByType": {
+        "book": "A ranking of the 10 figures with the most books in their records, with the books they read gathered in one place.",
+        "video": "A ranking of the 10 figures with the most films and shows in their records, with the titles they watched gathered in one place.",
+        "game": "A ranking of the 10 figures with the most games in their records, with the games they played gathered in one place.",
+        "music": "A ranking of the 10 figures with the most music in their records, with the music they listened to gathered in one place."
+      }
     },
     "rankingBoard": {
       "shelfTitle": "Shared {media}",
@@ -388,8 +404,8 @@
       "shelfDesc": "Works the figures above enjoyed"
     },
     "spectrum": {
-      "metaTitle": "16-Axis Spectrum | Figures",
-      "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition.",
+      "metaTitle": "16-Axis Spectrum - Figures by Ability, Virtue & Disposition",
+      "metaDescription": "For each of 16 axes of ability, virtue, and disposition, see the highest-scoring figures and those standing at either extreme.",
       "groupNav": "Category",
       "axisNav": "Axis",
       "shelfPole": "{pole}-leaning figures",
@@ -397,15 +413,15 @@
       "rankDescPoles": "Figures at the far ends of {positive} and {negative}"
     },
     "timelinePage": {
-      "metaTitle": "Celebrity Timeline by Country | Figures",
-      "metaDescription": "Explore celebrities by country and era. Discover their recommended books, movies, and music in chronological order."
+      "metaTitle": "Figure Timeline by Country",
+      "metaDescription": "See who lived in the same era, country by country in chronological order, then follow each figure to the books, films, and music they loved."
     },
     "today": {
       "metaTitle": "Today's Figure",
-      "metaDescription": "Discover a new celebrity's recommended books, movies, and music every day. See what today's featured figure reads and watches."
+      "metaDescription": "Each day features one figure and the books, films, and music they read, watched, and heard."
     },
     "faction": {
-      "metaTitle": "Faction | Figures",
+      "metaTitle": "Faction",
       "sectionNav": "Faction atlas sections",
       "themeNav": "Faction atlas themes",
       "figureCount": "{count, plural, one {# figure} other {# figures}}",
@@ -433,10 +449,12 @@
       "overview": "Faction overview",
       "overviewFallback": "Choose a figure above to explore their role and story within this theme.",
       "backToOverview": "Back to theme overview",
-      "personInTheme": "{name} in {theme}"
+      "personInTheme": "{name} in {theme}",
+      "hubMetaTitle": "Faction - Figures Grouped by Theme & Camp",
+      "metaDescription": "Explore {people, number} figures across {themes, number} themes such as {sections}, grouped into camps with their stories and connections."
     },
     "monologue": {
-      "metaTitle": "Virtual Monologues | Figures",
+      "metaTitle": "Virtual Monologues - Life & Philosophy in Their Own Voice",
       "metaDescription": "Life and philosophy told in each figure's own voice. Narrated first-person monologues in one place.",
       "eyebrow": "Virtual Monologue",
       "lead": "What would they say in their own voice? First-person monologues in which each figure looks back on life and philosophy.",

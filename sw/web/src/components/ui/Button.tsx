@@ -16,21 +16,25 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   unstyled?: boolean;
 }
 
+/*
+  평평한 면과 색 한 가지로 역할을 가른다 — 입체 그림자(bevel·engraved)와 금 테두리는 두지 않는다.
+  primary(금색 면)는 화면당 가장 중요한 행동 하나에만 쓴다. 나머지는 secondary·ghost다.
+  hover는 배경·글자색이 즉시 바뀐다(transition 없음).
+*/
+const BASE = "inline-flex items-center justify-center gap-2 rounded-control border select-none";
+
 const variantStyles = {
-  primary:
-    "inline-flex items-center justify-center gap-2 bg-accent text-bg-main effect-bevel hover:bg-accent-hover hover:text-bg-secondary border border-transparent rounded-sm font-bold [&>svg]:drop-shadow-sm",
-  secondary:
-    "inline-flex items-center justify-center gap-2 bg-bg-card text-text-primary effect-engraved border border-accent-dim/30 hover:bg-accent/10 hover:border-accent hover:text-accent rounded-sm font-semibold",
-  ghost:
-    "inline-flex items-center justify-center bg-transparent text-text-secondary hover:text-accent hover:bg-accent/5 rounded-sm font-medium",
-  danger:
-    "inline-flex items-center justify-center gap-2 bg-red-900/80 text-white effect-bevel hover:bg-red-800 border border-red-700/50 rounded-sm font-cinzel font-bold",
+  primary: `${BASE} border-transparent bg-accent text-bg-secondary font-semibold hover:bg-accent-hover`,
+  secondary: `${BASE} border-line bg-bg-raised text-text-primary font-medium hover:border-line-strong hover:bg-bg-stone-light`,
+  ghost: `${BASE} border-transparent bg-transparent text-text-secondary font-medium hover:bg-white/5 hover:text-text-primary`,
+  danger: `${BASE} border-transparent bg-status-paused/90 text-text-primary font-semibold hover:bg-status-paused`,
 };
 
+// 높이를 최소값으로 잡아 아이콘·글자 어느 쪽이 들어와도 누르는 칸이 줄지 않는다
 const sizeStyles = {
-  sm: "py-1.5 px-3 text-xs tracking-wide",
-  md: "py-2 px-6 text-sm tracking-wide",
-  lg: "py-3 px-8 text-base tracking-widest",
+  sm: "min-h-9 px-3 text-[13px]",
+  md: "min-h-10 px-5 text-sm",
+  lg: "min-h-12 px-7 text-base",
 };
 
 export default function Button({

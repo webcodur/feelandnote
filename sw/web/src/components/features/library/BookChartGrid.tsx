@@ -4,21 +4,28 @@
   책임: 서점 차트(한국어 YES24 일별 종합·영어 Apple Books 유료 전자책)를 서비스 공통 상품 목록(AffiliateBookList)으로 그린다.
         차트 항목은 우리 작품이 아니라 표지·YES24 단추는 서점 제휴 주소(없으면 상품 주소)를 열고,
         작품 상세 대신 「책 정보」 단추가 YES24 상품 상세를 받아 모달(Yes24BookModal)로 띄운다.
+        도서만 20위까지 받아 오므로 처음에는 10위까지 보이고, 단추로 나머지를 펼친다 — 다른 분야(10위 안팎)와 첫 화면 길이를 맞춘다.
 */ // ------------------------------
 
 "use client";
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { ChevronDown } from "lucide-react";
 import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import type { BestsellerItem } from "@/actions/library/types";
 import AffiliateBookList from "@/components/shared/AffiliateBookList";
+import { EXPLORE_CONTROL_CLASS } from "@/components/shared/ExploreSearchControls";
 import Yes24BookModal from "./Yes24BookModal";
+
+/** 처음 보이는 순위 수 — 나머지는 「11~20위 더 보기」로 편다 */
+const BOOK_CHART_INITIAL = 10;
 
 export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
   const t = useTranslations("library.popular");
   const locale = useLocale();
   const [openId, setOpenId] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   const books: AffiliateBook[] = items.flatMap((item) => item.source_url
     ? [{
@@ -40,12 +47,14 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
       },
     }]
     : []);
+  const shown = expanded ? books : books.slice(0, BOOK_CHART_INITIAL);
+  const hidden = books.slice(shown.length);
   const openItem = openId ? items.find((item) => item.id === openId) : undefined;
 
   return (
     <div className="mx-auto max-w-6xl">
       <AffiliateBookList
-        books={books}
+        books={shown}
         mobileGrid
         heading={t("chartTitle")}
         buyLabel={t("viewAtStore")}
@@ -54,6 +63,14 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
         onDetail={(book) => setOpenId(book.contentId)}
         hideHeading
       />
+      {hidden.length > 0 && (
+        <div className="mt-6 flex justify-center md:mt-8">
+          <button type="button" onClick={() => setExpanded(true)} className={`${EXPLORE_CONTROL_CLASS} px-5`}>
+            {t("showMoreRanks", { from: hidden[0].rank ?? shown.length + 1, to: hidden[hidden.length - 1].rank ?? books.length })}
+            <ChevronDown size={15} className="shrink-0 text-text-tertiary" aria-hidden />
+          </button>
+        </div>
+      )}
       {openItem && <Yes24BookModal key={openItem.id} item={openItem} onClose={() => setOpenId(null)} />}
     </div>
   );

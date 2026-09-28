@@ -5,8 +5,9 @@
 */ // ------------------------------
 
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getCuratedList } from "@/actions/library";
-import { getLocalizedAlternates } from "@/lib/seo";
+import { getLocalizedAlternates, toSeoSummary } from "@/lib/seo";
 import CuratedListView from "@/components/features/library/curated/CuratedListView";
 import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
 
@@ -19,11 +20,14 @@ async function loadPaired(curatorSlug: string, listSlug: string) {
 
 export async function generateMetadata({ params }: { params: Promise<{ curator: string; list: string }> }) {
   const { curator, list: listSlug } = await params;
-  const list = await loadPaired(curator, listSlug);
+  const [list, t] = await Promise.all([loadPaired(curator, listSlug), getTranslations("library.curated.meta")]);
   if (!list) return {};
   return {
     title: `${list.title} · ${list.curator.name}`,
-    description: list.description ?? undefined,
+    // 소개문 전문(170~690자)을 싣지 않는다 — 검색 결과가 첫 문장 중간에서 잘린다
+    description: list.description
+      ? toSeoSummary(list.description)
+      : t("listFallback", { title: list.title, curator: list.curator.name, count: list.itemCount }),
     alternates: await getLocalizedAlternates(`/explore/works/curated/${curator}/${listSlug}`),
   };
 }

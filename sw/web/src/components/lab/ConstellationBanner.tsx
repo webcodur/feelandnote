@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { Network } from "lucide-react";
+import { BANNER_COMPACT_HEIGHT_CLASS } from "@/components/shared/bannerStyles";
 
 interface ConstellationBannerProps {
   children?: ReactNode;
@@ -164,8 +165,9 @@ export default function ConstellationBanner({
     };
   }, [height, compact]);
 
+  // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
   return (
-    <div className={`relative w-full overflow-hidden ${compact ? "h-[160px] sm:h-[180px] md:h-[200px]" : ""}`} style={compact ? undefined : { height }}>
+    <div className={`relative w-full overflow-hidden ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`} style={compact ? undefined : { height }}>
       <canvas ref={canvasRef} className="block" />
 
       {/* Overlay Content */}

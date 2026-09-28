@@ -7,6 +7,7 @@ import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
 import ExploreHubIntro from "@/components/shared/ExploreHubIntro";
+import { EXPLORE_LENS_SECTION_ID } from "@/constants/exploreLenses";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -104,10 +105,13 @@ export default function CelebCarousel({
     <div>
       {/* 두 탐색 모드는 같은 소개 위계를 쓴다. 명부 규모는 결과 수 옆에서 보인다. */}
       {syncToUrl && realityTotals && (
-        <ExploreHubIntro id="explore-figures-heading" title={tHub("archiveHeadline")} description={tHub("archiveSub")} />
+        <ExploreHubIntro id="explore-figures-heading" title={tHub("archiveHeadline")}
+          jump={{ href: `#${EXPLORE_LENS_SECTION_ID}`, label: tHub("quickNav") }} />
       )}
       {syncToUrl ? (
-        <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction} />
+        <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction}
+          // 전체 명부 수와 현재 조건에 맞는 결과 수 — 조작 아래 한 줄(검색 급증 안내 옆)에 선다
+          resultLabel={realityTotals ? tHub("archiveResults", { count: filters.total, total: realityTotals[filters.realityValue] }) : tExplore("totalCount", { count: filters.total })} />
       ) : (
         <>
       {/* 셀럽 컨트롤 (PC) */}
@@ -224,12 +228,7 @@ export default function CelebCarousel({
       ) : (
         <section key="grid" aria-label={t("celebArchive")} aria-busy={filters.isLoading}
           className="relative animate-fade-in">
-          {/* 전체 명부 수와 현재 조건에 맞는 결과 수 */}
-          {syncToUrl && (
-            <p role="status" className="mb-3 text-xs tabular-nums text-text-secondary md:mb-4">
-              {realityTotals ? tHub("archiveResults", { count: filters.total, total: realityTotals[filters.realityValue] }) : tExplore("totalCount", { count: filters.total })}
-            </p>
-          )}
+          {/* 결과 수는 조작 아래 한 줄이 쥔다(CelebCompactControls resultLabel) */}
           {filters.celebs.length === 0 && !filters.isLoading && <EmptyState />}
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (

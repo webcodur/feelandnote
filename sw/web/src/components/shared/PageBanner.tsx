@@ -6,6 +6,7 @@
 
 import { ReactNode } from "react";
 import MobileBanner from "./MobileBanner";
+import { BANNER_DESKTOP_SHELL_CLASS } from "./bannerStyles";
 
 interface PageBannerProps {
   title: string;
@@ -17,7 +18,7 @@ export default function PageBanner({ title, subtitle, children }: PageBannerProp
   return (
     <>
       <MobileBanner title={title} subtitle={subtitle} />
-      <div className="hidden md:block">{children}</div>
+      <div className={BANNER_DESKTOP_SHELL_CLASS}>{children}</div>
     </>
   );
 }

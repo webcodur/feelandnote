@@ -10,6 +10,7 @@ import PageContainer from "@/components/layout/PageContainer";
 import AgoraTabs from "@/components/features/user/agora/AgoraTabs";
 import HegemonyMapBanner from "@/components/lab/HegemonyMapBanner";
 import PageBanner from "@/components/shared/PageBanner";
+import { BANNER_TITLE_CLASS } from "@/components/shared/bannerStyles";
 import { getTranslations } from "next-intl/server";
 import MessageScope from "@/components/shared/MessageScope";
 
@@ -26,22 +27,13 @@ interface Props {
 
 async function AgoraLayoutBody({ children }: Props) {
   const tNav = await getTranslations("nav");
-  const tHome = await getTranslations("home");
   const title = tNav("agora");
-  const englishTitle = tHome("agora.englishTitle");
 
   return (
     <>
-      <PageBanner title={title} subtitle={englishTitle}>
+      <PageBanner title={title}>
         <HegemonyMapBanner compact>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-            {title}
-          </h1>
-          {title.toLowerCase() !== englishTitle.toLowerCase() && (
-            <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-xs sm:text-sm mt-3 sm:mt-4 uppercase font-cinzel text-center">
-              {englishTitle}
-            </p>
-          )}
+          <h1 className={BANNER_TITLE_CLASS}>{title}</h1>
         </HegemonyMapBanner>
       </PageBanner>
       <PageContainer>

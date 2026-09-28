@@ -1,27 +1,22 @@
 {
   "home": {
     "explore": {
-      "englishTitle": "Notable Figures",
       "description": "위인들이 남긴 감상의 궤적을 따라가 보세요.",
       "link": "인물 보러가기"
     },
     "library": {
-      "englishTitle": "Curated Works",
       "description": "천 년을 울린 작품들을 만나보세요.",
       "link": "작품 보러가기"
     },
     "agora": {
-      "englishTitle": "The Agora",
       "description": "기록하는 사람들의 광장에서 울림을 나누세요.",
       "link": "광장 보러가기"
     },
     "rest": {
-      "englishTitle": "Take a Rest",
       "description": "기록 사이, 잠시 쉬어가는 놀이의 공간.",
       "link": "쉼터 가기"
     },
     "archive": {
-      "englishTitle": "Personal Collection",
       "description": "나만의 한 줄을 쌓아 나의 서재를 만드세요.",
       "link": "내 기록 보러가기"
     },

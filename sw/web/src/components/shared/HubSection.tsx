@@ -54,62 +54,57 @@ export default function HubSection({
   );
 
   return (
-    <section id={sectionId} className="w-full flex flex-col pt-6 md:pt-8 scroll-mt-20">
-      {/* 장식적 상단 구분선 */}
-      {!hideDivider && (
-        <div className="w-full h-px bg-gradient-to-r from-white/10 via-white/5 to-transparent mb-8 md:mb-12" />
-      )}
+    <section id={sectionId} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""}`}>
+      {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고(간격은 부모의 space-y), 아래 새 구획은 넉넉히 띄운다
+          (code-rules.md 「구분선」) */}
+      {!hideDivider && <div className="mb-12 h-px w-full bg-line md:mb-16" />}
 
-      {/* 헤더 — 중앙 정렬 */}
+      {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(code-rules.md 「정렬」) */}
       <div className="flex flex-col items-center text-center mb-6 md:mb-10 px-1 gap-2 md:gap-3">
-        {/* 엑센트 바 */}
-        <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
+        {/* 엑센트 바 — 빛 번짐 없이 금선 하나 */}
+        <div aria-hidden className="h-0.5 w-8 rounded-full bg-accent" />
 
         {/* 넘버링 (윗줄) */}
         {hasNav && (
-          <span className="text-[11px] font-mono text-[#d4af37]/60 tabular-nums select-none">
+          <span className="select-none text-xs tabular-nums text-accent-dim">
             {index! + 1}/{total}
           </span>
         )}
 
         {/* 좌우 화살표 + 제목 (아랫줄) */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* 첫 구획에는 이전이 없다 — 끝으로 감는 단추를 두지 않고 자리만 비워 둔다.
               자리를 지워 버리면 제목이 구획마다 좌우로 흔들린다 */}
           {hasNav && (
             index === 0 ? (
-              <span aria-hidden className="p-1.5 invisible">
-                <ChevronLeft size={16} />
-              </span>
+              <span aria-hidden className="invisible size-9" />
             ) : (
               <button
                 type="button"
                 onClick={() => scrollTo(index! - 1)}
-                className="p-1.5 rounded-full text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+                className="flex size-9 items-center justify-center rounded-full text-text-tertiary hover:bg-white/5 hover:text-text-primary"
                 aria-label={t("previous")}
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={18} />
               </button>
             )
           )}
           {/* 최소 폭 = 가장 긴 제목(오늘의 인물) 기준. 짧은 제목도 같은 폭을 차지해
               좌우 화살표가 모든 구획에서 동일한 자리에 선다 (em이라 글자 크기에 비례) */}
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight text-center min-w-[5.5em]">
+          <h2 className="min-w-[5.5em] break-keep text-center text-xl font-semibold tracking-tight text-text-primary md:text-2xl">
             {title}
           </h2>
           {hasNav && (
             index === total! - 1 ? (
-              <span aria-hidden className="p-1.5 invisible">
-                <ChevronRight size={16} />
-              </span>
+              <span aria-hidden className="invisible size-9" />
             ) : (
               <button
                 type="button"
                 onClick={() => scrollTo(index! + 1)}
-                className="p-1.5 rounded-full text-white/30 hover:text-white hover:bg-white/10 transition-colors"
+                className="flex size-9 items-center justify-center rounded-full text-text-tertiary hover:bg-white/5 hover:text-text-primary"
                 aria-label={t("next")}
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={18} />
               </button>
             )
           )}
@@ -117,7 +112,7 @@ export default function HubSection({
 
         {/* 서브타이틀 */}
         {subtitle && (
-          <p className="text-sm md:text-base text-white/45 max-w-md break-keep font-medium leading-relaxed">
+          <p className="max-w-md break-keep text-sm leading-relaxed text-text-secondary md:text-base">
             {subtitle}
           </p>
         )}
@@ -137,14 +132,14 @@ export default function HubSection({
 /** 구획 끝 더보기 링크 — 래퍼 없이 자기 모드에 맞는 주소를 직접 잇는 구획도 이걸 쓴다 */
 export function HubMoreLink({ href, label }: { href: string; label: string }) {
   return (
-    <div className="flex justify-center mt-5 md:mt-8">
+    <div className="mt-5 flex justify-center md:mt-7">
       <Link
         href={href}
-        className="flex items-center gap-1.5 text-xs text-white/50 hover:text-[#d4af37] font-medium transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/5 hover:border-white/10"
+        className="flex min-h-11 items-center gap-1.5 rounded-full border border-line bg-bg-raised px-5 text-sm font-medium text-text-secondary hover:border-line-strong hover:text-text-primary"
       >
         {label}
         <LinkPending>
-          <ArrowRight size={14} className="text-[#d4af37]/70" />
+          <ArrowRight size={15} className="text-accent" />
         </LinkPending>
       </Link>
     </div>

@@ -38,7 +38,7 @@ export function renderHighlighted(text: string, figureLinks: Record<string, stri
         );
       }
       return (
-        <span key={i} className="text-accent font-medium tracking-wide">
+        <span key={i} className="text-accent font-medium">
           {name}
         </span>
       );
@@ -46,7 +46,7 @@ export function renderHighlighted(text: string, figureLinks: Record<string, stri
     if (seg.startsWith("《") && seg.endsWith("》")) {
       const book = seg.slice(1, -1);
       return (
-        <span key={i} className="text-text-primary/95 font-medium tracking-wide">
+        <span key={i} className="text-text-primary font-medium">
           《{book}》
         </span>
       );
@@ -79,25 +79,22 @@ export default function IntroFrame({
   const paragraphs = labels.intro.split("\n\n");
 
   return (
-    <div className="w-full max-w-2xl mx-auto min-w-0 md:px-6">
-      <div className="relative min-w-0 px-4 py-5 md:px-8 md:py-6 bg-white/[0.02] rounded-sm">
-        {/* Corner accents */}
-        <div className="absolute top-0 left-0 w-5 h-5 md:w-7 md:h-7 border-t border-l border-accent/20" />
-        <div className="absolute top-0 right-0 w-5 h-5 md:w-7 md:h-7 border-t border-r border-accent/20" />
-        <div className="absolute bottom-0 left-0 w-5 h-5 md:w-7 md:h-7 border-b border-l border-accent/20" />
-        <div className="absolute bottom-0 right-0 w-5 h-5 md:w-7 md:h-7 border-b border-r border-accent/20" />
-
-        {/* Info Icon */}
+    <div className="w-full max-w-2xl mx-auto min-w-0">
+      {/* 판 하나 — 카드 면과 얇은 선. 모서리 꺽쇠 장식은 두지 않는다 */}
+      <div className="relative min-w-0 rounded-card border border-line bg-bg-card px-5 py-5 md:px-8 md:py-7">
+        {/* Info Icon — 누르는 칸 44px */}
         <button
+          type="button"
           onClick={() => setShowRelayInfo(true)}
-          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 hover:text-accent bg-white/5 hover:bg-accent/10 rounded-full"
+          className="absolute top-3 end-3 md:top-5 md:end-5 z-20 flex size-11 items-center justify-center rounded-full text-text-secondary hover:bg-white/5 hover:text-accent"
           title={labels.inspirationChainTitle}
+          aria-label={labels.inspirationChainTitle}
         >
-          <Info size={16} />
+          <Info size={18} />
         </button>
 
         {/* Prose */}
-        <div className="relative z-10 space-y-4 text-[14.5px] md:text-[16.5px] text-text-primary/80 leading-[1.8] break-keep font-light tracking-wide">
+        <div className="relative z-10 space-y-4 text-[15px] md:text-[17px] text-text-secondary leading-[1.8] break-keep">
           {paragraphs.map((para, i) => {
             // 맺음 문장은 가운데 세우고, 누르면 서비스 소개로 가는 문으로 쓴다
             if (closingHref && i === paragraphs.length - 1) {
@@ -111,7 +108,7 @@ export default function IntroFrame({
                   <ChevronRight
                     size={18}
                     aria-hidden
-                    className="shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-1"
+                    className="shrink-0 text-accent transition-transform group-hover:translate-x-0.5"
                   />
                 </Link>
               );

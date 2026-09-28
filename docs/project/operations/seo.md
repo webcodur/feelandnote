@@ -1,6 +1,6 @@
 # SEO 설정 현황
 
-> **최종 확인: 2026-09-13.** URL Inspection API에서 한영 `/explore`와 빌 게이츠·일론 머스크·젠슨 황 상세는 `PASS / Submitted and indexed`였고 Google canonical도 각 페이지 주소와 일치했다. 이전의 빌 게이츠 미색인 판정은 현재 상태가 아니다. 한국어 탐색의 마지막 크롤은 09-10, 빌 게이츠는 09-09로 이번 탐색 개편보다 앞선다. 개편 후 재수집 여부는 아직 확인하지 않았다.
+> **인물 색인 표본(2026-09-13).** URL Inspection API에서 한영 `/explore`와 빌 게이츠·일론 머스크·젠슨 황 상세는 `PASS / Submitted and indexed`였고 Google canonical도 각 페이지 주소와 일치했다. 이 과거 표본을 최신 배포의 재수집 확인으로 대신하지 않는다. 주소 개편 뒤 제출 결과와 다음 확인 대상은 [현재 색인 신청 도달점](../../continuous/google-indexing.md)이 쥔다.
 >
 > 브랜드·브랜드와 인물명을 조합한 일반 검색에서는 홈페이지가 선택되는 현상이 남아 있다. 빌 게이츠 상세는 `site:` 검색에서 본문까지 검색됐다. 따라서 「홈 외 전부 미색인」과 「색인된 페이지가 일반 검색에서 선택되지 않음」을 구분한다. 사이트 전체 차단이나 탐색 개편으로 검색 노출이 회복됐다고 판정하지 않는다.
 >
@@ -49,6 +49,8 @@
 
 Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보이는 문구로 제목을 바꿔 쓴다.
 `headline`을 제목 앞에 두던 때 빌 게이츠 검색 결과 제목이 `headline`만 남고 이름이 빠졌다.
+26.09.28 URL Inspection API로 보니 빌 게이츠의 마지막 크롤은 09-09로, 09-13 제목 교체 전 버전을 들고 있었다.
+아래 규칙은 같은 날 커밋 `658a9cb6`로 운영 배포하고 `cached-html` 퍼지까지 마쳤다. 재수집 신청은 [Google 일일 색인 신청](../../continuous/google-indexing.md)이 쥔다.
 그래서 제목은 이름을 앞쪽에 두고, 한국어는 쉼표로 여러 토막을 내지 않으며, 제목의 말이 화면 머리
 (수식어·이름 h1·`headline`·건수 줄)에도 보이게 한다. [Google — Title links](https://developers.google.com/search/docs/appearance/title-link)
 
@@ -81,6 +83,41 @@ Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보
 구조화 데이터에 선언하지 않는다. canonical·hreflang·Open Graph·Twitter 문구도 같은
 티어별 제목과 설명을 공유한다.
 
+## 인물 상세 밖 페이지 메타데이터
+
+26.09.28 `core.xml` 356 URL을 Googlebot UA로 전수 감사하고 아래 규칙으로 고쳤다.
+
+- **메타데이터는 `<head>`에 있어야 한다.** Next.js는 `htmlLimitedBots`에 든 봇에만 메타데이터를 기다려
+  `<head>`에 싣고, 나머지는 해석이 늦으면 본문 뒤쪽으로 스트리밍한다. 기본 명단은 JS를 실행한다는 이유로
+  Googlebot을 뺀다. 감사 때 기관 선정 약 70쪽의 title·description·canonical이 `<head>`에 없었다(재요청 때는
+  있었다 — 캐시가 식은 요청에서만 난다). Google은 `<head>` 밖의 rel=canonical을 무시하므로 `next.config.ts`가
+  `Googlebot`을 Next 기본 정규식 앞에 이어 붙인다. 이 설정은 기본 명단을 대체하므로 기본 정규식을 빼지 않는다.
+  [Google — rel=canonical](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
+- **기관 선정** — 기관 상세 제목은 `기관명: 목록1, 목록2 외 N개`(`lib/library/curatedMeta.ts`, 접미사를 뺀 폭
+  24). 기관명만 쓰던 제목(「CNN」)은 무엇이 있는 페이지인지 알리지 못했고, 실제 검색어는 목록 이름이다.
+  목록 이름 앞의 기관명은 뗀다(「칸 영화제: 황금종려상」). 기관·목록 설명은 소개문 전문(170~690자) 대신
+  `toSeoSummary`(`lib/seo.ts`)가 160자 안에 드는 앞 문장까지만 싣는다. 허브의 영화·게임·음악 화면은
+  `metaTitleByMedia`와 실제 기관·목록 수로 만든 설명을, 2쪽부터는 제목 끝에 `· N쪽`을 붙인다(정본 규칙은
+  「내부 링크 통로」의 기관 선정 허브).
+- **작품 첫 화면은 베스트셀러다**(`/explore/works`). 검색 제목·설명은 기관 선정이 아니라 분야별 순위와 그 출처를
+  말한다(`library.meta`). 불후의 명작은 「관점별 보기」 카드 문구(`library.hub.classics*`)가 짧은 안내라
+  검색용 문구를 따로 둔다(`library.popular.classicsMeta*`).
+- **제목은 본문 + 사이트명 접미사 하나다.** 메시지에 `| 인물`·`| 작품` 같은 중간 구획을 넣지 않는다
+  (「세력도감 | 인물 | 필앤노트」). 하위 화면이 허브 이름을 이어 쓰는 경우(`세력 · 세력도감`,
+  `강좌 - 분야 | 학당`)가 있으므로 허브 `metaTitle`은 짧은 이름으로 두고, 허브 자체의 긴 제목은 따로 둔다
+  (`explore.faction.hubMetaTitle`).
+- **쿼리로 갈리는 주소는 제목·설명도 갈린다.** 분야별 챔피언 4개 주소는 `metaTitleByType`·
+  `metaDescriptionByType`을 쓴다. 설명이 없는 페이지는 사이트 공통 설명을 물려받아 홈과 중복되므로
+  (세력도감이 그랬다) 실제 섹션 이름과 규모로 설명을 만든다.
+- **인원·건수를 문구에 박지 않는다.** 「1,000명 이상」은 실제 인원의 몇 분의 일이 된 채 남아 있었다.
+  디렉토리처럼 화면이 이미 세는 값이 있으면 그 값을 넘기고, 없으면 숫자 없이 쓴다.
+- 노출 용어는 [code-rules.md](../platform/code-rules.md) 「사용자 노출 용어」를 따른다(셀럽 → 인물,
+  Celebrity → Figure). 한국어 조사가 붙는 이름은 `withParticle`을 쓴다(「빌 게이츠이」 교정).
+- 한 페이지의 h1 여러 개는 검색 결함으로 보지 않는다. Google은 h1 개수를 문제 삼지 않는다고 밝혔다
+  ([Search Engine Land, 2019 Mueller 답변](https://searchengineland.com/multiple-h1s-wont-get-in-the-way-of-your-seo-google-says-322909)).
+  직군 명부의 배너 h1과 「지도자 인물」 h1이 그렇다. 탐색 배너 h1에 허브 이름이 섞여 「탐색 분야별 챔피언」으로
+  읽히는 문제는 배너 머리(`BannerHeading`)가 경로 줄과 제목을 나누는 작업에서 다룬다.
+
 ## SEO·AEO·GEO 운영 원칙
 
 세 용어를 서로 다른 비법처럼 운영하지 않는다. 검색과 답변 엔진이 공통으로 쓰는 공개 문서를 정확히 만들고, 엔진별 수집 통로만 구분한다.
@@ -109,7 +146,7 @@ Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보
 |------|------|-----------|
 | 서버 렌더 | AI 크롤러는 JavaScript를 실행하지 않는다. 클라이언트에서만 그리는 텍스트는 인용 후보가 아니다 | 충족. `/celeb/chey-tae-won` 실측에서 감상배경 전문·출처 URL·인물 안내가 서버 HTML 가시 텍스트 4,069자로 나온다 |
 | 자기완결 | 앞뒤 맥락 없이 떼어도 말이 되는 단락 | 충족. 감상배경이 누가·언제·무엇을·출처를 한 단락에 담는다 |
-| 직답 선행 | 구획 첫머리에 정의와 결론을 두고 근거를 뒤에 붙인다 | 인물 안내·인물 탐구에 적용 대상 |
+| 직답 선행 | 구획 첫머리에 정의와 결론을 두고 근거를 뒤에 붙인다 | 인물 안내 집필은 [전용 규칙](../celeb/celeb-05-01-reading.md)을 따른다 |
 | 신선도 | 오래 방치된 문서는 인용 후보에서 밀린다 | 인물 페이지는 정적이라 취약하다 |
 | 출처 명시 | 구체 사실과 1차 출처를 단 문장이 인용된다 | 충족. 감상배경마다 출처 URL이 붙는다 |
 
@@ -486,11 +523,19 @@ Search Status Dashboard에 9월 진행 중인 공식 업데이트도 없다. 미
 
 | 서비스 | 상태 | 인증 방식 | 제출 항목 | 비고 |
 |--------|------|----------|----------|------|
-| Google Search Console | ✅ 재제출·대표 URL 요청·차단 보고서 확인 완료 | 메타태그 (`google` verification) | 사이트맵 인덱스 | 26.08.10 REST PUT 204, UI `성공`·발견 17,700. 대표 4 URL 실시간 통과·대기열 추가. 직접 조치·보안·삭제 요청 없음. 13:20 KST `필앤노트` 홈페이지 첫 웹 결과 복귀 |
+| Google Search Console | 등록됨 | 메타태그 (`google` verification) | 사이트맵 인덱스·URL 검사 | 도메인 속성과 URL 접두어 속성을 유지한다. 접수·재수집의 현재 도달점은 [색인 신청](../../continuous/google-indexing.md)이 쥔다 |
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
-| 네이버 서치어드바이저 | ✅ 콘솔 감사·IndexNow 재통지 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 검사 | 26.08.10 대표 4 URL 실시간 200·색인 가능, 최신 17,724 URL 공식 IndexNow API 전 배치 200. 최근 30일 노출 약 44K·클릭 약 8.8K |
-| Bing Webmaster Tools | ✅ 사이트맵 재제출 성공·스캔 중·IndexNow 확인 | Google SC 연동 | 사이트맵 | 26.08.10 `/sitemap.xml` 재제출 `Success`·하위 파일 10개, 1,000페이지 Site Scan `Processing`. 최근 3개월 노출 992·클릭 27, AI 인용 35 |
+| 네이버 서치어드바이저 | 등록됨 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 웹 페이지 수집 | 기존 사이트맵을 유지하고 변경된 주요 주소를 수집 요청한다 |
+| Bing Webmaster Tools | 등록됨 | 기존 확인된 사이트 속성 | 사이트맵·URL 검사 | 기존 사이트에서 사이트맵 `Re-submit`과 URL `Request indexing`을 사용한다 |
 | Daum 검색등록 | ✅ 제출 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 |
+
+### 주소 개편 후 검색 등록
+
+작품의 정본 경로는 `/explore/works`다. 옛 주소의 308 이전과 모드별 진입점은 [작품 화면](../service/library.md)이 쥔다. 배포 뒤 실제 HTML의 canonical·hreflang, 옛 주소의 목적지·검색 조건 보존, `core.xml`의 새 주소, robots 접근 허용을 함께 확인한다.
+
+제출 주소는 기존 `https://feelandnote.com/sitemap.xml`을 유지한다. 구글·빙에서는 등록된 사이트맵을 재제출할 수 있으며, 네이버는 같은 주소의 사이트맵을 삭제·재등록할 필요 없이 주요 새 주소를 「웹 페이지 수집」에 넣는다. 네이버 입력란에는 경로만 넣지 말고 `https://feelandnote.com/...` 전체 주소를 쓴다. [네이버 사이트맵 안내](https://searchadvisor.naver.com/guide/request-feed)
+
+작품 탐색 첫 화면(베스트셀러, `/explore/works`)·불후의 명작·기관 선정은 각각 별도 주소이며, 구글·빙의 개별 요청에는 한국어와 영문 주소를 사용한다. 제출 접수, 사이트맵 재읽기, URL 재크롤, 색인·검색 노출을 구분한다. 같은 URL을 반복 제출해 처리 순서를 당기려 하지 않는다. [Google 재크롤 요청 안내](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)
 
 ### 인증 메타태그 위치
 
@@ -530,9 +575,15 @@ verification: {
 - **관계 링크**: 관계 그래프(`RelationGraphSection`)는 모달로만 이동해 크롤러에게 막다른 길이다.
   서버가 이미 들고 있는 `profile.relations`에서 `slug`가 있는(=공개) 인물만 골라 실제 `<a>`로
   세운다. 추가 조회는 없다.
-- **기관 선정 허브**(`/library/curated`): 96개 목록이 모달과 아코디언 안에 있어 HTML 링크가 2개뿐이었다.
-  펼치기 전에는 DOM에 없으므로 크롤러에게는 목록 94개가 존재하지 않았다. 아코디언을 걷고 항상
-  그려지는 카드로 바꿔 기관 링크와 목록 링크를 함께 내보낸다(`features/library/curated/CuratorCard.tsx`).
+- **기관 선정 허브**(`/explore/works/curated`): 작품 첫 화면(`/explore/works`, 베스트셀러)의 「관점별 보기」
+  카드에서 한 층 아래로 들어간다. 격자는 선정 목록 카드(`CuratedListCard`)이고, 카드마다 목록 상세와 기관 상세
+  주소가 실제 `<a>`로 HTML에 실린다(링크 안에 링크를 넣지 않는다). 한 쪽에 12개라 나머지 목록은 쪽 링크와
+  매체 칩(`?media=`) 링크 뒤에 있다. 그래서 **매체(도서 밖)·쪽 주소는 자기 주소를 정본으로 둔다** — 1쪽으로
+  모으면 2쪽부터의 목록 링크가 정본이 아닌 화면에만 남는다. 검색·국가·주제·기관 조건은 그 매체의 첫 쪽으로
+  모은다. 규칙은 `lib/library/curatedMeta.ts`의 `resolveCuratedHubMeta`가 쥔다.
+  [Google — 쪽 나눔](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading)
+  모든 기관·목록 주소는 `core.xml`에도 있다. 클릭 뒤에 생기는 모달의 링크만으로 검색 접근이 보장된다고
+  판정하지 않는다.
 - **카테고리 탭도 링크여야 한다**: 탭이 `onClick` 상태 전환이면 선택된 탭의 내용만 HTML에 실린다.
   `<Link href>`로 세우고 `onClick`에서 `preventDefault` 하면 사용자 경험은 그대로면서 나머지 탭이
   크롤러에 보인다(`components/ui/CategoryTabFilter.tsx`). **접힌 것은 없는 것이다** — 아코디언·모달·탭·
@@ -547,7 +598,7 @@ verification: {
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
 - **방식**: PostgREST API 직접 fetch(DB SDK는 메타데이터 라우트에서 동작하지 않았음)
 - **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
-- **URL 구성**(2026-08-24 프로덕션 실측): 정적·기관 선정·직군 명부 `core.xml` 228 URL + 인물 3,059명 6,118 URL = 총 **6,346개**. 각 경로가 ko·en 2 URL로 나간다. 이는 계획된 3,000명 확장의 결과이며 크롤 병목의 원인이나 롤백 대상으로 판정하지 않는다. DB 증가에 따라 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
+- **URL 구성**: 정적 탐색·기관 선정·직군 명부는 `core.xml`, 공개 인물 상세는 `celebs.xml`에 담는다. 각 경로가 ko·en 2 URL로 나가며 현재 건수는 XML에서 확인한다. 작품 첫 화면(베스트셀러, `/explore/works`)·불후의 명작(`?mode=classics`)·기관 선정은 `core.xml`에 따로 등재한다. 옛 베스트셀러 주소 `/explore/works/popular`(`mode` 없음)는 `/explore/works`로 영구 이동하므로 싣지 않는다. 베스트셀러의 분야(`?category=`)는 외부 차트를 옮겨 보여 주는 화면이라 정본을 `/explore/works` 하나로 모은다.
 - **분할 구조**: 인덱스는 `core`·`celebs` 2개 파일을 가리킨다. 종전 `contents-0..7` 8개는 2026-08-14에 제거했고 해당 주소는 404다.
 - **작품 상세 제외**(2026-08-14): `/content/{uuid}`는 사이트맵에 넣지 않는다. 당시 본문 복제 문제가 확인됐고 제출 URL의 79%를 차지했다. 실제 크롤 예산 소진 비중은 측정하지 않았다. 판정 근거는 「색인 회복 실패 재조사」절이 쥔다. 되돌리려면 그 절의 3번 근거를 먼저 반박해야 한다. 2026-08-25부터 작품 상세는 페이지 자체도 `noindex`다(아래 「네이버 실측과 작품 상세 noindex 전환」).
 - **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 작품 제외 후에는 여유가 크지만, 인물 증가에 대비해 인덱스 구조는 유지한다. 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)
@@ -577,6 +628,7 @@ verification: {
 - **연동 완료** (2026-03-13): `web-bo` celebs.ts의 `toggleCelebStatus`(active 전환 시) + `updateCeleb`(active 셀럽 정보 변경 시) 호출
 - **500 복구 증분 통지** (2026-08-14): `full` 인물 1,508명의 한·영 3,016 URL을 Bing 계열 공용·네이버 공식 API에 각각 1배치 POST해 둘 다 HTTP 200을 받았다. 사이트맵에서 제외한 작품 URL은 통지하지 않는다.
 - **인물 전량 재통지** (2026-08-25): 네이버가 인물 페이지 대부분을 색인하지 않은 것을 실측으로 확인하고 `celebs.xml` 6,118 URL을 Bing 계열 공용·네이버 공식 API에 각각 2배치 POST했다. 4배치 전부 HTTP 200이다. 통지는 재수집 요청일 뿐 색인 보장이 아니다.
+- **인물 제목·설명문 개편 전량 통지** (2026-09-28): 인물 상세 제목·설명문을 전량 바꾼 배포(`658a9cb6`) 뒤 `celebs.xml` 11,122 URL을 Bing 계열 공용 API(5,000·5,000·1,122)와 네이버 공식 API(10,000·1,122)에 보냈고 5개 배치 전부 HTTP 200이다. 같은 날 Google은 사이트맵 API 재제출과 URL 색인 요청으로 처리했다([Google 일일 색인 신청](../../continuous/google-indexing.md)). Bing·네이버 콘솔의 사이트맵 재제출은 하지 않았다 — 등록된 사이트맵은 그대로이고 전량 갱신 신호는 IndexNow로 보낸다.
 - **사이트 전량 갱신 통지** (2026-08-10): 이번 브랜드 메타·구조화 데이터의 사이트 전역 변경에 한해 전량 통지했다. 작업 중 공개 데이터 증가를 따라 11:23 KST 최신 sitemap 17,724 URL을 Bing 계열 공용 API와 네이버 공식 API에 다시 나눠 전송했고 최종 6개 배치 전부 HTTP 200을 확인했다. 평상시에는 변경된 URL만 증분 통지한다.
 
 ## Robots
@@ -628,7 +680,7 @@ if (
 | `google-search-console` | 검색 성과 분석, 색인 상태 확인, 사이트맵 제출 | `search_analytics`, `index_inspect`, `submit_sitemap`, `detect_quick_wins` |
 | ~~`google-analytics`~~ | 트래픽·사용자 행동 분석 | **현재 `.mcp.json`에 미등록.** 쓰려면 서버 정의부터 되살려야 한다 |
 
-`google-search-console` MCP의 `submit_sitemap`이 읽기 scope로 403을 반환하더라도 사이트 소유 권한 부족으로 단정하지 않는다. `.mcp.json`의 같은 서비스 계정 자격에 `https://www.googleapis.com/auth/webmasters` scope를 명시해 공식 Sitemaps PUT API를 호출하고, 토큰·자격 파일 내용은 출력하지 않는다.
+`google-search-console` MCP의 `submit_sitemap`이 `403 Insufficient Permission`을 반환하더라도 사이트 소유 권한 부족으로 단정하지 않는다. 읽기 API와 제출 권한은 다르다. 승인된 제출 작업은 [aside-browser](../../../.agents/skills/aside-browser/SKILL.md) 또는 코덱스 브라우저 확장의 기존 관리자 로그인으로 이어갈 수 있다. 다른 계정의 빈 사이트 목록을 보고 새 사이트를 중복 등록하지 말고, 기존 소유 계정과 속성을 먼저 확인한다. 공식 Sitemaps PUT API를 직접 사용하는 경우에는 `https://www.googleapis.com/auth/webmasters` scope가 필요하며 토큰·자격 파일 내용은 출력하지 않는다.
 
 ## 로컬 검증 방법
 

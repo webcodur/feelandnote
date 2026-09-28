@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode } from "react";
+import { BANNER_COMPACT_HEIGHT_CLASS } from "@/components/shared/bannerStyles";
 
 interface Props {
   children?: ReactNode;
@@ -11,7 +12,8 @@ interface Props {
 export default function HegemonyMapBanner({ children, hideOverlay = false, compact = false }: Props) {
   return (
     <div
-      className={`relative w-full overflow-hidden bg-[#1a1814] text-[#d4c5a3] flex items-center justify-center font-serif ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : "h-[700px]"}`}
+      // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
+      className={`relative w-full overflow-hidden bg-[#1a1814] text-[#d4c5a3] flex items-center justify-center font-serif ${compact ? BANNER_COMPACT_HEIGHT_CLASS : "h-[700px]"}`}
     >
       <style>{`
         @keyframes drift {
@@ -82,23 +84,28 @@ export default function HegemonyMapBanner({ children, hideOverlay = false, compa
 
       {/* 5. Vignette & Overlay */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.8)_90%)] z-20" />
+      {/* 안쪽 테·모서리 꺽쇠·영문 부제는 큰 배너(실험실)에서만 — 낮은 허브 배너에서는 제목을 가린다 */}
+      {!compact && <>
       <div className="absolute inset-0 border-[1px] border-[#d4c5a3]/10 m-4 pointer-events-none z-20" />
-      
+
       {/* Corner Ornaments */}
       <div className="absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-[#d4c5a3]/40 z-20" />
       <div className="absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-[#d4c5a3]/40 z-20" />
       <div className="absolute bottom-8 left-8 w-8 h-8 border-b-2 border-l-2 border-[#d4c5a3]/40 z-20" />
       <div className="absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-[#d4c5a3]/40 z-20" />
+      </>}
 
       {/* 6. Content Children */}
       {children && !hideOverlay && (
         <div className="absolute z-30 text-center pointer-events-none flex flex-col items-center justify-center">
             {children}
+            {!compact && (
              <div className="mt-6 flex items-center gap-4 opacity-40">
                 <div className="h-[1px] w-12 bg-[#d4c5a3]" />
                 <span className="text-[10px] uppercase tracking-[0.3em]">Territory Control</span>
                 <div className="h-[1px] w-12 bg-[#d4c5a3]" />
             </div>
+            )}
         </div>
       )}
     </div>

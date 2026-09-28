@@ -99,7 +99,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   return (
     <>
       {/* 가로 레이아웃: 좌측 표지 + 우측 감상문 (화면 크기 무관 단일 형태) */}
-      <div className={`relative group/card flex flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden ${className || ""}`}>
+      <div className={`relative group/card flex flex-col bg-bg-card border border-line rounded-xl overflow-hidden ${className || ""}`}>
         <CornerAccents radius="lg" />
         <CardHeader props={props} state={state} />
         <div
@@ -139,25 +139,27 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
           {renderBottomRight()}
         </div>
 
-        {/* 리뷰 영역 */}
-        <div className={`flex-1 min-w-0 flex flex-col ${heightClass} bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden p-3 sm:p-4`}>
+        {/* 리뷰 영역 — 카드 안에 상자를 한 겹 더 두지 않는다. 표지 옆 글은 카드 면 위에 바로 놓고,
+            높이는 표지에 맞춰 늘되(행 stretch) 글이 짧아도 출처 줄은 바닥에 붙는다 */}
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden px-1 py-1.5 sm:px-2 sm:py-2">
           {headerNode && (
-            <div className="mb-2 pb-2 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-2 pb-2 border-b border-line" onClick={(e) => e.stopPropagation()}>
               {headerNode}
             </div>
           )}
 
+          {/* 카드 안 제목·제작자는 가운데, 아래 감상 본문은 왼쪽이다(code-rules.md 「정렬」) */}
           <div className="mb-2 text-center">
             <h3
-              className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent text-center"
+              className="text-[15px] font-semibold text-text-primary line-clamp-2 leading-snug group-hover:text-accent"
               title={displayTitle}
             >
               {displayTitle}
             </h3>
             {displayCreator && (
               <>
-                <div className="h-px bg-white/10 mt-2 -mx-3 sm:-mx-4" />
-                <p className="text-xs text-text-secondary line-clamp-1 text-center pt-2">
+                <div className="mt-2 h-px w-full bg-line" />
+                <p className="pt-2 text-[13px] text-text-tertiary line-clamp-1">
                   {displayCreator.replace(/\^/g, ", ")}
                 </p>
               </>
@@ -200,15 +202,14 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
                     {t("reviewModal.originalLanguage")}
                   </p>
                 )}
-                <p className="text-[11px] sm:text-xs md:text-sm text-text-secondary leading-relaxed whitespace-pre-line break-words font-sans line-clamp-[8]">
+                <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line break-words line-clamp-[7]">
                   <FormattedText text={displayReview} />
                 </p>
-                <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none" />
               </div>
             )}
 
             {displayReview && isSpoiler && (
-              <div className="flex-1 flex items-center justify-center bg-white/5 rounded border border-white/5">
+              <div className="flex-1 flex items-center justify-center rounded-control bg-white/5">
                 <p className="text-sm">{t("reviewModal.spoiler")}</p>
               </div>
             )}
@@ -220,7 +221,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             )}
             {/* 출처 링크 (headerNode 모드에서는 비표시) */}
             {!headerNode && (
-              <div className="mt-2 min-w-0 max-w-full overflow-hidden text-xs">
+              <div className="mt-auto pt-2 min-w-0 max-w-full overflow-hidden text-xs">
                 {sourceUrl ? (
                   <a
                     href={sourceUrl}

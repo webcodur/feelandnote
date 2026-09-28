@@ -123,15 +123,15 @@ export const EXPLORE_FEATURED_LINKS: NavSubLink[] =
   NAV_ITEMS.find((item) => item.key === "explore")?.subLinks?.filter((link) =>
     ["ranking", "spectrum", "myth", "faction"].includes(link.key ?? ""),
   ) ?? [];
-/** 작품 모드의 중심은 기관 선정 목록이며, 나머지는 별도 탐색 카드로 안내한다. */
+/** 작품 모드의 첫 화면은 베스트셀러다(곧바로 작품이 보인다). 나머지는 아래 「관점별 보기」 카드로 안내한다(26.09.28). */
 export const WORKS_LINKS: NavSubLink[] = [
+  { key: "bestseller", href: "/explore/works", label: "베스트셀러" },
   { key: "curated", href: "/explore/works/curated", label: "기관 선정" },
-  { key: "bestseller", href: "/explore/works/popular", label: "베스트셀러" },
   { key: "classics", href: "/explore/works/popular?mode=classics", label: "불후의 명작" },
   { key: "museum", href: "/explore/works/museum", label: "박물관" },
   { key: "academy", href: "/explore/works/academy", label: "학당" },
 ];
-export const WORKS_FEATURED_LINKS = WORKS_LINKS.filter(link => link.key !== "curated");
+export const WORKS_FEATURED_LINKS = WORKS_LINKS.filter(link => link.key !== "bestseller");
 // #endregion
 
 // #region 풋터 섹션 구조 정의

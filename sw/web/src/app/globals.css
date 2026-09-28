@@ -3,11 +3,18 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Background Colors */
-  --color-bg-main: #121212;
-  --color-bg-secondary: #0a0a0a; /* Obsidian */
-  --color-bg-card: #1a1a1a;
-  --color-bg-stone-light: #2a2a2a;
+  /* 표면 명도 단계 — 선을 긋기보다 한 단씩 밝혀 구획을 나눈다.
+     청동 이미지와 이어지도록 아주 옅은 온기를 섞은 검정이다.
+     바탕(bg-main) < 카드(bg-card) < 칩·입력(bg-raised) < 눌림·빈 표지(bg-stone-light) */
+  --color-bg-main: #121110;
+  --color-bg-secondary: #0b0a09; /* 가장 깊은 면 — 헤더·풋터 */
+  --color-bg-card: #1a1917;
+  --color-bg-raised: #22201d;
+  --color-bg-stone-light: #2c2a26;
+
+  /* 선 — 두 단계만 쓴다. 흰색을 얹는 방식이라 세계 테마의 바탕색이 바뀌어도 함께 맞는다 */
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line-strong: rgba(255, 255, 255, 0.13);
 
   /* Accent Colors (Gold/Bronze) */
   --color-accent: #d4af37; /* Metallic Gold */
@@ -33,19 +40,19 @@
   --color-purchase-ink: #ffffff;
   
   /* Text Colors */
-  --color-text-primary: #e0e0e0;
-  --color-text-secondary: #a0a0a0;
-  /* 보조 설명·개수·빈 상태 문구. 기본 바탕 대비 약 4.7:1 — 읽히되 secondary보다 확실히 한 단계 흐리다 */
-  --color-text-tertiary: #808080;
+  --color-text-primary: #e8e6e1;
+  --color-text-secondary: #aaa7a0;
+  /* 보조 설명·개수·빈 상태 문구. 바탕 대비 약 5.1:1, 카드 대비 약 4.8:1 — 읽히되 secondary보다 확실히 한 단계 흐리다 */
+  --color-text-tertiary: #8a867f;
   --color-text-gold: #d4af37;
 
   /* 현재 낭독 구간의 배경·밑줄. 본문의 인용·작품명 강조색과는 별개다. */
   --color-reading-active: #6fe3a0;
 
   /* Border Colors */
-  --color-border: #333333;
+  --color-border: #312f2b;
   --color-border-gold: #8a732a;
-  --color-glass: rgba(18, 18, 18, 0.85);
+  --color-glass: rgba(18, 17, 16, 0.88);
 
   /* Status Colors (Muted Antique) */
   --color-status-watching: #3fb950;
@@ -69,10 +76,15 @@
   /* Texture Patterns */
   --pattern-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
   
-  /* Existing stone utility colors */
-  --color-stone-heavy: #1a1a1b;
-  --color-stone-light: #2a2a2c;
-  --color-stone-border: #3c3c3e;
+  /* 옛 이름 — 위 표면 단계와 같은 값을 가리킨다. 신규 코드는 bg-card·bg-stone-light를 쓴다 */
+  --color-stone-heavy: #1a1917;
+  --color-stone-light: #2c2a26;
+  --color-stone-border: #3a3834;
+
+  /* 모서리 3단 — 조작(버튼·입력) 6px, 카드 12px, 모달·큰 판 16px. 칩·아바타는 rounded-full */
+  --radius-control: 6px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
 
   /* 대사 재생 이퀄라이저 바 */
   --animate-eq-bar: eqBar 1s ease-in-out infinite;
@@ -102,6 +114,18 @@
     --layer-celeb-heading-h: 52px;
     /* 구획 머리 아래에 붙는 층이 쓰는 자리 */
     --layer-celeb-heading-bottom: calc(var(--layer-header-h) + var(--layer-celeb-heading-h));
+
+    /* 본문 기본 폭(PageContainer default·허브 배너). 오른쪽 스와이프 판(140px)이 서는 넓은 화면에서는
+       좌우에 판 자리(판 + 양옆 16px)를 비워 본문이 판 밑으로 들어가지 않게 한다. 판 위치도 이 값으로 잰다 */
+    --rail-reserve: 0px;
+    --content-max-default: 1200px;
+  }
+
+  @media (min-width: 1440px) {
+    :root {
+      --rail-reserve: 172px;
+      --content-max-default: min(1200px, calc(100vw - 2 * var(--rail-reserve)));
+    }
   }
 
   * {
@@ -109,7 +133,7 @@
 
     /* 전역 스크롤바 스타일 */
     scrollbar-width: thin;
-    scrollbar-color: rgba(48, 54, 61, 0.5) transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -122,12 +146,12 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: rgba(48, 54, 61, 0.5);
+    background: rgba(255, 255, 255, 0.14);
     border-radius: 3px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(48, 54, 61, 0.8);
+    background: rgba(255, 255, 255, 0.24);
   }
 
   html {
@@ -147,12 +171,16 @@
 
   body {
     background-color: var(--color-bg-main);
-    background-image: var(--pattern-noise);
-    background-attachment: fixed;
     color: var(--color-text-primary);
     font-family: var(--font-sans);
     line-height: var(--leading-relaxed);
-    @apply min-h-screen text-sm;
+    /* 한 요소가 폭을 넘겨도 페이지 전체가 옆으로 밀리지 않게 한다.
+       hidden과 달리 clip은 스크롤 상자를 만들지 않아 sticky 머리가 그대로 붙는다 */
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100svh;
+    @apply text-sm;
   }
 
   /* (reader) 그룹(몰입 읽기 페이지)은 루트 레이아웃이 붙이는 사이트 Footer를 뺀다.
@@ -161,13 +189,30 @@
     display: none !important;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold;
+  /* 굵기 위계: 페이지 제목 700 · 구획 제목 600 · 조작 요소 500 · 본문·입력값 400.
+     조작 요소 전체를 굵게 두면 제목·버튼·입력값이 같은 무게가 되어 위계가 사라진다.
+     개별 요소는 font-* 유틸리티로 그대로 덮을 수 있다(base 층이라 유틸리티가 이긴다) */
+  h1, h2 {
+    font-weight: 700;
   }
 
-  nav, button, input, select, textarea {
-    font-family: var(--font-serif);
-    @apply font-bold;
+  h3, h4, h5, h6 {
+    font-weight: 600;
+  }
+
+  nav, button, select {
+    font-family: inherit;
+    font-weight: 500;
+  }
+
+  input, textarea {
+    font-family: inherit;
+    font-weight: 400;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-text-tertiary);
   }
 
   a {
@@ -230,14 +275,10 @@
   display: none;
 }
 
+/* 색·서체·테두리 유틸리티(bg-bg-card, text-accent, border-border/30 …)와 그 투명도 변형은
+   Tailwind가 @theme 토큰에서 직접 만든다. 손으로 다시 적지 않는다 —
+   예전에 따로 적은 border-border/30이 토큰(#333)이 아닌 푸른 회색(#30363d)을 가리켜 화면마다 선 색이 갈렸다. */
 @layer utilities {
-  /* Background utilities */
-  .bg-bg-main { background-color: var(--color-bg-main); }
-  .bg-bg-secondary { background-color: var(--color-bg-secondary); }
-  .bg-bg-card { background-color: var(--color-bg-card); }
-  .bg-accent { background-color: var(--color-accent); }
-  .bg-accent-hover { background-color: var(--color-accent-hover); }
-
   /* 인물 얼굴 사진 뒤에 까는 바탕.
      아바타는 배경을 지운 그림이라 그냥 두면 뒤가 새까맣게 뚫려 보인다.
      위에서 은은한 금빛이 내려오는 무대 조명처럼 깔아 카드 색과 잇는다. */
@@ -250,52 +291,6 @@
         var(--color-bg-card) 100%
       );
   }
-
-  /* Text utilities */
-  .text-text-primary { color: var(--color-text-primary); }
-  .text-text-secondary { color: var(--color-text-secondary); }
-  .text-accent { color: var(--color-accent); }
-
-  /* Font Family Utilities */
-  .font-serif { font-family: var(--font-serif); }
-  .font-sans { font-family: var(--font-sans); }
-  .font-cinzel { font-family: var(--font-cinzel); }
-  .font-cormorant { font-family: var(--font-cormorant); }
-
-  /* Border utilities */
-  .border-border { border-color: var(--color-border); }
-  .border-accent { border-color: var(--color-accent); }
-
-  /* Hover utilities */
-  .hover\:bg-accent-hover:hover { background-color: var(--color-accent-hover); }
-  .hover\:border-accent:hover { border-color: var(--color-accent); }
-  .hover\:text-accent:hover { color: var(--color-accent); }
-  .hover\:text-text-primary:hover { color: var(--color-text-primary); }
-
-  /* Focus utilities */
-  .focus\:border-accent:focus { border-color: var(--color-accent); }
-  .focus-within\:border-accent:focus-within { border-color: var(--color-accent); }
-
-  /* 테마 스코프에서도 같은 강조색을 쓰는 투명도 변형 */
-  .bg-accent\/5 { background-color: rgba(var(--color-accent-rgb), 0.05); }
-  .bg-accent\/10 { background-color: rgba(var(--color-accent-rgb), 0.1); }
-  .bg-accent\/20 { background-color: rgba(var(--color-accent-rgb), 0.2); }
-  .border-accent\/30 { border-color: rgba(var(--color-accent-rgb), 0.3); }
-  .hover\:border-accent\/30:hover { border-color: rgba(var(--color-accent-rgb), 0.3); }
-  .hover\:bg-accent\/5:hover { background-color: rgba(var(--color-accent-rgb), 0.05); }
-
-  /* Border opacity variants */
-  .border-border\/30 { border-color: rgba(48, 54, 61, 0.3); }
-  .border-border\/40 { border-color: rgba(48, 54, 61, 0.4); }
-  .border-border\/50 { border-color: rgba(48, 54, 61, 0.5); }
-  .border-accent\/50 { border-color: rgba(var(--color-accent-rgb), 0.5); }
-  .hover\:border-accent\/50:hover { border-color: rgba(var(--color-accent-rgb), 0.5); }
-
-  /* Background opacity variants */
-  .bg-bg-main\/50 { background-color: rgba(15, 17, 21, 0.5); }
-
-  /* Text opacity variants */
-  .text-text-primary\/70 { color: rgba(255, 255, 255, 0.7); }
 
   /* Animation */
   .animate-fade-in {

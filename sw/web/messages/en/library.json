@@ -20,7 +20,7 @@
       }
     },
     "hub": {
-      "quickNav": "More ways to explore works",
+      "quickNav": "Perspectives",
       "museum": "See the road books, film, music, and games traveled to get here.",
       "academy": "Learn to work in each medium — and now, to create with AI.",
       "museumLabel": "Museum",
@@ -43,37 +43,33 @@
       "popularLabel": "Popular Works",
       "popular": "Explore the US Apple Books paid ebook chart and classics chosen by notable figures.",
       "headline": "Explore by work",
-      "description": "Discover works selected by universities, publications, and award committees.",
-      "bestsellerLabel": "Bestsellers",
-      "bestseller": "Explore popular books, film and TV, games, and music, with the source and availability of each chart.",
       "classicsLabel": "Timeless Classics",
       "classics": "Find works chosen again and again by notable figures across eras and fields.",
       "searchPlaceholder": "Search institutions or lists...",
       "media": "Media",
-      "sort": {
-        "name": "Name",
-        "lists": "Most lists",
-        "works": "Most entries"
-      },
-      "institutionResults": "{count, plural, one {# institution} other {# institutions}} · {lists, plural, one {# list} other {# lists}}",
       "noResults": "No institutions or lists match your search and filters.",
       "resetFilters": "Reset search and filters",
       "reorganizing": "Being revised",
       "museumReorganizing": "We are revising the exhibits and their content. You can still browse the exhibits currently available.",
       "academyReorganizing": "We are revising the courses and their content. You can still explore the lessons currently available.",
-      "institutionHeading": "Institutional selections",
-      "viewInstitution": "View institution",
       "mediaShort": {
         "BOOK": "Books",
         "VIDEO": "Film"
-      }
+      },
+      "facet": {
+        "country": "Country",
+        "topic": "Topic",
+        "kind": "Institution"
+      },
+      "listJump": "Bestsellers",
+      "listResults": "{lists, plural, one {# list} other {# lists}} · {count, plural, one {# institution} other {# institutions}}"
     },
     "meta": {
-      "title": "Explore Works - Institutional Book & Film Selections",
-      "description": "Discover books and films selected by universities, the press, and award bodies. Explore popular works, the history of media, and ways to create and appreciate them."
+      "title": "Bestsellers - Top Books, Movies, Games & Music",
+      "description": "Top paid Apple Books, popular Apple movies, Steam's most played games, and top Apple Music songs by category, plus curated lists and timeless classics."
     },
     "museum": {
-      "metaTitle": "Museum | Works",
+      "metaTitle": "Museum - The Evolution of Knowledge Media",
       "metaDescription": "Trace the evolution of human knowledge media and content formats.",
       "pageTitle": "Museum",
       "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
@@ -162,7 +158,7 @@
       }
     },
     "academy": {
-      "metaTitle": "Academy - AI, Filmmaking & Music Theory Courses | Works",
+      "metaTitle": "Academy - AI, Filmmaking & Music Theory Courses",
       "metaDescription": "Free courses on how AI works and how to use it, plus filmmaking tutorials, music theory lessons, and curated educational content recommended by industry professionals.",
       "pageTitle": "Academy",
       "defaultDescription": "Learn to work with books, film, and music.",
@@ -351,7 +347,6 @@
       }
     },
     "curated": {
-      "metaTitle": "Curated by Institutions - Books, Film, Games & Music",
       "metaDescription": "Explore reading lists and award winners chosen by universities, the press and award bodies, from books and films to Game of the Year winners and GRAMMY Albums of the Year.",
       "title": "Curated by Institutions",
       "intro": "Explore university reading lists, films chosen by the press, Game of the Year winners and GRAMMY-winning albums, with each institution’s selection criteria and original sources.",
@@ -439,14 +434,32 @@
       "backToLibrary": "Back to Works",
       "overview": "Overview",
       "purchasePending": "Purchase link unavailable",
-      "filterCountry": "Country"
+      "filterCountry": "Country",
+      "meta": {
+        "moreLists": "and {count, number} more",
+        "curatorFallback": "Lists from {name}: {lists}",
+        "listFallback": "{title} by {curator}: {count, number} works.",
+        "page": "Page {page}",
+        "mediaDescription": "{lists, number} curated {media} lists from {count, number} institutions, including {curators}.",
+        "mediaNoun": {
+          "BOOK": "book",
+          "VIDEO": "film",
+          "GAME": "game",
+          "MUSIC": "music"
+        }
+      },
+      "metaTitleByMedia": {
+        "VIDEO": "Curated Film Lists - Festival Winners & All-Time Greats",
+        "GAME": "Curated Game Lists - Game of the Year Winners",
+        "MUSIC": "Curated Music Lists - Album of the Year Winners",
+        "BOOK": "Curated Book Lists - University Reading Lists & Literary Prize Winners"
+      }
     },
     "popular": {
       "metaTitle": "Popular Works - Paid Ebooks & All-Time Classics",
       "metaDescription": "Browse the US Apple Books paid ebook chart and classics chosen by notable figures, with chart sources and the time last checked.",
       "title": "Popular Works",
       "description": "Timeless classics chosen by great minds and thinkers across history.",
-      "descBestseller": "Explore popular books, film and TV, games, and music, with the source and availability of each chart.",
       "criteriaBasisAll": "Aggregated by total recommendations and records across feelandnote figures",
       "criteriaBasisEra": "Aggregated by records of figures from the selected era",
       "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
@@ -465,8 +478,6 @@
       },
       "chartTitle": "Popular paid ebooks",
       "chartEmpty": "The book chart is on its way.",
-      "previewRest": "The other {count, plural, one {# book is} other {# books are}} on the Popular Works page.",
-      "previewRestClassics": "The other {count, plural, one {# work is} other {# works are}} on the Popular Works page.",
       "rank": "Rank {rank}",
       "viewAtStore": "View in store",
       "newTab": "Opens in a new tab",
@@ -483,7 +494,6 @@
       },
       "charts": {
         "categories": "Choose a bestseller category",
-        "viewSource": "Visit source",
         "loadFailed": "We could not load the chart right now. Try again shortly or check the source website.",
         "updated": "Updated {date} {zone}",
         "BOOK": {
@@ -527,8 +537,12 @@
           "igdb": "IGDB",
           "apple-music": "Apple Music"
         },
-        "sourcePending": "{source} · Coming soon"
-      }
+        "sourcePending": "{source} · Coming soon",
+        "viewSourceAt": "View on {source}"
+      },
+      "showMoreRanks": "Show #{from}–{to}",
+      "classicsMetaTitle": "Timeless Classics - Works Recorded by the Most Figures",
+      "classicsMetaDescription": "Find the books, films, music, and games that notable figures across eras and fields have recorded again and again, by era, profession, and medium."
     }
   }
 }

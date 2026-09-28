@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
+import { withParticle } from "@/lib/korean-particle";
 import { getCelebRouteProfile } from "@/lib/profile-route";
 import { getAlternates } from "@/lib/seo";
 
@@ -43,7 +44,11 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const t = await getTranslations({ locale, namespace: "celebPage.records" });
   const pageLabel = t("page", { page: data.contents.page, total: data.contents.totalPages });
   const title = `${t("pageTitle", { name: data.profile.nickname })}${data.contents.page > 1 ? ` · ${pageLabel}` : ""}`;
-  const description = t("description", { name: data.profile.nickname });
+  // 한국어 문구는 조사를 이름 받침에 맞춘 {subject}를 쓴다(「빌 게이츠가」). 영어 문구는 {name}만 쓴다.
+  const description = t("description", {
+    name: data.profile.nickname,
+    subject: withParticle(data.profile.nickname, "subject"),
+  });
   const alternates = getAlternates(recordsPath(slug, data.contents.page), locale === "en" ? "en" : "ko");
 
   return {

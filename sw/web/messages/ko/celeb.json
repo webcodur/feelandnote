@@ -316,7 +316,7 @@
       "viewAll": "감상 기록 전체 보기",
       "title": "{name}의 감상 기록",
       "pageTitle": "{name}의 감상 기록",
-      "description": "{name}이 감상한 작품과 감상 기록 및 출처를 읽어보세요.",
+      "description": "{subject} 감상한 작품과 감상 기록, 출처를 읽어보세요.",
       "back": "인물 페이지로",
       "previous": "이전",
       "next": "다음",

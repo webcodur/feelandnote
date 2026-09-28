@@ -72,10 +72,11 @@ const SIZE_CLASSES = {
 /** 긴 글을 읽는 모달의 세로 상한. 기본(상하 2rem)보다 넉넉한 여백을 남겨 바깥을 눌러 닫을 수 있게 한다 */
 export const READING_MODAL_MAX_HEIGHT_CLASS = "max-h-[66dvh]";
 
+// 닫기 단추는 누르는 칸 44px(아이콘 20px). 금 테두리 없이 바탕 위에 조용히 두고, hover에 면이 즉시 밝아진다
 export const CLOSE_BUTTON_STYLE =
-  "z-[70] flex h-8 w-8 items-center justify-center rounded-full border border-accent-dim/40 bg-bg-card/70 text-accent backdrop-blur-sm hover:bg-accent/10 hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70";
-const DEFAULT_CLOSE_BUTTON = `absolute end-2 top-2 sm:end-4 sm:top-4 ${CLOSE_BUTTON_STYLE}`;
-const HEADER_CLOSE_BUTTON = `absolute end-3 top-1/2 -translate-y-1/2 sm:end-4 ${CLOSE_BUTTON_STYLE}`;
+  "z-[70] flex size-11 items-center justify-center rounded-full bg-bg-card/70 text-text-secondary backdrop-blur-sm hover:bg-bg-stone-light hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70";
+const DEFAULT_CLOSE_BUTTON = `absolute end-1.5 top-1.5 sm:end-3 sm:top-3 ${CLOSE_BUTTON_STYLE}`;
+const HEADER_CLOSE_BUTTON = `absolute end-1.5 top-1/2 -translate-y-1/2 sm:end-3 ${CLOSE_BUTTON_STYLE}`;
 
 export default function Modal({
   isOpen,
@@ -161,7 +162,8 @@ export default function Modal({
 
   // widthClassName이 너비(w-·size-)를 직접 쥐면 w-full과 같은 속성을 두고 싸워 생성 순서로 진다 — 그 경우 w-full을 뺀다
   const hasOwnWidth = /(?:^|\s)(?:w-|size-)/.test(widthClassName ?? "");
-  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "rounded-lg" : "relative"} ${boxClassName ?? ""}`;
+  // classical 판의 모서리(16px)는 ClassicalBox가 쥔다
+  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "" : "relative"} ${boxClassName ?? ""}`;
   const closeInHeader = Boolean(title && stickyHeader && !closeButtonClassName);
   const closeButton = showCloseButton && (
     <button
@@ -183,11 +185,11 @@ export default function Modal({
       {/* 스크롤 영역 */}
       <div
         ref={scrollRef}
-        className={`overflow-y-auto max-h-[inherit] ${frame === "classical" ? "rounded-lg" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
+        className={`overflow-y-auto max-h-[inherit] ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
       >
         {/* 헤더 - title이 있을 때만 렌더링 */}
         {title && (
-          <div className={`flex items-center justify-center border-b border-border py-3 ${closeInHeader ? "px-14" : "px-3"} ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : "relative"}`}>
+          <div className={`flex min-h-14 items-center justify-center border-b border-line py-3 ${closeInHeader ? "px-14" : "px-4"} ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : "relative"}`}>
             <div className="flex min-w-0 items-center gap-1.5 text-center">
               {Icon && <Icon size={16} className="text-accent" />}
               <h2 className={`text-base sm:text-lg ${titleClassName ?? "text-text-primary"}`} style={titleStyle}>{title}</h2>
@@ -205,7 +207,7 @@ export default function Modal({
 
   const modalContent = (
     <div
-      className={`fixed inset-0 flex items-center justify-center px-4 py-8 animate-modal-overlay ${overlayClassName ?? "bg-black/60 backdrop-blur-md"}`}
+      className={`fixed inset-0 flex items-center justify-center px-4 py-8 animate-modal-overlay ${overlayClassName ?? "bg-black/70 backdrop-blur-sm"}`}
       style={{ zIndex: zIndex ?? Z_INDEX.modal }}
       onClick={handleOverlayClick}
     >
@@ -247,12 +249,12 @@ export default function Modal({
 
 // 모달 내부 섹션 컴포넌트
 export function ModalBody({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`p-3 ${className}`}>{children}</div>;
+  return <div className={`p-4 ${className}`}>{children}</div>;
 }
 
 export function ModalFooter({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`flex gap-3 p-3 border-t border-border ${className}`}>
+    <div className={`flex gap-3 p-4 border-t border-line ${className}`}>
       {children}
     </div>
   );

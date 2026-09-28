@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { BANNER_COMPACT_HEIGHT_CLASS } from "@/components/shared/bannerStyles";
 
 interface Props {
   children?: ReactNode;
@@ -154,7 +155,8 @@ export default function HexagonBanner({ children, height = 700, compact = false 
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-[#050505] ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : ""}`}
+      // compact는 서비스 허브 배너 자리 — 높이는 모든 허브 배너가 같은 값을 쓴다(bannerStyles.ts)
+      className={`relative w-full overflow-hidden bg-[#050505] ${compact ? BANNER_COMPACT_HEIGHT_CLASS : ""}`}
       style={compact ? undefined : { height }}
     >
       <canvas ref={canvasRef} className="block" />

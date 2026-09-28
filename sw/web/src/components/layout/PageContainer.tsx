@@ -1,22 +1,38 @@
 "use client";
 
+/*
+  화면 종류별 본문 폭. 좌우 여백은 바깥 틀(LayoutMain: 16 · 24 · 40px)이 한 번만 준다 — 여기서 더하지 않는다.
+  폭은 창을 따라 연속으로 변하고 상한에서만 멈춘다(계단식 container를 쓰지 않는다).
+  - reading 720: 긴 글·기록관·검색처럼 한 줄 길이를 지켜야 하는 화면
+  - default 1200: 허브·목록(스와이프 판이 서는 1440px 이상에서는 판 자리만큼 좁아진다)
+  - wide 1440: 인물 상세처럼 옆 레일을 품는 화면(바깥 틀과 같은 폭)
+*/
+// default는 1200px이되, 오른쪽 스와이프 판이 서는 폭에서는 판 자리만큼 줄어든다(globals.css --content-max-default)
+const WIDTH_CLASS = {
+  reading: "max-w-[720px]",
+  default: "max-w-[var(--content-max-default)]",
+  wide: "max-w-none",
+} as const;
+
+export type PageWidth = keyof typeof WIDTH_CLASS;
+
 interface PageContainerProps {
   children: React.ReactNode;
   className?: string;
+  /** 옛 호출용 — width="wide"와 같다 */
   wide?: boolean;
+  width?: PageWidth;
 }
 
 export default function PageContainer({
   children,
   className = "",
   wide = false,
+  width,
 }: PageContainerProps) {
+  const resolved: PageWidth = width ?? (wide ? "wide" : "default");
   return (
-    /* 본문 폭은 창 폭을 따라 연속으로 변해야 한다. tailwind의 container는 640·768·1024·1280을
-       넘는 순간에만 폭이 뛰고 그 사이에는 고정이라, 창을 좌우로 당길 때 안의 카드 크기가
-       계단처럼 툭툭 튄다. 상한(1280)은 종전 container의 최대치와 같게 두어 넓은 화면의 인상은 유지한다.
-       모바일 좌우 여백은 바깥 틀(LayoutMain px-2)과 합쳐 12px이 되도록 여기서는 4px만 둔다. */
-    <div className={`w-full ${wide ? "max-w-[1400px]" : "max-w-[1280px]"} mx-auto px-1 md:px-4 py-4 md:py-8 ${className}`}>
+    <div className={`mx-auto w-full ${WIDTH_CLASS[resolved]} ${className}`}>
       {children}
     </div>
   );

@@ -727,8 +727,8 @@ const MAIN_WARMUP_ROUTES = (probeSlug) => [
   '/explore/today', '/en/explore/today',
   '/explore/feed', '/en/explore/feed',
   `/celeb/${encodeURIComponent(probeSlug)}`, `/en/celeb/${encodeURIComponent(probeSlug)}`,
+  // 작품 첫 화면이 베스트셀러다 — 옛 /explore/works/popular(베스트셀러)는 이 주소로 옮겨 가는 이동이라 데우지 않는다
   '/explore/works', '/en/explore/works',
-  '/explore/works/popular', '/en/explore/works/popular',
   '/explore/works/popular?mode=classics', '/en/explore/works/popular?mode=classics',
   '/explore/works/curated', '/en/explore/works/curated',
   '/explore/works/museum', '/en/explore/works/museum',

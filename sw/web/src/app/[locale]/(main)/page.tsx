@@ -3,8 +3,9 @@
   기능: 홈 — 오늘의 신문 1면
   책임: 적층 원칙을 쥔다. 위계는 탐색·서가와 같은 허브 문법(HubNav 목차 + HubSection 번호
         구획)으로 표시한다. 머리기사(오늘의 인물) 하나만 깊고, 아래 구획은 갈수록 얕아진다.
-        브랜드 줄 → 인사 슬롯(방문자: 첫인사 액자 / 로그인: 기록 도구 배너) → 목차 →
-        구획 1~3 → 제휴 도서.
+        브랜드 줄 → 목차 → 구획 1(오늘의 인물) → 방문자 첫인사 액자 → 구획 2~3 → 제휴 도서.
+        첫 화면에 머리기사가 들어오도록 첫인사 액자를 구획 1 아래에 둔다.
+        로그인 유저용 빠른기록은 일단 주석 처리했다 — 재투입 여부는 상황에 맞게 정한다(sections.tsx).
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
@@ -26,7 +27,7 @@ import {
   withoutMore,
 } from "@/components/shared/hubSectionUtils";
 import Lane from "@/components/ui/pending/Lane";
-import { FigureSection, GreetingSection, NoticeSection } from "./sections";
+import { FigureSection, NoticeSection, VisitorIntroSection } from "./sections";
 
 export const maxDuration = 30;
 
@@ -57,35 +58,44 @@ export default async function MainPage() {
       />
       {/* 비동기 서버 페이지가 클라이언트 구획을 그리므로 intl 컨텍스트를 재공급한다(code-rules.md) */}
       <AsyncIntlProvider>
-        <div className="pb-20">
-          {/* 브랜드 줄 — 선언은 한 단으로 압축, 소개 본문은 /about이 쥔다 */}
+        {/* 구획 폭은 두 단계뿐이다 — 격자는 이 컨테이너(max-w-5xl)를 다 쓰고,
+            읽는 구획(공지·첫인사)만 안쪽에서 max-w-3xl로 좁힌다. 세 번째 폭을 만들지 않는다 */}
+        <div className="mx-auto w-full max-w-5xl pb-8">
+          {/* 브랜드 줄 — 한 줄로 압축, 소개 본문은 /about이 쥔다 */}
           <HomeBrandHeader
             brandHeading={siteT("brandHeading")}
             brandAlias={siteT("brandAlias")}
             aboutLabel={t("aboutLink")}
           />
 
-          {/* 인사 슬롯 — 방문자에게는 첫인사 액자, 로그인 유저에게는 빠른기록 배너 */}
-          <div className="mt-6 md:mt-8">
-            <Lane fallback={null}>
-              <GreetingSection />
-            </Lane>
+          {/* 목차 줄 — 이 화면의 구획 전부. 라벨·순서·번호는 config 단일원천에서 온다.
+              제호 괘선 아래 새 묶음의 시작이라 선에서 넉넉히 띄운다(code-rules.md 「구분선」) */}
+          <div className="mt-8 md:mt-10">
+            <HubNav hubItems={hubNavItems(HOME_SECTIONS, t)} groupId={HOME_GROUP_ID} />
           </div>
 
-          {/* 구획 폭은 두 단계뿐이다 — 격자는 이 컨테이너(max-w-5xl)를 다 쓰고,
-              읽는 구획(공지)만 안쪽에서 max-w-3xl로 좁힌다. 세 번째 폭을 만들지 않는다 */}
-          <div className="mx-auto w-full max-w-5xl space-y-12 px-2 md:space-y-16 md:px-4">
-            {/* 목차 줄 — 이 화면의 구획 전부. 라벨·순서·번호는 config 단일원천에서 온다 */}
-            <div className="mt-10 md:mt-14">
-              <HubNav hubItems={hubNavItems(HOME_SECTIONS, t)} groupId={HOME_GROUP_ID} />
-            </div>
+          {/* 첫 구획은 목차 바로 아래라 구분선 없이 붙인다. 구획 사이 간격은 선 위(짧게)만 여기서 주고,
+              선 아래(넓게)는 HubSection이 준다 */}
+          <div className="space-y-8 md:space-y-10">
 
-            {/* 1/3 오늘의 인물 — 머리기사. 상세로 가는 전체 보기는 구획 안에 있다 */}
-            <HubSection {...withoutMore(sec("todayFigure"))}>
+            {/* 1/3 오늘의 인물 — 머리기사. 첫 화면 안에 인물과 작품이 들어오도록 브랜드 줄 바로 아래에 둔다 */}
+            <HubSection {...withoutMore(sec("todayFigure"))} hideDivider>
               <Lane fallback={<TodayFigurePending label={loading} />}>
                 <FigureSection />
               </Lane>
             </HubSection>
+
+            {/* 방문자 첫인사 액자 — 로그인 유저에게는 그리지 않는다.
+                머리기사를 첫 화면에서 밀어내지 않도록 그 아래에 둔다 */}
+            <Lane fallback={null}>
+              <VisitorIntroSection />
+            </Lane>
+
+            {/* 빠른기록 자리 — 일단 주석 처리. 재투입 여부는 상황에 맞게 정한다(sections.tsx 「빠른기록」 주석)
+            <Lane fallback={null}>
+              <QuickRecordSection />
+            </Lane>
+            */}
 
             {/* 2/3 기록이 쌓인 인물 — 명부. 더보기가 같은 기준(기록순)의 전체 탐색 목록으로 잇는다 */}
             <HubSection {...sec("figureLinks")}>
@@ -101,7 +111,9 @@ export default async function MainPage() {
               </Lane>
             </HubSection>
           </div>
+        </div>
 
+        <div>
           {/* 제휴 도서 — 서점으로 이을 책이 없으면 컴포넌트가 스스로 접는다 */}
           <Lane fallback={null}>
             <PopularBooks />

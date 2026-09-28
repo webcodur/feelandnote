@@ -1,68 +1,52 @@
 /*
   파일명: /app/(main)/explore/works/popular/page.tsx
-  기능: 분야별 베스트셀러 및 불후의 고전
-  책임: 선택한 분야의 외부 차트 또는 시대/직군별 고전만 조회한다.
+  기능: 불후의 명작(시대·직군별 고전)
+  책임: 인물들이 거듭 선택한 고전만 조회한다.
+        베스트셀러는 작품 모드 첫 화면(/explore/works)으로 옮겼다(26.09.28). 옛 주소(?mode 없음)는 분야·출처 조건을 그대로 들고
+        그 화면으로 영구 이동한다 — 외부 링크·검색 색인에 남은 주소가 빈 화면이나 명작으로 떨어지지 않게.
 */ // ------------------------------
 
+import { permanentRedirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import PopularSection from "@/components/features/library/sections/PopularSection";
-import { getBestsellers, getChosenLibrary, getProfessionContentCounts } from "@/actions/library";
+import { getChosenLibrary, getProfessionContentCounts } from "@/actions/library";
+import { getPathname } from "@/i18n/navigation";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { chartCategory, chartSource, type ChartCategory } from "@/lib/library/chartSources";
-import { selectBookChart } from "@/lib/library/bestsellerFeed";
-import { getMusicChart } from "@/actions/library/musicChart";
-import { getStoreChart } from "@/actions/library/storeChart";
-import { getSteamChart } from "@/actions/library/steamChart";
 
-export async function generateMetadata({ searchParams }: { searchParams: Promise<{ mode?: string }> }) {
-  const t = await getTranslations("library.hub");
-  const mode = (await searchParams).mode === "classics" ? "classics" : "bestseller";
-  const title = t(`${mode}Label`);
-  const description = t(mode);
+type SearchParams = Promise<{ mode?: string; category?: string; source?: string }>;
+
+export async function generateMetadata() {
+  // 「관점별 보기」 카드 문구(library.hub.classics*)는 짧은 안내라 검색 제목·설명으로는 모자란다 — 따로 쓴다
+  const t = await getTranslations("library.popular");
+  const title = t("classicsMetaTitle");
+  const description = t("classicsMetaDescription");
   return {
     title,
     description,
-    alternates: await getLocalizedAlternates(`/explore/works/popular${mode === "classics" ? "?mode=classics" : ""}`),
+    alternates: await getLocalizedAlternates("/explore/works/popular?mode=classics"),
     openGraph: { title, description },
   };
 }
 
-async function PopularContent({ mode, category, source }: { mode?: string; category: ChartCategory; source?: string }) {
-  const locale = await getLocale();
-  const selectedSource = chartSource(category, locale === "en" ? "en" : "ko", source);
-  const classics = mode === "classics";
-  const [bestsellerData, initialClassicsData, professionCounts, music, storeChart, steamChart] = await Promise.all([
-    !classics && category === "BOOK" ? getBestsellers("ALL", locale) : selectBookChart(null, locale === "en" ? "en" : "ko"),
-    classics ? getChosenLibrary({ page: 1, limit: 12 }) : { contents: [], total: 0, totalPages: 0, currentPage: 1 },
-    classics ? getProfessionContentCounts() : [],
-    !classics && category === "MUSIC" ? getMusicChart(locale) : null,
-    !classics && category === "VIDEO" ? getStoreChart(locale) : null,
-    !classics && category === "GAME" && selectedSource.id === "steam" ? getSteamChart(locale) : null,
-  ]);
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
+  const { mode, category, source } = await searchParams;
+  if (mode !== "classics") {
+    const query: Record<string, string> = {};
+    if (category) query.category = category;
+    if (source) query.source = source;
+    // 조건이 없으면 문자열 주소로 넘긴다 — 빈 query 객체는 주소 끝에 「?」를 남긴다
+    const href = Object.keys(query).length ? { pathname: "/explore/works", query } : "/explore/works";
+    permanentRedirect(getPathname({ href, locale: await getLocale() }));
+  }
 
+  const [initialClassicsData, professionCounts] = await Promise.all([
+    getChosenLibrary({ page: 1, limit: 12 }),
+    getProfessionContentCounts(),
+  ]);
   return (
     <AsyncIntlProvider>
-      <PopularSection
-        initialBestsellers={bestsellerData}
-        initialClassicsData={initialClassicsData}
-        professions={professionCounts.map(p => ({ profession: p.profession, count: p.count }))}
-        initialMode={mode === "classics" ? "classics" : "bestseller"}
-        initialCategory={category}
-        initialSource={selectedSource.id}
-        initialMusic={music}
-        initialStoreChart={storeChart}
-        initialSteamChart={steamChart}
-      />
+      <PopularSection initialClassicsData={initialClassicsData} professions={professionCounts.map(p => ({ profession: p.profession, count: p.count }))} />
     </AsyncIntlProvider>
   );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ mode?: string; category?: string; source?: string }>;
-}) {
-  const { mode, category, source } = await searchParams;
-  return <PopularContent mode={mode} category={chartCategory(category)} source={source} />;
 }

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { CuratedHub, CuratedListSummary } from "@/actions/library/types";
-import { filterCurators, getCuratorCountries, parseCuratorFilters } from "./curatorExplore";
+import { filterCurators, getCuratorCountries, hasFacetChoice, parseCuratorFilters, shownLists } from "./curatorExplore";
 
 const list = (title: string, contentType: string, topics: string[], itemCount: number): CuratedListSummary => ({
   title, contentType, topics, itemCount, slug: title, curatorSlug: "test", description: null,
@@ -27,16 +27,17 @@ test("institution search keeps its lists; list search keeps only matching lists"
   assert.equal(scope[0].lists.length, 3);
 });
 
-test("media, institution kind and topic intersect before counts and sorting", () => {
+test("media, institution kind and topic intersect before counts; results are in name order", () => {
   const result = filterCurators(scope, filters("media=VIDEO&kind=university&topic=cinema"), "en");
   assert.deepEqual(result.map(c => [c.name, c.listCount, c.lists[0].contentType]), [["Alpha University", 1, "VIDEO"]]);
   assert.deepEqual(filterCurators(scope, filters("media=BOOK&topic=cinema"), "en"), []);
-  assert.equal(filterCurators(scope, filters("sort=works&media=BOOK"), "en")[0].name, "Gamma University");
+  assert.deepEqual(filterCurators([...scope].reverse(), filters("media=BOOK"), "en").map(c => c.name), ["Alpha University", "Gamma University"]);
 });
 
-test("query parsing rejects unknown facets and invalid pages; Unicode search normalizes", () => {
-  assert.deepEqual(filters("page=Infinity&sort=bad&kind=bad&media=bad&topic=bad&country=bad"), filters());
+test("query parsing rejects unknown facets and invalid pages; the retired sort is ignored; Unicode search normalizes", () => {
+  assert.deepEqual(filters("page=Infinity&sort=works&kind=bad&media=bad&topic=bad&country=bad"), filters());
   assert.equal(filters("page=-1").page, 1);
+  assert.ok(!("sort" in filters("sort=works")));
   assert.equal(filterCurators(scope, { ...filters(), search: "ＡＬＰＨＡ" }, "en")[0].name, "Alpha University");
 });
 
@@ -57,4 +58,19 @@ test("country intersects with media, kind and topic without inventing a country 
   assert.deepEqual(filterCurators(scope, filters("media=VIDEO&country=KR"), "en"), []);
   assert.deepEqual(getCuratorCountries([...scope, scope[0], curator("No country", "organization", [])]), ["GB", "KR", "US"]);
   assert.equal(parseCuratorFilters(new URLSearchParams("media=VIDEO&country=KR"), { ...available, countries: ["GB", "US"] }).country, "all");
+});
+
+test("a facet is choosable only when some option narrows the list", () => {
+  assert.equal(hasFacetChoice([5], 5), false); // 게임 — 기관이 모두 시상 기관
+  assert.equal(hasFacetChoice([], 5), false); // 게임 — 주제 없음
+  assert.equal(hasFacetChoice([3, 2], 5), true);
+  assert.equal(hasFacetChoice([8, 1], 8), true); // 영상 — 「영화」는 모두 달았지만 「한국 영화」가 줄인다
+  assert.equal(hasFacetChoice([8, 8], 8), false);
+});
+
+test("lists are laid out by institution name, keeping each institution's list order and only matching lists", () => {
+  const lists = shownLists(filterCurators([...scope].reverse(), filters("media=BOOK"), "en"));
+  assert.deepEqual(lists.map(l => l.title), ["World literature", "Poetry", "Science reading"]);
+  assert.deepEqual(shownLists(filterCurators(scope, filters("media=BOOK&search=poetry"), "en")).map(l => l.title), ["Poetry"]);
+  assert.deepEqual(shownLists([]), []);
 });
