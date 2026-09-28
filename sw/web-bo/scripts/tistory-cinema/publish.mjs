@@ -123,7 +123,7 @@ export async function composeOne(page, cdp, name) {
   await wait(2500);
   const inserted = await page.evaluate(() => [...document.querySelectorAll('.CodeMirror')].find((e) => e.offsetParent)?.CodeMirror?.getValue() ?? '');
   const got = inserted.length;
-  if (inserted.replace(/\r\n/g, '\n').trim() !== html.replace(/\r\n/g, '\n').trim()) throw new Error(`입력 본문이 원고와 다르다(${got}/${html.length})`);
+  if (inserted.replace(/\r\n?/g, '\n').trim() !== html.replace(/\r\n?/g, '\n').trim()) throw new Error(`입력 본문이 원고와 다르다(${got}/${html.length})`);
   const how = `insertText ${got}자`;
 
   // 5) 태그

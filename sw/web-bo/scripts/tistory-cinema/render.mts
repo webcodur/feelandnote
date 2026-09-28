@@ -166,6 +166,13 @@ const gap = (html: string, px = 26) => `<div style="margin:0 !important;padding:
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 /**
+ * 🔴 TMDB 줄거리·감상 원문에 단독 CR(U+000D)이 섞여 들어온다(밥 딜런 편 26.09.20).
+ *    CodeMirror는 입력의 \r을 줄바꿈으로 정규화하므로, 원고에 \r이 남으면 저장 전
+ *    본문 대조가 어긋나 배치 전체가 멈춘다. 편집기가 어차피 \n으로 바꾸는 값이므로
+ *    원고 단계에서 \n으로 맞춘다.
+ */
+const eol = (s: string) => s.replace(/\r\n?/g, '\n')
+/**
  * 원문에 빈 줄이 있으면 문단으로 살린다. 알렉스 퍼거슨의 388자 감상처럼 두 문단으로 쓴
  * 것이 한 덩어리로 붙어 나오면 읽기 어렵다. 원문을 고치지 않고 보이는 방식만 맞춘다.
  *
@@ -370,7 +377,7 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
 
   const tags = [t, `${t} 줄거리`, `${t} 평점`, '인생영화', '영화추천', '명작영화',
     ...(m.tmdb.director ?? []).slice(0, 1), ...(m.tmdb.cast ?? []).slice(0, 2).map((c) => c.name), '필앤노트']
-  return { title, html: L.join('\n'), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
+  return { title, html: eol(L.join('\n')), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
 }
 
 // ── 인물 편 ────────────────────────────────────────────────
@@ -465,7 +472,7 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
   p(`<p style="font-size:13px;color:#999;">작품 정보·포스터 출처 TMDB. 감상 기록은 필앤노트에 등록된 내용을 바탕으로 정리했습니다. 필앤노트가 운영합니다.</p>`)
 
   const tags = [who, `${who} 영화`, `${who} 추천영화`, '인생영화', '영화추천', ...m.picked.slice(0, 3).map((r) => r.title), '필앤노트']
-  return { title, html: L.join('\n'), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
+  return { title, html: eol(L.join('\n')), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
 }
 
 // ── 목록 편 ────────────────────────────────────────────────
@@ -549,7 +556,7 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
     p(`</div>`)
   }
   p(para(HELLO))
-  p(para(`오늘 살펴볼 목록은 <b>${esc(name)}</b>입니다.${m.curator ? ` ${esc(m.curator.name)}가 고른 ${m.totalItems}편이고, 아래에 전체를 실었습니다.` : ` 아래에 ${m.totalItems}편 전체를 실었습니다.`}`))
+  p(para(`오늘 살펴볼 목록은 <b>${esc(name)}</b>입니다.${m.curator ? ` ${esc(m.curator.name)}${ga(m.curator.name)} 고른 ${m.totalItems}편이고, 아래에 전체를 실었습니다.` : ` 아래에 ${m.totalItems}편 전체를 실었습니다.`}`))
   // `description`·`method` 도 간결체다. 정중체 본문과 섞이지 않게 상자에 담는다.
   const box = (html: string) =>
     p(`<div style="margin:0 !important;padding:0 0 20px !important;"><div style="padding:16px 18px;background:#f7f7f8;border-radius:6px;font-size:15px;line-height:1.8;color:#555;">${html}</div></div>`)
@@ -641,7 +648,7 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
   }))))
 
   p(`<div style="margin:34px 0;padding:22px;text-align:center;background:#111;border-radius:8px;">`)
-  p(`<div style="color:#fff;font-size:17px;font-weight:700;margin-bottom:6px;">${esc(name)}을 필앤노트에서</div>`)
+  p(`<div style="color:#fff;font-size:17px;font-weight:700;margin-bottom:6px;">${esc(name)}${eul(name)} 필앤노트에서</div>`)
   p(`<div style="color:#bbb;font-size:14px;margin-bottom:14px;">누가 어떤 작품을 꼽았는지 인물별로 볼 수 있습니다.</div>`)
   p(`<a href="https://feelandnote.com/library/curated/${m.curator?.slug ?? ''}/${m.list.slug}" style="display:inline-block;padding:11px 22px;background:#fff;color:#111;border-radius:4px;text-decoration:none;font-weight:700;">목록 페이지로 →</a>`)
   p(`</div>`)
@@ -660,5 +667,5 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
   p(`<p style="font-size:13px;color:#999;">${m.list.sourceUrl ? `원문 출처 <a href="${m.list.sourceUrl}" rel="nofollow">${esc(m.curator?.name ?? '발표처')}</a>. ` : ''}작품 정보·포스터 출처 TMDB. 필앤노트가 운영합니다.</p>`)
 
   const tags = [name, `${name} 목록`, '영화목록', '명작영화', '영화추천', '인생영화', m.curator?.name ?? '', '필앤노트']
-  return { title, html: L.join('\n'), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
+  return { title, html: eol(L.join('\n')), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
 }

@@ -3,7 +3,7 @@
 도서에 붙일 쿠팡 제휴 링크를 만드는 도구 네 종. 상품 선정은
 [coupang-book-affiliate 스킬](../../../../.agents/skills/coupang-book-affiliate/SKILL.md),
 계정·링크 운영은 [제휴 판매 운영](../../../../docs/project/operations/affiliate-commerce.md),
-수익화 방향은 [수익화와 상품 판매](../../../../docs/project/operations/monetization.md)가 쥔다.
+수익화 방향은 [서비스 방향과 수익화](../../../../docs/project/operations/service-strategy.md)가 쥔다.
 여기는 명령과 입력 형식을 다룬다.
 
 ## 전제
