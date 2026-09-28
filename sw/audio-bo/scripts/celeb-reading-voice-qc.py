@@ -285,7 +285,9 @@ class NarrationQC:
         return "".join(word["word"] for word in words).strip(), words
 
     def check(self, request: dict, allow_repair: bool = True) -> dict:
-        audio = Path(request["audio"]).resolve()
+        # absolute()는 subst 드라이브·링크를 실제 경로로 풀지 않는다. 호출한 Node 쪽 path.resolve와
+        # 같은 문자열을 돌려줘야 문장 타이밍이 「최종 검수를 거친 그 mp3」임을 확인할 수 있다.
+        audio = Path(request["audio"]).absolute()
         text, locale = request["text"], request["locale"]
         if locale not in ("ko", "en") or not isinstance(text, str) or not text.strip():
             raise ValueError("A nonempty text and locale ko/en are required")
@@ -318,7 +320,7 @@ class NarrationQC:
             if not allow_repair or not request.get("output"):
                 result["flags"] = ["pause-repair-required"]
                 return result
-            output = Path(request["output"]).resolve()
+            output = Path(request["output"]).absolute()
             write_repaired(samples, repairs, output)
             verified = self.check({**request, "audio": str(output), "output": None}, allow_repair=False)
             result["repairVerification"] = {key: verified[key] for key in ("ok", "flags", "warnings", "metrics")}

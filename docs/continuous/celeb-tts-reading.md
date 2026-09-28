@@ -16,7 +16,17 @@
 
 자동 배치는 `sw/web-bo/scripts/celeb/reading-voice-batch.mjs`다. 생성·등록은 `reading-voice.mjs`, 음성 검수는 `sw/audio-bo/scripts/celeb-reading-voice-qc.py`가 맡는다. 속도·인코딩·재시도 상수와 연속 실패 상한은 이 코드들이 쥔다. 등록 시 문장 따라읽기 타이밍(`celebs/{id}/voice/{ko|en}/reading.json`)을 함께 올리며, 등록분마다 manifest에 타이밍 상태가 남는다. 이미 등록된 음원의 타이밍만 다시 맞출 때는 `reading-voice-timing-backfill.mjs --publish`를 쓴다.
 
-현재 생성 폴더: `D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908`. 기존 오디오와 검수 기록을 재사용하므로 재개할 때 새 폴더를 만들지 않는다. 합성 큐는 같은 폴더의 `reading-voice-synthesis-queue.json`이며 `celebs.id asc → ko → en` 순서로 만들어진다. 보류·등록·재사용 가능한 후보는 큐에서 빠진다. 배치 로그는 `reading-voice-batch.log`에 이어 쓰고, 배치 상태의 `partialQc`는 마지막 회차의 검수 결과다.
+1차 전량 생성 폴더: 다른 PC의 `D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908`. 기존 오디오와 검수 기록을 재사용하므로 재개할 때 새 폴더를 만들지 않는다. 합성 큐는 같은 폴더의 `reading-voice-synthesis-queue.json`이며 `celebs.id asc → ko → en` 순서로 만들어진다. 보류·등록·재사용 가능한 후보는 큐에서 빠진다. 배치 로그는 `reading-voice-batch.log`에 이어 쓰고, 배치 상태의 `partialQc`는 마지막 회차의 검수 결과다.
+
+안내 전량 개편([`reading-rewrite.md`](../todo/celeb/reading-rewrite.md))의 재작성분은 `D:/audios/interview-cleaner/celeb-reading-voices-rewrite-20260928`에서 만든다. 본문을 바꾼 인물은 1차 폴더 manifest의 본문 해시와 달라 1차 폴더를 그대로 이어 돌리면 「Source changed」로 run 전체가 멈춘다. 1차 폴더는 재작성된 인물의 manifest 항목을 빼기 전에는 이어 돌리지 않는다. `reading-voice-unpublish.mjs`는 R2의 새 음원까지 지우므로 이 용도로 쓰지 않는다.
+
+### D 드라이브가 없는 PC
+
+노트북(RTX 3050 Ti 4 GB)은 D:가 없어 `subst D: C:\feelandnote-d`로 붙여 스크립트의 `D:/audios/...` 경로를 그대로 쓴다. subst는 재부팅하면 풀리므로 작업 전에 `subst`로 확인한다. 검수 스크립트는 경로를 `absolute()`로 돌려줘 subst를 실제 경로로 풀지 않는다 — 풀면 문장 타이밍이 「최종 검수를 거친 mp3가 아니다」(`TIMING_REQUIRES_FINAL_MP3_QC`)로 거절된다.
+
+- 파이썬: `D:\audios\interview-cleaner\.venv`(3.12, faster-whisper 1.2.1, numpy, CUDA 12용 `nvidia-cublas-cu12`·`nvidia-cudnn-cu12`). Whisper `large-v3-turbo`는 `D:\audios\interview-cleaner\models\whisper`.
+- ffmpeg: winget `Gyan.FFmpeg` 9.0.2. 새 셸에서는 PATH에 잡히고, 설치 전에 연 셸에서는 `%LOCALAPPDATA%\Microsoft\WinGet\Packages\Gyan.FFmpeg_*\ffmpeg-9.0.2-full_build\bin`을 앞에 붙인다.
+- 실행 전 PATH 앞에 venv의 `Lib\site-packages\nvidia\cublas\bin`·`nvidia\cudnn\bin`을 붙이고 `VOICE_CLEANUP_PYTHON`을 venv 파이썬으로 준 뒤 `reading-voice.mjs`에 `--python <venv 파이썬> --device cuda`를 넘긴다. Node 20에서는 `NODE_OPTIONS=--experimental-websocket`이 있어야 DB 클라이언트가 뜬다.
 
 ## 실행 방식
 

@@ -71,7 +71,8 @@ const GENERATE = process.argv.includes('--generate')
 const APPLY = process.argv.includes('--apply')
 const PUBLISH = process.argv.includes('--publish')
 const STATS = process.argv.includes('--stats')
-if (!STATS) requireExternalCliApproval()
+// 외부 CLI 승인은 실제로 모델을 부르는 callModel·callDeepResearch가 확인한다. 직접 쓴 원고를
+// --editorial-candidates로 반영하는 실행은 모델을 부르지 않으므로 여기서 막지 않는다.
 const RESEARCH = process.argv.includes('--research')
 const DEEP_RESEARCH = process.argv.includes('--deep-research')
 const RESUME = process.argv.includes('--resume')
@@ -88,6 +89,7 @@ const CONCURRENCY = numberFlag('--conc', 3)
 const MODEL = flagValue('--model') ?? AGY_TEXT_MODEL
 const REVIEW_DECISIONS_ARG = flagValue('--review-decisions')
 const EDITORIAL_CANDIDATES_ARG = flagValue('--editorial-candidates')
+const SCREEN_OUT_ARG = flagValue('--screen-out')
 const SLUGS = (() => {
   const raw = flagValue('--slugs')
   return raw ? new Set(raw.split(',').map((slug) => slug.trim()).filter(Boolean)) : null
@@ -100,6 +102,13 @@ const EDITORIAL_CANDIDATES_FILE = EDITORIAL_CANDIDATES_ARG
   && !EDITORIAL_CANDIDATES_ARG.startsWith('--')
   ? resolve(process.cwd(), EDITORIAL_CANDIDATES_ARG)
   : null
+
+const SCREEN_OUT_FILE = SCREEN_OUT_ARG && !SCREEN_OUT_ARG.startsWith('--')
+  ? resolve(process.cwd(), SCREEN_OUT_ARG)
+  : null
+if (SCREEN_OUT_ARG !== null && (!SCREEN_OUT_FILE || !STATS)) {
+  throw new Error('--screen-out은 --stats와 함께 JSON 파일 경로를 지정한다.')
+}
 
 if (!PLAN && !GENERATE && !APPLY && !STATS) {
   throw new Error('--plan, --generate, --apply, --stats 가운데 하나 이상을 지정해야 한다.')
@@ -153,15 +162,23 @@ const RESEARCH_FILE = join(ROOT, 'verified-identity-research-v3.json')
 const DEEP_RESEARCH_FILE = join(ROOT, 'deep-research-v1.json')
 const RESEARCH_OVERRIDES_FILE = resolve(process.cwd(), 'scripts/celeb/reading/research-overrides.json')
 const RUN_LOCK_FILE = join(ROOT, 'run.lock')
-const PIPELINE_VERSION = '2026-09-01-guide-only-v25-bio-identity'
-const REVIEW_VERSION = '2026-09-01-guide-only-pre-review-v7-bio-identity'
+const PIPELINE_VERSION = '2026-09-28-guide-format-v26'
+const REVIEW_VERSION = '2026-09-28-guide-format-pre-review-v8'
 const DEEP_RESEARCH_VERSION = '2026-08-29-guide-sources-v3'
 const NEW_EXPLANATION_PLACEHOLDER = '미작성'
+// 인물 안내 형식의 허용 범위. 룰북 celeb-05-01-reading.md 「형식」은 값을 복제하지 않고 이 상수를 가리킨다.
+// 한국어 글자 수는 공백을 포함한 본문 길이, 문장 수는 음성 문장 강조와 같은 Intl.Segmenter 기준이다.
+const READING_FORMAT = {
+  koChars: { min: 180, max: 340 },
+  koSentences: { min: 3, max: 5 },
+  enToKoLength: { min: 1.6, max: 3.2 },
+} as const
 const READING_RULEBOOK = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../docs/project/celeb/celeb-05-01-reading.md')
 const WRITING_GUIDE = readFileSync(READING_RULEBOOK, 'utf8')
-  .match(/^## 집필\s*\r?\n([\s\S]*?)(?=^## |$(?![\s\S]))/m)?.[1].trim()
-if (!WRITING_GUIDE) throw new Error('인물 안내 룰북의 집필 절이 비어 있다.')
-const WRITING_CONTEXT = `[집필 기준]\n${WRITING_GUIDE}\n\n제공된 프로필과 확인된 출처의 사실에 근거한다. rewriteReason과 초안은 사실 근거가 아니다. 기존 글은 이 기준에 맞는 부분을 보존하고 필요한 부분을 고친다.`
+  .match(/^## 조사와 작성\s*\r?\n([\s\S]*?)(?=^## |$(?![\s\S]))/m)?.[1].trim()
+if (!WRITING_GUIDE) throw new Error('인물 안내 룰북의 「조사와 작성」 절이 비어 있다.')
+const FORMAT_CONTEXT = `[형식 허용 범위]\n한국어 공백 포함 ${READING_FORMAT.koChars.min}~${READING_FORMAT.koChars.max}자, ${READING_FORMAT.koSentences.min}~${READING_FORMAT.koSentences.max}문장, 한 문단. 영어 글자 수는 한국어의 ${READING_FORMAT.enToKoLength.min}~${READING_FORMAT.enToKoLength.max}배.`
+const WRITING_CONTEXT = `[집필 기준]\n${WRITING_GUIDE}\n\n${FORMAT_CONTEXT}\n\n제공된 프로필과 확인된 출처의 사실에 근거한다. rewriteReason과 초안은 사실 근거가 아니다. 기존 글은 이 기준에 맞는 부분을 보존하고 필요한 부분을 고친다.`
 for (const directory of [ROOT, DRAFT_DIR, FINAL_DIR, REVIEW_DIR]) {
   if (!existsSync(directory)) mkdirSync(directory, { recursive: true })
 }
@@ -1506,14 +1523,57 @@ function parseReadings(raw: string, expectedSlugs: string[], requireEnglish: boo
   return readings
 }
 
-function validateReading(reading: Reading): string[] {
+function sentencesOf(text: string, locale: 'ko' | 'en'): string[] {
+  return [...new Intl.Segmenter(locale, { granularity: 'sentence' }).segment(text)]
+    .map((item) => item.segment.trim())
+    .filter(Boolean)
+}
+
+// 이름 끝 글자의 받침으로 주제 조사를 고른다. 한글이 아니면 둘 다 허용한다.
+function topicParticles(name: string): string[] {
+  const code = (name.trim().at(-1) ?? '').charCodeAt(0) - 0xac00
+  if (!(code >= 0 && code <= 11171)) return ['은', '는']
+  return code % 28 === 0 ? ['는'] : ['은']
+}
+
+type ReadingIdentity = Pick<ProfileRow, 'nickname' | 'nickname_en'>
+
+// 룰북 「형식」을 기계로 확인할 수 있는 부분만 검사한다. 글의 질은 사람이 읽어서 판정한다.
+function validateReading(reading: Reading, identity?: ReadingIdentity): string[] {
   if (reading.holdReason) return ['작성 보류']
   const errors: string[] = []
-  if (!reading.guide.trim()) errors.push('한국어 안내 누락')
-  if (reading.guide && !/[가-힣]/.test(reading.guide)) errors.push('한국어 안내 문자 깨짐')
-  for (const [label, text] of [['한국어', reading.guide], ['영어', reading.guideEn]]) {
+  const guide = reading.guide.trim()
+  const guideEn = reading.guideEn.trim()
+  if (!guide) errors.push('한국어 안내 누락')
+  if (guide && !/[가-힣]/.test(guide)) errors.push('한국어 안내 문자 깨짐')
+  for (const [label, text] of [['한국어', guide], ['영어', guideEn]]) {
     if (text.includes('�')) errors.push(`${label} 안내 문자 깨짐`)
     if (/https?:\/\/|\]\(|```|^#{1,6}\s/m.test(text)) errors.push(`${label} 안내 URL 또는 마크다운 혼입`)
+    if (/\n/.test(text)) errors.push(`${label} 안내 줄바꿈`)
+  }
+  if (guide) {
+    const length = [...guide].length
+    const sentences = sentencesOf(guide, 'ko')
+    if (length < READING_FORMAT.koChars.min || length > READING_FORMAT.koChars.max) errors.push(`한국어 분량 ${length}자`)
+    if (sentences.length < READING_FORMAT.koSentences.min || sentences.length > READING_FORMAT.koSentences.max) errors.push(`한국어 문장 수 ${sentences.length}`)
+    if (/[()（）[\]]/.test(guide)) errors.push('한국어 괄호')
+    if (/[「」『』]/.test(guide)) errors.push('한국어 작품명 부호(《》·〈〉만 쓴다)')
+    if (/(습니다|입니다|합니다|됩니다|세요|어요|해요)[.!?]/.test(guide)) errors.push('한국어 존댓말')
+    if (/\b[A-Za-z]\.[A-Za-z]\./.test(guide)) errors.push('한국어 마침표 약칭')
+    if (/《[^》]*[.!?][^》]*》|〈[^〉]*[.!?][^〉]*〉/.test(guide)) errors.push('한국어 작품명 안 문장부호')
+    const first = sentences[0] ?? ''
+    if (identity?.nickname && !topicParticles(identity.nickname).some((particle) => first.startsWith(`${identity.nickname}${particle} `))) {
+      errors.push('한국어 첫 문장이 「이름은/는」으로 시작하지 않음')
+    }
+    if (!/이다\.$/.test(first)) errors.push('한국어 첫 문장이 「…이다.」 정체 설명이 아님')
+  }
+  if (guideEn) {
+    if (/[\uac00-\ud7a3《》〈〉「」『』]/.test(guideEn)) errors.push('영어 안내에 한글 또는 한국어 부호')
+    if (identity?.nickname_en && !guideEn.startsWith(identity.nickname_en)) errors.push('영어 첫 문장이 영문 이름으로 시작하지 않음')
+    if (guide) {
+      const ratio = guideEn.length / [...guide].length
+      if (ratio < READING_FORMAT.enToKoLength.min || ratio > READING_FORMAT.enToKoLength.max) errors.push(`한영 분량 비 ${ratio.toFixed(2)}`)
+    }
   }
   return errors
 }
@@ -1595,7 +1655,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   if (reading.inputHash !== inputHash(material)) {
     throw new Error('저장된 최종본의 조사 재료가 현재 재료와 달라 다시 생성해야 한다.')
   }
-  const currentErrors = validateReading(reading)
+  const currentErrors = validateReading(reading, material.profile)
   const persistentErrors = reading.validationErrors
   const englishMissing = !reading.guideEn.trim()
   if (reading.holdReason || currentErrors.length || persistentErrors.length || englishMissing) {
@@ -1692,7 +1752,7 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
         guideEn: editorial.guideEn,
         holdReason: null,
       }
-      saveReading(FINAL_DIR, 'final', reading, material, validateReading(reading))
+      saveReading(FINAL_DIR, 'final', reading, material, validateReading(reading, material.profile))
       finals.set(material.profile.slug, readSaved(FINAL_DIR, material.profile.slug)!)
       continue
     }
@@ -1701,7 +1761,7 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
       && (saved.inputHash === inputHash(material) || readingAlreadyApplied(saved, material))
       && !saved.holdReason
       && saved.validationErrors.length === 0
-      && validateReading(saved).length === 0
+      && validateReading(saved, material.profile).length === 0
     if (reusable) finals.set(material.profile.slug, saved)
     else toRevise.push(material)
   }
@@ -1743,8 +1803,9 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
     for (let repairAttempt = 1; AUDIT && repairAttempt <= 2; repairAttempt += 1) {
       const errorsBySlug = new Map<string, string[]>()
       for (const reading of revised) {
+        const profile = toRevise.find((item) => item.profile.slug === reading.slug)?.profile
         const errors = [
-          ...validateReading(reading),
+          ...validateReading(reading, profile),
           ...(guideAuditErrors.has(reading.slug) ? [guideAuditErrors.get(reading.slug)!] : []),
         ]
         if (errors.length) errorsBySlug.set(reading.slug, errors)
@@ -1765,7 +1826,7 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedRe
     for (const reading of revised) {
       const material = toRevise.find((item) => item.profile.slug === reading.slug)!
       const errors = [
-        ...validateReading(reading),
+        ...validateReading(reading, material.profile),
         ...(guideAuditErrors.has(reading.slug) ? [guideAuditErrors.get(reading.slug)!] : []),
       ]
       saveReading(FINAL_DIR, 'final', reading, material, errors)
@@ -1965,7 +2026,7 @@ async function main() {
         }
         continue
       }
-      const currentErrors = validateReading(final)
+      const currentErrors = validateReading(final, material.profile)
       const persistentErrors = final.validationErrors
       if (currentErrors.length) {
         missingBreakdown.currentValidation += 1
@@ -1987,6 +2048,24 @@ async function main() {
       }
       else missingBreakdown.publishable += 1
     }
+    // 게시 여부와 상관없이 active 인물의 현재 DB 본문을 형식 규격으로 검사한다. 통과가 곧 품질 통과는 아니다.
+    const formatReasons = new Map<string, number>()
+    const formatFailures: Array<{ slug: string; published: boolean; errors: string[] }> = []
+    let formatChecked = 0
+    for (const row of explanations) {
+      const profile = profileById.get(row.profile_id)
+      if (!profile || profile.publication_status !== 'active') continue
+      formatChecked += 1
+      const errors = validateReading({ slug: profile.slug, guide: row.plain_text, guideEn: row.plain_text_en ?? '', holdReason: null }, profile)
+      if (!row.plain_text_en?.trim()) errors.push('영어 안내 누락')
+      if (!errors.length) continue
+      formatFailures.push({ slug: profile.slug, published: Boolean(row.published_at), errors })
+      for (const error of errors) {
+        const reason = error.replace(/\s+[\d.]+(?:자)?$/, '')
+        formatReasons.set(reason, (formatReasons.get(reason) ?? 0) + 1)
+      }
+    }
+    if (SCREEN_OUT_FILE) writeFileSync(SCREEN_OUT_FILE, `${JSON.stringify(formatFailures, null, 2)}\n`, 'utf8')
     const publishedMismatch = explanations.filter((row) => {
       const profile = profileById.get(row.profile_id)
       return Boolean(row.published_at) && profile?.publication_status !== 'active'
@@ -2020,6 +2099,13 @@ async function main() {
       published: explanations.filter((row) => row.published_at).length,
       unpublished: explanations.filter((row) => !row.published_at).length,
       publishedMismatch,
+      formatCheck: {
+        checked: formatChecked,
+        failed: formatFailures.length,
+        failedPublished: formatFailures.filter((item) => item.published).length,
+        reasons: Object.fromEntries([...formatReasons].sort((a, b) => b[1] - a[1])),
+        list: SCREEN_OUT_FILE,
+      },
       publicRls,
       byStatus,
       missingByStatus,

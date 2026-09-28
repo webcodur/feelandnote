@@ -46,7 +46,7 @@
 
 `celeb_persona`를 갱신할 때는 `persona` JSONB를 쓴다. 평면 점수만 바꾸면 원본과 어긋난다. `celeb_dialogues.lines.quote`와 `lines_en.quote`가 한마디의 유일한 저장소이며, 갱신은 다른 대사 키를 보존하는 `set_celeb_quote` RPC를 사용한다.
 
-`celeb_explanations.plain_text(_en)`가 현재 화면의 인물 안내다. `published_at`이 게시 여부를, `review_status`가 검수 상태를 나타낸다. `interpretive_*`는 화면에서 닫힌 보존값이다.
+`celeb_explanations.plain_text(_en)`가 현재 화면의 인물 안내다. `published_at`이 게시 여부를 나타내며, 인물을 active로 바꿔도 저절로 채워지지 않는다. `interpretive_*`는 화면에서 닫힌 보존값이다.
 
 ## 여러 행을 갖는 인물 데이터
 

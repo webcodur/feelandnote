@@ -17,24 +17,24 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 
 ## 흐름
 
-1. live DB에서 active 인물의 안내 행, `review_status`, `published_at`, 한영 누락을 센다.
-2. 보통 잔여 작업에서는 `human_reviewed`와 `ai_reviewed`를 스킵한다. 사용자가 전수 재감사를
-   명시하면 `ai_reviewed`도 다시 읽되, `human_reviewed`는 의견만 내고 자동으로 고치지 않는다.
-3. 대상의 기존 한영 안내를 함께 읽는다. 기준을 통과하면 본문을 보존하고 검수·게시 상태만
-   기록한다.
-4. 실패한 인물만 신원과 대표 행동을 다시 조사해 한국어와 영어 안내를 재작성한다. 짧은
-   이야기는 극적 일화가 아니라 한 행동·질문·생각이 결과나 의미에 닿는 흐름이다. 흐름을
-   바꾸지 않는 날짜·수치·직함·고유명사는 덜어낸다.
-5. 한 명 또는 작은 묶음마다 검수와 조건부 반영까지 끝낸다. 실패한 인물을 성공 수에 넣지 않고
-   `review_status IS NULL`로 남긴다.
-6. DB 재조회와 한국어·영어 실제 화면으로 본문·상태·locale 대응을 확인한다.
+1. `readings.ts --stats --screen-out=<파일>`로 active 인물의 안내 행, `published_at`, 한영 누락과
+   룰북 「형식」 위반을 센다.
+2. 형식 위반 목록과 형식을 통과한 글을 함께 읽어 룰북 「검수」의 두 질문으로 판정한다. 통과한
+   미게시 글은 본문을 보존하고 게시만 기록한다.
+3. 폐기로 판정한 인물은 등록된 안내 음성을 먼저 내린다(룰북 「본문 교체와 음성」).
+4. 신원과 대표 행동을 다시 조사해 한국어와 영어 안내를 재작성한다. 짧은 이야기는 극적 일화가
+   아니라 한 행동·질문·생각이 결과나 의미에 닿는 흐름이다. 흐름을 바꾸지 않는 날짜·수치·직함·
+   고유명사는 덜어낸다.
+5. 한 명 또는 작은 묶음마다 형식 검증과 조건부 반영·게시까지 끝내고 새 본문의 음성을 만든다.
+   실패한 인물을 성공 수에 넣지 않는다.
+6. DB 재조회와 한국어·영어 실제 화면, 문장 강조 응답으로 본문·음성·locale 대응을 확인한다.
 
 ## 실행 경계
 
-`sw/web-bo/scripts/celeb/readings.ts`는 안내 두 필드만 갱신하고 `interpretive_*`를 전후 대조해
-보존한다. 평소 잔여 검수는 미검수만, 사용자가 전수 재감사를 명시한 경우에만
-`--recheck-reviewed`로 `ai_reviewed`까지 다시 읽는다. `human_reviewed`는 두 경로 모두 제외한다.
+`sw/web-bo/scripts/celeb/readings.ts`는 안내 두 필드와 `published_at`만 갱신하고 `interpretive_*`를
+전후 대조해 보존한다. 직접 쓴 원고는 `--editorial-candidates`로 넘기며 외부 모델을 부르지 않는다.
 
 ```powershell
-pnpm exec tsx scripts/celeb/readings.ts --stats
+pnpm exec tsx scripts/celeb/readings.ts --stats --screen-out=.tmp-celeb-reading/format-screen.json
+pnpm exec tsx scripts/celeb/readings.ts --slugs=a,b --rewrite-existing --generate --editorial-candidates=.tmp-celeb-reading/editorial.json --apply --publish
 ```
