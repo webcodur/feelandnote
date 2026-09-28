@@ -128,13 +128,13 @@ types/                 # academy, content, database, database.generated, home, l
 
 ```text
 src/app/
-  (admin)/     # activity-logs, api-usage, blind-game, book-recommend, celebs, contents, free-board,
+  (admin)/     # activity-logs, blind-game, book-recommend, celebs, contents, free-board,
                # guestbooks, members, notes, playlists, records, reports, scores,
                # settings, tier-lists, titles, today-figure, users
   api/         # book-recommend 제작 API, celebs/search, contents/search, image-proxy, voice/[...path]
   login/
 src/actions/admin/
-src/components/  # celeb, content, factions, discourses, layout, ui, ApiKeyManager
+src/components/  # celeb, content, factions, discourses, layout, ui
 src/features/book-recommend/  # scenario·voice·render·youtube·cards 제작 부품과 로컬 I/O
 src/constants/  |  src/contexts/  |  src/hooks/  |  src/types/  |  src/utils/
 src/lib/         # db, r2, image, countries, indexnow, revalidate-web, voice-path

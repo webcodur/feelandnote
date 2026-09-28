@@ -57,15 +57,13 @@ pnpm dev:bo
 | `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `celebs` |
 | `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 사진·각성 이미지를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사를 수행한다. 아바타는 CPU nobg 대기열도 제공한다. 바깥 브라우저에서 Alt+클릭한 사진과 Ctrl+V는 화면에 가장 크게 보이는 행의, 숫자키 1·2·3으로 고른 자리로 들어간다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`, `awakened_image_url`) |
 | `/celebs/new` | 셀럽 등록 | 로그인 계정 없이 신규 셀럽을 직접 등록 | `celebs` |
-| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학 + 스펙트럼·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
+| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·스펙트럼·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
 | `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `celeb_contents`, `contents`, `content_locales` |
 | `/celebs/[slug]/contents/collect` | (수집) | 콘텐츠 수집 전용 화면. 구현은 `members/[id]/contents/collect/CollectView`에 있다 | `celeb_contents` |
 | `/celebs/titles` | 셀럽 수식어 편집 | 전체 셀럽 수식어 일괄 편집 | `celebs` |
 | `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `celebs` |
 | `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `celebs` |
 | `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `celebs` |
-| `/celebs/journeys` | 셀럽 감상 여정 편집 | `cultural_journey` 일괄 편집, 50건 단위 | `celebs` |
-| `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `celebs` |
 | `/celebs/content-research` | Light 콘텐츠 조사 목록 | 실제 콘텐츠 수·활성 여부·0건 확정 여부·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류하고, 0건 인물의 `-1` 확정·해제만 관리한다 | `celebs`, `celeb_contents` |
 | `/celebs/vectors` | 스펙트럼 분석 | 덕목·능력·성향 16개 축 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
 | `/celebs/vectors/[slug]` | (닉네임) 스펙트럼 분석 | 단건 스펙트럼 축 확인 | `celeb_persona` |
@@ -141,6 +139,8 @@ pnpm dev:bo
 
 ### 신화
 
+주요 장면 관리는 `/faction-scenes`에서 신화·팩션을 검색해 연다. 시작 그림, 장면 이미지·순서·등장인물, 한·영 제목과 해설, 마지막 엔딩을 편집하며 기존 `faction_lv2.team_images`에 저장한다. 신화·세력 상세에서도 바로 들어갈 수 있다. 작성 기준은 [주요 장면 룰북](../production/myth-image-captions.md)을 따른다.
+
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 신화 하나가 화면 한 장이다(`?myth=<신화 id>`). 왼쪽은 지역(`faction_lv1`의 `is_myth`) 머리 아래 신화 카드 목록(공개 여부·노출 인원), 오른쪽은 신화 이름·소개·공개 스위치, 대표 인물 3인, 테마 음악, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·신화 전용 사진·숨김·넣기·빼기)이다 | `faction_lv1`, `faction_lv2`, `faction_lv3`, `faction_members`(뷰 `faction_member_rows`로 읽음) |
@@ -160,7 +160,7 @@ pnpm dev:bo
 - **인물 검색은 기존 셀럽을 고르는 기능만 가진다.** 신규 인물은 `/celebs/new`에서 정식 등록한 뒤 추가한다. 신화 인물을 비공개로 한꺼번에 선등록할 때는 `pnpm --dir sw/web-bo faction:seed:inactive`를 쓴다([셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)).
 - **그룹의 설명·영문 이름·차례는 신화 편집(`/myths`)만 고친다.** 세력 편집 화면은 그룹 지정과 새 그룹 추가만 한다.
 - 목록·편집 데이터 조회는 `src/actions/admin/factions/board.ts`, 화면 부품은 `src/components/factions/entry/`다.
-- 이미지 R2 키: 개인화보 `faction/{lv2Id}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `faction_members.image_url`), 단체 사진 `faction/{lv2Id}/team/<uuid>.webp`(주소 배열은 `faction_lv2.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
+- 이미지 R2 키: 개인화보 `faction/{lv2Id}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `faction_members.image_url`), 단체 사진 `faction/{lv2Id}/team/<uuid>.<원본 확장자>`(주소 배열은 `faction_lv2.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
 - 쓰기 액션은 백오피스 화면(`/factions`·`/factions/[entry]`·`/myths`)을 `revalidatePath`로, 서비스 캐시를 `revalidateWebLists`로 갱신한다.
 
 ### 가상 담화
@@ -242,7 +242,6 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `member_profiles` |
-| `/api-usage` | API 사용량 | 외부 API 키 호출 로그(50건 단위), 키·성공여부 필터, 성공률·키별·동작별 통계 | `api_keys`, `api_key_usage` |
 | `/settings` | 운영 상태·설정 | 사용자 웹 응답, Oracle 웹 VM의 서비스·메모리·스왑·릴리스, DB VM의 PostgreSQL·연결·백업 상태를 조회하고 미구현 설정을 구분해 표시 | 읽기 전용 SSH + DB 시스템 통계 RPC |
 
 ## API 라우트
@@ -312,9 +311,9 @@ pnpm dev:bo
 | `/members/[id]` | `subject_kind`로 분기해 `/celebs/[slug]` 또는 `/users/[id]` |
 | `/members/[id]/contents` | `/celebs/[id]/contents` (쿼리 보존) |
 | `/members/[id]/contents/collect` | `/celebs/[id]/contents/collect` |
-| `/members/journeys` · `professions` · `tags` · `titles` | `/celebs/` 대응 경로 |
+| `/members/professions` · `/members/tags` · `/members/titles` | `/celebs/` 대응 경로 |
 
-**단, `members/` 디렉터리 자체는 현역이다.** `CelebForm`, `TagList`, `CelebTitleEditor`, `CelebProfessionEditor`, `CelebJourneyEditor`, `ContentList`, `ContentCollector`, `CollectView`, `StatusToggle`, `NationalityBadge`, `MemberActions` 등 공용 컴포넌트가 여기 있고 `celebs/`·`users/` 화면 19곳에서 가져다 쓴다. `actions/admin/members.ts`도 계속 호출된다. 라우트만 죽었지 코드는 살아 있으므로 통째로 지우면 안 된다.
+**단, `members/` 디렉터리 자체는 현역이다.** `CelebForm`, `TagList`, `CelebTitleEditor`, `CelebProfessionEditor`, `ContentList`, `ContentCollector`, `CollectView`, `StatusToggle`, `NationalityBadge`, `MemberActions` 등 공용 컴포넌트가 여기 있고 `celebs/`·`users/` 화면 19곳에서 가져다 쓴다. `actions/admin/members.ts`도 계속 호출된다. 라우트만 죽었지 코드는 살아 있으므로 통째로 지우면 안 된다.
 
 살아 있는 화면에서 `/members/[id]`로 나가는 링크가 19곳 있다(`playlists` 2, `notes` 2, `scores` 4, `tier-lists` 2, `guestbooks` 4, `activity-logs` 2, `blind-game` 3의 목록 컴포넌트). 동작하되 한 번 더 우회한다.
 

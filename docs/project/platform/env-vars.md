@@ -1,6 +1,7 @@
 # 환경변수 · 비밀값 SSoT
 
 > **최종 실측 체크: 26.09.02** — 저장소 내 `.env` 3종의 DB 키 이름을 공급자 중립 이름으로 통일했다. 값과 외부 자격증명은 바꾸지 않았다.
+> **26.09.19 추가** — 저장소 밖 비밀 파일에 agy 다계정 풀(`.antigravity-agent/`)을 등록했다.
 
 **이 저장소는 비밀값을 커밋하지 않는다.** `.gitignore`가 `.env`·`.env.*`·`.mcp.json`·`**/credentials/`를 모두 제외한다.
 그래서 `git clone`만으로는 어떤 앱도 뜨지 않는다. **아래 파일 7종을 사람이 직접 옮겨야 한다.**
@@ -23,11 +24,12 @@
 
 루트 `credentials/ga-service-account.json`도 남아 있으나 **참조처가 없는 사본**이다(전부 `sw/web/credentials/` 경로만 읽는다). 옮기지 않아도 된다.
 
-저장소 **밖** 파일도 5종 있다.
+저장소 **밖** 파일도 6종 있다.
 
 | 파일 | 위치 | 용도 |
 |------|------|------|
 | `ga-credentials.json` | `C:/Users/<사용자>/.claude/` | 검색 콘솔 MCP 인증 |
+| `.antigravity-agent/` 폴더 (`.mk` + `cloud_accounts.db`) | `C:/Users/<사용자>/.antigravity-agent/` | 🔴 **agy(Antigravity CLI) 구글 구독 계정 풀.** `agm`(github.com/shyim/agm)이 읽는 AES-256 암호화 DB와 복호화 마스터키의 세트다 — `.mk` 유출 시 등록 계정 전부 탈취. 운용·설치 상세는 폴더 안 `SETUP.md`가 쥔다 |
 | `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
 | `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
@@ -96,7 +98,7 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회. DB 신규 메타 수집 키가 아니다 | [예스24 개발자센터](https://developers.yes24.com/) |
 | `YES24_CHARTS_ENABLED` | web 운영의 예스24 순위 활성화. 상업 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `YES24_PURCHASE_ENABLED` | web 운영의 ISBN별 예스24 구매 링크 활성화. 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
-| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다** | 네이버 개발자센터 |
+| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다.** 운영 웹의 「오늘의 인물」 뉴스도 이 키로 부르므로 Oracle `/etc/feelandnote/web.env`에도 들어간다 — 빠지면 매일 0시 인물 수만큼 「네이버 API 키 미설정」이 저널에 쌓이고 뉴스 칸이 빈다 | 네이버 개발자센터 |
 | `LASTFM_API_KEY` | 음악 메타 보강 (web만. 없으면 조용히 건너뜀) | Last.fm API |
 | `TMDB_API_KEY` | 영화·드라마 | TMDB |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | 게임(IGDB는 트위치 인증을 쓴다) | Twitch 개발자 콘솔 |
@@ -144,7 +146,9 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
+| 웹 Cloudflare Tunnel 토큰 | Oracle 웹 VM `/etc/cloudflared/feelandnote-web.token` | Cloudflare의 웹 전용 터널에서 발급한다. root 소유 0600, 상위 디렉터리 0700으로 보관하고 `feelandnote-web-tunnel.service`의 `LoadCredential`·`--token-file`로 읽는다. 앱 환경변수·저장소·명령 인자에 값을 넣지 않는다. 유출 시 해당 터널의 토큰을 교체하고 이 파일을 갱신한 뒤 터널 서비스만 재시작한다 |
 | `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Oracle), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Oracle과 GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. 코드 배포 뒤에는 `cloudflare-purge.yml`을 필요한 범위로 수동 실행한다. 전체 존 퍼지는 `workflow_dispatch`의 `emergency-zone`과 정확한 확인문을 함께 입력한 경우에만 허용한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
+| `tistory_kakao_id` · `tistory_kakao_password` | **PostgreSQL Vault만** (`.env`에 두지 않는다) | 티스토리 「필앤노트 시네마」 발행용 카카오 계정. 전용 Chrome·어사이드의 카카오 세션이 만료돼 비밀번호를 요구할 때 사람이 꺼내 넣는다. 스크립트가 자동 입력하지 않는다. 유출 시 카카오 비밀번호를 바꾸고 Vault를 갱신한다 |
 | `CRON_SECRET` | web(Oracle), web-bo, **PostgreSQL Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·Vault를 함께 바꾼다(`external-services.md`「웹 캐시 무효화 단일 창구」) |
 
 오늘의 인물은 Oracle의 `feelandnote-today-figure.timer`가 매일 15:05 UTC(한국시각 0시 5분)에 `/api/cron/today-figure`를 호출한다.
@@ -204,6 +208,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 - **`.claude/skills/` 정션 재생성** — `.agents/skills/`를 가리키는 로컬 정션이라 복제로 따라오지 않는다. `.agents/link-skills.ps1`을 실행해 다시 만든다.
 - **안드로이드 서명 키** — `sw/android/keystore.properties`와 `*.jks`는 추적 제외 대상이며 현재 저장소 안에 실물이 없다(예시 파일만 있다). 앱 서명·출시 단계라면 서명 키를 보관처에서 따로 옮긴다.
 - **음성 작업 폴더** — 위 표의 `D:\audios\...`·`D:\GPT-SoVITS\...`는 저장소 밖 별도 설치물이다. 음성 학습·합성을 쓸 때만 필요하다.
+- **agy 다계정 풀** — `%USERPROFILE%\.antigravity-agent\` 폴더를 통째로 옮기고 `go install github.com/shyim/agm@latest`로 도구를 설치한다. `.mk`가 함께 가면 계정 재로그인 없이 토큰이 풀린다. 이관 뒤 `agm validate`로 확인한다. 폴더를 못 옮기면 폴더 안 `SETUP.md`의 B안(어사이드 볼트로 계정 재구축)을 따른다.
 
 ---
 
@@ -214,5 +219,6 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 3. ElevenLabs·Gemini·TMDB 등 → 각 콘솔에서 키 폐기 후 재발급
 4. 구글 서비스 계정 → 키 삭제 후 새 키 내려받아 `sw/web/credentials/ga-service-account.json` 교체
 5. 유튜브 OAuth → 구글 클라우드 콘솔에서 OAuth 클라이언트 비밀 재발급, `sw/remotion/credentials/client_secret.json` 교체 후 KO·EN 채널 토큰 재인증
+6. agy 계정 풀(`.antigravity-agent/`의 `.mk`+DB) → 각 구글 계정의 권한 설정(myaccount.google.com/permissions)에서 Antigravity 접근을 해지하고, 폴더를 폐기한 뒤 `agm login`으로 재등록
 
 과금이 붙는 것은 ElevenLabs다. 유출 시 여기부터 잠근다.
