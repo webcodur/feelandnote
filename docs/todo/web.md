@@ -7,7 +7,7 @@
 
 - **TMDB·IGDB 상업 이용:** 2026-09-27 `feelandnote@gmail.com`에서 TMDB(`sales@themoviedb.org`)에 상업 라이선스 조건·견적을 문의하고 IGDB(`partner@igdb.com`)에 무료 상업 파트너 등록을 요청했다. 두 메일 모두 발송을 확인했으며 회신 대기 중이다. 이용 승인·계약 체결은 완료되지 않았다.
   메일 제목은 각각 `Commercial API licensing inquiry — Feel&Note (South Korea)`, `Commercial partnership registration request — Feel&Note`다.
-  기존 검색·상세의 메타데이터·이미지 사용과 추가로 검토 중인 TMDB 영화·TV 트렌딩, IGDB 게임 인기 지표의 이용 조건을 물었다. 영상은 Apple 영화 스토어의 한국·미국 공개 차트로 연결했다. 게임은 PC·콘솔 우선이며 App Store 무료 게임 연결은 제거했다. 플랫폼별 플레이·다운로드·관심도는 서로 다른 지표이므로 근거 없이 종합 순위로 합치지 않는다. 이 변경은 로컬에 반영했으며 운영 배포는 아직 진행하지 않았다. 공식 신청 경로는 [외부 콘텐츠 검색 API](../project/platform/external-services.md#외부-콘텐츠-검색-api)를 따른다.
+  기존 검색·상세의 메타데이터·이미지 사용과 추가로 검토 중인 TMDB 영화·TV 트렌딩, IGDB 게임 인기 지표의 이용 조건을 물었다. 영상은 Apple 영화 스토어의 한국·미국 공개 차트로 연결했다. 게임은 PC·콘솔 우선이며 App Store 무료 게임 연결은 제거했다. 플랫폼별 플레이·다운로드·관심도는 서로 다른 지표이므로 근거 없이 종합 순위로 합치지 않는다. 공식 신청 경로는 [외부 콘텐츠 검색 API](../project/platform/external-services.md#외부-콘텐츠-검색-api)를 따른다.
 
 - 회원 기록 첫 화면은 현재 프로필만 서버에서 읽고 목록을 브라우저가 다시 조회한다.
   `sw/web/src/app/[locale]/(main)/[userId]/reading/page.tsx`에서 첫 페이지를 조회해
