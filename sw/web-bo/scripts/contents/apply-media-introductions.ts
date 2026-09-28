@@ -41,7 +41,7 @@ async function main() {
       const pending = batch.filter(({ input }) => {
         const row = current.find(r => r.content_id === input.content.id && r.locale === input.target.locale)
         if (!row) throw new Error(`Missing target: ${input.content.id}:${input.target.locale}`)
-        if (row.description?.trim()) { skipped++; return false }
+        if (row.description?.trim() && !input.replacesReason?.trim()) { skipped++; return false }
         return true
       })
       if (!pending.length) continue

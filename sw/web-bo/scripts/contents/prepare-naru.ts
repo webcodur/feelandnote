@@ -49,7 +49,10 @@ async function queryIsbn(isbn: string): Promise<any[] | null> {
     const j = await r.json().catch(() => null)
     const err = j?.response?.error || j?.response?.errCode
     if (err) {
-      if (/vitalization/i.test(String(err) + String(j?.response?.errCode ?? ''))) throw new Error('ACTIVATION: API key not activated yet')
+      const text = String(err) + String(j?.response?.errCode ?? '')
+      if (/vitalization/i.test(text)) throw new Error('ACTIVATION: API key not activated yet')
+      if (/해당하는 도서가 없|도서를 찾을 수 없/i.test(text)) { fs.writeFileSync(file, '[]'); return [] }
+      if (/쿼터|quota|한도|허용/i.test(text)) throw new Error('QUOTA: ' + String(err))
       throw new Error('API: ' + String(err))
     }
     const books = (j?.response?.detail ?? []).map((d: any) => d.book).filter(Boolean)
@@ -133,7 +136,7 @@ async function main() {
       }
     } catch (e) {
       const message = String(e instanceof Error ? e.message : e)
-      if (message.startsWith('ACTIVATION:') || message.startsWith('API:')) { console.log(JSON.stringify({ stop: 'auth', index, error: message })); break }
+      if (message.startsWith('ACTIVATION:') || message.startsWith('QUOTA:') || message.startsWith('API:')) { console.log(JSON.stringify({ stop: 'auth', index, error: message })); break }
       r.error = message; r.ready = false
       results.push(r)
       fs.writeFileSync(outFile, JSON.stringify(results, null, 2))

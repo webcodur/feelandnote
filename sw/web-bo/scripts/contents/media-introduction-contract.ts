@@ -2,7 +2,7 @@ import { forLocale } from '@feelandnote/content-search/book-introduction'
 import type { IntroductionRow } from './book-description-sources-contract'
 
 export interface ReviewedMediaIntroduction {
-  content: { id: string; type: 'VIDEO' | 'GAME' | 'MUSIC'; external_id: string; external_source: string | null }
+  content: { id: string; type: 'VIDEO' | 'GAME' | 'MUSIC'; external_id: string | null; external_source: string | null }
   target: IntroductionRow
   description: string
   /** null is allowed only for translations whose sibling source row records no description URL. */
@@ -10,12 +10,14 @@ export interface ReviewedMediaIntroduction {
   sourceLocale: 'ko' | 'en'
   method: 'provider' | 'translation'
   sourceText?: string
+  /** Required only when replacing a non-empty description judged to be a non-introduction. */
+  replacesReason?: string
   identityEvidence: Array<{ url: string; note: string }>
 }
 
 const PROVIDERS = {
-  VIDEO: new Set(['www.themoviedb.org']),
-  GAME: new Set(['www.igdb.com', 'store.steampowered.com']),
+  VIDEO: new Set(['www.themoviedb.org', 'en.wikipedia.org', 'ko.wikipedia.org', 'www.ted.com']),
+  GAME: new Set(['www.igdb.com', 'store.steampowered.com', 'en.wikipedia.org', 'ko.wikipedia.org', 'www.mmorpg.com']),
   MUSIC: new Set(['en.wikipedia.org', 'ko.wikipedia.org', 'www.last.fm']),
 }
 
@@ -37,15 +39,24 @@ export function mediaIntroductionText(value: string, locale: 'ko' | 'en'): strin
 export function prepareMediaIntroduction(input: ReviewedMediaIntroduction) {
   const { content, target } = input
   if (!PROVIDERS[content.type] || content.id !== target.content_id
-    || !content.external_id || content.external_source === undefined) throw new Error('Media identity mismatch')
+    || content.external_source === undefined) throw new Error('Media identity mismatch')
   // Legacy rows carry a provider-prefixed external_id with external_source null; the prefix still proves the provider.
+  // GAME rows with no external id at all may still take a Wikipedia source URL — identity then rests on evidence.
+  const wikiSource = !!input.sourceUrl && /\.wikipedia\.org$/.test(new URL(input.sourceUrl).hostname)
+  const tedSource = !!input.sourceUrl && new URL(input.sourceUrl).hostname === 'www.ted.com'
   if (content.external_source === null
-    && !(content.type === 'VIDEO' && content.external_id.startsWith('tmdb-'))) throw new Error('Media identity mismatch')
+    && !(content.type === 'VIDEO' && content.external_id?.startsWith('tmdb-'))
+    && !(wikiSource && ['GAME', 'VIDEO', 'MUSIC'].includes(content.type))
+    && !(tedSource && content.type === 'VIDEO')) throw new Error('Media identity mismatch')
+  if (!content.external_id && !(wikiSource && ['GAME', 'VIDEO', 'MUSIC'].includes(content.type))
+    && !(tedSource && content.type === 'VIDEO')) throw new Error('Media identity mismatch')
   if (!['ko', 'en'].includes(target.locale) || !['provider', 'translation'].includes(input.method)
     || (input.method === 'provider' && input.sourceLocale !== target.locale)
     || (input.method === 'translation' && (input.sourceLocale === target.locale || !input.sourceText
       || !mediaIntroductionText(input.sourceText, input.sourceLocale)))) throw new Error('Provider locale mismatch')
-  if (target.description?.trim()) throw new Error('Introduction is already filled')
+  // Filled rows are replaceable only when the plan carries a non-introduction justification —
+  // the CAS snapshot below still pins the previous value.
+  if (target.description?.trim() && !input.replacesReason?.trim()) throw new Error('Introduction is already filled')
   if (target.sources !== null && (typeof target.sources !== 'object' || Array.isArray(target.sources))) throw new Error('Invalid sources')
   const description = mediaIntroductionText(input.description, target.locale)
   if (!description || /<\/?[a-z][^>]*>/i.test(description)) throw new Error('Invalid introduction text')
@@ -57,11 +68,12 @@ export function prepareMediaIntroduction(input: ReviewedMediaIntroduction) {
     const steamLanguage = source.hostname === 'store.steampowered.com' && /^\?l=(koreana|english)$/.test(source.search)
     if (source.protocol !== 'https:' || source.username || source.password || source.port
       || (source.search && !steamLanguage) || source.hash || !PROVIDERS[content.type].has(source.hostname)) throw new Error('Unapproved source URL')
-    if (content.type === 'VIDEO') {
+    if (content.type === 'VIDEO' && source.hostname === 'www.themoviedb.org') {
       const id = /^tmdb-(movie|tv)-(\d+)$/.exec(content.external_id)
       if ((content.external_source !== 'tmdb' && content.external_source !== null) || !id || source.pathname !== `/${id[1]}/${id[2]}`) throw new Error('TMDB identity mismatch')
     }
-    if (content.type === 'GAME' && (content.external_source !== 'igdb' || !/^igdb-\d+$/.test(content.external_id))) throw new Error('IGDB identity mismatch')
+    if (content.type === 'GAME' && !wikiSource
+      && (content.external_source !== 'igdb' || !/^igdb-\d+$/.test(content.external_id))) throw new Error('IGDB identity mismatch')
     if (!input.identityEvidence?.length || input.identityEvidence.some(e => !e.note?.trim() || !/^https:\/\//.test(e.url))) throw new Error('Missing identity evidence')
   }
   const sources: Record<string, unknown> = { ...target.sources, description_method: input.method, description_source_locale: input.sourceLocale }
@@ -82,7 +94,7 @@ function mediaIntroductionStatement(input: ReviewedMediaIntroduction): string {
   const body = `DECLARE changed integer;
 BEGIN
 IF NOT EXISTS (SELECT 1 FROM public.contents WHERE id = ${literal(content.id)}
-  AND type = ${literal(content.type)} AND external_id = ${literal(content.external_id)}
+  AND type = ${literal(content.type)} AND external_id IS NOT DISTINCT FROM ${content.external_id === null ? 'NULL' : literal(content.external_id)}
   AND external_source IS NOT DISTINCT FROM ${content.external_source === null ? 'NULL' : literal(content.external_source)} FOR SHARE) THEN
   RAISE EXCEPTION 'Media identity changed concurrently';
 END IF;

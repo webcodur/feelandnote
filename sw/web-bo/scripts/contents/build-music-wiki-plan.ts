@@ -30,7 +30,8 @@ async function main() {
     const { data: rows, error } = await db.from('content_locales').select('*').eq('content_id', t.content.id)
     if (error) throw error
     const en = rows.find(x => x.locale === 'en'), ko = rows.find(x => x.locale === 'ko')
-    const enEmpty = !(en?.description?.trim()), koEmpty = !(ko?.description?.trim())
+    if (!en && !ko) continue
+    const enEmpty = !en || !(en.description?.trim()), koEmpty = !ko || !(ko.description?.trim())
     if (!enEmpty && !koEmpty) continue
 
     const isDisambig = (w: any) => !w || /동음이의/.test(w.title || '') || /다음과 같은 뜻이 있다/.test(w.extract || '') || /may refer to/i.test(w.extract || '')
@@ -44,12 +45,12 @@ async function main() {
     const via = r.wiki?.en ? 'Wikipedia' : 'Last.fm'
     const evidence = [{ url: enSource?.url || koSource!.url, note: `iTunes ${r.kind} "${name}" by "${artist}" matched ${via} page "${enSource?.title || koSource!.title}"; artist+title verified in extract` }]
 
-    if (enEmpty && enSource) {
+    if (en && enEmpty && enSource) {
       const desc = cutSentence(stripHtml(enSource.extract))
       const brackets = (desc.match(/\[[^\]]*\]/g) || []).join('').length
       if (desc.length >= 80 && brackets / desc.length < 0.3) plan.push({ content: t.content, target: en, description: desc, sourceUrl: enSource.url, sourceLocale: 'en', method: 'provider', identityEvidence: evidence })
     }
-    if (koEmpty) {
+    if (ko && koEmpty) {
       if (koSource) {
         const desc = cutSentence(stripHtml(koSource.extract))
         if (desc.length >= 80) plan.push({ content: t.content, target: ko, description: desc, sourceUrl: koSource.url, sourceLocale: 'ko', method: 'provider', identityEvidence: [{ url: koSource.url, note: `iTunes ${r.kind} "${name}" matched ko.wikipedia "${koSource.title}"` }] })

@@ -41,8 +41,9 @@ async function main() {
     for (const r of prepared.slice(0, limit)) {
       const { data: row, error } = await db.from('content_locales')
         .select('content_id,locale,title,creator,publisher,isbn,description,sources')
-        .eq('content_id', r.contentId).eq('locale', r.locale).single()
+        .eq('content_id', r.contentId).eq('locale', r.locale).maybeSingle()
       if (error) throw error
+      if (!row) { skipped++; log({ event: 'missing-row', contentId: r.contentId, locale: r.locale }); continue }
       if (row.description?.trim() || isBookIntroductionSource(row.description)) {
         skipped++; log({ event: 'already-filled', contentId: r.contentId, locale: r.locale }); continue
       }

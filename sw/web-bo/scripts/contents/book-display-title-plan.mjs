@@ -1,7 +1,7 @@
 /**
  * 표시용 제목 계획 — 요청 locale 행이 없는 BOOK에 agy로 표시 제목을 받아 locale-display-title.mjs 입력 JSON을 만든다.
  * 대상: 반대 언어의 실제 판본 행(sources.primary≠'none')만 있는 작품. 표시용 행뿐인 작품은 건너뛴다.
- * 표식: en은 romanized(한국 원작)·original(영어 원작·통용 영어 제목 없음)·translated(통용 영어 제목), ko는 translated·original.
+ * 표식: en은 translated(통용 영어 제목·번역 제목, 한국 원작의 기본값)·original(영어 원작·통용 영어 제목 없음)·romanized(영어권 관용이 음차를 유지하는 고유명사 제목만), ko는 translated·original.
  *
  * node --env-file=.env scripts/contents/book-display-title-plan.mjs --target en|ko [--backend agy|muse] [--limit N] [--per-call 1] [--concurrency 1] [--priority <ids.json>]
  * 산출: data/celeb/book-display-titles/plan-<target>.json (누적, 재실행 시 있는 id 건너뜀), targets-<target>.json(대상 캐시), failures.jsonl
@@ -73,7 +73,7 @@ async function loadTargets(db) {
 function prompt(items) {
   const rules = TARGET === 'en'
     ? `Target language: English. For each book decide:
-(1) Korean-origin work (Korean author, Korean-language title): give the Revised Romanization of the Korean title following National Institute of Korean Language rules, word-spaced, first letter capitalized (e.g. 홍길동전 → "Hong Gildong jeon"; 채식주의자 → "Chaesikjuuija"). kind = "romanized".
+(1) Korean-origin work (Korean author, Korean-language title): give an English title readers can understand. If a published English translation exists, use its published title exactly (e.g. 채식주의자 → "The Vegetarian"; 불편한 편의점 → "The Inconvenient Convenience Store"). Otherwise give a faithful, natural English rendering of the Korean title (e.g. 개교기념일 → "School Foundation Day"). kind = "translated". EXCEPTION: a title that is only a proper name, or a classic whose English-language convention keeps the romanized form (e.g. 홍길동전 → "Hong Gildong jeon"; Liezi), keeps the Revised Romanization, word-spaced, first letter capitalized. kind = "romanized". A bare romanization of a descriptive title is forbidden — it is a meaningless string to English readers.
 (2) Work originally written in English: give its original English title exactly. kind = "original".
 (3) Any other origin: if a commonly used English title exists (e.g. 이방인 by Albert Camus → "The Stranger"), give it, kind = "translated"; otherwise give the original-language title, kind = "original".`
     : `Target language: Korean. For each book give a natural Korean rendering of the title. If a Korean edition title is widely established, use that. kind = "translated". If the title is only a proper name that is not translated in Korean usage, give it as-is, kind = "original". kind must be "translated" or "original" only.`
