@@ -19,7 +19,6 @@
  *     "celeb": { "title": "...", "bio": "...", "title_en": "...", "bio_en": "...",
  *                   "profession": "commander", "nationality": "CN", "birth_date": "-154",
  *                   "death_date": "202", "speech_tone": "bold",
- *                   "cultural_journey": "...", "cultural_journey_en": "..." },
  *     "influence": { "political": 7, "political_exp": "...", "political_exp_en": "...", ... ,
  *                    "transhistoricity": 5, "transhistoricity_exp": "...", "transhistoricity_exp_en": "..." },
  *     "spectrum": { "abilities": { "command": { "score": 70, "reason_ko": "...", "reason_en": "..." }, ... },
@@ -81,7 +80,6 @@ const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSess
 const PROFILE_FIELDS = [
   'nickname', 'nickname_en', 'title', 'title_en', 'headline', 'headline_en', 'bio', 'bio_en', 'profession',
   'nationality', 'birth_date', 'death_date', 'gender', 'speech_tone',
-  'cultural_journey', 'cultural_journey_en',
 ] as const
 
 /** celebs의 boolean 전용 필드 (json → boolean 변환 필요) */
@@ -190,12 +188,21 @@ async function apply() {
   if (new Set(patchSlugs).size !== patchSlugs.length) throw new Error('패치에 중복 slug가 있다')
 
   const onlySlugsArg = argOf('only-slugs')
-  if (patches.some((patch) => patch.speech_research) && !onlySlugsArg) {
-    throw new Error('speech_research 배치는 --only-slugs로 담당 인물 전체를 잠가야 한다')
+  const onlySlugsFile = argOf('only-slugs-file')
+  if (onlySlugsArg && onlySlugsFile) throw new Error('--only-slugs와 --only-slugs-file은 함께 쓸 수 없다')
+  if (patches.some((patch) => patch.speech_research) && !onlySlugsArg && !onlySlugsFile) {
+    throw new Error('speech_research 배치는 --only-slugs 또는 --only-slugs-file로 담당 인물 전체를 잠가야 한다')
   }
-  if (replaceSpectrum && !onlySlugsArg) throw new Error('--replace-spectrum 은 --only-slugs 로 대상을 잠가야 한다')
-  if (onlySlugsArg) {
-    const onlySlugs = onlySlugsArg.split(',').map((slug) => slug.trim()).filter(Boolean)
+  if (replaceSpectrum && !onlySlugsArg && !onlySlugsFile) throw new Error('--replace-spectrum 은 실행 대상을 잠가야 한다')
+  if (onlySlugsArg || onlySlugsFile) {
+    const slugsFromFile: unknown = onlySlugsFile
+      ? JSON.parse(await readFile(path.resolve(onlySlugsFile), 'utf8'))
+      : undefined
+    if (onlySlugsFile && (!Array.isArray(slugsFromFile) || !slugsFromFile.every((slug) => typeof slug === 'string'))) {
+      throw new Error('--only-slugs-file은 slug 문자열의 JSON 배열이어야 한다')
+    }
+    const onlySlugs = (onlySlugsFile ? slugsFromFile as string[] : onlySlugsArg!.split(','))
+      .map((slug) => slug.trim()).filter(Boolean)
     if (onlySlugs.length === 0) throw new Error('--only-slugs가 비었다')
     if (new Set(onlySlugs).size !== onlySlugs.length) throw new Error('--only-slugs에 중복 slug가 있다')
     const actual = [...patchSlugs].sort()

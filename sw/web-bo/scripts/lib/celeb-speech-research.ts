@@ -2,11 +2,12 @@ import { createHash } from 'node:crypto'
 import {
   CELEB_DIALOGUE_SITUATIONS,
   CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
+  NO_VERIFIED_QUOTE_EN,
+  NO_VERIFIED_QUOTE_KO,
   type CelebDialogueSituation,
 } from '@feelandnote/shared/constants/celeb-speech'
 
-export const NO_VERIFIED_QUOTE_KO = '[확인된 어록이 없습니다]'
-export const NO_VERIFIED_QUOTE_EN = '[No verified quote]'
+export { NO_VERIFIED_QUOTE_KO, NO_VERIFIED_QUOTE_EN }
 
 /**
  * 대사 실행 규약의 SSoT. 문서는 이 상수를 가리키고 값을 복제하지 않는다.

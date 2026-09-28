@@ -21,6 +21,7 @@ import { fileURLToPath } from 'node:url'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { codexCall, looksRateLimited } from '../../../../../.claude/skills/codex-gpt/scripts/codex-call.mjs'
+import { HEADLINE_BAN } from './rules.mjs'
 
 // 외부 CLI(agy·codex·opencode·claude·kiro)는 사용자가 승인한 실행에서만 쓴다. 기본은 본 모델이 직접 수행한다(AGENTS.md 「데이터·외부 서비스」).
 if (!process.env.ALLOW_EXTERNAL_CLI) {
@@ -35,7 +36,7 @@ const TMP = path.join(ROOT, '.tmp/relay')
 const GUIDE = path.join(REPO, 'docs/project/celeb/celeb-01-02-profile-intro.md')
 const REVIEW_VERSION = 2
 const LANE_COUNT = 20
-const BAN = /(벼리|벼려|포개|변신가|결을 고르|비애|후광을 왕조)/
+const BAN = HEADLINE_BAN
 
 const argOf = (n) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : undefined }
 const L = (s) => [...s].length
@@ -167,7 +168,7 @@ async function runGen(targets, limit, concurrency) {
   await pool(todo, concurrency, async (t, i) => {
     for (let attempt = 1; attempt <= 2; attempt++) {
       try {
-        const text = await codexCall(genPrompt(t, guide))
+        const text = await codexCall(genPrompt(t, guide), { model: 'gpt-5.6-sol', effort: 'high' })
         const { ko, en } = validateGen(parseJson(text))
         writeFileSync(genPath(t), JSON.stringify({
           id: t.id, slug: t.slug, lane: t.lane, nickname: t.nickname, ideaPool: ko, englishPool: en,
@@ -198,6 +199,7 @@ ${guide}
 후보의 출처는 알려주지 않으며 묻지도 마라. 사실 → 「후보 — ${t.nickname ?? t.slug}」로 읽었을 때 한 덩어리 캐치프레이즈인가 → 그 인물에게만 붙는 고유성 → 자연스러운 현대 한국어(규칙이 금지한 표현·번역투·직역 전문용어는 탈락) → 짧기 순이다.
 사실이 틀렸거나 의심스러운 안은 탈락시켜라. 이력을 나열한 설명문과 직함·소속·배역을 그대로 옮긴 문구(「OO의 메인보컬」, 「작품명의 배역명」)는 진다. 30자가 넘는 안은 아주 뛰어날 때만 골라라.
 영어는 한국어와 따로 판정하되 영어 문장 자체의 자연스러움과 정확성으로 고르고, 90자가 넘는 안은 탈락시켜라.
+**조합 허용**: 어느 안도 그대로 둘 만하지 않은데 둘 이상의 장점을 합치거나 같은 사실로 다시 쓰면 명백히 나아질 때만 combined에 새 문장을 써라. combined도 같은 규격을 지킨다(한국어 12~28자·30자 절대 초과 금지, 영어 90자 이내, 금지 표현·수치 시작 금지). 후보 중 이미 좋은 것이 있으면 combined는 null로 두고 번호로 고르는 게 우선이다.
 
 ## 한국어 후보
 ${koList.map((c, i) => `${i + 1}. ${c}`).join('\n')}
@@ -206,7 +208,22 @@ ${koList.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 ${enList.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
 ## 출력 (이 JSON만)
-{"ko":{"winner":번호,"reason":"한 문장"},"en":{"winner":번호,"reason":"한 문장"}}`
+{"ko":{"winner":번호,"combined":"문장 또는 null","reason":"한 문장"},"en":{"winner":번호,"combined":"문장 또는 null","reason":"한 문장"}}`
+}
+
+/**
+ * 심사자가 combined를 내면 규격을 검사해 최종으로 쓰고, 못 쓰면 winner 번호로 되돌린다.
+ * combined가 기존 후보와 같은 문장이면 그 출처(current 등)를 따른다.
+ */
+function pickFinal(judge, list, lang) {
+  const w = list[Number(judge?.winner) - 1]
+  const combined = typeof judge?.combined === 'string' ? judge.combined.trim() : ''
+  if (!combined) return w
+  const ok = lang === 'ko'
+    ? L(combined) >= 6 && L(combined) <= 30 && !BAN.test(combined) && !/^\d/.test(combined)
+    : combined.length >= 10 && combined.length <= 90
+  if (!ok) return w
+  return list.find((x) => x.t === combined) ?? { t: combined, src: 'combined' }
 }
 
 async function runReview(targets, limit, concurrency) {
@@ -227,10 +244,10 @@ async function runReview(targets, limit, concurrency) {
     shuffle(ko, seedOf(t.slug)); shuffle(en, seedOf(t.slug + ':en'))
     for (let attempt = 1; attempt <= 2; attempt++) {
       try {
-        const text = await codexCall(reviewPrompt(t, guide, ko.map((x) => x.t), en.map((x) => x.t)))
+        const text = await codexCall(reviewPrompt(t, guide, ko.map((x) => x.t), en.map((x) => x.t)), { effort: 'high' })
         const j = parseJson(text)
-        const kw = ko[Number(j.ko?.winner) - 1]
-        const ew = en[Number(j.en?.winner) - 1]
+        const kw = pickFinal(j.ko, ko, 'ko')
+        const ew = pickFinal(j.en, en, 'en')
         if (!kw || !ew) throw new Error(`번호 범위 밖 ko=${j.ko?.winner} en=${j.en?.winner}`)
         const phase = kw.src === 'current' && ew.src === 'current' ? 'skip' : 'confirm'
         writeFileSync(reviewPath(t), JSON.stringify({

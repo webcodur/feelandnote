@@ -19,6 +19,7 @@
  *   pnpm celeb:audit:activation --status=all --skip-link-check
  */
 
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
@@ -198,7 +199,7 @@ async function checkUrl(sourceUrl: string): Promise<LinkResult> {
   try {
     const response = await fetch(sourceUrl, {
       redirect: 'follow',
-      headers: { 'user-agent': 'Mozilla/5.0 (compatible; FeelAndNoteActivationAudit/1.0)' },
+      headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' },
       signal: AbortSignal.timeout(LINK_TIMEOUT_MS),
     })
     await response.body?.cancel()
@@ -212,14 +213,40 @@ async function checkUrl(sourceUrl: string): Promise<LinkResult> {
   }
 }
 
+// fetch(봇) 실패와 실사용자 사망을 구분하기 위해 실브라우저 판정 원장을 둔다.
+// 값은 'alive' | 'dead' | 'err' 문자열 또는 { verdict } 객체.
+function loadBrowserVerdicts(): Map<string, string> {
+  const file = path.resolve(process.cwd(), '../../data/celeb/gap-fill/link-browser-verdict.json')
+  const map = new Map<string, string>()
+  try {
+    const raw = JSON.parse(readFileSync(file, 'utf8')) as Record<string, unknown>
+    for (const [url, value] of Object.entries(raw)) {
+      const verdict = typeof value === 'string' ? value : (value as { verdict?: string })?.verdict
+      if (verdict) map.set(url, verdict)
+    }
+  } catch {
+    // 원장이 없으면 fetch 판정만으로 진행한다.
+  }
+  return map
+}
+
 async function checkUrls(urls: string[]): Promise<Map<string, LinkResult>> {
   const result = new Map<string, LinkResult>()
   const unique = [...new Set(urls)]
+  const browserVerdicts = loadBrowserVerdicts()
   let nextProgress = 60
   console.error(`출처 링크 검사 시작: ${unique.length}개`)
   for (let index = 0; index < unique.length; index += LINK_CONCURRENCY) {
     const group = unique.slice(index, index + LINK_CONCURRENCY)
-    const checked = await Promise.all(group.map(async (sourceUrl) => [sourceUrl, await checkUrl(sourceUrl)] as const))
+    const checked = await Promise.all(
+      group.map(async (sourceUrl) => {
+        const state = await checkUrl(sourceUrl)
+        // fetch 실패가 봇차단·레이트리밋인지 실사망인지 구분할 수 없으므로,
+        // 실브라우저 판정이 'alive'인 URL만 통과시킨다. 판정이 없거나 dead/err이면 실패로 둔다.
+        if (!state.ok && browserVerdicts.get(sourceUrl) === 'alive') return [sourceUrl, { ok: true, status: state.status }] as const
+        return [sourceUrl, state] as const
+      }),
+    )
     for (const [sourceUrl, state] of checked) result.set(sourceUrl, state)
     const completed = Math.min(index + group.length, unique.length)
     if (completed >= nextProgress || completed === unique.length) {
