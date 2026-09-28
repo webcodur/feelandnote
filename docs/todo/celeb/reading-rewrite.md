@@ -25,14 +25,17 @@
 
 ## 진행
 
-- 샘플 6명과 chunk-0001~0026(156명)을 반영·게시했다. pass 판정은 2건(achilles, lee-hoe-yeong)뿐이고
-  나머지는 전부 재작성했다. 음성은 run 폴더에서 네 번째 배치가 돌고 있다.
-- 음성 보류(held) 6건: jamie-dimon/en, ernest-hemingway/ko, celine-dion/ko, mark-zuckerberg/en,
-  scott-adkins/ko, arnold-schoenberg/ko. 새 run 폴더에서 다시 만든다.
+- 샘플 6명과 chunk-0001~0040(240명)을 반영·게시했다. pass 판정은 3건(achilles, lee-hoe-yeong,
+  sara-blakely)뿐이고 나머지는 전부 재작성했다. 음성은 run 폴더에서 배치를 이어 돌리고 있다.
+- 보류(hold) 1건: j.k.-rowling. 프로필 이름 「J.K. 롤링」이 점 약어 금지 규칙에 걸려 첫 문장을 규격대로
+  쓸 수 없다. 프로필 이름을 바꿀지(예: 제이케이 롤링) 사용자 결정이 필요하다.
+- 음성 보류(held) 10건: jamie-dimon/en, ernest-hemingway/ko, celine-dion/ko, mark-zuckerberg/en,
+  scott-adkins/ko, arnold-schoenberg/ko, peter-thiel/en, rachel-weisz/en, gilles-deleuze/en,
+  sara-blakely/en. 새 run 폴더에서 다시 만든다.
 - 서브에이전트 작업자는 호출 제한에 자주 걸려(동시 1개도 거절되는 때가 많다) 대부분 본 세션이 직접 쓴다.
 
 ## 다음
 
-1. chunk-0027부터 이어 간다. 서브에이전트는 제한이 풀릴 때 한 번에 1개, 2~3묶음씩 맡긴다.
+1. chunk-0041부터 이어 간다. 서브에이전트는 제한이 풀릴 때 한 번에 1개, 2~3묶음씩 맡긴다.
 2. 음성 배치가 끝날 때마다 큐를 다시 만들어 이어 돌린다. 보류(held)분은 새 run 폴더에서 다시 만든다.
 3. 끝나면 규칙 변경분이 룰북에 있는지 확인하고 이 문서와 README 줄, 임시 폴더를 지운다.
