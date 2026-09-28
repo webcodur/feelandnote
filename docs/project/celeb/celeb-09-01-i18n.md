@@ -43,14 +43,14 @@
 
 | 대상 | 보완값 |
 |---|---|
-| `celebs` | `title_en`, `bio_en`, 기존 감상 여정 호환값의 영문 결손 |
+| `celebs` | `title_en`, `bio_en` |
 | `celeb_persona.persona` | `rationale_en` |
 | `faction_members` | `short_desc_en`, `long_desc_en` |
 | `celeb_contents` | `review_en` |
 | `celeb_relations` | `note_en` |
 | `celeb_relations_external` | `name_en`; QID의 공식 영문 라벨을 우선 사용 |
 
-기존 감상 여정 값은 호환을 위해 보존·보완할 뿐 새 프로필에서 생성하지 않는다. 이 백필은 영향력 설명, 대사, 인물 안내, 연표, fiction 원전 설명을 처리하지 않는다. 해당 값은 위 책임 문서의 작업으로 작성한다.
+이 백필은 영향력 설명, 대사, 인물 안내, 연표, fiction 원전 설명을 처리하지 않는다. 해당 값은 위 책임 문서의 작업으로 작성한다.
 
 기본 실행은 DB를 바꾸지 않는 dry-run이다.
 

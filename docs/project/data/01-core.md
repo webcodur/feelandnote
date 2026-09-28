@@ -40,7 +40,7 @@
 ## 공통 시스템
 
 - `activity_logs`: 서비스 활동 로그
-- `api_keys`·`api_key_usage`: API 키와 사용량
+- `api_keys`·`api_key_usage`: 폐기된 백오피스 API 키 시스템의 잔존 테이블. 코드에서 더 읽지 않는다(26.09.18). 삭제는 사용자 지시가 있을 때 한다
 - `daily_figures`: 오늘의 인물 편성
 - `tier_lists`·`blind_game_scores`: 게임 저장값
 

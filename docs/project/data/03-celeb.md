@@ -16,9 +16,9 @@
 | 이미지 | `avatar_url`, `portrait_url`, `portrait_caption(_en)`, `awakened_image_url` | [`celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md) |
 | 발화·음성 | `speech_tone`, `has_voice`, `voice_id_ko`, `voice_id_en`, `voice_v`, `voice_speed` | [`celeb-04-01-speech.md`](../celeb/celeb-04-01-speech.md) · `celeb-dialogue-voice-publish` 스킬 |
 | 가상독백 | `virtual_monologue(_en)`, `virtual_monologue_locked_at` | [`celeb-04-03-virtual-monologue.md`](../celeb/celeb-04-03-virtual-monologue.md) |
-| 보존값 | `cultural_journey(_en)` | 신규 기본 트랙에서 만들지 않으며 기존값만 보존 |
+| 레거시 보관값 | `cultural_journey(_en)`, `consumption_philosophy(_en)` | DB에 남아 있으나 서비스에서 읽거나 쓰지 않음 |
 
-`birth_date`와 `death_date`는 기원전 음수 표기와 연도만 있는 값을 담기 위해 `text`다. `slug`는 `nickname_en`과 선택적인 `slug_suffix`에서 계산되는 열이므로 직접 쓰지 않는다. 영문 이름을 바꾸면 공개 URL도 바뀐다.
+`birth_date`와 `death_date`는 기원전 음수 표기와 연도만 있는 값을 담기 위해 `text`다. 사망 기록 없음은 `null`과 `''` 두 표기가 섞여 있어 생존 판정은 `nullif(death_date, '') is null`로 한다. `slug`는 `nickname_en`과 선택적인 `slug_suffix`에서 계산되는 열이므로 직접 쓰지 않는다. 영문 이름을 바꾸면 공개 URL도 바뀐다.
 
 ### 허용값 SSoT
 
@@ -46,7 +46,7 @@
 
 `celeb_persona`를 갱신할 때는 `persona` JSONB를 쓴다. 평면 점수만 바꾸면 원본과 어긋난다. `celeb_dialogues.lines.quote`와 `lines_en.quote`가 한마디의 유일한 저장소이며, 갱신은 다른 대사 키를 보존하는 `set_celeb_quote` RPC를 사용한다.
 
-`celeb_explanations.plain_text(_en)`가 현재 화면의 인물 안내다. `published_at`이 게시 여부를, `review_status`가 검수 상태를 나타낸다. `interpretive_*`는 화면에서 닫힌 보존값이다.
+`celeb_explanations.plain_text(_en)`가 현재 화면의 인물 안내다. `published_at`이 게시 여부를 나타내며, 인물 비활성화 시 DB가 비공개로 전환한다. `interpretive_*`는 화면에서 닫힌 보존값이다.
 
 ## 여러 행을 갖는 인물 데이터
 

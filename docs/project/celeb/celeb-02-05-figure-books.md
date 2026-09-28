@@ -23,11 +23,11 @@
 | │ └ 판본 | Edition | `figure_book_editions` | 언어·역자·출판사·ISBN이 다른 실제 책 한 종 |
 | │ 　 └ 상품 | Product | `figure_book_products` | 판본의 판매 링크. 쿠팡(ko) · 아마존(en). 활성 상품 Active product는 판본·플랫폼당 하나 |
 | └ 관계 | Relation | `figure_book_characters` | 인물 ↔ 작품을 잇는 줄 |
-| 　 ├ 등장 | Appearance | `relation_type = appearance` | 인물이 본문에 나오거나 그 인물을 직접 다루는 관계. 화면의 「연관 작품」 구획에 뜨며 설명은 달지 않는다 |
+| 　 ├ 등장 | Appearance | `relation_type = appearance` | 인물이 본문에 나오거나 그 인물을 직접 다루는 관계. 화면의 「참고도서」 구획 「등장」 모드에 뜨며 설명은 달지 않는다 |
 | 　 ├ 연관 | Related | `relation_type = related` | **폐기**(26.09.17). 등장·직접 다룸은 전부 `appearance`로 통합했고 잔여 행은 없다. 새로 배정하지 않는다 |
 | 　 └ 창작 | Creation | `relation_type = authored` | 인물이 쓴 작품. 설명 없음. 위키데이터 P50·P170·P800이 근거다 |
 
-- **화면 구획 이름은 관계명 + 작품**으로만 만든다: 연관 작품 Related Works · 창작 작품 Created Works. 인물 화면은 등장을 단정하지 않기로 해(26.09.07) 「연관 작품」 한 구획에 보여 주고, 관계 유형 라벨은 백오피스와 목록 표기에만 쓴다. `related`는 26.09.17에 폐기해 코드상 남아 있어도 행은 없다. 인물 화면 아래 구매 구획은 연관 작품의 상품에 추천 도서(원전·읽은 책·직군·인기를 순서대로 섞어 채움)를 이어 붙인 구획으로 「참고도서 Reference Books」라 부른다. 책의 종류가 갈리는 자리마다 세로 구분선이 서고 누르면 좌우 구간을 설명한다(`AffiliateBookList`의 `groups`).
+- **화면 구획 이름은 관계명 + 작품**으로만 만든다: 연관 작품 Related Works · 창작 작품 Created Works. 인물 화면은 등장을 단정하지 않기로 해(26.09.07) 연관 작품을 한 곳에 보여 주고, 관계 유형 라벨은 백오피스와 목록 표기에만 쓴다. `related`는 26.09.17에 폐기해 코드상 남아 있어도 행은 없다. 인물 화면의 도서 구획은 「참고도서 Reference Books」 하나다 — 인물과 책의 관계로 모드 탭을 나눈다: 「등장」(appearance·related 작품 목록+상세) · 「감상」(감상 기록의 책 상품 선반, 가로 레일 + 「더 보기」 페이지잉) · 「집필」(authored 작품 목록+상세) · 「추천」(직군·인기 추천, 「더 보기」로 다음 묶음을 이어 붙이는 지연 로드). 자료가 있는 모드만 탭에 서고 기본은 앞쪽 모드다. 모드 헤더엔 그 모드가 어떤 책을 모았는지 한 줄 안내를 둔다(네 모드 모두). 감상·추천 선반의 「더 보기」는 같은 이어붙이기 방식이다 — 누를 때마다 다음 묶음을 레일 뒤에 덧붙인다. 등장·집필은 목록 전체를 받아 오므로 버튼이 없다. 상품 선반 카드가 갈리는 자리에는 세로 구분선이 서고 누르면 좌우 구간을 설명한다(`AffiliateBookList`의 `groups`).
 - 없앤 말: 등장 도서·연관 도서 → 등장 작품·연관 작품, 책장 → 인물 도서, 원전 → 등장 작품, 저작(인물 본인 것) → 창작, 관련 상품·관련 도서 → 연관 작품, 서지 → 책 정보.
 - 감상·서재·감상록은 이용 기록 영역의 말이라 여기서 쓰지 않는다.
 
@@ -43,7 +43,7 @@
 | 번역서 원작 확인 | Original-work identification | `translated-original-work` | 국내서로 굳은 번역서의 원제·원저자·영문판을 찾아 정체성을 원작으로 바꾸고 영문 언어 카드·판본을 붙인다 |
 | 중복 작품 통합 | Duplicate work merge | `merge-works` | 같은 저작이 두 행이면 관계·판본·언어 카드·감상 기록을 한 행으로 옮기고 나머지를 지운다 |
 | 미완성 작품 복구 | Incomplete work recovery | `wikidata-works-match --repair` | 반영이 끊겨 언어 카드 없이 남은 작품 행을 채우거나 지운다 |
-| 잘못 붙은 영문 카드 제거 | Removing wrongly attached English cards | `wikidata-works-match --repair` · `en-locale-audit` | 비영어 판본이 영문 카드로 들어간 것, 해설서에 원전의 영문 카드가 붙은 것을 뗀다 |
+| 잘못 붙은 영문 카드 제거 | Removing wrongly attached English cards | `wikidata-works-match --repair` · `en-locale-audit` | 비영어 판본이 영문 카드로 들어간 것, 해설서에 원전의 영문 카드가 붙은 것을 뗀다. `--repair`는 지우지 않고 표시용 제목 행 전환 계획(`en-display-title-plan.json`)을 써서 `locale-display-title`에 넘긴다 |
 
 ## 작품 기준 폐기(26.09.07)
 
@@ -112,11 +112,13 @@
 |---|---|
 | `appearance` | 등장 — 인물이 본문에 실제 등장하거나 그 인물을 직접 다루는 작품. 중심 대상인지는 따지지 않는다 |
 | `related` | 폐기(26.09.17) — 인물이 나오거나 직접 다루는 책의 자리를 `appearance`가 흡수했다. 잔여 행 없음 |
-| `authored` | 창작 — 인물이 쓴 작품. 위키데이터 작품 항목(P50·P800·P170)을 들여올 때 `wikidata-works-match.mjs`가 만들고, 같은 쌍이 `related`로 남아 있으면 `authored`로 올린다 |
+| `authored` | 창작 — 인물이 쓴 작품. 위키데이터 작품 항목(P50·P800·P170)을 들여올 때 `wikidata-works-match.mjs`가 만들고, 같은 쌍이 `related`·`appearance`로 남아 있으면 `authored`로 올린다(`mark-authored-relations.mjs`가 이름 표기 검수 뒤 승격) |
 
-창작을 저자 이름 비교로 가르던 방식(`related` + 저자 표기 일치)은 푸시킨/푸쉬킨·Mao Zedong/Mao Tse-tung 같은 표기 변형마다 어긋나 DB 값으로 확정했다(마이그레이션 `20260907010000_add_authored_relation_type`). 인물 화면은 `appearance`(코드상 `related`도 읽지만 잔여 없음)를 중단 「연관작품」에 표시하며, 직접 등장 도서가 없어도 간접 연관 도서만으로 구획을 연다. `authored`는 「창작」 탭 앞에 표시하고 위키데이터의 나머지 창작이 뒤에 이어진다(`sw/web/src/lib/celeb/authoredBooks.ts`). 하단 「참고도서」는 별도 구매 구획으로 유지한다. 두 구획 모두 절판 표식(`sources.availability='out_of_print'`)이 붙은 작품을 뒤로 보내며, 페이지 제목과 구조화 데이터는 저장 순서를 그대로 쓴다. 감상 기록이 없어도 표시한다. 관련성이 약해 보인다는 이유로 창작 관계를 지우지 않는다.
+창작을 저자 이름 비교로 가르던 방식(`related` + 저자 표기 일치)은 푸시킨/푸쉬킨·Mao Zedong/Mao Tse-tung 같은 표기 변형마다 어긋나 DB 값으로 확정했다(마이그레이션 `20260907010000_add_authored_relation_type`). 인물 화면은 `appearance`(코드상 `related`도 읽지만 잔여 없음)를 「참고도서」 구획의 「등장」 모드에 표시하며, 직접 등장 도서가 없어도 간접 연관 도서만으로 목록을 연다. `authored`는 「집필」 모드에 표시한다(`sw/web/src/lib/celeb/authoredBooks.ts`). 「참고도서」는 인물과 책의 관계로 네 모드(등장·감상·집필·추천)를 탭으로 나눈 한 구획이다. 작품 목록은 요청 언어의 실제 판본이 있는 작품만 세우며, 미번역본은 어떤 화면에도 보여 주지 않는다(이전에는 EN에서 관계와 `Untranslated` 표시를 남겼으나 폐기). 절판 작품도 모든 모드에서 숨긴다 — 작품 목록과 상품 선반 모두 살 수 없는 책은 세우지 않는다. 페이지 제목과 구조화 데이터는 저장 순서를 그대로 쓴다. 감상 기록이 없어도 표시한다. 관련성이 약해 보인다는 이유로 창작 관계를 지우지 않는다.
 
 `origin`·`adaptation`은 더 사용하지 않는다. 최초 저작인지 각색인지와 관계없이 인물이 실제로 나오면 `appearance`다.
+
+인물이 쓴 작품은 본인이 본문에도 나오더라도 `authored` 하나로 둔다. `(celeb_id, content_id)` 한 쌍은 관계 하나만 가지므로, 자서전·회고록처럼 「인물이 쓴 작품」과 「인물이 나오는 작품」 둘 다를 만족하면 `authored`가 이긴다(26.09.26, 리드 헤이스팅스 『규칙 없음』 사고로 확정). 등장 후보 조사가 본인 저서를 낚아올리면 `appearance`로 두지 말고 `authored`로 돌린다. 저자 표기 일치는 후보 생성일 뿐 확정이 아니다 — 공저·편저·서문만 쓴 책·동명이인은 건별 검수로 가린다.
 
 ## 등장 설명
 

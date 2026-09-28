@@ -25,7 +25,7 @@
 |---|---|---|
 | 00 | 두 축 분기와 공개 경계 | [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](celeb-00-02-publication.md) |
 | 01 | 기본 프로필 | [`celeb-01-00-profile.md`](celeb-01-00-profile.md) · [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) · [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) · [`celeb-01-03-title.md`](celeb-01-03-title.md) |
-| 02 | 감상 콘텐츠와 인물 도서 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) · [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) · [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) · [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) |
+| 02 | 감상 콘텐츠와 인물 도서 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) · [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) · [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) · [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) · [`celeb-02-06-content-introduction-sources.md`](celeb-02-06-content-introduction-sources.md) |
 | 03 | 영향력·스펙트럼 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
 | 04 | 말투·한마디·상황 대사·가상독백 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md) · [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) · [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |
 | 05 | 읽어보기 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |
@@ -36,6 +36,6 @@
 
 특집 수준의 인물별 조사 정리는 [`featured-people/README.md`](featured-people/README.md)에서 관리한다.
 
-세력도감 소속·편집은 [`../apps/web-bo.md`](../apps/web-bo.md) 「세력도감」, BookRecommend 연결은 [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)가 쥔다. 대사 음원은 `celeb-dialogue-voice-publish` 스킬, 아바타 등록은 `celeb-avatar-register` 스킬을 실행점으로 삼는다.
+세력도감 소속·편집은 [`../apps/web-bo.md`](../apps/web-bo.md) 「세력도감」, BookRecommend 연결은 [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)가 쥔다. 대사 음원은 `celeb-dialogue-voice-publish` 스킬, 아바타 등록은 `celeb-avatar-register`, 등록된 아바타의 구도 통일은 `celeb-avatar-reframe` 스킬을 실행점으로 삼는다.
 
 조회수·방명록·캐시·팔로우 수는 제작 데이터가 아니라 런타임 값이므로 데이터 문서와 서비스 코드에서 관리한다. 남은 유한 작업은 [`../../todo/celeb/`](../../todo/celeb/README.md)에만 두며 진행 건수와 완료 회차를 이 디렉터리에 기록하지 않는다.
