@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import CelebForm from '../../members/components/CelebForm'
+import { LangModeProvider } from '@/contexts/LangModeContext'
 
 export const metadata: Metadata = {
   title: '셀럽 추가',
@@ -21,8 +22,10 @@ export default function NewCelebPage() {
         </div>
       </div>
 
-      {/* Form */}
-      <CelebForm mode="create" />
+      {/* Form — 등록에는 영문 이름(slug 원천)이 필수라 한영 칸을 함께 보인다 */}
+      <LangModeProvider initialMode="both">
+        <CelebForm mode="create" />
+      </LangModeProvider>
     </div>
   )
 }

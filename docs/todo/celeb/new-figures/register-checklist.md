@@ -5,9 +5,9 @@
 ## 인물 1명당
 
 1. **레코드 꺼내기**: `data/celeb/new-figures/<분야>.json`에서 `nickname`으로 레코드를 찾는다. `status`가 `registered`면 이미 등록된 것 — 중복 발주 금지.
-2. **중복 재확인**: `pnpm --dir sw/web-bo celeb:dup-check --nickname <이름> --en <영문> --birth <생일> --death <기일>`에 본명·결혼 전 성·다른 로마자 표기를 `--alias`로 붙여 돌린다. 「같은 사람 의심」이면 등록하지 않는다. 기준은 `celeb-00-01-pipeline.md` 「중복 확인」이다.
+2. **중복 재확인**: 등록 폼에 이름·영문 이름·생몰일과 본명·결혼 전 성·다른 로마자 표기(「다른 이름」 칸)를 넣으면 폼이 같은 사람 후보를 보여 준다. 「같은 사람 의심」이면 저장이 막히므로 등록하지 않는다. 폼 밖에서는 `pnpm --dir sw/web-bo celeb:dup-check`로 본다. 기준은 `celeb-00-01-pipeline.md` 「중복 확인」이다.
 3. **팩트체크**: `bio`의 날짜·직업·핵심 일화를 독립 사료와 대조한다. 검증이 안 된 일화는 문장을 빼거나 「전해진다」를 유지한다. `is_verified`는 등록 시 항상 `false`.
-4. **필드 매핑**: 레코드를 `createCeleb` 입력 계약(nickname, nickname_en, profession, nationality, gender, birth_date, death_date, bio, bio_en, title, title_en, headline, headline_en, is_verified)에 맞춘다. slug·uuid는 등록 경로가 만들므로 손대지 않는다. `aliases`·`wikidata_qid`는 화면에 칸이 없으므로 등록 뒤 DB에 넣는다(일괄 경로 `celeb:seed:inactive`는 레코드 값을 함께 싣는다).
+4. **필드 매핑**: 레코드를 `createCeleb` 입력 계약(nickname, nickname_en, profession, nationality, gender, birth_date, death_date, bio, bio_en, title, title_en, headline, headline_en, is_verified)에 맞춘다. slug·uuid는 등록 경로가 만들므로 손대지 않는다. `aliases`는 폼의 「다른 이름」 칸에 한 줄씩 넣는다. `wikidata_qid`는 폼에 칸이 없어 등록 뒤 DB에 넣는다(일괄 경로 `celeb:seed:inactive`는 두 값을 함께 싣는다).
 5. **등록**: web-bo `/celebs/new`의 `createCeleb`로 생성한다. 신규 인물은 `celeb_tier='light'`·`publication_status='inactive'`가 기본이고 `celeb_reality`는 레코드 값(대부분 `REAL`)을 넣는다.
 6. **원장 갱신**: 레코드에 `status: "registered"`와 반환된 `celeb_id`·`slug`를 써 넣는다.
 7. **후속(등록과 별개)**: 공개하려면 아바타(`celeb-avatar-register` 스킬)와 첫 `celeb_contents` 행이 필요하다. 익명·신원불명 인물(뱅크시·디비 쿠퍼·철가면의 사내)은 `faction-image` 스킬의 익명 규칙을 먼저 확인한다.

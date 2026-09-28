@@ -108,6 +108,8 @@ export interface Member {
   birth_date?: string | null
   death_date?: string | null
   nickname_en?: string | null
+  /** 다른 이름(검색·구조화 데이터 전용) */
+  aliases?: string[]
   title_en?: string | null
   headline?: string | null
   headline_en?: string | null
@@ -338,6 +340,7 @@ async function celebProfileToMember(data: any): Promise<Member> {
     birth_date: data.birth_date,
     death_date: data.death_date,
     nickname_en: data.nickname_en ?? null,
+    aliases: data.aliases ?? [],
     title_en: data.title_en ?? null,
     headline: data.headline ?? null,
     headline_en: data.headline_en ?? null,

@@ -27,12 +27,15 @@ import {
 import FormattedText from '@/components/ui/FormattedText'
 import { useLangMode, type LangMode } from '@/contexts/LangModeContext'
 import { persistCroppedCelebImage } from './persistCroppedCelebImage'
+import CelebIdentityPanel, { parseAliasLines, type CelebIdentityValues } from './CelebIdentityPanel'
 import CelebDetailHeader from '../../celebs/[slug]/CelebDetailHeader'
 
 // #region Types
 interface CelebFormData {
   nickname: string
   nickname_en: string
+  /** 다른 이름. 한 줄에 하나 */
+  aliases: string
   profession: string
   title: string
   title_en: string
@@ -110,6 +113,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
   return {
     nickname: celeb?.nickname || '',
     nickname_en: celeb?.nickname_en || '',
+    aliases: (celeb?.aliases ?? []).join('\n'),
     profession: celeb?.profession || '',
     title: celeb?.title || '',
     title_en: celeb?.title_en || '',
@@ -130,6 +134,19 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
     // 실존 축은 티어와 독립이다. 새 인물은 별도 판단이 없으면 실존 인물로 본다
     celeb_reality: (celeb?.celeb_reality as 'REAL' | 'BOTH' | 'FICTION') || 'REAL',
+  }
+}
+
+/** 중복·규칙 미리보기가 보는 칸만 뽑는다 */
+function identityValues(data: CelebFormData): CelebIdentityValues {
+  return {
+    nickname: data.nickname,
+    nickname_en: data.nickname_en,
+    aliases: data.aliases,
+    birth_date: data.birth_date,
+    death_date: data.death_date,
+    title: data.title,
+    title_en: data.title_en,
   }
 }
 
@@ -495,6 +512,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         const result = await createCeleb({
           nickname: formData.nickname.trim(),
           nickname_en: formData.nickname_en || undefined,
+          aliases: parseAliasLines(formData.aliases),
           profession: formData.profession || undefined,
           title: formData.title || undefined,
           nationality: formData.nationality || undefined,
@@ -565,6 +583,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           id: celeb.id,
           nickname: formData.nickname.trim(),
           nickname_en: formData.nickname_en,
+          aliases: parseAliasLines(formData.aliases),
           profession: formData.profession || undefined,
           title: formData.title || undefined,
           title_en: formData.title_en,
@@ -739,6 +758,25 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
               ko={<input type="text" id="nickname" required value={formData.nickname} onChange={(e) => handleChange('nickname', e.target.value)} placeholder="셀럽 닉네임" className={INPUT_CLS} />}
               en={<input type="text" id="nickname_en" value={formData.nickname_en} onChange={(e) => handleChange('nickname_en', e.target.value)} placeholder="EN: English name" className={INPUT_EN_CLS} />}
             />
+
+            <label htmlFor="aliases" className="text-xs font-medium text-text-secondary self-start pt-1">다른 이름</label>
+            <textarea
+              id="aliases"
+              rows={2}
+              value={formData.aliases}
+              onChange={(e) => handleChange('aliases', e.target.value)}
+              placeholder="한 줄에 하나 — 본명·예명·호·한자 독음·영어권 이름. 검색과 구조화 데이터에만 쓰이고 화면에는 보이지 않는다"
+              className={TEXTAREA_CLS}
+            />
+
+            <div className="col-start-2">
+              <CelebIdentityPanel
+                mode={mode}
+                celebId={celeb?.id}
+                values={identityValues(formData)}
+                initialValues={identityValues(initialFormData.current)}
+              />
+            </div>
 
             <label htmlFor="profession" className="text-xs font-medium text-text-secondary">직군</label>
             <select id="profession" value={formData.profession} onChange={(e) => handleChange('profession', e.target.value)} className="px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none">

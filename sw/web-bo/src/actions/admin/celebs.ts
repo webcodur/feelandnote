@@ -19,6 +19,14 @@ import {
 } from '@feelandnote/shared/constants/celeb-publication'
 import { requireAdmin } from '@/lib/admin-auth'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '@/lib/celeb-slug'
+import { cleanCelebAliases, findCelebDuplicates, type CelebIdentityIssue } from '@feelandnote/shared/lib/celeb-identity'
+import {
+  assertCelebIdentityRules,
+  celebIdentityIssuesFor,
+  duplicateMessage,
+  loadCelebIdentityRows,
+  strongCelebDuplicates,
+} from '@/lib/celeb-identity-guard'
 import {
   CELEB_LIST_BLOCK_SIZE,
   getCelebCreatedAtBounds,
@@ -85,6 +93,8 @@ interface GetCelebsParams extends CelebColumnFilters {
 interface CreateCelebInput {
   nickname: string
   nickname_en?: string
+  /** 다른 이름(검색 전용). 기준은 celeb-01-01-profile-facts.md 「다른 이름」 */
+  aliases?: string[]
   profession?: string
   title?: string
   nationality?: string
@@ -105,6 +115,8 @@ interface UpdateCelebInput {
   id: string
   nickname?: string
   nickname_en?: string
+  /** 다른 이름 전체. 넘기면 통째로 바꾼다 */
+  aliases?: string[]
   profession?: string
   title?: string
   title_en?: string
@@ -844,6 +856,15 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
   if (existingName?.length || existingNameEn?.length) {
     throw new Error('이미 동일한 이름의 셀럽이 존재합니다.')
   }
+
+  // 이름·수식어 규칙과 같은 사람(위키데이터 번호·생몰일·이름·다른 이름) 확인 — celeb-00-01-pipeline.md 「중복 확인」
+  assertCelebIdentityRules({ nickname, nickname_en: nicknameEn, title: input.title ?? null })
+  const aliases = cleanCelebAliases(input.aliases, { nickname, nickname_en: nicknameEn })
+  const sameProfiles = strongCelebDuplicates(
+    { nickname, nickname_en: nicknameEn, aliases, birth_date: input.birth_date, death_date: input.death_date },
+    await loadCelebIdentityRows(adminClient),
+  )
+  if (sameProfiles.length) throw new Error(duplicateMessage(sameProfiles))
   const occupied = new Set((slugRows ?? []).flatMap(row => row.slug ? [row.slug as string] : []))
   let slugSuffix: string | null = null
   if (occupied.has(baseSlug)) {
@@ -868,6 +889,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         nickname,
         nickname_en: nicknameEn,
         slug_suffix: slugSuffix,
+        aliases,
         profession: input.profession || null,
         title: input.title || null,
         nationality: input.nationality || null,
@@ -940,6 +962,57 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 
 // #endregion
 
+// #region checkCelebIdentity - 등록·이름 수정 화면의 중복·규칙 미리보기
+export interface CelebIdentityCheck {
+  /** 같은 사람일 수 있는 기존 인물. strong이면 저장이 막힌다 */
+  candidates: {
+    id: string
+    slug: string | null
+    nickname: string
+    title: string | null
+    lifespan: string | null
+    reasons: string[]
+    strong: boolean
+  }[]
+  issues: CelebIdentityIssue[]
+}
+
+const CHECK_CANDIDATE_LIMIT = 8
+
+export async function checkCelebIdentity(input: {
+  id?: string
+  nickname: string
+  nickname_en?: string
+  aliases?: string[]
+  birth_date?: string
+  death_date?: string
+  title?: string
+  title_en?: string
+}): Promise<CelebIdentityCheck> {
+  await requireAdmin()
+  const nickname = input.nickname.trim()
+  if (!nickname) return { candidates: [], issues: [] }
+  const rows = await loadCelebIdentityRows(createAdminClient())
+  const own = { nickname, nickname_en: input.nickname_en?.trim() || null }
+  const matches = findCelebDuplicates(
+    { id: input.id, ...own, aliases: cleanCelebAliases(input.aliases, own), birth_date: input.birth_date || null, death_date: input.death_date || null },
+    rows,
+  )
+  return {
+    candidates: matches.slice(0, CHECK_CANDIDATE_LIMIT).map(({ row, reasons, strong }) => ({
+      id: row.id,
+      slug: row.slug,
+      nickname: row.nickname,
+      title: row.title,
+      lifespan: row.birth_date ? `${row.birth_date}~${row.death_date ?? ''}` : null,
+      reasons,
+      strong,
+    })),
+    issues: celebIdentityIssuesFor({ ...own, title: input.title ?? null, title_en: input.title_en ?? null }),
+  }
+}
+// #endregion
+
 // #region updateCeleb
 export async function updateCeleb(
   input: UpdateCelebInput,
@@ -949,6 +1022,41 @@ export async function updateCeleb(
   const adminClient = createAdminClient()
 
   const updateData: Record<string, unknown> = {}
+
+  // 이름·수식어 규칙은 값이 들어온 칸만 본다(상태·등급만 바꾸는 저장은 그대로 통과)
+  assertCelebIdentityRules({
+    ...(input.nickname !== undefined && { nickname: input.nickname }),
+    ...(input.nickname_en !== undefined && { nickname_en: input.nickname_en }),
+    ...(input.title !== undefined && { title: input.title }),
+    ...(input.title_en !== undefined && { title_en: input.title_en }),
+  })
+
+  // 이름·다른 이름·생몰일이 바뀌면 같은 사람 프로필이 생기지 않는지 다시 본다(이름 교정으로 생긴 중복을 막는다)
+  const identityKeys = ['nickname', 'nickname_en', 'aliases', 'birth_date', 'death_date'] as const
+  if (identityKeys.some((key) => input[key] !== undefined)) {
+    const { data: current, error: currentError } = await adminClient
+      .from('celebs')
+      .select('id, nickname, nickname_en, aliases, wikidata_qid, birth_date, death_date')
+      .eq('id', input.id)
+      .single()
+    if (currentError) throw currentError
+    const next = {
+      ...current,
+      ...(input.nickname !== undefined && { nickname: input.nickname }),
+      ...(input.nickname_en !== undefined && { nickname_en: input.nickname_en || null }),
+      ...(input.birth_date !== undefined && { birth_date: input.birth_date }),
+      ...(input.death_date !== undefined && { death_date: input.death_date }),
+    }
+    if (input.aliases !== undefined) {
+      next.aliases = cleanCelebAliases(input.aliases, next)
+      updateData.aliases = next.aliases
+    }
+    const changed = identityKeys.some((key) => JSON.stringify(next[key] ?? null) !== JSON.stringify(current[key] ?? null))
+    if (changed) {
+      const sameProfiles = strongCelebDuplicates(next, await loadCelebIdentityRows(adminClient))
+      if (sameProfiles.length) throw new Error(duplicateMessage(sameProfiles))
+    }
+  }
 
   if (input.nickname !== undefined) updateData.nickname = input.nickname
   if (input.nickname_en !== undefined) updateData.nickname_en = input.nickname_en || null
@@ -1486,6 +1594,7 @@ export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
 // #region updateCelebTitle - 수식어만 업데이트
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
   await requireAdmin()
+  if (title) assertCelebIdentityRules({ title })
   const db = createAdminClient()
 
   const { data: updated, error } = await db
