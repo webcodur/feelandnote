@@ -31,7 +31,5 @@ export function getMythClientData(data: MythData): MythData {
       ...work,
       personIds: work.personIds.filter((id) => personIds.has(id)),
     })),
-    // A missing opening person already makes the client choose the first published myth.
-    openingPersonId: data.openingPersonId && personIds.has(data.openingPersonId) ? data.openingPersonId : null,
   };
 }

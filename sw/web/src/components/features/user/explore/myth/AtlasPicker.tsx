@@ -58,21 +58,22 @@ function OptionPanel({ level, items, current, onSelect }: {
 
 export default function AtlasPicker({ tree, initial, initialLevel, myth, onClose, onSelect }: Props) {
   const t = useTranslations("explore.ui.atlas");
-  const [draft, setDraft] = useState(initial);
   const [active, setActive] = useState(initialLevel);
-  const { theme, entry, group } = atlasSelection(tree, draft);
+  const { theme, entry, group } = atlasSelection(tree, initial);
   const all = { id: null, name: t("allMembers"), count: entry?.count };
   const current = [theme ?? { id: null, name: "" }, entry ?? { id: null, name: t("comingSoon") }, group ?? all];
   const items: Option[][] = [tree.map((item) => ({ ...item, disabled: !firstAtlasEntry(item) })), theme?.entries ?? [], entry ? [all, ...entry.groups] : []];
   const kinds = myth ? (["region", "myth", "group"] as const) : (["theme", "faction", "group"] as const);
-  /* 항목을 골라도 같은 탭에 머문다 — 단계 이동은 위 탭을 눌러 직접 한다 */
+  /* 누르면 곧바로 적용하고 창을 닫는다(확인 단추 없음, 26.09.29 유저 지시). 탭은 다른 단계의 목록을 보러 갈 때만 쓴다.
+     지역·테마를 고르면 그 첫 신화·팩션으로 연다 — 탐색판 윗줄 화살표와 같은 규칙이다.
+     지금 고른 지역·신화를 다시 누르면 선택을 그대로 두고, 고른 그룹을 다시 누르면 「전체 구성원」으로 푼다 */
   const choose = (level: number, id: string | null) => {
     if (level === 0) {
       const next = tree.find((item) => item.id === id)!;
-      setDraft({ themeId: next.id, entryId: firstAtlasEntry(next)?.id ?? null, groupId: null });
+      onSelect(next.id === initial.themeId ? initial : { themeId: next.id, entryId: firstAtlasEntry(next)?.id ?? null, groupId: null });
     } else if (level === 1) {
-      setDraft({ ...draft, entryId: id, groupId: null });
-    } else onSelect({ ...draft, groupId: draft.groupId === id ? null : id });
+      onSelect(id === initial.entryId ? initial : { ...initial, entryId: id, groupId: null });
+    } else onSelect({ ...initial, groupId: initial.groupId === id ? null : id });
   };
   return (
     <Modal isOpen onClose={onClose} title={t("browseAll")} widthClassName="max-w-2xl" frame="plain" boxClassName={FACTION_PERSON_LAYOUT.modal} animateHeight={false}>
@@ -87,10 +88,8 @@ export default function AtlasPicker({ tree, initial, initialLevel, myth, onClose
           ))}
         </div>
         <OptionPanel key={active} level={active} items={items[active]} current={current[active]} onSelect={(id) => choose(active, id)} />
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
-          <p className="min-w-0 text-sm leading-6 text-text-secondary">{[theme?.name, entry?.name, group?.name].filter(Boolean).join(" › ")}</p>
-          <button type="button" data-atlas-apply disabled={!entry || entry.disabled} onClick={() => onSelect(draft)} className="min-h-11 w-full shrink-0 rounded-lg border border-accent bg-accent/15 px-5 py-2 text-sm font-bold text-accent outline-none hover:bg-accent/25 focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-40 md:w-auto">{t("confirmSelection")}</button>
-        </div>
+        {/* 지금 보는 위치 — 그룹 탭에서도 어느 신화의 그룹인지 알 수 있게 남긴다 */}
+        <p className="mt-4 min-w-0 border-t border-white/10 pt-4 text-sm leading-6 text-text-secondary">{[theme?.name, entry?.name, group?.name].filter(Boolean).join(" › ")}</p>
       </div>
     </Modal>
   );

@@ -14,7 +14,9 @@ const options=level=>`[data-atlas-panel][data-atlas-column="${level}"] button[ar
 async function open(path){await page.goto(`${base}${path}`,{waitUntil:'networkidle2',timeout:90000});await page.waitForSelector('[data-person-id]');await page.$eval('[data-faction-selection]',n=>scrollTo({top:scrollY+n.getBoundingClientRect().top-90,behavior:'instant'}));}
 async function clickText(selector,text){const found=await page.evaluate((s,t)=>{const n=[...document.querySelectorAll(s)].find(n=>n.textContent.includes(t)&&n.getBoundingClientRect().height>0);if(n){n.click();return true;}return false;},selector,text);assert.ok(found,`find ${text}`);}
 async function close(){await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));}
-async function apply(){await page.click('[data-atlas-apply]');await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));}
+// 선택기에는 확인 단추가 없다 — 항목을 누르면 곧바로 적용하고 닫힌다
+async function closed(){await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));}
+const values=()=>page.$$eval('[data-atlas-value]',ns=>ns.map(n=>n.textContent));
 async function count(){return page.$$eval('[data-person-id]',ns=>ns.length);}
 async function pickerChecks(name){
   const counts=await page.$$eval('[data-atlas-count]',ns=>ns.map(n=>Number(n.dataset.atlasCount)));
@@ -26,16 +28,17 @@ async function pickerChecks(name){
     assert.equal(await page.$eval('[data-atlas-panel]',n=>Number(n.dataset.atlasColumn)),level);
     const available=await page.$$eval(options(level),ns=>ns.filter(n=>!n.disabled).length);
     assert.equal(counts[level],available-(level===2?1:0));
-    assert.equal(await page.$eval('[data-atlas-apply]',n=>n.textContent),'선택 완료');
+    assert.equal(await page.$('[data-atlas-apply]'),null);
     assert.ok(await page.$eval('[role="dialog"]',n=>n.scrollWidth<=n.clientWidth+1));
     await page.waitForFunction(()=>[...document.querySelectorAll('.animate-modal-content, .animate-modal-overlay')].every(n=>getComputedStyle(n).opacity==='1'));
     await page.screenshot({path:`${out}/${name}-level-${level}.png`});await close();
   }
+  // 지금 고른 항목을 다시 누르면 선택을 그대로 둔 채 닫힌다
+  const before=await values();
   await page.click(center(1));await page.waitForSelector('[data-atlas-picker]');
   await page.click('[data-atlas-panel] button[aria-pressed="true"]');
-  assert.equal(await page.$eval('[data-atlas-tab="1"]',n=>n.getAttribute('aria-selected')),'true');
-  await apply();
-  console.log('PASS tabbed picker, per-level activation and apply',name,counts);
+  await closed();assert.deepEqual(await values(),before);
+  console.log('PASS tabbed picker, per-level activation, reselect keeps selection',name,counts);
 }
 async function artworkDissolveChecks(){
   for(let attempt=0;attempt<2;attempt++){
@@ -109,36 +112,40 @@ async function referenceBooks(){
 }
 try{
   await page.setViewport({width:1920,height:911});await open('/explore/myth?myth=house-of-atreus');await pickerChecks('myth-desktop');await groupChecks();await modals('탄탈로스');await artworkDissolveChecks();
-  await page.click(center(0));await clickText(options(0),'한국');
-  assert.equal(await page.$eval('[data-atlas-tab="0"]',n=>n.getAttribute('aria-selected')),'true');await apply();
-  assert.equal(await page.$eval('[data-atlas-level="0"] [data-atlas-value]',n=>n.textContent),'한국');
-  await open('/explore/myth?myth=house-of-atreus');
-  const original=await count();await page.click(center(0));await clickText(options(0),'한국');
-  await page.click('[data-atlas-tab="1"]');
+  // 지역을 누르면 곧바로 그 지역의 첫 신화로 바뀌고 창이 닫힌다
+  await page.click(center(0));await clickText(options(0),'한국');await closed();
+  await page.waitForFunction(()=>document.querySelector('[data-atlas-level="0"] [data-atlas-value]')?.textContent==='한국');
+  assert.notEqual(new URL(page.url()).searchParams.get('myth'),'house-of-atreus');
+  await page.click(center(1));await page.waitForSelector('[data-atlas-picker]');
   assert.ok(!(await page.$$eval(options(1),ns=>ns.map(n=>n.textContent))).some(n=>n.includes('아트레우스')));
-  await page.click('[data-atlas-tab="0"]');
-  assert.equal(await page.$eval('[data-atlas-panel] button[aria-pressed="true"]',n=>n.firstElementChild.textContent),'한국');await close();assert.equal(await count(),original);
+  // 고르지 않고 닫으면 선택이 그대로다
+  const kept=await values();await close();assert.deepEqual(await values(),kept);
+  console.log('PASS region tap applies its first myth; closing without a tap keeps the selection');
   await page.setViewport({width:1440,height:1000});await open('/explore/faction/ai-pioneers');
   assert.equal(await page.$('[data-celeb-reality="REAL"]'),null);await pickerChecks('faction-desktop');await groupChecks();await modals('앨런 튜링');
   await referenceBooks();
-  await page.click(center(0));await clickText(options(0),'산업');
-  await page.click('[data-atlas-tab="1"]');
-  assert.ok(!(await page.$$eval(options(1),ns=>ns.map(n=>n.textContent))).some(n=>n.includes('OpenAI')));
-  await page.click('[data-atlas-tab="0"]');await clickText(options(0),'AI');
-  await page.click('[data-atlas-tab="1"]');await clickText(options(1),'OpenAI');
-  await page.click('[data-atlas-tab="2"]');
+  // 팩션을 누르면 곧바로 그 팩션 주소로 옮긴다. 그룹은 옮긴 화면의 그룹 탭에서 고른다
+  await page.click(center(1));await page.waitForSelector('[data-atlas-picker]');await clickText(options(1),'OpenAI');await closed();
+  await page.waitForFunction(()=>location.pathname.endsWith('/openai'));
+  await page.waitForFunction(()=>document.querySelector('[data-atlas-level="1"] [data-atlas-value]')?.textContent.includes('OpenAI'));
+  await page.waitForSelector('[data-person-id]');
+  await page.click(center(2));await page.waitForSelector('[data-atlas-picker]');
   const target=await page.$$eval(options(2),ns=>({name:ns[1].firstElementChild.textContent,count:Number(ns[1].lastElementChild.textContent)}));
-  await clickText(options(2),target.name);await page.waitForFunction(()=>!document.querySelector('[data-atlas-picker]'));await page.waitForFunction(()=>location.pathname.endsWith('/openai'));
+  await clickText(options(2),target.name);await closed();
   await page.waitForFunction(t=>document.querySelector('[data-atlas-level="2"] [data-atlas-value]')?.textContent===t,{},target.name);
   assert.equal(await count(),target.count);await page.reload({waitUntil:'networkidle2'});assert.equal(await count(),target.count);
   console.log('PASS faction hierarchy, cross-route group and reload');
   await page.setViewport({width:390,height:844,isMobile:true,hasTouch:true});await open('/explore/myth?myth=house-of-atreus');await pickerChecks('myth-mobile');await groupChecks();await modals('탄탈로스');
-  await page.click(center(0));await clickText(options(0),'그리스·로마');
-  await page.click('[data-atlas-tab="1"]');await clickText(options(1),'일리아스');
+  // 지금 지역을 다시 누르면 그대로, 탭을 오가도 적용되지 않고, 신화를 누르면 곧바로 바뀐다
+  await page.click(center(0));await clickText(options(0),'그리스·로마');await closed();
+  assert.equal(new URL(page.url()).searchParams.get('myth'),'house-of-atreus');
+  await page.click(center(1));await page.waitForSelector('[data-atlas-picker]');
   await page.click('[data-atlas-tab="2"]');assert.equal(await page.$eval('[data-atlas-tab="2"]',n=>n.getAttribute('aria-selected')),'true');
+  await page.click('[data-atlas-tab="1"]');
   await page.waitForFunction(()=>[...document.querySelectorAll('.animate-modal-content, .animate-modal-overlay')].every(n=>getComputedStyle(n).opacity==='1'));
-  await page.screenshot({path:`${out}/mobile-cascade.png`});await apply();await page.waitForFunction(()=>new URL(location.href).searchParams.get('myth')==='homer-iliad');
-  console.log('PASS mobile hierarchical expansion');
+  await page.screenshot({path:`${out}/mobile-picker.png`});
+  await clickText(options(1),'일리아스');await closed();await page.waitForFunction(()=>new URL(location.href).searchParams.get('myth')==='homer-iliad');
+  console.log('PASS mobile picker applies on tap');
   for(const [name,path,width,height] of [
     ['english-mobile','/en/explore/myth?myth=house-of-atreus',390,844],
     ['english-tablet','/en/explore/faction/ai-pioneers',820,900],

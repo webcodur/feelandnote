@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -17,7 +17,7 @@ import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperC
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
-import { MYTH_PARAM } from "./mythHref";
+import { MYTH_LAST_COOKIE, MYTH_LAST_COOKIE_MAX_AGE, MYTH_OPENING_SLUG, MYTH_PARAM } from "./mythHref";
 
 /** 팩션도 같은 선택·개요·그룹·본문을 쓴다. 주소 이동과 인물별 자료만 호출부가 제공한다. */
 export interface ThemeScreenOptions {
@@ -30,7 +30,17 @@ export interface ThemeScreenOptions {
   renderWorks: (personIds: string[]) => ReactNode;
 }
 
-interface Props { data: MythData; faction?: ThemeScreenOptions }
+interface Props {
+  data: MythData;
+  faction?: ThemeScreenOptions;
+  /** 쿠키에 남은 마지막 신화 slug. 공개 신화와 맞을 때만 쓴다 */
+  rememberedSlug?: string | null;
+}
+
+function saveLastMyth(slug: string) {
+  const secure = window.location.protocol === "https:" ? "; secure" : "";
+  document.cookie = `${MYTH_LAST_COOKIE}=${encodeURIComponent(slug)}; path=/; max-age=${MYTH_LAST_COOKIE_MAX_AGE}; samesite=lax${secure}`;
+}
 
 function FactionPerson({ renderPerson, person, onClose }: Pick<ThemeScreenOptions, "renderPerson"> & {
   person: MythPerson; onClose: () => void;
@@ -38,13 +48,7 @@ function FactionPerson({ renderPerson, person, onClose }: Pick<ThemeScreenOption
   return renderPerson(person, onClose);
 }
 
-function focusedMyth(data: MythData, personId: string | null) {
-  const published = data.myths.filter((item) => item.isPublished);
-  const matches = published.filter((item) => personId && item.personIds.includes(personId));
-  return matches.sort((a, b) => a.personIds.length - b.personIds.length)[0]?.id ?? published[0]?.id ?? null;
-}
-
-export default function MythScreen({ data, faction }: Props) {
+export default function MythScreen({ data, faction, rememberedSlug = null }: Props) {
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations("explore.hub.myth");
@@ -52,11 +56,15 @@ export default function MythScreen({ data, faction }: Props) {
   /* 주소에 신화가 있으면(음악 재생기 바로가기 등) 그 신화를 고른 채 연다 */
   const searchParams = useSearchParams();
   const requestedSlug = faction ? null : searchParams.get(MYTH_PARAM);
-  const requestedMyth = data.myths.find((myth) => myth.isPublished && myth.slug === requestedSlug);
-  const openingMythId = requestedMyth?.id ?? focusedMyth(data, data.openingPersonId);
-  const openingMyth = data.myths.find((myth) => myth.id === openingMythId);
+  const published = data.myths.filter((myth) => myth.isPublished);
+  const publishedBySlug = (slug: string | null) => (slug ? published.find((myth) => myth.slug === slug) : undefined);
+  const requestedMyth = publishedBySlug(requestedSlug);
+  // 차례는 mythHref.ts의 MYTH_OPENING_SLUG 주석이 쥔다. 세력도감은 첫 항목으로 연다
+  const openingMyth = requestedMyth
+    ?? (faction ? undefined : publishedBySlug(rememberedSlug) ?? publishedBySlug(MYTH_OPENING_SLUG))
+    ?? published[0];
   const [regionId, setRegionId] = useState<string | null>(openingMyth?.regionId ?? data.regions[0]?.id ?? null);
-  const [mythId, setMythId] = useState<string | null>(openingMythId);
+  const [mythId, setMythId] = useState<string | null>(openingMyth?.id ?? null);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
   const requestedGroup = searchParams.get(ATLAS_GROUP_PARAM);
   const [groupId, setGroupId] = useState<string | null>(requestedGroup);
@@ -80,9 +88,17 @@ export default function MythScreen({ data, faction }: Props) {
     }
   }
 
-  /* 화면에서 고른 신화를 주소에 남긴다. 주소가 늘 보이는 신화를 가리켜야 같은 바로가기를 다시 눌러도 그 신화로 돌아온다 */
+  /* 바로가기 주소로 연 신화를 마지막 신화로 기억한다. 기본 신화로 열린 채면 기억하지 않는다 —
+     그래야 기본값을 바꿨을 때 아직 고른 적 없는 방문자가 새 기본값을 본다 */
+  const linkedSlug = requestedMyth?.slug;
+  useEffect(() => {
+    if (linkedSlug) saveLastMyth(linkedSlug);
+  }, [linkedSlug]);
+
+  /* 화면에서 고른 신화를 주소에 남기고 마지막 신화로 기억한다. 주소가 늘 보이는 신화를 가리켜야 같은 바로가기를 다시 눌러도 그 신화로 돌아온다 */
   const rememberMyth = (slug: string | undefined, group: string | null) => {
     if (faction) return;
+    if (slug) saveLastMyth(slug);
     const url = new URL(window.location.href);
     if (slug) url.searchParams.set(MYTH_PARAM, slug);
     else url.searchParams.delete(MYTH_PARAM);

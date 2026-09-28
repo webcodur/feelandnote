@@ -98,5 +98,4 @@ export interface MythData {
   myths: Myth[];
   people: MythPerson[];
   works: MythWork[];
-  openingPersonId: string | null;
 }

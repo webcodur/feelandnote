@@ -111,14 +111,14 @@ async function fetchMythData(locale: string): Promise<MythData> {
   const regionRows = (lv1Result.data ?? []) as Lv1Row[];
   const mythRows = (lv2Result.data ?? []) as Lv2Row[];
   const lv2Ids = mythRows.map((faction) => faction.id);
-  if (lv2Ids.length === 0) return { regions: [], myths: [], people: [], works: [], openingPersonId: null };
+  if (lv2Ids.length === 0) return { regions: [], myths: [], people: [], works: [] };
 
   /* 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다. 신화 인원이 그 턱밑(26.09.14 약 1천 행)이다.
      차례는 sort_order가 쥔다 */
   const members = await selectVisibleFactionMembers<MemberRow>(db,
     "lv2_id,celeb_id,short_desc,short_desc_en,sort_order,image_url,group_name,group_name_en,group_position", lv2Ids);
   const personIds = unique(members.map((member) => member.celeb_id));
-  if (personIds.length === 0) return { regions: [], myths: [], people: [], works: [], openingPersonId: null };
+  if (personIds.length === 0) return { regions: [], myths: [], people: [], works: [] };
 
   /* 그룹 설명 — 그룹 개요의 본문이다. 뷰에는 없어 그룹 표를 직접 읽는다.
      영문 설명이 비면 한국어를 보내지 않고 null — 화면이 대체 문구를 붙인다 */
@@ -242,10 +242,10 @@ async function fetchMythData(locale: string): Promise<MythData> {
   const otherMythIds = myths.filter((myth) => myth.regionId === "other").map((myth) => myth.id);
   if (otherMythIds.length > 0) regions.push({ id: "other", slug: "other", name: isEn ? "Other myths" : "기타 신화", mythIds: otherMythIds });
 
-  return { regions, myths, people, works, openingPersonId: people[0]?.id ?? null };
+  return { regions, myths, people, works };
 }
 
-const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v26'], {
+const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v27'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

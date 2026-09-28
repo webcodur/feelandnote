@@ -7,6 +7,7 @@
 */ // ------------------------------
 
 import { getLocale, getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
@@ -24,6 +25,7 @@ import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
 import MythScreen from "@/components/features/user/explore/myth/MythScreen";
 import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
+import { MYTH_LAST_COOKIE } from "@/components/features/user/explore/myth/mythHref";
 import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
 import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
 
@@ -89,12 +91,14 @@ export async function ProfileSection() {
 /* 신화 탐색 — 일반 허브 구획과 달리 인물·관계·등장 작품을 한 판에서 바꿔 본다. */
 export async function MythSection() {
   const locale = await getLocale();
+  // 마지막으로 보던 신화. 탐색은 이미 요청마다 그리고 앞단 캐시도 없어 쿠키를 읽어도 렌더 방식이 바뀌지 않는다
+  const rememberedSlug = (await cookies()).get(MYTH_LAST_COOKIE)?.value ?? null;
   const data = await load("신화 탐색", () => getMythData(locale));
   if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
   const publicData = getMythClientData(data);
   if (publicData.regions.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
   // 공개 대상은 DB의 faction_lv2.published가 정한다. 닫힌 전승은 메뉴만 남긴다.
-  return <MythScreen data={publicData} />;
+  return <MythScreen data={publicData} rememberedSlug={rememberedSlug} />;
 }
 
 /* 성향 분포 */

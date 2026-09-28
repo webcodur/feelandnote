@@ -231,7 +231,6 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
     })) : [],
   };
   return {
-    openingPersonId: null,
     regions: [{ id: "faction", slug: "faction", name: theme.name, mythIds: [entry.id] }],
     myths: [theme],
     people: members.map((member) => {
