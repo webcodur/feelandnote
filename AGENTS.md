@@ -118,7 +118,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 작업 전 `docs/README.md`에서 해당 영역만 찾아 읽는다. 모든 문서를 한꺼번에 읽지 않는다. 사용자의 요청과 일치하는 스킬이 있으면 그 `SKILL.md`를 먼저 읽고 스킬이 가리키는 현행 SSoT만 추가로 연다.
 
-전문 도메인 작업은 별도 에이전트 정의 없이 서브에이전트에 아래 룰북을 물려 발주한다. 발주 프롬프트에 룰북 경로를 명시하지 않으면 지침 없이 도는 서브에이전트가 나온다.
+전문 도메인 작업은 직접 할 때도 아래 룰북을 따른다. 위임은 지시가 있을 때만 하며, 발주문에 룰북 경로를 명시한다 — 없으면 지침 없이 도는 서브에이전트가 나온다.
 
 | 작업 | 물릴 룰북 |
 |------|-----------|
@@ -127,7 +127,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 | 영상 원고 0~7단계(4번 폐기) | `docs/project/remotion/book-recommend/rules.md` + `writer/<단계>.md` |
 | 천도 게임 개발 | `docs/games/suikoden/dev-guide.md` |
 
-한국어 값 생성에는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 매번 agent에 전달한다. 이미지 제작은 `docs/project/production/image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
+한국어 값 생성을 나눠 시킬 때는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 발주문에 매번 싣는다. 이미지 제작은 `docs/project/production/image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
 
 ## 문서 수명주기
 
