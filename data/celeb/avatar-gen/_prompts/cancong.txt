@@ -1,0 +1,26 @@
+TASK-ID: AVATAR-cancong-20260925
+
+Generate an image with the image_gen tool.
+
+FRAMING FOR A CIRCULAR PROFILE AVATAR:
+One person only, in a tight square headshot, with the face centered.
+Face the camera directly or at only a very shallow three-quarter angle, with direct eye contact.
+Keep the full forehead, eyebrows, ears, and chin visible; crowns or headbands may touch the top edge but the face itself must not be cropped.
+Leave enough image around the face for a landmark-based square crop, but do not pull back into a chest-up portrait.
+No hands, props, books, weapons, text, logos, or other people.
+Use a clean background clearly separated from the person, with no meaningful detail in the corners.
+
+SUBJECT:
+Cancong, the legendary founder-king of the ancient Shu kingdom (Sichuan basin, China). An East Asian man in his early 50s with bronze-age southwestern Chinese features. His recorded legendary trait is strikingly prominent, wide, slightly bulging eyes — unmistakable and memorable, yet still fully human. Stern, regal bearing of a founding monarch who taught his people sericulture. He wears an archaic bronze-age royal headband with a small jade ornament, evoking Sanxingdui bronze aesthetics, and a dark earth-toned patterned robe.
+
+STYLE:
+Photorealistic portrait photograph — natural human skin texture with visible pores and fine wrinkles, no beauty filter, no waxiness.
+Soft directional daylight coming from the viewer's left (window light), gentle shadow on the right cheek.
+Plain muted warm grey-brown studio backdrop, evenly lit, clearly separated from the subject.
+Solemn, composed expression.
+85mm portrait lens look, sharp focus on the eyes.
+Full color, natural warm tones — never black and white, never sepia. This must read as a photograph of a real person, not a painting or illustration.
+
+Output size: exactly 1536 x 1536 pixels, square 1:1.
+
+Return the image. Do not run any shell command.

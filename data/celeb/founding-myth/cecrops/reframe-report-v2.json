@@ -1,0 +1,17 @@
+[
+  {
+    "name": "001-cecrops",
+    "crop": {
+      "left": 309,
+      "top": 0,
+      "size": 824
+    },
+    "spanRatio": 0.425,
+    "eyeLine": 0.474,
+    "emphasis": 1.77,
+    "headroom": 0.017,
+    "decidedBy": "source-top",
+    "upscale": 0.97,
+    "warnings": []
+  }
+]

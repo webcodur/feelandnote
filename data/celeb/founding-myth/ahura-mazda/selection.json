@@ -1,0 +1,80 @@
+{
+  "slug": "ahura-mazda",
+  "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+  "generator": "Codex built-in image_gen (root designed and generated)",
+  "generated": "generated-v1.png",
+  "final": "avatar-v1.webp",
+  "registered": "registered.webp",
+  "registered_url": "https://assets.feelandnote.com/celebs/ec1e22e8-ee43-4fe2-8df8-73721e8f392d/avatar.webp?v=1790069829422",
+  "avatar_registered": true,
+  "profile_publication_status": "inactive",
+  "face_reference": {
+    "page": "https://www.lummi.ai/photo/middle-eastern-portrait-ixwla",
+    "image": "https://assets.lummi.ai/assets/QmTqpsMGPS7HGww5GMwmu6fqjo2Qh3YDiqk1f7XNgxLFz9",
+    "local": "face-ref.png",
+    "kind": "AI-generated face"
+  },
+  "iconography_sources": [
+    "https://www.iranicaonline.org/articles/ahura-mazda/",
+    "https://www.iranicaonline.org/articles/anthropomorphism/"
+  ],
+  "cutout": {
+    "tool": "C:/project/nobg/batch/batch_nobg.py",
+    "model": "birefnet-general",
+    "speed": "medium"
+  },
+  "pipeline": [
+    "crop-local --png --size 800",
+    "nobg rembg medium",
+    "light-unify",
+    "reframe --sheet",
+    "upload-local dry-run/apply"
+  ],
+  "horizontal_flip": false,
+  "reframe": {
+    "name": "001-ahura-mazda",
+    "crop": {
+      "left": 44,
+      "top": 0,
+      "size": 756
+    },
+    "spanRatio": 0.412,
+    "eyeLine": 0.489,
+    "emphasis": -0.46,
+    "headroom": 0.032,
+    "decidedBy": "source-top",
+    "upscale": 1.06,
+    "warnings": [
+      "실루엣이 원본 좌우 가장자리에 닿아 가로 위치가 4단위 밀렸다"
+    ]
+  },
+  "review": {
+    "backgrounds": [
+      "#0a0a0a",
+      "#f3f0e8"
+    ],
+    "sizes": [
+      480,
+      64
+    ],
+    "result": "passed",
+    "registered_redownload_verified": true,
+    "variants": [
+      {
+        "file": "avatar.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-md.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-sm.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-23T09:14:59.953Z",
+  "person": {
+    "id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+    "slug": "the-dragon-maiden",
+    "nickname": "용녀",
+    "nickname_en": "The Dragon Maiden",
+    "title": "원창왕후",
+    "title_en": "Queen Wonchang",
+    "headline": "작제건을 따라온 서해 용왕의 딸",
+    "headline_en": "The Dragon King's daughter who left the moment she was watched",
+    "bio": "서해 용왕의 딸이 작제건을 따라와 개주 동북쪽에 자리를 잡고 살았다. 우물을 파고 그 길로 서해를 오갔는데 들어가는 모습을 보지 말라 일렀으나 작제건이 몰래 엿보자 황룡으로 변해 우물로 들어간 뒤 돌아오지 않았다. 아들 용건을 두어 왕건의 할머니가 되었고 뒤에 원창왕후로 추존됐다.",
+    "bio_en": "The daughter of the Dragon King of the West Sea followed Jakjegeon and settled northeast of Gaeju. She dug a well and traveled through it to the West Sea, warning him never to watch her enter; when he spied on her she turned into a yellow dragon, went down the well and never returned. She bore Yonggeon, making her Wang Geon's grandmother, and was posthumously honored as Queen Wonchang.",
+    "publication_status": "inactive",
+    "updated_at": "2026-09-22T05:52:33.149389+00:00"
+  },
+  "faction": {
+    "id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+    "slug": "myth-korea-goryeo-segye",
+    "description": "『고려사』가 기록한 왕건의 여섯 대 조상 이야기. 백두산에서 내려온 호경부터 강충·보육·진의·작제건과 그 아들 용건, 왕건의 아버지에 이르는 신비로운 가계.",
+    "description_en": "The six-generation ancestral legend of Wang Geon recorded in the History of Goryeo — from Hogyeong through Gang Chung, Boyuk, Jinui and Jakjegeon to his son Yonggeon, Wang Geon's father.",
+    "lead_person_ids": [
+      "8e32c1c6-f119-4094-843e-6d5bad504f06",
+      "cc488307-5742-4a55-b12c-fdce5339b97b",
+      "c37045af-bd18-4e24-8461-ad470c63262b"
+    ],
+    "published": false,
+    "updated_at": "2026-09-08T02:30:20.452118+00:00"
+  },
+  "member": {
+    "id": "f28f5449-4c42-4834-aa5f-94f5997a0acc",
+    "celeb_id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+    "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+    "short_desc": "서해 용왕의 딸 저민의",
+    "short_desc_en": "The West Sea Dragon King's daughter",
+    "hidden": true
+  },
+  "dups": []
+}

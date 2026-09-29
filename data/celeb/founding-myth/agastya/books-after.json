@@ -1,0 +1,833 @@
+{
+  "contents": [
+    {
+      "id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "type": "BOOK",
+      "metadata": {
+        "figureBook": {
+          "workTitle": "Mahabharata",
+          "workCreator": "Vyasa",
+          "workIdentity": "vyasa/mahabharata",
+          "originalTitle": "Mahabharata",
+          "originalCreator": "Vyasa",
+          "koTranslationStatus": "published"
+        }
+      },
+      "created_at": "2026-09-02T22:37:19.421694+00:00",
+      "release_date": null,
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788970096230",
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    {
+      "id": "71c42a3b-80dd-594b-a230-689d225e49b6",
+      "type": "BOOK",
+      "metadata": {
+        "isbn": "9780143441144",
+        "link": "https://openlibrary.org/books/OL32349721M",
+        "workKey": "/works/OL24423363W",
+        "publisher": "Penguin",
+        "editionKey": "/books/OL32349721M",
+        "figureBook": {
+          "textScope": "complete",
+          "workTitle": "The Valmiki Ramayana",
+          "editionKind": "full",
+          "workCreator": "Valmiki",
+          "workIdentity": "valmiki/ramayana",
+          "koTranslationStatus": "verified_unavailable",
+          "translationEvidenceUrls": [
+            "https://search.daum.net/search?w=book&q=9780143441144"
+          ]
+        },
+        "publishDate": "Oct 15, 2017"
+      },
+      "created_at": "2026-08-31T05:50:01.683778+00:00",
+      "release_date": null,
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9780143441144",
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    {
+      "id": "fa464cc6-4c3a-5d17-bda8-9f9776c15dbc",
+      "type": "BOOK",
+      "metadata": {
+        "isbn": "9788121505932",
+        "link": "https://openlibrary.org/books/OL9070593M",
+        "workKey": "/works/OL9082450W",
+        "publisher": "South Asia Books",
+        "editionKey": "/books/OL9070593M",
+        "figureBook": {
+          "textScope": "complete",
+          "workTitle": "The Mahabharata of Krishna-Dwaipayana Vyasa",
+          "editionKind": "full",
+          "workCreator": "Krishna-Dwaipayana Vyasa",
+          "workIdentity": "vyasa/mahabharata",
+          "koTranslationStatus": "verified_unavailable",
+          "translationEvidenceUrls": [
+            "https://search.daum.net/search?w=book&q=9788121505932"
+          ]
+        },
+        "publishDate": "January 1, 2004"
+      },
+      "created_at": "2026-08-31T05:49:39.070381+00:00",
+      "release_date": null,
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9788121505932",
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    {
+      "id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "type": "BOOK",
+      "metadata": {
+        "isbn": "9788970096223",
+        "publisher": "민족사",
+        "sourceUrl": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "figureBook": {
+          "textScope": "kandas-001-006",
+          "workTitle": "Ramayana",
+          "editionKind": "abridged",
+          "workCreator": "Valmiki",
+          "workIdentity": "valmiki/ramayana",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "1993-10-01",
+        "salesStatus": "정상판매"
+      },
+      "created_at": "2026-02-26T09:11:04.507555+00:00",
+      "release_date": "1993-10-01",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788970096223",
+      "member_count": 0,
+      "celeb_count": 2,
+      "record_count": 2
+    }
+  ],
+  "content_locales": [
+    {
+      "content_id": "fa464cc6-4c3a-5d17-bda8-9f9776c15dbc",
+      "locale": "en",
+      "title": "Mahabharata of Krishna-Dwaipayana Vyasa",
+      "creator": "Kisari Mohan Ganguly",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/9284904-L.jpg",
+      "description": "Description: The Mahabharata in its present form is equal to about eight times as much as the Illiad and Odyssey put together. The nucleus of the Mahabharata is the great war of eighteen days fought between the Kauravas, the hundred sons of Dhritarashtra and Pandavas, the five sons of Pandu. The epic entails all the circumstances leading upto the war. In this great Kurukshetra battle were involved almost all the kings of India joining either of the two parties. The result of this war was the total annihilation of Kauravas and their party, and Yudhisthira, the head of the Pandavas, became the sovereign monarch of Hastinapura, symbolizing the victory of good over evil. But with the progress of years new matters and episodes relating to the various aspects of human life, social, economic, political, moral and religious as also fragments of other heroic legends came to be added to the aforesaid nucleus and this phenomenon continued for centuries until it acquired the present shape. This very fact that the Mahabharata represents a whole literature rather than one single and unified work, and contains so many and so multifarious things, makes it more suited than any other book to afford us an insight into the deepest depths of the soul of Indian people. In the world of classical literature the Mahabharata is unique in many respects. As an epic, it is the greatest-seven times as great as the Illiad and the Odyssey combined, and the grandest-animating the heart of India over two thousand years in future. It is the mightiest single endeavour of literary creation of any culture in human history. The effort is to conceive the mind that conceived it is itself a liberal education and a walk through its table of contents is more than a Sabbath day's journey.",
+      "isbn": "9788121505932",
+      "publisher": "South Asia Books",
+      "affiliate_url": [
+        {
+          "url": "https://www.amazon.com/gp/product/8121505933",
+          "platform": "amazon"
+        }
+      ],
+      "verified": true,
+      "sources": {
+        "isbn": "https://openlibrary.org/books/OL9070593M",
+        "title": "https://openlibrary.org/books/OL9070593M",
+        "creator": "https://openlibrary.org/books/OL9070593M",
+        "primary": "openlibrary",
+        "publisher": "https://openlibrary.org/books/OL9070593M",
+        "thumbnail": "https://openlibrary.org/books/OL9070593M",
+        "description": "https://books.google.com/books?id=3e5PAQAACAAJ",
+        "google_books_id": "3e5PAQAACAAJ",
+        "description_method": "provider",
+        "description_source_locale": "en"
+      },
+      "created_at": "2026-08-31T05:49:39.070381+00:00",
+      "updated_at": "2026-09-15T15:26:16.623641+00:00"
+    },
+    {
+      "content_id": "71c42a3b-80dd-594b-a230-689d225e49b6",
+      "locale": "ko",
+      "title": "발미키 라마야나",
+      "creator": "비베크 데브로이",
+      "thumbnail_url": null,
+      "description": null,
+      "isbn": null,
+      "publisher": null,
+      "affiliate_url": null,
+      "verified": false,
+      "sources": {
+        "title": "translated",
+        "primary": "none"
+      },
+      "created_at": "2026-09-11T11:57:00.801634+00:00",
+      "updated_at": "2026-09-11T11:57:00.801634+00:00"
+    },
+    {
+      "content_id": "fa464cc6-4c3a-5d17-bda8-9f9776c15dbc",
+      "locale": "ko",
+      "title": "크리슈나 드바이파야나 비야사의 마하바라타",
+      "creator": "키사리 모한 간굴리",
+      "thumbnail_url": null,
+      "description": null,
+      "isbn": null,
+      "publisher": null,
+      "affiliate_url": null,
+      "verified": false,
+      "sources": {
+        "title": "translated",
+        "primary": "none"
+      },
+      "created_at": "2026-09-11T12:01:26.186571+00:00",
+      "updated_at": "2026-09-11T12:01:26.186571+00:00"
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "locale": "ko",
+      "title": "마하바라타 (불멸의 인도문학 2)",
+      "creator": "비야사",
+      "thumbnail_url": "https://t1.daumcdn.net/lbook/image/953174?timestamp=20221025143938",
+      "description": "그리스의 대 서사시라 불리는 《일리아드》, 《오디세이》의 8배 분량인 산스크리트 운문의 거작. 원문이 운문체이고 중심 축이 되는 이야기인 바라타 가문의 전쟁 이야기 말고도 당대의 법률, 도덕, 문화 등에 대한 백과사전적 지식이 4/5를 차지하는지라 산문체의 읽기 쉬운 번역이 더 편할 수 있다.\n\n시바, 비슈누, 칼리, 인드라 등 어디선가 한번쯤은 들어본 인도의 신들, 힌두교와 불교의 근본사상, 카스트 계급의 발생, 방대한 스케일의 전쟁과 사랑 이야기 등 세계 최대의 대 서사시로서 갖추어야 할 덕목들을 모두 갖춘 책. 인도 배낭여행을 준비하거나 힌두교, 인도, 불교 등의 문화에 관심이 있다면 지나치기 어려운 책.",
+      "isbn": "9788970096230",
+      "publisher": "민족사",
+      "affiliate_url": null,
+      "verified": null,
+      "sources": {
+        "description": "https://www.yes24.com/product/goods/1467060",
+        "availability": "out_of_print"
+      },
+      "created_at": "2026-09-02T22:37:19.616037+00:00",
+      "updated_at": "2026-09-14T13:41:42.341639+00:00"
+    },
+    {
+      "content_id": "71c42a3b-80dd-594b-a230-689d225e49b6",
+      "locale": "en",
+      "title": "The Valmiki Ramayana",
+      "creator": "Bibek Debroy (Translator)",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/10979552-L.jpg",
+      "description": "The Valmiki Ramayana remains a living force in the lives of the Indian people. A timeless epic, it recounts the legend of the noble prince Rama and his battle to vanquish the demon king Ravana. Even before he is crowned king of Ayodhya, Rama is exiled to the Dandaka forests where he is accompanied by his beauteous wife Sita and loyal brother Lakshmana. Deep in the jungle, Sita is abducted by Ravana and taken to his island kingdom Lanka, setting into motion a dramatic chain of events that culminates in an epoch-defining war. Filled with adventure and spectacle, the Ramayana is also the poignant story of a family caught up in the conflict between personal duty and individual desires. In Bibek Debroy's majestic new translation, the complete and unabridged text of the Critical Edition of this beloved epic can now be relished by a new generation of readers.",
+      "isbn": "9780143441144",
+      "publisher": "Penguin",
+      "affiliate_url": [
+        {
+          "url": "https://www.amazon.com/gp/product/0143441140",
+          "platform": "amazon"
+        }
+      ],
+      "verified": true,
+      "sources": {
+        "isbn": "https://openlibrary.org/books/OL32349721M",
+        "title": "https://openlibrary.org/books/OL32349721M",
+        "creator": "https://openlibrary.org/books/OL32349721M",
+        "primary": "openlibrary",
+        "publisher": "https://openlibrary.org/books/OL32349721M",
+        "thumbnail": "https://openlibrary.org/books/OL32349721M",
+        "description": "https://books.google.com/books?id=LESFnAEACAAJ",
+        "google_books_id": "LESFnAEACAAJ",
+        "description_method": "provider",
+        "description_source_locale": "en"
+      },
+      "created_at": "2026-08-31T05:50:01.683778+00:00",
+      "updated_at": "2026-09-15T15:26:13.454997+00:00"
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "locale": "ko",
+      "title": "라마야나",
+      "creator": "발미키",
+      "thumbnail_url": "https://t1.daumcdn.net/lbook/image/952485?timestamp=20250409113641",
+      "description": "DAUM",
+      "isbn": "9788970096223",
+      "publisher": "민족사",
+      "affiliate_url": null,
+      "verified": true,
+      "sources": {
+        "url": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "isbn": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "title": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "creator": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "primary": "kakao_book",
+        "publisher": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "description": "https://m.search.daum.net/search?w=bookpage&bookId=952485&tab=introduction&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29"
+      },
+      "created_at": "2026-03-06T08:52:37.351536+00:00",
+      "updated_at": "2026-09-10T04:05:14.987511+00:00"
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "locale": "en",
+      "title": "The Valmiki Ramayana",
+      "creator": "Bibek Debroy (Translator)",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/10979552-L.jpg",
+      "description": "The Valmiki Ramayana remains a living force in the lives of the Indian people. A timeless epic, it recounts the legend of the noble prince Rama and his battle to vanquish the demon king Ravana. Even before he is crowned king of Ayodhya, Rama is exiled to the Dandaka forests where he is accompanied by his beauteous wife Sita and loyal brother Lakshmana. Deep in the jungle, Sita is abducted by Ravana and taken to his island kingdom Lanka, setting into motion a dramatic chain of events that culminates in an epoch-defining war. Filled with adventure and spectacle, the Ramayana is also the poignant story of a family caught up in the conflict between personal duty and individual desires. In Bibek Debroy's majestic new translation, the complete and unabridged text of the Critical Edition of this beloved epic can now be relished by a new generation of readers.",
+      "isbn": "9780143441144",
+      "publisher": "Penguin",
+      "affiliate_url": null,
+      "verified": true,
+      "sources": {
+        "isbn": "https://openlibrary.org/books/OL32349721M",
+        "title": "https://openlibrary.org/books/OL32349721M",
+        "creator": "https://openlibrary.org/books/OL32349721M",
+        "primary": "openlibrary",
+        "publisher": "https://openlibrary.org/books/OL32349721M",
+        "thumbnail": "https://openlibrary.org/books/OL32349721M",
+        "description": "https://books.google.com/books?id=LESFnAEACAAJ",
+        "google_books_id": "LESFnAEACAAJ",
+        "description_method": "provider",
+        "description_source_locale": "en"
+      },
+      "created_at": "2026-09-11T11:37:28.129981+00:00",
+      "updated_at": "2026-09-22T09:20:19.793846+00:00"
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "locale": "en",
+      "title": "Mahabharata of Krishna-Dwaipayana Vyasa",
+      "creator": "Kisari Mohan Ganguly",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/9284904-L.jpg",
+      "description": "Description: The Mahabharata in its present form is equal to about eight times as much as the Illiad and Odyssey put together. The nucleus of the Mahabharata is the great war of eighteen days fought between the Kauravas, the hundred sons of Dhritarashtra and Pandavas, the five sons of Pandu. The epic entails all the circumstances leading upto the war. In this great Kurukshetra battle were involved almost all the kings of India joining either of the two parties. The result of this war was the total annihilation of Kauravas and their party, and Yudhisthira, the head of the Pandavas, became the sovereign monarch of Hastinapura, symbolizing the victory of good over evil. But with the progress of years new matters and episodes relating to the various aspects of human life, social, economic, political, moral and religious as also fragments of other heroic legends came to be added to the aforesaid nucleus and this phenomenon continued for centuries until it acquired the present shape. This very fact that the Mahabharata represents a whole literature rather than one single and unified work, and contains so many and so multifarious things, makes it more suited than any other book to afford us an insight into the deepest depths of the soul of Indian people. In the world of classical literature the Mahabharata is unique in many respects. As an epic, it is the greatest-seven times as great as the Illiad and the Odyssey combined, and the grandest-animating the heart of India over two thousand years in future. It is the mightiest single endeavour of literary creation of any culture in human history. The effort is to conceive the mind that conceived it is itself a liberal education and a walk through its table of contents is more than a Sabbath day's journey.",
+      "isbn": "9788121505932",
+      "publisher": "South Asia Books",
+      "affiliate_url": null,
+      "verified": true,
+      "sources": {
+        "isbn": "https://openlibrary.org/books/OL9070593M",
+        "title": "https://openlibrary.org/books/OL9070593M",
+        "creator": "https://openlibrary.org/books/OL9070593M",
+        "primary": "openlibrary",
+        "publisher": "https://openlibrary.org/books/OL9070593M",
+        "thumbnail": "https://openlibrary.org/books/OL9070593M",
+        "description": "https://books.google.com/books?id=3e5PAQAACAAJ",
+        "google_books_id": "3e5PAQAACAAJ",
+        "description_method": "provider",
+        "description_source_locale": "en"
+      },
+      "created_at": "2026-09-11T11:45:39.413484+00:00",
+      "updated_at": "2026-09-22T09:20:19.793846+00:00"
+    }
+  ],
+  "figure_book_contents": [
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "created_at": "2026-07-29T14:27:26.939934+00:00",
+      "updated_at": "2026-09-02T10:32:14.733+00:00"
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "created_at": "2026-09-07T15:20:47.067193+00:00",
+      "updated_at": "2026-09-07T15:20:47.757+00:00"
+    }
+  ],
+  "figure_book_editions": [
+    {
+      "id": 8972,
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "locale": "ko",
+      "title": "마하바라타 (불멸의 인도문학 2)",
+      "creator": "비야사",
+      "description": "그리스의 대 서사시라 불리는 《일리아드》, 《오디세이》의 8배 분량인 산스크리트 운문의 거작. 원문이 운문체이고 중심 축이 되는 이야기인 바라타 가문의 전쟁 이야기 말고도 당대의 법률, 도덕, 문화 등에 대한 백과사전적 지식이 4/5를 차지하는지라 산문체의 읽기 쉬운 번역이 더 편할 수 있다.\n\n시바, 비슈누, 칼리, 인드라 등 어디선가 한번쯤은 들어본 인도의 신들, 힌두교와 불교의 근본사상, 카스트 계급의 발생, 방대한 스케일의 전쟁과 사랑 이야기 등 세계 최대의 대 서사시로서 갖추어야 할 덕목들을 모두 갖춘 책. 인도 배낭여행을 준비하거나 힌두교, 인도, 불교 등의 문화에 관심이 있다면 지나치기 어려운 책.",
+      "isbn": "9788970096230",
+      "publisher": "민족사",
+      "thumbnail_url": "https://t1.daumcdn.net/lbook/image/953174?timestamp=20221025143938",
+      "release_date": null,
+      "edition_kind": null,
+      "text_scope": null,
+      "sort_order": 0,
+      "verified": null,
+      "sources": {
+        "description": "https://www.yes24.com/product/goods/1467060"
+      },
+      "created_at": "2026-09-07T15:20:47.067193+00:00",
+      "updated_at": "2026-09-14T13:41:42.341639+00:00"
+    },
+    {
+      "id": 35,
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "locale": "ko",
+      "title": "라마야나",
+      "creator": "발미키",
+      "description": "DAUM",
+      "isbn": "9788970096223",
+      "publisher": "민족사",
+      "thumbnail_url": "https://t1.daumcdn.net/lbook/image/952485?timestamp=20250409113641",
+      "release_date": null,
+      "edition_kind": "abridged",
+      "text_scope": "kandas-001-006",
+      "sort_order": 0,
+      "verified": true,
+      "sources": {
+        "url": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "isbn": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "title": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "creator": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "primary": "kakao_book",
+        "publisher": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=952485&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29",
+        "description": "https://m.search.daum.net/search?w=bookpage&bookId=952485&tab=introduction&q=%EB%9D%BC%EB%A7%88%EC%95%BC%EB%82%98%28%EB%B6%88%EB%A9%B8%EC%9D%98+%EC%9D%B8%EB%8F%84%EB%AC%B8%ED%95%99+1%29"
+      },
+      "created_at": "2026-03-06T08:52:37.351536+00:00",
+      "updated_at": "2026-09-10T04:05:14.987511+00:00"
+    },
+    {
+      "id": 13247,
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "locale": "en",
+      "title": "The Valmiki Ramayana (3 Volume Box Set)",
+      "creator": "Bibek Debroy (Translator)",
+      "description": "The Valmiki Ramayana remains a living force in the lives of the Indian people. A timeless epic, it recounts the legend of the noble prince Rama and his battle to vanquish the demon king Ravana. Even before he is crowned king of Ayodhya, Rama is exiled to the Dandaka forests where he is accompanied by his beauteous wife Sita and loyal brother Lakshmana. Deep in the jungle, Sita is abducted by Ravana and taken to his island kingdom Lanka, setting into motion a dramatic chain of events that culminates in an epoch-defining war. Filled with adventure and spectacle, the Ramayana is also the poignant story of a family caught up in the conflict between personal duty and individual desires. In Bibek Debroy's majestic new translation, the complete and unabridged text of the Critical Edition of this beloved epic can now be relished by a new generation of readers.",
+      "isbn": "9780143441144",
+      "publisher": "Penguin",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/10979552-L.jpg",
+      "release_date": null,
+      "edition_kind": "full",
+      "text_scope": "complete",
+      "sort_order": 0,
+      "verified": true,
+      "sources": {
+        "isbn": "https://openlibrary.org/books/OL32349721M",
+        "title": "https://openlibrary.org/books/OL32349721M",
+        "creator": "https://openlibrary.org/books/OL32349721M",
+        "primary": "openlibrary",
+        "publisher": "https://openlibrary.org/books/OL32349721M",
+        "thumbnail": "https://openlibrary.org/books/OL32349721M",
+        "description": "https://books.google.com/books?id=LESFnAEACAAJ",
+        "edition_scope": "https://openlibrary.org/books/OL32349721M.json",
+        "google_books_id": "LESFnAEACAAJ",
+        "description_method": "provider",
+        "description_source_locale": "en"
+      },
+      "created_at": "2026-09-22T09:20:19.793846+00:00",
+      "updated_at": "2026-09-22T09:20:19.793846+00:00"
+    },
+    {
+      "id": 13248,
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "locale": "en",
+      "title": "Mahabharata of Krishna-Dwaipayana Vyasa (4 Volume Set)",
+      "creator": "Kisari Mohan Ganguly",
+      "description": "Description: The Mahabharata in its present form is equal to about eight times as much as the Illiad and Odyssey put together. The nucleus of the Mahabharata is the great war of eighteen days fought between the Kauravas, the hundred sons of Dhritarashtra and Pandavas, the five sons of Pandu. The epic entails all the circumstances leading upto the war. In this great Kurukshetra battle were involved almost all the kings of India joining either of the two parties. The result of this war was the total annihilation of Kauravas and their party, and Yudhisthira, the head of the Pandavas, became the sovereign monarch of Hastinapura, symbolizing the victory of good over evil. But with the progress of years new matters and episodes relating to the various aspects of human life, social, economic, political, moral and religious as also fragments of other heroic legends came to be added to the aforesaid nucleus and this phenomenon continued for centuries until it acquired the present shape. This very fact that the Mahabharata represents a whole literature rather than one single and unified work, and contains so many and so multifarious things, makes it more suited than any other book to afford us an insight into the deepest depths of the soul of Indian people. In the world of classical literature the Mahabharata is unique in many respects. As an epic, it is the greatest-seven times as great as the Illiad and the Odyssey combined, and the grandest-animating the heart of India over two thousand years in future. It is the mightiest single endeavour of literary creation of any culture in human history. The effort is to conceive the mind that conceived it is itself a liberal education and a walk through its table of contents is more than a Sabbath day's journey.",
+      "isbn": "9788121505932",
+      "publisher": "South Asia Books",
+      "thumbnail_url": "https://covers.openlibrary.org/b/id/9284904-L.jpg",
+      "release_date": null,
+      "edition_kind": "full",
+      "text_scope": "complete",
+      "sort_order": 0,
+      "verified": true,
+      "sources": {
+        "isbn": "https://openlibrary.org/books/OL9070593M",
+        "title": "https://openlibrary.org/books/OL9070593M",
+        "creator": "https://openlibrary.org/books/OL9070593M",
+        "primary": "openlibrary",
+        "publisher": "https://openlibrary.org/books/OL9070593M",
+        "thumbnail": "https://openlibrary.org/books/OL9070593M",
+        "description": "https://books.google.com/books?id=3e5PAQAACAAJ",
+        "edition_scope": "https://openlibrary.org/books/OL9070593M.json",
+        "google_books_id": "3e5PAQAACAAJ",
+        "description_method": "provider",
+        "description_source_locale": "en"
+      },
+      "created_at": "2026-09-22T09:20:19.793846+00:00",
+      "updated_at": "2026-09-22T09:20:19.793846+00:00"
+    }
+  ],
+  "figure_book_characters": [
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "a7bf5bbf-db94-4042-ae9a-6a0652d0f9a6",
+      "relation_type": "appearance",
+      "sort_order": 0,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "00750a5a-245d-4b59-bab9-0a87386146a6",
+      "relation_type": "appearance",
+      "sort_order": 8,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "855f41f8-bce7-4b22-87a8-caa5ec93ecaf",
+      "relation_type": "appearance",
+      "sort_order": 14,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "87eb420d-5c2e-42e4-aa4f-568798d9902d",
+      "relation_type": "appearance",
+      "sort_order": 1,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "bc8dcab6-b894-4a17-b6d5-25314b854f0c",
+      "relation_type": "appearance",
+      "sort_order": 3,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "df22b76d-9232-4b9e-9d24-ddc9c0e0276b",
+      "relation_type": "appearance",
+      "sort_order": 4,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "fce6657f-0689-4af7-a06b-50551ccb491b",
+      "relation_type": "appearance",
+      "sort_order": 5,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "dae16b09-1fad-4fdd-811a-c350c10eef0c",
+      "relation_type": "appearance",
+      "sort_order": 6,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "e02c6738-75ee-4c56-8360-c9daa9806534",
+      "relation_type": "appearance",
+      "sort_order": 7,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "219db041-df14-477a-a47e-41841ebab25e",
+      "relation_type": "appearance",
+      "sort_order": 8,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "bd9a65fe-7754-41e9-a998-aa1d6c3586f3",
+      "relation_type": "appearance",
+      "sort_order": 9,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "c9434798-b4e3-4ce7-b02b-df915e4e9bc7",
+      "relation_type": "appearance",
+      "sort_order": 10,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "cd645a2c-4a25-4172-8a8f-f526c7fbead2",
+      "relation_type": "appearance",
+      "sort_order": 11,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "d2d38af7-497b-45f6-bbd1-7dadb4d80dc6",
+      "relation_type": "appearance",
+      "sort_order": 12,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "d773a859-8e1f-4e31-9f55-77812d2fb8dd",
+      "relation_type": "appearance",
+      "sort_order": 13,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "fe72f434-cd3e-4d20-9096-73970b8ca870",
+      "relation_type": "appearance",
+      "sort_order": 14,
+      "created_at": "2026-09-07T15:20:47.452412+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "aafcb573-eb4b-4077-9cca-9488cffb99e4",
+      "relation_type": "appearance",
+      "sort_order": 2,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "35979ee4-dbc2-40ff-ae93-435b2205651d",
+      "relation_type": "appearance",
+      "sort_order": 13,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "7e0f1ede-d052-4dff-a8ca-dc5b9137043d",
+      "relation_type": "appearance",
+      "sort_order": 26,
+      "created_at": "2026-09-02T10:32:14.017865+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "b2bbfaec-5e4e-436b-8712-77e0a87deaf6",
+      "relation_type": "appearance",
+      "sort_order": 1,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "fec407b5-f4c8-4513-855a-9ae720121baf",
+      "relation_type": "appearance",
+      "sort_order": 9,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "d26d2c5f-8574-4a25-accc-bd933412f1f4",
+      "relation_type": "appearance",
+      "sort_order": 3,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "12a51da2-4b2b-491a-8f3f-b72cea6f2890",
+      "relation_type": "appearance",
+      "sort_order": 4,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "f7e7f000-5aa1-4164-ad6b-72800014aab4",
+      "relation_type": "appearance",
+      "sort_order": 5,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "01e59a47-61e9-4296-af1a-ca945da3b965",
+      "relation_type": "appearance",
+      "sort_order": 6,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "d08b4ec5-cb5e-4bb1-9716-3a5100be0345",
+      "relation_type": "appearance",
+      "sort_order": 7,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "fed58997-a631-4016-bded-d673456ce5d0",
+      "relation_type": "appearance",
+      "sort_order": 15,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "7b0f9592-7fd5-427e-b0c7-993791067dc4",
+      "relation_type": "appearance",
+      "sort_order": 16,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "87ebd1f8-fadc-4db4-b9e4-b50633227492",
+      "relation_type": "appearance",
+      "sort_order": 17,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "e99816fb-012b-40a4-afb8-6dac9c8b5c87",
+      "relation_type": "appearance",
+      "sort_order": 18,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "e18ebf2e-0083-448b-bdaa-33f6a1f2e9f1",
+      "relation_type": "appearance",
+      "sort_order": 19,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "382a902b-15c0-4306-a63b-76cf9fe038f9",
+      "relation_type": "appearance",
+      "sort_order": 21,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "0b101e57-2d19-47d4-ab00-cb6c0c82ad21",
+      "relation_type": "appearance",
+      "sort_order": 22,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "65719efb-71cb-4ad9-903b-246f8f78a1ca",
+      "relation_type": "appearance",
+      "sort_order": 23,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "968a8447-12b3-4db3-aba4-cbdf635351f9",
+      "relation_type": "appearance",
+      "sort_order": 24,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "bf390dac-86e8-42a7-8be1-1bf00b2ac0a8",
+      "relation_type": "appearance",
+      "sort_order": 20,
+      "created_at": "2026-08-30T07:31:29.094345+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "d61164f9-1b06-42dd-8b63-426db7a84330",
+      "relation_type": "appearance",
+      "sort_order": 10,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "6f52d4cc-96bc-4b4e-b20e-5d6e68895ae3",
+      "relation_type": "appearance",
+      "sort_order": 11,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "08d96bbf-c666-46eb-984a-a26ea7cf11fd",
+      "relation_type": "appearance",
+      "sort_order": 12,
+      "created_at": "2026-07-29T14:40:53.456916+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "292b5ce6-50ae-4a09-a2f4-b1da0d444ed0",
+      "relation_type": "appearance",
+      "sort_order": 25,
+      "created_at": "2026-09-02T10:32:14.017865+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "celeb_id": "a036c5a5-850c-43ba-ae70-f5019a06ad80",
+      "relation_type": "appearance",
+      "sort_order": 0,
+      "created_at": "2026-09-22T09:20:19.793846+00:00",
+      "description": null,
+      "description_en": null
+    },
+    {
+      "content_id": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "celeb_id": "a036c5a5-850c-43ba-ae70-f5019a06ad80",
+      "relation_type": "appearance",
+      "sort_order": 1,
+      "created_at": "2026-09-22T09:20:19.793846+00:00",
+      "description": null,
+      "description_en": null
+    }
+  ],
+  "figure_book_products": [
+    {
+      "id": 27,
+      "edition_id": 35,
+      "platform": "coupang",
+      "product_id": "4432141",
+      "product_url": "https://www.coupang.com/vp/products/4432141",
+      "affiliate_url": "https://link.coupang.com/a/f11vOOHNe0",
+      "quality_evidence": [
+        "exact ISBN",
+        "next-day delivery badge",
+        "four product ratings"
+      ],
+      "checked_at": "2026-09-01T15:00:00+00:00",
+      "is_active": false,
+      "created_at": "2026-09-02T06:54:58.070087+00:00",
+      "updated_at": "2026-09-16T18:03:23.863398+00:00"
+    }
+  ]
+}

@@ -1,0 +1,832 @@
+{
+  "checked_at": "2026-09-23T11:17:19.926Z",
+  "factions": [
+    {
+      "id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "slug": "myth-korea-gaya",
+      "published": false,
+      "lead_person_ids": [
+        "b09c77be-3b25-489a-8d82-e2e714823792",
+        "541d832a-ce78-4171-95af-d7bd7679949c",
+        "1cc42bdb-fad0-4182-a0db-cdca5384a759"
+      ]
+    },
+    {
+      "id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "slug": "myth-korea-goryeo-segye",
+      "published": false,
+      "lead_person_ids": [
+        "8e32c1c6-f119-4094-843e-6d5bad504f06",
+        "cc488307-5742-4a55-b12c-fdce5339b97b",
+        "c37045af-bd18-4e24-8461-ad470c63262b"
+      ]
+    },
+    {
+      "id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+      "slug": "myth-korea-tamna",
+      "published": false,
+      "lead_person_ids": [
+        "ca019327-165e-429f-abbb-886495a372e8",
+        "9a858d99-1559-45e1-a773-d66d502588d9",
+        "757ff636-bceb-473f-8ec7-74bdbb86b4c4"
+      ]
+    },
+    {
+      "id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "slug": "myth-korea-silla",
+      "published": false,
+      "lead_person_ids": [
+        "a437c649-3c76-4f23-a950-6e2189f33f1c",
+        "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+        "e5c0d30c-708e-4762-86cc-e5efa441a5ff"
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "faction": "myth-korea-gaya",
+      "member": {
+        "id": "a2eba64b-1732-480b-be62-f965cd521cc3",
+        "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+        "celeb_id": "541d832a-ce78-4171-95af-d7bd7679949c",
+        "hidden": true,
+        "short_desc": "바다 건너 아유타국에서 온 왕후",
+        "short_desc_en": "The queen who crossed the sea from Ayuta"
+      },
+      "person": {
+        "id": "541d832a-ce78-4171-95af-d7bd7679949c",
+        "slug": "heo-hwang-ok",
+        "nickname": "허황옥",
+        "nickname_en": "Heo Hwang-ok",
+        "headline": "바다를 건너와 수로의 왕후가 된 아유타국 공주",
+        "headline_en": "Sailed from Ayuta with a stone pagoda to become queen of Garak",
+        "bio": "허황옥의 부모가 꿈에 상제를 보고 딸을 가락국 수로의 배필로 보내라는 말을 듣자 그가 배를 타고 바다를 건너 별포 나루에 닿았다. 산 바깥 언덕에서 입고 온 비단 바지를 벗어 산신에게 폐백으로 바친 뒤 수로와 만나 왕후가 되었고 거등을 비롯한 아들들을 낳았다. 삼국유사 탑상 편은 그가 파도를 누르려고 배에 파사석탑을 싣고 왔다고 적는다.",
+        "bio_en": "Heo Hwang-ok's parents saw the Lord on High in a dream and were told to send their daughter to Suro of Garak as his consort, so she crossed the sea by ship and landed at the Byeolpo ferry. On a hill outside the mountains she took off the silk trousers she had worn and offered them to the mountain spirit, then met Suro, became queen, and bore Geodeung and his brothers. The Tapsang chapter of the Samguk Yusa records that she carried a pasa stone pagoda aboard to calm the waves.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/541d832a-ce78-4171-95af-d7bd7679949c/avatar.webp?v=1790052391622",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "541d832a-ce78-4171-95af-d7bd7679949c",
+        "plain_text": "허황옥은 《삼국유사》에 가락국 수로의 배필로 기록된 왕후이다. 부모의 꿈에 나타난 상제의 명에 따라 먼 곳에서 배를 타고 바다를 건너와 열여섯 살에 수로를 만나 혼인했다고 전한다. 별포 나루에 닿은 뒤 입고 온 비단 바지를 벗어 산신에게 바쳤으며, 왕후가 되어 거등을 비롯한 아들들을 낳았다. 바다를 건널 때 거센 파도를 잠재우기 위해 파사석탑을 배에 싣고 왔다는 이야기도 전해진다.",
+        "plain_text_en": "Heo Hwang-ok is the queen recorded in the Samguk Yusa as the consort of Suro of the Gaya kingdom. By the command of the Lord on High appearing in her parents' dream, she is said to have crossed the sea by ship from a distant land and married Suro at sixteen. Landing at the Byeolpo crossing she took off the silk trousers she had worn and offered them to the mountain god, and as queen she bore sons including Geodeung. A tale also says she carried a pagoda of wave-calming stone aboard her ship to still the rough seas.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-gaya",
+      "member": {
+        "id": "bc4d8be7-683b-4a3c-b0c5-6f5800e8a1b0",
+        "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+        "celeb_id": "6a3daf27-3703-4256-aa94-cedb1f7ae402",
+        "hidden": true,
+        "short_desc": "대가야 시조를 낳은 산신",
+        "short_desc_en": "Mountain goddess who bore Daegaya's founder"
+      },
+      "person": {
+        "id": "6a3daf27-3703-4256-aa94-cedb1f7ae402",
+        "slug": "jeonggyeon-moju",
+        "nickname": "정견모주",
+        "nickname_en": "Jeonggyeon Moju",
+        "headline": "대가야와 금관가야 시조를 낳은 가야산 여신",
+        "headline_en": "The mountain goddess who bore the founders of two Gaya kingdoms",
+        "bio": "정견모주가 가야산의 여신으로 천신 이비가지에 감응해 뇌질주일과 뇌질청예를 낳았고 두 아들이 각각 대가야와 금관가야의 임금이 되었다. 조선 때까지 해인사 안에 정견천왕사를 두고 그를 모셨다. 신증동국여지승람은 대가야의 왕후 정견이 죽어 산신이 되었다는 다른 전승도 함께 적는다.",
+        "bio_en": "As the goddess of Mount Gaya, Jeonggyeon Moju conceived by the heavenly god Ibigaji and bore Noejil Juil and Noejil Cheongye, who became kings of Daegaya and Geumgwan Gaya. A shrine to her, the Jeonggyeon Cheonwangsa, stood within Haeinsa until the Joseon period. The Sinjeung Dongguk Yeoji Seungnam also records a rival account in which Jeonggyeon was a queen of Daegaya who became a mountain goddess after her death.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/6a3daf27-3703-4256-aa94-cedb1f7ae402/avatar.webp?v=1790052453847",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "6a3daf27-3703-4256-aa94-cedb1f7ae402",
+        "plain_text": "정견모주는 대가야와 금관가야의 건국 설화에 등장하는 가야산의 산신이다. 《신증동국여지승람》 등에 따르면 천신 이비가지와 감응하여 대가야를 세운 뇌질주일과 금관가야의 수로왕이 된 뇌질청예 두 아들을 낳았다고 전해진다. 오랜 세월 가야산 일대와 해인사 등에서 성모이자 산신으로 숭배받았다.",
+        "plain_text_en": "Jeonggyeon Moju is the mountain goddess of Gaya mountain in the foundation legends of Daegaya and Geumgwan Gaya. According to the Sinjeung Dongguk Yeoji Seungnam and other sources, moved by the heavenly god Ibigaji she bore two sons: Noejil Juil, founder of Daegaya, and Noejil Cheongye, who became King Suro of Geumgwan Gaya. For long ages she was worshipped around Gaya mountain and Haeinsa as Holy Mother and mountain deity.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-gaya",
+      "member": {
+        "id": "043c32ad-0cba-4b83-bd1b-81fbe03d18a2",
+        "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+        "celeb_id": "b09c77be-3b25-489a-8d82-e2e714823792",
+        "hidden": true,
+        "short_desc": "하늘이 보낸 가락의 첫 임금",
+        "short_desc_en": "Heaven-sent first king of Garak"
+      },
+      "person": {
+        "id": "b09c77be-3b25-489a-8d82-e2e714823792",
+        "slug": "kim-suro",
+        "nickname": "김수로",
+        "nickname_en": "Kim Suro",
+        "headline": "구지봉의 알에서 나와 가락국을 세운 임금",
+        "headline_en": "Hatched on Gujibong and grown to a king within ten days",
+        "bio": "구지봉에서 하늘의 소리가 아홉 간에게 봉우리 흙을 파며 노래하고 춤추라 이르자 사람들이 구지가를 불렀고 붉은 보자기에 싸인 금상자가 내려왔다. 상자 안 여섯 알에서 아이들이 나왔는데 가장 먼저 나온 아이가 열흘 남짓 만에 다 자라 왕위에 올라 나라를 대가락이라 했다. 뒤에 탈해가 찾아와 왕위를 다투자 매와 참새, 독수리와 새매로 번갈아 모습을 바꾸어 겨루어 물리쳤다.",
+        "bio_en": "A voice from heaven at Gujibong told the nine chiefs to dig at the summit, sing and dance, and as they sang the Song of Guji a golden chest wrapped in red cloth came down. Six eggs lay inside, and the boy who emerged first grew to full size within ten days, took the throne, and named his realm Great Garak. When Talhae later came to contest the throne, Suro outmatched him as they shifted in turn into hawk and sparrow, eagle and goshawk.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/b09c77be-3b25-489a-8d82-e2e714823792/avatar.webp?v=1790052502226",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "b09c77be-3b25-489a-8d82-e2e714823792",
+        "plain_text": "김수로는 금관가야를 세운 시조왕이다. 구지봉에서 아홉 족장이 구지가를 부르자 하늘에서 여섯 알이 든 금상자가 내려왔고, 가장 먼저 태어난 그가 왕위에 올라 나라를 다스렸다고 전한다.",
+        "plain_text_en": "Kim Suro was the founding king of Geumgwan Gaya. When the nine chiefs sang the Gujiga at Gujibong, a golden casket holding six eggs descended from the sky; he hatched first, took the throne, and ruled the country.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-gaya",
+      "member": {
+        "id": "6d4da71e-0d2b-41c1-9c84-8c4d80e5d60a",
+        "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+        "celeb_id": "31c1d415-4b9a-48d3-bebe-496ddabf00fb",
+        "hidden": true,
+        "short_desc": "대가야의 시조왕",
+        "short_desc_en": "Founder king of Daegaya"
+      },
+      "person": {
+        "id": "31c1d415-4b9a-48d3-bebe-496ddabf00fb",
+        "slug": "king-ijinasi",
+        "nickname": "이진아시왕",
+        "nickname_en": "King Ijinasi",
+        "headline": "가야산 산신이 낳은 대가야의 첫 임금",
+        "headline_en": "Born to the goddess of Mount Gaya and first to rule Daegaya",
+        "bio": "가야산 산신 정견모주가 천신 이비가지에 감응해 두 아들을 낳았고 그 가운데 형인 뇌질주일이 대가야의 임금이 되었다. 최치원이 쓴 석리정전은 뇌질주일이 곧 이진아시왕이고 아우 뇌질청예가 금관국의 수로왕이라고 적었다. 삼국사기 지리지는 대가야가 이진아시왕부터 도설지왕까지 열여섯 대 오백스무 해를 이었다고 전한다.",
+        "bio_en": "Jeonggyeon Moju, mountain goddess of Mount Gaya, conceived by the heavenly god Ibigaji and bore two sons, and the elder, Noejil Juil, became king of Daegaya. Choe Chi-won's Seongnijeongjeon identifies Noejil Juil as King Ijinasi and his younger brother Noejil Cheongye as King Suro of Geumgwan. The geography treatise of the Samguk Sagi records that Daegaya lasted sixteen generations and five hundred twenty years from Ijinasi to King Doseolji.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/31c1d415-4b9a-48d3-bebe-496ddabf00fb/avatar.webp?v=1790052503800",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "31c1d415-4b9a-48d3-bebe-496ddabf00fb",
+        "plain_text": "이진아시왕은 대가야의 초대 국왕이다. 전승에 따르면 가야산 산신 정견모주가 천신 이비가지에 감응해 두 아들을 낳았는데, 그중 형인 뇌질주일이 대가야의 왕이 되었다. 최치원이 쓴 〈석리정전〉에는 뇌질주일이 이진아시왕이고 아우인 뇌질청예가 금관국의 수로왕이라고 전한다. 대가야는 시조 이진아시왕부터 16대 도설지왕까지 520년 동안 이어졌다.",
+        "plain_text_en": "King Ijinasi was the first king of Daegaya. Tradition says the mountain goddess Jeonggyeon Moju bore two sons to the sky god Ibigaji, the elder of whom, Noejiljuil, became king of Daegaya. Choe Chiwon's Seok I-jeong jeon records Noejiljuil as King Ijinasi and his younger brother Noejilcheongye as King Suro of Geumgwan. Daegaya lasted 520 years, from founder Ijinasi to the sixteenth king, Doseolji.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-gaya",
+      "member": {
+        "id": "54f647f9-66ca-457a-8e29-fcf376188074",
+        "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+        "celeb_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+        "hidden": true,
+        "short_desc": "수로와 술법을 겨루다 진 도전자",
+        "short_desc_en": "The challenger who lost a duel of transformations"
+      },
+      "person": {
+        "id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+        "slug": "seok-talhae",
+        "nickname": "석탈해",
+        "nickname_en": "Seok Talhae",
+        "headline": "바다를 건너와 석씨 왕계를 연 4대 임금",
+        "headline_en": "Arrived by sea in a chest and won a house by burying charcoal",
+        "bio": "용성국 함달파왕의 왕비가 알을 낳자 왕이 상서롭지 못하다며 알을 궤에 담아 배에 실어 보냈고 배가 아진포에 닿아 노파 아진의선이 궤를 열었다. 자란 아이가 토함산에 올라 살 곳을 살핀 뒤 호공의 집터가 좋은 것을 알고 몰래 숫돌과 숯을 묻어 두었다가 대장장이 집안의 옛터라 우겨 그 집을 빼앗았다. 남해왕의 사위가 되었고 유리왕의 뒤를 이어 왕위에 올라 석씨 왕계를 시작했다.",
+        "bio_en": "When the queen of King Hamdalpa of Yongseong gave birth to an egg, the king called it ill-omened and set it adrift in a chest, which came ashore at Ajinpo where the old woman Ajin Uiseon opened it. Grown, the boy climbed Mount Toham to survey the land, judged Hogong's house site the best, and secretly buried a whetstone and charcoal there so he could claim it as his smith family's old ground and take the house. He became son-in-law to King Namhae and succeeded King Yuri, beginning the Seok royal line.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/1cc42bdb-fad0-4182-a0db-cdca5384a759/avatar.webp?v=1790052738999",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+        "plain_text": "석탈해는 신라의 제4대 왕이자 석씨 왕계의 시조이다. 설화에 따르면 용성국 함달파왕의 왕비가 낳은 알에서 태어나 궤에 실려 바다에 띄워졌으나, 아진포에서 노파 아진의선에게 발견되어 자랐다. 훗날 호공의 집터에 몰래 숫돌과 숯을 묻어 두고 대장장이 집안의 옛터라 우겨 차지했다는 일화가 전한다. 남해왕의 사위가 되었고, 유리왕의 뒤를 이어 신라 왕위에 올랐다.",
+        "plain_text_en": "Seok Talhae was the fourth king of Silla and progenitor of its Seok royal line. Legend says he was born from an egg laid by the queen of Hamdalpawa of Yongseong and set adrift in a casket, then found at Ajinpo by the old woman Ajin-iseon and raised. Later the episode is told of his secretly burying whetstones and charcoal on Hogong's house site and claiming it as a smith family's old ground. He became King Namhae's son-in-law and succeeded King Yuri on the Silla throne.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "153469ea-061e-4a90-9d78-2ed0f74edc6e",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "f7c78cd0-a209-43ac-af4f-23f5eab0a8e6",
+        "hidden": true,
+        "short_desc": "백두산에서 내려온 첫 선조",
+        "short_desc_en": "The first forebear who came down from Mt. Baekdu"
+      },
+      "person": {
+        "id": "f7c78cd0-a209-43ac-af4f-23f5eab0a8e6",
+        "slug": "hogyeong",
+        "nickname": "호경",
+        "nickname_en": "Hogyeong",
+        "headline": "백두산에서 내려와 왕건의 조상이 된 첫 인물",
+        "headline_en": "Came down from Mount Baekdu and ended as a mountain god",
+        "bio": "호경이 스스로 성골장군이라 부르며 백두산에서 내려와 부소산 왼쪽 골짜기에 자리를 잡았다. 아홉 사람과 평나산에서 사냥하다 굴에서 밤을 지내는데 호랑이가 입구를 막자 갓을 던져 점을 쳤고 그의 갓이 물려 밖으로 나온 사이 굴이 무너져 나머지가 모두 죽었다. 산에 제사를 지내다 나타난 과부 산신과 혼인해 구룡산 산신이 되었고 옛 아내를 잊지 못해 밤마다 찾아와 강충을 낳았다.",
+        "bio_en": "Calling himself General Seonggol, Hogyeong came down from Mount Baekdu and settled in the valley left of Mount Buso. Hunting on Mount Pyeongna with nine companions, he sheltered in a cave for the night until a tiger blocked the mouth; they cast their hats to divine, and while his hat was taken outside the cave collapsed and killed the rest. He married the widowed mountain goddess he met while sacrificing on the mountain and became the mountain god of Guryongsan, but could not forget his first wife and came to her nightly, fathering Gang Chung.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/f7c78cd0-a209-43ac-af4f-23f5eab0a8e6/avatar.webp?v=1790052396953",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "f7c78cd0-a209-43ac-af4f-23f5eab0a8e6",
+        "plain_text": "호경은 신라 말기의 군인이자 고려 태조 왕건의 가계 설화에 등장하는 선조이다. 고구려 유민 출신으로 스스로 성골장군이라 일컬었으며, 백두산에서 내려와 개성 부소산 골짜기에 정착했다고 전한다. 평나산으로 사냥을 나갔다가 호랑이를 만나 굴에 갇혔을 때 갓을 던져 차례를 정했고, 자신의 갓이 물려 밖으로 나온 직후 굴이 무너져 홀로 살아남았다. 이후 나타난 평나산의 과부 여산신과 혼인하여 산신이 되었으나, 옛 아내를 잊지 못해 밤마다 찾아와 아들 강충을 낳았다는 전설이 전해진다.",
+        "plain_text_en": "Hogyeong was a late-Silla soldier and an ancestor figure in the lineage legend of Goryeo's founder Taejo Wang Geon. Of Goguryeo refugee stock, he called himself 'General Seonggol' and is said to have come down from Mount Baekdu to settle in the Buso valley of Kaesong. Caught in a tiger's den while hunting at Mount Pyeongna, he threw his hat to draw lots; when his hat was carried out, the den collapsed and he alone survived. He then married the widowed mountain goddess of Pyeongna and became a mountain god himself, but the legend says he could not forget his former wife and came back each night, fathering the son Gangchung.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "23cb3efe-1258-4b3f-bee9-cc6daf723832",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "8e32c1c6-f119-4094-843e-6d5bad504f06",
+        "hidden": true,
+        "short_desc": "용녀를 아내로 맞은 왕건의 조부",
+        "short_desc_en": "Wang Geon's grandfather, who wed the dragon maiden"
+      },
+      "person": {
+        "id": "8e32c1c6-f119-4094-843e-6d5bad504f06",
+        "slug": "jakjegeon",
+        "nickname": "작제건",
+        "nickname_en": "Jakjegeon",
+        "headline": "서해 용왕의 여우를 쏘아 죽이고 용녀를 얻은 왕건의 할아버지",
+        "headline_en": "Shot the fox that tormented a dragon king and took his daughter home",
+        "bio": "아버지를 찾아 상선을 타고 서해로 가던 작제건은 배가 안개에 갇히자 활과 화살을 들고 스스로 바다에 뛰어들어 바위 위에 섰다. 서해 용왕이 나타나 늙은 여우가 부처 모습으로 경을 읽어 괴롭힌다고 하자 활을 쏘아 여우를 죽였고 그 값으로 용왕의 딸과 칠보를 얻어 돌아왔다. 개주와 정주 사람들이 영안성을 쌓아 그를 맞았으며 용왕이 준 돼지가 자리를 잡은 곳을 따라 송악 남쪽으로 집을 옮겼다.",
+        "bio_en": "Sailing the West Sea on a merchant ship in search of his father, Jakjegeon found the ship trapped in fog. Bow and arrows in hand, he jumped into the sea of his own accord and landed on a rock. The Dragon King of the West Sea appeared and complained that an old fox tormented him by reciting sutras in the guise of a buddha; Jakjegeon shot the fox dead and received the king's daughter and seven treasures in return. The people of Gaeju and Jeongju built Yeongan Fortress to receive him, and he moved his house south of Songak, following where the dragon king's pig chose to lie down.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/8e32c1c6-f119-4094-843e-6d5bad504f06/avatar.webp?v=1790052448736",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "8e32c1c6-f119-4094-843e-6d5bad504f06",
+        "plain_text": "작제건은 고려 왕실의 계보 설화에 등장하는 인물이다. 아버지를 찾아 배를 타고 서해로 가다 안개 속 바위에 홀로 남았고, 서해 용왕을 괴롭히던 여우를 활로 쏘아 없애고 용왕의 딸과 칠보를 얻어 돌아왔다. 이후 용왕이 준 돼지가 자리를 잡은 송악 남쪽으로 집을 옮겼다.",
+        "plain_text_en": "Jakjegeon is a figure in the Goryeo royal house's lineage legend. Sailing the western sea to find his father, he found himself alone on a rock amid the fog, then he shot dead the fox that tormented the Dragon King of the Western Sea and returned with the dragon king's daughter and the seven treasures. He then moved his household south of Song'ak, where the pig the dragon king had given him settled.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "52fa118b-322b-4a8e-af34-1587e6a3480f",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+        "hidden": true,
+        "short_desc": "도선의 예언대로 서른여섯 칸 집에서 태어나 삼한의 주인이 된 아들이라 전한다",
+        "short_desc_en": "The son born in the house of thirty-six bays, as Doseon foretold, destined to become lord of the Three Han"
+      },
+      "person": {
+        "id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+        "slug": "wang-geon",
+        "nickname": "왕건",
+        "nickname_en": "Wang Geon",
+        "headline": "고려를 세우고 후삼국을 통일한 태조",
+        "headline_en": "Founder of Goryeo who unified the Later Three Kingdoms",
+        "bio": "고려 건국자. 궁예 휘하 장수로 출발, 918년 고려를 건국하고 태조로 즉위했다. 936년 후삼국을 통일했다.",
+        "bio_en": "Founder of Goryeo who started as a general under Gung Ye, founded Goryeo in 918 and took the throne as Taejo, unifying the Later Three Kingdoms in 936.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/80c6e03b-354d-49ce-982e-7af4297ab7e8/avatar.webp?v=1789736283354",
+        "publication_status": "active",
+        "celeb_reality": "REAL"
+      },
+      "guide": {
+        "profile_id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+        "plain_text": "왕건은 고려를 세우고 후삼국을 통일한 군주이다. 송악의 유력한 지방 세력가 집안에서 자라 궁예 밑에서 장수로 이름을 얻었고, 해상과 군사 기반을 바탕으로 세력을 넓혔다. 궁예를 몰아낸 뒤 918년에 고려를 세웠으며, 지방 세력과 손잡고 신라에는 우호적으로 접근하고 후백제와는 전쟁과 화친을 함께 쓰며 판세를 바꾸었다. 결국 신라의 항복을 받고 후백제를 무너뜨려 936년에 후삼국 통일을 이루었다.",
+        "plain_text_en": "Wang Geon founded Goryeo and unified the Later Three Kingdoms. He grew up in a powerful local family in Songak, made his name as a general under Gung Ye, and built power through maritime and military strength. After removing Gung Ye, he founded Goryeo in 918. He worked with local magnates, approached Silla with a conciliatory policy, and used both war and negotiation against Later Baekje to change the balance of power. He eventually accepted Silla's surrender and defeated Later Baekje, completing the unification of the Later Three Kingdoms in 936.",
+        "published_at": "2026-08-20T11:07:11.189879+00:00"
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "fa5aa69e-7ad0-41ea-ab27-9f0638d3b11f",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "cfac854b-bef8-4dc5-b798-3f6abc026b57",
+        "hidden": true,
+        "short_desc": "고을을 옮겨 송악을 닦은 상사찬",
+        "short_desc_en": "Headman who moved the town and planted the pines of Songak"
+      },
+      "person": {
+        "id": "cfac854b-bef8-4dc5-b798-3f6abc026b57",
+        "slug": "gang-chung",
+        "nickname": "강충",
+        "nickname_en": "Gang Chung",
+        "headline": "부소산 남쪽으로 고을을 옮겨 송악을 연 인물",
+        "headline_en": "Moved his people to the mountain's south slope and named it Songak",
+        "bio": "강충이 서강 영안촌 부잣집 딸 구치의와 혼인해 마하갑에 살았다. 신라의 감간 팔원이 부소산이 헐벗은 것을 보고 산에 소나무를 심고 고을을 산 남쪽으로 옮기라 이르자 그 말을 따랐고 고을 이름을 송악군으로 고쳤다. 두 아들을 낳았는데 막내 손호술이 뒤에 이름을 보육으로 고쳤다.",
+        "bio_en": "Gang Chung married Gu Chi-ui, daughter of a wealthy house in Yeongan Village, and settled at Mahagap. When the Silla official Palwon saw Mount Buso stripped bare and told him to plant pines and move the settlement to the mountain's south side, he did so and renamed the district Songak. His younger son Son Ho-sul later took the name Boyuk.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/cfac854b-bef8-4dc5-b798-3f6abc026b57/avatar.webp?v=1790052354238",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "cfac854b-bef8-4dc5-b798-3f6abc026b57",
+        "plain_text": "강충은 고려 왕건의 5대조로 전해지는 인물이다. 서강 영안촌의 부잣집 딸 구치의와 혼인해 마하갑에 살았다. 헐벗은 부소산을 본 신라 감간 팔원의 권유에 따라 산에 소나무를 심고 고을을 산 남쪽으로 옮겼으며, 고을 이름을 송악군으로 고쳤다. 두 아들을 두었는데 그중 막내인 손호술은 훗날 보육으로 개명했다.",
+        "plain_text_en": "Gangchung is recorded as the fifth-generation ancestor of Wang Geon, founder of Goryeo. He married Guchiui, daughter of a wealthy house in Yeongan village on the Seogang, and lived at Mahagap. On the advice of the Silla official Palwon, who saw that Busosan mountain stood bare, he planted pines on it, moved the town south of the mountain, and renamed it Songak county. Of his two sons, the youngest Sonhosul was later renamed Boyuk.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "4dba9be0-1a2f-470a-ab9e-b11aeea70b93",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca",
+        "hidden": true,
+        "short_desc": "삼한이 잠기는 꿈을 꾼 거사",
+        "short_desc_en": "The layman who dreamt the Three Han drowned"
+      },
+      "person": {
+        "id": "7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca",
+        "slug": "boyuk",
+        "nickname": "보육",
+        "nickname_en": "Boyuk",
+        "headline": "삼한이 잠기는 꿈을 꾼 진의의 아버지",
+        "headline_en": "Dreamed the three Han drowned under a silver sea",
+        "bio": "보육이 지리산에 들어가 도를 닦고 돌아와 마하갑에 살았다. 꿈에 곡령에 올라 남쪽을 보고 오줌을 누자 삼한의 산천이 잠겨 은빛 바다가 되었고, 형 이제건이 그 꿈을 듣고 큰 사람을 낳을 것이라며 자기 딸 덕주를 아내로 주었다. 두 딸을 낳아 둘째를 진의라 했다.",
+        "bio_en": "Boyuk withdrew to Mount Jiri to practice the Way, then returned to live at Mahagap. He dreamed of climbing Gongnyeong, facing south and passing water until the mountains and rivers of the three Han were submerged into a silver sea; his elder brother Ije-geon heard the dream, declared that he would father someone great, and gave him his own daughter Deokju as a wife. They had two daughters, and the younger was named Jinui.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca/avatar.webp?v=1790051797442",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca",
+        "plain_text": "보육은 신라 말기 송악 지역의 호족이자 고려 태조 왕건의 외고조부이다. 지리산에서 수행을 마치고 돌아온 뒤, 고개에 올라 소변을 누어 온 산천을 물바다로 만드는 꿈을 꾸었다. 이를 비범한 인물을 낳을 길몽이라 여긴 형 이제건의 주선으로 조카딸 덕주와 혼인했다. 이들 사이에서 태어난 둘째 딸 진의가 훗날 왕건의 조부 작제건을 낳았다는 설화가 전해진다.",
+        "plain_text_en": "Boyuk was a local strongman of the Songak region in late Silla and the maternal great-great-grandfather of Taejo, founder of Goryeo. Returning from a mountain retreat, he dreamed that he climbed a pass and urinated until the whole landscape flooded. His brother Ijegeon read it as an omen of an extraordinary descendant and arranged his marriage to his niece Deokju. Tradition holds that their second daughter Jini later bore Jakjegeon, grandfather of Wang Geon.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "ba7fcd1e-3987-4c8e-b99b-7d13c9564f0e",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "0678356e-57ac-453c-bb07-5713f46bcf57",
+        "hidden": true,
+        "short_desc": "비단 치마로 꿈을 산 왕후",
+        "short_desc_en": "The lady who bought her sister's dream for a silk skirt"
+      },
+      "person": {
+        "id": "0678356e-57ac-453c-bb07-5713f46bcf57",
+        "slug": "jinui",
+        "nickname": "진의",
+        "nickname_en": "Jinui",
+        "headline": "언니의 꿈을 사고 당나라 귀인의 아들을 낳은 여인",
+        "headline_en": "Bought her sister's dream with a silk skirt and bore its heir",
+        "bio": "진의의 언니가 오관산 꼭대기에 올라 오줌을 누어 천하에 넘치는 꿈을 꾸자 진의가 비단 치마를 주고 그 꿈을 샀다. 뒤에 당나라에서 온 귀인이 보육의 집에 묵으며 찢어진 옷을 꿰매게 하자 진의가 언니 대신 나아가 그와 한 달을 지내고 작제건을 낳았다. 증손자 왕건이 나라를 세운 뒤 그를 정화왕후로 추존했다.",
+        "bio_en": "When Jinui's elder sister dreamed of climbing to the summit of Mount Ogwan and passing water until it flooded the world, Jinui bought the dream from her for a silk skirt. Later a nobleman from Tang lodged at Boyuk's house and asked for his torn robe to be mended; Jinui went in her sister's place, spent a month with him and bore Jakjegeon. After her great-grandson Wang Geon founded Goryeo she was honored as Queen Jeonghwa.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/0678356e-57ac-453c-bb07-5713f46bcf57/avatar.webp?v=1790052462009",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "0678356e-57ac-453c-bb07-5713f46bcf57",
+        "plain_text": "진의는 고려 왕실의 선조로 전하는 신라 하대의 인물이다. 언니가 오관산 꼭대기에서 오줌을 누어 세상에 넘치는 꿈을 꾸자 비단 치마를 주고 그 꿈을 샀다. 이후 찾아온 당나라 귀인과 인연을 맺어 대를 이었으며, 훗날 증손자 왕건이 나라를 세운 뒤 정화왕후로 추존되었다.",
+        "plain_text_en": "Jinui is a figure of late Silla remembered as an ancestress of the Goryeo royal house. When her sister dreamed of urinating atop Mount Ogwan till it flooded the world, she bought the dream for a silk skirt. She then wed a nobleman come from Tang and continued the line, and was later honored as Queen Jeonghwa after her great-grandson Wang Geon founded the kingdom.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "55707dd9-676f-4b33-b922-db59df697063",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "c37045af-bd18-4e24-8461-ad470c63262b",
+        "hidden": true,
+        "short_desc": "몽부인을 아내로 맞은 왕건의 아버지",
+        "short_desc_en": "Wang Geon's father, who wed the Lady of the Dream"
+      },
+      "person": {
+        "id": "c37045af-bd18-4e24-8461-ad470c63262b",
+        "slug": "yonggeon",
+        "nickname": "용건",
+        "nickname_en": "Yonggeon",
+        "headline": "도선의 말을 따라 집을 짓고 왕건을 낳은 아버지",
+        "headline_en": "Built his house as Doseon told him and fathered Wang Geon",
+        "bio": "용건이 송악 남쪽에 집을 짓다가 지나가던 도선을 만나 이 땅에서 성인이 날 것이라는 말을 듣고 그가 일러준 대로 집을 고쳐 지었다. 꿈에서 본 여인을 영안성으로 가는 길에 그대로 만나 아내로 맞았고 그 사이에서 왕건이 태어났다. 궁예 아래에서 금성태수를 지냈으며 아들이 나라를 세운 뒤 세조로 추존됐다.",
+        "bio_en": "While building a house south of Songak, Yonggeon met the passing monk Doseon, who told him a sage would be born on that ground and instructed him how to rebuild it. On the road to Yeongan Fortress he met the very woman he had seen in a dream and took her as his wife, and Wang Geon was born to them. He served as governor of Geumseong under Gung Ye and was posthumously honored as King Sejo after his son founded Goryeo.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/c37045af-bd18-4e24-8461-ad470c63262b/avatar.webp?v=1790052876387",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "c37045af-bd18-4e24-8461-ad470c63262b",
+        "plain_text": "용건은 고려 태조 왕건 가계의 인물이자 훗날 세조로 추존된 송악의 호족이다. 송악 남쪽에 집을 짓다가 승려 도선을 만나 그 땅에서 성인이 태어날 것이라는 말을 듣고, 도선이 일러준 대로 집을 고쳐 지었다. 그의 가문은 송악의 유력 호족에서 시작해 고려 왕실로 이어졌다.",
+        "plain_text_en": "Yonggeon was a figure of the Goryeo founder Wang Geon's lineage, a local magnate of Song'ak later honored as Sejo. While building a house south of Song'ak he met the monk Doson, heard that a sage would be born from that land, and rebuilt the house as Doson instructed. His family rose from Song'ak's leading magnates to the Goryeo royal house.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-goryeo-segye",
+      "member": {
+        "id": "f28f5449-4c42-4834-aa5f-94f5997a0acc",
+        "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+        "celeb_id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+        "hidden": true,
+        "short_desc": "작제건의 아내·서해 용왕의 딸 저민의",
+        "short_desc_en": "Jeominui, Jakjegeon's wife and the West Sea Dragon King's daughter"
+      },
+      "person": {
+        "id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+        "slug": "jeominui",
+        "nickname": "저민의",
+        "nickname_en": "Jeominui",
+        "headline": "작제건을 따라온 서해 용왕의 딸",
+        "headline_en": "The West Sea Dragon King's daughter who married Jakjegeon",
+        "bio": "서해 용왕의 딸이 작제건을 따라와 개주 동북쪽에 자리를 잡고 살았다. 우물을 파고 그 길로 서해를 오갔는데 들어가는 모습을 보지 말라 일렀으나 작제건이 몰래 엿보자 황룡으로 변해 우물로 들어간 뒤 돌아오지 않았다. 아들 용건을 두어 왕건의 할머니가 되었고 뒤에 원창왕후로 추존됐다.",
+        "bio_en": "The daughter of the Dragon King of the West Sea followed Jakjegeon and settled northeast of Gaeju. She dug a well and traveled through it to the West Sea, warning him never to watch her enter; when he spied on her she turned into a yellow dragon, went down the well and never returned. She bore Yonggeon, making her Wang Geon's grandmother, and was posthumously honored as Queen Wonchang.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/cc488307-5742-4a55-b12c-fdce5339b97b/avatar.webp?v=1790056354641",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+        "plain_text": "용녀는 고려 의조 작제건의 아내로 전해지는 서해 용왕의 딸이다. 작제건을 따라 개주 동북쪽에 정착한 뒤 우물을 통해 서해를 오갔다. 우물로 들어가는 모습을 보지 말라는 당부를 남편이 어기고 몰래 엿보자, 황룡으로 변해 우물 속으로 사라진 뒤 돌아오지 않았다. 아들 용건을 낳아 왕건의 할머니가 되었으며, 훗날 원창왕후로 추존되었다.",
+        "plain_text_en": "The Dragon Maiden is the daughter of the Dragon King of the Western Sea, remembered as the wife of Goryeo's Uijo Jakjegeon. Following Jakjegeon she settled northeast of Gaeju and passed to the Western Sea through a well. When her husband broke her warning not to watch her enter the well and spied on her, she turned into a yellow dragon, vanished into the water, and never returned. Bearing the son Yonggeon she became Wang Geon's grandmother and was later honored as Queen Wonchang.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-tamna",
+      "member": {
+        "id": "5a6901c3-08a0-4ef7-a62b-71498ba004aa",
+        "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+        "celeb_id": "ca019327-165e-429f-abbb-886495a372e8",
+        "hidden": true,
+        "short_desc": "탐라 고씨의 시조",
+        "short_desc_en": "Forefather of Tamna's Go Clan"
+      },
+      "person": {
+        "id": "ca019327-165e-429f-abbb-886495a372e8",
+        "slug": "go-eulla",
+        "nickname": "고을나",
+        "nickname_en": "Go Eulla",
+        "headline": "모흥혈에서 솟아 나온 세 신인의 하나",
+        "headline_en": "One of three men who rose out of the ground on Tamna",
+        "bio": "한라산 북쪽 모흥혈에서 세 신인이 솟아 나왔는데 그 하나가 고을나다. 셋이 가죽옷을 입고 사냥해 살다가 동쪽 바닷가에 떠온 나무 상자를 열어 푸른 옷을 입은 세 처녀와 오곡 씨앗, 송아지와 망아지를 얻었다. 활을 쏘아 살 땅을 정할 때 고을나가 제이도를 차지했고 그 후손이 탐라의 고씨가 되었다.",
+        "bio_en": "Go Eulla was one of three divine men who rose from the Moheunghyeol pit north of Mount Halla. The three lived by hunting in hides until a wooden chest drifted ashore on the eastern coast carrying three maidens in blue, the seeds of five grains, a calf and a foal. When they shot arrows to divide the land, Go Eulla took the second district, and his descendants became the Go clan of Tamna.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/ca019327-165e-429f-abbb-886495a372e8/avatar.webp?v=1790138378335",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "ca019327-165e-429f-abbb-886495a372e8",
+        "plain_text": "고을나는 탐라 건국 신화에서 한라산 북쪽 모흥혈에서 솟아 나온 세 신인 가운데 한 사람이다. 가죽옷을 입고 사냥하며 살다가 동쪽 바닷가로 떠내려온 나무 상자 속 벽랑국 처녀와 혼인했다. 이후 제이도에 자리를 잡아 탐라 고씨의 시조가 되었다고 전한다.",
+        "plain_text_en": "Go Eulla is one of the three divine men who rose from Moheunghyeol north of Mount Halla in the Tamna foundation myth. Living in leather clothes by hunting, he married a Byeollang maiden found in a wooden chest that drifted to the eastern shore. He then settled in the second district (Jei-do) and became the ancestor of the Tamna Go clan.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-tamna",
+      "member": {
+        "id": "0ba57ea9-8842-4197-b8ca-c8db460943c9",
+        "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+        "celeb_id": "757ff636-bceb-473f-8ec7-74bdbb86b4c4",
+        "hidden": true,
+        "short_desc": "탐라 부씨의 시조",
+        "short_desc_en": "Forefather of Tamna's Bu Clan"
+      },
+      "person": {
+        "id": "757ff636-bceb-473f-8ec7-74bdbb86b4c4",
+        "slug": "bu-eulla",
+        "nickname": "부을나",
+        "nickname_en": "Bu Eulla",
+        "headline": "모흥혈에서 솟아 나온 세 신인의 하나",
+        "headline_en": "Youngest of the three who rose from the Tamna pit",
+        "bio": "부을나가 모흥혈에서 솟아 나온 세 신인의 막내로 상자에서 나온 처녀 하나와 혼인해 제삼도에 자리를 잡았다. 세 사람이 오곡을 뿌리고 소와 말을 기르면서 탐라의 살림이 시작됐고 그 후손이 부씨가 되었다.",
+        "bio_en": "Bu Eulla was the youngest of the three divine men who rose from the Moheunghyeol pit; he married one of the maidens from the chest and settled in the third district. The three sowed the five grains and raised cattle and horses, beginning settled life on Tamna, and his descendants became the Bu clan.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/757ff636-bceb-473f-8ec7-74bdbb86b4c4/avatar.webp?v=1790138376736",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "757ff636-bceb-473f-8ec7-74bdbb86b4c4",
+        "plain_text": "부을나는 탐라 건국 신화에서 모흥혈에서 솟아 나온 세 신인 가운데 막내이다. 바닷가에 떠온 나무 상자 속 벽랑국 처녀와 혼인해 제삼도에 터를 잡았다. 곡식을 기르고 소와 말을 치며 탐라의 삶을 일구었으며, 탐라 부씨의 시조로 전한다.",
+        "plain_text_en": "Bu Eulla is the youngest of the three divine men who rose from Moheunghyeol in the Tamna foundation myth. He married a Byeollang maiden found in a wooden chest washed ashore and settled in Jeseom-do. Raising grain, cattle, and horses he helped found Tamna's way of life and is remembered as the ancestor of the Tamna Bu clan.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-tamna",
+      "member": {
+        "id": "99da5f5d-af4c-4044-b86a-1a5402c4bc13",
+        "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+        "celeb_id": "9a858d99-1559-45e1-a773-d66d502588d9",
+        "hidden": true,
+        "short_desc": "탐라 양씨의 시조",
+        "short_desc_en": "Forefather of Tamna's Yang Clan"
+      },
+      "person": {
+        "id": "9a858d99-1559-45e1-a773-d66d502588d9",
+        "slug": "yang-eulla",
+        "nickname": "양을나",
+        "nickname_en": "Yang Eulla",
+        "headline": "모흥혈에서 솟아 나온 세 신인의 하나",
+        "headline_en": "One of the three from the Tamna pit, given the second district",
+        "bio": "양을나가 모흥혈에서 함께 솟아 나온 세 신인의 하나로 상자에서 나온 처녀 하나와 혼인해 제일도에 자리를 잡았다. 고려사 지리지는 그를 세 사람 가운데 맏이로 적고 영주지는 고을나를 맏이로 적어 형제의 순서가 갈린다.",
+        "bio_en": "Yang Eulla was one of the three divine men who rose together from the Moheunghyeol pit; he married one of the maidens from the chest and settled in the first district. The Goryeosa geography treatise names him the eldest of the three while the Yeongjuji gives that place to Go Eulla, so their order differs by source.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/9a858d99-1559-45e1-a773-d66d502588d9/avatar.webp?v=1790138381533",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "9a858d99-1559-45e1-a773-d66d502588d9",
+        "plain_text": "양을나는 탐라 건국 신화에서 모흥혈에서 솟아 나온 세 신인 가운데 한 사람이다. 벽랑국 상자에서 나온 처녀와 혼인한 뒤 제일도에 터를 잡고 살았으며, 탐라 양씨의 시조로 전한다.",
+        "plain_text_en": "Yang Eulla is one of the three divine men who rose from Moheunghyeol in the Tamna foundation myth. Marrying the maiden from the Byeollang chest, he settled in the first district (Jeil-do) and lived there, and is remembered as the ancestor of the Tamna Yang clan.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "b6c92c4d-fd9f-48d7-8ea6-d10c86f9c89e",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+        "hidden": true,
+        "short_desc": "용이 낳은 첫 왕후",
+        "short_desc_en": "The dragon-born first queen"
+      },
+      "person": {
+        "id": "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+        "slug": "lady-aryeong",
+        "nickname": "알영",
+        "nickname_en": "Lady Aryeong",
+        "headline": "계룡이 낳아 혁거세의 왕후가 된 여인",
+        "headline_en": "Born from a dragon's side, crowned beside Silla's first king",
+        "bio": "알영정에 계룡이 나타나 왼쪽 옆구리로 여자아이를 낳았는데 입술이 닭 부리처럼 튀어나와 있었다. 노파가 아이를 월성 북쪽 냇물에 씻기자 부리가 떨어졌고 우물 이름을 따 알영이라 불렀다. 열세 살에 혁거세의 왕후가 되어 백성이 두 사람을 두 성인이라 불렀다.",
+        "bio_en": "A dragon appeared at the Aryeong well and bore a girl from its left side, her lips protruding like a chicken's beak. An old woman washed the child in the stream north of Wolseong and the beak fell away; she was named Aryeong after the well. At thirteen she became queen to Hyeokgeose, and the people called the two of them the Two Sages.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/20f012b6-13d7-49da-b3cd-1f5132016f5e/avatar.webp?v=1790052524223",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+        "plain_text": "알영은 신라를 세운 혁거세의 왕후이다. 전승에 따르면 알영정에 나타난 용의 옆구리에서 태어났으며, 닭 부리 같던 입술이 냇물에 씻겨 떨어지자 우물의 이름을 따 알영이라 불렸다. 열세 살에 혁거세의 왕후가 되었고, 백성들에게 남편과 함께 '두 성인'이라 불렸다.",
+        "plain_text_en": "Aryeong was the queen of Hyeokgeose, founder of Silla. Tradition says she was born from the side of a dragon that appeared at the Aryeong well; when the chicken-beak lips she was born with washed away in a stream, she was named Aryeong after the well. She became Hyeokgeose's queen at thirteen, and the people called the couple 'the two sages'.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "e252c232-1687-4ebe-99c6-81daf58d3798",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "22b7b580-0c31-4fae-93e9-f90137a6c629",
+        "hidden": true,
+        "short_desc": "손씨의 조상이 된 대수촌장",
+        "short_desc_en": "Chief of Daesu village, forefather of the Son"
+      },
+      "person": {
+        "id": "22b7b580-0c31-4fae-93e9-f90137a6c629",
+        "slug": "guryema",
+        "nickname": "구례마",
+        "nickname_en": "Guryema",
+        "headline": "이산에 내려온 무산 대수촌의 촌장",
+        "headline_en": "Led Daesu Village and gave Silla the Son surname",
+        "bio": "구례마가 이산에 내려와 무산 대수촌의 촌장이 되었다. 알천 모임에 나가 혁거세를 임금으로 세웠고 그의 촌이 뒤에 점량부로 바뀌면서 후손이 손씨 성을 받았다.",
+        "bio_en": "Guryema descended onto Mount I and became chief of Daesu Village on Mount Mu. He joined the council at the Alcheon that raised Hyeokgeose to the throne, and when his village was reorganized as the Jeomnyang district his descendants received the surname Son.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/22b7b580-0c31-4fae-93e9-f90137a6c629/avatar.webp?v=1790052374082",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "22b7b580-0c31-4fae-93e9-f90137a6c629",
+        "plain_text": "구례마는 신라 건국 신화에 나오는 여섯 촌장 가운데 한 사람이다. 이산에서 내려와 무산 대수촌의 촌장이 되었고, 알천 모임에서 혁거세를 임금으로 세우는 데 참여했다. 이후 그의 촌이 점량부로 개편되면서 후손들이 손씨 성을 받았다.",
+        "plain_text_en": "Guryema is one of the six village chiefs in Silla's foundation myth. Descending from Mount I he became chief of Musan Daesu village, and took part in the Alcheon council that raised Hyeokgeose as king. When his village was later reorganized as Jeomryang-bu, his descendants received the surname Son.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "e6933d2e-4211-4972-85a4-bd7753588b92",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0",
+        "hidden": true,
+        "short_desc": "정씨의 조상이 된 고허촌장",
+        "short_desc_en": "Chief of Goheo village, forefather of the Jeong"
+      },
+      "person": {
+        "id": "1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0",
+        "slug": "sobeoldori",
+        "nickname": "소벌도리",
+        "nickname_en": "Sobeoldori",
+        "headline": "혁거세가 든 알을 거두어 기른 돌산 고허촌의 촌장",
+        "headline_en": "The chief who picked up the red egg and raised the boy inside",
+        "bio": "소벌도리가 형산에 내려와 돌산 고허촌의 촌장이 되었다. 나정 곁 숲에서 말이 무릎을 꿇고 우는 것을 보고 가서 붉은 알을 얻었고 그 안에서 나온 아이를 거두어 길렀으니 그가 혁거세다. 삼국사기는 그를 소벌공이라 적고 고허부가 최씨를 받았다고 하는데 삼국유사는 같은 자리에 정씨를 적어 두 사서가 어긋난다.",
+        "bio_en": "Sobeoldori descended onto Mount Hyeong and became chief of Goheo Village on Dolsan. Seeing a horse kneel and cry in the wood beside the Najeong well, he went and found a red egg, and raised the boy who came out of it: Hyeokgeose. The Samguk Sagi calls him Sobeol-gong and assigns the surname Choe to the Goheo district, while the Samguk Yusa assigns Jeong to the same place, so the two histories disagree.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0/avatar.webp?v=1790052770688",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0",
+        "plain_text": "소벌도리는 신라 서라벌 6촌 중 돌산고허촌의 촌장이다. 하늘에서 형산으로 내려와 마을을 다스렸으며, 나정 곁 숲에서 붉은 알을 얻어 그 안에서 나온 아이를 거두어 길렀으니 그가 곧 박혁거세다. 혁거세를 왕으로 옹립해 신라를 세우는 데 함께했다. 《삼국사기》에는 그를 소벌공이라 적고 고허부가 최씨 성을 받았다고 전하는 반면, 《삼국유사》에는 정씨의 조상으로 기록해 두 사서의 전승이 엇갈린다.",
+        "plain_text_en": "Sobeoldori was the village chief of Dolsan Goheo among the six villages of Silla's Seorabeol. He came down from heaven to Mount Hyeong to govern the village; finding a red egg in the woods by the Na well, he took in and raised the child who came out of it, the future Bak Hyeokgeose. Together he raised Hyeokgeose as king and founded Silla. The Samguk Sagi writes him as Sobeolgong and says the Goheo lineage received the Choe surname, while the Samguk Yusa records him as ancestor of the Jeong clan; the two histories disagree.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "d1d59011-8e48-4580-9b39-acdc923e3431",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "ca611c0f-3a35-4005-a0a6-11c5899c8ee0",
+        "hidden": true,
+        "short_desc": "이씨의 조상이 된 양산촌장",
+        "short_desc_en": "Chief of Yangsan village, forefather of the Yi"
+      },
+      "person": {
+        "id": "ca611c0f-3a35-4005-a0a6-11c5899c8ee0",
+        "slug": "alpyeong",
+        "nickname": "알평",
+        "nickname_en": "Alpyeong",
+        "headline": "표암봉에 내려온 알천 양산촌의 촌장",
+        "headline_en": "First of the six chiefs, ancestor of the Silla Lee",
+        "bio": "알평이 하늘에서 표암봉에 내려와 알천 양산촌의 촌장이 되었다. 다른 다섯 촌장과 알천 언덕에 모여 덕 있는 사람을 임금으로 세우자고 의논한 끝에 혁거세를 추대했다. 유리왕 9년에 그의 촌이 급량부로 바뀌면서 후손이 이씨 성을 받았다.",
+        "bio_en": "Alpyeong came down from heaven onto Pyoam Peak and became chief of Yangsan Village on the Alcheon. With the five other chiefs he debated on the bank of the Alcheon over raising a man of virtue as king, and they settled on Hyeokgeose. In the ninth year of King Yuri his village became the Geupnyang district and his descendants received the surname Lee.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/ca611c0f-3a35-4005-a0a6-11c5899c8ee0/avatar.webp?v=1790051734209",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "ca611c0f-3a35-4005-a0a6-11c5899c8ee0",
+        "plain_text": "알평은 신라 건국 신화에 등장하는 여섯 촌장 가운데 한 사람이다. 하늘에서 표암봉으로 내려와 알천 양산촌의 촌장이 되었다. 다른 촌장들과 알천 언덕에 모여 덕 있는 인물을 임금으로 세우자고 의논한 끝에 혁거세를 추대했다. 신라 유리왕 때 양산촌이 급량부로 개편되면서 그의 후손들이 이씨 성을 받았다.",
+        "plain_text_en": "Alpyeong is one of the six village chiefs in Silla's foundation myth. Descending from heaven to Mount Pyoam he became chief of Alcheon Yangsan village. Meeting with the other chiefs on Alcheon hill to deliberate raising a virtuous man as king, he joined in enthroning Hyeokgeose. When Yangsan village was reorganized as Geupryang-bu under King Yuri of Silla, his descendants received the surname Yi.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "3e61cb0d-87ea-4d0d-ac3a-f1392678942b",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "e42d9a16-72a4-432e-ab90-ecc3aa6dedac",
+        "hidden": true,
+        "short_desc": "최씨의 조상이 된 진지촌장",
+        "short_desc_en": "Chief of Jinji village, forefather of the Choe"
+      },
+      "person": {
+        "id": "e42d9a16-72a4-432e-ab90-ecc3aa6dedac",
+        "slug": "jibaekho",
+        "nickname": "지백호",
+        "nickname_en": "Jibaekho",
+        "headline": "화산에 내려온 취산 진지촌의 촌장",
+        "headline_en": "Led Jinji Village, and two histories disagree on his surname",
+        "bio": "지백호가 화산에 내려와 취산 진지촌의 촌장이 되었다. 알천 모임에 나가 혁거세를 세웠고 그의 촌이 본피부로 바뀌었다. 삼국유사는 본피부 후손이 최씨를 받았다고 적고 삼국사기는 정씨를 적어 최씨와 정씨의 배정이 두 사서에서 뒤바뀐다.",
+        "bio_en": "Jibaekho descended onto Mount Hwa and became chief of Jinji Village on Mount Chwi. He attended the council at the Alcheon that raised Hyeokgeose, and his village became the Bonpi district. The Samguk Yusa grants the surname Choe to the descendants of Bonpi while the Samguk Sagi grants Jeong, so the two histories reverse the assignment of Choe and Jeong.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/e42d9a16-72a4-432e-ab90-ecc3aa6dedac/avatar.webp?v=1790052458470",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "e42d9a16-72a4-432e-ab90-ecc3aa6dedac",
+        "plain_text": "지백호는 신라 건국 설화에 등장하는 여섯 촌장 가운데 한 사람이다. 화산으로 내려와 취산 진지촌의 촌장이 되었으며, 알천 언덕의 회의에 참여해 혁거세를 임금으로 추대했다. 그가 다스린 마을은 훗날 본피부가 되었다. 후손의 성씨를 두고 《삼국유사》에는 최씨로, 《삼국사기》에는 정씨로 기록되어 있다.",
+        "plain_text_en": "Jibaekho is one of the six village chiefs in Silla's foundation legend. Descending to Mount Hwa he became chief of Chwisan Jinji village, joined the council on Alcheon hill that raised Hyeokgeose as king, and his village later became Bonpi-bu. The Samguk Yusa records his descendants' surname as Choi and the Samguk Sagi as Jeong.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "5ef93762-7d3a-4123-a709-bd7c1e3c52b9",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "6735df03-de9c-41f4-8d21-76b1ba92849d",
+        "hidden": true,
+        "short_desc": "배씨의 조상이 된 가리촌장",
+        "short_desc_en": "Chief of Gari village, forefather of the Bae"
+      },
+      "person": {
+        "id": "6735df03-de9c-41f4-8d21-76b1ba92849d",
+        "slug": "jita",
+        "nickname": "지타",
+        "nickname_en": "Jita",
+        "headline": "명활산에 내려온 금산 가리촌의 촌장",
+        "headline_en": "Led Gari Village and gave Silla the Bae surname",
+        "bio": "지타가 명활산에 내려와 금산 가리촌의 촌장이 되었다. 알천 모임에 나가 혁거세를 임금으로 세웠고 그의 촌이 한기부로 바뀌면서 후손이 배씨 성을 받았다.",
+        "bio_en": "Jita descended onto Mount Myeonghwal and became chief of Gari Village on Mount Geum. He attended the council at the Alcheon that raised Hyeokgeose as king, and when his village became the Hangi district his descendants received the surname Bae.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/6735df03-de9c-41f4-8d21-76b1ba92849d/avatar.webp?v=1790052463544",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "6735df03-de9c-41f4-8d21-76b1ba92849d",
+        "plain_text": "지타는 금산 가리촌의 촌장이다. 명활산에 내려와 촌장이 된 뒤 알천 모임에 참여해 혁거세를 임금으로 세웠다. 이후 그가 다스리던 촌이 한기부로 바뀌면서 후손들이 배씨 성을 받았다.",
+        "plain_text_en": "Jita was the village chief of Gari in Geumsan. After descending from Myeonghwalsan to become chief, he joined the Alcheon council that raised Hyeokgeose as king. When the village he governed became Hangibu, his descendants received the surname Bae.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "9e73b840-27a5-4ba4-bf1c-e8d1366db023",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "e5c0d30c-708e-4762-86cc-e5efa441a5ff",
+        "hidden": true,
+        "short_desc": "금 상자에서 온 김씨 시조",
+        "short_desc_en": "Forefather of the Kim line from the golden box"
+      },
+      "person": {
+        "id": "e5c0d30c-708e-4762-86cc-e5efa441a5ff",
+        "slug": "kim-alji",
+        "nickname": "김알지",
+        "nickname_en": "Kim Alji",
+        "headline": "금궤에서 나와 신라 김씨의 조상이 된 인물",
+        "headline_en": "Found in a golden box, ancestor of every Silla Kim",
+        "bio": "탈해왕 때 호공이 밤에 월성 서쪽 시림을 지나다 나뭇가지에 걸린 금궤를 보았고 그 아래에서 흰 닭이 울고 있었다. 왕이 궤를 열자 사내아이가 들어 있어 알지라 이름 짓고 금궤에서 나왔다 하여 김씨 성을 주었으며 숲 이름을 계림으로 고쳤다. 왕이 그를 태자로 삼았으나 알지는 자리를 사양했고 그의 7대손 미추가 왕위에 올라 김씨 왕계가 시작됐다.",
+        "bio_en": "In the reign of King Talhae, Hogong passed through the Sirim woods west of Wolseong at night and saw a golden box hanging from a branch with a white rooster crowing beneath it. The king opened it to find a boy, named him Alji, and granted him the surname Kim for the golden box, renaming the wood Gyerim. Alji declined the position of crown prince, and the Kim royal line began when his seventh-generation descendant Michu took the throne.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/e5c0d30c-708e-4762-86cc-e5efa441a5ff/avatar.webp?v=1790052498749",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "e5c0d30c-708e-4762-86cc-e5efa441a5ff",
+        "plain_text": "김알지는 신라 김씨의 시조이다. 탈해왕 때 호공이 밤에 월성 서쪽 시림을 지나다가 나뭇가지에 걸린 금궤와 그 아래에서 울고 있는 흰 닭을 보았다. 탈해왕이 궤를 열자 사내아이가 들어 있어 이름을 알지라 짓고, 금궤에서 나왔다 하여 김씨 성을 주었으며 숲 이름은 계림으로 고쳤다. 왕이 그를 태자로 삼으려 했으나 사양했고, 훗날 7대손인 미추가 왕위에 오르며 신라 김씨 왕계가 시작되었다.",
+        "plain_text_en": "Kim Alji is the progenitor of the Kim clan of Silla. In King Talhae's reign the official Hogong, passing the forest Sirim west of Wolseong by night, saw a golden casket hanging from a branch with a white cock crowing beneath it. The king opened the casket to find a boy inside, named him Alji, gave him the surname Kim for the golden casket, and renamed the forest Gyerim. The king wished to make him crown prince but he declined; his seventh-generation descendant Michu later took the throne, beginning the Kim royal line of Silla.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "18bb341b-e7a9-40d6-b932-bb6b167ac6ff",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+        "hidden": true,
+        "short_desc": "바다를 건너온 석씨 시조",
+        "short_desc_en": "Forefather of the Seok line who came by sea"
+      },
+      "person": {
+        "id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+        "slug": "seok-talhae",
+        "nickname": "석탈해",
+        "nickname_en": "Seok Talhae",
+        "headline": "바다를 건너와 석씨 왕계를 연 4대 임금",
+        "headline_en": "Arrived by sea in a chest and won a house by burying charcoal",
+        "bio": "용성국 함달파왕의 왕비가 알을 낳자 왕이 상서롭지 못하다며 알을 궤에 담아 배에 실어 보냈고 배가 아진포에 닿아 노파 아진의선이 궤를 열었다. 자란 아이가 토함산에 올라 살 곳을 살핀 뒤 호공의 집터가 좋은 것을 알고 몰래 숫돌과 숯을 묻어 두었다가 대장장이 집안의 옛터라 우겨 그 집을 빼앗았다. 남해왕의 사위가 되었고 유리왕의 뒤를 이어 왕위에 올라 석씨 왕계를 시작했다.",
+        "bio_en": "When the queen of King Hamdalpa of Yongseong gave birth to an egg, the king called it ill-omened and set it adrift in a chest, which came ashore at Ajinpo where the old woman Ajin Uiseon opened it. Grown, the boy climbed Mount Toham to survey the land, judged Hogong's house site the best, and secretly buried a whetstone and charcoal there so he could claim it as his smith family's old ground and take the house. He became son-in-law to King Namhae and succeeded King Yuri, beginning the Seok royal line.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/1cc42bdb-fad0-4182-a0db-cdca5384a759/avatar.webp?v=1790052738999",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+        "plain_text": "석탈해는 신라의 제4대 왕이자 석씨 왕계의 시조이다. 설화에 따르면 용성국 함달파왕의 왕비가 낳은 알에서 태어나 궤에 실려 바다에 띄워졌으나, 아진포에서 노파 아진의선에게 발견되어 자랐다. 훗날 호공의 집터에 몰래 숫돌과 숯을 묻어 두고 대장장이 집안의 옛터라 우겨 차지했다는 일화가 전한다. 남해왕의 사위가 되었고, 유리왕의 뒤를 이어 신라 왕위에 올랐다.",
+        "plain_text_en": "Seok Talhae was the fourth king of Silla and progenitor of its Seok royal line. Legend says he was born from an egg laid by the queen of Hamdalpawa of Yongseong and set adrift in a casket, then found at Ajinpo by the old woman Ajin-iseon and raised. Later the episode is told of his secretly burying whetstones and charcoal on Hogong's house site and claiming it as a smith family's old ground. He became King Namhae's son-in-law and succeeded King Yuri on the Silla throne.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "9e80e83d-4301-4393-8f50-45053fea8b68",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "1f089ced-8dae-47e2-8e2d-3cef153e2792",
+        "hidden": true,
+        "short_desc": "설씨의 조상이 된 고야촌장",
+        "short_desc_en": "Chief of Goya village, forefather of the Seol"
+      },
+      "person": {
+        "id": "1f089ced-8dae-47e2-8e2d-3cef153e2792",
+        "slug": "hojin",
+        "nickname": "호진",
+        "nickname_en": "Hojin",
+        "headline": "금강산에 내려온 명활산 고야촌의 촌장",
+        "headline_en": "Last of the six chiefs, ancestor of the Silla Seol",
+        "bio": "호진이 금강산에 내려와 명활산 고야촌의 촌장이 되었다. 삼국유사가 여섯 촌을 꼽을 때 그의 촌을 마지막에 두었고, 그 촌이 습비부로 바뀌면서 후손이 설씨 성을 받았다.",
+        "bio_en": "Hojin descended onto Mount Geumgang and became chief of Goya Village on Mount Myeonghwal. The Samguk Yusa lists his village last among the six, and when it became the Seupbi district his descendants received the surname Seol.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/1f089ced-8dae-47e2-8e2d-3cef153e2792/avatar.webp?v=1790052398472",
+        "publication_status": "inactive",
+        "celeb_reality": "FICTION"
+      },
+      "guide": {
+        "profile_id": "1f089ced-8dae-47e2-8e2d-3cef153e2792",
+        "plain_text": "호진은 명활산 고야촌을 이끈 촌장이다. 금강산에서 내려와 고야촌의 촌장이 되었으며, 《삼국유사》에서 여섯 촌을 꼽을 때 마지막에 기록되었다. 이후 고야촌이 습비부로 바뀌면서 후손들이 설씨 성을 받았다.",
+        "plain_text_en": "Hojin was the village chief who led Goya village on Mount Myeonghwal. He came down from Mount Geumgang to become its chief and is recorded last of the six villages in the Samguk Yusa. When Goya became Seupbi township, his descendants received the surname Seol.",
+        "published_at": null
+      }
+    },
+    {
+      "faction": "myth-korea-silla",
+      "member": {
+        "id": "105abe67-87c0-4243-8509-a20e7d28c2aa",
+        "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+        "celeb_id": "a437c649-3c76-4f23-a950-6e2189f33f1c",
+        "hidden": true,
+        "short_desc": "알에서 태어난 첫 임금",
+        "short_desc_en": "The egg-born first king"
+      },
+      "person": {
+        "id": "a437c649-3c76-4f23-a950-6e2189f33f1c",
+        "slug": "bak-hyeokgeose",
+        "nickname": "박혁거세",
+        "nickname_en": "Bak Hyeokgeose",
+        "headline": "육촌장이 추대한 신라의 첫 임금",
+        "headline_en": "The boy in the red egg the six chiefs chose to crown",
+        "bio": "나정의 알에서 태어난 신라의 첫 임금. 육촌장의 추대로 열세 살에 거서간에 올라 서라벌을 세웠고, 삼국유사는 예순한 해를 다스리고 승천한 뒤 몸이 다섯 조각으로 흩어졌다 전한다.",
+        "bio_en": "Born from an egg at Najeong, he became Silla's first king. Raised to Geoseogan at thirteen by the six village chiefs, he founded Seorabeol; the Samguk Yusa tells that after ruling sixty-one years he ascended to heaven and his body fell back to earth in five pieces.",
+        "avatar_url": "https://assets.feelandnote.com/celebs/a437c649-3c76-4f23-a950-6e2189f33f1c/avatar.webp?v=1790051773025",
+        "publication_status": "inactive",
+        "celeb_reality": "BOTH"
+      },
+      "guide": {
+        "profile_id": "a437c649-3c76-4f23-a950-6e2189f33f1c",
+        "plain_text": "박혁거세는 신라를 건국한 초대 국왕이다. 여섯 마을 촌장들이 알천 언덕에 모여 임금을 정하려 논의하던 중, 나정 우물가에서 무릎 꿇은 흰 말과 붉은 알을 발견했다. 알에서 태어난 아이가 자라자 거서간으로 추대하고 국호를 서라벌로 정했으며, 이후 신라 박씨의 시조가 되었다.",
+        "plain_text_en": "Bak Hyeokgeose was the founding king of Silla. As the six village chiefs gathered on Alcheon hill to decide on a king, they found a white horse kneeling by Najeong well and a red egg. When the boy hatched from the egg grew up they raised him as Geoseogan and set the state name as Seorabeol; he became the ancestor of Silla's Park clan.",
+        "published_at": null
+      }
+    }
+  ],
+  "excluded": [
+    "the-nine-gan",
+    "the-five-gaya-founder-brothers",
+    "three-princesses-of-byeollang"
+  ]
+}

@@ -6,7 +6,7 @@
     "translation": "not performed",
     "databaseWrites": 0,
     "sourceUrlRule": "Store direct official Gates Notes URLs; fetch proxy URLs are not content source URLs.",
-    "status": "English-only source snapshot; current DB reflection is documented in featured-people/bill-gates.md"
+    "status": "English-only source snapshot; current DB reflection is documented in data/celeb/viewing-research/2026-09-10-bill-gates.md"
   },
   "subject": {
     "celebSlug": "bill-gates",

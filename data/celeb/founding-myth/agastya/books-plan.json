@@ -1,0 +1,150 @@
+{
+  "pairs": [
+    {
+      "target": "aed16cb6-be49-4234-925a-651e4d3c55d7",
+      "source": "71c42a3b-80dd-594b-a230-689d225e49b6",
+      "ol": "OL32349721M",
+      "isbn": "9780143441144",
+      "title": "The Valmiki Ramayana (3 Volume Box Set)",
+      "evidence": "https://www.valmikiramayan.net/aranya/sarga12/aranya_12_prose.htm",
+      "section": "Aranya Kanda 12",
+      "order": 0
+    },
+    {
+      "target": "ddb59805-cdbc-435b-a0b5-d02ddfc326e3",
+      "source": "fa464cc6-4c3a-5d17-bda8-9f9776c15dbc",
+      "ol": "OL9070593M",
+      "isbn": "9788121505932",
+      "title": "Mahabharata of Krishna-Dwaipayana Vyasa (4 Volume Set)",
+      "evidence": "https://sacred-texts.com/hin/m03/m03104.htm",
+      "section": "Vana Parva 104 (Ganguli)",
+      "order": 1
+    }
+  ],
+  "openLibrary": {
+    "OL32349721M": {
+      "type": {
+        "key": "/type/edition"
+      },
+      "title": "The Valmiki Ramayana",
+      "authors": [
+        {
+          "key": "/authors/OL9195266A"
+        }
+      ],
+      "publish_date": "Oct 15, 2017",
+      "source_records": [
+        "amazon:0143441140",
+        "bwb:9780143441144",
+        "marc:marc_columbia/Columbia-extract-20221130-032.mrc:119426817:1349"
+      ],
+      "number_of_pages": 1536,
+      "publishers": [
+        "Penguin"
+      ],
+      "isbn_10": [
+        "0143441140"
+      ],
+      "isbn_13": [
+        "9780143441144"
+      ],
+      "physical_format": "paperback",
+      "notes": {
+        "type": "/type/text",
+        "value": "Source title: The Valmiki Ramayana (3 VOL,Box Set)"
+      },
+      "full_title": "The Valmiki Ramayana",
+      "covers": [
+        10979552
+      ],
+      "works": [
+        {
+          "key": "/works/OL24423363W"
+        }
+      ],
+      "key": "/books/OL32349721M",
+      "lc_classifications": [
+        "BL1139.22 .E54 2017"
+      ],
+      "oclc_numbers": [
+        "1019688011"
+      ],
+      "latest_revision": 3,
+      "revision": 3,
+      "created": {
+        "type": "/type/datetime",
+        "value": "2021-05-08T09:55:29.080467"
+      },
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2022-12-12T07:34:47.934230"
+      }
+    },
+    "OL9070593M": {
+      "publishers": [
+        "South Asia Books"
+      ],
+      "weight": "10.4 pounds",
+      "covers": [
+        9284904
+      ],
+      "physical_format": "Paperback",
+      "key": "/books/OL9070593M",
+      "authors": [
+        {
+          "key": "/authors/OL3185317A"
+        }
+      ],
+      "ocaid": "mahabharataofkri0004unse",
+      "edition_name": "1 edition",
+      "classifications": {},
+      "source_records": [
+        "ia:mahabharataofkri0004unse",
+        "marc:marc_columbia/Columbia-extract-20221130-007.mrc:278601879:1501"
+      ],
+      "title": "Mahabharata of Krishna-Dwaipayana Vyasa",
+      "notes": {
+        "type": "/type/text",
+        "value": "4 Volume Set"
+      },
+      "identifiers": {
+        "goodreads": [
+          "118256"
+        ],
+        "librarything": [
+          "1499690"
+        ]
+      },
+      "isbn_13": [
+        "9788121505932"
+      ],
+      "isbn_10": [
+        "8121505933"
+      ],
+      "publish_date": "January 1, 2004",
+      "works": [
+        {
+          "key": "/works/OL9082450W"
+        }
+      ],
+      "type": {
+        "key": "/type/edition"
+      },
+      "physical_dimensions": "12.1 x 9.3 x 6.4 inches",
+      "oclc_numbers": [
+        "45040117"
+      ],
+      "latest_revision": 8,
+      "revision": 8,
+      "created": {
+        "type": "/type/datetime",
+        "value": "2008-04-30T09:38:13.731961"
+      },
+      "last_modified": {
+        "type": "/type/datetime",
+        "value": "2023-11-15T03:05:25.758548"
+      }
+    }
+  },
+  "note": "Canonical source-edition-batch dry-run failed because OpenLibrary api/books returned 404 for 9788121505932; direct edition endpoint succeeded with matching ISBN and 4 Volume Set scope. Existing Korean cards, editions and products are preserved. Existing unregistered English contents are neither deleted nor cataloged."
+}

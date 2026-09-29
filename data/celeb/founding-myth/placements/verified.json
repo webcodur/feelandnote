@@ -1,0 +1,370 @@
+[
+  {
+    "slug": "ardashir-i",
+    "person_id": "eaf5c2ee-1b38-4579-b030-32dd9ceb464c",
+    "membership": {
+      "id": "a7f7ce93-3343-470c-aa47-03ae3429aab1",
+      "lv2_id": "4c8d717a-0f29-496d-bdfc-2e3c25cff934",
+      "lv3_id": "3cf2fe1d-4ec6-4f35-b281-801d09b4400d",
+      "celeb_id": "eaf5c2ee-1b38-4579-b030-32dd9ceb464c",
+      "sort_order": 6011,
+      "hidden": true,
+      "short_desc": "전승 속에서 아르다반을 쓰러뜨리고 사산 왕조를 연 왕중왕.",
+      "short_desc_en": "The King of Kings who, in the tradition, overthrew Ardavan and founded the Sasanian dynasty.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:21:18.056705+00:00"
+    },
+    "verification": {
+      "slug": "ardashir-i",
+      "verified": true,
+      "source_urls": [
+        "https://www.avesta.org/pahlavi/karname.htm",
+        "https://www.iranicaonline.org/articles/karnamag-i-ardasir/"
+      ],
+      "note": "출생은1장, 도주는2장, 광채는3장, 아르다반을 죽이는 대목은4장. Devin 근거의 장번호는 부정확하나 등록 설명의 아르다반 타도와 왕조 창건은 확인. avesta1896영역은 숫양을 eagle로 옮겼으므로 숫양 부분 근거로 쓰지 않음."
+    }
+  },
+  {
+    "slug": "solomon",
+    "person_id": "0612975d-91a1-4366-80d7-3ce52d0d6d3d",
+    "membership": {
+      "id": "bcec4415-1c29-45ee-bded-a990789e251b",
+      "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+      "lv3_id": "a3b806e4-572a-49c4-b3dc-54d63da1d65b",
+      "celeb_id": "0612975d-91a1-4366-80d7-3ce52d0d6d3d",
+      "sort_order": 1021,
+      "hidden": true,
+      "short_desc": "『케브라 나가스트』 전승에서 마케다의 아들 메넬리크 1세의 아버지로, 악숨 왕조가 계보를 잇는 이스라엘의 왕이다.",
+      "short_desc_en": "In the Kebra Nagast tradition, the Israelite king who fathers Menelik I by Makeda, giving Aksum its claimed Solomonic line.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:28:19.883048+00:00"
+    },
+    "verification": {
+      "slug": "solomon",
+      "verified": true,
+      "source_urls": [
+        "https://sacred-texts.com/chr/kn/kn032.htm",
+        "https://sacred-texts.com/chr/kn/kn039.htm"
+      ],
+      "note": "32장 아들 부계 직접확인. 39장 기름부음은 왕명으로 제사장들이 행함. en anoints him은 솔로몬 직접행위로 읽힘; 수정요청필요. 교정본에서 영문기름부음제거+원전32/39장교체완료."
+    }
+  },
+  {
+    "slug": "osei-tutu",
+    "person_id": "b7e37dd3-e712-4013-8a9e-76fbbe2a57c6",
+    "membership": {
+      "id": "d9ba1600-436c-469c-8f20-e8e05d0989e7",
+      "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+      "lv3_id": "1bab042e-0de0-4ce9-a12a-066a038ed6a2",
+      "celeb_id": "b7e37dd3-e712-4013-8a9e-76fbbe2a57c6",
+      "sort_order": 6041,
+      "hidden": true,
+      "short_desc": "전승에서 황금 의자가 무릎 위에 내려앉은 아샨티의 첫 아산테헤네.",
+      "short_desc_en": "The first Asantehene onto whose knees, tradition says, the Golden Stool descended from the sky.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:21:18.056705+00:00"
+    },
+    "verification": {
+      "slug": "osei-tutu",
+      "verified": true,
+      "source_urls": [
+        "https://www.metmuseum.org/art/collection/search/310871"
+      ],
+      "note": "박물관 본문 직접 열어 아노체가 하늘에서 내린 황금 의자가 오세이 투투 무릎에 내려앉는 전승 확인."
+    }
+  },
+  {
+    "slug": "acamapichtli",
+    "person_id": "cd7127a5-7835-43cc-b1b8-76d9f4f9ada1",
+    "membership": {
+      "id": "01e1d1ba-5ecb-40f7-8328-7b2d10d1b78a",
+      "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+      "lv3_id": "7c872104-aab9-49b2-9127-7e6355fac05e",
+      "celeb_id": "cd7127a5-7835-43cc-b1b8-76d9f4f9ada1",
+      "sort_order": 3041,
+      "hidden": true,
+      "short_desc": "전승에서 콜우아칸의 톨텍 혈통으로 불려와 테노치티틀란 왕통을 연 첫 틀라토아니다.",
+      "short_desc_en": "In tradition, the ruler called from Toltec-blooded Culhuacan to become first tlatoani and found Tenochtitlan's royal line.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:21:18.056705+00:00"
+    },
+    "verification": {
+      "slug": "acamapichtli",
+      "verified": true,
+      "source_urls": [
+        "https://codiceboturini.inah.gob.mx/approaches_text.php?textID=5",
+        "https://revistas.inah.gob.mx/index.php/cuicuilco/article/download/19999/21407"
+      ],
+      "note": "INAH가 멕시카 건국 서사에서 첫 틀라토아니 즉위를 신화와 역사의 접점으로 명시. INAH연구는 콜우아-톨텍·멕시카 혈통 확인."
+    }
+  },
+  {
+    "slug": "wang-geon",
+    "person_id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+    "membership": {
+      "id": "52fa118b-322b-4a8e-af34-1587e6a3480f",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "lv3_id": "93f97995-dedb-43a0-b11c-e059f2a1ff94",
+      "celeb_id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+      "sort_order": 6011,
+      "hidden": true,
+      "short_desc": "도선의 예언대로 서른여섯 칸 집에서 태어나 삼한의 주인이 된 아들이라 전한다",
+      "short_desc_en": "The son born in the house of thirty-six bays, as Doseon foretold, destined to become lord of the Three Han",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:22:03.940976+00:00"
+    },
+    "verification": {
+      "slug": "wang-geon",
+      "verified": true,
+      "source_urls": [
+        "https://db.history.go.kr/id/kr_%24s02r_0090"
+      ],
+      "note": "고려세계 용건이 태조를낳다 본문 직접검수. 36구집 도선예언 왕건탄생 삼한통합예언 확인. 용건의대 그룹 설명도 이 장면을 다룸."
+    }
+  },
+  {
+    "slug": "arpad",
+    "person_id": "1136c5bd-93c6-4e36-a57c-bf48f1890a62",
+    "membership": {
+      "id": "35757361-634d-4f0c-a8b8-ca0cd926c7ab",
+      "lv2_id": "ff6dab0c-beef-48cf-ab4f-9c95effdd00e",
+      "lv3_id": "ad0ed18e-5aee-4c41-9a52-1fad84b9c0bf",
+      "celeb_id": "1136c5bd-93c6-4e36-a57c-bf48f1890a62",
+      "sort_order": 6041,
+      "hidden": true,
+      "short_desc": "전승에서 알모시의 아들로 머저르 부족들을 이끌고 카르파티아 분지를 정복한 대공",
+      "short_desc_en": "In chronicle tradition, Álmos's son and the grand prince who led the Magyar conquest of the Carpathian Basin",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:23:27.549826+00:00"
+    },
+    "verification": {
+      "slug": "arpad",
+      "verified": true,
+      "source_urls": [
+        "https://hu.wikisource.org/wiki/Gesta_Hungarorum"
+      ],
+      "note": "원전 번역의 ÁLMOS VEZÉR 단락: 알모시 아들Árpád를Pannonia데려감. 이후Árpád VEZÉR/정복서사 직접등장 확인."
+    }
+  },
+  {
+    "slug": "bumin-qaghan",
+    "person_id": "9b4fa3c7-d149-47d7-83da-dc69e53e87f4",
+    "membership": {
+      "id": "25cce40f-5d1e-4312-9292-ec7c1b8e920b",
+      "lv2_id": "4dea9637-f749-432a-bc93-40215171e839",
+      "lv3_id": "4ce44aa0-92dc-491a-9c97-67ec9c2ce5bb",
+      "celeb_id": "9b4fa3c7-d149-47d7-83da-dc69e53e87f4",
+      "sort_order": 1031,
+      "hidden": true,
+      "short_desc": "전승에서 늑대의 후손으로 전하는 아사나 왕가를 이끌고 유연을 무너뜨려 첫 카간이 된 인물이다.",
+      "short_desc_en": "In the tradition, the Ashina chief descended from the she-wolf who broke the Rouran and took the title of the first qaghan.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:26:01.542116+00:00"
+    },
+    "verification": {
+      "slug": "bumin-qaghan",
+      "verified": true,
+      "source_urls": [
+        "https://zh.wikisource.org/zh-hant/%E5%91%A8%E6%9B%B8/%E5%8D%B750"
+      ],
+      "note": "돌궐전 늑대기원과아사나신화직후 其後曰土門 문장과 自號伊利可汗 본문직접검수. 계보연결확인."
+    }
+  },
+  {
+    "slug": "gutae",
+    "person_id": "59ee315f-c38f-4c11-bc84-ea2785c02b95",
+    "membership": {
+      "id": "c0cf7817-9f21-420d-8df7-d5275312b1a0",
+      "lv2_id": "f798505e-018a-4ded-a838-cb7506c2cdd5",
+      "lv3_id": null,
+      "celeb_id": "59ee315f-c38f-4c11-bc84-ea2785c02b95",
+      "sort_order": 9999,
+      "hidden": true,
+      "short_desc": "수서·북사가 전하는 이설의 백제 시조로, 대방 옛 땅에 처음 나라를 세웠다는 인물이다.",
+      "short_desc_en": "In an alternative tradition preserved in the Suishu and Beishi, Gutae is the descendant of Dongmyeong said to have first founded a state on the old lands of Daifang.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:33:35.071785+00:00"
+    },
+    "verification": {
+      "slug": "gutae",
+      "source_urls": [
+        "https://contents.history.go.kr/front/ht/view.do?levelId=ht_001_0040_0010_0020",
+        "https://encykorea.aks.ac.kr/Article/E0006085"
+      ],
+      "note": "국사편찬위원회 수서 인용으로 구태의 대방 건국 이설 확인. 기존 부여고구려 소속 보존, 백제의 기존 세 그룹은 맞지 않아 그룹 미지정 추가.",
+      "verified": true
+    }
+  },
+  {
+    "slug": "asparuh",
+    "person_id": "41bab92d-55f5-4562-9946-efd5b208dfcb",
+    "membership": {
+      "id": "4ba88ebb-b8c9-4426-86fc-91ed4abb101b",
+      "lv2_id": "ff6dab0c-beef-48cf-ab4f-9c95effdd00e",
+      "lv3_id": "dacf63dd-ac9e-43c9-b05c-b8a947707d09",
+      "celeb_id": "41bab92d-55f5-4562-9946-efd5b208dfcb",
+      "sort_order": 7051,
+      "hidden": true,
+      "short_desc": "불가르 칸 명부에 다뉴브를 건너온 것으로 기록된 군주",
+      "short_desc_en": "The ruler the Bulgar khans' list records as crossing the Danube",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:33:35.071785+00:00"
+    },
+    "verification": {
+      "slug": "asparuh",
+      "source_urls": [
+        "https://en.wikipedia.org/wiki/Nominalia_of_the_Bulgarian_Khans",
+        "https://sas.fhn-shu.com/pdf/sas-11-1-2024.pdf"
+      ],
+      "note": "명부의 우바로프 원문/번역 다뉴브 도하 확인. 추가 학술자료 143~146쪽 불가리아 묵시 연대기의 이스포르=아스파루흐 전승 확인.",
+      "verified": true
+    }
+  },
+  {
+    "slug": "raden-wijaya",
+    "person_id": "56dd2b12-bd9e-4f6c-848a-d80dd357e899",
+    "membership": {
+      "id": "aa8f2218-9f90-4db1-bcf1-4f25cd1917eb",
+      "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+      "lv3_id": "5d5a88a3-0567-4208-b825-d87a710be2b0",
+      "celeb_id": "56dd2b12-bd9e-4f6c-848a-d80dd357e899",
+      "sort_order": 7051,
+      "hidden": true,
+      "short_desc": "『파라라톤』이 라자사 왕조의 계보에 두는 왕으로, 몽골군을 물리치고 쓴 마자 열매의 이름을 따 마자파힛을 세웠다고 전한다.",
+      "short_desc_en": "In the Pararaton chronicle he stands in the Rajasa line; tradition says he repelled the Mongol force and founded Majapahit, naming it after the bitter maja fruit.",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:33:35.071785+00:00"
+    },
+    "verification": {
+      "slug": "raden-wijaya",
+      "source_urls": [
+        "https://repositori.kemendikdasmen.go.id/29658/2/PENDIDIKAN%20SEJARAH%20DAN%20PERJUANGAN%20BANGSA%20MUSEUM%20BENTENG%20YOGYAKARTA.pdf",
+        "https://repositori.kemendikdasmen.go.id/29953/1/MENGENAL%20SEKELUMIT%20KEBUDAYAAN%20ORANG%20MADURA%20DI%20SUMENEP.pdf"
+      ],
+      "note": "인도네시아 교육문화부 박물관자료 검색엔진 본문에서 Pararaton의 마자 열매 명명설화와 초대왕 위자야 확인. PDF 직접 연결은 타임아웃. 마지막 라자사왕 오류는 Devin 교정본에서 제거됨.",
+      "verified": true
+    }
+  },
+  {
+    "slug": "tang-of-shang",
+    "person_id": "1f4ba9f3-9a63-468c-8d79-428e7e4baf91",
+    "membership": {
+      "id": "d2101823-688f-488c-aaed-f31af22c00dc",
+      "lv2_id": "a1cee75e-7437-4c7f-a2b1-f6c69cf30516",
+      "lv3_id": "934a4814-7e79-480e-8dc7-b92f4f4f3511",
+      "celeb_id": "1f4ba9f3-9a63-468c-8d79-428e7e4baf91",
+      "sort_order": 5041,
+      "hidden": true,
+      "short_desc": "전승에서 이윤을 얻어 걸을 물리치고 상을 세운 왕",
+      "short_desc_en": "The king who, in tradition, won Yi Yin's service, overthrew Jie, and founded Shang",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:33:35.071785+00:00"
+    },
+    "verification": {
+      "slug": "tang-of-shang",
+      "source_urls": [
+        "https://zh.wikisource.org/wiki/史記/卷003",
+        "https://zh.wikisource.org/wiki/呂氏春秋/卷九"
+      ],
+      "note": "사기 은본기 본문 152~170행 간적-설-성탕 계보, 이윤등용, 걸타도 직접확인. 여씨춘추 순민 본문 상림기도 확인.",
+      "verified": true
+    }
+  },
+  {
+    "slug": "alp-er-tunga",
+    "person_id": "448bbc48-096a-4d98-a530-0e4d6ea393d1",
+    "membership": {
+      "id": "0b1ce426-7e86-4aff-ac53-e245930f08bd",
+      "lv2_id": "4c8d717a-0f29-496d-bdfc-2e3c25cff934",
+      "lv3_id": "719ce248-6ad4-400e-aedb-ac8f90551f8f",
+      "celeb_id": "448bbc48-096a-4d98-a530-0e4d6ea393d1",
+      "sort_order": 5011,
+      "hidden": true,
+      "short_desc": "전승에서 아프라시야브와 같은 인물로 여겨지는 투란의 대왕",
+      "short_desc_en": "The great king of Turan whom tradition identifies with Afrasiab",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:33:35.071785+00:00"
+    },
+    "verification": {
+      "slug": "alp-er-tunga",
+      "source_urls": [
+        "https://www.iranicaonline.org/articles/afrasiab-turanian-king/"
+      ],
+      "note": "Yarshater 이란학사전의 후기 튀르크 전승 동일시와 카슈가리 애도시 근거 확인. 단정적 동일인 대신 동일시 전승으로 설명, 기존 ID 사용.",
+      "verified": true
+    }
+  },
+  {
+    "slug": "genghis-khan",
+    "person_id": "e94f8fc2-9010-4f39-9d32-2dad78a83cd2",
+    "membership": {
+      "id": "cefee906-c4f8-4038-8c9c-76e92782778c",
+      "lv2_id": "4dea9637-f749-432a-bc93-40215171e839",
+      "lv3_id": null,
+      "celeb_id": "e94f8fc2-9010-4f39-9d32-2dad78a83cd2",
+      "sort_order": 9999,
+      "hidden": true,
+      "short_desc": "『몽골비사』의 시조 계보가 이어져 닿는 몽골제국의 창건자",
+      "short_desc_en": "Founder of the Mongol Empire, where the Secret History's founding genealogy leads",
+      "long_desc": null,
+      "long_desc_en": null,
+      "image_url": null,
+      "assigned_at": "2026-09-22T09:35:49.146754+00:00"
+    },
+    "verification": {
+      "slug": "genghis-khan",
+      "verified": true,
+      "source_urls": [
+        "https://zh.wikisource.org/zh-hans/%E5%85%83%E6%9C%9D%E7%A7%98%E5%8F%B2/%E5%8D%B701",
+        "https://mongoliainstitute.anu.edu.au/content-centre/research/secret-history-mongols-volume-3"
+      ],
+      "note": "원조비사 1권 시조 계보가 칭기즈칸의 선조임을 명시하며 시작함을 직접확인. 호주국립대 학술판 소개에서 서사시적 칭기즈칸 전기 확인. 기존 그룹 몽골의 먼조상 범위와 달라 그룹 미지정."
+    }
+  },
+  {
+    "slug": "bharata-2",
+    "person_id": "219db041-df14-477a-a47e-41841ebab25e",
+    "membership": {
+      "id": "ec010abe-a971-468b-aca0-5bdf14e8717b",
+      "lv2_id": "c216d350-255d-4d28-bb80-e0fb1a670af6",
+      "lv3_id": "808cdfc4-ca82-48c2-b9a7-2b93684cbef3",
+      "celeb_id": "219db041-df14-477a-a47e-41841ebab25e",
+      "sort_order": 3081,
+      "hidden": true,
+      "short_desc": "두샨타와 샤쿤탈라의 아들, 달왕조의 왕",
+      "short_desc_en": "Son of Dushyanta and Shakuntala, king of the lunar dynasty",
+      "long_desc": "마하바라타 전승에 따르면 두샨타 왕과 샤쿤탈라의 아들로 칸바의 수도원 숲에서 태어났고, 여섯 살에 사자·호랑이·곰 같은 야수를 붙잡아 나무에 묶고 다녀 '모든 것을 길들이는 자'라는 뜻의 사르바다마나로 불렸다고 한다. 아버지에게 인정받아 바라타라는 이름을 얻고 태자로 책봉됐으며, 전차가 온 땅을 누비며 사방의 왕들을 눌러 차크라바르틴으로 존숭됐다고 전한다. 그의 뒤를 이은 왕들과 후손들이 그의 이름을 따라 바라타라 불리는 종족을 이뤘다고 한다.",
+      "long_desc_en": "According to the Mahabharata tradition, he was born to King Dushyanta and Shakuntala in Kanva's forest hermitage, and at six years of age he caught lions, tigers, bears, and other wild beasts and bound them to trees, earning the name Sarvadamana, 'tamer of all.' Acknowledged by his father, he was given the name Bharata and installed as heir-apparent, and is said to have driven his chariot across the whole earth, subdued the kings of every quarter, and been honoured as a chakravartin. The kings who succeeded him and his descendants are said to have formed the race called the Bharatas after his name.",
+      "image_url": null,
+      "assigned_at": "2026-09-04T22:56:27.466692+00:00"
+    },
+    "source_urls": [
+      "https://sacred-texts.com/hin/m01/m01075.htm",
+      "https://sacred-texts.com/hin/m01/m01095.htm"
+    ]
+  }
+]

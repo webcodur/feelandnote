@@ -1,0 +1,138 @@
+{
+  "person": "agastya",
+  "person_id": "a036c5a5-850c-43ba-ae70-f5019a06ad80",
+  "reviewed_at": "2026-09-23",
+  "scope_note": "Bounded source review. No repository or DB writes applied. Local reads limited to BRIEF/prompt and before.json.",
+
+  "q1_faction_fit": {
+    "verdict": "misplaced",
+    "reason": "Agastya is a rishi (seer), not a member of any royal dynasty. Tradition makes him jar-born (kumbha-yoni), son of Mitra and Varuna, one of the Saptarishi in later lists; his son Drdhasyu/Idhmavaha is also a sage, not a king. All four groups of myth-hindu-lineage (시조와 첫 왕들, 태양왕조, 달왕조, 싱할라 왕통) are royal houses; none can hold a sage without distorting the group's definition. His current membership has lv3_id=null precisely because no group fits.",
+    "dynasty_adjacency": "Medieval Tamil/Pandya tradition casts Agastya as the Pandyas' hereditary priest and patron — the Velvikudi copper-plate grant (c. 8th c.) is among the earliest records tying Agastya to Tamil/Pandya destiny, and Nakkirar's commentary on Iraiyanar Akapporul (c. 8th-9th c.) first tells the three-Sangam legend under Pandya patronage. He presides over or blesses a dynasty in legend; he is never a dynast himself.",
+    "recommendation": "Remove from myth-hindu-lineage. Best existing receiving home visible in this snapshot: myth-hindu-ramayana -> group '여정에서 만난 이들' (Encounters on the Journey), whose description literally covers figures Rama's party meets on the road/in the forest (Ahalya, Jatayu, Shurpanakha, Maricha). Agastya's canonical epic role — Rama visiting his hermitage and receiving divine weapons (Aranyakanda 11-13) — is exactly such an encounter. No new group needed. Secondary option: myth-hindu-mahabharata -> '스승과 조언자들' is weaker, since Agastya never teaches or counsels the Pandavas; his Mahabharata material is narrated legend (Lomasha's tirtha-yatra tales), not a lived advisory role. If a sages/rishis faction exists elsewhere in the DB (not visible in this snapshot), that would be more semantically correct still.",
+    "sources": [
+      "https://www.tamilex.uni-hamburg.de/research/akapporul.html",
+      "https://cict.in/cict2023/wp-content/uploads/2025/1-Books/Agathiyar.pdf",
+      "https://journals.sagepub.com/doi/10.1177/001946460103800401"
+    ]
+  },
+
+  "q2_appearance_verification": {
+    "valmiki/ramayana": {
+      "verdict": "verified — genuine on-stage appearance",
+      "exact_passages": [
+        {
+          "locus": "Aranyakanda sargas 11-13 (critical ed. and vulgate agree on numbering here)",
+          "detail": "3.11: the party travels toward Agastya's hermitage; en route the Ilvala-Vatapi episode is narrated (3.11.57-69). 3.12: Rama/Sita/Lakshmana enter the hermitage; Agastya gives Rama Vishnu's divine bow, two inexhaustible quivers, and a gold-sheathed sword. 3.13: Agastya directs Rama to settle at Panchavati.",
+          "links": [
+            "https://www.valmiki.iitk.ac.in/sloka?field_kanda_tid=3&field_sarga_value=11&language=dv",
+            "https://www.valmiki.iitk.ac.in/sloka?field_kanda_tid=3&field_sarga_value=12&language=dv",
+            "https://www.valmiki.iitk.ac.in/sloka?field_kanda_tid=3&field_sarga_value=13&language=dv",
+            "https://www.valmikiramayan.net/aranya/sarga12/aranya_12_prose.htm",
+            "https://www.valmikiramayan.net/aranya/sarga13/aranya_13_prose.htm",
+            "https://vedapath.app/en/ramayana/aranya-kanda"
+          ]
+        },
+        {
+          "locus": "Uttarakanda sargas 1-36 (critical ed.; vulgate chs. ~1-38)",
+          "detail": "Agastya leads the southern sages to Ayodhya (7.1.3 'sahagastya') and narrates to Rama the entire prehistory of the rakshasas and Ravana's lineage — the single largest Agastya block in the epic.",
+          "links": [
+            "http://gretil.sub.uni-goettingen.de/gretil/1_sanskr/2_epic/ramayana/ram_07_u.htm",
+            "https://www.siva.sh/ramayana/uttara-kanda/4/1-5",
+            "https://archive.org/stream/the-ramayana-of-valmiki-7-hari-prasad-shastri/The%20Ramayana%20of%20Valmiki%20-%207%20-%20Hari%20Prasad%20Shastri_djvu.txt"
+          ]
+        }
+      ],
+      "korean_abridgment_caveat": "The KO edition (민족사 『라마야나』, 주해신 역, 1993, ISBN 9788970096223) is marked abridged with textScope kandas-001-006 — i.e., kandas 1-6 only. Aranyakanda is formally in scope, but it is a single-volume rewritten abridgment and scene-level retention of the Agastya hermitage visit cannot be confirmed online; the Uttarakanda Agastya block is excluded by scope, guaranteed absent."
+    },
+    "vyasa/mahabharata": {
+      "verdict": "verified — the concentrated Agastya cycle (Agastyopakhyana)",
+      "exact_passages": [
+        {
+          "locus": "Vana Parva, Tirtha-yatra Parva — BORI critical ed. adhyayas 3.94-3.103; Ganguli vulgate Sections XCVI-CV (96-105)",
+          "detail": "3.94 (Ganguli 96): Yudhishthira reaches Agastya's hermitage at Durjaya; Lomasha narrates the pitris, Ilvala-Vatapi stratagem, and the creation of Lopamudra. 3.95: marriage to Lopamudra. 3.96-97 (Ganguli 97-99): the wealth-quest and Agastya digesting Vatapi; birth of son Drdhasyu (Idhmavaha). 3.102 (Ganguli 104): the Vindhya restraint — Vindhya bows until Agastya 'returns,' and he never returns. 3.103 (Ganguli 105): Agastya drinks the ocean to expose the Kalakeya demons. Ganguli 106 then hands off to the Sagara story.",
+          "links": [
+            "https://sacred-texts.com/hin/m03/m03096.htm",
+            "https://sacred-texts.com/hin/m03/m03099.htm",
+            "https://sacred-texts.com/hin/m03/m03104.htm",
+            "https://sacred-texts.com/hin/m03/m03105.htm",
+            "https://vedapath.app/sa/mahabharata-bori/vana-parva/94",
+            "https://vedapath.app/sa/mahabharata-bori/vana-parva/95",
+            "https://vedapath.app/sa/mahabharata-bori/vana-parva/97",
+            "https://vedapath.app/sa/mahabharata-bori/vana-parva/102",
+            "https://vedapath.app/sa/mahabharata-bori/vana-parva/103"
+          ]
+        }
+      ],
+      "korean_abridgment_caveat": "The KO edition (민족사 『마하바라타』, 불멸의 인도문학 2, ISBN 9788970096230) is likewise a condensed retelling; embedded tirtha-yatra upakhyanas are the usual first cut in abridgments, so whether the Agastya cycle survives in it is unverifiable online. The English editions listed (Debroy, Ganguli) are complete and do contain it.",
+      "also_minor": "Agastya is listed among sages attending Yudhishthira's rajasuya (Sabha Parva) — a name-list appearance, not a scene."
+    },
+    "stronger_for_reader": "Mahabharata. For a reader seeking Agastya himself, the Vana Parva tirtha-yatra block (CE 3.94-103) is the fullest primary dossier — his ancestors, wife, demon-slaying, Vindhya, ocean-drinking. The Ramayana link is valid but brief: a live cameo (Aranya 11-13) plus a narrator role (Uttarakanda 1-36) that the KO abridgment excludes. Keep both relations; rank Mahabharata first."
+  },
+
+  "q3_better_work": {
+    "verdict": "one verified English monograph exists; no Korean edition of any Agastya-centered work",
+    "candidate": {
+      "title": "Agastya in the Tamil Land",
+      "author": "K. N. Sivaraja Pillai",
+      "publisher_edition": "University of Madras, 1920 (first ed., public domain, full scan on Internet Archive); Asian Educational Services reprint, 1985",
+      "isbn_confirmed": "8120601424 (ISBN-10 of the 1985 AES reprint, per Vedic Books listing; ISBN-13 equivalent 9788120601420)",
+      "openlibrary": "https://openlibrary.org/books/OL7131071M (work OL1145071W); full text https://archive.org/details/agastyaintamilla00sivarich",
+      "google_books": "https://books.google.com/books?id=nv2sIH_WB4EC",
+      "assessment": "A ~90-page scholarly monograph and the only verified standalone English book centered on Agastya. It is dated (1920) and focused on the Tamil Agastya tradition — a reference work, not a reading text. Worth adding as a related/scholarship work if the schema supports it; it does not replace the epic appearance links."
+    },
+    "korean_edition": "none found — no Korean translation of any Agastya-centered book could be verified; do not fabricate one",
+    "rejected_or_unusable": [
+      "Kannada-language items only (e.g., Anant Pai's children's book 'Agastya', IBH Prakashana; K.S. Narayanacharya's novel) — not English/Korean",
+      "'Agattiyam' / 'Agastya Samhita' — attributed/puranic texts, not verified standalone EN/KO reading editions"
+    ]
+  },
+
+  "q4_factcheck": {
+    "overall": "existing bio/guide are already hedged (전해지며/추앙받으며/credited with); no outright false claims, but attribution can be made more explicit",
+    "claims": [
+      {
+        "claim": "Rigveda hymn authorship ('여러 찬가를 지은 성자' / 'authoring numerous hymns')",
+        "status": "tradition, not fact — the medieval Anukramani assigns Agastya Maitravaruni as rishi (seer) of RV 1.165-191 in Mandala 1; RV 1.179 is the famous Agastya-Lopamudra dialogue. 'Seer/drashta' is the precise claim; 'authored' is the usual loose rendering. Historical authorship is unverifiable.",
+        "links": [
+          "http://www.voiceofdharma.org/books/rig/ch1.htm",
+          "https://rigveda-online.github.io/1/179.html",
+          "https://vedapath.app/en/rig-veda/mandala-1/179",
+          "https://sacred-texts.com/hin/rigveda/rv01179.htm"
+        ]
+      },
+      {
+        "claim": "Founder of Tamil grammar (Agattiyam)",
+        "status": "later Tamil tradition, not fact — the three-Sangam legend and Agastya's role are first attested in Nakkirar's commentary on Iraiyanar Akapporul (c. 8th-9th c.) and the Velvikudi grant; the Agattiyam itself is lost and its attribution legendary. Tolkappiyar as his disciple is commentators' tradition.",
+        "links": [
+          "https://www.tamilex.uni-hamburg.de/research/akapporul.html",
+          "https://www.academia.edu/4804779/",
+          "https://journals.sagepub.com/doi/10.1177/001946460103800401"
+        ]
+      },
+      {
+        "claim": "Founder of Siddha medicine",
+        "status": "tradition — Agastya heads the 18 Siddhars in Tamil Siddha lore; the medical works ascribed to him are pseudepigraphal. Keep as veneration, not founding fact.",
+        "links": [
+          "https://cict.in/cict2023/wp-content/uploads/2025/1-Books/Agathiyar.pdf"
+        ]
+      },
+      {
+        "claim": "Vindhya motif ('빈디야 산을 낮춘' headline/title)",
+        "status": "sound as myth — primary source MBh Vana Parva CE 3.102 / Ganguli Section CIV: Vindhya swells to block the sun's path, bows to let Agastya pass south, and stays bowed awaiting a return that never comes. Headline/title present it as image, which is correct.",
+        "links": [
+          "https://sacred-texts.com/hin/m03/m03104.htm",
+          "https://vedapath.app/sa/mahabharata-bori/vana-parva/102"
+        ]
+      },
+      {
+        "claim": "monologue detail: demons 'tried to swallow him' and he digested them",
+        "status": "minor inversion — in MBh 3.97/Ganguli 99, Agastya eats Vatapi (served as food); the monologue flips the direction for poetic effect. Acceptable inside a first-person mythic monologue; fix only if strict fidelity is wanted."
+      }
+    ],
+    "suggested_bio_ko": "고대 인도 베다·서사시 전승의 리시(성현). 《리그베다》 제1권의 여러 찬가가 전통적으로 그를 보는 이(리시)로 삼고, 서사시에서는 하늘로 솟던 빈디야 산을 낮추고 남쪽으로 향한 현자로 그려진다. 타밀 전승은 그를 첫 타밀 문법 《아가띠얌》의 저자이자 싯다르들의 시조로 모신다.",
+    "suggested_bio_en": "A rishi of ancient India's Vedic and epic lore. Tradition names him the seer of a block of hymns in Rigveda Book 1, and the epics show him humbling the rising Vindhya mountains before journeying south. Tamil tradition reveres him as the author of the lost first Tamil grammar and as master of the Siddhars.",
+    "suggested_guide_ko": "아가스티야는 고대 인도 베다 전통과 남인도 타밀 문화권에서 숭배되는 전설적 현자다. 《리그베다》 제1권의 찬가들이 그를 리시로 삼는 전통이 있고, 《마하바라타》는 바다를 들이마시고 빈디야 산을 낮춘 일화를, 《라마야나》는 숲의 은거지에서 라마에게 신의 병기를 건네는 장면을 전한다. 남인도 타밀 전승은 그를 첫 타밀 문법 《아가띠얌》의 저자이자 싯다 의학을 연 싯다르들의 스승으로 추앙한다 — 모두 역사적 사실이 아니라 후대가 쌓아 올린 상징적 형상이다.",
+    "suggested_guide_en": "Agastya is a legendary sage revered in the Vedic tradition and the Tamil south. Rigvedic tradition names him the seer of a block of hymns in Book 1; the Mahabharata tells how he drank the ocean and stilled the rising Vindhya mountains, and the Ramayana shows Rama receiving divine weapons at his forest hermitage. Tamil tradition venerates him as the author of the lost first Tamil grammar and the teacher of the Siddhar healers — symbolic roles layered onto myth rather than documented history.",
+    "note": "The current bio is usable as-is; the suggested versions add the Tamil half of his significance and tighten 'authored' to 'seer'. Change genuinely helps the guide's EN nested clause ('who established... and founded'), which reads closer to fact than the surrounding hedge intends."
+  }
+}

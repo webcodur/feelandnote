@@ -1,0 +1,54 @@
+{
+  "slug": "panhu",
+  "celeb_id": "55370bff-da7e-4d68-a918-ba08fc026cb5",
+  "generator": "Codex built-in image_gen (root designed and generated)",
+  "generated": "generated-v1.png",
+  "final": "avatar-v1.webp",
+  "registered": "registered.webp",
+  "registered_url": "https://assets.feelandnote.com/celebs/55370bff-da7e-4d68-a918-ba08fc026cb5/avatar.webp?v=1790069098530",
+  "avatar_registered": true,
+  "profile_publication_status": "inactive",
+  "cutout": {
+    "tool": "C:/project/nobg/batch/batch_nobg.py",
+    "model": "birefnet-general",
+    "speed": "medium"
+  },
+  "review": {
+    "backgrounds": [
+      "#0a0a0a",
+      "#f3f0e8"
+    ],
+    "sizes": [
+      480,
+      64
+    ],
+    "result": "passed",
+    "registered_redownload_verified": true,
+    "variants": [
+      {
+        "file": "avatar.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-md.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-sm.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      }
+    ]
+  },
+  "face_reference": null,
+  "pipeline": [
+    "root nonhuman portrait generation",
+    "nobg rembg medium",
+    "manual square framing review",
+    "upload-local dry-run/apply"
+  ],
+  "horizontal_flip": false,
+  "exception": "Panhu is a dog. Human facial landmarks and human reframe were deliberately not applied; preserved root-selected square framing with both ear tips visible."
+}

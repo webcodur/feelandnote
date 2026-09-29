@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-09-23T11:18:58.009Z",
+  "changes": [
+    {
+      "table": "celebs",
+      "key": "id",
+      "id": "a726c494-810e-4826-81e3-2023297f894f",
+      "old": {
+        "bio": "마우이가 형들의 카누에 몰래 타고 나가 조상의 턱뼈로 만든 낚시에 제 코피를 발라 바다에 던졌다. 끌어올린 큰 물고기가 뉴질랜드 북섬이 됐고 마오리는 그 섬을 마우이의 물고기라 부른다. 하와이·통가·타히티에도 같은 이야기가 있어 섬마다 낚아 올린 땅을 자기 섬으로 적고, 해를 붙잡아 늦추고 불을 훔쳐 온 이야기도 함께 전한다.",
+        "bio_en": "Māui secretly boarded his brothers' canoe and cast a hook made from an ancestor's jawbone after smearing it with blood from his nose. The immense fish he hauled up became New Zealand's North Island, which Māori call the fish of Māui. Hawaiian, Tongan, and Tahitian traditions tell related versions, each identifying the land he caught with its own island. Stories also remember him for capturing the sun to slow its passage and for stealing fire."
+      },
+      "next": {
+        "bio": "마우이가 형들의 카누에 몰래 타고 나가 할머니의 턱뼈로 만든 낚시에 제 코피를 발라 바다에 던졌다. 끌어올린 큰 물고기가 뉴질랜드 북섬이 됐고 마오리는 그 섬을 마우이의 물고기라 부른다. 하와이·통가·타히티에도 같은 이야기가 있어 섬마다 낚아 올린 땅을 자기 섬으로 적고, 해를 붙잡아 늦추고 불을 훔쳐 온 이야기도 함께 전한다.",
+        "bio_en": "Māui secretly boarded his brothers' canoe and cast a hook made from his grandmother Murirangawhenua's jawbone after smearing it with blood from his nose. The immense fish he hauled up became New Zealand's North Island, which Māori call the fish of Māui. Hawaiian, Tongan, and Tahitian traditions tell related versions, each identifying the land he caught with its own island. Stories also remember him for capturing the sun to slow its passage and for stealing fire."
+      }
+    },
+    {
+      "table": "celeb_explanations",
+      "key": "profile_id",
+      "id": "d3625009-0db1-41ce-8bb7-a9598d74f4bd",
+      "old": {
+        "plain_text": "타갈로아는 사모아 신화에서 우주를 짓고 신들을 다스리는 최고신이다. 허공에 머물며 하늘과 바다, 땅을 창조하고 하늘에서 돌을 굴려 사바이이섬과 우폴루섬을 만들었다고 전해진다. 마누아 전승에서는 그가 보낸 덩굴에서 생겨난 구더기를 사람으로 바꾸었다고 하며, 통가 신화의 탕갈로아나 타히티 신화의 타아로아와도 통하는 신이다.",
+        "plain_text_en": "Tagaloa is the supreme god of Samoan myth who built the cosmos and rules the gods. Dwelling in the void he created the heavens, the sea, and the earth, and rolled stones down from the sky to make the islands of Savai'i and Upolu, tradition says. Manu'a tradition says he turned into people the maggots born of a vine he sent; he is the same god as Tangaloa of Tongan myth and Ta'aroa of Tahiti."
+      },
+      "next": {
+        "plain_text": "타갈로아는 사모아 신화에서 우주를 짓고 신들을 다스리는 최고신이다. 허공에 머물며 하늘과 바다, 땅을 창조하고 하늘에서 돌을 굴려 사바이이섬과 우폴루섬을 만들었다고 전해진다. 마누아 전승에서는 그가 보낸 덩굴에서 생겨난 구더기를 사람으로 바꾸었다고 하며, 통가의 탕갈로아와 타히티의 타아로아는 이름과 전승이 닿지만, 섬마다 이야기와 역할은 다르다.",
+        "plain_text_en": "Tagaloa is the supreme god of Samoan myth who built the cosmos and rules the gods. Dwelling in the void he created the heavens, the sea, and the earth, and rolled stones down from the sky to make the islands of Savai'i and Upolu, tradition says. Manu'a tradition says he turned into people the maggots born of a vine he sent; his name and traditions have counterparts in Tonga's Tangaloa and Tahiti's Ta'aroa, though their stories and roles differ by island."
+      }
+    }
+  ]
+}

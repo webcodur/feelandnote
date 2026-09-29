@@ -1,0 +1,87 @@
+{
+  "faction": {
+    "id": "4c8d717a-0f29-496d-bdfc-2e3c25cff934",
+    "slug": "myth-persia",
+    "published": false,
+    "lead_person_ids": [
+      "0170e0b7-9593-492a-964f-39ae68ab78a3",
+      "4b7408d6-edb1-4f73-bdcb-a92cd1037bd8",
+      "173be99f-07c3-4c74-a4ea-0cfa4cdc6ed4"
+    ]
+  },
+  "people": [
+    {
+      "id": "0170e0b7-9593-492a-964f-39ae68ab78a3",
+      "slug": "jamshid",
+      "nickname": "잠쉬드",
+      "nickname_en": "Jamshid",
+      "headline": "황금기를 열었다가 왕의 광채를 잃은 임금",
+      "headline_en": "Claimed divinity, and the royal radiance left him",
+      "bio": "잠쉬드는 사람을 사제·전사·농부·장인 네 갈래로 나누고 무기와 옷감과 배를 만들게 했다. 새해 첫날 옥좌에 올라 노루즈를 세웠다고 전한다. 스스로 신이라 내세우자 왕의 광채 파르가 그를 떠났고 자하크에게 나라를 빼앗겼다.",
+      "bio_en": "Jamshid divided people into four estates of priests, warriors, farmers and artisans, and had them make weapons, cloth and ships. He is said to have taken the throne on the first day of the new year and established Nowruz. When he set himself up as a god the farr, the royal radiance, departed from him, and Zahhak took the kingdom from him.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/0170e0b7-9593-492a-964f-39ae68ab78a3/avatar.webp?v=1790052450515",
+      "publication_status": "inactive"
+    },
+    {
+      "id": "4b7408d6-edb1-4f73-bdcb-a92cd1037bd8",
+      "slug": "zahhak",
+      "nickname": "자하크",
+      "nickname_en": "Zahhak",
+      "headline": "잠쉬드에게서 왕권을 빼앗은 폭군",
+      "headline_en": "Fed two shoulder-born serpents on human brains for a thousand years",
+      "bio": "자하크는 아리만의 꾐에 넘어가 아버지를 죽이고 왕위를 얻었고, 아리만이 어깨에 입을 맞추자 그 자리에서 뱀 두 마리가 자랐다. 뱀을 먹이려 날마다 젊은이의 골을 바치게 하며 천 년을 다스렸다. 페리둔이 그를 사로잡아 다마반드 산에 묶어 두었다.",
+      "bio_en": "Lured on by Ahriman, Zahhak killed his father and took the throne, and when Ahriman kissed him on the shoulders two serpents grew from the spot. To feed them he had the brains of young men delivered daily, and he ruled for a thousand years. Fereydun took him captive and chained him inside Mount Damavand.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/4b7408d6-edb1-4f73-bdcb-a92cd1037bd8/avatar.webp?v=1790052882611",
+      "publication_status": "inactive"
+    },
+    {
+      "id": "173be99f-07c3-4c74-a4ea-0cfa4cdc6ed4",
+      "slug": "fereydun",
+      "nickname": "페리둔",
+      "nickname_en": "Fereydun",
+      "headline": "폭군을 몰아내고 이란 왕권을 되찾은 임금",
+      "headline_en": "The hidden heir who overthrew Zahhak and restored Iran's throne",
+      "bio": "페리둔은 자하크에게 아버지를 잃고 숨어 자랐다가 카베의 봉기에 불려 나와 소머리 철퇴를 들고 자하크를 쳤다. 자하크를 죽이지 않고 다마반드 산에 묶은 뒤 왕위에 올랐다. 늘그막에 땅을 셋으로 갈라 살름에게 서쪽을, 투르에게 투란과 동쪽을, 이라지에게 이란을 주었다.",
+      "bio_en": "Fereydun lost his father to Zahhak and was raised in hiding until Kaveh's revolt summoned him to fight. Wielding an ox-headed mace, he defeated Zahhak but spared his life, binding him beneath Mount Damavand before taking the throne. In old age, Fereydun divided the world among his sons: the west to Salm, Turan and the east to Tur, and Iran to Iraj.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/173be99f-07c3-4c74-a4ea-0cfa4cdc6ed4/avatar.webp?v=1790052347139",
+      "publication_status": "inactive"
+    }
+  ],
+  "guides": [
+    {
+      "profile_id": "173be99f-07c3-4c74-a4ea-0cfa4cdc6ed4",
+      "plain_text": "페리둔은 폭군 자하크를 몰아내고 즉위한 이란 전승 속의 왕이다. 아버지를 해친 자하크를 피해 숨어 자란 뒤, 대장장이 카베의 봉기에 합류해 소머리 철퇴를 들고 자하크를 쳤다. 자하크를 죽이지 않고 다마반드산에 결박해 가둔 뒤 왕위에 올랐다. 말년에는 영토를 셋으로 나누어 살름에게 서쪽을, 투르에게 투란과 동쪽을, 이라지에게 이란을 맡겼다.",
+      "plain_text_en": "Fereydun is a king of Iranian tradition who overthrew the tyrant Zahhak and took the throne. Raised in hiding from the Zahhak who had killed his father, he joined the blacksmith Kaveh's revolt and struck Zahhak with an ox-headed mace. Rather than kill him, he bound Zahhak beneath Mount Damavand and ascended the throne. In old age he divided his realm three ways: the west to Salm, Turan and the east to Tur, and Iran to Iraj.",
+      "published_at": null
+    },
+    {
+      "profile_id": "0170e0b7-9593-492a-964f-39ae68ab78a3",
+      "plain_text": "잠쉬드는 페르시아 신화와 서사시 《샤나메》에 등장하는 피슈다드 왕조의 네 번째 왕이다. 백성을 사제, 전사, 농부, 장인의 네 갈래로 나누고 무기와 옷감, 배를 만들게 했다. 새해 첫날 옥좌에 올라 전통 축제인 노루즈를 세웠다고 전한다. 훗날 스스로 신이라 내세우자 왕의 광채인 파르가 그를 떠났고, 결국 자하크에게 나라를 빼앗겼다.",
+      "plain_text_en": "Jamshid is the fourth king of the Pishdadian dynasty in Persian myth and the Shahnameh. He divided his people into priests, warriors, farmers, and artisans, and had weapons, textiles, and ships made. He is said to have founded Nowruz, the traditional new year festival, by ascending his throne on the first day of the year. Later, when he declared himself a god, the royal glory, the farr, left him, and Zahhak took his kingdom.",
+      "published_at": null
+    },
+    {
+      "profile_id": "4b7408d6-edb1-4f73-bdcb-a92cd1037bd8",
+      "plain_text": "자하크는 페르시아 신화에 등장하는 악의 화신이자 폭군이다. 악신 아리만의 꾐에 넘어가 아버지를 해치고 왕위에 올랐으며, 아리만이 입을 맞춘 어깨에서 자란 두 마리 뱀에게 젊은이들의 뇌를 먹이며 천 년 동안 폭정을 휘둘렀다. 결국 영웅 페리둔에게 제압되어 다마반드산에 사슬로 묶였다.",
+      "plain_text_en": "Zahhak is the embodiment of evil and tyrant in Persian mythology. Seduced by the demon Ahriman he killed his father and took the throne, and for a thousand years he ruled with cruelty, feeding the brains of young men to the two serpents grown from shoulders Ahriman had kissed. In the end the hero Fereydun subdued him and chained him to Mount Damavand.",
+      "published_at": null
+    }
+  ],
+  "members": [
+    {
+      "lv2_id": "4c8d717a-0f29-496d-bdfc-2e3c25cff934",
+      "celeb_id": "0170e0b7-9593-492a-964f-39ae68ab78a3",
+      "hidden": true
+    },
+    {
+      "lv2_id": "4c8d717a-0f29-496d-bdfc-2e3c25cff934",
+      "celeb_id": "173be99f-07c3-4c74-a4ea-0cfa4cdc6ed4",
+      "hidden": true
+    },
+    {
+      "lv2_id": "4c8d717a-0f29-496d-bdfc-2e3c25cff934",
+      "celeb_id": "4b7408d6-edb1-4f73-bdcb-a92cd1037bd8",
+      "hidden": true
+    }
+  ]
+}

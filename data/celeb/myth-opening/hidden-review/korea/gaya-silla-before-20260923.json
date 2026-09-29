@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-09-23T09:13:39.280Z",
+  "source": [
+    "https://db.history.go.kr/id/sy_002r_0010_0230_0010",
+    "https://db.history.go.kr/id/sg_041r_0020_0010"
+  ],
+  "person": {
+    "id": "9ab48d45-e272-4df6-941e-7a0ef5e4cdba",
+    "slug": "the-five-gaya-founder-brothers",
+    "bio": "구지봉 금상자의 여섯 알에서 나온 아이들 가운데 수로를 뺀 다섯이 각각 자기 땅으로 돌아가 다섯 가야의 임금이 되었다. 가락국기는 이들의 이름을 남기지 않고 아라가야·고령가야·대가야·성산가야·소가야의 시조라고만 적는다.",
+    "bio_en": "Of the boys born from the six eggs in the golden chest at Gujibong, the five besides Suro each returned to their own land and became kings of the five Gaya states. The Garakgukgi leaves their names unrecorded, naming them only as the founders of Ara, Goryeong, Dae, Seongsan and So Gaya."
+  },
+  "guide": {
+    "profile_id": "9ab48d45-e272-4df6-941e-7a0ef5e4cdba",
+    "plain_text": "다섯 가야의 시조 형제는 가락국기에 전하는 인물들로, 구지봉 금상자의 여섯 알에서 태어난 아이 중 수로를 제외한 다섯이다. 각자 자기 땅으로 돌아가 대가야, 성산가야, 아라가야, 고령가야, 소가야의 임금이 되었다. 기록에 개별 이름은 남아 있지 않으며 다섯 가야의 시조로만 전한다.",
+    "plain_text_en": "The Five Gaya Founder Brothers are the figures of the Garakgukgi, the five of the six children hatched from the eggs of the Gujibong golden casket other than Suro. Each returned to his own land and became king of Daegaya, Seongsan Gaya, Ara Gaya, Goryeong Gaya, or Sogaya. No individual names survive; they are handed down only as the founders of the five Gaya states."
+  },
+  "faction": {
+    "id": "769f730f-318f-486e-8a52-77b8ca03af78",
+    "slug": "myth-korea-gaya",
+    "description": "구지봉에 울린 노래에 하늘에서 금빛 상자가 내려오고, 그 안에서 여섯 아이가 나와 각각 가야의 임금이 되었다. 바다 건너 온 허황옥과 대가야를 연 정견모주의 이야기.",
+    "description_en": "A song at Guji Peak brings down a golden chest from heaven; six children emerge to become the kings of Gaya. The tale of Heo Hwang-ok, who arrived by sea, and Jeonggyeon-moju, who founded Daegaya."
+  }
+}

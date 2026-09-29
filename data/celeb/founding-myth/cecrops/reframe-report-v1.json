@@ -1,0 +1,19 @@
+[
+  {
+    "name": "001-cecrops",
+    "crop": {
+      "left": 4,
+      "top": 0,
+      "size": 796
+    },
+    "spanRatio": 0.434,
+    "eyeLine": 0.461,
+    "emphasis": -2.17,
+    "headroom": 0.015,
+    "decidedBy": "source-top",
+    "upscale": 1.01,
+    "warnings": [
+      "실루엣이 원본 좌우 가장자리에 닿아 가로 위치가 9단위 밀렸다"
+    ]
+  }
+]

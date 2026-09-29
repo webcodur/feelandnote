@@ -1,0 +1,1 @@
+Generated with `image_gen` and displayed above. **The output is 1254 × 1254 pixels**; the tool returned that size again after a correction attempt, so the exact 1536 × 1536 requirement remains unmet. No shell commands were run.

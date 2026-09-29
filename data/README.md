@@ -5,10 +5,10 @@
 | 경로 | 내용 | 현역 규격 |
 |---|---|---|
 | [`celeb/`](celeb/README.md) | DB 반영 전 인물 대사 원고와 조사 스냅샷 | [`docs/project/celeb/`](../docs/project/celeb/README.md) |
-| `coupang/` | 제휴 상품 연결 대상과 선별 결과 | [`docs/project/operations/service-strategy.md`](../docs/project/operations/service-strategy.md) |
-| [`service-strategy/research.json`](service-strategy/research.json) | 경쟁사 공개 인물 명단 대조·검색 실측·구매 상품 조회값 | [서비스 방향과 수익화](../docs/project/operations/service-strategy.md) |
+| `coupang/` | 제휴 상품 연결 대상과 선별 결과 | [`docs/project/operations/ops-01-service-strategy.md`](../docs/project/operations/ops-01-service-strategy.md) |
+| [`service-strategy/research.json`](service-strategy/research.json) | 경쟁사 공개 인물 명단 대조·검색 실측·구매 상품 조회값 | [서비스 방향과 수익화](../docs/project/operations/ops-01-service-strategy.md) |
 | `naver-blog/` | 네이버 블로그 글 번호·인물 slug·링크 처리 상태 대응표 | [`docs/continuous/blog-naver-book.md`](../docs/continuous/blog-naver-book.md) |
-| `seo-index-inspection-*.json` | Search Console 입력 URL과 URL별 색인 검사 결과 | [`docs/project/operations/seo.md`](../docs/project/operations/seo.md) |
+| `seo-index-inspection-*.json` | Search Console 입력 URL과 URL별 색인 검사 결과 | [`docs/project/operations/ops-02-seo.md`](../docs/project/operations/ops-02-seo.md) |
 
 ## 배치 원칙
 

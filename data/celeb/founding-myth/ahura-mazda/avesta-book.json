@@ -1,0 +1,30 @@
+{
+  "work": {
+    "identity": "wikidata:q83426",
+    "title": "Avesta",
+    "creator": "Anonymous",
+    "titleAliases": [
+      "The Zend-Avesta",
+      "아베스타"
+    ],
+    "creatorAliases": [
+      "James Darmesteter",
+      "L. H. Mills"
+    ]
+  },
+  "edition": {
+    "kind": "volume",
+    "scope": "vendidad"
+  },
+  "ko": {
+    "translationStatus": "verified_unavailable",
+    "creator": "Anonymous",
+    "evidenceUrls": [
+      "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+      "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+    ]
+  },
+  "en": {
+    "isbn": "9781606201954"
+  }
+}

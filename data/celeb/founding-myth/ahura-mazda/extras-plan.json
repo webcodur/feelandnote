@@ -1,0 +1,195 @@
+{
+  "guide": {
+    "profile_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+    "plain_text": "아후라 마즈다는 조로아스터교의 최고신이다. 이름 자체가 '주(Ahura)'와 '지혜(Mazda)'를 합친 말로, 아베스타의 찬가에서 가장 먼저, 가장 자주 불리는 존재다. 예언자 자라투슈트라는 그를 만들어지지 않은 유일한 신, 완전히 지혜롭고 선한 창조주로 선포했고, 이란의 왕들은 베히스툰 비문 같은 왕실 비문에 그의 이름을 새겨 왕권의 근거로 삼았다.\n\n이 신을 읽는 열쇠는 질서와 기한이다. 팔라비 문헌 분다히슌에서 오흐르마즈드(아후라 마즈다의 팔라비어 이름)는 끝없는 빛 속에 영원히 존재한다. 악신 아흐리만이 쳐들어와도 그는 무너지지 않고, 스스로 싸움의 기한을 구천 년으로 정한 뒤 그 조약을 악신에게 받아들이게 한다. 이어서 스물한 낱말의 찬가 '야타 아후 바이리요'를 송창해 악신에게 자신의 최종 패배와 죽은 자의 부활까지 보여주고, 기절한 악신은 삼천 년 동안 어둠 속에 쓰러진다. 전지한 신이 싸움의 끝을 미리 알고 시간표를 짜는 구조다.\n\n벤디다드 2장에서는 이 질서가 인물에게 일을 맡기는 방식으로 드러난다. 아후라 마즈다는 자라투슈트라가 '당신과 말을 나눈 첫 인간이 누구냐'고 묻자 이마를 꼽는다. 이마가 설교자 되기를 거절하자, 그는 종교를 전하는 대신 '내 세계를 번성하게 하고 길러 다스리고 지켜라'는 임무를 내리고 금 도장과 금 장식 칼을 건넨다. 뒤이어 신들의 모임에서 파멸적인 겨울이 올 것을 경고하고, 사람과 짐승과 씨앗의 씨족을 보존할 바라(울타리)의 짓는 법까지 지시한다. 창조한 세계를 지켜내기 위해 기한을 정하고, 경고하고, 맡길 일을 나누는 것이 이 신의 일하는 방식이다.",
+    "plain_text_en": "Ahura Mazda is the supreme god of Zoroastrianism. His name joins 'lord' (Ahura) with 'wisdom' (Mazda), and in the hymns of the Avesta he is the first and most frequently invoked being. Zoroaster proclaimed him the one uncreated God, wholly wise and good, and Iranian kings carved his name into royal inscriptions such as Behistun as the warrant of their rule.\n\nThe keys to reading this god are order and fixed terms. In the Pahlavi Bundahishn, Ohrmazd dwells forever in the Endless Light. When the evil spirit Ahriman attacks, Ohrmazd does not fall; instead he himself sets the term of the contest at nine thousand years and makes the Evil Spirit accept the covenant. He then chants the twenty-one-word Yatha Ahu Vairyo, showing Ahriman his own final defeat and the resurrection of the dead, and the Evil Spirit lies stunned in darkness for three thousand years. The omniscient god already knows the end and schedules the fight himself.\n\nIn Vendidad 2 this order appears as the way he allots tasks. Asked by Zarathustra who was the first mortal to converse with him, he names Yima. When Yima declines to be a preacher, Ahura Mazda gives him a different charge — 'make my world increase, nourish it, rule it, watch over it' — and hands him a golden seal and a gold-inlaid poniard. Later, at an assembly of the celestial gods, he warns Yima of the dire winters to come and dictates how to build the Vara, the enclosure that will preserve the finest men, animals, and seeds. Setting terms, giving warnings, and allotting each being its task: that is how this god works to preserve what he created.",
+    "interpretive_title": "미작성",
+    "interpretive_text": "미작성",
+    "interpretive_title_en": null,
+    "interpretive_text_en": null,
+    "published_at": null
+  },
+  "events": [
+    {
+      "id": "fdbbdd77-71ba-456c-9478-fd5ca96b2d27",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "끝없는 빛 속의 존재",
+      "title_en": "Dwelling in the Endless Light",
+      "description": "오흐르마즈드는 전지함과 선함으로 말미암아 영원한 시간 동안 가장 높은 곳, 끝없는 빛 속에 있었다. 빛은 그의 처소이고 전지와 선함은 그의 속성으로, 악신의 심연은 그 아래에 따로 있었다.",
+      "description_en": "Ohrmazd existed forever at the highest place, in the Endless Light, through omniscience and goodness. Light is his dwelling and omniscience and goodness his attributes; the Evil Spirit's abyss lay separately below.",
+      "kind": "other",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 10,
+      "sequence_label": "분다히슌 1장 · 기원",
+      "sequence_label_en": "Bundahishn 1 · Origin"
+    },
+    {
+      "id": "9bc15479-6727-425e-9baf-fbcceedc4ecb",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "악신의 습격과 구천 년의 조약",
+      "title_en": "Ahriman's assault and the nine-thousand-year covenant",
+      "description": "악신 아흐리만이 심연에서 올라와 빛을 보고 덤벼들었다가 오흐르마즈드의 용맹과 힘에 물러나 데브들을 만들어 다시 싸움을 건다. 오흐르마즈드는 투쟁의 기한을 스스로 구천 년으로 정하고 악신이 그 조약을 받아들이게 한다.",
+      "description_en": "Ahriman rises from the abyss, attacks upon seeing the Light, and, repelled by Ohrmazd's valor, fashions the Devs and returns for battle. Ohrmazd himself fixes the term of the contest at nine thousand years and makes the Evil Spirit accept the covenant.",
+      "kind": "other",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 20,
+      "sequence_label": "분다히슌 1장 · 대립",
+      "sequence_label_en": "Bundahishn 1 · The Contest"
+    },
+    {
+      "id": "1f17b032-eaea-4011-bc2c-4ec13de86abb",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "아후나 바이리아 송창",
+      "title_en": "The chanting of the Ahunwar",
+      "description": "오흐르마즈드는 스물한 낱말의 '야타 아후 바이리요'를 송창해 악신의 최종 패배와 데브들의 멸망, 죽은 자의 부활을 악신에게 미리 보여준다. 악신은 기절해 삼천 년 동안 어둠 속에 쓰러진다.",
+      "description_en": "Ohrmazd chants the twenty-one-word Yatha Ahu Vairyo, revealing to the Evil Spirit his own final defeat, the perishing of the Devs, and the resurrection of the dead. The Evil Spirit falls senseless into darkness for three thousand years.",
+      "kind": "other",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 30,
+      "sequence_label": "분다히슌 1장 · 송창",
+      "sequence_label_en": "Bundahishn 1 · The Chant"
+    },
+    {
+      "id": "61de93e0-44d8-4830-bf6a-0ea8bd058e06",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "선한 세계의 창조",
+      "title_en": "Creation of the good world",
+      "description": "정신적 창조에 이어 물질적 창조를 이루어 악신의 파괴에 맞설 피조물을 마련한다. 하늘과 물, 땅, 나무, 유익한 짐승, 사람, 불의 창조가 이어지고, 그는 진리이자 질서인 아샤를 세우는 창조주로 선다.",
+      "description_en": "Following the spiritual creation, Ohrmazd accomplishes the material creation — sky, water, earth, plant, beneficent animal, man, and fire — furnishing creatures to withstand the Evil Spirit, and stands as the creator who upholds asha, truth and order.",
+      "kind": "other",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 40,
+      "sequence_label": "분다히슌 1장 · 창조",
+      "sequence_label_en": "Bundahishn 1 · Creation"
+    },
+    {
+      "id": "36e4310c-94f8-4dda-9eb5-3a5496a456bd",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "이마에게 세계를 맡기다",
+      "title_en": "Entrusting the world to Yima",
+      "description": "자라투슈트라가 첫 대화 상대를 묻자 아후라 마즈다는 이마를 꼽는다. 이마가 설교자 되기를 거절하자 그는 '내 세계를 번성하게 하고 길러 다스리고 지켜라'는 임무를 내리고 금 도장과 금 장식 칼을 건넨다. 이마는 받아들여 통치 동안 질병도 죽음도 없는 세계를 이룬다.",
+      "description_en": "Asked by Zarathustra who was the first mortal to converse with him, Ahura Mazda names Yima. When Yima declines to preach the Religion, he charges him instead to make the world increase, nourish, rule, and watch over it, handing him a golden seal and a gold-inlaid poniard. Yima accepts and brings a reign without disease or death.",
+      "kind": "office",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 50,
+      "sequence_label": "벤디다드 2장 · 임명",
+      "sequence_label_en": "Vendidad 2 · The Charge"
+    },
+    {
+      "id": "be0ed1c7-76a0-4bdc-a92a-cf6ce58b1afe",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "겨울의 경고와 바라의 명령",
+      "title_en": "Warning of the winters and the command of the Vara",
+      "description": "아후라 마즈다는 아이랴니야 바에조에서 천상의 신들의 모임을 열고, 이마에게 물질 세계에 파멸적인 겨울이 닥칠 것을 알린다. 그리고 가장 아름다운 사람과 동물과 식물의 종자를 그 안에 보존할 울타리, 바라의 규모와 짓는 법을 직접 지시한다.",
+      "description_en": "At an assembly of the celestial gods in Airyana Vaejo, Ahura Mazda warns Yima that evil winters will fall upon the material world. He then dictates the dimensions and construction of the Vara, the enclosure that will preserve the finest seed of men, animals, and plants.",
+      "kind": "meeting",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 60,
+      "sequence_label": "벤디다드 2장 · 경고",
+      "sequence_label_en": "Vendidad 2 · The Warning"
+    },
+    {
+      "id": "0db1c72e-ef50-4525-bd65-a1537c5ea8a9",
+      "celeb_id": "ec1e22e8-ee43-4fe2-8df8-73721e8f392d",
+      "year": null,
+      "year_end": null,
+      "month": null,
+      "title": "자라투슈트라와의 대화",
+      "title_en": "Converse with Zarathustra",
+      "description": "아후라 마즈다는 자라투슈트라의 물음에 답하며 '아후라의 종교, 자라투슈트라의 종교'를 가르친다. 예언자는 이 계시를 통해 아후라 마즈다를 유일하고 만들어지지 않은 신으로 선포했다.",
+      "description_en": "Throughout the Vendidad, Ahura Mazda answers Zarathustra's questions and teaches 'the Religion of Ahura, the Religion of Zarathustra.' Through this revelation the prophet proclaimed him the one uncreated God.",
+      "kind": "other",
+      "place_name": null,
+      "place_name_en": null,
+      "lat": null,
+      "lng": null,
+      "source": "manual",
+      "sort_order": 70,
+      "sequence_label": "벤디다드 전반 · 계시",
+      "sequence_label_en": "Vendidad · Revelation"
+    }
+  ],
+  "memberPatch": {
+    "lv3_id": "086c58ca-1e18-424e-b536-d87f496dfb53",
+    "short_desc": "선한 세계를 만든 최고신이자 창조주",
+    "short_desc_en": "Supreme god who shaped the good creation",
+    "long_desc": "창세의 층에 선 최고 신격으로, 선한 세계를 창조하고 악신 앙그라 마이뉴와의 구천 년 투쟁을 주도한다. 분다히슌에서는 오흐르마즈드로 등장해 싸움의 기한을 정하고 찬가로 악신을 기절시키며, 벤디다드에서는 자라투슈트라에게 계시하고 이마에게 세계를 지킬 일을 맡긴다.",
+    "long_desc_en": "The supreme deity of the creation layer: he shapes the good world and directs the nine-thousand-year contest against Angra Mainyu. In the Bundahishn he appears as Ohrmazd, fixing the term of the struggle and chanting the Evil Spirit senseless; in the Vendidad he reveals the Religion to Zarathustra and charges Yima with keeping the world."
+  },
+  "sourceEvidence": [
+    {
+      "url": "https://www.avesta.org/mp/grb1.htm",
+      "location": "Greater Bundahishn, chapter 1, sections 1-2"
+    },
+    {
+      "url": "https://www.avesta.org/mp/grb1.htm",
+      "location": "Greater Bundahishn, chapter 1, sections 15-28"
+    },
+    {
+      "url": "https://www.avesta.org/mp/grb1.htm",
+      "location": "Greater Bundahishn, chapter 1, sections 29-32"
+    },
+    {
+      "url": "https://www.avesta.org/mp/grb1.htm",
+      "location": "Greater Bundahishn, chapter 1, sections 33-36; cf. Encyclopaedia Iranica, 'Ahura Mazdā'"
+    },
+    {
+      "url": "https://avesta.org/vendidad/vd2sbe.htm",
+      "location": "Vendidad, Fargard 2, verses 1-7"
+    },
+    {
+      "url": "https://avesta.org/vendidad/vd2sbe.htm",
+      "location": "Vendidad, Fargard 2, verses 20-31"
+    },
+    {
+      "url": "https://avesta.org/vendidad/vd2sbe.htm",
+      "location": "Vendidad, Fargard 2, verses 1-2; cf. Encyclopaedia Iranica on Zoroaster's proclamation"
+    }
+  ],
+  "appearanceBooks": [
+    "1e890ab4-ff1d-511a-8679-d509d8203a39",
+    "648a0dd0-bc1c-56c3-9bc5-d36191b17692"
+  ]
+}

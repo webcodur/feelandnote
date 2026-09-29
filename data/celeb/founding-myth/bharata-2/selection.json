@@ -1,0 +1,41 @@
+{
+  "celeb_id": "219db041-df14-477a-a47e-41841ebab25e",
+  "slug": "bharata-2",
+  "identity": "두샨타와 샤쿤탈라의 아들. 라마의 아우 bharata와 별개.",
+  "generator": "Codex built-in imagegen",
+  "face_references": [
+    {
+      "file": "face-ref-v3.jpg",
+      "url": "https://www.lummi.ai/photo/portrait-of-a-south-asian-man-suhhv",
+      "role": "성인 얼굴의 눈매·코·턱·수염 주 참조"
+    }
+  ],
+  "ai_source": "https://www.lummi.ai/about",
+  "costume_reference": "https://www.britishmuseum.org/collection/object/A_1898-0627-3",
+  "costume_note": "고대 인도 천 두건·웃타리야·귀걸이의 시각 어휘를 참고한 창작. 바라타 본인의 실제 복식을 확인한 것은 아니다.",
+  "original": "original-v3.png",
+  "prompt": [
+    "prompt-v2.txt",
+    "prompt-v3.txt"
+  ],
+  "processing": "crop-local → nobg birefnet-general medium → light-unify(좌우반전) → reframe --sheet",
+  "final": "avatar-v3.webp",
+  "review": "review.html",
+  "source_work_dir": "D:/image/_avatar-work/founding-followup/bharata-2",
+  "visual_review": "첫 안의 젊은 인상 때문에 얼굴 모델 교체. 중간 생성의 흰 수염·거친 피부 강조 수정. 최종 얼굴 잘림 없음, 관모 윗부분 크롭. nobg 알파 확인·reframe 경고 0·업스케일 1.09배.",
+  "published": false,
+  "previous_face_references": [
+    {
+      "file": "face-ref.jpg",
+      "url": "https://www.lummi.ai/photo/portrait-of-a-young-man-s-fcy",
+      "role": "눈·코·입·피부의 주 참조"
+    },
+    {
+      "file": "structure-ref.jpg",
+      "url": "https://www.lummi.ai/photo/dramatic-black-and-white-portrait-50qob",
+      "role": "턱선·표정의 보조 참조"
+    }
+  ],
+  "registered_url": "https://assets.feelandnote.com/celebs/219db041-df14-477a-a47e-41841ebab25e/avatar.webp?v=1790067723450",
+  "avatar_registered": true
+}

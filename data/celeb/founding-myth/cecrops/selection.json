@@ -1,0 +1,75 @@
+{
+  "slug": "cecrops",
+  "celeb_id": "13b7da1f-b58a-45f0-9d72-2f7d83c4ba0a",
+  "generator": "Codex built-in image_gen (root designed and generated)",
+  "generated": "generated-v1.png",
+  "final": "avatar-v2.webp",
+  "registered": "registered.webp",
+  "registered_url": "https://assets.feelandnote.com/celebs/13b7da1f-b58a-45f0-9d72-2f7d83c4ba0a/avatar.webp?v=1790069487865",
+  "avatar_registered": true,
+  "profile_publication_status": "inactive",
+  "face_reference": {
+    "page": "https://www.lummi.ai/photo/professional-portrait-tl0kv",
+    "image": "https://assets.lummi.ai/assets/QmUznZvUeVa9c6YnnQwtYtLk2mLrhpGz3DMByuz2V7rZd7",
+    "local": "face-ref.png",
+    "kind": "AI-generated face"
+  },
+  "cutout": {
+    "tool": "C:/project/nobg/batch/batch_nobg.py",
+    "model": "birefnet-general",
+    "speed": "medium"
+  },
+  "pipeline": [
+    "crop-local --png --size 800",
+    "nobg rembg medium",
+    "light-unify",
+    "reframe --sheet",
+    "upload-local dry-run/apply"
+  ],
+  "horizontal_flip": false,
+  "reframe": {
+    "name": "001-cecrops",
+    "crop": {
+      "left": 309,
+      "top": 0,
+      "size": 824
+    },
+    "spanRatio": 0.425,
+    "eyeLine": 0.474,
+    "emphasis": 1.77,
+    "headroom": 0.017,
+    "decidedBy": "source-top",
+    "upscale": 0.97,
+    "warnings": []
+  },
+  "review": {
+    "backgrounds": [
+      "#0a0a0a",
+      "#f3f0e8"
+    ],
+    "sizes": [
+      480,
+      64
+    ],
+    "result": "passed",
+    "registered_redownload_verified": true,
+    "variants": [
+      {
+        "file": "avatar.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-md.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-sm.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      }
+    ]
+  },
+  "exception": "Initial crop-local output clipped the visible ear. Recovered using preserved full generated source through nobg/light-unify/reframe. Final v2 has no warnings and intact ear; v1 retained as rejected comparison. Final broad-source light measurement classified frontal light and preserved orientation."
+}

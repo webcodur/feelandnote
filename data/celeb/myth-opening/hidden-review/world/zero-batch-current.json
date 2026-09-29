@@ -1,0 +1,2038 @@
+{
+  "captured_at": "2026-09-23T11:20:05.326Z",
+  "factions": [
+    {
+      "id": "98e4eebb-eab5-4589-8639-84e970102b23",
+      "slug": "myth-africa",
+      "name": "아프리카 건국 신화",
+      "name_en": "African Founding Myth",
+      "description": "아프리카 건국 신화는 대륙 전체의 신화를 한데 이은 체계가 아니라, 서로 다른 시대·언어·왕국에서 전해진 왕실 계보, 궁정 구전, 찬가, 그리오의 서사와 후대 채록본을 묶은 이름이며 단일 정본은 아니다. 게으즈어 문헌 『케브라 나가스트』는 마케다가 솔로몬을 찾아가 메넬리크 1세를 낳고 그가 언약궤를 악숨으로 옮겼다고 전한다. 만데의 「순디아타 서사시」에서는 소골론 콘데의 아들 순디아타 케이타가 수만구루 칸테를 꺾고 말리를 세우며, 하우사 전승에서는 바야지다가 우물의 뱀을 죽이고 다우라마와 혼인해 왕통을 연다.\n\n이 이야기들은 나라와 왕가의 기원을 하늘에서 온 조상, 이주한 영웅, 혼인, 정복, 신성한 물건으로 설명한다. 요루바 전승에서는 오두두와가 하늘에서 이페로 내려왔다는 이야기와 외부에서 이주했다는 이야기가 함께 전하고, 부간다의 킨투와 남비는 첫 사람의 기원과 왕조의 시작을 잇는다. 오콤포 아노체가 불러 내렸다는 황금 의자는 아샨티 연합의 권위를 나타낸다. 순디아타 이야기는 지금도 그리오마다 인물과 사건 배열을 달리해 공연하며, 다른 전승도 왕실 의례, 족보, 지역 축제와 구술·출판 기록 속에서 각기 이어진다.",
+      "description_en": "African founding traditions do not form a single mythology or canon. The label gathers royal genealogies, court traditions, praise poetry, oral epics, and later written records from many regions, languages, and periods. The Geʽez Kebra Nagast tells how Makeda visited Solomon, bore Menelik I, and how the Ark of the Covenant came to Aksum with her son. In the Mande Epic of Sunjata, Sogolon Konde’s son Sunjata Keita defeats Sumanguru Kante and establishes Mali, while Hausa accounts tell of Bayajidda killing the serpent at Daura’s well, marrying Queen Daurama, and beginning a line of rulers.\n\nThese traditions explain political beginnings through ancestors from the sky, migrant heroes, marriage, conquest, sacred objects, and the division of clans. Yoruba accounts do not agree on every detail: Oduduwa descends to Ile-Ife in one strand but arrives from elsewhere in another. Buganda traditions join the first human community to kingship through Kintu and Nambi, and Asante tradition makes the Golden Stool, called down by Okomfo Anokye, the source and emblem of the confederacy’s authority. The Sunjata epic is still performed by griots, whose versions may change names, episodes, and emphasis. Other founding accounts continue through royal ritual, genealogy, local festivals, oral performance, and published collections rather than through one fixed narrative.",
+      "published": false,
+      "lead_person_ids": [
+        "a38e070b-775b-4668-9f56-05e7c8e54a18",
+        "22e3dc03-fd1a-4ad2-bf49-6affcf36190c",
+        "b96d838e-3dc7-4d40-862b-4d443e7aba93"
+      ],
+      "members": [
+        {
+          "id": "6b7c34eb-72c5-4008-8f10-03f373840cd0",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "22e3dc03-fd1a-4ad2-bf49-6affcf36190c",
+          "hidden": true,
+          "short_desc": "솔로몬을 찾아간 시바의 여왕",
+          "short_desc_en": "The Queen of Sheba Who Sought Out Solomon"
+        },
+        {
+          "id": "c49dc3c4-d2fb-4b0a-8053-80327bf4d68c",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "631ecb04-a1ba-499d-b94e-9f0c78881cc9",
+          "hidden": true,
+          "short_desc": "부뇨로의 첫 비토 왕",
+          "short_desc_en": "First Biito King of Bunyoro"
+        },
+        {
+          "id": "494c4d11-28ee-4e3c-9abf-7ab0b910f747",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "6003d759-098b-4a76-b9f3-70d4106d509e",
+          "hidden": true,
+          "short_desc": "키쿠유의 첫 사람",
+          "short_desc_en": "The First Kikuyu"
+        },
+        {
+          "id": "d9ba1600-436c-469c-8f20-e8e05d0989e7",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "b7e37dd3-e712-4013-8a9e-76fbbe2a57c6",
+          "hidden": true,
+          "short_desc": "전승에서 황금 의자가 무릎 위에 내려앉은 아샨티의 첫 아산테헤네.",
+          "short_desc_en": "The first Asantehene onto whose knees, tradition says, the Golden Stool descended from the sky."
+        },
+        {
+          "id": "bcec4415-1c29-45ee-bded-a990789e251b",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "0612975d-91a1-4366-80d7-3ce52d0d6d3d",
+          "hidden": true,
+          "short_desc": "『케브라 나가스트』 전승에서 마케다의 아들 메넬리크 1세의 아버지로, 악숨 왕조가 계보를 잇는 이스라엘의 왕이다.",
+          "short_desc_en": "In the Kebra Nagast tradition, the Israelite king who fathers Menelik I by Makeda, giving Aksum its claimed Solomonic line."
+        },
+        {
+          "id": "e748d0fb-5cd3-4378-800c-80ce92bca26c",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "b96d838e-3dc7-4d40-862b-4d443e7aba93",
+          "hidden": true,
+          "short_desc": "언약궤를 악숨으로 가져온 첫 왕",
+          "short_desc_en": "The King Who Brought the Ark to Aksum"
+        },
+        {
+          "id": "01320b95-843c-46d2-ba12-72f14d0826ad",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "a38e070b-775b-4668-9f56-05e7c8e54a18",
+          "hidden": true,
+          "short_desc": "말리를 세운 첫 만사",
+          "short_desc_en": "Founder and First Mansa of Mali"
+        },
+        {
+          "id": "16f101a8-c1c9-4a66-a238-c9a029131fe0",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "3561977f-8ce8-45a9-8b91-07384c40f4ee",
+          "hidden": true,
+          "short_desc": "순디아타의 아버지",
+          "short_desc_en": "Father of Sundiata"
+        },
+        {
+          "id": "92426bf8-9c84-468e-9c97-a51fe694d88d",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "822ee8a6-bc9d-4fa3-950a-2373e9c76972",
+          "hidden": true,
+          "short_desc": "다우라의 마지막 여왕",
+          "short_desc_en": "The Last Queen of Daura"
+        },
+        {
+          "id": "e03f82a4-2b25-4ade-bca9-520165a4e3aa",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "ca959edd-bfe0-4855-8e36-6d6b43ffd33f",
+          "hidden": true,
+          "short_desc": "다호메이의 이름을 남긴 왕",
+          "short_desc_en": "The King Who Gave Dahomey Its Name"
+        },
+        {
+          "id": "0ae69c86-ba88-4db0-860f-4bc9d8743176",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "b631b60c-f2d4-4a18-a51d-8302989be2fc",
+          "hidden": true,
+          "short_desc": "하늘 신의 딸, 킨투의 아내",
+          "short_desc_en": "Daughter of the Sky God, Wife of Kintu"
+        },
+        {
+          "id": "58f7763b-6b45-4f90-b218-aa2afbc5d48a",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "d0d459e2-54c4-4b18-b40b-24a7fb0d5c75",
+          "hidden": true,
+          "short_desc": "동쪽에서 온 소닌케 왕가의 조상",
+          "short_desc_en": "Forefather of the Soninke Kings, Come from the East"
+        },
+        {
+          "id": "c99cd8fd-75d1-4262-af96-63700d520cd0",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "6b35ae03-dc89-48a1-8b37-d0ff0b7ddf41",
+          "hidden": true,
+          "short_desc": "뱀과 맹약해 와가두를 연 왕",
+          "short_desc_en": "Who Founded Wagadu by a Serpent's Pact"
+        },
+        {
+          "id": "afd84829-8049-4e86-9fec-391aa42b2fec",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "968bb390-6a41-468c-b255-7b43eec70edb",
+          "hidden": true,
+          "short_desc": "졸로프를 세운 이방인 왕",
+          "short_desc_en": "The Stranger Who Founded Jolof"
+        },
+        {
+          "id": "dd1bab1d-d01e-41ee-a92c-a348c96cf263",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "3b01a8e5-77a3-4b96-82fe-87c8eab9ee65",
+          "hidden": true,
+          "short_desc": "순디아타의 어머니",
+          "short_desc_en": "Mother of Sundiata"
+        },
+        {
+          "id": "045bdbe4-7970-4c75-b05f-856efeedf040",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "2cdcd095-9398-48f9-ad59-ce0a02e1d3c0",
+          "hidden": true,
+          "short_desc": "소소의 대장장이 왕",
+          "short_desc_en": "The Smith-King of Sosso"
+        },
+        {
+          "id": "a118c4c1-190f-4089-8fce-55cac9248f8c",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "8a19a293-7199-48c5-b06e-b00a2b1e635e",
+          "hidden": true,
+          "short_desc": "순디아타의 그리오",
+          "short_desc_en": "Sundiata's Griot"
+        },
+        {
+          "id": "82a6e163-4f9a-4580-bcf3-ce15e9f7d578",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "76681c9b-d30e-4ada-942f-97c344e58320",
+          "hidden": true,
+          "short_desc": "수만구루의 조카에서 순디아타의 장수로",
+          "short_desc_en": "Soumaoro's Nephew Who Went Over to Sundiata"
+        },
+        {
+          "id": "b9afd189-e8b1-4f01-aa0f-cd021eef0de1",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "cf84bab9-89d9-4d99-b9c6-77aa0c2321ee",
+          "hidden": true,
+          "short_desc": "우물의 뱀을 죽인 이방인 왕자",
+          "short_desc_en": "The Prince Who Slew the Well Serpent"
+        },
+        {
+          "id": "af84fa4b-fa2f-4d27-be48-97df8cee2001",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "46a87ece-a553-4f6d-816a-5c78a45deee6",
+          "hidden": true,
+          "short_desc": "사람의 몸을 빚는 오리샤",
+          "short_desc_en": "The Orisha Who Shapes Human Bodies"
+        },
+        {
+          "id": "538af5f9-e3e6-47b5-b2e8-a99c2b068c6c",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "d0552065-78b6-4c6b-a585-d63f60e8faa1",
+          "hidden": true,
+          "short_desc": "이페의 첫 오니",
+          "short_desc_en": "First Ooni of Ife"
+        },
+        {
+          "id": "a394701a-99e9-4084-88e2-c2eea1c58715",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "df172cca-8129-4629-a46f-418bdb88a5d8",
+          "hidden": true,
+          "short_desc": "오요의 첫 알라핀",
+          "short_desc_en": "First Alaafin of Oyo"
+        },
+        {
+          "id": "58d5871b-ff05-47e3-b19b-6febabcf6b4a",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "f09756f1-b49e-4a37-b714-bc3b3e58452b",
+          "hidden": true,
+          "short_desc": "이페를 구한 왕비",
+          "short_desc_en": "The Queen Who Saved Ife"
+        },
+        {
+          "id": "47d217e0-3056-4bbf-b2b2-63f5d07479fb",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "cefd67f5-731f-463a-9a6b-95fa4b24f1b5",
+          "hidden": true,
+          "short_desc": "오라니얀의 아들, 베냉의 첫 오바",
+          "short_desc_en": "Son of Oranyan, First Oba of Benin"
+        },
+        {
+          "id": "733fb494-8ceb-4b3a-b226-04ef1d6dd772",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "9e47ac1a-22fe-4ab1-8449-851cb5871c19",
+          "hidden": true,
+          "short_desc": "하늘에서 내려온 은리의 조상",
+          "short_desc_en": "The Sky-Sent Forefather of Nri"
+        },
+        {
+          "id": "c3dbd591-dd17-42ac-aedb-ea745fcc4e9a",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "7271f069-b805-48e7-9529-c044a0962b4c",
+          "hidden": true,
+          "short_desc": "표범에게서 난 알라다의 시조",
+          "short_desc_en": "The Leopard-Born Forefather of Allada"
+        },
+        {
+          "id": "c27ddcc2-7992-4d58-bec2-7274580fae85",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "1f39f7cf-bb1d-4c48-936b-d11c3204eaf8",
+          "hidden": true,
+          "short_desc": "황금 의자를 불러 내린 대사제",
+          "short_desc_en": "The Priest Who Called Down the Golden Stool"
+        },
+        {
+          "id": "ab7b96dd-b9ba-4a83-8d01-1b784ebd421d",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "f7d9e835-2d6e-4b5d-83be-157246475770",
+          "hidden": true,
+          "short_desc": "부간다의 첫 사람이자 첫 카바카",
+          "short_desc_en": "First Man and First Kabaka of Buganda"
+        },
+        {
+          "id": "20ad2c6c-9639-451e-8ba0-0a969593bf0c",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "007d98b1-27c1-49c0-9a1a-7fa6c110d97f",
+          "hidden": true,
+          "short_desc": "치웨지의 첫 임금",
+          "short_desc_en": "First Chwezi Emperor"
+        },
+        {
+          "id": "08a92b55-73da-48c9-8d72-4451bf324be5",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "ffbb14d7-76ae-493c-b979-0a5df7abe5db",
+          "hidden": true,
+          "short_desc": "키쿠유 아홉 씨족의 어머니",
+          "short_desc_en": "Mother of the Nine Kikuyu Clans"
+        },
+        {
+          "id": "fd9d0e9f-b6ff-4e4e-b1c4-1c5388b9cc2c",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "932a33e8-4588-4157-a636-ea8359056432",
+          "hidden": true,
+          "short_desc": "콩고의 첫 마니콩고",
+          "short_desc_en": "First Manikongo, Founder of Kongo"
+        },
+        {
+          "id": "53ff4e65-bdce-4f4f-8fbe-be636f18400d",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "4496ec5a-7358-4d88-95a7-b3bf8d0a00d5",
+          "hidden": true,
+          "short_desc": "짐바브웨를 떠나 무타파를 세운 왕",
+          "short_desc_en": "Who Left Great Zimbabwe and Founded Mutapa"
+        },
+        {
+          "id": "f5324298-7183-4528-bef8-55d54759b3fc",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "0768247e-c5e3-4299-8a58-575c3d7edb4b",
+          "hidden": true,
+          "short_desc": "갈대밭에서 나온 첫 조상",
+          "short_desc_en": "First Ancestor, Out of the Reeds"
+        },
+        {
+          "id": "f54035a3-0c88-455f-a5e2-73aac7ae3d1f",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "f9fe631e-4c41-452e-bf9b-afe854702d3e",
+          "hidden": true,
+          "short_desc": "줄루와 쿠와베의 아버지",
+          "short_desc_en": "Father of Zulu and Qwabe"
+        },
+        {
+          "id": "6615cf26-8d86-4bc8-a4f1-651a6e6293ca",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "f422f82b-e36a-49fc-a19c-82748811312c",
+          "hidden": true,
+          "short_desc": "줄루 씨족의 시조",
+          "short_desc_en": "Forefather of the Zulu Clan"
+        },
+        {
+          "id": "90430734-6715-49fa-9522-d3093cd6afd6",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "1fdbdd01-5b1d-441c-a4c6-79ae8463e720",
+          "hidden": true,
+          "short_desc": "베르베르 부트르 갈래의 시조",
+          "short_desc_en": "Forefather of the Butr Berbers"
+        },
+        {
+          "id": "65c56e77-2b2c-4dd4-935d-ae3f30b532a5",
+          "lv2_id": "98e4eebb-eab5-4589-8639-84e970102b23",
+          "celeb_id": "857cadd5-71e7-4ad4-b8ca-8cba8e5cace9",
+          "hidden": true,
+          "short_desc": "아마지그인의 이름이 된 조상",
+          "short_desc_en": "Eponymous Ancestor of the Amazigh"
+        }
+      ],
+      "leads": [
+        {
+          "person": {
+            "id": "a38e070b-775b-4668-9f56-05e7c8e54a18",
+            "slug": "sundiata-keita",
+            "nickname": "순디아타 케이타",
+            "nickname_en": "Sundiata Keita",
+            "avatar_url": "https://assets.feelandnote.com/celebs/a38e070b-775b-4668-9f56-05e7c8e54a18/avatar.webp?v=1790052783232",
+            "bio": "순디아타가 어려서 다리를 쓰지 못해 일곱 살까지 기어 다녔고, 쇠막대를 짚고 일어선 뒤에야 걸었다. 이복형에게 밀려 어머니 소골론과 함께 여러 나라를 떠돌다 메마에서 군사를 얻어 돌아왔다. 1235년 무렵 키리나에서 소소의 수만구루 칸테를 꺾고 만딩카 씨족을 모아 말리를 세웠다. 그리오마다 부르는 대목이 달라 어린 시절과 망명 경로가 판본별로 갈린다.",
+            "bio_en": "Sundiata could not use his legs as a child and crawled until he was seven, walking only after he pulled himself up on an iron bar. Pushed aside by his half-brother, he wandered from country to country with his mother Sogolon before raising troops at Mema and returning. Around 1235 he defeated Soumaoro Kanté of Sosso at Kirina, gathered the Mandinka clans and founded Mali. Each griot sings different parts of the story, so his childhood and the route of his exile vary by version.",
+            "publication_status": "inactive",
+            "celeb_reality": "BOTH",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "a38e070b-775b-4668-9f56-05e7c8e54a18",
+            "plain_text": "순디아타 케이타는 13세기 서아프리카에 말리 제국을 세운 건국자이다. 여러 만딩카 씨족을 하나로 모으고 키리나에서 소소 왕국의 수만구루 칸테를 물리치며 제국의 기틀을 다졌다. 다리를 쓰지 못했던 유년기나 여러 나라를 떠돌았던 망명 과정에 대해서는 서아프리카 음유시인 그리오들의 구전에 따라 다양한 전승이 전해진다.",
+            "plain_text_en": "Sundiata Keita was the founder who built the Mali Empire in thirteenth-century West Africa. He gathered the Mandinka clans into one and defeated Soumaoro Kanté of the Sosso kingdom at Kirina, laying the empire's foundation. The oral traditions of the West African griots hand down varying accounts of his childhood, when he could not walk, and of his years of exile wandering among foreign lands.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "a38e070b-775b-4668-9f56-05e7c8e54a18",
+              "content_id": "742e628e-bfe9-53d4-a98d-d452f77cf6f4",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "742e628e-bfe9-53d4-a98d-d452f77cf6f4",
+                  "locale": "ko",
+                  "title": "세계의 어린 영웅들",
+                  "isbn": "9788937811494",
+                  "description": "누구나 존경하는 영웅이 있을 겁니다. 우리가 생각하는 영웅, 그 사람들에게도 우리처럼 어린 시절이 있었습니다. 힘이 세거나 몸집이 크다고 해서 모두 영웅이 되는 것은 아닙니다. 영웅은 생각해보면 용기가 대단한 사람이고, 용감한 행동을 보여줄 수 있는 자신감 넘치는 사람입니다. 여기 이 책에는 우리가 모르는 사람도 있을 수 있습니다. 그렇지만 모두 자신에게 용감하고 진지했던 사람들입니다. 세계 각지의 영웅도 만나도 그들의 삶과 역사를 통해 우리가 배워야 할 점도 찾아봅시다. 독일의 숨은 작곡가 멘델스존, 용기 있는 동반자 헬렌 켈러와 앤 설리번, 스코틀랜드의 열정적인 발명가 알렉산더 그레이엄 벨, 소년 운동가 파키스탄의 이크발 마시흐도 만나고 우리의 영웅도 새롭게 찾아보는 기회가 됐으면 합니다."
+                },
+                {
+                  "content_id": "742e628e-bfe9-53d4-a98d-d452f77cf6f4",
+                  "locale": "en",
+                  "title": "Heroic Children",
+                  "isbn": null,
+                  "description": "Everyone must have a hero they respect. The heroes we think of also had childhoods just like us. Not everyone who is strong or large in build becomes a hero. When you think about it, a hero is a person of great courage, a confident person who can show brave deeds. This book may include people we do not know. Yet all of them were people who were brave and earnest in their own lives. Let us meet heroes from all over the world and find through their lives and histories what we should learn. We hope this will be an opportunity to meet Germany's hidden composer Mendelssohn, the courageous companions Helen Keller and Anne Sullivan, Scotland's passionate inventor Alexander Graham Bell, and the boy activist Iqbal Masih of Pakistan, and to newly discover our own heroes."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8906,
+                  "content_id": "742e628e-bfe9-53d4-a98d-d452f77cf6f4",
+                  "locale": "ko",
+                  "title": "세계의 어린 영웅들",
+                  "isbn": "9788937811494",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "22e3dc03-fd1a-4ad2-bf49-6affcf36190c",
+            "slug": "makeda",
+            "nickname": "마케다",
+            "nickname_en": "Makeda",
+            "avatar_url": "https://assets.feelandnote.com/celebs/22e3dc03-fd1a-4ad2-bf49-6affcf36190c/avatar.webp?v=1790052556807",
+            "bio": "마케다가 상인에게서 솔로몬의 지혜를 전해 듣고 예루살렘으로 갔다. 솔로몬이 아무것도 가져가지 않겠다는 약속을 받아 두고 짠 음식을 내었고, 밤에 물을 마신 마케다가 약속을 어긴 셈이 되어 그와 함께 잤다. 돌아오는 길에 메넬리크를 낳았고 에티오피아로 돌아가 우상 섬기기를 끊고 태양 대신 이스라엘의 하느님을 섬기게 했다.",
+            "bio_en": "Makeda heard of Solomon's wisdom from a merchant and went to Jerusalem. Solomon first took her promise to take nothing of his, then served her salted food; when she drank water in the night she had broken the promise, and she slept with him. She bore Menelik on the journey home, returned to Ethiopia, and put an end to idol worship, turning the country from the sun to the God of Israel.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "22e3dc03-fd1a-4ad2-bf49-6affcf36190c",
+            "plain_text": "마케다는 에티오피아 전승에서 시바의 여왕으로 전해지는 인물이다. 상인에게서 솔로몬의 지혜를 전해 듣고 예루살렘으로 찾아갔으며, 솔로몬과의 사이에서 아들 메넬리크를 낳았다. 에티오피아로 돌아온 뒤에는 우상 섬기기를 끊고 태양 대신 이스라엘의 하느님을 섬기도록 이끌었다.",
+            "plain_text_en": "Makeda is the figure in Ethiopian tradition who is the Queen of Sheba. Hearing of Solomon's wisdom from a merchant, she journeyed to Jerusalem and bore him a son, Menelik. After returning to Ethiopia she is said to have ended idol worship and led her people to worship the God of Israel instead of the sun.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "22e3dc03-fd1a-4ad2-bf49-6affcf36190c",
+              "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+                  "locale": "en",
+                  "title": "Myths and Legends of Africa",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+                  "locale": "ko",
+                  "title": "아프리카의 신화와 전설",
+                  "isbn": "9788931107883",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8959,
+                  "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+                  "locale": "ko",
+                  "title": "아프리카의 신화와 전설",
+                  "isbn": "9788931107883",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "b96d838e-3dc7-4d40-862b-4d443e7aba93",
+            "slug": "menelik-i",
+            "nickname": "메넬리크 1세",
+            "nickname_en": "Menelik I",
+            "avatar_url": "https://assets.feelandnote.com/celebs/b96d838e-3dc7-4d40-862b-4d443e7aba93/avatar.webp?v=1790052579356",
+            "bio": "메넬리크가 솔로몬과 시바의 여왕 마케다 사이에서 태어나 자란 뒤 아버지를 만나러 예루살렘에 갔다. 솔로몬이 그를 이스라엘 왕으로 세우려 하자 어머니의 나라로 돌아가겠다 하고 떠났고, 함께 온 사제의 아들들이 언약궤를 몰래 실어 왔다. 케브라 나가스트는 하느님이 궤와 함께 거처를 예루살렘에서 악숨으로 옮겼다고 적으며, 그 뒤 에티오피아 황실이 이 계보를 1974년까지 내세웠다.",
+            "bio_en": "Menelik was born to Solomon and Makeda, queen of Sheba, and went to Jerusalem as a grown man to meet his father. When Solomon proposed to make him king of Israel he said he would return to his mother's country and left, and the sons of the priests who traveled with him carried off the Ark of the Covenant. The Kebra Nagast records that God moved his dwelling with the Ark from Jerusalem to Axum, and the Ethiopian imperial house claimed this descent until 1974.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "b96d838e-3dc7-4d40-862b-4d443e7aba93",
+            "plain_text": "메넬리크 1세는 에티오피아 전승에서 솔로몬 왕조의 시조로 전해지는 인물이다. 에티오피아 역사서 《케브라 나가스트》에 따르면 그는 이스라엘의 솔로몬 왕과 시바의 여왕 마케다 사이에서 태어났으며, 예루살렘을 방문한 뒤 언약궤와 함께 에티오피아로 돌아왔다고 전한다. 실존 여부는 명확하지 않으나, 에티오피아 황실은 오랫동안 그의 혈통을 내세우며 왕조의 정통성을 세웠다.",
+            "plain_text_en": "Menelik I is held in Ethiopian tradition to be the founder of the Solomonic dynasty. According to the Ethiopian chronicle Kebra Nagast he was born to King Solomon of Israel and Queen Makeda of Sheba, and after visiting Jerusalem returned to Ethiopia with the Ark of the Covenant. His historical existence is uncertain, but the Ethiopian imperial house long invoked his bloodline to establish the dynasty's legitimacy.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "b96d838e-3dc7-4d40-862b-4d443e7aba93",
+              "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+                  "locale": "en",
+                  "title": "Myths and Legends of Africa",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+                  "locale": "ko",
+                  "title": "아프리카의 신화와 전설",
+                  "isbn": "9788931107883",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8959,
+                  "content_id": "20345ebc-9da0-52ad-9682-7c1bcf137242",
+                  "locale": "ko",
+                  "title": "아프리카의 신화와 전설",
+                  "isbn": "9788931107883",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+      "slug": "myth-oceania",
+      "name": "오세아니아 건국 신화",
+      "name_en": "Oceanian Founding Myth",
+      "description": "오세아니아 건국 신화는 폴리네시아·멜라네시아·미크로네시아·오스트레일리아의 계보, 항해담, 창세 노래와 후대 채록을 함께 묶은 것이며 단일 정본은 아니다. 하와이의 창세 계보는 《쿠물리포》에 남고, 마오리의 쿠페·토이 이야기는 이위마다 다른 구전과 기록으로 전한다. 통가 왕통은 아호에이투를 첫 투이통가로, 마누아 전승은 타갈로아를 투이마누아의 기원으로 든다. 피지에는 데게이와 루투나소바소바가, 라파누이에는 히바를 떠난 호투 마투아가 등장한다.\n\n이 전승들은 섬과 인간의 탄생, 먼바다 이주, 토지 권리, 제사와 왕권의 기원을 조상 계보로 설명한다. 마우이는 여러 섬에서 섬을 낚고 해를 붙잡지만 장소와 동행자는 전승마다 다르며, 하와이의 와케아·파파와 할로아 계보는 땅·토란·사람을 친족으로 잇는다. 길버트 제도의 나레아우, 피지의 데게이, 오스트레일리아 남동부의 바이아메는 서로 다른 문화권의 창조자이지 한 신계의 신들이 아니다. 파오와 필리카아이에아의 왕통담, 쿠페·토이의 항해담, 카우니토니 도래담은 지역과 가문에 따라 항로와 인물 관계가 갈린다. 지금도 구전, 의례, 춤과 노래, 족보 낭송, 토착어 기록과 공동체 교육으로 이어진다.",
+      "description_en": "Oceania’s founding traditions have no single canon. They combine genealogies, voyage accounts, creation chants, and later records from Polynesia, Melanesia, Micronesia, and Aboriginal Australia. The Hawaiian Kumulipo preserves a creation genealogy, while Māori accounts of Kupe and Toi vary among iwi histories. Tongan genealogies name ʻAhoʻeitu as the first Tuʻi Tonga; Manuʻa traditions link Tagaloa to the Tuʻi Manuʻa line; and Rapa Nui accounts tell how Hotu Matuʻa left Hiva to settle the island. Fijian traditions place Degei and the canoe leader Lutunasobasoba at the origins of people and chiefly descent.\n\nThese accounts connect the making of islands and people with ocean migration, land rights, ritual authority, and royal succession. Māui fishes up islands and snares the sun across Polynesia, but his deeds and geography vary by island. Hawaiian genealogies of Wākea, Papa, and Hāloa place land, taro, and people in one kinship order. Nareau in the Gilbert Islands, Degei in Fiji, and Baiame in southeastern Australia belong to separate cosmologies, not a shared pantheon. Stories of Paʻao and Pili Kaʻaiʻea in Hawaiʻi, Kupe and Toi in Aotearoa, and the Kaunitoni voyage in Fiji vary by community and by when and why they were recorded. They continue in oral performance, ceremony, dance, chant, recited genealogy, Indigenous-language publications, and community teaching.",
+      "published": false,
+      "lead_person_ids": [
+        "a726c494-810e-4826-81e3-2023297f894f",
+        "d3625009-0db1-41ce-8bb7-a9598d74f4bd",
+        "b7b83a27-e4b3-45bb-a16e-c2ed20709a2d"
+      ],
+      "members": [
+        {
+          "id": "5dcebcaa-852a-4199-a211-3c3cf6c45ca0",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "536abdf7-a64e-4b08-a7d8-6e3f1c38afc1",
+          "hidden": true,
+          "short_desc": "하늘신의 아들, 초대 투이통가",
+          "short_desc_en": "Sky God's Son, the First Tuʻi Tonga"
+        },
+        {
+          "id": "4c885ae6-244e-4ac1-b4c7-8cdc6478792c",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "a726c494-810e-4826-81e3-2023297f894f",
+          "hidden": true,
+          "short_desc": "섬을 낚고 해를 붙잡은 영웅",
+          "short_desc_en": "Hero Who Fished Up Islands and Snared the Sun"
+        },
+        {
+          "id": "219b9bc9-8616-4252-b7eb-9908b79333cd",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "9f13e333-f7b0-43f8-80a6-bd136b1cbc64",
+          "hidden": true,
+          "short_desc": "카우니토니호를 이끈 피지 시조",
+          "short_desc_en": "Forefather Who Led the Canoe Kaunitoni"
+        },
+        {
+          "id": "81bb220c-376b-4bbe-9433-4343475307d7",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "524e1392-9cbf-4db8-a64f-49f83accb683",
+          "hidden": true,
+          "short_desc": "죽은 혼을 심판하는 뱀신",
+          "short_desc_en": "Serpent God Who Judges the Dead"
+        },
+        {
+          "id": "e35bb5c6-6383-40c5-bd53-f591b30bb64a",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "580d1df6-2f61-4f8c-87c5-f94f0de0147e",
+          "hidden": true,
+          "short_desc": "길버트 제도의 거미 창조신",
+          "short_desc_en": "Spider Creator of the Gilbert Islands"
+        },
+        {
+          "id": "1ca364d1-2db6-41f4-9004-f97b95777f17",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "bf6e698c-c44c-4bdf-96a0-6867ceaf3599",
+          "hidden": true,
+          "short_desc": "법과 의례를 남긴 하늘 아버지",
+          "short_desc_en": "Sky Father Who Gave Laws and Rites"
+        },
+        {
+          "id": "01c48162-0c9a-42a0-8409-656ca065b834",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "b7b83a27-e4b3-45bb-a16e-c2ed20709a2d",
+          "hidden": true,
+          "short_desc": "하와이 섬들의 아버지",
+          "short_desc_en": "Father of the Hawaiian Islands"
+        },
+        {
+          "id": "7f230edf-5049-417f-8611-bd19ed013801",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "a38c72c2-d797-4299-980b-05a5bf594e19",
+          "hidden": true,
+          "short_desc": "첫 하와이 사람",
+          "short_desc_en": "The First Hawaiian"
+        },
+        {
+          "id": "ad56f2e6-5d1d-4b73-a5e0-889837348d7b",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "426e454b-56d5-4c3b-ac9e-2dd3f14fb93d",
+          "hidden": true,
+          "short_desc": "카히키에서 온 대사제",
+          "short_desc_en": "High Priest Who Came from Kahiki"
+        },
+        {
+          "id": "40e5f7de-12e3-49c4-a9f6-12e30fa649e7",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "093abb52-d347-4d67-afdd-1c5b8f10f7f0",
+          "hidden": true,
+          "short_desc": "하와이 새 왕통의 시조",
+          "short_desc_en": "Founder of Hawaiʻi's New Chiefly Line"
+        },
+        {
+          "id": "b6bbcb58-0613-4e44-bfd3-a12f3f435ef3",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "6e54b999-618c-4edd-bc93-104d1bb7a35d",
+          "hidden": true,
+          "short_desc": "아오테아로아에 닿은 항해자",
+          "short_desc_en": "Navigator Who Reached Aotearoa"
+        },
+        {
+          "id": "ff32c361-0172-4f3c-aff9-fa4c92738954",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "1c24ae45-ef0d-4f5e-862c-31c6aa02f2b6",
+          "hidden": true,
+          "short_desc": "이주 카누 이전의 조상",
+          "short_desc_en": "Ancestor from before the Canoe Migrations"
+        },
+        {
+          "id": "196368b5-aa40-4854-aacb-b99a7ba0d1c6",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "58be93df-ad13-4d52-885e-63ce915d8223",
+          "hidden": true,
+          "short_desc": "라파누이의 첫 왕",
+          "short_desc_en": "First King of Rapa Nui"
+        },
+        {
+          "id": "bf348627-cc63-40d4-ba9a-11a9ac078d55",
+          "lv2_id": "a1e42f63-8eef-47a9-b1d0-f4be9cdd27a3",
+          "celeb_id": "d3625009-0db1-41ce-8bb7-a9598d74f4bd",
+          "hidden": true,
+          "short_desc": "마누아의 창조신",
+          "short_desc_en": "Creator God of Manuʻa"
+        }
+      ],
+      "leads": [
+        {
+          "person": {
+            "id": "a726c494-810e-4826-81e3-2023297f894f",
+            "slug": "māui",
+            "nickname": "마우이",
+            "nickname_en": "Māui",
+            "avatar_url": "https://assets.feelandnote.com/celebs/a726c494-810e-4826-81e3-2023297f894f/avatar.webp?v=1790052598194",
+            "bio": "마우이가 형들의 카누에 몰래 타고 나가 할머니의 턱뼈로 만든 낚시에 제 코피를 발라 바다에 던졌다. 끌어올린 큰 물고기가 뉴질랜드 북섬이 됐고 마오리는 그 섬을 마우이의 물고기라 부른다. 하와이·통가·타히티에도 같은 이야기가 있어 섬마다 낚아 올린 땅을 자기 섬으로 적고, 해를 붙잡아 늦추고 불을 훔쳐 온 이야기도 함께 전한다.",
+            "bio_en": "Māui secretly boarded his brothers' canoe and cast a hook made from his grandmother Murirangawhenua's jawbone after smearing it with blood from his nose. The immense fish he hauled up became New Zealand's North Island, which Māori call the fish of Māui. Hawaiian, Tongan, and Tahitian traditions tell related versions, each identifying the land he caught with its own island. Stories also remember him for capturing the sun to slow its passage and for stealing fire.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "a726c494-810e-4826-81e3-2023297f894f",
+            "plain_text": "마우이는 폴리네시아 신화와 마오리 전승에 등장하는 문화 영웅이자 트릭스터이다. 조모의 턱뼈로 만든 낚싯바늘에 자신의 피를 발라 거대한 물고기를 낚아 올려 뉴질랜드 북섬을 만들었다는 이야기가 전해진다. 또한 빠르게 움직이던 태양을 붙잡아 낮의 길이를 늘리고 불을 가져오는 등 뛰어난 기지와 지혜로 사람들의 삶을 돕는 여러 모험을 남겼다.",
+            "plain_text_en": "Māui is the culture hero and trickster of Polynesian myth and Māori tradition. He is said to have baited a fishhook made from his grandmother's jawbone with his own blood and hauled up the great fish that became New Zealand's North Island. He also caught the fast-moving sun to lengthen the day and fetched fire for mankind, leaving many adventures in which wit and cunning served people's lives.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "a726c494-810e-4826-81e3-2023297f894f",
+              "content_id": "de0f2876-3401-5258-9d9b-292f513748d7",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "de0f2876-3401-5258-9d9b-292f513748d7",
+                  "locale": "ko",
+                  "title": "신과 맞선 천방지축 마우이",
+                  "isbn": "9791170871125",
+                  "description": "DAUM"
+                },
+                {
+                  "content_id": "de0f2876-3401-5258-9d9b-292f513748d7",
+                  "locale": "en",
+                  "title": "Maui, the Mischievous Demigod Who Matched the Gods",
+                  "isbn": null,
+                  "description": "The \"Reading World Folktales (Segye Seolhwareul Ikda)\" series is the world's first collection of world folktales for young readers, published by Humanist Publishing House (Hyumeoniseuteu Chulpansa). Professor Sin Dong-heun, renowned as a researcher of oral literature, selected valuable folktales from around the world, organized each volume by theme, and retold them in an easy style suited to young readers' eye level. To preserve the orality of the stories, the author created 12 storyteller characters and has the storyteller suited to the character of each tale tell it vividly and entertainingly. Whenever one story ends, storytellers representing different generations gather to share a \"story about the story,\" through which readers can internalize the meaning and value of the tale and also discover the beautiful sight of communication across generations taking place through stories. This structure of presenting stories and discussing them through 12 characters embodies the author's wish to revive \"story culture,\" which is gradually disappearing amid increasingly fragmented and individualized lives. The series also includes various storytelling-based activities for easy use in the classroom. Through them, students will be able to develop their imagination and cultivate the qualities of storytellers, a core competency for future society.\n\nVolume 1, \"The Adventure of Jumeoki the Little Giant (Jageun Geoin Jumeokgiui Moheom),\" has as its theme the \"self,\" gathering stories of protagonists finding their dreams in their own ways in a vast and rough world and stories of lives that achieved something extraordinary. Volume 2, \"Sareusenbai Who Gained the Sun and the Moon (Taeyang-gwa Dareul Eodeun Sareusenbai),\" has as its theme \"love.\" It contains stories of discovering true love, stories showing the beautiful and radiant power of love, and sad and heartbreaking love stories. Volume 3, \"Maui the Reckless Who Stood Against God (Singwa Matseon Cheonbangjichuk Maui),\" has as its theme the \"hero,\" gathering stories of exceptional heroes who transcend human limits and pioneer life, stories that approach readers with uncommon fun and deep resonance. Volume 4, \"Aunt Gon-gung Who Outwitted the Grim Reaper (Jeoseungsajareul Igyeomeogeun Gongung Ajumeoni),\" has as its theme \"wisdom.\" It gathers stories showing the essence and power of wisdom, stories alive with creative thinking, boldness, and reversal. The books in this series are to be published up to 10 volumes in succession.\n\nThe books in this series contain all the values and philosophy helpful for young people to live by, enough to be called a compass for life. For adolescents, who are immature beings forming their selves, reading such books is like brightening their future. As readers discern the value and meaning contained in each story and accumulate them in mind and heart, life will become much firmer and fuller."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8960,
+                  "content_id": "de0f2876-3401-5258-9d9b-292f513748d7",
+                  "locale": "ko",
+                  "title": "신과 맞선 천방지축 마우이",
+                  "isbn": "9791170871125",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            },
+            {
+              "celeb_id": "a726c494-810e-4826-81e3-2023297f894f",
+              "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+                  "locale": "ko",
+                  "title": "Oceanic [Mythology]",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+                  "locale": "en",
+                  "title": "Oceanic [Mythology]",
+                  "isbn": "9780342418749",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 13242,
+                  "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+                  "locale": "en",
+                  "title": "Oceanic [Mythology]",
+                  "isbn": "9780342418749",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "d3625009-0db1-41ce-8bb7-a9598d74f4bd",
+            "slug": "tagaloa",
+            "nickname": "타갈로아",
+            "nickname_en": "Tagaloa",
+            "avatar_url": "https://assets.feelandnote.com/celebs/d3625009-0db1-41ce-8bb7-a9598d74f4bd/avatar.webp?v=1790052788260",
+            "bio": "타갈로아가 아무것도 없던 곳에 서서 바위를 쳐 땅과 하늘과 바다를 갈랐다. 마누아 섬을 먼저 내고 이어 다른 섬들을 냈으며, 덩굴에서 생긴 벌레를 사람으로 바꾸었다. 사모아 사람들은 그의 아들이 첫 투이마누아가 되어 마누아에서 왕권이 시작됐다고 낭송하며, 통가·타히티는 같은 이름을 탕갈로아·타아로아로 부르되 내력을 다르게 적는다.",
+            "bio_en": "Tagaloa stood where nothing yet existed and struck a rock, dividing land, sky, and sea. He formed Manuʻa first and then the other islands, before transforming worms born from a vine into human beings. Samoan tradition recounts that his son became the first Tuʻi Manuʻa and established kingship in Manuʻa, while Tongan and Tahitian traditions call the same figure Tangaloa or Taʻaroa and tell different accounts of him.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "d3625009-0db1-41ce-8bb7-a9598d74f4bd",
+            "plain_text": "타갈로아는 사모아 신화에서 우주를 짓고 신들을 다스리는 최고신이다. 허공에 머물며 하늘과 바다, 땅을 창조하고 하늘에서 돌을 굴려 사바이이섬과 우폴루섬을 만들었다고 전해진다. 마누아 전승에서는 그가 보낸 덩굴에서 생겨난 구더기를 사람으로 바꾸었다고 하며, 통가의 탕갈로아와 타히티의 타아로아는 이름과 전승이 닿지만, 섬마다 이야기와 역할은 다르다.",
+            "plain_text_en": "Tagaloa is the supreme god of Samoan myth who built the cosmos and rules the gods. Dwelling in the void he created the heavens, the sea, and the earth, and rolled stones down from the sky to make the islands of Savai'i and Upolu, tradition says. Manu'a tradition says he turned into people the maggots born of a vine he sent; his name and traditions have counterparts in Tonga's Tangaloa and Tahiti's Ta'aroa, though their stories and roles differ by island.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "d3625009-0db1-41ce-8bb7-a9598d74f4bd",
+              "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+                  "locale": "ko",
+                  "title": "Oceanic [Mythology]",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+                  "locale": "en",
+                  "title": "Oceanic [Mythology]",
+                  "isbn": "9780342418749",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 13242,
+                  "content_id": "8c0ae2fd-a23f-5bd9-b90e-d590fb95c877",
+                  "locale": "en",
+                  "title": "Oceanic [Mythology]",
+                  "isbn": "9780342418749",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "b7b83a27-e4b3-45bb-a16e-c2ed20709a2d",
+            "slug": "wākea",
+            "nickname": "와케아",
+            "nickname_en": "Wākea",
+            "avatar_url": "https://assets.feelandnote.com/celebs/b7b83a27-e4b3-45bb-a16e-c2ed20709a2d/avatar.webp?v=1790052849574",
+            "bio": "와케아가 파파하나우모쿠와 짝을 지어 하와이·마우이·카우아이 섬들을 낳았다. 파파가 자리를 비운 사이 딸 호오호쿠칼라니와 사이에 아이를 얻었다. 하와이 큰 추장들은 그를 자기 계보의 뿌리로 삼고 그와 파파에게서 사람과 땅이 함께 나왔다고 낭송했다.",
+            "bio_en": "Wākea and Papahānaumoku brought forth the islands of Hawaiʻi, Maui, and Kauaʻi. While Papa was away, Wākea fathered a child with their daughter Hoʻohōkūkalani. Hawaiian high chiefs traced their ancestry to him and recited that both the people and the land descended together from Wākea and Papa.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "b7b83a27-e4b3-45bb-a16e-c2ed20709a2d",
+            "plain_text": "와케아는 하와이 신화에서 대지의 어머니 파파하나우모쿠와 짝을 이루는 하늘의 신이다. 둘 사이에서 하와이, 마우이, 카우아이 등 여러 섬이 생겨났으며, 하와이의 통치 추장과 귀족들은 그를 자신들의 조상으로 여겼다. 딸 호오호쿠칼라니와의 사이에서 하와이인의 주식인 타로의 기원이 된 아이와 최초의 인간 할로아가 태어났다는 전승을 통해 땅과 사람의 유대를 상징한다.",
+            "plain_text_en": "Wākea is the sky god of Hawaiian myth, consort of the earth mother Papahānaumoku. Between them arose the islands of Hawaii, Maui, Kauai, and the rest, and Hawaii's ruling chiefs and nobles counted him their ancestor. Through the tradition that his daughter Ho'ohokukalani bore him the child who became the taro, staple of the Hawaiian people, and the first human, Hāloa, he symbolizes the bond of land and people.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "b7b83a27-e4b3-45bb-a16e-c2ed20709a2d",
+              "content_id": "f20b656c-a173-5dec-8b30-122d7d2badfd",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "f20b656c-a173-5dec-8b30-122d7d2badfd",
+                  "locale": "ko",
+                  "title": "Hawaiian Mythology",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "f20b656c-a173-5dec-8b30-122d7d2badfd",
+                  "locale": "en",
+                  "title": "Hawaiian Mythology",
+                  "isbn": "9780824805142",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 13241,
+                  "content_id": "f20b656c-a173-5dec-8b30-122d7d2badfd",
+                  "locale": "en",
+                  "title": "Hawaiian Mythology",
+                  "isbn": "9780824805142",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "90b64428-ef42-4953-8899-52f5f812d94a",
+      "slug": "myth-southeast-asia",
+      "name": "동남아 건국 신화",
+      "name_en": "Southeast Asian Founding Myth",
+      "description": "동남아 건국 신화는 대륙부와 도서부 여러 사회의 왕조 계보와 도시·집단의 기원을 묶은 전승군으로, 단일 정본은 아니다. 중국 정사 『양서』의 부남 기사, 베트남의 『영남척괴』와 『대월사기전서』, 버마의 『유리궁 연대기』, 말레이의 『술랄라투스 살라틴』, 부기족 서사시 『수렉 갈리고』 등 서로 다른 시대·언어의 기록과 구전으로 전한다. 부남 건국담은 까운디냐와 소마의 대결과 혼인을, 베트남 계보는 락롱꿘과 어우꺼의 백 아들과 낌뀌가 안즈엉브엉에게 준 신궁을 다룬다. 말레이 기록에는 상 사푸르바의 강림과 상 닐라 우타마의 싱가푸라 명명이 나온다.\n\n이 이야기들은 천상 시조, 이방인과 현지 여성의 혼인, 신성한 동물·무기, 이주와 정복으로 왕권과 영토의 기원을 설명한다. 『유리궁 연대기』는 아비라자를 석가족 계보에 넣지만, 앞선 버마 연대기에는 이 계보가 없고 탐마다릿과 퓨사우티의 내력도 판본마다 다르다. 크메르의 까운디냐·소마, 프레아 통·나가 공주, 깜부 스와얌부바·메라는 관련 전승이지만 하나의 계보는 아니다. 오늘날에는 필사본·번역본과 지역 구전, 캄보디아 혼례, 공연, 박물관과 학교 역사로 전하며, 근대의 국경과 민족 범주에 맞춰 다시 쓴 판본도 있다.",
+      "description_en": "Southeast Asian foundation traditions are not a single canon. They gather genealogies and stories about the origins of cities and peoples from many periods and languages. Sources include the Liang shu account of Funan, Vietnam’s Lĩnh Nam chích quái and Đại Việt sử ký toàn thư, Burma’s Glass Palace Chronicle, the Malay Sulalatus Salatin, and the Bugis epic Sureq Galigo. A Funan cycle tells of Kaundinya’s confrontation and marriage with the woman ruler Soma. Vietnamese texts recount the hundred sons of Lạc Long Quân and Âu Cơ and the Golden Turtle’s aid to An Dương Vương. Sulalatus Salatin places Sang Sapurba on Bukit Seguntang and has Sang Nila Utama name Singapura.\n\nThese accounts explain rule and territory through heavenly ancestry, marriages between newcomers and local women, sacred animals or weapons, migration, and conquest. The Glass Palace Chronicle adds Abhiraja to a Sakya genealogy absent from earlier Burmese chronicles, while accounts of Thamoddarit and Pyusawhti also vary. Khmer traditions of Kaundinya and Soma, Preah Thong and the naga princess, and Kambu Swayambhuva and Mera are related but do not form one fixed genealogy. They survive in manuscripts, translations, oral retellings, Cambodian wedding customs, performances, museums, and school histories. Modern versions may recast older dynasties and mobile peoples within later national borders and ethnic categories.",
+      "published": false,
+      "lead_person_ids": [
+        "77036753-fb6f-47a7-ac8e-1cf2c3892084",
+        "a16372bc-cc86-4d90-b0de-1b14ddd16973",
+        "7b7f8cbc-56aa-46ee-a680-32d75626e79f"
+      ],
+      "members": [
+        {
+          "id": "a7f66fa1-19a5-4e2f-8f6f-168430e146c8",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "a5e124c3-32b2-4838-b911-2f38b5ead4ae",
+          "hidden": true,
+          "short_desc": "캄부자 왕통의 천녀 어머니",
+          "short_desc_en": "The apsara ancestress of Kambuja"
+        },
+        {
+          "id": "eae6b65f-cde0-4c02-8c7c-8778738eaf00",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "83ad5664-b0aa-4723-8f4e-084a4251ce93",
+          "hidden": true,
+          "short_desc": "브루나이의 첫 술탄",
+          "short_desc_en": "First sultan of Brunei"
+        },
+        {
+          "id": "f57da073-576a-49fd-9e20-ca3be8a92541",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "7d6b3231-3d94-493f-8911-ca0f3197c1c0",
+          "hidden": true,
+          "short_desc": "부남을 세운 인도 브라만",
+          "short_desc_en": "The Indian brahmin who founded Funan"
+        },
+        {
+          "id": "1e696d84-1bde-41ae-be21-23ebb394b5b3",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "5fefbe8c-b6bc-42a2-b41a-0384d75f1cba",
+          "hidden": true,
+          "short_desc": "캄부자의 이름을 남긴 성자",
+          "short_desc_en": "The sage who gave Kambuja its name"
+        },
+        {
+          "id": "dc061345-a13f-4b4d-b4f2-b3a48f5b422d",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "cfc9e01a-6785-4dbf-9070-6e96be21eedf",
+          "hidden": true,
+          "short_desc": "베트남 계보의 첫 임금",
+          "short_desc_en": "First king in Vietnam's genealogy"
+        },
+        {
+          "id": "40346d7f-60cd-4814-ab59-ec4732d26a70",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "3aecb7a7-485f-4331-a305-b9fdc70c29b7",
+          "hidden": true,
+          "short_desc": "임읍을 세운 참인의 왕",
+          "short_desc_en": "The Cham rebel who founded Lâm Ấp"
+        },
+        {
+          "id": "55615efa-29b8-4d63-ad50-d25f1f1d0114",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "d3d6c7c7-102a-467a-8040-cdd4cf6dbc7e",
+          "hidden": true,
+          "short_desc": "나가 왕의 딸, 부남의 여왕",
+          "short_desc_en": "The naga king's daughter, queen of Funan"
+        },
+        {
+          "id": "bd8f1636-b1e3-405f-9ee7-ff27081d7715",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "93a36480-8a96-40e6-a3d1-879a617e47c4",
+          "hidden": true,
+          "short_desc": "나가 공주와 혼인한 왕자",
+          "short_desc_en": "The prince who wed the naga princess"
+        },
+        {
+          "id": "cbf52255-cd1b-46f2-95c4-4fd8e468d5e8",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "77036753-fb6f-47a7-ac8e-1cf2c3892084",
+          "hidden": true,
+          "short_desc": "백 아들을 둔 바다의 용군",
+          "short_desc_en": "Dragon lord, father of a hundred sons"
+        },
+        {
+          "id": "844ad254-03ae-40e6-adb8-df1675346fd5",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "a16372bc-cc86-4d90-b0de-1b14ddd16973",
+          "hidden": true,
+          "short_desc": "백 아들을 낳은 산의 선녀",
+          "short_desc_en": "Mountain fairy who bore a hundred sons"
+        },
+        {
+          "id": "89ce9dee-031a-409b-b7ed-034a7388c55d",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "0374701a-b02c-4f9d-b251-8b66d8c20e4f",
+          "hidden": true,
+          "short_desc": "반랑의 첫 임금",
+          "short_desc_en": "First king of Văn Lang"
+        },
+        {
+          "id": "e03052ad-e395-4922-a5a4-410d24e7583c",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "0ef2acc1-6ddf-44ec-95d6-3df4e12fe76d",
+          "hidden": true,
+          "short_desc": "어우락을 세운 임금",
+          "short_desc_en": "The king who founded Âu Lạc"
+        },
+        {
+          "id": "12d47cf4-46f4-4c5c-a1eb-568f42810854",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "a579f700-3192-4d4d-9031-6f8d0cfef6ff",
+          "hidden": true,
+          "short_desc": "신궁의 발톱을 준 금거북",
+          "short_desc_en": "Golden turtle who gave the crossbow claw"
+        },
+        {
+          "id": "042a41b2-6f67-4595-aa31-d0d8130f9cbb",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "7b7c596a-4a65-4c4a-b794-9fe1e5c76841",
+          "hidden": true,
+          "short_desc": "참파의 어머니 신",
+          "short_desc_en": "Mother goddess of Champa"
+        },
+        {
+          "id": "46dc09ee-1ee9-47e3-be04-ac0942a70f40",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "6d13331a-699d-4cce-a731-c81e64356391",
+          "hidden": true,
+          "short_desc": "타가웅을 세운 석가족 왕자",
+          "short_desc_en": "Sakya prince who founded Tagaung"
+        },
+        {
+          "id": "e58e9384-1853-4b61-9904-56505de5f372",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "3151f887-92e8-45f8-9c36-99a53703bbc0",
+          "hidden": true,
+          "short_desc": "바간을 세운 임금",
+          "short_desc_en": "The king who founded Pagan"
+        },
+        {
+          "id": "06cd7762-e81f-4820-bd30-4e895397f73a",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "7087b69f-a625-4913-9072-db888e3c02f2",
+          "hidden": true,
+          "short_desc": "알에서 깬 괴물 사냥꾼 왕",
+          "short_desc_en": "Egg-born king who slew the monsters"
+        },
+        {
+          "id": "eaf9197c-1733-4ba1-ad0d-35aaf5c6c951",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "723f8b3f-79bf-437a-a1f7-049466e9d72b",
+          "hidden": true,
+          "short_desc": "하리푼차이의 첫 여왕",
+          "short_desc_en": "First queen of Hariphunchai"
+        },
+        {
+          "id": "aa8f2218-9f90-4db1-bcf1-4f25cd1917eb",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "56dd2b12-bd9e-4f6c-848a-d80dd357e899",
+          "hidden": true,
+          "short_desc": "『파라라톤』이 라자사 왕조의 계보에 두는 왕으로, 몽골군을 물리치고 쓴 마자 열매의 이름을 따 마자파힛을 세웠다고 전한다.",
+          "short_desc_en": "In the Pararaton chronicle he stands in the Rajasa line; tradition says he repelled the Mongol force and founded Majapahit, naming it after the bitter maja fruit."
+        },
+        {
+          "id": "d56901c8-7e62-4d59-804c-37b4257ae87d",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "79c11ef9-c373-49f9-af3c-33e312a9fca3",
+          "hidden": true,
+          "short_desc": "말이 이루어지는 전설의 왕",
+          "short_desc_en": "Legendary king whose words came true"
+        },
+        {
+          "id": "68ca2b43-7044-4629-bc4f-73cc14bb34cf",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "2cae83bd-f7f0-4c82-9c1f-64453861025e",
+          "hidden": true,
+          "short_desc": "수코타이의 첫 임금",
+          "short_desc_en": "First king of Sukhothai"
+        },
+        {
+          "id": "4c55ee08-22e4-49ec-92b5-a12a19aaf680",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "ba043b4b-95b6-4305-a609-d0a0493f757d",
+          "hidden": true,
+          "short_desc": "아유타야를 세운 임금",
+          "short_desc_en": "The king who founded Ayutthaya"
+        },
+        {
+          "id": "eac4be58-cf7b-4179-a392-ea3ebb73e401",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "2cbbf0b1-398a-417f-968c-a38c5fefa811",
+          "hidden": true,
+          "short_desc": "하늘에서 내려온 타이의 시조",
+          "short_desc_en": "Heaven-sent forefather of the Tai"
+        },
+        {
+          "id": "d2e15a8c-3a13-4e40-af6e-25e104d5becd",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "a22164dd-77a9-4327-ad7a-44c3e4e9f6a6",
+          "hidden": true,
+          "short_desc": "므앙 수아의 첫 임금",
+          "short_desc_en": "First king of Muang Sua"
+        },
+        {
+          "id": "5971d801-bcaf-4a85-84d5-aa66872627c3",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "26ae34a9-3d8c-46bc-94d0-5ed2f1f91274",
+          "hidden": true,
+          "short_desc": "란상을 세운 임금",
+          "short_desc_en": "The king who founded Lan Xang"
+        },
+        {
+          "id": "341ae4a6-5192-4287-9785-31ac6ccde7ff",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "60369eb6-a53e-49c8-b2e4-fe4710d01a06",
+          "hidden": true,
+          "short_desc": "부킷 세군땅에 나타난 시조",
+          "short_desc_en": "Forefather who appeared on Bukit Seguntang"
+        },
+        {
+          "id": "32f86932-93af-4c7b-8a9c-3130129790bc",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "7b7f8cbc-56aa-46ee-a680-32d75626e79f",
+          "hidden": true,
+          "short_desc": "싱가푸라의 이름을 지은 왕",
+          "short_desc_en": "The king who named Singapura"
+        },
+        {
+          "id": "a1e9bb2d-f0c0-4877-8f22-b1bff77778b4",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "bc05738a-45b9-410d-bc9b-fd42b9103bf1",
+          "hidden": true,
+          "short_desc": "코토 필리앙 관습을 세운 다투",
+          "short_desc_en": "Datu who founded the Koto Piliang order"
+        },
+        {
+          "id": "5bc7498e-5e7e-41f9-b1ef-56b056ffba66",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "d4698276-f8d2-4de9-b717-821c0882316d",
+          "hidden": true,
+          "short_desc": "보디 차니아고 관습을 세운 다투",
+          "short_desc_en": "Datu who founded the Bodi Caniago order"
+        },
+        {
+          "id": "a99b4420-18c4-4826-9c87-d41c0f587a15",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "39434d40-3ed9-40cd-b4c1-96ef13b0f8f3",
+          "hidden": true,
+          "short_desc": "자바의 첫 임금, 문자의 주인",
+          "short_desc_en": "Java's first king, father of its script"
+        },
+        {
+          "id": "ca61faa1-4d38-4e08-a5ca-ba304a699186",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "ed7151f3-abc5-4e83-b505-4515ae45ebe8",
+          "hidden": true,
+          "short_desc": "싱하사리를 세운 도둑",
+          "short_desc_en": "The robber who founded Singhasari"
+        },
+        {
+          "id": "37ae3483-261e-400b-b90b-62685016c85f",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "05f3bf96-3080-45fe-97d5-8b404333733b",
+          "hidden": true,
+          "short_desc": "라자사 왕조의 어머니",
+          "short_desc_en": "Mother of the Rajasa dynasty"
+        },
+        {
+          "id": "1038235c-a672-4e75-9347-1ceb6dbf8bd4",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "5607bd0c-0ad7-4ba2-a8cd-2a4dc9ebdea1",
+          "hidden": true,
+          "short_desc": "호랑이가 된 순다의 왕",
+          "short_desc_en": "Sunda's king who became a tiger"
+        },
+        {
+          "id": "7d0c29ea-e361-43ab-bd7b-9566d37c9221",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "29da7fd6-e70b-462a-947b-d433cceefeb3",
+          "hidden": true,
+          "short_desc": "마타람을 세운 임금",
+          "short_desc_en": "The king who founded Mataram"
+        },
+        {
+          "id": "33e29b18-ca5f-4d91-b2e8-e90ae069a75f",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "c3cece12-4d9c-4ec5-8b4e-d3c4dc342925",
+          "hidden": true,
+          "short_desc": "하늘에서 내려와 루우를 다스린 맏이",
+          "short_desc_en": "Heaven's eldest son who ruled Luwu"
+        },
+        {
+          "id": "8d57fdcf-b2e8-4446-ad6f-55a18144acb6",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "e25b9196-8a04-4f5f-abb4-e8b0600db82c",
+          "hidden": true,
+          "short_desc": "치나의 공주를 얻은 항해 왕자",
+          "short_desc_en": "Voyaging prince who won the princess of Cina"
+        },
+        {
+          "id": "6de882d1-b8ad-422b-ba63-6caa677141e2",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "dbd06bc5-19da-43e1-b536-5a9251ca915a",
+          "hidden": true,
+          "short_desc": "대나무에서 나온 첫 남자",
+          "short_desc_en": "The first man, out of the bamboo"
+        },
+        {
+          "id": "ca27ae00-67b4-4438-ad59-464e5793725f",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "536fbf5e-e931-4c8c-98e9-faa98a79068b",
+          "hidden": true,
+          "short_desc": "대나무에서 나온 첫 여자",
+          "short_desc_en": "The first woman, out of the bamboo"
+        },
+        {
+          "id": "2de90c36-5c2b-43c0-a353-7799d136b40c",
+          "lv2_id": "90b64428-ef42-4953-8899-52f5f812d94a",
+          "celeb_id": "0724558a-9522-4ffe-a236-b8ab453a0220",
+          "hidden": true,
+          "short_desc": "파나이를 사들인 수장의 우두머리",
+          "short_desc_en": "Chief of the datus who bought Panay"
+        }
+      ],
+      "leads": [
+        {
+          "person": {
+            "id": "77036753-fb6f-47a7-ac8e-1cf2c3892084",
+            "slug": "lạc-long-quan",
+            "nickname": "락롱꿘",
+            "nickname_en": "Lạc Long Quân",
+            "avatar_url": "https://assets.feelandnote.com/celebs/77036753-fb6f-47a7-ac8e-1cf2c3892084/avatar.webp?v=1790052544983",
+            "bio": "락롱꿘이 어정과 호정과 목정 세 요괴를 물리쳐 사람이 살 땅을 열었다. 어우꺼와 혼인해 아들 백 명을 얻었으나 뒤에 나는 용의 종족이고 너는 선녀의 종족이라 물과 불처럼 맞지 않는다며 갈라섰다. 아들 오십은 그를 따라 바다로 가고 오십은 어머니를 따라 산으로 갔다.",
+            "bio_en": "Lac Long Quan defeated the three monsters of the fish, the fox and the tree, opening land where people could live. He married Au Co and had a hundred sons, but later parted from her, saying that he was of the dragon race and she of the fairy race, as incompatible as water and fire. Fifty of the sons went to the sea with him and fifty went to the mountains with their mother.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "77036753-fb6f-47a7-ac8e-1cf2c3892084",
+            "plain_text": "락롱꿘은 고대 베트남 홍방 왕조의 전설적인 왕이다. 거대한 물고기 요괴 어정과 구미호 요괴 호정을 물리쳐 사람들이 살아갈 터전을 마련했다. 선녀 어우꺼와 혼인해 백 명의 아들을 얻었으나, 용과 선녀는 물과 불처럼 함께할 수 없다며 갈라섰다. 아들 50명은 그를 따라 바다로 가고 나머지 50명은 어머니를 따라 산으로 갔으며, 이들은 베트남 민족의 조상으로 여겨진다.",
+            "plain_text_en": "Lạc Long Quân is the legendary king of ancient Vietnam's Hồng Bàng dynasty. He defeated the giant fish demon Ngư Tinh and the nine-tailed fox demon Hồ Tinh, making a land where people could live. He married the fairy Âu Cơ and gained a hundred sons, but the two parted, saying dragon and fairy could no more stay together than water and fire. Fifty sons followed him to the sea and fifty followed their mother to the mountains, and they are regarded as the ancestors of the Vietnamese people.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "77036753-fb6f-47a7-ac8e-1cf2c3892084",
+              "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+                  "locale": "ko",
+                  "title": "베트남의 신화와 전설",
+                  "isbn": "9788971991268",
+                  "description": "DAUM"
+                },
+                {
+                  "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+                  "locale": "en",
+                  "title": "Myths and Legends of Vietnam",
+                  "isbn": null,
+                  "description": "A book translating Yeongnam Cheokgoe Yeoljeon, a collection of selected myths and legends of Vietnam established around the late 14th century. Relevant not only to literature and history but also to thought, anthropology, folklore, mythology, and other fields, the book contains Vietnamese myths and legends such as Mulgogiui Jeongnyeong (The Fish Spirit), Geumbit Geobuk (The Golden Turtle), and Namuui Jeongnyeong (The Tree Spirit)."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8953,
+                  "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+                  "locale": "ko",
+                  "title": "베트남의 신화와 전설",
+                  "isbn": "9788971991268",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "a16372bc-cc86-4d90-b0de-1b14ddd16973",
+            "slug": "au-cơ",
+            "nickname": "어우꺼",
+            "nickname_en": "Âu Cơ",
+            "avatar_url": "https://assets.feelandnote.com/celebs/a16372bc-cc86-4d90-b0de-1b14ddd16973/avatar.webp?v=1790051760861",
+            "bio": "어우꺼가 락롱꿘과 혼인해 알 백 개가 든 주머니를 낳았고 그 알에서 아들 백 명이 나왔다. 락롱꿘과 갈라선 뒤 오십을 데리고 산으로 올라가 맏이를 세워 훙 브엉으로 삼고 나라를 반랑이라 했다. 그의 신원은 대월사기전서가 데 라이의 딸로, 영남척괴열전이 데 라이의 비였다가 락롱꿘에게 간 것으로 적어 갈린다.",
+            "bio_en": "Au Co married Lac Long Quan and bore a sac containing a hundred eggs, from which a hundred sons came. After parting from him she took fifty into the mountains, raised the eldest as Hung Vuong and named the country Van Lang. Her identity differs by source: the Dai Viet Su Ky Toan Thu makes her a daughter of De Lai, while the Linh Nam Chich Quai makes her his consort before she went to Lac Long Quan.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "a16372bc-cc86-4d90-b0de-1b14ddd16973",
+            "plain_text": "어우꺼는 베트남 건국 신화에서 민족의 시조 어머니로 추앙받는 인물이다. 락롱꿘과 혼인해 알 백 개가 든 주머니를 낳았고, 그 알에서 나온 아들 백 명이 베트남 민족의 조상이 되었다고 전한다. 락롱꿘과 헤어진 뒤에는 아들 쉰 명을 데리고 산으로 가 맏이를 군주인 훙 브엉으로 세웠다. 문헌에 따라 데 라이의 딸이나 첩으로 전해진다.",
+            "plain_text_en": "Âu Cơ is revered in Vietnam's founding myth as the ancestral mother of the nation. She married Lạc Long Quân and bore a sac of a hundred eggs, from which a hundred sons emerged to become the ancestors of the Vietnamese people. After parting from Lạc Long Quân she took fifty sons to the mountains and made the eldest king as Hùng Vương. Sources variously call her a daughter or a consort of Đế Lai.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "a16372bc-cc86-4d90-b0de-1b14ddd16973",
+              "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+                  "locale": "ko",
+                  "title": "베트남의 신화와 전설",
+                  "isbn": "9788971991268",
+                  "description": "DAUM"
+                },
+                {
+                  "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+                  "locale": "en",
+                  "title": "Myths and Legends of Vietnam",
+                  "isbn": null,
+                  "description": "A book translating Yeongnam Cheokgoe Yeoljeon, a collection of selected myths and legends of Vietnam established around the late 14th century. Relevant not only to literature and history but also to thought, anthropology, folklore, mythology, and other fields, the book contains Vietnamese myths and legends such as Mulgogiui Jeongnyeong (The Fish Spirit), Geumbit Geobuk (The Golden Turtle), and Namuui Jeongnyeong (The Tree Spirit)."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8953,
+                  "content_id": "e6a3c1cd-4973-5717-ab55-397b10bcd6e1",
+                  "locale": "ko",
+                  "title": "베트남의 신화와 전설",
+                  "isbn": "9788971991268",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "7b7f8cbc-56aa-46ee-a680-32d75626e79f",
+            "slug": "sang-nila-utama",
+            "nickname": "상 닐라 우타마",
+            "nickname_en": "Sang Nila Utama",
+            "avatar_url": "https://assets.feelandnote.com/celebs/7b7f8cbc-56aa-46ee-a680-32d75626e79f/avatar.webp?v=1790052724104",
+            "bio": "상 닐라 우타마가 트마섹으로 가다 폭풍을 만나자 왕관을 바다에 던져 바쳤고 폭풍이 그쳤다. 상륙해서 붉은 몸에 검은 머리와 흰 가슴을 한 짐승을 보았고 재상이 사자라 하자 길조로 여겨 섬 이름을 사자의 도시 싱가푸라로 고치고 자리를 잡았다. 그가 상 사푸르바의 아들인지 형제인지는 사본마다 갈린다.",
+            "bio_en": "Caught in a storm on his way to Temasek, Sang Nila Utama threw his crown into the sea as an offering and the storm stopped. Coming ashore he saw an animal with a red body, a black head and a white breast, and when his minister called it a lion he took it as a good omen, renamed the island Singapura, city of the lion, and settled there. Whether he was the son or the brother of Sang Sapurba varies by manuscript.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "7b7f8cbc-56aa-46ee-a680-32d75626e79f",
+            "plain_text": "상 닐라 우타마는 옛 싱가푸라 왕국을 세운 전설적인 군주이다. 트마섹으로 가던 중 폭풍을 만나자 왕관을 바다에 던져 폭풍을 가라앉혔다는 이야기가 전해진다. 섬에 상륙해 붉은 몸에 흰 가슴을 한 짐승을 보고 사자로 여겨, 섬 이름을 '사자의 도시'를 뜻하는 싱가푸라로 고치고 자리를 잡았다.",
+            "plain_text_en": "Sang Nila Utama is the legendary monarch who founded the ancient kingdom of Singapura. Caught in a storm on his way to Temasek, he is said to have thrown his crown into the sea to calm it. On landing he saw a red-bodied, white-breasted beast, took it for a lion, renamed the island Singapura, 'lion city', and settled there.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "7b7f8cbc-56aa-46ee-a680-32d75626e79f",
+              "content_id": "d3e485a2-a170-5321-ab81-87ac517b65d6",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "d3e485a2-a170-5321-ab81-87ac517b65d6",
+                  "locale": "ko",
+                  "title": "The Genealogy of Kings",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "d3e485a2-a170-5321-ab81-87ac517b65d6",
+                  "locale": "en",
+                  "title": "The Genealogy of Kings",
+                  "isbn": "9789814914185",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 14624,
+                  "content_id": "d3e485a2-a170-5321-ab81-87ac517b65d6",
+                  "locale": "en",
+                  "title": "The Genealogy of Kings",
+                  "isbn": "9789814914185",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+      "slug": "myth-west-asia",
+      "name": "서아시아 건국 신화",
+      "name_en": "West Asian Founding Myth",
+      "description": "서아시아 건국 신화는 하나의 정본이 아니라 레반트 해안 도시와 아라비아 반도, 캅카스 산지에서 각각 전해진 시조 이야기를 묶은 이름이다. 비블로스의 필론이 그리스말로 옮긴 「포이니키아사」는 우수스가 나무를 잘라 처음 바다로 나가고 히프소우라니오스가 갈대와 파피루스로 티레에 첫 집을 지었다고 적는다. 아랍 계보학은 부족을 카흐탄의 남아랍과 아드난의 북아랍으로 크게 가르고 북쪽 갈래를 아브라함의 맏아들 이스마엘에게 잇댄다. 모브세스 호레나치는 하이크가 바벨의 벨을 활로 쏘아 죽이고 아라라트 쪽으로 돌아갔다고 전하며, 레온티 므로벨리가 엮은 「카르틀리스 츠호브레바」는 타르가모스의 아들 카르틀로스가 카르틀리 땅을 받았다고 적는다. 문헌의 시대와 언어가 제각각이라 계보끼리 어긋나는 곳이 많다.",
+      "description_en": "West Asian Founding Myth is not a single canon. The label gathers origin stories told separately along the Levantine coast, across the Arabian Peninsula, and in the Caucasus highlands. Philo of Byblos's Phoenician History says Ousous cut a tree and was first to put out to sea, while Hypsouranios raised the first hut at Tyre from reeds and papyrus. Arab genealogists divide the tribes into the southern line of Qahtan and the northern line of Adnan, tracing the latter to Ishmael, Abraham's eldest son. Movses Khorenatsi records that Hayk shot Bel of Babel with an arrow and returned toward Ararat, and the Georgian Kartlis Tskhovreba, compiled by Leonti Mroveli, assigns the land of Kartli to Kartlos, son of Targamos. The sources differ in period and language, so the genealogies often fail to agree.",
+      "published": false,
+      "lead_person_ids": [
+        "309408c3-5c0a-4fa6-abe5-5c468ddeac49",
+        "eca25f05-9d11-4467-b9f6-62780333dd13",
+        "630703b9-799c-4e92-b37f-acefac879b46"
+      ],
+      "members": [
+        {
+          "id": "7f14fe11-a910-4a94-a6ed-81f2dfc1ce4e",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "21a1353d-9beb-49c5-9c37-62708543fb13",
+          "hidden": true,
+          "short_desc": "성서 계보가 도시 시돈의 이름을 끌어낸 가나안의 맏아들",
+          "short_desc_en": "Canaan's firstborn, from whom the biblical genealogy draws the city of Sidon"
+        },
+        {
+          "id": "9efbe682-7fde-4562-a7c6-cfddac908554",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "1ed7b43c-35a6-47f0-839a-98ba70001ddb",
+          "hidden": true,
+          "short_desc": "나무를 잘라 처음 바다로 나갔다는 티레의 사냥꾼",
+          "short_desc_en": "The Tyrian hunter said to have cut a tree and first put out to sea"
+        },
+        {
+          "id": "3021b22a-273c-484f-832c-ecb02c1d581f",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "8cecd8ff-3137-4a3d-98d9-a846b32b8e04",
+          "hidden": true,
+          "short_desc": "갈대와 파피루스로 티레에 첫 집을 지었다는 사람",
+          "short_desc_en": "Said to have raised the first dwelling at Tyre from reeds and papyrus"
+        },
+        {
+          "id": "95f96580-953a-43db-bb06-90e79dec5609",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "eca25f05-9d11-4467-b9f6-62780333dd13",
+          "hidden": true,
+          "short_desc": "북아랍 계보가 조상으로 잇대는 아브라함의 맏아들",
+          "short_desc_en": "Abraham's eldest son, to whom the northern Arab line traces its descent"
+        },
+        {
+          "id": "cb52fd2f-3d9f-4e91-86c9-4370345863bf",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "38cb72b5-83ae-4155-be9d-eb6f7ba814f1",
+          "hidden": true,
+          "short_desc": "북아랍 부족들이 계보의 출발점으로 삼는 조상",
+          "short_desc_en": "The forefather at the head of the northern Arab genealogy"
+        },
+        {
+          "id": "bcf11d59-a20b-4537-b105-9f198e532f01",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "f7f08b04-3d3d-4a38-b2b1-828555e8dd44",
+          "hidden": true,
+          "short_desc": "예멘에서 난 남아랍 부족들의 조상",
+          "short_desc_en": "The forefather of the southern Arab tribes born in Yemen"
+        },
+        {
+          "id": "dbf6b153-f22a-4c5c-b1c0-ed02b01786bc",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "309408c3-5c0a-4fa6-abe5-5c468ddeac49",
+          "hidden": true,
+          "short_desc": "벨을 활로 쏘고 아라라트로 돌아간 아르메니아의 시조",
+          "short_desc_en": "Armenia’s founder, who shot Bel with an arrow and returned to Ararat"
+        },
+        {
+          "id": "41576eca-02c2-413a-9bae-ae80221c7c5f",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "a7f92471-5096-408e-b10c-d3c12335d59e",
+          "hidden": true,
+          "short_desc": "이웃 나라들이 그 이름을 따 아르메니아라 부른 하이크의 후손",
+          "short_desc_en": "Hayk's descendant whose name neighbours gave to the land of Armenia"
+        },
+        {
+          "id": "2f803e0b-a591-47df-9d6f-a6a51ed08697",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "630703b9-799c-4e92-b37f-acefac879b46",
+          "hidden": true,
+          "short_desc": "카르틀리 땅을 받아 조지아 사람들의 시조가 된 타르가모스의 아들",
+          "short_desc_en": "Son of Targamos, given the land of Kartli and made forefather of the Georgians"
+        },
+        {
+          "id": "415ddda4-8518-4c55-9d1b-4570df194ae8",
+          "lv2_id": "65754779-117c-415d-9feb-07ab64c2e8ec",
+          "celeb_id": "cfdfab8d-23d5-450a-b224-d9a816781ae4",
+          "hidden": true,
+          "short_desc": "아조를 무너뜨리고 카르틀리의 첫 왕이 된 인물",
+          "short_desc_en": "The man who brought down Azo and became the first king of Kartli"
+        }
+      ],
+      "leads": [
+        {
+          "person": {
+            "id": "309408c3-5c0a-4fa6-abe5-5c468ddeac49",
+            "slug": "hayk",
+            "nickname": "하이크",
+            "nickname_en": "Hayk",
+            "avatar_url": "https://assets.feelandnote.com/celebs/309408c3-5c0a-4fa6-abe5-5c468ddeac49/avatar.webp?v=1790052386848",
+            "bio": "하이크는 바벨의 벨 밑에 있기를 마다하고 무리를 데리고 아라라트 쪽 고향으로 돌아갔다. 벨이 군사를 몰고 뒤쫓자 반 호수 남서쪽 산자락에서 맞서 활로 그를 쏘아 죽였다. 아르메니아 사람들은 그 이름을 따 스스로를 하이, 나라를 하야스탄이라 부른다.",
+            "bio_en": "Hayk refused to remain under Bel's rule in Babylon and led his people back toward their homeland near Ararat. When Bel pursued them with an army, Hayk confronted him in the mountains southwest of Lake Van and killed him with an arrow. Armenians call themselves Hay and their country Hayastan after him.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "309408c3-5c0a-4fa6-abe5-5c468ddeac49",
+            "plain_text": "하이크는 아르메니아의 전설적인 시조이자 건국 족장이다. 바빌로니아 군주 벨의 지배를 거부하고 사람들을 이끌어 아라라트 방면의 고향으로 향했다. 뒤쫓아온 벨의 군대와 반호수 인근에서 맞서 싸웠으며, 강력한 화살로 벨을 쏘아 죽이고 사람들의 자유를 지켜 냈다. 아르메니아 사람들은 하이크의 이름에서 유래해 스스로를 '하이', 나라를 '하야스탄'이라 부른다.",
+            "plain_text_en": "Hayk is the legendary progenitor and founding patriarch of the Armenians. Refusing the rule of the Babylonian king Bel, he led his people back toward the homeland by Ararat. He fought Bel's pursuing army near Lake Van and killed Bel with a mighty arrow, preserving his people's freedom. Armenians call themselves 'Hay' and their country 'Hayastan' after his name.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "309408c3-5c0a-4fa6-abe5-5c468ddeac49",
+              "content_id": "cb01db41-d1d6-5b09-8b8a-e2312be99689",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "cb01db41-d1d6-5b09-8b8a-e2312be99689",
+                  "locale": "en",
+                  "title": "History of the Armenians",
+                  "isbn": "9780882061115",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 12357,
+                  "content_id": "cb01db41-d1d6-5b09-8b8a-e2312be99689",
+                  "locale": "en",
+                  "title": "History of the Armenians",
+                  "isbn": "9780882061115",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "eca25f05-9d11-4467-b9f6-62780333dd13",
+            "slug": "ishmael",
+            "nickname": "이스마엘",
+            "nickname_en": "Ishmael",
+            "avatar_url": "https://assets.feelandnote.com/celebs/eca25f05-9d11-4467-b9f6-62780333dd13/avatar.webp?v=1790052441315",
+            "bio": "창세기는 아브라함이 하갈에게서 이스마엘을 얻었고, 사라의 요구로 둘이 광야로 쫓겨났을 때 신이 우물을 보여 살렸다고 적는다. 이슬람 전승은 그 우물을 잠잠이라 부르고, 쿠란 2장 127절은 이스마엘이 아브라함과 함께 카바의 기초를 올렸다고 적는다. 아랍 계보학은 북아랍 부족을 그의 후손 아드난에게 잇댄다.",
+            "bio_en": "Genesis identifies Ishmael as Abraham's son by Hagar and says that God showed them a well after Sarah had driven mother and child into the wilderness. Islamic tradition calls that well Zamzam, while Quran 2:127 describes Ishmael raising the foundations of the Kaaba alongside Abraham. Arab genealogists trace the northern Arab tribes to his descendant Adnan.",
+            "publication_status": "inactive",
+            "celeb_reality": "BOTH",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "eca25f05-9d11-4467-b9f6-62780333dd13",
+            "plain_text": "이스마엘은 구약성경 창세기에 등장하는 아브라함의 첫째 아들이자 아랍인의 조상으로 전해지는 인물이다. 아브라함의 아내 사라의 여종인 하갈에게서 태어났으며, 사라의 요구로 어머니와 함께 광야로 내쫓겼으나 신이 보여 준 우물 덕분에 목숨을 건졌다. 이후 광야에서 활 쏘는 자로 자라 열두 족장의 아버지가 되었고, 이슬람 전통에서는 예언자이자 아브라함과 함께 카바의 기초를 올린 인물로 여겨진다.",
+            "plain_text_en": "Ishmael is Abraham's firstborn son in Genesis and the traditional ancestor of the Arabs. Born of Hagar, the slave of Abraham's wife Sarah, he was driven into the wilderness with his mother at Sarah's demand but survived thanks to a well God revealed. He grew up an archer in the wilderness and fathered twelve chieftains; in Islamic tradition he is a prophet who raised the foundations of the Kaaba with Abraham.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "eca25f05-9d11-4467-b9f6-62780333dd13",
+              "content_id": "39f41186-0a02-5acc-b3bd-c8916e0810d6",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "39f41186-0a02-5acc-b3bd-c8916e0810d6",
+                  "locale": "ko",
+                  "title": "은총 성경 쓰기: 창세기",
+                  "isbn": "9788984814394",
+                  "description": "『은총 성경 쓰기: 창세기』에는 성경에 대한 프란치스코 교황님의 말씀과 창세기에 대한 간략한 안내가 있어, 성경을 보다 깊이 이해하며 필사할 수 있다. 또한 본문 상단에 필사한 날짜를 기록하는 난을 마련하여 체계적이면서도 꾸준한 필사를 하도록 배려하였다. 아울러 노트 한 권을 완필하면, 평소 존경하는 사제(수도자)에게 서명 혹은 조언을 받을 수 있는 공간이 각 권 첫 페이지마다 있다."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 10705,
+                  "content_id": "39f41186-0a02-5acc-b3bd-c8916e0810d6",
+                  "locale": "ko",
+                  "title": "은총 성경 쓰기: 창세기",
+                  "isbn": "9788984814394",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "630703b9-799c-4e92-b37f-acefac879b46",
+            "slug": "kartlos",
+            "nickname": "카르틀로스",
+            "nickname_en": "Kartlos",
+            "avatar_url": "https://assets.feelandnote.com/celebs/630703b9-799c-4e92-b37f-acefac879b46/avatar.webp?v=1790052481246",
+            "bio": "레온티 므로벨리가 엮은 「카르틀리스 츠호브레바」는 노아의 아들 야벳의 후손 타르가모스에게 여덟 아들이 있었고 그 가운데 카르틀로스가 카르틀리 땅을 받았다고 적는다. 므츠헤타 곁 산에 자리를 잡고 성채를 지었다. 그의 이름에서 땅 이름 카르틀리와 조지아 사람들의 자칭 카르트벨리가 나왔고, 형제 하오스·에그로스·레코스는 이웃 민족의 조상으로 갈라진다.",
+            "bio_en": "In the Kartlis Tskhovreba compiled by Leonti Mroveli, Targamos, a descendant of Noah's son Japheth, has eight sons, one of whom receives the land of Kartli: Kartlos. He settles on a mountain near Mtskheta and builds a fortress there. Both the name Kartli and the Georgian self-designation Kartveli are derived from him, while his brothers Haos, Egros, and Lekos become the forefathers of neighboring peoples.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "630703b9-799c-4e92-b37f-acefac879b46",
+            "plain_text": "카르틀로스는 조지아 신화에서 조지아인과 카르틀리의 시조로 전해지는 전설적인 인물이다. 야벳의 후손이자 타르가모스의 아들로, 형제들과 함께 거인 왕 네브롯의 지배에서 벗어나기 위해 맞서 싸웠으며 캅카스 지역에서 백성을 이끌고 카르틀리를 세웠다고 전한다. 그의 이름은 지역명 카르틀리와 조지아 사람들이 스스로를 부르는 명칭인 카르트벨리의 유래가 되었다.",
+            "plain_text_en": "Kartlos is the legendary figure held in Georgian myth to be the ancestor of the Georgians and of Kartli. A descendant of Japheth and son of Targamos, he and his brothers fought to escape the rule of the giant king Nebrot and led his people in the Caucasus to found Kartli. His name is the source of the place-name Kartli and of Kartveli, the name Georgians call themselves.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "630703b9-799c-4e92-b37f-acefac879b46",
+              "content_id": "9afc04de-b0e4-5ee9-9d71-65fd46f9cfb1",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "9afc04de-b0e4-5ee9-9d71-65fd46f9cfb1",
+                  "locale": "en",
+                  "title": "Rewriting Caucasian history",
+                  "isbn": "9780198263739",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 12358,
+                  "content_id": "9afc04de-b0e4-5ee9-9d71-65fd46f9cfb1",
+                  "locale": "en",
+                  "title": "Rewriting Caucasian history",
+                  "isbn": "9780198263739",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+      "slug": "myth-americas",
+      "name": "아메리카 건국 신화",
+      "name_en": "Founding Myth of the Americas",
+      "description": "아메리카 건국 신화는 북·중·남아메리카 여러 민족의 구전, 그림문서, 식민지기 연대기와 의례 기록을 함께 부르는 범주로 단일 정본은 아니다. 키체 마야의 『포폴 부』는 발람 키체·발람 아캅·마우쿠타·이키 발람이 옥수수로 만들어져 여러 가문의 조상이 되었다고 전한다. 멕시카의 『보투리니 문서』와 여러 나우아 기록에서는 우이칠로포치틀리가 이주를 이끌고, 코필의 심장에서 난 선인장 표지와 테노치가 테노치티틀란의 기원을 설명한다. 잉카 기원담도 망코 카팍과 마마 오크요가 나온 이야기와 아야르 형제들이 쿠스코를 차지한 이야기가 기록마다 다르게 전한다.\n\n이 전승들은 사람과 땅의 창조뿐 아니라 이주, 왕통, 도시, 연맹, 법과 의례의 기원을 다룬다. 하우데노사우니의 대평화법 전승에서는 데간위다와 하이어와사가 부족들을 화해시키고 타도다호가 연맹 회의의 의장이 되며, 자이곤사시는 첫 회의의 자리를 내준다. 무이스카의 바추에와 보치카, 안데스의 콘 티키 비라코차, 라코타의 흰 버팔로 송아지 여인은 공동체의 시작을 조상·가르침·성스러운 의례와 연결한다. 이 이야기들은 원주민 공동체의 구연과 의례에서 이어지고 문서 번역과 교육에도 쓰이며, 이름과 사건 순서, 창건자의 역할은 언어·지역·기록자에 따라 갈린다.",
+      "description_en": "The founding traditions of the Americas do not form a single canon. The category brings together Indigenous oral histories, painted manuscripts, ritual narratives, and chronicles written during the colonial period. In the K’iche’ Maya Popol Vuh, Balam Quitzé, Balam Acab, Mahucutah, and Iqui Balam are made from maize and become ancestors of major lineages. Mexica sources such as the Codex Boturini recount a migration directed by Huitzilopochtli, while traditions about Copil’s heart, the cactus that grew from it, and the leader Tenoch explain the origin of Tenochtitlan. Inca accounts likewise preserve differing beginnings: some center on Manco Cápac and Mama Ocllo, whereas others follow the Ayar siblings as they compete for and settle Cusco.\n\nThese traditions explain more than the creation of people or land. They establish the origins of dynasties, cities, confederacies, laws, and ceremonies. In the Haudenosaunee Great Law of Peace, Deganawida and Hiawatha reconcile the nations, Tadodaho becomes the council’s presiding figure, and Jigonhsasee provides a place for its first deliberations. Muisca accounts of Bachué and Bochica, Andean traditions of Con Tiki Viracocha, and Lakota teachings about White Buffalo Calf Woman connect collective beginnings with ancestry, instruction, and sacred practice. Communities continue to transmit these accounts through oral teaching and ceremony, alongside manuscripts, translations, and schools; names, sequences of events, and founders’ roles vary by nation, language, region, and recorder.",
+      "published": false,
+      "lead_person_ids": [
+        "c40cad1f-8cba-4c4b-8965-609deaadfcbf",
+        "9a69b068-5402-49d8-afdf-18d5af7f2806",
+        "4e58da0d-4655-47ba-8522-c8906d359a07"
+      ],
+      "members": [
+        {
+          "id": "8183210f-25db-4271-8baf-e176433894b8",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "d68f6fdb-74a6-40c7-a352-44669ed59a6c",
+          "hidden": true,
+          "short_desc": "자손 없는 막내",
+          "short_desc_en": "The Youngest, Who Left No Heirs"
+        },
+        {
+          "id": "11fd1787-e2d8-4ae0-8c9b-21e6cab4de66",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "ec3cb657-a6c7-475c-b06f-27601c65c9d1",
+          "hidden": true,
+          "short_desc": "굴에 갇힌 맏형",
+          "short_desc_en": "The Eldest Brother, Sealed in a Cave"
+        },
+        {
+          "id": "350655a6-c793-46ca-bbec-186698d0578c",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "d1855987-3cba-4949-ba6e-58693e330cf7",
+          "hidden": true,
+          "short_desc": "후아나카우리의 돌이 된 형제",
+          "short_desc_en": "The Brother Who Became the Stone of Huanacauri"
+        },
+        {
+          "id": "634a7b62-a52b-44d7-ab55-586e1b06b9d9",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "5f80901b-f70b-4e0a-9621-026633f29076",
+          "hidden": true,
+          "short_desc": "니하이브 가문의 조상",
+          "short_desc_en": "Ancestor of the Nihaib Lineage"
+        },
+        {
+          "id": "2faf2383-2182-4391-9bac-ce1fb1a3d2f9",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "2fa29fb9-b8b7-47fd-bdd5-6d259aa05dce",
+          "hidden": true,
+          "short_desc": "아하우 키체의 조상",
+          "short_desc_en": "Ancestor of the Ajaw K'iche' Lineage"
+        },
+        {
+          "id": "7b13bf46-8b6c-4d26-ae30-4e3d7a6e6b1e",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "1d9ceb5d-48ca-4c61-8de1-50350f31c7ac",
+          "hidden": true,
+          "short_desc": "법과 직조를 가르친 스승",
+          "short_desc_en": "The Teacher of Law and Weaving"
+        },
+        {
+          "id": "01e1d1ba-5ecb-40f7-8328-7b2d10d1b78a",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "cd7127a5-7835-43cc-b1b8-76d9f4f9ada1",
+          "hidden": true,
+          "short_desc": "전승에서 콜우아칸의 톨텍 혈통으로 불려와 테노치티틀란 왕통을 연 첫 틀라토아니다.",
+          "short_desc_en": "In tradition, the ruler called from Toltec-blooded Culhuacan to become first tlatoani and found Tenochtitlan's royal line."
+        },
+        {
+          "id": "6a510e6e-831f-4a92-b774-c21d470f85a2",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "b6c854b1-0b24-427f-9aaa-69d3d99f1344",
+          "hidden": true,
+          "short_desc": "대평화법을 세운 이",
+          "short_desc_en": "Who Laid Down the Great Law of Peace"
+        },
+        {
+          "id": "100fd692-107d-4e99-8aad-2676145c71ba",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "35e821dc-cc63-49d0-ad2e-d01be89b0092",
+          "hidden": true,
+          "short_desc": "대평화를 전한 웅변가",
+          "short_desc_en": "The Orator of the Great Peace"
+        },
+        {
+          "id": "9b13a8e6-5ac4-4f9b-9b0a-90e489a3f3cd",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "c40cad1f-8cba-4c4b-8965-609deaadfcbf",
+          "hidden": true,
+          "short_desc": "깃털 달린 뱀 신",
+          "short_desc_en": "The Feathered Serpent God"
+        },
+        {
+          "id": "479211d0-e560-4e14-a794-b1983bafc509",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "e1aa12b4-3dc2-4208-985e-ab063da2340a",
+          "hidden": true,
+          "short_desc": "테나유카를 세운 치치멕 족장",
+          "short_desc_en": "Chichimec Chief Who Founded Tenayuca"
+        },
+        {
+          "id": "bdd991d3-d25e-40bb-9aad-db0412f81dbb",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "575e75ca-7fde-4bad-b15d-8a8a1db4c73f",
+          "hidden": true,
+          "short_desc": "톨텍의 사냥꾼 왕",
+          "short_desc_en": "The Hunter-King of the Toltecs"
+        },
+        {
+          "id": "e3875c3d-690c-474e-8c1b-86b53ab596cb",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "5bd9d4f3-7f7b-45f4-8bae-382a99e474ec",
+          "hidden": true,
+          "short_desc": "케찰코아틀의 이름을 이은 왕",
+          "short_desc_en": "The King Who Took Quetzalcoatl's Name"
+        },
+        {
+          "id": "bb8e6428-05b6-4202-9ce6-1ab3d21a040a",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "368ed2cc-2d61-426d-a9fd-009d70cb717a",
+          "hidden": true,
+          "short_desc": "거북 등에 뭍을 이룬 어머니",
+          "short_desc_en": "The Mother Who Made Earth on the Turtle's Back"
+        },
+        {
+          "id": "ad9ce844-f94d-4b2c-9339-0939ba57ef25",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "d02d9181-3a3e-48ea-8c53-c84074047816",
+          "hidden": true,
+          "short_desc": "겨레의 어머니",
+          "short_desc_en": "Mother of Nations"
+        },
+        {
+          "id": "a0dec414-3c53-4d12-820e-701b92e9be79",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "899ede2f-dd9c-4f8c-9cd0-0131ac7e7b33",
+          "hidden": true,
+          "short_desc": "끝까지 저항한 연맹의 의장",
+          "short_desc_en": "The Last Holdout, Made the League's Chairman"
+        },
+        {
+          "id": "4eb92dbe-ca77-4061-8aba-3c96b793a55f",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "923e17e4-9ac7-41ec-84ec-6ab3b5f82376",
+          "hidden": true,
+          "short_desc": "성스러운 담뱃대를 준 여인",
+          "short_desc_en": "The Woman Who Gave the Sacred Pipe"
+        },
+        {
+          "id": "a124030f-047b-46bf-9e40-70d364a3a09d",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "a4acd114-fc37-4e1e-b9a8-d9bc3948ca70",
+          "hidden": true,
+          "short_desc": "일곱 굴 겨레의 아버지",
+          "short_desc_en": "Father of the Peoples of the Seven Caves"
+        },
+        {
+          "id": "620af409-1c12-44c2-8a75-ab36e27b328d",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "1e5b92ae-bff1-4edc-88ba-b5083ef60c2b",
+          "hidden": true,
+          "short_desc": "푸레페차의 창건자",
+          "short_desc_en": "Founder of the Purépecha Realm"
+        },
+        {
+          "id": "95932c61-46bd-46b6-a42d-75c2adcb6556",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "4e58da0d-4655-47ba-8522-c8906d359a07",
+          "hidden": true,
+          "short_desc": "멕시카 이주를 이끈 신",
+          "short_desc_en": "The God Who Led the Mexica Migration"
+        },
+        {
+          "id": "15806b48-19c1-4b1c-94a2-c1cb9dd0cfc0",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "41c7478f-a32f-4501-bafb-24b3ea5c6635",
+          "hidden": true,
+          "short_desc": "심장이 선인장이 된 이",
+          "short_desc_en": "Whose Heart Became the Founding Cactus"
+        },
+        {
+          "id": "9034172e-1964-49bb-81ae-1488d9c2ec82",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "8e1b182d-d115-4630-9ce6-7b5b5407caef",
+          "hidden": true,
+          "short_desc": "수도의 이름을 남긴 족장",
+          "short_desc_en": "The Chief Who Gave the Capital His Name"
+        },
+        {
+          "id": "6af2b03d-9318-4861-b503-7816551e2c92",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "e9b3c43c-ce66-45f0-8905-02a1f4956a0a",
+          "hidden": true,
+          "short_desc": "티티카카 호수의 창조신",
+          "short_desc_en": "The Creator God from Lake Titicaca"
+        },
+        {
+          "id": "7e632eb8-160e-45f6-8fa7-b2d8245a63b3",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "52ac2d16-023b-49a8-9467-f6b32d8cb9f4",
+          "hidden": true,
+          "short_desc": "바다로 온 치모르의 첫 왕",
+          "short_desc_en": "First King of Chimor, Come from the Sea"
+        },
+        {
+          "id": "ae9c478b-de0e-4ce8-aaa9-b8259dc825d2",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "488a08ad-4164-4f1b-8b7c-207d818d0ff2",
+          "hidden": true,
+          "short_desc": "바다로 온 람바예케의 시조",
+          "short_desc_en": "Forefather of Lambayeque, Come from the Sea"
+        },
+        {
+          "id": "f237131c-ac97-41d4-8d17-15b1ee7e54d5",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "986a0328-2923-409e-9d3e-09c27a933e80",
+          "hidden": true,
+          "short_desc": "멕시카에 버림받은 주술사",
+          "short_desc_en": "The Sorceress the Mexica Left Behind"
+        },
+        {
+          "id": "2a449b58-344a-4abe-b1a3-07948d4ef5c7",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "99d60855-ff25-4cb9-a502-79f3e3be3abc",
+          "hidden": true,
+          "short_desc": "옥수수 사람의 맏이",
+          "short_desc_en": "Eldest of the Men of Maize"
+        },
+        {
+          "id": "179dcbd9-81ee-4dcc-a143-61ef17f2357a",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "a3686851-b878-4e2a-abdf-f07b73fddc01",
+          "hidden": true,
+          "short_desc": "무이스카의 어머니",
+          "short_desc_en": "Mother of the Muisca"
+        },
+        {
+          "id": "446d50a3-93a1-47d0-bd3c-4560571c4919",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "9a69b068-5402-49d8-afdf-18d5af7f2806",
+          "hidden": true,
+          "short_desc": "첫 사파 잉카",
+          "short_desc_en": "The First Sapa Inca"
+        },
+        {
+          "id": "71524bf5-0bcd-4b0f-9df1-9f036b97e3f4",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "aa2dd65f-d400-46e3-8533-7665653caf02",
+          "hidden": true,
+          "short_desc": "잉카의 첫 코야",
+          "short_desc_en": "The First Inca Coya"
+        },
+        {
+          "id": "67de8984-f3d0-46cd-8246-f81af353769f",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "5c8b3876-70f1-4786-ae67-dba1fa92a1cf",
+          "hidden": true,
+          "short_desc": "돌기둥이 된 아야르 형제",
+          "short_desc_en": "The Brother Turned into a Stone Pillar"
+        },
+        {
+          "id": "84d9d5fa-86f1-4132-98dc-4cee8aeb4031",
+          "lv2_id": "af7e87d7-e933-4048-a24d-9169baee2c27",
+          "celeb_id": "c189f6ab-d0a7-443d-bf6e-311be728fb76",
+          "hidden": true,
+          "short_desc": "쿠스코를 빼앗은 자매",
+          "short_desc_en": "The Sister Who Took Cusco"
+        }
+      ],
+      "leads": [
+        {
+          "person": {
+            "id": "c40cad1f-8cba-4c4b-8965-609deaadfcbf",
+            "slug": "quetzalcoatl",
+            "nickname": "케찰코아틀",
+            "nickname_en": "Quetzalcoatl",
+            "avatar_url": "https://assets.feelandnote.com/celebs/c40cad1f-8cba-4c4b-8965-609deaadfcbf/avatar.webp?v=1790070006097",
+            "bio": "케찰코아틀이 저승 믹틀란에 내려가 앞 세상 사람들의 뼈를 얻어 나오다 넘어져 뼈를 흩뜨렸다. 그 뼈를 모아 타모안찬으로 가져갔고 자기 피를 뿌려 지금 세상의 사람을 냈다. 개미를 따라가 톤아카테페틀 산에서 옥수수를 꺼내 사람에게 주었다고도 전하며, 톨텍의 사제왕 토필친과 이름이 겹쳐 신과 사람이 뒤섞여 전한다.",
+            "bio_en": "Quetzalcoatl went down to Mictlan, the land of the dead, took the bones of the people of the previous world and stumbled on the way out, scattering them. He gathered the pieces, carried them to Tamoanchan and sprinkled his own blood over them to make the people of the present world. He is also said to have followed the ants to Mount Tonacatepetl and taken out maize for people, and his name overlaps with the Toltec priest-king Topiltzin, so god and man are transmitted mixed together.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "c40cad1f-8cba-4c4b-8965-609deaadfcbf",
+            "plain_text": "케찰코아틀은 아스테카를 비롯한 메소아메리카 문명에서 숭배된 신이다. '깃털 달린 뱀'이라는 뜻의 이름을 지녔으며 바람과 지혜, 학문, 예술을 관장하는 신이자 사제들의 수호신으로 여겨졌다. 저승에서 가져온 뼈에 피를 뿌려 인류를 창조하고 옥수수를 전했다는 신화가 전하며, 톨텍의 통치자 토필친과 뒤섞여 전승되기도 했다.",
+            "plain_text_en": "Quetzalcoatl is the god worshipped by the Aztecs and other Mesoamerican civilizations. Named 'the feathered serpent', he was held to govern wind, wisdom, learning, and the arts, and to be the patron of priests. Myth tells he created humankind by sprinkling blood on bones fetched from the underworld and gave men maize; in later tradition he was conflated with the Toltec ruler Topiltzin.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "c40cad1f-8cba-4c4b-8965-609deaadfcbf",
+              "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+                  "locale": "ko",
+                  "title": "드디어 만나는 아즈텍 신화",
+                  "isbn": "9791139716566",
+                  "description": "DAUM"
+                },
+                {
+                  "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+                  "locale": "en",
+                  "title": "The Aztec Myths: A Guide to the Ancient Stories and Legends",
+                  "isbn": null,
+                  "description": "Pixar's animated film \"Coco\" includes a scene in which Mexican people enjoy the traditional festival of the Day of the Dead. During this three-day period from late October to early November, people remember departed family members and relatives while enjoying dance and song. They regard death not as a severance but as another world connected to life.\nThe Day of the Dead originated in a culture stemming from the Aztec civilization that existed in central Mexico from the 13th to the 16th century. The Aztecs believed that an end is soon a new beginning, and their worldview was based on the story that a fifth sun rose anew in a world that had collapsed four times.\n\nCamilla Townsend, winner of the Kundil History Prize, the foremost prize for historical writing in the English-speaking world, who teaches history at Rutgers University in the United States and continues her exploration of Aztec culture, is a distinguished scholar who has spent the past 20-odd years studying documents and records written in Nahuatl (Nauateureo), the Aztecs' own language. Drawing on that research, she vividly unfolds in this book the old narratives that sustained Aztec society and culture, Aztec mythology, which she has unearthed.\nUnderstanding one cultural sphere broadens one's perspective not only on that culture but on other cultures as well. Through this book, \"Meeting Aztec Mythology at Last (Deudieo Mannaneun Ajetek Sinhwa),\" readers will be able to understand the fascinating and powerful stories of the gods in Aztec mythology, hitherto unknown to them, and to enjoy the world's other mythologies more richly as well."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8955,
+                  "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+                  "locale": "ko",
+                  "title": "드디어 만나는 아즈텍 신화",
+                  "isbn": "9791139716566",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "9a69b068-5402-49d8-afdf-18d5af7f2806",
+            "slug": "manco-capac",
+            "nickname": "망코 카팍",
+            "nickname_en": "Manco Cápac",
+            "avatar_url": "https://assets.feelandnote.com/celebs/9a69b068-5402-49d8-afdf-18d5af7f2806/avatar.webp?v=1790052568663",
+            "bio": "잉카 가르실라소는 태양신 인티가 망코 카팍과 마마 오크요를 티티카카 호수에서 내보내며 금 지팡이가 땅에 그대로 박히는 곳에 도읍을 세우라 했다고 적었다. 사르미엔토 데 감보아는 그가 파카릭탐보의 굴에서 형제 셋, 자매 넷과 함께 나와 걸어왔다고 적어 두 판본이 갈린다. 어느 쪽이든 그가 쿠스코 골짜기에 닿아 그곳 사람들을 몰아내고 도읍을 열었다.",
+            "bio_en": "Inca Garcilaso records that the sun god Inti sent Manco Cápac and Mama Ocllo out from Lake Titicaca and told them to found a capital where a golden staff would sink straight into the earth. Sarmiento de Gamboa instead has him walk out of a cave at Pacaritambo with three brothers and four sisters, so the two versions diverge. Either way he reached the valley of Cusco, drove out the people living there and founded his capital.",
+            "publication_status": "inactive",
+            "celeb_reality": "BOTH",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "9a69b068-5402-49d8-afdf-18d5af7f2806",
+            "plain_text": "망코 카팍은 잉카 문명을 세운 시조이자 첫 사파 잉카이다. 태양신 인티가 준 금 지팡이가 땅에 박히는 곳에 도읍을 세우라는 명을 받았다는 이야기와, 파카릭탐보의 동굴에서 형제자매들과 함께 나왔다는 전승이 엇갈린다. 두 전승 모두 그가 쿠스코 골짜기에 다다라 원래 살던 사람들을 몰아내고 도읍을 열어 제국의 기틀을 놓았다고 전한다.",
+            "plain_text_en": "Manco Cápac is the founding ancestor of the Inca civilization and its first Sapa Inca. The traditions diverge: one says the sun god Inti gave him a golden staff and told him to found his capital where it sank into the earth, another that he emerged with his siblings from the cave of Pacaritambo. Both agree he reached the Cusco valley, drove out its people, and founded the capital that laid the empire's foundation.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "9a69b068-5402-49d8-afdf-18d5af7f2806",
+              "content_id": "7f4e39b1-6cd5-5193-82f6-7f0ae0be8ac3",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "7f4e39b1-6cd5-5193-82f6-7f0ae0be8ac3",
+                  "locale": "ko",
+                  "title": "잉카인이 들려주는 잉카이야기",
+                  "isbn": "9791143812728",
+                  "description": "DAUM"
+                },
+                {
+                  "content_id": "7f4e39b1-6cd5-5193-82f6-7f0ae0be8ac3",
+                  "locale": "en",
+                  "title": "The First New Chronicle and Good Government",
+                  "isbn": null,
+                  "description": "Left by Felipe Guaman Poma de Ayala (1535?–after 1616), El primer nueva coronica y buen gobierno (The New Chronicle and Good Government) is a vast manuscript of 1,190 pages, containing 398 full-page illustrations drawn in pen. In form, the book is both a history and a long letter addressed to King Philip III of Spain. Although the author himself wrote at the end of the book that this chronicle is for the whole world, its primary recipient was nonetheless the king.\n\nThis dual character — as both history and petition — is the key to reading the whole book. The first part, the New Chronicle, narrates from the creation of the world and the beginnings of the Andes through the Inca to the arrival of the Spanish, while the latter part, Good Government, denounces the abuses of colonial rule and proposes reforms. In the cover illustration — the first picture in this translation — the author depicts himself kneeling before the pope and the king, placing side by side the arms of the pope, the Castilian royal house, and his own Ayala family. The dedication reads S.C.R.M., that is, His Most Sacred Catholic Royal Majesty (Sacra Catolica Real Majestad). From the very first scene, the author places himself within the order of Church and kingship.\n\nTherefore, when reading this book, what we must ask first is not what does it say but to whom is it said, and to gain what. Without understanding the author's motives, the rich information in this book can easily be taken at face value and lead to misreading. This book is the first complete Korean translation of Guaman Poma's work."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8922,
+                  "content_id": "7f4e39b1-6cd5-5193-82f6-7f0ae0be8ac3",
+                  "locale": "ko",
+                  "title": "잉카인이 들려주는 잉카이야기",
+                  "isbn": "9791143812728",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            },
+            {
+              "celeb_id": "9a69b068-5402-49d8-afdf-18d5af7f2806",
+              "content_id": "225d437d-321b-538b-b273-976d860c1487",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "225d437d-321b-538b-b273-976d860c1487",
+                  "locale": "ko",
+                  "title": "Latin-American [Mythology]",
+                  "isbn": null,
+                  "description": null
+                },
+                {
+                  "content_id": "225d437d-321b-538b-b273-976d860c1487",
+                  "locale": "en",
+                  "title": "Latin-American [Mythology]",
+                  "isbn": "9781017131741",
+                  "description": null
+                }
+              ],
+              "editions": [
+                {
+                  "id": 13212,
+                  "content_id": "225d437d-321b-538b-b273-976d860c1487",
+                  "locale": "en",
+                  "title": "Latin-American [Mythology]",
+                  "isbn": "9781017131741",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "person": {
+            "id": "4e58da0d-4655-47ba-8522-c8906d359a07",
+            "slug": "huitzilopochtli",
+            "nickname": "우이칠로포치틀리",
+            "nickname_en": "Huitzilopochtli",
+            "avatar_url": "https://assets.feelandnote.com/celebs/4e58da0d-4655-47ba-8522-c8906d359a07/avatar.webp?v=1790052409685",
+            "bio": "우이칠로포치틀리가 아스틀란에 살던 멕시카에게 떠나라 이르고 사제들이 멘 신상 속에서 길을 일러 주었다. 무리가 코아테펙에서 누이 코욜사우키와 별 형제들과 부딪히자 그가 나서서 그들을 물리쳤다. 텍스코코 호수에 이르러 선인장 위에 앉은 독수리를 찾으면 그 자리에 도읍을 세우라 일렀고, 멕시카가 그 표지를 보고 테노치티틀란을 열었다.",
+            "bio_en": "Huitzilopochtli told the Mexica living at Aztlan to leave and gave them directions from inside the idol his priests carried. When the party clashed with his sister Coyolxauhqui and the star brothers at Coatepec, he came forward and defeated them. At Lake Texcoco he told them to look for an eagle perched on a cactus and found their capital where they saw it, and the Mexica saw the sign and founded Tenochtitlan.",
+            "publication_status": "inactive",
+            "celeb_reality": "FICTION",
+            "wikidata_qid": null
+          },
+          "guide": {
+            "profile_id": "4e58da0d-4655-47ba-8522-c8906d359a07",
+            "plain_text": "우이칠로포치틀리는 아스테카 종교에서 태양과 전쟁, 인신공양을 관장하는 신이다. 멕시카 부족과 수도 테노치티틀란의 수호신으로 숭배되었다. 신화에 따르면 코아테펙 산에서 어머니 코아트리쿠에를 해치려던 누이 코욜사우키와 별들을 상징하는 형제들을 물리쳤다고 전해진다. 아스테카인들은 그가 어둠에 맞서 태양을 지탱할 수 있도록 피와 인신공양 제물을 바쳤다.",
+            "plain_text_en": "Huitzilopochtli is the Aztec god of the sun, war, and human sacrifice. He was worshipped as the patron of the Mexica people and their capital Tenochtitlan. Myth tells that on Mount Coatepec he defeated his sister Coyolxauhqui and the brothers who stood for the stars when they moved to kill their mother Coatlicue. The Aztecs offered him blood and human sacrifice so that he could sustain the sun against the darkness.",
+            "published_at": null
+          },
+          "relations": [
+            {
+              "celeb_id": "4e58da0d-4655-47ba-8522-c8906d359a07",
+              "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+              "relation_type": "appearance",
+              "locales": [
+                {
+                  "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+                  "locale": "ko",
+                  "title": "드디어 만나는 아즈텍 신화",
+                  "isbn": "9791139716566",
+                  "description": "DAUM"
+                },
+                {
+                  "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+                  "locale": "en",
+                  "title": "The Aztec Myths: A Guide to the Ancient Stories and Legends",
+                  "isbn": null,
+                  "description": "Pixar's animated film \"Coco\" includes a scene in which Mexican people enjoy the traditional festival of the Day of the Dead. During this three-day period from late October to early November, people remember departed family members and relatives while enjoying dance and song. They regard death not as a severance but as another world connected to life.\nThe Day of the Dead originated in a culture stemming from the Aztec civilization that existed in central Mexico from the 13th to the 16th century. The Aztecs believed that an end is soon a new beginning, and their worldview was based on the story that a fifth sun rose anew in a world that had collapsed four times.\n\nCamilla Townsend, winner of the Kundil History Prize, the foremost prize for historical writing in the English-speaking world, who teaches history at Rutgers University in the United States and continues her exploration of Aztec culture, is a distinguished scholar who has spent the past 20-odd years studying documents and records written in Nahuatl (Nauateureo), the Aztecs' own language. Drawing on that research, she vividly unfolds in this book the old narratives that sustained Aztec society and culture, Aztec mythology, which she has unearthed.\nUnderstanding one cultural sphere broadens one's perspective not only on that culture but on other cultures as well. Through this book, \"Meeting Aztec Mythology at Last (Deudieo Mannaneun Ajetek Sinhwa),\" readers will be able to understand the fascinating and powerful stories of the gods in Aztec mythology, hitherto unknown to them, and to enjoy the world's other mythologies more richly as well."
+                }
+              ],
+              "editions": [
+                {
+                  "id": 8955,
+                  "content_id": "c344564f-8308-5374-b58b-ca478e575426",
+                  "locale": "ko",
+                  "title": "드디어 만나는 아즈텍 신화",
+                  "isbn": "9791139716566",
+                  "verified": true,
+                  "edition_kind": "full",
+                  "text_scope": "complete",
+                  "sort_order": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

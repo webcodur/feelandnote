@@ -1,0 +1,314 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\founding-myth\\ahura-mazda\\bundahishn-book.json",
+  "manifestSha256": "9f959e95e20eba132b0d9eb91f73701156cfdd2766db108a83295816fba7b0a4",
+  "planSha256": "8bbc8e154bd79e27e4eaace806b0b36ef806a7d832accef91d57422d3257a4a8",
+  "workIdentity": "wikidata:q1005362",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "none",
+      "isbn": null
+    },
+    {
+      "locale": "en",
+      "primary": "openlibrary",
+      "isbn": "9781419155543"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "648a0dd0-bc1c-56c3-9bc5-d36191b17692",
+    "scopeKey": "wikidata:q1005362",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9781419155543",
+      "release_date": null,
+      "metadata": {
+        "isbn": "9781419155543",
+        "publisher": "Kessinger Publishing",
+        "publishDate": "June 30, 2004",
+        "editionKey": "/books/OL11793306M",
+        "workKey": "/works/OL5458249W",
+        "link": "https://openlibrary.org/books/OL11793306M",
+        "figureBook": {
+          "workIdentity": "wikidata:q1005362",
+          "workTitle": "Bundahishn",
+          "workCreator": "Anonymous",
+          "koTranslationStatus": "verified_unavailable",
+          "translationEvidenceUrls": [
+            "https://dapi.kakao.com/v3/search/book?query=%EB%B6%84%EB%8B%A4%ED%9E%88%EC%8A%8C",
+            "https://academic.oup.com/book/32162"
+          ]
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "The Bundahishn Or Knowledge From The Zand",
+          "creator": "Anonymous",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "none",
+            "title": "original",
+            "creator": "verified_korean_transliteration",
+            "translation": "verified_unavailable",
+            "translationEvidence": [
+              "https://dapi.kakao.com/v3/search/book?query=%EB%B6%84%EB%8B%A4%ED%9E%88%EC%8A%8C",
+              "https://academic.oup.com/book/32162"
+            ]
+          },
+          "verified": false,
+          "content_id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692"
+        }
+      },
+      {
+        "kind": "insert",
+        "locale": "en",
+        "before": null,
+        "after": {
+          "locale": "en",
+          "title": "The Bundahishn Or Knowledge From The Zand",
+          "creator": "E. W. West",
+          "description": null,
+          "isbn": "9781419155543",
+          "publisher": "Kessinger Publishing",
+          "thumbnail_url": "https://covers.openlibrary.org/b/id/2795278-L.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "title": "https://openlibrary.org/books/OL11793306M",
+            "creator": "https://openlibrary.org/books/OL11793306M",
+            "isbn": "https://openlibrary.org/books/OL11793306M",
+            "publisher": "https://openlibrary.org/books/OL11793306M",
+            "thumbnail": "https://openlibrary.org/books/OL11793306M"
+          },
+          "verified": true,
+          "content_id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "openlibrary",
+        "external_id": "9781419155543",
+        "release_date": null,
+        "metadata": {
+          "isbn": "9781419155543",
+          "publisher": "Kessinger Publishing",
+          "publishDate": "June 30, 2004",
+          "editionKey": "/books/OL11793306M",
+          "workKey": "/works/OL5458249W",
+          "link": "https://openlibrary.org/books/OL11793306M",
+          "figureBook": {
+            "workIdentity": "wikidata:q1005362",
+            "workTitle": "Bundahishn",
+            "workCreator": "Anonymous",
+            "koTranslationStatus": "verified_unavailable",
+            "translationEvidenceUrls": [
+              "https://dapi.kakao.com/v3/search/book?query=%EB%B6%84%EB%8B%A4%ED%9E%88%EC%8A%8C",
+              "https://academic.oup.com/book/32162"
+            ]
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "en",
+          "title": "The Bundahishn Or Knowledge From The Zand",
+          "creator": "E. W. West",
+          "description": null,
+          "isbn": "9781419155543",
+          "publisher": "Kessinger Publishing",
+          "thumbnail_url": "https://covers.openlibrary.org/b/id/2795278-L.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "title": "https://openlibrary.org/books/OL11793306M",
+            "creator": "https://openlibrary.org/books/OL11793306M",
+            "isbn": "https://openlibrary.org/books/OL11793306M",
+            "publisher": "https://openlibrary.org/books/OL11793306M",
+            "thumbnail": "https://openlibrary.org/books/OL11793306M"
+          },
+          "verified": true,
+          "content_id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692"
+        },
+        {
+          "locale": "ko",
+          "title": "The Bundahishn Or Knowledge From The Zand",
+          "creator": "Anonymous",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "none",
+            "title": "original",
+            "creator": "verified_korean_transliteration",
+            "translation": "verified_unavailable",
+            "translationEvidence": [
+              "https://dapi.kakao.com/v3/search/book?query=%EB%B6%84%EB%8B%A4%ED%9E%88%EC%8A%8C",
+              "https://academic.oup.com/book/32162"
+            ]
+          },
+          "verified": false,
+          "content_id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "wikidata:q1005362",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9781419155543",
+        null
+      ],
+      "normalizedTitles": [
+        "bundahishn",
+        "bundahisn",
+        "thebundahishn",
+        "thebundahishnorknowledgefromthezand",
+        "thebundahišn",
+        "분다히슌"
+      ],
+      "normalizedCreators": [
+        "anonymous",
+        "domenicoagostini",
+        "ewwest",
+        "samuelthrope"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-22T09:29:57.863Z",
+  "databaseWrites": 6,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9781419155543",
+      "release_date": null,
+      "metadata": {
+        "isbn": "9781419155543",
+        "link": "https://openlibrary.org/books/OL11793306M",
+        "workKey": "/works/OL5458249W",
+        "publisher": "Kessinger Publishing",
+        "editionKey": "/books/OL11793306M",
+        "figureBook": {
+          "workTitle": "Bundahishn",
+          "workCreator": "Anonymous",
+          "workIdentity": "wikidata:q1005362",
+          "koTranslationStatus": "verified_unavailable",
+          "translationEvidenceUrls": [
+            "https://dapi.kakao.com/v3/search/book?query=%EB%B6%84%EB%8B%A4%ED%9E%88%EC%8A%8C",
+            "https://academic.oup.com/book/32162"
+          ]
+        },
+        "publishDate": "June 30, 2004"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-22T09:29:54.29971+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692",
+        "locale": "en",
+        "title": "The Bundahishn Or Knowledge From The Zand",
+        "creator": "E. W. West",
+        "description": null,
+        "isbn": "9781419155543",
+        "publisher": "Kessinger Publishing",
+        "thumbnail_url": "https://covers.openlibrary.org/b/id/2795278-L.jpg",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://openlibrary.org/books/OL11793306M",
+          "title": "https://openlibrary.org/books/OL11793306M",
+          "creator": "https://openlibrary.org/books/OL11793306M",
+          "primary": "openlibrary",
+          "publisher": "https://openlibrary.org/books/OL11793306M",
+          "thumbnail": "https://openlibrary.org/books/OL11793306M"
+        },
+        "verified": true,
+        "created_at": "2026-09-22T09:29:54.29971+00:00",
+        "updated_at": "2026-09-22T09:29:54.29971+00:00"
+      },
+      {
+        "content_id": "648a0dd0-bc1c-56c3-9bc5-d36191b17692",
+        "locale": "ko",
+        "title": "The Bundahishn Or Knowledge From The Zand",
+        "creator": "Anonymous",
+        "description": null,
+        "isbn": null,
+        "publisher": null,
+        "thumbnail_url": null,
+        "affiliate_url": null,
+        "sources": {
+          "title": "original",
+          "creator": "verified_korean_transliteration",
+          "primary": "none",
+          "translation": "verified_unavailable",
+          "translationEvidence": [
+            "https://dapi.kakao.com/v3/search/book?query=%EB%B6%84%EB%8B%A4%ED%9E%88%EC%8A%8C",
+            "https://academic.oup.com/book/32162"
+          ]
+        },
+        "verified": false,
+        "created_at": "2026-09-22T09:29:54.29971+00:00",
+        "updated_at": "2026-09-22T09:29:54.29971+00:00"
+      }
+    ]
+  }
+}

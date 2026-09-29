@@ -1,0 +1,26 @@
+TASK-ID: AVATAR-ninegan-20260925
+
+Generate an image with the image_gen tool.
+
+FRAMING FOR A CIRCULAR PROFILE AVATAR:
+One person only, in a tight square headshot, with the face centered.
+Face the camera directly or at only a very shallow three-quarter angle, with direct eye contact.
+Keep the full forehead, eyebrows, ears, and chin visible; headgear may touch the top edge but the face itself must not be cropped.
+Leave enough image around the face for a landmark-based square crop, but do not pull back into a chest-up portrait.
+No hands, props, books, weapons, text, logos, or other people.
+Use a clean background clearly separated from the person, with no meaningful detail in the corners.
+
+SUBJECT:
+A single chieftain standing for the nine Gan — the nine tribal chiefs who served under Dangun in the Gojoseon founding myth of Korea. A rugged Korean elder in his late 50s with a broad weathered face, wind-chapped skin, grey-streaked beard and long hair bound under a simple leather-and-fur headband. He wears primitive Bronze Age tribal garments of fur and coarse hide with a bone ornament at the collar — a tribal elder of the northern wilderness, fierce-eyed but wise.
+
+STYLE:
+Photorealistic portrait photograph — natural human skin texture with visible pores, weathering, and fine wrinkles, no beauty filter, no waxiness.
+Soft directional daylight coming from the viewer's left (window light), gentle shadow on the right cheek.
+Plain muted warm grey-brown studio backdrop, evenly lit, clearly separated from the subject.
+Stern, seasoned chieftain expression.
+85mm portrait lens look, sharp focus on the eyes.
+Full color, natural warm tones — never black and white, never sepia. This must read as a photograph of a real person, not a painting or illustration.
+
+Output size: exactly 1536 x 1536 pixels, square 1:1.
+
+Return the image. Do not run any shell command.

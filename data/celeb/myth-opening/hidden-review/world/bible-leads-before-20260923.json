@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-09-23T09:38:01.792Z",
+  "before": {
+    "id": "761d7948-ee66-4785-ac9c-c3dd1ea26751",
+    "slug": "myth-bible",
+    "published": false,
+    "lead_person_ids": [],
+    "updated_at": "2026-09-20T02:55:13.005184+00:00"
+  },
+  "candidates": [
+    {
+      "id": "05340b60-dad1-487e-b705-f81833cd5679",
+      "slug": "abraham",
+      "avatar_url": "https://assets.feelandnote.com/celebs/05340b60-dad1-487e-b705-f81833cd5679/avatar.webp?v=1790051708561",
+      "bio": "구약성서 창세기에 등장하는 유대교·기독교·이슬람 공통의 족장. 우르를 떠나 가나안으로 이주했다고 전해진다.",
+      "bio_en": "A patriarch shared by Judaism, Christianity, and Islam who appears in the Book of Genesis. Tradition holds that he left Ur and migrated to Canaan.",
+      "publication_status": "inactive"
+    },
+    {
+      "id": "afaaeba2-9731-47a4-a326-c5d9102f81c3",
+      "slug": "moses",
+      "avatar_url": "https://assets.feelandnote.com/celebs/afaaeba2-9731-47a4-a326-c5d9102f81c3/avatar.webp?v=1790052593287",
+      "bio": "구약성서 출애굽기의 중심 인물. 이집트에서 히브리 민족을 이끌고 나와 십계명을 받았다고 전해진다.",
+      "bio_en": "The central figure of Exodus in the Old Testament. He is said to have led the Hebrew people out of Egypt and received the Ten Commandments.",
+      "publication_status": "inactive"
+    },
+    {
+      "id": "c5eb467e-d3d9-4819-b714-f7384506a7ae",
+      "slug": "mary",
+      "avatar_url": "https://assets.feelandnote.com/celebs/c5eb467e-d3d9-4819-b714-f7384506a7ae/avatar.webp?v=1790052576042",
+      "bio": "예수의 어머니. 기독교에서 성령으로 잉태해 예수를 낳았다고 믿어진다.",
+      "bio_en": "The mother of Jesus. Christians believe that she conceived through the Holy Spirit and gave birth to Jesus.",
+      "publication_status": "inactive"
+    }
+  ],
+  "assignments": [
+    {
+      "celeb_id": "05340b60-dad1-487e-b705-f81833cd5679",
+      "lv2_id": "761d7948-ee66-4785-ac9c-c3dd1ea26751",
+      "hidden": true
+    },
+    {
+      "celeb_id": "afaaeba2-9731-47a4-a326-c5d9102f81c3",
+      "lv2_id": "761d7948-ee66-4785-ac9c-c3dd1ea26751",
+      "hidden": true
+    },
+    {
+      "celeb_id": "c5eb467e-d3d9-4819-b714-f7384506a7ae",
+      "lv2_id": "761d7948-ee66-4785-ac9c-c3dd1ea26751",
+      "hidden": true
+    }
+  ],
+  "selected": [
+    "05340b60-dad1-487e-b705-f81833cd5679",
+    "afaaeba2-9731-47a4-a326-c5d9102f81c3",
+    "c5eb467e-d3d9-4819-b714-f7384506a7ae"
+  ]
+}

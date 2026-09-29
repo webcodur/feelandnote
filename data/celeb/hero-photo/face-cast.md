@@ -2,7 +2,7 @@
 
 아바타와 대표 사진이 둘 다 없는 468명에게 얼굴 씨앗을 하나씩 붙였다. **468명 전원 배정이 끝났고, 계통과 배역 적합성을 agy로 전수 대조했다**(26.09.07).
 
-씨앗은 그 인물의 초상이 아니다. 남의 사진이고, 골격만 가져오고 나머지는 발주서가 덮어쓴다. 방식과 근거는 [`image-generation.md` §6.6~6.7](../../../docs/project/production/image-generation.md)이 쥔다.
+씨앗은 그 인물의 초상이 아니다. 남의 사진이고, 골격만 가져오고 나머지는 발주서가 덮어쓴다. 방식과 근거는 [`prod-01-image-generation.md` §6.6~6.7](../../../docs/project/production/prod-01-image-generation.md)이 쥔다.
 
 ## 어디에 무엇이 있나
 

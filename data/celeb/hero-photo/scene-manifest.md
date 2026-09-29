@@ -1,6 +1,6 @@
 # 대표 사진 장면 배분 — 아바타 대기 인물
 
-아바타·대표 사진이 둘 다 없는 인물의 대표 사진 연출문 초안이다. 대표 사진을 먼저 만들고 그 얼굴을 잘라 아바타로 쓰는 순서를 따른다. 규격은 [`celeb-08-02-hero-photo.md`](../../../docs/project/celeb/celeb-08-02-hero-photo.md), 얼굴 계통·나이·복식과 금지 항목은 [`avatar-backlog.md`](../../../docs/todo/img/avatar-backlog.md)가 쥔다.
+사진이 남지 않은 인물의 대표 사진(화보) 연출문 초안이다. 아바타는 전원 등록됐으므로 화보는 그 얼굴을 REF로 붙여 찍는다([`hero-photo.md`](../../../docs/todo/img/hero-photo.md)). 규격은 [`celeb-08-02-hero-photo.md`](../../../docs/project/celeb/celeb-08-02-hero-photo.md), 얼굴 계통·나이·복식과 금지 항목은 [`region-notes.md`](region-notes.md)가 쥔다.
 
 DB 반영 전 작업 자료다. 생성과 등록이 끝나면 지운다.
 
@@ -19,7 +19,7 @@ DB 반영 전 작업 자료다. 생성과 등록이 끝나면 지운다.
 
 **나머지는 묶지 않는다.** 앉아도 되고, 손에 든 것을 내려다봐도 되고, 한 손만 써도 되고, 카메라가 눈높이 위에 있어도 된다.
 
-아래 표는 처음에 「시선 대상을 가슴~손 높이에 둔다」·「고개를 숙이거나 올려다보지 마라」까지 걸고 고른 것이라 **서서 가슴께 물건을 든 자세로 몰려 있다.** 그 두 제약은 26.09.06에 폐기했다([`celeb-08-02-hero-photo.md`](../../../docs/project/celeb/celeb-08-02-hero-photo.md) 「시선은 자유다」). 표의 장면은 각각 근거가 있어 그대로 두되, **발주문으로 옮길 때 높이·자세·카메라를 표에 적힌 대로 고정하지 않는다.** 배치 발주에서 축이 쏠리는 것을 막는 방법은 [`image-generation.md` §5.1.5](../../../docs/project/production/image-generation.md)에 있다.
+아래 표는 처음에 「시선 대상을 가슴~손 높이에 둔다」·「고개를 숙이거나 올려다보지 마라」까지 걸고 고른 것이라 **서서 가슴께 물건을 든 자세로 몰려 있다.** 그 두 제약은 26.09.06에 폐기했다([`celeb-08-02-hero-photo.md`](../../../docs/project/celeb/celeb-08-02-hero-photo.md) 「시선은 자유다」). 표의 장면은 각각 근거가 있어 그대로 두되, **발주문으로 옮길 때 높이·자세·카메라를 표에 적힌 대로 고정하지 않는다.** 배치 발주에서 축이 쏠리는 것을 막는 방법은 [`prod-01-image-generation.md` §5.1.5](../../../docs/project/production/prod-01-image-generation.md)에 있다.
 
 ### 시선은 일감에 붙는다 — 전수 점검에서 다섯이 걸렸다
 

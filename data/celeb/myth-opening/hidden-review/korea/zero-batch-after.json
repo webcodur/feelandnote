@@ -1,0 +1,430 @@
+{
+  "checked_at": "2026-09-23T11:17:29.788Z",
+  "factions": [
+    {
+      "id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "slug": "myth-korea-gaya",
+      "published": false
+    },
+    {
+      "id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "slug": "myth-korea-goryeo-segye",
+      "published": false
+    },
+    {
+      "id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+      "slug": "myth-korea-tamna",
+      "published": false
+    },
+    {
+      "id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "slug": "myth-korea-silla",
+      "published": false
+    }
+  ],
+  "members": [
+    {
+      "id": "e6933d2e-4211-4972-85a4-bd7753588b92",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0",
+      "hidden": false
+    },
+    {
+      "id": "3e61cb0d-87ea-4d0d-ac3a-f1392678942b",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "e42d9a16-72a4-432e-ab90-ecc3aa6dedac",
+      "hidden": false
+    },
+    {
+      "id": "5ef93762-7d3a-4123-a709-bd7c1e3c52b9",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "6735df03-de9c-41f4-8d21-76b1ba92849d",
+      "hidden": false
+    },
+    {
+      "id": "9e73b840-27a5-4ba4-bf1c-e8d1366db023",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "e5c0d30c-708e-4762-86cc-e5efa441a5ff",
+      "hidden": false
+    },
+    {
+      "id": "9e80e83d-4301-4393-8f50-45053fea8b68",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "1f089ced-8dae-47e2-8e2d-3cef153e2792",
+      "hidden": false
+    },
+    {
+      "id": "95da1075-bc6a-4aef-bfdc-10a3e3429b47",
+      "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+      "celeb_id": "9248e05c-05c5-43ae-9fad-c5818f06a82d",
+      "hidden": true
+    },
+    {
+      "id": "23cb3efe-1258-4b3f-bee9-cc6daf723832",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "8e32c1c6-f119-4094-843e-6d5bad504f06",
+      "hidden": false
+    },
+    {
+      "id": "52fa118b-322b-4a8e-af34-1587e6a3480f",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+      "hidden": false
+    },
+    {
+      "id": "5a6901c3-08a0-4ef7-a62b-71498ba004aa",
+      "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+      "celeb_id": "ca019327-165e-429f-abbb-886495a372e8",
+      "hidden": false
+    },
+    {
+      "id": "0ba57ea9-8842-4197-b8ca-c8db460943c9",
+      "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+      "celeb_id": "757ff636-bceb-473f-8ec7-74bdbb86b4c4",
+      "hidden": false
+    },
+    {
+      "id": "99da5f5d-af4c-4044-b86a-1a5402c4bc13",
+      "lv2_id": "7d0d51ba-6343-4bf9-bf2b-f67c4fa22e01",
+      "celeb_id": "9a858d99-1559-45e1-a773-d66d502588d9",
+      "hidden": false
+    },
+    {
+      "id": "64dfd98b-00f0-4de1-814b-7e1150a45d59",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "35e638f8-f575-4f5d-a086-e033dfbaca2a",
+      "hidden": true
+    },
+    {
+      "id": "bc4d8be7-683b-4a3c-b0c5-6f5800e8a1b0",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "6a3daf27-3703-4256-aa94-cedb1f7ae402",
+      "hidden": false
+    },
+    {
+      "id": "8d4d8cc8-52aa-4e02-bcb1-a190038901c0",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "9ab48d45-e272-4df6-941e-7a0ef5e4cdba",
+      "hidden": true
+    },
+    {
+      "id": "043c32ad-0cba-4b83-bd1b-81fbe03d18a2",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "b09c77be-3b25-489a-8d82-e2e714823792",
+      "hidden": false
+    },
+    {
+      "id": "fa5aa69e-7ad0-41ea-ab27-9f0638d3b11f",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "cfac854b-bef8-4dc5-b798-3f6abc026b57",
+      "hidden": false
+    },
+    {
+      "id": "153469ea-061e-4a90-9d78-2ed0f74edc6e",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "f7c78cd0-a209-43ac-af4f-23f5eab0a8e6",
+      "hidden": false
+    },
+    {
+      "id": "b6c92c4d-fd9f-48d7-8ea6-d10c86f9c89e",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+      "hidden": false
+    },
+    {
+      "id": "4dba9be0-1a2f-470a-ab9e-b11aeea70b93",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca",
+      "hidden": false
+    },
+    {
+      "id": "f28f5449-4c42-4834-aa5f-94f5997a0acc",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+      "hidden": false
+    },
+    {
+      "id": "a2eba64b-1732-480b-be62-f965cd521cc3",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "541d832a-ce78-4171-95af-d7bd7679949c",
+      "hidden": false
+    },
+    {
+      "id": "ba7fcd1e-3987-4c8e-b99b-7d13c9564f0e",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "0678356e-57ac-453c-bb07-5713f46bcf57",
+      "hidden": false
+    },
+    {
+      "id": "6d4da71e-0d2b-41c1-9c84-8c4d80e5d60a",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "31c1d415-4b9a-48d3-bebe-496ddabf00fb",
+      "hidden": false
+    },
+    {
+      "id": "55707dd9-676f-4b33-b922-db59df697063",
+      "lv2_id": "3e0e1cee-89f9-44c1-9bd7-b86804b8a977",
+      "celeb_id": "c37045af-bd18-4e24-8461-ad470c63262b",
+      "hidden": false
+    },
+    {
+      "id": "e252c232-1687-4ebe-99c6-81daf58d3798",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "22b7b580-0c31-4fae-93e9-f90137a6c629",
+      "hidden": false
+    },
+    {
+      "id": "54f647f9-66ca-457a-8e29-fcf376188074",
+      "lv2_id": "769f730f-318f-486e-8a52-77b8ca03af78",
+      "celeb_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+      "hidden": false
+    },
+    {
+      "id": "d1d59011-8e48-4580-9b39-acdc923e3431",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "ca611c0f-3a35-4005-a0a6-11c5899c8ee0",
+      "hidden": false
+    },
+    {
+      "id": "18bb341b-e7a9-40d6-b932-bb6b167ac6ff",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+      "hidden": false
+    },
+    {
+      "id": "105abe67-87c0-4243-8509-a20e7d28c2aa",
+      "lv2_id": "fe7f5a92-09a3-457e-b18e-b4555d384540",
+      "celeb_id": "a437c649-3c76-4f23-a950-6e2189f33f1c",
+      "hidden": false
+    }
+  ],
+  "people": [
+    {
+      "id": "7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca",
+      "slug": "boyuk",
+      "publication_status": "active"
+    },
+    {
+      "id": "c37045af-bd18-4e24-8461-ad470c63262b",
+      "slug": "yonggeon",
+      "publication_status": "active"
+    },
+    {
+      "id": "1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0",
+      "slug": "sobeoldori",
+      "publication_status": "active"
+    },
+    {
+      "id": "ca611c0f-3a35-4005-a0a6-11c5899c8ee0",
+      "slug": "alpyeong",
+      "publication_status": "active"
+    },
+    {
+      "id": "e42d9a16-72a4-432e-ab90-ecc3aa6dedac",
+      "slug": "jibaekho",
+      "publication_status": "active"
+    },
+    {
+      "id": "cfac854b-bef8-4dc5-b798-3f6abc026b57",
+      "slug": "gang-chung",
+      "publication_status": "active"
+    },
+    {
+      "id": "757ff636-bceb-473f-8ec7-74bdbb86b4c4",
+      "slug": "bu-eulla",
+      "publication_status": "active"
+    },
+    {
+      "id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+      "slug": "seok-talhae",
+      "publication_status": "active"
+    },
+    {
+      "id": "1f089ced-8dae-47e2-8e2d-3cef153e2792",
+      "slug": "hojin",
+      "publication_status": "active"
+    },
+    {
+      "id": "31c1d415-4b9a-48d3-bebe-496ddabf00fb",
+      "slug": "king-ijinasi",
+      "publication_status": "active"
+    },
+    {
+      "id": "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+      "slug": "lady-aryeong",
+      "publication_status": "active"
+    },
+    {
+      "id": "a437c649-3c76-4f23-a950-6e2189f33f1c",
+      "slug": "bak-hyeokgeose",
+      "publication_status": "active"
+    },
+    {
+      "id": "6735df03-de9c-41f4-8d21-76b1ba92849d",
+      "slug": "jita",
+      "publication_status": "active"
+    },
+    {
+      "id": "22b7b580-0c31-4fae-93e9-f90137a6c629",
+      "slug": "guryema",
+      "publication_status": "active"
+    },
+    {
+      "id": "b09c77be-3b25-489a-8d82-e2e714823792",
+      "slug": "kim-suro",
+      "publication_status": "active"
+    },
+    {
+      "id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+      "slug": "jeominui",
+      "publication_status": "active"
+    },
+    {
+      "id": "f7c78cd0-a209-43ac-af4f-23f5eab0a8e6",
+      "slug": "hogyeong",
+      "publication_status": "active"
+    },
+    {
+      "id": "6a3daf27-3703-4256-aa94-cedb1f7ae402",
+      "slug": "jeonggyeon-moju",
+      "publication_status": "active"
+    },
+    {
+      "id": "e5c0d30c-708e-4762-86cc-e5efa441a5ff",
+      "slug": "kim-alji",
+      "publication_status": "active"
+    },
+    {
+      "id": "541d832a-ce78-4171-95af-d7bd7679949c",
+      "slug": "heo-hwang-ok",
+      "publication_status": "active"
+    },
+    {
+      "id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+      "slug": "wang-geon",
+      "publication_status": "active"
+    },
+    {
+      "id": "0678356e-57ac-453c-bb07-5713f46bcf57",
+      "slug": "jinui",
+      "publication_status": "active"
+    },
+    {
+      "id": "9a858d99-1559-45e1-a773-d66d502588d9",
+      "slug": "yang-eulla",
+      "publication_status": "active"
+    },
+    {
+      "id": "ca019327-165e-429f-abbb-886495a372e8",
+      "slug": "go-eulla",
+      "publication_status": "active"
+    },
+    {
+      "id": "8e32c1c6-f119-4094-843e-6d5bad504f06",
+      "slug": "jakjegeon",
+      "publication_status": "active"
+    }
+  ],
+  "guides": [
+    {
+      "profile_id": "80c6e03b-354d-49ce-982e-7af4297ab7e8",
+      "published_at": "2026-08-20T11:07:11.189879+00:00"
+    },
+    {
+      "profile_id": "cfac854b-bef8-4dc5-b798-3f6abc026b57",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "6735df03-de9c-41f4-8d21-76b1ba92849d",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "6a3daf27-3703-4256-aa94-cedb1f7ae402",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "1a5f9ba2-2a3c-498a-a79a-79ed55cf6ef0",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "ca611c0f-3a35-4005-a0a6-11c5899c8ee0",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "8e32c1c6-f119-4094-843e-6d5bad504f06",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "0678356e-57ac-453c-bb07-5713f46bcf57",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "ca019327-165e-429f-abbb-886495a372e8",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "541d832a-ce78-4171-95af-d7bd7679949c",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "b09c77be-3b25-489a-8d82-e2e714823792",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "cc488307-5742-4a55-b12c-fdce5339b97b",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "31c1d415-4b9a-48d3-bebe-496ddabf00fb",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "1cc42bdb-fad0-4182-a0db-cdca5384a759",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "f7c78cd0-a209-43ac-af4f-23f5eab0a8e6",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "7a5ae6e0-e261-4d9e-9645-a2bdc631c4ca",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "c37045af-bd18-4e24-8461-ad470c63262b",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "757ff636-bceb-473f-8ec7-74bdbb86b4c4",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "9a858d99-1559-45e1-a773-d66d502588d9",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "20f012b6-13d7-49da-b3cd-1f5132016f5e",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "22b7b580-0c31-4fae-93e9-f90137a6c629",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "e42d9a16-72a4-432e-ab90-ecc3aa6dedac",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "e5c0d30c-708e-4762-86cc-e5efa441a5ff",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "1f089ced-8dae-47e2-8e2d-3cef153e2792",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    },
+    {
+      "profile_id": "a437c649-3c76-4f23-a950-6e2189f33f1c",
+      "published_at": "2026-09-23T11:17:19.928+00:00"
+    }
+  ]
+}

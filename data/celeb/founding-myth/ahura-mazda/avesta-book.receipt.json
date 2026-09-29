@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\founding-myth\\ahura-mazda\\avesta-book.json",
+  "manifestSha256": "bc5d29cbc535a698ee2b40d97985fa280173f57e7b21db026038ba161870aafd",
+  "planSha256": "c7af16c94cbee0854a2ca93dff7ab37c6df958eba087ef33908b38ffdabd05df",
+  "workIdentity": "wikidata:q83426",
+  "edition": {
+    "kind": "volume",
+    "scope": "vendidad"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "none",
+      "isbn": null
+    },
+    {
+      "locale": "en",
+      "primary": "openlibrary",
+      "isbn": "9781606201954"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "1e890ab4-ff1d-511a-8679-d509d8203a39",
+    "scopeKey": "wikidata:q83426",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "1e890ab4-ff1d-511a-8679-d509d8203a39",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9781606201954",
+      "release_date": null,
+      "metadata": {
+        "isbn": "9781606201954",
+        "publisher": "Forgotten Books",
+        "publishDate": "2008",
+        "editionKey": "/books/OL32043433M",
+        "workKey": "/works/OL22298724W",
+        "link": "https://openlibrary.org/books/OL32043433M",
+        "figureBook": {
+          "workIdentity": "wikidata:q83426",
+          "workTitle": "Avesta",
+          "workCreator": "Anonymous",
+          "koTranslationStatus": "verified_unavailable",
+          "translationEvidenceUrls": [
+            "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+            "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+          ]
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "The Zend-Avesta",
+          "creator": "Anonymous",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "none",
+            "title": "original",
+            "creator": "verified_korean_transliteration",
+            "translation": "verified_unavailable",
+            "translationEvidence": [
+              "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+              "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+            ]
+          },
+          "verified": false,
+          "content_id": "1e890ab4-ff1d-511a-8679-d509d8203a39"
+        }
+      },
+      {
+        "kind": "insert",
+        "locale": "en",
+        "before": null,
+        "after": {
+          "locale": "en",
+          "title": "The Zend-Avesta",
+          "creator": "James Darmesteter",
+          "description": "OPEN",
+          "isbn": "9781606201954",
+          "publisher": "Forgotten Books",
+          "thumbnail_url": "https://covers.openlibrary.org/b/id/10709802-L.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "title": "https://openlibrary.org/books/OL32043433M",
+            "creator": "https://openlibrary.org/books/OL32043433M",
+            "isbn": "https://openlibrary.org/books/OL32043433M",
+            "publisher": "https://openlibrary.org/books/OL32043433M",
+            "thumbnail": "https://openlibrary.org/books/OL32043433M",
+            "description": "https://openlibrary.org/books/OL32043433M"
+          },
+          "verified": true,
+          "content_id": "1e890ab4-ff1d-511a-8679-d509d8203a39"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "1e890ab4-ff1d-511a-8679-d509d8203a39",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "openlibrary",
+        "external_id": "9781606201954",
+        "release_date": null,
+        "metadata": {
+          "isbn": "9781606201954",
+          "publisher": "Forgotten Books",
+          "publishDate": "2008",
+          "editionKey": "/books/OL32043433M",
+          "workKey": "/works/OL22298724W",
+          "link": "https://openlibrary.org/books/OL32043433M",
+          "figureBook": {
+            "workIdentity": "wikidata:q83426",
+            "workTitle": "Avesta",
+            "workCreator": "Anonymous",
+            "koTranslationStatus": "verified_unavailable",
+            "translationEvidenceUrls": [
+              "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+              "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+            ]
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "en",
+          "title": "The Zend-Avesta",
+          "creator": "James Darmesteter",
+          "description": "OPEN",
+          "isbn": "9781606201954",
+          "publisher": "Forgotten Books",
+          "thumbnail_url": "https://covers.openlibrary.org/b/id/10709802-L.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "title": "https://openlibrary.org/books/OL32043433M",
+            "creator": "https://openlibrary.org/books/OL32043433M",
+            "isbn": "https://openlibrary.org/books/OL32043433M",
+            "publisher": "https://openlibrary.org/books/OL32043433M",
+            "thumbnail": "https://openlibrary.org/books/OL32043433M",
+            "description": "https://openlibrary.org/books/OL32043433M"
+          },
+          "verified": true,
+          "content_id": "1e890ab4-ff1d-511a-8679-d509d8203a39"
+        },
+        {
+          "locale": "ko",
+          "title": "The Zend-Avesta",
+          "creator": "Anonymous",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "none",
+            "title": "original",
+            "creator": "verified_korean_transliteration",
+            "translation": "verified_unavailable",
+            "translationEvidence": [
+              "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+              "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+            ]
+          },
+          "verified": false,
+          "content_id": "1e890ab4-ff1d-511a-8679-d509d8203a39"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "wikidata:q83426",
+      "editionKind": "volume",
+      "textScope": "vendidad",
+      "isbns": [
+        "9781606201954",
+        null
+      ],
+      "normalizedTitles": [
+        "avesta",
+        "thezendavesta",
+        "아베스타"
+      ],
+      "normalizedCreators": [
+        "anonymous",
+        "jamesdarmesteter",
+        "lhmills"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-22T09:25:56.591Z",
+  "databaseWrites": 6,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "1e890ab4-ff1d-511a-8679-d509d8203a39",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9781606201954",
+      "release_date": null,
+      "metadata": {
+        "isbn": "9781606201954",
+        "link": "https://openlibrary.org/books/OL32043433M",
+        "workKey": "/works/OL22298724W",
+        "publisher": "Forgotten Books",
+        "editionKey": "/books/OL32043433M",
+        "figureBook": {
+          "workTitle": "Avesta",
+          "workCreator": "Anonymous",
+          "workIdentity": "wikidata:q83426",
+          "koTranslationStatus": "verified_unavailable",
+          "translationEvidenceUrls": [
+            "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+            "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+          ]
+        },
+        "publishDate": "2008"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-22T09:25:53.609209+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "1e890ab4-ff1d-511a-8679-d509d8203a39",
+        "locale": "en",
+        "title": "The Zend-Avesta",
+        "creator": "James Darmesteter",
+        "description": "OPEN",
+        "isbn": "9781606201954",
+        "publisher": "Forgotten Books",
+        "thumbnail_url": "https://covers.openlibrary.org/b/id/10709802-L.jpg",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://openlibrary.org/books/OL32043433M",
+          "title": "https://openlibrary.org/books/OL32043433M",
+          "creator": "https://openlibrary.org/books/OL32043433M",
+          "primary": "openlibrary",
+          "publisher": "https://openlibrary.org/books/OL32043433M",
+          "thumbnail": "https://openlibrary.org/books/OL32043433M",
+          "description": "https://openlibrary.org/books/OL32043433M"
+        },
+        "verified": true,
+        "created_at": "2026-09-22T09:25:53.609209+00:00",
+        "updated_at": "2026-09-22T09:25:53.609209+00:00"
+      },
+      {
+        "content_id": "1e890ab4-ff1d-511a-8679-d509d8203a39",
+        "locale": "ko",
+        "title": "The Zend-Avesta",
+        "creator": "Anonymous",
+        "description": null,
+        "isbn": null,
+        "publisher": null,
+        "thumbnail_url": null,
+        "affiliate_url": null,
+        "sources": {
+          "title": "original",
+          "creator": "verified_korean_transliteration",
+          "primary": "none",
+          "translation": "verified_unavailable",
+          "translationEvidence": [
+            "https://dapi.kakao.com/v3/search/book?query=%EC%95%84%EB%B2%A0%EC%8A%A4%ED%83%80",
+            "https://openlibrary.org/books/OL32043433M/The_Zend-Avesta"
+          ]
+        },
+        "verified": false,
+        "created_at": "2026-09-22T09:25:53.609209+00:00",
+        "updated_at": "2026-09-22T09:25:53.609209+00:00"
+      }
+    ]
+  }
+}

@@ -57,7 +57,7 @@ DB와 대조가 끝나지 않은 인물별 고유 대사 원고다. 작성·등�
 
 ### `hero-photo/`
 
-아바타·대표 사진이 둘 다 없는 인물의 대표 사진 연출문 초안이다. `SHOT MODE`·`ACTION`·`SETTING`을 인물별로 배분해 두고 발주할 때 꺼내 쓴다. 규격은 `docs/project/celeb/celeb-08-02-hero-photo.md`, 얼굴·복식과 금지 항목은 `docs/todo/img/avatar-backlog.md`가 쥔다. 생성과 등록이 끝나면 지운다.
+사진이 남지 않은 인물의 화보 작업 자료다. 인물별 장면 배분(`scene-manifest.md`), 권역별 얼굴·복식·금지 항목(`region-notes.md`), 생성기 조작법(`gen-lanes.md`), 제작 룰북(`brief-rules.md`)이 있다. 대표 사진 규격은 `docs/project/celeb/celeb-08-02-hero-photo.md`, 남은 일은 `docs/todo/img/hero-photo.md`가 쥔다. 화보 생성과 등록이 끝나면 지운다.
 
 ### `viewing-research/`
 

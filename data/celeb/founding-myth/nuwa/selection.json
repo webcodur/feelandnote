@@ -1,0 +1,76 @@
+{
+  "slug": "nuwa",
+  "celeb_id": "532034c5-e4fd-4cbf-ac66-8d682b071383",
+  "generator": "Codex built-in image_gen (root designed and generated)",
+  "generated": "generated-v1.png",
+  "final": "avatar-v1.webp",
+  "registered": "registered.webp",
+  "registered_url": "https://assets.feelandnote.com/celebs/532034c5-e4fd-4cbf-ac66-8d682b071383/avatar.webp?v=1790069203325",
+  "avatar_registered": true,
+  "profile_publication_status": "inactive",
+  "cutout": {
+    "tool": "C:/project/nobg/batch/batch_nobg.py",
+    "model": "birefnet-general",
+    "speed": "medium"
+  },
+  "review": {
+    "backgrounds": [
+      "#0a0a0a",
+      "#f3f0e8"
+    ],
+    "sizes": [
+      480,
+      64
+    ],
+    "result": "passed",
+    "registered_redownload_verified": true,
+    "notes": "Face and ear intact; top hair and jade hairpin partially cropped. Small horizontal-boundary warning visually accepted.",
+    "variants": [
+      {
+        "file": "avatar.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-md.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      },
+      {
+        "file": "avatar-sm.webp",
+        "status": 200,
+        "content_type": "image/webp"
+      }
+    ]
+  },
+  "face_reference": {
+    "url": "https://www.lummi.ai/photo/close-up-portrait-of-a-person-qied0",
+    "local": "face-ref.png",
+    "kind": "AI-generated face"
+  },
+  "pipeline": [
+    "crop-local --png --size 800",
+    "nobg rembg medium",
+    "light-unify",
+    "reframe --sheet",
+    "upload-local dry-run/apply"
+  ],
+  "horizontal_flip": true,
+  "reframe": {
+    "name": "001-nuwa",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "size": 759
+    },
+    "spanRatio": 0.417,
+    "eyeLine": 0.483,
+    "emphasis": 1.02,
+    "headroom": 0,
+    "decidedBy": "silhouette",
+    "upscale": 1.05,
+    "warnings": [
+      "실루엣이 원본 좌우 가장자리에 닿아 가로 위치가 10단위 밀렸다"
+    ]
+  }
+}
