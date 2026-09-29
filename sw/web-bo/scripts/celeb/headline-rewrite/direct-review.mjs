@@ -201,7 +201,8 @@ function runRecord(targets) {
     const file = path.join(TMP, 'relay/record', `lane-${pad(lane)}.json`)
     writeFileSync(file, JSON.stringify({ lane, reviewVersion: REVIEW_VERSION, items }, null, 2), 'utf8')
     const out = execSync(`pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts record --file "${file}"`,
-      { cwd: path.join(REPO, 'sw/web-bo'), encoding: 'utf8' })
+      // windowsHide: 레인마다 cmd 창이 떠 사용자 화면에 쌓이지 않게 한다.
+      { cwd: path.join(REPO, 'sw/web-bo'), encoding: 'utf8', windowsHide: true })
     process.stdout.write(out.split('\n').filter((l) => l.startsWith('record')).join('\n') + '\n')
     total += items.length
   }
