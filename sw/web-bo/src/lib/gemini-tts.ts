@@ -7,7 +7,8 @@
  */
 import { GoogleGenAI } from '@google/genai'
 import { googleFreeApiKeys } from '@feelandnote/shared/lib/gemini-keys'
-import { wrapPcmAsWav } from '@feelandnote/shared/lib/pcm-wav'
+import { wrapPcmAsWav, unwrapWavToPcm } from '@feelandnote/shared/lib/pcm-wav'
+import { isGemini38Tts } from '@feelandnote/shared/lib/voice-policy'
 
 export { wrapPcmAsWav }
 
@@ -28,6 +29,8 @@ export async function synthesizeGeminiPreview(opts: {
   model: string
   voiceName: string
   text: string
+  /** 발화 지시 — ≤3.1은 텍스트 prefix로, 3.8은 speechMetadata로 적용된다 */
+  style?: string
 }): Promise<GeminiPreviewResult> {
   const API_KEYS = googleFreeApiKeys()
   if (API_KEYS.length === 0) return { ok: false, error: 'GOOGLE_GENAI_API_KEY_FREE* 환경변수 미설정' }
@@ -38,11 +41,41 @@ export async function synthesizeGeminiPreview(opts: {
   let keyRetries = API_KEYS.length - 1
   let retries = 5
 
+  // 3.8: verbatim transcript — style은 speechMetadata. SDK 1.x는 part 필드를 화이트리스트로
+  // 직렬화해 speechMetadata를 지우므로 raw REST로 호출한다. 응답은 WAV(RIFF)라 PCM을 벗겨낸다.
+  const is38 = isGemini38Tts(opts.model)
+
   while (true) {
     try {
+      if (is38) {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${opts.model}:generateContent?key=${API_KEYS[keyIndex]}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: opts.text, ...(opts.style ? { speechMetadata: { style: opts.style } } : {}) }] }],
+            generationConfig: {
+              responseModalities: ['AUDIO'],
+              speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: opts.voiceName } } },
+            },
+          }),
+        })
+        if (!res.ok) {
+          const msg = (await res.text()).slice(0, 300)
+          const err = new Error(msg) as Error & { status?: number }
+          err.status = res.status
+          throw err
+        }
+        const j = await res.json()
+        const data = j.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data
+        if (!data) {
+          if (retries-- > 0) { await new Promise(r => setTimeout(r, 2000)); continue }
+          return { ok: false, error: '빈 응답 — 재시도 횟수 초과' }
+        }
+        return { ok: true, pcm: unwrapWavToPcm(Buffer.from(data, 'base64')).pcm, keyIndex: keyIndex + 1 }
+      }
       const response = await ai.models.generateContent({
         model: opts.model,
-        contents: [{ parts: [{ text: opts.text }] }],
+        contents: [{ parts: [{ text: opts.style ? `${opts.style}: ${opts.text}` : opts.text }] }],
         config: {
           responseModalities: ['AUDIO'],
           speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: opts.voiceName } } },
