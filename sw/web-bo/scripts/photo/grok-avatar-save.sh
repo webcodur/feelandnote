@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Grok에서 방금 내려받은 아바타 한 장을 검사해 국문 이름으로 옮긴다.
-# 절차와 출력별 대응은 docs/todo/img/hero-avatar-grok.md 「한 명을 뽑는 순서」.
+# 절차와 출력별 대응은 data/celeb/hero-photo/gen-lanes.md 「Grok 레인」.
 #
 # 사용 (sw/web-bo 에서):
 #   bash scripts/photo/grok-avatar-save.sh <slug> <직전에 저장한 다운로드 파일명> [대기초=20]
