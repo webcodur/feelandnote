@@ -13,7 +13,8 @@ export function readingSentences(text, locale) {
   for (const item of new Intl.Segmenter(locale, { granularity: 'sentence' }).segment(text)) {
     const leading = item.segment.length - item.segment.trimStart().length
     const part = { textStart: item.index + leading, textEnd: item.index + item.segment.trimEnd().length }
-    if (part.textStart === part.textEnd) continue
+    // A blank line between paragraphs can come back as its own whitespace-only segment.
+    if (part.textStart >= part.textEnd) continue
     const previous = result.at(-1)
     const previousText = previous ? text.slice(previous.textStart, previous.textEnd) : ''
     // ICU treats some English honorifics and initials as complete sentences. In Korean text a

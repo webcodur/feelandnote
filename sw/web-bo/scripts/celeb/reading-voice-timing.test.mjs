@@ -18,6 +18,13 @@ test('English initials and honorifics stay with their sentence', () => {
   const text = 'Dr. J. Robert spoke. He left.'
   assert.deepEqual(readingSentences(text, 'en').map((x) => text.slice(x.textStart, x.textEnd)), ['Dr. J. Robert spoke.', 'He left.'])
 })
+test('a blank line between paragraphs never becomes a sentence of its own', () => {
+  for (const [text, locale] of [['First one. Second one.\n\nThird one.', 'en'], ['첫 문장이다. 둘째 문장이다.\n\n셋째 문장이다.', 'ko']]) {
+    const parts = readingSentences(text, locale)
+    assert.equal(parts.length, 3)
+    assert.ok(parts.every((x) => x.textEnd > x.textStart && !/^\s|\s$/.test(text.slice(x.textStart, x.textEnd))))
+  }
+})
 test('Latin initials inside Korean names stay with their sentence', () => {
   const text = '사무엘 L. 잭슨은 미국의 배우이다. J.K. 롤링은 영국의 작가이다. 비타민을 먹었다.'
   assert.deepEqual(readingSentences(text, 'ko').map((x) => text.slice(x.textStart, x.textEnd)), ['사무엘 L. 잭슨은 미국의 배우이다.', 'J.K. 롤링은 영국의 작가이다.', '비타민을 먹었다.'])
