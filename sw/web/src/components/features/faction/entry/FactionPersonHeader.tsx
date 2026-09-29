@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useState } from "react";
 import { ArrowUpRight, BookOpen, ImageIcon, Quote } from "lucide-react";
 import { useTranslations } from "next-intl";
 import CelebProfileMedia, { type CelebProfileMediaProps } from "@/components/shared/CelebProfileMedia";
@@ -9,7 +9,6 @@ import type { CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import { Link } from "@/i18n/navigation";
 import { getCelebProfileUrl } from "@/lib/url";
 import FactionArtworkViewer from "../FactionArtworkViewer";
-import { FACTION_PERSON_LAYOUT as layout } from "./factionPersonLayout";
 
 /** 낭독 음원이 붙을 수 있는 읽기 항목 — hasAudio가 true면 초록으로 표시한다(null은 확인 중) */
 interface ReadingAction {
@@ -26,11 +25,10 @@ interface Props {
   monologue?: ReadingAction;
   voice?: Pick<CelebProfileMediaProps, "hasVoice" | "isVoicePlaying" | "onGreet" | "greetLabel">;
   nested?: boolean;
-  children?: ReactNode;
 }
 
-/** 신화와 일반 세력은 같은 아바타·이름·버튼 배치를 쓰고 소개 본문만 넘긴다. */
-export default function FactionPersonHeader({ person, factionName, group, portraitUrl, guide, monologue, voice, nested, children }: Props) {
+/** 신화와 일반 세력은 같은 아바타·이름·버튼 배치를 쓴다. 소개 본문은 모달 본문 섹션이 담당한다. */
+export default function FactionPersonHeader({ person, factionName, group, portraitUrl, guide, monologue, voice, nested }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tCeleb = useTranslations("celebPage");
   const [image, setImage] = useState<"avatar" | "portrait" | null>(null);
@@ -74,7 +72,6 @@ export default function FactionPersonHeader({ person, factionName, group, portra
             {portraitUrl && <button type="button" onClick={() => setImage("portrait")} aria-haspopup="dialog" className={actionClass}><ImageIcon size={14} aria-hidden />{t("portraitImage")}</button>}
           </div>
         </div>
-        {children && <div data-faction-person-body className={layout.body}>{children}</div>}
       </div>
       {imageUrl && <FactionArtworkViewer images={[{ url: imageUrl }]} title={person.name} onClose={closeImage} nested={nested} />}
     </>

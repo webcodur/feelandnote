@@ -45,7 +45,6 @@ export default function MythPersonDetail({ person, myth, onClose }: Props) {
   }, [myth.id]);
   const desc = longDescs?.mythId === myth.id ? longDescs.byCeleb[person.id] : undefined;
   const contextDesc = ((isEn ? desc?.en : desc?.ko) ?? "").trim();
-  const lead = person.headline;
   /* 「인물 안내」는 버튼+모달 항목 — 안내가 없을 때만 짧은 소개(bio)가 모달 본문을 채운다.
      낭독 음원(reading.mp3)은 안내 본문을 읽으므로, 안내가 아닌 글에는 음원을 붙이지 않는다 */
   const guide = person.reading?.guide?.trim() ?? "";
@@ -63,9 +62,7 @@ export default function MythPersonDetail({ person, myth, onClose }: Props) {
         <FactionPersonHeader nested person={person} factionName={myth.name} group={group?.name}
           portraitUrl={mythLeadImage(person, myth.id)}
           guide={guideText ? { onOpen: () => setGuideOpen(true), hasAudio: guideAudio } : undefined}
-          monologue={monologue ? { onOpen: () => setMonologueOpen(true), hasAudio: monologueAudio } : undefined}>
-          {lead && <p className={layout.lead}>{lead}</p>}
-        </FactionPersonHeader>
+          monologue={monologue ? { onOpen: () => setMonologueOpen(true), hasAudio: monologueAudio } : undefined} />
         {contextDesc && (
           <section className={layout.body}>
             <h3 className="mb-3 text-lg font-bold text-text-primary">
