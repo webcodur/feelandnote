@@ -171,7 +171,7 @@ const READING_RULEBOOK = resolve(dirname(fileURLToPath(import.meta.url)), '../..
 const WRITING_GUIDE = readFileSync(READING_RULEBOOK, 'utf8')
   .match(/^## 조사와 작성\s*\r?\n([\s\S]*?)(?=^## |$(?![\s\S]))/m)?.[1].trim()
 if (!WRITING_GUIDE) throw new Error('인물 안내 룰북의 「조사와 작성」 절이 비어 있다.')
-const FORMAT_CONTEXT = `[형식 허용 범위]\n한국어 공백 포함 ${READING_FORMAT.koChars.min}~${READING_FORMAT.koChars.max}자, ${READING_FORMAT.koSentences.min}~${READING_FORMAT.koSentences.max}문장, 한 문단. 영어 글자 수는 한국어의 ${READING_FORMAT.enToKoLength.min}~${READING_FORMAT.enToKoLength.max}배.`
+const FORMAT_CONTEXT = `[형식 허용 범위]\n한국어 공백 포함 ${READING_FORMAT.koChars.min}~${READING_FORMAT.koChars.max}자, ${READING_FORMAT.koSentences.min}~${READING_FORMAT.koSentences.max}문장. 한국어 ${READING_FORMAT.paragraphs.koSplitFrom}자, 영어 ${READING_FORMAT.paragraphs.enSplitFrom}자 이상이면 문장 경계에서 빈 줄 하나로 두 문단을 나눈다. 영어 글자 수는 한국어의 ${READING_FORMAT.enToKoLength.min}~${READING_FORMAT.enToKoLength.max}배.`
 const WRITING_CONTEXT = `[집필 기준]\n${WRITING_GUIDE}\n\n${FORMAT_CONTEXT}\n\n제공된 프로필과 확인된 출처의 사실에 근거한다. rewriteReason과 초안은 사실 근거가 아니다. 기존 글은 이 기준에 맞는 부분을 보존하고 필요한 부분을 고친다.`
 for (const directory of [ROOT, DRAFT_DIR, FINAL_DIR, REVIEW_DIR]) {
   if (!existsSync(directory)) mkdirSync(directory, { recursive: true })

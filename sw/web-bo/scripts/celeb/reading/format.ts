@@ -5,13 +5,15 @@
  */
 
 // 한국어 글자 수는 공백을 포함한 본문 길이, 문장 수는 음성 문장 강조와 같은 Intl.Segmenter 기준이다.
-// @ts-expect-error 분할 규칙의 단일 원천은 음성 타이밍 모듈(.mjs)이다.
+// 분할 규칙의 단일 원천은 음성 타이밍 모듈(.mjs)이다.
 import { readingSentences } from '../reading-voice-timing.mjs'
 
 export const READING_FORMAT = {
   koChars: { min: 180, max: 340 },
   koSentences: { min: 3, max: 5 },
   enToKoLength: { min: 1.6, max: 3.2 },
+  // 긴 본문은 문장 경계에서 두 문단으로 나눈다. 기준 글자 수는 줄바꿈을 뺀 공백 포함 글자 수다.
+  paragraphs: { max: 3, koSplitFrom: 300, enSplitFrom: 450 },
 } as const
 
 export type ReadingIdentity = { nickname: string; nickname_en: string | null }
@@ -28,7 +30,25 @@ function topicParticles(name: string): string[] {
   return code % 28 === 0 ? ['는'] : ['은']
 }
 
-export function readingFormatErrors(guideRaw: string, guideEnRaw: string, identity?: ReadingIdentity): string[] {
+// 문단은 빈 줄 하나(\n\n)로 나눈다. 글자 수는 줄바꿈을 빼고 센다.
+export const PARAGRAPH_BREAK = '\n\n'
+export const paragraphsOf = (text: string): string[] => text.trim().split(PARAGRAPH_BREAK)
+export const readingLength = (text: string): number => [...text.trim().replace(/\n/g, '')].length
+
+function paragraphErrors(label: string, text: string, requireSplit: boolean): string[] {
+  const errors: string[] = []
+  const paragraphs = paragraphsOf(text)
+  if (paragraphs.some((part) => /\n/.test(part))) errors.push(`${label} 안내 줄바꿈(문단 사이는 빈 줄 하나)`)
+  if (paragraphs.some((part) => part !== part.trim() || !part)) errors.push(`${label} 문단 앞뒤 공백`)
+  if (paragraphs.length > READING_FORMAT.paragraphs.max) errors.push(`${label} 문단 ${paragraphs.length}개`)
+  if (paragraphs.slice(0, -1).some((part) => !/[.?!]$/.test(part))) errors.push(`${label} 문단이 문장 중간에서 끊김`)
+  const threshold = label === '한국어' ? READING_FORMAT.paragraphs.koSplitFrom : READING_FORMAT.paragraphs.enSplitFrom
+  if (requireSplit && paragraphs.length === 1 && readingLength(text) >= threshold) errors.push(`${label} 문단 나눔 필요(${threshold}자 이상)`)
+  return errors
+}
+
+// requireParagraphs는 새로 쓰는 원고 검사에만 켠다. DB 전수 검사에서는 긴 한 문단을 위반으로 세지 않는다.
+export function readingFormatErrors(guideRaw: string, guideEnRaw: string, identity?: ReadingIdentity, options: { requireParagraphs?: boolean } = {}): string[] {
   const errors: string[] = []
   const guide = guideRaw.trim()
   const guideEn = guideEnRaw.trim()
@@ -37,10 +57,10 @@ export function readingFormatErrors(guideRaw: string, guideEnRaw: string, identi
   for (const [label, text] of [['한국어', guide], ['영어', guideEn]]) {
     if (text.includes('\uFFFD')) errors.push(`${label} 안내 문자 깨짐`)
     if (/https?:\/\/|\]\(|```|^#{1,6}\s/m.test(text)) errors.push(`${label} 안내 URL 또는 마크다운 혼입`)
-    if (/\n/.test(text)) errors.push(`${label} 안내 줄바꿈`)
+    if (text) errors.push(...paragraphErrors(label, text, Boolean(options.requireParagraphs)))
   }
   if (guide) {
-    const length = [...guide].length
+    const length = readingLength(guide)
     const sentences = sentencesOf(guide, 'ko')
     if (length < READING_FORMAT.koChars.min || length > READING_FORMAT.koChars.max) errors.push(`한국어 분량 ${length}자`)
     if (sentences.length < READING_FORMAT.koSentences.min || sentences.length > READING_FORMAT.koSentences.max) errors.push(`한국어 문장 수 ${sentences.length}`)
@@ -59,7 +79,7 @@ export function readingFormatErrors(guideRaw: string, guideEnRaw: string, identi
     if (/[\uac00-\ud7a3《》〈〉「」『』]/.test(guideEn)) errors.push('영어 안내에 한글 또는 한국어 부호')
     if (identity?.nickname_en && !guideEn.startsWith(identity.nickname_en)) errors.push('영어 첫 문장이 영문 이름으로 시작하지 않음')
     if (guide) {
-      const ratio = guideEn.length / [...guide].length
+      const ratio = guideEn.replace(/\n/g, '').length / readingLength(guide)
       if (ratio < READING_FORMAT.enToKoLength.min || ratio > READING_FORMAT.enToKoLength.max) errors.push(`한영 분량 비 ${ratio.toFixed(2)}`)
     }
   }

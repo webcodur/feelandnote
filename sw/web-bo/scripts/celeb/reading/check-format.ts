@@ -8,7 +8,7 @@
  * 가진 배열 파일을 두 번째 인자로 준다. 위반이 하나라도 있으면 종료 코드 1이다.
  */
 import { readFileSync } from 'node:fs'
-import { readingFormatErrors, type ReadingIdentity } from './format'
+import { readingFormatErrors, readingLength, type ReadingIdentity } from './format'
 
 type Row = { slug?: string; guide?: string; guideEn?: string; nickname?: string; nicknameEn?: string | null }
 
@@ -33,9 +33,9 @@ for (const row of drafts) {
   const errors = [
     ...(identity ? [] : ['이름표 없음 — 이름 검사를 못 했다']),
     ...(row.guideEn?.trim() ? [] : ['영어 안내 누락']),
-    ...readingFormatErrors(row.guide, row.guideEn ?? '', identity),
+    ...readingFormatErrors(row.guide, row.guideEn ?? '', identity, { requireParagraphs: true }),
   ]
-  const length = [...row.guide.trim()].length
+  const length = readingLength(row.guide)
   if (errors.length) failed += 1
   console.log(`${row.slug} | ${length}자 | ${errors.length ? errors.join('; ') : '통과'}`)
 }
