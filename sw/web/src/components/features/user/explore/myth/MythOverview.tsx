@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useState, useSyncExternalStore, type ReactNode } from "react";
 import { Images, Loader2, PanelTop, Play, Square } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { Myth } from "@/actions/home/mythTypes";
@@ -22,6 +22,9 @@ interface Props {
   navigation: (overview: ReactNode) => ReactNode;
 }
 
+// 저장값은 읽기만 하고 갱신 구독은 없다 — 이 컴포넌트가 스스로 쓴다
+const subscribeNone = () => () => {};
+
 // 낮은 표지의 이미지 확대와 개요 읽기는 별도 조작으로 연다.
 export default function MythOverview({ myth, memberCount, workCount, overviewLabel, fallback, navigation }: Props) {
   const t = useTranslations("explore.hub.myth");
@@ -35,8 +38,13 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   const [reading, setReading] = useState(false);
   const [zoom, setZoom] = useState(false);
   const [scenesOpen, setScenesOpen] = useState(false);
-  // 주요장면을 닫아도 읽던 장면 번호를 잃지 않는다 — 다시 열면 그 자리에서 이어간다(신화가 바뀌면 컴포넌트 자체가 리마운트돼 0으로 돌아간다)
-  const [sceneIndex, setSceneIndex] = useState(0);
+  // 뷰어를 닫아도 읽던 장면 번호를 잃지 않는다 — 다시 열면 그 자리에서 이어간다.
+  // 장면 번호는 localStorage에도 둔다 — 다른 신화로 갔다 오거나 페이지를 나갔다 와도 이 기기에서 이어 읽는다
+  const [artworkIndex, setArtworkIndex] = useState(0);
+  const [sessionIndex, setSessionIndex] = useState<number | null>(null);
+  const sceneStorageKey = `myth-scene:${myth.id}`;
+  const readSavedScene = useCallback(() => localStorage.getItem(sceneStorageKey), [sceneStorageKey]);
+  const savedScene = useSyncExternalStore(subscribeNone, readSavedScene, () => null);
   const closeReading = useCallback(() => setReading(false), []);
   const closeZoom = useCallback(() => setZoom(false), []);
   const closeScenes = useCallback(() => setScenesOpen(false), []);
@@ -44,12 +52,22 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   const images = myth.images.filter((image) => !unavailable.includes(image.url));
   const cover = images[0] ?? null;
   const scenes = images.filter(image => image.kind === 'scene');
+  // 이번 마운트에서 뷰어가 보고한 번호가 우선, 없으면 기기에 저장된 번호. 장면 수가 줄어도 범위 안으로 자른다
+  const storedIndex = sessionIndex ?? Number(savedScene ?? 0);
+  const sceneIndex = scenes.length > 0 && Number.isFinite(storedIndex)
+    ? Math.min(Math.max(Math.trunc(storedIndex), 0), scenes.length - 1) : 0;
+  const handleSceneIndex = useCallback((next: number) => {
+    setSessionIndex(next);
+    try { localStorage.setItem(sceneStorageKey, String(next)); } catch { /* 사파리 프라이빗 등 저장 실패는 무시한다 */ }
+  }, [sceneStorageKey]);
+  /* 이미지박스는 마지막으로 읽던 장면을 띄운다 — 닫힌 위치가 밖에도 남는다. 장면이 없으면 표지 그대로 */
+  const displayImage = scenes.length > 0 ? (scenes[sceneIndex] ?? scenes[0]) : cover;
   const label = overviewLabel ?? t("mythOverview");
 
   return (
     <>
-      <div data-artwork={cover ? "available" : "absent"}
-        className={`${layout.selectionDetails} ${cover ? "" : layout.selectionWithoutArtwork}`}>
+      <div data-artwork={displayImage ? "available" : "absent"}
+        className={`${layout.selectionDetails} ${displayImage ? "" : layout.selectionWithoutArtwork}`}>
         <div className={layout.selectionControls}>
           {navigation(
             <div className="flex min-w-fit flex-1 flex-wrap items-stretch gap-1.5">
@@ -58,12 +76,6 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
                 className={layout.overviewButton}>
                 <PanelTop size={16} className="shrink-0" aria-hidden />{label}
               </button>
-              {scenes.length > 0 && <button type="button" data-scenes-trigger
-                aria-label={`${myth.name} · ${t('keyScenes')}`} aria-haspopup="dialog" aria-expanded={scenesOpen}
-                onClick={() => setScenesOpen(true)} className={layout.overviewButton}>
-                <Images size={16} className="shrink-0" aria-hidden />{t('keyScenes')}
-                <span className="text-xs tabular-nums text-accent">{scenes.length}</span>
-              </button>}
               {narration.available && <button type="button" data-overview-playback aria-pressed={playing}
                 aria-label={`${label} · ${playbackLabel}`} title={playbackLabel} aria-busy={narration.status === "loading" || undefined}
                 onClick={playing ? narration.stop : narration.play}
@@ -73,23 +85,33 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
             </div>
           )}
         </div>
-        {cover && (
+        {displayImage && (
           <div className={layout.selectionArtwork}>
-            <button type="button" data-artwork-zoom aria-label={`${myth.name} · ${t("enlargeImage")}`}
-              aria-haspopup="dialog" aria-expanded={zoom} onClick={() => setZoom(true)}
+            {/* 그림 클릭 하나로 장면 뷰어를 연다(장면 없는 신화는 확대 뷰어) — 같은 영역에 버튼을 두 개 두지 않는다.
+                「주요 장면 N」은 읽기 전용 라벨. 제목은 오른쪽 아래라 왼쪽 아래에 둔다 */}
+            <button type="button" data-artwork-zoom
+              aria-label={scenes.length > 0 ? `${myth.name} · ${t('keyScenes')}` : `${myth.name} · ${t("enlargeImage")}`}
+              aria-haspopup="dialog" aria-expanded={scenes.length > 0 ? scenesOpen : zoom}
+              onClick={() => (scenes.length > 0 ? setScenesOpen(true) : setZoom(true))}
               className={`group ${layout.overviewImage} cursor-zoom-in border border-white/10 outline-none hover:border-accent focus-visible:ring-2 focus-visible:ring-accent`}>
-              <BlurDissolve key={cover.url} className="absolute inset-0 transition-transform duration-300 motion-safe:group-hover:scale-105">
-                <MythTitleImage src={cover.url} alt="" priority className="md:object-cover"
+              <BlurDissolve key={displayImage.url} className="absolute inset-0 transition-transform duration-300 motion-safe:group-hover:scale-105">
+                <MythTitleImage src={displayImage.url} alt="" priority
                   sizes="(min-width: 1280px) 565px, (min-width: 768px) 50vw, calc(100vw - 24px)"
-                  onUnavailable={() => setUnavailable((urls) => [...urls, cover.url])} />
+                  onUnavailable={() => setUnavailable((urls) => [...urls, displayImage.url])} />
               </BlurDissolve>
               <FactionArtworkTitle title={myth.name} />
+              {scenes.length > 0 && (
+                <span className="pointer-events-none absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-xs font-semibold text-text-primary backdrop-blur-sm">
+                  <Images size={13} className="shrink-0 text-accent" aria-hidden />{t('keyScenes')}
+                  <span className="tabular-nums text-accent">{sceneIndex + 1}/{scenes.length}</span>
+                </span>
+              )}
             </button>
           </div>
         )}
       </div>
-      {zoom && <FactionArtworkViewer images={images} title={myth.name} titleInArtwork onClose={closeZoom} />}
-      {scenesOpen && <FactionArtworkViewer images={scenes} title={`${myth.name} · ${t('keyScenes')}`} initialIndex={sceneIndex} onIndexChange={setSceneIndex} onClose={closeScenes} />}
+      {zoom && <FactionArtworkViewer images={images} title={myth.name} titleInArtwork initialIndex={artworkIndex} onIndexChange={setArtworkIndex} onClose={closeZoom} />}
+      {scenesOpen && <FactionArtworkViewer images={scenes} title={`${myth.name} · ${t('keyScenes')}`} initialIndex={sceneIndex} onIndexChange={handleSceneIndex} onClose={closeScenes} />}
       {reading && (
         <MythOverviewReading voice={voice} narration={narration} text={text}
           title={myth.name} onClose={closeReading}

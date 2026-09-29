@@ -260,6 +260,8 @@
         "titleArtControls": "Myth image controls",
         "previousImage": "Previous image",
         "nextImage": "Next image",
+        "firstImage": "First image",
+        "lastImage": "Last image",
         "openFigure": "Open figure",
         "figureInfo": "Figure info",
         "bio": "Introduction",
@@ -325,9 +327,7 @@
         "searchImages": "Search scene titles",
         "noMatchingImages": "No matching scenes.",
         "readEnding": "Read the ending",
-        "personInTheme": "{name} in {theme}",
-        "reduceImage": "Zoom out",
-        "zoomedImageHint": "Drag to move · Tap to zoom out"
+        "personInTheme": "{name} in {theme}"
       },
       "relationMap": {
         "title": "Relation Map",

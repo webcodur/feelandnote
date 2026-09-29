@@ -260,6 +260,8 @@
         "titleArtControls": "신화 이미지 전환",
         "previousImage": "이전 이미지",
         "nextImage": "다음 이미지",
+        "firstImage": "첫 이미지",
+        "lastImage": "마지막 이미지",
         "openFigure": "인물 상세",
         "figureInfo": "인물 정보",
         "bio": "소개",
@@ -325,9 +327,7 @@
         "searchImages": "장면 제목 검색",
         "noMatchingImages": "일치하는 장면이 없습니다.",
         "readEnding": "후속 이야기 읽기",
-        "personInTheme": "{theme}에서의 {name}",
-        "reduceImage": "이미지 축소",
-        "zoomedImageHint": "끌어서 이동 · 눌러서 축소"
+        "personInTheme": "{theme}에서의 {name}"
       },
       "relationMap": {
         "title": "관계망",
