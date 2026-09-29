@@ -8,6 +8,10 @@ test('media introduction credits its recorded source over the metadata supplier'
   assert.deepEqual(mediaIntroductionAttribution({ locale: 'ko', description: '영화 소개입니다.', sources: {
     description: url, description_method: 'translation', description_source_locale: 'en',
   } }, 'tmdb', 'tmdb-movie-157336'), { provider: 'wikipedia', url, translated: true })
+  // 조사 작성은 근거 문서가 위키백과여도 F&N 소개로 표시한다.
+  assert.deepEqual(mediaIntroductionAttribution({ locale: 'ko', description: '곡 소개입니다.', sources: {
+    description: url, description_method: 'research', description_source_locale: 'ko',
+  } }, 'itunes', 'itunes-1'), { provider: 'feelandnote', url, translated: false })
 })
 
 test('media source attribution does not survive missing or rejected locale text', () => {
@@ -121,6 +125,11 @@ test('explicit manual writing belongs to F&N without guessing from stored text a
   assert.deepEqual(attribution({ manual: true }), { provider: 'feelandnote', url: null, translated: false })
   assert.deepEqual(attribution({ description_method: 'manual', description: 'https://publisher.example/book' }), {
     provider: 'feelandnote', url: 'https://publisher.example/book', translated: false,
+  })
+  // 조사 작성은 근거 문서의 도메인이 아니라 F&N이 쓴 소개다.
+  assert.deepEqual(attribution({ description_method: 'research', description_source_locale: 'ko',
+    description: 'https://en.wikipedia.org/wiki/Atlas_Shrugged' }), {
+    provider: 'feelandnote', url: 'https://en.wikipedia.org/wiki/Atlas_Shrugged', translated: false,
   })
 })
 

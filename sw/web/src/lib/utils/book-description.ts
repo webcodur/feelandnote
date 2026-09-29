@@ -116,7 +116,7 @@ function introductionAttribution(row: StoredBookIntroduction): BookIntroductionA
     || methods.some(value => typeof value === 'string' && /translat/i.test(value))
     || (['ko', 'en'].includes(String(source.description_source_locale)) && source.description_source_locale !== row.locale)
   const manual = source.manual === true || methods.some(value => typeof value === 'string'
-    && /^(manual|manually[-_]written|original[-_]writing|feelandnote|generated|rewrite)(?:[-_].*)?$/i.test(value))
+    && /^(manual|manually[-_]written|original[-_]writing|feelandnote|generated|rewrite|research)(?:[-_].*)?$/i.test(value))
   return { provider: translated ? translatedOriginalProvider(source) : manual ? 'feelandnote' : sourceProvider(originalUrl), url, translated }
 }
 
@@ -158,9 +158,11 @@ export function mediaIntroductionAttribution(
   const url = safeSourceUrl(source.description) ?? safeSourceUrl(source.url)
     ?? externalSourceUrl(externalSource, externalId)
   const method = source.description_method
-  const translated = method === 'translation' || method === 'research'
+  const translated = method === 'translation'
     || (['ko', 'en'].includes(String(source.description_source_locale))
       && source.description_source_locale !== row.locale)
+  // 조사 작성은 근거 문서의 도메인이 아니라 F&N이 쓴 소개다. 근거 주소는 원문 링크로 남긴다.
+  if (method === 'research') return { provider: 'feelandnote', url, translated }
   return { provider: url ? sourceProvider(url) : legacyProvider(externalSource), url, translated }
 }
 
