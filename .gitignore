@@ -35,7 +35,7 @@ __pycache__/
 *.pyc
 
 # Remotion auto-generated docs (DB에서 재생성 가능)
-docs/project/remotion/book-recommend/lineup/candidates-raw.md
+docs/project/remotion/book-recommend/br-12-lineup-candidates-raw.md
 
 # Remotion episodes — 전체 로컬 관리
 sw/remotion/public/episodes/

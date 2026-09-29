@@ -905,7 +905,7 @@ if (updateJson) {
   if (abnormalDurations.length > 0) {
     console.warn(`\n⚠ 비정상 짧은 세그먼트 ${abnormalDurations.length}건 (< 0.1s/자):`)
     abnormalDurations.forEach(m => console.warn(m))
-    console.warn(`→ tts.replace 매핑 확인 필요 (docs/project/remotion/book-recommend/voice/tts.md)`)
+    console.warn(`→ tts.replace 매핑 확인 필요 (docs/project/remotion/book-recommend/voice/voice-02-tts.md)`)
   }
 }
 

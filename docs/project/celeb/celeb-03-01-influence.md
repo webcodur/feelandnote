@@ -20,7 +20,7 @@
 
 - `packages/influence-constants/src/core.ts`: 축 키·라벨·상한·총점 만점·랭크 임계값과 계산 함수
 - `packages/ai-services/src/prompts/influence-rulebook.ts`: 인과적 기여 단계·점수 기준·시대초월성·출력 규칙
-- [`../data/03-celeb.md`](../data/03-celeb.md): `celeb_influence` 컬럼·제약·총점 트리거
+- [`../data/data-03-celeb.md`](../data/data-03-celeb.md): `celeb_influence` 컬럼·제약·총점 트리거
 
 축·점수 구간·랭크 표를 이 문서에 다시 고정하지 않는다. 코드 값이 바뀌면 그 값을 사용한다.
 

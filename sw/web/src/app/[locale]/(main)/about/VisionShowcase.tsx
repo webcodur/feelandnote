@@ -5,7 +5,7 @@
         조회는 getAboutShowcase가 맡고 여기서는 배치만 한다.
 
   여기의 그림은 설명을 돕는 예시일 뿐 다른 화면으로 넘기지 않는다. 누르면 그 자리에서
-  짧은 안내만 뜬다. 글자는 code-rules.md 기준(14px 이상·또렷한 색)을 지킨다.
+  짧은 안내만 뜬다. 글자는 platform-02-code-rules.md 기준(14px 이상·또렷한 색)을 지킨다.
 */ // ------------------------------
 
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";

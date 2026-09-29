@@ -8,7 +8,7 @@ description: 에피소드 초안을 작성한다. 테마 설계부터 필드별 
 실행 전 반드시 아래 문서를 Read tool로 읽는다:
 
 - `docs/project/remotion/book-recommend/writer/0-draft.md` — 초안 작성 가이드 (SSoT)
-- `docs/project/remotion/book-recommend/rules.md` — 불변 규칙
+- `docs/project/remotion/book-recommend/br-01-rules.md` — 불변 규칙
 
 초안은 JSON 안에서 쓰지 않는다. 기존 에피소드는 `remo-write-story-dump`로 Markdown 원고를 만든 뒤 작업하고, 새 에피소드도 먼저 Markdown으로 이야기와 자료를 확정한다. 확정 후에만 필드별 JSON으로 옮긴다.
 
@@ -34,4 +34,4 @@ description: 에피소드 초안을 작성한다. 테마 설계부터 필드별 
 }
 ```
 
-**고유어/한자어 수사는 문맥 판단 필수** — 하드코딩 불가. 같은 단위도 문맥에 따라 달라진다 (5권의 책→다섯 권, 제7권→제칠권). 한자 괄호는 괄호째 빈 문자열로 제거. 상세 규칙은 `voice/tts.md`의 "고유어 수사 vs 한자어 수사" / "한자·외국어 괄호 처리" 섹션.
+**고유어/한자어 수사는 문맥 판단 필수** — 하드코딩 불가. 같은 단위도 문맥에 따라 달라진다 (5권의 책→다섯 권, 제7권→제칠권). 한자 괄호는 괄호째 빈 문자열로 제거. 상세 규칙은 `voice/voice-02-tts.md`의 "고유어 수사 vs 한자어 수사" / "한자·외국어 괄호 처리" 섹션.

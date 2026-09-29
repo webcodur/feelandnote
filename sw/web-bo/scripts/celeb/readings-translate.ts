@@ -3,7 +3,7 @@
  *
  * 규칙 SSoT:
  *   docs/project/celeb/celeb-05-01-reading.md
- *   docs/project/platform/i18n.md
+ *   docs/project/platform/platform-03-i18n.md
  *
  * 사용 예:
  *   pnpm exec tsx scripts/translate-celeb-readings.ts --stats

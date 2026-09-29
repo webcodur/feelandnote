@@ -6,9 +6,11 @@
 
 2026-09-18 마무리: 실존 인물 빛 방향 재회차(REAL·BOTH 1,178명 반전), 배경 남은 인물 누끼(스캔 확정 8 + 검토 3 = 11명), 재회차에서 건너뛴 가장자리찬·미검출 인물 회수를 끝냈다. 소재가 프레임 끝까지 차는 인물은 투명 패딩을 붙여 실루엣을 만들어 재배치했고(yeji·peter-paul-rubens·ma-chao·louis-xiv·oprah-winfrey·dolly-parton·sinfjotli·takeda-shingen), 미검출이던 meir-dagan·roger-beteille도 같은 방법으로 살아났다. 재배치·등록 18명, tiger-korea는 규격 대상 밖.
 
-## 사람 얼굴인데 검출이 안 된 5명 — 수동 크롭
+## 사람 얼굴인데 검출이 안 된 2명 — 수동 크롭
 
-`dhritarashtra` `clowwindy` `jang-in-pyo` `murad-ii` `viktor-netyksho`
+`murad-ii` `dhritarashtra`
+
+26.09.29 R2 원본(800×800)을 열어 확인했다. `murad-ii`는 얼굴이 프레임을 거의 채우고 터번 윗부분이 잘려 있다. `dhritarashtra`는 눈가리개가 인물의 정체(맹인 왕)라 검출이 안 되는 것이 당연하며 구도만 본다. 같은 날 처음 5명으로 적었던 나머지 셋(`viktor-netyksho` 실루엣, `jang-in-pyo` 잠수 마스크, `clowwindy` 복면·고글)은 얼굴을 일부러 감춘 인물이라 아래 「대상 밖」으로 옮겼다.
 
 검출기가 얼굴을 못 잡았으므로 자동 경로가 없다(투명 패딩으로도 미검출). **자동 분석이 안 되는 대상은 사람이든 AI든 직접 처리가 필요하다** — 관리자 화면의 크롭 창에서 「정규화」 구도 원칙(턱 아래 목이 끝나는 곳에서 하단, 눈~턱이 프레임의 40% 안팎, 정수리 위 작은 여백)에 맞춰 자른다. 배경이 있으면 누끼도 함께 켠다. 자르고 등록한 뒤에는 다른 등록분과 같이 `light-unify`로 빛 방향을 맞춘다.
 
@@ -20,6 +22,6 @@
 
 ## 대상 밖 — 손대지 않는다
 
-짐승·용·괴물·가면·베일·집단 로고 20명은 눈·턱 규격의 대상이 아니다. 감사에 남더라도 정상이다.
+짐승·용·괴물·가면·베일·집단 로고, 얼굴을 감춘 인물 23명은 눈·턱 규격의 대상이 아니다. 감사에 남더라도 정상이다.
 
-`fafnir` `fenrir` `apep` `argos` `cerberus` `polyphemus` `jatayu` `sobek` `jormungandr` `khnum` `lernaean-hydra` `maricha` `talos` `white-dragon-horse` `yamata-no-orochi` `ymir` `daft-punk` `satoshi-nakamoto` `tiger-korea` `muhammad`
+`fafnir` `fenrir` `apep` `argos` `cerberus` `polyphemus` `jatayu` `sobek` `jormungandr` `khnum` `lernaean-hydra` `maricha` `talos` `white-dragon-horse` `yamata-no-orochi` `ymir` `daft-punk` `satoshi-nakamoto` `tiger-korea` `muhammad` `viktor-netyksho` `jang-in-pyo` `clowwindy`

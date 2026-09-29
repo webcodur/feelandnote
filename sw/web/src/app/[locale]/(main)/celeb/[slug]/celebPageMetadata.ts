@@ -93,7 +93,7 @@ export async function buildCelebPageMetadata(
   const isIndexable = INDEXABLE_TIERS.includes(tier);
 
   return {
-    // 브랜드 접미사를 붙이지 않는다. 사이트 이름은 Google이 홈페이지에서 정하고(seo.md
+    // 브랜드 접미사를 붙이지 않는다. 사이트 이름은 Google이 홈페이지에서 정하고(ops-02-seo.md
     // 「인물 상세 메타데이터」), 접미사 폭은 누군지 알리는 수식어와 건수에 쓴다.
     title: { absolute: title },
     description,

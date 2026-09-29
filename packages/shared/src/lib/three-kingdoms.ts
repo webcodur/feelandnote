@@ -3,7 +3,7 @@
  *
  * 영상 시리즈 전반에서 "삼국지 인물 묶음" 여부를 판정하는 데이터. 시리즈와 직교한다.
  * 현재 실제 사용처는 book-recommend(서재 탐방) 뿐이다.
- * 추가·제거는 이 파일과 docs/project/remotion/three-kingdoms.md 동시에 갱신한다.
+ * 추가·제거는 이 파일과 docs/project/remotion/remotion-01-three-kingdoms.md 동시에 갱신한다.
  *
  * 사용처:
  * - YouTube 메타 생성(buildTags / buildDescription): 멤버 슬러그면 #삼국지 / #ThreeKingdoms

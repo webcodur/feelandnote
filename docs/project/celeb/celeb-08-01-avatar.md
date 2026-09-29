@@ -12,7 +12,7 @@
 | 사용자 웹의 실제 칸 크기·화면 배율 측정과 중·소 실패 시 원본 복귀 | `sw/web/src/hooks/useCelebAvatarSrc.ts`, `sw/web/src/lib/celeb/avatar-size-observer.ts` |
 | 등록·신원 근거·R2·DB 갱신 | `.agents/skills/celeb-avatar-register/SKILL.md` |
 | 정규화 실행·전수 작업 | `.agents/skills/celeb-avatar-reframe/SKILL.md` |
-| 공통 이미지 제작 원칙 | [`../production/image-generation.md`](../production/image-generation.md) |
+| 공통 이미지 제작 원칙 | [`../production/prod-01-image-generation.md`](../production/prod-01-image-generation.md) |
 
 눈높이·턱끝·중심축은 `AVATAR_SPEC`, 파일·출력 값은 공유 아바타 상수에서 읽는다. 숫자를 문서나 프롬프트 템플릿에 별도 상수로 만들지 않는다.
 

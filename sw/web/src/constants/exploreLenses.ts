@@ -46,5 +46,5 @@ export const FIGURE_LENS_GROUPS = [
   { key: "more", size: "compact", items: ["monologue", "timeline", "directory"] },
 ] as const;
 
-/** 작품 모드에서 재편 중인 화면 — 카드와 진입 화면에 「재편 중」을 표시하고 낮은 줄 카드로 둔다(library.md) */
+/** 작품 모드에서 재편 중인 화면 — 카드와 진입 화면에 「재편 중」을 표시하고 낮은 줄 카드로 둔다(service-02-library.md) */
 export const REORGANIZING_WORK_LENSES: ReadonlySet<string> = new Set(["museum", "academy"]);

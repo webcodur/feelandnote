@@ -1,6 +1,6 @@
 # 인물 관계
 
-이 문서는 full·light·fiction 인물의 관계를 선정하고 `celeb_relations` 또는 `celeb_relations_external`에 기록하는 규칙을 쥔다. 테이블 구조는 [`../data/03-celeb.md`](../data/03-celeb.md), 관계 유형과 방향 정규화의 코드 SSoT는 [`../../../packages/shared/src/constants/celeb-relations.ts`](../../../packages/shared/src/constants/celeb-relations.ts)다.
+이 문서는 full·light·fiction 인물의 관계를 선정하고 `celeb_relations` 또는 `celeb_relations_external`에 기록하는 규칙을 쥔다. 테이블 구조는 [`../data/data-03-celeb.md`](../data/data-03-celeb.md), 관계 유형과 방향 정규화의 코드 SSoT는 [`../../../packages/shared/src/constants/celeb-relations.ts`](../../../packages/shared/src/constants/celeb-relations.ts)다.
 
 ## 관계로 인정하는 범위
 
@@ -39,7 +39,8 @@
 - 공동 창업·동료·우정·경쟁처럼 유형만으로 맥락이 부족한 관계에는 무엇을 함께 했는지 짧게 적는다.
 - `label_ko`·`label_en`은 현재 소비처가 없는 레거시 열이므로 새 값을 만들지 않는다.
 - 외부 인물의 QID는 이름만 맞춰 넣지 말고 설명·생몰·직업을 함께 대조한다. 공식 영문 라벨이 있으면 `name_en`에 그 값을 쓴다.
-- 수동 관계를 넣기 전에 `from_id` 인물의 `title`·`profession`과 관계 메모가 같은 사람을 가리키는지 먼저 대조한다. 이름만 보고 붙이면 동명이인 셀럽에 다른 사람의 관계가 들어간다(당근 창업자 김용현에 국방장관 김용현의 관계, 보링컴퍼니 스티브 데이비스에 스누커 선수의 관계가 붙었던 사례).
+- 수동 관계를 넣기 전에 `from_id` 인물의 `title`·`profession`과 관계 메모가 같은 사람을 가리키는지 먼저 대조한다. 이름만 보고 붙이면 동명이인 셀럽에 다른 사람의 관계가 들어간다(당근 창업자 김용현에 국방장관 김용현의 관계, 보링컴퍼니 스티브 데이비스에 스누커 선수의 관계가 붙었던 사례). `influence`·`counterpart`를 뺀 관계에서 두 인물의 시대가 어긋나면 먼저 신원을 의심한다(하드리아누스의 `partner`로 걸린 안티노오스가 『오디세이아』의 구혼자였고, 주몽의 아들로 연결한 `yuri`가 1989년생 가수였다).
+- 한국어 이름을 일괄 치환할 때는 경계를 건다. 「유노」는 유노윤호·자유노조 안에도 있으므로 이름 뒤에 조사가 붙은 자리만 바꾼다. 받침이 생기는 치환(넵투누스→넵튠)은 뒤따르는 조사도 바꾼다(「넵투누스가」→「넵튠이」).
 - 셀럽 본인의 `wikidata_qid`도 틀린 값이 흔하다. 관계를 다룰 때 그 QID의 설명을 한 번 조회해 직업·생몰이 맞는지 확인하고, 다르면 관계 작업 전에 교정하거나 비운다.
 
 ## 수집과 검증

@@ -54,14 +54,14 @@ pnpm check:agents
 ```
 
 Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 쥔다. 음성 파이프라인은 `pronounce → tts → transcribe → align → chunk`이며 TTS는 유료 수동 단계다. TTS 뒤에는 `/voice-sync <에피소드명>`으로 3~5단계를 실행한다.
-Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 남긴 앞단 캐시 비우기는 `pnpm purge:web:cloudflare`가 실행점이다. 퍼지까지 끝나야 배포가 끝난다. 절차는 `oracle-web-deploy` 스킬과 `docs/project/platform/external-services.md`의 「Oracle 사용자 웹 운영」을 따른다.
+Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 남긴 앞단 캐시 비우기는 `pnpm purge:web:cloudflare`가 실행점이다. 퍼지까지 끝나야 배포가 끝난다. 절차는 `oracle-web-deploy` 스킬과 `docs/project/platform/platform-05-external-services.md`의 「Oracle 사용자 웹 운영」을 따른다.
 
 ## 기술·환경
 
 - Next.js 16.1, React 19.2, TailwindCSS 4.1, TypeScript 5, PostgreSQL, pnpm을 사용한다.
 - 환경변수와 비밀 파일은 커밋하지 않는다. `.env*`, `.mcp.json`, `**/credentials/`는 로컬에서만 관리한다.
 - 새 컴퓨터에서는 비밀 파일을 사람이 직접 옮겨야 하며 빈 서식 파일을 만들지 않는다.
-- 키의 용도·배치·발급처·유출 대응은 `docs/project/platform/env-vars.md`만 따른다. 값 자체를 문서에 적지 않는다.
+- 키의 용도·배치·발급처·유출 대응은 `docs/project/platform/platform-04-env-vars.md`만 따른다. 값 자체를 문서에 적지 않는다.
 
 ## 전역 불변사항
 
@@ -75,7 +75,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 - 조작 요소의 hover에는 지연 없는 즉각 반응이 최소 하나 있어야 한다. 즉각 축에 `transition`·`delay`를 걸지 않는다.
 - 확대·페이드 같은 보조 연출은 다른 엘리먼트에 `transition-transform`처럼 속성을 한정해 적용한다. `transition-all`로 즉각 축을 느리게 만들지 않는다.
 - 사이드바·아코디언·모달처럼 공간이 이동·개폐되는 전환은 애니메이션을 사용해도 된다.
-- 상세 규칙은 `docs/project/platform/code-rules.md`와 `ui-hover` 스킬을 따른다.
+- 상세 규칙은 `docs/project/platform/platform-02-code-rules.md`와 `ui-hover` 스킬을 따른다.
 
 ### DB·Remotion 동기화
 
@@ -102,14 +102,14 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 ### 데이터·외부 서비스
 
 - 실행 규약·허용값·임계값은 코드 상수 하나를 SSoT로 두고 화면·서버 액션·스크립트가 import해 사용한다. 문서는 값을 복제하지 않는다.
-- BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 쓴다. 네이버 책 API는 되살리지 않는다. Google Books는 소개문 수집에만 예외로 허용하며 조건은 `docs/project/platform/external-services.md`가 쥔다.
+- BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 쓴다. 네이버 책 API는 되살리지 않는다. Google Books는 소개문 수집에만 예외로 허용하며 조건은 `docs/project/platform/platform-05-external-services.md`가 쥔다.
 - 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-08-01-avatar.md`를 따른다.
 - 세력도감 이미지와 얼굴 REF의 출처·누락 처리·창조 권한은 `faction-image` 스킬이 전부 쥔다. 루트에서 별도 대안을 만들지 않는다.
 - Google API는 무료 키와 로그인 경로만 쓴다. 결제 계정이 붙은 GCP 프로젝트의 키를 `.env`나 코드에 두지 않고, 유료 Gemini·Vertex·Cloud TTS 호출 코드를 만들지 않는다.
 
 ## 문서·스킬 라우팅
 
-- 에이전트 운용 원칙: `docs/project/agent-rules.md` (착수 전 조사, 위임, 사실성, 지시 해석, 보고 방식, 도구)
+- 에이전트 운용 원칙: `docs/project/agent-rules.md`
 - 전체 문서 지도: `docs/README.md`
 - 현역 프로젝트 문서: `docs/project/README.md`
 - 게임 문서: `docs/games/README.md`
@@ -124,10 +124,10 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 |------|-----------|
 | 셀럽 파이프라인 전 단계 | `docs/project/celeb/celeb-00-01-pipeline.md` (단계별 룰북 표를 그 안에서 쥔다) |
 | 셀럽 콘텐츠 감사 | `docs/project/celeb/celeb-02-04-content-audit.md` |
-| 영상 원고 0~7단계(4번 폐기) | `docs/project/remotion/book-recommend/rules.md` + `writer/<단계>.md` |
+| 영상 원고 0~7단계(4번 폐기) | `docs/project/remotion/book-recommend/br-01-rules.md` + `writer/<단계>.md` |
 | 천도 게임 개발 | `docs/games/suikoden/dev-guide.md` |
 
-한국어 값 생성을 나눠 시킬 때는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 발주문에 매번 싣는다. 이미지 제작은 `docs/project/production/image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
+한국어 값 생성을 나눠 시킬 때는 「한국인이 한국어로 쓴 글 답게 주의해서 작성」을 발주문에 매번 싣는다. 이미지 제작은 `docs/project/production/prod-01-image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
 
 ## 문서 수명주기
 

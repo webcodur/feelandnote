@@ -5,7 +5,7 @@
 | 문서 | 지속 과제 |
 |---|---|
 | [`google-indexing.md`](google-indexing.md) | Google 일일 색인 직접 신청·실제 한도까지 요청·다음 신청 URL |
-| [`celeb-tts-dialogue.md`](celeb-tts-dialogue.md) | 인물 대사 검수·한영 음성 합성·게시 도달점 |
+| [`celeb-tts-dialogue.md`](celeb-tts-dialogue.md) | 인물 대사 검수·한영 음성 합성·게시 규칙과 도달점(명단은 DB 조회) |
 | [`celeb-tts-reading.md`](celeb-tts-reading.md) | 읽어보기 한영 음성 일일 생성·검수·등록과 타이밍 불량분 폐기·재대기 도달점 |
 | [`faction-desc-voice.md`](faction-desc-voice.md) | 세력·신화 개요 한영 음성 생성·검수·등록 도달점 |
 | [`celeb-tts-monologue.md`](celeb-tts-monologue.md) | 가상독백 한영 음성 문단별 합성·검수·등록 도달점 |
@@ -15,4 +15,4 @@
 | [`figure-books.md`](figure-books.md) | 실존 인물 책장을 등장 도서로 채우는 발굴·검증·상품 연결 도달점 |
 | [`content-introductions.md`](content-introductions.md) | 신규 등록으로 계속 생기는 작품 소개 공란의 유형별 재수집·번역·반영 도달점 |
 | [`celeb-review-deep-dive.md`](celeb-review-deep-dive.md) | 인물 감상배경 딥다이브 — 얕게 등록된 review를 원문 수준으로 깊게 만드는 도달점 |
-| [`free-posts.md`](free-posts.md) | 주인장(아가톤) 자유글 — 유튜브 커뮤니티·자유게시판에 내는 홍보·업데이트·잡소리 초안과 도달점 |
+| [`free-posts.md`](free-posts.md) | 운영자 아가톤의 자유글 — 유튜브 커뮤니티·자유게시판에 내는 홍보·업데이트·잡소리 초안과 도달점 |

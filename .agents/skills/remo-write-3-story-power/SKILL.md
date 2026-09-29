@@ -8,7 +8,7 @@ description: 서재탐방 롱폼·쇼츠·SOLO의 중심 사건, 감정 변화, 
 반드시 다음을 읽는다.
 
 - `docs/project/remotion/book-recommend/writer/3-story-power.md`
-- SOLO면 `docs/project/remotion/book-recommend/solo.md`
+- SOLO면 `docs/project/remotion/book-recommend/br-05-solo.md`
 
 ## 작업 순서
 

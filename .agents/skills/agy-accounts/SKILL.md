@@ -47,7 +47,7 @@ agm switch <email> --target agy
 ## 비밀 취급
 
 - `~/.antigravity-agent/`의 `.mk`(복호화 키)+`cloud_accounts.db`(계정 DB)는 등록 계정 전권이다. 내용을 출력·복사·커밋하지 않는다
-- 이관·유출 대응은 `docs/project/platform/env-vars.md`가 쥔다
+- 이관·유출 대응은 `docs/project/platform/platform-04-env-vars.md`가 쥔다
 
 ## 형제 스킬
 

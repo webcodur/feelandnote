@@ -6,7 +6,7 @@
 > 텍스트·구성의 단일 원천은 DB `discourse_*` 3테이블이고, `discourse-data.json`·`cast.json`·`turns.json`
 > 세 파일은 **렌더용 산출물**이다(직접 편집 금지 — 손 편집은 내보내기가 막는다).
 > 영상 관리 대시보드(remotion-bo)의 담화 구역은 폐기됐다. 아래 본문의 「BO」 서술은 **폐기된 과거 상태**로 읽는다.
-> 통합 설계·현황: [`unification.md`](unification.md)
+> 통합 설계·현황: [`discourse-01-db-integration.md`](discourse-01-db-integration.md)
 
 **상태: 구현 1차 완료 (2026-07-16). 엔진·에피소드 5편 가동. 젠슨 황 독백의 1:1 이미지 10장 연결. 음성·렌더 CLI 미착수.**
 
@@ -295,7 +295,7 @@ sw/remotion/public/discourses/
 - [x] 폴더명은 **영문·숫자·하이픈만** — 컴포지션 ID가 된다
 
 **packages/shared**
-- [x] `youtube-discourse-meta.ts` — 컴포지션 ID(`discourseCompBase()`)·영상 메타의 단일원천. `Root.tsx`는 여기서 import한다([`unification.md`](unification.md) 진행 로그).
+- [x] `youtube-discourse-meta.ts` — 컴포지션 ID(`discourseCompBase()`)·영상 메타의 단일원천. `Root.tsx`는 여기서 import한다([`discourse-01-db-integration.md`](discourse-01-db-integration.md) 진행 로그).
 
 **음성**
 - [ ] `voice:discourse` / `voice:discourse-align` 스크립트 + `scripts/voice/discourse/`
@@ -389,6 +389,6 @@ sw/remotion/public/discourses/
 
 — 작성 2026-07-16: 기획 착수. 데이터 모델·연출 미확정.
 — 개정 2026-07-16b: 시리즈 이름 확정 (가상 담화 / `Discourse`). 독백·대담 통합 — 인원·대화 여부는 편별 데이터. 이미지 교체(`imageChanges`) 팩션 계승 명시 · 인물당 다수 이미지 경로 논점 추가.
-— 개정 2026-07-16c: 코드 실측 대조. §5 데이터 모델 확정 표기(음원 명명·턴 길이 산식 결론 반영) · §8 경로 실재/예정 구분 · §9 remotion·문서 항목 완료 표기, `youtube-discourse-meta.ts` 미착수 명시. 폐기된 hell-bar 자리를 이 시리즈가 대체함을 `README.md`·`three-kingdoms.md`에 반영.
+— 개정 2026-07-16c: 코드 실측 대조. §5 데이터 모델 확정 표기(음원 명명·턴 길이 산식 결론 반영) · §8 경로 실재/예정 구분 · §9 remotion·문서 항목 완료 표기, `youtube-discourse-meta.ts` 미착수 명시. 폐기된 hell-bar 자리를 이 시리즈가 대체함을 `README.md`·`remotion-01-three-kingdoms.md`에 반영.
 — 개정 2026-07-21: BO 편집기 원고 중심 전면 개편 — §9 반영. 1차 설계(문장 자동 분할 + gap 클릭)는 유저 반려로 전면 폐기하고, 팩션 대사 에디터 패턴(연속 입력·엔터=덩어리·이미지 전환 라인)을 이식·확장(빈 줄=발언 경계·화자 칩·`remapTurns` 실시간 재분배)으로 확정.
 — 개정 2026-07-27: 원고 탭을 **발언 = 격자 한 행(왼쪽 대사 · 오른쪽 사진)** 으로 재편 — §9 반영. 연속 원고(`ManuscriptEditor`·`manuscript.ts`)와 JS 높이 보정(`TurnImageColumn`) 폐기. **공용 부품 2종 승격**: 사진 카드 `ImageCard`(shared/bo/media, 팩션 `ImageChangeSlot`·인라인 카드 삭제) · 대사 입력칸 `QuoteEditor`+`adjustImageChanges`(shared/bo/quote-editor, 팩션 `FactionQuoteEditor` 삭제). 발언 원문은 `TurnOriginPanel`로 분리. 반려 4회 이력은 §9 본문 참조.

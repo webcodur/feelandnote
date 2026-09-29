@@ -67,5 +67,5 @@ UI에 hover/transition을 넣기 전:
 
 ## SSoT
 
-- `docs/project/platform/code-rules.md` "상호작용" 절
+- `docs/project/platform/platform-02-code-rules.md` "상호작용" 절
 - `AGENTS.md` 「전역 불변사항 > UI 상호작용」

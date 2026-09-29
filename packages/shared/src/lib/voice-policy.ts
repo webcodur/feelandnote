@@ -14,9 +14,19 @@ export type Role = 'narrator' | 'summary' | 'celeb'
 export type Scope = 'long' | 'shorts'
 
 // --- Gemini 모델 ---
-// gemini-v3 엔진 선택 시 3.1, 그 외 기본 2.5.
+// --engine gemini-38/gemini-38-lite 선택 시 3.8, gemini-v3는 3.1, 그 외 기본 2.5.
 export const MODEL_GEMINI_25 = 'gemini-2.5-flash-preview-tts'
 export const MODEL_GEMINI_31 = 'gemini-3.1-flash-tts-preview'
+export const MODEL_GEMINI_38 = 'gemini-3.8-flash-tts'
+export const MODEL_GEMINI_38_LITE = 'gemini-3.8-flash-lite-tts'
+
+/**
+ * 3.8 계열 판별 — 입력이 verbatim transcript로 취급되므로 style을 텍스트 prefix가 아니라
+ * part의 speechMetadata로 넘겨야 하고, unary 응답이 raw PCM이 아니라 WAV(RIFF)다.
+ */
+export function isGemini38Tts(model: string): boolean {
+  return model.startsWith('gemini-3.8')
+}
 
 // --- 역할별 기본 보이스 ---
 // celeb은 레거시 화면 호환용이다. 서재탐방 실제 인물은 ElevenLabs만 사용한다.

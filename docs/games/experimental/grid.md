@@ -1,6 +1,6 @@
-# 교차 격자 (Crossing Grid) 발주서
+# 교차 격자 (Crossing Grid) — 규격
 
-> 현재 구현은 `sw/web/src/actions/game/getPortraitFigures.ts`, `sw/web/src/components/features/game/portrait/`, `docs/project/data/03-celeb.md`를 기준으로 읽는다.
+> 현재 구현은 `sw/web/src/actions/game/getPortraitFigures.ts`, `sw/web/src/components/features/game/portrait/`, `docs/project/data/data-03-celeb.md`를 기준으로 읽는다.
 
 ## 무엇을 하는 게임인가
 

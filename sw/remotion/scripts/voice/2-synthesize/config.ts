@@ -13,11 +13,13 @@ import {
   NARRATOR_STYLE_DEFAULT,
   MODEL_GEMINI_25,
   MODEL_GEMINI_31,
+  MODEL_GEMINI_38,
+  MODEL_GEMINI_38_LITE,
   type Voice,
   type Role,
 } from '@feelandnote/shared/lib/voice-policy'
 
-export { VOICE, NARRATOR_STYLE_DEFAULT, MODEL_GEMINI_25, MODEL_GEMINI_31 }
+export { VOICE, NARRATOR_STYLE_DEFAULT, MODEL_GEMINI_25, MODEL_GEMINI_31, MODEL_GEMINI_38, MODEL_GEMINI_38_LITE }
 export type { Voice, Role }
 
 /** @deprecated 기본 모델 별칭 — 신규 코드는 cli.GEMINI_MODEL 사용 */

@@ -14,7 +14,7 @@ full·light 실존 인물에 적용하며 fiction에는 만들지 않는다. 각
 |---|---|
 | 축 키·정의·점수 범위·부호·기준점·무력 보정·채점 원칙 | `packages/shared/src/constants/celeb-spectrum-scale.ts` |
 | 근거문 길이·중복·금지 정보·중립대 검사 | `sw/web-bo/scripts/lib/spectrum-reason-check.ts` |
-| DB 물리 구조 | [`../data/03-celeb.md`](../data/03-celeb.md) |
+| DB 물리 구조 | [`../data/data-03-celeb.md`](../data/data-03-celeb.md) |
 | 패치 검증과 반영 | `sw/web-bo/scripts/celeb/check-patch.ts`, `fill.ts` |
 
 척도 숫자와 허용값을 이 문서에 복제하지 않는다. 채점 전에는 코드의 `SPECTRUM_ANCHORS`, `SCORING_PRINCIPLES`, 성향 부호와 해당 인물군의 특칙을 직접 읽는다.

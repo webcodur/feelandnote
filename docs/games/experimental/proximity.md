@@ -1,4 +1,4 @@
-# 근접도 (Proximity) — 발주서
+# 근접도 (Proximity) — 규격
 
 > **최종 실측 체크: 26.08.11** — 부분 대조: `getTrackerRound.ts`(TrackerSpectrum 16축), `getSimilarByCelebId.ts`(calcDistance·distanceToMatchPercent), `lib/spectrum/constants.ts`(STAT_KEYS·TENDENCY_KEYS), `lib/spectrum/types.ts`(SpectrumStats·SpectrumProfile), `lib/spectrum/utils.ts`(calcDistance 시그니처), `getPortraitFigures.ts`(서버 조회 패턴), `portrait/` 전체(게임 구조 패턴), `i18n/request.ts`(네임스페이스 등록 확인), `messages/ko/core.json`(shared.game 키 확인). DB 실측 없음.
 

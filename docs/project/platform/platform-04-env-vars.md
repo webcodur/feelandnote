@@ -1,0 +1,222 @@
+# 환경변수 · 비밀값 SSoT
+
+> **26.09.19 추가** — 저장소 밖 비밀 파일에 agy 다계정 풀(`.antigravity-agent/`)을 등록했다.
+
+**이 저장소는 비밀값을 커밋하지 않는다.** `.gitignore`가 `.env`·`.env.*`·`.mcp.json`·`**/credentials/`를 모두 제외한다.
+그래서 `git clone`만으로는 어떤 앱도 뜨지 않는다. **아래 파일 7종을 사람이 직접 옮겨야 한다.**
+
+값 자체는 이 문서에 적지 않는다. 이 문서가 답하는 것은 **"어떤 파일이, 어디에, 무엇을 담고 있어야 하는가"**다.
+
+---
+
+## 1. 옮겨야 할 파일 (한눈에)
+
+| # | 파일 | 위치 | 없으면 |
+|---|------|------|--------|
+| 1 | `.env` | `sw/web/` | 사용자 웹이 뜨지 않음 (DB·Auth 연결 실패) |
+| 2 | `.env` | `sw/web-bo/` | 백오피스가 뜨지 않음 |
+| 3 | `.env` | `sw/remotion/` | 영상 음성 합성·R2 업로드·DB 조회 전부 실패 |
+| 4 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 유입 통계(GA4) 조회 불가. 웹 구동 자체는 됨 |
+| 5 | `client_secret.json`·`youtube_token.json`·`youtube_token_en.json` | `sw/remotion/credentials/` | 🔴 **유튜브 업로드·메타 갱신·삭제 전부 불가** (KO·EN 채널 OAuth. `scripts/youtube/youtube-core.ts`가 읽는다) |
+| 6 | `.mcp.json` | 저장소 루트 | AI 도구의 검색 콘솔 등 로컬 MCP 연결 불가. 서비스 구동과 무관 |
+| 7 | `.claude/settings.local.json` | 저장소 루트 | Claude Code 개인 설정만. 서비스와 무관 |
+
+루트 `credentials/ga-service-account.json`도 남아 있으나 **참조처가 없는 사본**이다(전부 `sw/web/credentials/` 경로만 읽는다). 옮기지 않아도 된다.
+
+저장소 **밖** 파일도 6종 있다.
+
+| 파일 | 위치 | 용도 |
+|------|------|------|
+| `ga-credentials.json` | `C:/Users/<사용자>/.claude/` | 검색 콘솔 MCP 인증 |
+| `.antigravity-agent/` 폴더 (`.mk` + `cloud_accounts.db`) | `C:/Users/<사용자>/.antigravity-agent/` | 🔴 **agy(Antigravity CLI) 구글 구독 계정 풀.** `agm`(github.com/shyim/agm)이 읽는 AES-256 암호화 DB와 복호화 마스터키의 세트다 — `.mk` 유출 시 등록 계정 전부 탈취. 운용·설치 상세는 폴더 안 `SETUP.md`가 쥔다 |
+| `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
+| `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
+| `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
+| `oracle-db-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 Oracle DB 암호화 백업 복구키. 서버에는 공개 recipient만 둔다 |
+
+**`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
+**`sw/audio-bo`는 `.env`가 없다** — 로컬 작업 폴더 경로를 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)으로 박아 뒀다. 다른 컴퓨터에서 폴더 위치가 다르면 §5를 본다.
+
+저장소에는 빈칸 서식지도 두지 않는다. `sw/web/.env.local.example`이 있었으나 프로그램이 읽지 않고 참조하는 곳도 없는 데다 목록이 실물의 5분의 1에서 멈춰 있어 26.07.31에 삭제했다. **세팅의 기준은 실물 `.env` 사본 하나뿐이고, 어떤 값이 필요한지는 이 문서가 답한다.**
+
+---
+
+## 2. 새 컴퓨터에서 개발 시작하기
+
+```bash
+git clone <저장소>
+pnpm install
+```
+
+이후 위 표의 파일을 같은 경로에 놓는다. 옮기는 방법은 두 가지다.
+
+1. **직접 복사** — 기존 컴퓨터에서 파일을 그대로 가져온다. 가장 빠르고, 지금 쓰는 방식이다.
+2. **재발급** — 유출이 의심되면 §3~§4의 발급처에서 새로 만든다. 재발급 시 **Oracle의 `/etc/feelandnote/web.env`도 함께 바꿔야** 운영 사이트가 죽지 않는다.
+
+전송 경로 주의: 이 파일들은 서비스 데이터베이스 전권(`DB_SECRET_KEY`)과 유료 API 결제 권한을 통째로 담고 있다. 메신저·이메일·공개 저장소에 올리지 않는다.
+
+### 확인
+
+```bash
+pnpm dev:web     # :3000 — 인물 목록이 뜨면 DB·Auth 연결 성공
+pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성공
+```
+
+---
+
+## 3. 값 묶음별 설명
+
+같은 값이 여러 앱에 중복으로 들어간다(앱마다 별도 파일을 읽으므로 정상이다). **한 곳을 바꾸면 나머지도 같이 바꿔야 한다.**
+
+### 3-1. Oracle — 데이터베이스·로그인
+
+| 이름 | 들어가는 곳 | 성격 |
+|------|------------|------|
+| `NEXT_PUBLIC_DB_API_URL` | web, web-bo | Oracle DB VM의 Auth·PostgREST 공개 주소. 공개돼도 무방 |
+| `NEXT_PUBLIC_DB_PUBLISHABLE_KEY` | web, web-bo | 브라우저용 `sb_publishable_...` 공개 키 |
+| `DB_SECRET_KEY` | web, web-bo, remotion | 🔴 서버용 `sb_secret_...` 전권 키. 접근 규칙(RLS)을 전부 무시하며 브라우저로 새면 안 된다 |
+| `DB_API_URL` | remotion | 위 Auth·PostgREST 주소와 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다 |
+
+공개·서버 키는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`가 원본이다. 이 경로명은 현재 실행 중인 DB 스택의 실제 배포 경로라 코드 명칭과 별개다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다.
+
+### 3-2. 사이트 주소
+
+| 이름 | 들어가는 곳 | 설명 |
+|------|------------|------|
+| `NEXT_PUBLIC_SITE_URL` | web, web-bo | 사용자 웹 주소. 사이트맵·공유 링크·인증 되돌아오는 주소의 기준 |
+| `NEXT_PUBLIC_WEB_URL` | web-bo | 백오피스에서 사용자 웹을 링크로 열 때 쓴다 |
+| `BO_BASE_URL` | remotion | 영상 도구가 백오피스 창구를 호출할 때의 주소(보통 `http://localhost:3001`) |
+
+### 3-3. 외부 콘텐츠 검색 API
+
+책·영화·게임·음악 메타데이터를 가져온다. `packages/content-search`가 쓰고, web·web-bo 양쪽에 같은 값이 들어간다.
+
+| 이름 | 용도 | 발급 |
+|------|------|------|
+| `KAKAO_REST_API_KEY` | 책 검색 (한국어판 현행 주력. 영문 원서는 OpenLibrary — 키 불요) | 카카오 개발자센터 |
+| `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회. DB 신규 메타 수집 키가 아니다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_CHARTS_ENABLED` | web 운영의 예스24 순위 활성화. 상업 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
+| `YES24_PURCHASE_ENABLED` | web 운영의 ISBN별 예스24 구매 링크 활성화. 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
+| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다.** 운영 웹의 「오늘의 인물」 뉴스도 이 키로 부르므로 Oracle `/etc/feelandnote/web.env`에도 들어간다 — 빠지면 매일 0시 인물 수만큼 「네이버 API 키 미설정」이 저널에 쌓이고 뉴스 칸이 빈다 | 네이버 개발자센터 |
+| `LASTFM_API_KEY` | 음악 메타 보강 (web만. 없으면 조용히 건너뜀) | Last.fm API |
+| `TMDB_API_KEY` | 영화·드라마 | TMDB |
+| `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | 게임(IGDB는 트위치 인증을 쓴다) | Twitch 개발자 콘솔 |
+| (없음) | 음악(iTunes Search API) | 인증·키 없이 사용. IP 속도 제한을 지킨다 |
+| `KOPIS_API_KEY` | 공연 정보 | KOPIS. **현재 소스에서 참조처를 찾지 못했다** — 예비값으로 본다 |
+| `GOOGLE_BOOKS_API_KEY`, `..._0` ~ `..._13` | BOOK **소개문 수집에만** 쓴다. 기본 키는 `packages/content-search/src/google-books.ts`, 번호 키는 소개문 배치의 키 풀(`gbooks-keypool.ts`)이 읽는다. 메타·표지 원천으로는 금지 | Google Cloud(결제 계정이 붙지 않은 프로젝트만) |
+
+> 허용 범위의 원천은 [`platform-05-external-services.md`](platform-05-external-services.md) 「외부 콘텐츠 검색 API」다.
+
+### 3-4. Cloudflare R2 — 이미지 저장소
+
+| 이름 | 들어가는 곳 |
+|------|------------|
+| `R2_ACCOUNT_ID` · `R2_ACCESS_KEY_ID` · `R2_SECRET_ACCESS_KEY` · `R2_BUCKET_NAME` · `R2_PUBLIC_URL` | web, web-bo, remotion (5종 세트, 세 앱 동일) |
+
+인물 사진·책 표지가 여기 있다. 값이 틀리면 화면에 사진만 안 뜨는 게 아니라 **업로드 도구가 조용히 실패**할 수 있다.
+`R2_PUBLIC_URL`의 현행값은 `https://assets.feelandnote.com`이다. web의 클라이언트 음성 URL도 `next.config.ts`가 이 값을 공개 설정으로 주입하므로 별도 환경변수를 만들지 않는다.
+
+### 3-5. 음성 합성
+
+| 이름 | 들어가는 곳 | 설명 |
+|------|------------|------|
+| `ELEVENLABS_API_KEY` | web, web-bo, remotion | 🔴 **유료 종량제.** 인물 목소리 합성 |
+| `ELEVENLABS_API_KEY_FEELANDNOTE` | web-bo, remotion | 두 번째 계정 키. 한도 소진 시 갈아탄다 |
+
+ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시되는 실제 `sk_...` 비밀 키를 넣는다. Key ID는 인증 헤더에 사용할 수 없다.
+
+### 3-6. Gemini(Google GenAI) 키 무리
+
+이미지·텍스트 생성에 쓴다. **무료 키의 하루 한도가 낮아 여러 개를 순번대로 돌려쓰는 구조**라 이름이 번호로 끝난다.
+
+| 이름 꼴 | 들어가는 곳 | 개수(실측) |
+|---------|------------|-----------|
+| `GOOGLE_GENAI_API_KEY0` ~ `20` | web | 21개(코드 미사용, `5`번은 폐기) |
+| `GOOGLE_GENAI_API_KEY_FREE<n>` | web-bo, remotion | 각 100개. `FREE1~10` + `FREE20~99`는 AIza(legacy) 90개, `FREE100~109`는 AQ(Auth, ykj 묶음. 26.09.15 추가) 10개. `FREE11~19`는 무효·정지 키를 지워 비어 있다 |
+| `GEMINI_START_KEY` | web-bo | 몇 번 키부터 돌릴지 지정(1부터 셈. 정렬 배열에서의 순번) |
+
+> 키 풀 열거는 `packages/shared/src/lib/gemini-keys.ts` 한 곳만 안다. `GOOGLE_GENAI_API_KEY_FREE` 뒤 숫자 오름차순으로 돌리며 상한이 없으므로 번호를 늘려도 코드 수정이 필요 없다. AIza와 AQ. 형식을 함께 받는다. 로그의 `keyIndex`(1부터 셈)는 이 정렬 배열에서의 순번이라 변수 번호와 다를 수 있다 — `googleFreeKeyName(keyIndex)`로 변수명을 확인한다.
+
+> **Google 유료 키 금지**: 결제 계정이 붙은 GCP 프로젝트의 키는 `.env`에 두지 않는다. 2026-09-02에 `GOOGLE_GENAI_API_KEY_PAID1`을 콘솔에서 삭제하고 프로젝트 결제를 중지했으며, 쓰지 않던 `GOOGLE_VERTEX_API_KEY1`·`GOOGLE_CLOUD_TTS_KEY`도 `.env`에서 지웠다. 이미지·텍스트 생성이 월 1만 원 단위로 조용히 과금됐기 때문이다. Google 음성·이미지·텍스트는 무료 키 로테이션, agy·Gemini CLI 로그인, 또는 ElevenLabs로만 부른다.
+
+
+### 3-7. 크론·캐시 갱신
+
+| 이름 | 들어가는 곳 | 설명 |
+|------|------------|------|
+| 웹 Cloudflare Tunnel 토큰 | Oracle 웹 VM `/etc/cloudflared/feelandnote-web.token` | Cloudflare의 웹 전용 터널에서 발급한다. root 소유 0600, 상위 디렉터리 0700으로 보관하고 `feelandnote-web-tunnel.service`의 `LoadCredential`·`--token-file`로 읽는다. 앱 환경변수·저장소·명령 인자에 값을 넣지 않는다. 유출 시 해당 터널의 토큰을 교체하고 이 파일을 갱신한 뒤 터널 서비스만 재시작한다 |
+| `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Oracle), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Oracle과 GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. 코드 배포 뒤에는 `cloudflare-purge.yml`을 필요한 범위로 수동 실행한다. 전체 존 퍼지는 `workflow_dispatch`의 `emergency-zone`과 정확한 확인문을 함께 입력한 경우에만 허용한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
+| `tistory_kakao_id` · `tistory_kakao_password` | **PostgreSQL Vault만** (`.env`에 두지 않는다) | 티스토리 「필앤노트 시네마」 발행용 카카오 계정. 전용 Chrome·어사이드의 카카오 세션이 만료돼 비밀번호를 요구할 때 사람이 꺼내 넣는다. 스크립트가 자동 입력하지 않는다. 유출 시 카카오 비밀번호를 바꾸고 Vault를 갱신한다 |
+| `CRON_SECRET` | web(Oracle), web-bo, **PostgreSQL Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·Vault를 함께 바꾼다(`platform-05-external-services.md`「웹 캐시 무효화 단일 창구」) |
+
+오늘의 인물은 Oracle의 `feelandnote-today-figure.timer`가 매일 15:05 UTC(한국시각 0시 5분)에 `/api/cron/today-figure`를 호출한다.
+
+### 3-8. 유입 통계(GA4)
+
+| 이름 | 들어가는 곳 | 설명 |
+|------|------------|------|
+| `GA_PROPERTY_ID` | web | GA4 속성 번호 |
+| `GA_CREDENTIALS_PATH` | web | 아래 인증 파일의 경로 |
+| `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 🔴 **구글 서비스 계정 키 파일.** 개인 키가 그대로 들어 있다 (`claude-analytics@feelandnote.iam.gserviceaccount.com`) |
+
+### 3-9. 영상 제작 로컬 연동
+
+| 이름 | 들어가는 곳 | 설명 |
+|------|------------|------|
+| `REMOTION_LOCAL` | web-bo | `1`이면 백오피스가 렌더 저장소(`sw/remotion/public/`)의 실제 파일을 읽고 쓴다(서재 탐방·책과 사람·가상 담화·랭킹). **꺼져 있으면 로컬 자산 창구가 503과 사유를 내고 저장이 막힌다** |
+| `REMOTION_ROOT` | (선택) | 영상 저장소가 다른 위치에 있을 때만 지정. 없으면 `sw/remotion`으로 본다 |
+
+### 3-10. 기타
+
+| 이름 | 들어가는 곳 | 설명 |
+|------|------------|------|
+| `ZAI_API_KEY` | web-bo | 외부 생성 모델 키 |
+| `NOBG_SPEED` | web-bo (선택) | 누끼(배경 제거)가 쓰는 CPU 양. 기본 `medium`은 코어 1/4만 쓰고 우선순위를 낮춰, 누끼를 돌리는 동안에도 컴퓨터를 계속 쓸 수 있다. `full`은 코어를 전부 잡아 그동안 다른 일을 못 한다. `low`는 배경에 깔아 둘 때. 값과 근거는 누끼 도구 저장소의 `nobg_speed.py` |
+| `ANDROID_APP_PACKAGE_NAME` · `ANDROID_APP_CERT_FINGERPRINTS` | web (**현재 미설정**) | 안드로이드 앱의 도메인 소유 확인용. 실제 `.env`에 아직 없다. 지문이 없으면 경고를 남기고 빈 값으로 응답하므로 **앱 도메인 검증이 실패한다**. 앱 출시 단계에서 채운다 |
+
+---
+
+## 4. AI 도구용 설정 (`.mcp.json`)
+
+서비스 구동과 무관하다. Claude·Codex 등에서 검색 콘솔과 로컬 브라우저 도구를 연결할 때만 필요하다.
+
+| 서버 | 담고 있는 것 |
+|------|-------------|
+| `google-search-console` | `GOOGLE_APPLICATION_CREDENTIALS` — 구글 인증 파일 경로(`C:/Users/<사용자>/.claude/ga-credentials.json`, 저장소 밖) |
+| `obscura` | 비밀값 없음. 로컬 실행 파일 경로(`C:\Tools\obscura\`)만 가리킨다 |
+
+> 사용자별 절대 경로가 들어가는 로컬 설정이므로 `.gitignore`에 둔다. 저장소에 올리지 않는다.
+
+---
+
+## 5. 다른 컴퓨터에서 달라지는 것 — 로컬 폴더 경로
+
+값이 아니라 **폴더 위치**라서 컴퓨터마다 다르다. 음성 작업실(`sw/audio-bo`)은 `.env` 없이 코드 기본값을 쓰므로, 폴더 구성이 다르면 `sw/audio-bo/.env`를 새로 만들어 덮어쓴다.
+
+| 이름 | 기본값 | 무엇 |
+|------|--------|------|
+| `AUDIO_BO_ROOT` | `D:\audios\interview-cleaner\projects` | 음원 작업 폴더 |
+| `GPT_SOVITS_ROOT` | `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604` | 음성 합성 도구 설치 위치 |
+| `INTERVIEW_CLEANER_ROOT` | `D:\audios\interview-cleaner` | 받아쓰기 도구 위치 |
+
+영상 자료(`sw/remotion/public/episodes`·`music`·`covers`)도 통째로 추적 대상이 아니다. **저장소를 복제해도 영상 자료는 따라오지 않는다** — 별도로 옮긴다. 26.08.22 실측 규모는 episodes 3.7GB(6,628파일)·music 138MB·covers 32MB다. 외장 저장소나 로컬 네트워크로 옮긴다.
+
+그 밖에 새 컴퓨터에서 챙길 것:
+
+- **`.claude/skills/` 정션 재생성** — `.agents/skills/`를 가리키는 로컬 정션이라 복제로 따라오지 않는다. `.agents/link-skills.ps1`을 실행해 다시 만든다.
+- **안드로이드 서명 키** — `sw/android/keystore.properties`와 `*.jks`는 추적 제외 대상이며 현재 저장소 안에 실물이 없다(예시 파일만 있다). 앱 서명·출시 단계라면 서명 키를 보관처에서 따로 옮긴다.
+- **음성 작업 폴더** — 위 표의 `D:\audios\...`·`D:\GPT-SoVITS\...`는 저장소 밖 별도 설치물이다. 음성 학습·합성을 쓸 때만 필요하다.
+- **agy 다계정 풀** — `%USERPROFILE%\.antigravity-agent\` 폴더를 통째로 옮기고 `go install github.com/shyim/agm@latest`로 도구를 설치한다. `.mk`가 함께 가면 계정 재로그인 없이 토큰이 풀린다. 이관 뒤 `agm validate`로 확인한다. 폴더를 못 옮기면 폴더 안 `SETUP.md`의 B안(어사이드 볼트로 계정 재구축)을 따른다.
+
+---
+
+## 6. 유출 시 처리 순서
+
+1. Oracle DB VM의 Auth·PostgREST가 쓰는 `sb_secret_...` 키가 노출되면 회전한 뒤 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`를 모두 교체하고 기존 키를 폐기
+2. Cloudflare R2 → 액세스 키 삭제 후 재발급
+3. ElevenLabs·Gemini·TMDB 등 → 각 콘솔에서 키 폐기 후 재발급
+4. 구글 서비스 계정 → 키 삭제 후 새 키 내려받아 `sw/web/credentials/ga-service-account.json` 교체
+5. 유튜브 OAuth → 구글 클라우드 콘솔에서 OAuth 클라이언트 비밀 재발급, `sw/remotion/credentials/client_secret.json` 교체 후 KO·EN 채널 토큰 재인증
+6. agy 계정 풀(`.antigravity-agent/`의 `.mk`+DB) → 각 구글 계정의 권한 설정(myaccount.google.com/permissions)에서 Antigravity 접근을 해지하고, 폴더를 폐기한 뒤 `agm login`으로 재등록
+
+과금이 붙는 것은 ElevenLabs다. 유출 시 여기부터 잠근다.

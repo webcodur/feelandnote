@@ -28,7 +28,7 @@ celeb 세그먼트는 별도 경로(`host.voiceStyle` + ElevenLabs 커스텀 보
 
 ## 필수 사전 읽기
 
-- `docs/project/remotion/book-recommend/voice/tts.md` — "짧은 narrator 문장 특수 톤 (tail padding)" 섹션, "고유어 수사 vs 한자어 수사" 섹션
+- `docs/project/remotion/book-recommend/voice/voice-02-tts.md` — "짧은 narrator 문장 특수 톤 (tail padding)" 섹션, "고유어 수사 vs 한자어 수사" 섹션
 - 대상 에피소드의 해당 세그먼트 텍스트 원본: `shorts/ko-N.json` (쇼츠) 또는 `ko.json`의 `narrator`/`books[].summary`/`books[].contextMain` 등 (롱폼), `tts.replace` 현황
 
 ## 작업 흐름
@@ -44,7 +44,7 @@ celeb 세그먼트는 별도 경로(`host.voiceStyle` + ElevenLabs 커스텀 보
 1. 대상 세그먼트 텍스트를 원본 json(`shorts/ko-N.json` 또는 `ko.json`)에서 읽어 사용자에게 보여준다
 2. 필요한 특수 톤(사극체·비장체·낮은 톤·속삭임 등)을 확정한다. 이 스킬은 해설 전용이므로 보이스는 `Charon`으로 고정한다. 실제 인물 대사는 ELE 경로를 사용하며 이 스킬로 재생성하지 않는다.
 3. **tail padding에 붙일 긴 서술 초안**을 제시하고 사용자 OK를 받는다. tail 서술은 대상 문장과 주제·분위기가 연결되어야 Gemini의 톤 유도가 효과적
-4. 숫자 표기가 고유어/한자어 혼합이 아닌지 검사 — 혼합이면 먼저 `tts.replace` 수정 안내 (tts.md 참조)
+4. 숫자 표기가 고유어/한자어 혼합이 아닌지 검사 — 혼합이면 먼저 `tts.replace` 수정 안내 (voice-02-tts.md 참조)
 5. **Gemini 호출 승인 명시적 확인**
 
 ### Step 1: ad-hoc 스크립트로 raw 생성
@@ -245,7 +245,7 @@ pnpm voice:chunk -- --check -- --episode <name>
 ### Step 8: 정리
 
 - ad-hoc 스크립트 3개 전부 삭제 (`retone-ad-hoc.ts`, `retone-wx.py`, `retone-normalize.ts`)
-- 이번 작업에서 얻은 패턴(특수 톤 어휘, tail padding 내용 등)이 향후 반복 활용 가능성 있으면 `docs/project/remotion/book-recommend/voice/tts.md` 또는 해당 인물 문서에 남기기
+- 이번 작업에서 얻은 패턴(특수 톤 어휘, tail padding 내용 등)이 향후 반복 활용 가능성 있으면 `docs/project/remotion/book-recommend/voice/voice-02-tts.md` 또는 해당 인물 문서에 남기기
 
 ## ⛔ 금지 사항 요약
 

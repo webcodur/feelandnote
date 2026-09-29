@@ -1,15 +1,15 @@
 # 사용자 웹 남은 작업
 
-구획별 렌더 규칙은 `docs/project/platform/code-rules.md`, 운영·캐시는
-`docs/project/platform/external-services.md`를 따른다.
+구획별 렌더 규칙은 `docs/project/platform/platform-02-code-rules.md`, 운영·캐시는
+`docs/project/platform/platform-05-external-services.md`를 따른다.
 
 ## 구현
 
 - **TMDB·IGDB 상업 이용:** 2026-09-27 `feelandnote@gmail.com`에서 TMDB(`sales@themoviedb.org`)에 상업 라이선스 조건·견적을 문의하고 IGDB(`partner@igdb.com`)에 무료 상업 파트너 등록을 요청했다. 두 메일 모두 발송을 확인했으며 회신 대기 중이다. 이용 승인·계약 체결은 완료되지 않았다.
   메일 제목은 각각 `Commercial API licensing inquiry — Feel&Note (South Korea)`, `Commercial partnership registration request — Feel&Note`다.
-  기존 검색·상세의 메타데이터·이미지 사용과 추가로 검토 중인 TMDB 영화·TV 트렌딩, IGDB 게임 인기 지표의 이용 조건을 물었다. 영상은 Apple 영화 스토어의 한국·미국 공개 차트로 연결했다. 게임은 PC·콘솔 우선이며 App Store 무료 게임 연결은 제거했다. 플랫폼별 플레이·다운로드·관심도는 서로 다른 지표이므로 근거 없이 종합 순위로 합치지 않는다. 공식 신청 경로는 [외부 콘텐츠 검색 API](../project/platform/external-services.md#외부-콘텐츠-검색-api)를 따른다.
+  기존 검색·상세의 메타데이터·이미지 사용과 추가로 검토 중인 TMDB 영화·TV 트렌딩, IGDB 게임 인기 지표의 이용 조건을 물었다. 영상은 Apple 영화 스토어의 한국·미국 공개 차트로 연결했다. 게임은 PC·콘솔 우선이며 App Store 무료 게임 연결은 제거했다. 플랫폼별 플레이·다운로드·관심도는 서로 다른 지표이므로 근거 없이 종합 순위로 합치지 않는다. 공식 신청 경로는 [외부 콘텐츠 검색 API](../project/platform/platform-05-external-services.md#외부-콘텐츠-검색-api)를 따른다.
 
-- 회원 기록 첫 화면은 현재 프로필만 서버에서 읽고 목록을 브라우저가 다시 조회한다.
+- 회원 기록 첫 화면은 현재 프로필만 서버에서 읽고 목록을 브라우저가 다시 조회한다(26.09.29 코드 확인 — `reading/page.tsx`에 첫 페이지 조회 없음).
   `sw/web/src/app/[locale]/(main)/[userId]/reading/page.tsx`에서 첫 페이지를 조회해
   `RecordsContent`와 `ContentLibrary`의 `initialContents`로 넘긴다. 본인·타인의 공개 범위와
   검색·정렬·쪽 이동은 그대로 유지한다.
@@ -21,20 +21,28 @@
   `sw/web/src/components/features/home/useCelebFilters.ts`다.
 
 - **1,000행 상한 감사에서 남긴 조회(26.09.14).** 여러 행 조회를 `selectAllPages`로 나눠 받는 규칙은
-  `docs/project/platform/code-rules.md` 「필수」가 쥔다. 지금 잘리던 곳(세력도감·크론·게임·피드·서재·표지·제휴·신화 원전·
+  `docs/project/platform/platform-02-code-rules.md` 「필수」가 쥔다. 지금 잘리던 곳(세력도감·크론·게임·피드·서재·표지·제휴·신화 원전·
   오늘의 인물 시드)은 고쳤고, 아래는 실측으로 아직 안전하거나 재 보지 못해 남겼다.
   - 검색어 부분일치 4곳 — `getCelebContentExpand`·`getUserContents`·`getMyContents`·`searchRecords`가 `content_locales`를
     `ilike` 무제한으로 읽어 `.in(content_id)`에 넣는다. 짧고 흔한 검색어면 1,000행에서 잘리고 주소 길이로도 실패한다.
   - 영향력 대전 카드 풀 `getCelebCards` — 647명으로 아직 안전하지만, 그 id를 한 번에 `.in()`에 넣어 수백 명이면 주소 길이로 실패한다.
-  - 제휴 직군 동료 `getAffiliateBooks` profession-read — `.limit(1000)`에 719행으로 턱밑이다.
+  - 제휴 직군 동료 `getAffiliateBooks` profession-read·celeb-read — 여전히 `.limit(1000)`이다(26.09.29 코드 확인, 당시 719행으로 턱밑).
   - 미궁 게임 `getTrackerRound` — 후보 함수 `get_tracker_candidates`에 LIMIT가 없고(모수 미측정), 함수 실패 때 도는
     폴백은 200명 묶음마다 1,000행에서 잘린다.
+
+## 다국어
+
+규격은 [`platform-03-i18n.md`](../project/platform/platform-03-i18n.md)가 쥔다.
+
+- [ ] 언어 전환 UI(설정 또는 헤더)와 브라우저 언어 자동 감지.
+- [ ] 번들 크기 확인 — 모든 네임스페이스가 전 화면 응답에 실린다(`i18n/request.ts`).
+- [ ] 게임 UI 번역(천도 `features/game/`, 톤별 범용 대사 `defaultLines`). 게임 공개가 정해진 뒤에 한다.
 
 ## 서비스 탐색에서 확인한 개선점
 
 2026-09-05 운영 사이트의 데스크톱·비로그인 탐색에서 확인했다. 아래 개선 방향은 비평에서 나온 제안이다.
 
-[인물 감상 원고의 출처·문장 검수](../project/operations/service-strategy.md#읽을거리와-수집-대상-검증)
+[인물 감상 원고의 출처·문장 검수](../project/operations/ops-01-service-strategy.md#읽을거리와-수집-대상-검증)
 
 - [ ] 세력도감은 ‘누가 누구와 함께했는가’를 내세우지만, 확인한 OpenAI 테마는 화보·명단·직함·개인 소개가 중심이다.
   인물들이 함께 한 일과 역할 차이를 설명해 관계를 이해할 수 있게 한다.
@@ -45,15 +53,40 @@
 네이버 블로그(책)와 티스토리(영화)는 연결·예약을 마쳤다. 다음 추가 채널은 긱뉴스의 Show GN과
 디스콰이엇이며, 둘 다 한국어로 소개한다. 두 초안은 D드라이브에 준비되어 있고 아직 게시하지 않았다.
 
-- [ ] 긱뉴스 Show GN: [한국어 소개 초안](D:/docs/feelandnote/community-intro/show-gn.ko.md)을
+- [ ] 긱뉴스 Show GN: 한국어 소개 초안(`D:\docs\feelandnote\community-intro\show-gn.ko.md`)을
   사용자와 최종 검토한 뒤 서비스 소개 글을 게시한다.
-- [ ] 디스콰이엇: [제품 소개 초안](D:/docs/feelandnote/community-intro/disquiet.ko.md)을
+- [ ] 디스콰이엇: 제품 소개 초안(`D:\docs\feelandnote\community-intro\disquiet.ko.md`)을
   사용자와 최종 검토한 뒤 제품을 등록하고, 해당 제품에 연결한 소개 글을 게시한다.
 
 초안을 검토할 때 운영자 자기소개에 [공개 활동명 규칙](../../AGENTS.md#프로젝트-개요)을 반영한다.
-[아이콘·화면 캡처](D:/docs/feelandnote/community-intro/assets/)도 준비되어 있으며 캡처 첨부는 선택이다.
+아이콘·화면 캡처(`D:\docs\feelandnote\community-intro\assets\`)도 준비되어 있으며 캡처 첨부는 선택이다.
 음악·플레이리스트 신규 채널은 제외한다. 출판사·서점 접촉은 후순위이며, 브런치는 네이버 블로그와
 유사해 이번 추가 대상에서 제외한다.
+
+**홍보 영상(보류).** HyperFrames(HTML+GSAP → MP4)로 29.5초 프로토타입을 렌더까지 검증했다(저장소 밖
+`C:\project\hyperframes-test\feelandnote-promo`, 스토리보드·브리프 동봉). 용도는 랜딩 상단·Show GN·디스콰이엇·앱스토어
+프리뷰 같은 1회성 마케팅 영상으로 한정하며 `sw/remotion` 에피소드 파이프라인을 대체하지 않는다. 사이트 UI 캡처는 완성도가
+그대로 드러나 버리고, 아바타·표지 같은 콘텐츠 자산으로 디자인 씬을 짠다. 착수하면 정할 것:
+
+- [ ] 소재: 오늘의 인물 1명(현재안)인지 여러 인물 몽타주인지. 몽타주면 아바타·표지를 DB에서 꺼내는 수집 스크립트가 필요하다.
+- [ ] 내레이션: Edge TTS는 공개용 품질이 부족하다. 기존 에피소드 음성 계열로 재생성한다.
+- [ ] BGM: Mixkit 라이선스를 배포 채널별로 다시 확인하거나 `sw/remotion/public/music/` 자체 음원으로 바꾼다.
+- [ ] 9:16·1:1 비율 변형과 채널별 엔드카드 문구.
+- [ ] 저장소 편입 여부. 옮긴다면 `sw/hyperframes`로 분리하고 Remotion 포트(3002·8001)와 겹치지 않게 한다. HeyGen CLI는 Windows 바이너리가 없어 WSL이 필요하다.
+
+## 해외 접속 지연
+
+26.09.21 check-host.net 58노드 실측. 인물·작품 상세의 엣지 HIT는 해외에서도 0.03~0.3초지만, 캐시 제외 화면(홈·탐색·검색·광장·API)은
+매 요청 춘천 VM까지 왕복해 3~4.7초다(순수 왕복 하한: 아시아 0.16~0.19초 · 북미 0.4~0.6초 · 유럽 0.7~1.3초). 캐시 정책은
+[Cloudflare 앞단 캐시](../project/platform/platform-05-external-services.md)가 쥔다. 아래 셋은 무료 플랜 기능과 코드 작업이라 추가 요금이 없다.
+
+- [ ] 비개인화 화면(탐색·명부 등)의 익명 응답도 엣지 캐시에 넣는다. 무효화는 DB 트리거 → `/api/revalidate` 경로를 재사용한다.
+- [ ] 홈(449KB)·탐색(517KB) HTML의 RSC 페이로드를 줄인다. 국내외 모두 이득이다.
+- [ ] 헤더 알림 초기 조회(`useHeaderNotifications.ts`가 브라우저에서 `db.feelandnote.com`으로 `auth.getUser`+알림을 직접 조회)를 서버 렌더에 합쳐 터널 왕복을 없앤다.
+
+유료 선택지는 해외 트래픽 비중이 실제로 커졌다고 확인된 뒤 판단한다. Argo Smart Routing($5/월 + 비캐시 전송 $0.10/GB)이
+다이내믹 화면의 해외 왕복을 줄이는 사실상 유일한 스위치다. Pro 플랜은 한국 사용자의 ICN 엣지 배정을 개선할 수 있으나 보장이 없고
+해외 왕복은 줄지 않는다(무료 플랜에서는 한국 사용자도 HKG·NRT 엣지로 배정되는 일이 있다).
 
 ## 실화면·운영
 

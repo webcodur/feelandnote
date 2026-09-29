@@ -12,7 +12,7 @@ description: 삼국지 인물 그룹 SSoT 관리. 명단 조회, 신규 인물 �
 | 파일 | 역할 |
 |------|------|
 | `packages/shared/src/lib/three-kingdoms.ts` | **코드 SSoT** — `THREE_KINGDOMS_MEMBERS` 배열, `isThreeKingdomsMember()` 헬퍼 |
-| `docs/project/remotion/three-kingdoms.md` | **문서 SSoT** — 슬러그 표, 진영, 진행 상태, 메타 규약 |
+| `docs/project/remotion/remotion-01-three-kingdoms.md` | **문서 SSoT** — 슬러그 표, 진영, 진행 상태, 메타 규약 |
 
 두 파일은 **항상 동시 갱신**한다. 한쪽만 손대면 메타 자동 부착이 깨지거나 문서가 거짓말이 된다.
 
@@ -28,7 +28,7 @@ description: 삼국지 인물 그룹 SSoT 관리. 명단 조회, 신규 인물 �
 
 ### 모드 1: 명단 조회
 
-`THREE_KINGDOMS_MEMBERS` 배열을 그대로 출력하고, `docs/project/remotion/three-kingdoms.md`의 표에서 한국어 이름·진영·진행 상태를 함께 보여준다.
+`THREE_KINGDOMS_MEMBERS` 배열을 그대로 출력하고, `docs/project/remotion/remotion-01-three-kingdoms.md`의 표에서 한국어 이름·진영·진행 상태를 함께 보여준다.
 
 ### 모드 2: 신규 인물 추가
 
@@ -36,7 +36,7 @@ description: 삼국지 인물 그룹 SSoT 관리. 명단 조회, 신규 인물 �
 
 1. **DB·에피소드 폴더 확인** — 셀럽이 시스템에 이미 존재하는지 (`sw/remotion/public/episodes/<slug>` 존재 여부). 없으면 사용자에게 알리고 슬러그를 확정한다.
 2. **`THREE_KINGDOMS_MEMBERS` 배열에 추가** — 알파벳 순 유지. Edit tool로 한 줄 삽입.
-3. **`docs/project/remotion/three-kingdoms.md` 표 갱신** — 슬러그 명단 표에 행 추가(한국어 이름·진영 채움). 진행 상태 표에도 폴더 위치 반영.
+3. **`docs/project/remotion/remotion-01-three-kingdoms.md` 표 갱신** — 슬러그 명단 표에 행 추가(한국어 이름·진영 채움). 진행 상태 표에도 폴더 위치 반영.
 4. **기존 업로드 점검** — `sw/remotion/scripts/youtube/youtube-lineup.json`에 해당 슬러그 항목이 있고 `uploads`가 비어 있지 않으면, 사용자에게 `pnpm youtube:patch-meta -- --episode <slug>` 실행을 안내한다(승인 받아야 실제 호출).
 
 ### 모드 3: 진행 상태 점검

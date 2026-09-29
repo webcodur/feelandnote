@@ -12,7 +12,7 @@ import { parseTrendCountry } from "@/constants/trendCountries";
 import FigureLinkGrid, { type FigureLinkItem } from "@/components/features/celeb/FigureLinkGrid";
 
 /** 홈에서 지목할 인물 수. 늘리면 링크 하나하나의 무게가 옅어지고 화면에는 벽이 선다.
- *  전량 커버는 인물 사전과 직군 명부가 맡는다(docs/project/operations/seo.md).
+ *  전량 커버는 인물 사전과 직군 명부가 맡는다(docs/project/operations/ops-02-seo.md).
  *  기다림 표시가 같은 칸 수로 서도록 page.tsx가 이 값을 가져다 쓴다 */
 export const HOME_FIGURE_LINK_COUNT = 6;
 

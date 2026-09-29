@@ -17,13 +17,13 @@
 | 아바타 | `celebs.avatar_url` | R2 `celebs/{id}/avatar.webp`; 원형·작은 카드·식별자 | [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md), `celeb-avatar-register` 스킬 |
 | 아바타 작은 판 | 원본 아바타에서 파생 | 같은 R2 경로의 `avatar-sm.webp`; 작은 고정 크기 카드 | `packages/shared/src/constants/celeb-avatar-small.ts` |
 | 대표 사진 | `celebs.portrait_url`, `portrait_caption(_en)` | R2 `celebs/{id}/photo.webp`; 인물 상세 입장부 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md), `CELEB_HERO_PHOTO_SPEC` |
-| 각성 이미지 | `celebs.awakened_image_url` | R2 `celebs/{id}/awakened.webp`; 화면 소비 방식은 미확정 | [`../../todo/celeb/awakened-mode.md`](../../todo/celeb/awakened-mode.md) |
+| 각성 이미지 | `celebs.awakened_image_url` | R2 `celebs/{id}/awakened.webp`; 화면 소비 방식은 미확정 | [`../../todo/celeb/README.md`](../../todo/celeb/README.md) |
 | 세력도감 개인화보 | `faction_members.image_url` | R2 `faction/{lv2Id}/celeb-{celebId}.webp`; 화면은 `faction_member_rows` 뷰에서 읽고 원본 비율로 표시 | `faction-image` 스킬 |
 | 세력도감 단체화보 | `faction_lv2.team_images` | R2 `faction/{lv2Id}/team/…`; 세력별 묶음(이름·구성원)과 단체 사진. 세력 화면은 사진을 띄우지 않고, 세력이 하나뿐인 분류를 잘게 나누는 묶음 정의로만 쓴다. 세력이 둘 이상이면 세력(뷰의 `group_name`)으로 묶는다 | `faction-image` 스킬 |
 | 관계 외부 인물 | `celeb_relations_external.image_url` | 명단 밖 인물 식별 이미지 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | 세계 배너 | 저장소 정적 파일 | `sw/web/public/images/worlds/`의 PC·모바일 파생본 | [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
 
-세력도감 화보는 web-bo 도감 편집 화면(`/factions/<세력>`)에서 올린다([`web-bo.md`](../apps/web-bo.md) 「세력도감」).
+세력도감 화보는 web-bo 도감 편집 화면(`/factions/<세력>`)에서 올린다([`apps-01-web-bo.md`](../apps/apps-01-web-bo.md) 「세력도감」).
 
 ## fallback
 

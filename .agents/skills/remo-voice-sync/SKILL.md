@@ -98,7 +98,7 @@ pnpm voice:align -- --episode <인물>-ko --shorts <N> --only S07-celeb-zhuge-3,
 
 **시맨틱컷 모드**일 때만 전량 삭제 후 재분할.
 
-각 세그먼트마다 LLM이 [tts.md 4단계 규칙](../../../docs/project/remotion/book-recommend/voice/tts.md)으로 분할:
+각 세그먼트마다 LLM이 [voice-02-tts.md 「5단계: 자막 의미 단위 분할」 규칙](../../../docs/project/remotion/book-recommend/voice/voice-02-tts.md)으로 분할:
 
 #### ⛔ 절대 금지
 

@@ -42,7 +42,7 @@
 
 ### 판매처 — 기준 서점은 YES24
 
-한국어 도서의 가격·판매 정보는 판본 ISBN으로 YES24에서 조회하고, 영문 구매처는 Amazon이다. **판본 ISBN을 확보한다.** 쿠팡의 현재 연결 방식과 과거 링크 폐기 방침은 [`affiliate-commerce.md`](../project/operations/affiliate-commerce.md)가 쥔다.
+한국어 도서의 가격·판매 정보는 판본 ISBN으로 YES24에서 조회하고, 영문 구매처는 Amazon이다. **판본 ISBN을 확보한다.** 쿠팡의 현재 연결 방식과 과거 링크 폐기 방침은 [`ops-03-affiliate-commerce.md`](../project/operations/ops-03-affiliate-commerce.md)가 쥔다.
 
 등장 작품 가운데 ko 판본 ISBN이 없는 것은 4권뿐이다(09-18): 『천일야화』(판본 미정), 『해칭 트위터』·『친구 속의 스파이』(한국어판 미확인 표시용 행), 『나폴레옹 전기』는 09-18에 길산 2017 판본(`9788995201206`, edition 11218)을 등록했다.
 

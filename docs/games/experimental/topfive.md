@@ -1,6 +1,6 @@
-# 상위 다섯 (Top Five) 발주서
+# 상위 다섯 (Top Five) — 규격
 
-> 현재 구현은 `sw/web/src/actions/game/grid.ts`, `sw/web/src/components/features/game/grid/`, `docs/project/data/03-celeb.md`, `docs/project/celeb/celeb-03-01-influence.md`를 기준으로 읽는다.
+> 현재 구현은 `sw/web/src/actions/game/grid.ts`, `sw/web/src/components/features/game/grid/`, `docs/project/data/data-03-celeb.md`, `docs/project/celeb/celeb-03-01-influence.md`를 기준으로 읽는다.
 
 ## 무엇을 하는 게임인가
 

@@ -51,7 +51,7 @@
 - 소품은 손에 쥐이거나 바닥·책상·걸이에 지지돼야 한다.
 - 체중과 관절, 손가락, 가구 접촉, 병장기 무게가 물리적으로 맞아야 한다.
 - 활시위·고삐·악기 줄처럼 가는 선과 손이 복잡하게 맞물리는 동작은 피한다.
-- 공통 물리·해부·시대 규칙은 [`../production/image-generation.md`](../production/image-generation.md)를 따른다.
+- 공통 물리·해부·시대 규칙은 [`../production/prod-01-image-generation.md`](../production/prod-01-image-generation.md)를 따른다.
 
 ### 시선은 자유다. 묶이는 것은 작업 중일 때뿐이다
 
@@ -67,7 +67,7 @@
 
 ### 사진 없는 인물의 얼굴 REF는 씨앗이다
 
-닮은 얼굴을 찾는 일은 포기한다. **성별과 얼굴 계통만 맞춰 아무 사람의 사진을 붙이고, 골격만 가져온 뒤 나이·체구·손질·표정을 발주서가 덮어쓴다.** 그래서 발주서에 `SUBJECT` 블록이 붙어 성별·나이대·체구를 못 박는다. 규칙과 미검증 항목은 [`../production/image-generation.md`](../production/image-generation.md) §6.7이 쥔다. 재료 배정은 `scripts/photo/assign-faces.mjs`, 배정 현황은 [`face-cast.md`](../../../data/celeb/hero-photo/face-cast.md), 재개 순서는 [`hero-photo.md`](../../todo/img/hero-photo.md)가 쥔다.
+닮은 얼굴을 찾는 일은 포기한다. **성별과 얼굴 계통만 맞춰 아무 사람의 사진을 붙이고, 골격만 가져온 뒤 나이·체구·손질·표정을 발주서가 덮어쓴다.** 그래서 발주서에 `SUBJECT` 블록이 붙어 성별·나이대·체구를 못 박는다. 규칙과 미검증 항목은 [`../production/prod-01-image-generation.md`](../production/prod-01-image-generation.md) §6.7이 쥔다. 재료 배정은 `scripts/photo/assign-faces.mjs`, 배정 현황은 [`face-cast.md`](../../../data/celeb/hero-photo/face-cast.md), 재개 순서는 [`hero-photo.md`](../../todo/img/hero-photo.md)가 쥔다.
 
 형상화 자체에 종교·문화적 금기가 걸린 인물은 일반 생성 대상으로 넘기지 않는다. 무함마드는 별도 결정 전까지 얼굴 참조 기반 대표 사진 생성에서 제외한다.
 

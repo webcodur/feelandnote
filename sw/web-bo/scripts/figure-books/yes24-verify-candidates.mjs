@@ -2,7 +2,7 @@
  * YES24 상품 검색으로 카카오 미검증 후보의 ISBN·판매 상태를 확인한다.
  * 파이프라인 스크립트는 건드리지 않는다. 이 스크립트는 검증만 하며 DB를 쓰지 않는다.
  *
- * 용도 제한(affiliate-commerce.md): 카카오 미검증 후보(제목·저자는 있으나 ISBN 미확정)의
+ * 용도 제한(ops-03-affiliate-commerce.md): 카카오 미검증 후보(제목·저자는 있으나 ISBN 미확정)의
  * ISBN·판매중 확인용. 판정 대체 금지 — 등장 근거 심사는 기존 규칙 그대로이며,
  * 표지 수집·구매 연결은 기존 경로를 건드리지 않는다(cover는 기록만 한다).
  * 검색어 자동 교정 대응: 반환 제목·저자가 요청과 맞는지 대조한다(카카오 creatorHit 방식 준용).
@@ -36,7 +36,7 @@ function argumentValues(name) {
   return results
 }
 
-// YES24 키는 web 서버 env에 있다(env-vars.md). 값은 로그에 찍지 않는다.
+// YES24 키는 web 서버 env에 있다(platform-04-env-vars.md). 값은 로그에 찍지 않는다.
 function envValue(key) {
   if (process.env[key]) return process.env[key]
   const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..')

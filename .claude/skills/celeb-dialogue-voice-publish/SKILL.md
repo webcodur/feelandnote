@@ -50,7 +50,7 @@ D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/celeb-d
 
 이 스크립트는 `D:\audios\interview-cleaner\celeb-dialogue-voices\<slug>\<locale>\<시각>`에 MP3 22개와 `manifest.json`을 남긴다. HTML은 만들지 않는다. 생성이 일부라도 실패하면 manifest를 `failed`로 남기며 업로드하지 않는다.
 
-들숨·쉼 정리의 규칙은 [`docs/project/production/voice-cleanup.md`](../../../docs/project/production/voice-cleanup.md), 기존 발행분 재정리(새 run 구성, R2 전용 인물)는 [`docs/continuous/celeb-tts-dialogue.md`](../../../docs/continuous/celeb-tts-dialogue.md)의 「들숨·쉼 정리」를 따른다.
+들숨·쉼 정리의 규칙은 [`docs/project/production/prod-04-voice-cleanup.md`](../../../docs/project/production/prod-04-voice-cleanup.md), 기존 발행분 재정리(새 run 구성, R2 전용 인물)는 [`docs/continuous/celeb-tts-dialogue.md`](../../../docs/continuous/celeb-tts-dialogue.md)의 「들숨·쉼 정리」를 따른다.
 
 생성 뒤 같은 run을 Whisper로 검수한다. 결과는 run의 `whisper-qc.json`에 남는다.
 

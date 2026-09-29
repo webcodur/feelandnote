@@ -80,7 +80,7 @@ export default function CuratedListCard({ list, curatorQuery = "", variant = "hu
           <Link href={`/explore/works/curated/${list.curatorSlug}${curatorQuery}`} prefetch={false}
             className="relative z-30 mt-auto flex min-h-9 min-w-0 items-center gap-1.5 self-start rounded-control pe-1 pt-2 text-xs text-text-secondary hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
             {logoUrl ? (
-              // 로고 파일은 바탕·여백까지 정사각으로 완성돼 있다 — 판을 덧대지 않는다(curated-lists.md 「기관 로고」)
+              // 로고 파일은 바탕·여백까지 정사각으로 완성돼 있다 — 판을 덧대지 않는다(service-03-curated-lists.md 「기관 로고」)
               <span className="relative size-5 shrink-0 overflow-hidden rounded-[4px]">
                 <Image src={logoUrl} alt="" fill sizes="20px" className="object-contain" />
               </span>

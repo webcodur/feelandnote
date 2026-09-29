@@ -1,16 +1,15 @@
 # 10. 구현 현황 상세
 
-> **최종 실측 체크: 26.07.30** — 천도 코드·실제 진입 경로·검증 결과 전수 대조
 
 > 파일별 구현 내용과 시스템 간 연결 관계. 현재 코드 사실의 기준이다.
-> 시나리오 선택→방랑→거병→경영→전투·외교→통일·패망의 핵심 완주 흐름은 코드상 연결됐다. 브라우저 실제 한 판 완주·실 DB 고정 UUID·전체 web 빌드는 아래 검증 한계 때문에 아직 최종 승인 전이다.
-> 기획 의도는 01~09 참조, 이 문서는 **실제 코드 상태**만 기록한다.
+> 시나리오 선택→방랑→거병→경영→전투·외교→통일·패망의 핵심 완주 흐름은 코드상 연결됐다. 브라우저 실제 한 판 완주·실 DB 고정 UUID·전체 web 빌드 검증([`docs/todo/suikoden.md`](../../todo/suikoden.md)) 전이라 아직 최종 승인 전이다.
+> 기획 의도는 01~08 참조, 이 문서는 **실제 코드 상태**만 기록한다.
 
 ---
 
 ## 요약 — 기획서와 코드가 갈라진 지점
 
-작업 전에 이것부터 읽는다. 01~09 기획서에 적힌 것 중 코드와 다른 항목이다.
+작업 전에 이것부터 읽는다. 01~08 기획서에 적힌 것 중 코드와 다른 항목이다.
 
 | 항목 | 기획서 서술 | 실제 코드 |
 |------|-----------|----------|
@@ -111,10 +110,9 @@ WorldMapView/
 
 ### 실제 진입 경로
 
-- **`/rest/suikoden` 페이지는 없다.** `app/[locale]/(main)/rest/suikoden/`에 `loading.tsx`만 있고 `page.tsx`가 없다.
+- **`/rest/suikoden` 페이지는 없다.** 전용 라우트 폴더도 없다.
 - 실제 화면은 **`/[locale]/rest`**다. 서버가 고정 인물·대사를 함께 읽어 `RestGameGrid`에 넘긴다.
-- 천도 카드를 누르면 주소가 `#suikoden`으로 바뀌고 `SuikodenGameWrapper`가 그 자리에서 열린다. `/[locale]/rest#suikoden` 직접 접근과 이후 해시 변경도 자동으로 게임을 연다.
-- `constants/navigation.tsx`의 `{ key: "suikoden", href: "/rest/suikoden" }`는 아직 404를 가리키는 죽은 링크다.
+- 천도 카드를 누르면 주소가 `#suikoden`으로 바뀌고 `SuikodenGameWrapper`가 그 자리에서 열린다. `/[locale]/rest#suikoden` 직접 접근과 이후 해시 변경도 자동으로 게임을 연다. `constants/navigation.tsx`의 메뉴 링크도 `/rest#suikoden`이다.
 
 ---
 
@@ -305,8 +303,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 
 **추가로 남은 결함·잔재**
 
-- `battleEngine.updateMorale`이 `allyDead`/`enemyDead`를 계산하고 쓰지 않는다. 실제 적용되는 사기 변동은 리더 격파(−30)뿐이다.
-- `constants/navigation.tsx`의 `/rest/suikoden` 링크는 실제 해시 진입 경로와 달라 404다.
+- `battleEngine.updateMorale`이 적용하는 사기 변동은 주군 격파(−30, 이번 행동으로 쓰러졌을 때 한 번)뿐이다.
 - 자유 모드용 `previewWorld()`·`initGame()`과 6전술 상수는 현행 화면에서 호출하지 않는 유물로 남아 있다.
 
 ---
@@ -319,37 +316,6 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))     ← calcUnitHp
 NODE_OPTIONS=--max-old-space-size=8192 pnpm --filter '@feelandnote/web' exec tsc --noEmit --pretty false
 ```
 
-### 지난 개편 이력
+## 남은 일
 
-**전투 밸런스 (2026-03-01)** — 전투 1~2턴 종료, 장수 100% 승률 문제 대응. HP 3배, 근접 −33%, 계략 −30%, 방어율 상한 0.5, 사기 6단계, 돌격 ×1.5·자상 15%, `CLASS_ATTACK_MULT`/`CLASS_SPEED_BONUS` 재조정, `charge` 조건 `martial≥50 OR command≥70`.
-
-**장비 개편 (2026-03-01)** — 콘텐츠 기반 아이템 → 수량제 장비 4종. `GameItem`/`ItemCategory`/`ItemGrade`/`Faction.items`/`GameState.allItems`/`loadSuikodenItems()`/`dbToItem()`/`calcItemBonuses()`/`calcItemGrade()` 전부 제거. 상세는 `05-items.md`.
-
-**그리드 전투 전환 (2026-06)** — 6전술 카드 전투를 3×5 그리드 개별 유닛 턴제로 교체. `battleEngine.ts` 신설, 전술 카드 함수·`TacticSelectPanel`·`BattleParticipantCard` 삭제. 전술 상수는 미사용 상태로 잔존.
-
-**시나리오 셋업 전환** — 셋업 1단계가 시대/난이도 선택에서 시나리오 선택으로 바뀌었다. `previewWorld`는 호출되지 않는 유물이 됐다.
-
-**컴포넌트 분할** — `StrategyScreen`/`BuildingCardGrid`/`WorldMapView`가 동명 디렉토리로 분할됐다. 옛 경로를 참조하는 문서·주석이 남아 있을 수 있다.
-
-### 다음 작업 후보 (우선순위순)
-
-1. **브라우저 실제 완주 검증** — 한국어/영어·모바일에서 시나리오 선택부터 통일·패망·제한 턴까지 확인한다.
-2. **실 DB 고정 인물 검증** — 시나리오 5종의 필수 UUID가 전부 활성 조회되는지 확인한다.
-3. **죽은 링크 정리** — `navigation.tsx`의 `/rest/suikoden`을 실제 `/rest#suikoden` 진입과 맞춘다.
-4. **이벤트 팝업 UI** — 이벤트가 로그에만 남는다.
-5. **거점 배경 3장** — `new_york`/`tenochtitlan`/`sydney` 이미지 추가, 또는 `imageUrl` 필드를 읽도록 교정.
-6. **인구→병력 징병** — 예비 병사 보충과 별개로 인구를 병사로 전환하고 민심을 반영할지 설계한다.
-7. **학당 학습** — `special: 'discover'` 처리.
-8. **장비 구매 UI** — 비용 상수부터 정의해야 한다.
-
----
-
-## 현재 검증 상태 (26.07.30)
-
-- 천도 범위 ESLint: **0 errors / 19 warnings**
-- 천도 관련 코드 경로 `git diff --check`: **통과**
-- Node 22 내장 TypeScript 로딩: 시나리오 **5종 확인**
-- 전체 TypeScript 검사와 `pnpm build:web`: 천도 밖의 사용자 수정 파일 `sw/web/src/constants/scripturesMuseum.ts`가 존재하지 않는 `scriptures/ko/ai-academy.json`, `scriptures/en/ai-academy.json`을 가져와 중단했다. 이 두 오류 외 천도 타입 오류는 보고되지 않았다.
-- 미검증: 브라우저 실제 한 판 완주, 한국어/영어·모바일 시각 확인, 실 DB 시나리오 고정 UUID 전원 생존 여부, 엔진 런타임 직접 실행.
-
-따라서 **코드상 본 서비스 진입과 핵심 완주 흐름은 연결됐지만, 배포 가능 확정 상태는 아니다.** 전체 빌드 차단 원인을 해소하고 위 실제 플레이 검증을 마친 뒤 최종 승인한다.
+검증·정합성·확장 과제는 [`docs/todo/suikoden.md`](../../todo/suikoden.md)가 쥔다.

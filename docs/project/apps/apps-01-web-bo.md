@@ -1,0 +1,330 @@
+# Web BO
+
+> **최종 실측 체크: 26.08.10** — 회원·셀럽 물리 도메인 전환, 현역 화면·서버 액션·
+> 비타임라인 운영 스크립트와 프로덕션 빌드를 대조했다. 새 코드 전환과 구버전 종료 뒤
+> 최종 제거 migration까지 적용해 운영 DB의 레거시 호환 테이블은 제거됐다.
+
+서비스 운영과 영상 제작 관리를 함께 담당하는 관리자 백오피스다. 실제 서비스 데이터는
+DB, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
+
+| 프로젝트 | 포트 | 역할 | 데이터원 |
+| --- | --- | --- | --- |
+| **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도감·가상 담화·서재 탐방·책과 사람 | DB + 로컬 Remotion |
+| audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
+
+구 remotion-bo는 이 앱으로 이관하고 폐기했다. audio-bo는 [Audio BO](apps-02-audio-bo.md)를 참조한다.
+
+## 실행
+
+```bash
+pnpm dev:bo
+```
+
+- 화면: `http://localhost:3001`
+- 빌드는 webpack 고정이다(`next dev -p 3001 --webpack`, `next build --webpack`).
+
+## 접근 권한
+
+`(admin)` 그룹의 모든 화면은 레이아웃에서 두 단계로 막는다. 로그인하지 않았으면 `/login`으로 보내고, 로그인했더라도 `user_accounts.role`이 `admin` 또는 `super_admin`이 아니면 역시 `/login`으로 보낸다. DB의 관리자 판정은 `is_admin()`을 쓴다. 개별 화면은 권한을 다시 검사하지 않는다.
+
+`/login`은 Auth의 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
+
+단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 영상 제작 자산 창구는 라우트마다 스스로 관리자 확인을 한다(아래 [가상 담화](#가상-담화)·[랭킹](#랭킹) 절).
+
+## 화면 구성
+
+26.07.16 전수 감사 당시 페이지는 52개였고 그중 11개가 화면 없는 리다이렉트 통로였다.
+이후 세력도감·가상 담화·서재 탐방이 추가됐으므로 이 숫자는 현재 총계로 사용하지 않는다.
+아래 표와 실제 `app/` 라우트를 기준으로 본다.
+
+왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이다.
+리모션 시리즈(서재 탐방·책과 사람·가상 담화·랭킹)와 세력도감·자산 보관소는 「영상」 묶음 아래 둔다.
+상세 화면(`[id]`·`[slug]`)은 목록에서 눌러 들어가므로 메뉴에 없고, `/celebs/new`도
+셀럽 목록 안의 버튼으로만 들어간다.
+
+### 대시보드
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/` | 대시보드 | 유저·콘텐츠·감상·기록 총계, 콘텐츠 유형별 비율, 최근 가입자 5명, 최근 활동 10건. 읽기 전용 | `user_accounts`, `member_profiles`, `contents`, `records`, `member_contents`, `celeb_contents`, `activity_logs` |
+
+### 셀럽
+
+셀럽 관련 데이터의 생성·검수 파이프라인 전반을 다룬다. 각 항목의 작성 기준과 에이전트 규칙은 [셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)에 있다.
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `celebs` |
+| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 사진·각성 이미지를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사를 수행한다. 아바타는 CPU nobg 대기열도 제공한다. 바깥 브라우저에서 Alt+클릭한 사진과 Ctrl+V는 화면에 가장 크게 보이는 행의, 숫자키 1·2·3으로 고른 자리로 들어간다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`, `awakened_image_url`) |
+| `/celebs/new` | 셀럽 등록 | 로그인 계정 없이 신규 셀럽을 직접 등록 | `celebs` |
+| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·스펙트럼·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
+| `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `celeb_contents`, `contents`, `content_locales` |
+| `/celebs/[slug]/contents/collect` | (수집) | 콘텐츠 수집 전용 화면. 구현은 `members/[id]/contents/collect/CollectView`에 있다 | `celeb_contents` |
+| `/celebs/titles` | 셀럽 수식어 편집 | 전체 셀럽 수식어 일괄 편집 | `celebs` |
+| `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `celebs` |
+| `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `celebs` |
+| `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `celebs` |
+| `/celebs/content-research` | Light 콘텐츠 조사 목록 | 실제 콘텐츠 수·활성 여부·0건 확정 여부·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류하고, 0건 인물의 `-1` 확정·해제만 관리한다 | `celebs`, `celeb_contents` |
+| `/celebs/vectors` | 스펙트럼 분석 | 덕목·능력·성향 16개 축 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
+| `/celebs/vectors/[slug]` | (닉네임) 스펙트럼 분석 | 단건 스펙트럼 축 확인 | `celeb_persona` |
+| `/celebs/influence` | 영향력 평가 | 6개 영역 + 통시성 영향력 대시보드 | `celeb_influence` |
+| `/celebs/influence/[slug]` | (닉네임) 영향력 평가 | 단건 영향력 축 확인 | `celeb_influence` |
+| `/celebs/voice-gen` | 대사/음성 워크스페이스 | 고유 대사 작성, 말투(`speech_tone`)·속도 설정, KO·EN별 GEM/ELE 엔진·보이스 선택, 단건·일괄 생성, 공용 파형 트림·들숨 제거. `celebs.voice_id_ko/en`은 실제 인물용 ElevenLabs ID만 영구 저장하고 GEM 선택은 현재 생성 작업에만 적용 | `celeb_dialogues`, `celebs` |
+| `/celebs/voice-gen/[slug]` | 대사/음성 워크스페이스 | 위와 동일하되 특정 셀럽 선택 상태로 진입 | `celeb_dialogues`, `celebs` |
+| `/celebs/stats` | 셀럽 통계 | 총수·활성률·직군 수·국적 수 요약, 직군 분포, 팔로워 TOP 10, 콘텐츠 수 TOP 10, 최근 등록 | `celebs`, `celeb_contents`, `celeb_metrics` |
+
+관련 문서: 영향력은 [celeb-03-01-influence.md](../celeb/celeb-03-01-influence.md), 스펙트럼은 [celeb-03-02-spectrum.md](../celeb/celeb-03-02-spectrum.md), 대사·말투는 [celeb-04-01-speech.md](../celeb/celeb-04-01-speech.md), 콘텐츠 조사는 [celeb-02-01-content-research.md](../celeb/celeb-02-01-content-research.md), 콘텐츠 검증은 [celeb-02-04-content-audit.md](../celeb/celeb-02-04-content-audit.md), 영문화는 [celeb-09-01-i18n.md](../celeb/celeb-09-01-i18n.md)를 본다. 세력도감 편성은 아래 「세력도감」 절, 셀럽 스키마는 [data-03-celeb.md](../data/data-03-celeb.md)를 본다.
+
+### 유저
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/users` | 유저 관리 | 일반 유저 목록(검색·상태·역할·정렬, 20건 단위) | `user_accounts`, `member_profiles` |
+| `/users/[id]` | 유저 상세 | 프로필·역할·상태·정지 사유·콘텐츠/팔로워/점수 표시, 정지·해제·역할 변경 등 제재 실행 | `user_accounts`, `member_profiles`, `member_social_stats`, `member_scores` |
+
+백오피스는 26.08.10부터 회원과 셀럽을 전용 테이블에서 직접 읽고 쓴다. 회원을 셀럽으로
+바꾸는 동작은 없다. 같은 사람이 두 영역에 필요하면 별도 UUID 행과 명시적 인수 관계를 쓴다.
+
+### 콘텐츠
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `member_contents`, `celeb_contents` |
+| `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
+| `/curated` | 기관 선정 원장 | 선정 기관·목록 현황, 공개 허브 노출, 콘텐츠 유형·기관 유형 필터. 기관과 목록을 새로 만들거나 편집한다 | `curators`, `curated_lists`, `curated_list_items` |
+| `/curated/[listId]` | 선정 목록 편집 | 목록 메타와 원문 항목(순위·연도·선정 사유·숨김), 기존 콘텐츠 연결·해제 | `curators`, `curated_lists`, `curated_list_items`, `contents`, `content_locales` |
+| `/figure-books` | 인물 등장·연관 도서 관리 | 기존 콘텐츠를 작품으로 지정하고 등장·연관 인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다. `celeb_tier`와 무관하게 모든 인물을 연결할 수 있다. 아래 「연결·공개 현황」 구획은 「지금 측정」으로 감사 스크립트(`scripts/figure-books/audit.ts --json`)를 돌려 인물 대비 연결·한국어 공개 비율, 관계 갈래, 등급·직군별 표를 보여 주며 결과를 파일로 남기지 않는다 | `figure_book_contents`, `figure_book_characters`, `figure_book_editions`, `figure_book_products`, `contents`, `celebs` |
+| `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
+| `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
+
+### 서재 탐방 제작·리소스 통합
+
+| 라우트 | 화면 | 하는 일 | 주요 원천 |
+| --- | --- | --- | --- |
+| `/book-recommend` | 제작 현황·리소스 | 제작 상태·후보·음성 저장소·작업 큐와 콘텐츠 ID·표지 무결성 감사를 탭으로 통합 | DB + `sw/remotion/public/episodes` |
+| `/book-recommend/search` | 새 에피소드 | 셀럽 검색과 기존 에피소드 중복 확인 | `celebs`, 에피소드 목록 |
+| `/book-recommend/guide` | 운영 가이드 | 현행 제작 흐름·로컬 가동 조건 | 코드·운영 규칙 |
+| `/book-recommend/[name]/scenario` | 원고 | 메타·책·쇼츠 분산 JSON 편집, 이미지·영상·배경음·효과음 관리 | 에피소드 JSON·미디어 |
+| `/book-recommend/[name]/voice` | 음성 | 보이스 선택·생성·발화 시각·파이프라인 진단 | 에피소드 음성·timing JSON |
+| `/book-recommend/[name]/render` | 렌더 | 롱폼·쇼츠·SOLO·카드 렌더 작업 실행·상태 | `sw/remotion` |
+| `/book-recommend/[name]/youtube` | 출고 | 영상·자막·썸네일·메타·업로드 | Remotion out·YouTube lineup |
+| `/book-recommend/[name]/cards` | 카드 | BookCard 미리보기·편성 | 에피소드 JSON·`faction-cards.json` |
+| `/book-recommend/youtube` | 편성 현황 | 에피소드 전체 업로드·동기화 상태 | lineup·YouTube API |
+
+관련 서버 창구는 `/api/book-recommend/**` 42라우트와 `/api/tasks`,
+`/api/open-folder`다. 모든 동적 시리즈 창구는 `book-recommend`만 허용하며,
+파일 조작·렌더·업로드는 `REMOTION_LOCAL=1`인 로컬 환경에서만
+동작한다. 표지 원본 URL은 공용 외부 이미지 검증기를 통과해야 하며, 렌더 캐시는
+`covers/content/<contentId>/<locale>.webp`에 만든다.
+
+콘텐츠 관계·표지 운영 규격은
+[서재 탐방 1차 통합](../remotion/book-recommend/br-06-db-sync.md)을 참조한다.
+| `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `member_profiles`, `contents` |
+| `/playlists` | 묶음 관리(옛 라우트명) | 플로우 목록, 콘텐츠 유형·공개여부 필터, 노드 수 통계 | `flows`, `flow_nodes`, `member_profiles` |
+
+도서 메타 출처 규칙(한국어판 카카오·영문 원서 OpenLibrary만 허용)은 [platform-05-external-services.md](../platform/platform-05-external-services.md)를 따른다. 스키마는 [data-02-content.md](../data/data-02-content.md)에 있다.
+
+### 책과 사람
+
+나레이터가 인물 한 명을 소개하고 읽은 책을 이어서 말하는 세로 쇼츠다. **원천은 파일**이다. 테이블을 만들지 않는다. 목록은 셀럽 전원을 보여 주고, 저장할 때만 `ko.json`이 생긴다. 감상기록·책 유무는 조건이 아니다. `REMOTION_LOCAL=1`인 로컬에서만 저장이 동작한다. 시리즈 규격은 [`book-person/`](../remotion/book-person/README.md)다.
+
+| 라우트 | 화면 | 하는 일 | 주요 원천 |
+| --- | --- | --- | --- |
+| `/book-person` | 인물 목록 | 셀럽마다 들어가 고친다. 원고 있음·책 수·문장 제목을 보여 준다 | `celebs` + 있으면 `ko.json` |
+| `/book-person/[name]` | (인물) | 문장 제목·소개·책 목록을 고치고 저장한다. 스튜디오로 바로 연다 | `sw/remotion/public/book-person/<slug>/ko.json` |
+
+서버 액션은 `src/actions/admin/book-person/episodes.ts`다. 저장은 `ko.json`을 덮어쓴다. 사진·음성 폴더는 코드로 지우지 않는다.
+
+사진 창구는 담화와 같다. `/api/book-person/media`에서 목록·올리기·주소 받기·삭제를 하고, 폴더 정리와 탐색기 열기는 `/api/book-person/media/folder`다. 화면의 사진 목록·칸은 공용 부품 `@feelandnote/shared/bo/media`다. 창구마다 `guardBookPersonRoute()`(로컬 + 관리자)를 첫 줄에 둔다.
+
+### 신화
+
+주요 장면 관리는 `/faction-scenes`에서 신화·팩션을 검색해 연다. 시작 그림, 장면 이미지·순서·등장인물, 한·영 제목과 해설, 마지막 엔딩을 편집하며 기존 `faction_lv2.team_images`에 저장한다. 신화·세력 상세에서도 바로 들어갈 수 있다. 작성 기준은 [주요 장면 룰북](../production/prod-02-myth-image-captions.md)을 따른다.
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 신화 하나가 화면 한 장이다(`?myth=<신화 id>`). 왼쪽은 지역(`faction_lv1`의 `is_myth`) 머리 아래 신화 카드 목록(공개 여부·노출 인원), 오른쪽은 신화 이름·소개·공개 스위치, 대표 인물 3인, 테마 음악, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·신화 전용 사진·숨김·넣기·빼기)이다 | `faction_lv1`, `faction_lv2`, `faction_lv3`, `faction_members`(뷰 `faction_member_rows`로 읽음) |
+
+세력도감 편집 화면과 따로 두되 같은 표를 쓴다 — 신화는 `is_myth=true`인 행이다. 신화 화면이 쓰지 않는 칸(상세 소개·단체 사진·색·기간)은 이 화면에 두지 않는다. 조회는 `src/actions/admin/myths.ts`, 쓰기는 `src/actions/admin/factions/entries.ts`의 세력·그룹 액션을 그대로 부른다. 그룹의 이름·차례·설명은 여기서만 고친다 — 세력도감 명단에는 두 벌 두지 않는다. 대표 인물(`faction_lv2.lead_person_ids`)은 타이틀 아트에 세우는 3인을 명단 안에서 따로 고른다.
+
+### 세력도감
+
+서비스 세력도감(`/explore/faction`)에 나가는 분류·세력과 인물 명단을 편집한다. 영상 제작 표는 없다. 분류(L1)는 `faction_lv1`, 세력(L2)은 `faction_lv2`, 진영(그룹, L3)은 `faction_lv3`, 명단(인물 배정)은 `faction_members`가 원천이다. 화면은 읽기 뷰 `faction_member_rows`로 읽고, 쓰기는 `src/actions/admin/factions/entries.ts`가 맡는다. 사용자 화면 규격은 [service-01-explore.md](../service/service-01-explore.md) 「세력도감」이 쥔다.
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/factions` | 세력도감 | 도감 목록 표 하나. 분류(L1) 머리 아래 세력(L2)을 묶어 보이고 접고 펴며 이름·설명·주소로 검색한다. 줄마다 소속 인물 수·단체 사진 장수·개인화보를 가진 인물 수를 보이고, 이름을 바로 고치고, 웹 노출(`is_featured`)을 켜고 끈다. 신화 세력에는 「신화 공개」(`published`) 스위치가 함께 선다. 「새 도감 행」으로 분류·세력을 만들면 그 편집 화면으로 간다 | `faction_lv1`, `faction_lv2`, `faction_member_rows` |
+| `/factions/[entry]` | (행 이름) | 도감 행 id 또는 slug로 연다. L1 분류: 이름·영문명·설명·색·차례. L2 세력: 같은 칸 + 소속 분류·노출·기간·공개(신화만)·단체 사진·대표 인물·삭제. L2 명단: 기존 셀럽 검색 추가·끌어 정렬·제거, 한 줄·상세 소개(한영), 숨김, 개인화보, 그룹 지정·새 그룹 추가 | `faction_lv1`, `faction_lv2`, `faction_lv3`, `faction_members` |
+
+- **소속 분류는 `faction_lv2.lv1_id`가 쥔다(NOT NULL).** 세력은 반드시 분류 하나에 속하고, 분류는 목록에서 한 줄이 아니라 묶음 머리로 선다. 서비스 도감도 같은 값으로 섹션을 세운다. 분류 삭제는 아래 세력이 비어 있을 때만 된다.
+- **인물 검색은 기존 셀럽을 고르는 기능만 가진다.** 신규 인물은 `/celebs/new`에서 정식 등록한 뒤 추가한다. 신화 인물을 비공개로 한꺼번에 선등록할 때는 `pnpm --dir sw/web-bo faction:seed:inactive`를 쓴다([셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)).
+- **그룹의 설명·영문 이름·차례는 신화 편집(`/myths`)만 고친다.** 세력 편집 화면은 그룹 지정과 새 그룹 추가만 한다.
+- 목록·편집 데이터 조회는 `src/actions/admin/factions/board.ts`, 화면 부품은 `src/components/factions/entry/`다.
+- 이미지 R2 키: 개인화보 `faction/{lv2Id}/celeb-{celebId}.webp`(인물당 한 장, 고정 키 덮어쓰기, 주소는 `faction_members.image_url`), 단체 사진 `faction/{lv2Id}/team/<uuid>.<원본 확장자>`(주소 배열은 `faction_lv2.team_images`), 테마 음악 `faction-music/`(신화 편집의 음악 반영이 올린다). 업로드는 `src/actions/admin/storage.ts`다. 이미지 발주 규칙은 `faction-image` 스킬, 슬롯과 fallback은 [인물 이미지 지도](../celeb/celeb-08-00-image-map.md)가 쥔다.
+- 쓰기 액션은 백오피스 화면(`/factions`·`/factions/[entry]`·`/myths`)을 `revalidatePath`로, 서비스 캐시를 `revalidateWebLists`로 갱신한다.
+
+### 가상 담화
+
+> 26.07.26 신설 — 가상 담화 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 담화 구역은 전량 폐기됐고 그 주소는 404다.
+
+영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 DB 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [`discourse/`](../remotion/discourse/README.md), 통합 설계는 [`discourse/discourse-01-db-integration.md`](../remotion/discourse/discourse-01-db-integration.md)다.
+
+⚠ **손 편집 감시는 세 파일을 한 번에 본다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/discourses` | 가상 담화 | 편 목록 표 하나. 편 이름·논제·인물 수·발언 수·진행 상태·노출(편성 순번). 위쪽이 노출로 켠 편(편성 순서), 아래 구분 줄 밑이 아직 안 켠 편. 「새 담화」·「영상 목록 다시 만들기」는 표 위. 목록은 폴더가 아니라 DB에서 센다 | `discourse_episodes`, `discourse_speakers`, `discourse_turns` |
+| `/discourses/[episode]` | → 리다이렉트 | `…/both/shorts`(원고 탭)로 보낸다. `[lang]`만 있는 주소도 원고 탭으로 보낸다 | — |
+| `/discourses/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `shorts`(원고)·`info`(인물) | 위 3테이블 |
+
+편집기 탭은 둘이다. **원고**는 대사와 발언 순서를 글로 다루는 곳(이 담화의 본문), **인물**은 말하는 사람의 실체와 영상 전체 설정이다. 상단 조작줄에 「미리보기」·「대사 뽑기」가 있다.
+
+#### 서버 액션 (`actions/admin/discourses/`)
+
+| 파일 | 하는 일 |
+| --- | --- |
+| `episodes.ts` | 목록(DB 집계)·만들기·복제·이름 변경·삭제·진행 상태·노출 전환·편성 순서 |
+| `script.ts` | 대본 불러오기(`loadDiscourseScript`)·저장(`saveDiscourseScript`, 낙관적 잠금 + 자동 내보내기)·원천 독백 조회 |
+| `export.ts` | 세 파일 내보내기·`_episodes.json` 재생성·파일 상태 판정 |
+
+저장 절차는 `lib/discourse-save.ts`(분해 → 원자 저장 RPC `discourse_replace_episode`), 조립·분해 규칙은 `@feelandnote/shared/lib/discourse-assemble`, 파일 쓰기 규칙은 `@feelandnote/shared/bo/discourse-export` 소유다. 렌더 저장소의 CLI(`pnpm discourse:export`)가 **같은 코어**를 쓴다.
+
+⚠ **음성 길이는 사람이 입력하지 않는다.** 저장할 때 편집기가 보낸 값으로 덮지 않고 DB 값을 유지하는데, 그 조회 기준이 자리(순번)가 아니라 **「사람 + 그 사람의 n번째 발언」** 이다. 담화는 한 인물이 여러 번 말하는 것이 기본이라, 자리 기준으로 붙여 두면 발언을 하나 끼워 넣는 순간 음원과 컷 길이가 통째로 어긋난다.
+
+#### 로컬 자산 창구 (`/api/discourse/**`)
+
+사진·음원은 DB로 옮기지 않고 렌더 저장소(`sw/remotion/public/discourses/`)에 남는다. 그래서 그 파일을 만지는 창구 8종은 **개발자 컴퓨터에서만** 산다 — `.env`의 `REMOTION_LOCAL=1`이 없으면 503과 사유를 돌려준다.
+
+`media` · `media/folder` · `media/[episode]/[...path]` · `asset/[...path]` · `music` · `music/[...path]` · `voice/[episode]` · `voice/[episode]/[file]`.
+
+주소 첫 토막을 시리즈 이름(`discourse`)으로 둔 것은 공용 사진 부품이 `/api/{시리즈}/media`를 부르기 때문이다 — 그 부품을 한 줄도 고치지 않고 쓴다.
+
+⚠ `src/proxy.ts`의 matcher가 **이미지 확장자로 끝나는 주소를 로그인 검사에서 제외**하므로 라우트마다 `guardDiscourseRoute()`(로컬 스위치 + 관리자 확인)를 첫 줄에 두고, 경로 잠금(`lib/discourse-asset.ts`)을 겹친다. 둘 중 하나만 있으면 뚫린다.
+
+### 랭킹
+
+영상 시리즈 「랭킹」의 텍스트·구성 원천은 `sw/remotion/public/rankings/<편>/ranking-data.json`이다. 새 테이블은 없다. 인물마다 화보 위에 설명이 한 컷으로 붙는다. 인물 대사는 없다.
+
+| 라우트 | 화면 | 하는 일 | 주요 원천 |
+| --- | --- | --- | --- |
+| `/rankings` | 랭킹 | 편 목록 표 하나. 축 수·인물 수. 「새 랭킹」은 표 위 | `public/rankings/*/ranking-data.json` |
+| `/rankings/[episode]` | (편 이름) | 도감 세력을 걸고, 제목·축·순위·설명을 고친다. 「인물 사진」에서 아바타·대표 사진을 셀럽에 바로 등록하거나, 세력에 없는 이름을 연결한다. 오른쪽 사진 목록은 그 칸에 놓는다 | 위 JSON(`themeSlug` = `faction_lv2.slug`) + `faction_lv2`·`faction_members`·`celebs` |
+
+목록·저장·사진 창구는 렌더 저장소가 같은 컴퓨터에 있을 때만 동작한다(`.env`의 `REMOTION_LOCAL=1`). 사진 창구는 `/api/ranking/media`이며 라우트마다 `guardRankingRoute()`로 막는다. `src/proxy.ts` matcher가 이미지 확장자 주소를 로그인 검사에서 빼기 때문이다.
+
+### 게임
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/blind-game` | 블라인드 게임 | 점수 랭킹(30건 단위), 최고점·최고 연승·평균, 상위 3명 | `blind_game_scores`, `member_profiles` |
+| `/scores` | 점수 / 랭킹 | 랭킹과 점수 로그 두 탭, 총합·평균·최고 점수 | `member_scores`, `member_score_logs`, `member_profiles` |
+| `/tier-lists` | 티어 리스트 관리 | 티어 리스트 목록, 유형·공개여부 필터와 통계 | `tier_lists`, `member_profiles` |
+
+### 운영
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/today-figure` | 오늘의 인물 | 오늘 기준 앞뒤 7일(15건) 날짜별 선정 셀럽 확인. 출처 배지(뉴스·시드·예측). 조회 전용 | `daily_figures`, `celebs`, `celeb_contents` |
+| `/guestbooks` | 방명록 관리 | 회원·셀럽 방명록 목록, 비공개·미확인 필터와 미확인 배지 | `member_guestbook_entries`, `celeb_guestbook_entries`, `member_profiles`, `celebs` |
+| `/free-board` | 자유게시판 관리 | 글·댓글 탭, 노출·숨김 필터. 부적절한 글과 댓글을 숨김 처리 | `free_posts`, `free_post_comments`, `member_profiles` |
+| `/reports` | 신고 관리 | 신고 목록. 상태·대상 종류 필터, 대기 건 우선 배치, 신고 대상 작성자 표시, 같은 대상에 쌓인 신고 묶음, 반복 신고·남발 집계(카운트 조회) | `reports`, `user_accounts`, `member_profiles` |
+| `/reports/[id]` | 신고 상세 | 신고자·대상 작성자·처리 이력. **대상 원문 스냅샷**(글·댓글·방명록·감상 기록·프로필. 이미 지워졌으면 "삭제됨" 표시). 조치: 처리·반려·되돌리기 + 처리 메모, 대상 숨김·삭제, 계정 정지·해제 | `reports`, `user_accounts`, `member_profiles`, `free_posts`, `free_post_comments`, `board_comments`, 두 방명록 테이블, `feedbacks`, `member_contents` |
+
+**신고는 사용자 웹에서 들어온다.** 접수 창구는 `sw/web`의 자유게시판 글·댓글, 방명록, 사용자 프로필이다. 신고 사유 목록의 정본은 `sw/web/src/constants/moderation.ts`이며 `sw/web-bo/src/constants/moderation.ts`가 같은 값을 들고 있다 — **한쪽만 고치면 운영 화면의 사유 라벨이 어긋난다.** 원문 조회는 `sw/web-bo/src/lib/report-snapshot.ts`가 대상 종류별 테이블·숨김 수단·삭제 가능 여부를 쥔다. 배경과 Play 정책 요건은 [안드로이드 앱 SSoT](apps-03-android.md) §5.1·§14.
+
+⚠️ **관리자는 남의 차단 내역을 볼 수 없다.** `blocks`의 RLS가 차단한 본인 행만 select를 허용한다. 운영 화면에서 차단 관계를 다뤄야 하면 `SECURITY DEFINER` RPC 신설이 선행돼야 한다.
+| `/titles` | 칭호 안내 | 코드 상수의 칭호 카드 그리드. DB 편집·획득자 수 집계는 제공하지 않는 읽기 전용 화면 | `sw/web/src/constants/titles.ts` |
+
+`/free-board`는 `(admin)` **화면** 중 유일하게 service-role 클라이언트(`createAdminClient()`)를 직접 사용한다. 다른 화면은 모두 일반 클라이언트로 읽는다. 단 서버 액션은 별개다 — `celebs.ts`, `contents.ts`, `records.ts`, `reports/`, `dialogues.ts`, `today-figure.ts`, `members.ts`가 service-role을 쓴다.
+
+### 시스템
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `member_profiles` |
+| `/settings` | 운영 상태·설정 | 사용자 웹 응답, Oracle 웹 VM의 서비스·메모리·스왑·릴리스, DB VM의 PostgreSQL·연결·백업 상태를 조회하고 미구현 설정을 구분해 표시 | 읽기 전용 SSH + DB 시스템 통계 RPC |
+
+## API 라우트
+
+서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 영상 제작용 로컬 자산 창구(`api/discourse/**`·`api/book-person/**`·`api/ranking/**`·`api/rm-asset/**`)는 별개이므로 위 시리즈 절을 본다.
+
+| 라우트 | 입력 | 하는 일 |
+| --- | --- | --- |
+| `/api/image-proxy` | `?url=` | 외부 이미지를 서버에서 받아 중계한다. **허용 호스트 11종만 통과**(아래 참조). `books.google.com`은 https로 강제한다. 429·403은 원본 URL로 넘기고, 204는 404로, 그 밖의 실패는 투명 1x1 PNG로 응답한다. 하루 캐시 |
+| `/api/contents/search` | `?q=` (2자 이상) | 판본 제목으로 콘텐츠를 찾아 최대 20건 반환. 한국어 우선, 없으면 영문 |
+| `/api/celebs/search` | `?q=` (1자 이상) | 셀럽을 한글·영문 닉네임으로 찾아 최대 10건 반환. 상태가 `active`·`inactive`인 것만 |
+| `/api/voice/[...path]` | 경로 세그먼트 | 로컬 `sw/remotion/public/voice/` 아래 wav 파일을 서빙한다. 경로에 `..`이 있으면 400 |
+
+`/api/voice`는 로컬 파일시스템에 직접 의존하므로 remotion 프로젝트가 같은 위치에 있어야 동작한다.
+
+### image-proxy 허용 호스트 (26.07.16 신설)
+
+`proxy.ts:15`가 이 창구만 로그인 검사에서 제외한다. 즉 **인증 없이 호출된다.** 대상 주소 제한이 없으면 임의 호스트로 서버 요청이 나가므로(SSRF) 허용 목록이 유일한 방어선이다.
+
+허용 11종은 `content_locales.thumbnail_url` 전량을 실측해 확정했다 — 네이버(쇼핑·책), Apple Music, TMDB, Goodreads, OpenLibrary, Google Books, IGDB, 알라딘, YES24, 위키미디어. **R2는 이 창구를 타지 않는다**(셀럽 아바타 전용)라 제외했다.
+
+지킬 것.
+- **호스트 정확 일치로 검사한다.** 부분 일치(`includes`)는 `evil.com/?x=books.google.com` 우회를 허용한다.
+- **내부망 판정을 프로토콜 검사보다 먼저 한다.** 순서가 반대면 `http://127.0.0.1`이 "프로토콜 오류"로 보고돼 사유가 흐려진다.
+- **리다이렉트 경유지는 내부망 여부만 검사한다.** `covers.openlibrary.org`가 `archive.org` → `ia600507.us.archive.org`(가변 노드)로 2단 우회하므로, 경유지까지 허용 목록으로 묶으면 표지 1,681건이 깨진다. 최초 주소는 이미 허용 목록으로 확정된 상태다.
+- 썸네일 출처가 늘면 이 목록에 추가해야 한다. 누락 시 해당 이미지는 403이 되고 화면은 `onError` 대체 아이콘을 띄운다.
+
+## 캐시 무효화
+
+서버 액션이 `revalidatePath`로 갱신한다. `unstable_cache`는 `(admin)` 화면 어디에도 적용돼 있지 않다.
+
+| 액션 파일 | 무효화 대상 |
+| --- | --- |
+| `actions/admin/contents.ts` | `/contents`, `/contents/[id]` |
+| `actions/admin/figure-books.ts` | `/figure-books` |
+| `actions/admin/records.ts` | `/records`, `/records/[id]` |
+| `actions/admin/reports/` | `/reports`, `/reports/[id]` — 단일 파일에서 5개로 나눴다(`list`·`detail`·`history`·`abuse`·`moderation`) |
+| `actions/admin/titles.ts` | `/titles` |
+| `actions/admin/free-board.ts` | `/free-board` |
+| `actions/admin/users.ts` | `/users`, `/users/[id]` |
+| `actions/admin/members.ts` | `/members` 계열 (아래 결함 참조) |
+| `actions/admin/tags.ts` | `/factions`·`/factions/[theme]`·`/myths`. 세력도감 편성은 셀럽 편집 화면에서 관리하지 않는다 |
+| `actions/admin/celebs.ts` | `/celebs` 계열 일부 + `/members` 계열 잔재 + 죽은 `/celebs/quotes` |
+| `actions/admin/dialogues.ts` | `/celebs/voice-gen` + 죽은 `/celebs/dialogues` |
+| `actions/admin/api-keys.ts` | `/celebs` (아래 결함 참조) |
+
+조회 전용 화면(`/`, `/notes`, `/playlists`, `/guestbooks`, `/today-figure`, `/blind-game`, `/scores`, `/tier-lists`, `/activity-logs`, `/settings`)은 무효화 대상이 없다.
+
+서비스(web) 쪽 캐시 정책과 `/api/revalidate` 사용은 [platform-05-external-services.md](../platform/platform-05-external-services.md)를 참조한다.
+
+## 옛 경로 리다이렉트
+
+URL 하위호환용으로 남긴 화면 없는 리다이렉트다.
+
+### members 경로 — 리다이렉트 통로 9개
+
+`(admin)/members/` 아래 9개 page.tsx는 전부 화면 없는 리다이렉트다. 과거 셀럽과 유저를
+저장형 `profile_type` 탭으로 함께 보던 통합 "멤버 관리" 화면이 커밋 `ce9fc57c`에서
+`/celebs`와 `/users` 둘로 갈라졌고, 옛 경로만 URL 하위호환용으로 남았다. 현재 분기는 전용
+테이블을 읽어 만든 출력 필드 `subject_kind`를 사용하며 DB에 공용 유형을 다시 저장하지 않는다.
+
+| 경로 | 보내는 곳 |
+| --- | --- |
+| `/members` | `/users` |
+| `/members/new` | `/celebs/new` |
+| `/members/[id]` | `subject_kind`로 분기해 `/celebs/[slug]` 또는 `/users/[id]` |
+| `/members/[id]/contents` | `/celebs/[id]/contents` (쿼리 보존) |
+| `/members/[id]/contents/collect` | `/celebs/[id]/contents/collect` |
+| `/members/professions` · `/members/tags` · `/members/titles` | `/celebs/` 대응 경로 |
+
+**단, `members/` 디렉터리 자체는 현역이다.** `CelebForm`, `TagList`, `CelebTitleEditor`, `CelebProfessionEditor`, `ContentList`, `ContentCollector`, `CollectView`, `StatusToggle`, `NationalityBadge`, `MemberActions` 등 공용 컴포넌트가 여기 있고 `celebs/`·`users/` 화면 19곳에서 가져다 쓴다. `actions/admin/members.ts`도 계속 호출된다. 라우트만 죽었지 코드는 살아 있으므로 통째로 지우면 안 된다.
+
+살아 있는 화면에서 `/members/[id]`로 나가는 링크가 19곳 있다(`playlists` 2, `notes` 2, `scores` 4, `tier-lists` 2, `guestbooks` 4, `activity-logs` 2, `blind-game` 3의 목록 컴포넌트). 동작하되 한 번 더 우회한다.
+
+### celebs/dialogues · celebs/quotes — 리다이렉트 통로 2개
+
+둘 다 `/celebs/voice-gen`으로 보내는 5줄짜리 스텁이다. 어디서도 링크되지 않는 고아다. `dialogues/DialogueEditor.tsx`는 아무 데서도 import되지 않는 죽은 파일이며, `actions/admin/dialogues.ts`와 `celebs.ts`가 이 죽은 경로를 계속 무효화한다.
+
+## 변경 후 확인
+
+```bash
+pnpm --filter @feelandnote/web-bo lint
+pnpm --filter @feelandnote/web-bo build
+```
+
+메뉴를 바꿀 때는 `src/components/layout/Sidebar.tsx`의 `menuGroups`가 단일원천임을 지킨다. 화면만 추가하고 메뉴에 등록하지 않으면 위 `members` 사례처럼 접근할 수 없는 경로가 쌓인다.

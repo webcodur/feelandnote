@@ -148,7 +148,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             </div>
           )}
 
-          {/* 카드 안 제목·제작자는 가운데, 아래 감상 본문은 왼쪽이다(code-rules.md 「정렬」) */}
+          {/* 카드 안 제목·제작자는 가운데, 아래 감상 본문은 왼쪽이다(platform-02-code-rules.md 「정렬」) */}
           <div className="mb-2 text-center">
             <h3
               className="text-[15px] font-semibold text-text-primary line-clamp-2 leading-snug group-hover:text-accent"

@@ -9,7 +9,7 @@ description: 쿠팡 도서 상품을 신규 등록·교체·감사할 때 판본
 
 ## 먼저 읽기
 
-- 현재 도서 연결 방식·과거 링크 폐기·계정 운영은 [제휴 판매 운영](../../../docs/project/operations/affiliate-commerce.md)의 「쿠팡」을 따른다. 상품 판정은 이 스킬의 실행·탈락 기준이 쥔다.
+- 현재 도서 연결 방식·과거 링크 폐기·계정 운영은 [제휴 판매 운영](../../../docs/project/operations/ops-03-affiliate-commerce.md)의 「쿠팡」을 따른다. 상품 판정은 이 스킬의 실행·탈락 기준이 쥔다.
 - 후보 수집·확정 명령과 입력 형식은 `sw/web-bo/scripts/coupang/README.md`를 따른다.
 - 인물의 등장·연관 작품을 새로 찾거나 기존 작품 구성을 재선정하는 작업은 `../figure-book-curation/SKILL.md`에서 먼저 확정한다.
 

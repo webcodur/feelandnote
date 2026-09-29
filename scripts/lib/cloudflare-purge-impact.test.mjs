@@ -87,7 +87,7 @@ test('the four presenter-gating ContentCard files affect only cached celeb detai
 
 test('docs, workflow, scripts, and test fixtures require no Cloudflare purge', () => {
   const plan = classifyCloudflarePurgeImpact([
-    'docs/project/platform/external-services.md',
+    'docs/project/platform/platform-05-external-services.md',
     '.github/workflows/cloudflare-purge.yml',
     'scripts/lib/cloudflare-purge-impact.mjs',
     'scripts/lib/cloudflare-purge-impact.test.mjs',

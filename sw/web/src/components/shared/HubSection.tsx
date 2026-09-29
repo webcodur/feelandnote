@@ -47,10 +47,10 @@ export default function HubSection({
   return (
     <section id={sectionId} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""}`}>
       {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고(간격은 부모의 space-y), 아래 새 구획은 넉넉히 띄운다
-          (code-rules.md 「구분선」) */}
+          (platform-02-code-rules.md 「구분선」) */}
       {!hideDivider && <div className="mb-12 h-px w-full bg-line md:mb-16" />}
 
-      {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(code-rules.md 「정렬」)
+      {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(platform-02-code-rules.md 「정렬」)
           윗줄은 금선 사이 번호(「— 01 —」, 책의 장 번호 모양), 아랫줄은 제목 하나다(26.09.28 유저 선택).
           예전의 「1/3」 줄·제목 옆 번호·좌우 화살표는 걷었다 — 화살표는 바로 위 목차와 같은 이동을 되풀이했고,
           제목 옆 번호·화살표는 좌우 거리가 달라 머리 규격이 어긋나 보였다 */}

@@ -36,7 +36,7 @@
 - **상세 소개도 다 채웠다(26.09.13).** 세력도감 전체 재편의 마지막 층에 신화 테마를 함께 태웠다.
   소속 없던 13명은 「서아시아 건국 신화」를 새로 세워 10명, 메소포타미아 신화로 3명이 들어가 모두 자리를 찾았다.
 
-그룹 기준은 [`../project/service/explore.md`](../project/service/explore.md) 「신화 그룹 기준」이 쥔다.
+그룹 기준은 [`../project/service/service-01-explore.md`](../project/service/service-01-explore.md) 「신화 그룹 기준」이 쥔다.
 
 - Devin 위임 절차·검수에서 자주 걸린 흠: `devin-swe` 스킬
 - 백업: `data/celeb/_backup/faction-web-roster/`. 영상 이관은 `<slug>-*.json`, 정비안 반영 직전
@@ -44,7 +44,7 @@
 
 남은 것:
 
-- **신화 편성 후속**: 아프리카·켈트의 혼합 전승을 원전·문화권에 맞게 재편한다. 편성 기준은 [`탐색`](../project/service/explore.md)의 「신화 편성 기준」을 따른다.
+- **신화 편성 후속**: 아프리카·켈트의 혼합 전승을 원전·문화권에 맞게 재편한다. 편성 기준은 [`탐색`](../project/service/service-01-explore.md)의 「신화 편성 기준」을 따른다.
 - **미등록 인물**: 정비안이 넣자고 했지만 아직 등록되지 않은 사람들이다. 목록과 사유는
   [`data/celeb/myth-plan/missing-figures.md`](../../data/celeb/myth-plan/missing-figures.md)에 있고,
   등록한 뒤 명단에 넣는다. 인물이 적어 1~2명뿐인 그룹(페르시아·고려세계 등)이 이때 채워진다.
@@ -64,7 +64,8 @@
   매칭은 이름 딴 신화(오디세이아 → 『오디세이아』)의 원전을 잡는 안전망으로 남길지 정한다.
 - **주요 장면 확장**: 다음 신화·팩션에 장면과 한·영 해설을 보탠다. **이미지 생성 모듈 사용 가능 + 사용자 허용 시에만 진행.**
   짧게 완결되고 인물 REF가 준비된 이야기를 먼저 고른다.
-  기존 자료 선별, 이미지가 없을 때의 제작, 해설 압축·로케일·용량 처리는 [주요 장면 룰북](../project/production/myth-image-captions.md)을 따른다.
+  기존 자료 선별, 이미지가 없을 때의 제작, 해설 압축·로케일·용량 처리는 [주요 장면 룰북](../project/production/prod-02-myth-image-captions.md)을 따른다.
+  일본 신화의 현재 반영본·누락 전승·REF·사용자 지적과 재검수는 [주요 장면 제작 인수인계](myth-scenes-handoff.md)를 본다.
   `D:\remotion-assets\factions`의 필요한 자료를 DB·R2로 이관·검증한 뒤 백업 폴더를 폐기하는 목적도 유지한다.
 
 **검토했다가 접은 안**을 적어 둔다. 같은 실수를 반복하지 않기 위해서다.

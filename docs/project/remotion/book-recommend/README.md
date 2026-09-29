@@ -4,18 +4,21 @@
 
 ## 문서 지도
 
-번호는 실제 실행 순서가 있는 글쓰기 파이프라인 안에서만 쓴다. 나머지는 책임별 문서와 하위 폴더로 찾는다.
+파일명 `br-NN-*`의 두 자리 번호는 묶음 주소다. 글쓰기 단계(`writer/0~7`)만 실제 실행 순서 번호다.
 
-| 영역 | 문서 | 책임 |
-|---|---|---|
-| 영상 형식 | [`longform.md`](longform.md) · [`shorts.md`](shorts.md) · [`solo.md`](solo.md) | 롱폼·쇼츠·1권 SOLO 구성 |
-| 글쓰기 | [`writer/`](writer/README.md) · [`shorts-best-cases.md`](shorts-best-cases.md) | 초안부터 번역까지의 단계별 규칙과 쇼츠 모범 사례 |
-| 음성 | [`voice/`](voice/README.md) | 보이스 배정·TTS·메타데이터·5단계 타이밍 파이프라인 |
-| 편성 | [`lineup/`](lineup/README.md) | 배포 순서, 제작 현황, 후보 풀 |
-| 이미지 | [`image-requirements.md`](image-requirements.md) · [`image-generation-techniques.md`](image-generation-techniques.md) | 이미지 요구사항과 생성 표현법 |
-| 이미지 타이밍 | [`shorts-image.md`](shorts-image.md) · [`image-anchor-sync.md`](image-anchor-sync.md) | 화면 전환과 ko/en 앵커 동기화 |
-| 출력·검수 | [`render.md`](render.md) · [`final-check.md`](final-check.md) | 렌더 출력과 출품 전 최종 점검 |
-| 공통 계약 | [`rules.md`](rules.md) · [`unification-phase1.md`](unification-phase1.md) | 불변 규칙과 본서비스 연결 |
+| 주소 | 영역 | 문서 | 책임 |
+|---|---|---|---|
+| 01 | 공통 계약 | [`br-01-rules.md`](br-01-rules.md) | 윤리·표지·개발 불변 규칙 |
+| 02~05 | 영상 형식 | [`br-02-longform.md`](br-02-longform.md) · [`br-03-shorts.md`](br-03-shorts.md) · [`br-04-shorts-best-cases.md`](br-04-shorts-best-cases.md) · [`br-05-solo.md`](br-05-solo.md) | 롱폼·쇼츠·쇼츠 모범 사례·1권 SOLO |
+| 06 | 본서비스 연결 | [`br-06-db-sync.md`](br-06-db-sync.md) | 콘텐츠 ID·감상 관계 연결과 DB 표지 캐시 |
+| 10~12 | 편성 | [`br-10-lineup.md`](br-10-lineup.md) · [`br-11-lineup-candidates.md`](br-11-lineup-candidates.md) · `br-12-lineup-candidates-raw.md`(DB 재생성 기계 산출물, gitignore) | 배포 순서·제작 규칙, 후보 전략, 전체 후보 풀 |
+| writer/ | 글쓰기 | [`writer/`](writer/README.md) | 초안부터 번역까지 단계별 규칙 |
+| voice/ | 음성 | [`voice/`](voice/README.md) | 5단계 타이밍 파이프라인·TTS·보이스 배정·메타데이터 |
+| 40~42 | 이미지 | [`br-40-image-requirements.md`](br-40-image-requirements.md) · [`br-41-image-anchor-sync.md`](br-41-image-anchor-sync.md) · [`br-42-shorts-image.md`](br-42-shorts-image.md) | 이미지 요구사항, ko/en 앵커 동기화, 쇼츠 화면 전환 |
+| 50~51 | 출력·검수 | [`br-50-render.md`](br-50-render.md) · [`br-51-final-check.md`](br-51-final-check.md) | 렌더 출력과 출품 전 최종 점검 |
+| 60 | 파생물 | [`br-60-card-news.md`](br-60-card-news.md) | SNS 카드뉴스 |
+
+이미지 발주 공통 규칙은 [`production/prod-01-image-generation.md`](../../production/prod-01-image-generation.md), 생성기가 잘 그리는 것과 못 그리는 것의 범용 원리는 [`res-21-image-generator-physics.md`](../../../resource/res-21-image-generator-physics.md)가 쥔다.
 
 ---
 
@@ -33,7 +36,7 @@ book.<locale>.json                 covers/content/<contentId>/<locale>.webp
 - 콘텐츠 관계·외부 표지 URL은 DB가 원본이다.
 - 영상 원고·음성·타이밍·연출 이미지는 에피소드 폴더가 원본이다.
 - 제목·저자 문자열은 영상 형식에 맞춘 표현일 수 있으므로 DB 판본명으로 자동 덮어쓰지 않는다.
-- 상세 연결·캐시 규격은 [1차 통합 문서](unification-phase1.md)를 따른다.
+- 상세 연결·캐시 규격은 [1차 통합 문서](br-06-db-sync.md)를 따른다.
 
 ```
 public/episodes/<person>/
@@ -94,14 +97,14 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 
 | 단계 | 작업 | 참조 |
 |------|------|------|
-| 1 | **편성 확인** — 순서·라이벌 묶음·분량(10권↓단일, 11~20권 2편, 20권↑선별) | [lineup.md](lineup/lineup.md) § 편성 원칙·제작 규칙 |
+| 1 | **편성 확인** — 순서·라이벌 묶음·분량(10권↓단일, 11~20권 2편, 20권↑선별) | [br-10-lineup.md](br-10-lineup.md) § 편성 원칙·제작 규칙 |
 | 2 | **DB 데이터 수집** — 프로필·명언·콘텐츠·통계·스펙트럼. 콘텐츠 타입(`contents.type`)이 BOOK이 아닌 항목은 category 필드 필수 | 아래 DB 소스 표 |
-| 3 | **JSON 초안** — `public/episodes/pre-todo/<name>.json` 작성 (기존 JSON 복사 후 수정) | [longform.md](longform.md) § DB→JSON 변환 체크리스트 |
-| 4 | **텍스트 검수** — 주어 규칙·말투·진부 표현 제거 | [longform.md](longform.md) § 말투 규칙, [lineup.md](lineup/lineup.md) § 품질 |
-| 5 | **ID·표지 동기화** — DB 관계 연결 + DB 표지 → `covers/content/<contentId>/<locale>.webp` 캐시 | [unification-phase1.md](unification-phase1.md) |
-| 6 | **보이스 배정** — 해설은 Gemini Charon, 실제 인물은 ElevenLabs 배정 | [voice/actors.md](voice/actors.md), [lineup.md](lineup/lineup.md) § 보이스 |
-| 7 | **승격** — `pre-todo/<name>.json` → `todo/<name>/ko.json` 이동, `script.ts` 등록 | 아래 에피소드 상태 표 |
-| 8 | **음성 생성** — [음성 파이프라인 3단계](voice/tts.md) 실행 | [voice/tts.md](voice/tts.md) § 음성 타이밍 |
+| 3 | **JSON 초안** — `public/episodes/pre-todo/<name>.json` 작성 (기존 JSON 복사 후 수정) | [br-02-longform.md](br-02-longform.md) § DB→JSON 변환 체크리스트 |
+| 4 | **텍스트 검수** — 주어 규칙·말투·진부 표현 제거 | [br-02-longform.md](br-02-longform.md) § 말투 규칙, [br-10-lineup.md](br-10-lineup.md) § 품질 |
+| 5 | **ID·표지 동기화** — DB 관계 연결 + DB 표지 → `covers/content/<contentId>/<locale>.webp` 캐시 | [br-06-db-sync.md](br-06-db-sync.md) |
+| 6 | **보이스 배정** — 해설은 Gemini Charon, 실제 인물은 ElevenLabs 배정 | [voice/voice-03-actors.md](voice/voice-03-actors.md), [br-10-lineup.md](br-10-lineup.md) § 보이스 |
+| 7 | **승격** — `pre-todo/<name>.json` → `<name>/ko.json` 이동(`_status`에 `todo`), `script.ts` 등록 | 아래 에피소드 상태 표 |
+| 8 | **음성 생성** — pronounce → tts(사용자 수동·유료) → `/voice-sync <name>` | [voice/voice-01-timing-pipeline.md](voice/voice-01-timing-pipeline.md) |
 | 9 | **프리뷰** — `pnpm reboot` | — |
 
 ### DB 소스 (2단계)
@@ -137,7 +140,6 @@ public/episodes/
 | `done` | YouTube 업로드 완료 |
 | (파일 없음) | 그룹 폴더 또는 비활성 분류 폴더 — 인식 안 함 |
 
-> **변경 이력 (2026-05)**: 옛 `todo/`·`live/`·`done/` 3단 폴더를 폐기하고 `_status` 파일로 분리했다. 진척도와 그룹을 직교 축으로 둘 수 있다. 이관용 일회성 스크립트는 폐기했다.
 
 ### 승격 절차
 

@@ -3,7 +3,7 @@
 This is the only implementation. Every TTS path (reading and dialogue batches, web-bo previews,
 Remotion CLI synthesis, audio-bo synthesis) cleans its output where the audio first appears.
 Node callers go through packages/shared/src/bo/voice-cleanup.ts; Python callers import clean_file.
-Rules and listening evidence: docs/project/production/voice-cleanup.md.
+Rules and listening evidence: docs/project/production/prod-04-voice-cleanup.md.
 
 Speech is excluded first and only the quiet remainder is touched, so dialogue cannot be cut.
 Breaths are 1/100 the amplitude of speech; a detector that searches "audible events" with a

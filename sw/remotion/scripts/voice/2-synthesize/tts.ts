@@ -122,9 +122,8 @@ export async function tts(
     // undefined·null만 fallthrough.
     stylePrefix = segStyle ?? episode.host.shortsSpeed ?? NARRATOR_STYLE_DEFAULT
   }
-  const styled = stylePrefix ? `${stylePrefix}: ${text}` : text
 
-  return synthesizeGemini(styled, voiceName, outputFile)
+  return synthesizeGemini(text, voiceName, outputFile, stylePrefix || undefined)
 }
 
 // --- TTS 텍스트 추출 (tts 오버라이드 우선) ---

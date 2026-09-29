@@ -1,6 +1,6 @@
 # 셀럽 데이터 파이프라인
 
-이 문서는 인물을 두 축으로 나누고 각 데이터 문서로 연결하는 오케스트레이터다. 필드와 테이블 구조는 [`../data/03-celeb.md`](../data/03-celeb.md), 공개 상태는 [`celeb-00-02-publication.md`](celeb-00-02-publication.md)가 쥔다.
+이 문서는 인물을 두 축으로 나누고 각 데이터 문서로 연결하는 오케스트레이터다. 필드와 테이블 구조는 [`../data/data-03-celeb.md`](../data/data-03-celeb.md), 공개 상태는 [`celeb-00-02-publication.md`](celeb-00-02-publication.md)가 쥔다.
 
 ## 먼저 두 축을 가른다
 

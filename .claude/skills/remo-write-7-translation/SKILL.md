@@ -22,5 +22,5 @@ description: 에피소드 ko↔en 번역에서 원전 역번역, 문장 단위 �
 ## 실행 전 필독
 
 - `docs/project/remotion/book-recommend/writer/7-translation.md` — 번역·원전 보존 규칙 (SSoT)
-- `docs/project/remotion/book-recommend/rules.md` — 불변 규칙
+- `docs/project/remotion/book-recommend/br-01-rules.md` — 불변 규칙
 - `docs/project/remotion/book-recommend/writer/0-draft.md` — 필드별 작성 기준 (참고)

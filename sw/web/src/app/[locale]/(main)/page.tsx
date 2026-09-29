@@ -56,7 +56,7 @@ export default async function MainPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
-      {/* 비동기 서버 페이지가 클라이언트 구획을 그리므로 intl 컨텍스트를 재공급한다(code-rules.md) */}
+      {/* 비동기 서버 페이지가 클라이언트 구획을 그리므로 intl 컨텍스트를 재공급한다(platform-02-code-rules.md) */}
       <AsyncIntlProvider>
         {/* 구획 폭은 두 단계뿐이다 — 격자는 이 컨테이너(max-w-5xl)를 다 쓰고,
             읽는 구획(공지·첫인사)만 안쪽에서 max-w-3xl로 좁힌다. 세 번째 폭을 만들지 않는다 */}
@@ -69,7 +69,7 @@ export default async function MainPage() {
           />
 
           {/* 목차 줄 — 이 화면의 구획 전부. 라벨·순서·번호는 config 단일원천에서 온다.
-              제호 괘선 아래 새 묶음의 시작이라 선에서 넉넉히 띄운다(code-rules.md 「구분선」) */}
+              제호 괘선 아래 새 묶음의 시작이라 선에서 넉넉히 띄운다(platform-02-code-rules.md 「구분선」) */}
           <div className="mt-8 md:mt-10">
             <HubNav hubItems={hubNavItems(HOME_SECTIONS, t)} groupId={HOME_GROUP_ID} />
           </div>

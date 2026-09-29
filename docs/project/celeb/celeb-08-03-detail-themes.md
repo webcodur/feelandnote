@@ -41,7 +41,7 @@
 
 ## 상호작용과 접근성
 
-- 조작 요소의 즉각 반응은 [`../platform/code-rules.md`](../platform/code-rules.md)와 `ui-hover` 스킬을 따른다.
+- 조작 요소의 즉각 반응은 [`../platform/platform-02-code-rules.md`](../platform/platform-02-code-rules.md)와 `ui-hover` 스킬을 따른다.
 - 현재 목차 표식은 키보드 포커스와 마우스 hover를 함께 반영하고, 손을 떼면 현재 구획으로 돌아간다.
 - 강조 텍스트는 배경 대비 WCAG AA를 충족한다.
 - 텍스처는 `pointer-events: none`이며 스크롤과 조작을 막지 않는다.

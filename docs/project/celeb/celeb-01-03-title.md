@@ -25,7 +25,7 @@
 - 대표작을 수식어로 쓸 때는 작품명만 두지 않고 그 인물과 작품의 관계를 한 낱말로 붙인다(`레미제라블 작가`·`세계는 평평하다 저자`·`클레오파트라 주연`·`기생충 감독`).
 - 역할어를 붙여 12자를 넘기거나 어색하면 우선순위 1(통용 호칭)이나 3(대표 정체성)으로 다시 고른다. 글자 수를 맞추려고 작품명을 줄이지 않는다.
 - 작품명은 공식 표기·띄어쓰기를 따른다(`신과함께`→`신과 함께`, `동경 이야기`→`동경이야기`).
-- 영문의 작품 관계는 관용형을 쓴다(`Author of Les Misérables`·`Star of Cleopatra`·`Director of Parasite`).
+- 영문은 아래 행위계열의 어순을 따르되, 작품 관계는 관용형을 쓴다(`Author of Les Misérables`·`Star of Cleopatra`·`Director of Parasite`).
 - 짧을수록 좋다. 수식어가 길면 검색 제목에서 분야별 건수가 먼저 빠진다(`meta.ts`의 `TITLE_WIDTH_BUDGET`).
 
 ## 창업계열 통일
@@ -36,6 +36,14 @@
 - 회사명은 한국어 음역(구글·애플·오픈AI·앤트로픽·엔비디아)으로 통일한다. 약칭이 통용되면 약칭(MS·LG·TSMC)을 쓴다.
 - 회사명만으로 끝내지 않는다. 설립·CEO 등 역할을 붙인다(`TSMC`→`TSMC 설립`). 아호·업적 고유명(`호암`·`인쇄술`)은 예외다.
 - 전직이면 `전`을 붙인다(`소니 전 CEO`). `2대`처럼 구분자가 있으면 생략한다.
+
+## 행위계열 정리
+
+- `<대상> <행위>자`는 `<대상> <행위>`로 쓴다(`747 설계자`→`747 설계`, `크로톤의 창건자`→`크로톤 창건`). 사물·작품·조직·국가를 세운 행위가 대상이다: 개발·설계·개척·발견·발굴·창건·건국·제작·건설·건조·운영·경영·조달.
+- `의`와 `공동`은 쓰지 않는다(`트랜스포머의 설계자`→`트랜스포머 설계`, `시스템의 공동 설계자`→`시스템 설계`).
+- `자`를 떼면 직함·역할·시적 칭호가 무너지는 경우는 그대로 둔다. 직함(`수석 개발자`·`핵심 연구자`), 고유 칭호(`총설계자`), 역할어(`수호자`·`후원자`·`기록자`·`공저자`·`선구자`·`연구자`·`편집자`), 창작 칭호(`창조자`·`창제자`)가 해당한다.
+- 영문도 같은 대상에 `<Subject> <Role>` 어순으로 통일한다(`Architect of GPT`→`GPT Architect`, `Creator of Linux`→`Linux Creator`, `Pioneer of Indology`→`Indology Pioneer`). `Co-` 접두사는 창업계열처럼 쓰지 않는다.
+- 단 `Role of X`가 영어의 관용 형태인 경우는 유지한다. 국가·도시·왕조·씨족·학파 창건(`Founder of Rome`·`Founder of the Ilkhanate`), 혈통 칭호(`Ancestor of`·`Forefather of`·`Progenitor of`·`Father of`·`Mother of`), 발견·발굴(`Discoverer of Troy`·`Excavator of Knossos`), 저서(`Author of Vathek`), 역할어(`Prophet of`·`Keeper of`·`Defender of`·`Leader of the Exodus`), 정치·국가의 `Architect of` 격식(`Architect of Reform`·`Architect of Iraq`)이 해당한다.
 
 ## 금지
 

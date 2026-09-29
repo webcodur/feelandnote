@@ -4,7 +4,7 @@ Next.js 사용자 서비스다. 로컬 개발은 저장소 루트에서 `pnpm de
 
 프로덕션 요청은 Cloudflare를 거쳐 Oracle VM의 Caddy와 `feelandnote-web.service`로 들어간다.
 서버 경로·배포·캐시 운영은
-[`docs/project/platform/external-services.md`](../../docs/project/platform/external-services.md)를 따른다.
+[`docs/project/platform/platform-05-external-services.md`](../../docs/project/platform/platform-05-external-services.md)를 따른다.
 
 ## 점검 안내 화면 로컬 미리보기
 

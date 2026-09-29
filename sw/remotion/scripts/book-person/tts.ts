@@ -92,7 +92,7 @@ async function synthesizeEpisode(slug: string) {
     }
     const pcm = ENGINE === 'elevenlabs'
       ? await synthesizeEle(job.text)
-      : await gemini.synthesize(`${NARRATOR_STYLE_DEFAULT}: ${job.text}`, VOICE.soloNarrator)
+      : await gemini.synthesize(job.text, VOICE.soloNarrator, undefined, NARRATOR_STYLE_DEFAULT)
     await saveWav(file, pcm)
     // 들숨·쉼 정리(SSoT) — 길이는 정리 뒤 값에 문장 사이 숨을 더한다
     const sec = (await cleanVoiceFile(file, file, 'reading')).seconds + BREATH_SEC

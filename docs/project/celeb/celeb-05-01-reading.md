@@ -33,7 +33,7 @@
 5. 게시 여부는 `published_at`으로 관리한다. 게시 요청을 받은 active 인물은 시각을 기록하고, 비공개는 `NULL`로 둔다. 본문 수정 시 기존 게시 여부를 보존한다. 인물이 비활성화되면 DB가 안내를 비공개로 전환하며, 재활성화 뒤에는 명시적으로 다시 게시한다.
 6. 반영 뒤 DB를 재조회해 한영 본문·게시 여부와 보존값을 대조하고, 한국어·영어 화면을 확인한다. 신규 행이 반영 검증에 실패하면 해당 행의 게시 시각을 조건부로 `NULL`로 되돌린다.
 
-DB 접속·운영은 [외부 서비스의 Oracle DB 운영](../platform/external-services.md#oracle-db-운영)을 따른다.
+DB 접속·운영은 [외부 서비스의 Oracle DB 운영](../platform/platform-05-external-services.md#oracle-db-운영)을 따른다.
 배치 실행은 [celeb-reading 스킬](../../../.agents/skills/celeb-reading/SKILL.md)과
 [`readings.ts`](../../../sw/web-bo/scripts/celeb/readings.ts)를 참조한다. `--stats`는 읽기 전용 현황 조회이며, 배치 게시는 `--publish`로 명시한다.
 안내 음성 작업은 [읽어보기 음성](../../continuous/celeb-tts-reading.md)이 쥔다.

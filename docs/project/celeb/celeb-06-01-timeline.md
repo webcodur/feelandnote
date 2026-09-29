@@ -8,7 +8,7 @@
 
 | 책임 | 원천 |
 |---|---|
-| 테이블과 컬럼 | [`../data/03-celeb.md`](../data/03-celeb.md), 최신 DB migration |
+| 테이블과 컬럼 | [`../data/data-03-celeb.md`](../data/data-03-celeb.md), 최신 DB migration |
 | 사건 종류 허용값 | `sw/web-bo/src/constants/timeline.ts`와 DB 제약 |
 | 수동 입력 검증 | `sw/web-bo/src/actions/admin/timeline.ts` |
 | fiction 후보 계약 | `sw/web-bo/scripts/celeb/timeline/fiction-candidate-contract.ts` |

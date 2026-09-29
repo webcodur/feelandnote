@@ -3,7 +3,7 @@
   기능: 작품 상세 레이아웃
   책임: 이 화면이 실제로 쓰는 문구만 브라우저로 내려보낸다. 사전 전체를 실으면
         한 장이 굳을 때마다 HTML·RSC 양쪽에 187KB가 복사된다
-        (external-services.md「ISR 쓰기 비용 규칙」).
+        (platform-05-external-services.md「ISR 쓰기 비용 규칙」).
 */ // ------------------------------
 
 import type { ReactNode } from "react";

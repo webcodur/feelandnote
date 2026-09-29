@@ -6,11 +6,11 @@ DB는 이미 Oracle VM으로 이전했지만 스택·명칭·클라이언트에 
 
 ### Vault (2026-09-27 정보나루 자격 확인 중 발견)
 
-- `vault.secrets`는 Supabase Vault다 — `tistory_kakao_id`·`tistory_kakao_password`·`web_revalidate_secret`를 여기 두고 있다(`env-vars.md` 151~152행). 자격 조회 경로가 Supabase 스키마에 묶여 있으므로 비밀 저장소를 재설계할 때 함께 옮긴다.
+- `vault.secrets`는 Supabase Vault다 — `tistory_kakao_id`·`tistory_kakao_password`·`web_revalidate_secret`를 여기 두고 있다(`platform-04-env-vars.md` 「크론·캐시 갱신」). 자격 조회 경로가 Supabase 스키마에 묶여 있으므로 비밀 저장소를 재설계할 때 함께 옮긴다.
 
 ### 서버 배포 경로·컨테이너 명명
 
-- DB VM 배포 루트 `/opt/feelandnote/supabase/` — 실제 경로라 코드 명칭과 별개로 남아 있다(`external-services.md` 10행, `oauth-setup.md` 22행).
+- DB VM 배포 루트 `/opt/feelandnote/supabase/` — 실제 경로라 코드 명칭과 별개로 남아 있다(`platform-05-external-services.md` 「Oracle DB 운영」, `platform-06-oauth.md`).
 - 컨테이너명 `supabase-db`·`supabase-rest`, DB 역할 `supabase_auth_admin` — SQL 실행·장애 진단·컷오버 스크립트(`scripts/oracle-db/db-cutover`)가 이 이름을 쓴다.
 
 ### 클라이언트 의존
@@ -20,8 +20,8 @@ DB는 이미 Oracle VM으로 이전했지만 스택·명칭·클라이언트에 
 
 ### 문서 참조
 
-- `docs/project/platform/external-services.md`, `env-vars.md`, `oauth-setup.md`, `docs/project/data/README.md`(`docker exec -i supabase-db psql`), `operations/seo.md`, `celeb-08-01-avatar.md`.
+- `docs/project/platform/platform-05-external-services.md`, `platform-04-env-vars.md`, `platform-06-oauth.md`, `docs/project/data/README.md`(`docker exec -i supabase-db psql`), `operations/ops-02-seo.md`, `celeb-08-01-avatar.md`.
 
 ## 주의
 
-`external-services.md`는 「upstream 기술 이름이 남아 있으므로 실제 이름은 바꾸어 적지 않는다」고 못 박았다 — 문서만 먼저 고치면 실제 컨테이너명과 어긋난다. 명명 변경은 인프라 작업과 동시에 진행한다.
+`platform-05-external-services.md`는 「upstream 기술 이름이 남아 있으므로 실제 이름은 바꾸어 적지 않는다」고 못 박았다 — 문서만 먼저 고치면 실제 컨테이너명과 어긋난다. 명명 변경은 인프라 작업과 동시에 진행한다.

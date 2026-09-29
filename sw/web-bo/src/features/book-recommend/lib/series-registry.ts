@@ -9,14 +9,14 @@
  *   그래서 아래 「계열별 등록표」 얼개(SERIES_HOMES·EDITORS·EPISODE_LISTS 등)는 지금
  *   **한 명뿐인 표**가 됐다. 새 시리즈를 여기 얹을 계획이 없다면 얼개 자체를 걷어내고
  *   서재 탐방을 web-bo 로 마저 옮기는 쪽이 낫다 — 설계 문서
- *   `docs/project/remotion/discourse/unification.md` §8·§9(7) 참조.
+ *   `docs/project/remotion/discourse/discourse-01-db-integration.md` 참조.
  */
 
 /**
  * 데이터 구조 계열 — 에피소드 저장 형식·IO·편집 화면이 이 값으로 갈린다.
  * - book: episodes/<인물>/ 의 책 본문(meta·books·shorts). 서재 탐방
  *
- * 가상 담화(discourse)는 이 계열이 아니다 — 편집·출간이 따로 있다(`docs/project/remotion/discourse/unification.md` §8).
+ * 가상 담화(discourse)는 이 계열이 아니다 — 편집·출간이 따로 있다(`docs/project/remotion/discourse/discourse-01-db-integration.md`).
  */
 export type SeriesDataModel = 'book'
 

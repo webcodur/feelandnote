@@ -43,7 +43,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
     .join(";")}}`;
 
   // 이 화면이 실제로 쓰는 문구만 받는다. 사전 전체를 실으면 한 장이 굳을 때마다
-  // HTML·RSC 양쪽에 187KB가 복사된다(external-services.md「ISR 쓰기 비용 규칙」).
+  // HTML·RSC 양쪽에 187KB가 복사된다(platform-05-external-services.md「ISR 쓰기 비용 규칙」).
   return (
     <MessageScope paths={CELEB_MESSAGE_PATHS}>
       {!disableTheme && <style dangerouslySetInnerHTML={{ __html: rootThemeCss }} />}

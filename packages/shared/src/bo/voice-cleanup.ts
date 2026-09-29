@@ -13,7 +13,7 @@ const execFileAsync = promisify(execFile)
  * 들숨 제거와 앞·중간·뒤 쉼 정리의 구현은 sw/audio-bo/scripts/voice_cleanup.py 하나다.
  * TTS 음원은 경로(web-bo 미리듣기·Remotion CLI·배치)와 엔진(Gemini·ElevenLabs)에 상관없이
  * **처음 생긴 자리**에서 이 모듈을 거친다. 사람이 편집기에서 손본 음원을 저장할 때는 부르지 않는다 —
- * 일부러 넓힌 간격까지 다시 줄인다. 규칙과 근거: docs/project/production/voice-cleanup.md
+ * 일부러 넓힌 간격까지 다시 줄인다. 규칙과 근거: docs/project/production/prod-04-voice-cleanup.md
  *
  * 파이썬(numpy)·ffmpeg·ffprobe가 필요하다. 없으면 실패한다 — 정리 안 된 음원이 조용히 나가지 않게 한다.
  * 파이썬 명령은 VOICE_CLEANUP_PYTHON, 스크립트 경로는 VOICE_CLEANUP_SCRIPT로 바꿀 수 있다.

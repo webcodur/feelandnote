@@ -23,8 +23,9 @@ export { saveWav }
 // --- Gemini TTS 합성 ---
 const gemini = createGeminiTts({ model: GEMINI_MODEL, startKeyIndex: START_KEY_INDEX })
 
-export async function synthesizeGemini(text: string, voiceName: Voice, outputFile: string): Promise<number> {
-  const pcm = await gemini.synthesize(text, voiceName)
+export async function synthesizeGemini(text: string, voiceName: Voice, outputFile: string, style?: string): Promise<number> {
+  // style 적용 방식은 모델이 결정한다 — ≤3.1은 텍스트 prefix, 3.8은 speechMetadata(verbatim transcript).
+  const pcm = await gemini.synthesize(text, voiceName, GEMINI_MODEL, style)
   await saveWav(outputFile, pcm)
   // 들숨·쉼 정리(SSoT) — 내레이션이라 reading 프로필, 길이는 정리 뒤 값
   const { seconds: duration } = await cleanVoiceFile(outputFile, outputFile, 'reading')

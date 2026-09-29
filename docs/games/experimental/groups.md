@@ -1,6 +1,6 @@
-# 넷씩 넷 (Groups) — 발주서
+# 넷씩 넷 (Groups) — 규격
 
-> 현재 구현은 `faction_lv2`·`faction_members`, `celebs.profession`·`nationality`, `packages/shared/src/constants/celeb-professions.ts`를 기준으로 읽는다. 인물 스키마는 `docs/project/data/03-celeb.md`를 본다.
+> 현재 구현은 `faction_lv2`·`faction_members`, `celebs.profession`·`nationality`, `packages/shared/src/constants/celeb-professions.ts`를 기준으로 읽는다. 인물 스키마는 `docs/project/data/data-03-celeb.md`를 본다.
 
 ---
 

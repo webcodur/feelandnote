@@ -4,7 +4,7 @@
 
 fiction의 `figure_book_characters.description`은 감상경위가 아니다. 해당 작품 안에서 인물이 맡는 역할·사건·결말만 쓰며 이 문서를 적용하지 않는다.
 
-Bill Gates의 Gates Notes 도서 리뷰는 사용자 지시에 따라 공식 영문 본문과 그 한국어 번역을 저장한다. 아래의 3인칭 시작·간결한 재서술 규칙을 적용하지 않으며, 원문의 화자와 문단을 유지한다. 해당 자료는 [`featured-people/bill-gates.md`](featured-people/bill-gates.md)에 연결한다.
+Bill Gates의 Gates Notes 도서 리뷰는 사용자 지시에 따라 공식 영문 본문과 그 한국어 번역을 저장한다. 아래의 3인칭 시작·간결한 재서술 규칙을 적용하지 않으며, 원문의 화자와 문단을 유지한다. 해당 자료는 [`data/celeb/viewing-research/2026-09-10-bill-gates.md`](../../../data/celeb/viewing-research/2026-09-10-bill-gates.md)에 연결한다.
 
 ## 감상경위(review) 작성 규칙
 

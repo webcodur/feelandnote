@@ -58,7 +58,7 @@ node --import tsx scripts/celeb/reading-voice.mjs --all-active --include-inactiv
 
 ## 들숨·쉼 정리
 
-들숨 제거와 쉼 정리의 규칙·구현·적용 지점은 [`voice-cleanup.md`](../project/production/voice-cleanup.md)가 쥔다. 여기에는 읽어보기 음성에만 해당하는 것을 적는다.
+들숨 제거와 쉼 정리의 규칙·구현·적용 지점은 [`prod-04-voice-cleanup.md`](../project/production/prod-04-voice-cleanup.md)가 쥔다. 여기에는 읽어보기 음성에만 해당하는 것을 적는다.
 
 - `reading-voice.mjs`가 attempt wav를 채택한 직후, 후보 인코딩과 검수 전에 공용 정리(`reading` 프로필)를 부르고 `-clean.wav`로 바꿔 끼운다. 파일 이름(`-clean`·`-nbt`)으로 시도마다 한 번만 정리한다. 합성 전용 단계의 속도 판정은 정리 전 wav로 하므로, 정리하면 기준을 넘길 음원이 느리다고 판정돼 재생성될 수 있다.
 - **mp3가 아니라 원본 attempt wav에 적용한다.** 등록 mp3를 풀어 다시 압축하면 2세대 손실 압축이 되고, 파이프라인 표준(`reading-voice.mjs`의 `MP3_SETTINGS`)과 비트레이트도 어긋난다. 26.09.13에 mp3에 적용했다가 96kbps 처리본 343건이 R2에 올라가 wav 경로로 다시 처리했다. wav를 정리해 `attempt.wav`·`wavHash`를 바꾸고 `entry.mp3`·`mp3Hash`·`finalQcHash`와 `candidateMp3`, attempt의 판정 기록(`status`·`qc`·`finalQc`·`qcScriptHash`·`processingHash`·`speed`)을 비우면 파이프라인이 wav부터 다시 검수·인코딩·등록한다. **판정 기록을 남기면 wav를 바꿔도 이전 판정을 그대로 재사용해 정리·검수를 건너뛴다**(26.09.14 파이프라인 실전 시험에서 확인).

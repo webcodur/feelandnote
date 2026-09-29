@@ -5,7 +5,7 @@ description: Claude Code에서 Devin CLI를 비대화(-p)로 불러 무료 모�
 
 # Devin CLI로 SWE-2에 위임
 
-Cognition의 Devin CLI다. 계정에 딸린 모델 중 **SWE-2 묶음만 무료**다. 나머지(Claude·GPT·Gemini, SWE-1.7 Lightning)는 토큰당 과금이다. 이 스킬은 무료 라인으로 큰 일을 통째로 넘기는 법을 쥔다. 공통 원리는 [`docs/resource/cli-agent-invocation.md`](../../../docs/resource/cli-agent-invocation.md)에 있다.
+Cognition의 Devin CLI다. 계정에 딸린 모델 중 **SWE-2 묶음만 무료**다. 나머지(Claude·GPT·Gemini, SWE-1.7 Lightning)는 토큰당 과금이다. 이 스킬은 무료 라인으로 큰 일을 통째로 넘기는 법을 쥔다. 공통 원리는 [`docs/resource/res-02-cli-agent-invocation.md`](../../../docs/resource/res-02-cli-agent-invocation.md)에 있다.
 
 ## 핵심 호출법
 

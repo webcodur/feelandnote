@@ -1,4 +1,4 @@
-# 가림 해제 (Redact) — 발주서
+# 가림 해제 (Redact) — 규격
 
 > **최종 실측 체크: 26.07.31** — 부분 대조: `getTrackerRound.ts`(censorName 로직·safeWords 보호), `proximity/` 전체(게임 구조 패턴), `i18n/request.ts`(네임스페이스 등록 확인), `messages/ko/core.json`(shared.game 키), 현재 `celebs`로 이관된 bio 컬럼(코드 내 사용 확인). DB 실측 없음.
 

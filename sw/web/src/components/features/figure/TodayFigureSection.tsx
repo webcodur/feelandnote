@@ -113,7 +113,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
 
     return (
         <div className="w-full">
-            {/* 인물 머리 — 가운데 정렬(code-rules.md 「정렬」). 날짜 → 얼굴 → 이름 → 직업 → 소개 순으로 쌓는다.
+            {/* 인물 머리 — 가운데 정렬(platform-02-code-rules.md 「정렬」). 날짜 → 얼굴 → 이름 → 직업 → 소개 순으로 쌓는다.
                 예전 배지(작품 수·TODAY 알약)는 날짜 줄이 같은 말을 하므로 두지 않는다 */}
             <div className="mb-6 flex flex-col items-center text-center md:mb-8">
                 {/* 날짜 줄 — 선정 사유 마크는 날짜 바로 뒤에 붙는다(눌러 여는 말풍선의 기준점) */}

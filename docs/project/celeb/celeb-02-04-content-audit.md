@@ -52,7 +52,7 @@ full의 각 `source_url`을 열어 인물과 정확한 작품, 감상·추천·�
 - 번역자·출판사·표지·장정만 다른 판본이 별도 작품으로 중복되지 않았는지 본다.
 - 합본·분권·축약·개작처럼 본문 범위가 다른 작품을 원작과 합치지 않는다.
 - 한 locale 안의 제목·저자·ISBN·출판사·표지가 같은 판본에서 왔는지 확인한다.
-- 외부 메타와 표지 출처의 허용값은 등록 문서와 [`../platform/external-services.md`](../platform/external-services.md)를 그대로 적용한다.
+- 외부 메타와 표지 출처의 허용값은 등록 문서와 [`../platform/platform-05-external-services.md`](../platform/platform-05-external-services.md)를 그대로 적용한다.
 
 동일 작품 여부를 확정하지 못하면 행을 합치거나 새 작품으로 교체하지 않고 미해결로 남긴다.
 
@@ -94,7 +94,7 @@ locale은 검증된 언어판만 존재해야 한다. ko·en 한쪽이 없다는
 | 언어 카드 0장 작품 | `content_locales` 행 없음 | 관계가 있으면 대표 ISBN으로 카드를 만든다. 관계·기록 참조가 전혀 없으면 원행을 백업하고 지운다 |
 | 대표 ISBN 불일치 | `contents.external_id`가 어느 카드 ISBN과도 다름(카드에 ISBN이 하나도 없는 작품은 제외) | `locale-rep-fix.mjs`가 `ko` 한국 ISBN → `en` 영어권 ISBN 순으로 맞춘다. `external_id`는 유일 인덱스라 그 ISBN을 이미 다른 작품이 대표로 쓰면 실패하는데, 그 경우는 같은 책이 두 작품으로 갈린 중복이다. 쌍을 뽑아 `merge-works.mjs`로 통합한다. 남길 작품은 카드 ISBN을 대표로 쓰는 쪽이다. 회원 기록(`member_contents`)은 스크립트가 옮기며, `contents.record_count`는 셀럽 감상 수까지 합친 값이라 회원 기록 유무의 판정 기준으로 쓰지 않는다 |
 
-- 정상 예외(결함으로 잡지 않는다): 카카오가 옛 국내서에 주는 바코드형 13자리 `ko` 카드, 악보의 ISMN, 한국 ISBN을 단 영문 원문 POD(`en`만 둔다), 영어권 출판사(Springer·Tuttle·인도·싱가포르·홍콩 등)의 `en` 카드, 기관 선정 적재분에서 옮겨 온 수입 원서 `en` 카드(`sources.primary='kakao_book'`, `note`에 imported foreign edition — [`../service/curated-lists.md`](../service/curated-lists.md) 5-4).
+- 정상 예외(결함으로 잡지 않는다): 카카오가 옛 국내서에 주는 바코드형 13자리 `ko` 카드, 악보의 ISMN, 한국 ISBN을 단 영문 원문 POD(`en`만 둔다), 영어권 출판사(Springer·Tuttle·인도·싱가포르·홍콩 등)의 `en` 카드, 기관 선정 적재분에서 옮겨 온 수입 원서 `en` 카드(`sources.primary='kakao_book'`, `note`에 imported foreign edition — [`../service/service-03-curated-lists.md`](../service/service-03-curated-lists.md) 5-4).
 - `content_locales.updated_at`은 갱신에도 바뀌지 않아 시각으로 변경을 추적할 수 없다. 26.09.11 갱신한 「바리바리 전설」·「화학 원론」 `ko` 행이 03-06 원상태로 돌아가 있던 원인 미상 사례가 있다(다시 반영함). 재발하면 원인을 찾는다.
 - 판본 범위가 달라 통합에서 뺀 쌍은 [`../../todo/celeb/README.md`](../../todo/celeb/README.md)에 둔다.
 - 집계: `locale-census.mjs`(전체·배치별, `--out`으로 목록 저장) · `locale-verify.mjs`(인물 연결분·비연결분 분리).

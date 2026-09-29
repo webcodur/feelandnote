@@ -37,7 +37,7 @@ const YES24_DETAIL = 'https://apis.yes24.com/v1/goods/itemDetail'
 const YES24_LIST = 'https://apis.yes24.com/v1/goods/itemList'
 const BOOK_TYPES = new Set(['도서', '국내도서', '만화'])
 
-// YES24 키는 web 서버 env에 있다(env-vars.md). 값은 로그에 찍지 않는다.
+// YES24 키는 web 서버 env에 있다(platform-04-env-vars.md). 값은 로그에 찍지 않는다.
 function envValue(key) {
   if (process.env[key]) return process.env[key]
   const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..')

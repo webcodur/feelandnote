@@ -12,7 +12,7 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 `interpretive_*` 필드는 기존 값을 보존한다.
 
 현대 실존 인물의 직접 발언과 본인 매체를 조사할 때는 `person-quote-mining`의 인물 식별·원어
-검색·화자 확인 원칙을 적용한다. DB 작업은 `docs/project/platform/external-services.md`의
+검색·화자 확인 원칙을 적용한다. DB 작업은 `docs/project/platform/platform-05-external-services.md`의
 `Oracle DB 운영` 절을 따르고, 한영 대응 검수는 `audit-web-i18n`을 함께 사용한다.
 
 ## 흐름

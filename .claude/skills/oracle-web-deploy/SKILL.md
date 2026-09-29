@@ -6,7 +6,7 @@ description: Feel&Note 사용자 웹의 Oracle standalone 배포 계획, 패키�
 # Oracle web deploy
 
 사용자 웹 배포의 실행점은 `pnpm deploy:web:oracle` 하나다. 서버 주소·release 구조·systemd 계약은
-`docs/project/platform/external-services.md`의 「Oracle 사용자 웹 운영」을 따른다. 스킬에 그 값을
+`docs/project/platform/platform-05-external-services.md`의 「Oracle 사용자 웹 운영」을 따른다. 스킬에 그 값을
 복제하지 않는다.
 
 ## 모드
@@ -25,7 +25,7 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
 
 ## 실행 판단
 
-배포 전에 변경한 기능의 실제 동작을 검수한다. UI 수정은 영향을 받는 PC·모바일 화면과 클릭·호버 동작까지 확인한다. 배포 검증 방식은 `docs/project/platform/external-services.md`의 「Oracle 사용자 웹 운영」을 따르며, 사전 검수를 배포 후 장시간 관찰로 대신하지 않는다.
+배포 전에 변경한 기능의 실제 동작을 검수한다. UI 수정은 영향을 받는 PC·모바일 화면과 클릭·호버 동작까지 확인한다. 배포 검증 방식은 `docs/project/platform/platform-05-external-services.md`의 「Oracle 사용자 웹 운영」을 따르며, 사전 검수를 배포 후 장시간 관찰로 대신하지 않는다.
 
 1. 먼저 plan을 실행해 현재 release, 대상 커밋, 웹·Caddy 상태, Caddy upstream, canary 포트, Cloudflare 퍼지 계획을 읽는다. 정상 시작점은 Caddy가 기본 웹 포트를 가리키는 상태다.
 2. 대상 커밋이 원격 브랜치에 없으면 push 여부를 사용자에게 확인한다. `--allow-unpushed`는 사용자가

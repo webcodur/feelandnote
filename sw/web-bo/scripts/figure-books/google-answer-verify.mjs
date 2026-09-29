@@ -1,7 +1,7 @@
 /**
  * 구글 AI 모드 답변을 카카오 책 검색으로 검증한다. 읽기 전용이다.
  *
- * 브라우저 채팅 경로(docs/resource/browser-chat-automation.md)로 받은 답변은 검증을 거치지
+ * 브라우저 채팅 경로(docs/resource/res-04-browser-chat-automation.md)로 받은 답변은 검증을 거치지
  * 않은 후보다. 실재하지 않는 책, 자가출판·전자책 전용, 제목만 비슷한 책이 섞인다.
  * 여기서 카카오 제목+저자 매칭을 통과한 것만 남긴다.
  *

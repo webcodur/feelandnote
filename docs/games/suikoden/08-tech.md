@@ -61,11 +61,9 @@
 app/[locale]/(main)/rest/page.tsx        — 서버. 고정 인물·대사를 Promise.all로 로딩
   └ RestGameGrid (클라이언트)             — 게임 카드 4장, 주소 해시 감지
       └ activeGame === "suikoden" 일 때 SuikodenGameWrapper 를 dynamic import 로 마운트
-
-app/[locale]/(main)/rest/suikoden/       — loading.tsx 만 있고 page.tsx 없음 → 404
 ```
 
-천도 카드를 누르면 주소가 `#suikoden`으로 바뀌며, `/[locale]/rest#suikoden` 직접 접근이나 해시 변경도 자동으로 게임을 연다. `constants/navigation.tsx`에는 아직 `/rest/suikoden` 링크가 남아 있어 이 경로만 404다.
+천도 카드를 누르면 주소가 `#suikoden`으로 바뀌며, `/[locale]/rest#suikoden` 직접 접근이나 해시 변경도 자동으로 게임을 연다. 전용 `/rest/suikoden` 라우트는 없고 메뉴 링크도 `/rest#suikoden`이다.
 
 ---
 

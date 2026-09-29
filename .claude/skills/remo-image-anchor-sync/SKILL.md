@@ -5,7 +5,7 @@ description: 에피소드 이미지 폴더를 전수 분석하여 품질 기준�
 
 # 이미지 앵커 동기화 (이미지 폴더 → ko → en)
 
-**상세 가이드**: `docs/project/remotion/book-recommend/image-anchor-sync.md`
+**상세 가이드**: `docs/project/remotion/book-recommend/br-41-image-anchor-sync.md`
 
 실행 전 반드시 위 문서를 Read tool로 먼저 읽는다. 품질 기준, 데이터 구조, 앵커 규칙, 검증 포맷, 주의사항이 모두 그 문서에 있다.
 
