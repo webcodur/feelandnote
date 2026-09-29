@@ -86,6 +86,8 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const swipeConsumed = useRef(false);
   const swipeHandlers = {
     onPointerDown: (event: React.PointerEvent) => {
+      /* 밀기는 그림 영역 안에서 눌렀을 때만 시작한다 — 캡션·헤더는 스크롤·클릭 그대로 */
+      if (!(event.target instanceof HTMLElement) || !event.target.closest("[data-artwork-viewer]")) return;
       /* 진행 중이던 복귀·나가기 애니메이션을 끊고 다시 잡는다 */
       pendingSlide.current = null;
       setSlideAnim(false);
@@ -146,6 +148,12 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     if (step) move(step);
     setDragX(0);
   };
+  /* 전체화면에서 넘기면 아래 장면 뷰어의 번호·저장 위치도 같이 따라간다 */
+  const inspectMove = (direction: number) => {
+    const next = Math.max(0, Math.min(images.length - 1, (inspectIndex ?? index) + direction));
+    setInspectIndex(next);
+    setIndex(next);
+  };
   if (!image) return null;
   const isScene = image.kind === 'scene';
   const hasScenes = images.some(item => item.kind === 'scene');
@@ -174,7 +182,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       /* 본문 3열의 오른쪽 칸(3rem) 중앙에 X를 얹는다 — 칸 중심이 모서리에서 1.5rem이라 버튼 반폭 1rem을 뺀 end-2 */
       closeButtonClassName={`absolute end-2 ${titleInArtwork ? "top-2 sm:top-4" : "top-2.5 sm:top-3"} md:end-2 ${CLOSE_BUTTON_STYLE}`}>
       {/* PC에서는 본문 자체가 3열 — 양끝 좁은 칸 전체가 넘기기 버튼이다. 모바일은 하단 바가 담당한다 */}
-      <div className={slideCount > 1 ? "md:grid md:grid-cols-[3rem_minmax(0,1fr)_3rem]" : undefined}>
+      <div className={slideCount > 1 ? "md:grid md:grid-cols-[3rem_minmax(0,1fr)_3rem]" : undefined} {...swipeHandlers}>
         {slideCount > 1 && (
           <button type="button" onClick={() => move(-1)} disabled={index === 0} aria-label={t("previousImage")}
             className="hidden items-center justify-center border-e border-white/10 text-text-secondary outline-none enabled:hover:bg-accent/10 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:opacity-25 md:flex">
@@ -182,7 +190,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           </button>
         )}
         {/* 가로 밀기로 장면 넘기기 — 그림·캡션·엔딩 어디서 밀어도 먹는다. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
-        <div className="min-w-0" style={{ touchAction: "pan-y" }} {...swipeHandlers}>
+        <div className="min-w-0" style={{ touchAction: "pan-y" }}>
           {/* 장면 제목 헤더 — 그림 위에 겹치지 않고 그림 위에 선다. 누르면 장면 바로가기가 열린다 */}
           {isScene && !titleInArtwork && image.label && (
             <button type="button" aria-haspopup="dialog" aria-label={`${image.label} · ${t("selectImage")}`}
@@ -302,7 +310,9 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     {navigatorOpen && <FactionSceneNavigator images={images} title={title} activeIndex={index} endingTitle={ending?.title}
       onSelect={selectImage} onClose={closeNavigator} zIndex={zIndex + 1} />}
     {inspectImage && <ImageViewerModal src={inspectImage.url} alt={inspectImage.label ?? title} caption={inspectImage.caption}
-      isOpen onClose={() => setInspectIndex(null)} />}
+      isOpen onClose={() => setInspectIndex(null)}
+      onPrev={inspectIndex !== null && inspectIndex > 0 ? () => inspectMove(-1) : undefined}
+      onNext={inspectIndex !== null && inspectIndex < images.length - 1 ? () => inspectMove(1) : undefined} />}
     </>
   );
 }

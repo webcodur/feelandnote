@@ -7,7 +7,7 @@
 "use client";
 
 import Image from "next/image";
-import { X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
@@ -25,6 +25,9 @@ interface ImageViewerModalProps {
   onClose: () => void;
   /** 그림이 그린 순간을 적은 한 줄. 넘기지 않으면 아무것도 그리지 않는다 */
   caption?: string | null;
+  /** 넘길 이전·다음 그림이 있을 때 ‹ › 버튼과 최소 배율 가로 밀기가 켜진다 */
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 export default function ImageViewerModal({
@@ -33,6 +36,8 @@ export default function ImageViewerModal({
   isOpen,
   onClose,
   caption,
+  onPrev,
+  onNext,
 }: ImageViewerModalProps) {
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
@@ -106,6 +111,20 @@ export default function ImageViewerModal({
         <X size={32} />
       </Button>
 
+      {/* 넘길 그림이 있는 뷰어에서는 양끝 ‹ › 버튼이 붙는다 — 배경 클릭 닫기와 분리한다 */}
+      {onPrev && (
+        <Button unstyled aria-label="이전" onClick={(e) => { e.stopPropagation(); onPrev(); }}
+          className="absolute start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 hover:border-white hover:text-white">
+          <ChevronLeft size={28} />
+        </Button>
+      )}
+      {onNext && (
+        <Button unstyled aria-label="다음" onClick={(e) => { e.stopPropagation(); onNext(); }}
+          className="absolute end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 hover:border-white hover:text-white">
+          <ChevronRight size={28} />
+        </Button>
+      )}
+
       {/* 끌기가 없던 클릭은 닫기다 — 바깥 배경 클릭과 같은 취급. 더블클릭은 1배 복귀 */}
       <div
         ref={frameRef}
@@ -128,10 +147,18 @@ export default function ImageViewerModal({
           if (view.scale > 1) { setDragging(true); setView((v) => ({ ...v, x: start.vx + dx, y: start.vy + dy })); }
         }}
         onPointerUp={(event) => {
-          if (drag.current?.id !== event.pointerId) return;
+          const start = drag.current;
+          if (start?.id !== event.pointerId) return;
           drag.current = null;
           setDragging(false);
           event.currentTarget.releasePointerCapture(event.pointerId);
+          /* 최소 배율에서는 가로 밀기가 그림 넘기기다 — 끌기로 닫기가 켜지지 않게 moved를 세운다 */
+          const dx = event.clientX - start.x;
+          const dy = event.clientY - start.y;
+          if (view.scale <= MIN_SCALE && (onPrev || onNext) && Math.abs(dx) >= 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+            moved.current = true;
+            if (dx < 0) onNext?.(); else onPrev?.();
+          }
         }}
         onPointerCancel={() => { drag.current = null; setDragging(false); moved.current = true; }}
         onLostPointerCapture={() => { drag.current = null; setDragging(false); }}
