@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ZoomIn } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -68,15 +68,39 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     ? images.slice(index + 1, index + 1 + PRELOAD_AHEAD).map(item => item.url)
     : [], [images, index, isEnding, dimensions?.url, image?.url]);
   usePreloadImages(preloadUrls);
+  const move = (direction: number) => {
+    setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
+  };
+  /* 그림을 좌우로 밀면 장면이 넘어간다 — 밀기 뒤에 따라오는 click은 삼켜 확대가 안 열리게 한다 */
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const swipeConsumed = useRef(false);
+  const swipeHandlers = {
+    onPointerDown: (event: React.PointerEvent) => { swipeStart.current = { x: event.clientX, y: event.clientY }; },
+    onPointerUp: (event: React.PointerEvent) => {
+      const start = swipeStart.current;
+      swipeStart.current = null;
+      if (!start || slideCount < 2) return;
+      const dx = event.clientX - start.x;
+      const dy = event.clientY - start.y;
+      if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        swipeConsumed.current = true;
+        move(dx < 0 ? 1 : -1);
+      }
+    },
+    onPointerCancel: () => { swipeStart.current = null; },
+    onClickCapture: (event: React.MouseEvent) => {
+      if (!swipeConsumed.current) return;
+      swipeConsumed.current = false;
+      event.preventDefault();
+      event.stopPropagation();
+    },
+  };
   if (!image) return null;
   const isScene = image.kind === 'scene';
   const hasScenes = images.some(item => item.kind === 'scene');
   const fitToImage = titleInArtwork || isScene;
   // 다음 그림이 준비될 때까지 이전 비율을 유지해, 넘길 때마다 임시 높이로 줄어들지 않게 한다.
   const ratio = dimensions?.ratio ?? (isScene ? 1 : 3 / 2);
-  const move = (direction: number) => {
-    setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
-  };
   const artwork = <Image src={image.url} alt={image.label ?? title} fill unoptimized className="object-contain"
     onLoad={(event) => {
       const { naturalWidth, naturalHeight } = event.currentTarget;
@@ -102,7 +126,8 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
             <ChevronLeft size={20} aria-hidden />
           </button>
         )}
-        <div className="min-w-0">
+        {/* 가로 밀기로 장면 넘기기 — 그림·캡션·엔딩 어디서 밀어도 먹는다. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
+        <div className="min-w-0" style={{ touchAction: "pan-y" }} {...swipeHandlers}>
           {/* 장면 제목 헤더 — 그림 위에 겹치지 않고 그림 위에 선다. 누르면 장면 바로가기가 열린다 */}
           {isScene && !titleInArtwork && image.label && (
             <button type="button" aria-haspopup="dialog" aria-label={`${image.label} · ${t("selectImage")}`}
