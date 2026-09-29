@@ -17,7 +17,7 @@ import {
   rankRecordTypes,
   type CelebMetaInput,
 } from "@/lib/celeb/meta";
-import { getAlternates, getSeoImageUrl } from "@/lib/seo";
+import { getAlternates, getSeoImageUrl, SITE_NAME } from "@/lib/seo";
 import { getCelebProfileUrl } from "@/lib/url";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 
@@ -99,7 +99,9 @@ export async function buildCelebPageMetadata(
     description,
     robots: { index: isIndexable, follow: true },
     alternates,
+    // 자기 그림이 있어 openGraph를 통째로 선언한다 — 레이아웃 값을 덮으므로 사이트명도 함께 싣는다
     openGraph: {
+      siteName: SITE_NAME,
       title,
       description,
       url: alternates.canonical,

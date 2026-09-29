@@ -69,7 +69,7 @@
     },
     "museum": {
       "metaTitle": "Museum - The Evolution of Knowledge Media",
-      "metaDescription": "Trace the evolution of human knowledge media and content formats.",
+      "metaDescription": "From clay tablets to e-books, magic lanterns to streaming, folk song to digital audio, and dice to virtual reality: the history of books, film, music, and games.",
       "pageTitle": "Museum",
       "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
       "keyContents": "Key Contents",
@@ -437,7 +437,9 @@
       "meta": {
         "moreLists": "and {count, number} more",
         "curatorFallback": "Lists from {name}: {lists}",
-        "listFallback": "{title} by {curator}: {count, number} works.",
+        "curatorLeadSelf": "Curated lists: {lists}.",
+        "listFallback": "{title} by {curator}: {type, select, GAME {{count, plural, one {# game} other {# games}}} MUSIC {{count, plural, one {# album} other {# albums}}} VIDEO {{count, plural, one {# film} other {# films}}} BOOK {{count, plural, one {# book} other {# books}}} other {{count, plural, one {# work} other {# works}}}}.",
+        "listLead": "{title}: {type, select, GAME {{count, plural, one {# game} other {# games}}} MUSIC {{count, plural, one {# album} other {# albums}}} VIDEO {{count, plural, one {# film} other {# films}}} BOOK {{count, plural, one {# book} other {# books}}} other {{count, plural, one {# work} other {# works}}}}.",
         "page": "Page {page}",
         "mediaDescription": "{lists, number} curated {media} lists from {count, number} institutions, including {curators}.",
         "mediaNoun": {

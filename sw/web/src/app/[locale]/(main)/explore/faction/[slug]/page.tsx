@@ -31,7 +31,6 @@ export async function generateMetadata({ params }: { params: PageParams }) {
     title,
     description,
     alternates: await getLocalizedAlternates(`/explore/faction/${slug}`),
-    openGraph: { title, description },
   };
 }
 

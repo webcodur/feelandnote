@@ -25,7 +25,6 @@ export async function generateMetadata() {
     title,
     description,
     alternates: await getLocalizedAlternates("/explore/works/popular?mode=classics"),
-    openGraph: { title, description },
   };
 }
 

@@ -58,10 +58,11 @@ export async function generateMetadata({
         'application/rss+xml': 'https://feelandnote.com/feed.xml',
       },
     },
+    // 공유 정보에는 제목·설명·주소를 싣지 않는다 — 여기서 정하면 자기 openGraph가 없는 모든 하위 페이지가
+    // 홈 제목·홈 설명·홈 주소로 공유됐다(26.09.29 전수 점검). 비워 두면 Next가 각 페이지의 title·description으로
+    // og·twitter를 채운다(resolve-metadata의 inheritFromMetadata). 페이지는 openGraph를 따로 선언하지 않는다 —
+    // 선언하면 이 객체를 통째로 덮어 대표 이미지·사이트명·로케일이 빠진다.
     openGraph: {
-      title: t("title"),
-      description: t("description"),
-      url: SITE_URL,
       siteName: SITE_NAME,
       locale: ogLocale,
       alternateLocale: locale === "ko" ? "en_US" : "ko_KR",
@@ -77,8 +78,6 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: t("title"),
-      description: t("twitterDescription"),
       images: ["/opengraph-image"],
     },
     verification: {

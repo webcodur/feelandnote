@@ -168,7 +168,26 @@ function leadSentence(raw: string | null | undefined, limit: number): string | n
   // 자리가 이만큼도 없으면 잘린 토막만 남으므로 싣지 않는다.
   if (!cleaned || limit < 24) return null;
   const [first] = cleaned.split(/(?<=[.!?])\s+/);
-  return first.length <= limit ? first : clamp(first, limit);
+  return first.length <= limit ? endSentence(first) : clamp(first, limit);
+}
+
+/**
+ * 문장 부호 없이 끝난 소개(위키데이터식 한 줄 「President of Cameroon since 1982」「미국의 영화 제작자 (1947년생)」)에
+ * 마침표를 찍는다 — 뒤에 꼬리 문장이 붙으면 「… since 1982 Explore …」처럼 두 문장이 한 문장으로 읽혔다(26.09.29 전수 점검).
+ */
+function endSentence(text: string): string {
+  return /[.!?。…"”'’」』]$/.test(text) ? text : `${text}.`;
+}
+
+/** 대표작 목록에서 표기만 다른 같은 작품(「Back In Black」「Back in Black」)을 하나로 모은다. */
+function uniqueWorks(works: readonly string[] | undefined): string[] {
+  const seen = new Set<string>();
+  return (works ?? []).filter((work) => {
+    const key = work.normalize("NFKC").toLowerCase().replace(/\s+/g, " ").trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 // 「헤라클레스 전승에 등장한다.」「A figure from the Heracles tradition.」처럼 누구에게나 붙는 첫 문장.
@@ -255,7 +274,7 @@ function recordDescriptionKo(input: CelebMetaInput): string {
       ? shownTypes.map((type) => countKo(type, input.counts[type])).join(", ")
       : shownTypes.map((type) => RECORD_LABEL_KO[type].noun).join("·");
   };
-  const works = (input.signatureWorks ?? []).slice(0, SIGNATURE_WORK_LIMIT)
+  const works = uniqueWorks(input.signatureWorks).slice(0, SIGNATURE_WORK_LIMIT)
     .map((work) => `${label.open}${work}${label.close}`);
 
   return fitRecordTail(`${identityKo(input)}.`, works, (shown, withOtherTypes) => {
@@ -351,7 +370,7 @@ function recordDescriptionEn(input: CelebMetaInput): string {
   const parts = types.map((type) => numbered
     ? `${countEn(type, input.counts[type])} ${RECORD_LABEL_EN[type].verb}`
     : `${RECORD_LABEL_EN[type].bare} ${RECORD_LABEL_EN[type].verb}`);
-  const works = (input.signatureWorks ?? []).slice(0, SIGNATURE_WORK_LIMIT);
+  const works = uniqueWorks(input.signatureWorks).slice(0, SIGNATURE_WORK_LIMIT);
 
   return fitRecordTail(identitySentenceEn(input), works, (shown, withOtherTypes) => {
     const including = shown.length ? `, including ${listEn(shown)}` : "";
@@ -367,8 +386,9 @@ function recordDescriptionEn(input: CelebMetaInput): string {
 function profileTailEn(input: CelebMetaInput): string {
   if ((input.reality ?? "REAL") !== "REAL") {
     const source = primarySource(input);
-    const scope = source ? `source works including ${sourceAfterPrepositionEn(source)}` : "the figure's place in myth and story";
-    return `Explore ${scope}${input.hasConnections ? " and story relationships" : ""}.`;
+    // 원전이 없으면 앞말이 「myth and story」로 끝나 「… and story and story relationships」가 겹쳤다 — plus로 잇는다
+    if (!source) return `Explore the figure's place in myth and story${input.hasConnections ? ", plus their relationships" : ""}.`;
+    return `Explore source works including ${sourceAfterPrepositionEn(source)}${input.hasConnections ? " and story relationships" : ""}.`;
   }
   const items = [
     input.hasInfluence && "influence scores",

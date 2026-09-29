@@ -82,8 +82,12 @@ Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보
   [Google — rel=canonical](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
 - **기관 선정** — 기관 상세 제목은 `기관명: 목록1, 목록2 외 N개`(`lib/library/curatedMeta.ts`, 접미사를 뺀 폭
   24). 기관명만 쓰던 제목(「CNN」)은 무엇이 있는 페이지인지 알리지 못했고, 실제 검색어는 목록 이름이다.
-  목록 이름 앞의 기관명은 뗀다(「칸 영화제: 황금종려상」). 기관·목록 설명은 소개문 전문(170~690자) 대신
-  `toSeoSummary`(`lib/seo.ts`)가 160자 안에 드는 앞 문장까지만 싣는다. 허브의 영화·게임·음악 화면은
+  목록 이름 앞의 기관명은 뗀다(「칸 영화제: 황금종려상」). 떼면 토막만 남는 이름(「여성문학상 수상작」→「수상작」,
+  「Women's Prize for Fiction」→「for Fiction」)은 떼지 않고 기관명 머리도 두지 않는다(`curatedListSubject`).
+  기관·목록 설명은 머리 문장 — 목록은 「누가 낸 무슨 목록, 수록작 N편·개·장」, 기관은 「이 기관의 선정 목록: …」 —
+  뒤에 소개문 요약을 잇는다(`leadDescription`). 게임·음악 수상 목록의 소개문은 상 이름 없이 연도로 시작해
+  소개문만으로는 무슨 상인지 몰랐다. 화면의 소개문은 고치지 않는다. 소개문 전문(170~690자) 대신
+  `toSeoSummary`(`lib/seo.ts`)가 남은 폭 안에 드는 앞 문장까지만 싣는다. 허브의 영화·게임·음악 화면은
   `metaTitleByMedia`와 실제 기관·목록 수로 만든 설명을, 2쪽부터는 제목 끝에 `· N쪽`을 붙인다(정본 규칙은
   「내부 링크 통로」의 기관 선정 허브).
 - **작품 첫 화면은 베스트셀러다**(`/explore/works`). 검색 제목·설명은 기관 선정이 아니라 분야별 순위와 그 출처를
@@ -100,6 +104,13 @@ Google은 `<title>`이 길거나 틀에 박혀 있으면 화면에서 크게 보
   디렉토리처럼 화면이 이미 세는 값이 있으면 그 값을 넘기고, 없으면 숫자 없이 쓴다.
 - 노출 용어는 [platform-02-code-rules.md](../platform/platform-02-code-rules.md) 「사용자 노출 용어」를 따른다(셀럽 → 인물,
   Celebrity → Figure). 한국어 조사가 붙는 이름은 `withParticle`을 쓴다(「빌 게이츠이」 교정).
+- **공유 정보(og·twitter)의 제목·설명·주소는 레이아웃에 두지 않는다.** 레이아웃(`[locale]/layout.tsx`)은 대표 이미지·
+  사이트명·로케일만 두고, 제목·설명은 Next가 각 페이지의 title·description으로 채운다. 레이아웃에 두면 자기
+  openGraph가 없는 모든 페이지가 홈 제목·홈 주소로 공유됐다. 페이지는 제목·설명만 다시 적는 openGraph를 선언하지
+  않는다 — 선언하면 레이아웃 값을 통째로 덮어 대표 이미지가 빠진다(26.09.29 탐색·신화·가상독백·작품·기록 목록).
+  자기 그림이 있는 인물·작품 상세만 openGraph를 통째로 선언한다.
+- **기관·목록 상세의 h1은 기관명·목록명이다.** 배너 이름은 클라이언트에서 채워져 서버 HTML에서 「기관 선정」으로
+  굳으므로, 이 주소에서 배너는 제목 요소를 내려놓고(`BannerHeading asHeading`) 본문 머리가 h1이 된다.
 - 한 페이지의 h1 여러 개는 검색 결함으로 보지 않는다. Google은 h1 개수를 문제 삼지 않는다고 밝혔다
   ([Search Engine Land, 2019 Mueller 답변](https://searchengineland.com/multiple-h1s-wont-get-in-the-way-of-your-seo-google-says-322909)).
   직군 명부의 배너 h1과 「지도자 인물」 h1이 그렇다. 탐색 배너 h1에 허브 이름이 섞여 「탐색 분야별 챔피언」으로

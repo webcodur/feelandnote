@@ -7,7 +7,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCuratorBySlug } from "@/actions/library";
-import { buildCuratorMetaTitle } from "@/lib/library/curatedMeta";
+import { buildCuratorMetaTitle, curatedListSubject, fitListNames, leadDescription } from "@/lib/library/curatedMeta";
 import { getLocalizedAlternates, toSeoSummary } from "@/lib/seo";
 import CuratorView from "@/components/features/library/curated/CuratorView";
 import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
@@ -17,12 +17,21 @@ export async function generateMetadata({ params }: { params: Promise<{ curator: 
   const [curator, t] = await Promise.all([getCuratorBySlug(slug), getTranslations("library.curated.meta")]);
   if (!curator) return {};
   const listTitles = curator.lists.map((list) => list.title);
+  const more = (count: number) => t("moreLists", { count });
+  // 설명은 「이 기관이 낸 목록」을 먼저 말하고 기관 소개를 잇는다 — 소개문만 싣던 설명은 기관 연혁만 말해
+  // 이 페이지에 무엇이 있는지 알리지 못했다(26.09.29 전수 점검). 화면의 기관 소개문은 그대로 둔다.
+  // 목록 이름 앞의 기관명은 제목과 같은 규칙으로 뗀다(「타임아웃의 선정 목록: 타임아웃 100대 …」 겹침 방지)
+  const subjects = listTitles.map((title) => curatedListSubject(curator.name, title));
+  const names = fitListNames(subjects.map((subject) => subject.title), more);
+  const lead = subjects.length === 0
+    ? curator.name
+    : subjects[0].curator === null
+      ? t("curatorLeadSelf", { lists: names })
+      : `${t("curatorFallback", { name: curator.name, lists: names })}.`;
   return {
     // 기관명만 쓰면 무엇이 있는 페이지인지 모른다 — 검색어가 되는 목록 이름을 함께 싣는다
-    title: buildCuratorMetaTitle(curator.name, listTitles, (count) => t("moreLists", { count })),
-    description: curator.description
-      ? toSeoSummary(curator.description)
-      : t("curatorFallback", { name: curator.name, lists: listTitles.join(", ") }),
+    title: buildCuratorMetaTitle(curator.name, listTitles, more),
+    description: leadDescription(lead, curator.description, toSeoSummary),
     alternates: await getLocalizedAlternates(`/explore/works/curated/${slug}`),
   };
 }

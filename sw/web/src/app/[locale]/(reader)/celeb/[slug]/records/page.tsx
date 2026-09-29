@@ -56,7 +56,8 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     description,
     alternates,
     robots: { index: true, follow: true },
-    openGraph: { title, description, url: alternates.canonical, type: "website" },
+    // openGraph는 선언하지 않는다 — 선언하면 레이아웃의 대표 이미지가 빠져 공유 미리보기에 그림이 없었다.
+    // 제목·설명은 Next가 이 페이지의 title·description으로 채운다([locale]/layout.tsx)
   };
 }
 

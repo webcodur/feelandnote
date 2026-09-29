@@ -30,7 +30,6 @@ export async function generateMetadata() {
     title,
     description,
     alternates: await getLocalizedAlternates("/explore/works"),
-    openGraph: { title, description },
   };
 }
 

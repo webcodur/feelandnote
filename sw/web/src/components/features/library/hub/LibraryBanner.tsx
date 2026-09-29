@@ -30,6 +30,9 @@ interface Crumb {
   href: string;
 }
 
+/** 본문이 자기 이름을 h1로 세우는 화면 — 기관 상세와 목록 상세(CuratorView·CuratedListView) */
+const CURATED_DETAIL_PATH = /^\/explore\/works\/curated\/[^/]+/;
+
 export default function LibraryBanner() {
   const pathname = usePathname();
   const router = useRouter();
@@ -82,8 +85,11 @@ export default function LibraryBanner() {
   // 경로는 한 번만 짓고 휴대폰·넓은 화면 배너가 같은 것을 쓴다 — 탐색 › 학당 › (현재) 영상 제작
   const ancestors: Crumb[] = isSubpage ? [{ label: hubTitle, href: "/explore/works" }, ...crumbs.slice(0, -1)] : [];
   const current = isSubpage ? crumbs[crumbs.length - 1].label : hubTitle;
+  // 기관·목록 화면은 본문이 기관명·목록명을 h1로 세운다 — 배너 이름은 클라이언트에서 늦게 채워져 서버 HTML에서
+  // 「기관 선정」으로 굳는다(BannerHeading asHeading). 주소로 가른다 — 알림표(SetLibraryCrumbs)는 서버 렌더에 없다
+  const pageOwnsTitle = CURATED_DETAIL_PATH.test(pathname);
   const heading = (variant: "desktop" | "mobile") => (
-    <BannerHeading ancestors={ancestors} current={current} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} />
+    <BannerHeading ancestors={ancestors} current={current} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} asHeading={!pageOwnsTitle} />
   );
 
   return (

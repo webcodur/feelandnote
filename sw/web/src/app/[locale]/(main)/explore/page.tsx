@@ -22,7 +22,7 @@ export async function generateMetadata() {
     title: t("title"),
     description: t("description"),
     alternates: await getLocalizedAlternates("/explore"),
-    openGraph: { title: t("title"), description: t("description") },
+    // openGraph는 선언하지 않는다 — 레이아웃의 대표 이미지·사이트명을 지키고 제목·설명은 Next가 채운다([locale]/layout.tsx)
   };
 }
 

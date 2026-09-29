@@ -32,9 +32,15 @@ interface BannerHeadingProps {
   /** 주면 현재 제목을 눌러 새로고침한다 */
   onCurrentClick?: () => void;
   variant: "desktop" | "mobile";
+  /**
+   * false면 큰 제목을 제목 요소(h1·role=heading)로 두지 않는다 — 본문이 자기 이름을 h1로 세우는 화면용.
+   * 모양은 같다. 기관·목록 화면은 이름이 클라이언트에서 늦게 채워져, 서버 HTML의 배너 h1이
+   * 「기관 선정」으로 굳어 검색봇이 268쪽의 주제를 모두 같은 말로 읽었다(26.09.29 전수 점검).
+   */
+  asHeading?: boolean;
 }
 
-export default function BannerHeading({ ancestors, current, onCurrentClick, variant }: BannerHeadingProps) {
+export default function BannerHeading({ ancestors, current, onCurrentClick, variant, asHeading = true }: BannerHeadingProps) {
   const t = useTranslations("shared.accessibility");
   const isDesktop = variant === "desktop";
   const titleClass = isDesktop ? BANNER_TITLE_CLASS : BANNER_MOBILE_TITLE_CLASS;
@@ -58,7 +64,9 @@ export default function BannerHeading({ ancestors, current, onCurrentClick, vari
           </ol>
         </nav>
       )}
-      {isDesktop ? (
+      {!asHeading ? (
+        <p className={titleClass}>{title}</p>
+      ) : isDesktop ? (
         <h1 className={titleClass}>{title}</h1>
       ) : (
         <div role="heading" aria-level={1} className={titleClass}>{title}</div>

@@ -26,7 +26,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t("metaTitle"),
     description: t("metaDescription"),
     alternates: await getLocalizedAlternates("/explore/monologue"),
-    openGraph: { title: t("metaTitle"), description: t("metaDescription") },
   };
 }
 

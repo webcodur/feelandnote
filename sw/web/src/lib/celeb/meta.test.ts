@@ -294,3 +294,49 @@ test("descriptions stay within the meta description budget", () => {
   assert.ok(ko.length <= 175, `${ko.length}`);
   assert.match(ko, /^가{60}다\. 신화와 이야기 속 행적과 인물 관계를 함께 볼 수 있습니다\.$/);
 });
+
+test("a bio line without end punctuation gets a period before the tail", () => {
+  const input: CelebMetaInput = {
+    nickname: "Paul Biya",
+    title: null,
+    headline_en: "World's oldest head of state, now serving an eighth term",
+    tier: "light",
+    counts: emptyCounts,
+    bio: "President of Cameroon since 1982",
+    hasInfluence: true,
+  };
+  assert.equal(
+    buildCelebDescriptionEn(input),
+    "Paul Biya: World's oldest head of state, now serving an eighth term. President of Cameroon since 1982. Explore influence scores.",
+  );
+  assert.match(
+    buildCelebDescriptionKo({ ...input, nickname: "닉 캐슬", headline: "《할로윈》에서 마이클 마이어스를 처음 입은 배우", bio: "미국의 영화 제작자 (1947년생)" }),
+    /\(1947년생\)\. 영향력 평가를/,
+  );
+});
+
+test("a myth figure without a source work does not repeat 'story'", () => {
+  const en = buildCelebDescriptionEn({
+    nickname: "Dinga Cissé",
+    title: null,
+    headline_en: "The Soninke patriarch who faced down a well spirit",
+    tier: "light",
+    reality: "FICTION",
+    counts: emptyCounts,
+    hasConnections: true,
+  });
+  assert.match(en, /Explore the figure's place in myth and story, plus their relationships\.$/);
+  assert.doesNotMatch(en, /story and story/);
+});
+
+test("signature works spelled differently are listed once", () => {
+  const en = buildCelebDescriptionEn({
+    nickname: "John Fetterman",
+    title: null,
+    headline_en: "The blue-collar populist who brought Carhartt and shorts to the US Senate",
+    tier: "full",
+    counts: { ...emptyCounts, MUSIC: 2 },
+    signatureWorks: ["Back In Black", "Back in Black"],
+  });
+  assert.match(en, /including Back In Black\.$/);
+});

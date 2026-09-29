@@ -40,7 +40,8 @@ export default async function CuratorView({ curator, initialBrowse }: { curator:
           </div>
         )}
 
-        <h2 className="text-2xl font-bold leading-tight text-text-primary">{curator.name}</h2>
+        {/* 이 화면의 h1 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
+        <h1 className="text-2xl font-bold leading-tight text-text-primary">{curator.name}</h1>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-[12px] text-text-tertiary">
           <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
             {t(`kind.${curator.kind}`)}

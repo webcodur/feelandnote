@@ -34,10 +34,11 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
 
       <header className="mx-auto max-w-3xl space-y-4">
         <div className="space-y-3 text-center">
-          {/* 상위(기관 상세) 제목 text-2xl보다 한 단 크게 — 깊이 들어갈수록 제목이 작아지는 역전을 막는다 */}
-          <h2 className="font-serif text-2xl font-bold leading-tight text-text-primary md:text-3xl">
+          {/* 상위(기관 상세) 제목 text-2xl보다 한 단 크게 — 깊이 들어갈수록 제목이 작아지는 역전을 막는다.
+              이 화면의 h1이다 — 배너는 이 주소에서 제목 요소를 내려놓는다(LibraryBanner CURATED_DETAIL_PATH) */}
+          <h1 className="font-serif text-2xl font-bold leading-tight text-text-primary md:text-3xl">
             {list.title}
-          </h2>
+          </h1>
 
           {/* 기관 구분만 강조색, 나머지는 같은 회색 칩으로 통일한다 */}
           <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px]">

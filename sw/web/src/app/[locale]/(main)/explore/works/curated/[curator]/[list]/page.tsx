@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCuratedList } from "@/actions/library";
 import { getLocalizedAlternates, toSeoSummary } from "@/lib/seo";
+import { curatedListSubject, leadDescription } from "@/lib/library/curatedMeta";
 import CuratedListView from "@/components/features/library/curated/CuratedListView";
 import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
 
@@ -22,12 +23,18 @@ export async function generateMetadata({ params }: { params: Promise<{ curator: 
   const { curator, list: listSlug } = await params;
   const [list, t] = await Promise.all([loadPaired(curator, listSlug), getTranslations("library.curated.meta")]);
   if (!list) return {};
+  // 설명은 「누가 낸 무슨 목록에 몇 편」을 먼저 말하고 소개문 요약을 잇는다. 게임·음악 수상 목록의 소개문은
+  // 상 이름 없이 연도로 시작해(「2014–2025년 수상작을 …」) 소개문만으로는 무슨 상인지 몰랐다(26.09.29 전수 점검).
+  // 수의 단위는 매체를 따른다(편·개·장 / films·games·albums)
+  const subject = curatedListSubject(list.curator.name, list.title);
+  const counted = { title: subject.title, count: list.itemCount, type: list.contentType };
+  const lead = subject.curator
+    ? t("listFallback", { ...counted, curator: subject.curator })
+    : t("listLead", counted);
   return {
     title: `${list.title} · ${list.curator.name}`,
     // 소개문 전문(170~690자)을 싣지 않는다 — 검색 결과가 첫 문장 중간에서 잘린다
-    description: list.description
-      ? toSeoSummary(list.description)
-      : t("listFallback", { title: list.title, curator: list.curator.name, count: list.itemCount }),
+    description: leadDescription(lead, list.description, toSeoSummary),
     alternates: await getLocalizedAlternates(`/explore/works/curated/${curator}/${listSlug}`),
   };
 }

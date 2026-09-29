@@ -13,6 +13,7 @@ import {
   getAlternates,
   getCreativeWorkCreatorJsonLd,
   getSeoImageUrl,
+  SITE_NAME,
   toSeoDescription,
 } from "@/lib/seo";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
@@ -73,7 +74,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     // 만으로는 이미 색인된 URL이 빠지지 않는다. 페이지는 그대로 열려 있고 내부 링크로 닿는다.
     robots: { index: false, follow: true },
     alternates,
+    // 자기 그림이 있어 openGraph를 통째로 선언한다 — 레이아웃 값을 덮으므로 사이트명도 함께 싣는다
     openGraph: {
+      siteName: SITE_NAME,
       title,
       description: desc,
       url: alternates.canonical,

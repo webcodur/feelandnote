@@ -69,7 +69,7 @@
     },
     "museum": {
       "metaTitle": "박물관 - 지식 매체와 콘텐츠 형태의 변천사",
-      "metaDescription": "인류 지식 매체와 콘텐츠 형태의 변천사를 살펴봅니다.",
+      "metaDescription": "점토판에서 전자책까지, 환등기에서 스트리밍까지, 구전 선율에서 디지털 음원까지, 주사위에서 가상현실까지. 책·영상·음악·게임이 걸어온 변천사를 시대순으로 살펴봅니다.",
       "pageTitle": "박물관",
       "defaultDescription": "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다.",
       "keyContents": "주요 콘텐츠",
@@ -437,7 +437,9 @@
       "meta": {
         "moreLists": "외 {count, number}개",
         "curatorFallback": "{name}의 선정 목록: {lists}",
-        "listFallback": "{curator}의 {title} 목록, 수록작 {count, number}편.",
+        "curatorLeadSelf": "{lists} 목록.",
+        "listFallback": "{curator}의 {title} 목록, 수록작 {count, number}{type, select, GAME {개} MUSIC {장} other {편}}.",
+        "listLead": "{title} 목록, 수록작 {count, number}{type, select, GAME {개} MUSIC {장} other {편}}.",
         "page": "{page}쪽",
         "mediaDescription": "{curators} 등 {count, number}곳이 발표한 {media} 선정 목록 {lists, number}개를 모았습니다.",
         "mediaNoun": {
