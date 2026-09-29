@@ -6,7 +6,8 @@
  * 계산은 src/lib/avatar-geometry.ts 한 곳이 맡는다. 여기서 수치를 만들지 않는다.
  *
  * 사용법 (sw/web-bo 에서):
- *   npx tsx scripts/avatar/reframe.ts <입력폴더> <출력폴더> [--sheet]
+ *   npx tsx scripts/avatar/reframe.ts <입력폴더> <출력폴더> [--sheet] [--group-size <인원>]
+ *   --group-size 는 이미 구성된 그룹 정사각을 보존한다. 검출 인원이 다르면 등록용 출력을 만들지 않는다.
  *
  *   입력폴더의 *.webp|png 를 읽어 출력폴더에 같은 이름의 .webp(공유 원본 규격 크기·품질)로 쓴다.
  *   --sheet 를 주면 출력폴더/_sheet-NNN.png 에 전·후 대조 격자를 만든다.
@@ -39,6 +40,11 @@ const positional = args.filter((a) => !a.startsWith('--'))
 const inDir = positional[0]
 const outDir = positional[1]
 const wantSheet = args.includes('--sheet')
+const groupSizeIndex = args.indexOf('--group-size')
+const groupSize = groupSizeIndex < 0 ? 0 : Number(args[groupSizeIndex + 1])
+if (groupSizeIndex >= 0 && (!Number.isInteger(groupSize) || groupSize < 2)) {
+  throw new Error('--group-size 는 2 이상의 정수여야 한다')
+}
 if (!inDir || !outDir) {
   console.error('사용법: npx tsx scripts/avatar/reframe.ts <입력폴더> <출력폴더> [--sheet]')
   process.exit(1)
@@ -55,7 +61,7 @@ async function loadModels() {
 }
 
 /** 투명 영역을 중간 회색으로 깔아 검출기가 검은 배경에 흔들리지 않게 한다 */
-async function anchorsOf(buf: Buffer): Promise<(SilhouetteAnchors & { emphasis: number }) | null> {
+async function anchorsOf(buf: Buffer): Promise<(SilhouetteAnchors & { emphasis: number; faceCount: number }) | null> {
   const { data, info } = await sharp(buf)
     .flatten({ background: '#808080' })
     .removeAlpha()
@@ -66,8 +72,14 @@ async function anchorsOf(buf: Buffer): Promise<(SilhouetteAnchors & { emphasis: 
   >[0]
   try {
     const dets = await faceapi
-      .detectAllFaces(tensor, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.4, maxResults: 10 }))
+      .detectAllFaces(tensor, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.4, maxResults: Math.max(10, groupSize + 1) }))
       .withFaceLandmarks()
+    if (groupSize && dets.length !== groupSize) {
+      throw new Error(`그룹 얼굴 수 불일치: 기대 ${groupSize}명, 검출 ${dets.length}명`)
+    }
+    if (!groupSize && dets.length > 1) {
+      throw new Error(`여러 얼굴 검출 (${dets.length}명): 한 명만 자동 선택하지 않는다. 그룹 정사각은 --group-size 로 인원을 지정하라`)
+    }
     if (!dets.length) return null
     dets.sort((a, b) => b.detection.box.area - a.detection.box.area)
     const lm = dets[0].landmarks
@@ -87,6 +99,7 @@ async function anchorsOf(buf: Buffer): Promise<(SilhouetteAnchors & { emphasis: 
       chinY: jaw[Math.floor(jaw.length / 2)].y,
       centerX: h.centerX,
       emphasis: h.emphasis,
+      faceCount: dets.length,
     }
   } finally {
     ;(tensor as unknown as { dispose?: () => void }).dispose?.()
@@ -121,6 +134,7 @@ async function silhouetteOf(buf: Buffer): Promise<(SilhouetteInfo & { W: number;
 
 interface Row {
   name: string
+  faceCount?: number
   error?: string
   crop?: { left: number; top: number; size: number }
   spanRatio?: number
@@ -159,7 +173,8 @@ async function makeSheet(rows: Row[], srcDir: string, dstDir: string) {
       const after = await sharp(join(dstDir, r.name + '.webp')).resize(cell, cell).png().toBuffer()
       composites.push({ input: before, left: x0, top: y0 }, { input: after, left: x0 + cell + gap, top: y0 })
       const tag = `${r.name}  ${((r.spanRatio ?? 0) * 100).toFixed(0)}% ${r.decidedBy}${r.warnings?.length ? ' !' : ''}`
-      svgLabels.push(`<text x="${x0}" y="${y0 - 6}" font-size="13" fill="#fff" font-family="sans-serif">${tag}</text>`)
+      const escapedTag = tag.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+      svgLabels.push(`<text x="${x0}" y="${y0 - 6}" font-size="13" fill="#fff" font-family="sans-serif">${escapedTag}</text>`)
     }
     const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${svgLabels.join('')}</svg>`
     await sharp({ create: { width, height, channels: 4, background: '#5a6270' } })
@@ -190,6 +205,27 @@ async function main() {
       if (!anchors) {
         rows.push({ name, error: '얼굴 미검출' })
         console.log(`  ${name} — 얼굴 미검출, 건너뜀`)
+        continue
+      }
+      if (groupSize) {
+        if (sil.W !== sil.H) throw new Error('그룹 입력은 멤버 전체를 담은 정사각이어야 한다')
+        // 개인의 눈~턱 비율로 그룹을 확대하면 다른 멤버가 잘린다. 검수된 전체 정사각을 보존한다.
+        await sharp(buf)
+          .resize(CELEB_AVATAR_ORIGINAL.sizePx, CELEB_AVATAR_ORIGINAL.sizePx, { kernel: 'lanczos3' })
+          .webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality })
+          .toFile(join(outDir, name + '.webp'))
+        rows.push({
+          name,
+          faceCount: anchors.faceCount,
+          crop: { left: 0, top: 0, size: sil.W },
+          spanRatio: +(Math.abs(anchors.chinY - anchors.eyeY) / sil.H).toFixed(3),
+          eyeLine: +(anchors.eyeY / sil.H).toFixed(3),
+          headroom: +(sil.headTop / sil.H).toFixed(3),
+          decidedBy: 'group-square',
+          upscale: +(CELEB_AVATAR_ORIGINAL.sizePx / sil.W).toFixed(2),
+          warnings: [],
+        })
+        console.log(`  ${name} — 그룹 ${anchors.faceCount}명 확인, 전체 정사각 보존 (개인 기하 기준 미적용)`)
         continue
       }
       const crop = computeCropFromSilhouette(anchors, sil, sil.W, sil.H)
