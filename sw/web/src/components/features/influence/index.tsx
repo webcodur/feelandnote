@@ -294,7 +294,7 @@ export function TotalScoreCard({ data }: { data: CelebInfluenceDetail }) {
           className="min-w-0 flex-1 py-0"
           thick
           label={
-            <span className="font-serif text-lg font-extrabold tracking-wide text-text-primary md:text-xl">
+            <span className="font-serif text-lg font-extrabold tracking-wide text-text-primary">
               {t("totalInfluence")}
             </span>
           }

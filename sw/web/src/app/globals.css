@@ -170,6 +170,9 @@
   }
 
   body {
+    /* 뷰포트 스크롤의 앵커링은 html이 아니라 body 값을 따른다. html만 끄면
+       탭 전환처럼 한 구획이 통째로 갈릴 때 스크롤이 화면 밖 앵커를 따라 튄다. */
+    overflow-anchor: none;
     background-color: var(--color-bg-main);
     color: var(--color-text-primary);
     font-family: var(--font-sans);

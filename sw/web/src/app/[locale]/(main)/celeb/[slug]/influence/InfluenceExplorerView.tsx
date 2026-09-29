@@ -22,11 +22,16 @@ import { getStrongestDomain, type ExplorerSelection } from "./influence-helpers"
 import LeadersSection from "./LeadersSection";
 import RankingSection from "./RankingSection";
 
+/* ssr 없는 dynamic — 일반 dynamic은 첫 청크를 불러올 때 suspend해 라우트 Suspense가
+   페이지 전체를 숨긴다. 모달은 열릴 때만 의미가 있어 클라이언트 로딩으로 충분하다. */
 const CelebDetailModal = dynamic(
   () => import("@/components/features/celeb/modals/CelebDetailModal"),
+  { ssr: false },
 );
 
-const InfluenceRankModal = dynamic(() => import("../InfluenceRankModal"));
+const InfluenceRankModal = dynamic(() => import("../InfluenceRankModal"), {
+  ssr: false,
+});
 
 interface Props {
   data: InfluenceExplorerData;
