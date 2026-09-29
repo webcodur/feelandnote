@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -89,15 +89,28 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
   }
 
   /* 바로가기 주소로 연 신화를 마지막 신화로 기억한다. 기본 신화로 열린 채면 기억하지 않는다 —
-     그래야 기본값을 바꿨을 때 아직 고른 적 없는 방문자가 새 기본값을 본다 */
+     그래야 기본값을 바꿨을 때 아직 고른 적 없는 방문자가 새 기본값을 본다.
+     아래에서 첫 진입 주소에 붙인 slug도 우리가 쓴 것이라 기억에서 뺀다 */
+  const autoParamSlug = useRef<string | null>(null);
   const linkedSlug = requestedMyth?.slug;
   useEffect(() => {
-    if (linkedSlug) saveLastMyth(linkedSlug);
+    if (linkedSlug && linkedSlug !== autoParamSlug.current) saveLastMyth(linkedSlug);
   }, [linkedSlug]);
+
+  /* 첫 진입도 주소가 보이는 신화를 가리키게 한다 — 그래야 그대로 공유·새로고침해도 같은 신화가 열린다.
+     없는 slug가 와도 기본 신화 slug로 주소를 정정해 주소와 화면이 어긋나지 않는다 */
+  useEffect(() => {
+    if (faction || requestedMyth || !openingMyth?.slug) return;
+    autoParamSlug.current = openingMyth.slug;
+    const url = new URL(window.location.href);
+    url.searchParams.set(MYTH_PARAM, openingMyth.slug);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  }, [faction, requestedMyth, openingMyth]);
 
   /* 화면에서 고른 신화를 주소에 남기고 마지막 신화로 기억한다. 주소가 늘 보이는 신화를 가리켜야 같은 바로가기를 다시 눌러도 그 신화로 돌아온다 */
   const rememberMyth = (slug: string | undefined, group: string | null) => {
     if (faction) return;
+    autoParamSlug.current = null;
     if (slug) saveLastMyth(slug);
     const url = new URL(window.location.href);
     if (slug) url.searchParams.set(MYTH_PARAM, slug);
