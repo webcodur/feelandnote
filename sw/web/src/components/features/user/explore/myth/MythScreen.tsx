@@ -53,6 +53,15 @@ export default function MythScreen({ data }: Props) {
     }
   }
 
+  /* 첫 진입도 주소가 보이는 신화를 가리키게 한다 — 그래야 그대로 공유·새로고침해도 같은 신화가 열린다.
+     없는 slug가 와도 기본 신화 slug로 주소를 정정해 주소와 화면이 어긋나지 않는다 */
+  useEffect(() => {
+    if (requestedMyth || !openingMyth?.slug) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set(MYTH_PARAM, openingMyth.slug);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  }, [requestedMyth, openingMyth]);
+
   /* 화면에서 고른 신화를 주소에 남긴다. 주소가 늘 보이는 신화를 가리켜야 같은 바로가기를 다시 눌러도 그 신화로 돌아온다 */
   const rememberMyth = (slug: string | undefined) => {
     const url = new URL(window.location.href);
