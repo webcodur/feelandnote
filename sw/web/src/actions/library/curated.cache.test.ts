@@ -25,7 +25,7 @@ function fixture() {
   const db = { from(table: string) {
     const builder: Record<string, unknown> = {}
     let single = false
-    for (const method of ['select', 'eq', 'in', 'lte', 'order', 'limit']) builder[method] = () => builder
+    for (const method of ['select', 'eq', 'in', 'lte', 'order', 'limit', 'range']) builder[method] = () => builder
     builder.maybeSingle = () => { single = true; return builder }
     builder.then = (resolve: (value: unknown) => void) => {
       calls++

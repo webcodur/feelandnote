@@ -184,7 +184,7 @@ export async function getFeedActivities(
     if (contents) {
       contentsMap = Object.fromEntries(
         contents.map((c: FeedContentRow) => {
-          const flat = flattenLocales(c.content_locales, locale)
+          const flat = flattenLocales(c.content_locales, locale, c.type)
           return [c.id, { title: flat.title, thumbnail_url: flat.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition, title_badge: flat.title_badge }]
         })
       )

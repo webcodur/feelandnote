@@ -85,7 +85,7 @@ export function mapReadContentsToAffiliateBooks(
       contentId: content.id,
       title,
       creator: (locale === 'en' ? content.creator_en : null) ?? content.creator ?? undefined,
-      thumbnail: (locale === 'en' ? content.thumbnail_en : null) ?? content.thumbnail_url ?? undefined,
+      thumbnail: content.thumbnail_url ?? undefined,
       url,
       isbn: (locale === 'en' ? content.isbn_en : content.isbn_ko) ?? undefined,
     })

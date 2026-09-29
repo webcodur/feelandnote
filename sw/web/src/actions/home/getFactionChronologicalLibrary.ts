@@ -104,8 +104,8 @@ async function fetchFactionChronologicalLibrary(factionId: string, locale: strin
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
     // 배지 판정만 중앙 함수에 맡긴다 — title·title_en 등 기존 표시값은 그대로 둔다
-    const flatKo = flattenLocales(c.content_locales, 'ko')
-    const flatEn = flattenLocales(c.content_locales, 'en')
+    const flatKo = flattenLocales(c.content_locales, 'ko', c.type)
+    const flatEn = flattenLocales(c.content_locales, 'en', c.type)
 
     if (!contentsMap[row.celeb_id]) {
       contentsMap[row.celeb_id] = [];
@@ -122,7 +122,8 @@ async function fetchFactionChronologicalLibrary(factionId: string, locale: strin
       titleBadgeEn: flatEn.title_badge,
       creator: ko?.creator || en?.creator || null,
       creator_en: en?.creator ?? null,
-      thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
+      thumbnailUrl: flatKo.thumbnail_url,
+      thumbnailUrlEn: flatEn.thumbnail_url,
       type: c.type ?? "BOOK",
       review: row.review ?? null,
       review_en: row.review_en ?? null,
@@ -135,7 +136,7 @@ async function fetchFactionChronologicalLibrary(factionId: string, locale: strin
 
 const getFactionChronologicalLibraryCached = unstable_cache(
   fetchFactionChronologicalLibrary,
-  ['faction-chronological-library'],
+  ['faction-chronological-library-v2-locale-cover'],
   // faction_member_rows(편성) + celebs + celeb_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

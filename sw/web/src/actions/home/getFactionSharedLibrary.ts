@@ -34,6 +34,8 @@ export interface SharedContent {
   creator: string | null;
   creator_en: string | null;
   thumbnailUrl: string | null;
+  /** en 화면 표지 — 도서는 en 행 표지만(ko 판본 표지를 대신 서지 않는다) */
+  thumbnailUrlEn: string | null;
   type: string;
   celebCount: number;
   celebs: SharedContentCeleb[];
@@ -109,8 +111,8 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
     // 배지 판정만 중앙 함수에 맡긴다 — title·title_en 등 기존 표시값은 그대로 둔다
-    const flatKo = flattenLocales(c.content_locales, 'ko')
-    const flatEn = flattenLocales(c.content_locales, 'en')
+    const flatKo = flattenLocales(c.content_locales, 'ko', c.type)
+    const flatEn = flattenLocales(c.content_locales, 'en', c.type)
 
     const existing = contentMap.get(c.id);
     if (existing) {
@@ -124,7 +126,8 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
         titleBadgeEn: flatEn.title_badge,
         creator: ko?.creator || en?.creator || null,
         creator_en: en?.creator ?? null,
-        thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
+        thumbnailUrl: flatKo.thumbnail_url,
+        thumbnailUrlEn: flatEn.thumbnail_url,
         type: c.type ?? "BOOK",
         coupangUrl: coupangUrl?.startsWith("https://") ? coupangUrl : null,
         hasKoreanIsbn: Boolean(normalizePurchaseIsbn(ko?.isbn)),
@@ -162,7 +165,7 @@ async function fetchFactionSharedLibrary(factionId: string): Promise<SharedConte
 
 const getFactionSharedLibraryCached = unstable_cache(
   fetchFactionSharedLibrary,
-  ['faction-shared-library-v3-yes24-edition'],
+  ['faction-shared-library-v4-locale-cover'],
   // faction_member_rows(편성) + celebs + celeb_contents + 한국어 판본
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );

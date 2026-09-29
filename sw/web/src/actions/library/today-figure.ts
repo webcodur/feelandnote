@@ -162,7 +162,7 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 
 const getTodayFigureCached = unstable_cache(
   fetchTodayFigure,
-  ['today-figure'],
+  ['today-figure-v2'],
   // daily_figures(BO 오늘의 인물 편성) + celebs + celeb_contents + celeb_dialogues
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
 )
@@ -243,7 +243,7 @@ async function fetchFigureContents(
 
   const contents: LibraryContent[] = ucRows.map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents
-    const flat = flattenLocales(content?.content_locales, locale)
+    const flat = flattenLocales(content?.content_locales, locale, content?.type)
     return {
       id: content?.id || '',
       title: flat.title,

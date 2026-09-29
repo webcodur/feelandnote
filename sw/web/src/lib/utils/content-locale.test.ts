@@ -114,6 +114,37 @@ test('sources가 없거나 title 표기가 없으면 배지를 붙이지 않는�
   assert.equal(flattenLocales([{ ...koRow, sources: { primary: 'kakao_book', title: '' } }], 'ko').title_badge, null)
 })
 
+test('도서: en 요청에 en 표지가 없으면 ko 표지를 대신 서지 않는다', () => {
+  // 오디세이아 회귀 — en 행이 있는데 표지가 없을 때 국문판 표지로 폴백하던 결함
+  const enNoThumb: ContentLocaleRow = { ...enRow, thumbnail_url: null }
+  const flat = flattenLocales([koRow, enNoThumb], 'en', 'BOOK')
+  assert.equal(flat.thumbnail_url, null)
+  assert.equal(flat.thumbnail_en, null)
+  assert.equal(flat.thumbnail_ko, koRow.thumbnail_url)
+})
+
+test('도서: ko 요청은 en(원서) 표지 폴백을 유지한다', () => {
+  const koNoThumb: ContentLocaleRow = { ...koRow, thumbnail_url: null }
+  const flat = flattenLocales([koNoThumb, enRow], 'ko', 'BOOK')
+  assert.equal(flat.thumbnail_url, enRow.thumbnail_url)
+})
+
+test('도서: 같은 언어 표지가 있으면 그것을 쓴다', () => {
+  assert.equal(flattenLocales([koRow, enRow], 'en', 'BOOK').thumbnail_url, enRow.thumbnail_url)
+  assert.equal(flattenLocales([koRow, enRow], 'ko', 'BOOK').thumbnail_url, koRow.thumbnail_url)
+})
+
+test('도서: ko 행만 있으면 en 요청 표지는 비운다', () => {
+  assert.equal(flattenLocales([koRow], 'en', 'BOOK').thumbnail_url, null)
+})
+
+test('비도서와 타입 미전달은 기존 교차 폴백을 유지한다', () => {
+  const enNoThumb: ContentLocaleRow = { ...enRow, thumbnail_url: null }
+  // 포스터·앨범 아트는 언어 무관한 공용 아트라 폴백이 유효하다
+  assert.equal(flattenLocales([koRow, enNoThumb], 'en', 'VIDEO').thumbnail_url, koRow.thumbnail_url)
+  assert.equal(flattenLocales([koRow, enNoThumb], 'en').thumbnail_url, koRow.thumbnail_url)
+})
+
 test('절판 표식(availability=out_of_print)은 판본 확인보다 먼저 out-of-print 배지를 낸다', () => {
   const outOfPrintKo = { ...displayTitleRow('ko', '이 성숙한 밤의 포옹', 'original'), sources: { primary: 'none', title: 'original', availability: 'out_of_print' } }
   assert.equal(flattenLocales([outOfPrintKo, displayTitleRow('en', 'I seongsukhan bamui poong', 'romanized')], 'ko').title_badge, 'out-of-print')

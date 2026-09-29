@@ -63,7 +63,7 @@ async function fetchDawnCelebContents(
 
   for (const row of data) {
     const rawContent = row.contents;
-    const flat = flattenLocales(rawContent.content_locales, locale);
+    const flat = flattenLocales(rawContent.content_locales, locale, rawContent.type);
 
     if (!result[row.celeb_id]) {
       result[row.celeb_id] = [];
@@ -89,7 +89,7 @@ async function fetchDawnCelebContents(
 
 const getCachedDawnCelebContents = unstable_cache(
   fetchDawnCelebContents,
-  ["dawn-celeb-contents"],
+  ["dawn-celeb-contents-v2"],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
 );
 

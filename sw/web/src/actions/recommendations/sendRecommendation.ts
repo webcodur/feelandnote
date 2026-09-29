@@ -110,7 +110,7 @@ export async function sendRecommendation(
   const senderName =
     senderProfile?.nickname ??
     t("userFallback");
-  const flat = flattenLocales(rawContent?.content_locales, locale);
+  const flat = flattenLocales(rawContent?.content_locales, locale, rawContent?.type);
   const content = rawContent ? { id: rawContent.id, type: rawContent.type, title: flat.title, thumbnail_url: flat.thumbnail_url } : null;
 
   await createNotification({

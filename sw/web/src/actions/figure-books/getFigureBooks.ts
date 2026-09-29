@@ -168,7 +168,7 @@ async function fetchSourcesByCeleb(
     const isRelatedBook = content.type === 'BOOK' && assignment.relation_type !== 'authored'
     if (editions.length === 0 && (!includeCatalogOnly || (!isRelatedBook && !exactLocale?.title?.trim()))) return []
 
-    const flat = flattenLocales(content.content_locales, locale)
+    const flat = flattenLocales(content.content_locales, locale, content.type)
     const leadEdition = editions[0]
     const title = (flat.title_badge && flat.title_badge !== 'out-of-print' && leadEdition?.title)
       || flat.title || content.figureBook?.workTitle || leadEdition?.title || ''
@@ -261,7 +261,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v12-confirmed-edition-badge', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v14', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

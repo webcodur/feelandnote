@@ -123,7 +123,7 @@ export async function fetchAllCelebContents(
       const rows: CelebContentJoinRow[] = data || []
       const typedData = rows.map(item => {
         const raw = Array.isArray(item.contents) ? item.contents[0] : item.contents
-        const flat = flattenLocales(raw?.content_locales, locale)
+        const flat = flattenLocales(raw?.content_locales, locale, raw?.type)
         return {
           celeb_id: item.celeb_id,
           content_id: item.content_id,

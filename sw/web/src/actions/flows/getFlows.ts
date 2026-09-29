@@ -1,17 +1,13 @@
 'use server'
 
 // egress-allow: flows는 공개 or 본인 RLS — 본인 비공개 플로우가 섞여 anon 전환 불가
+import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/db/server'
+import { flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type { Flow, FlowSummary } from '@/types/database'
 
-// select 문자열에 대응하는 조인 행 타입
-interface ThumbnailLocale {
-  locale: string
-  thumbnail_url: string | null
-}
-
 interface StageNodeRow {
-  content: { id: string; content_locales: ThumbnailLocale[] } | null
+  content: { id: string; type: string | null; content_locales: ContentLocaleRow[] } | null
 }
 
 interface StageRow {
@@ -41,7 +37,7 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
       flow_nodes(count),
       stages:flow_stages(
         nodes:flow_nodes(
-          content:contents(id, content_locales(locale, thumbnail_url))
+          content:contents(id, type, content_locales(locale, title, creator, thumbnail_url))
         )
       )
     `)
@@ -61,6 +57,7 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
   }
 
   const rows: FlowQueryRow[] = data || []
+  const locale = await getLocale()
 
   return rows.map((flow) => ({
     ...flow,
@@ -69,15 +66,12 @@ export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
     stages: (flow.stages || []).map((stage) => ({
       ...stage,
       nodes: (stage.nodes || []).map((node) => {
-        const locales = node.content?.content_locales || []
-        const ko = locales.find((l) => l.locale === 'ko')
-        const en = locales.find((l) => l.locale === 'en')
         return {
           ...node,
           // content_id는 NOT NULL FK라 조인 결과가 비지 않는다. null 분기는 방어 코드.
           content: (node.content ? {
             ...node.content,
-            thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
+            thumbnail_url: flattenLocales(node.content.content_locales, locale, node.content.type).thumbnail_url,
           } : null)!,
         }
       }),

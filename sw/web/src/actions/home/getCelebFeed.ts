@@ -121,7 +121,7 @@ async function fetchCelebFeed(
     const content = Array.isArray(row.content) ? row.content[0] : row.content
     const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
 
-    const flat = flattenLocales(content.content_locales, locale)
+    const flat = flattenLocales(content.content_locales, locale, content.type)
     return {
       id: row.id,
       review: row.review,
@@ -166,7 +166,7 @@ async function fetchCelebFeed(
 
 const getCelebFeedCached = unstable_cache(
   fetchCelebFeed,
-  ['celeb-feed'],
+  ['celeb-feed-v2'],
   // celeb_contents·contents + celebs(공개 필터·표시 정보) 조인
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )

@@ -82,7 +82,7 @@ async function fetchEraContents(
     const flat = flattenLocales([
       { locale: 'ko', title: titleKo, creator: creatorKo, thumbnail_url: thumbKo, sources: row.sources_ko },
       { locale: 'en', title: titleEn, creator: creatorEn, thumbnail_url: thumbEn, sources: row.sources_en },
-    ], locale)
+    ], locale, row.content_type as string)
     return {
       id: row.content_id as string,
       title: flat.title,
@@ -115,7 +115,7 @@ async function fetchEraContents(
 
 const getEraContentsCached = unstable_cache(
   fetchEraContents,
-  ['era-contents'],
+  ['era-contents-v2'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

@@ -76,7 +76,7 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
   const typedNodes = nodeRows.map((node) => {
     if (!node.content) return node
     // 플로우는 locale 인자를 받지 않는다 — 기존 ko 우선 표기를 그대로 유지한다.
-    const flat = flattenLocales(node.content.content_locales, 'ko')
+    const flat = flattenLocales(node.content.content_locales, 'ko', node.content.type)
     return {
       ...node,
       content: {

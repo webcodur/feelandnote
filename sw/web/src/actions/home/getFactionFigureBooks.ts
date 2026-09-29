@@ -68,7 +68,7 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
   const productPlatform = getFigureBookPurchasePlatform(locale) ?? "coupang";
   const books = contents.flatMap((content): FactionFigureBook[] => {
     if (content.type !== "BOOK") return [];
-    const flat = flattenLocales(content.content_locales, locale);
+    const flat = flattenLocales(content.content_locales, locale, content.type);
     const edition = pickPurchaseEdition(editionsByContent.get(content.id) ?? [], locale);
     const title = edition?.title || flat.title || content.figureBook?.workTitle || "";
     if (!title) return [];
@@ -94,7 +94,7 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
 
 const getFactionFigureBooksCached = unstable_cache(
   fetchFactionFigureBooks,
-  ["faction-figure-books-v1"],
+  ["faction-figure-books-v3"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );

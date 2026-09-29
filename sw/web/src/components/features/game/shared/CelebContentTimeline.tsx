@@ -32,6 +32,8 @@ export interface TimelineContent {
   creator: string | null;
   creator_en?: string | null;
   thumbnailUrl: string | null;
+  /** en 화면 표지 — 도서는 en 행 표지만. 값이 없으면 thumbnailUrl을 그대로 쓴다 */
+  thumbnailUrlEn?: string | null;
   type: string;
   review: string | null;
   review_en?: string | null;
@@ -144,7 +146,7 @@ export default function CelebContentTimeline({
                       title={displayTitle}
                       titleBadge={displayTitleBadge}
                       creator={displayCreator}
-                      thumbnailUrl={c.thumbnailUrl}
+                      thumbnailUrl={isEn && c.thumbnailUrlEn !== undefined ? c.thumbnailUrlEn : c.thumbnailUrl}
                       type={c.type}
                       review={isEn ? (c.review_en ?? c.review) : c.review}
                       sourceUrl={c.sourceUrl}

@@ -78,8 +78,11 @@ function resolveTitleBadge(
 /**
  * content_locales 배열 → 플랫 shape 변환
  * locale을 전달하면 해당 locale 우선, 미전달 시 ko 우선 (하위호환)
+ * contentType을 전달하면 도서(BOOK) 표지 규칙을 적용한다 — 도서 표지는 판본 산물이라
+ * en 화면에 ko 판본 표지를 폴백으로 서지 않는다(celeb-02-02 「영문판과 표지」).
+ * ko 화면은 원서(en) 표지 폴백을 유지한다 — 국문판이 없는 책의 원어판 표지는 읽을 수 있다.
  */
-export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, locale?: string) {
+export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, locale?: string, contentType?: string | null) {
   const ko = locales?.find(l => l.locale === 'ko')
   const en = locales?.find(l => l.locale === 'en')
   const requested = locale === 'en' ? 'en' : 'ko'
@@ -89,7 +92,9 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
     title_badge: resolveTitleBadge(primary, requested),
     title: primary?.title || fallback?.title || '',
     creator: primary?.creator || fallback?.creator || null,
-    thumbnail_url: primary?.thumbnail_url || fallback?.thumbnail_url || null,
+    thumbnail_url: primary?.thumbnail_url
+      || (requested === 'en' && contentType === 'BOOK' ? null : fallback?.thumbnail_url)
+      || null,
     description: primary?.description || fallback?.description || null,
     publisher: primary?.publisher || fallback?.publisher || null,
     isbn: primary?.isbn || fallback?.isbn || null,

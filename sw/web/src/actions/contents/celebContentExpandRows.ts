@@ -13,7 +13,7 @@ function getContent(row: RawRow): RawRow | null {
 function mapBase(row: RawRow, locale: string) {
   const content = getContent(row)
   if (!content) return null
-  const flat = flattenLocales(content.content_locales as ContentLocaleRow[] | null, locale)
+  const flat = flattenLocales(content.content_locales as ContentLocaleRow[] | null, locale, content.type as string | undefined)
   return {
     id: row.id as string,
     content_id: row.content_id as string,

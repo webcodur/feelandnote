@@ -460,7 +460,7 @@ async function buildRound(
     const contentRows: TrackerContentRow[] = cData ?? [];
     contents = contentRows
       .map((c) => {
-        const flat = flattenLocales(c.content_locales, preferKo ? 'ko' : 'en');
+        const flat = flattenLocales(c.content_locales, preferKo ? 'ko' : 'en', c.type);
         const title = flat.title;
         const creator = flat.creator;
         const thumbnailUrl = flat.thumbnail_url;

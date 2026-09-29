@@ -93,7 +93,7 @@ async function fetchProfessionAggregate(
 
 const getProfessionAggregateCached = unstable_cache(
   fetchProfessionAggregate,
-  ['library-profession-agg'],
+  ['library-profession-agg-v2'],
   // celebs(직업별 셀럽)+celeb_contents(서고 집계)+celeb_influence를 함께 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )

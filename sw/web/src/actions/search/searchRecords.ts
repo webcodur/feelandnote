@@ -120,7 +120,7 @@ export async function searchRecords({
     })
     .map((item) => {
       const content = Array.isArray(item.content) ? item.content[0] : item.content
-      const flat = flattenLocales(content.content_locales, locale)
+      const flat = flattenLocales(content.content_locales, locale, content.type)
       return {
         id: item.id,
         contentId: item.content_id,

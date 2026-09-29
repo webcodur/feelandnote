@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, spreadRevalidate, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
+import { flattenLocales } from '@/lib/utils/content-locale'
 import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import {
   ABILITY_KEYS,
@@ -194,12 +195,14 @@ async function fetchWorkMeta(contentIds: string[]): Promise<Map<string, WorkMeta
     const en = locales.find((entry) => entry.locale === 'en')
     const title = ko?.title ?? en?.title
     if (!title) continue
+    const flatKo = flattenLocales(row.content_locales, 'ko', row.type)
+    const flatEn = flattenLocales(row.content_locales, 'en', row.type)
     resolved.set(row.id, {
       type: row.type ?? 'BOOK',
       title,
       title_en: en?.title ?? null,
-      thumbnail_url: ko?.thumbnail_url ?? en?.thumbnail_url ?? null,
-      thumbnail_en: en?.thumbnail_url ?? null,
+      thumbnail_url: flatKo.thumbnail_url,
+      thumbnail_en: flatEn.thumbnail_url,
       creator: ko?.creator ?? en?.creator ?? null,
       creator_en: en?.creator ?? null,
     })
@@ -340,7 +343,7 @@ async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
 const getCachedSpectrumAxisLibraries = unstable_cache(
   fetchSpectrumAxisLibraries,
   // v3: 작가(creator·creator_en)를 붙이고 감상 인물 미리보기(readers)를 뺐다 — 담기는 모양이 바뀌면 키를 올린다
-  ['spectrum-axis-libraries-v3'],
+  ['spectrum-axis-libraries-v4-locale-cover'],
   // celeb_persona 점수 + celeb_contents 감상 관계 + content_locales 메타.
   // 만료는 키마다 어긋나게 잡는다 — 성향 화면의 큰 캐시들이 한 시각에 같이 식으면 3초 제한에 걸린다
   {

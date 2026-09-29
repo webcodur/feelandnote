@@ -168,7 +168,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   ).map(item => {
     const c = item.content as unknown as Record<string, unknown>
     const locales = c.content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales, locale)
+    const flat = flattenLocales(locales, locale, c.type as string)
     return {
       ...item,
       review_en: (item.review_en as string | undefined) ?? null,

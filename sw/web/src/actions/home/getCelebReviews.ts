@@ -78,7 +78,7 @@ async function fetchCelebLibraryPreview(celebId: string, locale: string): Promis
     const content = Array.isArray(row.content) ? row.content[0] : row.content
     if (!content || !row.review) return []
 
-    const flat = flattenLocales(content.content_locales, locale)
+    const flat = flattenLocales(content.content_locales, locale, content.type)
     const review = locale === 'en' && row.review_en ? row.review_en : row.review
     return [{
       id: row.id,
@@ -97,7 +97,7 @@ async function fetchCelebLibraryPreview(celebId: string, locale: string): Promis
 
 const getCelebLibraryPreviewCached = unstable_cache(
   fetchCelebLibraryPreview,
-  ['celeb-library-preview'],
+  ['celeb-library-preview-v2'],
   { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS] }
 )
 

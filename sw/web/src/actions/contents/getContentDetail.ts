@@ -136,7 +136,7 @@ async function fetchContentDataPublic(
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales, locale)
+    const flat = flattenLocales(locales, locale, raw.type as string)
     const sourceMarker = raw.figure_book_contents
     return {
       id: raw.id as string,
@@ -303,7 +303,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v13-original-source', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v15', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 

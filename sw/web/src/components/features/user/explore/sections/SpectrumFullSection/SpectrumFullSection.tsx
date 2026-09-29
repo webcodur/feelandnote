@@ -73,7 +73,7 @@ export default function SpectrumFullSection({ entries, libraries = [] }: Spectru
     type: work.type,
     title: isEn && work.title_en ? work.title_en : work.title,
     creator: isEn && work.creator_en ? work.creator_en : work.creator,
-    thumbnail: isEn && work.thumbnail_en ? work.thumbnail_en : work.thumbnail_url,
+    thumbnail: isEn ? work.thumbnail_en : work.thumbnail_url,
   }));
   const shelfGroups: RankingShelfGroup[] = library ? [
     {

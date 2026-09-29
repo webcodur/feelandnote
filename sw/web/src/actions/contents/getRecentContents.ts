@@ -30,7 +30,7 @@ async function fetchRecentContents(limit: number, locale: string): Promise<Recen
 
   return (data || []).map(item => {
     const locales = (item as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales, locale)
+    const flat = flattenLocales(locales, locale, item.type as string)
     return {
       id: item.id,
       type: item.type as ContentType,
@@ -44,7 +44,7 @@ async function fetchRecentContents(limit: number, locale: string): Promise<Recen
 
 const getRecentContentsCached = unstable_cache(
   fetchRecentContents,
-  ['recent-contents'],
+  ['recent-contents-v2'],
   { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 

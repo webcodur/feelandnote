@@ -153,7 +153,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   const explanationByPerson = new Map(explanationRows.map((row) => [row.profile_id, row]));
 
   const works = contents.map((content): MythWork => {
-    const flat = flattenLocales(content.content_locales, locale);
+    const flat = flattenLocales(content.content_locales, locale, content.type);
     const availableEditions = editionsByContent.get(content.id) ?? [];
     const edition = pickPurchaseEdition(availableEditions, locale);
     return { id: content.id, title: edition?.title ?? flat.title,
@@ -245,7 +245,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v27'], {
+const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v29'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

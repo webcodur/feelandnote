@@ -250,7 +250,7 @@ async function queryUserContents(
     const rawContent = Array.isArray(item.content) ? item.content[0] : item.content
     const c = rawContent as unknown as Record<string, unknown>
     const locales = c.content_locales as ContentLocaleRow[] | null
-    const flat = flattenLocales(locales, locale)
+    const flat = flattenLocales(locales, locale, c.type as string)
     const raw = item as unknown as Record<string, unknown>
     const rating = ownerKind === 'member' ? (raw.rating as number | null) : null
     return {
@@ -343,7 +343,7 @@ const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents-v3-affiliate-first', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v4', ...args.map((a) => String(a ?? ''))],
     () => {
       const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {

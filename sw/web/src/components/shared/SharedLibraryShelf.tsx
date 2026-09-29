@@ -141,12 +141,13 @@ export default function SharedLibraryShelf({ heading, items, memberCount }: Shar
   );
 }
 
-function Cover({ item, title, sizes }: { item: SharedContent; title: string; sizes: string }) {
+function Cover({ item, title, sizes, isEn }: { item: SharedContent; title: string; sizes: string; isEn: boolean }) {
   const Icon = TYPE_ICONS[item.type as WorkType] ?? Book;
-  if (item.thumbnailUrl) {
+  const thumbnail = isEn ? item.thumbnailUrlEn : item.thumbnailUrl;
+  if (thumbnail) {
     return (
       <ContentImage
-        src={item.thumbnailUrl}
+        src={thumbnail}
         alt={title}
         sizes={sizes}
         className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
@@ -208,7 +209,7 @@ function LeadWork({ item, memberCount, isEn, buyable, t }: { item: SharedContent
         aria-label={title}
         className="group relative mx-auto block aspect-[2/3] w-32 overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-[0_18px_40px_rgba(0,0,0,.45)] outline-none focus-visible:ring-2 focus-visible:ring-accent sm:mx-0 md:w-40"
       >
-        <Cover item={item} title={title} sizes="160px" />
+        <Cover item={item} title={title} sizes="160px" isEn={isEn} />
       </Link>
       <div className="flex min-w-0 flex-col justify-center">
         <p className="text-xs font-bold tracking-[0.14em] text-accent">{t("mostShared")}</p>
@@ -256,7 +257,7 @@ function WorkCard({ item, memberCount, isEn, buyable, t }: { item: SharedContent
         className="group flex flex-1 flex-col overflow-hidden rounded-xl border border-white/10 bg-bg-card outline-none hover:border-accent/60 hover:bg-accent/[0.04] focus-visible:ring-2 focus-visible:ring-accent"
       >
         <div className="relative aspect-[3/4] overflow-hidden bg-bg-secondary">
-          <Cover item={item} title={title} sizes="(max-width: 640px) 50vw, 240px" />
+          <Cover item={item} title={title} sizes="(max-width: 640px) 50vw, 240px" isEn={isEn} />
           <span className="absolute start-2 top-2 rounded-full bg-black/75 px-2 py-0.5 text-[11px] font-bold tabular-nums text-accent">
             {t("readerCount", { count: item.celebCount })}
           </span>

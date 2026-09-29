@@ -156,7 +156,7 @@ async function fetchCoversByList(
   // 목록마다 앞 순번만 훑어도 목록이 수십 개라 1,000행을 넘는다 — 나눠 받고, 같은 순번끼리는 항목 id로 줄을 고정한다
   const data = await selectAllPages((from, to) => db
     .from('curated_list_items')
-    .select(`list_id, sort_order, contents(content_locales(${CL_SELECT_LIST}))`)
+    .select(`list_id, sort_order, contents(type, content_locales(${CL_SELECT_LIST}))`)
     .in('list_id', listIds)
     .eq('hidden', false)
     .lte('sort_order', COVER_SCAN_DEPTH)
@@ -166,12 +166,12 @@ async function fetchCoversByList(
 
   for (const row of (data ?? []) as unknown as {
     list_id: string
-    contents: { content_locales: ContentLocaleRow[] | null } | null
+    contents: { type: string | null; content_locales: ContentLocaleRow[] | null } | null
   }[]) {
     const arr = out.get(row.list_id) ?? []
     if (arr.length >= COVERS_PER_LIST) continue
     const content = Array.isArray(row.contents) ? row.contents[0] : row.contents
-    const url = content ? flattenLocales(content.content_locales, locale).thumbnail_url : null
+    const url = content ? flattenLocales(content.content_locales, locale, content.type).thumbnail_url : null
     if (url) arr.push(url)
     out.set(row.list_id, arr)
   }
@@ -249,7 +249,7 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
   }
 }
 
-const getCuratedHubCached = unstable_cache(fetchCuratedHub, ['curated-hub'], {
+const getCuratedHubCached = unstable_cache(fetchCuratedHub, ['curated-hub-v2'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CURATED],
 })
@@ -367,7 +367,7 @@ async function fetchCuratedList(listSlug: string, locale: string): Promise<Curat
   const itemRows = (items ?? []) as unknown as ItemRow[]
   const mapped: CuratedListItem[] = itemRows.map((it) => {
     const content = Array.isArray(it.contents) ? it.contents[0] : it.contents
-    const flat = content ? flattenLocales(content.content_locales, locale) : null
+    const flat = content ? flattenLocales(content.content_locales, locale, content.type) : null
     return {
       id: it.id,
       rank: it.rank,
@@ -425,7 +425,7 @@ async function fetchCuratedList(listSlug: string, locale: string): Promise<Curat
   }
 }
 
-const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list'], {
+const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list-v2'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.CURATED, CACHE_TAGS.CONTENTS],
 })
