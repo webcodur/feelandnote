@@ -68,6 +68,14 @@ export default async function MainPage() {
             aboutLabel={t("aboutLink")}
           />
 
+          {/* 방문자 첫인사 액자 — 서비스 최상단, 브랜드 줄 바로 아래에 둔다.
+              로그인 유저에게는 그리지 않는다 */}
+          <div className="mt-8 md:mt-10">
+            <Lane fallback={null}>
+              <VisitorIntroSection />
+            </Lane>
+          </div>
+
           {/* 목차 줄 — 이 화면의 구획 전부. 라벨·순서·번호는 config 단일원천에서 온다.
               제호 괘선 아래 새 묶음의 시작이라 선에서 넉넉히 띄운다(platform-02-code-rules.md 「구분선」) */}
           <div className="mt-8 md:mt-10">
@@ -84,12 +92,6 @@ export default async function MainPage() {
                 <FigureSection />
               </Lane>
             </HubSection>
-
-            {/* 방문자 첫인사 액자 — 로그인 유저에게는 그리지 않는다.
-                머리기사를 첫 화면에서 밀어내지 않도록 그 아래에 둔다 */}
-            <Lane fallback={null}>
-              <VisitorIntroSection />
-            </Lane>
 
             {/* 빠른기록 자리 — 일단 주석 처리. 재투입 여부는 상황에 맞게 정한다(sections.tsx 「빠른기록」 주석)
             <Lane fallback={null}>
