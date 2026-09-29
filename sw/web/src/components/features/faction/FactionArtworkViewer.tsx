@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Maximize } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Modal, { CLOSE_BUTTON_STYLE } from "@/components/ui/Modal";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
@@ -34,9 +34,13 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const tAccess = useTranslations("shared.accessibility");
   const [index, setIndex] = useState(() => Math.max(0, Math.min(images.length - 1, initialIndex)));
   const [navigatorOpen, setNavigatorOpen] = useState(false);
-  /* 장면을 누르면 별도 이미지 뷰어(휠 줌)로 연다 — 이 창의 넘기기 위치와 독립이다 */
+  /* 전체화면 버튼으로 여는 별도 이미지 뷰어 — 거기서 상하좌우 팬·휠 줌·핀치 확대가 자유롭다 */
   const [inspectIndex, setInspectIndex] = useState<number | null>(null);
   const inspectImage = inspectIndex === null ? null : (images[inspectIndex] ?? null);
+  const [dragX, setDragX] = useState(0);
+  const [slideAnim, setSlideAnim] = useState(false);
+  const pendingSlide = useRef<number | null>(null);
+  const slideBoxRef = useRef<HTMLDivElement | null>(null);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
   const selectImage = useCallback((nextIndex: number) => {
     setIndex(nextIndex);
@@ -71,23 +75,61 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const move = (direction: number) => {
     setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
   };
-  /* 그림을 좌우로 밀면 장면이 넘어간다 — 밀기 뒤에 따라오는 click은 삼켜 확대가 안 열리게 한다 */
+  /* 장면이 바뀌면 미끄러지던 위치를 푼다 (렌더 중 조정 패턴) */
+  const [prevIndex, setPrevIndex] = useState(index);
+  if (prevIndex !== index) {
+    setPrevIndex(index);
+    setDragX(0);
+  }
+  /* 그림을 좌우로 밀면 장면이 넘어간다 — 미는 동안 그림이 손끝을 따라오고, 밀기 뒤에 따라오는 click은 삼킨다 */
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const swipeConsumed = useRef(false);
   const swipeHandlers = {
-    onPointerDown: (event: React.PointerEvent) => { swipeStart.current = { x: event.clientX, y: event.clientY }; },
+    onPointerDown: (event: React.PointerEvent) => {
+      /* 진행 중이던 복귀·나가기 애니메이션을 끊고 다시 잡는다 */
+      pendingSlide.current = null;
+      setSlideAnim(false);
+      swipeStart.current = { x: event.clientX, y: event.clientY };
+    },
+    onPointerMove: (event: React.PointerEvent) => {
+      const start = swipeStart.current;
+      if (!start || slideCount < 2) return;
+      const dx = event.clientX - start.x;
+      const dy = event.clientY - start.y;
+      if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
+        /* 양끝 장면에서는 고무줄처럼 덜 따라오게 해 더 못 가는 자리를 알린다 */
+        const blocked = (dx > 0 && index === 0) || (dx < 0 && index === images.length - 1);
+        setDragX(blocked ? dx * 0.35 : dx);
+      } else {
+        setDragX(0);
+      }
+    },
     onPointerUp: (event: React.PointerEvent) => {
       const start = swipeStart.current;
       swipeStart.current = null;
       if (!start || slideCount < 2) return;
       const dx = event.clientX - start.x;
       const dy = event.clientY - start.y;
-      if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-        swipeConsumed.current = true;
-        move(dx < 0 ? 1 : -1);
-      }
+      /* 조금이라도 밀었으면 그 뒤 click은 누르기가 아니다 — 헤더·버튼 클릭을 막는다 */
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) swipeConsumed.current = true;
+      /* 밀기 성립 → 그림이 끝까지 나가는 애니메이션을 돌리고, 끝나면 번호를 넘긴다 */
+      const canMove = dx < 0 ? index < images.length - 1 : index > 0;
+      setSlideAnim(true);
+      pendingSlide.current = Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5 && canMove ? (dx < 0 ? 1 : -1) : null;
+      const boxWidth = slideBoxRef.current?.getBoundingClientRect().width ?? 0;
+      setDragX(pendingSlide.current ? (dx < 0 ? -boxWidth : boxWidth) : 0);
     },
-    onPointerCancel: () => { swipeStart.current = null; },
+    onPointerCancel: () => { swipeStart.current = null; pendingSlide.current = null; setSlideAnim(true); setDragX(0); },
+    /* 마우스로 누른 채 모달 밖으로 나가면 up이 안 온다 — 터치는 브라우저가 암묵 포착이라 제외 */
+    onPointerLeave: (event: React.PointerEvent) => {
+      if (event.pointerType !== "mouse" || !swipeStart.current) return;
+      swipeStart.current = null;
+      pendingSlide.current = null;
+      setSlideAnim(true);
+      setDragX(0);
+    },
+    /* img 네이티브 드래그가 시작되면 pointerup이 안 와서 밀기가 죽는다 — 드래그 자체를 막는다 */
+    onDragStart: (event: React.DragEvent) => event.preventDefault(),
     onClickCapture: (event: React.MouseEvent) => {
       if (!swipeConsumed.current) return;
       swipeConsumed.current = false;
@@ -95,17 +137,30 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       event.stopPropagation();
     },
   };
+  /* 나가기 애니메이션이 끝나면 번호를 넘기고 트랙을 0으로 되돌린다 — 새 그림이 제자리에 온 상태로 이어진다 */
+  const finishSlide = (event: React.TransitionEvent) => {
+    if (event.propertyName !== "transform") return;
+    const step = pendingSlide.current;
+    pendingSlide.current = null;
+    setSlideAnim(false);
+    if (step) move(step);
+    setDragX(0);
+  };
   if (!image) return null;
   const isScene = image.kind === 'scene';
   const hasScenes = images.some(item => item.kind === 'scene');
   const fitToImage = titleInArtwork || isScene;
   // 다음 그림이 준비될 때까지 이전 비율을 유지해, 넘길 때마다 임시 높이로 줄어들지 않게 한다.
   const ratio = dimensions?.ratio ?? (isScene ? 1 : 3 / 2);
-  const artwork = <Image src={image.url} alt={image.label ?? title} fill unoptimized className="object-contain"
+  const artwork = <Image src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
     onLoad={(event) => {
       const { naturalWidth, naturalHeight } = event.currentTarget;
       if (naturalHeight > 0) setDimensions({ url: image.url, ratio: naturalWidth / naturalHeight });
     }} />;
+  /* 밀기 트랙의 옆자리 그림 — 현재 그림(artwork)만 로드 측정을 달고, 옆은 같은 틀을 재사용한다 */
+  const slideImage = (item: (typeof images)[number]) => (
+    <Image src={item.url} alt={item.label ?? title} fill unoptimized draggable={false} className="object-contain select-none" />
+  );
 
   return (
     <>
@@ -145,23 +200,47 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
               </div>
             </article>
           ) : <>
-          <div className={fitToImage ? "@container relative mx-auto bg-black/40" : "relative h-[min(70dvh,800px)] bg-black/40"}
+          <div className={fitToImage ? "@container relative mx-auto overflow-hidden bg-black/40" : "relative h-[min(70dvh,800px)] overflow-hidden bg-black/40"}
             // 높이를 고정하면 모바일에서 폭만 줄어 검은 여백이 남는다. 폭을 제한하고 높이는 원본 비율로 정한다.
             style={fitToImage ? { aspectRatio: ratio, width: `min(100%, ${isScene ? "var(--scene-image-height)" : "70dvh"} * ${ratio})` } : undefined} data-artwork-viewer>
             {isScene ? (
-              /* 장면 그림을 누르면 별도 이미지 뷰어가 열린다 — 거기서 휠로 자유 확대·축소 */
-              <button type="button" data-scene-zoom aria-label={t("enlargeImage")} title={t("enlargeImage")}
-                onClick={() => setInspectIndex(index)}
-                className="group absolute inset-0 cursor-zoom-in overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-                {artwork}
-                <span aria-hidden className="pointer-events-none absolute bottom-3 end-3 flex min-h-9 min-w-9 items-center justify-center rounded-full border border-white/25 bg-black/75 px-2.5 text-white group-hover:border-accent group-hover:text-accent group-focus-visible:border-accent group-focus-visible:text-accent">
-                  <ZoomIn size={16} />
-                </span>
-              </button>
+              /* 전체화면 버튼으로 별도 이미지 뷰어를 연다 — 거기서 상하좌우 팬·줌이 자유롭다 */
+              <div ref={slideBoxRef} data-scene-zoombox className="absolute inset-0 cursor-grab overflow-hidden active:cursor-grabbing">
+                <div className="absolute inset-0"
+                  /* 밀기 중에는 transition을 끊어 손끝에 붙고, 놓으면 160ms로 마저 간다. 옆자리 그림이 ±100%에서 따라 들어온다 */
+                  onTransitionEnd={finishSlide}
+                  style={{ transform: `translateX(${dragX}px)`, transition: slideAnim ? "transform 160ms ease-out" : "none" }}>
+                  {[-1, 0, 1].map(offset => {
+                    const item = images[index + offset];
+                    if (!item) return null;
+                    return (
+                      <div key={item.url} className="absolute top-0 h-full w-full" style={{ left: `${offset * 100}%` }}>
+                        {offset === 0 ? artwork : slideImage(item)}
+                      </div>
+                    );
+                  })}
+                </div>
+                <button type="button" data-scene-zoom aria-label={t("enlargeImage")} title={t("enlargeImage")}
+                  onClick={() => setInspectIndex(index)}
+                  className="absolute bottom-3 end-3 z-10 flex min-h-9 min-w-9 items-center justify-center rounded-full border border-white/25 bg-black/75 px-2.5 text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+                  <Maximize size={16} />
+                </button>
+              </div>
             ) :
             <button type="button" onClick={onClose} aria-label={tAccess("close")} data-artwork-dismiss
               className="absolute inset-0 cursor-zoom-out outline-none hover:ring-1 hover:ring-inset hover:ring-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-              {artwork}
+              <div className="absolute inset-0" onTransitionEnd={finishSlide}
+                style={{ transform: `translateX(${dragX}px)`, transition: slideAnim ? "transform 160ms ease-out" : "none" }}>
+                {[-1, 0, 1].map(offset => {
+                  const item = images[index + offset];
+                  if (!item) return null;
+                  return (
+                    <div key={item.url} className="absolute top-0 h-full w-full" style={{ left: `${offset * 100}%` }}>
+                      {offset === 0 ? artwork : slideImage(item)}
+                    </div>
+                  );
+                })}
+              </div>
             </button>}
             {titleInArtwork && !isScene && <FactionArtworkTitle title={title} heading />}
             {/* 장면 번호는 좌상단 칩 — 클릭 불가, 읽기 표시다 */}
@@ -171,7 +250,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           </div>
           {image.caption && (
             <div key={image.url} data-artwork-caption-frame className={isScene
-              ? "flex h-[var(--scene-caption-height)] flex-col overflow-y-auto overscroll-contain px-4 py-3 md:px-6"
+              ? "flex h-[var(--scene-caption-height)] flex-col overflow-y-auto overscroll-contain px-4 py-3 [scrollbar-width:none] md:px-6 [&::-webkit-scrollbar]:hidden"
               : "px-4 py-4 md:px-8 md:py-5"}>
               <p data-artwork-caption className={`mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-sm leading-relaxed text-text-primary [overflow-wrap:anywhere] md:text-base ${isScene ? 'my-auto shrink-0 md:text-balance' : ''}`}>
                 {isScene ? <FactionSceneText text={image.caption} /> : image.caption}
@@ -204,7 +283,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
               <input type="range" data-scene-slider min={0} max={slideCount - 1} step={1} value={index}
                 aria-label={t("imageNumber", { count: slideCount })}
                 onChange={(event) => setIndex(Number(event.target.value))}
-                className="h-10 w-full accent-accent outline-none focus-visible:ring-2 focus-visible:ring-accent" />
+                className="h-10 w-full cursor-grab accent-accent outline-none focus-visible:ring-2 focus-visible:ring-accent active:cursor-grabbing" />
             ) : (
               <span data-scene-counter aria-live="polite" className="min-w-16 text-center text-sm tabular-nums text-text-secondary">{isEnding ? "ENDING" : index + 1}</span>
             )}
