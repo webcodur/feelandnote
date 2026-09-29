@@ -29,7 +29,7 @@
 
 ## 진행
 
-- 샘플 6명과 chunk-0001~0139, chunk-hold01을 처리했다. out 파일 834명 기준 pass 33건, 나머지 801명은
+- 샘플 6명과 chunk-0001~0146, chunk-hold01을 처리했다. out 파일 876명 기준 pass 37건, 나머지 839명은
   재작성해 반영·게시했고 반영 직후 `verify-published`로 확인했다(26.09.29). 보류 인물은 없다.
 - 문단 나눔(26.09.29 규칙): 한국어 300자·영어 450자 이상은 문장 경계에서 두 문단으로 쓴다(룰북 「형식」,
   `READING_FORMAT.paragraphs`). 바깥 작업이 3,827행을 먼저 나눴고, 이 작업이 처리한 744명 중 남은 긴
@@ -38,6 +38,14 @@
 - 대명사(26.09.29 규칙): 여성은 그녀. 처리한 여성 137명 중 126명의 한국어 본문 370곳을
   `tools/pronoun-fix.mts`로 고쳤다. 다른 남성을 가리키던 5곳은 검토해 그로 남겼다. 영어 he/his는
   모두 남성 인물을 가리키는 것으로 확인했다. 새 묶음을 반영한 뒤에도 이 도구를 다시 돌린다.
+  같은 날 `--all`로 active 여성 1,241명 전체에 넓혀 아직 묶음에 들지 않은 211명의 358곳을 더 고쳤다. 남성을
+  가리키던 44곳(40명)은 전문 검토로 골라 `rewrite/pronoun-keep-male.json`에 두고 그로 남겼다. 여성으로 잘못
+  기록된 vishnu·brahma는 `celebs.gender`를 남성으로 고쳤다.
+- 대명사 수정으로 본문과 어긋난 한국어 음성 248개(여성)는 내리고 `audio-pending.json`에 넣었다(26.09.29 사용자 지시).
+  61개 백업은 `C:/Users/webco/feelnnote-audio-backup/unpublish-pronoun-20260929`에 있다. 나머지 187개는 D: 외장
+  디스크 run으로 내리던 중 디스크가 빠져 백업 위치를 확인하지 못했다. voice_v는 모두 올리고 캐시를 비웠다.
+- D: 외장 디스크가 빠져 apply-chunks의 음성 내림 run을 `C:/Users/webco/feelnnote-audio-backup/celeb-reading-unpublish`로
+  옮겼다. 옛 run 폴더(`D:/audios/...`)는 디스크를 다시 꽂아야 열린다.
 - 문단 나눔으로 본문이 바뀐 인물은 기존 음성의 문장 강조가 꺼진다. `scripts/celeb/reading/paragraph-pause.mts`가
   문단 경계 두 문장 사이에 0.4초 무음을 넣고 강조 시각을 옮겨 다시 게시한다(26.09.29 전체 4,019명 실행,
   run 폴더 `D:/audios/interview-cleaner/celeb-reading-paragraph-pause-20260929`). 3,171명을 다시 게시했고 실패는
@@ -57,6 +65,6 @@
 
 ## 다음
 
-1. chunk-0140부터 이어 간다.
+1. chunk-0147부터 이어 간다.
 2. 음성은 새 모델로 전량 재생성할 때 다시 다룬다. 그때까지 배치를 띄우지 않는다.
 3. 끝나면 규칙 변경분이 룰북에 있는지 확인하고 이 문서와 README 줄, 임시 폴더를 지운다.
