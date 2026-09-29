@@ -1,5 +1,6 @@
 import { forLocale } from '@feelandnote/content-search/book-introduction'
 import type { IntroductionRow } from './book-description-sources-contract'
+import { RESEARCH_INTRODUCTION_LENGTH } from './book-research-introduction-contract'
 
 export interface ReviewedMediaIntroduction {
   content: { id: string; type: 'VIDEO' | 'GAME' | 'MUSIC'; external_id: string | null; external_source: string | null }
@@ -8,7 +9,8 @@ export interface ReviewedMediaIntroduction {
   /** null is allowed only for translations whose sibling source row records no description URL. */
   sourceUrl: string | null
   sourceLocale: 'ko' | 'en'
-  method: 'provider' | 'translation'
+  /** research: 허용 출처에 원문이 없어 에이전트가 조사해 직접 쓴 소개. sourceUrl은 대표 근거 문서다. */
+  method: 'provider' | 'translation' | 'research'
   sourceText?: string
   /** Required only when replacing a non-empty description judged to be a non-introduction. */
   replacesReason?: string
@@ -36,7 +38,30 @@ export function mediaIntroductionText(value: string, locale: 'ko' | 'en'): strin
   return letters && latin / letters >= 0.9 && words.size >= 2 ? value.trim() : null
 }
 
+/** 조사 작성은 제공자 도메인 제한 대신 근거 문서와 분량 기준을 요구한다. */
+function prepareResearchIntroduction(input: ReviewedMediaIntroduction) {
+  const { content, target } = input
+  if (!PROVIDERS[content.type] || content.id !== target.content_id) throw new Error('Media identity mismatch')
+  if (!['ko', 'en'].includes(target.locale) || input.sourceLocale !== target.locale) throw new Error('Research locale mismatch')
+  if (target.description?.trim() && !input.replacesReason?.trim()) throw new Error('Introduction is already filled')
+  if (target.sources !== null && (typeof target.sources !== 'object' || Array.isArray(target.sources))) throw new Error('Invalid sources')
+  const description = mediaIntroductionText(input.description, target.locale)
+  const range = RESEARCH_INTRODUCTION_LENGTH[target.locale]
+  const length = description?.replace(/\s/g, '').length ?? 0
+  if (!description || /<\/?[a-z][^>]*>/i.test(description) || length < range.min || length > range.max) throw new Error('Invalid introduction text')
+  const httpsUrl = (value: string) => {
+    try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password && !url.port } catch { return false }
+  }
+  if (!input.sourceUrl || !httpsUrl(input.sourceUrl)) throw new Error('Unapproved source URL')
+  if (!input.identityEvidence?.length || input.identityEvidence.some(e => !e.note?.trim() || !httpsUrl(e.url))) throw new Error('Missing identity evidence')
+  const sources: Record<string, unknown> = { ...target.sources, description: input.sourceUrl,
+    description_method: 'research', description_source_locale: target.locale }
+  delete sources.introMissing
+  return { description, sources }
+}
+
 export function prepareMediaIntroduction(input: ReviewedMediaIntroduction) {
+  if (input.method === 'research') return prepareResearchIntroduction(input)
   const { content, target } = input
   if (!PROVIDERS[content.type] || content.id !== target.content_id
     || content.external_source === undefined) throw new Error('Media identity mismatch')
