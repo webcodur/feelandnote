@@ -35,6 +35,8 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   const [reading, setReading] = useState(false);
   const [zoom, setZoom] = useState(false);
   const [scenesOpen, setScenesOpen] = useState(false);
+  // 주요장면을 닫아도 읽던 장면 번호를 잃지 않는다 — 다시 열면 그 자리에서 이어간다(신화가 바뀌면 컴포넌트 자체가 리마운트돼 0으로 돌아간다)
+  const [sceneIndex, setSceneIndex] = useState(0);
   const closeReading = useCallback(() => setReading(false), []);
   const closeZoom = useCallback(() => setZoom(false), []);
   const closeScenes = useCallback(() => setScenesOpen(false), []);
@@ -87,7 +89,7 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
         )}
       </div>
       {zoom && <FactionArtworkViewer images={images} title={myth.name} titleInArtwork onClose={closeZoom} />}
-      {scenesOpen && <FactionArtworkViewer images={scenes} title={`${myth.name} · ${t('keyScenes')}`} onClose={closeScenes} />}
+      {scenesOpen && <FactionArtworkViewer images={scenes} title={`${myth.name} · ${t('keyScenes')}`} initialIndex={sceneIndex} onIndexChange={setSceneIndex} onClose={closeScenes} />}
       {reading && (
         <MythOverviewReading voice={voice} narration={narration} text={text}
           title={myth.name} onClose={closeReading}

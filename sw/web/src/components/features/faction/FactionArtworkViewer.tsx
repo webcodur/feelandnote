@@ -22,13 +22,17 @@ interface Props {
   titleInArtwork?: boolean;
   onClose: () => void;
   nested?: boolean;
+  /** 처음 열릴 장면 번호 — 닫았다 다시 열 때 읽던 장면을 되돌리려고 부모가 기억해 둔다 */
+  initialIndex?: number;
+  /** 장면이 바뀔 때마다 현재 번호를 알린다 */
+  onIndexChange?: (index: number) => void;
 }
 
 /** 표지·인물 화보·주요 장면의 원본과 해설을 연다. 개요 읽기와 독립된 창이다. */
-export default function FactionArtworkViewer({ images, title, titleInArtwork = false, onClose, nested = false }: Props) {
+export default function FactionArtworkViewer({ images, title, titleInArtwork = false, onClose, nested = false, initialIndex = 0, onIndexChange }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tAccess = useTranslations("shared.accessibility");
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => Math.max(0, Math.min(images.length - 1, initialIndex)));
   const [navigatorOpen, setNavigatorOpen] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
@@ -42,6 +46,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const isEnding = Boolean(ending && index === images.length);
   const zIndex = Z_INDEX.modal + (nested ? 1 : 0);
   const [dimensions, setDimensions] = useState<{ url: string; ratio: number } | null>(null);
+  useEffect(() => { onIndexChange?.(index) }, [index, onIndexChange]);
   useEffect(() => {
     if (slideCount < 2 || navigatorOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
