@@ -33,11 +33,30 @@ async function olJson(path) {
   }
 }
 
+// OL이 프랑스어·스페인어판에 eng를 잘못 태그한 사례가 있어 제목 언어도 검사한다.
+const FOREIGN_WORDS = new Set('le la les de des du un une sur aux avec dans chez der die das und mit für zu ist im am el los las del y con para por al que si dos versiones completa completas edicion traduccion introduccion jeune homme parfait'.split(' '))
+const ENGLISH_WORDS = new Set('the of and a an in on for to with from by is are was were his her its their my your our at as be or not this that who what when where why how'.split(' '))
+const FOREIGN_ISBN_GROUPS = /^(9782|9783|9784|9785|9786|9787|9788|9789|9791)/
+const EN_PUBLISHERS_ABROAD = /taschen|prestel|könig|konig|kodansha international|foreign languages|abbeville|skira|rizzoli/i
+const TRUSTED_EN_PUBLISHERS = /penguin|oxford|cambridge|university|press|knopf|harper(?!collins español)|random|simon|vintage|dover|yale|princeton|harvard|\bmit\b|new riders|tuttle|columbia/i
+/** 제목이 영어가 아닌 것으로 보이면 참을 반환한다. 영미 신뢰 출판사는 이름 속 van/der 같은 어절을 제목 언어로 오인하지 않게 한다. */
+function looksNonEnglishTitle(en) {
+  const title = en?.title ?? ''
+  const tokens = title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').split(/[^a-z']+/).filter((t) => t.length > 1)
+  const foreign = tokens.filter((t) => FOREIGN_WORDS.has(t)).length
+  if (foreign === 0) return false
+  if (foreign >= 2) return true
+  const english = tokens.filter((t) => ENGLISH_WORDS.has(t)).length + (/'s\b/.test(title) ? 1 : 0)
+  return english === 0 && !TRUSTED_EN_PUBLISHERS.test(en.publisher ?? '')
+}
 /** OpenLibrary가 영어판으로 확인했거나, 언어 미상이어도 영어권 국가군 ISBN인 판본만 인정한다. */
 function isEnglishEdition(en) {
   if (!en?.isbn) return false
   const placeholder = /^(Unti|Anon)\d/.test(en.title ?? '') || (en.authors ?? []).some((name) => /^(Unti|Anon)\d|to be confirmed/i.test(name))
   if (placeholder) return false
+  if (/[¿¡ß]/.test(en.title ?? '') || looksNonEnglishTitle(en)) return false
+  // 비영어권 국가군 ISBN에 eng 태그가 붙은 것은 태그 오염일 수 있다 — 영문서를 내는 출판사만 인정한다.
+  if (FOREIGN_ISBN_GROUPS.test(en.isbn) && !EN_PUBLISHERS_ABROAD.test(en.publisher ?? '')) return false
   if (en.languages.length > 0) return en.languages.includes('/languages/eng')
   return /^(9780|9781|9798)/.test(en.isbn)
 }

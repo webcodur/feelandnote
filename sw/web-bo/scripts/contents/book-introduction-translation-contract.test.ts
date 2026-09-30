@@ -5,7 +5,7 @@ import { buildIntroductionApplySql } from './book-description-sources-contract'
 
 const input: ReviewedIntroductionTranslation = {
   target: {content_id:'a',locale:'ko',title:'시험 작품',creator:'작가',publisher:null,isbn:null,description:null,sources:{primary:'none',title:'translated'}},
-  source: {content_id:'a',locale:'en',title:'A Test',creator:'Author',publisher:null,isbn:'9780140439076',description:'The story follows a traveler and his family.',sources:{primary:'openlibrary'}},
+  source: {content_id:'a',locale:'en',title:'A Test',creator:'Author',publisher:null,isbn:'9780140439076',description:'The story follows a traveler and his family.',sources:{primary:'openlibrary',description:'https://openlibrary.org/works/OL123W'}},
   sourceUrl:'https://openlibrary.org/works/OL123W', sourceText:'The story follows a traveler and his family.',
   translation:'한 여행자와 그 가족의 이야기를 다룬다.', identityEvidence:[{url:'https://openlibrary.org/books/OL456M',note:'Same work and author'}],
 }

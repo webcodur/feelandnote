@@ -26,10 +26,15 @@ const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10) // KS
 const raw = fs.readFileSync(dataFile, 'utf8')
 const data = JSON.parse(raw)
 const days = data.dailyIndexingRequests
-if (days.some((d) => d.date === today)) throw new Error(`조사 데이터에 ${today} 항목이 이미 있다 — 같은 날 두 번 돌리지 않는다`)
+// GSC_QUEUE_CONTINUE=1이면 PENDING 등으로 일찍 멈춘 날을 이어 돌린다 — 오늘 이미 누른 URL은 빼고 오늘 항목에 병합한다
+const isContinuation = days.some((d) => d.date === today)
+if (isContinuation && !process.env.GSC_QUEUE_CONTINUE) throw new Error(`조사 데이터에 ${today} 항목이 이미 있다 — 같은 날 두 번 돌리지 않는다`)
 const prev = days[days.length - 1]
-const priority = process.argv.slice(2).map(full)
-const all = [...new Set([...priority, ...(prev.nextQueue ?? []).map(full)])]
+const attemptedToday = new Set(isContinuation
+  ? [...(prev.accepted ?? []).map((a) => a.url), ...(prev.errors ?? []).map((e) => e.url), ...(prev.stopped ?? []), ...(prev.limit ? [prev.limit.url] : [])].map(short)
+  : [])
+const priority = process.argv.slice(2).map(full).filter((u) => !attemptedToday.has(short(u)))
+const all = [...new Set([...priority, ...(prev.nextQueue ?? []).map(full).filter((u) => !attemptedToday.has(short(u)))])]
 
 // API 사전 검사 — 호출마다 시간 제한(제한 없는 호출 하나가 큐 전체를 멈춘 적이 있다)
 const auth = new google.auth.GoogleAuth({ keyFile: path.join(repo, 'credentials', 'ga-service-account.json'), scopes: ['https://www.googleapis.com/auth/webmasters.readonly'] })
@@ -86,17 +91,28 @@ const nextQueue = [
   ...errors.filter((e) => e.status === '오류 발생').map((e) => short(e.url)),
   ...(prev.nextQueue ?? []).map((p) => short(full(p))).filter((p) => !done.has(p)),
 ]
-days.push({
-  date: today,
-  property: 'sc-domain:feelandnote.com',
-  propertyNote: `aside repl --account ${ACCOUNT} (webcodur@gmail.com), _scratch-gsc-aside-queue.mjs`,
-  priority: priority.map(short),
-  skippedAlreadyIndexed: skipped.map(short),
-  acceptedCount: accepted.length,
-  accepted,
-  errors,
-  limit: stop ? { url: stop.url, status: stop.status, note: stop.text ?? '', attempts: 1 } : null,
-  nextQueue,
-})
+if (isContinuation) {
+  prev.priority = [...new Set([...(prev.priority ?? []), ...priority.map(short)])]
+  prev.skippedAlreadyIndexed = [...new Set([...(prev.skippedAlreadyIndexed ?? []), ...skipped.map(short)])]
+  prev.accepted.push(...accepted)
+  prev.acceptedCount = prev.accepted.length
+  prev.errors.push(...errors)
+  prev.stopped = [...new Set([...(prev.stopped ?? []), ...(stop ? [stop.url] : [])])]
+  prev.limit = stop ? { url: stop.url, status: stop.status, note: stop.text ?? '', attempts: (prev.limit?.attempts ?? 0) + 1 } : prev.limit
+  prev.nextQueue = nextQueue
+} else {
+  days.push({
+    date: today,
+    property: 'sc-domain:feelandnote.com',
+    propertyNote: `aside repl --account ${ACCOUNT} (webcodur@gmail.com), _scratch-gsc-aside-queue.mjs`,
+    priority: priority.map(short),
+    skippedAlreadyIndexed: skipped.map(short),
+    acceptedCount: accepted.length,
+    accepted,
+    errors,
+    limit: stop ? { url: stop.url, status: stop.status, note: stop.text ?? '', attempts: 1 } : null,
+    nextQueue,
+  })
+}
 fs.writeFileSync(dataFile, JSON.stringify(data, null, 1) + (raw.endsWith('\n') ? '\n' : ''), 'utf8')
 console.log(`accepted ${accepted.length}, errors ${errors.length}, stop ${stop ? `${stop.status} ${short(stop.url)}` : 'none'}, nextQueue ${nextQueue.length}`)

@@ -25,10 +25,6 @@ function sourceUrlMatchesRecord(input: ReviewedIntroductionTranslation): boolean
   return typeof recorded === 'string' && recorded === input.sourceUrl && /^https:\/\//.test(recorded)
 }
 
-export function openLibraryIntroductionUrl(value: string): boolean {
-  return /^https:\/\/openlibrary\.org\/(?:books\/OL\d+M|works\/OL\d+W)$/.test(value)
-}
-
 /** The ko→en plan's recorded source must be exactly the URL the stored ko row claims as its provenance. */
 export function recordedKoreanIntroductionUrl(input: ReviewedIntroductionTranslation): boolean {
   return sourceUrlMatchesRecord(input)
@@ -59,7 +55,7 @@ export function planIntroductionTranslation(input: ReviewedIntroductionTranslati
   if (!/^[a-z]{2,3}$/.test(sourceLocale)) throw new Error('Invalid source locale')
   const sourceTextOk = input.sourceLocale === undefined ? Boolean(forLocale(input.sourceText, 'en')) : Boolean(input.sourceText?.trim())
   if (!source.description?.trim()
-    || !(input.sourceUrl === null ? sourceUrlMatchesRecord(input) : openLibraryIntroductionUrl(input.sourceUrl))
+    || !sourceUrlMatchesRecord(input)
     || !sourceTextOk || !forLocale(input.translation, 'ko')) throw new Error('Unverified translation text or source')
   if (!input.identityEvidence?.length || input.identityEvidence.some(e => !e.note?.trim() || !/^https:\/\//.test(e.url))) throw new Error('Missing work identity evidence')
   if (target.sources !== null && (typeof target.sources !== 'object' || Array.isArray(target.sources))) throw new Error('Invalid introduction sources')
