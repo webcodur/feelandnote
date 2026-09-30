@@ -84,6 +84,8 @@
 6. **저장** — `node scripts/photo/grok-avatar-save.mjs <slug> <받은 파일 경로>`가 중복 해시와 가로세로를 재서 정사각은 `_avatars/`, 세로는 `_redo/`로 옮긴다. 옛 방식 `grok-avatar-save.sh`를 쓰면 출력의 `DUP`/`NONE`을 꼭 본다.
 7. **한 장 열어 본다** — 아래 「눈으로 볼 것」.
 
+**Gemini가 거부·무시하는 신체 특징은 Grok으로 넘긴다.** 창힐의 「눈 넷」을 Gemini는 초상 발주 세 번·편집 한 번 모두 두 눈으로 돌려놨고, Grok은 같은 씨앗에 영문 발주 한 번으로 그렸다(26.09.30). 회수는 `assets.grok.com`의 생성 이미지만 골라야 한다 — 쿠키 배너(cdn.cookielaw.org)·가로 띠 이미지가 같은 크기 필터에 걸린다. 발주·회수 코드는 `D:\image\_avatar-work\myth-todo-0929\gen\grok-send.js`·`grok-fetch.js`, 새 채팅 주소는 사이드바 `a[href*="/c/"]` 첫 항목에서 읽는다.
+
 동시에 돌릴 때는 탭 둘, 생성 중인 채팅 셋까지. **내려받기는 한 번에 한 명씩** — 연달아 받으면 누구 파일인지 알 수 없다.
 
 | 저장 출력·증상 | 대응 |

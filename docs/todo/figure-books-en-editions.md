@@ -17,6 +17,8 @@ EN 화면의 「참고도서」는 요청 언어의 실제 판본이 있는 작�
 
 검증 규칙은 그대로다: OpenLibrary가 영어(`eng`)로 확인한 ISBN만 en 판본이 되고, 언어가 비어 있으면 ISBN 국가군 978-0·978-1·979-8만 영어권으로 본다. `Unti…`·`Anon…` 자리표시 기록은 영문판으로 치지 않는다. **없는 언어판을 지어내지 않는다.**
 
+OL의 `eng` 태그 오염 대응(26.09.30 추가): 비영어권 국가군 ISBN(978-2·978-3·978-7 등)은 Taschen·Prestel·König·Kodansha International·Foreign Languages Press 같은 영문서 출판사만 인정하고, 제목이 비영어 기능어만으로 이뤄졌으면(영어 단어·소유격 `'s`가 없으면) eng 태그가 있어도 거른다. 프랑스어판에 eng 태그가 붙어 통과한 `Le Colonel Chabert`(9782266083300) 등 10건이 이 검사로 잡혀 제거됐다.
+
 ## 경로
 
 - 탐색·검증 원장: `sw/web-bo/scripts/figure-books/en-edition-fill.mjs`. 위키데이터 QID → P648 OLID → 저작 판본 경로를 우선 쓰고, 없으면 OL 제목+저자 검색. 결과는 `data/celeb/figure-books/en-edition-fill.jsonl`에 쌓아 이어받는다.
@@ -27,5 +29,10 @@ EN 화면의 「참고도서」는 요청 언어의 실제 판본이 있는 작�
 
 - 26.09.29 착수.
 - 파일럿 완료: 일본서기→*Nihongi*(Aston, Tuttle, 9780804836746)·고사기→*Kojiki*(Philippi, Princeton, 9780691061603) en 판본 등록. 이자나미 EN 모달에 「참고도서」가 다시 나온다.
-- 진행 중: 전수 배치로 원장 축적 → `resolved` 행 반영 → `title-only`·`unresolved` 잔여는 수동 검토.
-- 남은 것: en 판본의 아마존 구매 옵션(`figure_book_purchase_options`) — 판본이 있으면 카드는 나오지만 판매 연결은 별도 적재가 필요하다.
+- 26.09.30 전수 배치 완료 — 원장 3,638행 전부 처분됨(큐 잔여 없음):
+  - `resolved` 501 → DB 반영 완료(en 판본 +491: 1차 479 + 수동승인 19 − 중복 스킵 등, 카드 501 갱신·생성).
+  - `rejected` 150 → 제목만 같은 다른 책(한국 저자 평전·아동서에 동명 영문서가 걸린 것 140건, 판정 기록 `reviewed: diff-work`) + 비영어판 10건(`non-english-edition`, DB에서 판본 삭제·카드 원복 완료).
+  - `no-en-edition` 1,163 → OL에서 검증 가능한 영문판이 없는 것으로 확정.
+  - `domestic` 1,824 → 영문판 없는 정상 KO-only, 손대지 않음.
+- `figure-books:audit` 클린 — `publicEnWorks` 5,212, `invalidRelatedDescriptions` 0.
+- 남은 것: en 판본의 아마존 구매 옵션(`figure_book_purchase_options`) — 판본이 있으면 카드는 나오지만 판매 연결은 별도 적재가 필요하다(아마존 제휴 측 진행 중). 또 `no-en-edition`에는 OL 미수록 실존 영문판(예: 정유정 『7년의 밤』의 Penguin판, 김영하 『빛의 제국』 영역본)이 일부 섞여 있을 수 있다 — 새 증거가 생기면 원장에 resolved로 추가해 재반영한다.

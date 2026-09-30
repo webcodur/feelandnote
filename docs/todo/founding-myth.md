@@ -17,10 +17,11 @@
 - [ ] [신화 명단 보완 후보](../../data/celeb/myth-plan/missing-figures.md)를 인물별로 DB와 대조한다. 옛 문서의 ‘미등록’ 표기는 현재 상태가 아니다. 이름 일치만으로 존재 여부를 확정하지 않는다. 반고(`ban-gu`)는 역사학자, 허유(`xu-you`)는 삼국지 모사, 발리(`vali`)는 라마야나 인물이라 각각 창세신·요순 전승 은자·북유럽 신의 대체 ID가 아니다.
 - [ ] 구태의 남은 배정(세력 `f798505e…`)에 그룹을 정한다. 구태는 별도의 백제 시조설이라 기존 그룹 설명과 함께 대조한다.
 - [ ] 비인간·집단 계정의 표현을 검토한다. 가야·탐라의 집단 3건은 단일 얼굴로 다루지 않는다.
+- [ ] 미등록 신화 인물 132명(이 문서·[서사 세력 보완](myth-epic-roster.md)·[남은 작업](myth.md) 명단 + 우케모치)의 1:1 바스트 초상 원판이 `D:/image/_avatar-work/myth-todo-0929/gen/out2/`에 있다(인물별로 머리·수염·옷을 새로 지은 판, 최신 `-rN`이 정본, 정본 목록 `gen/final.json`, 검수 화면 `gen/review.html`. 옛 `out/`은 씨앗을 가다듬기만 한 폐기판). 씨앗 얼굴은 `D:/image/_재료/지정/<이름>.png`, 대조표는 `picks-ledger.json`. 창힐의 눈 넷은 Gemini가 네 번 모두 무시해 Grok으로 뽑았다. 아메리카 남성 5명(인티·훈 아푸·이슈발랑케·테하론히아와곤·타위스카롱)은 동양·폴리네시아 씨앗이 계통을 끌고 가 안데스·마야·원주민 실사로 씨앗을 바꿨다. 남은 것: 인물 등록, nobg→reframe→업로드. 우케모치는 등록돼 있으나 아바타가 옛 codex판이라 이 원판으로 교체한다.
 
 인물 등록·정보 룰북은 [셀럽 파이프라인](../project/celeb/celeb-00-01-pipeline.md), 작품 관계는 [인물 도서](../project/celeb/celeb-02-05-figure-books.md), 공개 화면은 [탐색](../project/service/service-01-explore.md)이 쥔다. 인물별 책도 실제 등장·직접 대상이면 `appearance`이며 ‘보충자료’로 나누지 않는다.
 
-아바타는 **유명인 얼굴을 피하고, 사람의 개별 특징이 있는 AI 얼굴 REF를 실제로 열어 선정**한다. 성숙함을 노화로 바꾸지 않고, 관모·투구·장식을 일괄 제거하지 않는다. 스튜디오 실사 질감으로 만든 뒤 [nobg](../../.agents/skills/nobg-cutout/SKILL.md) → [reframe](../../.agents/skills/celeb-avatar-reframe/SKILL.md) → 직접 검수 → 승인된 등록 경로를 따른다. 기존 작업과 사용자 메모는 `D:/image/_avatar-work/avatar-handoff.md`가 쥔다.
+아바타는 **유명인 얼굴을 피하고, 사람의 개별 특징이 있는 실사 얼굴(AI 생성 얼굴은 쓰지 않는다, 26.09.29 유저 지시)을 실제로 열어 선정**한다. 신화 인물에게 노인은 없다 — 성숙함을 노화로 바꾸지 않고([이미지 생성](../project/production/prod-01-image-generation.md) §6.7), 관모·투구·장식을 일괄 제거하지 않는다. 스튜디오 실사 질감으로 만든 뒤 [nobg](../../.agents/skills/nobg-cutout/SKILL.md) → [reframe](../../.agents/skills/celeb-avatar-reframe/SKILL.md) → 직접 검수 → 승인된 등록 경로를 따른다. 기존 작업과 사용자 메모는 `D:/image/_avatar-work/avatar-handoff.md`가 쥔다.
 
 현재 대조 화면: [신화·아바타 공개 점검](../../data/celeb/myth-opening/readiness.html), [도서 연결](../../data/celeb/figure-books/myth-coherence-review.html).
 
