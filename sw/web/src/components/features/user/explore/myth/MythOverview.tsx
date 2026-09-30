@@ -62,13 +62,19 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
     setSessionIndex(next);
     try { localStorage.setItem(sceneStorageKey, String(next)); } catch { /* 사파리 프라이빗 등 저장 실패는 무시한다 */ }
   }, [sceneStorageKey]);
-  /* 이미지박스는 마지막으로 읽던 장면을 띄운다 — 닫힌 위치가 밖에도 남는다. 장면이 없으면 표지 그대로 */
-  const displayImage = scenes.length > 0 ? (scenes[sceneIndex] ?? scenes[0]) : cover;
   /* 장면 뷰어의 맨 앞 슬라이드는 대표 이미지다 — 장면이 있는 신화도 표지로 돌아갈 길을 둔다(26.09.30 유저 지시).
-     읽던 장면 번호(localStorage·개요 칸)는 장면만 센 scenes 좌표라 뷰어 번호와 shift 만큼 어긋난다 */
+     읽던 장면 번호(localStorage·개요 칸)는 장면만 센 scenes 좌표라 뷰어 번호와 shift 만큼 어긋난다.
+     -1은 맨 앞 표지 슬라이드 — 뷰어가 표지에서 닫혀도 그 자리가 미리보기에 남는다 */
   const coverSlide = cover && cover.kind !== 'scene' ? { ...cover, kind: 'scene' as const, label: cover.label ?? t('coverImage') } : null;
   const viewerImages = coverSlide ? [coverSlide, ...scenes] : scenes;
   const viewerShift = coverSlide ? 1 : 0;
+  const atCover = viewerShift > 0 && Number.isFinite(storedIndex) && storedIndex < 0;
+  /* 이미지박스는 마지막으로 읽던 자리를 띄운다 — 표지에서 닫혔으면 표지, 장면이 없으면 표지 그대로 */
+  const displayImage = scenes.length > 0 ? (atCover ? cover : scenes[sceneIndex] ?? scenes[0]) : cover;
+  /* 다시 열 때는 닫힌 슬라이드로 — 표지(-1)는 뷰어 번호 0. 엔딩은 읽던 자리로 남기지 않고 마지막 장면에 둔다 */
+  const openIndex = Number.isFinite(storedIndex)
+    ? Math.min(Math.max(Math.trunc(storedIndex) + viewerShift, 0), Math.max(viewerImages.length - 1, 0))
+    : 0;
   const label = overviewLabel ?? t("mythOverview");
   /* 신화·세력 한 편의 주소에서는 이름이 페이지의 큰 제목(h1)이다. 첫 화면은 배너의 「신화의 세계」「세력도감」이 h1이라 h2로 둔다 */
   const Heading = atlasPageOwnsTitle(usePathname()) ? "h1" : "h2";
@@ -76,7 +82,7 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
   return (
     <>
       {/* 이름과 한 줄 정의 — 검색 제목·설명과 같은 말이 화면 머리에도 보여야 한다. 한 줄 정의는 faction_lv2.headline */}
-      <header data-atlas-heading className="mb-3 px-1 md:mb-4">
+      <header data-atlas-heading className="mb-3 px-1 text-center md:mb-4">
         <Heading className="text-xl font-bold leading-tight text-text-primary md:text-2xl">{myth.name}</Heading>
         {myth.headline && <p className="mt-1 text-sm leading-snug text-accent md:text-base">{myth.headline}</p>}
       </header>
@@ -116,8 +122,8 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
               <FactionArtworkTitle title={myth.name} />
               {scenes.length > 0 && (
                 <span className="pointer-events-none absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-xs font-semibold text-text-primary backdrop-blur-sm">
-                  <Images size={13} className="shrink-0 text-accent" aria-hidden />{t('keyScenes')}
-                  <span className="tabular-nums text-accent">{sceneIndex + 1}/{scenes.length}</span>
+                  <Images size={13} className="shrink-0 text-accent" aria-hidden />{atCover ? t('coverImage') : t('keyScenes')}
+                  {!atCover && <span className="tabular-nums text-accent">{sceneIndex + 1}/{scenes.length}</span>}
                 </span>
               )}
             </button>
@@ -125,8 +131,8 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
         )}
       </div>
       {zoom && <FactionArtworkViewer images={images} title={myth.name} titleInArtwork initialIndex={artworkIndex} onIndexChange={setArtworkIndex} onClose={closeZoom} />}
-      {scenesOpen && <FactionArtworkViewer images={viewerImages} title={`${myth.name} · ${t('keyScenes')}`} initialIndex={sceneIndex + viewerShift}
-        onIndexChange={(index) => { const scene = index - viewerShift; if (scene >= 0) handleSceneIndex(scene); }} onClose={closeScenes} />}
+      {scenesOpen && <FactionArtworkViewer images={viewerImages} title={`${myth.name} · ${t('keyScenes')}`} initialIndex={openIndex}
+        onIndexChange={(index) => handleSceneIndex(Math.min(Math.max(index - viewerShift, -1), scenes.length - 1))} onClose={closeScenes} />}
       {reading && (
         <MythOverviewReading voice={voice} narration={narration} text={text}
           title={myth.name} onClose={closeReading}

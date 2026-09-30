@@ -31,6 +31,8 @@ export function getMythClientData(data: MythData): MythData {
     works: data.works.filter((work) => work.personIds.some((id) => personIds.has(id))).map((work) => ({
       ...work,
       personIds: work.personIds.filter((id) => personIds.has(id)),
+      appearedIds: work.appearedIds.filter((id) => personIds.has(id)),
+      authorIds: work.authorIds.filter((id) => personIds.has(id)),
     })),
   };
 }

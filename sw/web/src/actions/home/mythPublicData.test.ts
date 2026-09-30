@@ -17,7 +17,7 @@ function fixture(): MythData {
     avatarUrl: null, imageUrl: null, portraitUrl: null, images: [], mythIds, sourceIds,
   });
   const work = (id: string, personIds: string[]): MythWork => ({
-    id, title: id, titleBadge: null, personIds, creator: null, thumbnailUrl: null, category: "book", coupangUrl: null,
+    id, title: id, titleBadge: null, personIds, appearedIds: personIds, authorIds: [], creator: null, thumbnailUrl: null, category: "book", coupangUrl: null,
   });
   return {
     regions: [{ id: "region", slug: "greek-roman", name: "region", mythIds: ["public", "private"] }],

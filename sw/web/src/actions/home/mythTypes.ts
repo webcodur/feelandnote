@@ -93,6 +93,10 @@ export interface MythWork {
   category: "book" | "video" | "game" | "music";
   coupangUrl: string | null;
   personIds: string[];
+  /** 등장·연관으로 배정된 인물 — 「등장」 탭의 근거 */
+  appearedIds: string[];
+  /** 지은이로 배정된 인물 — 「집필」 탭의 근거 */
+  authorIds: string[];
 }
 
 export interface MythData {

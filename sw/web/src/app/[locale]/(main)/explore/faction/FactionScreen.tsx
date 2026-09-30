@@ -131,7 +131,7 @@ export default async function FactionScreen({ sections, section, entry, locale, 
         hasArtwork={Boolean(getFactionThemeImage(entry.slug))} />}>
         <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows} />
       </Lane>
-      <AtlasIndex heading={t("allThemes")} groups={index} dense />
+      <AtlasIndex heading={t("allThemes")} groups={index} />
     </>
   );
 }

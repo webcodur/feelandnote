@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ATLAS_NAV_LAYOUT, atlasSelection, firstAtlasEntry, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
 
 interface Props {
@@ -18,6 +19,8 @@ interface Props {
 export default function AtlasNavigation({ tree, selection, onSelect, onOpenPicker, myth, overview }: Props) {
   const t = useTranslations("explore.ui.atlas");
   const tUi = useTranslations("explore.ui");
+  const tMyth = useTranslations("explore.hub.myth");
+  const tFaction = useTranslations("explore.faction");
   const { theme, entry, group } = atlasSelection(tree, selection);
   const labels = [t(myth ? "region" : "theme"), t(myth ? "myth" : "faction"), t("group")];
   const choices = [
@@ -40,8 +43,29 @@ export default function AtlasNavigation({ tree, selection, onSelect, onOpenPicke
   };
   const arrow = "grid place-items-center text-text-secondary outline-none hover:bg-white/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:text-text-tertiary disabled:opacity-30 disabled:hover:bg-transparent";
 
+  /* 맨 위 줄은 세계 — 신화의 세계와 세력도감을 오간다. 아래 세 줄은 세계 안의 선택이라 화살표
+     순환이지만, 이 줄은 반대 세계의 대문으로 가는 링크다(신화 대문은 마지막 읽은 신화를 다시 연다) */
+  const worlds = [
+    { name: tMyth("title"), href: "/explore/myth", current: myth },
+    { name: tFaction("title"), href: "/explore/faction", current: !myth },
+  ];
+
   return (
     <div className={ATLAS_NAV_LAYOUT.root} data-atlas-navigation>
+      <div role="group" aria-label={t("world")} data-atlas-level="world"
+        className="grid grid-cols-2 gap-1 rounded-lg border border-white/20 bg-bg-main p-1">
+        {worlds.map((world) => world.current ? (
+          <span key={world.href} aria-current="page"
+            className="flex min-h-9 items-center justify-center rounded-md bg-accent/15 px-2 text-center text-sm font-bold text-accent">
+            {world.name}
+          </span>
+        ) : (
+          <Link key={world.href} href={world.href}
+            className="flex min-h-9 items-center justify-center rounded-md px-2 text-center text-sm font-semibold text-text-secondary outline-none hover:bg-white/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+            {world.name}
+          </Link>
+        ))}
+      </div>
       {names.map((name, level) => (
         <div key={keys[level]} className={ATLAS_NAV_LAYOUT.row} data-atlas-level={level}>
           <button type="button" className={arrow} disabled={choices[level].length < 2} onClick={() => step(level, -1)} aria-label={`${tUi("prev")} ${labels[level]}`}><ChevronLeft size={17} aria-hidden /></button>

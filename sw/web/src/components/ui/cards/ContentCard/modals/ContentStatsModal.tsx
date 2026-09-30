@@ -11,19 +11,11 @@ import { Users, Crown, User } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getCelebsForContent } from "@/actions/library";
+import { getCelebsForContent, type CelebInfo } from "@/actions/library";
 import { getCelebForModal } from "@/actions/celebs";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";
 import { useLocale, useTranslations } from "next-intl";
-
-interface CelebInfo {
-  id: string;
-  nickname: string;
-  nickname_en: string | null;
-  avatar_url: string | null;
-  profession: string | null;
-}
 
 interface ContentStatsModalProps {
   isOpen: boolean;
@@ -194,17 +186,21 @@ export default function ContentStatsModal({
         </ModalFooter>
       </Modal>
 
-      {/* 셀럽 상세 모달 */}
-      {selectedCeleb && (
-        <CelebDetailModal
-          celeb={selectedCeleb}
-          isOpen={isCelebModalOpen}
-          onClose={() => {
-            setIsCelebModalOpen(false);
-            setSelectedCeleb(null);
-          }}
-        />
-      )}
+      {/* 셀럽 상세 모달 — 이 콘텐츠의 감상평이 있으면 함께 띄운다 */}
+      {selectedCeleb && (() => {
+        const row = celebs.find((c) => c.id === selectedCeleb.id);
+        return (
+          <CelebDetailModal
+            celeb={selectedCeleb}
+            isOpen={isCelebModalOpen}
+            onClose={() => {
+              setIsCelebModalOpen(false);
+              setSelectedCeleb(null);
+            }}
+            contextReview={row?.review ? { review: row.review, isSpoiler: row.is_spoiler } : null}
+          />
+        );
+      })()}
     </>
   );
 }

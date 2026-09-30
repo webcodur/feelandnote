@@ -5,9 +5,10 @@
 */ // ------------------------------
 
 import { getLocale, getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 import { getFeaturedFactions } from "@/actions/home";
 import { redirect } from "@/i18n/navigation";
-import { buildFactionSections, factionSectionKey, localizedFactionName } from "@/lib/faction-sections";
+import { buildFactionSections, FACTION_LAST_COOKIE, factionSectionKey, localizedFactionName } from "@/lib/faction-sections";
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
 import FactionScreen from "./FactionScreen";
@@ -61,11 +62,19 @@ export default async function FactionPage({
 
   const sections = buildFactionSections(factions);
   const requested = typeof params.section === "string" ? params.section : undefined;
-  const section = sections.find((item) => factionSectionKey(item) === requested) ?? sections[0];
+  /* 고른 섹션이 없을 때만 마지막으로 보던 세력(쿠키)을 찾는다 — 신화의 세계와 같은 차례.
+     탐색은 요청마다 그리고 앞단 캐시도 없어 쿠키를 읽어도 렌더 방식이 바뀌지 않는다 */
+  const savedSlug = requested ? undefined : (await cookies()).get(FACTION_LAST_COOKIE)?.value;
+  const savedEntry = savedSlug
+    ? sections.flatMap((item) => item.entries).find((entry) => entry.slug === savedSlug)
+    : undefined;
+  const section = savedEntry
+    ? sections.find((item) => item.entries.some((entry) => entry.id === savedEntry.id))
+    : sections.find((item) => factionSectionKey(item) === requested) ?? sections[0];
 
   if (!section) {
     return <p className="py-12 text-center text-sm text-text-secondary">{pending("empty")}</p>;
   }
 
-  return <FactionScreen sections={sections} section={section} entry={section.entries[0]} locale={locale} />;
+  return <FactionScreen sections={sections} section={section} entry={savedEntry ?? section.entries[0]} locale={locale} />;
 }

@@ -321,17 +321,23 @@ async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
   const profession = me?.profession
   if (!profession) return new Set()
 
+  return fetchReadIdsByProfession(profession, new Set([celebId]))
+}
+
+/** 직군 값으로 바로 묻는 변형 — 세력 선반의 「직군」 탭처럼 인물이 아니라 직군이 기준이 되는 자리가 쓴다. */
+async function fetchReadIdsByProfession(profession: string, excludeCelebIds: ReadonlySet<string>): Promise<Set<string>> {
+  const db = createStaticClient()
+
   const { data: peers, error: peersError } = await db
     .from('celebs')
     .select('id')
     .eq('profession', profession)
     .eq('publication_status', 'active')
-    .neq('id', celebId)
     .order('view_count', { ascending: false })
     .limit(60)
 
   throwOnQueryError('getAffiliateBooks/profession-peers', peersError)
-  const peerIds = (peers ?? []).map((p) => p.id as string)
+  const peerIds = (peers ?? []).map((p) => p.id as string).filter((id) => !excludeCelebIds.has(id))
   if (peerIds.length === 0) return new Set()
 
   const { data, error } = await db
@@ -436,3 +442,29 @@ async function getAffiliateBooksForCelebInner(
 
 // 인물 상세는 서가 우선순위와 하단 상품 구획이 같은 요청에서 두 번 부른다 — 요청 안에서 한 번만 돈다.
 export const getAffiliateBooksForCeleb = cache(getAffiliateBooksForCelebInner)
+
+/**
+ * 세력 선반의 「직군」 탭 — 구성원 최다 직군의 동료 인물들이 남긴 기록을 판매 풀에서 고른다.
+ * 개인 페이지 추천 층의 profession 소스와 같은 정의다. 구성원 본인은 동료에서 빼고,
+ * 다른 탭(주제·등장·감상·집필)이 이미 보여 주는 책도 뺀다.
+ */
+export async function getProfessionPeerBooks(
+  profession: string,
+  locale: AffiliateBookLocale,
+  excludeCelebIds: readonly string[],
+  excludeIds: ReadonlySet<string>,
+  limit = 24,
+): Promise<AffiliateBook[]> {
+  const pool = await fetchAffiliatePoolCached(locale)
+  if (pool.length === 0) return []
+  const ids = await fetchReadIdsByProfession(profession, new Set(excludeCelebIds))
+  const seen = new Set<string>(excludeIds)
+  const books: AffiliateBook[] = []
+  for (const p of pool) {
+    if (books.length >= limit) break
+    if (seen.has(p.book.contentId) || !ids.has(p.book.contentId)) continue
+    seen.add(p.book.contentId)
+    books.push(p.book)
+  }
+  return books
+}

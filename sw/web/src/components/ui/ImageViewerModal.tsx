@@ -13,6 +13,7 @@ import { createPortal } from "react-dom";
 import Button from "./Button";
 import BlurDissolve from "./BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
@@ -63,11 +64,10 @@ export default function ImageViewerModal({
       onClose();
     };
     document.addEventListener("keydown", onKeyDown, true);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     return () => {
       document.removeEventListener("keydown", onKeyDown, true);
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
     };
   }, [isOpen, onClose]);
 
@@ -164,7 +164,9 @@ export default function ImageViewerModal({
         onLostPointerCapture={() => { drag.current = null; setDragging(false); }}
         onDragStart={(event) => event.preventDefault()}
       >
-        <BlurDissolve key={src} className="flex items-center justify-center">
+        {/* 상대 상자가 그림 폭·높이에 맞춰지므로 캡션은 그림 위에 깔린다 — 장면 뷰어 자막과 같은 처리.
+            캡션은 배율을 따르지 않게 변형 span 밖에 둔다 */}
+        <BlurDissolve key={src} className="relative flex items-center justify-center">
           <span
             className={`block select-none ${dragging ? "" : "motion-safe:transition-transform motion-safe:duration-150"}`}
             style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
@@ -179,13 +181,15 @@ export default function ImageViewerModal({
               className="max-h-[78vh] max-w-full rounded-lg object-contain shadow-2xl"
             />
           </span>
+          {/* 설명이 있는 그림에만 붙는다. 없으면 자리도 차지하지 않는다 */}
+          {caption ? (
+            <div className="absolute inset-x-0 bottom-0 max-h-[45%] overflow-y-auto overscroll-contain rounded-b-lg bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-3 pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <p className="mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-base leading-relaxed text-white [overflow-wrap:anywhere] md:text-balance md:text-lg">
+                {caption}
+              </p>
+            </div>
+          ) : null}
         </BlurDissolve>
-        {/* 설명이 있는 그림에만 붙는다. 없으면 자리도 차지하지 않는다 */}
-        {caption ? (
-          <p className="max-w-[46rem] text-center text-sm leading-relaxed text-white/70">
-            {caption}
-          </p>
-        ) : null}
       </div>
     </div>,
     document.body

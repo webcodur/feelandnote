@@ -169,7 +169,9 @@ async function fetchMythData(locale: string): Promise<MythData> {
       thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
       category: CATEGORY[content.type], coupangUrl: isEn || edition?.platform !== "coupang" ? null : edition.purchaseUrl,
       editionId: isEn ? undefined : edition?.id,
-      personIds: unique(assignments.filter((row) => row.content_id === content.id).map((row) => row.celeb_id)) };
+      personIds: unique(assignments.filter((row) => row.content_id === content.id).map((row) => row.celeb_id)),
+      appearedIds: unique(assignments.filter((row) => row.content_id === content.id && row.relation_type !== "authored").map((row) => row.celeb_id)),
+      authorIds: unique(assignments.filter((row) => row.content_id === content.id && row.relation_type === "authored").map((row) => row.celeb_id)) };
   }).filter((work) => work.title).sort((a, b) => b.personIds.length - a.personIds.length || a.title.localeCompare(b.title, locale));
 
   const people = profiles.flatMap((profile): MythPerson[] => {

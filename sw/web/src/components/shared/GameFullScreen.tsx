@@ -16,6 +16,7 @@ import { createPortal } from "react-dom";
 import { ChevronRight } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import { setGameFullScreenLayer, setGameMusicTabSlot } from "@/components/layout/musicPlayerSlots";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 export interface BreadcrumbItem {
   label: string;
@@ -73,10 +74,10 @@ export default function GameFullScreen({ children, title, breadcrumbs, onExitFul
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") exitFullScreen();
     };
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     window.addEventListener("keydown", handleKey);
     return () => {
-      document.body.style.overflow = "";
+      unlockBodyScroll();
       window.removeEventListener("keydown", handleKey);
     };
   }, [isFullScreen, exitFullScreen]);

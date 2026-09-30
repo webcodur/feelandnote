@@ -37,6 +37,10 @@ export function factionSectionKey(section: FactionSection) {
   return section.faction.slug ?? section.faction.id
 }
 
+/** 마지막으로 보던 세력 slug를 적어 두는 쿠키 — 세력도감 첫 화면이 그 세력으로 열린다(신화의 fn-last-myth와 같은 장치) */
+export const FACTION_LAST_COOKIE = 'fn-last-faction'
+export const FACTION_LAST_COOKIE_MAX_AGE = 60 * 60 * 24 * 365
+
 /**
  * 섹션 칩 줄. 테마는 노출이 켜지고 인물과 주소(slug)가 있는 것만 싣는다.
  * 묶음은 자기 노출 칸과 무관하게 공개 테마를 품었으면 연다 — 섹션을 감추려면 그 안 테마의 노출을 끈다.

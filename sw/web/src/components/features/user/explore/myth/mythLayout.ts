@@ -10,7 +10,9 @@ export const MYTH_LAYOUT = {
   selectionWithoutArtwork: "grid-cols-1 md:grid-cols-1",
   selectionArtwork: "relative order-last aspect-[3/2] min-h-0 min-w-0 md:aspect-auto",
   selectionControls: "flex min-w-0 flex-col justify-center rounded-xl border border-white/20 bg-bg-secondary p-2 md:rounded-2xl md:p-4",
-  membersOuter: "min-w-0 px-1 pb-6 md:px-0 md:pb-8",
+  membersOuter: "min-w-0 px-4 md:px-6",
+  // 제목 아래 본문 구획(구성원·책장·전체 목록)이 공유하는 구분선 리듬 — 간격은 다음 구획의 mt가 쥔다
+  sectionDivider: "mt-8 border-t border-white/5 pt-6 md:mt-12 md:pt-8",
   // 연대기의 국가 선택기도 쓰는 공통 칩 값.
   navigation: EXPLORE_NAV_LAYOUT.navigation,
   chipNav: EXPLORE_NAV_LAYOUT.chipNav,
@@ -20,7 +22,7 @@ export const MYTH_LAYOUT = {
   regionChipShape: EXPLORE_NAV_LAYOUT.pill,
   memberList: "grid grid-cols-2 items-start gap-x-3 gap-y-6 min-[360px]:grid-cols-3 min-[480px]:grid-cols-4 md:gap-x-4 md:gap-y-7 lg:grid-cols-6",
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
-  overviewOuter: "min-w-0 px-4 pb-2 pt-2 md:px-6 md:pb-3",
+  overviewOuter: "min-w-0 px-4 md:px-6",
   overviewImage: "@container absolute inset-0 block h-full w-full overflow-hidden rounded-xl",
   overviewButton: "inline-flex min-h-10 flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-lg border border-white/20 bg-bg-main px-2 py-2 text-[13px] font-semibold text-text-primary outline-none hover:border-accent hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-accent md:gap-1.5 md:text-sm",
 } as const;

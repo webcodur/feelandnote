@@ -12,6 +12,8 @@ interface CenteredSectionHeadingProps {
   /** aria-labelledby가 가리킬 id */
   id?: string;
   title: string;
+  /** 제목 왼쪽에 서는 액센트 아이콘 — 구획의 성격을 한눈에 보여 준다 */
+  icon?: ReactNode;
   /** 제목 아래 한 줄. 없으면 그리지 않는다 */
   description?: string;
   className?: string;
@@ -22,6 +24,7 @@ interface CenteredSectionHeadingProps {
 export default function CenteredSectionHeading({
   id,
   title,
+  icon,
   description,
   className = "",
   titleAddon,
@@ -38,6 +41,7 @@ export default function CenteredSectionHeading({
         id={id}
         className="font-serif text-base font-bold tracking-tight text-text-primary md:text-xl"
       >
+        {icon && <span aria-hidden className="me-1.5 inline-block translate-y-[-0.08em] align-middle text-accent">{icon}</span>}
         {title}
         {titleAddon}
       </h2>

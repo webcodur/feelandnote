@@ -17,7 +17,7 @@ export default function ExploreModeTabs({ className }: { className?: string } = 
   const activeMode = pathname === worksPath || pathname.startsWith(`${worksPath}/`) ? "works" : "figures";
 
   return (
-    <nav aria-label={t("explore")} className={cn("mx-auto mb-4 grid w-full max-w-xs grid-cols-2 border-b border-line md:mb-5", className)}>
+    <nav aria-label={t("explore")} className={cn("mx-auto -mt-2 mb-8 grid w-full max-w-xs grid-cols-2 border-b border-line md:-mt-4 md:mb-10", className)}>
       {EXPLORE_MODES.map((mode) => {
         const isActive = mode.key === activeMode;
         return (

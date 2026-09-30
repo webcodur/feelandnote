@@ -354,6 +354,8 @@
     "noFurtherRecommendations": "추가로 추천할 도서가 없습니다.",
     "factionLoad": "세력도감 열기",
     "readingPlayFromHere": "이 문장부터 듣기",
-    "moreReadBooks": "감상한 책 더 보기"
+    "moreReadBooks": "감상한 책 더 보기",
+    "groupProfession": "직군",
+    "authoredByBadge": "{name} 지음"
   }
 }

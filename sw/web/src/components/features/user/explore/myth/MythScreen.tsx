@@ -214,7 +214,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
       {hasContent && activeMyth ? (
         <>
           <div className={layout.membersOuter}>
-            <div className={layout.container}>
+            <div className={`${layout.container} ${layout.sectionDivider}`}>
               <MythPersonPicker key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`}
                 people={railPeople} selectedId={selectedPersonId} onSelect={setSelectedPersonId}
                 name={activeGroup ? mythGroupName(activeGroup, groupLabels) : t("memberList")}
@@ -229,8 +229,9 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
             <div className={layout.container}>
               {/* 모달을 열어도 목록·책장의 높이와 스크롤 위치는 그대로 유지한다. */}
               {(faction ? faction.renderWorks(railPeople.map((person) => person.id)) : shelfWorks.length > 0 && (
-                <div className="mt-4 overflow-hidden rounded-[24px] bg-black/[0.14] px-5 py-6 md:px-8 md:py-8">
-                  <MythWorkShelf key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} selectedPersonId="" mythName={activeMyth.name} mythSlug={activeMyth.slug} />
+                /* 책장도 구성원·전체 목록과 같은 구획 구분선 리듬을 쓴다 */
+                <div className={layout.sectionDivider}>
+                  <MythWorkShelf key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} memberIds={railPeople.map((person) => person.id)} memberNames={Object.fromEntries(railPeople.map((person) => [person.id, person.name]))} mythName={activeMyth.name} mythSlug={activeMyth.slug} />
                 </div>
               ))}
               {!faction && shelfWorks.every((work) => work.editionId === undefined && !work.coupangUrl) && (

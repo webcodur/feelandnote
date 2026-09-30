@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useClippedText } from "@/hooks/useClippedText";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
 
@@ -116,8 +117,7 @@ export default function Modal({
     if (!isOpen) return;
 
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     const focusFrame = requestAnimationFrame(() => boxRef.current?.focus({ preventScroll: true }));
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -149,7 +149,7 @@ export default function Modal({
     return () => {
       cancelAnimationFrame(focusFrame);
       document.removeEventListener("keydown", handleKeyDown, escapeCapture);
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
       previouslyFocused?.focus({ preventScroll: true });
     };
   }, [isOpen, onClose, closeOnEscape, escapeCapture]);

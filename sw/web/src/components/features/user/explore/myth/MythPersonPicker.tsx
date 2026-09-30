@@ -4,10 +4,11 @@ import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import CelebRealityLabel from "@/components/shared/CelebRealityLabel";
-import { useCallback, useState } from "react";
-import { ChevronRight, Check } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
+import { ChevronDown, ChevronRight, ChevronsUp, Check, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythTypes";
+import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import { MYTH_LAYOUT as mythLayout } from "./mythLayout";
 
 interface Props {
@@ -18,27 +19,40 @@ interface Props {
   groupDescription?: string | null;
 }
 
+/* 접힌 목록이 보여 주는 인원 — 모든 단의 열 수(2·3·4·6)로 나눠지는 수라 어느 화면에서도 마지막 행이 통으로 찬다 */
+const COLLAPSED_COUNT = 12;
+
 // 카드 수식어는 인물의 정식 title만 두 줄까지 쓴다. 팩션 등장 설명·bio는 상세에서 읽는다.
 export default function MythPersonPicker({ people, selectedId, onSelect, name, groupDescription }: Props) {
   const t = useTranslations("explore.hub.myth");
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
+  /* 긴 명단은 두 행만 펼쳐 두고 아래 책장이 보이게 한다 — 모두 보기로 전원을 펼친다 */
+  const [expanded, setExpanded] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const collapsible = people.length > COLLAPSED_COUNT;
+  const visible = collapsible && !expanded ? people.slice(0, COLLAPSED_COUNT) : people;
+  const toggleExpanded = useCallback(() => {
+    setExpanded((current) => {
+      /* 접으면 목록이 수십 행 위로 줄어 버튼이 화면 밖으로 나간다 — 머리로 되돌린다 */
+      if (current) sectionRef.current?.scrollIntoView({ block: "start" });
+      return !current;
+    });
+  }, []);
 
   return (
-    <section aria-label={t("memberList")}>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h3 className="text-lg font-bold text-text-primary md:text-xl">{name}</h3>
-          <span className="text-sm font-medium text-text-secondary">{t("groupMemberCount", { count: people.length })}</span>
-        </div>
+    <section ref={sectionRef} aria-label={t("memberList")} className="scroll-mt-24">
+      {/* 구획 머리는 책장·전체 목록과 같은 공용 부품 — 액센트 대시+아이콘+제목+부가설명이 가운데로 쌓인다 */}
+      <header className="mb-3 flex flex-col items-center gap-1.5">
+        <CenteredSectionHeading icon={<Users size={17} />} title={name} description={t("groupMemberCount", { count: people.length })} />
         {groupDescription && (
           <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog" aria-expanded={open} className="flex min-h-10 items-center gap-1 rounded-lg px-2 text-sm font-semibold text-text-secondary outline-none hover:bg-white/5 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
             {t("groupOverview")}<ChevronRight size={15} aria-hidden />
           </button>
         )}
-      </div>
+      </header>
       <div role="group" aria-label={t("memberList")} className={mythLayout.memberList}>
-      {people.map((person) => {
+      {visible.map((person) => {
         const selected = selectedId === person.id;
         const thumbUrl = person.avatarUrl ?? person.portraitUrl ?? person.imageUrl;
         const title = person.title?.trim();
@@ -71,6 +85,14 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name, g
         );
       })}
       </div>
+      {collapsible && (
+        <button type="button" onClick={toggleExpanded} aria-expanded={expanded}
+          className="mt-6 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-bg-card text-sm font-semibold text-text-secondary outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent md:mt-7">
+          {expanded
+            ? <><ChevronsUp size={16} aria-hidden />{t("collapseMembers")}</>
+            : <><ChevronDown size={16} aria-hidden />{t("expandMembers", { count: people.length })}</>}
+        </button>
+      )}
       {open && groupDescription && <ContentTextModal isOpen onClose={close} title={name} text={groupDescription} />}
     </section>
   );

@@ -107,7 +107,7 @@ export async function MythSection({ slug = null }: { slug?: string | null } = {}
     items: region.mythIds.flatMap((id) => {
       const myth = mythById.get(id);
       return myth?.isPublished && myth.slug
-        ? [{ id: myth.id, name: myth.name, href: mythHref(myth.slug), headline: myth.headline, current: myth.slug === slug }]
+        ? [{ id: myth.id, name: myth.name, href: mythHref(myth.slug), current: myth.slug === slug }]
         : [];
     }),
   }));

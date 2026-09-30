@@ -13,6 +13,7 @@ import { buildFactionDescription, buildFactionTitle } from "@/lib/atlasMeta";
 import { buildFactionSections, localizedFactionDescription, localizedFactionHeadline, localizedFactionName } from "@/lib/faction-sections";
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
+import FactionLastSeen from "@/components/features/faction/FactionLastSeen";
 import FactionScreen from "../FactionScreen";
 
 type PageParams = Promise<{ locale: Locale; slug: string }>;
@@ -62,5 +63,10 @@ export default async function FactionEntryPage({ params }: { params: PageParams 
   const section = faction ? sections.find((item) => item.entries.some((entry) => entry.id === faction.id)) : undefined;
   if (!faction || !section) notFound();
 
-  return <FactionScreen sections={sections} section={section} entry={faction} locale={locale} withJsonLd />;
+  return (
+    <>
+      <FactionLastSeen slug={slug} />
+      <FactionScreen sections={sections} section={section} entry={faction} locale={locale} withJsonLd />
+    </>
+  );
 }

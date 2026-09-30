@@ -9,7 +9,7 @@
 */
 "use client";
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, type ReactNode } from 'react'
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentCard from '@/components/ui/cards/ContentCard'
 import Modal, { ModalBody } from '@/components/ui/Modal'
@@ -40,6 +40,14 @@ interface AffiliateBookListProps {
   scroll?: boolean
   /** 좁은 화면에서 한 줄 가로 넘김 대신 두 열 세로 격자로 둔다 — 베스트셀러 차트용 */
   mobileGrid?: boolean
+  /** 제목 왼쪽에 서는 액센트 아이콘 */
+  icon?: ReactNode
+  /** 카드 표지 좌상단에 얹는 화면 전용 문구 — 「집필」 탭에서 어느 구성원이 지었는지 밝힐 때 쓴다 */
+  cardBadge?: (book: AffiliateBook) => string | null
+  /** 제목과 책 목록 사이에 끼우는 조작줄 — 책 종류를 고르는 모드 탭용 */
+  headerTabs?: ReactNode
+  /** 위쪽 큰 여백과 구분선을 걷는다 — 둥근 상자처럼 이미 자리와 경계가 있는 부모 안에 얹힐 때 */
+  compact?: boolean
 }
 
 interface GroupBoundary {
@@ -48,7 +56,7 @@ interface GroupBoundary {
   right: { label: string; desc?: string }
 }
 
-export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle, scroll = false, mobileGrid = false }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle, scroll = false, mobileGrid = false, icon, cardBadge, headerTabs, compact = false }: AffiliateBookListProps) {
   const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
   // 한 줄 넘김 선반 — 마우스로 잡아끌어 넘긴다(터치는 브라우저 기본 스크롤이 담당). 규칙은 ui-rail 스킬이 쥔다
   const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>()
@@ -68,16 +76,19 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
 
   return (
     <section className={cn(
-      "w-full border-t border-white/5",
-      hideHeading ? "mt-0 pb-0 pt-4 md:pt-6" : "mt-12 pb-2 pt-6 md:mt-20 md:pt-10",
+      "w-full",
+      compact ? "" : "border-t border-white/5",
+      hideHeading ? "mt-0 pb-0 pt-4 md:pt-6" : compact ? "mt-0 pb-0 pt-0" : "mt-12 pb-2 pt-6 md:mt-20 md:pt-10",
     )}>
       {!hideHeading && (
         /* 수수료·주의 안내는 각 카드의 통합 구매 창(BookPurchaseModal)이 싣는다 */
         <CenteredSectionHeading
           title={heading}
-          className="mb-4 md:mb-7"
+          icon={icon}
+          className="mb-3 md:mb-5"
         />
       )}
+      {headerTabs}
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김(mobileGrid면 두 열 세로 격자) · 넓은 화면: 가운데 정렬해 줄바꿈 — scroll이면 넓은 화면에서도 한 줄 넘김을 유지한다 */}
       <div
@@ -165,6 +176,9 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
               titleBadge={book.titleBadge}
               creator={book.creator}
               thumbnail={book.thumbnail}
+              overlayTopLeft={cardBadge?.(book) ? (
+                <span className="rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary shadow-sm">{cardBadge(book)}</span>
+              ) : undefined}
               href={onDetail ? undefined : `/content/${book.contentId}?category=book`}
               onClick={onDetail ? () => onDetail(book) : undefined}
               showHeader={false}

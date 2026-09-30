@@ -14,6 +14,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  EyeOff,
   MapPin,
   UserPlus,
 } from "lucide-react";
@@ -34,7 +35,7 @@ import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 import type { Locale } from "@/types/locale";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex, contextReview }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
   const tCeleb = useTranslations("celebPage");
   const tProf = useTranslations("profession");
@@ -67,6 +68,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
+  // 스포일러 해제는 리뷰 단위로 — 다른 리뷰가 오면 다시 가려진다
+  const [revealedReview, setRevealedReview] = useState<string | null>(null);
 
   // celeb 전환 시 내부 상태 리셋 (렌더 중 이전 값 비교 — effect 내 setState 금지 규칙 준수)
   const [renderedCelebId, setRenderedCelebId] = useState(celeb.id);
@@ -285,6 +288,43 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                 </button>
                 <FormattedText text={displayBio} />
               </p>
+            </div>
+          )}
+
+          {/* 이 콘텐츠에 대한 감상평 — 인원 구성처럼 콘텐츠 문맥에서 열렸을 때만 */}
+          {contextReview && (
+            <div className="px-6 pt-3">
+              <div className="rounded-xl border border-accent/20 bg-white/[0.03] px-4 py-3">
+                <p className="mb-2 text-xs font-medium text-accent/80">
+                  {t("contentReviewTitle")}
+                </p>
+                {contextReview.isSpoiler && revealedReview !== contextReview.review ? (
+                  <button
+                    type="button"
+                    onClick={() => setRevealedReview(contextReview.review)}
+                    className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] py-2.5 text-xs text-text-secondary hover:bg-white/[0.06] hover:text-text-primary"
+                  >
+                    <EyeOff size={13} />
+                    {t("contentReviewSpoiler")}
+                  </button>
+                ) : (
+                  <div className="max-h-48 overflow-y-auto custom-scrollbar">
+                    <p className="text-sm leading-relaxed text-text-secondary whitespace-pre-line break-words">
+                      <FormattedText text={contextReview.review} />
+                    </p>
+                  </div>
+                )}
+                {celeb.content_count > 1 && (
+                  <Link
+                    href={getCelebProfileUrl(celeb)}
+                    locale={isEn ? "en" : undefined}
+                    className="mt-2.5 flex items-center justify-end gap-1 text-xs text-text-tertiary hover:text-accent"
+                  >
+                    {t("contentReviewMore")}
+                    <ArrowUpRight size={12} />
+                  </Link>
+                )}
+              </div>
             </div>
           )}
 
