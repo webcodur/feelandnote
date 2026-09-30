@@ -8,11 +8,11 @@
 const HANGUL_START = 0xac00;
 const HANGUL_END = 0xd7a3;
 
-/** 마지막 글자에 받침이 있는지. 한글이 아니면 null(판정 불가) */
-function hasFinalConsonant(word: string): boolean | null {
+/** 마지막 글자의 종성 번호(0=받침 없음). 한글이 아니면 null(판정 불가) */
+function finalConsonant(word: string): number | null {
   const last = word.trimEnd().charCodeAt(word.trimEnd().length - 1);
   if (Number.isNaN(last) || last < HANGUL_START || last > HANGUL_END) return null;
-  return (last - HANGUL_START) % 28 !== 0;
+  return (last - HANGUL_START) % 28;
 }
 
 /** 받침 있음 / 없음 순서로 짝지은 조사 */
@@ -32,8 +32,10 @@ export type ParticleKind = keyof typeof PARTICLE_PAIRS;
  */
 export function particleFor(word: string, kind: ParticleKind): string {
   const [withFinal, withoutFinal] = PARTICLE_PAIRS[kind];
-  const final = hasFinalConsonant(word);
-  return final === false ? withoutFinal : withFinal;
+  const final = finalConsonant(word);
+  // ㄹ받침은 「으로/로」에서 「로」를 받는다 — 이들로·서울로·멀리로
+  if (kind === "direction" && final === 8) return withoutFinal;
+  return final === 0 ? withoutFinal : withFinal;
 }
 
 /** 낱말 뒤에 알맞은 조사를 붙여 돌려준다. 예: withParticle("러더퍼드", "subject") → "러더퍼드가" */

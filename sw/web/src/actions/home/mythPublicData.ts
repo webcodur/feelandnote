@@ -20,6 +20,7 @@ export function getMythClientData(data: MythData): MythData {
     regions,
     myths: myths.map((myth) => myth.isPublished ? myth : {
       ...myth,
+      headline: null,
       description: null,
       images: [],
       personIds: [],

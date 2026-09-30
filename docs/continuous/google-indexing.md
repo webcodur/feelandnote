@@ -1,10 +1,11 @@
 # Google 일일 색인 신청
 
-**현재 도달점(2026-09-28):** 인물 검색 제목·설명문 개편 배포 뒤 사이트맵을 API로 재제출하고 11건을 접수했다(조사 데이터 `dailyIndexingRequests`의 09-28 항목).
-다음 신청은 **`/en/celeb/jean-michel-basquiat` → `/en/celeb/agatha-christie`**부터이며, 이후 순번은 조사 데이터 09-28 항목의 `nextQueue`(86건)가 쥔다.
-다음 확인은 09-28 우선 접수분(빌 게이츠·찰리 멍거는 색인됨 상태에서 새 제목 재수집, 헤라클레스·마리아는 첫 수집, 아킬레우스 한국어는 크롤링됨-미색인에서 재평가)의 마지막 크롤과 색인 상태다.
-09-26에 접수한 작품 주소 6건의 재크롤·색인 반영도 아직 확인하지 않았다.
-같은 날 Bing·네이버에는 인물 URL 전량을 IndexNow로 통지했다(규칙은 [SEO](../project/operations/ops-02-seo.md) 「IndexNow」 절).
+**현재 도달점(2026-09-29):** 서비스 전반 개편 뒤 새 인물이 아니라 주요 허브·세력도감·신화도감·오디세우스 재수집을 우선 경로로 돌렸다. 사이트맵 API 재제출(204) 뒤 11건을 접수하고 `en/celeb/odysseus`에서 「할당량 초과」로 끝났다(조사 데이터 `dailyIndexingRequests`의 09-29 항목). 접수: 홈 ko/en·`/explore` ko/en·세력도감 허브 ko·신화도감 허브 ko·`/explore/works` ko/en·`/about` ko/en·`/celeb/odysseus` ko.
+중간에 `en/explore/faction`·`en/explore/myth` 두 건이 결과 대화상자 미확인(PENDING)으로 멈췄다 — 할당량이 아니라 live test가 제한 시간을 넘긴 것으로 보인다. `en/explore/faction`은 이후 API 검사에서 색인됨(PASS)으로 확인됐고 `en/explore/myth`는 미색인·버튼 잔존이라 큐 맨 앞에 남겼다.
+다음 신청은 **`en/celeb/odysseus` → `en/explore/myth` → 세력도감 상세 6테마(ko·en) → 나머지 허브 9종(ko·en)** 순이며 이후는 09-28 항목의 인물 큐다. 조사 데이터 09-29 항목의 `nextQueue`(119건)가 쥔다.
+옛 신화 주소 `/explore/myth?myth=<slug>`는 canonical이 `/explore/myth` 허브로 수렴해 개별 신청이 무의미하다. 26.09.29 신화마다 `/explore/myth/<slug>` 주소를 여는 개편을 만들었다(미배포). 배포하면 옛 주소는 308로 옮겨 가고, 신화·세력 한 편 주소를 큐에 넣는다(규칙은 [SEO](../project/operations/ops-02-seo.md) 「신화·세력도감」).
+같은 날 우선 경로 44 URL을 Bing 공용·네이버 공식 IndexNow로 통지해 둘 다 HTTP 200을 받았다(규칙은 [SEO](../project/operations/ops-02-seo.md) 「IndexNow」 절).
+다음 확인은 09-28 우선 접수분(빌 게이츠·찰리 멍거 재수집, 헤라클레스·마리아 첫 수집, 아킬레우스 한국어 재평가)과 오늘 접수분의 마지막 크롤·색인 상태다.
 
 주요 미색인 인물 URL은 Search Console에서 색인 생성을 직접 요청한다. 자동 재수집만 기다리지 않고,
 매일 아직 요청하지 않은 URL을 Google이 요청 한도·제한을 표시할 때까지 순차 신청한다.
@@ -27,7 +28,7 @@
 
 - Aside에는 프로필이 여럿이고 `webcodur@gmail.com`은 `u0`(Profile 0)에 로그인돼 있다. `aside account list`로 먼저 확인하고 `aside repl --account u0`로 연다. 기본 프로필(`u1`)만 보고 구글 전체 로그아웃·재로그인으로 풀지 않는다(이날 그렇게 해 기본 프로필의 구글 계정 10개를 불필요하게 로그아웃했다).
 - `openTab()`으로 연 탭은 repl 호출이 끝나면 닫힌다. 검사 → 「색인 생성 요청」 → 결과 대화상자 확인·닫기를 URL당 repl 한 호출(45~95초) 안에 끝냈다. 요청 버튼은 검사 완료 뒤 본문에 대상 URL이 보이고 스냅숏에 「색인 생성 요청」 버튼이 있을 때만 누른다.
-- 이 경로를 스크립트로 남겼다. `sw/remotion`에서 `node scripts/_scratch-gsc-aside-queue.mjs [우선 경로 ...]`를 실행하면 우선 경로와 조사 데이터 최신 `nextQueue`를 API로 먼저 검사하고(큐 항목은 색인됨이면 건너뛴다), URL마다 `_scratch-gsc-aside-request.js`를 `aside repl --account u0`로 돌려 할당량 초과에서 멈춘 뒤 오늘 항목을 조사 데이터에 붙인다. 같은 날 두 번 돌리지 않는다. 이 문서의 도달점 문장은 사람이 고친다.
+- 이 경로를 스크립트로 남겼다. `sw/remotion`에서 `node scripts/_scratch-gsc-aside-queue.mjs [우선 경로 ...]`를 실행하면 우선 경로와 조사 데이터 최신 `nextQueue`를 API로 먼저 검사하고(큐 항목은 색인됨이면 건너뛴다), URL마다 `_scratch-gsc-aside-request.js`를 `aside repl --account u0`로 돌려 할당량 초과나 결과 미확인(PENDING)에서 멈춘 뒤 오늘 항목을 조사 데이터에 붙인다. 같은 날 두 번 돌리지 않는다. PENDING처럼 할당량이 아닌 이유로 일찍 멈춘 날은 `GSC_QUEUE_CONTINUE=1`을 붙여 이어 돌린다 — 오늘 이미 누른 URL(접수·오류·정지)은 자동으로 빼고 오늘 항목에 병합한다. 이 문서의 도달점 문장은 사람이 고친다.
 - URL Inspection API 호출은 건당 약 7초이고, 이날 96건 중 8건이 `Internal error`·시간 초과로 실패했다. 실패한 큐 항목은 미색인으로 보고 신청 대상에 남긴다.
 
 Chrome을 UIA로 돌릴 때 요령(09-23 확인):

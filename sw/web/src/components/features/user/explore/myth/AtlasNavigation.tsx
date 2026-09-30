@@ -1,23 +1,23 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import AtlasPicker from "./AtlasPicker";
 import { ATLAS_NAV_LAYOUT, atlasSelection, firstAtlasEntry, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
 
 interface Props {
   tree: AtlasTheme[];
   selection: AtlasSelection;
   onSelect: (selection: AtlasSelection) => void;
+  /** 선택기 창은 신화 단위 리마운트(MythOverview key) 밖에서 떠야 한다 — 호출부가 AtlasPicker를 띄운다 */
+  onOpenPicker: (level: number) => void;
   myth: boolean;
   overview?: ReactNode;
 }
 
-export default function AtlasNavigation({ tree, selection, onSelect, myth, overview }: Props) {
+export default function AtlasNavigation({ tree, selection, onSelect, onOpenPicker, myth, overview }: Props) {
   const t = useTranslations("explore.ui.atlas");
   const tUi = useTranslations("explore.ui");
-  const [pickerLevel, setPickerLevel] = useState<number | null>(null);
   const { theme, entry, group } = atlasSelection(tree, selection);
   const labels = [t(myth ? "region" : "theme"), t(myth ? "myth" : "faction"), t("group")];
   const choices = [
@@ -45,7 +45,7 @@ export default function AtlasNavigation({ tree, selection, onSelect, myth, overv
       {names.map((name, level) => (
         <div key={keys[level]} className={ATLAS_NAV_LAYOUT.row} data-atlas-level={level}>
           <button type="button" className={arrow} disabled={choices[level].length < 2} onClick={() => step(level, -1)} aria-label={`${tUi("prev")} ${labels[level]}`}><ChevronLeft size={17} aria-hidden /></button>
-          <button type="button" aria-haspopup="dialog" aria-label={`${labels[level]} · ${name} · ${t("optionCount", { count: counts[level] })}`} title={name} data-atlas-count={counts[level]} onClick={() => setPickerLevel(level)}
+          <button type="button" aria-haspopup="dialog" aria-label={`${labels[level]} · ${name} · ${t("optionCount", { count: counts[level] })}`} title={name} data-atlas-count={counts[level]} onClick={() => onOpenPicker(level)}
             className={`flex min-w-0 items-center justify-center gap-1.5 break-keep px-1 py-2 text-center text-sm font-semibold outline-none hover:bg-white/5 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:flex-col md:gap-1 md:py-2.5 md:text-base ${level === 1 ? "text-accent" : "text-text-primary"}`}>
             <span data-atlas-label className="order-last hidden shrink-0 text-sm font-medium leading-5 text-text-secondary md:order-first md:inline">{labels[level]}</span>
             <span data-atlas-value className="line-clamp-2">{name}</span>
@@ -54,8 +54,6 @@ export default function AtlasNavigation({ tree, selection, onSelect, myth, overv
         </div>
       ))}
       {overview && <div className={ATLAS_NAV_LAYOUT.footer}>{overview}</div>}
-      {pickerLevel !== null && <AtlasPicker tree={tree} initial={selection} initialLevel={pickerLevel} myth={myth}
-        onClose={() => setPickerLevel(null)} onSelect={(next) => { onSelect(next); setPickerLevel(null); }} />}
     </div>
   );
 }

@@ -15,6 +15,7 @@ import {
   buildCelebDescription,
   buildCelebTitle,
   rankRecordTypes,
+  rankSourceWork,
   type CelebMetaInput,
 } from "@/lib/celeb/meta";
 import { getAlternates, getSeoImageUrl, SITE_NAME } from "@/lib/seo";
@@ -49,6 +50,7 @@ export function createCelebMetaInput(
     sourceWorks: sources.map((source) => ({
       title: source.title,
       relationType: source.relationType,
+      sourceRank: rankSourceWork(source),
     })),
     signatureWorks,
   };

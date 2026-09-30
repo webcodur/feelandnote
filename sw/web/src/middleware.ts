@@ -73,6 +73,17 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // 0-1) 옛 신화 바로가기(/explore/myth?myth=<slug>)는 신화마다의 주소로 영구 이동한다(26.09.29).
+  //      그룹 선택(?group=) 같은 나머지 조건은 그대로 싣는다. 없는 slug는 새 주소에서 404로 판단된다.
+  const legacyMythMatch = rawPathname.match(/^\/(?:(ko|en)\/)?explore\/myth\/?$/)
+  const legacyMythSlug = legacyMythMatch ? request.nextUrl.searchParams.get('myth')?.trim() : null
+  if (legacyMythMatch && legacyMythSlug) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/${legacyMythMatch[1] ? `${legacyMythMatch[1]}/` : ''}explore/myth/${encodeURIComponent(legacyMythSlug)}`
+    url.searchParams.delete('myth')
+    return NextResponse.redirect(url, 308)
+  }
+
   // 1) 로컬 개발 환경에서만 점검 화면의 진입·종료를 시험한다.
   if (canUseMaintenancePreview()) {
     const previewControl = request.nextUrl.searchParams.get(MAINTENANCE_PREVIEW_PARAM)

@@ -447,13 +447,18 @@
           "VIDEO": "영화",
           "GAME": "게임",
           "MUSIC": "음악"
-        }
+        },
+        "awardTitle": "역대 {title} 수상작 {count, number}{type, select, GAME {개} MUSIC {장} other {편}}",
+        "awardTitleWithCurator": "역대 {title} 수상작 {count, number}{type, select, GAME {개} MUSIC {장} other {편}} · {curator}",
+        "awardLead": "{curator} {title} 역대 수상작.",
+        "awardLeadSelf": "{title} 역대 수상작.",
+        "awardRecent": "최근 수상작: {works}."
       },
       "metaTitleByMedia": {
-        "VIDEO": "기관 선정 영화 목록 - 영화제 수상작과 역대 명작",
-        "GAME": "기관 선정 게임 목록 - 올해의 게임 수상작",
-        "MUSIC": "기관 선정 음악 목록 - 올해의 앨범 수상작",
-        "BOOK": "기관 선정 도서 목록 - 대학 권장도서와 문학상 수상작"
+        "VIDEO": "명작 영화 목록 - 칸·베니스·아카데미 수상작과 역대 명작",
+        "GAME": "역대 GOTY 수상작 모음 - 올해의 게임 시상식",
+        "MUSIC": "역대 올해의 앨범 수상작 - 그래미·브릿·머큐리",
+        "BOOK": "추천 도서 목록 - 대학 권장도서와 문학상 수상작"
       }
     },
     "popular": {

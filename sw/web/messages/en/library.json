@@ -447,13 +447,18 @@
           "VIDEO": "film",
           "GAME": "game",
           "MUSIC": "music"
-        }
+        },
+        "awardTitle": "{title}: Every Winner",
+        "awardTitleWithCurator": "{title}: Every Winner · {curator}",
+        "awardLead": "Every {title} winner from {curator}.",
+        "awardLeadSelf": "Every {title} winner.",
+        "awardRecent": "Most recent: {works}."
       },
       "metaTitleByMedia": {
-        "VIDEO": "Curated Film Lists - Festival Winners & All-Time Greats",
-        "GAME": "Curated Game Lists - Game of the Year Winners",
-        "MUSIC": "Curated Music Lists - Album of the Year Winners",
-        "BOOK": "Curated Book Lists - University Reading Lists & Literary Prize Winners"
+        "VIDEO": "Great Film Lists - Cannes, Venice & Oscar Winners and All-Time Greats",
+        "GAME": "Game of the Year Winners - Every Major GOTY Award",
+        "MUSIC": "Album of the Year Winners - GRAMMY, BRIT & Mercury",
+        "BOOK": "Recommended Book Lists - University Reading Lists & Literary Prize Winners"
       }
     },
     "popular": {

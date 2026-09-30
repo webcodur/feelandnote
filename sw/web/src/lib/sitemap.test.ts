@@ -12,7 +12,19 @@ test('works and curated URLs use canonical explore paths in both locales', async
   const previousFetch = globalThis.fetch
   process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
   process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-anon-key'
-  globalThis.fetch = async () => Response.json([{ slug: 'example', curated_lists: [{ slug: 'list' }] }])
+  globalThis.fetch = async (input) => {
+    const path = new URL(String(input)).pathname
+    if (path === '/rest/v1/faction_lv2') {
+      return Response.json([
+        { id: 'm1', slug: 'homer-odyssey', is_myth: true, published: true, is_featured: false },
+        { id: 'm2', slug: 'closed-myth', is_myth: true, published: false, is_featured: false },
+        { id: 'f1', slug: 'openai', is_myth: false, published: false, is_featured: true },
+        { id: 'f2', slug: 'empty-faction', is_myth: false, published: false, is_featured: true },
+      ])
+    }
+    if (path === '/rest/v1/faction_member_rows') return Response.json([{ lv2_id: 'm1' }, { lv2_id: 'm2' }, { lv2_id: 'f1' }])
+    return Response.json([{ slug: 'example', curated_lists: [{ slug: 'list' }] }])
+  }
   t.after(() => {
     if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
     else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
@@ -31,6 +43,12 @@ test('works and curated URLs use canonical explore paths in both locales', async
     }
   }
   assert.ok(entries.every(({ url }) => !url.includes('/library')))
+  // 신화·세력은 화면이 여는 것만 — 닫힌 신화와 인물 없는 세력은 싣지 않는다
+  const urls = entries.map(({ url }) => url)
+  for (const path of ['/explore/myth/homer-odyssey', '/en/explore/myth/homer-odyssey', '/explore/faction/openai', '/en/explore/faction/openai']) {
+    assert.ok(urls.includes(`https://feelandnote.com${path}`), `missing ${path}`)
+  }
+  assert.ok(!urls.some((url) => /closed-myth|empty-faction/.test(url)))
   // 베스트셀러는 작품 첫 화면이 맡는다 — 옮겨 가는 옛 주소를 싣지 않는다
   assert.ok(entries.every(({ url }) => !/\/explore\/works\/popular$/.test(url)))
 })

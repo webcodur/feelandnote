@@ -9,6 +9,8 @@ function entry(id: string, name: string, level: 1 | 2, lv1Id: string | null): Fa
     id,
     name,
     name_en: null,
+    headline: null,
+    headline_en: null,
     description: null,
     description_en: null,
     color: '#000000',

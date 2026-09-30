@@ -1,5 +1,6 @@
 import { getLocale } from 'next-intl/server';
 import { YOUTUBE_CHANNELS } from '@/constants/youtube';
+import { summarizeSentences } from './seoSentences';
 
 export const SITE_URL = 'https://feelandnote.com';
 /** 워드마크는 한 단어 `feelandnote`다. 검색어 토큰과 일치해야 하므로 `Feel&Note`·`Feel & Note`로 되돌리지 않는다. */
@@ -79,9 +80,9 @@ export function getSeoImageUrl(
   return url.toString();
 }
 
-/** 검색 설명에 HTML 엔티티나 잘린 직선 인용부호가 노출되지 않도록 평문으로 정규화한다. */
-export function toSeoDescription(value: string, maxLength = 160): string {
-  const normalized = value
+/** 검색 설명에 HTML 엔티티나 잘린 직선 인용부호가 노출되지 않도록 평문으로 정규화한다. 길이는 줄이지 않는다. */
+export function normalizeSeoText(value: string): string {
+  return value
     .replace(/<[^>]*>/g, ' ')
     .replace(/&(?:#39|#x27);/gi, "'")
     .replace(/&quot;/gi, '"')
@@ -91,31 +92,16 @@ export function toSeoDescription(value: string, maxLength = 160): string {
     .replace(/(?<!\w)'([^'\n]+)'(?!\w)/g, '‘$1’')
     .replace(/\s+/g, ' ')
     .trim();
-
-  if (normalized.length <= maxLength) return normalized;
-
-  const slice = normalized.slice(0, maxLength - 1);
-  const lastSpace = slice.lastIndexOf(' ');
-  const end = lastSpace > maxLength * 0.65 ? lastSpace : slice.length;
-  return `${slice.slice(0, end).trimEnd()}…`;
 }
 
 /**
- * 긴 소개문을 문장 단위로 줄인 검색 설명. maxLength 안에 드는 앞 문장까지만 싣는다.
+ * 긴 소개문을 문장 단위로 줄인 검색 설명. maxLength 안에 통째로 드는 앞 문장까지만 싣는다.
  * 기관 선정 소개문(170~690자)을 통째로 실었더니 검색 결과가 첫 문장 중간에서 잘렸다(26.09.28 감사).
- * 첫 문장부터 넘치면 toSeoDescription처럼 낱말 경계에서 자른다.
+ * 첫 문장부터 넘치면 빈 문자열이다 — 「…」로 자르지 않고, 부르는 쪽이 자기 머리 문장이나 대체 문구를 쓴다(26.09.29).
+ * 문장 나누기는 괄호·따옴표 안과 약어(no.) 뒤에서 끊지 않는다(lib/seoSentences.ts).
  */
 export function toSeoSummary(value: string, maxLength = 160): string {
-  const normalized = toSeoDescription(value, Number.MAX_SAFE_INTEGER);
-  if (normalized.length <= maxLength) return normalized;
-
-  let summary = '';
-  for (const sentence of normalized.split(/(?<=[.!?。])\s+/)) {
-    const next = summary ? `${summary} ${sentence}` : sentence;
-    if (next.length > maxLength) break;
-    summary = next;
-  }
-  return summary || toSeoDescription(normalized, maxLength);
+  return summarizeSentences(normalizeSeoText(value), maxLength);
 }
 
 /**

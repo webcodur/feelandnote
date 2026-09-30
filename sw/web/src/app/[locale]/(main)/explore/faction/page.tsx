@@ -21,10 +21,9 @@ export async function generateMetadata() {
     getFeaturedFactions(),
     getLocale() as Promise<Locale>,
   ]);
-  // 설명이 없으면 사이트 공통 설명을 물려받아 홈과 중복됐다 — 실제 섹션 이름과 규모로 쓴다
+  // 설명이 없으면 사이트 공통 설명을 물려받아 홈과 중복됐다 — 실제 섹션 이름으로 쓴다.
+  // 세력·인물 수는 싣지 않는다 — 자주 바뀌는데 검색 결과는 다음 방문까지 옛 숫자를 보인다(26.09.29)
   const sections = buildFactionSections(factions);
-  const people = new Set(sections.flatMap((section) => section.entries.flatMap((entry) => entry.celebs.map((celeb) => celeb.id))));
-  const themes = sections.reduce((sum, section) => sum + section.entries.length, 0);
   const names = sections.slice(0, META_SECTION_NAMES).map((section) => localizedFactionName(section.faction, locale));
   return {
     title: t("hubMetaTitle"),
@@ -32,8 +31,6 @@ export async function generateMetadata() {
       ? t("metaDescription", {
         // 한국어는 뒤에 「등」이 붙으므로 쉼표로만 잇고, 영어는 「A, B, and C」로 잇는다
         sections: locale === "en" ? new Intl.ListFormat("en", { type: "conjunction" }).format(names) : names.join(", "),
-        themes,
-        people: people.size,
       })
       : undefined,
     alternates: await getLocalizedAlternates("/explore/faction"),

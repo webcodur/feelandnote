@@ -14,8 +14,9 @@ import {
   getCreativeWorkCreatorJsonLd,
   getSeoImageUrl,
   SITE_NAME,
-  toSeoDescription,
+  normalizeSeoText,
 } from "@/lib/seo";
+import { appendWithinSnippet } from "@/lib/seoSentences";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 
@@ -56,11 +57,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const { title, description, thumbnail } = data.content;
+  const { title, description, thumbnail, creator, type } = data.content;
   const reviewDescription = data.initialReviews.find((review) => !review.is_spoiler)?.review;
-  const desc = toSeoDescription(
-    description || reviewDescription || t("metaFallback", { title }),
-  );
+  // 공유 미리보기 설명 — 「누구의 무슨 작품」 뒤에 소개문(없으면 감상문)의 끝난 문장만 두 줄 안에 잇는다.
+  // 소개문 전문을 싣던 때는 첫 문장 중간에서 「…」로 잘렸다(26.09.29). 문장이 하나도 안 들어가면 머리만 둔다
+  const body = description || reviewDescription;
+  const desc = creator
+    ? appendWithinSnippet(t("metaLead", { creator, title, type }), body ? normalizeSeoText(body) : null)
+    : appendWithinSnippet("", body ? normalizeSeoText(body) : null) || t("metaFallback", { title });
   const seoLocale = locale === "en" ? "en" : "ko";
   const seoImageUrl = getSeoImageUrl("content", contentId, seoLocale, thumbnail);
   const seoImageAlt = locale === "en" ? `${title} cover` : `${title} 표지`;

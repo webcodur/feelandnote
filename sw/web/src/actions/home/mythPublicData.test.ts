@@ -5,7 +5,7 @@ import type { Myth, MythData, MythPerson, MythWork } from "./mythTypes";
 
 function fixture(): MythData {
   const myth = (id: string, isPublished: boolean, personIds: string[]): Myth => ({
-    id, slug: id, name: id, isPublished, regionId: "region", personIds, leadPersonIds: personIds.slice(0, 3),
+    id, slug: id, name: id, headline: `${id} headline`, isPublished, regionId: "region", personIds, leadPersonIds: personIds.slice(0, 3),
     description: `${id} overview`, images: [{ url: `${id}.jpg`, label: null }],
     music: null,
     groups: [{ id: "group", name: "group", description: "group story", personIds }],
@@ -40,7 +40,7 @@ test("public view retains complete public stories and shared works without priva
   assert.deepEqual(result.works[1].personIds, ["shared-person"]);
   assert.deepEqual(result.regions, data.regions);
   assert.deepEqual(result.myths[0], data.myths[0]);
-  assert.deepEqual(result.myths[1], { ...data.myths[1], description: null, images: [], personIds: [], leadPersonIds: [], groups: [] });
+  assert.deepEqual(result.myths[1], { ...data.myths[1], headline: null, description: null, images: [], personIds: [], leadPersonIds: [], groups: [] });
   assert.deepEqual(data, original, "the shared cached data must stay unchanged");
   // The overview shelf selects works by work.personIds, independently of a person's detail shelf.
   data.people[1].sourceIds = [];

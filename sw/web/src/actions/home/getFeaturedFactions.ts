@@ -40,6 +40,9 @@ export interface FeaturedFaction {
   id: string
   name: string
   name_en: string | null
+  /** 한 줄 정의 — 세력 카드(lv2)만 둔다. 묶음(lv1)은 null */
+  headline: string | null
+  headline_en: string | null
   description: string | null
   description_en: string | null
   color: string
@@ -80,6 +83,8 @@ interface FeaturedFactionRow {
   id: string
   name: string
   name_en: string | null
+  headline: string | null
+  headline_en: string | null
   description: string | null
   description_en: string | null
   color: string
@@ -139,7 +144,7 @@ async function fetchFactionRows(): Promise<FeaturedFactionRow[]> {
       .eq('is_myth', false)
       .order('sort_order', { ascending: true }),
     db.from('faction_lv2')
-      .select('id, lv1_id, name, name_en, description, description_en, color, slug, team_images, theme_music, is_featured, is_fiction')
+      .select('id, lv1_id, name, name_en, headline, headline_en, description, description_en, color, slug, team_images, theme_music, is_featured, is_fiction')
       .eq('is_myth', false)
       .order('sort_order', { ascending: true }),
   ])
@@ -149,7 +154,7 @@ async function fetchFactionRows(): Promise<FeaturedFactionRow[]> {
   const lv1ById = new Map((lv1Result.data ?? []).map((row) => [row.id, row]))
   return [
     ...(lv1Result.data ?? []).map((row): FeaturedFactionRow => ({
-      ...row, team_images: null, theme_music: null, parentSlug: null, isGroup: true,
+      ...row, headline: null, headline_en: null, team_images: null, theme_music: null, parentSlug: null, isGroup: true,
     })),
     ...(lv2Result.data ?? []).map((row): FeaturedFactionRow => ({
       ...row, parentSlug: lv1ById.get(row.lv1_id)?.slug ?? null, isGroup: false,
@@ -231,7 +236,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedFactionRows = unstable_cache(fetchFactionRows, ['featured-faction-rows-v1'], {
+const getCachedFactionRows = unstable_cache(fetchFactionRows, ['featured-faction-rows-v2'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })
@@ -246,6 +251,8 @@ function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[],
     id: faction.id,
     name: faction.name,
     name_en: faction.name_en ?? null,
+    headline: faction.headline ?? null,
+    headline_en: faction.headline_en ?? null,
     description: faction.description ?? null,
     description_en: faction.description_en ?? null,
     color: faction.color,

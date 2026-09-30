@@ -3,6 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { Link } from "@/i18n/navigation";
+import { mythHref } from "@/components/features/user/explore/myth/mythHref";
 import { readableFactionBorder, readableFactionColor } from "@/lib/utils/factionColor";
 import type { CelebFactionInfo } from "@/types/home";
 import { useTranslations, useLocale } from "next-intl";
@@ -43,7 +44,10 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, title, z
       <div className="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar flex flex-col gap-6">
         {factions.map((faction) => {
           // 세력 페이지(/explore/faction/[slug])는 featured 테마만 선다 — 그 외는 텍스트 칩으로 둔다
-          const href = faction.is_featured && faction.slug ? `/explore/faction/${faction.slug}` : null;
+          // 신화 소속은 신화 주소로 — 세력도감 주소는 신화를 싣지 않아 404였다(26.09.29)
+          const href = faction.is_featured && faction.slug
+            ? faction.is_myth ? mythHref(faction.slug) : `/explore/faction/${faction.slug}`
+            : null;
           const chipClass = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border";
           const chipStyle = {
             backgroundColor: `${faction.color}14`,

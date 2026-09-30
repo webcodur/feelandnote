@@ -278,6 +278,7 @@ export default async function CelebPage({ params }: PageProps) {
             birthDate={profile.birth_date}
             celebReality={profile.celeb_reality}
             relations={profile.relations}
+            factions={profile.factions}
           />
         }
         affiliateBooksSlot={

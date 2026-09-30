@@ -34,8 +34,13 @@ export interface FactionItem {
   id: string
   /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
   isMyth: boolean
+  /** 신화의 세계에서 연 신화인가(faction_lv2.published). 세력은 늘 true — 세력도감 노출은 조회가 is_featured로 이미 걸렀다 */
+  isPublished: boolean
   name: string
   name_en: string | null
+  /** 한 줄 정의(faction_lv2.headline) */
+  headline: string | null
+  headline_en: string | null
   slug: string
   color: string
   factionImageUrl: string | null
@@ -67,6 +72,9 @@ interface FactionFactionAssignmentRow {
     description_en: string | null
     theme_music: unknown
     is_myth: boolean
+    published: boolean | null
+    headline: string | null
+    headline_en: string | null
   } | null
 }
 
@@ -250,7 +258,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       const lv2Ids = [...new Set(memberRows.map((r) => r.lv2_id))]
       const { data: factionRows, error: factionRowsError } = await db
         .from('faction_lv2')
-        .select('id, name, name_en, slug, color, description, description_en, theme_music, is_myth')
+        .select('id, name, name_en, slug, color, description, description_en, theme_music, is_myth, published, headline, headline_en')
         .in('id', lv2Ids)
         .eq('is_featured', true)
         .overrideTypes<NonNullable<FactionFactionAssignmentRow['tag']>[], { merge: false }>()
@@ -306,8 +314,11 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     .map((a) => ({
       id: a.tag.id,
       isMyth: a.tag.is_myth === true,
+      isPublished: a.tag.is_myth !== true || a.tag.published === true,
       name: a.tag.name,
       name_en: a.tag.name_en,
+      headline: a.tag.headline ?? null,
+      headline_en: a.tag.headline_en ?? null,
       slug: a.tag.slug as string,
       color: a.tag.color ?? '#b4965a',
       factionImageUrl: a.image_url ?? null,
@@ -410,7 +421,7 @@ const getCelebBySlugCached = (slug: string) =>
     CACHE_TAGS.CELEBS,
     slug,
     // v10: 다른 이름(aliases)을 함께 싣는 조회 결과만 캐시한다.
-    ['celeb-by-slug-v10-aliases', slug],
+    ['celeb-by-slug-v11-faction-headline', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS] },
   )

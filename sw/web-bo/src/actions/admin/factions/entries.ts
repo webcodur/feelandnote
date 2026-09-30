@@ -22,6 +22,9 @@ export interface FactionEntry {
   id: string
   name: string
   name_en: string | null
+  /** 한 줄 정의 — 이름 아래와 검색 설명 첫 문장. L2만 두고 L1은 null. 규칙은 docs/project/service/service-01-explore.md 「한 줄 정의」 */
+  headline: string | null
+  headline_en: string | null
   description: string | null
   description_en: string | null
   color: string
@@ -115,6 +118,9 @@ interface UpdateEntryInput {
   id: string
   name?: string
   name_en?: string | null
+  /** L2만 받는다 — faction_lv1에는 이 칸이 없다 */
+  headline?: string | null
+  headline_en?: string | null
   description?: string
   description_en?: string | null
   color?: string
@@ -136,6 +142,8 @@ function normalizeEntry(row: Record<string, unknown>, level: 1 | 2): FactionEntr
     id: row.id as string,
     name: row.name as string,
     name_en: (row.name_en as string | null) ?? null,
+    headline: level === 2 ? ((row.headline as string | null) ?? null) : null,
+    headline_en: level === 2 ? ((row.headline_en as string | null) ?? null) : null,
     description: (row.description as string | null) ?? null,
     description_en: (row.description_en as string | null) ?? null,
     color: (row.color as string | null) ?? '#7c4dff',
@@ -376,6 +384,8 @@ export async function updateFactionEntry(input: UpdateEntryInput): Promise<{ suc
   if (input.sort_order !== undefined) updateData.sort_order = input.sort_order
   if (input.is_featured !== undefined) updateData.is_featured = input.is_featured
   if (level === 2) {
+    if (input.headline !== undefined) updateData.headline = input.headline?.trim() || null
+    if (input.headline_en !== undefined) updateData.headline_en = input.headline_en?.trim() || null
     if (input.published !== undefined) updateData.published = input.published
     if (input.lv1_id !== undefined && input.lv1_id) updateData.lv1_id = input.lv1_id
     if (input.start_date !== undefined) updateData.start_date = input.start_date || null

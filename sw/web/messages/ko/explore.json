@@ -203,7 +203,8 @@
         "allMembers": "전체 구성원",
         "browseAll": "선택기",
         "comingSoon": "준비 중",
-        "optionCount": "{count}개 선택 가능"
+        "optionCount": "{count}개 선택 가능",
+        "done": "선택 완료"
       }
     },
     "hub": {
@@ -249,10 +250,10 @@
         "eyebrow": "특별 탐색",
         "title": "신화의 세계",
         "description": "신화의 핵심 이야기와 함의를 읽고, 그 세계의 구성원을 함께 살펴봅니다.",
-        "metaDescription": "{regions} 등 {regionCount, number}개 지역의 신화 {mythCount, number}편. 신화마다 핵심 이야기와 함의를 읽고, 등장인물 {people, number}명과 원전을 함께 살펴봅니다.",
+        "metaDescription": "{regions} 등 지역별로 나눈 세계의 신화와 등장인물.",
         "stats": "신화권 {myths} · 인물 {people} · 작품 {works}",
         "mythNav": "신화권 선택",
-        "allMyths": "전체",
+        "allMyths": "전체 신화",
         "memberList": "구성원 목록",
         "sortLabel": "목록 정렬",
         "sortRelations": "관계 많은 순",
@@ -328,7 +329,9 @@
         "searchImages": "장면 제목 검색",
         "noMatchingImages": "일치하는 장면이 없습니다.",
         "readEnding": "후속 이야기 읽기",
-        "personInTheme": "{theme}에서의 {name}"
+        "personInTheme": "{theme}에서의 {name}",
+        "hubMetaTitle": "신화의 세계 - 세계 신화의 줄거리와 등장인물",
+        "coverImage": "대표 이미지"
       },
       "relationMap": {
         "title": "관계망",
@@ -449,7 +452,9 @@
       "backToOverview": "테마 개요로",
       "personInTheme": "{theme}에서의 {name}",
       "hubMetaTitle": "세력도감 - 주제로 묶은 인물과 진영",
-      "metaDescription": "{sections} 등 {themes, number}개 테마에 모인 인물 {people, number}명을 진영별로 나눠 이야기와 관계를 살펴보세요."
+      "metaDescription": "{sections} 등 분야별로 묶은 인물 세력과 진영.",
+      "allThemes": "전체 세력",
+      "memberOf": "소속 신화·세력"
     },
     "monologue": {
       "metaTitle": "가상독백 - 인물의 목소리로 듣는 삶과 철학",

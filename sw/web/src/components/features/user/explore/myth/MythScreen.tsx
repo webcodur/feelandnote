@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Clock3 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { MythData, MythPerson, MythWork } from "@/actions/home/mythTypes";
-import { useRouter } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import AtlasNavigation from "./AtlasNavigation";
+import AtlasPicker from "./AtlasPicker";
 import { ATLAS_GROUP_PARAM, type AtlasSelection, type AtlasTheme } from "./atlasNavigationData";
 import { mythGroupName } from "./mythGroupName";
 import MythPersonPicker from "./MythPersonPicker";
@@ -17,7 +18,7 @@ import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperC
 import { useRegisterFactionMusic } from "@/contexts/FactionMusicContext";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
-import { MYTH_LAST_COOKIE, MYTH_LAST_COOKIE_MAX_AGE, MYTH_OPENING_SLUG, MYTH_PARAM } from "./mythHref";
+import { MYTH_LAST_COOKIE, MYTH_LAST_COOKIE_MAX_AGE, MYTH_OPENING_SLUG, MYTH_PARAM, mythHref, mythSlugFromPath } from "./mythHref";
 
 /** 팩션도 같은 선택·개요·그룹·본문을 쓴다. 주소 이동과 인물별 자료만 호출부가 제공한다. */
 export interface ThemeScreenOptions {
@@ -53,9 +54,11 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
   const router = useRouter();
   const t = useTranslations("explore.hub.myth");
   const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
-  /* 주소에 신화가 있으면(음악 재생기 바로가기 등) 그 신화를 고른 채 연다 */
+  /* 신화 주소(/explore/myth/<slug>)면 그 신화를 고른 채 연다. 옛 바로가기(?myth=)는 미들웨어가 옮기지만
+     미들웨어를 거치지 않은 화면 안 이동에 대비해 함께 읽는다 */
   const searchParams = useSearchParams();
-  const requestedSlug = faction ? null : searchParams.get(MYTH_PARAM);
+  const pathname = usePathname();
+  const requestedSlug = faction ? null : mythSlugFromPath(pathname) ?? searchParams.get(MYTH_PARAM);
   const published = data.myths.filter((myth) => myth.isPublished);
   const publishedBySlug = (slug: string | null) => (slug ? published.find((myth) => myth.slug === slug) : undefined);
   const requestedMyth = publishedBySlug(requestedSlug);
@@ -66,6 +69,8 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
   const [regionId, setRegionId] = useState<string | null>(openingMyth?.regionId ?? data.regions[0]?.id ?? null);
   const [mythId, setMythId] = useState<string | null>(openingMyth?.id ?? null);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  /* 선택기는 선택을 적용해도 닫지 않는다 — 개요 상자가 신화 단위로 리마운트되므로 창은 여기서 띄운다 */
+  const [pickerLevel, setPickerLevel] = useState<number | null>(null);
   const requestedGroup = searchParams.get(ATLAS_GROUP_PARAM);
   const [groupId, setGroupId] = useState<string | null>(requestedGroup);
   const [appliedGroup, setAppliedGroup] = useState(requestedGroup);
@@ -88,33 +93,23 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
     }
   }
 
-  /* 바로가기 주소로 연 신화를 마지막 신화로 기억한다. 기본 신화로 열린 채면 기억하지 않는다 —
+  /* 신화 주소로 연 신화를 마지막 신화로 기억한다. 첫 화면(/explore/myth)이 기본 신화로 열린 채면 기억하지 않는다 —
      그래야 기본값을 바꿨을 때 아직 고른 적 없는 방문자가 새 기본값을 본다.
-     아래에서 첫 진입 주소에 붙인 slug도 우리가 쓴 것이라 기억에서 뺀다 */
-  const autoParamSlug = useRef<string | null>(null);
+     첫 화면은 주소를 바꾸지 않는다 — 신화의 세계 자체의 정본 주소라 신화 주소로 덮지 않는다 */
   const linkedSlug = requestedMyth?.slug;
   useEffect(() => {
-    if (linkedSlug && linkedSlug !== autoParamSlug.current) saveLastMyth(linkedSlug);
+    if (linkedSlug) saveLastMyth(linkedSlug);
   }, [linkedSlug]);
 
-  /* 첫 진입도 주소가 보이는 신화를 가리키게 한다 — 그래야 그대로 공유·새로고침해도 같은 신화가 열린다.
-     없는 slug가 와도 기본 신화 slug로 주소를 정정해 주소와 화면이 어긋나지 않는다 */
-  useEffect(() => {
-    if (faction || requestedMyth || !openingMyth?.slug) return;
-    autoParamSlug.current = openingMyth.slug;
-    const url = new URL(window.location.href);
-    url.searchParams.set(MYTH_PARAM, openingMyth.slug);
-    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-  }, [faction, requestedMyth, openingMyth]);
-
-  /* 화면에서 고른 신화를 주소에 남기고 마지막 신화로 기억한다. 주소가 늘 보이는 신화를 가리켜야 같은 바로가기를 다시 눌러도 그 신화로 돌아온다 */
+  /* 화면에서 고른 신화의 주소로 바꾸고 마지막 신화로 기억한다. 서버 왕복 없이 주소만 바꾼다 —
+     신화 자료는 이미 다 받아 두었고, 주소가 늘 보이는 신화를 가리켜야 그대로 공유·새로고침해도 같은 신화가 열린다 */
   const rememberMyth = (slug: string | undefined, group: string | null) => {
     if (faction) return;
-    autoParamSlug.current = null;
     if (slug) saveLastMyth(slug);
     const url = new URL(window.location.href);
-    if (slug) url.searchParams.set(MYTH_PARAM, slug);
-    else url.searchParams.delete(MYTH_PARAM);
+    const localePrefix = /^\/en(\/|$)/.test(url.pathname) ? "/en" : "";
+    if (slug) url.pathname = `${localePrefix}${mythHref(slug)}`;
+    url.searchParams.delete(MYTH_PARAM);
     if (group) url.searchParams.set(ATLAS_GROUP_PARAM, group);
     else url.searchParams.delete(ATLAS_GROUP_PARAM);
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
@@ -199,9 +194,10 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
   };
   if (!activeRegion) return null;
   const hasContent = Boolean(activeMyth) && activePeople.length > 0;
+  const atlasSel: AtlasSelection = { themeId: faction?.themeId ?? activeRegion.id, entryId: activeMyth?.id ?? null, groupId: activeGroup?.id ?? null };
   const navigation = (overview?: ReactNode) => (
-    <AtlasNavigation tree={navigationTree} myth={!faction} onSelect={chooseAtlas} overview={overview}
-      selection={{ themeId: faction?.themeId ?? activeRegion.id, entryId: activeMyth?.id ?? null, groupId: activeGroup?.id ?? null }} />
+    <AtlasNavigation tree={navigationTree} myth={!faction} onSelect={chooseAtlas} onOpenPicker={setPickerLevel} overview={overview}
+      selection={atlasSel} />
   );
 
   return (
@@ -255,6 +251,11 @@ export default function MythScreen({ data, faction, rememberedSlug = null }: Pro
             </div>
           </div>
         </div>
+      )}
+
+      {pickerLevel !== null && (
+        <AtlasPicker tree={navigationTree} selection={atlasSel} initialLevel={pickerLevel} myth={!faction}
+          onClose={() => setPickerLevel(null)} onSelect={chooseAtlas} />
       )}
     </section>
   );

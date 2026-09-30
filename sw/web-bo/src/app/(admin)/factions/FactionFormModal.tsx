@@ -85,6 +85,8 @@ export default function FactionFormModal({ entry, lv1Options, onClose }: Props) 
         ...entryData,
         team_images: [],
         lead_person_ids: [],
+        headline: null,
+        headline_en: null,
         // 신화 분류 아래의 세력은 신화이자 이야기 속 세력이다(서버도 같은 규칙으로 잡는다)
         is_myth: level === 2 && lv1?.is_myth === true,
         is_fiction: level === 2 && lv1?.is_myth === true,

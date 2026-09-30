@@ -20,6 +20,7 @@ interface Lv1Row {
 }
 interface Lv2Row {
   id: string; lv1_id: string; slug: string | null; name: string; name_en: string | null;
+  headline: string | null; headline_en: string | null;
   description: string | null; description_en: string | null;
   theme_music: unknown;
   team_images: unknown;
@@ -103,7 +104,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
       .select("id,slug,name,name_en,sort_order")
       .eq("is_myth", true).order("sort_order"),
     db.from("faction_lv2")
-      .select("id,lv1_id,slug,name,name_en,description,description_en,published,theme_music,lead_person_ids,team_images")
+      .select("id,lv1_id,slug,name,name_en,headline,headline_en,description,description_en,published,theme_music,lead_person_ids,team_images")
       .eq("is_myth", true).order("sort_order"),
   ]);
   if (lv1Result.error) throw new Error(`신화 지역 조회 실패: ${lv1Result.error.message}`);
@@ -226,6 +227,8 @@ async function fetchMythData(locale: string): Promise<MythData> {
       if (!leadPersonIds.includes(id)) leadPersonIds.push(id);
     }
     return [{ id: faction.id, slug: faction.slug, name: isEn ? faction.name_en || faction.name : faction.name, leadPersonIds,
+      // 영문 한 줄 정의가 비면 한국어로 채우지 않는다 — 영문 화면에 한국어 한 줄이 섞인다
+      headline: (isEn ? faction.headline_en : faction.headline)?.trim() || null,
       description: isEn ? faction.description_en || faction.description : faction.description,
       isPublished: faction.published === true,
       regionId: regionIds.has(faction.lv1_id) ? faction.lv1_id : "other",
@@ -245,7 +248,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v29'], {
+const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v30'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

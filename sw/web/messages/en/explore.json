@@ -2,7 +2,7 @@
   "explore": {
     "meta": {
       "title": "Explore Figures - Books, Films & Music",
-      "description": "Explore the books, films, and music that historical and contemporary figures read, watched, and heard, through category rankings, country timelines, and relationship maps."
+      "description": "Explore the books, films and music that historical and contemporary figures loved, through category rankings, country timelines and relationship maps."
     },
     "celebs": {
       "metaTitle": "Celebrity Recommendations | Books, Movies & Music",
@@ -203,7 +203,8 @@
         "allMembers": "All members",
         "browseAll": "Selector",
         "comingSoon": "Coming soon",
-        "optionCount": "{count} options available"
+        "optionCount": "{count} options available",
+        "done": "Done"
       }
     },
     "hub": {
@@ -249,10 +250,10 @@
         "eyebrow": "SPECIAL EXPLORATION",
         "title": "Worlds of Myth",
         "description": "Read each mythology’s central story and implications, then meet the figures who inhabit its world.",
-        "metaDescription": "Myths from {regions} and more: {mythCount, number} myths across {regionCount, number} regions. Read each central story, then meet {people, number} figures and their source works.",
+        "metaDescription": "World myths from {regions} and beyond, with their stories and characters.",
         "stats": "{myths} myths · {people} figures · {works} works",
         "mythNav": "Choose a myth",
-        "allMyths": "All",
+        "allMyths": "All myths",
         "memberList": "Members",
         "sortLabel": "Sort members",
         "sortRelations": "Most connected",
@@ -328,7 +329,9 @@
         "searchImages": "Search scene titles",
         "noMatchingImages": "No matching scenes.",
         "readEnding": "Read the ending",
-        "personInTheme": "{name} in {theme}"
+        "personInTheme": "{name} in {theme}",
+        "hubMetaTitle": "Worlds of Myth - Stories and Characters of World Mythology",
+        "coverImage": "Cover image"
       },
       "relationMap": {
         "title": "Relation Map",
@@ -449,7 +452,9 @@
       "backToOverview": "Back to theme overview",
       "personInTheme": "{name} in {theme}",
       "hubMetaTitle": "Faction - Figures Grouped by Theme & Camp",
-      "metaDescription": "Explore {people, number} figures across {themes, number} themes such as {sections}, grouped into camps with their stories and connections."
+      "metaDescription": "Figures grouped into factions and camps across fields such as {sections}.",
+      "allThemes": "All factions",
+      "memberOf": "Myths and factions"
     },
     "monologue": {
       "metaTitle": "Virtual Monologues - Life & Philosophy in Their Own Voice",

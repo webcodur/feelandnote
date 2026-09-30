@@ -15,6 +15,7 @@ import { useTranslations, useLocale } from "next-intl";
 import ConstellationBanner from "@/components/lab/ConstellationBanner";
 import { getFactionName } from "@/actions/home";
 import BannerHeading, { type BannerCrumb } from "@/components/shared/BannerHeading";
+import { atlasPageOwnsTitle } from "@/components/features/user/explore/myth/mythHref";
 import { BANNER_DESKTOP_SHELL_CLASS, BANNER_MOBILE_SHELL_CLASS } from "@/components/shared/bannerStyles";
 
 const SUBPAGE_KEY: Record<string, string> = {
@@ -66,6 +67,9 @@ export default function ExploreBanner() {
   }, [themeSlug, locale]);
 
   const themeName = themeSlug && loadedTheme?.slug === themeSlug ? loadedTheme.name : null;
+  /* 신화·세력 한 편의 주소는 본문 머리(MythOverview)가 그 이름을 h1로 세운다 — 배너는 제목 요소를 내려놓는다.
+     배너 이름은 클라이언트에서 채워져 서버 HTML에서 「세력도감」으로 굳는다(기관 선정 상세와 같은 사정) */
+  const pageOwnsTitle = atlasPageOwnsTitle(pathname);
 
   const hasTheme = !!(themeSlug && themeName);
 
@@ -79,7 +83,8 @@ export default function ExploreBanner() {
     : [];
   const current = hasTheme && themeName ? themeName : pageTitle;
   const heading = (variant: "desktop" | "mobile") => (
-    <BannerHeading ancestors={ancestors} current={current} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant} />
+    <BannerHeading ancestors={ancestors} current={current} onCurrentClick={isSubpage ? handleRefresh : undefined} variant={variant}
+      asHeading={!pageOwnsTitle} />
   );
 
   return (

@@ -11313,6 +11313,340 @@
     "en/celeb/enid-blyton",
     "en/celeb/charles-darwin"
    ]
+  },
+  {
+   "date": "2026-09-29",
+   "property": "sc-domain:feelandnote.com",
+   "propertyNote": "aside repl --account u0 (webcodur@gmail.com), _scratch-gsc-aside-queue.mjs",
+   "priority": [
+    "https://feelandnote.com",
+    "en",
+    "explore",
+    "en/explore",
+    "explore/faction",
+    "en/explore/faction",
+    "explore/myth",
+    "en/explore/myth",
+    "explore/works",
+    "en/explore/works",
+    "about",
+    "en/about",
+    "celeb/odysseus",
+    "en/celeb/odysseus",
+    "explore/faction/three-kingdoms",
+    "en/explore/faction/three-kingdoms",
+    "explore/faction/the-chu-han-contention",
+    "en/explore/faction/the-chu-han-contention",
+    "explore/faction/sengoku-warlords",
+    "en/explore/faction/sengoku-warlords",
+    "explore/faction/founding-monarchs",
+    "en/explore/faction/founding-monarchs",
+    "explore/faction/mcu",
+    "en/explore/faction/mcu",
+    "explore/faction/korean-cinema",
+    "en/explore/faction/korean-cinema",
+    "explore/directory",
+    "en/explore/directory",
+    "explore/ranking",
+    "en/explore/ranking",
+    "explore/timeline",
+    "en/explore/timeline",
+    "explore/today",
+    "en/explore/today",
+    "explore/monologue",
+    "en/explore/monologue",
+    "explore/spectrum",
+    "en/explore/spectrum",
+    "explore/feed",
+    "en/explore/feed",
+    "explore/works/curated",
+    "en/explore/works/curated",
+    "rest",
+    "en/rest"
+   ],
+   "skippedAlreadyIndexed": [
+    "en/explore/faction"
+   ],
+   "acceptedCount": 11,
+   "accepted": [
+    {
+     "url": "https://feelandnote.com",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-26T12:41:16Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/en",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-11T07:42:25Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/explore",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-13T18:24:33Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/en/explore",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "lastCrawlTime": "2026-09-12T17:18:03Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/explore/faction",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-12T17:07:58Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/explore/myth",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Google에는 아직 알려지지 않은 URL입니다.",
+      "lastCrawlTime": null
+     }
+    },
+    {
+     "url": "https://feelandnote.com/explore/works",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-26T06:53:24Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/en/explore/works",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-26T07:01:28Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/about",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-11T07:44:21Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/en/about",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-12T17:19:08Z"
+     }
+    },
+    {
+     "url": "https://feelandnote.com/celeb/odysseus",
+     "status": "request accepted",
+     "source": "Search Console UI (Aside u0, sc-domain)",
+     "attempts": 1,
+     "dialogTitle": "색인 생성 요청됨",
+     "api": {
+      "verdict": "PASS",
+      "coverageState": "제출되고 색인이 생성되었습니다.",
+      "lastCrawlTime": "2026-09-15T09:44:34Z"
+     }
+    }
+   ],
+   "errors": [],
+   "limit": {
+    "url": "https://feelandnote.com/en/celeb/odysseus",
+    "status": "할당량 초과",
+    "note": "S 페이지가 HTTPS를 통해 제공됩니다.  error_outline 할당량 초과 일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요. 닫기",
+    "attempts": 1
+   },
+   "nextQueue": [
+    "en/celeb/odysseus",
+    "en/explore/myth",
+    "en/explore/faction",
+    "explore/faction/three-kingdoms",
+    "en/explore/faction/three-kingdoms",
+    "explore/faction/the-chu-han-contention",
+    "en/explore/faction/the-chu-han-contention",
+    "explore/faction/sengoku-warlords",
+    "en/explore/faction/sengoku-warlords",
+    "explore/faction/founding-monarchs",
+    "en/explore/faction/founding-monarchs",
+    "explore/faction/mcu",
+    "en/explore/faction/mcu",
+    "explore/faction/korean-cinema",
+    "en/explore/faction/korean-cinema",
+    "explore/directory",
+    "en/explore/directory",
+    "explore/ranking",
+    "en/explore/ranking",
+    "explore/timeline",
+    "en/explore/timeline",
+    "explore/today",
+    "en/explore/today",
+    "explore/monologue",
+    "en/explore/monologue",
+    "explore/spectrum",
+    "en/explore/spectrum",
+    "explore/feed",
+    "en/explore/feed",
+    "explore/works/curated",
+    "en/explore/works/curated",
+    "rest",
+    "en/rest",
+    "en/celeb/jean-michel-basquiat",
+    "en/celeb/agatha-christie",
+    "celeb/athena",
+    "en/celeb/athena",
+    "celeb/viggo-mortensen",
+    "en/celeb/viggo-mortensen",
+    "celeb/sebastian-thrun",
+    "en/celeb/sebastian-thrun",
+    "celeb/yao-ming",
+    "en/celeb/yao-ming",
+    "celeb/florence-nightingale",
+    "en/celeb/florence-nightingale",
+    "celeb/lee-chun-keun",
+    "en/celeb/lee-chun-keun",
+    "celeb/johnny-depp",
+    "en/celeb/johnny-depp",
+    "celeb/jean-paul-sartre",
+    "en/celeb/jean-paul-sartre",
+    "celeb/sun-bin",
+    "en/celeb/sun-bin",
+    "celeb/sung-uk-moon",
+    "en/celeb/sung-uk-moon",
+    "celeb/arnold-schoenberg",
+    "en/celeb/arnold-schoenberg",
+    "celeb/fyodor-dostoevsky",
+    "en/celeb/fyodor-dostoevsky",
+    "celeb/tim-duncan",
+    "en/celeb/tim-duncan",
+    "celeb/egon-schiele",
+    "en/celeb/egon-schiele",
+    "celeb/christy-brown",
+    "en/celeb/christy-brown",
+    "celeb/rebecca-ferguson",
+    "en/celeb/rebecca-ferguson",
+    "celeb/steven-seagal",
+    "en/celeb/steven-seagal",
+    "celeb/lee-hoe-yeong",
+    "en/celeb/lee-hoe-yeong",
+    "celeb/tom-holland",
+    "en/celeb/tom-holland",
+    "celeb/sean-penn",
+    "en/celeb/sean-penn",
+    "celeb/eva-green",
+    "en/celeb/eva-green",
+    "celeb/michael-burry",
+    "en/celeb/michael-burry",
+    "celeb/zinedine-zidane",
+    "en/celeb/zinedine-zidane",
+    "celeb/paulo-coelho",
+    "en/celeb/paulo-coelho",
+    "celeb/zachary-quinto",
+    "en/celeb/zachary-quinto",
+    "celeb/sophia-loren",
+    "en/celeb/sophia-loren",
+    "celeb/gilles-deleuze",
+    "en/celeb/gilles-deleuze",
+    "celeb/til-schweiger",
+    "en/celeb/til-schweiger",
+    "celeb/che-guevara",
+    "en/celeb/che-guevara",
+    "en/celeb/nikola-tesla",
+    "celeb/james-hetfield",
+    "en/celeb/james-hetfield",
+    "celeb/yasujiro-ozu",
+    "en/celeb/yasujiro-ozu",
+    "celeb/emma-watson",
+    "en/celeb/emma-watson",
+    "celeb/sergey-brin",
+    "en/celeb/sergey-brin",
+    "celeb/sade-adu",
+    "en/celeb/sade-adu",
+    "celeb/rachel-weisz",
+    "en/celeb/rachel-weisz",
+    "celeb/david-hockney",
+    "en/celeb/david-hockney",
+    "celeb/john-von-neumann",
+    "en/celeb/john-von-neumann",
+    "celeb/virginia-woolf",
+    "en/celeb/virginia-woolf",
+    "celeb/kazuo-ishiguro",
+    "en/celeb/kazuo-ishiguro",
+    "celeb/jodie-foster",
+    "en/celeb/jodie-foster",
+    "celeb/enid-blyton",
+    "en/celeb/enid-blyton",
+    "en/celeb/charles-darwin"
+   ],
+   "stopped": [
+    "https://feelandnote.com/en/explore/faction",
+    "https://feelandnote.com/en/explore/myth",
+    "https://feelandnote.com/en/celeb/odysseus"
+   ],
+   "priorStops": [
+    {
+     "url": "https://feelandnote.com/en/explore/faction",
+     "status": "PENDING",
+     "note": "결과 대화상자 미확인으로 정지. 이후 API 검사에서 색인됨(PASS) 확인 — 접수됐거나 자연 색인"
+    },
+    {
+     "url": "https://feelandnote.com/en/explore/myth",
+     "status": "PENDING",
+     "note": "결과 대화상자 미확인으로 정지. 재검사 시 미색인·요청 버튼 잔존"
+    }
+   ]
   }
  ],
  "hubInspection20260913": {

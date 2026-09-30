@@ -23,6 +23,11 @@ export function localizedFactionName(faction: Pick<FeaturedFaction, 'name' | 'na
   return locale === 'en' ? faction.name_en?.trim() || faction.name : faction.name
 }
 
+/** 한 줄 정의 — 영문이 비면 한국어로 채우지 않는다 */
+export function localizedFactionHeadline(faction: Pick<FeaturedFaction, 'headline' | 'headline_en'>, locale: Locale) {
+  return (locale === 'en' ? faction.headline_en : faction.headline)?.trim() || null
+}
+
 export function localizedFactionDescription(faction: Pick<FeaturedFaction, 'description' | 'description_en'>, locale: Locale) {
   return (locale === 'en' ? faction.description_en : faction.description)?.trim() || null
 }

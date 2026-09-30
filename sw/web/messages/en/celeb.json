@@ -81,6 +81,8 @@
     "sourceEditionLabel": "Edition",
     "sourceEditionIntro": "Individual published editions of the work",
     "sourceEditionSelectAria": "View edition: {title}",
+    "sourceEditionOmnibus": "Omnibus",
+    "sourceEditionOmnibusHint": "This is an omnibus edition containing multiple works",
     "sourceWorkIntroduction": "Work introduction",
     "sourceWorkIntroductionEmpty": "An introduction is not available yet. More information may be available on the work page.",
     "sourceWorkIntroductionOpen": "Read full introduction",

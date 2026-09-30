@@ -10,6 +10,7 @@
 | [`supabase-naming-removal.md`](supabase-naming-removal.md) | Oracle 전환 후 Supabase 잔재 제거 — Vault, 배포 경로·컨테이너명, supabase-js, Auth(GoTrue), 문서 참조 |
 | [`android-release.md`](android-release.md) | 안드로이드 앱 출시 — 사용자 결정 항목, 키스토어·AAB·Data Safety·비공개 테스트·실기기 QA |
 | [`sns-expansion.md`](sns-expansion.md) | SNS 멀티채널 확장 라이브 보드(시각 자료 `sns-expansion-plan.html`) |
+| [`atlas-seo-handoff.md`](atlas-seo-handoff.md) | 신화·세력도감 검색 제목·설명 개편(KIRO 인계) — 미커밋·미배포, 추천안 확정·접미사·그룹명·조사 버그 결정 대기 |
 
 ## 콘텐츠·제휴
 

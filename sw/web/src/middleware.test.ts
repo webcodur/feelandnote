@@ -47,3 +47,17 @@ test('canonical figure and records routes keep their existing locale routing', a
     assert.equal(response.headers.get('x-middleware-rewrite'), `https://feelandnote.com/ko${path}`)
   }
 })
+
+test('old myth shortcuts move permanently to each myth address and keep other query', async () => {
+  const cases: Array<[string, string]> = [
+    ['/explore/myth?myth=homer-odyssey', 'https://feelandnote.com/explore/myth/homer-odyssey'],
+    ['/en/explore/myth?myth=myth-japan&group=gods', 'https://feelandnote.com/en/explore/myth/myth-japan?group=gods'],
+  ]
+  for (const [path, location] of cases) {
+    const response = await middleware(new NextRequest(`https://feelandnote.com${path}`))
+    assert.equal(response.status, 308)
+    assert.equal(response.headers.get('location'), location)
+  }
+  const hub = await middleware(new NextRequest('https://feelandnote.com/explore/myth'))
+  assert.notEqual(hub.status, 308)
+})

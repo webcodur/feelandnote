@@ -25,6 +25,8 @@ export function EntrySettings({ data }: { data: FactionEditorData }) {
   const [form, setForm] = useState({
     name: data.entry.name,
     name_en: data.entry.name_en ?? '',
+    headline: data.entry.headline ?? '',
+    headline_en: data.entry.headline_en ?? '',
     description: data.entry.description ?? '',
     description_en: data.entry.description_en ?? '',
     color: data.entry.color,
@@ -40,6 +42,8 @@ export function EntrySettings({ data }: { data: FactionEditorData }) {
   const [members, setMembers] = useState<FactionMember[]>(data.members)
 
   const hasChanges =
+    form.headline !== (entry.headline ?? '') ||
+    form.headline_en !== (entry.headline_en ?? '') ||
     form.description !== (entry.description ?? '') ||
     form.description_en !== (entry.description_en ?? '') ||
     form.slug !== (entry.slug ?? '') ||
@@ -58,6 +62,7 @@ export function EntrySettings({ data }: { data: FactionEditorData }) {
     setIsSaving(true)
     const result = await updateFactionEntry({
       id: entry.id,
+      ...(isSection ? {} : { headline: form.headline, headline_en: form.headline_en }),
       description: form.description,
       description_en: form.description_en,
       slug: form.slug || null,
@@ -74,6 +79,8 @@ export function EntrySettings({ data }: { data: FactionEditorData }) {
     if (result.success) {
       setEntry(prev => ({
         ...prev,
+        headline: isSection ? null : form.headline.trim() || null,
+        headline_en: isSection ? null : form.headline_en.trim() || null,
         description: form.description || null,
         description_en: form.description_en || null,
         slug: form.slug || null,
@@ -153,6 +160,30 @@ export function EntrySettings({ data }: { data: FactionEditorData }) {
             </button>
           </div>
         </FormRow>
+
+        {!isSection && (
+          <FormRow label="한 줄 정의">
+            <div className="flex-1 space-y-1.5">
+              <input
+                type="text"
+                value={form.headline}
+                onChange={(e) => setForm({ ...form, headline: e.target.value })}
+                placeholder="이름 뒤에 붙여 읽는 명사구 — 예) 트로이 전쟁 영웅 오디세우스의 10년 귀향길"
+                className="w-full rounded-lg border border-border bg-bg-secondary px-4 py-2.5 text-base text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
+              />
+              <input
+                type="text"
+                value={form.headline_en}
+                onChange={(e) => setForm({ ...form, headline_en: e.target.value })}
+                placeholder="EN one-line definition — written separately, not translated"
+                className="w-full rounded-lg border border-border bg-bg-secondary px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
+              />
+              <p className={`text-xs ${[...form.headline.trim()].length > 28 || form.headline_en.trim().length > 90 ? 'text-red-400' : 'text-text-tertiary'}`}>
+                한국어 {[...form.headline.trim()].length}/28자 · 영어 {form.headline_en.trim().length}/90자 — 화면에서 이름 바로 아래, 검색 설명의 첫 문장으로 나간다.
+              </p>
+            </div>
+          </FormRow>
+        )}
 
         <FormRow label="설명">
           <div className="flex-1 space-y-1.5">

@@ -24,6 +24,8 @@ export interface Myth {
   id: string;
   slug: string;
   name: string;
+  /** 한 줄 정의(faction_lv2.headline) — 이름 아래와 검색 설명 첫 문장. 없으면 null */
+  headline: string | null;
   description: string | null;
   isPublished: boolean;
   /** 지역(faction_lv1) id. 어느 지역에도 못 걸리면 "other" */

@@ -206,7 +206,7 @@
     "recentContents": "최근 본 콘텐츠",
     "previousRecent": "이전 콘텐츠",
     "nextRecent": "다음 콘텐츠",
-    "metaFallback": "{title} 리뷰, 줄거리, 추천 이유. 셀럽이 추천한 작품을 확인하세요.",
+    "metaFallback": "{title} — 이 작품을 감상한 인물과 그들의 감상 기록을 봅니다.",
     "notFoundTitle": "콘텐츠 정보 없음",
     "notFoundDescription": "콘텐츠 정보를 불러올 수 없습니다.",
     "showMore": "더보기",
@@ -220,7 +220,8 @@
     "publishDate": "출판일",
     "developer": "개발사",
     "platform": "플랫폼",
-    "artist": "아티스트"
+    "artist": "아티스트",
+    "metaLead": "{creator}의 {type, select, BOOK {《{title}》} other {〈{title}〉}}."
   },
   "review": {
     "positive": {

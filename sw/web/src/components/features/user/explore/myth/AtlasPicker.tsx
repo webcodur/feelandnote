@@ -10,7 +10,8 @@ import { atlasSelection, firstAtlasEntry, type AtlasSelection, type AtlasTheme }
 
 interface Props {
   tree: AtlasTheme[];
-  initial: AtlasSelection;
+  /** 지금 적용된 선택 — 항목을 누를 때마다 호출부가 갱신해 체크가 따라간다 */
+  selection: AtlasSelection;
   /** 처음 보여 줄 단계 — 탐색판에서 누른 줄의 단계가 열린 채 시작한다 */
   initialLevel: number;
   /** 신화 탐색이면 지역·신화·그룹, 세력도감이면 테마·팩션·그룹 */
@@ -41,39 +42,42 @@ function OptionPanel({ level, items, current, onSelect }: {
     <div ref={ref} {...dragProps} role="tabpanel" id="atlas-panel" aria-labelledby={`atlas-tab-${level}`} data-atlas-panel data-atlas-column={level}
       className={`${cursorClassName} custom-scrollbar animate-fade-in mt-3 grid h-[42dvh] select-none content-start grid-cols-2 gap-1.5 overflow-y-auto rounded-xl border border-white/10 bg-bg-secondary p-2 [overflow-anchor:none] motion-reduce:animate-none md:grid-cols-3 md:p-3`}>
       {items.map((item) => <button key={item.id ?? "all"} type="button" disabled={item.disabled} aria-pressed={item.id === current.id} onClick={() => onSelect(item.id)}
-        className={`flex min-h-11 min-w-0 max-w-full items-center gap-2 rounded-lg border px-3 py-2 text-center text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${item.id === current.id ? "border-accent/60 bg-accent/10 text-accent hover:bg-accent/20" : "border-white/15 text-text-primary hover:border-accent/50 hover:bg-white/5"} disabled:cursor-default disabled:text-text-tertiary disabled:opacity-50`}>
-        <span className="min-w-0 flex-1 break-keep [overflow-wrap:anywhere]">{item.name}</span>
+        className={`relative flex min-h-11 min-w-0 max-w-full items-center justify-center rounded-lg border px-7 py-2 text-center text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${item.id === current.id ? "border-accent/60 bg-accent/10 text-accent hover:bg-accent/20" : "border-white/15 text-text-primary hover:border-accent/50 hover:bg-white/5"} disabled:cursor-default disabled:text-text-tertiary disabled:opacity-50`}>
+        {/* 양쪽 표식은 절대 배치라 항목 이름의 중앙 정렬을 밀지 않는다 — 장면 아이콘은 왼쪽, 체크·수는 오른쪽 */}
         {item.scenes ? (
-          <span className="flex shrink-0 items-center gap-0.5 text-accent" title={scenesLabel} role="img" aria-label={`${scenesLabel} ${item.scenes}`}>
+          <span className="absolute start-2 top-1/2 -translate-y-1/2 text-accent" title={scenesLabel} role="img" aria-label={scenesLabel}>
             <Images size={13} aria-hidden />
-            <span className="text-xs font-medium tabular-nums">{item.scenes}</span>
           </span>
         ) : null}
-        {item.id === current.id ? <Check size={15} className="shrink-0" aria-hidden /> : item.count !== undefined && <span className="text-xs font-medium tabular-nums text-text-secondary">{item.count}</span>}
+        <span className="min-w-0 break-keep [overflow-wrap:anywhere]">{item.name}</span>
+        {item.id === current.id
+          ? <Check size={15} className="absolute end-2 top-1/2 shrink-0 -translate-y-1/2" aria-hidden />
+          : item.count !== undefined && <span className="absolute end-2 top-1/2 -translate-y-1/2 text-xs font-medium tabular-nums text-text-secondary">{item.count}</span>}
       </button>)}
       {items.length === 0 && <p className="col-span-full p-3 text-sm text-text-secondary">{t("comingSoon")}</p>}
     </div>
   );
 }
 
-export default function AtlasPicker({ tree, initial, initialLevel, myth, onClose, onSelect }: Props) {
+export default function AtlasPicker({ tree, selection, initialLevel, myth, onClose, onSelect }: Props) {
   const t = useTranslations("explore.ui.atlas");
   const [active, setActive] = useState(initialLevel);
-  const { theme, entry, group } = atlasSelection(tree, initial);
+  const { theme, entry, group } = atlasSelection(tree, selection);
   const all = { id: null, name: t("allMembers"), count: entry?.count };
   const current = [theme ?? { id: null, name: "" }, entry ?? { id: null, name: t("comingSoon") }, group ?? all];
   const items: Option[][] = [tree.map((item) => ({ ...item, disabled: !firstAtlasEntry(item) })), theme?.entries ?? [], entry ? [all, ...entry.groups] : []];
   const kinds = myth ? (["region", "myth", "group"] as const) : (["theme", "faction", "group"] as const);
-  /* 누르면 곧바로 적용하고 창을 닫는다(확인 단추 없음, 26.09.29 유저 지시). 탭은 다른 단계의 목록을 보러 갈 때만 쓴다.
+  /* 누르면 곧바로 적용하고 창은 연 채 둔다 — 체크만 새 항목으로 옮긴다(26.09.30 유저 지시로 적용 후 닫기 철거).
+     닫기는 X·ESC·바깥·하단 「선택 완료」. 탭은 다른 단계의 목록을 보러 갈 때만 쓴다.
      지역·테마를 고르면 그 첫 신화·팩션으로 연다 — 탐색판 윗줄 화살표와 같은 규칙이다.
      지금 고른 지역·신화를 다시 누르면 선택을 그대로 두고, 고른 그룹을 다시 누르면 「전체 구성원」으로 푼다 */
   const choose = (level: number, id: string | null) => {
     if (level === 0) {
       const next = tree.find((item) => item.id === id)!;
-      onSelect(next.id === initial.themeId ? initial : { themeId: next.id, entryId: firstAtlasEntry(next)?.id ?? null, groupId: null });
+      onSelect(next.id === selection.themeId ? selection : { themeId: next.id, entryId: firstAtlasEntry(next)?.id ?? null, groupId: null });
     } else if (level === 1) {
-      onSelect(id === initial.entryId ? initial : { ...initial, entryId: id, groupId: null });
-    } else onSelect({ ...initial, groupId: initial.groupId === id ? null : id });
+      onSelect(id === selection.entryId ? selection : { ...selection, entryId: id, groupId: null });
+    } else onSelect({ ...selection, groupId: selection.groupId === id ? null : id });
   };
   return (
     <Modal isOpen onClose={onClose} title={t("browseAll")} widthClassName="max-w-2xl" frame="plain" boxClassName={FACTION_PERSON_LAYOUT.modal} animateHeight={false}>
@@ -89,7 +93,13 @@ export default function AtlasPicker({ tree, initial, initialLevel, myth, onClose
         </div>
         <OptionPanel key={active} level={active} items={items[active]} current={current[active]} onSelect={(id) => choose(active, id)} />
         {/* 지금 보는 위치 — 그룹 탭에서도 어느 신화의 그룹인지 알 수 있게 남긴다 */}
-        <p className="mt-4 min-w-0 border-t border-white/10 pt-4 text-sm leading-6 text-text-secondary">{[theme?.name, entry?.name, group?.name].filter(Boolean).join(" › ")}</p>
+        <div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
+          <p className="min-w-0 flex-1 text-sm leading-6 text-text-secondary">{[theme?.name, entry?.name, group?.name].filter(Boolean).join(" › ")}</p>
+          <button type="button" onClick={onClose}
+            className="shrink-0 rounded-lg border border-accent/60 bg-accent/15 px-4 py-2 text-sm font-semibold text-accent outline-none hover:bg-accent/25 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+            {t("done")}
+          </button>
+        </div>
       </div>
     </Modal>
   );

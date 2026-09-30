@@ -206,7 +206,7 @@
     "recentContents": "Recently Viewed",
     "previousRecent": "Previous content",
     "nextRecent": "Next content",
-    "metaFallback": "{title} — reviews, synopsis, and why celebrities recommend it. Discover on feelandnote.",
+    "metaFallback": "{title}: the figures who read, watched or heard it, and what they said.",
     "notFoundTitle": "Content Not Found",
     "notFoundDescription": "Unable to load content information.",
     "showMore": "Show more",
@@ -220,7 +220,8 @@
     "publishDate": "Publication Date",
     "developer": "Developer",
     "platform": "Platform",
-    "artist": "Artist"
+    "artist": "Artist",
+    "metaLead": "{title} by {creator}."
   },
   "review": {
     "positive": {

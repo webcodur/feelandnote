@@ -13,7 +13,8 @@ import { getFactionCelebs } from "@/lib/faction-celebs";
 import { getFactionGroupDescriptions } from "@/lib/faction-groups";
 import { getFactionThemeImage, toFactionThemeData, type FactionThemeGroup } from "@/lib/faction-theme";
 import { toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
-import { getAlternates, toSeoDescription } from "@/lib/seo";
+import { getAlternates, toSeoSummary } from "@/lib/seo";
+import AtlasIndex from "@/components/features/user/explore/myth/AtlasIndex";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
@@ -34,7 +35,7 @@ function buildEntryJsonLd(entry: FeaturedFaction, name: string, celebs: CelebPro
   return {
     "@context": "https://schema.org", "@type": "CollectionPage", "@id": pageUrl,
     url: pageUrl, name,
-    ...(description && { description: toSeoDescription(description) }),
+    ...(description && toSeoSummary(description, 300) && { description: toSeoSummary(description, 300) }),
     inLanguage: seoLocale,
     mainEntity: {
       "@type": "ItemList", numberOfItems: celebs.length,
@@ -116,10 +117,21 @@ export default async function FactionScreen({ sections, section, entry, locale, 
       };
     }),
   }));
+  // 모든 세력으로 가는 목록을 화면 아래에 늘 펼쳐 둔다 — 선택기는 단추라 검색엔진이 다른 세력으로 가는 길이 없었다
+  const index = sections.map((item) => ({
+    id: factionSectionKey(item),
+    name: localizedFactionName(item.faction, locale),
+    items: item.entries.flatMap((child) => child.slug
+      ? [{ id: child.id, name: localizedFactionName(child, locale), href: `/explore/faction/${child.slug}`, current: child.id === entry.id }]
+      : []),
+  }));
   return (
-    <Lane key={entry.id} fallback={<MythScreenSkeleton title={t("title")}
-      hasArtwork={Boolean(getFactionThemeImage(entry.slug))} />}>
-      <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows} />
-    </Lane>
+    <>
+      <Lane key={entry.id} fallback={<MythScreenSkeleton title={t("title")}
+        hasArtwork={Boolean(getFactionThemeImage(entry.slug))} />}>
+        <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows} />
+      </Lane>
+      <AtlasIndex heading={t("allThemes")} groups={index} dense />
+    </>
   );
 }

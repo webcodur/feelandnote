@@ -13,7 +13,7 @@ export interface AtlasEntry {
   count: number;
   disabled?: boolean;
   href?: string;
-  /** 「주요 장면」 자료가 있는 항목은 선택기에서 수를 함께 표시한다 */
+  /** 「주요 장면」 자료가 있는 항목은 선택기 칩 왼쪽에 이미지 아이콘을 띄운다 */
   scenes?: number;
   groups: AtlasGroup[];
 }

@@ -4,7 +4,7 @@ import type { FactionFigureBook } from "@/actions/home/getFactionFigureBooks";
 import { MYTH_OTHER_GROUP_ID, type MythData } from "@/actions/home/mythTypes";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
-import { buildFactionClusters, localizedFactionDescription, localizedFactionName } from "./faction-sections";
+import { buildFactionClusters, localizedFactionDescription, localizedFactionHeadline, localizedFactionName } from "./faction-sections";
 
 /** 테마 그림만 등록한다. 과거 단체화보는 테마의 대표 이미지로 자동 승격하지 않는다. */
 const THEME_ART: Record<string, string> = {
@@ -220,6 +220,7 @@ export function toFactionThemeData(entry: FeaturedFaction, celebs: CelebProfile[
   const image = getFactionThemeImage(slug);
   const theme = {
     id: entry.id, slug, name: localizedFactionName(entry, locale),
+    headline: localizedFactionHeadline(entry, locale),
     description: localizedFactionDescription(entry, locale),
     isPublished: true, regionId: "faction", music: entry.music,
     images: [...(image ? [{ url: image, label: null }] : []), ...toSceneImages(entry.team_images, locale)],

@@ -1,6 +1,7 @@
 import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 
 import { particleFor, withParticle, type ParticleKind } from "../korean-particle";
+import { splitSentences, summarizeSentences } from "../seoSentences";
 
 /* ─────────────────────────────────────────────
  * 인물 상세의 검색 제목·설명문
@@ -18,7 +19,30 @@ import { particleFor, withParticle, type ParticleKind } from "../korean-particle
 
 export type RecordType = "BOOK" | "VIDEO" | "MUSIC" | "GAME";
 export interface ContentCounts { BOOK: number; VIDEO: number; GAME: number; MUSIC: number }
-export interface CelebMetaSourceWork { title: string; relationType?: string }
+export interface CelebMetaSourceWork {
+  title: string;
+  relationType?: string;
+  /** 원전다움 — 작을수록 앞선다(rankSourceWork). 없으면 목록 차례만 본다 */
+  sourceRank?: number;
+}
+
+/**
+ * 원전으로 부를 만한 작품인지 등급을 매긴다. 등장 작품의 첫 줄을 원전으로 부르던 때 제우스의 원전이
+ * 요즘 나온 교양서(《기묘한 세계사의 미스터리》)가 됐다(26.09.29). 위키데이터 작품 식별자가 있는 고전이 먼저,
+ * 원제·원저자가 기록된 번역본이 다음, 다시 쓴 책(retelling)과 ISBN으로만 식별되는 요즘 책이 맨 뒤다.
+ */
+export function rankSourceWork(work: {
+  wikidataQid?: string | null;
+  originalTitle?: string | null;
+  originalCreator?: string | null;
+  editionKind?: string | null;
+  workIdentity?: string | null;
+}): number {
+  const modern = work.editionKind === "retelling" || (work.workIdentity ?? "").startsWith("book/");
+  if (work.wikidataQid && !modern) return 0;
+  if ((work.originalTitle || work.originalCreator) && !modern) return 1;
+  return modern ? 3 : 2;
+}
 
 export interface CelebMetaInput {
   nickname: string;
@@ -50,7 +74,9 @@ const DESCRIPTION_MAX = 175;
 // 분야 건수는 이 폭 안에 들어가는 만큼만 싣는다 — 넘친 뒤는 「…」로 잘린다.
 const TITLE_WIDTH_BUDGET = 30;
 const SIGNATURE_WORK_LIMIT = 3;
-// 인물 안내·bio 첫 문장의 최대 길이. 이보다 긴 첫 문장은 잘라 쓴다.
+// 영어 제목이 검색 결과 한 줄(PC 600px)에 드는 글자 수 어림. 64자짜리(Dido: …)는 한 줄에 들었고 76자짜리는 잘렸다(26.09.29 예상 화면)
+const EN_TITLE_MAX_CHARS = 64;
+// 인물 안내·bio 첫 문장의 최대 길이. 이보다 긴 첫 문장은 자르지 않고 싣지 않는다(leadSentence).
 const LEAD_MAX = 110;
 
 const RECORD_TYPE_ORDER: readonly RecordType[] = ["BOOK", "VIDEO", "MUSIC", "GAME"];
@@ -111,7 +137,10 @@ function cleanSourceTitle(title: string): string {
 
 function primarySource(input: CelebMetaInput): string | null {
   if ((input.reality ?? "REAL") === "REAL") return null;
-  const source = (input.sourceWorks ?? []).find((work) => work.relationType === "appearance");
+  const source = (input.sourceWorks ?? [])
+    .map((work, index) => ({ work, index }))
+    .filter(({ work }) => work.relationType === "appearance" && work.title?.trim())
+    .sort((a, b) => (a.work.sourceRank ?? 2) - (b.work.sourceRank ?? 2) || a.index - b.index)[0]?.work;
   return source?.title ? cleanSourceTitle(source.title) : null;
 }
 
@@ -150,16 +179,8 @@ function listEn(items: readonly string[]): string {
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
-function clamp(text: string, limit: number): string {
-  const cleaned = text.replace(/\s+/g, " ").trim();
-  if (cleaned.length <= limit) return cleaned;
-  const slice = cleaned.slice(0, Math.max(1, limit - 1));
-  const lastSpace = slice.lastIndexOf(" ");
-  return `${(lastSpace > limit * 0.5 ? slice.slice(0, lastSpace) : slice).trimEnd()}…`;
-}
-
 /**
- * 첫 문장만 가져온다. 길면 limit에서 자른다.
+ * 첫 문장만 가져온다. limit보다 길면 싣지 않는다 — 「…」로 잘라 싣지 않는다(26.09.29 유저 지시).
  * 검색 요약은 한국어 90자 안팎에서 잘린다 — 둘째 문장까지 실으면 뒤에 붙는 이 페이지의 볼거리
  * (원전 속 행적·인물 관계·영향력 평가)가 화면에서 빠진다(26.09.28 아킬레우스·조 서터 예상 화면).
  */
@@ -167,8 +188,8 @@ function leadSentence(raw: string | null | undefined, limit: number): string | n
   const cleaned = raw?.replace(/\s+/g, " ").trim();
   // 자리가 이만큼도 없으면 잘린 토막만 남으므로 싣지 않는다.
   if (!cleaned || limit < 24) return null;
-  const [first] = cleaned.split(/(?<=[.!?])\s+/);
-  return first.length <= limit ? endSentence(first) : clamp(first, limit);
+  const [first] = splitSentences(cleaned);
+  return first && first.length <= limit ? endSentence(first) : null;
 }
 
 /**
@@ -200,12 +221,17 @@ function usableBio(bio: string | null | undefined): string | null {
   return stripped.length >= 8 ? stripped : null;
 }
 
-/** 머리를 두고 꼬리가 들어갈 자리만큼 줄인다. */
+/**
+ * 머리 뒤에 꼬리를 잇는다. 넘치면 머리를 문장 단위로 줄여 꼬리 자리를 내고, 그래도 안 되면 꼬리를 뺀다.
+ * 어느 쪽도 「…」로 자르지 않는다.
+ */
 function composeDescription(head: string, tail: string): string {
-  if (!tail) return clamp(head, DESCRIPTION_MAX);
+  const fitted = (limit: number) => summarizeSentences(head, limit);
+  if (!tail) return fitted(DESCRIPTION_MAX) || head;
   const combined = `${head} ${tail}`;
   if (combined.length <= DESCRIPTION_MAX) return combined;
-  return `${clamp(head, Math.max(32, DESCRIPTION_MAX - tail.length - 1))} ${tail}`;
+  const shortened = fitted(DESCRIPTION_MAX - tail.length - 1);
+  return shortened ? `${shortened} ${tail}` : fitted(DESCRIPTION_MAX) || head;
 }
 
 /* ── 한국어 ── */
@@ -350,7 +376,14 @@ const joinTitleEn = (parts: readonly string[]) => parts.length <= 2
   : `${parts.slice(0, -1).join(", ")} & ${parts[parts.length - 1]}`;
 
 export function buildCelebTitleEn(input: CelebMetaInput): string {
-  if (!leadsWithRecords(input)) return identityEn(input);
+  if (!leadsWithRecords(input)) {
+    // 영어 한 줄 정의는 한국어보다 길어 「Name: headline」이 검색 결과 한 줄을 넘기 쉽다
+    // (「Sugar Ray Robinson: The boxer for whom the phrase pound-for-pound was coined」). 넘치면 짧은 수식어로 쓴다
+    const identity = identityEn(input);
+    const title = input.title?.trim();
+    const short = title ? `${input.nickname}: ${title}` : null;
+    return short && identity.length > EN_TITLE_MAX_CHARS && short.length < identity.length ? short : identity;
+  }
   const types = rankRecordTypes(input.counts);
   const subject = namedEn(input);
   const numbered = isNumbered(input.counts);

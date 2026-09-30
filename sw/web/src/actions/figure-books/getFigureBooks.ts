@@ -51,6 +51,11 @@ export interface FigureBookContent {
   titleEn?: string | null
   workTitle?: string | null
   wikidataQid?: string | null
+  /** 원전 판정 재료(작품 메타의 원제·원저자·판본 성격·작품 식별자) — 검색 설명의 「원전」 고르기에 쓴다 */
+  originalTitle?: string | null
+  originalCreator?: string | null
+  editionKind?: string | null
+  workIdentity?: string | null
   creatorNames?: string[]
   /** 작품에 실린 서점 링크 — 구매 모듈이 쿠팡 상품 링크에 이어 붙여 서점 마커를 채운다 */
   affiliateLinks?: AffiliateLink[]
@@ -68,7 +73,15 @@ export interface FigureBookCharacter {
 interface ContentRow {
   id: string
   type: ContentType
-  figureBook: { workTitle?: string; workCreator?: string; wikidataQid?: string } | null
+  figureBook: {
+    workTitle?: string
+    workCreator?: string
+    wikidataQid?: string
+    originalTitle?: string
+    originalCreator?: string
+    editionKind?: string
+    workIdentity?: string
+  } | null
   content_locales: ContentLocaleRow[] | null
 }
 
@@ -196,6 +209,10 @@ async function fetchSourcesByCeleb(
       titleEn: flat.title_en,
       workTitle: content.figureBook?.workTitle ?? null,
       wikidataQid: content.figureBook?.wikidataQid ?? null,
+      originalTitle: content.figureBook?.originalTitle ?? null,
+      originalCreator: content.figureBook?.originalCreator ?? null,
+      editionKind: content.figureBook?.editionKind ?? null,
+      workIdentity: content.figureBook?.workIdentity ?? null,
       creatorNames: [...new Set([
         ...(content.content_locales ?? []).map((row) => row.creator),
         content.figureBook?.workCreator,
@@ -261,7 +278,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v14', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v15', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

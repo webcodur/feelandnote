@@ -97,6 +97,54 @@ async function fetchCuratedPaths(): Promise<string[]> {
   ])
 }
 
+/**
+ * 신화·세력 한 편의 주소(26.09.29). 화면이 여는 것과 같은 조건만 싣는다 — 신화는 공개(published),
+ * 세력은 도감 노출(is_featured), 둘 다 slug가 있고 숨기지 않은 인물이 한 명 이상이다. 등재해 놓고 404를
+ * 돌려주면 모순 신호다(ops-02-seo 「판정에서 굳은 원칙」 6).
+ */
+async function fetchAtlasPaths(): Promise<string[]> {
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  if (!url || !key) return []
+  const get = async <T,>(query: string): Promise<T[] | null> => {
+    const request = () => fetch(`${url}/rest/v1/${query}`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
+    })
+    // 뷰 조회가 가끔 503으로 튄다(26.09.29 실측) — 한 번 더 묻는다. 그래도 실패하면 이 묶음만 뺀다
+    let response = await request()
+    if (response.status === 503) response = await request()
+    if (!response.ok) {
+      console.error(`[sitemap] ${query.split('?')[0]} REST failed: ${response.status} ${response.statusText}`)
+      return null
+    }
+    return response.json()
+  }
+
+  const rows = await get<{ id: string; slug: string; is_myth: boolean; published: boolean; is_featured: boolean }>(
+    'faction_lv2?select=id,slug,is_myth,published,is_featured&slug=not.is.null&order=sort_order.asc,id.asc&limit=1000',
+  )
+  if (!rows) return []
+
+  // 인물이 있는 세력 — 뷰가 1,000행 상한에 걸리므로 끝까지 나눠 읽는다
+  const withMembers = new Set<string>()
+  const pageSize = 1000
+  for (let offset = 0; ; offset += pageSize) {
+    const members = await get<{ lv2_id: string }>(
+      `faction_member_rows?select=lv2_id&hidden=eq.false&order=lv2_id.asc,celeb_id.asc&offset=${offset}&limit=${pageSize}`,
+    )
+    if (!members) return []
+    members.forEach((member) => withMembers.add(member.lv2_id))
+    if (members.length < pageSize) break
+  }
+
+  return rows.flatMap((row) => {
+    if (!withMembers.has(row.id)) return []
+    if (row.is_myth) return row.published ? [`/explore/myth/${row.slug}`] : []
+    return row.is_featured ? [`/explore/faction/${row.slug}`] : []
+  })
+}
+
 function entry(
   path: string,
   changeFrequency: SitemapEntry['changeFrequency'],
@@ -166,12 +214,13 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
 
 export async function getSitemapEntries(name: string): Promise<MetadataRoute.Sitemap | null> {
   if (name === 'core') {
-    const curatedPaths = await fetchCuratedPaths()
+    const [curatedPaths, atlasPaths] = await Promise.all([fetchCuratedPaths(), fetchAtlasPaths()])
     return [
       ...staticPaths.flatMap(([path, frequency, priority]) =>
         entry(path, frequency, priority),
       ),
       ...curatedPaths.flatMap((path) => entry(path, 'monthly', 0.7)),
+      ...atlasPaths.flatMap((path) => entry(path, 'weekly', 0.6)),
     ]
   }
 

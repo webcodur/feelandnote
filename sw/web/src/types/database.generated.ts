@@ -1818,6 +1818,8 @@ export type Database = {
           description: string | null
           description_en: string | null
           end_date: string | null
+          headline: string | null
+          headline_en: string | null
           id: string
           is_featured: boolean
           is_fiction: boolean
@@ -1841,6 +1843,8 @@ export type Database = {
           description?: string | null
           description_en?: string | null
           end_date?: string | null
+          headline?: string | null
+          headline_en?: string | null
           id?: string
           is_featured?: boolean
           is_fiction?: boolean
@@ -1864,6 +1868,8 @@ export type Database = {
           description?: string | null
           description_en?: string | null
           end_date?: string | null
+          headline?: string | null
+          headline_en?: string | null
           id?: string
           is_featured?: boolean
           is_fiction?: boolean

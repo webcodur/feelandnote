@@ -112,7 +112,40 @@ export function leadDescription(
   const text = body?.trim()
   const room = max - head.length - 1
   if (!text || room < MIN_BODY_ROOM) return head
-  return `${head} ${summarize(text, room)}`
+  // 요약은 끝난 문장만 돌려주고, 첫 문장부터 넘치면 빈 값이다 — 그때는 머리 문장만 둔다
+  const summary = summarize(text, room).trim()
+  return summary ? `${head} ${summary}` : head
+}
+
+/* ── 해마다 발표하는 수상 목록 ── */
+
+/** 목록 이름 끝의 「수상작」「Winners」 — 제목 틀(「역대 … 수상작」「…: Every Winner」)이 다시 붙인다 */
+export function stripWinnersSuffix(title: string, locale: string): string {
+  const stripped = locale === 'en' ? title.replace(/\s+winners?$/i, '') : title.replace(/\s*수상작$/, '')
+  return stripped.trim() || title.trim()
+}
+
+/** 기관명을 붙인 제목이 폭 안에 들면 그것을, 아니면 기관명 없는 제목을 쓴다 */
+export function fitAwardTitle(withCurator: string | null, plain: string): string {
+  return withCurator && estimateTitleWidth(withCurator) <= CURATOR_TITLE_WIDTH_BUDGET ? withCurator : plain
+}
+
+/** 역대 수상작을 모은 목록인가 — 시상 기관·영화제가 해마다 발표하는 목록. 순위표·권장도서는 아니다 */
+export function isAwardHistoryList(list: { isAnnual: boolean; curator: { kind: string } }): boolean {
+  return list.isAnnual && (list.curator.kind === 'award' || list.curator.kind === 'festival')
+}
+
+/**
+ * 최근 수상작 이름 — 연도가 큰 순서로, 같은 해의 공동 수상은 목록 차례대로 싣는다.
+ * 연도 기준은 목록마다 다르다(시상식 해·개봉 해) — 검색 설명에는 연도를 쓰지 않고 이름만 쓴다.
+ */
+export function recentWinners(items: readonly { year: number | null; title: string }[], count = 2): string[] {
+  return items
+    .map((item, index) => ({ ...item, index }))
+    .filter((item) => item.year !== null && item.title.trim())
+    .sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || a.index - b.index)
+    .slice(0, count)
+    .map((item) => item.title.trim())
 }
 
 /* ── 기관 선정 허브(/explore/works/curated)의 정본 주소 ── */

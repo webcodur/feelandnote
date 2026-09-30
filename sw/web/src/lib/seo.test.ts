@@ -25,11 +25,21 @@ test('긴 소개문은 한도 안에 드는 앞 문장까지만 싣는다', () =
   assert.ok(summary.length <= 120)
 })
 
-test('첫 문장부터 넘치면 낱말 경계에서 자른다', () => {
-  const summary = toSeoSummary('one two three four five six seven eight nine ten.', 20)
+test('첫 문장부터 넘치면 「…」로 자르지 않고 빈 값을 돌려준다', () => {
+  assert.equal(toSeoSummary('one two three four five six seven eight nine ten.', 20), '')
+})
 
-  assert.ok(summary.endsWith('…'))
-  assert.ok(summary.length <= 20)
+test('약어 뒤 마침표에서는 문장을 끊지 않는다', () => {
+  const text = 'A registered charity in England (no. 1090049) that runs the prize. It was created in 2002.'
+  assert.equal(toSeoSummary(text, 70), 'A registered charity in England (no. 1090049) that runs the prize.')
+})
+
+test('작품 이름과 인용 안의 마침표·말줄임은 그대로 두고 그 안에서 끊지 않는다', () => {
+  const text = '《Mr. Nobody》는 선택을 다룬다. 「기다려… 아직 끝나지 않았다. 다시 본다」라는 대사로 끝난다. 셋째 문장이다.'
+  assert.equal(
+    toSeoSummary(text, 60),
+    '《Mr. Nobody》는 선택을 다룬다. 「기다려… 아직 끝나지 않았다. 다시 본다」라는 대사로 끝난다.',
+  )
 })
 
 test('짧은 소개문은 그대로 둔다', () => {

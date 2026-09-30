@@ -25,7 +25,8 @@ import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
 import MythScreen from "@/components/features/user/explore/myth/MythScreen";
 import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
-import { MYTH_LAST_COOKIE } from "@/components/features/user/explore/myth/mythHref";
+import AtlasIndex from "@/components/features/user/explore/myth/AtlasIndex";
+import { MYTH_LAST_COOKIE, mythHref } from "@/components/features/user/explore/myth/mythHref";
 import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
 import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
 
@@ -88,17 +89,35 @@ export async function ProfileSection() {
   );
 }
 
-/* 신화 탐색 — 일반 허브 구획과 달리 인물·관계·등장 작품을 한 판에서 바꿔 본다. */
-export async function MythSection() {
-  const locale = await getLocale();
+/* 신화 탐색 — 일반 허브 구획과 달리 인물·관계·등장 작품을 한 판에서 바꿔 본다.
+   slug가 오면(/explore/myth/<slug>) 그 신화를 연다 — 화면이 주소에서 slug를 읽으므로 쿠키는 첫 화면에서만 본다.
+   아래에는 모든 공개 신화로 가는 목록을 늘 펼쳐 둔다 */
+export async function MythSection({ slug = null }: { slug?: string | null } = {}) {
+  const [locale, t] = await Promise.all([getLocale(), getTranslations("explore.hub.myth")]);
   // 마지막으로 보던 신화. 탐색은 이미 요청마다 그리고 앞단 캐시도 없어 쿠키를 읽어도 렌더 방식이 바뀌지 않는다
-  const rememberedSlug = (await cookies()).get(MYTH_LAST_COOKIE)?.value ?? null;
+  const rememberedSlug = slug ? null : (await cookies()).get(MYTH_LAST_COOKIE)?.value ?? null;
   const data = await load("신화 탐색", () => getMythData(locale));
   if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
   const publicData = getMythClientData(data);
   if (publicData.regions.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
+  const mythById = new Map(publicData.myths.map((myth) => [myth.id, myth]));
+  const index = publicData.regions.map((region) => ({
+    id: region.slug || region.id,
+    name: region.name,
+    items: region.mythIds.flatMap((id) => {
+      const myth = mythById.get(id);
+      return myth?.isPublished && myth.slug
+        ? [{ id: myth.id, name: myth.name, href: mythHref(myth.slug), headline: myth.headline, current: myth.slug === slug }]
+        : [];
+    }),
+  }));
   // 공개 대상은 DB의 faction_lv2.published가 정한다. 닫힌 전승은 메뉴만 남긴다.
-  return <MythScreen data={publicData} rememberedSlug={rememberedSlug} />;
+  return (
+    <>
+      <MythScreen data={publicData} rememberedSlug={rememberedSlug} />
+      <AtlasIndex heading={t("allMyths")} groups={index} />
+    </>
+  );
 }
 
 /* 성향 분포 */
