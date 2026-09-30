@@ -15,6 +15,11 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
       <div aria-hidden="true">
         <div className={layout.navigationOuter}>
           <div className={layout.selectionPanel}>
+            {/* 실화면의 이름+한 줄 정의 머리(data-atlas-heading) — 로딩 때도 자리를 잡아 제목이 튀지 않게 한다 */}
+            <div className="mb-3 flex flex-col items-center px-1 md:mb-4">
+              <Ghost className="h-7 w-44 md:h-8" />
+              <Ghost className="mt-1 h-5 w-64 max-w-[75%]" />
+            </div>
             <div className={cn(layout.selectionDetails, !hasArtwork && layout.selectionWithoutArtwork)}>
               <div className={layout.selectionControls}>
                 <div className={ATLAS_NAV_LAYOUT.root}>
@@ -34,13 +39,17 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
         </div>
         <div className={layout.membersOuter}>
           <div className={`${layout.container} ${layout.sectionDivider}`}>
-            {/* 실화면의 중앙 정렬 구획 머리(아이콘+제목, 그 아래 인원 설명)와 같은 자리·높이 */}
-            <div className="mb-3 flex flex-col items-center gap-2"><Ghost className="h-5 w-24" /><Ghost className="h-3 w-32" /></div>
+            {/* CenteredSectionHeading과 같은 쌓기 — 액센트 대시 + 제목 + 인원 설명 */}
+            <div className="mb-3 flex flex-col items-center gap-2">
+              <Ghost className="h-0.5 w-8 rounded-full" />
+              <Ghost className="h-6 w-28 md:h-7" />
+              <Ghost className="h-5 w-36" />
+            </div>
             <div className={layout.memberList}>
               {Array.from({ length: 12 }, (_, index) => (
                 <div key={index} className="flex min-w-0 flex-col items-center">
                   <Ghost className="aspect-square w-full rounded-xl" />
-                  <Ghost className="mt-3 h-4 w-3/4" /><Ghost className="mt-2 h-3 w-full" />
+                  <Ghost className="mt-2.5 h-5 w-3/4" /><Ghost className="mt-1 h-4 w-5/6" />
                 </div>
               ))}
             </div>
@@ -50,12 +59,23 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
         <div className={layout.overviewOuter}>
           <div className={layout.container}>
             <div className={layout.sectionDivider}>
-              <div className="mb-4 flex flex-col items-center gap-2 md:mb-6"><Ghost className="h-5 w-20" /><Ghost className="h-9 w-64 max-w-full rounded-full" /></div>
-              <div className="flex flex-wrap justify-center gap-4">
-                {Array.from({ length: 4 }, (_, index) => (
-                  <div key={index} className="flex w-28 flex-col items-center sm:w-32">
+              {/* 책장 머리(CenteredSectionHeading) — 대시+제목, mb-3/md:mb-5 */}
+              <div className="mb-3 flex flex-col items-center gap-2 md:mb-5">
+                <Ghost className="h-0.5 w-8 rounded-full" />
+                <Ghost className="h-6 w-24 md:h-7" />
+              </div>
+              {/* 모드 탭 + 안내문 덩어리 — headerTabs의 mb-4/md:mb-6 */}
+              <div className="mb-4 flex flex-col items-center gap-2 md:mb-6">
+                <Ghost className="h-9 w-64 max-w-full rounded-full" />
+                <Ghost className="h-5 w-72 max-w-full" />
+              </div>
+              {/* 카드 — 좁은 화면은 가로 넘김 레일, 넓은 화면은 가운데 줄바꿈(AffiliateBookList와 같은 폭) */}
+              <div className="flex justify-start gap-3 overflow-hidden md:flex-wrap md:justify-center md:gap-5">
+                {Array.from({ length: 6 }, (_, index) => (
+                  <div key={index} className="flex w-36 shrink-0 flex-col items-center md:w-[180px]">
                     <Ghost className="aspect-[3/4] w-full rounded-lg" />
                     <Ghost className="mt-2 h-3.5 w-3/4" /><Ghost className="mt-1.5 h-3 w-1/2" />
+                    <Ghost className="mt-2 h-6 w-full rounded-md" />
                   </div>
                 ))}
               </div>
