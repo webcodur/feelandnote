@@ -1,11 +1,9 @@
 # Google 일일 색인 신청
 
-**현재 도달점(2026-09-29):** 서비스 전반 개편 뒤 새 인물이 아니라 주요 허브·세력도감·신화도감·오디세우스 재수집을 우선 경로로 돌렸다. 사이트맵 API 재제출(204) 뒤 11건을 접수하고 `en/celeb/odysseus`에서 「할당량 초과」로 끝났다(조사 데이터 `dailyIndexingRequests`의 09-29 항목). 접수: 홈 ko/en·`/explore` ko/en·세력도감 허브 ko·신화도감 허브 ko·`/explore/works` ko/en·`/about` ko/en·`/celeb/odysseus` ko.
-중간에 `en/explore/faction`·`en/explore/myth` 두 건이 결과 대화상자 미확인(PENDING)으로 멈췄다 — 할당량이 아니라 live test가 제한 시간을 넘긴 것으로 보인다. `en/explore/faction`은 이후 API 검사에서 색인됨(PASS)으로 확인됐고 `en/explore/myth`는 미색인·버튼 잔존이라 큐 맨 앞에 남겼다.
-다음 신청은 **`en/celeb/odysseus` → `en/explore/myth` → 세력도감 상세 6테마(ko·en) → 나머지 허브 9종(ko·en)** 순이며 이후는 09-28 항목의 인물 큐다. 조사 데이터 09-29 항목의 `nextQueue`(119건)가 쥔다.
-옛 신화 주소 `/explore/myth?myth=<slug>`는 canonical이 `/explore/myth` 허브로 수렴해 개별 신청이 무의미하다. 26.09.29 신화마다 `/explore/myth/<slug>` 주소를 여는 개편을 만들었다(미배포). 배포하면 옛 주소는 308로 옮겨 가고, 신화·세력 한 편 주소를 큐에 넣는다(규칙은 [SEO](../project/operations/ops-02-seo.md) 「신화·세력도감」).
-같은 날 우선 경로 44 URL을 Bing 공용·네이버 공식 IndexNow로 통지해 둘 다 HTTP 200을 받았다(규칙은 [SEO](../project/operations/ops-02-seo.md) 「IndexNow」 절).
-다음 확인은 09-28 우선 접수분(빌 게이츠·찰리 멍거 재수집, 헤라클레스·마리아 첫 수집, 아킬레우스 한국어 재평가)과 오늘 접수분의 마지막 크롤·색인 상태다.
+**현재 도달점(2026-09-30):** 신화·세력 한 편 주소 개편이 배포됐다(`694e2e46`) — 신화 `/explore/myth/<slug>` 78편·세력 `/explore/faction/<slug>` 188개가 core.xml에 올랐고 옛 `?myth=` 주소는 308로 옮겨 간다. 배포 뒤 새 주소 한·영 532 URL을 Bing 공용·네이버 공식 IndexNow로 통지해 둘 다 HTTP 200이고, 사이트맵 API 재제출(204)도 끝냈다. 새 주소 520건을 `nextQueue`의 인물 백로그 앞에 삽입했다(639건).
+같은 날 사전 API 검사에서 큐 639건 중 7건이 이미 색인됨으로 건너뛰고, `en/celeb/odysseus` 1건을 접수한 뒤 `en/explore/myth`에서 「할당량 초과」로 끝났다(조사 데이터 `dailyIndexingRequests`의 09-30 항목).
+다음 신청은 **`en/explore/myth` → `en/explore/faction` → 세력도감 상세 6테마(ko·en) → 나머지 허브 → 신화·세력 한 편 주소 520건(ko·en 교대)** 순이며 이후는 인물 큐다. 조사 데이터 09-30 항목의 `nextQueue`(638건)가 쥔다.
+다음 확인은 09-29 접수분(홈·허브 재수집)과 오늘 접수한 `en/celeb/odysseus`의 크롤·색인 반영 여부다.
 
 주요 미색인 인물 URL은 Search Console에서 색인 생성을 직접 요청한다. 자동 재수집만 기다리지 않고,
 매일 아직 요청하지 않은 URL을 Google이 요청 한도·제한을 표시할 때까지 순차 신청한다.
