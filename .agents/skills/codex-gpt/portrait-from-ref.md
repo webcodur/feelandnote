@@ -29,7 +29,12 @@ Keep the full forehead, eyebrows, ears, and chin visible; hair, hats, crowns, or
 Leave enough image around the face for a landmark-based square crop, but do not pull back into a chest-up portrait.
 No hands, props, microphones, books, weapons, text, logos, or other people.
 Use a clean background clearly separated from the person, with no meaningful detail in the corners.
+Key light from the viewer's left; the right cheek falls into shadow; eyes, brows, nose and jaw read crisply.
 ```
+
+마지막 줄은 빼지 않는다. 고른 정면광이면 작은 원형에서 이목구비가 평평하게 묻혀 옆 인물보다 흐려 보인다(26.09.30 쿠시나다히메·코노하나사쿠야히메).
+
+양식 첫 줄의 `re-render from scratch`도 빼지 않는다. 빛 지시만 넣었을 때는 REF의 고른 정면광과 CG 같은 피부가 그대로 복제돼 거의 달라지지 않았고, 이 한 줄을 넣은 뒤에야 한쪽 뺨에 그늘이 졌다(같은 날 2회 비교). 다만 처음에 「신원만 가져오라」고 썼더니 REF의 가벼운 미소가 무표정으로 바뀌었고, 「한쪽에서」라고만 쓰면 빛이 오른쪽에서 들어와 서비스 규격(뷰어 왼쪽, `AVATAR_LIGHT_SPEC`)과 어긋났다. 그래서 표정은 REF에서 가져오고 빛은 뷰어 왼쪽으로 못 박는다.
 
 ---
 
@@ -40,7 +45,7 @@ Use a clean background clearly separated from the person, with no meaningful det
 ```
 TASK-ID: AVATARHD-{TAG}
 
-Regenerate the attached portrait at high resolution.
+Regenerate the attached portrait at high resolution. Keep its identity and expression (a light smile stays a light smile); relight and re-render from scratch, do not keep its lighting or skin rendering.
 
 {FRAMING_IF_AVATAR}
 
@@ -61,7 +66,7 @@ Report only the saved path as your final message.
 
 ⚠️ **아바타 용도일 때 아래 성별 블록을 고정 템플릿으로 돌려쓰지 마라.** 조명 방향·색온도·표정 온도·복식은 인물마다 고르고, 공통으로 강제할 것은 위 FRAMING 블록뿐이다. 블록 자체는 팩션 개인샷 등 다른 용도에 쓸 수 있다.
 
-⚠️ **강조어 누적 주의.** 같은 문서 §4.2는 밀랍 인형처럼 되는 것을 막으려 `Photorealistic`·`Bold cinematic`·`f/1.4`·`lens flare`를 겹쳐 쓰지 말라고 정했다. 이 양식에 그 네 낱말이 그대로 들어 있지는 않지만, `Ultra-photorealistic` + `8K ultra high resolution` + `Extremely high detail` + `Shallow depth of field`가 같은 방향으로 쌓여 있다. 아바타 산출물에서 피부가 밀랍처럼 보이면 이 줄들부터 덜어낸다.
+⚠️ **강조어 누적 주의.** 같은 문서 §4.2는 밀랍 인형처럼 되는 것을 막으려 `Photorealistic`·`Bold cinematic`·`f/1.4`·`lens flare`를 겹쳐 쓰지 말라고 정했다. 남성 블록의 `Ultra-photorealistic` + `8K ultra high resolution` + `Extremely high detail`은 같은 방향으로 쌓인 말이다. 피부가 밀랍처럼 보이면 이 줄들부터 덜어낸다. 여성 블록은 반대로 부드럽게 만드는 말이 쌓여 흐려졌으므로 네 줄로 줄였다.
 
 ### 남성
 
@@ -89,37 +94,13 @@ Professional studio-quality photograph
 ### 여성
 
 ```
-Ultra-photorealistic portrait image
-
-Natural and refined human skin texture
-Visible skin detail with subtle pores and soft micro-texture
-Healthy and clean complexion
-No plastic skin, no excessive smoothing, no beauty filter, no blur
-
-Soft directional natural window light
-Gentle Rembrandt lighting with smooth shadow transitions
-High dynamic range with realistic highlight roll-off
-Soft luminous skin rendering
-
-85mm lens, full-frame DSLR look
-Shallow depth of field, tack sharp focus on eyes
-Natural facial proportions and subtle asymmetry
-
-Balanced color grading
-Clean skin tones with realistic translucency
-RAW photo quality
-
-High detail with preserved facial features
-Fine eyelashes, natural eyebrows, soft baby hairs
-Smooth texture transitions without over-sharpening
-
-Ultra high resolution, crisp eyes and hair detail
-No harsh skin contrast, no exaggerated pores
-
-Clean minimal background
-Slightly blurred neutral tones
-Professional editorial portrait photography
+Photographic portrait, real skin with natural texture; no plastic skin, no beauty filter, no blur.
+Directional window light from the viewer's left, Rembrandt shadow on the right cheek.
+85mm lens, sharp focus on the eyes, natural color, RAW photo quality.
+Clean background, darker than the face.
 ```
+
+`soft`·`gentle`·`smooth shadow`·`luminous`·`no harsh contrast`를 다시 넣지 않는다. 피부를 곱게 하려는 말이 그늘과 윤곽까지 지워 얼굴이 3D 렌더처럼 흐려진다(26.09.30 실측). 피부 결은 `natural texture` 한 마디로 충분하다.
 
 ---
 
