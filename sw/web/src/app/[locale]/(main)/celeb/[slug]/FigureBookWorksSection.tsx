@@ -35,6 +35,22 @@ export default function FigureBookWorksSection({
   const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>();
   const selectedButtonRef = useRef<HTMLButtonElement>(null);
   const selected = sources.find((source) => source.id === selectedId) ?? sources[0];
+  /* 같은 책(ISBN, 없으면 같은 제목)이 둘 이상의 작품에 판본으로 걸리면 합본이다.
+     일본서기/고사기 같은 합본이 두 작품의 판본 칸에 각각 나와 중복처럼 보이는 것을
+     배지로 설명한다. */
+  const worksByEditionKey = new Map<string, Set<string>>();
+  for (const source of sources) {
+    for (const edition of source.editions) {
+      const key = edition.isbn?.trim() || `title:${edition.title.trim().toLowerCase()}`;
+      if (!key || key === "title:") continue;
+      const set = worksByEditionKey.get(key) ?? new Set<string>();
+      set.add(source.id);
+      worksByEditionKey.set(key, set);
+    }
+  }
+  const sharedEditionKeys = new Set(
+    [...worksByEditionKey].filter(([, works]) => works.size > 1).map(([key]) => key),
+  );
   useEffect(() => {
     const rail = railRef.current;
     const button = selectedButtonRef.current;
@@ -100,7 +116,7 @@ export default function FigureBookWorksSection({
           </div>
       </section>
 
-      <FigureBookFeature source={selected} />
+      <FigureBookFeature source={selected} sharedEditionKeys={sharedEditionKeys} />
     </div>
   );
 }

@@ -23,6 +23,8 @@ import AnimatedHeight from "@/components/ui/AnimatedHeight";
 
 interface FigureBookFeatureProps {
   source: FigureBookContent;
+  /** 둘 이상의 작품에 판본으로 걸린 합본의 판본 키(ISBN 또는 정규화 제목) */
+  sharedEditionKeys?: ReadonlySet<string>;
 }
 /* ── 1. 날짜 표기 ── */
 function formatDate(value: string | null, locale: string): string | null {
@@ -45,6 +47,7 @@ function formatDate(value: string | null, locale: string): string | null {
 
 export default function FigureBookFeature({
   source,
+  sharedEditionKeys,
 }: FigureBookFeatureProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
@@ -93,6 +96,7 @@ export default function FigureBookFeature({
         source={source}
         selectedEditionId={edition.id}
         onSelect={(editionId) => setEditionSelection({ sourceId: source.id, editionId })}
+        sharedEditionKeys={sharedEditionKeys}
       />
       {/* ── 3. 표지·소개·서지 ── */}
       <div className="relative flow-root rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-3 [--intro-media-height:198px] max-sm:rounded-xl max-sm:border-white/[0.08] max-sm:bg-bg-card max-sm:bg-none! sm:grid sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">

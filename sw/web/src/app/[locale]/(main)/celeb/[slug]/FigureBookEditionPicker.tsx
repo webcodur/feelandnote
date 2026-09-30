@@ -12,6 +12,8 @@ interface FigureBookEditionPickerProps {
   source: FigureBookContent;
   selectedEditionId: number;
   onSelect: (editionId: number) => void;
+  /** 둘 이상의 작품에 판본으로 걸린 합본의 판본 키(ISBN 또는 정규화 제목) */
+  sharedEditionKeys?: ReadonlySet<string>;
 }
 
 const PANEL_DURATION = 320;
@@ -21,6 +23,7 @@ export default function FigureBookEditionPicker({
   source,
   selectedEditionId,
   onSelect,
+  sharedEditionKeys,
 }: FigureBookEditionPickerProps) {
   const t = useTranslations("celebPage");
   const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>();
@@ -86,12 +89,15 @@ export default function FigureBookEditionPicker({
             <div ref={railRef} {...dragProps} className={`relative flex gap-2 overflow-x-auto overscroll-x-contain bg-stone-heavy bg-texture-noise px-2 py-2.5 pb-1 select-none scrollbar-hide pointer-coarse:snap-x pointer-coarse:snap-proximity [overflow-anchor:none] sm:px-3 sm:py-3 md:px-4 ${cursorClassName}`}>
               {source.editions.map((option) => {
                 const active = option.id === selectedEditionId;
+                const editionKey = option.isbn?.trim() || `title:${option.title.trim().toLowerCase()}`;
+                const omnibus = Boolean(sharedEditionKeys?.has(editionKey));
                 return (
                   <button
                     key={option.id}
                     type="button"
                     aria-pressed={active}
                     aria-label={t("sourceEditionSelectAria", { title: option.title })}
+                    title={omnibus ? t("sourceEditionOmnibusHint") : undefined}
                     onClick={(event) => {
                       onSelect(option.id);
                       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -101,7 +107,7 @@ export default function FigureBookEditionPicker({
                         inline: "center",
                       });
                     }}
-                    className={`grid h-[84px] shrink-0 snap-center grid-cols-[56px_minmax(0,1fr)] border p-0 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                    className={`relative grid h-[84px] shrink-0 snap-center grid-cols-[56px_minmax(0,1fr)] border p-0 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                       active
                         ? "border-accent bg-accent/10"
                         : "effect-engraved border-stone-light bg-stone-heavy hover:border-accent hover:bg-accent/[0.06]"
@@ -118,6 +124,11 @@ export default function FigureBookEditionPicker({
                       </span>
                       {(option.creator || source.creator) && <span className="flex min-w-0 items-center justify-center"><span className="block truncate text-sm font-medium leading-5 tracking-[0.05em] text-text-secondary">{option.creator || source.creator}</span></span>}
                     </span>
+                    {omnibus && (
+                      <span className="absolute -top-px -end-px rounded-es-md border-b border-s border-accent/50 bg-bg-secondary px-1.5 py-0.5 text-[10px] font-black tracking-[0.06em] text-accent">
+                        {t("sourceEditionOmnibus")}
+                      </span>
+                    )}
                   </button>
                 );
               })}
