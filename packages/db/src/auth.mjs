@@ -1,4 +1,5 @@
-import { createRemoteJWKSet, jwtVerify } from 'jose';
+import { createRemoteJWKSet } from 'jose/jwks/remote';
+import { jwtVerify } from 'jose/jwt/verify';
 
 const jwksByUrl = new Map();
 const refreshing = new Map();
