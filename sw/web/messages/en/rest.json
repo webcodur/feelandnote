@@ -1004,6 +1004,9 @@
           "replay": "Try another age",
           "exit": "Return to Rest"
         }
+      },
+      "troy": {
+        "label": "Troy"
       }
     },
     "hub": {
@@ -1014,7 +1017,8 @@
       "suikoden": "Lead historical figures, build power, and unite civilizations",
       "memory": "A face-pair game of remembering and matching historical figures",
       "portrait": "A solo game of identifying figures as their portraits come into focus",
-      "wander": "Cross an age, forge bonds, and gather the power to reclaim your home"
+      "wander": "Cross an age, forge bonds, and gather the power to reclaim your home",
+      "troy": "Lead Achilles and the Greek heroes through ten battles from the shores of Troy to the Trojan Horse"
     },
     "meta": {
       "title": "Rest - Mini-Games with Historical Figures",

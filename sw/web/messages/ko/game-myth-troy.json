@@ -1,0 +1,321 @@
+{
+  "gameMythTroy": {
+    "title": "트로이 전쟁",
+    "intro": "아킬레우스와 오디세우스, 대 아이아스를 이끌고 트로이 해변에서 목마까지 열 번의 싸움을 넘으세요. 인연은 곁에서 힘이 되고 맞수는 만나면 불꽃이 튑니다.",
+    "frame": {
+      "hub": "신화 게임",
+      "exit": "목록으로",
+      "menu": "메뉴",
+      "close": "닫기",
+      "fixture": "DB에 연결되지 않아 인물 사진 없이 돌고 있습니다."
+    },
+    "titleScreen": {
+      "eyebrow": "『일리아스』와 서사시권",
+      "tagline": "그리스 영웅들과 열 번의 싸움을 넘어 트로이를 무너뜨리세요.",
+      "newGame": "새로 시작",
+      "continue": "이어 하기",
+      "continueAt": "{no}장 · {title}",
+      "chapters": "장 고르기",
+      "progress": "{count}/{total}장 넘음",
+      "confirmNew": "지금까지의 원정 기록을 지우고 처음부터 시작할까요?",
+      "confirmYes": "처음부터",
+      "confirmNo": "그대로 두기",
+      "resumeBattle": "싸우던 판 이어 하기"
+    },
+    "chapters": {
+      "heading": "장 고르기",
+      "chapterNo": "{no}장",
+      "locked": "앞 장을 넘으면 열립니다",
+      "cleared": "넘음",
+      "best": "가장 빠른 판 {turns}차례",
+      "play": "싸우러 가기",
+      "back": "처음 화면"
+    },
+    "story": {
+      "next": "다음",
+      "skip": "건너뛰기",
+      "done": "시작",
+      "narrator": "이야기",
+      "tapHint": "누르면 다음 줄"
+    },
+    "prep": {
+      "heading": "출진 준비",
+      "objective": "이기는 조건",
+      "loss": "지는 조건",
+      "pick": "나갈 장수를 고르세요",
+      "count": "{count}/{max}명",
+      "forced": "반드시 나감",
+      "start": "출진",
+      "level": "수준 {level}",
+      "bonds": "인연",
+      "rivals": "맞수",
+      "absent": "이번 싸움에는 나오지 않습니다",
+      "full": "더 고를 수 없습니다",
+      "story": "이야기 다시 보기",
+      "difficulty": "난이도"
+    },
+    "difficulty": {
+      "easy": "쉬움",
+      "normal": "보통",
+      "hard": "어려움",
+      "easyHint": "적이 한결 약합니다. 이야기를 따라가기 좋습니다.",
+      "normalHint": "처음 나서는 원정에 알맞은 싸움입니다.",
+      "hardHint": "적이 더 세고 단단합니다. 한 수 한 수를 따져야 합니다."
+    },
+    "hud": {
+      "turn": "{turn}차례",
+      "phase": {
+        "player": "우리 차례",
+        "ally": "아군 차례",
+        "enemy": "적 차례"
+      },
+      "endTurn": "차례 끝내기",
+      "objective": "목표",
+      "danger": "적이 닿는 칸",
+      "rotateLeft": "왼쪽으로 돌리기",
+      "rotateRight": "오른쪽으로 돌리기",
+      "zoomIn": "가까이",
+      "zoomOut": "멀리",
+      "fast": "빠르게",
+      "normal": "보통 빠르기",
+      "intents": "예언: 적이 갈 곳",
+      "enemyThinking": "적이 움직이는 중",
+      "pickUnit": "움직일 장수를 누르세요",
+      "pickTile": "갈 칸이나 칠 적을 누르세요",
+      "pickTarget": "대상을 누르세요",
+      "allDone": "모든 장수가 움직였습니다",
+      "endConfirm": "끝낼까요?",
+      "unmoved": "아직 움직이지 않은 장수가 {count}명 있습니다. 한 번 더 누르면 차례를 끝냅니다.",
+      "saveQuit": "저장하고 나가기",
+      "ships": "탄 배 {count}/{max}",
+      "turnsLeft": "{left}차례 남음"
+    },
+    "action": {
+      "attack": "공격",
+      "skill": "기술",
+      "wait": "대기",
+      "cancel": "취소",
+      "back": "뒤로",
+      "confirm": "공격하기",
+      "use": "쓰기",
+      "openGate": "성문 열기"
+    },
+    "forecast": {
+      "heading": "싸움 예측",
+      "damage": "피해",
+      "hit": "명중",
+      "crit": "치명",
+      "twice": "두 번",
+      "noCounter": "반격 못 함",
+      "ko": "쓰러뜨릴 수 있음",
+      "notes": {
+        "bond": "인연 {name}",
+        "rival": "맞수",
+        "heightUp": "높은 곳",
+        "heightDown": "낮은 곳",
+        "terrain": "지형",
+        "blessed": "축복",
+        "shaken": "겁먹음",
+        "guarding": "방패 벽",
+        "invulnerable": "신의 몸 — 다치지 않음",
+        "divineStrike": "신을 치는 힘",
+        "charge": "돌격",
+        "skill": "{name}",
+        "borrowedArmor": "빌린 갑옷"
+      }
+    },
+    "unit": {
+      "level": "수준 {level}",
+      "hp": "체력",
+      "exp": "경험 {exp}/100",
+      "acted": "행동 끝",
+      "stats": {
+        "str": "힘",
+        "skl": "기술",
+        "spd": "속도",
+        "def": "방어",
+        "res": "신력",
+        "mov": "이동"
+      },
+      "skills": "기술",
+      "statuses": "상태",
+      "ours": "우리 편",
+      "ally": "아군",
+      "enemy": "적",
+      "mustLive": "쓰러지면 패배",
+      "winTarget": "쓰러뜨리면 승리"
+    },
+    "classes": {
+      "hoplite": "중갑 보병",
+      "archer": "궁수",
+      "skirmisher": "경보병",
+      "chariot": "전차",
+      "rider": "기병",
+      "healer": "의사",
+      "seer": "예언자",
+      "god": "신",
+      "river": "강의 신"
+    },
+    "statuses": {
+      "blessed": "축복",
+      "divineStrike": "신을 치는 힘",
+      "shaken": "겁먹음",
+      "stripped": "무구를 잃음",
+      "guarding": "방패 벽",
+      "rooted": "발이 묶임",
+      "carrying": "시신을 멤",
+      "borrowedArmor": "빌린 갑옷",
+      "wrath": "분노"
+    },
+    "skills": {
+      "wrath": {
+        "name": "분노",
+        "desc": "이번 차례 힘 +4, 상대가 누구든 두 번 친다. 한 판 한 번."
+      },
+      "athenaBlessing": {
+        "name": "아테나의 가호",
+        "desc": "두 차례 동안 명중·치명이 오르고 신에게도 상처를 낸다. 한 판 한 번."
+      },
+      "warCry": {
+        "name": "함성",
+        "desc": "2칸 안의 적이 겁먹어 명중이 떨어진다."
+      },
+      "cunning": {
+        "name": "꾀",
+        "desc": "3칸 안의 우리 편과 자리를 바꾼다."
+      },
+      "counsel": {
+        "name": "조언",
+        "desc": "곁의 우리 편 하나가 한 번 더 움직인다. 한 판 한 번."
+      },
+      "heal": {
+        "name": "치료",
+        "desc": "곁의 우리 편 체력을 되찾게 한다."
+      },
+      "prophecy": {
+        "name": "예언",
+        "desc": "다음 적 차례에 적이 어디로 갈지 미리 보여 준다."
+      },
+      "blessing": {
+        "name": "축복",
+        "desc": "1~2칸 안 우리 편의 명중·치명을 올린다."
+      },
+      "shieldWall": {
+        "name": "방패 벽",
+        "desc": "다음 차례까지 방어 +3, 곁의 우리 편 방어 +1."
+      },
+      "aimedShot": {
+        "name": "겨눠 쏘기",
+        "desc": "명중 +20, 치명 +10으로 쏜다."
+      },
+      "swiftFeet": {
+        "name": "날랜 발",
+        "desc": "이동 +1."
+      },
+      "sevenfoldShield": {
+        "name": "일곱 겹 방패",
+        "desc": "곁의 우리 편이 받는 피해 −2."
+      },
+      "kingOfMen": {
+        "name": "왕들의 왕",
+        "desc": "2칸 안 우리 편 명중 +5."
+      },
+      "shieldArcher": {
+        "name": "방패 뒤 궁수",
+        "desc": "대 아이아스 곁에서 위력 +3."
+      },
+      "physician": {
+        "name": "명의",
+        "desc": "치료 +5, 차례마다 곁의 우리 편을 3 회복."
+      },
+      "trojanWall": {
+        "name": "트로이의 방벽",
+        "desc": "곁의 같은 편 방어 +1, 회피 +10."
+      },
+      "apolloGuided": {
+        "name": "아폴론의 인도",
+        "desc": "치명 +15."
+      },
+      "sonOfZeus": {
+        "name": "제우스의 아들",
+        "desc": "받는 피해 −1."
+      },
+      "goddessRescue": {
+        "name": "여신의 비호",
+        "desc": "처음 쓰러질 때 신이 데려간다."
+      },
+      "longBow": {
+        "name": "명궁",
+        "desc": "사거리 +1."
+      },
+      "filialGuard": {
+        "name": "효심",
+        "desc": "네스토르 곁에서 위력 +2, 명중 +10."
+      },
+      "dawnArmor": {
+        "name": "새벽의 무구",
+        "desc": "방어 +3, 치명을 받지 않는다."
+      },
+      "amazonQueen": {
+        "name": "아마존의 여왕",
+        "desc": "2칸 안 기병 위력 +2."
+      }
+    },
+    "banner": {
+      "rival": "맞수",
+      "truce": "적진의 벗 — 서로 치지 않는다",
+      "levelUp": "수준이 올랐다",
+      "levelUpOf": "{name}의 수준이 올랐다 · 수준 {level}",
+      "exp": "경험 +{amount}",
+      "shipBurned": "배에 불이 붙었다",
+      "victory": "승리",
+      "defeat": "패배",
+      "turnStart": "{turn}차례"
+    },
+    "result": {
+      "victory": "승리",
+      "defeat": "패배",
+      "turns": "{turns}차례 만에",
+      "expGained": "얻은 경험",
+      "levelUps": "수준이 오른 장수",
+      "fallen": "쓰러졌다가 다음 장에 돌아온다",
+      "none": "없음",
+      "retry": "다시 싸우기",
+      "next": "다음 장으로",
+      "chapters": "장 고르기",
+      "altRoad": "호메로스와 다른 길",
+      "story": "이어지는 이야기",
+      "bench": "출진하지 않은 영웅 {count}명도 경험 +{amount}",
+      "defeatAt": "{turns}차례째",
+      "lostLord": "쓰러진 장수",
+      "lostWhy": "진 까닭",
+      "allFell": "우리 편이 모두 쓰러졌습니다.",
+      "shipsBurned": "배가 {count}척 불탔습니다.",
+      "timeUp": "정한 차례가 모두 지났습니다.",
+      "noExp": "진 판에서 얻은 경험은 남지 않습니다. 다시 싸우면 출진 준비부터 시작합니다."
+    },
+    "ending": {
+      "eyebrow": "트로이 전쟁이 끝났다",
+      "heading": "열 해의 싸움",
+      "body": "그리스 함대가 불타는 트로이를 뒤로하고 바다로 나섰다. 오디세우스에게는 아직 열 해의 바닷길이 남아 있다.",
+      "voyage": "오디세우스의 귀향 해 보기",
+      "again": "처음 화면",
+      "sources": "이야기의 출전",
+      "altCount": "호메로스와 다른 길 {count}번"
+    },
+    "help": {
+      "heading": "싸우는 법",
+      "lines": [
+        "장수를 누르면 갈 수 있는 칸(파랑)과 칠 수 있는 칸(빨강)이 보입니다.",
+        "칸을 누르면 움직이고, 적을 누르면 싸움 예측이 뜹니다. 한 번 더 누르거나 「공격하기」로 칩니다.",
+        "기술 단추를 누르면 설명이 먼저 뜨고, 「쓰기」를 눌러야 씁니다. 적 차례가 길면 「빠르게」를 켜 보세요.",
+        "숲·언덕·높은 곳은 막기 좋고, 활은 높은 곳에서 더 멀리 쏩니다. 한 단 넘게 높은 칸은 오르지 못합니다.",
+        "인연(부부·형제·벗 등)으로 이어진 장수가 곁에 서면 명중·회피·방어가 오릅니다. 맞수끼리 싸우면 치명이 크게 오릅니다.",
+        "쓰러진 장수는 배로 물러났다가 다음 장에 돌아옵니다. 이야기에서 죽는 영웅은 예외입니다."
+      ]
+    },
+    "interact": {
+      "openGate": "성문 열기"
+    }
+  }
+}

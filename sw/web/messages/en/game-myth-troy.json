@@ -1,0 +1,321 @@
+{
+  "gameMythTroy": {
+    "title": "The Trojan War",
+    "intro": "Lead Achilles, Odysseus and Ajax through ten battles, from the beaches of Troy to the wooden horse. Bonds grow stronger side by side, and rivals burn hotter when they meet.",
+    "frame": {
+      "hub": "Myth Games",
+      "exit": "Back to list",
+      "menu": "Menu",
+      "close": "Close",
+      "fixture": "Not connected to the database, so figures appear without portraits."
+    },
+    "titleScreen": {
+      "eyebrow": "The Iliad and the Epic Cycle",
+      "tagline": "Fight ten battles with the heroes of Greece and bring down Troy.",
+      "newGame": "New campaign",
+      "continue": "Continue",
+      "continueAt": "Chapter {no} · {title}",
+      "chapters": "Chapters",
+      "progress": "{count}/{total} chapters won",
+      "confirmNew": "Erase your campaign and start over?",
+      "confirmYes": "Start over",
+      "confirmNo": "Keep it",
+      "resumeBattle": "Resume battle"
+    },
+    "chapters": {
+      "heading": "Chapters",
+      "chapterNo": "Chapter {no}",
+      "locked": "Win the previous chapter to unlock",
+      "cleared": "Won",
+      "best": "Best: {turns} turns",
+      "play": "To battle",
+      "back": "Title screen"
+    },
+    "story": {
+      "next": "Next",
+      "skip": "Skip",
+      "done": "Begin",
+      "narrator": "Story",
+      "tapHint": "Tap to continue"
+    },
+    "prep": {
+      "heading": "Prepare for battle",
+      "objective": "To win",
+      "loss": "You lose if",
+      "pick": "Choose who goes into battle",
+      "count": "{count}/{max}",
+      "forced": "Must go",
+      "start": "Deploy",
+      "level": "Level {level}",
+      "bonds": "Bond",
+      "rivals": "Rivals",
+      "absent": "Not in this battle",
+      "full": "No more slots",
+      "story": "Replay story",
+      "difficulty": "Difficulty"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "easyHint": "Enemies are noticeably weaker. Good for following the story.",
+      "normalHint": "The intended challenge for a first campaign.",
+      "hardHint": "Enemies hit harder and last longer. Every move counts."
+    },
+    "hud": {
+      "turn": "Turn {turn}",
+      "phase": {
+        "player": "Your turn",
+        "ally": "Allied turn",
+        "enemy": "Enemy turn"
+      },
+      "endTurn": "End turn",
+      "objective": "Objective",
+      "danger": "Enemy reach",
+      "rotateLeft": "Rotate left",
+      "rotateRight": "Rotate right",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "fast": "Fast",
+      "normal": "Normal speed",
+      "intents": "Prophecy: enemy moves",
+      "enemyThinking": "The enemy is moving",
+      "pickUnit": "Tap a unit to move",
+      "pickTile": "Tap a tile to move or an enemy to attack",
+      "pickTarget": "Tap a target",
+      "allDone": "Every unit has acted",
+      "endConfirm": "End turn?",
+      "unmoved": "{count, plural, one {# unit hasn't} other {# units haven't}} acted yet. Press again to end the turn.",
+      "saveQuit": "Save and quit",
+      "ships": "Ships burned {count}/{max}",
+      "turnsLeft": "{left} turns left"
+    },
+    "action": {
+      "attack": "Attack",
+      "skill": "Skill",
+      "wait": "Wait",
+      "cancel": "Cancel",
+      "back": "Back",
+      "confirm": "Attack",
+      "use": "Use",
+      "openGate": "Open the gate"
+    },
+    "forecast": {
+      "heading": "Battle forecast",
+      "damage": "Damage",
+      "hit": "Hit",
+      "crit": "Crit",
+      "twice": "Twice",
+      "noCounter": "No counter",
+      "ko": "Can defeat",
+      "notes": {
+        "bond": "Bond: {name}",
+        "rival": "Rival",
+        "heightUp": "High ground",
+        "heightDown": "Low ground",
+        "terrain": "Terrain",
+        "blessed": "Blessed",
+        "shaken": "Shaken",
+        "guarding": "Shield wall",
+        "invulnerable": "Divine body — unharmed",
+        "divineStrike": "Strikes gods",
+        "charge": "Charge",
+        "skill": "{name}",
+        "borrowedArmor": "Borrowed armor"
+      }
+    },
+    "unit": {
+      "level": "Level {level}",
+      "hp": "HP",
+      "exp": "EXP {exp}/100",
+      "acted": "Done",
+      "stats": {
+        "str": "Str",
+        "skl": "Skill",
+        "spd": "Speed",
+        "def": "Def",
+        "res": "Res",
+        "mov": "Move"
+      },
+      "skills": "Skills",
+      "statuses": "Status",
+      "ours": "Ours",
+      "ally": "Ally",
+      "enemy": "Enemy",
+      "mustLive": "Must not fall",
+      "winTarget": "Defeat to win"
+    },
+    "classes": {
+      "hoplite": "Hoplite",
+      "archer": "Archer",
+      "skirmisher": "Skirmisher",
+      "chariot": "Chariot",
+      "rider": "Rider",
+      "healer": "Healer",
+      "seer": "Seer",
+      "god": "God",
+      "river": "River god"
+    },
+    "statuses": {
+      "blessed": "Blessed",
+      "divineStrike": "Strikes gods",
+      "shaken": "Shaken",
+      "stripped": "Stripped",
+      "guarding": "Shield wall",
+      "rooted": "Pinned",
+      "carrying": "Carrying the fallen",
+      "borrowedArmor": "Borrowed armor",
+      "wrath": "Wrath"
+    },
+    "skills": {
+      "wrath": {
+        "name": "Wrath",
+        "desc": "This turn: Strength +4 and every attack strikes twice. Once per battle."
+      },
+      "athenaBlessing": {
+        "name": "Athena's Favor",
+        "desc": "For two turns: better hit and critical chance, and you can wound gods. Once per battle."
+      },
+      "warCry": {
+        "name": "War Cry",
+        "desc": "Enemies within 2 tiles are shaken and lose accuracy."
+      },
+      "cunning": {
+        "name": "Cunning",
+        "desc": "Swap places with an ally within 3 tiles."
+      },
+      "counsel": {
+        "name": "Counsel",
+        "desc": "An adjacent ally may act again. Once per battle."
+      },
+      "heal": {
+        "name": "Heal",
+        "desc": "Restore an adjacent ally's HP."
+      },
+      "prophecy": {
+        "name": "Prophecy",
+        "desc": "Reveal where the enemy will move next turn."
+      },
+      "blessing": {
+        "name": "Blessing",
+        "desc": "Raise an ally's hit and critical chance (range 1–2)."
+      },
+      "shieldWall": {
+        "name": "Shield Wall",
+        "desc": "Until your next turn: Defense +3, adjacent allies +1."
+      },
+      "aimedShot": {
+        "name": "Aimed Shot",
+        "desc": "Shoot with +20 hit and +10 critical."
+      },
+      "swiftFeet": {
+        "name": "Swift Feet",
+        "desc": "Movement +1."
+      },
+      "sevenfoldShield": {
+        "name": "Sevenfold Shield",
+        "desc": "Adjacent allies take 2 less damage."
+      },
+      "kingOfMen": {
+        "name": "King of Men",
+        "desc": "Allies within 2 tiles gain +5 hit."
+      },
+      "shieldArcher": {
+        "name": "Behind the Shield",
+        "desc": "Might +3 when beside Ajax the Great."
+      },
+      "physician": {
+        "name": "Physician",
+        "desc": "Heals 5 more, and restores 3 HP to adjacent allies each turn."
+      },
+      "trojanWall": {
+        "name": "Bulwark of Troy",
+        "desc": "Adjacent allies gain Defense +1 and +10 evasion."
+      },
+      "apolloGuided": {
+        "name": "Guided by Apollo",
+        "desc": "Critical +15."
+      },
+      "sonOfZeus": {
+        "name": "Son of Zeus",
+        "desc": "Takes 1 less damage."
+      },
+      "goddessRescue": {
+        "name": "Divine Rescue",
+        "desc": "The first time he would fall, a god carries him away."
+      },
+      "longBow": {
+        "name": "Master Archer",
+        "desc": "Range +1."
+      },
+      "filialGuard": {
+        "name": "Devoted Son",
+        "desc": "Beside Nestor: Might +2 and +10 hit."
+      },
+      "dawnArmor": {
+        "name": "Armor of the Dawn",
+        "desc": "Defense +3 and immune to critical hits."
+      },
+      "amazonQueen": {
+        "name": "Amazon Queen",
+        "desc": "Riders within 2 tiles gain Might +2."
+      }
+    },
+    "banner": {
+      "rival": "Rivals",
+      "truce": "Friends across the lines — they will not fight",
+      "levelUp": "Level up",
+      "levelUpOf": "{name} reached level {level}",
+      "exp": "EXP +{amount}",
+      "shipBurned": "A ship is burning",
+      "victory": "Victory",
+      "defeat": "Defeat",
+      "turnStart": "Turn {turn}"
+    },
+    "result": {
+      "victory": "Victory",
+      "defeat": "Defeat",
+      "turns": "in {turns} turns",
+      "expGained": "Experience gained",
+      "levelUps": "Leveled up",
+      "fallen": "Fell, and will return next chapter",
+      "none": "None",
+      "retry": "Fight again",
+      "next": "Next chapter",
+      "chapters": "Chapters",
+      "altRoad": "A road Homer did not take",
+      "story": "What happened next",
+      "bench": "{count, plural, one {# hero} other {# heroes}} in camp also gained EXP +{amount}",
+      "defeatAt": "On turn {turns}",
+      "lostLord": "Fallen",
+      "lostWhy": "Why the battle was lost",
+      "allFell": "Every unit has fallen.",
+      "shipsBurned": "{count, plural, one {# ship} other {# ships}} burned.",
+      "timeUp": "You ran out of turns.",
+      "noExp": "Experience from a lost battle is not kept. Fighting again starts from preparation."
+    },
+    "ending": {
+      "eyebrow": "The Trojan War is over",
+      "heading": "Ten Years of War",
+      "body": "The Greek fleet put to sea with Troy burning behind it. Odysseus still has ten years of sailing ahead.",
+      "voyage": "Play The Return of Odysseus",
+      "again": "Title screen",
+      "sources": "Sources",
+      "altCount": "Roads Homer did not take: {count}"
+    },
+    "help": {
+      "heading": "How to fight",
+      "lines": [
+        "Tap a unit to see where it can move (blue) and strike (red).",
+        "Tap a tile to move there, or tap an enemy to see a forecast. Tap again or press Attack to strike.",
+        "Tapping a skill shows what it does first; press Use to cast it. If enemy turns feel long, turn on Fast.",
+        "Forests, hills and high ground protect you, and bows shoot farther from above. You cannot climb more than one step at a time.",
+        "Heroes joined by a bond (spouses, siblings, friends) fight better side by side. Rivals land far more critical hits on each other.",
+        "Fallen heroes withdraw to the ships and return next chapter. Heroes who die in the story are the exception."
+      ]
+    },
+    "interact": {
+      "openGate": "Open the gate"
+    }
+  }
+}

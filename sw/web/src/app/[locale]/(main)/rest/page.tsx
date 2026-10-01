@@ -22,6 +22,7 @@ export async function generateMetadata() {
 // #region 게임 정의
 // dev: true — 미공개 게임. 개발자 모드(로컬 개발 서버 또는 ?dev=1)에서만 노출한다.
 const GAME_SECTIONS = [
+  { href: "/rest#troy",      valueKey: "troy" as const,      dev: true },
   { href: "/rest#dawn",      valueKey: "dawn" as const,      dev: false },
   { href: "/rest#labyrinth", valueKey: "labyrinth" as const, dev: false },
   { href: "/rest#hegemony",  valueKey: "hegemony" as const,  dev: false },

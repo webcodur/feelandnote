@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
-import { Clock, Crosshair, Footprints, Swords, Crown } from "lucide-react";
+import { Clock, Crosshair, Footprints, Swords, Crown, Shield } from "lucide-react";
 import HubCard from "@/components/shared/HubCard";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
@@ -11,6 +11,7 @@ import type { GameCharacter } from "@/lib/game/suikoden/types";
 import type { WanderPools } from "@/lib/game/wander/types";
 import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenGameWrapper";
 import SuikodenSlot from "./SuikodenSlot";
+import TroySlot from "./TroySlot";
 import { Brain, ScanFace } from "lucide-react";
 import type { MemoryFigure } from "@/components/features/game/memory/types";
 import type { PortraitFigure } from "@/components/features/game/portrait/types";
@@ -30,11 +31,12 @@ const WanderGame = dynamic(() => import("@/components/features/game/wander/Wande
 const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
 const PortraitGame = dynamic(() => import("@/components/features/game/portrait/PortraitGame"), { loading: GameLoadingScreen });
 
-export type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander" | "memory" | "portrait";
+export type GameId = "troy" | "dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander" | "memory" | "portrait";
 
 // image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/games/card-images.md)
 // dev: true — 미공개 게임. 개발자 모드에서만 카드를 띄운다.
 const GAME_SECTIONS = [
+  { valueKey: "troy" as const, label: "TROY", icon: Shield, image: "/images/games/troy-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
   { valueKey: "dawn" as const, label: "DAWN", icon: Clock, image: "/images/games/dawn-card.webp", dev: false },
   { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp", dev: false },
   { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp", dev: false },
@@ -125,6 +127,10 @@ export default function RestGameGrid({
           );
         })}
       </div>
+
+      {activeGame === "troy" && (
+        <TroySlot onExitFullScreenExternal={handleExit} />
+      )}
 
       {activeGame === "dawn" && (
         <DawnGameWrapper bgImages={bgImagesDawn} initialFullScreen={true} onExitFullScreenExternal={handleExit} />
