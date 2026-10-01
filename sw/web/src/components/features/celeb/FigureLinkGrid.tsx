@@ -36,14 +36,17 @@ const GHOST_H = "h-[68px]";
 export function FigureLinkGridPending({
   count = 12,
   label,
+  cols,
 }: {
   count?: number;
   label?: string;
+  /** 호출처가 격자에 넘긴 열 구성과 맞춘다 */
+  cols?: string;
 }) {
   return (
     <PendingBlock
       variant="grid"
-      cols={colsFor(count)}
+      cols={cols ?? colsFor(count)}
       aspect={GHOST_H}
       count={count}
       label={label}
@@ -85,6 +88,8 @@ interface FigureLinkGridProps {
   mobilePageSize?: number;
   /** ul에 덧붙이는 폭 제한 등 — 항목이 적을 때 카드가 가로로 늘어나는 화면용 */
   gridClassName?: string;
+  /** 열 구성을 호출처가 정한다 — 주면 항목 수 기본 규칙(colsFor)을 대신한다 */
+  cols?: string;
 }
 
 export default async function FigureLinkGrid({
@@ -97,6 +102,7 @@ export default async function FigureLinkGrid({
   mobileScrollable = false,
   mobilePageSize,
   gridClassName = "",
+  cols,
 }: FigureLinkGridProps) {
   // slug가 없으면 상세로 갈 주소가 없다
   const linkable = figures.filter((figure) => figure.slug);
@@ -133,7 +139,7 @@ export default async function FigureLinkGrid({
               // scroll-smooth: 손을 떼도 즉시 튀지 않고 가까운 쪽으로 부드럽게 붙는다.
               "flex items-start snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] md:grid md:overflow-visible"
             : "grid"
-        } ${colsFor(linkable.length)} ${
+        } ${cols ?? colsFor(linkable.length)} ${
           mobileScrollable && !mobilePages
             ? "max-h-[clamp(300px,52dvh,480px)] touch-pan-y overflow-y-auto overscroll-y-auto [overflow-anchor:none] [scrollbar-width:thin] md:max-h-none md:overflow-visible"
             : ""

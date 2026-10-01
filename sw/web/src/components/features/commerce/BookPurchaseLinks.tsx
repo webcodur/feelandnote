@@ -18,8 +18,8 @@ export default function BookPurchaseLinks({ links, className, tracking, pendingY
   const t = useTranslations("content.purchase");
   const tAccess = useTranslations("content.access");
   if (!links.length) return null;
-  return <div className={cn("min-w-0 space-y-2.5", className)}>
-    {links.map(link => <AnimatedHeight key={link.platform} independent duration={320}>
+  return <div className={cn("min-w-0 grid grid-cols-2 gap-2.5", className)}>
+    {links.map(link => <AnimatedHeight key={link.platform} independent duration={320} className="min-w-0 last:odd:col-span-2">
       <div data-access-source={link.platform} data-access-state={pendingYes24 && link.platform === "yes24" ? "loading" : "ready"}>
       {pendingYes24 && link.platform === "yes24" && <AccessStatusRow name="YES24" loading description={tAccess("bookLoading")} />}
       {!(pendingYes24 && link.platform === "yes24") && <AccessLinkCard

@@ -1,4 +1,5 @@
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { selectBookIntroduction } from '@/lib/utils/book-description'
 import type { createStaticClient } from '@/lib/db/static'
 import {
   getFigureBookPurchasePlatform,
@@ -49,7 +50,11 @@ export async function loadFigureBookEditions(
 
   for (const contentId of new Set([...rowsByContent.keys(), ...optionsByContent.keys()])) {
     const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale)
-    if (editions.length > 0) byContent.set(contentId, editions)
+    if (editions.length > 0) byContent.set(contentId, editions.map((edition) => ({
+      ...edition,
+      ...selectBookIntroduction(locale, rowsByContent.get(contentId)?.find((row) => row.id === edition.id)
+        ?? { locale, isbn: edition.isbn, description: edition.description }, null),
+    })))
   }
   return byContent
 }

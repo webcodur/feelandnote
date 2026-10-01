@@ -32,6 +32,7 @@ import ArenaFooter from "./shared/ArenaFooter";
 interface Props {
   playerCard: BattleCard;
   aiCard: BattleCard;
+  muted?: boolean;
   onComplete: (winner: "player" | "ai" | "draw") => void;
 }
 
@@ -58,7 +59,8 @@ function getAudioCtx(): AudioContext | null {
   } catch { return null; }
 }
 
-function playNote(cellIdx: number) {
+function playNote(cellIdx: number, muted = false) {
+  if (muted) return;
   const ctx = getAudioCtx();
   if (!ctx) return;
   try {
@@ -78,7 +80,7 @@ function playNote(cellIdx: number) {
 
 // ─── 컴포넌트 ───
 
-export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
+export default function SimonArena({ playerCard, aiCard, muted = false, onComplete }: Props) {
   const t = useTranslations("shared.game.duel.simon");
   const [phase, setPhase] = useState<Phase>("intro");
   const [round, setRound] = useState(1);
@@ -129,7 +131,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
     // 순차 점등 + 음계 재생
     const timers: ReturnType<typeof setTimeout>[] = [];
     p.forEach((cell, i) => {
-      timers.push(setTimeout(() => { setHighlightIdx(cell); playNote(cell); }, i * SHOW_INTERVAL));
+      timers.push(setTimeout(() => { setHighlightIdx(cell); playNote(cell, muted); }, i * SHOW_INTERVAL));
       timers.push(setTimeout(() => setHighlightIdx(-1), i * SHOW_INTERVAL + SHOW_DURATION));
     });
 
@@ -140,7 +142,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
     }, p.length * SHOW_INTERVAL + 200));
 
     showTimersRef.current = timers;
-  }, [clearShowTimers]);
+  }, [clearShowTimers, muted]);
 
   // ─── 카운트다운 → 1라운드 시작 ───
   useEffect(() => {
@@ -167,7 +169,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
 
     // 일시 하이라이트 + 음계
     setHighlightIdx(cellIdx);
-    playNote(cellIdx);
+    playNote(cellIdx, muted);
     setTimeout(() => setHighlightIdx(-1), 200);
 
     if (!isInputCorrectSoFar(next, pattern)) {
@@ -181,7 +183,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
     if (isPatternComplete(next, pattern)) {
       setPhase("aiDecide");
     }
-  }, [phase, playerInput, pattern]);
+  }, [phase, playerInput, pattern, muted]);
 
   // ─── 오답 플래시 → AI 판정 ───
   useEffect(() => {

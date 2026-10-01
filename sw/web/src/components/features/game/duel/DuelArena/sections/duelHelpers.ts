@@ -7,6 +7,7 @@ import type { BattleCard, Command } from "@/lib/game/types";
 import type { Locale } from "@/types/locale";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
+import { gameText } from "@/lib/game/text";
 
 // ─── 포즈 매핑 ───
 
@@ -74,7 +75,7 @@ export function pickDuelLine(card: BattleCard, action: DuelAction, command: Comm
   if (action === "strike" && card.dialogueLines?.clash_attack) {
     const lines = card.dialogueLines.clash_attack;
     const raw = lines[Math.floor(Math.random() * lines.length)];
-    if (raw) return stripEmotionTag(raw);
+    if (raw) return gameText(stripEmotionTag(raw));
   }
 
   const isDebate = command === "stratagem";
@@ -96,7 +97,7 @@ export function pickIdleLine(card: BattleCard, locale: Locale): string {
     const personal = card.dialogueLines?.[type];
     if (personal) {
       const raw = personal[Math.floor(Math.random() * personal.length)];
-      if (raw) return stripEmotionTag(raw);
+      if (raw) return gameText(stripEmotionTag(raw));
     }
   }
   const fallback = defaultLinesData[locale]["greeting"]?.[card.speechTone];

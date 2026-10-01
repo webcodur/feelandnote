@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { BattleCard } from "@/lib/game/types";
 
 interface RuleItem {
-  icon: string;
+  icon: React.ReactNode;
   text: React.ReactNode;
 }
 

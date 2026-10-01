@@ -4,7 +4,7 @@
   책임: 허브(모든 기관)·기관 상세(그 기관)·목록 상세(이동용 링크)가 이 하나를 쓴다.
         - browse 모드(onSelect*): 선택값을 부모가 쥐고, 화면 안에서 목록을 갈아끼운다
         - link 모드(linkHref): 고른 항목이 기관 선정 허브 조합으로 이동한다
-        짧은 선택(매체·기관별/주제별)은 공용 pill(CategoryTabFilter)을, 항목이 많은 세부 선택은
+        짧은 선택(매체·기관별/주제별)은 공용 칩(CategoryTabFilter)을, 항목이 많은 세부 선택은
         공용 선택 단추+모달(FilterSelect)을 그대로 쓴다 — 새로 그리지 않는다.
   상태는 훅(useCuratedBrowse)이 쥐고, 이 파일은 그린다.
 */ // ------------------------------
@@ -121,7 +121,7 @@ export default function CuratedBrowseTabs({
 
   // 책/영상 갈래와 「기관별/주제별」 토글은 같은 성격의 선택(카테고리)이라 한 행에 두고,
   // 그 아래에 세부 선택 단추를 둔다.
-  // 조작대가 아래 카드보다 도드라지지 않게 pill은 여백만 줄였다(글자 크기는 유지).
+  // 조작대가 아래 카드보다 도드라지지 않게 칩은 여백만 줄였다(글자 크기는 유지).
   // 탭에 숫자는 달지 않는다 — 매체가 게임·음악까지 늘면 한 줄이 넘친다
   return (
     <div className="space-y-1.5">
@@ -130,6 +130,7 @@ export default function CuratedBrowseTabs({
         {/* 매체(책·영상) 탭 — 책과 영상은 오가며 보는 것이 아니라 갈라서는 축이다 */}
         {showMediaRow && (
           <CategoryTabFilter
+            media
             options={mediaOptions}
             value={activeMedia ?? ""}
             linkTo={(m) => linkFor({ media: m })}

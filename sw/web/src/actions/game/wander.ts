@@ -13,6 +13,7 @@ import { WANDER_ERAS, WANDER_POOL_SIZE } from "@/lib/game/wander/constants";
 import type { WanderFigure, WanderPools } from "@/lib/game/wander/types";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
 import type { Tables } from "@/types/database.generated";
+import { gameText } from "@/lib/game/text";
 
 type ProfileRow = Pick<Tables<"celebs">, "id" | "nickname" | "nickname_en" | "title" | "title_en" | "nationality" | "avatar_url" | "birth_date" | "death_date">;
 type InfluenceRow = Pick<Tables<"celeb_influence">, "celeb_id" | "total_score">;
@@ -92,7 +93,7 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
       title: (isEn && figure.title_en) || figure.title || "", nationality: figure.nationality,
       avatarUrl: figure.avatarUrl, birthYear: figure.birthYear, deathYear: figure.deathYear,
       region: figure.region, totalScore: figure.totalScore, powers: figure.powers,
-      quote: (isEn && dialogue?.quote_en) || dialogue?.quote || "",
+      quote: gameText((isEn && dialogue?.quote_en) || dialogue?.quote || ""),
     };
   })])) as WanderPools;
 }

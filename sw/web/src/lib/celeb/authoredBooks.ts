@@ -1,4 +1,5 @@
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
+import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 
 export const CELEB_REFERENCE_BOOK_MODES = [
   { key: 'appeared', label: 'groupAppeared' },
@@ -36,7 +37,7 @@ export function partitionFigureBooks(books: FigureBookContent[]): {
 export function pickDisplayFigureBooks<T extends Pick<FigureBookContent, 'titleBadge' | 'editions'>>(
   books: readonly T[],
 ): T[] {
-  return books.filter((book) => book.editions.length > 0 && book.titleBadge !== 'out-of-print')
+  return books.filter((book) => book.editions.length > 0 && isBookShelfAvailable(book))
 }
 
 // 인물 상세와 신화·팩션 모달의 작품 분류·노출 기준을 함께 쥔다.

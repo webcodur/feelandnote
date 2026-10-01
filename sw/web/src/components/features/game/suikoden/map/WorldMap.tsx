@@ -379,7 +379,6 @@ export const WorldMap = memo(function WorldMap({ state, selected, onSelect, targ
               return (
                 <g key={`${m.kind}-${m.territory}`} transform={`translate(${x},${y}) scale(${1 / k})`} pointerEvents="none">
                   <circle r={15} fill="none" stroke={INK.goldBright} strokeWidth={1.6} strokeDasharray="4 3" className="cheondo-spin" />
-                  <text y={-19} textAnchor="middle" fontSize={11} fontWeight={900} fill={INK.goldBright} stroke="#07080a" strokeWidth={3} paintOrder="stroke">人</text>
                   {m.name && <text y={28} textAnchor="middle" fontSize={10} fontWeight={800} fill={INK.goldBright} stroke="#07080a" strokeWidth={3} paintOrder="stroke">{m.name}</text>}
                 </g>
               )

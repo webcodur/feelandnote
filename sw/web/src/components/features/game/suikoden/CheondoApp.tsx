@@ -180,7 +180,6 @@ function LoadingScreen({ status, onRetry, onExit, text }: { status: string; onRe
   return (
     <div className="absolute inset-0 grid place-items-center">
       <div className="flex flex-col items-center gap-5 text-center">
-        <div className="cheondo-breathe text-6xl font-black" style={{ color: INK.goldBright }} aria-hidden>天導</div>
         {status === 'error' ? (
           <>
             <p className="max-w-xs text-sm" style={{ color: INK.sub }}>{text.loadFailed}</p>

@@ -82,7 +82,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
       const outlook = threat === null ? 3 : threat < 0.85 ? 0 : threat < 1.05 ? 1 : threat < 1.5 ? 2 : 3
       return (
         <>
-          <PanelTitle hanja="急" title={T.events.invadedTitle} sub={event.territory ? names.territory(event.territory) : ''} />
+          <PanelTitle title={T.events.invadedTitle} sub={event.territory ? names.territory(event.territory) : ''} />
           <div className="flex flex-col gap-4 p-5">
             <div className="flex items-center gap-3">
               {faction && <Seal color={faction.color} text={roster.byId.get(faction.lordId)?.name ?? ''} size={40} />}
@@ -124,7 +124,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
     case 'visitor':
       return (
         <>
-          <PanelTitle hanja="客" title={T.events.visitorTitle} sub={event.territory ? names.territory(event.territory) : ''} />
+          <PanelTitle title={T.events.visitorTitle} sub={event.territory ? names.territory(event.territory) : ''} />
           <div className="flex flex-col gap-4 p-5">
             <p className="text-[13px]" style={{ color: INK.sub }}>{T.events.visitor(names.territory(event.territory ?? ''))}</p>
             {event.heroId && <HeroCard id={event.heroId} />}
@@ -139,7 +139,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
       const hs = event.heroId ? game.heroes[event.heroId] : null
       return (
         <>
-          <PanelTitle hanja="憂" title={T.events.discontentTitle} />
+          <PanelTitle title={T.events.discontentTitle} />
           <div className="flex flex-col gap-4 p-5">
             {event.heroId && <HeroCard id={event.heroId} />}
             <p className="text-[13px]" style={{ color: INK.text }}>{T.events.discontent(hs?.loyalty ?? 0)}</p>
@@ -158,7 +158,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
       const alliance = event.code === 'alliance'
       return (
         <>
-          <PanelTitle hanja="使" title={alliance ? T.events.proposalAlliance : T.events.proposalCeasefire} sub={faction ? names.faction(faction.id) : ''} />
+          <PanelTitle title={alliance ? T.events.proposalAlliance : T.events.proposalCeasefire} sub={faction ? names.faction(faction.id) : ''} />
           <div className="flex flex-col gap-4 p-5">
             <div className="flex items-center gap-3">
               {lord && <Portrait hero={lord} size={64} ring />}
@@ -178,7 +178,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
       const list = (event.prisoners ?? []).filter((id) => game.heroes[id])
       return (
         <>
-          <PanelTitle hanja="囚" title={T.events.prisonersTitle} sub={T.events.prisoners} />
+          <PanelTitle title={T.events.prisonersTitle} sub={T.events.prisoners} />
           <div className="flex flex-col gap-2 overflow-y-auto p-4">
             {list.map((id) => {
               const hero = roster.byId.get(id)!
@@ -215,7 +215,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
       const gone = event.heroes?.length ? event.heroes : event.heroId ? [event.heroId] : []
       return (
         <>
-          <PanelTitle hanja="去" title={gone.length > 1 ? T.events.defectedMany(gone.length) : T.events.defectedTitle} />
+          <PanelTitle title={gone.length > 1 ? T.events.defectedMany(gone.length) : T.events.defectedTitle} />
           <div className="flex flex-col gap-4 p-5">
             {gone.length === 1 && <HeroCard id={gone[0]} />}
             {gone.length > 1 && (
@@ -241,7 +241,7 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
       const lord = event.heroId ? roster.byId.get(event.heroId) : null
       return (
         <>
-          <PanelTitle hanja="亡" title={T.events.fellTitle} />
+          <PanelTitle title={T.events.fellTitle} />
           <div className="flex flex-col gap-4 p-5">
             <div className="flex items-center gap-3">
               {lord && <Portrait hero={lord} size={64} dim />}
@@ -255,9 +255,9 @@ function EventBody({ game, event, onResolve, onPrisoner }: Omit<EventModalProps,
     case 'stars108':
       return (
         <>
-          <PanelTitle hanja="星" title={T.events.starsTitle} />
+          <PanelTitle title={T.events.starsTitle} />
           <div className="flex flex-col items-center gap-4 p-6 text-center">
-            <p className="cheondo-stamp text-5xl font-black" style={{ color: INK.goldBright }}>一百八星</p>
+            <p className="cheondo-stamp text-5xl font-black" style={{ color: INK.goldBright }}>108</p>
             <p className="text-[14px] leading-relaxed" style={{ color: INK.text }}>{T.events.stars}</p>
             <GameButton variant="primary" onClick={() => resolve('ok')}>{T.ok}</GameButton>
           </div>

@@ -10,6 +10,7 @@ import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
+import { gameText } from "@/lib/game/text";
 
 export interface DawnDialogueData {
   speechTone: string;
@@ -61,7 +62,7 @@ async function fetchDawnDialogues(
     result[id] = {
       speechTone: toneMap.get(id) ?? "composed",
       dialogueLines: dialogueMap.get(id) ?? null,
-      quote: quoteMap.get(id) ?? "",
+      quote: gameText(quoteMap.get(id) ?? ""),
     };
   }
   return result;

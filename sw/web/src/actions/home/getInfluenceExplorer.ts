@@ -13,6 +13,7 @@ import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { calculatePercentile } from "@/constants/materials";
 import { resolveLocale, type Locale } from "@/types/locale";
+import { INFLUENCE_RANKING_LIMIT, type InfluenceRankingField } from "@/constants/influenceRanking";
 
 const NEIGHBOR_COUNT = 7;
 const LEADER_COUNT = 5;
@@ -69,13 +70,12 @@ export interface InfluenceExplorerData {
   leaders: Record<InfluenceField, InfluenceFieldLeader[]>;
 }
 
-async function fetchInfluenceExplorerRows(): Promise<InfluenceExplorerRow[]> {
+async function fetchInfluenceExplorerPage(from: number, to: number): Promise<InfluenceExplorerRow[]> {
   const db = createStaticClient();
 
   // 순위와 분야별 선두는 같은 공개 인물 모집단에서 계산한다. PostgREST의
   // 1,000행 상한을 넘겨도 조용히 잘리지 않도록 고유 2차 키로 전량 페이징한다.
-  return selectAllPages<InfluenceExplorerRow>((from, to) =>
-    db
+  const { data, error } = await db
       .from("celeb_influence")
       .select(`
         celeb_id,
@@ -102,15 +102,24 @@ async function fetchInfluenceExplorerRows(): Promise<InfluenceExplorerRow[]> {
       .order("total_score", { ascending: false })
       .order("celeb_id", { ascending: true })
       .range(from, to)
-      .overrideTypes<InfluenceExplorerRow[], { merge: false }>(),
-  );
+      .overrideTypes<InfluenceExplorerRow[], { merge: false }>();
+  if (error) throw new Error(error.message);
+  return data ?? [];
 }
 
-const getInfluenceExplorerRowsCached = unstable_cache(
-  fetchInfluenceExplorerRows,
-  ["influence-explorer-rows"],
+// 전량은 Next.js 캐시의 2MB 한도를 넘으므로 DB 페이지 단위로 캐시한다.
+const getInfluenceExplorerPageCached = unstable_cache(
+  fetchInfluenceExplorerPage,
+  ["influence-explorer-page"],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] },
 );
+
+async function getInfluenceExplorerRowsCached(): Promise<InfluenceExplorerRow[]> {
+  return selectAllPages<InfluenceExplorerRow>(async (from, to) => ({
+    data: await getInfluenceExplorerPageCached(from, to),
+    error: null,
+  }));
+}
 
 function getScore(row: InfluenceExplorerRow, field: InfluenceField): number {
   return row[field] ?? 0;
@@ -158,6 +167,38 @@ function rankByScore<T>(rows: T[], scoreOf: (row: T) => number): Map<T, number> 
   });
 
   return ranks;
+}
+
+/** 상세 탐색기와 같은 공개 인물·캐시를 써서 종합 또는 분야별 상위 인물을 읽는다. */
+export async function getInfluenceRanking(field: InfluenceRankingField, requestedLocale = "ko") {
+  const locale = resolveLocale(requestedLocale);
+  const rows = (await getInfluenceExplorerRowsCached()).filter(
+    (row): row is InfluenceExplorerRow & { celeb: NonNullable<InfluenceExplorerRow["celeb"]> } => Boolean(row.celeb),
+  );
+  const overallRanks = rankByScore(rows, (row) => row.total_score ?? 0);
+  const overallTies = new Map<number, number>();
+  rows.forEach((row) => {
+    const score = row.total_score ?? 0;
+    overallTies.set(score, (overallTies.get(score) ?? 0) + 1);
+  });
+  const scoreOf = (row: InfluenceExplorerRow) => row[field] ?? 0;
+  const sorted = rows.filter((row) => scoreOf(row) > 0).toSorted((a, b) =>
+    scoreOf(b) - scoreOf(a)
+    || (b.total_score ?? 0) - (a.total_score ?? 0)
+    || a.celeb_id.localeCompare(b.celeb_id),
+  );
+  const ranks = rankByScore(sorted, scoreOf);
+  const ties = new Map<number, number>();
+  sorted.forEach((row) => ties.set(scoreOf(row), (ties.get(scoreOf(row)) ?? 0) + 1));
+  return {
+    total: rows.length,
+    people: sorted.slice(0, INFLUENCE_RANKING_LIMIT).map((row): InfluenceFieldLeader => ({
+      ...localizePerson(row, overallRanks.get(row) ?? 0, overallTies.get(row.total_score ?? 0) ?? 1, rows.length, locale),
+      fieldRank: ranks.get(row) ?? 0,
+      fieldTieCount: ties.get(scoreOf(row)) ?? 1,
+      fieldScore: scoreOf(row),
+    })),
+  };
 }
 
 export async function getInfluenceExplorer(

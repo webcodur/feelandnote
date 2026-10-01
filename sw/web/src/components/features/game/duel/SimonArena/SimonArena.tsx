@@ -13,7 +13,7 @@ import { MAX_ROUNDS } from "@/lib/game/simonEngine";
 import { useHotkeys } from "@/components/features/game/hegemony/hooks/useHotkeys";
 import ArenaFooter from "../shared/ArenaFooter";
 import ArenaHud from "../shared/ArenaHud";
-import ArenaIntro, { type IntroRule } from "../shared/ArenaIntro";
+import ArenaIntro from "../shared/ArenaIntro";
 import ArenaLayout from "../shared/ArenaLayout";
 import ArenaResult from "../shared/ArenaResult";
 import type { ArenaProps } from "../shared/types";
@@ -48,21 +48,22 @@ export default function SimonArena({ playerCard, aiCard, muted = false, onComple
       <span className="text-xl font-black leading-tight tabular-nums text-hg-bright">{m.round}/{MAX_ROUNDS}</span>
     </>
   );
-  const rules: IntroRule[] = [
+  const rules = [
     { key: "remember", icon: <Eye size={18} />, text: t("simon.rules.remember") },
     { key: "repeat", icon: <MousePointerClick size={18} />, text: t("simon.rules.repeat") },
     { key: "grows", icon: <ListOrdered size={18} />, text: t("simon.rules.grows", { max: MAX_ROUNDS }) },
   ];
   const overlay = (
     <>
-      <ArenaIntro open={m.phase === "intro"} command="govern" playerCard={playerCard} aiCard={aiCard} rules={rules} controls={t("simon.controls")} onStart={m.start} />
-      <ArenaResult open={m.phase === "result"} winner={m.winner} detail={m.outcome && t(`simon.outcomes.${m.outcome}`, { round: m.round })} onContinue={m.finish} />
+      <ArenaIntro isVisible={m.phase === "intro"} title={t("clash.info.govern.label")} playerCard={playerCard} aiCard={aiCard} rules={rules} footerText={t("simon.controls")} onDismiss={m.start} />
+      <ArenaResult isVisible={m.phase === "result"} winner={m.winner} message={m.outcome && t(`simon.outcomes.${m.outcome}`, { round: m.round })} />
     </>
   );
 
   return (
-    <ArenaLayout command="govern" label={`${t("clash.occurred")} ${t("clash.info.govern.label")}`} overlay={overlay}>
-      <ArenaHud playerCard={playerCard} aiCard={aiCard} center={center} />
+    <ArenaLayout onClick={m.phase === "result" ? m.finish : undefined}>
+      {overlay}
+      <ArenaHud playerCard={playerCard} aiCard={aiCard} centerContent={center} />
       <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-5 overflow-hidden px-4">
         {board && (
           <>

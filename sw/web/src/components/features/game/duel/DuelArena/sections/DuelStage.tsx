@@ -56,7 +56,7 @@ export default function DuelStage({ playerCard, aiCard, command, round, pose, mo
           animate={poseToDash(pose[side])}
         >
           <div className="relative">
-            <DuelFighter avatarUrl={card.avatarUrl} nickname={card.nickname} pose={pose[side]} flipped={side === "ai"} momentum={momentum[side]} command={command} side={side} />
+            <DuelFighter avatarUrl={card.avatarUrl} nickname={card.nickname} pose={pose[side]} flipped={side === "ai"} momentum={momentum[side]} command={command} />
             <AnimatePresence>
               {bubble[side] && <SpeechBubble key={`${side}-${round}-${bubble[side].slice(0, 6)}`} text={bubble[side]} side={side} />}
             </AnimatePresence>

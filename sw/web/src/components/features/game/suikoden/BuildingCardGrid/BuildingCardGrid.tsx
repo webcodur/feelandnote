@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import Modal from '@/components/ui/Modal'
 import type { BuildingCard as BuildingCardType, GameCharacter } from '@/lib/game/suikoden/types'
 import { BUILDINGS, BUILDING_CATEGORY, BUILDING_CATEGORY_INFO, GRADE_COLORS } from '@/lib/game/suikoden/constants'
+import { getTerritoryDef } from '@/lib/game/suikoden/utils'
 import CharacterPortrait from '../CharacterPortrait'
 import BuildingSlot from './sections/BuildingSlot'
 import type { BuildingCardGridProps } from './types'
@@ -101,7 +102,7 @@ export default function BuildingCardGrid({
       {/* 거점 배경 이미지 */}
       <div
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${viewMode ? 'opacity-100' : 'opacity-30'}`}
-        style={{ backgroundImage: `url(/images/game/suikoden/territories/${territory.id}.png)` }}
+        style={{ backgroundImage: getTerritoryDef(territory.id)?.imageUrl ? `url(${getTerritoryDef(territory.id)!.imageUrl})` : undefined }}
       />
       <div className={`absolute inset-0 transition-[background-color] duration-500 ${viewMode ? 'bg-stone-900/30' : 'bg-stone-900/80'}`} />
 

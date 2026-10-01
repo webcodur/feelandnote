@@ -41,8 +41,6 @@
     "@google/genai": "^1.44.0",
     "@next/third-parties": "^16.1.6",
     "@radix-ui/react-scroll-area": "^1.2.10",
-    "@supabase/ssr": "^0.12.3",
-    "@supabase/supabase-js": "^2.110.7",
     "@tailwindcss/typography": "^0.5.19",
     "@types/three": "^0.183.1",
     "abcjs": "^6.6.2",
@@ -64,7 +62,8 @@
     "three": "^0.183.2",
     "topojson-client": "^3.1.0",
     "uuid": "^13.0.0",
-    "world-atlas": "2.0.2"
+    "world-atlas": "2.0.2",
+    "@feelandnote/db": "workspace:*"
   },
   "optionalDependencies": {
     "@img/sharp-libvips-linux-x64": "1.2.4",

@@ -29,6 +29,9 @@ test('API and static asset paths continue to bypass middleware', () => {
   assert.equal(matches('/api/revalidate'), false)
   assert.equal(matches('/_next/static/chunk.js'), false)
   assert.equal(matches('/icon.png'), false)
+  assert.equal(matches('/models/myth-troy/hero.glb'), false)
+  assert.equal(matches('/models/myth-troy/scene.gltf'), false)
+  assert.equal(matches('/models/myth-troy/scene.bin'), false)
 })
 
 for (const prefix of ['', '/ko', '/en']) {

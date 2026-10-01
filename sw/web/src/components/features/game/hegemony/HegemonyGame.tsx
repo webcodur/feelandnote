@@ -8,14 +8,12 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import GameFullScreen, { type BreadcrumbItem } from "@/components/shared/GameFullScreen";
-import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import type { Phase } from "@/lib/game/hegemony/session/types";
 import HegemonyApp from "./HegemonyApp";
 import HegemonyBackground from "./HegemonyBackground";
 import { useHegemonyAudio } from "./hooks/useHegemonyAudio";
 import { useHegemonyGame } from "./hooks/useHegemonyGame";
-import { useTabletUp } from "./hooks/useWideLayout";
 import { useHegemonyText } from "./text";
 
 /** 머리줄 경로에 붙는 단계 이름 (shared.game.phase) */
@@ -49,8 +47,6 @@ export default function HegemonyGame({ initialFullScreen, onExitFullScreenExtern
   const audio = useHegemonyAudio();
   useRegisterGameAudio(audio.audioControls);
   const game = useHegemonyGame();
-  // 아래 음악 줄은 휴대폰에서만 둔다. md 이상은 떠 있는 사이트 음악 단추가 맡으므로 빈 푸터 줄 없이 화면 높이를 아낀다
-  const tabletUp = useTabletUp();
   const { phase } = game.state;
   const winner = game.state.battle?.winner ?? null;
   const { setBgm, stopAll } = audio;
@@ -70,7 +66,6 @@ export default function HegemonyGame({ initialFullScreen, onExitFullScreenExtern
   return (
     <GameFullScreen
       breadcrumbs={breadcrumbs}
-      footerExtra={!tabletUp && <GameAudioPlayer controls={audio.audioControls} />}
       initialFullScreen={initialFullScreen}
       onExitFullScreen={() => {
         stopAll();

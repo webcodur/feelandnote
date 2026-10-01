@@ -38,13 +38,3 @@ export function createRestFetch(timeoutMs: number = REST_TIMEOUT_MS): typeof fet
 }
 
 export const restFetch = createRestFetch()
-
-/**
- * postgrest-js는 503과 네트워크 오류를 1·2·4초 간격으로 세 번 더 시도한다. 풀이 포화된 PostgREST에
- * 재시도는 부하를 4배로 만들고 응답만 7초 늦춘다. supabase-js가 이 옵션을 넘기지 않으므로
- * REST 클라이언트에 직접 끈다. 서버 조회의 실패는 `throwOnQueryError`·`withQueryFallback`이 받는다.
- */
-export function withoutRestRetry<T>(client: T): T {
-  ;(client as unknown as { rest: { retry?: boolean } }).rest.retry = false
-  return client
-}

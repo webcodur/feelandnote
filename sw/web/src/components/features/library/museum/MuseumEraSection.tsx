@@ -50,7 +50,7 @@ export default function MuseumEraSection({ era, index, eras, keyContentsLabel, t
   }, []);
 
   return (
-    <section id={`era-${era.id}`} className="relative scroll-mt-4">
+    <section id={`era-${era.id}`} className="relative scroll-mt-20">
       {index > 0 && (
         <div className="flex items-center justify-center py-10 sm:py-16 md:py-20">
           <div className="w-px h-12 sm:h-16 bg-gradient-to-b from-transparent via-white/15 to-transparent" />

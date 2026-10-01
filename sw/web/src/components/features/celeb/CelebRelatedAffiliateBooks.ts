@@ -5,6 +5,7 @@ import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import { findAffiliateLink } from '@/actions/home/affiliateLinks'
 import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
+import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 
 export function mapRelatedFigureBooksToAffiliateBooks(
   relatedBooks: FigureBookContent[],
@@ -18,7 +19,7 @@ export function mapRelatedFigureBooksToAffiliateBooks(
   const seen = new Set<string>()
   for (const book of relatedBooks) {
     // 인물 저서는 상세 「창작」탭 몫이라 상품 선반에서는 기본으로 뺀다 — 창작 탭이 없는 화면(가상독백 카드)은 includeAuthored로 되살린다
-    if ((book.relationType === 'authored' && !options?.includeAuthored) || book.type !== 'BOOK' || seen.has(book.id)) continue
+    if ((book.relationType === 'authored' && !options?.includeAuthored) || book.type !== 'BOOK' || seen.has(book.id) || !isBookShelfAvailable(book)) continue
 
     const candidates = book.editions.filter((item) => (
       item.title.trim() !== '' && (item.platform === platform || item.platform === null)
@@ -53,7 +54,7 @@ export function mapRelatedFigureBooksToAffiliateBooks(
 }
 
 /** 판촉 선반에 세울 수 있는 책 — 「번역본 없음」·「절판」 띠가 붙으면 지금 화면 말로 살 수 없어 뺀다 */
-export const isShelfSellable = (book: AffiliateBook) => book.titleBadge == null
+export const isShelfSellable = (book: AffiliateBook) => isBookShelfAvailable(book)
 
 /**
  * 감상 기록의 책 → 「감상」 상품 선반. 인물이 실제로 읽은 책을 구매 카드로 모은다.
@@ -68,7 +69,7 @@ export function mapReadContentsToAffiliateBooks(
   const seen = new Set<string>()
   for (const item of items) {
     const content = item.content
-    if (content.type !== 'BOOK' || seen.has(content.id) || content.title_badge != null) continue
+    if (content.type !== 'BOOK' || seen.has(content.id) || !isBookShelfAvailable({ titleBadge: content.title_badge })) continue
     seen.add(content.id)
 
     const title = locale === 'en' ? (content.title_en ?? content.title) : (content.title_ko ?? content.title)

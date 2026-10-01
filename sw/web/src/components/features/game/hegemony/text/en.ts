@@ -18,7 +18,6 @@ export const en: HegemonyText = {
   game: { title: "Hegemony", english: "HEGEMONY", tagline: "The strong shall rule" },
   command: {
     name: CMD,
-    seal: { assault: "戰", stratagem: "策", govern: "政" },
     effect: {
       assault: "Strike enemy power",
       stratagem: "Shake enemy morale",

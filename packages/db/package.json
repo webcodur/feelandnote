@@ -1,0 +1,11 @@
+{
+  "name": "@feelandnote/db",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": { "types": "./src/index.d.ts", "default": "./src/index.mjs" }
+  },
+  "dependencies": { "jose": "^6.2.3" },
+  "scripts": { "test": "node --test src/*.test.mjs" }
+}

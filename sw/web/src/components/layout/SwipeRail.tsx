@@ -10,8 +10,7 @@
         (손보다 감도 배율만큼 앞서) 오르내리며 판 밖으로 나가면 그대로 사라진다.
         맨 아래 설정 단추로 감도(손 1px당 페이지 몇 px)와 미끄러짐 켜기를 고르며, 값은 브라우저에 남는다.
         휴대폰 폭·게임 전체 화면·스크롤할 것이 없는 짧은 화면에서는 서지 않는다.
-        인물 상세는 좌측 목차 레일의 중심을 CSS 변수로 알리므로 그 자리에 대칭으로 서고(1340px+),
-        그 밖의 화면은 LayoutMain이 본문 틀 안쪽에 비워 둔 오른쪽 여백에 선다(1280px+). SwipeRail.module.css.
+        모든 화면에서 공통 본문 폭의 오른쪽 여백에 선다(1340px+). SwipeRail.module.css.
 */ // ------------------------------
 "use client";
 
@@ -72,7 +71,7 @@ const TRAIL_WINDOW_MS = 140;
 /** 누름 구역에서 끝으로 가는 이동은 이 시간(ms) 동안 빠르게 달리다 감속해 선다 */
 const JUMP_MS = 450;
 
-export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
+export default function SwipeRail() {
   const t = useTranslations("layout.swipeRail");
   const gameLayer = useGameFullScreenLayer();
   const [scrollable, setScrollable] = useState(false);
@@ -325,7 +324,6 @@ export default function SwipeRail({ celeb = false }: { celeb?: boolean }) {
     <div
       className={styles.rail}
       style={{ zIndex: Z_INDEX.fab }}
-      data-celeb={celeb || undefined}
       data-dragging={dragging || undefined}
       data-gliding={gliding || undefined}
       role="separator"

@@ -202,6 +202,27 @@ export function getFactionThemeImage(slug: string | null): string | undefined {
   return slug ? THEME_ART[slug] : undefined;
 }
 
+/* 「이 신화의 책」은 제목이 신화 이름으로 시작하는 작품에 신화별 대표 원전을 더한 것이다.
+   신들의 계보·변신 이야기 같은 종합 신화서는 제목에 신화 이름이 없고, 인물 그래프로는
+   일리아스처럼 인물이 겹치는 별개 서사시와 가를 수 없어 원전은 신화마다 명시한다.
+   FACTION_OWN_WORK_IDS의 신화판이다. */
+export const MYTH_OWN_WORK_IDS: Record<string, string[]> = {
+  'homer-odyssey': ['0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd'],
+  'homer-iliad': ['f44760c9-113f-4a04-89da-6eaca5f8af13'],
+  // 출판사 작품 안내: https://www.penguinrandomhouse.com/books/292296/the-oresteia-by-aeschylus-translated-by-robert-fagles-introduction-and-notes-by-robert-fagles-and-w-b-stanford/9780140443332/readers-guide/
+  'house-of-atreus': ['ff0392c6-49b3-4cd4-ba03-7c1c0ec83014'], // 오레스테이아 3부작
+  "greek-roman-myth": [
+    'd0ae4f4f-2e9b-41e7-9670-72eaf2f85528', // 로버트 그레이브스의 그리스 신화
+    "5c38c188-32a1-4551-9ce7-97c025b2e364", // 신들의 계보
+    "f584f015-601d-52ad-b76b-006b231eb54d", // 호메로스 찬가
+    "13410b89-7c1f-4461-a1e2-b3f2975148e6", // 변신 이야기
+    "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c", // 해밀턴의 그리스로마신화
+    "1d625a51-414b-40b3-a3b7-df43aa1e48b9", // 스티븐 프라이의 그리스 신화
+    "905e4914-9aa2-59e3-94c6-1bf04e2fe97c", // 아폴로도로스의 도서관과 히기누스의 신화집
+    "e4e3f23f-bc12-55a0-92d2-29f9a3188510", // 신화집(아폴로도로스)
+  ],
+};
+
 /* 「이 세력의 책」— 세력 자체를 주인공으로 다루는 작품의 content_id 명단. 신화 선반의
    MYTH_OWN_WORK_IDS(MythWorkShelf)와 같은 장치다. 구성원이 겹치는 책과 세력이 주인공인 책은
    인물 그래프로 가를 수 없어 세력마다 명시한다. 작품 선반은 이 목록을 앞 구간으로 세우고

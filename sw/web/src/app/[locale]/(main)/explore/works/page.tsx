@@ -11,9 +11,9 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { WORKS_FEATURED_LINKS } from "@/constants/navigation";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
-import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
-import { hubAnchorItems } from "@/components/shared/hubSectionUtils";
+import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
+import { hubAtlasNavItems } from "@/components/shared/hubSectionUtils";
 import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, REORGANIZING_WORK_LENSES } from "@/constants/exploreLenses";
 import { chartCategory } from "@/lib/library/chartSources";
 import { PendingBlock } from "@/components/ui/pending";
@@ -43,13 +43,15 @@ export default async function WorksPage({ searchParams }: { searchParams: Promis
   const readyPages = WORKS_FEATURED_LINKS.filter(page => !REORGANIZING_WORK_LENSES.has(page.key!));
   const reorganizingPages = WORKS_FEATURED_LINKS.filter(page => REORGANIZING_WORK_LENSES.has(page.key!));
 
-  // 인물 모드와 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(베스트셀러 · 주제별 탐색)
+  // 인물 모드와 같은 문법 — 아틀라스 목차(옆 레일·하단 띠), 번호 구획 둘(베스트셀러 · 주제별 탐색)
   const hubGroup = EXPLORE_HUB_GROUP.works;
   const titles = [t("bestsellerLabel"), t("quickNav")];
+  const navLabels = [t("bestsellerLabel"), t("navByTheme")];
 
   return (
-    <div>
-      <HubNav hubItems={hubAnchorItems(titles, hubGroup)} groupId={hubGroup} />
+    // 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다
+    <div className="pb-[60px] min-[1340px]:pb-0">
+      <AtlasNavSections items={hubAtlasNavItems(navLabels, hubGroup)} />
       <div className="space-y-8 md:space-y-10">
         <HubSection title={titles[0]} index={0} total={titles.length} groupId={hubGroup} hideDivider>
           {/* 분야를 바꾸면 그 분야 차트를 새로 불러오는 동안 자리표를 보인다 */}

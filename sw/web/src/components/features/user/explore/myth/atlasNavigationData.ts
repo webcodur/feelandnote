@@ -1,8 +1,12 @@
 // 선택 계층의 자료와 모양. 팩션 주소에서도 그룹 선택을 복원한다.
 export const ATLAS_GROUP_PARAM = "group";
+export type AtlasWorld = "myth" | "faction";
+export function atlasStepKeys(world: AtlasWorld) {
+  return world === "myth" ? ["region", "myth", "group"] as const : ["theme", "faction", "group"] as const;
+}
 export const ATLAS_NAV_LAYOUT = {
   root: "mx-auto flex w-full max-w-[420px] flex-col gap-2 md:gap-3",
-  row: "grid min-h-11 grid-cols-[1.75rem_minmax(0,1fr)_1.75rem] items-stretch overflow-hidden rounded-lg border border-white/20 bg-bg-main md:min-h-[4.5rem] md:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem]",
+  row: "grid min-h-12 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch rounded-lg border border-white/20 bg-bg-main md:min-h-14 md:grid-cols-[3.5rem_2.75rem_minmax(0,1fr)_2.75rem]",
   footer: "mt-1 flex flex-wrap items-center gap-2",
 } as const;
 

@@ -1,4 +1,4 @@
-import type { PostgrestError } from '@supabase/supabase-js'
+import type { PostgrestError } from '@feelandnote/db'
 import type { ActionResult, ActionFailure, ErrorCode, DatabaseErrorCode } from './types'
 import { ERROR_MESSAGES, DATABASE_ERROR_MAP, CONTEXT_MESSAGES } from './codes'
 

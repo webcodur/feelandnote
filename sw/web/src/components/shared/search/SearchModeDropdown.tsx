@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/search/SearchModeDropdown.tsx
   기능: 검색 모드 및 카테고리 선택 드롭다운
-  책임: 콘텐츠/사용자/태그/기록관 검색 모드와 카테고리 필터 제공
+  책임: 작품·사용자·인물·세력·신화·내 기록 검색 모드와 카테고리 필터 제공
 */ // ------------------------------
 "use client";
 
@@ -11,7 +11,7 @@ import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
 
-export type SearchMode = "content" | "user" | "tag" | "records" | "celeb";
+export type SearchMode = "content" | "user" | "tag" | "records" | "celeb" | "faction";
 export type ContentCategory = CategoryId;
 
 export interface SearchModeConfig {
@@ -22,10 +22,9 @@ export const SEARCH_MODES: SearchModeConfig[] = [
   { id: "content" },
   { id: "user" },
   { id: "celeb" },
+  { id: "faction" },
   { id: "records" },
 ];
-
-const SEARCH_MODE_IDS: SearchMode[] = ["content", "user", "celeb", "records"];
 
 // CATEGORIES를 그대로 사용
 export const CONTENT_CATEGORIES = CATEGORIES;
@@ -97,7 +96,7 @@ export default function SearchModeDropdown({
 
           {/* 기타 모드 */}
           <div className="px-3 py-1.5 text-xs text-text-tertiary font-medium border-t border-b border-white/5 mt-1">{t("sectionOther")}</div>
-          {SEARCH_MODE_IDS.filter((id) => id !== "content").map((id) => (
+          {SEARCH_MODES.filter(({ id }) => id !== "content").map(({ id }) => (
             <Button
               unstyled
               key={id}

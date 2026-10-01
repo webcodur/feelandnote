@@ -3,6 +3,8 @@
 */
 'use client'
 
+import { Trophy, FlagOff, Clock } from 'lucide-react'
+
 import { useMemo } from 'react'
 import { activeStars, PLAYER_ID, membersOf } from '@/lib/game/suikoden/query'
 import { STAR_COUNT } from '@/lib/game/suikoden/stars'
@@ -35,7 +37,7 @@ export default function ResultScreen({ game, onTitle }: { game: GameState; onTit
     <div className="absolute inset-0 overflow-y-auto" style={{ background: win ? 'radial-gradient(ellipse at 50% 0%, #3a2c12 0%, #0a0907 60%)' : 'radial-gradient(ellipse at 50% 0%, #22181a 0%, #07070a 60%)' }}>
       <MusicSlot className="absolute right-3 top-3 z-10" />
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 py-6 sm:gap-6 sm:py-10">
-        <span className="cheondo-stamp grid h-20 w-20 place-items-center text-4xl font-black sm:h-24 sm:w-24 sm:text-5xl" style={{ background: win ? INK.seal : '#2c2c30', color: win ? '#fff3ea' : INK.sub }}>{win ? '統' : outcome.kind === 'fallen' ? '亡' : '忘'}</span>
+        <span className="cheondo-stamp grid h-20 w-20 place-items-center text-4xl font-black sm:h-24 sm:w-24 sm:text-5xl" style={{ background: win ? INK.seal : '#2c2c30', color: win ? '#fff3ea' : INK.sub }}>{win ? <Trophy size={40} aria-hidden /> : outcome.kind === 'fallen' ? <FlagOff size={40} aria-hidden /> : <Clock size={40} aria-hidden />}</span>
         <h1 className="text-4xl font-black" style={{ color: win ? INK.goldBright : INK.text }}>{title}</h1>
         <p className="text-[15px]" style={{ color: INK.sub }}>{desc}</p>
         {lord && (
@@ -59,7 +61,7 @@ export default function ResultScreen({ game, onTitle }: { game: GameState; onTit
         <GameButton variant="primary" size="lg" onClick={onTitle}>{T.result.again}</GameButton>
         {stars.length > 0 && (
           <div className="w-full">
-            <p className="mb-2 text-center text-[12px] font-bold" style={{ color: INK.gold }}>{T.roster.title} {T.roster.hanja}</p>
+            <p className="mb-2 text-center text-[12px] font-bold" style={{ color: INK.gold }}>{T.roster.title}</p>
             <div className="flex flex-wrap justify-center gap-1.5">
               {stars.slice(0, STAR_COUNT).map((h) => (
                 <button key={h.id} type="button" onClick={() => openHero(h.id)} title={h.name}><Portrait hero={h} size={40} /></button>

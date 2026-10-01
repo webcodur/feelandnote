@@ -4,6 +4,8 @@
 */
 'use client'
 
+import { MapPin } from 'lucide-react'
+
 import { useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
   ArrowLeft, Beer, Castle, Coins, Crown, Drama, Gift, GraduationCap, Hammer, HandHeart, Landmark, MoveRight,
@@ -74,7 +76,7 @@ export default function TerritoryPanel({ game, territory, act, onSortie, onDiplo
             <span aria-hidden className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(13,15,19,0.96) 0%, rgba(13,15,19,0.75) 45%, rgba(13,15,19,0.35) 100%), linear-gradient(0deg, rgba(13,15,19,0.9), transparent 60%)' }} />
           </>
         )}
-        {owner ? <Seal color={owner.color} text={roster.byId.get(owner.lordId)?.name ?? '?'} size={34} className="relative" /> : <span className="relative grid h-[34px] w-[34px] place-items-center border text-sm font-black" style={{ borderColor: INK.line, color: INK.mute, background: 'rgba(13,15,19,0.8)' }} aria-hidden>空</span>}
+        {owner ? <Seal color={owner.color} text={roster.byId.get(owner.lordId)?.name ?? '?'} size={34} className="relative" /> : <span className="relative grid h-[34px] w-[34px] place-items-center border text-sm font-black" style={{ borderColor: INK.line, color: INK.mute, background: 'rgba(13,15,19,0.8)' }} aria-hidden><MapPin size={18} /></span>}
         <div className="relative min-w-0 flex-1">
           <p className="text-[11px] font-bold" style={{ color: INK.gold }}>{REGIONS[def.region][locale]}{isCapital ? ` · ${T.territory.capital}` : ''}</p>
           <h2 className="truncate text-xl font-black leading-tight" style={{ color: INK.text }}>{names.territory(territory)}</h2>
@@ -409,7 +411,7 @@ function CommandPicker({ game, territory, mode, idle, known, onRun, onBack, name
               >
                 <span className="grid h-9 w-9 place-items-center border" style={{ borderColor: INK.line, color: INK.gold }}>{BUILDING_ICON[type]}</span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[13px] font-bold" style={{ color: INK.text }}>{T.buildings[type]} <span className="text-[11px] font-black" style={{ color: INK.goldDim }}>{b.hanja}</span></span>
+                  <span className="block text-[13px] font-bold" style={{ color: INK.text }}>{T.buildings[type]}</span>
                   <span className="block truncate text-[11px]" style={{ color: INK.sub }}>{T.buildingDesc[type]}</span>
                 </span>
                 <span className="text-right text-[11px] tabular-nums" style={{ color: INK.sub }}>{T.commands.cost(b.gold, 0)}<br />{T.territory.months(months)}</span>

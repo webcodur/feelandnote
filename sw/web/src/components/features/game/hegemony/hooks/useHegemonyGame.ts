@@ -6,7 +6,7 @@
 "use client";
 
 import { useCallback, useMemo, useReducer, useRef } from "react";
-import { getCelebCards, loadCardDialogues } from "@/actions/game/getCelebCards";
+import { getHegemonyCards, loadCardDialogues } from "@/actions/game/getCelebCards";
 import type { BattleCard } from "@/lib/game/types";
 import type { Difficulty } from "@/lib/game/hegemony/constants";
 import { DRAFT_POOL_SIZE } from "@/lib/game/hegemony/constants";
@@ -34,16 +34,17 @@ export function useHegemonyGame() {
     const seed = newSeed();
     dispatch({ type: "load", difficulty, seed });
     try {
-      const roster = state.roster.length > 0 ? state.roster : await getCelebCards();
+      const roster = state.roster.length > 0 ? state.roster : await getHegemonyCards();
       if (request !== requestRef.current) return;
       if (roster.length < DRAFT_POOL_SIZE) {
-        dispatch({ type: "loadFailed", reason: roster.length === 0 ? "load" : "notEnough" });
+        dispatch({ type: "loadFailed", reason: "notEnough" });
         return;
       }
       const pool = await withDialogues(buildDraftPool(roster, rngFor(seed, "pool")));
       if (request !== requestRef.current) return;
       dispatch({ type: "draftReady", roster, pool });
-    } catch {
+    } catch (error) {
+      console.error('[Hegemony] 인물 조회 실패', error);
       if (request === requestRef.current) dispatch({ type: "loadFailed", reason: "load" });
     }
   }, [state.roster]);

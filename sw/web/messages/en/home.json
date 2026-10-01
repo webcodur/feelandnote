@@ -28,10 +28,10 @@
       "filterNationality": "Nationality",
       "filterContent": "Content",
       "filterGender": "Gender",
-      "filterTier": "Depth",
+      "filterTier": "Records",
       "filterSort": "Sort",
       "filterBirthYear": "Birth Year",
-      "filterReality": "Fact·Fiction",
+      "filterReality": "Existence",
       "all": "All",
       "genderMale": "Male",
       "genderFemale": "Female",
@@ -161,7 +161,8 @@
           ]
         ],
         "inspirationConclusion": "One person's inspiration becomes another's creation. That creation transforms yet another's life.",
-        "introSub": "A Single Line Recorded\nA Thousand Years of Echoes"
+        "introSub": "A Single Line Recorded\nA Thousand Years of Echoes",
+        "close": "Close"
       },
       "quickRecordDock": {
         "title": "Quick Record",
@@ -169,13 +170,15 @@
       },
       "tier": {
         "all": "All",
-        "full": "Full",
-        "light": "Brief"
+        "full": "With records",
+        "light": "Without records"
       },
       "reality": {
         "all": "All",
-        "real": "Fact",
-        "fiction": "Fiction"
+        "real": "Real",
+        "fiction": "Fiction",
+        "mixed": "Composite",
+        "mixedDescription": "Figures with historical records and legendary or fictional portrayals."
       },
       "filterContentPresence": "Reviews",
       "contentPresence": {
@@ -191,7 +194,10 @@
           "all": "All reviews",
           "with": "With reviews",
           "without": "No reviews"
-        }
+        },
+        "selected": "Selected filters",
+        "empty": "No additional filters selected.",
+        "apply": "Apply filters"
       },
       "trends": {
         "country": "Trend country",
@@ -218,7 +224,8 @@
       "viewAll": "View all",
       "aboutLink": "What is feelandnote?",
       "notice": "Announcements",
-      "noticeSub": "Service news and updates"
+      "noticeSub": "Service news and updates",
+      "figureLinksNav": "Trending"
     }
   },
   "banner": {

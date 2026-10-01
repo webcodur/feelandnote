@@ -13,21 +13,14 @@ import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents"
 import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
-import { getCelebReadShelf } from "@/actions/celebs/getCelebReferenceBooks";
+import { getCelebReferenceBooks } from "@/actions/celebs/getCelebReferenceBooks";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { CATEGORIES } from "@/constants/categories";
-import { getFigureBookPresentationsForCeleb } from "@/actions/figure-books/getFigureBookPresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import CelebPageContent from "./CelebPageContent";
 import RelatedFigureLinks from "./RelatedFigureLinks";
-import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
-import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
-import {
-  mapRelatedFigureBooksToAffiliateBooks,
-} from "@/components/features/celeb/CelebRelatedAffiliateBooks";
-import { getDisplayFigureBookGroups } from "@/lib/celeb/authoredBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
@@ -126,11 +119,8 @@ export default async function CelebPage({ params }: PageProps) {
         sortBy: 'recent',
       }, locale)
     : Promise.resolve(EMPTY_CONTENTS);
-  // 「감상」 선반은 기록 속 책을 상품 카드로 모으는데, 판매 불가 책(미번역·절판)은 뺀다 —
-  // 한 쪽이 전부 빠져도 다음 쪽으로 채우고, 그 뒤는 클라이언트의 「더 보기」가 같은 방식으로 잇는다.
-  const readShelfPromise = profile.celeb_tier === 'full'
-    ? getCelebReadShelf(userId, locale)
-    : Promise.resolve({ books: [] as AffiliateBook[], nextPage: 1, hasMore: false });
+  // 인물 상세와 도감 인물 모달은 같은 참고도서 조회를 쓴다.
+  const referenceBooksPromise = getCelebReferenceBooks(userId, locale);
   const initialContentBriefPromise = initialContentsPromise.then((contents) => {
     const firstContentId = contents.items[0]?.content_id;
     return firstContentId ? getContentBrief(firstContentId, locale) : null;
@@ -142,8 +132,7 @@ export default async function CelebPage({ params }: PageProps) {
     dialogueData,
     timelineEvents,
     initialContents,
-    readShelf,
-    allFigureBooks,
+    referenceBooks,
     initialContentBrief,
     externalLinks,
     initialAnalysis,
@@ -155,8 +144,7 @@ export default async function CelebPage({ params }: PageProps) {
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     named(slug, "서가", initialContentsPromise),
-    named(slug, "감상 선반", readShelfPromise),
-    named(slug, "등장 작품", getFigureBookPresentationsForCeleb(userId, locale)),
+    named(slug, "참고도서", referenceBooksPromise),
     initialContentBriefPromise,
     getCelebExternalLinks(profile.wikidata_qid, locale),
     initialAnalysisPromise.catch((error: unknown) => {
@@ -166,14 +154,15 @@ export default async function CelebPage({ params }: PageProps) {
     }),
   ]);
 
-  // 직접 등장과 간접 연관은 「등장」 모드에 함께, 창작은 「집필」 모드에 보낸다.
-  const { appeared: figureBooks, authored: displayAuthoredBooks } = getDisplayFigureBookGroups(allFigureBooks);
+  const { appeared: figureBooks, authored: displayAuthoredBooks, read: readShelf, professionBooks, factionGroups } = referenceBooks;
   const displayFigureBooks = figureBooks;
   const readBooks = readShelf.books;
-  // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full 인물은
-  // 사실상 항상 결과가 있다(한국어 YES24·영어 아마존 검색). 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.
-  const hasAffiliateBooks = mapRelatedFigureBooksToAffiliateBooks(figureBooks, locale).length > 0
-    || profile.celeb_tier === 'full';
+  // 참고도서 구획은 다섯 갈래 중 하나라도 차면 선다 — 티어·실존축과 무관하게 자료 유무만 본다
+  const hasAffiliateBooks = figureBooks.length > 0
+    || displayAuthoredBooks.length > 0
+    || readBooks.length > 0
+    || professionBooks.length > 0
+    || factionGroups.some((group) => group.books.length > 0);
 
   const pageTitle = buildCelebTitle(
     createCelebMetaInput(profile, { sources: figureBooks }),
@@ -260,6 +249,8 @@ export default async function CelebPage({ params }: PageProps) {
         readBooks={readBooks}
         readBooksNextPage={readShelf.nextPage}
         readBooksHasMore={readShelf.hasMore}
+        factionGroups={factionGroups}
+        professionBooks={professionBooks}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         externalLinksSlot={
@@ -280,20 +271,6 @@ export default async function CelebPage({ params }: PageProps) {
             relations={profile.relations}
             factions={profile.factions}
           />
-        }
-        affiliateBooksSlot={
-          /* 등장·집필 작품은 위의 작품 목록이 직접 보여 주므로 여기는 추천 도서만 이어 붙인다. */
-          hasAffiliateBooks ? (
-            <CelebAffiliateBooks
-              userId={userId}
-              excludeContentIds={[
-                ...allFigureBooks.map((book) => book.id),
-                /* 읽은 책은 「감상」 선반이 직접 보여 주므로 추천에서 뺀다 */
-                ...readBooks.map((book) => book.contentId),
-              ]}
-              hideHeading
-            />
-          ) : undefined
         }
       />
     </>

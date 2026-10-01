@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { createClient } from "@/lib/db/client";
-import type { User } from "@supabase/supabase-js";
+import type { User } from "@feelandnote/db";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getBookEditions } from "@/lib/utils/editions";
 import { getBookTitleBadge } from "@/lib/utils/content-locale";

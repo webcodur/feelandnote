@@ -1,4 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
+import { createServerClient } from '@feelandnote/db'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // 세션 유지 기간: 30일 (초 단위)
@@ -27,7 +27,7 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) =>
             dbResponse.cookies.set(name, value, {
               ...options,
-              maxAge: SESSION_MAX_AGE,
+              maxAge: options.maxAge === 0 ? 0 : SESSION_MAX_AGE,
               sameSite: 'lax',
               secure: process.env.NODE_ENV === 'production',
             })

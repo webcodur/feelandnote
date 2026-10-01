@@ -1,7 +1,7 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
 import { cachedList, cachedDetail, throwOnQueryError } from '@/lib/cache'

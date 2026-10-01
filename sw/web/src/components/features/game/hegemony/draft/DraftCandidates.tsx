@@ -36,7 +36,7 @@ function gains(card: BattleCard, mine: readonly BattleCard[]): { command: Comman
 export default function DraftCandidates({ batch, cards, owner, excluded, mine, canPick, onPick, onInspect }: Props) {
   const text = useHegemonyText();
   return (
-    <AnimatePresence mode="popLayout">
+    <AnimatePresence mode="wait">
       <motion.div
         key={batch}
         initial={{ opacity: 0, y: 24 }}

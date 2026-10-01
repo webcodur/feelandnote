@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl'
 import type { DialogEntry, GameSettings } from '@/lib/game/suikoden/types'
 import { useCelebAvatarSrc } from '@/hooks/useCelebAvatarSrc'
 import { getSuikodenText } from './i18n'
+import { gameText } from '@/lib/game/text'
 
 interface Props {
   queue: DialogEntry[]
@@ -77,7 +78,7 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
               </button>
             </div>
             <p className="text-sm text-text-primary leading-relaxed">
-              {current.message}
+              {gameText(current.message)}
             </p>
           </div>
         </div>

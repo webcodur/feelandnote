@@ -1,4 +1,4 @@
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { type ActionFailure, failure } from '@/lib/errors'
 
 type AdminRole = 'admin' | 'super_admin'

@@ -63,11 +63,11 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
           }}
         />
         {/* 앱 뼈대가 이미 <main>을 쥐므로 여기서는 div로 둔다 — 한 문서에 main은 하나 */}
-        <PageContainer wide>
+        <PageContainer>
           <div
             className={`${styles.detailTypography} ${
               locale === "ko" ? styles.detailTypographyKorean : ""
-            } mx-auto max-w-[1400px] animate-fade-in`}
+            } animate-fade-in`}
           >
             {children}
           </div>

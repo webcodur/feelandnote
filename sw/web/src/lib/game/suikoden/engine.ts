@@ -537,7 +537,7 @@ export function raiseArmy(state: GameState, territoryId: TerritoryId): GameState
   const factions = [playerFaction, ...state.factions]
   for (const f of factions) {
     for (const other of factions) {
-      if (f.id !== other.id && !(f.id in f.relations)) {
+      if (f.id !== other.id && !(other.id in f.relations)) {
         f.relations[other.id] = 0
       }
     }

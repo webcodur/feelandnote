@@ -15,14 +15,14 @@
 
 /* 머리말 제목의 기둥폭. 프레임과 같은 값으로 묶는다. */
 .heroHeading {
-  width: min(calc(100% - 32px), 1024px);
+  width: 100%;
   margin-inline: auto;
 }
 
 .openingFrame {
   position: relative;
   z-index: 1;
-  width: min(calc(100% - 32px), 1024px);
+  width: 100%;
   margin-inline: auto;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 58%, transparent);
@@ -231,7 +231,7 @@
 }
 
 .recordsGrid {
-  width: min(calc(100% - 32px), 1024px);
+  width: 100%;
   margin: 0 auto;
   /* 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다.
      띠가 물러나는 1340px부터는 되돌린다 */
@@ -335,30 +335,9 @@
 }
 
 @media (max-width: 767px) {
-  /* 모바일 전폭 처리 폭 = 화면 끝에서 본문까지의 좌우 여백. 바깥 틀(LayoutMain px-2, 8px)과
-     PageContainer(px-1, 4px)의 합이다. 둘 중 하나가 바뀌면 이 값도 같이 바꾼다 — 어긋나면 가로 스크롤이 생긴다. */
-  .page {
-    --celeb-mobile-bleed: 12px;
-  }
-
   .openingFrame {
-    /* 본문 기둥과 같은 전폭 처리. 따로 놀면 좌우가 어긋나 보인다. */
-    width: calc(100% + 2 * var(--celeb-mobile-bleed));
-    margin-inline: calc(-1 * var(--celeb-mobile-bleed));
     border-inline-color: color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 72%, transparent);
     box-shadow: 0 18px 40px color-mix(in srgb, black 42%, transparent);
-  }
-
-  /* 머리말 제목도 프레임과 같은 폭으로. 스티키 범위는 부모 구획 그대로다. */
-  .heroHeading {
-    width: calc(100% + 2 * var(--celeb-mobile-bleed));
-    margin-inline: calc(-1 * var(--celeb-mobile-bleed));
-  }
-
-  .recordsGrid {
-    /* 읽어보기부터도 본문 여백을 걷고 화면 끝까지 쓴다. */
-    width: calc(100% + 2 * var(--celeb-mobile-bleed));
-    margin-inline: calc(-1 * var(--celeb-mobile-bleed));
   }
 
   .identityPanel {

@@ -8,7 +8,7 @@ function page(t: TestContext) {
     scrollY: 0,
     innerHeight: 900,
     scrollTo({ top, behavior }: ScrollToOptions) {
-      assert.equal(behavior, "instant");
+      assert.equal(behavior, "smooth");
       this.scrollY = top!;
     },
   });

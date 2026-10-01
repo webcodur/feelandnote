@@ -3,7 +3,7 @@ import type { FeaturedFaction } from "@/actions/home";
 import { getFactionFigureBooks } from "@/actions/home/getFactionFigureBooks";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import type { AtlasTheme } from "@/components/features/user/explore/myth/atlasNavigationData";
-import { MYTH_OTHER_GROUP_ID } from "@/actions/home/mythTypes";
+import { buildFactionNavigation } from "@/lib/atlas-navigation";
 import FactionEntryView from "@/components/features/faction/entry/FactionEntryView";
 import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 import { RetryBlock } from "@/components/ui/pending";
@@ -12,9 +12,8 @@ import { buildFactionClusters, factionSectionKey, localizedFactionDescription, l
 import { getFactionCelebs } from "@/lib/faction-celebs";
 import { getFactionGroupDescriptions } from "@/lib/faction-groups";
 import { getFactionThemeImage, toFactionThemeData, type FactionThemeGroup } from "@/lib/faction-theme";
-import { toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
 import { getAlternates, toSeoSummary } from "@/lib/seo";
-import AtlasIndex from "@/components/features/user/explore/myth/AtlasIndex";
+import type { AtlasIndexGroup } from "@/components/features/user/explore/myth/AtlasIndex";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { CelebProfile } from "@/types/home";
 import type { Locale } from "@/types/locale";
@@ -56,13 +55,15 @@ function buildEntryJsonLd(entry: FeaturedFaction, name: string, celebs: CelebPro
   };
 }
 
-async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, groupRows }: {
+async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, groupRows, indexHeading, indexGroups }: {
   entry: FeaturedFaction;
   locale: Locale;
   withJsonLd: boolean;
   navigationTree: AtlasTheme[];
   themeId: string;
   groupRows: FactionThemeGroup[];
+  indexHeading: string;
+  indexGroups: AtlasIndexGroup[];
 }) {
   const [celebs, factionBooks] = await Promise.all([
     getFactionCelebs(entry.id, entry.celebs.map((celeb) => celeb.id)).catch((error) => {
@@ -87,7 +88,8 @@ async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, g
         __html: JSON.stringify(buildEntryJsonLd(entry, name, ordered, locale)).replace(/</g, "\\u003c"),
       }} />}
       <FactionEntryView key={entry.id} data={toFactionThemeData(entry, ordered, groupRows, factionBooks, locale)}
-        navigationTree={navigationTree} themeId={themeId} celebs={ordered} members={members} factionBooks={factionBooks} />
+        navigationTree={navigationTree} themeId={themeId} celebs={ordered} members={members} factionBooks={factionBooks}
+        indexHeading={indexHeading} indexGroups={indexGroups} />
     </AsyncIntlProvider>
   );
 }
@@ -103,20 +105,7 @@ export default async function FactionScreen({ sections, section, entry, locale, 
     }),
   ]);
   // 선택 창은 이름·인원만 받는다. 다른 팩션의 인물 자료는 적용 후 해당 주소에서 받는다.
-  const navigationTree: AtlasTheme[] = sections.map((item) => ({
-    id: factionSectionKey(item), name: localizedFactionName(item.faction, locale),
-    entries: item.entries.map((child) => {
-      const groups = buildFactionClusters(child.celebs, locale);
-      return {
-        id: child.id, name: localizedFactionName(child, locale), count: child.celebs.length,
-        scenes: toSceneImages(child.team_images, locale).length,
-        href: `/explore/faction/${child.slug}`,
-        groups: groups.length > 1 ? groups.map((group) => ({
-          id: group.name ?? MYTH_OTHER_GROUP_ID, name: group.label ?? tMyth("otherGroup"), count: group.celebIds.length,
-        })) : [],
-      };
-    }),
-  }));
+  const navigationTree = buildFactionNavigation(sections, locale, tMyth("otherGroup"));
   // 모든 세력으로 가는 목록을 화면 아래에 늘 펼쳐 둔다 — 선택기는 단추라 검색엔진이 다른 세력으로 가는 길이 없었다
   const index = sections.map((item) => ({
     id: factionSectionKey(item),
@@ -126,12 +115,10 @@ export default async function FactionScreen({ sections, section, entry, locale, 
       : []),
   }));
   return (
-    <>
-      <Lane key={entry.id} fallback={<MythScreenSkeleton title={t("title")}
-        hasArtwork={Boolean(getFactionThemeImage(entry.slug))} />}>
-        <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows} />
-      </Lane>
-      <AtlasIndex heading={t("allThemes")} groups={index} />
-    </>
+    <Lane key={entry.id} fallback={<MythScreenSkeleton title={t("title")}
+      hasArtwork={Boolean(getFactionThemeImage(entry.slug))} />}>
+      <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows}
+        indexHeading={t("allThemes")} indexGroups={index} />
+    </Lane>
   );
 }

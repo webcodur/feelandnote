@@ -14,7 +14,7 @@ import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import ExplorePickerSheet from "@/components/shared/ExplorePickerSheet";
-import { EXPLORE_NAV_LAYOUT as layout } from "@/components/shared/exploreNavLayout";
+import { EXPLORE_NAV_LAYOUT as layout, selectionChipTone } from "@/components/shared/exploreNavLayout";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -51,6 +51,8 @@ export interface ExploreNavRow {
   emptyLabel?: string;
   /** 좁은 화면 단추를 한 줄 전체 폭으로 — 기본은 반 폭 */
   wide?: boolean;
+  /** 항목이 적은 줄은 좁은 화면에서도 선택 창으로 접지 않고 칩으로 표시한다. */
+  alwaysShowChips?: boolean;
   /** 좁은 화면에서 선택기 양옆에 이전·다음 화살표를 붙인다 */
   mobileArrows?: boolean;
   /** 있으면 고른 항목을 다시 눌러 선택을 푼다(신화 그룹 줄). 화면 안 선택(onSelect) 줄에서만 쓴다 */
@@ -65,9 +67,7 @@ const COUNT = "text-xs font-medium text-text-tertiary";
 
 function itemClass(row: ExploreNavRow, item: ExploreNavItem, selected: boolean, large: boolean) {
   const tone = selected
-    ? item.color
-      ? "border-(--chip-c) bg-(--chip-c)/10 text-(--chip-c) hover:bg-(--chip-c)/20"
-      : layout.chipSelected
+    ? selectionChipTone(true, Boolean(item.color))
     : item.disabled ? (row.noticeId === item.id ? DISABLED_NOTICE : DISABLED) : layout.chipIdle[row.shape === "pill" ? "pill" : "square"];
   return cn(layout.chip, large && layout.chipLarge, row.shape === "pill" ? layout.pill : row.shape === "tab" ? layout.groupTab : layout.square, tone);
 }
@@ -91,12 +91,12 @@ function ChipRow({ row, large, wrap }: { row: ExploreNavRow; large: boolean; wra
   }, [row.activeId, ref, wrap]);
 
   return (
-    <nav className={cn(layout.chipNav, wrap && layout.chipNavWrapped)} aria-label={row.label}>
-      <div ref={ref} {...(wrap ? {} : dragProps)} className={wrap ? layout.navListWrapped : cn(layout.navList, large && layout.navListLarge, cursorClassName)}>
+    <nav className={cn(layout.chipNav, wrap && layout.chipNavWrapped, row.alwaysShowChips && "max-md:block")} aria-label={row.label}>
+      <div ref={ref} {...(wrap ? {} : dragProps)} className={wrap ? layout.navListWrapped : cn(layout.navList, row.alwaysShowChips && "justify-center-safe", large && layout.navListLarge, cursorClassName)}>
         {row.items.map((item) => {
           const selected = item.id === row.activeId;
           const clears = selected && Boolean(row.onClear);
-          const className = cn(itemClass(row, item, selected, large), wrap && layout.chipWrapped);
+          const className = cn(itemClass(row, item, selected, large), wrap && layout.chipWrapped, row.alwaysShowChips && "max-md:h-9");
           const style = item.color ? { "--chip-c": item.color } as CSSProperties : undefined;
           const showingNotice = row.noticeId === item.id;
           const content = item.disabled ? (
@@ -237,9 +237,11 @@ function MobileRow({ row, textOnly }: { row: ExploreNavRow; textOnly: boolean })
 export default function ExploreNav({ rows, children, bareOnMobile = false, bare = false, largeChips = false, wrapChips = false, textOnlyMobile = false }: { rows: ExploreNavRow[]; children?: ReactNode; bareOnMobile?: boolean; bare?: boolean; largeChips?: boolean; wrapChips?: boolean; textOnlyMobile?: boolean }) {
   return (
     <div className={cn(layout.navigation, bareOnMobile && layout.navigationBareMobile, bare && layout.navigationBare, wrapChips && layout.navigationWrapped)}>
-      <div className={layout.mobilePicker}>
-        {rows.map((row) => <MobileRow key={row.id} row={row} textOnly={textOnlyMobile} />)}
-      </div>
+      {rows.some((row) => !row.alwaysShowChips) && (
+        <div className={layout.mobilePicker}>
+          {rows.filter((row) => !row.alwaysShowChips).map((row) => <MobileRow key={row.id} row={row} textOnly={textOnlyMobile} />)}
+        </div>
+      )}
       {rows.map((row) => <ChipRow key={row.id} row={row} large={largeChips} wrap={wrapChips} />)}
       {children}
     </div>

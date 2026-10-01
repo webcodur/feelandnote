@@ -51,7 +51,7 @@ export default function HeroSheet({ heroId, game, onClose }: { heroId: string | 
               {flagEmoji(hero.nat)} {T.sheet.home} {TERRITORY_BY_ID[hero.home][locale]} · {formatYear(locale, hero.birth)}{hero.death !== null ? ` – ${formatYear(locale, hero.death)}` : ` · ${T.sheet.alive}`}
             </p>
             {star && (
-              <p className="mt-1 text-[12px] font-black md:hidden" style={{ color: INK.goldBright }}>{star.hanja} <span className="font-bold" style={{ color: INK.sub }}>{star.text}</span></p>
+              <p className="mt-1 text-[12px] font-black md:hidden" style={{ color: INK.goldBright }}>{star.text}</p>
             )}
           </div>
         </div>
@@ -59,7 +59,7 @@ export default function HeroSheet({ heroId, game, onClose }: { heroId: string | 
         <div className="flex flex-col gap-3 border-b p-4 md:col-start-1 md:row-span-2 md:row-start-1 md:border-b-0 md:border-r md:p-5" style={{ borderColor: INK.line, background: `linear-gradient(180deg, ${cls.color}1a, transparent 60%)` }}>
           <Portrait hero={hero} size={220} ring priority className="mx-auto max-md:hidden" />
           {star && (
-            <p className="text-center text-[13px] font-black max-md:hidden" style={{ color: INK.goldBright }}>{star.hanja} <span className="font-bold" style={{ color: INK.sub }}>{star.text}</span></p>
+            <p className="text-center text-[13px] font-black max-md:hidden" style={{ color: INK.goldBright }}>{star.text}</p>
           )}
           {greet && <p className="text-[13px] leading-relaxed" style={{ color: INK.text }}>「{greet.text}」</p>}
           {quote && (

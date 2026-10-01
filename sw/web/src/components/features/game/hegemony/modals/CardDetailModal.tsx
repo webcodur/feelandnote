@@ -5,6 +5,8 @@
 */
 "use client";
 
+import { gameText } from "@/lib/game/text";
+
 import { useLocale } from "next-intl";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import type { BattleCard, Command, Domain } from "@/lib/game/types";
@@ -77,7 +79,7 @@ export default function CardDetailModal({ card, onClose }: { card: BattleCard | 
           {card.quotes && (
             <section>
               <h3 className="mb-1.5 text-sm font-black text-accent">{text.card.quote}</h3>
-              <blockquote className="border-s-2 border-accent/60 ps-3 text-base leading-relaxed text-text-primary">{card.quotes}</blockquote>
+              <blockquote className="border-s-2 border-accent/60 ps-3 text-base leading-relaxed text-text-primary">{gameText(card.quotes)}</blockquote>
             </section>
           )}
         </div>

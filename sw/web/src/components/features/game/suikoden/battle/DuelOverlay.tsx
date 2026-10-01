@@ -48,7 +48,7 @@ export default function DuelOverlay({ battle, nameOf, onMove, onRefuse }: DuelOv
 
   return (
     <div className="absolute inset-0 z-40 flex flex-col items-center justify-center gap-4 p-4" style={{ background: 'radial-gradient(ellipse at center, rgba(40,14,8,0.92) 0%, rgba(4,4,6,0.96) 70%)' }} role="dialog" aria-label={T.duel.title}>
-      <p className="cheondo-stamp text-5xl font-black tracking-[0.2em] sm:text-6xl" style={{ color: INK.sealBright, textShadow: '0 0 30px rgba(226,88,60,0.45)' }}>一騎討</p>
+      <p className="cheondo-stamp text-3xl font-black tracking-tight sm:text-5xl" style={{ color: INK.sealBright, textShadow: '0 0 30px rgba(226,88,60,0.45)' }}>{T.duel.title}</p>
       <div className="flex w-full max-w-3xl items-center justify-between gap-3">
         {[left, right].map((id, i) => {
           const [cur, max] = hp(id)

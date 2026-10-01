@@ -15,6 +15,7 @@ import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
 import type { Tables } from "@/types/database.generated";
 import type { DialogueLines } from "@/lib/game/voice/types";
+import { gameText } from "@/lib/game/text";
 import { flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
 
 export interface TrackerContent {
@@ -583,8 +584,8 @@ async function buildRound(
     birthDate,
     deathDate,
     nationalityLabel,
-    bio: bio ? censorName(bio, nickname, safeWords) : null,
-    quote: quote ? censorName(quote, nickname, safeWords) : null,
+    bio: bio ? censorName(gameText(bio), nickname, safeWords) : null,
+    quote: quote ? censorName(gameText(quote), nickname, safeWords) : null,
     spectrum: spectrumData as TrackerSpectrum,
     contents,
     options,

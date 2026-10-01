@@ -38,3 +38,12 @@ export const EXPLORE_NAV_LAYOUT = {
   /* 그룹도 선택 전부터 전체 윤곽선을 보이는 칩으로 표시한다. */
   groupTab: "rounded-lg",
 } as const;
+
+/** 랭킹·도감·서비스 카테고리 칩의 선택 강조. 색 변화는 즉시 적용한다. */
+export function selectionChipTone(selected: boolean, colored = false) {
+  return selected
+    ? colored
+      ? "border-(--chip-c) bg-(--chip-c)/10 text-(--chip-c) hover:bg-(--chip-c)/20"
+      : EXPLORE_NAV_LAYOUT.chipSelected
+    : EXPLORE_NAV_LAYOUT.chipIdle.square;
+}

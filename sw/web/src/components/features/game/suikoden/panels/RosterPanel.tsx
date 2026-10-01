@@ -30,7 +30,7 @@ export default function RosterPanel({ open, game, onClose, onPrisoner }: RosterP
   const f = game.factions[PLAYER_ID]
   return (
     <Modal open={open} onClose={onClose} width={1040} label={T.roster.title}>
-      <PanelTitle hanja="錄" title={`${T.roster.title} ${T.roster.hanja}`} sub={f ? T.roster.filled(activeStars(game, PLAYER_ID).length) : ''} />
+      <PanelTitle title={T.roster.title} sub={f ? T.roster.filled(activeStars(game, PLAYER_ID).length) : ''} />
       {open && f && <RosterBody game={game} onPrisoner={onPrisoner} />}
     </Modal>
   )
@@ -75,7 +75,7 @@ function RosterBody({ game, onPrisoner }: { game: GameState; onPrisoner: (heroId
       <div className="min-h-0 flex-1 overflow-y-auto p-3 sm:p-4">
         {tab === 'stars' && (
           <div className="flex flex-col gap-4">
-            {[['天罡', 0, HEAVENLY_COUNT], ['地煞', HEAVENLY_COUNT, STAR_COUNT]].map(([label, from, to]) => (
+            {[[locale === 'en' ? 'Heavenly Spirits' : '천강성', 0, HEAVENLY_COUNT], [locale === 'en' ? 'Earthly Fiends' : '지살성', HEAVENLY_COUNT, STAR_COUNT]].map(([label, from, to]) => (
               <section key={label as string}>
                 <h3 className="mb-2 text-[12px] font-black tracking-[0.3em]" style={{ color: INK.gold }}>{label}</h3>
                 <div className="grid grid-cols-6 gap-1.5 sm:grid-cols-9 lg:grid-cols-12">
@@ -89,11 +89,11 @@ function RosterBody({ game, onPrisoner }: { game: GameState; onPrisoner: (heroId
                         disabled={!hero}
                         onClick={() => hero && openHero(hero.id)}
                         className={`flex flex-col items-center gap-1 border p-1 ${hero ? 'border-[#d4af37]/35 bg-[#d4af37]/[0.06] hover:border-[#f3d57a]' : 'border-white/[0.05] bg-black/20'}`}
-                        title={hero ? `${star.hanja} ${hero.name}` : star.hanja}
+                        title={hero ? `${star.text} ${hero.name}` : star.text}
                       >
-                        {hero ? <Portrait hero={hero} size={52} /> : <span className="grid h-[52px] w-[52px] place-items-center text-[10px] font-black" style={{ color: slot.gone ? INK.seal : '#2a2b31' }}>{slot.gone ? '去' : '—'}</span>}
-                        <span className="text-[9px] font-black leading-none" style={{ color: hero ? INK.goldBright : INK.mute }}>{star.hanja}</span>
-                        <span className="w-full truncate text-center text-[10px] font-semibold leading-none" style={{ color: hero ? INK.text : INK.mute }}>{hero ? hero.name : star.text}</span>
+                        {hero ? <Portrait hero={hero} size={52} /> : <span className="grid h-[52px] w-[52px] place-items-center text-[10px] font-black" style={{ color: slot.gone ? INK.seal : '#2a2b31' }}>{slot.gone ? '−' : '—'}</span>}
+                        <span className="text-[9px] font-black leading-none" style={{ color: hero ? INK.goldBright : INK.mute }}>{star.text}</span>
+                        <span className="w-full truncate text-center text-[10px] font-semibold leading-none" style={{ color: hero ? INK.text : INK.mute }}>{hero ? hero.name : '—'}</span>
                       </button>
                     )
                   })}
@@ -189,7 +189,7 @@ function CompactRow({ hs, hero, names }: { hs: HeroState; hero: Hero; names: Ret
       <Portrait hero={hero} size={40} ring={hs.status === 'lord'} />
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-1.5">
-          {star && <span className="shrink-0 text-[10px] font-black" style={{ color: INK.gold }}>{star.hanja}</span>}
+          {star && <span className="shrink-0 text-[10px] font-black" style={{ color: INK.gold }}>{star.text}</span>}
           <span className="truncate text-[13px] font-bold" style={{ color: INK.text }}>{hero.name}</span>
           <GradeBadge grade={hero.grade} />
           <ClassBadge cls={hero.cls} />
@@ -214,7 +214,7 @@ function Row({ hs, hero, game, names }: { hs: HeroState; hero: Hero; game: GameS
   const max = heroMaxTroops(hero, hs, game)
   return (
     <tr className="border-t hover:bg-white/[0.03]" style={{ borderColor: 'rgba(236,230,214,0.05)' }}>
-      <td className="px-2 py-1.5 text-[11px] font-black" style={{ color: INK.gold }}>{star?.hanja ?? ''}</td>
+      <td className="px-2 py-1.5 text-[11px] font-black" style={{ color: INK.gold }}>{star?.text ?? ''}</td>
       <td className="px-2 py-1.5">
         <button type="button" onClick={() => openHero(hero.id)} className="flex items-center gap-2 text-left hover:text-[#f3d57a]">
           <Portrait hero={hero} size={28} ring={hs.status === 'lord'} />

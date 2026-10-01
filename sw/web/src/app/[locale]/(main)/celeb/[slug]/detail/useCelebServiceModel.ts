@@ -90,7 +90,7 @@ export function useCelebServiceModel({
     spectrum: sideAvailability.spectrum,
     library: initialContents.items.length > 0,
   };
-  /* 참고도서 구획의 네 모드(등장·감상·집필·추천) 가용도 —
+  /* 참고도서 구획의 다섯 모드(등장·감상·집필·직군·소속) 가용도 —
      어느 하나라도 채울 자료가 있으면 구획이 선다. */
   const hasWorks = figureBooks.length > 0;
   const hasReadBooks = readBooks.length > 0;

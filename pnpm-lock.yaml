@@ -301,12 +301,6 @@ importers:
       '@radix-ui/react-scroll-area':
         specifier: ^1.2.10
         version: 1.2.10(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@supabase/ssr':
-        specifier: ^0.12.3
-        version: 0.12.3(@supabase/supabase-js@2.110.7)
-      '@supabase/supabase-js':
-        specifier: ^2.110.7
-        version: 2.110.7
       '@tailwindcss/typography':
         specifier: ^0.5.19
         version: 0.5.19(tailwindcss@4.1.18)
@@ -373,6 +367,9 @@ importers:
       world-atlas:
         specifier: 2.0.2
         version: 2.0.2
+      '@feelandnote/db':
+        specifier: workspace:*
+        version: link:../../packages/db
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.17
@@ -529,6 +526,12 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+
+  packages/db:
+    dependencies:
+      jose:
+        specifier: ^6.2.3
+        version: 6.2.12
 
 packages:
 
@@ -6851,6 +6854,11 @@ packages:
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+
+  jose@6.2.12:
+    resolution:
+      integrity: sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==
+
 
 snapshots:
 
@@ -14128,3 +14136,5 @@ snapshots:
       use-sync-external-store: 1.6.0(react@19.2.0)
 
   zwitch@2.0.4: {}
+
+  jose@6.2.12: {}

@@ -9,9 +9,9 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import CategoryChip from "@/components/ui/CategoryChip";
 import { RetryBlock } from "@/components/ui/pending";
-import { EXPLORE_CHIP_CLASS, EXPLORE_PANEL_CLASS, exploreChipStateClass } from "@/components/shared/ExploreSearchControls";
+import { EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 import { CHART_CATEGORIES, chartSource, chartSources, type ChartCategory, type ChartSourceId } from "@/lib/library/chartSources";
 import type { MusicChartSelection } from "@/lib/library/musicChart";
 import type { StoreChartSelection } from "@/lib/library/storeChart";
@@ -62,21 +62,17 @@ export default function BestsellerSection({ category, sourceId, books, music, st
       <div className={EXPLORE_PANEL_CLASS}>
         <nav aria-label={t("categories")} className="flex flex-wrap items-center justify-center gap-2">
           {CHART_CATEGORIES.map(value => (
-            <Link key={value} href={chartHref(value)} prefetch={false} scroll={false}
-              aria-current={value === category ? "page" : undefined}
-              className={`${EXPLORE_CHIP_CLASS} ${exploreChipStateClass(value === category)}`}>
+            <CategoryChip key={value} href={chartHref(value)} media={value} selected={value === category}>
               {tc(value.toLowerCase())}
-            </Link>
+            </CategoryChip>
           ))}
         </nav>
         {sources.length > 1 && (
           <nav aria-label={t("sourceSelection")} className="flex flex-wrap items-center justify-center gap-2">
             {sources.map(item => (
-              <Link key={item.id} href={chartHref(category, item.id)} prefetch={false} scroll={false}
-                aria-current={item.id === source.id ? "page" : undefined}
-                className={`${EXPLORE_CHIP_CLASS} min-h-9 min-w-0 px-3 text-xs ${exploreChipStateClass(item.id === source.id)}`}>
+              <CategoryChip key={item.id} href={chartHref(category, item.id)} selected={item.id === source.id} className="text-xs">
                 {t(`sources.${item.id}`)}
-              </Link>
+              </CategoryChip>
             ))}
           </nav>
         )}

@@ -44,6 +44,7 @@ async function buildIntroLabels(locale: string) {
   );
   return {
     intro: t("intro"),
+    close: t("close"),
     figureLinks,
     inspirationChainTitle: t("inspirationChainTitle"),
     inspirationChains,

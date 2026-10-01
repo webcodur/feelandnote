@@ -100,6 +100,7 @@ export function HomeSearchArea({
                 {/* 필터 루트는 overflow-x-auto라 제 콘텐츠 너비를 부모에게 전하지 못한다.
                     w-max를 얹어 안쪽 탭 묶음 너비가 그대로 이 칸의 폭이 되게 한다 */}
                 <CategoryTabFilter
+                    media
                     className="w-max max-w-full"
                     options={categoryOptions}
                     value={selectedCategory}

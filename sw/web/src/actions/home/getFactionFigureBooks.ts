@@ -14,6 +14,7 @@ import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/c
 import { createStaticClient } from "@/lib/db/static";
 import type { AffiliateBook } from "./getAffiliateBooks";
 import { hydrateFactionBooks } from "./factionBookHydrate";
+import { getThemeWorkIds } from '@/lib/figure-books/themeBooks';
 
 export interface FactionFigureBook extends AffiliateBook {
   /** 이 책에 배정된 테마 구성원 — 진영 고름에 맞춰 선반을 걸러 쓴다 */
@@ -27,16 +28,19 @@ export interface FactionFigureBook extends AffiliateBook {
 async function fetchFactionFigureBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
   const db = createStaticClient();
 
-  const { data: members, error: membersError } = await db
+  const [memberResult, themeResult] = await Promise.all([db
     .from("faction_member_rows")
     .select("celeb_id")
     .eq("lv2_id", factionId)
-    .eq("hidden", false);
-  throwOnQueryError("getFactionFigureBooks 편성 조회", membersError);
-  if (!members?.length) return [];
+    .eq("hidden", false),
+    db.from('faction_lv2').select('slug').eq('id', factionId).single(),
+  ]);
+  throwOnQueryError("getFactionFigureBooks 편성 조회", memberResult.error);
+  throwOnQueryError("getFactionFigureBooks 주제 조회", themeResult.error);
+  const members = memberResult.data ?? [];
+  const themeIds = getThemeWorkIds(themeResult.data?.slug ?? '');
 
   const assignments = await getFigureBookAssignmentsByCelebs(members.map((member) => member.celeb_id));
-  if (assignments.length === 0) return [];
 
   const memberIdsByContent = new Map<string, string[]>();
   const appearedIdsByContent = new Map<string, string[]>();
@@ -46,17 +50,22 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
     const bucket = assignment.relation_type === "authored" ? authoredIdsByContent : appearedIdsByContent;
     bucket.set(assignment.content_id, [...(bucket.get(assignment.content_id) ?? []), assignment.celeb_id]);
   }
+  // 주제책은 특정 구성원의 등장 배정 유무와 무관하게 이 세력의 책장에 속한다.
+  for (const id of themeIds) {
+    if (!memberIdsByContent.has(id)) memberIdsByContent.set(id, []);
+  }
 
   return hydrateFactionBooks(
     [...memberIdsByContent.keys()],
     { memberIds: memberIdsByContent, appearedIds: appearedIdsByContent, authoredIds: authoredIdsByContent },
     locale,
+    themeResult.data?.slug ?? undefined,
   );
 }
 
 const getFactionFigureBooksCached = unstable_cache(
   fetchFactionFigureBooks,
-  ["faction-figure-books-v4"],
+  ["faction-figure-books-v6-available-context"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );

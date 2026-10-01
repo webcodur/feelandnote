@@ -3,11 +3,14 @@
 */
 'use client'
 
+import { UserRound } from 'lucide-react'
+
 import { memo, useMemo, useState } from 'react'
 import { celebAvatarMediumUrl, celebAvatarSmallUrl } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { cn } from '@/lib/utils'
 import { CLASSES, GRADE_INFO } from '@/lib/game/suikoden/constants'
 import type { AbilityKey, Grade, Hero, HeroClass } from '@/lib/game/suikoden/types'
+import { useCheondo } from '../context'
 import { INK } from './theme'
 
 type Tier = 'small' | 'medium' | 'original'
@@ -76,7 +79,7 @@ export const Portrait = memo(function Portrait({ hero, size, fluid, className, r
         />
       ) : (
         <span className="grid h-full w-full place-items-center font-black" style={{ color: cls.color, fontSize: Math.max(10, size * 0.42) }}>
-          {cls.hanja}
+          <UserRound size={Math.max(16, size * 0.45)} aria-hidden />
         </span>
       )}
     </span>
@@ -96,17 +99,11 @@ export function GradeBadge({ grade, className }: { grade: Grade; className?: str
 }
 
 export function ClassBadge({ cls, label, className }: { cls: HeroClass; label?: string; className?: string }) {
+  const { T } = useCheondo()
   const def = CLASSES[cls]
   return (
     <span className={cn('inline-flex items-center gap-1 text-[11px] font-semibold', className)} style={{ color: def.color }}>
-      <span
-        aria-hidden
-        className="grid h-[18px] w-[18px] place-items-center rounded-[3px] text-[11px] font-black"
-        style={{ background: `${def.color}22`, boxShadow: `inset 0 0 0 1px ${def.color}66` }}
-      >
-        {def.hanja}
-      </span>
-      {label}
+      {label ?? T.classes[cls]}
     </span>
   )
 }

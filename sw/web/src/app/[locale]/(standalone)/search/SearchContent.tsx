@@ -22,6 +22,8 @@ import {
   USER_SORT_OPTIONS,
 } from "./searchConfig";
 import { useSearch } from "./useSearch";
+import FactionSearchResult from "@/components/shared/search/FactionSearchResult";
+import { PendingBlock } from "@/components/ui/pending";
 
 export default function SearchContent() {
   const t = useTranslations("searchPage");
@@ -39,6 +41,7 @@ export default function SearchContent() {
     contentResults,
     userResults,
     tagResults,
+    factionResults,
     totalCount,
     hasMore,
     isLoadingMore,
@@ -132,7 +135,8 @@ export default function SearchContent() {
       )}
 
       {isLoading && (
-        <div className="animate-pulse space-y-4">
+        <div className={modeParam === "faction" ? "space-y-4" : "animate-pulse space-y-4"}>
+          {modeParam === "faction" && <PendingBlock variant="rows" />}
           {(modeParam === "content" || modeParam === "records") && (
             <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))" }}>
               {Array.from({ length: 8 }).map((_, i) => (
@@ -180,6 +184,11 @@ export default function SearchContent() {
       {!isLoading && modeParam === "tag" && (
         <TagResults results={tagResults} onItemClick={(t) => router.push(`/feed?tag=${encodeURIComponent(t.name)}`)} />
       )}
+      {!isLoading && modeParam === "faction" && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {factionResults.map((result) => <FactionSearchResult key={result.id} result={result} />)}
+        </div>
+      )}
 
       {/* 더보기 버튼 */}
       {!isLoading && hasMore && (
@@ -205,7 +214,7 @@ export default function SearchContent() {
       {/* 모든 결과 로드 완료 */}
       {!isLoading && !hasMore && queryParam && totalCount > 0 && (
         <div className="mt-8 text-center text-sm text-text-secondary">
-          {t("allLoaded", { count: contentResults.length || userResults.length || tagResults.length })}
+          {t("allLoaded", { count: contentResults.length || userResults.length || tagResults.length || factionResults.length })}
         </div>
       )}
 

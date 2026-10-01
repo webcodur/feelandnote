@@ -57,6 +57,16 @@ test("an entirely closed atlas exports no regions", () => {
   assert.equal(result.regions.length, 0);
 });
 
+test('공개 신화의 주제책은 인물 배정이 없어도 남고 비공개 주제책은 보내지 않는다', () => {
+  const data = fixture();
+  const base = data.works[0];
+  data.works.push({ ...base, id: 'theme-only', personIds: [], appearedIds: [], themeIds: ['public', 'private'] });
+  data.works.push({ ...base, id: 'private-theme', personIds: [], appearedIds: [], themeIds: ['private'] });
+  const result = getMythClientData(data);
+  assert.deepEqual(result.works.find((work) => work.id === 'theme-only')?.themeIds, ['public']);
+  assert.equal(result.works.some((work) => work.id === 'private-theme'), false);
+});
+
 test("local data keeps closed stories locked and out of the client payload", () => {
   const data = fixture();
   const result = getMythClientData(data);

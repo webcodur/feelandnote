@@ -1,16 +1,18 @@
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { NAV_ITEMS } from "@/constants/navigation";
-import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, FIGURE_LENS_GROUPS } from "@/constants/exploreLenses";
+import { EXPLORE_HUB_GROUP, EXPLORE_LENS_IMAGES, FIGURE_LENS_GROUPS, FIGURE_AUXILIARY_LINKS } from "@/constants/exploreLenses";
+import { Link } from "@/i18n/navigation";
+import { ArrowRight } from "lucide-react";
 import { getTrendCountryOptions, parseTrendCountry } from "@/constants/trendCountries";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import ExploreFeatureCard from "@/components/shared/ExploreFeatureCard";
 import { EXPLORE_LENS_GROUP_HEADING_CLASS } from "@/components/shared/ExploreCard.styles";
-import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
-import { hubAnchorItems } from "@/components/shared/hubSectionUtils";
+import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
+import { hubAtlasNavItems } from "@/components/shared/hubSectionUtils";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
 
@@ -40,13 +42,15 @@ export default async function ExplorePage({ searchParams }: {
   // 주제별 탐색 — 주소·이름은 메뉴 설정(NAV_ITEMS), 그림·묶음·순서는 exploreLenses가 쥔다
   const hrefByKey = new Map(NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!.map((page) => [page.key!, page.href]));
 
-  // 홈과 같은 문법 — 모드 탭 아래 목차, 번호 구획 둘(인물 목록 · 주제별 탐색). 목차 라벨은 구획 제목과 같은 문구다
+  // 홈과 같은 문법 — 아틀라스 목차(옆 레일·하단 띠), 번호 구획 둘(인물 목록 · 주제별 탐색). 목차 라벨은 구획 제목보다 짧은 문구를 쓴다
   const hubGroup = EXPLORE_HUB_GROUP.figures;
   const titles = [t("navCelebs"), t("quickNav")];
+  const navLabels = [t("navCelebs"), t("navByTheme")];
 
   return (
-    <div>
-      <HubNav hubItems={hubAnchorItems(titles, hubGroup)} groupId={hubGroup} />
+    // 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다
+    <div className="pb-[60px] min-[1340px]:pb-0">
+      <AtlasNavSections items={hubAtlasNavItems(navLabels, hubGroup)} />
       <div className="space-y-8 md:space-y-10">
         <HubSection title={titles[0]} index={0} total={titles.length} groupId={hubGroup} hideDivider>
           <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
@@ -59,18 +63,29 @@ export default async function ExplorePage({ searchParams }: {
           {FIGURE_LENS_GROUPS.map((group) => (
             <section key={group.key} aria-labelledby={`explore-lens-${group.key}`}>
               <h3 id={`explore-lens-${group.key}`} className={EXPLORE_LENS_GROUP_HEADING_CLASS}>{t(`lensGroups.${group.key}`)}</h3>
-              <div className={group.size === "compact" ? "grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3" : "grid grid-cols-2 gap-3 md:gap-4"}>
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {group.items.map((key) => {
                   const href = hrefByKey.get(key);
                   const image = EXPLORE_LENS_IMAGES[key];
                   return href && image && (
                     <ExploreFeatureCard key={key} href={href} title={nav(key)} description={t(`pageDescriptions.${key}`)}
-                      imageSrc={image.src} imageKind={image.kind} compact={group.size === "compact"} />
+                      imageSrc={image.src} imageKind={image.kind} imageFit={image.fit} compact={group.size === "compact"} />
                   );
                 })}
               </div>
             </section>
           ))}
+          <div className="flex justify-center gap-2 sm:gap-3">
+            {FIGURE_AUXILIARY_LINKS.map((key) => {
+              const href = hrefByKey.get(key);
+              return href && (
+                <Link key={key} href={href} prefetch={false}
+                  className="inline-flex items-center gap-2 whitespace-nowrap rounded-control px-3 py-2 text-sm text-text-secondary hover:bg-accent/5 hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                  {nav(key)}<ArrowRight size={14} aria-hidden />
+                </Link>
+              );
+            })}
+          </div>
           </nav>
         </HubSection>
       </div>

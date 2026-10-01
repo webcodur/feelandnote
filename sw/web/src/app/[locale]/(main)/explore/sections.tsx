@@ -25,7 +25,6 @@ import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
 import MythScreen from "@/components/features/user/explore/myth/MythScreen";
 import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
-import AtlasIndex from "@/components/features/user/explore/myth/AtlasIndex";
 import { MYTH_LAST_COOKIE, mythHref } from "@/components/features/user/explore/myth/mythHref";
 import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
 import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
@@ -113,10 +112,8 @@ export async function MythSection({ slug = null }: { slug?: string | null } = {}
   }));
   // 공개 대상은 DB의 faction_lv2.published가 정한다. 닫힌 전승은 메뉴만 남긴다.
   return (
-    <>
-      <MythScreen data={publicData} rememberedSlug={rememberedSlug} />
-      <AtlasIndex heading={t("allMyths")} groups={index} />
-    </>
+    <MythScreen data={publicData} rememberedSlug={rememberedSlug}
+      indexHeading={t("allMyths")} indexGroups={index} />
   );
 }
 

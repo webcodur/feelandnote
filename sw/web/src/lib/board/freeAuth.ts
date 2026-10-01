@@ -1,4 +1,4 @@
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 import { verifyPassword } from './anonPassword'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 

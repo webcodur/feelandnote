@@ -335,9 +335,9 @@ const COMMAND_PLAQUE_LABELS: Record<Locale, Record<Command, string>> = {
 
 const COMMAND_SEAL_LABELS: Record<Locale, Record<Command, string>> = {
   ko: {
-    assault: "戰",
-    stratagem: "策",
-    govern: "政",
+    assault: "전",
+    stratagem: "책",
+    govern: "내",
   },
   en: {
     assault: "B",

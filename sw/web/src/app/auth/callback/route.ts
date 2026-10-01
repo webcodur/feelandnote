@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/db/server'
 import { getAccountAccessState } from '@/lib/auth/account-access'
-import type { EmailOtpType } from '@supabase/supabase-js'
+import type { EmailOtpType } from '@feelandnote/db'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl

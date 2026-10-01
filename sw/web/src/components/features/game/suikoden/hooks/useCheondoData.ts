@@ -10,6 +10,7 @@ import type { Hero, Roster } from '@/lib/game/suikoden/types'
 import { getVoiceUrl } from '@/lib/game/voice/voiceUrl'
 import type { Locale } from '@/types/locale'
 import { stripEmotionTag } from '@/components/features/game/shared/hooks/useDialogue'
+import { gameText } from '@/lib/game/text'
 
 const FALLBACK_AVATAR_BASE = process.env.NEXT_PUBLIC_R2_PUBLIC_URL ?? 'https://assets.feelandnote.com'
 
@@ -74,7 +75,7 @@ export function pickLine(lines: CheondoLines | null | undefined, kind: keyof Omi
   const list = lines?.[kind]
   if (!list || list.length === 0) return null
   const i = Math.abs(seed) % list.length
-  const text = stripEmotionTag(list[i]).trim()
+  const text = gameText(stripEmotionTag(list[i])).trim()
   return text ? { text, variant: i + 1 } : null
 }
 
@@ -82,7 +83,7 @@ export function quoteOf(lines: CheondoLines | null | undefined): string | null {
   const q = lines?.quote?.trim()
   if (!q) return null
   const bare = q.startsWith('"') && q.endsWith('"') ? q.slice(1, -1) : q
-  return stripEmotionTag(bare).trim() || null
+  return gameText(stripEmotionTag(bare)).trim() || null
 }
 
 // ── 음성 ──

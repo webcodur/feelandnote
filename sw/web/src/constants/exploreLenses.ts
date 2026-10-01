@@ -6,7 +6,7 @@
 */ // ------------------------------
 
 /**
- * 두 모드의 번호 구획 묶음 id — 목차(HubNav)와 구획(HubSection)이 같은 값을 써서 hub-<id>-<번호> 앵커를 맞춘다.
+ * 두 모드의 번호 구획 묶음 id — 목차(AtlasNavSections)와 구획(HubSection)이 같은 값을 써서 hub-<id>-<번호> 앵커를 맞춘다.
  * 두 모드 모두 「1 목록(인물 목록 | 베스트셀러) · 2 주제별 탐색」 두 구획이다(홈과 같은 목차 + 번호 구획 문법, 26.09.28)
  */
 export const EXPLORE_HUB_GROUP = { figures: "explore-figures", works: "explore-works" } as const;
@@ -15,6 +15,7 @@ export const EXPLORE_HUB_GROUP = { figures: "explore-figures", works: "explore-w
 export interface ExploreLensImage {
   src: string;
   kind: "art" | "icon";
+  fit?: "cover" | "contain";
 }
 
 const QUICKNAV = "/images/explore/quicknav";
@@ -24,6 +25,7 @@ export const EXPLORE_LENS_IMAGES: Record<string, ExploreLensImage> = {
   faction: { src: `${QUICKNAV}/faction-square.webp`, kind: "art" },
   myth: { src: `${QUICKNAV}/myth-square.webp`, kind: "art" },
   ranking: { src: `${QUICKNAV}/ranking-square.webp`, kind: "art" },
+  influence: { src: `${QUICKNAV}/influence-square-v1.webp`, kind: "art", fit: "contain" },
   spectrum: { src: `${QUICKNAV}/spectrum.webp`, kind: "art" },
   monologue: { src: `${QUICKNAV}/monologue-right-square.webp`, kind: "art" },
   timeline: { src: `${QUICKNAV}/timeline-flag.svg`, kind: "icon" },
@@ -42,9 +44,12 @@ export const EXPLORE_LENS_IMAGES: Record<string, ExploreLensImage> = {
 */
 export const FIGURE_LENS_GROUPS = [
   { key: "relation", size: "large", items: ["faction", "myth"] },
-  { key: "ranking", size: "large", items: ["ranking", "spectrum"] },
-  { key: "more", size: "compact", items: ["monologue", "timeline", "directory"] },
+  { key: "traits", size: "large", items: ["influence", "spectrum"] },
+  { key: "more", size: "compact", items: ["monologue", "ranking"] },
 ] as const;
+
+/** 국가별 연대기와 디렉토리는 같은 크기의 한 줄 텍스트 입구로 둔다. */
+export const FIGURE_AUXILIARY_LINKS = ["timeline", "directory"] as const;
 
 /** 작품 모드에서 재편 중인 화면 — 카드와 진입 화면에 「재편 중」을 표시하고 낮은 줄 카드로 둔다(service-02-library.md) */
 export const REORGANIZING_WORK_LENSES: ReadonlySet<string> = new Set(["museum", "academy"]);

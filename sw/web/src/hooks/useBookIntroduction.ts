@@ -65,6 +65,7 @@ export function useBookIntroduction(
     ref: setElement,
     description: initialText || current?.description || null,
     loading: visible && Boolean(source) && !initialText && current === null,
+    pending: Boolean(source) && !initialText && current === null,
     failed: current?.failed ?? false,
     retry: () => { setResult(null); setAttempt((value) => value + 1) },
   }

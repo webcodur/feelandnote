@@ -35,6 +35,7 @@ export default function ContentLibrary({
   initialContentBrief,
   filterTrailing,
   onActiveContentChange,
+  focusRequest,
 }: ContentLibraryProps) {
   const locale = useLocale();
   const lib = useContentLibrary({
@@ -52,6 +53,15 @@ export default function ContentLibrary({
   const tArchive = useTranslations("archiveSearch");
   const resolvedEmptyMessage = emptyMessage ?? tArchive("empty");
   const applySearchQuery = lib.applySearchQuery;
+  const clearSearch = lib.clearSearch;
+  const setActiveTab = lib.setActiveTab;
+
+  useEffect(() => {
+    if (!focusRequest) return;
+    clearSearch();
+    setActiveTab(focusRequest.category);
+    setIsExpandIndexOpen(false);
+  }, [focusRequest, clearSearch, setActiveTab]);
 
   // URL 검색어는 hydration 뒤에만 반영한다. useSearchParams를 서버 렌더 경로에서
   // 제거해 셀럽 서가의 초기 목록·감상문이 정적 HTML에 그대로 남게 한다.
@@ -83,6 +93,7 @@ export default function ContentLibrary({
       onCategoryChange={ownerKind === "celeb" ? lib.setActiveTab : undefined}
       isContentRefreshing={ownerKind === "celeb" ? lib.isRefreshing : undefined}
       onActiveContentChange={onActiveContentChange}
+      focusRequest={focusRequest}
     />
   );
 

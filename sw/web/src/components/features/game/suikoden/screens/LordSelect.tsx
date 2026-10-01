@@ -4,7 +4,7 @@
 'use client'
 
 import { useDeferredValue, useMemo, useState } from 'react'
-import { ArrowLeft, Dices, Search } from 'lucide-react'
+import { ArrowLeft, Dices, Search, Crown } from 'lucide-react'
 import { DIFFICULTY, GRADES, START, VIRTUE_KEYS, DISPOSITION_KEYS, CLASSES } from '@/lib/game/suikoden/constants'
 import { flagEmoji, REGIONS, TERRITORY_BY_ID, type RegionId } from '@/lib/game/suikoden/map'
 import { lordScore, maxTroopsOf } from '@/lib/game/suikoden/roster'
@@ -163,7 +163,7 @@ export default function LordSelect({ onBack, onStart }: LordSelectProps) {
               <Chip active={!cls} onClick={() => setCls(null)}>{T.select.all}</Chip>
               {CLASS_ORDER.map((c) => (
                 <Chip key={c} active={cls === c} onClick={() => setCls(cls === c ? null : c)}>
-                  <span style={{ color: CLASSES[c].color }}>{CLASSES[c].hanja}</span>{T.classes[c]}
+                  {T.classes[c]}
                 </Chip>
               ))}
             </FilterRow>
@@ -268,7 +268,7 @@ function EmptyDetail() {
   return (
     <div className="grid h-full place-items-center p-8 text-center text-sm" style={{ color: INK.sub }}>
       <div>
-        <div className="mx-auto mb-3 grid h-16 w-16 place-items-center border text-3xl font-black" style={{ borderColor: INK.line, color: INK.goldDim }} aria-hidden>主</div>
+        <div className="mx-auto mb-3 grid h-16 w-16 place-items-center border text-3xl font-black" style={{ borderColor: INK.line, color: INK.goldDim }} aria-hidden><Crown size={30} /></div>
         {T.select.title}
       </div>
     </div>

@@ -26,6 +26,7 @@ import type { TitleBadge } from "@/lib/utils/content-locale";
 import { useClippedText } from "@/hooks/useClippedText";
 import { cn } from "@/lib/utils";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
+import { Z_INDEX } from "@/constants/zIndex";
 
 /* 좁은 화면은 네 줄(max-h-28)에서 접고, 채우기 폭부터는 네 줄을 바닥으로 칸을 채운다. contain-size라 본문이 행을 밀지 않는다.
    채우기 폭은 이웃 열과 나란히 서는 폭이다 — 셀럽 상세는 lg, 작품 상세는 sm.
@@ -63,6 +64,8 @@ interface BookIntroductionPanelProps {
   fillFrom?: keyof typeof FILL_CLASSES;
   /** 모바일에서 바깥의 포스터·버튼 float를 감싸며 소개가 이어진다 */
   wrapAroundMedia?: boolean;
+  /** 책장에서는 소개를 별도 장식 상자 없이 네 줄과 명시적인 전체 보기로 보여준다 */
+  appearance?: "plate" | "plain";
 }
 
 interface SourceChipProps {
@@ -84,6 +87,7 @@ export default function BookIntroductionPanel({
   className,
   fillFrom = "lg",
   wrapAroundMedia = false,
+  appearance = "plate",
 }: BookIntroductionPanelProps) {
   const fill = FILL_CLASSES[fillFrom];
   const t = useTranslations("celebPage");
@@ -92,6 +96,7 @@ export default function BookIntroductionPanel({
   const triggerRef = useRef<HTMLParagraphElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const introText = normalizeIntroBreaks(description);
+  const canOpen = appearance === "plate" || showSource;
   /* ── 1. 넘침 측정 — 로딩 중에는 본문이 없어 재지 않는다 ── */
   const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(introText, !loading);
   const providerName =
@@ -109,12 +114,12 @@ export default function BookIntroductionPanel({
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
-    window.requestAnimationFrame(() => triggerRef.current?.focus());
-  }, []);
+    if (appearance === "plate") window.requestAnimationFrame(() => triggerRef.current?.focus());
+  }, [appearance]);
 
   return (
     <div
-      className={cn("engraved-plate relative mt-5 min-h-28 border-s-2 border-accent px-4 py-3", fill.root, wrapAroundMedia && "max-sm:contents max-sm:backdrop-filter-none!", className)}
+      className={cn("relative min-h-28", appearance === "plate" && "engraved-plate mt-5 border-s-2 border-accent px-4 py-3", appearance === "plate" && fill.root, wrapAroundMedia && "max-sm:contents max-sm:backdrop-filter-none!", className)}
       role={loading ? "status" : undefined}
       aria-busy={loading || undefined}
     >
@@ -130,42 +135,47 @@ export default function BookIntroductionPanel({
               previewRef.current = node;
               triggerRef.current = node;
             }}
-            role="button"
-            tabIndex={0}
-            aria-haspopup="dialog"
-            aria-expanded={isOpen}
-            aria-label={`${label} — ${t("sourceWorkIntroductionOpen")}`}
-            title={t("sourceWorkIntroductionOpen")}
+            role={canOpen ? "button" : undefined}
+            tabIndex={canOpen ? 0 : undefined}
+            aria-haspopup={canOpen ? "dialog" : undefined}
+            aria-expanded={canOpen ? isOpen : undefined}
+            aria-label={canOpen ? `${label} — ${t("sourceWorkIntroductionOpen")}` : label}
+            title={canOpen ? t("sourceWorkIntroductionOpen") : undefined}
             onClick={() => {
               // 글을 긁으려던 클릭(드래그 선택)은 모달을 열지 않는다
-              if (!window.getSelection()?.toString()) setIsOpen(true);
+              if (canOpen && !window.getSelection()?.toString()) setIsOpen(true);
             }}
             onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
+              if (canOpen && (event.key === "Enter" || event.key === " ")) {
                 event.preventDefault();
                 setIsOpen(true);
               }
             }}
             className={cn(
               PREVIEW_CLASS,
-              fill.preview,
+              appearance === "plate" && fill.preview,
               wrapAroundMedia && "max-sm:overflow-clip max-sm:max-h-[calc(var(--intro-media-height)+5lh)] max-sm:text-sm max-sm:leading-relaxed",
               // 끝 흐림은 폭과 무관하게 글이 실제로 잘릴 때만 붙는다 — 좁은 화면의 네 줄 접힘도 같다
               isClipped && "clip-fade-end",
-              "cursor-pointer text-start hover:brightness-125 active:brightness-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              "text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              canOpen && "cursor-pointer hover:brightness-125 active:brightness-125",
             )}
           >
             {wrapAroundMedia && <BookOpenText size={18} aria-hidden className="me-1.5 inline-block align-[-0.15em] text-accent sm:hidden" />}
             <FormattedText text={introText} />
           </p>
-          {(source.providerName || source.sourceUrl) && (
-            <div className={cn("mt-2 flex justify-end", fill.footer, wrapAroundMedia && "max-sm:clear-both max-sm:mt-3 max-sm:border-t max-sm:border-white/[0.08] max-sm:pt-2")}>
-              <SourceChip {...source} />
+          {(appearance === "plain" || source.providerName || source.sourceUrl) && (
+            <div className={cn("mt-2 flex flex-wrap items-center gap-2", appearance === "plain" ? "justify-between" : "justify-end", fill.footer, wrapAroundMedia && "max-sm:clear-both max-sm:mt-3 max-sm:border-t max-sm:border-white/[0.08] max-sm:pt-2")}>
+              {appearance === "plain" && canOpen && <button type="button" onClick={() => setIsOpen(true)} aria-haspopup="dialog" aria-expanded={isOpen}
+                className="inline-flex min-h-10 items-center gap-1 text-sm text-text-secondary outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
+                {t("sourceWorkIntroductionOpen")}<ArrowUpRight size={14} aria-hidden />
+              </button>}
+              {(source.providerName || source.sourceUrl) && <SourceChip {...source} />}
             </div>
           )}
           {/* 터치 기기는 커서가 안 바뀌므로 잘린 글이면 칸 둘레에 금빛 파동을 세 번 준다.
               빛은 칸 바깥으로만 번져 글자를 가리지 않고, 누름은 통과해 본문이 받는다 */}
-          {isClipped && (
+          {isClipped && appearance === "plate" && (
             <span
               className={cn("pointer-events-none absolute inset-0 hidden animate-[domainPulse_1.8s_ease-in-out_3] motion-reduce:hidden", wrapAroundMedia ? "sm:pointer-coarse:block" : "pointer-coarse:block")}
               aria-hidden
@@ -182,6 +192,7 @@ export default function BookIntroductionPanel({
           source={source}
           sourceTitle={sourceTitle}
           sourceTitleBadge={sourceTitleBadge}
+          plain={appearance === "plain"}
           closeLabel={t("sourceWorkIntroductionClose")}
           onClose={closeModal}
         />
@@ -235,6 +246,7 @@ function IntroductionModal({
   source,
   sourceTitle,
   sourceTitleBadge,
+  plain,
   closeLabel,
   onClose,
 }: {
@@ -244,6 +256,7 @@ function IntroductionModal({
   source: SourceChipProps;
   sourceTitle: string;
   sourceTitleBadge?: TitleBadge | null;
+  plain: boolean;
   closeLabel: string;
   onClose: () => void;
 }) {
@@ -256,14 +269,16 @@ function IntroductionModal({
       frame="plain"
       widthClassName="max-w-2xl"
       overlayClassName="bg-black/70 backdrop-blur-sm"
-      boxClassName="border border-accent-dim/60 bg-bg-card shadow-2xl"
+      boxClassName={cn("border bg-bg-card shadow-2xl", plain ? "rounded-xl border-white/15" : "border-accent-dim/60")}
+      escapeCapture={plain}
+      zIndex={plain ? Z_INDEX.modal + 1 : undefined}
       showCloseButton={false}
       animateHeight={false}
       maxHeightClassName={READING_MODAL_MAX_HEIGHT_CLASS}
     >
       {/* 높이 상한은 모달 상자에서 물려받는다 — 값을 여기 다시 적지 않는다 */}
       <div className="flex max-h-[inherit] flex-col overflow-hidden">
-        <header className="grid shrink-0 grid-cols-[1fr_auto] items-center gap-4 border-b border-stone-light bg-bg-secondary bg-texture-marble px-5 py-4 sm:px-7 sm:py-5">
+        <header className={cn("grid shrink-0 grid-cols-[1fr_auto] items-center gap-4 border-b border-white/10 bg-bg-secondary px-5 py-4 sm:px-7 sm:py-5", !plain && "bg-texture-marble")}>
           <h2 id={titleId} className="min-w-0 text-xl font-black text-text-primary sm:text-2xl">
             <span className="sr-only">{label} — </span>
             <NoEditionBadge contentType={contentType} badge={sourceTitleBadge} className="align-middle" />
@@ -278,7 +293,7 @@ function IntroductionModal({
             <X size={20} aria-hidden />
           </button>
         </header>
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-texture-noise px-5 py-6 [overflow-anchor:none] sm:px-8 sm:py-8">
+        <div className={cn("min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-5 py-6 [overflow-anchor:none] sm:px-8 sm:py-8", !plain && "bg-texture-noise")}>
           <ContentReadingText text={description} size="modal" />
           {(source.providerName || source.sourceUrl) && (
             <div className="mt-6 flex justify-end">

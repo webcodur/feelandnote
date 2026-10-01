@@ -16,7 +16,6 @@ export const ko = {
   game: { title: "패권", english: "HEGEMONY", tagline: "강한 자가 지배한다" },
   command: {
     name: CMD,
-    seal: { assault: "戰", stratagem: "策", govern: "政" } as Record<Command, string>,
     effect: {
       assault: "상대 국력을 친다",
       stratagem: "상대 민심을 흔든다",

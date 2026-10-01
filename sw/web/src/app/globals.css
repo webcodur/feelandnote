@@ -22,6 +22,19 @@
   --color-accent-hover: #f9d76e; /* Bright Gold */
   --color-accent-dim: #8a732a; /* Dim Gold (for borders) */
 
+  /* Hegemony */
+  --color-hg-ink: var(--color-bg-main);
+  --color-hg-panel: var(--color-bg-card);
+  --color-hg-raised: var(--color-bg-raised);
+  --color-hg-line: var(--color-border);
+  --color-hg-bright: var(--color-text-primary);
+  --color-hg-assault: #ef8078;
+  --color-hg-stratagem: #b69aff;
+  --color-hg-govern: var(--color-accent);
+  --color-hg-enemy: #ef8078;
+  --color-hg-mandate: var(--color-accent);
+  --color-hg-morale: #6fe3a0;
+
   /* 서점 구매 버튼 — 브랜드 그라데이션의 기준색과 대비되는 글자 */
   --color-store-yes24: #2563eb;
   --color-store-kyobo: #047857;
@@ -117,13 +130,14 @@
 
     /* 본문 기본 폭(PageContainer default·허브 배너). 오른쪽 스와이프 판(140px)이 서는 넓은 화면에서는
        좌우에 판 자리(판 + 양옆 16px)를 비워 본문이 판 밑으로 들어가지 않게 한다. 판 위치도 이 값으로 잰다 */
+    --side-rail-width: 140px;
     --rail-reserve: 0px;
     --content-max-default: 1200px;
   }
 
-  @media (min-width: 1440px) {
+  @media (min-width: 1340px) {
     :root {
-      --rail-reserve: 172px;
+      --rail-reserve: calc(var(--side-rail-width) + 32px);
       --content-max-default: min(1200px, calc(100vw - 2 * var(--rail-reserve)));
     }
   }

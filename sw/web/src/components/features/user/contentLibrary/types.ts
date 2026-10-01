@@ -4,6 +4,13 @@ import type { ContentLibraryMode } from "./useContentLibrary";
 import type { ContentOwnerKind, ViewMode } from "./contentLibraryTypes";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import type { CategoryId } from "@/constants/categories";
+
+/** 새 객체를 전달하면 같은 작품도 다시 선택할 수 있다. */
+export interface ContentFocusRequest {
+  contentId: string;
+  category: CategoryId;
+}
 
 export interface ContentLibraryProps {
   compact?: boolean;
@@ -28,4 +35,6 @@ export interface ContentLibraryProps {
   filterTrailing?: ReactNode;
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
+  /** 페이지의 다른 구획에서 지정한 작품을 펼침 보기에서 연다. */
+  focusRequest?: ContentFocusRequest;
 }

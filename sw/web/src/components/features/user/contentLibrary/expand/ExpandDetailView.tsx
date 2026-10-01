@@ -25,6 +25,7 @@ import { useContentBrief } from "./useContentBrief";
 import { useCelebContentRecord } from "./useCelebContentRecord";
 import { useExpandIndexSelection } from "./useExpandIndexSelection";
 import { useHeldHeight } from "./useHeldHeight";
+import type { ContentFocusRequest } from "../types";
 
 /** 화면 위 고정 띠를 재지 못했을 때 쓰는 최소 오프셋 — 머리글(64px)보다 조금 크게 */
 const HEADER_OFFSET = 80;
@@ -71,6 +72,7 @@ interface ExpandDetailViewProps {
   isContentRefreshing?: boolean;
   /** 지금 펼쳐 보는 작품이 바뀔 때마다 알린다. "전체 보기"가 같은 자리에서 이어지게 쓴다 */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
+  focusRequest?: ContentFocusRequest;
 }
 
 export default function ExpandDetailView({
@@ -88,6 +90,7 @@ export default function ExpandDetailView({
   onCategoryChange,
   isContentRefreshing,
   onActiveContentChange,
+  focusRequest,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
@@ -122,6 +125,7 @@ export default function ExpandDetailView({
     navigationOrder,
     controlledIndexPreference: expandIndexPreference,
     onIndexPreferenceChange: onExpandIndexPreferenceChange,
+    focusRequest,
   });
   useEffect(() => {
     onActiveContentChange?.(selectedContentId, selectedIndex);
@@ -201,7 +205,9 @@ export default function ExpandDetailView({
     <section
       ref={rootRef}
       data-expand-item-count={total}
-      className="relative grid w-full min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card md:grid-cols-[48px_minmax(0,1fr)_48px]"
+      data-expand-content-id={selectedContentId}
+      tabIndex={-1}
+      className="relative grid w-full min-w-0 scroll-mt-[var(--layer-celeb-heading-bottom,80px)] grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card outline-none md:grid-cols-[48px_minmax(0,1fr)_48px]"
     >
       <ExpandArrowButton
         direction="previous"

@@ -6,8 +6,8 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { ExternalLink } from "lucide-react";
-import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
+import { ArrowUpRight } from "lucide-react";
+import Modal, { ModalBody } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import type { TitleBadge } from "@/lib/utils/content-locale";
@@ -53,10 +53,20 @@ export default function ContentReviewModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md" zIndex={zIndex}>
       <ModalBody>
-        <div className="mb-4 pb-3 border-b border-border/30">
+        <div className="mb-4 pb-3 border-b border-border/30 text-center">
           <h3 className="text-base font-semibold text-text-primary line-clamp-2">
-            <NoEditionBadge contentType={contentType} badge={titleBadge} />
-            {title}
+            {contentDetailUrl ? (
+              <Link href={contentDetailUrl} className="hover:text-accent">
+                <NoEditionBadge contentType={contentType} badge={titleBadge} />
+                {title}
+                <ArrowUpRight size={14} className="inline-block ms-1 -translate-y-0.5" aria-hidden />
+              </Link>
+            ) : (
+              <>
+                <NoEditionBadge contentType={contentType} badge={titleBadge} />
+                {title}
+              </>
+            )}
           </h3>
           {creator && (
             <p className="text-xs text-text-secondary line-clamp-1 mt-1">
@@ -65,7 +75,7 @@ export default function ContentReviewModal({
           )}
         </div>
 
-        <div className="flex items-center justify-between mb-3">
+        <div className="text-center mb-3">
           <h4 className="text-xs font-medium text-text-secondary">
             {ownerNickname
               ? t("ownerReview", { name: ownerNickname })
@@ -96,8 +106,8 @@ export default function ContentReviewModal({
           </p>
         )}
 
-        {/* 출처 링크 */}
-        <div className="mt-3 text-xs break-all">
+        {/* 리뷰 출처 링크 */}
+        <div className="mt-3 text-xs break-all text-center">
           {sourceUrl ? (
             <a
               href={sourceUrl}
@@ -115,24 +125,13 @@ export default function ContentReviewModal({
           )}
         </div>
       </ModalBody>
-      {contentDetailUrl && (
-        <ModalFooter>
-          <Link
-            href={contentDetailUrl}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-5 text-sm font-medium rounded-lg bg-accent text-white hover:bg-accent-hover"
-          >
-            <ExternalLink size={14} />
-            {t("detail")}
-          </Link>
-        </ModalFooter>
-      )}
     </Modal>
   );
 }
 
 function PresetTags({ presets }: { presets: string[] }) {
   return (
-    <div className="flex flex-wrap gap-1.5 mb-3">
+    <div className="flex flex-wrap justify-center gap-1.5 mb-3">
       {presets.map((presetKeyword, idx) => {
         const preset = getPresetByKeyword(presetKeyword);
         const sentiment = preset?.sentiment || "etc";

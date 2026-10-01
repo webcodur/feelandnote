@@ -4,7 +4,7 @@ import { getCelebProfileUrl } from "@/lib/url";
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { searchContents, searchUsers, searchTags, searchRecords, searchCelebs } from "@/actions/search";
+import { searchContents, searchUsers, searchTags, searchRecords, searchCelebs, searchFactions } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { SearchMode, ContentCategory, SEARCH_MODES, CONTENT_CATEGORIES } from "@/components/shared/search/SearchModeDropdown";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
@@ -142,6 +142,7 @@ export function useHeaderSearch() {
   useEffect(() => {
     if (query.length < 2) {
       setResults([]);
+      setIsLoading(false);
       return;
     }
 
@@ -189,6 +190,11 @@ export function useHeaderSearch() {
               extra: item.profession || undefined,
             });
           });
+        } else if (mode === "faction") {
+          const data = await searchFactions({ query, limit: 5 });
+          data.items.forEach((item) => searchResults.push({
+            ...item, type: "faction", subtitle: item.subtitle ?? undefined,
+          }));
         } else if (mode === "records") {
           const data = await searchRecords({ query, limit: 5 });
           data.items.forEach((item) => {
@@ -288,6 +294,8 @@ export function useHeaderSearch() {
       router.push(`/content/${result.id}?category=${category}`);
     } else if (result.type === "celeb") {
       router.push(getCelebProfileUrl(result));
+    } else if (result.type === "faction" && result.href) {
+      router.push(result.href);
     } else if (result.type === "user") {
       router.push(`/${result.id}`);
     } else if (result.type === "tag") {
@@ -399,6 +407,8 @@ export function useHeaderSearch() {
 
   const handleModeChange = (newMode: SearchMode) => {
     setMode(newMode);
+    setSelectedIndex(-1);
+    setResults([]);
     inputRef.current?.focus();
   };
 

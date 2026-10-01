@@ -3,6 +3,8 @@
 */
 'use client'
 
+import { History, Plus, Star, BookOpen, LogOut, type LucideIcon } from 'lucide-react'
+
 import { useEffect, useRef, useState } from 'react'
 import WindsOfLiangshanBackground from '@/components/lab/WindsOfLiangshanBackground'
 import { calendarOf } from '@/lib/game/suikoden/constants'
@@ -24,7 +26,7 @@ interface TitleScreenProps {
 
 interface MenuItem {
   key: string
-  hanja: string
+  icon: LucideIcon
   label: string
   sub: string
   onClick: () => void
@@ -46,16 +48,16 @@ export default function TitleScreen({ saveMeta, onContinue, onNew, onCodex, onHo
     const lord = roster.byId.get(saveMeta.lordId)
     const { year, month } = calendarOf(saveMeta.turn)
     items.push({
-      key: 'continue', hanja: '續', label: T.title.continue, primary: true, lordId: saveMeta.lordId,
+      key: 'continue', icon: History, label: T.title.continue, primary: true, lordId: saveMeta.lordId,
       sub: T.title.continueSub(lord?.name ?? '—', T.date(year, month), saveMeta.phase === 'wander' ? 0 : saveMeta.territories),
       onClick: onContinue,
     })
   }
   items.push(
-    { key: 'new', hanja: '新', label: T.title.newGame, sub: T.title.newGameSub, onClick: onNew, primary: !saveMeta },
-    { key: 'codex', hanja: '星', label: T.title.codex, sub: T.title.codexSub, onClick: onCodex },
-    { key: 'howto', hanja: '導', label: T.title.howTo, sub: T.title.howToSub, onClick: onHowTo },
-    { key: 'exit', hanja: '退', label: T.exit, sub: T.title.exitSub, onClick: onExit },
+    { key: 'new', icon: Plus, label: T.title.newGame, sub: T.title.newGameSub, onClick: onNew, primary: !saveMeta },
+    { key: 'codex', icon: Star, label: T.title.codex, sub: T.title.codexSub, onClick: onCodex },
+    { key: 'howto', icon: BookOpen, label: T.title.howTo, sub: T.title.howToSub, onClick: onHowTo },
+    { key: 'exit', icon: LogOut, label: T.exit, sub: T.title.exitSub, onClick: onExit },
   )
 
   // 위아래 화살표로 차림표를 오간다
@@ -86,15 +88,8 @@ export default function TitleScreen({ saveMeta, onContinue, onNew, onCodex, onHo
           className="flex items-start gap-5"
           style={{ opacity: shown ? 1 : 0, transform: shown ? 'none' : 'translateY(8px)', transition: 'opacity 900ms ease-out, transform 900ms ease-out' }}
         >
-          <div className="flex flex-col items-center leading-none" aria-hidden>
-            <span className="text-[72px] font-black sm:text-[112px] lg:text-[132px]" style={{ color: INK.text, textShadow: '0 0 40px rgba(243,213,122,0.25), 0 4px 0 rgba(0,0,0,0.5)' }}>天</span>
-            <span className="-mt-2 text-[72px] font-black sm:text-[112px] lg:text-[132px]" style={{ color: INK.text, textShadow: '0 0 40px rgba(243,213,122,0.25), 0 4px 0 rgba(0,0,0,0.5)' }}>導</span>
-          </div>
           <div className="flex flex-col gap-3 pt-3 sm:pt-6">
-            <span className="grid h-14 w-14 place-items-center text-[15px] font-black leading-tight sm:h-16 sm:w-16" style={{ background: INK.seal, color: '#fff3ea', boxShadow: 'inset 0 0 0 3px rgba(0,0,0,0.25)' }}>
-              <span className="text-center">{T.sealLines.map((line, i) => <span key={line} className="block" style={{ marginTop: i ? 2 : 0 }}>{line}</span>)}</span>
-            </span>
-            <h1 className="sr-only">{T.appName}</h1>
+            <h1 className="text-5xl font-black leading-tight sm:text-7xl" style={{ color: INK.text }}>{T.appName}</h1>
             <p className="text-[11px] font-bold tracking-[0.5em]" style={{ color: INK.gold }}>{T.appEn}</p>
             <p className="max-w-[15rem] text-sm leading-relaxed sm:text-base" style={{ color: INK.text }}>{T.tagline}</p>
             <p className="mt-2 inline-flex w-fit items-center gap-2 border px-2.5 py-1 text-[11px] font-semibold" style={{ borderColor: INK.line, color: INK.sub, background: 'rgba(8,9,12,0.6)' }}>
@@ -111,6 +106,7 @@ export default function TitleScreen({ saveMeta, onContinue, onNew, onCodex, onHo
           style={{ opacity: shown ? 1 : 0, transition: 'opacity 900ms ease-out 250ms' }}
         >
           {items.map((item) => {
+            const Icon = item.icon
             const lord = item.lordId ? roster.byId.get(item.lordId) ?? null : null
             return (
               <button
@@ -124,7 +120,7 @@ export default function TitleScreen({ saveMeta, onContinue, onNew, onCodex, onHo
                   aria-hidden
                   className={`grid h-10 w-10 shrink-0 place-items-center border text-lg font-black ${item.primary ? 'border-[#f3d57a] text-[#f3d57a]' : 'border-white/15 text-[#a8a293] group-hover:border-[#d4af37]/70 group-hover:text-[#f3d57a]'}`}
                 >
-                  {item.hanja}
+                  <Icon size={22} />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className={`block text-[15px] font-extrabold ${item.primary ? 'text-[#f3d57a]' : 'text-[#ece6d6] group-hover:text-[#f3d57a]'}`}>{item.label}</span>

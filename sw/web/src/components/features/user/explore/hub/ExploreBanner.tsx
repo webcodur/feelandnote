@@ -22,6 +22,7 @@ const SUBPAGE_KEY: Record<string, string> = {
   // 현재 경로
   figures: "navCelebs",
   ranking: "navTopByType",
+  influence: "navInfluence",
   spectrum: "navSpectrum",
   myth: "mythology",
   faction: "navFaction",

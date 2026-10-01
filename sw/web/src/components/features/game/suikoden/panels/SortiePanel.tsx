@@ -71,7 +71,7 @@ function SortieBody({ game, target: initialTarget, from: initialFrom, onClose, o
 
   return (
     <>
-      <PanelTitle hanja="戰" title={T.sortie.title} sub={`${from ? names.territory(from) : '—'} → ${names.territory(target)} · ${owner ? names.faction(owner) : T.neutral}`} />
+      <PanelTitle title={T.sortie.title} sub={`${from ? names.territory(from) : '—'} → ${names.territory(target)} · ${owner ? names.faction(owner) : T.neutral}`} />
       <div className="flex flex-col gap-4 overflow-y-auto p-4">
         {/* 고를 것이 하나뿐이면 제목 줄(출발 → 목표)이 이미 말해 주므로 줄을 세우지 않는다 */}
         {(sources.length > 1 || targets.length > 1) && (
@@ -145,7 +145,6 @@ function SortieBody({ game, target: initialTarget, from: initialFrom, onClose, o
                     <span className="flex min-w-0 items-center gap-1"><span className="min-w-0 truncate text-[13px] font-bold" style={{ color: INK.text }}>{hero.name}</span><GradeBadge grade={hero.grade} className="shrink-0" /><ClassBadge cls={hero.cls} className="shrink-0 max-sm:hidden" /></span>
                     <span className="flex items-center gap-2 text-[10px]" style={{ color: INK.sub }}>
                       {/* 휴대폰은 이름 줄이 좁아 병과 표지를 이 줄로 내린다 */}
-                      <span className="font-black sm:hidden" style={{ color: CLASSES[hero.cls].color }} aria-hidden>{CLASSES[hero.cls].hanja}</span>
                       <span>{CLASSES[hero.cls].row === 0 ? T.battle.front : T.battle.back}</span>
                       <span className="tabular-nums">{num(locale, hs.troops)}</span>
                     </span>

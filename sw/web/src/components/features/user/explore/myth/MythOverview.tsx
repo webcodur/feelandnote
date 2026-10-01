@@ -3,7 +3,6 @@
 import { useCallback, useState, useSyncExternalStore, type ReactNode } from "react";
 import { Images, Loader2, PanelTop, Play, Square } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname } from "@/i18n/navigation";
 import type { Myth } from "@/actions/home/mythTypes";
 import { BlurDissolve } from "@/components/ui";
 import FactionArtworkViewer from "@/components/features/faction/FactionArtworkViewer";
@@ -11,7 +10,6 @@ import FactionArtworkTitle from "@/components/features/faction/FactionArtworkTit
 import MythTitleImage from "./MythTitleImage";
 import MythOverviewReading from "./MythOverviewReading";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
-import { atlasPageOwnsTitle } from "./mythHref";
 import { useFactionDescVoice } from "@/hooks/useFactionDescVoice";
 import { useReadingNarration } from "@/hooks/useReadingNarration";
 
@@ -76,16 +74,10 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
     ? Math.min(Math.max(Math.trunc(storedIndex) + viewerShift, 0), Math.max(viewerImages.length - 1, 0))
     : 0;
   const label = overviewLabel ?? t("mythOverview");
-  /* 신화·세력 한 편의 주소에서는 이름이 페이지의 큰 제목(h1)이다. 첫 화면은 배너의 「신화의 세계」「세력도감」이 h1이라 h2로 둔다 */
-  const Heading = atlasPageOwnsTitle(usePathname()) ? "h1" : "h2";
 
   return (
     <>
-      {/* 이름과 한 줄 정의 — 검색 제목·설명과 같은 말이 화면 머리에도 보여야 한다. 한 줄 정의는 faction_lv2.headline */}
-      <header data-atlas-heading className="mb-3 px-1 text-center md:mb-4">
-        <Heading className="text-xl font-bold leading-tight text-text-primary md:text-2xl">{myth.name}</Heading>
-        {myth.headline && <p className="mt-1 text-sm leading-snug text-accent md:text-base">{myth.headline}</p>}
-      </header>
+      {/* 이름과 한 줄 정의는 구획 머리(HubSection)가 쥔다 — 여기서 또 그리면 번호 머리와 이름이 겹쳐 선다 */}
       <div data-artwork={displayImage ? "available" : "absent"}
         className={`${layout.selectionDetails} ${displayImage ? "" : layout.selectionWithoutArtwork}`}>
         <div className={layout.selectionControls}>

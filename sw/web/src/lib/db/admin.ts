@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
-import { restFetch, withoutRestRetry } from '@/lib/db/restFetch'
+import { createClient } from '@feelandnote/db'
+import { restFetch } from '@/lib/db/restFetch'
 
 /**
  * Service Role 키 기반 서버 전용 클라이언트 (RLS bypass).
@@ -7,9 +7,9 @@ import { restFetch, withoutRestRetry } from '@/lib/db/restFetch'
  * 절대 클라이언트 컴포넌트에서 import하지 않는다.
  */
 export function createAdminClient() {
-  return withoutRestRetry(createClient(
+  return createClient(
     process.env.NEXT_PUBLIC_DB_API_URL!,
     process.env.DB_SECRET_KEY!,
     { auth: { autoRefreshToken: false, persistSession: false }, global: { fetch: restFetch } },
-  ))
+  )
 }

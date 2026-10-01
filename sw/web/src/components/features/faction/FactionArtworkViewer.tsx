@@ -356,7 +356,10 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
         if (Math.hypot(dx, dy) > 8) swipeConsumed.current = true;
         return;
       }
-      if (slideCount < 2) return;
+      if (slideCount < 2) {
+        if (Math.hypot(dx, dy) > 8) swipeConsumed.current = true;
+        return;
+      }
       /* 조금이라도 밀었으면 그 뒤 click은 누르기가 아니다 — 헤더·버튼 클릭을 막는다 */
       if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) swipeConsumed.current = true;
       /* 밀기 성립 → 그림이 끝까지 나가는 애니메이션을 돌리고, 끝나면 번호를 넘긴다 */
@@ -404,8 +407,14 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const navigationWidth = imageRatio
     ? `max(clamp(5rem, 10vw, 9rem), calc((100cqw - min(100cqw, 100cqh * ${imageRatio})) / 2))`
     : "max(clamp(5rem, 10vw, 9rem), 20%)";
-  const artwork = <Image src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
+  const artworkImage = <Image src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
     onLoad={event => recordImageRatio(image.url, event)} />;
+  const artwork = slideCount === 1 && !isScene ? (
+    <button type="button" data-artwork-single-close onClick={onClose} aria-label={tAccess("close")}
+      className="absolute inset-0 cursor-zoom-out border border-transparent outline-none hover:border-accent/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+      {artworkImage}
+    </button>
+  ) : artworkImage;
   /* 옆자리 그림도 비율을 기억해 둔다. 이미 로드한 그림으로 넘어가도 여백 폭을 바로 알 수 있다. */
   const slideImage = (item: (typeof images)[number]) => (
     <Image src={item.url} alt={item.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"

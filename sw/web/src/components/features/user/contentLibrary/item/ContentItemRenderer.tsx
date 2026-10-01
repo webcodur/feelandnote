@@ -21,6 +21,7 @@ import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import type { ContentFocusRequest } from "../types";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -47,6 +48,7 @@ interface ContentItemRendererProps {
   isContentRefreshing?: boolean;
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
+  focusRequest?: ContentFocusRequest;
 }
 // #endregion
 
@@ -69,6 +71,7 @@ function ContentItemRenderer({
   onCategoryChange,
   isContentRefreshing,
   onActiveContentChange,
+  focusRequest,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
   const [ratingEditTarget, setRatingEditTarget] = useState<{
@@ -107,6 +110,7 @@ function ContentItemRenderer({
         onCategoryChange={onCategoryChange}
         isContentRefreshing={isContentRefreshing}
         onActiveContentChange={onActiveContentChange}
+        focusRequest={focusRequest}
       />
     );
   }

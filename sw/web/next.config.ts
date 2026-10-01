@@ -7,6 +7,8 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // 운영 진입점과 그 import 전체를 검사한다. 미연결 실험 코드는 개발용 전체 검사에 남긴다.
+  typescript: { tsconfigPath: process.env.NODE_ENV === 'production' ? 'tsconfig.production.json' : undefined },
   // Next 기본 명단은 JS를 실행한다는 이유로 Googlebot을 뺀다. 그래서 메타데이터 해석이 늦은 요청에서는
   // title·description·canonical이 <head>가 아니라 본문 뒤쪽으로 스트리밍됐다(26.09.28 감사, 기관 선정 약 70쪽).
   // Google은 <head> 밖의 rel=canonical을 무시하므로 Googlebot에도 메타데이터를 <head>에 넣는 렌더를 준다.

@@ -30,3 +30,6 @@ export const LANE_KEY_CODES: Record<string, Lane> = { KeyQ: 0, KeyW: 1, KeyE: 2 
 export const laneX = (lane: number) => (lane - 1) * LANE_GAP;
 
 export type Phase = "intro" | "countdown" | "playing" | "aiTurn" | "result";
+
+export const LANES = [0, 1, 2] as const;
+export interface LastHit { type: RhythmJudgment; lane: Lane; key: number; }

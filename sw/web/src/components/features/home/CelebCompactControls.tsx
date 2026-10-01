@@ -8,8 +8,8 @@ import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
 import { PINNED_TREND_COUNTRIES, TREND_COUNTRIES, TREND_PERIOD_HOURS, parseTrendCountry, type TrendCountry } from "@/constants/trendCountries";
-import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
-import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
+import { useNationalityLabel } from "@/hooks/useFilterLabels";
+import { useCelebDetailConditions } from "./useCelebDetailConditions";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
 import type { CelebSortBy } from "@/actions/home";
 import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
@@ -27,11 +27,7 @@ interface Props {
 
 export default function CelebCompactControls({ filters, trendCountryOptions = PINNED_TREND_COUNTRIES, onInteraction, resultLabel }: Props) {
   const t = useTranslations("home.ui");
-  const year = useTranslations("home.ui.birthYear");
-  const getProfession = useProfessionLabel();
   const getNationality = useNationalityLabel();
-  const getContentType = useContentTypeLabel();
-  const getGender = useGenderLabel();
   const locale = useLocale();
   const [open, setOpen] = useState<"detail" | "works" | "sort" | "trendInfo" | "trendCountry" | null>(null);
   // 고른 국가가 빠른 버튼에 없으면 끝에 붙인다 — getTrendCountryOptions의 공유 URL 규칙과 같다
@@ -44,18 +40,7 @@ export default function CelebCompactControls({ filters, trendCountryOptions = PI
     [getNationality, locale],
   );
 
-  const conditions: { key: string; label: string; clear: () => void }[] = [];
-  if (filters.profession !== "all") conditions.push({ key: "profession", label: `${t("filterProfession")}: ${getProfession(filters.profession)}`, clear: () => filters.handleProfessionChange("all") });
-  if (filters.nationality !== "all") conditions.push({ key: "nationality", label: `${t("filterNationality")}: ${getNationality(filters.nationality)}`, clear: () => filters.handleNationalityChange("all") });
-  if (filters.contentType !== "all") conditions.push({ key: "contentType", label: `${t("filterContent")}: ${getContentType(filters.contentType)}`, clear: () => filters.handleContentTypeChange("all") });
-  if (filters.gender !== "all") conditions.push({ key: "gender", label: `${t("filterGender")}: ${getGender(filters.gender)}`, clear: () => filters.handleGenderChange("all") });
-  if (filters.tierValue !== "all") conditions.push({ key: "tier", label: `${t("filterTier")}: ${t(`tier.${filters.tierValue}`)}`, clear: () => filters.handleTierValueChange("all") });
-  if (filters.birthYearMin !== undefined || filters.birthYearMax !== undefined) {
-    const formatYear = (value: number) => value < 0 ? year("bc", { year: -value }) : String(value);
-    conditions.push({ key: "birthYear", label: `${t("filterBirthYear")}: ${year("range", { min: formatYear(filters.birthYearMin ?? BIRTH_YEAR_MIN), max: formatYear(filters.birthYearMax ?? BIRTH_YEAR_MAX) })}`, clear: () => filters.handleBirthYearChange(undefined, undefined) });
-  }
-  // 사실·가상 — '사실'이 명부 기본이라 벗어났을 때만 조건 칩으로 뜬다
-  if (filters.realityValue !== "real") conditions.push({ key: "reality", label: `${t("filterReality")}: ${t(`reality.${filters.realityValue}`)}`, clear: () => filters.handleRealityChange("real") });
+  const conditions = useCelebDetailConditions(filters);
   // 리뷰 유무는 바로 위 선택 버튼이 현재 값을 보여준다. 상세 조건만 칩으로 남긴다.
   const chips = conditions;
   // 오늘의 추천에 섞인 급상승 인물 — 카드의 화염 표지가 곧 근거이고, 이 줄이 그 해설이다

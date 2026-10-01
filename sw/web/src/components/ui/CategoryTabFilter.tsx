@@ -1,14 +1,12 @@
 /*
   파일명: /components/ui/CategoryTabFilter.tsx
-  기능: 카테고리·필터·모드 선택 pill (공용)
-  책임: 한 줄짜리 선택지를 일관된 디자인 시스템으로 그린다.
-        1단 메인 모드와 2단 서브 필터가 통일된 형태를 유지하되, 
-        2단(subtle)은 은은한 글래시 악센트로 시각적 계층을 세련되게 분리한다.
+  기능: 카테고리·필터 선택 칩 묶음
+  책임: 랭킹 계열의 CategoryChip을 배치한다. 매체 줄은 media로 아이콘·대표색을 켠다.
 */ // ------------------------------
 
 "use client";
 
-import { Link } from "@/i18n/navigation";
+import CategoryChip from "./CategoryChip";
 
 export interface CategoryTabOption<T extends string = string> {
   value: T;
@@ -19,15 +17,17 @@ export interface CategoryTabOption<T extends string = string> {
 interface CategoryTabFilterProps<T extends string> {
   options: CategoryTabOption<T>[];
   value: T;
+  /** 도서·영상·게임·음악의 아이콘과 대표색을 쓴다. */
+  media?: boolean;
   /** 클릭 콜백 — 이게 있으면 버튼 모드다 */
   onChange?: (value: T) => void;
   /** 주소를 돌려주는 콜백 — 돌려준 값이 있으면 항목이 그 주소로 이동한다. 없으면 버튼 모드다 */
   linkTo?: (value: T) => string | undefined;
-  /** 아래 줄에 놓이는 세부 선택 — 은은한 글래시 악센트 칩으로 1단과 통일감 있는 계층을 만든다 */
+  /** 아래 줄의 세부 선택은 글자 굵기를 낮춘다. */
   subtle?: boolean;
-  /** 작은 크기 — 세부 줄에서 pill이 눌릴 때 쓰면 된다 */
+  /** 세부 줄에 쓰는 작은 칩. */
   size?: "md" | "sm";
-  /** 글자 크기는 그대로 두고 pill 안팎 여백만 줄인다 — 한 줄에 탭이 여럿 서는 구획용(기관 선정 매체: 책·영상·게임·음악) */
+  /** 글자 크기는 그대로 두고 칩 여백만 줄인다. */
   compact?: boolean;
   align?: "center" | "left";
   /** 칩이 많을 때 한 줄 스크롤 대신 여러 줄로 감싸 중앙에 모은다 (직군 필터 등) */
@@ -39,21 +39,10 @@ interface CategoryTabFilterProps<T extends string> {
   faintAllActive?: boolean;
 }
 
-// 1단 메인 모드용 솔리드 골드 그라디언트 pill
-const ACTIVE_PRIMARY_PILL =
-  "text-neutral-950 bg-gradient-to-br from-accent via-yellow-200 to-accent font-bold shadow-[0_0_16px_rgba(212,175,55,0.4)] border border-transparent";
-
-// 2단 서브 칩용 글래시 악센트 pill — 선택은 쨍하게, 전체 모드의 절반 농도 faint와 대비된다
-const ACTIVE_SUBTLE_PILL =
-  "text-accent bg-accent/25 border border-accent/60 font-semibold shadow-[0_0_16px_rgba(212,175,55,0.35)]";
-
-// 전체 모드용 절반 농도 pill — 선택 상태의 절반 느낌으로만 살짝 깔아준다
-const FAINT_ALL_PILL =
-  "text-accent bg-accent/[0.07] border border-accent/20 font-medium";
-
 export function CategoryTabFilter<T extends string>({
   options,
   value,
+  media = false,
   onChange,
   linkTo,
   subtle = false,
@@ -70,7 +59,7 @@ export function CategoryTabFilter<T extends string>({
   const pad =
     size === "sm"
       ? compact ? "px-2 py-0.5 text-xs sm:text-sm" : "px-3 py-1.5 text-xs sm:text-sm"
-      : compact ? "px-2.5 sm:px-3 py-0.5 text-sm md:text-base" : "px-4 sm:px-5 py-2 text-sm md:text-base";
+      : compact ? "px-2.5 sm:px-3 py-0.5 text-sm" : "min-h-11 px-4 py-2 text-sm";
   const isGrid = !!gridCols;
   const justify = align === "left" ? "justify-start" : isGrid ? "justify-center" : "";
   const gridClass =
@@ -91,62 +80,29 @@ export function CategoryTabFilter<T extends string>({
       className={`flex min-w-0 max-w-full ${isGrid ? "pb-0" : wrap ? "flex-wrap pb-0" : "overflow-x-auto pb-1 scrollbar-hidden"} ${justify} ${className}`}
     >
       <div
-        className={`${isGrid ? `${gridClass} gap-1.5 p-1.5 max-w-md w-full` : wrap ? "flex flex-wrap justify-center gap-1.5 p-1.5 max-w-4xl" : `inline-flex min-w-max items-center ${compact ? "gap-0.5 p-0.5" : "gap-1 p-1"}`} ${align === "center" && !isGrid ? "mx-auto" : ""} ${
-          subtle
-            ? "bg-neutral-950/60 backdrop-blur-sm border border-white/[0.08] rounded-xl shadow-inner"
-            : `bg-neutral-900/80 backdrop-blur-md border border-white/10 shadow-lg ${compact ? "rounded-xl" : "rounded-2xl p-1.5"}`
-        }`}
+        className={`${isGrid ? `${gridClass} gap-1.5 p-1 max-w-md w-full` : wrap ? `flex flex-wrap ${align === "left" ? "justify-start" : "justify-center"} gap-1.5 p-1 max-w-4xl` : "inline-flex min-w-max items-center gap-1 p-1"} ${align === "center" && !isGrid ? "mx-auto" : ""}`}
       >
         {options.map((option) => {
           const isActive = value === option.value;
           // 전체 모드에서는 개별 하이라이트 없이 모든 칩이 은은한 선택 상태로 보인다
           const faint = showFaintAll;
 
-          const cls = [
-            `${compact ? "rounded-lg" : "inline-flex min-h-11 items-center justify-center rounded-xl"} whitespace-nowrap border outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset`,
-            pad,
-            option.disabled
-              ? "cursor-not-allowed border-transparent text-text-tertiary"
-              : isActive
-              ? subtle
-                ? ACTIVE_SUBTLE_PILL
-                : ACTIVE_PRIMARY_PILL
-              : faint
-                ? `${FAINT_ALL_PILL} hover:text-accent hover:border-accent/40 hover:bg-accent/[0.12]`
-                : "border-transparent text-text-secondary hover:bg-white/[0.06] hover:text-white",
-            !linkTo && !option.disabled && "active:scale-95",
-          ]
-            .filter(Boolean)
-            .join(" ");
-
-          const content = (
-            <span className={isActive && !subtle ? "font-serif" : undefined}>{option.label}</span>
-          );
+          const cls = ["h-auto whitespace-nowrap", pad, subtle && "font-medium",
+            faint && "border-accent/20 bg-accent/[0.07] text-accent hover:border-accent/40 hover:bg-accent/[0.12]"].filter(Boolean).join(" ");
 
           const href = linkTo && !option.disabled ? linkTo(option.value) : undefined;
           // 주소와 손잡이를 함께 받으면 링크로 그리되 누름은 가로챈다.
           // 화면은 그대로 갈아 끼우면서, 서버가 보내는 HTML 에는 그 탭으로 가는 길이 남는다.
-          return href ? (
-            <Link
-              key={option.value}
-              href={href}
-              aria-current={isActive ? "page" : undefined}
-              onClick={onChange ? (e) => { e.preventDefault(); onChange(option.value); } : undefined}
-              className={cls}
-            >
-              {content}
-            </Link>
-          ) : (
-            <button
-              key={option.value}
-              type="button"
-              disabled={option.disabled}
-              aria-pressed={isActive}
-              onClick={() => onChange?.(option.value)}
-              className={cls}
-            >
-              {content}
-            </button>
+          return (
+            <CategoryChip key={option.value} href={href} selected={isActive} disabled={option.disabled}
+              media={media ? option.value : undefined} className={cls}
+              onClick={onChange ? (e) => {
+                if (href && (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
+                if (href) e.preventDefault();
+                onChange(option.value);
+              } : undefined}>
+              {option.label}
+            </CategoryChip>
           );
         })}
       </div>

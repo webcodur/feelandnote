@@ -12,6 +12,7 @@ import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/t
 import { VARIANTS_PER_LINE } from "@/lib/game/voice/types";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import { getVoiceUrl } from "@/lib/game/voice/voiceUrl";
+import { gameText } from "@/lib/game/text";
 
 /** [emotion, ...] 태그를 제거하고 순수 대사 텍스트만 반환 */
 export function stripEmotionTag(text: string): string {
@@ -98,7 +99,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
       onSubtitle({
         key: ++keyCounter.current,
         tone,
-        text: stripEmotionTag(raw),
+        text: gameText(stripEmotionTag(raw)),
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
         audioUrl: hasVoice ? getVoiceUrl(celebId, locale, type, index + 1, voiceVersions?.get(celebId)) : null,
@@ -116,7 +117,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
       onSubtitle({
         key: ++keyCounter.current,
         tone,
-        text: fallback[fbIdx],
+        text: gameText(fallback[fbIdx]),
         nickname: meta?.nickname,
         avatarUrl: meta?.avatarUrl,
         label: type as DialogueLabel,
@@ -136,7 +137,7 @@ export function useDialogue({ sfxMutedRef, onSubtitle, personalDialogues, voiceC
     onSubtitle({
       key: Date.now(),
       tone,
-      text: raw,
+      text: gameText(raw),
       nickname: meta?.nickname,
       avatarUrl: meta?.avatarUrl,
     });

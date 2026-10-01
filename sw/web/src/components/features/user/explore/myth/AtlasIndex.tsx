@@ -4,9 +4,7 @@
         가는 길이 없었다(26.09.29 실측 — 세력 링크 0개). 접지 않는다 — 접힌 링크는 없는 링크다(ops-02-seo 「내부 링크 통로」).
 */ // ------------------------------
 import { Fragment } from "react";
-import { Map } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import { MYTH_LAYOUT } from "./mythLayout";
 
 export interface AtlasIndexGroup {
@@ -24,10 +22,10 @@ export default function AtlasIndex({ heading, groups }: Props) {
   const visible = groups.filter((group) => group.items.length > 0);
   if (visible.length === 0) return null;
   return (
-    <nav aria-label={heading} data-atlas-index className={`${MYTH_LAYOUT.container} ${MYTH_LAYOUT.sectionDivider} px-4 md:px-6`}>
-      <CenteredSectionHeading icon={<Map size={17} />} title={heading} />
+    /* 구획 머리(— NN — 전체)와 앵커는 바깥 HubSection이 쥔다 — 여기서는 목록만 그린다 */
+    <nav aria-label={heading} data-atlas-index className={`${MYTH_LAYOUT.container} px-4 md:px-6`}>
       {/* 열을 나누지 않는다 — 그룹 길이가 들쭉날쭉이라 격자를 쓰면 빈칸이 생긴다. 그룹 표제도 같은 흐름에 인라인으로 싣는다 */}
-      <div className="mt-5 space-y-4">
+      <div className="space-y-4">
         {visible.map((group) => (
           <section key={group.id} aria-labelledby={`atlas-index-${group.id}`}>
             <p className="text-sm leading-7 text-text-secondary">

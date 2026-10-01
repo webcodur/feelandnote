@@ -6,7 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 
 import type { CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
@@ -14,6 +14,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
+import type { CelebFactionBookGroup } from "@/actions/celebs/getCelebFactionBooks";
 import type { AffiliateBook } from "@/actions/home/getAffiliateBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
@@ -45,6 +46,8 @@ interface CelebPageContentProps {
   authoredBooks: FigureBookContent[];
   /** 「감상」 모드 — 감상 기록의 책을 상품 카드로 모은 첫 묶음 */
   readBooks: AffiliateBook[];
+  /** 「세력」 모드 — 소속 세력·신화별 책 묶음 */
+  factionGroups: CelebFactionBookGroup[];
   /** 서버가 마지막으로 읽은 기록 쪽 다음 */
   readBooksNextPage: number;
   /** 아직 읽지 않은 감상 기록이 있는가 */
@@ -52,9 +55,10 @@ interface CelebPageContentProps {
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
-  /** 본문末 구획(이어지는 인물·관련 상품). 서버가 그려 클라이언트가 자리만 받는다 */
+  /** 「직군」 모드 — 같은 직군 동료들이 남긴 기록 중 팔리는 책 */
+  professionBooks: AffiliateBook[];
+  /** 본문末 구획(이어지는 인물). 서버가 그려 클라이언트가 자리만 받는다 */
   relatedFiguresSlot?: ReactNode;
-  affiliateBooksSlot?: ReactNode;
 }
 
 export default function CelebPageContent({
@@ -74,11 +78,12 @@ export default function CelebPageContent({
   readBooks,
   readBooksNextPage,
   readBooksHasMore,
+  factionGroups,
+  professionBooks,
   worldId,
   worldBannerImages,
   externalLinksSlot,
   relatedFiguresSlot,
-  affiliateBooksSlot,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
 
@@ -97,68 +102,7 @@ export default function CelebPageContent({
   });
   useSectionViewTracking(contentRef);
 
-  /* ── 2. 아틀라스 위치 실측 ──
-     좌측 목차 레일이 이 변수로 자리를 잡고, 전역 스와이프 막대(layout/SwipeRail)도
-     같은 변수를 읽어 오른쪽 대칭 자리에 선다. */
-  useEffect(() => {
-    const page = contentRef.current;
-    const mainRegion = page?.closest<HTMLElement>("[data-main-content-region]");
-    const middleColumn = page?.querySelector<HTMLElement>(
-      `.${styles.openingFrame}`,
-    );
-    if (!page || !mainRegion || !middleColumn) return;
-
-    const positionAtlas = () => {
-      // 레일은 뷰포트 고정이라 중심도 뷰포트 기준으로 싣는다.
-      // 문서Element에 두면 페이지 좌표계와 무관해진다.
-      // 기준벽은 region이 아니라 보이는 프레임(main 첫 자식)이다.
-      // region 패딩까지 넣으면 중심이 벽 쪽으로 쏠린다.
-      const regionBox = mainRegion.getBoundingClientRect();
-      const middleBox = middleColumn.getBoundingClientRect();
-      const frameBox = mainRegion.closest("main")?.firstElementChild?.getBoundingClientRect() ?? null;
-      const wallLeft = frameBox ? frameBox.left : regionBox.left;
-      const leftWidth = Math.max(0, middleBox.left - wallLeft);
-      const centerViewport = wallLeft + leftWidth / 2;
-      const atlasWidth = Math.min(160, Math.max(96, leftWidth - 32));
-
-      document.documentElement.style.setProperty(
-        "--celeb-atlas-center-inline",
-        `${centerViewport}px`,
-      );
-      document.documentElement.style.setProperty(
-        "--celeb-atlas-width",
-        `${atlasWidth}px`,
-      );
-    };
-
-    // ResizeObserver·window resize가 같은 프레임에 여러 번 울려도
-    // 실측(getBoundingClientRect)은 프레임당 최대 1회로 합친다. 계산식은 그대로다.
-    let atlasRaf = 0;
-    const scheduleAtlas = () => {
-      if (atlasRaf) return;
-      atlasRaf = requestAnimationFrame(() => {
-        atlasRaf = 0;
-        positionAtlas();
-      });
-    };
-
-    positionAtlas();
-    const observer = new ResizeObserver(scheduleAtlas);
-    observer.observe(page);
-    observer.observe(mainRegion);
-    observer.observe(middleColumn);
-    window.addEventListener("resize", scheduleAtlas);
-
-    return () => {
-      if (atlasRaf) cancelAnimationFrame(atlasRaf);
-      observer.disconnect();
-      window.removeEventListener("resize", scheduleAtlas);
-      document.documentElement.style.removeProperty("--celeb-atlas-center-inline");
-      document.documentElement.style.removeProperty("--celeb-atlas-width");
-    };
-  }, []);
-
-  /* ── 3. 머리말·본문 렌더 ── */
+  /* ── 2. 머리말·본문 렌더 ── */
   return (
     <div ref={contentRef} className={styles.page}>
       <CelebHeroSection
@@ -189,9 +133,10 @@ export default function CelebPageContent({
         readBooks={readBooks}
         readBooksNextPage={readBooksNextPage}
         readBooksHasMore={readBooksHasMore}
+        factionGroups={factionGroups}
+        professionBooks={professionBooks}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
-        affiliateBooksSlot={affiliateBooksSlot}
       />
     </div>
   );

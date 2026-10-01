@@ -81,7 +81,7 @@ export function ChronicleModal({ open, game, onClose }: { open: boolean; game: G
   }, [game.log])
   return (
     <Modal open={open} onClose={onClose} width={640} label={T.hud.chronicle}>
-      <PanelTitle hanja="史" title={T.hud.chronicle} />
+      <PanelTitle title={T.hud.chronicle} />
       <div className="flex flex-col gap-4 overflow-y-auto p-4">
         {groups.map(([turn, entries]) => {
           const { year, month } = calendarOf(turn)

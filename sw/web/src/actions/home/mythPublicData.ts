@@ -28,8 +28,9 @@ export function getMythClientData(data: MythData): MythData {
       groups: [],
     }),
     people,
-    works: data.works.filter((work) => work.personIds.some((id) => personIds.has(id))).map((work) => ({
+    works: data.works.filter((work) => work.personIds.some((id) => personIds.has(id)) || work.themeIds?.some((id) => mythIds.has(id))).map((work) => ({
       ...work,
+      ...(work.themeIds ? { themeIds: work.themeIds.filter((id) => mythIds.has(id)) } : {}),
       personIds: work.personIds.filter((id) => personIds.has(id)),
       appearedIds: work.appearedIds.filter((id) => personIds.has(id)),
       authorIds: work.authorIds.filter((id) => personIds.has(id)),

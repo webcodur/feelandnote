@@ -18,6 +18,7 @@ import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers';
 import type { RedactRoundData } from '@/components/features/game/redact/types';
+import { gameText } from '@/lib/game/text';
 
 /** 최소 bio 길이 (글자 수) — 너무 짧으면 게임 성립 불가 */
 const MIN_BIO_LENGTH = 80;
@@ -116,7 +117,7 @@ export async function getRedactRound(): Promise<RedactRoundData> {
   const bio = isKo ? (chosen.bio ?? chosen.bio_en ?? '') : (chosen.bio_en ?? chosen.bio ?? '');
   const nickname = isKo ? chosen.nickname : (chosen.nickname_en ?? chosen.nickname);
 
-  const { censored, censoredWords } = censorNameForRedact(bio, nickname);
+  const { censored, censoredWords } = censorNameForRedact(gameText(bio), nickname);
 
   return {
     celebId: chosen.id,

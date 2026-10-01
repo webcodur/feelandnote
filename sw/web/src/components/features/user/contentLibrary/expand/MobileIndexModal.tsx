@@ -5,6 +5,7 @@ import { LibraryBig } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import Modal from "@/components/ui/Modal";
+import CategoryChip from "@/components/ui/CategoryChip";
 import {
   CATEGORIES,
   CATEGORY_ID_TO_TYPE,
@@ -130,53 +131,38 @@ export default function MobileIndexModal({
           )}
         >
           {!onCategoryChange && (
-            <button
-              type="button"
+            <CategoryChip
               role="radio"
-              aria-checked={effectiveGroupType === ALL_GROUPS}
+              selected={effectiveGroupType === ALL_GROUPS}
               onClick={() => setSelectedGroupType(ALL_GROUPS)}
-              className={cn(
-                "flex min-w-0 items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs font-medium",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
-                effectiveGroupType === ALL_GROUPS
-                  ? "border-accent/60 bg-accent/15 text-accent"
-                  : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10 hover:text-text-primary",
-              )}
+              className="h-auto min-w-0 gap-1 px-2 py-1.5 text-xs font-medium"
             >
               <LibraryBig size={14} strokeWidth={1.7} aria-hidden />
               <span>{t("category.all")}</span>
               <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
                 {groups.reduce((total, group) => total + group.items.length, 0)}
               </span>
-            </button>
+            </CategoryChip>
           )}
 
           {categoryOptions.map(({ dbType, category, count }) => {
-            const Icon = category?.lucideIcon;
             const isSelected = effectiveGroupType === dbType;
             return (
-              <button
+              <CategoryChip
                 key={dbType}
-                type="button"
+                media={dbType}
                 role="radio"
-                aria-checked={isSelected}
+                selected={isSelected}
                 onClick={() => handleCategorySelect(dbType)}
-                className={cn(
-                  "flex min-w-0 items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs font-medium",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
-                  isSelected
-                    ? "border-accent/60 bg-accent/15 text-accent"
-                    : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10 hover:text-text-primary",
-                )}
+                className="h-auto min-w-0 gap-1 px-2 py-1.5 text-xs font-medium"
               >
-                {Icon && <Icon size={14} strokeWidth={1.7} aria-hidden />}
                 <span className="truncate">
                   {category ? t(`category.${category.id}`) : dbType}
                 </span>
                 <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
                   {count}
                 </span>
-              </button>
+              </CategoryChip>
             );
           })}
         </div>

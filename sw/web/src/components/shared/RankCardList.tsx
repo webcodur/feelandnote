@@ -15,6 +15,7 @@ import { celebDisplayName } from "@/lib/celeb/displayName";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 
 export interface RankCardItem {
+  rank?: number;
   href: string;
   nickname: string;
   nickname_en: string | null;
@@ -56,7 +57,7 @@ export default function RankCardList({
                 </span>
               )}
               <span className="absolute bottom-0 left-0 flex h-5 min-w-5 items-center justify-center rounded-tr-md bg-black/70 px-1 font-cinzel text-[11px] font-black text-white/90">
-                {String(startRank + i).padStart(2, "0")}
+                {String(item.rank ?? startRank + i).padStart(2, "0")}
               </span>
             </span>
             <span className="flex min-w-0 flex-1 items-center gap-3 px-3 py-3 sm:px-4 sm:py-4">

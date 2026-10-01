@@ -9,7 +9,7 @@
   「화면이 허락하는 만큼 보여 주기」 조합 — 줄 수를 미리 박지 않는다.
   - 칸: 이웃 열이 정한 높이를 받는다. 칸이 제 높이를 내지 않게 contain-size를 주거나(ExpandCard),
         높이를 인라인으로 박는 래퍼(AnimatedHeight) 안이면 그 바깥 상자를 lg:contents로 지우고
-        안쪽을 부모 flex에 직접 넣는다(FigureBookFeature).
+        안쪽을 부모 flex에 직접 넣는다(BookShelfFeature).
   - 본문: flex-1 overflow-hidden. 바닥(최소 줄 수)은 본문의 min-h로 잡고, 본문이 행을 밀지 않게 contain-size를 준다.
   - 잘림 표시: isClipped일 때만 「더 보기」와 clip-fade-end. 기준 높이가 없는 좁은 폭은 line-clamp-N으로 접는다.
 */ // ------------------------------

@@ -49,12 +49,16 @@ function Row({ card, side, mandate, hidden, resting, onInspect }: { card: Battle
         </span>
         {!resting && !hidden && (
           <span className="mt-0.5 flex gap-1.5">
-            {COMMANDS.map((cmd) => (
-              <span key={cmd} className={`text-sm font-bold tabular-nums ${COMMAND_TONE[cmd].text}`}>
-                {text.command.seal[cmd]}
-                {displayAptitude(effectiveAptitude(card, cmd, side, mandate).value)}
-              </span>
-            ))}
+            {COMMANDS.map((cmd) => {
+              const Icon = COMMAND_TONE[cmd].icon;
+              return (
+                <span key={cmd} className={`inline-flex items-center gap-0.5 text-sm font-bold tabular-nums ${COMMAND_TONE[cmd].text}`}>
+                  <Icon size={12} aria-hidden />
+                  <span className="sr-only">{text.command.name[cmd]} </span>
+                  {displayAptitude(effectiveAptitude(card, cmd, side, mandate).value)}
+                </span>
+              );
+            })}
           </span>
         )}
       </span>
