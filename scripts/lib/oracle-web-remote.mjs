@@ -743,14 +743,18 @@ export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { re
     for (const route of MAIN_WARMUP_ROUTES(probeSlug)) {
       const url = `${origin}${route}`
       const startedAt = Date.now()
-      const response = await fetchWithTimeout(url, {
-        headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
-        timeoutMs: pass === 'warm' ? 60_000 : readyTimeoutMs,
-      })
-      const html = await response.text()
-      if (!response.ok) throw new Error(`Warmup route returned HTTP ${response.status}: ${url}`)
-      if (expectedDeploymentId) inspectVersionedDeploymentHtml(html, url, expectedDeploymentId)
-      runs.push({ pass, route, status: response.status, durationMs: Date.now() - startedAt })
+      try {
+        const response = await fetchWithTimeout(url, {
+          headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+          timeoutMs: pass === 'warm' ? 60_000 : readyTimeoutMs,
+        })
+        const html = await response.text()
+        if (!response.ok) throw new Error(`Warmup route returned HTTP ${response.status}: ${url}`)
+        if (expectedDeploymentId) inspectVersionedDeploymentHtml(html, url, expectedDeploymentId)
+        runs.push({ pass, route, status: response.status, durationMs: Date.now() - startedAt })
+      } catch (error) {
+        throw new Error(`Warmup ${pass} failed for ${url} after ${Date.now() - startedAt}ms: ${error.message}`, { cause: error })
+      }
     }
   }
   return runs

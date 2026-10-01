@@ -193,6 +193,7 @@ async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
 /* 성향 벡터 전량 — 한 명이 바뀌어도 비교 대상 전체가 달라지므로 목록으로 다룬다 */
 const getAllSpectrumVectorsCached = () =>
   cachedList(CACHE_TAGS.SPECTRUM, ['all-spectrum-vectors'], fetchAllSpectrumVectors, {
+    compress: true,
     revalidate: STATIC_REVALIDATE,
     extraTags: [CACHE_TAGS.CELEBS],
   })

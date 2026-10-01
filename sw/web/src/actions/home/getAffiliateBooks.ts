@@ -1,7 +1,7 @@
 'use server'
 
 import { cache } from 'react'
-import { unstable_cache } from 'next/cache'
+import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/db/static'
@@ -259,7 +259,7 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v7-available-edition'], {
+const fetchAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-v7-available-edition'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로 달지 않는다.
   //

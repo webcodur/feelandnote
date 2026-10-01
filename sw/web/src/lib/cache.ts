@@ -6,6 +6,7 @@
 */ // ------------------------------
 
 import { unstable_cache } from 'next/cache'
+import { compressedJsonCache } from './compressedJsonCache'
 import { detailCacheTags, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
 
 /**
@@ -105,6 +106,8 @@ async function runWithRetry<R>(label: string, fn: () => Promise<R>): Promise<R> 
 }
 
 interface CacheOptions {
+  /** 전량을 읽는 큰 JSON 목록은 항목 한도를 넘지 않게 압축 저장한다. */
+  compress?: boolean
   /** 만료 시간(초). 기본값은 상세 7일 · 목록 1시간 */
   revalidate?: number
   /** 이 상세 조회가 함께 읽는 다른 도메인. 해당 도메인의 명시적 전량 작업에만 함께 비운다. */
@@ -153,10 +156,14 @@ export function cachedList<R>(
   options: CacheOptions = {},
 ): Promise<R> {
   const label = keyParts.join('/')
-  return unstable_cache(() => runWithRetry(label, fn), [...keyParts], {
+  const read = () => runWithRetry(label, fn)
+  const cacheOptions = {
     revalidate: spreadRevalidate(options.revalidate ?? LIST_REVALIDATE, keyParts),
     tags: [domain, ...(options.extraTags ?? [])],
-  })()
+  }
+  return options.compress
+    ? compressedJsonCache(read, [...keyParts], cacheOptions)()
+    : unstable_cache(read, [...keyParts], cacheOptions)()
 }
 
 /* ────────────────────────────────────────────────────────────────
