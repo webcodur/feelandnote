@@ -30,7 +30,7 @@ interface Props {
 
 type WorkMode = "theme" | "appeared" | "read" | "authored" | "profession";
 
-function Works({ books, memberIds, memberNames, slug }: { books: FactionFigureBook[]; memberIds: string[]; memberNames: Record<string, string>; slug: string }) {
+function Works({ books, memberIds, memberNames, name, slug }: { books: FactionFigureBook[]; memberIds: string[]; memberNames: Record<string, string>; name: string; slug: string }) {
   const t = useTranslations("explore.faction");
   const tMore = useTranslations("shared.libraryShelf");
   const tBooks = useTranslations("popularBooks");
@@ -74,7 +74,7 @@ function Works({ books, memberIds, memberNames, slug }: { books: FactionFigureBo
     return names.length ? tCeleb("authoredByBadge", { name: names.join(", ") }) : null;
   };
   const modes = ([
-    own.length ? { key: "theme", label: t("worksDividerLeft") } : null,
+    own.length ? { key: "theme", label: name } : null,
     appeared.length ? { key: "appeared", label: tCeleb("groupAppeared") } : null,
     extras?.read.length ? { key: "read", label: tCeleb("groupRead") } : null,
     authored.length ? { key: "authored", label: tCeleb("groupAuthored") } : null,
@@ -148,7 +148,7 @@ export default function FactionEntryView({ data, navigationTree, themeId, celebs
       renderWorks: (personIds) => {
         const ids = new Set(personIds);
         const books = factionBooks.filter((book) => book.memberIds.some((id) => ids.has(id)));
-        return <Works key={personIds.join(",")} books={books} memberIds={personIds} memberNames={Object.fromEntries(data.people.map((person) => [person.id, person.name]))} slug={theme.slug} />;
+        return <Works key={personIds.join(",")} books={books} memberIds={personIds} memberNames={Object.fromEntries(data.people.map((person) => [person.id, person.name]))} name={theme.name} slug={theme.slug} />;
       },
     }} />
   );

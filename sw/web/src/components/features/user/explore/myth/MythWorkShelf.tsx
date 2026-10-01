@@ -100,7 +100,7 @@ export default function MythWorkShelf({ works, memberIds, memberNames, mythName,
     locale === "ko" ? [...list.filter((work) => work.editionId !== undefined), ...list.filter((work) => work.editionId === undefined)] : list;
 
   const modes = ([
-    ownWorks.length ? { key: "theme", label: t("worksDividerLeft") } : null,
+    ownWorks.length ? { key: "theme", label: mythName } : null,
     appearedWorks.length ? { key: "appeared", label: tCeleb("groupAppeared") } : null,
     extras?.read.length ? { key: "read", label: tCeleb("groupRead") } : null,
     authoredWorks.length ? { key: "authored", label: tCeleb("groupAuthored") } : null,
