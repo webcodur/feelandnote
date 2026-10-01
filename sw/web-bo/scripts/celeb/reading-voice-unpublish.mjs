@@ -9,6 +9,7 @@
  * 같은 run의 manifest에 그 인물·언어 항목이 있으면 로컬 음원 폴더와 함께 백업으로 옮기고 항목을 지운다.
  * 새 본문으로 다시 만들 때 「Source changed」로 run 전체가 멈추지 않게 하기 위해서다.
  */
+import { readFileSync } from 'node:fs'
 import { access, cp, mkdir, open, readFile, rm, unlink, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -25,12 +26,15 @@ export function unpublishArgs(argv = process.argv.slice(2)) {
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i]
     if (arg === '--apply' || arg === '--help') options[arg.slice(2)] = true
-    else if (['--slugs', '--locales', '--run'].includes(arg) && argv[i + 1] && !argv[i + 1].startsWith('--')) options[arg.slice(2)] = argv[++i]
+    else if (['--slugs', '--slugs-file', '--locales', '--run'].includes(arg) && argv[i + 1] && !argv[i + 1].startsWith('--')) options[arg.slice(2)] = argv[++i]
     else throw new Error(`Unknown or incomplete argument: ${arg}`)
   }
   if (options.help) return options
-  options.slugs = [...new Set(String(options.slugs || '').split(',').map((slug) => slug.trim()).filter(Boolean))]
-  if (!options.slugs.length) throw new Error('--slugs a,b is required')
+  const slugLines = options['slugs-file']
+    ? readFileSync(resolve(options['slugs-file']), 'utf8').split(/\r?\n/)
+    : String(options.slugs || '').split(',')
+  options.slugs = [...new Set(slugLines.map((slug) => slug.trim()).filter(Boolean))]
+  if (!options.slugs.length) throw new Error('--slugs a,b 또는 --slugs-file PATH가 필요하다')
   options.locales = [...new Set(options.locales.split(','))]
   if (options.locales.some((locale) => !['ko', 'en'].includes(locale))) throw new Error('Locales must be ko and/or en')
   options.run = resolve(options.run)

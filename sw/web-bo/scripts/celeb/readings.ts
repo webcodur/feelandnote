@@ -92,8 +92,9 @@ const REVIEW_DECISIONS_ARG = flagValue('--review-decisions')
 const EDITORIAL_CANDIDATES_ARG = flagValue('--editorial-candidates')
 const SCREEN_OUT_ARG = flagValue('--screen-out')
 const SLUGS = (() => {
-  const raw = flagValue('--slugs')
-  return raw ? new Set(raw.split(',').map((slug) => slug.trim()).filter(Boolean)) : null
+  const file = flagValue('--slugs-file')
+  const raw = file ? readFileSync(resolve(process.cwd(), file), 'utf8') : flagValue('--slugs')
+  return raw ? new Set(raw.split(file ? /\r?\n/ : ',').map((slug) => slug.trim()).filter(Boolean)) : null
 })()
 const REVIEW_DECISIONS_FILE = REVIEW_DECISIONS_ARG
   && !REVIEW_DECISIONS_ARG.startsWith('--')
