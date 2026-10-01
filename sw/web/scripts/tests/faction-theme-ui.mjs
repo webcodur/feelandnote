@@ -42,14 +42,14 @@ async function pickerChecks(name){
 }
 async function artworkDissolveChecks(){
   for(let attempt=0;attempt<2;attempt++){
-    await page.click('[data-artwork-zoom]');await page.waitForSelector('[data-artwork-dismiss] img');
-    await page.waitForFunction(()=>document.querySelector('[data-artwork-dismiss] img')?.parentElement.style.transition.includes('opacity'));
-    await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-artwork-dismiss] img').parentElement).filter==='none');
+    await page.click('[data-artwork-zoom]');await page.waitForSelector('[data-artwork-current] img');
+    await page.waitForFunction(()=>document.querySelector('[data-artwork-current] img')?.naturalWidth>0);
+    await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-artwork-current] img').parentElement).filter==='none');
     await page.click('[data-artwork-dismiss]');await page.waitForFunction(()=>!document.querySelector('[data-artwork-viewer]'));
   }
   await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
-  await page.click('[data-artwork-zoom]');await page.waitForSelector('[data-artwork-dismiss] img');
-  assert.equal(await page.$eval('[data-artwork-dismiss] img',n=>getComputedStyle(n.parentElement).filter),'none');await close();
+  await page.click('[data-artwork-zoom]');await page.waitForSelector('[data-artwork-current] img');
+  assert.equal(await page.$eval('[data-artwork-current] img',n=>getComputedStyle(n.parentElement).filter),'none');await close();
   await page.emulateMediaFeatures([]);
   console.log('PASS artwork dissolve on repeated opening and reduced motion');
 }
@@ -84,8 +84,8 @@ async function modals(person){
     await page.keyboard.press('Escape');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===1);
   }
   await page.$eval('[data-faction-person-header] img',n=>n.closest('button').click());
-  await page.waitForFunction(()=>document.querySelector('[data-artwork-dismiss] img')?.naturalWidth>=800);
-  assert.ok(await page.$eval('[data-artwork-dismiss] img',n=>!n.currentSrc.includes('avatar-md')&&!n.currentSrc.includes('avatar-sm')));
+  await page.waitForFunction(()=>document.querySelector('[data-artwork-current] img')?.naturalWidth>=800);
+  assert.ok(await page.$eval('[data-artwork-current] img',n=>!n.currentSrc.includes('avatar-md')&&!n.currentSrc.includes('avatar-sm')));
   await page.click('[data-artwork-dismiss]');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===1);
   await clickText('[data-faction-person-header] button','대표 사진');await page.waitForSelector('[data-artwork-dismiss]');
   assert.equal(await page.$$eval('[role="dialog"]',ns=>ns.length),2);await page.click('[data-artwork-dismiss]');await page.waitForFunction(()=>document.querySelectorAll('[role="dialog"]').length===1);

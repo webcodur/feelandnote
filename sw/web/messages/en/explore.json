@@ -315,6 +315,7 @@
         "backToGroup": "Back to group overview",
         "groupCore": "{count, plural, one {Key figure} other {# key figures}}",
         "enlargeImage": "Enlarge image",
+        "zoomExit": "Exit zoom",
         "captionShowAll": "Show the whole caption",
         "captionPaginate": "Page by sentence",
         "captionPrevious": "Previous sentence",

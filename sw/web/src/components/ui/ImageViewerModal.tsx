@@ -8,12 +8,13 @@
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
 import BlurDissolve from "./BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
+import { useWheelPaging } from "@/hooks/useWheelPaging";
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
@@ -29,6 +30,8 @@ interface ImageViewerModalProps {
   /** 넘길 이전·다음 그림이 있을 때 ‹ › 버튼과 최소 배율 가로 밀기가 켜진다 */
   onPrev?: () => void;
   onNext?: () => void;
+  /** 캡션에 강조 렌더를 쓸 때 넘긴다 — 장면 해설의 대사·강조 서식을 전체보기에도 유지한다 */
+  renderCaption?: (caption: string) => ReactNode;
 }
 
 export default function ImageViewerModal({
@@ -39,9 +42,12 @@ export default function ImageViewerModal({
   caption,
   onPrev,
   onNext,
+  renderCaption,
 }: ImageViewerModalProps) {
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
+  /* 그림을 클릭해야 줌 모드에 든다 — 평시 휠은 장면 넘기기, 줌 모드에서만 휠이 배율을 바꾼다 */
+  const [zoomMode, setZoomMode] = useState(false);
   const [dragging, setDragging] = useState(false);
   const drag = useRef<{ id: number; x: number; y: number; vx: number; vy: number } | null>(null);
   const moved = useRef(false);
@@ -53,6 +59,7 @@ export default function ImageViewerModal({
   if (sessionKey !== openedWith) {
     setOpenedWith(sessionKey);
     setView({ scale: 1, x: 0, y: 0 });
+    setZoomMode(false);
   }
 
   /* Esc는 캡처 단계에서 먼저 잡는다 — 아래 깔린 모달(document 버블 단계)까지 같이 닫히지 않게 */
@@ -61,6 +68,8 @@ export default function ImageViewerModal({
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       e.stopImmediatePropagation();
+      /* 줌 모드에서는 창을 닫기 전에 모드부터 빠진다 */
+      if (zoomMode) { setZoomMode(false); setView({ scale: 1, x: 0, y: 0 }); return; }
       onClose();
     };
     document.addEventListener("keydown", onKeyDown, true);
@@ -69,12 +78,15 @@ export default function ImageViewerModal({
       document.removeEventListener("keydown", onKeyDown, true);
       unlockBodyScroll();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, zoomMode]);
 
-  /* 휠 확대는 커서가 가리킨 지점을 고정해 배율을 바꾼다 — React onWheel은 수동형이라 네이티브로 단다 */
+  /* 평시 휠은 장면 넘기기 — 넘길 그림이 있고 줌 모드가 아닐 때만 */
+  useWheelPaging(frameRef, { onPrev, onNext, enabled: isOpen && !zoomMode && Boolean(onPrev || onNext) });
+
+  /* 휠 확대는 커서가 가리킨 지점을 고정해 배율을 바꾼다 — 줌 모드에서만, React onWheel은 수동형이라 네이티브로 단다 */
   useEffect(() => {
     const frame = frameRef.current;
-    if (!isOpen || !frame) return;
+    if (!isOpen || !frame || !zoomMode) return;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       const rect = frame.getBoundingClientRect();
@@ -90,7 +102,7 @@ export default function ImageViewerModal({
     };
     frame.addEventListener("wheel", onWheel, { passive: false });
     return () => frame.removeEventListener("wheel", onWheel);
-  }, [isOpen]);
+  }, [isOpen, zoomMode]);
 
   if (!isOpen) return null;
 
@@ -125,12 +137,19 @@ export default function ImageViewerModal({
         </Button>
       )}
 
-      {/* 끌기가 없던 클릭은 닫기다 — 바깥 배경 클릭과 같은 취급. 더블클릭은 1배 복귀 */}
+      {/* 그림을 누르면 줌 모드가 켜지고 다시 누르면 꺼진다(배율도 1배로). 더블클릭은 모드를 끄며 1배 복귀 */}
       <div
         ref={frameRef}
-        className={`relative flex max-h-[90vh] max-w-[90vw] flex-col items-center justify-center gap-3 overflow-hidden p-4 outline-none ${view.scale > 1 ? (dragging ? "cursor-grabbing" : "cursor-grab") : "cursor-zoom-out"}`}
+        className={`relative flex max-h-[97vh] max-w-[97vw] flex-col items-center justify-center gap-3 overflow-hidden p-1 outline-none ${view.scale > 1 ? (dragging ? "cursor-grabbing" : "cursor-grab") : zoomMode ? "cursor-zoom-out" : "cursor-zoom-in"}`}
         style={{ touchAction: "none" }}
-        onDoubleClick={() => setView({ scale: 1, x: 0, y: 0 })}
+        onClick={(event) => {
+          event.stopPropagation();
+          if (moved.current) { moved.current = false; return; }
+          if (event.target instanceof HTMLElement && event.target.closest("[data-wheel-pass], button, a")) return;
+          if (zoomMode) { setZoomMode(false); setView({ scale: 1, x: 0, y: 0 }); }
+          else setZoomMode(true);
+        }}
+        onDoubleClick={() => { setView({ scale: 1, x: 0, y: 0 }); setZoomMode(false); }}
         onPointerDown={(event) => {
           moved.current = false;
           if (!event.isPrimary || event.button !== 0) return;
@@ -178,14 +197,14 @@ export default function ImageViewerModal({
               height={800}
               unoptimized
               draggable={false}
-              className="max-h-[78vh] max-w-full rounded-lg object-contain shadow-2xl"
+              className="h-[93vh] w-auto max-w-[95vw] rounded-lg object-contain shadow-2xl"
             />
           </span>
           {/* 설명이 있는 그림에만 붙는다. 없으면 자리도 차지하지 않는다 */}
           {caption ? (
-            <div className="absolute inset-x-0 bottom-0 max-h-[45%] overflow-y-auto overscroll-contain rounded-b-lg bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-3 pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <p className="mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-base leading-relaxed text-white [overflow-wrap:anywhere] md:text-balance md:text-lg">
-                {caption}
+            <div data-wheel-pass className="absolute inset-x-0 bottom-0 max-h-[45%] overflow-y-auto overscroll-contain rounded-b-lg bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-3 pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <p className="mx-auto w-full max-w-3xl whitespace-pre-line break-keep text-center text-lg leading-relaxed text-white [overflow-wrap:anywhere] md:text-balance md:text-2xl md:leading-relaxed">
+                {renderCaption ? renderCaption(caption) : caption}
               </p>
             </div>
           ) : null}
