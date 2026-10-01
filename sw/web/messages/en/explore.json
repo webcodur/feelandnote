@@ -315,7 +315,6 @@
         "backToGroup": "Back to group overview",
         "groupCore": "{count, plural, one {Key figure} other {# key figures}}",
         "enlargeImage": "Enlarge image",
-        "zoomExit": "Exit zoom",
         "captionShowAll": "Show the whole caption",
         "captionPaginate": "Page by sentence",
         "captionPrevious": "Previous sentence",
@@ -335,7 +334,16 @@
         "worksLeadOthers": "Other works where this myth's figures appear",
         "worksReadLead": "Books these figures read",
         "worksAuthoredLead": "Books written by the figures",
-        "worksProfessionLead": "Books sought by fellow {profession} figures"
+        "worksProfessionLead": "Books sought by fellow {profession} figures",
+        "captionSelect": "Tap to select and copy",
+        "captionCopy": "Copy caption",
+        "captionCopied": "Copied",
+        "helpTitle": "Controls",
+        "helpZoom": "Scroll on the artwork — zoom in/out around the cursor",
+        "helpPan": "Drag the zoomed artwork — move the view",
+        "helpPaging": "Scroll the empty margins or swipe the image to change scenes. On-screen arrows and arrow keys move by scene with whole captions, or by sentence with paginated captions.",
+        "helpCaption": "Tap a caption — select and copy the text",
+        "helpEsc": "Esc — step back one level"
       },
       "relationMap": {
         "title": "Relation Map",

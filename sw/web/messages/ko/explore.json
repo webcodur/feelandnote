@@ -315,7 +315,6 @@
         "backToGroup": "그룹 개요로",
         "groupCore": "핵심 인물 {count}인",
         "enlargeImage": "이미지 확대",
-        "zoomExit": "확대 끄기",
         "captionShowAll": "자막 한 번에 보기",
         "captionPaginate": "문장으로 나눠 보기",
         "captionPrevious": "이전 문장",
@@ -335,7 +334,16 @@
         "worksLeadOthers": "이 신화의 인물이 등장하는 다른 작품",
         "worksReadLead": "인물이 감상한 책",
         "worksAuthoredLead": "인물이 직접 지은 책",
-        "worksProfessionLead": "같은 직종({profession}) 인물들이 찾는 책"
+        "worksProfessionLead": "같은 직종({profession}) 인물들이 찾는 책",
+        "captionSelect": "글을 눌러 선택·복사",
+        "captionCopy": "자막 복사",
+        "captionCopied": "복사됨",
+        "helpTitle": "조작법",
+        "helpZoom": "그림 위 스크롤 — 커서 지점 기준 확대·축소",
+        "helpPan": "확대된 그림 끌기 — 보이는 자리 옮기기",
+        "helpPaging": "빈 여백 스크롤 · 그림 좌우 밀기 — 장면 넘기기. 화면 ‹ › · 방향키 — 전체 자막은 장면, 개별 자막은 문장 넘기기",
+        "helpCaption": "자막 누르기 — 글 선택과 복사",
+        "helpEsc": "Esc — 한 단계씩 돌아가기"
       },
       "relationMap": {
         "title": "관계망",
