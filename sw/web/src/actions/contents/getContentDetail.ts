@@ -109,7 +109,7 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
 async function fetchDefaultFigureBookEdition(
   contentId: string,
   locale: string,
-): Promise<(FigureBookEdition & { sources?: unknown }) | null> {
+): Promise<FigureBookEdition | null> {
   const db = createStaticClient()
   let editions: FigureBookEdition[]
   try {
@@ -117,12 +117,7 @@ async function fetchDefaultFigureBookEdition(
   } catch (error) {
     throw new Error(`원전 기본 판본 조회 실패: ${error instanceof Error ? error.message : String(error)}`)
   }
-  const edition = pickPurchaseEdition(editions, locale)
-  if (!edition) return null
-  const { data: stored, error: sourcesError } = await db.from('figure_book_editions')
-    .select('sources').eq('id', edition.id).maybeSingle()
-  if (sourcesError) throw new Error(`판본 소개 출처 조회 실패: ${sourcesError.message}`)
-  return { ...edition, sources: stored?.sources }
+  return pickPurchaseEdition(editions, locale) ?? null
 }
 
 // #region 콘텐츠 자체 정보 (인증 비의존, 캐시)
@@ -206,8 +201,10 @@ async function fetchContentDataPublic(
     const sourceEdition = dbContent.type === 'BOOK' && dbContent.is_figure_book
       ? await fetchDefaultFigureBookEdition(dbContent.id, locale)
       : null
+    // 판본 로더가 이미 출처 표시를 조회 정보로 변환했다. 다시 해석하면
+    // description: null인 외부 소개의 bookIntroduction을 잃는다.
     const bookDisplay = dbContent.type === 'BOOK'
-      ? selectBookIntroduction(locale, sourceEdition ? { ...sourceEdition, locale } : null, {
+      ? sourceEdition ?? selectBookIntroduction(locale, null, {
         ...dbContent.exactLocale, locale, isbn: resolveBookIsbn(locale, null, dbContent.isbn, externalId),
       })
       : null
