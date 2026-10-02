@@ -8,6 +8,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { requireAdmin } from '@/lib/admin-auth'
+import { resolveExternalBookInput, sameBookIdentity } from '@/lib/external-book-input'
 
 // 외부 API 검색
 export async function searchExternalContent(
@@ -23,7 +24,7 @@ export async function searchExternalContent(
   error?: string
 }> {
   try {
-    // 기본은 네이버, 필요 시 구글로 전환
+    // BOOK 메타는 카카오 검색만 사용한다.
     const result = await searchExternal(contentType, query, page, { preferGoogle: options.preferGoogle ?? false })
     return {
       success: true,
@@ -60,12 +61,15 @@ export async function createContentFromExternal(
 }> {
   try {
     await requireAdmin()
+    const resolvedBook = contentType === 'BOOK' ? await resolveExternalBookInput(input) : null
+    if (resolvedBook) input = resolvedBook
     const db = await createClient()
 
     // external_id로 기존 콘텐츠 확인
     const { data: existing } = await db
       .from('contents')
       .select('id')
+      .eq('type', contentType)
       .eq('external_id', input.externalId)
       .maybeSingle()
 
@@ -73,25 +77,25 @@ export async function createContentFromExternal(
       return { success: true, contentId: existing.id }
     }
 
-    // ISBN 이 달라도 같은 책(제목 정규화 일치 + 저자 성 일치)이 있으면 새로 만들지 않는다.
+    // 같은 작품명과 원저자가 확인될 때만 기존 작품을 재사용한다.
     // 판본 없이 표시용 제목 행만 든 작품이 있어(celeb-02-02) ISBN 대조만으로는 두 벌이 생긴다. 표시행이면 이 실판본으로 덮는다.
     if (contentType === 'BOOK') {
-      const sameLocale = ['kakao_book', 'aladin'].includes(input.externalSource || '') && /[가-힣]/.test(input.title ?? '') ? 'ko' : 'en'
-      const head = (input.title ?? '').split(/[:：(]/)[0].trim()
-      const norm = (s: string) => s.normalize('NFKC').toLowerCase().replace(/\([^)]*\)/g, ' ').split(/[:：]/)[0].replace(/^(the|a|an)\s+/, '').replace(/[^\p{L}\p{N}]+/gu, '')
-      const surname = (input.creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
+      const sameLocale = resolvedBook!.locale
+      const head = input.title.trim()
       const { data: candidates } = head
-        ? await db.from('content_locales').select('content_id,title,creator,sources').eq('locale', sameLocale).ilike('title', head).limit(10)
-        : { data: [] as { content_id: string; title: string | null; creator: string | null; sources: unknown }[] }
-      const same = (candidates ?? []).find((row) => norm(row.title ?? '') === norm(input.title ?? '') && (!surname || !row.creator || row.creator.toLowerCase().includes(surname)))
+        ? await db.from('content_locales').select('content_id,title,creator,description,sources,contents!inner(type)').eq('contents.type', 'BOOK').eq('locale', sameLocale).ilike('title', head).limit(10)
+        : { data: [] as { content_id: string; title: string | null; creator: string | null; description?: string | null; sources: unknown }[] }
+      const same = (candidates ?? []).find((row) => sameBookIdentity({ title: row.title ?? '', creator: row.creator ?? '' }, input))
       if (same) {
-        if ((same.sources as { primary?: string } | null)?.primary === 'none') {
-          const isbn = typeof input.metadata?.isbn === 'string' ? input.metadata.isbn : input.externalId
+        const sources = same.sources as { primary?: string; title?: string } | null
+        if (sources?.primary === 'none' && ['translated', 'romanized', 'original'].includes(sources.title ?? '')) {
+          const isbn = input.externalId
           const intro = await fetchBookIntroduction({ isbn, locale: sameLocale }).catch(() => null)
           const { error: updateError } = await db.from('content_locales').update({
             title: input.title, creator: input.creator || null, thumbnail_url: input.coverImageUrl || null, isbn,
-            description: intro?.source ?? null, verified: true,
-            sources: { primary: input.externalSource || 'unknown', ...(intro?.source && { description: intro.sourceUrl }) },
+            publisher: typeof input.metadata.publisher === 'string' ? input.metadata.publisher : null,
+            ...(!same.description && { description: intro?.source ?? null }), verified: true,
+            sources: { ...(same.sources as Record<string, unknown> ?? {}), primary: input.externalSource, title: input.metadata.link, ...(intro?.source && !same.description && { description: intro.sourceUrl }) },
           }).eq('content_id', same.content_id).eq('locale', sameLocale)
           if (updateError) return { success: false, error: updateError.message }
           await revalidateWebContent(same.content_id)
@@ -120,23 +124,25 @@ export async function createContentFromExternal(
     // content_locales에 로케일 데이터 저장
     // 카카오·알라딘은 수입 원서(영문 제목)도 돌려준다. ko 행에 넣으면 한국어 화면에 영문 제목이 나가고 언어 카드 정비가 지운다(26.09.10 실측) — 제목에 한글이 없는 BOOK 은 en 으로 담는다.
     const koreanSource = ['kakao_book', 'aladin', 'tmdb'].includes(input.externalSource || '')
-    const locale = koreanSource && !(contentType === 'BOOK' && !/[가-힣]/.test(input.title ?? '')) ? 'ko' : 'en'
+    const locale = resolvedBook?.locale ?? (koreanSource ? 'ko' : 'en')
     const bookIsbn = contentType === 'BOOK'
       ? (typeof input.metadata?.isbn === 'string' ? input.metadata.isbn : input.externalId)
       : null
     const introduction = contentType === 'BOOK'
       ? await fetchBookIntroduction({ isbn: bookIsbn, locale }).catch(() => null)
       : null
-    await db.from('content_locales').insert({
+    const { error: localeError } = await db.from('content_locales').insert({
       content_id: newContent.id,
       locale,
       title: input.title,
       creator: input.creator || null,
       thumbnail_url: input.coverImageUrl || null,
       ...(contentType === 'BOOK' && { description: introduction?.source ?? null, isbn: bookIsbn }),
+      ...(contentType === 'BOOK' && { publisher: input.metadata.publisher ?? null }),
       sources: { primary: input.externalSource || 'unknown', ...(introduction?.source && { description: introduction.sourceUrl }) },
       verified: true,
     })
+    if (localeError) throw new Error(`콘텐츠 언어 카드 저장 실패: ${localeError.message}`)
 
     // contents + content_locales 신규 등록 (셀럽 연결은 여기서 하지 않는다)
     // 새 작품에는 기존 상세 캐시가 없으므로 작품 목록만 갱신한다.

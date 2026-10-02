@@ -58,7 +58,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
   const locale = useLocale();
   const bookIntroduction = useBookIntroduction(
     content.type === 'BOOK' ? content.bookIntroduction : null,
-    locale,
+    content.editionLocale ?? locale,
     content.type === 'BOOK' ? content.description : null,
   );
   const description = content.type === 'BOOK' ? bookIntroduction.description : content.description;
@@ -91,7 +91,7 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
       : t("artist");
 
   return (
-    <div className="pt-2 space-y-6">
+    <div className="pt-2 space-y-6" data-content-edition-info={content.purchaseEditionId ?? 'work'}>
       {/* 메인 상단 2열 인포: 좌측 포스터 + 우측 메인 영역 */}
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-7 items-start">
         {/* 좌측: 포스터 & 통합 구매 모듈 */}
@@ -125,6 +125,8 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
           <BookPurchaseSummary
             contentId={content.id}
             editionId={content.purchaseEditionId}
+            isbn={typeof content.metadata?.isbn === 'string' ? content.metadata.isbn : undefined}
+            bookLocale={content.editionLocale}
             title={content.title}
             creator={content.creator}
             thumbnail={content.thumbnail}

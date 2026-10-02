@@ -24,6 +24,8 @@ import { useRecentContents } from "@/hooks/useRecentContents";
 import { getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { createClient } from "@/lib/db/client";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from 'next/navigation';
+import { getContentDetailHref, selectContentBookEdition } from '@/lib/books/contentEdition';
 
 interface ContentDetailPageProps {
   initialData: ContentDetailData;
@@ -35,8 +37,19 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const tCurated = useTranslations("library.curated");
   const [data, setData] = useState(initialData);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
+  const searchParams = useSearchParams();
 
-  const { content, userRecord, isLoggedIn, initialReviews, fictionCharacters, curatedEntries } = data;
+  const { userRecord, isLoggedIn, initialReviews, fictionCharacters, curatedEntries } = data;
+  const selection = selectContentBookEdition(data.content, searchParams.getAll('editionId'));
+  const content = selection.content;
+  const unavailable = selection.status === 'invalid' || selection.status === 'unavailable';
+  const editions = data.content.bookEditions ?? [];
+  const selectedScope = editions.find(edition => edition.id === content.purchaseEditionId)?.textScope;
+  const changeEdition = (id: string) => {
+    const query = new URLSearchParams(searchParams.toString());
+    if (id) query.set('editionId', id); else query.delete('editionId');
+    window.history.replaceState(null, '', `${window.location.pathname}${query.size ? `?${query}` : ''}${window.location.hash}`);
+  };
 
   // 최근 접근 콘텐츠
   const { recentItems, addItem } = useRecentContents(content.id);
@@ -83,7 +96,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto" data-content-work-id={content.id}>
       {/* 뒤로가기 + 기록·SNS 공유 */}
       <div className="flex items-center justify-between gap-2 mb-4">
         <Button
@@ -102,7 +115,9 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             isAuthResolved={isAuthResolved}
             onRecordChange={handleRecordChange}
           />
-          <ShareButtons title={content.title} path={`/content/${content.id}`} />
+          <ShareButtons title={content.title} path={content.type === 'BOOK'
+            ? getContentDetailHref(content.id, unavailable ? undefined : content.purchaseEditionId)
+            : `/content/${content.id}`} />
         </div>
       </div>
 
@@ -112,7 +127,36 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
       <div className="space-y-4">
         {/* 1. 콘텐츠 정보 */}
         <AccordionSection title={t("contentInfo")} defaultOpen>
-          <ContentInfoSection content={content} />
+          {content.type === 'BOOK' && editions.length > 0 && (
+            <div className="mb-5 space-y-2 rounded-xl border border-border bg-white/[0.02] p-3 sm:p-4">
+              <label className="block space-y-2">
+                <span className="text-sm font-semibold text-text-primary">{t('editionSelection', { count: editions.length })}</span>
+                <select aria-label={t('editionSelection', { count: editions.length })}
+                  value={unavailable ? '' : content.purchaseEditionId ?? ''}
+                  onChange={event => changeEdition(event.target.value)}
+                  className="w-full min-w-0 cursor-pointer rounded-lg border border-border bg-bg-main p-2.5 text-sm text-text-primary hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                  <option value="" disabled>{t('chooseEdition')}</option>
+                  {editions.map(edition => <option key={edition.id} value={edition.id}>
+                    {[edition.title, t(edition.locale === 'en' ? 'editionEnglish' : 'editionKorean'), edition.publisher, edition.isbn].filter(Boolean).join(' · ')}
+                  </option>)}
+                </select>
+              </label>
+              <p className="text-xs leading-relaxed text-text-secondary">{t('editionWorkRecords')}</p>
+              {!unavailable && selectedScope && (
+                <p className="break-words text-xs leading-relaxed text-text-secondary">{t('editionScope')}: {selectedScope === 'complete' ? t('editionCompleteText') : selectedScope}</p>
+              )}
+            </div>
+          )}
+          {unavailable && (
+            <div role="alert" className="mb-4 space-y-3 rounded-lg border border-amber-400/30 bg-amber-400/5 p-4 text-sm text-text-secondary">
+              <p>{t(selection.status === 'invalid' ? 'invalidEdition' : 'unavailableEdition')}</p>
+              <button type="button" onClick={() => changeEdition('')}
+                className="rounded-lg border border-accent/40 px-3 py-2 text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                {t('openWorkInfo')}
+              </button>
+            </div>
+          )}
+          {(!unavailable || content.type !== 'BOOK') && <ContentInfoSection key={content.purchaseEditionId ?? 'work'} content={content} />}
         </AccordionSection>
 
         {/* 등장·연관 도서로 지정된 콘텐츠만 인물을 양방향 연결한다. */}

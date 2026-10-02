@@ -3,6 +3,7 @@ import { selectBookIntroduction } from '@/lib/utils/book-description'
 import type { createStaticClient } from '@/lib/db/static'
 import {
   getFigureBookPurchasePlatform,
+  attachFigureBookLocaleLinks,
   mergeFigureBookEditions,
   type FigureBookEdition,
   type FigureBookEditionRow,
@@ -22,12 +23,13 @@ export async function loadFigureBookEditions(
   db: Db,
   contentIds: string[],
   locale: string,
+  includeAll = false,
 ): Promise<Map<string, FigureBookEdition[]>> {
   const byContent = new Map<string, FigureBookEdition[]>()
   const platform = getFigureBookPurchasePlatform(locale)
   if (!platform || contentIds.length === 0) return byContent
 
-  const [rows, options] = await Promise.all([
+  const [rows, options, cards] = await Promise.all([
     selectInChunks<FigureBookEditionRow>(contentIds, (ids) => db
       .from('figure_book_editions')
       .select(EDITION_SELECT)
@@ -41,6 +43,11 @@ export async function loadFigureBookEditions(
       .eq('locale', locale)
       .eq('platform', platform)
       .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>()),
+    selectInChunks<{ content_id: string; locale: string; isbn: string | null; affiliate_url: unknown; sources: unknown }>(contentIds, (ids) => db
+      .from('content_locales')
+      .select('content_id,locale,isbn,affiliate_url,sources')
+      .in('content_id', ids)
+      .eq('locale', locale)),
   ])
 
   const rowsByContent = new Map<string, FigureBookEditionRow[]>()
@@ -49,9 +56,9 @@ export async function loadFigureBookEditions(
   for (const option of options) optionsByContent.set(option.content_id, [...(optionsByContent.get(option.content_id) ?? []), option])
 
   for (const contentId of new Set([...rowsByContent.keys(), ...optionsByContent.keys()])) {
-    const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale)
+    const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale, includeAll)
     if (editions.length > 0) byContent.set(contentId, editions.map((edition) => ({
-      ...edition,
+      ...attachFigureBookLocaleLinks(edition, cards.find(card => card.content_id === contentId)),
       ...selectBookIntroduction(locale, rowsByContent.get(contentId)?.find((row) => row.id === edition.id)
         ?? { locale, isbn: edition.isbn, description: edition.description }, null),
     })))

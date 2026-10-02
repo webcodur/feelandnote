@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
 const BookPurchaseModal = dynamic(() => import("./BookPurchaseModal"), { ssr: false });
 
 interface BookPurchaseSummaryProps {
+  /** 구매 대상 판본의 언어. 화면 언어가 달라도 같은 판본으로 연결한다. */
+  bookLocale?: 'ko' | 'en';
   /** 우리 작품 — YES24 경유 주소와 판매 정보를 얻는다 */
   contentId?: string;
   /** 고른 판본. 없으면 한국어 기본 판본으로 잡는다 */
@@ -46,6 +48,7 @@ function isPurchaseUrl(url: string) {
 }
 
 export default function BookPurchaseSummary({
+  bookLocale,
   contentId,
   editionId,
   isbn,
@@ -59,7 +62,8 @@ export default function BookPurchaseSummary({
   className,
   chipClassName,
 }: BookPurchaseSummaryProps) {
-  const locale = useLocale();
+  const displayLocale = useLocale();
+  const locale = bookLocale ?? displayLocale;
   const pathname = usePathname();
   const tAccess = useTranslations("content.access");
   const [isOpen, setIsOpen] = useState(false);
@@ -107,7 +111,7 @@ export default function BookPurchaseSummary({
         ...usable.filter((link) => link.platform !== "yes24" && link.platform !== "kyobo" && link.platform !== "coupang" && link.platform !== "aladin"),
       ];
     }
-    return getEnglishBookPurchaseLinks({ locale, title, creator, links: usable });
+    return getEnglishBookPurchaseLinks({ locale, title, creator, isbn, links: usable });
   }, [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
 
   if (!enabled || !links.length) return null;
@@ -143,7 +147,7 @@ export default function BookPurchaseSummary({
             ))}
           </span>
         </button>
-      {isOpen && <BookPurchaseModal title={title} creator={creator} thumbnail={thumbnail} isbn={isbn} links={links} onClose={closeModal} tracking={{ contentId, editionId }} />}
+      {isOpen && <BookPurchaseModal bookLocale={bookLocale} title={title} creator={creator} thumbnail={thumbnail} isbn={isbn} links={links} onClose={closeModal} tracking={{ contentId, editionId }} />}
     </div>
   );
 }

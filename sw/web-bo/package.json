@@ -88,7 +88,7 @@
     "naver:verify-body": "node scripts/naver-blog/verify-body.mjs",
     "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs",
     "contents:book-sources": "node --env-file=.env --import tsx scripts/contents/book-description-sources.ts",
-    "contents:edition-refresh": "node --env-file=.env scripts/contents/book-edition-refresh.mjs",
+    "contents:edition-refresh": "node --env-file=.env --import tsx scripts/contents/book-edition-refresh.mjs",
     "celeb:seed:factions": "tsx scripts/celeb/seed-faction-assignments.ts",
     "avatar:md": "tsx scripts/avatar/md.ts",
     "photo:display": "tsx scripts/photo/display-variants.ts"
@@ -113,7 +113,8 @@
     "react-dom": "19.2.0",
     "react-easy-crop": "^5.5.6",
     "remotion": "4.0.434",
-    "sharp": "^0.34.5"
+    "sharp": "^0.34.5",
+    "@feelandnote/db": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",

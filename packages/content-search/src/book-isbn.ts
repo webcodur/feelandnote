@@ -22,3 +22,14 @@ export function toIsbn13(raw: string): string | null {
   const checksum = [...compact].reduce((sum, digit, index) => sum + Number(digit) * ISBN13_WEIGHTS[index], 0)
   return checksum % 10 === 0 ? compact : null
 }
+
+/** Same checked edition identifiers, before optional whitespace/hyphen formatting. */
+export function equivalentIsbns(raw: string): string[] {
+  const isbn = toIsbn13(raw)
+  if (!isbn) return []
+  if (!isbn.startsWith('978')) return [isbn]
+  const body = isbn.slice(3, 12)
+  const sum = [...body].reduce((total, digit, index) => total + Number(digit) * ISBN10_WEIGHTS[index], 0)
+  const check = (11 - sum % 11) % 11
+  return [isbn, body + (check === 10 ? 'X' : String(check))]
+}

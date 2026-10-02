@@ -13,6 +13,7 @@ import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSumm
 import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
+import { getContentDetailHref } from "@/lib/books/contentEdition";
 import styles from "./BookShelf.module.css";
 
 interface Props {
@@ -40,12 +41,13 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
     ?? { id: undefined, title: source.title, creator: source.creator, thumbnailUrl: source.thumbnailUrl,
       isbn: source.isbn, publisher: source.publisher, releaseDate: source.releaseDate,
       description: source.description, bookIntroduction: source.bookIntroduction,
-      introductionAttribution: source.introductionAttribution, platform: null, purchaseUrl: null };
+      introductionAttribution: source.introductionAttribution, platform: null, purchaseUrl: null,
+      affiliateLinks: source.affiliateLinks };
   const introduction = useBookIntroduction(edition.bookIntroduction, locale, edition.description, lazyIntroduction);
   const busy = loading || introduction.pending;
   const purchaseLinks: AffiliateLink[] = [
     ...(edition.purchaseUrl && edition.platform ? [{ platform: edition.platform, url: edition.purchaseUrl }] : []),
-    ...(edition.id === (source.preferredEditionId ?? source.editions[0]?.id) ? source.affiliateLinks ?? [] : []),
+    ...(edition.affiliateLinks ?? []),
   ];
   const meta = [
     { label: t("sourceWorkPublisher"), value: edition.publisher },
@@ -58,7 +60,7 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
       data-bookshelf-feature={active ? true : undefined} data-book-id={source.id} data-edition-id={edition.id} aria-busy={busy}>
       <div data-testid="related-book-media" className="float-start mb-2 me-4 w-24 sm:col-start-1 sm:row-start-1 sm:float-none sm:m-0 sm:flex sm:w-full sm:flex-col sm:gap-3">
         <div className={styles.cover}><div className={styles.coverImage}>
-          <ContentCoverLink href={`/content/${source.id}?category=book`} title={edition.title}
+          <ContentCoverLink href={getContentDetailHref(source.id, edition.id)} title={edition.title}
             imageSrc={edition.thumbnailUrl} className="absolute inset-0 h-full w-full">
             <BookOpenText size={28} className="absolute inset-0 m-auto text-text-tertiary" aria-hidden />
             {edition.thumbnailUrl && <ContentImage src={edition.thumbnailUrl} alt={edition.title}

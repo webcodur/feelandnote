@@ -17,12 +17,12 @@ const { fetchBookIntroduction } = introductionModule.default ?? introductionModu
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { existsSync } from 'node:fs'
 import { backfillEditionKinds as backfillKinds, wikidataIdentity } from './lib/figure-work.mjs'
+import { resolveBatchBook, reviewedBatchScope, verifyBatchWork } from './lib/verified-batch-edition.mjs'
 
 const PAGE_SIZE = 1000
-const KAKAO_URL = 'https://dapi.kakao.com/v3/search/book'
 
 function argumentValue(name, fallback = null) {
   const index = process.argv.indexOf(`--${name}`)
@@ -51,9 +51,6 @@ function deterministicContentId(name) {
 
 const bare = (value) => String(value ?? '').replace(/[^0-9Xx]/g, '')
 
-// 카카오는 수입 원서도 낸다. 한국 ISBN(978-89·979-11)이 아니면 한국어판이 아니므로 ko로 등록하지 않는다.
-const isKoreanIsbn = (value) => String(value ?? '').split(' ').some((isbn) => /^(97889|9791)/.test(bare(isbn)))
-
 async function allRows(label, page) {
   const rows = []
   for (let from = 0; ; from += PAGE_SIZE) {
@@ -63,21 +60,6 @@ async function allRows(label, page) {
     rows.push(...current)
     if (current.length < PAGE_SIZE) return rows
   }
-}
-
-async function kakaoByIsbn(isbn) {
-  const params = new URLSearchParams({ query: isbn, size: '3', target: 'isbn' })
-  const response = await fetch(`${KAKAO_URL}?${params}`, { headers: { Authorization: `KakaoAK ${kakaoKey}` } })
-  if (!response.ok) return null
-  const payload = await response.json()
-  return (payload.documents ?? [])[0] ?? null
-}
-
-function creatorOf(document) {
-  const authors = (document.authors ?? []).filter(Boolean)
-  if (authors.length > 0) return authors.join(', ')
-  const translators = (document.translators ?? []).filter(Boolean)
-  return translators.length > 0 ? `${translators.join(', ')} (역)` : ''
 }
 
 /**
@@ -132,7 +114,7 @@ async function main() {
     const isbn = bare(row.kakao?.isbn)
     if (!isbn || isbn.length !== 13 || seen.has(isbn) || registeredIsbns.has(isbn)) continue
     seen.add(isbn)
-    targets.push({ isbn, title: row.kakao.title, creator: (row.kakao.authors ?? [])[0] ?? '' })
+    targets.push({ isbn, title: row.kakao.title, creator: (row.kakao.authors ?? []).join(', '), edition: row.edition })
   }
   if (process.argv.includes('--backfill-kinds')) {
     const { data, error } = await db.from('contents').select('id,metadata').eq('type', 'BOOK').gte('created_at', '2026-09-06').eq('external_source', 'kakao_book')
@@ -153,7 +135,7 @@ async function main() {
     while (cursor < work.length) {
       const index = cursor
       cursor += 1
-      details[index] = await kakaoByIsbn(work[index].isbn)
+      details[index] = await resolveBatchBook(work[index], 'ko')
       if (details[index]) introductions[index] = await fetchBookIntroduction({ isbn: work[index].isbn, locale: 'ko' })
       if ((index + 1) % 100 === 0) console.log(`  카카오 조회 ${index + 1}/${work.length}`)
     }
@@ -171,22 +153,24 @@ async function main() {
     const target = work[index]
     const document = details[index]
     if (!document) { skipped.push({ isbn: target.isbn, reason: 'kakao_not_found' }); continue }
-    if (!isKoreanIsbn(document.isbn)) { skipped.push({ isbn: target.isbn, reason: 'non_korean_isbn' }); continue }
     const title = String(document.title ?? '').trim()
-    const creator = creatorOf(document)
+    const creator = document.creator
     if (!title || !creator) { skipped.push({ isbn: target.isbn, reason: 'title_or_creator_missing' }); continue }
 
     const qid = wikidataByIsbn.get(target.isbn) ?? null
     const identity = qid ? wikidataIdentity(qid) : `book/${target.isbn}`
     const contentId = deterministicContentId(`fiction-source-work:${identity}`)
-    const releaseDate = document.datetime ? String(document.datetime).slice(0, 10) : null
-    const sourceUrl = document.url || null
+    const releaseDate = document.metadata.publishDate ? String(document.metadata.publishDate).slice(0, 10) : null
+    const sourceUrl = document.metadata.link || null
+    const scope = reviewedBatchScope(target.edition, target.isbn)
     const sources = {
       primary: 'kakao_book',
       title: sourceUrl, creator: sourceUrl, isbn: sourceUrl,
       publisher: sourceUrl, thumbnail: sourceUrl,
       ...(introductions[index]?.source ? { description: introductions[index].sourceUrl } : {}),
+      ...(scope.scope_evidence ? { scope_evidence: scope.scope_evidence } : {}),
     }
+    if (existingIds.has(contentId)) sources.work_attribution = await verifyBatchWork(db, contentId, document, scope)
 
     contents.push({
       id: contentId,
@@ -197,15 +181,16 @@ async function main() {
       metadata: {
         isbn: target.isbn,
         link: sourceUrl,
-        publisher: document.publisher ?? null,
+        publisher: document.metadata.publisher ?? null,
         publishDate: releaseDate,
-        salesStatus: document.status ?? null,
+        salesStatus: document.metadata.salesStatus ?? null,
         figureBook: {
           workTitle: title,
           workCreator: creator,
           workIdentity: identity,
           ...(qid ? { wikidataQid: qid } : {}),
           koTranslationStatus: 'published',
+          editionKind: scope.edition_kind, textScope: scope.text_scope,
         },
       },
     })
@@ -213,14 +198,14 @@ async function main() {
       content_id: contentId, locale: 'ko', title, creator,
       description: introductions[index]?.source ?? null,
       isbn: target.isbn,
-      publisher: document.publisher || null, thumbnail_url: document.thumbnail || null,
+      publisher: document.metadata.publisher || null, thumbnail_url: document.coverImageUrl || null,
       verified: true, sources,
     }
     locales.push(locale)
     if (existingIds.has(contentId)) {
       // 같은 저작이 이미 있다(영문판만 있는 위키데이터 작품 등). contents는 건드리지 않고 ko locale·판본만 붙인다.
       contents.pop()
-      if (!existingEditionKeys.has(`${contentId}:${target.isbn}`)) editions.push({ ...locale, release_date: releaseDate, sort_order: 0, edition_kind: 'full', text_scope: 'complete' })
+      if (!existingEditionKeys.has(`${contentId}:${target.isbn}`)) editions.push({ ...locale, release_date: releaseDate, sort_order: 0, edition_kind: scope.edition_kind, text_scope: scope.text_scope })
     } else {
       figureBooks.push({ content_id: contentId })
     }

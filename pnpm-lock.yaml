@@ -436,6 +436,9 @@ importers:
 
   sw/web-bo:
     dependencies:
+      '@feelandnote/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@aws-sdk/client-s3':
         specifier: ^3.997.0
         version: 3.997.0

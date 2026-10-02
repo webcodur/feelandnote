@@ -221,7 +221,17 @@
     "developer": "개발사",
     "platform": "플랫폼",
     "artist": "아티스트",
-    "metaLead": "{creator}의 {type, select, BOOK {《{title}》} other {〈{title}〉}}."
+    "metaLead": "{creator}의 {type, select, BOOK {《{title}》} other {〈{title}〉}}.",
+    "editionSelection": "판본 선택 · {count}종",
+    "chooseEdition": "판본을 골라 주세요",
+    "editionKorean": "한국어판",
+    "editionEnglish": "영어판",
+    "editionWorkRecords": "감상과 기록은 판본과 관계없이 이 작품에 모입니다.",
+    "editionScope": "수록 범위",
+    "invalidEdition": "판본 주소가 올바르지 않습니다. 아래에서 작품 정보를 열거나 위 목록에서 판본을 골라 주세요.",
+    "unavailableEdition": "선택한 판본을 이 작품에서 찾을 수 없습니다. 다른 판본을 골라 주세요.",
+    "openWorkInfo": "기본 작품 정보 열기",
+    "editionCompleteText": "전체 본문"
   },
   "review": {
     "positive": {

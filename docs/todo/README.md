@@ -20,6 +20,7 @@
 | [제휴 판매 운영](../project/operations/ops-03-affiliate-commerce.md) | 아마존 어소시에이트 잔여(수취계좌, 유효 판매 심사, 유튜브 태그 실사용, 백오피스 amazon 등록 UI)는 규격 문서 안에 있다 |
 | [`video-review-audit-remainder.md`](video-review-audit-remainder.md) | 교정 대상 밖의 영상 리뷰 AI SLOP 정리와 기존 교정분 재검 |
 | [`figure-books-en-editions.md`](figure-books-en-editions.md) | 인물 도서 EN 판본 결손 — OL 검증 후 판본·카드 등록 |
+| [`content-data-integrity.md`](content-data-integrity.md) | ISBN 검증 코드 운영 반영, 미확정 판본 범위·직접 감상 근거 확인 |
 | [`celeb-locale-fallback.md`](celeb-locale-fallback.md) | 인물 서가 한영 판본 표시 잔여 — 전수 조사·배포 대기·데이터 보완 |
 
 ## 인물·신화·세력

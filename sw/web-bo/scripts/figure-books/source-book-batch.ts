@@ -13,8 +13,9 @@ import { spawn } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { extname, resolve } from 'node:path'
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
+import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
 import {
   assertExactSourceBookReadback,
   assertDistinctManifestReceiptPaths,
@@ -35,10 +36,9 @@ import {
 } from './source-book-batch-contract'
 
 const EXPECTED_DB_SSH_HOST = 'ubuntu@152.67.198.197'
-const EXPECTED_DB_CONTAINER = 'supabase-db'
+const EXPECTED_DB_CONTAINER = 'feelandnote-db'
 const EXPECTED_DB_API_HOSTNAME = 'db.feelandnote.com'
 const PAGE_SIZE = 1000
-const OPENLIBRARY_BASE_URL = 'https://openlibrary.org'
 
 type OracleApplyReport = {
   status: 'applied'
@@ -231,15 +231,6 @@ async function loadBookCatalog(db: DatabaseClient): Promise<BookCatalogSnapshot>
   return { contents, locales }
 }
 
-async function fetchJson<T>(url: string, field: string): Promise<T> {
-  const response = await fetch(url, {
-    headers: { Accept: 'application/json', 'User-Agent': 'Feelandnote fiction source registrar' },
-    signal: AbortSignal.timeout(10_000),
-  })
-  if (!response.ok) throw new Error(`${field} lookup failed: HTTP ${response.status}`)
-  return response.json() as Promise<T>
-}
-
 async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
   const book = await getBookByIsbn(isbn)
   if (!book) throw new Error(`Kakao returned no Korean edition for ISBN ${isbn}`)
@@ -247,7 +238,7 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
     throw new Error(`Kakao returned a different ISBN for ${isbn}: ${book.metadata.isbn}`)
   }
   // 카카오는 수입 원서도 낸다. 한국 ISBN(978-89·979-11)이 아니면 한국어판이 아니므로 ko locale로 쓰지 않는다.
-  if (!/^(97889|9791)/u.test(isbn)) {
+  if (!/^(97889|97911)/u.test(isbn)) {
     throw new Error(`ISBN ${isbn} is not a Korean edition (978-89·979-11), refusing ko locale`)
   }
   if (!book.title.trim() || !book.creator.trim() || !book.metadata.publisher.trim()
@@ -278,102 +269,18 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
   }
 }
 
-type OpenLibraryEditionResponse = {
-  key?: string
-  title?: string
-  authors?: Array<{ key?: string }>
-  publishers?: string[]
-  publish_date?: string
-  isbn_13?: string[]
-  covers?: number[]
-  works?: Array<{ key?: string }>
-  languages?: Array<{ key?: string }>
-  description?: unknown
-}
-
-type OpenLibraryWorkResponse = {
-  key?: string
-  authors?: Array<{ author?: { key?: string } }>
-  description?: unknown
-}
-
-async function authorNames(keys: string[]): Promise<string[]> {
-  const names = await Promise.all(keys.map(async (key) => {
-    const author = await fetchJson<{ name?: string }>(`${OPENLIBRARY_BASE_URL}${key}.json`, `OpenLibrary author ${key}`)
-    return author.name?.trim() ?? ''
-  }))
-  return names.filter(Boolean)
-}
-
-async function assertOpenLibraryCover(url: string, isbn: string): Promise<void> {
-  const checked = new URL(url)
-  checked.searchParams.set('default', 'false')
-  const response = await fetch(checked, {
-    method: 'HEAD',
-    redirect: 'follow',
-    signal: AbortSignal.timeout(10_000),
-  })
-  if (!response.ok || !response.headers.get('content-type')?.toLowerCase().startsWith('image/')) {
-    throw new Error(`OpenLibrary edition ${isbn} has no verifiable cover`)
-  }
-}
-
 async function resolveOpenLibraryEdition(isbn: string): Promise<ExternalBookEdition> {
-  const edition = await fetchJson<OpenLibraryEditionResponse>(
-    `${OPENLIBRARY_BASE_URL}/isbn/${isbn}.json`,
-    `OpenLibrary ISBN ${isbn}`,
-  )
-  if (edition.isbn_13?.length && !edition.isbn_13.map((value) => value.replace(/[^0-9]/gu, '')).includes(isbn)) {
-    throw new Error(`OpenLibrary ISBN endpoint returned a different edition for ${isbn}`)
-  }
-  const workKey = edition.works?.map((work) => work.key).find(Boolean)
-  const work = workKey
-    ? await fetchJson<OpenLibraryWorkResponse>(`${OPENLIBRARY_BASE_URL}${workKey}.json`, `OpenLibrary work ${workKey}`)
-    : undefined
-  const editionAuthorKeys = edition.authors?.map((author) => author.key).filter((key): key is string => Boolean(key)) ?? []
-  const workAuthorKeys = work?.authors?.map((author) => author.author?.key).filter((key): key is string => Boolean(key)) ?? []
-  const authors = await authorNames(editionAuthorKeys.length > 0 ? editionAuthorKeys : workAuthorKeys)
-  const title = edition.title?.trim() ?? ''
-  const publisher = edition.publishers?.map((value) => value.trim()).find(Boolean) ?? ''
-  if (!edition.key || !title || authors.length === 0 || !publisher) {
-    throw new Error(`OpenLibrary edition ${isbn} is missing edition key, title, author, or publisher`)
-  }
-  // 언어가 비어 있으면 ISBN 국가군으로 본다. 978-0·978-1·979-8만 영어권이다(일본 978-4, 프랑스 978-2, 독일 978-3 판본이 영문판으로 들어온 적이 있다).
-  const editionLanguages = edition.languages?.map((language) => language?.key).filter((key): key is string => Boolean(key)) ?? []
-  const isEnglish = editionLanguages.length > 0
-    ? editionLanguages.includes('/languages/eng')
-    : /^(9780|9781|9798)/u.test(isbn)
-  if (!isEnglish) {
-    throw new Error(`OpenLibrary edition ${isbn} is not an English edition, refusing en locale`)
-  }
-  const coverId = edition.covers?.find((value) => Number.isInteger(value) && value > 0)
-  const thumbnailUrl = coverId
-    ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`
-    : `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
-  await assertOpenLibraryCover(thumbnailUrl, isbn)
-  const sourceUrl = `${OPENLIBRARY_BASE_URL}${edition.key}`
+  const book = await getOpenLibraryBookMetadata(isbn)
+  if (!book) throw new Error(`OpenLibrary returned no verified English edition for ISBN ${isbn}`)
+  if (!book.coverImageUrl) throw new Error(`OpenLibrary edition ${isbn} has no verifiable cover`)
   const introduction = await fetchBookIntroduction({ isbn, locale: 'en' })
   return {
-    source: 'openlibrary',
-    isbn,
-    title,
-    creator: authors.join(', '),
-    thumbnailUrl,
-    publisher,
-    description: introduction?.source ?? null,
-    sourceUrl,
+    source: 'openlibrary', isbn: book.isbn, title: book.title, creator: book.creator,
+    thumbnailUrl: book.coverImageUrl, publisher: book.publisher,
+    description: introduction?.source ?? null, sourceUrl: book.sourceUrl,
     descriptionSourceUrl: introduction?.sourceUrl ?? null,
-    releaseDate: /^\d{4}-\d{2}-\d{2}$/u.test(edition.publish_date ?? '')
-      ? edition.publish_date!
-      : null,
-    sourceMetadata: {
-      isbn,
-      publisher,
-      publishDate: edition.publish_date ?? null,
-      editionKey: edition.key,
-      workKey: workKey ?? null,
-      link: sourceUrl,
-    },
+    releaseDate: /^\d{4}-\d{2}-\d{2}$/.test(book.publishDate ?? '') ? book.publishDate : null,
+    sourceMetadata: { isbn: book.isbn, publisher: book.publisher, publishDate: book.publishDate, link: book.sourceUrl, workKey: book.workKey, languages: book.languages, physical_format: book.physicalFormat ?? null },
   }
 }
 

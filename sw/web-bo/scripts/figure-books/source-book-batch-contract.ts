@@ -1,4 +1,5 @@
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { createHash, randomUUID } from 'node:crypto'
 import {
@@ -245,14 +246,8 @@ function httpsUrl(value: unknown, field: string): string {
 }
 
 function isbn13(value: unknown, field: string): string {
-  const isbn = requiredText(value, field).replace(/[^0-9]/gu, '')
-  if (!/^97[89]\d{10}$/u.test(isbn)) throw new Error(`${field} must be an ISBN-13`)
-  const total = [...isbn.slice(0, 12)].reduce(
-    (sum, digit, index) => sum + Number(digit) * (index % 2 === 0 ? 1 : 3),
-    0,
-  )
-  const check = (10 - (total % 10)) % 10
-  if (check !== Number(isbn[12])) throw new Error(`${field} has an invalid ISBN-13 checksum`)
+  const isbn = toIsbn13(requiredText(value, field))
+  if (!isbn) throw new Error(`${field} has an invalid ISBN-13 checksum or format`)
   return isbn
 }
 
@@ -585,10 +580,10 @@ function mergeLocale(
   const identityFields = ['title', 'creator', 'isbn', 'publisher', 'thumbnail_url'] as const
   for (const field of identityFields) {
     const before = field === 'isbn'
-      ? (row[field] ?? '').replace(/[^0-9]/gu, '')
+      ? toIsbn13(row[field] ?? '') ?? ''
       : comparableText(row[field])
     const after = field === 'isbn'
-      ? desired[field].replace(/[^0-9]/gu, '')
+      ? toIsbn13(desired[field] ?? '') ?? ''
       : comparableText(desired[field])
     if (!before) row[field] = desired[field]
     else if (before !== after) conflicts.push(`${existing.locale}.${field} belongs to a different edition`)
@@ -761,7 +756,7 @@ export function buildFigureBookPlan(
     ...manifest.work.creatorAliases,
     ...resolved.locales.map((row) => row.creator),
   ].map(normalizeIdentityText))
-  const isbnSet = new Set(resolved.locales.map((row) => row.isbn))
+  const isbnSet = new Set(resolved.locales.map((row) => row.isbn).filter((isbn): isbn is string => isbn !== null))
   const candidateReasons = new Map<string, Set<string>>()
   const addReason = (contentId: string, reason: string) => {
     const reasons = candidateReasons.get(contentId) ?? new Set<string>()
@@ -774,11 +769,11 @@ export function buildFigureBookPlan(
     const identity = figureBookIdentity(content)
     const sameWork = identity.workIdentity === manifest.work.identity
     if (sameWork) addReason(content.id, 'work_identity')
-    if (content.external_id && isbnSet.has(content.external_id.replace(/[^0-9]/gu, ''))) {
+    if (content.external_id && isbnSet.has(toIsbn13(content.external_id) ?? '')) {
       addReason(content.id, 'contents.external_id')
     }
     for (const locale of localesByContent.get(content.id) ?? []) {
-      if (isbnSet.has((locale.isbn ?? '').replace(/[^0-9]/gu, ''))) addReason(content.id, `${locale.locale}.isbn`)
+      if (isbnSet.has(toIsbn13(locale.isbn ?? '') ?? '')) addReason(content.id, `${locale.locale}.isbn`)
       if (titleSet.has(normalizeIdentityText(locale.title ?? ''))
           && creatorSet.has(normalizeIdentityText(locale.creator ?? ''))) {
         addReason(content.id, `${locale.locale}.title+creator`)

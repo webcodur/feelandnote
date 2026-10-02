@@ -221,7 +221,17 @@
     "developer": "Developer",
     "platform": "Platform",
     "artist": "Artist",
-    "metaLead": "{title} by {creator}."
+    "metaLead": "{title} by {creator}.",
+    "editionSelection": "Choose an edition · {count} available",
+    "chooseEdition": "Choose an edition",
+    "editionKorean": "Korean edition",
+    "editionEnglish": "English edition",
+    "editionWorkRecords": "Reviews and records belong to this work across all editions.",
+    "editionScope": "Included text",
+    "invalidEdition": "This edition address is invalid. Open the default work information below or choose an edition above.",
+    "unavailableEdition": "The selected edition is not available for this work. Choose another edition.",
+    "openWorkInfo": "Open default work information",
+    "editionCompleteText": "Complete text"
   },
   "review": {
     "positive": {

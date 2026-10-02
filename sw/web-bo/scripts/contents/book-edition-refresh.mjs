@@ -17,13 +17,18 @@
  *  - refresh-plan.json      전환 계획·불가 사유(dry-run 결과)
  *  - applied-backup.jsonl   반영 전후 원본(--apply 시에만)
  *
- * node --env-file=.env scripts/contents/book-edition-refresh.mjs [--limit N] [--apply]
- * node --env-file=.env scripts/contents/book-edition-refresh.mjs --apply --from-plan   저장된 refresh-plan.json만 반영(스캔·탐색 생략)
+ * node --env-file=.env --import tsx scripts/contents/book-edition-refresh.mjs [--limit N] [--apply]
+ * node --env-file=.env --import tsx scripts/contents/book-edition-refresh.mjs --apply --from-plan   저장 계획을 읽고 같은 판본을 재검증한다.
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { argumentValue, hasFlag, dbClient, allRows, bareIsbn, squash, kakaoByIsbn, sleep, MULTIPART } from '../figure-books/lib/figure-work.mjs'
+import { buildKakaoEditionReplacement } from './book-edition-refresh-contract.mjs'
+import { toIsbn13 } from '../../../../packages/content-search/src/book-isbn.ts'
+import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
+import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { isDeepStrictEqual } from 'node:util'
 
 const APPLY = hasFlag('apply')
 const FROM_PLAN = hasFlag('from-plan')
@@ -92,7 +97,7 @@ function creatorNames(value) {
 
 function authorHit(storedCreator, itemAuthor) {
   const wanted = creatorNames(storedCreator)
-  if (wanted.length === 0) return true // 저장 저자가 없으면 저자로 가르지 않는다
+  if (wanted.length === 0) return false
   const flat = squash(itemAuthor)
   return wanted.some((name) => flat.includes(name) || (flat.length >= 2 && name.includes(flat)))
 }
@@ -108,7 +113,7 @@ function pickReplacement(stored, items) {
     if (item.itemStatus !== '판매중') continue
     if (!BOOK_TYPES.has(String(item.goodsType))) continue
     const isbn = bareIsbn(item.isbn13)
-    if (!/^97[89]\d{10}$/.test(isbn) || isbn === bareIsbn(stored.isbn)) continue
+    if (!toIsbn13(String(item.isbn13 ?? '')) || isbn === bareIsbn(stored.isbn)) continue
     if (!storedDerivative && (DERIVATIVE.test(String(item.title)) || MULTIPART.test(String(item.title)))) continue
     if (workTitle(item.title) !== wanted) continue
     if (!authorHit(stored.creator, item.author)) continue
@@ -124,27 +129,15 @@ function pickReplacement(stored, items) {
   return candidates[0] ?? null
 }
 
-/** 카카오 썸네일 redirect에서 daum 원본 주소를 뽑는다. 없으면 null(기존 표지 유지) */
-function kakaoCover(document) {
-  const fname = /[?&]fname=([^&]+)/.exec(String(document?.thumbnail ?? ''))?.[1]
-  if (!fname) return null
-  try {
-    const url = new URL(decodeURIComponent(fname))
-    if (!url.hostname.endsWith('daumcdn.net')) return null
-    url.protocol = 'https:'
-    return url.href
-  } catch { return null }
-}
-
 async function main() {
   const db = dbClient()
   const locales = await allRows('content_locales', (from, to) => db.from('content_locales')
-    .select('content_id,title,creator,publisher,isbn,thumbnail_url,sources').eq('locale', 'ko').not('isbn', 'is', null).order('content_id').range(from, to))
+    .select('content_id,title,creator,description,publisher,isbn,thumbnail_url,sources').eq('locale', 'ko').not('isbn', 'is', null).order('content_id').range(from, to))
   const editions = await allRows('figure_book_editions', (from, to) => db.from('figure_book_editions')
-    .select('id,content_id,title,creator,publisher,isbn').eq('locale', 'ko').not('isbn', 'is', null).order('id').range(from, to))
+    .select('id,content_id,title,creator,description,publisher,isbn,thumbnail_url,sources').eq('locale', 'ko').not('isbn', 'is', null).order('id').range(from, to))
 
-  const localeRows = locales.filter((r) => r.sources?.primary !== 'none' && /^97[89]\d{10}$/.test(bareIsbn(r.isbn)))
-  const editionRows = editions.filter((r) => /^97[89]\d{10}$/.test(bareIsbn(r.isbn)))
+  const localeRows = locales.filter((r) => r.sources?.primary !== 'none' && toIsbn13(String(r.isbn ?? '')))
+  const editionRows = editions.filter((r) => toIsbn13(String(r.isbn ?? '')))
   const byIsbn = new Map()
   for (const r of localeRows) {
     const isbn = bareIsbn(r.isbn)
@@ -210,15 +203,12 @@ async function main() {
     const kakao = await kakaoByIsbn(newIsbn)
     await sleep(110)
     if (!kakao) { plan.push({ isbn, title: stored.title, status: cache[isbn].status, reason: 'kakao_not_found', candidate: { isbn: newIsbn, title: hit.title } }); continue }
-    // 카카오 제목은 「저자: 제목」·「시리즈: 제목」 형태가 섞인다 — 저장 작품명을 포함하는지로 본다
-    const kakaoNorm = squash(kakao.title)
-    const wanted = workTitle(stored.title)
-    if (!(wanted.length >= 2 && (kakaoNorm.includes(wanted) || wanted.includes(kakaoNorm)))) { plan.push({ isbn, title: stored.title, status: cache[isbn].status, reason: 'kakao_title_mismatch', candidate: { isbn: newIsbn, title: hit.title, kakaoTitle: kakao.title } }); continue }
-    if (/절판|품절/.test(String(kakao.status ?? ''))) { plan.push({ isbn, title: stored.title, status: cache[isbn].status, reason: `kakao_${kakao.status}`, candidate: { isbn: newIsbn, title: hit.title } }); continue }
+    let official
+    try { official = buildKakaoEditionReplacement(stored, newIsbn, kakao) }
+    catch (error) { plan.push({ isbn, title: stored.title, reason: 'kakao_identity_mismatch', detail: error.message }); continue }
     plan.push({ isbn, title: stored.title, creator: stored.creator, status: cache[isbn].status, reason: 'replace',
       contents: entry.locales.map((r) => r.content_id), editions: entry.editions.map((r) => r.id),
-      replacement: { isbn: newIsbn, title: hit.title, author: hit.author, publisher: hit.publisher, itemId: hit.itemId,
-        kakaoTitle: kakao.title, kakaoStatus: kakao.status ?? '', cover: kakaoCover(kakao) } })
+      replacement: { ...official, itemId: hit.itemId } })
     if (searched % 20 === 0) console.log(`  탐색 ${searched}/${bad.length}`)
   }
 
@@ -241,18 +231,31 @@ async function main() {
   }
   let updated = 0
   for (const p of replaceable) {
-    const rep = p.replacement
-    const patch = { isbn: rep.isbn }
-    if (rep.publisher) patch.publisher = rep.publisher
-    if (rep.cover) patch.thumbnail_url = rep.cover
+    const selectedIsbn = toIsbn13(String(p.replacement?.isbn ?? ''))
+    if (!selectedIsbn) throw new Error('저장 계획의 교체 ISBN이 잘못됐습니다')
+    const targets = [...localeRows.filter(row => (p.contents ?? []).includes(row.content_id)), ...editionRows.filter(row => (p.editions ?? []).includes(row.id))]
+    if (!targets.length || targets.some(row => toIsbn13(row.isbn ?? '') !== toIsbn13(p.isbn ?? ''))) throw new Error('저장 계획의 대상 ISBN이 변경됐습니다')
+    const currentSale = await yes24Status(selectedIsbn)
+    if (currentSale.status !== '판매중') throw new Error('교체 판본의 현재 판매 상태를 확인할 수 없습니다')
+    const official = await kakaoByIsbn(selectedIsbn)
+    const rep = buildKakaoEditionReplacement(targets[0], selectedIsbn, official)
+    for (const row of targets) buildKakaoEditionReplacement(row, selectedIsbn, official)
+    const patch = { ...rep }
+    const introduction = await fetchBookIntroduction({ isbn: selectedIsbn, locale: 'ko' })
+    const newSources = { primary: 'kakao_book', isbn: official.url, title: official.url, creator: official.url, publisher: official.url, thumbnail: rep.thumbnail_url ? official.url : 'confirmed_unavailable', ...(introduction?.source && { description: introduction.sourceUrl }) }
     for (const contentId of p.contents ?? []) {
       const row = localeRows.find((r) => r.content_id === contentId)
-      const sources = { ...(row?.sources ?? {}) }
+      const sources = { ...(row?.sources ?? {}), ...newSources }
       delete sources.availability
+      const preserveDescription = row?.description && !isBookIntroductionSource(row.description)
+      if (preserveDescription && row.sources?.description) sources.description = row.sources.description
+      const localePatch = { ...patch, sources, ...(!preserveDescription && { description: introduction?.source ?? null }) }
       const before = { isbn: p.isbn, publisher: row?.publisher ?? null, thumbnail_url: row?.thumbnail_url ?? null, availability: row?.sources?.availability ?? null }
-      const u = await db.from('content_locales').update({ ...patch, sources }).eq('content_id', contentId).eq('locale', 'ko').eq('isbn', String(row?.isbn ?? p.isbn)).select('content_id')
+      appendFileSync(BACKUP_PATH, JSON.stringify({ at: new Date().toISOString(), phase: 'before', table: 'content_locales', row }) + '\n', 'utf8')
+      const u = await db.from('content_locales').update(localePatch).eq('content_id', contentId).eq('locale', 'ko').eq('isbn', row.isbn).eq('title', row.title).eq('creator', row.creator).select('content_id,title,creator,isbn,publisher,thumbnail_url,description,sources')
       if (u.error) throw new Error(`content_locales ${contentId}: ${u.error.message}`)
       if ((u.data ?? []).length === 0) { console.log(`  miss content ${contentId} — 저장 isbn이 이미 다르다`); continue }
+      if (Object.entries(localePatch).some(([key, value]) => !isDeepStrictEqual(u.data[0][key], value))) throw new Error(`content_locales ${contentId}: 저장 후 재조회 불일치`)
       appendFileSync(BACKUP_PATH, `${JSON.stringify({ at: new Date().toISOString(), table: 'content_locales', content_id: contentId, before, after: { ...patch, sources } })}\n`, 'utf8')
       updated += u.data.length
     }
@@ -261,10 +264,17 @@ async function main() {
       if (!row) continue
       const siblings = editionIsbnByContent.get(row.content_id) ?? new Set()
       if (siblings.has(rep.isbn)) { console.log(`  dup_skip edition ${editionId} — 같은 작품에 ${rep.isbn} 판본이 이미 있다`); continue }
-      const before = { isbn: row.isbn, publisher: row.publisher, thumbnail_url: row.thumbnail_url }
-      const u = await db.from('figure_book_editions').update(patch).eq('id', editionId).eq('isbn', String(row.isbn)).select('id')
+      const before = row
+      const sources = { ...(row.sources ?? {}), ...newSources }
+      delete sources.availability
+      const preserveDescription = row.description && !isBookIntroductionSource(row.description)
+      if (preserveDescription && row.sources?.description) sources.description = row.sources.description
+      const editionPatch = { ...patch, sources, ...(!preserveDescription && { description: introduction?.source ?? null }) }
+      appendFileSync(BACKUP_PATH, JSON.stringify({ at: new Date().toISOString(), phase: 'before', table: 'figure_book_editions', row }) + '\n', 'utf8')
+      const u = await db.from('figure_book_editions').update(editionPatch).eq('id', editionId).eq('isbn', row.isbn).eq('title', row.title).eq('creator', row.creator).select('id,title,creator,isbn,publisher,thumbnail_url,description,sources')
       if (u.error) throw new Error(`figure_book_editions ${editionId}: ${u.error.message}`)
       if ((u.data ?? []).length === 0) { console.log(`  miss edition ${editionId} — 저장 isbn이 이미 다르다`); continue }
+      if (Object.entries(editionPatch).some(([key, value]) => !isDeepStrictEqual(u.data[0][key], value))) throw new Error(`figure_book_editions ${editionId}: 저장 후 재조회 불일치`)
       siblings.delete(p.isbn); siblings.add(rep.isbn)
       appendFileSync(BACKUP_PATH, `${JSON.stringify({ at: new Date().toISOString(), table: 'figure_book_editions', id: editionId, content_id: row.content_id, before, after: patch })}\n`, 'utf8')
       updated += u.data.length

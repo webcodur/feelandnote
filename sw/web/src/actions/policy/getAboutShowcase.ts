@@ -126,7 +126,7 @@ const JOURNEY_SLUGS = ['elon-musk', 'bill-gates', 'park-chan-wook', 'quentin-tar
  */
 const JOURNEY_CONTENT_IDS: Record<string, readonly string[]> = {
   'elon-musk': [
-    'f1a2b3c4-5d6e-7f80-9a1b-2c3d4e5f6a7b', // 파운데이션
+    'ad8766ac-df94-45eb-b3b5-9a07276d5191', // 파운데이션
     '6d3fb602-14e4-473b-88ed-652ee986757b', // 차라투스트라는 이렇게 말했다
     '6b6937bb-e041-4750-916e-12988089fe02', // 호빗
   ],

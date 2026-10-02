@@ -16,6 +16,7 @@ import type { ContentType } from '@/types/database'
 import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import {
   getFigureBookPurchasePlatform,
+  attachFigureBookLocaleLinks,
   mergeFigureBookEditions,
   type FigureBookEdition,
   type FigureBookEditionRow,
@@ -199,7 +200,7 @@ async function fetchSourcesByCeleb(
       titleBadge: leadEdition && flat.title_badge !== 'out-of-print' ? null : flat.title_badge,
       ...selectBookIntroduction(locale, null, exactLocale),
       editions: editions.map((edition) => ({
-        ...edition,
+        ...attachFigureBookLocaleLinks(edition, exactLocale),
         ...selectBookIntroduction(locale,
           editionRowsByContent.get(content.id)?.find((row) => row.id === edition.id)
             ?? { locale, isbn: edition.isbn, description: edition.description },
@@ -278,7 +279,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v15', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v16', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

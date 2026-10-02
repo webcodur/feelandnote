@@ -3,7 +3,7 @@
  * en 언어 카드와 en 판본을 붙인다.
  *   대상: figure_book_characters 관계가 있고 figure_book_editions에 ko는 있고 en이 없는 작품
  *   제외: book/<isbn> 국내서 정체성 + en 카드 없음 (영문판이 없는 정상 KO-only)
- *   검증: OpenLibrary가 eng로 확인한 ISBN만 쓴다. 언어가 비어 있으면 978-0·978-1·979-8만 본다.
+ *   검증: 같은 ISBN의 공식 영문 언어·전체 원저자·서버 원전 귀속을 확인한다. 언어 미상은 등록하지 않는다.
  *   반영: --apply가 en 판본을 넣고 표시용 en 카드를 공식 값으로 덮는다(없으면 만든다).
  *
  * node --env-file=.env scripts/figure-books/en-edition-fill.mjs [--limit N] [--concurrency 3] [--ids a,b]
@@ -16,8 +16,9 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import {
   allRows, argumentValue, bareIsbn, dbClient, hasFlag, inChunks, isbn10to13,
-  openLibraryByIsbn, openLibraryEditionForWork, openLibrarySearch, squash, sleep, wbEntities,
+  openLibraryByIsbn, openLibrarySearch, sleep, wbEntities,
 } from './lib/figure-work.mjs'
+import { resolveBatchBook, reviewedBatchScope, verifyBatchWork, normalizeBookIdentity } from './lib/verified-batch-edition.mjs'
 
 const apply = hasFlag('apply')
 const OPENLIBRARY_URL = 'https://openlibrary.org'
@@ -49,7 +50,7 @@ function looksNonEnglishTitle(en) {
   const english = tokens.filter((t) => ENGLISH_WORDS.has(t)).length + (/'s\b/.test(title) ? 1 : 0)
   return english === 0 && !TRUSTED_EN_PUBLISHERS.test(en.publisher ?? '')
 }
-/** OpenLibrary가 영어판으로 확인했거나, 언어 미상이어도 영어권 국가군 ISBN인 판본만 인정한다. */
+/** 언어가 없는 판본은 ISBN 국가군으로 영어라고 추정하지 않는다. */
 function isEnglishEdition(en) {
   if (!en?.isbn) return false
   const placeholder = /^(Unti|Anon)\d/.test(en.title ?? '') || (en.authors ?? []).some((name) => /^(Unti|Anon)\d|to be confirmed/i.test(name))
@@ -57,8 +58,7 @@ function isEnglishEdition(en) {
   if (/[¿¡ß]/.test(en.title ?? '') || looksNonEnglishTitle(en)) return false
   // 비영어권 국가군 ISBN에 eng 태그가 붙은 것은 태그 오염일 수 있다 — 영문서를 내는 출판사만 인정한다.
   if (FOREIGN_ISBN_GROUPS.test(en.isbn) && !EN_PUBLISHERS_ABROAD.test(en.publisher ?? '')) return false
-  if (en.languages.length > 0) return en.languages.includes('/languages/eng')
-  return /^(9780|9781|9798)/.test(en.isbn)
+  return Array.isArray(en.languages) && en.languages.includes('/languages/eng')
 }
 
 /** 저작 키(/works/OL…W)에서 영어 판본 하나를 고른다. ISBN10만 있으면 13으로 올린다. */
@@ -67,10 +67,10 @@ async function englishEditionForWork(workKey) {
   const entries = payload?.entries ?? []
   const english = entries.filter((entry) => {
     const langs = (entry.languages ?? []).map((language) => language.key)
-    return langs.length === 0 || langs.includes('/languages/eng')
+    return langs.includes('/languages/eng')
   })
   // 표지 있는 영어 판본을 우선한다
-  const withIsbn = (english.length > 0 ? english : entries).filter((entry) => (entry.isbn_13 ?? []).length > 0 || (entry.isbn_10 ?? []).length > 0)
+  const withIsbn = english.filter((entry) => (entry.isbn_13 ?? []).length > 0 || (entry.isbn_10 ?? []).length > 0)
   withIsbn.sort((a, b) => Number(Boolean((b.covers ?? []).find((c) => Number.isInteger(c) && c > 0))) - Number(Boolean((a.covers ?? []).find((c) => Number.isInteger(c) && c > 0))))
   for (const entry of withIsbn.slice(0, 5)) {
     const isbn = bareIsbn(entry.isbn_13?.[0]) || isbn10to13(entry.isbn_10?.[0])
@@ -116,15 +116,9 @@ async function findEnglishEdition(work, enCard) {
   const authors = [enCard?.creator, fb.workCreator, fb.originalCreator].map((v) => String(v ?? '').trim()).filter(Boolean)
   const author = authors[0] ?? null
   if (!titles.length) return { en: null, via: 'no-title' }
-  // 저자 비교는 토큰 교집합이다 — "Ono Yasumaro"와 "Yasumaro Ō"처럼 명·성 순서가 갈려도 걸린다.
-  // en 카드 저자·원저자 등 알려진 저자 전부를 기대 토큰으로 쓴다.
-  const wantAuthorWords = authors.length
-    ? new Set(authors.flatMap((a) => a.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/[^a-z0-9가-힣]+/)).filter((t) => t.length > 1))
-    : null
-  const authorMatches = (names) => wantAuthorWords
-    && names.some((name) => name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/[^a-z0-9가-힣]+/).some((t) => t.length > 1 && wantAuthorWords.has(t)))
+  const authorMatches = (names) => authors.some(expected => normalizeBookIdentity(expected) === normalizeBookIdentity(names.join(', ')))
   for (const title of titles) {
-    const wantTitle = squash(title)
+    const wantTitle = normalizeBookIdentity(title)
     // 필드 검색(제목+저자·제목 단독)과 통합 검색을 모두 본다 — 고전은 OL author가 번역자라 저자 조건이 걸러낸다.
     const docs = [
       ...(await openLibrarySearch(title, author).catch(() => [])),
@@ -135,14 +129,13 @@ async function findEnglishEdition(work, enCard) {
     const titleMatches = docs.filter((candidate) => {
       if (!candidate.workKey || seen.has(candidate.workKey)) return false
       seen.add(candidate.workKey)
-      const gotTitle = squash(candidate.title)
-      return wantTitle && (gotTitle === wantTitle || gotTitle.includes(wantTitle) || wantTitle.includes(gotTitle))
+      const gotTitle = normalizeBookIdentity(candidate.title)
+      return wantTitle && gotTitle === wantTitle
     })
-    // 후보 순위: 저자 토큰이 겹치는 저작 → 제목 완전 일치+eng 저작(최구판 순). 고전은 OL author가
-    // 번역자라 저자가 어긋나고, 동명 현대 소설(Keith Yatsuhashi의 Kojiki 2016)은 최구판이 아니라 뒤로 간다.
+    // 전체 원저자가 일치하는 후보만 자동 반영 대상으로 삼고, 제목만 맞는 후보는 검토로 보낸다.
     const ranked = [
       ...titleMatches.filter((candidate) => authorMatches(candidate.authors)),
-      ...[...titleMatches.filter((candidate) => squash(candidate.title) === wantTitle && (candidate.languages ?? []).includes('eng'))]
+      ...[...titleMatches.filter((candidate) => normalizeBookIdentity(candidate.title) === wantTitle && (candidate.languages ?? []).includes('eng'))]
         .sort((a, b) => (a.year ?? 9999) - (b.year ?? 9999)),
     ]
     const tried = new Set()
@@ -150,7 +143,7 @@ async function findEnglishEdition(work, enCard) {
       if (tried.has(doc.workKey)) continue
       tried.add(doc.workKey)
       const en = await englishEditionForWork(doc.workKey).catch(() => null)
-      // 저자 토큰이 안 겹치는 제목 일치는 동명이서 위험이 있어 자동 반영하지 않고 검토 큐로 내린다.
+      // 전체 원저자가 다른 제목 일치는 동명이서 위험이 있어 자동 반영하지 않는다.
       if (isEnglishEdition(en)) return { en, via: authorMatches(doc.authors) ? 'ol-search' : 'ol-search-title-only' }
     }
   }
@@ -251,10 +244,16 @@ async function main() {
   let enAdded = 0
   let cardUpdated = 0
   for (const row of batch) {
-    const en = row.en
+    const official = await resolveBatchBook(row.en, 'en')
+    const scope = reviewedBatchScope(row.edition, official.externalId)
+    const attribution = await verifyBatchWork(db, row.contentId, official, scope)
+    const en = { ...row.en, title: official.title, authors: [official.creator], isbn: official.externalId,
+      publisher: official.metadata.publisher, thumbnailUrl: official.coverImageUrl, sourceUrl: official.metadata.link }
     // 적용 시점의 DB로 다시 건다 — 이미 en 판본이 있으면 건너뛴다
     const { data: existing } = await db.from('figure_book_editions').select('id').eq('content_id', row.contentId).eq('locale', 'en').eq('isbn', en.isbn).maybeSingle()
-    const sources = { primary: 'openlibrary', title: en.sourceUrl, creator: en.sourceUrl, isbn: en.sourceUrl, publisher: en.sourceUrl, thumbnail: en.sourceUrl }
+    const sources = { primary: 'openlibrary', title: en.sourceUrl, creator: en.sourceUrl, isbn: en.sourceUrl, publisher: en.sourceUrl, thumbnail: en.sourceUrl,
+      work_attribution: attribution, physical_format: official.metadata.physical_format ?? null,
+      ...(scope.scope_evidence ? { scope_evidence: scope.scope_evidence } : {}) }
     const introduction = await fetchBookIntroduction({ isbn: en.isbn, locale: 'en' }).catch(() => null)
     if (introduction?.source && introduction?.sourceUrl) sources.description = introduction.sourceUrl
 
@@ -272,8 +271,7 @@ async function main() {
       cardUpdated += 1
     }
     if (existing) { console.log(`· ${row.koTitle ?? row.contentId} — en 판본 이미 있음`); continue }
-    const meta = contents.find((c) => c.id === row.contentId)?.metadata?.figureBook ?? {}
-    const e = await db.from('figure_book_editions').insert({ description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: en.title, creator: en.authors.join(', ') || null, isbn: en.isbn, publisher: en.publisher, thumbnail_url: en.thumbnailUrl, release_date: null, edition_kind: meta.editionKind ?? 'full', text_scope: meta.textScope ?? 'complete', sort_order: 0, verified: true, sources })
+    const e = await db.from('figure_book_editions').insert({ description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: en.title, creator: en.authors.join(', ') || null, isbn: en.isbn, publisher: en.publisher, thumbnail_url: en.thumbnailUrl, release_date: null, edition_kind: scope.edition_kind, text_scope: scope.text_scope, sort_order: 0, verified: true, sources })
     if (e.error && !/duplicate key/.test(e.error.message)) { console.log(`  en 판본 실패 ${row.contentId} (${en.isbn}): ${e.error.message}`); continue }
     enAdded += 1
     console.log(`✔ ${row.koTitle ?? row.contentId} → ${en.title} (${en.isbn})`)

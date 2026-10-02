@@ -7,6 +7,9 @@ import { revalidateWebItems } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/db/admin'
 import { resolveBookIntroductionEdit } from '@/lib/book-introduction-edit'
 import { validateProductInput } from '@/lib/figure-book-product-validation'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { resolveExternalBookInput } from '@/lib/external-book-input'
+import { verifyEditionWork } from '@/lib/book-edition-work'
 
 export interface FigureBookContentSummary {
   id: string
@@ -642,6 +645,10 @@ function nullableText(value: string): string | null {
   return value.trim() || null
 }
 
+function editionSources(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {}
+}
+
 function validateEditionInput(input: {
   contentId: string
   locale: string
@@ -654,8 +661,8 @@ function validateEditionInput(input: {
   if (!input.contentId.trim()) throw new Error('인물 도서 작품 ID가 필요합니다')
   if (input.locale !== 'ko' && input.locale !== 'en') throw new Error('판본 언어는 ko 또는 en이어야 합니다')
   if (!input.title.trim()) throw new Error('판본 제목이 필요합니다')
-  const isbn = input.isbn.replace(/[\s-]/g, '')
-  if (!/^(?:97[89]\d{10}|\d{9}[\dXx])$/.test(isbn)) {
+  const isbn = toIsbn13(input.isbn)
+  if (!isbn) {
     throw new Error('정확한 판본을 구별할 ISBN-10 또는 ISBN-13이 필요합니다')
   }
   if (input.releaseDate && !/^\d{4}-\d{2}-\d{2}$/.test(input.releaseDate)) {
@@ -699,11 +706,26 @@ export async function saveFigureBookEdition(input: {
   const contentId = input.contentId.trim()
   const isbn = validateEditionInput({ ...input, contentId })
   const admin = createAdminClient()
+  const book = await resolveExternalBookInput({
+    externalId: isbn, externalSource: input.locale === 'en' ? 'openlibrary' : 'kakao_book',
+    title: input.title, creator: input.creator, coverImageUrl: input.thumbnailUrl, metadata: { isbn },
+  })
+  if (book.locale !== input.locale) throw new Error('선택한 판본 언어와 공식 응답이 다릅니다')
+  const attribution = await verifyEditionWork(admin, {
+    contentId, locale: book.locale, isbn, title: book.title, creator: book.creator,
+    sourceUrl: String(book.metadata.link ?? ''),
+    workKey: typeof book.metadata.workKey === 'string' ? book.metadata.workKey : null,
+    workTitle: typeof book.metadata.workTitle === 'string' ? book.metadata.workTitle : null,
+    editionKind: input.editionKind, textScope: input.textScope,
+  })
+  const provenance = { primary: book.externalSource, isbn: book.metadata.link, title: book.metadata.link,
+    creator: book.metadata.link, publisher: book.metadata.link, physical_format: book.metadata.physical_format ?? null,
+    thumbnail: book.coverImageUrl ? book.metadata.link : 'confirmed_unavailable', work_attribution: attribution }
   const mutable = {
-    title: input.title.trim(),
-    creator: nullableText(input.creator),
-    publisher: nullableText(input.publisher),
-    thumbnail_url: nullableText(input.thumbnailUrl),
+    title: book.title,
+    creator: book.creator,
+    publisher: typeof book.metadata.publisher === 'string' ? book.metadata.publisher : null,
+    thumbnail_url: book.coverImageUrl,
     release_date: nullableText(input.releaseDate),
     edition_kind: nullableText(input.editionKind),
     text_scope: nullableText(input.textScope),
@@ -714,21 +736,22 @@ export async function saveFigureBookEdition(input: {
   if (input.editionId) {
     const { data: current, error: currentError } = await admin
       .from('figure_book_editions')
-      .select('id,content_id,locale,isbn,description,sources')
+      .select('id,content_id,locale,isbn,title,creator,publisher,thumbnail_url,description,sources')
       .eq('id', input.editionId)
       .maybeSingle()
     if (currentError) throw new Error(`기존 판본 조회 실패: ${currentError.message}`)
     if (!current) throw new Error('수정할 판본을 찾을 수 없습니다')
-    if (current.content_id !== contentId || current.locale !== input.locale || current.isbn !== isbn) {
+    if (current.content_id !== contentId || current.locale !== input.locale || toIsbn13(current.isbn ?? '') !== isbn) {
       throw new Error('작품·언어·ISBN은 판본의 항구적 식별자입니다. 다른 판본은 새로 추가하세요')
     }
-
+    const introduction = await resolveBookIntroductionEdit({ description: input.description, isbn, locale: book.locale, current })
     const { error } = await admin
       .from('figure_book_editions')
-      .update({ ...mutable, ...await resolveBookIntroductionEdit({ description: input.description, isbn, locale: input.locale === 'en' ? 'en' : 'ko', current }) })
+      .update({ ...mutable, ...introduction, sources: { ...editionSources(introduction.sources), ...provenance } })
       .eq('id', input.editionId)
     if (error) throw new Error(`판본 수정 실패: ${error.message}`)
   } else {
+    const introduction = await resolveBookIntroductionEdit({ description: input.description, isbn, locale: book.locale })
     const { error } = await admin
       .from('figure_book_editions')
       .insert({
@@ -736,7 +759,8 @@ export async function saveFigureBookEdition(input: {
         locale: input.locale,
         isbn,
         ...mutable,
-        ...await resolveBookIntroductionEdit({ description: input.description, isbn, locale: input.locale === 'en' ? 'en' : 'ko' }),
+        ...introduction,
+        sources: { ...editionSources(introduction.sources), ...provenance },
       })
     if (error?.code === '23505') throw new Error('이 작품에 같은 언어·ISBN 판본이 이미 있습니다')
     if (error) throw new Error(`판본 추가 실패: ${error.message}`)

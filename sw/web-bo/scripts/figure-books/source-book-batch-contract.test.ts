@@ -108,6 +108,14 @@ function resolvedPublished() {
   return { manifest, resolved }
 }
 
+test('상품 코드나 문자를 제거해 만들어 낸 ISBN으로 원전을 등록하지 않는다', () => {
+  for (const isbn of ['4808952741950', `abc${KO_ISBN}`, `${KO_ISBN}A`]) {
+    const input = publishedInput() as { ko: { isbn: string } }
+    input.ko.isbn = isbn
+    assert.throws(() => parseFigureBookManifest(input), /ISBN/)
+  }
+})
+
 function storedContent(overrides: Partial<StoredContentRow> = {}): StoredContentRow {
   return {
     id: CONTENT_ID,

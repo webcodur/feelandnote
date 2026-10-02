@@ -13,11 +13,13 @@ const introductionModule = await import('@feelandnote/content-search/book-introd
 const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
+import { isDeepStrictEqual } from 'node:util'
 import {
-  allRows, argumentValue, bareIsbn, dbClient, deterministicContentId, hasFlag, inChunks,
-  kakaoByIsbn, openLibraryByIsbn, openLibrarySearch, originalIdentity, squash,
+  allRows, argumentValue, bareIsbn, dbClient, hasFlag, inChunks,
+  kakaoByIsbn, openLibraryByIsbn, openLibrarySearch, originalIdentity,
 } from './lib/figure-work.mjs'
 import { declaredNone, parsePipeRow, research } from './lib/research.mjs'
+import { resolveBatchBook, reviewedBatchScope, verifyBatchWork, sameBookIdentity } from './lib/verified-batch-edition.mjs'
 
 const apply = hasFlag('apply')
 
@@ -44,14 +46,14 @@ function buildPrompt(row) {
 async function resolveOpenLibrary(original) {
   if (original.isbn && original.isbn.length === 13) {
     const hit = await openLibraryByIsbn(original.isbn).catch(() => null)
-    if (hit) return hit
+    if (hit && sameBookIdentity({ title: original.title, creator: original.author }, { title: hit.workTitle ?? hit.title, creator: hit.authors.join(', ') })) return hit
   }
   const docs = await openLibrarySearch(original.title, original.author).catch(() => [])
-  const wantAuthor = squash(original.author).slice(0, 8)
   const doc = docs.find((candidate) => candidate.isbns.length > 0
-    && (!wantAuthor || candidate.authors.some((name) => squash(name).includes(wantAuthor) || wantAuthor.includes(squash(name).slice(0, 8)))))
+    && sameBookIdentity({ title: original.title, creator: original.author }, { title: candidate.title, creator: candidate.authors.join(', ') }))
   if (!doc) return null
-  return openLibraryByIsbn(doc.isbns[0]).catch(() => null)
+  const hit = await openLibraryByIsbn(doc.isbns[0]).catch(() => null)
+  return hit && sameBookIdentity({ title: original.title, creator: original.author }, { title: hit.workTitle ?? hit.title, creator: hit.authors.join(', ') }) ? hit : null
 }
 
 async function main() {
@@ -132,7 +134,7 @@ async function main() {
       const original = { title: cells[0], author: cells[1], isbn: bareIsbn(cells[2]).length === 13 ? bareIsbn(cells[2]) : null, evidence: cells[3] ?? null }
       const found = await resolveOpenLibrary(original)
       // OpenLibrary가 준 판본이 영어가 아니면(일본어판 등) en locale이 될 수 없다. 원제만 남긴다.
-      const en = found && (found.languages.length === 0 || found.languages.includes('/languages/eng')) ? found : null
+      const en = found && found.languages.includes('/languages/eng') ? found : null
       // OpenLibrary에 영문판이 없어도 원제·원저자는 확인된 사실이다. 정체성 갱신에 쓴다.
       const record = { ...base, original, en, verdict: en ? 'resolved' : 'original-only', raw: text }
       appendFileSync(outPath, `${JSON.stringify(record)}\n`, 'utf8')
@@ -153,34 +155,36 @@ async function main() {
   }
 
   // ── 반영 ─────────────────────────────────────────────────────────────
-  // 언어 확인 전에 조사된 기록은 반영 때 다시 본다.
-  const rowsAll = [...done.values()].filter((row) => (row.verdict === 'resolved' && row.en?.isbn) || (row.verdict === 'original-only' && row.original?.title))
+  // 조사 메모나 원제만으로 기존 작품의 정체성을 바꾸지 않는다. 공식 판본과 서버 귀속을 먼저 확인한다.
+  const rowsAll = [...done.values()].filter((row) => row.verdict === 'resolved' && row.en?.isbn)
+  if (rowsAll.length === 0) { console.log('공식 판본을 검증할 대상이 없습니다. 기존 작품과 통합 후보를 그대로 둡니다.'); return }
   for (const row of rowsAll) {
-    if (!row.en?.isbn || Array.isArray(row.en.languages)) continue
-    const again = await openLibraryByIsbn(row.en.isbn).catch(() => null)
-    if (!again || (again.languages.length > 0 && !again.languages.includes('/languages/eng'))) { row.en = null; row.verdict = 'original-only' }
-    else row.en = again
-  }
-  // 언어가 비어 있으면 ISBN 국가군으로 본다. 978-0·978-1·979-8만 영어권이다(일본 978-4, 프랑스 978-2, 독일 978-3 판본이 영문판으로 들어온 적이 있다).
-  // OpenLibrary의 자리표시 기록(Unti…/Anon…, To Be Confirmed)도 영문판으로 치지 않는다.
-  const isEnglishEdition = (en) => {
-    if (!en?.isbn) return false
-    const placeholder = /^(Unti|Anon)\d/.test(en.title ?? '') || (en.authors ?? []).some((name) => /^(Unti|Anon)\d|to be confirmed/i.test(name))
-    if (placeholder) return false
-    if (en.languages.length > 0) return en.languages.includes('/languages/eng')
-    return /^(9780|9781|9798)/.test(en.isbn)
-  }
-  for (const row of rowsAll) {
-    if (row.en && !isEnglishEdition(row.en)) { row.en = null; row.verdict = 'original-only' }
+    const official = await resolveBatchBook(row.en, 'en')
+    row.scope = reviewedBatchScope(row.edition, official.externalId)
+    row.attribution = await verifyBatchWork(db, row.contentId, official, row.scope)
+    row.official = official
+    row.en = { ...row.en, title: official.title, authors: [official.creator], isbn: official.externalId,
+      publisher: official.metadata.publisher, thumbnailUrl: official.coverImageUrl, sourceUrl: official.metadata.link,
+      workKey: official.metadata.workKey, workTitle: official.metadata.workTitle }
   }
   // P1이 먼저 QID를 붙였으면 그 정체성이 우선이다. 반영 시점의 DB로 다시 거른다.
   const fresh = await inChunks(rowsAll.map((row) => row.contentId), 200, (ids) => db.from('contents').select('id,metadata').in('id', ids))
+  const freshById = new Map(fresh.map((row) => [row.id, row]))
+  for (const row of rowsAll) {
+    const current = freshById.get(row.contentId)
+    if (!current || (current.metadata != null && (typeof current.metadata !== 'object' || Array.isArray(current.metadata)))) {
+      throw new Error(`작품의 최신 메타데이터를 확인할 수 없습니다: ${row.contentId}`)
+    }
+  }
   const hasQid = new Set(fresh.filter((row) => row.metadata?.figureBook?.wikidataQid).map((row) => row.id))
   const resolvedRows = rowsAll.filter((row) => !hasQid.has(row.contentId))
   console.log(`반영 대상 ${resolvedRows.length} (QID가 먼저 붙어 건너뜀 ${rowsAll.length - resolvedRows.length})`)
   // 정체성: 영문판이 있으면 OpenLibrary 저자·제목, 없으면 조사한 원저자·원제. 슬러그가 안 되면(비라틴) 현재 값을 지킨다.
-  const identityOf = (row) => row.en?.isbn
-    ? originalIdentity(row.en.authors?.[0], row.en.title, `openlibrary:${String(row.en.workKey ?? row.en.editionKey ?? row.en.isbn).split('/').pop().toLowerCase()}`)
+  const keepsOriginalIdentity = (row) => ['independent_series_review', 'independent_omnibus_review'].includes(row.attribution?.method)
+  const identityOf = (row) => keepsOriginalIdentity(row)
+    ? freshById.get(row.contentId)?.metadata?.figureBook?.workIdentity ?? null
+    : row.en?.isbn
+    ? originalIdentity(row.en.authors.join(', '), row.en.workTitle ?? row.en.title, `openlibrary:${String(row.en.workKey ?? row.en.editionKey ?? row.en.isbn).split('/').pop().toLowerCase()}`)
     : originalIdentity(row.original.author, row.original.title, null)
 
   // 같은 원저작으로 모이는 작품을 찾는다. 기존 작품 중 이미 그 정체성을 가진 것도 통합 대상이다.
@@ -204,32 +208,49 @@ async function main() {
 
   let updated = 0
   let enAdded = 0
-  const metaById = new Map(contents.map((row) => [row.id, row.metadata ?? {}]))
   for (const row of resolvedRows) {
     const identity = identityOf(row)
-    const metadata = metaById.get(row.contentId) ?? {}
-    const figureBook = {
+    const before = freshById.get(row.contentId).metadata ?? null
+    const metadata = before ?? {}
+    const preserveOriginal = keepsOriginalIdentity(row)
+    const figureBook = preserveOriginal ? metadata.figureBook : {
       ...(metadata.figureBook ?? {}),
       workIdentity: identity ?? metadata.figureBook?.workIdentity,
-      workTitle: row.en?.title ?? row.original.title,
-      workCreator: row.en?.authors?.[0] ?? row.original.author ?? metadata.figureBook?.workCreator,
-      originalTitle: row.original.title,
-      originalCreator: row.original.author,
+      workTitle: row.en?.workTitle ?? row.en?.title ?? row.original.title,
+      workCreator: row.en?.authors?.join(', ') ?? row.original.author ?? metadata.figureBook?.workCreator,
+      originalTitle: metadata.figureBook?.originalTitle ?? row.official.metadata.workTitle ?? row.official.title,
+      originalCreator: metadata.figureBook?.originalCreator ?? row.official.creator,
       openLibraryWork: row.en?.workKey ?? null,
       enIsbn: row.en?.isbn ?? null,
     }
-    const { error } = await db.from('contents').update({ metadata: { ...metadata, figureBook } }).eq('id', row.contentId)
-    if (error) { console.log(`  정체성 갱신 실패 ${row.contentId}: ${error.message}`); continue }
-    updated += 1
+    // 최신 원전 귀속을 다시 검증하고, 검증 이후의 변경도 전체 메타데이터 CAS로 보호한다.
+    const currentAttribution = await verifyBatchWork(db, row.contentId, row.official, row.scope)
+    if (currentAttribution.method !== row.attribution.method) throw new Error(`작품 귀속이 검증 중 변경되었습니다: ${row.contentId}`)
+    if (!preserveOriginal) {
+      const next = { ...metadata, figureBook }
+      let query = db.from('contents').update({ metadata: next }).eq('id', row.contentId)
+      query = before === null ? query.is('metadata', null) : query.eq('metadata', JSON.stringify(before))
+      const { data, error } = await query.select('id,metadata').single()
+      if (error || data?.id !== row.contentId || !isDeepStrictEqual(data.metadata, next)) {
+        throw new Error(`메타데이터 저장 충돌 또는 실패: ${row.contentId}${error ? ` (${error.message})` : ''}`)
+      }
+      const saved = await db.from('contents').select('id,metadata').eq('id', row.contentId).single()
+      if (saved.error || saved.data?.id !== row.contentId || !isDeepStrictEqual(saved.data.metadata, next)) {
+        throw new Error(`저장한 메타데이터 재조회 검증 실패: ${row.contentId}`)
+      }
+      updated += 1
+    }
     if (!row.en?.isbn || enSet.has(row.contentId)) continue
-    const sources = { primary: 'openlibrary', title: row.en.sourceUrl, creator: row.en.sourceUrl, isbn: row.en.sourceUrl, publisher: row.en.sourceUrl, thumbnail: row.en.sourceUrl }
+    const sources = { primary: 'openlibrary', title: row.en.sourceUrl, creator: row.en.sourceUrl, isbn: row.en.sourceUrl, publisher: row.en.sourceUrl, thumbnail: row.en.sourceUrl,
+      work_attribution: row.attribution, physical_format: row.official.metadata.physical_format ?? null,
+      ...(row.scope.scope_evidence ? { scope_evidence: row.scope.scope_evidence } : {}) }
     const introduction = await fetchBookIntroduction({ isbn: row.en.isbn, locale: 'en' }).catch(() => null)
     if (introduction?.source && introduction?.sourceUrl) sources.description = introduction.sourceUrl
     const locale = { description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, verified: true, sources }
     const l = await db.from('content_locales').upsert(locale, { onConflict: 'content_id,locale', ignoreDuplicates: true })
     if (l.error) { console.log(`  en locale 실패 ${row.contentId}: ${l.error.message}`); continue }
     // 판본 트리거는 figure_book_contents 삽입 때만 돌므로 en 판본은 직접 넣는다.
-    const e = await db.from('figure_book_editions').insert({ description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, release_date: null, edition_kind: metadata.figureBook?.editionKind ?? 'full', text_scope: metadata.figureBook?.textScope ?? 'complete', sort_order: 0, verified: true, sources })
+    const e = await db.from('figure_book_editions').insert({ description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, release_date: null, edition_kind: row.scope.edition_kind, text_scope: row.scope.text_scope, sort_order: 0, verified: true, sources })
     if (e.error && !/duplicate key/.test(e.error.message)) { console.log(`  en 판본 실패 ${row.contentId}: ${e.error.message}`); continue }
     enAdded += 1
   }

@@ -8,8 +8,12 @@
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { readFileSync } from 'node:fs'
 import { isAbsolute, resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { getOpenLibraryBookMetadata } from '@feelandnote/content-search/openlibrary'
+import { normalizeBookIdentity, resolveExternalBookInput } from '../../src/lib/external-book-input'
+import { verifyEditionWork } from '../../src/lib/book-edition-work'
 
 const DB_URL = process.env.NEXT_PUBLIC_DB_API_URL
 const SERVICE_KEY = process.env.DB_SECRET_KEY
@@ -61,6 +65,8 @@ type ResolvedEdition = EditionInput & {
   thumbnailUrl: string | null
   releaseDate: string | null
   sources: Record<string, unknown>
+  workKey?: string | null
+  workTitle?: string | null
 }
 
 type StoredEdition = {
@@ -118,8 +124,8 @@ function text(value: unknown, field: string): string {
 }
 
 function isbn(value: unknown, field: string): string {
-  const normalized = text(value, field).replace(/[\s-]/g, '')
-  if (!/^(?:97[89]\d{10}|\d{9}[\dXx])$/.test(normalized)) {
+  const normalized = toIsbn13(text(value, field))
+  if (!normalized) {
     throw new Error(`${field}는 ISBN-10 또는 ISBN-13이어야 합니다.`)
   }
   return normalized
@@ -218,40 +224,17 @@ function exactDate(value: unknown): string | null {
 }
 
 async function resolveOpenLibrary(input: EditionInput): Promise<ResolvedEdition> {
-  const key = `ISBN:${input.isbn}`
-  const url = new URL('https://openlibrary.org/api/books')
-  url.searchParams.set('bibkeys', key)
-  url.searchParams.set('jscmd', 'data')
-  url.searchParams.set('format', 'json')
-  const response = await fetch(url, { signal: AbortSignal.timeout(10_000) })
-  if (!response.ok) throw new Error(`${input.isbn}: OpenLibrary ${response.status}`)
-  const document = await response.json() as Record<string, Record<string, unknown>>
-  const book = document[key]
+  const book = await getOpenLibraryBookMetadata(input.isbn)
   if (!book) throw new Error(`${input.isbn}: OpenLibrary 판본을 찾을 수 없습니다.`)
-  const names = (value: unknown) => Array.isArray(value)
-    ? value.flatMap((item) => {
-        if (!item || typeof item !== 'object' || Array.isArray(item)) return []
-        const name = (item as Record<string, unknown>).name
-        return typeof name === 'string' && name.trim() ? [name.trim()] : []
-      })
-    : []
-  const title = input.editionTitle ?? text(book.title, `${input.isbn}.title`)
-  const creators = names(book.authors)
-  const publishers = names(book.publishers)
-  const cover = book.cover && typeof book.cover === 'object' && !Array.isArray(book.cover)
-    ? (book.cover as Record<string, unknown>).large
-      ?? (book.cover as Record<string, unknown>).medium
-      ?? null
-    : null
+  if (input.editionTitle && normalizeBookIdentity(input.editionTitle) !== normalizeBookIdentity(book.title)) {
+    throw new Error(`${input.isbn}: 지정한 판본 제목이 OpenLibrary 응답과 다릅니다.`)
+  }
   return {
-    ...input,
-    title,
-    creator: creators.join(', ') || null,
-    description: null,
-    publisher: publishers.join(', ') || null,
-    thumbnailUrl: typeof cover === 'string' ? cover : null,
-    releaseDate: exactDate(book.publish_date),
-    sources: { primary: `https://openlibrary.org/isbn/${input.isbn}` },
+    ...input, title: input.editionTitle ?? book.title,
+    creator: book.creator, description: null, publisher: book.publisher,
+    thumbnailUrl: book.coverImageUrl, releaseDate: exactDate(book.publishDate),
+    sources: { primary: book.sourceUrl, physical_format: book.physicalFormat ?? null },
+    workKey: book.workKey, workTitle: book.workTitle ?? null,
   }
 }
 
@@ -262,16 +245,21 @@ async function resolveEdition(input: EditionInput): Promise<ResolvedEdition> {
   if (lookup.metadata.isbn.replace(/[\s-]/g, '') !== input.isbn) {
     throw new Error(`${input.isbn}: 카카오 응답 ISBN이 다릅니다.`)
   }
+  const book = await resolveExternalBookInput({ ...lookup, externalId: input.isbn, externalSource: 'kakao_book' })
+  if (book.locale !== 'ko') throw new Error(`${input.isbn}: 공식 판본의 언어가 한국어 등록 요청과 다릅니다.`)
+  if (input.editionTitle && normalizeBookIdentity(input.editionTitle) !== normalizeBookIdentity(book.title)) {
+    throw new Error(`${input.isbn}: 지정한 판본 제목이 카카오 응답과 다릅니다.`)
+  }
   return {
     ...input,
-    title: input.editionTitle ?? lookup.title,
-    creator: lookup.creator || null,
+    title: input.editionTitle ?? book.title,
+    creator: book.creator || null,
     description: null,
-    publisher: lookup.metadata.publisher || null,
-    thumbnailUrl: lookup.coverImageUrl,
-    releaseDate: exactDate(lookup.metadata.publishDate),
+    publisher: typeof book.metadata.publisher === 'string' ? book.metadata.publisher : null,
+    thumbnailUrl: book.coverImageUrl,
+    releaseDate: exactDate(book.metadata.publishDate),
     sources: {
-      primary: lookup.metadata.link,
+      primary: book.metadata.link,
     },
   }
 }
@@ -289,16 +277,12 @@ async function concurrentMap<T, R>(items: T[], worker: (item: T) => Promise<R>):
   return output
 }
 
-async function verifySourceWorks(inputs: EditionInput[]) {
-  const ids = [...new Set(inputs.map((input) => input.contentId))]
-  const { data, error } = await db
-    .from('figure_book_contents')
-    .select('content_id')
-    .in('content_id', ids)
-  if (error) throw new Error(`원전 작품 조회 실패: ${error.message}`)
-  const found = new Set((data ?? []).map((row) => row.content_id))
-  const missing = ids.filter((id) => !found.has(id))
-  if (missing.length > 0) throw new Error(`원전으로 지정되지 않은 작품: ${missing.join(', ')}`)
+async function verifySourceWorks(inputs: ResolvedEdition[]) {
+  await concurrentMap(inputs, async input => {
+    input.sources.work_attribution = await verifyEditionWork(db, {
+      ...input, sourceUrl: String(input.sources.primary ?? ''),
+    })
+  })
 }
 
 async function findStoredEdition(input: EditionInput): Promise<StoredEdition | null> {
@@ -377,18 +361,17 @@ async function replaceProduct(editionId: number, product: ProductInput) {
   if (error) throw new Error(`판본 ${editionId} 상품 등록 실패: ${error.message}`)
 }
 
-async function main() {
+export async function main() {
   const options = parseOptions()
   const document = JSON.parse(readFileSync(options.file, 'utf8'))
   const inputs = parseInputs(document)
-  await verifySourceWorks(inputs)
   const existing = await concurrentMap(inputs, findStoredEdition)
   const resolved = await concurrentMap(inputs, async (input) => {
     const edition = await resolveEdition(input)
     const stored = existing[inputs.indexOf(input)]
     if (stored?.description != null) {
       edition.description = stored.description
-      edition.sources = { ...edition.sources, ...(stored.sources ?? {}) }
+      edition.sources = { ...(stored.sources ?? {}), ...edition.sources }
     } else {
       const introduction = await fetchBookIntroduction({ isbn: input.isbn, locale: input.locale })
       edition.description = introduction?.source ?? null
@@ -396,6 +379,7 @@ async function main() {
     }
     return edition
   })
+  await verifySourceWorks(resolved)
 
   const plan = resolved.map((edition, index) => ({
     action: existing[index] ? 'update' : 'insert',
@@ -412,6 +396,8 @@ async function main() {
 
   for (let index = 0; index < resolved.length; index += 1) {
     const target = resolved[index]
+    // Recheck the current work and ISBN ownership immediately before writing.
+    await verifySourceWorks([target])
     const existingEdition = existing[index]
     const edition = existingEdition
       ? await updateEdition(existingEdition, target)

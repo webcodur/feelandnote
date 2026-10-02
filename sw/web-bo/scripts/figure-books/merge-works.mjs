@@ -1,150 +1,134 @@
-/**
- * 중복 작품 통합 — 같은 저작으로 갈린 작품을 하나로 합친다. 관계·판본·상품을 keep으로 옮기고 drop을 지운다.
- * 되돌리기 어려우므로 기본은 dry-run이며 통합 표를 먼저 보여준다.
- * 회원 기록(member_contents)도 keep으로 옮긴다. 같은 회원이 양쪽에 담았으면 감상·평점이 있는 쪽(같으면 최근 것)을 남긴다.
- * record_count는 셀럽 감상 수까지 합친 값이라 차단 기준으로 쓰지 않는다. 카운터는 트리거가 재계산한다.
- *
- * node --env-file=.env scripts/figure-books/merge-works.mjs --in ../../data/celeb/figure-books/merge-candidates.json
- * node --env-file=.env scripts/figure-books/merge-works.mjs --in <같은 파일> --apply
+﻿/**
+ * 중복 작품 통합. 기본 dry-run. apply는 pair별 단일 transaction이며 사용자 기록 충돌은 건너뛴다.
  */
-
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-import { argumentValue, bareIsbn, dbClient, hasFlag } from './lib/figure-work.mjs'
-
-const apply = hasFlag('apply')
-
-async function planOne(db, pair) {
-  const [keepC, dropC] = await Promise.all([
-    db.from('contents').select('id,record_count,member_count,celeb_count').eq('id', pair.keep).maybeSingle(),
-    db.from('contents').select('id,record_count,member_count,celeb_count').eq('id', pair.drop).maybeSingle(),
-  ])
-  if (!keepC.data || !dropC.data) return { ...pair, skip: 'missing-content' }
-  const [keepMc, dropMc] = await Promise.all([
-    db.from('member_contents').select('member_id').eq('content_id', pair.keep),
-    db.from('member_contents').select('member_id').eq('content_id', pair.drop),
-  ])
-  const keepMembers = new Set((keepMc.data ?? []).map((row) => row.member_id))
-  const members = {
-    move: (dropMc.data ?? []).filter((row) => !keepMembers.has(row.member_id)).length,
-    conflict: (dropMc.data ?? []).filter((row) => keepMembers.has(row.member_id)).length,
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { resolve, dirname, join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { randomUUID } from 'node:crypto'
+import { spawnSync } from 'node:child_process'
+import { isDeepStrictEqual } from 'node:util'
+import { argumentValue, bareIsbn, dbClient, hasFlag, allRows } from './lib/figure-work.mjs'
+import { ARRAY_REFERENCE_TABLES, SNAPSHOT_TABLES, hasArrayReference, findConflicts, buildMergeSql, validatePair } from './lib/merge-work-sql.mjs'
+import { CONTENT_ARRAY_REFERENCES } from './lib/content-array-references.mjs'
+const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')
+const sshHost = 'ubuntu@152.67.198.197'
+const sshKey = 'C:/Users/webco/.ssh/feelandnote_oracle'
+export async function captureSnapshot(db, pair) {
+  validatePair(pair)
+  const snapshot = {}
+  for (const table of SNAPSHOT_TABLES.filter(t => !['figure_book_products', 'flow_nodes', ...ARRAY_REFERENCE_TABLES].includes(t))) snapshot[table] = await allRows(table, (a, b) => {
+    let query = db.from(table).select('*').in(table === 'contents' ? 'id' : 'content_id', [pair.keep, pair.drop])
+    if (['figure_book_contents', 'figure_book_characters', 'content_locales'].includes(table)) {
+      query = query.order('content_id')
+      if (table !== 'figure_book_contents') query = query.order(table === 'content_locales' ? 'locale' : 'celeb_id')
+    } else query = query.order('id')
+    return query.range(a, b)
+  })
+  for (const table of ['flow_nodes', ...ARRAY_REFERENCE_TABLES]) {
+    // tiers의 등급명은 자유 키라 고정 등급 필터로 일부를 누락하지 않는다.
+    const rows = await allRows(table, (a, b) => db.from(table).select('*').order('id').range(a, b))
+    snapshot[table] = rows.filter(row => hasArrayReference(table, row, pair.drop) || (table === 'flow_nodes' && [pair.keep, pair.drop].includes(row.content_id)))
   }
-
-  const [keepRel, dropRel, keepEd, dropEd, keepLoc, dropLoc] = await Promise.all([
-    db.from('figure_book_characters').select('celeb_id,relation_type,sort_order,description,description_en').eq('content_id', pair.keep),
-    db.from('figure_book_characters').select('celeb_id,relation_type,sort_order,description,description_en').eq('content_id', pair.drop),
-    db.from('figure_book_editions').select('id,locale,isbn').eq('content_id', pair.keep),
-    db.from('figure_book_editions').select('id,locale,isbn').eq('content_id', pair.drop),
-    db.from('content_locales').select('locale,title').eq('content_id', pair.keep),
-    db.from('content_locales').select('locale,title').eq('content_id', pair.drop),
-  ])
-  const titleOf = (rows) => (rows.find((row) => row.locale === 'ko') ?? rows[0])?.title ?? '(제목 없음)'
-  const keepCelebs = new Set((keepRel.data ?? []).map((row) => row.celeb_id))
-  const keepEdKeys = new Map((keepEd.data ?? []).map((row) => [`${row.locale}:${bareIsbn(row.isbn)}`, row.id]))
-  const keepLocales = new Set((keepLoc.data ?? []).map((row) => row.locale))
-
-  return {
-    ...pair,
-    members,
-    keepTitle: titleOf(keepLoc.data ?? []), dropTitle: titleOf(dropLoc.data ?? []),
-    relations: { move: (dropRel.data ?? []).filter((row) => !keepCelebs.has(row.celeb_id)).length, dropDuplicate: (dropRel.data ?? []).filter((row) => keepCelebs.has(row.celeb_id)).length },
-    editions: (dropEd.data ?? []).map((row) => ({ id: row.id, locale: row.locale, isbn: bareIsbn(row.isbn), collidesWith: keepEdKeys.get(`${row.locale}:${bareIsbn(row.isbn)}`) ?? null })),
-    locales: { move: (dropLoc.data ?? []).filter((row) => !keepLocales.has(row.locale)).map((row) => row.locale), drop: (dropLoc.data ?? []).filter((row) => keepLocales.has(row.locale)).map((row) => row.locale) },
-  }
+  const ids = snapshot.figure_book_editions.map(r => r.id)
+  snapshot.figure_book_products = ids.length ? await allRows('products', (a, b) => db.from('figure_book_products').select('*').in('edition_id', ids).order('id').range(a, b)) : []
+  return snapshot
 }
-
-async function applyOne(db, plan) {
-  const must = async (label, promise) => { const { error } = await promise; if (error) throw new Error(`${label}: ${error.message}`) }
-  // 0) keep이 카탈로그(figure_book_contents)에 없으면 넣는다. 관계·판본의 FK가 카탈로그를 가리키므로 없으면 이동이 실패한다.
-  //    시드 트리거가 keep의 언어 카드로 판본을 만들 수 있으니, 판본 충돌은 이 시점의 keep 판본으로 다시 계산한다.
-  const { data: cat } = await db.from('figure_book_contents').select('content_id').eq('content_id', plan.keep).limit(1)
-  if (!(cat ?? []).length) await must('카탈로그 추가', db.from('figure_book_contents').insert({ content_id: plan.keep }))
-  const { data: keepEdNow } = await db.from('figure_book_editions').select('id,locale,isbn').eq('content_id', plan.keep)
-  const keepEdKeys = new Map((keepEdNow ?? []).map((row) => [`${row.locale}:${bareIsbn(row.isbn)}`, row.id]))
-  const { data: dropEdNow } = await db.from('figure_book_editions').select('id,locale,isbn').eq('content_id', plan.drop)
-  plan.editions = (dropEdNow ?? []).map((row) => ({ ...row, collidesWith: keepEdKeys.get(`${row.locale}:${bareIsbn(row.isbn)}`) ?? null }))
-  // 1) 관계 — keep에 같은 인물이 없으면 옮기고, 있으면 drop 쪽을 지운다.
-  const { data: dropRel } = await db.from('figure_book_characters').select('celeb_id').eq('content_id', plan.drop)
-  const { data: keepRel } = await db.from('figure_book_characters').select('celeb_id').eq('content_id', plan.keep)
-  const keepCelebs = new Set((keepRel ?? []).map((row) => row.celeb_id))
-  for (const row of dropRel ?? []) {
-    if (keepCelebs.has(row.celeb_id)) await must('관계 삭제', db.from('figure_book_characters').delete().eq('content_id', plan.drop).eq('celeb_id', row.celeb_id))
-    else await must('관계 이동', db.from('figure_book_characters').update({ content_id: plan.keep }).eq('content_id', plan.drop).eq('celeb_id', row.celeb_id))
-  }
-  // 2) 판본 — 충돌하면 상품만 keep 판본으로 넘기고 drop 판본을 지운다.
-  for (const edition of plan.editions) {
-    if (edition.collidesWith) {
-      await must('상품 이동', db.from('figure_book_products').update({ edition_id: edition.collidesWith }).eq('edition_id', edition.id))
-      await must('판본 삭제', db.from('figure_book_editions').delete().eq('id', edition.id))
-    } else {
-      await must('판본 이동', db.from('figure_book_editions').update({ content_id: plan.keep }).eq('id', edition.id))
-    }
-  }
-  // 3) locale — keep에 없는 언어만 옮긴다.
-  for (const locale of plan.locales.move) await must('locale 이동', db.from('content_locales').update({ content_id: plan.keep }).eq('content_id', plan.drop).eq('locale', locale))
-  await must('locale 삭제', db.from('content_locales').delete().eq('content_id', plan.drop))
-  // 3.5) 회원 기록 — 같은 회원이 keep에도 담았으면 감상·평점이 있는 쪽(같으면 최근 것)을 남기고 다른 쪽을 지운다.
-  //      identity 가드는 auth.uid()가 있는 회원 세션만 막으므로 서비스 키 실행은 content_id를 바꿀 수 있다. 카운터는 트리거가 재계산한다.
-  const { data: dropMc } = await db.from('member_contents').select('id,member_id,rating,review,updated_at').eq('content_id', plan.drop)
-  if ((dropMc ?? []).length > 0) {
-    const { data: keepMc } = await db.from('member_contents').select('id,member_id,rating,review,updated_at').eq('content_id', plan.keep)
-    const keepBy = new Map((keepMc ?? []).map((row) => [row.member_id, row]))
-    const richness = (row) => (row.review ? 2 : 0) + (row.rating != null ? 1 : 0)
-    for (const row of dropMc) {
-      const other = keepBy.get(row.member_id)
-      if (!other) { await must('회원 기록 이동', db.from('member_contents').update({ content_id: plan.keep }).eq('id', row.id)); continue }
-      const preferDrop = richness(row) > richness(other) || (richness(row) === richness(other) && String(row.updated_at) > String(other.updated_at))
-      if (preferDrop) {
-        await must('회원 기록 교체(keep측 삭제)', db.from('member_contents').delete().eq('id', other.id))
-        await must('회원 기록 이동', db.from('member_contents').update({ content_id: plan.keep }).eq('id', row.id))
-      } else {
-        await must('회원 기록 삭제(drop측)', db.from('member_contents').delete().eq('id', row.id))
-      }
-    }
-  }
-  // 4) 감상 관계가 있으면 옮긴다. 같은 인물이 이미 keep에 있으면 drop 쪽을 지운다.
-  const { data: dropCc } = await db.from('celeb_contents').select('celeb_id').eq('content_id', plan.drop)
-  if ((dropCc ?? []).length > 0) {
-    const { data: keepCc } = await db.from('celeb_contents').select('celeb_id').eq('content_id', plan.keep)
-    const keepSet = new Set((keepCc ?? []).map((row) => row.celeb_id))
-    for (const row of dropCc) {
-      if (keepSet.has(row.celeb_id)) await must('감상 삭제', db.from('celeb_contents').delete().eq('content_id', plan.drop).eq('celeb_id', row.celeb_id))
-      else await must('감상 이동', db.from('celeb_contents').update({ content_id: plan.keep }).eq('content_id', plan.drop).eq('celeb_id', row.celeb_id))
-    }
-  }
-  // 5) 작품을 가리키는 나머지 표를 keep으로 옮긴다. 26.09.11 기관 선정 목록을 옮기지 않아 목록 연결 10건이 끊겼다.
-  for (const table of ['curated_list_items', 'flow_nodes', 'records', 'notes']) {
-    await must(`${table} 이동`, db.from(table).update({ content_id: plan.keep }).eq('content_id', plan.drop))
-  }
-  await must('작품 표시 삭제', db.from('figure_book_contents').delete().eq('content_id', plan.drop))
-  await must('작품 삭제', db.from('contents').delete().eq('id', plan.drop))
+export function planSnapshot(snapshot, pair) {
+  validatePair(pair)
+  if (snapshot.contents.length !== 2) return { ...pair, skip: 'missing-content' }
+  const split = t => [snapshot[t].filter(r => r.content_id === pair.keep), snapshot[t].filter(r => r.content_id === pair.drop)]
+  const [kr, dr] = split('figure_book_characters'), [ke, de] = split('figure_book_editions'), [kl, dl] = split('content_locales'), [km, dm] = split('member_contents')
+  const title = rows => (rows.find(r => r.locale === 'ko') ?? rows[0])?.title ?? '(제목 없음)'
+  return { ...pair, skip: findConflicts(snapshot, pair), keepTitle: title(kl), dropTitle: title(dl),
+    members: { move: dm.filter(r => !km.some(k => k.member_id === r.member_id)).length, conflict: dm.filter(r => km.some(k => k.member_id === r.member_id)).length },
+    relations: { move: dr.filter(r => !kr.some(k => k.celeb_id === r.celeb_id)).length, dropDuplicate: dr.filter(r => kr.some(k => k.celeb_id === r.celeb_id)).length },
+    editions: de.map(r => ({ id: r.id, locale: r.locale, isbn: bareIsbn(r.isbn), collidesWith: r.isbn == null ? null : ke.find(k => k.locale === r.locale && k.isbn === r.isbn)?.id ?? null })),
+    locales: { move: dl.filter(r => !kl.some(k => k.locale === r.locale)).map(r => r.locale), drop: dl.filter(r => kl.some(k => k.locale === r.locale)).map(r => r.locale) } }
 }
-
-async function main() {
-  const inPath = resolve(process.cwd(), argumentValue('in', '../../data/celeb/figure-books/merge-candidates.json'))
-  const db = dbClient()
-  const parsed = JSON.parse(readFileSync(inPath, 'utf8'))
+export function runProcess(command, args, spawn = spawnSync) {
+  const r = spawn(command, args, { encoding: 'utf8', shell: false, windowsHide: true, timeout: 90_000, maxBuffer: 16 * 1024 * 1024 })
+  if (r.error || r.status !== 0) throw new Error(r.error?.message ?? r.stderr?.trim() ?? command + ' failed')
+  return r.stdout
+}
+export function checkFixedReferences(pair, spawn = spawnSync) {
+  const r = spawn('rg', ['--files-with-matches', '--fixed-strings', '--hidden', '--no-ignore', '-g', '*.ts', '-g', '*.tsx', '-g', '*.json', '-g', '*.mjs', '-g', '*.js', '--', pair.drop, 'sw/web/src', 'sw/web-bo/src', 'packages', 'sw/remotion/src', 'sw/remotion/public'], { cwd: repositoryRoot, encoding: 'utf8', shell: false, windowsHide: true, timeout: 30_000 })
+  if (r.error || ![0, 1].includes(r.status)) throw new Error(r.error?.message ?? r.stderr ?? 'ID 참조 검색 실패')
+  if (r.status === 0) throw new Error('MERGE_REVIEW: 코드·Remotion에 drop ID 참조: ' + r.stdout.trim())
+}
+export function executeMergeFile(localFile, token, spawn = spawnSync) {
+  if (!/^[a-f0-9-]+$/.test(token)) throw new Error('잘못된 원격 파일 토큰')
+  const remoteDirectory = '/tmp/feelandnote-merge-' + token
+  const remote = remoteDirectory + '/merge.sql'
+  const connection = ['-i', sshKey, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15']
+  runProcess('ssh', [...connection, sshHost, "install -d -m 700 '" + remoteDirectory + "'"], spawn)
+  runProcess('scp', [...connection, localFile, sshHost + ':' + remote], spawn)
+  const command = "docker exec -i feelandnote-db psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres < '" + remote + "'"
+  const output = runProcess('ssh', [...connection, sshHost, command], spawn)
+  if (!output.includes('MERGE_COMMITTED')) throw new Error('COMMIT 확인을 받지 못했습니다. 재실행 전에 같은 ID로 조회하십시오.')
+  // 원격 SQL에는 감상 원문이 있으므로 성공 후 지우고 원본 백업은 로컬에 보존한다.
+  try { runProcess('ssh', [...connection, sshHost, "rm -f '" + remote + "' && rmdir '" + remoteDirectory + "'"], spawn) } catch (error) { console.warn('원격 임시 SQL 정리 실패: ' + error.message) }
+  return output
+}
+export async function applyOne(db, pair, { execute = executeMergeFile, checkReferences = checkFixedReferences } = {}) {
+  checkReferences(pair)
+  const snapshot = await captureSnapshot(db, pair), plan = planSnapshot(snapshot, pair)
+  if (plan.skip) return plan
+  const token = randomUUID(), directory = join(repositoryRoot, 'data/celeb/figure-books/_backup')
+  mkdirSync(directory, { recursive: true })
+  const backupFile = join(directory, 'merge-' + token + '.json'), sqlFile = join(directory, 'merge-' + token + '.sql')
+  writeFileSync(backupFile, JSON.stringify({ pair, snapshot }, null, 2), { flag: 'wx' })
+  writeFileSync(sqlFile, buildMergeSql(pair, snapshot), { flag: 'wx' })
+  execute(sqlFile, token)
+  const after = await captureSnapshot(db, pair)
+  if (after.contents.some(r => r.id === pair.drop) || after.contents.length !== 1 || after.member_contents.length !== snapshot.member_contents.length || after.figure_book_products.length !== snapshot.figure_book_products.length) throw new Error('재조회 불일치. 백업으로 확인 필요: ' + backupFile)
+  for (const table of ['flow_nodes', ...ARRAY_REFERENCE_TABLES]) {
+    if (after[table].some(row => hasArrayReference(table, row, pair.drop))) throw new Error(`${table}에 drop ID 배열 참조가 남아 있습니다: ${backupFile}`)
+    const affected = snapshot[table].filter(row => hasArrayReference(table, row, pair.drop))
+    if (!affected.length) continue
+    const actual = await allRows(table, (a, b) => db.from(table).select('*').in('id', affected.map(row => row.id)).order('id').range(a, b))
+    for (const before of affected) {
+      const expected = remapArrayReferences(table, before, pair), row = actual.find(row => row.id === before.id)
+      for (const field of Object.keys(expected)) if (!isDeepStrictEqual(row?.[field], expected[field])) throw new Error(`${table}.${field} 순서·참조 재조회 불일치: ${backupFile}`)
+    }
+  }
+  return { ...plan, completed: true, backupFile }
+}
+export function remapArrayReferences(table, row, pair) {
+  const remap = ids => {
+    let seenKeep = false
+    return ids.flatMap(id => {
+      if (![pair.keep, pair.drop].includes(id)) return [id]
+      if (seenKeep) return []
+      seenKeep = true
+      return [pair.keep]
+    })
+  }
+  const fields = {}
+  for (const ref of CONTENT_ARRAY_REFERENCES.filter(ref => ref.table === table)) {
+    const value = row[ref.column]
+    if (ref.shape === 'tiers') {
+      if (Object.values(value ?? {}).some(ids => Array.isArray(ids) && ids.includes(pair.drop))) fields[ref.column] = Object.fromEntries(Object.entries(value).map(([key, ids]) => [key, remap(ids)]))
+    } else if (Array.isArray(value) && value.includes(pair.drop)) {
+      fields[ref.column] = table === 'faction_lv2' ? [...new Set(value.map(id => id === pair.drop ? pair.keep : id))] : remap(value)
+    }
+  }
+  return fields
+}
+export async function main() {
+  const parsed = JSON.parse(readFileSync(resolve(process.cwd(), argumentValue('in', '../../data/celeb/figure-books/merge-candidates.json')), 'utf8'))
   const merges = Array.isArray(parsed) ? parsed : parsed.merges
-  console.log(`통합 후보 ${merges.length}쌍 (${apply ? 'apply' : 'dry-run'})`)
-
-  const plans = []
-  for (const pair of merges) plans.push(await planOne(db, pair))
-  for (const plan of plans) {
-    if (plan.skip) { console.log(`  건너뜀 ${plan.drop.slice(0, 8)} → ${plan.keep.slice(0, 8)} : ${plan.skip}`); continue }
-    console.log(`  ${plan.drop.slice(0, 8)} → ${plan.keep.slice(0, 8)} | 관계 이동 ${plan.relations.move}·중복 ${plan.relations.dropDuplicate} | 판본 ${plan.editions.length}(충돌 ${plan.editions.filter((e) => e.collidesWith).length}) | locale 이동 ${plan.locales.move.join(',') || '-'} | 회원 이동 ${plan.members?.move ?? 0}·충돌 ${plan.members?.conflict ?? 0} | ${plan.identity}`)
-    console.log(`      버림 「${plan.dropTitle}」 → 남김 「${plan.keepTitle}」`)
+  if (!Array.isArray(merges)) throw new Error('통합 후보 배열이 필요합니다.')
+  const apply = hasFlag('apply'), db = dbClient()
+  console.log('통합 후보 ' + merges.length + '쌍 (' + (apply ? 'apply' : 'dry-run') + ')')
+  let done = 0, failed = 0
+  for (const pair of merges) {
+    try {
+      const plan = apply ? await applyOne(db, pair) : planSnapshot(await captureSnapshot(db, pair), pair)
+      console.log(JSON.stringify(plan)); if (plan.completed) done += 1; if (plan.skip) failed += 1
+    } catch (error) { failed += 1; console.log(JSON.stringify({ ...pair, skip: 'requires-review', error: error.message })) }
   }
-  if (!apply) { console.log('\ndry-run이다. 반영하려면 --apply를 붙인다.'); return }
-
-  let done = 0
-  for (const plan of plans) {
-    if (plan.skip) continue
-    try { await applyOne(db, plan); done += 1 } catch (error) { console.log(`  실패 ${plan.drop.slice(0, 8)}: ${error.message}`) }
-  }
-  console.log(`\n통합 완료 ${done} / ${plans.filter((plan) => !plan.skip).length}`)
+  if (!apply) console.log('dry-run이다. 반영하려면 --apply를 붙인다.')
+  else console.log('통합 완료 ' + done + ' / ' + merges.length + ', 확인 필요 ' + failed)
+  if (apply && failed) process.exitCode = 1
 }
-
-void main().catch((error) => {
-  console.error(error instanceof Error ? error.message : error)
-  process.exitCode = 1
-})
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main().catch(error => { console.error(error.message); process.exitCode = 1 })

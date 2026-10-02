@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 // Admin 클라이언트 (service_role_key 사용)
 // auth.admin API 호출에만 사용
