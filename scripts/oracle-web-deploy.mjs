@@ -50,6 +50,7 @@ Options:
   --purge-scopes <scope[,scope]>  explicit Cloudflare scopes when inference is blocked
   --allow-unpushed                allow a commit absent from remote branches (explicit approval only)
   --keep-artifacts                preserve the local archive after packaging or deployment
+  --traffic-policy-only           apply committed origin concurrency policy without rebuilding the app
 `
 
 function resolvePnpmEntrypoint() {
@@ -127,6 +128,7 @@ function parseArguments(args) {
       .filter(Boolean),
     allowUnpushed: hasFlag(args, '--allow-unpushed'),
     keepArtifacts: hasFlag(args, '--keep-artifacts'),
+    trafficPolicyOnly: hasFlag(args, '--traffic-policy-only'),
   }
 }
 
@@ -629,6 +631,7 @@ async function main() {
     probeSlug: config.probeSlug,
     remoteBranchContainsCommit,
     purgePlan,
+    trafficPolicyOnly: config.trafficPolicyOnly,
   }
 
   if (config.mode === 'plan') {
@@ -665,6 +668,23 @@ async function main() {
     if (purgePlan.manualRequired) {
       throw new Error(`Cloudflare purge impact needs an explicit --purge-scopes decision: ${purgePlan.error}`)
     }
+  }
+
+  if (config.trafficPolicyOnly) {
+    if (config.mode !== 'execute') throw new Error('Traffic policy maintenance requires --execute')
+    const taskRoot = mkdtempSync(path.join(tmpdir(), 'feelandnote-oracle-traffic-'))
+    const helperPath = path.join(taskRoot, 'remote.mjs')
+    const remoteHelper = `/tmp/${releaseId}.traffic.remote.mjs`
+    try {
+      writeFileSync(helperPath, run('git', ['show', `${commit}:scripts/lib/oracle-web-remote.mjs`], { cwd: repoRoot }).stdout)
+      run('scp', [...sshOptions(config.sshKey), helperPath, `${config.host}:${remoteHelper}`])
+      const trafficPolicy = JSON.parse(runRemoteHelper(config, { remoteHelper }, 'traffic-policy', [], { releaseId }).stdout)
+      printPlan({ ...plan, trafficPolicy, policySourceCommit: commit, applicationCommit: remote.currentCommit })
+    } finally {
+      runSsh(config, ['rm', '-f', remoteHelper], { allowFailure: true })
+      removeTaskRoot({ taskRoot })
+    }
+    return
   }
 
   let build

@@ -22,6 +22,10 @@ import {
   assertUnixAccountName,
   chooseInactiveSlot,
   createBridgeCaddyConfig,
+  createCaddyTrafficPolicy,
+  createCaddyTrafficPolicySource,
+  CADDY_MAX_CONCURRENT_REQUESTS,
+  CADDY_KEEPALIVE_MS,
   deploymentTargetForPath,
   legacyReleasesRootRemoveArgs,
   inspectVersionedDeploymentHtml,
@@ -239,6 +243,43 @@ test('Caddy traffic bridge changes only the loopback upstream and its redirect c
     '^https?://(?:localhost|127[.]0[.]0[.]1):3100(.*)$',
   )
   assert.equal(TRAFFIC_DRAIN_MS, 5_000)
+})
+
+test('origin admission bounds every public listener while retaining headers and existing health settings', () => {
+  const proxy = { handler: 'reverse_proxy', upstreams: [{ dial: '127.0.0.1:3000' }],
+    headers: { response: { replace: { Location: [{ search_regexp: ':3000', replace: ':public' }] } } },
+    transport: { protocol: 'http', dial_timeout: 2_000_000_000 },
+    health_checks: { passive: { fail_duration: 1_000_000_000 } } }
+  const config = { tls: { certificates: ['preserved'] }, routes: [structuredClone(proxy), structuredClone(proxy)] }
+  const before = structuredClone(config)
+  const bounded = createCaddyTrafficPolicy(config)
+  assert.deepEqual(config, before)
+  assert.deepEqual(bounded.tls, before.tls)
+  for (const handler of bounded.routes) {
+    assert.deepEqual(handler.headers, proxy.headers)
+    assert.equal(handler.transport.dial_timeout, proxy.transport.dial_timeout)
+    assert.equal(handler.transport.max_conns_per_host, CADDY_MAX_CONCURRENT_REQUESTS)
+    assert.equal(handler.transport.keep_alive.idle_timeout, CADDY_KEEPALIVE_MS * 1_000_000)
+    assert.equal(handler.health_checks.passive.fail_duration, proxy.health_checks.passive.fail_duration)
+    assert.ok(handler.health_checks.passive.max_fails > 0, 'Idle origins must stay available on Caddy 2.6')
+    assert.equal(handler.health_checks.passive.unhealthy_request_count, CADDY_MAX_CONCURRENT_REQUESTS)
+  }
+  assert.deepEqual(createCaddyTrafficPolicy(bounded), bounded)
+  const bridged = createBridgeCaddyConfig(bounded, 3100)
+  assert.equal(bridged.routes[0].transport.max_conns_per_host, CADDY_MAX_CONCURRENT_REQUESTS)
+  assert.throws(() => createCaddyTrafficPolicy(bridged), /primary upstream/)
+})
+
+test('persistent Caddy admission is idempotent and preserves security and redirect configuration', () => {
+  const source = '(feelandnote_app) {\n\treverse_proxy 127.0.0.1:3000 {\n\t\theader_up X-Real-IP {http.request.header.Cf-Connecting-Ip}\n\t}\n}\n'
+    + 'feelandnote.com {\n\ttls cert key {\n\t\tclient_auth {\n\t\t\tmode require_and_verify\n\t\t}\n\t}\n\timport feelandnote_app\n}\n'
+  const bounded = createCaddyTrafficPolicySource(source)
+  assert.equal(createCaddyTrafficPolicySource(bounded), bounded)
+  assert.equal(bounded.split('unhealthy_request_count').length, 2)
+  assert.ok(bounded.includes('header_up X-Real-IP {http.request.header.Cf-Connecting-Ip}'))
+  assert.ok(bounded.includes('mode require_and_verify'))
+  assert.throws(() => createCaddyTrafficPolicySource(source.replace(':3000 {', ':3100 {')), /one primary/)
+  assert.throws(() => createCaddyTrafficPolicySource(source + source), /one primary/)
 })
 
 test('Caddy bridges both the HTTPS listener and the loopback tunnel listener atomically', () => {
