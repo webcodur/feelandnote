@@ -3,7 +3,7 @@
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { selectCelebAffiliationBooks } from '@/lib/figure-books/themeBooks'
-import { getFactionFigureBooks, type FactionFigureBook } from '../home/getFactionFigureBooks'
+import { getFactionFigureBooks, getFactionThemeBooks, type FactionFigureBook } from '../home/getFactionFigureBooks'
 
 export interface CelebFactionBookGroup {
   factionId: string
@@ -67,9 +67,9 @@ export async function getCelebFactionBooks(
     const groups: CelebFactionBookGroup[] = []
     const loaded = await Promise.all(factions.map(async (faction) => {
       const slug = faction.slug as string
-      const assigned = await getFactionFigureBooks(faction.id, locale)
+      const assigned = await (faction.is_myth ? getFactionFigureBooks : getFactionThemeBooks)(faction.id, locale)
       const factionName = locale === 'en' ? (faction.name_en ?? faction.name) : faction.name
-      const books = selectCelebAffiliationBooks(assigned, { slug, name: factionName, isMyth: faction.is_myth === true })
+      const books = selectCelebAffiliationBooks(assigned, { name: factionName, isMyth: faction.is_myth === true })
       return {
         factionId: faction.id,
         factionSlug: slug,

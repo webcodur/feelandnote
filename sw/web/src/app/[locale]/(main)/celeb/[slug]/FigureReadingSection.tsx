@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 import { getReadingVoiceUrl, getVirtualMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
@@ -18,7 +17,6 @@ interface Props {
 }
 
 export default function FigureReadingSection(props: Props) {
-  const t = useTranslations("celebPage");
   const isGuide = props.kind === "guide";
   const text = (isGuide ? props.reading?.guide : props.virtualMonologue)?.trim() ?? "";
   if (!text) return null;
@@ -30,18 +28,14 @@ export default function FigureReadingSection(props: Props) {
     : getVirtualMonologueVoiceUrl(props.celebId, locale, voiceV);
 
   return (
-    <div className={isGuide ? undefined : "[--reading-preview-max-height:min(18rem,40svh)]"}>
-      <ReadingPlayer
-        key={`${props.celebId}:${locale}:${voiceV}:${props.kind}:${text}`}
-        text={text}
-        audioUrl={audioUrl}
-        timingKind={isGuide ? "reading" : "monologue"}
-        celebId={props.celebId}
-        readingLocale={locale}
-        voiceV={voiceV}
-        openLabel={t(isGuide ? "readingExpandGuide" : "readingExpandMonologue")}
-        displayMode={isGuide ? "full" : "desktop-full"}
-      />
-    </div>
+    <ReadingPlayer
+      key={`${props.celebId}:${locale}:${voiceV}:${props.kind}:${text}`}
+      text={text}
+      audioUrl={audioUrl}
+      timingKind={isGuide ? "reading" : "monologue"}
+      celebId={props.celebId}
+      readingLocale={locale}
+      voiceV={voiceV}
+    />
   );
 }

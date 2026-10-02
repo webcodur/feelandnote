@@ -476,7 +476,7 @@
       "overview": "팩션 개요",
       "overviewFallback": "위의 인물을 골라 이 테마에서의 역할과 이야기를 살펴보세요.",
       "backToOverview": "테마 개요로",
-      "personInTheme": "{theme}에서의 {name}",
+      "personInTheme": "<accent>{theme}</accent>에서의 {name}",
       "hubMetaTitle": "세력도감 - 주제로 묶은 인물과 진영",
       "metaDescription": "{sections} 등 분야별로 묶은 인물 세력과 진영.",
       "allThemes": "전체 세력",

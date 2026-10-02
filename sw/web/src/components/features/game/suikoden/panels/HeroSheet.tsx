@@ -35,7 +35,7 @@ export default function HeroSheet({ heroId, game, onClose }: { heroId: string | 
   return (
     <Modal open={!!hero} onClose={onClose} width={760} label={hero.name}>
       {/* 휴대폰은 이름·등급을 첫 화면에 — 작은 얼굴 옆 머리글 → 말 → 수치 차례. 넓은 화면은 왼쪽(얼굴·말)·오른쪽(머리글·수치) 두 단 */}
-      <div className="grid max-h-[calc(100dvh-2rem)] grid-cols-1 overflow-y-auto md:grid-cols-[260px_1fr] md:grid-rows-[auto_1fr]">
+      <div className="grid min-h-0 max-h-[var(--modal-max-height)] grid-cols-1 overflow-y-auto md:grid-cols-[260px_1fr] md:grid-rows-[auto_1fr]">
         {/* 머리글 — 등급·병과·이름·직함·고향 */}
         <div className="flex gap-3 p-4 pr-10 max-md:border-b md:col-start-2 md:row-start-1 md:p-5 md:pb-0" style={{ borderColor: INK.line, background: `linear-gradient(180deg, ${cls.color}14, transparent 70%)` }}>
           <Portrait hero={hero} size={88} ring priority className="md:hidden" />

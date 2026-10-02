@@ -84,22 +84,22 @@ export default function AtlasPicker({ tree, selection, initialLevel, myth, onClo
   return (
     <Modal isOpen onClose={onClose} title={path || (picker.world === "myth" ? tMyth("title") : tFaction("title"))} ariaLabel={t("browseAll")} titleClassName="max-w-full truncate font-semibold text-accent" stickyHeader
       widthClassName="max-w-2xl" frame="plain" boxClassName={FACTION_PERSON_LAYOUT.modal} animateHeightDuration={260}>
-      <div className="flex max-h-[calc(100dvh-120px)] flex-col" data-atlas-picker data-atlas-picker-level={initialLevel} data-atlas-world={picker.world}>
+      <div className="flex min-h-0 max-h-[var(--modal-body-max-height)] flex-col" data-atlas-picker data-atlas-picker-level={initialLevel} data-atlas-world={picker.world}>
         <AtlasPickerControls world={picker.world} active={active} query={query} resultCount={items.length}
           selectionNames={[theme?.name ?? "—", entry?.name ?? "—", group?.name ?? t("allMembers")]} ready={ready}
           onQueryChange={(value) => { setQuery(value); setArmed(null); if (value.trim()) setActive(1); }}
           onWorldChange={(world) => { if (world !== picker.world) { picker.switchWorld(world); setActive(1); setArmed(null); } }}
           onTabChange={changeLevel}
           onSearchSelect={() => { if (searchChoices.length === 1) choose(searchChoices[0]); }} />
-        <div className="flex min-h-0 flex-col px-4 pt-3 sm:px-5">
+        <div className="flex min-h-0 flex-col px-4 pt-3 sm:px-5 [@media(max-height:560px)]:pt-1">
           <AtlasPickerOptions transitionKey={`${picker.world}:${active}`} level={active} items={items} currentId={currentIds[active]}
             searching={Boolean(search)} onSelect={choose} loading={picker.loading} error={picker.error} onRetry={picker.retry}
             pulseId={ready ? currentIds[active] : null} nextLabel={nextLabel} />
         </div>
-        <div className="shrink-0 px-4 pb-4 sm:px-5 sm:pb-5">
-          <div data-atlas-confirm className="mt-3 border-t border-white/10 bg-bg-main pt-3">
+        <div className="shrink-0 px-4 pb-4 sm:px-5 sm:pb-5 [@media(max-height:560px)]:pb-1">
+          <div data-atlas-confirm className="mt-3 border-t border-white/10 bg-bg-main pt-3 [@media(max-height:560px)]:mt-1 [@media(max-height:560px)]:pt-1">
             <button type="button" onClick={() => commit()} disabled={!entry || entry.disabled || picker.loading || picker.error}
-              className="group relative flex min-h-12 w-full items-center justify-center rounded-lg border border-accent bg-accent px-12 py-3 text-base font-semibold text-bg-main outline-none enabled:cursor-pointer enabled:hover:border-accent-hover enabled:hover:bg-accent-hover enabled:hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] enabled:active:bg-accent enabled:active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.25)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-bg-main disabled:cursor-default disabled:border-white/10 disabled:bg-transparent disabled:text-text-tertiary">
+              className="group relative flex min-h-12 w-full items-center justify-center rounded-lg border border-accent bg-accent px-12 py-3 text-base font-semibold text-bg-main outline-none [@media(max-height:560px)]:min-h-11 [@media(max-height:560px)]:py-2 enabled:cursor-pointer enabled:hover:border-accent-hover enabled:hover:bg-accent-hover enabled:hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] enabled:active:bg-accent enabled:active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.25)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-bg-main disabled:cursor-default disabled:border-white/10 disabled:bg-transparent disabled:text-text-tertiary">
               {t("done")}
               <ArrowRight aria-hidden size={18} className="pointer-events-none absolute end-5 opacity-50 transition-transform duration-150 ease-out group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:translate-x-0 group-disabled:opacity-0 motion-reduce:transition-none" />
             </button>

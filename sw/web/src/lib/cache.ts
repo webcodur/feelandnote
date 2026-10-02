@@ -7,6 +7,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { compressedJsonCache } from './compressedJsonCache'
+import { coalesceCacheQuery } from './cacheQuery'
 import { detailCacheTags, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
 
 /**
@@ -133,7 +134,7 @@ export function cachedDetail<R>(
   options: CacheOptions = {},
 ): Promise<R> {
   const label = keyParts.join('/')
-  return unstable_cache(() => runWithRetry(label, fn), [DETAIL_CACHE_KEY_VERSION, ...keyParts], {
+  return unstable_cache(() => coalesceCacheQuery(`detail:${domain}:${label}`, () => runWithRetry(label, fn)), [DETAIL_CACHE_KEY_VERSION, ...keyParts], {
     revalidate: spreadRevalidate(options.revalidate ?? STATIC_REVALIDATE, keyParts),
     // bare domain은 목록 전용이다. 상세에 붙이면 신규 한 건을 목록에 반영할 때
     // 기존 상세 수만 건까지 전부 낡은 것으로 처리된다.
@@ -156,7 +157,7 @@ export function cachedList<R>(
   options: CacheOptions = {},
 ): Promise<R> {
   const label = keyParts.join('/')
-  const read = () => runWithRetry(label, fn)
+  const read = () => coalesceCacheQuery(`list:${domain}:${label}`, () => runWithRetry(label, fn))
   const cacheOptions = {
     revalidate: spreadRevalidate(options.revalidate ?? LIST_REVALIDATE, keyParts),
     tags: [domain, ...(options.extraTags ?? [])],

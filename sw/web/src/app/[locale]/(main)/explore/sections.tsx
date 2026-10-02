@@ -25,7 +25,7 @@ import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
 import MythScreen from "@/components/features/user/explore/myth/MythScreen";
 import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
-import { MYTH_LAST_COOKIE, mythHref } from "@/components/features/user/explore/myth/mythHref";
+import { MYTH_LAST_COOKIE, MYTH_OPENING_SLUG, mythHref } from "@/components/features/user/explore/myth/mythHref";
 import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
 import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
 
@@ -97,7 +97,7 @@ export async function MythSection({ slug = null }: { slug?: string | null } = {}
   const rememberedSlug = slug ? null : (await cookies()).get(MYTH_LAST_COOKIE)?.value ?? null;
   const data = await load("신화 탐색", () => getMythData(locale));
   if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
-  const publicData = getMythClientData(data);
+  const publicData = getMythClientData(data, slug ?? rememberedSlug ?? MYTH_OPENING_SLUG);
   if (publicData.regions.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
   const mythById = new Map(publicData.myths.map((myth) => [myth.id, myth]));
   const index = publicData.regions.map((region) => ({

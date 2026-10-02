@@ -6,7 +6,7 @@
  * - 좁은 화면은 네 줄(max-h-28)에서 접는다. 넘칠 때만 끝 흐림이 붙고, 본문을 누르면 언제든 전체 소개 모달이 열린다
  * - 터치 기기는 넘칠 때 칸 둘레에 금빛 파동을 세 번 준다(마우스 기기는 커서가 대신한다)
  * - 출처는 우하단 칩 하나다. 공급처 이름(다음·카카오·YES24 등 바뀌는 값)은 안쪽 알약에 담아 고정 문구 「원문」과 구분한다
- * - 전체 보기 모달은 읽기 모달 높이(READING_MODAL_MAX_HEIGHT_CLASS)를 따라 위아래 여백을 넉넉히 남긴다
+ * - 전체 보기 모달은 공통 높이 제한을 따라 위아래 여백을 넉넉히 남긴다
  * - 본문 개행은 normalizeIntroBreaks로 화면 규약에 맞춘다 — 공급처별 표기(다음 <br> 런·카카오 공백 런·저장본 혼재)를 \n=붙는 줄·\n\n=문단으로 정리하고, 문장부호 없이 끝나는 줄끼리의 빈 줄은 시 구절로 보고 붙인다
  * - 데이터: description/label/sourceTitle props. label은 보조기기용 이름으로만 읽힌다
  * ───────────────────────────────────────────── */
@@ -19,7 +19,7 @@ import FormattedText from "@/components/ui/FormattedText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import type { BookIntroductionAttribution } from "@/lib/utils/book-description";
-import Modal, { READING_MODAL_MAX_HEIGHT_CLASS } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import PendingMark from "@/components/ui/pending/PendingMark";
 import type { TitleBadge } from "@/lib/utils/content-locale";
@@ -274,7 +274,6 @@ function IntroductionModal({
       zIndex={plain ? Z_INDEX.modal + 1 : undefined}
       showCloseButton={false}
       animateHeight={false}
-      maxHeightClassName={READING_MODAL_MAX_HEIGHT_CLASS}
     >
       {/* 높이 상한은 모달 상자에서 물려받는다 — 값을 여기 다시 적지 않는다 */}
       <div className="flex max-h-[inherit] flex-col overflow-hidden">

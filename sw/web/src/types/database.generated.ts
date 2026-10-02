@@ -1828,6 +1828,7 @@ export type Database = {
           sort_order: number
           start_date: string | null
           team_images: Json
+          theme_book_ids: string[]
           theme_music: Json | null
           updated_at: string
           youtube_videos: Json | null
@@ -1853,6 +1854,7 @@ export type Database = {
           sort_order?: number
           start_date?: string | null
           team_images?: Json
+          theme_book_ids?: string[]
           theme_music?: Json | null
           updated_at?: string
           youtube_videos?: Json | null
@@ -1878,6 +1880,7 @@ export type Database = {
           sort_order?: number
           start_date?: string | null
           team_images?: Json
+          theme_book_ids?: string[]
           theme_music?: Json | null
           updated_at?: string
           youtube_videos?: Json | null

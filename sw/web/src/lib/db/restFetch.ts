@@ -18,9 +18,16 @@ export const REST_TIMEOUT_MS = 30_000
 /** 호출자가 signal을 주지 않은 요청에만 시간 제한을 건다. 명시적 signal은 그대로 쓴다. */
 export function createRestFetch(timeoutMs: number = REST_TIMEOUT_MS): typeof fetch {
   return async (input, init) => {
+    const started = performance.now()
     const signal = init?.signal ?? AbortSignal.timeout(timeoutMs)
     const options = { ...init, signal }
     const response = await rawFetch(input, options)
+    const elapsedMs = Math.round(performance.now() - started)
+    if (elapsedMs > 1_000) {
+      const url = input instanceof Request ? input.url : String(input)
+      console.warn(JSON.stringify({ tag: 'feelandnote-query', path: new URL(url).pathname,
+        ms: elapsedMs, status: response.status }))
+    }
     const method = (init?.method ?? (input instanceof Request ? input.method : 'GET')).toUpperCase()
 
     // Envoy가 응답 헤더를 받기 전에 upstream 연결을 잃은 경우만 복구한다.

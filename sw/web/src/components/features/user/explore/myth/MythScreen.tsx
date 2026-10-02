@@ -116,8 +116,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
     if (linkedSlug) saveLastMyth(linkedSlug);
   }, [linkedSlug]);
 
-  /* 화면에서 고른 신화의 주소로 바꾸고 마지막 신화로 기억한다. 서버 왕복 없이 주소만 바꾼다 —
-     신화 자료는 이미 다 받아 두었고, 주소가 늘 보이는 신화를 가리켜야 그대로 공유·새로고침해도 같은 신화가 열린다 */
+  /* 같은 신화의 진영 선택은 주소만 바꾼다. 다른 신화는 해당 주소에서 필요한 자료를 받아 연다. */
   const rememberMyth = (slug: string | undefined, group: string | null) => {
     if (faction) return;
     if (slug) saveLastMyth(slug);
@@ -201,6 +200,15 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
 
   const navigationTree: AtlasTheme[] = faction?.navigationTree ?? buildMythNavigation(data, groupLabels);
   const chooseAtlas = (selection: AtlasSelection) => {
+    if (!faction && selection.entryId !== activeMyth?.id) {
+      const entry = data.myths.find(myth => myth.id === selection.entryId && myth.isPublished);
+      if (entry) {
+        saveLastMyth(entry.slug);
+        const query = selection.groupId ? `?${ATLAS_GROUP_PARAM}=${encodeURIComponent(selection.groupId)}` : '';
+        router.push(`${mythHref(entry.slug)}${query}`, { scroll: false });
+      }
+      return;
+    }
     if (faction && selection.entryId !== activeMyth?.id) {
       const entry = navigationTree.find((item) => item.id === selection.themeId)?.entries.find((item) => item.id === selection.entryId);
       if (entry?.href) {
@@ -296,7 +304,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
               <div className={faction ? layout.factionShelfContainer : layout.container}>
                 {/* 모달을 열어도 목록·책장의 높이와 스크롤 위치는 그대로 유지한다. */}
                 {faction ? faction.renderWorks(railPeople.map((person) => person.id)) : shelfWorks.length > 0 && (
-                  <MythWorkShelf key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} memberIds={railPeople.map((person) => person.id)} mythName={activeMyth.name} mythSlug={activeMyth.slug} />
+                  <MythWorkShelf key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} memberIds={railPeople.map((person) => person.id)} mythName={activeMyth.name} mythSlug={activeMyth.slug} mythId={activeMyth.id} />
                 )}
                 {!faction && shelfWorks.every((work) => work.editionId === undefined && !work.coupangUrl) && (
                   <DeveloperCommerceFallback

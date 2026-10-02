@@ -36,7 +36,7 @@ export const BESTSELLER_CONTENT_IDS: readonly string[] = [
   '08e50ae6-7460-4e3c-b5b5-699a3d8b0b06', // 코스모스 · 칼 세이건 — 알라딘 17 · 교보 12위권
   'bb2ba959-ceb2-4adb-9f4d-5c43202ed3d3', // 모순 · 양귀자 — 알라딘 20 · 예스24 17 · 교보 14위권
   'ebfd4c9a-44e1-4b4d-aff6-b858b3eeb694', // 데미안 · 헤르만 헤세 — 알라딘 23위
-  '8709fc06-6741-4e8e-ba5b-f29358653bd5', // 마션 · 앤디 위어 — 알라딘 26위
+  'b256b23c-fe3f-4837-ba03-2fe8f8489ac8', // 마션 · 앤디 위어 — 알라딘 26위
 ]
 
 /**
@@ -53,5 +53,5 @@ export const BESTSELLER_MAX_SLOTS = 4
  */
 export const RECOMMENDATION_EXCLUDED_IDS: readonly string[] = [
   '6e5989e2-0cfb-4a4c-8e47-182d0599bfd0', // 성경
-  '423778f8-08f5-4be1-91e4-b38b38c992fa', // 코란(꾸란)
+  '5916b9db-4d8b-46f4-9081-48ff8d043813', // 코란(꾸란)
 ]

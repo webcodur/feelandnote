@@ -44,15 +44,17 @@ export default function CelebInfluenceSection({ data, explorerData }: Props) {
         <div className="mx-auto max-w-xl">
           <TotalScoreCard data={rankedData} onOpenExplanation={() => setShowExplanation(true)} />
         </div>
-        <div className="mt-2 grid gap-x-4 sm:grid-cols-2 lg:grid-cols-4">
-          <button type="button" aria-haspopup="dialog" aria-pressed={isEraOpen} onClick={() => setIsEraOpen(true)} className={STAT_ROW_CLASS}>
-            <ScoreBar insetValue selected={isEraOpen} className="py-1" label={t("explorer.shortFields.transhistoricity")} labelClassName={isEn ? "w-[5.5rem]" : "w-10"} value={data.transhistoricity || 0} max={40} maxText="/ 40" />
+        <div className="mt-2">
+          <button type="button" aria-haspopup="dialog" aria-pressed={isEraOpen} onClick={() => setIsEraOpen(true)} className={`${STAT_ROW_CLASS} w-full`}>
+            <ScoreBar insetValue prominent selected={isEraOpen} className="py-1" label={t("explorer.shortFields.transhistoricity")} labelClassName={isEn ? "w-[5.5rem]" : "w-10"} value={data.transhistoricity || 0} max={40} maxText="/ 40" />
           </button>
-          {categories.map((category) => (
-            <button key={category.key} type="button" aria-haspopup="dialog" aria-pressed={selected === category.key} onClick={() => setSelected(category.key)} className={STAT_ROW_CLASS}>
-              <ScoreBar insetValue selected={selected === category.key} className="py-1" label={t(`categories.${category.key}`)} labelClassName={isEn ? "w-[5.5rem]" : "w-10"} value={category.value} max={10} maxText="/ 10" />
-            </button>
-          ))}
+          <div className="grid gap-x-4 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map((category) => (
+              <button key={category.key} type="button" aria-haspopup="dialog" aria-pressed={selected === category.key} onClick={() => setSelected(category.key)} className={STAT_ROW_CLASS}>
+                <ScoreBar insetValue selected={selected === category.key} className="py-1" label={t(`categories.${category.key}`)} labelClassName={isEn ? "w-[5.5rem]" : "w-10"} value={category.value} max={10} maxText="/ 10" />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -2,7 +2,9 @@
   "name": "@feelandnote/content-search",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "exports": {
+    "./book-isbn": "./src/book-isbn.ts",
     "./kakao-books": "./src/kakao-books.ts",
     "./book-introduction": "./src/book-introduction.ts",
     "./book-introduction-contract": "./src/book-introduction-contract.ts",
@@ -17,9 +19,13 @@
     "./naver-news": "./src/naver-news.ts",
     "./naver-blog": "./src/naver-blog.ts",
     "./naver-image": "./src/naver-image.ts",
-    "./types": "./src/types.ts"
+    "./types": "./src/types.ts",
+    "./external-book-input": "./src/external-book-input.ts"
   },
   "dependencies": {
     "fast-xml-parser": "^5.3.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

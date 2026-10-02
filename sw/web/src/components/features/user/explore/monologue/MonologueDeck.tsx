@@ -201,7 +201,6 @@ export default function MonologueDeck({ items }: { items: VirtualMonologueCeleb[
         frame="plain"
         boxClassName="overflow-hidden rounded-2xl border border-accent/30 bg-[#11110f] shadow-2xl"
         animateHeight={false}
-        maxHeightClassName="max-h-[calc(100dvh-2rem)]"
       >
         <ModalBody className="p-3 sm:p-5">
           {selected && detail?.id === selected.id ? (

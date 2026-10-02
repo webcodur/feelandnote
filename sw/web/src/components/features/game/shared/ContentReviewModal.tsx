@@ -84,7 +84,7 @@ export default function ContentReviewModal({
         </div>
 
         {review && !isSpoiler ? (
-          <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
+          <div className="custom-scrollbar pr-2 mb-2">
             {reviewPresets && reviewPresets.length > 0 && (
               <PresetTags presets={reviewPresets} />
             )}
@@ -97,7 +97,7 @@ export default function ContentReviewModal({
             {t("spoiler")}
           </p>
         ) : reviewPresets && reviewPresets.length > 0 ? (
-          <div className="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-2">
+          <div className="custom-scrollbar pr-2 mb-2">
             <PresetTags presets={reviewPresets} />
           </div>
         ) : (

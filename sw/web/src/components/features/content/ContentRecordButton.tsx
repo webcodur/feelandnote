@@ -57,7 +57,7 @@ export default function ContentRecordButton({
     startTransition(async () => {
       try {
         const result = await addContent({
-          id: content.externalId,
+          id: content.id,
           type: content.type,
           title: content.title,
           creator: content.creator,

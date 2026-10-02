@@ -14,12 +14,11 @@ interface Props {
   books: FactionFigureBook[]
   memberIds: string[]
   name: string
-  slug: string
   isMyth: boolean
 }
 
 /** 신화와 팩션은 모으는 관계만 정하고, 공통 책장이 책을 그린다. */
-export default function ThemeBookShelf({ books, memberIds, name, slug, isMyth }: Props) {
+export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props) {
   const t = useTranslations(isMyth ? 'explore.hub.myth' : 'explore.faction')
   const tCeleb = useTranslations('celebPage')
   const tProfession = useTranslations('profession')
@@ -44,7 +43,7 @@ export default function ThemeBookShelf({ books, memberIds, name, slug, isMyth }:
 
   const memberSet = new Set(memberIds)
   const available = books.filter(isBookShelfAvailable)
-  const own = available.filter((book) => isThemeBook(book, slug, name, isMyth))
+  const own = available.filter((book) => isThemeBook(book, name, isMyth))
   const ownIds = new Set(own.map((book) => book.contentId))
   const appeared = available.filter((book) => !ownIds.has(book.contentId) && book.appearedIds.some((id) => memberSet.has(id)))
   const authored = available.filter((book) => book.authoredIds.some((id) => memberSet.has(id)))

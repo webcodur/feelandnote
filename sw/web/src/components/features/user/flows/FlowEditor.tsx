@@ -120,9 +120,9 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
       closeOnEscape={false}
       animateHeight={false}
     >
-      <div className="relative w-full max-h-[calc(100dvh-4rem)] flex flex-col">
+      <div className="relative w-full min-h-0 max-h-[var(--modal-body-max-height)] flex flex-col">
         {/* 헤더 */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+        <div className="flex shrink-0 items-center justify-between px-6 py-4 border-b border-white/10">
           <div className="flex items-center gap-2">
             <Layers size={20} className="text-accent" />
             <h2 className="text-lg font-serif font-bold text-white">{t("title")}</h2>
@@ -133,7 +133,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
         </div>
 
         {/* 본문 */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="min-h-0 flex-1 overflow-y-auto p-6 space-y-6">
           {/* 플로우 기본 정보 */}
           <div className="space-y-4">
             <div>
@@ -235,7 +235,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
         </div>
 
         {/* 푸터 */}
-        <div className="px-6 py-4 border-t border-white/10 bg-[#0a0a0a] flex items-center justify-between">
+        <div className="shrink-0 px-6 py-4 border-t border-white/10 bg-[#0a0a0a] flex items-center justify-between">
           {error && <p className="text-sm text-red-400">{error}</p>}
           <div className="flex items-center gap-3 ml-auto">
             <Button unstyled onClick={onClose} className="px-5 py-2.5 text-sm text-text-secondary hover:text-white transition-colors">

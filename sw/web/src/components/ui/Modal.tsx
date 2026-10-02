@@ -16,6 +16,7 @@ import { useClippedText } from "@/hooks/useClippedText";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import { MODAL_MAX_HEIGHT, MODAL_MAX_HEIGHT_CLASS } from "./modalLayout";
 
 interface ModalProps {
   isOpen: boolean;
@@ -44,8 +45,8 @@ interface ModalProps {
   animateHeight?: boolean;
   /** 높이 전환 시간(ms). 기본은 AnimatedHeight의 320 — 빠른 반응이 필요한 모달은 200 안팎으로 내린다 */
   animateHeightDuration?: number;
-  /** 세로 상한. 기본은 상하 2rem씩 비워 화면을 꽉 채우지 않는다 */
-  maxHeightClassName?: string;
+  /** 이미지 확대 등 전체 화면으로 표시하는 뷰어만 일반 모달 높이 제한을 해제한다. */
+  fullScreen?: boolean;
   /** 스크롤 영역 아래에 글이 더 남았을 때 끝을 흐린다. 읽기용 모달에서 켠다 */
   fadeClippedEnd?: boolean;
   /** 커스텀 z-index (게임 전체화면 등 상위 모달 위에 표시할 때) */
@@ -71,9 +72,6 @@ const SIZE_CLASSES = {
   xl: "max-w-xl",
   full: "max-w-4xl",
 };
-
-/** 긴 글을 읽는 모달의 세로 상한. 기본(상하 2rem)보다 넉넉한 여백을 남겨 바깥을 눌러 닫을 수 있게 한다 */
-export const READING_MODAL_MAX_HEIGHT_CLASS = "max-h-[66dvh]";
 
 // 닫기 단추는 누르는 칸 44px(아이콘 20px). 금 테두리 없이 바탕 위에 조용히 두고, hover에 면이 즉시 밝아진다
 export const CLOSE_BUTTON_STYLE =
@@ -101,7 +99,7 @@ export default function Modal({
   escapeCapture = false,
   animateHeight = true,
   animateHeightDuration,
-  maxHeightClassName = "max-h-[calc(100dvh-4rem)]",
+  fullScreen = false,
   fadeClippedEnd = false,
   zIndex,
   frame = "classical",
@@ -114,6 +112,27 @@ export default function Modal({
   const t = useTranslations("shared.accessibility");
   const { ref: scrollRef, isClipped } = useClippedText<HTMLDivElement>(undefined, isOpen && fadeClippedEnd);
   const boxRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  // 긴 제목이 줄바꿈되거나 창 너비가 바뀌어도 본문은 남은 높이만 쓴다.
+  useEffect(() => {
+    if (!isOpen) return;
+    const header = headerRef.current;
+    const update = () => {
+      const box = boxRef.current;
+      if (!box) return;
+      const style = getComputedStyle(box);
+      const frameHeight = [style.borderTopWidth, style.borderBottomWidth, style.paddingTop, style.paddingBottom]
+        .reduce((sum, value) => sum + Number.parseFloat(value), 0);
+      box.style.setProperty("--modal-header-height", `${header?.offsetHeight ?? 0}px`);
+      box.style.setProperty("--modal-frame-height", `${frameHeight}px`);
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    if (header) observer.observe(header);
+    if (boxRef.current) observer.observe(boxRef.current);
+    return () => observer.disconnect();
+  }, [isOpen, title]);
 
   // ESC·스크롤 잠금·포커스 트랩 — 열릴 때 박스로 포커스를 옮기고 닫히면 돌려준다
   useEffect(() => {
@@ -169,7 +188,14 @@ export default function Modal({
   // widthClassName이 너비(w-·size-)를 직접 쥐면 w-full과 같은 속성을 두고 싸워 생성 순서로 진다 — 그 경우 w-full을 뺀다
   const hasOwnWidth = /(?:^|\s)(?:w-|size-)/.test(widthClassName ?? "");
   // classical 판의 모서리(16px)는 ClassicalBox가 쥔다
-  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "" : "relative"} ${footer ? "flex flex-col overflow-hidden" : ""} ${boxClassName ?? ""}`;
+  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${MODAL_MAX_HEIGHT_CLASS} flex flex-col animate-modal-content outline-none ${frame === "classical" ? "" : "relative"} ${boxClassName ?? ""}`;
+  const modalMaxHeight = fullScreen ? "100dvh" : MODAL_MAX_HEIGHT;
+  const layoutStyle = {
+    ...boxStyle,
+    maxHeight: modalMaxHeight,
+    "--modal-max-height": modalMaxHeight,
+    "--modal-body-max-height": `calc(var(--modal-max-height) - var(--modal-header-height, ${title ? "3.5rem" : "0px"}) - var(--modal-frame-height, 2px))`,
+  } as CSSProperties;
   const closeInHeader = Boolean(title && stickyHeader && !closeButtonClassName);
   const closeButton = showCloseButton && (
     <button
@@ -191,11 +217,11 @@ export default function Modal({
       {/* 스크롤 영역 */}
       <div
         ref={scrollRef}
-        className={`overflow-y-auto max-h-[inherit] ${footer ? "min-h-0" : ""} ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
+        className={`min-h-0 flex flex-col overflow-y-auto ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
       >
         {/* 헤더 - title이 있을 때만 렌더링 */}
         {title && (
-          <div className={`flex min-h-14 items-center justify-center border-b border-line py-3 ${closeInHeader ? "px-14" : "px-4"} ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : "relative"}`}>
+          <div ref={headerRef} className={`flex min-h-14 shrink-0 items-center justify-center border-b border-line py-3 [@media(max-height:560px)]:min-h-11 [@media(max-height:560px)]:py-2 ${closeInHeader ? "px-14" : "px-4"} ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : "relative"}`}>
             <div className="flex min-w-0 items-center gap-1.5 text-center">
               {Icon && <Icon size={16} className="text-accent" />}
               <h2 className={`text-base sm:text-lg ${titleClassName ?? "text-text-primary"}`} style={titleStyle}>{title}</h2>
@@ -206,7 +232,7 @@ export default function Modal({
         )}
 
         {/* 본문 */}
-        {animateHeight ? <AnimatedHeight independent duration={animateHeightDuration}>{children}</AnimatedHeight> : children}
+        {animateHeight ? <AnimatedHeight independent className="shrink-0" duration={animateHeightDuration}>{children}</AnimatedHeight> : children}
       </div>
       {footer && <div className="shrink-0">{footer}</div>}
     </>
@@ -214,7 +240,7 @@ export default function Modal({
 
   const modalContent = (
     <div
-      className={`fixed inset-0 flex items-center justify-center px-4 py-8 animate-modal-overlay ${overlayClassName ?? "bg-black/70 backdrop-blur-sm"}`}
+      className={`fixed inset-0 flex items-center justify-center ${fullScreen ? "p-0" : "px-4 py-8"} animate-modal-overlay ${overlayClassName ?? "bg-black/70 backdrop-blur-sm"}`}
       style={{ zIndex: zIndex ?? Z_INDEX.modal }}
       onClick={handleOverlayClick}
     >
@@ -222,7 +248,7 @@ export default function Modal({
         <ClassicalBox
           hover={false}
           className={boxClass}
-          style={boxStyle}
+          style={layoutStyle}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
@@ -235,7 +261,7 @@ export default function Modal({
       ) : (
         <div
           className={boxClass}
-          style={boxStyle}
+          style={layoutStyle}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"

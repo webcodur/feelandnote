@@ -5,7 +5,7 @@
  * 테마 전원 공개(26.09.14) 뒤 3천 행을 넘자, 모든 테마가 차례 앞쪽 몇 명만 받았다.
  * 여러 세력을 한꺼번에 읽는 곳은 이 함수를 쓴다. 한 인물·한 세력만 읽는 조회는 1,000행에 닿지 않아 그대로 둔다.
  *
- * lv2Ids를 .in()으로 넘기지 않고 받은 뒤 거른다 — 세력이 수백 개면 URL 길이 한도에 걸린다.
+ * lv2Ids는 URL 한도 안에서 나눠 DB에 전달한다. 특정 테마를 읽을 때 전체 배정을 받지 않는다.
  */
 import { MEMBER_PAGE_ORDER } from '@feelandnote/shared/lib/faction-members'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -18,12 +18,19 @@ export async function selectVisibleFactionMembers<T extends { lv2_id: string }>(
   columns: string,
   lv2Ids?: Iterable<string>,
 ): Promise<T[]> {
-  const rows = await selectAllPages<T>((from, to) => {
-    let query = db.from('faction_member_rows').select(columns).eq('hidden', false)
-    for (const key of MEMBER_PAGE_ORDER) query = query.order(key, { ascending: true })
-    return query.range(from, to).overrideTypes<T[], { merge: false }>()
-  })
-  if (!lv2Ids) return rows
-  const wanted = new Set(lv2Ids)
-  return rows.filter((row) => wanted.has(row.lv2_id))
+  const wanted = lv2Ids ? [...new Set(lv2Ids)] : null
+  if (wanted?.length === 0) return []
+  const chunks = wanted
+    ? Array.from({ length: Math.ceil(wanted.length / 200) }, (_, index) => wanted.slice(index * 200, (index + 1) * 200))
+    : [null]
+  const rows: T[] = []
+  for (const ids of chunks) {
+    rows.push(...await selectAllPages<T>((from, to) => {
+      let query = db.from('faction_member_rows').select(columns).eq('hidden', false)
+      if (ids) query = query.in('lv2_id', ids)
+      for (const key of MEMBER_PAGE_ORDER) query = query.order(key, { ascending: true })
+      return query.range(from, to).overrideTypes<T[], { merge: false }>()
+    }))
+  }
+  return rows
 }

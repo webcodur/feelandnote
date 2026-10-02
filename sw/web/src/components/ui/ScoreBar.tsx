@@ -75,6 +75,8 @@ interface Props {
   selected?: boolean;
   /** 숫자를 두꺼운 막대 안에 표시 */
   insetValue?: boolean;
+  /** 독립 행의 대표 눈금 — insetValue와 함께 쓰며 더 높은 금테 막대가 된다 */
+  prominent?: boolean;
   className?: string;
 }
 
@@ -88,14 +90,15 @@ export default function ScoreBar({
   thick = false,
   selected = false,
   insetValue = false,
+  prominent = false,
   className,
 }: Props) {
   const safeValue = Number.isFinite(value) ? value : 0;
   const percent = max > 0 ? Math.min(100, Math.max(0, (safeValue / max) * 100)) : 0;
   const tier = getScoreTier(safeValue, max);
   const score = (
-    <span className={cn("shrink-0 font-serif tabular-nums", insetValue ? "text-sm sm:text-sm" : "text-right text-xs")}>
-      <span className={cn(insetValue ? "font-semibold text-text-primary" : VALUE_BY_TIER[tier], !insetValue && thick && "text-sm")}>{safeValue}</span>
+    <span className={cn("shrink-0 font-serif tabular-nums", insetValue ? (prominent ? "text-base" : "text-sm sm:text-sm") : "text-right text-xs")}>
+      <span className={cn(insetValue ? (prominent ? "font-bold text-accent" : "font-semibold text-text-primary") : VALUE_BY_TIER[tier], !insetValue && thick && "text-sm")}>{safeValue}</span>
       {maxText && <span className={cn("ms-1 text-text-secondary/70", !insetValue && "font-bold")}>{maxText}</span>}
     </span>
   );
@@ -117,15 +120,15 @@ export default function ScoreBar({
         <div
           className={cn(
             "relative flex-1 overflow-hidden",
-            insetValue ? "h-6 min-w-16 rounded-control" : thick ? "h-2 rounded-full" : "h-1.5 rounded-full",
-            selected ? "bg-white/[0.08] ring-1 ring-white/35" : insetValue ? "bg-white/10 ring-1 ring-white/5" : TRACK_BY_TIER[tier],
+            insetValue ? (prominent ? "h-8 min-w-20 rounded-lg" : "h-6 min-w-16 rounded-control") : thick ? "h-2 rounded-full" : "h-1.5 rounded-full",
+            selected ? "bg-white/[0.08] ring-1 ring-white/35" : insetValue ? (prominent ? "bg-white/[0.05] ring-1 ring-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.12)]" : "bg-white/10 ring-1 ring-white/5") : TRACK_BY_TIER[tier],
           )}
         >
           <div
             className={cn(
               "relative h-full transition-[width] duration-700 ease-out",
               !insetValue && "rounded-full",
-              insetValue ? selected ? "bg-white/20" : "bg-accent/20" : selected ? "bg-white" : FILL_BY_TIER[tier],
+              insetValue ? (selected ? "bg-white/20" : prominent ? "bg-gradient-to-r from-accent/60 via-accent/35 to-accent/15" : "bg-accent/20") : selected ? "bg-white" : FILL_BY_TIER[tier],
             )}
             style={{ width: `${percent}%` }}
           >

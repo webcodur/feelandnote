@@ -51,7 +51,7 @@ export default function CommandInfoModal({ command, onClose, zIndex = 9999 }: Pr
       zIndex={zIndex}
     >
         {/* header */}
-        <div className={`flex items-center gap-3 px-5 py-4 border-b ${c.border} ${c.bg}`}>
+        <div className={`flex shrink-0 items-center gap-3 px-5 py-4 border-b ${c.border} ${c.bg}`}>
           <span className={c.text}>{CMD_ICON[command]}</span>
           <div className="flex-1">
             <h2 className={`text-lg font-bold ${c.text}`}>{getBattleCommandLabel(command, locale)}</h2>
@@ -66,7 +66,7 @@ export default function CommandInfoModal({ command, onClose, zIndex = 9999 }: Pr
         </div>
 
         {/* body */}
-        <div className="p-5 space-y-4 max-h-[60vh] overflow-y-auto">
+        <div className="min-h-0 overflow-y-auto p-5 space-y-4">
           {/* 적성 공식 */}
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-white/30 uppercase tracking-wider w-10 shrink-0">{text.commandInfo.aptitude}</span>

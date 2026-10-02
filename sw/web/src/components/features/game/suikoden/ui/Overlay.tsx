@@ -4,7 +4,8 @@
 */
 'use client'
 
-import { useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { useContext, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { MODAL_MAX_HEIGHT } from '@/components/ui/modalLayout'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { CheondoContext } from '../context'
@@ -51,10 +52,10 @@ export function Modal({ open, onClose, children, width = 560, className, locked,
         ref={boxRef}
         tabIndex={-1}
         className={cn('cheondo-modal-box max-h-full w-full outline-none', className)}
-        style={{ maxWidth: width }}
+        style={{ maxWidth: width, '--modal-max-height': MODAL_MAX_HEIGHT } as CSSProperties}
       >
         {/* 대화상자는 뒤 화면 글씨가 비쳐 섞이지 않게 불투명 바탕을 쓴다 */}
-        <Panel className="flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden" style={{ background: INK.panelSolid }}>
+        <Panel className="flex flex-col overflow-y-auto" style={{ background: INK.panelSolid, maxHeight: MODAL_MAX_HEIGHT }}>
           {onClose && !locked && (
             <button
               type="button"

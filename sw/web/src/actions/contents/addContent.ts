@@ -5,14 +5,15 @@ import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
-import { resolveBookLocale, sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
-import { normalizeBookIsbn } from '@/lib/utils/book-description'
+import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
 import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
+import { resolveExternalBookInput } from '@feelandnote/content-search/external-book-input'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 
 interface AddContentParams {
-  id: string                    // 외부 API ID (ISBN, TMDB ID 등)
+  id: string                    // 기존 contents.id 또는 외부 API ID (ISBN, TMDB ID 등)
   type: ContentType
   title: string
   creator?: string
@@ -40,38 +41,6 @@ interface AddContentData {
   }
 }
 
-/** 제목 정규화 — 부제·괄호·관사·문장부호를 걷어 같은 책인지 비교한다(기관 선정 등록 도구와 같은 기준). */
-function normalizeWorkTitle(s: string): string {
-  return s.normalize('NFKC').toLowerCase()
-    .replace(/\([^)]*\)/g, ' ').split(/[:：]/)[0]
-    .replace(/^(the|a|an)\s+/, '')
-    .replace(/[^\p{L}\p{N}]+/gu, '')
-}
-
-/**
- * 같은 locale 에서 제목(정규화)과 저자 성이 맞는 기존 작품을 찾는다.
- * displayRow: 그 locale 행이 표시용 제목 행(sources.primary='none')이라 실판본으로 덮어야 한다.
- */
-async function findSameBookWork(
-  db: Awaited<ReturnType<typeof createClient>>,
-  locale: string,
-  title: string,
-  creator: string | null,
-): Promise<{ contentId: string; displayRow: boolean; hasLocaleRow: boolean } | null> {
-  const head = title.split(/[:：(]/)[0].trim()
-  if (!head) return null
-  const { data } = await db.from('content_locales').select('content_id,title,creator,sources').eq('locale', locale).ilike('title', head).limit(10)
-  const want = normalizeWorkTitle(title)
-  const surname = (creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
-  for (const row of data ?? []) {
-    if (normalizeWorkTitle(row.title ?? '') !== want) continue
-    if (surname && row.creator && !row.creator.toLowerCase().includes(surname)) continue
-    const primary = (row.sources as { primary?: string } | null)?.primary
-    return { contentId: row.content_id, displayRow: primary === 'none', hasLocaleRow: true }
-  }
-  return null
-}
-
 export async function addContent(params: AddContentParams): Promise<ActionResult<AddContentData>> {
   const db = await createClient()
 
@@ -80,77 +49,121 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     return failure('UNAUTHORIZED')
   }
 
-  // 1. external_id로 기존 콘텐츠 확인
-  const { data: existingContent } = await db
-    .from('contents')
-    .select('id')
-    .eq('external_id', params.id)
-    .maybeSingle()
-
-  let contentId: string
-
-  // 언어 행은 새 작품·기존 작품 재사용 양쪽에서 쓰므로 먼저 만든다
-  const locale = params.type === 'BOOK' ? resolveBookLocale(params.externalSource, params.title) : sourceToLocale(params.externalSource)
-  const bookIsbn = params.type === 'BOOK'
-    ? normalizeBookIsbn(typeof params.metadata?.isbn === 'string' ? params.metadata.isbn : params.id)
-    : null
-  const introduction = params.type === 'BOOK'
-    ? await fetchBookIntroduction({ isbn: bookIsbn, locale: locale === 'en' ? 'en' : 'ko' }).catch(() => null)
-    : null
-  const bookDescription = params.type === 'BOOK'
-    ? introduction?.source ?? (params.description?.trim() || null)
-    : params.description || null
-  const localeRow = {
-    locale,
-    title: params.title,
-    creator: params.creator || null,
-    thumbnail_url: params.thumbnailUrl || null,
-    description: bookDescription,
-    ...(bookIsbn && { isbn: bookIsbn }),
-    publisher: params.publisher || null,
-    sources: { ...sourceToJsonb(params.externalSource), ...(introduction?.source && { description: introduction.sourceUrl }) },
-    verified: true,
+  if (params.createdAt && !Number.isFinite(new Date(params.createdAt).getTime())) {
+    return failure('VALIDATION_ERROR', '추가 날짜를 확인해주세요.')
   }
 
-  // ISBN 이 달라도 같은 책(제목 정규화 일치 + 저자 성 일치)이 이미 있으면 새로 만들지 않는다.
-  // 판본 없이 표시용 제목 행만 든 작품이 있어(celeb-02-02) ISBN 대조만으로는 같은 책이 두 벌 생긴다. 표시행이면 이 실판본으로 덮는다.
-  const sameWork = !existingContent && params.type === 'BOOK'
-    ? await findSameBookWork(db, locale, params.title, params.creator ?? null)
-    : null
-
-  if (existingContent) {
-    contentId = existingContent.id
-  } else if (sameWork) {
-    contentId = sameWork.contentId
-    if (sameWork.displayRow) {
-      await db.from('content_locales').update(localeRow).eq('content_id', contentId).eq('locale', locale)
-    } else if (!sameWork.hasLocaleRow) {
-      await db.from('content_locales').insert({ content_id: contentId, ...localeRow })
+  // 등록 작품을 담는 호출은 DB ID를 보낸다. 이 경로에서는 카드나 판본을 다시 쓰지 않는다.
+  const { data: byId, error: idError } = await db
+    .from('contents')
+    .select('id, type')
+    .eq('id', params.id)
+    .maybeSingle()
+  if (idError) return handleDatabaseError(idError, { context: 'content', logPrefix: '[작품 ID 확인]' })
+  if (byId && byId.type !== params.type) return failure('VALIDATION_ERROR', '선택한 작품의 종류가 다릅니다.')
+  let existingContent = byId
+  if (!existingContent) {
+    const { data, error } = await db.from('contents').select('id, type').eq('external_id', params.id).eq('type', params.type).maybeSingle()
+    if (error) {
+      if (error.code === 'PGRST116') return failure('CONFLICT', '외부 ID가 여러 작품에 연결되어 있습니다. 작품을 다시 확인해주세요.')
+      return handleDatabaseError(error, { context: 'content', logPrefix: '[외부 작품 확인]' })
     }
-  } else {
+    existingContent = data
+  }
+
+  let contentId: string
+  let book: Awaited<ReturnType<typeof resolveExternalBookInput>> | null = null
+  if (!existingContent && params.type === 'BOOK') {
+    const isbn = toIsbn13(typeof params.metadata?.isbn === 'string' ? params.metadata.isbn : params.id)
+    const externalIsbn = toIsbn13(params.id)
+    if (!isbn || (externalIsbn && externalIsbn !== isbn)) {
+      return failure('VALIDATION_ERROR', '도서는 검색에서 확인한 판본 ISBN으로 추가해주세요. 상품 코드나 수동 제목만으로 실판본을 등록할 수 없습니다.')
+    }
+    // 같은 ISBN이 대표 카드가 아닌 별도 판본에 있어도 원래 작품을 재사용한다.
+    const matches = await Promise.all([
+      db.from('contents').select('id').eq('type', 'BOOK').eq('external_id', isbn),
+      db.from('content_locales').select('content_id').eq('isbn', isbn),
+      db.from('figure_book_editions').select('content_id').eq('isbn', isbn),
+    ])
+    for (const result of matches) if (result.error) return handleDatabaseError(result.error, { context: 'content', logPrefix: '[판본 작품 확인]' })
+    const ids = [...new Set([
+      ...(matches[0].data ?? []).map(row => row.id),
+      ...(matches[1].data ?? []).map(row => row.content_id),
+      ...(matches[2].data ?? []).map(row => row.content_id),
+    ])]
+    if (ids.length > 1) return failure('CONFLICT', '같은 ISBN이 여러 작품에 연결되어 있습니다. 작품을 다시 확인해주세요.')
+    if (ids.length === 1) {
+      const { data, error } = await db.from('contents').select('id, type').eq('id', ids[0]).maybeSingle()
+      if (error) return handleDatabaseError(error, { context: 'content', logPrefix: '[판본 원작 확인]' })
+      if (!data || data.type !== 'BOOK') return failure('CONFLICT', '판본에 연결된 작품을 확인할 수 없습니다.')
+      existingContent = data
+    } else {
+      try {
+        book = await resolveExternalBookInput({
+          externalId: params.id, externalSource: params.externalSource ?? '',
+          title: params.title, creator: params.creator ?? '', coverImageUrl: params.thumbnailUrl ?? null,
+          metadata: params.metadata ?? {},
+        })
+      } catch (cause) {
+        return failure('VALIDATION_ERROR', cause instanceof Error ? cause.message : '공식 공급처에서 도서 판본을 확인하지 못했습니다.')
+      }
+      // 제목·원저자가 같아도 ISBN이 다른 책의 원전·선집 범위가 같다는 근거는 아니다.
+      const { data: candidates, error } = await db.from('content_locales').select('content_id, content:contents!inner(type)')
+        .eq('content.type', 'BOOK').eq('locale', book.locale).eq('title', book.title).eq('creator', book.creator).limit(1)
+      if (error) return handleDatabaseError(error, { context: 'content', logPrefix: '[도서 원전 확인]' })
+      if (candidates?.length) return failure('CONFLICT', '같은 제목과 원저자의 다른 판본이 있습니다. 원전과 수록 범위를 확인한 뒤 추가해주세요.')
+    }
+  }
+
+  if (existingContent) contentId = existingContent.id
+  else {
+    const locale = book?.locale ?? sourceToLocale(params.externalSource)
+    const introduction = book
+      ? await fetchBookIntroduction({ isbn: String(book.metadata.isbn), locale: book.locale }).catch(() => null)
+      : null
+    const hasIntroduction = !!introduction?.source && !!introduction.description?.trim()
+    const sourceUrl = typeof book?.metadata.link === 'string' ? book.metadata.link : null
+    const localeRow = {
+      locale,
+      title: book?.title ?? params.title,
+      creator: book?.creator ?? (params.creator || null),
+      thumbnail_url: book ? book.coverImageUrl : params.thumbnailUrl || null,
+      description: book ? (hasIntroduction ? introduction!.source : null) : params.description || null,
+      ...(book && { isbn: book.metadata.isbn }),
+      publisher: book ? book.metadata.publisher : params.publisher || null,
+      sources: {
+        ...sourceToJsonb(book?.externalSource ?? params.externalSource),
+        ...(book && sourceUrl && { isbn: sourceUrl, title: sourceUrl, creator: sourceUrl, publisher: sourceUrl, thumbnail: book.coverImageUrl ? sourceUrl : 'confirmed_unavailable' }),
+        ...(hasIntroduction && { description: introduction!.sourceUrl, description_method: 'provider', description_source_locale: locale }),
+      },
+      verified: true,
+    }
     // 새 콘텐츠 생성 (id 자동 생성)
     const { data: newContent, error: contentError } = await db
       .from('contents')
       .insert({
         type: params.type,
         subtype: params.subtype || null,
-        release_date: params.releaseDate || null,
-        metadata: params.metadata
-          ? (params.type === 'BOOK' ? withoutBookDescription(params.metadata) : params.metadata)
-          : null,
-        external_id: params.id,
-        external_source: params.externalSource || null,
+        release_date: book ? null : params.releaseDate || null,
+        metadata: book ? withoutBookDescription(book.metadata) : params.metadata ?? null,
+        external_id: book?.externalId ?? params.id,
+        external_source: book?.externalSource ?? params.externalSource ?? null,
       })
       .select('id')
       .single()
 
-    if (contentError || !newContent) {
-      return handleDatabaseError(contentError!, { context: 'content', logPrefix: '[콘텐츠 생성]' })
-    }
+    if (contentError) return handleDatabaseError(contentError, { context: 'content', logPrefix: '[콘텐츠 생성]' })
+    if (!newContent) return failure('DB_ERROR', '새 작품의 저장 결과를 확인하지 못했습니다.')
     contentId = newContent.id
 
     // content_locales에 로케일 데이터 저장
-    await db.from('content_locales').insert({ content_id: contentId, ...localeRow })
+    const { error: localeError } = await db.from('content_locales').insert({ content_id: contentId, ...localeRow })
+    if (localeError) {
+      // 순차 REST 호출의 DELETE는 다른 호출이 붙인 감상까지 CASCADE로 지울 수 있다.
+      // 생성 ID를 운영 감사에 남기고, 회원 기록은 만들지 않은 채 명확히 실패한다.
+      console.error('[콘텐츠 locale 저장 미완료]', { contentId, type: params.type, error: localeError })
+      return handleDatabaseError(localeError, { context: 'content', logPrefix: '[콘텐츠 locale 저장]' })
+    }
 
     // VIDEO: en 행 자동 생성 (TMDB en-US + /images API)
     if (params.type === 'VIDEO' && locale === 'ko' && params.id) {
@@ -214,9 +227,8 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
         .eq('content_id', contentId)
         .single()
 
-      if (fetchError || !existing) {
-        return handleDatabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
-      }
+      if (fetchError) return handleDatabaseError(fetchError, { context: 'content', logPrefix: '[기존 감상 조회]' })
+      if (!existing) return failure('CONFLICT', '기존 감상 기록을 확인하지 못했습니다. 다시 시도해주세요.')
 
       // 기존 레코드 반환
       return success({
@@ -232,6 +244,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
 
     return handleDatabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
   }
+  if (!userContent) return failure('DB_ERROR', '감상 기록의 저장 결과를 확인하지 못했습니다.')
 
   revalidatePath(`/${user.id}/reading`)
   revalidatePath('/achievements')

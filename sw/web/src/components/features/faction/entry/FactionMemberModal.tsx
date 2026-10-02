@@ -108,7 +108,11 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
         {longDesc && (
           <section className={layout.body}>
             <h3 className="mb-3 text-lg font-bold text-text-primary">
-              {t("personInTheme", { theme: factionName, name })}
+              {t.rich("personInTheme", {
+                theme: factionName,
+                name,
+                accent: (chunks) => <span className="text-accent">{chunks}</span>,
+              })}
             </h3>
             <div className={layout.paragraphs}>
               {splitReadableParagraphs(longDesc).map((paragraph, index) => <p key={index}>{paragraph}</p>)}

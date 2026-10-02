@@ -8,7 +8,7 @@ import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
 
 /** 분류와 검색을 위에 고정하고, 화면별 작품 목록을 아래에 넣는다. */
-const MAX_HEIGHT_CLASS = "max-h-[min(84dvh,42rem)]";
+const MAX_HEIGHT_CLASS = "max-h-[var(--modal-body-max-height)]";
 
 export default function LibraryIndexModal({ title, controls, count, description, children, onClose, animateHeight = true }: {
   title: string; controls?: ReactNode; count?: number; description?: string; children: ReactNode; onClose: () => void; animateHeight?: boolean;
@@ -29,7 +29,6 @@ export default function LibraryIndexModal({ title, controls, count, description,
   </>;
   return (
     <Modal isOpen onClose={onClose} ariaLabel={title} size="lg" frame="plain" showCloseButton={false}
-      maxHeightClassName={MAX_HEIGHT_CLASS}
       boxClassName="overflow-hidden rounded-xl border border-white/15 bg-bg-card shadow-2xl [&>div]:flex [&>div]:flex-col [&>div]:overflow-hidden"
       animateHeight={false} escapeCapture zIndex={Z_INDEX.modal + 1}>
       {animateHeight ? <AnimatedHeight independent duration={240} className="min-h-0 shrink-0"

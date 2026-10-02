@@ -49,7 +49,7 @@ export default function AtlasPickerControls({ world, active, query, resultCount,
     event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>("button")[next]?.focus({ preventScroll: true });
   };
   return (
-    <div className="shrink-0 px-4 pt-4 sm:px-6">
+    <div className="shrink-0 px-4 pt-4 sm:px-6 [@media(max-height:560px)]:pt-2">
       <div data-atlas-toolbar className="group/atlas-toolbar grid grid-cols-[144px_minmax(0,1fr)] gap-2 transition-[grid-template-columns,gap] duration-200 ease-out motion-reduce:transition-none has-[[data-atlas-search]:focus-within]:grid-cols-[0px_minmax(0,1fr)] has-[[data-atlas-search]:focus-within]:gap-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:has-[[data-atlas-search]:focus-within]:grid-cols-[180px_minmax(0,1fr)] sm:has-[[data-atlas-search]:focus-within]:gap-2">
         <div role="group" aria-label={t("world")} data-atlas-worlds className="grid min-w-0 grid-cols-2 gap-1 overflow-hidden rounded-lg border border-white/10 bg-bg-secondary p-1 group-has-[[data-atlas-search]:focus-within]/atlas-toolbar:invisible sm:group-has-[[data-atlas-search]:focus-within]/atlas-toolbar:visible">
           {worlds.map((item) => <button key={item.id} type="button" aria-label={item.label} title={item.label} aria-pressed={world === item.id} onClick={() => onWorldChange(item.id)}
@@ -67,19 +67,19 @@ export default function AtlasPickerControls({ world, active, query, resultCount,
             className={`size-9 shrink-0 place-items-center rounded-md text-text-secondary outline-none hover:bg-white/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${query ? "grid visible" : "invisible hidden group-focus-within/atlas-search:grid sm:grid"}`}><X size={15} aria-hidden /></button>
         </div>
       </div>
-      {!searching && <div role="tablist" aria-label={t("browseAll")} className="relative mt-4 grid grid-cols-3 border-b border-white/10 [@media(max-height:560px)]:mt-2">
+      {!searching && <div role="tablist" aria-label={t("browseAll")} className="relative mt-4 grid grid-cols-3 border-b border-white/10 [@media(max-height:560px)]:mt-1">
         <span aria-hidden data-atlas-tab-indicator className="pointer-events-none absolute bottom-[-1px] left-0 h-0.5 w-1/3 bg-accent transition-transform duration-200 ease-out motion-reduce:transition-none" style={{ transform: `translateX(${active * 100}%)` }} />
         {[1, 2].map((level) => <ChevronRight key={level} aria-hidden size={12} className={`pointer-events-none absolute top-[18px] -translate-x-1/2 ${level <= active ? "text-accent/60" : "text-text-tertiary"}`} style={{ left: `${level * 100 / 3}%` }} />)}
         {[0, 1, 2].map((level) => <button key={level} type="button" role="tab" id={`atlas-tab-${level}`} data-atlas-tab={level} aria-selected={active === level} aria-controls="atlas-panel" tabIndex={active === level ? 0 : -1} aria-label={`${t(kinds[level])}: ${selectionNames[level]}`} title={selectionNames[level]}
           onClick={() => onTabChange(level)} onKeyDown={(event) => tabKey(event, level)}
-          className={`flex min-h-12 min-w-0 items-center justify-center border-b-2 border-transparent px-2 py-3 text-center outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${active === level ? "text-accent hover:bg-accent/5" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
+          className={`flex min-h-12 min-w-0 items-center justify-center border-b-2 border-transparent px-2 py-3 text-center outline-none [@media(max-height:560px)]:min-h-10 [@media(max-height:560px)]:py-1 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${active === level ? "text-accent hover:bg-accent/5" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
           <span className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold leading-6">
             <span aria-hidden className={`inline-flex size-5 shrink-0 items-center justify-center rounded-full border text-[10px] leading-none tabular-nums ${active === level ? "border-accent bg-accent text-bg-main" : level < active ? "border-accent/40 bg-accent/10 text-accent" : "border-white/15 text-text-tertiary"}`}>{level + 1}</span>
             {t(kinds[level])}
           </span>
         </button>)}
       </div>}
-      {searching && <div className="mt-4 flex min-h-12 items-center justify-between gap-3 border-b border-white/10 [@media(max-height:560px)]:mt-2">
+      {searching && <div className="mt-4 flex min-h-12 items-center justify-between gap-3 border-b border-white/10 [@media(max-height:560px)]:mt-1 [@media(max-height:560px)]:min-h-10">
         <p id="atlas-search-results" role="status" className="text-xs font-medium text-text-secondary">{t("searchResults", { count: resultCount })}</p>
         <button type="button" onClick={clear} className="min-h-10 rounded-md px-2 text-xs font-semibold text-text-secondary outline-none hover:bg-white/5 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">{t("backToList")}</button>
       </div>}

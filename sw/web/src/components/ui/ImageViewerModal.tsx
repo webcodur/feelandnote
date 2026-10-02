@@ -116,7 +116,7 @@ export default function ImageViewerModal({
       ariaLabel={alt}
       frame="plain"
       widthClassName="w-auto max-w-[97vw]"
-      maxHeightClassName="max-h-[97dvh]"
+      fullScreen
       boxClassName="bg-transparent"
       animateHeight={false}
       closeOnEscape={false}

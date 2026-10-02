@@ -14,6 +14,7 @@
     "check:celeb-mobile-panel-flow": "node scripts/check-celeb-mobile-panel-flow.mjs",
     "check:content-expand-scroll": "node scripts/check-content-expand-scroll.mjs",
     "check:celeb-content-view-switch": "node scripts/check-celeb-content-view-switch.mjs",
+    "check:modal-height": "node scripts/check-modal-height.mjs",
     "check:memory-audio": "node scripts/check-memory-match-audio.mjs",
     "celeb:qid": "node --env-file=.env scripts/bulk-qid.mjs",
     "stats:celeb-views": "node scripts/ga4-celeb-views.mjs",

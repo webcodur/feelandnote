@@ -31,6 +31,7 @@ export async function hydrateFactionBooks(
   relations: FactionBookRelations,
   locale: string,
   themeSlug?: string,
+  themeBookIds?: string[],
 ): Promise<FactionFigureBook[]> {
   if (!contentIds.length) return [];
   const db = createStaticClient();
@@ -51,6 +52,7 @@ export async function hydrateFactionBooks(
     if (!book) return [];
     return [{
       ...book,
+      isTheme: themeBookIds?.includes(content.id) ?? false,
       memberIds: relations.memberIds.get(content.id) ?? [],
       appearedIds: relations.appearedIds.get(content.id) ?? [],
       authoredIds: relations.authoredIds.get(content.id) ?? [],

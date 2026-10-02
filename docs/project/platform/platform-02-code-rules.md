@@ -16,13 +16,14 @@
 - left/right 대신 start/end
 - **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지, 위로 뜸·확대 등 이동 지양. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
+- 일반 모달의 최대 높이는 `sw/web/src/components/ui/modalLayout.ts`를 따른다. 개별 화면에 뷰포트 높이 상한을 다시 쓰지 않으며, 내부 목록은 모달의 남은 높이에서 스크롤한다. 전체 화면 뷰어만 `Modal.fullScreen` 또는 전용 전체 화면 구현을 사용한다.
 - 색 클래스는 `sw/web/src/app/globals.css`의 `@theme` 토큰 이름만 쓴다(`bg-bg-card`·`bg-bg-main`·`bg-bg-stone-light`·`text-text-tertiary`·`border-border`·`text-status-paused`·`accent`). 다른 디자인 체계의 이름(`bg-surface`·`bg-primary`·`bg-background`·`text-muted`)은 CSS가 만들어지지 않아 바탕이 투명해지거나 부모 글자색을 물려받는다. 새 색이 필요하면 `@theme`에 먼저 정의한다
 - Tailwind 클래스는 문자열 리터럴이나 상수에 통째로 둔다. 템플릿 문자열에서 `${` 바로 앞에 붙은 토큰(`` `… lg:contain-size${x}` ``)은 스캐너가 뽑지 못해 CSS가 나오지 않는다. 조건부 클래스는 상수를 공백으로 잇는다
 - 접힌 본문(「더 보기」·끝 흐림·화면이 허락하는 만큼 채우기)은 `@/hooks/useClippedText`의 조합을 따른다. 줄 수를 미리 박지 않는다
 
 ## 구획별 독립 레인 · Suspense + i18n (필수)
-- **색인 대상 화면**(홈·탐색·서가·인물·작품 등)에 `loading.tsx`·맨 `<Suspense fallback>`을 두지 않는다. 봇이 스켈레톤을 본문으로 읽어 색인 사고가 세 번 났다(`docs/project/operations/ops-02-seo.md` 「재발 방지」). 대신 `@/components/ui/pending/Lane`을 쓴다 — 봇·미확인 UA는 완성 HTML, 사람 브라우저만 Suspense 스트리밍(`lib/render-mode.ts`, 모르면 봇). ISR 화면(인물·작품 상세)은 `headers()`가 정적을 깨므로 Lane도 쓰지 않는다.
-- 비색인 화면(`[userId]/*`, `rest/*`, `agora/*`, `search`)은 일반 Suspense·loading.tsx를 써도 된다.
+- 색인 대상 화면도 `Suspense`·`Lane`으로 준비된 구획부터 스트리밍한다. 이름·소개 등 핵심 본문은 서버에서 생성하고, 최종 HTML에 본문·실제 링크·JSON-LD가 있는지 확인한다. `next.config.ts`의 `htmlLimitedBots`는 Googlebot·Yeti의 메타데이터를 기다리게 하며, 본문은 `lib/render-mode.ts`와 `Lane`이 완성 렌더를 선택한다. UA 판별은 데이터 캐시 밖에서만 하고, 완성 HTML의 정적 ISR을 유지하는 화면에는 적용하지 않는다.
+- 인물 상세는 `connection()`으로 첫 요청에도 스트리밍하고 공개 조회는 데이터 캐시를 유지한다. 익명 HTML 앞단 캐시는 외부 서비스 문서가 쥔다. 정적 ISR 페이지는 캐시가 비었을 때 완성 렌더까지 기다리므로 `loading.tsx`만 붙여 첫 방문 지연을 해결했다고 판단하지 않는다.
 - 구획은 실패·0건에도 자리를 지킨다. 조회 실패는 구획 async 컴포넌트가 try/catch로 잡아 `RetryBlock`을 그린다(Lane에는 에러 경계가 없다 — 던지면 봇 응답 전체가 죽는다). 대기 자리는 `PendingBlock`(잿빛 맥동 블록·스피너를 새로 만들지 않는다), 첫 화면 밖 + 색인 가치 없음 + 비쌈을 모두 만족하는 구획만 `Deferred`로 뷰포트 근접 시 클라이언트 조회.
 - `Lane`은 서버 전용이라 `pending/index.ts` 배럴에 없다. 클라이언트 파일은 배럴(`PendingBlock`·`RetryBlock`·`Deferred`·`LinkPending`)만 쓴다.
 - Suspense 내부의 비동기 서버 컴포넌트가 클라이언트 컴포넌트를 렌더링할 때, `AsyncIntlProvider`로 감싼다(Lane은 자동으로 감싼다)
@@ -77,8 +78,8 @@ export default function Page() {
 ## 레이아웃·반응형
 - 뼈대 전환은 두 곳뿐이다 — `md`(768): 하단 탭 ↔ 헤더 메뉴, `xl`(1280): 옆 레일. 보이기·숨기기는 CSS(`md:hidden`)로 한다. 서버 HTML에 처음부터 들어가야 첫 화면에서 뒤늦게 튀어나오지 않는다
 - 자바스크립트가 폭을 물어야 할 때(포털 자리 등록처럼 CSS로 못 가르는 일)만 `@/hooks/useMediaQuery`와 `@/constants/breakpoints`를 쓴다. `window.innerWidth`로 따로 재지 않는다
-- 폭의 주인은 둘이다. 좌우 여백(16·24·40px)과 최대 폭 1440은 `LayoutMain`의 틀이, 화면별 본문 폭은 `PageContainer`의 `width`(`reading` 720 · `default` 1200 · `wide`)가 쥔다. 페이지가 좌우 `px-*`를 따로 더하지 않는다
-- 오른쪽 스와이프 판(`SwipeRail`)은 면 자체가 손잡이라 140px 폭을 지킨다. 좁은 막대로 줄이지 않는다. 판이 서는 1440px 이상에서는 `default` 본문 폭이 판 자리(`--rail-reserve`)만큼 물러난다(`globals.css`의 `--content-max-default`)
+- 폭의 주인은 둘이다. 좌우 여백과 최대 폭은 `LayoutMain`의 틀이, 화면별 본문 폭은 `PageContainer`의 `width`가 쥔다. 홈·허브·인물 상세는 `default`를 공유하며 상한은 `globals.css`의 `--content-max-default`만 따른다. 페이지가 좌우 `px-*`를 따로 더하지 않는다
+- 오른쪽 스와이프 판(`SwipeRail`)은 면 자체가 손잡이라 넓은 폭을 지킨다. 좁은 막대로 줄이지 않는다. 목차와 판이 서는 넓은 화면에서는 `default` 본문 폭이 판 자리(`--rail-reserve`)만큼 물러난다. 좌우 레일은 같은 본문 폭을 기준으로 바깥 여백 가운데에 선다
 - 허브 배너(탐색·작품·광장·쉼터·기록관)는 모두 같은 높이(`bannerStyles.ts`의 `BANNER_COMPACT_HEIGHT_CLASS`)를 쓴다. 한 화면만 따로 줄이거나 키우지 않는다. 배너는 제목과 경로를 싣는 자리다 — 하위 화면은 상위 단계를 작은 경로 줄로, 지금 화면을 큰 제목으로 나눠 그린다(`BannerHeading`)
 - 휴대폰·PC용으로 같은 내용을 두 벌 그리지 않는다. 한 벌을 두고 격자 칸 수만 바꾼다(`Footer` 참고). 카드처럼 놓이는 자리마다 폭이 다른 부품은 container query를 쓴다
 - 화면 높이는 `svh`·`dvh`를 쓴다(`100vh`는 휴대폰 주소창만큼 넘친다). 화면 끝에 붙는 고정 요소는 `env(safe-area-inset-*)`를 받는다(`viewport-fit=cover`는 `[locale]/layout.tsx`가 선언)

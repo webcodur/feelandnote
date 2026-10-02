@@ -23,10 +23,10 @@ test('카카오가 원제와 저자를 합친 제목에서 한국어 본제만 �
     '하루 24시간을 사는 법',
   )
   assert.equal(
-    kakao.normalizeKakaoBookTitle('제인 에어, 샬럿 브론테: Jane Eyre - An Autobiography'),
+    kakao.normalizeKakaoBookTitle('제인 에어, 샬럿 브론테: Jane Eyre - An Autobiography', '샬럿 브론테'),
     '제인 에어',
   )
-  assert.equal(kakao.normalizeKakaoBookTitle('The Help. Kathryn Stockett'), 'The Help')
+  assert.equal(kakao.normalizeKakaoBookTitle('The Help. Kathryn Stockett', 'Kathryn Stockett'), 'The Help')
   assert.equal(kakao.normalizeKakaoBookTitle('Mr. China'), 'Mr. China')
   assert.equal(
     kakao.normalizeKakaoBookTitle('미시마 유키오 - 우국·한여름의 죽음 외 22편', '미시마 유키오'),
@@ -39,6 +39,19 @@ test('카카오 저자명 뒤의 영문 병기와 물음표를 제거한다', ()
   assert.equal(kakao.normalizeKakaoBookCreator(['제인 오스틴', '제인 오스틴'], []), '제인 오스틴')
   assert.equal(kakao.normalizeKakaoBookCreator(['샬럿 브론테 Charlotte Brontë'], []), '샬럿 브론테')
   assert.equal(kakao.normalizeKakaoBookCreator(['율리시스 S 그랜트&#40;Ulysses S Grant&#41;'], []), '율리시스 S 그랜트')
+})
+
+test('합본·분권·학습서 표기를 제목 정규화로 숨기지 않는다', () => {
+  assert.equal(kakao.normalizeKakaoBookTitle('The Ballad of the Sad Cafe - and Other Stories'), 'The Ballad of the Sad Cafe - and Other Stories')
+  assert.equal(kakao.normalizeKakaoBookTitle('Death of a Salesman (SparkNotes)'), 'Death of a Salesman (SparkNotes)')
+  assert.equal(kakao.normalizeKakaoBookTitle('카사노바의 회상록 (3)'), '카사노바의 회상록 (3)')
+  assert.equal(kakao.normalizeKakaoBookTitle('Diary of a Murderer. And Other Stories', 'Young-ha Kim'), 'Diary of a Murderer. And Other Stories')
+  assert.equal(kakao.normalizeKakaoBookTitle('한산시 (양장본 Hardcover)'), '한산시')
+})
+
+test('번역자만 있는 공급처 응답을 원저자로 채우지 않는다', () => {
+  assert.equal(kakao.normalizeKakaoBookCreator([], ['김달진']), '')
+  assert.equal(kakao.normalizeKakaoBookCreator(['한산'], ['김달진']), '한산')
 })
 
 test('다음 책 상세의 여러 문단 전체를 소개로 복원한다', () => {
@@ -86,6 +99,24 @@ function bookResponse(isbn: string) {
     meta: { total_count: 1, is_end: true },
   })
 }
+
+test('도서 검색은 전자상품 코드와 잘못된 ISBN을 판본 ISBN으로 반환하지 않는다', async (t) => {
+  for (const raw of ['480D490111310', '487T150343637', '4808952741950', '9780374522309']) {
+    const fetchMock = t.mock.method(globalThis, 'fetch', async () => bookResponse(raw))
+    const result = await kakao.searchBooks('조회한 책')
+    assert.equal(result.items[0].metadata.isbn, '')
+    assert.equal(result.items[0].externalId, 'https://search.daum.net/search?w=bookpage&bookId=123')
+    assert.equal(result.items[0].title, '조회한 책')
+    fetchMock.mock.restore()
+  }
+})
+
+test('검색 결과의 잘못된 ISBN-13 대신 유효한 ISBN-10을 동일 ISBN-13으로 반환한다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => bookResponse('8994228349 9788994228342'))
+  const result = await kakao.searchBooks('조회한 책')
+  assert.equal(result.items[0].metadata.isbn, '9788994228341')
+  assert.equal(result.items[0].externalId, '9788994228341')
+})
 
 test('ISBN 검색의 첫 결과가 다른 판본이면 소개를 가져오지 않는다', async (t) => {
   const fetchMock = t.mock.method(globalThis, 'fetch', async () => bookResponse('9788970446653'))

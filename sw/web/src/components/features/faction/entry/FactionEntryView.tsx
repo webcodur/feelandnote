@@ -39,8 +39,8 @@ export default function FactionEntryView({ data, navigationTree, themeId, celebs
       ),
       renderWorks: (personIds) => {
         const ids = new Set(personIds);
-        const books = factionBooks.filter((book) => book.memberIds.some((id) => ids.has(id)) || isThemeBook(book, theme.slug, theme.name, false));
-        return <ThemeBookShelf key={personIds.join(",")} books={books} memberIds={personIds} name={theme.name} slug={theme.slug} isMyth={false} />;
+        const books = factionBooks.filter((book) => book.memberIds.some((id) => ids.has(id)) || isThemeBook(book, theme.name, false));
+        return <ThemeBookShelf key={personIds.join(",")} books={books} memberIds={personIds} name={theme.name} isMyth={false} />;
       },
     }} />
   );

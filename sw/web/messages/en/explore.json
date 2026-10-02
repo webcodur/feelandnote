@@ -476,7 +476,7 @@
       "overview": "Faction overview",
       "overviewFallback": "Choose a figure above to explore their role and story within this theme.",
       "backToOverview": "Back to theme overview",
-      "personInTheme": "{name} in {theme}",
+      "personInTheme": "{name} in <accent>{theme}</accent>",
       "hubMetaTitle": "Faction - Figures Grouped by Theme & Camp",
       "metaDescription": "Figures grouped into factions and camps across fields such as {sections}.",
       "allThemes": "All factions",

@@ -48,7 +48,7 @@ export default function AtlasPickerOptions({ level, items, currentId, onSelect, 
   }, [currentId, ref, transitionKey, loading]);
   return (
     <div ref={ref} {...dragProps} role="tabpanel" tabIndex={0} id="atlas-panel" aria-busy={loading} aria-labelledby={searching ? "atlas-search-results" : `atlas-tab-${level}`} data-atlas-panel data-atlas-column={level}
-      className={`${cursorClassName} custom-scrollbar flex h-[clamp(210px,40dvh,306px)] min-h-0 max-h-[44dvh] flex-col overflow-y-auto select-none rounded-xl border border-white/10 bg-bg-secondary p-3 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/50 sm:h-[258px] sm:max-h-[min(36dvh,300px)] [overflow-anchor:none]`}>
+      className={`${cursorClassName} custom-scrollbar flex h-[clamp(210px,40dvh,306px)] min-h-0 max-h-[44dvh] flex-col overflow-y-auto select-none rounded-xl border border-white/10 bg-bg-secondary p-3 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/50 sm:h-[258px] sm:max-h-[min(36dvh,300px)] [@media(max-height:560px)]:p-1 [overflow-anchor:none]`}>
       {/* 모바일은 화면 높이에 따라 목록 공간을 늘린다. 넘치는 목록의 자동 여백은 0으로 줄어 첫 행을 보존한다. */}
       <div key={transitionKey} data-atlas-panel-content className={`my-auto flex shrink-0 flex-wrap items-start justify-center gap-2 ${loading ? "" : styles.panelEnter}`}>
         {(loading || error) && <div role="status" className="flex min-h-20 w-full items-center justify-center gap-3 text-sm text-text-secondary">

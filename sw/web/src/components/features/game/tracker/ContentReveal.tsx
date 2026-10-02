@@ -6,6 +6,7 @@
 "use client";
 
 import ContentImage from "@/components/ui/ContentImage";
+import FormattedText from "@/components/ui/FormattedText";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useTranslations } from "next-intl";
 import type { TrackerContent } from "@/actions/game/getTrackerRound";
@@ -68,7 +69,7 @@ export default function ContentReveal({ content }: ContentRevealProps) {
       {content.review && (
         <div className="mt-5 border-t border-white/10 pt-4">
           <p className="text-[13px] sm:text-[15px] font-serif text-text-secondary leading-relaxed tracking-wide text-justify">
-            {content.review}
+            <FormattedText text={content.review} />
           </p>
         </div>
       )}

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { ChevronDown } from 'lucide-react'
+import FormattedText from '@/components/ui/FormattedText'
 import type { BookShelfPerson } from '@/actions/books/getBookShelfPeople'
 import styles from './BookShelf.module.css'
 
@@ -24,7 +25,7 @@ export default function BookShelfReading({ person }: { person: BookShelfPerson }
           className="mt-3 flex min-h-11 w-full items-center justify-center rounded border border-white/10 px-3 text-sm text-text-secondary outline-none hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
           {tHome('contentReviewSpoiler')}
         </button>
-        : <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-text-primary">{person.review}</p>)}
+        : <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-text-primary"><FormattedText text={person.review} /></p>)}
       {sourceUrl && <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-10 items-center rounded px-2 text-sm text-accent outline-none hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">{t('bookRelationSource')}</a>}
     </details>
   )

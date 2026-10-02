@@ -12,7 +12,7 @@
   목록은 전체·세력도감·신화·게임·감상목록이고 목록마다 색이 다르다. 곡이 끝나면 곡을 고른 목록에서 다음 곡으로 넘어간다.
 */
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { ArrowUpRight, Check, ChevronDown, ListMusic, Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
@@ -20,6 +20,7 @@ import { Link } from '@/i18n/navigation'
 import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import AnimatedHeight from '@/components/ui/AnimatedHeight'
 import Modal from '@/components/ui/Modal'
+import { MODAL_MAX_HEIGHT } from '@/components/ui/modalLayout'
 import { PendingBlock } from '@/components/ui/pending'
 import { Z_INDEX } from '@/constants/zIndex'
 import { cn } from '@/lib/utils'
@@ -77,20 +78,18 @@ const NEIGHBOR_ICON_SIZE = 20
 const PANEL_BASE =
   'rounded-[22px] border border-white/10 bg-[#161615] shadow-[0_32px_80px_-20px_rgba(0,0,0,0.85),0_0_0_1px_rgba(0,0,0,0.5)]'
 
-// 자리마다 창이 서는 위치·목록 최대 높이·등장 방향. 가운데 정렬은 translate 속성이 맡으므로 등장 연출의 transform과 겹치지 않는다.
-const PANEL_LAYOUT: Record<Placement, { className: string; listClassName: string; offsetY: number; zIndex?: number }> = {
+// 자리마다 창이 서는 위치·등장 방향. 높이는 공통 모달 상한을 따른다.
+const PANEL_LAYOUT: Record<Placement, { className: string; offsetY: number; zIndex?: number }> = {
   // 휴대폰 화면 가운데 모달 — 내비 틀 안에서 딤(1) 위로 선다(2)
   nav: {
     className:
       'pointer-events-auto fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2',
-    listClassName: 'max-h-[min(40vh,19rem)]',
     offsetY: 12,
     zIndex: 2,
   },
   // PC 오른쪽 아래 단추 위로 올라온다
   corner: {
     className: 'fixed bottom-24 end-4 w-[22.5rem] origin-bottom-right',
-    listClassName: 'max-h-[min(50vh,22rem)]',
     offsetY: 12,
     zIndex: Z_INDEX.floatingPlayer,
   },
@@ -98,7 +97,6 @@ const PANEL_LAYOUT: Record<Placement, { className: string; listClassName: string
   floating: {
     className:
       'fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2 md:bottom-20 md:end-4 md:left-auto md:top-auto md:origin-bottom-right md:translate-x-0 md:translate-y-0',
-    listClassName: 'max-h-[min(40vh,19rem)] md:max-h-[min(50vh,22rem)]',
     offsetY: 12,
     zIndex: Z_INDEX.floatingPlayerGame,
   },
@@ -106,7 +104,6 @@ const PANEL_LAYOUT: Record<Placement, { className: string; listClassName: string
   gameNav: {
     className:
       'pointer-events-auto fixed left-1/2 top-1/2 w-[min(92vw,22.5rem)] origin-center -translate-x-1/2 -translate-y-1/2',
-    listClassName: 'max-h-[min(40vh,19rem)]',
     offsetY: 12,
     zIndex: Z_INDEX.floatingPlayerGame,
   },
@@ -386,6 +383,20 @@ export default function FloatingMusicPlayer() {
     if (!isOpen || prefersReducedMotion()) return
     panelRef.current?.animate(panelMotion(panelOffsetY), { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' })
   }, [isOpen, panelOffsetY])
+
+  useLayoutEffect(() => {
+    const panel = panelRef.current
+    if (!isOpen || !panel) return
+    const fixedParts = Array.from(panel.children).slice(0, 2) as HTMLElement[]
+    const update = () => {
+      const fixedHeight = fixedParts.reduce((sum, part) => sum + part.offsetHeight, 2)
+      panel.style.setProperty('--music-list-max-height', `max(0px, calc(${MODAL_MAX_HEIGHT} - ${fixedHeight}px))`)
+    }
+    update()
+    const observer = new ResizeObserver(update)
+    fixedParts.forEach((part) => observer.observe(part))
+    return () => observer.disconnect()
+  }, [isOpen, placement])
 
   useEffect(() => {
     if (!isOpen) return
@@ -776,7 +787,8 @@ export default function FloatingMusicPlayer() {
           layout.className,
           placement === 'corner' && 'border-[#9a7135]/60 bg-[#0a0a0a] shadow-[inset_0_1px_0_rgba(240,207,135,0.18),0_32px_80px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(0,0,0,0.55)]',
         )}
-        style={{ zIndex: layout.zIndex }}
+        style={{ zIndex: layout.zIndex, maxHeight: MODAL_MAX_HEIGHT,
+          '--music-list-max-height': `calc(${MODAL_MAX_HEIGHT} - 14rem)` } as CSSProperties}
       >
         {/* 곡 정보(제목·상태) / 진행 막대(시간 양끝) / 조작 단추의 세 줄. 줄마다 높이를 고정해 상태가 바뀌어도 목록이 밀리지 않는다 */}
         <div className={cn(
@@ -903,7 +915,7 @@ export default function FloatingMusicPlayer() {
         </div>
 
         <AnimatedHeight duration={260}>
-          <div ref={listRef} className={cn('overflow-y-auto overscroll-contain rounded-b-[21px] pb-2', layout.listClassName)}>
+          <div ref={listRef} className="max-h-[var(--music-list-max-height)] overflow-y-auto overscroll-contain rounded-b-[21px] pb-2">
             {listBody}
           </div>
         </AnimatedHeight>

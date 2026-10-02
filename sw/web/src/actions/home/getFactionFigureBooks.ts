@@ -10,13 +10,14 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
-import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
+import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import type { AffiliateBook } from "./getAffiliateBooks";
 import { hydrateFactionBooks } from "./factionBookHydrate";
-import { getThemeWorkIds } from '@/lib/figure-books/themeBooks';
 
 export interface FactionFigureBook extends AffiliateBook {
+  /** 세력 자체를 주인공으로 다루는 주제책 — faction_lv2.theme_book_ids가 쥔다 */
+  isTheme?: boolean;
   /** 이 책에 배정된 테마 구성원 — 진영 고름에 맞춰 선반을 걸러 쓴다 */
   memberIds: string[];
   /** 등장·연관으로 배정된 구성원 — 「등장」 탭의 근거 */
@@ -33,12 +34,12 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
     .select("celeb_id")
     .eq("lv2_id", factionId)
     .eq("hidden", false),
-    db.from('faction_lv2').select('slug').eq('id', factionId).single(),
+    db.from('faction_lv2').select('slug,theme_book_ids').eq('id', factionId).single(),
   ]);
   throwOnQueryError("getFactionFigureBooks 편성 조회", memberResult.error);
   throwOnQueryError("getFactionFigureBooks 주제 조회", themeResult.error);
   const members = memberResult.data ?? [];
-  const themeIds = getThemeWorkIds(themeResult.data?.slug ?? '');
+  const themeIds = themeResult.data?.theme_book_ids ?? [];
 
   const assignments = await getFigureBookAssignmentsByCelebs(members.map((member) => member.celeb_id));
 
@@ -60,16 +61,29 @@ async function fetchFactionFigureBooks(factionId: string, locale: string): Promi
     { memberIds: memberIdsByContent, appearedIds: appearedIdsByContent, authoredIds: authoredIdsByContent },
     locale,
     themeResult.data?.slug ?? undefined,
+    themeIds,
   );
 }
 
 const getFactionFigureBooksCached = unstable_cache(
   fetchFactionFigureBooks,
-  ["faction-figure-books-v6-available-context"],
+  ["faction-figure-books-v7-theme-book-ids"],
   // faction_member_rows(편성) + figure_book_characters(배정) + contents + 판본·구매 상품
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
 );
 
 export async function getFactionFigureBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
   return withQueryFallback("getFactionFigureBooks", () => getFactionFigureBooksCached(factionId, locale === "en" ? "en" : "ko"), []);
+}
+
+/** 개인 소속 탭은 주제책만 필요하므로 세력 전원의 등장·집필 작품을 조회하지 않는다. */
+export async function getFactionThemeBooks(factionId: string, locale: string): Promise<FactionFigureBook[]> {
+  return cachedDetail(CACHE_TAGS.FACTIONS, factionId, ['faction-theme-books-v1', factionId, locale], async () => {
+    const db = createStaticClient();
+    const { data, error } = await db.from('faction_lv2').select('slug,theme_book_ids').eq('id', factionId).single();
+    throwOnQueryError('getFactionThemeBooks', error);
+    const ids = data?.theme_book_ids ?? [];
+    return hydrateFactionBooks(ids, { memberIds: new Map(), appearedIds: new Map(), authoredIds: new Map() },
+      locale, data?.slug ?? undefined, ids);
+  }, { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] });
 }

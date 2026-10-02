@@ -27,6 +27,19 @@ function fixture(): MythData {
   };
 }
 
+test('a page keeps the complete menu but sends only the selected myth detail', () => {
+  const data = fixture();
+  const second = { ...data.myths[0], id: 'second', slug: 'second', personIds: ['second-person'] };
+  data.myths.push(second);
+  data.regions[0].mythIds.push(second.id);
+  data.people.push({ ...data.people[1], id: 'second-person', mythIds: [second.id], appearances: [] });
+  const result = getMythClientData(data, 'second');
+  assert.equal(result.myths.filter(myth => myth.isPublished).length, 2);
+  assert.deepEqual(result.people.map(person => person.id), ['second-person']);
+  assert.deepEqual(result.works, []);
+  assert.equal(data.people.length, 4, 'the shared cache remains unchanged');
+});
+
 test("public view retains complete public stories and shared works without private details", () => {
   const data = fixture();
   const original = structuredClone(data);

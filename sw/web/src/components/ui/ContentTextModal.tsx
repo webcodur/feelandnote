@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { Maximize2 } from "lucide-react";
 
 import ContentReadingText from "./ContentReadingText";
-import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "./Modal";
+import Modal, { ModalBody } from "./Modal";
 import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
 import type { ReadingSegment } from "@/lib/reading-timing";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -82,7 +82,6 @@ export default function ContentTextModal({
       titleStyle={MODAL_GOLD_STYLE}
       stickyHeader
       size="xl"
-      maxHeightClassName={READING_MODAL_MAX_HEIGHT_CLASS}
       fadeClippedEnd
       zIndex={nested ? Z_INDEX.modal + 1 : undefined}
       escapeCapture={nested}

@@ -1,14 +1,19 @@
 import type { MythData } from "./mythTypes";
+import { MYTH_OPENING_SLUG } from '@/components/features/user/explore/myth/mythHref';
 
 /** Keep the coming-soon menu, but serialize detail data only for myths visitors can open. */
-export function getMythClientData(data: MythData): MythData {
+export function getMythClientData(data: MythData, detailSlug?: string): MythData {
   const publishedIds = new Set(data.myths.filter((myth) => myth.isPublished).map((myth) => myth.id));
   const regions = data.regions.filter((region) => region.mythIds.some((id) => publishedIds.has(id)));
   const visibleMythIds = new Set(regions.flatMap((region) => region.mythIds));
   const myths = data.myths.filter((myth) => visibleMythIds.has(myth.id));
   const published = myths.filter((myth) => myth.isPublished);
-  const mythIds = new Set(published.map((myth) => myth.id));
-  const personIds = new Set(published.flatMap((myth) => myth.personIds));
+  const selected = detailSlug === undefined ? published : [
+    published.find(myth => myth.slug === detailSlug)
+      ?? published.find(myth => myth.slug === MYTH_OPENING_SLUG) ?? published[0],
+  ].filter((myth): myth is MythData['myths'][number] => Boolean(myth));
+  const mythIds = new Set(selected.map((myth) => myth.id));
+  const personIds = new Set(selected.flatMap((myth) => myth.personIds));
   const people = data.people.filter((person) => personIds.has(person.id)).map((person) => ({
     ...person,
     mythIds: person.mythIds.filter((id) => mythIds.has(id)),

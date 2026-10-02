@@ -170,7 +170,7 @@ export default function CelebRecordSections({
             celebId={userId}
           />
         ) : (
-          <CelebAnalysisRetry celebId={userId} locale={locale} item={serviceItemsByKey.get("analysis")!} />
+          <CelebAnalysisRetry key={`${userId}:${locale}`} celebId={userId} locale={locale} item={serviceItemsByKey.get("analysis")!} />
         ))}
         {!isFiction && connectionsSection}
         {relatedFiguresSlot && renderSection("relatedFigures", relatedFiguresSlot)}

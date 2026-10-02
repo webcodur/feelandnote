@@ -7,6 +7,7 @@
 
 import { Swords, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { MODAL_MAX_HEIGHT } from "@/components/ui/modalLayout";
 import type { Forecast, ForecastSide, Unit } from "../../engine";
 import type { Names } from "../useNames";
 
@@ -48,7 +49,7 @@ export default function ForecastCard({ forecast, attacker, defender, names, onCo
   const unique = notes.filter((n, i) => notes.findIndex((m) => m.id === n.id) === i);
   const canKill = forecast.attacker.strikes > 0 && forecast.attacker.foeHpIfAllHit === 0;
   return (
-    <div className="pointer-events-auto w-full rounded-2xl border border-border-gold bg-bg-main/95 p-3 shadow-[0_18px_40px_-16px_var(--color-bg-main)] backdrop-blur-sm sm:w-[26rem] sm:p-4" role="dialog" aria-label={t("forecast.heading")}>
+    <div className="pointer-events-auto w-full overflow-y-auto rounded-2xl border border-border-gold bg-bg-main/95 p-3 shadow-[0_18px_40px_-16px_var(--color-bg-main)] backdrop-blur-sm sm:w-[26rem] sm:p-4" style={{ maxHeight: MODAL_MAX_HEIGHT }} role="dialog" aria-label={t("forecast.heading")}>
       <div className="flex items-start gap-3">
         <Column side={forecast.attacker} unit={attacker} foe={forecast.defender} names={names} tone="ours" />
         <Swords className="mt-6 h-5 w-5 shrink-0 text-accent" aria-hidden />

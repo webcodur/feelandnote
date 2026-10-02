@@ -17,7 +17,7 @@ import {
   getSpectrumReasons,
   type SpectrumReasonMap,
 } from "@/actions/spectrum/getSpectrumReason";
-import { Avatar, Carousel, ContentImage } from "@/components/ui";
+import { Avatar, Carousel, ContentImage, FormattedText } from "@/components/ui";
 import Modal from "@/components/ui/Modal";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { withParticle } from "@/lib/korean-particle";
@@ -207,7 +207,7 @@ export default function SpectrumMatchModal({
       closeOnEscape={!loading}
       animateHeight={false}
     >
-      <div className="flex max-h-[calc(100dvh-4rem)] flex-col">
+      <div className="flex min-h-0 max-h-[var(--modal-body-max-height)] flex-col">
         {/* ── 5. 머리글 — 제목·두 인물·일치율 ── */}
         <header className="shrink-0 border-b border-white/[0.07] px-12 py-3 md:px-14 md:py-3.5">
           {/* 셋을 가운데로 모은다 — 넓은 화면에서 양 끝으로 벌어지면 선만 길어진다 */}
@@ -429,7 +429,7 @@ export default function SpectrumMatchModal({
                           </p>
                         ) : null}
                         <p className="mt-2 line-clamp-5 border-t border-white/[0.06] pt-2 text-sm leading-relaxed text-text-secondary">
-                          {item.review}
+                          <FormattedText text={item.review} />
                         </p>
                       </div>
                     </article>

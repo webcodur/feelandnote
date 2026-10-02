@@ -32,7 +32,7 @@ export default function JourneyTimelineModal({
       showCloseButton={false}
       animateHeight={false}
     >
-      <div className="flex h-[calc(100dvh-4rem)] flex-col" data-timeline-modal>
+      <div className="flex h-[var(--modal-body-max-height)] min-h-0 flex-col" data-timeline-modal>
         <header className="relative flex h-12 shrink-0 items-center justify-center border-b border-white/10 bg-bg-main/95 px-12 backdrop-blur-md">
           <h2
             id="timeline-modal-title"
