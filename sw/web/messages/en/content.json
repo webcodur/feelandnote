@@ -151,6 +151,7 @@
     "fictionCharactersIntro": "These figures either appear in this book or are directly related to it. Select a name to open the figure archive, or use the image icon to enlarge the image.",
     "fictionCharactersAppearance": "Appearing Figures",
     "fictionCharactersRelated": "Related Figures",
+    "fictionCharactersMore": "{count, plural, one {Show # more figure} other {Show # more figures}}",
     "fictionCharacterImage": "Enlarge image of {name}",
     "imageViewer": {
       "close": "Close image",

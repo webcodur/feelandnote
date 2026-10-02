@@ -10,7 +10,6 @@ import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import { getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
@@ -94,8 +93,6 @@ export default function HomeRecordSection({
   // const [hasMore, setHasMore] = useState(true);
   // const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  const { scrollRef, isDragging, events } = useHorizontalScroll();
-  const { scrollRef: suggestionScrollRef, isDragging: isSuggestionDragging, events: suggestionEvents } = useHorizontalScroll();
   const editorRef = useRef<HTMLDivElement>(null);
 
   // 통합된 로딩 로직 (초기 진입 & 카테고리 변경)
@@ -276,8 +273,6 @@ export default function HomeRecordSection({
   };
 
   const handleItemClick = async (item: UserContentPublic | PickedContentItem, isWantItem: boolean) => {
-    if (isDragging) return;
-
     if (isWantItem) {
         // isWantItem=true 호출부는 항상 보관함 항목(UserContentPublic)을 전달한다
         const saved = item as UserContentPublic;
@@ -416,9 +411,6 @@ export default function HomeRecordSection({
                     allReviewedItems,
                     onItemClick: handleItemClick,
                     onDelete: handleDelete,
-                    scrollRef: suggestionScrollRef,
-                    events: suggestionEvents,
-                    isDragging: isSuggestionDragging,
                 }}
                 archiveProps={{
                     userId,
@@ -426,9 +418,6 @@ export default function HomeRecordSection({
                     allReviewedItems,
                     onItemClick: handleItemClick,
                     onDelete: handleDelete,
-                    scrollRef,
-                    events,
-                    isDragging,
                 }}
             />
         </section>

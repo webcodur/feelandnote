@@ -45,9 +45,10 @@ interface ContentIntroProps {
   brief: ContentBrief | null;
   category: CategoryId;
   isLoading: boolean;
+  inlineLabel?: boolean;
 }
 
-export default function ContentIntro({ brief, category, isLoading }: ContentIntroProps) {
+export default function ContentIntro({ brief, category, isLoading, inlineLabel = false }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
   const headingId = useId();
@@ -58,7 +59,9 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
   const headingCategory = brief?.category ?? category;
   const IntroIcon = getCategoryById(headingCategory)?.lucideIcon ?? BookOpen;
-  const inlineIcon = (
+  const inlineMarker = inlineLabel ? (
+    <span data-intro-inline-marker className="font-semibold text-text-primary">{t("expandContentIntro")}: </span>
+  ) : (
     <span data-intro-inline-marker aria-hidden className="me-1.5 inline-block align-[-0.15em] text-accent sm:hidden">
       <IntroIcon size={18} />
     </span>
@@ -85,8 +88,8 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const modalSourceUrl = brief?.introductionAttribution?.url ?? active?.url ?? null;
 
   return (
-    <section aria-labelledby={headingId} className="sm:flex sm:h-full sm:flex-col">
-      <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 hidden shrink-0 text-center sm:block`}>
+    <section aria-label={inlineLabel ? t("expandContentIntro") : undefined} aria-labelledby={!inlineLabel ? headingId : undefined} className="sm:flex sm:h-full sm:flex-col">
+      {!inlineLabel && <h4 id={headingId} className={`${EXPAND_SECTION_HEADING_CLASS} mb-4 hidden shrink-0 text-center sm:block`}>
         {providerName ? (
           <>
             {/* 출처는 칩이 아니라 색만 다른 글자로 — 「다음 책 소개」처럼 한 덩어리로 읽는다 */}
@@ -95,7 +98,7 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
         ) : (
           headingText
         )}
-      </h4>
+      </h4>}
 
       {/* 영상 홍보 문구는 소개 위에 한 줄로 얹는다 */}
       {!isLoading && brief?.category === "video" && brief.metadata?.tagline && (
@@ -118,21 +121,8 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
             onClick={openModal}
             clickLabel={t("expandIntroMore")}
           >
-            {inlineIcon}<FormattedText text={text} />
+            {inlineMarker}<FormattedText text={text} />
           </ClippedContentReadingText>
-          {/* 책은 제목에 출처를 합쳤으니 칸에 따로 붙이지 않는다 — 나머지 유형은 저장된 출처 링크를 둔다 */}
-          {headingCategory !== "book" && brief?.introductionAttribution?.url && (
-            <a
-              href={brief.introductionAttribution.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-block shrink-0 self-center rounded-sm text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              {brief.introductionAttribution.provider !== "unknown" && brief.introductionAttribution.provider !== "other"
-                ? (INTRO_PROVIDER_HEADING_NAME[brief.introductionAttribution.provider]?.[locale === "en" ? "en" : "ko"] ?? t("expandIntroSource"))
-                : t("expandIntroSource")}
-            </a>
-          )}
         </div>
       ) : active ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
@@ -168,19 +158,9 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
             onClick={openModal}
             clickLabel={t("expandIntroMore")}
           >
-            {inlineIcon}<FormattedText text={activeText} />
+            {inlineMarker}<FormattedText text={activeText} />
           </ClippedContentReadingText>
 
-          {active.url && (
-            <a
-              href={active.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-block shrink-0 self-center text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline"
-            >
-              {t("expandIntroSource")}
-            </a>
-          )}
         </div>
       ) : (
         <p className="text-sm italic text-text-tertiary">{t("expandNoIntro")}</p>

@@ -1,6 +1,6 @@
 /*
   펼침 보기의 선택 상태와 배치를 조율한다.
-  목록은 상단 유틸리티에서 여는 공용 모달로 본문과 분리한다.
+  인물 리뷰 목록은 작품 제목에서 여는 공용 모달로 본문과 분리한다.
   캐러셀·스와이프 없이 목록이나 이전·다음 버튼으로 본문을 즉시 교체한다.
 */
 "use client";
@@ -12,6 +12,7 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
+import { LIBRARY_DETAIL_FRAME_CLASS } from "@/components/shared/LibraryDetailNavigation";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
 import MobileIndexModal from "./MobileIndexModal";
@@ -65,6 +66,7 @@ interface ExpandDetailViewProps {
   celebId?: string;
   /** Shared list-index preference from the archive control bar. */
   expandIndexPreference?: boolean | null;
+  titlePulseRequest?: number;
   onExpandIndexPreferenceChange?: (preference: boolean) => void;
   activeCategory?: CategoryId;
   categoryCounts?: ContentTypeCounts | null;
@@ -84,6 +86,7 @@ export default function ExpandDetailView({
   initialContentRecord,
   celebId,
   expandIndexPreference,
+  titlePulseRequest,
   onExpandIndexPreferenceChange,
   activeCategory,
   categoryCounts,
@@ -207,7 +210,7 @@ export default function ExpandDetailView({
       data-expand-item-count={total}
       data-expand-content-id={selectedContentId}
       tabIndex={-1}
-      className="relative grid w-full min-w-0 scroll-mt-[var(--layer-celeb-heading-bottom,80px)] grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card outline-none md:grid-cols-[48px_minmax(0,1fr)_48px]"
+      className={`${LIBRARY_DETAIL_FRAME_CLASS} scroll-mt-[var(--layer-celeb-heading-bottom,80px)] outline-none`}
     >
       <ExpandArrowButton
         direction="previous"
@@ -225,6 +228,13 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         onPrevious={goPrevious}
         onNext={goNext}
+        indexControl={activeCategory !== undefined ? {
+          label: indexLabels.list,
+          isOpen: isIndexOpen,
+          indexId,
+          onToggle: toggleIndex,
+          pulseRequest: titlePulseRequest,
+        } : undefined}
       />
 
       <div

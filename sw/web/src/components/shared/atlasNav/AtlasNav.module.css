@@ -1,17 +1,37 @@
 /* ── 넓은 화면의 옆 목차 ──
-   본문 왼쪽 여백에 고정되는 얇은 문서 목차. 장식은 없앤다 —
-   옅은 세로 기준선 하나 위에 항목을 세우고, 현재 구획은 그 선 위에
-   액센트 눈금으로 표시한다. 전 페이지 공용이라 무대 소품은 쓰지 않는다 */
+   본문 왼쪽 여백에 고정되는 문서 목차.
+   현재 구획과 마우스를 올린 항목은 배경·글자·세로선으로 강조한다. */
 .atlasAside,
 .atlasRail {
   display: none;
 }
 
 .atlasList {
+  position: relative;
+  isolation: isolate;
   display: flex;
   width: 100%;
   flex-direction: column;
   border-left: 1px solid color-mix(in srgb, var(--color-accent-dim) 30%, transparent);
+}
+
+.atlasHighlight {
+  position: absolute;
+  top: 0;
+  inset-inline: -1px 1px;
+  z-index: -1;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 180ms ease-out, height 180ms ease-out;
+}
+
+.atlasHighlight[data-visible="true"] { opacity: 1; }
+.atlasHighlight[data-hovering="true"] { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .atlasHighlight { transition: none; }
 }
 
 .atlasItem {
@@ -22,6 +42,7 @@
   border: 0;
   /* 기준선 위에 겹쳐 세우는 현재 구획 눈금 — 평시엔 투명 */
   border-left: 2px solid transparent;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
   margin-left: -1px;
   color: var(--color-text-secondary);
   background: transparent;
@@ -46,15 +67,22 @@
   content: "";
 }
 
-/* 즉각 반응 — 색만 즉시 바뀐다. 보조 연출·전이는 두지 않는다 */
-.atlasItem:hover {
-  color: var(--color-accent);
-}
-
 .atlasItemActive {
   border-left-color: var(--color-accent);
   color: var(--color-accent);
   font-weight: 800;
+}
+
+/* 글자·세로선은 즉시 반응하고, 배경판만 따로 이동한다. */
+.atlasItem:hover {
+  border-left-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.atlasItem:active {
+  border-left-color: var(--color-accent);
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-accent) 32%, transparent);
 }
 
 .atlasItem:focus-visible {
@@ -151,7 +179,8 @@
 .atlasBarCurrent:hover { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
 .atlasBarCurrent:active { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
 
-.atlasBarChapter {
+.atlasBarChapter,
+.atlasSheetItem:has(.atlasBarChapter)::after {
   flex: 0 0 auto;
   color: var(--color-accent);
   font: 800 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -159,6 +188,7 @@
 }
 
 .atlasBarLabel {
+  min-width: 0;
   overflow: hidden;
   font-family: var(--font-serif);
   font-size: 15px;
@@ -166,6 +196,7 @@
   letter-spacing: -.01em;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .atlasBarStep:focus-visible,
@@ -183,7 +214,8 @@
 }
 
 .atlasSheetItem {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   min-height: 46px;
   padding: 8px 10px;
   align-items: center;
@@ -191,7 +223,7 @@
   border: 1px solid color-mix(in srgb, var(--color-accent-dim) 24%, transparent);
   color: var(--color-text-secondary);
   background: transparent;
-  text-align: start;
+  text-align: center;
   cursor: pointer;
 }
 .atlasSheetItem:hover { color: var(--color-accent); border-color: color-mix(in srgb, var(--color-accent) 52%, transparent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
@@ -204,11 +236,36 @@
 }
 
 .atlasSheetItemLabel {
+  min-width: 0;
+  grid-row: 1;
   overflow: hidden;
+  overflow-wrap: anywhere;
   font-family: var(--font-serif);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.25;
+}
+
+/* 모달 안 번호는 왼쪽에 두고, 오른쪽에 같은 너비를 비워 제목을 칸 전체의 중앙에 맞춘다. */
+.atlasSheetItem:has(.atlasBarChapter) {
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+}
+
+.atlasSheetItem:has(.atlasBarChapter)::after {
+  content: attr(data-chapter);
+  grid-column: 3;
+  grid-row: 1;
+  visibility: hidden;
+}
+
+.atlasSheetItem > .atlasBarChapter {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+}
+
+.atlasSheetItem:has(.atlasBarChapter) > .atlasSheetItemLabel {
+  grid-column: 2;
 }
 
 /* 옆 레일이 서면 이 띠는 물러난다 — 같은 목차가 둘일 이유가 없다 */

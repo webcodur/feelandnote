@@ -19,6 +19,7 @@ import Modal from "@/components/ui/Modal";
 import { cn } from "@/lib/utils";
 
 import styles from "./AtlasNav.module.css";
+import AtlasRailHighlight from "./AtlasRailHighlight";
 
 export interface AtlasNavItem {
   key: string;
@@ -67,6 +68,7 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
   const portalTarget = usePortalTarget();
   const followSamePageHash = useFollowSamePageHash();
   const railRef = useRef<HTMLDivElement>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const activeItemRef = useRef<HTMLButtonElement>(null);
 
   // 낮은 화면에서는 현재 구획이 목록 내부 스크롤 밖으로 숨지 않게 맞춘다.
@@ -89,7 +91,8 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
   const railNode = (
     <div ref={railRef} className={styles.atlasRail}>
       <h2 id="atlas-nav-title" className="sr-only">{t("rail")}</h2>
-      <nav aria-labelledby="atlas-nav-title" className={styles.atlasList}>
+      <nav aria-labelledby="atlas-nav-title" className={styles.atlasList} onMouseLeave={() => setHoveredId(null)}>
+        <AtlasRailHighlight sectionId={hoveredId ?? activeId} hovering={hoveredId !== null} />
         {items.map((item) => {
           const isActive = item.sectionId === activeId;
           const itemClass = cn(
@@ -103,6 +106,8 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
               href={item.href}
               onClick={(event) => followSamePageHash(event, item.href!)}
               aria-current={isActive ? "location" : undefined}
+              data-atlas-section={item.sectionId}
+              onMouseEnter={() => setHoveredId(item.sectionId)}
               className={itemClass}
             >
               {item.label}
@@ -115,6 +120,8 @@ function AtlasRail({ items, activeId, onNavigate }: AtlasNavProps) {
               onClick={() => onNavigate(item.sectionId)}
               onMouseDown={(event) => event.preventDefault()}
               aria-current={isActive ? "location" : undefined}
+              data-atlas-section={item.sectionId}
+              onMouseEnter={() => setHoveredId(item.sectionId)}
               className={itemClass}
             >
               {item.label}
@@ -219,6 +226,7 @@ function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
                 followSamePageHash(event, item.href!);
               }}
               aria-current={item.sectionId === activeId ? "location" : undefined}
+              data-chapter={item.chapter}
               className={styles.atlasSheetItem}
             >
               {content}
@@ -229,6 +237,7 @@ function AtlasBottomBar({ items, activeId, onNavigate }: AtlasNavProps) {
               type="button"
               onClick={() => go(item.sectionId)}
               aria-current={item.sectionId === activeId ? "location" : undefined}
+              data-chapter={item.chapter}
               className={styles.atlasSheetItem}
             >
               {content}

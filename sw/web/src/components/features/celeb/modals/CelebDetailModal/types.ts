@@ -24,9 +24,12 @@ export interface CelebDetailModalProps {
   hasNext?: boolean;
   /** 커스텀 z-index (게임 전체화면 등 Z_INDEX.top 위에 표시할 때) */
   zIndex?: number;
+  escapeCapture?: boolean;
   /** 모달을 연 콘텐츠에 대한 이 인물의 감상평 — 인원 구성 모달 등 문맥 진입 시에만 온다 */
   contextReview?: {
     review: string;
     isSpoiler: boolean;
+    bookTitle?: string;
+    sourceUrl?: string | null;
   } | null;
 }

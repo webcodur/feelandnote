@@ -25,11 +25,7 @@ export const EXPLORE_LENS_IMAGES: Record<string, ExploreLensImage> = {
   faction: { src: `${QUICKNAV}/faction-square.webp`, kind: "art" },
   myth: { src: `${QUICKNAV}/myth-square.webp`, kind: "art" },
   ranking: { src: `${QUICKNAV}/ranking-square.webp`, kind: "art" },
-  influence: { src: `${QUICKNAV}/influence-square-v1.webp`, kind: "art", fit: "contain" },
-  spectrum: { src: `${QUICKNAV}/spectrum.webp`, kind: "art" },
   monologue: { src: `${QUICKNAV}/monologue-right-square.webp`, kind: "art" },
-  timeline: { src: `${QUICKNAV}/timeline-flag.svg`, kind: "icon" },
-  directory: { src: `${QUICKNAV}/directory-scroll.svg`, kind: "icon" },
   // 작품 모드 — 베스트셀러가 첫 화면으로 올라가 안내 카드에서 빠졌다. 기관 선정은 「골라 세운 책 몇 권 + 인증 인장」 청동상
   // (원본·발주서: output/imagegen/explore-works/curated-v2.png·prompts-v2.json)
   curated: { src: `${QUICKNAV}/curated-v2-square.webp`, kind: "art" },
@@ -42,14 +38,17 @@ export const EXPLORE_LENS_IMAGES: Record<string, ExploreLensImage> = {
   인물 모드 안내 카드의 묶음 — 쓰임새로 나눈다. size는 카드 크기 두 단계뿐이다(큰 카드 | 낮은 줄 카드).
   이름은 explore.hub.lensGroups.<key>
 */
-export const FIGURE_LENS_GROUPS = [
+export const FIGURE_LENS_GROUPS: readonly {
+  key: string;
+  size: "large" | "compact";
+  items: readonly string[];
+}[] = [
   { key: "relation", size: "large", items: ["faction", "myth"] },
-  { key: "traits", size: "large", items: ["influence", "spectrum"] },
-  { key: "more", size: "compact", items: ["monologue", "ranking"] },
+  { key: "more", size: "large", items: ["monologue", "ranking"] },
 ] as const;
 
-/** 국가별 연대기와 디렉토리는 같은 크기의 한 줄 텍스트 입구로 둔다. */
-export const FIGURE_AUXILIARY_LINKS = ["timeline", "directory"] as const;
+/** 영향력과 스펙트럼은 같은 크기의 한 줄 텍스트 입구로 둔다. */
+export const FIGURE_AUXILIARY_LINKS = ["influence", "spectrum"] as const;
 
 /** 작품 모드에서 재편 중인 화면 — 카드와 진입 화면에 「재편 중」을 표시하고 낮은 줄 카드로 둔다(service-02-library.md) */
 export const REORGANIZING_WORK_LENSES: ReadonlySet<string> = new Set(["museum", "academy"]);

@@ -508,13 +508,14 @@
         "first": "First",
         "previous": "Previous",
         "go": "Go",
+        "goto": "Go to page",
         "next": "Next",
         "last": "Last",
         "perPage": "/ page",
         "page": "Page {page}",
         "lastPage": "Last page, page {page}",
         "summary": "Page {current} of {total}",
-        "pageSize": "Items per page"
+        "pageSize": "Per page"
       },
       "swipe": {
         "previous": "Previous page",

@@ -3,7 +3,7 @@
   기능: 홈 — 오늘의 신문 1면
   책임: 적층 원칙을 쥔다. 위계는 탐색·서가와 같은 허브 문법(아틀라스 목차 + HubSection 번호
         구획)으로 표시한다. 머리기사(오늘의 인물) 하나만 깊고, 아래 구획은 갈수록 얕아진다.
-        브랜드 줄 → 방문자 첫인사 액자 → 구획 1(오늘의 인물) → 구획 2~3 → 제휴 도서.
+        브랜드 줄 → 방문자 첫인사 액자 → 오늘의 인물 → 검색 급증 → 공지 → 추천 도서.
         로그인 유저용 빠른기록은 일단 주석 처리했다 — 재투입 여부는 상황에 맞게 정한다(sections.tsx).
 */ // ------------------------------
 
@@ -58,8 +58,7 @@ export default async function MainPage() {
       />
       {/* 비동기 서버 페이지가 클라이언트 구획을 그리므로 intl 컨텍스트를 재공급한다(platform-02-code-rules.md) */}
       <AsyncIntlProvider>
-        {/* 격자는 공통 PageContainer 폭을 다 쓰고,
-            읽는 구획(공지·첫인사)만 안쪽에서 max-w-3xl로 좁힌다. */}
+        {/* 구획별 본문 폭은 안쪽에서 제한한다. */}
         <AtlasNavSections items={hubAtlasNavItems(HOME_SECTIONS.map((s) => t(s.navTitleKey ?? s.titleKey)), HOME_GROUP_ID)} />
         {/* 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다 */}
         <PageContainer className="pb-[60px] min-[1340px]:pb-8">
@@ -82,7 +81,7 @@ export default async function MainPage() {
               첫 구획 머리가 첫인사 액자 바로 아래에 오도록 같은 간격을 둔다 */}
           <div className="mt-8 space-y-8 md:mt-10 md:space-y-10">
 
-            {/* 1/3 오늘의 인물 — 머리기사. 첫 화면 안에 인물과 작품이 들어오도록 브랜드 줄 바로 아래에 둔다 */}
+            {/* 오늘의 인물 — 머리기사. 첫 화면 안에 인물과 작품이 들어오도록 브랜드 줄 바로 아래에 둔다 */}
             <HubSection {...withoutMore(sec("todayFigure"))} hideDivider>
               <Lane fallback={<TodayFigurePending label={loading} />}>
                 <FigureSection />
@@ -95,28 +94,30 @@ export default async function MainPage() {
             </Lane>
             */}
 
-            {/* 2/3 기록이 쌓인 인물 — 명부. 더보기가 같은 기준(기록순)의 전체 탐색 목록으로 잇는다 */}
+            {/* 검색 급증 인물 — 더보기가 국가별 트렌드 탐색 목록으로 잇는다 */}
             <HubSection {...sec("figureLinks")}>
-              <Lane fallback={<FigureLinkGridPending count={HOME_FIGURE_LINK_COUNT} cols={HOME_FIGURE_LINK_COLS} label={loading} />}>
-                <HomeFigureLinks />
-              </Lane>
+              <div className="mx-auto w-full max-w-3xl">
+                <Lane fallback={<FigureLinkGridPending count={HOME_FIGURE_LINK_COUNT} cols={HOME_FIGURE_LINK_COLS} label={loading} />}>
+                  <HomeFigureLinks />
+                </Lane>
+              </div>
             </HubSection>
 
-            {/* 3/3 공지사항 — 티저 다섯 줄, 더보기가 게시판으로 잇는다 */}
+            {/* 공지사항 — 티저 다섯 줄, 더보기가 게시판으로 잇는다 */}
             <HubSection {...sec("notice")}>
               <Lane fallback={<HomeNoticePending label={loading} />}>
                 <NoticeSection />
               </Lane>
             </HubSection>
+
+            <HubSection {...sec("popularBooks")}>
+              <Lane fallback={null}>
+                <PopularBooks />
+              </Lane>
+            </HubSection>
           </div>
         </PageContainer>
 
-        <PageContainer>
-          {/* 제휴 도서 — 서점으로 이을 책이 없으면 컴포넌트가 스스로 접는다 */}
-          <Lane fallback={null}>
-            <PopularBooks />
-          </Lane>
-        </PageContainer>
       </AsyncIntlProvider>
     </>
   );

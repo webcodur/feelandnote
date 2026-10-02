@@ -22,6 +22,21 @@ test("항목이 없으면 카테고리도 없다", () => {
   assert.deepEqual(groupExpandIndexItems(source([]), ORDER), []);
 });
 
+test("카테고리 순서를 바꿔도 표지는 원래 작품에 대응한다", () => {
+  const groups = groupExpandIndexItems({
+    ...source([
+      { id: "video", title: "Film", type: "VIDEO" },
+      { id: "book", title: "Book", type: "BOOK" },
+      { id: "missing", title: "No cover", type: "BOOK" },
+    ]),
+    thumbnailUrls: ["film.jpg", "book.jpg", null],
+  }, ORDER);
+  assert.deepEqual(groups.flatMap((group) => group.items.map((item) =>
+    [item.itemId, item.thumbnailUrl, item.localIndex])), [
+    ["book", "book.jpg", 1], ["missing", null, 2], ["video", "film.jpg", 1],
+  ]);
+});
+
 test("한 카테고리만 있으면 그 헤더 하나와 1부터 순번을 준다", () => {
   const groups = groupExpandIndexItems(
     source([

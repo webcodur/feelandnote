@@ -15,10 +15,10 @@ export function hubSectionId(index: number, groupId?: string) {
 
 interface HubSectionConfig {
   key: string;
-  moreHref: string;
+  moreHref?: string;
   titleKey: string;
-  subtitleKey: string;
-  moreKey: string;
+  subtitleKey?: string;
+  moreKey?: string;
   /** 목차(옆 레일·하단 띠)에서 쓸 짧은 라벨 — 없으면 구획 제목을 그대로 쓴다 */
   navTitleKey?: string;
 }
@@ -31,9 +31,9 @@ export function hubSection(sections: readonly HubSectionConfig[], groupId: strin
   const sec = sections[idx];
   return {
     title: t(sec.titleKey),
-    subtitle: t(sec.subtitleKey),
+    subtitle: sec.subtitleKey ? t(sec.subtitleKey) : undefined,
     moreHref: sec.moreHref,
-    moreLabel: t(sec.moreKey),
+    moreLabel: sec.moreKey ? t(sec.moreKey) : undefined,
     index: idx,
     total: sections.length,
     groupId,
@@ -69,5 +69,6 @@ export const HOME_SECTIONS: readonly HubSectionConfig[] = [
   { key: "todayFigure", moreHref: "/explore/today",     titleKey: "todayFigure", subtitleKey: "todayFigureSub", moreKey: "viewAll" },
   { key: "figureLinks", moreHref: "/explore?sortBy=country_trending", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll", navTitleKey: "figureLinksNav" },
   { key: "notice",      moreHref: "/agora/board/notice", titleKey: "notice",     subtitleKey: "noticeSub",      moreKey: "viewAll" },
+  { key: "popularBooks", titleKey: "popularBooks" },
 ];
 // #endregion

@@ -3,23 +3,6 @@
   overflow-anchor: none;
   --shelf-surface: var(--color-bg-card);
   --color-bg-raised: color-mix(in srgb, var(--color-bg-card) 94%, var(--color-text-primary));
-  border-color: rgb(255 255 255 / 0.12);
-  background-color: var(--shelf-surface);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
-}
-
-.tabs {
-  border-color: rgb(255 255 255 / 0.1);
-}
-
-.tab[aria-selected="true"] {
-  background: color-mix(in srgb, var(--color-accent) 8%, var(--shelf-surface));
-  font-weight: 700;
-}
-
-.tab:hover {
-  background: color-mix(in srgb, var(--color-accent) 12%, var(--shelf-surface));
-  color: var(--color-accent-hover);
 }
 
 .bookChip {
@@ -125,6 +108,7 @@
 }
 
 .cover {
+  width: 100%;
   grid-row: 1 / span 2;
   align-self: start;
   border: 1px solid rgb(255 255 255 / 0.12);
@@ -140,14 +124,6 @@
   overflow: hidden;
 }
 
-.media { display: contents; }
-
-.introduction {
-  padding: 12px 16px 8px;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--shelf-surface) 55%, var(--color-bg-secondary));
-}
-
 .relations {
   border-color: rgb(255 255 255 / 0.08);
   background: color-mix(in srgb, var(--shelf-surface) 65%, var(--color-bg-secondary));
@@ -161,27 +137,4 @@
 .affiliation {
   border-bottom: 1px solid rgb(255 255 255 / 0.08);
   background: color-mix(in srgb, var(--shelf-surface) 85%, transparent);
-}
-
-@media (max-width: 639px) {
-  .introduction { padding: 10px 12px 6px; }
-  .introduction :global(p[role="button"]) {
-    max-height: 96px;
-    font-size: 14px;
-    line-height: 24px;
-    word-break: keep-all;
-    overflow-wrap: anywhere;
-  }
-}
-
-@media (min-width: 640px) {
-  .media {
-    display: flex;
-    grid-column: 1;
-    grid-row: 1 / span 3;
-    flex-direction: column;
-    gap: 12px;
-    align-self: start;
-  }
-  .cover { width: 100%; }
 }

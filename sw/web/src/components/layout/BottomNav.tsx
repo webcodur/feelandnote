@@ -9,6 +9,7 @@
 
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -50,10 +51,28 @@ export default function BottomNav() {
   // 홈("/")은 모든 경로의 앞머리라 정확히 일치할 때만 켠다
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
+  const frameRef = useRef<HTMLDivElement>(null);
+  // 고정 틀의 실제 높이(내비 + 도크에 붙은 띠 + 홈 표시줄 여백)를 변수로 내린다 —
+  // 푸터·본문 끝이 그 밑을 비우게 한다. 띠가 붙거나 떨어질 때도 따라간다.
+  // md 이상에서는 틀이 display:none이라 0이 실리는데, 그 폭에서는 아래를 비우는 곳이 없다.
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const publish = () =>
+      document.documentElement.style.setProperty("--layer-bottom-chrome-h", `${frame.offsetHeight}px`);
+    publish();
+    const observer = new ResizeObserver(publish);
+    observer.observe(frame);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--layer-bottom-chrome-h");
+    };
+  }, []);
+
   return (
     // 고정은 바깥 틀 하나만 한다. 위에 붙는 띠(bottomNavDock)도 이 틀 안에서 함께 움직인다.
     // 틀에 backdrop-filter를 걸지 않는다 — 안쪽 띠의 흐림이 본문을 보지 못하게 된다.
-    <div className="fixed inset-x-0 bottom-0 md:hidden" style={{ zIndex: Z_INDEX.bottomNav }}>
+    <div ref={frameRef} className="fixed inset-x-0 bottom-0 md:hidden" style={{ zIndex: Z_INDEX.bottomNav }}>
       {/* 음악 창이 포털로 들어가는 자리. 이 고정 틀 안에 있어야 창(화면 가운데 모달)이 내비와 같은 층에서 뜬다. 높이가 없어 아래를 가리지 않는다 */}
       <div ref={isNarrow ? setMusicNavPanelSlot : undefined} className="pointer-events-none absolute inset-x-0 bottom-full" />
       <div ref={isNarrow ? setBottomNavDock : undefined} />

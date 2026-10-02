@@ -5,7 +5,7 @@ import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
 
 /**
  * 서점으로 이을 수 있는 도서 구획 — 한국어는 YES24(쿠팡은 보조 단추), 영어는 아마존(상품이 없으면 검색).
- * 후보가 하나도 없으면 구획 자체를 접는다.
+ * 제목·구획 앵커는 홈의 HubSection이 맡는다. 후보가 없으면 책 목록만 생략한다.
  */
 export default async function PopularBooks() {
   const locale = await getLocale()
@@ -19,6 +19,8 @@ export default async function PopularBooks() {
     <AffiliateBookList
       books={books}
       heading={t('title')}
+      hideHeading
+      compact
       buyLabel={platform === 'amazon' ? tPage('sourceWorkBuyAmazon') : t('buy')}
       platform={platform}
     />

@@ -15,11 +15,7 @@ import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import type { ContentType } from "@/types/database";
 import type { CategoryId } from "@/constants/categories";
 import type { QuickRecordTarget } from "@/contexts/QuickRecordContext";
-import type { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import type { TitleBadge } from "@/lib/utils/content-locale";
-
-// 가로 스크롤 훅이 반환하는 마우스 이벤트 핸들러 묶음
-export type HorizontalScrollEvents = ReturnType<typeof useHorizontalScroll>["events"];
 
 // 보관함 밖(추천 목록·검색 결과)에서 선택한 콘텐츠
 export interface PickedContentItem {
@@ -44,9 +40,6 @@ export interface SuggestionProps {
     allReviewedItems: UserContentPublic[];
     onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
-    scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: HorizontalScrollEvents;
-    isDragging: boolean;
 }
 
 export interface ArchiveProps {
@@ -55,9 +48,6 @@ export interface ArchiveProps {
     allReviewedItems: UserContentPublic[];
     onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
-    scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: HorizontalScrollEvents;
-    isDragging: boolean;
 }
 
 interface HomeEditorAreaProps {

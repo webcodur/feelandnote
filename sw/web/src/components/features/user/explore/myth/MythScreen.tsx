@@ -290,10 +290,10 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
             ? <FactionPerson renderPerson={faction.renderPerson} person={selectedPerson} onClose={closePerson} />
             : <MythPersonDetail key={`${activeMyth.id}-${selectedPerson.id}`} person={selectedPerson} myth={activeMyth} onClose={closePerson} />
           )}
-          <div className={`${layout.overviewOuter} pt-3 md:pt-4`}>
+          <div className={`${faction ? layout.factionShelfOuter : layout.overviewOuter} pt-3 md:pt-4`}>
             <HubSection id="atlas-shelf" title={shelfTitle} index={2} total={sectionTotal} groupId={navGroupId}
               dividerClassName="mb-16 md:mb-24">
-              <div className={layout.container}>
+              <div className={faction ? layout.factionShelfContainer : layout.container}>
                 {/* 모달을 열어도 목록·책장의 높이와 스크롤 위치는 그대로 유지한다. */}
                 {faction ? faction.renderWorks(railPeople.map((person) => person.id)) : shelfWorks.length > 0 && (
                   <MythWorkShelf key={`${activeMyth.id}-${activeGroup?.id ?? "all"}`} works={shelfWorks} memberIds={railPeople.map((person) => person.id)} mythName={activeMyth.name} mythSlug={activeMyth.slug} />
@@ -323,7 +323,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       {hasIndex ? (
         <div className={layout.overviewOuter}>
           <HubSection id="atlas-index" title={indexHeading} index={sectionTotal - 1} total={sectionTotal} groupId={navGroupId}>
-            <AtlasIndex heading={indexHeading} groups={indexGroups} />
+            <AtlasIndex heading={indexHeading} groups={indexGroups} stacked={Boolean(faction)} />
           </HubSection>
         </div>
       ) : null}

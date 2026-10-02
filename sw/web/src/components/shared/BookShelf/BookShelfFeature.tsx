@@ -7,6 +7,7 @@ import type { BookShelfBook } from "./types";
 import BookShelfEditionDetail from "./BookShelfEditionDetail";
 import BookShelfEditionNav from "./BookShelfEditionNav";
 import styles from "./BookShelfEditionStage.module.css";
+import layout from "./BookShelfChoiceRow.module.css";
 
 interface Props {
   source: BookShelfBook; loading?: boolean; sharedEditionKeys?: ReadonlySet<string>;
@@ -14,7 +15,7 @@ interface Props {
 
 /** 작품 선택 아래에서는 판본 한 권의 표지·제목·본문을 함께 넘긴다. */
 export default function BookShelfFeature(props: Props) {
-  if (props.source.editions.length <= 1) return <><BookShelfEditionNav source={props.source} /><BookShelfEditionDetail {...props} /></>;
+  if (props.source.editions.length <= 1) return <BookShelfEditionDetail {...props} />;
   const key = [props.source.id, props.source.preferredEditionId, ...props.source.editions.map(edition => edition.id)].join(":");
   return <EditionStage key={key} {...props} />;
 }
@@ -53,7 +54,9 @@ function EditionStage({ source, loading, sharedEditionKeys }: Props) {
   };
   return (
     <div>
-    <BookShelfEditionNav source={source} editions={editions} index={activeIndex} onSelect={select} />
+    <div className={layout.navigation} data-bookshelf-navigation>
+      <BookShelfEditionNav source={source} editions={editions} index={activeIndex} onSelect={select} />
+    </div>
     <div ref={ref} data-bookshelf-edition-stage aria-label={t("sourceEditionIntro")} tabIndex={0}
       onScroll={syncIndex} onKeyDown={event => {
         if (event.target !== event.currentTarget) return;

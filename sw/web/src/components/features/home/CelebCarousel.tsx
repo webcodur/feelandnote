@@ -306,6 +306,7 @@ export function CelebGrid({ celebs, isLoading, quiet = false, onSelect, children
             avatar_url={celeb.avatar_url}
             title={celeb.title}
             count={celeb.content_count}
+            countIcon={false}
             celebProfile={celeb}
             shape="square"
             presentation={quiet ? "quiet" : "default"}
@@ -341,6 +342,7 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
             avatar_url={celeb.avatar_url}
             title={celeb.title}
             count={celeb.content_count}
+            countIcon={false}
             celebProfile={celeb}
             onSubtitle={handleSubtitle}
           />
@@ -358,6 +360,7 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
             avatar_url={celeb.avatar_url}
             title={celeb.title}
             count={celeb.content_count}
+            countIcon={false}
             celebProfile={celeb}
             onSubtitle={handleSubtitle}
           />

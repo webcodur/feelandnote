@@ -5,7 +5,7 @@ import { ContentCard } from "@/components/ui/cards";
 import type { ContentType } from "@/types/database";
 import type { LibraryContent } from "@/actions/library";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
-import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
+import type { HomeItemClickHandler } from "./HomeEditorArea";
 import { useTranslations } from "next-intl";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
@@ -17,9 +17,6 @@ interface HomeSuggestionsProps {
     allReviewedItems: UserContentPublic[];
     onItemClick: HomeItemClickHandler;
     onDelete: (id: string) => void;
-    scrollRef: React.RefObject<HTMLDivElement | null>;
-    events: HorizontalScrollEvents;
-    isDragging: boolean;
 }
 
 export function HomeSuggestions({

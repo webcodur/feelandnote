@@ -8,7 +8,7 @@ import ContentImage from "@/components/ui/ContentImage";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import BookShelfEditionHeading from "./BookShelfEditionHeading";
 import BookShelfArrival from "./BookShelfArrival";
-import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
+import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
@@ -54,41 +54,41 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
   ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 
   return (
-    <article ref={lazyIntroduction ? introduction.ref : undefined} className="grid grid-cols-[88px_minmax(0,1fr)] gap-x-5 gap-y-4 p-4 sm:grid-cols-[144px_minmax(0,1fr)] sm:grid-rows-[auto_auto_1fr] sm:gap-x-6 sm:p-6"
+    <article ref={lazyIntroduction ? introduction.ref : undefined} className="flow-root px-3 py-5 sm:grid sm:grid-cols-[192px_minmax(0,1fr)] sm:gap-x-6 sm:gap-y-4 sm:px-4 md:px-5 md:py-6"
       data-bookshelf-feature={active ? true : undefined} data-book-id={source.id} data-edition-id={edition.id} aria-busy={busy}>
-      <div data-testid="related-book-media" className={styles.media}>
+      <div data-testid="related-book-media" className="float-start mb-2 me-4 w-24 sm:col-start-1 sm:row-start-1 sm:float-none sm:m-0 sm:flex sm:w-full sm:flex-col sm:gap-3">
         <div className={styles.cover}><div className={styles.coverImage}>
           <ContentCoverLink href={`/content/${source.id}?category=book`} title={edition.title}
             imageSrc={edition.thumbnailUrl} className="absolute inset-0 h-full w-full">
             <BookOpenText size={28} className="absolute inset-0 m-auto text-text-tertiary" aria-hidden />
             {edition.thumbnailUrl && <ContentImage src={edition.thumbnailUrl} alt={edition.title}
-              sizes="(max-width: 639px) 88px, 144px" className="object-contain" />}
+              sizes="(max-width: 639px) 96px, 192px" className="object-contain" />}
           </ContentCoverLink>
         </div></div>
         <BookPurchaseSummary contentId={source.id} editionId={edition.id} isbn={edition.isbn ?? undefined}
           title={edition.title || source.title} creator={edition.creator || source.creator}
           thumbnail={edition.thumbnailUrl} links={purchaseLinks}
-          className="col-start-2 row-start-2 self-start sm:w-full" />
+          className="mt-1 w-full self-start sm:mt-0" />
       </div>
-      <header className="col-start-2 row-start-1 min-w-0 self-center sm:self-start">
+      <div className="min-w-0 sm:col-start-2 sm:row-start-1 sm:flex sm:flex-col sm:contain-size" aria-busy={busy}>
         <BookShelfEditionHeading source={source} edition={edition} sharedEditionKeys={sharedEditionKeys} />
-      </header>
-      <BookShelfArrival name="introduction" ready={introduction.failed || !busy}
-        className="col-span-2 row-start-3 min-w-0 sm:col-span-1 sm:col-start-2 sm:row-start-2">
         {introduction.failed && <RetryBlock onRetry={introduction.retry} />}
-        {!introduction.failed && <BookIntroductionPanel key={edition.id ?? source.id}
-          description={introduction.description || t("sourceWorkIntroductionEmpty")}
-          attribution={edition.introductionAttribution} showSource={!!introduction.description}
-          label={t("sourceWorkIntroduction")} loading={busy}
-          sourceTitle={edition.title} appearance="plain" className={styles.introduction} />}
-      </BookShelfArrival>
+        {!introduction.failed && <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
+          <ContentIntro key={edition.id ?? source.id} category="book" isLoading={busy} inlineLabel
+            brief={{ contentId: source.id, category: "book", description: introduction.description,
+              bookIntroduction: edition.bookIntroduction, introductionAttribution: edition.introductionAttribution,
+              releaseDate: edition.releaseDate ?? null, metadata: null }} />
+        </div>}
+      </div>
       {meta.length > 0 && <BookShelfArrival name="metadata" ready={!loading}
-        className="col-span-2 row-start-4 min-w-0 sm:col-span-1 sm:col-start-2 sm:row-start-3">
+        className="clear-both min-w-0 sm:col-span-2 sm:row-start-2">
+      {/* 모바일 여백도 높이 측정 대상에 넣어 마지막 서지 행이 잘리지 않게 한다. */}
+      <div className="pt-3 sm:pt-0">
       <dl className="flex flex-wrap gap-x-6 gap-y-2 border-t border-white/[0.07] pt-3">
         {meta.map(({ label, value }) => <div key={label} className="flex min-w-0 items-baseline gap-2 text-xs leading-5">
           <dt className="shrink-0 text-text-tertiary">{label}</dt><dd className="break-all text-text-secondary">{value}</dd>
         </div>)}
-      </dl></BookShelfArrival>}
+      </dl></div></BookShelfArrival>}
     </article>
   );
 }

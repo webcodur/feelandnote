@@ -250,8 +250,7 @@
       "quickNav": "Explore by theme",
       "lensGroups": {
         "relation": "By connection",
-        "more": "More to explore",
-        "traits": "By influence & traits"
+        "more": "More to explore"
       },
       "navCelebs": "Figures",
       "navTopByType": "Category Champions",
@@ -382,13 +381,9 @@
       "mythologySub": "Choose a region first, then explore its myths and figures.",
       "pageDescriptions": {
         "ranking": "Meet the figures with the most recorded books, films, games, and music.",
-        "spectrum": "Discover what sets figures apart through their virtues, abilities, and traits.",
         "myth": "Explore figures from world mythology and the works they appear in.",
         "faction": "Discover the stories and connections of figures brought together by a shared theme.",
-        "timeline": "Discover who lived in the same era, in timelines organized by country.",
-        "directory": "Browse all figures at a glance, organized by name and profession.",
-        "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read.",
-        "influence": "Explore how figures have shaped politics, strategy, technology, society, the economy, and culture."
+        "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
       },
       "navMonologue": "Monologues",
       "archiveResults": "{count, number} of {total, number} figures",

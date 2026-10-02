@@ -151,6 +151,7 @@
     "fictionCharactersIntro": "이 도서에 등장하거나 직접 연관된 인물입니다. 이름을 누르면 인물 기록으로 이동하고, 이미지 아이콘을 누르면 얼굴을 크게 볼 수 있습니다.",
     "fictionCharactersAppearance": "등장 인물",
     "fictionCharactersRelated": "연관 인물",
+    "fictionCharactersMore": "인물 {count}명 더 보기",
     "fictionCharacterImage": "{name} 이미지 크게 보기",
     "imageViewer": {
       "close": "이미지 닫기",

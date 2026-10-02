@@ -20,7 +20,7 @@ function requestPalette(key: string) {
   return request
 }
 
-/** 가로 선택 줄과 목록 창이 같은 표지 색과 선택 상태를 사용한다. */
+/** 가로 선택 줄의 표지 색과 선택 상태를 표시한다. */
 const BookShelfBookChip = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & { book: BookShelfBook }>(
   function BookShelfBookChip({ book, className = '', style, ...props }, forwardedRef) {
     const locale = useLocale()

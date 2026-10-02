@@ -21,6 +21,8 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  /** 본문 스크롤 밖, 모달 아래에 고정할 조작 영역. */
+  footer?: ReactNode;
   title?: string;
   /** 보이는 머리말 없이 여는 이미지 창 등의 접근성 이름 */
   ariaLabel?: string;
@@ -83,6 +85,7 @@ export default function Modal({
   isOpen,
   onClose,
   children,
+  footer,
   title,
   ariaLabel,
   titleClassName,
@@ -121,6 +124,9 @@ export default function Modal({
     const focusFrame = requestAnimationFrame(() => boxRef.current?.focus({ preventScroll: true }));
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // 초상화 확대처럼 Portal로 위에 열린 창의 키 입력은 그 창에서 처리한다.
+      const targetDialog = e.target instanceof Element ? e.target.closest('[role="dialog"]') : null;
+      if (targetDialog && !boxRef.current?.contains(targetDialog)) return;
       if (e.key === "Escape") {
         if (!closeOnEscape) return;
         if (escapeCapture) e.stopImmediatePropagation();
@@ -163,7 +169,7 @@ export default function Modal({
   // widthClassName이 너비(w-·size-)를 직접 쥐면 w-full과 같은 속성을 두고 싸워 생성 순서로 진다 — 그 경우 w-full을 뺀다
   const hasOwnWidth = /(?:^|\s)(?:w-|size-)/.test(widthClassName ?? "");
   // classical 판의 모서리(16px)는 ClassicalBox가 쥔다
-  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "" : "relative"} ${boxClassName ?? ""}`;
+  const boxClass = `${hasOwnWidth ? "" : "w-full "}${widthClassName ?? SIZE_CLASSES[size]} ${maxHeightClassName} animate-modal-content outline-none ${frame === "classical" ? "" : "relative"} ${footer ? "flex flex-col overflow-hidden" : ""} ${boxClassName ?? ""}`;
   const closeInHeader = Boolean(title && stickyHeader && !closeButtonClassName);
   const closeButton = showCloseButton && (
     <button
@@ -185,7 +191,7 @@ export default function Modal({
       {/* 스크롤 영역 */}
       <div
         ref={scrollRef}
-        className={`overflow-y-auto max-h-[inherit] ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
+        className={`overflow-y-auto max-h-[inherit] ${footer ? "min-h-0" : ""} ${frame === "classical" ? "rounded-[inherit]" : ""} ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
       >
         {/* 헤더 - title이 있을 때만 렌더링 */}
         {title && (
@@ -202,6 +208,7 @@ export default function Modal({
         {/* 본문 */}
         {animateHeight ? <AnimatedHeight independent duration={animateHeightDuration}>{children}</AnimatedHeight> : children}
       </div>
+      {footer && <div className="shrink-0">{footer}</div>}
     </>
   );
 

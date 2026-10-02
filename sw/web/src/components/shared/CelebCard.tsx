@@ -31,6 +31,8 @@ interface CelebCardProps {
   avatar_url?: string | null;
   title?: string | null;
   count?: number;
+  /** false면 작품 수 뱃지에서 서가 아이콘을 빼고 숫자만 둔다. */
+  countIcon?: boolean;
   /** 최근 30일 조회수 — 값이 있을 때만 조회수 버튼을 표시한다. */
   recentViews?: number | null;
   className?: string;
@@ -54,6 +56,7 @@ export default function CelebCard({
   avatar_url,
   title,
   count,
+  countIcon = true,
   recentViews,
   className = "",
   celebProfile,
@@ -148,7 +151,7 @@ export default function CelebCard({
             {count !== undefined && count > 0 && (
               <span className={`${isQuiet ? `${quietBadgeStyles[variant]} border border-white/15 bg-bg-main text-text-secondary` : badgeStyles[variant]} z-20 flex items-center justify-center gap-[clamp(2px,1cqw,4px)] font-bold leading-none`} title={t("contentCount", { count })}>
                 {/* 카드 배지는 숫자만 두면 무엇의 수인지 모른다 — 서가 아이콘으로 "보유 작품 수"임을 알린다 */}
-                {isCard && <Library aria-hidden className="shrink-0 opacity-80 w-[clamp(9px,6cqw,12px)] h-[clamp(9px,6cqw,12px)]" />}
+                {isCard && countIcon && <Library aria-hidden className="shrink-0 opacity-80 w-[clamp(9px,6cqw,12px)] h-[clamp(9px,6cqw,12px)]" />}
                 {count}
               </span>
             )}

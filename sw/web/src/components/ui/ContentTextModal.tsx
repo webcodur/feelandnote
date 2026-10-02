@@ -13,7 +13,7 @@ const MODAL_GOLD_STYLE: CSSProperties = {
   backgroundImage: "linear-gradient(to bottom, #f0c948, #c9a33a)",
 };
 const MODAL_SOURCE_CLASS =
-  `mt-5 block break-all text-sm font-medium leading-relaxed ${MODAL_GOLD_CLASS} underline decoration-accent/60 underline-offset-4 hover:brightness-125 hover:decoration-accent-hover`;
+  `inline-flex min-h-11 items-center rounded-sm text-sm font-medium ${MODAL_GOLD_CLASS} underline decoration-accent/60 underline-offset-4 hover:brightness-125 hover:decoration-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`;
 
 interface ExpandTextButtonProps {
   label: string;
@@ -86,6 +86,12 @@ export default function ContentTextModal({
       fadeClippedEnd
       zIndex={nested ? Z_INDEX.modal + 1 : undefined}
       escapeCapture={nested}
+      footer={source ? (
+        <div data-content-text-source className="flex justify-end border-t border-line px-4 py-1 sm:px-6">
+          <a href={source.href} target="_blank" rel="noopener noreferrer"
+            className={MODAL_SOURCE_CLASS} style={MODAL_GOLD_STYLE}>{source.label}</a>
+        </div>
+      ) : undefined}
     >
       <ModalBody className="p-4 sm:p-6">
         {notice}
@@ -107,17 +113,6 @@ export default function ContentTextModal({
             />
           ) : null}
         </ContentReadingText>
-        {source && (
-          <a
-            href={source.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={MODAL_SOURCE_CLASS}
-            style={MODAL_GOLD_STYLE}
-          >
-            {source.label}
-          </a>
-        )}
       </ModalBody>
     </Modal>
   );

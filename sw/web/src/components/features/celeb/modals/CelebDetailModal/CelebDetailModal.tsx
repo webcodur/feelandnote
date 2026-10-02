@@ -1,7 +1,7 @@
 /*
   셀럽 요약 모달
-  - celeb props만으로 즉시 뜨는 가벼운 인물 카드다. 감상 기록·읽어보기 같은
-    긴 내용은 싣지 않고 「프로필 보기」로 인물 페이지에 보낸다.
+  - 인물 요약을 표시하고, 작품에서 열면 전달받은 그 작품의 감상 배경도 함께 보여준다.
+    전체 인물 기록은 「프로필 보기」로 인물 페이지에서 읽는다.
 */
 "use client";
 
@@ -35,7 +35,7 @@ import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 import type { Locale } from "@/types/locale";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex, contextReview }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate = false, onNavigate, hasPrev = false, hasNext = false, zIndex, escapeCapture = false, contextReview }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
   const tCeleb = useTranslations("celebPage");
   const tProf = useTranslations("profession");
@@ -121,6 +121,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         closeButtonClassName="absolute -top-3 -right-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-bg-main text-text-secondary hover:bg-bg-card hover:text-text-primary"
         animateHeightDuration={220}
         zIndex={zIndex}
+        escapeCapture={escapeCapture}
+        closeOnEscape={!isFactionsModalOpen && !zoomOpen}
       >
         <div className="relative overflow-hidden rounded-sm bg-bg-main animate-fade-in pb-5">
           {/* 머리 위로 옅은 금빛 — 장식 상자 없이 인물만 비춘다 */}
@@ -293,11 +295,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
           {/* 이 콘텐츠에 대한 감상평 — 인원 구성처럼 콘텐츠 문맥에서 열렸을 때만 */}
           {contextReview && (
-            <div className="px-6 pt-3">
+            <div className="px-6 pt-3" data-celeb-context-review>
               <div className="rounded-xl border border-accent/20 bg-white/[0.03] px-4 py-3">
                 <p className="mb-2 text-xs font-medium text-accent/80">
-                  {t("contentReviewTitle")}
+                  {contextReview.bookTitle ? tCeleb("bookRelationReadBackground", { name: displayNickname }) : t("contentReviewTitle")}
                 </p>
+                {contextReview.bookTitle && <p className="mb-2 text-sm font-semibold text-text-primary">{contextReview.bookTitle}</p>}
                 {contextReview.isSpoiler && revealedReview !== contextReview.review ? (
                   <button
                     type="button"
@@ -307,12 +310,18 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                     <EyeOff size={13} />
                     {t("contentReviewSpoiler")}
                   </button>
-                ) : (
+                ) : contextReview.review ? (
                   <div className="max-h-48 overflow-y-auto custom-scrollbar">
                     <p className="text-sm leading-relaxed text-text-secondary whitespace-pre-line break-words">
                       <FormattedText text={contextReview.review} />
                     </p>
                   </div>
+                ) : null}
+                {/^https?:\/\//.test(contextReview.sourceUrl ?? "") && (
+                  <a href={contextReview.sourceUrl!} target="_blank" rel="noopener noreferrer"
+                    className="mt-2 inline-flex min-h-10 items-center rounded px-2 text-xs text-accent outline-none hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">
+                    {tCeleb("bookRelationSource")}
+                  </a>
                 )}
                 {celeb.content_count > 1 && (
                   <Link

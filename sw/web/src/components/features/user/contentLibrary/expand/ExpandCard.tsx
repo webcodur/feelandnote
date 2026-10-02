@@ -13,7 +13,6 @@ import { Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import ContentImage from "@/components/ui/ContentImage";
-import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
 import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
 import FormattedText from "@/components/ui/FormattedText";
@@ -27,7 +26,6 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
 import ContentIntro from "./ContentIntro";
 import ReviewScrollBox from "./ReviewScrollBox";
-import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
@@ -59,7 +57,6 @@ function ExpandCard({
   onRetryRecord,
   isActive,
   ownerNickname,
-  ownerAvatarUrl,
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
@@ -77,6 +74,7 @@ function ExpandCard({
   const showReview = hasRecordError || isRecordLoading || !!review || isSpoiler
     || (item.rating != null && item.rating > 0) || !!item.source_url;
   const reviewHeading = ownerNickname ? tExpand("expandReviewOf", { name: ownerNickname }) : tExpand("expandReview");
+  const reviewInlineLabel = locale === "en" ? reviewHeading : tExpand("expandReview");
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const coverUrl = item.content.thumbnail_url;
   const purchaseLinks = toAffiliateLinks(item.content.affiliate_url);
@@ -138,7 +136,7 @@ function ExpandCard({
           {/* 소개 칸은 제 높이를 내지 않고(contain-size) 표지 열이 정한 높이만큼 늘어난다.
               소개가 아무리 길어도 행이 늘어나지 않아 버튼은 표지 바로 밑에 붙고, 소개는 그 높이 안에서만
               보이고 나머지는 접힌다(ContentIntro). 모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
-          <div className="min-w-0 sm:col-start-2 sm:row-start-1 sm:contain-size md:row-span-2">
+          <div className="min-w-0 sm:col-start-2 sm:row-start-1 sm:contain-size md:row-span-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]">
             {hasBriefError ? (
               <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
                 <p>{tExpand("loadFailed")}</p>
@@ -149,7 +147,7 @@ function ExpandCard({
             ) : (
               <div className="sm:flex sm:h-full sm:flex-col">
                 <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
+                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel />
                 </div>
               </div>
             )}
@@ -159,16 +157,14 @@ function ExpandCard({
         {/* 아래칸 — 이 인물이 왜 이 작품을 골랐는지. 이 서비스의 알맹이라
             윗칸과 가로선·바탕색으로 갈라 놓되 같은 카드 안에 이어 붙인다 */}
         {showReview && (
-        <section className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:px-5 md:py-6">
-          <div className="flex flex-col items-center gap-0.5 sm:mb-4">
-            <h4 className={`hidden sm:block ${EXPAND_SECTION_HEADING_CLASS}`}>{reviewHeading}</h4>
+        <section aria-label={reviewHeading} className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:grid md:grid-cols-[12rem_minmax(0,1fr)] md:gap-x-5 md:px-5 md:py-6">
+          <div className="min-w-0 md:col-start-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]">
             {item.rating != null && item.rating > 0 && (
-              <span className="mb-2 flex items-center gap-1.5 text-sm font-medium text-text-secondary sm:mb-0">
+              <span className="mb-2 flex items-center justify-center gap-1.5 text-sm font-medium text-text-secondary">
                 <Star size={13} className="fill-yellow-500 text-yellow-500" />
                 {item.rating.toFixed(1)}
               </span>
             )}
-          </div>
 
           {hasRecordError ? (
             <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
@@ -193,20 +189,9 @@ function ExpandCard({
               <ReviewScrollBox
                 onOpen={() => setIsReviewModalOpen(true)}
                 openLabel={tExpand("expandReviewExpand")}
+                fadeWhenFits={false}
               >
-                <span data-review-inline-marker className="me-1.5 sm:hidden">
-                  {ownerAvatarUrl && (
-                    <CelebAvatarImage
-                      src={ownerAvatarUrl}
-                      alt={ownerNickname ?? tExpand("expandReview")}
-                      boxPx={24}
-                      className="inline-block size-6 rounded-full object-cover align-[-0.4em]"
-                    />
-                  )}
-                  {!ownerAvatarUrl && (
-                    <span className="font-semibold text-accent">{tExpand("expandReview")}</span>
-                  )}
-                </span>
+                <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
                 <FormattedText text={review} />
               </ReviewScrollBox>
             </>
@@ -219,6 +204,7 @@ function ExpandCard({
           )}
 
           {!hasRecordError && !isRecordLoading && !review && <p className="text-sm italic text-text-tertiary">{t("reviewModal.noReview")}</p>}
+          </div>
         </section>
         )}
 

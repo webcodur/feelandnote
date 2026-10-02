@@ -64,7 +64,7 @@ interface BookIntroductionPanelProps {
   fillFrom?: keyof typeof FILL_CLASSES;
   /** 모바일에서 바깥의 포스터·버튼 float를 감싸며 소개가 이어진다 */
   wrapAroundMedia?: boolean;
-  /** 책장에서는 소개를 별도 장식 상자 없이 네 줄과 명시적인 전체 보기로 보여준다 */
+  /** 책장에서는 소개를 별도 장식 상자 없이 본문 미리보기와 명시적인 전체 보기로 보여준다 */
   appearance?: "plate" | "plain";
 }
 

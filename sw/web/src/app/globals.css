@@ -123,10 +123,14 @@
   :root {
     /* 전역 고정 헤더(Header의 h-16) */
     --layer-header-h: 64px;
-    /* 인물 상세 구획 머리(CelebSectionHeading) */
+    /* 인물 상세 모드 탭의 기본 기준 높이. 공통 구획을 쓰는 페이지에서 덮어쓴다. */
     --layer-celeb-heading-h: 52px;
     /* 구획 머리 아래에 붙는 층이 쓰는 자리 */
     --layer-celeb-heading-bottom: calc(var(--layer-header-h) + var(--layer-celeb-heading-h));
+
+    /* 모바일 하단 고정층(하단 탭 + 도크에 붙는 목차 띠). BottomNav가 실측값으로 덮어쓴다.
+       본문 끝(푸터)이 이 층 아래로 파고들지 않게 비우는 높이다 */
+    --layer-bottom-chrome-h: calc(4rem + env(safe-area-inset-bottom));
 
     /* 본문 기본 폭(PageContainer default·허브 배너). 오른쪽 스와이프 판(140px)이 서는 넓은 화면에서는
        좌우에 판 자리(판 + 양옆 16px)를 비워 본문이 판 밑으로 들어가지 않게 한다. 판 위치도 이 값으로 잰다 */

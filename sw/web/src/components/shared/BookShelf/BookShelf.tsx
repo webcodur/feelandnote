@@ -1,9 +1,10 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import { BookOpen } from 'lucide-react'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import BookShelfSelection from './BookShelfSelection'
+import LibraryCategoryPicker from '@/components/shared/LibraryCategoryPicker'
 import type { BookShelfGroup } from './types'
 import styles from './BookShelf.module.css'
 
@@ -15,43 +16,31 @@ interface Props {
   className?: string
 }
 
-/** 개인·신화·팩션의 공통 책장. 모든 탭은 같은 책 선택·판본·소개·구매 화면을 쓴다. */
+/** 개인·신화·팩션의 공통 책장. 분류는 칩으로 바꾸고 제목에서 선택 목록을 연다. */
 export default function BookShelf({ groups, ariaLabel, title, id, className = '' }: Props) {
-  const instanceId = useId()
-  const prefix = id ? `${id}-bookshelf` : `bookshelf-${instanceId}`
-  const available = groups.map((group) => ({ ...group,
+  const normalized = groups.map((group) => ({ ...group,
     books: [...new Map(group.books.filter(isBookShelfAvailable).map((book) => [book.id, book])).values()],
-  })).filter((group) => group.books.length > 0)
+  }))
+  const available = normalized.filter((group) => group.books.length > 0)
   const [activeKey, setActiveKey] = useState(available[0]?.key)
+  const [listOpen, setListOpen] = useState(false)
+  const [titlePulseRequest, setTitlePulseRequest] = useState(0)
   const active = available.find((group) => group.key === activeKey) ?? available[0]
   if (!active) return null
+  const categoryPicker = <LibraryCategoryPicker
+    options={normalized.map((group) => ({ key: group.key, label: group.label, count: group.books.length, disabled: group.books.length === 0 }))}
+    value={active.key} ariaLabel={ariaLabel}
+    onChange={(key) => { setActiveKey(key); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />
 
   return (
-    <section className={`${styles.shelf} min-w-0 overflow-hidden rounded-xl border ${className}`} aria-label={ariaLabel} data-bookshelf>
+    <div className="min-w-0" aria-label={ariaLabel} data-bookshelf>
       {title && <h3 className="flex items-center gap-2 border-b border-white/10 px-4 py-4 text-lg font-bold text-text-primary sm:px-6"><BookOpen size={17} aria-hidden />{title}</h3>}
-      <div role="tablist" aria-label={ariaLabel} className={`${styles.tabs} grid border-b`}
-        style={{ gridTemplateColumns: `repeat(${available.length}, minmax(0, 1fr))` }}>
-        {available.map((group, index) => (
-          <button key={group.key} id={`${prefix}-tab-${group.key}`} type="button" role="tab"
-            aria-selected={group.key === active.key} aria-controls={`${prefix}-panel-${group.key}`}
-            tabIndex={group.key === active.key ? 0 : -1} onClick={() => setActiveKey(group.key)}
-            onKeyDown={(event) => {
-              const direction = { ArrowLeft: -1, ArrowRight: 1, Home: -index, End: available.length - 1 - index }[event.key]
-              if (direction === undefined) return
-              event.preventDefault()
-              const next = available[(index + direction + available.length) % available.length].key
-              setActiveKey(next)
-              document.getElementById(`${prefix}-tab-${next}`)?.focus()
-            }}
-            className={`${styles.tab} flex min-h-12 min-w-0 items-center justify-center border-b-2 px-1 py-2 text-center text-xs font-medium outline-none hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-3 sm:text-base ${group.key === active.key ? 'border-accent text-accent' : 'border-transparent text-text-secondary'}`}>
-            <span className="break-words">{group.label}</span>
-          </button>
-        ))}
-      </div>
-      <div id={`${prefix}-panel-${active.key}`} role="tabpanel" aria-labelledby={`${prefix}-tab-${active.key}`}>
+      <div className="mx-auto mb-3 w-fit max-w-full">{categoryPicker}</div>
+      <section id={id} className={`${styles.shelf} min-w-0 ${className}`} aria-label={active.label}>
         {active.addon}
-        <BookShelfSelection key={`${active.key}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${active.intro}`} listSubtitle={active.listSubtitle} books={active.books} context={active.context} pagination={active.pagination} />
-      </div>
-    </section>
+        <BookShelfSelection selectionKey={`${active.key}:${active.selectionKey ?? ''}`} intro={`${active.label}: ${active.intro}`} listSubtitle={active.listSubtitle} books={active.books} context={active.context} pagination={active.pagination}
+          listOpen={listOpen} onListOpenChange={setListOpen} categoryPicker={categoryPicker} titlePulseRequest={titlePulseRequest} />
+      </section>
+    </div>
   )
 }

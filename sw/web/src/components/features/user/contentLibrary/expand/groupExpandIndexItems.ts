@@ -3,6 +3,8 @@ import type { TitleBadge } from "@/lib/utils/content-locale";
 export interface ExpandIndexEntry {
   itemId: string;
   title: string;
+  creator?: string | null;
+  thumbnailUrl?: string | null;
   titleBadge: TitleBadge | null;
   originalIndex: number;
   localIndex: number;
@@ -16,6 +18,8 @@ export interface ExpandIndexTypeGroup {
 interface ExpandIndexSource {
   itemIds: string[];
   titles: string[];
+  creators?: (string | null)[];
+  thumbnailUrls?: (string | null)[];
   titleBadges: (TitleBadge | null)[];
   contentTypes: string[];
 }
@@ -32,6 +36,8 @@ export function groupExpandIndexItems(
     bucket.push({
       itemId: source.itemIds[originalIndex] ?? String(originalIndex),
       title,
+      creator: source.creators?.[originalIndex],
+      thumbnailUrl: source.thumbnailUrls?.[originalIndex],
       titleBadge: source.titleBadges[originalIndex] ?? null,
       originalIndex,
     });

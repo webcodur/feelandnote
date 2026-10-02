@@ -2,18 +2,16 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { ArrowUpRight, ChevronRight } from 'lucide-react'
-import { getBookShelfPeople, type BookShelfPeople } from '@/actions/books/getBookShelfPeople'
-import { Link } from '@/i18n/navigation'
-import { getCelebProfileUrl } from '@/lib/url'
+import { ChevronRight } from 'lucide-react'
+import { getBookShelfPeople, type BookShelfPeople, type BookShelfPerson } from '@/actions/books/getBookShelfPeople'
 import { selectBookShelfPeople } from '@/lib/books/bookShelfPeople'
 import { RetryBlock } from '@/components/ui/pending'
 import PendingMark from '@/components/ui/pending/PendingMark'
 import type { BookShelfContext } from './types'
 import { BOOK_SHELF_INLINE_PEOPLE } from '@/lib/books/bookShelfUi'
 import BookShelfPeopleList from './BookShelfPeopleList'
-import BookShelfReading from './BookShelfReading'
 import BookShelfArrival from './BookShelfArrival'
+import BookShelfPersonModal from './BookShelfPersonModal'
 import styles from './BookShelf.module.css'
 
 const requests = new Map<string, Promise<BookShelfPeople>>()
@@ -40,6 +38,9 @@ export default function BookShelfRelations({ contentId, bookTitle, context, read
   const [attempt, setAttempt] = useState(0)
   const [listRole, setListRole] = useState<keyof BookShelfPeople | null>(null)
   const closeList = useCallback(() => setListRole(null), [])
+  const [selectedPerson, setSelectedPerson] = useState<BookShelfPerson | null>(null)
+  const closePerson = useCallback(() => setSelectedPerson(null), [])
+  const openPerson = (person: BookShelfPerson) => setSelectedPerson(people?.read.find((reader) => reader.id === person.id) ?? person)
   useEffect(() => {
     let alive = true
     requestPeople(contentId, locale).then(
@@ -61,43 +62,40 @@ export default function BookShelfRelations({ contentId, bookTitle, context, read
   if (!roles.length) return <BookShelfArrival name="relations" ready />
   const roleLabel = (role: keyof BookShelfPeople) => t(`bookRelation${role === 'appeared' ? 'Appeared' : role === 'authored' ? 'Authored' : 'Read'}`)
   const linkClass = 'inline-flex min-h-9 items-center rounded px-2 text-sm text-text-primary outline-none hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent'
-  const ownReading = context?.kind === 'read' ? selected.read.find((person) => person.id === context.personId) : undefined
+  const actionClass = `${linkClass} col-start-2 row-start-1 justify-self-end text-xs text-accent sm:col-start-3 sm:text-sm`
   return (
     <BookShelfArrival name="relations" ready>
-    <div data-bookshelf-relations data-content-id={contentId} className={`${styles.relations} space-y-3 border-t p-4 sm:px-6`}>
+    <div data-bookshelf-relations data-content-id={contentId} className={`${styles.relations} space-y-2 border-t p-4 sm:px-6`}>
+      <div className="divide-y divide-white/[0.07]">
       {roles.map((role) => {
         const persons = selected[role]
-        const own = persons.find((person) => person.id === context?.personId)
-        const inline = persons.length <= BOOK_SHELF_INLINE_PEOPLE
+        const inlinePeople = persons.slice(0, BOOK_SHELF_INLINE_PEOPLE)
+        const remaining = persons.length - inlinePeople.length
         return (
-          <div key={role} data-bookshelf-relation={role} className="grid grid-cols-[88px_minmax(0,1fr)] items-start gap-x-3 gap-y-2 sm:grid-cols-[144px_minmax(0,1fr)] sm:gap-x-4">
-            <span className="pt-2 text-xs font-medium leading-5 text-text-tertiary sm:text-sm">{roleLabel(role)}</span>
-            <div className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1">
-            {inline ? persons.map((person) => (
+          <div key={role} data-bookshelf-relation={role} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 py-2 first:pt-0 last:pb-0 sm:grid-cols-[144px_minmax(0,1fr)_auto] sm:gap-x-4">
+            <span className="col-start-1 row-start-1 text-xs font-medium leading-5 text-text-tertiary sm:text-sm">{roleLabel(role)} <span className="tabular-nums">({persons.length})</span></span>
+            <div className="col-span-2 col-start-1 row-start-2 flex min-w-0 flex-wrap items-center gap-1 sm:col-span-1 sm:col-start-2 sm:row-start-1">
+            {inlinePeople.map((person) => (
               <span key={person.id} data-relation-person={person.id}>
-                {person.id === context?.personId ? <span className="inline-flex min-h-9 items-center px-2 text-sm font-semibold text-text-primary">{person.name}</span>
-                  : <Link href={getCelebProfileUrl(person)} prefetch={false} className={linkClass}>{person.name}</Link>}
+                {person.id === context?.personId ? <span className="inline-flex min-h-9 items-center rounded bg-white/5 px-2 text-sm font-semibold text-text-primary">{person.name}</span>
+                  : <button type="button" onClick={() => openPerson(person)} aria-haspopup="dialog" className={`${linkClass} bg-white/5`}>{person.name}</button>}
               </span>
-            )) : <span className="text-sm text-text-primary">{t('bookShelfPeopleCount', { count: persons.length })}{own ? ` · ${own.name}` : ''}</span>}
-            {role === 'read' && ownReading && context?.onOpenReview ? (
-              <button type="button" onClick={() => context.onOpenReview?.(contentId)} data-bookshelf-open-review
-                aria-label={t('bookRelationReadRecordFor', { name: ownReading.name })}
-                className={`${linkClass} ms-auto text-accent`}>{t('bookShelfReviewOpen')}<ChevronRight size={14} className="ms-1" aria-hidden /></button>
-            ) : role === 'read' && ownReading && persons.length === 1 ? (
-              <Link href={`${getCelebProfileUrl(ownReading)}/records?focus=${encodeURIComponent(contentId)}`} prefetch={false}
-                aria-label={t('bookRelationReadRecordFor', { name: ownReading.name })} className={`${linkClass} ms-auto text-accent`}>{t('bookShelfReadPage')}<ArrowUpRight size={14} className="ms-1" aria-hidden /></Link>
-            ) : (!inline || role === 'read') && (
+            ))}
+            {remaining > 0 && <span className="px-1 text-xs tabular-nums text-text-secondary">+{remaining}</span>}
+            </div>
+            {(remaining > 0 || role === 'read') && (
               <button type="button" onClick={() => setListRole(role)} data-bookshelf-open-people={role}
                 aria-label={t('bookShelfPeopleListFor', { role: roleLabel(role), count: persons.length })}
-                className={`${linkClass} ms-auto text-accent`}>{t(role === 'read' ? 'bookShelfReadersList' : 'bookShelfPeopleList')}<ChevronRight size={14} className="ms-1" aria-hidden /></button>
+                className={actionClass}>{t(role === 'read' ? 'bookShelfReadersList' : 'bookShelfPeopleList')}<ChevronRight size={14} className="ms-1 shrink-0" aria-hidden /></button>
             )}
-            </div>
           </div>
         )
       })}
-      {ownReading && !context?.onOpenReview && <BookShelfReading person={ownReading} />}
-      {listRole && <BookShelfPeopleList people={selected[listRole]} contentId={contentId} reading={listRole === 'read'}
-        title={t('bookShelfPeopleListFor', { role: roleLabel(listRole), count: selected[listRole].length })} bookTitle={bookTitle} onClose={closeList} />}
+      </div>
+      {listRole && <BookShelfPeopleList people={selected[listRole]} reading={listRole === 'read'}
+        title={t('bookShelfPeopleListFor', { role: roleLabel(listRole), count: selected[listRole].length })} bookTitle={bookTitle} onClose={closeList}
+        isOpen={!selectedPerson} onSelectPerson={openPerson} />}
+      {selectedPerson && <BookShelfPersonModal key={selectedPerson.id} person={selectedPerson} bookTitle={bookTitle} onClose={closePerson} />}
     </div>
     </BookShelfArrival>
   )

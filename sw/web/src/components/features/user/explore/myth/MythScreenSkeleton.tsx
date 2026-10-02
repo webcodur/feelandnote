@@ -6,7 +6,7 @@ import { Ghost, SkeletonFrame } from "../hub/ExploreSkeleton";
 import { ATLAS_NAV_LAYOUT } from "./atlasNavigationData";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
-export default function MythScreenSkeleton({ title, hasArtwork = true }: { title?: string; hasArtwork?: boolean } = {}) {
+export default function MythScreenSkeleton({ title, hasArtwork = true, faction = false }: { title?: string; hasArtwork?: boolean; faction?: boolean } = {}) {
   const t = useTranslations("explore.hub.myth");
   const common = useTranslations("common");
 
@@ -54,8 +54,8 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
           </div>
         </div>
         {/* 책장 구획 — 같은 구분선 리듬 위에 중앙 제목·모드 탭·카드 행이 선다 */}
-        <div className={layout.overviewOuter}>
-          <div className={layout.container}>
+        <div className={faction ? layout.factionShelfOuter : layout.overviewOuter}>
+          <div className={faction ? layout.factionShelfContainer : layout.container}>
             <div className={layout.sectionDivider}>
               {/* 책장 머리(CenteredSectionHeading) — 대시+제목, mb-3/md:mb-5 */}
               <div className="mb-3 flex flex-col items-center gap-2 md:mb-5">

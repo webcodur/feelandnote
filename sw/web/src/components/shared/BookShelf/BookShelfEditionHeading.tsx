@@ -10,12 +10,14 @@ export default function BookShelfEditionHeading({ source, edition, sharedEdition
   const t = useTranslations("celebPage");
   const editionKey = edition.isbn?.trim() || "title:" + edition.title.trim().toLowerCase();
   const omnibus = sharedEditionKeys?.has(editionKey);
-  const titleClass = "break-words text-xl font-bold leading-snug tracking-tight text-text-primary sm:text-2xl";
+  const hasEditionTitle = edition.title.trim() !== source.title.trim();
+  const hasEditionCreator = edition.creator && edition.creator !== source.creator;
+  if (!hasEditionTitle && !hasEditionCreator && !omnibus) return null;
   return (
-    <>
-      <h3 className={titleClass}>{edition.title}</h3>
-      {(edition.creator || source.creator) && <p className="mt-2 text-sm leading-relaxed text-text-secondary">{edition.creator || source.creator}</p>}
-      {omnibus && <p title={t("sourceEditionOmnibusHint")} className="mt-2 text-xs text-text-secondary">{t("sourceEditionOmnibus")}</p>}
-    </>
+    <div className="mb-3 text-sm leading-relaxed text-text-secondary">
+      {hasEditionTitle && <p className="font-semibold text-text-primary">{edition.title}</p>}
+      {hasEditionCreator && <p>{edition.creator?.replace(/\^/g, ', ')}</p>}
+      {omnibus && <p title={t("sourceEditionOmnibusHint")} className="mt-1 text-xs">{t("sourceEditionOmnibus")}</p>}
+    </div>
   );
 }
