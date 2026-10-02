@@ -637,7 +637,9 @@ async function main() {
   if (config.mode === 'plan') {
     printPlan({
       ...plan,
-      nextCommand: purgePlan.manualRequired
+      nextCommand: config.trafficPolicyOnly
+        ? `pnpm deploy:web:oracle -- --traffic-policy-only --execute --confirm ${EXECUTE_CONFIRMATION} --purge-scopes none`
+        : purgePlan.manualRequired
         ? `pnpm deploy:web:oracle -- --execute --confirm ${EXECUTE_CONFIRMATION} --purge-scopes <scope[,scope]>`
         : `pnpm deploy:web:oracle -- --execute --confirm ${EXECUTE_CONFIRMATION}`,
     })
