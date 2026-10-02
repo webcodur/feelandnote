@@ -16,7 +16,6 @@ import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getCelebReferenceBooks } from "@/actions/celebs/getCelebReferenceBooks";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { CATEGORIES } from "@/constants/categories";
-import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import CelebPageContent from "./CelebPageContent";
@@ -154,13 +153,11 @@ export default async function CelebPage({ params }: PageProps) {
     }),
   ]);
 
-  const { appeared: figureBooks, authored: displayAuthoredBooks, read: readShelf, professionBooks, factionGroups } = referenceBooks;
+  const { appeared: figureBooks, authored: displayAuthoredBooks, professionBooks, factionGroups } = referenceBooks;
   const displayFigureBooks = figureBooks;
-  const readBooks = readShelf.books;
-  // 참고도서 구획은 다섯 갈래 중 하나라도 차면 선다 — 티어·실존축과 무관하게 자료 유무만 본다
+  // 참고도서 구획은 네 갈래 중 하나라도 차면 선다 — 티어·실존축과 무관하게 자료 유무만 본다
   const hasAffiliateBooks = figureBooks.length > 0
     || displayAuthoredBooks.length > 0
-    || readBooks.length > 0
     || professionBooks.length > 0
     || factionGroups.some((group) => group.books.length > 0);
 
@@ -177,38 +174,22 @@ export default async function CelebPage({ params }: PageProps) {
   const greeting = locale === 'en'
     ? (greetingFromLines(dialogueData?.lines_en) ?? greetingFromLines(dialogueData?.lines))
     : greetingFromLines(dialogueData?.lines);
-  const rawLines = locale === 'en' && dialogueData?.lines_en
-    ? dialogueData.lines_en
-    : dialogueData?.lines ?? null;
-  // quote(string)를 배열로 정규화하여 대사 데이터에 통합
-  const dialogueLines = rawLines
-    ? Object.fromEntries(
-        Object.entries(rawLines).map(([k, v]) =>
-          [k, typeof v === "string" ? [v] : v]
-        ).filter(([key, value]) =>
-          Array.isArray(value)
-          && (key !== "quote" || getDisplayDialogueQuote(value[0]) !== null)
-        )
-      ) as Record<string, string[]>
-    : null;
 
   const sideAvailability = {
     relations: profile.relations.length > 0,
-    faction: profile.factions.some((tag) => !tag.isMyth),
     influence: sidePresence.influence,
     spectrum: sidePresence.spectrum,
     relatedFigures: profile.relations.length > 0,
     affiliateBooks: hasAffiliateBooks,
   };
 
-  // 관계 목록은 초기 높이 계산과 모바일 목록에 재사용한다. 세력 상세는 탭 선택 때 받는다.
+  // 관계 목록은 초기 높이 계산과 모바일 목록에 재사용한다.
   // reading은 explanation에서 locale 해석을 마친 값이라 원문 explanation은
-  // 클라이언트에서 쓰지 않고, dialogue도 dialogueLines prop으로 따로 넘긴다.
+  // 클라이언트에서 쓰지 않고, dialogue는 머리말의 greeting만 따로 넘긴다.
   // 둘 다 본문급 텍스트라 RSC 직렬화에서 제외한다(서버 메타·JSON-LD는 profile 원본 사용).
   const clientProfile = {
     ...profile,
     relations: profile.relations,
-    factions: [],
     explanation: null,
     dialogue: null,
   };
@@ -238,7 +219,6 @@ export default async function CelebPage({ params }: PageProps) {
         shareTitle={pageTitle}
         userId={userId}
         greeting={greeting}
-        dialogueLines={dialogueLines}
         timelineEvents={timelineEvents}
         sideAvailability={sideAvailability}
         initialAnalysis={initialAnalysis}
@@ -246,9 +226,6 @@ export default async function CelebPage({ params }: PageProps) {
         initialContentBrief={initialContentBrief ?? undefined}
         figureBooks={displayFigureBooks}
         authoredBooks={displayAuthoredBooks}
-        readBooks={readBooks}
-        readBooksNextPage={readShelf.nextPage}
-        readBooksHasMore={readShelf.hasMore}
         factionGroups={factionGroups}
         professionBooks={professionBooks}
         worldId={worldId}
@@ -269,7 +246,6 @@ export default async function CelebPage({ params }: PageProps) {
             birthDate={profile.birth_date}
             celebReality={profile.celeb_reality}
             relations={profile.relations}
-            factions={profile.factions}
           />
         }
       />

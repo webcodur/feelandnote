@@ -7,12 +7,10 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { ScrollText } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
-import { ARCHIVE_ICON_CONTROL_CLASS } from "@/components/features/user/contentLibrary/controlBar/ArchiveViewControls";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
@@ -58,7 +56,7 @@ export default function ReviewsSection({
     + (activeContent ? `?focus=${encodeURIComponent(activeContent.contentId)}` : "");
 
   return (
-    <div>
+    <div className="md:[--reading-preview-max-height:min(28rem,55svh)] md:[--reading-preview-max-width:72ch]">
       <ContentLibrary
         mode="viewer"
         ownerKind="celeb"
@@ -75,7 +73,7 @@ export default function ReviewsSection({
         initialContentBrief={initialContentBrief}
         onActiveContentChange={onActiveContentChange}
         focusRequest={focusRequest}
-        // 글줄 링크였던 "감상 기록 전체 보기"를 필터 칩 줄 옆 아이콘으로 옮긴다.
+        // "전체 기록"은 카테고리 아래에서 연다.
         // 펼쳐보기에서 보던 작품이 있으면 그 작품이 있는 쪽에서 이어 연다.
         filterTrailing={(initialContents?.total ?? 0) > 0 ? (
           <Link
@@ -90,9 +88,9 @@ export default function ReviewsSection({
             title={t("records.viewAll")}
             aria-haspopup="dialog"
             aria-expanded={isRecordsConfirmOpen}
-            className={`${ARCHIVE_ICON_CONTROL_CLASS} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+            className="inline-flex min-h-9 items-center justify-center rounded-control px-3 py-1 text-xs text-text-secondary hover:bg-white/[0.07] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            <ScrollText size={16} aria-hidden />
+            <span className="whitespace-nowrap">{t("records.viewAll")}</span>
           </Link>
         ) : undefined}
       />

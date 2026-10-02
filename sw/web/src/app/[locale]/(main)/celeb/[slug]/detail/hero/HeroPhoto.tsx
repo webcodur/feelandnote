@@ -113,6 +113,8 @@ export default function HeroPhoto({
           caption={zoomCaption}
           isOpen={zoomOpen}
           onClose={() => setZoomOpen(false)}
+          showImageShadow={false}
+          closeOnImageClick
         />
       ) : null}
     </>

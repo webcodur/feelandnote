@@ -31,7 +31,7 @@ export interface ContentLibraryProps {
   initialContents?: GetUserContentsResponse; // viewer 모드 서버 렌더 초기 데이터
   /** 펼침 첫 카드가 skeleton 없이 완성된 높이로 시작하도록 서버가 준비한 한 건. */
   initialContentBrief?: ContentBrief | null;
-  /** 필터 칩 줄 끝에 덧붙는 조작(전체 보기 등). 없으면 칩 줄만 그대로 선다 */
+  /** 조작대에 덧붙는 조작. 인물 서가에서는 검색대 옆에 표시한다. */
   filterTrailing?: ReactNode;
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;

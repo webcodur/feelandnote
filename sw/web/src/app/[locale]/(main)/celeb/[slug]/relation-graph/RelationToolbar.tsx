@@ -1,4 +1,5 @@
 import { memo } from "react";
+import CategoryChip from "@/components/ui/CategoryChip";
 
 import styles from "./RelationGraphSection.module.css";
 import type { PersonNode, RelationFocus, RelationMode } from "./types";
@@ -29,12 +30,13 @@ interface Props {
 
 function RelationToolbar(props: Props) {
   return <>
-    <div className={styles.viewTabs} role="tablist" aria-label={props.title}>
-      {props.modeTabs.map((tab) => <button key={tab.key} type="button" role="tab"
-        aria-selected={props.mode === tab.key} disabled={!tab.count}
+    <div className={styles.viewTabs} role="group" aria-label={props.title}>
+      {props.modeTabs.map((tab) => <CategoryChip key={tab.key}
+        selected={props.mode === tab.key} disabled={!tab.count}
+        className="h-auto min-h-11 whitespace-nowrap px-4 py-2"
         onClick={() => props.onModeChange(tab.key)}>
-        <span>{tab.label}</span><small>{tab.count}</small>
-      </button>)}
+        <span>{tab.label}</span><small className="text-xs font-medium text-text-tertiary">{tab.count}</small>
+      </CategoryChip>)}
     </div>
     {/* 고를 갈래가 하나뿐이면 거르는 뜻이 없다 — 탭 이름을 한 번 더 적는 줄이 될 뿐이라 걷는다 */}
     {props.focusOptions.length > 1 && <div className={styles.relationFilters} role="group" aria-label={props.focusLabel}>

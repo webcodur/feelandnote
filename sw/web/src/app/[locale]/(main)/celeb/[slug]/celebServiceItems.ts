@@ -30,20 +30,12 @@ export interface ServiceItem {
   ready: boolean;
   target: ServiceTarget;
   children?: readonly ServiceItem[];
-  companion?: {
-    label: string;
-    icon: LucideIcon;
-    ready: boolean;
-  };
 }
 
 export interface CelebServiceAvailability {
-  reading: boolean;
+  personGuide: boolean;
+  virtualMonologue: boolean;
   relations: boolean;
-  timeline: boolean;
-  faction: boolean;
-  dialogues: boolean;
-  dialogueVoice: boolean;
   influence: boolean;
   spectrum: boolean;
   /** 실제로 등록된 감상 기록이 있는가. 없으면 리뷰 구획을 그리지 않는다. */
@@ -65,7 +57,7 @@ export function useCelebServiceItems({
 
   return useMemo(() => {
     const items = [
-      /* ── 1. 머리말·읽어보기·연표 ── */
+      /* ── 1. 머리말·인물 안내·가상독백 ── */
       {
         key: "introduction",
         chapter: CELEB_SERVICE_CHAPTERS.introduction,
@@ -75,30 +67,20 @@ export function useCelebServiceItems({
         target: { sectionId: "introduction" },
       },
       {
-        key: "reading",
-        chapter: CELEB_SERVICE_CHAPTERS.reading,
-        label: t("reading"),
-        icon: CELEB_SERVICE_ICONS.reading,
-        ready: availability.reading,
-        target: { sectionId: "reading" },
-        children: [
-          {
-            key: "person-guide",
-            chapter: "02-A",
-            label: t("personGuide"),
-            icon: CELEB_SERVICE_ICONS.personGuide,
-            ready: availability.reading,
-            target: { sectionId: "reading" },
-          },
-        ],
+        key: "personGuide",
+        chapter: CELEB_SERVICE_CHAPTERS.personGuide,
+        label: t("personGuide"),
+        icon: CELEB_SERVICE_ICONS.personGuide,
+        ready: availability.personGuide,
+        target: { sectionId: "person-guide" },
       },
       {
-        key: "timeline",
-        chapter: CELEB_SERVICE_CHAPTERS.timeline,
-        label: reality !== "REAL" ? t("fictionTimeline") : t("timeline"),
-        icon: CELEB_SERVICE_ICONS.timeline,
-        ready: availability.timeline,
-        target: { sectionId: "timeline" },
+        key: "virtualMonologue",
+        chapter: CELEB_SERVICE_CHAPTERS.virtualMonologue,
+        label: t("virtualMonologue"),
+        icon: CELEB_SERVICE_ICONS.virtualMonologue,
+        ready: availability.virtualMonologue,
+        target: { sectionId: "virtual-monologue" },
       },
       /* ── 2. 리뷰 ── */
       {
@@ -143,53 +125,10 @@ export function useCelebServiceItems({
         chapter: CELEB_SERVICE_CHAPTERS.connections,
         label: reality !== "REAL" ? t("fictionConnections") : t("connections"),
         icon: CELEB_SERVICE_ICONS.connections,
-        ready:
-          availability.relations || availability.faction,
+        ready: availability.relations,
         target: { sectionId: "connections" },
-        children: [
-          {
-            key: "relations",
-            chapter: "05-A",
-            label: t("relationGraph"),
-            icon: CELEB_SERVICE_ICONS.relations,
-            ready: availability.relations,
-            target: { sectionId: "connections" },
-          },
-          {
-            key: "faction",
-            chapter: "05-C",
-            label: reality !== "REAL" ? t("fictionFaction") : t("serviceFaction"),
-            icon: CELEB_SERVICE_ICONS.faction,
-            ready: availability.faction,
-            target: { sectionId: "connections" },
-          },
-        ],
       },
-      /* ── 3. 미디어·방명록 ── */
-      {
-        key: "media",
-        chapter: CELEB_SERVICE_CHAPTERS.media,
-        label: reality !== "REAL" ? t("mediaDialogues") : t("media"),
-        icon: CELEB_SERVICE_ICONS.media,
-        ready: availability.dialogues,
-        target: { sectionId: "media" },
-        children: [
-          // 가상독백은 미디어가 아니라 읽어보기 두 번째 모드에서 보인다.
-          {
-            key: "dialogues",
-            chapter: "07-A",
-            label: t("mediaDialogues"),
-            icon: CELEB_SERVICE_ICONS.dialogues,
-            ready: availability.dialogues,
-            target: { sectionId: "media" },
-            companion: {
-              label: t("serviceDialogueVoice"),
-              icon: CELEB_SERVICE_ICONS.dialogueVoice,
-              ready: availability.dialogueVoice,
-            },
-          },
-        ],
-      },
+      /* ── 4. 방명록 ── */
       {
         key: "guestbook",
         chapter: CELEB_SERVICE_CHAPTERS.guestbook,
@@ -228,15 +167,12 @@ export function useCelebServiceItems({
       });
   },
     [
-      availability.dialogueVoice,
-      availability.dialogues,
-      availability.faction,
       availability.influence,
       availability.spectrum,
       availability.relations,
-      availability.reading,
+      availability.personGuide,
+      availability.virtualMonologue,
       availability.library,
-      availability.timeline,
       showLibrary,
       t,
       reality,

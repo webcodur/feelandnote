@@ -1,4 +1,4 @@
-/** 사용자 선택 뒤 세력도감만 조회한다. 시간 단위 목록 캐시를 초기 ISR에 섞지 않는다. */
+/** 독립 구획이 화면에 가까워지면 세력도감을 조회한다. 시간 단위 목록 캐시를 초기 ISR에 섞지 않는다. */
 "use client";
 
 import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";

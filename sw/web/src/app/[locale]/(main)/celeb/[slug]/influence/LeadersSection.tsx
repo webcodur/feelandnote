@@ -8,7 +8,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Crown } from "lucide-react";
+import { ChevronDown, Crown } from "lucide-react";
 import { INFLUENCE_FIELDS } from "@feelandnote/influence-constants";
 import type { InfluenceField } from "@feelandnote/influence-constants";
 
@@ -17,10 +17,12 @@ import type {
   InfluenceExplorerPerson,
 } from "@/actions/home/getInfluenceExplorer";
 import { cn } from "@/lib/utils";
+import { getInfluenceRankingHref } from "@/constants/influenceRanking";
 
 import CelebPersonPreviewButton from "../CelebPersonPreviewButton";
 import type { InfluenceRankDetail } from "../InfluenceRankModal";
-import { COMPACT_LEADER_COUNT, type ExplorerSelection } from "./influence-helpers";
+import type { ExplorerSelection } from "./influence-helpers";
+import InfluencePeopleRail from "./InfluencePeopleRail";
 import PersonCardMetrics from "./PersonCardMetrics";
 import RankActionButton from "./RankActionButton";
 
@@ -30,6 +32,7 @@ interface LeadersSectionProps {
   currentId: string;
   loadingId: string | null;
   onActiveFieldChange: (field: InfluenceField) => void;
+  onChooseField: () => void;
   onOpenPerson: (
     person: InfluenceExplorerPerson,
     nextSelection: ExplorerSelection,
@@ -43,6 +46,7 @@ export default function LeadersSection({
   currentId,
   loadingId,
   onActiveFieldChange,
+  onChooseField,
   onOpenPerson,
   onOpenRankDetail,
 }: LeadersSectionProps) {
@@ -53,7 +57,7 @@ export default function LeadersSection({
 
   return (
     <section
-      className="space-y-3.5 border-t border-white/[0.08] pt-6"
+      className="space-y-3.5"
       aria-labelledby="influence-leaders-title"
     >
       {/* ── 1. 구획 헤더 ── */}
@@ -73,11 +77,16 @@ export default function LeadersSection({
       </header>
 
       {/* ── 2. 분야 탭 ── */}
-      <div className="overflow-x-auto px-1 py-0.5 custom-scrollbar">
+      <div className="flex justify-center md:hidden">
+        <button type="button" aria-haspopup="dialog" aria-label={`${t("explorer.fieldTabs")}: ${shortFieldLabel(activeField)}`} onClick={onChooseField} className="inline-flex min-h-11 items-center gap-2 rounded-control border border-line px-4 text-sm text-accent hover:border-line-strong hover:bg-bg-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          {shortFieldLabel(activeField)}<ChevronDown size={15} aria-hidden />
+        </button>
+      </div>
+      <div className="hidden px-1 py-0.5 md:block">
         <div
-          role="tablist"
+          role="group"
           aria-label={t("explorer.fieldTabs")}
-          className="mx-auto flex w-max min-w-full justify-center gap-0.5"
+          className="flex justify-center gap-0.5"
         >
           {INFLUENCE_FIELDS.map((field) => {
             const isActive = field === activeField;
@@ -85,10 +94,7 @@ export default function LeadersSection({
               <button
                 key={field}
                 type="button"
-                role="tab"
-                id={`influence-field-tab-${field}`}
-                aria-controls="influence-field-leaders-panel"
-                aria-selected={isActive}
+                aria-pressed={isActive}
                 onClick={() => onActiveFieldChange(field)}
                 className={cn(
                   "shrink-0 border-b-2 px-2.5 py-1.5 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
@@ -105,23 +111,18 @@ export default function LeadersSection({
       </div>
 
       {/* ── 3. 분야별 1위 패널 ── */}
-      <div className="overflow-x-auto pb-1 custom-scrollbar">
+      <div>
         <div
-          id="influence-field-leaders-panel"
-          role="tabpanel"
-          aria-labelledby={`influence-field-tab-${activeField}`}
-          className="mx-auto grid w-full max-w-4xl grid-cols-2 overflow-hidden border border-white/[0.08] bg-white/[0.012] lg:w-[55rem] lg:min-w-[760px] lg:grid-cols-5"
+          aria-label={shortFieldLabel(activeField)}
         >
+          <InfluencePeopleRail key={activeField} moreHref={getInfluenceRankingHref(activeField)} moreLabel={t("explorer.moreLeaders")}>
           {leaders.map((person, index) => {
             const isCurrent = person.id === currentId;
             const isLoading = loadingId === person.id;
             return (
-              <div
+              <li
                 key={person.id}
-                className={cn(
-                  "h-full min-w-0 flex-col",
-                  index < COMPACT_LEADER_COUNT ? "flex" : "hidden lg:flex",
-                )}
+                className="flex w-32 shrink-0 snap-start flex-col sm:w-40"
               >
                 <RankActionButton
                   label={t("explorer.rankNumber", {
@@ -146,6 +147,7 @@ export default function LeadersSection({
                   avatarUrl={person.avatar_url}
                   size="featured"
                   fullWidth
+                  singleLineName
                   loading={isLoading}
                   disabled={Boolean(loadingId)}
                   ariaCurrent={isCurrent ? "true" : undefined}
@@ -158,7 +160,7 @@ export default function LeadersSection({
                     })
                   }
                   className={cn(
-                    "flex-1 rounded-none border-white/[0.07] bg-white/[0.018] hover:border-accent/45 hover:bg-accent/[0.055]",
+                    "flex-1 rounded-sm border-white/[0.07] bg-white/[0.018] hover:border-accent/45 hover:bg-accent/[0.055]",
                     isCurrent
                       ? "!bg-accent/[0.07]"
                       : loadingId && !isLoading
@@ -168,9 +170,10 @@ export default function LeadersSection({
                 >
                   <PersonCardMetrics person={person} preferredField={activeField} />
                 </CelebPersonPreviewButton>
-              </div>
+              </li>
             );
           })}
+          </InfluencePeopleRail>
         </div>
       </div>
     </section>

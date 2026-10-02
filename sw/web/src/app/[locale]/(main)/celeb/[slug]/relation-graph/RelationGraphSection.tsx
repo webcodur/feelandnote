@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
-import MobileRelationList from "./MobileRelationList";
+import MobileRelationGraph from "./MobileRelationGraph";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
 import RelationToolbar, { type FocusOption } from "./RelationToolbar";
@@ -26,7 +26,6 @@ export default function RelationGraphSection({
   centerName,
   centerAvatarUrl,
   relations,
-  isFiction = false,
   centerProfile,
 }: RelationGraphProps) {
   const locale = useLocale();
@@ -119,13 +118,13 @@ export default function RelationGraphSection({
   const selectDesktop = useCallback((person: PersonNode) => setSelectedId(person.id), []);
 
   const changeMode = useCallback((next: RelationMode) => {
-    captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.relationFilters}`) ?? null);
+    captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.viewTabs}`) ?? null);
     setMode(next);
     setSelectedId(null);
   }, [captureViewportAnchor]);
 
   const changeFocus = useCallback((next: RelationFocus) => {
-    captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.relationFilters}`) ?? null);
+    captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.viewTabs}`) ?? null);
     setFocusByMode((current) => ({
       ...current, [effectiveMode]: selectedFocus === next ? null : next,
     }));
@@ -229,17 +228,12 @@ export default function RelationGraphSection({
         onSelect={selectDesktop}
         onSelectCenter={selectCenter} />}
       </div>
-      <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
-        selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
-        onSpeak={(person) => void speak(person)} speakerFor={stateFor}
-        speakLabels={{ voice: t("playGreetingVoice"), text: t("dialogue_greeting") }}
-        goLabel={t("relGoPersonPage")} wikidataLabel={t("relViewWikidata")} />
+      <MobileRelationGraph key={`${effectiveMode}:${selectedFocus ?? "all"}`}
+        centerName={centerName} focusOptions={focusOptions}
+        selectedFocus={selectedFocus} selectedId={selectedId} onFocusChange={changeFocus} onSelect={selectDesktop} relationLabel={relationLabel}
+      />
       {inspectorProps && <RelationInspector {...inspectorProps} />}
     </div>
-
-    {/* 실존 인물의 관계는 플랫폼에서 직접 편집하므로 출처를 한 곳으로 못 박지 않는다.
-        원전이 곧 근거인 픽션에서만 기준을 밝힌다 */}
-    {isFiction ? <p className={styles.sourceNote}>{t("fictionRelationGraphNote")}</p> : null}
 
   </div>;
 }

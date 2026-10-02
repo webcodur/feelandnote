@@ -35,7 +35,6 @@ interface CelebPageContentProps {
   shareTitle: string;
   userId: string;
   greeting?: string[] | null;
-  dialogueLines?: Record<string, string[]> | null;
   timelineEvents: CelebTimelineEvent[];
   initialAnalysis: CelebAnalysisData | null;
   /** 목차에 노출할 부가 구획 */
@@ -44,14 +43,8 @@ interface CelebPageContentProps {
   initialContentBrief?: ContentBrief;
   figureBooks: FigureBookContent[];
   authoredBooks: FigureBookContent[];
-  /** 「감상」 모드 — 감상 기록의 책을 상품 카드로 모은 첫 묶음 */
-  readBooks: AffiliateBook[];
   /** 「세력」 모드 — 소속 세력·신화별 책 묶음 */
   factionGroups: CelebFactionBookGroup[];
-  /** 서버가 마지막으로 읽은 기록 쪽 다음 */
-  readBooksNextPage: number;
-  /** 아직 읽지 않은 감상 기록이 있는가 */
-  readBooksHasMore: boolean;
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
@@ -67,7 +60,6 @@ export default function CelebPageContent({
   shareTitle,
   userId,
   greeting,
-  dialogueLines,
   timelineEvents,
   initialAnalysis,
   sideAvailability,
@@ -75,9 +67,6 @@ export default function CelebPageContent({
   initialContentBrief,
   figureBooks,
   authoredBooks,
-  readBooks,
-  readBooksNextPage,
-  readBooksHasMore,
   factionGroups,
   professionBooks,
   worldId,
@@ -92,12 +81,9 @@ export default function CelebPageContent({
   /* ── 1. 목차 모델·열람 집계 ── */
   const serviceModel = useCelebServiceModel({
     profile,
-    timelineEvents,
     sideAvailability,
-    dialogueLines,
     figureBooks,
     authoredBooks,
-    readBooks,
     initialContents,
   });
   useSectionViewTracking(contentRef);
@@ -114,8 +100,8 @@ export default function CelebPageContent({
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         serviceItems={serviceModel.items}
-        widestLabel={serviceModel.widestSectionLabel}
         externalLinksSlot={externalLinksSlot}
+        timelineEvents={timelineEvents}
       />
 
       <CelebRecordSections
@@ -123,16 +109,11 @@ export default function CelebPageContent({
         slug={slug}
         userId={userId}
         locale={locale}
-        dialogueLines={dialogueLines}
-        timelineEvents={timelineEvents}
         initialAnalysis={initialAnalysis}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief}
         figureBooks={figureBooks}
         authoredBooks={authoredBooks}
-        readBooks={readBooks}
-        readBooksNextPage={readBooksNextPage}
-        readBooksHasMore={readBooksHasMore}
         factionGroups={factionGroups}
         professionBooks={professionBooks}
         serviceModel={serviceModel}

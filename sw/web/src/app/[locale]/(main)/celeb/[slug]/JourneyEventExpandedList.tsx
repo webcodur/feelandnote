@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] timeline — 연표 펼침 목록
- * - 목차 위치: timeline
+ * - 위치: 프로필 타임라인 버튼의 연표 모달
  * - 데이터: events props
- * - 함께 보기: JourneySection.tsx, journeyTimeline.ts
+ * - 함께 보기: JourneyTimelineModal.tsx, journeyTimeline.ts
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -60,16 +60,20 @@ export default function JourneyEventExpandedList({
       // 좌우 넘김 표시(SwipeControls)는 DOM상 카드 줄 바로 다음이어야 스스로 그 줄을 찾는다.
       // 순서는 그대로 두고 좁은 화면에서만 column-reverse로 화면 위쪽에 오게 한다.
       className={cn(
-        "flex flex-col-reverse md:custom-scrollbar focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:block",
-        !fullPage && "md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]",
+        "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
+        fullPage
+          ? "block"
+          : "flex flex-col-reverse md:custom-scrollbar md:block md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]",
       )}
     >
       {/* 연대기 카드와 같은 언어: 머리(번호·연도·지명) + 제목 + 본문. 수직선 레일은 걷는다.
           좁은 화면에서는 한 장씩 옆으로 넘긴다 — 세로로 전부 훑지 않아도 된다 */}
       <div
         ref={deckRef}
-        style={activeHeight ? ({ "--active-h": `${activeHeight}px` } as CSSProperties) : undefined}
-        className="flex h-[var(--active-h,auto)] snap-x snap-mandatory items-start gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [scrollbar-width:none] md:block md:h-auto md:space-y-3 md:overflow-visible"
+        style={!fullPage && activeHeight ? ({ "--active-h": `${activeHeight}px` } as CSSProperties) : undefined}
+        className={fullPage
+          ? "space-y-3 py-1"
+          : "flex h-[var(--active-h,auto)] snap-x snap-mandatory items-start gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [scrollbar-width:none] md:block md:h-auto md:space-y-3 md:overflow-visible"}
       >
         {events.map((event, index) => {
           const yearLabel = formatEventYear(event, yearCopy);
@@ -159,7 +163,7 @@ export default function JourneyEventExpandedList({
       </div>
 
       {/* 넘길 수 있다는 표시 — 넓은 화면에서는 목록이 세로로 서므로 사라진다 */}
-      <SwipeControls count={events.length} size="large" className="mt-0" />
+      {!fullPage && <SwipeControls count={events.length} size="large" className="mt-0" />}
     </div>
   );
 }

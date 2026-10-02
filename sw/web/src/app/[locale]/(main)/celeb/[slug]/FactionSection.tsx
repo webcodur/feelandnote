@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] faction — 소속 세력도감
- * - 목차 위치: connections > faction
+ * - 목차 위치: faction
  * - 데이터: memberships(이 인물의 배정)/factions(테마+명단)/currentCelebId props
- * - 함께 보기: faction/FactionMembershipCard.tsx, PeopleAndEraTabs.tsx
+ * - 함께 보기: faction/FactionMembershipCard.tsx, detail/CelebFactionDeferred.tsx
  *
  * 탐색 세력도감 페이지와 같은 뼈대다 — 공용 선택기(ExploreNav)에서 세력을 고르면
  * 그 세력 한 개의 도감 화면(중앙 제목·소개·이 인물의 위치·인물 격자)이 선다.

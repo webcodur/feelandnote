@@ -21,6 +21,7 @@ interface CelebPersonPreviewButtonProps {
   ariaCurrent?: "true" | "page";
   size?: "compact" | "large" | "featured";
   fullWidth?: boolean;
+  singleLineName?: boolean;
   children?: ReactNode;
   className?: string;
   avatarFrameClassName?: string;
@@ -36,6 +37,7 @@ export default function CelebPersonPreviewButton({
   ariaCurrent,
   size = "compact",
   fullWidth = false,
+  singleLineName = false,
   children,
   className,
   avatarFrameClassName,
@@ -88,12 +90,13 @@ export default function CelebPersonPreviewButton({
         <span
           className={cn(
             "flex w-full items-center justify-center text-center",
-            size === "featured" ? "h-11" : "h-10",
+            singleLineName ? "h-8" : size === "featured" ? "h-11" : "h-10",
           )}
         >
           <span
             className={cn(
-              "line-clamp-2 text-balance break-keep font-serif font-bold leading-tight text-text-primary group-hover:text-accent",
+              "font-serif font-bold leading-tight text-text-primary group-hover:text-accent",
+              singleLineName ? "min-w-0 truncate" : "line-clamp-2 text-balance break-keep",
               size === "featured"
                 ? "text-sm md:text-[15px]"
                 : "text-xs",

@@ -41,6 +41,7 @@ interface ContentItemRendererProps {
   initialContentRecord?: UserContentWithContent;
   /** Shared list-index preference for the expanded presentation. */
   expandIndexPreference?: boolean | null;
+  titlePulseRequest?: number;
   onExpandIndexPreferenceChange?: (preference: boolean) => void;
   activeCategory?: CategoryId;
   categoryCounts?: ContentTypeCounts | null;
@@ -65,6 +66,7 @@ function ContentItemRenderer({
   initialContentRecord,
   targetUserId,
   expandIndexPreference,
+  titlePulseRequest,
   onExpandIndexPreferenceChange,
   activeCategory,
   categoryCounts,
@@ -104,6 +106,7 @@ function ContentItemRenderer({
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}
         expandIndexPreference={expandIndexPreference}
+        titlePulseRequest={titlePulseRequest}
         onExpandIndexPreferenceChange={onExpandIndexPreferenceChange}
         activeCategory={activeCategory}
         categoryCounts={categoryCounts}

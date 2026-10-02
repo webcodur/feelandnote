@@ -2,70 +2,37 @@
 
 import { useTranslations } from "next-intl";
 
-import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
-import { CATEGORY_ID_TO_TYPE, getCategoryByDbType } from "@/constants/categories";
-import { cn } from "@/lib/utils";
+import LibraryCategoryPicker from "@/components/shared/LibraryCategoryPicker";
+import { CATEGORIES, getCategoryById } from "@/constants/categories";
 
-import ArchiveSearchControls from "./ArchiveSearchControls";
-import ArchiveSortControl from "./ArchiveSortControl";
 import type { ArchiveControlBarProps } from "./types";
 
 /** 인물 서가 조작대. 보기는 펼침으로 고정이라 목록·펼침 전환 단추가 없다 */
 export default function CelebArchiveControlBar({
-  compact = false,
   categoryItems = [],
   ...props
 }: ArchiveControlBarProps) {
   const t = useTranslations("archiveSearch");
-  const activeType = CATEGORY_ID_TO_TYPE[props.activeTab] ?? null;
-  const rowPadding = compact ? "px-2 py-1.5" : "px-6 py-2.5";
+  const tCategory = useTranslations("content.category");
+  const options = CATEGORIES.map((category) => {
+    const count = props.typeCounts?.[category.dbType]
+      ?? categoryItems.filter((item) => item.type === category.dbType).length;
+    return { key: category.id, label: tCategory(category.id), count, disabled: count === 0 };
+  });
 
   return (
-    <div className="mx-auto w-fit max-w-full overflow-hidden rounded-xl border border-accent-dim/30 bg-bg-secondary shadow-inner">
-      <div
-        aria-label={t("filter.category")}
-        className={cn(
-          "flex justify-center",
-          compact ? "px-2 py-2.5" : "px-6 py-3.5",
-        )}
-      >
-        <ContentTypeSummary
-          items={categoryItems}
-          counts={props.typeCounts}
-          value={activeType}
-          onChange={(type) => {
-            const category = getCategoryByDbType(type);
-            if (category) props.onTabChange(category.id);
-          }}
-          size="md"
-          ariaLabel={t("filter.category")}
-        />
-      </div>
-
-      <div className={cn(
-        "flex items-center justify-center gap-2",
-        rowPadding,
-      )}>
-        <ArchiveSortControl
-          sortOption={props.sortOption}
-          onSortOptionChange={props.onSortOptionChange}
-          allowRatingSort={props.allowRatingSort}
-        />
-        {props.trailing}
-      </div>
-
-      <div className={cn("flex justify-center", rowPadding)}>
-        <ArchiveSearchControls
-          searchQuery={props.searchQuery}
-          onSearchChange={props.onSearchChange}
-          onSearch={props.onSearch}
-          onClearSearch={props.onClearSearch}
-          hasAppliedSearch={props.hasAppliedSearch}
-          compact={compact}
-          fullWidth
-          className="w-[268px] max-w-full flex-none"
-        />
-      </div>
+    <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-1">
+      <LibraryCategoryPicker
+        options={options}
+        value={props.activeTab}
+        ariaLabel={t("filter.category")}
+        onChange={(key) => {
+          const category = getCategoryById(key as ArchiveControlBarProps["activeTab"]);
+          if (!category) return;
+          props.onTabChange(category.id);
+        }}
+      />
+      {props.trailing}
     </div>
   );
 }

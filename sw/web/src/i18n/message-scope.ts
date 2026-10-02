@@ -79,6 +79,7 @@ export const CELEB_MESSAGE_PATHS = [
   "landing",
   // 세력도감 구획에서 뜨는 도감 인물 소개 모달(FactionMemberModal)이 기댄다
   "explore.faction.member",
+  "explore.faction.memberOf",
 ] as const;
 
 /** 작품 상세가 공통 뼈대에 더해 필요로 하는 문구 */

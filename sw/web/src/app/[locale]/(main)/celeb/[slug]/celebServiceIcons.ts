@@ -5,26 +5,23 @@
  * - 함께 보기: celebServiceItems.ts
  * ───────────────────────────────────────────── */
 import {
-  AudioLines,
   BookOpen,
   BookOpenText,
   ChartNoAxesCombined,
   ChartSpline,
-  CirclePlay,
   MessageSquare,
   Network,
   PenLine,
   Radar,
   Route,
-  Sparkles,
   User,
   Users,
 } from "lucide-react";
 
 export const CELEB_SERVICE_ICONS = {
   introduction: User,
-  reading: BookOpenText,
   personGuide: BookOpen,
+  virtualMonologue: MessageSquare,
   library: BookOpen,
   works: PenLine,
   connections: Network,
@@ -33,10 +30,6 @@ export const CELEB_SERVICE_ICONS = {
   analysis: ChartNoAxesCombined,
   influence: Radar,
   spectrum: ChartSpline,
-  media: CirclePlay,
-  dialogues: MessageSquare,
-  dialogueVoice: AudioLines,
-  faction: Sparkles,
   guestbook: PenLine,
   relatedFigures: Users,
   affiliateBooks: BookOpenText,

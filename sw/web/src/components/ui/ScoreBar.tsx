@@ -73,6 +73,8 @@ interface Props {
   thick?: boolean;
   /** 선택됨 — 막대 채움색만 바꾼다. hover와 섞지 않는다 */
   selected?: boolean;
+  /** 숫자를 두꺼운 막대 안에 표시 */
+  insetValue?: boolean;
   className?: string;
 }
 
@@ -85,11 +87,18 @@ export default function ScoreBar({
   description,
   thick = false,
   selected = false,
+  insetValue = false,
   className,
 }: Props) {
   const safeValue = Number.isFinite(value) ? value : 0;
   const percent = max > 0 ? Math.min(100, Math.max(0, (safeValue / max) * 100)) : 0;
   const tier = getScoreTier(safeValue, max);
+  const score = (
+    <span className={cn("shrink-0 font-serif tabular-nums", insetValue ? "text-sm sm:text-sm" : "text-right text-xs")}>
+      <span className={cn(insetValue ? "font-semibold text-text-primary" : VALUE_BY_TIER[tier], !insetValue && thick && "text-sm")}>{safeValue}</span>
+      {maxText && <span className={cn("ms-1 text-text-secondary/70", !insetValue && "font-bold")}>{maxText}</span>}
+    </span>
+  );
 
   return (
     <div className={cn("py-1.5", className)}>
@@ -97,6 +106,7 @@ export default function ScoreBar({
         <span
           className={cn(
             "shrink-0 text-left text-sm tracking-tight",
+            insetValue && "sm:text-sm",
             LABEL_BY_TIER[tier],
             labelClassName,
           )}
@@ -106,32 +116,27 @@ export default function ScoreBar({
 
         <div
           className={cn(
-            "relative flex-1 overflow-hidden rounded-full",
-            thick ? "h-2" : "h-1.5",
-            selected ? "bg-white/[0.08] ring-1 ring-white/35" : TRACK_BY_TIER[tier],
+            "relative flex-1 overflow-hidden",
+            insetValue ? "h-6 min-w-16 rounded-control" : thick ? "h-2 rounded-full" : "h-1.5 rounded-full",
+            selected ? "bg-white/[0.08] ring-1 ring-white/35" : insetValue ? "bg-white/10 ring-1 ring-white/5" : TRACK_BY_TIER[tier],
           )}
         >
           <div
             className={cn(
-              "relative h-full rounded-full transition-[width] duration-700 ease-out",
-              selected ? "bg-white" : FILL_BY_TIER[tier],
+              "relative h-full transition-[width] duration-700 ease-out",
+              !insetValue && "rounded-full",
+              insetValue ? selected ? "bg-white/20" : "bg-accent/20" : selected ? "bg-white" : FILL_BY_TIER[tier],
             )}
             style={{ width: `${percent}%` }}
           >
-            {tier >= 3 && (
+            {!insetValue && tier >= 3 && (
               <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-40" />
             )}
           </div>
+          {insetValue && <span className="absolute inset-0 flex items-center justify-center">{score}</span>}
         </div>
 
-        <span className="shrink-0 text-right font-serif text-xs tabular-nums">
-          <span className={cn(thick ? "text-sm" : "text-xs", VALUE_BY_TIER[tier])}>
-            {safeValue}
-          </span>
-          {maxText && (
-            <span className="ms-1 font-bold text-text-secondary/70">{maxText}</span>
-          )}
-        </span>
+        {!insetValue && score}
       </div>
 
       {description && (

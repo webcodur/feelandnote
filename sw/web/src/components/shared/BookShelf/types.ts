@@ -30,9 +30,7 @@ export interface BookShelfBook {
 export interface BookShelfContext {
   personId?: string
   memberIds?: string[]
-  /** 개인 페이지에 리뷰 구획이 있으면 중복 본문 대신 그곳의 책을 연다. */
-  onOpenReview?: (contentId: string) => void
-  /** 직군·소속에서는 개인보다 해당 목록의 관계를 보여 준다. */
+  /** 직군·소속 등은 전체 관계를 줄이지 않고 정렬 순서에 반영한다. */
   kind: 'appeared' | 'authored' | 'read' | 'profession' | 'theme' | 'affiliation'
 }
 

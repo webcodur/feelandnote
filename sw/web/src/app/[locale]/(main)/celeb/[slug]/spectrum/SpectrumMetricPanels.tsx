@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] spectrum — 능력·성향·덕목 수치 패널 조립 훅
  * - 목차 위치: spectrum(분석 구획, service key `spectrum` / sectionId `analysis`)
- * - 데이터: spectrum(수치)·spectrumJsonb(근거)·matchesByCategory(단추 노출 여부)·onOpenMatchGroups(비교 묶음 겹창 열기)
+ * - 데이터: spectrum(수치)·spectrumJsonb(근거)
  * - 함께 보기: SpectrumPanels.tsx, spectrumUtils.ts, SpectrumSectionMain.tsx
  * ───────────────────────────────────────────── */
 "use client";
@@ -18,56 +18,18 @@ import {
 } from "@/lib/spectrum/constants";
 import { localizeSpectrumText } from "@/lib/spectrum/localizeText";
 import type { SpectrumJsonb } from "@/lib/spectrum/types";
-import type {
-  SpectrumMatchCategory,
-  SpectrumMatchGroups,
-} from "@/lib/spectrum/utils";
 import AbilityStatList from "../AbilityStatList";
 import DispositionStatList from "../DispositionStatList";
 import VirtueStatList from "../VirtueStatList";
-import { MetricPanel, MatchGroupsButton } from "./SpectrumPanels";
+import { MetricPanel } from "./SpectrumPanels";
 import { getReasonFromJsonb } from "./spectrumUtils";
-
-/* 분류 단추와 전체 유사 인물 단추를 한 줄에 나란히 둔다 */
-function matchButtonRow(
-  overallLabel: string,
-  hasOverall: boolean,
-  categories: SpectrumMatchCategory[],
-  label: string,
-  onOpenMatchGroups: (categories: SpectrumMatchCategory[]) => void,
-) {
-  const hasCategory = categories.length > 0;
-  if (!hasCategory && !hasOverall) return null;
-  return (
-    <div className="mt-auto flex gap-2">
-      {hasCategory ? (
-        <MatchGroupsButton
-          label={label}
-          onClick={() => onOpenMatchGroups(categories)}
-          className="min-w-0 flex-1"
-        />
-      ) : null}
-      {hasOverall ? (
-        <MatchGroupsButton
-          label={overallLabel}
-          onClick={() => onOpenMatchGroups(["overall"])}
-          className="min-w-0 flex-1"
-        />
-      ) : null}
-    </div>
-  );
-}
 
 export function useSpectrumMetricPanels({
   spectrum,
   spectrumJsonb,
-  matchesByCategory,
-  onOpenMatchGroups,
 }: {
   spectrum: NonNullable<SimilarByCelebResult["targetSpectrum"]>;
   spectrumJsonb: SpectrumJsonb | null;
-  matchesByCategory: SpectrumMatchGroups;
-  onOpenMatchGroups: (categories: SpectrumMatchCategory[]) => void;
 }) {
   const t = useTranslations("celebPage");
   const ts = useTranslations("shared.spectrum.stat");
@@ -87,19 +49,12 @@ export function useSpectrumMetricPanels({
   );
 
   const isEn = locale === "en";
-  const dispositionCompareCategories = (
-    ["disposition", "opposite"] as SpectrumMatchCategory[]
-  ).filter((category) => matchesByCategory[category].length > 0);
-  const hasOverall = matchesByCategory.overall.length > 0;
-  const overallLabel = t("spectrumMatchButton_overall");
 
   /* ── 2. 능력 패널 ── */
 
   const abilityPanel = useMemo(
     () => (
-      <MetricPanel
-        tone="border-t-emerald-300/35"
-      >
+      <MetricPanel>
       <div className="flex flex-1 flex-col gap-2">
         <AbilityStatList
           isEn={isEn}
@@ -113,26 +68,17 @@ export function useSpectrumMetricPanels({
             ),
           }))}
         />
-        {matchButtonRow(
-          overallLabel,
-          hasOverall,
-          matchesByCategory.ability.length > 0 ? ["ability"] : [],
-          t("spectrumMatchButton_ability"),
-          onOpenMatchGroups,
-        )}
       </div>
       </MetricPanel>
     ),
-    [t, ts, isEn, spectrum, spectrumJsonb, locale, hasOverall, overallLabel, matchesByCategory.ability, onOpenMatchGroups],
+    [ts, isEn, spectrum, spectrumJsonb, locale],
   );
 
   /* ── 3. 성향 패널 ── */
 
   const dispositionPanel = useMemo(
     () => (
-      <MetricPanel
-        tone="border-t-blue-400/35"
-      >
+      <MetricPanel>
       <div className="flex flex-1 flex-col gap-2">
         <DispositionStatList
           isEn={isEn}
@@ -147,29 +93,18 @@ export function useSpectrumMetricPanels({
             ),
           }))}
         />
-        {matchButtonRow(
-          overallLabel,
-          hasOverall,
-          dispositionCompareCategories,
-          t("spectrumMatchButton_disposition"),
-          onOpenMatchGroups,
-        )}
       </div>
       </MetricPanel>
     ),
-    [t, isEn, spectrum, spectrumJsonb, locale, tendencyLabels, dispositionCompareCategories, hasOverall, overallLabel, onOpenMatchGroups],
+    [isEn, spectrum, spectrumJsonb, locale, tendencyLabels],
   );
 
   /* ── 4. 덕목 패널 ── */
 
   const virtuePanel = useMemo(
     () => (
-      <MetricPanel
-        tone="border-t-amber-300/35"
-      >
+      <MetricPanel>
       <VirtueStatList
-        innerTitle={t("innerVirtue")}
-        outerTitle={t("outerVirtue")}
         innerItems={INNER_VIRTUE_KEYS.map((key) => ({
           key,
           label: ts(key),
@@ -189,33 +124,44 @@ export function useSpectrumMetricPanels({
           ),
         }))}
       />
-      {matchButtonRow(
-        overallLabel,
-        hasOverall,
-        matchesByCategory.virtue.length > 0 ? ["virtue"] : [],
-        t("spectrumMatchButton_virtue"),
-        onOpenMatchGroups,
-      )}
       </MetricPanel>
     ),
-    [t, ts, spectrum, spectrumJsonb, locale, hasOverall, overallLabel, matchesByCategory.virtue, onOpenMatchGroups],
+    [ts, spectrum, spectrumJsonb, locale],
   );
 
-  /* ── 5. 탭 넘김용 묶음 — 매 렌더 재생성하지 않는다 ── */
+  /* ── 5. 함께 표시할 수치 패널 ── */
 
   const metricPanels = useMemo(
     () => [
       { key: "ability", label: t("ability"), node: abilityPanel },
       { key: "disposition", label: t("coreDisposition"), node: dispositionPanel },
       { key: "virtue", label: t("virtue"), node: virtuePanel },
-    ],
+    ] as const,
     [t, abilityPanel, dispositionPanel, virtuePanel],
   );
+
+  const explanationGroups = [
+    { mode: "ability" as const, title: t("ability"), keys: ABILITY_KEYS, group: "abilities" as const, emptyLabel: t("abilityReasonEmpty") },
+    { mode: "disposition" as const, title: t("coreDisposition"), keys: TENDENCY_KEYS, group: "dispositions" as const, emptyLabel: t("dispositionReasonEmpty") },
+    { mode: "virtue" as const, title: t("innerVirtue"), keys: INNER_VIRTUE_KEYS, group: "inner_virtues" as const, emptyLabel: t("virtueReasonEmpty") },
+    { mode: "virtue" as const, title: t("outerVirtue"), keys: OUTER_VIRTUE_KEYS, group: "outer_virtues" as const, emptyLabel: t("virtueReasonEmpty") },
+  ].map(({ mode, title, keys, group, emptyLabel }) => ({
+    mode,
+    title,
+    emptyLabel,
+    items: keys.map((key) => ({
+      key,
+      label: key in tendencyLabels ? tendencyLabels[key].join(" / ") : ts(key),
+      value: spectrum[key],
+      reason: localizeSpectrumText(getReasonFromJsonb(spectrumJsonb, group, key, locale), locale),
+    })),
+  }));
 
   return {
     abilityPanel,
     dispositionPanel,
     virtuePanel,
     metricPanels,
+    explanationGroups,
   };
 }

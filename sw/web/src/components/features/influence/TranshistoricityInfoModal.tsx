@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { Hourglass } from "lucide-react";
 
 import Modal, { ModalBody } from "@/components/ui/Modal";
+import ScoreBar from "@/components/ui/ScoreBar";
 
 const TRANSHISTORICITY_BANDS = [
   { key: "foundation", range: "35–40", min: 35 },
@@ -24,15 +25,23 @@ interface Props {
   onClose: () => void;
   /** 현재 인물의 점수 — 해당 구간을 강조한다 */
   value: number;
+  explanation?: string | null;
+  isTranslationFallback?: boolean;
 }
 
-export default function TranshistoricityInfoModal({ isOpen, onClose, value }: Props) {
+export default function TranshistoricityInfoModal({ isOpen, onClose, value, explanation, isTranslationFallback }: Props) {
   const t = useTranslations("profilePage.influence.transhistoricityInfo");
+  const ti = useTranslations("profilePage.influence");
   const currentBand = TRANSHISTORICITY_BANDS.find((band) => value >= band.min);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t("title")} icon={Hourglass} size="lg">
       <ModalBody className="space-y-4">
+        <section className="space-y-2 border-b border-line pb-4">
+          <ScoreBar label={t("title")} value={value} max={40} maxText={ti("scoreOutOf", { max: 40 })} />
+          {isTranslationFallback && <p className="text-sm text-text-tertiary">{ti("originalKorean")}</p>}
+          <p className="whitespace-pre-line text-sm leading-relaxed text-text-secondary">{explanation || ti("noDetails")}</p>
+        </section>
         <div className="space-y-2">
           <p className="text-sm font-medium leading-relaxed text-text-primary break-keep">
             {t("definition")}

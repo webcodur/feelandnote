@@ -25,6 +25,7 @@ export default function RankActionButton({
   return (
     <button
       type="button"
+      data-no-drag
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={onClick}

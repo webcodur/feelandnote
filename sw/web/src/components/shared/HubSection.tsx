@@ -14,6 +14,8 @@ import { hubSectionId } from "./hubSectionUtils";
 import { useTranslations } from "next-intl";
 
 interface HubSectionProps {
+  className?: string;
+  tabIndex?: number;
   /** 목차가 가리키는 앵커 — 없으면 index·groupId로 hub-section-<i>를 단다 */
   id?: string;
   title: string;
@@ -35,6 +37,8 @@ interface HubSectionProps {
 }
 
 export default function HubSection({
+  className,
+  tabIndex,
   id,
   title,
   titleAs,
@@ -56,7 +60,7 @@ export default function HubSection({
   const TitleTag = titleAs ?? "h2";
 
   return (
-    <section id={sectionId} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""}`}>
+    <section id={sectionId} tabIndex={tabIndex} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""} ${className ?? ""}`}>
       {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고(간격은 부모의 space-y), 아래 새 구획은 넉넉히 띄운다
           (platform-02-code-rules.md 「구분선」) */}
       {!hideDivider && <div className={`h-px w-full bg-line ${dividerClassName ?? "mb-12 md:mb-16"}`} />}

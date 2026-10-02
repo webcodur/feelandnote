@@ -2,7 +2,7 @@
  * [celeb 상세] analysis — 덕목(내면·외면) 스탯 목록
  * - 목차 위치: analysis > spectrum
  * - 데이터: innerItems/outerItems props
- * - 함께 보기: StatReasonBox.tsx, SpectrumSection.tsx
+ * - 함께 보기: StatReasonModal.tsx, SpectrumSection.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import type { StatKey } from "@/lib/spectrum/constants";
 import { cn } from "@/lib/utils";
 
-import StatReasonBox from "./StatReasonBox";
+import StatReasonModal from "./StatReasonModal";
 
 interface VirtueItem {
   key: StatKey;
@@ -22,26 +22,18 @@ interface VirtueItem {
 }
 
 interface GroupProps {
-  title: string;
   items: VirtueItem[];
   selectedKey: StatKey | null;
   onSelect: (key: StatKey) => void;
 }
 
 function VirtueSummaryGroup({
-  title,
   items,
   selectedKey,
   onSelect,
 }: GroupProps) {
   return (
     <div className="min-w-0">
-      <div className="border-b border-white/[0.07] bg-white/[0.018] px-3 py-1.5">
-        <p className="text-center text-sm font-bold tracking-[0.12em] text-accent/75">
-          {title}
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 gap-px bg-white/[0.07]">
         {items.map((item) => {
           const pressed = selectedKey === item.key;
@@ -50,17 +42,18 @@ function VirtueSummaryGroup({
               key={item.key}
               type="button"
               aria-pressed={pressed}
+              aria-haspopup="dialog"
               onClick={() => onSelect(item.key)}
               className={cn(
-                "flex min-w-0 w-full items-center justify-between gap-2 px-2 py-1.5",
+                "flex min-h-8 min-w-0 w-full items-center justify-between gap-2 px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent",
                 pressed
                   ? "bg-white/[0.08] opacity-100 ring-1 ring-inset ring-white/20"
-                  : "bg-[color:var(--material-panel,var(--color-bg-card))] opacity-70 hover:opacity-100 hover:bg-white/[0.03]",
+                  : "bg-[color:var(--material-panel,var(--color-bg-card))] hover:bg-bg-raised",
               )}
             >
               <span
                 className={cn(
-                  "min-w-0 truncate text-sm",
+                  "min-w-0 truncate text-sm sm:text-sm",
                   pressed ? "font-medium text-text-primary" : "text-text-secondary",
                 )}
               >
@@ -68,7 +61,7 @@ function VirtueSummaryGroup({
               </span>
               <span
                 className={cn(
-                  "relative flex h-6 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border",
+                  "relative flex h-6 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border",
                   pressed
                     ? "border-white/80 bg-white/70 shadow-sm"
                     : "border-white/10 bg-black/20",
@@ -90,7 +83,7 @@ function VirtueSummaryGroup({
                 />
                 <strong
                   className={cn(
-                    "relative z-10 font-serif text-sm tabular-nums",
+                    "relative z-10 font-serif text-sm tabular-nums sm:text-sm",
                     pressed
                       ? "font-bold text-black"
                       : item.value >= 80
@@ -112,15 +105,11 @@ function VirtueSummaryGroup({
 }
 
 interface Props {
-  innerTitle: string;
-  outerTitle: string;
   innerItems: VirtueItem[];
   outerItems: VirtueItem[];
 }
 
 export default function VirtueStatList({
-  innerTitle,
-  outerTitle,
   innerItems,
   outerItems,
 }: Props) {
@@ -130,31 +119,25 @@ export default function VirtueStatList({
     (item) => item.key === selected,
   );
 
-  const toggle = (key: StatKey) => {
-    setSelected((prev) => (prev === key ? null : key));
-  };
-
   return (
     <div className="flex flex-1 flex-col gap-2 [overflow-anchor:none]">
       <div className="grid grid-cols-2 overflow-hidden rounded-sm border border-white/[0.08] bg-white/[0.012]">
         <VirtueSummaryGroup
-          title={innerTitle}
           items={innerItems}
           selectedKey={selected}
-          onSelect={toggle}
+          onSelect={setSelected}
         />
         <div className="border-s border-white/[0.08]">
           <VirtueSummaryGroup
-            title={outerTitle}
             items={outerItems}
             selectedKey={selected}
-            onSelect={toggle}
+            onSelect={setSelected}
           />
         </div>
       </div>
 
       {active && (
-        <StatReasonBox empty={t("virtueReasonEmpty")} reason={active.reason} />
+        <StatReasonModal label={active.label} value={active.value} empty={t("virtueReasonEmpty")} reason={active.reason} onClose={() => setSelected(null)} />
       )}
     </div>
   );

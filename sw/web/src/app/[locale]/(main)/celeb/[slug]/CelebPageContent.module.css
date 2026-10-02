@@ -1,4 +1,5 @@
 .page {
+  --layer-celeb-heading-bottom: var(--layer-header-h);
   position: relative;
   min-width: 0;
 }
@@ -13,12 +14,6 @@
   outline: none;
 }
 
-/* 머리말 제목의 기둥폭. 프레임과 같은 값으로 묶는다. */
-.heroHeading {
-  width: 100%;
-  margin-inline: auto;
-}
-
 .openingFrame {
   position: relative;
   z-index: 1;
@@ -26,8 +21,7 @@
   margin-inline: auto;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 58%, transparent);
-  border-top: 0;
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
   background: var(--material-panel, var(--color-bg-card));
   box-shadow: 0 24px 56px color-mix(in srgb, black 34%, transparent);
 }
@@ -150,6 +144,7 @@
   font-weight: 900;
   letter-spacing: -0.045em;
   line-height: 1.12;
+  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
@@ -217,13 +212,14 @@
   word-break: break-all;
 }
 
-/* PC: 제목(identityPrimary)과 같은 줄 우상단에 붙는다. absolute를 쓰지 않아
-   위에 따로 떠 있지 않고, flex gap이 제목과 버튼 사이 공간을 채운다. */
+/* 기본정보 아래에 독립된 조작 줄을 둬 이름·소개와 겹치지 않게 한다. */
 .actions {
   display: flex;
-  flex: 0 0 auto;
+  margin-top: 16px;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .viewCounterIcon {
@@ -244,34 +240,20 @@
   }
 }
 
-/* 머리말과 첫 구획 사이 간격. 머리말 마지막 칸의 아래 여백으로 둬야
-   머리말 제목이 그 구간까지 붙어 있다(sectionStack과 같은 이유) */
-.opening > *:last-child {
-  margin-block-end: 96px;
+.opening {
+  margin-block-end: 24px;
 }
 
 .sectionStack {
   display: grid;
   min-width: 0;
-  gap: 0;
-}
-
-/*
-  구획 사이 간격. gap으로 벌리면 그 구간에는 머리가 하나도 없어 상단이 빈다.
-  구획 자신의 padding으로 줘도 안 된다 — 구획은 grid라 스티키 머리가 붙어 있는 범위가
-  content box까지이고 padding은 그 밖이라, 머리가 여백만큼 일찍 밀려난다.
-  마지막 칸의 아래 여백으로 줘야 그 구간이 content box에 들어와 머리가 끝까지 버틴다.
-*/
-.sectionStack > *:not(:last-child) > *:last-child {
-  margin-block-end: 96px;
+  gap: 24px;
 }
 
 .recordSection {
-  display: grid;
+  min-width: 0;
   width: 100%;
-  gap: 0;
   --celeb-record-content-gap: 20px;
-  /* 고정 헤더 바로 아래에 착지 — 스티키 제목이 붙는 자리와 같다 */
   scroll-margin-top: var(--layer-header-h);
   outline: none;
 }
@@ -289,22 +271,6 @@
   min-height: 36px !important;
 }
 
-.guestbookSection {
-  margin-block-start: -32px;
-}
-
-/* 바깥 구획 통일 상자의 아랫반쪽. 윗반쪽(제목)과 맞물려 하나의 외곽이 된다.
-   sectionSurface가 padding을 shorthand로 쥐고 있어 Tailwind py-*로는 덮이지 않는다. */
-.sectionSurface {
-  min-width: 0;
-  /* 윗변은 제목 아랫선에 바로 붙인다. 여백은 좌우·아래만 둔다 */
-  padding: 0 16px 16px;
-  border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 58%, transparent);
-  border-top: 0;
-  border-radius: 0 0 12px 12px;
-  background: var(--material-panel, var(--color-bg-card));
-}
-
 .comparisonMetric {
   display: block;
   font-size: 0.875rem !important;
@@ -317,20 +283,6 @@
 @media (min-width: 768px) {
   .comparisonMetric {
     font-size: 0.9375rem !important;
-  }
-
-  /* PC: 액션줄을 본문 우상단에 세운다. 긴 이름이 버튼에 닿지 않게 본문 오른쪽을 비운다 */
-  .actions {
-    position: absolute;
-    z-index: 2;
-    top: 24px;
-    right: 32px;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .identityCopy {
-    padding-right: 64px;
   }
 }
 
@@ -417,54 +369,42 @@
     line-height: 1.65;
   }
 
-  /* 모바일: identityTop(relative) 기준으로 빼내 배너(충돌영역) 위 우상단에 띄운다.
-     identityTop top = 아바타 bottom(80px) + padding-top(16px) = 96px,
-     아바타 중앙(y=24px)에 맞추려면 top:-72px. */
   .actions {
-    position: absolute;
-    z-index: 2;
-    top: -72px;
-    right: 0;
-    left: auto;
-    flex-direction: column;
-    align-items: flex-end;
-    transform: none;
+    justify-content: center;
   }
 
   .viewCounterIcon {
     display: none;
   }
 
-  /* 아이콘이 사라져도 공유 버튼(32×32)과 같은 고정 크기를 미리 차지하고,
-     숫자를 중앙 정렬한다. 숫자가 3자리 이하일 때 크기 변동이 없다. */
+  /* 숫자가 길어지면 조회수 버튼만 넓어지고, 조작 줄은 필요할 때 줄바꿈한다. */
   .viewCounterButton {
-    width: 32px;
-    height: 32px;
+    width: auto;
     justify-content: center;
-    padding: 0;
+    padding-inline: 10px;
     gap: 0;
   }
 
   .actions > button,
   .actions > div > button {
-    width: 32px !important;
-    min-width: 32px !important;
-    height: 32px !important;
-    min-height: 32px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
   }
 
-  .sectionStack > *:not(:last-child) > *:last-child {
-    margin-block-end: 72px;
-  }
-
-  .guestbookSection {
-    margin-block-start: -24px;
+  .actions > button:not(.viewCounterButton),
+  .actions > div > button {
+    width: 44px;
   }
 }
 
 @media (min-width: 768px) {
-  .sectionSurface {
-    padding: 0 24px 24px;
+  .opening {
+    margin-block-end: 32px;
+  }
+
+  .sectionStack {
+    gap: 32px;
   }
 
   .avatarHeroColumn {
@@ -476,14 +416,4 @@
   .recordSection {
     --celeb-record-content-gap: 24px;
   }
-}
-
-.sourceWorksSurface {
-  border: 0;
-}
-
-/* 리뷰 구획 — 펼침 카드의 이전·다음 네비 아래에 남는 아래쪽 여백을 없앤다.
-   sectionSurface의 padding shorthand를 파일 끝의 같은 특이도 규칙으로 덮는다. */
-.librarySurface {
-  padding-bottom: 0;
 }

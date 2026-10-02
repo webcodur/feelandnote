@@ -6,11 +6,10 @@ import { getCelebSectionOrder } from "../../app/[locale]/(main)/celeb/[slug]/cel
 test("FICTION reality uses story-first section order without analysis", () => {
   assert.deepEqual(getCelebSectionOrder("FICTION"), [
     "introduction",
-    "reading",
-    "timeline",
+    "personGuide",
+    "virtualMonologue",
     "connections",
     "affiliateBooks",
-    "media",
     "relatedFigures",
     "guestbook",
   ]);
@@ -19,13 +18,12 @@ test("FICTION reality uses story-first section order without analysis", () => {
 test("REAL and BOTH reality keep reviews before the unified books section", () => {
   const expected = [
     "introduction",
-    "reading",
-    "timeline",
+    "personGuide",
+    "virtualMonologue",
     "library",
     "affiliateBooks",
     "analysis",
     "connections",
-    "media",
     "relatedFigures",
     "guestbook",
   ];
