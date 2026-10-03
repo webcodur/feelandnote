@@ -1,0 +1,183 @@
+[
+  {
+    "slug": "constantine-i",
+    "judgment": "Dassmann의 Kirchengeschichte II/1은 독일어 원전. 검증 가능한 영문 판본을 찾지 못해 변경하지 않았다.",
+    "sources": [
+      "https://openlibrary.org/works/OL4068544W"
+    ]
+  },
+  {
+    "slug": "alan-turing",
+    "judgment": "오타비아니 평전에 붙은 Janna Levin 영문 카드·판본을 바로잡았다. AI 소사와 호지스 평전의 실재 영문판은 귀속 검사 실패로 미등록.",
+    "sources": [
+      "https://www.ala.org/winner/imitation-game-alan-turing-decoded",
+      "https://www.penguinrandomhouseretail.com/book/?isbn=9781400032402"
+    ],
+    "enCandidates": [
+      {
+        "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+        "isbn": "9798893030891",
+        "source": "https://openlibrary.org/books/OL57767340M",
+        "error": "공식 판본이 가리키는 원전 제목·전체 원저자가 서버 작품과 다릅니다"
+      },
+      {
+        "contentId": "0dd5a60a-1883-5d0c-9a57-eae4a383d2d0",
+        "isbn": "9781784700089",
+        "source": "https://openlibrary.org/books/OL28541494M",
+        "error": "공식 판본이 가리키는 원전 제목·전체 원저자가 서버 작품과 다릅니다"
+      },
+      {
+        "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+        "isbn": "9781760645137",
+        "error": "OpenLibrary ISBN 조회에서 판본을 받지 못함"
+      }
+    ]
+  },
+  {
+    "slug": "qin-shi-huang",
+    "judgment": "왕리췬의 진시황은 확인된 중국어판만 있으며 등록 가능한 영문판은 확인하지 못했다.",
+    "sources": [
+      "https://openlibrary.org/works/OL19921645W",
+      "https://openlibrary.org/works/OL15574243W"
+    ]
+  },
+  {
+    "slug": "dong-zhongshu",
+    "judgment": "춘추번로의 실제 영역본 Luxuriant Gems는 존재하나 OL 원전 제목·저자 연결이 현재 작품과 달라 등록되지 않았다. 가노 나오키 중국철학사 영역본은 확인하지 못했다.",
+    "sources": [
+      "https://cup.columbia.edu/book/luxuriant-gems-of-the-spring-and-autumn/9780231169325/"
+    ],
+    "enCandidates": [
+      {
+        "contentId": "44a14186-800d-5b23-8919-47890c4f4c2d",
+        "isbn": "9780231169325",
+        "source": "https://openlibrary.org/books/OL28571684M",
+        "error": "공식 판본이 가리키는 원전 제목·전체 원저자가 서버 작품과 다릅니다"
+      }
+    ]
+  },
+  {
+    "slug": "emperor-wu-of-han",
+    "judgment": "요시카와 고지로 한무제와 양성민 한무제전의 일본어·중국어 원전은 확인했으나 영문판은 확인하지 못했다.",
+    "sources": [
+      "https://openlibrary.org/works/OL10339719W",
+      "https://openlibrary.org/works/OL23994695W",
+      "https://openlibrary.org/works/OL12971731W"
+    ]
+  },
+  {
+    "slug": "sun-tzu",
+    "judgment": "Victor H. Mair 편집·번역본과 같은 구성의 한국어판을 확인하지 못했다. 일반 손자병법 번역본을 이 별도 편집본에 붙이지 않았다."
+  },
+  {
+    "slug": "deng-xiaoping",
+    "judgment": "Deng Xiaoping: My Father 영역본은 존재하나 OL 판본과 원전의 저자 목록 검증이 실패했다.",
+    "enCandidates": [
+      {
+        "contentId": "3ed2720b-49dd-5aaf-b46c-be4da836035f",
+        "isbn": "9780465016259",
+        "source": "https://openlibrary.org/books/OL1111609M",
+        "error": "OpenLibrary 원전의 저자 목록을 판본에서 확인할 수 없어 작품 연결을 확인해야 합니다"
+      }
+    ]
+  },
+  {
+    "slug": "monica-bellucci",
+    "judgment": "프리니 전기와 별개인 본인 저작 사진집 Monica Bellucci의 영문판과 authored 관계를 등록했다. 카카오에서 한국어판은 확인하지 못해 unverified 표시용 카드만 두었다.",
+    "contentId": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+    "isbn": "9780847835072",
+    "sources": [
+      "https://openlibrary.org/books/OL25978274M",
+      "https://search.worldcat.org/title/Monica-Bellucci/oclc/505417139",
+      "https://schirmer-mosel.com/homed1/pdf/PM_Bellucci.pdf"
+    ]
+  },
+  {
+    "slug": "mao-zedong",
+    "judgment": "Mao: The Unknown Story 중복 작품을 QID 작품으로 통합했다. 한국어 상권을 이관·정비하고 하권과 모택동의 사생활 1·2·3 판본을 추가했다. 두 작품의 한국어 카드와 원전 제목·전체 원저자 정보를 보강했다.",
+    "sources": [
+      "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=640964",
+      "https://www.kachibooks.co.kr/books/book_view.php?book_idx=200604108112812",
+      "https://www.penguin.co.uk/books/388992/mao-the-unknown-story-by-jung-chang-and-jon-halliday/9781448156863",
+      "https://m.yes24.com/goods/detail/107710939",
+      "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=49986",
+      "https://www.yes24.com/product/goods/141017"
+    ]
+  },
+  {
+    "slug": "stanley-kubrick",
+    "judgment": "Stanley Kubrick: Interviews 영문판은 존재하나 OL 원전의 저자 목록을 판본에서 확인할 수 없어 등록되지 않았다.",
+    "enCandidates": [
+      {
+        "contentId": "6fcb42f4-d148-55ed-b98d-235f34c8d0a2",
+        "isbn": "9781578062973",
+        "error": "OpenLibrary 원전의 저자 목록을 판본에서 확인할 수 없어 작품 연결을 확인해야 합니다"
+      }
+    ]
+  },
+  {
+    "slug": "sejong-the-great",
+    "judgment": "홍길동전 영역본은 존재하나 OL 제목·저자와 현재 작품의 원전 앵커 귀속 검사가 실패했다. 세종이 등장하는 원전의 관계는 유지했다.",
+    "enCandidates": [
+      {
+        "contentId": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+        "isbn": "9780143107699",
+        "source": "https://openlibrary.org/books/OL27205409M",
+        "error": "공식 판본이 가리키는 원전 제목·전체 원저자가 서버 작품과 다릅니다"
+      }
+    ]
+  },
+  {
+    "slug": "elijah-wood",
+    "judgment": "Dougherty 전기의 한국어 번역과 추가로 등록할 만한 국내 단행본을 확인하지 못했다. 카카오 수입 원서는 한국어판으로 등록하지 않았다."
+  },
+  {
+    "slug": "abraham-lincoln",
+    "judgment": "Collected Works, Goethals의 Legacy of Leadership, Balsiger의 Lincoln Conspiracy와 같은 저작의 한국어판을 확인하지 못했다. 동명 위인전·다른 저자의 리더십서·다른 음모 사건 책은 제외했다."
+  },
+  {
+    "slug": "mencius",
+    "judgment": "양국영 맹자평전의 중국어 원전은 확인했으나 등록 가능한 영문판은 확인하지 못했다."
+  },
+  {
+    "slug": "andy-lau",
+    "judgment": "유덕화의 중국어 저작 두 종의 한국어·영문판을 확인하지 못했다. 국내 검색의 목회자 동명이인과 ISBN 없는 옛 화보는 제외했다."
+  },
+  {
+    "slug": "benjamin-franklin",
+    "judgment": "이미 한국어 판본이 있는 아이작슨 평전의 표시용 카드를 인생의 발견 공식 카카오 값으로 교정했다. 두 별도 영문 편집 선집의 한국어판은 확인하지 못해 일반 자서전 번역을 대체 부착하지 않았다.",
+    "isbn": "9788950909123"
+  },
+  {
+    "slug": "sylvester-stallone",
+    "judgment": "현재 DB에는 이미 본인 저작 두 종이 있어 옛 thin 1건 신호와 달랐다. Paradise Alley의 한국어판은 확인하지 못했으며 기존 몸만들기 책을 새 등록으로 세지 않았다."
+  },
+  {
+    "slug": "martin-luther",
+    "judgment": "지원용의 신앙고백서와 인간에게 자유의지가 있는가 번역 흔적은 있으나 카카오에서 등록 가능한 ISBN을 확보하지 못했다. Bonhoeffer Reception과 Kolb 책의 한국어판은 확인하지 못했다. 번역 부재로 확정하지 않았다."
+  },
+  {
+    "slug": "sung-uk-moon",
+    "judgment": "팀블라인드 창업자 신원을 대조했다. 문성욱 검색의 시인·학자·IT 저술 동명이인과 분야 일반서를 제외했으며 새 후보를 확인하지 못했다."
+  },
+  {
+    "slug": "pericles",
+    "judgment": "시오노 나나미 그리스인 이야기와 같은 저작의 영문판을 확인하지 못했다."
+  },
+  {
+    "slug": "denzel-washington",
+    "judgment": "A Hand to Guide Me와 Brode 전기의 한국어판을 확인하지 못했다. 출처가 불명확한 전자 명언 모음은 본인 저작으로 추가하지 않았다."
+  },
+  {
+    "slug": "celine-dion",
+    "judgment": "자서전과 Carl Wilson의 Let’s Talk About Love 한국어판을 확인하지 못했다. 수입 원서·악보와 Carl Wilson Baker 동명이인 작품을 제외했다."
+  },
+  {
+    "slug": "adolf-hitler",
+    "judgment": "Table Talk 1941–1944와 같은 저작의 한국어판을 확인하지 못했다. 일반 어록·다른 저작을 대체 부착하지 않았다."
+  },
+  {
+    "slug": "jo-jung-rae",
+    "judgment": "태백산맥 프랑스어판은 영문판으로 등록하지 않았다. 영역 계획 보도만으로 영어 ISBN과 실판본을 확정하지 않았다."
+  }
+]

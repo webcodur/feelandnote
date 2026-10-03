@@ -1,0 +1,27 @@
+{
+  "work": {
+    "identity": "monica-bellucci/monica-bellucci",
+    "title": "Monica Bellucci",
+    "creator": "Monica Bellucci",
+    "titleAliases": [],
+    "creatorAliases": [
+      "Monica Bellucci",
+      "모니카 벨루치"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "unverified",
+    "creator": "모니카 벨루치",
+    "evidenceUrls": [
+      "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+      "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+    ]
+  },
+  "en": {
+    "isbn": "9780847835072"
+  }
+}
