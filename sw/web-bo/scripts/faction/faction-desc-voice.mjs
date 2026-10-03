@@ -19,7 +19,7 @@
 import { readFile, writeFile, mkdir, open, unlink, access } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { S3Client, GetObjectCommand, HeadObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import {

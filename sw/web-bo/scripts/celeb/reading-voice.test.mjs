@@ -275,7 +275,8 @@ test('Gemini rejects incomplete output and never puts a key into the URL', async
     assert.equal(call.options.headers['x-goog-api-key'], 'test-free-key')
     const payload = JSON.parse(call.options.body)
     assert.equal(payload.generationConfig.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName, 'Charon')
-    assert.match(payload.contents[0].parts[0].text, /Read comfortably and naturally/)
+    assert.equal(payload.contents[0].parts[0].text, 'Hello.')
+    assert.equal(payload.contents[0].parts[0].speech_metadata.style, 'Read comfortably and naturally.')
   } finally { globalThis.fetch = original }
 })
 

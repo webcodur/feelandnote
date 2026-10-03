@@ -53,6 +53,35 @@ class ReadingQCTest(unittest.TestCase):
         _, flags, _ = qc.source_alignment(source, source + " Thank you for listening.", "en")
         self.assertIn("unexpected-spoken-tail", flags)
 
+    def test_loanword_transliteration_is_not_a_content_error(self):
+        # 3.8 TTS는 원문의 영어 단어를 영어 발음으로 읽고 Whisper는 한글로 받아쓴다 —
+        # 라틴↔한글 단어 교환은 표기 차이라 내용 플래그를 달지 않는다.
+        source = "그곳에서 이미지를 다루는 Vision Transformer와 사진을 짝짓는 SigLIP 논문을 냈다."
+        heard = "그곳에서 이미지를 다루는 비전 트랜스포머와 사진을 짝짓는 시그릿 논문을 냈다"
+        metrics, flags, _ = qc.source_alignment(source, heard, "ko")
+        self.assertNotIn("source-content-gap", flags)
+        self.assertNotIn("unexpected-spoken-content", flags)
+        self.assertNotIn("low-match", flags)
+        marked = [d for d in metrics["differences"] if d.get("transliteration")]
+        self.assertTrue(marked)
+        # 반대 방향 — 원문 한글 차용어를 Whisper가 라틴으로 받아쓴 경우도 같다.
+        source2 = "그는 브이소스 채널을 만들었다. 이후 활동을 넓혔다."
+        heard2 = "그는 vsauce 채널을 만들었다. 이후 활동을 넓혔다"
+        _, flags2, _ = qc.source_alignment(source2, heard2, "ko")
+        self.assertEqual(flags2, [])
+
+    def test_real_omission_and_invented_tail_still_fail(self):
+        # 실제 누락·지어낸 꼬리·혼합 문자열 대체는 차용어 완화와 무관하게 불합격이다.
+        source = "그는 영국에서 태어났다. 이후 미국으로 건너가 활동했다. 말년에는 고향으로 돌아갔다."
+        _, flags, _ = qc.source_alignment(source, "그는 영국에서 태어났다. 말년에는 고향으로 돌아갔다.", "ko")
+        self.assertIn("source-content-gap", flags)
+        _, flags, _ = qc.source_alignment(source, source + " 다음 영상에서 만나요.", "ko")
+        self.assertIn("unexpected-spoken-tail", flags)
+        # 원문의 한글+영어 혼합 구간(괄호 병기)을 한글로 대체하면 진짜 누락이다.
+        _, flags, _ = qc.source_alignment(
+            "닉쿤(Nichkhun Buck Horvejkul)은 미국에서 태어난 가수이다.", "니쿠는 미국에서 태어난 가수이다", "ko")
+        self.assertIn("source-content-gap", flags)
+
     def test_word_spacing_and_punctuation_do_not_fail(self):
         for source, heard, locale in [("그는 고향으로 돌아갔다.", "그 는 고향으로 돌아갔다", "ko"),
                                        ("He went home.", "he went home!", "en")]:
@@ -62,7 +91,7 @@ class ReadingQCTest(unittest.TestCase):
         _, _, mapping = qc.source_alignment(text, "Home. Away.", "en")
         words = [{"word": "Home.", "start": 0.1, "end": 0.5, "probability": probability},
                  {"word": " Away.", "start": 1.9, "end": 2.3, "probability": probability}]
-        return qc.pause_repairs(samples, words, text, mapping)
+        return qc.pause_repairs(samples, words, text, mapping, "en")
 
     def test_only_silent_confident_sentence_pause_is_repaired(self):
         samples = np.zeros(3 * qc.SAMPLE_RATE, dtype=np.float32)
@@ -110,14 +139,14 @@ class ReadingQCTest(unittest.TestCase):
         words = [{"word": "Home", "start": .1, "end": .5, "probability": .99},
                  {"word": " away", "start": 2, "end": 2.4, "probability": .99}]
         _, _, mapping = qc.source_alignment("Home away", "Home away", "en")
-        repairs, flags, warnings = qc.pause_repairs(np.zeros(3 * qc.SAMPLE_RATE), words, "Home away", mapping)
+        repairs, flags, warnings = qc.pause_repairs(np.zeros(3 * qc.SAMPLE_RATE), words, "Home away", mapping, "en")
         self.assertEqual(repairs, [])
         self.assertIn("long-mid-sentence-pause", flags)
         self.assertEqual(warnings, [])
 
     def test_abbreviations_and_initials_are_not_sentence_boundaries(self):
         text = "Dr. Smith met J. R. Tolkien. They left."
-        self.assertEqual(qc.punctuation_offsets(text),
+        self.assertEqual(qc.punctuation_offsets(text, "en"),
                          {len(qc.normalize("Dr. Smith met J. R. Tolkien")), len(qc.normalize(text))})
 
     def test_clipping_and_jump_are_independent(self):

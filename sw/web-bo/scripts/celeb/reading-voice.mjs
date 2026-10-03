@@ -12,19 +12,51 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parseEnv } from 'node:util'
 import { createInterface } from 'node:readline'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { S3Client, GetObjectCommand, HeadObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import { publishReadingTiming } from './reading-voice-timing.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')
 export const QC_SCRIPT = join(ROOT, 'sw/audio-bo/scripts/celeb-reading-voice-qc.py')
-export const MODEL = 'gemini-2.5-flash-preview-tts'
+export const MODEL = 'gemini-3.8-flash-tts'
 export const VOICE = 'Charon'
-export const PROMPTS = {
-  ko: '편안하고 자연스럽게 읽어 주세요. 아래 본문만 읽어 주세요:\n\n',
-  en: 'Read comfortably and naturally. Read only the following text:\n\n',
+// 3.8 TTS는 입력 텍스트를 그대로 읽는다 — 지시문은 speech_metadata.style로만 보낸다.
+export const STYLE = {
+  ko: '편안하고 자연스럽게 읽어 주세요.',
+  en: 'Read comfortably and naturally.',
 }
+export const PACE_STYLE = {
+  ko: '문장 사이를 길게 끌지 말고 초당 약 6자 이상 속도로 명료하게 읽어 주세요.',
+  en: 'Use a clear, flowing pace of at least 156 words per minute, without drawn-out pauses.',
+}
+
+// 모델 계열별 실행 경로는 완전히 분리한다 — 요청 본문 생성(part)과 응답 디코딩(decode)을 엔진이 각각 쥔다.
+const ENGINE_25 = {
+  prompts: { ko: '편안하고 자연스럽게 읽어 주세요. 아래 본문만 읽어 주세요:\n\n', en: 'Read comfortably and naturally. Read only the following text:\n\n' },
+  pacePrompts: { ko: '문장 사이를 길게 끌지 말고 초당 약 6자 이상 속도로 명료하게 읽어 주세요.\n', en: 'Use a clear, flowing pace of at least 156 words per minute, without drawn-out pauses.\n' },
+  part: (text, locale, paceRetry) => ({ text: (paceRetry ? ENGINE_25.pacePrompts[locale] : '') + ENGINE_25.prompts[locale] + text }),
+  decode: (part) => {
+    const mime = part.mimeType || ''
+    if (!/^audio\/L16(?:;|$)/i.test(mime)) throw new Error('Gemini returned unsupported audio encoding')
+    return { pcm: Buffer.from(part.data, 'base64'), sampleRate: Number(/rate=(\d+)/i.exec(mime)?.[1] || 24000) }
+  },
+  settingsFields: () => ({ prompts: ENGINE_25.prompts }),
+}
+const ENGINE_38 = {
+  part: (text, locale, paceRetry) => ({ text, speech_metadata: { style: (paceRetry ? PACE_STYLE : STYLE)[locale] } }),
+  decode: (part) => decodeAudioPart(part),
+  settingsFields: () => ({ style: STYLE, paceStyle: PACE_STYLE }),
+}
+const TTS_ENGINES = {
+  'gemini-2.5-flash-preview-tts': ENGINE_25,
+  'gemini-2.5-pro-preview-tts': ENGINE_25,
+  'gemini-3.8-flash-tts': ENGINE_38,
+  'gemini-3.8-flash-lite-tts': ENGINE_38,
+}
+const TTS_ENGINE = TTS_ENGINES[MODEL]
+if (!TTS_ENGINE) throw new Error(`Unsupported TTS model: ${MODEL}`)
+
 export const MAX_ATTEMPTS = 3
 export const MAX_CONSECUTIVE_FAILURES = 5
 const KEY_COOLDOWN_MS = 65_000
@@ -36,6 +68,9 @@ const TRANSIENT_BACKOFF_MS = 500
 export const SPEED_POLICY = { ko: { target: 6, margin: 6.01, unit: 'cps' }, en: { target: 156, margin: 156.1, unit: 'wpm' }, maxTempo: 1.25, encoderPaddingSeconds: 0.096 }
 export const MP3_SETTINGS = { codec: 'libmp3lame', bitrate: '128k', sampleRate: 24000, channels: 1 }
 export const sha = (value) => createHash('sha256').update(value).digest('hex')
+const LEGACY_SETTINGS = { model: 'gemini-2.5-flash-preview-tts', voice: VOICE, ...ENGINE_25.settingsFields() }
+const LEGACY_SETTINGS_38 = { ...LEGACY_SETTINGS, model: 'gemini-3.8-flash-tts' }
+const LEGACY_SETTINGS_HASHES = new Set([LEGACY_SETTINGS, LEGACY_SETTINGS_38].map((item) => sha(JSON.stringify(item))))
 export const now = () => new Date().toISOString()
 export const delay = (ms) => new Promise((done) => setTimeout(done, ms))
 export const exists = async (path) => access(path).then(() => true, () => false)
@@ -238,6 +273,36 @@ export function pcmToWav(pcm, sampleRate = 24000) {
   return Buffer.concat([h, pcm])
 }
 
+export function wavToPcm(wav) {
+  const invalid = () => { throw new Error('Gemini returned malformed WAV audio') }
+  if (wav.length < 44 || wav.toString('ascii', 0, 4) !== 'RIFF' || wav.toString('ascii', 8, 12) !== 'WAVE') invalid()
+  let offset = 12
+  let format = null
+  let data = null
+  while (offset + 8 <= wav.length) {
+    const id = wav.toString('ascii', offset, offset + 4)
+    const size = wav.readUInt32LE(offset + 4)
+    const start = offset + 8
+    if (start + size > wav.length) invalid()
+    if (id === 'fmt ') {
+      if (size < 16 || wav.readUInt16LE(start) !== 1) invalid()
+      format = { channels: wav.readUInt16LE(start + 2), sampleRate: wav.readUInt32LE(start + 4), bitsPerSample: wav.readUInt16LE(start + 14) }
+    }
+    if (id === 'data') data = wav.subarray(start, start + size)
+    offset = start + size + (size % 2)
+  }
+  if (!format || !data || format.channels !== 1 || format.bitsPerSample !== 16) invalid()
+  return { pcm: Buffer.from(data), sampleRate: format.sampleRate }
+}
+
+export function decodeAudioPart(part) {
+  const mime = part.mimeType || ''
+  const body = Buffer.from(part.data, 'base64')
+  if (/^audio\/wav(?:;|$)/i.test(mime)) return wavToPcm(body)
+  if (!/^audio\/L16(?:;|$)/i.test(mime)) throw new Error('Gemini returned unsupported audio encoding')
+  return { pcm: body, sampleRate: Number(/rate=(\d+)/i.exec(mime)?.[1] || 24000) }
+}
+
 export function isQualityFailure(message = '') {
   return /^(?:QC regenerate:|Final MP3 QC regenerate:|speed-too-slow:|speed-rounding:)/.test(message)
     || /^(?:QC|Final MP3 QC) error: insufficient-alignment-frames:\s*1$/.test(message)
@@ -420,7 +485,7 @@ export class Gemini {
         if (this.disabled.has(index)) continue keyLoop
         response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': this.keys[index] },
-          body: JSON.stringify({ contents: [{ parts: [{ text: (paceRetry ? (locale === 'ko' ? '문장 사이를 길게 끌지 말고 초당 약 6자 이상 속도로 명료하게 읽어 주세요.\n' : 'Use a clear, flowing pace of at least 156 words per minute, without drawn-out pauses.\n') : '') + PROMPTS[locale] + text }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: VOICE } } } } }),
+          body: JSON.stringify({ contents: [{ parts: [TTS_ENGINE.part(text, locale, paceRetry)] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: VOICE } } } } }),
           signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
         })
         if (!TRANSIENT_HTTP_STATUSES.has(response.status) || retry === MAX_TRANSIENT_RETRIES) break
@@ -458,10 +523,9 @@ export class Gemini {
       const parts = result.candidates?.[0]?.content?.parts || []
       const audio = parts.filter((part) => part.inlineData?.data).map((part) => part.inlineData)
       if (!audio.length) throw new Error('Gemini returned no audio')
-      if (audio.some((part) => !/^audio\/L16(?:;|$)/i.test(part.mimeType || ''))) throw new Error('Gemini returned unsupported audio encoding')
-      const rates = audio.map((part) => Number(/rate=(\d+)/i.exec(part.mimeType)?.[1] || 24000))
-      if (rates.some((rate) => rate !== rates[0])) throw new Error('Gemini returned mixed sample rates')
-      return pcmToWav(Buffer.concat(audio.map((part) => Buffer.from(part.data, 'base64'))), rates[0])
+      const decoded = audio.map((part) => TTS_ENGINE.decode(part))
+      if (decoded.some((part) => part.sampleRate !== decoded[0].sampleRate)) throw new Error('Gemini returned mixed sample rates')
+      return pcmToWav(Buffer.concat(decoded.map((part) => part.pcm)), decoded[0].sampleRate)
     }
     const quota = summarizeQuota(this.quotaObservations.values(), this.disabled.size)
     log('quota-exhausted', { quota })
@@ -614,7 +678,7 @@ async function main() {
   if (options['dry-run']) return
   if (options.generate && !keys.length) throw new Error('No explicitly named GOOGLE_GENAI_API_KEY_FREE keys in allowed env files')
   if (!options['synthesize-only']) await access(QC_SCRIPT)
-  const settings = { model: MODEL, voice: VOICE, prompts: PROMPTS }
+  const settings = { model: MODEL, voice: VOICE, ...TTS_ENGINE.settingsFields() }
   const processing = { mp3: MP3_SETTINGS, speed: SPEED_POLICY }
   options.processingHash = sha(JSON.stringify(processing))
   if (!options['synthesize-only']) options.qcScriptHash = sha(await readFile(QC_SCRIPT))
@@ -634,7 +698,11 @@ async function main() {
     const previousSynthesisSettings = { ...manifest.settings }
     delete previousSynthesisSettings.qcScriptHash
     delete previousSynthesisSettings.mp3
-    if (manifest.schemaVersion !== 1 || sha(JSON.stringify(previousSynthesisSettings)) !== settingsHash) throw new Error('Synthesis settings changed. Use a new --run directory to preserve old audio.')
+    if (manifest.schemaVersion !== 1 || sha(JSON.stringify(previousSynthesisSettings)) !== settingsHash) {
+      // 2.5 시절 settings에서 3.8 스키마로의 마이그레이션만 허용한다. 그 밖의 임의 변경은 새 run 디렉터리가 필요하다.
+      if (!LEGACY_SETTINGS_HASHES.has(sha(JSON.stringify(previousSynthesisSettings)))) throw new Error('Synthesis settings changed. Use a new --run directory to preserve old audio.')
+      log('synthesis-settings-migrated', { from: manifest.settings, to: settings })
+    }
     manifest.settings = settings; manifest.settingsHash = settingsHash
     manifest.processing = processing; manifest.processingHash = options.processingHash
     if (!options['synthesize-only']) manifest.qcScriptHash = options.qcScriptHash

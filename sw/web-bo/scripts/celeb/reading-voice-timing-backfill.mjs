@@ -2,7 +2,7 @@
 import { readFile, writeFile, open, unlink } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { S3Client } from '@aws-sdk/client-s3'
 import { environment, currentSource, renameCheckpoint } from './reading-voice.mjs'
 import { prepareReadingTiming, publishReadingTiming, TIMING_REVISION, timingHash } from './reading-voice-timing.mjs'

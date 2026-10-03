@@ -2,7 +2,7 @@
 import { access, cp, readFile, writeFile, open, unlink, rm, mkdir } from 'node:fs/promises'
 import { dirname, join, relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 import { DeleteObjectCommand, HeadObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { environment, currentSource, renameCheckpoint } from './reading-voice.mjs'
 import { prepareReadingTiming } from './reading-voice-timing.mjs'

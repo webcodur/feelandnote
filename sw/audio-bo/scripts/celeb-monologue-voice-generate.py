@@ -87,6 +87,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)
     parser.add_argument(
+        "--unit-break-after", type=int, nargs="+",
+        help="Override automatic sentence bundles: split only after these 1-based paragraphs.",
+    )
+    parser.add_argument(
         "--resume-run",
         type=Path,
         help="Continue a run: fill missing paragraphs, then re-stitch and re-QC.",
@@ -209,12 +213,28 @@ UNIT_MIN_SENTENCES = 3  # 이 문장 수를 채우고 문단 끝에 닿으면 �
 UNIT_MAX_SENTENCES = 6  # 문단 중간이어도 끊는 상한 — 합성 입력이 무한히 길어지지 않게
 
 
-def build_units(parts: list[str]) -> list[dict]:
+def build_units(parts: list[str], break_after: list[int] | None = None) -> list[dict]:
     """Synthesis units are sentence bundles, not paragraphs: a unit closes once it
     holds UNIT_MIN_SENTENCES sentences at a paragraph end, or UNIT_MAX_SENTENCES
     anywhere — so a short paragraph folds into the next and a long one may split.
     leadSeam marks the seam before each unit — 'paragraph' gets the long stitched
     gap, 'sentence' the short one."""
+    if break_after is not None:
+        if not break_after or break_after != sorted(set(break_after)) or \
+                any(point < 1 or point >= len(parts) for point in break_after):
+            raise ValueError("Unit breaks must be unique, ascending paragraph numbers before the final paragraph")
+        units, start = [], 0
+        for end in [*break_after, len(parts)]:
+            text = "\n\n".join(parts[start:end])
+            index = len(units) + 1
+            units.append({
+                "index": index, "paragraphs": list(range(start + 1, end + 1)),
+                "sentences": sum(count_sentences(part) for part in parts[start:end]),
+                "text": text, "file": f"p{index:02d}.mp3",
+                "leadSeam": None if index == 1 else "paragraph",
+            })
+            start = end
+        return units
     sentences: list[dict] = []
     for pi, part in enumerate(parts):
         sents = split_sentences(part)
@@ -466,7 +486,7 @@ def main() -> None:
     web_env = read_env(args.web_env)
     celeb, text = load_celeb_monologue(args.slug, args.locale, web_env)
     parts = split_paragraphs(text)
-    paragraphs = build_units(parts)
+    paragraphs = build_units(parts, args.unit_break_after)
     if not paragraphs:
         raise RuntimeError("Monologue has no paragraphs")
     overrides = apply_paragraph_overrides(paragraphs, args.tts_overrides, args.slug, args.locale)
@@ -485,6 +505,7 @@ def main() -> None:
         "account": args.account,
         "paragraphs": len(parts),
         "synthesisUnits": len(paragraphs),
+        "unitBreakAfter": args.unit_break_after,
         "characters": len(text),
         "sourceSha256": source_hash,
         "lockedAt": celeb.get("virtual_monologue_locked_at"),
@@ -535,6 +556,8 @@ def main() -> None:
             raise RuntimeError("Resume run synthesis settings do not match.")
         if (manifest.get("source") or {}).get("sha256") != source_hash:
             raise RuntimeError("DB monologue changed since the run; start a new run directory.")
+        if manifest.get("unitBreakAfter") != args.unit_break_after:
+            raise RuntimeError("Resume unit breaks do not match; use the original --unit-break-after values.")
         existing = {str(s.get("index")) for s in manifest.get("samples") or []
                     if s.get("status") == "generated" and (run_dir / str(s.get("file"))).is_file()}
         for sample in manifest.get("samples") or []:
@@ -571,6 +594,7 @@ def main() -> None:
                        "paragraphs": len(parts), "synthesisUnits": len(paragraphs)},
             "paragraphGapSeconds": args.paragraph_gap,
             "sentenceGapSeconds": args.sentence_gap,
+            "unitBreakAfter": args.unit_break_after,
             "ttsOverrides": preflight["ttsOverrides"],
             "samples": [],
             "gaps": [],

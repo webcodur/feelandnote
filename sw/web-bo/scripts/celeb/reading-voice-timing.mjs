@@ -131,7 +131,9 @@ async function objectOrNull(r2, command) {
   catch (error) { if (error.name === 'NoSuchKey' || error.name === 'NotFound' || error.$metadata?.httpStatusCode === 404) return null; throw error }
 }
 
-export async function publishReadingTiming(r2, entry, options, prepared, { audioEtag, objectName = 'reading', audioKey: resolvedAudioKey } = {}) {
+/** @param {{ audioEtag?: string, objectName?: string, audioKey?: string }} [publication] */
+export async function publishReadingTiming(r2, entry, options, prepared, publication = {}) {
+  let { audioEtag, objectName = 'reading', audioKey: resolvedAudioKey } = publication
   const result = prepared || await prepareReadingTiming(entry)
   if (!result.timing.segments.length) return { status: 'unavailable', reason: 'No confidently aligned sentences', rejected: result.rejected.length }
   const bucket = process.env.R2_BUCKET_NAME

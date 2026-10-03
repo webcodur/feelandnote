@@ -7,6 +7,7 @@
 - 인물 안내(`reading`)는 Gemini Charon으로 찍지만 가상독백은 **DB에 설정된 보이스 그대로** 출력한다 — ElevenLabs voice_id면 ElevenLabs(`eleven_v3`), `gemini:<보이스명>`이면 Gemini TTS(`gemini-2.5-flash-preview-tts`, 무료 키 풀)를 쓴다(26.09.22 지시). `gemini:` 접두사는 생성기가 엔진을 고르는 계약이며, 서재탐방 에피소드의 보이스가 Gemini인 인물에 쓴다(alex-karp = `gemini:Orus`).
 - 독백은 덩어리가 커서 **합성 단위(unit)로 나눠 생성하고, 파일도 단위별로 만든 뒤 하나로 잇는다.** 한 문장짜리 문단은 단독 단위로 두지 않고 다음 문단과 함께 생성한다(26.09.22 지시 — 짧은 문단 단독 파일이 끊겨 들렸다). 마지막이 한 문장 문단이면 앞 단위에 붙인다. 단위 사이 쉼은 **총량 목표제**다 — 각 단위 파일 양끝의 실제 무음을 측정해 가장자리 무음(앞 0.06·뒤 0.15초 한도)만 남기고, `gap_seconds - 남긴 무음`만큼 룸톤을 끼워 체감 총량을 목표(기본 1.0초)로 맞춘다(26.09.22 — 고정 삽입은 정리본의 꼬리 여백·인코더 패딩 편차가 그대로 더해져 길고 들쭉날쭉했다). `--resume-run --paragraph-gap`으로 재합성 없이 쉼만 다시 잇는다.
 - `--reuse-from <이전 run>`은 병합 규칙·원문이 바뀌어 단위가 달라졌을 때, 텍스트가 같은 단위의 파일만 복사해 쓰고 나머지 단지만 합성한다 — 바뀐 곳만 다시 찍는다.
+- 기본 분할은 생성기의 문장 묶음 규칙을 따른다. 목소리 일관성을 비교하려고 더 큰 덩어리로 생성할 때는 `--unit-break-after <문단 번호…>`로 경계를 지정한다. 피터 틸 한국어는 `--unit-break-after 4`로 1~4문단·5~7문단을 각각 합성한다(2026-10-03 지시). 재개할 때도 같은 옵션을 넘긴다.
 - ElevenLabs는 유료 API다. 사용자가 대상을 지시한 경우에만 생성한다.
 - 대사 슬롯 `monologue.mp3`(`celeb_dialogues.lines->monologue`)와는 다른 개념이다. 가상독백은 `vmonologue.mp3`/`vmonologue.json`을 쓰며 키가 겹치지 않는다.
 
@@ -35,6 +36,7 @@ QC의 `non-silent-sentence-pause`는 문장 쉼 기준 판정이라 문단 쉼�
 
 ## 현재 도달점
 
+- 피터 틸 ko 두 덩어리 비교 음원: `peter-thiel/ko/20261003-152438`에 1~4문단·5~7문단을 새로 합성해 저장했다. 통합본 137.58초, QC 통과. 로컬 비교용이며 서비스에는 아직 발행하지 않았다.
 - 2026-09-22: 문단 쉼을 총량 1.0초 정규화로 바꾸고 기존 발행분을 재스티치·재발행했다. `mark-zuckerberg` ko `voice_v` 18·en 19, `elon-musk` ko 9·en 10, `peter-thiel` ko 4(en은 `voice_id_en` 미설정이라 미생성 — 플레이어는 비활성 형상으로 자리를 지킨다). 타이밍 ko 23·en 23(저커버그), 35·30(머스크), 24(틸) 전량 정렬, 거부 0.
 - 원문 수정 이력: `elon-musk` ko/en 첫 필러(“음... 솔직히 말해서,” / “Um... to be honest,”) 제거, `peter-thiel` ko를 한다체→정중체로 전환(8문단 유지, en은 종결어미 체계가 없어 무변경). 둘 다 `virtual_monologue_locked_at` 미잠금 상태에서 읽은 값 대조 후 반영.
 - 발행 run: `celeb-monologue-voices/<slug>/<locale>/<runId>` — mark-zuckerberg ko `20260922-172030`·en `20260922-172110`, elon-musk ko `20260922-174341`·en `20260922-174510`, peter-thiel ko `20260922-174623`, alex-karp ko `20260923-split`·en `20260923-split`, vincent-van-gogh ko `20260923-episode-reuse`·en `20260923-011639`.

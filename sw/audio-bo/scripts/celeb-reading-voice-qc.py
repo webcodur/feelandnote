@@ -21,7 +21,7 @@ import numpy as np
 
 MODEL_ROOT = Path(r"D:\audios\interview-cleaner\models\whisper")
 SAMPLE_RATE = 24000
-QC_VERSION = 4
+QC_VERSION = 5
 MIN_MATCH = 0.90
 MAX_EDGE_MISSING = {"ko": 3, "en": 5}
 MAX_INTERNAL_MISSING = {"ko": 6, "en": 12}
@@ -114,6 +114,23 @@ def expand_digits(value: str, locale: str) -> str:
     return DIGIT_RUN.sub(lambda m: number(int(m.group().replace(",", ""))), value)
 
 
+_LATIN_RUN = re.compile(r"[a-z]+$")
+_HANGUL_RUN = re.compile(r"[가-힣]+$")
+
+
+def _transliteration_span(expected: str, heard: str) -> bool:
+    # 3.8 TTS는 원문의 영어 단어를 영어 발음으로 읽고, Whisper는 이를 한글 표기로
+    # 받아쓴다(physical→피지컬). 한쪽이 라틴 문자만·다른 한쪽이 한글만인 단어 크기의
+    # replace는 내용 오류가 아니라 표기 차이다. 길이 비율이 발음 가능 범위를 벗어나면
+    # 제외한다 — 문장 단위 대체는 진짜 오류일 수 있으므로.
+    pair = (_LATIN_RUN.fullmatch(expected) and _HANGUL_RUN.fullmatch(heard)) or \
+           (_HANGUL_RUN.fullmatch(expected) and _LATIN_RUN.fullmatch(heard))
+    if not pair:
+        return False
+    ratio = len(heard) / len(expected)
+    return 0.2 <= ratio <= 1.5
+
+
 def source_alignment(expected: str, transcript: str, locale: str) -> tuple[dict, list[str], dict]:
     source, heard = normalize(expand_digits(expected, locale)), normalize(expand_digits(transcript, locale))
     matcher = SequenceMatcher(None, source, heard, autojunk=False)
@@ -126,15 +143,24 @@ def source_alignment(expected: str, transcript: str, locale: str) -> tuple[dict,
     missing_tail = len(source) - blocks[-1].a - blocks[-1].size if blocks else len(source)
     added_head = blocks[0].b if blocks else len(heard)
     added_tail = len(heard) - blocks[-1].b - blocks[-1].size if blocks else len(heard)
-    differences = [
-        {"kind": kind, "sourceStart": i, "sourceEnd": j,
-         "expected": source[i:j], "heard": heard[k:l]}
-        for kind, i, j, k, l in matcher.get_opcodes() if kind != "equal"
-    ]
+    differences = []
+    for kind, i, j, k, l in matcher.get_opcodes():
+        if kind == "equal":
+            continue
+        entry = {"kind": kind, "sourceStart": i, "sourceEnd": j,
+                 "expected": source[i:j], "heard": heard[k:l]}
+        if kind == "replace" and _transliteration_span(entry["expected"], entry["heard"]):
+            entry["transliteration"] = True
+        differences.append(entry)
+    real_differences = [d for d in differences if not d.get("transliteration")]
+    equal_chars = sum(block.size for block in blocks)
+    benign_chars = sum((d["sourceEnd"] - d["sourceStart"]) + len(d["heard"])
+                       for d in differences if d.get("transliteration"))
+    adjusted_ratio = 2 * equal_chars / max(1, len(source) + len(heard) - benign_chars)
     flags = []
     if not source or not heard:
         flags.append("empty-text-or-transcript")
-    if matcher.ratio() < MIN_MATCH:
+    if adjusted_ratio < MIN_MATCH:
         flags.append("low-match")
     if missing_head > MAX_EDGE_MISSING[locale]:
         flags.append("missing-source-head")
@@ -144,9 +170,9 @@ def source_alignment(expected: str, transcript: str, locale: str) -> tuple[dict,
         flags.append("unexpected-spoken-head")
     if added_tail > MAX_EDGE_MISSING[locale]:
         flags.append("unexpected-spoken-tail")
-    if any(len(d["expected"]) >= MAX_INTERNAL_MISSING[locale] for d in differences):
+    if any(len(d["expected"]) >= MAX_INTERNAL_MISSING[locale] for d in real_differences):
         flags.append("source-content-gap")
-    if any(len(d["heard"]) >= MAX_INTERNAL_MISSING[locale] for d in differences):
+    if any(len(d["heard"]) >= MAX_INTERNAL_MISSING[locale] for d in real_differences):
         flags.append("unexpected-spoken-content")
     return {
         "match": round(matcher.ratio(), 4), "sourceCharacters": len(source),

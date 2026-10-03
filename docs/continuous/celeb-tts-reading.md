@@ -16,6 +16,8 @@
 
 자동 배치는 `sw/web-bo/scripts/celeb/reading-voice-batch.mjs`다. 생성·등록은 `reading-voice.mjs`, 음성 검수는 `sw/audio-bo/scripts/celeb-reading-voice-qc.py`가 맡는다. 검수·등록 스캔을 「작업 필요분」으로 좁히는 큐 생성기는 `reading-voice-work-queue.mjs`다 — 정주행(published + 최종검수 해시 일치 + timing.published + 소스·음원 해시 일치)만 빼고 전부 담는다. manifest 유실 재구축으로 생긴 로컬 파일 없는 published 스텁(26.09.21 시점 5,457개)은 검수도 폐기 점검도 못 하므로 큐에서 빠진다. 속도·인코딩·재시도 상수와 연속 실패 상한은 이 코드들이 쥔다. 등록 시 문장 따라읽기 타이밍(`celebs/{id}/voice/{ko|en}/reading.json`)을 함께 올리며, 등록분마다 manifest에 타이밍 상태가 남는다. 이미 등록된 음원의 타이밍만 다시 맞출 때는 `reading-voice-timing-backfill.mjs --publish`를 쓴다.
 
+합성 모델은 `reading-voice.mjs`의 `MODEL`이 쥔다 — 26.09.30에 `gemini-2.5-flash-preview-tts`에서 `gemini-3.8-flash-tts`로 교체했다. 3.8은 입력 텍스트를 그대로 읽는 verbatim 모델이라 읽기 지시는 본문에 붙이지 않고 `speech_metadata.style`(parts[0] 내부)로 보낸다 — 본문에 붙인 지시문은 전부 음성으로 나와 QC에서 `unexpected-spoken-head`로 떨어진다. 응답은 기본 `audio/wav`(RIFF 헤더)라 코드는 WAV와 구형 `audio/L16` 둘 다 받는다. settings 해시는 구형 2.5 설정을 허용목록으로 인정해 기존 manifest·런 폴더를 그대로 재개한다.
+
 현재 생성 폴더: `D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908`. 기존 오디오와 검수 기록을 재사용하므로 재개할 때 새 폴더를 만들지 않는다. 합성 큐는 같은 폴더의 `reading-voice-synthesis-queue.json`이며 `celebs.id asc → ko → en` 순서로 만들어진다. 보류·등록·재사용 가능한 후보는 큐에서 빠진다. 배치 로그는 `reading-voice-batch.log`에 이어 쓰고, 배치 상태의 `partialQc`는 마지막 회차의 검수 결과다.
 
 ## 실행 방식
@@ -87,17 +89,17 @@ node --import tsx scripts/celeb/reading-voice-reset-discarded.mjs --apply       
 
 백업은 남기지 않는다. 복귀와 검증이 끝나면 그 회차의 `_backup/removed-timing-unresolved-<시각>/`을 지운다.
 
+원고가 개편돼 manifest의 `sourceHash`와 현재 DB 본문이 대량으로 어긋나면(`Source changed for …` 중단) `scripts/celeb/_scratch-stale-source-discard.mjs`(dry-run → `--apply`)이 manifest 전체를 현 DB와 대조해 stale 등록분을 R2·로컬에서 백업 후 내리고 pending으로 재큐한다. R2 오브젝트가 이미 현행 소스 해시와 같으면 스텁으로 유지한다.
+
 ## 현재 도달점
 
 <!-- reading-voice-status:start -->
-2026-09-25 10:35 KST 확인: 9/25 회차는 합성→검수·등록→폐기·복귀까지 한 사이클을 끝냈다. 시작 전에 manifest 해시와 DB 원문이 어긋난 stale 33건(pending 15·published 18, 신화·고대 인물 원고 개편분)을 `_scratch-stale-source-discard.mjs`로 정리했다 — 등록분 18건은 R2 음원·타이밍을 해시 확인 후 내리고 백업, 엔트리는 전부 삭제해 큐에 재투입(재스캔 잔여 0). 이어 active 큐 378행을 전량 합성(재사용 92 + 신규 286, 실패 0)하고, inactive 큐 합성은 신규 989건을 만든 뒤 `FREE_KEYS_EXHAUSTED: daily`(100키, 리셋 약 23시간)로 정상 종료했다 — 오늘 신규 합성 합계 1,275파일.
-
-검수는 한 번 중단 후 재실행했다: `celeb-reading-voice-qc.py`의 `punctuation_offsets`가 수동 while 루프 리팩터링에서 약어 판정 `continue`에 `index += 1`을 빼먹어 "Mr."·"1996." 형태의 텍스트에서 무한 루프에 빠졌고, 워커 10분 타임아웃 연속으로 실행이 멈췄다. index 증가를 continue 앞으로 옮겨 고쳤고 같은 파일이 통과(match 0.974)함을 확인했다. 재실행한 검수·등록은 작업큐 1,372건을 처리해 등록 ~927·보류 440·실패 5를 냈다.
-
-회차 마무리: 문장 타이밍 불량 등록분 98건(`segments < sentences`, 대부분 `insufficient-text-match`)을 폐기해 pending 복귀·큐 투입(58건 추가, 40건 기존 큐 재사용). 보류·실패 445건은 `_scratch-reading-discard-unsettled.mjs`로 폐기해 pending 복귀(active 큐 +105). 등록 직후 timing 업로드만 타임아웃난 2건(lloyd-j.-austin-iii/en·richard-chichakli/ko, 둘 다 inactive)은 작업큐로 좁혀 `--include-inactive` publish로 timing만 재등록해 `timing.published`를 확인했다 — inactive 인물의 등록 후속 작업은 반드시 이 플래그가 필요하다. 큐 밖에 남은 pending 7건(전부 inactive)을 inactive 큐에 보충했다.
-
-최종 manifest는 `published` 9,105·`pending` 1,891(음원 없음)이며 `held`·`failed` 잔여 0, 등록분의 비정상 timing 0. 합성 큐는 active 449행·inactive 2,348행(중복·기등록 행 포함, 실제 미생성은 pending 1,891건). 회차 백업 3건은 복귀·검증 뒤 지웠고 폐기 감사 JSON만 남겼다. 다음 회차는 큐 기반 합성부터 이어간다.
+2026-10-01 05:05 KST 확인: `gemini-3.8-flash-tts` 전환 후 첫 회차. 원고 개편으로 소스 해시가 어긋난 3,501건을 폐기·재큐했고(777건은 R2 음원이 이미 최신이라 유지), 구 프롬프트 오염분 944건 검수에서 942건이 지시문 발화로 떨어져 전량 폐기·복귀했다. 신스키마로 24건 재합성해 7건 등록(rm/ko, satoru-iwata/en, gedik-ahmed-pasha/en, mathias-ortmann/ko, cch-pounder/ko, taika-waititi/ko, sobeoldori/ko). 잔여 17건은 QC 불합격으로 폐기·복귀. 100개 키 전량 소진(90 daily, 10 forbidden) — 다음 리셋 10-01 16:02 KST. manifest: 정상 등록 6,560, pending 2,446(전부 음성 미보유), 보류·실패 0. 합성 큐 2,940행 + inactive 큐 2,348행이 다음 회차 대상.
 <!-- reading-voice-status:end -->
+
+3.8 전환 후속 정비(26.10.01): `reading-voice.mjs`는 모델 계열별 실행을 `ENGINE_25`/`ENGINE_38`으로 완전 분리했다 — `TTS_ENGINES` 표에 모델을 넣어 전환하며 미등록 모델은 즉시 에러다. `celeb-reading-voice-qc.py`는 v5로 올려 차용어 표기 차이를 양성 처리한다 — 원문의 영어 단어를 3.8이 영어로 읽으면 Whisper가 한글로 받아써(physical↔피지컬) 문자 diff가 `source-content-gap`으로 오인되던 문제다. 라틴↔한글 단어 교환(replace, 길이비 0.2~1.5)만 무시하고 지어낸 꼬리·실제 누락·insert/delete는 그대로 불합격이다. 폐기분 재검증: 신 QC로 18건 백업의 원문·전사를 대조해 14건이 정합, 4건(환각 꼬리·괄호 영문 누락·실제 삽입)만 불량으로 남았다. 의심 구간 스펙트로그램 도구는 `sw/audio-bo/scripts/_scratch-spectro-review.py`, 산출물은 `_backup/spectro-review/`다.
+
+다음 회차 첫 작업(한도 리셋 후): ① 단위 테스트 — `node --import tsx scripts/celeb/reading-voice.test.mjs` + `python sw/audio-bo/scripts/test_celeb_reading_voice_qc.py`. ② 소량 파일럿 — 합성 큐로 `--synthesize-only --single-pass`를 돌려 20건 안쪽에서 멈추고 바로 검수·등록해 통과율을 본다. ③ 통과율이 높으면 전량 큐 투입, 낮으면 실패 사유를 나눠 QC 재조정 또는 모델 재검토. ④ 폐기 백업 회수 — `_backup/discard-unsettled-2026-09-30T20-02-24-766Z/`의 디렉터리를 원위치로 되돌리고 엔트리를 `pending`+기존 attempt 필드로 되살리면 신 QC가 한도 소모 없이 재검수·등록한다(문자 정합으로 확인된 14건). FREE61~70은 3.8에서 403이라 두 `.env`에 주석을 달았다.
 
 웹의 읽어보기 듣기 버튼, MP3 우선 재생, 문장 강조는 개발 서버에서 사용자가 확인했다(다케다 신겐·오다 에이이치로). 운영 웹 코드 배포는 아직 하지 않았다.
 
