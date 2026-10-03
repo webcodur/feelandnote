@@ -1,4 +1,4 @@
-"""Conservative KO/EN reading narration QC; JSONL worker keeps Whisper in memory.
+"""Conservative KO/EN narration QC; Whisper resources are admitted per job.
 
 Thresholds below are provisional safeguards, not a validated perceptual-quality
 classifier. ASR flags require retry or review; passing is not proof of pronunciation.
@@ -17,6 +17,7 @@ import sys
 import wave
 
 import numpy as np
+from whisper_resources import ResourceAwareWhisperModel, ResourceBusy
 
 
 MODEL_ROOT = Path(r"D:\audios\interview-cleaner\models\whisper")
@@ -357,20 +358,14 @@ class AlignmentFrameGuard:
 
 
 class NarrationQC:
-    def __init__(self, device: str = "cpu", model_root: Path = MODEL_ROOT):
+    def __init__(self, device: str = "auto", model_root: Path = MODEL_ROOT):
         self.device, self.model_root, self.model = device, model_root, None
 
     def transcribe(self, audio: Path, locale: str) -> tuple[str, list[dict]]:
         if self.model is None:
-            from faster_whisper import WhisperModel
-
-            class LocalWhisperModel(AlignmentFrameGuard, WhisperModel):
-                pass
-
-            print("Loading local large-v3-turbo for reading QC", file=sys.stderr, flush=True)
-            self.model = LocalWhisperModel("large-v3-turbo", device=self.device,
-                                           compute_type="int8", download_root=str(self.model_root),
-                                           local_files_only=True)
+            self.model = ResourceAwareWhisperModel("large-v3-turbo", device=self.device,
+                                                   compute_type="int8", download_root=str(self.model_root),
+                                                   local_files_only=True, alignment_guard=AlignmentFrameGuard)
         segments, _ = self.model.transcribe(
             str(audio), language=locale, beam_size=5, vad_filter=True,
             condition_on_previous_text=False, word_timestamps=True,
@@ -442,7 +437,7 @@ def main() -> None:
     parser.add_argument("--locale", choices=("ko", "en"))
     parser.add_argument("--output", type=Path)
     parser.add_argument("--result", type=Path)
-    parser.add_argument("--device", default="cpu", choices=("cpu", "cuda", "auto"))
+    parser.add_argument("--device", default="auto", choices=("cpu", "cuda", "auto"))
     parser.add_argument("--whisper-models", type=Path, default=MODEL_ROOT)
     args = parser.parse_args()
     qc = NarrationQC(args.device, args.whisper_models)
@@ -452,6 +447,9 @@ def main() -> None:
             try:
                 request = json.loads(line)
                 result = qc.check(request)
+            except ResourceBusy as error:
+                result = {"id": request.get("id"), "ok": False, "status": "deferred",
+                          "flags": ["resource-busy"], "warnings": [], "audio": None, "error": str(error)}
             except Exception as error:
                 result = {"id": request.get("id") if isinstance(request, dict) else None,
                           "ok": False, "status": "error", "flags": ["qc-error"], "warnings": [],
@@ -460,9 +458,13 @@ def main() -> None:
         return
     if not args.audio or not args.text_file or not args.locale:
         parser.error("--audio, --text-file and --locale are required without --worker")
-    result = qc.check({"audio": str(args.audio), "locale": args.locale,
-                       "text": args.text_file.read_text(encoding="utf-8-sig"),
-                       "output": str(args.output) if args.output else None})
+    try:
+        result = qc.check({"audio": str(args.audio), "locale": args.locale,
+                           "text": args.text_file.read_text(encoding="utf-8-sig"),
+                           "output": str(args.output) if args.output else None})
+    except ResourceBusy as error:
+        result = {"id": None, "ok": False, "status": "deferred", "flags": ["resource-busy"],
+                  "warnings": [], "audio": None, "error": str(error)}
     encoded = json.dumps(result, ensure_ascii=False, indent=2)
     if args.result:
         args.result.write_text(encoded + "\n", encoding="utf-8")

@@ -1,3 +1,5 @@
+from celeb_dialogue_voice_common import ELEVENLABS_TTS_DEFAULTS, synthesize as synthesize_common
+
 import argparse
 import difflib
 import importlib.util
@@ -12,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
-from faster_whisper import WhisperModel
+from whisper_resources import ResourceAwareWhisperModel as WhisperModel
 from voice_cleanup import clean_file
 
 
@@ -71,12 +73,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--safe-phrase")
-    # 합성 기본값은 TS 단일 원천 ELEVENLABS_TTS_DEFAULTS
-    # (packages/shared/src/bo/voice-utils/engine.ts)의 미러다.
-    parser.add_argument("--model", default="eleven_v3")
-    parser.add_argument("--stability", type=float, default=0.5)
-    parser.add_argument("--similarity", type=float, default=0.75)
-    parser.add_argument("--style", type=float, default=0.3)
+    parser.add_argument("--model", default=ELEVENLABS_TTS_DEFAULTS["modelId"])
+    parser.add_argument("--stability", type=float, default=ELEVENLABS_TTS_DEFAULTS["stability"])
+    parser.add_argument("--similarity", type=float, default=ELEVENLABS_TTS_DEFAULTS["similarity_boost"])
+    parser.add_argument("--style", type=float, default=ELEVENLABS_TTS_DEFAULTS["style"])
     parser.add_argument(
         "--speed",
         type=float,
@@ -171,56 +171,7 @@ def spoken_text(value: str) -> str:
     return re.sub(r"^(?:\s*\[[^\]]+\]\s*)+", "", value).strip()
 
 
-def synthesize(
-    api_key: str,
-    voice_id: str,
-    text: str,
-    destination: Path,
-    model: str,
-    stability: float,
-    similarity: float,
-    style: float,
-    speed: float,
-) -> dict[str, object]:
-    output_format = "mp3_44100_128"
-    query = urllib.parse.urlencode({"output_format": output_format})
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{urllib.parse.quote(voice_id)}?{query}"
-    body = json.dumps(
-        {
-            "text": text,
-            "model_id": model,
-            "voice_settings": {
-                "stability": stability,
-                "similarity_boost": similarity,
-                "style": style,
-            },
-            "speed": speed,
-        },
-        ensure_ascii=False,
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        url,
-        data=body,
-        method="POST",
-        headers={
-            "xi-api-key": api_key,
-            "Content-Type": "application/json",
-            "Accept": "audio/mpeg",
-        },
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=240) as response:
-            audio = response.read()
-            destination.write_bytes(audio)
-            return {
-                "bytes": len(audio),
-                "requestId": response.headers.get("request-id"),
-                "historyItemId": response.headers.get("history-item-id"),
-                "outputFormat": output_format,
-            }
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")[:600]
-        raise RuntimeError(f"ElevenLabs HTTP {error.code}: {detail}") from error
+synthesize = synthesize_common
 
 
 def flatten_words(transcription: dict[str, object]) -> list[dict[str, object]]:
@@ -461,7 +412,7 @@ def main() -> None:
         raise SystemExit(
             f"{args.slug} has no voice_id_{args.locale}; save one or pass --voice-id explicitly"
         )
-    speed = float(args.speed if args.speed is not None else 1.0)
+    speed = float(args.speed if args.speed is not None else ELEVENLABS_TTS_DEFAULTS["speed"])
     safe_phrase = args.safe_phrase or SAFE_PHRASES[args.locale]
     if args.dry_run:
         print(
@@ -563,7 +514,7 @@ def main() -> None:
     print("load local Whisper large-v3-turbo", flush=True)
     model = WhisperModel(
         "large-v3-turbo",
-        device="cpu",
+        device="auto",
         compute_type="int8",
         download_root=str(args.whisper_root),
         local_files_only=True,

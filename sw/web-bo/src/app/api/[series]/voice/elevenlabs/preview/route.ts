@@ -4,7 +4,7 @@ import {
   getEleAccountConfigIssues, getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
 import { cleanVoiceBuffer } from '@feelandnote/shared/bo/voice-cleanup'
-import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
+import { fetchElevenlabsSpeech } from '@feelandnote/shared/lib/elevenlabs-tts'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
@@ -34,25 +34,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   try {
     // MP3 원본 반환 — web-bo와 동일 (pcm_24000은 끝 잘림 발생)
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(id)}`, {
-      method: 'POST',
-      headers: {
-        'xi-api-key': account.apiKey,
-        'Content-Type': 'application/json',
-        Accept: 'audio/mpeg',
-      },
-      cache: 'no-store',
-      body: JSON.stringify({
-        text,
-        model_id: ELEVENLABS_TTS_DEFAULTS.modelId,
-        voice_settings: {
-          stability: settings?.stability ?? ELEVENLABS_TTS_DEFAULTS.stability,
-          similarity_boost: settings?.similarity_boost ?? ELEVENLABS_TTS_DEFAULTS.similarity_boost,
-          style: settings?.style ?? ELEVENLABS_TTS_DEFAULTS.style,
-        },
-        speed: settings?.speed ?? ELEVENLABS_TTS_DEFAULTS.speed,
-      }),
-    })
+    const res = await fetchElevenlabsSpeech(account.apiKey, id, text, settings)
 
     if (!res.ok) {
       const err = await res.text()

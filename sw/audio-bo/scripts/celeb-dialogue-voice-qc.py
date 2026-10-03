@@ -9,7 +9,7 @@ from collections import Counter
 from difflib import SequenceMatcher
 from pathlib import Path
 
-from faster_whisper import WhisperModel
+from whisper_resources import ResourceAwareWhisperModel as WhisperModel
 
 
 EVENT_TAGS = ("[laughs]", "[sighs]", "[breathes]", "[exhales]")
@@ -41,7 +41,7 @@ def parse_args() -> argparse.Namespace:
         default=Path(r"D:\audios\interview-cleaner\models\whisper"),
     )
     parser.add_argument("--min-match", type=float, default=0.80)
-    parser.add_argument("--device", default="cpu", choices=("cpu", "cuda", "auto"))
+    parser.add_argument("--device", default="auto", choices=("cpu", "cuda", "auto"))
     parser.add_argument("--fail-on-flag", action="store_true")
     return parser.parse_args()
 

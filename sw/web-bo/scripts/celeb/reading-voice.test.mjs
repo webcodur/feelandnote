@@ -86,7 +86,18 @@ test('Windows shared handle blocks original rename but checkpoint retry succeeds
     await rm(directory, { recursive: true, force: true })
   }
 })
-import { args, pcmToWav, Gemini, publish, speedPlan, reusableAttempt, adoptAttemptWav, isQualityFailure, RequestPacer, safeApiError, synthesizeEntry, qcFailure, verifiedPublished, parseQuotaResponse, summarizeQuota, nextPacificResetAt } from './reading-voice.mjs'
+import { args, pcmToWav, Gemini, publish, speedPlan, reusableAttempt, adoptAttemptWav, isQualityFailure, RequestPacer, safeApiError, synthesizeEntry, qcFailure, isResourceDeferral, verifiedPublished, parseQuotaResponse, summarizeQuota, nextPacificResetAt } from './reading-voice.mjs'
+
+test('Resource deferral stops QC retries while retaining the reusable synthesis', () => {
+  for (const label of ['QC', 'Final MP3 QC']) {
+    const message = qcFailure({ status: 'deferred', flags: ['resource-busy'] }, label)
+    assert.equal(isResourceDeferral(message), true)
+    assert.equal(isQualityFailure(message), false)
+    assert.equal(reusableAttempt({ wav: 'saved.wav', status: 'failed', error: message,
+      qcScriptHash: 'qc', processingHash: 'processing' }, 'qc', 'processing'), true)
+  }
+  assert.equal(isResourceDeferral('QC regenerate: sample-jump'), false)
+})
 
 const dailyQuotaBody = JSON.stringify({ error: { details: [
   { '@type': 'type.googleapis.com/google.rpc.QuotaFailure', violations: [{ quotaId: 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', quotaMetric: 'generativelanguage.googleapis.com/generate_content_free_tier_requests', description: 'secret-test-key' }] },
@@ -152,6 +163,7 @@ test('Alignment frame guard is a narrow quality hold and published verified audi
   assert.equal(isQualityFailure('QC worker exited 3221225620'), false)
   assert.equal(isQualityFailure('QC error: insufficient-alignment-frames: 17'), false)
   assert.equal(isQualityFailure('QC error: CUDA unavailable'), false)
+  assert.equal(isQualityFailure(qcFailure({ status: 'deferred', flags: ['resource-busy'] })), false)
   assert.equal(verifiedPublished({ status: 'published', mp3Hash: 'hash', finalQcHash: 'hash', qc: { ok: true, status: 'passed' } }), true)
   assert.equal(verifiedPublished({ status: 'ready', mp3Hash: 'hash', finalQcHash: 'hash', qc: { ok: true, status: 'passed' } }), false)
 })

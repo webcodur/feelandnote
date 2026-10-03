@@ -9,6 +9,7 @@ from datetime import datetime
 from pathlib import Path
 
 from celeb_dialogue_voice_common import (
+    ELEVENLABS_TTS_DEFAULTS,
     apply_tts_overrides,
     load_celeb_dialogues,
     read_env,
@@ -41,12 +42,10 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="JSON with synthesis-only text by slot. DB display text remains unchanged.",
     )
-    # ElevenLabs 기본값은 TS 단일 원천 ELEVENLABS_TTS_DEFAULTS
-    # (packages/shared/src/bo/voice-utils/engine.ts)의 미러다 — 바꿀 때는 양쪽을 함께 맞춘다.
-    parser.add_argument("--model", default="eleven_v3")
-    parser.add_argument("--stability", type=float, default=0.5)
-    parser.add_argument("--similarity", type=float, default=0.75)
-    parser.add_argument("--style", type=float, default=0.3)
+    parser.add_argument("--model", default=ELEVENLABS_TTS_DEFAULTS["modelId"])
+    parser.add_argument("--stability", type=float, default=ELEVENLABS_TTS_DEFAULTS["stability"])
+    parser.add_argument("--similarity", type=float, default=ELEVENLABS_TTS_DEFAULTS["similarity_boost"])
+    parser.add_argument("--style", type=float, default=ELEVENLABS_TTS_DEFAULTS["style"])
     parser.add_argument(
         "--speed",
         type=float,
@@ -103,7 +102,7 @@ def main() -> None:
         args.locale,
     )
     voice_id = resolve_voice_id(celeb, args.locale, args.voice_id)
-    speed = float(args.speed if args.speed is not None else 1.0)
+    speed = float(args.speed if args.speed is not None else ELEVENLABS_TTS_DEFAULTS["speed"])
 
     preflight = {
         "mode": "basic",

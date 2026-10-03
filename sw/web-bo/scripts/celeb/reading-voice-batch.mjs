@@ -80,7 +80,7 @@ async function pipelinePhase(pid) {
 }
 
 export function batchArgs(argv = process.argv.slice(2)) {
-  const options = { run: DEFAULT_RUN, device: 'cuda' }
+  const options = { run: DEFAULT_RUN, device: 'auto' }
   for (let index = 0; index < argv.length; index++) {
     const key = argv[index]
     if (['--help', '--status', '--dry-run', '--wait-for-quota'].includes(key)) options[key.slice(2)] = true

@@ -1,5 +1,5 @@
 /**
- * 현재 연결된 ElevenLabs 계정 중 가장 낮은 eleven_v3 동시성 한도가 2(Free)다.
+ * 연결된 무료 계정도 사용할 수 있도록 합성 동시성을 2로 제한한다.
  * Gemini와 ElevenLabs가 섞여도 한 번에 두 건만 보내 공급자 제한 안에서 병렬 처리한다.
  */
 export const CELEB_VOICE_BATCH_CONCURRENCY = 2

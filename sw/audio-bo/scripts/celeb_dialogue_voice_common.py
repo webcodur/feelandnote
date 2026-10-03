@@ -10,6 +10,19 @@ import urllib.request
 from pathlib import Path
 
 
+ELEVENLABS_TTS_DEFAULTS = json.loads(
+    (Path(__file__).resolve().parents[3] / "packages/shared/src/bo/voice-utils/elevenlabs-defaults.json")
+    .read_text(encoding="utf-8")
+)
+
+
+def speech_body(text: str, model: str, stability: float, similarity: float, style: float, speed: float) -> dict[str, object]:
+    settings = {"stability": stability, "similarity_boost": similarity, "speed": speed}
+    if not model.startswith("eleven_v4"):
+        settings["style"] = style
+    return {"text": text, "model_id": model, "voice_settings": settings}
+
+
 # 슬롯 목록(7종 × 3변형 + quote = 22)의 단일 원천은 TS 쪽이다:
 # packages/shared/constants/celeb-speech.ts 의 상황·변형 목록 +
 # sw/web-bo/src/lib/voice-path.ts 의 TYPE_PREFIX/allVoiceSlots.
@@ -220,19 +233,9 @@ def synthesize(
 ) -> dict[str, object]:
     output_format = "mp3_44100_128"
     query = urllib.parse.urlencode({"output_format": output_format})
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{urllib.parse.quote(voice_id)}?{query}"
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{urllib.parse.quote(voice_id, safe='')}?{query}"
     body = json.dumps(
-        {
-            "text": text,
-            "model_id": model,
-            "voice_settings": {
-                "stability": stability,
-                "similarity_boost": similarity,
-                "style": style,
-            },
-            "speed": speed,
-        },
-        ensure_ascii=False,
+        speech_body(text, model, stability, similarity, style, speed), ensure_ascii=False,
     ).encode("utf-8")
     request = urllib.request.Request(
         url,

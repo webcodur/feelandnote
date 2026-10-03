@@ -9,31 +9,14 @@
  */
 import { spawn } from 'node:child_process'
 import { resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
-import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
+import { fetchElevenlabsSpeech } from '@feelandnote/shared/lib/elevenlabs-tts'
 
 /** ElevenLabs TTS → MP3 Buffer. 계정 해소 실패·HTTP 오류는 throw. */
 export async function fetchElevenlabsMp3(text: string, voiceId: string): Promise<Buffer> {
   const account = await resolveEleAccountForVoice(voiceId)
   if (!account) throw new Error(`해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${voiceId}`)
 
-  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}`, {
-    method: 'POST',
-    headers: {
-      'xi-api-key': account.apiKey,
-      'Content-Type': 'application/json',
-      Accept: 'audio/mpeg',
-    },
-    body: JSON.stringify({
-      text,
-      model_id: ELEVENLABS_TTS_DEFAULTS.modelId,
-      voice_settings: {
-        stability: ELEVENLABS_TTS_DEFAULTS.stability,
-        similarity_boost: ELEVENLABS_TTS_DEFAULTS.similarity_boost,
-        style: ELEVENLABS_TTS_DEFAULTS.style,
-      },
-      speed: ELEVENLABS_TTS_DEFAULTS.speed,
-    }),
-  })
+  const res = await fetchElevenlabsSpeech(account.apiKey, voiceId, text)
   if (!res.ok) {
     throw new Error(`ElevenLabs ${res.status}: ${(await res.text()).slice(0, 300)}`)
   }

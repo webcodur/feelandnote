@@ -10,7 +10,7 @@
 
 명시적으로 이름 붙은 무료 Gemini 키만 사용한다. Qwen 조사나 엔진 변경은 필요 없다. 생성·등록·불량분 재시도는 이미 승인받았다.
 
-생성(한도 소모) → 검수(로컬 Whisper·CUDA) → 등록(R2) 순서를 한 프로세스가 맡는 현 구조를 유지한다. 한도 도달 뒤 검수에서 떨어진 음원은 그날 재생성하지 못하므로 폐기해 다음 회차 큐로 보낸다(26.09.21 지시 — 이전의 「보류로 쌓아 전량 생성 뒤 재시도」 방식을 대체한다). 생성·검수·등록 라인을 분리하거나 한도 일부를 당일 재생성에 남기는 방식은 채택하지 않았다.
+생성(한도 소모) → 검수(로컬 Whisper·자동 장치 선택) → 등록(R2) 순서를 한 프로세스가 맡는 현 구조를 유지한다. 한도 도달 뒤 검수에서 떨어진 음원은 그날 재생성하지 못하므로 폐기해 다음 회차 큐로 보낸다(26.09.21 지시 — 이전의 「보류로 쌓아 전량 생성 뒤 재시도」 방식을 대체한다). 생성·검수·등록 라인을 분리하거나 한도 일부를 당일 재생성에 남기는 방식은 채택하지 않았다.
 
 ## 코드와 폴더
 
@@ -19,6 +19,8 @@
 합성 모델은 `reading-voice.mjs`의 `MODEL`이 쥔다 — 26.09.30에 `gemini-2.5-flash-preview-tts`에서 `gemini-3.8-flash-tts`로 교체했다. 3.8은 입력 텍스트를 그대로 읽는 verbatim 모델이라 읽기 지시는 본문에 붙이지 않고 `speech_metadata.style`(parts[0] 내부)로 보낸다 — 본문에 붙인 지시문은 전부 음성으로 나와 QC에서 `unexpected-spoken-head`로 떨어진다. 응답은 기본 `audio/wav`(RIFF 헤더)라 코드는 WAV와 구형 `audio/L16` 둘 다 받는다. settings 해시는 구형 2.5 설정을 허용목록으로 인정해 기존 manifest·런 폴더를 그대로 재개한다.
 
 현재 생성 폴더: `D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908`. 기존 오디오와 검수 기록을 재사용하므로 재개할 때 새 폴더를 만들지 않는다. 합성 큐는 같은 폴더의 `reading-voice-synthesis-queue.json`이며 `celebs.id asc → ko → en` 순서로 만들어진다. 보류·등록·재사용 가능한 후보는 큐에서 빠진다. 배치 로그는 `reading-voice-batch.log`에 이어 쓰고, 배치 상태의 `partialQc`는 마지막 회차의 검수 결과다.
+
+위스퍼의 자원 확인·직렬 실행·보류 규칙은 [Audio BO](../project/apps/apps-02-audio-bo.md)가 쥔다.
 
 ## 실행 방식
 
@@ -42,14 +44,14 @@ R2 음원을 교체할 때 파이프라인이 이전 파일을 `_backup/<id>/<lo
 생성 없이 확보된 음성만 검수·등록할 때는 다음 명령을 쓴다.
 
 ```powershell
-node --import tsx scripts/celeb/reading-voice.mjs --all-active --locales ko,en --publish --existing-only --concurrency 3 --device cuda --run D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908
+node --import tsx scripts/celeb/reading-voice.mjs --all-active --locales ko,en --publish --existing-only --concurrency 3 --device auto --run D:/audios/interview-cleaner/celeb-reading-voices-sample-20260908
 ```
 
 등록분이 수천 개가 넘어가면 전량 순회의 등록분 재검증(R2 GET + timing PUT, 건당 ~1초)이 지배적 비용이다. 26.09.21부터 일상 회차는 작업큐로 좁혀 돌린다 — 합성이 끝난 뒤 큐를 만들고 검수·등록에 넘긴다.
 
 ```powershell
 node --import tsx scripts/celeb/reading-voice-work-queue.mjs --run $run --out "$run\reading-voice-work-queue.json"
-node --import tsx scripts/celeb/reading-voice.mjs --all-active --include-inactive --locales ko,en --run $run --publish --existing-only --concurrency 3 --device cuda --python $py --queue-file "$run\reading-voice-work-queue.json"
+node --import tsx scripts/celeb/reading-voice.mjs --all-active --include-inactive --locales ko,en --run $run --publish --existing-only --concurrency 3 --device auto --python $py --queue-file "$run\reading-voice-work-queue.json"
 ```
 
 전량 순회는 manifest 의심·대규모 폐기 직후 등 감사가 필요할 때만 돌린다.

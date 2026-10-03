@@ -11,7 +11,7 @@ import wave
 from datetime import datetime, timezone
 from pathlib import Path
 
-from faster_whisper import WhisperModel
+from whisper_resources import ResourceAwareWhisperModel as WhisperModel
 from voice_cleanup import clean_file
 from voice_direction import build_direction_settings
 
@@ -121,7 +121,7 @@ def main():
     }
     cleaner = Path(os.environ.get('INTERVIEW_CLEANER_ROOT', 'D:/audios/interview-cleaner'))
     whisper = WhisperModel(
-        'large-v3-turbo', device='cpu', compute_type='int8',
+        'large-v3-turbo', device='auto', compute_type='int8',
         download_root=str(cleaner / 'models/whisper'), local_files_only=True,
     )
 

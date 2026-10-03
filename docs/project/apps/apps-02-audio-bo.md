@@ -14,6 +14,8 @@ pnpm dev:audio-bo
 - 작업 자료: `D:\audios\interview-cleaner\projects\<작업 번호>`
 - 음성 학습 도구: `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604`
 
+로컬 위스퍼 받아쓰기와 셀럽 음성 검수는 [`whisper_resources.py`](../../../sw/audio-bo/scripts/whisper_resources.py)의 공용 실행부를 쓴다. 매 작업 전에 CPU·RAM·GPU 여유를 확인해 장치와 CPU 스레드 예산을 고르고, 작업끼리는 직렬 실행한다. 자원이 부족하면 제한된 시간만 기다린 뒤 음원을 보존해 보류한다. 작업이 끝나면 모델을 내려 유휴 검수 프로세스가 모델 메모리를 계속 점유하지 않게 한다. 모델·인식 설정·검수 기준은 유지하며, 자원 판정 상수는 공용 실행부만 쥔다.
+
 ## 네 가지 작업 단계
 
 화면은 서로 목적이 다른 네 단계로 나뉜다.

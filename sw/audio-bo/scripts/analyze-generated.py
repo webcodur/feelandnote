@@ -9,7 +9,7 @@ from pathlib import Path
 
 import librosa
 import numpy as np
-from faster_whisper import WhisperModel
+from whisper_resources import ResourceAwareWhisperModel as WhisperModel
 
 
 def parse_args() -> argparse.Namespace:
@@ -50,7 +50,7 @@ def main() -> None:
     args = parse_args()
     model = WhisperModel(
         "large-v3-turbo",
-        device="cpu",
+        device="auto",
         compute_type="int8",
         download_root=str(args.whisper_models),
         local_files_only=True,

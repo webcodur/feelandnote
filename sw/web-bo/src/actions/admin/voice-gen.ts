@@ -11,7 +11,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import {
   getEleAccountConfigIssues, getEleAccountSetupError, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
-import { ELEVENLABS_TTS_DEFAULTS } from '@feelandnote/shared/bo/voice-utils'
+import { fetchElevenlabsSpeech } from '@feelandnote/shared/lib/elevenlabs-tts'
 
 export interface VoiceGenCeleb {
   id: string
@@ -138,25 +138,7 @@ export async function generateVoicePreview(params: {
   }
 
   try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(id)}`, {
-      method: 'POST',
-      headers: {
-        'xi-api-key': account.apiKey,
-        'Content-Type': 'application/json',
-        Accept: 'audio/mpeg',
-      },
-      cache: 'no-store',
-      body: JSON.stringify({
-        text,
-        model_id: ELEVENLABS_TTS_DEFAULTS.modelId,
-        voice_settings: {
-          stability: settings.stability,
-          similarity_boost: settings.similarity_boost,
-          style: settings.style,
-        },
-        speed: settings.speed,
-      }),
-    })
+    const res = await fetchElevenlabsSpeech(account.apiKey, id, text, settings)
 
     if (!res.ok) {
       const err = await res.text()

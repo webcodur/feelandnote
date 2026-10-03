@@ -3,7 +3,7 @@ import json
 import subprocess
 from pathlib import Path
 
-from faster_whisper import WhisperModel
+from whisper_resources import ResourceAwareWhisperModel as WhisperModel
 
 
 def parse_args():
@@ -100,7 +100,7 @@ def main():
     root = job_path.parent
     job = json.loads(job_path.read_text(encoding='utf-8'))
     model = WhisperModel(
-        'large-v3-turbo', device='cpu', compute_type='int8',
+        'large-v3-turbo', device='auto', compute_type='int8',
         download_root=str(Path(args.cleaner_root) / 'models' / 'whisper'),
         local_files_only=True,
     )

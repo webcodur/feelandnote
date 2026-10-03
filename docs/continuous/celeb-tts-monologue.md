@@ -19,6 +19,8 @@
 - 웹 재생: `sw/web/src/lib/game/voice/voiceUrl.ts`의 `getVirtualMonologueVoiceUrl`, 타이밍 프록시 `sw/web/src/app/api/reading-timing/route.ts`(`kind=monologue`), `useReadingTiming(kind)`, `FigureReadingTabs`의 독백 탭 플레이어. 표시 본문과 음성 로케일이 어긋나지 않게 `monologueLocale` prop으로 따로 받는다.
 - 생성 폴더: `D:/audios/interview-cleaner/celeb-monologue-voices/<slug>/<locale>/<runId>/` — `source.txt`(LF 고정 — Windows `write_text`는 CRLF로 바꿔 해시가 깨진다), `p01.mp3…`, `vmonologue.mp3`, `manifest.json`, `qc.json`, `publish.json`.
 
+위스퍼의 자원 확인·직렬 실행·보류 규칙은 [Audio BO](../project/apps/apps-02-audio-bo.md)가 쥔다.
+
 ## 실행
 
 ```powershell

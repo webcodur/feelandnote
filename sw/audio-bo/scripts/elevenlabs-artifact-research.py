@@ -1,3 +1,5 @@
+from celeb_dialogue_voice_common import ELEVENLABS_TTS_DEFAULTS, synthesize as synthesize_common
+
 import argparse
 import difflib
 import html
@@ -13,7 +15,7 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
-from faster_whisper import WhisperModel
+from whisper_resources import ResourceAwareWhisperModel as WhisperModel
 from faster_whisper.vad import VadOptions, get_speech_timestamps
 
 
@@ -57,12 +59,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--account", choices=("default", "feelandnote"))
     parser.add_argument("--ko-runs", type=int, default=3)
     parser.add_argument("--en-runs", type=int, default=2)
-    # 기본값 단일 원천은 TS ELEVENLABS_TTS_DEFAULTS(shared/bo/voice-utils).
     # 이 도구는 후행 이상음 연구용이라 style=0.0(무강조)을 의도적으로 쓴다 — 서비스 기본값과 다름.
-    parser.add_argument("--stability", type=float, default=0.5)
-    parser.add_argument("--similarity", type=float, default=0.75)
+    parser.add_argument("--stability", type=float, default=ELEVENLABS_TTS_DEFAULTS["stability"])
+    parser.add_argument("--similarity", type=float, default=ELEVENLABS_TTS_DEFAULTS["similarity_boost"])
     parser.add_argument("--style", type=float, default=0.0)
-    parser.add_argument("--model", default="eleven_v3")
+    parser.add_argument("--model", default=ELEVENLABS_TTS_DEFAULTS["modelId"])
     parser.add_argument(
         "--tail-test",
         action="store_true",
@@ -128,43 +129,8 @@ def synthesize(
     style: float,
     model_id: str,
 ) -> dict[str, str | int | None]:
-    query = urllib.parse.urlencode({"output_format": "mp3_44100_128"})
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{urllib.parse.quote(voice_id)}?{query}"
-    body = json.dumps(
-        {
-            "text": text,
-            "model_id": model_id,
-            "voice_settings": {
-                "stability": stability,
-                "similarity_boost": similarity,
-                "style": style,
-                "use_speaker_boost": True,
-            },
-        },
-        ensure_ascii=False,
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        url,
-        data=body,
-        method="POST",
-        headers={
-            "xi-api-key": api_key,
-            "Content-Type": "application/json",
-            "Accept": "audio/mpeg",
-        },
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=240) as response:
-            audio = response.read()
-            destination.write_bytes(audio)
-            return {
-                "bytes": len(audio),
-                "requestId": response.headers.get("request-id"),
-                "historyItemId": response.headers.get("history-item-id"),
-            }
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")[:600]
-        raise RuntimeError(f"ElevenLabs HTTP {error.code}: {detail}") from error
+    return synthesize_common(api_key, voice_id, text, destination, model_id,
+                             stability, similarity, style, ELEVENLABS_TTS_DEFAULTS["speed"])
 
 
 def convert_to_wav(ffmpeg: str, source: Path, destination: Path) -> None:
@@ -572,7 +538,7 @@ def main() -> None:
     print("load local Whisper large-v3-turbo", flush=True)
     model = WhisperModel(
         "large-v3-turbo",
-        device="cpu",
+        device="auto",
         compute_type="int8",
         download_root=str(args.whisper_root),
         local_files_only=True,

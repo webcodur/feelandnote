@@ -1,3 +1,5 @@
+import elevenlabsDefaults from './elevenlabs-defaults.json'
+
 // ── Engine resolution ──
 
 /**
@@ -149,16 +151,9 @@ export type EleSettings = {
  * 게인 조절용 UI 값이라 여기서 다루지 않는다.
  * 태그 대본의 특수 프로필(stability 0.0·style 0.0 등)은 별개다 — elevenlabs-v3-tags 스킬 참조.
  *
- * ⚠ 파이썬 미러: `sw/audio-bo/scripts/celeb-dialogue-voice-generate.py`의 argparse
- * 기본값은 이 상수와 같은 값을 유지한다(언어 경계로 import 불가).
+ * 파이썬도 같은 elevenlabs-defaults.json을 읽는다.
  */
-export const ELEVENLABS_TTS_DEFAULTS = {
-  modelId: 'eleven_v3',
-  stability: 0.5,
-  similarity_boost: 0.75,
-  style: 0.3,
-  speed: 1.0,
-} as const
+export const ELEVENLABS_TTS_DEFAULTS = Object.freeze(elevenlabsDefaults)
 
 /** 생성 엔진 선택값 — 저장 슬롯(EngineKind)과 별개. gemini-v3(3.1)도 gemini 슬롯에 저장된다. */
 export type GenEngine = EngineKind | 'gemini-v3'

@@ -48,7 +48,7 @@ pnpm voice:match-cps     +  자/초 배속 산출 (match-cps.ts)
 
 | 값 | 정본(SSoT) | 소비자 |
 |---|---|---|
-| ElevenLabs 기본 설정 + `EleSettings` 형태 | `packages/shared/src/bo/voice-utils/engine.ts` (`ELEVENLABS_TTS_DEFAULTS`·`DEFAULT_ELE_SETTINGS`) | web-bo `dialogue-studio`·`api/celebs|[series] voice/preview`·`actions/admin/voice-gen.ts`, remotion `book-person/tts.ts`·`lib/elevenlabs-engine.ts`. audio-bo 파이썬은 언어 경계상 기본값에 포인터 주석만 |
+| ElevenLabs 기본 설정 + `EleSettings` 형태 | `packages/shared/src/bo/voice-utils/elevenlabs-defaults.json`·`engine.ts` | web-bo·remotion·audio-bo가 같은 JSON 기본값을 읽는다. 합성 요청은 TS `shared/src/lib/elevenlabs-tts.ts`, Python `celeb_dialogue_voice_common.py`가 담당한다. v4에서 지원하지 않는 style·speaker boost는 요청에서 제외한다. |
 | Gemini 모델·보이스 목록 | `packages/shared/src/lib/voice-policy.ts` (`MODEL_GEMINI_25/31/38/38_LITE`, 보이스 목록) | remotion 합성 스크립트·web-bo 미리듣기·web 읽기 TTS |
 | Google 무료 키 풀(env 열거 규약) | `packages/shared/src/lib/gemini-keys.ts` (`googleFreeApiKeys`) | remotion `lib/gemini-engine.ts`·web-bo `lib/gemini-tts.ts` |
 | PCM→WAV 헤더 | `packages/shared/src/lib/pcm-wav.ts` (`wrapPcmAsWav`) | web-bo `lib/gemini-tts.ts` |

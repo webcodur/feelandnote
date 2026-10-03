@@ -32,6 +32,7 @@ from pathlib import Path
 import numpy as np
 
 from celeb_dialogue_voice_common import (
+    ELEVENLABS_TTS_DEFAULTS,
     read_env,
     request_json,
     resolve_api_key,
@@ -105,12 +106,12 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help='JSON {"slug","locale","paragraphs":{"3":"tagged text"}} — synthesis-only text.',
     )
-    parser.add_argument("--model", default="eleven_v3")
+    parser.add_argument("--model", default=ELEVENLABS_TTS_DEFAULTS["modelId"])
     parser.add_argument("--gemini-model", default=GEMINI_MODEL,
                         help="Gemini TTS model when voice_id is a gemini:<name> value")
-    parser.add_argument("--stability", type=float, default=0.5)
-    parser.add_argument("--similarity", type=float, default=0.75)
-    parser.add_argument("--style", type=float, default=0.3)
+    parser.add_argument("--stability", type=float, default=ELEVENLABS_TTS_DEFAULTS["stability"])
+    parser.add_argument("--similarity", type=float, default=ELEVENLABS_TTS_DEFAULTS["similarity_boost"])
+    parser.add_argument("--style", type=float, default=ELEVENLABS_TTS_DEFAULTS["style"])
     parser.add_argument("--speed", type=float)
     parser.add_argument(
         "--paragraph-gap",
@@ -126,7 +127,7 @@ def parse_args() -> argparse.Namespace:
         help="Total perceived silence at a mid-paragraph unit seam in seconds",
     )
     parser.add_argument("--qc-python", type=Path, default=QC_PYTHON)
-    parser.add_argument("--device", default="cuda", choices=("cpu", "cuda", "auto"))
+    parser.add_argument("--device", default="auto", choices=("cpu", "cuda", "auto"))
     parser.add_argument("--ffprobe", default="ffprobe")
     parser.add_argument("--skip-qc", action="store_true", help="Stop after stitching (manifest stays 'generated').")
     parser.add_argument("--dry-run", action="store_true")
@@ -492,7 +493,7 @@ def main() -> None:
     overrides = apply_paragraph_overrides(paragraphs, args.tts_overrides, args.slug, args.locale)
     voice_id = resolve_voice_id(celeb, args.locale, args.voice_id)
     gemini_voice = voice_id[len(GEMINI_PREFIX):].strip() if voice_id.startswith(GEMINI_PREFIX) else ""
-    speed = float(args.speed if args.speed is not None else 1.0)
+    speed = float(args.speed if args.speed is not None else ELEVENLABS_TTS_DEFAULTS["speed"])
     source_hash = sha256_text(text)
 
     preflight = {

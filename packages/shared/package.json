@@ -24,6 +24,7 @@
     "./lib/gemini-keys": "./src/lib/gemini-keys.ts",
     "./lib/pcm-wav": "./src/lib/pcm-wav.ts",
     "./lib/ele-accounts": "./src/lib/ele-accounts.ts",
+    "./lib/elevenlabs-tts": "./src/lib/elevenlabs-tts.ts",
     "./lib/youtube-meta": "./src/lib/youtube-meta.ts",
     "./lib/youtube-discourse-meta": "./src/lib/youtube-discourse-meta.ts",
     "./lib/discourse-voice-names": "./src/lib/discourse-voice-names.ts",

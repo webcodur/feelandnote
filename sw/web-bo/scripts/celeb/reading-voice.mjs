@@ -312,6 +312,10 @@ export function qcFailure(result, label = 'QC') {
   return `${label} ${result.status}: ${result.status === 'error' && result.error ? result.error : (result.flags || []).join(', ')}`
 }
 
+export function isResourceDeferral(message = '') {
+  return /^(?:QC|Final MP3 QC) deferred: resource-busy(?:,|$)/.test(message)
+}
+
 export function verifiedPublished(entry) {
   return entry.status === 'published' && entry.finalQcHash === entry.mp3Hash && entry.qc?.ok === true && ['passed', 'repaired'].includes(entry.qc.status)
 }
@@ -889,7 +893,7 @@ async function main() {
               attempt.status = 'passed'
             } catch (error) {
               attempt.status = 'failed'; attempt.error = error.message; entry.status = 'failed'; await checkpoint()
-              if (error.message.includes('FREE_KEYS_EXHAUSTED') || qc.failure) throw error
+              if (error.message.includes('FREE_KEYS_EXHAUSTED') || qc.failure || isResourceDeferral(error.message)) throw error
               log('attempt-failed', { slug: row.slug, locale: row.locale, attempt: attempt.number, error: error.message })
               if (!options['single-pass']) await delay(2000)
             }
@@ -915,6 +919,12 @@ async function main() {
       } catch (error) {
         const qualityHold = isQualityFailure(error.message)
         entry.lastError = error.message; entry.failedAt = now()
+        if (isResourceDeferral(error.message)) {
+          if (!['published', 'ready'].includes(entry.status)) entry.status = 'pending'
+          await checkpoint()
+          log('qc-deferred', { slug: row.slug, locale: row.locale, error: error.message })
+          throw error  // Stop this run; reuse its saved audio on the next manual invocation.
+        }
         if (options['synthesize-only']) {
           entry.synthesisError = error.message
           if (!['published', 'held'].includes(entry.status)) entry.status = 'failed'

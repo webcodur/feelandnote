@@ -5,6 +5,14 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { batchArgs, batchStages, completedScan, runBatch, batchStatus, quotaWaitPlan, updateContinuousStatus } from './reading-voice-batch.mjs'
 
+test('Default QC stages select devices from current resource headroom', () => {
+  const options = batchArgs([])
+  assert.equal(options.device, 'auto')
+  for (const stage of batchStages(options).filter((stage) => stage.args.includes('--device'))) {
+    assert.equal(stage.args[stage.args.indexOf('--device') + 1], 'auto')
+  }
+})
+
 test('Quota waits use daily reset before short RetryInfo and bound unknown or no-progress retries', () => {
   const clock = Date.parse('2026-09-08T12:32:00Z')
   assert.equal(batchArgs(['--wait-for-quota'])['wait-for-quota'], true)
