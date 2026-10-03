@@ -13,6 +13,7 @@ import TimelineSection from "@/components/features/user/explore/sections/Timelin
 import { paginateTimeline } from "@/components/features/user/explore/sections/TimelineSection/pagination";
 import { redirect } from "@/i18n/navigation";
 import { getCountryNameByLocale } from "@/lib/countries";
+import { getVisitorCountry } from "@/lib/visitorCountryServer";
 
 // 국가·페이지 쿼리는 요청마다 읽고, 전체 목록 조회는 getCelebTimeline 캐시를 쓴다.
 export const dynamic = "force-dynamic";
@@ -25,7 +26,7 @@ interface PageProps {
 const readTimeline = cache(async (locale: "ko" | "en", country?: string, page?: string) => {
   const data = await getCelebTimeline(locale);
   return {
-    ...paginateTimeline(data, country, page),
+    ...paginateTimeline(data, country, page, await getVisitorCountry()),
     countries: data.countries.map((item) => ({ ...item, name: getCountryNameByLocale(item.code, locale) })),
   };
 });

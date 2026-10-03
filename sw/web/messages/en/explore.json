@@ -400,7 +400,9 @@
       "professionCount": "{count} figures",
       "professionIndexTitle": "Browse by Field",
       "backToDirectory": "Full directory",
-      "otherProfessions": "Other fields"
+      "otherProfessions": "Other fields",
+      "countryHeading": "Figures from {country}",
+      "viewCountry": "Explore all figures from {country}"
     },
     "celebFeed": {
       "metaTitle": "Figure Feed - Recent Records",

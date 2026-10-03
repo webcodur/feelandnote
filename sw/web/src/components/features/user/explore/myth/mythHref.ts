@@ -6,9 +6,16 @@ export const MYTH_PARAM = "myth";
    닫혔거나 없는 slug는 건너뛰고 다음 차례로 넘어간다. 신화 주소(/explore/myth/<slug>)는 늘 그 신화를 연다 */
 export const MYTH_OPENING_SLUG = "homer-odyssey";
 
-/** 바로가기로 오거나 화면에서 고른 신화를 기억하는 쿠키. 서버가 읽어 신화의 세계 첫 화면을 그 신화로 그린다 */
+/** 첫 오디세이아 감상과 이후 선택을 기억한다. 서버가 첫 화면을 마지막 신화로 그린다 */
 export const MYTH_LAST_COOKIE = "fn-last-myth";
 export const MYTH_LAST_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+
+/** Ignore malformed cookie text instead of breaking the picker. */
+export function lastMythFromCookies(cookies: string): string | null {
+  const value = cookies.split(/;\s*/).find(cookie => cookie.startsWith(`${MYTH_LAST_COOKIE}=`))?.slice(MYTH_LAST_COOKIE.length + 1);
+  if (!value) return null;
+  try { return decodeURIComponent(value); } catch { return null; }
+}
 
 export const MYTH_BASE_PATH = "/explore/myth";
 

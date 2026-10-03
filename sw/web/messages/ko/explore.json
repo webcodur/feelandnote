@@ -400,7 +400,9 @@
       "professionCount": "총 {count}명",
       "professionIndexTitle": "직군별 명부",
       "backToDirectory": "전체 명부로",
-      "otherProfessions": "다른 직군 명부"
+      "otherProfessions": "다른 직군 명부",
+      "countryHeading": "{country} 인물",
+      "viewCountry": "{country} 인물 모두 보기"
     },
     "celebFeed": {
       "metaTitle": "인물 피드 - 최근 감상 기록",

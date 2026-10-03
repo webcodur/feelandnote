@@ -11,9 +11,10 @@ export function getTimelinePath(country: string, defaultCountry: string, page = 
 }
 
 /** 연표 전체 데이터는 서버에 두고 현재 페이지의 인물만 클라이언트에 전달한다. */
-export function paginateTimeline(data: TimelineData, countryParam?: string, pageParam?: string) {
+export function paginateTimeline(data: TimelineData, countryParam?: string, pageParam?: string, visitorCountry?: string | null) {
   const defaultCountry = data.countries[0]?.code ?? "";
-  const country = data.countries.some(item => item.code === countryParam) ? countryParam! : defaultCountry;
+  const preferred = data.countries.some(item => item.code === visitorCountry) ? visitorCountry! : defaultCountry;
+  const country = data.countries.some(item => item.code === countryParam) ? countryParam! : preferred;
   const figures = data.celebs.filter(item => item.nationality === country).sort((a, b) =>
     getYear(a.birth_date!) - getYear(b.birth_date!) || a.id.localeCompare(b.id),
   );

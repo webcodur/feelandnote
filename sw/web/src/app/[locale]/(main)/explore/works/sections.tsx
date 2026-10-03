@@ -10,6 +10,7 @@ import { selectBookChart } from "@/lib/library/bestsellerFeed";
 import { getMusicChart } from "@/actions/library/musicChart";
 import { getStoreChart } from "@/actions/library/storeChart";
 import { getSteamChart } from "@/actions/library/steamChart";
+import { getVisitorCountry } from "@/lib/visitorCountryServer";
 
 /** 작품 모드 첫 화면 — 고른 분야의 차트만 불러온다 */
 export async function BestsellerMain({ category, source }: { category: ChartCategory; source?: string }) {
@@ -43,5 +44,5 @@ export async function CuratedSection() {
     const t = await getTranslations("pending");
     return <p className="py-8 text-center text-sm text-text-secondary">{t("empty")}</p>;
   }
-  return <CuratedHubView hub={hub} />;
+  return <CuratedHubView hub={hub} visitorCountry={await getVisitorCountry()} />;
 }

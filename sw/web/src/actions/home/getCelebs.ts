@@ -17,7 +17,9 @@ import { parseCelebContentPresence, type CelebContentPresence } from '@/constant
 import { parseTrendCountry } from '@/constants/trendCountries'
 import { getCountryTrendingPeople } from '@/lib/trends/countryTrending'
 import type { TrendMatch } from '@/lib/trends/trendMatching'
-import { mergePromotedIntoPage, selectTrendPromotions } from '@/lib/celeb/dailyRecommendTrend'
+import { mergePromotedIntoPage, selectDailyPromotions, LOCAL_DAILY_PROMOTE_MAX } from '@/lib/celeb/dailyRecommendTrend'
+import { getVisitorCountry } from '@/lib/visitorCountryServer'
+import { getKSTDateKey } from '@/lib/game/date-seed'
 import { findCelebsByName } from '@/lib/celeb/celebNameSearchIndex'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
@@ -249,6 +251,7 @@ async function fetchCelebsPublic(
   birthYearMin: number | null, birthYearMax: number | null,
   contentPresence: CelebContentPresence, trendMatches: TrendMatch[], trendCountry: string,
   searchIds: string[] | null,
+  visitorCountry: string | null, recommendationDay: string,
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
@@ -310,11 +313,10 @@ async function fetchCelebsPublic(
     throwOnQueryError('Trending remaining people', remainingResult.error)
     rows = [...promotedPage, ...(remainingLimit ? (remainingResult.data ?? []) as CelebRow[] : [])]
     total = includeTotal ? promoted.length + (remainingResult.count ?? 0) : rows.length
-  } else if (sortBy === 'daily_recommend' && trendMatches.length) {
-    /* 오늘의 추천 + 트렌드 가산 — 점수(SQL)는 그대로 두고, 필터를 통과한 급상승 인물에게
-       일일 시드 추첨으로 첫 페이지 칸을 나눈다. 당첨자는 남은 명부 조회에서 빼고 시드 칸에
-       꽂으므로 페이지를 넘겨도 인물이 빠지거나 겹치지 않는다. */
-    const day = new Date().toISOString().slice(0, 10)
+  } else if (sortBy === 'daily_recommend' && (trendMatches.length || visitorCountry)) {
+    /* 오늘의 추천 — 접속 국가 후보와 트렌드 추첨자를 첫 페이지 일부에 섞는다.
+       모든 조건을 통과한 후보만 승격하고 남은 명부에서 제외해 페이지 간 중복을 막는다. */
+    const day = recommendationDay
     const query = (count = false) => {
       let request = db.rpc('get_celebs_sorted', {
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
@@ -330,10 +332,19 @@ async function fetchCelebsPublic(
     }
     const positions = new Map(trendMatches.map((match, index) => [match.id, index]))
     const matchById = new Map(trendMatches.map((match) => [match.id, match]))
-    const matchedResult = await query().in('id', trendMatches.map((match) => match.id))
+    // Both branches use the complete listing filters before promotion or pagination.
+    const [matchedResult, localResult] = await Promise.all([
+      trendMatches.length ? query().in('id', trendMatches.map((match) => match.id)) : Promise.resolve({ data: [], error: null }),
+      visitorCountry && Math.floor(limit / 4) > 0
+        ? query().eq('nationality', visitorCountry).range(0, LOCAL_DAILY_PROMOTE_MAX - 1)
+        : Promise.resolve({ data: [], error: null }),
+    ])
     throwOnQueryError('오늘의 추천 트렌드 인물', matchedResult.error)
-    const promoted = selectTrendPromotions(
+    throwOnQueryError('오늘의 추천 접속 국가 인물', localResult.error)
+    const promoted = selectDailyPromotions(
+      (localResult.data ?? []) as CelebRow[],
       ((matchedResult.data ?? []) as CelebRow[]).sort((a, b) => positions.get(a.id)! - positions.get(b.id)!),
+      limit,
       day,
     )
     const promotedPage = promoted.slice(offset, offset + limit)
@@ -527,12 +538,12 @@ const fetchCelebsPublicOnce = coalescePublicRead(fetchCelebsPublic)
 const getCelebsCached = unstable_cache(
   fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
-  // v10: 이름 검색을 목록 밖에서 id로 풀어 넘긴다 — 옛 글자 포함 검사 결과를 되돌려주지 않게 올렸다
-  ['celebs-public-v10-name-search'],
+  // v11: 접속 국가와 일일 날짜를 추천 캐시 키에 포함한다.
+  ['celebs-public-v11-visitor-country'],
   // celebs·celeb_influence(정렬/랭킹) + faction_member_rows·faction_lv2 + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v10-name-search']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v11-visitor-country']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.FACTIONS],
   }
 )
@@ -601,13 +612,14 @@ export async function getCelebs(
   const loadPublic = sortBy === 'trending' || sortBy === 'country_trending' ? getCelebsTrendingCached : getCelebsCached
   // 인기순은 기간 창 순위라 검색어를 읽지 않는다
   const searchIds = sortBy === 'trending' ? null : await resolveSearchIds(search, includeInactive)
+  const visitorCountry = sortBy === 'daily_recommend' ? await getVisitorCountry() : null
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, factionId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
     includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
     birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.matches ?? [],
-    countryTrend ? country : '', searchIds
+    countryTrend ? country : '', searchIds, visitorCountry, sortBy === 'daily_recommend' ? getKSTDateKey() : ''
   )
   // trend 상태는 트렌드순 화면(국가 선택 줄)만 읽는다 — 오늘의 추천은 가산일 뿐 기준이 아니다
   const trend = sortBy === 'country_trending' && countryTrend ? {

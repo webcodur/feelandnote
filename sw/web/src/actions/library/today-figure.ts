@@ -8,7 +8,8 @@ import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback }
 import { createStaticClient } from '@/lib/db/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
-import { getKSTDateKey } from '@/lib/game/date-seed'
+import { getKSTDateKey, dateKeyToSeed } from '@/lib/game/date-seed'
+import { getVisitorCountry } from '@/lib/visitorCountryServer'
 import { fetchFeatureExcludedCelebIds } from '@/lib/celeb-feature-exclusion'
 import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
@@ -102,8 +103,40 @@ async function pickBirthdayCeleb(
   return sorted.find((id) => (counts.get(id) ?? 0) >= 5) ?? sorted[0]
 }
 
-async function fetchTodayFigure(today: string, locale: string): Promise<TodayFigureData> {
+/** Country candidates must still have five public finished records and pass feature exclusions. */
+async function pickRegionalFigure(db: StaticDatabaseClient, today: string, country: string): Promise<{ id: string; birthday: boolean } | null> {
+  const data = await selectAllPages<{ id: string; birth_date: string | null }>((from, to) => db.from('celebs').select('id, birth_date')
+    .eq('nationality', country).eq('publication_status', 'active')
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES]).order('id').range(from, to))
+  if (!data.length) return null
+  const [excluded, eligible] = await Promise.all([
+    fetchFeatureExcludedCelebIds(db),
+    selectAllPages<SeedEligibleRow>((from, to) => db.rpc('get_seed_eligible_celebs')
+      .order('celeb_id', { ascending: true }).range(from, to)),
+  ])
+  const localIds = new Set(data.map(row => row.id))
+  const candidates = eligible.filter(row => localIds.has(row.celeb_id) && !excluded.has(row.celeb_id))
+  if (!candidates.length) return null
+  const birthdays = new Set(data.filter(row => row.birth_date?.endsWith(today.slice(5))).map(row => row.id))
+  const birthday = candidates.filter(row => birthdays.has(row.celeb_id))
+    .sort((a, b) => b.content_count - a.content_count || a.celeb_id.localeCompare(b.celeb_id))[0]
+  if (birthday) return { id: birthday.celeb_id, birthday: true }
+  candidates.sort((a, b) => a.celeb_id.localeCompare(b.celeb_id))
+  return { id: candidates[(dateKeyToSeed(`${today}:${country}`) >>> 0) % candidates.length].celeb_id, birthday: false }
+}
+
+async function fetchTodayFigure(today: string, locale: string, country: string | null): Promise<TodayFigureData> {
   const db = createStaticClient()
+
+  if (country) {
+    const regional = await pickRegionalFigure(db, today, country)
+    if (regional) {
+      const result = await fetchFigureContents(db, regional.id, locale)
+      if (result.figure && result.contents.length >= 5) {
+        return { ...result, source: { type: regional.birthday ? 'birthday' : 'seed', newsCount: 0 } }
+      }
+    }
+  }
 
   const { data: dailyFigure, error: dailyFigureError } = await db
     .from('daily_figures')
@@ -162,7 +195,7 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 
 const getTodayFigureCached = unstable_cache(
   fetchTodayFigure,
-  ['today-figure-v2'],
+  ['today-figure-v3-country'],
   // daily_figures(BO 오늘의 인물 편성) + celebs + celeb_contents + celeb_dialogues
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
 )
@@ -171,7 +204,8 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   const locale = await getLocale()
   // 편성(크론)과 같은 KST 날짜를 써야 한다 — 기준이 어긋나면 편성을 못 찾고 seed로 흐른다
   const today = getKSTDateKey()
-  const result: TodayFigureData = await withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
+  const country = await getVisitorCountry()
+  const result: TodayFigureData = await withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale, country), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
   return { ...result, date: today }
 }
 

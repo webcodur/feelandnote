@@ -108,10 +108,9 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
     }
   }
 
-  /* 신화 주소로 연 신화를 마지막 신화로 기억한다. 첫 화면(/explore/myth)이 기본 신화로 열린 채면 기억하지 않는다 —
-     그래야 기본값을 바꿨을 때 아직 고른 적 없는 방문자가 새 기본값을 본다.
-     첫 화면은 주소를 바꾸지 않는다 — 신화의 세계 자체의 정본 주소라 신화 주소로 덮지 않는다 */
-  const linkedSlug = requestedMyth?.slug;
+  /* 첫 진입의 오디세이아도 기억한다. 다음 진입은 마지막 선택으로 이어지고,
+     국가별 지역 정렬은 처음 열리는 작품을 바꾸지 않는다. 공유 주소는 언제나 우선한다. */
+  const linkedSlug = requestedMyth?.slug ?? (!faction ? openingMyth?.slug : undefined);
   useEffect(() => {
     if (linkedSlug) saveLastMyth(linkedSlug);
   }, [linkedSlug]);

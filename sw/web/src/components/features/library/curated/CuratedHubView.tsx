@@ -22,11 +22,12 @@ import { summarizeBrowse } from "./useCuratedBrowse";
 import CuratedListCard from "./CuratedListCard";
 import { CURATOR_FACETS, LIST_PAGE_SIZE, filterCurators, getCuratorCountries, hasFacetChoice, parseCuratorFilters, shownLists, type CuratorExploreFilters, type CuratorFacet } from "../hub/curatorExplore";
 import { getCountryNameByLocale } from "@/lib/countries";
+import { countryFirst } from "@/lib/visitorCountry";
 
 const FACET_ICONS: Record<CuratorFacet, LucideIcon> = { country: Globe, topic: Tags, kind: Landmark };
 const FACET_TITLE_KEYS: Record<CuratorFacet, string> = { country: "filterCountry", topic: "filterTopic", kind: "filterKind" };
 
-export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
+export default function CuratedHubView({ hub, visitorCountry = null }: { hub: CuratedHub; visitorCountry?: string | null }) {
   const t = useTranslations("library.hub");
   const curated = useTranslations("library.curated");
   const ui = useTranslations("home.ui");
@@ -41,7 +42,7 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   const filters = parseCuratorFilters(params, { ...summary, medias: allSummary.medias, countries });
   const [draft, setDraft] = useState<string | undefined>();
   const [openFacet, setOpenFacet] = useState<CuratorFacet | null>(null);
-  const shown = filterCurators(hub.curators, filters, locale);
+  const shown = countryFirst(filterCurators(hub.curators, filters, locale), visitorCountry, curator => curator.country);
   const lists = shownLists(shown);
   const totalPages = Math.max(1, Math.ceil(lists.length / LIST_PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
@@ -49,7 +50,7 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
 
   // 조건마다 선택지 — 국가는 이름 가나다순, 주제는 많은 순, 기관 종류는 진열 순서(KIND_ORDER)
   const facetOptions: Record<CuratorFacet, string[]> = {
-    country: [...countries].sort((a, b) => getCountryNameByLocale(a, locale).localeCompare(getCountryNameByLocale(b, locale), locale)),
+    country: countryFirst([...countries].sort((a, b) => getCountryNameByLocale(a, locale).localeCompare(getCountryNameByLocale(b, locale), locale)), visitorCountry, code => code),
     topic: summary.topics,
     kind: summary.kinds,
   };

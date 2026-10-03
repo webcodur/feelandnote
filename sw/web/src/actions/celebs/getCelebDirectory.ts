@@ -12,6 +12,7 @@ export interface CelebDirectoryRow {
   nickname: string
   nickname_en: string | null
   profession: string | null
+  nationality: string | null
   /** 한 줄 직함 — 직군 명부의 링크 문구를 이름만으로 두지 않기 위해 싣는다 */
   title: string | null
   title_en: string | null
@@ -25,7 +26,7 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
   return await selectAllPages<CelebDirectoryRow>((from, to) =>
     db
       .from('celebs')
-      .select('slug, nickname, nickname_en, profession, title, title_en')
+      .select('slug, nickname, nickname_en, profession, nationality, title, title_en')
       .eq('publication_status', 'active')
       // 신화·관계 인물은 목록에서 제외
       .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
@@ -40,6 +41,6 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
 export const getCelebDirectory = unstable_cache(
   fetchCelebDirectory,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
-  ['celeb-directory-v2-title'],
+  ['celeb-directory-v3-nationality'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )

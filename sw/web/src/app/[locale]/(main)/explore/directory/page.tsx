@@ -12,6 +12,7 @@ import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import styles from "./directory.module.css";
+import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
 
 // 정적(ISR). 명부는 2,400명 전부를 싣는 큰 화면(HTML 수 MB)이라 방문마다 서버가 만들면 그 바이트가 그대로
 // 원본 전송량이 된다. 한 번 만들어 CDN에 두고, 인물 등록·삭제·공개 상태 변경 때 DB 트리거가 'celebs' 태그를 비운다.
@@ -85,6 +86,7 @@ export default async function DirectoryPage({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <VisitorDirectory />
       {/* 직군 범례 — 각 직군의 개별 명부로 가는 링크를 겸한다 */}
       <div className="mb-8 space-y-3">
         <p className="text-text-secondary text-sm">

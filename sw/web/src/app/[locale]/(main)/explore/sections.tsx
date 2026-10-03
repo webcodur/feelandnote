@@ -27,6 +27,8 @@ import MythScreen from "@/components/features/user/explore/myth/MythScreen";
 import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 import { MYTH_LAST_COOKIE, MYTH_OPENING_SLUG, mythHref } from "@/components/features/user/explore/myth/mythHref";
 import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
+import { getVisitorCountry } from "@/lib/visitorCountryServer";
+import { orderMythRegions } from "@/lib/visitorCountry";
 import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
 
 const HUB_SPECTRUM_MIN_INFLUENCE = 40;
@@ -98,6 +100,7 @@ export async function MythSection({ slug = null }: { slug?: string | null } = {}
   const data = await load("신화 탐색", () => getMythData(locale));
   if (!data) return <ReservedState skeleton={<MythScreenSkeleton />}><RetryBlock /></ReservedState>;
   const publicData = getMythClientData(data, slug ?? rememberedSlug ?? MYTH_OPENING_SLUG);
+  publicData.regions = orderMythRegions(publicData.regions, await getVisitorCountry());
   if (publicData.regions.length === 0) return <ReservedState skeleton={<MythScreenSkeleton />}><EmptyLine /></ReservedState>;
   const mythById = new Map(publicData.myths.map((myth) => [myth.id, myth]));
   const index = publicData.regions.map((region) => ({

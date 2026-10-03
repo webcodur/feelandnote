@@ -12,6 +12,8 @@ import { BirthYearSliderCore } from "./CelebBirthYearFilter";
 import type { useCelebFilters, CelebRealityFilter } from "./useCelebFilters";
 import { useCelebDetailConditions, type DetailFilter } from "./useCelebDetailConditions";
 import { useCelebDetailDraft } from "./useCelebDetailDraft";
+import { useVisitorCountry } from "@/hooks/useVisitorCountry";
+import { countryFirst } from "@/lib/visitorCountry";
 
 export type { DetailFilter } from "./useCelebDetailConditions";
 const DETAIL_FILTERS: { value: DetailFilter; label: string }[] = [
@@ -44,11 +46,12 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
   const [countrySearch, setCountrySearch] = useState("");
   const draftFilters = useCelebDetailDraft(filters);
   const conditions = useCelebDetailConditions(draftFilters);
+  const visitorCountry = useVisitorCountry();
 
   // 수록·실존 여부는 집계 없이 선택한다.
   const choices: Record<Exclude<DetailFilter, "birthYear">, { value: string; label: string; count?: number }[]> = {
     profession: CELEB_PROFESSION_FILTERS.map(({ value }) => ({ value, label: getProfession(value), count: draftFilters.professionCounts[value] })),
-    nationality: draftFilters.nationalityCounts.map(({ value, count }) => ({ value, label: getNationality(value), count })),
+    nationality: countryFirst(draftFilters.nationalityCounts, visitorCountry, item => item.value).map(({ value, count }) => ({ value, label: getNationality(value), count })),
     contentType: CONTENT_TYPE_FILTERS.map(({ value }) => ({ value, label: getContentType(value), count: draftFilters.contentTypeCounts[value] })),
     gender: draftFilters.genderCounts.map(({ value, count }) => ({ value, label: getGender(value), count })),
     tier: [{ value: "all", label: t("tier.all") }, ...CELEB_TIERS.map((v) => ({ value: v, label: t(`tier.${v}`) }))],

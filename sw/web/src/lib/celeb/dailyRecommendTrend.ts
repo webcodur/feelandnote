@@ -14,6 +14,15 @@ export const TREND_DAILY_PROMOTE_PROB = 0.3
 /** 첫 페이지가 트렌드로 잠식되지 않게 두는 상한 */
 export const TREND_DAILY_PROMOTE_MAX = 3
 
+/** Local figures share at most a quarter of the page; worldwide discovery remains visible. */
+export const LOCAL_DAILY_PROMOTE_MAX = 6
+
+export function selectDailyPromotions<T extends { id: string }>(localRows: T[], trendRows: T[], limit: number, day: string): T[] {
+  const local = localRows.slice(0, Math.min(LOCAL_DAILY_PROMOTE_MAX, Math.floor(limit / 4)))
+  const ids = new Set(local.map(row => row.id))
+  return [...local, ...selectTrendPromotions(trendRows, day).filter(row => !ids.has(row.id))]
+}
+
 /** 인물·날짜로 고정되는 주사위 두 개 — 당첨 여부(roll)와 꽂힐 칸(slot) */
 export function trendDailyDice(id: string, day: string): { roll: number; slot: number } {
   const hex = createHash('md5').update(`${id}${day}`).digest('hex')
