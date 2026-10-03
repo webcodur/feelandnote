@@ -1,71 +1,47 @@
 'use server'
-import { getFigureBooksForCeleb } from '@/actions/figure-books/getFigureBooks'
 import { getPublicUserContents } from '@/actions/contents/getUserContents'
-import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import { findAffiliateLink } from '@/actions/home/affiliateLinks'
-import { isShelfSellable, mapRelatedFigureBooksToAffiliateBooks } from '@/components/features/celeb/CelebRelatedAffiliateBooks'
-import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
+import { figureBookToShelfBook, type BookShelfBook } from '@/components/shared/BookShelf/types'
+import { isBookShelfAvailable } from '@/lib/books/bookShelf'
+import { getCelebReferenceBooks, type CelebReferenceBooks } from './getCelebReferenceBooks'
 
-/* ── 인물 책장 ──
-   가상독백 카드 아래에 붙는 인물 관련 도서 모음. 저서(인물이 쓴 책)·연관 도서(인물이 등장하거나
-   다뤄진 작품)·읽은 책(인물 감상 기록) 세 묶음을 상품 선반(AffiliateBook) 형태로 돌려준다.
-   한국어는 YES24가 찾을 ISBN 판본이 판매 기준이고 쿠팡은 같은 판본의 보조 링크다.
-   영문은 아마존 상품 주소가 없으면 제목·저자 검색으로 잇는다. */
+/** 가상독백 책장. 상세의 분류를 유지하면서 공개 도서 감상을 추가한다. */
 
-export interface CelebBookShelf {
-  authored: AffiliateBook[]
-  related: AffiliateBook[]
-  read: AffiliateBook[]
-}
+export type CelebBookShelf = CelebReferenceBooks & { readBooks: BookShelfBook[] }
 
 const httpsUrl = (value: unknown) => (typeof value === 'string' && value.startsWith('https://') ? value : '')
 
-/** 인물의 판촉 도서 묶음 — 저서·연관·읽은 책 순. 읽은 책은 readLimit만큼만 받는다 */
+/** 등장·집필·직군·소속 자료와 감상 도서를 같은 책장에 표시하되 분류는 보존한다. */
 export async function getCelebBookShelf(
   celebId: string,
   locale: string = 'ko',
-  readLimit = 12,
 ): Promise<CelebBookShelf> {
-  const [figureBooks, readRecords] = await Promise.all([
-    getFigureBooksForCeleb(celebId, locale),
-    getPublicUserContents({ userId: celebId, type: 'BOOK', limit: readLimit }, locale),
+  const [reference, readRecords] = await Promise.all([
+    getCelebReferenceBooks(celebId, locale),
+    getPublicUserContents({ userId: celebId, type: 'BOOK', limit: 500 }, locale),
   ])
-
-  const isEn = locale === 'en'
-  const authored = mapRelatedFigureBooksToAffiliateBooks(
-    figureBooks.filter((book) => book.relationType === 'authored'),
-    locale,
-    { includeAuthored: true },
-  )
-  const related = mapRelatedFigureBooksToAffiliateBooks(
-    figureBooks.filter((book) => book.relationType !== 'authored'),
-    locale,
-  )
-
-  // 저서·연관으로 이미 선 책은 읽은 책에서 뺀다 — 같은 표지가 구분선을 건너 두 번 서지 않게
-  const seen = new Set([...authored, ...related].map((book) => book.contentId))
-  const read = readRecords.items.flatMap((record): AffiliateBook[] => {
-    if (seen.has(record.content_id)) return []
-    seen.add(record.content_id)
-    const stored = httpsUrl(record.content.affiliate_url)
-      || findAffiliateLink(record.content.affiliate_url, isEn ? 'amazon' : 'coupang')?.url
-      || ''
-    return [{
-      contentId: record.content_id,
+  const appeared = reference.appeared.filter(book => book.type === 'BOOK')
+  const authored = reference.authored.filter(book => book.type === 'BOOK')
+  const related = new Map([...appeared, ...authored].map(book => [book.id, figureBookToShelfBook(book)]))
+  const read: BookShelfBook[] = readRecords.items.map((record) => {
+    // 리뷰 전문은 고른 책만 읽는다. 책장 응답에 모든 감상문을 중복해서 싣지 않는다.
+    const readingRecord = { ...record, public_record: null }
+    const existing = related.get(record.content_id)
+    if (existing) return { ...existing, readingRecord }
+    const platform = locale === 'en' ? 'amazon' : 'coupang'
+    const link = findAffiliateLink(record.content.affiliate_url, platform)
+    const url = httpsUrl(record.content.affiliate_url)
+    return {
+      id: record.content_id,
       title: record.content.title,
-      creator: record.content.creator || undefined,
-      thumbnail: record.content.thumbnail_url || undefined,
-      url: isEn
-        ? getEnglishBookAmazonUrl({ title: record.content.title, creator: record.content.creator, url: stored || null })
-        : stored,
+      creator: record.content.creator,
+      thumbnailUrl: record.content.thumbnail_url,
+      editions: [],
+      isbn: locale === 'en' ? record.content.isbn_en : record.content.isbn_ko,
+      affiliateLinks: link ? [link] : url ? [{ platform, url }] : [],
       titleBadge: record.content.title_badge,
-    }]
+      readingRecord,
+    }
   })
-
-  // 「번역본 없음」·「절판」 띠가 붙는 책은 판촉 선반에 세우지 않는다 — 지금 화면 말로 살 수 없는 책이라 아예 뺀다
-  return {
-    authored: authored.filter(isShelfSellable),
-    related: related.filter(isShelfSellable),
-    read: read.filter(isShelfSellable),
-  }
+  return { ...reference, appeared, authored, readBooks: read.filter(isBookShelfAvailable) }
 }

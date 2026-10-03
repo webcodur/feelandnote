@@ -12,6 +12,7 @@ import { BOOK_SHELF_INLINE_PEOPLE } from '@/lib/books/bookShelfUi'
 import BookShelfPeopleList from './BookShelfPeopleList'
 import BookShelfArrival from './BookShelfArrival'
 import BookShelfPersonModal from './BookShelfPersonModal'
+import BookShelfReading from './BookShelfReading'
 import styles from './BookShelf.module.css'
 
 const requests = new Map<string, Promise<BookShelfPeople>>()
@@ -56,6 +57,7 @@ export default function BookShelfRelations({ contentId, bookTitle, context, read
     </div>
   </BookShelfArrival>
   const selected = selectBookShelfPeople(people, context, readerIds)
+  const ownReading = context?.showReading ? selected.read.find(person => person.id === context.personId) : undefined
   const primary = context?.kind === 'profession' ? 'read' : context?.kind
   const roles = (['appeared', 'authored', 'read'] as const).filter((role) => selected[role].length)
     .sort((a, b) => Number(b === primary) - Number(a === primary))
@@ -92,6 +94,7 @@ export default function BookShelfRelations({ contentId, bookTitle, context, read
         )
       })}
       </div>
+      {ownReading && <BookShelfReading key={contentId} person={ownReading} />}
       {listRole && <BookShelfPeopleList people={selected[listRole]} reading={listRole === 'read'}
         title={t('bookShelfPeopleListFor', { role: roleLabel(listRole), count: selected[listRole].length })} bookTitle={bookTitle} onClose={closeList}
         isOpen={!selectedPerson} onSelectPerson={openPerson} />}

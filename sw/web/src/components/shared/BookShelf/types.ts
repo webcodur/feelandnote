@@ -4,6 +4,7 @@ import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 import type { TitleBadge } from '@/lib/utils/content-locale'
+import type { UserContentPublic } from '@/actions/contents/getUserContents'
 
 /** 관계 유형과 무관하게 책장 안의 모든 책이 사용하는 표시 자료. */
 export interface BookShelfBook {
@@ -25,13 +26,18 @@ export interface BookShelfBook {
   detailsLoaded?: boolean
   /** 직군 추천을 실제로 만든 감상자. 그 밖의 독자를 추천 근거로 섞지 않는다. */
   readerIds?: string[]
+  /** 감상 분류는 인물 상세와 같은 리뷰 카드로 읽는다. */
+  readingRecord?: UserContentPublic
 }
 
 export interface BookShelfContext {
   personId?: string
+  personName?: string
   memberIds?: string[]
   /** 직군·소속 등은 전체 관계를 줄이지 않고 정렬 순서에 반영한다. */
   kind: 'appeared' | 'authored' | 'read' | 'profession' | 'theme' | 'affiliation'
+  /** 도서 감상을 함께 담는 책장은 해당 인물의 감상배경도 본문에 표시한다. */
+  showReading?: boolean
 }
 
 export interface BookShelfGroup {

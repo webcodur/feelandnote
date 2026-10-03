@@ -76,7 +76,7 @@ test('검증된 밀그롬 판본은 표지 리다이렉트·접속 실패에도 
       })
       if (String(url).includes('/authors/')) return Response.json({ name: 'Jacob Milgrom' })
       assert.equal(init?.method, 'HEAD')
-      assert.equal(init?.redirect, 'error')
+      assert.equal(init?.redirect, 'follow')
       throw new TypeError(failure === 'redirect' ? 'fetch failed: unexpected redirect' : 'fetch failed: ECONNRESET')
     })
     const book = await getOpenLibraryBookMetadata('9780800695149')
@@ -88,6 +88,21 @@ test('검증된 밀그롬 판본은 표지 리다이렉트·접속 실패에도 
     assert.equal(mock.mock.callCount(), failure === 'missing-cover' ? 3 : 4)
     mock.mock.restore()
   }
+})
+
+test('표지 저장소의 정상 리다이렉트는 최종 이미지로 확인한다', async (t) => {
+  const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0], init?: RequestInit) => {
+    if (String(url).includes('/isbn/')) return Response.json({ ...metadataEdition, covers: [123], works: [] })
+    if (String(url).includes('covers.openlibrary.org')) {
+      assert.equal(init?.method, 'HEAD')
+      assert.equal(init?.redirect, 'follow')
+      return new Response('', { headers: { 'content-type': 'image/jpeg' } })
+    }
+    return Response.json({ name: 'Jimmy Soni' })
+  })
+  const book = await getOpenLibraryBookMetadata('9781501197260')
+  assert.equal(book?.coverImageUrl, 'https://covers.openlibrary.org/b/id/123-L.jpg')
+  assert.ok(mock.mock.calls.some(call => String(call.arguments[0]).includes('covers.openlibrary.org') && call.arguments[1]?.redirect === 'follow'))
 })
 
 test('같은 원전의 영어 오디오 판본은 매체 형식을 보존하고 전체 수록으로 추정하지 않는다', async (t) => {

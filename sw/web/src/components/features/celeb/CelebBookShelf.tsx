@@ -6,34 +6,39 @@ import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { CelebFactionBookGroup } from '@/actions/celebs/getCelebFactionBooks'
 import BookShelf from '@/components/shared/BookShelf/BookShelf'
-import { affiliateBookToShelfBook, figureBookToShelfBook, type BookShelfGroup } from '@/components/shared/BookShelf/types'
+import { affiliateBookToShelfBook, figureBookToShelfBook, type BookShelfBook, type BookShelfGroup } from '@/components/shared/BookShelf/types'
 import BookShelfAffiliationAddon from './BookShelfAffiliationAddon'
 
 interface Props {
   celebId: string
+  celebName?: string
   appeared: FigureBookContent[]
   authored: FigureBookContent[]
   professionBooks: AffiliateBook[]
   profession?: string | null
   factionGroups: CelebFactionBookGroup[]
+  /** 가상독백 화면은 감상 도서를 별도 리뷰 구획 대신 책장 분류에 함께 둔다. */
+  readBooks?: BookShelfBook[]
   id?: string
   title?: string
 }
 
 /** 개인 상세와 도감 인물 창은 자료를 이 어댑터에 넘기고 공통 책장 한 벌을 쓴다. */
-export default function CelebBookShelf({ celebId, appeared, authored, professionBooks, profession, factionGroups, id, title }: Props) {
+export default function CelebBookShelf({ celebId, celebName, appeared, authored, professionBooks, profession, factionGroups, readBooks, id, title }: Props) {
   const t = useTranslations('celebPage')
   const tProfession = useTranslations('profession')
   const professionIntro = profession && profession !== 'other' && tProfession.has(profession)
     ? t('professionShelfIntro', { profession: tProfession(profession) }) : t('relatedShelfIntro')
   const [factionId, setFactionId] = useState(factionGroups[0]?.factionId)
   const selectedFaction = factionGroups.find((group) => group.factionId === factionId) ?? factionGroups[0]
+  const showReading = readBooks !== undefined
   const groups: BookShelfGroup[] = [
-    { key: 'appeared', context: { personId: celebId, kind: 'appeared' }, label: t('groupAppeared'), intro: t('sourceWorksIntro'), books: appeared.map(figureBookToShelfBook) },
-    { key: 'authored', context: { personId: celebId, kind: 'authored' }, label: t('groupAuthored'), intro: t('authoredWorksIntro'), books: authored.map(figureBookToShelfBook) },
-    { key: 'profession', context: { personId: celebId, kind: 'profession' }, label: t('groupProfession'), intro: professionIntro, books: professionBooks.map(affiliateBookToShelfBook) },
+    { key: 'appeared', context: { personId: celebId, kind: 'appeared', showReading }, label: t('groupAppeared'), intro: t('sourceWorksIntro'), books: appeared.map(figureBookToShelfBook) },
+    ...(readBooks !== undefined ? [{ key: 'read', context: { personId: celebId, personName: celebName, kind: 'read' as const, showReading }, label: t('groupRead'), intro: t('readShelfIntro'), books: readBooks }] : []),
+    { key: 'authored', context: { personId: celebId, kind: 'authored', showReading }, label: t('groupAuthored'), intro: t('authoredWorksIntro'), books: authored.map(figureBookToShelfBook) },
+    { key: 'profession', context: { personId: celebId, kind: 'profession', showReading }, label: t('groupProfession'), intro: professionIntro, books: professionBooks.map(affiliateBookToShelfBook) },
     {
-      key: 'faction', context: { personId: celebId, kind: 'affiliation' }, label: t('groupAffiliation'),
+      key: 'faction', context: { personId: celebId, kind: 'affiliation', showReading }, label: t('groupAffiliation'),
       intro: t(selectedFaction?.isMyth ? 'factionShelfIntroMyth' : 'factionShelfIntroFaction'),
       books: selectedFaction?.books.map(affiliateBookToShelfBook) ?? [], selectionKey: selectedFaction?.factionId,
       addon: selectedFaction

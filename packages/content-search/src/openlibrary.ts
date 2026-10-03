@@ -112,7 +112,7 @@ export async function getOpenLibraryBookMetadata(
   if (coverImageUrl) {
     try {
       const response = await fetch(`${coverImageUrl}?default=false`, {
-        method: 'HEAD', signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS), redirect: 'error',
+        method: 'HEAD', signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS), redirect: 'follow',
       })
       if (!response.ok || !response.headers.get('content-type')?.toLowerCase().startsWith('image/')) coverImageUrl = null
     } catch {

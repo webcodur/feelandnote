@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useId, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useId, useMemo, useState, type ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import { getBookShelfBook } from '@/actions/books/getBookShelfBook'
 import { RetryBlock } from '@/components/ui/pending'
@@ -9,6 +10,8 @@ import BookShelfRelations from './BookShelfRelations'
 import BookShelfBookList from './BookShelfBookList'
 import { LIBRARY_DETAIL_FRAME_CLASS, LibraryArrowButton, LibraryBottomNavigation, LibraryTitleHeader } from '@/components/shared/LibraryDetailNavigation'
 import type { BookShelfBook, BookShelfContext, BookShelfGroup } from './types'
+
+const BookShelfReviewDetail = dynamic(() => import('./BookShelfReviewDetail'))
 
 const requests = new Map<string, Promise<BookShelfBook | null>>()
 function requestBook(id: string, locale: string) {
@@ -37,11 +40,13 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   const selected = books.find((book) => book.id === selections[selectionKey]) ?? books[0]
   const setSelectedId = (id: string) => setSelections((current) => ({ ...current, [selectionKey]: id }))
   const selectedContentId = selected?.id
+  const contentIds = useMemo(() => books.map(book => book.id), [books])
+  const showReview = context?.kind === 'read' && !!context.personId && !!selected?.readingRecord
   const closeList = useCallback(() => onListOpenChange(false), [onListOpenChange])
   const [details, setDetails] = useState<Record<string, { book: BookShelfBook | null; failed: boolean }>>({})
   const [attempt, setAttempt] = useState(0)
   const detailKey = `${locale}:${selected?.id}`
-  const needsDetails = !!selected && !selected.detailsLoaded
+  const needsDetails = !!selected && !selected.detailsLoaded && !showReview
   const current = details[detailKey]
 
   useEffect(() => {
@@ -87,8 +92,11 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
             setDetails((value) => { const next = { ...value }; delete next[detailKey]; return next })
             setAttempt((value) => value + 1)
           }} />}
-          <BookShelfFeature source={source} sharedEditionKeys={sharedEditionKeys} loading={needsDetails && !current} />
-          <BookShelfRelations key={detailKey} contentId={selected.id} bookTitle={source.title} context={context} readerIds={selected.readerIds} />
+          {showReview ? <BookShelfReviewDetail record={selected.readingRecord!} celebId={context!.personId!}
+            ownerNickname={context?.personName} contentIds={contentIds} selectedIndex={selectedIndex} /> : <>
+            <BookShelfFeature source={source} sharedEditionKeys={sharedEditionKeys} loading={needsDetails && !current} />
+            <BookShelfRelations key={detailKey} contentId={selected.id} bookTitle={source.title} context={context} readerIds={selected.readerIds} />
+          </>}
           <LibraryBottomNavigation label={t('sourceWorkPickerLabel')} previousLabel={previousLabel} nextLabel={nextLabel}
             disabled={disabled} onPrevious={goPrevious} onNext={goNext} testPrefix="bookshelf" />
         </div>

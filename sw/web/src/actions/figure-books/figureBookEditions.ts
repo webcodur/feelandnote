@@ -43,11 +43,10 @@ export async function loadFigureBookEditions(
       .eq('locale', locale)
       .eq('platform', platform)
       .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>()),
-    selectInChunks<{ content_id: string; locale: string; isbn: string | null; affiliate_url: unknown; sources: unknown }>(contentIds, (ids) => db
+    selectInChunks<{ content_id: string; locale: string; title: string | null; isbn: string | null; affiliate_url: unknown; sources: unknown }>(contentIds, (ids) => db
       .from('content_locales')
-      .select('content_id,locale,isbn,affiliate_url,sources')
-      .in('content_id', ids)
-      .eq('locale', locale)),
+      .select('content_id,locale,title,isbn,affiliate_url,sources')
+      .in('content_id', ids)),
   ])
 
   const rowsByContent = new Map<string, FigureBookEditionRow[]>()
@@ -56,9 +55,11 @@ export async function loadFigureBookEditions(
   for (const option of options) optionsByContent.set(option.content_id, [...(optionsByContent.get(option.content_id) ?? []), option])
 
   for (const contentId of new Set([...rowsByContent.keys(), ...optionsByContent.keys()])) {
-    const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale, includeAll)
+    // 다른 언어 카드가 없는 원어 작품만 출판사 변경 재출간을 같은 책으로 접는다.
+    const isOriginalLocaleWork = !cards.some(card => card.content_id === contentId && card.locale !== locale && card.title?.trim())
+    const editions = mergeFigureBookEditions(rowsByContent.get(contentId) ?? [], optionsByContent.get(contentId) ?? [], locale, includeAll, isOriginalLocaleWork)
     if (editions.length > 0) byContent.set(contentId, editions.map((edition) => ({
-      ...attachFigureBookLocaleLinks(edition, cards.find(card => card.content_id === contentId)),
+      ...attachFigureBookLocaleLinks(edition, cards.find(card => card.content_id === contentId && card.locale === locale)),
       ...selectBookIntroduction(locale, rowsByContent.get(contentId)?.find((row) => row.id === edition.id)
         ?? { locale, isbn: edition.isbn, description: edition.description }, null),
     })))

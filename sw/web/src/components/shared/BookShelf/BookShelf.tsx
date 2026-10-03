@@ -28,6 +28,7 @@ export default function BookShelf({ groups, ariaLabel, title, id, className = ''
   const active = available.find((group) => group.key === activeKey) ?? available[0]
   if (!active) return null
   const categoryPicker = <LibraryCategoryPicker
+    layout="wrap"
     options={normalized.map((group) => ({ key: group.key, label: group.label, count: group.books.length, disabled: group.books.length === 0 }))}
     value={active.key} ariaLabel={ariaLabel}
     onChange={(key) => { setActiveKey(key); if (!listOpen) setTitlePulseRequest((current) => current + 1) }} />

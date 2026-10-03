@@ -2,6 +2,19 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { loadMonologueDetail } from "./loadMonologueDetail";
 
+test("a figure's biography arrives with their monologue before the shelf", async () => {
+  const entry = { text: "독백 본문", profile: { bio: "인물 소개" } };
+  let shown: typeof entry | null = null;
+  void loadMonologueDetail(
+    async () => entry,
+    () => new Promise<null>(() => {}),
+    value => { shown = value; },
+    () => {},
+  );
+  await Promise.resolve();
+  assert.deepEqual(shown, entry);
+});
+
 test("a slow bookshelf action cannot hold the monologue in its loading state", async () => {
   // Next.js dispatches client Server Actions one at a time. The shelf occupies
   // the queue indefinitely, so a text action dispatched after it cannot begin.

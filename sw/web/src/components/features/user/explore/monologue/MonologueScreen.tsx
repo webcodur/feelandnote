@@ -1,19 +1,31 @@
 /*
   파일명: /components/features/user/explore/monologue/MonologueScreen.tsx
   기능: 가상독백 수집 화면
-  책임: 낭독 음원이 있는 인물의 가벼운 명부를 보여준다.
+  책임: 독백 인물의 검색·분류·페이지 목록과 선택한 인물의 소개·독백·음원·책장을 보여준다.
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
 import type { VirtualMonologueCeleb } from "@/actions/celebs/getVirtualMonologueCelebs";
+import { getCountryNameByLocale } from "@/lib/countries";
 import MonologueDeck from "./MonologueDeck";
 
 interface MonologueScreenProps {
-  voiced: VirtualMonologueCeleb[];
+  celebs: VirtualMonologueCeleb[];
+  locale: string;
 }
 
-export default async function MonologueScreen({ voiced }: MonologueScreenProps) {
+export default async function MonologueScreen({ celebs, locale }: MonologueScreenProps) {
   const t = await getTranslations("explore.monologue");
+  const tProfession = await getTranslations("profession");
+  // Intl 국가명·정렬은 Node와 브라우저의 ICU 버전에 따라 다르므로 서버에서 한 번 확정한다.
+  const browseOptions = {
+    professions: [...new Set(celebs.map(celeb => celeb.profession).filter((value): value is string => !!value))]
+      .map(value => ({ value, label: tProfession.has(value) ? tProfession(value) : value }))
+      .sort((a, b) => a.label.localeCompare(b.label, locale)),
+    nationalities: [...new Set(celebs.map(celeb => celeb.nationality).filter((value): value is string => !!value))]
+      .map(value => ({ value, label: getCountryNameByLocale(value, locale) }))
+      .sort((a, b) => a.label.localeCompare(b.label, locale)),
+  };
 
   return (
     <div className="space-y-10 md:space-y-14">
@@ -25,11 +37,11 @@ export default async function MonologueScreen({ voiced }: MonologueScreenProps) 
           {t("lead")}
         </p>
         <p className="mt-3 text-xs text-text-tertiary">
-          {t("stats", { voiced: voiced.length })}
+          {t("stats", { total: celebs.length, voiced: celebs.filter(celeb => celeb.hasVoice).length })}
         </p>
       </header>
 
-      {voiced.length > 0 ? (
+      {celebs.length > 0 ? (
         <section aria-labelledby="monologue-voiced">
           <div className="mb-5 text-center md:mb-6">
             <h2 id="monologue-voiced" className="font-serif text-lg font-bold tracking-tight text-text-primary md:text-xl">
@@ -39,7 +51,7 @@ export default async function MonologueScreen({ voiced }: MonologueScreenProps) 
               {t("voicedDesc")}
             </p>
           </div>
-          <MonologueDeck items={voiced} />
+          <MonologueDeck items={celebs} browseOptions={browseOptions} />
         </section>
       ) : null}
     </div>

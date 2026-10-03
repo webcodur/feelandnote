@@ -11,13 +11,26 @@ import { cachedDetail } from '@/lib/cache'
 interface MonologueRow {
   virtual_monologue: string | null
   virtual_monologue_en: string | null
+  bio: string | null
+  bio_en: string | null
+  headline: string | null
+  headline_en: string | null
+  birth_date: string | null
+  death_date: string | null
+}
+
+export interface MonologueProfile {
+  bio: string | null
+  headline: string | null
+  birthDate: string | null
+  deathDate: string | null
 }
 
 async function fetchMonologue(celebId: string): Promise<MonologueRow | null> {
   const db = createStaticClient()
   const { data, error } = await db
     .from('celebs')
-    .select('virtual_monologue, virtual_monologue_en')
+    .select('virtual_monologue, virtual_monologue_en, bio, bio_en, headline, headline_en, birth_date, death_date')
     .eq('id', celebId)
     .eq('publication_status', 'active')
     .maybeSingle<MonologueRow>()
@@ -27,13 +40,20 @@ async function fetchMonologue(celebId: string): Promise<MonologueRow | null> {
   return data
 }
 
-/** 화면 언어의 가상독백. 영문이 없으면 한국어가 온다 — locale은 본문이 실제로 쓰인 언어라 낭독 음원을 고를 때 쓴다. 없으면 null */
-export async function getCelebVirtualMonologue(celebId: string, locale: string = 'ko'): Promise<{ text: string; locale: 'ko' | 'en' } | null> {
-  const row = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-virtual-monologue', celebId], () =>
+/** 화면 언어의 가상독백과 기본 소개. 해당 언어의 글이 없으면 다른 언어로 읽는다. locale은 본문의 실제 언어다. */
+export async function getCelebVirtualMonologue(celebId: string, locale: string = 'ko', profileLocale: string = locale): Promise<{ text: string; locale: 'ko' | 'en'; profile: MonologueProfile } | null> {
+  const row = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-virtual-monologue-v2', celebId], () =>
     fetchMonologue(celebId),
   )
   const en = row?.virtual_monologue_en?.trim()
   const ko = row?.virtual_monologue?.trim()
-  if (locale === 'en' && en) return { text: en, locale: 'en' }
-  return ko ? { text: ko, locale: 'ko' } : null
+  if (!row || (!ko && !en)) return null
+  const profile = {
+    bio: ((profileLocale === 'en' && row.bio_en?.trim()) || row.bio?.trim() || row.bio_en?.trim()) || null,
+    headline: ((profileLocale === 'en' && row.headline_en?.trim()) || row.headline?.trim() || row.headline_en?.trim()) || null,
+    birthDate: row.birth_date,
+    deathDate: row.death_date,
+  }
+  if ((locale === 'en' && en) || !ko) return { text: en!, locale: 'en', profile }
+  return { text: ko, locale: 'ko', profile }
 }
