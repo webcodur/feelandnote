@@ -7,7 +7,7 @@ Oracle VM에서 PostgreSQL·Auth·PostgREST를 직접 운영한다. 앱은 `pack
 - 공개 주소는 `https://db.feelandnote.com`이다. Cloudflare Tunnel이 Nginx `127.0.0.1:8000`으로 연결하고 `/auth/v1/`·`/rest/v1/`를 Auth·PostgREST로 보낸다. PostgreSQL 포트는 외부에 열지 않는다.
 - DB VM은 `ubuntu@152.67.198.197`(`feelandnote-db-a1`, A1.Flex 2 OCPU·12 GB, aarch64)이다. SSH 키는 로컬 `C:\Users\webco\.ssh\feelandnote_oracle`, 배포 루트는 `/opt/feelandnote/database`다. 이 경로의 `compose.yaml`이 `feelandnote-db`·`feelandnote-auth`·`feelandnote-rest`·`feelandnote-gateway` 네 컨테이너를 관리한다. 설치 원본은 `scripts/oracle-db/native-compose.yaml`이다.
 - PostgreSQL은 공식 17.11 이미지에 pg_net·safeupdate를 추가한 자체 이미지다(`scripts/oracle-db/Dockerfile.postgres`). 데이터는 `data/`, 인증 소스는 `auth/`에 둔다. 메모리 설정은 compose가 쥐며, PostgREST 풀은 부팅 훅 `feelandnote-db-pool.service`가 코어 수에 맞춘다(원본 `db-pool-by-cores`). 도커 로그는 50 MB×3으로 회전한다.
-- SQL은 SSH를 거쳐 `docker exec -i feelandnote-db psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres`로 실행한다. 한글 SQL은 파일로 전송한다. 기존 DB 역할·함수·RLS는 유지하며 관리 역할 접두어는 `db_`다.
+- SQL은 SSH를 거쳐 `docker exec -i feelandnote-db psql -X -v ON_ERROR_STOP=1 -U postgres -d postgres`로 실행한다. 한글 SQL은 파일로 전송한다. 인물 도서 등록의 접속 대상과 실행 가드는 `sw/web-bo/scripts/figure-books/source-book-batch.ts`가 쥔다. 실행 전 서버의 실제 컨테이너 이름과 대조한다. 기존 DB 역할·함수·RLS는 유지하며 관리 역할 접두어는 `db_`다.
 - 비밀 파일은 `secrets/`에만 둔다. `auth.json`은 DB 연결·서명키·OAuth·SMTP, `rest.env`는 PostgREST 연결·JWT, `gateway.json`은 공개·서버 API 키, `services.json`은 외부 발행 계정·캐시 비밀을 쥐다. 권한은 디렉터리 0700·파일 0600이며, `auth.json`만 UID 1000, `web-revalidate`만 UID 999가 읽는다. 키 배치·회전은 `platform-04-env-vars.md`를 따른다.
 - API 키와 인증 서명키·기존 세션은 유지한다. 서버 인증은 `getClaims()`의 ECC JWT 검증, 관리자 권한은 `is_admin` RPC·계정 조회로 확인한다. Google·Kakao provider callback은 `https://db.feelandnote.com/auth/v1/callback`이다.
 - `feelandnote-db-backup.timer`가 `/usr/local/sbin/feelandnote-db-backup`을 매일 실행한다. `snapshot.py`가 하나의 트랜잭션 스냅샷에서 pg_dump·테이블별 행수를 만들고 역할·비밀·Auth 소스·compose를 포함한다. age 암호화 후 R2 `feelandnote-backups/postgres/daily/`에 올리고 재다운로드 SHA256을 대조한다. 서버의 최근 암호문은 `/var/lib/feelandnote/db-last-backup.age`, 복구용 비밀키는 로컬 `C:\Users\webco\.feelandnote\oracle-db-backup-age.key`이다. 서버에는 공개 recipient만 둔다.
@@ -141,6 +141,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - **캐시 정책(26.08.25 전수 확인)**: 9,609개 전 오브젝트가 `Cache-Control: public, max-age=31536000, immutable`이다. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). 해시·timestamp가 들어간 새 키를 쓰는 로고와 회원 아바타도 같은 원칙이다. **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다.
 - **호스트 전환(26.08.25)**: DB 원본 4개 테이블을 custom domain으로 바꿨고 public 텍스트 필드 306개의 옛 호스트 참조가 0건임을 확인했다. 클라이언트 음성 URL과 SEO 이미지 허용 호스트도 custom domain으로 배포했고, SEO 이미지 캐시를 경로 단위로 비운 뒤 실제 이미지의 `MISS → HIT`를 확인했다.
 - **DB 백업 버킷**: `feelandnote-backups`. 외부 공개 경로와 CORS가 없고 `postgres/`은 30일 뒤 만료된다. `postgres/daily/`에는 위 self-hosted 백업 서비스가 만든 age 암호문만 둔다.
+- 같은 비공개 버킷의 `research/celebs/`는 인물 조사 자료의 서버 정본이다. 경로와 처리 규칙은 [`data/celeb/README.md`](../../../data/celeb/README.md#서버-조사-자료)가 쥐며 `postgres/` 백업·만료 범위와 분리한다.
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 

@@ -1,11 +1,16 @@
 // opencode CLI로 muse-spark를 호출하는 헬퍼.
 // 빈 출력 재시도와 리드 문장 제거를 포함한다. 규약을 다시 짜지 말고 이걸 쓴다.
-import { spawn } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import { mkdtempSync, existsSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-const EXE = 'C:/Program Files/nodejs/node_modules/opencode-ai/bin/opencode.exe'
+const EXE = process.env.OPENCODE_BIN ?? (process.platform === 'win32'
+  ? 'C:/Program Files/nodejs/node_modules/opencode-ai/bin/opencode.exe'
+  : (() => {
+    try { return execFileSync('which', ['opencode'], { encoding: 'utf8' }).trim() }
+    catch { return '' }
+  })())
 export const MUSE_FREE = 'opencode/muse-spark-1.3-contributor-free'
 export const MUSE_GO = 'opencode-go/muse-spark-1.3-contributor'
 

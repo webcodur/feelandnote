@@ -9,10 +9,10 @@
 
 'use server'
 
-import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import type { CelebRelationGroup } from '@feelandnote/shared/constants/celeb-relations'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import {
   groupNeighbors,
@@ -141,17 +141,16 @@ async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood 
   }
 }
 
-/* 인물 한 명분이라 캐시 키에 id가 들어간다. 관계는 운영자가 넣을 때만 바뀌므로
-   긴 수명을 두고, 무효화는 CELEBS 태그가 아니라 만료에 맡긴다 —
-   태그를 붙이면 프로필 한 건을 고칠 때 모든 인물의 관계망이 함께 비워진다 */
-const getNeighborhoodCached = unstable_cache(fetchNeighborhood, ['celeb-relation-neighborhood'], {
-  revalidate: STATIC_REVALIDATE,
-})
-
 /** 인물 한 명을 둘러싼 관계망. 없는 인물이면 null */
 export async function getRelationNeighborhood(
   celebId: string
 ): Promise<RelationNeighborhood | null> {
   if (!celebId) return null
-  return await getNeighborhoodCached(celebId)
+  // 관계를 고치면 양쪽 인물의 항목 태그를 비워 해당 관계망만 다시 읽는다.
+  return await cachedDetail(
+    CACHE_TAGS.CELEBS,
+    celebId,
+    ['celeb-relation-neighborhood', celebId],
+    () => fetchNeighborhood(celebId),
+  )
 }

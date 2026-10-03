@@ -60,7 +60,10 @@ export interface OpenLibraryBookMetadata {
 }
 
 /** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */
-export async function getOpenLibraryBookMetadata(rawIsbn: string): Promise<OpenLibraryBookMetadata | null> {
+export async function getOpenLibraryBookMetadata(
+  rawIsbn: string,
+  options: { allowMissingPublisher?: boolean } = {},
+): Promise<OpenLibraryBookMetadata | null> {
   const isbn = toIsbn13(rawIsbn)
   if (!isbn) return null
   const result = await fetchJson<OpenLibraryEdition>(`${OPENLIBRARY_BASE_URL}/isbn/${isbn}`)
@@ -75,7 +78,10 @@ export async function getOpenLibraryBookMetadata(rawIsbn: string): Promise<OpenL
   const subtitle = edition.subtitle?.trim() ?? ''
   const title = subtitle && !mainTitle.toLowerCase().includes(subtitle.toLowerCase()) ? `${mainTitle}: ${subtitle}` : mainTitle
   const publisher = (edition.publishers ?? []).map(value => value.trim()).filter(Boolean).join(', ')
-  if (!mainTitle || !publisher) throw new Error(`${isbn}: OpenLibrary 판본의 제목 또는 출판사가 없습니다`)
+  // 출판사 누락을 NULL로 보존하는 등록 경로만 이 예외를 명시한다.
+  if (!mainTitle || (!publisher && !options.allowMissingPublisher)) {
+    throw new Error(`${isbn}: OpenLibrary 판본의 제목 또는 출판사가 없습니다`)
+  }
   const workKey = edition.works?.find(item => /^\/works\/OL\d+W$/.test(item.key))?.key ?? null
   const work = workKey ? await fetchJson<OpenLibraryWork>(`${OPENLIBRARY_BASE_URL}${workKey}`) : null
   const workAuthors = (work?.data.authors ?? []).flatMap(item => item.author?.key ? [item.author.key] : [])

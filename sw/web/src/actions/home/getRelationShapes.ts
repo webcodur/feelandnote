@@ -6,16 +6,15 @@
         갈래·맞수·무리는 더 이상 화면에 판으로 서지 않는다. 고정된 판만 보여 주면
         방문자는 고른 것을 볼 뿐 관계망을 뒤질 수 없다. 대신 그 계산으로
         「여기서부터 보세요」할 만한 인물을 뽑아 탐색기의 시작점으로 넘긴다.
-        원장은 인물 한 명의 수정과 무관한 공유 자료라 목록 태그를 달지 않는다 —
-        태그를 붙이면 프로필 한 건을 고칠 때마다 관계망 전체를 다시 계산한다.
+        원장은 공개 인물과 관계를 함께 읽는 목록이라 CELEBS 목록 태그로 갱신한다.
 */
 
 'use server'
 
-import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedList, STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { parseCelebDate } from '@/lib/celeb/lifespan'
 import {
@@ -108,19 +107,15 @@ async function fetchShapeCelebs(): Promise<CelebRow[]> {
   )
 }
 
-const getShapeRelationsCached = unstable_cache(fetchShapeRelations, ['celeb-shape-relations'], {
-  revalidate: STATIC_REVALIDATE,
-})
-
-const getShapeCelebsCached = unstable_cache(fetchShapeCelebs, ['celeb-index-for-shapes'], {
-  revalidate: STATIC_REVALIDATE,
-})
-
 /** 관계망이 이루는 네 모양. 한 모양이 비어도 나머지는 그대로 온다 */
 export async function getRelationShapes(): Promise<RelationShapes> {
   const [relations, celebs, ranking] = await Promise.all([
-    getShapeRelationsCached(),
-    getShapeCelebsCached(),
+    cachedList(CACHE_TAGS.CELEBS, ['celeb-shape-relations-tagged'], fetchShapeRelations, {
+      revalidate: STATIC_REVALIDATE,
+    }),
+    cachedList(CACHE_TAGS.CELEBS, ['celeb-index-for-shapes-tagged'], fetchShapeCelebs, {
+      revalidate: STATIC_REVALIDATE,
+    }),
     getInfluenceRanking(),
   ])
 

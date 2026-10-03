@@ -9,6 +9,23 @@ const metadataEdition = {
   authors: [{ key: '/authors/OL1A' }], works: [{ key: '/works/OL1W' }],
 }
 
+test('출판사 누락은 기본 경로에서 거부하고 명시한 등록 경로에서만 빈 값으로 보존한다', async (t) => {
+  const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+    if (String(url).includes('/isbn/')) return Response.json({ ...metadataEdition, publishers: [], covers: [123] })
+    if (String(url).includes('/works/')) return Response.json({ authors: [{ author: { key: '/authors/OL1A' } }] })
+    if (String(url).includes('covers.openlibrary.org')) return new Response('', { headers: { 'content-type': 'image/jpeg' } })
+    return Response.json({ name: 'Jimmy Soni' })
+  })
+  await assert.rejects(getOpenLibraryBookMetadata('9781501197260'), /출판사가 없습니다/)
+  assert.equal(mock.mock.callCount(), 1)
+  const book = await getOpenLibraryBookMetadata('9781501197260', { allowMissingPublisher: true })
+  assert.equal(book?.publisher, '')
+  assert.equal(book?.creator, 'Jimmy Soni')
+  assert.equal(book?.coverImageUrl, 'https://covers.openlibrary.org/b/id/123-L.jpg')
+  assert.deepEqual(book?.languages, ['/languages/eng'])
+  await assert.rejects(getOpenLibraryBookMetadata('9781501197260'), /출판사가 없습니다/)
+})
+
 test('영어권 ISBN도 판본 언어가 없거나 영어가 아니면 영문 메타로 등록하지 않는다', async (t) => {
   for (const languages of [[], [{ key: '/languages/spa' }]]) {
     const mock = t.mock.method(globalThis, 'fetch', async () => Response.json({ ...metadataEdition, languages }))

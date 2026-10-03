@@ -157,6 +157,8 @@ pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-b
 
 책 정보와 표시용 제목 행은 등록 문서의 「한국어판 확인」·「영문판과 표지」를 따른다. 상품은 판본이 확정된 뒤 `coupang-book-affiliate` 절차로 연결한다.
 
+한국어판을 확인하지 못했어도 검증된 영문 원서는 등록할 수 있다. `figure-books:book` 명세의 `ko.translationStatus='unverified'`에 한국어 저자 표기와 조사 URL을 넣고, `en.isbn`에는 확인된 원서 ISBN을 쓴다. 한국어 카드는 원제만 표시하고 판본 값은 비운다. 검색 결과 0건을 `verified_unavailable`로 승격하지 않는다. OpenLibrary가 같은 영문 판본의 제목·저자·ISBN·표지를 확인했으나 출판사를 제공하지 않으면 출판사는 `NULL`로 두고 해당 필드의 출처도 만들지 않는다.
+
 대량 등록은 `figure-books:book`을 반복하지 않는다. 그 도구는 호출마다 카탈로그 전량을 다시 읽는다. 후보 검수표에서 작품·언어 카드·판본을 한 번에 넣는 경로는 `sw/web-bo/scripts/figure-books/bulk-register-books.mjs`이며, 위키데이터 추출본이 있으면 ISBN뿐 아니라 원제·저자·범위를 대조해 저작 QID를 확인한다. 트리거가 만든 판본도 본문 범위를 검수하며, 표시용 제목 행을 실제 판본으로 취급하지 않는다.
 
 작품별 인물 관계는 다음 명령으로 dry-run한다.

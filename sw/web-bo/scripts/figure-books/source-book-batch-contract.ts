@@ -46,7 +46,7 @@ export type FigureBookManifest = {
         isbn: string
       }
     | {
-        translationStatus: 'verified_unavailable'
+        translationStatus: 'verified_unavailable' | 'unverified'
         creator: string
         evidenceUrls: string[]
       }
@@ -61,7 +61,7 @@ export type ExternalBookEdition = {
   title: string
   creator: string
   thumbnailUrl: string
-  publisher: string
+  publisher: string | null
   description: string | null
   sourceUrl: string
   descriptionSourceUrl: string | null
@@ -313,12 +313,12 @@ export function parseFigureBookManifest(input: unknown): FigureBookManifest {
       translationStatus,
       isbn: isbn13(koRaw.isbn, 'ko.isbn'),
     }
-  } else if (translationStatus === 'verified_unavailable') {
+  } else if (translationStatus === 'verified_unavailable' || translationStatus === 'unverified') {
     rejectUnknownKeys(koRaw, KO_UNAVAILABLE_KEYS, 'ko')
     const evidenceUrls = textArray(koRaw.evidenceUrls, 'ko.evidenceUrls')
       .map((url, index) => httpsUrl(url, `ko.evidenceUrls[${index}]`))
     if (evidenceUrls.length === 0) {
-      throw new Error('ko.evidenceUrls must identify the check behind verified_unavailable')
+      throw new Error('ko.evidenceUrls must identify the Korean edition check')
     }
     ko = {
       translationStatus,
@@ -326,7 +326,7 @@ export function parseFigureBookManifest(input: unknown): FigureBookManifest {
       evidenceUrls,
     }
   } else {
-    throw new Error('ko.translationStatus must be published or verified_unavailable')
+    throw new Error('ko.translationStatus must be published, verified_unavailable, or unverified')
   }
 
   let en: FigureBookManifest['en']
@@ -337,8 +337,8 @@ export function parseFigureBookManifest(input: unknown): FigureBookManifest {
       isbn: isbn13(enRaw.isbn, 'en.isbn'),
     }
   }
-  if (ko.translationStatus === 'verified_unavailable' && !en) {
-    throw new Error('en is required when the Korean translation is verified unavailable')
+  if (ko.translationStatus !== 'published' && !en) {
+    throw new Error('en is required when no Korean edition is confirmed')
   }
 
   return {
@@ -359,8 +359,11 @@ function assertEdition(value: ExternalBookEdition | undefined, source: BookMetad
   if (!value) throw new Error(`${field} metadata was not resolved`)
   if (value.source !== source) throw new Error(`${field} metadata source must be ${source}`)
   if (value.isbn !== isbn) throw new Error(`${field} metadata ISBN does not match the selected edition`)
-  for (const key of ['title', 'creator', 'thumbnailUrl', 'publisher', 'sourceUrl'] as const) {
+  for (const key of ['title', 'creator', 'thumbnailUrl', 'sourceUrl'] as const) {
     if (!value[key]?.trim()) throw new Error(`${field}.${key} is missing for the selected edition`)
+  }
+  if (value.publisher === null ? source !== 'openlibrary' : !value.publisher.trim()) {
+    throw new Error(`${field}.publisher is missing for the selected edition`)
   }
   return value
 }
@@ -371,7 +374,7 @@ function localeSources(edition: ExternalBookEdition): Record<string, unknown> {
     title: edition.sourceUrl,
     creator: edition.sourceUrl,
     isbn: edition.sourceUrl,
-    publisher: edition.sourceUrl,
+    ...(edition.publisher ? { publisher: edition.sourceUrl } : {}),
     thumbnail: edition.sourceUrl,
     ...(isBookIntroductionSource(edition.description) && edition.descriptionSourceUrl
       ? { description: edition.descriptionSourceUrl }
@@ -432,7 +435,7 @@ export function buildResolvedSourceBookRegistration(
         primary: 'none',
         title: 'original',
         creator: 'verified_korean_transliteration',
-        translation: 'verified_unavailable',
+        translation: manifest.ko.translationStatus,
         translationEvidence: manifest.ko.evidenceUrls,
       },
       verified: false,
@@ -455,7 +458,7 @@ export function buildResolvedSourceBookRegistration(
     })
   }
 
-  if (manifest.ko.translationStatus === 'verified_unavailable') {
+  if (manifest.ko.translationStatus !== 'published') {
     const ko = locales.find((row) => row.locale === 'ko')!
     const en = locales.find((row) => row.locale === 'en')!
     if (ko.title !== en.title || ko.thumbnail_url !== null || ko.isbn !== null || ko.publisher !== null) {
@@ -475,8 +478,13 @@ export function buildResolvedSourceBookRegistration(
         workIdentity: manifest.work.identity,
         workTitle: manifest.work.title,
         workCreator: manifest.work.creator,
+        ...(/^wikidata:q\d+$/u.test(manifest.work.identity)
+          ? { wikidataQid: manifest.work.identity.slice('wikidata:'.length).toUpperCase() }
+          : /^book[/:]97[89]\d{10}$/u.test(manifest.work.identity)
+            ? {}
+            : { originalTitle: manifest.work.title, originalCreator: manifest.work.creator }),
         koTranslationStatus: manifest.ko.translationStatus,
-        ...(manifest.ko.translationStatus === 'verified_unavailable'
+        ...(manifest.ko.translationStatus !== 'published'
           ? { translationEvidenceUrls: manifest.ko.evidenceUrls }
           : {}),
       },
@@ -577,6 +585,16 @@ function mergeLocale(
   const conflicts: string[] = []
   const row = materialLocale(existing)
   const beforeMaterial = materialLocale(existing)
+  const storedSources = row.sources
+  const storedSourcesAreObject = storedSources !== null
+    && typeof storedSources === 'object'
+    && !Array.isArray(storedSources)
+  const sourceRecord = storedSourcesAreObject ? storedSources as Record<string, unknown> : null
+  const replacesDisplayTitle = explicitReuse
+    && sourceRecord?.primary === 'none'
+    && ['translated', 'romanized', 'original'].includes(String(sourceRecord.title))
+    && existing.isbn === null && existing.publisher === null && existing.thumbnail_url === null
+    && desired.isbn !== null && desired.sources.primary !== 'none'
   const identityFields = ['title', 'creator', 'isbn', 'publisher', 'thumbnail_url'] as const
   for (const field of identityFields) {
     const before = field === 'isbn'
@@ -585,7 +603,7 @@ function mergeLocale(
     const after = field === 'isbn'
       ? toIsbn13(desired[field] ?? '') ?? ''
       : comparableText(desired[field])
-    if (!before) row[field] = desired[field]
+    if (!before || replacesDisplayTitle) row[field] = desired[field]
     else if (before !== after) conflicts.push(`${existing.locale}.${field} belongs to a different edition`)
   }
 
@@ -616,17 +634,18 @@ function mergeLocale(
     row.affiliate_url = storedAffiliate
     conflicts.push(`${existing.locale}.affiliate_url is legacy non-link-array JSON; set reuseContentId before replacing it`)
   }
-  row.verified = true
+  row.verified = desired.verified
 
-  const storedSources = row.sources
-  const storedSourcesAreObject = storedSources !== null
-    && typeof storedSources === 'object'
-    && !Array.isArray(storedSources)
   if (storedSourcesAreObject) {
+    const beforeSources = replacesDisplayTitle
+      ? Object.fromEntries(Object.entries(storedSources).filter(([key]) => ![
+          'primary', 'title', 'creator', 'translation', 'translationEvidence',
+        ].includes(key)))
+      : storedSources as Record<string, unknown>
     row.sources = mergeObject(
       existing.description === null
-        ? Object.fromEntries(Object.entries(storedSources).filter(([key]) => key !== 'description'))
-        : storedSources as Record<string, unknown>,
+        ? Object.fromEntries(Object.entries(beforeSources).filter(([key]) => key !== 'description'))
+        : beforeSources,
       existing.description !== null
         && (existing.description !== desired.description || Boolean((storedSources as Record<string, unknown>).description))
         ? Object.fromEntries(Object.entries(desired.sources).filter(([key]) => key !== 'description'))

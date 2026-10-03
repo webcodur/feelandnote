@@ -270,17 +270,17 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
 }
 
 async function resolveOpenLibraryEdition(isbn: string): Promise<ExternalBookEdition> {
-  const book = await getOpenLibraryBookMetadata(isbn)
+  const book = await getOpenLibraryBookMetadata(isbn, { allowMissingPublisher: true })
   if (!book) throw new Error(`OpenLibrary returned no verified English edition for ISBN ${isbn}`)
   if (!book.coverImageUrl) throw new Error(`OpenLibrary edition ${isbn} has no verifiable cover`)
   const introduction = await fetchBookIntroduction({ isbn, locale: 'en' })
   return {
     source: 'openlibrary', isbn: book.isbn, title: book.title, creator: book.creator,
-    thumbnailUrl: book.coverImageUrl, publisher: book.publisher,
+    thumbnailUrl: book.coverImageUrl, publisher: book.publisher || null,
     description: introduction?.source ?? null, sourceUrl: book.sourceUrl,
     descriptionSourceUrl: introduction?.sourceUrl ?? null,
     releaseDate: /^\d{4}-\d{2}-\d{2}$/.test(book.publishDate ?? '') ? book.publishDate : null,
-    sourceMetadata: { isbn: book.isbn, publisher: book.publisher, publishDate: book.publishDate, link: book.sourceUrl, workKey: book.workKey, languages: book.languages, physical_format: book.physicalFormat ?? null },
+    sourceMetadata: { isbn: book.isbn, publisher: book.publisher || null, publishDate: book.publishDate, link: book.sourceUrl, workKey: book.workKey, languages: book.languages, physical_format: book.physicalFormat ?? null },
   }
 }
 
