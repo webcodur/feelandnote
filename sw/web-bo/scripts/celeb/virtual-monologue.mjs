@@ -1982,7 +1982,25 @@ async function main() {
   } else printHelp()
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error))
-  process.exitCode = 1
-})
+// 재생성도 같은 작가·표기·인물 판정·번역 규약을 재사용한다.
+// 이 함수들은 DB를 쓰지 않으므로 기존 원고를 유지한 채 새 원고를 검수할 수 있다.
+export {
+  buildWriterPrompt,
+  lightOne,
+  lightCheck,
+  sanitizeLight,
+  buildIdentityPrompt,
+  parseIdentityReply,
+  buildTranslatePrompt,
+  parseTranslateReply,
+  translationIssues,
+  agyQuotaExhausted,
+  agyAlive,
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error))
+    process.exitCode = 1
+  })
+}

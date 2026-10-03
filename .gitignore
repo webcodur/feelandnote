@@ -141,6 +141,9 @@ _backup/
 /sw/web-bo/*.ru-orig.vtt
 /sw/web-bo/scripts/_debug-*
 
+# macOS 음성 검수용 Windows 기본 경로 호환 심볼릭 링크 (모델은 저장소 밖에 둔다)
+/sw/web-bo/D:\\audios\\interview-cleaner\\models\\whisper
+
 # DB CLI가 현재 연결 상태를 기록하는 로컬 캐시
 **/database/.temp/
 
