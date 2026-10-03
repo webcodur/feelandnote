@@ -35,7 +35,7 @@ import {
 } from './source-book-batch-contract'
 
 const EXPECTED_DB_SSH_HOST = 'ubuntu@152.67.198.197'
-const EXPECTED_DB_CONTAINER = 'supabase-db'
+const EXPECTED_DB_CONTAINER = 'feelandnote-db'
 const EXPECTED_DB_API_HOSTNAME = 'db.feelandnote.com'
 const PAGE_SIZE = 1000
 const OPENLIBRARY_BASE_URL = 'https://openlibrary.org'
@@ -334,9 +334,9 @@ async function resolveOpenLibraryEdition(isbn: string): Promise<ExternalBookEdit
   const workAuthorKeys = work?.authors?.map((author) => author.author?.key).filter((key): key is string => Boolean(key)) ?? []
   const authors = await authorNames(editionAuthorKeys.length > 0 ? editionAuthorKeys : workAuthorKeys)
   const title = edition.title?.trim() ?? ''
-  const publisher = edition.publishers?.map((value) => value.trim()).find(Boolean) ?? ''
-  if (!edition.key || !title || authors.length === 0 || !publisher) {
-    throw new Error(`OpenLibrary edition ${isbn} is missing edition key, title, author, or publisher`)
+  const publisher = edition.publishers?.map((value) => value.trim()).find(Boolean) ?? null
+  if (!edition.key || !title || authors.length === 0) {
+    throw new Error(`OpenLibrary edition ${isbn} is missing edition key, title, or author`)
   }
   // 언어가 비어 있으면 ISBN 국가군으로 본다. 978-0·978-1·979-8만 영어권이다(일본 978-4, 프랑스 978-2, 독일 978-3 판본이 영문판으로 들어온 적이 있다).
   const editionLanguages = edition.languages?.map((language) => language?.key).filter((key): key is string => Boolean(key)) ?? []

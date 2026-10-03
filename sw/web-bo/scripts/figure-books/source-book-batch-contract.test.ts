@@ -287,6 +287,89 @@ test('번역본 없음은 한국어 표시용 제목과 실제 영문판만 등�
   assert.deepEqual(payload.editionWrites.map((row: { locale: string }) => row.locale), ['en'])
 })
 
+test('한국어판 미확인은 부재 판정 없이 원서·영문 판본만 등록한다', () => {
+  const raw = publishedInput() as Record<string, unknown>
+  const input = {
+    ...raw,
+    ko: {
+      translationStatus: 'unverified',
+      creator: '호메로스',
+      evidenceUrls: ['https://search.daum.net/search?q=odyssey'],
+    },
+  }
+  assert.throws(() => parseFigureBookManifest({ ...input, en: undefined }), /en is required/)
+  assert.throws(() => parseFigureBookManifest({ ...input, ko: { ...input.ko, evidenceUrls: [] } }), /evidenceUrls/)
+  const manifest = parseFigureBookManifest(input)
+  const registration = buildResolvedSourceBookRegistration(manifest, { en: edition('openlibrary', EN_ISBN) })
+  const ko = registration.locales.find((row) => row.locale === 'ko')!
+  assert.equal(ko.sources.translation, 'unverified')
+  assert.equal(ko.isbn, null)
+  assert.equal(ko.verified, false)
+  assert.equal((registration.metadata.figureBook as Record<string, unknown>).koTranslationStatus, 'unverified')
+  const plan = buildFigureBookPlan(manifest, registration, { contents: [], locales: [] })
+  assert.deepEqual(plan.duplicateMatchers.isbns, [EN_ISBN])
+  const sql = buildAtomicSourceBookApplySql(plan)
+  const payload = JSON.parse(Buffer.from(sql.match(/decode\('([^']+)', 'base64'\)/)![1], 'base64').toString('utf8'))
+  assert.deepEqual(payload.editionWrites.map((row: { locale: string }) => row.locale), ['en'])
+  const rerun = buildFigureBookPlan(manifest, registration, {
+    contents: [{ ...plan.contentInsert!, created_at: '2026-10-03T00:00:00Z' }],
+    locales: plan.localeChanges.map((change) => ({
+      ...change.after, created_at: '2026-10-03T00:00:00Z', updated_at: '2026-10-03T00:00:00Z',
+    })) as StoredContentLocaleRow[],
+  })
+  assert.equal(rerun.action, 'reuse')
+  assert.deepEqual(rerun.conflicts, [])
+  assert.equal(rerun.localeChanges.find((row) => row.locale === 'ko')!.after.verified, false)
+})
+
+test('OpenLibrary 출판사 미제공은 NULL로 보존하고 출처를 꾸미지 않는다', () => {
+  const manifest = parseFigureBookManifest(publishedInput())
+  const registration = buildResolvedSourceBookRegistration(manifest, {
+    ko: edition('kakao_book', KO_ISBN),
+    en: edition('openlibrary', EN_ISBN, { publisher: null }),
+  })
+  const en = registration.locales.find((row) => row.locale === 'en')!
+  assert.equal(en.publisher, null)
+  assert.equal(Object.hasOwn(en.sources, 'publisher'), false)
+  assert.equal(en.isbn, EN_ISBN)
+  assert.equal(en.verified, true)
+  assert.throws(() => buildResolvedSourceBookRegistration(manifest, {
+    ko: edition('kakao_book', KO_ISBN, { publisher: null }),
+    en: edition('openlibrary', EN_ISBN),
+  }), /ko.publisher/)
+  assert.throws(() => buildResolvedSourceBookRegistration(manifest, {
+    ko: edition('kakao_book', KO_ISBN),
+    en: edition('openlibrary', EN_ISBN, { publisher: '' }),
+  }), /en.publisher/)
+})
+
+test('명시한 작품의 표시용 행은 실제 판본으로 승격하고 기존 소개·상품을 보존한다', () => {
+  const { manifest, resolved } = resolvedPublished()
+  const display = storedLocale('en', resolved, {
+    title: 'Original display title',
+    creator: 'Display author spelling',
+    isbn: null, publisher: null, thumbnail_url: null, verified: false,
+    description: '기존 번역문',
+    sources: { primary: 'none', title: 'original', description: 'https://example.com/verified-introduction' },
+    affiliate_url: [{ platform: 'amazon', url: 'https://www.amazon.com/dp/existing' }],
+  })
+  const catalog = { contents: [storedContent()], locales: [storedLocale('ko', resolved), display] }
+  const plan = buildFigureBookPlan({ ...manifest, reuseContentId: CONTENT_ID }, resolved, catalog)
+  assert.equal(plan.action, 'reuse')
+  assert.deepEqual(plan.conflicts, [])
+  const en = plan.localeChanges.find((row) => row.locale === 'en')!.after
+  assert.equal(en.title, 'The Odyssey')
+  assert.equal(en.isbn, EN_ISBN)
+  assert.equal(en.description, display.description)
+  assert.deepEqual(en.affiliate_url, display.affiliate_url)
+  assert.equal((en.sources as Record<string, unknown>).primary, 'openlibrary')
+  assert.equal((en.sources as Record<string, unknown>).description, 'https://example.com/verified-introduction')
+  const forged = { ...display, isbn: EN_ISBN }
+  const blocked = buildFigureBookPlan({ ...manifest, reuseContentId: CONTENT_ID }, resolved,
+    { ...catalog, locales: [storedLocale('ko', resolved), forged] })
+  assert.equal(blocked.action, 'conflict')
+})
+
 test('외부 책 소개는 본문 대신 확인한 출처 예약값만 locale·판본에 저장한다', () => {
   const manifest = parseFigureBookManifest(publishedInput())
   const ko = edition('kakao_book', KO_ISBN, {
@@ -564,6 +647,8 @@ test('범위 메타가 없는 기존 비완역 후보는 명시적인 reuseConte
     workIdentity: manifest.work.identity,
     workTitle: manifest.work.title,
     workCreator: manifest.work.creator,
+    originalTitle: manifest.work.title,
+    originalCreator: manifest.work.creator,
     koTranslationStatus: 'published',
   })
   assert.equal(reviewed.expectedAfterMaterial?.content.metadata, reviewed.contentUpdate?.metadata)
@@ -877,5 +962,28 @@ test('terminal 성공 receipt는 덮어쓰지 않고 receipt 기록은 temp+atom
   } finally {
     assert.match(directory, /source-book-receipt-test-/u)
     rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+// 작품 정체성은 다음 원작 일치 검사에서도 다시 식별할 수 있어야 한다.
+test('원작 정체성에 원제·원저자를 남기고 위키데이터 정체성에는 작품 QID를 남긴다', () => {
+  const base = publishedInput() as { work: Record<string, unknown> }
+  for (const identity of ['homer/odyssey', 'wikidata:q35160', `book/${KO_ISBN}`]) {
+    const manifest = parseFigureBookManifest({ ...base, work: { ...base.work, identity } })
+    const registration = buildResolvedSourceBookRegistration(manifest, {
+      ko: edition('kakao_book', KO_ISBN), en: edition('openlibrary', EN_ISBN),
+    })
+    const metadata = registration.metadata.figureBook as Record<string, unknown>
+    if (identity === 'homer/odyssey') {
+      assert.equal(metadata.originalTitle, 'Odyssey')
+      assert.equal(metadata.originalCreator, 'Homer')
+      assert.equal(metadata.wikidataQid, undefined)
+    } else if (identity === 'wikidata:q35160') {
+      assert.equal(metadata.wikidataQid, 'Q35160')
+      assert.equal(metadata.originalTitle, undefined)
+    } else {
+      assert.equal(metadata.originalTitle, undefined)
+      assert.equal(metadata.wikidataQid, undefined)
+    }
   }
 })
