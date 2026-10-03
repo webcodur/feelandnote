@@ -4,7 +4,12 @@ export type ElevenlabsSpeechSettings = Partial<Omit<typeof defaults, 'modelId'>>
 
 /** Shared request contract for previews and production synthesis. */
 export function elevenlabsSpeechBody(text: string, settings: ElevenlabsSpeechSettings = {}, modelId = defaults.modelId) {
-  const values = { ...defaults, ...settings }
+  const values = {
+    stability: settings?.stability ?? defaults.stability,
+    similarity_boost: settings?.similarity_boost ?? defaults.similarity_boost,
+    speed: settings?.speed ?? defaults.speed,
+    style: settings?.style ?? defaults.style,
+  }
   return {
     text,
     model_id: modelId,

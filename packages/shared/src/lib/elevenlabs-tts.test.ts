@@ -7,6 +7,7 @@ test('v4 uses supported settings and nests speed inside voice_settings', () => {
   assert.equal(body.model_id, 'eleven_v4')
   assert.deepEqual(body.voice_settings, { stability: 0, similarity_boost: 0.75, speed: 0.9 })
   assert.equal('speed' in body, false)
+  assert.equal(elevenlabsSpeechBody('Hello', { speed: undefined }).voice_settings.speed, 1)
 })
 
 test('explicit older models preserve style overrides', () => {
