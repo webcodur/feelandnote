@@ -2,6 +2,22 @@
 
 이 디렉터리는 DB 반영 전 검토가 필요한 인물별 원고만 보관한다. 서비스 값의 단일 원천은 DB다.
 
+## 서버 조사 자료
+
+미등록 인물 조사와 등록 인물의 출처·아바타 분류 기록은 비공개 R2 버킷
+`feelandnote-backups`의 `research/celebs/`를 정본으로 쓴다. 공개 자산 버킷에 올리거나
+로컬 `candidate-pool/`을 다시 원장으로 만들지 않는다. S3 API로 내려받은 로컬 사본은 임시 작업본이다.
+
+- `candidates/pending.json`, `rejected.json`, `unresolved.json`: 검증 전 후보·과거 탈락 판단·미확정 신원.
+- `relations/pending.json`: 신원과 관계 확인이 더 필요한 후보. `relations/sources.json`은 확인한 관계의 출처와 잘못 분류한 후보의 제외 근거만 보존한다.
+- `figure-books/sources.json`: 확인한 등장·저술 관계의 본문 위치와 출처. 작품·판본·인물 연결의 서비스 값은 DB가 쥔다.
+- `avatars/provenance.json`: 생성 실루엣·의도적 익명 아바타 분류. 현재 이미지 URL의 정본은 `celebs.avatar_url`이다.
+- `dialogues/{celeb_id}/sources.json`: 대사 조사 출처. 대사 본문은 `celeb_dialogues`만 쓴다.
+
+조사 객체는 `schemaVersion`과 `items` 또는 `sources`를 가진 JSON이다. 후보·옛 탈락 기록은
+서비스 프로필이나 현재 등록 정책이 아니며 현재 DB가 우선한다. 신규 등록은 현행 인물 파이프라인을
+따르고, 검증·반영이 끝난 대상은 서버 조사 잔여 목록에서도 제거한다. `postgres/` 백업과 혼합하지 않는다.
+
 ## 디렉터리
 
 ```text

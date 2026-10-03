@@ -24,6 +24,6 @@
 
 - **세력도감 명단 `faction_member_rows`는 뷰다.** 직접 고치면 권한 오류가 난다. 원천은 `faction_members`(배정)와 `faction_lv3`(그룹)다. `faction_members`에는 문장마다 세력도감 캐시를 다시 쌓는 트리거가 있어, 여러 건을 한 건씩 고치면 재구축이 건수만큼 돌아 statement timeout이 난다. 여러 건은 한 문장으로 묶는다.
 
-접속은 원격의 `supabase-db` 컨테이너다. 시스템 `postgres` 사용자가 없으므로 `docker exec -i supabase-db psql`로 들어간다. **PowerShell 파이프는 한글을 깨뜨리므로** SQL을 파일로 만들어 `scp`한 뒤 파일에서 읽힌다.
+운영 DB 접속은 [외부 서비스](../platform/platform-05-external-services.md)의 Oracle DB 실행 경로를 따른다. **PowerShell 파이프는 한글을 깨뜨리므로** SQL을 파일로 만들어 `scp`한 뒤 파일에서 읽힌다.
 
 도메인 규칙과 작업 절차는 이 폴더에 복제하지 않는다. 인물 데이터의 작성·검수는 [`../celeb/README.md`](../celeb/README.md), 외부 메타 제공자는 [`../platform/platform-05-external-services.md`](../platform/platform-05-external-services.md), 화면 동작은 [`../service/README.md`](../service/README.md)가 각각 쥔다. 실측 건수와 마이그레이션 경위는 현행 문서에 쌓지 않는다.

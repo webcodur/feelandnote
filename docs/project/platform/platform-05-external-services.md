@@ -16,7 +16,7 @@ Oracle 이전은 Supabase Cloud를 떠나 Oracle VM에서 PostgreSQL·Auth·Post
   - 실패 문구: `Out of host capacity`는 리전 용량 부족, `NotAuthorizedOrNotFound`는 정책 범위 밖이거나 OCID 오타다.
 - **VM 이전 절차**(26.09.11 실행, 읽기 유지·전체 끊김 8초): 새 VM에 스택·비밀·유닛을 복사하고 R2 백업으로 리허설 복원 → `scripts/oracle-db/db-cutover`가 옛 VM 쓰기 동결(`authenticator`·`supabase_auth_admin`의 `default_transaction_read_only`) → `dump-db-plain`(옛 VM) → 전송 → `restore-db-fresh`(새 VM, 초기화·복원·행수 검증) → 역할 읽기 전용 해제 → 터널 전환 → 백업 타이머 이관 순으로 실행한다. 실패하면 `db-cutover rollback`. 세 스크립트의 설치 원본은 `scripts/oracle-db/`에 있고 VM에는 `/usr/local/sbin/feelandnote-db-*`로 둔다.
 - **복원 뒤 함수 권한 재확인**: public 스키마의 함수 기본 권한(`pg_default_acl`)은 새로 만든 함수마다 `anon`·`authenticated`·`service_role`에 EXECUTE를 붙인다. dump→restore로 재생성된 함수는 앞선 마이그레이션이 회수한 권한을 되찾는다. 26.09.11 이전 뒤 익명 사용자가 공개 키만으로 운영 캐시 퍼지 `web_revalidate_send`를 호출할 수 있었다(26.09.16 확인). 되돌리는 원본은 `sw/web/database/migrations/20260916120100_restore_function_revokes_after_db_move.sql`이다. RLS 정책이 호출하는 함수(`is_current_account_active`)는 회수하면 익명 공개 조회가 깨지므로 대상에서 뺀다.
-- SQL은 SSH를 거쳐 실제 컨테이너 이름인 `supabase-db`의 PostgreSQL에 실행한다. 헤드라인 일괄 반영 도구도 이 경로를 쓴다.
+- SQL은 SSH를 거쳐 운영 PostgreSQL 컨테이너에 실행한다. 인물 도서 등록의 접속 대상과 실행 가드는 `sw/web-bo/scripts/figure-books/source-book-batch.ts`가 쥔다. 실행 전 서버의 실제 컨테이너 이름과 대조한다.
 - **키**: 브라우저·서버는 각각 `sb_publishable_...`·`sb_secret_...` 형식을 쓴다. JWT 기반 구형 API 키는 비활성화했고 Auth는 ECC 서명키로 회전했으며, 구형 Legacy HS256 키는 폐기했다. 앱 환경변수는 `NEXT_PUBLIC_DB_API_URL`·`NEXT_PUBLIC_DB_PUBLISHABLE_KEY`·`DB_SECRET_KEY`를 쓴다.
 - **서버 인증 확인**: ECC JWT는 `getClaims()`로 검증한다. 관리자 권한은 별도 `is_admin` RPC와 계정 조회로 확인하며, 요청마다 Auth 서버를 왕복하는 `getUser()`를 백오피스 경로에 다시 넣지 않는다.
 - Google·Kakao OAuth의 프로바이더 callback은 `https://db.feelandnote.com/auth/v1/callback`이다. 자체 Auth 설정과 SMTP 값은 서버의 `/opt/feelandnote/supabase/.env`에만 둔다.
@@ -146,6 +146,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - **캐시 정책(26.08.25 전수 확인)**: 9,609개 전 오브젝트가 `Cache-Control: public, max-age=31536000, immutable`이다. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). 해시·timestamp가 들어간 새 키를 쓰는 로고와 회원 아바타도 같은 원칙이다. **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다.
 - **호스트 전환(26.08.25)**: DB 원본 4개 테이블을 custom domain으로 바꿨고 public 텍스트 필드 306개의 옛 호스트 참조가 0건임을 확인했다. 클라이언트 음성 URL과 SEO 이미지 허용 호스트도 custom domain으로 배포했고, SEO 이미지 캐시를 경로 단위로 비운 뒤 실제 이미지의 `MISS → HIT`를 확인했다.
 - **DB 백업 버킷**: `feelandnote-backups`. 외부 공개 경로와 CORS가 없고 `postgres/`은 30일 뒤 만료된다. `postgres/daily/`에는 위 self-hosted 백업 서비스가 만든 age 암호문만 둔다.
+- 같은 비공개 버킷의 `research/celebs/`는 인물 조사 자료의 서버 정본이다. 경로와 처리 규칙은 [`data/celeb/README.md`](../../../data/celeb/README.md#서버-조사-자료)가 쥐며 `postgres/` 백업·만료 범위와 분리한다.
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 
