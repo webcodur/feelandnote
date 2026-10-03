@@ -60,7 +60,8 @@ export function isHumanBrowserUserAgent(ua: string | null): boolean {
 /**
  * 이번 요청을 구획별로 흘려보내도 되는지. **서버 전용**(요청 헤더를 읽는다).
  *
- * 이걸 부르면 그 화면은 동적으로 바뀐다. ISR로 굳혀 두는 화면(인물·작품 상세)에서는 쓰지 않는다.
+ * 요청 렌더를 동적으로 만든다. 인물 상세와 탐색은 이를 사용하며 공개 데이터 캐시는 유지한다.
+ * 완성 HTML의 정적 ISR을 유지하는 작품 상세·명부·연표에서는 호출하지 않는다.
  */
 export async function shouldStreamForRequest(): Promise<boolean> {
   const headerList = await headers()

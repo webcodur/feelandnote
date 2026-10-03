@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "@/i18n/navigation";
 import Header from "./header/Header";
 import BottomNav from "./BottomNav";
 import FloatingMusicPlayer from "./FloatingMusicPlayer";
@@ -12,13 +11,10 @@ import RecentProfilesSection from "@/components/features/profile/RecentProfilesS
   그래서 서버 HTML에 하단 탭이 처음부터 들어가 첫 화면에서 뒤늦게 튀어나오지 않는다.
 
   폭의 주인은 둘뿐이다.
-  - 이 틀(main 첫 자식): 화면 좌우 여백과 최대 폭 1440. 인물 상세가 좌측 목차 레일의 기준벽으로 잰다.
+  - 이 틀(main 첫 자식): 화면 좌우 여백과 최대 폭 1440.
   - PageContainer: 화면 종류별 본문 폭(읽기 720 · 기본 1200 · 넓게 1440).
 */
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isCeleb = pathname.startsWith("/celeb/");
-
   return (
     <>
       {/* 헤더는 Suspense 없이 첫 청크에 싣는다 — 봇이 내비게이션 링크를 바로 보게 */}
@@ -34,7 +30,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <FloatingMusicPlayer />
       <RecentProfilesSection />
       {/* PC 오른쪽의 위아래 스와이프 막대. 본문 옆에 자리가 남는 넓은 화면에서만 선다(SwipeRail.module.css) */}
-      <SwipeRail celeb={isCeleb} />
+      <SwipeRail />
     </>
   );
 }

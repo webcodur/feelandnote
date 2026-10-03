@@ -30,7 +30,7 @@ export default function BattleLogModal({ records, mandate, onClose, locale, text
       animateHeight={false}
       zIndex={Z_INDEX.gameModal}
     >
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/15">
+        <div className="flex shrink-0 items-center justify-between px-5 py-3 border-b border-white/15">
           <div className="flex items-center gap-2">
             <ScrollTextIcon size={16} className="text-white/60" />
             <span className="text-sm font-bold text-white/80">{text.play.recordTitle}</span>
@@ -40,7 +40,7 @@ export default function BattleLogModal({ records, mandate, onClose, locale, text
             <span className="text-lg leading-none">&times;</span>
           </button>
         </div>
-        <div className="max-h-[60vh] overflow-y-auto px-4 py-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
+        <div className="min-h-0 overflow-y-auto px-4 py-3 space-y-1 scrollbar-thin scrollbar-thumb-white/10">
           {reversed.length === 0 && (
             <div className="text-center text-white/40 text-xs py-8">{text.play.noRecord}</div>
           )}

@@ -1,0 +1,143 @@
+/* ─────────────────────────────────────────────
+ * 구획 스크롤 이동·현재 구획 추적 — 공용 (아틀라스 목차 엔진)
+ * - 목차 위치: 공용 (shared/atlasNav과 짝)
+ * - 데이터: sectionIds props, IntersectionObserver
+ * - 함께 보기: components/shared/atlasNav/AtlasNav.tsx, scrollToSection
+ * ───────────────────────────────────────────── */
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { scrollToSection } from "./sectionNavigation";
+
+const NAVIGATION_RELEASE_MS = 1200;
+
+const sectionIdList = (sectionKey: string) =>
+  sectionKey.split("|").filter(Boolean);
+
+/** 주소줄에 구획을 새기고 그 머리로 이동한다. */
+export function navigateToSection(sectionId: string) {
+  window.history.replaceState(null, "", `#${sectionId}`);
+  window.requestAnimationFrame(() => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    scrollToSection(section);
+  });
+}
+
+export function useSectionNavigation(sectionIds: string[]) {
+  const sectionKey = sectionIds.join("|");
+  const [activeSectionId, setActiveSectionId] = useState(sectionIds[0] ?? "");
+  const navTargetRef = useRef<string | null>(null);
+  const navReleaseRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+
+    // IntersectionObserver는 이번에 상태가 바뀐 요소만 주므로 현재 화면에
+    // 걸쳐 있는 구획을 따로 모아 기준선에 가장 가까운 구획을 고른다.
+    const onScreen = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) onScreen.add(entry.target.id);
+          else onScreen.delete(entry.target.id);
+        }
+
+        const anchor = window.innerHeight * 0.24;
+        let nearestId: string | null = null;
+        let nearestGap = Infinity;
+
+        for (const sectionId of onScreen) {
+          const section = document.getElementById(sectionId);
+          if (!section) continue;
+
+          const gap = Math.abs(section.getBoundingClientRect().top - anchor);
+          if (gap < nearestGap) {
+            nearestGap = gap;
+            nearestId = sectionId;
+          }
+        }
+
+        // 목차 이동 중 지나치는 구획이 차례로 활성화되는 현상을 막는다.
+        if (navTargetRef.current) {
+          if (nearestId === navTargetRef.current) navTargetRef.current = null;
+          return;
+        }
+
+        if (!nearestId) return;
+        setActiveSectionId(nearestId);
+      },
+      {
+        rootMargin: "-18% 0px -68% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    /* 구획은 스트리밍(Lane)으로 늦게 뜨거나 자료 없음으로 빠졌다 들어온다 —
+       DOM이 바뀌면 관측 대상을 다시 맞춘다 */
+    let observedKey = "";
+    const attach = () => {
+      const ids = sectionIdList(sectionKey);
+      const sections = ids
+        .map((sectionId) => document.getElementById(sectionId))
+        .filter((section): section is HTMLElement => section !== null);
+      const foundKey = sections.map((section) => section.id).join("|");
+      if (foundKey === observedKey) return;
+      observedKey = foundKey;
+      onScreen.clear();
+      observer.disconnect();
+      sections.forEach((section) => observer.observe(section));
+    };
+
+    attach();
+    const mutations = new MutationObserver(attach);
+    mutations.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      observer.disconnect();
+      mutations.disconnect();
+    };
+  }, [sectionKey]);
+
+  // 페이지 끝에 닿으면 마지막 구획을 켠다. 짧은末 구획은 기준선을 스치지 않아
+  // 관측 콜백이 안 불리므로 스크롤에서 직접 본다. 底 도착은 이동 완료로 쳐서
+  // 가드를 풀어준다 — 안 그러면 가드가 풀린 뒤 관측이 위로 튕겨올린다.
+  useEffect(() => {
+    const onScroll = () => {
+      const ids = sectionIdList(sectionKey);
+      if (ids.length === 0) return;
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 24;
+      if (!atBottom) return;
+      navTargetRef.current = null;
+      window.clearTimeout(navReleaseRef.current);
+      setActiveSectionId(ids[ids.length - 1]);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [sectionKey]);
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(navReleaseRef.current);
+    },
+    [],
+  );
+
+  const navigate = useCallback((sectionId: string) => {
+    navTargetRef.current = sectionId;
+
+    window.clearTimeout(navReleaseRef.current);
+    navReleaseRef.current = window.setTimeout(() => {
+      navTargetRef.current = null;
+    }, NAVIGATION_RELEASE_MS);
+
+    setActiveSectionId(sectionId);
+    navigateToSection(sectionId);
+  }, []);
+
+  return { activeSectionId, navigate };
+}

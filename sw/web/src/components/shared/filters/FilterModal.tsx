@@ -75,7 +75,7 @@ export default function FilterModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title={title} titleClassName="text-center text-text-primary" size="sm" closeOnOverlayClick>
+    <Modal isOpen={isOpen} onClose={handleClose} title={title} titleClassName="text-center text-text-primary" size="sm" stickyHeader closeOnOverlayClick>
       {allOption && <div className="px-3 pt-3">{renderOption(allOption)}</div>}
       {/* 검색 input */}
       {searchable && (
@@ -93,7 +93,7 @@ export default function FilterModal({
         </div>
       )}
 
-      <div className="p-3 space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+      <div className="p-3 space-y-1.5 scrollbar-thin scrollbar-thumb-white/10">
         {listOptions.length === 0 ? (
           <div className="py-4 text-sm text-center">-</div>
         ) : (

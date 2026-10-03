@@ -1,7 +1,7 @@
 // 통합 외부 API 검색 모듈
 
 import { searchBooks as searchKakaoBooks, type KakaoBookSearchResult } from './kakao-books'
-import { searchGoogleBooks, type GoogleBookSearchResult } from './google-books'
+import type { GoogleBookSearchResult } from './google-books'
 import { searchVideo, type VideoSearchResult } from './tmdb'
 import { searchGames, type GameSearchResult } from './igdb'
 import { searchMusic, type MusicSearchResult } from './itunes-music'
@@ -18,18 +18,6 @@ export type ExternalSearchResult =
   | GameSearchResult
   | MusicSearchResult
 
-// 도서 검색 결과 병합 (ISBN 기준 중복 제거)
-function mergeBookResults(
-  primaryItems: UnifiedBookSearchResult[],
-  secondaryItems: UnifiedBookSearchResult[]
-): UnifiedBookSearchResult[] {
-  const isbnSet = new Set(primaryItems.map(item => item.metadata.isbn).filter(Boolean))
-  const uniqueSecondaryItems = secondaryItems.filter(
-    item => item.metadata.isbn && !isbnSet.has(item.metadata.isbn)
-  )
-  return [...primaryItems, ...uniqueSecondaryItems]
-}
-
 // 도서 검색 (카카오 - 사용자용 기본)
 // 네이버 도서 API가 26.07.31 종료되어 카카오가 그 자리를 대신한다.
 // Google Books는 일일 한도 1,000건이라 폴백으로도 쓰지 않는다(docs/project/platform/platform-05-external-services.md).
@@ -40,28 +28,6 @@ async function searchBooksKakaoFirst(query: string, page: number): Promise<Searc
     items: kakaoResult.items,
     total: kakaoResult.total,
     hasMore: kakaoResult.hasMore,
-  }
-}
-
-// 도서 검색 (구글 우선 - 관리자용)
-async function searchBooksGoogleFirst(query: string, page: number): Promise<SearchResponse<ExternalSearchResult>> {
-  const googleResult = await searchGoogleBooks(query, page)
-
-  if (googleResult.items.length >= 10) {
-    return {
-      items: googleResult.items,
-      total: googleResult.total,
-      hasMore: googleResult.hasMore,
-    }
-  }
-
-  const kakaoResult = await searchKakaoBooks(query, page)
-  const mergedItems = mergeBookResults(googleResult.items, kakaoResult.items)
-
-  return {
-    items: mergedItems,
-    total: Math.max(googleResult.total, kakaoResult.total),
-    hasMore: googleResult.hasMore || kakaoResult.hasMore,
   }
 }
 
@@ -95,7 +61,7 @@ const searchFunctions: Record<ContentType, (query: string, page?: number) => Pro
 }
 
 export interface SearchOptions {
-  preferGoogle?: boolean // 도서 검색 시 구글 우선 (관리자용)
+  preferGoogle?: boolean // 이전 호출부 호환. BOOK 메타 검색은 항상 카카오를 사용한다.
 }
 
 // 통합 검색 함수
@@ -103,13 +69,12 @@ export async function searchExternal(
   contentType: ContentType,
   query: string,
   page: number = 1,
-  options: SearchOptions = {}
+  _options: SearchOptions = {}
 ): Promise<SearchResponse<ExternalSearchResult>> {
+  void _options // 이전 Google 옵션을 받아도 BOOK 신규 메타 경로는 바꾸지 않는다.
   // 도서 검색은 옵션에 따라 분기
   if (contentType === 'BOOK') {
-    return options.preferGoogle
-      ? searchBooksGoogleFirst(query, page)
-      : searchBooksKakaoFirst(query, page)
+    return searchBooksKakaoFirst(query, page)
   }
 
   const searchFn = searchFunctions[contentType]

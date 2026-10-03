@@ -11,6 +11,7 @@ import RetryBlock from "@/components/ui/pending/RetryBlock";
 import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import type { AffiliateLink } from "@/constants/affiliatePlatforms";
+import { getContentDetailHref } from "@/lib/books/contentEdition";
 
 export default function AuthoredBookListItem({ book }: { book: FigureBookContent }) {
   const locale = useLocale();
@@ -26,14 +27,14 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
   const title = edition?.title || book.title;
   const thumbnail = edition ? edition.thumbnailUrl : book.thumbnailUrl;
   const creator = edition?.creator || book.creator;
-  // 통합 구매 모듈의 서점 링크 — 판본 상품 주소에 작품의 보유 서점 링크를 잇는다
+  // 판본 상품을 우선하고, 원래 언어 카드와 ISBN이 일치해 연결된 서점 주소만 보탠다.
   const purchaseModuleLinks: AffiliateLink[] = [
     ...(edition?.purchaseUrl && edition.platform
       ? [{ platform: edition.platform, url: edition.purchaseUrl }]
       : []),
-    ...(book.affiliateLinks ?? []),
+    ...(edition ? edition.affiliateLinks ?? [] : book.affiliateLinks ?? []),
   ];
-  const href = `${locale === "en" ? "/en" : ""}/content/${book.id}?category=book`;
+  const href = `${locale === "en" ? "/en" : ""}${getContentDetailHref(book.id, edition?.id)}`;
 
   return (
     <article
@@ -82,6 +83,7 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
       <BookPurchaseSummary
         contentId={book.id}
         editionId={edition?.id}
+        isbn={edition?.isbn ?? undefined}
         title={title}
         creator={creator}
         thumbnail={thumbnail}

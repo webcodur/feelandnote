@@ -31,7 +31,7 @@ function MaybeWorldFrame({ frame, framed, children }: MaybeWorldFrameProps) {
 }
 
 interface HeroPhotoProps {
-  profile: CelebBySlugProfile;
+  profile: Pick<CelebBySlugProfile, 'photo_url' | 'avatar_url' | 'photo_caption' | 'photo_caption_en'>;
   nickname: string;
   locale: Locale;
   frame: WorldFrame;
@@ -113,6 +113,8 @@ export default function HeroPhoto({
           caption={zoomCaption}
           isOpen={zoomOpen}
           onClose={() => setZoomOpen(false)}
+          showImageShadow={false}
+          closeOnImageClick
         />
       ) : null}
     </>

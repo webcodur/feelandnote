@@ -4,7 +4,7 @@
 // 표본은 한 판이 성립하는 만큼만 담는다. 신화마다 대표 사진·관계가 많은 인물부터 고른다.
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
 const OUT = resolve(import.meta.dirname, '../src/components/features/game/myth/shared/fixture.json')
 // 표본에 담을 신화와 신화당 인원 상한. 오디세이아는 항해 게임이 등장인물 전원을 쓴다

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocale } from "next-intl";
 import type { CelebProfession } from "@feelandnote/shared/constants/celeb-professions";
 
 import CelebProfessionMark from "./CelebProfessionMark";
+import Modal, { ModalBody } from "@/components/ui/Modal";
 
 const DESCRIPTIONS: Readonly<Record<string, { ko: string; en: string }>> = {
   leader: { ko: "조직과 공동체가 나아갈 방향을 정하고 이끕니다.", en: "A person who sets direction and leads an organization or community." },
@@ -33,29 +34,11 @@ interface ProfessionInfoButtonProps {
 export default function ProfessionInfoButton({ profession, label }: ProfessionInfoButtonProps) {
   const locale = useLocale() === "en" ? "en" : "ko";
   const [isOpen, setIsOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
+  const close = useCallback(() => setIsOpen(false), []);
   const description = DESCRIPTIONS[profession]?.[locale] ?? label;
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setIsOpen(false);
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpen(false);
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen]);
-
   return (
-    <div ref={rootRef} className="relative inline-flex">
+    <>
       {/* 모바일은 좁은 메타 줄을 위해 아이콘만 두고, 누르면 설명과 이름을 보여준다. */}
       <button
         type="button"
@@ -70,16 +53,11 @@ export default function ProfessionInfoButton({ profession, label }: ProfessionIn
         <span className="hidden text-xs font-medium leading-none md:inline">{label}</span>
       </button>
 
-      {isOpen ? (
-        <div
-          role="dialog"
-          aria-label={label}
-          className="absolute start-0 top-[calc(100%+10px)] z-30 w-64 rounded-xl border border-accent/25 bg-[#11181b]/[.98] p-3 text-start shadow-[0_16px_36px_rgba(0,0,0,.45)] backdrop-blur-md"
-        >
-          <p className="text-sm font-semibold text-accent">{label}</p>
-          <p className="mt-1 text-sm leading-relaxed text-text-secondary">{description}</p>
-        </div>
-      ) : null}
-    </div>
+      <Modal isOpen={isOpen} onClose={close} title={label} size="sm">
+        <ModalBody>
+          <p className="text-start text-sm leading-relaxed text-text-secondary">{description}</p>
+        </ModalBody>
+      </Modal>
+    </>
   );
 }

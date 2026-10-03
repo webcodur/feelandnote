@@ -16,9 +16,7 @@
 
 import { getLocale, getTranslations } from "next-intl/server";
 import { getRelatedFigures } from "@/actions/celebs/getRelatedFigures";
-import type { CelebRelationItem, FactionItem } from "@/actions/user/getCelebBySlug";
-import { mythHref } from "@/components/features/user/explore/myth/mythHref";
-import { Link } from "@/i18n/navigation";
+import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import FigurePersonRows from "@/components/features/celeb/FigurePersonRows";
 import type { PersonNode } from "./relation-graph/types";
 
@@ -32,8 +30,6 @@ interface RelatedFigureLinksProps {
   birthDate: string | null;
   celebReality?: string | null;
   relations: CelebRelationItem[];
-  /** 소속 신화·세력 — 세력 카드는 탭·선택기·서버 액션 뒤에 있어 크롤러가 닿지 못했다(26.09.29). 여기서 실제 링크로 세운다 */
-  factions?: FactionItem[];
 }
 
 export default async function RelatedFigureLinks({
@@ -43,7 +39,6 @@ export default async function RelatedFigureLinks({
   birthDate,
   celebReality,
   relations,
-  factions = [],
 }: RelatedFigureLinksProps) {
   const figures = await getRelatedFigures({
     celebId,
@@ -59,38 +54,16 @@ export default async function RelatedFigureLinks({
     limit: MAX_LINKS,
   });
   const locale = await getLocale();
-  const memberships = factions.filter((faction) => faction.slug && faction.isPublished).map((faction) => ({
-    id: faction.id,
-    href: faction.isMyth ? mythHref(faction.slug) : `/explore/faction/${faction.slug}`,
-    name: locale === "en" ? faction.name_en?.trim() || faction.name : faction.name,
-    headline: (locale === "en" ? faction.headline_en : faction.headline)?.trim() || null,
-  }));
-  if (figures.length === 0 && memberships.length === 0) return null;
+  if (figures.length === 0) return null;
 
   const t = await getTranslations("celebPage");
   const tp = await getTranslations("profession");
-  const tf = await getTranslations("explore.faction");
   // 카드 한 줄에 들어갈 길이. 같은 뜻이라도 영문이 길어 자릿수를 달리 잡는다
   const noteMax = locale === "en" ? 40 : 24;
 
   // 상자 윗변에서 목록을 떼어 시작한다. 아래 여백과 같은 값으로 맞춘다
   return (
     <div className="w-full pt-4 md:pt-6">
-      {memberships.length > 0 && (
-        <nav aria-label={tf("memberOf")} className="mx-auto mb-5 w-full max-w-4xl">
-          <p className="text-xs font-semibold text-text-tertiary">{tf("memberOf")}</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
-            {memberships.map((item) => (
-              <li key={item.id}>
-                <Link href={item.href} title={item.headline ?? undefined}
-                  className="inline-flex min-h-9 items-center rounded-full border border-white/15 px-3.5 text-sm text-text-secondary outline-none hover:border-accent/70 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
       {/* 제목은 본문 구획 머리(relatedFigures 목차 항목)가 맡는다. 여기서 또 달면 겹친다.
           얼굴은 확대, 중앙은 대사 읊기, 우측 단추는 인물 상세 — 조작은 클라이언트 행이 맡고,
           상세로 가는 실링크는 행 안 앵커로 남아 크롤러 경로가 끊기지 않는다 */}

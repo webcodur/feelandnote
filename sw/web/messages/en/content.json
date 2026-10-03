@@ -41,10 +41,9 @@
       "ownerReview": "{name}'s Review",
       "spoiler": "Contains spoilers",
       "noReview": "No review written",
-      "source": "Source",
-      "noSource": "Source URL unavailable",
-      "originalLanguage": "Original Korean text",
-      "detail": "View Details"
+      "source": "Review source",
+      "noSource": "Review source URL unavailable",
+      "originalLanguage": "Original Korean text"
     },
     "intro": {
       "title": "About This Work",
@@ -152,6 +151,7 @@
     "fictionCharactersIntro": "These figures either appear in this book or are directly related to it. Select a name to open the figure archive, or use the image icon to enlarge the image.",
     "fictionCharactersAppearance": "Appearing Figures",
     "fictionCharactersRelated": "Related Figures",
+    "fictionCharactersMore": "{count, plural, one {Show # more figure} other {Show # more figures}}",
     "fictionCharacterImage": "Enlarge image of {name}",
     "imageViewer": {
       "close": "Close image",
@@ -221,7 +221,17 @@
     "developer": "Developer",
     "platform": "Platform",
     "artist": "Artist",
-    "metaLead": "{title} by {creator}."
+    "metaLead": "{title} by {creator}.",
+    "editionSelection": "Choose an edition · {count} available",
+    "chooseEdition": "Choose an edition",
+    "editionKorean": "Korean edition",
+    "editionEnglish": "English edition",
+    "editionWorkRecords": "Reviews and records belong to this work across all editions.",
+    "editionScope": "Included text",
+    "invalidEdition": "This edition address is invalid. Open the default work information below or choose an edition above.",
+    "unavailableEdition": "The selected edition is not available for this work. Choose another edition.",
+    "openWorkInfo": "Open default work information",
+    "editionCompleteText": "Complete text"
   },
   "review": {
     "positive": {

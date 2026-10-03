@@ -7,9 +7,12 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import Modal, { ModalBody } from "@/components/ui/Modal";
 import type { InfluenceField } from "@feelandnote/influence-constants";
+import { INFLUENCE_FIELDS } from "@feelandnote/influence-constants";
 
 import type {
   InfluenceExplorerData,
@@ -35,9 +38,15 @@ const InfluenceRankModal = dynamic(() => import("../InfluenceRankModal"), {
 
 interface Props {
   data: InfluenceExplorerData;
+  onClose: () => void;
+  initialMode?: "ranking" | "leaders";
 }
 
-export default function InfluenceExplorerView({ data }: Props) {
+export default function InfluenceExplorerView({ data, onClose, initialMode = "ranking" }: Props) {
+  const t = useTranslations("profilePage.influence.explorer");
+  const tc = useTranslations("celebPage");
+  const [mode, setMode] = useState<"ranking" | "leaders">(initialMode);
+  const [fieldPickerOpen, setFieldPickerOpen] = useState(false);
   /* ── 1. 상태·인물 미리보기 훅 ── */
   const [activeField, setActiveField] = useState<InfluenceField>(() =>
     getStrongestDomain(data.current),
@@ -50,20 +59,10 @@ export default function InfluenceExplorerView({ data }: Props) {
     openCelebPreview,
     closeCelebPreview,
   } = useCelebPreview("influence");
-  const rankingScrollerRef = useRef<HTMLDivElement>(null);
-  const currentRankRef = useRef<HTMLLIElement>(null);
 
   const activeLeaders = data.leaders[activeField];
 
   /* ── 2. 스크롤·열기·닫기 동작 ── */
-  useEffect(() => {
-    const scroller = rankingScrollerRef.current;
-    const current = currentRankRef.current;
-    if (!scroller || !current) return;
-    scroller.scrollLeft =
-      current.offsetLeft - (scroller.clientWidth - current.offsetWidth) / 2;
-  }, []);
-
   const openPerson = async (
     person: InfluenceExplorerPerson,
     nextSelection: ExplorerSelection,
@@ -88,30 +87,46 @@ export default function InfluenceExplorerView({ data }: Props) {
   };
 
   return (
-    <div className="space-y-7 border-t border-white/[0.08] pt-6">
-      {/* ── 3. 두 구획 조립 ── */}
-      <RankingSection
-        data={data}
-        loadingId={loadingId}
-        scrollerRef={rankingScrollerRef}
-        currentRankRef={currentRankRef}
-        onOpenPerson={(person, nextSelection) =>
-          void openPerson(person, nextSelection)
-        }
-        onOpenRankDetail={setRankDetail}
-      />
-
-      <LeadersSection
-        activeField={activeField}
-        leaders={activeLeaders}
-        currentId={data.current.id}
-        loadingId={loadingId}
-        onActiveFieldChange={setActiveField}
-        onOpenPerson={(person, nextSelection) =>
-          void openPerson(person, nextSelection)
-        }
-        onOpenRankDetail={setRankDetail}
-      />
+    <>
+      <Modal isOpen={!previewCeleb && !rankDetail && !fieldPickerOpen} onClose={onClose} title={tc("influenceComparison")} size="full" stickyHeader animateHeight={false}>
+        <ModalBody className="space-y-4">
+          <div className="mx-auto flex w-fit gap-1 rounded-control border border-line bg-bg-raised p-1">
+            {(["ranking", "leaders"] as const).map((value) => (
+              <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)} className={`min-h-11 rounded-control px-6 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${mode === value ? "bg-accent/15 text-accent" : "text-text-secondary hover:bg-bg-card hover:text-text-primary"}`}>
+                {t(value === "ranking" ? "rankingMode" : "leadersMode")}
+              </button>
+            ))}
+          </div>
+          {mode === "ranking" ? (
+            <RankingSection
+              data={data}
+              loadingId={loadingId}
+              onOpenPerson={(person, nextSelection) => void openPerson(person, nextSelection)}
+              onOpenRankDetail={setRankDetail}
+            />
+          ) : (
+            <LeadersSection
+              activeField={activeField}
+              leaders={activeLeaders}
+              currentId={data.current.id}
+              loadingId={loadingId}
+              onActiveFieldChange={setActiveField}
+              onChooseField={() => setFieldPickerOpen(true)}
+              onOpenPerson={(person, nextSelection) => void openPerson(person, nextSelection)}
+              onOpenRankDetail={setRankDetail}
+            />
+          )}
+        </ModalBody>
+      </Modal>
+      <Modal isOpen={fieldPickerOpen} onClose={() => setFieldPickerOpen(false)} title={t("fieldTabs")} size="sm" stickyHeader animateHeight={false}>
+        <ModalBody className="grid grid-cols-2 gap-2">
+          {INFLUENCE_FIELDS.map((field) => (
+            <button key={field} type="button" aria-pressed={activeField === field} onClick={() => { setActiveField(field); setFieldPickerOpen(false); }} className={`min-h-11 rounded-control border border-line px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${activeField === field ? "bg-accent/15 text-accent" : "text-text-secondary hover:bg-bg-raised hover:text-text-primary"}`}>
+              {t(`shortFields.${field}`)}
+            </button>
+          ))}
+        </ModalBody>
+      </Modal>
 
       {/* ── 4. 오버레이(인물 상세·순위 상세 모달) ── */}
       {previewCeleb && selection ? (
@@ -129,6 +144,6 @@ export default function InfluenceExplorerView({ data }: Props) {
         detail={rankDetail}
         onClose={() => setRankDetail(null)}
       />
-    </div>
+    </>
   );
 }

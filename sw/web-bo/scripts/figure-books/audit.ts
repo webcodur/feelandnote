@@ -5,9 +5,11 @@
  * 실행:
  *   node --env-file=.env --import tsx scripts/figure-books/audit.ts
  *   node --env-file=.env --import tsx scripts/figure-books/audit.ts --json
+ *   node --env-file=.env --import tsx scripts/figure-books/audit.ts --integrity
  */
 
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
+import { inspectContentIntegrity, readIntegrityRows } from './lib/content-integrity'
 
 type CelebRow = {
   id: string
@@ -75,7 +77,7 @@ async function allRows<T>(
   }
 }
 
-async function loadCelebs(client: SupabaseClient): Promise<CelebRow[]> {
+async function loadCelebs(client: DatabaseClient): Promise<CelebRow[]> {
   return allRows('celebs', async (from, to) => {
     const { data, error } = await client
       .from('celebs')
@@ -87,7 +89,7 @@ async function loadCelebs(client: SupabaseClient): Promise<CelebRow[]> {
   })
 }
 
-async function loadRelations(client: SupabaseClient): Promise<RelationRow[]> {
+async function loadRelations(client: DatabaseClient): Promise<RelationRow[]> {
   return allRows('figure_book_characters', async (from, to) => {
     const { data, error } = await client
       .from('figure_book_characters')
@@ -99,7 +101,7 @@ async function loadRelations(client: SupabaseClient): Promise<RelationRow[]> {
   })
 }
 
-async function loadPurchaseOptions(client: SupabaseClient): Promise<PurchaseRow[]> {
+async function loadPurchaseOptions(client: DatabaseClient): Promise<PurchaseRow[]> {
   return allRows('figure_book_purchase_options', async (from, to) => {
     const { data, error } = await client
       .from('figure_book_purchase_options')
@@ -112,7 +114,7 @@ async function loadPurchaseOptions(client: SupabaseClient): Promise<PurchaseRow[
 }
 
 // 노출 규칙: 활성 제휴 상품이 있으면 그 판본만, 없으면 요청 locale의 판본을 구매 버튼 없이 보여 준다. 판본이 하나라도 있는 작품이 공개 대상이다.
-async function loadEditions(client: SupabaseClient): Promise<EditionRow[]> {
+async function loadEditions(client: DatabaseClient): Promise<EditionRow[]> {
   return allRows('figure_book_editions', async (from, to) => {
     const { data, error } = await client
       .from('figure_book_editions')
@@ -124,7 +126,7 @@ async function loadEditions(client: SupabaseClient): Promise<EditionRow[]> {
   })
 }
 
-async function loadLocaleCreators(client: SupabaseClient): Promise<LocaleCreatorRow[]> {
+async function loadLocaleCreators(client: DatabaseClient): Promise<LocaleCreatorRow[]> {
   return allRows('content_locales', async (from, to) => {
     const { data, error } = await client
       .from('content_locales')
@@ -170,6 +172,25 @@ function matchesAuthor(creator: string, figureNames: Set<string>): boolean {
 }
 
 async function main(): Promise<void> {
+  if (process.argv.includes('--integrity')) {
+    const startedAt = new Date().toISOString()
+    const rows = await readIntegrityRows(async (query, from, to) => {
+      let request = db.from(query.table).select(query.columns)
+      for (const field of query.order) request = request.order(field)
+      const { data, error } = await request.range(from, to)
+      return { data, error }
+    })
+    const report = inspectContentIntegrity(rows)
+    console.log(JSON.stringify({
+      mode: 'integrity', startedAt, completedAt: new Date().toISOString(),
+      readConsistency: '각 표를 API로 나누어 읽은 결과이며, 원자적 스냅샷이 아닙니다.',
+      exitSemantics: '종료 코드 1은 구조 오류나 조회 실패를 뜻합니다. ISBN 공유는 합본과 과거 판본을 포함한 원전 검수 후보이며, 후보만 있으면 종료 코드 0입니다. 같은 원전이라고 단정하거나 자동 통합하지 않습니다.',
+      rowsRead: Object.fromEntries(Object.entries(rows).map(([table, values]) => [table, values.length])),
+      ...report,
+    }, null, 2))
+    if (report.issueCount) process.exitCode = 1
+    return
+  }
   const [celebs, relations, purchaseOptions, editions, localeCreators] = await Promise.all([
     loadCelebs(db),
     loadRelations(db),

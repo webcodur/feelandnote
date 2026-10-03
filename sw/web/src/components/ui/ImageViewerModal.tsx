@@ -7,13 +7,12 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { createPortal } from "react-dom";
 import Button from "./Button";
+import Modal, { CLOSE_BUTTON_STYLE } from "./Modal";
 import BlurDissolve from "./BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
-import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 import { useWheelPaging } from "@/hooks/useWheelPaging";
 
 const MIN_SCALE = 1;
@@ -32,6 +31,10 @@ interface ImageViewerModalProps {
   onNext?: () => void;
   /** 캡션에 강조 렌더를 쓸 때 넘긴다 — 장면 해설의 대사·강조 서식을 전체보기에도 유지한다 */
   renderCaption?: (caption: string) => ReactNode;
+  /** 투명한 인물 이미지에는 사각 그림자를 두지 않는다. */
+  showImageShadow?: boolean;
+  /** 프로필 확대는 이미지를 다시 누르면 닫고, 휠 확대는 바로 사용할 수 있다. */
+  closeOnImageClick?: boolean;
 }
 
 export default function ImageViewerModal({
@@ -43,10 +46,12 @@ export default function ImageViewerModal({
   onPrev,
   onNext,
   renderCaption,
+  showImageShadow = true,
+  closeOnImageClick = false,
 }: ImageViewerModalProps) {
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
-  /* 그림을 클릭해야 줌 모드에 든다 — 평시 휠은 장면 넘기기, 줌 모드에서만 휠이 배율을 바꾼다 */
+  /* 일반 뷰어는 클릭으로 줌 모드에 든다. 클릭으로 닫는 프로필은 열 때부터 휠 확대를 허용한다. */
   const [zoomMode, setZoomMode] = useState(false);
   const [dragging, setDragging] = useState(false);
   const drag = useRef<{ id: number; x: number; y: number; vx: number; vy: number } | null>(null);
@@ -59,7 +64,7 @@ export default function ImageViewerModal({
   if (sessionKey !== openedWith) {
     setOpenedWith(sessionKey);
     setView({ scale: 1, x: 0, y: 0 });
-    setZoomMode(false);
+    setZoomMode(closeOnImageClick);
   }
 
   /* Esc는 캡처 단계에서 먼저 잡는다 — 아래 깔린 모달(document 버블 단계)까지 같이 닫히지 않게 */
@@ -69,16 +74,14 @@ export default function ImageViewerModal({
       if (e.key !== "Escape") return;
       e.stopImmediatePropagation();
       /* 줌 모드에서는 창을 닫기 전에 모드부터 빠진다 */
-      if (zoomMode) { setZoomMode(false); setView({ scale: 1, x: 0, y: 0 }); return; }
+      if (zoomMode && !closeOnImageClick) { setZoomMode(false); setView({ scale: 1, x: 0, y: 0 }); return; }
       onClose();
     };
     document.addEventListener("keydown", onKeyDown, true);
-    lockBodyScroll();
     return () => {
       document.removeEventListener("keydown", onKeyDown, true);
-      unlockBodyScroll();
     };
-  }, [isOpen, onClose, zoomMode]);
+  }, [isOpen, onClose, zoomMode, closeOnImageClick]);
 
   /* 평시 휠은 장면 넘기기 — 넘길 그림이 있고 줌 모드가 아닐 때만 */
   useWheelPaging(frameRef, { onPrev, onNext, enabled: isOpen && !zoomMode && Boolean(onPrev || onNext) });
@@ -106,33 +109,31 @@ export default function ImageViewerModal({
 
   if (!isOpen) return null;
 
-  return createPortal(
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-      style={{ zIndex: Z_INDEX.top }}
-      onClick={() => {
-        if (moved.current) { moved.current = false; return; }
-        onClose();
-      }}
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      ariaLabel={alt}
+      frame="plain"
+      widthClassName="w-auto max-w-[97vw]"
+      fullScreen
+      boxClassName="bg-transparent"
+      animateHeight={false}
+      closeOnEscape={false}
+      zIndex={Z_INDEX.top}
+      closeButtonClassName={`fixed top-4 end-4 ${CLOSE_BUTTON_STYLE}`}
     >
-      <Button
-        unstyled
-        onClick={onClose}
-        className="absolute top-4 end-4 p-2 text-white/50 hover:text-white"
-      >
-        <X size={32} />
-      </Button>
 
       {/* 넘길 그림이 있는 뷰어에서는 양끝 ‹ › 버튼이 붙는다 — 배경 클릭 닫기와 분리한다 */}
       {onPrev && (
         <Button unstyled aria-label="이전" onClick={(e) => { e.stopPropagation(); onPrev(); }}
-          className="absolute start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 hover:border-white hover:text-white">
+          className="absolute z-10 start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronLeft size={28} />
         </Button>
       )}
       {onNext && (
         <Button unstyled aria-label="다음" onClick={(e) => { e.stopPropagation(); onNext(); }}
-          className="absolute end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 hover:border-white hover:text-white">
+          className="absolute z-10 end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronRight size={28} />
         </Button>
       )}
@@ -146,6 +147,7 @@ export default function ImageViewerModal({
           event.stopPropagation();
           if (moved.current) { moved.current = false; return; }
           if (event.target instanceof HTMLElement && event.target.closest("[data-wheel-pass], button, a")) return;
+          if (closeOnImageClick) { onClose(); return; }
           if (zoomMode) { setZoomMode(false); setView({ scale: 1, x: 0, y: 0 }); }
           else setZoomMode(true);
         }}
@@ -197,7 +199,7 @@ export default function ImageViewerModal({
               height={800}
               unoptimized
               draggable={false}
-              className="h-[93vh] w-auto max-w-[95vw] rounded-lg object-contain shadow-2xl"
+              className={`h-[calc(100dvh-4rem)] w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain ${showImageShadow ? "shadow-2xl" : ""}`}
             />
           </span>
           {/* 설명이 있는 그림에만 붙는다. 없으면 자리도 차지하지 않는다 */}
@@ -210,7 +212,6 @@ export default function ImageViewerModal({
           ) : null}
         </BlurDissolve>
       </div>
-    </div>,
-    document.body
+    </Modal>
   );
 }

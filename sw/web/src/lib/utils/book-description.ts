@@ -1,3 +1,4 @@
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 import {
   isBookIntroductionSource,
   type BookIntroductionSource,
@@ -187,7 +188,7 @@ export function selectBookIntroduction(
 
 export function normalizeBookIsbn(value: string | null | undefined): string | null {
   const isbn = value?.replace(/[\s-]/g, '') ?? ''
-  return /^(?:\d{13}|\d{9}[\dXx])$/.test(isbn) ? isbn.toUpperCase() : null
+  return toIsbn13(isbn) ? isbn.toUpperCase() : null
 }
 
 // 선택 판본 → 요청 언어의 판본 → 한국어 대표 ISBN 순서. 영문에 한국어 대표 ISBN을 쓰지 않는다.

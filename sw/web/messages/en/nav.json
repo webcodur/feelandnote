@@ -33,7 +33,8 @@
       "myth": "Worlds of Myth",
       "monologue": "Monologues",
       "bestseller": "Bestsellers",
-      "classics": "Timeless Classics"
+      "classics": "Timeless Classics",
+      "influence": "Influence"
     },
     "footer": {
       "sectionFigures": "Figures",
@@ -61,7 +62,9 @@
       "spectrum": "Spectrum",
       "myth": "Worlds of Myth",
       "bestseller": "Bestsellers",
-      "classics": "Timeless Classics"
+      "classics": "Timeless Classics",
+      "influence": "Influence",
+      "monologue": "Monologues"
     },
     "modes": {
       "figures": "Figures",

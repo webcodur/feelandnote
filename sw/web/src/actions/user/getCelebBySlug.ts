@@ -19,6 +19,7 @@ import {
 } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, type FactionMusic } from '@/lib/faction-music'
 import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
+import { getCelebIdentityRow, normalizeCelebSlug } from '@/lib/celeb/identity'
 
 export interface ContentTypeCounts {
   BOOK: number
@@ -138,7 +139,7 @@ interface CelebRelationRow {
   } | null
 }
 
-interface PublicCelebBySlugData {
+export interface PublicCelebBySlugData {
   profile: {
     id: string
     slug: string | null
@@ -194,14 +195,7 @@ interface PublicCelebBySlugData {
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
   const db = createStaticClient()
 
-  const { data: celeb, error: profileError } = await db
-    .from('celebs')
-    .select('id, slug, nickname, nickname_en, aliases, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, portrait_url, portrait_caption, portrait_caption_en, virtual_monologue, virtual_monologue_en')
-    .eq('slug', slug)
-    .eq('publication_status', 'active')
-    .maybeSingle()
-
-  throwOnQueryError('getCelebBySlug/profile', profileError)
+  const celeb = await getCelebIdentityRow(slug)
   if (!celeb) return null
 
   const profile = { ...celeb, selected_title: null }
@@ -434,16 +428,6 @@ const getCelebBySlugCached = (slug: string) =>
  * 페이지는 404가 되는 상태로 남아 있었다(26.09.12 실측 — `uğur-şahin`).
  * 결합 문자 차이로 어긋나지 않게 NFC로도 맞춘다.
  */
-function normalizeCelebSlug(raw: string): string {
-  let value = raw
-  try {
-    value = decodeURIComponent(raw)
-  } catch {
-    // 잘못 인코딩된 주소는 손대지 않는다 — 없는 인물로 처리되게 둔다
-  }
-  return value.normalize('NFC')
-}
-
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
 export const getCelebBySlug = cache(getCelebBySlugInner);
 

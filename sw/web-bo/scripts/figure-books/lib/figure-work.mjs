@@ -10,7 +10,9 @@
  */
 
 import { createHash } from 'node:crypto'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
+import { toIsbn13 } from '../../../../../packages/content-search/src/book-isbn.ts'
+import { getBookOriginalAuthorKeys } from '../../../../../packages/content-search/src/book-original-authors.ts'
 
 export const PAGE_SIZE = 1000
 export const KAKAO_URL = 'https://dapi.kakao.com/v3/search/book'
@@ -63,11 +65,9 @@ export const bareIsbn = (value) => String(value ?? '').replace(/[^0-9Xx]/g, '')
 
 /** ISBN10을 ISBN13(978 접두)으로 바꾼다. 카카오·판본 표는 13자리만 쓴다. 형식이 아니면 null. */
 export function isbn10to13(value) {
-  const digits = bareIsbn(value).toUpperCase()
+  const digits = String(value ?? '').replace(/[\s-]/g, '').toUpperCase()
   if (digits.length !== 10) return null
-  const body = `978${digits.slice(0, 9)}`
-  const sum = [...body].reduce((acc, ch, i) => acc + Number(ch) * (i % 2 ? 3 : 1), 0)
-  return `${body}${(10 - (sum % 10)) % 10}`
+  return toIsbn13(digits)
 }
 
 export function squash(value) {
@@ -110,13 +110,15 @@ export function originalIdentity(author, title, fallback) {
 // ── 책 정보 조회 ───────────────────────────────────────────────────────────
 
 export async function kakaoByIsbn(isbn) {
+  const selected = toIsbn13(String(isbn ?? ''))
+  if (!selected) return null
   const key = process.env.KAKAO_REST_API_KEY
   if (!key) throw new Error('KAKAO_REST_API_KEY가 필요합니다.')
-  const params = new URLSearchParams({ query: isbn, size: '3', target: 'isbn' })
+  const params = new URLSearchParams({ query: selected, size: '3', target: 'isbn' })
   const response = await fetch(`${KAKAO_URL}?${params}`, { headers: { Authorization: `KakaoAK ${key}` } })
-  if (!response.ok) return null
+  if (!response.ok) throw new Error(`카카오 ISBN 조회 실패: ${response.status}`)
   const payload = await response.json()
-  return (payload.documents ?? [])[0] ?? null
+  return (payload.documents ?? []).find(document => String(document.isbn ?? '').split(/\s+/).some(value => toIsbn13(value) === selected)) ?? null
 }
 
 /** 제목으로 카카오를 찾는다. 판정은 호출자가 한다(제목 일치 + 저자에 인물명). */
@@ -133,8 +135,7 @@ export async function kakaoByTitle(title) {
 export function kakaoCreator(document) {
   const authors = (document.authors ?? []).filter(Boolean)
   if (authors.length > 0) return authors.join(', ')
-  const translators = (document.translators ?? []).filter(Boolean)
-  return translators.length > 0 ? `${translators.join(', ')} (역)` : ''
+  return ''
 }
 
 // OpenLibrary는 검색 엔드포인트가 자주 느리다. 20초 넘으면 끊고 null로 본다.
@@ -150,47 +151,63 @@ async function olJson(path) {
 
 /** ISBN으로 OpenLibrary 판본·저작·저자를 한 번에 푼다. 못 찾으면 null. */
 export async function openLibraryByIsbn(isbn) {
+  isbn = toIsbn13(String(isbn ?? ''))
+  if (!isbn) return null
   const edition = await olJson(`/isbn/${isbn}.json`)
   if (!edition?.key) return null
+  const identifiers = [...(edition.isbn_13 ?? []), ...(edition.isbn_10 ?? [])].map(toIsbn13)
+  const languages = (edition.languages ?? []).map(language => language.key)
+  if (!identifiers.includes(isbn) || !languages.includes('/languages/eng')) return null
   const workKey = (edition.works ?? []).map((work) => work.key).find(Boolean) ?? null
   const work = workKey ? await olJson(`${workKey}.json`) : null
-  const authorKeys = [
-    ...(edition.authors ?? []).map((author) => author.key),
-    ...(work?.authors ?? []).map((author) => author.author?.key),
-  ].filter(Boolean)
+  const editionAuthors = (edition.authors ?? []).map(author => author.key).filter(Boolean)
+  const workAuthors = (work?.authors ?? []).map(author => author.author?.key).filter(Boolean)
+  const authorKeys = getBookOriginalAuthorKeys(editionAuthors, workAuthors)
+  if (!authorKeys) return null
   const authors = []
-  for (const key of [...new Set(authorKeys)].slice(0, 3)) {
+  for (const key of [...new Set(authorKeys)]) {
+    if (!/^\/authors\/OL\d+A$/.test(key)) return null
     const author = await olJson(`${key}.json`)
     if (author?.name) authors.push(author.name)
   }
+  if (!authors.length || !edition.title?.trim()) return null
+  const mainTitle = edition.title.trim()
+  const subtitle = String(edition.subtitle ?? '').trim()
+  const title = subtitle && !mainTitle.toLowerCase().includes(subtitle.toLowerCase()) ? `${mainTitle}: ${subtitle}` : mainTitle
   const coverId = (edition.covers ?? []).find((value) => Number.isInteger(value) && value > 0)
   return {
     isbn,
     // 언어가 비어 있으면 미상이다. 영어 판본만 en locale로 쓰므로 호출자가 본다.
-    languages: (edition.languages ?? []).map((language) => language.key),
+    languages,
     editionKey: edition.key,
     workKey,
-    title: String(edition.title ?? work?.title ?? '').trim(),
+    workTitle: typeof work?.title === 'string' ? work.title : null,
+    title,
     authors,
     publisher: (edition.publishers ?? []).map((value) => String(value).trim()).find(Boolean) ?? null,
     publishDate: edition.publish_date ?? null,
     thumbnailUrl: coverId ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` : null,
     description: typeof work?.description === 'string' ? work.description : (work?.description?.value ?? null),
     sourceUrl: `${OPENLIBRARY_URL}${edition.key}`,
+    physicalFormat: typeof edition.physical_format === 'string' ? edition.physical_format : null,
   }
 }
 
 /** OpenLibrary 저작 키(/works/OL…W)에서 ISBN13이 있는 영어 판본 하나를 고른다. */
 export async function openLibraryEditionForWork(workKey) {
+  if (!/^\/works\/OL\d+W$/.test(workKey ?? '')) return null
   const payload = await olJson(`${workKey}/editions.json?limit=50`)
   const entries = payload?.entries ?? []
   const english = entries.filter((entry) => {
     const langs = (entry.languages ?? []).map((language) => language.key)
-    return langs.length === 0 || langs.includes('/languages/eng')
+    return langs.includes('/languages/eng')
   })
-  const withIsbn = (english.length > 0 ? english : entries).find((entry) => (entry.isbn_13 ?? []).length > 0)
-  if (!withIsbn) return null
-  return bareIsbn(withIsbn.isbn_13[0])
+  const isbns = [...new Set(english.flatMap(entry => [...(entry.isbn_13 ?? []), ...(entry.isbn_10 ?? [])]).map(toIsbn13).filter(Boolean))]
+  for (const isbn of isbns) {
+    const edition = await openLibraryByIsbn(isbn)
+    if (edition?.workKey === workKey && edition.workTitle?.trim()) return isbn
+  }
+  return null
 }
 
 /** 제목·저자로 OpenLibrary 저작을 찾는다. 상위 후보만 돌려주고 판정은 호출자가 한다. */
@@ -206,7 +223,7 @@ export async function openLibrarySearch(title, author) {
     title: doc.title,
     authors: doc.author_name ?? [],
     year: doc.first_publish_year ?? null,
-    isbns: (doc.isbn ?? []).map(bareIsbn).filter((value) => value.length === 13),
+    isbns: (doc.isbn ?? []).map(toIsbn13).filter(Boolean),
     languages: doc.language ?? [],
   }))
 }
@@ -267,20 +284,12 @@ export async function wbEntities(qids) {
 
 // ── 판본 종류 ────────────────────────────────────────────────────────────
 
-// 트리거가 만든 판본은 종류가 비어 있다. 단권으로 보이는 책만 full/complete로 채우고 다권·세트는 사람 판단으로 남긴다.
+// 권수나 제목만으로는 완역·축약·선집을 판정할 수 없다. 미확인 종류·범위는 NULL로 남긴다.
 export const MULTIPART = /(\d+\s*권|제?\s*\d+\s*권|\s\d+\s*:|세트|상권|하권|중권|\(상\)|\(하\)|\(중\)|전\s*\d+\s*권)/
-export async function backfillEditionKinds(db, contentIds, titleById) {
-  const single = contentIds.filter((id) => !MULTIPART.test(String(titleById.get(id) ?? '')))
-  let filled = 0
-  for (let index = 0; index < single.length; index += 200) {
-    const { data, error } = await db.from('figure_book_editions')
-      .update({ edition_kind: 'full', text_scope: 'complete' })
-      .in('content_id', single.slice(index, index + 200)).is('edition_kind', null).select('id')
-    if (error) throw new Error(`판본 종류 채우기 실패: ${error.message}`)
-    filled += (data ?? []).length
-  }
-  console.log(`  판본 종류 채움 ${filled} (다권·세트 ${contentIds.length - single.length}권 제외)`)
-  return filled
+export async function backfillEditionKinds(_db, contentIds, _titleById) {
+  // 기존 등록기의 호출 계약은 유지한다. 범위가 검증된 판본은 개별 등록 명세에서만 채운다.
+  console.log(`  판본 종류 자동 추정 없음 — ${contentIds.length}작품의 기존 종류·범위 보존`)
+  return 0
 }
 
 export function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)) }

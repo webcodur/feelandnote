@@ -14,6 +14,7 @@ import NationalityText from "@/components/ui/NationalityText";
 import { getCelebAge } from "@/lib/celeb/lifespan";
 import { formatCelebRecordCounts } from "@/lib/celeb/meta";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
+import type { CelebIdentity } from "@/lib/celeb/identity";
 import type { Locale } from "@/types/locale";
 
 import { CelebTierBadge } from "../../CelebTierBadge";
@@ -21,16 +22,18 @@ import styles from "../../CelebPageContent.module.css";
 import { formatCelebPeriod } from "@/lib/utils/celeb-period";
 
 interface HeroIdentityProps {
-  profile: CelebBySlugProfile;
+  profile: CelebIdentity & Partial<Pick<CelebBySlugProfile, 'contentTypeCounts'>>;
   locale: Locale;
+  preview?: boolean;
 }
 
-export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
+export default function HeroIdentity({ profile, locale, preview = false }: HeroIdentityProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
 
   /* ── 1. 신원 파생값 ── */
   const nickname = profile.nickname;
+  const NameTag = preview ? 'div' : 'h1';
   const celebReality = profile.celeb_reality ?? "REAL";
   const professionLabel = profile.profession
     ? tp.has(profile.profession)
@@ -52,7 +55,7 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
       )
     : null;
   // 서가가 있는 full 인물만. light는 기록을 볼 자리가 없어 건수만 띄우면 헛걸음이 된다.
-  const recordCounts = (profile.celeb_tier ?? "full") === "full"
+  const recordCounts = (profile.celeb_tier ?? "full") === "full" && profile.contentTypeCounts
     ? formatCelebRecordCounts(profile.contentTypeCounts, locale)
     : [];
   const mobileAgeLabel =
@@ -85,7 +88,7 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
             {profile.title ? (
               <p className={styles.title}>{profile.title}</p>
             ) : null}
-            <h1 className={styles.name}>{nickname}</h1>
+            <NameTag className={styles.name} role={preview ? 'heading' : undefined} aria-level={preview ? 1 : undefined}>{nickname}</NameTag>
           </div>
         </div>
 

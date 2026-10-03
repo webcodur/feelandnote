@@ -4,6 +4,8 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
+import { flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { resolveLocale } from '@/types/locale'
 
 export interface SharedContent {
   content_id: string
@@ -28,7 +30,8 @@ interface CelebContentRow {
 async function fetchSharedContents(
   idsKey: string,
   contentType: string,
-  limit: number
+  limit: number,
+  locale: string
 ): Promise<SharedContent[]> {
   const db = createStaticClient()
   const celebIds = idsKey.split(',')
@@ -41,6 +44,7 @@ async function fetchSharedContents(
       .select('content_id, celeb_id, contents!inner(type), celebs(nickname)')
       .in('celeb_id', celebIds)
       .eq('visibility', 'public')
+      .order('id')
       .range(from, from + 999)
     if (contentType) query = query.eq('contents.type', contentType)
     const { data, error } = await query
@@ -67,19 +71,24 @@ async function fetchSharedContents(
 
   const { data: locales, error: localeError } = await db
     .from('content_locales')
-    .select('content_id, title, creator, thumbnail_url')
+    .select('content_id, locale, title, creator, thumbnail_url')
     .in('content_id', top.map((t) => t.id))
-    .eq('locale', 'ko')
+    .in('locale', ['ko', 'en'])
   throwOnQueryError('getSharedContents', localeError)
-  const localeById = new Map((locales ?? []).map((l) => [l.content_id, l]))
+  const localeById = new Map<string, ContentLocaleRow[]>()
+  for (const row of locales ?? []) {
+    const entries = localeById.get(row.content_id) ?? []
+    entries.push(row)
+    localeById.set(row.content_id, entries)
+  }
 
   return top.map((t) => {
-    const locale = localeById.get(t.id)
+    const localized = flattenLocales(localeById.get(t.id), locale, t.type)
     return {
       content_id: t.id,
-      title: locale?.title ?? null,
-      creator: locale?.creator ?? null,
-      thumbnail_url: locale?.thumbnail_url ?? null,
+      title: localized.title || null,
+      creator: localized.creator,
+      thumbnail_url: localized.thumbnail_url,
       content_type: t.type,
       celeb_count: t.count,
       avg_rating: null,
@@ -98,12 +107,13 @@ const getCachedSharedContents = unstable_cache(
 export async function getSharedContents(
   celebIds: string[],
   contentType?: string,
-  limit = 10
+  limit = 10,
+  locale = 'ko'
 ): Promise<SharedContent[]> {
   if (celebIds.length === 0) return []
   return withQueryFallback(
     'getSharedContents',
-    () => getCachedSharedContents(celebIds.join(','), contentType ?? '', limit),
+    () => getCachedSharedContents(celebIds.join(','), contentType ?? '', limit, resolveLocale(locale)),
     [],
   )
 }

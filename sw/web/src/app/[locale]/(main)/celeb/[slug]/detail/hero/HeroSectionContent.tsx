@@ -7,11 +7,14 @@
 "use client";
 
 import { getCelebProfileUrl } from "@/lib/url";
-import type { CSSProperties, ReactNode } from "react";
+import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
+import { Clock3 } from "lucide-react";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
+import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import CelebWorldBannerView from "@/components/features/celeb/CelebWorldBannerView";
 import CelebQuote from "@/components/shared/CelebQuote";
 import ShareButtons from "@/components/ui/ShareButtons";
@@ -19,14 +22,18 @@ import { getWorldStyle } from "@/lib/celeb/worldStyle";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
 import type { Locale } from "@/types/locale";
 
-import CelebSectionHeading from "../../CelebSectionHeading";
+import HubSection from "@/components/shared/HubSection";
 import styles from "../../CelebPageContent.module.css";
 import CelebViewCounter from "../../CelebViewCounter";
 import type { ServiceItem } from "../../celebServiceItems";
-import { navigateToCelebSection } from "../useCelebSectionNavigation";
 import HeroIdentity from "./HeroIdentity";
+import HeroFactionsButton from "./HeroFactionsButton";
 import HeroPhoto from "./HeroPhoto";
 import { useCelebVoice } from "@/hooks/useCelebVoice";
+
+const JourneyTimelineModal = dynamic(() => import("../../JourneyTimelineModal"), {
+  ssr: false,
+});
 
 interface CelebHeroSectionProps {
   profile: CelebBySlugProfile;
@@ -37,9 +44,8 @@ interface CelebHeroSectionProps {
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   serviceItems: ServiceItem[];
-  /** 전 구획 통틀어 가장 긴 제목. 3열 너비 고정용 */
-  widestLabel: string;
   externalLinksSlot: ReactNode;
+  timelineEvents: CelebTimelineEvent[];
 }
 
 export default function CelebHeroSection({
@@ -51,10 +57,13 @@ export default function CelebHeroSection({
   worldId,
   worldBannerImages,
   serviceItems,
-  widestLabel,
   externalLinksSlot,
+  timelineEvents,
 }: CelebHeroSectionProps) {
   const t = useTranslations("celebPage");
+  const [timelineOpen, setTimelineOpen] = useState(false);
+  const closeTimeline = useCallback(() => setTimelineOpen(false), []);
+  const timelineLabel = t(profile.celeb_reality === "FICTION" ? "fictionTimeline" : "timeline");
 
   /* ── 1. 음성 인터랙션 + 월드 파생값 ── */
   const {
@@ -67,27 +76,9 @@ export default function CelebHeroSection({
     handleQuotePlay,
   } = useCelebVoice({ profile, greeting, nickname: profile.nickname, locale });
   const worldStyle = getWorldStyle(worldId);
-  // 소개는 언제나 첫 구획이다. 다음 화살표는 실제로 남아 있는 그다음 구획을 가리켜야 한다.
-  // ← 맛보기 뒤 3초 안 재누름은 맨 뒤로 간다.
-  const introductionItem = serviceItems[0];
-  const nextItem = serviceItems[1];
-  const loopTarget = serviceItems.length > 1
-    ? serviceItems[serviceItems.length - 1]?.target
-    : undefined;
-
   return (
-    <section id="introduction" tabIndex={-1} className={styles.opening}>
-      {/* ── 2. 구획 제목 + 월드 배너 ── */}
-      {/* 머리말 제목은 전폭 구획에 서 있어 본문 기둥폭으로 묶는다. 스티키로 붙어도 같은 폭이다.
-          폭 규격(모바일 전폭 포함)은 CSS가 쥔다 */}
-      <CelebSectionHeading
-        item={introductionItem}
-        nextItem={nextItem}
-        onNavigate={navigateToCelebSection}
-        widestLabel={widestLabel}
-        className={styles.heroHeading}
-        loopTarget={loopTarget}
-      />
+    <HubSection id="introduction" title={serviceItems[0]?.label ?? t("serviceIntroduction")} index={0} total={serviceItems.length} hideDivider tabIndex={-1} className={styles.opening}>
+      {/* ── 2. 월드 배너 ── */}
       <div className={styles.openingFrame}>
         <div className={styles.bannerStage}>
           <CelebWorldBannerView worldId={worldId} images={worldBannerImages} />
@@ -128,6 +119,19 @@ export default function CelebHeroSection({
                 buttonClassName={styles.viewCounterButton}
               />
               {externalLinksSlot}
+              <HeroFactionsButton factions={profile.factions} locale={locale} />
+              {timelineEvents.length > 0 && (
+                <button
+                  type="button"
+                  aria-label={timelineLabel}
+                  aria-haspopup="dialog"
+                  title={timelineLabel}
+                  onClick={() => setTimelineOpen(true)}
+                  className="inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-white/12 bg-transparent text-text-secondary outline-none hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:ring-2 focus-visible:ring-accent/60"
+                >
+                  <Clock3 size={16} aria-hidden="true" />
+                </button>
+              )}
               <ShareButtons
                 title={shareTitle}
                 path={getCelebProfileUrl({ slug })}
@@ -153,6 +157,15 @@ export default function CelebHeroSection({
           </div>
         </div>
       </div>
-    </section>
+      {timelineOpen && (
+        <JourneyTimelineModal
+          open
+          events={timelineEvents}
+          title={timelineLabel}
+          closeLabel={t("timelineClose")}
+          onClose={closeTimeline}
+        />
+      )}
+    </HubSection>
   );
 }

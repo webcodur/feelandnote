@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { bookIntroductionDisplay, mediaIntroductionAttribution, resolveBookIsbn, selectBookIntroduction } from './book-description'
+
+test('ISBN 없는 책의 외부 상품 코드와 잘못된 ISBN을 소개 조회 ISBN으로 되살리지 않는다', () => {
+  for (const code of ['4808952741950', '2090000108903', '480D490111310', '9780374522309']) {
+    assert.equal(resolveBookIsbn('ko', code, code, code), null)
+  }
+  assert.equal(resolveBookIsbn('ko', '9780374522309', '9788994228341', '4808952741950'), '9788994228341')
+  assert.equal(resolveBookIsbn('ko', '8994228349', null, null), '8994228349')
+})
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 
 test('media introduction credits its recorded source over the metadata supplier', () => {

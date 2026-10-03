@@ -630,6 +630,12 @@ export function translateSuikodenMessage(
     return `${stripSuikodenFactionSuffix(match[1])} invades ${localizeTerritoryName(match[2], options?.translateTerritory)}!`
   }
 
+  match = message.match(/^(.+?)이\(가\) 방랑을 시작했다\.$/)
+  if (match) return `${match[1]} begins wandering.`
+
+  match = message.match(/^(.+?)이\(가\) (.+?)에서 거병했다!$/)
+  if (match) return `${match[1]} raises an army at ${localizeTerritoryName(match[2], options?.translateTerritory)}!`
+
   match = message.match(/^(.+?)을\(를\) 점령했다! \(명성 \+(\d+)\)$/)
   if (match) {
     return `Captured ${localizeTerritoryName(match[1], options?.translateTerritory)}! (Fame +${match[2]})`

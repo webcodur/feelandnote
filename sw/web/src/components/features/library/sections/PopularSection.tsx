@@ -97,7 +97,7 @@ export default function PopularSection({ initialClassicsData, professions }: Pro
 
       <div className="space-y-3">
         <div className="flex justify-center">
-          <CategoryTabFilter options={mediaCategoryOptions} value={classicsCategory} onChange={(v) => loadClassics({ category: v })} subtle size="sm" />
+          <CategoryTabFilter media options={mediaCategoryOptions} value={classicsCategory} onChange={(v) => loadClassics({ category: v })} subtle size="sm" />
         </div>
         <div className="flex justify-center">
           <CategoryTabFilter options={classicsBasisChips} value={basis} onChange={(v) => loadClassics({ basis: v as ClassicsBasis })} subtle size="sm" />

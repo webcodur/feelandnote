@@ -12,6 +12,8 @@ import { buildFactionSections, FACTION_LAST_COOKIE, factionSectionKey, localized
 import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
 import FactionScreen from "./FactionScreen";
+import Lane from "@/components/ui/pending/Lane";
+import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 
 /** 설명문에 이름을 싣는 섹션 수 — 넘치면 「등 N개」로 줄인다 */
 const META_SECTION_NAMES = 4;
@@ -38,7 +40,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function FactionPage({
+async function FactionPageBody({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -77,4 +79,8 @@ export default async function FactionPage({
   }
 
   return <FactionScreen sections={sections} section={section} entry={savedEntry ?? section.entries[0]} locale={locale} />;
+}
+
+export default function FactionPage(props: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  return <Lane fallback={<MythScreenSkeleton faction />}><FactionPageBody {...props} /></Lane>;
 }

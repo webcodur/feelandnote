@@ -1,7 +1,7 @@
 /*
   파일명: /components/shared/HubSection.tsx
   기능: 탐색 및 서가 허브 섹션 공통 래퍼
-  책임: 금선 번호 + 제목 + 선택적 부제·더보기 링크 + children. 구획 사이 이동은 위 목차(HubNav)가 맡는다
+  책임: 금선 번호 + 제목 + 선택적 부제·더보기 링크 + children. 구획 사이 이동은 아틀라스 목차(AtlasNavSections)가 맡는다
 */ // ------------------------------
 
 "use client";
@@ -14,12 +14,20 @@ import { hubSectionId } from "./hubSectionUtils";
 import { useTranslations } from "next-intl";
 
 interface HubSectionProps {
+  className?: string;
+  tabIndex?: number;
+  /** 목차가 가리키는 앵커 — 없으면 index·groupId로 hub-section-<i>를 단다 */
+  id?: string;
   title: string;
-  subtitle?: string;
+  /** 제목 요소 수준 — 한 편의 주소(신화·세력 상세)에서는 고른 이름이 페이지의 h1이다 */
+  titleAs?: "h1" | "h2";
+  subtitle?: React.ReactNode;
+  headerActions?: React.ReactNode;
   moreHref?: string;
   moreLabel?: string;
   children: React.ReactNode;
   hideDivider?: boolean;
+  dividerClassName?: string;
   /** 0-based 인덱스 (넘버링 · 네비게이션용) */
   index?: number;
   /** 전체 섹션 수 */
@@ -29,12 +37,18 @@ interface HubSectionProps {
 }
 
 export default function HubSection({
+  className,
+  tabIndex,
+  id,
   title,
+  titleAs,
   subtitle,
+  headerActions,
   moreHref,
   moreLabel,
   children,
   hideDivider = false,
+  dividerClassName,
   index,
   total,
   groupId,
@@ -42,13 +56,14 @@ export default function HubSection({
   const t = useTranslations("shared.hubSection");
   const resolvedMoreLabel = moreLabel ?? t("more");
   const hasNumber = index !== undefined && total !== undefined && total > 1;
-  const sectionId = index !== undefined ? hubSectionId(index, groupId) : undefined;
+  const sectionId = id ?? (index !== undefined ? hubSectionId(index, groupId) : undefined);
+  const TitleTag = titleAs ?? "h2";
 
   return (
-    <section id={sectionId} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""}`}>
+    <section id={sectionId} tabIndex={tabIndex} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""} ${className ?? ""}`}>
       {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고(간격은 부모의 space-y), 아래 새 구획은 넉넉히 띄운다
           (platform-02-code-rules.md 「구분선」) */}
-      {!hideDivider && <div className="mb-12 h-px w-full bg-line md:mb-16" />}
+      {!hideDivider && <div className={`h-px w-full bg-line ${dividerClassName ?? "mb-12 md:mb-16"}`} />}
 
       {/* 헤더 — 가운데 정렬. 허브·홈 구획 머리의 공통 문법이다(platform-02-code-rules.md 「정렬」)
           윗줄은 금선 사이 번호(「— 01 —」, 책의 장 번호 모양), 아랫줄은 제목 하나다(26.09.28 유저 선택).
@@ -67,9 +82,11 @@ export default function HubSection({
           <div aria-hidden className="h-0.5 w-8 rounded-full bg-accent" />
         )}
 
-        <h2 className="break-keep text-center text-xl font-semibold tracking-tight text-text-primary md:text-2xl">
+        <TitleTag className="break-keep text-center text-xl font-semibold tracking-tight text-text-primary md:text-2xl">
           {title}
-        </h2>
+        </TitleTag>
+
+        {headerActions}
 
         {/* 서브타이틀 */}
         {subtitle && (

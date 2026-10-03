@@ -1,4 +1,4 @@
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from '@feelandnote/db'
 
 import { Database } from "@/types/database.generated";
 

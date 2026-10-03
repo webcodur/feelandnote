@@ -7,8 +7,9 @@ import type { ActivityActionType, ActivityTargetType, ContentType } from '@/type
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
+import { filterActivityBatch } from '@/lib/activity-content-reference'
 
-/** 유형 필터가 있을 때 한 번 부를 때 활동을 몇 묶음까지 훑는가. 넘으면 채운 만큼 돌려주고 이어 받게 한다 */
+/** 삭제된 작품·유형 필터로 빈자리가 생기면 몇 묶음까지 훑고 이어 받게 한다. */
 const FEED_TYPE_SCAN_ROUNDS = 5
 
 export interface FeedActivity {
@@ -97,7 +98,7 @@ export async function getFeedActivities(
   }
   const wantType = contentType && contentType !== 'all' ? contentType : null
   const pageSize = limit + 1
-  const scanSize = wantType ? pageSize * 3 : pageSize
+  const scanSize = pageSize * 3
   const collected: ActivityRow[] = []
   let scanCursor = cursor
   let scannedAll = false
@@ -121,16 +122,15 @@ export async function getFeedActivities(
     const batch = data as ActivityRow[]
     if (batch.length < scanSize) scannedAll = true
 
-    if (!wantType) {
-      collected.push(...batch)
-      break
-    }
     const batchContentIds = [...new Set(batch.map((row) => row.content_id).filter((id): id is string => Boolean(id)))]
-    const { data: typedContents } = batchContentIds.length
-      ? await db.from('contents').select('id').in('id', batchContentIds).eq('type', wantType)
-      : { data: [] as { id: string }[] }
-    const matching = new Set((typedContents ?? []).map((row) => row.id))
-    collected.push(...batch.filter((row) => row.content_id !== null && matching.has(row.content_id)))
+    const { data: currentContents, error: contentError } = batchContentIds.length
+      ? await db.from('contents').select('id,type').in('id', batchContentIds)
+      : { data: [] as { id: string; type: string }[], error: null }
+    if (contentError) {
+      console.error('피드 작품 조회 에러:', contentError)
+      return { activities: [], nextCursor: null }
+    }
+    collected.push(...filterActivityBatch(batch, currentContents ?? [], wantType))
 
     if (scannedAll || batch.length === 0) break
     scanCursor = batch[batch.length - 1].created_at
@@ -141,7 +141,7 @@ export async function getFeedActivities(
   // 유형 필터로 훑기 상한에 닿았는데 아직 남은 활동이 있으면, 채운 만큼만 돌려주고 훑은 자리부터 이어 받게 한다
   const nextCursor = hasMore
     ? sliced[sliced.length - 1].created_at
-    : wantType && !scannedAll && scanCursor
+    : !scannedAll && scanCursor
       ? scanCursor
       : null
   const activityMemberIds = [...new Set(sliced.map(item => item.user_id))]
@@ -203,7 +203,8 @@ export async function getFeedActivities(
   type RawUserProfile = { nickname: string; avatar_url: string | null; selected_title: string | null }
   const profileMap = new Map((memberProfiles || []).map(profile => [profile.id, profile as RawUserProfile]))
 
-  const activities: FeedActivity[] = sliced.map((item) => {
+  // 목록 검사 뒤 상세 조회 전 작품이 삭제됐어도 null 링크를 만들지 않는다.
+  const activities: FeedActivity[] = sliced.filter(item => item.content_id && contentsMap[item.content_id]).map((item) => {
     const rawProfile = profileMap.get(item.user_id)
     const contentInfo = item.content_id ? contentsMap[item.content_id] : null
     const userContentKey = item.content_id ? `${item.user_id}:${item.content_id}` : null

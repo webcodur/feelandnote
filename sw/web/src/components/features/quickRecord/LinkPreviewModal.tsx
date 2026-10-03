@@ -63,7 +63,7 @@ export default function LinkPreviewModal({
       animateHeight={false}
       zIndex={Z_INDEX.modal + 10}
     >
-      <div className="w-full h-[calc(100dvh-4rem)] flex flex-col relative">
+      <div className="w-full h-[var(--modal-body-max-height)] min-h-0 flex flex-col relative">
         {/* Header */}
         <div className="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-[#121212] select-none shrink-0">
           <div className="flex items-center gap-3 overflow-hidden mr-4">

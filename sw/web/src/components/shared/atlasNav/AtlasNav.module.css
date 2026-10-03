@@ -1,0 +1,274 @@
+/* ── 넓은 화면의 옆 목차 ──
+   본문 왼쪽 여백에 고정되는 문서 목차.
+   현재 구획과 마우스를 올린 항목은 배경·글자·세로선으로 강조한다. */
+.atlasAside,
+.atlasRail {
+  display: none;
+}
+
+.atlasList {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  border-left: 1px solid color-mix(in srgb, var(--color-accent-dim) 30%, transparent);
+}
+
+.atlasHighlight {
+  position: absolute;
+  top: 0;
+  inset-inline: -1px 1px;
+  z-index: -1;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 180ms ease-out, height 180ms ease-out;
+}
+
+.atlasHighlight[data-visible="true"] { opacity: 1; }
+.atlasHighlight[data-hovering="true"] { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .atlasHighlight { transition: none; }
+}
+
+.atlasItem {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 8px 8px 8px 14px;
+  border: 0;
+  /* 기준선 위에 겹쳐 세우는 현재 구획 눈금 — 평시엔 투명 */
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+  margin-left: -1px;
+  color: var(--color-text-secondary);
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: start;
+  cursor: pointer;
+}
+
+/* 묶음이 갈리는 자리에는 얇은 가로줄 하나만 */
+.atlasItemGroupStart {
+  margin-top: 8px;
+}
+
+.atlasItemGroupStart::before {
+  position: absolute;
+  top: -5px;
+  inset-inline: 14px 6px;
+  border-top: 1px solid color-mix(in srgb, var(--color-accent-dim) 20%, transparent);
+  content: "";
+}
+
+.atlasItemActive {
+  border-left-color: var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 800;
+}
+
+/* 글자·세로선은 즉시 반응하고, 배경판만 따로 이동한다. */
+.atlasItem:hover {
+  border-left-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.atlasItem:active {
+  border-left-color: var(--color-accent);
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-accent) 32%, transparent);
+}
+
+.atlasItem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+@media (min-width: 1340px) {
+  /* 레일은 뷰포트에 고정한다. 부모(aside)底 클램프에 걸리면 맨 밑에서 잘렸다.
+     fixed는 조상의 transform·filter에 갇히는데 이 줄에는 그런 조상이 없다. */
+  .atlasAside {
+    display: block;
+  }
+
+  .atlasRail {
+    display: block;
+    position: fixed;
+    top: calc(50dvh + 2rem);
+    /* 본문 왼쪽 모서리에 붙인다 — 여백 가운데에 두면 화면이 넓을수록 본문에서 멀어진다.
+       여백이 레일보다 좁아지는 폭에서는 화면 가장자리 16px까지만 민다 */
+    left: max(16px, calc((100% - var(--content-max-default)) / 2 - var(--side-rail-width) - 24px));
+    z-index: 30;
+    width: var(--side-rail-width);
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+    overflow-anchor: none;
+    scrollbar-width: none;
+    transform: translateY(-50%);
+  }
+
+  .atlasRail::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── 좁은 화면의 목차 띠 ──
+   옆 레일이 서지 않는 폭에서만 뜬다. 아래 규칙에 노출 조건이 있다. */
+.atlasBar {
+  width: 100%;
+  pointer-events: none;
+}
+
+/* 전역 하단 내비가 있으면 띠는 그 고정 틀 안(bottomNavDock)에 들어가 한 몸으로 움직인다.
+   내비가 없는 폭에서만 스스로 바닥에 고정한다 */
+.atlasBarFloating {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+}
+
+/* 화면 좌우와 아래 내비에 그대로 맞붙는다. 띄워 두면 떠 있는 상자가 하나 더 생겨
+   본문 위에 얹힌 층이 두 겹으로 읽힌다 — 윗변 한 줄만 긋고 나머지 변은 화면에 준다 */
+.atlasBarInner {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  border-top: 1px solid color-mix(in srgb, var(--color-accent) 34%, transparent);
+  background: color-mix(in srgb, var(--color-bg-card) 94%, black 6%);
+  box-shadow: 0 -8px 22px color-mix(in srgb, black 42%, transparent);
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+}
+
+.atlasBarStep {
+  display: grid;
+  width: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  color: var(--color-accent-dim);
+  background: transparent;
+  cursor: pointer;
+}
+.atlasBarStep:hover { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.atlasBarStep:active { color: var(--color-bg-main); background: var(--color-accent); }
+.atlasBarStep[aria-disabled="true"] { color: color-mix(in srgb, var(--color-text-secondary) 40%, transparent); cursor: default; }
+.atlasBarStep[aria-disabled="true"]:hover { background: transparent; }
+
+.atlasBarCurrent {
+  display: flex;
+  min-width: 0;
+  padding: 9px 6px;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 0;
+  border-inline: 1px solid color-mix(in srgb, var(--color-accent-dim) 26%, transparent);
+  color: var(--color-text-primary);
+  background: transparent;
+  cursor: pointer;
+}
+.atlasBarCurrent:hover { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
+.atlasBarCurrent:active { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
+
+.atlasBarChapter,
+.atlasSheetItem:has(.atlasBarChapter)::after {
+  flex: 0 0 auto;
+  color: var(--color-accent);
+  font: 800 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .08em;
+}
+
+.atlasBarLabel {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.atlasBarStep:focus-visible,
+.atlasBarCurrent:focus-visible,
+.atlasSheetItem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+/* ── 전체 목차 모달 칩 (창 틀은 공용 Modal이 쥔다) ── */
+.atlasSheetGrid {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.atlasSheetItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 46px;
+  padding: 8px 10px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid color-mix(in srgb, var(--color-accent-dim) 24%, transparent);
+  color: var(--color-text-secondary);
+  background: transparent;
+  text-align: center;
+  cursor: pointer;
+}
+.atlasSheetItem:hover { color: var(--color-accent); border-color: color-mix(in srgb, var(--color-accent) 52%, transparent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
+.atlasSheetItem:active { color: var(--color-bg-main); background: var(--color-accent); }
+.atlasSheetItem[aria-current="location"] {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 11%, transparent);
+  font-weight: 800;
+}
+
+.atlasSheetItemLabel {
+  min-width: 0;
+  grid-row: 1;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* 모달 안 번호는 왼쪽에 두고, 오른쪽에 같은 너비를 비워 제목을 칸 전체의 중앙에 맞춘다. */
+.atlasSheetItem:has(.atlasBarChapter) {
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+}
+
+.atlasSheetItem:has(.atlasBarChapter)::after {
+  content: attr(data-chapter);
+  grid-column: 3;
+  grid-row: 1;
+  visibility: hidden;
+}
+
+.atlasSheetItem > .atlasBarChapter {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+}
+
+.atlasSheetItem:has(.atlasBarChapter) > .atlasSheetItemLabel {
+  grid-column: 2;
+}
+
+/* 옆 레일이 서면 이 띠는 물러난다 — 같은 목차가 둘일 이유가 없다 */
+@media (min-width: 1340px) {
+  .atlasBar { display: none; }
+}

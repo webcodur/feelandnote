@@ -6,18 +6,12 @@ import { Search, X } from "lucide-react";
 /*
   탐색 두 모드의 검색·정렬·필터 조작. 바깥 상자로 한 번 더 감싸지 않는다 — 입력창과 단추가 각자 면을 가지므로
   상자 안 상자가 된다. 선택 단추는 모두 같은 모양(카드 면 + 얇은 선)이고, 기본값에서 벗어나면 글자·선만 금색으로 바뀐다.
-  화면을 바꾸는 모드 탭(밑줄형)·범주 칩(알약형)과 모양이 겹치지 않게 한다.
+  매체 범주 칩은 CategoryChip이 쥔다.
 */
 export const EXPLORE_PANEL_CLASS = "mx-auto mb-5 w-full max-w-2xl space-y-3 md:mb-6";
 export const EXPLORE_CONTROL_CLASS = "flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-control border border-line bg-bg-card px-3 text-sm font-medium text-text-primary hover:border-line-strong hover:bg-bg-raised outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50";
 /** 선택 단추가 기본값에서 벗어났을 때 덧붙인다 */
 export const EXPLORE_CONTROL_CHANGED_CLASS = "border-accent/45 text-accent hover:border-accent/70";
-/** 범주 칩(작품: 책·영상·게임·음악) — 알약. 화면을 바꾸는 모드 탭(밑줄형)·선택 단추(네모)와 모양을 가른다.
- *  베스트셀러(작품 첫 화면)와 기관 선정이 같은 칩을 쓴다 */
-export const EXPLORE_CHIP_CLASS = "flex min-h-11 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-full border px-4 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent";
-export const exploreChipStateClass = (active: boolean) => active
-  ? "border-accent/50 bg-accent/10 text-accent hover:bg-accent/15"
-  : "border-line text-text-secondary hover:border-line-strong hover:text-text-primary";
 
 /*
   배치는 모든 폭에서 두 줄이다 — 검색창이 한 줄을 다 쓰고, 선택 단추 셋(인물: 리뷰 유무 | 정렬 | 필터,

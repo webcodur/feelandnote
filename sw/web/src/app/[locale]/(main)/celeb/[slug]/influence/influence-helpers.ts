@@ -14,12 +14,6 @@ import {
 
 import type { InfluenceExplorerPerson } from "@/actions/home/getInfluenceExplorer";
 
-/* ── 1. 컴팩트 표시 개수 ── */
-
-/** 좁은 화면에서 한 줄에 담는 칸 수 — 넓은 화면은 각각 7칸·5칸을 그대로 쓴다 */
-export const COMPACT_RANK_COUNT = 3;
-export const COMPACT_LEADER_COUNT = 2;
-
 /* ── 2. 미리보기 선택 타입 (원본 InfluenceExplorer.tsx에서 이동, 발명 아님) ── */
 
 export type SelectionKind = "ranking" | "field";

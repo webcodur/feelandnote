@@ -1,7 +1,8 @@
 "use client";
 
 import CelebSectionSkeleton from "@/components/features/celeb/CelebSectionSkeleton";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNearViewport } from '@/components/ui/pending/useNearViewport';
 import { getCelebInitialAnalysis, type CelebAnalysisData } from "@/actions/celebs/getCelebSideData";
 import { RetryBlock } from "@/components/ui/pending";
 import type { ServiceItem } from "../celebServiceItems";
@@ -13,21 +14,29 @@ export default function CelebAnalysisRetry({ celebId, locale, item }: {
 }) {
   const [data, setData] = useState<CelebAnalysisData | null>(null);
   const [loading, setLoading] = useState(false);
-  const retry = async () => {
+  const [attempted, setAttempted] = useState(false);
+  const { ref, isNear } = useNearViewport('400px 0px');
+  const hasSpectrum = !!item.children?.some(child => child.key === 'spectrum');
+  const hasInfluence = !!item.children?.some(child => child.key === 'influence');
+  const retry = useCallback(async () => {
     setLoading(true);
+    setAttempted(true);
     try {
       setData(await getCelebInitialAnalysis(celebId, locale, {
-        spectrum: !!item.children?.some(child => child.key === "spectrum"),
-        influence: !!item.children?.some(child => child.key === "influence"),
+        spectrum: hasSpectrum,
+        influence: hasInfluence,
       }));
     } catch (error) {
       console.error("Retry celeb analysis failed:", error);
     } finally {
       setLoading(false);
     }
-  };
-  if (data) return <FigureAnalysisTabs item={item} celebId={celebId} spectrumData={data.spectrum}
-    influenceData={data.influence} influenceExplorerData={data.influenceExplorer} />;
-  if (loading) return <CelebSectionSkeleton kind={item.children?.some(child => child.key === "spectrum") ? "spectrum" : "influence"} />;
-  return <RetryBlock onRetry={() => void retry()} />;
+  }, [celebId, locale, hasSpectrum, hasInfluence]);
+  useEffect(() => { if (isNear && !attempted) void retry(); }, [isNear, attempted, retry]);
+  return <div ref={ref}>
+    {data && <FigureAnalysisTabs item={item} celebId={celebId} spectrumData={data.spectrum}
+      influenceData={data.influence} influenceExplorerData={data.influenceExplorer} />}
+    {!data && (!attempted || loading) && <CelebSectionSkeleton kind={hasSpectrum ? 'spectrum' : 'influence'} />}
+    {!data && attempted && !loading && <RetryBlock onRetry={() => void retry()} />}
+  </div>;
 }

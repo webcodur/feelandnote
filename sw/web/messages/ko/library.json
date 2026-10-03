@@ -61,7 +61,8 @@
         "kind": "기관"
       },
       "listResults": "선정 목록 {lists, number}개 · 기관 {count, number}곳",
-      "bestsellerLabel": "베스트셀러"
+      "bestsellerLabel": "베스트셀러",
+      "navByTheme": "주제별 탐색"
     },
     "meta": {
       "title": "베스트셀러 - 도서·영화·게임·음악 인기 순위",

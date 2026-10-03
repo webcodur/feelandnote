@@ -1,6 +1,6 @@
 /**
  * 검수 대기표에서 신규 작품 등록 명세를 만든다. DB는 건드리지 않고 파일만 쓴다.
- * 만들어진 명세는 figure-books:book으로 한 건씩 dry-run한 뒤 반영한다.
+ * 본문 범위가 미확인인 초안은 edition.kind/scope가 null이다. 실제 판본을 검수해 채운 뒤 figure-books:book으로 dry-run한다.
  *
  * node scripts/figure-books/appearance-manifests.mjs --queue ../../data/celeb/figure-books/appearance-review-queue-2026-09-04.json
  * node scripts/figure-books/appearance-manifests.mjs --only-isbns ../../data/coupang/appearance-shortlist-2026-09-05.json
@@ -22,7 +22,7 @@ function bareIsbn(value) {
   return String(value ?? '').replace(/[\s-]/g, '')
 }
 
-// 권·세트 표시가 붙은 책은 edition.kind가 full이 아닐 수 있다. 임의로 정하지 않고 사람에게 넘긴다.
+// 다권 표시는 별도 검토 대상이며, 표시가 없는 단권도 완역이라고 추정하지 않는다.
 const MULTIPART = /(\d+\s*권|제?\s*\d+\s*권|\s\d+\s*:|세트|상권|하권|중권|\(상\)|\(하\)|\(중\)|전\s*\d+\s*권)/
 
 function unique(values) {
@@ -97,7 +97,7 @@ function main() {
         titleAliases: titleVariants(title),
         creatorAliases: creatorVariants(row.kakao.authors ?? [], row.kakao.translators ?? [], creator),
       },
-      edition: { kind: 'full', scope: 'complete' },
+      edition: { kind: null, scope: null },
       ko: { translationStatus: 'published', isbn },
     }
 
@@ -109,7 +109,8 @@ function main() {
   const indexPath = resolve(outDir, '_index.json')
   writeFileSync(indexPath, JSON.stringify({ generatedAt: new Date().toISOString(), written, deferred }, null, 2), 'utf8')
 
-  console.log(`명세 ${written.length}건 작성 / 사람 검토로 미룸 ${deferred.length}건`)
+  console.log(`초안 ${written.length}건 작성 / 사람 검토로 미룸 ${deferred.length}건`)
+  if (written.length > 0) console.log('  초안의 edition.kind/scope는 미확인이다. 실제 수록 범위를 검수해 채우기 전에는 등록할 수 없다.')
   console.log(`  ${outDir}`)
   if (deferred.length > 0) {
     console.log('\n미룬 책 (앞 10건):')

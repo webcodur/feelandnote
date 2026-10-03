@@ -16,6 +16,7 @@ import PersonNameplate from "@/components/features/user/explore/PersonNameplate"
 import { Link } from "@/i18n/navigation";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
+import FactionSearchResult from "./FactionSearchResult";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   book: Book,
@@ -30,7 +31,9 @@ const CELEB_SEARCH_ACTION_CLASS =
 
 export interface SearchResult {
   id: string;
-  type: "content" | "user" | "tag" | "celeb";
+  type: "content" | "user" | "tag" | "celeb" | "faction";
+  href?: string;
+  isMyth?: boolean;
   slug?: string;
   title: string;
   subtitle?: string;
@@ -111,7 +114,7 @@ export default function SearchResultsDropdown({
             <Button
               unstyled
               onClick={onViewAllResults}
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5"
             >
               <Search size={16} />
               {t("viewAllResults")}
@@ -119,6 +122,15 @@ export default function SearchResultsDropdown({
           )}
 
           {results.map((result, index) => {
+            if (result.type === "faction" && result.href) {
+              return <div key={result.id} className="px-2 py-1">
+                <FactionSearchResult
+                  result={{ id: result.id, title: result.title, subtitle: result.subtitle ?? null, href: result.href, isMyth: !!result.isMyth }}
+                  selected={selectedIndex === index}
+                  onNavigate={() => onCelebLinkClick?.(result)}
+                />
+              </div>;
+            }
             // 사용자 결과: FriendCardNameplate 사용
             if (result.type === "user") {
               return (

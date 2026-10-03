@@ -15,6 +15,7 @@ import { addContent } from "@/actions/contents/addContent";
 import type { ContentType, ContentStatus } from "@/types/database";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import { STATUS_OPTIONS } from "@/constants/statuses";
+import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ interface AddContentModalProps {
 
 export default function AddContentModal({ isOpen, onClose, onSuccess }: AddContentModalProps) {
   const t = useTranslations("customContent");
+  const tc = useTranslations("content.category");
   const tError = useTranslations("actionErrors");
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
@@ -128,28 +130,8 @@ export default function AddContentModal({ isOpen, onClose, onSuccess }: AddConte
         <div className="grid grid-cols-[80px_1fr] gap-x-4 gap-y-4 items-center">
           {/* 카테고리 */}
           <label className="text-sm font-semibold text-text-secondary">{t("category")}</label>
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((category) => {
-              const Icon = category.lucideIcon;
-              const isSelected = selectedCategory === category.id;
-              return (
-                <Button
-                  unstyled
-                  key={category.id}
-                  type="button"
-                  onClick={() => handleCategorySelect(category.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border ${
-                    isSelected
-                      ? "bg-accent text-white border-accent"
-                      : "bg-bg-card border-border/50 text-text-secondary hover:bg-bg-stone-light hover:text-text-primary"
-                  }`}
-                >
-                  <Icon size={14} strokeWidth={2.5} />
-                  {category.label}
-                </Button>
-              );
-            })}
-          </div>
+          <CategoryTabFilter media wrap align="left" size="sm" value={selectedCategory} onChange={handleCategorySelect}
+            options={CATEGORIES.map(category => ({ value: category.id, label: tc(category.id) }))} />
 
           {/* 제목 */}
           <label className="text-sm font-semibold text-text-secondary">

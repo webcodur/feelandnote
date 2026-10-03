@@ -55,7 +55,7 @@ export default function ReviewPresetModal({
       title={t("selectKeywords")}
       size="md"
     >
-      <div className="flex flex-col h-[60vh] max-h-[500px]">
+      <div className="flex flex-col min-h-0 h-[var(--modal-body-max-height)]">
         {/* 탭 네비게이션 제거됨 */}
 
         {/* 프리셋 목록 */}

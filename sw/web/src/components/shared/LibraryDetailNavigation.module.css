@@ -1,0 +1,27 @@
+.titleIndexButton {
+  isolation: isolate;
+}
+
+.titleIndexCue {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 8%, transparent), color-mix(in srgb, var(--color-accent) 28%, transparent), color-mix(in srgb, var(--color-accent) 8%, transparent));
+  animation: titleIndexCue 4.8s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.titleIndexButton[aria-expanded="true"] .titleIndexCue {
+  animation: none;
+}
+
+@keyframes titleIndexCue {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .titleIndexCue { animation: none; }
+}

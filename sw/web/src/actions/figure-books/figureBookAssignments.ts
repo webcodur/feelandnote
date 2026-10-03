@@ -1,5 +1,5 @@
 import { createStaticClient } from '@/lib/db/static'
-import { selectAllPages } from '@feelandnote/shared/lib/paginate'
+import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 
 export type FigureBookRelationType = 'appearance' | 'related' | 'authored'
 
@@ -50,17 +50,19 @@ export async function getFigureBookAssignmentsByCelebs(
   if (celebIds.length === 0) return []
 
   const db = createStaticClient()
-  /* 인물 200명 묶음 하나가 원전 연결 3천 행을 넘기도 한다(26.09.14). 묶음으로만 나누면 묶음마다 1,000행에서
-     잘려 신화 화면의 작품이 빠진다 — 묶음마다 끝까지 나눠 받는다. 기본키(celeb_id, content_id)로 줄을 고정한다 */
-  const chunks = Array.from({ length: Math.ceil(celebIds.length / 200) }, (_, i) => celebIds.slice(i * 200, (i + 1) * 200))
-  const rows = (await Promise.all(chunks.map((ids) => selectAllPages<FigureBookAssignmentRow>((from, to) => db
-    .from('figure_book_characters')
-    .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
-    .in('celeb_id', ids)
-    .order('celeb_id', { ascending: true })
-    .order('content_id', { ascending: true })
-    .range(from, to)
-    .overrideTypes<FigureBookAssignmentRow[], { merge: false }>())))).flat()
+  /* 공통 ID 묶음마다 연결을 끝까지 받는다. 행 상한에서 잘려 신화 작품이 빠지지 않도록
+     기본키(celeb_id, content_id)로 페이지 순서를 고정한다. */
+  const rows = await selectInChunks<FigureBookAssignmentRow>(celebIds, async (ids) => ({
+    data: await selectAllPages<FigureBookAssignmentRow>((from, to) => db
+      .from('figure_book_characters')
+      .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
+      .in('celeb_id', ids)
+      .order('celeb_id', { ascending: true })
+      .order('content_id', { ascending: true })
+      .range(from, to)
+      .overrideTypes<FigureBookAssignmentRow[], { merge: false }>()),
+    error: null,
+  }))
 
   return rows.sort((left, right) => (
     left.celeb_id.localeCompare(right.celeb_id)

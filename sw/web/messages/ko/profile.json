@@ -253,7 +253,15 @@
           "cultural": "문화",
           "transhistoricity": "시대"
         },
-        "totalScore": "종합 {score}점"
+        "totalScore": "종합 {score}점",
+        "rankingMode": "순위",
+        "leadersMode": "선두",
+        "previousPeople": "이전 인물들 보기",
+        "nextPeople": "다음 인물들 보기",
+        "moreRanking": "순위 더 보기",
+        "moreLeaders": "선두 더 보기",
+        "rankingButton": "영향력 순위",
+        "leadersButton": "영향력 선두"
       },
       "scoreInfo": {
         "title": "영향력 점수 보는 법",
@@ -313,7 +321,8 @@
         "social": "사회",
         "economic": "경제",
         "cultural": "문화"
-      }
+      },
+      "influenceScore": "영향력 <value>{score}</value>점"
     },
     "settings": {
       "passwordChange": "비밀번호 변경",

@@ -9,7 +9,7 @@
  * BC 인물: Wikidata 연도 절삭(-384 → -0384) 보정
  * 듀오/그룹: P31 ≠ Q5이지만 description에 단서 있으면 수동 확인 목록에 추가
  */
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@feelandnote/db";
 
 const DB_API_URL = process.env.NEXT_PUBLIC_DB_API_URL;
 const DB_KEY = process.env.DB_SECRET_KEY;

@@ -145,6 +145,8 @@ export async function FiguresFilterResult({ params, trendCountryOptions }: { par
     real: genderCounts.find((entry) => entry.value === "all")?.count ?? celebsResult.total,
     fiction: fictionResult.total,
     all: allResult.total,
+    // 실존(REAL+BOTH)과 가상(FICTION+BOTH)의 교집합이다. 추가 조회 없이 BOTH 수를 구한다.
+    mixed: (genderCounts.find((entry) => entry.value === "all")?.count ?? celebsResult.total) + fictionResult.total - allResult.total,
   };
   return (
     <div className="space-y-6 md:space-y-8">

@@ -3,6 +3,7 @@
 import type { CSSProperties } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { type AccessSource, type AccessSourceState } from '@/lib/commerce/contentAccess'
+import { cn } from '@/lib/utils'
 import { ACCESS_SERVICES } from './contentAccessStyles'
 import AccessLinkCard from './AccessLinkCard'
 import AppleAccessLink from './AppleAccessLink'
@@ -30,11 +31,16 @@ export default function AccessServiceSlot({ source, state, onVisit }: { source: 
         inlineDetails={price || undefined}
         ariaLabel={[label, ...link.platforms, link.title, price, link.discountPercent ? `−${link.discountPercent}%` : ''].filter(Boolean).join(' · ')} />
     })}
-    {!!data?.providers?.length && <dl className="overflow-hidden rounded-md border border-accent/25 bg-[linear-gradient(110deg,var(--color-bg-stone-light),var(--color-bg-card))]">
-      {data.providers.map(provider => <div key={provider.id} title={provider.kinds.map(kind => t(`watchKinds.${kind}`)).join(' · ')} className="flex h-[46px] min-w-0 items-center justify-center border-b border-accent/15 px-9 last:border-b-0">
-        <dt className="truncate text-center text-sm font-semibold text-text-primary">{provider.name}</dt>
-        <dd className="sr-only">{provider.kinds.map(kind => t(`watchKinds.${kind}`)).join(' · ')}</dd>
-      </div>)}
+    {!!data?.providers?.length && <dl className="grid grid-cols-2 overflow-hidden rounded-md border border-accent/25 bg-[linear-gradient(110deg,var(--color-bg-stone-light),var(--color-bg-card))]">
+      {data.providers.map((provider, index, providers) => {
+        const lone = index === providers.length - 1 && providers.length % 2 === 1
+        const lastRow = index >= providers.length - (providers.length % 2 || 2)
+        return <div key={provider.id} title={provider.kinds.map(kind => t(`watchKinds.${kind}`)).join(' · ')}
+          className={cn('flex h-[46px] min-w-0 items-center justify-center border-accent/15 px-4', !lastRow && 'border-b', index % 2 === 0 && !lone && 'border-e', lone && 'col-span-2')}>
+          <dt className="truncate text-center text-sm font-semibold text-text-primary">{provider.name}</dt>
+          <dd className="sr-only">{provider.kinds.map(kind => t(`watchKinds.${kind}`)).join(' · ')}</dd>
+        </div>
+      })}
     </dl>}
     {data?.watchUrl && <AccessLinkCard name={t('watchCta')} href={data.watchUrl} onClick={() => onVisit('tmdb')} style={{ '--access-color': '#587f75', '--access-end': '#897345' } as CSSProperties} />}
   </div>

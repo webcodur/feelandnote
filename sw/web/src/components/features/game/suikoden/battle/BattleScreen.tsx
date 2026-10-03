@@ -5,7 +5,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { FastForward, Flag, Play, Shield, Sparkles, Swords, Zap } from 'lucide-react'
+import { FastForward, Flag, Play, Shield, Sparkles, Swords, Zap, Crown, Building2, Trophy, X } from 'lucide-react'
 import {
   autoDuel, availableActions, applyAction, closeDuel, duelRound, isPlayerTurn, nextActor, refuseDuel, retreat, stepAuto, swapPositions, timeline, unitById,
 } from '@/lib/game/suikoden/battle'
@@ -213,7 +213,6 @@ export default function BattleScreen({ game, setGame }: BattleScreenProps) {
       )}
       {/* 배경 글씨 */}
       <div className="pointer-events-none absolute inset-0 grid place-items-center overflow-hidden" aria-hidden>
-        <span className="select-none text-[28vw] font-black leading-none" style={{ color: 'rgba(212,175,55,0.035)' }}>戰</span>
       </div>
 
       {/* 윗줄 */}
@@ -367,7 +366,7 @@ export default function BattleScreen({ game, setGame }: BattleScreenProps) {
 }
 
 function MilitiaFace({ size, className }: { size: number; className?: string }) {
-  return <span className={`grid place-items-center font-black ${className ?? ''}`} style={{ width: className ? undefined : size, height: className ? undefined : size, borderRadius: 3, background: 'linear-gradient(160deg, #3a3024, #121110)', color: '#a58d64', fontSize: size * 0.42 }} aria-hidden>鄕</span>
+  return <span className={`grid place-items-center font-black ${className ?? ''}`} style={{ width: className ? undefined : size, height: className ? undefined : size, borderRadius: 3, background: 'linear-gradient(160deg, #3a3024, #121110)', color: '#a58d64', fontSize: size * 0.42 }} aria-hidden><Building2 size={size * 0.5} /></span>
 }
 
 /**
@@ -471,7 +470,6 @@ function UnitCard({ unit, battle, onClick, targetable, acting, swapping, nameOf 
           {/* 넓은 화면은 얼굴 칸이 카드 높이로 늘어나지 않게(self-start) 병과 표지를 얼굴 모서리에 붙인다 */}
           <div className="relative shrink-0 max-sm:absolute max-sm:inset-0 sm:self-start">
             {unit.militia ? <MilitiaFace size={64} className={FACE_SIZE} /> : <Portrait hero={hero} size={76} fluid className={FACE_SIZE} />}
-            <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-[3px] text-[11px] font-black max-sm:bottom-auto max-sm:right-1 max-sm:top-1" style={{ background: '#0b0c0f', color: cls.color, boxShadow: `inset 0 0 0 1px ${cls.color}88` }}>{cls.hanja}</span>
           </div>
           {/* 휴대폰 — 얼굴 위 글이 읽히도록 아래는 짙게, 위 표지 자리는 옅게 어둡힌다 */}
           <span aria-hidden className="pointer-events-none absolute inset-0 sm:hidden" style={{ background: 'linear-gradient(0deg, rgba(8,8,10,0.95) 0%, rgba(8,8,10,0.72) 30%, rgba(8,8,10,0) 60%), linear-gradient(180deg, rgba(8,8,10,0.5) 0%, rgba(8,8,10,0) 28%)' }} />
@@ -485,7 +483,7 @@ function UnitCard({ unit, battle, onClick, targetable, acting, swapping, nameOf 
             </span>
             <span className="flex items-center gap-1 max-sm:order-1">
               {!unit.militia && <GradeBadge grade={unit.grade} className="h-[15px] min-w-[20px] text-[9px]" />}
-              {unit.isLord && <span className={`text-[10px] font-black ${PHONE_INK_SHADOW}`} style={{ color: INK.goldBright }}>主</span>}
+              {unit.isLord && <span className={`text-[10px] font-black ${PHONE_INK_SHADOW}`} style={{ color: INK.goldBright }}><Crown size={12} aria-hidden /></span>}
               <span className="hidden truncate text-[10px] font-semibold xl:inline" style={{ color: cls.color }}>{T.classes[unit.cls]}</span>
             </span>
             <span className={`mt-auto flex items-baseline justify-between gap-1 text-[11px] font-bold tabular-nums max-sm:order-4 max-sm:mt-0.5 xl:text-[13px] min-[112.5rem]:text-[15px] ${PHONE_INK_SHADOW}`} style={{ color: mine ? '#c9f1ea' : '#ffd9cf' }}>
@@ -509,7 +507,7 @@ function UnitCard({ unit, battle, onClick, targetable, acting, swapping, nameOf 
           {healMe ? '+' : '−'}{num(locale, amount)}
         </span>
       )}
-      {unit.routed && <span className="pointer-events-none absolute right-1 top-1 text-lg font-black" style={{ color: INK.seal }}>敗</span>}
+      {unit.routed && <span className="pointer-events-none absolute right-1 top-1 text-lg font-black" style={{ color: INK.seal }}><X size={20} aria-hidden /></span>}
     </button>
   )
 }
@@ -528,7 +526,7 @@ function BattleResult({ battle, onContinue, placeName, speaker }: { battle: Batt
       <Panel className="w-full max-w-md cheondo-rise">
         <div className="flex flex-col items-center gap-3 p-6 text-center">
           <span className="cheondo-stamp grid h-20 w-20 place-items-center text-4xl font-black" style={{ background: won ? INK.seal : '#2c2c30', color: won ? '#fff3ea' : INK.sub, boxShadow: 'inset 0 0 0 4px rgba(0,0,0,0.25)' }}>
-            {won ? '勝' : '敗'}
+            {won ? <Trophy size={36} aria-hidden /> : <X size={36} aria-hidden />}
           </span>
           <h2 className="text-2xl font-black" style={{ color: won ? INK.goldBright : INK.text }}>{title}</h2>
           <p className="text-[14px]" style={{ color: INK.text }}>{detail}</p>

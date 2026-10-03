@@ -1,7 +1,7 @@
 "use client";
 
-import { useId, type MouseEvent, type ReactNode } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useId, useState, type MouseEvent, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight, CornerDownLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getPaginationRange } from "./paginationRange";
@@ -30,10 +30,50 @@ export function Pagination({
 }: PaginationProps) {
   const t = useTranslations("shared.ui.pagination");
   const sizeId = useId();
+  const [gotoOpen, setGotoOpen] = useState(false);
+  const [gotoValue, setGotoValue] = useState("");
   const { current, total, items } = getPaginationRange(currentPage, totalPages);
   const sizes = [...new Set((pageSizeOptions ?? []).filter(size => Number.isInteger(size) && size > 0))];
   const showSize = showPageSizeSelector && pageSize != null && onPageSizeChange && sizes.length > 0;
   const pageLabel = (page: number) => t(page === total ? "lastPage" : "page", { page });
+
+  const submitGoto = () => {
+    const target = Number.parseInt(gotoValue, 10);
+    if (!isLoading && target >= 1 && target <= total) onPageChange(target);
+    setGotoOpen(false);
+  };
+
+  // 누르면 번호 입력으로 바뀌는 goto 칸 — 모바일에서는 ‹ › 사이 가운데, 데스크톱에서는 번호열 뒤에 선다
+  const gotoControl = gotoOpen ? (
+    <div className="flex items-center gap-1">
+      <input
+        autoFocus
+        type="text"
+        inputMode="numeric"
+        value={gotoValue}
+        onChange={event => setGotoValue(event.target.value.replace(/\D/g, ""))}
+        onKeyDown={event => {
+          if (event.key === "Enter") submitGoto();
+          if (event.key === "Escape") setGotoOpen(false);
+        }}
+        onBlur={() => setTimeout(() => setGotoOpen(false), 150)}
+        aria-label={t("goto")}
+        placeholder={`${current}`}
+        className="h-11 w-14 rounded-lg border border-accent/40 bg-bg-card px-2 text-center text-sm tabular-nums text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      />
+      <button type="button" onClick={submitGoto} onMouseDown={event => event.preventDefault()}
+        aria-label={t("go")} title={t("go")}
+        className="flex h-11 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/[0.025] text-text-secondary hover:bg-white/5 hover:text-text-primary">
+        <CornerDownLeft size={14} aria-hidden />
+      </button>
+    </div>
+  ) : (
+    <button type="button" onClick={() => { setGotoValue(""); setGotoOpen(true); }} disabled={isLoading}
+      title={t("goto")}
+      className="flex min-h-11 min-w-20 items-center justify-center rounded-lg border border-white/15 bg-white/[0.025] px-3 text-sm tabular-nums text-text-primary hover:border-white/30 hover:bg-white/5 disabled:cursor-not-allowed disabled:text-text-tertiary">
+      <span role="status" aria-atomic="true"><span aria-hidden="true">{current} / {total}</span><span className="sr-only">{t("summary", { current, total })}</span></span>
+    </button>
+  );
 
   if (total <= 1 && !showSize) return null;
 
@@ -65,15 +105,13 @@ export function Pagination({
         <nav aria-label={t("label")} aria-busy={isLoading}>
           <ul className="flex items-center justify-center gap-1">
             <li>{control(current - 1, t("previous"), <ChevronLeft size={18} aria-hidden />, "prev", current === 1)}</li>
-            <li className="min-w-20 px-2 text-center text-sm tabular-nums text-text-primary md:hidden">
-              <span role="status" aria-atomic="true"><span aria-hidden="true">{current} / {total}</span><span className="sr-only">{t("summary", { current, total })}</span></span>
-            </li>
             {items.map(item => (
               <li key={item} className="hidden md:block">
                 {typeof item === "number" && control(item, pageLabel(item), item)}
                 {typeof item === "string" && <span aria-hidden="true" className="flex min-h-11 w-6 items-center justify-center text-text-secondary">...</span>}
               </li>
             ))}
+            <li>{gotoControl}</li>
             <li>{control(current + 1, t("next"), <ChevronRight size={18} aria-hidden />, "next", current === total)}</li>
           </ul>
         </nav>

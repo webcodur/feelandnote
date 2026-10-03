@@ -4,6 +4,9 @@
 // 네이버 래퍼와 그 전용 스크립트는 전량 제거했다.
 // 상세: docs/project/platform/platform-05-external-services.md 「외부 콘텐츠 검색 API」
 
+import { ISBN13_PATTERN, toIsbn13 } from './book-isbn'
+export { toIsbn13 } from './book-isbn'
+
 const KAKAO_REST_API_KEY = process.env.KAKAO_REST_API_KEY
 const KAKAO_BOOK_API_URL = 'https://dapi.kakao.com/v3/search/book'
 const REQUEST_TIMEOUT_MS = 5000
@@ -57,30 +60,11 @@ export interface KakaoBookIsbnLookup {
   fullDescription: string | null
 }
 
-const ISBN13_PATTERN = /^97[89]\d{10}$/
-
-/** 동일 출판본의 ISBN-10/13을 비교한다. 잘못된 체크섬은 검색 대상으로 쓰지 않는다. */
-export function toIsbn13(raw: string): string | null {
-  const compact = raw.replace(/[\s-]/g, '').toUpperCase()
-  if (/^\d{9}[\dX]$/.test(compact)) {
-    const checksum = [...compact].reduce(
-      (sum, digit, index) => sum + (digit === 'X' ? 10 : Number(digit)) * (10 - index),
-      0,
-    )
-    if (checksum % 11 !== 0) return null
-    const prefix = `978${compact.slice(0, 9)}`
-    const sum = [...prefix].reduce((value, digit, index) => value + Number(digit) * (index % 2 ? 3 : 1), 0)
-    return `${prefix}${(10 - sum % 10) % 10}`
-  }
-  if (!ISBN13_PATTERN.test(compact)) return null
-  const checksum = [...compact].reduce((sum, digit, index) => sum + Number(digit) * (index % 2 ? 3 : 1), 0)
-  return checksum % 10 === 0 ? compact : null
-}
-
 // "8954655971 9788954655972" → 13자리 우선
 function pickIsbn(raw: string): string {
   const candidates = (raw || '').split(/\s+/).filter(Boolean)
-  return candidates.find(c => ISBN13_PATTERN.test(c)) || candidates[0] || ''
+  const isbn13 = candidates.find(c => ISBN13_PATTERN.test(c) && toIsbn13(c))
+  return isbn13 || candidates.map(toIsbn13).find(Boolean) || ''
 }
 
 // 검색어가 ISBN 하나로만 이루어졌는지 (10자리 또는 13자리)
@@ -120,37 +104,31 @@ function normalizeCreatorName(name: string): string {
     .trim()
 }
 
-// 저자 + 번역자 표기 (번역자는 원저자와 구분해 붙인다)
+// 원저자만 creator에 담는다. 저자 누락을 번역자로 메우지 않는다.
 export function normalizeKakaoBookCreator(authors: string[], translators: string[]): string {
+  void translators // 호출부 호환을 유지하되 번역자는 원저자 후보로 쓰지 않는다.
   const normalizedAuthors = (authors || [])
     .map(normalizeCreatorName)
     .filter(Boolean)
     .filter((name, index, names) => names.indexOf(name) === index)
   const written = normalizedAuthors.join(', ')
   if (written) return written
-  const translated = (translators || [])
-    .map(normalizeCreatorName)
-    .filter(Boolean)
-    .filter((name, index, names) => names.indexOf(name) === index)
-    .join(', ')
-  return translated ? `${translated} (역)` : ''
+  return ''
 }
 
 // 본제목만 추출 (부제목 분리)
 export function normalizeKakaoBookTitle(title: string, creator = ''): string {
   let mainTitle = title
+  const sameCreator = (value: string) => !!creator && value.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '') === creator.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
   // 일부 데이터는 한국어 제목 뒤에 원제와 저자를 한 덩어리로 붙인다.
   mainTitle = mainTitle.replace(/\s+(?:_|[|｜])\s+[A-Za-z][\s\S]*?\s+by\s+[A-Za-z][\s\S]*$/iu, '')
   mainTitle = mainTitle.replace(/(?<=[가-힣])\.\s*[A-Za-z][\s\S]*?,?\s+by\s+[A-Za-z][\s\S]*$/iu, '')
-  mainTitle = mainTitle.replace(/^(.+?)[,，]\s*[가-힣·.\s]{2,}:\s*[A-Za-z][\s\S]*$/u, '$1')
-  mainTitle = mainTitle.replace(/^(.+?)\.\s+[A-Z][a-zÀ-ÖØ-öø-ÿ.'’\-]+(?:\s+[A-Z][a-zÀ-ÖØ-öø-ÿ.'’\-]+)+$/u, '$1')
-  mainTitle = mainTitle.replace(/\s*\([^)]+\)\s*$/, '')
-  const subtitle = mainTitle.match(/^(.+?)\s*[-–—]\s+(.+)$/u)
-  if (subtitle) {
-    const compact = (value: string) => value.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
-    // 하이픈 앞이 저자명뿐인 선집은 잘라내면 제목 대신 저자명만 남으므로 원문을 보존한다.
-    if (!creator || compact(subtitle[1]) !== compact(creator)) mainTitle = subtitle[1]
-  }
+  const withKoreanCreator = mainTitle.match(/^(.+?)[,，]\s*([가-힣·.\s]{2,}):\s*[A-Za-z][\s\S]*$/u)
+  if (withKoreanCreator && sameCreator(withKoreanCreator[2])) mainTitle = withKoreanCreator[1]
+  const withEnglishCreator = mainTitle.match(/^(.+?)\.\s+([A-Z][a-zÀ-ÖØ-öø-ÿ.'’\-]+(?:\s+[A-Z][a-zÀ-ÖØ-öø-ÿ.'’\-]+)+)$/u)
+  if (withEnglishCreator && sameCreator(withEnglishCreator[2])) mainTitle = withEnglishCreator[1]
+  // 장정 표기만 뗀다. 권수·축약·합본·학습서와 부제는 작품 범위 대조에 필요하다.
+  mainTitle = mainTitle.replace(/\s*\((?:양장본(?:\s+Hardcover)?|Hardcover|Paperback|반양장|무선제본)\)\s*$/iu, '')
   return mainTitle.trim()
 }
 

@@ -6,30 +6,18 @@
 
 "use client";
 
-import React from "react";
 import { useTranslations } from "next-intl";
-import { BookOpen, Film, Gamepad2, Music, type LucideIcon } from "lucide-react";
-import type { ContentType } from "@/types/database";
+import { CATEGORIES } from "@/constants/categories";
+import CategoryChip from "./CategoryChip";
 import type { ContentTypeCounts } from "@/types/content";
 
 type Size = "sm" | "md" | "lg";
 
-const SIZE_CONFIG: Record<Size, { icon: string; text: string; gap: string }> = {
-  sm: { icon: "size-3.5 md:size-4", text: "text-xs", gap: "gap-1.5" },
-  md: { icon: "size-3.5 md:size-5", text: "text-xs md:text-sm", gap: "gap-2" },
-  lg: { icon: "size-4 md:size-6", text: "text-sm md:text-base", gap: "gap-2.5" },
+const SIZE_CONFIG: Record<Size, { text: string; gap: string }> = {
+  sm: { text: "text-xs", gap: "gap-1.5" },
+  md: { text: "text-xs md:text-sm", gap: "gap-2" },
+  lg: { text: "text-sm md:text-base", gap: "gap-2.5" },
 };
-
-const CONTENT_TYPE_META: readonly {
-  type: ContentType;
-  key: "book" | "video" | "game" | "music";
-  Icon: LucideIcon;
-}[] = [
-  { type: "BOOK", key: "book" as const, Icon: BookOpen },
-  { type: "VIDEO", key: "video" as const, Icon: Film },
-  { type: "GAME", key: "game" as const, Icon: Gamepad2 },
-  { type: "MUSIC", key: "music" as const, Icon: Music },
-];
 
 interface ContentTypeSummaryProps {
   /** 각 아이템의 type 필드를 추출하기 위한 배열 */
@@ -56,11 +44,11 @@ export function ContentTypeSummary({
 }: ContentTypeSummaryProps) {
   const cfg = SIZE_CONFIG[size];
   const t = useTranslations("content.category");
-  const typeCounts = CONTENT_TYPE_META
+  const typeCounts = CATEGORIES
     .map(m => ({
-      ...m,
-      label: t(m.key),
-      count: counts ? counts[m.type] : items.filter(item => item.type === m.type).length,
+      type: m.dbType,
+      label: t(m.id),
+      count: counts ? counts[m.dbType] : items.filter(item => item.type === m.dbType).length,
     }))
     .filter(m => m.count > 0)
     .sort((a, b) => b.count - a.count);
@@ -83,23 +71,19 @@ export function ContentTypeSummary({
       {typeCounts.map((item) => {
         const isActive = value === item.type;
         return (
-          <button
+          <CategoryChip
             key={item.type}
-            type="button"
+            media={item.type}
             role="radio"
+            ariaLabel={`${item.label} (${item.count})`}
             onClick={() => onChange(item.type)}
-            aria-checked={isActive}
-            className={`inline-flex min-w-0 items-center justify-center gap-1 rounded-md border px-1.5 py-1 ${fourCategoryHeight} ${
-              isActive
-                ? "border-accent/60 bg-accent/15 text-accent"
-                : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10"
-            }`}
+            selected={isActive}
+            className={`h-auto min-w-0 gap-1 px-1.5 py-1 ${fourCategoryHeight}`}
           >
-            <item.Icon className={`${cfg.icon} ${isActive ? "text-accent" : "text-accent-dim"}`} />
             <span className={`${cfg.text} flex min-w-[2rem] items-center justify-center text-center tabular-nums font-medium`}>
               ({item.count})
             </span>
-          </button>
+          </CategoryChip>
         );
       })}
     </div>

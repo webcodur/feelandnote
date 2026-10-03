@@ -48,6 +48,7 @@ interface Props {
 function StatChip({ command, value, state }: { command: Command; value: string; state: "active" | "best" | "idle" | "off" }) {
   const text = useHegemonyText();
   const tone = COMMAND_TONE[command];
+  const Icon = tone.icon;
   const look = {
     active: `${tone.fill} text-hg-ink`,
     best: `${tone.soft} ${tone.text} ring-1 ring-inset ${tone.ringSoft}`,
@@ -56,7 +57,8 @@ function StatChip({ command, value, state }: { command: Command; value: string; 
   }[state];
   return (
     <span className={`flex items-center justify-center gap-0.5 rounded-md py-0.5 text-xs font-bold tabular-nums leading-4 @min-[140px]:py-1 @min-[140px]:text-sm ${look}`}>
-      <span className="hidden @min-[104px]:inline">{text.command.seal[command]}</span>
+      <Icon size={12} aria-hidden className="hidden shrink-0 @min-[104px]:inline" />
+      <span className="sr-only">{text.command.name[command]} </span>
       {value}
     </span>
   );

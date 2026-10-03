@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { Inbox, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
-import { Avatar, BlurDissolve, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
+import { Avatar, BlurDissolve, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton } from "@/components/ui";
+import CategoryChip from "@/components/ui/CategoryChip";
 import Button from "@/components/ui/Button";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
@@ -166,16 +167,16 @@ interface FeedHeaderProps {
 
 function FeedHeader({ currentType, onTypeChange, contentTypeCounts }: FeedHeaderProps) {
   const t = useTranslations("home.ui");
+  const tc = useTranslations("content.category");
   return (
-    <div className="mb-4">
-      <FilterTabs
-        items={CONTENT_TYPE_FILTERS}
-        activeValue={currentType}
-        counts={contentTypeCounts}
-        onSelect={onTypeChange}
-        hideZeroCounts
-        title={t("genre")}
-      />
+    <div role="group" aria-label={t("genre")} className="mb-4 flex flex-wrap justify-center gap-1">
+      {CONTENT_TYPE_FILTERS.map(({ value }) => (
+        <CategoryChip key={value} media={value} selected={value === currentType}
+          disabled={contentTypeCounts?.[value] === 0} onClick={() => onTypeChange(value)}>
+          {tc(value.toLowerCase())}
+          {contentTypeCounts?.[value] !== undefined && <span className="text-xs text-text-tertiary">{contentTypeCounts[value].toLocaleString()}</span>}
+        </CategoryChip>
+      ))}
     </div>
   );
 }

@@ -6,7 +6,7 @@
 /*
   파일명: /components/features/celeb/FigurePersonRows.tsx
   기능: 인물 행 격자 — 세 조작 구역이 분리된 공용 모듈
-  책임: 「이 작품의 인물」(작품 상세)·「관련 인물」(인물 상세)이 같은 행을 쓴다.
+  책임: 「이 작품의 인물」·「관련 인물」·책장 인물 목록·모바일 관계망의 선택 인물이 같은 행을 쓴다.
         얼굴을 누르면 초상화를 크게 보고, 가운데를 누르면 대사를 읊고,
         우측 단추는 인물 상세로 간다 — 서비스에 없는 인물만 외부(위키데이터)로 안내한다.
         격자·쪽 넘김 모양은 FigureLinkGrid와 같은 클래스로 맞춘다.
@@ -15,7 +15,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, Expand, LoaderCircle, User } from "lucide-react";
 
@@ -25,6 +25,7 @@ import SwipeControls from "@/components/ui/SwipeControls";
 import WikiMark from "@/components/ui/icons/WikiMark";
 import { getCelebProfileUrl } from "@/lib/url";
 import useRelationDialogue from "@/hooks/useRelationDialogue";
+import styles from "./FigurePersonRows.module.css";
 
 const ImageGalleryModal = dynamic(
   () => import("@/components/ui/ImageGalleryModal"),
@@ -54,6 +55,10 @@ export interface FigurePersonRowItem {
   person: FigurePersonRowPerson;
   /** 관계 근거나 직군 — 이름 아래 한 줄 */
   subtitle: string | null;
+  /** 관계 설명은 얼굴·이름·관계 표기로 이루어진 헤더 아래에서 읽는다. */
+  description?: string | null;
+  /** 책장 감상자 목록처럼 행 아래에 붙는 보조 본문. */
+  footer?: ReactNode;
 }
 
 interface FigurePersonRowsProps {
@@ -62,6 +67,8 @@ interface FigurePersonRowsProps {
   mobilePageSize?: number;
   mobileScrollable?: boolean;
   gridClassName?: string;
+  /** 모달 안에서는 페이지 이동 대신 현재 맥락의 인물 상세를 연다. */
+  onOpenPerson?: (person: FigurePersonRowPerson) => void;
 }
 
 export default function FigurePersonRows({
@@ -70,9 +77,11 @@ export default function FigurePersonRows({
   mobilePageSize,
   mobileScrollable = false,
   gridClassName = "",
+  onOpenPerson,
 }: FigurePersonRowsProps) {
   const t = useTranslations("celebPage");
   const tv = useTranslations("contentDetail");
+  const tHome = useTranslations("home.ui");
   const { speak, stateFor } = useRelationDialogue(locale);
   const [preview, setPreview] = useState<FigurePersonRowPerson | null>(null);
 
@@ -105,26 +114,20 @@ export default function FigurePersonRows({
                 : "contents"
             }
           >
-            {page.map(({ person, subtitle }) => {
+            {page.map(({ person, subtitle, description, footer }) => {
               const speaker = stateFor(person);
               const speakLabel = t(speaker.hasVoice ? "playGreetingVoice" : "dialogue_greeting");
               const enlargeLabel = `${t("enlargePhoto")}: ${person.name}`;
-
-              return (
-                <div
-                  key={person.id}
-                  role="listitem"
-                  className={`flex ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05]`}
-                >
-                  {/* 얼굴 — 초상화를 크게 본다 */}
-                  {person.avatarUrl ? (
+              const descriptive = description !== undefined;
+              const portraitClass = `relative shrink-0 overflow-hidden bg-bg-main ${descriptive ? "block h-16 w-16 rounded-lg" : "w-12"}`;
+              const portrait = person.avatarUrl ? (
                     <button
                       type="button"
                       onClick={() => setPreview(person)}
                       aria-label={enlargeLabel}
                       aria-haspopup="dialog"
                       title={t("enlargePhoto")}
-                      className="group/face relative w-12 shrink-0 overflow-hidden bg-bg-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
+                      className={`group/face ${portraitClass} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset`}
                     >
                       <CelebAvatarImage
                         src={person.avatarUrl}
@@ -140,44 +143,46 @@ export default function FigurePersonRows({
                       </span>
                     </button>
                   ) : (
-                    <span className="relative w-12 shrink-0 overflow-hidden bg-bg-main">
+                    <span className={portraitClass}>
                       <User
                         aria-hidden
                         size={20}
                         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-text-secondary"
                       />
                     </span>
-                  )}
-
-                  {/* 중앙 — 인물 대사를 읊는다. 호버 반응은 이 구역에만 준다 */}
-                  <button
+                  );
+              const nameButton = <button
                     type="button"
                     onClick={() => void speak(person)}
                     disabled={!speaker.canSpeak || speaker.loading}
                     aria-label={`${speakLabel}: ${person.name}`}
                     aria-busy={speaker.loading || undefined}
-                    className="group/speak flex min-w-0 flex-1 flex-col justify-center px-3.5 py-2.5 text-left hover:bg-accent/5 disabled:cursor-default disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
+                    className={`group/speak flex min-w-0 flex-1 flex-col justify-center text-left hover:bg-accent/5 disabled:cursor-default disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset ${descriptive ? "min-h-11 rounded px-1 py-1" : "px-3.5 py-2.5"}`}
                   >
-                    <span className={`flex items-center gap-1.5 truncate font-semibold group-hover/speak:text-accent ${speaker.hasVoice ? "text-emerald-400" : "text-text-primary"}`}>
-                      <span className="truncate">{person.name}</span>
+                    <span className={`flex items-center gap-1.5 font-semibold group-hover/speak:text-accent ${descriptive ? "max-w-full" : "truncate"} ${speaker.hasVoice ? "text-emerald-400" : "text-text-primary"}`}>
+                      <span className={descriptive ? "min-w-0 break-words" : "truncate"}>{person.name}</span>
                       {speaker.loading && (
                         <LoaderCircle size={13} className="shrink-0 animate-spin text-text-tertiary" aria-hidden />
                       )}
                     </span>
                     {subtitle && (
-                      <span className="truncate text-xs text-text-secondary">{subtitle}</span>
+                      <span className={descriptive ? styles.relationship : "truncate text-xs text-text-secondary"}>{subtitle}</span>
                     )}
-                  </button>
-
-                  {/* 우측 띠 — 행 세로를 통째로 차지하는 바로가기. 등록 인물은 인물 상세,
-                      미등록 인물은 외부 안내로 간다 */}
-                  {person.listed && person.slug ? (
+                  </button>;
+              const navigationClass = `flex shrink-0 items-center justify-center text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${descriptive ? "h-11 w-11 rounded-md" : "w-8 border-s border-white/10"}`;
+              const navigation = person.listed && onOpenPerson ? (
+                    <button type="button" onClick={() => onOpenPerson(person)} aria-haspopup="dialog"
+                      aria-label={`${tHome("viewProfile")}: ${person.name}`} title={tHome("viewProfile")}
+                      className={navigationClass}>
+                      <ArrowUpRight size={16} aria-hidden />
+                    </button>
+                  ) : person.listed && person.slug ? (
                     <Link
                       href={getCelebProfileUrl(person)}
                       prefetch={false}
                       aria-label={`${t("relGoPersonPage")}: ${person.name}`}
                       title={t("relGoPersonPage")}
-                      className="flex w-8 shrink-0 items-center justify-center border-s border-white/10 text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+                      className={navigationClass}
                     >
                       <ArrowUpRight size={16} aria-hidden />
                     </Link>
@@ -188,11 +193,21 @@ export default function FigurePersonRows({
                       rel="noreferrer"
                       aria-label={`${t("relViewWikidata")}: ${person.name}`}
                       title={t("relViewWikidata")}
-                      className="flex w-8 shrink-0 items-center justify-center border-s border-white/10 text-text-tertiary hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      className={navigationClass}
                     >
                       <WikiMark size={16} />
                     </a>
-                  ) : null}
+                  ) : null;
+
+              return (
+                <div key={person.id} role="listitem" data-figure-person-row={person.id}
+                  className={`${descriptive ? "p-4" : footer ? "flex flex-col" : `flex ${CARD_MIN_H} items-stretch`} overflow-hidden rounded-xl border border-white/10 bg-white/[0.05]`}>
+                  {descriptive ? <>
+                    <div className={styles.identity}>{portrait}{nameButton}{navigation}</div>
+                    {description && <p className={styles.description}>{description}</p>}
+                  </> : footer ? <div className={`flex ${CARD_MIN_H} items-stretch`}>{portrait}{nameButton}{navigation}</div>
+                    : <>{portrait}{nameButton}{navigation}</>}
+                  {footer}
                 </div>
               );
             })}

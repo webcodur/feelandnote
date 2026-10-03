@@ -7,7 +7,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { Calendar, Check } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import Modal, { ModalFooter } from "@/components/ui/Modal";
@@ -43,6 +43,12 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
     min: min ?? BIRTH_YEAR_MIN,
     max: max ?? BIRTH_YEAR_MAX,
   });
+  const [previousRange, setPreviousRange] = useState<BirthYearRange>({ min, max });
+  // 모달의 선택 조건에서 생년을 해제해도 슬라이더와 입력값이 함께 돌아간다.
+  if (previousRange.min !== min || previousRange.max !== max) {
+    setPreviousRange({ min, max });
+    setDraft({ min: min ?? BIRTH_YEAR_MIN, max: max ?? BIRTH_YEAR_MAX });
+  }
 
   const commit = useCallback((next: Required<BirthYearRange>) => {
     setDraft(next);
@@ -120,7 +126,6 @@ export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilter
         className={`mb-5 flex w-full items-center justify-between rounded px-3 py-2 text-sm hover:bg-white/10 outline-none focus-visible:ring-2 focus-visible:ring-accent ${isFullRange ? "bg-accent/10 text-accent" : "text-text-primary"}`}
       >
         <span>{t("all")}</span>
-        {isFullRange && <Check size={16} aria-hidden="true" />}
       </button>
       <p aria-hidden={isFullRange} className="mb-4 min-h-5 text-sm font-bold text-text-primary">
         {isFullRange ? "\u00a0" : t("range", { min: formatYear(draft.min, t), max: formatYear(draft.max, t) })}

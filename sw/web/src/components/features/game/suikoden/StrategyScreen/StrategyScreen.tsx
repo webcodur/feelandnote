@@ -68,7 +68,7 @@ export default function StrategyScreen({ state, onUpdateState, onDialog, dialogu
             >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(/images/game/suikoden/territories/${splash.id}.png)` }}
+            style={{ backgroundImage: getTerritoryDef(splash.id as TerritoryId)?.imageUrl ? `url(${getTerritoryDef(splash.id as TerritoryId)!.imageUrl})` : undefined }}
           />
             <div className="absolute inset-0 bg-black/50" />
             <span className="relative text-2xl font-serif text-white/90 tracking-widest drop-shadow-lg">

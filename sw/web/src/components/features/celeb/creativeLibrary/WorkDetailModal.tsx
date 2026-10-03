@@ -82,7 +82,7 @@ export default function WorkDetailModal({
   return (
     <>
       <Modal isOpen onClose={onClose} size="md">
-        <ModalBody className="p-0 max-h-[85vh] overflow-y-auto">
+        <ModalBody className="p-0">
           {/* 포스터 */}
           {item.thumbnail && (
             <button

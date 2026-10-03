@@ -27,6 +27,19 @@ function fixture(): MythData {
   };
 }
 
+test('a page keeps the complete menu but sends only the selected myth detail', () => {
+  const data = fixture();
+  const second = { ...data.myths[0], id: 'second', slug: 'second', personIds: ['second-person'] };
+  data.myths.push(second);
+  data.regions[0].mythIds.push(second.id);
+  data.people.push({ ...data.people[1], id: 'second-person', mythIds: [second.id], appearances: [] });
+  const result = getMythClientData(data, 'second');
+  assert.equal(result.myths.filter(myth => myth.isPublished).length, 2);
+  assert.deepEqual(result.people.map(person => person.id), ['second-person']);
+  assert.deepEqual(result.works, []);
+  assert.equal(data.people.length, 4, 'the shared cache remains unchanged');
+});
+
 test("public view retains complete public stories and shared works without private details", () => {
   const data = fixture();
   const original = structuredClone(data);
@@ -55,6 +68,16 @@ test("an entirely closed atlas exports no regions", () => {
   assert.equal(result.works.length, 0);
   assert.equal(result.myths.length, 0);
   assert.equal(result.regions.length, 0);
+});
+
+test('공개 신화의 주제책은 인물 배정이 없어도 남고 비공개 주제책은 보내지 않는다', () => {
+  const data = fixture();
+  const base = data.works[0];
+  data.works.push({ ...base, id: 'theme-only', personIds: [], appearedIds: [], themeIds: ['public', 'private'] });
+  data.works.push({ ...base, id: 'private-theme', personIds: [], appearedIds: [], themeIds: ['private'] });
+  const result = getMythClientData(data);
+  assert.deepEqual(result.works.find((work) => work.id === 'theme-only')?.themeIds, ['public']);
+  assert.equal(result.works.some((work) => work.id === 'private-theme'), false);
 });
 
 test("local data keeps closed stories locked and out of the client payload", () => {

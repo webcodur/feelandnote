@@ -212,7 +212,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
       zIndex={zIndex}
     >
       {/* PC 레이아웃 */}
-      <div className="hidden md:flex relative w-full max-h-[calc(100dvh-4rem)] overflow-hidden flex-col rounded-2xl">
+      <div className="hidden md:flex relative w-full min-h-0 max-h-[var(--modal-body-max-height)] overflow-hidden flex-col rounded-2xl">
         {/* 배경 */}
         <div className="absolute inset-0 bg-gradient-to-br from-bg-card via-bg-main to-bg-secondary" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08)_0%,transparent_60%)]" />
@@ -265,7 +265,7 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
       </div>
 
       {/* 모바일 레이아웃 */}
-      <div className="md:hidden relative w-full max-h-[calc(100dvh-4rem)] overflow-hidden flex flex-col bg-bg-main rounded-2xl">
+      <div className="md:hidden relative w-full min-h-0 max-h-[var(--modal-body-max-height)] overflow-hidden flex flex-col bg-bg-main rounded-2xl">
         {/* 배경 장식 */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.06)_0%,transparent_50%)] pointer-events-none" />
 

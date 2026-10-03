@@ -68,7 +68,6 @@ export default function HeaderRecentProfiles() {
         onClose={() => setIsOpen(false)}
         title={t("recentTitle")}
         size="sm"
-        maxHeightClassName="max-h-[calc(100dvh-5rem)]"
       >
         <div className="space-y-2 px-1 py-1">
           {recentItems.map((item) => (

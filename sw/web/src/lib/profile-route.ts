@@ -7,6 +7,18 @@ import { getCelebBySlug } from '@/actions/user/getCelebBySlug'
 import { getUserProfile } from '@/actions/user/getUserProfile'
 import { redirect } from '@/i18n/navigation'
 import { getCelebProfileUrl, isProfileId } from '@/lib/url'
+import { getCelebIdentity } from '@/lib/celeb/identity'
+
+export const getCelebRouteIdentity = cache(async (slugOrId: string, locale: string) => {
+  if (isProfileId(slugOrId)) {
+    const slug = await getCelebSlugById(slugOrId)
+    if (!slug) notFound()
+    redirect({ href: getCelebProfileUrl({ id: slugOrId, slug }), locale })
+  }
+  const identity = await getCelebIdentity(slugOrId, locale)
+  if (!identity) notFound()
+  return identity
+})
 
 // 메타데이터·레이아웃·본문이 같은 요청에서 같은 진입 판단을 공유한다.
 export const getCelebRouteProfile = cache(async (

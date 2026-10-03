@@ -1,6 +1,8 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { cache } from 'react'
+import { coalesceCacheQuery } from '@/lib/cacheQuery'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { selectVisibleFactionMembers } from '@/lib/faction-members'
@@ -236,12 +238,13 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedFactionRows = unstable_cache(fetchFactionRows, ['featured-faction-rows-v2'], {
+const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v2'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })
 // 인자(테마 id 덩어리)가 캐시 키에 들어가 덩어리마다 따로 저장된다
-const getCachedFactionMembers = unstable_cache(fetchFactionMembers, ['featured-faction-members-v2'], {
+const getCachedFactionMembers = unstable_cache((ids: string[]) => coalesceCacheQuery(`faction-members:${ids.join(',')}`,
+  () => fetchFactionMembers(ids)), ['featured-faction-members-v3-filtered'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })
@@ -266,7 +269,7 @@ function toFeaturedFaction(faction: FeaturedFactionRow, celebs: FeaturedCeleb[],
   }
 }
 
-export async function getFeaturedFactions(): Promise<FeaturedFaction[]> {
+export const getFeaturedFactions = cache(async (): Promise<FeaturedFaction[]> => {
   const factionRows = await getCachedFactionRows()
   if (!factionRows.length) return []
 
@@ -301,15 +304,24 @@ export async function getFeaturedFactions(): Promise<FeaturedFaction[]> {
     result.push(toFeaturedFaction(faction, [], { parentSlug: faction.parentSlug, isGroup: faction.isGroup }))
   }
   return result
-}
+})
 
 export async function getFactionsByIds(factionIds: string[]): Promise<FeaturedFaction[]> {
   if (factionIds.length === 0) return []
 
-  const factions = await getFeaturedFactions()
+  const rows = await getCachedFactionRows()
+  const selected = rows.filter(row => factionIds.includes(row.id) && row.is_featured)
+  const members = await getCachedFactionMembers(selected.filter(row => !row.isGroup).map(row => row.id))
+  const factions = selected.map(row => toFeaturedFaction(row, members[row.id] ?? [], { parentSlug: row.parentSlug, isGroup: row.isGroup }))
   const factionById = new Map(factions.map((faction) => [faction.id, faction]))
 
   return factionIds
     .map((factionId) => factionById.get(factionId))
     .filter((faction): faction is FeaturedFaction => faction?.is_featured === true && faction.isGroup !== true)
+}
+
+/** 스트리밍 전에 주소·공개 여부를 확인해 없는 테마에는 실제 404를 보낸다. */
+export async function getFactionRouteTarget(slug: string) {
+  const rows = await getCachedFactionRows()
+  return rows.find(row => row.slug === slug && row.is_featured) ?? null
 }

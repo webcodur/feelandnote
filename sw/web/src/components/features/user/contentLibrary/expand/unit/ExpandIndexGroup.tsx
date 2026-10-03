@@ -3,7 +3,8 @@
 import { memo, useEffect } from "react";
 import type { TransitionEvent } from "react";
 import type { LucideIcon } from "lucide-react";
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import LibraryIndexItem from "@/components/shared/LibraryIndexItem";
 
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,7 @@ interface ExpandIndexGroupProps {
 }
 
 interface ExpandIndexItemProps {
+  contentType: string;
   item: ExpandIndexEntry;
   isSelected: boolean;
   label: string;
@@ -35,6 +37,7 @@ interface ExpandIndexItemProps {
 }
 
 interface ExpandIndexItemsProps {
+  contentType: string;
   items: ExpandIndexEntry[];
   selectedIndex: number;
   label: string;
@@ -43,6 +46,7 @@ interface ExpandIndexItemsProps {
 }
 
 const ExpandIndexItem = memo(function ExpandIndexItem({
+  contentType,
   item,
   isSelected,
   label,
@@ -51,56 +55,26 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
 }: ExpandIndexItemProps) {
   const number = `${item.localIndex}.`;
   return (
-    <button
-      type="button"
+    <LibraryIndexItem
+      selected={isSelected}
+      title={item.title}
+      creator={item.creator}
+      thumbnailUrl={item.thumbnailUrl}
+      contentType={contentType}
+      number={item.localIndex}
+      unavailable={Boolean(item.titleBadge)}
       data-original-index={item.originalIndex}
       ref={(element) => {
         setItemRef(item.originalIndex, element);
       }}
       onClick={() => onSelect(item.originalIndex)}
-      aria-current={isSelected ? "true" : undefined}
       aria-label={`${label} ${number} ${item.title}`}
-      title={item.title}
-      className={cn(
-        "relative flex min-h-11 w-full items-center gap-2 border-b border-white/[0.08] px-3 text-sm text-text-secondary last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
-        styles.indexItem,
-      )}
-    >
-      <span
-        className={cn(
-          "absolute start-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/20 transition-opacity duration-150 ease-out",
-          styles.indexItemMarker,
-        )}
-        aria-hidden
-      />
-      <span
-        aria-hidden
-        className={cn(
-          "min-w-7 shrink-0 pe-2 text-end font-mono text-[11px] tabular-nums text-text-tertiary transition-opacity duration-150 ease-out",
-          styles.indexItemTitle,
-        )}
-      >
-        {number}
-      </span>
-      <span
-        aria-hidden
-        className={cn(
-          "min-w-0 flex-1 truncate text-center text-sm leading-snug transition-opacity duration-150 ease-out",
-          styles.indexItemTitle,
-          // 확인된 언어판이 없는 제목은 칩 대신 취소선으로 흐린다
-          item.titleBadge && "text-text-tertiary line-through decoration-text-tertiary/70",
-        )}
-      >
-        {item.title}
-      </span>
-      <span aria-hidden className={cn("flex w-5 shrink-0 justify-center", styles.indexItemTitle)}>
-        {isSelected && <Check size={18} strokeWidth={2.5} />}
-      </span>
-    </button>
+    />
   );
 });
 
 const ExpandIndexItems = memo(function ExpandIndexItems({
+  contentType,
   items,
   selectedIndex,
   label,
@@ -112,6 +86,7 @@ const ExpandIndexItems = memo(function ExpandIndexItems({
       {items.map((item) => (
         <ExpandIndexItem
           key={item.itemId}
+          contentType={contentType}
           item={item}
           isSelected={item.originalIndex === selectedIndex}
           label={label}
@@ -149,6 +124,7 @@ function ExpandIndexGroup({
   if (hideHeader) {
     return (
       <ExpandIndexItems
+        contentType={groupKey}
         items={items}
         selectedIndex={selectedIndex}
         label={label}
@@ -218,6 +194,7 @@ function ExpandIndexGroup({
         )}
       >
         <ExpandIndexItems
+          contentType={groupKey}
           items={items}
           selectedIndex={selectedIndex}
           label={label}

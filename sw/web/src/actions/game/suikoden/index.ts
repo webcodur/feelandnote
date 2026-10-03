@@ -26,13 +26,16 @@ type SuikodenInfluenceJoin = Pick<
 interface SuikodenProfileRow {
   id: string
   nickname: string | null
+  nickname_en: string | null
   title: string | null
+  title_en: string | null
   profession: string | null
   nationality: string | null
   gender: boolean | null
   birth_date: string | null
   death_date: string
   bio: string | null
+  bio_en: string | null
   avatar_url: string | null
   celeb_influence: SuikodenInfluenceJoin | SuikodenInfluenceJoin[] | null
   celeb_spectrum: { spectrum: SpectrumJsonb | null } | { spectrum: SpectrumJsonb | null }[] | null
@@ -56,8 +59,8 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
   const { data, error } = await db
     .from('celebs')
     .select(`
-      id, nickname, title, profession, nationality, gender,
-      birth_date, death_date, bio,
+      id, nickname, nickname_en, title, title_en, profession, nationality, gender,
+      birth_date, death_date, bio, bio_en,
       avatar_url,
       celeb_influence!celeb_influence_celebs_fkey (
         political, strategic, tech, social, economic, cultural,
@@ -110,7 +113,12 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
       const spectrumRow = Array.isArray(p.celeb_spectrum) ? p.celeb_spectrum[0] : p.celeb_spectrum
       const spectrum = spectrumRow?.spectrum ? parseSpectrumJsonb(spectrumRow.spectrum) : undefined
-      const char = dbToCharacter(p, influence!, spectrum)
+      const char = dbToCharacter(locale === 'en' ? {
+        ...p,
+        nickname: p.nickname_en || p.nickname,
+        title: p.title_en || p.title,
+        bio: p.bio_en || p.bio,
+      } : p, influence!, spectrum)
       const dlgQuote = quoteMap.get(p.id)
       if (dlgQuote) char.quotes = dlgQuote
       return char

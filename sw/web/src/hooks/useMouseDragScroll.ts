@@ -153,6 +153,8 @@ export function useMouseDragScroll<T extends HTMLElement = HTMLDivElement>(axis:
   return {
     ref,
     cursorClassName: isDragging ? "cursor-grabbing" : "cursor-grab",
+    /* 넘김 단추가 미끄러짐과 부드러운 이동을 두고 다투지 않게 밖에서도 끊는다 */
+    stopGlide,
     dragProps: { onPointerDown, onPointerMove, onPointerUp: onPointerEnd, onPointerCancel: onPointerEnd, onClickCapture, onDragStart },
   };
 }

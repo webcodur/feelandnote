@@ -11,11 +11,12 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
+import CategoryChip from "@/components/ui/CategoryChip";
 import { ChevronDown, Globe, Landmark, Tags, type LucideIcon } from "lucide-react";
 import type { CuratedHub } from "@/actions/library/types";
 import { Pagination } from "@/components/ui/Pagination";
-import ExploreSearchControls, { EXPLORE_CHIP_CLASS, EXPLORE_CONTROL_CHANGED_CLASS, EXPLORE_CONTROL_CLASS, EXPLORE_PANEL_CLASS, exploreChipStateClass } from "@/components/shared/ExploreSearchControls";
+import ExploreSearchControls, { EXPLORE_CONTROL_CHANGED_CLASS, EXPLORE_CONTROL_CLASS, EXPLORE_PANEL_CLASS } from "@/components/shared/ExploreSearchControls";
 import { FilterModal } from "@/components/shared/filters";
 import { summarizeBrowse } from "./useCuratedBrowse";
 import CuratedListCard from "./CuratedListCard";
@@ -86,15 +87,15 @@ export default function CuratedHubView({ hub }: { hub: CuratedHub }) {
   return (
     <div>
       <div className={EXPLORE_PANEL_CLASS}>
-        {/* 매체 범주 — 알약 칩. 화면을 바꾸는 모드 탭(밑줄형)·선택 단추(네모)와 모양을 가른다 */}
+        {/* 매체 범주 — 랭킹과 같은 아이콘·대표색 칩 */}
         <nav aria-label={t("media")} className="flex flex-wrap items-center justify-center gap-2">
-          {allSummary.medias.map(media => <Link key={media} href={`${pathname}${queryFor({ media, kind: "all", topic: "all", country: "all" })}`} prefetch={false}
-            aria-current={filters.media === media ? "page" : undefined} onClick={event => {
+          {allSummary.medias.map(media => <CategoryChip key={media} media={media} selected={filters.media === media}
+            href={`${pathname}${queryFor({ media, kind: "all", topic: "all", country: "all" })}`} onClick={event => {
               if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
               event.preventDefault(); update({ media, kind: "all", topic: "all", country: "all" });
-            }} className={`${EXPLORE_CHIP_CLASS} ${exploreChipStateClass(filters.media === media)}`}>
+            }}>
             {t.has(`mediaShort.${media}`) ? t(`mediaShort.${media}`) : curated(`mediaLabel.${media}`)}
-          </Link>)}
+          </CategoryChip>)}
         </nav>
         <ExploreSearchControls value={search} placeholder={t("searchPlaceholder")} searchLabel={ui("searchButton")}
           clearLabel={ui("compactFilters.remove", { label: search })} onChange={setDraft}

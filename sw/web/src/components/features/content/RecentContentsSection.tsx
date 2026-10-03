@@ -11,7 +11,7 @@ import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Book, Film, Gamepad2, Music, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useCallback } from "react";
-import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
+import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import { getCategoryByDbType } from "@/constants/categories";
 import type { RecentContentItem } from "@/hooks/useRecentContents";
 import type { ContentType } from "@/types/database";
@@ -29,7 +29,8 @@ interface RecentContentsSectionProps {
 
 export default function RecentContentsSection({ items }: RecentContentsSectionProps) {
   const t = useTranslations("contentDetail");
-  const { scrollRef, isDragging, events } = useHorizontalScroll();
+  // 한 줄 넘김 선반 — 끌기는 마우스만 받고 터치는 브라우저 기본 스크롤이 담당한다. 규칙은 ui-rail 스킬이 쥔다
+  const { ref: scrollRef, cursorClassName, dragProps, stopGlide } = useMouseDragScroll<HTMLDivElement>();
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
 
@@ -55,6 +56,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
   const scrollBy = (dir: 1 | -1) => {
     const el = scrollRef.current;
     if (!el) return;
+    stopGlide();
     const step = el.clientWidth * 0.8;
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
@@ -83,10 +85,11 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
       >
         <ChevronRight size={16} />
       </button>
+      {/* 칸 맞춤(스냅)은 터치에만 건다 — 마우스 끌기 중·뒤에 스냅이 걸리면 칸으로 확 끌려가 튄다 */}
       <div
         ref={scrollRef}
-        className={`flex gap-2 md:gap-3 overflow-x-auto scrollbar-hidden pb-1 scroll-smooth snap-x snap-mandatory ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-        {...events}
+        className={`flex gap-2 md:gap-3 overflow-x-auto scrollbar-hidden overscroll-x-contain select-none pb-1 snap-mandatory pointer-coarse:snap-x ${cursorClassName}`}
+        {...dragProps}
       >
         {items.map((item) => {
           const category = getCategoryByDbType(item.type);
@@ -97,8 +100,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
             <Link
               key={item.id}
               href={href}
-              className="flex-shrink-0 w-[72px] md:w-[108px] lg:w-[120px] group"
-              onClick={(e) => isDragging && e.preventDefault()}
+              className="flex-shrink-0 snap-start w-[72px] md:w-[108px] lg:w-[120px] group"
             >
               {/* 카드 — 즉각 축: 테두리·배경·제목색 (transition 없음) / 연출 축: 이미지 확대 (transition-transform) */}
               <div className="relative w-[72px] h-[100px] md:w-[108px] md:h-[150px] lg:w-[120px] lg:h-[168px] rounded-xl overflow-hidden border border-white/10 bg-bg-secondary group-hover:border-accent/60 group-hover:bg-white/[0.04]">

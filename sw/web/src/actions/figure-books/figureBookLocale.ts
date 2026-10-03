@@ -1,5 +1,7 @@
 import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
+import { AFFILIATE_PLATFORMS, toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -23,6 +25,9 @@ export interface FigureBookPurchaseOptionRow {
 
 export interface FigureBookEdition {
   id: number
+  locale?: 'ko' | 'en'
+  /** 원래 locale의 실제 ISBN과 출처가 이 판본에 맞는 기존 링크만 보존한다. */
+  affiliateLinks?: AffiliateLink[]
   title: string
   creator: string | null
   description: string | null
@@ -85,6 +90,7 @@ export function mapFigureBookPurchaseOptions(
     ))
     .map((row) => ({
       id: row.edition_id,
+      locale: locale as 'ko' | 'en',
       title: row.title,
       creator: row.creator,
       description: row.description,
@@ -116,6 +122,7 @@ export function mapFigureBookEditions(
     .filter((row) => row.locale === locale && row.title.trim() !== '')
     .map((row) => ({
       id: row.id,
+      locale: locale as 'ko' | 'en',
       title: row.title,
       creator: row.creator,
       description: row.description,
@@ -132,15 +139,32 @@ export function mapFigureBookEditions(
     .sort((left, right) => left.sortOrder - right.sortOrder || left.id - right.id)
 }
 
+export function attachFigureBookLocaleLinks<T extends FigureBookEdition>(edition: T, exactLocale: unknown): T {
+  const row = exactLocale && typeof exactLocale === 'object' && !Array.isArray(exactLocale)
+    ? exactLocale as Record<string, unknown> : {}
+  const sources = row.sources && typeof row.sources === 'object' && !Array.isArray(row.sources)
+    ? row.sources as Record<string, unknown> : {}
+  const isbn = typeof edition.isbn === 'string' ? toIsbn13(edition.isbn) : null
+  const provider = edition.locale === 'ko' ? 'kakao_book' : edition.locale === 'en' ? 'openlibrary' : null
+  const links = provider && row.locale === edition.locale && isbn && typeof row.isbn === 'string' && toIsbn13(row.isbn) === isbn && sources.primary === provider
+    ? toAffiliateLinks(row.affiliate_url).filter(link => {
+      if (AFFILIATE_PLATFORMS[link.platform].locale !== edition.locale) return false
+      try { const url = new URL(link.url); return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password }
+      catch { return false }
+    }) : []
+  return { ...edition, affiliateLinks: links }
+}
+
 /** 한국어 판본은 쿠팡 상품 유무와 관계없이 선택하고, 저장된 구매 링크만 같은 판본에 붙인다. */
 export function mergeFigureBookEditions(
   rows: FigureBookEditionRow[],
   options: FigureBookPurchaseOptionRow[],
   locale: string,
+  includeAll = false,
 ): FigureBookEdition[] {
   const purchasable = mapFigureBookPurchaseOptions(options, locale)
   const editions = mapFigureBookEditions(rows, locale)
-  if (locale !== 'ko') return purchasable.length > 0 ? purchasable : editions
+  if (locale !== 'ko' && !includeAll) return purchasable.length > 0 ? purchasable : editions
   const byId = new Map(purchasable.map((edition) => [edition.id, edition]))
   return editions.map((edition) => {
     const purchase = byId.get(edition.id)

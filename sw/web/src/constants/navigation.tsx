@@ -63,6 +63,7 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
+      { key: "influence", href: "/explore/influence", label: "영향력" },
       { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
       { key: "spectrum", href: "/explore/spectrum", label: "스펙트럼" },
       { key: "myth", href: "/explore/myth", label: "신화의 세계" },
@@ -94,7 +95,6 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "dawn", href: "/rest#dawn", label: "여명" },
       { key: "labyrinth", href: "/rest#labyrinth", label: "미궁" },
       { key: "hegemony", href: "/rest#hegemony", label: "패권" },
-      { key: "suikoden", href: "/rest#suikoden", label: "천도" },
       // { key: "wander", href: "/rest#wander", label: "유랑" }, // 비공개(26.07.30)
       // { key: "memory", href: "/rest#memory", label: "기억" }, // 비공개(26.07.28)
     ],
@@ -118,10 +118,10 @@ export const HEADER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInHeader);
 export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInBottomNav);
 export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => item.key);
 export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length && item.key !== "rest");
-/** 탐색 주요 카드와 푸터가 같은 인물 메뉴 네 항목을 공유한다. */
+/** 탐색 주요 관점. 보조 목록 입구는 푸터에 별도로 더한다. */
 export const EXPLORE_FEATURED_LINKS: NavSubLink[] =
   NAV_ITEMS.find((item) => item.key === "explore")?.subLinks?.filter((link) =>
-    ["ranking", "spectrum", "myth", "faction"].includes(link.key ?? ""),
+    ["influence", "spectrum", "myth", "faction"].includes(link.key ?? ""),
   ) ?? [];
 /** 작품 모드의 첫 화면은 베스트셀러다(곧바로 작품이 보인다). 나머지는 아래 「주제별 탐색」 카드로 안내한다(26.09.28). */
 export const WORKS_LINKS: NavSubLink[] = [
@@ -147,7 +147,12 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     key: "explore",
     titleKey: "nav.footer.sectionFigures",
     href: "/explore",
-    links: EXPLORE_FEATURED_LINKS,
+    links: [
+      ...EXPLORE_FEATURED_LINKS,
+      ...(NAV_ITEMS.find((item) => item.key === "explore")?.subLinks?.filter((link) =>
+        ["monologue", "ranking", "timeline", "directory"].includes(link.key ?? ""),
+      ) ?? []),
+    ],
   },
   {
     key: "library",

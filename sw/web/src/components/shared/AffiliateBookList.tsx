@@ -19,6 +19,7 @@ import { useMouseDragScroll } from '@/hooks/useMouseDragScroll'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import type { BookStorePlatform } from '@/constants/affiliatePlatforms'
 import { cn } from '@/lib/utils'
+import { getContentDetailHref } from '@/lib/books/contentEdition'
 
 interface AffiliateBookListProps {
   books: AffiliateBook[]
@@ -179,7 +180,7 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
               overlayTopLeft={cardBadge?.(book) ? (
                 <span className="rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary shadow-sm">{cardBadge(book)}</span>
               ) : undefined}
-              href={onDetail ? undefined : `/content/${book.contentId}?category=book`}
+              href={onDetail ? undefined : getContentDetailHref(book.contentId, book.editionId)}
               onClick={onDetail ? () => onDetail(book) : undefined}
               showHeader={false}
               showStats={!onDetail}

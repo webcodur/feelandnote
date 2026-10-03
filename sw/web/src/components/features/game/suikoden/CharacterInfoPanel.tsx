@@ -1,5 +1,7 @@
 'use client'
 
+import { gameText } from '@/lib/game/text'
+
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import type { GameCharacter, GameState, Stats } from '@/lib/game/suikoden/types'
@@ -153,8 +155,8 @@ function AbilityTab({ stats, tS }: { stats: Stats; tS: TranslationFn }) {
 function BioTab({ char, tS }: { char: GameCharacter; tS: TranslationFn }) {
   return (
     <div className="space-y-2">
-      {char.bio && <p className="text-[10px] text-text-secondary leading-relaxed">{char.bio}</p>}
-      {char.quotes && <p className="text-[10px] italic text-text-secondary">{char.quotes}</p>}
+      {char.bio && <p className="text-[10px] text-text-secondary leading-relaxed">{gameText(char.bio)}</p>}
+      {char.quotes && <p className="text-[10px] italic text-text-secondary">{gameText(char.quotes)}</p>}
       {!char.bio && !char.quotes && (
         <p className="text-[10px] text-text-secondary text-center py-4">{tS('charInfo.noBio')}</p>
       )}

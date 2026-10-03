@@ -84,7 +84,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
   if (!isOpen) return null;
 
   const content = (
-    <div className="flex flex-col w-full h-full overflow-y-auto custom-scrollbar">
+    <div className="flex min-h-0 flex-col w-full h-full overflow-y-auto custom-scrollbar">
       {/* Avatar + 이름 + 메타 */}
       <div className="flex flex-col items-center px-6 pt-8 pb-4 shrink-0">
         <BlurDissolve>
@@ -185,7 +185,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
       animateHeight={false}
       zIndex={zIndex}
     >
-      <div className="relative bg-bg-main max-h-[calc(100dvh-4rem)] overflow-hidden flex flex-col">
+      <div className="relative bg-bg-main min-h-0 max-h-[var(--modal-body-max-height)] overflow-hidden flex flex-col">
         {content}
       </div>
     </Modal>

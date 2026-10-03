@@ -1,0 +1,13 @@
+.compactArtwork {
+  mask-image: linear-gradient(to right, transparent, #000 30%);
+}
+
+.largeArtwork {
+  mask-image: linear-gradient(to bottom, #000 65%, transparent);
+}
+
+@media (min-width: 768px) {
+  .largeArtwork {
+    mask-image: linear-gradient(to right, transparent, #000 24%);
+  }
+}

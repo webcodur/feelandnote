@@ -38,7 +38,7 @@ function NarrationButton({ label, onClick, children, disabled = false, busy = fa
     <button
       type="button" aria-label={label} aria-busy={busy || undefined}
       title={label} onClick={onClick} disabled={disabled}
-      className={`relative flex h-10 w-11 shrink-0 items-center justify-center gap-1 rounded-lg border enabled:hover:border-accent/60 enabled:hover:bg-accent/15 enabled:hover:text-accent enabled:active:bg-accent/25 disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${primary ? "border-accent/45 bg-accent/10 text-accent" : "border-white/20 bg-black/20 text-text-secondary"}`}
+      className={`relative flex size-11 shrink-0 items-center justify-center gap-1 rounded-full disabled:cursor-default disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-card ${primary ? "bg-accent text-bg-main enabled:hover:bg-accent-hover enabled:active:bg-accent-dim" : "text-text-secondary enabled:hover:bg-accent/10 enabled:hover:text-accent enabled:active:bg-accent/20"}`}
     >
       {children}
     </button>
@@ -55,47 +55,49 @@ export default function ReadingNarrationControls({ narration, label }: { narrati
 
   return (
     <div inert={!available} aria-disabled={!available || undefined} className={available ? "" : "opacity-40 transition-opacity"}>
-      <div className="mx-auto mb-4 max-w-sm rounded-xl border border-white/15 bg-white/[0.045] px-4 py-2.5" role="group" aria-label={label ?? t("readingControls")}>
-        <div className="mx-auto grid w-fit grid-cols-5 items-center gap-1.5">
-          <NarrationButton label={t("readingStop")} onClick={stop} disabled={status === "idle" && currentTime === 0}>
-            <Square size={16} aria-hidden />
-          </NarrationButton>
-          <NarrationButton label={t("readingBack")} onClick={() => seek(currentTime - 10)} disabled={currentTime <= 0}>
-            <RotateCcw size={14} strokeWidth={1.6} aria-hidden />
-            <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
-          </NarrationButton>
-          <NarrationButton
-            label={active ? t("readingPause") : status === "paused" ? t("readingResume") : t("readingPlay")}
-            onClick={active ? pause : status === "paused" ? resume : play}
-            busy={status === "loading"}
-            primary
-          >
-            {status === "loading" ? <Loader2 size={18} className="animate-spin" aria-hidden /> : active ? <Pause size={18} aria-hidden /> : <Play size={18} aria-hidden />}
-          </NarrationButton>
-          <NarrationButton label={t("readingForward")} onClick={() => seek(currentTime + 10)} disabled={currentTime >= duration}>
-            <RotateCw size={14} strokeWidth={1.6} aria-hidden />
-            <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
-          </NarrationButton>
-          {/* 네이티브 select 팝업은 본문 자동 스크롤(AutoScrollReadingText)에 닫힌다 — React 모달은 스크롤에 닫히지 않아 여기에 띄운다 */}
-          <NarrationButton
-            label={`${t("readingSpeed")} ${playbackRate}×`}
-            onClick={() => setSpeedOpen(true)}
-          >
-            <span className="text-[11px] font-medium leading-none tabular-nums">{playbackRate}×</span>
-          </NarrationButton>
-        </div>
-        <div className="mt-1.5 flex items-center gap-2 text-[11px] tabular-nums text-text-secondary">
-          <span className="min-w-7">{formatTime(currentTime)}</span>
-          <input
-            type="range" min={0} max={duration} step={0.1}
-            value={Math.min(currentTime, duration)}
-            onChange={(event) => seek(Number(event.target.value))}
-            aria-label={t("readingPosition")}
-            style={sliderFill(duration ? currentTime / duration * 100 : 0)}
-            aria-valuetext={`${formatTime(currentTime)} / ${formatTime(duration)}`}
-            className={SLIDER_CLASS}
-          />
-          <span className="min-w-7 text-right">{formatTime(duration)}</span>
+      <div className="mx-auto mb-4 w-fit max-w-full rounded-xl border border-border bg-bg-card p-2.5" role="group" aria-label={label ?? t("readingControls")}>
+        <div className="mx-auto w-fit max-w-full">
+          <div className="grid grid-cols-5 items-center gap-1.5">
+            <NarrationButton label={t("readingStop")} onClick={stop} disabled={status === "idle" && currentTime === 0}>
+              <Square size={14} strokeWidth={1.6} aria-hidden />
+            </NarrationButton>
+            <NarrationButton label={t("readingBack")} onClick={() => seek(currentTime - 10)} disabled={currentTime <= 0}>
+              <RotateCcw size={14} strokeWidth={1.6} aria-hidden />
+              <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
+            </NarrationButton>
+            <NarrationButton
+              label={active ? t("readingPause") : status === "paused" ? t("readingResume") : t("readingPlay")}
+              onClick={active ? pause : status === "paused" ? resume : play}
+              busy={status === "loading"}
+              primary
+            >
+              {status === "loading" ? <Loader2 size={20} className="animate-spin" aria-hidden /> : active ? <Pause size={20} fill="currentColor" aria-hidden /> : <Play size={20} fill="currentColor" aria-hidden />}
+            </NarrationButton>
+            <NarrationButton label={t("readingForward")} onClick={() => seek(currentTime + 10)} disabled={currentTime >= duration}>
+              <RotateCw size={14} strokeWidth={1.6} aria-hidden />
+              <span className="text-[11px] font-medium leading-none tabular-nums">10</span>
+            </NarrationButton>
+            {/* 네이티브 select 팝업은 본문 자동 스크롤(AutoScrollReadingText)에 닫힌다 — React 모달은 스크롤에 닫히지 않아 여기에 띄운다 */}
+            <NarrationButton
+              label={`${t("readingSpeed")} ${playbackRate}×`}
+              onClick={() => setSpeedOpen(true)}
+            >
+              <span className="text-xs font-medium leading-none tabular-nums">{playbackRate}×</span>
+            </NarrationButton>
+          </div>
+          <div className="mt-1.5 flex h-8 items-center gap-1.5 text-[11px] tabular-nums text-text-secondary">
+            <span className="w-11 shrink-0 text-center">{formatTime(currentTime)}</span>
+            <input
+              type="range" min={0} max={duration} step={0.1}
+              value={Math.min(currentTime, duration)}
+              onChange={(event) => seek(Number(event.target.value))}
+              aria-label={t("readingPosition")}
+              style={sliderFill(duration ? currentTime / duration * 100 : 0)}
+              aria-valuetext={`${formatTime(currentTime)} / ${formatTime(duration)}`}
+              className={`w-0 min-h-11 ${SLIDER_CLASS}`}
+            />
+            <span className="w-11 shrink-0 text-center">{formatTime(duration)}</span>
+          </div>
         </div>
       </div>
       <Modal isOpen={speedOpen && available} onClose={closeSpeed} title={t("readingSpeed")} size="sm" animateHeight={false} escapeCapture zIndex={Z_INDEX.modal + 1}>

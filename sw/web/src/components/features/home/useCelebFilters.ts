@@ -18,10 +18,28 @@ export const SORT_VALUES = CELEB_SORT_OPTIONS;
 
 export type FilterType = "profession" | "nationality" | "contentType" | "contentPresence" | "gender" | "sort" | "tier" | "birthYear";
 
-/** 사실·가상 필터의 화면 값. real이 명부 기본(REAL·BOTH), fiction은 FICTION·BOTH, all은 세 축 전부다. */
-export type CelebRealityFilter = "real" | "fiction" | "all";
-/** 화면 값별 명부 총수 — 헤드라인이 사실·가상 선택을 따라간다 */
+/** 실존 여부의 화면 값. 혼합은 BOTH만, 전체는 세 분류를 모두 조회한다. */
+export type CelebRealityFilter = "real" | "fiction" | "mixed" | "all";
+/** 화면 값별 명부 총수 — 결과 수가 실존 여부 선택을 따라간다 */
 export type CelebRealityTotals = Record<CelebRealityFilter, number>;
+
+export interface CelebDetailFilterValues {
+  profession: string;
+  nationality: string;
+  contentType: string;
+  gender: string;
+  tierValue: string;
+  realityValue: CelebRealityFilter;
+  birthYearMin?: number;
+  birthYearMax?: number;
+}
+
+const REALITY_FILTER_VALUES: Record<CelebRealityFilter, readonly CelebReality[]> = {
+  all: CELEB_REALITIES,
+  fiction: ["FICTION", "BOTH"],
+  mixed: ["BOTH"],
+  real: LISTING_DEFAULT_REALITIES,
+};
 
 const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
@@ -285,10 +303,7 @@ export function useCelebFilters({
      '가상'은 FICTION·BOTH — 프로필 배지가 "사실 | 가상"을 함께 다는 인물도 가상 쪽에서 만난다.
      상태는 항상 명시 배열로 둔다 — 오버라이드와 기본값을 undefined로 구분할 수 없기 때문이다. */
   const handleRealityChange = useCallback((value: CelebRealityFilter) => {
-    const next: readonly CelebReality[] =
-      value === "all" ? CELEB_REALITIES
-      : value === "fiction" ? ["FICTION", "BOTH"]
-      : LISTING_DEFAULT_REALITIES;
+    const next = REALITY_FILTER_VALUES[value];
     setRealities([...next]);
     setCurrentPage(1);
     loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, undefined, undefined, undefined, undefined, next);
@@ -313,6 +328,31 @@ export function useCelebFilters({
   const handleTierValueChange = useCallback((value: string) => {
     handleTiersChange(isCelebTier(value) ? [value] : []);
   }, [handleTiersChange]);
+
+  // 상세 조건은 모달에서 편집하고, 적용할 때만 한 번에 조회한다.
+  const handleDetailFiltersApply = useCallback((next: CelebDetailFilterValues) => {
+    const nextTiers = isCelebTier(next.tierValue) ? [next.tierValue] : [];
+    const nextRealities = REALITY_FILTER_VALUES[next.realityValue];
+    setProfession(next.profession);
+    setNationality(next.nationality);
+    setContentType(next.contentType);
+    setGender(next.gender);
+    setTiers(nextTiers.length ? nextTiers : undefined);
+    setRealities([...nextRealities]);
+    setBirthYearMin(next.birthYearMin);
+    setBirthYearMax(next.birthYearMax);
+    setCurrentPage(1);
+    void loadCelebs(next.profession, next.nationality, next.contentType, next.gender, sortBy, 1, appliedSearch,
+      undefined, undefined, nextTiers, { min: next.birthYearMin, max: next.birthYearMax },
+      undefined, undefined, nextRealities);
+    updateUrlParams({
+      profession: next.profession, nationality: next.nationality, contentType: next.contentType, gender: next.gender,
+      tier: nextTiers.length ? nextTiers.join(",") : null,
+      reality: next.realityValue === "real" ? null : nextRealities.join(","),
+      byMin: next.birthYearMin === undefined ? null : String(next.birthYearMin),
+      byMax: next.birthYearMax === undefined ? null : String(next.birthYearMax), page: null,
+    });
+  }, [loadCelebs, sortBy, appliedSearch, updateUrlParams]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
@@ -375,9 +415,11 @@ export function useCelebFilters({
     handleTiersChange,
     tierValue,
     handleTierValueChange,
+    handleDetailFiltersApply,
     realities,
-    // 칩·모달이 읽는 화면 값. 기본(미지정·REAL·BOTH)은 'real', FICTION이 있고 REAL도 있으면 'all'
-    realityValue: (!realities || (realities.includes("REAL") && !realities.includes("FICTION")) ? "real"
+    // BOTH 단독 조회는 혼합이다. 전체·실존·가상과 별도 선택값으로 복원한다.
+    realityValue: (realities?.length === 1 && realities[0] === "BOTH" ? "mixed"
+      : !realities || (realities.includes("REAL") && !realities.includes("FICTION")) ? "real"
       : realities.includes("FICTION") && realities.includes("REAL") ? "all"
       : "fiction") as CelebRealityFilter,
     handleRealityChange,

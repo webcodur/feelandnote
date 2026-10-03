@@ -10,7 +10,9 @@
 - `type`은 `BOOK`·`VIDEO`·`GAME`·`MUSIC`이다.
 - `member_count`·`celeb_count`·`record_count`는 관계 테이블에서 파생되는 개수다.
 - 제목·제작자·표지·설명·ISBN·출판사·제휴 링크는 `contents`가 아니라 `content_locales`에 둔다.
-- BOOK 한 행은 작품을 대표한다. 번역·출판사·장정·분권이 다른 판본 때문에 `contents`를 복제하지 않는다.
+- BOOK 한 행은 서비스에서 보여 주는 작품을 대표한다. 번역·출판사·장정·분권이 다른 판본 때문에 `contents`를 복제하지 않는다. 셀럽 감상의 대상은 작품 ID다. 현재 셀럽 감상 관계에는 특정 판본 ID를 저장하지 않으며, 확인된 번역·판본·읽은 범위는 감상경위와 출처에 남긴다. 책장에서 고른 판본은 표지·소개·구매 정보를 바꾸는 선택이며, 그 판본을 셀럽이 읽었다는 근거가 아니다.
+
+첫 권·전체 시리즈의 대표 선정과 실제 판본·감상 범위 보존은 콘텐츠 등록·감사 룰북을 따른다.
 
 `content_locales`의 PK는 `(content_id, locale)`이다. 한 작품에 한 언어만 있는 상태도 정상이며, locale 행이 없다는 이유로 작품 원본까지 누락시키면 안 된다.
 
@@ -23,6 +25,10 @@
 | `verified` | `null` 미조사 / `true` 확인 / `false` 조사했으나 없음 |
 
 `verified`의 세 상태를 boolean 두 상태로 합치지 않는다. `false`와 `null`은 재수집 여부가 다르다. 신규 수집 제공자와 `sources`에 남아 있는 과거 출처 문자열은 같은 집합이 아니므로, 신규 메타 정책은 외부 서비스 문서에서 확인한다.
+
+ISBN 검증 기준은 [`packages/content-search/src/book-isbn.ts`](../../../packages/content-search/src/book-isbn.ts)가 쥔다. `content_locales.isbn`과 `figure_book_editions.isbn`의 DB CHECK도 이 기준에서 생성한다. [`scripts/oracle-db/content-isbn-check.ts`](../../../scripts/oracle-db/content-isbn-check.ts)는 SQL만 출력하며, 생성 결과는 [`20261002000000_content_isbn_valid.sql`](../../../sw/web/database/migrations/20261002000000_content_isbn_valid.sql)과 일치해야 한다.
+
+관리자 판본 저장과 판본 배치는 [`book-edition-work.ts`](../../../sw/web-bo/src/lib/book-edition-work.ts)로 공식 ISBN의 원전 귀속을 대조한다. OpenLibrary의 원전 ID가 같다는 이유만으로 제목이 다른 판본을 연결하지 않는다. 다른 제목의 번역·분권은 서버에 보존한 독립 검수 근거가 해당 ISBN·공식 제목·전체 원저자·원전·본문 범위와 맞아야 저장할 수 있다. 시리즈의 권별 원전 ID·제목 차이는 서버의 독립 시리즈 검수 근거가 대표와 실제 권 양쪽에 맞을 때 허용한다. 합본 ISBN을 여러 원전이 공유하려면 서버의 독립 합본 검수 근거가 공식 판본·목차와 현재 ISBN 소유 원전 전체에 맞아야 한다. 시리즈·합본 판본 저장은 개별 원전 메타를 덮어쓰지 않는다. 근거의 필드와 허용 조건은 이 코드가 쥔다.
 
 ### 조회 경계
 
@@ -38,6 +44,8 @@ where content.id = :content_id;
 ```
 
 `contents` 생성만으로 locale 행이 생긴다고 가정하지 않는다. 등록 경로는 작품 원본과 확인된 각 locale을 함께 저장하고 다시 조회한다.
+
+사용자 기록 등록도 기존 `contents.id`를 먼저 확인한다. 기존 작품을 재사용할 때는 회원 관계만 추가하며 메타를 다시 덮어쓰지 않는다. 신규 도서의 공식 메타 검증은 웹과 백오피스가 같은 [`external-book-input.ts`](../../../packages/content-search/src/external-book-input.ts)를 사용한다. 공식 제목에 명시된 원서·외국어판 표시를 한글 제목이나 국내 ISBN이라는 이유로 무시하지 않는다. 작품명·저자 성으로 원전을 추정해 자동 합치지 않는다.
 
 ## 감상 관계
 
@@ -65,7 +73,7 @@ contents
 ```
 
 - `figure_book_contents.content_id`는 `contents.id`를 재사용하는 PK다.
-- `figure_book_characters`의 PK는 `(content_id, celeb_id)`다. `relation_type`은 `appearance`·`related`만 허용하며 모든 인물 티어를 연결할 수 있다. `related`에서는 `description`·`description_en`이 모두 `NULL`이어야 한다.
+- `figure_book_characters`의 PK는 `(content_id, celeb_id)`다. `relation_type`은 `appearance`·`related`·`authored`를 허용하며 모든 인물 티어를 연결할 수 있다. `appearance`가 아닌 관계에서는 `description`·`description_en`이 모두 `NULL`이어야 한다.
 - `figure_book_editions.id`가 판본 PK다. locale은 `ko`·`en`, `edition_kind`는 마이그레이션 CHECK 값만 허용한다. ISBN이 있으면 `(content_id, locale, isbn)`이 유일하다. ISBN 없는 판본은 이 유일성 조건에 들어가지 않는다.
 - `figure_book_products`는 `edition_id`를 참조한다. 플랫폼은 `coupang`·`amazon`이며, 한 판본·플랫폼에는 활성 상품 하나만 허용한다. 공개 조회는 활성 상품만 노출한다.
 
@@ -77,3 +85,11 @@ contents
 - `academy_lesson_progress`: 학당 레슨 진행
 
 `flow_nodes.content_id`는 `contents.id`를 참조한다. 옛 라우트 이름이 남아 있어도 DB 모델은 `playlists`가 아니라 `flows`다.
+
+`flows.tiers`와 `flow_nodes.bonus_content_ids`, `tier_lists.tiers`·`unranked`, `faction_lv2.theme_book_ids`에도 작품 ID가 들어간다. 작품 통합은 [`merge-works.mjs`](../../../sw/web-bo/scripts/figure-books/merge-works.mjs)에서 이 배열을 포함한 실제 참조를 함께 옮긴다. 티어 편집은 읽어 온 기존 값과 저장 시점의 값을 비교하고, 작품 ID 조회 실패와 동시 수정 충돌을 사용자에게 반환한다.
+
+배열 참조 경로는 [`content-array-references.mjs`](../../../sw/web-bo/scripts/figure-books/lib/content-array-references.mjs)가 쥔다. 감사·병합·[`DB 보호 SQL 생성기`](../../../scripts/oracle-db/content-array-reference.mjs)가 같은 경로를 사용하며, 생성 결과는 [`20261002000002_content_array_reference.sql`](../../../sw/web/database/migrations/20261002000002_content_array_reference.sql)과 일치해야 한다. DB는 존재하지 않는 작품 ID의 배열 저장과 배열에서 참조 중인 작품의 삭제·ID 변경을 거부한다. 실제 삭제·ID 변경은 동시 참조를 놓치지 않도록 `READ COMMITTED`에서 실행하며, 높은 격리 수준에서는 재실행 오류를 반환한다.
+
+`activity_logs.content_id`는 현재 작품 ID를 참조하며 작품 삭제 시 `NULL`이 된다. 활동 기록 자체와 `target_id`는 보존한다. 입력 식별자의 원값은 `metadata.historicalContentId`에 남기고, 연결할 현재 작품이 없는 기록은 작품 카드로 반환하지 않는다.
+
+백오피스에서 `node --env-file=.env --import tsx scripts/figure-books/audit.ts --integrity`를 실행하면 ISBN·카드·참조 배열·카운터의 문제 ID를 읽기 전용으로 확인할 수 있다. 여러 API 조회의 결과이므로 쓰기가 진행 중인 경우 원자적 스냅샷처럼 해석하지 않는다. 여러 원전을 묶은 실물 합본은 같은 ISBN을 공유할 수 있어 ISBN 겹침은 `reviewCandidates`로 따로 반환한다. 원전 동일성과 수록 범위의 판정은 콘텐츠 감사 룰북을 따른다.

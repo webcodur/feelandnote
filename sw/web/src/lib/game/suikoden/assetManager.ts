@@ -65,6 +65,8 @@ export function getCharacterFallback(char: GameCharacter): {
 
 /** 게임 시작 시 에셋 프리로드 */
 export async function preloadAssets(characters: GameCharacter[]): Promise<void> {
+  const missingPortraits = characters.filter(char => !char.avatarUrl)
+  if (missingPortraits.length === 0) return
   const paths: string[] = []
 
   // 템플릿 초상화 체크
@@ -80,7 +82,7 @@ export async function preloadAssets(characters: GameCharacter[]): Promise<void> 
   }
 
   // 주요 캐릭터 개별 초상화 체크 (상위 30명만)
-  for (const char of characters.slice(0, 30)) {
+  for (const char of missingPortraits.slice(0, 30)) {
     paths.push(`/assets/suikoden/portraits/${char.id}.png`)
   }
 

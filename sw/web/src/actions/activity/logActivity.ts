@@ -1,32 +1,17 @@
 'use server'
 
 import { createClient } from '@/lib/db/server'
-import type { ActivityActionType, ActivityTargetType } from '@/types/database'
-
-interface LogActivityParams {
-  actionType: ActivityActionType
-  targetType: ActivityTargetType
-  targetId: string
-  contentId?: string
-  metadata?: Record<string, unknown>
-}
+import { writeActivityLog, type ActivityLogInput } from '@/lib/activity-content-reference'
 
 // 활동 로그 기록 (에러 발생해도 throw하지 않음)
-export async function logActivity(params: LogActivityParams): Promise<void> {
+export async function logActivity(params: ActivityLogInput): Promise<void> {
   try {
     const db = await createClient()
     const { data: { user } } = await db.auth.getUser()
 
     if (!user) return
 
-    await db.from('activity_logs').insert({
-      user_id: user.id,
-      action_type: params.actionType,
-      target_type: params.targetType,
-      target_id: params.targetId,
-      content_id: params.contentId ?? null,
-      metadata: params.metadata ?? null
-    })
+    await writeActivityLog(db, user.id, params)
   } catch {
     // 로깅 실패해도 메인 로직에 영향 주지 않음
     console.error('[logActivity] Failed to log activity')

@@ -205,7 +205,22 @@
         "comingSoon": "준비 중",
         "optionCount": "{count}개 선택 가능",
         "done": "선택 완료",
-        "world": "세계"
+        "world": "세계",
+        "searchMyth": "신화 검색",
+        "searchFaction": "세력 검색",
+        "clearSearch": "검색어 지우기",
+        "noResults": "검색 결과가 없습니다.",
+        "loading": "목록을 불러오는 중입니다.",
+        "loadError": "목록을 불러오지 못했습니다.",
+        "retry": "다시 시도",
+        "searchResults": "검색 결과 {count}개",
+        "backToList": "목록 보기",
+        "factionMode": "세력",
+        "selectThenOpen": "칩을 고르고, 한 번 더 눌러 {next} 선택",
+        "openNext": "선택한 칩을 다시 눌러 {next} 선택",
+        "groupPickHint": "고른 그룹을 다시 누르거나 아래에서 선택 완료",
+        "searchPickHint": "검색 결과를 눌러 선택하세요",
+        "clickAgainConfirm": "다시 눌러 선택 완료"
       }
     },
     "hub": {
@@ -235,7 +250,6 @@
       "quickNav": "주제별 탐색",
       "lensGroups": {
         "relation": "관계로 보기",
-        "ranking": "순위·비교로 보기",
         "more": "더 둘러보기"
       },
       "navCelebs": "인물 목록",
@@ -315,9 +329,17 @@
         "backToGroup": "그룹 개요로",
         "groupCore": "핵심 인물 {count}인",
         "enlargeImage": "이미지 확대",
-        "zoomExit": "확대 끄기",
         "captionShowAll": "자막 한 번에 보기",
         "captionPaginate": "문장으로 나눠 보기",
+        "captionSelect": "글을 눌러 선택·복사",
+        "captionCopy": "자막 복사",
+        "captionCopied": "복사됨",
+        "helpTitle": "조작법",
+        "helpZoom": "그림 위 스크롤 — 커서 지점 기준 확대·축소",
+        "helpPan": "확대된 그림 끌기 — 보이는 자리 옮기기",
+        "helpPaging": "빈 여백 스크롤 · 그림 좌우 밀기 — 장면 넘기기. 화면 ‹ › · 방향키 — 전체 자막은 장면, 개별 자막은 문장 넘기기",
+        "helpCaption": "자막 누르기 — 글 선택과 복사",
+        "helpEsc": "Esc — 한 단계씩 돌아가기",
         "captionPrevious": "이전 문장",
         "captionNext": "다음 문장",
         "portraitImage": "대표 사진",
@@ -335,7 +357,7 @@
         "worksLeadOthers": "이 신화의 인물이 등장하는 다른 작품",
         "worksReadLead": "인물이 감상한 책",
         "worksAuthoredLead": "인물이 직접 지은 책",
-        "worksProfessionLead": "같은 직종({profession}) 인물들이 찾는 책"
+        "worksProfessionLead": "{profession}들이 찾는 책"
       },
       "relationMap": {
         "title": "관계망",
@@ -359,15 +381,14 @@
       "mythologySub": "지역을 먼저 고르고, 그 안의 신화과 인물을 차례로 살펴봅니다.",
       "pageDescriptions": {
         "ranking": "책·영화·게임·음악, 분야별로 감상 기록이 많은 인물을 만나보세요.",
-        "spectrum": "덕목·능력·성향으로 인물들의 서로 다른 면모를 살펴보세요.",
         "myth": "지역과 신화를 따라 신화 속 인물과 등장 작품을 찾아보세요.",
         "faction": "하나의 주제로 모인 인물들의 이야기와 관계를 살펴보세요.",
-        "timeline": "같은 시대를 살았던 인물들을 국가별 연대기로 살펴보세요.",
-        "directory": "전체 인물을 이름과 직군별로 한눈에 찾아보세요.",
         "monologue": "인물이 자기 목소리로 말하는 삶과 철학. 낭독으로 듣거나 글로 읽습니다."
       },
       "navMonologue": "가상독백",
-      "archiveResults": "전체 {total, number}명 중 {count, number}명"
+      "archiveResults": "전체 {total, number}명 중 {count, number}명",
+      "navByTheme": "주제별 탐색",
+      "navInfluence": "영향력"
     },
     "directory": {
       "metaTitle": "인물 디렉토리 - 이름·직군별 전체 인물 목록",
@@ -455,13 +476,13 @@
       "overview": "팩션 개요",
       "overviewFallback": "위의 인물을 골라 이 테마에서의 역할과 이야기를 살펴보세요.",
       "backToOverview": "테마 개요로",
-      "personInTheme": "{theme}에서의 {name}",
+      "personInTheme": "<accent>{theme}</accent>에서의 {name}",
       "hubMetaTitle": "세력도감 - 주제로 묶은 인물과 진영",
       "metaDescription": "{sections} 등 분야별로 묶은 인물 세력과 진영.",
       "allThemes": "전체 세력",
       "memberOf": "소속 신화·세력",
       "worksReadLead": "구성원이 감상한 책",
-      "worksProfessionLead": "같은 직종({profession}) 인물들이 찾는 책",
+      "worksProfessionLead": "{profession}들이 찾는 책",
       "worksThemeLead": "이 세력을 직접 다루는 책",
       "worksAppearedLead": "구성원이 직간접적으로 등장하는 책",
       "worksAuthoredLead": "구성원이 직접 지은 책"
@@ -492,6 +513,40 @@
       "bookGroupRelated": "이 인물 관련 책",
       "bookGroupRead": "이 인물이 읽은 책",
       "shelfViewAll": "전체 {count}권 보기"
+    },
+    "influence": {
+      "metaTitle": "{field} - 인물 탐색",
+      "metaDescription": "종합 영향력과 정치·전략·기술·사회·경제·문화, 시대초월성 점수로 인물들을 비교해 보세요.",
+      "fieldNav": "영향력 분야",
+      "fields": {
+        "total_score": "종합",
+        "political": "정치",
+        "strategic": "전략",
+        "tech": "기술",
+        "social": "사회",
+        "economic": "경제",
+        "cultural": "문화",
+        "transhistoricity": "시대초월성"
+      },
+      "titles": {
+        "total_score": "종합 영향력",
+        "political": "정치 영향력",
+        "strategic": "전략 영향력",
+        "tech": "기술 영향력",
+        "social": "사회 영향력",
+        "economic": "경제 영향력",
+        "cultural": "문화 영향력",
+        "transhistoricity": "시대초월성"
+      },
+      "rankDesc": "영향력 평가가 있는 공개 인물 {total}명 중 점수가 높은 인물입니다. 같은 점수는 공동 순위로 표시합니다.",
+      "rank": "{rank}위",
+      "tiedRank": "공동 {rank}위",
+      "tiePlacementLabel": "공동 1위 배치 안내",
+      "tiePlacementTitle": "공동 1위 · 가장 높은 중앙 단상: {name}",
+      "tiePlacementOverall": "종합 점수가 같으면 고정된 순서로 배치합니다.",
+      "tiePlacementByTotal": "분야 점수가 같으면 종합 영향력이 높은 순으로, 종합 점수도 같으면 고정된 순서로 배치합니다.",
+      "tiePlacementEqual": "동점자의 단상 높이는 순위 차이를 뜻하지 않습니다.",
+      "shelfEmpty": "위 인물들의 공개 감상 작품이 아직 없습니다."
     }
   },
   "searchResult": {

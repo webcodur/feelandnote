@@ -4,7 +4,7 @@
  * - 데이터: getCelebBySlug 서버액션, resolveCelebWorld
  * - 함께 보기: page.tsx, CelebPageContent.tsx
  * ───────────────────────────────────────────── */
-import { getCelebRouteProfile } from "@/lib/profile-route";
+import { getCelebRouteIdentity } from "@/lib/profile-route";
 import { setRequestLocale } from "next-intl/server";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
 import CelebWorldMaterialScope from "@/components/features/celeb/CelebWorldMaterialScope";
@@ -26,7 +26,7 @@ const NO_WORLD_THEME_SLUGS = new Set(["william-shakespeare"]);
 export default async function CelebLayout({ children, params }: LayoutProps) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const profile = await getCelebRouteProfile(slug, locale);
+  const profile = await getCelebRouteIdentity(slug, locale);
   const worldId = resolveCelebWorld({
     nationality: profile.nationality,
     birthDate: profile.birth_date,
@@ -63,11 +63,11 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
           }}
         />
         {/* 앱 뼈대가 이미 <main>을 쥐므로 여기서는 div로 둔다 — 한 문서에 main은 하나 */}
-        <PageContainer wide>
+        <PageContainer>
           <div
             className={`${styles.detailTypography} ${
               locale === "ko" ? styles.detailTypographyKorean : ""
-            } mx-auto max-w-[1400px] animate-fade-in`}
+            } animate-fade-in`}
           >
             {children}
           </div>

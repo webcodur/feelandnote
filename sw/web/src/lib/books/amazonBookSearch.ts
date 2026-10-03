@@ -1,4 +1,5 @@
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from '../../constants/affiliatePlatforms'
+import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
 
 const AMAZON_HOST_RE = /(^|\.)amazon\.[a-z.]+$/
 const AMAZON_COM_HOST_RE = /(^|\.)amazon\.com$/
@@ -35,10 +36,11 @@ export function getEnglishBookAmazonUrl({ title, creator, url }: {
   return links.find((link) => link.platform === 'amazon')?.url ?? ''
 }
 
-export function getEnglishBookPurchaseLinks({ locale, title, creator, links = [] }: {
+export function getEnglishBookPurchaseLinks({ locale, title, creator, isbn, links = [] }: {
   locale: string
   title?: string | null
   creator?: string | null
+  isbn?: string | null
   links?: readonly AffiliateLink[]
 }): AffiliateLink[] {
   if (locale !== 'en') return []
@@ -47,8 +49,9 @@ export function getEnglishBookPurchaseLinks({ locale, title, creator, links = []
     return englishLinks.filter((link) => link.platform !== 'amazon' || link.linkKind !== 'search')
   }
   const bookTitle = title?.trim().replace(/\s+/g, ' ')
-  if (!bookTitle) return englishLinks
-  const query = [bookTitle, creator?.trim().replace(/\s+/g, ' ')].filter(Boolean).join(' ')
+  const selectedIsbn = typeof isbn === 'string' ? toIsbn13(isbn) : null
+  if (!bookTitle && !selectedIsbn) return englishLinks
+  const query = selectedIsbn ?? [bookTitle, creator?.trim().replace(/\s+/g, ' ')].filter(Boolean).join(' ')
   const url = new URL('https://www.amazon.com/s')
   url.searchParams.set('i', 'stripbooks')
   url.searchParams.set('k', query)

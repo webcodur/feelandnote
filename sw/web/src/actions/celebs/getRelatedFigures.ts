@@ -7,7 +7,7 @@
         재검증 주기로 전파된다 — 7일 안전망을 쓴다.
 */
 
-import { unstable_cache } from 'next/cache'
+import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
@@ -65,13 +65,13 @@ async function fetchInfluenceScores(): Promise<InfluenceRow[]> {
 
 /* 인물 한 명의 수정과 무관한 공유 원장이라 CELEBS 목록 태그를 달지 않는다.
    태그를 붙이면 프로필 한 건을 고칠 때마다 모든 인물 상세가 함께 비워진다. */
-const getCelebIndexCached = unstable_cache(
+const getCelebIndexCached = compressedJsonCache(
   fetchCelebIndex,
-  ['celeb-index-for-related'],
+  ['celeb-index-for-related-v2-compressed'],
   { revalidate: STATIC_REVALIDATE },
 )
 
-const getInfluenceScoresCached = unstable_cache(
+const getInfluenceScoresCached = compressedJsonCache(
   fetchInfluenceScores,
   ['celeb-influence-for-related'],
   { revalidate: STATIC_REVALIDATE },

@@ -68,3 +68,12 @@ test('other registered English links survive and search updates without duplicat
   assert.deepEqual(result[0], google)
   assert.equal(new URL(result[1].url).searchParams.get('k'), 'Persuasion')
 })
+
+test('selected actual edition ISBN is the Amazon fallback query, with verified product links still taking precedence', () => {
+  const result = getEnglishBookPurchaseLinks({ locale: 'en', title: 'Different edition title', creator: 'Author', isbn: '0140432167' })
+  assert.equal(new URL(result[0].url).searchParams.get('k'), '9780140432169')
+  const product: AffiliateLink = { platform: 'amazon', url: 'https://www.amazon.com/dp/0140432167' }
+  const linked = getEnglishBookPurchaseLinks({ locale: 'en', title: 'Edition', isbn: '9780140432169', links: [product] })
+  assert.match(linked[0].url, /\/dp\/0140432167/)
+  assert.equal(linked[0].linkKind, undefined)
+})

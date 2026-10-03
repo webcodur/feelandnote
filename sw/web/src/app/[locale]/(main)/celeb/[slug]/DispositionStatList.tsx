@@ -2,7 +2,7 @@
  * [celeb 상세] analysis — 성향(양극) 스탯 목록
  * - 목차 위치: analysis > spectrum
  * - 데이터: items(neg/pos/값/근거) props
- * - 함께 보기: StatReasonBox.tsx, SpectrumSection.tsx
+ * - 함께 보기: StatReasonModal.tsx, SpectrumSection.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import type { TendencyKey } from "@/lib/spectrum/constants";
 import { cn } from "@/lib/utils";
 
-import StatReasonBox from "./StatReasonBox";
+import StatReasonModal from "./StatReasonModal";
 
 interface DispositionItem {
   key: TendencyKey;
@@ -40,16 +40,16 @@ function TendencyBar({
   isEn: boolean;
   selected: boolean;
 }) {
-  const position = ((value + 50) / 100) * 100;
+  const position = Math.min(100, Math.max(0, value + 50));
   const activeLabel =
     Math.abs(value) > 10 ? (value < 0 ? "neg" : "pos") : null;
   const labelW = isEn ? "w-[5.5rem]" : "w-10";
 
   return (
-    <div className="flex items-center gap-3 py-1.5">
+    <div className="flex items-center gap-2 py-1">
       <span
         className={cn(
-          "shrink-0 text-center text-sm tracking-tight",
+          "shrink-0 text-center text-sm tracking-tight sm:text-sm",
           labelW,
           activeLabel === "neg" && "font-bold text-blue-400",
         )}
@@ -58,7 +58,7 @@ function TendencyBar({
       </span>
       <div
         className={cn(
-          "relative h-1.5 flex-1 overflow-hidden rounded-full",
+          "relative h-6 min-w-9 flex-1 overflow-hidden rounded-control",
           selected
             ? "bg-white/[0.08] ring-1 ring-white/35"
             : "bg-white/10 ring-1 ring-white/5",
@@ -69,7 +69,7 @@ function TendencyBar({
           className={cn(
             "absolute inset-y-0",
             selected
-              ? "bg-white"
+              ? "bg-white/20"
               : value < 0
                 ? "bg-blue-500/30"
                 : "bg-orange-500/30",
@@ -81,13 +81,19 @@ function TendencyBar({
           }
         />
         <div
-          className="absolute top-1/2 z-30 h-2 w-2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
-          style={{ left: `${position}%` }}
+          aria-hidden
+          className="absolute inset-y-1.5 z-20 w-0.5 rounded-full bg-white/80"
+          style={{ left: `calc(${position}% - ${position / 100 * 2}px)` }}
         />
+        <span
+          className="absolute inset-0 z-30 flex items-center justify-center font-serif text-sm font-semibold tabular-nums text-text-primary sm:text-sm [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]"
+        >
+          {value > 0 ? `+${value}` : value}
+        </span>
       </div>
       <span
         className={cn(
-          "shrink-0 text-center text-sm tracking-tight",
+          "shrink-0 text-center text-sm tracking-tight sm:text-sm",
           labelW,
           activeLabel === "pos" && "font-bold text-orange-400",
         )}
@@ -113,10 +119,9 @@ export default function DispositionStatList({ items, isEn }: Props) {
               key={item.key}
               type="button"
               aria-pressed={pressed}
-              onClick={() =>
-                setSelected((prev) => (prev === item.key ? null : item.key))
-              }
-              className="w-full rounded-[2px] px-1 text-left opacity-70 hover:opacity-100"
+              aria-haspopup="dialog"
+              onClick={() => setSelected(item.key)}
+              className="min-h-8 w-full rounded-control px-1 text-left hover:bg-bg-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <TendencyBar
                 neg={item.neg}
@@ -131,7 +136,9 @@ export default function DispositionStatList({ items, isEn }: Props) {
       </div>
 
       {active && (
-        <StatReasonBox empty={t("dispositionReasonEmpty")} reason={active.reason} />
+        <StatReasonModal label={`${active.neg} / ${active.pos}`} value={active.value} empty={t("dispositionReasonEmpty")} reason={active.reason} onClose={() => setSelected(null)}>
+          <TendencyBar neg={active.neg} pos={active.pos} value={active.value} isEn={isEn} selected={false} />
+        </StatReasonModal>
       )}
     </div>
   );

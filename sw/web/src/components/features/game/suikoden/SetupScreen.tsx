@@ -1,13 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import type { GameCharacter, WorldPreview, ScenarioDef } from '@/lib/game/suikoden/types'
-import { GRADE_COLORS, CLASS_INFO, REGIONS, NATIONALITY_TO_REGION } from '@/lib/game/suikoden/constants'
+import { GRADE_COLORS, CLASS_INFO, NATIONALITY_TO_REGION } from '@/lib/game/suikoden/constants'
 import { getEffectiveGrade } from '@/lib/game/suikoden/utils'
 import { getMissingScenarioCharacterIds, SCENARIOS } from '@/lib/game/suikoden/scenarios'
 import CharacterPortrait from './CharacterPortrait'
 import CharacterInfoPanel from './CharacterInfoPanel'
+import { stripSuikodenFactionSuffix } from './i18n'
 
 interface Props {
   characters: GameCharacter[]
@@ -30,6 +31,7 @@ const DIFFICULTY_COLORS: Record<string, string> = {
 }
 
 export default function SetupScreen({ characters, worldPreview, onSelectScenario, onComplete, onBack }: Props) {
+  const locale = useLocale()
   const tS = useTranslations('rest.arena.suikoden')
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null)
 
@@ -131,9 +133,9 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: f.color }} />
                   {leader && <CharacterPortrait character={leader} size={28} />}
                   <div className="min-w-0 flex-1">
-                    <div className="text-xs text-text-primary truncate">{f.name}</div>
+                    <div className="text-xs text-text-primary truncate">{locale === 'en' ? stripSuikodenFactionSuffix(f.name) : f.name}</div>
                     <div className="flex flex-wrap gap-x-1 text-[10px] text-text-secondary">
-                      <span className="min-w-0 break-words">{f.territories[0]?.name}</span>
+                      <span className="min-w-0 break-words">{f.territories[0] ? tS(`territory.${f.territories[0].id}`) : ''}</span>
                       <span>· {tS('setup.memberCount', { count: f.members.length })}</span>
                     </div>
                   </div>
@@ -218,7 +220,7 @@ export default function SetupScreen({ characters, worldPreview, onSelectScenario
           {selectedCandidate ? (
             <CharacterInfoPanel
               character={selectedCandidate.character}
-              badge={REGIONS.find(r => r.id === NATIONALITY_TO_REGION[selectedCandidate.character.nationality])?.name ?? tS('setup.undecided')}
+              badge={NATIONALITY_TO_REGION[selectedCandidate.character.nationality] ? tS(`region.${NATIONALITY_TO_REGION[selectedCandidate.character.nationality]}`) : tS('setup.undecided')}
               portraitSize={56}
               footer={
                 <div className="px-3 pb-3">

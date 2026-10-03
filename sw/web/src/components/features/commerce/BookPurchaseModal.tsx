@@ -10,6 +10,7 @@ import { isAffiliatePurchaseLink } from "@/lib/books/bookPurchaseRedirect";
 import { useYes24SalesState } from "./useYes24Sales";
 
 interface BookPurchaseModalProps {
+  bookLocale?: 'ko' | 'en';
   title?: string | null;
   creator?: string | null;
   thumbnail?: string | null;
@@ -21,8 +22,9 @@ interface BookPurchaseModalProps {
   tracking?: { contentId?: string; editionId?: number };
 }
 
-export default function BookPurchaseModal({ title, creator, thumbnail, isbn, links, onClose, tracking }: BookPurchaseModalProps) {
-  const locale = useLocale();
+export default function BookPurchaseModal({ bookLocale, title, creator, thumbnail, isbn, links, onClose, tracking }: BookPurchaseModalProps) {
+  const displayLocale = useLocale();
+  const locale = bookLocale ?? displayLocale;
   // 가격 조회가 늦거나 실패해도 서점 선택은 즉시 가능하다.
   const { sales, loading } = useYes24SalesState({ ...tracking, isbn, active: locale === "ko" });
   const t = useTranslations("content.purchaseSales");
@@ -36,7 +38,7 @@ export default function BookPurchaseModal({ title, creator, thumbnail, isbn, lin
     const query = isbn || [title, creator].filter(Boolean).join(" ");
     return { ...link, url: `https://www.yes24.com/Product/Search?domain=BOOK&query=${encodeURIComponent(query)}`, linkKind: "search" as const };
   });
-  const number = new Intl.NumberFormat(locale);
+  const number = new Intl.NumberFormat(displayLocale);
   const price = (value: number) => t("price", { price: number.format(value) });
   const { starScore, salePrice, shopPrice, salePoint, pages, publishDate, onSale } = sales ?? {};
   const discountRate = onSale && salePrice != null && shopPrice != null && shopPrice > salePrice

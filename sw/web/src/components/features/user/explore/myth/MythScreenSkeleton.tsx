@@ -6,7 +6,7 @@ import { Ghost, SkeletonFrame } from "../hub/ExploreSkeleton";
 import { ATLAS_NAV_LAYOUT } from "./atlasNavigationData";
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
-export default function MythScreenSkeleton({ title, hasArtwork = true }: { title?: string; hasArtwork?: boolean } = {}) {
+export default function MythScreenSkeleton({ title, hasArtwork = true, faction = false }: { title?: string; hasArtwork?: boolean; faction?: boolean } = {}) {
   const t = useTranslations("explore.hub.myth");
   const common = useTranslations("common");
 
@@ -15,20 +15,18 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
       <div aria-hidden="true">
         <div className={layout.navigationOuter}>
           <div className={layout.selectionPanel}>
-            {/* 실화면의 이름+한 줄 정의 머리(data-atlas-heading) — 로딩 때도 자리를 잡아 제목이 튀지 않게 한다 */}
-            <div className="mb-3 flex flex-col items-center px-1 md:mb-4">
+            {/* 실화면의 구획 머리(HubSection) — 번호 대시 + 이름 + 한 줄 정의가 한 덩어리로 선다.
+                로딩 때도 자리를 잡아 제목이 튀지 않게 한다 */}
+            <div className="mb-6 flex flex-col items-center gap-2 px-1 md:mb-10 md:gap-3">
+              <Ghost className="h-4 w-20 rounded-full" />
               <Ghost className="h-7 w-44 md:h-8" />
-              <Ghost className="mt-1 h-5 w-64 max-w-[75%]" />
+              <Ghost className="h-5 w-64 max-w-[75%]" />
             </div>
             <div className={cn(layout.selectionDetails, !hasArtwork && layout.selectionWithoutArtwork)}>
               <div className={layout.selectionControls}>
                 <div className={ATLAS_NAV_LAYOUT.root}>
-                  {/* 맨 위 줄은 세계 전환(신화의 세계 | 세력도감) — 아래 세 줄 위에 서는 두 칸 */}
-                  <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/20 bg-bg-main p-1">
-                    <Ghost className="h-9 rounded-md" /><Ghost className="h-9 rounded-md" />
-                  </div>
                   {[0, 1, 2].map((level) => <div key={level} className={ATLAS_NAV_LAYOUT.row}>
-                    <Ghost className="m-auto h-3 w-2" /><div className="flex flex-col items-center justify-center gap-2"><Ghost className="hidden h-3 w-1/3 md:block" /><Ghost className="h-3 w-3/4" /></div><Ghost className="m-auto h-3 w-2" />
+                    <Ghost className="m-auto hidden h-3 w-6 md:block" /><Ghost className="m-auto h-3 w-2" /><Ghost className="m-auto h-3 w-3/4" /><Ghost className="m-auto h-3 w-2" />
                   </div>)}
                   <div className={ATLAS_NAV_LAYOUT.footer}><Ghost className="h-10 flex-1 rounded-lg" /><Ghost className="h-10 flex-1 rounded-lg" /></div>
                 </div>
@@ -39,7 +37,7 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
         </div>
         <div className={layout.membersOuter}>
           <div className={`${layout.container} ${layout.sectionDivider}`}>
-            {/* CenteredSectionHeading과 같은 쌓기 — 액센트 대시 + 제목 + 인원 설명 */}
+            {/* 구획 머리(HubSection)와 같은 쌓기 — 번호 대시 + 명단 이름 + 인원 */}
             <div className="mb-3 flex flex-col items-center gap-2">
               <Ghost className="h-0.5 w-8 rounded-full" />
               <Ghost className="h-6 w-28 md:h-7" />
@@ -56,8 +54,8 @@ export default function MythScreenSkeleton({ title, hasArtwork = true }: { title
           </div>
         </div>
         {/* 책장 구획 — 같은 구분선 리듬 위에 중앙 제목·모드 탭·카드 행이 선다 */}
-        <div className={layout.overviewOuter}>
-          <div className={layout.container}>
+        <div className={faction ? layout.factionShelfOuter : layout.overviewOuter}>
+          <div className={faction ? layout.factionShelfContainer : layout.container}>
             <div className={layout.sectionDivider}>
               {/* 책장 머리(CenteredSectionHeading) — 대시+제목, mb-3/md:mb-5 */}
               <div className="mb-3 flex flex-col items-center gap-2 md:mb-5">

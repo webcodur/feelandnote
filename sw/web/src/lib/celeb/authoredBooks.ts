@@ -1,12 +1,5 @@
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
-
-export const CELEB_REFERENCE_BOOK_MODES = [
-  { key: 'appeared', label: 'groupAppeared' },
-  { key: 'read', label: 'groupRead' },
-  { key: 'authored', label: 'groupAuthored' },
-] as const
-
-export const CELEB_READ_BOOKS_PAGE_SIZE = 24
+import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 
 /**
  * 인물 도서를 관계 유형으로 가른다. 등장(appearance)·창작(authored)·연관(related).
@@ -36,7 +29,7 @@ export function partitionFigureBooks(books: FigureBookContent[]): {
 export function pickDisplayFigureBooks<T extends Pick<FigureBookContent, 'titleBadge' | 'editions'>>(
   books: readonly T[],
 ): T[] {
-  return books.filter((book) => book.editions.length > 0 && book.titleBadge !== 'out-of-print')
+  return books.filter((book) => book.editions.length > 0 && isBookShelfAvailable(book))
 }
 
 // 인물 상세와 신화·팩션 모달의 작품 분류·노출 기준을 함께 쥔다.

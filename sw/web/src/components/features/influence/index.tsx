@@ -8,7 +8,6 @@ import { type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { INFLUENCE_CATEGORIES } from "@/constants/influence";
 import { ScoreBar } from "@/components/ui";
 import InfluenceScoreInfoModal from "./InfluenceScoreInfoModal";
-import { RANK_BADGE_TONES } from "./rankTones";
 
 export { default as TranshistoricityInfoModal } from "./TranshistoricityInfoModal";
 export { default as InfluenceScoreInfoModal } from "./InfluenceScoreInfoModal";
@@ -251,8 +250,8 @@ export function RadarChart({
 }
 // #endregion
 
-// #region 종합 영향력 라인 헤더 (일반=레몬노랑 + 초월=레드 듀얼 차오름 칩)
-export function TotalScoreCard({ data }: { data: CelebInfluenceDetail }) {
+// #region RANK and influence summary
+export function TotalScoreCard({ data, onOpenExplanation }: { data: CelebInfluenceDetail; onOpenExplanation: () => void }) {
   const t = useTranslations("profilePage.influence");
   const baseScore = sumBaseScore(data);
 
@@ -277,54 +276,48 @@ export function TotalScoreCard({ data }: { data: CelebInfluenceDetail }) {
     : null;
 
   return (
-    <div className="space-y-2 border-b border-white/10 px-1 pb-2.5">
-      <div className="flex items-center gap-2.5">
-        {/* 장식용 아이콘 자리를 등급이 대신한다 — 첫 시선이 닿는 곳에 결론을 둔다 */}
+    <div className="space-y-1 px-1 pb-3">
+      <div className="flex justify-center">
         <button
           type="button"
           onClick={() => setIsScoreInfoOpen(true)}
           title={rankStyle.label}
           aria-label={t("scoreInfo.title")}
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border hover:brightness-125 ${RANK_BADGE_TONES[rank]}`}
+          aria-haspopup="dialog"
+          className="relative flex min-h-12 items-center justify-center gap-2.5 rounded-control px-2 pb-1 text-accent after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent/55 after:to-transparent hover:bg-bg-raised hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
-          <span className="text-lg font-black leading-none tracking-tight">{rank}</span>
+          <span className="text-[10px] font-medium tracking-[0.24em] text-text-secondary">RANK</span>
+          <span className="text-[2.5rem] font-medium leading-none tracking-tight">{rank}</span>
         </button>
-
-        <ScoreBar
-          className="min-w-0 flex-1 py-0"
-          thick
-          label={
-            <span className="font-serif text-lg font-extrabold tracking-wide text-text-primary">
-              {t("totalInfluence")}
-            </span>
-          }
-          value={totalScore}
-          max={100}
-          maxText="/ 100"
-        />
+      </div>
+      <div className="flex justify-center">
+        <button
+          type="button"
+          aria-label={t("totalInfluence")}
+          aria-haspopup="dialog"
+          onClick={onOpenExplanation}
+          className="min-h-9 rounded-control px-2 py-1 text-sm font-medium text-text-secondary hover:bg-bg-raised hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {t.rich("influenceScore", { score: totalScore, value: (chunks) => <strong className="text-xl font-semibold tabular-nums text-text-primary">{chunks}</strong> })}
+        </button>
       </div>
 
       {/* 점수의 높낮이를 읽을 좌표 — 순위 · 상위 비율 · 강세 영역 */}
-      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs">
-        <span className="font-semibold tabular-nums text-text-secondary">
+      <div className="flex min-w-0 items-center justify-center gap-2 whitespace-nowrap text-xs">
+        <span className="shrink-0 font-semibold tabular-nums text-text-secondary">
           {t("rankingLine", { ranking: data.ranking, total: data.rankedTotal })}
         </span>
 
-        <span className="">|</span>
+        <span aria-hidden className="shrink-0">|</span>
 
-        <span className="font-semibold tabular-nums text-text-secondary">
+        <span className="shrink-0 font-semibold tabular-nums text-text-secondary">
           {t("percentileTop", {
             percent: Math.max(1, Math.round(data.percentile)),
           })}
         </span>
 
-        {archetype && (
-          <>
-            <span className="">|</span>
-            <span className="font-semibold text-accent">{archetype}</span>
-          </>
-        )}
       </div>
+      {archetype && <p className="text-center text-xs font-semibold text-accent break-keep">{archetype}</p>}
 
       <InfluenceScoreInfoModal
         isOpen={isScoreInfoOpen}

@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+import type { ContentFocusRequest } from "../types";
 
 import {
   getExpandIndexNeighbor,
@@ -17,6 +18,7 @@ import {
 interface ExpandSelection {
   contentId: string | null;
   keepIndexItemVisible: boolean;
+  focusRequest?: ContentFocusRequest;
 }
 
 interface UseExpandIndexSelectionParams {
@@ -25,6 +27,7 @@ interface UseExpandIndexSelectionParams {
   navigationOrder: number[];
   controlledIndexPreference?: boolean | null;
   onIndexPreferenceChange?: (preference: boolean) => void;
+  focusRequest?: ContentFocusRequest;
 }
 
 export function useExpandIndexSelection({
@@ -33,6 +36,7 @@ export function useExpandIndexSelection({
   navigationOrder,
   controlledIndexPreference,
   onIndexPreferenceChange,
+  focusRequest,
 }: UseExpandIndexSelectionParams) {
   const [selection, setSelection] = useState<ExpandSelection>(() => ({
     // 직접 고르기 전에는 현재 목록의 첫 작품을 따른다. 초기 일부 목록의 첫 ID를
@@ -45,6 +49,13 @@ export function useExpandIndexSelection({
     () => new Set(),
   );
   const latestSelectedContentIdRef = useRef(items[0]?.content_id ?? null);
+
+  const requestedIndex = focusRequest
+    ? items.findIndex((item) => item.content_id === focusRequest.contentId) : -1;
+  // 초기 일부 목록에 대상이 없으면 도서 목록이 온 렌더에서 한 번만 고른다.
+  if (focusRequest && selection.focusRequest !== focusRequest && requestedIndex >= 0) {
+    setSelection({ contentId: focusRequest.contentId, keepIndexItemVisible: false, focusRequest });
+  }
 
   const selectedItemIndex = selection.contentId
     ? items.findIndex((item) => item.content_id === selection.contentId)
@@ -79,10 +90,11 @@ export function useExpandIndexSelection({
       if (!nextItem) return;
 
       latestSelectedContentIdRef.current = nextItem.content_id;
-      setSelection({
+      setSelection((current) => ({
+        ...current,
         contentId: nextItem.content_id,
         keepIndexItemVisible: keepVisible,
-      });
+      }));
 
       if (keepVisible) {
         const targetGroupType = groups.find((group) =>

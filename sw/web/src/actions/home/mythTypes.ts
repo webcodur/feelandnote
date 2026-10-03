@@ -77,6 +77,8 @@ export interface MythPerson {
 
 export interface MythWork {
   id: string;
+  /** 구성원 배정과 무관하게 이 작품을 주제책으로 가진 신화. */
+  themeIds?: string[];
   editionId?: number;
   editions?: Array<{
     id: number;

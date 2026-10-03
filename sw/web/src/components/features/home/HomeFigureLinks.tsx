@@ -16,6 +16,10 @@ import FigureLinkGrid, { type FigureLinkItem } from "@/components/features/celeb
  *  기다림 표시가 같은 칸 수로 서도록 page.tsx가 이 값을 가져다 쓴다 */
 export const HOME_FIGURE_LINK_COUNT = 6;
 
+/** 홈 명부의 열 구성 — 6명을 3행 2열로 세운다. 기다림 표시가 같은 모양이 되도록
+ *  page.tsx의 FigureLinkGridPending에도 같은 값을 넘긴다 */
+export const HOME_FIGURE_LINK_COLS = "grid-cols-1 sm:grid-cols-2";
+
 /** 기록이 이만큼 쌓인 인물만 세운다 — 빈 상세로 보내면 링크가 신뢰를 깎는다 */
 const MIN_CONTENT_COUNT = 5;
 
@@ -38,5 +42,5 @@ export default async function HomeFigureLinks() {
     return null;
   }
 
-  return <FigureLinkGrid figures={figures} />;
+  return <FigureLinkGrid figures={figures} cols={HOME_FIGURE_LINK_COLS} />;
 }

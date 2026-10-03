@@ -32,7 +32,7 @@ export default function DiplomacyPanel({ open, game, focus, act, onClose }: Dipl
   const { T } = useCheondo()
   return (
     <Modal open={open} onClose={onClose} width={900} label={T.diplomacy.title}>
-      <PanelTitle hanja="交" title={T.diplomacy.title} />
+      <PanelTitle title={T.diplomacy.title} />
       {open && <DiplomacyBody game={game} focus={focus} act={act} />}
     </Modal>
   )

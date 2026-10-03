@@ -253,7 +253,15 @@
           "cultural": "Culture",
           "transhistoricity": "Enduring"
         },
-        "totalScore": "Total {score}"
+        "totalScore": "Total {score}",
+        "rankingMode": "Ranking",
+        "leadersMode": "Leaders",
+        "previousPeople": "View previous people",
+        "nextPeople": "View next people",
+        "moreRanking": "View more rankings",
+        "moreLeaders": "View more leaders",
+        "rankingButton": "Ranking",
+        "leadersButton": "Leaders"
       },
       "scoreInfo": {
         "title": "How the score works",
@@ -313,7 +321,8 @@
         "social": "Society",
         "economic": "Economics",
         "cultural": "Culture"
-      }
+      },
+      "influenceScore": "Influence <value>{score}</value>"
     },
     "settings": {
       "passwordChange": "Change Password",

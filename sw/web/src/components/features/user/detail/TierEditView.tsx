@@ -144,11 +144,19 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
     if (!flow) return;
     setIsSaving(true);
     try {
-      await updateFlow({ flowId, hasTiers: true, tiers: tiers as Record<string, string[]> });
+      const result = await updateFlow({
+        flowId,
+        hasTiers: true,
+        tiers: { ...flow.tiers, ...tiers },
+        expectedUpdatedAt: flow.updated_at,
+        expectedTiers: flow.tiers,
+        expectedHasTiers: flow.has_tiers,
+      });
+      if (!result.success) throw new Error(result.message);
       router.push(`/${flow.user_id}/reading/collections/${flowId}`);
     } catch (err) {
       console.error("[TierEditView:save]", err);
-      alert(t("saveError"));
+      alert(err instanceof Error ? err.message : t("saveError"));
     } finally {
       setIsSaving(false);
     }

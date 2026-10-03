@@ -5,6 +5,8 @@
 */
 "use client";
 
+import { gameText } from "@/lib/game/text";
+
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { X, Swords, ScrollText, Landmark } from "lucide-react";
 import { useLocale } from "next-intl";
@@ -106,7 +108,7 @@ export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
           {/* 명언 */}
           {card.quotes && (
             <p className="text-[11px] text-white/30 italic leading-relaxed border-l-2 border-white/[0.06] pl-3">
-               &quot;{card.quotes}&quot;
+               &quot;{gameText(card.quotes)}&quot;
             </p>
           )}
 

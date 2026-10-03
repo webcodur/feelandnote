@@ -58,10 +58,11 @@ interface Props {
   playerCard: BattleCard;
   aiCard: BattleCard;
   command: Command;
+  muted?: boolean;
   onComplete: (winner: "player" | "ai" | "draw") => void;
 }
 
-export default function ClashArena({ playerCard, aiCard, command, onComplete }: Props) {
+export default function ClashArena({ playerCard, aiCard, command, muted = false, onComplete }: Props) {
   const t = useTranslations("shared.game.duel");
   const [showAnnounce, setShowAnnounce] = useState(true);
 
@@ -168,6 +169,6 @@ export default function ClashArena({ playerCard, aiCard, command, onComplete }: 
     case "assault":
       return <RhythmArena playerCard={playerCard} aiCard={aiCard} onComplete={onComplete} />;
     case "govern":
-      return <SimonArena playerCard={playerCard} aiCard={aiCard} onComplete={onComplete} />;
+      return <SimonArena playerCard={playerCard} aiCard={aiCard} muted={muted} onComplete={onComplete} />;
   }
 }

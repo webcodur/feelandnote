@@ -7,6 +7,7 @@
 
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
@@ -67,18 +68,16 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   throwOnQueryError('[getCelebCards] 셀럽 카드 조회', spectrumError);
   if (!spectrumData) return [];
 
-  const cardRows: CelebCardRow[] = spectrumData;
+  const cardRows: CelebCardRow[] = spectrumData.filter(row => isPublicDomainCeleb(row.death_date));
 
   // quote만 JSON path로 조회 (전체 lines JSONB 송출 방지)
   const cardIds = cardRows.map(r => r.id);
   const quoteMap = new Map<string, string>();
   if (cardIds.length > 0) {
-    const { data: dRows, error: dialogueError } = await db
+    const dRows = await selectInChunks(cardIds, ids => db
       .from("celeb_dialogues")
       .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
-      .in("celeb_id", cardIds);
-    // 조회 실패를 "대사 없음"으로 캐시하지 않는다
-    throwOnQueryError('[getCelebCards] 대사 조회', dialogueError);
+      .in("celeb_id", ids));
     for (const d of (dRows ?? []) as unknown as DialogueBriefWithId[]) {
       const quote = (isEn && d.quote_en) ? d.quote_en : d.quote;
       quoteMap.set(d.celeb_id, quote ?? "");
@@ -136,6 +135,11 @@ export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> 
   const locale = await getLocale();
   const key = celebIds && celebIds.length > 0 ? [...celebIds].sort().join(",") : "";
   return withQueryFallback('getCelebCards', () => getCelebCardsCached(key, locale), []);
+}
+
+/** 패권은 조회 오류와 후보 부족을 구분하고 화면에서 재시도한다. */
+export async function getHegemonyCards(): Promise<BattleCard[]> {
+  return getCelebCardsCached('', await getLocale());
 }
 
 /** 드래프트 풀 확정 후, 선택된 카드의 대사만 조회 (1시간 캐시) — Map은 직렬화 불가라 Record로 캐시 후 변환 */

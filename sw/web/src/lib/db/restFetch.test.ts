@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import test, { type TestContext } from 'node:test'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@feelandnote/db'
 
-import { createRestFetch, REST_TIMEOUT_MS, withoutRestRetry } from './restFetch'
+import { createRestFetch, REST_TIMEOUT_MS } from './restFetch'
 
 /** 응답을 영영 보내지 않는 PostgREST. 실제 소켓처럼 이벤트 루프를 붙든다(AbortSignal.timeout 타이머는 unref다). */
 function stallFetch(t: TestContext) {
@@ -30,10 +30,10 @@ test('an explicit signal is passed through untouched', async (t) => {
 })
 
 function serverClient() {
-  return withoutRestRetry(createClient('https://db.example.test', 'test-only', {
+  return createClient('https://db.example.test', 'test-only', {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
     global: { fetch: createRestFetch(20) },
-  }))
+  })
 }
 
 test('a stalled PostgREST call surfaces as a query error once, without retries', async (t) => {
@@ -42,7 +42,7 @@ test('a stalled PostgREST call surfaces as a query error once, without retries',
   const { data, error } = await serverClient().from('celebs').select('id')
   assert.equal(data, null)
   assert.match(error?.message ?? '', /TimeoutError/)
-  assert.equal(stalled.mock.callCount(), 1, 'postgrest-js must not retry the timed-out request')
+  assert.equal(stalled.mock.callCount(), 1, 'the DB client must not retry the timed-out request')
   assert(Date.now() - started < 1_000)
 })
 

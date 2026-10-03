@@ -18,7 +18,8 @@
 
 /** PostgREST 서버 상한과 동일 (이보다 크게 잡아도 서버가 자른다) */
 const ROWS_PER_PAGE = 1000
-const IDS_PER_CHUNK = 200
+// 긴 UUID 목록은 REST 게이트웨이에서 실패하므로 요청 주소에 여유를 남긴다.
+const IDS_PER_CHUNK = 75
 
 export async function selectAllPages<T>(
   page: (

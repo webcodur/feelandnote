@@ -19,7 +19,7 @@ import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { getCategoryByDbType } from "@/constants/categories";
 import { Link } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
+import CategoryChip from "@/components/ui/CategoryChip";
 
 const TYPES = ["BOOK", "VIDEO", "GAME", "MUSIC"] as const;
 type WorkType = (typeof TYPES)[number];
@@ -94,21 +94,16 @@ export default function SharedLibraryShelf({ heading, items, memberCount }: Shar
           {(["ALL", ...availableTypes] as const).map((type) => {
             const active = filter === type;
             return (
-              <button
+              <CategoryChip
                 key={type}
-                type="button"
-                aria-pressed={active}
+                media={type}
+                selected={active}
                 onClick={() => chooseFilter(type)}
-                className={cn(
-                  "inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                  active
-                    ? "border-accent/60 bg-accent/10 text-accent hover:bg-accent/20"
-                    : "border-white/15 bg-white/[0.03] text-text-secondary hover:border-white/35 hover:text-text-primary",
-                )}
+                className="h-auto min-h-9 px-3.5 py-1.5"
               >
                 {type === "ALL" ? t("all") : tType(type.toLowerCase())}
                 <span className="text-xs tabular-nums opacity-70">{type === "ALL" ? items?.length : counts.get(type)}</span>
-              </button>
+              </CategoryChip>
             );
           })}
         </div>

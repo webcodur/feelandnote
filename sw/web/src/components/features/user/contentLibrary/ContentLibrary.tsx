@@ -13,7 +13,7 @@ import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
 import ContentLibraryBody from "./ContentLibraryBody";
-import ArchiveIndexToggle from "./controlBar/ArchiveIndexToggle";
+import type { CategoryId } from "@/constants/categories";
 
 const READ_ONLY_DELETE = () => undefined;
 
@@ -35,6 +35,7 @@ export default function ContentLibrary({
   initialContentBrief,
   filterTrailing,
   onActiveContentChange,
+  focusRequest,
 }: ContentLibraryProps) {
   const locale = useLocale();
   const lib = useContentLibrary({
@@ -43,6 +44,11 @@ export default function ContentLibrary({
     initialContents, initialContentBrief,
   });
   const [isExpandIndexOpen, setIsExpandIndexOpen] = useState(false);
+  const [titlePulseRequest, setTitlePulseRequest] = useState(0);
+  const selectCategory = (category: CategoryId) => {
+    lib.setActiveTab(category);
+    if (ownerKind === "celeb" && !isExpandIndexOpen) setTitlePulseRequest((current) => current + 1);
+  };
   const toggleExpandIndex = useCallback(() => {
     setIsExpandIndexOpen((current) => !current);
   }, []);
@@ -52,6 +58,15 @@ export default function ContentLibrary({
   const tArchive = useTranslations("archiveSearch");
   const resolvedEmptyMessage = emptyMessage ?? tArchive("empty");
   const applySearchQuery = lib.applySearchQuery;
+  const clearSearch = lib.clearSearch;
+  const setActiveTab = lib.setActiveTab;
+
+  useEffect(() => {
+    if (!focusRequest) return;
+    clearSearch();
+    setActiveTab(focusRequest.category);
+    setIsExpandIndexOpen(false);
+  }, [focusRequest, clearSearch, setActiveTab]);
 
   // URL 검색어는 hydration 뒤에만 반영한다. useSearchParams를 서버 렌더 경로에서
   // 제거해 셀럽 서가의 초기 목록·감상문이 정적 HTML에 그대로 남게 한다.
@@ -77,12 +92,14 @@ export default function ContentLibrary({
       ownerAvatarUrl={ownerAvatarUrl}
       savedContentIds={lib.savedContentIds}
       expandIndexPreference={isExpandIndexOpen}
+      titlePulseRequest={titlePulseRequest}
       onExpandIndexPreferenceChange={setIsExpandIndexOpen}
       activeCategory={ownerKind === "celeb" ? lib.activeTab : undefined}
       categoryCounts={ownerKind === "celeb" ? lib.typeCounts : undefined}
       onCategoryChange={ownerKind === "celeb" ? lib.setActiveTab : undefined}
       isContentRefreshing={ownerKind === "celeb" ? lib.isRefreshing : undefined}
       onActiveContentChange={onActiveContentChange}
+      focusRequest={focusRequest}
     />
   );
 
@@ -139,7 +156,7 @@ export default function ContentLibrary({
           ownerKind={ownerKind}
           categoryItems={lib.contents.map((item) => ({ type: item.content.type }))}
           activeTab={lib.activeTab}
-          onTabChange={lib.setActiveTab}
+          onTabChange={selectCategory}
           typeCounts={lib.typeCounts}
           sortOption={lib.sortOption}
           onSortOptionChange={lib.setSortOption}
@@ -169,15 +186,6 @@ export default function ContentLibrary({
           }
         />
 
-        {/* 인물 서가는 늘 펼침이라 감상 목록 단추를 조작대 아래 한 줄로 둔다 */}
-        {ownerKind === "celeb" && (
-          <ArchiveIndexToggle
-            isOpen={isExpandIndexOpen}
-            onToggle={toggleExpandIndex}
-            label={tArchive("expandIndexTitle")}
-            className="mb-2 w-full"
-          />
-        )}
       </div>
 
       <ContentLibraryBody

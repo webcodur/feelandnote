@@ -32,6 +32,10 @@ const CADDY_ADMIN_URL = 'http://127.0.0.1:2019'
 const CANARY_MEMORY_MAX_MB = 850
 const CANARY_MEMORY_RESERVE_MB = 256
 export const PRIMARY_PORT = 3000
+// A 3 GiB origin normally peaks below 30 concurrent requests. Keep bursts outside Node.
+export const CADDY_MAX_CONCURRENT_REQUESTS = 64
+export const CADDY_KEEPALIVE_MS = 4_000
+const CADDY_PASSIVE_MAX_FAILS = 1
 export const TRAFFIC_DRAIN_MS = 5_000
 export const STATIC_ASSET_RETENTION_MS = 35 * 24 * 60 * 60 * 1_000
 
@@ -76,6 +80,37 @@ export function inspectCaddyProxyPort(config) {
     throw new Error(`Expected exactly one loopback Caddy upstream, found ${ports.length}`)
   }
   return ports[0]
+}
+
+export function createCaddyTrafficPolicy(config) {
+  if (inspectCaddyProxyPort(config) !== PRIMARY_PORT) throw new Error('Traffic policy requires the primary upstream')
+  const bounded = structuredClone(config)
+  const handlers = collectReverseProxyHandlers(bounded).filter(handler => (
+    handler.upstreams.length === 1 && handler.upstreams[0]?.dial === loopbackDial(PRIMARY_PORT)
+  ))
+  for (const handler of handlers) {
+    if (handler.transport?.protocol && handler.transport.protocol !== 'http') throw new Error('Unsupported upstream transport')
+    handler.transport = { ...handler.transport, protocol: 'http', max_conns_per_host: CADDY_MAX_CONCURRENT_REQUESTS,
+      keep_alive: { ...handler.transport?.keep_alive, idle_timeout: CADDY_KEEPALIVE_MS * 1_000_000 } }
+    handler.health_checks = { ...handler.health_checks,
+      // Caddy 2.6 defaults this to zero when fail_duration is absent, marking even idle hosts down.
+      passive: { max_fails: CADDY_PASSIVE_MAX_FAILS, ...handler.health_checks?.passive,
+        unhealthy_request_count: CADDY_MAX_CONCURRENT_REQUESTS } }
+  }
+  return bounded
+}
+
+export function createCaddyTrafficPolicySource(source) {
+  const marker = /\n[\t ]*# Feel&Note upstream admission[\s\S]*?#[\t ]*End Feel&Note upstream admission\n/gu
+  const clean = source.replace(marker, '\n')
+  const start = /(^[\t ]*reverse_proxy 127[.]0[.]0[.]1:3000 \{\r?\n)/gmu
+  if ([...clean.matchAll(start)].length !== 1) throw new Error('Expected one primary Caddyfile proxy block')
+  return clean.replace(start, `$1\t\t# Feel&Note upstream admission\n`
+    + `\t\tunhealthy_request_count ${CADDY_MAX_CONCURRENT_REQUESTS}\n`
+    + `\t\tmax_fails ${CADDY_PASSIVE_MAX_FAILS}\n`
+    + `\t\ttransport http {\n\t\t\tmax_conns_per_host ${CADDY_MAX_CONCURRENT_REQUESTS}\n`
+    + `\t\t\tkeepalive ${CADDY_KEEPALIVE_MS}ms\n\t\t}\n`
+    + `\t\t# End Feel&Note upstream admission\n`)
 }
 
 export function createBridgeCaddyConfig(config, bridgePort) {
@@ -743,14 +778,18 @@ export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { re
     for (const route of MAIN_WARMUP_ROUTES(probeSlug)) {
       const url = `${origin}${route}`
       const startedAt = Date.now()
-      const response = await fetchWithTimeout(url, {
-        headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
-        timeoutMs: pass === 'warm' ? 60_000 : readyTimeoutMs,
-      })
-      const html = await response.text()
-      if (!response.ok) throw new Error(`Warmup route returned HTTP ${response.status}: ${url}`)
-      if (expectedDeploymentId) inspectVersionedDeploymentHtml(html, url, expectedDeploymentId)
-      runs.push({ pass, route, status: response.status, durationMs: Date.now() - startedAt })
+      try {
+        const response = await fetchWithTimeout(url, {
+          headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+          timeoutMs: pass === 'warm' ? 60_000 : readyTimeoutMs,
+        })
+        const html = await response.text()
+        if (!response.ok) throw new Error(`Warmup route returned HTTP ${response.status}: ${url}`)
+        if (expectedDeploymentId) inspectVersionedDeploymentHtml(html, url, expectedDeploymentId)
+        runs.push({ pass, route, status: response.status, durationMs: Date.now() - startedAt })
+      } catch (error) {
+        throw new Error(`Warmup ${pass} failed for ${url} after ${Date.now() - startedAt}ms: ${error.message}`, { cause: error })
+      }
     }
   }
   return runs
@@ -805,6 +844,47 @@ async function loadActiveCaddyConfig(config, expectedPort) {
     throw new Error(`Caddy routes to port ${activePort}, expected ${expectedPort}`)
   }
   return activePort
+}
+
+async function applyCaddyTrafficPolicy(releaseId) {
+  assertReleaseId(releaseId)
+  const original = await readActiveCaddyConfig()
+  const bounded = createCaddyTrafficPolicy(original)
+  const sourcePath = '/etc/caddy/Caddyfile'
+  const source = readFileSync(sourcePath, 'utf8')
+  const nextSource = createCaddyTrafficPolicySource(source)
+  const summary = { maxConcurrentRequests: CADDY_MAX_CONCURRENT_REQUESTS, keepAliveMs: CADDY_KEEPALIVE_MS,
+    upstreamPort: PRIMARY_PORT, applicationRestarted: false }
+  if (JSON.stringify(original) === JSON.stringify(bounded) && source === nextSource) {
+    return { ...summary, changed: false }
+  }
+  const taskRoot = `/tmp/feelandnote-traffic-${releaseId}`
+  const candidate = `${taskRoot}/Caddyfile`
+  const backup = `/etc/caddy/_backup/Caddyfile-traffic-${releaseId}`
+  if (existsSync(taskRoot) || existsSync(backup)) throw new Error('Traffic policy operation already exists')
+  mkdirSync(taskRoot, { mode: 0o700 })
+  try {
+    writeFileSync(candidate, nextSource, { mode: 0o600 })
+    // Validate certificates and the installed Caddy version before touching live routing.
+    run('sudo', ['caddy', 'validate', '--config', candidate, '--adapter', 'caddyfile'])
+    run('sudo', ['install', '-d', '-m', '0750', '/etc/caddy/_backup'])
+    run('sudo', ['cp', '-p', '--', sourcePath, backup])
+    try {
+      run('sudo', ['install', '-m', '0644', candidate, sourcePath])
+      await loadActiveCaddyConfig(bounded, PRIMARY_PORT)
+      const active = await readActiveCaddyConfig()
+      if (JSON.stringify(active) !== JSON.stringify(createCaddyTrafficPolicy(active))) {
+        throw new Error('Active Caddy traffic policy did not match')
+      }
+    } catch (error) {
+      run('sudo', ['cp', '-p', '--', backup, sourcePath])
+      await loadActiveCaddyConfig(original, PRIMARY_PORT)
+      throw error
+    }
+    return { ...summary, changed: true, backup }
+  } finally {
+    rmSync(taskRoot, { recursive: true, force: true })
+  }
 }
 
 function canaryServiceState(releaseId) {
@@ -1119,6 +1199,8 @@ async function activateRelease(releaseId, bridgePort, probeSlug) {
     throw new Error(`Release is already active in the ${slot} slot`)
   }
 
+  const trafficPolicy = await applyCaddyTrafficPolicy(releaseId)
+
   const transition = await transitionPrimaryRelease({
     operation: 'Activation',
     targetPath: slotRoot,
@@ -1139,6 +1221,7 @@ async function activateRelease(releaseId, bridgePort, probeSlug) {
     currentCommit: metadata.commit,
     currentPath: realpathSync(CURRENT_LINK),
     currentSlot: slot,
+    trafficPolicy,
     probes: transition.primary.probes,
     exploreWarmup: transition.primary.exploreWarmup,
     routeWarmup: transition.primary.routeWarmup,
@@ -1349,6 +1432,8 @@ async function main() {
   let result
   if (command === 'status') {
     result = status()
+  } else if (command === 'traffic-policy') {
+    result = await applyCaddyTrafficPolicy(releaseId)
   } else if (command === 'prepare') {
     result = prepareRelease(
       releaseId,

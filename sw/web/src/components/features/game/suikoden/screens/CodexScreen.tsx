@@ -5,7 +5,7 @@
 'use client'
 
 import { useDeferredValue, useMemo, useState } from 'react'
-import { ArrowLeft, Search } from 'lucide-react'
+import { ArrowLeft, Search, Crown } from 'lucide-react'
 import { readCodex } from '@/lib/game/suikoden/codex'
 import { starLabel } from '@/lib/game/suikoden/stars'
 import { useCheondo } from '../context'
@@ -59,9 +59,8 @@ export default function CodexScreen({ onBack }: { onBack: () => void }) {
       {/* 휴대폰은 설명 대신 모은 수를 제목 아래에 두고, 뒤로는 화살표만 둔다 */}
       <header className="flex shrink-0 items-center gap-2 border-b px-3 py-3 sm:gap-3 sm:px-6" style={{ borderColor: INK.line }}>
         <GameButton variant="quiet" size="sm" onClick={onBack} aria-label={T.back} className="max-sm:px-2"><ArrowLeft size={16} /><span className="max-sm:hidden">{T.back}</span></GameButton>
-        <span className="hidden h-9 w-9 shrink-0 place-items-center border text-lg font-black sm:grid" style={{ borderColor: INK.lineStrong, color: INK.goldBright }} aria-hidden>{T.codex.hanja.slice(0, 1)}</span>
         <div className="min-w-0 flex-1">
-          <h2 className="text-lg font-black" style={{ color: INK.text }}>{T.codex.title} <span className="text-sm font-bold" style={{ color: INK.gold }}>{T.codex.hanja}</span></h2>
+          <h2 className="text-lg font-black" style={{ color: INK.text }}>{T.codex.title}</h2>
           <p className="truncate text-[12px] max-sm:hidden" style={{ color: INK.sub }}>{T.codex.desc}</p>
           <p className="truncate text-[12px] font-bold tabular-nums sm:hidden" style={{ color: INK.text }}>{progress}</p>
         </div>
@@ -106,13 +105,13 @@ export default function CodexScreen({ onBack }: { onBack: () => void }) {
                 ) : (
                   <span className="grid place-items-center text-2xl font-black" style={{ width: face, height: face, background: '#0c0d10', color: '#23242a' }} aria-hidden>?</span>
                 )}
-                {e?.lord ? <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full text-[10px] font-black" style={{ background: INK.seal, color: '#fff' }} title={T.codex.lordTimes(e.lord)}>主</span> : null}
+                {e?.lord ? <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full text-[10px] font-black" style={{ background: INK.seal, color: '#fff' }} title={T.codex.lordTimes(e.lord)}><Crown size={12} aria-hidden /></span> : null}
               </span>
               <span className="w-full truncate text-[12px] font-bold" style={{ color: known ? INK.text : INK.mute }}>{known ? h.name : T.codex.unknown}</span>
               {known ? (
                 <span className="flex items-center gap-1">
                   <GradeBadge grade={h.grade} />
-                  {star && <span className="text-[10px] font-bold" style={{ color: INK.gold }}>{star.hanja}</span>}
+                  {star && <span className="text-[10px] font-bold" style={{ color: INK.gold }}>{star.text}</span>}
                 </span>
               ) : <span className="h-[18px]" />}
             </button>

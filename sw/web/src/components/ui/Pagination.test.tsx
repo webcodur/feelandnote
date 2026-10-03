@@ -17,7 +17,7 @@ const compiled = ts.transpileModule(readFileSync(new URL("./Pagination.tsx", imp
 const messages = JSON.parse(readFileSync(new URL("../../../messages/en/core.json", import.meta.url), "utf8"));
 const translate = createTranslator({ locale: "en", messages, namespace: "shared.ui.pagination" });
 const mocks = {
-  react: { ...React, useId: () => "page-size" },
+  react: { ...React, useId: () => "page-size", useState: <T,>(init: T | (() => T)) => [typeof init === "function" ? (init as () => T)() : init, () => {}] },
   "next-intl": { useTranslations: () => translate },
   "@/i18n/navigation": { Link: ({ prefetch, ...props }: React.ComponentProps<"a"> & { prefetch?: boolean }) => {
     assert.equal(prefetch, false);
@@ -85,7 +85,7 @@ test("first and last page boundaries are disabled and single-page results omit n
   }
   const $ = load(renderToStaticMarkup(<Pagination {...defaults} totalPages={1} pageSize={20} pageSizeOptions={[10, 20, 50]} onPageSizeChange={() => {}} showPageSizeSelector />));
   assert.equal($("nav").length, 0);
-  assert.equal($('label[for="page-size"]').text(), "Items per page");
+  assert.equal($('label[for="page-size"]').text(), "Per page");
   assert.equal($("select option[selected]").attr("value"), "20");
 });
 

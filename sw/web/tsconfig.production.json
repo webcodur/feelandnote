@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "next-env.d.ts",
+    "src/app/**/*.ts",
+    "src/app/**/*.tsx",
+    "src/middleware.ts",
+    "src/proxy.ts",
+    "src/instrumentation*.ts",
+    ".next/types/**/*.ts",
+    ".next-verify/types/**/*.ts"
+  ]
+}

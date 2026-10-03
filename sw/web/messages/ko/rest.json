@@ -626,7 +626,7 @@
           "wanderers": "방랑 인재",
           "lordCandidates": "주군 후보",
           "statSummary": "통솔/무력/지력/매력",
-          "startAs": "{name}(으)로 시작",
+          "startAs": "{name} 세력으로 시작",
           "selectLordPrompt": "주군으로 삼을 인물을 선택하세요",
           "undecided": "미정",
           "lordCount": "주군 {count}명",

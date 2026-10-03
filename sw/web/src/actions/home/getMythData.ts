@@ -1,6 +1,7 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
+import { compressedJsonCache } from '@/lib/compressedJsonCache';
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
@@ -9,7 +10,7 @@ import { selectVisibleFactionMembers } from "@/lib/faction-members";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
 import { loadFigureBookEditions } from "@/actions/figure-books/figureBookEditions";
-import { pickPurchaseEdition } from "@/actions/figure-books/figureBookLocale";
+import { resolveBookShelfBook } from '@/lib/books/bookShelf';
 import type { ContentType } from "@/types/database";
 import { toFactionMusic } from "@/lib/faction-music";
 import { toTeamImages, toSceneImages } from "@feelandnote/shared/lib/faction-team-image";
@@ -23,6 +24,7 @@ interface Lv2Row {
   headline: string | null; headline_en: string | null;
   description: string | null; description_en: string | null;
   theme_music: unknown;
+  theme_book_ids: string[] | null;
   team_images: unknown;
   lead_person_ids: string[] | null;
   /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 신화 하나를 잠그는 데도 배포가 필요했다 */
@@ -104,7 +106,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
       .select("id,slug,name,name_en,sort_order")
       .eq("is_myth", true).order("sort_order"),
     db.from("faction_lv2")
-      .select("id,lv1_id,slug,name,name_en,headline,headline_en,description,description_en,published,theme_music,lead_person_ids,team_images")
+      .select("id,lv1_id,slug,name,name_en,headline,headline_en,description,description_en,published,theme_music,theme_book_ids,lead_person_ids,team_images")
       .eq("is_myth", true).order("sort_order"),
   ]);
   if (lv1Result.error) throw new Error(`신화 지역 조회 실패: ${lv1Result.error.message}`);
@@ -142,36 +144,38 @@ async function fetchMythData(locale: string): Promise<MythData> {
   ]);
   const validIds = new Set(profiles.filter((profile) => profile.slug).map((profile) => profile.id));
   const assignments = allAssignments.filter((row) => validIds.has(row.celeb_id));
-  const contentIds = unique(assignments.map((row) => row.content_id));
+  const contentIds = unique([...assignments.map((row) => row.content_id), ...mythRows.flatMap((myth) => myth.theme_book_ids ?? [])]);
   // 한국어 화면은 판본 표가 원천이다 — YES24가 찾을 ISBN 판본을 세우고, 쿠팡 상품은 같은 판본에 보조로 붙는다
   const [contents, editionsByContent] = await Promise.all([
     selectInChunks<ContentRow>(contentIds, (ids) => db.from("contents")
-      .select(`id,type,content_locales(${CL_SELECT_LIST})`).in("id", ids)
+      .select(`id,type,content_locales(${CL_SELECT_LIST},isbn,affiliate_url)`).in("id", ids)
       .overrideTypes<ContentRow[], { merge: false }>()),
     loadFigureBookEditions(db, contentIds, locale),
   ]);
 
   const explanationByPerson = new Map(explanationRows.map((row) => [row.profile_id, row]));
 
-  const works = contents.map((content): MythWork => {
+  const works = contents.flatMap((content): MythWork[] => {
     const flat = flattenLocales(content.content_locales, locale, content.type);
     const availableEditions = editionsByContent.get(content.id) ?? [];
-    const edition = pickPurchaseEdition(availableEditions, locale);
-    return { id: content.id, title: edition?.title ?? flat.title,
+    const book = content.type === 'BOOK' ? resolveBookShelfBook(content, availableEditions, locale) : null;
+    if (content.type === 'BOOK' && !book) return [];
+    return [{ id: content.id, title: book?.title ?? flat.title,
+      themeIds: mythRows.filter((myth) => (myth.theme_book_ids ?? []).includes(content.id)).map((myth) => myth.id),
       editions: content.id === GRAVES_GREEK_MYTHS_ID ? availableEditions.map((choice) => ({
         id: choice.id, title: choice.title, creator: choice.creator,
         thumbnailUrl: choice.thumbnailUrl,
         coupangUrl: isEn || choice.platform !== "coupang" ? null : choice.purchaseUrl,
         textScope: choice.textScope,
       })) : undefined,
-      titleBadge: content.type === "BOOK" && (!edition?.title || flat.title_badge === "out-of-print") ? flat.title_badge : null,
-      creator: edition?.creator ?? flat.creator,
-      thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
-      category: CATEGORY[content.type], coupangUrl: isEn || edition?.platform !== "coupang" ? null : edition.purchaseUrl,
-      editionId: isEn ? undefined : edition?.id,
+      titleBadge: null,
+      creator: book?.creator ?? flat.creator,
+      thumbnailUrl: book?.thumbnail ?? flat.thumbnail_url,
+      category: CATEGORY[content.type], coupangUrl: isEn ? null : book?.url || null,
+      editionId: book?.editionId,
       personIds: unique(assignments.filter((row) => row.content_id === content.id).map((row) => row.celeb_id)),
       appearedIds: unique(assignments.filter((row) => row.content_id === content.id && row.relation_type !== "authored").map((row) => row.celeb_id)),
-      authorIds: unique(assignments.filter((row) => row.content_id === content.id && row.relation_type === "authored").map((row) => row.celeb_id)) };
+      authorIds: unique(assignments.filter((row) => row.content_id === content.id && row.relation_type === "authored").map((row) => row.celeb_id)) }];
   }).filter((work) => work.title).sort((a, b) => b.personIds.length - a.personIds.length || a.title.localeCompare(b.title, locale));
 
   const people = profiles.flatMap((profile): MythPerson[] => {
@@ -250,11 +254,11 @@ async function fetchMythData(locale: string): Promise<MythData> {
   return { regions, myths, people, works };
 }
 
-const getCachedMythData = unstable_cache(fetchMythData, ['myth-data-v30'], {
+const getCachedMythData = compressedJsonCache(fetchMythData, ['myth-data-v32-compressed'], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
 
-export async function getMythData(locale: string = "ko") {
+export const getMythData = cache(async (locale: string = "ko") => {
   return getCachedMythData(locale === "en" ? "en" : "ko");
-}
+});

@@ -8,6 +8,7 @@ const read = (relativePath: string) => readFileSync(
 )
 
 const profileSource = read('../user/getCelebBySlug.ts')
+const identitySource = read('../../lib/celeb/identity.ts')
 const dialogueSource = read('./getCelebJsonLdData.ts')
 const spectrumSource = read('../spectrum/getSimilarByCelebId.ts')
 const influenceSource = read('../home/getCelebInfluence.ts')
@@ -16,7 +17,6 @@ const affiliateSource = read('../home/getAffiliateBooks.ts')
 
 test('cached celeb profile queries throw before missing and empty values are normalized', () => {
   for (const label of [
-    'profile',
     'content-count',
     'follower-count',
     'guestbook-count',
@@ -37,8 +37,8 @@ test('cached celeb profile queries throw before missing and empty values are nor
   }
 
   assert.match(
-    profileSource,
-    /throwOnQueryError\('getCelebBySlug\/profile',[\s\S]*?if \(!celeb\) return null/,
+    identitySource,
+    /throwOnQueryError\('celeb-identity',[\s\S]*?return data as IdentityRow/,
   )
   assert.match(profileSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.CELEBS/)
   assert.doesNotMatch(profileSource, /if \(explanationResult\.error\)[\s\S]*?console\.error/)
@@ -63,11 +63,11 @@ test('content type counts propagate query failures instead of returning false ze
 
 test('affiliate recommendations reject source failures before any empty result is cached', () => {
   for (const label of [
-    'pool',
+    'pool-linked',
+    'pool-popular',
     'celeb-read',
     'profession',
     'profession-peers',
-    'profession-read',
     'origin',
   ]) {
     assert.match(
@@ -76,6 +76,6 @@ test('affiliate recommendations reject source failures before any empty result i
       `missing getAffiliateBooks/${label} query guard`,
     )
   }
-  assert.match(affiliateSource, /unstable_cache\(fetchAffiliatePool/)
+  assert.match(affiliateSource, /compressedJsonCache\(fetchAffiliatePool/)
   assert.match(affiliateSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.CELEBS/)
 })

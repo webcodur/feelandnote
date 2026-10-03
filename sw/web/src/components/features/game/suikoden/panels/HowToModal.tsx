@@ -12,7 +12,7 @@ export default function HowToModal({ open, onClose }: { open: boolean; onClose: 
   const { T } = useCheondo()
   return (
     <Modal open={open} onClose={onClose} width={620} label={T.howTo.title}>
-      <PanelTitle hanja="導" title={T.howTo.title} sub={T.tagline} />
+      <PanelTitle title={T.howTo.title} sub={T.tagline} />
       <ol className="flex flex-col gap-3 overflow-y-auto p-5">
         {T.howTo.steps.map(([title, desc], i) => (
           <li key={title} className="flex gap-3">

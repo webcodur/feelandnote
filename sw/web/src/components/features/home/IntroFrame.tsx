@@ -7,7 +7,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { ChevronRight, Info } from "lucide-react";
+import { ChevronRight, Info, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import InspirationChainGraphic from "./InspirationChainGraphic";
@@ -57,6 +57,7 @@ export function renderHighlighted(text: string, figureLinks: Record<string, stri
 
 export interface IntroFrameLabels {
   intro: string;
+  close: string;
   figureLinks?: Record<string, string>;
   inspirationChainTitle: string;
   inspirationChains: {
@@ -75,22 +76,27 @@ export default function IntroFrame({
   /** 주면 맺음 문장을 가운데 세우고, 눌렀을 때 그 화면으로 가는 문으로 만든다 */
   closingHref?: string;
 }) {
+  const [dismissed, setDismissed] = useState(false);
   const [showRelayInfo, setShowRelayInfo] = useState(false);
   const paragraphs = labels.intro.split("\n\n");
+  // ⓘ는 뒤에서 두 번째 문단("…영감을 줍니다") 끝에 인라인으로 붙는다
+  const infoParaIndex = paragraphs.length - 2;
+
+  if (dismissed) return null;
 
   return (
     <div className="w-full max-w-2xl mx-auto min-w-0">
       {/* 판 하나 — 카드 면과 얇은 선. 모서리 꺽쇠 장식은 두지 않는다 */}
       <div className="relative min-w-0 rounded-card border border-line bg-bg-card px-5 py-5 md:px-8 md:py-7">
-        {/* Info Icon — 누르는 칸 44px */}
+        {/* 닫기 — 누르는 칸 44px */}
         <button
           type="button"
-          onClick={() => setShowRelayInfo(true)}
+          onClick={() => setDismissed(true)}
           className="absolute top-3 end-3 md:top-5 md:end-5 z-20 flex size-11 items-center justify-center rounded-full text-text-secondary hover:bg-white/5 hover:text-accent"
-          title={labels.inspirationChainTitle}
-          aria-label={labels.inspirationChainTitle}
+          title={labels.close}
+          aria-label={labels.close}
         >
-          <Info size={18} />
+          <X size={18} />
         </button>
 
         {/* Prose */}
@@ -113,10 +119,21 @@ export default function IntroFrame({
                 </Link>
               );
             }
-            // 첫 문단만 오른쪽 위 ⓘ 버튼 자리를 비운다 — 비우지 않으면 첫 줄 끝 글자를 가린다
+            // 첫 문단만 오른쪽 위 X 버튼 자리를 비운다 — 비우지 않으면 첫 줄 끝 글자를 가린다
             return (
               <p key={i} className={`whitespace-pre-line ${i === 0 ? "pe-9 md:pe-10" : ""}`}>
                 {renderHighlighted(para, labels.figureLinks)}
+                {i === infoParaIndex && (
+                  <button
+                    type="button"
+                    onClick={() => setShowRelayInfo(true)}
+                    className="ms-1.5 inline-flex size-6 items-center justify-center rounded-full align-middle text-text-secondary hover:bg-white/5 hover:text-accent"
+                    title={labels.inspirationChainTitle}
+                    aria-label={labels.inspirationChainTitle}
+                  >
+                    <Info size={15} />
+                  </button>
+                )}
               </p>
             );
           })}

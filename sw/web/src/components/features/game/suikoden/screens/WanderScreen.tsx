@@ -5,7 +5,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Anchor, Flag, Footprints, MapPin, Search, UserMinus } from 'lucide-react'
+import { Anchor, Flag, Footprints, MapPin, Search, UserMinus, Compass } from 'lucide-react'
 import { WANDER } from '@/lib/game/suikoden/constants'
 import { flagEmoji, isSeaRoute, neighborsOf, REGIONS, TERRITORY_BY_ID, type TerritoryId } from '@/lib/game/suikoden/map'
 import { freeHeroesAt } from '@/lib/game/suikoden/query'
@@ -114,7 +114,7 @@ export default function WanderScreen({ game, setGame, onMenu }: WanderScreenProp
 
         {/* 왼쪽 — 일행 */}
         <Panel as="aside" className="absolute left-3 top-3 hidden w-[292px] md:block">
-          <PanelTitle hanja="旅" title={T.wander.title} sub={T.wander.turns(w.turns)} />
+          <PanelTitle title={T.wander.title} sub={T.wander.turns(w.turns)} />
           <div className="flex flex-col gap-3 p-3">
             <button type="button" onClick={() => openHero(lord.id)} className="flex items-center gap-3 border border-white/[0.07] p-2 text-left hover:border-[#d4af37]/50">
               <Portrait hero={lord} size={52} ring />
@@ -195,7 +195,7 @@ export default function WanderScreen({ game, setGame, onMenu }: WanderScreenProp
                   </button>
                 ) : (
                   <span className="grid h-16 w-16 shrink-0 place-items-center self-start border text-2xl font-black md:h-[104px] md:w-[104px] md:text-4xl" style={{ borderColor: INK.line, color: INK.goldDim }} aria-hidden>
-                    {ENC_HANJA[enc.kind]}
+                    <Compass size={32} aria-hidden />
                   </span>
                 )}
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -298,7 +298,7 @@ export default function WanderScreen({ game, setGame, onMenu }: WanderScreenProp
       </div>
 
       <Modal open={confirmRaise} onClose={() => setConfirmRaise(false)} width={440}>
-        <PanelTitle hanja="旗" title={T.wander.raise} />
+        <PanelTitle title={T.wander.raise} />
         <div className="flex flex-col gap-4 p-5">
           <p className="text-sm leading-relaxed" style={{ color: INK.text }}>
             {raise.code === 'uprising' && here.owner
@@ -315,7 +315,6 @@ export default function WanderScreen({ game, setGame, onMenu }: WanderScreenProp
   )
 }
 
-const ENC_HANJA: Record<string, string> = { bandits: '賊', merchant: '商', village: '村', shrine: '祠', rumor: '聞', quiet: '靜', hero: '人' }
 
 function resultText(T: ReturnType<typeof useCheondo>['T'], enc: Encounter, name: string, place: (id: TerritoryId) => string, heroName: (id: string) => string): string {
   const e = T.wander.enc

@@ -8,6 +8,7 @@
 
 import { Sparkles, Undo2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { MODAL_MAX_HEIGHT } from "@/components/ui/modalLayout";
 import type { SkillKey, Unit } from "../../engine";
 import type { Names } from "../useNames";
 
@@ -24,7 +25,7 @@ interface Props {
 export default function SkillSheet({ unit, skill, names, picking, onUse, onCancel }: Props) {
   const t = useTranslations("gameMythTroy");
   return (
-    <div className="pointer-events-auto w-full rounded-2xl border border-border-gold bg-bg-main/95 p-3 shadow-[0_18px_40px_-16px_var(--color-bg-main)] backdrop-blur-sm sm:w-[26rem] sm:p-4" role="dialog" aria-label={t(`skills.${skill}.name`)}>
+    <div className="pointer-events-auto w-full overflow-y-auto rounded-2xl border border-border-gold bg-bg-main/95 p-3 shadow-[0_18px_40px_-16px_var(--color-bg-main)] backdrop-blur-sm sm:w-[26rem] sm:p-4" style={{ maxHeight: MODAL_MAX_HEIGHT }} role="dialog" aria-label={t(`skills.${skill}.name`)}>
       <p className="flex items-center gap-2 text-sm text-text-secondary">
         <Sparkles className="h-4 w-4 text-accent" aria-hidden />
         <span className="font-semibold text-text-primary">{names.unitName(unit)}</span>

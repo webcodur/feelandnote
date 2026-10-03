@@ -19,6 +19,7 @@ import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { badgeStyles, quietBadgeStyles } from "./CelebCard.styles";
 import TrendMatchChip from "./TrendMatchChip";
+import CelebRealityLabel from "./CelebRealityLabel";
 import { EXPLORE_CARD_CAPTION_HOVER, EXPLORE_CARD_FRAME_HOVER, EXPLORE_CARD_GLOW, EXPLORE_CARD_IMAGE_HOVER } from "./ExploreCard.styles";
 
 type Variant = "card" | "circle" | "medallion";
@@ -30,6 +31,8 @@ interface CelebCardProps {
   avatar_url?: string | null;
   title?: string | null;
   count?: number;
+  /** false면 작품 수 뱃지에서 서가 아이콘을 빼고 숫자만 둔다. */
+  countIcon?: boolean;
   /** 최근 30일 조회수 — 값이 있을 때만 조회수 버튼을 표시한다. */
   recentViews?: number | null;
   className?: string;
@@ -53,6 +56,7 @@ export default function CelebCard({
   avatar_url,
   title,
   count,
+  countIcon = true,
   recentViews,
   className = "",
   celebProfile,
@@ -66,7 +70,7 @@ export default function CelebCard({
   const t = useTranslations("shared.celeb");
   const locale = useLocale();
   const reality = celebProfile?.celeb_reality;
-  const realityLabel = reality === "FICTION" ? t("reality.myth") : reality === "BOTH" ? t("reality.both") : null;
+  const realityLabel = reality === "FICTION" ? t("reality.myth") : null;
   /* 국가 트렌드 승격 근거 — 본인 이름이 급상승한 인물 → 이름 아래 금색 「검색 n위」 칩.
      예전에는 카드 테두리를 주황 화염으로 바꿨는데, 격자에서 가장 강한 요소가 되어 선택된 카드처럼 읽혔다.
      카드 틀은 다른 인물과 같게 두고 표지는 칩 하나가 맡는다. */
@@ -147,7 +151,7 @@ export default function CelebCard({
             {count !== undefined && count > 0 && (
               <span className={`${isQuiet ? `${quietBadgeStyles[variant]} border border-white/15 bg-bg-main text-text-secondary` : badgeStyles[variant]} z-20 flex items-center justify-center gap-[clamp(2px,1cqw,4px)] font-bold leading-none`} title={t("contentCount", { count })}>
                 {/* 카드 배지는 숫자만 두면 무엇의 수인지 모른다 — 서가 아이콘으로 "보유 작품 수"임을 알린다 */}
-                {isCard && <Library aria-hidden className="shrink-0 opacity-80 w-[clamp(9px,6cqw,12px)] h-[clamp(9px,6cqw,12px)]" />}
+                {isCard && countIcon && <Library aria-hidden className="shrink-0 opacity-80 w-[clamp(9px,6cqw,12px)] h-[clamp(9px,6cqw,12px)]" />}
                 {count}
               </span>
             )}
@@ -182,6 +186,8 @@ export default function CelebCard({
 
         {/* 사진 위에 놓되 링크 밖의 독립 버튼으로 제공한다. 음성이 실제로 있는 인물만 스피커를 둔다. */}
         <div className={`absolute top-0 pointer-events-none ${config.container}`}>
+          {isCard && reality === "BOTH" && <CelebRealityLabel reality={reality}
+            className="absolute bottom-[clamp(4px,3cqw,8px)] end-[clamp(4px,3cqw,8px)] z-20 pointer-events-auto flex min-h-7 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium leading-none text-white/75" />}
           {onSubtitle && celebProfile && hasVoice && (
             <button
               type="button"

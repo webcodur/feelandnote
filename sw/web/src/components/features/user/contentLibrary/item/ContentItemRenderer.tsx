@@ -21,6 +21,7 @@ import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import CardBookPurchase from "@/components/features/commerce/CardBookPurchase";
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import type { ContentFocusRequest } from "../types";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -40,6 +41,7 @@ interface ContentItemRendererProps {
   initialContentRecord?: UserContentWithContent;
   /** Shared list-index preference for the expanded presentation. */
   expandIndexPreference?: boolean | null;
+  titlePulseRequest?: number;
   onExpandIndexPreferenceChange?: (preference: boolean) => void;
   activeCategory?: CategoryId;
   categoryCounts?: ContentTypeCounts | null;
@@ -47,6 +49,7 @@ interface ContentItemRendererProps {
   isContentRefreshing?: boolean;
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
+  focusRequest?: ContentFocusRequest;
 }
 // #endregion
 
@@ -63,12 +66,14 @@ function ContentItemRenderer({
   initialContentRecord,
   targetUserId,
   expandIndexPreference,
+  titlePulseRequest,
   onExpandIndexPreferenceChange,
   activeCategory,
   categoryCounts,
   onCategoryChange,
   isContentRefreshing,
   onActiveContentChange,
+  focusRequest,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
   const [ratingEditTarget, setRatingEditTarget] = useState<{
@@ -101,12 +106,14 @@ function ContentItemRenderer({
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}
         expandIndexPreference={expandIndexPreference}
+        titlePulseRequest={titlePulseRequest}
         onExpandIndexPreferenceChange={onExpandIndexPreferenceChange}
         activeCategory={activeCategory}
         categoryCounts={categoryCounts}
         onCategoryChange={onCategoryChange}
         isContentRefreshing={isContentRefreshing}
         onActiveContentChange={onActiveContentChange}
+        focusRequest={focusRequest}
       />
     );
   }

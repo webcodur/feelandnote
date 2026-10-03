@@ -101,7 +101,7 @@ export default function CelebCarousel({
 
   return (
     <div>
-      {/* 구획 제목·목차는 탐색 페이지(HubNav·HubSection)가 쥔다. 명부 규모는 결과 수 옆에서 보인다. */}
+      {/* 구획 제목·목차는 탐색 페이지(AtlasNavSections·HubSection)가 쥔다. 명부 규모는 결과 수 옆에서 보인다. */}
       {syncToUrl ? (
         <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction}
           // 전체 명부 수와 현재 조건에 맞는 결과 수 — 조작 아래 한 줄(검색 급증 안내 옆)에 선다
@@ -306,6 +306,7 @@ export function CelebGrid({ celebs, isLoading, quiet = false, onSelect, children
             avatar_url={celeb.avatar_url}
             title={celeb.title}
             count={celeb.content_count}
+            countIcon={false}
             celebProfile={celeb}
             shape="square"
             presentation={quiet ? "quiet" : "default"}
@@ -341,6 +342,7 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
             avatar_url={celeb.avatar_url}
             title={celeb.title}
             count={celeb.content_count}
+            countIcon={false}
             celebProfile={celeb}
             onSubtitle={handleSubtitle}
           />
@@ -358,6 +360,7 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
             avatar_url={celeb.avatar_url}
             title={celeb.title}
             count={celeb.content_count}
+            countIcon={false}
             celebProfile={celeb}
             onSubtitle={handleSubtitle}
           />

@@ -41,9 +41,9 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
             showCloseButton={false}
             animateHeight={false}
         >
-            <div className="w-full h-[calc(100dvh-4rem)] flex flex-col overflow-hidden">
+            <div className="w-full h-[var(--modal-body-max-height)] min-h-0 flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
+                <div className="flex shrink-0 items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
                     <h3 className="text-lg font-serif font-bold text-text-primary flex items-center gap-2">
                         <Icon size={20} className="text-accent" />
                         {title}

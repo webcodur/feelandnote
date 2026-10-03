@@ -9,7 +9,7 @@
 
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import Modal, { ModalBody, READING_MODAL_MAX_HEIGHT_CLASS } from "@/components/ui/Modal";
+import Modal, { ModalBody } from "@/components/ui/Modal";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ReadingHighlightText from "@/components/shared/ReadingHighlightText";
 import AutoScrollReadingText from "@/components/shared/AutoScrollReadingText";
@@ -44,7 +44,6 @@ export default function VirtualMonologueModal({ text, onClose, nested = false, m
       titleClassName="font-semibold tracking-wide text-3d-gold-bright"
       stickyHeader
       size="xl"
-      maxHeightClassName={READING_MODAL_MAX_HEIGHT_CLASS}
       fadeClippedEnd
       zIndex={nested ? Z_INDEX.modal + 1 : undefined}
       escapeCapture={nested}

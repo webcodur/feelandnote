@@ -15,7 +15,7 @@
 */
 
 import { NextResponse } from 'next/server'
-import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient, type DatabaseClient } from '@feelandnote/db'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { countRecentTitleMentions } from '@feelandnote/content-search/naver-news'
 import { getKSTDateKey } from '@/lib/game/date-seed'

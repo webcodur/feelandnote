@@ -1,7 +1,7 @@
 /*
   파일명: /components/layout/HeaderSearch.tsx
   기능: 헤더 검색 컴포넌트
-  책임: 콘텐츠/사용자 검색 입력과 결과 드롭다운 UI를 제공한다.
+  책임: 작품·사용자·인물·세력·신화 검색 입력과 결과 드롭다운 UI를 제공한다.
 */ // ------------------------------
 
 "use client";
@@ -214,7 +214,7 @@ export default function HeaderSearch() {
       <div ref={containerRef} className="hidden xl:block flex-1 max-w-md mx-auto relative">
       {/* Search Bar */}
       <div
-        className={`w-full h-10 bg-white/5 backdrop-blur-sm border rounded-lg flex items-center transition-all duration-300
+        className={`w-full h-10 bg-white/5 backdrop-blur-sm border rounded-lg flex items-center
           ${isOpen ? "border-accent shadow-[0_0_15px_rgba(212,175,55,0.15)] bg-black/40" : "border-white/10 hover:border-white/20 hover:bg-white/10"}`}
       >
         {/* Mode Selector */}

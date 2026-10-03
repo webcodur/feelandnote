@@ -53,7 +53,7 @@ export default function GameScreen({ game, setGame, saveOk, onTitle, onExit, aud
         </div>
       )}
       <Modal open={menu} onClose={() => setMenu(false)} width={380} label={T.menu}>
-        <PanelTitle hanja="令" title={T.menu} sub={saveOk ? T.saved : T.saveWarn} />
+        <PanelTitle title={T.menu} sub={saveOk ? T.saved : T.saveWarn} />
         <div className="flex flex-col gap-2 p-4">
           <GameButton variant="primary" onClick={() => setMenu(false)} className="w-full">{T.resume}</GameButton>
           <div className="grid grid-cols-2 gap-2">

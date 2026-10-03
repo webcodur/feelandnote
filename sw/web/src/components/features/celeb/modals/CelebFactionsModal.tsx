@@ -34,14 +34,14 @@ export default function CelebFactionsModal({ isOpen, onClose, factions, title, z
       zIndex={zIndex}
     >
       {/* Header */}
-      <div className="flex items-center px-6 py-4 border-b border-border/50 bg-bg-card/50">
+      <div className="flex shrink-0 items-center px-6 py-4 border-b border-border/50 bg-bg-card/50">
         <h3 className="font-serif font-bold text-lg text-text-primary">
           {title || "Keywords & Insights"}
         </h3>
       </div>
 
       {/* List */}
-      <div className="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar flex flex-col gap-6">
+      <div className="min-h-0 overflow-y-auto p-6 custom-scrollbar flex flex-col gap-6">
         {factions.map((faction) => {
           // 세력 페이지(/explore/faction/[slug])는 featured 테마만 선다 — 그 외는 텍스트 칩으로 둔다
           // 신화 소속은 신화 주소로 — 세력도감 주소는 신화를 싣지 않아 404였다(26.09.29)

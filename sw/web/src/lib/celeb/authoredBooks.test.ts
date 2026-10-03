@@ -48,6 +48,6 @@ test('요청 언어의 판본이 없는 작품(미번역본)과 절판은 어떤
   const noEdition = book({ id: 'empty', editions: [] })
   assert.deepEqual(
     pickDisplayFigureBooks([confirmed, outOfPrint, noKo, noEn, noEdition]).map(({ id }) => id),
-    ['confirmed', 'no-ko'],
+    ['confirmed'],
   )
 })

@@ -10,7 +10,8 @@ import type { Command } from "@/lib/game/types";
 import type { DuelAction, DuelClashResult, DuelPhase } from "@/lib/game/duelEngine";
 import { ACTION_ICONS } from "./ActionIcons";
 import ActionButton from "./ActionButton";
-import { ACTIONS, ACTION_KEY, ACTION_TONE } from "../types";
+import { INTRO_ACTION_COLOR } from "./ActionButton";
+const ACTIONS = ["charge", "strike", "brace"] as const;
 
 interface Props {
   command: Command;
@@ -37,9 +38,9 @@ export default function DuelControls({ command, labels, phase, lastClash, strike
         {lastClash && (
           <>
             <p className="text-sm font-bold">
-              <span className={ACTION_TONE[lastClash.playerAction].text}>{labels[lastClash.playerAction]}</span>
+              <span className={INTRO_ACTION_COLOR[lastClash.playerAction]}>{labels[lastClash.playerAction]}</span>
               <span className="mx-2 text-text-secondary">{t("vs")}</span>
-              <span className={ACTION_TONE[lastClash.aiAction].text}>{labels[lastClash.aiAction]}</span>
+              <span className={INTRO_ACTION_COLOR[lastClash.aiAction]}>{labels[lastClash.aiAction]}</span>
             </p>
             <p className="text-base leading-snug text-hg-bright">
               {t(`narrative.${lastClash.narrative}`, { damage: lastClash.playerDamage || lastClash.aiDamage })}
@@ -56,8 +57,8 @@ export default function DuelControls({ command, labels, phase, lastClash, strike
             label={labels[action]}
             sub={sub[action]}
             Icon={ACTION_ICONS[command][action]}
-            hotkey={ACTION_KEY[action]}
-            enabled={enabled}
+
+            canAct={enabled}
             highlight={enabled && action === "strike" && strikeReady}
             onClick={() => onAct(action)}
           />

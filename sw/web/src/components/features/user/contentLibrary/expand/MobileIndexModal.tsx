@@ -1,13 +1,11 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
-import { LibraryBig } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import Modal from "@/components/ui/Modal";
+import LibraryIndexModal from "@/components/shared/LibraryIndexModal";
+import LibraryCategoryPicker from "@/components/shared/LibraryCategoryPicker";
+import LibraryIndexList from "@/components/shared/LibraryIndexList";
 import {
-  CATEGORIES,
-  CATEGORY_ID_TO_TYPE,
   getCategoryByDbType,
   type CategoryId,
 } from "@/constants/categories";
@@ -17,6 +15,8 @@ import type { ContentTypeCounts } from "@/types/content";
 import styles from "./ExpandDetailView.module.css";
 import type { ExpandIndexTypeGroup } from "./groupExpandIndexItems";
 import ExpandIndexGroup from "./unit/ExpandIndexGroup";
+import ArchiveSearchControls from "../controlBar/ArchiveSearchControls";
+import { ALL_GROUPS, useExpandIndexModal } from "./useExpandIndexModal";
 
 interface MobileIndexModalProps {
   groups: ExpandIndexTypeGroup[];
@@ -34,8 +34,6 @@ interface MobileIndexModalProps {
   onSelect: (index: number) => void;
   onClose: () => void;
 }
-
-const ALL_GROUPS = "all";
 
 /*
  * 기록 목록 모달. 데스크톱과 모바일에서 같은 중앙 모달로 띄운다.
@@ -59,136 +57,46 @@ export default function MobileIndexModal({
 }: MobileIndexModalProps) {
   const t = useTranslations("content");
   const tArchive = useTranslations("archiveSearch");
-  const tSearch = useTranslations("searchPage");
-  const navRef = useRef<HTMLElement | null>(null);
-  const [selectedGroupType, setSelectedGroupType] = useState(
-    () => CATEGORY_ID_TO_TYPE[activeCategory ?? "all"] ?? ALL_GROUPS,
-  );
-
-  const categoryOptions = useMemo(() => {
-    if (onCategoryChange) {
-      return CATEGORIES
-        .filter((category) => {
-          const count = categoryCounts?.[category.dbType];
-          const groupCount = groups.find((group) => group.dbType === category.dbType)?.items.length ?? 0;
-          return (count ?? 0) > 0 || groupCount > 0;
-        })
-        .map((category) => {
-          const groupCount = groups.find((group) => group.dbType === category.dbType)?.items.length ?? 0;
-          return {
-            dbType: category.dbType,
-            category,
-            count: Math.max(categoryCounts?.[category.dbType] ?? 0, groupCount),
-          };
-        })
-        .sort((first, second) => second.count - first.count);
-    }
-
-    return groups.map((group) => ({
-      dbType: group.dbType,
-      category: getCategoryByDbType(group.dbType),
-      count: group.items.length,
-    }));
-  }, [categoryCounts, groups, onCategoryChange]);
-  const hasSelectedGroup = selectedGroupType === ALL_GROUPS
-    || categoryOptions.some((option) => option.dbType === selectedGroupType);
-  const effectiveGroupType = hasSelectedGroup ? selectedGroupType : ALL_GROUPS;
-  const visibleGroups = effectiveGroupType === ALL_GROUPS
-    ? groups
-    : groups.filter((group) => group.dbType === effectiveGroupType);
-
-  const handleCategorySelect = (dbType: string) => {
-    setSelectedGroupType(dbType);
-    const category = getCategoryByDbType(dbType);
-    if (category) onCategoryChange?.(category.id);
-  };
-
-  useLayoutEffect(() => {
-    const nav = navRef.current;
-    const item = nav?.querySelector<HTMLElement>(`[data-original-index="${selectedIndex}"]`);
-    if (!nav || !item) return;
-    // 목록이 그려지기 전에 현재 작품을 가운데로 맞춘다. 바깥 문서는 움직이지 않는다.
-    nav.scrollTop = item.offsetTop - (nav.clientHeight - item.offsetHeight) / 2;
-  }, [selectedIndex, groups, effectiveGroupType]);
+  const tCommon = useTranslations("common");
+  const { categoryOptions, effectiveGroupType, visibleGroups, handleCategorySelect,
+    searchControls, appliedSearchQuery } = useExpandIndexModal({ groups, activeCategory, categoryCounts, onCategoryChange });
 
   return (
-    <Modal
-      isOpen
+    <LibraryIndexModal
       onClose={onClose}
       title={labels.list}
-      size="lg"
-      closeOnOverlayClick
-      animateHeight={false}
+      count={visibleGroups.reduce((count, group) => count + group.items.length, 0)}
+      controls={<>
+        <LibraryCategoryPicker
+          options={[
+            ...(!onCategoryChange ? [{ key: ALL_GROUPS, label: t("category.all"),
+              count: groups.reduce((total, group) => total + group.items.length, 0) }] : []),
+            ...categoryOptions.map(({ dbType, category, count }) => ({
+              key: dbType, label: category ? t(`category.${category.id}`) : dbType,
+              count, disabled: count === 0,
+            })),
+          ]}
+          value={effectiveGroupType}
+          onChange={handleCategorySelect}
+          ariaLabel={tArchive("filter.category")}
+        />
+        <ArchiveSearchControls
+          {...searchControls}
+          compact
+          fullWidth
+          className="mt-2"
+        />
+      </>}
     >
-      <div className="border-b border-border px-3 py-2">
-        <div
-          role="radiogroup"
-          aria-label={tArchive("filter.category")}
-          className={cn(
-            "grid grid-cols-2 gap-1",
-            onCategoryChange ? "sm:grid-cols-4" : "sm:grid-cols-5",
-          )}
-        >
-          {!onCategoryChange && (
-            <button
-              type="button"
-              role="radio"
-              aria-checked={effectiveGroupType === ALL_GROUPS}
-              onClick={() => setSelectedGroupType(ALL_GROUPS)}
-              className={cn(
-                "flex min-w-0 items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs font-medium",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
-                effectiveGroupType === ALL_GROUPS
-                  ? "border-accent/60 bg-accent/15 text-accent"
-                  : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10 hover:text-text-primary",
-              )}
-            >
-              <LibraryBig size={14} strokeWidth={1.7} aria-hidden />
-              <span>{t("category.all")}</span>
-              <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
-                {groups.reduce((total, group) => total + group.items.length, 0)}
-              </span>
-            </button>
-          )}
 
-          {categoryOptions.map(({ dbType, category, count }) => {
-            const Icon = category?.lucideIcon;
-            const isSelected = effectiveGroupType === dbType;
-            return (
-              <button
-                key={dbType}
-                type="button"
-                role="radio"
-                aria-checked={isSelected}
-                onClick={() => handleCategorySelect(dbType)}
-                className={cn(
-                  "flex min-w-0 items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs font-medium",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
-                  isSelected
-                    ? "border-accent/60 bg-accent/15 text-accent"
-                    : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10 hover:text-text-primary",
-                )}
-              >
-                {Icon && <Icon size={14} strokeWidth={1.7} aria-hidden />}
-                <span className="truncate">
-                  {category ? t(`category.${category.id}`) : dbType}
-                </span>
-                <span className="font-mono text-[11px] tabular-nums text-text-tertiary">
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <nav
-        ref={navRef}
+      <LibraryIndexList
+        selectedKey={selectedIndex}
+        resetKey={`${effectiveGroupType}:${appliedSearchQuery}`}
+        id={indexId}
         aria-label={labels.list}
         aria-busy={isContentRefreshing || undefined}
         data-open="true"
         className={cn(
-          "custom-scrollbar relative max-h-[calc(100dvh-13rem)] overflow-y-auto overflow-x-hidden [overflow-anchor:none]",
           styles.indexRail,
           styles.indexScrollbar,
         )}
@@ -219,10 +127,10 @@ export default function MobileIndexModal({
         })}
         {visibleGroups.length === 0 && (
           <div className="px-4 py-8 text-center text-sm text-text-tertiary">
-            {isContentRefreshing ? tSearch("loading") : "—"}
+            {isContentRefreshing ? tCommon("loading") : tArchive("noResults")}
           </div>
         )}
-      </nav>
-    </Modal>
+      </LibraryIndexList>
+    </LibraryIndexModal>
   );
 }

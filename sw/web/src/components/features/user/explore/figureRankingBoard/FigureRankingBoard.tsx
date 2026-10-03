@@ -35,6 +35,7 @@ interface PodiumRanking {
   kind: "podium";
   items: PodiumBoardItem[];
   valuePrefix?: ReactNode;
+  podiumNotice?: ReactNode;
 }
 
 /** 양극 최고점자 매치업 + 양극 차순위 카드 */
@@ -87,7 +88,10 @@ function Ranking({ ranking, accent }: { ranking: PodiumRanking | VersusRanking; 
   const rest = ranking.items.slice(3);
   return (
     <div className="space-y-8">
-      <PodiumBoard items={ranking.items.slice(0, 3)} accent={accent} valuePrefix={ranking.valuePrefix} />
+      <div className="space-y-4">
+        {ranking.podiumNotice}
+        <PodiumBoard items={ranking.items.slice(0, 3)} accent={accent} valuePrefix={ranking.valuePrefix} />
+      </div>
       {rest.length > 0 && <RankCardList items={rest} accent={accent} startRank={4} />}
     </div>
   );

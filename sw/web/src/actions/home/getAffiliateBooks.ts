@@ -1,16 +1,17 @@
 'use server'
 
 import { cache } from 'react'
-import { unstable_cache } from 'next/cache'
+import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { selectAllPages } from '@feelandnote/shared/lib/paginate'
+import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/db/static'
-import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
+import { cachedDetail, cachedList, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { loadFigureBookEditions } from '@/actions/figure-books/figureBookEditions'
-import { pickPurchaseEdition } from '@/actions/figure-books/figureBookLocale'
 import { getEnglishBookAmazonUrl } from '@/lib/books/amazonBookSearch'
 import { normalizePurchaseIsbn } from '@/lib/books/yes24Purchase'
 import { isDisplayTitleRow } from '@/lib/utils/content-locale'
+import { resolveBookShelfBook } from '@/lib/books/bookShelf'
+import type { ContentLocaleRow } from '@/lib/utils/content-locale'
 import { findAffiliateLink } from './affiliateLinks'
 import {
   BESTSELLER_CONTENT_IDS,
@@ -21,6 +22,8 @@ import {
 export interface AffiliateBook {
   contentId: string
   editionId?: number
+  /** 직군 추천을 만든 실제 감상자 ID. */
+  readerIds?: string[]
   title: string
   creator?: string
   thumbnail?: string
@@ -72,7 +75,7 @@ interface PoolEntry {
 
 interface SourceContentCountRow {
   content_id: string
-  contents: { record_count: number | null } | null
+  contents: { record_count: number | null; content_locales: ContentLocaleRow[] | null } | null
 }
 
 /**
@@ -98,9 +101,25 @@ const POPULAR_CANDIDATES = 1000
  * - 원전 작품은 판본 표가 원천이다. 작품 locale의 옛 링크로 되돌아가지 않는다.
  * - 표시용 제목만 있는 책(그 언어 판본이 없다)은 뺀다. 영문 화면에서 한국 소설을 아마존 검색으로 보내면 빈 결과가 뜬다.
  */
-async function fetchAffiliatePool(locale: AffiliateBookLocale): Promise<PoolEntry[]> {
+async function fetchAffiliatePool(locale: AffiliateBookLocale, contentIds?: string[]): Promise<PoolEntry[]> {
   const db = createStaticClient()
   const bookSelect = 'content_id, title, creator, thumbnail_url, isbn, affiliate_url, sources, contents!inner(user_count:record_count, type)'
+
+  if (contentIds?.length === 0) return []
+
+  // 개인·직군 추천은 실제 감상 작품만 조회한다. 홈페이지의 전역 후보와 판본을 기다리지 않는다.
+  if (contentIds) {
+    const ids = [...new Set(contentIds)].filter(id => !RECOMMENDATION_EXCLUDED_IDS.includes(id))
+    const [sourceRows, rows] = await Promise.all([
+      selectInChunks<SourceContentCountRow>(ids, chunk => db.from('figure_book_contents')
+        .select('content_id,contents!inner(record_count,content_locales(locale,title,creator,thumbnail_url,isbn,affiliate_url,sources))')
+        .in('content_id', chunk).order('content_id').overrideTypes<SourceContentCountRow[], { merge: false }>()),
+      selectInChunks<LocaleRow>(ids, chunk => db.from('content_locales').select(bookSelect)
+        .eq('locale', locale).eq('contents.type', 'BOOK').in('content_id', chunk)
+        .overrideTypes<LocaleRow[], { merge: false }>()),
+    ])
+    return buildAffiliatePool(locale, sourceRows, rows)
+  }
 
   const [linkedResult, popularResult, sourceRows] = await Promise.all([
     // 제휴 링크가 걸린 책 — 운영자가 골라 붙인 상품이라 기록 수와 무관하게 싣는다
@@ -121,7 +140,7 @@ async function fetchAffiliatePool(locale: AffiliateBookLocale): Promise<PoolEntr
       .limit(POPULAR_CANDIDATES),
     selectAllPages<SourceContentCountRow>((from, to) => db
       .from('figure_book_contents')
-      .select('content_id,contents!inner(record_count)')
+      .select('content_id,contents!inner(record_count,content_locales(locale,title,creator,thumbnail_url,isbn,affiliate_url,sources))')
       .order('content_id')
       .range(from, to)
       .overrideTypes<SourceContentCountRow[], { merge: false }>()),
@@ -130,6 +149,14 @@ async function fetchAffiliatePool(locale: AffiliateBookLocale): Promise<PoolEntr
   throwOnQueryError('getAffiliateBooks/pool-linked', linkedResult.error)
   throwOnQueryError('getAffiliateBooks/pool-popular', popularResult.error)
 
+  const popularRows = ((popularResult.data ?? []) as unknown as PopularContentRow[]).flatMap((content) =>
+    (content.content_locales ?? []).map((row): LocaleRow => ({ ...row, contents: { user_count: content.record_count } })))
+  return buildAffiliatePool(locale, sourceRows, [...((linkedResult.data ?? []) as unknown as LocaleRow[]), ...popularRows])
+}
+
+async function buildAffiliatePool(locale: AffiliateBookLocale, sourceRows: SourceContentCountRow[], rows: LocaleRow[]): Promise<PoolEntry[]> {
+  const db = createStaticClient()
+
   const pool: PoolEntry[] = []
   const seen = new Set<string>(RECOMMENDATION_EXCLUDED_IDS)
   const sourceIds = new Set(sourceRows.map((row) => row.content_id))
@@ -137,43 +164,28 @@ async function fetchAffiliatePool(locale: AffiliateBookLocale): Promise<PoolEntr
     row.content_id,
     row.contents?.record_count ?? 0,
   ]))
+  const sourceLocalesById = new Map(sourceRows.map((row) => [row.content_id, row.contents?.content_locales ?? []]))
 
   // 원전 작품 — 작품마다 대표 판본 하나만 쓴다. 인물 원전 책장에서는 모든 판본을 보여준다.
   const editionsByContent = await loadFigureBookEditions(db, [...sourceIds], locale)
   for (const [contentId, editions] of editionsByContent) {
     if (seen.has(contentId)) continue
-    const edition = pickPurchaseEdition(editions, locale)
-    if (!edition?.title) continue
-    const url = locale === 'en'
-      ? getEnglishBookAmazonUrl({ title: edition.title, creator: edition.creator, url: edition.purchaseUrl })
-      : edition.purchaseUrl ?? ''
+    const book = resolveBookShelfBook({ id: contentId, type: 'BOOK', content_locales: sourceLocalesById.get(contentId) ?? [] }, editions, locale)
+    if (!book) continue
     // 한국어는 ISBN이나 쿠팡 상품 중 하나는 있어야 서점 상품으로 잇는다
-    if (locale === 'ko' ? !normalizePurchaseIsbn(edition.isbn) && !url : !url) continue
+    if (locale === 'ko' ? !normalizePurchaseIsbn(book.isbn) && !book.url : !book.url) continue
     seen.add(contentId)
     pool.push({
-      book: {
-        contentId,
-        editionId: edition.id,
-        title: edition.title,
-        creator: edition.creator ?? undefined,
-        thumbnail: edition.thumbnailUrl ?? undefined,
-        url,
-      },
+      book,
       userCount: sourceCountById.get(contentId) ?? 0,
       modernCount: 0,
     })
   }
 
-  const popularRows = ((popularResult.data ?? []) as unknown as PopularContentRow[]).flatMap((content) =>
-    (content.content_locales ?? []).map((row): LocaleRow => ({ ...row, contents: { user_count: content.record_count } })))
-  const rows = [
-    ...((linkedResult.data ?? []) as unknown as LocaleRow[]),
-    ...popularRows,
-  ]
   for (const row of rows) {
-    // 절판(유통 판본 없음)은 우리가 잇는 서점에서 살 수 없다 — 제휴 링크를 직접 건 상품만 예외로 둔다
+    // 절판은 제휴 링크 유무와 무관하게 후보에서 뺀다.
     const outOfPrint = (row.sources as { availability?: unknown } | null | undefined)?.availability === 'out_of_print'
-    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || (outOfPrint && !row.affiliate_url)) continue
+    if (seen.has(row.content_id) || sourceIds.has(row.content_id) || !row.title || isDisplayTitleRow(row.sources) || outOfPrint) continue
     const url = locale === 'en'
       ? getEnglishBookAmazonUrl({ title: row.title, creator: row.creator, url: findAffiliateLink(row.affiliate_url, 'amazon')?.url })
       : findAffiliateLink(row.affiliate_url, 'coupang')?.url ?? ''
@@ -228,15 +240,18 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   if (modernIds.size === 0) return counts
 
   // 한 번에 다 물으면 요청 주소가 길어져 거부당한다 — 나눠 묻고, 묶음마다 끝까지 받는다
-  for (let i = 0; i < contentIds.length; i += 60) {
+  // URL 길이는 제한하되 서로 독립인 묶음 여섯 개까지 함께 읽는다.
+  const chunks: string[][] = []
+  for (let i = 0; i < contentIds.length; i += 60) chunks.push(contentIds.slice(i, i + 60))
+  for (let i = 0; i < chunks.length; i += 6) {
     let data: { content_id: string; celeb_id: string }[] = []
     try {
-      data = await selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
+      data = (await Promise.all(chunks.slice(i, i + 6).map(chunk => selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
         .from('celeb_contents')
         .select('content_id, celeb_id')
-        .in('content_id', contentIds.slice(i, i + 60))
+        .in('content_id', chunk)
         .order('id', { ascending: true })
-        .range(from, to))
+        .range(from, to))))).flat()
     } catch (error) {
       console.error('[getAffiliateBooks] 현역 인물 기록 조회 실패:', error)
       return counts
@@ -265,7 +280,7 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v6-real-edition'], {
+const fetchAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-v7-available-edition'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로 달지 않는다.
   //
@@ -276,6 +291,11 @@ const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-
   // apply-reviewed.ts)가 이 FIGURE_BOOKS 태그를 함께 비운다.
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FIGURE_BOOKS],
+})
+
+const fetchScopedAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-scoped-v1'], {
+  revalidate: STATIC_REVALIDATE,
+  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CELEBS],
 })
 
 export async function getAffiliateBooks(
@@ -326,6 +346,10 @@ async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
 
 /** 직군 값으로 바로 묻는 변형 — 세력 선반의 「직군」 탭처럼 인물이 아니라 직군이 기준이 되는 자리가 쓴다. */
 async function fetchReadIdsByProfession(profession: string, excludeCelebIds: ReadonlySet<string>): Promise<Set<string>> {
+  return new Set((await fetchReadersByProfession(profession, excludeCelebIds)).keys())
+}
+
+async function fetchProfessionReaders(profession: string): Promise<{ content_id: string; celeb_id: string }[]> {
   const db = createStaticClient()
 
   const { data: peers, error: peersError } = await db
@@ -337,17 +361,25 @@ async function fetchReadIdsByProfession(profession: string, excludeCelebIds: Rea
     .limit(60)
 
   throwOnQueryError('getAffiliateBooks/profession-peers', peersError)
-  const peerIds = (peers ?? []).map((p) => p.id as string).filter((id) => !excludeCelebIds.has(id))
-  if (peerIds.length === 0) return new Set()
+  const peerIds = (peers ?? []).map((p) => p.id as string)
+  if (peerIds.length === 0) return []
 
-  const { data, error } = await db
+  return selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
     .from('celeb_contents')
-    .select('content_id')
+    .select('content_id,celeb_id')
+    .eq('visibility', 'public')
     .in('celeb_id', peerIds)
-    .limit(1000)
+    .order('id').range(from, to))
+}
 
-  throwOnQueryError('getAffiliateBooks/profession-read', error)
-  return new Set((data ?? []).map((r) => r.content_id as string))
+async function fetchReadersByProfession(profession: string, excludeCelebIds: ReadonlySet<string>): Promise<Map<string, string[]>> {
+  const data = await cachedList(CACHE_TAGS.CONTENTS, ['profession-readers-v1', profession],
+    () => fetchProfessionReaders(profession), { extraTags: [CACHE_TAGS.CELEBS] })
+  const readers = new Map<string, string[]>()
+  for (const row of data) {
+    if (!excludeCelebIds.has(row.celeb_id)) readers.set(row.content_id, [...(readers.get(row.content_id) ?? []), row.celeb_id])
+  }
+  return readers
 }
 
 /** 신화·서사 인물이 등장하는 원전. 이들은 책을 읽은 기록이 없고 대신 자기가 나오는 작품이 있다. */
@@ -370,7 +402,7 @@ export interface AffiliateBookGroup {
 }
 
 async function fetchAffiliateBooksForCeleb(
-  celebId: string,
+  sources: { origins: Set<string>; read: Set<string>; peers: Set<string> },
   limit: number,
   pool: PoolEntry[],
   excludeIds?: ReadonlySet<string>,
@@ -378,11 +410,8 @@ async function fetchAffiliateBooksForCeleb(
   if (pool.length === 0) return { books: [], groups: [], source: 'popular' }
 
   // 소스를 한 층만 쓰지 않고 순서대로 섞어 채운다 — 읽은 책 한 권이면 한 칸만 차고 끝나던 방식이었다.
-  const [origins, read, peers] = await Promise.all([
-    fetchOriginWorks(celebId),
-    fetchReadByCeleb(celebId),
-    fetchReadByProfession(celebId),
-  ])
+  // 인기 풀백은 쓰지 않는다 — 직군 기록마저 없으면 빈 채로 둔다.
+  const { origins, read, peers } = sources
 
   const seen = new Set<string>()
   const picked: PoolEntry[] = []
@@ -403,7 +432,6 @@ async function fetchAffiliateBooksForCeleb(
   take(origins, 'origin')
   take(read, 'read')
   take(peers, 'profession')
-  take(new Set(pool.map((p) => p.book.contentId)), 'popular')
 
   // 한 소스만 들어왔으면 그 소스 이름을, 섞였으면 중립 표기를 돌려준다.
   const source: AffiliateBookSource = groups.length === 1 ? groups[0].source : 'mixed'
@@ -427,13 +455,16 @@ async function getAffiliateBooksForCelebInner(
   limit = 6,
   excludeIds?: readonly string[],
 ): Promise<{ books: AffiliateBook[]; groups: AffiliateBookGroup[]; source: AffiliateBookSource }> {
-  const pool = await fetchAffiliatePoolCached(locale)
+  const [origins, read, peers] = await Promise.all([
+    fetchOriginWorks(celebId), fetchReadByCeleb(celebId), fetchReadByProfession(celebId),
+  ])
+  const pool = await fetchScopedAffiliatePoolCached(locale, [...new Set([...origins, ...read, ...peers])].sort())
   const excluded = excludeIds?.length ? new Set(excludeIds) : undefined
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v7-groups', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
-    () => fetchAffiliateBooksForCeleb(celebId, limit, pool, excluded),
+    ['affiliate-books-celeb-v8-scoped', celebId, locale, String(limit), excluded ? exclusionFingerprint([...excluded]) : ''],
+    () => fetchAffiliateBooksForCeleb({ origins, read, peers }, limit, pool, excluded),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
@@ -455,16 +486,16 @@ export async function getProfessionPeerBooks(
   excludeIds: ReadonlySet<string>,
   limit = 24,
 ): Promise<AffiliateBook[]> {
-  const pool = await fetchAffiliatePoolCached(locale)
+  const readers = await fetchReadersByProfession(profession, new Set(excludeCelebIds))
+  const pool = await fetchScopedAffiliatePoolCached(locale, [...readers.keys()].sort())
   if (pool.length === 0) return []
-  const ids = await fetchReadIdsByProfession(profession, new Set(excludeCelebIds))
   const seen = new Set<string>(excludeIds)
   const books: AffiliateBook[] = []
   for (const p of pool) {
     if (books.length >= limit) break
-    if (seen.has(p.book.contentId) || !ids.has(p.book.contentId)) continue
+    if (seen.has(p.book.contentId) || !readers.has(p.book.contentId)) continue
     seen.add(p.book.contentId)
-    books.push(p.book)
+    books.push({ ...p.book, readerIds: readers.get(p.book.contentId) })
   }
   return books
 }

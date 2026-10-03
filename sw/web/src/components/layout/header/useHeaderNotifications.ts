@@ -1,6 +1,6 @@
 /*
   파일명: /components/layout/header/useHeaderNotifications.ts
-  기능: 헤더 알림 데이터 — 목록·미읽음 수·실시간 구독·읽음 처리
+  기능: 헤더 알림 데이터 — 목록·미읽음 수·주기적 갱신·읽음 처리
   책임: 조회와 상태만 쥔다. 화면 이동은 호출자가 정한다.
 */ // ------------------------------
 
@@ -29,72 +29,51 @@ export function useHeaderNotifications() {
   const db = useMemo(() => createClient(), []);
 
   useEffect(() => {
-    let channel: ReturnType<typeof db.channel> | null = null;
     let cancelled = false;
+    let memberId: string | null = null;
+    let refreshing = false;
 
-    const init = async () => {
-      const { data: { user } } = await db.auth.getUser();
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-      if (cancelled) return;
-
-      // Fetch initial data — 필요 컬럼만 select
-      const { data } = await db
-        .from("member_notifications")
-        .select(NOTIFICATION_BRIEF_COLUMNS)
-        .eq("member_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(20);
-
-      if (cancelled) return;
-
-      if (data) {
-        setNotifications(data as HeaderNotification[]);
-        setUnreadCount((data as HeaderNotification[]).filter((n) => !n.is_read).length);
-      }
-      setLoading(false);
-
-      // Realtime subscription
-      channel = db
-        .channel(`header-notifications:${user.id}`)
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "member_notifications",
-            filter: `member_id=eq.${user.id}`,
-          },
-          (payload) => {
-            const full = payload.new as HeaderNotification & { member_id: string };
-            const newNotif: HeaderNotification = {
-              id: full.id,
-              type: full.type,
-              message: full.message,
-              link: full.link,
-              is_read: full.is_read,
-              created_at: full.created_at,
-            };
-            setNotifications((prev) => [newNotif, ...prev]);
-            setUnreadCount((prev) => prev + 1);
-          }
-        )
-        .subscribe();
-
-      // await 도중 언마운트됐다면 즉시 정리
-      if (cancelled) {
-        db.removeChannel(channel);
-        channel = null;
+    const refresh = async () => {
+      if (cancelled || refreshing || !memberId || document.visibilityState === "hidden") return;
+      refreshing = true;
+      try {
+        const { data } = await db
+          .from("member_notifications")
+          .select(NOTIFICATION_BRIEF_COLUMNS)
+          .eq("member_id", memberId)
+          .order("created_at", { ascending: false })
+          .limit(20);
+        if (cancelled) return;
+        if (data) {
+          setNotifications(data as HeaderNotification[]);
+          setUnreadCount((data as HeaderNotification[]).filter((n) => !n.is_read).length);
+        }
+      } finally {
+        refreshing = false;
+        if (!cancelled) setLoading(false);
       }
     };
 
-    init();
+    const init = async () => {
+      const { data: { user } } = await db.auth.getUser();
+      if (cancelled) return;
+      memberId = user?.id ?? null;
+      if (!memberId) setLoading(false);
+      else await refresh();
+    };
+
+    void init();
+    // Oracle DB에는 Realtime 서버가 없다. 열린 탭에서만 REST로 갱신한다.
+    const timer = window.setInterval(() => { void refresh(); }, 60_000);
+    const onVisible = () => { void refresh(); };
+    window.addEventListener("focus", onVisible);
+    document.addEventListener("visibilitychange", onVisible);
 
     return () => {
       cancelled = true;
-      if (channel) db.removeChannel(channel);
+      window.clearInterval(timer);
+      window.removeEventListener("focus", onVisible);
+      document.removeEventListener("visibilitychange", onVisible);
     };
   }, [db]);
 

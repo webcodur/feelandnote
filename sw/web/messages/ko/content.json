@@ -41,10 +41,9 @@
       "ownerReview": "{name}의 리뷰",
       "spoiler": "스포일러 포함 리뷰",
       "noReview": "작성된 리뷰가 없습니다",
-      "source": "출처",
-      "noSource": "⚠️ 출처 URL 누락",
-      "originalLanguage": "한국어 원문",
-      "detail": "상세 보기"
+      "source": "리뷰 출처",
+      "noSource": "⚠️ 리뷰 출처 URL 누락",
+      "originalLanguage": "한국어 원문"
     },
     "intro": {
       "title": "작품 소개",
@@ -152,6 +151,7 @@
     "fictionCharactersIntro": "이 도서에 등장하거나 직접 연관된 인물입니다. 이름을 누르면 인물 기록으로 이동하고, 이미지 아이콘을 누르면 얼굴을 크게 볼 수 있습니다.",
     "fictionCharactersAppearance": "등장 인물",
     "fictionCharactersRelated": "연관 인물",
+    "fictionCharactersMore": "인물 {count}명 더 보기",
     "fictionCharacterImage": "{name} 이미지 크게 보기",
     "imageViewer": {
       "close": "이미지 닫기",
@@ -221,7 +221,17 @@
     "developer": "개발사",
     "platform": "플랫폼",
     "artist": "아티스트",
-    "metaLead": "{creator}의 {type, select, BOOK {《{title}》} other {〈{title}〉}}."
+    "metaLead": "{creator}의 {type, select, BOOK {《{title}》} other {〈{title}〉}}.",
+    "editionSelection": "판본 선택 · {count}종",
+    "chooseEdition": "판본을 골라 주세요",
+    "editionKorean": "한국어판",
+    "editionEnglish": "영어판",
+    "editionWorkRecords": "감상과 기록은 판본과 관계없이 이 작품에 모입니다.",
+    "editionScope": "수록 범위",
+    "invalidEdition": "판본 주소가 올바르지 않습니다. 아래에서 작품 정보를 열거나 위 목록에서 판본을 골라 주세요.",
+    "unavailableEdition": "선택한 판본을 이 작품에서 찾을 수 없습니다. 다른 판본을 골라 주세요.",
+    "openWorkInfo": "기본 작품 정보 열기",
+    "editionCompleteText": "전체 본문"
   },
   "review": {
     "positive": {

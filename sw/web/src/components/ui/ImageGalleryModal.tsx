@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 
 import { Z_INDEX } from "@/constants/zIndex";
 import { cn } from "@/lib/utils";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 export interface GalleryImage {
   src: string;
@@ -43,7 +44,6 @@ export default function ImageGalleryModal({
   }, [images.length]);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowLeft") move(-1);
@@ -67,11 +67,11 @@ export default function ImageGalleryModal({
       }
     };
 
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     document.addEventListener("keydown", handleKeyDown);
     closeRef.current?.focus();
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [images.length, move, onClose]);

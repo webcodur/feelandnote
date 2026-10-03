@@ -1,4 +1,4 @@
-import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import type { DatabaseClient } from '@feelandnote/db'
 
 export type AccountAccessState = 'active' | 'blocked' | 'incomplete' | 'error'
 

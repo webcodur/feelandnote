@@ -205,7 +205,22 @@
         "comingSoon": "Coming soon",
         "optionCount": "{count} options available",
         "done": "Done",
-        "world": "World"
+        "world": "World",
+        "searchMyth": "Search myths",
+        "searchFaction": "Search factions",
+        "clearSearch": "Clear search",
+        "noResults": "No results found.",
+        "loading": "Loading options…",
+        "loadError": "Could not load options.",
+        "retry": "Try again",
+        "searchResults": "{count, plural, one {# result} other {# results}}",
+        "backToList": "Back to list",
+        "factionMode": "Faction",
+        "selectThenOpen": "Choose a chip, then press it again to open {next}",
+        "openNext": "Press the selected chip again to open {next}",
+        "groupPickHint": "Click the selected group again or press Done below",
+        "searchPickHint": "Choose a search result",
+        "clickAgainConfirm": "Click again to confirm"
       }
     },
     "hub": {
@@ -235,7 +250,6 @@
       "quickNav": "Explore by theme",
       "lensGroups": {
         "relation": "By connection",
-        "ranking": "By ranking & comparison",
         "more": "More to explore"
       },
       "navCelebs": "Figures",
@@ -315,9 +329,17 @@
         "backToGroup": "Back to group overview",
         "groupCore": "{count, plural, one {Key figure} other {# key figures}}",
         "enlargeImage": "Enlarge image",
-        "zoomExit": "Exit zoom",
         "captionShowAll": "Show the whole caption",
         "captionPaginate": "Page by sentence",
+        "captionSelect": "Tap to select and copy",
+        "captionCopy": "Copy caption",
+        "captionCopied": "Copied",
+        "helpTitle": "Controls",
+        "helpZoom": "Scroll on the artwork — zoom in/out around the cursor",
+        "helpPan": "Drag the zoomed artwork — move the view",
+        "helpPaging": "Scroll the empty margins or swipe the image to change scenes. On-screen arrows and arrow keys move by scene with whole captions, or by sentence with paginated captions.",
+        "helpCaption": "Tap a caption — select and copy the text",
+        "helpEsc": "Esc — step back one level",
         "captionPrevious": "Previous sentence",
         "captionNext": "Next sentence",
         "portraitImage": "Portrait",
@@ -359,15 +381,14 @@
       "mythologySub": "Choose a region first, then explore its myths and figures.",
       "pageDescriptions": {
         "ranking": "Meet the figures with the most recorded books, films, games, and music.",
-        "spectrum": "Discover what sets figures apart through their virtues, abilities, and traits.",
         "myth": "Explore figures from world mythology and the works they appear in.",
         "faction": "Discover the stories and connections of figures brought together by a shared theme.",
-        "timeline": "Discover who lived in the same era, in timelines organized by country.",
-        "directory": "Browse all figures at a glance, organized by name and profession.",
         "monologue": "Life and philosophy in each figure's own voice — narrated to listen or written to read."
       },
       "navMonologue": "Monologues",
-      "archiveResults": "{count, number} of {total, number} figures"
+      "archiveResults": "{count, number} of {total, number} figures",
+      "navByTheme": "By Theme",
+      "navInfluence": "Influence"
     },
     "directory": {
       "metaTitle": "Figure Directory - Every Figure by Name & Profession",
@@ -455,7 +476,7 @@
       "overview": "Faction overview",
       "overviewFallback": "Choose a figure above to explore their role and story within this theme.",
       "backToOverview": "Back to theme overview",
-      "personInTheme": "{name} in {theme}",
+      "personInTheme": "{name} in <accent>{theme}</accent>",
       "hubMetaTitle": "Faction - Figures Grouped by Theme & Camp",
       "metaDescription": "Figures grouped into factions and camps across fields such as {sections}.",
       "allThemes": "All factions",
@@ -492,6 +513,40 @@
       "bookGroupRelated": "Books about this figure",
       "bookGroupRead": "Books this figure read",
       "shelfViewAll": "View all {count}"
+    },
+    "influence": {
+      "metaTitle": "{field} - Explore Figures",
+      "metaDescription": "Compare figures by their overall influence, six fields of influence, and their lasting impact across eras.",
+      "fieldNav": "Field of influence",
+      "fields": {
+        "total_score": "Overall",
+        "political": "Politics",
+        "strategic": "Strategy",
+        "tech": "Technology",
+        "social": "Society",
+        "economic": "Economy",
+        "cultural": "Culture",
+        "transhistoricity": "Across eras"
+      },
+      "titles": {
+        "total_score": "Overall Influence",
+        "political": "Political Influence",
+        "strategic": "Strategic Influence",
+        "tech": "Technological Influence",
+        "social": "Social Influence",
+        "economic": "Economic Influence",
+        "cultural": "Cultural Influence",
+        "transhistoricity": "Influence Across Eras"
+      },
+      "rankDesc": "Highest scores among {total} public figures with influence assessments. Equal scores share a rank.",
+      "rank": "Rank {rank}",
+      "tiedRank": "Joint rank {rank}",
+      "tiePlacementLabel": "Joint first-place podium placement",
+      "tiePlacementTitle": "Joint first · Highest, central podium: {name}",
+      "tiePlacementOverall": "Figures with equal overall scores appear in a fixed order.",
+      "tiePlacementByTotal": "Equal field scores are ordered by overall influence, then by a fixed order if overall scores are also equal.",
+      "tiePlacementEqual": "Podium height does not indicate a rank difference between tied figures.",
+      "shelfEmpty": "No public works enjoyed by the figures above are available yet."
     }
   },
   "searchResult": {

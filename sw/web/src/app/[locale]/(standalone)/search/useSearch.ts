@@ -9,12 +9,12 @@
 import { useState, useEffect, useTransition, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
-import { searchContents, searchUsers, searchTags, searchRecords } from "@/actions/search";
+import { searchContents, searchUsers, searchTags, searchRecords, searchFactions } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
 import { getMyContentIds } from "@/actions/contents/getMyContentIds";
 import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMetadata";
 import { getContentUserCounts } from "@/actions/contents/getContentUserCounts";
-import type { ContentSearchResult, UserSearchResult, TagSearchResult } from "@/actions/search";
+import type { ContentSearchResult, UserSearchResult, TagSearchResult, FactionSearchResult } from "@/actions/search";
 import type { CategoryId } from "@/constants/categories";
 import { createClient } from "@/lib/db/client";
 import { categoryToContentType, type SearchMode, type ContentResult } from "./searchConfig";
@@ -34,6 +34,7 @@ export function useSearch() {
   const [contentResults, setContentResults] = useState<ContentResult[]>([]);
   const [userResults, setUserResults] = useState<UserSearchResult[]>([]);
   const [tagResults, setTagResults] = useState<TagSearchResult[]>([]);
+  const [factionResults, setFactionResults] = useState<FactionSearchResult[]>([]);
   const [totalCount, setTotalCount] = useState(0);
 
   // 페이지네이션 상태
@@ -78,6 +79,8 @@ export function useSearch() {
     setContentResults([]);
     setUserResults([]);
     setTagResults([]);
+    setFactionResults([]);
+    setTotalCount(0);
     setUserCounts({});
   }, [queryParam, modeParam, categoryParam]);
 
@@ -113,6 +116,13 @@ export function useSearch() {
           const data = await searchUsers({ query: queryParam, page: 1 });
           if (!cancelled) {
             setUserResults(data.items);
+            setTotalCount(data.total);
+            setHasMore(data.hasMore);
+          }
+        } else if (modeParam === "faction") {
+          const data = await searchFactions({ query: queryParam, page: 1 });
+          if (!cancelled) {
+            setFactionResults(data.items);
             setTotalCount(data.total);
             setHasMore(data.hasMore);
           }
@@ -179,6 +189,10 @@ export function useSearch() {
       } else if (modeParam === "user") {
         const data = await searchUsers({ query: queryParam, page: nextPage });
         setUserResults((prev) => [...prev, ...data.items]);
+        setHasMore(data.hasMore);
+      } else if (modeParam === "faction") {
+        const data = await searchFactions({ query: queryParam, page: nextPage });
+        setFactionResults((prev) => [...prev, ...data.items]);
         setHasMore(data.hasMore);
       } else if (modeParam === "tag") {
         const data = await searchTags({ query: queryParam, page: nextPage });
@@ -250,6 +264,7 @@ export function useSearch() {
     contentResults,
     userResults,
     tagResults,
+    factionResults,
     totalCount,
     hasMore,
     isLoadingMore,

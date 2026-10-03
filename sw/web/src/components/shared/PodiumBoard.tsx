@@ -23,6 +23,7 @@ const PODIUM: { order: string; step: string; edge: string }[] = [
 ];
 
 export interface PodiumBoardItem {
+  rank?: number;
   href: string;
   nickname: string;
   nickname_en: string | null;
@@ -117,7 +118,7 @@ export default function PodiumBoard({
                 background: `linear-gradient(180deg, ${podium.edge}33 0%, ${podium.edge}0d 70%, transparent 100%)`,
               }}
             >
-              {idx + 1}
+              {item.rank ?? idx + 1}
             </div>
           </li>
         );

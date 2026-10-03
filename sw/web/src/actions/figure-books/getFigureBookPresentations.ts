@@ -2,12 +2,13 @@
 
 import { getBookIntroduction } from '@/actions/contents/fetchBookMetadata'
 import { getFigureBooksForCeleb, type FigureBookContent } from './getFigureBooks'
+import { pickDisplayFigureBooks } from '@/lib/celeb/authoredBooks'
 
 export async function getFigureBookPresentationsForCeleb(
   celebId: string,
   locale: string = 'ko',
 ): Promise<FigureBookContent[]> {
-  const sources = await getFigureBooksForCeleb(celebId, locale, true)
+  const sources = pickDisplayFigureBooks(await getFigureBooksForCeleb(celebId, locale, true))
   // 화면에 보일 첫 작품의 첫 판본만 서버에서 준비한다 — 절판·번역본 없음 표식 작품은 「연관 작품」에 세우지 않는다.
   // 나머지는 선택할 때 같은 ISBN 캐시를 읽는다.
   const first = sources.find((source) => source.relationType !== 'authored' && source.editions.length && !source.titleBadge)

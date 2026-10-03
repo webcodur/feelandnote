@@ -508,13 +508,14 @@
         "first": "First",
         "previous": "Previous",
         "go": "Go",
+        "goto": "Go to page",
         "next": "Next",
         "last": "Last",
         "perPage": "/ page",
         "page": "Page {page}",
         "lastPage": "Last page, page {page}",
         "summary": "Page {current} of {total}",
-        "pageSize": "Items per page"
+        "pageSize": "Per page"
       },
       "swipe": {
         "previous": "Previous page",
@@ -540,14 +541,18 @@
         "contentPlaceholder": "Title, author...",
         "userPlaceholder": "Nickname...",
         "celebPlaceholder": "Figure name...",
-        "recordsPlaceholder": "Search records..."
+        "recordsPlaceholder": "Search records...",
+        "faction": "Factions | Myths",
+        "factionPlaceholder": "Faction or myth name..."
       },
       "sectionContent": "Content",
       "sectionOther": "Other",
       "follower": "Followers",
       "posts": "{count} posts",
       "showMore": "Show more",
-      "matchedAlias": "Also known as {alias}"
+      "matchedAlias": "Also known as {alias}",
+      "kindFaction": "Faction",
+      "kindMyth": "Myth"
     },
     "content": {
       "addToRecord": "Add to records",
@@ -583,7 +588,7 @@
       "viewsBadge": "{count} views in total — click for details",
       "reality": {
         "myth": "Fiction",
-        "both": "Fact | Fiction"
+        "both": "Composite"
       },
       "viewCard": "View figure card",
       "playDialogue": "Show dialogue",
@@ -852,6 +857,16 @@
       "viewWork": "View work",
       "more": "Show {count} more",
       "purchaseInfo": "Purchase info"
+    },
+    "atlasNav": {
+      "rail": "Sections",
+      "open": "Open section menu",
+      "close": "Close menu",
+      "sheetTitle": "Sections",
+      "previous": "Previous section: {name}",
+      "next": "Next section: {name}",
+      "noPrevious": "No previous section",
+      "noNext": "No next section"
     }
   },
   "notifications": {

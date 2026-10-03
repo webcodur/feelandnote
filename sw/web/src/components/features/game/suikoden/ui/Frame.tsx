@@ -78,19 +78,10 @@ export function GameButton({ variant = 'ghost', size = 'md', className, children
   )
 }
 
-/** 판 제목 줄 — 한자 한 글자 표지 + 제목 */
-export function PanelTitle({ hanja, title, sub, right }: { hanja?: string; title: string; sub?: string; right?: ReactNode }) {
+/** 판 제목 줄 */
+export function PanelTitle({ title, sub, right }: { title: string; sub?: string; right?: ReactNode }) {
   return (
     <div className="flex items-center gap-3 border-b px-4 py-3" style={{ borderColor: INK.line }}>
-      {hanja && (
-        <span
-          aria-hidden
-          className="grid h-8 w-8 shrink-0 place-items-center border text-base font-black"
-          style={{ borderColor: INK.lineStrong, color: INK.goldBright, background: 'rgba(212,175,55,0.08)' }}
-        >
-          {hanja}
-        </span>
-      )}
       <div className="min-w-0 flex-1">
         <h2 className="truncate text-[15px] font-extrabold tracking-tight" style={{ color: INK.text }}>{title}</h2>
         {sub && <p className="truncate text-[11px]" style={{ color: INK.sub }}>{sub}</p>}

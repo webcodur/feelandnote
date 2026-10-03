@@ -61,7 +61,7 @@ export function SpectrumMatchGroupsModal({
       closeOnEscape={!suspended}
       animateHeight={false}
     >
-      <div className="flex max-h-[calc(100dvh-4rem)] flex-col">
+      <div className="flex min-h-0 max-h-[var(--modal-body-max-height)] flex-col">
         <header className="relative shrink-0 border-b border-white/[0.07] px-12 py-3.5 text-center">
           <h2 id={titleId} className="font-serif text-lg font-bold text-text-primary">
             {title}

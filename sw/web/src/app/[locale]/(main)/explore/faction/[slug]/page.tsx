@@ -8,6 +8,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getFeaturedFactions } from "@/actions/home";
+import { getFactionRouteTarget } from "@/actions/home/getFeaturedFactions";
 import { redirect } from "@/i18n/navigation";
 import { buildFactionDescription, buildFactionTitle } from "@/lib/atlasMeta";
 import { buildFactionSections, localizedFactionDescription, localizedFactionHeadline, localizedFactionName } from "@/lib/faction-sections";
@@ -15,6 +16,8 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/locale";
 import FactionLastSeen from "@/components/features/faction/FactionLastSeen";
 import FactionScreen from "../FactionScreen";
+import Lane from "@/components/ui/pending/Lane";
+import MythScreenSkeleton from "@/components/features/user/explore/myth/MythScreenSkeleton";
 
 type PageParams = Promise<{ locale: Locale; slug: string }>;
 
@@ -52,7 +55,7 @@ export async function generateMetadata({ params }: { params: PageParams }) {
   };
 }
 
-export default async function FactionEntryPage({ params }: { params: PageParams }) {
+async function FactionEntryBody({ params }: { params: PageParams }) {
   const { locale, slug } = await params;
   const factions = await getFeaturedFactions();
   const faction = factions.find((f) => f.slug === slug);
@@ -69,4 +72,12 @@ export default async function FactionEntryPage({ params }: { params: PageParams 
       <FactionScreen sections={sections} section={section} entry={faction} locale={locale} withJsonLd />
     </>
   );
+}
+
+export default async function FactionEntryPage(props: { params: PageParams }) {
+  const { locale, slug } = await props.params;
+  const target = await getFactionRouteTarget(slug);
+  if (!target) notFound();
+  if (target.isGroup) redirect({ href: `/explore/faction?section=${slug}`, locale });
+  return <Lane fallback={<MythScreenSkeleton faction />}><FactionEntryBody {...props} /></Lane>;
 }

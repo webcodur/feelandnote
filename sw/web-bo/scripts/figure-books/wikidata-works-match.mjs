@@ -17,7 +17,7 @@ const { fetchBookIntroduction } = introductionModule.default ?? introductionModu
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import {
-  MULTIPART, allRows, argumentValue, backfillEditionKinds, bareIsbn, dbClient, deterministicContentId, hasFlag, isbn10to13,
+  allRows, argumentValue, backfillEditionKinds, bareIsbn, dbClient, deterministicContentId, hasFlag, isbn10to13,
   kakaoByIsbn, kakaoByTitle, kakaoCreator, openLibraryByIsbn, openLibraryEditionForWork, squash, wbEntities, wikidataIdentity,
 } from './lib/figure-work.mjs'
 
@@ -368,10 +368,11 @@ async function repair(db, canonical, enrichCachePath) {
   }
   const insertEditions = async (contentId, rows, title) => {
     for (const locale of rows) {
-      const kind = MULTIPART.test(String(title ?? '')) ? {} : { edition_kind: 'full', text_scope: 'complete' }
       const { error } = await db.from('figure_book_editions').insert({
         content_id: contentId, locale: locale.locale, title: locale.title, creator: locale.creator, description: locale.description,
-        isbn: locale.isbn, publisher: locale.publisher, thumbnail_url: locale.thumbnail_url, release_date: null, sort_order: 0, verified: true, sources: locale.sources, ...kind,
+        isbn: locale.isbn, publisher: locale.publisher, thumbnail_url: locale.thumbnail_url, release_date: null, sort_order: 0, verified: true, sources: locale.sources,
+        // 제목·단권 여부는 본문 범위의 근거가 아니다.
+        edition_kind: null, text_scope: null,
       })
       if (error && !/duplicate key/.test(error.message)) throw new Error(`판본 삽입: ${error.message}`)
     }

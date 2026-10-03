@@ -3,7 +3,8 @@
 // 카카오는 한국어 소개만 준다. 영문 화면에 실을 소개는 원서 ISBN으로 여기서 받는다.
 // 신규 등록 메타는 카카오(한국어판)와 OpenLibrary(영문 원서)만 쓴다 — AGENTS.md 「데이터·외부 서비스」
 
-import { toIsbn13 } from '@feelandnote/content-search/kakao-books'
+import { toIsbn13 } from './book-isbn'
+import { getBookOriginalAuthorKeys } from './book-original-authors'
 
 const OPENLIBRARY_BASE_URL = 'https://openlibrary.org'
 const REQUEST_TIMEOUT_MS = 5000
@@ -22,14 +23,109 @@ async function waitForRequestSlot(): Promise<void> {
 type OpenLibraryDescription = string | { value?: string } | null | undefined
 
 interface OpenLibraryEdition {
+  key?: string
+  title?: string
+  subtitle?: string
+  isbn_10?: string[]
+  isbn_13?: string[]
+  publishers?: string[]
+  publish_date?: string
+  physical_format?: string
+  authors?: { key: string }[]
+  covers?: number[]
   description?: OpenLibraryDescription
   works?: { key: string }[]
   languages?: { key: string }[]
 }
 
 interface OpenLibraryWork {
+  title?: string
+  authors?: { author?: { key: string } }[]
   description?: OpenLibraryDescription
   languages?: { key: string }[]
+}
+
+export interface OpenLibraryBookMetadata {
+  isbn: string
+  title: string
+  creator: string
+  publisher: string
+  publishDate: string | null
+  coverImageUrl: string | null
+  sourceUrl: string
+  workKey: string | null
+  workTitle?: string | null
+  languages: string[]
+  physicalFormat?: string | null
+}
+
+/** 판본 언어는 판본 응답으로 확인한다. 국가군과 원전 언어는 번역판 언어의 근거가 아니다. */
+export async function getOpenLibraryBookMetadata(
+  rawIsbn: string,
+  options: { allowMissingPublisher?: boolean } = {},
+): Promise<OpenLibraryBookMetadata | null> {
+  const isbn = toIsbn13(rawIsbn)
+  if (!isbn) return null
+  const result = await fetchJson<OpenLibraryEdition>(`${OPENLIBRARY_BASE_URL}/isbn/${isbn}`)
+  if (!result) return null
+  const edition = result.data
+  if (!/^\/books\/OL\d+M$/.test(edition.key ?? '')) throw new Error(`${isbn}: OpenLibrary 판본 ID를 확인할 수 없습니다`)
+  const returnedIsbns = [...(edition.isbn_13 ?? []), ...(edition.isbn_10 ?? [])].map(toIsbn13).filter(Boolean)
+  if (!returnedIsbns.includes(isbn)) throw new Error(`${isbn}: OpenLibrary 응답 ISBN이 다른 판본입니다`)
+  const languages = (edition.languages ?? []).map(item => item.key)
+  if (!languages.includes('/languages/eng')) throw new Error(`${isbn}: OpenLibrary 판본의 영어를 확인할 수 없습니다`)
+  const mainTitle = edition.title?.trim() ?? ''
+  const subtitle = edition.subtitle?.trim() ?? ''
+  const title = subtitle && !mainTitle.toLowerCase().includes(subtitle.toLowerCase()) ? `${mainTitle}: ${subtitle}` : mainTitle
+  const publisher = (edition.publishers ?? []).map(value => value.trim()).filter(Boolean).join(', ')
+  // 출판사 누락을 NULL로 보존하는 등록 경로만 이 예외를 명시한다.
+  if (!mainTitle || (!publisher && !options.allowMissingPublisher)) {
+    throw new Error(`${isbn}: OpenLibrary 판본의 제목 또는 출판사가 없습니다`)
+  }
+  const workKey = edition.works?.find(item => /^\/works\/OL\d+W$/.test(item.key))?.key ?? null
+  const work = workKey ? await fetchJson<OpenLibraryWork>(`${OPENLIBRARY_BASE_URL}${workKey}`) : null
+  const workAuthors = (work?.data.authors ?? []).flatMap(item => item.author?.key ? [item.author.key] : [])
+  const editionAuthors = (edition.authors ?? []).map(item => item.key)
+  const authorKeys = getBookOriginalAuthorKeys(editionAuthors, workAuthors)
+  if (!authorKeys) {
+    // 다른 판의 낭독자·편집자가 연결 원전의 author 목록에 섞인 실제 응답이 있다.
+    // 판본에 없는 인물을 원저자로 추가하거나, 확인되지 않은 공저자를 임의로 빼지 않는다.
+    throw new Error(`${isbn}: OpenLibrary 원전의 저자 목록을 판본에서 확인할 수 없어 작품 연결을 확인해야 합니다`)
+  }
+  // 연결 원전의 저자를 써서 판본의 번역자·서문 저자를 원저자로 섞지 않는다.
+  const names: string[] = []
+  for (const key of [...new Set(authorKeys)]) {
+    if (!/^\/authors\/OL\d+A$/.test(key)) throw new Error(`${isbn}: OpenLibrary 저자 ID가 잘못됐습니다`)
+    await waitForRequestSlot()
+    const response = await fetch(`${OPENLIBRARY_BASE_URL}${key}.json`, {
+      headers: { Accept: 'application/json', 'User-Agent': OPENLIBRARY_USER_AGENT },
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS), redirect: 'error',
+    })
+    if (!response.ok) throw new Error(`OpenLibrary author API 오류: ${response.status}`)
+    const author = await response.json() as { name?: string }
+    if (!author.name?.trim()) throw new Error(`${isbn}: OpenLibrary 원저자 이름이 없습니다`)
+    names.push(author.name.trim())
+  }
+  if (!names.length) throw new Error(`${isbn}: OpenLibrary 원저자를 확인할 수 없습니다`)
+  const cover = edition.covers?.find(value => Number.isInteger(value) && value > 0)
+  let coverImageUrl: string | null = cover ? `https://covers.openlibrary.org/b/id/${cover}-L.jpg` : null
+  if (coverImageUrl) {
+    try {
+      const response = await fetch(`${coverImageUrl}?default=false`, {
+        method: 'HEAD', signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS), redirect: 'error',
+      })
+      if (!response.ok || !response.headers.get('content-type')?.toLowerCase().startsWith('image/')) coverImageUrl = null
+    } catch {
+      // 표지 서버의 리다이렉트·접속 실패는 이미 확인한 ISBN·원저자·언어를 무효로 만들지 않는다.
+      coverImageUrl = null
+    }
+  }
+  return {
+    isbn, title, creator: names.join(', '), publisher,
+    publishDate: edition.publish_date ?? null, coverImageUrl,
+    sourceUrl: `${OPENLIBRARY_BASE_URL}${edition.key}`, workKey, workTitle: work?.data.title?.trim() || null, languages,
+    physicalFormat: typeof edition.physical_format === 'string' ? edition.physical_format : null,
+  }
 }
 
 export interface OpenLibraryBookIntroduction {

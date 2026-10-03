@@ -1,0 +1,15 @@
+.navigation {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  background: color-mix(in srgb, var(--shelf-surface) 85%, var(--color-bg-secondary));
+}
+
+.row {
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .navigation { padding-inline: 20px; }
+}

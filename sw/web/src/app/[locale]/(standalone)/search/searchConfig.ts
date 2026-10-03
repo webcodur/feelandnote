@@ -8,7 +8,7 @@ import type { ContentSearchResult, RecordsSearchResult } from "@/actions/search"
 import { getCategoryById, type CategoryId } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
 
-export type SearchMode = "content" | "user" | "tag" | "records";
+export type SearchMode = "content" | "user" | "tag" | "records" | "faction";
 export type ContentResult = ContentSearchResult | RecordsSearchResult;
 
 // 카테고리별 검색 안내 문구 키
