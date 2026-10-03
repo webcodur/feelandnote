@@ -516,7 +516,7 @@
       "allMonologues": "All monologues",
       "withAudio": "With narration",
       "textOnly": "Read only",
-      "resultCount": "{count, number} results",
+      "resultCount": "{count, plural, one {# result} other {# results}}",
       "audioLegend": "Audio available",
       "resetFilters": "Reset filters",
       "selectedFigure": "Selected: {name} · Go to monologue"
