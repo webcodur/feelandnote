@@ -1,0 +1,310 @@
+{
+  "materials": [
+    {
+      "id": "dfe59054-cf16-4fe3-9bc6-97c9582433cf",
+      "identity": "wikidata:q65202837",
+      "cards": [
+        {
+          "locale": "en",
+          "title": "Benjamin Franklin: An American Life",
+          "creator": "Walter Isaacson",
+          "isbn": "9780743258074",
+          "description": "OPEN"
+        },
+        {
+          "locale": "ko",
+          "title": "인생의 발견",
+          "creator": "월터 아이작슨",
+          "isbn": "9788950909123",
+          "description": "DAUM"
+        }
+      ],
+      "editions": [
+        {
+          "id": 7283,
+          "locale": "en",
+          "title": "Benjamin Franklin: An American Life",
+          "isbn": "9780743258074",
+          "kind": null,
+          "scope": null
+        },
+        {
+          "id": 2441,
+          "locale": "ko",
+          "title": "인생의 발견(양장본 Hardcover)",
+          "isbn": "9788950909123",
+          "kind": "full",
+          "scope": "complete"
+        },
+        {
+          "id": 14774,
+          "locale": "en",
+          "title": "Benjamin Franklin",
+          "isbn": "9780743533645",
+          "kind": "abridged",
+          "scope": "Abridged audiobook, 4 audio cassettes, narrated by Boyd Gaines"
+        }
+      ],
+      "displayedEditions": {
+        "ko": 1,
+        "en": 2
+      }
+    },
+    {
+      "id": "4f76c85d-ae8c-467b-b409-284ba4f17e3d",
+      "identity": "jim-ottaviani/the-imitation-game",
+      "cards": [
+        {
+          "locale": "ko",
+          "title": "앨런 튜링: 생각하는 기계, 인공지능을 처음 생각한 남자 (생각하는 기계, 인공지능을 처음 생각한 남자)",
+          "creator": "짐 오타비아니",
+          "isbn": "9788998282813",
+          "description": "인공지능을 최초로 생각한 과학자 앨린 튜링의 삶을 풀어낸 그래픽 평전\n\n인공지능의 무한한 능력을 60년 전에 생각한 사람이 있으니 바로 영국의 수학 천재 앨런 튜링이다. 1950년 발표한 논문에 사람의 지능을 모방한 최초의 기계를 상상했으며 ‘이미테이션 게임’이라는 인공지능 판별법도 고안해냈다. 하지만 그는 평생 인정받지 못했고 자살로 생을 마감했다.『앨런 튜링: 생각하는 기계, 인공지능을 처음 생각한 남자』은 드라마틱한 삶을 살다간 튜링의 삶을 컬러풀한 그림과 함께 그려낸 평전이다. 괴짜에 외골수 말더듬이의 탁월한 마라토너였던 튜링의 인간적인 면모를 제대로 조명하고 있다.\n\n튜링은 24살의 나이에 현대 컴퓨터 기본 설계도를 그렸으며 제2차 세계대전 때는 독일의 암호기계 ‘에니그마’를 해독해 전쟁을 승리로 이끌었다. 하지만 영국 정부는 그의 업적을 한번도 공식적으로 인정하지 않았으며 순탄치 않은 삶을 살았기에 ‘비운의 과학자’라 할 수 있다. 이 책은 튜링의 업적 뿐 아니라 괴짜에 "
+        },
+        {
+          "locale": "en",
+          "title": "The imitation game",
+          "creator": "Jim Ottaviani",
+          "isbn": "9781419718939",
+          "description": "A biography of the mathematician, reveals the story of an eccentric genius, Olympic-class runner, and groundbreaking theoretician whose work is still influencing the science and telecommunication systems of the modern world."
+        }
+      ],
+      "editions": [
+        {
+          "id": 847,
+          "locale": "ko",
+          "title": "앨런 튜링: 생각하는 기계, 인공지능을 처음 생각한 남자 (생각하는 기계, 인공지능을 처음 생각한 남자)",
+          "isbn": "9788998282813",
+          "kind": null,
+          "scope": null
+        },
+        {
+          "id": 8721,
+          "locale": "en",
+          "title": "The imitation game",
+          "isbn": "9781419718939",
+          "kind": "full",
+          "scope": "complete"
+        }
+      ],
+      "displayedEditions": {
+        "ko": 1,
+        "en": 1
+      }
+    },
+    {
+      "id": "8f9adf08-231b-5edd-8d22-6fa3dfbdf8ad",
+      "identity": "wikidata:q27544",
+      "cards": [
+        {
+          "locale": "en",
+          "title": "Mao Zedong",
+          "creator": "Jung Chang, Jon Halliday, Jon Halliday",
+          "isbn": "9780091800994",
+          "description": "OPEN"
+        },
+        {
+          "locale": "ko",
+          "title": "마오(상)(알려지지 않은 이야기들)",
+          "creator": "장융, 존 핼리데이",
+          "isbn": "9788972913993",
+          "description": "DAUM"
+        }
+      ],
+      "editions": [
+        {
+          "id": 8568,
+          "locale": "en",
+          "title": "Mao",
+          "isbn": "9780224071260",
+          "kind": "full",
+          "scope": "complete"
+        },
+        {
+          "id": 16883,
+          "locale": "ko",
+          "title": "마오(하)",
+          "isbn": "9788972914006",
+          "kind": "volume",
+          "scope": "Korean translation, volume 2 of 2",
+          "translators": [
+            "황의방"
+          ]
+        },
+        {
+          "id": 2437,
+          "locale": "ko",
+          "title": "마오(상)(알려지지 않은 이야기들)",
+          "isbn": "9788972913993",
+          "kind": "volume",
+          "scope": "Korean translation, volume 1 of 2",
+          "translators": [
+            "황의방"
+          ]
+        },
+        {
+          "id": 13507,
+          "locale": "en",
+          "title": "Mao Zedong",
+          "isbn": "9780091800994",
+          "kind": "full",
+          "scope": "complete"
+        }
+      ],
+      "displayedEditions": {
+        "ko": 2,
+        "en": 2
+      }
+    },
+    {
+      "id": "789b22c6-3883-5cce-8c21-83a02e7d8afc",
+      "identity": "wikidata:q3267159",
+      "cards": [
+        {
+          "locale": "en",
+          "title": "The private life of Chairman Mao",
+          "creator": "Li Zhisui, Anne F. Thurston",
+          "isbn": "9780099648819",
+          "description": "OPEN"
+        },
+        {
+          "locale": "ko",
+          "title": "모택동의 사생활 1",
+          "creator": "리즈수이",
+          "isbn": "9788912127138",
+          "description": null
+        }
+      ],
+      "editions": [
+        {
+          "id": 16884,
+          "locale": "ko",
+          "title": "모택동의 사생활 1",
+          "isbn": "9788912127138",
+          "kind": "volume",
+          "scope": "Korean translation, volume 1 of 3",
+          "translators": [
+            "손풍삼"
+          ]
+        },
+        {
+          "id": 16885,
+          "locale": "ko",
+          "title": "모택동의 사생활 2",
+          "isbn": "9788912127480",
+          "kind": "volume",
+          "scope": "Korean translation, volume 2 of 3",
+          "translators": [
+            "손풍삼"
+          ]
+        },
+        {
+          "id": 16886,
+          "locale": "ko",
+          "title": "모택동의 사생활 3",
+          "isbn": "9788912127497",
+          "kind": "volume",
+          "scope": "Korean translation, volume 3 of 3",
+          "translators": [
+            "손풍삼"
+          ]
+        },
+        {
+          "id": 13505,
+          "locale": "en",
+          "title": "The private life of Chairman Mao",
+          "isbn": "9780099648819",
+          "kind": "full",
+          "scope": "complete"
+        }
+      ],
+      "displayedEditions": {
+        "ko": 3,
+        "en": 1
+      }
+    },
+    {
+      "id": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+      "identity": "monica-bellucci/monica-bellucci",
+      "cards": [
+        {
+          "locale": "ko",
+          "title": "Monica Bellucci",
+          "creator": "모니카 벨루치",
+          "isbn": null,
+          "description": null
+        },
+        {
+          "locale": "en",
+          "title": "Monica Bellucci",
+          "creator": "Monica Bellucci",
+          "isbn": "9780847835072",
+          "description": "OPEN"
+        }
+      ],
+      "editions": [
+        {
+          "id": 16890,
+          "locale": "en",
+          "title": "Monica Bellucci",
+          "isbn": "9780847835072",
+          "kind": "full",
+          "scope": "complete"
+        }
+      ],
+      "displayedEditions": {
+        "ko": 0,
+        "en": 1
+      }
+    }
+  ],
+  "celebs": [
+    {
+      "id": "0453948f-4643-4bf1-b494-cfa62dbdc87b",
+      "slug": "mao-zedong"
+    },
+    {
+      "id": "dcadf86d-bcb3-4b8c-8b0a-ce667361c469",
+      "slug": "monica-bellucci"
+    },
+    {
+      "id": "d8d512dc-2f97-458e-8704-57aea66464f4",
+      "slug": "walter-isaacson"
+    },
+    {
+      "id": "c399f443-0870-4151-92f5-0a5da70e01da",
+      "slug": "benjamin-franklin"
+    },
+    {
+      "id": "cb73f4b5-9d85-4cac-85ba-eadebf381a7e",
+      "slug": "alan-turing"
+    }
+  ],
+  "tags": [
+    "celebs:0453948f-4643-4bf1-b494-cfa62dbdc87b",
+    "celebs:dcadf86d-bcb3-4b8c-8b0a-ce667361c469",
+    "celebs:d8d512dc-2f97-458e-8704-57aea66464f4",
+    "celebs:c399f443-0870-4151-92f5-0a5da70e01da",
+    "celebs:cb73f4b5-9d85-4cac-85ba-eadebf381a7e",
+    "celebs:mao-zedong",
+    "celebs:monica-bellucci",
+    "celebs:walter-isaacson",
+    "celebs:benjamin-franklin",
+    "celebs:alan-turing",
+    "contents:4f76c85d-ae8c-467b-b409-284ba4f17e3d",
+    "contents:8f9adf08-231b-5edd-8d22-6fa3dfbdf8ad",
+    "contents:789b22c6-3883-5cce-8c21-83a02e7d8afc",
+    "contents:dfe59054-cf16-4fe3-9bc6-97c9582433cf",
+    "contents:ed17afdd-4953-546f-8201-4978dae8b4ff",
+    "contents:9780743258074",
+    "contents:9788998282813",
+    "contents:9780091800994",
+    "contents:9780099648819",
+    "contents:9780847835072",
+    "contents:9781419718939",
+    "contents:9788972913993",
+    "contents:9788912127138",
+    "contents:9788950909123",
+    "contents:4afd0019-1b9b-569a-9ce7-5c3c9ef48902"
+  ]
+}

@@ -369,6 +369,7 @@ function assertEdition(value: ExternalBookEdition | undefined, source: BookMetad
 }
 
 function localeSources(edition: ExternalBookEdition): Record<string, unknown> {
+  const translators = edition.sourceMetadata.translators
   return {
     primary: edition.source,
     title: edition.sourceUrl,
@@ -376,6 +377,7 @@ function localeSources(edition: ExternalBookEdition): Record<string, unknown> {
     isbn: edition.sourceUrl,
     ...(edition.publisher ? { publisher: edition.sourceUrl } : {}),
     thumbnail: edition.sourceUrl,
+    ...(Array.isArray(translators) && translators.length ? { translators } : {}),
     ...(isBookIntroductionSource(edition.description) && edition.descriptionSourceUrl
       ? { description: edition.descriptionSourceUrl }
       : {}),

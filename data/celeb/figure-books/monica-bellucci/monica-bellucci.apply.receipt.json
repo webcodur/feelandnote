@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\monica-bellucci\\monica-bellucci.json",
+  "manifestSha256": "dc4edeb8b9c4eb730cf910b148fb108e861cbed6d5a5d56fd182433bc78f2a38",
+  "planSha256": "fcc6b581f623456bfa6bca787421e88c2007c9b99dcd1b852fcc2ab25fdca2e0",
+  "workIdentity": "monica-bellucci/monica-bellucci",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "none",
+      "isbn": null
+    },
+    {
+      "locale": "en",
+      "primary": "openlibrary",
+      "isbn": "9780847835072"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+    "scopeKey": "monica-bellucci/monica-bellucci",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9780847835072",
+      "release_date": null,
+      "metadata": {
+        "isbn": "9780847835072",
+        "publisher": "Rizzoli International Publications, Rizzoli International Publications, Incorporated",
+        "publishDate": "2010",
+        "link": "https://openlibrary.org/books/OL25978274M",
+        "workKey": "/works/OL17397517W",
+        "languages": [
+          "/languages/eng"
+        ],
+        "physical_format": null,
+        "figureBook": {
+          "workIdentity": "monica-bellucci/monica-bellucci",
+          "workTitle": "Monica Bellucci",
+          "workCreator": "Monica Bellucci",
+          "originalTitle": "Monica Bellucci",
+          "originalCreator": "Monica Bellucci",
+          "koTranslationStatus": "unverified",
+          "translationEvidenceUrls": [
+            "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+            "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+          ]
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "Monica Bellucci",
+          "creator": "모니카 벨루치",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "none",
+            "title": "original",
+            "creator": "verified_korean_transliteration",
+            "translation": "unverified",
+            "translationEvidence": [
+              "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+              "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+            ]
+          },
+          "verified": false,
+          "content_id": "ed17afdd-4953-546f-8201-4978dae8b4ff"
+        }
+      },
+      {
+        "kind": "insert",
+        "locale": "en",
+        "before": null,
+        "after": {
+          "locale": "en",
+          "title": "Monica Bellucci",
+          "creator": "Monica Bellucci",
+          "description": "OPEN",
+          "isbn": "9780847835072",
+          "publisher": "Rizzoli International Publications, Rizzoli International Publications, Incorporated",
+          "thumbnail_url": "https://covers.openlibrary.org/b/id/7497886-L.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "title": "https://openlibrary.org/books/OL25978274M",
+            "creator": "https://openlibrary.org/books/OL25978274M",
+            "isbn": "https://openlibrary.org/books/OL25978274M",
+            "publisher": "https://openlibrary.org/books/OL25978274M",
+            "thumbnail": "https://openlibrary.org/books/OL25978274M",
+            "description": "https://openlibrary.org/isbn/9780847835072"
+          },
+          "verified": true,
+          "content_id": "ed17afdd-4953-546f-8201-4978dae8b4ff"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "openlibrary",
+        "external_id": "9780847835072",
+        "release_date": null,
+        "metadata": {
+          "isbn": "9780847835072",
+          "publisher": "Rizzoli International Publications, Rizzoli International Publications, Incorporated",
+          "publishDate": "2010",
+          "link": "https://openlibrary.org/books/OL25978274M",
+          "workKey": "/works/OL17397517W",
+          "languages": [
+            "/languages/eng"
+          ],
+          "physical_format": null,
+          "figureBook": {
+            "workIdentity": "monica-bellucci/monica-bellucci",
+            "workTitle": "Monica Bellucci",
+            "workCreator": "Monica Bellucci",
+            "originalTitle": "Monica Bellucci",
+            "originalCreator": "Monica Bellucci",
+            "koTranslationStatus": "unverified",
+            "translationEvidenceUrls": [
+              "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+              "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+            ]
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "en",
+          "title": "Monica Bellucci",
+          "creator": "Monica Bellucci",
+          "description": "OPEN",
+          "isbn": "9780847835072",
+          "publisher": "Rizzoli International Publications, Rizzoli International Publications, Incorporated",
+          "thumbnail_url": "https://covers.openlibrary.org/b/id/7497886-L.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "title": "https://openlibrary.org/books/OL25978274M",
+            "creator": "https://openlibrary.org/books/OL25978274M",
+            "isbn": "https://openlibrary.org/books/OL25978274M",
+            "publisher": "https://openlibrary.org/books/OL25978274M",
+            "thumbnail": "https://openlibrary.org/books/OL25978274M",
+            "description": "https://openlibrary.org/isbn/9780847835072"
+          },
+          "verified": true,
+          "content_id": "ed17afdd-4953-546f-8201-4978dae8b4ff"
+        },
+        {
+          "locale": "ko",
+          "title": "Monica Bellucci",
+          "creator": "모니카 벨루치",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "none",
+            "title": "original",
+            "creator": "verified_korean_transliteration",
+            "translation": "unverified",
+            "translationEvidence": [
+              "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+              "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+            ]
+          },
+          "verified": false,
+          "content_id": "ed17afdd-4953-546f-8201-4978dae8b4ff"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "monica-bellucci/monica-bellucci",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9780847835072"
+      ],
+      "normalizedTitles": [
+        "monicabellucci"
+      ],
+      "normalizedCreators": [
+        "monicabellucci",
+        "모니카벨루치"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-10-03T09:27:15.731Z",
+  "databaseWrites": 6,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "openlibrary",
+      "external_id": "9780847835072",
+      "release_date": null,
+      "metadata": {
+        "isbn": "9780847835072",
+        "link": "https://openlibrary.org/books/OL25978274M",
+        "workKey": "/works/OL17397517W",
+        "languages": [
+          "/languages/eng"
+        ],
+        "publisher": "Rizzoli International Publications, Rizzoli International Publications, Incorporated",
+        "figureBook": {
+          "workTitle": "Monica Bellucci",
+          "workCreator": "Monica Bellucci",
+          "workIdentity": "monica-bellucci/monica-bellucci",
+          "originalTitle": "Monica Bellucci",
+          "originalCreator": "Monica Bellucci",
+          "koTranslationStatus": "unverified",
+          "translationEvidenceUrls": [
+            "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+            "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+          ]
+        },
+        "publishDate": "2010",
+        "physical_format": null
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-10-03T09:27:13.496941+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+        "locale": "en",
+        "title": "Monica Bellucci",
+        "creator": "Monica Bellucci",
+        "description": "OPEN",
+        "isbn": "9780847835072",
+        "publisher": "Rizzoli International Publications, Rizzoli International Publications, Incorporated",
+        "thumbnail_url": "https://covers.openlibrary.org/b/id/7497886-L.jpg",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://openlibrary.org/books/OL25978274M",
+          "title": "https://openlibrary.org/books/OL25978274M",
+          "creator": "https://openlibrary.org/books/OL25978274M",
+          "primary": "openlibrary",
+          "publisher": "https://openlibrary.org/books/OL25978274M",
+          "thumbnail": "https://openlibrary.org/books/OL25978274M",
+          "description": "https://openlibrary.org/isbn/9780847835072"
+        },
+        "verified": true,
+        "created_at": "2026-10-03T09:27:13.496941+00:00",
+        "updated_at": "2026-10-03T09:27:13.496941+00:00"
+      },
+      {
+        "content_id": "ed17afdd-4953-546f-8201-4978dae8b4ff",
+        "locale": "ko",
+        "title": "Monica Bellucci",
+        "creator": "모니카 벨루치",
+        "description": null,
+        "isbn": null,
+        "publisher": null,
+        "thumbnail_url": null,
+        "affiliate_url": null,
+        "sources": {
+          "title": "original",
+          "creator": "verified_korean_transliteration",
+          "primary": "none",
+          "translation": "unverified",
+          "translationEvidence": [
+            "https://dapi.kakao.com/v3/search/book?query=Monica%20Bellucci",
+            "https://dapi.kakao.com/v3/search/book?query=%EB%AA%A8%EB%8B%88%EC%B9%B4%20%EB%B2%A8%EB%A3%A8%EC%B9%98"
+          ]
+        },
+        "verified": false,
+        "created_at": "2026-10-03T09:27:13.496941+00:00",
+        "updated_at": "2026-10-03T09:27:13.496941+00:00"
+      }
+    ]
+  }
+}
