@@ -36,7 +36,7 @@ QC의 `non-silent-sentence-pause`는 문장 쉼 기준 판정이라 문단 쉼�
 
 ## 현재 도달점
 
-- 피터 틸 ko 두 덩어리 비교 음원: `peter-thiel/ko/20261003-152438`에 1~4문단·5~7문단을 새로 합성해 저장했다. 통합본 137.58초, QC 통과. 로컬 비교용이며 서비스에는 아직 발행하지 않았다.
+- 피터 틸 ko 두 덩어리 음원: `peter-thiel/ko/20261003-152438`의 1~4문단·5~7문단 합성본을 서비스에 등록했다. 통합본 137.58초, QC 통과, `voice_v` 10, 문장 타이밍 21/21·정렬 거부 0. 공개 MP3·타이밍 해시 일치 확인.
 - 2026-09-22: 문단 쉼을 총량 1.0초 정규화로 바꾸고 기존 발행분을 재스티치·재발행했다. `mark-zuckerberg` ko `voice_v` 18·en 19, `elon-musk` ko 9·en 10, `peter-thiel` ko 4(en은 `voice_id_en` 미설정이라 미생성 — 플레이어는 비활성 형상으로 자리를 지킨다). 타이밍 ko 23·en 23(저커버그), 35·30(머스크), 24(틸) 전량 정렬, 거부 0.
 - 원문 수정 이력: `elon-musk` ko/en 첫 필러(“음... 솔직히 말해서,” / “Um... to be honest,”) 제거, `peter-thiel` ko를 한다체→정중체로 전환(8문단 유지, en은 종결어미 체계가 없어 무변경). 둘 다 `virtual_monologue_locked_at` 미잠금 상태에서 읽은 값 대조 후 반영.
 - 발행 run: `celeb-monologue-voices/<slug>/<locale>/<runId>` — mark-zuckerberg ko `20260922-172030`·en `20260922-172110`, elon-musk ko `20260922-174341`·en `20260922-174510`, peter-thiel ko `20260922-174623`, alex-karp ko `20260923-split`·en `20260923-split`, vincent-van-gogh ko `20260923-episode-reuse`·en `20260923-011639`.
