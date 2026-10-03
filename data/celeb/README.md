@@ -25,7 +25,7 @@ data/celeb/
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
 │   ├── pilots/
-│   └── db-*.json
+│   └── recent-473-slugs.json
 ├── viewing-research/
 │   └── YYYY-MM-DD-<scope>.md
 └── virtual-monologue/           # 가상독백 보류 기록(light.jsonl)·감시자 로그. 빈칸이 모두 채워지면 지운다
@@ -65,7 +65,7 @@ DB와 대조가 끝나지 않은 인물별 고유 대사 원고다. 작성·등�
 
 ### `timeline-life-rewrite/`
 
-실존 인물 연표 부분 수리의 과거 국문 진단, 사실 감사 표본, 중간 반영 전 백업과 결과다. 재개 근거는
+실존 인물 연표 부분 수리의 대상 명단, 과거 국문 진단과 사실 감사 표본이다. 재개 근거는
 이 폴더의 `README.md`, 실행 규칙은 `docs/project/celeb/celeb-06-02-timeline-real-relay.md`가 쥔다.
 
 ## 타임라인
