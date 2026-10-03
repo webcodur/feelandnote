@@ -51,6 +51,8 @@ export interface KakaoBookSearchResult {
     link: string
     /** 정상판매 / 품절 / 절판 등. 서점 실재 확인에 쓴다 */
     salesStatus: string
+    /** 번역서의 역자 목록 — 같은 번역 재출간과 다른 번역을 가르는 근거다 */
+    translators: string[]
   }
 }
 
@@ -165,6 +167,7 @@ function toResult(book: KakaoBook): KakaoBookSearchResult {
       description: normalizeKakaoContents(book.contents),
       link: book.url,
       salesStatus: book.status,
+      translators: book.translators,
     },
   }
 }

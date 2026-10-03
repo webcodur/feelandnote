@@ -171,10 +171,15 @@ async function fetchSourcesByCeleb(
     const content = contentById.get(assignment.content_id)
     if (!content) return []
 
+    // 다른 언어 카드가 없는 원어 작품만 출판사 변경 재출간을 같은 책으로 접는다 — 번역 작품은 다른 출판사가 다른 번역본일 수 있다.
+    const isOriginalLocaleWork = !(content.content_locales ?? [])
+      .some((row) => row.locale !== locale && row.title?.trim())
     const editions = mergeFigureBookEditions(
       editionRowsByContent.get(content.id) ?? [],
       optionRowsByContent.get(content.id) ?? [],
       locale,
+      false,
+      isOriginalLocaleWork,
     )
     // 인물의 등장·연관 도서는 요청 언어 판본이 없어도 관계 자체를 보여준다.
     // 창작 목록은 기존대로 해당 언어의 작품 메타가 있을 때만 판본 없이 허용한다.
@@ -279,7 +284,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v16', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v17', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )
