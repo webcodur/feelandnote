@@ -1,10 +1,20 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { mergeSceneArtwork, validateSceneDraft, stableArtworkJSON } from './faction-scene-editor'
+import { coverIndex, mergeSceneArtwork, validateSceneDraft, stableArtworkJSON } from './faction-scene-editor'
 import { toSceneImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 const scene = (name: string): FactionTeamImage => ({ kind: 'scene', url: `https://assets.test/${name}.webp`, label: name, caption: '설명', labelEn: name, captionEn: 'Caption' })
 const cover = { url: 'https://assets.test/myth/title-art/cover.png', caption: '시작' }
+
+test('real faction covers are explicit and group photos survive cover edits', () => {
+  const group = {url:'https://assets.test/group.webp',celebIds:['person'],custom:'keep'}
+  const draft = {url:'https://assets.test/cover.webp'}
+  assert.equal(coverIndex([group], false), -1)
+  const saved = mergeSceneArtwork([group], [], draft, false)
+  assert.deepEqual(saved, [{...draft,kind:'cover'}, group])
+  assert.equal(coverIndex(saved, false), 0)
+  assert.deepEqual(mergeSceneArtwork(saved, [], null, false), [group])
+});
 
 test('jsonb의 객체 키 재정렬은 충돌로 오인하지 않고 장면 순서 변경은 구별한다', () => {
   assert.equal(stableArtworkJSON([{ url: 'x', ending: { title: 't', text: 'b' } }]), stableArtworkJSON([{ ending: { text: 'b', title: 't' }, url: 'x' }]))

@@ -67,6 +67,7 @@ export const getInfluenceRanking = unstable_cache(
 )
 
 interface GetCelebsParams {
+  ids?: readonly string[] // DB 명단의 정확한 ID만 조회
   page?: number
   limit?: number
   profession?: string
@@ -583,6 +584,7 @@ export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
   const {
+    ids,
     page = 1,
     limit = 8,
     profession,
@@ -604,6 +606,8 @@ export async function getCelebs(
     includeViewerState = true,
   } = params
 
+  if (ids?.length === 0) return { celebs: [], total: 0, page, totalPages: 0, error: null }
+
   // 1. 캐싱된 공개 데이터 조회
   const country = parseTrendCountry(trendCountry) ?? 'KR'
   // Fetch outside the listing cache so its country-specific freshness is respected.
@@ -611,7 +615,9 @@ export async function getCelebs(
   const countryTrend = sortBy === 'country_trending' || sortBy === 'daily_recommend' ? await getCountryTrendingPeople(country) : undefined
   const loadPublic = sortBy === 'trending' || sortBy === 'country_trending' ? getCelebsTrendingCached : getCelebsCached
   // 인기순은 기간 창 순위라 검색어를 읽지 않는다
-  const searchIds = sortBy === 'trending' ? null : await resolveSearchIds(search, includeInactive)
+  const searchIds = ids
+    ? [...new Set(ids)].sort()
+    : sortBy === 'trending' ? null : await resolveSearchIds(search, includeInactive)
   const visitorCountry = sortBy === 'daily_recommend' ? await getVisitorCountry() : null
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,

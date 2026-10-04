@@ -116,7 +116,7 @@ export default async function FactionScreen({ sections, section, entry, locale, 
   }));
   return (
     <Lane key={entry.id} fallback={<MythScreenSkeleton title={t("title")} faction
-      hasArtwork={Boolean(getFactionThemeImage(entry.slug))} />}>
+      hasArtwork={Boolean(getFactionThemeImage(entry.team_images))} />}>
       <EntryBody entry={entry} locale={locale} withJsonLd={withJsonLd} navigationTree={navigationTree} themeId={factionSectionKey(section)} groupRows={groupRows}
         indexHeading={t("allThemes")} indexGroups={index} />
     </Lane>

@@ -103,19 +103,6 @@ interface FeaturedFactionRow {
 const toImageArray = toTeamImages
 
 /**
- * 한 테마가 도감에 띄우는 인물 수 상한.
- *
- * 16이던 것을 26.07.27에 24로, 26.07.29 신화 팩션 전량 연결 때 40으로 올렸다.
- * 북유럽 신화처럼 인물이 29명인 테마도 관계를 조용히 잘라내지 않아야 한다.
- * 목록이 「단체 사진 + 그 사진의 사람들」 계층으로 바뀌어
- * 길어져도 읽히고, 무엇보다 한 사람이 여러 테마에 겹쳐 드는 일이 정상이 되면서 상한에 걸려
- * 멀쩡한 인물이 조용히 잘려 나갔다(소셜 네트워크에서 싸이월드 창업자가 그랬다).
- * 26.09.14 재편으로 105명짜리 테마(문학의 거장들)가 생겨 40에서 124명이 잘렸다 — 200으로 올렸다.
- * 감추는 일은 배정의 hidden 스위치가 맡고, 이 값은 사고 방지용 천장으로만 둔다.
- */
-const MAX_CELEBS_PER_FACTION = 200
-
-/**
  * 인물 명단을 이 수만큼의 테마씩 나눠 캐시한다.
  * 한 캐시 항목이 2MB를 넘으면 저장되지 않고 옛 값이 계속 나간다 — 한 항목에 모든 테마를 담던 때
  * 2,508명에서 2.0MB에 닿았고, K팝 테마 422명을 공개하자 새 명단이 저장되지 못해 화면이 1명에 멈췄다(26.09.15).
@@ -178,7 +165,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
   const assignmentsByFaction: Record<string, MemberRow[]> = {}
   const allCelebIds = new Set<string>()
   for (const lv2Id of lv2Ids) {
-    const factionAssignments = (allAssignments ?? []).filter((a) => a.lv2_id === lv2Id).slice(0, MAX_CELEBS_PER_FACTION)
+    const factionAssignments = (allAssignments ?? []).filter((a) => a.lv2_id === lv2Id)
     assignmentsByFaction[lv2Id] = factionAssignments
     factionAssignments.forEach((a) => allCelebIds.add(a.celeb_id))
   }
@@ -238,13 +225,13 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
 
 // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
 // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v2'], {
+const getCachedFactionRows = unstable_cache(() => coalesceCacheQuery('faction-rows', fetchFactionRows), ['featured-faction-rows-v3-db-cover'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })
 // 인자(테마 id 덩어리)가 캐시 키에 들어가 덩어리마다 따로 저장된다
 const getCachedFactionMembers = unstable_cache((ids: string[]) => coalesceCacheQuery(`faction-members:${ids.join(',')}`,
-  () => fetchFactionMembers(ids)), ['featured-faction-members-v3-filtered'], {
+  () => fetchFactionMembers(ids)), ['featured-faction-members-v4-complete-members'], {
   revalidate: LIST_REVALIDATE,
   tags: [CACHE_TAGS.FACTIONS],
 })

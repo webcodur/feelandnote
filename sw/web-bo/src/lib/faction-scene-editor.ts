@@ -1,4 +1,4 @@
-import { serializeTeamImages, toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
+import { getCoverImageIndex, serializeTeamImages, toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 // serverActions.bodySizeLimit(10 MB) 안에서 FormData로 전송한다. 이미지 비율·해상도 제한은 없다.
 export const SCENE_UPLOAD_MAX_BYTES = 9 * 1024 * 1024
@@ -10,11 +10,7 @@ export function stableArtworkJSON(value: unknown): string {
 }
 
 export function coverIndex(value: unknown, isMyth: boolean): number {
-  if (!Array.isArray(value)) return -1
-  return value.findIndex(item => {
-    const image = toTeamImages([item])[0]
-    return image && image.kind !== 'scene' && (!isMyth || image.url.includes('/myth/title-art/'))
-  })
+  return getCoverImageIndex(value, isMyth)
 }
 
 export function validateSceneDraft(scenes: FactionTeamImage[], cover: FactionTeamImage | null, isMyth: boolean): string | null {
@@ -45,7 +41,7 @@ export function mergeSceneArtwork(value: unknown, scenes: FactionTeamImage[], co
   const original = Array.isArray(value) ? value : []
   const target = coverIndex(original, isMyth)
   const cleanScenes = serializeTeamImages(scenes)
-  const cleanCover = cover ? serializeTeamImages([cover])[0] : null
+  const cleanCover = cover ? serializeTeamImages([{ ...cover, ...(!isMyth ? { kind: 'cover' as const } : {}) }])[0] : null
   let cursor = 0
   const next: unknown[] = []
   if (target < 0 && cleanCover) next.push(cleanCover)

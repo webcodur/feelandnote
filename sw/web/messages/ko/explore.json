@@ -357,7 +357,8 @@
         "worksLeadOthers": "이 신화의 인물이 등장하는 다른 작품",
         "worksReadLead": "인물이 감상한 책",
         "worksAuthoredLead": "인물이 직접 지은 책",
-        "worksProfessionLead": "{profession}들이 찾는 책"
+        "worksProfessionLead": "{profession}들이 찾는 책",
+        "tocSelection": "선택"
       },
       "relationMap": {
         "title": "관계망",

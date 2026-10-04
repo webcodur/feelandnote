@@ -1,6 +1,26 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {toTeamImages, serializeTeamImages, toSceneImages} from './faction-team-image.ts';
+import {toTeamImages, serializeTeamImages, toSceneImages, toCoverImage, getCoverImageIndex} from './faction-team-image.ts';
+
+test('explicit covers survive editing and never enter scene lists', () => {
+  const cover = {url:'cover.webp',kind:'cover',label:'Cover',caption:'Caption'};
+  const images = ['group.webp', {url:'scene.webp',kind:'scene',label:'Scene',caption:'Caption'}, cover];
+  const saved = serializeTeamImages(toTeamImages(images));
+  assert.deepEqual(saved[2], cover);
+  assert.deepEqual(toCoverImage(saved), cover);
+  assert.equal(getCoverImageIndex(images), 2);
+  assert.deepEqual(toSceneImages(saved, 'ko').map(image => image.url), ['scene.webp']);
+  assert.equal(toCoverImage(['group.webp', {url:'person.webp',celebIds:['person']}]), undefined);
+});
+
+test('legacy myth title art is allowed only for myths and explicit covers take precedence', () => {
+  const legacy = {url:'https://assets.test/myth/title-art/old.webp'};
+  assert.equal(toCoverImage([legacy]), undefined);
+  assert.deepEqual(toCoverImage([null, legacy], true), legacy);
+  const cover = {url:'new.webp',kind:'cover'};
+  assert.deepEqual(toCoverImage([legacy, cover], true), cover);
+  assert.equal(toCoverImage([{...legacy,kind:'scene'}], true), undefined);
+});
 
 test('legacy images remain readable and invalid captions are omitted', () => {
   assert.deepEqual(toTeamImages(['legacy.png', null, {url:'art.png', caption:42, captionEn:'  '}]), [

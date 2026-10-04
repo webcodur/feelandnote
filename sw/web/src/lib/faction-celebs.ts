@@ -8,19 +8,34 @@ import { getCelebs } from '@/actions/home'
 import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import type { CelebProfile } from '@/types/home'
 
-/** 한 테마 배정을 숨긴 사람까지 한 번에 받는 천장 — 여기서 잘리면 명단 인물이 조용히 빠진다 */
-const FACTION_ASSIGNMENT_LIMIT = 300
+/** URL 길이를 제한하는 조회 단위이며 전체 명단 인원 상한이 아니다. */
+const FACTION_PROFILE_CHUNK_SIZE = 75
 
 export async function getFactionCelebs(factionId: string, memberIds: readonly string[]): Promise<CelebProfile[]> {
-  const { celebs } = await getCelebs({
-    factionId,
-    limit: FACTION_ASSIGNMENT_LIMIT,
-    sortBy: 'influence',
-    // 이야기 속 인물 테마(역사창작 등)도 싣는다 — 탐색 기본값은 실존 인물만 보여 준다
-    realities: CELEB_REALITIES,
-    includeTotal: false,
-    includeViewerState: false,
-  })
   const visible = new Set(memberIds)
-  return celebs.filter((celeb) => visible.has(celeb.id))
+  if (visible.size === 0) return []
+  const ids = [...visible]
+  const profiles = new Map<string, CelebProfile>()
+  for (let offset = 0; offset < ids.length; offset += FACTION_PROFILE_CHUNK_SIZE) {
+    const chunk = ids.slice(offset, offset + FACTION_PROFILE_CHUNK_SIZE)
+    const { celebs, error } = await getCelebs({
+      ids: chunk,
+      factionId,
+      page: 1,
+      limit: chunk.length,
+      sortBy: 'influence',
+      // 이야기 속 인물도 포함하고 전역 공개 상태 대신 DB의 숨김 제외 배정 명단을 따른다.
+      realities: CELEB_REALITIES,
+      includeInactive: true,
+      includeTotal: false,
+      includeViewerState: false,
+    })
+    if (error) throw new Error(error)
+    const wanted = new Set(chunk)
+    for (const celeb of celebs) {
+      if (wanted.has(celeb.id)) profiles.set(celeb.id, celeb)
+    }
+  }
+  if (profiles.size !== visible.size) throw new Error(`세력 구성원 프로필 누락: ${visible.size - profiles.size}명`)
+  return [...visible].flatMap((id) => profiles.get(id) ?? [])
 }

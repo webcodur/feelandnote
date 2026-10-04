@@ -167,7 +167,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
   /* 상단 구획 목차 — 공용 아틀라스 내비게이션. 구성·책장은 자료가 있을 때만, 전체는 목록이
      있을 때만 세운다. 구획 머리와 목차는 한 몸이라 같은 이름을 쓰고 「— NN —」 번호도 따라간다 —
      머리가 선택 이름(가상자산 등)을 쥐므로 목차도 같은 이름을 보여 준다 */
-  const selectionTitle = hasContent && activeMyth ? activeMyth.name : t("tocSelection");
+  const selectionTitle = activeMyth?.name ?? t("tocSelection");
   const memberTitle = activeGroup ? mythGroupName(activeGroup, groupLabels) : t("memberList");
   const shelfTitle = faction?.shelfTitle ?? t("worksTitle");
   const hasIndex = indexGroups.some((group) => group.items.length > 0);
@@ -252,11 +252,11 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
       {/* 「선택」구획 — 목차 첫 항목. 머리는 고른 신화·세력의 이름+한 줄 정의를 직접 쥔다 —
           「선택」이라는 역할 이름은 목차에만 두고 겹쳐 쓰지 않는다 */}
       <div className={layout.navigationOuter}>
-        <HubSection id="atlas-selection" title={selectionTitle} titleAs={ownsTitle && hasContent ? "h1" : "h2"}
-          subtitle={hasContent && activeMyth?.headline ? <span className="text-accent">{activeMyth.headline}</span> : undefined}
+        <HubSection id="atlas-selection" title={selectionTitle} titleAs={ownsTitle && activeMyth ? "h1" : "h2"}
+          subtitle={activeMyth?.headline ? <span className="text-accent">{activeMyth.headline}</span> : undefined}
           index={0} total={sectionTotal} hideDivider groupId={navGroupId}>
           <div className={layout.selectionPanel} data-faction-selection>
-            {hasContent && activeMyth ? (
+            {activeMyth ? (
               <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} overviewLabel={faction?.overviewLabel} fallback={faction?.overviewFallback}
                 navigation={navigation} />
             ) : navigation()}

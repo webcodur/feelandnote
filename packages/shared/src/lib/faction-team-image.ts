@@ -28,7 +28,7 @@ export interface FactionTeamImage {
   /** 사진 주소 */
   url: string
   /** 직접 검수하고 해설을 붙인 주요 장면. 기존 단체 사진은 자동으로 장면에 포함하지 않는다. */
-  kind?: 'scene'
+  kind?: 'scene' | 'cover'
   /** 이 사진이 담은 묶음의 제목 (예: "안전을 설계한 사람들") */
   label?: string
   labelEn?: string
@@ -77,7 +77,7 @@ export function toTeamImages(v: unknown): FactionTeamImage[] {
       : undefined
     out.push({
       url,
-      ...(row.kind === 'scene' ? { kind: 'scene' as const } : {}),
+      ...(row.kind === 'scene' || row.kind === 'cover' ? { kind: row.kind } : {}),
       ...(label ? { label } : {}),
       ...(labelEn ? { labelEn } : {}),
       ...(caption ? { caption } : {}),
@@ -100,7 +100,7 @@ export function serializeTeamImages(images: FactionTeamImage[]): FactionTeamImag
     .filter(img => typeof img.url === 'string' && img.url.length > 0)
     .map(img => ({
       url: img.url,
-      ...(img.kind === 'scene' ? { kind: 'scene' as const } : {}),
+      ...(img.kind === 'scene' || img.kind === 'cover' ? { kind: img.kind } : {}),
       ...(img.label?.trim() ? { label: img.label.trim() } : {}),
       ...(img.labelEn?.trim() ? { labelEn: img.labelEn.trim() } : {}),
       ...(img.caption?.trim() ? { caption: img.caption.trim() } : {}),
@@ -123,4 +123,18 @@ export function toSceneImages(value: unknown, locale: string) {
       ...(endingTitle && endingText ? { ending: { title: endingTitle, text: endingText } } : {}),
     }] : []
   })
+}
+
+/** Explicit covers take precedence; legacy myth title art remains readable. */
+export function getCoverImageIndex(value: unknown, isMyth = false): number {
+  if (!Array.isArray(value)) return -1
+  const images = value.map(item => toTeamImages([item])[0])
+  const explicit = images.findIndex(image => image?.kind === 'cover')
+  if (explicit >= 0) return explicit
+  return isMyth ? images.findIndex(image => image && image.kind !== 'scene' && image.url.includes('/myth/title-art/')) : -1
+}
+
+export function toCoverImage(value: unknown, isMyth = false): FactionTeamImage | undefined {
+  const index = getCoverImageIndex(value, isMyth)
+  return index >= 0 && Array.isArray(value) ? toTeamImages([value[index]])[0] : undefined
 }

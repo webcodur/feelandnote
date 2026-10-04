@@ -357,7 +357,8 @@
         "worksLeadOthers": "Other works where this myth's figures appear",
         "worksReadLead": "Books these figures read",
         "worksAuthoredLead": "Books written by the figures",
-        "worksProfessionLead": "Books sought by fellow {profession} figures"
+        "worksProfessionLead": "Books sought by fellow {profession} figures",
+        "tocSelection": "Selection"
       },
       "relationMap": {
         "title": "Relation Map",
