@@ -1,0 +1,1350 @@
+[
+  {
+    "slug": "muhammad",
+    "nickname": "무함마드",
+    "nickname_en": "Muhammad",
+    "profession": "leader",
+    "view_count": 9,
+    "influence": 89,
+    "signal": 1,
+    "relations": 4,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "elon-musk",
+    "nickname": "일론 머스크",
+    "nickname_en": "Elon Musk",
+    "profession": "entrepreneur",
+    "view_count": 381,
+    "influence": 48,
+    "signal": 0.9997928748964374,
+    "relations": 12,
+    "flags": [
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "dario-amodei",
+    "nickname": "다리오 아모데이",
+    "nickname_en": "Dario Amodei",
+    "profession": "entrepreneur",
+    "view_count": 297,
+    "influence": 33,
+    "signal": 0.9995857497928748,
+    "relations": 6,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "charlemagne",
+    "nickname": "샤를마뉴",
+    "nickname_en": "Charlemagne",
+    "profession": "politician",
+    "view_count": 18,
+    "influence": 79,
+    "signal": 0.9995857497928748,
+    "relations": 4,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "andrew-huberman",
+    "nickname": "앤드류 후버만",
+    "nickname_en": "Andrew Huberman",
+    "profession": "scientist",
+    "view_count": 288,
+    "influence": 10,
+    "signal": 0.9993786246893124,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "li-si",
+    "nickname": "이사",
+    "nickname_en": "Li Si",
+    "profession": "politician",
+    "view_count": 5,
+    "influence": 77,
+    "signal": 0.9993786246893124,
+    "relations": 8,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "jensen-huang",
+    "nickname": "젠슨 황",
+    "nickname_en": "Jensen Huang",
+    "profession": "entrepreneur",
+    "view_count": 268,
+    "influence": 41,
+    "signal": 0.9991714995857498,
+    "relations": 6,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "aristotle",
+    "nickname": "아리스토텔레스",
+    "nickname_en": "Aristotle",
+    "profession": "humanities_scholar",
+    "view_count": 13,
+    "influence": 77,
+    "signal": 0.9991714995857498,
+    "relations": 21,
+    "flags": [
+      "koGap:6"
+    ]
+  },
+  {
+    "slug": "niccolo-machiavelli",
+    "nickname": "니콜로 마키아벨리",
+    "nickname_en": "Niccolo Machiavelli",
+    "profession": "humanities_scholar",
+    "view_count": 3,
+    "influence": 76,
+    "signal": 0.9989643744821872,
+    "relations": 8,
+    "flags": [
+      "koGap:1",
+      "koRecheck:1",
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "barack-obama",
+    "nickname": "버락 오바마",
+    "nickname_en": "Barack Obama",
+    "profession": "politician",
+    "view_count": 211,
+    "influence": 40,
+    "signal": 0.9987572493786246,
+    "relations": 4,
+    "flags": [
+      "koRecheck:1"
+    ]
+  },
+  {
+    "slug": "larry-fink",
+    "nickname": "래리 핑크",
+    "nickname_en": "Larry Fink",
+    "profession": "investor",
+    "view_count": 193,
+    "influence": 25,
+    "signal": 0.9985501242750622,
+    "relations": 2,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "constantine-i",
+    "nickname": "콘스탄티누스 1세",
+    "nickname_en": "Constantine I",
+    "profession": "politician",
+    "view_count": 12,
+    "influence": 75,
+    "signal": 0.9985501242750622,
+    "relations": 4,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "michael-jackson",
+    "nickname": "마이클 잭슨",
+    "nickname_en": "Michael Jackson",
+    "profession": "musician",
+    "view_count": 192,
+    "influence": 37,
+    "signal": 0.9983429991714996,
+    "relations": 7,
+    "flags": [
+      "koGap:3"
+    ]
+  },
+  {
+    "slug": "julius-caesar",
+    "nickname": "율리우스 카이사르",
+    "nickname_en": "Julius Caesar",
+    "profession": "politician",
+    "view_count": 31,
+    "influence": 75,
+    "signal": 0.9983429991714996,
+    "relations": 11,
+    "flags": [
+      "koRecheck:1",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "confucius",
+    "nickname": "공자",
+    "nickname_en": "Confucius",
+    "profession": "humanities_scholar",
+    "view_count": 6,
+    "influence": 74,
+    "signal": 0.998135874067937,
+    "relations": 16,
+    "flags": [
+      "koGap:1",
+      "enGap:3"
+    ]
+  },
+  {
+    "slug": "jesus",
+    "nickname": "예수",
+    "nickname_en": "Jesus",
+    "profession": "leader",
+    "view_count": 3,
+    "influence": 74,
+    "signal": 0.9979287489643744,
+    "relations": 7,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "bill-ackman",
+    "nickname": "빌 애크먼",
+    "nickname_en": "Bill Ackman",
+    "profession": "investor",
+    "view_count": 152,
+    "influence": 15,
+    "signal": 0.997721623860812,
+    "relations": 3,
+    "flags": [
+      "koRecheck:1"
+    ]
+  },
+  {
+    "slug": "matt-damon",
+    "nickname": "맷 데이먼",
+    "nickname_en": "Matt Damon",
+    "profession": "actor",
+    "view_count": 148,
+    "influence": 19,
+    "signal": 0.9975144987572494,
+    "relations": 3,
+    "flags": [
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "alan-turing",
+    "nickname": "앨런 튜링",
+    "nickname_en": "Alan Turing",
+    "profession": "scientist",
+    "view_count": 11,
+    "influence": 73,
+    "signal": 0.9975144987572494,
+    "relations": 8,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "honore-de-balzac",
+    "nickname": "오노레 드 발자크",
+    "nickname_en": "Honore de Balzac",
+    "profession": "author",
+    "view_count": 141,
+    "influence": 46,
+    "signal": 0.9973073736536868,
+    "relations": 22,
+    "flags": [
+      "koGap:12",
+      "koRecheck:1",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "qin-shi-huang",
+    "nickname": "진시황",
+    "nickname_en": "Qin Shi Huang",
+    "profession": "politician",
+    "view_count": 7,
+    "influence": 73,
+    "signal": 0.9973073736536868,
+    "relations": 11,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "jason-statham",
+    "nickname": "제이슨 스타뎀",
+    "nickname_en": "Jason Statham",
+    "profession": "actor",
+    "view_count": 140,
+    "influence": 7,
+    "signal": 0.9971002485501242,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "jamie-dimon",
+    "nickname": "제이미 다이먼",
+    "nickname_en": "Jamie Dimon",
+    "profession": "entrepreneur",
+    "view_count": 123,
+    "influence": 33,
+    "signal": 0.9968931234465617,
+    "relations": 3,
+    "flags": [
+      "koRecheck:1"
+    ]
+  },
+  {
+    "slug": "yang-hak-seon",
+    "nickname": "양학선",
+    "nickname_en": "Yang Hak-seon",
+    "profession": "athlete",
+    "view_count": 118,
+    "influence": 9,
+    "signal": 0.9964788732394366,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "dong-zhongshu",
+    "nickname": "동중서",
+    "nickname_en": "Dong Zhongshu",
+    "profession": "humanities_scholar",
+    "view_count": 6,
+    "influence": 71,
+    "signal": 0.9964788732394366,
+    "relations": 7,
+    "flags": [
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "son-woong-jung",
+    "nickname": "손웅정",
+    "nickname_en": "Son Woong-jung",
+    "profession": "athlete",
+    "view_count": 117,
+    "influence": 14,
+    "signal": 0.996271748135874,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "emperor-wu-of-han",
+    "nickname": "한무제",
+    "nickname_en": "Emperor Wu of Han",
+    "profession": "commander",
+    "view_count": 10,
+    "influence": 70,
+    "signal": 0.996271748135874,
+    "relations": 6,
+    "flags": [
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "ernest-hemingway",
+    "nickname": "어니스트 헤밍웨이",
+    "nickname_en": "Ernest Hemingway",
+    "profession": "author",
+    "view_count": 114,
+    "influence": 36,
+    "signal": 0.9960646230323115,
+    "relations": 29,
+    "flags": [
+      "koGap:8",
+      "koRecheck:2",
+      "enGap:3"
+    ]
+  },
+  {
+    "slug": "daniel-ek",
+    "nickname": "다니엘 에크",
+    "nickname_en": "Daniel Ek",
+    "profession": "entrepreneur",
+    "view_count": 108,
+    "influence": 57,
+    "signal": 0.995857497928749,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "sun-tzu",
+    "nickname": "손자",
+    "nickname_en": "Sun Tzu",
+    "profession": "commander",
+    "view_count": 5,
+    "influence": 70,
+    "signal": 0.995857497928749,
+    "relations": 5,
+    "flags": [
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "deng-xiaoping",
+    "nickname": "덩샤오핑",
+    "nickname_en": "Deng Xiaoping",
+    "profession": "politician",
+    "view_count": 28,
+    "influence": 70,
+    "signal": 0.9956503728251864,
+    "relations": 4,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "albert-einstein",
+    "nickname": "알버트 아인슈타인",
+    "nickname_en": "Albert Einstein",
+    "profession": "scientist",
+    "view_count": 26,
+    "influence": 70,
+    "signal": 0.9954432477216238,
+    "relations": 15,
+    "flags": [
+      "koGap:6",
+      "koRecheck:1"
+    ]
+  },
+  {
+    "slug": "monica-bellucci",
+    "nickname": "모니카 벨루치",
+    "nickname_en": "Monica Bellucci",
+    "profession": "actor",
+    "view_count": 105,
+    "influence": 12,
+    "signal": 0.9952361226180613,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:2",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "sung-uk-moon",
+    "nickname": "문성욱",
+    "nickname_en": "Sung-uk Moon",
+    "profession": "entrepreneur",
+    "view_count": 104,
+    "influence": 21,
+    "signal": 0.9950289975144988,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "sejong-the-great",
+    "nickname": "세종대왕",
+    "nickname_en": "Sejong the Great",
+    "profession": "politician",
+    "view_count": 59,
+    "influence": 70,
+    "signal": 0.9950289975144988,
+    "relations": 3,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "stanley-kubrick",
+    "nickname": "스탠리 큐브릭",
+    "nickname_en": "Stanley Kubrick",
+    "profession": "director",
+    "view_count": 103,
+    "influence": 34,
+    "signal": 0.9948218724109362,
+    "relations": 3,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "elijah-wood",
+    "nickname": "일라이저 우드",
+    "nickname_en": "Elijah Wood",
+    "profession": "actor",
+    "view_count": 102,
+    "influence": 9,
+    "signal": 0.9946147473073736,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "abraham-lincoln",
+    "nickname": "에이브러햄 링컨",
+    "nickname_en": "Abraham Lincoln",
+    "profession": "politician",
+    "view_count": 59,
+    "influence": 69,
+    "signal": 0.9946147473073736,
+    "relations": 10,
+    "flags": [
+      "koGap:3"
+    ]
+  },
+  {
+    "slug": "mencius",
+    "nickname": "맹자",
+    "nickname_en": "Mencius",
+    "profession": "humanities_scholar",
+    "view_count": 54,
+    "influence": 69,
+    "signal": 0.9942004971002486,
+    "relations": 9,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "andy-lau",
+    "nickname": "유덕화",
+    "nickname_en": "Andy Lau",
+    "profession": "actor",
+    "view_count": 100,
+    "influence": 9,
+    "signal": 0.993993371996686,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:2",
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "benjamin-franklin",
+    "nickname": "벤자민 프랭클린",
+    "nickname_en": "Benjamin Franklin",
+    "profession": "politician",
+    "view_count": 89,
+    "influence": 68,
+    "signal": 0.993993371996686,
+    "relations": 4,
+    "flags": [
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "martin-luther",
+    "nickname": "마틴 루터",
+    "nickname_en": "Martin Luther",
+    "profession": "humanities_scholar",
+    "view_count": 20,
+    "influence": 68,
+    "signal": 0.9937862468931234,
+    "relations": 14,
+    "flags": [
+      "koGap:4"
+    ]
+  },
+  {
+    "slug": "sylvester-stallone",
+    "nickname": "실베스터 스텔론",
+    "nickname_en": "Sylvester Stallone",
+    "profession": "actor",
+    "view_count": 98,
+    "influence": 15,
+    "signal": 0.9935791217895609,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "pericles",
+    "nickname": "페리클레스",
+    "nickname_en": "Pericles",
+    "profession": "politician",
+    "view_count": 8,
+    "influence": 68,
+    "signal": 0.9935791217895609,
+    "relations": 6,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "denzel-washington",
+    "nickname": "덴젤 워싱턴",
+    "nickname_en": "Denzel Washington",
+    "profession": "actor",
+    "view_count": 95,
+    "influence": 25,
+    "signal": 0.9933719966859983,
+    "relations": 3,
+    "flags": [
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "karl-marx",
+    "nickname": "칼 마르크스",
+    "nickname_en": "Karl Marx",
+    "profession": "social_scientist",
+    "view_count": 3,
+    "influence": 68,
+    "signal": 0.9933719966859983,
+    "relations": 17,
+    "flags": [
+      "koGap:6",
+      "koRecheck:3",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "celine-dion",
+    "nickname": "셀린 디옹",
+    "nickname_en": "Celine Dion",
+    "profession": "musician",
+    "view_count": 95,
+    "influence": 17,
+    "signal": 0.9931648715824358,
+    "relations": 3,
+    "flags": [
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "adolf-hitler",
+    "nickname": "아돌프 히틀러",
+    "nickname_en": "Adolf Hitler",
+    "profession": "politician",
+    "view_count": 9,
+    "influence": 68,
+    "signal": 0.9931648715824358,
+    "relations": 6,
+    "flags": [
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "jo-jung-rae",
+    "nickname": "조정래",
+    "nickname_en": "Jo Jung-rae",
+    "profession": "author",
+    "view_count": 95,
+    "influence": 35,
+    "signal": 0.9929577464788732,
+    "relations": 6,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "jean-claude-van-damme",
+    "nickname": "장클로드 반담",
+    "nickname_en": "Jean-Claude Van Damme",
+    "profession": "actor",
+    "view_count": 94,
+    "influence": 9,
+    "signal": 0.9927506213753107,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "napoleon-bonaparte",
+    "nickname": "나폴레옹 보나파르트",
+    "nickname_en": "Napoleon Bonaparte",
+    "profession": "commander",
+    "view_count": 62,
+    "influence": 68,
+    "signal": 0.9927506213753107,
+    "relations": 14,
+    "flags": [
+      "koGap:1",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "pom-klementieff",
+    "nickname": "폼 클레멘티에프",
+    "nickname_en": "Pom Klementieff",
+    "profession": "actor",
+    "view_count": 94,
+    "influence": 3,
+    "signal": 0.9925434962717481,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "william-shockley",
+    "nickname": "윌리엄 쇼클리",
+    "nickname_en": "William Shockley",
+    "profession": "scientist",
+    "view_count": 1,
+    "influence": 68,
+    "signal": 0.9925434962717481,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "liv-tyler",
+    "nickname": "리브 타일러",
+    "nickname_en": "Liv Tyler",
+    "profession": "actor",
+    "view_count": 92,
+    "influence": 6,
+    "signal": 0.9923363711681856,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "john-bardeen",
+    "nickname": "존 바딘",
+    "nickname_en": "John Bardeen",
+    "profession": "scientist",
+    "view_count": 0,
+    "influence": 67,
+    "signal": 0.9923363711681856,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "ralph-fiennes",
+    "nickname": "레이프 파인스",
+    "nickname_en": "Ralph Fiennes",
+    "profession": "actor",
+    "view_count": 92,
+    "influence": 12,
+    "signal": 0.992129246064623,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "vladimir-lenin",
+    "nickname": "블라디미르 레닌",
+    "nickname_en": "Vladimir Lenin",
+    "profession": "politician",
+    "view_count": 18,
+    "influence": 67,
+    "signal": 0.992129246064623,
+    "relations": 9,
+    "flags": [
+      "koGap:3",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "christian-bale",
+    "nickname": "크리스찬 베일",
+    "nickname_en": "Christian Bale",
+    "profession": "actor",
+    "view_count": 91,
+    "influence": 16,
+    "signal": 0.9919221209610605,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "plato",
+    "nickname": "플라톤",
+    "nickname_en": "Plato",
+    "profession": "humanities_scholar",
+    "view_count": 13,
+    "influence": 67,
+    "signal": 0.9917149958574979,
+    "relations": 33,
+    "flags": [
+      "koGap:9",
+      "enGap:3"
+    ]
+  },
+  {
+    "slug": "haruki-murakami",
+    "nickname": "무라카미 하루키",
+    "nickname_en": "Haruki Murakami",
+    "profession": "author",
+    "view_count": 88,
+    "influence": 26,
+    "signal": 0.9915078707539354,
+    "relations": 32,
+    "flags": [
+      "koGap:9",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "thomas-jefferson",
+    "nickname": "토머스 제퍼슨",
+    "nickname_en": "Thomas Jefferson",
+    "profession": "politician",
+    "view_count": 5,
+    "influence": 66,
+    "signal": 0.9915078707539354,
+    "relations": 6,
+    "flags": [
+      "koGap:3"
+    ]
+  },
+  {
+    "slug": "nebuchadnezzar-ii",
+    "nickname": "네부카드네자르 2세",
+    "nickname_en": "Nebuchadnezzar II",
+    "profession": "commander",
+    "view_count": 13,
+    "influence": 66,
+    "signal": 0.9913007456503728,
+    "relations": 2,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "ramesses-ii",
+    "nickname": "람세스 2세",
+    "nickname_en": "Ramesses II",
+    "profession": "commander",
+    "view_count": 13,
+    "influence": 66,
+    "signal": 0.9910936205468103,
+    "relations": 4,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "kim-seung-youn",
+    "nickname": "김승연",
+    "nickname_en": "Kim Seung-youn",
+    "profession": "entrepreneur",
+    "view_count": 88,
+    "influence": 26,
+    "signal": 0.9908864954432477,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "takeda-shingen",
+    "nickname": "다케다 신겐",
+    "nickname_en": "Takeda Shingen",
+    "profession": "commander",
+    "view_count": 88,
+    "influence": 27,
+    "signal": 0.9906793703396851,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "richard-nixon",
+    "nickname": "리처드 닉슨",
+    "nickname_en": "Richard Nixon",
+    "profession": "politician",
+    "view_count": 11,
+    "influence": 66,
+    "signal": 0.9906793703396851,
+    "relations": 6,
+    "flags": [
+      "koGap:3"
+    ]
+  },
+  {
+    "slug": "mark-rober",
+    "nickname": "마크 로버",
+    "nickname_en": "Mark Rober",
+    "profession": "influencer",
+    "view_count": 88,
+    "influence": 14,
+    "signal": 0.9904722452361227,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "chris-hemsworth",
+    "nickname": "크리스 햄스워스",
+    "nickname_en": "Chris Hemsworth",
+    "profession": "actor",
+    "view_count": 88,
+    "influence": 13,
+    "signal": 0.9902651201325601,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "siddhartha-gautama",
+    "nickname": "석가모니",
+    "nickname_en": "Siddhartha Gautama",
+    "profession": "leader",
+    "view_count": 11,
+    "influence": 65,
+    "signal": 0.9900579950289975,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "isaac-asimov",
+    "nickname": "아이작 아시모프",
+    "nickname_en": "Isaac Asimov",
+    "profession": "author",
+    "view_count": 87,
+    "influence": 43,
+    "signal": 0.9898508699254349,
+    "relations": 70,
+    "flags": [
+      "koGap:63"
+    ]
+  },
+  {
+    "slug": "maria-sharapova",
+    "nickname": "마리아 샤라포바",
+    "nickname_en": "Maria Sharapova",
+    "profession": "athlete",
+    "view_count": 87,
+    "influence": 15,
+    "signal": 0.9896437448218725,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "hannah-arendt",
+    "nickname": "한나 아렌트",
+    "nickname_en": "Hannah Arendt",
+    "profession": "social_scientist",
+    "view_count": 86,
+    "influence": 48,
+    "signal": 0.9894366197183099,
+    "relations": 13,
+    "flags": [
+      "koGap:7"
+    ]
+  },
+  {
+    "slug": "charles-darwin",
+    "nickname": "찰스 다윈",
+    "nickname_en": "Charles Darwin",
+    "profession": "scientist",
+    "view_count": 46,
+    "influence": 65,
+    "signal": 0.9894366197183099,
+    "relations": 10,
+    "flags": [
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "russell-kirk",
+    "nickname": "러셀 커크",
+    "nickname_en": "Russell Kirk",
+    "profession": "humanities_scholar",
+    "view_count": 20,
+    "influence": 64,
+    "signal": 0.9890223695111847,
+    "relations": 3,
+    "flags": [
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "li-shimin",
+    "nickname": "이세민",
+    "nickname_en": "Li Shimin",
+    "profession": "commander",
+    "view_count": 4,
+    "influence": 64,
+    "signal": 0.9888152444076223,
+    "relations": 5,
+    "flags": [
+      "enGap:3"
+    ]
+  },
+  {
+    "slug": "stefan-zweig",
+    "nickname": "슈테판 츠바이크",
+    "nickname_en": "Stefan Zweig",
+    "profession": "author",
+    "view_count": 84,
+    "influence": 34,
+    "signal": 0.9886081193040597,
+    "relations": 14,
+    "flags": [
+      "koGap:3"
+    ]
+  },
+  {
+    "slug": "enrico-fermi",
+    "nickname": "엔리코 페르미",
+    "nickname_en": "Enrico Fermi",
+    "profession": "scientist",
+    "view_count": 4,
+    "influence": 64,
+    "signal": 0.9886081193040597,
+    "relations": 5,
+    "flags": [
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "oprah-winfrey",
+    "nickname": "오프라 윈프리",
+    "nickname_en": "Oprah Winfrey",
+    "profession": "influencer",
+    "view_count": 84,
+    "influence": 28,
+    "signal": 0.9884009942004971,
+    "relations": 5,
+    "flags": [
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "daniel-craig",
+    "nickname": "다니엘 크레이그",
+    "nickname_en": "Daniel Craig",
+    "profession": "actor",
+    "view_count": 84,
+    "influence": 8,
+    "signal": 0.9881938690969345,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "liu-bang",
+    "nickname": "한고조",
+    "nickname_en": "Liu Bang",
+    "profession": "commander",
+    "view_count": 8,
+    "influence": 64,
+    "signal": 0.9881938690969345,
+    "relations": 8,
+    "flags": [
+      "enGap:4"
+    ]
+  },
+  {
+    "slug": "mike-tyson",
+    "nickname": "마이크 타이슨",
+    "nickname_en": "Mike Tyson",
+    "profession": "athlete",
+    "view_count": 83,
+    "influence": 11,
+    "signal": 0.987986743993372,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "akira-kurosawa",
+    "nickname": "구로사와 아키라",
+    "nickname_en": "Akira Kurosawa",
+    "profession": "director",
+    "view_count": 82,
+    "influence": 57,
+    "signal": 0.9875724937862469,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "chung-ji-yong",
+    "nickname": "정지용",
+    "nickname_en": "Chung Ji-yong",
+    "profession": "author",
+    "view_count": 82,
+    "influence": 34,
+    "signal": 0.9873653686826843,
+    "relations": 5,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "george-orwell",
+    "nickname": "조지 오웰",
+    "nickname_en": "George Orwell",
+    "profession": "author",
+    "view_count": 3,
+    "influence": 63,
+    "signal": 0.9873653686826843,
+    "relations": 25,
+    "flags": [
+      "koGap:12"
+    ]
+  },
+  {
+    "slug": "yao-ming",
+    "nickname": "야오밍",
+    "nickname_en": "Yao Ming",
+    "profession": "athlete",
+    "view_count": 82,
+    "influence": 28,
+    "signal": 0.9871582435791217,
+    "relations": 1,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "walter-brattain",
+    "nickname": "월터 브래튼",
+    "nickname_en": "Walter Brattain",
+    "profession": "scientist",
+    "view_count": 1,
+    "influence": 63,
+    "signal": 0.9871582435791217,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "michael-faraday",
+    "nickname": "마이클 패러데이",
+    "nickname_en": "Michael Faraday",
+    "profession": "scientist",
+    "view_count": 43,
+    "influence": 63,
+    "signal": 0.9869511184755593,
+    "relations": 7,
+    "flags": [
+      "koGap:2",
+      "koRecheck:1"
+    ]
+  },
+  {
+    "slug": "ben-affleck",
+    "nickname": "벤 애플렉",
+    "nickname_en": "Ben Affleck",
+    "profession": "actor",
+    "view_count": 78,
+    "influence": 16,
+    "signal": 0.9865368682684341,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "sargon-of-akkad",
+    "nickname": "사르곤",
+    "nickname_en": "Sargon of Akkad",
+    "profession": "politician",
+    "view_count": 2,
+    "influence": 62,
+    "signal": 0.9865368682684341,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1",
+      "koRecheck:1"
+    ]
+  },
+  {
+    "slug": "uma-thurman",
+    "nickname": "우마 서먼",
+    "nickname_en": "Uma Thurman",
+    "profession": "actor",
+    "view_count": 78,
+    "influence": 9,
+    "signal": 0.9863297431648715,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:1"
+    ]
+  },
+  {
+    "slug": "augustine",
+    "nickname": "아우구스티누스",
+    "nickname_en": "Augustine",
+    "profession": "humanities_scholar",
+    "view_count": 1,
+    "influence": 62,
+    "signal": 0.9863297431648715,
+    "relations": 13,
+    "flags": [
+      "koGap:3",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "jim-keller",
+    "nickname": "짐 켈러",
+    "nickname_en": "Jim Keller",
+    "profession": "entrepreneur",
+    "view_count": 77,
+    "influence": 32,
+    "signal": 0.9861226180613091,
+    "relations": 1,
+    "flags": [
+      "thin"
+    ]
+  },
+  {
+    "slug": "william-shakespeare",
+    "nickname": "윌리엄 셰익스피어",
+    "nickname_en": "William Shakespeare",
+    "profession": "author",
+    "view_count": 16,
+    "influence": 62,
+    "signal": 0.9861226180613091,
+    "relations": 43,
+    "flags": [
+      "koGap:3",
+      "koRecheck:1",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "darius-i",
+    "nickname": "다리우스 1세",
+    "nickname_en": "Darius I",
+    "profession": "commander",
+    "view_count": 14,
+    "influence": 62,
+    "signal": 0.9859154929577465,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "suleiman-the-magnificent",
+    "nickname": "술레이만 1세",
+    "nickname_en": "Suleiman the Magnificent",
+    "profession": "commander",
+    "view_count": 77,
+    "influence": 58,
+    "signal": 0.9857083678541839,
+    "relations": 4,
+    "flags": [
+      "enGap:1"
+    ]
+  },
+  {
+    "slug": "viggo-mortensen",
+    "nickname": "비고 모텐슨",
+    "nickname_en": "Viggo Mortensen",
+    "profession": "actor",
+    "view_count": 77,
+    "influence": 10,
+    "signal": 0.9855012427506213,
+    "relations": 2,
+    "flags": [
+      "thin",
+      "koGap:2"
+    ]
+  },
+  {
+    "slug": "john-calvin",
+    "nickname": "장 칼뱅",
+    "nickname_en": "John Calvin",
+    "profession": "humanities_scholar",
+    "view_count": 1,
+    "influence": 62,
+    "signal": 0.9855012427506213,
+    "relations": 8,
+    "flags": [
+      "koGap:4"
+    ]
+  },
+  {
+    "slug": "pablo-picasso",
+    "nickname": "파블로 피카소",
+    "nickname_en": "Pablo Picasso",
+    "profession": "visual_artist",
+    "view_count": 7,
+    "influence": 62,
+    "signal": 0.9852941176470589,
+    "relations": 8,
+    "flags": [
+      "koGap:2",
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "zeng-guofan",
+    "nickname": "증국번",
+    "nickname_en": "Zeng Guofan",
+    "profession": "politician",
+    "view_count": 11,
+    "influence": 62,
+    "signal": 0.9850869925434963,
+    "relations": 5,
+    "flags": [
+      "enGap:2"
+    ]
+  },
+  {
+    "slug": "eiichiro-oda",
+    "nickname": "오다 에이치로",
+    "nickname_en": "Eiichiro Oda",
+    "profession": "author",
+    "view_count": 75,
+    "influence": 32,
+    "signal": 0.9848798674399337,
+    "relations": 2,
+    "flags": [
+      "thin"
+    ]
+  }
+]

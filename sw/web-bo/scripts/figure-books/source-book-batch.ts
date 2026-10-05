@@ -265,6 +265,7 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
       publishDate: book.metadata.publishDate || null,
       link: book.metadata.link,
       salesStatus: book.metadata.salesStatus || null,
+      translators: book.metadata.translators ?? [],
     },
   }
 }

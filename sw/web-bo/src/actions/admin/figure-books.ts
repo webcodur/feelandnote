@@ -720,7 +720,8 @@ export async function saveFigureBookEdition(input: {
   })
   const provenance = { primary: book.externalSource, isbn: book.metadata.link, title: book.metadata.link,
     creator: book.metadata.link, publisher: book.metadata.link, physical_format: book.metadata.physical_format ?? null,
-    thumbnail: book.coverImageUrl ? book.metadata.link : 'confirmed_unavailable', work_attribution: attribution }
+    thumbnail: book.coverImageUrl ? book.metadata.link : 'confirmed_unavailable', work_attribution: attribution,
+    ...(Array.isArray(book.metadata.translators) && book.metadata.translators.length ? { translators: book.metadata.translators } : {}) }
   const mutable = {
     title: book.title,
     creator: book.creator,

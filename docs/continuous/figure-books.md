@@ -60,6 +60,46 @@
 
 신규 인물 도서관계 243건(09-16 기준) — 창작 176 · 등장 66 · 연관 1(이후 `related` 폐기로 정리), 연결된 인물 105/574명. `apply-reviewed`와 `appearance-relations`가 등장 범위를 `description`에 쓰던 결함을 고쳐, 이제 두 도구 모두 description을 null로 저장한다(룰북 「등장 설명 폐기」). 이번 반영분 65건도 NULL로 되돌렸다.
 
+## 인물 단위 정밀 정비
+
+대량 채우기와 별개로, 인물 신설 직후나 「등장 책이 한두 권뿐」이라는 신고가 있을 때 인물 한 명의 책장을 통째로 점검·보강한다. 판정·등록 규칙은 룰북과 `figure-book-curation` 스킬이 쥐며, 여기는 대상 선정·운영 루프와 사토시 나카모토 회차에서 확인된 운영 노하우만 둔다.
+
+### 대상 선정 — 신호 합집합 × 결손 플래그
+
+`scripts/figure-books/shelf-audit-targets.mjs`가 정비 후보를 점수 순으로 낸다(읽기 전용). 신호는 `celebs.view_count`와 `celeb_influence.total_score` 각각의 백분위 가운데 큰 값이고(합집합 상위), 결손 플래그는 인물이 가진 관계 작품에서 읽는다.
+
+| 플래그 | 결손 | 정비 동작 |
+|---|---|---|
+| `thin` | 관계 ≤2건 | 등장·창작 후보 조사로 확장 |
+| `koGap:N` | ko 판본 없는 작품 N종 | 카카오로 국내판 재검·판본 등록 |
+| `koRecheck:N` | `verified_unavailable`·표시용 ko 행 N종 | 다른 제목의 번역서 재검(디지털 화폐 사례) |
+| `enGap:N` | 번역 작품인데 en 판본 없는 것 N종 | OL 판본 재검·카드 전환 |
+| `dup:N` | 같은 workIdentity의 중복 작품 N종 | `merge-works` 통합 검토 |
+
+```bash
+node --env-file=.env --import tsx scripts/figure-books/shelf-audit-targets.mjs --limit 100 --out ../../data/celeb/figure-books/shelf-audit-targets.json
+```
+
+관계 0건 인물은 기본으로 제외한다(조사 완료된 난공략분 — `--include-empty`로만 본다). 26.10.03 최신 집계는 결손 보유 1,834명이다.
+
+### 운영 루프
+
+- **서브 위임** — 사용자 지시에 따라 책장 정밀 정비는 인물별로 서브에 나눠 맡긴다. 발주에는 `figure-book-curation` 스킬과 이 절의 경로, 담당 인물·기존 작품 정보만 전달한다. 서브는 담당 인물의 조사·수리·readback을 수행하고, 메인은 대상 분배·공유 작품의 쓰기 충돌 조정·통합 검수·캐시 갱신을 맡는다.
+- **백그라운드 조사** — 목록의 slug를 묶어 `appearance-muse-candidates.mjs --slugs <slug들> --out <날짜>.jsonl`로 돌린다. 외부 CLI 엔진(opencode·agy·claude·codex·devin)은 사용자가 그 회차에 지정한 `--backend`만 쓰고, 출력은 jsonl에 이어받는다. 모델 없이 돌릴 때는 카카오 인물명 직접 검색 경로(아래)를 쓴다.
+- **정비 실행** — 조사 결과는 후보일 뿐이며 아래 8단계를 인물 단위로 돌린다. 등록·반영 `--apply`는 사용자 지시 때만이다.
+- **기록** — 정비 후보의 최신 집계는 `data/celeb/figure-books/shelf-audit-targets.json`, 인물별 명세·근거·영수증은 `data/celeb/figure-books/<슬러그>/`에 둔다. 실판본을 찾았으나 OL 귀속 검사에서 막힌 후보는 [`../todo/figure-books-en-editions.md`](../todo/figure-books-en-editions.md)가 들고 있다.
+
+### 정비 절차
+
+1. **현황 매트릭스** — `figure_book_characters`로 인물의 관계를 뽑고 작품별 언어 카드·판본을 나열한다. 화면은 요청 언어의 등록 판본을 요구하므로 카드만 있고 판본이 없는 작품은 그 언어 목록에 안 뜬다 — 「한 권뿐」 신고의 상당수가 이 원인이다.
+2. **후보 발굴** — 카카오 인물명 직접 검색(한글·영문 표기 각각)으로 저자 일치(→`authored`)와 중심 대상(→`appearance`)을 나누고, 출판사 소개문으로 「주제가 그 인물인가/그 인물의 분야 일반인가」를 가른다. 위키데이터 작품 항목(P50)으로 본인 저작 목록을 대조한다.
+3. **기존 재고 우선** — 제목·원제로 DB를 대조해 이미 있는 작품에는 `figure-books:batch`로 관계만 잇는다. 본인 저작에는 `appearance`가 아니라 `authored`를 단다.
+4. **신규 작품** — `figure-books:book` dry-run → `--apply`. 정체성은 룰북 「작품 정체성」 순서를 따른다. 인물별 명세·영수증은 `data/celeb/figure-books/<슬러그>/`에 둔다.
+5. **중복·후처리** — 같은 저작의 두 작품은 `merge-works.mjs`(dry-run → apply, 자동 백업). 추가 판본은 `source-edition-batch`다 — 카카오가 같은 책의 인쇄판·전자판·타 출판사 재판 ISBN을 같이 내놓으므로 후보 ISBN은 전수 대조한다.
+6. **판본 귀속 실패 대응** — 저자 표기 차이(월리스/월레스)처럼 같은 책인데 앵커와 어긋나면 `edition_work_evidence`를 카드 `sources`에 보존 후 재시도한다. en 판본은 OL 원전 제목이 서버 원전과 다르면 근거로도 못 넘는다 — OL 데이터 정정이 선행이다(게이트 상세는 룰북 「등록」).
+7. **번역본 재검** — `koTranslationStatus='verified_unavailable'`인 작품도 번역서가 다른 제목으로 나와 있을 수 있다(사례: Digital Cash → 『디지털 화폐』, 에코리브르). 저자명·원제 변형으로 카카오를 재검하고, 실판본이 있으면 표시용 행을 공식 값으로 덮고 상태를 `published`로 교정한다.
+8. **마무리** — 관계 목록 readback으로 ko/en 화면 권수를 확인하고 `figure-books:audit`을 돌린다. DB 데이터 수정 뒤 연결 인물의 `celebs:<id>`·`celebs:<slug>`와 작품의 `contents:<id>` 태그를 `/api/revalidate`로 갱신하고, `complete: true`로 Cloudflare 퍼지까지 확인한다. 노출 로직을 바꾸면 `getFigureBooksForCeleb` 캐시 키 버전도 올린다. 상품 연결은 `coupang-book-affiliate`로 넘긴다.
+
 ## 작품 후보 조사 경로
 
 **기존 재고 직접 매칭은 소진됐다.** `figure-books:direct-candidates`가 BOOK 7,949권을 훑어도 남은 후보는 오탐 위주다. '세트'·'리아'·'헤라'처럼 짧은 이름이 책 제목의 부분 문자열로 잡힌다. 상품까지 붙은 미연결 후보 11건 중 10건이 오탐이었다.
