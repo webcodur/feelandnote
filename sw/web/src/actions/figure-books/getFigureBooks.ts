@@ -14,6 +14,7 @@ import {
 import { toAffiliateLinks, type AffiliateLink } from '@/constants/affiliatePlatforms'
 import type { ContentType } from '@/types/database'
 import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
+import { isDeveloperMode } from '@/lib/developer-mode'
 import {
   getFigureBookPurchasePlatform,
   attachFigureBookLocaleLinks,
@@ -284,7 +285,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v17', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v17', isDeveloperMode() ? 'dev-intro-layout-v2' : 'standard', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

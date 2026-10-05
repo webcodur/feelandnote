@@ -1,3 +1,5 @@
+import { isDeveloperMode } from "../developer-mode";
+
 /*
   문장이 여러 개 이어진 줄 사이의 한 줄 개행만 빈 줄(문단 경계)로 넓힌다.
   - 빈 줄이 하나라도 있으면 작성자가 이미 문단을 나눈 글이다. 남은 한 줄 개행은 시 구절·질문 나열·강제 줄바꿈이라 손대지 않는다
@@ -50,6 +52,17 @@ function firstLineOf(chunk: string): string {
 }
 
 export function normalizeIntroBreaks(text: string): string {
+  if (isDeveloperMode()) return preserveIntroBreaks(text);
+  return normalizeLegacyIntroBreaks(text);
+}
+
+/** 단일 개행과 작성된 문단 경계를 보존한다. 긴 공백을 큰 구획으로 승격하지 않는다. */
+export function preserveIntroBreaks(text: string): string {
+  return text.replace(/\r\n?/g, "\n").replace(/[\t ]+\n/g, "\n")
+    .replace(/\n[\t ]*(?=\n)/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+export function normalizeLegacyIntroBreaks(text: string): string {
   const normalized = text
     .replace(/\r\n?/g, "\n")
     .replace(/[^\S\n]+\n/g, "\n")

@@ -4,11 +4,14 @@ import {
   type BookIntroductionSource,
 } from '@feelandnote/content-search/book-introduction-contract'
 import { pickIntroForLocale } from './content-locale-text'
+import { isDeveloperMode } from '../developer-mode'
 
 export interface BookIntroductionReference {
   isbn: string | null
   source: BookIntroductionSource
   sourceUrl: string | null
+  /** 개발 모드의 외부 소개 저장본. 출처를 재조회하여 다른 본문으로 바꾸지 않는다. */
+  storedText?: string
 }
 
 export interface BookIntroductionAttribution {
@@ -143,7 +146,13 @@ export function bookIntroductionDisplay(
     }
   }
   const description = pickIntroForLocale(locale, [row.description])
-  return { description, bookIntroduction: null, ...(description ? { introductionAttribution: introductionAttribution(row) } : {}) }
+  const attribution = description ? introductionAttribution(row) : undefined
+  const isbn = normalizeBookIsbn(row.isbn)
+  const storedReference = isDeveloperMode() && locale === 'ko' && description && isbn && attribution && !attribution.translated
+    && (attribution.provider === 'daum' || attribution.provider === 'kakao')
+    ? { isbn, source: attribution.provider === 'daum' ? 'DAUM' as const : 'KAKAO' as const,
+      sourceUrl: attribution.url, storedText: description } : null
+  return { description, bookIntroduction: storedReference, ...(attribution ? { introductionAttribution: attribution } : {}) }
 }
 
 /* VIDEO·GAME·MUSIC은 쓰기 계약이 sources.description에 출처 URL을 남긴다 — 그 기록을 그대로 표기한다.

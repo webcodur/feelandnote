@@ -11,6 +11,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { fetchContentMetadata } from './fetchContentMetadata'
 import { getBookIntroduction } from './fetchBookMetadata'
+import { isDeveloperMode } from '@/lib/developer-mode'
 import { resolveBookIsbn, selectBookIntroduction, mediaIntroductionAttribution, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchMusicIntros, type ContentIntroSource } from './fetchMusicIntros'
@@ -204,7 +205,7 @@ function getCachedContentBrief(contentId: string, safeLocale: string): Promise<C
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-brief-v12-media-source', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
+    ['content-brief-v12-media-source', BOOK_METADATA_CACHE_VARIANT, isDeveloperMode() ? 'dev-intro-layout-v2' : 'standard', contentId, safeLocale],
     () => fetchBrief(contentId, safeLocale),
   )
 }
@@ -243,7 +244,7 @@ export async function getContentBriefStrict(
 // 외부 장애로 비워진 소개를 서지 캐시에 저장하지 않는다.
 async function withBookIntroduction(brief: ContentBrief | null, locale: string): Promise<ContentBrief | null> {
   if (!brief?.bookIntroduction) return brief
-  const { isbn, source, sourceUrl } = brief.bookIntroduction
-  const description = await getBookIntroduction(isbn, locale, source, sourceUrl)
+  const { isbn, source, sourceUrl, storedText } = brief.bookIntroduction
+  const description = await getBookIntroduction(isbn, locale, source, sourceUrl, storedText)
   return { ...brief, description }
 }

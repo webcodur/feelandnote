@@ -17,6 +17,14 @@ export interface LabItem {
 
 export const LAB_ITEMS: LabItem[] = [
   {
+    value: "text",
+    label: "본문 표시",
+    icon: Book,
+    href: "/lab/text",
+    title: "본문 표시 비교",
+    subtitle: "일반 문단·큰 구획·인용 강조 비교",
+  },
+  {
     value: "commerce",
     label: "작품 소장",
     icon: ShoppingCart,

@@ -2,6 +2,26 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { bookIntroductionDisplay, mediaIntroductionAttribution, resolveBookIsbn, selectBookIntroduction } from './book-description'
 
+test('development routes stored external introductions through layout restoration while keeping the original text', () => {
+  const previous = process.env.NODE_ENV
+  try {
+    Reflect.set(process.env, 'NODE_ENV', 'development')
+    const row = { locale: 'ko', isbn: '9788925588810', description: '첫 문단.\n다음 문단.',
+      sources: { description: 'https://m.search.daum.net/search?w=bookpage&bookId=5681460' } }
+    const display = bookIntroductionDisplay('ko', row)
+    assert.equal(display.description, row.description)
+    assert.equal(display.bookIntroduction?.storedText, row.description)
+    assert.equal(display.bookIntroduction?.source, 'DAUM')
+    assert.equal(bookIntroductionDisplay('ko', { ...row, sources: { ...row.sources, manual: true } }).bookIntroduction, null)
+    assert.equal(bookIntroductionDisplay('ko', { ...row, sources: { ...row.sources, description_method: 'translation', description_source_locale: 'en' } }).bookIntroduction, null)
+    Reflect.set(process.env, 'NODE_ENV', 'production')
+    assert.equal(bookIntroductionDisplay('ko', row).bookIntroduction, null)
+  } finally {
+    if (previous === undefined) Reflect.deleteProperty(process.env, 'NODE_ENV')
+    else Reflect.set(process.env, 'NODE_ENV', previous)
+  }
+})
+
 test('ISBN 없는 책의 외부 상품 코드와 잘못된 ISBN을 소개 조회 ISBN으로 되살리지 않는다', () => {
   for (const code of ['4808952741950', '2090000108903', '480D490111310', '9780374522309']) {
     assert.equal(resolveBookIsbn('ko', code, code, code), null)
