@@ -1,6 +1,7 @@
 'use server'
 
 import { cache } from 'react'
+import { unstable_cache } from 'next/cache'
 import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
@@ -13,6 +14,7 @@ import { isDisplayTitleRow } from '@/lib/utils/content-locale'
 import { resolveBookShelfBook } from '@/lib/books/bookShelf'
 import type { ContentLocaleRow } from '@/lib/utils/content-locale'
 import { findAffiliateLink } from './affiliateLinks'
+import { createAffiliatePoolCache } from './affiliatePoolCache'
 import {
   BESTSELLER_CONTENT_IDS,
   BESTSELLER_MAX_SLOTS,
@@ -280,7 +282,7 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = compressedJsonCache(fetchAffiliatePool, ['affiliate-pool-v7-available-edition'], {
+const fetchAffiliatePoolCached = createAffiliatePoolCache(fetchAffiliatePool, unstable_cache, ['affiliate-pool-v8-sharded-available-edition'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로 달지 않는다.
   //
