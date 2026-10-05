@@ -2,7 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { MetadataRoute } from 'next'
 
-import { getSitemapEntries } from './sitemap'
+import { getSitemapEntries, serializeSitemap } from './sitemap'
+import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
 
 const CREATED_AT = '2026-08-01T00:00:00.000Z'
 
@@ -23,7 +24,11 @@ test('works and curated URLs use canonical explore paths in both locales', async
       ])
     }
     if (path === '/rest/v1/faction_member_rows') return Response.json([{ lv2_id: 'm1' }, { lv2_id: 'm2' }, { lv2_id: 'f1' }])
-    return Response.json([{ slug: 'example', curated_lists: [{ slug: 'list' }] }])
+    return Response.json([{ slug: 'example', curated_lists: [
+      ...Array.from({ length: 25 }, (_, index) => ({ slug: index === 0 ? 'list' : `book-${index}`, content_type: 'BOOK', is_featured: true })),
+      ...Array.from({ length: 13 }, (_, index) => ({ slug: `video-${index}`, content_type: 'VIDEO', is_featured: true })),
+      { slug: 'hidden-music', content_type: 'MUSIC', is_featured: false },
+    ] }])
   }
   t.after(() => {
     if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
@@ -51,6 +56,42 @@ test('works and curated URLs use canonical explore paths in both locales', async
   assert.ok(!urls.some((url) => /closed-myth|empty-faction/.test(url)))
   // 베스트셀러는 작품 첫 화면이 맡는다 — 옮겨 가는 옛 주소를 싣지 않는다
   assert.ok(entries.every(({ url }) => !/\/explore\/works\/popular$/.test(url)))
+  for (const prefix of ['', '/en']) {
+    for (const suffix of ['?page=2', '?page=3', '?media=VIDEO', '?media=VIDEO&page=2']) {
+      assert.ok(urls.includes(`https://feelandnote.com${prefix}/explore/works/curated${suffix}`))
+    }
+    for (const field of INFLUENCE_RANKING_FIELDS) {
+      assert.ok(urls.includes(`https://feelandnote.com${prefix}${getInfluenceRankingHref(field)}`))
+    }
+  }
+  assert.ok(!urls.some((url) => /media=MUSIC|page=4/.test(url)))
+  assert.equal(new Set(urls).size, urls.length)
+  assert.match(serializeSitemap(entries), /media=VIDEO&amp;page=2/)
+})
+
+test('인물 조회 중 두 번째 페이지가 실패하면 부분 사이트맵을 돌려주지 않는다', async (t) => {
+  const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  const previousFetch = globalThis.fetch
+  process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
+  process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-key'
+  let failures = 0
+  globalThis.fetch = async (input) => {
+    if (new URL(String(input)).searchParams.get('offset') === '0') {
+      return Response.json(Array.from({ length: 1000 }, (_, index) => ({ slug: `person-${index}`, created_at: CREATED_AT, updated_at: null })))
+    }
+    failures += 1
+    return new Response('Unavailable', { status: 503 })
+  }
+  t.after(() => {
+    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
+    else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
+    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+    else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
+    globalThis.fetch = previousFetch
+  })
+  await assert.rejects(getSitemapEntries('celebs'), /REST failed: 503/)
+  assert.equal(failures, 2)
 })
 
 test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한 번씩 싣는다', async (t) => {
@@ -105,4 +146,40 @@ test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한
   assert.equal(new Set(urls).size, 2002)
   assert.ok(urls.includes('https://feelandnote.com/celeb/celeb-1001'))
   assert.ok(urls.includes('https://feelandnote.com/en/celeb/celeb-1001'))
+})
+
+test('기관·도감 조회도 1,000행을 넘어 끝까지 읽고 실패한 묶음을 조용히 빼지 않는다', async (t) => {
+  const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  const previousFetch = globalThis.fetch
+  process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
+  process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-key'
+  t.after(() => {
+    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
+    else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
+    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+    else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
+    globalThis.fetch = previousFetch
+  })
+  let failedTable = ''
+  globalThis.fetch = async (input) => {
+    const url = new URL(String(input))
+    const table = url.pathname.split('/').pop()
+    if (table === failedTable) return new Response('Bad Gateway', { status: 502 })
+    const offset = Number(url.searchParams.get('offset'))
+    const ids = Array.from({ length: offset === 0 ? 1000 : 1 }, (_, index) => offset + index)
+    if (table === 'curators') return Response.json(ids.map((id) => ({ slug: `curator-${id}`, curated_lists: [] })))
+    if (table === 'faction_lv2') return Response.json(ids.map((id) => ({ id: `f-${id}`, slug: `faction-${id}`, is_myth: false, is_featured: true, published: false })))
+    return Response.json(ids.map((id) => ({ lv2_id: `f-${id}` })))
+  }
+  const entries = await getSitemapEntries('core')
+  assert.ok(entries)
+  for (const prefix of ['', '/en']) {
+    assert.ok(entries.some(({ url }) => url === `https://feelandnote.com${prefix}/explore/works/curated/curator-1000`))
+    assert.ok(entries.some(({ url }) => url === `https://feelandnote.com${prefix}/explore/faction/faction-1000`))
+  }
+  for (const table of ['curators', 'faction_lv2', 'faction_member_rows']) {
+    failedTable = table
+    await assert.rejects(getSitemapEntries('core'), /REST failed: 502/)
+  }
 })

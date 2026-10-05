@@ -9,6 +9,7 @@
 
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates, getWebSiteJsonLd } from "@/lib/seo";
+import { serializeJsonLd } from "@/lib/jsonLd";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import PageContainer from "@/components/layout/PageContainer";
 import HomeBrandHeader from "@/components/features/home/HomeBrandHeader";
@@ -54,7 +55,7 @@ export default async function MainPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(webSiteJsonLd) }}
       />
       {/* 비동기 서버 페이지가 클라이언트 구획을 그리므로 intl 컨텍스트를 재공급한다(platform-02-code-rules.md) */}
       <AsyncIntlProvider>

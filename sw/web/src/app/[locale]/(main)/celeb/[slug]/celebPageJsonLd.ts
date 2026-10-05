@@ -128,7 +128,3 @@ export function buildCelebPageJsonLd({
 
   return { "@context": "https://schema.org", "@graph": graph };
 }
-
-export function serializeJsonLd(value: object): string {
-  return JSON.stringify(value).replace(/</g, "\\u003c");
-}

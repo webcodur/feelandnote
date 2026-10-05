@@ -18,6 +18,7 @@ import { FactionMusicProvider } from "@/contexts/FactionMusicContext";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import DeploymentNotice from "@/components/layout/DeploymentNotice";
 import UiXray from "@/components/shared/ui-xray/UiXray";
+import { serializeJsonLd } from "@/lib/jsonLd";
 import {
   getOrganizationJsonLd,
   SITE_NAME,
@@ -163,7 +164,7 @@ export default async function LocaleLayout({
               <GlobalDialogueProvider>
               <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+                dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }}
               />
               <ServiceWorkerRegistrar />
               <DeploymentNotice />

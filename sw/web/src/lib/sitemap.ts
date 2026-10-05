@@ -1,6 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
+import { getAlternates, SITE_URL } from './seo'
+import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
+import { LIST_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
+import { CURATED_HUB_PATH, resolveCuratedHubMeta } from './library/curatedMeta'
 
 export const SITEMAP_REVALIDATE_SECONDS = 86400
 
@@ -14,9 +18,30 @@ export const SITEMAP_REVALIDATE_SECONDS = 86400
  */
 export const SITEMAP_NAMES = ['core', 'celebs'] as const
 
-const BASE_URL = 'https://feelandnote.com'
+const BASE_URL = SITE_URL
 
 type SitemapEntry = MetadataRoute.Sitemap[number]
+
+/** 조회 실패를 빈 목록으로 바꾸면 불완전한 XML이 하루 동안 정상 응답으로 캐시된다. */
+async function fetchSitemapRows<T>(query: string): Promise<T[]> {
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+  if (!url || !key) throw new Error('[sitemap] DB configuration is missing')
+
+  const request = () => fetch(`${url}/rest/v1/${query}`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}` },
+    next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
+    signal: AbortSignal.timeout(15000),
+  })
+  let response = await request()
+  if (response.status === 503) response = await request()
+  if (!response.ok) {
+    throw new Error(`[sitemap] ${query.split('?')[0]} REST failed: ${response.status}`)
+  }
+  const rows: T[] = await response.json()
+  if (!Array.isArray(rows)) throw new Error('[sitemap] Expected DB rows')
+  return rows
+}
 
 const INDEXABLE_TIER_FILTER =
   INDEXABLE_TIERS.length === 1
@@ -28,10 +53,6 @@ async function fetchCelebs(): Promise<{
   created_at: string | null
   updated_at: string | null
 }[]> {
-  const url = process.env.NEXT_PUBLIC_DB_API_URL
-  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
-  if (!url || !key) return []
-
   const allCelebs: {
     slug: string
     created_at: string | null
@@ -51,17 +72,7 @@ async function fetchCelebs(): Promise<{
       limit: String(pageSize),
     })
 
-    const response = await fetch(`${url}/rest/v1/celebs?${params}`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
-    })
-
-    if (!response.ok) {
-      console.error(`[sitemap] PostgREST failed: ${response.status} ${response.statusText}`)
-      break
-    }
-
-    const data = await response.json()
+    const data = await fetchSitemapRows<(typeof allCelebs)[number]>(`celebs?${params}`)
     allCelebs.push(...data)
     if (data.length < pageSize) break
     offset += pageSize
@@ -71,30 +82,36 @@ async function fetchCelebs(): Promise<{
 }
 
 async function fetchCuratedPaths(): Promise<string[]> {
-  const url = process.env.NEXT_PUBLIC_DB_API_URL
-  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
-  if (!url || !key) return []
-
-  const response = await fetch(
-    `${url}/rest/v1/curators?select=slug,curated_lists(slug)&is_featured=eq.true&limit=1000`,
-    {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
-    },
-  )
-  if (!response.ok) {
-    console.error(`[sitemap] curators REST failed: ${response.status} ${response.statusText}`)
-    return []
+  type Curator = { slug: string; curated_lists: { slug: string; content_type: string; is_featured: boolean }[] | null }
+  const data: Curator[] = []
+  const pageSize = 1000
+  for (let offset = 0; ; offset += pageSize) {
+    const rows = await fetchSitemapRows<Curator>(
+      `curators?select=slug,curated_lists(slug,content_type,is_featured)&is_featured=eq.true&order=id.asc&offset=${offset}&limit=${pageSize}`,
+    )
+    data.push(...rows)
+    if (rows.length < pageSize) break
   }
 
-  const data: { slug: string; curated_lists: { slug: string }[] | null }[] =
-    await response.json()
-  return data.flatMap((curator) => [
+  // 화면과 같은 공개 목록 수·페이지 크기·정본 규칙으로 매체별 모든 쪽을 등재한다.
+  const counts = new Map<string, number>()
+  for (const curator of data) {
+    for (const list of curator.curated_lists ?? []) {
+      if (list.is_featured) counts.set(list.content_type, (counts.get(list.content_type) ?? 0) + 1)
+    }
+  }
+  const hubPaths = [...counts].flatMap(([media, count]) =>
+    Array.from({ length: Math.ceil(count / LIST_PAGE_SIZE) }, (_, index) =>
+      resolveCuratedHubMeta({ media, page: String(index + 1) }, counts, LIST_PAGE_SIZE).path,
+    ),
+  ).filter((path) => path !== CURATED_HUB_PATH)
+
+  return [...hubPaths, ...data.flatMap((curator) => [
     `/explore/works/curated/${curator.slug}`,
     ...(curator.curated_lists ?? []).map(
       (list) => `/explore/works/curated/${curator.slug}/${list.slug}`,
     ),
-  ])
+  ])]
 }
 
 /**
@@ -103,37 +120,23 @@ async function fetchCuratedPaths(): Promise<string[]> {
  * 돌려주면 모순 신호다(ops-02-seo 「판정에서 굳은 원칙」 6).
  */
 async function fetchAtlasPaths(): Promise<string[]> {
-  const url = process.env.NEXT_PUBLIC_DB_API_URL
-  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
-  if (!url || !key) return []
-  const get = async <T,>(query: string): Promise<T[] | null> => {
-    const request = () => fetch(`${url}/rest/v1/${query}`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
-    })
-    // 뷰 조회가 가끔 503으로 튄다(26.09.29 실측) — 한 번 더 묻는다. 그래도 실패하면 이 묶음만 뺀다
-    let response = await request()
-    if (response.status === 503) response = await request()
-    if (!response.ok) {
-      console.error(`[sitemap] ${query.split('?')[0]} REST failed: ${response.status} ${response.statusText}`)
-      return null
-    }
-    return response.json()
+  type AtlasRow = { id: string; slug: string; is_myth: boolean; published: boolean; is_featured: boolean }
+  const rows: AtlasRow[] = []
+  const pageSize = 1000
+  for (let offset = 0; ; offset += pageSize) {
+    const page = await fetchSitemapRows<AtlasRow>(
+      `faction_lv2?select=id,slug,is_myth,published,is_featured&slug=not.is.null&order=sort_order.asc,id.asc&offset=${offset}&limit=${pageSize}`,
+    )
+    rows.push(...page)
+    if (page.length < pageSize) break
   }
-
-  const rows = await get<{ id: string; slug: string; is_myth: boolean; published: boolean; is_featured: boolean }>(
-    'faction_lv2?select=id,slug,is_myth,published,is_featured&slug=not.is.null&order=sort_order.asc,id.asc&limit=1000',
-  )
-  if (!rows) return []
 
   // 인물이 있는 세력 — 뷰가 1,000행 상한에 걸리므로 끝까지 나눠 읽는다
   const withMembers = new Set<string>()
-  const pageSize = 1000
   for (let offset = 0; ; offset += pageSize) {
-    const members = await get<{ lv2_id: string }>(
+    const members = await fetchSitemapRows<{ lv2_id: string }>(
       `faction_member_rows?select=lv2_id&hidden=eq.false&order=lv2_id.asc,celeb_id.asc&offset=${offset}&limit=${pageSize}`,
     )
-    if (!members) return []
     members.forEach((member) => withMembers.add(member.lv2_id))
     if (members.length < pageSize) break
   }
@@ -151,12 +154,7 @@ function entry(
   priority: number,
   lastModified?: Date,
 ): SitemapEntry[] {
-  const normalizedPath = path === '/' ? '' : path
-  const languages = {
-    ko: `${BASE_URL}${normalizedPath}`,
-    en: `${BASE_URL}/en${normalizedPath}`,
-    'x-default': `${BASE_URL}${normalizedPath}`,
-  }
+  const { languages } = getAlternates(path)
 
   return [
     {
@@ -186,7 +184,9 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/timeline', 'weekly', 0.7],
   ['/explore/faction', 'daily', 0.7],
   ['/explore/spectrum', 'weekly', 0.6],
-  ['/explore/influence', 'weekly', 0.7],
+  ...INFLUENCE_RANKING_FIELDS.map(
+    (field): [string, SitemapEntry['changeFrequency'], number] => [getInfluenceRankingHref(field), 'weekly', 0.7],
+  ),
   ['/explore/myth', 'weekly', 0.6],
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],

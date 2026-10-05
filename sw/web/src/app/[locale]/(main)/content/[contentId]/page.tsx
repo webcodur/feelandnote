@@ -17,6 +17,7 @@ import {
   normalizeSeoText,
 } from "@/lib/seo";
 import { appendWithinSnippet } from "@/lib/seoSentences";
+import { serializeJsonLd } from "@/lib/jsonLd";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 
@@ -158,7 +159,7 @@ export default async function Page({ params }: PageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <Suspense fallback={<div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />}>
         <AsyncIntlProvider>

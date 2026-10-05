@@ -227,7 +227,7 @@ Google이 리치 결과를 거둬들인 타입을 새로 붙이지 않는다. �
 | `HowTo`·`SpecialAnnouncement`·`ClaimReview` | 붙이지 않는다 | 리치 결과 폐지 |
 | `Person`·`WebSite`·`Organization`·`BreadcrumbList`·`ItemList`·`VideoObject` | 유지 | 현행 유효 |
 
-JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 처리가 지연된다.
+JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 처리가 지연된다. 모든 출력은 `sw/web/src/lib/jsonLd.ts`의 `serializeJsonLd`를 써서 소개문 속 태그·HTML 주석이 script를 끊지 않게 하고 원문·쿼리 URL을 보존한다.
 
 ## 판정에서 굳은 원칙
 
@@ -332,6 +332,8 @@ verification: {
 ## 사이트맵
 
 - **데이터·XML 단일원천**: `sw/web/src/lib/sitemap.ts`
+- **정본 주소 동기화**: 사이트맵의 한영 주소는 페이지 메타와 같은 `getAlternates`를 쓴다. 기관 선정의 매체별·쪽별 주소는 공개 목록 수와 `LIST_PAGE_SIZE`, `resolveCuratedHubMeta`로 산출하고, 영향력 분야별 주소는 `INFLUENCE_RANKING_FIELDS`·`getInfluenceRankingHref`를 쓴다.
+- **조회 실패**: DB 설정 누락·조회 실패·중간 페이지 실패는 빈 XML이나 부분 XML로 바꾸지 않는다. 하위 사이트맵 라우트는 `503`·`Cache-Control: no-store`·`Retry-After`를 반환한다.
 - **인덱스 라우트**: `sw/web/src/app/sitemap.xml/route.ts` → `https://feelandnote.com/sitemap.xml`
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
 - **방식**: PostgREST API 직접 fetch(DB SDK는 메타데이터 라우트에서 동작하지 않았음)
@@ -381,6 +383,7 @@ verification: {
   - 개인: `/*/reading`, `/*/chamber`, `/*/merits`
   - 기타: `/notifications`, `/search`, `/lab` (`/en` 접두 변형 포함)
   - 쿼리: `/*?*search=`, `/*?*sortBy=`, `/*?*sort=`, `/*?*page=` — **무한 조합을 만드는 파라미터만** 차단한다. `/*?` 전면 차단은 `?category=`가 붙은 콘텐츠 상세 내부 링크까지 크롤 불가로 만들어 색인 붕괴를 일으켰다(2026-07-15 해제)
+  - 기관 선정 허브의 한영 매체·쪽 주소는 자기 canonical을 가진 공개 화면이라 더 긴 Allow로 연다. 검색·국가·주제·기관·정렬 필터는 더 긴 Disallow로 차단한다. 필터 키는 `CURATED_FILTER_KEYS`를 메타데이터와 공유한다.
 - **검색·답변·사용자 요청 크롤러 9종**: `OAI-SearchBot`, `ChatGPT-User`, `Claude-SearchBot`, `Claude-User`, `PerplexityBot`, `Perplexity-User`, `Amzn-SearchBot`, `Amzn-User`, `YouBot`. 일반 검색엔진과 같은 공개 범위만 허용하고 `crawlDelay: 1`을 선언한다.
 - **모델 학습·대량 수집 크롤러 UA 20종**(`GPTBot`·`ClaudeBot`·`CCBot`·`Bytespider`·`Amazonbot`·`meta-externalagent`와 SEO 수집기 등, 명단은 `sw/web/src/lib/blocked-crawlers.ts`): `Disallow: /` 전 경로 차단. 같은 명단을 Cloudflare WAF(1차 차단)와 미들웨어(2차 403)가 쓴다. 답변 엔진을 열었다고 학습 수집까지 연 것이 아니다.
 - **robots 전용 토큰** `Applebot-Extended`: UA 없이 robots.txt로만 작동하며 Apple 모델 학습만 제어한다. Siri·Spotlight 검색은 `Applebot`이 담당하므로 전면 차단해도 검색 노출은 유지된다.

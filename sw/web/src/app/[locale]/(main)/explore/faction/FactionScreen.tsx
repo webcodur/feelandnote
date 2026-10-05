@@ -13,6 +13,7 @@ import { getFactionCelebs } from "@/lib/faction-celebs";
 import { getFactionGroupDescriptions } from "@/lib/faction-groups";
 import { getFactionThemeImage, toFactionThemeData, type FactionThemeGroup } from "@/lib/faction-theme";
 import { getAlternates, toSeoSummary } from "@/lib/seo";
+import { serializeJsonLd } from "@/lib/jsonLd";
 import type { AtlasIndexGroup } from "@/components/features/user/explore/myth/AtlasIndex";
 import { getCelebProfileUrl } from "@/lib/url";
 import type { CelebProfile } from "@/types/home";
@@ -85,7 +86,7 @@ async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, g
   return (
     <AsyncIntlProvider>
       {withJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify(buildEntryJsonLd(entry, name, ordered, locale)).replace(/</g, "\\u003c"),
+        __html: serializeJsonLd(buildEntryJsonLd(entry, name, ordered, locale)),
       }} />}
       <FactionEntryView key={entry.id} data={toFactionThemeData(entry, ordered, groupRows, factionBooks, locale)}
         navigationTree={navigationTree} themeId={themeId} celebs={ordered} members={members} factionBooks={factionBooks}

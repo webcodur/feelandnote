@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { MODEL_TRAINING_CRAWLERS, ROBOTS_ONLY_TRAINING_TOKENS } from '@/lib/blocked-crawlers'
+import { CURATED_FILTER_KEYS, CURATED_HUB_PATH } from '@/lib/library/curatedMeta'
+import { SITE_URL } from '@/lib/seo'
 
 /** 검색·답변 노출과 사용자 요청에 쓰이는 봇. 학습용 봇과 분리해 공개 문서만 허용한다. */
 const ANSWER_CRAWLERS = [
@@ -34,6 +36,11 @@ const GOOGLE_EXTENDED_ALLOW = [
   '/en/terms',
 ]
 
+const CURATED_QUERY_PATHS = [CURATED_HUB_PATH, `/en${CURATED_HUB_PATH}`]
+// 허브의 매체·쪽은 자기 canonical을 가진다. 일반 page 차단보다 긴 Allow로 열고,
+// 중복 필터 조합은 더 긴 Disallow로 차단한다(Google의 가장 구체적인 경로 우선 규칙).
+const COMMON_ALLOW = ['/', ...CURATED_QUERY_PATHS.map((path) => `${path}?`)]
+
 const COMMON_DISALLOW = [
   '/private/',
   '/admin/',
@@ -49,6 +56,7 @@ const COMMON_DISALLOW = [
   '/search',
   '/en/search',
   '/lab',
+  '/en/lab',
   '/*/reading',
   '/*/chamber',
   '/*/merits',
@@ -65,6 +73,9 @@ const COMMON_DISALLOW = [
   '/*?*sortBy=',
   '/*?*sort=',
   '/*?*page=',
+  ...CURATED_QUERY_PATHS.flatMap((path) =>
+    [...CURATED_FILTER_KEYS, 'sort', 'sortBy'].map((key) => `${path}?*${key}=`),
+  ),
 ]
 
 export default function robots(): MetadataRoute.Robots {
@@ -74,7 +85,7 @@ export default function robots(): MetadataRoute.Robots {
       // 각 회사의 검색용 UA를 학습용 UA와 분리해야 검색·인용 후보에서 빠지지 않는다.
       {
         userAgent: ANSWER_CRAWLERS,
-        allow: '/',
+        allow: COMMON_ALLOW,
         disallow: COMMON_DISALLOW,
         crawlDelay: 1,
       },
@@ -82,7 +93,7 @@ export default function robots(): MetadataRoute.Robots {
       // 10은 2,996 URL 사이트의 Bing·네이버 색인을 지나치게 늦춰 1로 완화(2026-07-14)
       {
         userAgent: '*',
-        allow: '/',
+        allow: COMMON_ALLOW,
         disallow: COMMON_DISALLOW,
         crawlDelay: 1,
       },
@@ -98,6 +109,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/',
       },
     ],
-    sitemap: 'https://feelandnote.com/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }

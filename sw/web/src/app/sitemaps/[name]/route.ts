@@ -18,7 +18,20 @@ export async function GET(
 ) {
   const { name: filename } = await context.params
   const name = filename.endsWith('.xml') ? filename.slice(0, -4) : ''
-  const entries = await getSitemapEntries(name)
+  if (!(SITEMAP_NAMES as readonly string[]).includes(name)) {
+    return new NextResponse('Not Found', { status: 404 })
+  }
+
+  let entries
+  try {
+    entries = await getSitemapEntries(name)
+  } catch {
+    console.error(`[sitemap] ${name} generation failed`)
+    return new NextResponse('Sitemap temporarily unavailable', {
+      status: 503,
+      headers: { 'Cache-Control': 'no-store', 'Retry-After': '60' },
+    })
+  }
 
   if (!entries) {
     return new NextResponse('Not Found', { status: 404 })

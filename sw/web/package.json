@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "lint:egress": "node scripts/check-egress-patterns.mjs",
-    "test:seo-infra": "tsx --test src/lib/seoImageOrigin.test.ts src/lib/sitemap.test.ts src/middleware.test.ts",
+    "test:seo-infra": "tsx --test src/lib/seo.test.ts src/lib/jsonLd.test.ts src/lib/seoImageOrigin.test.ts src/lib/sitemap.test.ts src/lib/sitemapRoute.test.ts src/app/robots.test.ts src/middleware.test.ts src/lib/library/curatedMeta.test.ts src/app/**/recordsPage.test.tsx",
     "test:render-mode": "tsx --test src/lib/render-mode.test.ts",
     "check:timeline-scroll": "node scripts/check-celeb-timeline-scroll.mjs",
     "check:celeb-mobile-panel-flow": "node scripts/check-celeb-mobile-panel-flow.mjs",

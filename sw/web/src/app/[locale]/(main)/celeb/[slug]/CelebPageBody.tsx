@@ -20,7 +20,8 @@ import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import CelebPageContent from "./CelebPageContent";
 import RelatedFigureLinks from "./RelatedFigureLinks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
-import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
+import { buildCelebPageJsonLd } from "./celebPageJsonLd";
+import { serializeJsonLd } from "@/lib/jsonLd";
 import { createCelebMetaInput } from "./celebPageMetadata";
 import CelebExternalLinksServer from "./CelebExternalLinksServer";
 

@@ -154,7 +154,7 @@ export const CURATED_HUB_PATH = '/explore/works/curated'
 /** 매체 칩의 첫 값 — 주소에 싣지 않는 기본 매체(useCuratedBrowse의 MEDIA_ORDER 첫 값) */
 export const CURATED_DEFAULT_MEDIA = 'BOOK'
 /** 같은 목록을 거르기만 하는 조건 — 정본은 그 매체의 첫 쪽이다 */
-const CURATED_FILTER_KEYS = ['search', 'country', 'topic', 'kind'] as const
+export const CURATED_FILTER_KEYS = ['search', 'country', 'topic', 'kind'] as const
 
 export interface CuratedHubMetaState {
   /** 주소에 실을 매체. 기본 매체(도서)면 null */
