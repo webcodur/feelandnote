@@ -313,7 +313,7 @@
       "viewAll": "All records",
       "title": "{name}’s records",
       "pageTitle": "{name}'s records",
-      "description": "Read {name}'s records and their sources.",
+      "description": "Explore the works {subject} experienced, with reviews and sources.",
       "back": "Back to figure",
       "previous": "Previous",
       "next": "Next",

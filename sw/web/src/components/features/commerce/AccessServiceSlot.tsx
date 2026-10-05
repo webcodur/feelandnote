@@ -35,9 +35,9 @@ export default function AccessServiceSlot({ source, state, onVisit }: { source: 
       {data.providers.map((provider, index, providers) => {
         const lone = index === providers.length - 1 && providers.length % 2 === 1
         const lastRow = index >= providers.length - (providers.length % 2 || 2)
-        return <div key={provider.id} title={provider.kinds.map(kind => t(`watchKinds.${kind}`)).join(' · ')}
+        return <div key={provider.id} title={[provider.name, ...provider.kinds.map(kind => t(`watchKinds.${kind}`))].join(' · ')}
           className={cn('flex h-[46px] min-w-0 items-center justify-center border-accent/15 px-4', !lastRow && 'border-b', index % 2 === 0 && !lone && 'border-e', lone && 'col-span-2')}>
-          <dt className="truncate text-center text-sm font-semibold text-text-primary">{provider.name}</dt>
+          <dt className="line-clamp-2 break-words text-center text-[13px] font-semibold leading-snug text-text-primary">{provider.name}</dt>
           <dd className="sr-only">{provider.kinds.map(kind => t(`watchKinds.${kind}`)).join(' · ')}</dd>
         </div>
       })}

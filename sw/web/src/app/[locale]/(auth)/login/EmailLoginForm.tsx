@@ -1,10 +1,10 @@
 'use client'
 
+import AuthLink from "@/components/shared/AuthLink";
 import { useState, useActionState } from 'react'
 import { loginWithEmail, type LoginErrorCode } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
-import { Link } from '@/i18n/navigation'
 import { ArrowLeft, Mail, Eye, EyeOff } from 'lucide-react'
 import PasswordResetRequestForm from './PasswordResetRequestForm'
 
@@ -157,9 +157,9 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
 
       <p className="text-center text-sm text-text-secondary">
         {t('noAccount')}{' '}
-        <Link href="/signup" className="text-accent hover:underline">
+        <AuthLink href="/signup" className="text-accent hover:underline">
           {t('signupLink')}
-        </Link>
+        </AuthLink>
       </p>
     </form>
   )

@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import AuthLink from "@/components/shared/AuthLink";
 import { useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Pagination } from "@/components/ui";
@@ -12,7 +13,6 @@ import { LogIn, MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
 import { createClient } from "@/lib/db/client";
-import { Link } from "@/i18n/navigation";
 import EntryItem from "./guestbook/EntryItem";
 import WriteForm from "./guestbook/WriteForm";
 import type { GuestbookContentProps, CurrentUserId } from "./guestbook/types";
@@ -171,7 +171,7 @@ export default function GuestbookContent({
           variant={variant}
         />
       ) : (
-        <Link
+        <AuthLink
           href="/login"
           className={isCeleb
             ? "group flex min-h-[124px] flex-col items-stretch gap-4 rounded-md border border-white/[0.08] bg-black/[0.16] px-4 py-5 shadow-[0_18px_45px_rgba(0,0,0,0.16)] hover:border-accent/45 hover:bg-accent/[0.035] sm:flex-row sm:items-center sm:px-6"
@@ -212,7 +212,7 @@ export default function GuestbookContent({
               </div>
             </>
           )}
-        </Link>
+        </AuthLink>
       )}
 
       {/* 방명록 목록 */}

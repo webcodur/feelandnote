@@ -1,7 +1,8 @@
 "use client";
 
+import AuthLink from "@/components/shared/AuthLink";
 import { useState, useEffect } from "react";
-import { Link, useRouter } from "@/i18n/navigation";
+import { getPathname, Link, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { ChevronRight, CircleUserRound } from "lucide-react";
@@ -62,7 +63,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
   const handleLogout = async () => {
     const db = createClient();
     await db.auth.signOut();
-    window.location.href = "/login";
+    window.location.href = getPathname({ href: "/login", locale });
   };
 
   const getNotifIcon = (type: string) => {
@@ -101,14 +102,14 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
         {showDropdown && (
           <div className="absolute end-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
             <div className="py-1">
-              <Link
+              <AuthLink
                 href="/login"
                 onClick={() => setShowDropdown(false)}
                 className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
               >
                 <RomanGateIcon size={16} className="text-text-secondary" />
                 {t("login")}
-              </Link>
+              </AuthLink>
             </div>
           </div>
         )}

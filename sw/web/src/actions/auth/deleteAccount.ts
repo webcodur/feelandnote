@@ -2,6 +2,8 @@
 
 import { createClient } from '@/lib/db/server'
 import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { localizedAuthPath } from '@/lib/auth/callback-url'
 import { type ActionResult, failure } from '@/lib/errors'
 
 // #region 삭제 방식
@@ -30,5 +32,5 @@ export async function deleteAccount(): Promise<ActionResult<null>> {
   // 현재 세션 로그아웃
   await db.auth.signOut()
 
-  redirect('/login')
+  redirect(localizedAuthPath('/login', await getLocale()))
 }

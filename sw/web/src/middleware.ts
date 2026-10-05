@@ -1,6 +1,7 @@
 import createIntlMiddleware from 'next-intl/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
 import { routing } from '@/i18n/routing';
+import { entryLocale, isLocaleCrawler, LOCALE_PREFERENCE_COOKIE, LOCALE_PREFERENCE_MAX_AGE } from '@/i18n/entryLocale';
 import {
   canUseMaintenancePreview,
   MAINTENANCE_PREVIEW_COOKIE,
@@ -133,6 +134,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // First entry: foreign visitors use English, while explicit URLs and chosen language win.
+  if (!/^\/(ko|en)(\/|$)/.test(rawPathname) && !isLocaleCrawler(request.headers.get('user-agent'))) {
+    const locale = entryLocale(request.headers.get('CF-IPCountry'), request.cookies.get(LOCALE_PREFERENCE_COOKIE)?.value,
+      request.cookies.get('NEXT_LOCALE')?.value)
+    if (locale === 'en') {
+      const url = request.nextUrl.clone()
+      url.pathname = `/en${rawPathname === '/' ? '' : rawPathname}`
+      const response = NextResponse.redirect(url, 307)
+      response.headers.set('Cache-Control', 'private, no-store')
+      response.headers.set('Vary', 'CF-IPCountry, Cookie')
+      return response
+    }
+  }
+
   // UUID 이동 응답을 인물 본문의 ISR에서 분리한다. 첫 ISR 생성은 Location을 중복할 수 있다.
   const celebIdMatch = rawPathname.match(/^\/(?:(ko|en)\/)?celeb\/([^/]+)\/?$/)
   if (celebIdMatch && isProfileId(celebIdMatch[2])) {
@@ -143,6 +158,10 @@ export async function middleware(request: NextRequest) {
 
   // 4) next-intl locale 처리
   const intlResponse = intlMiddleware(request);
+  if (/^\/ko(\/|$)/.test(rawPathname)) {
+    intlResponse.cookies.set(LOCALE_PREFERENCE_COOKIE, 'ko', { path: '/', maxAge: LOCALE_PREFERENCE_MAX_AGE, sameSite: 'lax', secure: request.nextUrl.protocol === 'https:' })
+    intlResponse.headers.set('Cache-Control', 'private, no-store')
+  }
 
   // 5) Auth 세션 갱신. 익명 크롤러/방문자는 인증 쿠키가 없으므로
   // auth.getUser() 왕복을 만들지 않는다. 로그인 쿠키가 있을 때만 기존 갱신을 수행한다.
@@ -171,13 +190,15 @@ export async function middleware(request: NextRequest) {
   // 6) Auth redirect — locale prefix 제거 후 경로 비교
   const pathname = request.nextUrl.pathname;
   const strippedPath = pathname.replace(/^\/(ko|en)/, '') || '/';
+  const localePrefix = /^\/en(\/|$)/.test(pathname) ? '/en' : '';
 
   // 보호된 경로에 비인증 사용자 접근 시
   if (protectedPaths.some((path) => strippedPath.startsWith(path))) {
     if (!user) {
       const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      url.searchParams.set('redirect', strippedPath);
+      url.pathname = `${localePrefix}/login`;
+      url.search = '';
+      url.searchParams.set('redirect', strippedPath + request.nextUrl.search);
       return NextResponse.redirect(url);
     }
   }
@@ -186,7 +207,8 @@ export async function middleware(request: NextRequest) {
   if (authPaths.some((path) => strippedPath.startsWith(path))) {
     if (user) {
       const url = request.nextUrl.clone();
-      url.pathname = `/${user.id}/reading`;
+      url.pathname = `${localePrefix}/${user.id}/reading`;
+      url.search = '';
       return NextResponse.redirect(url);
     }
   }

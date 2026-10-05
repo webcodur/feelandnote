@@ -22,19 +22,26 @@ export function appleMusicLink(value: unknown, externalId: string): string | nul
   } catch { return null }
 }
 
+/** UI language does not determine streaming rights or store region. */
+export function accessCountry(value: string | null | undefined): string {
+  const country = value?.trim().toUpperCase()
+  return country && /^[A-Z]{2}$/.test(country) && country !== 'XX' ? country : 'KR'
+}
+
 interface Provider { provider_id: number; provider_name: string }
 interface WatchRegion { link?: string; flatrate?: Provider[]; rent?: Provider[]; buy?: Provider[]; free?: Provider[]; ads?: Provider[] }
 
-export function parseWatchProviders(data: { results?: Record<string, WatchRegion> }, externalId: string): ContentAccess {
-  const region = data.results?.KR
+export function parseWatchProviders(data: { results?: Record<string, WatchRegion> }, externalId: string, country = 'KR'): ContentAccess {
+  const countryCode = accessCountry(country)
+  const region = data.results?.[countryCode]
   const match = externalId.match(/^tmdb-(movie|tv)-(\d+)$/)
-  const none: ContentAccess = { links: [], providers: [], region: 'KR' }
+  const none: ContentAccess = { links: [], providers: [], region: countryCode }
   if (!region?.link || !match) return none
   let url: URL
   try { url = new URL(region.link) } catch { return none }
   const target = url.pathname.match(/^\/(movie|tv)\/(\d+)(?:-[^/]+)?\/watch$/)
   if (url.protocol !== 'https:' || url.hostname !== 'www.themoviedb.org'
-    || target?.[1] !== match[1] || target?.[2] !== match[2] || url.searchParams.get('locale') !== 'KR') return none
+    || target?.[1] !== match[1] || target?.[2] !== match[2] || url.searchParams.get('locale') !== countryCode) return none
   const providers = new Map<number, WatchProvider>()
   for (const kind of ['flatrate', 'rent', 'buy', 'free', 'ads'] as WatchKind[]) {
     for (const item of region[kind] ?? []) {
@@ -48,13 +55,13 @@ export function parseWatchProviders(data: { results?: Record<string, WatchRegion
   return { ...none, providers: [...providers.values()], ...(providers.size > 0 && { watchUrl: url.toString() }) }
 }
 
-export async function fetchWatchAccess(fetcher: typeof fetch, externalId: string): Promise<ContentAccess> {
+export async function fetchWatchAccess(fetcher: typeof fetch, externalId: string, country = 'KR'): Promise<ContentAccess> {
   const match = externalId.match(/^tmdb-(movie|tv)-(\d+)$/)
   if (!match) return { links: [] }
   const key = process.env.TMDB_API_KEY
   if (!key) throw new Error('Watch provider configuration unavailable')
   const response = await fetcher(`https://api.themoviedb.org/3/${match[1]}/${match[2]}/watch/providers?api_key=${encodeURIComponent(key)}`, { signal: AbortSignal.timeout(ACCESS_TIMEOUT_MS) })
-  if (response.status === 404) return { links: [], region: 'KR' }
+  if (response.status === 404) return { links: [], region: accessCountry(country) }
   if (!response.ok) throw new Error(`Watch providers unavailable: ${response.status}`)
-  return parseWatchProviders(await response.json(), externalId)
+  return parseWatchProviders(await response.json(), externalId, country)
 }

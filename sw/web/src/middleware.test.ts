@@ -64,3 +64,53 @@ test('old myth shortcuts move permanently to each myth address and keep other qu
   const hub = await middleware(new NextRequest('https://feelandnote.com/explore/myth'))
   assert.notEqual(hub.status, 308)
 })
+
+test('foreign first entry redirects home and deep links to English without losing query', async () => {
+  for (const path of ['/?utm_source=test', '/celeb/bill-gates?focus=book', '/login', '/celeb/11111111-2222-4333-8444-555555555555']) {
+    const response = await middleware(new NextRequest(`https://feelandnote.com${path}`, { headers: { 'CF-IPCountry': 'SG' } }))
+    assert.equal(response.status, 307)
+    assert.equal(response.headers.get('location'), `https://feelandnote.com/en${path.replace(/^\/(?=\?|$)/, '')}`)
+    assert.equal(response.headers.get('cache-control'), 'private, no-store')
+  }
+})
+
+test('legacy automatic Korean cookie does not strand foreign visitors in Korean', async () => {
+  const response = await middleware(new NextRequest('https://feelandnote.com/', {
+    headers: { 'CF-IPCountry': 'SG', cookie: 'NEXT_LOCALE=ko' },
+  }))
+  assert.equal(response.headers.get('location'), 'https://feelandnote.com/en')
+})
+
+test('explicit locales, manual Korean choice, Korea, unknown country, and crawlers stay stable', async () => {
+  for (const [path, headers] of [
+    ['/en', { 'CF-IPCountry': 'KR' }], ['/ko', { 'CF-IPCountry': 'SG' }],
+    ['/', { 'CF-IPCountry': 'SG', cookie: 'fn_locale_preference=ko' }],
+    ['/', { 'CF-IPCountry': 'KR' }], ['/', { 'CF-IPCountry': 'XX' }],
+    ['/', { 'CF-IPCountry': 'SG', 'user-agent': 'Googlebot/2.1' }],
+  ] as Array<[string, Record<string, string>]>) {
+    const response = await middleware(new NextRequest(`https://feelandnote.com${path}`, { headers }))
+    assert.notEqual(response.headers.get('location'), 'https://feelandnote.com/en')
+  }
+})
+
+test('manual English choice survives a return to the Korean home address', async () => {
+  const response = await middleware(new NextRequest('https://feelandnote.com/', {
+    headers: { 'CF-IPCountry': 'KR', cookie: 'fn_locale_preference=en' },
+  }))
+  assert.equal(response.headers.get('location'), 'https://feelandnote.com/en')
+})
+
+test('an English session stays English through authentication redirects in Korea', async () => {
+  const response = await middleware(new NextRequest('https://feelandnote.com/login', {
+    headers: { 'CF-IPCountry': 'KR', cookie: 'NEXT_LOCALE=en' },
+  }))
+  assert.equal(response.headers.get('location'), 'https://feelandnote.com/en/login')
+})
+
+test('explicit Korean address records the choice before removing the default prefix', async () => {
+  const response = await middleware(new NextRequest('https://feelandnote.com/ko/login', {
+    headers: { 'CF-IPCountry': 'SG', cookie: 'NEXT_LOCALE=en' },
+  }))
+  assert.equal(response.headers.get('location'), 'https://feelandnote.com/login')
+  assert.equal(response.cookies.get('fn_locale_preference')?.value, 'ko')
+})

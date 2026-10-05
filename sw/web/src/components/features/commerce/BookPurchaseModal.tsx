@@ -59,10 +59,15 @@ export default function BookPurchaseModal({ bookLocale, title, creator, thumbnai
       .map((link): string | null | undefined => AFFILIATE_PLATFORMS[link.platform]?.notice)
       .filter((notice): notice is string => Boolean(notice)),
   )];
+  const hasAmazonUS = resolvedLinks.some(link => {
+    try { return link.platform === 'amazon' && /(^|\.)amazon\.com$/.test(new URL(link.url).hostname); }
+    catch { return false; }
+  });
 
   return (
     <AccessDialog type="BOOK" title={title} creator={creator} thumbnail={thumbnail} onClose={onClose}>
         <BookPurchaseLinks links={resolvedLinks} tracking={tracking} pendingYes24={pendingYes24} />
+        {hasAmazonUS && <p className="text-xs leading-relaxed text-text-secondary">{tAccess('amazonUSNotice')}</p>}
         <AccessDisclosure hasAffiliates={affiliateLinks.length > 0} notices={platformNotices} />
         {isDeveloperMode() && (
           <p className="border-t border-border pt-4 text-xs leading-relaxed text-red-400">{tAccess("method.BOOK")}</p>

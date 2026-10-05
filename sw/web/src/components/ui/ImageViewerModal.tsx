@@ -14,6 +14,7 @@ import Modal, { CLOSE_BUTTON_STYLE } from "./Modal";
 import BlurDissolve from "./BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useWheelPaging } from "@/hooks/useWheelPaging";
+import { useTranslations } from "next-intl";
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 10;
@@ -49,6 +50,7 @@ export default function ImageViewerModal({
   showImageShadow = true,
   closeOnImageClick = false,
 }: ImageViewerModalProps) {
+  const t = useTranslations("shared.ui.imageViewer");
   // scale은 transform-origin이 중앙인 상태의 배율, x·y는 그 중앙 기준 이동량
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
   /* 일반 뷰어는 클릭으로 줌 모드에 든다. 클릭으로 닫는 프로필은 열 때부터 휠 확대를 허용한다. */
@@ -126,13 +128,13 @@ export default function ImageViewerModal({
 
       {/* 넘길 그림이 있는 뷰어에서는 양끝 ‹ › 버튼이 붙는다 — 배경 클릭 닫기와 분리한다 */}
       {onPrev && (
-        <Button unstyled aria-label="이전" onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        <Button unstyled aria-label={t("previous")} onClick={(e) => { e.stopPropagation(); onPrev(); }}
           className="absolute z-10 start-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronLeft size={28} />
         </Button>
       )}
       {onNext && (
-        <Button unstyled aria-label="다음" onClick={(e) => { e.stopPropagation(); onNext(); }}
+        <Button unstyled aria-label={t("next")} onClick={(e) => { e.stopPropagation(); onNext(); }}
           className="absolute z-10 end-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/60 p-2 text-white/80 outline-none hover:border-white hover:text-white focus-visible:ring-2 focus-visible:ring-accent">
           <ChevronRight size={28} />
         </Button>

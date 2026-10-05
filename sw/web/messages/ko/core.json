@@ -523,6 +523,10 @@
         "previous": "이전 쪽",
         "next": "다음 쪽",
         "dot": "{index}번째 / 전체 {count}개"
+      },
+      "imageViewer": {
+        "previous": "?? ???",
+        "next": "?? ???"
       }
     },
     "search": {
@@ -701,7 +705,9 @@
             "repeat": "같은 순서로 칸을 눌러 재현하세요.",
             "grows": "라운드마다 패턴이 길어집니다. (최대 {max}라운드)"
           },
-          "controls": "모바일: 칸 터치 · PC: Q W E / A S D"
+          "controls": "모바일: 칸 터치 · PC: Q W E / A S D",
+          "round": "???",
+          "cell": "{n}? ?"
         },
         "actions": {
           "assault": {
@@ -749,7 +755,8 @@
           "enemyBraced": "적이 버텼다! {damage} 피해.",
           "playerBraced": "버텨냈다! {damage} 피해.",
           "lull": "소강상태가 이어졌다."
-        }
+        },
+        "vs": "?"
       },
       "dialogue": {
         "closeEsc": "닫기 (Esc)",
@@ -807,6 +814,17 @@
         "bgmDesc": "배경 음악 (BGM)",
         "sfx": "사운드 이펙트",
         "sfxDesc": "효과음 (SFX)"
+      },
+      "volume": "??",
+      "myth": {
+        "hubName": "?? ??",
+        "fixtureMode": "??? ?? {count}??? ?????.",
+        "notEnough": "??? ??? ??? ?????.",
+        "start": "?? ??",
+        "result": "??",
+        "newBest": "?? ?? ??",
+        "replay": "?? ??",
+        "toLobby": "?? ????"
       }
     },
     "spectrum": {

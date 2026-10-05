@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/db/server'
 import { getAccountAccessState } from '@/lib/auth/account-access'
 import type { EmailOtpType } from '@feelandnote/db'
+import { entryLocale, LOCALE_PREFERENCE_COOKIE, LOCALE_PREFERENCE_MAX_AGE } from '@/i18n/entryLocale'
+import { localizedAuthPath } from '@/lib/auth/callback-url'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl
@@ -11,13 +13,28 @@ export async function GET(request: NextRequest) {
   const nextParam = searchParams.get('next')
   const error = searchParams.get('error')
   const errorDescription = searchParams.get('error_description')
+  const requestedLocale = searchParams.get('locale')
+  const locale = requestedLocale === 'en' || requestedLocale === 'ko' ? requestedLocale
+    : entryLocale(request.headers.get('CF-IPCountry'), request.cookies.get(LOCALE_PREFERENCE_COOKIE)?.value,
+      request.cookies.get('NEXT_LOCALE')?.value)
+  const returnTo = (path: string, fallback = '/') => {
+    const destination = new URL(localizedAuthPath(path, locale, fallback), origin)
+    if (/^\/(?:en\/)?login$/.test(destination.pathname) && nextParam) {
+      destination.searchParams.set('redirect', localizedAuthPath(nextParam, locale))
+    }
+    const response = NextResponse.redirect(destination)
+    if (requestedLocale === 'en' || requestedLocale === 'ko') {
+      response.cookies.set(LOCALE_PREFERENCE_COOKIE, locale, { path: '/', maxAge: LOCALE_PREFERENCE_MAX_AGE,
+        sameSite: 'lax', secure: request.nextUrl.protocol === 'https:' })
+    }
+    response.headers.set('Cache-Control', 'private, no-store')
+    return response
+  }
 
   // OAuth 에러 처리
   if (error) {
     console.error('OAuth error:', error, errorDescription)
-    return NextResponse.redirect(
-      `${origin}/login?error=${encodeURIComponent(error)}`
-    )
+    return returnTo(`/login?error=${encodeURIComponent(error)}`)
   }
 
   const db = await createClient()
@@ -31,20 +48,20 @@ export async function GET(request: NextRequest) {
 
     if (verifyError) {
       console.error('Verify OTP error:', verifyError)
-      return NextResponse.redirect(`${origin}/login?error=verify_failed`)
+      return returnTo('/login?error=verify_failed')
     }
 
     if (data.user) {
-      const accessRedirect = await getAccountAccessRedirect(db, origin)
-      if (accessRedirect) return accessRedirect
+      const accessRedirect = await getAccountAccessRedirect(db)
+      if (accessRedirect) return returnTo(accessRedirect)
 
       // 비밀번호 리셋인 경우 리셋 페이지로 이동
       if (type === 'recovery') {
-        return NextResponse.redirect(`${origin}/reset-password`)
+        return returnTo('/reset-password')
       }
 
       const redirectPath = nextParam ?? `/${data.user.id}/reading`
-      return NextResponse.redirect(`${origin}${redirectPath}`)
+      return returnTo(redirectPath, `/${data.user.id}/reading`)
     }
   }
   // #endregion
@@ -59,14 +76,14 @@ export async function GET(request: NextRequest) {
         status: exchangeError.status,
         code: exchangeError.code,
       })
-      return NextResponse.redirect(`${origin}/login?error=auth_failed&reason=${encodeURIComponent(exchangeError.message)}`)
+      return returnTo(`/login?error=auth_failed&reason=${encodeURIComponent(exchangeError.message)}`)
     }
 
     if (data.user) {
-      const accessRedirect = await getAccountAccessRedirect(db, origin)
-      if (accessRedirect) return accessRedirect
+      const accessRedirect = await getAccountAccessRedirect(db)
+      if (accessRedirect) return returnTo(accessRedirect)
       const redirectPath = nextParam ?? `/${data.user.id}/reading`
-      return NextResponse.redirect(`${origin}${redirectPath}`)
+      return returnTo(redirectPath, `/${data.user.id}/reading`)
     }
   }
   // #endregion
@@ -75,20 +92,19 @@ export async function GET(request: NextRequest) {
   const { data: { user } } = await db.auth.getUser()
 
   if (user) {
-    const accessRedirect = await getAccountAccessRedirect(db, origin)
-    if (accessRedirect) return accessRedirect
+    const accessRedirect = await getAccountAccessRedirect(db)
+    if (accessRedirect) return returnTo(accessRedirect)
     const redirectPath = nextParam ?? `/${user.id}/reading`
-    return NextResponse.redirect(`${origin}${redirectPath}`)
+    return returnTo(redirectPath, `/${user.id}/reading`)
   }
   // #endregion
 
-  return NextResponse.redirect(`${origin}/login?error=no_session`)
+  return returnTo('/login?error=no_session')
 }
 
 async function getAccountAccessRedirect(
-  db: Awaited<ReturnType<typeof createClient>>,
-  origin: string
-): Promise<NextResponse | null> {
+  db: Awaited<ReturnType<typeof createClient>>
+): Promise<string | null> {
   const accessState = await getAccountAccessState(db)
   if (accessState === 'active') return null
 
@@ -98,5 +114,5 @@ async function getAccountAccessRedirect(
     : accessState === 'incomplete'
       ? 'account_incomplete'
       : 'auth_unavailable'
-  return NextResponse.redirect(`${origin}/login?error=${error}`)
+  return `/login?error=${error}`
 }

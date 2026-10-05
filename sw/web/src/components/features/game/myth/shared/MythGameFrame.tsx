@@ -30,7 +30,7 @@ interface Props {
 export default function MythGameFrame({ title, phaseLabel, onTitleClick, isFixture, fixtureCount, backdrop = null, children }: Props) {
   const router = useRouter();
   const tGame = useTranslations("shared.game");
-  const t = useTranslations("gameMyth.shared");
+  const t = useTranslations("shared.game.myth");
   const goHub = useCallback(() => router.push("/rest"), [router]);
 
   // 틀이 떠 있는 동안 뒤 화면이 따라 굴러가지 않게 막고, ESC로 목록에 돌아간다

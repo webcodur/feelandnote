@@ -449,8 +449,8 @@
           "GAME": "game",
           "MUSIC": "music"
         },
-        "awardTitle": "{title}: Every Winner",
-        "awardTitleWithCurator": "{title}: Every Winner · {curator}",
+        "awardTitle": "{title}: {count, number} {type, select, GAME {Winning Games} MUSIC {Winning Albums} other {Winning Works}}",
+        "awardTitleWithCurator": "{title}: {count, number} {type, select, GAME {Winning Games} MUSIC {Winning Albums} other {Winning Works}} ? {curator}",
         "awardLead": "Every {title} winner from {curator}.",
         "awardLeadSelf": "Every {title} winner.",
         "awardRecent": "Most recent: {works}."

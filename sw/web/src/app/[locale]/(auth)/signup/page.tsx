@@ -35,6 +35,7 @@ export default async function Page() {
           <Link href="/terms" className="underline hover:text-text-secondary">
             {t('terms')}
           </Link>
+          {' '}
           {t('signup.termsAnd')}{' '}
           <Link href="/privacy" className="underline hover:text-text-secondary">
             {t('privacy')}

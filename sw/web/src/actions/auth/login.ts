@@ -2,7 +2,8 @@
 
 import { createClient } from '@/lib/db/server'
 import { getAccountAccessState } from '@/lib/auth/account-access'
-import { resolveAuthCallbackUrl } from '@/lib/auth/callback-url'
+import { authReturnPath, resolveAuthCallbackUrl } from '@/lib/auth/callback-url'
+import { getLocale } from 'next-intl/server'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -25,7 +26,14 @@ export type PasswordResetRequestErrorCode =
   | 'unknown'
 
 async function authCallbackUrl(): Promise<string> {
-  return resolveAuthCallbackUrl(await headers())
+  const requestHeaders = await headers()
+  const locale = await getLocale()
+  const url = new URL(resolveAuthCallbackUrl(requestHeaders))
+  url.searchParams.set('locale', locale)
+  // Carry the original destination through Google/Kakao and email verification.
+  const next = authReturnPath(requestHeaders, locale, '/')
+  if (next !== '/' && next !== '/en') url.searchParams.set('next', next)
+  return url.toString()
 }
 
 // #region 이메일 로그인/회원가입
@@ -63,7 +71,7 @@ export async function loginWithEmail(formData: FormData) {
     }
   }
 
-  redirect(`/${data.user.id}/reading`)
+  redirect(authReturnPath(await headers(), await getLocale(), `/${data.user.id}/reading`))
 }
 
 export async function signupWithEmail(formData: FormData) {
@@ -111,7 +119,7 @@ export async function signupWithEmail(formData: FormData) {
       return { error: 'unknown' as const }
     }
 
-    redirect(`/${data.user!.id}/records`)
+    redirect(authReturnPath(await headers(), await getLocale(), `/${data.user!.id}/records`))
   }
 
   return { success: 'verificationSent' as const }

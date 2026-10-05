@@ -47,7 +47,7 @@ export function LobbyOption({ label, children }: { label: string; children: Reac
 }
 
 export default function MythLobby({ title, intro, rules, bestLabel, canStart, onStart, startLabel, children, eyebrow, art }: Props) {
-  const t = useTranslations("gameMyth.shared");
+  const t = useTranslations("shared.game.myth");
   const calm = useCalm();
   const stageArt = useStageArt();
   const poster = art === undefined ? stageArt : art;
