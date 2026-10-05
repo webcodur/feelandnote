@@ -1,7 +1,25 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { getBookDescriptionByIsbn, getOpenLibraryBookMetadata } from './openlibrary'
+import { getBookDescriptionByIsbn, getOpenLibraryBookMetadata, getOpenLibraryBookUrl, getOpenLibraryBookIntroduction } from './openlibrary'
+
+test('공식 제목 경로를 같은 책·저작의 정본 조회 주소로 정규화한다', async (t) => {
+  const source = "https://openlibrary.org/books/OL1122267M/Darwin's_dangerous_idea"
+  assert.equal(getOpenLibraryBookUrl(source), 'https://openlibrary.org/books/OL1122267M')
+  assert.equal(getOpenLibraryBookUrl('https://openlibrary.org/works/OL5721436W/The_Loved_One'), 'https://openlibrary.org/works/OL5721436W')
+  for (const invalid of ['https://example.com/books/OL1122267M/title', 'https://openlibrary.org/authors/OL1A/title',
+    'https://openlibrary.org/books/OL1122267M/title/extra', 'https://user:password@openlibrary.org/books/OL1122267M/title']) {
+    assert.equal(getOpenLibraryBookUrl(invalid), null)
+  }
+  const mock = t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => {
+    assert.equal(String(url), 'https://openlibrary.org/books/OL1122267M.json')
+    return Response.json({ description: 'A book about evolution.', languages: [{ key: '/languages/eng' }] })
+  })
+  const introduction = await getOpenLibraryBookIntroduction({ sourceUrl: source })
+  assert.equal(mock.mock.callCount(), 1)
+  assert.equal(introduction?.description, 'A book about evolution.')
+  assert.equal(introduction?.sourceUrl, 'https://openlibrary.org/books/OL1122267M')
+})
 
 const metadataEdition = {
   key: '/books/OL1M', title: 'The Founders', isbn_13: ['9781501197260'],

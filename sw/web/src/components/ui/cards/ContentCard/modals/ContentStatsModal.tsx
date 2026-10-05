@@ -119,7 +119,7 @@ export default function ContentStatsModal({
                     <div className="inline-block w-5 h-5 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
                   </div>
                 ) : celebs.length > 0 ? (
-                  <div className="space-y-1.5 max-h-56 sm:max-h-[min(60vh,360px)] overflow-y-auto custom-scrollbar">
+                  <div className="space-y-1.5">
                     {celebs.map((celeb) => (
                       <button
                         key={celeb.id}

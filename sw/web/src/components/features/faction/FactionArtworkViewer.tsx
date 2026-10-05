@@ -12,6 +12,7 @@ import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-
 import FactionSceneNavigator from "./FactionSceneNavigator";
 import FactionSceneText, { SCENE_DIALOGUE_LINE } from "./FactionSceneText";
 import { usePreloadImages } from "@/hooks/usePreloadImages";
+import { useWheelPaging } from "@/hooks/useWheelPaging";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
 
 const PRELOAD_AHEAD = 2;
@@ -97,7 +98,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
   }, [slideCount]);
   const paginatedCaption = captionSplit && !isEnding && captionPages.length > 0;
-  /* 화면의 모든 ‹ ›는 표시 방식에 맞춰 이동한다. 이전 장면으로 돌아갈 때는 마지막 자막부터 읽는다. */
+  /* 버튼·방향키·휠·자막 밀기는 같은 순서로 이동한다. 이전 장면으로 돌아갈 때는 마지막 자막부터 읽는다. */
   const navigate = useCallback((direction: number) => {
     if (paginatedCaption) {
       const nextPage = captionPage + direction;
@@ -136,27 +137,24 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [slideCount, navigatorOpen, captionPages.length, navigate]);
   // 다음 두 장을 미리 받는다. 임의 번호 이동과 엔딩에서도 범위를 넘지 않는다.
-  const preloadUrls = useMemo(() => images.slice(index + 1, index + 1 + PRELOAD_AHEAD).map(item => item.url), [images, index]);
+  const preloadUrls = useMemo(() => imageRatio
+    ? images.slice(index + 1, index + 1 + PRELOAD_AHEAD).map(item => item.url) : [], [images, index, imageRatio]);
   usePreloadImages(preloadUrls);
-  /* 휠 핸들러는 한 번만 붙인다 — 영역 판별에 필요한 최신 값(그림 비율·배율·넘기기 함수)은 ref로 동기화한다 */
-  const wheelCtx = useRef<{ ratio: number; scale: number; move: (direction: number) => void }>({ ratio: 0, scale: 1, move: () => {} });
-  useEffect(() => { wheelCtx.current = { ratio: imageRatio ?? 0, scale: zoomView.scale, move }; });
-  /* 휠은 영역을 가른다 — 칠해진 그림 위에서는 커서 지점 기준 확대·축소, 그림 밖 빈 여백(검은 영역)에서는 장면 넘기기.
+  /* 휠은 영역을 가른다 — 칠해진 그림 위에서는 커서 지점 기준 확대·축소, 그림 밖 빈 여백에서는 공통 순서로 이동한다.
      확대된 그림은 여백 위로 넘치니 1배 초과일 때는 위치와 무관하게 줌이다.
-     자막·엔딩처럼 세로 스크롤이 사는 칸([data-wheel-pass]) 위의 휠은 글을 읽는다 */
-  useEffect(() => {
-    const element = viewerBodyRef.current;
-    if (!element || navigatorOpen) return;
-    let acc = 0;
-    let lastAt = 0;
-    const onWheel = (event: WheelEvent) => {
-      if (event.target instanceof HTMLElement && event.target.closest("[data-wheel-pass]")) return;
-      event.preventDefault();
+     자막·엔딩의 스크롤 예외와 휠 누적은 공용 훅이 처리한다. */
+  useWheelPaging(viewerBodyRef, {
+    onPrev: () => navigate(-1),
+    onNext: () => navigate(1),
+    enabled: !navigatorOpen,
+    consumeWheel: (event) => {
+      const element = viewerBodyRef.current;
+      if (!element) return false;
       const rect = element.getBoundingClientRect();
       const cx = event.clientX - (rect.left + rect.width / 2);
       const cy = event.clientY - (rect.top + rect.height / 2);
-      const { ratio, scale, move: step } = wheelCtx.current;
-      let onArt = scale > 1;
+      const ratio = imageRatio ?? 0;
+      let onArt = zoomView.scale > 1;
       if (!onArt && ratio > 0) {
         const w = Math.min(rect.width, rect.height * ratio);
         const h = Math.min(rect.height, rect.width / ratio);
@@ -171,20 +169,11 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           const k = next / v.scale;
           return { scale: next, x: cx - (cx - v.x) * k, y: cy - (cy - v.y) * k };
         });
-        return;
+        return true;
       }
-      const now = Date.now();
-      if (now - lastAt > 300) acc = 0;
-      lastAt = now;
-      acc += Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-      if (Math.abs(acc) < 80) return;
-      const forward = acc > 0;
-      acc = 0;
-      step(forward ? 1 : -1);
-    };
-    element.addEventListener("wheel", onWheel, { passive: false });
-    return () => element.removeEventListener("wheel", onWheel);
-  }, [navigatorOpen]);
+      return false;
+    },
+  });
   /* Esc는 줌 모드부터 빠지고 그다음 창을 닫는다 — nested면 캡처로 아래 깔린 모달보다 먼저 잡는다.
      전체화면 창이라 바깥 스크롤은 공용 카운트 잠금으로 직접 잠근다 */
   useEffect(() => {
@@ -407,7 +396,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const navigationWidth = imageRatio
     ? `max(clamp(5rem, 10vw, 9rem), calc((100cqw - min(100cqw, 100cqh * ${imageRatio})) / 2))`
     : "max(clamp(5rem, 10vw, 9rem), 20%)";
-  const artworkImage = <Image src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
+  const artworkImage = <Image key="current" src={image.url} alt={image.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
     onLoad={event => recordImageRatio(image.url, event)} />;
   const artwork = slideCount === 1 && !isScene ? (
     <button type="button" data-artwork-single-close onClick={onClose} aria-label={tAccess("close")}
@@ -417,7 +406,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   ) : artworkImage;
   /* 옆자리 그림도 비율을 기억해 둔다. 이미 로드한 그림으로 넘어가도 여백 폭을 바로 알 수 있다. */
   const slideImage = (item: (typeof images)[number]) => (
-    <Image src={item.url} alt={item.label ?? title} fill unoptimized draggable={false} className="object-contain select-none"
+    <Image src={item.url} alt={item.label ?? title} fill unoptimized draggable={false} fetchPriority="low" className="object-contain select-none"
       onLoad={event => recordImageRatio(item.url, event)} />
   );
   /* 타이틀아트는 그림 안 오른쪽 스트립에 제목을 얹는다 — 전체화면에서 object-contain은 그림을 중앙에 축소하니
@@ -511,7 +500,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
             </div>
           </div>
         )}
-        {/* 본문 — 장면 트랙. 휠은 그림 위=확대·축소, 빈 여백=장면 넘기기. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
+        {/* 본문 — 장면 트랙. 휠은 그림 위=확대·축소, 빈 여백=문장·장면 넘기기. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
         <div ref={viewerBodyRef} data-artwork-viewer {...swipeHandlers}
           className={`@container relative min-h-0 flex-1 overflow-hidden bg-black ${zoomView.scale > 1 ? (panning ? "cursor-grabbing" : "cursor-grab") : ""}`}
           style={{ touchAction: "pan-y", containerType: "size" }}>
@@ -529,7 +518,8 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
                   style={offset === 0
                     ? { left: 0, transform: `translate(${zoomView.x}px, ${zoomView.y}px) scale(${zoomView.scale})`, transformOrigin: "center", transition: panning ? "none" : "transform 150ms" }
                     : { left: `${offset * 100}%` }}>
-                  {endingHere ? endingSlide : item ? (offset === 0 ? artwork : slideImage(item)) : null}
+                  {endingHere ? endingSlide : item ? (offset === 0 ? artwork :
+                    ((offset > 0 && imageRatio) || ratios[item.url]) ? slideImage(item) : null) : null}
                 </div>
               );
             })}

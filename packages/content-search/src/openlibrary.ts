@@ -167,11 +167,16 @@ export function getOpenLibraryBookUrl(raw: string): string | null {
   try {
     const url = new URL(raw)
     if (url.origin !== OPENLIBRARY_BASE_URL || url.username || url.password || url.port) return null
-    const path = url.pathname.replace(/\.json$/, '')
+    let path = url.pathname.replace(/\.json$/, '')
     if (/^\/isbn\/[^/]+$/.test(path)) {
       const isbn = path.slice('/isbn/'.length)
       if (!toIsbn13(isbn)) return null
-    } else if (!/^\/(?:books\/OL\d+M|works\/OL\d+W)$/.test(path)) return null
+    } else {
+      // 공식 책 페이지의 제목 경로도 같은 레코드다. 조회는 제목이 없는 정본 JSON 주소로 한다.
+      const record = /^\/(books\/OL\d+M|works\/OL\d+W)(?:\/[^/]+)?$/.exec(path)
+      if (!record) return null
+      path = `/${record[1]}`
+    }
     return `${OPENLIBRARY_BASE_URL}${path}`
   } catch {
     return null

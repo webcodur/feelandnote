@@ -16,7 +16,7 @@ interface TMDBMovie {
   backdrop_path: string | null
   release_date: string
   vote_average: number
-  genre_ids: number[]
+  genre_ids?: number[] | null
 }
 
 interface TMDBTVShow {
@@ -28,7 +28,7 @@ interface TMDBTVShow {
   backdrop_path: string | null
   first_air_date: string
   vote_average: number
-  genre_ids: number[]
+  genre_ids?: number[] | null
 }
 
 // Multi 검색용 통합 타입
@@ -177,7 +177,7 @@ export async function searchMovies(
       releaseDate: movie.release_date,
       overview: movie.overview,
       voteAverage: movie.vote_average,
-      genres: movie.genre_ids.map(id => MOVIE_GENRES[id] || '기타').filter(Boolean)
+      genres: (movie.genre_ids ?? []).map(id => MOVIE_GENRES[id] || '기타').filter(Boolean)
     }
   }))
 
@@ -228,7 +228,7 @@ export async function searchTVShows(
       firstAirDate: show.first_air_date,
       overview: show.overview,
       voteAverage: show.vote_average,
-      genres: show.genre_ids.map(id => TV_GENRES[id] || '기타').filter(Boolean)
+      genres: (show.genre_ids ?? []).map(id => TV_GENRES[id] || '기타').filter(Boolean)
     }
   }))
 

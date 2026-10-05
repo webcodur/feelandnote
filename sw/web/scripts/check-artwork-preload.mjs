@@ -15,7 +15,7 @@ const { outputFiles } = await build({ absWorkingDir: root, stdin: { resolveDir: 
   import Viewer from './src/components/features/faction/FactionArtworkViewer';
   import explore from './messages/ko/explore.json';
   import core from './messages/ko/core.json';
-  const images = Array.from({length:8}, (_,i) => ({url:'/images/'+(i+1)+'.webp', label:'Scene '+(i+1), caption:'Caption', kind:'scene',
+  const images = Array.from({length:8}, (_,i) => ({url:'/images/'+(i+1)+'.webp', label:'Scene '+(i+1), caption:i===5 ? 'First sentence. Second sentence.' : 'Caption', kind:'scene',
     ...(i===7 ? {ending:{title:'Ending',text:'Afterward'}} : {})}));
   function App() {
     const [open,setOpen] = useState(true);
@@ -54,12 +54,13 @@ const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 const settle = () => new Promise(resolve => setTimeout(resolve, 180));
 const loaded = number => page.waitForFunction(n => {
-  const img = document.querySelector('[data-artwork-viewer] img');
+  const img = document.querySelector('[data-artwork-current] img');
   return img?.complete && img.naturalWidth > 0 && img.src.endsWith('/'+n+'.webp');
 }, { timeout: 10000 }, number);
 const jump = async number => {
-  await page.click('[data-scene-select]');
-  await page.click('[data-scene-jump="'+number+'"]');
+  await page.$eval('button[data-scene-title]', button => button.click());
+  await page.waitForSelector('[data-scene-jump="'+number+'"]');
+  await page.$eval('[data-scene-jump="'+number+'"]', button => button.click());
   await loaded(number); await settle();
 };
 try {
@@ -95,6 +96,52 @@ try {
   await jump(5);
   assert.equal(requests.filter(p => p === '/images/5.webp').length, 2);
   console.log('PASS failed preload does not block retry when the image is selected');
+  for (const viewport of [{width:1440,height:900}, {width:390,height:844}]) {
+    await page.setViewport(viewport);
+    await jump(6);
+    await page.$eval('[data-artwork-viewer]', (element, viewport) => {
+      element.style.width = (viewport.width - 40) + 'px';
+      element.style.height = Math.floor(viewport.height / 2) + 'px';
+    }, viewport);
+    const state = () => page.evaluate(() => ({
+      scene: document.querySelector('[data-scene-slider]').value,
+      caption: document.querySelector('[data-scene-caption-counter]')?.textContent,
+      transform: document.querySelector('[data-artwork-current]').style.transform,
+    }));
+    const wheel = async (location, deltaY) => {
+      await page.evaluate(({location,deltaY}) => {
+        const viewer = document.querySelector('[data-artwork-viewer]');
+        const r = viewer.getBoundingClientRect();
+        const horizontalMargin = r.width > r.height * 1.5;
+        const clientX = location === 'art' || !horizontalMargin ? r.left + r.width / 2 : r.left + 5;
+        const clientY = location === 'art' || horizontalMargin ? r.top + r.height / 2 : r.top + 5;
+        const target = location === 'caption' ? document.querySelector('[data-artwork-caption]') : viewer;
+        target.dispatchEvent(new WheelEvent('wheel', {bubbles:true,cancelable:true,clientX,clientY,deltaY}));
+      }, {location,deltaY});
+      await settle();
+    };
+    await wheel('margin',120);
+    assert.equal((await state()).scene,'5');
+    assert.equal((await state()).caption,'2 / 2');
+    await wheel('margin',120);
+    assert.equal((await state()).scene,'6');
+    await wheel('margin',-120);
+    assert.equal((await state()).scene,'5');
+    assert.equal((await state()).caption,'2 / 2');
+    const before = await state();
+    await wheel('caption',-120);
+    assert.deepEqual(await state(),before,'caption scrolling must not change scene or zoom');
+    await wheel('art',-120);
+    assert.match((await state()).transform,/scale\(1\.35\)/);
+    assert.equal((await state()).scene,'5');
+    await wheel('margin',120);
+    assert.match((await state()).transform,/scale\(1\)/);
+    assert.equal((await state()).scene,'5','zoomed margins must zoom instead of navigating');
+    await page.$eval('[data-scene-controls] button:has(svg.lucide-chevron-right)', button => button.click());
+    await settle();
+    assert.equal((await state()).scene,'6','button navigation must match the wheel order');
+    console.log('PASS caption/scene wheel order, reverse entry, scroll exception and zoom '+viewport.width);
+  }
   assert.deepEqual(errors, []);
 } catch (error) {
   console.error({ requests, errors, body: await page.evaluate(() => document.body.innerText.slice(0, 700)) });

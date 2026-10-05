@@ -4,7 +4,7 @@ import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 import { compressedJsonCache } from '@/lib/compressedJsonCache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { PAGINATION_QUERY_CONCURRENCY, selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, cachedList, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { loadFigureBookEditions } from '@/actions/figure-books/figureBookEditions'
@@ -245,10 +245,10 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   // URL 길이는 제한하되 서로 독립인 묶음 여섯 개까지 함께 읽는다.
   const chunks: string[][] = []
   for (let i = 0; i < contentIds.length; i += 60) chunks.push(contentIds.slice(i, i + 60))
-  for (let i = 0; i < chunks.length; i += 6) {
+  for (let i = 0; i < chunks.length; i += PAGINATION_QUERY_CONCURRENCY) {
     let data: { content_id: string; celeb_id: string }[] = []
     try {
-      data = (await Promise.all(chunks.slice(i, i + 6).map(chunk => selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
+      data = (await Promise.all(chunks.slice(i, i + PAGINATION_QUERY_CONCURRENCY).map(chunk => selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
         .from('celeb_contents')
         .select('content_id, celeb_id')
         .in('content_id', chunk)
