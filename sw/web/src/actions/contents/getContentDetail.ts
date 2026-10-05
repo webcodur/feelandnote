@@ -28,6 +28,7 @@ import {
   stripLocalizedMeta,
 } from '@/lib/utils/content-locale-text'
 import { getBookIntroduction } from './fetchBookMetadata'
+import { isDeveloperMode } from '@/lib/developer-mode'
 import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { applyContentBookEdition, type ContentBookEdition } from '@/lib/books/contentEdition'
@@ -311,7 +312,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v17', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v17', isDeveloperMode() ? 'dev-intro-layout-v2' : 'standard', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 
@@ -321,9 +322,9 @@ async function withBookIntroduction(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   if (!content || content.type !== 'BOOK' || !content.bookIntroduction) return content
-  const { isbn, source, sourceUrl } = content.bookIntroduction
+  const { isbn, source, sourceUrl, storedText } = content.bookIntroduction
   try {
-    const description = await getBookIntroduction(isbn, locale, source, sourceUrl)
+    const description = await getBookIntroduction(isbn, locale, source, sourceUrl, storedText)
     return {
       ...content,
       description: description ?? undefined,

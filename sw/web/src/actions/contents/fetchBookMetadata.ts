@@ -7,6 +7,8 @@ import { isBookIntroductionSource, type BookIntroductionSource } from '@feelandn
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { normalizeBookIsbn } from '@/lib/utils/book-description'
 import { pickIntroForLocale } from '@/lib/utils/content-locale-text'
+import { isDeveloperMode } from '@/lib/developer-mode'
+import { getDeveloperIntroductionLayout } from '@/lib/books/developerBookIntroductionLayout'
 
 // 선택된 출처만 조회한다. 인자 전체가 캐시 키이므로 같은 ISBN의 다른 출처와 섞이지 않는다.
 const readIntroduction = cache(unstable_cache(
@@ -23,9 +25,16 @@ export async function getBookIntroduction(
   locale: string,
   source: BookIntroductionSource,
   sourceUrl?: string | null,
+  storedText?: string,
 ): Promise<string | null> {
   if (!isBookIntroductionSource(source)) return null
   const language = locale === 'en' ? 'en' : 'ko'
   if ((language === 'en') !== (source === 'OPEN')) return null
-  return readIntroduction(normalizeBookIsbn(isbn), language, source, sourceUrl ?? null)
+  const normalizedIsbn = normalizeBookIsbn(isbn)
+  const description = isDeveloperMode() && storedText !== undefined
+    ? pickIntroForLocale(language, [storedText])
+    : await readIntroduction(normalizedIsbn, language, source, sourceUrl ?? null)
+  return isDeveloperMode() && language === 'ko' && normalizedIsbn && description
+    ? getDeveloperIntroductionLayout(normalizedIsbn, description)
+    : description
 }

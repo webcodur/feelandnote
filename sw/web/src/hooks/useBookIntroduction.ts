@@ -9,11 +9,11 @@ import { isBookIntroductionSource } from '@feelandnote/content-search/book-intro
 const requests = new Map<string, Promise<string | null>>()
 
 function requestIntroduction(reference: BookIntroductionReference, locale: string): Promise<string | null> {
-  const { isbn, source, sourceUrl } = reference
-  const key = JSON.stringify([locale, isbn, source, sourceUrl])
+  const { isbn, source, sourceUrl, storedText } = reference
+  const key = JSON.stringify([locale, isbn, source, sourceUrl, storedText])
   const existing = requests.get(key)
   if (existing) return existing
-  const request = getBookIntroduction(isbn, locale, source, sourceUrl).catch((error: unknown) => {
+  const request = getBookIntroduction(isbn, locale, source, sourceUrl, storedText).catch((error: unknown) => {
     requests.delete(key)
     throw error
   })
@@ -35,7 +35,8 @@ export function useBookIntroduction(
   const isbn = reference?.isbn ?? null
   const source = reference?.source ?? null
   const sourceUrl = reference?.sourceUrl ?? null
-  const key = JSON.stringify([locale, isbn, source, sourceUrl])
+  const storedText = reference?.storedText
+  const key = JSON.stringify([locale, isbn, source, sourceUrl, storedText])
   const initialText = isBookIntroductionSource(initialDescription) ? null : initialDescription
 
   useEffect(() => {
@@ -51,19 +52,19 @@ export function useBookIntroduction(
   }, [deferUntilVisible, element])
 
   useEffect(() => {
-    if (!visible || !source || initialText) return
+    if (!visible || !source || (initialText && storedText === undefined)) return
     let active = true
-    requestIntroduction({ isbn, source, sourceUrl }, locale).then(
+    requestIntroduction({ isbn, source, sourceUrl, storedText }, locale).then(
       (description) => { if (active) setResult({ key, description, failed: false }) },
       () => { if (active) setResult({ key, description: null, failed: true }) },
     )
     return () => { active = false }
-  }, [isbn, source, sourceUrl, locale, key, visible, initialText, attempt])
+  }, [isbn, source, sourceUrl, storedText, locale, key, visible, initialText, attempt])
 
   const current = result?.key === key ? result : null
   return {
     ref: setElement,
-    description: initialText || current?.description || null,
+    description: current?.description || initialText || null,
     loading: visible && Boolean(source) && !initialText && current === null,
     pending: Boolean(source) && !initialText && current === null,
     failed: current?.failed ?? false,

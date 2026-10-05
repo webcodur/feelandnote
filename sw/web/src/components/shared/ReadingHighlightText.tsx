@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, type CSSProperties } from "react";
-import FormattedText, { emphasisClassName, emphasisDelimiters, emphasisSpans } from "../ui/FormattedText";
+import FormattedText, { emphasisClassName, emphasisDelimiters, emphasisSpans, TextSectionBreak, TEXT_HEADING_CLASS } from "../ui/FormattedText";
+import { splitTextBlocks } from "../ui/formatted-text/structure";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import type { ReadingSegment } from "@/lib/reading-timing";
 
 interface ReadingHighlightTextProps {
@@ -70,13 +72,15 @@ function paragraphChunks(paragraph: { text: string; start: number }, segments: R
 /** 빈 줄을 문단 경계로 쓰는 읽어보기·가상독백 본문에 재생 문장 강조를 입힌다. */
 export default function ReadingHighlightText({ text, mark, segments, onPlayFrom, sentenceLabel, highlightClassName, highlightStyle }: ReadingHighlightTextProps) {
   const paragraphs = useMemo(
-    () => Array.from(text.matchAll(/[^\n]+(?:\n(?!\n)[^\n]+)*/g), (match) => ({ text: match[0], start: match.index })),
+    () => isDeveloperMode() ? splitTextBlocks(text) : Array.from(text.matchAll(/[^\n]+(?:\n(?!\n)[^\n]+)*/g),
+      (match) => ({ kind: "paragraph" as const, text: match[0], start: match.index })),
     [text],
   );
   const clickable = !!(segments?.length && onPlayFrom);
   return (
     <div className="space-y-5">
       {paragraphs.map((paragraph) => {
+        if (paragraph.kind === "section") return <TextSectionBreak key={paragraph.start} />;
         const renderSlice = (sliceStart: number, sliceEnd: number, key: string, delimiters?: { open?: string; close?: string }) => {
           let slice = paragraph.text.slice(sliceStart, sliceEnd);
           // 조각 가장자리의 원문 부호를 쌍째 정규화 부호로 바꾼다 — 1:1 치환이라 재생 강조 오프셋은 유지된다
@@ -88,6 +92,7 @@ export default function ReadingHighlightText({ text, mark, segments, onPlayFrom,
             <FormattedText
               key={key}
               text={slice}
+              layout="inline"
               mark={end > start ? { start, end } : null}
               highlightClassName={highlightClassName}
               highlightStyle={highlightStyle}
@@ -96,13 +101,13 @@ export default function ReadingHighlightText({ text, mark, segments, onPlayFrom,
         };
         if (!clickable) {
           return (
-            <p key={paragraph.start}>
+            <p key={paragraph.start} className={paragraph.kind === "heading" ? TEXT_HEADING_CLASS : undefined}>
               {renderSlice(0, paragraph.text.length, "w")}
             </p>
           );
         }
         return (
-          <p key={paragraph.start}>
+          <p key={paragraph.start} className={paragraph.kind === "heading" ? TEXT_HEADING_CLASS : undefined}>
             {paragraphChunks(paragraph, segments!, highlightClassName).map((piece, i) => {
               const sliceStart = piece.start - paragraph.start;
               const sliceEnd = piece.end - paragraph.start;
