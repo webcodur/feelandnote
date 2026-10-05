@@ -260,6 +260,7 @@ async function resolveEdition(input: EditionInput): Promise<ResolvedEdition> {
     releaseDate: exactDate(book.metadata.publishDate),
     sources: {
       primary: book.metadata.link,
+      ...(lookup.metadata.translators?.length ? { translators: lookup.metadata.translators } : {}),
     },
   }
 }

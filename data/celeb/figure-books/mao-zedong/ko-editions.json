@@ -1,0 +1,42 @@
+[
+  {
+    "contentId": "8f9adf08-231b-5edd-8d22-6fa3dfbdf8ad",
+    "locale": "ko",
+    "isbn": "9788972913993",
+    "editionKind": "volume",
+    "textScope": "Korean translation, volume 1 of 2",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "8f9adf08-231b-5edd-8d22-6fa3dfbdf8ad",
+    "locale": "ko",
+    "isbn": "9788972914006",
+    "editionKind": "volume",
+    "textScope": "Korean translation, volume 2 of 2",
+    "sortOrder": 1
+  },
+  {
+    "contentId": "789b22c6-3883-5cce-8c21-83a02e7d8afc",
+    "locale": "ko",
+    "isbn": "9788912127138",
+    "editionKind": "volume",
+    "textScope": "Korean translation, volume 1 of 3",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "789b22c6-3883-5cce-8c21-83a02e7d8afc",
+    "locale": "ko",
+    "isbn": "9788912127480",
+    "editionKind": "volume",
+    "textScope": "Korean translation, volume 2 of 3",
+    "sortOrder": 1
+  },
+  {
+    "contentId": "789b22c6-3883-5cce-8c21-83a02e7d8afc",
+    "locale": "ko",
+    "isbn": "9788912127497",
+    "editionKind": "volume",
+    "textScope": "Korean translation, volume 3 of 3",
+    "sortOrder": 2
+  }
+]

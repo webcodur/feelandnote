@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-03T09:32:16.341Z",
+  "tags": [
+    "celebs:0453948f-4643-4bf1-b494-cfa62dbdc87b",
+    "celebs:dcadf86d-bcb3-4b8c-8b0a-ce667361c469",
+    "celebs:d8d512dc-2f97-458e-8704-57aea66464f4",
+    "celebs:c399f443-0870-4151-92f5-0a5da70e01da",
+    "celebs:cb73f4b5-9d85-4cac-85ba-eadebf381a7e",
+    "celebs:mao-zedong",
+    "celebs:monica-bellucci",
+    "celebs:walter-isaacson",
+    "celebs:benjamin-franklin",
+    "celebs:alan-turing",
+    "contents:4f76c85d-ae8c-467b-b409-284ba4f17e3d",
+    "contents:8f9adf08-231b-5edd-8d22-6fa3dfbdf8ad",
+    "contents:789b22c6-3883-5cce-8c21-83a02e7d8afc",
+    "contents:dfe59054-cf16-4fe3-9bc6-97c9582433cf",
+    "contents:ed17afdd-4953-546f-8201-4978dae8b4ff",
+    "contents:9780743258074",
+    "contents:9788998282813",
+    "contents:9780091800994",
+    "contents:9780099648819",
+    "contents:9780847835072",
+    "contents:9781419718939",
+    "contents:9788972913993",
+    "contents:9788912127138",
+    "contents:9788950909123",
+    "contents:4afd0019-1b9b-569a-9ce7-5c3c9ef48902"
+  ],
+  "result": {
+    "plannedRequests": 1,
+    "completedRequests": 1,
+    "confirmedTags": 25
+  }
+}
