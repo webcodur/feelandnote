@@ -6,10 +6,10 @@
 */ // ------------------------------
 "use client";
 
+import AuthLink from "@/components/shared/AuthLink";
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react";
-import { Link } from "@/i18n/navigation";
 import { addContent } from "@/actions/contents/addContent";
 import { removeContent } from "@/actions/contents/removeContent";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
@@ -47,9 +47,9 @@ export default function ContentRecordButton({
 
   if (!isLoggedIn) {
     return (
-      <Link href="/login" aria-label={t("loginPrompt")} title={t("loginPrompt")} className={cn(ICON_BUTTON_CLASS, IDLE_CLASS)}>
+      <AuthLink href="/login" aria-label={t("loginPrompt")} title={t("loginPrompt")} className={cn(ICON_BUTTON_CLASS, IDLE_CLASS)}>
         <Bookmark size={14} aria-hidden />
-      </Link>
+      </AuthLink>
     );
   }
 

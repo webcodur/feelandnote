@@ -212,6 +212,17 @@ function ExpandCard({
                   </div>
                 </div>
               )}
+              {/* 출처는 전문 표시로 모달을 못 여는 길에서도 카드에 남긴다 */}
+              {item.source_url && (
+                <a
+                  href={item.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary"
+                >
+                  {t("reviewModal.source")}
+                </a>
+              )}
             </>
           ) : null}
 

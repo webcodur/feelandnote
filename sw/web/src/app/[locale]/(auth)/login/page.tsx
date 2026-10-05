@@ -6,7 +6,8 @@
   책임: 이메일/소셜 로그인 UI를 제공한다.
 */
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { Eye } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -31,6 +32,7 @@ export default function Page() {
 
         {/* 로그인 버튼들 */}
         <div className="space-y-3">
+          <Suspense fallback={null}><LoginErrorNotice /></Suspense>
           {!isEmailMode && (
             <>
               <form action={loginWithGoogle}>
@@ -80,6 +82,7 @@ export default function Page() {
           <Link href="/terms" className="underline hover:text-text-secondary">
             {t('terms')}
           </Link>
+          {' '}
           {t('login.termsAnd')}{' '}
           <Link href="/privacy" className="underline hover:text-text-secondary">
             {t('privacy')}
@@ -89,6 +92,18 @@ export default function Page() {
       </div>
     </div>
   )
+}
+
+function LoginErrorNotice() {
+  const error = useSearchParams().get('error')
+  const t = useTranslations('auth.login')
+  if (!error) return null
+  const key = error === 'account_suspended' ? 'errors.accountSuspended'
+    : error === 'access_denied' ? 'callbackErrors.cancelled'
+      : error === 'verify_failed' ? 'callbackErrors.verification'
+        : error === 'no_session' ? 'callbackErrors.session'
+          : 'errors.unknown'
+  return <p role="alert" className="rounded-lg border border-red-400/25 bg-red-400/5 px-4 py-3 text-sm leading-relaxed text-red-400">{t(key)}</p>
 }
 
 function GoogleIcon() {

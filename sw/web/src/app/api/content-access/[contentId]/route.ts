@@ -1,5 +1,6 @@
 import { ACCESS_SOURCES, steamAccessAppId, type AccessSource, type AccessStreamEvent } from '@/lib/commerce/contentAccess'
 import { streamContentAccess } from '@/lib/commerce/contentAccessServer'
+import { accessCountry } from '@/lib/commerce/mediaAccess'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -21,7 +22,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ cont
       const emit = (event: AccessStreamEvent) => {
         if (!signal.aborted) output.enqueue(encoder.encode(`${JSON.stringify(event)}\n`))
       }
-      void streamContentAccess(contentId, sources, emit, signal)
+      void streamContentAccess(contentId, sources, emit, signal, accessCountry(request.headers.get('CF-IPCountry')))
         .catch(() => { sources.forEach(source => emit({ kind: 'error', source })) })
         .finally(() => { if (!signal.aborted) output.close() })
     },

@@ -312,7 +312,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v17', isDeveloperMode() ? 'dev-intro-layout-v2' : 'standard', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v17', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 

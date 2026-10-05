@@ -1,9 +1,9 @@
 'use client'
 
+import AuthLink from "@/components/shared/AuthLink";
 import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Trash2 } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
 import { Button, FormattedText } from '@/components/ui'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import { createComment, deleteComment } from '@/actions/board/comments'
@@ -137,11 +137,11 @@ export default function CommentSection({
           </Button>
         </form>
       ) : (
-        <Link href="/login" className="block text-center py-4 border border-dashed border-accent-dim/20 rounded-lg hover:border-accent/40 transition-colors">
+        <AuthLink href="/login" className="block text-center py-4 border border-dashed border-accent-dim/20 rounded-lg hover:border-accent/40 transition-colors">
           <p className="text-sm hover:text-accent font-serif transition-colors">
             {t('loginRequired')}
           </p>
-        </Link>
+        </AuthLink>
       )}
     </div>
   )

@@ -188,7 +188,8 @@
     },
     "category": {
       "diversity": "Diversity",
-      "depth": "Depth"
+      "depth": "Depth",
+      "volume": "Collection"
     },
     "titles": {
       "content_1": {
@@ -521,6 +522,10 @@
         "previous": "Previous page",
         "next": "Next page",
         "dot": "Page {index} of {count}"
+      },
+      "imageViewer": {
+        "previous": "Previous image",
+        "next": "Next image"
       }
     },
     "search": {
@@ -700,7 +705,9 @@
             "repeat": "Press the cells in the same order.",
             "grows": "The pattern grows each round. (Up to {max} rounds)"
           },
-          "controls": "Mobile: tap cells · PC: Q W E / A S D"
+          "controls": "Mobile: tap cells · PC: Q W E / A S D",
+          "round": "Round",
+          "cell": "Cell {n}"
         },
         "actions": {
           "assault": {
@@ -748,7 +755,8 @@
           "enemyBraced": "The enemy braced and took {damage} damage.",
           "playerBraced": "You held firm and took {damage} damage.",
           "lull": "The standoff continued."
-        }
+        },
+        "vs": "vs."
       },
       "dialogue": {
         "closeEsc": "Close (Esc)",
@@ -806,6 +814,16 @@
         "bgmDesc": "Background Music (BGM)",
         "sfx": "Sound Effects",
         "sfxDesc": "Sound Effects (SFX)"
+      },
+      "myth": {
+        "hubName": "Myth Games",
+        "fixtureMode": "Playing with {count} sample figures.",
+        "notEnough": "There are not enough figures to start.",
+        "start": "Start Game",
+        "result": "Results",
+        "newBest": "New Best",
+        "replay": "Play Again",
+        "toLobby": "Back to Start"
       }
     },
     "spectrum": {

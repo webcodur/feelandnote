@@ -4,6 +4,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { load } from "cheerio";
 import FormattedText from "./FormattedText";
+import ContentReadingText from "./ContentReadingText";
 import ReadingHighlightText from "../shared/ReadingHighlightText";
 import { splitTextBlocks } from "./formatted-text/structure";
 import { normalizeIntroBreaks, normalizeLegacyIntroBreaks, preserveIntroBreaks } from "../../lib/utils/prose-line-breaks";
@@ -35,6 +36,22 @@ test("publisher section marks separate a synopsis heading from its body", () => 
   assert.equal($('[role=separator]').length, 2);
   assert.equal($('[data-text-paragraph]').filter((_, el) => $(el).text().includes("한편 고향")).text(), "한편 고향에서는 왕권을 노립니다.");
   assert.equal($('[data-text-heading]').first().text(), "시놉시스");
+});
+
+test("hash-prefixed text remains literal without inventing headings or sections", () => {
+  const source = "앞 문단\n\n# 작품 해설\n설명 본문\n\n## 원작 설화\n다음 설명";
+  const start = source.indexOf("작품 해설");
+  const $ = prose(source, { start, end: start + "작품 해설".length });
+  assert.equal($('[data-text-heading]').length, 0);
+  assert.equal($('[role=separator]').length, 0);
+  assert.ok($.text().includes("# 작품 해설"));
+  assert.equal($('mark').text(), "작품 해설");
+});
+
+test("hashtags and a hash inside prose are not markdown headings", () => {
+  const $ = prose("#독서 #문학\n본문의 # 표기는 그대로 둡니다.");
+  assert.equal($('[data-text-heading]').length, 0);
+  assert.equal($('[role=separator]').length, 0);
 });
 
 test("many blank lines remain an ordinary paragraph boundary", () => {
@@ -86,13 +103,16 @@ test("narration marks in later paragraphs retain title and term emphasis", () =>
   assert.equal($('mark').first().parent().attr('class'), "text-white font-bold");
 });
 
-test("development switches both introduction normalization and the shared renderer", () => {
+test("development prose is scoped to reading bodies rather than every formatted string", () => {
   inMode("development", () => {
     const text = "제목\n\n다음 제목\n\n---\n\n본문";
     assert.equal(normalizeIntroBreaks(text), text);
     const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text })));
-    assert.equal($('[data-text-paragraph]').length, 3);
-    assert.equal($('[role=separator]').length, 1);
+    assert.equal($('[data-text-paragraph]').length, 0);
+    assert.equal($('[role=separator]').length, 0);
+    const body = load(renderToStaticMarkup(React.createElement(ContentReadingText, { text })));
+    assert.equal(body('[data-text-paragraph]').length, 3);
+    assert.equal(body('[role=separator]').length, 1);
     const raw = "첫 문장이다. 둘째 문장이다.\n셋째 문장이다. 넷째 문장이다.";
     assert.equal(normalizeIntroBreaks(raw), raw);
   });

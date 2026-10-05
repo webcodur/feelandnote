@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type MouseEvent as ReactMouseEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { getPathname, usePathname } from "@/i18n/navigation";
+import { saveLocalePreference } from "@/i18n/entryLocale";
 import { Globe, Check, Hourglass } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
+
+function chooseLocale(event: ReactMouseEvent<HTMLAnchorElement>, locale: string) {
+  saveLocalePreference(locale);
+  // Keep filters, pagination and section anchors, including repeated query keys.
+  event.currentTarget.href = event.currentTarget.pathname + window.location.search + window.location.hash;
+}
 
 interface LocaleSwitcherProps {
   /** "icon" = compact globe button (Header), "menu" = full text row (ProfileMenu), "text" = inline link (Footer) */
@@ -87,7 +94,8 @@ function LocaleDropdown({ locale, pathname, className, label }: { locale: string
                   key={option.code}
                   href={getPathname({ href: pathname, locale: option.code })}
                   hrefLang={option.code}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(event) => { chooseLocale(event, option.code); setIsOpen(false); }}
+                  onAuxClick={(event) => chooseLocale(event, option.code)}
                   aria-current={isCurrent || undefined}
                   className={`flex items-center justify-between px-4 py-2.5 text-sm no-underline hover:bg-white/5 ${isCurrent ? "text-accent font-medium" : "text-text-primary"}`}
                 >
@@ -135,6 +143,8 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
       <a
         href={targetHref}
         hrefLang={targetLocale}
+        onClick={(event) => chooseLocale(event, targetLocale)}
+        onAuxClick={(event) => chooseLocale(event, targetLocale)}
         className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 active:bg-white/10 w-full text-text-primary ${className ?? ""}`}
       >
         <Globe size={16} className="text-text-secondary" />
@@ -147,6 +157,8 @@ export default function LocaleSwitcher({ variant = "icon", className }: LocaleSw
     <a
       href={targetHref}
       hrefLang={targetLocale}
+      onClick={(event) => chooseLocale(event, targetLocale)}
+      onAuxClick={(event) => chooseLocale(event, targetLocale)}
       className={`text-sm hover:text-white active:text-accent ${className ?? ""}`}
     >
       {t("switchTo")}

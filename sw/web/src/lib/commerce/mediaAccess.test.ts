@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { appleMusicLink, parseWatchProviders } from './mediaAccess'
+import { accessCountry, appleMusicLink, parseWatchProviders } from './mediaAccess'
 
 test('Apple Music 곡 ID와 앨범 ID를 서로 바꾸지 않는다', () => {
   const track = 'https://music.apple.com/us/album/example/123?i=456'
@@ -22,4 +22,24 @@ test('영상은 한국 제공처만 모으고 구독·대여·구매를 합치�
   assert.equal(result.providers?.length, 2)
   assert.deepEqual(result.providers?.find(value => value.id === 2)?.kinds, ['rent', 'buy'])
   assert.equal(parseWatchProviders({ results: { KR: { link: result.watchUrl } } }, 'tmdb-movie-123').watchUrl, undefined)
+})
+
+test('Singapore viewers receive Singapore availability, with no Korean fallback', () => {
+  const results = {
+    KR: { link: 'https://www.themoviedb.org/movie/157336/watch?locale=KR', flatrate: [{ provider_id: 1, provider_name: 'Korea only' }] },
+    SG: { link: 'https://www.themoviedb.org/movie/157336/watch?locale=SG', flatrate: [{ provider_id: 8, provider_name: 'Netflix' }] },
+  }
+  const result = parseWatchProviders({ results }, 'tmdb-movie-157336', 'SG')
+  assert.equal(result.region, 'SG')
+  assert.deepEqual(result.providers?.map(provider => provider.name), ['Netflix'])
+  assert.ok(result.watchUrl?.endsWith('locale=SG'))
+  const empty = parseWatchProviders({ results }, 'tmdb-movie-157336', 'US')
+  assert.equal(empty.region, 'US')
+  assert.deepEqual(empty.providers, [])
+  assert.equal(parseWatchProviders({ results: { SG: results.KR } }, 'tmdb-movie-157336', 'SG').watchUrl, undefined)
+})
+
+test('access country comes from valid geolocation, independently of UI language', () => {
+  assert.equal(accessCountry('sg'), 'SG')
+  for (const country of [null, 'XX', 'T1', 'en-SG', '']) assert.equal(accessCountry(country), 'KR')
 })

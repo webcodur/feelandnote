@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode, Ref } from "react";
 
 import FormattedText from "./FormattedText";
+import { isDeveloperMode } from "../../lib/developer-mode";
 
 type ContentReadingTone = "primary" | "secondary";
 type ContentReadingSize = "compact" | "reader" | "modal";
@@ -53,6 +54,7 @@ export default function ContentReadingText({
     text ? (
       <FormattedText
         text={text}
+        layout={isDeveloperMode() ? "prose" : "inline"}
         highlightClassName={highlightClassName}
         highlightStyle={highlightStyle}
         mark={mark}

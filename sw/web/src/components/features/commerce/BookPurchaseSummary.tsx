@@ -126,7 +126,7 @@ export default function BookPurchaseSummary({
             event.preventDefault();
             event.stopPropagation();
             setIsOpen(true);
-            trackEvent("commerce_open", { screen: pathname, locale, store_count: links.length,
+            trackEvent("commerce_open", { screen: pathname, locale: displayLocale, book_locale: locale, store_count: links.length,
               ...(contentId !== undefined && { content_id: contentId }),
               ...(editionId !== undefined && { edition_id: editionId }) });
           }}

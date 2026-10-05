@@ -120,7 +120,7 @@
       "method": {
         "BOOK": "Opens the saved Amazon product link, or searches Amazon by the book’s English title and author.",
         "GAME": "Cross-checks IGDB editions with Korean stores. Prices appear only when verified on Steam.",
-        "VIDEO": "Looks up Korean availability on TMDB / JustWatch and links to the TMDB guide.",
+        "VIDEO": "Looks up availability in your country on TMDB / JustWatch and links to the TMDB guide.",
         "MUSIC": "Matches the saved song or album ID to its Apple Music URL."
       },
       "phase": {
@@ -129,7 +129,7 @@
         "store": "Checking the Korean store and platforms",
         "edition": "Checking a related edition or collection",
         "catalog": "Matching the title or ID in the catalog",
-        "providers": "Looking up subscriptions, rentals and purchases in Korea"
+        "providers": "Checking subscriptions, rentals and purchases in your country"
       },
       "progress": "{done} of {total} sources finished",
       "complete": "{total} sources finished",
@@ -137,10 +137,13 @@
       "failedStore": "The lookup failed.",
       "emptyStore": "No verified link found.",
       "retryFailed": "Retry failed sources",
-      "watchProviders": "Korean availability · TMDB / JustWatch",
+      "watchProviders": "Where to watch ? TMDB / JustWatch",
       "bookLoading": "Checking the YES24 product and affiliate link by ISBN",
       "completeSingle": "Check complete",
-      "regionKR": "South Korea"
+      "regionKR": "South Korea",
+      "region": "Availability in {country}",
+      "amazonUSNotice": "Opens Amazon.com (US). Set your delivery country there to check shipping availability and costs.",
+      "gameRegionNotice": "Prices and offers shown are from Korean stores. Check availability and pricing for your account region before buying."
     }
   },
   "contentDetail": {
@@ -221,7 +224,7 @@
     "developer": "Developer",
     "platform": "Platform",
     "artist": "Artist",
-    "metaLead": "{title} by {creator}.",
+    "metaLead": "{type, select, BOOK {{title}} other {{title}}} by {creator}.",
     "editionSelection": "Choose an edition · {count} available",
     "chooseEdition": "Choose an edition",
     "editionKorean": "Korean edition",

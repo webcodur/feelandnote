@@ -61,7 +61,7 @@ interface Props {
 
 export default function MythResult(props: Props) {
   const { title, score, lines, isNewBest, bestLabel, onReplay, onLobby, children, value, format, stars, outcome = "win", eyebrow, hideScore = false, stats, hero, subtitle, lede } = props;
-  const t = useTranslations("gameMyth.shared");
+  const t = useTranslations("shared.game.myth");
   const calm = useCalm();
   const art = useStageArt();
   const item = rise(calm);

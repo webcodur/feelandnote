@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { extractYes24LayoutReferences, restoreIntroductionLayout } from "./bookIntroductionLayout";
+import { cleanIntroductionFormatting, extractYes24LayoutReferences, restoreIntroductionLayout } from "./bookIntroductionLayout";
 
 const ISBN = "9791139721973";
 const page = (body: string, isbn = ISBN) => `<table><tr><th>ISBN13</th><td>${isbn}</td></tr></table>
@@ -41,7 +41,7 @@ test("different punctuation or a partially matching source never transfers bound
 test("a word-spacing collision is not equivalent prose", () => {
   assert.equal(restoreIntroductionLayout("nowhere", ["now here"]), null);
   assert.equal(restoreIntroductionLayout("now here", ["nowhere"]), null);
-  assert.equal(restoreIntroductionLayout("구성되\n며", ["구성되며"]), "구성되며");
+  assert.equal(restoreIntroductionLayout("구성되\n며", ["구성되며"]), "구성되\n며");
 });
 
 test("paired angle notation may transfer layout while preserving every source character", () => {
@@ -132,4 +132,33 @@ test("word alignment only adds proven gaps and retains poems or lists within a p
   const source = "첫 문단입니다.\n- 하나\n- 둘\n다음 문단입니다.";
   const reference = "첫 문단입니다!\n- 하나\n- 둘\n\n다음 문단입니다.";
   assert.equal(restoreIntroductionLayout(source, [reference]), "첫 문단입니다.\n- 하나\n- 둘\n\n다음 문단입니다.");
+});
+
+test("an exact reference match never removes existing source paragraphs", () => {
+  const source = "수상 소식\n\n인터뷰집 소개\n\n여러 영화의 음악\n\n작곡가의 말\n\n스코어의 뜻\n\n책의 내용입니다.";
+  const reference = "수상 소식\n인터뷰집 소개\n여러 영화의 음악\n작곡가의 말\n\n스코어의 뜻 책의 내용입니다.";
+  assert.equal(restoreIntroductionLayout(source, [reference]), source);
+});
+
+test("an exact reference adds missing paragraphs while preserving source quote and list lines", () => {
+  const source = "첫 설명입니다.\n다음 설명입니다.\n\n인용 첫 줄\n인용 둘째 줄\n\n- 하나\n- 둘";
+  const reference = "첫 설명입니다.\n\n다음 설명입니다. 인용 첫 줄 인용 둘째 줄\n\n- 하나 - 둘";
+  assert.equal(restoreIntroductionLayout(source, [reference]), source.replace("첫 설명입니다.\n", "첫 설명입니다.\n\n"));
+});
+
+test("closed quote or parenthesis additions do not masquerade as different word spacing", () => {
+  const source = "첫 설명입니다.\n제50회 문학상을 수상했다.\n이 책은 주GAI가 편집했습니다.";
+  const reference = "첫 설명입니다.\n\n제50회 ‘문학상’을 수상했다.\n\n이 책은 (주)GAI가 편집했습니다.";
+  assert.equal(restoreIntroductionLayout(source, [reference]), source.replace(/\n/g, "\n\n"));
+});
+
+test("punctuation-tolerant matching still refuses unclosed title brackets", () => {
+  assert.equal(restoreIntroductionLayout("첫 설명.\n〈매체〉의 기사.", ["첫 설명!\n\n[매체)의 기사."]), null);
+});
+
+test("leaked paired font formatting is removed while title brackets and body remain intact", () => {
+  assert.equal(cleanIntroductionFormatting('〈font color="ff8c00"〉☞〈/font〉 이런 점이 좋습니다!'), "☞ 이런 점이 좋습니다!");
+  assert.equal(cleanIntroductionFormatting('<font face="serif" size="3">본문\n다음 줄</font>'), "본문\n다음 줄");
+  assert.equal(cleanIntroductionFormatting("영화 〈Font〉와 <Dune>를 다룹니다."), "영화 〈Font〉와 <Dune>를 다룹니다.");
+  assert.equal(cleanIntroductionFormatting('〈font color="red"〉닫히지 않은 표기'), '〈font color="red"〉닫히지 않은 표기');
 });

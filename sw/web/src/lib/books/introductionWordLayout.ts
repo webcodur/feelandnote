@@ -2,12 +2,27 @@
 export function restoreVerifiedWordLayout(
   source: string, references: readonly string[], normalizeDelimiters: (text: string) => string,
 ): string | null {
+  const hasSeparator = (gap: string) => Boolean(gap.replace(/[‘’“”"'《》〈〉「」『』<>()[\]]/g, ""));
+  const closedTitles = (text: string) => {
+    const closers: Record<string, string> = { "《": "》", "〈": "〉", "「": "」", "『": "』", "[": "]" };
+    const expected: string[] = [];
+    for (const [character] of text.matchAll(/[《》〈〉「」『』\[\]]/g)) {
+      if (closers[character]) expected.push(closers[character]);
+      else if (expected.pop() !== character) return false;
+    }
+    return expected.length === 0;
+  };
+  if (!closedTitles(source)) return null;
   function index(text: string) {
     const comparable = normalizeDelimiters(text);
+    const titleAngles = new Set<number>();
+    for (const pair of comparable.matchAll(/<[^<>]+>/g)) {
+      titleAngles.add(pair.index); titleAngles.add(pair.index + pair[0].length - 1);
+    }
     const offsets: number[] = [];
     let words = "";
     for (let i = 0; i < comparable.length; i++) {
-      if (!/[\s\p{P}]/u.test(comparable[i])) { words += comparable[i]; offsets.push(i); }
+      if (!titleAngles.has(i) && !/[\s\p{P}]/u.test(comparable[i])) { words += comparable[i]; offsets.push(i); }
     }
     return { text, words, offsets };
   }
@@ -15,6 +30,7 @@ export function restoreVerifiedWordLayout(
   if (!original.words) return null;
   const votes = new Map<number, Set<boolean>>();
   for (const reference of references) {
+    if (!closedTitles(reference)) continue;
     const candidate = index(reference);
     const at = candidate.words.indexOf(original.words);
     if (at < 0 || candidate.words.indexOf(original.words, at + 1) >= 0) continue;
@@ -30,7 +46,7 @@ export function restoreVerifiedWordLayout(
         matching = false; break;
       }
       // nowhere / now here처럼 다른 단어 경계는 거부한다. 한 줄 개행은 원문의 줄바꿈일 수 있다.
-      if (!/[\r\n]/.test(sourceGap + referenceGap) && Boolean(sourceGap) !== Boolean(referenceGap)) {
+      if (!/[\r\n]/.test(sourceGap + referenceGap) && hasSeparator(sourceGap) !== hasSeparator(referenceGap)) {
         matching = false; break;
       }
       gaps.push({ ordinal: i, paragraph: /\r?\n[\t ]*\r?\n/.test(referenceGap) });

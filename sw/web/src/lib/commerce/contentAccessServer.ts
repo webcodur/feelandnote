@@ -7,7 +7,7 @@ import { ACCESS_CACHE_SECONDS, ACCESS_TIMEOUT_MS, ACCESS_SOURCES, isAccessType, 
 import { getSteamAccess } from '@/lib/games/steamAccess'
 import { selectSteamReference } from '@/lib/games/steamPurchase'
 
-const getWatch = unstable_cache((id: string) => fetchWatchAccess(rawFetch, id), ['watch-providers-kr-v2'], { revalidate: ACCESS_CACHE_SECONDS })
+const getWatch = unstable_cache((id: string, country: string) => fetchWatchAccess(rawFetch, id, country), ['watch-providers-country-v3'], { revalidate: ACCESS_CACHE_SECONDS })
 const lookupMusic = unstable_cache(async (externalId: string): Promise<string | null> => {
   const id = externalId.match(/^itunes[-_]([1-9]\d*)$/)?.[1]
   if (!id) return null
@@ -23,7 +23,7 @@ const lookupMusic = unstable_cache(async (externalId: string): Promise<string | 
   return null
 }, ['music-access-id-v1'], { revalidate: ACCESS_CACHE_SECONDS })
 
-export async function streamContentAccess(contentId: string, sources: AccessSource[], emit: (event: AccessStreamEvent) => void, signal: AbortSignal) {
+export async function streamContentAccess(contentId: string, sources: AccessSource[], emit: (event: AccessStreamEvent) => void, signal: AbortSignal, country = 'KR') {
   const pending = new Set(sources)
   const done = (source: AccessSource, data: ContentAccess) => {
     pending.delete(source)
@@ -47,7 +47,7 @@ export async function streamContentAccess(contentId: string, sources: AccessSour
     if (!pending.size || signal.aborted) return
     if (data.type === 'VIDEO') {
       emit({ kind: 'progress', source: 'watchProviders', phase: 'providers' })
-      done('watchProviders', await getWatch(data.external_id))
+      done('watchProviders', await getWatch(data.external_id, country))
       return
     }
     if (data.type === 'MUSIC') {

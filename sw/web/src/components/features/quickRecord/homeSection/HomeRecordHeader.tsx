@@ -1,5 +1,6 @@
 "use client";
 
+import AuthLink from "@/components/shared/AuthLink";
 import { Link } from "@/i18n/navigation";
 import { BookOpen, Users } from "lucide-react";
 import { Avatar } from "@/components/ui";
@@ -59,7 +60,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                 </>
             ) : (
                 <>
-                    <Link
+                    <AuthLink
                         href="/login"
                         className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl transition-all duration-500 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
                     >
@@ -78,7 +79,7 @@ export function HomeRecordHeader({ profile, contentCount }: HomeRecordHeaderProp
                                 </span>
                             </div>
                         </div>
-                    </Link>
+                    </AuthLink>
 
                     {/* 간단한 소개글 */}
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">

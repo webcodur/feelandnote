@@ -1,10 +1,10 @@
 'use client'
 
+import AuthLink from "@/components/shared/AuthLink";
 import { useActionState } from 'react'
 import { signupWithEmail, type SignupErrorCode } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
-import { Link } from '@/i18n/navigation'
 
 type State = { error?: SignupErrorCode; success?: 'verificationSent' } | undefined
 
@@ -63,9 +63,9 @@ export default function SignupForm() {
 
       <p className="text-center text-sm text-text-secondary">
         {t('hasAccount')}{' '}
-        <Link href="/login" className="text-accent hover:underline">
+        <AuthLink href="/login" className="text-accent hover:underline">
           {t('loginLink')}
-        </Link>
+        </AuthLink>
       </p>
     </form>
   )
