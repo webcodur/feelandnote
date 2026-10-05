@@ -2,7 +2,8 @@
   파일명: /components/features/user/contentLibrary/expand/ContentIntro.tsx
   기능: 펼침 보기 윗칸 — 표지 옆에 붙는 작품 소개.
   책임: 그 작품이 무엇인지만 말한다. 인물의 감상배경은 다음 칸이 맡는다.
-        넓은 화면은 표지 열이 주는 높이만큼 채우고, 모바일은 표지·구매 버튼을 감싸 흐른 뒤 접는다. 넘친 글은 모달로 마저 본다.
+        상한(INLINE_READING_TEXT_MAX) 안의 소개는 통째로 보인다. 상한을 넘는 장문만
+        넓은 화면은 표지 열 높이에 맞춰 자르고, 모바일은 표지·구매 버튼을 감싸 흐른 뒤 접는다 — 넘친 글은 모달로 마저 본다.
         음악은 애플이 소개를 주지 않아 바깥 출처를 여러 곳에서 받아 오고, 둘 이상이면 탭으로 보여 준다.
 */ // ------------------------------
 "use client";
@@ -12,7 +13,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { BookOpen } from "lucide-react";
 
 import ClippedContentReadingText from "@/components/ui/ClippedContentReadingText";
+import ContentReadingText from "@/components/ui/ContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
+import { fitsInlineReadingText } from "@/constants/readingText";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
@@ -81,6 +84,8 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   const active = sources.find((item) => item.provider === pickedProvider) ?? sources[0] ?? null;
   const activeText = active ? normalizeContentIntroText(active.text) : null;
   const fullText = text ?? activeText;
+  // 상한 안이면 통째로 싣고 잘림·모달 조작을 아예 두지 않는다 — 넘는 장문만 접는다
+  const fitsInline = fitsInlineReadingText(fullText, locale);
 
   // 짧아 다 보이는 글도 눌러 모달로 읽는다 — 모달은 잘린 글의 더보기가 아니라 다른 읽기 화면이다
   const openModal = () => setIsModalOpen(true);
@@ -113,16 +118,22 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
         </div>
       ) : text ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-          <ClippedContentReadingText
-            text={text}
-            tone="secondary"
-            size="compact"
-            className={INTRO_BODY_CLASS}
-            onClick={openModal}
-            clickLabel={t("expandIntroMore")}
-          >
-            {inlineMarker}<FormattedText text={text} />
-          </ClippedContentReadingText>
+          {fitsInline ? (
+            <ContentReadingText text={text} tone="secondary" size="compact">
+              {inlineMarker}<FormattedText text={text} />
+            </ContentReadingText>
+          ) : (
+            <ClippedContentReadingText
+              text={text}
+              tone="secondary"
+              size="compact"
+              className={INTRO_BODY_CLASS}
+              onClick={openModal}
+              clickLabel={t("expandIntroMore")}
+            >
+              {inlineMarker}<FormattedText text={text} />
+            </ClippedContentReadingText>
+          )}
         </div>
       ) : active ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
@@ -150,16 +161,22 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
             </div>
           )}
 
-          <ClippedContentReadingText
-            text={activeText}
-            tone="secondary"
-            size="compact"
-            className={INTRO_BODY_CLASS}
-            onClick={openModal}
-            clickLabel={t("expandIntroMore")}
-          >
-            {inlineMarker}<FormattedText text={activeText} />
-          </ClippedContentReadingText>
+          {fitsInline ? (
+            <ContentReadingText text={activeText} tone="secondary" size="compact">
+              {inlineMarker}<FormattedText text={activeText} />
+            </ContentReadingText>
+          ) : (
+            <ClippedContentReadingText
+              text={activeText}
+              tone="secondary"
+              size="compact"
+              className={INTRO_BODY_CLASS}
+              onClick={openModal}
+              clickLabel={t("expandIntroMore")}
+            >
+              {inlineMarker}<FormattedText text={activeText} />
+            </ClippedContentReadingText>
+          )}
 
         </div>
       ) : (

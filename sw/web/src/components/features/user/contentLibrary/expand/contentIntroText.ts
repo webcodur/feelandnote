@@ -13,6 +13,7 @@ const NAMED_HTML_ENTITIES = {
 
 interface ContentIntroSource {
   description?: string | null;
+  introSources?: { text: string }[] | null;
 }
 
 /*
@@ -56,4 +57,15 @@ export function decodeContentIntroEntities(text: string) {
 /** 소개 본문의 HTML 엔티티를 복원하고, 개행은 화면 규약(\n=붙는 줄, \n\n=문단)으로 맞춘다. */
 export function normalizeContentIntroText(text: string) {
   return normalizeIntroBreaks(decodeContentIntroEntities(text));
+}
+
+/*
+  카드에 실릴 소개 전문 — 기본 문구가 없으면 첫 바깥 출처의 글을 쓴다(음악 탭의 기본값과 동일).
+  카드 격자가 본문 길이로 상한 판정을 내릴 때도 이 해석 하나를 쓴다.
+*/
+export function resolveContentIntroFullText(brief: ContentIntroSource | null) {
+  const sourceText = selectContentIntroText(brief);
+  if (sourceText) return normalizeContentIntroText(sourceText);
+  const first = brief?.introSources?.[0];
+  return first ? normalizeContentIntroText(first.text) : null;
 }

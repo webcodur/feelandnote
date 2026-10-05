@@ -3,7 +3,8 @@
   기능: 펼침 보기의 카드 한 장.
   책임: 표지와 작품 소개, 인물의 감상배경을 한 덩어리로 쌓는다 — 소개 아래 가로선 하나를
         두고 감상배경이 이어진다. 감상배경 칸은 채울 것이 하나도 없는 기록에서 통째로 뺀다.
-        소개는 표지 열이 정한 높이만큼, 감상배경은 짧은 미리보기로 자르고 전문은 모달로 읽는다.
+        소개·감상배경 모두 상한(INLINE_READING_TEXT_MAX) 안이면 통째로 싣고,
+        인터뷰 전사처럼 상한을 넘는 장문만 접어 모달로 보낸다.
         제목과 작품 선택 목록은 카드 밖의 ExpandDetailView가 맡는다.
 */ // ------------------------------
 "use client";
@@ -24,8 +25,11 @@ import { getLocalizedContent } from "@/lib/utils/editions";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
+import { fitsInlineReadingText } from "@/constants/readingText";
+
+import { resolveContentIntroFullText } from "./contentIntroText";
 import ContentIntro from "./ContentIntro";
-import ReviewScrollBox from "./ReviewScrollBox";
+import ReviewScrollBox, { REVIEW_PREVIEW_TEXT_CLASS } from "./ReviewScrollBox";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
@@ -68,6 +72,11 @@ function ExpandCard({
   const review = locale === "en" && item.review_en ? item.review_en : item.review;
   const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
   const isSpoiler = item.is_spoiler ?? false;
+  /* 인터뷰 전사 급 장문만 접어 모달로 보낸다. 그 외 감상배경은 통째로 보인다 */
+  const reviewTooLong = !!review && !fitsInlineReadingText(review, locale);
+  /* 소개가 상한 안이면 통째로 싣는다 — 카드 격자도 그 길이를 따라 늘어야 해서 contain-size를 뗀다.
+     상한을 넘는 장문만 칸 높이에 가둬 자른다 */
+  const introFitsInline = fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
   const canExpandReview = !hasRecordError && !isRecordLoading && !!review && !isSpoiler;
   /* 감상배경 칸은 채울 것(글·별점·출처)이나 보여 줄 상태(불러오는 중·실패)가 하나도
      없을 때만 통째로 뺀다 — 소개만 남은 카드가 된다 */
@@ -133,10 +142,10 @@ function ExpandCard({
           )}
           </div>
 
-          {/* 소개 칸은 제 높이를 내지 않고(contain-size) 표지 열이 정한 높이만큼 늘어난다.
-              소개가 아무리 길어도 행이 늘어나지 않아 버튼은 표지 바로 밑에 붙고, 소개는 그 높이 안에서만
-              보이고 나머지는 접힌다(ContentIntro). 모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
-          <div className="min-w-0 sm:col-start-2 sm:row-start-1 sm:contain-size md:row-span-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]">
+          {/* 상한 안의 소개는 통째로 늘어나고, 상한을 넘는 장문만 제 높이를 내지 않고(contain-size)
+              표지 열이 정한 높이만큼 채워 접힌다 — 버튼이 표지 바로 밑에 붙기 위해서다(ContentIntro).
+              모바일은 float를 감싸도록 일반 블록 흐름을 유지한다 */}
+          <div className={`min-w-0 sm:col-start-2 sm:row-start-1 ${introFitsInline ? "" : "sm:contain-size"} md:row-span-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]`}>
             {hasBriefError ? (
               <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
                 <p>{tExpand("loadFailed")}</p>
@@ -186,14 +195,23 @@ function ExpandCard({
                   {t("reviewModal.originalLanguage")}
                 </p>
               )}
-              <ReviewScrollBox
-                onOpen={() => setIsReviewModalOpen(true)}
-                openLabel={tExpand("expandReviewExpand")}
-                fadeWhenFits={false}
-              >
-                <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
-                <FormattedText text={review} />
-              </ReviewScrollBox>
+              {reviewTooLong ? (
+                <ReviewScrollBox
+                  onOpen={() => setIsReviewModalOpen(true)}
+                  openLabel={tExpand("expandReviewExpand")}
+                  fadeWhenFits={false}
+                >
+                  <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
+                  <FormattedText text={review} />
+                </ReviewScrollBox>
+              ) : (
+                <div className="mx-auto min-w-0 w-full max-w-[var(--reading-preview-max-width,100%)]">
+                  <div className={REVIEW_PREVIEW_TEXT_CLASS}>
+                    <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
+                    <FormattedText text={review} />
+                  </div>
+                </div>
+              )}
             </>
           ) : null}
 

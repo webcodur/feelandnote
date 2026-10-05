@@ -3,7 +3,7 @@
  * - 셀럽 상세 sourceWorks와 작품 상세의 책소개가 같은 모듈을 쓴다.
  * - 이웃 열과 나란히 서는 폭(fillFrom, 기본 lg)부터는 줄 수를 박지 않고 칸을 채운다. 본문은 네 줄(min-h-28)을 바닥으로 늘어난다
  * - 제목 줄은 두지 않는다. 본문은 왼쪽 정렬이다
- * - 좁은 화면은 네 줄(max-h-28)에서 접는다. 넘칠 때만 끝 흐림이 붙고, 본문을 누르면 언제든 전체 소개 모달이 열린다
+ * - 상한(INLINE_READING_TEXT_MAX) 안의 소개는 통째로 보이고 모달 조작도 두지 않는다. 상한을 넘는 장문만 좁은 화면은 네 줄(max-h-28)에서 접고, 넘칠 때 끝 흐림·눌러서 전체 소개 모달이 붙는다
  * - 터치 기기는 넘칠 때 칸 둘레에 금빛 파동을 세 번 준다(마우스 기기는 커서가 대신한다)
  * - 출처는 우하단 칩 하나다. 공급처 이름(다음·카카오·YES24 등 바뀌는 값)은 안쪽 알약에 담아 고정 문구 「원문」과 구분한다
  * - 전체 보기 모달은 공통 높이 제한을 따라 위아래 여백을 넉넉히 남긴다
@@ -24,15 +24,14 @@ import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import PendingMark from "@/components/ui/pending/PendingMark";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { useClippedText } from "@/hooks/useClippedText";
+import { fitsInlineReadingText } from "@/constants/readingText";
 import { cn } from "@/lib/utils";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 import { Z_INDEX } from "@/constants/zIndex";
 
-/* 좁은 화면은 네 줄(max-h-28)에서 접고, 채우기 폭부터는 네 줄을 바닥으로 칸을 채운다. contain-size라 본문이 행을 밀지 않는다.
+/* 상한을 넘는 장문을 접을 때 쓰는 칸 채우기 규격이다 — 좁은 화면은 네 줄(max-h-28)에서 접고, 채우기 폭부터는 네 줄을 바닥으로 칸을 채운다. contain-size라 본문이 행을 밀지 않는다.
    채우기 폭은 이웃 열과 나란히 서는 폭이다 — 셀럽 상세는 lg, 작품 상세는 sm.
    클래스는 상수에 둔다 — Tailwind 스캐너는 템플릿 문자열에서 ${ 바로 앞의 토큰을 뽑지 않는다 */
-const PREVIEW_CLASS =
-  "max-h-28 overflow-hidden whitespace-pre-line text-base leading-7 text-text-secondary";
 const FILL_CLASSES = {
   sm: {
     root: "sm:flex sm:min-h-0 sm:flex-1 sm:flex-col",
@@ -96,9 +95,11 @@ export default function BookIntroductionPanel({
   const triggerRef = useRef<HTMLParagraphElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const introText = normalizeIntroBreaks(description);
-  const canOpen = appearance === "plate" || showSource;
-  /* ── 1. 넘침 측정 — 로딩 중에는 본문이 없어 재지 않는다 ── */
-  const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(introText, !loading);
+  // 상한 안이면 통째로 싣는다 — 잘림·끝 흐림·모달 조작을 아예 걷는다
+  const fitsInline = fitsInlineReadingText(introText, locale);
+  const canOpen = !fitsInline && (appearance === "plate" || showSource);
+  /* ── 1. 넘침 측정 — 로딩 중이거나 상한 안의 전문 표시에는 재지 않는다 ── */
+  const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(introText, !loading && !fitsInline);
   const providerName =
     showSource && attribution?.provider
       ? INTRO_PROVIDER_HEADING_NAME[attribution.provider]?.[locale === "en" ? "en" : "ko"]
@@ -129,7 +130,7 @@ export default function BookIntroductionPanel({
         </div>
       ) : (
         <>
-          {/* 본문 자체가 전체 보기를 연다 — 모달이 다른 읽기 화면이라 길이와 무관하게 항상 눌린다 */}
+          {/* 본문 자체가 전체 보기를 연다 — 상한을 넘어 잘린 장문에서만 눌린다 */}
           <p
             ref={(node) => {
               previewRef.current = node;
@@ -152,9 +153,12 @@ export default function BookIntroductionPanel({
               }
             }}
             className={cn(
-              PREVIEW_CLASS,
-              appearance === "plate" && fill.preview,
-              wrapAroundMedia && "max-sm:overflow-clip max-sm:max-h-[calc(var(--intro-media-height)+5lh)] max-sm:text-sm max-sm:leading-relaxed",
+              "whitespace-pre-line text-base leading-7 text-text-secondary",
+              !fitsInline && [
+                "max-h-28 overflow-hidden",
+                appearance === "plate" && fill.preview,
+                wrapAroundMedia && "max-sm:overflow-clip max-sm:max-h-[calc(var(--intro-media-height)+5lh)] max-sm:text-sm max-sm:leading-relaxed",
+              ],
               // 끝 흐림은 폭과 무관하게 글이 실제로 잘릴 때만 붙는다 — 좁은 화면의 네 줄 접힘도 같다
               isClipped && "clip-fade-end",
               "text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",

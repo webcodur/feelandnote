@@ -202,6 +202,23 @@ export default function ExpandDetailView({
     window.scrollTo({ top: window.scrollY + top - limit, behavior: "instant" });
   }, [selectedIndex]);
 
+  /* 키보드 ←→로도 넘긴다 — 긴 카드를 읽는 중간에도 작품을 바꿀 수 있어야 한다.
+     입력 중이거나 대화상자·목록 상자가 열려 있으면 화살표는 그 자리의 조작으로 둔다 */
+  useEffect(() => {
+    if (!isActive || isNavigationDisabled) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      if (document.querySelector('[role="dialog"], [role="listbox"]')) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable]")) return;
+      if (event.key === "ArrowLeft") goPrevious();
+      else goNext();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isActive, isNavigationDisabled, goPrevious, goNext]);
+
   if (total === 0) return null;
 
   return (
@@ -258,14 +275,14 @@ export default function ExpandDetailView({
             ownerAvatarUrl={ownerAvatarUrl}
           />
         </div>
-        {/* 소개와 감상 배경이 한 덩어리라 카드가 길다 — 다 읽은 자리에서 바로
-            이전·다음으로 넘어가게 카드 아래에 이동 바를 둔다.
-            넓은 화면은 양옆 화살표가 이동을 맡는다 */}
+        {/* 소개와 감상 배경을 통째로 싣는 한 덩어리라 카드가 길다 — 다 읽은 자리에서 바로
+            이전·다음으로 넘어가게 카드 아래에 이동 바를 둔다. 넓은 화면의 양옆 화살표와 함께 둔다 */}
         <ExpandBottomNavigation
           label={t("expandBottomNavigation")}
           previousLabel={t("expandPrev")}
           nextLabel={t("expandNext")}
           disabled={isNavigationDisabled}
+          showOnDesktop
           onPrevious={goPrevious}
           onNext={goNext}
         />

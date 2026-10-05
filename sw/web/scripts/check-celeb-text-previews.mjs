@@ -117,9 +117,10 @@ try {
           fades: style.maskImage !== 'none',
         }
       }))
-      assert.equal(measurements.length, width >= 768 ? 2 : 3, '화면에 보이는 미리보기를 모두 검사한다')
+      // 미리보기(접힘+모달)는 상한 INLINE_READING_TEXT_MAX을 넘는 장문에만 남는다 — 상한 안의
+      // 소개·감상배경은 통째로 보이므로 개수를 고정하지 않고 보이는 미리보기만 검사한다
       const monologue = measurements.find((item) => item.section === 'virtual-monologue')
-      if (width < 768) assert.ok(monologue?.clipped && monologue.fades, `${width}px: 긴 가상독백은 적정 높이에서 자르고 끝을 흐린다`)
+      if (width < 768 && monologue) assert.ok(monologue.clipped && monologue.fades, `${width}px: 긴 가상독백은 적정 높이에서 자르고 끝을 흐린다`)
       console.log(JSON.stringify({ width, section: 'previews', measurements }))
       for (const item of measurements) {
         const context = `${width}px preview: ${item.label}`

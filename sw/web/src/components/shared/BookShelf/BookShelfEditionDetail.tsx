@@ -9,6 +9,8 @@ import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import BookShelfEditionHeading from "./BookShelfEditionHeading";
 import BookShelfArrival from "./BookShelfArrival";
 import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
+import { normalizeContentIntroText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
+import { fitsInlineReadingText } from "@/constants/readingText";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
@@ -45,6 +47,11 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
       affiliateLinks: source.affiliateLinks };
   const introduction = useBookIntroduction(edition.bookIntroduction, locale, edition.description, lazyIntroduction);
   const busy = loading || introduction.pending;
+  /* 상한 안의 소개는 통째로 늘어난다 — 상한을 넘는 장문만 칸 높이에 가둔다 */
+  const introFitsInline = fitsInlineReadingText(
+    introduction.description ? normalizeContentIntroText(introduction.description) : null,
+    locale,
+  );
   const purchaseLinks: AffiliateLink[] = [
     ...(edition.purchaseUrl && edition.platform ? [{ platform: edition.platform, url: edition.purchaseUrl }] : []),
     ...(edition.affiliateLinks ?? []),
@@ -72,7 +79,7 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
           thumbnail={edition.thumbnailUrl} links={purchaseLinks}
           className="mt-1 w-full self-start sm:mt-0" />
       </div>
-      <div className="min-w-0 sm:col-start-2 sm:row-start-1 sm:flex sm:flex-col sm:contain-size" aria-busy={busy}>
+      <div className={`min-w-0 sm:col-start-2 sm:row-start-1 sm:flex sm:flex-col ${introFitsInline ? "" : "sm:contain-size"}`} aria-busy={busy}>
         <BookShelfEditionHeading source={source} edition={edition} sharedEditionKeys={sharedEditionKeys} />
         {introduction.failed && <RetryBlock onRetry={introduction.retry} />}
         {!introduction.failed && <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">

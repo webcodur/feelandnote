@@ -29,6 +29,8 @@ import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSumm
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 import { isAccessType } from "@/lib/commerce/contentAccess";
 import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
+import { resolveContentIntroFullText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
+import { fitsInlineReadingText } from "@/constants/readingText";
 import ContentMetaPanel from "@/components/features/user/contentLibrary/expand/ContentMetaPanel";
 import {
   ExpandBottomNavigation,
@@ -269,6 +271,8 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
   /* 한국어판 구매 버튼. 링크가 없어도 자리는 지킨다 */
   const showPurchase = locale === "ko" && dbType === "BOOK";
   const showAccess = isRegistered && isAccessType(dbType);
+  /* 상한 안의 소개는 통째로 늘어난다 — 상한을 넘는 장문만 칸 높이에 가둔다 */
+  const introFitsInline = fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
 
   return (
     <article className="flex w-full flex-col">
@@ -287,7 +291,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
         )}
       </div>
 
-      {/* 윗칸 — 표지와 작품 소개. 소개 칸은 표지 열이 정한 높이만큼만 보인다(감상 펼침 카드와 같은 규칙) */}
+      {/* 윗칸 — 표지와 작품 소개. 상한 안의 소개는 통째로 늘어나고 상한을 넘는 장문만 표지 열이 정한 높이만큼 보인다(감상 펼침 카드와 같은 규칙) */}
       <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:gap-x-5 md:p-5">
         <div className="mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
           <div className="relative h-56 w-full overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg sm:h-72">
@@ -310,7 +314,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
           </div>
         </div>
 
-        <div className="min-w-0 sm:contain-size">
+        <div className={cn("min-w-0", !introFitsInline && "sm:contain-size")}>
           {!isRegistered ? (
             <div className="flex h-full flex-col justify-center rounded-lg border border-dashed border-white/15 bg-white/[0.03] p-4 text-center">
               <p className="text-sm font-semibold text-text-secondary">{t("notRegistered")}</p>

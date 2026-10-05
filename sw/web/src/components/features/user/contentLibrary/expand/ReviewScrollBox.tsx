@@ -9,6 +9,10 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+/** 미리보기 본문 문체 — 상한 안이라 통째로 싣는 자리(ExpandCard)도 같은 문체를 쓴다 */
+export const REVIEW_PREVIEW_TEXT_CLASS =
+  "whitespace-pre-line break-words font-sans text-[15px] leading-[1.85] text-text-secondary";
+
 interface ReviewScrollBoxProps {
   children: ReactNode;
   /** 눌러 전문을 여는 조작. 모달이 다른 읽기 화면이라 길이와 무관하게 항상 눌리게 한다 */
@@ -65,7 +69,7 @@ export default function ReviewScrollBox({ children, onOpen, openLabel, fadeWhenF
     <div className="mx-auto min-w-0 w-full max-w-[var(--reading-preview-max-width,100%)]">
       <div
         ref={ref}
-        className={`max-h-[var(--reading-preview-max-height,min(14rem,35svh))] min-w-0 w-full overflow-clip whitespace-pre-line break-words font-sans text-[15px] leading-[1.85] text-text-secondary ${fadeWhenFits || textMask ? "clip-fade-end" : ""} ${interactive ? "cursor-pointer hover:brightness-125 focus-visible:outline-none" : ""}`}
+        className={`max-h-[var(--reading-preview-max-height,min(14rem,35svh))] min-w-0 w-full overflow-clip ${REVIEW_PREVIEW_TEXT_CLASS} ${fadeWhenFits || textMask ? "clip-fade-end" : ""} ${interactive ? "cursor-pointer hover:brightness-125 focus-visible:outline-none" : ""}`}
         style={textMask ? { maskImage: textMask } : undefined}
         role={interactive ? "button" : undefined}
         tabIndex={interactive ? 0 : undefined}

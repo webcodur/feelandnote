@@ -656,20 +656,20 @@ async function checkStableExpandedEntryMobile(page, profile = "mobile") {
   return result;
 }
 
-function readSectionScrollables(page, patterns, label) {
+/* 소개·감상배경 칸은 제목(h4) 대신 본문 첫머리 표식([data-*-inline-marker])으로 구분한다 */
+function readMarkerScrollables(page, markerSelector, label) {
   return page.evaluate(
-    (sources, sectionLabel) => {
+    (selector, sectionLabel) => {
       const assertElement = (value, name) => {
         if (!(value instanceof Element)) throw new Error(`Missing ${name}`);
       };
       const library = document.querySelector("#library");
       assertElement(library, "#library");
-      const regexes = sources.map((source) => new RegExp(source, "i"));
-      const heading = [...library.querySelectorAll("h4")].find((item) =>
-        regexes.some((pattern) => pattern.test(item.textContent?.trim() ?? "")),
-      );
-      assertElement(heading, `${sectionLabel} section`);
-      const section = heading.closest("section") ?? heading.parentElement;
+      const marker = [...library.querySelectorAll(selector)]
+        .find((element) => element.getBoundingClientRect().height > 0)
+        ?? library.querySelector(selector);
+      assertElement(marker, `${sectionLabel} marker`);
+      const section = marker.closest("section") ?? marker.parentElement;
       assertElement(section, `${sectionLabel} section`);
       const scrollables = [section, ...section.querySelectorAll("*")]
         .filter((element) => {
@@ -687,19 +687,15 @@ function readSectionScrollables(page, patterns, label) {
         .filter((element) => element.range > 0);
       return { label: sectionLabel, scrollables };
     },
-    patterns,
+    markerSelector,
     label,
   );
 }
 
 async function checkReviewScroll(page) {
   // 소개와 감상 배경이 한 덩어리로 함께 문서에 있다 — 두 칸을 순서대로 잰다
-  const intro = await readSectionScrollables(
-    page,
-    ["작품\\s*소개", "책\\s*소개", "영상\\s*소개", "게임\\s*소개", "음악\\s*소개", "(?:content|book|video|game|music)\\s*intro"],
-    "content introduction",
-  );
-  const review = await readSectionScrollables(page, ["감상\\s*배경", "review"], "review");
+  const intro = await readMarkerScrollables(page, "[data-intro-inline-marker]", "content introduction");
+  const review = await readMarkerScrollables(page, "[data-review-inline-marker]", "review");
   const sections = { intro, review };
 
   assert.equal(
@@ -750,11 +746,9 @@ async function wheelOverReview(page) {
     document.documentElement.style.scrollBehavior = "auto";
     const library = document.querySelector("#library");
     assertElement(library, "#library");
-    const heading = [...library.querySelectorAll("h4")].find((item) =>
-      /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
-    );
-    assertElement(heading, "review heading");
-    const section = heading.closest("section") ?? heading.parentElement;
+    const marker = library.querySelector("[data-review-inline-marker]");
+    assertElement(marker, "review marker");
+    const section = marker.closest("section") ?? marker.parentElement;
     assertElement(section, "review section");
     const rect = section.getBoundingClientRect();
     window.scrollTo({
@@ -770,11 +764,9 @@ async function wheelOverReview(page) {
     };
     const library = document.querySelector("#library");
     assertElement(library, "#library");
-    const heading = [...library.querySelectorAll("h4")].find((item) =>
-      /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
-    );
-    assertElement(heading, "review heading");
-    const section = heading.closest("section") ?? heading.parentElement;
+    const marker = library.querySelector("[data-review-inline-marker]");
+    assertElement(marker, "review marker");
+    const section = marker.closest("section") ?? marker.parentElement;
     assertElement(section, "review section");
     const rect = section.getBoundingClientRect();
     return { x: rect.left + rect.width / 2, y: rect.top + Math.min(120, rect.height / 2) };
@@ -782,10 +774,8 @@ async function wheelOverReview(page) {
 
   const before = await page.evaluate(() => {
     const library = document.querySelector("#library");
-    const heading = [...(library?.querySelectorAll("h4") ?? [])].find((item) =>
-      /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
-    );
-    const section = heading?.closest("section") ?? heading?.parentElement;
+    const marker = library?.querySelector("[data-review-inline-marker]");
+    const section = marker?.closest("section") ?? marker?.parentElement;
     const inner = section
       ? [section, ...section.querySelectorAll("*")]
           .filter((element) => ["auto", "scroll"].includes(getComputedStyle(element).overflowY))
@@ -803,10 +793,8 @@ async function wheelOverReview(page) {
   await new Promise((resolve) => setTimeout(resolve, 180));
   const after = await page.evaluate(() => {
     const library = document.querySelector("#library");
-    const heading = [...(library?.querySelectorAll("h4") ?? [])].find((item) =>
-      /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
-    );
-    const section = heading?.closest("section") ?? heading?.parentElement;
+    const marker = library?.querySelector("[data-review-inline-marker]");
+    const section = marker?.closest("section") ?? marker?.parentElement;
     const inner = section
       ? [section, ...section.querySelectorAll("*")]
           .filter((element) => ["auto", "scroll"].includes(getComputedStyle(element).overflowY))
@@ -821,10 +809,8 @@ async function wheelOverReview(page) {
   if (before.range > tolerance) {
     await page.evaluate(() => {
       const library = document.querySelector("#library");
-      const heading = [...(library?.querySelectorAll("h4") ?? [])].find((item) =>
-        /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
-      );
-      const section = heading?.closest("section") ?? heading?.parentElement;
+      const marker = library?.querySelector("[data-review-inline-marker]");
+      const section = marker?.closest("section") ?? marker?.parentElement;
       if (!section) return;
       for (const element of [section, ...section.querySelectorAll("*")]) {
         if (["auto", "scroll"].includes(getComputedStyle(element).overflowY)) {

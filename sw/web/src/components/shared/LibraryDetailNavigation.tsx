@@ -131,10 +131,12 @@ interface BottomNavigationProps {
   disabled: boolean;
   onPrevious: () => void;
   onNext: () => void;
+  /** 긴 본문을 다 읽은 자리에서 넘기는 화면은 넓은 화면에도 이동 단추를 둔다 */
+  showOnDesktop?: boolean;
   testPrefix?: string;
 }
 
-/* 좁은 화면에서 이전·다음으로 이동한다. 상세 링크를 쓰는 화면만 가운데 칸과 PC 연결 바를 둔다. */
+/* 좁은 화면에서 이전·다음으로 이동한다. 상세 링크를 쓰는 화면과 showOnDesktop을 켠 화면은 넓은 화면에도 둔다. */
 export function LibraryBottomNavigation({
   label,
   previousLabel,
@@ -144,13 +146,15 @@ export function LibraryBottomNavigation({
   disabled,
   onPrevious,
   onNext,
+  showOnDesktop = false,
   testPrefix = "expand",
 }: BottomNavigationProps) {
+  const desktopVisible = showOnDesktop || (detailHref && detailLabel);
   return (
     <nav
       aria-label={label}
       data-testid={`${testPrefix}-bottom-navigation`}
-      className={`flex items-stretch justify-center border-t border-white/10 bg-bg-secondary/55 ${detailHref && detailLabel ? "" : "md:hidden"}`}
+      className={`flex items-stretch justify-center border-t border-white/10 bg-bg-secondary/55 ${desktopVisible ? "" : "md:hidden"}`}
     >
       <button
         type="button"
@@ -159,7 +163,7 @@ export function LibraryBottomNavigation({
         disabled={disabled}
         aria-label={previousLabel}
         title={previousLabel}
-        className="flex min-h-[44px] flex-1 items-center justify-center border-e border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary md:hidden"
+        className={`flex min-h-[44px] flex-1 items-center justify-center border-e border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary ${desktopVisible ? "" : "md:hidden"}`}
       >
         <ArrowLeft className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
       </button>
@@ -179,7 +183,7 @@ export function LibraryBottomNavigation({
         disabled={disabled}
         aria-label={nextLabel}
         title={nextLabel}
-        className={`flex min-h-[44px] flex-1 items-center justify-center text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary md:hidden ${detailHref && detailLabel ? "border-s border-white/10" : ""}`}
+        className={`flex min-h-[44px] flex-1 items-center justify-center text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary ${desktopVisible ? "" : "md:hidden"} ${detailHref && detailLabel ? "border-s border-white/10" : ""}`}
       >
         <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
       </button>
