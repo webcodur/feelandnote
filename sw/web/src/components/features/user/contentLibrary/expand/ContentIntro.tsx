@@ -136,6 +136,12 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
               {inlineMarker}<FormattedText text={text} layout={layout} />
             </ClippedContentReadingText>
           )}
+          {modalSourceUrl && (
+            <a href={modalSourceUrl} target="_blank" rel="noopener noreferrer"
+              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary">
+              {t("expandIntroSource")}
+            </a>
+          )}
         </div>
       ) : active ? (
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
@@ -180,6 +186,12 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
             </ClippedContentReadingText>
           )}
 
+          {modalSourceUrl && (
+            <a href={modalSourceUrl} target="_blank" rel="noopener noreferrer"
+              className="mt-2 inline-block shrink-0 text-xs text-text-tertiary underline decoration-white/20 underline-offset-2 hover:text-text-secondary">
+              {t("expandIntroSource")}
+            </a>
+          )}
         </div>
       ) : (
         <p className="text-sm italic text-text-tertiary">{t("expandNoIntro")}</p>
