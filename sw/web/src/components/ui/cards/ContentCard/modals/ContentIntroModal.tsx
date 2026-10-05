@@ -12,6 +12,7 @@ import { Link } from "@/i18n/navigation";
 import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
 import { getContentBrief, type ContentBrief } from "@/actions/contents/getContentBrief";
 import { useLocale, useTranslations } from "next-intl";
@@ -149,7 +150,7 @@ export default function ContentIntroModal({
                   />
                 )}
                 <div className="text-sm leading-relaxed text-text-secondary whitespace-pre-wrap">
-                  <FormattedText text={normalizeIntroBreaks(description)} />
+                  <FormattedText text={normalizeIntroBreaks(description)} layout={isDeveloperMode() ? "prose" : "inline"} />
                 </div>
               </div>
             ) : (

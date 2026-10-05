@@ -67,3 +67,22 @@ test("빈 줄이 없는 글에서는 산문 줄 사이 개행을 벌린다", () 
     "첫 문장이다. 둘째 문장이다.\n\n셋째 문장이다. 넷째 문장이다.",
   );
 });
+
+test("운영과 개발의 소개 표시 모두 닫힌 font 서식만 제거한다", () => {
+  const previous = process.env.NODE_ENV;
+  try {
+    for (const mode of ["production", "development"]) {
+      Object.assign(process.env, { NODE_ENV: mode });
+      const source = '첫 소개입니다.\n\n〈font color="ff8c00"〉☞〈/font〉 이런 점이 좋습니다!\n다음 설명입니다.';
+      assert.equal(normalizeIntroBreaks(source), "첫 소개입니다.\n\n☞ 이런 점이 좋습니다!\n다음 설명입니다.");
+    }
+  } finally {
+    if (previous === undefined) Reflect.deleteProperty(process.env, "NODE_ENV");
+    else Object.assign(process.env, { NODE_ENV: previous });
+  }
+});
+
+test("정상적인 영문·제목·특수문자는 소개 서식 정리로 바뀌지 않는다", () => {
+  const source = "Don't change O’Connor, 1990–2000, e-mail, 3.14, https://example.com.\n\n〈Font〉, <Dune>, C++, C#, ∑, 中文, 日本語, العربية, 😀, 👩‍👩‍👧‍👦, café, cafe\u0301.";
+  assert.equal(normalizeIntroBreaks(source), source);
+});

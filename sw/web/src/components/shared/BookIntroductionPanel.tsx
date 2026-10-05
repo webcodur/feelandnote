@@ -27,6 +27,7 @@ import { useClippedText } from "@/hooks/useClippedText";
 import { fitsInlineReadingText } from "@/constants/readingText";
 import { cn } from "@/lib/utils";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import { Z_INDEX } from "@/constants/zIndex";
 
 /* 상한을 넘는 장문을 접을 때 쓰는 칸 채우기 규격이다 — 좁은 화면은 네 줄(max-h-28)에서 접고, 채우기 폭부터는 네 줄을 바닥으로 칸을 채운다. contain-size라 본문이 행을 밀지 않는다.
@@ -166,7 +167,7 @@ export default function BookIntroductionPanel({
             )}
           >
             {wrapAroundMedia && <BookOpenText size={18} aria-hidden className="me-1.5 inline-block align-[-0.15em] text-accent sm:hidden" />}
-            <FormattedText text={introText} />
+            <FormattedText text={introText} layout={isDeveloperMode() ? "prose" : "inline"} />
           </p>
           {(appearance === "plain" || source.providerName || source.sourceUrl) && (
             <div className={cn("mt-2 flex flex-wrap items-center gap-2", appearance === "plain" ? "justify-between" : "justify-end", fill.footer, wrapAroundMedia && "max-sm:clear-both max-sm:mt-3 max-sm:border-t max-sm:border-white/[0.08] max-sm:pt-2")}>

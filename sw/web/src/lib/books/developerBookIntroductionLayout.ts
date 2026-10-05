@@ -2,7 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { rawFetch } from "../rawFetch";
 import { getCachedYes24BookDetail } from "./yes24DetailCache";
-import { extractYes24LayoutReferences, restoreIntroductionLayout } from "./bookIntroductionLayout";
+import { cleanIntroductionFormatting, extractYes24LayoutReferences, restoreIntroductionLayout } from "./bookIntroductionLayout";
 import { YES24_PURCHASE_CACHE_SECONDS } from "./yes24Purchase";
 
 const readLayoutReferences = unstable_cache(async (isbn: string) => {
@@ -17,6 +17,7 @@ const readLayoutReferences = unstable_cache(async (isbn: string) => {
 
 /** 실패하거나 본문 전체가 일치하지 않으면 원문을 보존한다. 운영에서는 호출하지 않는다. */
 export async function getDeveloperIntroductionLayout(isbn: string, source: string): Promise<string> {
+  source = cleanIntroductionFormatting(source);
   if (!process.env.YES24_API_KEY?.trim()) return source;
   try {
     return restoreIntroductionLayout(source, await readLayoutReferences(isbn)) ?? source;

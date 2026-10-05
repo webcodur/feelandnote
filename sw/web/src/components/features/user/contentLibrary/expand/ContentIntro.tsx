@@ -16,6 +16,7 @@ import ClippedContentReadingText from "@/components/ui/ClippedContentReadingText
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
 import { fitsInlineReadingText } from "@/constants/readingText";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import { INTRO_PROVIDER_HEADING_NAME } from "@/components/shared/BookIntroductionSource";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
@@ -54,6 +55,7 @@ interface ContentIntroProps {
 export default function ContentIntro({ brief, category, isLoading, inlineLabel = false }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
+  const layout = isDeveloperMode() ? "prose" : "inline";
   const headingId = useId();
   const [pickedProvider, setPickedProvider] = useState<ContentIntroSource["provider"] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -120,7 +122,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
         <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
           {fitsInline ? (
             <ContentReadingText text={text} tone="secondary" size="compact">
-              {inlineMarker}<FormattedText text={text} />
+              {inlineMarker}<FormattedText text={text} layout={layout} />
             </ContentReadingText>
           ) : (
             <ClippedContentReadingText
@@ -131,7 +133,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
               onClick={openModal}
               clickLabel={t("expandIntroMore")}
             >
-              {inlineMarker}<FormattedText text={text} />
+              {inlineMarker}<FormattedText text={text} layout={layout} />
             </ClippedContentReadingText>
           )}
         </div>
@@ -163,7 +165,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
 
           {fitsInline ? (
             <ContentReadingText text={activeText} tone="secondary" size="compact">
-              {inlineMarker}<FormattedText text={activeText} />
+              {inlineMarker}<FormattedText text={activeText} layout={layout} />
             </ContentReadingText>
           ) : (
             <ClippedContentReadingText
@@ -174,7 +176,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
               onClick={openModal}
               clickLabel={t("expandIntroMore")}
             >
-              {inlineMarker}<FormattedText text={activeText} />
+              {inlineMarker}<FormattedText text={activeText} layout={layout} />
             </ClippedContentReadingText>
           )}
 
