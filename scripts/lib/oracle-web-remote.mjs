@@ -771,7 +771,7 @@ const MAIN_WARMUP_ROUTES = (probeSlug) => [
   '/rest', '/en/rest',
 ]
 
-export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { readyTimeoutMs = 5_000 } = {}) {
+export async function warmMainRoutes(port, probeSlug, expectedDeploymentId, { readyTimeoutMs = 20_000 } = {}) {
   const origin = `http://127.0.0.1:${port}`
   const runs = []
   for (const pass of ['warm', 'ready']) {
