@@ -27,9 +27,26 @@ export type TrackEventName =
 
 type EventParams = Record<string, string | number | boolean>;
 
+/* 수익화 이벤트는 GA와 함께 우리 장부(commerce_events)에도 남긴다.
+   제휴사 정산 화면이 사라져도 누가 무엇을 눌렀는지는 남는다. 개발 환경의 눌림은 섞이지 않게 걷는다. */
+const COMMERCE_LEDGER_EVENTS: ReadonlySet<TrackEventName> = new Set(["commerce_open", "commerce_click"]);
+
+function reportCommerceLedger(name: TrackEventName, params: EventParams) {
+  if (process.env.NODE_ENV !== "production" || !COMMERCE_LEDGER_EVENTS.has(name)) return;
+  try {
+    void fetch("/api/track/commerce", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ event: name, ...params }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch { /* 계측 실패가 화면 동작을 막아서는 안 된다 */ }
+}
+
 export function trackEvent(name: TrackEventName, params: EventParams = {}) {
   if (typeof window === "undefined") return;
 
+  reportCommerceLedger(name, params);
   try {
     sendGAEvent("event", name, params);
   } catch (error) {

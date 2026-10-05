@@ -153,7 +153,7 @@ TMDB·IGDB의 API 키 발급과 상업 이용 절차는 별개다. Feel&Note의 
 - 크리덴셜 파일: `sw/web/credentials/ga-service-account.json` (.gitignore 등록)
 - env: `sw/web/.env` → `GA_PROPERTY_ID`, `GA_CREDENTIALS_PATH`
 - 활성화된 API: Google Analytics Data API. Admin API는 미활성화라 맞춤 측정기준 등록 같은 설정 변경은 관리 화면에서 사람이 한다.
-- 조회: 전용 MCP가 없다. `sw/web/scripts/ga4-celeb-views.mjs`가 서비스계정 JWT로 `runReport`를 직접 부른다(의존성 없음). 예: `node scripts/ga4-celeb-views.mjs <시작일> <종료일>` → 인물별 페이지뷰·순 방문자·접속 수.
+- 조회: 전용 MCP가 없다. `sw/web/scripts/ga4-celeb-views.mjs`가 서비스계정 JWT로 `runReport`를 직접 부른다(의존성 없음). 예: `node scripts/ga4-celeb-views.mjs <시작일> <종료일>` → 인물별 페이지뷰·순 방문자·접속 수. 같은 방식의 `sw/web-bo/src/lib/ga4.ts`를 백오피스 `/commerce`가 commerce 이벤트 조회에 쓴다.
 - 행동 이벤트 정의의 원천은 `sw/web/src/lib/analytics/track.ts`다. 이벤트 매개변수(`section`·`source`·`to`·`from`·`kind`)는 맞춤 측정기준으로 등록돼 있다. **맞춤 측정기준은 등록 이전 데이터에 소급되지 않으므로** 새 매개변수는 배포보다 등록을 먼저 한다.
 - 데이터 보관은 14개월(무료 등급 최대치)이다.
 - 인물 조회수는 GA4와 DB(`celebs.view_count`)가 사실상 일치한다. DB가 조금 큰 것은 광고 차단 접속까지 세기 때문이라 DB 값을 보정 없이 쓴다. 중복 제거 창은 30분이다.

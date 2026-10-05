@@ -155,8 +155,8 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
-| `GA_PROPERTY_ID` | web | GA4 속성 번호 |
-| `GA_CREDENTIALS_PATH` | web | 아래 인증 파일의 경로 |
+| `GA_PROPERTY_ID` | web, web-bo | GA4 속성 번호 |
+| `GA_CREDENTIALS_PATH` | web, web-bo | 아래 인증 파일의 경로. web-bo는 `../web/credentials/ga-service-account.json`으로 같은 파일을 가리킨다 |
 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 🔴 **구글 서비스 계정 키 파일.** 개인 키가 그대로 들어 있다 (`claude-analytics@feelandnote.iam.gserviceaccount.com`) |
 
 ### 3-9. 영상 제작 로컬 연동

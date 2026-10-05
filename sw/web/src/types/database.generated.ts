@@ -1141,6 +1141,56 @@ export type Database = {
           },
         ]
       }
+      commerce_events: {
+        Row: {
+          content_id: string | null
+          content_type: string | null
+          created_at: string
+          edition_id: number | null
+          external_ref: string | null
+          id: number
+          kind: string
+          locale: string
+          platform: string | null
+          screen: string
+          target: string
+        }
+        Insert: {
+          content_id?: string | null
+          content_type?: string | null
+          created_at?: string
+          edition_id?: number | null
+          external_ref?: string | null
+          id?: number
+          kind: string
+          locale?: string
+          platform?: string | null
+          screen: string
+          target: string
+        }
+        Update: {
+          content_id?: string | null
+          content_type?: string | null
+          created_at?: string
+          edition_id?: number | null
+          external_ref?: string | null
+          id?: number
+          kind?: string
+          locale?: string
+          platform?: string | null
+          screen?: string
+          target?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commerce_events_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       content_locales: {
         Row: {
           affiliate_url: Json | null

@@ -49,6 +49,7 @@ import {
   ScrollText,
   type LucideIcon,
   HardDrive,
+  MousePointerClick,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
 
@@ -127,6 +128,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/free-board', label: '자유게시판', icon: MessageSquare },
       { href: '/reports', label: '신고 관리', icon: Flag },
       { href: '/titles', label: '칭호 관리', icon: Award },
+      { href: '/commerce', label: '수익화 클릭', icon: MousePointerClick },
     ],
   },
   {
