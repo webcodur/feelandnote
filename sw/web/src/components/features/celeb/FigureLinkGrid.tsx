@@ -131,7 +131,8 @@ export default async function FigureLinkGrid({
         />
       )}
 
-      <ul
+      <div
+        role="list"
         className={`gap-3 ${
           mobilePages
             ? // 좁은 화면은 쪽 단위로 옆으로 넘기고, 넓어지면 쪽 묶음이 풀려 격자가 된다.
@@ -146,7 +147,8 @@ export default async function FigureLinkGrid({
         } ${gridClassName}`}
       >
         {(mobilePages ?? [linkable]).map((page, pageIndex) => (
-          <li
+          <div
+            role="presentation"
             key={pageIndex}
             // 넓은 화면에서는 이 묶음을 없애 카드가 격자 칸에 그대로 앉는다
             className={
@@ -207,9 +209,9 @@ export default async function FigureLinkGrid({
             </div>
           );
         })}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {mobilePages && <SwipeControls count={mobilePages.length} />}
 

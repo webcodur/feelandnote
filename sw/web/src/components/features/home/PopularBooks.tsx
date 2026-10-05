@@ -1,7 +1,8 @@
 import { getTranslations, getLocale } from 'next-intl/server'
-import { getAffiliateBooks } from '@/actions/home/getAffiliateBooks'
+import { getAffiliateBooks, type AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import AffiliateBookList from '@/components/shared/AffiliateBookList'
 import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
+import { RetryBlock } from '@/components/ui/pending'
 
 /**
  * 서점으로 이을 수 있는 도서 구획 — 한국어는 YES24(쿠팡은 보조 단추), 영어는 아마존(상품이 없으면 검색).
@@ -9,7 +10,13 @@ import { getBookStorePlatform } from '@/constants/affiliatePlatforms'
  */
 export default async function PopularBooks() {
   const locale = await getLocale()
-  const books = await getAffiliateBooks(locale === 'en' ? 'en' : 'ko', 6)
+  let books: AffiliateBook[]
+  try {
+    books = await getAffiliateBooks(locale === 'en' ? 'en' : 'ko', 6)
+  } catch (error) {
+    console.error('[home] recommended books query failed:', error)
+    return <RetryBlock />
+  }
   if (books.length === 0) return null
 
   const [t, tPage] = await Promise.all([getTranslations('popularBooks'), getTranslations('celebPage')])

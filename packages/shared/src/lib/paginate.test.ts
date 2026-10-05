@@ -22,3 +22,17 @@ test('a failed chunk rejects instead of returning an empty or partial shelf', as
     return { data: chunk.map((id) => ({ id })), error: null }
   }), /query unavailable/)
 })
+
+test('cold bulk selections bound concurrent requests and preserve input order', async () => {
+  const ids = Array.from({ length: 1800 }, (_, index) => String(index))
+  let active = 0
+  let peak = 0
+  const rows = await selectInChunks(ids, async (chunk) => {
+    peak = Math.max(peak, ++active)
+    await new Promise<void>(resolve => setImmediate(resolve))
+    active--
+    return { data: chunk.map(id => ({ id })), error: null }
+  })
+  assert.ok(peak <= 6, `cold reads opened ${peak} requests at once`)
+  assert.deepEqual(rows.map(row => row.id), ids)
+})

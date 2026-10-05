@@ -56,6 +56,12 @@ const nextConfig: NextConfig = {
       { protocol: 'http', hostname: '**' },
     ],
   },
+  async headers() {
+    return [{
+      source: '/fonts/pretendard-v1.3.9/:path*',
+      headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+    }];
+  },
   async redirects() {
     return [
       {

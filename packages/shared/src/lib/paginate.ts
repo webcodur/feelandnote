@@ -20,6 +20,7 @@
 const ROWS_PER_PAGE = 1000
 // 긴 UUID 목록은 REST 게이트웨이에서 실패하므로 요청 주소에 여유를 남긴다.
 const IDS_PER_CHUNK = 75
+export const PAGINATION_QUERY_CONCURRENCY = 6
 
 export async function selectAllPages<T>(
   page: (
@@ -56,11 +57,13 @@ export async function selectInChunks<T>(
     chunks.push(ids.slice(index, index + IDS_PER_CHUNK))
   }
 
-  const results = await Promise.all(chunks.map((chunk) => query(chunk)))
   const rows: T[] = []
-  for (const { data, error } of results) {
-    if (error) throw new Error(error.message)
-    if (data) rows.push(...data)
+  for (let index = 0; index < chunks.length; index += PAGINATION_QUERY_CONCURRENCY) {
+    const results = await Promise.all(chunks.slice(index, index + PAGINATION_QUERY_CONCURRENCY).map(chunk => query(chunk)))
+    for (const { data, error } of results) {
+      if (error) throw new Error(error.message)
+      if (data) rows.push(...data)
+    }
   }
   return rows
 }

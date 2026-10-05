@@ -136,6 +136,7 @@ export default function CelebCarousel({
           <button
             type="button"
             onClick={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
+            aria-label={t("searchButton")}
             disabled={filters.isLoading}
             className="h-9 px-3 bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/60 disabled:opacity-50 text-accent text-sm font-medium rounded-lg transition-all duration-300"
           >

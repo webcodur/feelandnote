@@ -48,6 +48,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
   const displayGreeting = isEn ? (celeb.greeting_en ?? celeb.greeting) : celeb.greeting;
+  const compactProfile = Boolean(contextReview) && !onNavigate;
 
   const {
     hasVoice,
@@ -114,6 +115,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
       <Modal
         isOpen={isOpen}
         onClose={onClose}
+        ariaLabel={displayNickname}
         frame="plain"
         widthClassName="max-w-[440px]"
         overlayClassName="bg-black/70 backdrop-blur-sm"
@@ -124,7 +126,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         escapeCapture={escapeCapture}
         closeOnEscape={!isFactionsModalOpen && !zoomOpen}
       >
-        <div className="relative overflow-hidden rounded-sm bg-bg-main animate-fade-in pb-5">
+        <div className={`relative overflow-hidden rounded-sm bg-bg-main animate-fade-in ${contextReview ? "flex max-h-[var(--modal-body-max-height)] flex-col pb-3" : "pb-5"}`}>
           {/* 머리 위로 옅은 금빛 — 장식 상자 없이 인물만 비춘다 */}
           <div
             aria-hidden
@@ -132,9 +134,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
           />
 
           {/* 인물 요약: 이전·다음 화살표 + Avatar + 이름 + 메타 + 태그 */}
-          <div className="relative flex flex-col items-center px-6 pt-8 pb-4">
+          <div className={compactProfile ? "relative grid shrink-0 grid-cols-[80px_minmax(0,1fr)] items-center gap-x-4 gap-y-1 px-6 pt-4 pb-3" : "relative flex shrink-0 flex-col items-center px-6 pt-8 pb-4"}>
             {/* 목록 탐색: 이전·다음 인물 버튼이 아바타 좌우를 호위한다 */}
-            <div className="mb-4 flex items-center justify-center gap-4">
+            <div className={compactProfile ? "row-span-4 flex items-center justify-center self-start pt-1" : "mb-4 flex items-center justify-center gap-4"}>
               {onNavigate && (
                 <button
                   type="button"
@@ -146,20 +148,37 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   <ChevronLeft size={20} />
                 </button>
               )}
-              <CelebProfileMedia
-                photoUrl={null}
-                avatarUrl={celeb.avatar_url}
-                nickname={displayNickname}
-                onZoom={handleZoom}
-                zoomLabel={tCeleb("enlargePhoto")}
-                hasVoice={hasGreetingAudio}
-                isVoicePlaying={isVoiceActive}
-                onGreet={canGreet ? handleGreetingPlay : undefined}
-                greetLabel={greetLabel}
-                avatarSize="h-28 w-28"
-                initialSize="text-4xl"
-                avatarAlignment="center"
-              />
+              <div className="relative shrink-0" data-celeb-modal-portrait>
+                <CelebProfileMedia
+                  photoUrl={null}
+                  avatarUrl={celeb.avatar_url}
+                  nickname={displayNickname}
+                  onZoom={handleZoom}
+                  zoomLabel={tCeleb("enlargePhoto")}
+                  hasVoice={hasGreetingAudio}
+                  isVoicePlaying={isVoiceActive}
+                  onGreet={canGreet ? handleGreetingPlay : undefined}
+                  greetLabel={greetLabel}
+                  avatarSize={compactProfile ? "h-20 w-20" : "h-28 w-28"}
+                  initialSize="text-4xl"
+                  avatarAlignment="center"
+                />
+                <button
+                  type="button"
+                  onClick={handleFollowClick}
+                  disabled={isLoading}
+                  aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
+                  title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
+                  data-celeb-modal-follow
+                  className={`absolute -bottom-1 -right-1 z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-bg-main hover:bg-bg-card active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
+                    isFollowing
+                      ? "border-accent/60 text-accent"
+                      : "border-white/15 text-text-secondary hover:border-accent hover:text-accent"
+                  }`}
+                >
+                  {isFollowing ? <Check size={14} strokeWidth={3} /> : <UserPlus size={14} strokeWidth={2.5} />}
+                </button>
+              </div>
               {onNavigate && (
                 <button
                   type="button"
@@ -174,12 +193,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             </div>
 
             {displayTitle && (
-              <p className="text-xs text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
+              <p className={`text-xs text-accent font-bold uppercase tracking-[.25em] ${compactProfile ? "col-start-2" : "mb-1"}`}>{displayTitle}</p>
             )}
 
             {/* 인물 페이지로 가는 문 — 이름 오른쪽에 붙인다 */}
-            <div className="mb-3 flex items-center justify-center gap-2">
-              <h2 className="text-3xl font-black font-serif text-text-primary leading-tight text-center break-all">
+            <div className={compactProfile ? "col-start-2 flex min-w-0 items-center gap-2" : "mb-3 flex items-center justify-center gap-2"}>
+              <h2 className={`font-black font-serif text-text-primary leading-tight break-all ${compactProfile ? "text-2xl" : "text-3xl text-center"}`}>
                 {displayNickname}
               </h2>
               <Link
@@ -194,7 +213,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
               </Link>
             </div>
 
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm justify-center text-text-secondary">
+            <div className={`flex flex-wrap gap-x-3 gap-y-1 text-sm text-text-secondary ${compactProfile ? "col-start-2" : "justify-center"}`}>
               {celeb.profession && (
                 <span className="flex items-center gap-1">
                   <Briefcase size={14} />
@@ -218,7 +237,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
             {/* 태그: 최대 2개까지만 표시하고 나머지는 +N 처리 (가로폭 넘침 방지) */}
             {(celeb.factions?.length ?? 0) > 0 && (
-              <div className="mt-3 flex w-full max-w-full flex-wrap items-center justify-center gap-2 overflow-hidden">
+              <div className={`flex w-full max-w-full flex-wrap items-center gap-2 overflow-hidden ${compactProfile ? "col-start-2 mt-1" : "mt-3 justify-center"}`}>
                 {celeb.factions.slice(0, 2).map(tag => (
                   <button
                     key={tag.id}
@@ -264,30 +283,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
             onPlay={handleQuotePlay}
             playLabel={tCeleb("playQuoteVoice")}
             variant="modal"
+            className="shrink-0"
           />
 
-          {/* 바이오 — 앞의 아이콘이 팔로우 단추다 */}
+          {/* 바이오 */}
           {displayBio && (
-            <div className="px-6 pt-3">
+            <div className={`shrink-0 px-6 ${compactProfile ? "pt-1.5" : "pt-3"}`}>
               <p className="text-sm text-text-secondary leading-relaxed break-all">
-                <button
-                  type="button"
-                  onClick={handleFollowClick}
-                  disabled={isLoading}
-                  aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
-                  title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
-                  className={`float-left mr-2 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border active:scale-90 disabled:opacity-50 ${
-                    isFollowing
-                      ? "border-accent/60 bg-accent/15 text-accent"
-                      : "border-white/15 bg-black/30 text-text-secondary hover:border-accent hover:text-accent"
-                  }`}
-                >
-                  {isFollowing ? (
-                    <Check size={14} strokeWidth={3} />
-                  ) : (
-                    <UserPlus size={14} strokeWidth={2.5} />
-                  )}
-                </button>
                 <FormattedText text={displayBio} />
               </p>
             </div>
@@ -295,12 +297,12 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
           {/* 이 콘텐츠에 대한 감상평 — 인원 구성처럼 콘텐츠 문맥에서 열렸을 때만 */}
           {contextReview && (
-            <div className="px-6 pt-3" data-celeb-context-review>
-              <div className="rounded-xl border border-accent/20 bg-white/[0.03] px-4 py-3">
-                <p className="mb-2 text-xs font-medium text-accent/80">
+            <div className="flex min-h-0 flex-col px-6 pt-2" data-celeb-context-review>
+              <div className="flex min-h-0 flex-col rounded-xl border border-accent/20 bg-white/[0.03] px-4 py-2.5">
+                <p className="mb-1 shrink-0 text-xs font-medium text-accent/80">
                   {contextReview.bookTitle ? tCeleb("bookRelationReadBackground", { name: displayNickname }) : t("contentReviewTitle")}
                 </p>
-                {contextReview.bookTitle && <p className="mb-2 text-sm font-semibold text-text-primary">{contextReview.bookTitle}</p>}
+                {contextReview.bookTitle && <p className="mb-1 shrink-0 text-sm font-semibold text-text-primary">{contextReview.bookTitle}</p>}
                 {contextReview.isSpoiler && revealedReview !== contextReview.review ? (
                   <button
                     type="button"
@@ -311,27 +313,31 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                     {t("contentReviewSpoiler")}
                   </button>
                 ) : contextReview.review ? (
-                  <div className="max-h-48 overflow-y-auto custom-scrollbar">
+                  <div className="min-h-0 max-h-48 overflow-y-auto custom-scrollbar [overflow-anchor:none]">
                     <p className="text-sm leading-relaxed text-text-secondary whitespace-pre-line break-words">
                       <FormattedText text={contextReview.review} />
                     </p>
                   </div>
                 ) : null}
-                {/^https?:\/\//.test(contextReview.sourceUrl ?? "") && (
-                  <a href={contextReview.sourceUrl!} target="_blank" rel="noopener noreferrer"
-                    className="mt-2 inline-flex min-h-10 items-center rounded px-2 text-xs text-accent outline-none hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">
-                    {tCeleb("bookRelationSource")}
-                  </a>
-                )}
-                {celeb.content_count > 1 && (
-                  <Link
-                    href={getCelebProfileUrl(celeb)}
-                    locale={isEn ? "en" : undefined}
-                    className="mt-2.5 flex items-center justify-end gap-1 text-xs text-text-tertiary hover:text-accent"
-                  >
-                    {t("contentReviewMore")}
-                    <ArrowUpRight size={12} />
-                  </Link>
+                {(/^https?:\/\//.test(contextReview.sourceUrl ?? "") || celeb.content_count > 1) && (
+                  <div className="mt-2 flex min-h-8 shrink-0 items-center justify-between gap-3">
+                    {/^https?:\/\//.test(contextReview.sourceUrl ?? "") && (
+                      <a href={contextReview.sourceUrl!} target="_blank" rel="noopener noreferrer"
+                        className="inline-flex min-h-8 shrink-0 items-center rounded px-2 text-xs text-accent outline-none hover:bg-accent/10 focus-visible:ring-2 focus-visible:ring-accent">
+                        {tCeleb("bookRelationSource")}
+                      </a>
+                    )}
+                    {celeb.content_count > 1 && (
+                      <Link
+                        href={getCelebProfileUrl(celeb)}
+                        locale={isEn ? "en" : undefined}
+                        className="ml-auto flex min-w-0 items-center justify-end gap-1 text-right text-xs text-text-tertiary hover:text-accent"
+                      >
+                        {t("contentReviewMore")}
+                        <ArrowUpRight size={12} className="shrink-0" />
+                      </Link>
+                    )}
+                  </div>
                 )}
               </div>
             </div>

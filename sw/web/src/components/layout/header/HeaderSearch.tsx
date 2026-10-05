@@ -20,6 +20,7 @@ import { useTranslations } from "next-intl";
 
 export default function HeaderSearch() {
   const t = useTranslations("shared.search.mode");
+  const labels = useTranslations();
   const tp = useTranslations("content.placeholder");
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
@@ -87,6 +88,7 @@ export default function HeaderSearch() {
     <Button
       unstyled
       onClick={() => setIsMobileExpanded(true)}
+      aria-label={labels("pages.search")}
       className="xl:hidden w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/5"
     >
       <Search size={20} className="text-text-secondary hover:text-text-primary" />
@@ -113,6 +115,7 @@ export default function HeaderSearch() {
           unstyled
           type="button"
           onClick={closeMobileSearch}
+          aria-label={labels("shared.accessibility.close")}
           className="w-8 h-8 flex items-center justify-center rounded-sm hover:bg-white/5 group shrink-0"
         >
           <ArrowLeft size={18} className="text-text-primary group-hover:text-accent transition-colors" />
@@ -154,6 +157,7 @@ export default function HeaderSearch() {
               mobileInputRef.current?.focus();
             }}
             disabled={!query}
+            aria-label={labels("shared.search.clear")}
             className={`${query ? " hover:text-text-primary" : " cursor-not-allowed"}`}
           >
             <X size={16} />
@@ -256,6 +260,7 @@ export default function HeaderSearch() {
               inputRef.current?.focus();
             }}
             disabled={!query}
+            aria-label={labels("shared.search.clear")}
             className={`${query ? "text-text-secondary hover:text-text-primary" : "text-text-secondary/30 cursor-not-allowed"}`}
           >
             <X size={16} />
@@ -263,6 +268,7 @@ export default function HeaderSearch() {
           <Button
             unstyled
             onClick={handleSearch}
+            aria-label={labels("pages.search")}
             className="text-text-secondary hover:text-accent shrink-0"
           >
             <Search size={18} />

@@ -493,17 +493,11 @@ export default function FloatingMusicPlayer() {
     const audio = audioRef.current
     if (!audio) return
     // 브라우저가 자동 재생을 막으면 넘기는 중·불러오는 중 표시에 갇히지 않게 대기로 되돌린다
-    const play = () =>
-      void audio.play().catch(() => {
-        setPlayingId(null)
-        setAudioStatus('idle')
-      })
-    if (audio.readyState >= 2) {
-      play()
-      return
-    }
-    audio.addEventListener('canplay', play, { once: true })
-    return () => audio.removeEventListener('canplay', play)
+    // With preload="none", play() starts loading the selected track.
+    void audio.play().catch(() => {
+      setPlayingId(null)
+      setAudioStatus('idle')
+    })
   }, [selectedId])
 
   useEffect(() => {
@@ -982,7 +976,7 @@ export default function FloatingMusicPlayer() {
           key={currentTrack.id}
           ref={audioRef}
           src={currentTrack.previewUrl}
-          preload="metadata"
+          preload="none"
           onLoadStart={() => {
             // 곡을 고르지 않은 채 메타데이터만 읽을 때는 불러오는 중 표시를 켜지 않는다
             setAudioStatus((status) => status === 'loading' ? status : 'idle')
@@ -1057,6 +1051,7 @@ function MusicOpener({
     onPointerEnter: onPrefetch,
     onFocus: onPrefetch,
     title: label,
+    'aria-label': label,
     'aria-expanded': isOpen,
     'aria-haspopup': 'dialog' as const,
   }
@@ -1089,7 +1084,6 @@ function MusicOpener({
     return (
       <button
         {...buttonProps}
-        aria-label={label}
         className={cn(
           'relative flex size-8 items-center justify-center rounded-full border bg-bg-card text-accent shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
           highlighted ? 'border-accent' : 'border-accent/30 hover:border-accent hover:bg-[#242424]',

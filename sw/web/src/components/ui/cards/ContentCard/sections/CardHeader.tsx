@@ -102,6 +102,7 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
       {/* 좌: 카테고리 */}
       <button
         type="button"
+        aria-label={t("types.title")}
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsTypeInfoOpen(true); }}
         className="flex items-center justify-center w-6 h-6 rounded hover:bg-white/[0.06] transition-colors"
       >
