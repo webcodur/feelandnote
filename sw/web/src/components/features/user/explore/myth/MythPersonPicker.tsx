@@ -16,13 +16,13 @@ interface Props {
   name: string;
 }
 
-/* 접힌 목록이 보여 주는 인원 — 모든 단의 열 수(2·3·4·6)로 나눠지는 수라 어느 화면에서도 마지막 행이 통으로 찬다 */
+/* 접힌 목록이 보여 주는 인원 */
 const COLLAPSED_COUNT = 12;
 
 // 카드 수식어는 인물의 정식 title만 두 줄까지 쓴다. 팩션 등장 설명·bio는 상세에서 읽는다.
 export default function MythPersonPicker({ people, selectedId, onSelect, name }: Props) {
   const t = useTranslations("explore.hub.myth");
-  /* 긴 명단은 두 행만 펼쳐 두고 아래 책장이 보이게 한다 — 모두 보기로 전원을 펼친다 */
+  /* 긴 명단은 첫 묶음만 보여 주고 아래 책장이 보이게 한다 — 모두 보기로 전원을 펼친다 */
   const [expanded, setExpanded] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const collapsible = people.length > COLLAPSED_COUNT;
@@ -63,9 +63,9 @@ export default function MythPersonPicker({ people, selectedId, onSelect, name }:
               {selected && <span className="absolute end-2 top-2 grid size-6 place-items-center rounded-full bg-accent text-bg-main"><Check size={15} aria-hidden /></span>}
               {person.reality && person.reality !== "REAL" && <span className="absolute bottom-2 start-2"><CelebRealityLabel id={`person-reality-${person.id}`} reality={person.reality} interactive={false} /></span>}
             </span>
-            <span className="mt-2.5 block w-full min-w-0 px-0.5">
-              <span className={`block break-keep text-sm font-bold leading-5 [overflow-wrap:anywhere] md:text-base md:leading-6 ${selected ? "text-accent" : "text-text-primary group-hover:text-accent"}`}>{person.name}</span>
-              {title && <span title={title} className="mt-1 line-clamp-2 break-keep text-sm leading-5 text-text-secondary [overflow-wrap:anywhere]">{title}</span>}
+            <span className="mt-1.5 block w-full min-w-0 px-0.5">
+              <span className={`block break-keep text-xs font-semibold leading-tight [overflow-wrap:anywhere] md:text-sm ${selected ? "text-accent" : "text-text-primary group-hover:text-accent"}`}>{person.name}</span>
+              {title && <span title={title} className="mt-0.5 line-clamp-2 break-keep text-[11px] leading-tight text-text-secondary [overflow-wrap:anywhere] md:text-xs">{title}</span>}
             </span>
           </button>
         );

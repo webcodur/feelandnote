@@ -24,7 +24,7 @@ export default function AtlasIndex({ heading, groups, stacked = false }: Props) 
   if (visible.length === 0) return null;
   return (
     /* 구획 머리(— NN — 전체)와 앵커는 바깥 HubSection이 쥔다 — 여기서는 목록만 그린다 */
-    <nav aria-label={heading} data-atlas-index className={`${MYTH_LAYOUT.container} ${stacked ? "text-center" : "px-4 md:px-6"}`}>
+    <nav aria-label={heading} data-atlas-index className={`${MYTH_LAYOUT.container} ${stacked ? "text-center" : ""}`}>
       {/* 세력은 분야명을 별도 행에 두고, 항목은 그 아래 가운데에서 줄바꿈한다. */}
       <div className={stacked ? "space-y-7 md:space-y-8" : "space-y-4"}>
         {visible.map((group) => (

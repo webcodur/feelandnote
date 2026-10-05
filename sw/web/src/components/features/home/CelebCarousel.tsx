@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
+import { CELEB_GRID_LAYOUT } from "@/components/shared/celebGridLayout";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -281,7 +282,7 @@ function EmptyState() {
 
 function GridSkeleton() {
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6">
+    <div className={`${CELEB_GRID_LAYOUT} gap-y-2 md:gap-y-6`}>
       {Array.from({ length: 12 }).map((_, i) => (
         <div key={i} className="aspect-[13/19] bg-bg-card animate-pulse rounded-xl" />
       ))}
@@ -297,7 +298,7 @@ export function CelebGrid({ celebs, isLoading, quiet = false, onSelect, children
 
   return (
     <>
-      <div className={`grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6 ${loadingClass}`}>
+      <div className={`${CELEB_GRID_LAYOUT} gap-y-2 md:gap-y-6 ${loadingClass}`}>
         {celebs.map((celeb) => (
           <CelebCard
             key={celeb.id}

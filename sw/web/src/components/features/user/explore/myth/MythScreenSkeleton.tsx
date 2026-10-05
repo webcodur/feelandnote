@@ -47,7 +47,7 @@ export default function MythScreenSkeleton({ title, hasArtwork = true, faction =
               {Array.from({ length: 12 }, (_, index) => (
                 <div key={index} className="flex min-w-0 flex-col items-center">
                   <Ghost className="aspect-square w-full rounded-xl" />
-                  <Ghost className="mt-2.5 h-5 w-3/4" /><Ghost className="mt-1 h-4 w-5/6" />
+                  <Ghost className="mt-1.5 h-4 w-3/4" /><Ghost className="mt-0.5 h-3.5 w-5/6" />
                 </div>
               ))}
             </div>
