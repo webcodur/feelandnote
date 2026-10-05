@@ -5,7 +5,7 @@ import FormattedText from "@/components/ui/FormattedText";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import ContentTextModal from "@/components/ui/ContentTextModal";
 import { decodeContentIntroEntities } from "@/components/features/user/contentLibrary/expand/contentIntroText";
-import { normalizeLegacyIntroBreaks, preserveIntroBreaks } from "@/lib/utils/prose-line-breaks";
+import { normalizeIntroBreaks, normalizeLegacyIntroBreaks } from "@/lib/utils/prose-line-breaks";
 
 const EXAMPLES = [
   { label: "문단·구획", text: '『작품명』을 소개하는 첫 문단입니다. “인용문”과 인공지능(AI)의 강조도 유지합니다.\n이 줄은 같은 문단 안의 줄바꿈입니다.\n\n두 번째 일반 문단입니다. 빈 줄은 문단 간격으로 표시합니다.\n\n---\n\n새로운 큰 구획입니다. 독립된 구획 표식을 가운데 - - -로 표시합니다.\n\n다음 문단의 ‘강조’도 유지합니다.' },
@@ -22,7 +22,7 @@ export default function TextLayoutLab({ initialText, sourceHref, loadError = fal
   const [text, setText] = useState(initialText ?? EXAMPLES[0].text);
   const [modalOpen, setModalOpen] = useState(false);
   const decoded = decodeContentIntroEntities(text);
-  const next = preserveIntroBreaks(decoded);
+  const next = normalizeIntroBreaks(decoded);
   return (
     <section className="space-y-6 text-text-primary">
       <h2 className="text-2xl font-semibold">본문 표시 비교</h2>

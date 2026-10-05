@@ -1,4 +1,5 @@
 import { isDeveloperMode } from "../developer-mode";
+import { cleanIntroductionFormatting } from "./introduction-formatting";
 
 /*
   문장이 여러 개 이어진 줄 사이의 한 줄 개행만 빈 줄(문단 경계)로 넓힌다.
@@ -52,6 +53,7 @@ function firstLineOf(chunk: string): string {
 }
 
 export function normalizeIntroBreaks(text: string): string {
+  text = cleanIntroductionFormatting(text);
   if (isDeveloperMode()) return preserveIntroBreaks(text);
   return normalizeLegacyIntroBreaks(text);
 }

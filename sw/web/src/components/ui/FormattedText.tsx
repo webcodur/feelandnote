@@ -1,4 +1,3 @@
-import { isDeveloperMode } from "../../lib/developer-mode";
 import InlineFormattedText, { type FormattedTextProps } from "./formatted-text/InlineFormattedText";
 import { splitTextBlocks } from "./formatted-text/structure";
 
@@ -6,7 +5,7 @@ export { emphasisSpans, emphasisDelimiters, emphasisClassName } from "./formatte
 export { splitReadableParagraphs } from "./formatted-text/structure";
 
 interface Props extends FormattedTextProps {
-  /** 비교 화면·문장 조각의 표시 방식. 기본은 개발 모드에서만 새 본문 표시. */
+  /** 본문 표시가 필요한 호출부에서 명시한다. 짧은 글·댓글의 기본은 inline. */
   layout?: "inline" | "prose";
 }
 
@@ -21,12 +20,13 @@ export function TextSectionBreak() {
 /** 강조와 낭독 오프셋은 유지하고, 작성된 문단·구획 경계만 표시한다. */
 export default function FormattedText({ text, className = "", layout, mark, ...emphasis }: Props) {
   if (!text) return null;
-  const prose = layout === "prose" || (layout !== "inline" && isDeveloperMode());
-  if (!prose) return <InlineFormattedText text={text} className={className} mark={mark} {...emphasis} />;
+  const wrapping = `[overflow-wrap:anywhere] ${className}`;
+  const prose = layout === "prose";
+  if (!prose) return <InlineFormattedText text={text} className={wrapping} mark={mark} {...emphasis} />;
 
   const blocks = splitTextBlocks(text);
   return (
-    <span className={className} data-formatted-layout="prose">
+    <span className={wrapping} data-formatted-layout="prose">
       {blocks.map((block, index) => {
         if (block.kind === "section") {
           return <TextSectionBreak key={block.start} />;

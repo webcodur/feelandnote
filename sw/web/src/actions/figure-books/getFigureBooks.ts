@@ -285,7 +285,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v17', isDeveloperMode() ? 'dev-intro-layout-v2' : 'standard', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v17', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

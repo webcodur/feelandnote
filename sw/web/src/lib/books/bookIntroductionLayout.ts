@@ -1,5 +1,6 @@
 import { load } from "cheerio";
 import { restoreVerifiedWordLayout } from "./introductionWordLayout";
+export { cleanIntroductionFormatting } from "../utils/introduction-formatting";
 
 const INTRO_HTML_TAGS = new Set("a b br blockquote center cite code del div em font h1 h2 h3 h4 h5 h6 hr i iframe img li ol p pre s script small span strike strong style sub sup table tbody td th thead tr u ul".split(" "));
 
@@ -51,6 +52,21 @@ function indexText(text: string) {
 function uniqueIndex(text: string, part: string): number {
   const start = text.indexOf(part);
   return start >= 0 && text.indexOf(part, start + 1) < 0 ? start : -1;
+}
+
+function addReferenceParagraphGaps(source: string, reference: string): string {
+  const indexed = indexText(source);
+  const edits: { start: number; end: number }[] = [];
+  for (const [position, gap] of whitespaceGaps(reference)) {
+    if (position === 0 || position >= indexed.offsets.length || !/\r?\n[\t ]*\r?\n/.test(gap)) continue;
+    const start = indexed.offsets[position - 1] + 1, end = indexed.offsets[position];
+    if (!/\r?\n[\t ]*\r?\n/.test(source.slice(start, end))) edits.push({ start, end });
+  }
+  let output = source;
+  for (const edit of edits.sort((a, b) => b.start - a.start)) {
+    output = output.slice(0, edit.start) + "\n\n" + output.slice(edit.end);
+  }
+  return output;
 }
 
 /** 여러 소개가 섞여 있어도, 참조의 연속된 두 문단 전문이 일치하는 경계만 추가한다. */
@@ -113,9 +129,10 @@ export function extractYes24LayoutReferences(html: string, isbn: string): string
 }
 
 /**
- * 원문 전체가 참조 본문의 단일 연속 범위에 일치할 때만 공백·개행을 복원한다.
+ * 원문 전체가 참조 본문의 단일 연속 범위에 일치할 때 누락된 문단 간격만 추가한다.
  * 닫힌 제목 부호(《》/『』, 〈〉/<>/「」/[])만 동등하게 대조한다.
  * 출력의 글자·부호는 전부 원문에서 가져온다.
+ * 원문에 있던 문단·인용·목록의 줄바꿈은 참조와 달라도 지우지 않는다.
  * 부호가 다른 자료는 본문 전체의 글자·단어 경계를 대조하고 확인된 간격만 추가한다.
  * 내용이 다른 자료는 연속된 참조 두 문단의 전문이 일치하는 경계만 복원한다.
  * 부분 문장·유사도는 쓰지 않는다. 다른 참조가 서로 다른 경계를 주면 보류한다.
@@ -137,8 +154,7 @@ export function restoreIntroductionLayout(source: string, references: readonly s
     if (start < 0 || comparableReference.indexOf(comparable, start + 1) >= 0) continue;
     const matched = reference.slice(offsets[start], offsets[start + compact.length - 1] + 1);
     if (comparableBookBrackets(matched.replace(/\s/g, "")) === comparable && sameWordSpaces(source, matched, compact.length)) {
-      let position = 0;
-      candidates.add(matched.replace(/\S/g, () => compact[position++]));
+      candidates.add(addReferenceParagraphGaps(source, matched));
     }
   }
   if (candidates.size) return candidates.size === 1 ? [...candidates][0] : null;
