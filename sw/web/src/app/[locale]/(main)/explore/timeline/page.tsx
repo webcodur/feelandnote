@@ -35,7 +35,7 @@ export async function generateMetadata({ params, searchParams }: PageProps) {
   const { locale } = await params;
   const search = await searchParams;
   setRequestLocale(locale);
-  const t = await getTranslations("explore.timelinePage");
+  const t = await getTranslations({ locale, namespace: "explore.timelinePage" });
   const data = await readTimeline(locale === "en" ? "en" : "ko", typeof search.country === "string" ? search.country : undefined, typeof search.page === "string" ? search.page : undefined);
   return {
     title: t("metaTitle"),
