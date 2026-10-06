@@ -15,6 +15,7 @@ export default function BookShelfEditionNav({ source, editions = source.editions
   const close = useCallback(() => setOpen(false), [])
   const choices = editions.length ? editions.map(edition => ({ key: String(edition.id), book: {
     ...source, title: edition.title, creator: edition.creator || source.creator,
+    translator: edition.translator ?? null, publisher: edition.publisher,
     thumbnailUrl: edition.thumbnailUrl, preferredEditionId: edition.id,
   } })) : [{ key: source.id, book: source }]
   return <>

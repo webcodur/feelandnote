@@ -77,6 +77,7 @@
     "sourceEditionLabel": "판본",
     "sourceEditionIntro": "같은 작품을 바탕으로 출간된 개별 서적",
     "sourceEditionSelectAria": "판본 보기: {title}",
+    "sourceEditionTranslator": "{name} 옮김",
     "sourceEditionOmnibus": "합본",
     "sourceEditionOmnibusHint": "이 책은 다른 작품과 함께 실린 합본 판본입니다",
     "sourceWorkIntroduction": "작품 소개",

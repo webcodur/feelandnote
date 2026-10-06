@@ -32,17 +32,25 @@ export default function BookShelfChoiceRow({ label, choices, selectedKey, onSele
       data-bookshelf-heading={kind === 'work' ? true : undefined} data-bookshelf-edition-nav={kind === 'edition' ? true : undefined}>
       <div ref={ref} {...dragProps} aria-label={kind === 'work' ? t('sourceWorkPickerLabel') : t('sourceEditionSelect')}
         className={`flex min-w-0 flex-1 gap-2 overflow-x-auto overscroll-x-contain py-0.5 select-none scrollbar-hide pointer-coarse:snap-x pointer-coarse:snap-proximity [overflow-anchor:none] ${cursorClassName}`}>
-        {choices.map(({ key, book }) => <BookShelfBookChip key={key} book={book} type="button"
-          ref={key === selectedKey ? selectedRef : undefined} aria-pressed={key === selectedKey}
-          aria-label={t(kind === 'work' ? 'sourceWorkSelect' : 'sourceEditionSelectAria', { title: book.title })}
-          title={book.title}
-          onClick={() => onSelect(key)} data-bookshelf-book={kind === 'work' ? key : undefined}
-          data-bookshelf-edition-chip={kind === 'edition' ? key : undefined}
-          className={`${styles.railBook} flex h-12 w-max max-w-[min(100%,28rem)] shrink-0 snap-start items-center border px-3 py-1 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent`}>
-          <span className="min-w-0 flex-1"><span className={`${styles.bookTitle} block truncate text-sm font-semibold`}>{book.title}</span>
-            {book.creator && <span className={`${styles.bookCreator} mt-0.5 block truncate text-xs`}>{book.creator}</span>}
-          </span>
-        </BookShelfBookChip>)}
+        {choices.map(({ key, book }) => {
+          // 판본 칩은 같은 작품끼리 저자가 같아 역자·출판사로 구분하고, 둘 다 없을 때만 저자로 돌아간다.
+          const subtitle = kind === 'edition'
+            ? [book.translator ? t('sourceEditionTranslator', { name: book.translator }) : null, book.publisher]
+                .filter(Boolean).join(' · ') || book.creator
+            : book.creator
+          const chipTitle = kind === 'edition' && subtitle ? `${book.title} — ${subtitle}` : book.title
+          return <BookShelfBookChip key={key} book={book} type="button"
+            ref={key === selectedKey ? selectedRef : undefined} aria-pressed={key === selectedKey}
+            aria-label={t(kind === 'work' ? 'sourceWorkSelect' : 'sourceEditionSelectAria', { title: chipTitle })}
+            title={chipTitle}
+            onClick={() => onSelect(key)} data-bookshelf-book={kind === 'work' ? key : undefined}
+            data-bookshelf-edition-chip={kind === 'edition' ? key : undefined}
+            className={`${styles.railBook} flex h-12 w-max max-w-[min(100%,28rem)] shrink-0 snap-start items-center border px-3 py-1 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent`}>
+            <span className="min-w-0 flex-1"><span className={`${styles.bookTitle} block truncate text-sm font-semibold`}>{book.title}</span>
+              {subtitle && <span className={`${styles.bookCreator} mt-0.5 block truncate text-xs`}>{subtitle}</span>}
+            </span>
+          </BookShelfBookChip>
+        })}
       </div>
       <button type="button" onClick={onOpenList} aria-haspopup="dialog"
         aria-label={`${label}: ${t('bookShelfBookList')}`} title={t('bookShelfBookList')}

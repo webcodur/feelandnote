@@ -15,6 +15,8 @@ export interface BookShelfBook {
   titleBadge?: TitleBadge | null
   editions: FigureBookEdition[]
   preferredEditionId?: number
+  /** 판본 칩이 같은 작품의 다른 판본을 구분하는 재료. 작품 자체에는 두지 않는다. */
+  translator?: string | null
   description?: string | null
   bookIntroduction?: BookIntroductionReference | null
   introductionAttribution?: BookIntroductionAttribution

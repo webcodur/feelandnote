@@ -77,6 +77,7 @@
     "sourceEditionLabel": "Edition",
     "sourceEditionIntro": "Individual published editions of the work",
     "sourceEditionSelectAria": "View edition: {title}",
+    "sourceEditionTranslator": "trans. {name}",
     "sourceEditionOmnibus": "Omnibus",
     "sourceEditionOmnibusHint": "This is an omnibus edition containing multiple works",
     "sourceWorkIntroduction": "Work introduction",
