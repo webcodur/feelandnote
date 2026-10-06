@@ -31,7 +31,6 @@ export default function TimelineGlobe({ countries, country, defaultCountry }: {
   })), [countries, t])
   const selectCountry = useCallback((code: string) => {
     if (code === country) return
-    setExpanded(false)
     router.push(getTimelinePath(code, defaultCountry), { scroll: false })
   }, [country, defaultCountry, router])
   const globeProps = useMemo(() => ({
@@ -49,9 +48,9 @@ export default function TimelineGlobe({ countries, country, defaultCountry }: {
     mapNote: map('timelineModernBorders'),
   }), [country, countryOptions, map, selectCountry, t])
 
-  return <div className="w-full md:col-start-2 md:row-start-1 md:row-span-2" data-timeline-globe data-country={country}>
-    <div className="relative h-[170px] md:h-[220px]">
-      <WorldGlobe {...globeProps} fillContainer className="h-full" allowPageScroll={!hasMouse}
+  return <div className="w-full" data-timeline-globe data-country={country}>
+    <div className="relative h-[170px] md:h-[260px]">
+      <WorldGlobe {...globeProps} fillContainer className="h-full rounded-none border-0 bg-transparent" allowPageScroll={!hasMouse}
         onExpand={() => setExpanded(true)} expandLabel={map('timelineExpandMap')} expandAriaLabel={map('timelineExpandMapLabel')} />
       <p className="pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-90px)] rounded bg-black/70 px-2 py-1 text-[10px] text-text-secondary">{t('globeHint')}</p>
     </div>

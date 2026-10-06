@@ -54,7 +54,7 @@ async function TimelineContent({ locale, search }: { locale: "en" | "ko"; search
 
   return (
     <AsyncIntlProvider>
-      <TimelineSection key={`${data.country}-${data.page}`} {...data} />
+      <TimelineSection {...data} />
     </AsyncIntlProvider>
   );
 }

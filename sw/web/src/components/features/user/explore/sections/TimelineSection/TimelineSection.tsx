@@ -35,14 +35,54 @@ interface Props {
   eras: { era: EraInfo; href: string }[];
 }
 
-export default function TimelineSection({ celebs, countries, country: selectedCountry, defaultCountry, page, totalPages, previousPath, nextPath, eras }: Props) {
+type EraGroup = { era: EraInfo; celebs: TimelineCeleb[] };
+
+export default function TimelineSection(props: Props) {
+  const { celebs, countries, country, defaultCountry, page, eras } = props;
+  const selectedInfo = countries.find((c) => c.code === country);
+  const viewKey = `${country}-${page}`;
+  const [collapse, setCollapse] = useState({ viewKey, eras: new Set<string>() });
+  if (collapse.viewKey !== viewKey) setCollapse({ viewKey, eras: new Set<string>() });
+  const eraGroups = useMemo(() => {
+    const groups: EraGroup[] = [];
+    for (const celeb of celebs) {
+      const era = getEraInfo(getYear(celeb.birth_date!));
+      const previous = groups.at(-1);
+      if (previous?.era.key === era.key) previous.celebs.push(celeb);
+      else groups.push({ era, celebs: [celeb] });
+    }
+    return groups;
+  }, [celebs]);
+  const allCollapsed = eraGroups.length > 0 && collapse.eras.size === eraGroups.length;
+  const toggleEra = useCallback((eraKey: string) => {
+    setCollapse(previous => {
+      const next = new Set(previous.eras);
+      if (next.has(eraKey)) next.delete(eraKey);
+      else next.add(eraKey);
+      return { viewKey, eras: next };
+    });
+  }, [viewKey]);
+  const toggleAll = useCallback(() => {
+    setCollapse({ viewKey, eras: allCollapsed ? new Set() : new Set(eraGroups.map(group => group.era.key)) });
+  }, [allCollapsed, eraGroups, viewKey]);
+
+  return <div className="mx-auto max-w-4xl space-y-4">
+    <TimelineCountryHeader countries={countries} country={country} defaultCountry={defaultCountry} eras={eras}
+      canToggleAll={eraGroups.length > 1} allCollapsed={allCollapsed} onToggleAll={toggleAll} />
+    {selectedInfo && <DeveloperCommerceFallback target={{ title: `${selectedInfo.name} 역사`, type: "TOPIC" }} placement="timeline-country" />}
+    <TimelineContent key={viewKey} {...props} eraGroups={eraGroups} collapsedEras={collapse.eras} onToggleEra={toggleEra} />
+  </div>;
+}
+
+function TimelineContent({ celebs: filtered, country: selectedCountry, page, totalPages, previousPath, nextPath, eraGroups, collapsedEras, onToggleEra }: Props & {
+  eraGroups: EraGroup[]; collapsedEras: Set<string>; onToggleEra: (key: string) => void;
+}) {
   const locale = useLocale() as Locale;
   const t = useTranslations("explore.ui");
   const { handleSubtitle } = useDialogueSubtitle();
   const pagination = useTranslations("shared.ui.pagination");
   const errors = useTranslations("actionErrors");
   const [expandedBio, setExpandedBio] = useState<Set<string>>(new Set());
-  const [collapsedEras, setCollapsedEras] = useState<Set<string>>(new Set());
   const [showContemporaries, setShowContemporaries] = useState<Set<string>>(new Set());
   const [loadingContemporaries, setLoadingContemporaries] = useState<Set<string>>(new Set());
   const [contemporariesError, setContemporariesError] = useState(false);
@@ -59,47 +99,6 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
       setContemporariesError(true);
     }
   }, [locale, fireGreeting]);
-
-  // 선택된 국가의 셀럽만 필터 + 연도순 정렬 (DB 텍스트 정렬 오류 보정)
-  const filtered = celebs;
-
-  // 시대별 그룹핑
-  const eraGroups = useMemo(() => {
-    const groups: { era: EraInfo; celebs: TimelineCeleb[] }[] = [];
-    let currentKey = "";
-
-    for (const celeb of filtered) {
-      const year = getYear(celeb.birth_date!);
-      const era = getEraInfo(year);
-      if (era.key !== currentKey) {
-        currentKey = era.key;
-        groups.push({ era, celebs: [celeb] });
-      } else {
-        groups[groups.length - 1].celebs.push(celeb);
-      }
-    }
-    return groups;
-  }, [filtered]);
-
-  // 개별 시대 토글
-  const toggleEra = useCallback((eraKey: string) => {
-    setCollapsedEras(prev => {
-      const next = new Set(prev);
-      if (next.has(eraKey)) next.delete(eraKey);
-      else next.add(eraKey);
-      return next;
-    });
-  }, []);
-
-  // 전체 접기/펼치기
-  const allCollapsed = eraGroups.length > 0 && collapsedEras.size === eraGroups.length;
-  const toggleAll = useCallback(() => {
-    if (allCollapsed) {
-      setCollapsedEras(new Set());
-    } else {
-      setCollapsedEras(new Set(eraGroups.map(g => g.era.key)));
-    }
-  }, [allCollapsed, eraGroups]);
 
   // 동시대 인물: 클릭 시에만 계산 → 결과를 캐시
   const contemporariesCache = useRef(new Map<string, TimelineCeleb[]>());
@@ -142,13 +141,9 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
     });
   }, []);
 
-  const selectedInfo = countries.find((c) => c.code === selectedCountry);
-
-  return <div className="mx-auto max-w-4xl space-y-4">
-    <TimelineCountryHeader countries={countries} country={selectedCountry} defaultCountry={defaultCountry} eras={eras} />
-    {selectedInfo && <DeveloperCommerceFallback target={{ title: `${selectedInfo.name} 역사`, type: "TOPIC" }} placement="timeline-country" />}
+  return <>
     {!filtered.length && <p className="py-12 text-center text-text-secondary">{t('noCountryFigures')}</p>}
-    {filtered.length > 0 && <TimelineEraList groups={eraGroups} collapsedEras={collapsedEras} allCollapsed={allCollapsed} onToggleAll={toggleAll} onToggleEra={toggleEra}
+    {filtered.length > 0 && <TimelineEraList groups={eraGroups} collapsedEras={collapsedEras} onToggleEra={onToggleEra}
       itemProps={{ locale, expandedBio, showContemporaries, loadingContemporaries, onToggleBio: toggleBio, onToggleContemporaries: toggleContemporaries, onFireDialogue: fireDialogue, getContemporaries }} />}
     {contemporariesError && <p role="alert" className="text-sm text-status-paused">{errors('UNKNOWN_ERROR')}</p>}
     {totalPages > 1 && <nav aria-label={pagination('label')} className="flex items-center justify-center gap-5 py-6">
@@ -156,5 +151,5 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
       <span className="text-sm tabular-nums text-text-secondary">{page} / {totalPages}</span>
       {nextPath && <Link href={nextPath} prefetch={false} rel="next" className="rounded-control border border-white/15 px-4 py-2 outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">{pagination('next')}</Link>}
     </nav>}
-  </div>;
+  </>;
 }
