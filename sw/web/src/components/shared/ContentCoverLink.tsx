@@ -71,6 +71,7 @@ export default function ContentCoverLink({
         src={expandedImage.src}
         alt={expandedImage.title}
         isOpen
+        closeOnImageClick
         onClose={() => setExpandedImage(null)}
       />
     )}

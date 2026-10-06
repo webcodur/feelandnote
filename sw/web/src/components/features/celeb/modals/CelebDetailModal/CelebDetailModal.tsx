@@ -126,7 +126,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         escapeCapture={escapeCapture}
         closeOnEscape={!isFactionsModalOpen && !zoomOpen}
       >
-        <div className={`relative overflow-hidden rounded-sm bg-bg-main animate-fade-in ${contextReview ? "flex max-h-[var(--modal-body-max-height)] flex-col pb-3" : "pb-5"}`}>
+        <div className={`relative overflow-hidden rounded-sm bg-bg-main animate-fade-in ${contextReview ? "pb-3" : "pb-5"}`}>
           {/* 머리 위로 옅은 금빛 — 장식 상자 없이 인물만 비춘다 */}
           <div
             aria-hidden
@@ -297,8 +297,8 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
 
           {/* 이 콘텐츠에 대한 감상평 — 인원 구성처럼 콘텐츠 문맥에서 열렸을 때만 */}
           {contextReview && (
-            <div className="flex min-h-0 flex-col px-6 pt-2" data-celeb-context-review>
-              <div className="flex min-h-0 flex-col rounded-xl border border-accent/20 bg-white/[0.03] px-4 py-2.5">
+            <div className="px-6 pt-2" data-celeb-context-review>
+              <div className="rounded-xl border border-accent/20 bg-white/[0.03] px-4 py-2.5">
                 <p className="mb-1 shrink-0 text-xs font-medium text-accent/80">
                   {contextReview.bookTitle ? tCeleb("bookRelationReadBackground", { name: displayNickname }) : t("contentReviewTitle")}
                 </p>
@@ -313,11 +313,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                     {t("contentReviewSpoiler")}
                   </button>
                 ) : contextReview.review ? (
-                  <div className="min-h-0 max-h-48 overflow-y-auto custom-scrollbar [overflow-anchor:none]">
-                    <p className="text-sm leading-relaxed text-text-secondary whitespace-pre-line break-words">
-                      <FormattedText text={contextReview.review} />
-                    </p>
-                  </div>
+                  <p className="text-sm leading-relaxed text-text-secondary whitespace-pre-line break-words">
+                    <FormattedText text={contextReview.review} />
+                  </p>
                 ) : null}
                 {(/^https?:\/\//.test(contextReview.sourceUrl ?? "") || celeb.content_count > 1) && (
                   <div className="mt-2 flex min-h-8 shrink-0 items-center justify-between gap-3">
