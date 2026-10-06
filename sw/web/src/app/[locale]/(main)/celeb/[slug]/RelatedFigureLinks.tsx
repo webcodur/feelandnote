@@ -19,6 +19,7 @@ import { getRelatedFigures } from "@/actions/celebs/getRelatedFigures";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import FigurePersonRows from "@/components/features/celeb/FigurePersonRows";
 import type { PersonNode } from "./relation-graph/types";
+import styles from "./relation-graph/RelationGraphSection.module.css";
 
 /** 세울 링크 상한 — 관계가 수십이면 다 걸지 않고 가까운 순으로 앞을 취한다 */
 const MAX_LINKS = 12;
@@ -69,7 +70,7 @@ export default async function RelatedFigureLinks({
           상세로 가는 실링크는 행 안 앵커로 남아 크롤러 경로가 끊기지 않는다 */}
       <FigurePersonRows
         locale={locale}
-        gridClassName="mx-auto w-full max-w-4xl"
+        gridClassName={`mx-auto w-full max-w-4xl ${styles.portraitRows}`}
         // 좁은 화면에서 네 명씩 한 쪽으로 묶어 옆으로 넘긴다 — 세로로 다 훑지 않아도 된다
         mobilePageSize={4}
         mobileScrollable

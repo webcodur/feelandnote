@@ -4,7 +4,7 @@
       "menu": {
         "post": "Report post",
         "comment": "Report comment",
-        "guestbook": "Report guestbook entry",
+        "guestbook": "Report comment",
         "record": "Report record",
         "content": "Report content",
         "feedback": "Report feedback",
@@ -116,7 +116,7 @@
         "record": "Record",
         "content": "Content",
         "comment": "Comment",
-        "guestbook": "Guestbook",
+        "guestbook": "Comment",
         "post": "Post",
         "feedback": "Feedback"
       }

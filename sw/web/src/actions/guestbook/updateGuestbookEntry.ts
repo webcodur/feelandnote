@@ -16,7 +16,7 @@ export async function updateGuestbookEntry(params: UpdateGuestbookEntryParams) {
 
   const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
-  if (content.length > 500) throw new Error('방명록은 500자까지 작성할 수 있습니다')
+  if (content.length > 500) throw new Error('댓글은 500자까지 작성할 수 있습니다')
   if (content.trim().length === 0) throw new Error('내용을 입력해주세요')
 
   const entryResult = subjectKind === 'member'
@@ -34,7 +34,7 @@ export async function updateGuestbookEntry(params: UpdateGuestbookEntryParams) {
       .maybeSingle()
 
   if (!entryResult.data) {
-    throw new Error('수정할 수 있는 방명록을 찾을 수 없습니다')
+    throw new Error('수정할 수 있는 댓글을 찾을 수 없습니다')
   }
 
   const baseUpdate = {
@@ -60,7 +60,7 @@ export async function updateGuestbookEntry(params: UpdateGuestbookEntryParams) {
 
   if (result.error) {
     console.error('Update guestbook entry error:', result.error)
-    throw new Error('방명록 수정에 실패했습니다')
+    throw new Error('댓글 수정에 실패했습니다')
   }
 
   revalidatePath('/profile/guestbook')

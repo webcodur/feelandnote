@@ -11,6 +11,7 @@ import type { CelebProfile } from "@/types/home";
 import FactionMemberModal, { type FactionMemberMeta } from "./FactionMemberModal";
 import ThemeBookShelf from "./ThemeBookShelf";
 import type { AtlasIndexGroup } from "@/components/features/user/explore/myth/AtlasIndex";
+import FactionParticipation from "@/components/features/engagement/FactionParticipation";
 
 interface Props {
   data: MythData;
@@ -33,6 +34,7 @@ export default function FactionEntryView({ data, navigationTree, themeId, celebs
     <MythScreen data={data} indexHeading={indexHeading} indexGroups={indexGroups} faction={{
       navigationTree, themeId,
       title: t("title"), overviewLabel: t("overview"), overviewFallback: t("overviewFallback"), shelfTitle: t("worksTitle"),
+      participation: <FactionParticipation key={theme.id} factionId={theme.id} slug={theme.slug} name={theme.name} />,
       renderPerson: (person, onClose) => (
         <FactionMemberModal key={person.id} factionId={theme.id} factionName={theme.name}
           celeb={byId.get(person.id)!} meta={members[person.id]} portraitUrl={mythLeadImage(person, theme.id)} onClose={onClose} />

@@ -20,13 +20,14 @@ interface Props {
   overviewLabel?: string;
   fallback?: string;
   navigation: (overview: ReactNode) => ReactNode;
+  participation?: ReactNode;
 }
 
 // 저장값은 읽기만 하고 갱신 구독은 없다 — 이 컴포넌트가 스스로 쓴다
 const subscribeNone = () => () => {};
 
 // 낮은 표지의 이미지 확대와 개요 읽기는 별도 조작으로 연다.
-export default function MythOverview({ myth, memberCount, workCount, overviewLabel, fallback, navigation }: Props) {
+export default function MythOverview({ myth, memberCount, workCount, overviewLabel, fallback, navigation, participation }: Props) {
   const t = useTranslations("explore.hub.myth");
   const tVoice = useTranslations("celebPage");
   const locale = useLocale() === "en" ? "en" : "ko";
@@ -96,6 +97,7 @@ export default function MythOverview({ myth, memberCount, workCount, overviewLab
               </button>}
             </div>
           )}
+          {participation}
         </div>
         {displayImage && (
           <div className={layout.selectionArtwork}>

@@ -126,6 +126,7 @@ export default function FigurePersonRows({
                       onClick={() => setPreview(person)}
                       aria-label={enlargeLabel}
                       aria-haspopup="dialog"
+                      data-figure-person-portrait
                       title={t("enlargePhoto")}
                       className={`group/face ${portraitClass} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset`}
                     >
@@ -143,7 +144,7 @@ export default function FigurePersonRows({
                       </span>
                     </button>
                   ) : (
-                    <span className={portraitClass}>
+                    <span className={portraitClass} data-figure-person-portrait>
                       <User
                         aria-hidden
                         size={20}

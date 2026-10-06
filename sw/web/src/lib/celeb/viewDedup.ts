@@ -8,9 +8,9 @@
  */
 const VIEW_DEDUP_MS = 30 * 60 * 1000
 
-export const shouldCountCelebView = (celebId: string): boolean => {
+export const shouldCountPageView = (kind: 'celeb' | 'faction', id: string): boolean => {
   try {
-    const key = `celeb-view:${celebId}`
+    const key = `${kind}-view:${id}`
     const last = Number(localStorage.getItem(key))
     if (last && Date.now() - last < VIEW_DEDUP_MS) return false
     localStorage.setItem(key, String(Date.now()))
@@ -19,3 +19,5 @@ export const shouldCountCelebView = (celebId: string): boolean => {
     return false
   }
 }
+
+export const shouldCountCelebView = (celebId: string): boolean => shouldCountPageView('celeb', celebId)

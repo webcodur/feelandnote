@@ -69,6 +69,7 @@ export const BASE_MESSAGE_PATHS = [
 /** 인물 상세가 공통 뼈대에 더해 필요로 하는 문구 */
 export const CELEB_MESSAGE_PATHS = [
   "celebPage",
+  "participation",
   "contentDetail",
   "archiveSearch",
   "moderation",

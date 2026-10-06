@@ -41,11 +41,21 @@ export function NoticeMeta({ author, createdAt, viewCount, locale, className = '
   )
 }
 
-/** 운영자가 넣은 줄바꿈을 살리고, 한국어는 어절 단위로 줄을 넘긴다 */
+/** 줄바꿈을 살리고 HTTP(S) 주소를 공지 상세·홈 모달에서 같은 링크로 표시한다 */
 export function NoticeBody({ content, className = '' }: { content: string; className?: string }) {
+  const parts = content.split(/(https?:\/\/[^\s<>"']+[^\s<>"'.,!?;:)\]}>])/g)
+
   return (
     <div className={`whitespace-pre-wrap break-keep text-[15px] md:text-base leading-[1.85] text-text-primary/90 font-serif ${className}`}>
-      {content}
+      {parts.map((part, index) => index % 2 === 1 ? (
+        <a
+          key={index}
+          href={part}
+          className="break-all text-accent underline underline-offset-4 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {part}
+        </a>
+      ) : part)}
     </div>
   )
 }

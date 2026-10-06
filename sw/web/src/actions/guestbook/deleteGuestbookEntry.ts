@@ -22,7 +22,7 @@ export async function deleteGuestbookEntry(entryId: string, subjectKind: 'member
       .maybeSingle()
 
   if (!entryResult.data) {
-    throw new Error('방명록을 찾을 수 없습니다')
+    throw new Error('댓글을 찾을 수 없습니다')
   }
 
   if (subjectKind === 'member' && 'owner_member_id' in entryResult.data) {

@@ -916,5 +916,14 @@
     "failed": "Couldn't load this section",
     "retry": "Try again",
     "empty": "Nothing here yet"
+  },
+  "participation": {
+    "like": "Like",
+    "liked": "Liked",
+    "likeHint": "Like once every {hours} hours without signing in.",
+    "cooldown": "Liked. This page can be liked once every {hours} hours.",
+    "views": "Views",
+    "viewsHint": "Repeat visits from the same browser within 30 minutes are counted once.",
+    "failed": "Could not load or save likes. Please try again."
   }
 }

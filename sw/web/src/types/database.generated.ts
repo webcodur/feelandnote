@@ -9,6 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      faction_likes: {
+        Row: { faction_id: string; visitor_hash: string; votes: number; last_liked_at: string }
+        Insert: { faction_id: string; visitor_hash: string; votes?: number; last_liked_at?: string }
+        Update: { faction_id?: string; visitor_hash?: string; votes?: number; last_liked_at?: string }
+        Relationships: [{
+          foreignKeyName: "faction_likes_faction_id_fkey"
+          columns: ["faction_id"]
+          isOneToOne: false
+          referencedRelation: "faction_lv2"
+          referencedColumns: ["id"]
+        }]
+      }
+      celeb_likes: {
+        Row: { celeb_id: string; visitor_hash: string; votes: number; last_liked_at: string }
+        Insert: { celeb_id: string; visitor_hash: string; votes?: number; last_liked_at?: string }
+        Update: { celeb_id?: string; visitor_hash?: string; votes?: number; last_liked_at?: string }
+        Relationships: [{
+          foreignKeyName: "celeb_likes_celeb_id_fkey"
+          columns: ["celeb_id"]
+          isOneToOne: false
+          referencedRelation: "celebs"
+          referencedColumns: ["id"]
+        }]
+      }
       _backup_virtual_monologue_en_v1: {
         Row: {
           backed_up_at: string | null
@@ -1881,6 +1905,7 @@ export type Database = {
           theme_book_ids: string[]
           theme_music: Json | null
           updated_at: string
+          view_count: number
           youtube_videos: Json | null
         }
         Insert: {
@@ -1907,6 +1932,7 @@ export type Database = {
           theme_book_ids?: string[]
           theme_music?: Json | null
           updated_at?: string
+          view_count?: number
           youtube_videos?: Json | null
         }
         Update: {
@@ -1933,6 +1959,7 @@ export type Database = {
           theme_book_ids?: string[]
           theme_music?: Json | null
           updated_at?: string
+          view_count?: number
           youtube_videos?: Json | null
         }
         Relationships: [
@@ -3630,6 +3657,14 @@ export type Database = {
       }
     }
     Functions: {
+      page_likes: {
+        Args: { p_kind: string; p_target_id: string; p_visitor_hash: string; p_like: boolean; p_cooldown_seconds: number }
+        Returns: { like_count: number; next_like_at: string | null; accepted: boolean }[]
+      }
+      increment_faction_view: {
+        Args: { p_faction_id: string; p_increment: boolean }
+        Returns: number
+      }
       admin_delete_auth_user: {
         Args: { target_user_id: string }
         Returns: undefined

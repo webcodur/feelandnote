@@ -33,7 +33,7 @@ export async function createGuestbookEntry(params: CreateGuestbookEntryParams): 
   if (!user) return failure('UNAUTHORIZED')
 
   if (content.length > 500) {
-    return failure('LIMIT_EXCEEDED', '방명록은 500자까지 작성할 수 있다.')
+    return failure('LIMIT_EXCEEDED', '댓글은 500자까지 작성할 수 있다.')
   }
   if (content.trim().length === 0) {
     return failure('VALIDATION_ERROR', '내용을 입력해달라.')
@@ -43,7 +43,7 @@ export async function createGuestbookEntry(params: CreateGuestbookEntryParams): 
     ? await db.from('member_profiles').select('id').eq('id', profileId).maybeSingle()
     : await db.from('celebs').select('id, slug').eq('id', profileId).maybeSingle()
   if (subjectResult.error || !subjectResult.data) {
-    return failure('NOT_FOUND', '방명록 대상을 찾을 수 없다.')
+    return failure('NOT_FOUND', '댓글 대상을 찾을 수 없다.')
   }
 
   const insertResult = subjectKind === 'member'

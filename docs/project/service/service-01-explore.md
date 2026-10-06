@@ -122,6 +122,8 @@
 
 신화의 선택기·인물 격자·개요·그룹 개요를 함께 쓴다. FactionScreen이 주소와 자료를 준비하고 `lib/faction-theme.ts`가 공용 MythScreen의 입력으로 바꾼다. 신화의 기존 이미지와 탐색 흐름은 유지한다. 명단은 getFeaturedFactions(신화 갈래·숨긴 배정 제외), 섹션·진영 구성은 `lib/faction-sections.ts`가 쥔다.
 
+팩션 선택·개요 조작 아래에 비로그인 좋아요·누적 조회수·공유를 표시한다. 좋아요 정책과 공용 버튼은 [인물 상세](service-04-celeb-detail.md)의 규칙을 함께 쓴다. 조회수의 브라우저별 재방문 중복 방지는 `sw/web/src/lib/celeb/viewDedup.ts`를 공유한다.
+
 - 배치와 개요·그룹 모달은 위 「신화 탐색판」의 공용 규칙을 따른다. 화살표로 테마를 이동하면 그룹을 초기화하고, 선택기 창에서 함께 고른 그룹은 이동 후에도 유지한다.
 - 세 줄 선택기는 `AtlasNavigation`, 선택기 창은 `AtlasPicker`를 공유한다. `FactionScreen`은 전체 선택 계층의 이름·인원만 넘기고, 다른 팩션의 인물·작품은 적용 후 `/explore/faction/<slug>`에서 받는다. `/explore/faction?section=<묶음 slug>` 진입과 기존 리다이렉트는 유지하며, 없거나 닫힌 테마는 notFound다.
 - **테마 이미지**는 DB `faction_lv2.team_images`에서 `kind: 'cover'`로 지정한 표지를 읽는다. 신화의 기존 `/myth/title-art/` 이미지는 호환하며, 주요 장면은 `kind: 'scene'`으로 구분한다. 기존 단체화보를 자동으로 대표 이미지로 쓰지 않는다. 이미지가 없거나 로드에 실패해도 별도의 개요 버튼으로 설명 모달을 열 수 있다. 로딩 화면도 같은 배치와 이미지 유무를 따른다.

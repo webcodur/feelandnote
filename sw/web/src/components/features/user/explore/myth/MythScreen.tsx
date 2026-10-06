@@ -37,6 +37,7 @@ export interface ThemeScreenOptions {
   shelfTitle: string;
   renderPerson: (person: MythPerson, onClose: () => void) => ReactNode;
   renderWorks: (personIds: string[]) => ReactNode;
+  participation?: ReactNode;
 }
 
 interface Props {
@@ -258,7 +259,7 @@ export default function MythScreen({ data, faction, rememberedSlug = null, index
           <div className={layout.selectionPanel} data-faction-selection>
             {activeMyth ? (
               <MythOverview key={activeMyth.id} myth={activeMyth} memberCount={activePeople.length} workCount={activeWorks.length} overviewLabel={faction?.overviewLabel} fallback={faction?.overviewFallback}
-                navigation={navigation} />
+                navigation={navigation} participation={faction?.participation} />
             ) : navigation()}
           </div>
         </HubSection>

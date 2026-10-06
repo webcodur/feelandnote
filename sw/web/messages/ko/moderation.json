@@ -4,7 +4,7 @@
       "menu": {
         "post": "게시물 신고",
         "comment": "댓글 신고",
-        "guestbook": "방명록 신고",
+        "guestbook": "댓글 신고",
         "record": "기록 신고",
         "content": "콘텐츠 신고",
         "feedback": "피드백 신고",
@@ -116,7 +116,7 @@
         "record": "기록",
         "content": "콘텐츠",
         "comment": "댓글",
-        "guestbook": "방명록",
+        "guestbook": "댓글",
         "post": "게시물",
         "feedback": "피드백"
       }

@@ -5,7 +5,7 @@ import test from "node:test";
 import type { AbstractIntlMessages } from "next-intl";
 import { CELEB_PROFESSIONS, getCelebProfessionMessages } from "@feelandnote/shared/constants/celeb-professions";
 
-import { BASE_MESSAGE_PATHS, pickMessages } from "./message-scope";
+import { BASE_MESSAGE_PATHS, CELEB_MESSAGE_PATHS, pickMessages } from "./message-scope";
 
 function loadMessages(
   locale: "ko" | "en",
@@ -31,6 +31,13 @@ for (const locale of ["ko", "en"] as const) {
     }
     assert.equal(professions.all, locale === "en" ? "All" : "전체");
     assert.equal(professions.uncategorized, locale === "en" ? "Uncategorized" : "미분류");
+  });
+
+  test(`celeb message scope includes anonymous participation labels for ${locale}`, () => {
+    const scoped = pickMessages(loadMessages(locale, ["core"]), CELEB_MESSAGE_PATHS);
+    const participation = scoped.participation as AbstractIntlMessages;
+    assert.equal(participation.like, locale === "ko" ? "좋아요" : "Like");
+    assert.ok(typeof participation.cooldown === "string" && participation.cooldown.includes("{hours}"));
   });
 
   test(`base message scope includes the Header agora label for ${locale}`, () => {

@@ -43,7 +43,7 @@ async function fetchGuestbookEntries(
 
   if (error) {
     console.error('Get guestbook entries error:', error)
-    throw new Error('방명록을 불러오는데 실패했습니다')
+    throw new Error('댓글을 불러오는데 실패했습니다')
   }
 
   const rows = (data || []) as unknown as Array<{

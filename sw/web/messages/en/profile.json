@@ -4,9 +4,9 @@
       "label": "Profile",
       "title": "Profile",
       "description": "Meet the keeper of this archive.",
-      "subDescription": "Leave a line in the guestbook to mark your visit.",
+      "subDescription": "Leave a line in the comments to mark your visit.",
       "ownerDescription": "This is the first thing visitors see.",
-      "ownerSubDescription": "Review your profile and guestbook."
+      "ownerSubDescription": "Review your profile and comments."
     },
     "records": {
       "label": "Library",
@@ -46,7 +46,7 @@
     "followers": "Followers",
     "following": "Following",
     "friends": "Friends",
-    "guestbook": "Guestbook",
+    "guestbook": "Comments",
     "follow": "Follow",
     "present": "Present",
     "celeb": "Figure",
@@ -91,11 +91,11 @@
       "deleteConfirm": "Are you sure you want to delete this?",
       "deleteFailed": "Failed to delete",
       "updateFailed": "Failed to update",
-      "empty": "No guestbook entries yet.",
+      "empty": "No comments yet.",
       "writeFailed": "Failed to post",
-      "placeholder": "Leave a greeting or thought for this figure.",
-      "loginPrompt": "Leave a greeting for this figure.",
-      "loginHint": "Sign in to write in the guestbook.",
+      "placeholder": "Share your thoughts about this figure.",
+      "loginPrompt": "Share your thoughts about this figure.",
+      "loginHint": "Sign in to write a comment.",
       "loginAction": "Sign in to write",
       "private": "Private",
       "public": "Public",
@@ -106,16 +106,16 @@
       "save": "Save",
       "edit": "Edit",
       "delete": "Delete",
-      "inviteFirst": "No one has greeted this figure yet. Be the first.",
-      "inviteCount": "{count} greetings so far. Add yours."
+      "inviteFirst": "Be the first to comment.",
+      "inviteCount": "{count} comments so far. Add your thoughts."
     },
     "fictionGuestbook": {
-      "empty": "No reader notes yet.",
+      "empty": "No comments yet.",
       "placeholder": "Leave a reflection or interpretation of this figure and their source texts.",
       "loginPrompt": "Leave a reflection on this figure and their source texts.",
-      "loginHint": "Sign in to add a reader note.",
-      "inviteFirst": "No one has shared a reflection on this figure yet. Be the first.",
-      "inviteCount": "{count} reflections so far. Add yours."
+      "loginHint": "Sign in to write a comment.",
+      "inviteFirst": "Be the first to comment.",
+      "inviteCount": "{count} comments so far. Add your thoughts."
     },
     "recentTitle": "Recent visits"
   },
@@ -167,7 +167,7 @@
         "unknown": "{type}: {value}"
       }
     },
-    "guestbook": "Guestbook",
+    "guestbook": "Comments",
     "bio": {
       "label": "Lineage",
       "editTitle": "Edit bio",

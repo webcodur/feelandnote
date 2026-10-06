@@ -18,6 +18,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import CelebWorldBannerView from "@/components/features/celeb/CelebWorldBannerView";
 import CelebQuote from "@/components/shared/CelebQuote";
 import ShareButtons from "@/components/ui/ShareButtons";
+import PageLikeButton from "@/components/features/engagement/PageLikeButton";
 import { getWorldStyle } from "@/lib/celeb/worldStyle";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
 import type { Locale } from "@/types/locale";
@@ -111,11 +112,11 @@ export default function CelebHeroSection({
             <HeroIdentity profile={profile} locale={locale} />
 
             <div className={styles.actions}>
+              <PageLikeButton key={profile.id} kind="celeb" targetId={profile.id} />
               <CelebViewCounter
                 celebId={profile.id}
                 nickname={profile.nickname}
                 initialCount={profile.view_count ?? 0}
-                iconClassName={styles.viewCounterIcon}
                 buttonClassName={styles.viewCounterButton}
               />
               {externalLinksSlot}

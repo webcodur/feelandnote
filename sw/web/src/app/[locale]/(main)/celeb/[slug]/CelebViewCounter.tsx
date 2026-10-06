@@ -78,8 +78,8 @@ export default function CelebViewCounter({
         aria-label={`${t("viewCount")}: ${count.toLocaleString()}`}
       >
         <Eye size={16} aria-hidden className={iconClassName} />
+        <span className="text-sm">{t("viewCount")}</span>
         <span className="font-mono text-xs tabular-nums">{count.toLocaleString()}</span>
-        <span className="sr-only">{t("viewCount")}</span>
       </button>
 
       {isOpen && (
