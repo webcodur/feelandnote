@@ -8,7 +8,7 @@ import { RetryBlock } from '@/components/ui/pending'
 import BookShelfFeature from './BookShelfFeature'
 import BookShelfRelations, { prefetchBookShelfPeople } from './BookShelfRelations'
 import { prefetchBookIntroduction } from '@/hooks/useBookIntroduction'
-import { topOverlayBottom } from '@/lib/utils/topOverlayBottom'
+import { TOP_OVERLAY_MIN_BOTTOM, topOverlayBottom } from '@/lib/utils/topOverlayBottom'
 import BookShelfBookList from './BookShelfBookList'
 import { LIBRARY_DETAIL_FRAME_CLASS, LibraryArrowButton, LibraryBottomNavigation, LibraryTitleHeader } from '@/components/shared/LibraryDetailNavigation'
 import type { BookShelfBook, BookShelfContext, BookShelfGroup } from './types'
@@ -89,7 +89,10 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
     revealIdRef.current = null
     const detail = detailRef.current
     if (!detail) return
-    const limit = topOverlayBottom(detail) + 8
+    const overlayBottom = topOverlayBottom(detail, 0)
+    const title = detail.querySelector<HTMLElement>('[data-testid="bookshelf-selected-title"]')?.getBoundingClientRect()
+    if (title && title.top >= overlayBottom && title.bottom <= window.innerHeight) return
+    const limit = Math.max(overlayBottom, TOP_OVERLAY_MIN_BOTTOM) + 8
     const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
     window.scrollTo({ top: window.scrollY + detail.getBoundingClientRect().top - limit, behavior })
   }, [selectedContentId])

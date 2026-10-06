@@ -1,5 +1,7 @@
+export const TOP_OVERLAY_MIN_BOTTOM = 80;
+
 /** 본문 위를 덮는 머리글·구획 제목의 아랫변을 잰다. */
-export function topOverlayBottom(exclude: HTMLElement) {
+export function topOverlayBottom(exclude: HTMLElement, minimum = TOP_OVERLAY_MIN_BOTTOM) {
   const bands: { top: number; bottom: number }[] = [];
   document.querySelectorAll("body *").forEach((el) => {
     if (exclude.contains(el)) return;
@@ -16,5 +18,5 @@ export function topOverlayBottom(exclude: HTMLElement) {
     if (band.top > bottom + 4) break;
     bottom = Math.max(bottom, band.bottom);
   }
-  return Math.max(bottom, 80);
+  return Math.max(bottom, minimum);
 }
