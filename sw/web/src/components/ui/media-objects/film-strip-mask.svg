@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" preserveAspectRatio="none">
+  <defs>
+    <mask id="perforations" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="150">
+      <rect width="100" height="150" fill="white"/>
+      <g fill="black">
+        <rect x="1.5" y="5" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="17" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="29" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="41" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="53" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="65" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="77" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="89" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="101" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="113" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="125" width="4.5" height="3.5" rx=".8"/>
+        <rect x="1.5" y="137" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="5" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="17" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="29" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="41" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="53" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="65" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="77" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="89" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="101" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="113" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="125" width="4.5" height="3.5" rx=".8"/>
+        <rect x="94" y="137" width="4.5" height="3.5" rx=".8"/>
+      </g>
+    </mask>
+  </defs>
+  <path d="M0 0 Q50 2 100 0 V150 Q50 148 0 150 Z" fill="white" mask="url(#perforations)"/>
+</svg>

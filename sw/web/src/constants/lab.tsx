@@ -17,6 +17,10 @@ export interface LabItem {
 
 export const LAB_ITEMS: LabItem[] = [
   {
+    value: "media-objects", label: "매체별 작품 카드", icon: LayoutGrid,
+    href: "/lab/media-objects", title: "매체별 작품 카드", subtitle: "실제 카드에서 기존 표지와 실물 형태 비교",
+  },
+  {
     value: "text",
     label: "본문 표시",
     icon: Book,

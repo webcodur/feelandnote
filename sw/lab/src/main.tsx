@@ -15,6 +15,7 @@ import { MorphingBlobLab } from './labs/morphing-blob/MorphingBlobLab'
 import { VoxelLab } from './labs/voxel/VoxelLab'
 import { ParticleLab } from './labs/particle/ParticleLab'
 import { ExploreArtLab } from './labs/explore-art/ExploreArtLab'
+import { MediaObjectsLab } from './labs/media-objects/MediaObjectsLab'
 import './style.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -35,6 +36,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/model-viewer" element={<ModelViewer />} />
           <Route path="/particle" element={<ParticleLab />} />
           <Route path="/explore-art" element={<ExploreArtLab />} />
+          <Route path="/media-objects" element={<MediaObjectsLab />} />
         </Route>
       </Routes>
     </BrowserRouter>

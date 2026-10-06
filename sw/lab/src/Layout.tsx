@@ -2,6 +2,10 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 const NAV = [
   {
+    section: '매체 UI',
+    items: [{ to: '/media-objects', label: '책 · 레코드 · 게임팩 · 필름', tag: '2d' }],
+  },
+  {
     section: 'SVG 조형',
     items: [
       { to: '/dicebear', label: 'DiceBear Avatars', tag: 'svg' },

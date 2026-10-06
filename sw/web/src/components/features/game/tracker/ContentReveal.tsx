@@ -5,7 +5,7 @@
 */
 "use client";
 
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import FormattedText from "@/components/ui/FormattedText";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useTranslations } from "next-intl";
@@ -32,17 +32,12 @@ export default function ContentReveal({ content }: ContentRevealProps) {
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start">
         {/* 썸네일 */}
         <div className="relative h-28 w-20 sm:h-32 sm:w-24 shrink-0 rounded-md overflow-hidden bg-bg-secondary border border-white/10 shadow-lg">
-          {content.thumbnailUrl ? (
-            <ContentImage
+          <ContentCover
               src={content.thumbnailUrl}
               alt={content.title}
-              sizes="(max-width: 640px) 80px, 96px"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center opacity-50">
+              sizes="(max-width: 640px) 80px, 96px" fallback={<div className="flex h-full w-full items-center justify-center opacity-50">
               <Icon size={24} className={config.color} />
-            </div>
-          )}
+            </div>} />
         </div>
 
         {/* 정보 */}

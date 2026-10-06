@@ -17,7 +17,8 @@ import {
   getSpectrumReasons,
   type SpectrumReasonMap,
 } from "@/actions/spectrum/getSpectrumReason";
-import { Avatar, Carousel, ContentImage, FormattedText } from "@/components/ui";
+import { Avatar, Carousel, FormattedText } from "@/components/ui";
+import ContentCover from "@/components/ui/ContentCover";
 import Modal from "@/components/ui/Modal";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { withParticle } from "@/lib/korean-particle";
@@ -411,7 +412,7 @@ export default function SpectrumMatchModal({
                       className="flex h-full gap-5 rounded-md border border-white/[0.07] bg-bg-main/60 p-4"
                     >
                       <span className="relative h-[150px] w-[104px] shrink-0 overflow-hidden rounded-[3px] border border-white/10 bg-black/25">
-                        <ContentImage
+                        <ContentCover
                           src={item.content.thumbnail_url}
                           alt={item.content.title}
                           sizes="104px"

@@ -30,6 +30,8 @@ export interface ContentCardProps {
   aspectRatio?: "2/3" | "3/4";
   /** 원본 아트워크를 자르지 않고 표지 영역 안에 맞춘다. */
   imageFit?: "cover" | "contain";
+  /** 기본 실물 표지. 원본 아트워크 비교 화면은 flat을 지정한다. */
+  coverPresentation?: "physical" | "flat";
 
   // 선택 모드
   selectable?: boolean;

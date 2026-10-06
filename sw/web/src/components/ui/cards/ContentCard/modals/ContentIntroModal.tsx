@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import { Link } from "@/i18n/navigation";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import FormattedText from "@/components/ui/FormattedText";
 import { normalizeIntroBreaks } from "@/lib/utils/prose-line-breaks";
 import { isDeveloperMode } from "@/lib/developer-mode";
@@ -110,7 +110,7 @@ export default function ContentIntroModal({
           <div className="sm:w-[176px] shrink-0 p-4 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
             {contentThumbnail ? (
               <div className="relative w-32 sm:w-full aspect-[5/7] overflow-hidden rounded-lg border border-accent/30 shadow-lg">
-                <ContentImage src={contentThumbnail} alt={contentTitle} sizes="160px" />
+                <ContentCover src={contentThumbnail} alt={contentTitle} sizes="160px" />
               </div>
             ) : (
               <div className="w-32 sm:w-full aspect-[5/7] bg-bg-card rounded-lg border border-accent/30 flex items-center justify-center">

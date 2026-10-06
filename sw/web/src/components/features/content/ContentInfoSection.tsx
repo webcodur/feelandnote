@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
@@ -105,18 +106,17 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
               />
             )}
             <div className="relative w-full aspect-[2/3] rounded-xl md:rounded-2xl shadow-2xl overflow-hidden border border-white/15 bg-black/40">
-              {content.thumbnail ? (
-                <ContentImage
+                <ContentCover
                   src={content.thumbnail}
                   alt={content.title}
                   sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, 192px"
                   className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                />
-              ) : (
+                  fallback={
                 <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-950 flex items-center justify-center">
                   <Icon size={36} className="text-text-secondary md:w-10 md:h-10" />
                 </div>
-              )}
+                  }
+                />
             </div>
 
           </div>

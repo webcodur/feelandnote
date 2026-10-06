@@ -13,7 +13,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { getYes24BookDetail } from "@/actions/library/getYes24BookDetail";
 import type { BestsellerItem } from "@/actions/library/types";
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import Modal from "@/components/ui/Modal";
 import type { Yes24BookDetail } from "@/lib/books/yes24Purchase";
 
@@ -62,13 +62,9 @@ export default function Yes24BookModal({ item, onClose }: { item: BestsellerItem
       <article className="px-4 pb-6 pt-12 sm:px-6 md:pt-6">
         <div className="grid gap-5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-7">
           <div className="relative mx-auto aspect-[2/3] w-40 overflow-hidden rounded-lg border border-white/10 bg-bg-secondary sm:mx-0 sm:w-full">
-            {cover ? (
-              <ContentImage src={cover} alt={title} sizes="180px" className="object-contain" />
-            ) : (
-              <div className="flex h-full items-center justify-center text-text-tertiary">
+            <ContentCover src={cover} alt={title} sizes="180px" className="object-contain" fallback={<div className="flex h-full items-center justify-center text-text-tertiary">
                 <BookOpen size={32} aria-hidden />
-              </div>
-            )}
+              </div>} />
           </div>
 
           <div className="min-w-0 sm:pe-8">

@@ -6,7 +6,7 @@
 
 import type { LucideIcon } from "lucide-react";
 
-interface GenerativeBookCoverProps {
+interface ContentCoverFallbackProps {
   /** 시드용 제목 (UI에 표시하지 않음) */
   title: string;
   /** 없으면 아이콘 상자를 그리지 않는다(판본 미확인 띠가 같은 자리를 쓸 때) */
@@ -134,12 +134,12 @@ const PATTERNS = [
   ),
 ];
 
-export default function GenerativeBookCover({
+export default function ContentCoverFallback({
   title,
   ContentIcon,
   iconSize = 24,
   label,
-}: GenerativeBookCoverProps) {
+}: ContentCoverFallbackProps) {
   const seed = hashStr(title);
   const rng = seededRng(seed);
 

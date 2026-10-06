@@ -13,8 +13,7 @@ import { memo, useState } from "react";
 import { Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-import ContentImage from "@/components/ui/ContentImage";
-import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
+import ContentCover from "@/components/ui/ContentCover";
 import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
 import FormattedText from "@/components/ui/FormattedText";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
@@ -103,23 +102,13 @@ function ExpandCard({
               href={`/content/${item.content_id}?category=${category}`}
               title={title}
               imageSrc={coverUrl}
+              contentType={item.content.type}
               className="h-[150px] w-full rounded-lg border border-white/10 bg-bg-secondary shadow-lg hover:border-accent/50 sm:h-72"
             >
-              {coverUrl ? (isActive ? (
-                <ContentImage
-                  src={coverUrl}
-                  alt={title}
-                  sizes="(max-width: 639px) 96px, 192px"
-                  className="object-contain"
-                  loading="eager"
-                />
-              ) : null) : (
-                <GenerativeBookCover
-                  title={title}
-                  ContentIcon={TYPE_ICONS[item.content.type]}
-                  iconSize={28}
-                />
-              )}
+              {(!coverUrl || isActive) && <ContentCover
+                src={coverUrl} alt={title} ContentIcon={TYPE_ICONS[item.content.type]}
+                sizes="(max-width: 639px) 96px, 192px" className="object-contain" loading="eager"
+              />}
             </ContentCoverLink>
           </div>
 

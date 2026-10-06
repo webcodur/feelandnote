@@ -8,7 +8,7 @@
 import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useState, useMemo } from "react";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -174,13 +174,9 @@ export default function TrackerResult({
                 >
                   <div className="flex items-center gap-3 w-full sm:w-auto flex-1 min-w-0">
                     <div className="relative w-9 h-12 shrink-0 rounded overflow-hidden bg-black/40 border border-white/5 group-hover:border-accent/20 transition-colors">
-                      {c.thumbnailUrl ? (
-                        <ContentImage src={c.thumbnailUrl} alt={c.title} sizes="36px" />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center">
+                      <ContentCover src={c.thumbnailUrl} alt={c.title} sizes="36px" fallback={<div className="flex h-full w-full items-center justify-center">
                           <Icon size={14} className="text-text-secondary group-hover:text-accent transition-colors" />
-                        </div>
-                      )}
+                        </div>} />
                     </div>
                     <span className="flex-1 min-w-0 text-[15px] font-bold text-white/90 truncate group-hover:text-white transition-colors">
                       <NoEditionBadge contentType={c.type} badge={c.titleBadge} />

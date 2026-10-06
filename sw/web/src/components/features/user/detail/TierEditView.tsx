@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { ArrowLeft, Save, RotateCcw } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -286,11 +286,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                         onDragStart={() => handleDragStart(contentId)} 
                         className={`relative group w-20 aspect-[2/3] md:w-24 bg-[#151515] rounded border border-white/10 hover:border-accent/50 cursor-grab active:cursor-grabbing shadow-lg transition-all hover:-translate-y-1 ${draggedId === contentId ? "opacity-50" : ""}`}
                       >
-                        {item.content.thumbnail_url ? (
-                          <ContentImage src={item.content.thumbnail_url} alt={item.content.title} sizes="96px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>
-                        )}
+                        <ContentCover src={item.content.thumbnail_url} alt={item.content.title} sizes="96px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" fallback={<div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
                            <p className="text-[11px] text-white line-clamp-2 leading-tight">
                              <NoEditionBadge contentType={item.content.type} badge={item.content.title_badge} />
@@ -337,11 +333,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                       onDragStart={() => handleDragStart(contentId)} 
                       className={`relative w-16 aspect-square rounded overflow-hidden cursor-grab active:cursor-grabbing border border-white/5 hover:border-white/20 transition-all ${draggedId === contentId ? "opacity-50 scale-90" : ""}`}
                     >
-                      {item.content.thumbnail_url ? (
-                        <ContentImage src={item.content.thumbnail_url} alt={item.content.title} sizes="64px" className="object-cover opacity-60 hover:opacity-100 transition-opacity" />
-                      ) : (
-                        <div className="w-full h-full bg-[#111] flex items-center justify-center text-[11px] text-white/20 p-1 text-center">{item.content.title.slice(0, 4)}</div>
-                      )}
+                      <ContentCover src={item.content.thumbnail_url} alt={item.content.title} sizes="64px" className="object-cover opacity-60 hover:opacity-100 transition-opacity" fallback={<div className="w-full h-full bg-[#111] flex items-center justify-center text-[11px] text-white/20 p-1 text-center">{item.content.title.slice(0, 4)}</div>} />
                     </div>
                   );
                 })}

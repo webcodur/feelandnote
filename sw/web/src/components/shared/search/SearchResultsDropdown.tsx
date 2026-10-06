@@ -7,7 +7,7 @@
 
 import { getCelebProfileUrl } from "@/lib/url";
 import { useState } from "react";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, ExternalLink, Loader2, User, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
@@ -184,15 +184,12 @@ export default function SearchResultsDropdown({
                 >
                   {result.type === "content" && (
                     <div className="relative w-10 h-14 rounded-md bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
-                      {result.thumbnail ? (
-                        <ContentImage
+                      <ContentCover
                           src={result.thumbnail}
                           alt={result.title}
-                          sizes="40px"
-                        />
-                      ) : CategoryIcon ? (
+                          sizes="40px" fallback={CategoryIcon ? (
                         <CategoryIcon size={16} className="text-text-secondary" />
-                      ) : null}
+                      ) : null} />
                     </div>
                   )}
                   {result.type === "tag" && (

@@ -6,7 +6,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Book, Film, Gamepad2, Music, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -106,18 +106,17 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
               <div className="relative w-[72px] h-[100px] md:w-[108px] md:h-[150px] lg:w-[120px] lg:h-[168px] rounded-xl overflow-hidden border border-white/10 bg-bg-secondary group-hover:border-accent/60 group-hover:bg-white/[0.04]">
                 {/* 이미지 — 연출 축만 transition */}
                 <div className="absolute inset-0 overflow-hidden">
-                  {item.thumbnail ? (
-                    <ContentImage
+                    <ContentCover
                       src={item.thumbnail}
                       alt={item.title}
                       sizes="(max-width: 768px) 108px, 120px"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                  ) : (
+                      fallback={
                     <div className="w-full h-full flex items-center justify-center bg-white/5">
                       <Icon size={22} className="text-text-secondary" />
                     </div>
-                  )}
+                      }
+                    />
                 </div>
                 {/* 내부 헤어라인 */}
                 <span aria-hidden className="pointer-events-none absolute inset-[2px] rounded-[10px] border border-white/[0.06]" />

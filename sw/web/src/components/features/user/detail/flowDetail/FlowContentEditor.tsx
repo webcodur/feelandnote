@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback, type CSSProperties } from "react";
 import { MODAL_MAX_HEIGHT } from "@/components/ui/modalLayout";
 import { useTranslations } from "next-intl";
 import { X, Search, Loader2 } from "lucide-react";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
@@ -52,17 +52,12 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
     >
       {/* 썸네일 */}
       <div className="w-9 h-12 bg-[#222] rounded overflow-hidden relative shrink-0 pointer-events-none">
-        {item.content.thumbnail_url ? (
-          <ContentImage
+        <ContentCover
             src={item.content.thumbnail_url}
             alt={item.content.title}
-            sizes="36px"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-[11px] text-white/20">
+            sizes="36px" fallback={<div className="w-full h-full flex items-center justify-center text-[11px] text-white/20">
             {item.content.title.slice(0, 4)}
-          </div>
-        )}
+          </div>} />
       </div>
 
       {/* 정보 */}

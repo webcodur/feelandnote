@@ -1,0 +1,9 @@
+.media-context-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid #ffffff14; border-bottom: 1px solid #ffffff14; }
+.media-context-switch { display: flex; gap: 4px; }
+.media-context-switch button { font-size: 13px; padding: 9px 16px; border: 1px solid #ffffff14; border-radius: 6px; color: #aaa; background: transparent; cursor: pointer; }
+.media-context-switch button:hover, .media-context-switch button[aria-pressed='true'] { color: #d4af37; border-color: #d4af3766; background: #d4af3710; }
+.media-context button:focus-visible { outline: 2px solid #d4af37; outline-offset: 3px; }
+.media-context-reviews { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; max-width: 896px; margin: auto; }
+.media-context-save { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border: 0; border-radius: 4px; color: #aaa; background: transparent; cursor: pointer; }
+.media-context-save:hover, .media-context-save[aria-pressed='true'] { color: #d4af37; background: #ffffff0a; }
+

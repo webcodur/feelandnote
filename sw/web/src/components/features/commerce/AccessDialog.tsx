@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
 import Modal, { ModalBody } from '@/components/ui/Modal'
-import ContentImage from '@/components/ui/ContentImage'
+import ContentCover from '@/components/ui/ContentCover'
 import type { AccessType } from '@/lib/commerce/contentAccess'
 
 export default function AccessDialog({ type, title, creator, thumbnail, onClose, children }: {
@@ -17,7 +17,7 @@ export default function AccessDialog({ type, title, creator, thumbnail, onClose,
     <ModalBody className="space-y-4 break-keep p-5 sm:p-6">
       <div className="flex items-center gap-4">
         {thumbnail && <div className={`relative w-16 shrink-0 overflow-hidden rounded-sm border border-purchase-ink/20 bg-bg-main ${type === 'MUSIC' ? 'h-16' : 'h-24'}`}>
-          <ContentImage src={thumbnail} alt="" sizes="64px" className="object-contain" loading="eager" dissolve={false} />
+          <ContentCover src={thumbnail} alt="" sizes="64px" className="object-contain" loading="eager" dissolve={false} />
         </div>}
         <div className="min-w-0 flex-1 space-y-1.5 text-center">
           {title && <p className="break-words text-xl font-semibold leading-snug text-purchase-ink">{title}</p>}

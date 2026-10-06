@@ -8,7 +8,7 @@
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import { Search, Users, Heart, Check, Send } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
@@ -138,7 +138,7 @@ export default function RecommendationModal({
               <div className="relative mx-auto w-fit">
                 {contentThumbnail ? (
                   <div className="relative w-[100px] h-[140px] overflow-hidden rounded-lg border border-accent/30 shadow-xl">
-                    <ContentImage src={contentThumbnail} alt={contentTitle} sizes="100px" />
+                    <ContentCover src={contentThumbnail} alt={contentTitle} sizes="100px" />
                   </div>
                 ) : (
                   <div className="w-[100px] h-[140px] bg-bg-card rounded-lg border border-accent/30 flex items-center justify-center">

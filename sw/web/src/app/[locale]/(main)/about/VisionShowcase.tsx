@@ -9,7 +9,7 @@
 */ // ------------------------------
 
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import type { AboutInfo, AboutShowcase } from "@/actions/policy/getAboutShowcase";
 import InfoPeek from "./InfoPeek";
 import FactionCarousel from "./FactionCarousel";
@@ -103,7 +103,7 @@ export default function VisionShowcase({ index, data, labels }: Props) {
               <InfoPeek info={it.info} className="flex-1 min-w-0">
                 <span className="flex items-center gap-3">
                   <span className="relative block w-12 aspect-[2/3] shrink-0 overflow-hidden rounded-sm border border-accent-dim hover:border-accent">
-                    <ContentImage
+                    <ContentCover
                       src={it.thumbnailUrl}
                       alt={it.title}
                       sizes="48px"

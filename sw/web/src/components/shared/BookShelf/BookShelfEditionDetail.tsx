@@ -4,7 +4,7 @@ import { BookOpenText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { BookShelfBook } from "./types";
 import type { FigureBookEdition } from "@/actions/figure-books/figureBookLocale";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import ContentCoverLink from "@/components/shared/ContentCoverLink";
 import BookShelfEditionHeading from "./BookShelfEditionHeading";
 import BookShelfArrival from "./BookShelfArrival";
@@ -69,9 +69,9 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
         <div className={styles.cover}><div className={styles.coverImage}>
           <ContentCoverLink href={getContentDetailHref(source.id, edition.id)} title={edition.title}
             imageSrc={edition.thumbnailUrl} className="absolute inset-0 h-full w-full">
-            <BookOpenText size={28} className="absolute inset-0 m-auto text-text-tertiary" aria-hidden />
-            {edition.thumbnailUrl && <ContentImage src={edition.thumbnailUrl} alt={edition.title}
-              sizes="(max-width: 639px) 96px, 192px" className="object-contain" />}
+            <ContentCover src={edition.thumbnailUrl} alt={edition.title}
+              sizes="(max-width: 639px) 96px, 192px" className="object-contain"
+              fallback={<BookOpenText size={28} className="absolute inset-0 m-auto text-text-tertiary" aria-hidden />} />
           </ContentCoverLink>
         </div></div>
         <BookPurchaseSummary contentId={source.id} editionId={edition.id} isbn={edition.isbn ?? undefined}

@@ -2,7 +2,7 @@
 
 import { forwardRef, type ButtonHTMLAttributes } from "react";
 import { BookOpenText, Check } from "lucide-react";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 
@@ -31,8 +31,8 @@ const LibraryIndexItem = forwardRef<HTMLButtonElement, Props>(function LibraryIn
         selected ? "bg-accent/10 text-accent shadow-[inset_2px_0_var(--color-accent)]" : "text-text-secondary", className)}>
       {number !== undefined && <span data-library-index-number aria-hidden className="w-6 shrink-0 text-end text-xs font-medium tabular-nums text-text-secondary">{number}.</span>}
       <span data-library-index-cover aria-hidden className="relative flex h-12 w-8 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-white/10 bg-white/5">
-        <CoverIcon size={16} className="text-text-tertiary" />
-        {thumbnailUrl && <ContentImage src={thumbnailUrl} alt="" sizes="32px" className="object-contain" />}
+        <ContentCover src={thumbnailUrl} alt="" sizes="32px" className="object-contain"
+          fallback={<CoverIcon size={16} className="text-text-tertiary" />} />
       </span>
       <span className="min-w-0 flex-1">
         <span className={cn("block truncate text-[15px] font-semibold leading-[22px] text-text-primary group-hover/index-item:text-white", selected && "text-accent",

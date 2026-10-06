@@ -1,20 +1,13 @@
 "use client";
 
 import { Star } from "lucide-react";
-import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
-import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 
-import {
-  SelectOverlay,
-  StatsBadge,
-  IntroBadge,
-} from "../slots";
+import CardCover from "./CardCover";
 import CardHeader from "./CardHeader";
 import CardModals from "./CardModals";
 import CornerAccents from "./CornerAccents";
-import GenerativeBookCover from "./GenerativeBookCover";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
 
@@ -25,10 +18,8 @@ interface ReviewLayoutProps {
 
 export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   const {
-    title,
     rating,
     reviewIsOriginalLanguage,
-    onStatsClick,
     reviewPresets,
     headerNode,
     className,
@@ -37,106 +28,27 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   } = props;
 
   const {
-    ContentIcon,
     t,
     isSpoiler,
-    showImage,
-    displayThumbnail,
     displayTitle,
-    displayTitleBadge,
     displayCreator,
     displayReview,
-    setImageError,
-    handleImageLoad,
     handleClick,
-    editionUnavailable,
-    editionNoCover,
-    activeEdition,
-    effectiveCelebCount,
-    effectiveUserCount,
-    setIsBadgeHovered,
-    setShowStatsModal,
-    setShowIntroModal,
-    isSelected,
   } = state;
-
-  const selectable = props.selectable;
-
-  const renderSelectOverlay = () => {
-    if (!selectable) return null;
-    return <SelectOverlay isSelected={isSelected} />;
-  };
-
-  const renderBottomLeft = () => {
-    if (effectiveCelebCount === undefined) return null;
-    const handleStatsClick = onStatsClick || ((e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setShowStatsModal(true);
-    });
-    return (
-      <div
-        onMouseEnter={() => setIsBadgeHovered(true)}
-        onMouseLeave={() => setIsBadgeHovered(false)}
-      >
-        <StatsBadge celebCount={effectiveCelebCount} userCount={effectiveUserCount} onClick={handleStatsClick} />
-      </div>
-    );
-  };
-
-  const renderBottomRight = () => {
-    return (
-      <IntroBadge
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setShowIntroModal(true);
-        }}
-      />
-    );
-  };
 
   return (
     <>
       {/* 가로 레이아웃: 좌측 표지 + 우측 감상문 (화면 크기 무관 단일 형태) */}
       <div className={`relative group/card flex flex-col bg-bg-card border border-line rounded-xl overflow-hidden ${className || ""}`}>
         <CornerAccents radius="lg" />
-        <CardHeader props={props} state={state} />
+        {props.showHeader !== false && <CardHeader props={props} state={state} />}
         <div
           onClick={handleClick}
           className="relative flex w-full flex-wrap items-stretch gap-3 p-2 cursor-pointer md:pb-[55px]"
         >
         {/* 썸네일 영역 */}
         <div className={`relative w-28 sm:w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
-          {showImage && !editionUnavailable ? (
-            /* 표지 자리는 세로로 길어 잘라 채우면 좌우가 날아간다 — 제목이 읽히도록 전부 담는다 */
-            <ContentImage
-              src={displayThumbnail}
-              alt={title}
-              sizes="160px"
-              className="object-contain transition-transform duration-300 delay-150 group-hover:scale-105"
-              onError={() => setImageError(true)}
-              onLoad={handleImageLoad}
-            />
-          ) : (
-            <GenerativeBookCover
-              title={displayTitle}
-              // 판본 미확인 띠가 한가운데를 가로지르므로 같은 자리의 아이콘 상자를 뺀다
-              ContentIcon={displayTitleBadge ? undefined : ContentIcon}
-              iconSize={24}
-              label={
-                editionUnavailable
-                  ? (activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc"))
-                  : editionNoCover
-                    ? (activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn"))
-                    : undefined
-              }
-            />
-          )}
-          <NoEditionBadge contentType={props.contentType ?? "BOOK"} variant="cover" badge={displayTitleBadge} />
-          {renderBottomLeft()}
-          {renderSelectOverlay()}
-          {renderBottomRight()}
+          <CardCover props={props} state={state} review />
         </div>
 
         {/* 리뷰 영역 — 카드 안에 상자를 한 겹 더 두지 않는다. 표지 옆 글은 카드 면 위에 바로 놓고,

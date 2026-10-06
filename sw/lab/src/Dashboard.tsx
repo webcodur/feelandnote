@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom'
 
 const LABS = [
   {
+    section: '매체 UI — 옛 형태 복원',
+    items: [{ to: '/media-objects', title: '책 · 레코드 · 게임팩 · 필름', desc: '매체별 실물 형태 UI. 크기·배경·표지·책 각도·레코드 회전을 바꿔 비교한다.', tag: '2d' }],
+  },
+  {
     section: 'SVG 조형 — 코드만으로 즉시 캐릭터 생성',
     items: [
       {

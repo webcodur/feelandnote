@@ -6,7 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { Link } from "@/i18n/navigation";
@@ -82,17 +82,11 @@ export default function GameContentItem({
       <div
         className={`relative ${cfg.thumb} shrink-0 rounded overflow-hidden bg-bg-secondary`}
       >
-        {thumbnailUrl ? (
-          <ContentImage
-            src={thumbnailUrl}
-            alt={title}
-            sizes={cfg.thumbSizes}
-          />
-        ) : (
+        <ContentCover src={thumbnailUrl} alt={title} sizes={cfg.thumbSizes} fallback={
           <div className="flex h-full w-full items-center justify-center">
             <Icon size={cfg.thumbIcon} className="text-text-secondary" />
           </div>
-        )}
+        } />
       </div>
       <div className="min-w-0 flex-1">
         <p className={`${cfg.title} font-bold text-white truncate`}>

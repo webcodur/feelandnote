@@ -39,8 +39,7 @@ import {
 import { useContentBrief } from "@/components/features/user/contentLibrary/expand/useContentBrief";
 import { useHeldHeight } from "@/components/features/user/contentLibrary/expand/useHeldHeight";
 import Button from "@/components/ui/Button";
-import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
 import Modal from "@/components/ui/Modal";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
@@ -295,22 +294,9 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
       <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:gap-x-5 md:p-5">
         <div className="mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
           <div className="relative h-56 w-full overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg sm:h-72">
-            {item.thumbnailUrl ? (
-              <ContentImage
-                src={item.thumbnailUrl}
-                alt={item.title}
-                sizes="(max-width: 640px) 144px, 192px"
-                className="object-contain"
-                loading="eager"
-              />
-            ) : (
-              <GenerativeBookCover
-                title={item.rawTitle}
-                ContentIcon={ContentIcon}
-                iconSize={28}
-                label={isRegistered ? undefined : t("notRegistered")}
-              />
-            )}
+            <ContentCover src={item.thumbnailUrl} alt={item.title} fallbackTitle={item.rawTitle}
+              ContentIcon={ContentIcon} label={isRegistered ? undefined : t("notRegistered")}
+              sizes="(max-width: 640px) 144px, 192px" className="object-contain" loading="eager" />
           </div>
         </div>
 
@@ -545,7 +531,7 @@ function CuratedIndexModal({
                           className="relative h-10 w-7 shrink-0 overflow-hidden rounded-[2px] border border-white/10 bg-bg-secondary"
                         >
                           {item.thumbnailUrl && (
-                            <ContentImage src={item.thumbnailUrl} alt="" sizes="28px" className="object-cover" />
+                            <ContentCover src={item.thumbnailUrl} alt="" sizes="28px" className="object-cover" fallback={null} />
                           )}
                         </span>
                         <span className="min-w-0 flex-1">

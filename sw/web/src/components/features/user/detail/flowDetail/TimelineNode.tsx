@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { GripVertical, Layers, Trash2 } from "lucide-react";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -79,17 +79,12 @@ export default function TimelineNode({
       >
         {/* 썸네일 */}
         <div className="relative w-10 h-14 md:w-12 md:h-16 bg-[#0a0a0a] rounded-lg overflow-hidden shrink-0">
-          {node.content.thumbnail_url ? (
-            <ContentImage
+          <ContentCover
               src={node.content.thumbnail_url}
               alt={node.content.title}
-              sizes="48px"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
+              sizes="48px" fallback={<div className="w-full h-full flex items-center justify-center">
               <Layers size={14} className="text-white/[0.06]" />
-            </div>
-          )}
+            </div>} />
         </div>
 
         {/* 정보 */}

@@ -7,7 +7,7 @@
 import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useEffect } from "react";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import { Users, Crown, User } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
@@ -86,7 +86,7 @@ export default function ContentStatsModal({
               {/* 썸네일 - 주어진 가로폭 꽉 채우기 */}
               {contentThumbnail ? (
                 <div className="relative w-full aspect-[5/7] overflow-hidden rounded-lg border border-accent/30 shadow-lg">
-                  <ContentImage src={contentThumbnail} alt={contentTitle} sizes="160px" />
+                  <ContentCover src={contentThumbnail} alt={contentTitle} sizes="160px" />
                 </div>
               ) : (
                 <div className="w-full aspect-[5/7] bg-bg-card rounded-lg border border-accent/30 flex items-center justify-center">

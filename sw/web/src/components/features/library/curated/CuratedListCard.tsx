@@ -11,6 +11,7 @@
 "use client";
 
 import Image from "next/image";
+import ContentCover from "@/components/ui/ContentCover";
 import { useLocale, useTranslations } from "next-intl";
 import { Library } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -56,7 +57,7 @@ export default function CuratedListCard({ list, curatorQuery = "", variant = "hu
                 // 뒤로 갈수록 어둡게 — 1번 작품이 앞에 선다
                 filter: depth ? `brightness(${1 - depth * 0.18})` : undefined,
               }}>
-              <Image src={src} alt="" fill draggable={false} sizes="(min-width: 1024px) 96px, (min-width: 768px) 10vw, 16vw" className="object-cover" />
+              <ContentCover src={src} alt="" draggable={false} sizes="(min-width: 1024px) 96px, (min-width: 768px) 10vw, 16vw" className="object-cover" fallback={null} />
             </div>
           );
         }) : (

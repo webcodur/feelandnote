@@ -19,6 +19,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { mythHref } from '@/components/features/user/explore/myth/mythHref'
 import AnimatedHeight from '@/components/ui/AnimatedHeight'
+import ContentCover from '@/components/ui/ContentCover'
 import Modal from '@/components/ui/Modal'
 import { MODAL_MAX_HEIGHT } from '@/components/ui/modalLayout'
 import { PendingBlock } from '@/components/ui/pending'
@@ -1240,16 +1241,12 @@ function Artwork({ url, className, iconSize }: { url: string | null; className: 
   return (
     <span
       className={cn(
-        'flex shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-[linear-gradient(140deg,#2f2817_0%,#1a1916_75%)] text-accent/80',
+        'relative flex shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-[linear-gradient(140deg,#2f2817_0%,#1a1916_75%)] text-accent/80',
         className,
       )}
     >
-      {url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={url} alt="" loading="lazy" decoding="async" className="size-full object-cover" />
-      ) : (
-        <Music size={iconSize} {...ICON_PROPS} />
-      )}
+      <ContentCover src={url} alt="" sizes="64px" dissolve={false}
+        fallback={<Music size={iconSize} {...ICON_PROPS} />} />
     </span>
   )
 }

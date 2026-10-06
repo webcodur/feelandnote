@@ -1,18 +1,11 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import ContentImage from "@/components/ui/ContentImage";
-import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
-import {
-  SelectOverlay,
-  StatsBadge,
-  IntroBadge,
-} from "../slots";
+import CardCover from "./CardCover";
 import CardHeader from "./CardHeader";
 import CardModals from "./CardModals";
 import CornerAccents from "./CornerAccents";
-import GenerativeBookCover from "./GenerativeBookCover";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
 
@@ -27,119 +20,26 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     creator,
     href,
     selectable,
-    onStatsClick,
     onClick,
     className,
   } = props;
 
   const {
-    ContentIcon,
     aspectClass,
-    t,
-    isSelected,
     showInfo,
-    showGradient,
-    showImage,
-    displayThumbnail,
     displayTitle,
-    displayTitleBadge,
     displayCreator,
-    setImageError,
-    handleImageLoad,
     handleClick,
     editionUnavailable,
-    editionNoCover,
-    activeEdition,
-    effectiveCelebCount,
-    effectiveUserCount,
     isBadgeHovered,
-    setIsBadgeHovered,
-    setShowStatsModal,
-    setShowIntroModal,
     selectableClass,
   } = state;
-
-  const renderSelectOverlay = () => {
-    if (!selectable) return null;
-    return <SelectOverlay isSelected={isSelected} />;
-  };
-
-  const renderBottomLeft = () => {
-    if (props.showStats === false) return null;
-    if (effectiveCelebCount === undefined) return null;
-    const handleStatsClick = onStatsClick || ((e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setShowStatsModal(true);
-    });
-    return (
-      <div
-        onMouseEnter={() => setIsBadgeHovered(true)}
-        onMouseLeave={() => setIsBadgeHovered(false)}
-      >
-        <StatsBadge celebCount={effectiveCelebCount} userCount={effectiveUserCount} onClick={handleStatsClick} />
-      </div>
-    );
-  };
-
-  const renderBottomRight = () => {
-    if (props.showIntro === false) return null;
-    return (
-      <IntroBadge
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setShowIntroModal(true);
-        }}
-      />
-    );
-  };
 
   const cardContent = (
     <>
       {props.showHeader !== false && <CardHeader props={props} state={state} />}
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
-        {showImage ? (
-          <ContentImage
-            src={displayThumbnail}
-            alt={title}
-            sizes="(max-width: 768px) 50vw, 25vw"
-            /* 호버 반응 — 밝기는 즉각 붙고(필터는 transition-transform 대상이 아니라 지연 없이
-               바뀐다), 살짝 커지는 배율도 지연 없이 바로 움직인다 */
-            className={props.imageFit === "contain"
-              ? "object-contain group-hover/card:brightness-110"
-              : `object-cover transition-transform duration-200 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105 group-hover/card:scale-110 group-hover/card:brightness-110" : ""}`}
-            onError={() => setImageError(true)}
-            onLoad={handleImageLoad}
-          />
-        ) : (
-          <GenerativeBookCover
-            title={displayTitle}
-            // 판본 미확인 띠가 한가운데를 가로지르므로 같은 자리의 아이콘 상자를 뺀다
-            ContentIcon={displayTitleBadge ? undefined : ContentIcon}
-            iconSize={28}
-            label={
-              editionUnavailable
-                ? (activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc"))
-                : editionNoCover
-                  ? (activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn"))
-                  : undefined
-            }
-          />
-        )}
-
-        {showGradient && !editionUnavailable && (
-          <div className="absolute inset-x-0 bottom-0 h-16 md:h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
-        )}
-
-        {props.overlayTopLeft && <div className="absolute left-1.5 top-1.5 z-10">{props.overlayTopLeft}</div>}
-        <NoEditionBadge contentType={props.contentType ?? "BOOK"} variant="cover" badge={displayTitleBadge} />
-        {props.overlayTopRight && <div className="absolute right-1.5 top-1.5 z-10">{props.overlayTopRight}</div>}
-
-        {renderBottomLeft()}
-        {renderSelectOverlay()}
-        {renderBottomRight()}
-
+        <CardCover props={props} state={state} />
       </div>
 
       {showInfo && (

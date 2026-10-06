@@ -18,7 +18,7 @@ import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSumm
 import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
 import { isAccessType } from "@/lib/commerce/contentAccess";
 import ContentCard from "@/components/ui/cards/ContentCard";
-import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
+import ContentCover from "@/components/ui/ContentCover";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import type { ContentType } from "@/types/database";
@@ -61,7 +61,7 @@ function CoverCard({
           <div className="h-6 w-6" />
         </div>
         <div className="relative aspect-[2/3] w-full overflow-hidden bg-bg-secondary">
-          <GenerativeBookCover title={item.rawTitle} ContentIcon={ContentIcon} iconSize={28} label={notRegisteredLabel} />
+          <ContentCover alt={item.rawTitle} ContentIcon={ContentIcon} label={notRegisteredLabel} />
           {yearBadge && <div className="absolute right-1.5 top-1.5 z-10">{yearBadge}</div>}
         </div>
         <div className="border-t border-white/[0.04] bg-black/20 text-center">

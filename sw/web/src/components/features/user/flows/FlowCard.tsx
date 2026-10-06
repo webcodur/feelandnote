@@ -5,10 +5,9 @@
 */
 "use client";
 
-import Image from "next/image";
+import ContentCover from "@/components/ui/ContentCover";
 import { Layers, Lock } from "lucide-react";
 import type { FlowSummary } from "@/types/database";
-import { BLUR_DATA_URL } from "@/constants/image";
 import { useTranslations } from "next-intl";
 
 interface FlowCardProps {
@@ -35,14 +34,12 @@ function collectThumbnails(flow: FlowSummary, max: number): string[] {
 function Thumb({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <Image
+      <ContentCover
         src={src}
         alt={alt}
-        fill
-        unoptimized
+        sizes="(max-width: 640px) 50vw, 200px"
         className="object-cover group-hover:scale-[1.06] transition-transform duration-700 ease-out"
-        placeholder="blur"
-        blurDataURL={BLUR_DATA_URL}
+        fallback={null}
       />
     </div>
   );

@@ -13,7 +13,7 @@ import { useState } from "react";
 import Image from "next/image";
 import BlurDissolve from "./BlurDissolve";
 
-interface ContentImageProps {
+export interface ContentImageProps {
   src?: string | null;
   alt: string;
   /** next/image sizes 힌트 */
@@ -22,6 +22,7 @@ interface ContentImageProps {
   className?: string;
   priority?: boolean;
   loading?: "lazy" | "eager";
+  draggable?: boolean;
   /** 블러 디졸브 등장 효과. 기본 켜짐 — 끌 곳에서만 false */
   dissolve?: boolean;
   onError?: () => void;
@@ -35,6 +36,7 @@ export default function ContentImage({
   className = "object-cover",
   priority = false,
   loading = "lazy",
+  draggable,
   dissolve = true,
   onError,
   onLoad,
@@ -67,6 +69,7 @@ export default function ContentImage({
       unoptimized
       priority={priority}
       loading={priority ? undefined : loading}
+      draggable={draggable}
     />
   );
 

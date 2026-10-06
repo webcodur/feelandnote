@@ -3,7 +3,7 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
-import ContentImage from "@/components/ui/ContentImage";
+import ContentCover from "@/components/ui/ContentCover";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
@@ -89,7 +89,7 @@ export default function RecordsList({
             <div className="p-5 sm:p-8 lg:p-10">
               {thumbnail && (
                 <div className="relative mx-auto mb-5 aspect-[2/3] w-24 overflow-hidden rounded-md border border-white/10 bg-bg-secondary shadow-lg sm:w-28">
-                  <ContentImage src={thumbnail} alt={item.content.title} sizes="112px" />
+                  <ContentCover src={thumbnail} alt={item.content.title} sizes="112px" />
                 </div>
               )}
 

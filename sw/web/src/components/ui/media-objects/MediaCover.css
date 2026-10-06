@@ -1,0 +1,53 @@
+.media-context-cover {
+  --mo-panel: #494038;
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  container-type: inline-size; perspective: 900px; isolation: isolate;
+  background: radial-gradient(ellipse at 42% 26%, #60564b, #494038 48%, #302a25);
+}
+/* 질감과 음영은 표지 뒤에만 깔아 포스터·책 표면에 겹치지 않는다. */
+.media-context-cover::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url('/images/noise.svg') repeat; background-size: 180px 180px;
+  filter: grayscale(1) contrast(1.8); mix-blend-mode: soft-light; opacity: .75;
+}
+.media-context-cover::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at 48% 38%, transparent 36%, #17120e50),
+    linear-gradient(0deg, #17120e30, transparent 35%);
+  box-shadow: inset 0 1px 0 #e4d2bd0d, inset 0 0 24px #17120e30;
+}
+.media-context-cover .mo-object { --object-size: 88cqw; }
+.media-context-book .mo-object { --object-size: 80cqw; }
+.media-context-music .mo-object { --object-size: 90cqw; }
+.media-context-game .mo-object { --object-size: 92cqw; }
+.media-context-video .mo-object { --object-size: 72cqw; }
+.media-context-cover .mo-disc-label strong { max-width: 80%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.mo-interaction-art { width: 100%; display: flex; justify-content: center; perspective: 900px; transform-style: preserve-3d; pointer-events: none; }
+.mo-interaction-control { position: absolute; inset: 0; z-index: 2; width: 100%; border: 0; color: #e4edf4; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.mo-interaction-control[data-pressed='true'], .mo-interaction-control:has([data-loading='true']) { box-shadow: inset 0 0 0 2px #c9dceb99; }
+@media (hover: hover) and (pointer: fine) { .mo-interaction-control:hover { box-shadow: inset 0 0 0 2px #c9dceb99; } }
+.mo-interaction-control:focus-visible { outline: 2px solid #c9dceb; outline-offset: -3px; }
+.mo-interactive { --mo-film-curl: calc(.12 + .5 * var(--mo-hover-progress, 0)); }
+/* 위쪽 고정점에서 아래쪽으로 흔들림이 전달되고 두 번 감쇠하며 멈춘다. */
+.mo-interactive[data-hovered='true'] .mo-film-joint {
+  animation: mo-film-flutter 1800ms ease-in-out calc(var(--film-row) * 18ms) backwards;
+}
+@keyframes mo-film-flutter {
+  0%, 100% { transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z)); }
+  18% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * 1.6deg)) rotateZ(calc(var(--film-rest-z) + var(--film-weight) * .85deg)); }
+  40% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * 1.2deg)) rotateZ(calc(var(--film-rest-z) - var(--film-weight) * .7deg)); }
+  62% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * .8deg)) rotateZ(calc(var(--film-rest-z) + var(--film-weight) * .45deg)); }
+  82% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * .35deg)) rotateZ(calc(var(--film-rest-z) - var(--film-weight) * .2deg)); }
+}
+.mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .075 * var(--mo-hover-progress, 0))); transition: none; }
+.mo-interactive .mo-book { transition: none; transform: rotateX(calc(var(--mo-rest-x) + var(--mo-tilt-x, 0deg) * var(--mo-hover-progress, 0))) rotateY(calc(var(--mo-rest-y) + var(--mo-tilt-y, 0deg) * var(--mo-hover-progress, 0))); }
+.mo-interactive .mo-game-station { transform: rotateX(calc(-12deg + 5deg * var(--mo-hover-progress, 0))) rotateY(calc(-18deg + 7deg * var(--mo-hover-progress, 0))); }
+.mo-interactive .mo-object { transition: transform 100ms ease-out; }
+.mo-interaction-control[data-pressed='true'] .mo-object { transform: translateY(1px) scale(.975); }
+.mo-navigation-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; animation: mo-pending-reveal 0s 180ms forwards; }
+@keyframes mo-pending-reveal { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .mo-interactive .mo-object { transition: none; }
+  .mo-interactive[data-hovered='true'] .mo-film-joint { animation: none; }
+  .mo-interaction-control[data-pressed='true'] .mo-object { transform: none; }
+}
