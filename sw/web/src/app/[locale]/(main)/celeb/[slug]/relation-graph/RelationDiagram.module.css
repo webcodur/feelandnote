@@ -144,8 +144,8 @@
 .graphCanvas :global(.relation-person:hover .relation-face) { border-color: var(--material-accent); }
 .graphCanvas :global(.relation-person.is-selected strong) { color: var(--material-text); font-weight: 820; text-shadow: 0 1px 3px var(--material-deep), 0 0 9px color-mix(in srgb, var(--material-accent) 72%, transparent); }
 .graphCanvas :global(.relation-person.is-selected .relation-face) { border: 2px solid var(--material-accent); animation: relation-selected-aura 2400ms ease-in-out infinite; }
-.graphCanvas :global(.relation-face img) { width: 100%; height: 100%; object-fit: cover; transform: scale(var(--relation-face-scale)); transform-origin: var(--relation-face-origin); filter: none !important; image-rendering: auto; transition: transform 260ms ease-out; }
-.graphCanvas :global(.relation-person:hover .relation-face img) { transform: scale(calc(var(--relation-face-scale) * 1.05)); }
+.graphCanvas :global(.relation-face img) { width: 100%; height: 100%; object-fit: cover; filter: none !important; image-rendering: auto; transition: transform 260ms ease-out; }
+.graphCanvas :global(.relation-person:hover .relation-face img) { transform: scale(1.05); }
 .graphCanvas :global(.relation-profile-fallback) {
   position: relative; display: grid; width: 100%; height: 100%; overflow: hidden; place-items: center;
   color: color-mix(in srgb, var(--material-muted) 72%, var(--material-accent));

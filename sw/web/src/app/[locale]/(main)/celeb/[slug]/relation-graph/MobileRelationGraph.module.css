@@ -10,8 +10,8 @@
   .focusTitle { display: flex; align-items: center; gap: 7px; color: var(--relation-tone); font-size: 13px; font-weight: 750; }
   .focusTitle small { font: 600 12px/1 ui-monospace, monospace; }
   .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 216px; align-content: start; gap: 12px 8px; padding-block: 14px; overflow-anchor: none; touch-action: pan-y; user-select: none; }
-  .face { position: relative; display: grid; width: 64px; height: 64px; place-items: center; flex: 0 0 auto; overflow: hidden; border-radius: 50%; color: var(--material-muted); background: var(--material-deep); border: 1px solid color-mix(in srgb, var(--relation-tone) 32%, var(--material-edge)); }
-  .face img { width: 100%; height: 100%; object-fit: cover; transform: scale(var(--relation-face-scale)); transform-origin: var(--relation-face-origin); }
+  .face { position: relative; display: grid; width: 64px; height: 88px; place-items: center; flex: 0 0 auto; overflow: hidden; border-radius: 0; color: var(--material-muted); background: var(--material-deep); border: 1px solid color-mix(in srgb, var(--relation-tone) 32%, var(--material-edge)); }
+  .face img { width: 100%; height: 100%; object-fit: cover; }
   .branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding-block: 4px 8px; }
   .branch { display: flex; min-width: 0; min-height: 44px; padding: 9px 12px; align-items: center; justify-content: space-between; gap: 8px; border: 1px solid var(--material-edge); border-radius: 8px; background: transparent; color: var(--relation-tone); cursor: pointer; }
   .branch strong { font-size: 12px; font-weight: 650; line-height: 1.4; text-align: start; }
@@ -35,7 +35,4 @@
   .pager small { color: var(--material-muted); font-size: inherit; }
   .detail { padding: 16px 0 12px; overflow-anchor: none; }
   .detail .personRow { grid-template-columns: minmax(0, 1fr); }
-  .personRow :global([data-figure-person-portrait]) { border-radius: 0; }
-  .personRow :global([data-figure-person-portrait] img) { transform: scale(var(--relation-face-scale)); transform-origin: var(--relation-face-origin); }
-  .personRow :global([data-figure-person-portrait]:hover img) { transform: scale(calc(var(--relation-face-scale) * 1.05)); }
 }

@@ -1,8 +1,4 @@
-.shell, .portraitRows { --relation-face-scale: 1.35; --relation-face-origin: 50% 45%; }
 .shell { color: var(--material-text, var(--text-primary)); overflow-anchor: none; }
-.portraitRows :global([data-figure-person-portrait]) { width: 64px; height: 64px; margin: 8px 0 8px 8px; align-self: center; border-radius: 0; }
-.portraitRows :global([data-figure-person-portrait] img) { transform: scale(var(--relation-face-scale)); transform-origin: var(--relation-face-origin); }
-.portraitRows :global([data-figure-person-portrait]:hover img) { transform: scale(calc(var(--relation-face-scale) * 1.05)); }
 
 .viewTabs {
   display: flex;
@@ -43,8 +39,8 @@
 .desktopInspector { min-height: 246px; margin-top: 10px; border-block: 1px solid color-mix(in srgb, var(--material-edge) 60%, transparent); background: color-mix(in srgb, var(--material-panel) 72%, transparent); }
 .inspectorCard { position: relative; display: grid; grid-template-columns: 208px minmax(0, 1fr) 46px; gap: 22px; min-height: 244px; padding: 18px 20px; align-items: stretch; }
 .inspectorPortrait { display: grid; min-width: 0; align-items: stretch; }
-.inspectorAvatar { display: grid; width: 208px; height: 208px; align-self: start; overflow: hidden; place-items: center; border: 1px solid color-mix(in srgb, var(--material-accent) 72%, var(--material-edge)); border-radius: 0; background: color-mix(in srgb, var(--material-panel) 84%, var(--material-deep)); color: var(--material-muted); font-size: 26px; font-weight: 800; box-shadow: 0 12px 28px color-mix(in srgb, var(--material-deep) 68%, transparent); }
-.inspectorAvatar img { width: 100%; height: 100%; object-fit: cover; transform: scale(var(--relation-face-scale)); transform-origin: var(--relation-face-origin); }
+.inspectorAvatar { display: grid; width: 208px; min-height: 208px; overflow: hidden; place-items: center; border: 1px solid color-mix(in srgb, var(--material-accent) 72%, var(--material-edge)); border-radius: 2px; background: color-mix(in srgb, var(--material-panel) 84%, var(--material-deep)); color: var(--material-muted); font-size: 26px; font-weight: 800; box-shadow: 0 12px 28px color-mix(in srgb, var(--material-deep) 68%, transparent); }
+.inspectorAvatar img { width: 100%; height: 100%; object-fit: cover; }
 .inspectorAvatarButton { position: relative; padding: 0; cursor: pointer; }
 .inspectorAvatarButton:hover { color: var(--material-accent); border-color: var(--material-accent); }
 .inspectorAvatarButton:active { color: var(--material-text); background: var(--material-raised); }
