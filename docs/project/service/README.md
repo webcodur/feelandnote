@@ -33,7 +33,7 @@
 
 ```
 (main)/
-  page.tsx                  # 홈 — 오늘의 인물, 기록이 쌓인 인물, 공지, 제휴 도서
+  page.tsx                  # 홈 — 오늘의 인물, 검색 급증 인물, 공지
   explore/                  # 탐색 구조·인물 → service-01-explore.md
     works/                  # 작품 → service-02-library.md
   agora/                    # 광장 → service-06-agora.md

@@ -3,7 +3,7 @@
   기능: 홈 — 오늘의 신문 1면
   책임: 적층 원칙을 쥔다. 위계는 탐색·서가와 같은 허브 문법(아틀라스 목차 + HubSection 번호
         구획)으로 표시한다. 머리기사(오늘의 인물) 하나만 깊고, 아래 구획은 갈수록 얕아진다.
-        브랜드 줄 → 방문자 첫인사 액자 → 오늘의 인물 → 검색 급증 → 공지 → 추천 도서.
+        브랜드 줄 → 방문자 첫인사 액자 → 오늘의 인물 → 검색 급증 → 공지.
         로그인 유저용 빠른기록은 일단 주석 처리했다 — 재투입 여부는 상황에 맞게 정한다(sections.tsx).
 */ // ------------------------------
 
@@ -14,7 +14,6 @@ import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import PageContainer from "@/components/layout/PageContainer";
 import HomeBrandHeader from "@/components/features/home/HomeBrandHeader";
 import HomeFigureLinks, { HOME_FIGURE_LINK_COLS, HOME_FIGURE_LINK_COUNT } from "@/components/features/home/HomeFigureLinks";
-import PopularBooks from "@/components/features/home/PopularBooks";
 import TodayFigurePending from "@/components/features/figure/TodayFigurePending";
 import { FigureLinkGridPending } from "@/components/features/celeb/FigureLinkGrid";
 import { HomeNoticePending } from "@/components/features/home/HomeNoticeSection";
@@ -111,11 +110,6 @@ export default async function MainPage() {
               </Lane>
             </HubSection>
 
-            <HubSection {...sec("popularBooks")}>
-              <Lane fallback={null}>
-                <PopularBooks />
-              </Lane>
-            </HubSection>
           </div>
         </PageContainer>
 
