@@ -13,7 +13,7 @@ interface Props {
   source: BookShelfBook; loading?: boolean; sharedEditionKeys?: ReadonlySet<string>;
 }
 
-/** 작품 선택 아래에서는 판본 한 권의 표지·제목·본문을 함께 넘긴다. */
+/** 작품 선택 아래에서는 판본 한 권의 표지·제목·본문을 함께 바꾼다. */
 export default function BookShelfFeature(props: Props) {
   if (props.source.editions.length <= 1) return <BookShelfEditionDetail {...props} />;
   const key = [props.source.id, props.source.preferredEditionId, ...props.source.editions.map(edition => edition.id)].join(":");
@@ -24,7 +24,7 @@ function EditionStage({ source, loading, sharedEditionKeys }: Props) {
   const t = useTranslations("celebPage");
   const preferred = source.editions.find(edition => edition.id === source.preferredEditionId) ?? source.editions[0];
   const editions = [preferred, ...source.editions.filter(edition => edition.id !== preferred.id)];
-  const { ref, activeIndex, scrollTo, syncIndex } = useSnapCarousel(editions.length);
+  const { ref, activeIndex, syncIndex } = useSnapCarousel(editions.length);
   useEffect(() => {
     const track = ref.current;
     const active = track?.children[activeIndex] as HTMLElement | undefined;
@@ -45,7 +45,6 @@ function EditionStage({ source, loading, sharedEditionKeys }: Props) {
   const select = (id: number) => {
     const index = editions.findIndex(edition => edition.id === id);
     if (index < 0) return;
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) { scrollTo(index); return; }
     const track = ref.current;
     const target = track?.children[index] as HTMLElement | undefined;
     if (!track || !target) return;

@@ -24,7 +24,7 @@ export default function BookShelfChoiceRow({ label, choices, selectedKey, onSele
     if (buttonBox.left >= railBox.left && buttonBox.right <= railBox.right) return
     const left = rail.scrollLeft + buttonBox.left - railBox.left - (rail.clientWidth - button.clientWidth) / 2
     rail.scrollTo({ left: Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, left)),
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+      behavior: 'instant' })
   }, [ref, selectedKey])
   if (!choices.length) return null
   return (
