@@ -45,7 +45,7 @@ const server = createServer((request, response) => {
     response.writeHead(200, {'Content-Type':'text/css'});response.end(css.css);return;
   }
   response.writeHead(200, {'Content-Type':'text/html'});
-  response.end('<link rel="stylesheet" href="/style.css"><div id="root"></div><script src="/app.js"></script>');
+  response.end('<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="stylesheet" href="/style.css"><div id="root"></div><script src="/app.js"></script>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await puppeteer.launch({headless:true});
@@ -53,9 +53,9 @@ const errors = [];
 const failures = [];
 const settle = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 try {
-  for (const width of [1440,390]) {
+  for (const width of [1440,390,320]) {
     const page = await browser.newPage();
-    await page.setViewport({width,height:900});
+    await page.setViewport({width,height:900,isMobile:width<768,hasTouch:width<768});
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('http://127.0.0.1:'+server.address().port);
     await page.waitForSelector('[data-scene-caption-counter]');
@@ -70,6 +70,19 @@ try {
       try {await run();console.log('PASS '+name+' '+width);}
       catch(error) {failures.push(name+' '+width+': '+error.message);console.error('FAIL '+failures.at(-1));}
     };
+    await check('all tools are visible and reachable on screen',async()=>{
+      const blocked=await page.evaluate(()=>{
+        const selectors=['[data-scene-help]','[data-scene-captions]','[data-scene-caption-size]','[data-scene-caption-height]','[data-artwork-dismiss]','[data-scene-slider]'];
+        return selectors.filter(selector=>{
+          const element=document.querySelector(selector);
+          if(!element) return true;
+          const rect=element.getBoundingClientRect();
+          const hit=document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2);
+          return rect.width===0||rect.height===0||rect.left<0||rect.right>innerWidth||rect.top<0||rect.bottom>innerHeight||!element.contains(hit);
+        });
+      });
+      assert.deepEqual(blocked,[]);
+    });
     await check('default arrows advance one caption without choosing a mode',async()=>{
       await page.keyboard.press('ArrowRight'); await settle(page);
       assert.deepEqual(await state(),{scene:'2 / 4',caption:'2 / 3'});
@@ -185,6 +198,33 @@ try {
       if(process.env.ARTWORK_CAPTURE_DIR) await page.screenshot({path:process.env.ARTWORK_CAPTURE_DIR+'/caption-height-'+width+'.png'});
       assert.equal(await page.$('[data-caption-height-options]'),null);
       assert.deepEqual(await state(),{scene:'2 / 4',caption:'1 / 3'});
+    });
+    await check('help icons operate the viewer and show current settings',async()=>{
+      await page.click('[data-scene-help]');await settle(page);
+      const help='[data-artwork-help] ';
+      await page.click(help+'[data-scene-caption-size] span');await settle(page);
+      assert.equal(await page.$eval('[data-artwork-caption]',element=>getComputedStyle(element).fontSize),width<768?'24px':'30px');
+      assert.equal(await page.$eval(help+'[data-scene-caption-size]',element=>element.dataset.sceneCaptionSize),'large');
+      assert.ok(await page.$eval(help+'ul',element=>element.textContent.includes('글자 크기: 크게')));
+      await page.click(help+'[data-scene-caption-height] svg');await settle(page);
+      assert.equal(await page.$eval(help+'[data-scene-caption-height]',element=>element.dataset.sceneCaptionHeight),'middle');
+      assert.ok(await page.$eval(help+'ul',element=>element.textContent.includes('자막 높이: 하단 위')));
+      await page.keyboard.press('Enter');await settle(page);
+      assert.equal(await page.$eval(help+'[data-scene-caption-height]',element=>element.dataset.sceneCaptionHeight),'high');
+      await page.click('[data-help-caption-mode] svg');await settle(page);
+      assert.equal((await state()).caption,null);
+      await page.click(help+'button[aria-label="다음 이미지"]');await settle(page);
+      assert.deepEqual(await state(),{scene:'3 / 4',caption:null});
+      await page.click('[data-help-zoom]');await settle(page);
+      assert.ok(await page.$eval('[data-artwork-current]',element=>element.style.transform.includes('scale(2)')));
+      await page.click('[data-help-zoom]');await settle(page);
+      assert.ok(await page.$eval('[data-artwork-current]',element=>element.style.transform.includes('scale(1)')));
+      await page.click('[data-help-copy]');
+      await page.waitForFunction(()=>document.querySelector('[data-artwork-help]')?.textContent.includes('복사됨'));
+      if(process.env.ARTWORK_CAPTURE_DIR) await page.screenshot({path:process.env.ARTWORK_CAPTURE_DIR+'/artwork-help-actions-'+width+'.png'});
+      await page.click('[data-help-back]');await settle(page);
+      assert.equal(await page.$('[data-artwork-help]'),null);
+      assert.ok(await page.$('[data-artwork-viewer]'));
     });
     if(process.env.ARTWORK_CAPTURE_DIR) {
       await page.click('[data-scene-help]');await settle(page);

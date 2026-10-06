@@ -527,7 +527,12 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
           </div>
         </div>
         {infoOpen && <FactionArtworkHelp onClose={() => setInfoOpen(false)}
-          sceneCaption={isScene && !isEnding && Boolean(image.caption)} caption={!isEnding && Boolean(image.caption)} />}
+          caption={!isEnding && Boolean(image.caption)}
+          settings={isScene && !isEnding && image.caption ? { split: captionSplit, onToggle: () => setCaptionSplit(on => !on), size: captionSize, onSize: setCaptionSize, height: captionHeight, onHeight: setCaptionHeight } : undefined}
+          navigation={hasNavigation ? { previous: () => navigate(-1), next: () => navigate(1), canPrevious, canNext, previousLabel, nextLabel } : undefined}
+          zoomed={zoomView.scale > 1}
+          onZoom={isScene && !isEnding ? () => setZoomView(view => view.scale > 1 ? { scale: 1, x: 0, y: 0 } : { scale: 2, x: 0, y: 0 }) : undefined}
+          copied={captionCopied} onCopy={copyCaption} />}
         {/* 본문 — 장면 트랙. 휠은 그림 위=확대·축소, 빈 여백=문장·장면 넘기기. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
         <div ref={viewerBodyRef} data-artwork-viewer {...swipeHandlers}
           className={`@container relative min-h-0 flex-1 overflow-hidden bg-black ${zoomView.scale > 1 ? (panning ? "cursor-grabbing" : "cursor-grab") : ""}`}
