@@ -1,10 +1,11 @@
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/Modal";
-import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
+
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
@@ -36,6 +37,7 @@ interface Props {
 }
 
 export default function CelebDetailFiltersModal({ filters, onClose, onInteraction, initial }: Props) {
+  const { filters: CELEB_PROFESSION_FILTERS } = useProfessions();
   const t = useTranslations("home.ui");
   const tExplore = useTranslations("explore.ui");
   const getProfession = useProfessionLabel();

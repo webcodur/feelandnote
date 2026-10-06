@@ -3,7 +3,7 @@
   기능: 직군별 인물 명부 (SEO용 중간 허브)
   책임: 전체 명부 한 장에 1,700여 링크가 몰려 크롤러가 인물 사이의 경중을 읽지 못하던 구조를
         직군 단위(수십~수백 명)로 쪼갠다. 직군명이 제목·본문에 서고 링크마다 한 줄 직함이 붙어
-        "직군 + 인물" 검색어와 이어질 단서를 만든다. 직군 목록은 CELEB_PROFESSIONS 상수가 쥔다.
+        "직군 + 인물" 검색어와 이어질 단서를 만든다. 직군 목록은 DB celeb_professions가 쥔다.
 */ // ------------------------------
 
 import { getCelebProfileUrl } from "@/lib/url";
@@ -11,8 +11,8 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCelebDirectory } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
-import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
+import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
 
@@ -20,7 +20,7 @@ import VisitorDirectory from "@/components/features/user/explore/VisitorDirector
 export const revalidate = 604800;
 
 // 상위 [locale]에 params가 없어 빌드 생성이 안 된다 — 전체 명부와 같이 첫 요청에 ISR로 만든다.
-// 직군 상수 밖 문자열은 본문에서 404로 보낸다.
+// DB 직군 목록 밖 문자열은 본문에서 404로 보낸다.
 export function generateStaticParams() {
   return [];
 }
@@ -29,14 +29,14 @@ interface PageProps {
   params: Promise<{ locale: string; profession: string }>;
 }
 
-function resolveProfession(value: string) {
-  return CELEB_PROFESSIONS.find((prof) => prof.value === value) ?? null;
+async function resolveProfession(value: string) {
+  return (await getCelebProfessions()).find((prof) => prof.value === value) ?? null;
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { locale, profession } = await params;
   setRequestLocale(locale);
-  const prof = resolveProfession(profession);
+  const prof = await resolveProfession(profession);
   if (!prof) return {};
 
   const t = await getTranslations("explore.directory");
@@ -56,10 +56,11 @@ const ITEM_CLASS =
   "group flex items-baseline gap-2 py-1.5 text-sm text-text-primary hover:text-accent";
 
 export default async function ProfessionDirectoryPage({ params }: PageProps) {
+  const CELEB_PROFESSIONS = await getCelebProfessions();
   const { locale, profession } = await params;
   setRequestLocale(locale);
 
-  const prof = resolveProfession(profession);
+  const prof = await resolveProfession(profession);
   if (!prof) notFound();
 
   const t = await getTranslations("explore.directory");
@@ -68,8 +69,8 @@ export default async function ProfessionDirectoryPage({ params }: PageProps) {
 
   const celebs = await getCelebDirectory();
   const members = celebs.filter((c) => c.profession === prof.value);
-  const Icon = PROFESSION_ICONS[prof.value];
-  const color = PROFESSION_COLORS[prof.value] ?? "";
+  const Icon = getProfessionIcon(prof.value);
+  const color = getProfessionColor(prof.value) ?? "";
 
   return (
     <div className="max-w-4xl mx-auto">

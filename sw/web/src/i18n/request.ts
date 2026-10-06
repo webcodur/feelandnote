@@ -1,6 +1,8 @@
+import { getCelebProfessions } from '@/lib/celeb-professions';
 import { getRequestConfig } from 'next-intl/server';
 import { hasLocale } from 'next-intl';
 import { routing } from './routing';
+import { getCelebProfessionMessages } from '@feelandnote/shared/constants/celeb-professions';
 
 /** 메시지 네임스페이스 — 추가 시 여기만 수정 */
 const NAMESPACES = [
@@ -17,7 +19,9 @@ async function loadMessages(locale: string) {
   const bundles = await Promise.all(
     NAMESPACES.map(ns => import(`../../messages/${locale}/${ns}.json`).then(m => m.default))
   );
-  return Object.assign({}, ...bundles);
+  const messages = Object.assign({}, ...bundles);
+  messages.profession = { ...messages.profession, ...getCelebProfessionMessages(locale, await getCelebProfessions()) };
+  return messages;
 }
 
 export default getRequestConfig(async ({ requestLocale }) => {

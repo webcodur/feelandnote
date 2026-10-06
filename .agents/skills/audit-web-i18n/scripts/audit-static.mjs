@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const args = new Set(process.argv.slice(2));
 const strict = args.has("--strict");
@@ -93,7 +93,7 @@ function listJsonFiles(locale) {
     .sort();
 }
 
-function auditMessages() {
+async function auditMessages() {
   const koFiles = listJsonFiles("ko");
   const enFiles = listJsonFiles("en");
   const koSet = new Set(koFiles);
@@ -133,6 +133,21 @@ function auditMessages() {
       }
       Object.assign(merged[locale], data);
     }
+  }
+
+  // Runtime profession messages come from DB; do not substitute the initial offline seed.
+  requireFromWeb("dotenv").config({ path: path.join(webRoot, ".env"), quiet: true });
+  const { createClient } = await import(pathToFileURL(path.join(repoRoot, "packages/db/src/index.mjs")).href);
+  const { data: professionData, error: professionError } = await createClient(
+    process.env.NEXT_PUBLIC_DB_API_URL, process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY,
+    { auth: { persistSession: false, autoRefreshToken: false } },
+  ).from("celeb_professions").select("value,label,label_en");
+  if (professionError) add("errors", "PROFESSION_DB_READ_FAILED", professionError.message);
+  for (const locale of ["ko", "en"]) {
+    merged[locale].profession = {
+      ...merged[locale].profession,
+      ...Object.fromEntries((professionData ?? []).map((profession) => [profession.value, locale === "en" ? profession.label_en : profession.label])),
+    };
   }
 
   const koLeaves = collectLeaves(merged.ko);
@@ -639,7 +654,7 @@ function printFindings() {
   }
 }
 
-const messageAudit = auditMessages();
+const messageAudit = await auditMessages();
 auditSource(messageAudit.merged);
 
 const summary = {

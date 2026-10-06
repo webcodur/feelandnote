@@ -6,7 +6,7 @@ import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-t
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
+import { getCelebProfessions } from '@/lib/celeb-professions'
 
 export type ProfessionCounts = Record<string, number>
 
@@ -25,7 +25,7 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
   }
 
   // 각 직군별 카운트 조회
-  const professionValues = CELEB_PROFESSIONS.map(p => p.value)
+  const professionValues = (await getCelebProfessions()).map(p => p.value)
 
   // 1,000행 상한에 걸리므로 나눠 받는다.
   // 자르면 직군별 합이 위 totalCount(head 카운트라 정확)와 어긋나 화면에서 바로 모순이 된다.

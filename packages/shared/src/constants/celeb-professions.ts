@@ -1,26 +1,21 @@
-// 셀럽 직군 허용값과 표시명의 코드 SSoT.
-// DB CHECK와 docs/project/celeb/celeb-01-01-profile-facts.md의 판정 규칙도 이 값 집합을 사용한다.
-export const CELEB_PROFESSIONS = [
-  { value: 'leader', label: '지도자', label_en: 'Leader' },
-  { value: 'politician', label: '정치인', label_en: 'Politician' },
-  { value: 'commander', label: '지휘관', label_en: 'Commander' },
-  { value: 'entrepreneur', label: '기업가', label_en: 'Entrepreneur' },
-  { value: 'investor', label: '투자자', label_en: 'Investor' },
-  { value: 'scientist', label: '과학자', label_en: 'Scientist' },
-  { value: 'humanities_scholar', label: '인문학자', label_en: 'Humanities Scholar' },
-  { value: 'social_scientist', label: '사회과학자', label_en: 'Social Scientist' },
-  { value: 'director', label: '감독', label_en: 'Director' },
-  { value: 'musician', label: '음악인', label_en: 'Musician' },
-  { value: 'visual_artist', label: '미술인', label_en: 'Visual Artist' },
-  { value: 'author', label: '작가', label_en: 'Author' },
-  { value: 'actor', label: '배우', label_en: 'Actor' },
-  { value: 'influencer', label: '인플루엔서', label_en: 'Influencer' },
-  { value: 'athlete', label: '스포츠인', label_en: 'Athlete' },
-  { value: 'other', label: '기타', label_en: 'Other' },
-] as const
+import professionData from './celeb-professions.json'
+
+// 초기 직군 시드: 기존 오프라인 생성 도구의 호환용이다.
+// 공개 웹·관리 화면의 직군 목록과 허용값은 DB celeb_professions에서 읽는다.
+export const CELEB_PROFESSIONS: readonly (typeof professionData)[number][] = professionData
 
 export type CelebProfession = (typeof CELEB_PROFESSIONS)[number]['value']
 export type ProfessionOption = (typeof CELEB_PROFESSIONS)[number]
+
+/** 번역 사전에 직군을 다시 나열하지 않고 공통 직군 데이터로 메시지를 만든다. */
+export function getCelebProfessionMessages(locale: string, professions: readonly ProfessionOption[] = CELEB_PROFESSIONS): Record<string, string> {
+  return Object.fromEntries(professions.map(({ value, label, label_en }) => [value, locale === 'en' ? label_en : label]))
+}
+
+/** 특정 직군에 전용 표현이 없으면 모든 직군에 동일한 기본 표현을 적용한다. */
+export function mapCelebProfessions<T>(overrides: Readonly<Partial<Record<string, T>>>, fallback: T, professions: readonly ProfessionOption[] = CELEB_PROFESSIONS): Readonly<Record<string, T>> {
+  return Object.fromEntries(professions.map(({ value }) => [value, overrides[value] ?? fallback]))
+}
 
 // 필터용 (전체 포함)
 export const CELEB_PROFESSION_FILTERS = [
@@ -29,15 +24,15 @@ export const CELEB_PROFESSION_FILTERS = [
 ] as const
 
 // 유틸 함수
-export const getCelebProfessionLabel = (value: string | null | undefined, locale?: string): string => {
+export const getCelebProfessionLabel = (value: string | null | undefined, locale?: string, professions: readonly ProfessionOption[] = CELEB_PROFESSIONS): string => {
   if (!value) return locale === 'en' ? 'Uncategorized' : '미분류'
   const normalized = value.toLowerCase()
-  const profession = CELEB_PROFESSIONS.find((p) => p.value.toLowerCase() === normalized)
+  const profession = professions.find((p) => p.value.toLowerCase() === normalized)
   if (!profession) return value
   return locale === 'en' ? profession.label_en : profession.label
 }
 
-export const getCelebProfession = (value: string | null | undefined): ProfessionOption | null => {
+export const getCelebProfession = (value: string | null | undefined, professions: readonly ProfessionOption[] = CELEB_PROFESSIONS): ProfessionOption | null => {
   if (!value) return null
-  return CELEB_PROFESSIONS.find((p) => p.value === value) ?? null
+  return professions.find((p) => p.value === value) ?? null
 }

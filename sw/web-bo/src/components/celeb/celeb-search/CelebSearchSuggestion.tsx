@@ -1,5 +1,6 @@
 'use client'
 
+import { useProfessions } from '@feelandnote/shared/hooks/use-professions'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, ImageIcon, Star } from 'lucide-react'
@@ -29,8 +30,9 @@ export default function CelebSearchSuggestion<T extends CelebSearchItem>({
   onAction,
   onLinkClick,
 }: Props<T>) {
+  const { professions } = useProfessions()
   const name = item.nickname || NAMELESS_CELEB_LABEL
-  const secondaryText = getCelebSecondaryText(item)
+  const secondaryText = getCelebSecondaryText(item, professions)
   const href = item.slug ? buildCelebDetailHref(item.slug, detailPathTemplate) : null
   const rowClass = `group/row flex min-h-[112px] w-full items-center gap-4 border-s-2 px-4 py-3 hover:border-accent hover:bg-bg-secondary ${
     selected ? 'border-accent bg-bg-secondary' : 'border-transparent'

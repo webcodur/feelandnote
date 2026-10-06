@@ -1,9 +1,8 @@
 /*
   파일명: actions/home/getFactionMemberShelf.ts
-  기능: 세력 선반의 「감상」「직군」 탭 자료 — 구성원들이 남긴 기록 + 최다 직군 동료들의 기록
+  기능: 세력 선반의 「감상」「직군」 탭 자료 — 구성원들의 기록 + 최다 직군의 선정 도서
   책임: 「감상」은 celeb_contents를 구성원 id로 배치 조회해 테마 작품 선반과 같은 맞춤 규칙으로 카드화한다.
-        「직군」은 구성원 최다 직군을 찾아 그 직군 동료들의 기록을 판매 풀에서 고른다 —
-        개인 페이지 추천 층의 profession 소스를 세력 단위로 옮긴 것이다.
+        「직군」은 구성원 최다 직군의 「되는 책」「관한 책」 선정 목록을 공유한다.
         책장 마운트 뒤 클라이언트가 부른다 — 테마 첫 렌더(ISR) 무게에 섞이지 않는다.
         조회 오류는 클라이언트의 재시도 안내로 넘긴다. 빈 목록으로 숨기지 않는다.
 */
@@ -12,7 +11,8 @@
 import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { createStaticClient } from "@/lib/db/static";
 import { hydrateFactionBooks, type FactionBookRelations } from "./factionBookHydrate";
-import { getProfessionPeerBooks, type AffiliateBook } from "./getAffiliateBooks";
+import type { AffiliateBook } from "./getAffiliateBooks";
+import { getProfessionBooks } from "@/actions/books/getProfessionBooks";
 import type { FactionFigureBook } from "./getFactionFigureBooks";
 
 export interface FactionMemberShelf {
@@ -20,7 +20,7 @@ export interface FactionMemberShelf {
   read: FactionFigureBook[];
   /** 구성원 최다 직군 — 없으면 null이고 「직군」 탭이 서지 않는다 */
   profession: string | null;
-  /** 최다 직군 동료들이 남긴 기록 중 팔리는 책 — 「직군」 탭 */
+  /** 최다 직군의 선정 도서 — 「직군」 탭 */
   professionBooks: AffiliateBook[];
 }
 
@@ -28,7 +28,7 @@ const EMPTY: FactionMemberShelf = { read: [], profession: null, professionBooks:
 
 export async function getFactionMemberShelf(
   memberIds: string[],
-  excludeContentIds: string[],
+  _excludeContentIds: string[],
   locale: string,
 ): Promise<FactionMemberShelf> {
   if (!memberIds.length) return EMPTY;
@@ -56,8 +56,7 @@ export async function getFactionMemberShelf(
   const readRelations: FactionBookRelations = { memberIds: readIdsByContent, appearedIds: new Map(), authoredIds: new Map() };
   const read = await hydrateFactionBooks([...readIdsByContent.keys()], readRelations, isEn ? "en" : "ko");
 
-  /* 직군 — 구성원 사이 가장 많은 직군을 고르고, 그 직군 동료들의 기록을 판매 풀에서 고른다.
-     다른 탭이 이미 보여 주는 책(테마 작품 + 구성원 기록)은 뺀다 */
+  /* 직군 — 구성원 사이 가장 많은 직군의 선정 목록을 읽는다. */
   const memberRows = await selectInChunks<{ id: string; profession: string | null }>(memberIds, (ids) => db
     .from("celebs")
     .select("id, profession")
@@ -70,9 +69,8 @@ export async function getFactionMemberShelf(
   }
   const profession = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? null;
 
-  const excludeIds = new Set<string>([...excludeContentIds, ...readIdsByContent.keys()]);
   const professionBooks = profession
-    ? await getProfessionPeerBooks(profession, isEn ? "en" : "ko", memberIds, excludeIds)
+    ? await getProfessionBooks(profession, locale)
     : [];
 
   return { read, profession, professionBooks };

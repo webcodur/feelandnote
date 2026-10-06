@@ -17,7 +17,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { CelebProfession } from "@feelandnote/shared/constants/celeb-professions";
 
 export const PROFESSION_ICONS: Readonly<Record<string, LucideIcon>> = {
   leader: Crown,
@@ -36,7 +35,7 @@ export const PROFESSION_ICONS: Readonly<Record<string, LucideIcon>> = {
   influencer: Megaphone,
   athlete: Dribbble,
   other: Sparkles,
-} satisfies Record<CelebProfession, LucideIcon>;
+};
 
 /** 직군별 아이콘 색상 */
 export const PROFESSION_COLORS: Readonly<Record<string, string>> = {
@@ -56,4 +55,7 @@ export const PROFESSION_COLORS: Readonly<Record<string, string>> = {
   influencer: "text-fuchsia-400",
   athlete: "text-sky-400",
   other: "text-stone-300",
-} satisfies Record<CelebProfession, string>;
+};
+
+export const getProfessionIcon = (value: string): LucideIcon => PROFESSION_ICONS[value] ?? Sparkles;
+export const getProfessionColor = (value: string): string => PROFESSION_COLORS[value] ?? "text-stone-300";

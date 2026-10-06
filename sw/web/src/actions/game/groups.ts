@@ -1,5 +1,6 @@
 "use server";
 
+import { getCelebProfessions } from '@/lib/celeb-professions';
 /**
  * 넷씩 넷 (Groups) — 서버 액션
  *
@@ -129,17 +130,7 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
     }
   }
 
-  const PROFESSION_LABELS: Record<string, { ko: string; en: string }> = {
-    scientist: { ko: "과학자", en: "Scientists" },
-    author: { ko: "작가", en: "Authors" },
-    commander: { ko: "지휘관", en: "Commanders" },
-    entrepreneur: { ko: "기업가", en: "Entrepreneurs" },
-    musician: { ko: "음악인", en: "Musicians" },
-    politician: { ko: "정치인", en: "Politicians" },
-    leader: { ko: "지도자", en: "Leaders" },
-    director: { ko: "감독", en: "Directors" },
-    athlete: { ko: "스포츠인", en: "Athletes" },
-  };
+  const PROFESSION_LABELS = Object.fromEntries((await getCelebProfessions()).map(p => [p.value, { ko: p.label, en: p.label_en }]));
 
   for (const [prof, profMembers] of professionPool.entries()) {
     // 국적이 모두 다른 4명을 찾아 함정 구조로 만든다

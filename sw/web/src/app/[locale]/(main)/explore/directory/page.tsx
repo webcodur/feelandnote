@@ -8,8 +8,8 @@ import { getCelebProfileUrl } from "@/lib/url";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
-import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
+import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import styles from "./directory.module.css";
 import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
@@ -55,6 +55,7 @@ function getChosung(char: string): string {
 }
 
 export default async function DirectoryPage({ params }: PageProps) {
+  const CELEB_PROFESSIONS = await getCelebProfessions();
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("explore.directory");
@@ -94,8 +95,8 @@ export default async function DirectoryPage({ params }: PageProps) {
         </p>
         <nav aria-label={t("professionIndexTitle")} className="flex flex-wrap gap-x-4 gap-y-2">
           {CELEB_PROFESSIONS.map((prof) => {
-            const Icon = PROFESSION_ICONS[prof.value];
-            const color = PROFESSION_COLORS[prof.value] ?? "";
+            const Icon = getProfessionIcon(prof.value);
+            const color = getProfessionColor(prof.value) ?? "";
             if (!Icon) return null;
             return (
               <a
@@ -130,7 +131,7 @@ export default async function DirectoryPage({ params }: PageProps) {
       <DeveloperCommerceFallback target={{ title: "인물 평전", type: "TOPIC" }} placement="directory" />
       <svg aria-hidden className="hidden">
         {CELEB_PROFESSIONS.map((prof) => {
-          const Icon = PROFESSION_ICONS[prof.value];
+          const Icon = getProfessionIcon(prof.value);
           if (!Icon) return null;
           return (
             <symbol key={prof.value} id={`prof-${prof.value}`} viewBox="0 0 24 24">
@@ -155,12 +156,12 @@ export default async function DirectoryPage({ params }: PageProps) {
                     locale === "en" && celeb.nickname_en
                       ? celeb.nickname_en
                       : celeb.nickname;
-                  const hasIcon = !!(celeb.profession && PROFESSION_ICONS[celeb.profession]);
+                  const hasIcon = !!(celeb.profession && getProfessionIcon(celeb.profession));
                   return (
                     <li key={celeb.slug}>
                       <a href={`${localePrefix}${getCelebProfileUrl(celeb)}`}>
                         {hasIcon && (
-                          <svg className={PROFESSION_COLORS[celeb.profession!]} aria-hidden="true">
+                          <svg className={getProfessionColor(celeb.profession!)} aria-hidden="true">
                             <use href={`#prof-${celeb.profession}`} />
                           </svg>
                         )}

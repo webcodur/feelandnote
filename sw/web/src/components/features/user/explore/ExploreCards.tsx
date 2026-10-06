@@ -1,10 +1,12 @@
+'use client'
+
 /*
   파일명: /components/features/explore/components/ExploreCards.tsx
   기능: 탐색 페이지용 카드 컴포넌트 모음
   책임: 아바타, 유저 카드, 유사 유저 카드, 빈 상태 UI 제공
 */ // ------------------------------
 import { Button, Avatar } from "@/components/ui";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import { useProfessions } from '@feelandnote/shared/hooks/use-professions';
 
 interface UserInfo {
   id: string;
@@ -26,6 +28,7 @@ interface SimilarUserInfo {
 }
 
 export function UserCard({ user, onClick, showProfession }: { user: UserInfo; onClick: () => void; showProfession?: boolean }) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   return (
     <Button unstyled onClick={onClick} className="flex flex-col items-center group">
       <Avatar url={user.avatar_url} name={user.nickname} size="md" verified={user.is_verified} className="group-hover:ring-accent" />
@@ -55,6 +58,7 @@ export function SimilarUserCard({ user, onClick }: { user: SimilarUserInfo; onCl
  * 그리드가 너무 좁아지는 모바일 환경에서 가로형 리스트로 대응
  */
 export function MobileUserListItem({ user, onClick, subtext }: { user: UserInfo; onClick: () => void; subtext?: string }) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   return (
     <Button 
       unstyled 

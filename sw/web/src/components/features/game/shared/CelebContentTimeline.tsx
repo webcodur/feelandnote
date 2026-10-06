@@ -5,8 +5,9 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useLocale } from "next-intl";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
 import { cn } from "@/lib/utils";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
@@ -64,6 +65,7 @@ export default function CelebContentTimeline({
   emptyLabel = "등록된 감상 기록 없음",
   locale,
 }: CelebContentTimelineProps) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const detectedLocale = useLocale();
   const effLocale = locale ?? detectedLocale;
   const isEn = effLocale === 'en';

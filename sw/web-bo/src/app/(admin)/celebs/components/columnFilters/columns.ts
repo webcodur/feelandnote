@@ -1,4 +1,3 @@
-import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { CELEB_CONTENT_COUNT } from '@feelandnote/shared/constants/celeb-content-research'
 import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
@@ -28,7 +27,7 @@ export const COLUMNS: Column[] = [
   { field: 'title', label: '수식어', width: 'min-w-36' },
   { field: 'nickname', label: '이름', width: 'min-w-36' },
   { field: 'celeb_reality', label: '실존', filter: { type: 'select', param: 'reality', options: CELEB_REALITIES.map((value) => ({ value, label: CELEB_REALITY_DISPLAY[value].label })) } },
-  { field: 'profession', label: '직군', filter: { type: 'select', param: 'profession', options: CELEB_PROFESSIONS } },
+  { field: 'profession', label: '직군', filter: { type: 'select', param: 'profession', options: [] } },
   { field: 'nationality', label: '국적', width: 'min-w-24', filter: { type: 'nationality' } },
   { field: 'gender', label: '성별', filter: { type: 'select', param: 'gender', options: [{ value: 'male', label: '남성' }, { value: 'female', label: '여성' }, { value: 'unknown', label: '미상' }] } },
   { field: 'status', label: '공개', filter: { type: 'select', param: 'status', options: [{ value: 'active', label: '활성' }, { value: 'inactive', label: '비공개' }] } },

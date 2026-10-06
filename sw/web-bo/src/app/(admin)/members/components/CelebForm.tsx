@@ -1,5 +1,6 @@
 'use client'
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { createCeleb, updateCeleb, deleteCeleb, setCelebMonologueLock } from '@/actions/admin/celebs'
@@ -7,7 +8,7 @@ import { uploadCelebImage } from '@/actions/admin/storage'
 import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import type { Member } from '@/actions/admin/members'
-import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
+
 import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
 import { useCountries } from '@/hooks/useCountries'
@@ -194,6 +195,7 @@ function getInitialInfluence(celeb?: Member): GeneratedInfluence {
 const CELEB_LIST_PATH = '/celebs'
 
 export default function CelebForm({ mode, celeb, children, lead }: Props) {
+  const { professions: CELEB_PROFESSIONS } = useProfessions();
   const router = useRouter()
   const { showToast } = useToast()
   const langMode = useLangMode()

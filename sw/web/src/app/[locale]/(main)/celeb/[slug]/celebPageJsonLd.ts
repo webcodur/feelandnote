@@ -16,6 +16,7 @@ import type { CelebExternalLink } from "@/types/celebExternalLinks";
 
 interface BuildCelebPageJsonLdInput {
   profile: CelebBySlugProfile;
+  professions?: readonly import("@feelandnote/shared/constants/celeb-professions").ProfessionOption[];
   slug: string;
   locale: string;
   pageTitle: string;
@@ -33,6 +34,7 @@ function schemaType(type: string): string {
 }
 
 export function buildCelebPageJsonLd({
+  professions,
   profile,
   slug,
   locale,
@@ -83,7 +85,7 @@ export function buildCelebPageJsonLd({
       nationality: getCountryNameByLocale(profile.nationality, locale),
     }),
     ...(!isFiction && profile.profession && {
-      jobTitle: getCelebProfessionLabel(profile.profession, locale),
+      jobTitle: getCelebProfessionLabel(profile.profession, locale, professions ?? []),
     }),
     ...(!isFiction && profile.birth_date && { birthDate: profile.birth_date }),
     ...(!isFiction && profile.death_date && { deathDate: profile.death_date }),

@@ -9,6 +9,7 @@ import { affiliateBookToShelfBook, type BookShelfGroup } from '@/components/shar
 import { isThemeBook } from '@/lib/figure-books/themeBooks'
 import { isBookShelfAvailable } from '@/lib/books/bookShelf'
 import { RetryBlock } from '@/components/ui/pending'
+import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
 
 interface Props {
   books: FactionFigureBook[]
@@ -49,14 +50,19 @@ export default function ThemeBookShelf({ books, memberIds, name, isMyth }: Props
   const authored = available.filter((book) => book.authoredIds.some((id) => memberSet.has(id)))
   const profession = extras?.profession
   const professionIntro = profession && profession !== 'other' && tProfession.has(profession)
-    ? t('worksProfessionLead', { profession: tProfession(profession) }) : tCeleb('relatedShelfIntro')
+    ? tCeleb('professionShelfIntro', { profession: tProfession(profession) }) : tCeleb('relatedShelfIntro')
+  const professionShelfBooks = (extras?.professionBooks ?? []).map(affiliateBookToShelfBook)
+  const professionChoices = getProfessionShelfChoices(professionShelfBooks, {
+    become: tCeleb('professionBecome'), about: tCeleb('professionAbout'),
+    becomeIntro: tCeleb('professionBecomeIntro'), aboutIntro: tCeleb('professionAboutIntro'),
+  })
   const groups: BookShelfGroup[] = [
     { key: 'theme', context: { memberIds, kind: 'theme' }, label: tCeleb('groupTheme'), intro: t(isMyth ? 'worksLeadOwn' : 'worksThemeLead'), listSubtitle: name, books: own.map(affiliateBookToShelfBook) },
     { key: 'appeared', context: { memberIds, kind: 'appeared' }, label: tCeleb('groupAppeared'), intro: t(isMyth ? 'worksLeadOthers' : 'worksAppearedLead'), books: appeared.map(affiliateBookToShelfBook) },
     { key: 'read', context: { memberIds, kind: 'read' }, label: tCeleb('groupRead'), intro: t('worksReadLead'), books: (extras?.read ?? []).map(affiliateBookToShelfBook) },
     { key: 'authored', context: { memberIds, kind: 'authored' }, label: tCeleb('groupAuthored'), intro: t('worksAuthoredLead'), books: authored.map(affiliateBookToShelfBook) },
     { key: 'profession', context: { kind: 'profession' }, label: tCeleb('groupProfession'), intro: professionIntro,
-      books: (extras?.professionBooks ?? []).map(affiliateBookToShelfBook) },
+      books: professionShelfBooks, choices: professionChoices },
   ]
   return (
     <>

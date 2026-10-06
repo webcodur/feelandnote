@@ -1,12 +1,11 @@
 'use server'
 
 import { getFigureBookPresentationsForCeleb } from '@/actions/figure-books/getFigureBookPresentations'
-import { getProfessionPeerBooks, type AffiliateBook } from '@/actions/home/getAffiliateBooks'
+import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
+import { getProfessionBooks } from '@/actions/books/getProfessionBooks'
 import { getDisplayFigureBookGroups } from '@/lib/celeb/authoredBooks'
 import { createStaticClient } from '@/lib/db/static'
 import { getCelebFactionBooks } from './getCelebFactionBooks'
-
-const PROFESSION_SHELF_LIMIT = 24
 
 export async function getCelebReferenceBooks(celebId: string, locale: string) {
   const db = createStaticClient()
@@ -16,15 +15,11 @@ export async function getCelebReferenceBooks(celebId: string, locale: string) {
   ])
   if (profileResult.error) throw profileResult.error
   const groups = getDisplayFigureBookGroups(figureBooks)
-  // 직군 — 같은 직군 동료들이 남긴 기록 중 팔리는 책. 등장·집필이 이미 보여 주는 책은 뺀다
+  // 직군별 선정은 개인의 등장·집필·감상 관계와 별개로 유지한다.
   const profession = (profileResult.data.profession as string | null) ?? null
-  const excludeIds = new Set<string>([
-    ...groups.appeared.map((book) => book.id),
-    ...groups.authored.map((book) => book.id),
-  ])
   const [professionBooks, factionGroups] = await Promise.all([
     profession
-      ? getProfessionPeerBooks(profession, locale === 'en' ? 'en' : 'ko', [celebId], excludeIds, PROFESSION_SHELF_LIMIT)
+      ? getProfessionBooks(profession, locale)
       : Promise.resolve([] as AffiliateBook[]),
     getCelebFactionBooks(celebId, locale),
   ])

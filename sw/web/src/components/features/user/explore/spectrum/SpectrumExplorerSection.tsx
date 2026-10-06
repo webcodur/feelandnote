@@ -4,7 +4,7 @@ import { useMemo, useRef, useState, useTransition } from "react";
 import { Users } from "lucide-react";
 import { getSpectrumByCelebId } from "@/actions/spectrum/getSpectrumByCelebId";
 import type { SpectrumPersonSummary } from "@/actions/spectrum/getSpectrumPeople";
-import { PROFESSION_LABELS } from "@/lib/spectrum/constants";
+import { useProfessions } from '@feelandnote/shared/hooks/use-professions';
 import type { SpectrumVector } from "@/lib/spectrum/utils";
 import CelebImage from "@/components/ui/CelebImage";
 import SpectrumInfoPanel from "./SpectrumInfoPanel";
@@ -21,6 +21,7 @@ export default function SpectrumExplorerSection({
   initialSelectedId,
   initialSpectrum,
 }: Props) {
+  const { getLabel } = useProfessions();
   const t = useTranslations("explore.ui");
   const defaultSelectedId = initialSelectedId ?? initialPeople[0]?.id ?? null;
   const [selectedId, setSelectedId] = useState<string | null>(defaultSelectedId);
@@ -65,7 +66,7 @@ export default function SpectrumExplorerSection({
         <div className="max-h-[620px] space-y-1 overflow-y-auto pr-1">
           {initialPeople.map((person) => {
             const active = person.id === selectedId;
-            const professionLabel = person.profession ? PROFESSION_LABELS[person.profession] ?? person.profession : t("professionUnknown");
+            const professionLabel = person.profession ? getLabel(person.profession) : t("professionUnknown");
 
             return (
               <button

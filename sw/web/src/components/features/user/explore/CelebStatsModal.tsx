@@ -5,10 +5,11 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useMemo } from "react";
 import { BarChart3, Users, Globe, BookOpen, User2 } from "lucide-react";
 import { Modal, ModalBody } from "@/components/ui";
-import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
+
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
 import { useTranslations } from "next-intl";
 
@@ -137,6 +138,7 @@ function ProfessionStats({
   t: (key: string, values?: Record<string, string | number | Date>) => string;
   tp: (key: string) => string;
 }) {
+  const { professions: CELEB_PROFESSIONS } = useProfessions();
   const total = professionCounts.all || 0;
 
   const sortedProfessions = useMemo(() => {
@@ -146,7 +148,7 @@ function ProfessionStats({
         count: professionCounts[p.value] || 0,
       }))
       .sort((a, b) => b.count - a.count);
-  }, [professionCounts]);
+  }, [CELEB_PROFESSIONS, professionCounts]);
 
   return (
     <div className="space-y-1">

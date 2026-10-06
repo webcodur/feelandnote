@@ -6,6 +6,8 @@
 
 `celebs`는 Auth 계정과 독립된 인물 원본이다. 인물에게 로그인 계정이나 저장형 `profile_type`을 만들지 않는다.
 
+`celebs.profession`은 `celeb_professions.value`를 참조한다. 직군 정의와 직군 선정 도서의 관리 규격은 [`service-04-celeb-detail.md`](../service/service-04-celeb-detail.md)가 쥔다.
+
 | 필드 묶음 | 주요 필드 | 규칙 소유자 |
 |---|---|---|
 | 이름·분류·생몰 | `nickname(_en)`, `aliases`, `profession`, `gender`, `nationality`, `birth_date`, `death_date`, `wikidata_qid` | [`celeb-01-01-profile-facts.md`](../celeb/celeb-01-01-profile-facts.md) |

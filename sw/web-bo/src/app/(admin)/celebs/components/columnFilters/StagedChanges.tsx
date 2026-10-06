@@ -4,6 +4,7 @@ import { Check, X } from 'lucide-react'
 import { CELEB_LIST_BLOCK_SIZE, getCelebBlockLabel } from '@/lib/celeb-list-filters'
 import type { FactionTheme } from '../factionOptions'
 import { COLUMNS } from './columns'
+import { useProfessions } from '@feelandnote/shared/hooks/use-professions'
 import { useCelebTableQuery } from './CelebTableQuery'
 
 interface Chip {
@@ -13,11 +14,12 @@ interface Chip {
 }
 
 /** 담아 둔 변경 하나를 사람이 읽는 「무엇: 어떻게」로 바꾼다. */
-function describe(key: string, value: string | null, params: URLSearchParams, factionThemes: FactionTheme[], managedTotal: number): Chip {
+function describe(key: string, value: string | null, params: URLSearchParams, factionThemes: FactionTheme[], managedTotal: number, professionLabel: (value: string | null) => string): Chip {
   const cleared = value === null
   const chip = (label: string, shown: string): Chip => ({ keys: [key], label, value: cleared ? '해제' : shown })
 
   if (key === 'search') return chip('검색', value ?? '')
+  if (key === 'profession') return chip('직군', professionLabel(value))
   if (key === 'block') return chip('등록순 구간', value ? getCelebBlockLabel(Number(value), Math.max(managedTotal, Number(value) * CELEB_LIST_BLOCK_SIZE)) : '')
   if (key === 'pageSize') return chip('표시 인원', `${value}명씩`)
   if (key === 'faction') {
@@ -55,6 +57,7 @@ function describe(key: string, value: string | null, params: URLSearchParams, fa
  * 담아 둔 것이 없으면 아무것도 그리지 않는다.
  */
 export default function StagedChanges({ factionThemes, managedTotal }: { factionThemes: FactionTheme[]; managedTotal: number }) {
+  const { getLabel } = useProfessions()
   const { staged, params, pending, unstage, apply, discard } = useCelebTableQuery()
   if (staged.length === 0) return null
 
@@ -62,7 +65,7 @@ export default function StagedChanges({ factionThemes, managedTotal }: { faction
   const seen = new Set<string>()
   for (const [key, value] of staged) {
     if (seen.has(key)) continue
-    const chip = describe(key, value, params, factionThemes, managedTotal)
+    const chip = describe(key, value, params, factionThemes, managedTotal, getLabel)
     chip.keys.forEach((item) => seen.add(item))
     chips.push(chip)
   }

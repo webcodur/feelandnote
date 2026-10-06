@@ -6,7 +6,7 @@ import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock, Copy, Check, 
 import { type Member } from '@/actions/admin/members'
 import { toggleCelebTier, toggleCelebStatus } from '@/actions/admin/celebs'
 import { useToast } from '@/contexts/ToastContext'
-import { getCelebProfessionLabel } from '@/constants/celebCategories'
+import { useProfessions } from '@feelandnote/shared/hooks/use-professions'
 import { isCelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
@@ -31,7 +31,7 @@ const CELLS: Record<string, { className: string; render: (celeb: Member) => Reac
   title: { className: CELL_CLASS, render: (celeb) => celeb.title && <p className="max-w-[120px] truncate text-xs text-accent">{celeb.title}</p> },
   nickname: { className: CELL_CLASS, render: (celeb) => <NameCell celeb={celeb} /> },
   celeb_reality: { className: CENTER_CELL_CLASS, render: (celeb) => <RealityBadge reality={celeb.celeb_reality} /> },
-  profession: { className: CELL_CLASS, render: (celeb) => celeb.profession && <p className="max-w-[100px] truncate text-xs text-text-tertiary">{getCelebProfessionLabel(celeb.profession)}</p> },
+  profession: { className: CELL_CLASS, render: (celeb) => celeb.profession && <p className="max-w-[100px] truncate text-xs text-text-tertiary"><ProfessionLabel value={celeb.profession} /></p> },
   nationality: { className: `min-w-24 whitespace-nowrap ${CENTER_CELL_CLASS}`, render: (celeb) => celeb.nationality && <NationalityBadge code={celeb.nationality} /> },
   gender: { className: CENTER_CELL_CLASS, render: (celeb) => <GenderBadge gender={celeb.gender} /> },
   status: { className: CENTER_CELL_CLASS, render: (celeb) => <StatusToggleIcon celebId={celeb.id} status={celeb.status} /> },
@@ -301,4 +301,9 @@ function DateTimeCell({ date }: { date: string }) {
       <div className="text-text-tertiary">{hms}</div>
     </div>
   )
+}
+
+function ProfessionLabel({ value }: { value: string }) {
+  const { getLabel } = useProfessions()
+  return <>{getLabel(value)}</>
 }

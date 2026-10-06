@@ -1,3 +1,5 @@
+import { ProfessionProvider } from "@feelandnote/shared/hooks/use-professions";
+import { getCelebProfessions } from "@/lib/celeb-professions";
 /*
   파일명: /app/[locale]/layout.tsx
   기능: Locale 레이아웃
@@ -122,6 +124,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   // 번역 사전 전체(187KB)를 모든 화면에 실으면 ISR로 굳는 상세 한 장마다 HTML·RSC
   // 양쪽에 그대로 복사된다. 여기서는 공통 뼈대만 내리고 화면별 몫은 MessageScope가 덧댄다.
+  const professions = await getCelebProfessions();
   const messages = pickMessages(await getMessages({ locale }), BASE_MESSAGE_PATHS);
   const t = await getTranslations({ locale, namespace: "site" });
   const organizationJsonLd = getOrganizationJsonLd(t("description"));
@@ -158,6 +161,7 @@ export default async function LocaleLayout({
         <meta name="google-adsense-account" content="ca-pub-3751045783335791" />
       </head>
       <body>
+        <ProfessionProvider professions={professions}>
         <NextIntlClientProvider messages={messages}>
           <GameAudioProvider>
             <FactionMusicProvider>
@@ -178,6 +182,7 @@ export default async function LocaleLayout({
             </FactionMusicProvider>
           </GameAudioProvider>
         </NextIntlClientProvider>
+        </ProfessionProvider>
       </body>
     </html>
   );

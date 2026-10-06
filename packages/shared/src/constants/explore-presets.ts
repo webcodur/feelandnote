@@ -1,4 +1,5 @@
 import type { CelebProfession, ContentType } from '../types'
+import { CELEB_PROFESSIONS } from './celeb-professions'
 
 export interface ExplorePresetItem<T = string> {
   value: T
@@ -6,23 +7,9 @@ export interface ExplorePresetItem<T = string> {
   sub: string   // Korean (Sub)
 }
 
-export const EXPLORE_PROFESSION_PRESETS: ExplorePresetItem<CelebProfession>[] = [
-  { value: 'leader', label: 'Leader', sub: '지도자' },
-  { value: 'politician', label: 'Politician', sub: '정치인' },
-  { value: 'commander', label: 'Commander', sub: '지휘관' },
-  { value: 'entrepreneur', label: 'Entrepreneur', sub: '기업가' },
-  { value: 'investor', label: 'Investor', sub: '투자자' },
-  { value: 'scientist', label: 'Scientist', sub: '과학자' },
-  { value: 'humanities_scholar', label: 'Humanities', sub: '인문학자' },
-  { value: 'social_scientist', label: 'Social Scientist', sub: '사회과학자' },
-  { value: 'director', label: 'Director', sub: '감독' },
-  { value: 'musician', label: 'Musician', sub: '음악인' },
-  { value: 'visual_artist', label: 'Visual Artist', sub: '미술인' },
-  { value: 'author', label: 'Author', sub: '작가' },
-  { value: 'actor', label: 'Actor', sub: '배우' },
-  { value: 'influencer', label: 'Influencer', sub: '인플루엔서' },
-  { value: 'athlete', label: 'Athlete', sub: '스포츠인' },
-]
+export const EXPLORE_PROFESSION_PRESETS: ExplorePresetItem<CelebProfession>[] = CELEB_PROFESSIONS
+  .filter(({ value }) => value !== 'other')
+  .map(({ value, label, label_en }) => ({ value, label: label_en, sub: label }))
 
 export const EXPLORE_NATIONALITY_PRESETS: ExplorePresetItem<string>[] = [
   { value: 'KR', label: 'South Korea', sub: '대한민국' },

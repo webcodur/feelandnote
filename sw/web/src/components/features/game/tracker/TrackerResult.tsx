@@ -5,6 +5,7 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import { useState, useMemo } from "react";
 import ContentImage from "@/components/ui/ContentImage";
@@ -13,7 +14,7 @@ import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { TrackerContent, TrackerOption } from "@/actions/game/getTrackerRound";
 import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -56,6 +57,7 @@ export default function TrackerResult({
   onQuit,
   showDialogue,
 }: TrackerResultProps) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const locale = useLocale();
   const tGame = useTranslations("rest.arena.labyrinth.game");
   const [showCelebModal, setShowCelebModal] = useState(false);

@@ -1,10 +1,11 @@
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
 import { Avatar, BlurDissolve } from "@/components/ui";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
 import {
@@ -38,6 +39,7 @@ interface CelebInfluenceModalProps {
 }
 
 export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }: CelebInfluenceModalProps) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const t = useTranslations("home.ui.influence");
   const tInfluence = useTranslations("profilePage.influence");
   const locale = useLocale();

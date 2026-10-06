@@ -4,13 +4,14 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useEffect } from "react";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import ContentImage from "@/components/ui/ContentImage";
 import { Users, Crown, User } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
 import { getCelebsForContent, type CelebInfo } from "@/actions/library";
 import { getCelebForModal } from "@/actions/celebs";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
@@ -34,6 +35,7 @@ export default function ContentStatsModal({
   contentThumbnail,
   celebCount,
 }: ContentStatsModalProps) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const locale = useLocale();
   const t = useTranslations("shared.contentCard");
   const [celebs, setCelebs] = useState<CelebInfo[]>([]);

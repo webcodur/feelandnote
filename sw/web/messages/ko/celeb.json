@@ -384,7 +384,7 @@
     "realityCompositeExplain": "복합 인물 설명 보기",
     "realityCompositeTitle": "복합 인물",
     "realityCompositeDescription": "역사 속 인물로 다뤄지면서, 전설이나 문학 속 모습도 함께 전해지는 인물을 뜻합니다.\n\n실제 기록과 이야기에서 더해진 설정을 함께 살펴볼 수 있도록 붙인 분류입니다.",
-    "professionShelfIntro": "{profession}들이 찾는 책",
+    "professionShelfIntro": "{profession}의 일을 배우거나 그 세계를 이해하는 책",
     "sourceWorkPickerLabel": "작품 선택",
     "groupTheme": "주제",
     "bookShelfCount": "{count}권",
@@ -397,6 +397,11 @@
     "relMapChooseBranch": "관계 갈래를 눌러 둘러보세요",
     "relMapSelectPerson": "{name}과의 관계 보기",
     "relMapOpenBranch": "{label} {count}명 보기",
-    "spectrumComparison": "유사 스펙트럼"
+    "spectrumComparison": "유사 스펙트럼",
+    "professionBecome": "직업 수업",
+    "professionAbout": "직업 탐구",
+    "professionBecomeIntro": "이 일을 하는 데 필요한 지식과 방법을 배우는 책",
+    "professionAboutIntro": "이 분야의 사람과 삶, 현장과 역사를 살펴보는 책",
+    "professionBookSource": "선정 근거 보기"
   }
 }

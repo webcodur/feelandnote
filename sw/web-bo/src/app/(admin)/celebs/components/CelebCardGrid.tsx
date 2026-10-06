@@ -1,12 +1,13 @@
 'use client'
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState } from 'react'
 import Link from 'next/link'
 import { Check, Copy, User } from 'lucide-react'
 import type { Member } from '@/actions/admin/members'
 import { isCelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
-import { getCelebProfessionLabel } from '@/constants/celebCategories'
+
 import { useToast } from '@/contexts/ToastContext'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 
@@ -42,6 +43,7 @@ function CelebCard({ celeb, avatarUrl, onAvatarSaved }: {
   avatarUrl: string | null
   onAvatarSaved: (url: string) => void
 }) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const name = celeb.nickname?.trim() || '이름 없음'
   const title = celeb.title?.trim()
   const subtitle = title || (celeb.profession ? getCelebProfessionLabel(celeb.profession) : null)

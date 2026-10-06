@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getAlternates, SITE_URL } from './seo'
 import { INFLUENCE_RANKING_FIELDS, getInfluenceRankingHref } from '@/constants/influenceRanking'
 import { LIST_PAGE_SIZE } from '@/components/features/library/hub/curatorExplore'
@@ -191,14 +191,6 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],
   ['/explore/monologue', 'weekly', 0.6],
-  // 직군별 명부 — 인물 상세로 가는 중간 허브. 직군 목록은 CELEB_PROFESSIONS 상수가 쥔다
-  ...CELEB_PROFESSIONS.map(
-    (prof): [string, SitemapEntry['changeFrequency'], number] => [
-      `/explore/directory/${prof.value}`,
-      'weekly',
-      0.7,
-    ],
-  ),
   ['/explore/feed', 'daily', 0.7],
   // 작품 첫 화면이 베스트셀러다. 옛 /explore/works/popular(베스트셀러)는 이 주소로 옮겨 가므로 싣지 않는다
   ['/explore/works', 'daily', 0.8],
@@ -215,8 +207,10 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
 
 export async function getSitemapEntries(name: string): Promise<MetadataRoute.Sitemap | null> {
   if (name === 'core') {
+    const professions = await getCelebProfessions()
     const [curatedPaths, atlasPaths] = await Promise.all([fetchCuratedPaths(), fetchAtlasPaths()])
     return [
+      ...professions.flatMap(({ value }) => entry(`/explore/directory/${value}`, 'weekly', 0.7)),
       ...staticPaths.flatMap(([path, frequency, priority]) =>
         entry(path, frequency, priority),
       ),

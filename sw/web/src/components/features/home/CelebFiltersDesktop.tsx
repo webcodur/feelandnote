@@ -5,16 +5,17 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useMemo } from "react";
 import { CELEB_CONTENT_PRESENCE, DEFAULT_CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
 import type { FilterOption } from "@/components/shared/filters";
 import FilterSelect from "@/components/shared/filters/FilterSelect";
 import { CelebBirthYearFilterDesktop } from "./CelebBirthYearFilter";
-import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
+
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { CATEGORIES } from "@/constants/categories";
-import { PROFESSION_ICONS } from "@/constants/professionIcons";
+import { getProfessionIcon } from "@/constants/professionIcons";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { SORT_VALUES } from "./useCelebFilters";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
@@ -93,6 +94,7 @@ export default function CelebFiltersDesktop({
   hideSearch = false,
   wrapperClassName,
 }: CelebFiltersDesktopProps) {
+  const { filters: CELEB_PROFESSION_FILTERS } = useProfessions();
   const getProfLabel = useProfessionLabel();
   const getCtLabel = useContentTypeLabel();
   const getNatLabel = useNationalityLabel();
@@ -103,14 +105,14 @@ export default function CelebFiltersDesktop({
   // 필터별 옵션 생성 (아이콘 포함)
   const professionOptions: FilterOption[] = useMemo(() =>
     CELEB_PROFESSION_FILTERS.map(({ value }) => {
-      const IconComp = PROFESSION_ICONS[value];
+      const IconComp = getProfessionIcon(value);
       return {
         value,
         label: getProfLabel(value),
         count: professionCounts[value] ?? 0,
         icon: IconComp ? <IconComp size={14} /> : undefined,
       };
-    }), [professionCounts, getProfLabel]);
+    }), [CELEB_PROFESSION_FILTERS, professionCounts, getProfLabel]);
 
   const nationalityOptions: FilterOption[] = useMemo(() =>
     nationalityCounts.map(({ value, count }) => ({

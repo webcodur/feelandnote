@@ -1,30 +1,12 @@
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useCallback, useState } from "react";
 import { useLocale } from "next-intl";
-import type { CelebProfession } from "@feelandnote/shared/constants/celeb-professions";
+
 
 import CelebProfessionMark from "./CelebProfessionMark";
 import Modal, { ModalBody } from "@/components/ui/Modal";
-
-const DESCRIPTIONS: Readonly<Record<string, { ko: string; en: string }>> = {
-  leader: { ko: "조직과 공동체가 나아갈 방향을 정하고 이끕니다.", en: "A person who sets direction and leads an organization or community." },
-  politician: { ko: "공공의 문제를 다루고 정책을 결정합니다.", en: "A person involved in public decision-making and policy." },
-  commander: { ko: "군대나 집단의 작전을 세우고 지휘합니다.", en: "A person who commands military or group operations." },
-  humanities_scholar: { ko: "언어·역사·철학을 바탕으로 인간과 문화를 연구합니다.", en: "A scholar who studies language, history, philosophy, and human culture." },
-  author: { ko: "글을 쓰고 책과 이야기를 만듭니다.", en: "A person who writes and creates books or stories." },
-  scientist: { ko: "자연과 세계의 원리를 관찰하고 검증합니다.", en: "A person who investigates and tests how the natural world works." },
-  social_scientist: { ko: "사회와 사람들의 행동, 관계를 연구합니다.", en: "A person who studies society and human behavior or relationships." },
-  director: { ko: "영화와 영상 작품의 방향을 정하고 완성까지 이끕니다.", en: "A person who leads the creative direction of film or video works." },
-  actor: { ko: "작품 속 인물을 연기로 살아 있게 만듭니다.", en: "A person who portrays characters through performance." },
-  influencer: { ko: "자신의 생각과 취향으로 대중의 관심과 문화를 움직입니다.", en: "A person who influences public opinion and culture." },
-  musician: { ko: "소리와 음악으로 자신의 작품을 만듭니다.", en: "A person who creates works through sound and music." },
-  visual_artist: { ko: "이미지와 조형 언어로 생각과 감정을 표현합니다.", en: "A person who expresses ideas through visual and material language." },
-  entrepreneur: { ko: "새로운 사업을 시작하고 조직을 키워 갑니다.", en: "A person who builds and grows new businesses or organizations." },
-  investor: { ko: "자본을 어디에 맡길지 판단하고 기업과 자산의 가치를 살핍니다.", en: "A person who allocates capital and evaluates businesses or assets." },
-  athlete: { ko: "스포츠 기술을 갈고닦으며 경기와 기록에 도전합니다.", en: "A person who pursues achievement through sporting skill and competition." },
-  other: { ko: "기존 직군 하나로 대표 활동을 설명하기 어려운 인물입니다.", en: "A figure whose primary role does not fit the existing professions." },
-} satisfies Record<CelebProfession, { ko: string; en: string }>;
 
 interface ProfessionInfoButtonProps {
   profession: string;
@@ -32,10 +14,12 @@ interface ProfessionInfoButtonProps {
 }
 
 export default function ProfessionInfoButton({ profession, label }: ProfessionInfoButtonProps) {
+  const { getProfession: getCelebProfession } = useProfessions();
   const locale = useLocale() === "en" ? "en" : "ko";
   const [isOpen, setIsOpen] = useState(false);
   const close = useCallback(() => setIsOpen(false), []);
-  const description = DESCRIPTIONS[profession]?.[locale] ?? label;
+  const definition = getCelebProfession(profession);
+  const description = (locale === "en" ? definition?.description_en : definition?.description) || label;
 
   return (
     <>

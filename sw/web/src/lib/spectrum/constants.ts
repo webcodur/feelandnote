@@ -1,4 +1,3 @@
-import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 import {
   ABILITY_KEYS as SHARED_ABILITY_KEYS,
   AXIS_LABELS,
@@ -57,10 +56,4 @@ export const STAT_LABELS: Record<StatKey, string> = {
   ...VIRTUE_LABELS,
   ...ABILITY_LABELS,
 }
-
-// ── 직군 ──
-
-export const PROFESSION_LABELS: Record<string, string> = Object.fromEntries(
-  CELEB_PROFESSIONS.map(({ value, label }) => [value, label]),
-)
 

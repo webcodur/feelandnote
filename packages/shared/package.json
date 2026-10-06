@@ -55,7 +55,8 @@
     "./bo/voice-cleanup": "./src/bo/voice-cleanup.ts",
     "./lib/book-metadata": "./src/lib/book-metadata.ts",
     "./lib/celeb-identity": "./src/lib/celeb-identity.ts",
-    "./constants/responsive-artwork": "./src/constants/responsive-artwork.ts"
+    "./constants/responsive-artwork": "./src/constants/responsive-artwork.ts",
+    "./hooks/use-professions": "./src/hooks/use-professions.tsx"
   },
   "peerDependencies": {
     "next": ">=15",

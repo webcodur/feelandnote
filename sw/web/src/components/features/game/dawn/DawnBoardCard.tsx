@@ -6,11 +6,12 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
@@ -41,6 +42,7 @@ export default function DawnBoardCard({
   onInfoClick,
   className,
 }: DawnBoardCardProps) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const locale = useLocale();
   const tCeleb = useTranslations("shared.celeb");
   const pointerStart = useRef<{ x: number; y: number } | null>(null);

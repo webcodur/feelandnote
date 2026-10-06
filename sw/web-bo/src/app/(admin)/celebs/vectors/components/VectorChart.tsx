@@ -1,7 +1,8 @@
 'use client'
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState } from 'react'
-import { getCelebProfessionLabel } from '@feelandnote/shared/constants/celeb-professions'
+
 import { SPECTRUM_GROUPS } from '@feelandnote/shared/constants/celeb-spectrum-scale'
 import type { SpectrumData, StatKey, TendencyKey } from '@/actions/admin/spectrum'
 import SpectrumStatBars from '@/components/celeb/SpectrumStatBars'
@@ -35,6 +36,7 @@ function calcDistance(a: SpectrumData, b: SpectrumData): number {
 }
 
 export default function VectorDashboard({ vectors }: Props) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const [selected, setSelected] = useState<string[]>(
     vectors.length > 0 ? [vectors[0].celeb_id] : []
   )

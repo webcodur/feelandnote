@@ -264,22 +264,6 @@
   },
   "profession": {
     "all": "All",
-    "leader": "Leader",
-    "politician": "Politician",
-    "commander": "Commander",
-    "entrepreneur": "Entrepreneur",
-    "investor": "Investor",
-    "scientist": "Scientist",
-    "humanities_scholar": "Humanities Scholar",
-    "social_scientist": "Social Scientist",
-    "director": "Director",
-    "musician": "Musician",
-    "visual_artist": "Visual Artist",
-    "author": "Author",
-    "actor": "Actor",
-    "influencer": "Influencer",
-    "athlete": "Athlete",
-    "other": "Other",
     "uncategorized": "Uncategorized"
   },
   "policy": {

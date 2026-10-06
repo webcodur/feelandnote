@@ -1,8 +1,9 @@
 'use client'
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useMemo } from 'react'
 import { INFLUENCE_CATEGORY_FIELDS } from '@feelandnote/influence-constants/core'
-import { getCelebProfessionLabel } from '@feelandnote/shared/constants/celeb-professions'
+
 import type { InfluenceData, InfluenceAxis } from '@/actions/admin/influence'
 
 const AXIS_LABELS: Record<InfluenceAxis, string> = {
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function InfluenceDashboard({ data }: Props) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const [sortBy, setSortBy] = useState<SortKey>('total_score')
   const [filterProf, setFilterProf] = useState<string>('')
   const [search, setSearch] = useState('')

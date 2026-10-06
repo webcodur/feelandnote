@@ -28,6 +28,9 @@ export interface BookShelfBook {
   readerIds?: string[]
   /** 감상 분류는 인물 상세와 같은 리뷰 카드로 읽는다. */
   readingRecord?: UserContentPublic
+  professionCategory?: 'become' | 'about'
+  selectionReason?: string
+  selectionSourceUrl?: string
 }
 
 export interface BookShelfContext {
@@ -46,6 +49,8 @@ export interface BookShelfGroup {
   intro: string
   listSubtitle?: string
   books: BookShelfBook[]
+  /** 직군을 고른 뒤 책 목록 위에서 선택하는 두 목적. */
+  choices?: { key: string; label: string; intro: string; books: BookShelfBook[] }[]
   /** 소속 선택 등 책 목록 앞에 붙는 부가 기능. 책 표시는 항상 공통 모듈이 맡는다. */
   addon?: ReactNode
   /** 다음 책 묶음은 책 목록 안에서만 불러온다. */
@@ -71,6 +76,9 @@ export function affiliateBookToShelfBook(book: AffiliateBook): BookShelfBook {
     preferredEditionId: book.editionId, isbn: book.isbn,
     editions: [], description: book.description,
     readerIds: book.readerIds,
+    professionCategory: book.professionCategory,
+    selectionReason: book.selectionReason,
+    selectionSourceUrl: book.selectionSourceUrl,
     affiliateLinks: book.url ? [{ platform: /(?:amazon\.|amzn\.to)/.test(book.url) ? 'amazon' : 'coupang', url: book.url }] : [],
   }
 }

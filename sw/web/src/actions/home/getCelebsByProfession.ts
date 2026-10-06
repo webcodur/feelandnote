@@ -3,7 +3,7 @@
 import { getCelebs } from './getCelebs'
 import { cachedList } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import type { CelebProfile } from '@/types/home'
 
 export interface ProfessionSection {
@@ -15,7 +15,7 @@ export interface ProfessionSection {
 
 async function fetchCelebsByProfession(): Promise<ProfessionSection[]> {
   const results = await Promise.all(
-    CELEB_PROFESSIONS.map(async (p) => {
+    (await getCelebProfessions()).map(async (p) => {
       const { celebs, total } = await getCelebs({
         profession: p.value,
         limit: 12,

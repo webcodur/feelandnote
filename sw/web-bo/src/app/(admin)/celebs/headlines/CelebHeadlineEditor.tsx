@@ -1,5 +1,6 @@
 'use client'
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useRef, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -17,7 +18,7 @@ import {
   BadgeCheck,
 } from 'lucide-react'
 import { updateCelebHeadline, type CelebHeadlineItem } from '@/actions/admin/celebs'
-import { CELEB_PROFESSIONS, getCelebProfessionLabel } from '@/constants/celebCategories'
+
 import { useToast } from '@/contexts/ToastContext'
 
 interface Props {
@@ -29,6 +30,7 @@ type StatusFilter = 'all' | 'active' | 'inactive'
 type TierFilter = 'all' | 'full' | 'light'
 
 export default function CelebHeadlineEditor({ initialCelebs }: Props) {
+  const { professions: CELEB_PROFESSIONS, getLabel: getCelebProfessionLabel } = useProfessions();
   const { showToast } = useToast()
   const [celebs, setCelebs] = useState<CelebHeadlineItem[]>(initialCelebs)
   const [search, setSearch] = useState('')

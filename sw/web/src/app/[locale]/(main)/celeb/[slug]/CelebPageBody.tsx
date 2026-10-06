@@ -1,3 +1,4 @@
+import { getCelebProfessions } from '@/lib/celeb-professions';
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 서버 페이지(데이터 조회·조립)
  * - 목차 위치: 공통 (전 구획 자료 준비)
@@ -168,6 +169,7 @@ export default async function CelebPageBody({ params }: PageProps) {
   };
 
   const jsonLd = buildCelebPageJsonLd({
+    professions: await getCelebProfessions(),
     profile,
     slug,
     locale,

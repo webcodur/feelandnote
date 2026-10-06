@@ -1,5 +1,6 @@
 'use client'
 
+import { useProfessions } from '@feelandnote/shared/hooks/use-professions'
 import { ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react'
 import { useCelebTableQuery } from './CelebTableQuery'
 import { useColumnVisibility } from './ColumnVisibility'
@@ -16,8 +17,9 @@ function getSelectValue(params: URLSearchParams, param: string) {
 }
 
 function ColumnFilter({ column }: { column: Column }) {
+  const { professions } = useProfessions()
   const { params, pending, update } = useCelebTableQuery()
-  const filter = column.filter
+  const filter = column.field === 'profession' ? { type: 'select' as const, param: 'profession', options: professions } : column.filter
   if (!filter) return null
   if (filter.type === 'nationality') return <NationalityFilter />
   if (filter.type === 'range') return <RangeFilter label={column.label} {...filter} />

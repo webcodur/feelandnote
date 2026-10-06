@@ -13,10 +13,10 @@ export function matchesCelebQuery(item: CelebSearchItem, query: string): boolean
     .some((value) => normalize(value).includes(normalizedQuery))
 }
 
-export function getCelebSecondaryText(item: CelebSearchItem): string {
+export function getCelebSecondaryText(item: CelebSearchItem, professions: readonly import('@feelandnote/shared/constants/celeb-professions').ProfessionOption[] = []): string {
   const parts: string[] = []
   if (item.slug) parts.push(item.slug)
-  if (item.profession) parts.push(getCelebProfessionLabel(item.profession))
+  if (item.profession) parts.push(getCelebProfessionLabel(item.profession, 'ko', professions))
   return parts.length > 0 ? parts.join(' / ') : item.nickname_en || ''
 }
 

@@ -1,10 +1,11 @@
 'use client'
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Star, Check, ChevronDown, Loader2, Trash2, Search, X } from 'lucide-react'
 import { updateCelebProfession, deleteCeleb, type CelebTitleItem } from '@/actions/admin/celebs'
-import { CELEB_PROFESSIONS, getCelebProfessionLabel } from '@/constants/celebCategories'
+
 import { useToast } from '@/contexts/ToastContext'
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function CelebProfessionEditor({ celebs }: Props) {
+  const { professions: CELEB_PROFESSIONS, getLabel: getCelebProfessionLabel } = useProfessions();
   const { showToast } = useToast()
   const [editingId, setEditingId] = useState<string | null>(null)
   const [searchValue, setSearchValue] = useState('')

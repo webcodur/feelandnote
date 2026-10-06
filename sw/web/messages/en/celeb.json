@@ -348,7 +348,7 @@
     "factionLoad": "Explore factions",
     "readingPlayFromHere": "Play from this sentence",
     "moreReadBooks": "More books read",
-    "groupProfession": "Peers",
+    "groupProfession": "Profession",
     "groupAffiliation": "Affiliations",
     "factionShelfIntroFaction": "Books of their factions",
     "factionShelfIntroMyth": "Books of their myths",
@@ -384,7 +384,7 @@
     "realityCompositeExplain": "About composite figures",
     "realityCompositeTitle": "Composite figures",
     "realityCompositeDescription": "Composite figures are presented both as historical people and as characters in legends or literature.\n\nThis label helps you consider historical records alongside the traits and stories added in later traditions or fictional portrayals.",
-    "professionShelfIntro": "Books read by people in the same field: {profession}",
+    "professionShelfIntro": "Books for learning the work of a {profession} or understanding their world",
     "sourceWorkPickerLabel": "Choose a work",
     "groupTheme": "Theme",
     "bookShelfCount": "{count} books",
@@ -397,6 +397,11 @@
     "relMapChooseBranch": "Choose a branch to explore",
     "relMapSelectPerson": "Explore the connection with {name}",
     "relMapOpenBranch": "Explore {label}: {count} figures",
-    "spectrumComparison": "Similar spectra"
+    "spectrumComparison": "Similar spectra",
+    "professionBecome": "Learn",
+    "professionAbout": "Explore",
+    "professionBecomeIntro": "Knowledge and skills for the profession.",
+    "professionAboutIntro": "People, lives, and ideas behind the profession.",
+    "professionBookSource": "View selection source"
   }
 }

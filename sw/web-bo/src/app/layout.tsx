@@ -1,3 +1,5 @@
+import { ProfessionProvider } from "@feelandnote/shared/hooks/use-professions";
+import { getCelebProfessions } from "@/lib/celeb-professions";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -9,11 +11,12 @@ export const metadata: Metadata = {
   description: "Feel&Note Back Office",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const professions = await getCelebProfessions();
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
@@ -25,7 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <ProfessionProvider professions={professions}>{children}</ProfessionProvider>
       </body>
     </html>
   );

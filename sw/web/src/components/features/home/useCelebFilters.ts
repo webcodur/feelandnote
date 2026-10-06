@@ -1,10 +1,11 @@
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { useState, useCallback, useMemo, useEffect, useEffectEvent, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
 import { getCelebs } from "@/actions/home";
-import { CELEB_PROFESSION_FILTERS, DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
+import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
@@ -74,6 +75,7 @@ export function useCelebFilters({
   syncToUrl = false,
   includeInactive = false,
 }: UseCelebFiltersParams) {
+  const { filters: CELEB_PROFESSION_FILTERS } = useProfessions();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 

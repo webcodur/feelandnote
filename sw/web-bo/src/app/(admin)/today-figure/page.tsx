@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { getCelebProfessionLabel } from '@feelandnote/shared/constants/celeb-professions'
+import { getCelebProfessionLabel as labelFromDefinitions } from '@feelandnote/shared/constants/celeb-professions'
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getTodayFigureSchedule } from '@/actions/admin/today-figure'
 import Link from 'next/link'
 
@@ -14,6 +15,8 @@ const SOURCE_BADGE: Record<string, { label: string; className: string }> = {
 }
 
 export default async function TodayFigurePage() {
+  const professions = await getCelebProfessions()
+  const getCelebProfessionLabel = (value: string | null | undefined) => labelFromDefinitions(value, 'ko', professions)
   const today = new Date().toISOString().slice(0, 10)
   const start = new Date(today)
   start.setDate(start.getDate() - 7)

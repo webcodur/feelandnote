@@ -23,7 +23,7 @@ import { BLUR_DATA_URL } from "@/constants/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
-import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
+import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
 import { cn } from "@/lib/utils";
 
 interface ReviewCardProps {
@@ -54,8 +54,8 @@ export default function ReviewCard({
 
   const celebSlug = item.user.slug;
   const professionKey = item.user.profession;
-  const ProfessionIcon = professionKey ? PROFESSION_ICONS[professionKey] : null;
-  const professionColor = professionKey ? PROFESSION_COLORS[professionKey] : null;
+  const ProfessionIcon = professionKey ? getProfessionIcon(professionKey) : null;
+  const professionColor = professionKey ? getProfessionColor(professionKey) : null;
 
   // 출처 라벨
   const sourceLabel = isEn ? "Source" : "출처";

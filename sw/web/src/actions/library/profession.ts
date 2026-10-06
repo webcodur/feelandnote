@@ -5,14 +5,14 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import { getLocale } from 'next-intl/server'
 import type { Tables } from '@/types/database.generated'
 import type { ContentType } from '@/types/database'
 import type { LibraryContent, LibraryByProfession, TopCeleb } from './types'
 import { aggregateContents, attachBookAffiliateUrls, fetchAllCelebContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
 
-const PROFESSION_MAP = CELEB_PROFESSIONS.map(p => ({ key: p.value, label: p.label }))
+const getProfessionMap = async () => (await getCelebProfessions()).map(p => ({ key: p.value, label: p.label }))
 
 // #region 길의 갈래 - 직업별 인기 콘텐츠
 // celebs + celeb_influence(total_score) 임베드 조회 행
@@ -130,7 +130,7 @@ export async function getLibraryByProfession(params?: {
     content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
   }
 
-  const professionInfo = PROFESSION_MAP.find(p => p.key === profession)
+  const professionInfo = (await getProfessionMap()).find(p => p.key === profession)
 
   return {
     profession,
@@ -145,7 +145,7 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
   const db = createStaticClient()
 
   const results = await Promise.all(
-    PROFESSION_MAP.map(async ({ key, label }) => {
+    (await getProfessionMap()).map(async ({ key, label }) => {
       const { count } = await db
         .from('celebs')
         .select('id', { count: 'exact', head: true })

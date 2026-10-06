@@ -5,6 +5,7 @@
 */
 "use client";
 
+import { useProfessions } from "@feelandnote/shared/hooks/use-professions";
 import { gameText } from "@/lib/game/text";
 
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
@@ -15,7 +16,7 @@ import type { BattleCard, Command, Domain } from "@/lib/game/types";
 import { COMMANDS, DOMAINS, DOMAIN_LABELS, DOMAIN_LABELS_EN } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
 import { ABILITY_KEYS, ABILITY_LABELS as ABILITY_LABEL_MAP } from "@/lib/spectrum/constants";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+
 import { getBattleCardEffect, getBattleCommandLabel, getBattleText } from "./i18n";
 
 const CMD_ICON: Record<Command, React.ReactNode> = {
@@ -46,6 +47,7 @@ interface Props {
 }
 
 export default function CardInfoModal({ card, onClose, zIndex = 9999 }: Props) {
+  const { getLabel: getCelebProfessionLabel } = useProfessions();
   const locale = useLocale();
   const text = getBattleText(locale);
   const isEnglish = locale.startsWith("en");

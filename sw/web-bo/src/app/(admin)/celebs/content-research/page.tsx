@@ -15,7 +15,8 @@ import {
 } from '@/actions/admin/content-research-types'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
-import { getCelebProfessionLabel } from '@/constants/celebCategories'
+import { getCelebProfessionLabel as labelFromDefinitions } from '@feelandnote/shared/constants/celeb-professions'
+import { getCelebProfessions } from '@/lib/celeb-professions'
 import ConfirmedEmptyControls from './ConfirmedEmptyControls'
 
 export const metadata: Metadata = {
@@ -92,6 +93,8 @@ function formatDate(value: string | null): string {
 }
 
 export default async function ContentResearchPage({ searchParams }: PageProps) {
+  const professions = await getCelebProfessions()
+  const getCelebProfessionLabel = (value: string | null | undefined) => labelFromDefinitions(value, 'ko', professions)
   const params = await searchParams
   const page = Math.max(1, Number(params.page) || 1)
   const search = params.search?.trim() ?? ''

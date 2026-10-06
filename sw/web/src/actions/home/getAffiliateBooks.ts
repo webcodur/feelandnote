@@ -23,6 +23,10 @@ import {
 
 export interface AffiliateBook {
   contentId: string
+  /** 직군 선정 도서의 목적과 편집 사유. 감상자 기록과는 별개다. */
+  professionCategory?: 'become' | 'about'
+  selectionReason?: string
+  selectionSourceUrl?: string
   editionId?: number
   /** 직군 추천을 만든 실제 감상자 ID. */
   readerIds?: string[]

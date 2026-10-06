@@ -8,6 +8,7 @@ import type { CelebFactionBookGroup } from '@/actions/celebs/getCelebFactionBook
 import BookShelf from '@/components/shared/BookShelf/BookShelf'
 import { affiliateBookToShelfBook, figureBookToShelfBook, type BookShelfBook, type BookShelfGroup } from '@/components/shared/BookShelf/types'
 import BookShelfAffiliationAddon from './BookShelfAffiliationAddon'
+import { getProfessionShelfChoices } from '@/lib/books/professionShelf'
 
 interface Props {
   celebId: string
@@ -32,11 +33,16 @@ export default function CelebBookShelf({ celebId, celebName, appeared, authored,
   const [factionId, setFactionId] = useState(factionGroups[0]?.factionId)
   const selectedFaction = factionGroups.find((group) => group.factionId === factionId) ?? factionGroups[0]
   const showReading = readBooks !== undefined
+  const professionShelfBooks = professionBooks.map(affiliateBookToShelfBook)
+  const professionChoices = getProfessionShelfChoices(professionShelfBooks, {
+    become: t('professionBecome'), about: t('professionAbout'),
+    becomeIntro: t('professionBecomeIntro'), aboutIntro: t('professionAboutIntro'),
+  })
   const groups: BookShelfGroup[] = [
     { key: 'appeared', context: { personId: celebId, kind: 'appeared', showReading }, label: t('groupAppeared'), intro: t('sourceWorksIntro'), books: appeared.map(figureBookToShelfBook) },
     ...(readBooks !== undefined ? [{ key: 'read', context: { personId: celebId, personName: celebName, kind: 'read' as const, showReading }, label: t('groupRead'), intro: t('readShelfIntro'), books: readBooks }] : []),
     { key: 'authored', context: { personId: celebId, kind: 'authored', showReading }, label: t('groupAuthored'), intro: t('authoredWorksIntro'), books: authored.map(figureBookToShelfBook) },
-    { key: 'profession', context: { personId: celebId, kind: 'profession', showReading }, label: t('groupProfession'), intro: professionIntro, books: professionBooks.map(affiliateBookToShelfBook) },
+    { key: 'profession', context: { personId: celebId, kind: 'profession', showReading }, label: t('groupProfession'), intro: professionIntro, books: professionShelfBooks, choices: professionChoices },
     {
       key: 'faction', context: { personId: celebId, kind: 'affiliation', showReading }, label: t('groupAffiliation'),
       intro: t(selectedFaction?.isMyth ? 'factionShelfIntroMyth' : 'factionShelfIntroFaction'),
