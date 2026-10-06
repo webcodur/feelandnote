@@ -45,7 +45,8 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
             <Link
               key={c.id}
               href={getCelebProfileUrl(c)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-card/80 border border-white/10 hover:border-accent/30 hover:bg-white/5 transition-colors group/cont"
+              prefetch={false}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-card/80 border border-white/10 hover:border-accent/30 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent group/cont"
             >
               <span className="text-sm">{getCountryFlag(c.nationality!)}</span>
               <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
@@ -57,7 +58,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
                   fallbackSize={12}
                 />
               </div>
-              <span className="text-sm text-text-primary group-hover/cont:text-accent transition-colors">
+              <span className="text-sm text-text-primary group-hover/cont:text-accent">
                 {cName}
               </span>
               <span className="text-xs text-text-tertiary">

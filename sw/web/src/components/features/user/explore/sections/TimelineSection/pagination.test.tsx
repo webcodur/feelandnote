@@ -6,6 +6,7 @@ import type { ComponentType } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { load } from "cheerio";
 import ts from "typescript";
+import { createTranslator } from 'next-intl';
 import type { TimelineCeleb, TimelineData } from "@/actions/home/getCelebTimeline";
 import { getCelebProfileUrl } from "@/lib/url";
 import { getTimelinePath, paginateTimeline, TIMELINE_PAGE_SIZE } from "./pagination";
@@ -42,10 +43,13 @@ test("country, page, and era links preserve the selected view without shipping o
   assert.deepEqual(us.celebs.map(item => item.id), ["other"]);
   assert.equal(getTimelinePath("US", "KR", 2), "/explore/timeline?country=US&page=2");
   const first = paginateTimeline(data);
-  assert.equal(first.eras.find(item => item.era.key === "contemporary-1")?.href, "/explore/timeline?page=3#era-contemporary-1");
+  assert.equal(first.eras.find(item => item.era.key === "contemporary-1")?.href, "/explore/timeline?country=KR&page=3#era-contemporary-1");
   assert.equal(paginateTimeline(data, "invalid", "-3").path, first.path);
   assert.equal(paginateTimeline(data, "KR", "9999").page, 3);
   assert.equal(paginateTimeline({ celebs: [], countries: [] }).page, 1);
+  // 최다 인원 국가를 골라도 접속 국가의 기본 화면으로 돌아가면 안 된다.
+  assert.equal(getTimelinePath('KR', 'KR'), '/explore/timeline?country=KR');
+  assert.equal(paginateTimeline(data, 'KR', '1', 'US').country, 'KR');
 });
 
 function loadComponent(relative: string, mocks: Record<string, unknown>): ComponentType<Record<string, unknown>> {
@@ -58,6 +62,7 @@ function loadComponent(relative: string, mocks: Record<string, unknown>): Compon
 }
 
 const mocks: Record<string, unknown> = {
+  "@/components/features/commerce/DeveloperCommerceFallback": { default: () => null },
   "@/i18n/navigation": { Link: ({ prefetch, ...props }: React.ComponentProps<"a"> & { prefetch?: boolean }) => {
     assert.equal(prefetch, false);
     return <a {...props} />;
@@ -78,6 +83,7 @@ const countryPickerMocks = {
   "@/components/features/user/explore/myth/mythLayout": { MYTH_LAYOUT },
   "@/hooks/useMouseDragScroll": { useMouseDragScroll: () => ({ ref: { current: null }, dragProps: {}, cursorClassName: "" }) },
   "@/components/ui/Modal": { default: () => null },
+  "./CountryPickerModal": { default: () => null },
 };
 
 test("every supported country belongs to one continent and unknown countries remain reachable", async () => {
@@ -94,14 +100,15 @@ test("every supported country belongs to one continent and unknown countries rem
   }
 });
 
-test("country deep links select their continent and expose only that continent's country choices", () => {
+test("country deep links restore the current continent and country in the navigation", () => {
   const CountryPicker = loadComponent("./sections/CountryPicker.tsx", countryPickerMocks);
   for (const selectedCountry of ["KR", "US"]) {
-    const $ = load(renderToStaticMarkup(<CountryPicker countries={data.countries} selectedCountry={selectedCountry} defaultCountry="KR" countrySearch="" onSearchChange={() => {}} />));
-    assert.equal($('nav[aria-label="countryNav"] a').length, 1);
-    assert.equal($('nav[aria-label="countryNav"] a').attr("href"), getTimelinePath(selectedCountry, "KR"));
-    assert.equal($('nav[aria-label="continentNav"] a[aria-current="page"]').text(), `continent.${continents.getCountryContinent(selectedCountry)}`);
-    assert.equal($('nav[aria-label="continentNav"] a').length, 2);
+    const $ = load(renderToStaticMarkup(<CountryPicker countries={data.countries} selectedCountry={selectedCountry} defaultCountry="KR" />));
+    assert.equal($('[data-timeline-level="country"]').attr('data-selected'), selectedCountry);
+    assert.equal($('[data-timeline-level="continent"]').attr('data-selected'), continents.getCountryContinent(selectedCountry));
+    assert.equal($('[data-timeline-level="country"] a').length, 0);
+    const otherCountry = selectedCountry === 'KR' ? 'US' : 'KR';
+    assert.deepEqual($('[data-timeline-level="continent"] a').map((_, link) => $(link).attr('href')).get(), [getTimelinePath(otherCountry, 'KR'), getTimelinePath(otherCountry, 'KR')]);
   }
 });
 
@@ -116,10 +123,33 @@ test("a timeline row emits its complete biography once for both responsive layou
   assert.equal($("a button, button a").length, 0);
 });
 
+test('era banners show only the selected language and count figures once', () => {
+  for (const locale of ['ko', 'en']) {
+    const messages = JSON.parse(readFileSync(`messages/${locale}/explore.json`, 'utf8'));
+    const EraBanner = loadComponent('./sections/EraBanner.tsx', {
+      'next-intl': { useTranslations: (namespace: string) => createTranslator({ locale, messages, namespace }) },
+    });
+    const html = renderToStaticMarkup(<EraBanner era={timelineUtils.getEraInfo(100)} count={15} isCollapsed={false} onToggle={() => {}} />);
+    const $ = load(html);
+    assert.equal($('button').attr('aria-expanded'), 'true');
+    assert.ok($('button').text().includes(messages.explore.ui.timeline.eras.ancient));
+    assert.equal(($('button').text().match(/15/g) ?? []).length, 1);
+    if (locale === 'en') assert.ok(!/[가-힣]/.test($('button').text()));
+  }
+});
+
+test('missing English biography or title does not expose Korean text in the English timeline', () => {
+  const Item = loadComponent('./sections/CelebTimelineItem.tsx', mocks);
+  const html = renderToStaticMarkup(<Item celeb={{ ...figures[0], bio_en: null, title_en: null }} locale="en" isBioExpanded={false} isContemporariesShown={false}
+    isContemporariesLoading={false} onToggleBio={() => {}} onToggleContemporaries={() => {}} onFireDialogue={() => {}} getContemporaries={() => []} />);
+  assert.ok(!/[가-힣]/.test(load(html).text()));
+  assert.ok(html.includes('Figure 0'));
+});
+
 test("SSR pagination exposes actual previous and next links and country choices expose addresses", () => {
   const CountryPicker = loadComponent("./sections/CountryPicker.tsx", countryPickerMocks);
-  const picker = load(renderToStaticMarkup(<CountryPicker countries={data.countries} selectedCountry="KR" defaultCountry="KR" countrySearch="" onSearchChange={() => {}} />));
-  assert.equal(picker('a[href="/explore/timeline?country=US"]').length, 1);
+  const picker = load(renderToStaticMarkup(<CountryPicker countries={data.countries} selectedCountry="KR" defaultCountry="KR" />));
+  assert.ok(picker('a[href="/explore/timeline?country=US"]').length > 0);
   const Section = loadComponent("./TimelineSection.tsx", {
     ...mocks,
     "@/lib/utils/countryFlag": { getCountryFlag: () => "" },
@@ -127,9 +157,12 @@ test("SSR pagination exposes actual previous and next links and country choices 
     "@/hooks/useCelebGreeting": { useCelebGreeting: () => ({ fireGreeting: () => {} }) },
     "@/actions/home/getCelebTimeline": { getTimelineContemporaries: () => { throw new Error("SSR must not load contemporaries"); } },
     "@/actions/celebs/getCelebForModal": { getCelebForModal: () => { throw new Error("SSR must not load dialogue"); } },
-    "./sections/CountryPicker": { default: CountryPicker },
-    "./sections/EraBanner": { default: () => null },
-    "./sections/CelebTimelineItem": { default: loadComponent("./sections/CelebTimelineItem.tsx", mocks) },
+    "./sections/TimelineCountryHeader": { default: loadComponent("./sections/TimelineCountryHeader.tsx", {
+      ...mocks, "./CountryPicker": { default: CountryPicker }, "./TimelineGlobe": { default: () => null },
+    }) },
+    "./sections/TimelineEraList": { default: loadComponent("./sections/TimelineEraList.tsx", {
+      ...mocks, "./EraBanner": { default: () => null }, "./CelebTimelineItem": { default: loadComponent("./sections/CelebTimelineItem.tsx", mocks) },
+    }) },
   });
   const page = paginateTimeline(data, "KR", "2");
   const html = renderToStaticMarkup(<Section {...page} countries={data.countries} />);

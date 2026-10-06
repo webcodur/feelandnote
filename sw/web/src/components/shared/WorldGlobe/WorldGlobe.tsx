@@ -37,12 +37,22 @@ export interface GlobeMarker {
   order?: number;
 }
 
+export interface GlobeCountry {
+  id: string;
+  /** Natural Earth 지도 원본의 국가명 */
+  name: string;
+  label: string;
+}
+
 interface Props {
   markers: GlobeMarker[];
   /** 좌표를 순서대로 이어 이동 경로를 그린다 */
   showPath?: boolean;
   activeId?: string | null;
   onSelect?: (id: string) => void;
+  /** 국가를 직접 눌러 선택하는 화면에서 사용한다. */
+  countries?: GlobeCountry[];
+  onCountrySelect?: (id: string) => void;
   /** 이 값이 바뀌면 해당 좌표가 정면에 오도록 돌린다 */
   focusId?: string | null;
   /** 같은 좌표를 다시 눌러도 회전시키기 위한 증가 키 */
@@ -321,6 +331,8 @@ export default function WorldGlobe({
   showPath = false,
   activeId = null,
   onSelect,
+  countries,
+  onCountrySelect,
   focusId = null,
   focusKey = 0,
   unknownKey = 0,
@@ -370,7 +382,16 @@ export default function WorldGlobe({
   const hoverIdRef = useRef<string | null>(null);
   const hoverCountryRef = useRef<string | null>(null);
 
-  const homeRotation = useMemo(() => centroidOf(markers), [markers]);
+  const selectedCountry = countries?.find(country => country.id === activeId);
+  const countryMarker = useMemo<GlobeMarker | null>(() => {
+    if (!ready || !selectedCountry) return null;
+    const feature = (detailedReady ? detailedMapRef.current : baseMapRef.current)?.countriesByName.get(selectedCountry.name);
+    if (!feature) return null;
+    const [lng, lat] = d3.geoCentroid(feature);
+    return { id: selectedCountry.id, lng, lat, label: selectedCountry.label };
+  }, [detailedReady, ready, selectedCountry]);
+  const resolvedMarkers = useMemo(() => countryMarker ? [...markers, countryMarker] : markers, [countryMarker, markers]);
+  const homeRotation = useMemo(() => centroidOf(resolvedMarkers), [resolvedMarkers]);
   const homeZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, initialZoom));
   const rotationRef = useRef<[number, number]>(homeRotation);
   const zoomRef = useRef(homeZoom);
@@ -396,8 +417,8 @@ export default function WorldGlobe({
 
   const graticule = useMemo(() => d3.geoGraticule10(), []);
   const ordered = useMemo(
-    () => markers.filter((m) => Number.isFinite(m.lat) && Number.isFinite(m.lng)),
-    [markers],
+    () => resolvedMarkers.filter((m) => Number.isFinite(m.lat) && Number.isFinite(m.lng)),
+    [resolvedMarkers],
   );
 
   /* 정확한 행적 점을 짚으면 국가명 아래에 장소·사건명을 함께 보여준다. */
@@ -417,13 +438,13 @@ export default function WorldGlobe({
     if (!ready || !map) return { counts, byMarkerId };
 
     for (const marker of ordered) {
-      const country = countryNameAtCoordinate(map, marker.lng, marker.lat);
+      const country = marker === countryMarker ? selectedCountry?.name : countryNameAtCoordinate(map, marker.lng, marker.lat);
       if (!country) continue;
       byMarkerId.set(marker.id, country);
       counts.set(country, (counts.get(country) ?? 0) + 1);
     }
     return { counts, byMarkerId };
-  }, [detailedReady, ordered, ready]);
+  }, [countryMarker, detailedReady, ordered, ready, selectedCountry]);
 
   const tooltipCountry = hoverId
     ? visitedRegions.byMarkerId.get(hoverId) ?? hoverCountry
@@ -913,6 +934,10 @@ export default function WorldGlobe({
   }, [requestDraw]);
 
   useEffect(() => {
+    if (ready && selectedCountry && !baseMapRef.current?.countriesByName.has(selectedCountry.name)) ensureDetailedMap();
+  }, [ensureDetailedMap, ready, selectedCountry]);
+
+  useEffect(() => {
     backgroundDirtyRef.current = true;
   }, [locale, visitedRegions]);
 
@@ -1351,16 +1376,20 @@ export default function WorldGlobe({
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
-      if (movedRef.current || !onSelect) return;
+      if (movedRef.current || (!onSelect && !onCountrySelect)) return;
       const hit = hitTest(e.clientX, e.clientY);
-      if (hit) {
+      if (hit && onSelect) {
         cancelSpin();
         activeFocusAnimationRef.current = null;
         startPulse(hit);
         onSelect(hit);
+      } else if (onCountrySelect) {
+        const name = countryAt(e.clientX, e.clientY);
+        const country = countries?.find(option => option.name === name);
+        if (country) onCountrySelect(country.id);
       }
     },
-    [cancelSpin, hitTest, onSelect, startPulse],
+    [cancelSpin, countries, countryAt, hitTest, onCountrySelect, onSelect, startPulse],
   );
 
   const zoomBy = useCallback(
@@ -1450,7 +1479,7 @@ export default function WorldGlobe({
           width: "100%",
           height: "100%",
           touchAction: allowPageScroll ? "pan-y" : "none",
-          cursor: onSelect && hoverId ? "pointer" : "grab",
+          cursor: (onSelect && hoverId) || (onCountrySelect && countries?.some(country => country.name === hoverCountry)) ? "pointer" : "grab",
         }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}

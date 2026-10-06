@@ -6,13 +6,15 @@
 
 import { getCelebProfileUrl } from "@/lib/url";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getCelebDirectory";
+import { getCelebDirectory } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
 import { getCelebProfessions } from '@/lib/celeb-professions'
-import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import styles from "./directory.module.css";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
+import DirectoryNavigator from "@/components/features/user/explore/DirectoryNavigator";
+import { directoryName, groupDirectory } from "@/lib/directory";
 
 // 정적(ISR). 명부는 2,400명 전부를 싣는 큰 화면(HTML 수 MB)이라 방문마다 서버가 만들면 그 바이트가 그대로
 // 원본 전송량이 된다. 한 번 만들어 CDN에 두고, 인물 등록·삭제·공개 상태 변경 때 DB 트리거가 'celebs' 태그를 비운다.
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   // 인원은 화면의 「총 N명」과 같은 캐시에서 센다 — 문구에 박아 둔 「1,000명 이상」은 실제의 몇 분의 일이었다
-  const [t, celebs] = await Promise.all([getTranslations("explore.directory"), getCelebDirectory()]);
+  const [t, celebs] = await Promise.all([getTranslations({ locale, namespace: "explore.directory" }), getCelebDirectory()]);
   return {
     title: t("metaTitle"),
     description: t("metaDescription", { count: celebs.length }),
@@ -40,92 +42,38 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-/** 한글 초성 추출 */
-function getChosung(char: string): string {
-  const code = char.charCodeAt(0);
-  if (code >= 0xac00 && code <= 0xd7a3) {
-    const CHOSUNG = [
-      "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ",
-      "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ",
-    ];
-    return CHOSUNG[Math.floor((code - 0xac00) / 588)]!;
-  }
-  if (/[a-zA-Z]/.test(char)) return char.toUpperCase();
-  return "#";
-}
-
 export default async function DirectoryPage({ params }: PageProps) {
-  const CELEB_PROFESSIONS = await getCelebProfessions();
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("explore.directory");
+  const [t, CELEB_PROFESSIONS, celebs] = await Promise.all([
+    getTranslations({ locale, namespace: "explore.directory" }), getCelebProfessions(), getCelebDirectory(),
+  ]);
   // 2,400개 항목마다 클라이언트 Link를 세우면 항목당 데이터가 RSC 페이로드에 한 번 더 실리고 미리가져오기까지 돈다.
   // 명부는 색인용 목록이라 순수 링크(<a>)로 그린다
   const localePrefix = locale === "en" ? "/en" : "";
 
-  const celebs = await getCelebDirectory();
-
-  // 초성/알파벳별 그룹핑
-  const groups = new Map<string, CelebDirectoryRow[]>();
-  for (const celeb of celebs) {
-    const name = locale === "en" && celeb.nickname_en ? celeb.nickname_en : celeb.nickname;
-    const key = getChosung(name.charAt(0));
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key)!.push(celeb);
-  }
-
-  // 정렬: ㄱ~ㅎ → A~Z → #
-  const sortedKeys = [...groups.keys()].sort((a, b) => {
-    const isKoA = /[ㄱ-ㅎ]/.test(a);
-    const isKoB = /[ㄱ-ㅎ]/.test(b);
-    if (isKoA && !isKoB) return -1;
-    if (!isKoA && isKoB) return 1;
-    return a.localeCompare(b, "ko");
-  });
-
+  const groups = groupDirectory(celebs, locale);
   const totalCount = celebs.length;
+  const counts = new Map<string, number>();
+  for (const celeb of celebs) if (celeb.profession) counts.set(celeb.profession, (counts.get(celeb.profession) ?? 0) + 1);
+  const professionOptions = [
+    { value: "all", label: t("allProfessions"), href: `${localePrefix}/explore/directory`, count: totalCount },
+    ...CELEB_PROFESSIONS.map((prof) => ({ value: prof.value, label: locale === "en" ? prof.label_en : prof.label,
+      href: `${localePrefix}/explore/directory/${prof.value}`, count: counts.get(prof.value) ?? 0 })),
+  ];
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <VisitorDirectory />
-      {/* 직군 범례 — 각 직군의 개별 명부로 가는 링크를 겸한다 */}
-      <div className="mb-8 space-y-3">
-        <p className="text-text-secondary text-sm">
+    <div className="mx-auto grid max-w-4xl grid-cols-1 gap-y-3">
+      <div className="space-y-2">
+        <p className="text-center text-text-secondary text-sm">
           {t("totalCount", { count: totalCount })}
         </p>
-        <nav aria-label={t("professionIndexTitle")} className="flex flex-wrap gap-x-4 gap-y-2">
-          {CELEB_PROFESSIONS.map((prof) => {
-            const Icon = getProfessionIcon(prof.value);
-            const color = getProfessionColor(prof.value) ?? "";
-            if (!Icon) return null;
-            return (
-              <a
-                key={prof.value}
-                href={`${localePrefix}/explore/directory/${prof.value}`}
-                className="inline-flex items-center gap-1 hover:text-accent"
-              >
-                <Icon size={13} className={color} />
-                <span className="text-xs">
-                  {locale === "en" ? prof.label_en : prof.label}
-                </span>
-              </a>
-            );
-          })}
-        </nav>
+        <DirectoryNavigator kind="profession" options={professionOptions} currentValue="all" />
       </div>
-
-      {/* 앵커 네비게이션 */}
-      <nav className="flex flex-wrap gap-2 mb-8 sticky top-0 bg-bg-main/95 backdrop-blur-sm py-3 z-10 border-b border-white/5">
-        {sortedKeys.map((key) => (
-          <a
-            key={key}
-            href={`#group-${key}`}
-            className="px-2.5 py-1 text-sm font-medium text-text-secondary hover:text-accent rounded-md hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            {key}
-          </a>
-        ))}
-      </nav>
+      <div className="sticky top-[var(--layer-header-h)] z-10 self-start bg-bg-main/95 py-2 backdrop-blur-sm">
+        <DirectoryNavigator kind="initial" options={groups.map(([key, items]) => ({ value: key, label: key, href: `#group-${key}`, count: items.length }))} />
+      </div>
+      <VisitorDirectory />
 
       {/* 직군 아이콘 원본 — 항목 2,400개가 각자 SVG를 품으면 그것만 수 MB다. 한 번만 그리고 <use>로 참조한다 */}
       <DeveloperCommerceFallback target={{ title: "인물 평전", type: "TOPIC" }} placement="directory" />
@@ -142,20 +90,16 @@ export default async function DirectoryPage({ params }: PageProps) {
       </svg>
 
       {/* 인물 목록 */}
-      <div className="space-y-10">
-        {sortedKeys.map((key) => {
-          const items = groups.get(key)!;
+      <div className="col-span-full space-y-10 pt-2 md:pt-4">
+        {groups.map(([key, items]) => {
           return (
-            <section key={key} id={`group-${key}`}>
+            <section key={key} id={`group-${key}`} className="scroll-mt-40">
               <h2 className="text-2xl font-serif font-bold text-accent/80 mb-4 border-b border-white/5 pb-2">
                 {key}
               </h2>
               <ul className={`${styles.list} grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1.5`}>
                 {items.map((celeb) => {
-                  const displayName =
-                    locale === "en" && celeb.nickname_en
-                      ? celeb.nickname_en
-                      : celeb.nickname;
+                  const displayName = directoryName(celeb, locale);
                   const hasIcon = !!(celeb.profession && getProfessionIcon(celeb.profession));
                   return (
                     <li key={celeb.slug}>
@@ -175,6 +119,14 @@ export default async function DirectoryPage({ params }: PageProps) {
           );
         })}
       </div>
+      <nav aria-label={t("professionIndexTitle")} className="col-span-full mt-10 border-t border-white/10 pt-6">
+        <h2 className="mb-3 text-center text-sm font-semibold text-text-secondary">{t("professionIndexTitle")}</h2>
+        <ul className="flex flex-wrap justify-center gap-2">
+          {professionOptions.slice(1).map((option) => <li key={option.value}>
+            <a href={option.href} className="inline-flex min-h-11 items-center rounded-control px-3 text-sm text-text-secondary hover:bg-white/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{option.label}</a>
+          </li>)}
+        </ul>
+      </nav>
     </div>
   );
 }

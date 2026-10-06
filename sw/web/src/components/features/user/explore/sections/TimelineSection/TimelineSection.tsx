@@ -7,8 +7,6 @@
 "use client";
 
 import { useState, useMemo, useCallback, useRef } from "react";
-import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
-import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { celebDisplayName } from "@/lib/celeb/displayName";
 import { useLocale, useTranslations } from "next-intl";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
@@ -19,11 +17,11 @@ import { getYear, getEraInfo, type EraInfo } from "./utils";
 import { getTimelineContemporaries } from "@/actions/home/getCelebTimeline";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { Link } from "@/i18n/navigation";
-import { EXPLORE_NAV_LAYOUT as nav } from "@/components/shared/exploreNavLayout";
-import CountryPicker from "./sections/CountryPicker";
+
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
-import EraBanner from "./sections/EraBanner";
-import CelebTimelineItem from "./sections/CelebTimelineItem";
+
+import TimelineCountryHeader from "./sections/TimelineCountryHeader";
+import TimelineEraList from "./sections/TimelineEraList";
 
 interface Props {
   celebs: TimelineCeleb[];
@@ -43,13 +41,11 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
   const { handleSubtitle } = useDialogueSubtitle();
   const pagination = useTranslations("shared.ui.pagination");
   const errors = useTranslations("actionErrors");
-  const [countrySearch, setCountrySearch] = useState("");
   const [expandedBio, setExpandedBio] = useState<Set<string>>(new Set());
   const [collapsedEras, setCollapsedEras] = useState<Set<string>>(new Set());
   const [showContemporaries, setShowContemporaries] = useState<Set<string>>(new Set());
   const [loadingContemporaries, setLoadingContemporaries] = useState<Set<string>>(new Set());
   const [contemporariesError, setContemporariesError] = useState(false);
-  const headerRef = useRef<HTMLDivElement>(null);
 
   const { fireGreeting } = useCelebGreeting({ onSubtitle: handleSubtitle, locale: locale as Locale });
 
@@ -148,122 +144,17 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
 
   const selectedInfo = countries.find((c) => c.code === selectedCountry);
 
-  return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      {/* 국가 검색 + 칩 */}
-      <CountryPicker
-        countries={countries}
-        selectedCountry={selectedCountry}
-        countrySearch={countrySearch}
-        onSearchChange={setCountrySearch}
-        defaultCountry={defaultCountry}
-      />
-
-      {/* 선택된 국가 헤더 */}
-      {selectedInfo && (
-        <div ref={headerRef} className="pt-4 scroll-mt-20">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-          </div>
-          <div className="flex flex-col items-center gap-2 py-4">
-            <span className="text-4xl">{getCountryFlag(selectedInfo.code)}</span>
-            <h2 className="text-2xl font-bold text-text-primary font-cinzel tracking-wide">
-              {selectedInfo.name}
-            </h2>
-            <p className="text-sm text-text-secondary tracking-widest uppercase">
-              Chronicle · {selectedInfo.count} Figures
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-          </div>
-        </div>
-      )}
-
-      {eras.length > 1 && (
-        <nav className="flex flex-wrap justify-center gap-1.5">
-          {eras.map(({ era, href }) => (
-            <Link key={era.key} href={href} prefetch={false} className={`${nav.chip} ${nav.pill} ${nav.chipIdle.pill} outline-none focus-visible:ring-2 focus-visible:ring-accent`}>
-              {locale === "en" ? era.labelEn : era.label}
-            </Link>
-          ))}
-        </nav>
-      )}
-
-      {/* 타임라인 */}
-      {selectedInfo && <DeveloperCommerceFallback target={{ title: `${selectedInfo.name} 역사`, type: "TOPIC" }} placement="timeline-country" />}
-      {filtered.length === 0 ? (
-        <p className="text-text-secondary text-center py-12">
-          {t("noCountryFigures")}
-        </p>
-      ) : (
-        <>
-          {/* 전체 접기/펼치기 버튼 */}
-          {eraGroups.length > 1 && (
-            <div className="flex justify-end">
-              <button
-                onClick={toggleAll}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                {allCollapsed ? <ChevronsUpDown size={16} /> : <ChevronsDownUp size={16} />}
-                {allCollapsed ? (locale === "en" ? "Expand all" : "전체 펼치기") : (locale === "en" ? "Collapse all" : "전체 접기")}
-              </button>
-            </div>
-          )}
-
-          <div className="relative">
-            {/* 세로 타임라인 줄 */}
-            <div className="absolute left-[34px] md:left-[114px] top-0 bottom-0 w-px bg-white/10" />
-
-            <div className="space-y-0">
-              {eraGroups.map((group, idx) => {
-                const isCollapsed = collapsedEras.has(group.era.key);
-
-                return (
-                  <div key={`${group.era.key}-${idx}`} id={`era-${group.era.key}`} className="scroll-mt-20">
-                    {/* 시대 구분 — 풀폭 배너, 클릭 시 접기/펼치기 */}
-                    <EraBanner
-                      era={group.era}
-                      count={group.celebs.length}
-                      isCollapsed={isCollapsed}
-                      locale={locale}
-                      onToggle={toggleEra}
-                    />
-
-                    {/* 셀럽 항목들 — 애니메이션 접기/펼치기 */}
-                    <div className="collapse-grid" data-open={!isCollapsed}>
-                      <div className="collapse-inner">
-                        {group.celebs.map((celeb) => (
-                          <CelebTimelineItem
-                            key={celeb.id}
-                            celeb={celeb}
-                            locale={locale}
-                            isBioExpanded={expandedBio.has(celeb.id)}
-                            isContemporariesShown={showContemporaries.has(celeb.id)}
-                            isContemporariesLoading={loadingContemporaries.has(celeb.id)}
-                            onToggleBio={toggleBio}
-                            onToggleContemporaries={toggleContemporaries}
-                            onFireDialogue={fireDialogue}
-                            getContemporaries={getContemporaries}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </>
-      )}
-      {contemporariesError && <p role="alert" className="text-sm text-red-400">{errors("UNKNOWN_ERROR")}</p>}
-      {totalPages > 1 && (
-        <nav aria-label={pagination("label")} className="flex items-center justify-center gap-5 py-6">
-          {previousPath && <Link href={previousPath} prefetch={false} rel="prev" className="rounded-md border border-white/15 px-4 py-2 hover:border-accent hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">{pagination("previous")}</Link>}
-          <span className="text-sm tabular-nums text-text-secondary">{page} / {totalPages}</span>
-          {nextPath && <Link href={nextPath} prefetch={false} rel="next" className="rounded-md border border-white/15 px-4 py-2 hover:border-accent hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">{pagination("next")}</Link>}
-        </nav>
-      )}
-    </div>
-  );
+  return <div className="mx-auto max-w-4xl space-y-4">
+    <TimelineCountryHeader countries={countries} country={selectedCountry} defaultCountry={defaultCountry} eras={eras} />
+    {selectedInfo && <DeveloperCommerceFallback target={{ title: `${selectedInfo.name} 역사`, type: "TOPIC" }} placement="timeline-country" />}
+    {!filtered.length && <p className="py-12 text-center text-text-secondary">{t('noCountryFigures')}</p>}
+    {filtered.length > 0 && <TimelineEraList groups={eraGroups} collapsedEras={collapsedEras} allCollapsed={allCollapsed} onToggleAll={toggleAll} onToggleEra={toggleEra}
+      itemProps={{ locale, expandedBio, showContemporaries, loadingContemporaries, onToggleBio: toggleBio, onToggleContemporaries: toggleContemporaries, onFireDialogue: fireDialogue, getContemporaries }} />}
+    {contemporariesError && <p role="alert" className="text-sm text-status-paused">{errors('UNKNOWN_ERROR')}</p>}
+    {totalPages > 1 && <nav aria-label={pagination('label')} className="flex items-center justify-center gap-5 py-6">
+      {previousPath && <Link href={previousPath} prefetch={false} rel="prev" className="rounded-control border border-white/15 px-4 py-2 outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">{pagination('previous')}</Link>}
+      <span className="text-sm tabular-nums text-text-secondary">{page} / {totalPages}</span>
+      {nextPath && <Link href={nextPath} prefetch={false} rel="next" className="rounded-control border border-white/15 px-4 py-2 outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">{pagination('next')}</Link>}
+    </nav>}
+  </div>;
 }

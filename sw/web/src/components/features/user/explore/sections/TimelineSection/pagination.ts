@@ -5,7 +5,8 @@ export const TIMELINE_PAGE_SIZE = 50;
 
 export function getTimelinePath(country: string, defaultCountry: string, page = 1) {
   const query = new URLSearchParams();
-  if (country && country !== defaultCountry) query.set("country", country);
+  const selectedCountry = country || defaultCountry;
+  if (selectedCountry) query.set("country", selectedCountry);
   if (page > 1) query.set("page", String(page));
   return `/explore/timeline${query.size ? `?${query}` : ""}`;
 }

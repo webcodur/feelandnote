@@ -160,7 +160,25 @@
           "other": "기타"
         },
         "noCountries": "검색한 국가가 없습니다",
-        "clearSearch": "검색어 지우기"
+        "clearSearch": "검색어 지우기",
+        "continentLabel": "대륙",
+        "countryLabel": "국가",
+        "chronicleSummary": "연대기 · {count}명",
+        "expandAll": "전체 펼치기",
+        "collapseAll": "전체 접기",
+        "eras": {
+          "ancient": "고대",
+          "medieval": "중세",
+          "early-modern": "근세",
+          "modern": "근대",
+          "contemporary-1": "현대 전기",
+          "contemporary-2": "현대 후기",
+          "contemporary-3": "21세기"
+        },
+        "eraNav": "시대로 이동",
+        "countryCount": "{count}개국",
+        "globeLabel": "국가 지도",
+        "globeHint": "국가를 눌러 연대기 보기"
       },
       "loading": "로딩 중...",
       "friend": "친구",
@@ -418,7 +436,12 @@
       "backToDirectory": "전체 명부로",
       "otherProfessions": "다른 직군 명부",
       "countryHeading": "{country} 인물",
-      "viewCountry": "{country} 인물 모두 보기"
+      "viewCountry": "{country} 인물 모두 보기",
+      "professionLabel": "직군",
+      "initialLabel": "이름",
+      "allProfessions": "전체 직군",
+      "initialIndexTitle": "초성·알파벳으로 찾기",
+      "chooseOption": "{category} 선택: {value}"
     },
     "celebFeed": {
       "metaTitle": "인물 피드 - 최근 감상 기록",

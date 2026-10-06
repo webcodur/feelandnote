@@ -11,10 +11,12 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCelebDirectory } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
+import { PROFESSION_ICONS, getProfessionColor } from "@/constants/professionIcons";
 import { getCelebProfessions } from '@/lib/celeb-professions'
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
+import DirectoryNavigator from "@/components/features/user/explore/DirectoryNavigator";
+import { directoryName, sortDirectory } from "@/lib/directory";
 
 // 정적(ISR). 전체 명부(directory)와 같은 주기 — 인물 등록·삭제 때 'celebs' 태그가 비운다.
 export const revalidate = 604800;
@@ -39,7 +41,7 @@ export async function generateMetadata({ params }: PageProps) {
   const prof = await resolveProfession(profession);
   if (!prof) return {};
 
-  const t = await getTranslations("explore.directory");
+  const t = await getTranslations({ locale, namespace: "explore.directory" });
   const label = locale === "en" ? prof.label_en : prof.label;
   const celebs = await getCelebDirectory();
   const count = celebs.filter((c) => c.profession === prof.value).length;
@@ -56,33 +58,39 @@ const ITEM_CLASS =
   "group flex items-baseline gap-2 py-1.5 text-sm text-text-primary hover:text-accent";
 
 export default async function ProfessionDirectoryPage({ params }: PageProps) {
-  const CELEB_PROFESSIONS = await getCelebProfessions();
   const { locale, profession } = await params;
   setRequestLocale(locale);
-
-  const prof = await resolveProfession(profession);
+  const [t, CELEB_PROFESSIONS, celebs] = await Promise.all([
+    getTranslations({ locale, namespace: "explore.directory" }), getCelebProfessions(), getCelebDirectory(),
+  ]);
+  const prof = CELEB_PROFESSIONS.find((item) => item.value === profession);
   if (!prof) notFound();
-
-  const t = await getTranslations("explore.directory");
   const label = locale === "en" ? prof.label_en : prof.label;
   const localePrefix = locale === "en" ? "/en" : "";
 
-  const celebs = await getCelebDirectory();
-  const members = celebs.filter((c) => c.profession === prof.value);
-  const Icon = getProfessionIcon(prof.value);
+  const members = sortDirectory(celebs.filter((c) => c.profession === prof.value), locale);
+  const Icon = PROFESSION_ICONS[prof.value];
   const color = getProfessionColor(prof.value) ?? "";
+  const counts = new Map<string, number>();
+  for (const celeb of celebs) if (celeb.profession) counts.set(celeb.profession, (counts.get(celeb.profession) ?? 0) + 1);
+  const professionOptions = [
+    { value: "all", label: t("allProfessions"), href: `${localePrefix}/explore/directory`, count: celebs.length },
+    ...CELEB_PROFESSIONS.map((item) => ({ value: item.value, label: locale === "en" ? item.label_en : item.label,
+      href: `${localePrefix}/explore/directory/${item.value}`, count: counts.get(item.value) ?? 0 })),
+  ];
 
   return (
     <div className="max-w-4xl mx-auto">
       {/* 제목 — 직군명이 페이지의 검색 단서다 */}
-      <div className="mb-8 space-y-2">
-        <h1 className="flex items-center gap-2 text-2xl font-serif font-bold text-text-primary">
+      <div className="mb-8 space-y-3">
+        <h1 className="flex items-center justify-center gap-2 text-2xl font-serif font-bold text-text-primary">
           {Icon && <Icon size={22} className={color} />}
           {t("professionHeading", { profession: label })}
         </h1>
-        <p className="text-sm text-text-secondary">
+        <p className="text-center text-sm text-text-secondary">
           {t("professionCount", { count: members.length })}
         </p>
+        <DirectoryNavigator kind="profession" options={professionOptions} currentValue={prof.value} />
       </div>
 
       {/* 인물 목록 — 색인용 명부라 순수 링크(<a>)로 그린다(전체 명부와 같은 이유) */}
@@ -90,9 +98,8 @@ export default async function ProfessionDirectoryPage({ params }: PageProps) {
       <DeveloperCommerceFallback target={{ title: `${label} 평전`, type: "TOPIC" }} placement="directory-profession" />
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0.5 mb-12">
         {members.map((celeb) => {
-          const displayName =
-            locale === "en" && celeb.nickname_en ? celeb.nickname_en : celeb.nickname;
-          const title = locale === "en" ? celeb.title_en ?? celeb.title : celeb.title;
+          const displayName = directoryName(celeb, locale);
+          const title = locale === "en" ? celeb.title_en : celeb.title;
           return (
             <li key={celeb.slug}>
               <a href={`${localePrefix}${getCelebProfileUrl(celeb)}`} className={ITEM_CLASS}>

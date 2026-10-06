@@ -24,20 +24,18 @@ export function formatYear(year: number): string {
 
 export interface EraInfo {
   key: string;
-  label: string;
-  labelEn: string;
   range: string;
 }
 
 /** 연도를 시대 정보로 변환 (현대 세분화) */
 export function getEraInfo(year: number): EraInfo {
-  if (year < 500) return { key: "ancient", label: "고대", labelEn: "Ancient", range: "~ 500" };
-  if (year < 1500) return { key: "medieval", label: "중세", labelEn: "Medieval", range: "500 ~ 1500" };
-  if (year < 1800) return { key: "early-modern", label: "근세", labelEn: "Early Modern", range: "1500 ~ 1800" };
-  if (year < 1900) return { key: "modern", label: "근대", labelEn: "Modern", range: "1800 ~ 1900" };
-  if (year < 1950) return { key: "contemporary-1", label: "현대 전기", labelEn: "Early 20C", range: "1900 ~ 1950" };
-  if (year < 2000) return { key: "contemporary-2", label: "현대 후기", labelEn: "Late 20C", range: "1950 ~ 2000" };
-  return { key: "contemporary-3", label: "21세기", labelEn: "21st Century", range: "2000 ~" };
+  if (year < 500) return { key: "ancient", range: "~ 500" };
+  if (year < 1500) return { key: "medieval", range: "500 ~ 1500" };
+  if (year < 1800) return { key: "early-modern", range: "1500 ~ 1800" };
+  if (year < 1900) return { key: "modern", range: "1800 ~ 1900" };
+  if (year < 1950) return { key: "contemporary-1", range: "1900 ~ 1950" };
+  if (year < 2000) return { key: "contemporary-2", range: "1950 ~ 2000" };
+  return { key: "contemporary-3", range: "2000 ~" };
 }
 
 /** 생몰 표시. 몰년을 모르는 사망자에게 "~"를 달면 살아 있는 것처럼 읽힌다 */

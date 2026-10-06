@@ -28,8 +28,8 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
   const t = useTranslations("explore.ui.timeline");
   const shared = useTranslations("shared.celeb");
   const displayName = celebDisplayName(celeb, locale);
-  const displayTitle = locale === "en" && celeb.title_en ? celeb.title_en : celeb.title;
-  const displayBio = locale === "en" && celeb.bio_en ? celeb.bio_en : celeb.bio;
+  const displayTitle = locale === "en" ? celeb.title_en : celeb.title;
+  const displayBio = locale === "en" ? celeb.bio_en : celeb.bio;
   const href = getCelebProfileUrl(celeb);
 
   return (
@@ -64,7 +64,7 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
                   </button>
                 </div>
               </div>
-              {displayTitle && <p className="text-[11px] md:text-sm text-amber-400/80 truncate mt-0.5">{displayTitle}</p>}
+              {displayTitle && <p className="text-[11px] md:text-sm text-accent/80 truncate mt-0.5">{displayTitle}</p>}
               {displayBio && (
                 <button type="button" onClick={() => onToggleBio(celeb.id)} aria-expanded={isBioExpanded}
                   className={`block w-full text-left text-[11px] md:text-sm text-text-secondary mt-1 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent ${isBioExpanded ? "" : "line-clamp-2"}`}>

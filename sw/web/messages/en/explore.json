@@ -160,7 +160,25 @@
           "other": "Other"
         },
         "noCountries": "No matching countries",
-        "clearSearch": "Clear search"
+        "clearSearch": "Clear search",
+        "continentLabel": "Continent",
+        "countryLabel": "Country",
+        "chronicleSummary": "Chronicle · {count, plural, one {# figure} other {# figures}}",
+        "expandAll": "Expand all",
+        "collapseAll": "Collapse all",
+        "eras": {
+          "ancient": "Ancient",
+          "medieval": "Medieval",
+          "early-modern": "Early Modern",
+          "modern": "Modern",
+          "contemporary-1": "Early 20th Century",
+          "contemporary-2": "Late 20th Century",
+          "contemporary-3": "21st Century"
+        },
+        "eraNav": "Jump to an era",
+        "countryCount": "{count, plural, one {# country} other {# countries}}",
+        "globeLabel": "Country map",
+        "globeHint": "Select a country to view its timeline"
       },
       "loading": "Loading...",
       "friend": "Friend",
@@ -418,7 +436,12 @@
       "backToDirectory": "Full directory",
       "otherProfessions": "Other fields",
       "countryHeading": "Figures from {country}",
-      "viewCountry": "Explore all figures from {country}"
+      "viewCountry": "Explore all figures from {country}",
+      "professionLabel": "Field",
+      "initialLabel": "Initial",
+      "allProfessions": "All fields",
+      "initialIndexTitle": "Browse by initial",
+      "chooseOption": "Choose {category}: {value}"
     },
     "celebFeed": {
       "metaTitle": "Figure Feed - Recent Records",
