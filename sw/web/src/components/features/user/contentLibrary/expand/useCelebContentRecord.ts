@@ -20,6 +20,7 @@ export function useCelebContentRecord(
   contentId: string | null,
   initialRecord: UserContentWithContent | undefined,
   enabled: boolean,
+  prefetchContentId?: string,
 ) {
   const cacheRef = useRef<Map<string, RecordEntry>>(
     new Map(initialRecord ? [[initialRecord.content_id, { status: "ready", item: initialRecord }]] : []),
@@ -35,43 +36,45 @@ export function useCelebContentRecord(
   useEffect(() => {
     if (!enabled || !celebId || !contentId) return;
     let cancelled = false;
-    const cached = cacheRef.current.get(contentId);
-    let request = cached ? Promise.resolve(cached) : pendingRef.current.get(contentId);
+    for (const targetId of new Set([contentId, prefetchContentId].filter((id): id is string => !!id))) {
+      const cached = cacheRef.current.get(targetId);
+      let request = cached ? Promise.resolve(cached) : pendingRef.current.get(targetId);
 
-    if (!request) {
-      request = (async (): Promise<RecordEntry> => {
-        for (let attempt = 1; attempt <= MAX_REQUEST_ATTEMPTS; attempt += 1) {
-          try {
-            const record = await getPublicCelebContentRecord(celebId, contentId);
-            return {
-              status: "ready",
-              item: record ? mapPublicToUserContent([record], celebId)[0] : null,
-            };
-          } catch (error) {
-            if (attempt < MAX_REQUEST_ATTEMPTS) {
-              await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS * attempt));
-              continue;
+      if (!request) {
+        request = (async (): Promise<RecordEntry> => {
+          for (let attempt = 1; attempt <= MAX_REQUEST_ATTEMPTS; attempt += 1) {
+            try {
+              const record = await getPublicCelebContentRecord(celebId, targetId);
+              return {
+                status: "ready",
+                item: record ? mapPublicToUserContent([record], celebId)[0] : null,
+              };
+            } catch (error) {
+              if (attempt < MAX_REQUEST_ATTEMPTS) {
+                await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS * attempt));
+                continue;
+              }
+              console.error("[useCelebContentRecord]", targetId, error);
+              return { status: "failed", item: null };
             }
-            console.error("[useCelebContentRecord]", contentId, error);
-            return { status: "failed", item: null };
           }
-        }
-        return { status: "failed", item: null };
-      })()
-        .then((entry) => {
-          // 실패는 실제 빈 기록이 아니다. 작품을 다시 고르거나 재시도할 때 다시 요청한다.
-          if (entry.status === "ready") cacheRef.current.set(contentId, entry);
-          return entry;
-        })
-        .finally(() => pendingRef.current.delete(contentId));
-      pendingRef.current.set(contentId, request);
-    }
+          return { status: "failed", item: null };
+        })()
+          .then((entry) => {
+            // 실패는 실제 빈 기록이 아니다. 작품을 다시 고르거나 재시도할 때 다시 요청한다.
+            if (entry.status === "ready") cacheRef.current.set(targetId, entry);
+            return entry;
+          })
+          .finally(() => pendingRef.current.delete(targetId));
+        pendingRef.current.set(targetId, request);
+      }
 
-    void request.then((entry) => {
-      if (!cancelled) setActive({ ...entry, contentId });
-    });
+      void request.then((entry) => {
+        if (!cancelled && targetId === contentId) setActive({ ...entry, contentId });
+      });
+    }
     return () => { cancelled = true; };
-  }, [celebId, contentId, enabled, retryToken]);
+  }, [celebId, contentId, enabled, prefetchContentId, retryToken]);
 
   const retry = useCallback(() => {
     if (!enabled || !contentId) return;

@@ -29,6 +29,10 @@ function requestPeople(contentId: string, locale: string) {
   return request
 }
 
+export function prefetchBookShelfPeople(contentId: string, locale: string) {
+  void requestPeople(contentId, locale).catch(() => {})
+}
+
 export default function BookShelfRelations({ contentId, bookTitle, context, readerIds }: {
   contentId: string; bookTitle: string; context?: BookShelfContext; readerIds?: string[]
 }) {

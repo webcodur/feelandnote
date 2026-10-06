@@ -27,32 +27,8 @@ import { useCelebContentRecord } from "./useCelebContentRecord";
 import { useExpandIndexSelection } from "./useExpandIndexSelection";
 import { useHeldHeight } from "./useHeldHeight";
 import type { ContentFocusRequest } from "../types";
+import { topOverlayBottom } from "@/lib/utils/topOverlayBottom";
 
-/** 화면 위 고정 띠를 재지 못했을 때 쓰는 최소 오프셋 — 머리글(64px)보다 조금 크게 */
-const HEADER_OFFSET = 80;
-
-/** 화면 위에 붙어 본문을 덮는 띠(머리글·구획 제목·탭)가 지금 차지하는 아랫변을 잰다.
-   페이지마다 겹쳐 쌓인 띠의 수와 높이가 달라 고정값으로는 제목이 띠 뒤에 가려진다.
-   맨 위부터 끊기지 않고 이어진 띠만 센다 — 중간에 뜬 고정 요소까지 세면 과하게 내린다 */
-function topOverlayBottom(exclude: HTMLElement) {
-  const bands: { top: number; bottom: number }[] = [];
-  document.querySelectorAll("body *").forEach((el) => {
-    if (exclude.contains(el)) return;
-    const { position } = getComputedStyle(el);
-    if (position !== "sticky" && position !== "fixed") return;
-    const r = el.getBoundingClientRect();
-    if (r.height > 10 && r.height < 240 && r.top < 400 && r.bottom > 0) {
-      bands.push({ top: r.top, bottom: r.bottom });
-    }
-  });
-  bands.sort((a, b) => a.top - b.top);
-  let bottom = 0;
-  for (const band of bands) {
-    if (band.top > bottom + 4) break;
-    bottom = Math.max(bottom, band.bottom);
-  }
-  return Math.max(bottom, HEADER_OFFSET);
-}
 /** 화살표를 누른 직후로 볼 시간. 이보다 늦게 온 선택 변화는 화살표가 부른 것이 아니다 */
 const REVEAL_WINDOW_MS = 400;
 

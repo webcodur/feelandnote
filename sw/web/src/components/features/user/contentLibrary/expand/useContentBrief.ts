@@ -1,5 +1,5 @@
 /*
-  펼침 보기의 작품 소개·메타데이터를 현재 선택한 작품에 한해 가져온다.
+  펼침 보기의 작품 소개·메타데이터를 가져오며, 책장은 바로 다음 작품도 준비한다.
   작품 카드 선택은 지연하지 않고, 현재 작품의 소개·메타데이터 응답만 준비해 내보낸다.
 */
 "use client";
@@ -36,7 +36,7 @@ export interface ContentBriefState {
 }
 
 /**
- * `at` 작품을 요청한다. 인접 작품 배경 요청은 상호작용 중 메인 스레드를 깨울 수 있어 하지 않는다.
+ * `at` 작품을 요청한다. 책장은 prefetchNext로 바로 다음 작품도 준비한다.
  * 빠른 연속 선택에서는 마지막 요청 키와 일치하는 소개만 현재 결과로 승격한다.
  */
 export function useContentBrief(
@@ -46,6 +46,7 @@ export function useContentBrief(
   isActiveContent: (contentId: string) => boolean,
   enabled = true,
   initialBrief?: ContentBrief | null,
+  prefetchNext = false,
 ): ContentBriefState {
   const locale = useLocale();
   const initialContentId = initialBrief?.contentId ?? null;
@@ -162,6 +163,12 @@ export function useContentBrief(
       cancelled = true;
     };
   }, [activeContentId, at, contentIds, enabled, isActiveContent, load, locale, retryToken]);
+
+  useEffect(() => {
+    if (!enabled || !prefetchNext || contentIds.length <= 1 || contentIds[at] !== activeContentId) return;
+    const nextId = contentIds[(at + 1) % contentIds.length];
+    if (nextId) void load(nextId, false);
+  }, [activeContentId, at, contentIds, enabled, load, prefetchNext]);
 
   const activeKey = activeContentId ? `${locale}:${activeContentId}` : null;
   const localeCommitted = committed?.locale === locale ? committed : null;

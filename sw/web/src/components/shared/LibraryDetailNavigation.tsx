@@ -10,13 +10,29 @@ import LibraryTitleIndexButton, { type LibraryTitleIndexControl } from "./Librar
 
 export const LIBRARY_DETAIL_FRAME_CLASS = "relative grid w-full min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card md:grid-cols-[48px_minmax(0,1fr)_48px]";
 
+const ARROW_PLACEMENT_CLASS = {
+  desktop: {
+    previous: "z-10 col-start-1 row-span-2 row-start-1 hidden border-e md:flex",
+    next: "z-10 col-start-3 row-span-2 row-start-1 hidden border-s md:flex",
+  },
+  header: {
+    previous: "flex w-12 shrink-0 border-e md:hidden",
+    next: "flex w-12 shrink-0 border-s md:hidden",
+  },
+  bottom: {
+    previous: "flex min-h-[44px] flex-1 border-e text-sm font-medium",
+    next: "flex min-h-[44px] flex-1 text-sm font-medium",
+  },
+} as const;
+
 interface ArrowButtonProps {
   direction: "previous" | "next";
   label: string;
   disabled: boolean;
-  placement: "desktop" | "header";
+  placement: keyof typeof ARROW_PLACEMENT_CLASS;
   onClick: () => void;
   testPrefix?: string;
+  className?: string;
 }
 
 export function LibraryArrowButton({
@@ -26,15 +42,13 @@ export function LibraryArrowButton({
   placement,
   onClick,
   testPrefix = "expand",
+  className = "",
 }: ArrowButtonProps) {
   const Icon = direction === "previous" ? ArrowLeft : ArrowRight;
-  const placementClass = placement === "desktop"
-    ? direction === "previous"
-      ? "z-10 col-start-1 row-span-2 row-start-1 hidden border-e md:flex"
-      : "z-10 col-start-3 row-span-2 row-start-1 hidden border-s md:flex"
-    : direction === "previous"
-      ? "flex w-12 shrink-0 border-e md:hidden"
-      : "flex w-12 shrink-0 border-s md:hidden";
+  const placementClass = ARROW_PLACEMENT_CLASS[placement][direction];
+  const stateClass = placement === "bottom"
+    ? "hover:bg-white/[0.05] active:bg-white/[0.08] disabled:text-text-tertiary"
+    : "bg-bg-secondary/55 hover:bg-accent/[0.08] active:bg-accent/[0.13] disabled:bg-bg-secondary/35 disabled:text-text-tertiary md:bg-bg-secondary/55";
 
   return (
     <button
@@ -42,10 +56,12 @@ export function LibraryArrowButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
+      title={placement === "bottom" ? label : undefined}
       data-testid={`${testPrefix}-${placement}-${direction === "previous" ? "prev" : "next"}`}
-      className={`${placementClass} items-center justify-center border-white/10 bg-bg-secondary/55 text-text-secondary hover:bg-accent/[0.08] hover:text-accent active:bg-accent/[0.13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:bg-bg-secondary/35 disabled:text-text-tertiary md:bg-bg-secondary/55`}
+      className={`${placementClass} ${stateClass} items-center justify-center border-white/10 text-text-secondary hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default ${className}`}
     >
-      <Icon className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.6} aria-hidden />
+      <Icon className={placement === "bottom" ? "h-4 w-4 shrink-0" : "h-5 w-5 md:h-6 md:w-6"}
+        strokeWidth={placement === "bottom" ? 1.7 : 1.6} aria-hidden />
     </button>
   );
 }
@@ -156,17 +172,14 @@ export function LibraryBottomNavigation({
       data-testid={`${testPrefix}-bottom-navigation`}
       className={`flex items-stretch justify-center border-t border-white/10 bg-bg-secondary/55 ${desktopVisible ? "" : "md:hidden"}`}
     >
-      <button
-        type="button"
+      <LibraryArrowButton
+        direction="previous"
+        placement="bottom"
+        label={previousLabel}
         onClick={onPrevious}
-        data-testid={`${testPrefix}-bottom-prev`}
+        testPrefix={testPrefix}
         disabled={disabled}
-        aria-label={previousLabel}
-        title={previousLabel}
-        className={`flex min-h-[44px] flex-1 items-center justify-center border-e border-white/10 text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary ${desktopVisible ? "" : "md:hidden"}`}
-      >
-        <ArrowLeft className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
-      </button>
+      />
       {detailHref && detailLabel ? (
         <Link
           href={detailHref}
@@ -176,17 +189,15 @@ export function LibraryBottomNavigation({
           <span className="truncate">{detailLabel}</span>
         </Link>
       ) : null}
-      <button
-        type="button"
+      <LibraryArrowButton
+        direction="next"
+        placement="bottom"
+        label={nextLabel}
         onClick={onNext}
-        data-testid={`${testPrefix}-bottom-next`}
+        testPrefix={testPrefix}
         disabled={disabled}
-        aria-label={nextLabel}
-        title={nextLabel}
-        className={`flex min-h-[44px] flex-1 items-center justify-center text-sm font-medium text-text-secondary hover:bg-white/[0.05] hover:text-accent active:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 disabled:cursor-default disabled:text-text-tertiary ${desktopVisible ? "" : "md:hidden"} ${detailHref && detailLabel ? "border-s border-white/10" : ""}`}
-      >
-        <ArrowRight className="h-4 w-4 shrink-0" strokeWidth={1.7} aria-hidden />
-      </button>
+        className={detailHref && detailLabel ? "border-s border-white/10" : undefined}
+      />
     </nav>
   );
 }

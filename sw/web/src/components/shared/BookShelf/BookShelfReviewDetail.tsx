@@ -20,9 +20,10 @@ interface Props {
 export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex }: Props) {
   const placeholder = useMemo(() => mapPublicToUserContent([record], celebId)[0], [record, celebId]);
   const isActiveContent = useCallback((id: string) => id === record.content_id, [record.content_id]);
-  const brief = useContentBrief(contentIds, selectedIndex, record.content_id, isActiveContent);
+  const brief = useContentBrief(contentIds, selectedIndex, record.content_id, isActiveContent, true, undefined, true);
   // 명부의 감상 미리보기를 전문으로 오인하지 않고 상세 리뷰와 같은 공개 전문 조회를 쓴다.
-  const review = useCelebContentRecord(celebId, record.content_id, undefined, true);
+  const nextContentId = contentIds.length > 1 ? contentIds[(selectedIndex + 1) % contentIds.length] : undefined;
+  const review = useCelebContentRecord(celebId, record.content_id, undefined, true, nextContentId);
   const cardRef = useHeldHeight(brief.isLoading || review.isLoading);
   return (
     <div ref={cardRef} data-bookshelf-review data-content-id={record.content_id}

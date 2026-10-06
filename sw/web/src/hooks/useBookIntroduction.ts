@@ -22,6 +22,11 @@ function requestIntroduction(reference: BookIntroductionReference, locale: strin
   return request
 }
 
+export function prefetchBookIntroduction(reference: BookIntroductionReference | null | undefined, locale: string, initialDescription?: string | null) {
+  if (!reference?.source || (initialDescription && !isBookIntroductionSource(initialDescription) && reference.storedText === undefined)) return
+  void requestIntroduction(reference, locale).catch(() => {})
+}
+
 export function useBookIntroduction(
   reference: BookIntroductionReference | null | undefined,
   locale: string,

@@ -1,12 +1,14 @@
 'use client'
 
-import { useCallback, useEffect, useId, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import { getBookShelfBook } from '@/actions/books/getBookShelfBook'
 import { RetryBlock } from '@/components/ui/pending'
 import BookShelfFeature from './BookShelfFeature'
-import BookShelfRelations from './BookShelfRelations'
+import BookShelfRelations, { prefetchBookShelfPeople } from './BookShelfRelations'
+import { prefetchBookIntroduction } from '@/hooks/useBookIntroduction'
+import { topOverlayBottom } from '@/lib/utils/topOverlayBottom'
 import BookShelfBookList from './BookShelfBookList'
 import { LIBRARY_DETAIL_FRAME_CLASS, LibraryArrowButton, LibraryBottomNavigation, LibraryTitleHeader } from '@/components/shared/LibraryDetailNavigation'
 import type { BookShelfBook, BookShelfContext, BookShelfGroup } from './types'
@@ -40,6 +42,10 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   const selected = books.find((book) => book.id === selections[selectionKey]) ?? books[0]
   const setSelectedId = (id: string) => setSelections((current) => ({ ...current, [selectionKey]: id }))
   const selectedContentId = selected?.id
+  const selectedIndex = books.findIndex((book) => book.id === selectedContentId)
+  const nextBook = books.length > 1 ? books[(selectedIndex + 1) % books.length] : undefined
+  const detailRef = useRef<HTMLDivElement>(null)
+  const revealIdRef = useRef<string | null>(null)
   const contentIds = useMemo(() => books.map(book => book.id), [books])
   const showReview = context?.kind === 'read' && !!context.personId && !!selected?.readingRecord
   const closeList = useCallback(() => onListOpenChange(false), [onListOpenChange])
@@ -59,6 +65,35 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
     return () => { alive = false }
   }, [selectedContentId, needsDetails, locale, detailKey, attempt, current])
 
+  useEffect(() => {
+    if (!nextBook) return
+    if (nextBook.thumbnailUrl) { const image = new Image(); image.src = nextBook.thumbnailUrl }
+    if (context?.kind === 'read' && context.personId && nextBook.readingRecord) return
+    let alive = true
+    prefetchBookShelfPeople(nextBook.id, locale)
+    const key = `${locale}:${nextBook.id}`
+    const request = nextBook.detailsLoaded ? Promise.resolve(nextBook) : requestBook(nextBook.id, locale)
+    void request.then((book) => {
+      if (!book) return
+      if (alive && !nextBook.detailsLoaded) setDetails((value) => ({ ...value, [key]: { book, failed: false } }))
+      const edition = book.editions.find((item) => item.id === (nextBook.preferredEditionId ?? book.preferredEditionId)) ?? book.editions[0]
+      const thumbnail = edition?.thumbnailUrl ?? book.thumbnailUrl
+      if (thumbnail && thumbnail !== nextBook.thumbnailUrl) { const image = new Image(); image.src = thumbnail }
+      prefetchBookIntroduction(edition?.bookIntroduction ?? book.bookIntroduction, locale, edition?.description ?? book.description)
+    }).catch(() => {})
+    return () => { alive = false }
+  }, [nextBook, locale, context?.kind, context?.personId])
+
+  useLayoutEffect(() => {
+    if (revealIdRef.current !== selectedContentId) { revealIdRef.current = null; return }
+    revealIdRef.current = null
+    const detail = detailRef.current
+    if (!detail) return
+    const limit = topOverlayBottom(detail) + 8
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    window.scrollTo({ top: window.scrollY + detail.getBoundingClientRect().top - limit, behavior })
+  }, [selectedContentId])
+
   if (!selected) return null
   const source = current?.book
     ? { ...current.book, title: selected.title, preferredEditionId: selected.preferredEditionId ?? current.book.preferredEditionId, readerIds: selected.readerIds }
@@ -72,9 +107,14 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
     worksByEdition.set(key, ids)
   }
   const sharedEditionKeys = new Set([...worksByEdition].filter(([, ids]) => ids.size > 1).map(([key]) => key))
-  const selectedIndex = books.findIndex((book) => book.id === selected.id)
-  const goPrevious = () => setSelectedId(books[(selectedIndex - 1 + books.length) % books.length].id)
-  const goNext = () => setSelectedId(books[(selectedIndex + 1) % books.length].id)
+  const navigate = (offset: number) => {
+    if (books.length <= 1) return
+    const id = books[(selectedIndex + offset + books.length) % books.length].id
+    revealIdRef.current = id
+    setSelectedId(id)
+  }
+  const goPrevious = () => navigate(-1)
+  const goNext = () => navigate(1)
   const disabled = books.length <= 1
   const previousLabel = t('records.previous')
   const nextLabel = t('records.next')
@@ -82,7 +122,7 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
   return (
     <div data-bookshelf-selection>
       {listOpen && <BookShelfBookList selectionKey={selectionKey} title={t('bookShelfBookList')} subtitle={listSubtitle ?? intro} books={books} selectedId={selected.id} onSelect={setSelectedId} onClose={closeList} pagination={pagination} categoryPicker={categoryPicker} indexId={indexId} />}
-      <div className={LIBRARY_DETAIL_FRAME_CLASS} data-bookshelf-detail>
+      <div ref={detailRef} className={LIBRARY_DETAIL_FRAME_CLASS} data-bookshelf-detail>
         <LibraryArrowButton direction="previous" label={previousLabel} disabled={disabled} placement="desktop" onClick={goPrevious} testPrefix="bookshelf" />
         <LibraryTitleHeader title={selected.title} creator={selected.creator?.replace(/\^/g, ', ') ?? null}
           previousLabel={previousLabel} nextLabel={nextLabel} disabled={disabled} onPrevious={goPrevious} onNext={goNext} testPrefix="bookshelf"
