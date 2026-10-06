@@ -11,7 +11,9 @@ import FactionArtworkHelp from "./FactionArtworkHelp";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-image";
 import FactionSceneNavigator from "./FactionSceneNavigator";
-import FactionSceneText, { SCENE_DIALOGUE_LINE } from "./FactionSceneText";
+import FactionSceneText from "./FactionSceneText";
+import FactionStoryCaption from "./FactionStoryCaption";
+import { splitSceneCaptionPages } from "./sceneCaptionPages";
 import FactionCaptionSize, { CAPTION_SIZE_CLASSES, type CaptionSize } from "./FactionCaptionSize";
 import FactionCaptionHeight, { CAPTION_HEIGHT_OFFSETS, type CaptionHeight } from "./FactionCaptionHeight";
 import { usePreloadImages } from "@/hooks/usePreloadImages";
@@ -22,19 +24,6 @@ const PRELOAD_AHEAD = 2;
 /* 줌 모드의 휠 배율 — 커서 지점을 고정해 키우고 줄인다 */
 const MAX_ZOOM = 10;
 const WHEEL_ZOOM_STEP = 1.35;
-
-/* 자막 한 쪽 = 문장 하나. 대사 줄(「화자: "…"」)은 한 호흡이라 통째로 두고, 서술 줄은 문장 경계마다 쪼갠다 */
-function splitSceneCaptionPages(caption: string): string[] {
-  const pages: string[] = [];
-  for (const line of caption.split(/\r?\n/)) {
-    const trimmed = line.trim();
-    if (!trimmed) continue;
-    if (SCENE_DIALOGUE_LINE.test(trimmed)) { pages.push(trimmed); continue; }
-    const sentences = trimmed.match(/[^.!?。…]+(?:[.!?。…]+[”’"'」』》]*|$)/g)?.map(sentence => sentence.trim()).filter(Boolean);
-    pages.push(...(sentences && sentences.length > 0 ? sentences : [trimmed]));
-  }
-  return pages;
-}
 
 interface Props {
   images: { url: string; label?: string | null; caption?: string | null; kind?: 'scene'; ending?: LocalizedSceneEnding }[];
@@ -262,7 +251,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     pendingNavigationAnimation.current = null;
     if (!pending || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const element = pending.target === "caption" ? captionBoxRef.current
-      : viewerBodyRef.current?.querySelector<HTMLElement>("[data-artwork-current] img, [data-scene-ending]");
+      : viewerBodyRef.current?.querySelector<HTMLElement>("[data-artwork-current] img, [data-scene-ending]:not([aria-hidden])");
     const animation = element?.animate([
       { opacity: 0.65, transform: `translateX(${pending.direction * 12}px)` },
       { opacity: 1, transform: "translateX(0)" },
@@ -453,7 +442,9 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
      칠해진 그림 영역과 같은 비율의 상자를 만들고 거기에 제목을 얹는다(cqh = 본문 컨테이너 높이) */
   /* 그림이 없는 마지막 장면 — 트랙의 한 칸이라 밀면 옆 장면처럼 함께 들어오고 나간다 */
   const endingSlide = ending && (
-    <div data-scene-ending data-wheel-pass className="h-full overflow-y-auto overscroll-contain">
+    <div data-scene-ending data-wheel-pass aria-hidden={!isEnding || undefined}
+      className="absolute top-0 h-full w-full overflow-y-auto overscroll-contain"
+      style={{ left: `${(Math.abs(images.length - index) <= 1 ? images.length - index : 2) * 100}%` }}>
       <article className="mx-auto flex min-h-full w-full max-w-2xl flex-col justify-center px-6 py-10 text-center sm:px-10">
         <p className="mb-5 text-xs tracking-[0.3em] text-accent">ENDING</p>
         <h3 className="mb-8 break-keep text-2xl font-bold text-text-primary sm:text-3xl md:text-balance">{ending.title}</h3>
@@ -465,7 +456,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   );
   /* 헤더 칸 — 장면은 장면 제목, 엔딩은 엔딩 제목, 비장면 그림은 그 그림의 이름(없으면 뷰어 제목)이 서고 누르면 장면 바로가기가 열린다.
      타이틀아트는 제목을 그림 안에도 그리지만 헤더 중앙 자리는 비우지 않는다 — 전체화면에서 목록 역할은 헤더가 쥔다 */
-  const headerLabel = isEnding ? ending?.title : (isScene ? image.label : (image.label ?? title));
+  const headerLabel = isEnding ? ending?.title : (image.label ?? title);
   const headerNumber = isEnding ? "ENDING" : index + 1;
 
   /* 자막 전체를 클립보드에 적는다 — 성공하면 칩이 「복사됨」으로 잠시 바뀐다 */
@@ -487,7 +478,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
         className="fixed inset-0 flex flex-col bg-bg-main" style={{ zIndex }}>
         {/* 제목은 좌우 폭이 같은 칸 사이에 둔다. 모바일은 제목을 별도 행에 놓아 조작 버튼과 겹치지 않는다. */}
         <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-b border-white/10 px-2 py-1 md:h-12 md:grid-cols-[minmax(9rem,1fr)_minmax(0,3fr)_minmax(9rem,1fr)] md:py-0">
-          <span data-scene-counter aria-live="polite" className="col-start-1 row-start-2 justify-self-start rounded-md bg-black/60 px-2 py-0.5 text-xs tabular-nums text-white/90 md:row-start-1">
+          <span data-scene-counter translate="no" aria-live="polite" className="col-start-1 row-start-2 justify-self-start rounded-md bg-black/60 px-2 py-0.5 text-xs tabular-nums text-white/90 md:row-start-1">
             {index + 1} / {slideCount}
           </span>
           {headerLabel ? (
@@ -495,13 +486,23 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
               <button type="button" data-scene-title aria-haspopup="dialog" aria-label={`${headerNumber} ${headerLabel} · ${t("selectImage")}`}
                 onClick={() => setNavigatorOpen(true)}
                 className="col-span-2 col-start-1 row-start-1 inline-flex min-w-0 max-w-full items-center justify-self-center gap-2 rounded-lg px-2 py-1.5 text-sm font-semibold text-text-primary outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:col-span-1 md:col-start-2">
-                <span className="shrink-0 tabular-nums text-accent">{headerNumber}</span>
-                <span className="truncate">{headerLabel}</span>
+                <span translate="no" className="shrink-0 tabular-nums text-accent">{headerNumber}</span>
+                <span className="relative block min-w-0 overflow-hidden">
+                  {[...images.map(item => item.label ?? title), ...(ending ? [ending.title] : [])].map((label, labelIndex) =>
+                    <span key={labelIndex} data-story-title={labelIndex} aria-hidden={labelIndex !== index || undefined}
+                      className={labelIndex === index ? "block truncate" : "pointer-events-none absolute top-0 block w-full"}
+                      style={labelIndex === index ? undefined : { left: "200%" }}>{label}</span>)}
+                </span>
               </button>
             ) : (
               <span data-scene-title className="col-span-2 col-start-1 row-start-1 inline-flex min-w-0 max-w-full items-center justify-self-center gap-2 px-2 py-1.5 text-sm font-semibold text-text-primary md:col-span-1 md:col-start-2">
-                <span className="shrink-0 tabular-nums text-accent">{headerNumber}</span>
-                <span className="truncate">{headerLabel}</span>
+                <span translate="no" className="shrink-0 tabular-nums text-accent">{headerNumber}</span>
+                <span className="relative block min-w-0 overflow-hidden">
+                  {[...images.map(item => item.label ?? title), ...(ending ? [ending.title] : [])].map((label, labelIndex) =>
+                    <span key={labelIndex} data-story-title={labelIndex} aria-hidden={labelIndex !== index || undefined}
+                      className={labelIndex === index ? "block truncate" : "pointer-events-none absolute top-0 block w-full"}
+                      style={labelIndex === index ? undefined : { left: "200%" }}>{label}</span>)}
+                </span>
               </span>
             )
           ) : <span className="col-span-2 col-start-1 row-start-1 md:col-span-1 md:col-start-2" aria-hidden />}
@@ -541,18 +542,18 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
             /* 밀기 중에는 transition을 끊어 손끝에 붙고, 놓으면 160ms로 마저 간다. 옆자리 그림·엔딩이 ±100%에서 따라 들어온다 */
             onTransitionEnd={finishSlide}
             style={{ transform: `translateX(${dragX}px)`, transition: slideAnim ? "transform 160ms ease-out" : "none" }}>
+            {endingSlide}
             {[-1, 0, 1].map(offset => {
               const slideIndex = index + offset;
               const item = images[slideIndex];
-              const endingHere = ending != null && slideIndex === images.length;
-              if (!item && !endingHere) return null;
+              if (!item) return null;
               return (
                 <div key={item?.url ?? "ending"} className="absolute top-0 h-full w-full" data-artwork-current={offset === 0 || undefined}
                   style={offset === 0
                     ? { left: 0, transform: `translate(${zoomView.x}px, ${zoomView.y}px) scale(${zoomView.scale})`, transformOrigin: "center", transition: panning ? "none" : "transform 150ms" }
                     : { left: `${offset * 100}%` }}>
-                  {endingHere ? endingSlide : item ? (offset === 0 ? artwork :
-                    ((offset > 0 && imageRatio) || ratios[item.url]) ? slideImage(item) : null) : null}
+                  {offset === 0 ? artwork :
+                    ((offset > 0 && imageRatio) || ratios[item.url]) ? slideImage(item) : null}
                 </div>
               );
             })}
@@ -563,64 +564,45 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
               <FactionArtworkTitle title={title} heading />
             </div>
           )}
-          {/* 자막을 누르면 텍스트 선택 모드 — 화면이 어두워지고 전체 해설이 선택 가능한 글로 선다. 배경 눌림·Esc·닫기로 돌아간다 */}
-          {isScene && !isEnding && image.caption && captionSelect && (
-            <div data-artwork-caption-frame data-caption-swipe data-wheel-pass onClick={(event) => { if (event.target === event.currentTarget) setCaptionSelect(false); }}
-              className="absolute inset-0 z-20 flex flex-col justify-end bg-black/60">
-              <div className="mx-auto w-full max-w-3xl px-4 pb-4 md:px-6">
-                <div className="mb-2 flex justify-end gap-1.5">
-                  <button type="button" data-caption-copy onClick={copyCaption}
-                    aria-label={t("captionCopy")}
-                    className="flex items-center gap-1.5 rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-xs font-medium text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-                    {captionCopied ? <Check size={14} className="text-accent" /> : <Copy size={14} />}{captionCopied ? t("captionCopied") : t("captionCopy")}
-                  </button>
-                  <button type="button" data-caption-select-close onClick={() => setCaptionSelect(false)} aria-label={tAccess("close")}
-                    className="flex min-h-8 min-w-8 items-center justify-center rounded-full border border-white/25 bg-black/75 px-2 text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
-                    <X size={14} />
-                  </button>
-                </div>
-                <p data-artwork-caption className={`max-h-[60dvh] cursor-text select-text overflow-y-auto overscroll-contain whitespace-pre-line break-keep rounded-xl border border-white/15 bg-black/80 p-4 leading-relaxed text-white [overflow-wrap:anywhere] ${captionSizeClass}`}>
-                  <FactionSceneText text={image.caption} />
-                </p>
-              </div>
-            </div>
-          )}
-          {/* 자막 분량과 글자 크기는 독립 설정이다. 누르면 선택·복사를 연다. */}
-          {isScene && !isEnding && image.caption && !captionSelect && !captionSplit && (
-            <div data-artwork-caption-frame data-wheel-pass style={{ bottom: captionBottom }} className={`absolute inset-x-0 z-10 max-h-[55%] overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10 ${captionBackdropClass}`}>
-              <button type="button" data-artwork-caption onClick={() => setCaptionSelect(true)} title={t("captionSelect")}
-                className={`mx-auto block w-full max-w-3xl whitespace-pre-line break-keep text-center leading-relaxed text-white outline-none [overflow-wrap:anywhere] md:text-balance ${captionSizeClass}`}>
-                <FactionSceneText text={image.caption} />
-              </button>
-            </div>
-          )}
-          {isScene && !isEnding && image.caption && !captionSelect && captionSplit && (
-            <div data-artwork-caption-frame data-caption-swipe data-wheel-pass {...captionSwipeHandlers} style={{ touchAction: "pan-y", bottom: captionBottom, maxHeight: `calc(100% - ${captionBottom})` }}
-              className={`absolute inset-x-0 z-10 overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10 ${captionBackdropClass}`}>
-              {captionPages.length > 1 && (
-                <p data-scene-caption-counter className="mb-1 text-center text-xs tabular-nums text-white/50">{captionPage + 1} / {captionPages.length}</p>)}
-              <div className="mx-auto w-full max-w-3xl">
-                <button type="button" data-artwork-caption onClick={() => setCaptionSelect(true)} aria-live="polite"
-                  title={t("captionSelect")}
-                  className={`relative block max-h-[38dvh] w-full min-w-0 overflow-x-hidden overflow-y-auto overscroll-contain whitespace-pre-line break-keep py-1 text-center font-medium leading-relaxed text-white outline-none [overflow-wrap:anywhere] [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent [&::-webkit-scrollbar]:hidden md:text-balance ${captionSizeClass}`}>
-                  {/* 이웃 쪽은 ±100% 자리에서 따라 들어온다 — 현재 쪽만 흐름에 놓아 높이를 정한다 */}
-                  <span ref={captionBoxRef} onTransitionEnd={finishCaptionSlide} className="relative block"
-                    style={{ transform: `translateX(${captionDragX}px)`, transition: captionSlideAnim ? "transform 160ms ease-out" : "none" }}>
-                    {[-1, 0, 1].map(offset => {
-                      const pageText = captionPages[captionPage + offset];
-                      if (pageText === undefined) return null;
-                      return (
-                        <span key={captionPage + offset} className={offset === 0 ? "block" : "absolute top-0 block w-full"}
-                          style={offset === 0 ? undefined : { left: `${offset * 100}%` }}>
-                          <FactionSceneText text={pageText} />
-                        </span>
-                      );
-                    })}
-                  </span>
+          {/* 해설 DOM은 분할·전체·선택 모드와 장면 이동 모두에서 유지한다. */}
+          <div data-artwork-caption-frame data-caption-swipe data-wheel-pass
+            aria-hidden={!isScene || isEnding || !image.caption || undefined}
+            {...(!captionSelect && captionSplit ? captionSwipeHandlers : {})}
+            onClick={(event) => { if (captionSelect && event.target === event.currentTarget) setCaptionSelect(false); }}
+            style={{ touchAction: "pan-y", bottom: captionSelect ? 0 : captionBottom,
+              left: isScene && !isEnding && image.caption ? 0 : "200%",
+              maxHeight: captionSelect ? undefined : `calc(100% - ${captionBottom})` }}
+            className={captionSelect
+              ? "absolute top-0 z-20 flex w-full flex-col justify-end bg-black/60"
+              : `absolute z-10 w-full overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10 ${captionBackdropClass}`}>
+            <div className={`mx-auto w-full max-w-3xl ${captionSelect ? "px-4 pb-4 md:px-6" : ""}`}>
+              {captionSelect && <div className="mb-2 flex justify-end gap-1.5">
+                <button type="button" data-caption-copy onClick={copyCaption} aria-label={t("captionCopy")}
+                  className="flex items-center gap-1.5 rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-xs font-medium text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+                  {captionCopied ? <Check size={14} className="text-accent" /> : <Copy size={14} />}<span>{captionCopied ? t("captionCopied") : t("captionCopy")}</span>
                 </button>
+                <button type="button" data-caption-select-close onClick={() => setCaptionSelect(false)} aria-label={tAccess("close")}
+                  className="flex min-h-8 min-w-8 items-center justify-center rounded-full border border-white/25 bg-black/75 px-2 text-white outline-none hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+                  <X size={14} />
+                </button>
+              </div>}
+              {!captionSelect && captionSplit && captionPages.length > 1 && (
+                <p data-scene-caption-counter translate="no" className="mb-1 text-center text-xs tabular-nums text-white/50">{captionPage + 1} / {captionPages.length}</p>)}
+              <div data-artwork-caption role={captionSelect ? undefined : "button"}
+                tabIndex={!captionSelect && isScene && !isEnding && image.caption ? 0 : -1}
+                onClick={() => { if (!captionSelect) setCaptionSelect(true); }}
+                onKeyDown={(event) => { if (!captionSelect && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); setCaptionSelect(true); } }}
+                aria-live={captionSelect ? undefined : "polite"} title={t("captionSelect")}
+                className={`relative w-full min-w-0 whitespace-pre-line break-keep text-center leading-relaxed text-white outline-none [overflow-wrap:anywhere] md:text-balance ${captionSizeClass} ${captionSelect
+                  ? "max-h-[60dvh] cursor-text select-text overflow-x-hidden overflow-y-auto overscroll-contain rounded-xl border border-white/15 bg-black/80 p-4"
+                  : captionSplit ? "max-h-[38dvh] cursor-pointer overflow-x-hidden overflow-y-auto overscroll-contain py-1 font-medium hover:text-accent [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent [&::-webkit-scrollbar]:hidden"
+                  : "max-h-[45dvh] cursor-pointer overflow-x-hidden overflow-y-auto overscroll-contain hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"}`}>
+                <FactionStoryCaption images={images} index={index} page={captionPage} split={captionSplit} selecting={captionSelect}
+                  boxRef={captionBoxRef} onTransitionEnd={finishCaptionSlide}
+                  style={{ transform: `translateX(${captionSelect ? 0 : captionDragX}px)`, transition: captionSlideAnim ? "transform 160ms ease-out" : "none" }} />
               </div>
             </div>
-          )}
+          </div>
           {/* 빈 여백 전체가 클릭 영역이다. 화살표는 별도로 화면 가장자리에 고정해 영역 폭이 달라져도 움직이지 않는다. */}
           {hasNavigation && (
             <button type="button" onClick={() => navigate(-1)} disabled={!canPrevious} aria-label={previousLabel}
