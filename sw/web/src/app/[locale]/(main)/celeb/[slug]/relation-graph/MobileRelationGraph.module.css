@@ -9,7 +9,7 @@
   .back:focus-visible { outline: 2px solid var(--material-accent); outline-offset: 3px; }
   .focusTitle { display: flex; align-items: center; gap: 7px; color: var(--relation-tone); font-size: 13px; font-weight: 750; }
   .focusTitle small { font: 600 12px/1 ui-monospace, monospace; }
-  .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 216px; align-content: start; gap: 12px 8px; padding-block: 14px; overflow-anchor: none; touch-action: pan-y; user-select: none; }
+  .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: 6px; padding-block: 6px; overflow-anchor: none; touch-action: pan-y; user-select: none; }
   .face { position: relative; display: grid; width: 64px; height: 88px; place-items: center; flex: 0 0 auto; overflow: hidden; border-radius: 0; color: var(--material-muted); background: var(--material-deep); border: 1px solid color-mix(in srgb, var(--relation-tone) 32%, var(--material-edge)); }
   .face img { width: 100%; height: 100%; object-fit: cover; }
   .branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding-block: 4px 8px; }
@@ -20,8 +20,8 @@
   .branch:not(:disabled):active { background: color-mix(in srgb, var(--relation-tone) 16%, var(--material-deep)); }
   .branch:disabled { border-color: color-mix(in srgb, var(--material-edge) 40%, transparent); color: color-mix(in srgb, var(--material-muted) 40%, transparent); cursor: default; }
   .branch:focus-visible { outline: 2px solid var(--relation-tone); outline-offset: 3px; }
-  .person { display: flex; min-width: 0; min-height: 88px; padding: 3px 0; align-items: center; flex-direction: column; gap: 8px; border: 0; border-radius: 8px; background: transparent; color: var(--material-muted); cursor: pointer; }
-  .person strong { display: -webkit-box; max-width: 100%; min-height: 32px; padding: 0 3px; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 12px; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+  .person { display: flex; min-width: 0; padding: 2px 0; align-items: center; flex-direction: column; gap: 4px; border: 0; border-radius: 8px; background: transparent; color: var(--material-muted); cursor: pointer; }
+  .person strong { display: -webkit-box; max-width: 100%; padding: 0 3px; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 12px; font-weight: 600; line-height: 16px; overflow-wrap: anywhere; }
   .person:hover, .person[aria-pressed="true"] { color: var(--relation-tone); background: color-mix(in srgb, var(--relation-tone) 6%, transparent); }
   .person:active { background: color-mix(in srgb, var(--relation-tone) 12%, transparent); }
   .person:hover .face, .person[aria-pressed="true"] .face { border-color: var(--relation-tone); }
@@ -33,6 +33,8 @@
   .pager button:focus-visible { outline: 2px solid var(--relation-tone); outline-offset: -3px; }
   .pager > span { min-width: 100px; text-align: center; font: 650 12px/1 ui-monospace, monospace; color: var(--relation-tone); }
   .pager small { color: var(--material-muted); font-size: inherit; }
-  .detail { padding: 16px 0 12px; overflow-anchor: none; }
+  .detail { padding: 10px 0; overflow-anchor: none; }
   .detail .personRow { grid-template-columns: minmax(0, 1fr); }
+  .personRow :global([data-figure-person-row]) { padding: 12px; }
+  .personRow :global([data-figure-person-portrait]) { width: 48px; height: 66px; border-radius: 0; }
 }
