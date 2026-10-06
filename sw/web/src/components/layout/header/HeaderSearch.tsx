@@ -30,7 +30,7 @@ export default function HeaderSearch() {
   const {
     containerRef, mobileContainerRef, inputRef,
     isOpen, setIsOpen, isModeOpen, setIsModeOpen,
-    mode, contentCategory, query, setQuery,
+    mode, contentCategory, query, setQuery, bookLanguage, setBookLanguage, error,
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
     handleSearch, handleResultClick, handleCelebLinkClick, handleAddContent, handleOpenInNewTab,
@@ -130,6 +130,8 @@ export default function HeaderSearch() {
             }}
             mode={mode}
             contentCategory={contentCategory}
+            bookLanguage={bookLanguage}
+            onBookLanguageChange={setBookLanguage}
             onModeChange={handleModeChange}
             onCategoryChange={handleCategoryChange}
             onClose={() => setIsModeOpen(false)}
@@ -170,6 +172,7 @@ export default function HeaderSearch() {
         {isOpen && (
           <SearchResultsDropdown
             isLoading={isLoading}
+            error={error}
             query={query}
             results={results}
             recentSearches={recentSearches}
@@ -229,7 +232,9 @@ export default function HeaderSearch() {
             if (!isModeOpen) setIsOpen(false);
           }}
           mode={mode}
-          contentCategory={contentCategory}
+            contentCategory={contentCategory}
+            bookLanguage={bookLanguage}
+            onBookLanguageChange={setBookLanguage}
           onModeChange={handleModeChange}
           onCategoryChange={handleCategoryChange}
           onClose={() => setIsModeOpen(false)}
@@ -286,6 +291,7 @@ export default function HeaderSearch() {
       {isOpen && (
         <SearchResultsDropdown
           isLoading={isLoading}
+            error={error}
           query={query}
           results={results}
           recentSearches={recentSearches}

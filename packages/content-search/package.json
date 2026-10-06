@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./book-search": "./src/book-search.ts",
+    "./book-search-language": "./src/book-search-language.ts",
+    "./openlibrary-search": "./src/openlibrary-search.ts",
     "./book-isbn": "./src/book-isbn.ts",
     "./kakao-books": "./src/kakao-books.ts",
     "./book-introduction": "./src/book-introduction.ts",

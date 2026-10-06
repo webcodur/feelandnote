@@ -11,6 +11,7 @@ import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { resolveExternalBookInput } from '@feelandnote/content-search/external-book-input'
 import { toIsbn13 } from '@feelandnote/content-search/book-isbn'
+import { getEnglishBookMetadataCached } from '@/lib/books/bookSearch.server'
 
 interface AddContentParams {
   id: string                    // 기존 contents.id 또는 외부 API ID (ISBN, TMDB ID 등)
@@ -103,7 +104,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
           externalId: params.id, externalSource: params.externalSource ?? '',
           title: params.title, creator: params.creator ?? '', coverImageUrl: params.thumbnailUrl ?? null,
           metadata: params.metadata ?? {},
-        })
+        }, { getEnglishBookMetadata: getEnglishBookMetadataCached })
       } catch (cause) {
         return failure('VALIDATION_ERROR', cause instanceof Error ? cause.message : '공식 공급처에서 도서 판본을 확인하지 못했습니다.')
       }

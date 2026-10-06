@@ -6,8 +6,11 @@
 
 "use client";
 
-import { useState, useEffect, useTransition, useCallback } from "react";
+import { useState, useEffect, useTransition, useCallback, useRef } from "react";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import type { BookSearchLanguage } from "@feelandnote/content-search/book-search-language";
+import { useBookSearchLanguage } from '@/hooks/useBookSearchLanguage';
 import { useSearchParams } from "next/navigation";
 import { searchContents, searchUsers, searchTags, searchRecords, searchFactions } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
@@ -22,10 +25,23 @@ import { categoryToContentType, type SearchMode, type ContentResult } from "./se
 export function useSearch() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const tError = useTranslations("actionErrors");
+  const { bookLanguage: preferredLanguage, setBookLanguage: saveBookLanguage, canSelectBookLanguage } = useBookSearchLanguage();
 
   const modeParam = (searchParams.get("mode") as SearchMode) || "content";
   const categoryParam = (searchParams.get("category") as CategoryId) || "book";
   const queryParam = searchParams.get("q") || "";
+  const languageParam = searchParams.get('bookLanguage');
+  const bookLanguage = canSelectBookLanguage && (languageParam === 'ko' || languageParam === 'en') ? languageParam : preferredLanguage;
+  useEffect(() => {
+    if (canSelectBookLanguage && (languageParam === 'ko' || languageParam === 'en')) saveBookLanguage(languageParam);
+  }, [canSelectBookLanguage, languageParam, saveBookLanguage]);
+  const searchKey = `${modeParam}:${categoryParam}:${queryParam}:${bookLanguage}`;
+  const activeSearch = useRef(searchKey);
+  activeSearch.current = searchKey;
+  const [searchError, setSearchError] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [retryVersion, setRetryVersion] = useState(0);
 
   const [category, setCategory] = useState<CategoryId>(categoryParam);
   const [sortBy, setSortBy] = useState("relevance");
@@ -63,10 +79,11 @@ export function useSearch() {
     init();
   }, []);
 
-  const updateUrl = (newCategory: CategoryId) => {
+  const updateUrl = (newCategory: CategoryId, language: BookSearchLanguage = bookLanguage) => {
     const params = new URLSearchParams();
     params.set("mode", modeParam);
     params.set("category", newCategory);
+    if (canSelectBookLanguage && newCategory === 'book') params.set('bookLanguage', language);
     if (queryParam) params.set("q", queryParam);
     router.push(`/search?${params.toString()}`);
   };
@@ -82,19 +99,24 @@ export function useSearch() {
     setFactionResults([]);
     setTotalCount(0);
     setUserCounts({});
-  }, [queryParam, modeParam, categoryParam]);
+    setSearchError(false);
+    setActionError(null);
+    setIsLoadingMore(false);
+  }, [queryParam, modeParam, categoryParam, bookLanguage]);
 
   // 초기 검색
   useEffect(() => {
-    if (!queryParam) return;
+    if (!queryParam) { setIsLoading(false); return; }
     setIsLoading(true);
+    setSearchError(false);
     let cancelled = false;
 
     const performSearch = async () => {
       try {
         if (modeParam === "content") {
-          const data = await searchContents({ query: queryParam, category: categoryParam, page: 1 });
+          const data = await searchContents({ query: queryParam, category: categoryParam, page: 1, bookLanguage });
           if (!cancelled) {
+            if (data.error) { setSearchError(true); return; }
             setContentResults(data.items);
             setTotalCount(data.total);
             setHasMore(data.hasMore);
@@ -136,6 +158,7 @@ export function useSearch() {
         }
       } catch (error) {
         console.error("검색 에러:", error);
+        if (!cancelled) setSearchError(true);
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -143,7 +166,7 @@ export function useSearch() {
 
     performSearch();
     return () => { cancelled = true; };
-  }, [queryParam, modeParam, categoryParam, category]);
+  }, [queryParam, modeParam, categoryParam, category, bookLanguage, retryVersion]);
 
   // 기존 콘텐츠의 metadata 자동 업데이트 (백그라운드)
   useEffect(() => {
@@ -170,17 +193,21 @@ export function useSearch() {
     setIsLoadingMore(true);
 
     const nextPage = page + 1;
+    const requestKey = searchKey;
+    setSearchError(false);
 
     try {
       if (modeParam === "content") {
-        const data = await searchContents({ query: queryParam, category: categoryParam, page: nextPage });
-        setContentResults((prev) => [...prev, ...data.items]);
+        const data = await searchContents({ query: queryParam, category: categoryParam, page: nextPage, bookLanguage });
+        if (activeSearch.current !== requestKey) return;
+        if (data.error) { setSearchError(true); return; }
+        setContentResults((prev) => [...prev, ...data.items.filter(item => !prev.some(existing => existing.id === item.id))]);
         setHasMore(data.hasMore);
         // 추가 로드된 항목의 user_count 조회
         if (data.items.length > 0) {
           const ids = data.items.map((item) => item.id);
           const counts = await getContentUserCounts(ids);
-          setUserCounts((prev) => ({ ...prev, ...counts }));
+          if (activeSearch.current === requestKey) setUserCounts((prev) => ({ ...prev, ...counts }));
         }
       } else if (modeParam === "records") {
         const data = await searchRecords({ query: queryParam, category: category, page: nextPage });
@@ -199,13 +226,14 @@ export function useSearch() {
         setTagResults((prev) => [...prev, ...data.items]);
         setHasMore(data.hasMore);
       }
-      setPage(nextPage);
+      if (activeSearch.current === requestKey) setPage(nextPage);
     } catch (error) {
       console.error("더보기 에러:", error);
+      if (activeSearch.current === requestKey) setSearchError(true);
     } finally {
-      setIsLoadingMore(false);
+      if (activeSearch.current === requestKey) setIsLoadingMore(false);
     }
-  }, [isLoadingMore, hasMore, page, modeParam, queryParam, categoryParam, category]);
+  }, [isLoadingMore, hasMore, page, modeParam, queryParam, categoryParam, category, bookLanguage, searchKey]);
 
   // Link 이동 전 콜백 (현재 미사용)
   const handleBeforeNavigate = () => {
@@ -215,6 +243,7 @@ export function useSearch() {
   const handleAddContent = (item: ContentResult) => {
     if (addingIds.has(item.id) || addedIds.has(item.id)) return;
 
+    setActionError(null);
     setAddingIds((prev) => new Set(prev).add(item.id));
 
     startTransition(async () => {
@@ -226,7 +255,7 @@ export function useSearch() {
         const subtype = "subtype" in item ? (item.subtype as string) : undefined;
         const externalSource = "externalSource" in item ? (item.externalSource as string) : undefined;
 
-        await addContent({
+        const result = await addContent({
           id: item.id,
           type: categoryToContentType(item.category),
           title: item.title,
@@ -238,10 +267,12 @@ export function useSearch() {
           subtype,
           externalSource,
         });
+        if (!result.success) { setActionError(tError(result.error)); return; }
         setAddedIds((prev) => new Set(prev).add(item.id));
         setSavedIds((prev) => new Set(prev).add(item.id));
       } catch (err) {
         console.error("추가 실패:", err);
+        setActionError(tError("UNKNOWN_ERROR"));
       } finally {
         setAddingIds((prev) => {
           const next = new Set(prev);
@@ -254,6 +285,12 @@ export function useSearch() {
 
   return {
     router,
+    bookLanguage,
+    setBookLanguage: (language: BookSearchLanguage) => { saveBookLanguage(language); updateUrl(category, language); },
+    addingIds,
+    searchError,
+    actionError,
+    retrySearch: () => setRetryVersion(value => value + 1),
     modeParam,
     queryParam,
     category,

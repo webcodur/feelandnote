@@ -7,6 +7,8 @@ import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
+import BookSearchLanguageSelect from '@/components/shared/search/BookSearchLanguageSelect';
+import type { BookSearchLanguage } from '@feelandnote/content-search/book-search-language';
 import { useTranslations } from "next-intl";
 
 interface HomeSearchAreaProps {
@@ -21,6 +23,9 @@ interface HomeSearchAreaProps {
     showDropdown?: boolean;
     searchLabel?: string;
     options?: { value: CategoryId; label: string }[];
+    searchError?: string | null;
+    bookLanguage?: BookSearchLanguage;
+    onBookLanguageChange?: (language: BookSearchLanguage) => void;
 }
 
 export function HomeSearchArea({
@@ -34,7 +39,7 @@ export function HomeSearchArea({
     placeholder,
     showDropdown = true,
     searchLabel,
-    options
+    options, searchError, bookLanguage, onBookLanguageChange,
 }: HomeSearchAreaProps) {
     const t = useTranslations("quickRecord.search");
     const [isOpen, setIsOpen] = useState(false);
@@ -107,6 +112,9 @@ export function HomeSearchArea({
                     onChange={onCategoryChange}
                 />
 
+                {selectedCategory === 'book' && bookLanguage && onBookLanguageChange && (
+                    <BookSearchLanguageSelect value={bookLanguage} onChange={onBookLanguageChange} />
+                )}
             {/* 통합 검색바 — 폭은 위 필터가 정한 칸을 그대로 쓴다(w-full).
                 안쪽 input은 min-w-0으로 자기 기본 너비(약 200px)를 밀어붙이지 못하게 막는다.
                 이걸 빼면 w-max 칸이 input 기본값만큼 늘어나 필터보다 넓어진다 */}
@@ -128,7 +136,8 @@ export function HomeSearchArea({
                 {/* 검색 결과 드롭다운 */}
                 {showDropdown && isOpen && (query.length >= 2 || searchResults.length > 0) && (
                     <div className="absolute top-full left-0 right-0 mt-3 bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 text-left">
-                        {isSearching ? (
+                        {searchError && <p role="alert" className="p-4 text-sm text-text-primary">{searchError}</p>}
+                        {!searchError && (isSearching ? (
                             <div className="p-8 text-center">
                                 <Loader2 className="animate-spin mx-auto mb-2" />
                                 <span>{t("searching")}</span>
@@ -139,7 +148,7 @@ export function HomeSearchArea({
                                     <button
                                         key={result.id}
                                         onClick={() => handleItemClick(result)}
-                                        className="w-full flex items-center gap-4 p-4 hover:bg-white/5 transition-colors border-b border-white/5 last:border-none"
+                                        className="w-full flex items-center gap-4 p-4 hover:bg-white/5 border-b border-white/5 last:border-none"
                                     >
                                         <div className="relative w-10 h-14 bg-white/5 rounded overflow-hidden shrink-0">
                                             {result.thumbnail ? (
@@ -164,7 +173,7 @@ export function HomeSearchArea({
                             <div className="p-8 text-center">
                                 {t("noResults")}
                             </div>
-                        )}
+                        ))}
                     </div>
                 )}
             </div>

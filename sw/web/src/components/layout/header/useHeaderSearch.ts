@@ -3,6 +3,8 @@
 import { getCelebProfileUrl } from "@/lib/url";
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { useRouter, usePathname } from "@/i18n/navigation";
+import { getSearchContentHref, type BookSearchLanguage } from "@feelandnote/content-search/book-search-language";
+import { useBookSearchLanguage } from '@/hooks/useBookSearchLanguage';
 import { useTranslations } from "next-intl";
 import { searchContents, searchUsers, searchTags, searchRecords, searchCelebs, searchFactions } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
@@ -45,6 +47,9 @@ export function useHeaderSearch() {
   const t = useTranslations("searchResult");
   const tSearch = useTranslations("shared.search");
   const router = useRouter();
+  const { bookLanguage, setBookLanguage: saveBookLanguage, canSelectBookLanguage } = useBookSearchLanguage();
+  const [error, setError] = useState<string | null>(null);
+  const tError = useTranslations("actionErrors");
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
@@ -142,11 +147,13 @@ export function useHeaderSearch() {
   useEffect(() => {
     if (query.length < 2) {
       setResults([]);
+      setError(null);
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
+    setError(null);
     const abortController = new AbortController();
 
     const performSearch = async () => {
@@ -154,7 +161,8 @@ export function useHeaderSearch() {
         const searchResults: SearchResult[] = [];
 
         if (mode === "content") {
-          const data = await searchContents({ query, category: contentCategory, limit: 5 });
+          const data = await searchContents({ query, category: contentCategory, limit: 5, bookLanguage });
+          if (data.error) throw new Error("SEARCH_UNAVAILABLE");
           data.items.forEach((item) => {
             searchResults.push({
               id: item.id, type: "content", title: item.title, subtitle: item.creator,
@@ -213,6 +221,7 @@ export function useHeaderSearch() {
       } catch (error) {
         if (!abortController.signal.aborted) {
           console.error("검색 에러:", error);
+          setError(tSearch("searchUnavailable"));
           setResults([]);
           setIsLoading(false);
         }
@@ -224,7 +233,7 @@ export function useHeaderSearch() {
       clearTimeout(timer);
       abortController.abort();
     };
-  }, [query, mode, contentCategory, t, tSearch]);
+  }, [query, mode, contentCategory, bookLanguage, t, tSearch]);
   // #endregion
 
   // #region Keyboard Shortcuts
@@ -282,7 +291,7 @@ export function useHeaderSearch() {
       return;
     }
 
-    const categoryParam = mode === "content" ? `&category=${contentCategory}` : "";
+    const categoryParam = mode === "content" ? `&category=${contentCategory}${canSelectBookLanguage && contentCategory === 'book' ? `&bookLanguage=${bookLanguage}` : ''}` : "";
     router.push(`/search?mode=${mode}${categoryParam}&q=${encodeURIComponent(query.trim())}`);
     setIsOpen(false);
   };
@@ -291,7 +300,7 @@ export function useHeaderSearch() {
     saveRecentSearch(query.trim());
     if (result.type === "content") {
       const category = result.category || "book";
-      router.push(`/content/${result.id}?category=${category}`);
+      router.push(getSearchContentHref(result.id, category, bookLanguage));
     } else if (result.type === "celeb") {
       router.push(getCelebProfileUrl(result));
     } else if (result.type === "faction" && result.href) {
@@ -313,6 +322,7 @@ export function useHeaderSearch() {
 
   const handleAddContent = (result: SearchResult) => {
     if (addingIds.has(result.id) || addedIds.has(result.id)) return;
+    setError(null);
     setAddingIds((prev) => new Set(prev).add(result.id));
 
     startTransition(async () => {
@@ -330,12 +340,15 @@ export function useHeaderSearch() {
           externalSource: result.externalSource,
         });
         
+        if (!addResult.success) { setError(tError(addResult.error)); return; }
         if (addResult.success) {
             setAddedIds((prev) => new Set(prev).add(result.id));
             
             // 빠른 기록 패널 열기
             openQuickRecord({
                 id: addResult.data.userContentId, // member_contents.id 사용
+                contentId: addResult.data.contentId,
+                bookLanguage: result.category === 'book' ? bookLanguage : undefined,
                 type: categoryToContentType(result.category || "book"),
                 title: result.title,
                 thumbnailUrl: result.thumbnail,
@@ -344,6 +357,7 @@ export function useHeaderSearch() {
         }
       } catch (err) {
         console.error("추가 실패:", err);
+        setError(tError("UNKNOWN_ERROR"));
       } finally {
         setAddingIds((prev) => {
           const next = new Set(prev);
@@ -356,7 +370,7 @@ export function useHeaderSearch() {
 
   const handleOpenInNewTab = (result: SearchResult) => {
     const category = result.category || "book";
-    window.open(`/content/${result.id}?category=${category}`, "_blank");
+    window.open(getSearchContentHref(result.id, category, bookLanguage), "_blank");
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent) => {
@@ -423,7 +437,15 @@ export function useHeaderSearch() {
     containerRef, mobileContainerRef, inputRef,
     // State
     isOpen, setIsOpen, isModeOpen, setIsModeOpen,
-    mode, contentCategory, query, setQuery,
+    mode, contentCategory, query, setQuery, bookLanguage,
+    setBookLanguage: (language: BookSearchLanguage) => {
+      saveBookLanguage(language);
+      if (canSelectBookLanguage && pathname === '/search') {
+        const params = new URLSearchParams(window.location.search);
+        params.set('bookLanguage', language);
+        router.push(`/search?${params}`);
+      }
+    }, error,
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
     // Handlers

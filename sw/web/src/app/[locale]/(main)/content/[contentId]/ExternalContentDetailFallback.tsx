@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { getBookSearchLanguage } from '@feelandnote/content-search/book-search-language';
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import type { CategoryId } from "@/constants/categories";
@@ -14,7 +15,9 @@ export default function ExternalContentDetailFallback({ contentId }: { contentId
   const t = useTranslations("contentDetail");
   const rawCategory = searchParams.get("category") as CategoryId | null;
   const category = rawCategory && EXTERNAL_CATEGORIES.has(rawCategory) ? rawCategory : null;
-  const requestKey = category ? `${contentId}:${category}` : null;
+  const locale = useLocale();
+  const bookLanguage = getBookSearchLanguage(searchParams.get('bookLanguage') ?? locale);
+  const requestKey = category ? `${contentId}:${category}:${bookLanguage}` : null;
   const [result, setResult] = useState<{
     requestKey: string;
     data: ContentDetailData | null;
@@ -28,9 +31,12 @@ export default function ExternalContentDetailFallback({ contentId }: { contentId
       };
     }
 
-    void getContentDetail(contentId, category)
+    void getContentDetail(contentId, category, bookLanguage)
       .then((result) => {
-        if (isActive) setResult({ requestKey, data: result });
+        if (isActive) {
+          document.title = result.content.title;
+          setResult({ requestKey, data: result });
+        }
       })
       .catch((error) => {
         console.error("[ExternalContentDetailFallback]", error);
@@ -40,7 +46,7 @@ export default function ExternalContentDetailFallback({ contentId }: { contentId
     return () => {
       isActive = false;
     };
-  }, [category, contentId, requestKey]);
+  }, [category, contentId, requestKey, bookLanguage]);
 
   if (requestKey && result?.requestKey !== requestKey) {
     return <div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />;

@@ -16,6 +16,7 @@ import ReviewCard from "@/components/features/content/ReviewCard";
 import type { ContentMetadata } from "@/types/content";
 import type { ContentType } from "@/types/database";
 import type { CategoryId } from "@/constants/categories";
+import { getSearchContentHref, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language';
 import { useTranslations } from "next-intl";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 
@@ -25,6 +26,7 @@ interface InfoPanelProps {
   content: {
     id: string; // member_contents.id가 아님. 실제 content.id를 받아야 함 (또는 둘 다)
     contentId: string; // items logic에서 contentId 분리 필요
+    bookLanguage?: BookSearchLanguage;
     title: string;
     titleBadge?: TitleBadge | null;
     type: ContentType;
@@ -67,7 +69,7 @@ export default function InfoPanel({
             
             // API 호출 시 categoryId 전달
             // VIDEO일 때 'movie'는 CategoryId에 없는 값이다(외부 API 폴백 경로에서 미매칭). 동작 보존을 위해 캐스트 유지
-            const data = await getContentDetail(content.contentId, categoryId as CategoryId);
+            const data = await getContentDetail(content.contentId, categoryId as CategoryId, content.bookLanguage);
             setDetailData(data);
         } catch (e) {
             console.error("상세 정보 로드 실패", e);
@@ -79,7 +81,7 @@ export default function InfoPanel({
     if (content.contentId) {
         loadDetail();
     }
-  }, [content.contentId, content.type]);
+  }, [content.contentId, content.type, content.bookLanguage]);
 
   // 탭 렌더링 헬퍼
   const getTabStyle = (tab: InfoTab) => `
@@ -203,7 +205,7 @@ export default function InfoPanel({
                                 {/* 상세 페이지 이동 버튼 */}
                                 <div className="pt-8">
                                     <Link 
-                                        href={`/content/${content.contentId}`}
+                                        href={content.type === 'BOOK' ? getSearchContentHref(content.contentId, 'book', content.bookLanguage) : `/content/${content.contentId}`}
                                         target="_blank"
                                         className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:text-accent transition-all hover:translate-x-1 py-2 px-3 bg-white/5 rounded-lg border border-white/5 hover:border-accent/20"
                                     >

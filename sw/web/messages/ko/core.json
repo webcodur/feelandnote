@@ -542,7 +542,13 @@
       "showMore": "더보기",
       "matchedAlias": "다른 이름: {alias}",
       "kindFaction": "세력",
-      "kindMyth": "신화"
+      "kindMyth": "신화",
+      "searchUnavailable": "검색 서비스에 연결하지 못했습니다. 잠시 후 다시 검색해주세요.",
+      "bookLanguage": "도서 언어",
+      "bookLanguages": {
+        "ko": "한국어판",
+        "en": "영어판"
+      }
     },
     "content": {
       "addToRecord": "기록하기",

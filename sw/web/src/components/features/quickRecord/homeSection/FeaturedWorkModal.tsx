@@ -98,6 +98,7 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
                             content={{
                                 id: targetContent.id,
                                 contentId: targetContent.contentId || targetContent.id,
+                                bookLanguage: targetContent.bookLanguage,
                                 title: targetContent.title,
                                 titleBadge: targetContent.titleBadge,
                                 type: targetContent.type,

@@ -6,6 +6,9 @@ import { getVideoById } from '@feelandnote/content-search/tmdb'
 import { getGameById } from '@feelandnote/content-search/igdb'
 import { getTrackById } from '@feelandnote/content-search/itunes-music'
 import type { CategoryId } from '@/constants/categories'
+import { getLocale } from 'next-intl/server'
+import { getBookSearchLanguage, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language'
+import { getEnglishBookResult } from '@/lib/books/bookSearch.server'
 
 export interface ContentDetail {
   id: string
@@ -17,18 +20,21 @@ export interface ContentDetail {
   description?: string
   releaseDate?: string
   metadata?: Record<string, unknown>
+  externalSource?: string
 }
 
 // 외부 API에서 콘텐츠 정보 조회 (내부 함수)
 // externalId: 외부 API 식별자 (ISBN, tmdb-movie-123 등)
 async function fetchContentFromApi(
   externalId: string,
-  category: CategoryId
+  category: CategoryId,
+  bookLanguage: BookSearchLanguage,
 ): Promise<ContentDetail | null> {
   switch (category) {
     case 'book': {
-      const result = await searchBooks(externalId, 1)
-      const book = result.items.find(b => b.externalId === externalId)
+      const book = bookLanguage === 'en'
+        ? await getEnglishBookResult(externalId)
+        : (await searchBooks(externalId, 1)).items.find(b => b.externalId === externalId)
       if (!book) return null
       return {
         id: book.externalId,
@@ -37,8 +43,9 @@ async function fetchContentFromApi(
         category: 'book',
         thumbnail: book.coverImageUrl || undefined,
         description: book.metadata.description,
-        releaseDate: book.metadata.publishDate,
+        releaseDate: book.metadata.publishDate || undefined,
         metadata: book.metadata,
+        externalSource: book.externalSource,
       }
     }
 
@@ -96,17 +103,19 @@ async function fetchContentFromApi(
 // 캐시된 콘텐츠 조회 (1시간 캐싱)
 const getCachedContent = unstable_cache(
   fetchContentFromApi,
-  ['content-detail'],
+  ['content-detail-book-language-v2'],
   { revalidate: 3600 }
 )
 
 // externalId와 카테고리로 외부 API에서 콘텐츠 정보 조회
 export async function getContentById(
   externalId: string,
-  category: CategoryId
+  category: CategoryId,
+  bookLanguage?: BookSearchLanguage,
 ): Promise<ContentDetail | null> {
   try {
-    return await getCachedContent(externalId, category)
+    const language = bookLanguage ?? (category === 'book' ? getBookSearchLanguage(await getLocale()) : 'ko')
+    return await getCachedContent(externalId, category, language)
   } catch (error) {
     console.error(`[getContentById] ${category} ${externalId} 에러:`, error)
     return null

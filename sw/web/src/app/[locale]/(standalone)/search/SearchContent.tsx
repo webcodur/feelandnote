@@ -23,6 +23,9 @@ import {
 } from "./searchConfig";
 import { useSearch } from "./useSearch";
 import FactionSearchResult from "@/components/shared/search/FactionSearchResult";
+import BookSearchLanguageSelect from "@/components/shared/search/BookSearchLanguageSelect";
+import { BOOK_SEARCH_PROVIDERS } from "@feelandnote/content-search/book-search-language";
+import { RetryBlock } from "@/components/ui/pending";
 import { PendingBlock } from "@/components/ui/pending";
 
 export default function SearchContent() {
@@ -31,6 +34,7 @@ export default function SearchContent() {
 
   const {
     router,
+    bookLanguage, setBookLanguage, addingIds, searchError, actionError, retrySearch,
     modeParam,
     queryParam,
     category,
@@ -67,7 +71,7 @@ export default function SearchContent() {
           >
             <div className="bg-black/20">
               {/* 1행: 카테고리 + 정렬 필터 */}
-              <div className="flex items-center justify-center gap-2 px-6 py-4">
+              <div className="flex items-center justify-center flex-wrap gap-2 px-4 py-4">
                 {/* 카테고리 필터 */}
                 <FilterChipDropdown
                   label={t("category")}
@@ -86,6 +90,8 @@ export default function SearchContent() {
                 />
 
                 {/* 정렬 필터 */}
+                {category === 'book' && <BookSearchLanguageSelect value={bookLanguage} onChange={setBookLanguage} />}
+
                 <FilterChipDropdown
                   label={t("sort")}
                   value={t(`contentSort.${CONTENT_SORT_OPTIONS.find((opt) => opt.value === sortBy)?.key ?? "relevance"}`)}
@@ -105,12 +111,12 @@ export default function SearchContent() {
                   <span>
                     {t("poweredBy")}{" "}
                     <a
-                      href={API_SOURCE_URL[category as Exclude<CategoryId, "all">]}
+                      href={category === "book" ? BOOK_SEARCH_PROVIDERS[bookLanguage].url : API_SOURCE_URL[category as Exclude<CategoryId, "all">]}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors"
+                      className="text-accent hover:text-accent-hover underline underline-offset-2"
                     >
-                      {t(`apiSource.${category}`)}
+                      {category === "book" ? BOOK_SEARCH_PROVIDERS[bookLanguage].label : t(`apiSource.${category}`)}
                     </a>
                   </span>
                 </div>
@@ -130,7 +136,7 @@ export default function SearchContent() {
         </div>
       )}
 
-      {queryParam && !isLoading && (
+      {queryParam && !isLoading && !searchError && (
          <div className="mb-6"><h1 className="text-xl font-bold">&quot;{queryParam}&quot; {t("resultCount", { count: totalCount })}</h1></div>
       )}
 
@@ -167,9 +173,14 @@ export default function SearchContent() {
         </div>
       )}
 
+      {!isLoading && searchError && <RetryBlock message={t("searchUnavailable")} onRetry={contentResults.length ? loadMore : retrySearch} />}
+      {actionError && <p role="alert" className="mb-4 text-sm text-text-primary">{actionError}</p>}
+
       {!isLoading && (modeParam === "content" || modeParam === "records") && (
         <ContentResults
           results={contentResults}
+          bookLanguage={bookLanguage}
+          addingIds={addingIds}
           mode={modeParam}
           currentUserId={currentUserId}
           savedIds={savedIds}
@@ -212,13 +223,13 @@ export default function SearchContent() {
       )}
 
       {/* 모든 결과 로드 완료 */}
-      {!isLoading && !hasMore && queryParam && totalCount > 0 && (
+      {!isLoading && !searchError && !hasMore && queryParam && totalCount > 0 && (
         <div className="mt-8 text-center text-sm text-text-secondary">
           {t("allLoaded", { count: contentResults.length || userResults.length || tagResults.length || factionResults.length })}
         </div>
       )}
 
-      {!isLoading && queryParam && totalCount === 0 && (
+      {!isLoading && !searchError && queryParam && totalCount === 0 && (
         <div className="py-20 text-center">
           <Search size={48} className="mx-auto text-text-secondary mb-4" />
           <h2 className="text-lg font-semibold text-text-primary mb-2">{t("noResults", { query: queryParam })}</h2>

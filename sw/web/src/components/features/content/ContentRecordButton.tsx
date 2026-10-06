@@ -64,6 +64,8 @@ export default function ContentRecordButton({
           thumbnailUrl: content.thumbnail,
           description: content.description,
           releaseDate: content.releaseDate,
+          metadata: content.metadata ?? undefined,
+          externalSource: content.externalSource,
         });
         if (!result.success) {
           setError(tError(result.error));

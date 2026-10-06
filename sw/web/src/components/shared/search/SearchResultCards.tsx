@@ -15,6 +15,8 @@ import type { ContentType } from "@/types/database";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
 import { useTranslations } from "next-intl";
 import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
+import { getSearchContentHref, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language';
+import { Loader2 } from 'lucide-react';
 
 type ContentResult = ContentSearchResult | RecordsSearchResult;
 
@@ -26,6 +28,8 @@ interface ContentResultsProps {
   userCounts?: Record<string, number>;
   onBeforeNavigate?: (item: ContentResult) => void;
   onAddContent?: (item: ContentResult) => void;
+  bookLanguage?: BookSearchLanguage;
+  addingIds?: Set<string>;
 }
 
 export function ContentResults({
@@ -34,6 +38,8 @@ export function ContentResults({
   savedIds = new Set(),
   onBeforeNavigate,
   onAddContent,
+  bookLanguage,
+  addingIds,
 }: ContentResultsProps) {
   if (results.length === 0) return null;
 
@@ -48,7 +54,8 @@ export function ContentResults({
 
         // 콘텐츠 상세 페이지로 이동 (통합 라우트)
         const contentId = "contentId" in item ? item.contentId : item.id;
-        const href = `/content/${contentId}?category=${item.category}`;
+        const href = getSearchContentHref(contentId, item.category, bookLanguage);
+        const isAdding = addingIds?.has(item.id);
 
         // records 모드 i18n 필드 (RecordsSearchResult에만 존재)
         const i18n = "title_ko" in item ? item : undefined;
@@ -67,7 +74,8 @@ export function ContentResults({
             href={href}
             onClick={() => onBeforeNavigate?.(item)}
             saved={isSaved && showAddButton}
-            addable={showAddButton && !isSaved && !!onAddContent}
+            addable={showAddButton && !isSaved && !isAdding && !!onAddContent}
+            topRightNode={isAdding && <span role="status" className="rounded-full bg-bg-card p-2"><Loader2 size={16} className="animate-spin" /></span>}
             onAdd={() => onAddContent?.(item)}
             titleKo={i18n?.title_ko}
             titleEn={i18n?.title_en}

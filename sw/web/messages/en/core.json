@@ -541,7 +541,8 @@
       "showMore": "Show more",
       "matchedAlias": "Also known as {alias}",
       "kindFaction": "Faction",
-      "kindMyth": "Myth"
+      "kindMyth": "Myth",
+      "searchUnavailable": "Search is temporarily unavailable. Please try again."
     },
     "content": {
       "addToRecord": "Add to records",

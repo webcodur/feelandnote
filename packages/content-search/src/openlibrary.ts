@@ -5,19 +5,8 @@
 
 import { toIsbn13 } from './book-isbn'
 import { getBookOriginalAuthorKeys } from './book-original-authors'
+import { OPENLIBRARY_BASE_URL, OPENLIBRARY_REQUEST_TIMEOUT_MS as REQUEST_TIMEOUT_MS, requestOpenLibrary } from './openlibrary-request'
 
-const OPENLIBRARY_BASE_URL = 'https://openlibrary.org'
-const REQUEST_TIMEOUT_MS = 5000
-const OPENLIBRARY_USER_AGENT = 'FeelandNote book metadata (contact@feelandnote.com)'
-const REQUEST_INTERVAL_MS = 1000 // https://openlibrary.org/developers/api — unidentified requests: 1/s
-let nextRequestAt = 0
-
-async function waitForRequestSlot(): Promise<void> {
-  const now = Date.now()
-  const delay = Math.max(nextRequestAt - now, 0)
-  nextRequestAt = Math.max(nextRequestAt, now) + REQUEST_INTERVAL_MS
-  if (delay) await new Promise(resolve => setTimeout(resolve, delay))
-}
 
 /** description은 문자열로 오기도 하고 {type, value} 객체로 오기도 한다 */
 type OpenLibraryDescription = string | { value?: string } | null | undefined
@@ -96,11 +85,7 @@ export async function getOpenLibraryBookMetadata(
   const names: string[] = []
   for (const key of [...new Set(authorKeys)]) {
     if (!/^\/authors\/OL\d+A$/.test(key)) throw new Error(`${isbn}: OpenLibrary 저자 ID가 잘못됐습니다`)
-    await waitForRequestSlot()
-    const response = await fetch(`${OPENLIBRARY_BASE_URL}${key}.json`, {
-      headers: { Accept: 'application/json', 'User-Agent': OPENLIBRARY_USER_AGENT },
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS), redirect: 'error',
-    })
+    const response = await requestOpenLibrary(`${OPENLIBRARY_BASE_URL}${key}.json`, 'error')
     if (!response.ok) throw new Error(`OpenLibrary author API 오류: ${response.status}`)
     const author = await response.json() as { name?: string }
     if (!author.name?.trim()) throw new Error(`${isbn}: OpenLibrary 원저자 이름이 없습니다`)
@@ -188,12 +173,7 @@ async function fetchJson<T>(sourceUrl: string): Promise<{ data: T; sourceUrl: st
   if (!initialUrl) throw new Error('Invalid OpenLibrary book URL')
   let currentUrl: string = initialUrl
   for (let redirects = 0; redirects <= 3; redirects += 1) {
-    await waitForRequestSlot()
-    const response: Response = await fetch(`${currentUrl}.json`, {
-      headers: { Accept: 'application/json', 'User-Agent': OPENLIBRARY_USER_AGENT },
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      redirect: 'manual',
-    })
+    const response: Response = await requestOpenLibrary(`${currentUrl}.json`)
     if ([301, 302, 303, 307, 308].includes(response.status)) {
       const location: string | null = response.headers.get('location')
       const nextUrl: string | null = location ? getOpenLibraryBookUrl(new URL(location, currentUrl).toString()) : null

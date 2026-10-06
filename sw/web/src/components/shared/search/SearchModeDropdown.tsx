@@ -9,6 +9,8 @@ import { ChevronDown } from "lucide-react";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
+import BookSearchLanguageSelect from './BookSearchLanguageSelect';
+import type { BookSearchLanguage } from '@feelandnote/content-search/book-search-language';
 import { useTranslations } from "next-intl";
 
 export type SearchMode = "content" | "user" | "tag" | "records" | "celeb" | "faction";
@@ -37,6 +39,8 @@ interface SearchModeDropdownProps {
   onModeChange: (mode: SearchMode) => void;
   onCategoryChange: (category: ContentCategory) => void;
   onClose: () => void;
+  bookLanguage: BookSearchLanguage;
+  onBookLanguageChange: (language: BookSearchLanguage) => void;
 }
 
 export default function SearchModeDropdown({
@@ -46,7 +50,7 @@ export default function SearchModeDropdown({
   contentCategory,
   onModeChange,
   onCategoryChange,
-  onClose,
+  onClose, bookLanguage, onBookLanguageChange,
 }: SearchModeDropdownProps) {
   const t = useTranslations("shared.search");
   const tc = useTranslations("content.category");
@@ -79,7 +83,7 @@ export default function SearchModeDropdown({
         <>
         {/* 투명 백드롭: 외부 탭 시 드롭다운 닫기 */}
         <div className="fixed inset-0" style={{ zIndex: Z_INDEX.dropdown - 1 }} onClick={onClose} />
-        <div className="absolute top-full left-0 mt-2 bg-[#0a0a0a] border border-accent/20 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] py-1 min-w-[180px] backdrop-blur-xl" style={{ zIndex: Z_INDEX.dropdown }}>
+        <div className="absolute top-full start-0 mt-2 bg-bg-card border border-accent/20 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] py-1 min-w-[180px] backdrop-blur-xl" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 콘텐츠 카테고리 */}
           <div className="px-3 py-1.5 text-xs text-text-tertiary font-medium border-b border-white/5">{t("sectionContent")}</div>
           {CONTENT_CATEGORIES.map((cat) => (
@@ -95,6 +99,10 @@ export default function SearchModeDropdown({
           ))}
 
           {/* 기타 모드 */}
+          {mode === 'content' && contentCategory === 'book' && (
+            <BookSearchLanguageSelect value={bookLanguage} onChange={onBookLanguageChange} className="px-3 py-2" />
+          )}
+
           <div className="px-3 py-1.5 text-xs text-text-tertiary font-medium border-t border-b border-white/5 mt-1">{t("sectionOther")}</div>
           {SEARCH_MODES.filter(({ id }) => id !== "content").map(({ id }) => (
             <Button

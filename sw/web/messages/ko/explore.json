@@ -611,7 +611,7 @@
     "loading": "불러오는 중...",
     "loadMore": "더보기",
     "allLoaded": "모든 검색 결과를 불러왔습니다. (총 {count}건)",
-    "noResults": "'{query}'에 대한 검색 결과가 없습니다",
+    "noResults": "“{query}”에 대한 검색 결과가 없습니다",
     "noResultsHint": "다른 검색어를 입력해보세요",
     "enterQuery": "검색어를 입력하세요",
     "enterQueryDesc": "콘텐츠, 사용자, 태그를 검색할 수 있습니다",
@@ -639,7 +639,8 @@
       "video": "TMDB",
       "game": "IGDB",
       "music": "Apple Music 검색"
-    }
+    },
+    "searchUnavailable": "검색 서비스에 연결하지 못했습니다. 다시 시도해주세요."
   },
   "archiveSearch": {
     "placeholder": "제목 | 저자 (2+)",

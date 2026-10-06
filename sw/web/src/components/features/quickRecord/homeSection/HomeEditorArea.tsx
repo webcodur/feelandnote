@@ -27,6 +27,9 @@ export interface PickedContentItem {
     thumbnailUrl?: string | null;
     thumbnail?: string | null;
     thumbnail_url?: string | null;
+    metadata?: QuickRecordTarget["metadata"];
+    externalSource?: string;
+    bookLanguage?: QuickRecordTarget['bookLanguage'];
 }
 
 // isWantItem이 true면 보관함 항목(UserContentPublic), false면 PickedContentItem을 전달한다
@@ -115,6 +118,8 @@ export function HomeEditorArea({
                     title: targetContent.title,
                     creator: targetContent.creator,
                     thumbnailUrl: targetContent.thumbnailUrl,
+                    metadata: targetContent.metadata,
+                    externalSource: targetContent.externalSource,
                     timestamp: new Date().toISOString()
                 };
                 localStorage.setItem('guest_content_pending', JSON.stringify(guestData));

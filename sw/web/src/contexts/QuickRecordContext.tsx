@@ -2,10 +2,15 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { ContentType } from "@/types/database";
+import type { ContentSearchResult } from "@/actions/search/searchContents";
+import type { BookSearchLanguage } from '@feelandnote/content-search/book-search-language';
 import type { TitleBadge } from "@/lib/utils/content-locale";
 
 export interface QuickRecordTarget {
   id: string; // member_contents.id
+  metadata?: ContentSearchResult["metadata"];
+  externalSource?: string;
+  bookLanguage?: BookSearchLanguage;
   contentId?: string; // original content.id (for fetching details)
   type: ContentType;
   title: string;

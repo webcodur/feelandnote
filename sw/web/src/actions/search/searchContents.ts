@@ -1,6 +1,7 @@
 'use server'
 
-import { searchBooks } from '@feelandnote/content-search/kakao-books'
+import { searchBooks } from '@/actions/contents/searchBooks'
+import type { BookSearchLanguage } from '@feelandnote/content-search/book-search-language'
 import { searchVideo } from '@feelandnote/content-search/tmdb'
 import { searchGames } from '@feelandnote/content-search/igdb'
 import { searchMusic } from '@feelandnote/content-search/itunes-music'
@@ -25,18 +26,24 @@ interface SearchContentsParams {
   category?: CategoryId
   page?: number
   limit?: number
+  bookLanguage?: BookSearchLanguage
+  locale?: string
 }
 
 interface SearchContentsResponse {
   items: ContentSearchResult[]
   total: number
   hasMore: boolean
+  error?: 'SEARCH_UNAVAILABLE'
 }
 
 export async function searchContents({
   query,
   category = 'book',
   page = 1,
+  limit,
+  bookLanguage,
+  locale,
 }: SearchContentsParams): Promise<SearchContentsResponse> {
   if (!query.trim()) {
     return { items: [], total: 0, hasMore: false }
@@ -45,16 +52,16 @@ export async function searchContents({
   try {
     switch (category) {
       case 'book': {
-        const bookResults = await searchBooks(query, page)
+        const bookResults = await searchBooks({ query, page, bookLanguage, locale })
         return {
-          items: bookResults.items.map((book) => ({
+          items: bookResults.items.slice(0, limit ? Math.max(1, Math.min(limit, 20)) : 20).map((book) => ({
             id: book.externalId,
             title: book.title,
             creator: book.creator,
             category: 'book',
             thumbnail: book.coverImageUrl || undefined,
             description: book.metadata.description,
-            releaseDate: book.metadata.publishDate,
+            releaseDate: book.metadata.publishDate || undefined,
             externalId: book.externalId,
             externalSource: book.externalSource,
             metadata: book.metadata,
@@ -130,6 +137,6 @@ export async function searchContents({
     }
   } catch (error) {
     console.error(`${category} 검색 에러:`, error)
-    return { items: [], total: 0, hasMore: false }
+    return { items: [], total: 0, hasMore: false, error: 'SEARCH_UNAVAILABLE' }
   }
 }

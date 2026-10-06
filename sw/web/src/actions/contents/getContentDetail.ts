@@ -32,12 +32,15 @@ import { isDeveloperMode } from '@/lib/developer-mode'
 import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { applyContentBookEdition, type ContentBookEdition } from '@/lib/books/contentEdition'
+import { getBookSearchLanguage, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language'
+import { getEnglishBookPurchaseLinks } from '@/lib/books/amazonBookSearch'
 
 // #region 타입 정의
 export interface ContentDetailData {
   content: {
     id: string
     externalId: string
+    externalSource?: string
     title: string
     /** 요청 locale의 확인된 언어판 제목이 아닐 때 제목 앞에 붙는 표시 */
     titleBadge?: TitleBadge | null
@@ -134,6 +137,7 @@ async function fetchContentDataPublic(
   contentId: string,
   category: CategoryId | null,
   locale: string,
+  bookLanguage?: BookSearchLanguage,
 ): Promise<ContentDetailData['content'] | null> {
   const db = createStaticClient()
   const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), figure_book_contents(content_id)`
@@ -286,12 +290,14 @@ async function fetchContentDataPublic(
   // 외부 API 폴백 (category 필요)
   if (!category) return null
 
-  const apiContent = await getContentById(contentId, category)
+  const selectedLanguage = bookLanguage ?? getBookSearchLanguage(locale)
+  const apiContent = await getContentById(contentId, category, selectedLanguage)
   if (!apiContent) return null
 
   return {
     id: apiContent.id,
     externalId: apiContent.id,
+    externalSource: apiContent.externalSource,
     title: apiContent.title,
     creator: apiContent.creator || undefined,
     thumbnail: apiContent.thumbnail || undefined,
@@ -300,20 +306,28 @@ async function fetchContentDataPublic(
     type: TYPE_MAP[category],
     category,
     metadata: TYPE_MAP[category] === 'BOOK'
-      ? dropForeignDisplayText(locale, withoutBookDescription(apiContent.metadata ?? {}))
+      ? dropForeignDisplayText(selectedLanguage, withoutBookDescription(apiContent.metadata ?? {}))
       : apiContent.metadata || null,
+    ...(category === 'book' && {
+      editionLocale: selectedLanguage,
+      affiliateLinks: getEnglishBookPurchaseLinks({ locale: selectedLanguage, title: apiContent.title, creator: apiContent.creator, isbn: apiContent.id }),
+      ...(apiContent.externalSource === 'openlibrary' && {
+        bookIntroduction: { isbn: apiContent.id, source: 'OPEN' as const, sourceUrl: typeof apiContent.metadata?.link === 'string' ? apiContent.metadata.link : null },
+        introductionAttribution: { provider: 'openlibrary' as const, url: typeof apiContent.metadata?.link === 'string' ? apiContent.metadata.link : null, translated: false },
+      }),
+    }),
   }
 }
 
 // 서지와 외부 소개는 정적 캐시 수명을 공유한다. 감상문 피드는 사용자 활동용 캐시를 쓴다.
 /* 작품 한 건짜리 조회 — 항목 태그를 달아 그 한 건만 비울 수 있게 한다.
    여기서 받는 contentId는 UUID일 수도 external_id일 수도 있어 그대로 식별자로 쓴다. */
-const fetchContentDataPublicCached = (contentId: string, category: CategoryId | null, locale: string) =>
+const fetchContentDataPublicCached = (contentId: string, category: CategoryId | null, locale: string, bookLanguage?: BookSearchLanguage) =>
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v17', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale],
-    () => fetchContentDataPublic(contentId, category, locale),
+    ['content-data-public-selected-book-intro-v18', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
+    () => fetchContentDataPublic(contentId, category, locale, bookLanguage),
   )
 
 // 외부 소개는 DB 서지 캐시 밖에서 읽는다. 일시 장애가 나도 서지와 구매 링크는 유지한다.
@@ -409,15 +423,17 @@ export const getContentDetail = cache(getContentDetailInner)
 async function getContentDetailInner(
   contentId: string,
   category?: CategoryId,
+  bookLanguage?: BookSearchLanguage,
 ): Promise<ContentDetailData> {
   const locale = await getLocale()
+  const contentLocale = category === 'book' && bookLanguage ? bookLanguage : locale
   const profile = await getProfile()
   // 리뷰 피드는 contentId만 필요 — 콘텐츠 조회와 병렬 시작
   const reviewsPromise = getReviewFeed({ contentId, limit: 10 })
 
   // 콘텐츠 정보(캐시)와 본인 기록(동적) 병렬
   const [content, userRecord] = await Promise.all([
-    fetchContentDataPublicCached(contentId, category ?? null, locale).then((content) => withBookIntroduction(content, locale)),
+    fetchContentDataPublicCached(contentId, category ?? null, contentLocale, bookLanguage).then((content) => withBookIntroduction(content, content?.editionLocale ?? contentLocale)),
     profile ? fetchUserRecord(profile.id, contentId) : Promise.resolve(null),
   ])
 

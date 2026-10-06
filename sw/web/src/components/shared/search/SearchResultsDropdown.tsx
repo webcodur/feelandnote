@@ -49,6 +49,7 @@ export interface SearchResult {
 
 interface SearchResultsDropdownProps {
   isLoading: boolean;
+  error?: string | null;
   query: string;
   results: SearchResult[];
   recentSearches: string[];
@@ -71,6 +72,7 @@ interface SearchResultsDropdownProps {
 
 export default function SearchResultsDropdown({
   isLoading,
+  error,
   query,
   results,
   recentSearches,
@@ -99,6 +101,7 @@ export default function SearchResultsDropdown({
 
   return (
     <div className={containerClass} style={isMobile ? undefined : { zIndex: Z_INDEX.dropdown }}>
+      {error && <p role="alert" className="p-4 text-sm text-text-primary">{error}</p>}
       {/* Loading */}
       {isLoading && (
         <div className="flex items-center justify-center py-8">
@@ -282,7 +285,7 @@ export default function SearchResultsDropdown({
       )}
 
       {/* Empty state */}
-      {!isLoading && query.length >= 2 && results.length === 0 && (
+      {!isLoading && !error && query.length >= 2 && results.length === 0 && (
         <div className="py-8 text-center">
           <Search size={32} className="mx-auto text-text-secondary mb-2" />
           <p className="text-sm text-text-secondary">{t("noResults", { query })}</p>

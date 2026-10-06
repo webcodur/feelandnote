@@ -21,9 +21,9 @@ import RecentContentsSection from "./RecentContentsSection";
 import FigureBookCharactersSection from "./FigureBookCharactersSection";
 import CuratedEntriesSection from "./CuratedEntriesSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
-import { getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
+import { getContentDetail, getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { createClient } from "@/lib/db/client";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useSearchParams } from 'next/navigation';
 import { getContentDetailHref, selectContentBookEdition } from '@/lib/books/contentEdition';
 
@@ -38,6 +38,24 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const [data, setData] = useState(initialData);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
   const searchParams = useSearchParams();
+  const locale = useLocale();
+  const requestedLanguage = searchParams.get('bookLanguage');
+
+  // Keep the public ISR page reusable; an explicit search-language override is resolved after hydration.
+  useEffect(() => {
+    if (initialData.content.type !== 'BOOK') return;
+    if ((requestedLanguage !== 'ko' && requestedLanguage !== 'en') || requestedLanguage === (initialData.content.editionLocale ?? locale)) {
+      setData(previous => ({ ...previous, content: initialData.content }));
+      return;
+    }
+    let active = true;
+    void getContentDetail(initialData.content.id, 'book', requestedLanguage).then(result => {
+      if (!active) return;
+      setData(previous => ({ ...previous, content: result.content }));
+      document.title = result.content.title;
+    }).catch(error => console.error('[ContentDetailPage:book-language]', error));
+    return () => { active = false; };
+  }, [initialData.content, requestedLanguage, locale]);
 
   const { userRecord, isLoggedIn, initialReviews, fictionCharacters, curatedEntries } = data;
   const selection = selectContentBookEdition(data.content, searchParams.getAll('editionId'));

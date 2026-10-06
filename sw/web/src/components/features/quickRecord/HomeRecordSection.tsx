@@ -17,6 +17,7 @@ import { useQuickRecord } from "@/contexts/QuickRecordContext";
 import type { UserProfile } from "@/actions/user/getProfile";
 import { removeContent } from "@/actions/contents/removeContent";
 import type { LibraryContent } from "@/actions/library";
+import { useBookSearchLanguage } from '@/hooks/useBookSearchLanguage';
 import { useTranslations } from "next-intl";
 
 // 서브 컴포넌트 임포트
@@ -49,11 +50,16 @@ export default function HomeRecordSection({
   embedded = false,
 }: HomeRecordSectionProps) {
   const t = useTranslations("quickRecord.home");
+  const tSearch = useTranslations("shared.search");
+  const tError = useTranslations("actionErrors");
+  const { bookLanguage, setBookLanguage } = useBookSearchLanguage();
+  const [searchError, setSearchError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 300);
   
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [, startTransition] = useTransition();
+  const [isSearching, startTransition] = useTransition();
   const [isSwitchingCategory, startCategoryTransition] = useTransition();
   
   const { targetContent, openQuickRecord, closeQuickRecord } = useQuickRecord();
@@ -158,12 +164,17 @@ export default function HomeRecordSection({
   useEffect(() => {
     if (!debouncedQuery || debouncedQuery.length < 2) {
       setSearchResults([]);
+      setSearchError(null);
       return;
     }
 
+    let cancelled = false;
+    setSearchError(null);
     startTransition(async () => {
       try {
-        const data = await searchContents({ query: debouncedQuery, category: selectedCategory, limit: 5 });
+        const data = await searchContents({ query: debouncedQuery, category: selectedCategory, limit: 5, bookLanguage });
+        if (cancelled) return;
+        if (data.error) throw new Error("SEARCH_UNAVAILABLE");
         const mappedResults: SearchResult[] = data.items.map((item) => ({
              id: item.id,
              type: "content",
@@ -175,15 +186,19 @@ export default function HomeRecordSection({
              description: item.description,
              releaseDate: item.releaseDate,
              metadata: item.metadata,
+             externalSource: item.externalSource,
          }));
         setSearchResults(mappedResults);
       } catch (error) {
+        if (cancelled) return;
         console.error("검색 실패:", error);
+        setSearchError(tSearch("searchUnavailable"));
         setSearchResults([]);
       }
     });
     // 분야를 바꾸면 같은 검색어로 다시 찾는다 — 영화를 찾다 음악으로 옮기면 음악에서 찾아야 한다
-  }, [debouncedQuery, selectedCategory]);
+    return () => { cancelled = true; };
+  }, [debouncedQuery, selectedCategory, bookLanguage, tSearch]);
 
   // Guest Logic: Check for pending content
   useEffect(() => {
@@ -202,7 +217,8 @@ export default function HomeRecordSection({
                                     type: data.type,
                                     title: data.title,
                                     creator: data.creator,
-                                    thumbnailUrl: data.thumbnailUrl
+                                    thumbnailUrl: data.thumbnailUrl,
+                                    metadata: data.metadata, externalSource: data.externalSource,
                                 });
                                 
                                 if (result.success && result.data) {
@@ -267,6 +283,8 @@ export default function HomeRecordSection({
           creator: result.subtitle,
           thumbnail: result.thumbnail,
           thumbnail_url: result.thumbnail,
+          metadata: result.metadata, externalSource: result.externalSource,
+          bookLanguage: result.category === 'book' ? bookLanguage : undefined,
       }, false);
       setQuery("");
       setSearchResults([]);
@@ -300,6 +318,8 @@ export default function HomeRecordSection({
     if (!userId) {
         openQuickRecord({
             id: `guest-${picked.id}`,
+            metadata: picked.metadata, externalSource: picked.externalSource,
+            bookLanguage: picked.bookLanguage,
             contentId: picked.id,
             type: picked.type,
             title: picked.title,
@@ -319,6 +339,7 @@ export default function HomeRecordSection({
 
     if (processingId) return;
     setProcessingId(picked.id);
+    setActionError(null);
 
     try {
         // 기존 런타임은 creator/thumbnail에 null도 그대로 전달한다. 동작 보존을 위해 캐스트 유지
@@ -328,14 +349,17 @@ export default function HomeRecordSection({
             title: picked.title,
             creator: picked.creator as string | undefined,
             thumbnailUrl: (picked.thumbnailUrl || picked.thumbnail) as string | undefined,
+            metadata: picked.metadata, externalSource: picked.externalSource,
         });
 
+        if (!result.success) { setActionError(tError(result.error)); return; }
         if (result.success && result.data) {
              openQuickRecord({
                 id: result.data.userContentId,
                 // 검색 결과의 id는 외부 API 것(TMDB 등)이라 상세 조회에 쓰면 못 찾는다.
                 // addContent가 돌려준 저장소 콘텐츠 id를 쓴다
                 contentId: result.data.contentId,
+                bookLanguage: picked.bookLanguage,
                 type: picked.type,
                 title: picked.title,
                 titleBadge: picked.titleBadge,
@@ -353,6 +377,7 @@ export default function HomeRecordSection({
         }
     } catch (e) {
         console.error("추가 실패", e);
+        setActionError(tError("UNKNOWN_ERROR"));
     } finally {
         setProcessingId(null);
     }
@@ -393,11 +418,15 @@ export default function HomeRecordSection({
                 onCategoryChange={setSelectedCategory}
                 query={query}
                 onQueryChange={setQuery}
-                isSearching={false}
+                isSearching={isSearching}
+                bookLanguage={bookLanguage}
+                onBookLanguageChange={setBookLanguage}
+                searchError={searchError}
                 searchResults={searchResults}
                 onResultClick={handleSearchResultClick}
             />
 
+        {actionError && <p role="alert" className="text-sm text-text-primary">{actionError}</p>}
         {/* 3. Editor Area: RecordEditor & Search Helper */}
             <HomeEditorArea 
                 targetContent={targetContent}

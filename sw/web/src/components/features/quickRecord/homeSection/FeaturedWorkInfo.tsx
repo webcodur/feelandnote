@@ -7,6 +7,7 @@ import { getContentDetail, type ContentDetailData } from "@/actions/contents/get
 import { type QuickRecordTarget } from "@/contexts/QuickRecordContext";
 import type { ContentMetadata } from "@/types/content";
 import type { CategoryId } from "@/constants/categories";
+import { getSearchContentHref } from '@feelandnote/content-search/book-search-language';
 import type { SuggestionProps, ArchiveProps } from "./HomeEditorArea";
 import FeaturedWorkModal, { type ModalType, type SelectionTab } from "./FeaturedWorkModal";
 import FeaturedWorkMetadata from "./FeaturedWorkMetadata";
@@ -45,7 +46,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                 }
 
                 // VIDEO일 때 'movie'는 CategoryId에 없는 값이다(외부 API 폴백 경로에서 미매칭). 동작 보존을 위해 캐스트 유지
-                const data = await getContentDetail(targetContent.contentId || targetContent.id, categoryId as CategoryId);
+                const data = await getContentDetail(targetContent.contentId || targetContent.id, categoryId as CategoryId, targetContent.bookLanguage);
                 setDetailData(data);
             } catch (e) {
                 console.error("상세 정보 로드 실패", e);
@@ -57,7 +58,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
         if (targetContent.contentId || targetContent.id) {
             loadDetail();
         }
-    }, [targetContent.contentId, targetContent.id, targetContent.type]);
+    }, [targetContent.contentId, targetContent.id, targetContent.type, targetContent.bookLanguage]);
 
     // 카테고리 매핑 (링크용)
     const getLinkCategory = () => {
@@ -69,7 +70,9 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
             default: return 'book';
         }
     };
-    const contentLink = `/content/${targetContent.contentId || targetContent.id}?category=${getLinkCategory()}`;
+    const contentLink = targetContent.type === 'BOOK'
+        ? getSearchContentHref(targetContent.contentId || targetContent.id, 'book', targetContent.bookLanguage)
+        : `/content/${targetContent.contentId || targetContent.id}?category=${getLinkCategory()}`;
 
     return (
         <div className="w-fit mx-auto mb-8">
