@@ -11,7 +11,6 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { getProfessionIcon, getProfessionColor } from "@/constants/professionIcons";
 import { getCelebProfessions } from '@/lib/celeb-professions'
 import styles from "./directory.module.css";
-import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
 import DirectoryNavigator from "@/components/features/user/explore/DirectoryNavigator";
 import { directoryName, groupDirectory } from "@/lib/directory";
@@ -76,7 +75,6 @@ export default async function DirectoryPage({ params }: PageProps) {
       <VisitorDirectory />
 
       {/* 직군 아이콘 원본 — 항목 2,400개가 각자 SVG를 품으면 그것만 수 MB다. 한 번만 그리고 <use>로 참조한다 */}
-      <DeveloperCommerceFallback target={{ title: "인물 평전", type: "TOPIC" }} placement="directory" />
       <svg aria-hidden className="hidden">
         {CELEB_PROFESSIONS.map((prof) => {
           const Icon = getProfessionIcon(prof.value);

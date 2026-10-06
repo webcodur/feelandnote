@@ -13,7 +13,6 @@ import { getCelebDirectory } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, getProfessionColor } from "@/constants/professionIcons";
 import { getCelebProfessions } from '@/lib/celeb-professions'
-import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import VisitorDirectory from "@/components/features/user/explore/VisitorDirectory";
 import DirectoryNavigator from "@/components/features/user/explore/DirectoryNavigator";
 import { directoryName, sortDirectory } from "@/lib/directory";
@@ -95,7 +94,6 @@ export default async function ProfessionDirectoryPage({ params }: PageProps) {
 
       {/* 인물 목록 — 색인용 명부라 순수 링크(<a>)로 그린다(전체 명부와 같은 이유) */}
       <VisitorDirectory profession={prof.value} />
-      <DeveloperCommerceFallback target={{ title: `${label} 평전`, type: "TOPIC" }} placement="directory-profession" />
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0.5 mb-12">
         {members.map((celeb) => {
           const displayName = directoryName(celeb, locale);

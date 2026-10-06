@@ -18,8 +18,6 @@ import { getTimelineContemporaries } from "@/actions/home/getCelebTimeline";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { Link } from "@/i18n/navigation";
 
-import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
-
 import TimelineCountryHeader from "./sections/TimelineCountryHeader";
 import TimelineEraList from "./sections/TimelineEraList";
 
@@ -39,7 +37,6 @@ type EraGroup = { era: EraInfo; celebs: TimelineCeleb[] };
 
 export default function TimelineSection(props: Props) {
   const { celebs, countries, country, defaultCountry, page, eras } = props;
-  const selectedInfo = countries.find((c) => c.code === country);
   const viewKey = `${country}-${page}`;
   const [collapse, setCollapse] = useState({ viewKey, eras: new Set<string>() });
   if (collapse.viewKey !== viewKey) setCollapse({ viewKey, eras: new Set<string>() });
@@ -69,7 +66,6 @@ export default function TimelineSection(props: Props) {
   return <div className="mx-auto max-w-4xl space-y-4">
     <TimelineCountryHeader countries={countries} country={country} defaultCountry={defaultCountry} eras={eras}
       canToggleAll={eraGroups.length > 1} allCollapsed={allCollapsed} onToggleAll={toggleAll} />
-    {selectedInfo && <DeveloperCommerceFallback target={{ title: `${selectedInfo.name} 역사`, type: "TOPIC" }} placement="timeline-country" />}
     <TimelineContent key={viewKey} {...props} eraGroups={eraGroups} collapsedEras={collapse.eras} onToggleEra={toggleEra} />
   </div>;
 }
