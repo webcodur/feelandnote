@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/db/server";
+import { getRequestUser } from "@/lib/db/server";
 import { getDetailedStats } from "@/actions/user";
 import { notFound } from "next/navigation";
 import ProfileSettingsSection from "../ProfileSettingsSection";
@@ -18,8 +18,7 @@ interface PageProps {
 
 export default async function ChamberPage({ params }: PageProps) {
   const { userId } = await params;
-  const db = await createClient();
-  const { data: { user: currentUser } } = await db.auth.getUser();
+  const { data: { user: currentUser } } = await getRequestUser();
 
   // 본인만 접근 가능
   if (!currentUser || currentUser.id !== userId) {

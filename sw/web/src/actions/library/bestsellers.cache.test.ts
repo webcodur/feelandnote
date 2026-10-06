@@ -5,6 +5,7 @@ import { createRequire } from 'node:module'
 import test from 'node:test'
 import ts from 'typescript'
 import * as feed from '../../lib/library/bestsellerFeed'
+import { coalesceCacheQuery } from '../../lib/cacheQuery'
 
 Object.assign(globalThis, { AsyncLocalStorage })
 const require = createRequire(import.meta.url)
@@ -13,18 +14,30 @@ const { workUnitAsyncStorage } = require('next/dist/server/app-render/work-unit-
 const compiled = ts.transpileModule(readFileSync(new URL('./bestsellers.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText
+const chartReaderCompiled = ts.transpileModule(readFileSync(new URL('../../lib/library/chartRead.ts', import.meta.url), 'utf8'), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+}).outputText
 
 function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: string; NODE_ENV?: string } = {}) {
   const entries = new Map<string, { value: unknown; isStale: boolean }>()
   let title = 'First chart'
   let fails = false
+  let stalled = false
   let calls = 0
   const dates: string[] = []
   const failDates = new Set<string>()
+  const chartReader = { exports: {} }
+  new Function('require', 'module', 'exports', chartReaderCompiled)(
+    () => ({ coalesceCacheQuery }), chartReader, chartReader.exports)
   const mocks: { [key: string]: unknown } = {
+    '@/lib/library/chartRead': chartReader.exports,
     '@/lib/library/bestsellerFeed': feed,
-    '@/lib/rawFetch': { rawFetch: async (url: string) => {
+    '@/lib/rawFetch': { rawFetch: async (url: string, init?: RequestInit) => {
       calls++
+      if (stalled) return new Promise<Response>((_resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('fixture stalled')), 200)
+        init?.signal?.addEventListener('abort', () => { clearTimeout(timer); reject(new Error('deadline')) }, { once: true })
+      })
       const now = new Date().toISOString()
       if (url.includes('yes24.com')) {
         const date = new URL(url).searchParams.get('date')!
@@ -57,6 +70,7 @@ function fixture(environment: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: s
     return result
   }
   return { read, entries, dates, calls: () => calls, fail: (value: boolean) => { fails = value },
+    stall: () => { stalled = true },
     failDate: (value: string) => { failDates.add(value) },
     publish: (value: string) => { title = value },
     expire: () => { for (const entry of entries.values()) entry.isStale = true },
@@ -124,4 +138,31 @@ test('a new KST day fetches a new Korean chart without waiting for old cache exp
   assert.notEqual(next.basisDate, basis)
   assert.equal(f.calls(), 2)
   assert.equal(f.entries.size, 2)
+})
+
+
+test('concurrent cold chart requests perform one upstream read', async () => {
+  const f = fixture()
+  const results = await Promise.all([f.read(), f.read(), f.read()])
+  assert.ok(results.every(result => result.status === 'ready'))
+  assert.equal(f.calls(), 1)
+})
+
+test('a Korean chart outage does not repeat the date sweep on every request', async () => {
+  const f = fixture({ YES24_API_KEY: 'test', YES24_CHARTS_ENABLED: 'true' })
+  f.fail(true)
+  assert.equal((await f.read('ko')).status, 'unavailable')
+  const calls = f.calls()
+  assert.equal((await f.read('ko')).status, 'unavailable')
+  assert.equal(f.calls(), calls)
+})
+
+test('the date fallback shares one deadline and stops after a stalled date', async t => {
+  const originalTimeout = AbortSignal.timeout.bind(AbortSignal)
+  t.mock.method(AbortSignal, 'timeout', () => originalTimeout(35))
+  const f = fixture({ YES24_API_KEY: 'test', YES24_CHARTS_ENABLED: 'true' })
+  f.stall()
+  assert.equal((await f.read('ko')).status, 'unavailable')
+  assert.equal(f.calls(), 1)
+  assert.equal(f.entries.size, 0)
 })

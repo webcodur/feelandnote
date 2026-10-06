@@ -8,10 +8,11 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
-import type { AxisLibraryWork, SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
+import { getSpectrumAxisLibrariesStrict, type AxisLibraryWork, type SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
+import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import { getCelebProfileUrl } from "@/lib/url";
 import FigureRankingBoard, { type FigureRankingBoardContent } from "../../figureRankingBoard/FigureRankingBoard";
@@ -22,16 +23,30 @@ import { buildSpectrumNavRows } from "./navRows";
 interface SpectrumFullSectionProps {
   entries: SpectrumExtremeEntry[];
   libraries?: SpectrumAxisLibrary[];
+  loadLibraries?: boolean;
 }
 
 const DISPOSITION_TAB = 3;
 
-export default function SpectrumFullSection({ entries, libraries = [] }: SpectrumFullSectionProps) {
+export default function SpectrumFullSection({ entries, libraries: initialLibraries = [], loadLibraries = false }: SpectrumFullSectionProps) {
   const locale = useLocale();
   const t = useTranslations("explore.spectrum");
   const td = useTranslations("explore.ui.spectrumDistribution");
   const [activeTab, setActiveTab] = useState(0);
   const [activeAxis, setActiveAxis] = useState<string | null>(null);
+  const [libraries, setLibraries] = useState(initialLibraries);
+  const [libraryState, setLibraryState] = useState<'loading' | 'ready' | 'failed'>(loadLibraries ? 'loading' : 'ready');
+  const [retry, setRetry] = useState(0);
+  useEffect(() => {
+    if (!loadLibraries) return;
+    let active = true;
+    void getSpectrumAxisLibrariesStrict().then(result => {
+      if (!active) return;
+      setLibraries(result);
+      setLibraryState('ready');
+    }).catch(() => { if (active) setLibraryState('failed'); });
+    return () => { active = false; };
+  }, [loadLibraries, retry]);
 
   if (entries.length === 0) return null;
 
@@ -140,5 +155,8 @@ export default function SpectrumFullSection({ entries, libraries = [] }: Spectru
     onSelectAxis: setActiveAxis,
   });
 
-  return <FigureRankingBoard navRows={navRows} accent={color} stageKey={entry.axis} content={content} />;
+  const shelfSlot = libraryState === 'loading' ? <PendingBlock variant="grid" count={6} />
+    : libraryState === 'failed' ? <RetryBlock onRetry={() => { setLibraryState('loading'); setRetry(value => value + 1); }} />
+    : undefined;
+  return <FigureRankingBoard navRows={navRows} accent={color} stageKey={entry.axis} content={content} shelfSlot={shelfSlot} />;
 }

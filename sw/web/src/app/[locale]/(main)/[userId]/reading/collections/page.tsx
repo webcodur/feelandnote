@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/db/server";
+import { getRequestUser } from "@/lib/db/server";
 import Flows from "@/components/features/user/flows/Flows";
 
 export async function generateMetadata() {
@@ -13,8 +13,7 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
   const { userId } = await params;
-  const db = await createClient();
-  const { data: { user: currentUser } } = await db.auth.getUser();
+  const { data: { user: currentUser } } = await getRequestUser();
 
   const isOwner = currentUser?.id === userId;
 

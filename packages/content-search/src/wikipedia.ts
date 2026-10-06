@@ -1,3 +1,6 @@
+import { createMusicJsonReader, musicRequestSignal } from './music-request'
+export { MUSIC_INTRO_BUDGET_MS } from './music-request'
+
 // 위키백과 래퍼 — 음악 소개의 무료 출처
 //
 // iTunes는 음악 소개를 주지 않는다(트랙·앨범 응답에 설명 필드가 없다).
@@ -14,8 +17,7 @@ export interface WikipediaIntro {
 
 export type MusicUnit = 'album' | 'track'
 
-const REQUEST_TIMEOUT_MS = 8000
-const USER_AGENT = 'feelandnote/1.0 (https://feelandnote.com)'
+type JsonReader = ReturnType<typeof createMusicJsonReader>
 
 /** 판·리마스터 표기는 위키 문서 제목에 없다 — 떼고 찾는다 */
 const EDITION_NOTE =
@@ -65,19 +67,6 @@ const WORK_TYPES = new Set([
 ])
 const CREATOR_PROPS = ['P175', 'P86', 'P676', 'P50']
 
-async function fetchJson<T>(url: string): Promise<T | null> {
-  try {
-    const response = await fetch(url, {
-      headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    })
-    if (!response.ok) return null
-    return (await response.json()) as T
-  } catch {
-    return null
-  }
-}
-
 interface WikiSummary {
   extract?: string
   type?: string
@@ -95,7 +84,7 @@ interface WikidataLabels {
 }
 
 /** 요약문만으로 판정이 안 될 때 위키데이터로 작품 여부와 아티스트를 확인한다 */
-async function verifyByWikidata(qid: string, wantArtist: string) {
+async function verifyByWikidata(qid: string, wantArtist: string, fetchJson: JsonReader) {
   const claims = await fetchJson<WikidataClaims>(
     `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${qid}&props=claims&format=json`,
   )
@@ -131,6 +120,7 @@ async function albumOfTrackFallback(
   trackTitle: string,
   wantArtist: string,
   language: 'en' | 'ko',
+  fetchJson: JsonReader,
 ): Promise<WikipediaIntro | null> {
   if (trackTitle.trim().length < 2) return null
   const host = `https://${language}.wikipedia.org`
@@ -148,7 +138,7 @@ async function albumOfTrackFallback(
     let isAlbum = saysAlbum
     let creatorMatches = !!wantArtist && normalize(extract).includes(wantArtist)
     if ((!isAlbum || !creatorMatches) && summary?.wikibase_item) {
-      const verified = await verifyByWikidata(summary.wikibase_item, wantArtist)
+      const verified = await verifyByWikidata(summary.wikibase_item, wantArtist, fetchJson)
       isAlbum = isAlbum || verified.isWork
       creatorMatches = creatorMatches || verified.creatorMatches
     }
@@ -178,6 +168,7 @@ async function lookUp(
   title: string,
   artist: string,
   language: 'en' | 'ko',
+  fetchJson: JsonReader,
 ): Promise<WikipediaIntro | null> {
   const host = `https://${language}.wikipedia.org`
   // 검색 보조어는 그 언어판의 낱말이어야 검색 순위에 먹힌다
@@ -223,7 +214,7 @@ async function lookUp(
     let creatorMatches = !!wantArtist && normalize(extract).includes(wantArtist)
 
     if ((!isWork || !creatorMatches) && summary?.wikibase_item) {
-      const verified = await verifyByWikidata(summary.wikibase_item, wantArtist)
+      const verified = await verifyByWikidata(summary.wikibase_item, wantArtist, fetchJson)
       isWork = isWork || verified.isWork
       creatorMatches = creatorMatches || verified.creatorMatches
     }
@@ -245,7 +236,7 @@ async function lookUp(
 
   // 곡 문서가 없으면 수록 음반 문서라도 보여 준다 — 한국 가요는 이 경로가 본선이다
   if (unit === 'track') {
-    return albumOfTrackFallback(keys, title, wantArtist, language)
+    return albumOfTrackFallback(keys, title, wantArtist, language, fetchJson)
   }
   return null
 }
@@ -261,7 +252,9 @@ export async function getMusicIntro(
   rawTitle: string,
   rawArtist: string,
   language: 'en' | 'ko' = 'en',
+  signal?: AbortSignal,
 ): Promise<WikipediaIntro | null> {
+  const fetchJson = createMusicJsonReader(musicRequestSignal(signal))
   const title = cleanTitle(rawTitle)
   const artist = cleanArtist(rawArtist)
   if (!title || !artist) return null
@@ -270,7 +263,7 @@ export async function getMusicIntro(
     (value): value is string => !!value,
   )
   for (const attempt of attempts) {
-    const found = await lookUp(unit, attempt, artist, language)
+    const found = await lookUp(unit, attempt, artist, language, fetchJson)
     if (found) return found
   }
   return null

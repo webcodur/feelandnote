@@ -56,7 +56,7 @@ export function useContentBrief(
     && contentIds[at] === activeContentId;
   const entriesRef = useRef<Map<string, BriefEntry>>(
     new Map(
-      initialCacheKey && initialBrief != null
+      initialCacheKey && initialBrief != null && !initialBrief.enrichmentPending
         ? [[initialCacheKey, { status: "ready", brief: initialBrief } as SettledBriefEntry]]
         : [],
     ),
@@ -176,7 +176,8 @@ export function useContentBrief(
   return {
     contentId: localeCommitted?.contentId ?? null,
     brief: localeCommitted?.brief ?? null,
-    isLoading: enabled && activeKey != null && !isCurrent,
+    isLoading: enabled && activeKey != null && (!isCurrent
+      || (!!localeCommitted?.brief?.enrichmentPending && !localeCommitted.brief.description)),
     hasError: enabled && isCurrent && localeCommitted?.status === "failed",
     retry,
   };

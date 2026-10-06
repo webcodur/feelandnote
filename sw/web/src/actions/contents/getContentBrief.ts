@@ -19,6 +19,7 @@ import type { ContentType } from '@/types/database'
 import type { ContentMetadata } from '@/types/content'
 import type { CategoryId, VideoSubtype } from '@/constants/categories'
 import { CL_SELECT, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { coalesceCacheQuery } from '@/lib/cacheQuery'
 import {
   dropForeignDisplayText,
   pickIntroForLocale,
@@ -38,6 +39,8 @@ export interface ContentBrief {
   subtype?: VideoSubtype
   /** 음악 전용. 애플이 소개를 주지 않아 바깥 출처에서 모은다. 둘 이상이면 화면이 탭으로 보여 준다 */
   introSources?: ContentIntroSource[]
+  /** 저장 자료를 먼저 표시한 뒤 클라이언트에서 외부 소개를 보충한다. */
+  enrichmentPending?: boolean
 }
 // #endregion
 
@@ -100,7 +103,7 @@ function isMetaDescUsable(locale: string, source?: string | null): boolean {
     : source === 'google_books' || source === 'igdb' || source === 'itunes' || source === 'tmdb'
 }
 
-async function fetchBrief(contentId: string, locale: string): Promise<ContentBrief | null> {
+async function fetchBrief(contentId: string, locale: string, initial = false): Promise<ContentBrief | null> {
   const db = createStaticClient()
 
   const { data, error } = await db
@@ -127,12 +130,14 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
     ? withoutBookDescription((row.metadata as Record<string, unknown> | null) ?? {})
     : row.metadata as Record<string, unknown> | null
   const storedMetadata = normalizeMetadata(storedRaw)
+  const storedDescription = pickIntroForLocale(locale, [exactLocale?.description,
+    storedMetadata?.storyline, storedMetadata?.description])
+  const needsMetadata = type !== 'BOOK'
+    && !(storedMetadata && (storedDescription || type === 'MUSIC'))
 
   // 음악은 등록할 때 미리듣기와 Apple 링크를 저장한다. 상세를 열 때마다 공개 API를 다시
   // 호출하면 iTunes IP 제한을 소모하므로 저장값이 있을 때는 외부 조회를 생략한다.
-  const fetched = type === 'BOOK'
-    ? { id: externalId, metadata: null, source: undefined, subtype: undefined }
-    : type === 'MUSIC' && storedMetadata
+  const fetched = initial || !needsMetadata
     ? { id: externalId, metadata: null, source: undefined, subtype: undefined }
     : await fetchContentMetadata(externalId, type, externalSource ?? undefined, locale === 'en' ? 'en' : 'ko')
 
@@ -164,7 +169,7 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
      앨범과 곡은 찾는 문서가 다르다 — 애플 주소의 i 파라미터가 곡 단위임을 알려 준다. */
   const koLocale = locales?.find((item) => item.locale === 'ko')
   const enLocale = locales?.find((item) => item.locale === 'en')
-  const introSources = type === 'MUSIC'
+  const introSources = !initial && type === 'MUSIC' && !storedDescription
     ? await fetchMusicIntros(
         typeof metadata?.itunesUrl === 'string' && metadata.itunesUrl.includes('?i=') ? 'track' : 'album',
         {
@@ -190,8 +195,10 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
         : {}),
     releaseDate: (row.release_date as string | null) || (metadata?.publishDate ?? null),
     metadata,
-    subtype: fetched.subtype as VideoSubtype | undefined,
+    subtype: (fetched.subtype ?? metadata?.subtype) as VideoSubtype | undefined,
     ...(introSources.length ? { introSources } : {}),
+    ...(initial && (bookDisplay?.bookIntroduction || needsMetadata || (type === 'MUSIC' && !storedDescription))
+      ? { enrichmentPending: true } : {}),
   }
 }
 
@@ -205,9 +212,16 @@ function getCachedContentBrief(contentId: string, safeLocale: string): Promise<C
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-brief-v12-media-source', BOOK_METADATA_CACHE_VARIANT, isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, safeLocale],
-    () => fetchBrief(contentId, safeLocale),
+    ['content-brief-v14-stored', BOOK_METADATA_CACHE_VARIANT, isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, safeLocale],
+    () => fetchBrief(contentId, safeLocale, true),
   )
+}
+
+/** 초기 HTML은 저장된 자료만 읽는다. 외부 서비스 장애가 인물 본문을 막지 않는다. */
+export async function getInitialContentBrief(contentId: string, locale: string): Promise<ContentBrief | null> {
+  if (!UUID_PATTERN.test(contentId)) return null
+  return withQueryFallback('getInitialContentBrief',
+    () => getCachedContentBrief(contentId, locale === 'en' ? 'en' : 'ko'), null)
 }
 
 export async function getContentBrief(contentId: string, locale: string): Promise<ContentBrief | null> {
@@ -218,9 +232,9 @@ export async function getContentBrief(contentId: string, locale: string): Promis
     async () => {
       const brief = await getCachedContentBrief(contentId, safeLocale)
       try {
-        return await withBookIntroduction(brief, safeLocale)
-      } catch (error) {
-        console.error('[getContentBrief introduction]', contentId, error)
+        return await completeContentBrief(brief, contentId, safeLocale)
+      } catch {
+        console.error('[getContentBrief] supplementary information unavailable', contentId)
         return brief
       }
     },
@@ -238,7 +252,19 @@ export async function getContentBriefStrict(
 ): Promise<ContentBrief | null> {
   if (!UUID_PATTERN.test(contentId)) return null
   const safeLocale = locale === 'en' ? 'en' : 'ko'
-  return withBookIntroduction(await getCachedContentBrief(contentId, safeLocale), safeLocale)
+  const brief = await getCachedContentBrief(contentId, safeLocale)
+  return completeContentBrief(brief, contentId, safeLocale)
+}
+
+async function completeContentBrief(brief: ContentBrief | null, contentId: string, safeLocale: string): Promise<ContentBrief | null> {
+  if (!brief?.enrichmentPending) return brief
+  return coalesceCacheQuery(JSON.stringify(['content-brief-complete', contentId, safeLocale, isDeveloperMode()]),
+    async () => {
+      const complete = brief.bookIntroduction
+        ? await withBookIntroduction(brief, safeLocale)
+        : await fetchBrief(contentId, safeLocale)
+      return complete ? { ...complete, enrichmentPending: false } : null
+    })
 }
 
 // 외부 장애로 비워진 소개를 서지 캐시에 저장하지 않는다.

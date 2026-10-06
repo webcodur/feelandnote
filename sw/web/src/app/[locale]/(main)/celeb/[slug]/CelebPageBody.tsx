@@ -14,7 +14,11 @@ import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getCelebReferenceBooks } from "@/actions/celebs/getCelebReferenceBooks";
-import { getContentBrief } from "@/actions/contents/getContentBrief";
+import { getInitialContentBrief, getContentBrief } from "@/actions/contents/getContentBrief";
+import { shouldStreamForRequest } from "@/lib/render-mode";
+import { wikidataLink } from "@/lib/celeb/externalLinks";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import { CATEGORIES } from "@/constants/categories";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
@@ -70,6 +74,7 @@ function named<T>(slug: string, name: string, promise: Promise<T>): Promise<T> {
 export default async function CelebPageBody({ params }: PageProps) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
+  const initial = await shouldStreamForRequest();
 
   /* ── 2. 서버 데이터 조회 ── */
   const profile = await getCelebRouteProfile(slug, locale);
@@ -95,10 +100,11 @@ export default async function CelebPageBody({ params }: PageProps) {
       }, locale)
     : Promise.resolve(EMPTY_CONTENTS);
   // 인물 상세와 도감 인물 모달은 같은 참고도서 조회를 쓴다.
-  const referenceBooksPromise = getCelebReferenceBooks(userId, locale);
+  const referenceBooksPromise = getCelebReferenceBooks(userId, locale, initial);
+  const externalLinksPromise = getCelebExternalLinks(profile.wikidata_qid, locale);
   const initialContentBriefPromise = initialContentsPromise.then((contents) => {
     const firstContentId = contents.items[0]?.content_id;
-    return firstContentId ? getContentBrief(firstContentId, locale) : null;
+    return firstContentId ? (initial ? getInitialContentBrief : getContentBrief)(firstContentId, locale) : null;
   });
   const [
     sidePresence,
@@ -119,7 +125,7 @@ export default async function CelebPageBody({ params }: PageProps) {
     named(slug, "서가", initialContentsPromise),
     named(slug, "참고도서", referenceBooksPromise),
     initialContentBriefPromise,
-    getCelebExternalLinks(profile.wikidata_qid, locale),
+    initial ? Promise.resolve(profile.wikidata_qid ? [wikidataLink(profile.wikidata_qid)].filter(link => link !== null) : []) : externalLinksPromise,
     initialAnalysisPromise.catch((error: unknown) => {
       // 부가 분석 장애로 인물 페이지 전체를 막지 않는다. 제자리의 수동 재시도로 복구한다.
       console.error(`[celeb/${slug}] 분석 첫 화면 조회 실패:`, error);
@@ -206,10 +212,12 @@ export default async function CelebPageBody({ params }: PageProps) {
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         externalLinksSlot={
+          <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-16" />}>
           <CelebExternalLinksServer
-            links={externalLinks}
+            links={externalLinksPromise}
             name={profile.nickname}
           />
+          </Lane>
         }
         relatedFiguresSlot={
           /* 관계 인물 링크 — 관계 그래프는 모달 전용이라 크롤러가 못 따라간다.

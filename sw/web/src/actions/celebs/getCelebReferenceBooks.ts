@@ -7,11 +7,11 @@ import { getDisplayFigureBookGroups } from '@/lib/celeb/authoredBooks'
 import { createStaticClient } from '@/lib/db/static'
 import { getCelebFactionBooks } from './getCelebFactionBooks'
 
-export async function getCelebReferenceBooks(celebId: string, locale: string) {
+export async function getCelebReferenceBooks(celebId: string, locale: string, initial = false) {
   const db = createStaticClient()
   const [profileResult, figureBooks] = await Promise.all([
     db.from('celebs').select('profession').eq('id', celebId).single(),
-    getFigureBookPresentationsForCeleb(celebId, locale),
+    getFigureBookPresentationsForCeleb(celebId, locale, initial),
   ])
   if (profileResult.error) throw profileResult.error
   const groups = getDisplayFigureBookGroups(figureBooks)

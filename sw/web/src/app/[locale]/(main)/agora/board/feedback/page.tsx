@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/db/server'
+import { getRequestUser } from '@/lib/db/server'
 import { getFeedbacks } from '@/actions/board/feedbacks'
 import FeedbackList from '@/components/features/board/feedbacks/FeedbackList'
 import { resolveLocale } from '@/types/locale'
@@ -29,9 +29,8 @@ export default async function FeedbackPage({ params, searchParams }: FeedbackPag
     ? (rawCategory as FeedbackCategory)
     : undefined
 
-  const db = await createClient()
   const [{ data: { user } }, { feedbacks, total }] = await Promise.all([
-    db.auth.getUser(),
+    getRequestUser(),
     getFeedbacks({ locale, limit: ITEMS_PER_PAGE, offset, category }),
   ])
 

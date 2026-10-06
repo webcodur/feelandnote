@@ -8,7 +8,7 @@
 
 import { getLocale, getTranslations } from "next-intl/server";
 import { getTopByContentTypeFull } from "@/actions/home/getTopByContentTypeFull";
-import { getSharedContents } from "@/actions/home/getSharedContents";
+import SharedRankingShelf from "@/components/features/user/explore/figureRankingBoard/SharedRankingShelf";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getCelebProfileUrl } from "@/lib/url";
 import FigureRankingBoard, {
@@ -21,12 +21,8 @@ import { TYPE_COLORS, type ContentTypeKey } from "./constants";
 export async function TopByTypeMedia({ type, navRows }: { type: ContentTypeKey; navRows: RankingNavRow[] }) {
   const accent = TYPE_COLORS[type];
   let entry: Awaited<ReturnType<typeof getTopByContentTypeFull>>;
-  let shared: Awaited<ReturnType<typeof getSharedContents>> = [];
   try {
     entry = await getTopByContentTypeFull(type);
-    if (entry) {
-      shared = await getSharedContents(entry.celebs.map((c) => c.id), entry.type, 10);
-    }
   } catch (e) {
     console.error(`[RankingPage] ${type} 조회 실패:`, e);
     entry = null;
@@ -68,21 +64,8 @@ export async function TopByTypeMedia({ type, navRows }: { type: ContentTypeKey; 
       })),
       valuePrefix: Icon ? <Icon size={10} style={{ color: accent }} aria-hidden /> : undefined,
     },
-    shelf: shared.length > 0 ? {
-      media,
-      groups: [{
-        id: "shared",
-        title: media,
-        works: [...shared].sort((a, b) => b.celeb_count - a.celeb_count).map((item) => ({
-          contentId: item.content_id,
-          type: item.content_type,
-          title: item.title ?? (isEn ? "Untitled" : "제목 미상"),
-          creator: item.creator,
-          thumbnail: item.thumbnail_url,
-        })),
-      }],
-    } : undefined,
+
   };
 
-  return <FigureRankingBoard navRows={navRows} accent={accent} content={content} />;
+  return <FigureRankingBoard navRows={navRows} accent={accent} content={content} shelfSlot={<SharedRankingShelf celebIds={entry.celebs.map(c => c.id)} type={entry.type} locale={locale} title={media} media={media} accent={accent} />} />;
 }

@@ -1,3 +1,5 @@
+import { musicRequestSignal } from './music-request'
+
 // Last.fm 래퍼 — 음악 소개의 두 번째 무료 출처
 //
 // 앨범·곡 이름만으로 소개를 돌려준다. 키가 없으면 조용히 비활성이며 화면은 위키백과 탭만 보여준다.
@@ -5,7 +7,6 @@
 
 const LASTFM_API_KEY = process.env.LASTFM_API_KEY
 const LASTFM_API_URL = 'https://ws.audioscrobbler.com/2.0/'
-const REQUEST_TIMEOUT_MS = 8000
 
 export interface LastfmIntro {
   text: string
@@ -53,16 +54,17 @@ function toPlainText(html: string): string {
     .trim()
 }
 
-async function callLastfm<T>(params: Record<string, string>): Promise<T | null> {
+async function callLastfm<T>(params: Record<string, string>, signal: AbortSignal): Promise<T | null> {
   if (!LASTFM_API_KEY) return null
   const query = new URLSearchParams({ ...params, api_key: LASTFM_API_KEY, format: 'json', autocorrect: '1' })
   try {
     const response = await fetch(`${LASTFM_API_URL}?${query}`, {
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      signal,
     })
     if (!response.ok) return null
     return (await response.json()) as T
   } catch {
+    signal.throwIfAborted()
     return null
   }
 }
@@ -92,6 +94,7 @@ export async function getAlbumIntro(
   artist: string,
   album: string,
   language = 'en',
+  signal?: AbortSignal,
 ): Promise<LastfmIntro | null> {
   const wantArtist = cleanArtist(artist)
   const data = await callLastfm<LastfmAlbumResponse>({
@@ -99,7 +102,7 @@ export async function getAlbumIntro(
     artist: wantArtist,
     album,
     lang: language,
-  })
+  }, musicRequestSignal(signal))
   return buildIntro(data?.album?.wiki, data?.album?.url, data?.album?.name, data?.album?.artist, wantArtist)
 }
 
@@ -108,6 +111,7 @@ export async function getTrackIntro(
   artist: string,
   track: string,
   language = 'en',
+  signal?: AbortSignal,
 ): Promise<LastfmIntro | null> {
   const wantArtist = cleanArtist(artist)
   const data = await callLastfm<LastfmTrackResponse>({
@@ -115,7 +119,7 @@ export async function getTrackIntro(
     artist: wantArtist,
     track,
     lang: language,
-  })
+  }, musicRequestSignal(signal))
   return buildIntro(data?.track?.wiki, data?.track?.url, data?.track?.name, data?.track?.artist?.name, wantArtist)
 }
 

@@ -1,4 +1,4 @@
-import { fetchChartJson } from './bestsellerFeed'
+import { CHART_REQUEST_BUDGET_MS, fetchChartJson } from './bestsellerFeed'
 import type { ChartLanguage } from './chartSources'
 
 export const STEAM_CHART_URL = 'https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1/'
@@ -99,8 +99,9 @@ export function assembleSteamChart(chart: ReturnType<typeof parseSteamRanks>, va
 }
 
 export async function fetchSteamChart(fetcher: typeof fetch, language: ChartLanguage): Promise<SteamChart> {
-  const ranks = parseSteamRanks(await fetchChartJson(fetcher, STEAM_CHART_URL, { Accept: 'application/json' }))
-  const metadata = await fetchChartJson(fetcher, steamItemsUrl(ranks.ranks.map(row => row.id), language), { Accept: 'application/json' })
+  const signal = AbortSignal.timeout(CHART_REQUEST_BUDGET_MS)
+  const ranks = parseSteamRanks(await fetchChartJson(fetcher, STEAM_CHART_URL, { Accept: 'application/json' }, ['application/json'], signal))
+  const metadata = await fetchChartJson(fetcher, steamItemsUrl(ranks.ranks.map(row => row.id), language), { Accept: 'application/json' }, ['application/json'], signal)
   return assembleSteamChart(ranks, metadata)
 }
 

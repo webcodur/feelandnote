@@ -59,6 +59,7 @@ export interface ContentDetailData {
     /** 실제 판본 선택. 감상과 리뷰는 id의 작품에 그대로 귀속된다. */
     bookEditions?: ContentBookEdition[]
     editionLocale?: 'ko' | 'en'
+    enrichmentPending?: boolean
   }
   userRecord: {
     id: string
@@ -138,6 +139,7 @@ async function fetchContentDataPublic(
   category: CategoryId | null,
   locale: string,
   bookLanguage?: BookSearchLanguage,
+  initial = false,
 ): Promise<ContentDetailData['content'] | null> {
   const db = createStaticClient()
   const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), figure_book_contents(content_id)`
@@ -211,6 +213,11 @@ async function fetchContentDataPublic(
     const storedMetadata = dbContent.metadata && Object.keys(dbContent.metadata).length > 0
       ? dbContent.metadata
       : null
+    const storedDescription = pickIntroForLocale(locale, [dbContent.description,
+      storedMetadata?.description, storedMetadata?.overview, storedMetadata?.storyline, storedMetadata?.summary]
+      .filter((value): value is string => typeof value === 'string'))
+    const needsMetadata = dbContent.type !== 'BOOK'
+      && !(storedMetadata && (storedDescription || dbContent.type === 'MUSIC'))
     const editionSet = dbContent.type === 'BOOK'
       ? await fetchDefaultFigureBookEdition(dbContent.id, locale)
       : null
@@ -225,7 +232,7 @@ async function fetchContentDataPublic(
     const metadataResult: ContentMetadata | null = dbContent.type === 'BOOK'
       ? { id: externalId, metadata: { isbn: resolveBookIsbn(locale, sourceEdition?.isbn, dbContent.isbn, externalId) } }
       : await (
-      dbContent.type === 'MUSIC' && storedMetadata
+      initial || !needsMetadata
         ? Promise.resolve(null)
         : fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko')
       )
@@ -266,7 +273,7 @@ async function fetchContentDataPublic(
       titleBadge: sourceEdition?.title ? null : dbContent.title_badge,
       creator: sourceEdition?.creator || dbContent.creator || undefined,
       thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
-      description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [dbContent.description, dbMetaDesc])) ?? undefined,
+      description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [storedDescription, dbMetaDesc])) ?? undefined,
       ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
       ...(bookDisplay?.introductionAttribution ? { introductionAttribution: bookDisplay.introductionAttribution } : {}),
       releaseDate: sourceEdition?.releaseDate || dbContent.release_date || undefined,
@@ -275,6 +282,8 @@ async function fetchContentDataPublic(
       metadata: dbMetadata,
       purchaseEditionId: sourceEdition?.id,
       bookEditions: editionSet?.editions,
+      ...(initial && needsMetadata
+        ? { enrichmentPending: true } : {}),
       affiliateLinks: dbContent.is_figure_book
         // 구매처가 없는 판본도 책장에 서므로 링크가 실제로 있을 때만 내보낸다.
         ? sourceEdition?.platform && sourceEdition.purchaseUrl
@@ -322,12 +331,12 @@ async function fetchContentDataPublic(
 // 서지와 외부 소개는 정적 캐시 수명을 공유한다. 감상문 피드는 사용자 활동용 캐시를 쓴다.
 /* 작품 한 건짜리 조회 — 항목 태그를 달아 그 한 건만 비울 수 있게 한다.
    여기서 받는 contentId는 UUID일 수도 external_id일 수도 있어 그대로 식별자로 쓴다. */
-const fetchContentDataPublicCached = (contentId: string, category: CategoryId | null, locale: string, bookLanguage?: BookSearchLanguage) =>
+const fetchContentDataPublicCached = (contentId: string, category: CategoryId | null, locale: string, bookLanguage?: BookSearchLanguage, initial = false) =>
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v18', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
-    () => fetchContentDataPublic(contentId, category, locale, bookLanguage),
+    ['content-data-public-progressive-v19', initial ? 'initial' : 'complete', isDeveloperMode() ? 'dev-intro-layout-v3' : 'standard', contentId, category ?? '', locale, bookLanguage ?? ''],
+    () => fetchContentDataPublic(contentId, category, locale, bookLanguage, initial),
   )
 
 // 외부 소개는 DB 서지 캐시 밖에서 읽는다. 일시 장애가 나도 서지와 구매 링크는 유지한다.
@@ -381,11 +390,23 @@ async function fetchUserRecord(
 // 전부 만들지 않고, 첫 요청에 생성한 결과를 ISR 캐시로 공유한다.
 export const getPublicContentDetail = cache(getPublicContentDetailInner)
 
+export async function getInitialPublicContentDetail(contentId: string, locale: string): Promise<ContentDetailData | null> {
+  return getPublicContentDetailInner(contentId, locale, true)
+}
+
+/** 소개 보충에는 작품 정보만 필요하다. 리뷰·등장인물·선정 목록을 다시 읽지 않는다. */
+export async function getPublicContentInfo(contentId: string, locale: string): Promise<ContentDetailData['content'] | null> {
+  return withBookIntroduction(await fetchContentDataPublicCached(contentId, null, locale), locale)
+}
+
 async function getPublicContentDetailInner(
   contentId: string,
   locale: string,
+  initial = false,
 ): Promise<ContentDetailData | null> {
-  const content = await withBookIntroduction(await fetchContentDataPublicCached(contentId, null, locale), locale)
+  const content = initial
+    ? await fetchContentDataPublicCached(contentId, null, locale, undefined, true)
+    : await getPublicContentInfo(contentId, locale)
   if (!content) return null
 
   const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([

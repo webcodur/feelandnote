@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/db/server'
+import { getRequestUser } from '@/lib/db/server'
 import { getFreePost } from '@/actions/board/free'
 import FreePostForm from '@/components/features/board/free/FreePostForm'
 import { resolveLocale } from '@/types/locale'
@@ -18,10 +18,9 @@ export async function generateMetadata() {
 export default async function FreeEditPage({ params }: FreeEditPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const db = await createClient()
 
   const [{ data: { user } }, post] = await Promise.all([
-    db.auth.getUser(),
+    getRequestUser(),
     getFreePost(id, locale),
   ])
 

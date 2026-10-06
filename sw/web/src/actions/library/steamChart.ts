@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { readChart } from '@/lib/library/chartRead'
 import { rawFetch } from '@/lib/rawFetch'
 import { fetchSteamChart, selectSteamChart, STEAM_CHART_CACHE_SECONDS } from '@/lib/library/steamChart'
 import type { ChartLanguage } from '@/lib/library/chartSources'
@@ -12,10 +13,6 @@ const cachedSteamChart = unstable_cache(
 )
 
 export async function getSteamChart(locale: string = 'ko') {
-  try {
-    return selectSteamChart(await cachedSteamChart(locale.startsWith('en') ? 'en' : 'ko'))
-  } catch {
-    console.error('[library] Steam player chart unavailable')
-    return selectSteamChart(null)
-  }
+  const language = locale.startsWith('en') ? 'en' : 'ko'
+  return selectSteamChart(await readChart(`steamChart:${language}`, () => cachedSteamChart(language)))
 }

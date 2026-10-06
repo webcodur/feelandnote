@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/db/server";
+import { getRequestUser } from "@/lib/db/server";
 import { getMemberRouteProfile } from "@/lib/profile-route";
 import RecordsContent from "./RecordsContent";
 
@@ -17,8 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function RecordsPage({ params }: PageProps) {
   const { userId, locale } = await params;
-  const db = await createClient();
-  const { data: { user: currentUser } } = await db.auth.getUser();
+  const { data: { user: currentUser } } = await getRequestUser();
 
   const profile = await getMemberRouteProfile(userId, locale);
 

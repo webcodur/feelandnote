@@ -8,7 +8,7 @@ import { cache, Suspense } from "react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
-import { getPublicContentDetail } from "@/actions/contents/getContentDetail";
+import { getInitialPublicContentDetail } from "@/actions/contents/getContentDetail";
 import {
   getAlternates,
   getCreativeWorkCreatorJsonLd,
@@ -21,7 +21,7 @@ import { serializeJsonLd } from "@/lib/jsonLd";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 
-const getPublicContentDetailCached = cache(getPublicContentDetail);
+const getPublicContentDetailCached = cache(getInitialPublicContentDetail);
 
 interface PageProps {
   params: Promise<{ locale: string; contentId: string }>;

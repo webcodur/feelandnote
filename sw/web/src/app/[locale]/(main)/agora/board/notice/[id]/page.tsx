@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getNotice } from '@/actions/board/notices'
 import { getComments } from '@/actions/board/comments'
-import { createClient } from '@/lib/db/server'
+import { createClient, getRequestUser } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeDetail from '@/components/features/board/notices/NoticeDetail'
 import { resolveLocale } from '@/types/locale'
@@ -30,7 +30,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
   const [notice, comments, { data: { user } }] = await Promise.all([
     getNotice(id, locale, true, admin),
     getComments({ boardType: 'NOTICE', postId: id, locale }),
-    db.auth.getUser()
+    getRequestUser()
   ])
 
   if (!notice) {

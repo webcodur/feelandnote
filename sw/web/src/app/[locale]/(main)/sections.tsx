@@ -5,7 +5,7 @@
         홈의 적층 순서는 page.tsx가 쥔다 — 여기는 구획 본문만 만든다.
 */ // ------------------------------
 
-import { createClient } from "@/lib/db/server";
+import { getRequestUser } from "@/lib/db/server";
 import { RetryBlock } from "@/components/ui/pending";
 import { getTodayFigure } from "@/actions/library";
 import type { TodayFigureResult } from "@/actions/library";
@@ -45,10 +45,9 @@ export async function FigureSection() {
 export async function VisitorIntroSection() {
   let isLoggedIn = false;
   try {
-    const db = await createClient();
     const {
       data: { user },
-    } = await db.auth.getUser();
+    } = await getRequestUser();
     isLoggedIn = !!user;
   } catch (error) {
     console.error("[home] 로그인 판정 실패:", error);

@@ -21,7 +21,7 @@ import RecentContentsSection from "./RecentContentsSection";
 import FigureBookCharactersSection from "./FigureBookCharactersSection";
 import CuratedEntriesSection from "./CuratedEntriesSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
-import { getContentDetail, getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
+import { getContentDetail, getPublicContentInfo, getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
 import { createClient } from "@/lib/db/client";
 import { useTranslations, useLocale } from "next-intl";
 import { useSearchParams } from 'next/navigation';
@@ -40,6 +40,15 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const searchParams = useSearchParams();
   const locale = useLocale();
   const requestedLanguage = searchParams.get('bookLanguage');
+
+  useEffect(() => {
+    if (!initialData.content.enrichmentPending) return;
+    let active = true;
+    void getPublicContentInfo(initialData.content.id, locale).then(content => {
+      if (active && content) setData(previous => ({ ...previous, content }));
+    }).catch(() => console.error('[ContentDetailPage] supplementary information unavailable'));
+    return () => { active = false; };
+  }, [initialData.content, locale]);
 
   // Keep the public ISR page reusable; an explicit search-language override is resolved after hydration.
   useEffect(() => {

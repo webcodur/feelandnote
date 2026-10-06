@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Globe, Info } from "lucide-react";
 import { INFLUENCE_ICONS, INFLUENCE_MAX_SCORES, INFLUENCE_TOTAL_MAX_SCORE } from "@feelandnote/influence-constants";
 import { getInfluenceRanking } from "@/actions/home/getInfluenceExplorer";
-import { getSharedContents } from "@/actions/home/getSharedContents";
+import SharedRankingShelf from "@/components/features/user/explore/figureRankingBoard/SharedRankingShelf";
 import { getCelebProfileUrl } from "@/lib/url";
 import { INFLUENCE_RANKING_ACCENT, type InfluenceRankingField } from "@/constants/influenceRanking";
 import FigureRankingBoard, { type FigureRankingBoardContent, type RankingNavRow } from "@/components/features/user/explore/figureRankingBoard/FigureRankingBoard";
@@ -22,10 +22,7 @@ export async function InfluenceBody({ field, navRows }: { field: InfluenceRankin
   }
   const Icon = field === "total_score" ? Globe : INFLUENCE_ICONS[field];
   const max = field === "total_score" ? INFLUENCE_TOTAL_MAX_SCORE : INFLUENCE_MAX_SCORES[field];
-  const [shared, shelfT] = await Promise.all([
-    getSharedContents(people.map((person) => person.id), undefined, 10, locale),
-    getTranslations("explore.rankingBoard"),
-  ]);
+  const shelfT = await getTranslations("explore.rankingBoard");
   const content: FigureRankingBoardContent = {
     head: {
       icon: <Icon size={20} aria-hidden />,
@@ -60,19 +57,6 @@ export async function InfluenceBody({ field, navRows }: { field: InfluenceRankin
         unit: `/ ${max}`,
       })),
     },
-    shelf: shared.length > 0 ? {
-      groups: [{
-        id: field,
-        title: t(`titles.${field}`),
-        works: shared.map((work) => ({
-          contentId: work.content_id,
-          type: work.content_type,
-          title: work.title ?? (locale === "en" ? "Untitled" : "제목 미상"),
-          creator: work.creator,
-          thumbnail: work.thumbnail_url,
-        })),
-      }],
-    } : undefined,
     shelfFallback: (
       <RankingStage>
         <div className="px-5 py-5 md:px-6">
@@ -82,5 +66,5 @@ export async function InfluenceBody({ field, navRows }: { field: InfluenceRankin
       </RankingStage>
     ),
   };
-  return <FigureRankingBoard navRows={navRows} accent={INFLUENCE_RANKING_ACCENT} content={content} />;
+  return <FigureRankingBoard navRows={navRows} accent={INFLUENCE_RANKING_ACCENT} content={content} shelfSlot={<SharedRankingShelf celebIds={people.map(p => p.id)} locale={locale} title={t(`titles.${field}`)} accent={INFLUENCE_RANKING_ACCENT} empty={content.shelfFallback} />} />;
 }

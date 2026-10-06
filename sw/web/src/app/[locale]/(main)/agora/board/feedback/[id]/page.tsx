@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/db/server'
+import { createClient, getRequestUser } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getFeedback } from '@/actions/board/feedbacks'
 import { getComments } from '@/actions/board/comments'
@@ -30,7 +30,7 @@ export default async function FeedbackDetailPage({ params }: FeedbackDetailPageP
     getFeedback(id, locale),
     getComments({ boardType: 'FEEDBACK', postId: id, locale }),
     isAdmin(db),
-    db.auth.getUser()
+    getRequestUser()
   ])
 
   if (!feedback) {

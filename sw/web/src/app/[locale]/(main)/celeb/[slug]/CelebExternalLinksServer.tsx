@@ -15,11 +15,12 @@ import CelebExternalLinks, {
 } from "./CelebExternalLinks";
 
 interface Props {
-  links: CelebExternalLink[];
+  links: CelebExternalLink[] | Promise<CelebExternalLink[]>;
   name: string;
 }
 
-export default async function CelebExternalLinksServer({ links, name }: Props) {
+export default async function CelebExternalLinksServer({ links: pendingLinks, name }: Props) {
+  const links = await pendingLinks;
   if (links.length === 0) return null;
   const t = await getTranslations("celebPage");
   const platformLabels: { [key in CelebExternalLinkPlatform]: string } = {

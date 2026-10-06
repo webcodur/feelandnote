@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, spreadRevalidate, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
+import { coalesceCacheQuery } from '@/lib/cacheQuery'
 import { flattenLocales } from '@/lib/utils/content-locale'
 import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import {
@@ -353,5 +354,9 @@ const getCachedSpectrumAxisLibraries = unstable_cache(
 )
 
 export async function getSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
-  return withQueryFallback('getSpectrumAxisLibraries', () => getCachedSpectrumAxisLibraries(), [])
+  return withQueryFallback('getSpectrumAxisLibraries', () => getSpectrumAxisLibrariesStrict(), [])
+}
+
+export async function getSpectrumAxisLibrariesStrict(): Promise<SpectrumAxisLibrary[]> {
+  return coalesceCacheQuery('spectrum-axis-libraries', () => getCachedSpectrumAxisLibraries())
 }

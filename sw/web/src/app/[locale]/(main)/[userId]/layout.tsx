@@ -7,7 +7,7 @@ import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageBanner from "@/components/shared/PageBanner";
 import { BANNER_TITLE_CLASS } from "@/components/shared/bannerStyles";
-import { createClient } from "@/lib/db/server";
+import { getRequestUser } from "@/lib/db/server";
 import MessageScope from "@/components/shared/MessageScope";
 
 interface LayoutProps {
@@ -17,10 +17,9 @@ interface LayoutProps {
 
 async function UserLayoutBody({ children, params }: LayoutProps) {
   const { userId, locale } = await params;
-  const db = await createClient();
   const [profile, authResult, tCtx] = await Promise.all([
     getMemberRouteProfile(userId, locale),
-    db.auth.getUser(),
+    getRequestUser(),
     getTranslations("contextHeader"),
   ]);
 

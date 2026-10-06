@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/db/server'
+import { createClient, getRequestUser } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getFreePost, getFreeComments } from '@/actions/board/free'
 import FreePostDetail from '@/components/features/board/free/FreePostDetail'
@@ -28,7 +28,7 @@ export default async function FreeDetailPage({ params }: FreeDetailPageProps) {
     getFreePost(id, locale),
     getFreeComments(id),
     isAdmin(db),
-    db.auth.getUser(),
+    getRequestUser(),
   ])
 
   if (!post) {

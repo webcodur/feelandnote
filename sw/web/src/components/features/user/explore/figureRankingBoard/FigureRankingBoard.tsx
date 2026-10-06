@@ -65,6 +65,7 @@ interface FigureRankingBoardProps {
   /** content 없이 무대 안에 세울 것(다시 시도 안내). 둘 다 없으면 대기 화면이다 */
   children?: ReactNode;
   pendingLabel?: string;
+  shelfSlot?: ReactNode;
 }
 
 function Ranking({ ranking, accent }: { ranking: PodiumRanking | VersusRanking; accent: string }) {
@@ -103,7 +104,7 @@ function rankedCount(ranking: PodiumRanking | VersusRanking) {
 }
 
 export default function FigureRankingBoard({
-  navRows, accent, stageKey, content, children, pendingLabel,
+  navRows, accent, stageKey, content, children, pendingLabel, shelfSlot,
 }: FigureRankingBoardProps) {
   return (
     <div className="space-y-8">
@@ -146,7 +147,7 @@ export default function FigureRankingBoard({
         </div>
       </RankingStage>
 
-      {content && (content.shelf ? <RankingShelf shelf={content.shelf} accent={accent} /> : content.shelfFallback)}
+      {content && (shelfSlot ?? (content.shelf ? <RankingShelf shelf={content.shelf} accent={accent} /> : content.shelfFallback))}
     </div>
   );
 }

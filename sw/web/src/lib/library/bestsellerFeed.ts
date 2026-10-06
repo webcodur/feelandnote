@@ -4,6 +4,7 @@ import { productUrl as yes24ProductUrl, YES24_BOOK_GOODS_TYPES } from '../books/
 export const APPLE_BOOKS_FEED_URL = 'https://rss.marketingtools.apple.com/api/v2/us/books/top-paid/20/books.json'
 export const CHART_CACHE_SECONDS = { ko: 24 * 3600, en: 3600 } as const
 export const CHART_MAX_AGE_MS = 48 * 3600_000
+export const CHART_REQUEST_BUDGET_MS = 5000
 const MAX_BYTES = 1_000_000
 const LIMIT = 20
 type JsonObject = { [key: string]: unknown }
@@ -120,10 +121,10 @@ export function parseAppleBooksChart(value: unknown, now = Date.now()): BookChar
 // Apple 피드는 User-Agent 없는 요청(undici 기본값)을 연결만 받고 응답 없이 붙잡아 둔다 — 명시 UA가 필수다
 const FEED_USER_AGENT = 'feelandnote/1.0 (+https://feelandnote.com)'
 
-export async function fetchChartJson(fetcher: typeof fetch, url: string, headers: HeadersInit, contentTypes: readonly string[] = ['application/json']): Promise<unknown> {
+export async function fetchChartJson(fetcher: typeof fetch, url: string, headers: HeadersInit, contentTypes: readonly string[] = ['application/json'], signal?: AbortSignal): Promise<unknown> {
   const response = await fetcher(url, {
     headers: { 'User-Agent': FEED_USER_AGENT, ...headers },
-    signal: AbortSignal.timeout(15_000),
+    signal: signal ?? AbortSignal.timeout(CHART_REQUEST_BUDGET_MS),
     redirect: 'error',
   })
     .catch(() => { throw new Error('Book chart network request failed') })
@@ -150,12 +151,12 @@ export async function fetchChartJson(fetcher: typeof fetch, url: string, headers
   for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length }
   return JSON.parse(new TextDecoder().decode(bytes))
 }
-export async function fetchYes24Chart(fetcher: typeof fetch, apiKey: string, basisDate: string, now = Date.now()): Promise<BookChart> {
+export async function fetchYes24Chart(fetcher: typeof fetch, apiKey: string, basisDate: string, now = Date.now(), signal?: AbortSignal): Promise<BookChart> {
   if (!apiKey.trim()) throw new Error('YES24 chart key missing')
   if (!recentKoreanChartDates(now).includes(basisDate)) throw new Error('Invalid chart basis date')
   const url = new URL('https://apis.yes24.com/v1/category/bestsellerDaily')
   url.search = new URLSearchParams({ categoryId: '001', date: basisDate, page: '1', pageSize: String(LIMIT), detail: 'N' }).toString()
-  return parseYes24Chart(await fetchChartJson(fetcher, url.href, { Accept: 'application/json', 'X-Api-Key': apiKey }), basisDate, now)
+  return parseYes24Chart(await fetchChartJson(fetcher, url.href, { Accept: 'application/json', 'X-Api-Key': apiKey }, ['application/json'], signal), basisDate, now)
 }
 export async function fetchAppleBooksChart(fetcher: typeof fetch, now = Date.now()): Promise<BookChart> {
   return parseAppleBooksChart(await fetchChartJson(fetcher, APPLE_BOOKS_FEED_URL, { Accept: 'application/json' }), now)

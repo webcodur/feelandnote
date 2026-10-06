@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { readChart } from '@/lib/library/chartRead'
 import { rawFetch } from '@/lib/rawFetch'
 import { fetchStoreChart, selectStoreChart, STORE_CHART_CACHE_SECONDS } from '@/lib/library/storeChart'
 import type { ChartLanguage } from '@/lib/library/chartSources'
@@ -13,10 +14,6 @@ const cachedStoreChart = unstable_cache(
 )
 
 export async function getStoreChart(locale: string = 'ko') {
-  try {
-    return selectStoreChart(await cachedStoreChart(locale.startsWith('en') ? 'en' : 'ko'))
-  } catch {
-    console.error('[library] Apple movie chart unavailable')
-    return selectStoreChart(null)
-  }
+  const language = locale.startsWith('en') ? 'en' : 'ko'
+  return selectStoreChart(await readChart(`storeChart:${language}`, () => cachedStoreChart(language)))
 }

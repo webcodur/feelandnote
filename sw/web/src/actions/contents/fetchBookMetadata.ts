@@ -9,6 +9,7 @@ import { normalizeBookIsbn } from '@/lib/utils/book-description'
 import { pickIntroForLocale } from '@/lib/utils/content-locale-text'
 import { isDeveloperMode } from '@/lib/developer-mode'
 import { getDeveloperIntroductionLayout } from '@/lib/books/developerBookIntroductionLayout'
+import { coalesceCacheQuery } from '@/lib/cacheQuery'
 
 // 선택된 출처만 조회한다. 인자 전체가 캐시 키이므로 같은 ISBN의 다른 출처와 섞이지 않는다.
 const readIntroduction = cache(unstable_cache(
@@ -33,7 +34,8 @@ export async function getBookIntroduction(
   const normalizedIsbn = normalizeBookIsbn(isbn)
   const description = isDeveloperMode() && storedText !== undefined
     ? pickIntroForLocale(language, [storedText])
-    : await readIntroduction(normalizedIsbn, language, source, sourceUrl ?? null)
+    : await coalesceCacheQuery(JSON.stringify(['book-introduction', normalizedIsbn, language, source, sourceUrl ?? null]),
+        () => readIntroduction(normalizedIsbn, language, source, sourceUrl ?? null))
   return isDeveloperMode() && language === 'ko' && normalizedIsbn && description
     ? getDeveloperIntroductionLayout(normalizedIsbn, description)
     : description

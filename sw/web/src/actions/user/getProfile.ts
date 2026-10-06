@@ -1,7 +1,7 @@
 'use server'
 
 import { cache } from 'react'
-import { createClient } from '@/lib/db/server'
+import { createClient, getRequestUser } from '@/lib/db/server'
 import { getTitleInfo } from '@/constants/titles'
 
 export interface UserProfile {
@@ -21,7 +21,7 @@ export const getProfile = cache(getProfileInner)
 async function getProfileInner(): Promise<UserProfile | null> {
   const db = await createClient()
 
-  const { data: { user } } = await db.auth.getUser()
+  const { data: { user } } = await getRequestUser()
   if (!user) {
     return null
   }

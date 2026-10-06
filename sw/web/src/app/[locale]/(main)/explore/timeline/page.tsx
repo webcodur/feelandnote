@@ -14,6 +14,8 @@ import { paginateTimeline } from "@/components/features/user/explore/sections/Ti
 import { redirect } from "@/i18n/navigation";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getVisitorCountry } from "@/lib/visitorCountryServer";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock, RetryBlock } from "@/components/ui/pending";
 
 // 국가·페이지 쿼리는 요청마다 읽고, 전체 목록 조회는 getCelebTimeline 캐시를 쓴다.
 export const dynamic = "force-dynamic";
@@ -47,7 +49,12 @@ export async function generateMetadata({ params, searchParams }: PageProps) {
 async function TimelineContent({ locale, search }: { locale: "en" | "ko"; search: Awaited<PageProps["searchParams"]> }) {
   const country = typeof search.country === "string" ? search.country : undefined;
   const page = typeof search.page === "string" ? search.page : undefined;
-  const data = await readTimeline(locale, country, page);
+  let data: Awaited<ReturnType<typeof readTimeline>>;
+  try {
+    data = await readTimeline(locale, country, page);
+  } catch {
+    return <RetryBlock />;
+  }
   if ((country !== undefined && country !== data.country) || (page !== undefined && page !== String(data.page))) {
     redirect({ href: data.path, locale });
   }
@@ -62,5 +69,7 @@ async function TimelineContent({ locale, search }: { locale: "en" | "ko"; search
 export default async function Page({ params, searchParams }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <TimelineContent locale={locale === "en" ? "en" : "ko"} search={await searchParams} />;
+  return <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}>
+    <TimelineContent locale={locale === "en" ? "en" : "ko"} search={await searchParams} />
+  </Lane>;
 }

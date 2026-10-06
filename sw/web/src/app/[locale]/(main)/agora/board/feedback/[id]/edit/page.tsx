@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { redirect } from '@/i18n/navigation'
-import { createClient } from '@/lib/db/server'
+import { getRequestUser } from '@/lib/db/server'
 import { getFeedback } from '@/actions/board/feedbacks'
 import FeedbackForm from '@/components/features/board/feedbacks/FeedbackForm'
 import { resolveLocale } from '@/types/locale'
@@ -18,8 +18,7 @@ export async function generateMetadata() {
 export default async function FeedbackEditPage({ params }: FeedbackEditPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const db = await createClient()
-  const { data: { user } } = await db.auth.getUser()
+  const { data: { user } } = await getRequestUser()
 
   if (!user) {
     return redirect({ href: '/login', locale })

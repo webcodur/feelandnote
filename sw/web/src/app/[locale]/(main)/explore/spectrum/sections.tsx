@@ -10,20 +10,22 @@ import { getSpectrumAxisLibraries } from "@/actions/spectrum/getSpectrumAxisLibr
 import FigureRankingBoard, { type RankingNavRow } from "@/components/features/user/explore/figureRankingBoard/FigureRankingBoard";
 import SpectrumFullSection from "@/components/features/user/explore/sections/SpectrumFullSection";
 import { RetryBlock } from "@/components/ui/pending";
+import { shouldStreamForRequest } from "@/lib/render-mode";
 
 export async function SpectrumBody({ navRows, accent }: { navRows: RankingNavRow[]; accent: string }) {
   let entries: Awaited<ReturnType<typeof getSpectrumExtremes>>;
   let libraries: Awaited<ReturnType<typeof getSpectrumAxisLibraries>>;
+  const loadLibraries = await shouldStreamForRequest();
   try {
     [entries, libraries] = await Promise.all([
       // 1위 + 차순위 9명 = Top 10 — 분야별 챔피언과 같은 인원이다
       getSpectrumExtremes({ runnersUpLimit: 9 }),
-      getSpectrumAxisLibraries(),
+      loadLibraries ? Promise.resolve([]) : getSpectrumAxisLibraries(),
     ]);
   } catch (e) {
     console.error("[SpectrumPage] 본문 조회 실패:", e);
     return <FigureRankingBoard navRows={navRows} accent={accent}><RetryBlock /></FigureRankingBoard>;
   }
   // JSX 생성은 try 밖에서 한다 — try 안 JSX는 렌더 오류를 못 잡으면서 린트만 문다
-  return <SpectrumFullSection entries={entries} libraries={libraries} />;
+  return <SpectrumFullSection entries={entries} libraries={libraries} loadLibraries={loadLibraries} />;
 }

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { readChart } from '@/lib/library/chartRead'
 import { rawFetch } from '@/lib/rawFetch'
 import { fetchMusicChart, MUSIC_CHART_CACHE_SECONDS, selectMusicChart } from '@/lib/library/musicChart'
 import type { ChartLanguage } from '@/lib/library/chartSources'
@@ -13,10 +14,6 @@ const cachedMusicChart = unstable_cache(
 )
 
 export async function getMusicChart(locale: string = 'ko') {
-  try {
-    return selectMusicChart(await cachedMusicChart(locale.startsWith('en') ? 'en' : 'ko'))
-  } catch {
-    console.error('[library] Apple Music chart unavailable')
-    return selectMusicChart(null)
-  }
+  const language = locale.startsWith('en') ? 'en' : 'ko'
+  return selectMusicChart(await readChart(`musicChart:${language}`, () => cachedMusicChart(language)))
 }
