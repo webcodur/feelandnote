@@ -28,7 +28,7 @@ function Cover({ kind, image, showCover, title, creator }: Pick<Props, 'kind' | 
   const item = MEDIA.find(item => item.kind === kind)!
   return (
     <div className={`mo-cover mo-cover-${kind}`}>
-      {showCover ? <ContentCover src={image} alt={title ?? item.title} sizes="(max-width: 768px) 50vw, 25vw" fallback={
+      {showCover ? <ContentCover src={image} alt={title ?? item.title} dissolve={false} sizes="(max-width: 768px) 50vw, 25vw" fallback={
         <div className="mo-sample-art">
           <span className="mo-art-edition">FEEL & NOTE / SAMPLE</span>
           <div className="mo-art-shape" aria-hidden="true" />
