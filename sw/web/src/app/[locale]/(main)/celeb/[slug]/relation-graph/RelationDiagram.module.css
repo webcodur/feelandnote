@@ -139,7 +139,7 @@
 .graphCanvas :global(.relation-person.is-anchored-bottom) { grid-template-rows: 24px 70px; }
 .graphCanvas :global(.relation-person.is-anchored-bottom strong) { grid-row: 1; }
 .graphCanvas :global(.relation-person.is-anchored-bottom .relation-face) { grid-row: 2; }
-.graphCanvas :global(.relation-face) { position: relative; z-index: 1; display: grid; width: 64px; height: 64px; overflow: hidden; place-items: center; border: 1px solid color-mix(in srgb, var(--material-edge) 88%, transparent); border-radius: 0; background: var(--material-panel); box-shadow: 0 5px 13px color-mix(in srgb, var(--material-deep) 72%, transparent); }
+.graphCanvas :global(.relation-face) { position: relative; z-index: 1; display: grid; width: 64px; height: 64px; overflow: hidden; place-items: center; border: 1px solid color-mix(in srgb, var(--material-edge) 88%, transparent); border-radius: 50%; background: var(--material-panel); box-shadow: 0 5px 13px color-mix(in srgb, var(--material-deep) 72%, transparent); }
 .graphCanvas :global(.relation-person:hover strong) { color: var(--material-text); }
 .graphCanvas :global(.relation-person:hover .relation-face) { border-color: var(--material-accent); }
 .graphCanvas :global(.relation-person.is-selected strong) { color: var(--material-text); font-weight: 820; text-shadow: 0 1px 3px var(--material-deep), 0 0 9px color-mix(in srgb, var(--material-accent) 72%, transparent); }
