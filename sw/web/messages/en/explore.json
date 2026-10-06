@@ -335,11 +335,10 @@
         "captionCopy": "Copy caption",
         "captionCopied": "Copied",
         "helpTitle": "Controls",
-        "helpZoom": "Scroll on the artwork — zoom in/out around the cursor",
-        "helpPan": "Drag the zoomed artwork — move the view",
-        "helpPaging": "Scroll the empty margins or swipe the image to change scenes. On-screen arrows and arrow keys move by scene with whole captions, or by sentence with paginated captions.",
-        "helpCaption": "Tap a caption — select and copy the text",
-        "helpEsc": "Esc — step back one level",
+        "helpZoom": "Artwork scroll: zoom · drag: pan",
+        "helpPaging": "Arrow keys · swipe · margin scroll",
+        "helpCaption": "Tap caption to select / copy",
+        "helpEsc": "Step back",
         "captionPrevious": "Previous sentence",
         "captionNext": "Next sentence",
         "portraitImage": "Portrait",
@@ -358,7 +357,23 @@
         "worksReadLead": "Books these figures read",
         "worksAuthoredLead": "Books written by the figures",
         "worksProfessionLead": "Books sought by fellow {profession} figures",
-        "tocSelection": "Selection"
+        "tocSelection": "Selection",
+        "captionFontSize": "Text size",
+        "captionSize": {
+          "small": "Small",
+          "medium": "Medium",
+          "large": "Large"
+        },
+        "captionSizeSample": "Aa",
+        "captionHeightLabel": "Caption position",
+        "captionHeight": {
+          "high": "Lower middle",
+          "middle": "Above bottom",
+          "low": "Bottom"
+        },
+        "helpCaptionMode": "Whole / sentence captions",
+        "helpCaptionSize": "Click to cycle text size",
+        "helpCaptionHeight": "Click to cycle caption position"
       },
       "relationMap": {
         "title": "Relation Map",

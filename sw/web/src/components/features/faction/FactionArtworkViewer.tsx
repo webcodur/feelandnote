@@ -7,10 +7,13 @@ import { Check, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Copy, In
 import { useTranslations } from "next-intl";
 import { CLOSE_BUTTON_STYLE } from "@/components/ui/Modal";
 import FactionArtworkTitle from "./FactionArtworkTitle";
+import FactionArtworkHelp from "./FactionArtworkHelp";
 import { Z_INDEX } from "@/constants/zIndex";
 import type { LocalizedSceneEnding } from "@feelandnote/shared/lib/faction-team-image";
 import FactionSceneNavigator from "./FactionSceneNavigator";
 import FactionSceneText, { SCENE_DIALOGUE_LINE } from "./FactionSceneText";
+import FactionCaptionSize, { CAPTION_SIZE_CLASSES, type CaptionSize } from "./FactionCaptionSize";
+import FactionCaptionHeight, { CAPTION_HEIGHT_OFFSETS, type CaptionHeight } from "./FactionCaptionHeight";
 import { usePreloadImages } from "@/hooks/usePreloadImages";
 import { useWheelPaging } from "@/hooks/useWheelPaging";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
@@ -54,6 +57,13 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const [navigatorOpen, setNavigatorOpen] = useState(false);
   /* 장면 해설 자막 — 켜면 문장 한 쪽씩 넘겨 읽고, 끄면 해설 전체가 한 덩어리로 선다 */
   const [captionSplit, setCaptionSplit] = useState(true);
+  const [captionSize, setCaptionSize] = useState<CaptionSize>("medium");
+  const captionSizeClass = CAPTION_SIZE_CLASSES[captionSize];
+  const [captionHeight, setCaptionHeight] = useState<CaptionHeight>("low");
+  const captionBottom = CAPTION_HEIGHT_OFFSETS[captionHeight];
+  const captionBackdropClass = captionHeight === "low"
+    ? "bg-gradient-to-t from-black/90 via-black/65 to-transparent"
+    : "bg-gradient-to-b from-transparent via-black/75 to-transparent";
   /* 자막을 장면 안에서 한 쪽씩 넘긴다 — 장면이 바뀌면 첫 쪽으로 돌아간다 */
   const [captionPage, setCaptionPage] = useState(0);
   const [entryCaptionPage, setEntryCaptionPage] = useState(0);
@@ -78,6 +88,8 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
   const pendingNavigationAnimation = useRef<{ target: "scene" | "caption"; direction: number } | null>(null);
   const closeNavigator = useCallback(() => setNavigatorOpen(false), []);
   const selectImage = useCallback((nextIndex: number) => {
+    setCaptionPage(0);
+    setEntryCaptionPage(0);
     setIndex(nextIndex);
     setNavigatorOpen(false);
   }, []);
@@ -94,6 +106,22 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     () => (image?.kind === "scene" && image.caption ? splitSceneCaptionPages(image.caption) : []),
     [image]
   );
+  // 슬라이더도 표시 중인 최소 단위가 한 칸이다.
+  const navigationStops = useMemo(() => [
+    ...images.flatMap((item, sceneIndex) => {
+      const count = captionSplit && item.kind === "scene" && item.caption
+        ? Math.max(1, splitSceneCaptionPages(item.caption).length) : 1;
+      return Array.from({ length: count }, (_, page) => ({ index: sceneIndex, page }));
+    }),
+    ...(ending ? [{ index: images.length, page: 0 }] : []),
+  ], [images, captionSplit, ending]);
+  const navigationPosition = Math.max(0, navigationStops.findIndex(stop => stop.index === index && stop.page === (captionSplit ? captionPage : 0)));
+  const selectPosition = (position: number) => {
+    const stop = navigationStops[position];
+    if (!stop) return;
+    if (stop.index === index) setCaptionPage(stop.page);
+    else { setEntryCaptionPage(stop.page); setIndex(stop.index); }
+  };
   const move = useCallback((direction: number) => {
     setIndex(current => Math.max(0, Math.min(slideCount - 1, current + direction)));
   }, [slideCount]);
@@ -129,13 +157,16 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       if (event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight" && event.key !== "Home" && event.key !== "End" && event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
       event.preventDefault();
-      if (event.key === "Home") setIndex(0);
-      else if (event.key === "End") setIndex(slideCount - 1);
+      if (event.key === "Home") { setEntryCaptionPage(0); setCaptionPage(0); setIndex(0); }
+      else if (event.key === "End") {
+        const last = navigationStops.at(-1);
+        if (last) { setEntryCaptionPage(last.page); setCaptionPage(last.page); setIndex(last.index); }
+      }
       else navigate(event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 1);
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [slideCount, navigatorOpen, captionPages.length, navigate]);
+  }, [slideCount, navigatorOpen, captionPages.length, navigate, navigationStops]);
   // 다음 두 장을 미리 받는다. 임의 번호 이동과 엔딩에서도 범위를 넘지 않는다.
   const preloadUrls = useMemo(() => imageRatio
     ? images.slice(index + 1, index + 1 + PRELOAD_AHEAD).map(item => item.url) : [], [images, index, imageRatio]);
@@ -304,6 +335,8 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       if (!(event.target instanceof HTMLElement) || !event.target.closest("[data-artwork-viewer]")) return;
       /* 자막 위의 좌우 밀기는 자막 쪽 넘기기가 처리한다 — 그림은 움직이지 않는다 */
       if (event.target.closest("[data-caption-swipe]")) return;
+      // 분할 자막에서는 그림을 밀어도 자막 한 쪽을 넘긴다.
+      if (paginatedCaption && zoomView.scale === 1) { captionSwipeHandlers.onPointerDown(event); return; }
       /* 진행 중이던 복귀·나가기 애니메이션을 끊고 다시 잡는다 */
       pendingSlide.current = null;
       setSlideAnim(false);
@@ -311,6 +344,10 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       zoomDrag.current = { x: event.clientX, y: event.clientY, vx: zoomView.x, vy: zoomView.y };
     },
     onPointerMove: (event: React.PointerEvent) => {
+      if (captionSwipeStart.current) {
+        if (!(event.target instanceof HTMLElement) || !event.target.closest("[data-caption-swipe]")) captionSwipeHandlers.onPointerMove(event);
+        return;
+      }
       const start = swipeStart.current;
       if (!start) return;
       const dx = event.clientX - start.x;
@@ -333,6 +370,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       }
     },
     onPointerUp: (event: React.PointerEvent) => {
+      if (captionSwipeStart.current) { captionSwipeHandlers.onPointerUp(event); return; }
       const start = swipeStart.current;
       swipeStart.current = null;
       zoomDrag.current = null;
@@ -358,9 +396,10 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
       const boxWidth = viewerBodyRef.current?.getBoundingClientRect().width ?? 0;
       setDragX(pendingSlide.current ? (dx < 0 ? -boxWidth : boxWidth) : 0);
     },
-    onPointerCancel: () => { swipeStart.current = null; zoomDrag.current = null; pendingSlide.current = null; setPanning(false); setSlideAnim(true); setDragX(0); },
+    onPointerCancel: () => { captionSwipeHandlers.onPointerCancel(); swipeStart.current = null; zoomDrag.current = null; pendingSlide.current = null; setPanning(false); setSlideAnim(true); setDragX(0); },
     /* 마우스로 누른 채 화면 밖으로 나가면 up이 안 온다 — 터치는 브라우저가 암묵 포착이라 제외 */
     onPointerLeave: (event: React.PointerEvent) => {
+      if (captionSwipeStart.current) { captionSwipeHandlers.onPointerLeave(event); return; }
       if (event.pointerType !== "mouse" || !swipeStart.current) return;
       swipeStart.current = null;
       zoomDrag.current = null;
@@ -372,6 +411,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     /* img 네이티브 드래그가 시작되면 pointerup이 안 와서 밀기가 죽는다 — 드래그 자체를 막는다 */
     onDragStart: (event: React.DragEvent) => event.preventDefault(),
     onClickCapture: (event: React.MouseEvent) => {
+      if (captionSwipeConsumed.current) { captionSwipeHandlers.onClickCapture(event); return; }
       if (!swipeConsumed.current) return;
       swipeConsumed.current = false;
       event.preventDefault();
@@ -384,7 +424,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
     const step = pendingSlide.current;
     pendingSlide.current = null;
     setSlideAnim(false);
-    if (step) move(step);
+    if (step) navigate(step);
     setDragX(0);
   };
   if (!image) return null;
@@ -479,27 +519,15 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
               className={`flex min-h-9 min-w-9 items-center justify-center rounded-full border px-2.5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${!captionSplit ? "border-accent text-accent hover:bg-accent/10" : "border-white/25 text-white hover:border-accent hover:text-accent"}`}>
               {captionSplit ? <TextAlignJustify size={16} /> : <Rows3 size={16} />}
             </button>)}
+            {isScene && !isEnding && image.caption && <FactionCaptionSize value={captionSize} onChange={setCaptionSize} />}
+            {isScene && !isEnding && image.caption && <FactionCaptionHeight value={captionHeight} onChange={setCaptionHeight} />}
             <button type="button" ref={closeButtonRef} onClick={onClose} aria-label={tAccess("close")} data-artwork-dismiss className={CLOSE_BUTTON_STYLE}>
               <X size={18} aria-hidden />
             </button>
           </div>
         </div>
-        {/* ⓘ 조작법 패널 — 영역이 나뉘어 있어 처음 쓰는 사람에게 필요하다. 바깥을 누르거나 Esc로 닫는다 */}
-        {infoOpen && (
-          <div className="absolute inset-0 z-30" onClick={() => setInfoOpen(false)}>
-            <div className="absolute end-3 top-14 w-[19rem] rounded-xl border border-white/15 bg-black/90 p-4 shadow-2xl"
-              onClick={(event) => event.stopPropagation()}>
-              <p className="mb-2 text-sm font-semibold text-accent">{t("helpTitle")}</p>
-              <ul className="list-disc space-y-1.5 ps-4 text-[13px] leading-relaxed text-white/80">
-                <li>{t("helpZoom")}</li>
-                <li>{t("helpPan")}</li>
-                <li>{t("helpPaging")}</li>
-                <li>{t("helpCaption")}</li>
-                <li>{t("helpEsc")}</li>
-              </ul>
-            </div>
-          </div>
-        )}
+        {infoOpen && <FactionArtworkHelp onClose={() => setInfoOpen(false)}
+          sceneCaption={isScene && !isEnding && Boolean(image.caption)} caption={!isEnding && Boolean(image.caption)} />}
         {/* 본문 — 장면 트랙. 휠은 그림 위=확대·축소, 빈 여백=문장·장면 넘기기. pan-y로 세로 스크롤은 브라우저에 남긴다 */}
         <div ref={viewerBodyRef} data-artwork-viewer {...swipeHandlers}
           className={`@container relative min-h-0 flex-1 overflow-hidden bg-black ${zoomView.scale > 1 ? (panning ? "cursor-grabbing" : "cursor-grab") : ""}`}
@@ -546,30 +574,30 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
                     <X size={14} />
                   </button>
                 </div>
-                <p data-artwork-caption className="max-h-[60dvh] cursor-text select-text overflow-y-auto overscroll-contain whitespace-pre-line break-keep rounded-xl border border-white/15 bg-black/80 p-4 text-base leading-relaxed text-white [overflow-wrap:anywhere] md:text-lg">
+                <p data-artwork-caption className={`max-h-[60dvh] cursor-text select-text overflow-y-auto overscroll-contain whitespace-pre-line break-keep rounded-xl border border-white/15 bg-black/80 p-4 leading-relaxed text-white [overflow-wrap:anywhere] ${captionSizeClass}`}>
                   <FactionSceneText text={image.caption} />
                 </p>
               </div>
             </div>
           )}
-          {/* 자막은 한 문장씩 크게 읽고, 누르면 선택·복사를 연다. 이동은 화면의 공용 화살표가 맡는다. */}
+          {/* 자막 분량과 글자 크기는 독립 설정이다. 누르면 선택·복사를 연다. */}
           {isScene && !isEnding && image.caption && !captionSelect && !captionSplit && (
-            <div data-artwork-caption-frame data-wheel-pass className="absolute inset-x-0 bottom-0 z-10 max-h-[55%] overflow-y-auto overscroll-contain bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10">
+            <div data-artwork-caption-frame data-wheel-pass style={{ bottom: captionBottom }} className={`absolute inset-x-0 z-10 max-h-[55%] overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10 ${captionBackdropClass}`}>
               <button type="button" data-artwork-caption onClick={() => setCaptionSelect(true)} title={t("captionSelect")}
-                className="mx-auto block w-full max-w-3xl whitespace-pre-line break-keep text-center text-lg leading-relaxed text-white outline-none [overflow-wrap:anywhere] md:text-balance md:text-xl">
+                className={`mx-auto block w-full max-w-3xl whitespace-pre-line break-keep text-center leading-relaxed text-white outline-none [overflow-wrap:anywhere] md:text-balance ${captionSizeClass}`}>
                 <FactionSceneText text={image.caption} />
               </button>
             </div>
           )}
           {isScene && !isEnding && image.caption && !captionSelect && captionSplit && (
-            <div data-artwork-caption-frame data-caption-swipe data-wheel-pass {...captionSwipeHandlers} style={{ touchAction: "pan-y" }}
-              className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-6 pt-12 md:px-8 md:pb-10">
+            <div data-artwork-caption-frame data-caption-swipe data-wheel-pass {...captionSwipeHandlers} style={{ touchAction: "pan-y", bottom: captionBottom, maxHeight: `calc(100% - ${captionBottom})` }}
+              className={`absolute inset-x-0 z-10 overflow-y-auto overscroll-contain px-4 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-8 md:pb-10 ${captionBackdropClass}`}>
               {captionPages.length > 1 && (
                 <p data-scene-caption-counter className="mb-1 text-center text-xs tabular-nums text-white/50">{captionPage + 1} / {captionPages.length}</p>)}
               <div className="mx-auto w-full max-w-3xl">
                 <button type="button" data-artwork-caption onClick={() => setCaptionSelect(true)} aria-live="polite"
                   title={t("captionSelect")}
-                  className="relative block max-h-[38dvh] w-full min-w-0 overflow-x-hidden overflow-y-auto overscroll-contain whitespace-pre-line break-keep py-1 text-center text-xl font-medium leading-relaxed text-white outline-none [overflow-wrap:anywhere] [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent [&::-webkit-scrollbar]:hidden md:text-balance md:text-2xl">
+                  className={`relative block max-h-[38dvh] w-full min-w-0 overflow-x-hidden overflow-y-auto overscroll-contain whitespace-pre-line break-keep py-1 text-center font-medium leading-relaxed text-white outline-none [overflow-wrap:anywhere] [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent [&::-webkit-scrollbar]:hidden md:text-balance ${captionSizeClass}`}>
                   {/* 이웃 쪽은 ±100% 자리에서 따라 들어온다 — 현재 쪽만 흐름에 놓아 높이를 정한다 */}
                   <span ref={captionBoxRef} onTransitionEnd={finishCaptionSlide} className="relative block"
                     style={{ transform: `translateX(${captionDragX}px)`, transition: captionSlideAnim ? "transform 160ms ease-out" : "none" }}>
@@ -639,7 +667,7 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
         {hasNavigation && (
           /* PC는 본문 양끝 ‹ ›로 이동한다. 하단의 한 칸 이동 버튼은 모바일에만 둔다. */
           <div data-scene-controls className="grid h-14 shrink-0 grid-cols-[1fr_1fr_minmax(0,2.5fr)_1fr_1fr] divide-x divide-white/10 border-t border-white/10 bg-bg-main/95 backdrop-blur-sm md:h-12 md:grid-cols-[3rem_minmax(0,1fr)_3rem]">
-            <button type="button" onClick={() => setIndex(0)} disabled={index === 0} aria-label={t("firstImage")}
+            <button type="button" onClick={() => selectPosition(0)} disabled={navigationPosition === 0} aria-label={t("firstImage")}
               className="flex items-center justify-center text-text-secondary outline-none enabled:hover:bg-accent/10 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:opacity-25">
               <ChevronsLeft size={18} aria-hidden />
             </button>
@@ -648,17 +676,17 @@ export default function FactionArtworkViewer({ images, title, titleInArtwork = f
               <ChevronLeft size={20} aria-hidden />
             </button>
             <div className="flex min-w-0 items-center justify-center px-3 md:px-4">
-              {/* 스크러버 — 끌거나 눌러 그 자리로 간다. 키보드 ←→는 input이라 전역 핸들러가 건너뛰고 네이티브 한 칸 이동이 먹는다 */}
-              <input type="range" data-scene-slider min={0} max={slideCount - 1} step={1} value={index}
+              {/* 분할 모드는 자막 한 쪽, 전체 모드는 장면 하나가 한 칸이다. */}
+              <input type="range" data-scene-slider min={0} max={navigationStops.length - 1} step={1} value={navigationPosition}
                 aria-label={t("imageNumber", { count: slideCount })}
-                onChange={(event) => setIndex(Number(event.target.value))}
+                onChange={(event) => selectPosition(Number(event.target.value))}
                 className="h-10 w-full cursor-grab accent-accent outline-none focus-visible:ring-2 focus-visible:ring-accent active:cursor-grabbing" />
             </div>
             <button type="button" onClick={() => navigate(1)} disabled={!canNext} aria-label={nextLabel}
               className="flex items-center justify-center text-text-primary outline-none enabled:hover:bg-accent/10 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:opacity-25 md:hidden">
               <ChevronRight size={20} aria-hidden />
             </button>
-            <button type="button" onClick={() => setIndex(slideCount - 1)} disabled={index === slideCount - 1} aria-label={t("lastImage")}
+            <button type="button" onClick={() => selectPosition(navigationStops.length - 1)} disabled={navigationPosition === navigationStops.length - 1} aria-label={t("lastImage")}
               className="flex items-center justify-center text-text-secondary outline-none enabled:hover:bg-accent/10 enabled:hover:text-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:opacity-25">
               <ChevronsRight size={18} aria-hidden />
             </button>

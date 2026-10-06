@@ -335,11 +335,10 @@
         "captionCopy": "자막 복사",
         "captionCopied": "복사됨",
         "helpTitle": "조작법",
-        "helpZoom": "그림 위 스크롤 — 커서 지점 기준 확대·축소",
-        "helpPan": "확대된 그림 끌기 — 보이는 자리 옮기기",
-        "helpPaging": "빈 여백 스크롤 · 그림 좌우 밀기 — 장면 넘기기. 화면 ‹ › · 방향키 — 전체 자막은 장면, 개별 자막은 문장 넘기기",
-        "helpCaption": "자막 누르기 — 글 선택과 복사",
-        "helpEsc": "Esc — 한 단계씩 돌아가기",
+        "helpZoom": "그림 휠로 확대 · 끌어서 이동",
+        "helpPaging": "방향키 · 좌우 밀기 · 여백 휠",
+        "helpCaption": "자막 눌러 선택·복사",
+        "helpEsc": "한 단계 뒤로",
         "captionPrevious": "이전 문장",
         "captionNext": "다음 문장",
         "portraitImage": "대표 사진",
@@ -358,7 +357,23 @@
         "worksReadLead": "인물이 감상한 책",
         "worksAuthoredLead": "인물이 직접 지은 책",
         "worksProfessionLead": "{profession}들이 찾는 책",
-        "tocSelection": "선택"
+        "tocSelection": "선택",
+        "captionFontSize": "글자 크기",
+        "captionSize": {
+          "small": "작게",
+          "medium": "보통",
+          "large": "크게"
+        },
+        "captionSizeSample": "글",
+        "captionHeightLabel": "자막 높이",
+        "captionHeight": {
+          "high": "중하단",
+          "middle": "하단 위",
+          "low": "하단"
+        },
+        "helpCaptionMode": "전체 / 문장별 자막 전환",
+        "helpCaptionSize": "누를 때마다 글자 크기 변경",
+        "helpCaptionHeight": "누를 때마다 자막 위치 변경"
       },
       "relationMap": {
         "title": "관계망",

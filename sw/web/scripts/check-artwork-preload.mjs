@@ -104,7 +104,7 @@ try {
       element.style.height = Math.floor(viewport.height / 2) + 'px';
     }, viewport);
     const state = () => page.evaluate(() => ({
-      scene: document.querySelector('[data-scene-slider]').value,
+      scene: String(Number(document.querySelector('[data-scene-counter]').textContent.split('/')[0].trim()) - 1),
       caption: document.querySelector('[data-scene-caption-counter]')?.textContent,
       transform: document.querySelector('[data-artwork-current]').style.transform,
     }));
