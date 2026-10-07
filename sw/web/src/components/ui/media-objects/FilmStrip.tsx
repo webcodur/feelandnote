@@ -6,7 +6,9 @@ function FilmJoint({ row, surface }: { row: number; surface: ReactNode }) {
   return <div className={`mo-film-joint${row === 0 ? ' mo-film-joint-root' : ''}`}
     style={{ '--film-row': row, '--film-weight': Number(((row / (SLICES - 1)) ** 1.4).toFixed(6)) } as CSSProperties}>
     <div className="mo-film-facet"><div className="mo-film-surface">{surface}</div></div>
+    {row === 0 && <div className="mo-film-continuation mo-film-continuation-before"><div className="mo-film-stock" /></div>}
     {row < SLICES - 1 && <FilmJoint row={row + 1} surface={surface} />}
+    {row === SLICES - 1 && <div className="mo-film-continuation mo-film-continuation-after"><div className="mo-film-stock" /></div>}
   </div>
 }
 

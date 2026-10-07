@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react'
 import ContentCover from '@/components/ui/ContentCover'
+import type { ContentImageProps } from '@/components/ui/ContentImage'
 import FilmStrip from './FilmStrip'
+import { DEFAULT_COVER_RATIOS } from './mediaGeometry'
 import type { ContentType } from '@/types/database'
 
 export type MediaKind = 'book' | 'music' | 'game' | 'video'
@@ -20,15 +22,19 @@ type Props = {
   showCover: boolean
   angle: BookAngle
   spinning: boolean
+  compact?: boolean
   title?: string
   creator?: string
+  style?: CSSProperties
+  onImageLoad?: ContentImageProps['onLoad']
+  cropped?: boolean
 }
 
-function Cover({ kind, image, showCover, title, creator }: Pick<Props, 'kind' | 'image' | 'showCover' | 'title' | 'creator'>) {
+function Cover({ kind, image, showCover, title, creator, onImageLoad }: Pick<Props, 'kind' | 'image' | 'showCover' | 'title' | 'creator' | 'onImageLoad'>) {
   const item = MEDIA.find(item => item.kind === kind)!
   return (
     <div className={`mo-cover mo-cover-${kind}`}>
-      {showCover ? <ContentCover src={image} alt={title ?? item.title} dissolve={false} sizes="(max-width: 768px) 50vw, 25vw" fallback={
+      {showCover ? <ContentCover src={image} alt={title ?? item.title} dissolve={false} onLoad={onImageLoad} sizes="(max-width: 768px) 50vw, 25vw" fallback={
         <div className="mo-sample-art">
           <span className="mo-art-edition">FEEL & NOTE / SAMPLE</span>
           <div className="mo-art-shape" aria-hidden="true" />
@@ -42,11 +48,17 @@ function Cover({ kind, image, showCover, title, creator }: Pick<Props, 'kind' | 
 
 // Book spine/page depth follows BookCard at 86a4fa121 and the existing Book3D experiment.
 // Film perforations follow VideoCard at 86a4fa121. Vinyl/cartridge are reconstructed from the brief.
-export function MediaObject({ kind, image, showCover, angle, spinning, title, creator }: Props) {
+export function MediaObject({ kind, image, showCover, angle, spinning, compact = false, title, creator, style, onImageLoad, cropped }: Props) {
   const item = MEDIA.find(item => item.kind === kind)!
-  const cover = <Cover kind={kind} image={image} showCover={showCover} title={title} creator={creator} />
+  const objectStyle = { '--object-color': item.color, '--mo-cover-ratio': DEFAULT_COVER_RATIOS[kind], ...style } as CSSProperties
+  const cover = <Cover kind={kind} image={image} showCover={showCover} title={title} creator={creator} onImageLoad={onImageLoad} />
+  if (compact) return <div className={`mo-object mo-object-${kind} mo-object-compact`}
+    style={objectStyle} data-cropped={cropped} aria-hidden="true">
+    <div className="mo-compact-frame">{cover}</div>
+    {kind === 'music' && <span className="mo-compact-record" />}
+  </div>
   return (
-    <div className={`mo-object mo-object-${kind}`} style={{ '--object-color': item.color } as CSSProperties} aria-hidden="true">
+    <div className={`mo-object mo-object-${kind}`} style={objectStyle} data-cropped={cropped} aria-hidden="true">
       {kind === 'book' ? (
         <div className={`mo-book mo-book-${angle}`}>
           <div className="mo-book-front">{cover}</div>

@@ -17,13 +17,13 @@
   box-shadow: inset 0 1px 0 #e4d2bd0d, inset 0 0 24px #17120e30;
 }
 .media-context-cover .mo-object { --object-size: 88cqw; }
-/* 짧은 카드에서도 확대 후 전체 실루엣이 들어오도록 세로 여백을 확보한다. */
-.media-context-book .mo-object { --object-size: min(80cqw, 53cqh); --mo-hover-grow: .18; }
-.media-context-music .mo-object { --object-size: min(90cqw, 65cqh); --mo-hover-grow: .06; }
-.media-context-game .mo-object { --object-size: min(92cqw, 68cqh); --mo-hover-grow: .04; }
-.media-context-video .mo-object { --object-size: min(72cqw, 47.5cqh); --mo-hover-grow: .14; }
+/* 책·LP는 실루엣을, 게임·영상은 가운데 표지를 기준으로 확대한다. */
+.media-context-book .mo-object { --object-size: min(90cqw, 59cqh); --mo-hover-grow: .06; }
+.media-context-music .mo-object { --object-size: min(96cqw, 68cqh); --mo-hover-grow: .01; }
+.media-context-game .mo-object { --object-size: min(102cqw, 66cqh); --mo-hover-grow: .45; }
+.media-context-video .mo-object { --object-size: min(100cqw, 66cqh); --mo-hover-grow: .21; }
 .media-context-cover .mo-disc-label strong { max-width: 80%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.mo-interaction-art { width: 100%; display: flex; justify-content: center; perspective: 900px; transform-style: preserve-3d; pointer-events: none; }
+.mo-interaction-art { width: 100%; display: flex; justify-content: center; perspective: max(900px, 500cqw); transform-style: preserve-3d; pointer-events: none; }
 .mo-interaction-control { position: absolute; inset: 0; z-index: 2; width: 100%; border: 0; color: #e4edf4; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .mo-interaction-control[data-pressed='true'], .mo-interaction-control:has([data-loading='true']) { box-shadow: inset 0 0 0 2px #c9dceb99; }
 @media (hover: hover) and (pointer: fine) { .mo-interaction-control:hover { box-shadow: inset 0 0 0 2px #c9dceb99; } }
@@ -41,10 +41,65 @@
 .mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .20 * var(--mo-hover-progress, 0))); transition: none; }
 .mo-interactive .mo-book { transition: none; }
 .mo-interactive .mo-object {
-  scale: calc(1 + var(--mo-hover-grow, 0) * var(--mo-hover-progress, 0));
+  scale: calc(var(--mo-base-scale, 1) + var(--mo-hover-grow, 0) * var(--mo-hover-progress, 0));
   transition: transform 100ms ease-out;
 }
+/* 정면 표지는 Z=0으로 도착한 뒤 2D로 그려 확대·원근 레이어의 재샘플링을 줄인다. */
+.mo-interactive .mo-book-isometric {
+  transform: translateZ(calc(0px - var(--book-half-depth) * var(--mo-hover-progress, 0)))
+    rotateX(calc(var(--mo-rest-x) * (1 - var(--mo-hover-progress, 0)))) rotateY(calc(var(--mo-rest-y) * (1 - var(--mo-hover-progress, 0))));
+}
+.mo-interaction-art[data-book-flat='true'] { perspective: none; transform-style: flat; }
+.mo-interaction-art[data-book-flat='true'] .mo-object { scale: none; }
+.mo-interaction-art[data-book-flat='true'] .mo-book { transform: none; transform-style: flat; }
+.mo-interaction-art[data-book-flat='true'] .mo-book-front { transform: none; backface-visibility: visible; }
+.mo-interaction-art[data-book-flat='true'] .mo-book > :not(.mo-book-front) { visibility: hidden; }
+/* 라벨 중심(케이스 높이의 48.5%)을 카드 중심으로 가져온다. */
+.mo-interactive .mo-object-game { translate: 0 calc(var(--object-size) * var(--mo-game-center-offset, .032) * var(--mo-hover-progress, 0)); }
+/* 양 끝은 카드 밖으로 이어지고, 아래쪽 연장은 마지막 굽힘을 따라간다. */
+.mo-interactive .mo-film-continuation {
+  display: block; position: absolute; left: 0; width: 100%; height: calc(var(--object-size) * 3);
+}
+.mo-interactive .mo-film-continuation-before { bottom: 100%; }
+.mo-interactive .mo-film-continuation-after { top: 100%; }
+.mo-interactive .mo-film-continuation::after {
+  content: ''; position: absolute; inset: 0 8.5%;
+  border-inline: 1px solid #526473;
+  background: repeating-linear-gradient(0deg, #121b24 0 calc(var(--object-size) * .44), #526473 calc(var(--object-size) * .44) calc(var(--object-size) * .445));
+}
 .mo-interaction-control[data-pressed='true'] .mo-object { transform: translateY(1px) scale(.975); }
+/* 작은 화면·터치는 이미지 한 장과 얇은 재질 테두리만 사용한다. */
+.mo-interaction-art[data-compact='true'] { position: absolute; inset: 0; height: 100%; perspective: none; transform-style: flat; }
+.media-context-cover .mo-object.mo-object-compact {
+  --object-size: 100cqw; position: absolute; inset: 50% auto auto 50%;
+  width: var(--mo-compact-width, 100%); height: var(--mo-compact-height, 100%);
+  scale: 1; translate: -50% -50%; transform: none; transition: none;
+}
+.mo-object-compact .mo-compact-frame { position: absolute; inset: 0; overflow: hidden; }
+.mo-object-compact .mo-cover img { object-fit: var(--mo-image-fit, cover); }
+.mo-object-compact .mo-cover::after { background: none; box-shadow: none; }
+.mo-object-book.mo-object-compact { background: linear-gradient(90deg, #162e30, #617577 4px, #162e30 6px); }
+.mo-object-book.mo-object-compact .mo-compact-frame { inset-inline-start: 5px; border-inline-start: 1px solid #d4d5c94d; }
+.mo-object-music.mo-object-compact .mo-compact-frame { border: 1px solid #aeb9bf66; }
+.mo-compact-record {
+  position: absolute; right: 5px; bottom: 5px; width: 18px; height: 18px; border: 1px solid #9ba9b2;
+  border-radius: 50%; background: radial-gradient(circle, #101820 0 1px, #a5b4bb 1px 3px, transparent 3px), repeating-radial-gradient(circle, #141414 0 1px, #3c3c3c 1px 2px);
+}
+.mo-object-game.mo-object-compact {
+  background: linear-gradient(110deg, #bac6cf, #627586); border: 1px solid #899da9; border-radius: 4px;
+}
+.mo-object-game.mo-object-compact .mo-compact-frame { inset: 5px 3px 3px; border: 1px solid #536c7d; border-radius: 2px; }
+.mo-object-game.mo-object-compact::before {
+  content: ''; position: absolute; inset: 0 14% auto; height: 3px;
+  background: repeating-linear-gradient(90deg, #567080 0 1px, #c6d4dd 1px 3px);
+}
+.mo-object-video.mo-object-compact .mo-compact-frame { inset-inline: 6px; border-inline: 1px solid #5c6e7b; }
+.mo-object-video.mo-object-compact::before, .mo-object-video.mo-object-compact::after {
+  content: ''; position: absolute; inset-block: 0; width: 6px; border-inline: 1px solid #0b1117;
+  background: repeating-linear-gradient(0deg, #101820 0 5px, #87979e 5px 8px, #101820 8px 12px);
+}
+.mo-object-video.mo-object-compact::before { inset-inline-start: 0; }
+.mo-object-video.mo-object-compact::after { inset-inline-end: 0; }
 .mo-navigation-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; animation: mo-pending-reveal 0s 180ms forwards; }
 @keyframes mo-pending-reveal { to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {

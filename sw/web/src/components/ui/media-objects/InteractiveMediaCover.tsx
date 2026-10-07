@@ -6,7 +6,9 @@ import { useLinkStatus } from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import PendingMark from '@/components/ui/pending/PendingMark'
+import useMediaQuery from '@/hooks/useMediaQuery'
 import { MediaObject, type MediaKind } from './MediaObject'
+import useMediaGeometry from './useMediaGeometry'
 import './media-objects.css'
 import './MediaCover.css'
 
@@ -109,15 +111,27 @@ function NavigatingMediaArtwork({ kind, image, title, creator, active, reducedMo
 }) {
   const { pending } = useLinkStatus()
   const t = useTranslations('pending')
+  // 모바일의 첫 렌더부터 표지 하나만 그린다. 터치 기기에서는 큰 화면이어도 같은 표현을 쓴다.
+  const compact = !useMediaQuery('(min-width: 768px) and (hover: hover) and (pointer: fine)')
+  const { ref: artworkRef, style: geometryStyle, onImageLoad, cropped } = useMediaGeometry(kind, image, compact)
   const progress = useSpring(0, { stiffness: 90, damping: 22 })
+  const [settledFront, setSettledFront] = useState(false)
   useEffect(() => {
-    progress.set(active && !reducedMotion ? 1 : 0)
-  }, [active, reducedMotion, progress])
+    if (kind !== 'book' || compact || reducedMotion) return
+    const start = progress.on('animationStart', () => setSettledFront(false))
+    const complete = progress.on('animationComplete', () => setSettledFront(progress.get() === 1))
+    return () => { start(); complete() }
+  }, [kind, compact, reducedMotion, progress])
+  useEffect(() => {
+    progress.set(active && !reducedMotion && !compact ? 1 : 0)
+  }, [active, reducedMotion, compact, progress])
 
-  return <motion.div className="mo-interactive mo-interaction-art" data-loading={pending ? 'true' : 'false'}
-    data-hovered={active ? 'true' : 'false'} aria-busy={pending}
-    style={{ '--mo-hover-progress': reducedMotion ? 0 : progress } as MotionStyle}>
-    <MediaObject kind={kind} image={image} title={title} creator={creator} showCover angle="isometric" spinning={false} />
+  return <motion.div ref={artworkRef} className="mo-interactive mo-interaction-art" data-loading={pending ? 'true' : 'false'}
+    data-compact={compact ? 'true' : 'false'} data-hovered={active && !compact ? 'true' : 'false'}
+    data-book-flat={kind === 'book' && active && settledFront && !compact && !reducedMotion ? 'true' : 'false'} aria-busy={pending}
+    style={{ '--mo-hover-progress': reducedMotion || compact ? 0 : progress } as MotionStyle}>
+    <MediaObject kind={kind} image={image} title={title} creator={creator} showCover angle="isometric" spinning={false}
+      compact={compact} style={geometryStyle} onImageLoad={onImageLoad} cropped={cropped} />
     {pending && <span className="mo-navigation-status" role="status">
       <PendingMark size="sm" />
       <span className="sr-only">{title} — {t('loading')}</span>

@@ -4,7 +4,7 @@
   transform: rotateX(calc(var(--mo-rest-x) * (1 - var(--mo-hover-progress, 0)))) rotateY(calc(var(--mo-rest-y) * (1 - var(--mo-hover-progress, 0))));
 }
 .mo-cover { position: relative; width: 100%; height: 100%; background: var(--object-color); overflow: hidden; }
-.mo-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mo-cover img { width: 100%; height: 100%; object-fit: var(--mo-image-fit, cover); display: block; }
 .mo-cover::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(120deg, #ffffff15, transparent 40%, #00000025); box-shadow: inset 0 0 2px #0006; }
 .mo-sample-art { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 11%; overflow: hidden; }
 .mo-art-edition { font-family: Georgia, serif; font-size: calc(var(--object-size) * .035); letter-spacing: 1px; z-index: 1; }
@@ -21,7 +21,7 @@
 .mo-empty-cover { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; gap: 8px; font-family: Georgia, serif; color: #f1ead7; font-size: 22px; }
 .mo-empty-cover small { font-family: sans-serif; font-size: 10px; opacity: .6; }
 /* Six faces preserve the old book's spine and paper construction. */
-.mo-book { --book-depth: calc(var(--object-size) * .18); --book-half-depth: calc(var(--book-depth) / 2); width: 100%; aspect-ratio: 2/3; position: relative; transform-style: preserve-3d; transition: transform .6s ease; }
+.mo-book { --book-depth: calc(var(--object-size) * var(--mo-book-depth, .18)); --book-half-depth: calc(var(--book-depth) / 2); width: 100%; aspect-ratio: var(--mo-cover-ratio, 2/3); position: relative; transform-style: preserve-3d; transition: transform .6s ease; }
 .mo-book-front { transform: rotateY(0deg); }
 .mo-book-side { transform: rotateY(90deg); }
 .mo-book > .mo-book-front { position: absolute; inset: 0; transform: translateZ(var(--book-half-depth)); border-radius: 0 2px 2px 0; overflow: hidden; box-shadow: inset 3px 0 5px #0006, 4px 6px 8px #0003; backface-visibility: hidden; }
@@ -55,8 +55,8 @@
 .mo-disc-hole { width: 5px; height: 5px; background: var(--mo-panel); border-radius: 50%; position: absolute; top: calc(50% - 2.5px); }
 .mo-disc-spinning { animation: mo-record-turn 8s linear infinite; }
 @keyframes mo-record-turn { to { transform: translate3d(0, var(--mo-disc-offset, 0px), calc(0px - var(--sleeve-depth))) rotate(360deg); } }
-.mo-game-case { --case-depth: calc(var(--object-size) * .12); --case-half-depth: calc(var(--case-depth) / 2); position: relative; width: 100%; aspect-ratio: 3/4; transform-style: preserve-3d; }
-.mo-game-station { width: 100%; aspect-ratio: 3/4; position: relative; transform-style: preserve-3d; }
+.mo-game-case { --case-depth: calc(var(--object-size) * .12); --case-half-depth: calc(var(--case-depth) / 2); position: relative; width: 100%; aspect-ratio: var(--mo-case-ratio, 3/4); transform-style: preserve-3d; }
+.mo-game-station { width: 100%; aspect-ratio: var(--mo-case-ratio, 3/4); position: relative; transform-style: preserve-3d; }
 .mo-cartridge { width: 100%; height: 100%; position: absolute; inset: 0; transform: translateZ(var(--case-half-depth)); backface-visibility: hidden; clip-path: polygon(0 2%, 2% 0, 87% 0, 87% 3.5%, 100% 3.5%, 100% 98.5%, 98% 100%, 2% 100%, 0 98.5%); border: 1px solid #505966; border-radius: 7px 7px 3px 3px; background: linear-gradient(105deg, #c6cdd3, #9da6af 55%, #828e99); box-shadow: inset 2px 2px 0 #e2e9ee, inset -3px -2px 0 #687683; }
 .mo-game-back { position: absolute; inset: 0; transform: translateZ(calc(0px - var(--case-half-depth))) rotateY(180deg); backface-visibility: hidden; background: #424e59; border-radius: 5px; box-shadow: 3px 6px 8px #0007; }
 .mo-game-side { position: absolute; right: calc(0px - var(--case-half-depth)); top: 3.5%; width: var(--case-depth); height: 96.5%; transform: rotateY(90deg); backface-visibility: hidden; background: linear-gradient(90deg, #677785, #3b4956 47%, #26323c 50%, #657787 55%, #4d5d6b); border-block: 1px solid #b0bbc5; }
@@ -74,7 +74,7 @@
 .mo-cartridge-ridges { position: absolute; top: 2%; left: 5%; right: 5%; height: 6%; border-radius: 2px; background: repeating-linear-gradient(0deg, #718594 0 1px, #becbd5 1px 2px, #9baebd 2px 4px); box-shadow: inset 1px 0 #586e7e, inset -1px 0 #d4e0e8; }
 .mo-cartridge-label { position: absolute; inset: 10% 5% 13%; overflow: hidden; border: 2px solid #617686; border-radius: 5px 5px 2px 2px; background: #20272d; box-shadow: 0 1px #dce5ec, inset 0 2px 3px #0009; }
 .mo-cartridge-label::after { content: ''; position: absolute; inset: 0; pointer-events: none; border: 1px solid #d9e4ed3d; box-shadow: inset 0 2px 2px #0007; border-radius: inherit; }
-.mo-cover-game img { object-fit: contain; }
+.mo-cover-game img { object-fit: var(--mo-image-fit, contain); }
 .mo-cartridge-grips { position: absolute; left: 1%; right: 1%; bottom: 17%; height: 22%; display: flex; justify-content: space-between; }
 .mo-cartridge-grips i { width: 3%; border-radius: 1px; background: repeating-linear-gradient(90deg, #627987 0 1px, #c4d3de 1px 2px); box-shadow: 0 1px #d6e2eb; }
 .mo-cartridge-arrow { position: absolute; bottom: 10%; left: 47%; width: 6%; height: 2%; clip-path: polygon(0 0, 100% 0, 50% 100%); background: #627988; }
@@ -83,8 +83,8 @@
 .mo-cartridge-slot { position: absolute; bottom: 0; left: 25%; width: 50%; height: 9%; border: 2px solid #566f80; border-bottom: 0; border-radius: 3px 3px 0 0; padding: 3% 4% 0; background: linear-gradient(#202d36, #3d5261); box-shadow: inset 1px 2px 3px #0009, 0 -1px #c5d8e4; }
 .mo-cartridge-slot span { display: block; height: 100%; border-top: 1px solid #d5d1b1; background: repeating-linear-gradient(90deg, #aaa78f 0 3px, #c7c5b2 3px 4px, #263943 4px 6px); }
 .mo-object-video { perspective: calc(var(--object-size) * 6); }
-/* 83% portrait frame, two 22% neighboring frames, and two 5% frame margins. */
-.mo-film-strip { position: relative; width: 100%; height: calc(var(--object-size) * 1.768); transform-style: preserve-3d; }
+/* 원본 비율의 가운데 프레임과 앞뒤 코마의 높이를 같은 표면에 맞춘다. */
+.mo-film-strip { position: relative; width: 100%; height: calc(var(--object-size) * var(--mo-film-height, 1.768)); transform-style: preserve-3d; }
 .mo-film-joint {
   --film-rest-x: calc((.8 * (1 - var(--mo-hover-progress, 0)) + var(--mo-film-curl, 0) * 5.5) * var(--film-weight) * 1deg);
   --film-rest-z: calc((-.08 * (1 - var(--mo-hover-progress, 0)) - var(--mo-film-curl, 0) * .95) * var(--film-weight) * 1deg);
@@ -93,19 +93,20 @@
   transform: rotateX(var(--film-rest-x)) rotateZ(var(--film-rest-z));
 }
 .mo-film-joint-root { top: 0; height: calc(100% / var(--film-slices)); }
+.mo-film-continuation { display: none; }
 .mo-film-facet { position: absolute; inset: 0; clip-path: inset(0 0 -.6px); backface-visibility: hidden; }
 .mo-film-surface { position: absolute; top: calc(var(--film-row) * -100%); left: 0; width: 100%; }
 .mo-film-surface::after { content: ''; position: absolute; inset: 0; mask: url('./film-strip-mask.svg') top / 100% auto repeat-y; background: #081320; opacity: calc(var(--mo-film-curl, 0) * var(--film-weight) * .2); pointer-events: none; }
 .mo-film { width: 100%; position: relative; padding: 0 8.5%; }
 .mo-film-stock { position: absolute; inset: 0; mask: url('./film-strip-mask.svg') top / 100% auto repeat-y; background: linear-gradient(90deg, #4d5c68, #171e26 8%, #0b1016 50%, #1a232c 92%, #566572); box-shadow: inset 0 1px #c0cfdb80, inset 0 -1px #8ea6b980; }
 .mo-film-stock::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, #d7e7f224, transparent 35%, #0003 65%, #b1cfe520); }
-.mo-film-frame { aspect-ratio: 2/3; position: relative; margin: 5% 0; overflow: hidden; border: 1px solid #080d12; box-shadow: 0 0 0 1px #afc0cc80, inset 0 0 3px #000; }
+.mo-film-frame { aspect-ratio: var(--mo-cover-ratio, 2/3); position: relative; margin: 5% 0; overflow: hidden; border: 1px solid #080d12; box-shadow: 0 0 0 1px #afc0cc80, inset 0 0 3px #000; }
 .mo-film-neighbor { position: relative; height: calc(var(--object-size) * .22); overflow: hidden; background: linear-gradient(120deg, #293641, #121b24 55%, #23343f); border: 1px solid #526473; box-shadow: inset 0 0 8px #0008; }
 .mo-film-neighbor-before { border-top: 0; }
 .mo-film-neighbor-after { border-bottom: 0; }
 .mo-film-neighbor span { position: absolute; right: 5%; bottom: 8%; color: #778b9a; font: calc(var(--object-size) * .036) monospace; letter-spacing: 1px; }
 .mo-cover-video { background: #0e0e0e; }
-.mo-cover-video img { object-fit: contain; }
+.mo-cover-video img { object-fit: var(--mo-image-fit, contain); }
 .mo-cover-video::after { background: linear-gradient(120deg, #ffffff08, transparent 40%, #00000010); }
 .mo-film-edge-code { position: absolute; inset-inline-start: 6%; top: 23%; writing-mode: vertical-rl; font-family: monospace; font-size: calc(var(--object-size) * .025); letter-spacing: 1px; color: #c3d2dc; }
 .mo-film-frame-code { position: absolute; bottom: calc(var(--object-size) * .225); inset-inline-end: 9%; font-family: monospace; font-size: calc(var(--object-size) * .023); letter-spacing: 1px; color: #c3d2dc; }
