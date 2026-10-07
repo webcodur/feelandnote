@@ -232,6 +232,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/quickRecord/ExternalResourceSearch.tsx',
   'sw/web/src/components/features/quickRecord/SearchHelper.tsx',
   'sw/web/src/lib/reviews/featuredReview.ts',
+  'sw/web/src/lib/reviews/featuredReviewLength.ts',
   'sw/web/src/lib/reviews/featuredReviewAvailability.ts',
   'sw/web/src/actions/home/getCelebs.ts',
   'sw/web/src/actions/contents/addContent.ts',

@@ -1,6 +1,6 @@
 import { isDisplayTitleRow, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import { normalizePurchaseIsbn, type Yes24BookDetail } from '@/lib/books/yes24Purchase'
-import { featuredReviewHasEnoughText, type FeaturedReviewCandidate, type FeaturedReviewText } from './featuredReview'
+import { featuredReviewHasEnoughText, type FeaturedReviewCandidate, type FeaturedReviewText } from './featuredReviewLength'
 
 export interface FeaturedReviewBookCandidate extends FeaturedReviewCandidate, FeaturedReviewText {
   contents: { content_locales: ContentLocaleRow[] | null }

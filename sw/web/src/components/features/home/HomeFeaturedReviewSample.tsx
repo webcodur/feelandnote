@@ -1,18 +1,17 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { createStaticClient } from "@/lib/db/static";
-import { throwOnQueryError } from "@/lib/cache";
+import { cachedDetail, cachedList, throwOnQueryError } from "@/lib/cache";
 import { flattenLocales, CL_SELECT_LIST_WITH_AFFILIATE } from "@/lib/utils/content-locale";
 import type { ContentType } from "@/types/database";
 import HomeFeaturedReview from "./HomeFeaturedReview";
-import { cachedDetail } from "@/lib/cache";
-import { CACHE_TAGS, FEATURED_REVIEWS_CACHE_ID } from "@feelandnote/shared/constants/cache-tags";
-import { featuredReviewDay, featuredReviewCutoff, featuredReviewHasEnoughText, selectFeaturedReview, type FeaturedReviewCandidate } from "@/lib/reviews/featuredReview";
+import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
-import { availableFeaturedReviews, type FeaturedReviewBookCandidate } from "@/lib/reviews/featuredReviewAvailability";
+import { FEATURED_REVIEW_MIN_TEXT_LENGTH, featuredReviewDay, featuredReviewHasEnoughText, orderFeaturedReviews } from "@/lib/reviews/featuredReviewLength";
+import { availableFeaturedReviews, featuredReviewEdition, type FeaturedReviewBookCandidate } from "@/lib/reviews/featuredReviewAvailability";
 import { getCachedYes24BookDetail } from "@/lib/books/yes24DetailCache";
 import { yes24PurchaseEnabled } from "@/lib/books/yes24Purchase";
 
-// 검수 완료 감상을 하루 한 편만 보여 준다. 선정은 한영 공통이며 반년 동안 같은 리뷰를 제외한다.
+const SALE_CHECK_BATCH_SIZE = 4;
 
 interface SampleRow {
   id: string;
@@ -29,39 +28,39 @@ export default async function HomeFeaturedReviewSample() {
   const buildQuery = (selection: string) => createStaticClient()
     .from("celeb_contents")
     .select(selection)
-    .not("review_approved_at", "is", null)
     .eq("contents.type", "BOOK")
     .eq("visibility", "public")
     .eq("status", "FINISHED")
     .or("is_spoiler.is.null,is_spoiler.eq.false")
-    .eq("user.publication_status", "active")
-    .not("review", "is", null).neq("review", "")
-    .not("review_en", "is", null).neq("review_en", "");
-  const candidates = await cachedDetail(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-index-v6-review-length", day], async () => {
-    const selection = "id, celeb_id, content_id, review, review_en, review_approved_at, user:celebs!inner(publication_status), contents!inner(type, content_locales(locale,title,isbn,sources))";
-    const candidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(selection)
-      .lte("review_approved_at", featuredReviewCutoff(day)).order("id").range(from, to));
-    const eligible = candidates.filter(featuredReviewHasEnoughText);
-    if (eligible.length) return eligible;
-    // 정오 이전 후보가 없는 첫날은 현재 검수 완료된 후보로 같은 날짜 순환을 시작한다.
-    const firstDayCandidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(selection)
-      .order("review_approved_at").order("id").range(from, to));
-    return firstDayCandidates.filter(featuredReviewHasEnoughText);
+    .eq("user.publication_status", "active");
+  const selected = await cachedList(CACHE_TAGS.CELEBS, ["home-review-length-selection-v1", day], async () => {
+    if (!yes24PurchaseEnabled(process.env)) return null;
+    // DB에서 짧은 본문을 먼저 제외하고, 공백·서식을 뺀 실제 분량은 코드에서 확인한다.
+    const candidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(
+      "id,celeb_id,content_id,review,review_en,user:celebs!inner(publication_status),contents!inner(type,content_locales(locale,title,isbn,sources))"
+    ).like("review", "_".repeat(FEATURED_REVIEW_MIN_TEXT_LENGTH.ko) + "%")
+      .like("review_en", "_".repeat(FEATURED_REVIEW_MIN_TEXT_LENGTH.en) + "%").order("id").range(from, to));
+    const ordered = orderFeaturedReviews(candidates.filter(row => featuredReviewHasEnoughText(row)
+      && featuredReviewEdition(row.contents.content_locales, "ko") && featuredReviewEdition(row.contents.content_locales, "en")), day);
+    // 날짜 순서대로 필요한 후보만 판매 확인한다. 전체 후보의 ISBN을 매번 외부 API로 조회하지 않는다.
+    for (let index = 0; index < ordered.length; index += SALE_CHECK_BATCH_SIZE) {
+      let failures = 0;
+      const available = await availableFeaturedReviews(ordered.slice(index, index + SALE_CHECK_BATCH_SIZE), async isbn => {
+        try { return await getCachedYes24BookDetail(isbn); }
+        catch (error) { failures++; throw error; }
+      });
+      if (available[0]) return { id: available[0].id, celebId: available[0].celeb_id };
+      if (failures) throw new Error("홈 감상 도서의 판매 여부를 확인하지 못했습니다.");
+    }
+    return null;
   }, { extraTags: [CACHE_TAGS.CONTENTS] });
-  let available: FeaturedReviewCandidate[] = [];
-  if (yes24PurchaseEnabled(process.env)) {
-    // ISBN별 성공 조회만 기존 하루 캐시에 남긴다. 실패로 줄어든 후보 집합은 저장하지 않는다.
-    available = await availableFeaturedReviews(candidates, getCachedYes24BookDetail);
-  }
-  const selected = selectFeaturedReview(available, day);
-  const row = selected ? await cachedDetail(
-    CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-body-profile", day, selected.id], async () => {
-      const { data, error } = await buildQuery("id, review, review_en, source_url, user:celebs!inner(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date), contents!inner(id, type, content_locales(" + CL_SELECT_LIST_WITH_AFFILIATE + ", isbn))")
-        .eq("id", selected.id).maybeSingle();
-      throwOnQueryError("홈 검수 감상 본문 조회", error);
-      return data as unknown as SampleRow | null;
-    }, { extraTags: [CACHE_TAGS.CONTENTS] },
-  ) : null;
+  const row = selected ? await cachedDetail(CACHE_TAGS.CELEBS, selected.celebId!, ["home-review-length-body-v1", selected.id], async () => {
+    const { data, error } = await buildQuery(
+      "id,review,review_en,source_url,user:celebs!inner(id,slug,nickname,nickname_en,avatar_url,profession,nationality,birth_date,death_date),contents!inner(id,type,content_locales(" + CL_SELECT_LIST_WITH_AFFILIATE + ",isbn))"
+    ).eq("id", selected.id).maybeSingle();
+    throwOnQueryError("홈 감상 본문 조회", error);
+    return data as unknown as SampleRow | null;
+  }, { extraTags: [CACHE_TAGS.CONTENTS] }) : null;
   const review = (locale === "en" ? row?.review_en : row?.review)?.trim();
   if (!row || !review || !featuredReviewHasEnoughText(row)) {
     const t = await getTranslations("home.featuredReview");
