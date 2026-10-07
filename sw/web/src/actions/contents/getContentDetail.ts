@@ -34,6 +34,7 @@ import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { applyContentBookEdition, type ContentBookEdition } from '@/lib/books/contentEdition'
 import { getBookSearchLanguage, type BookSearchLanguage } from '@feelandnote/content-search/book-search-language'
 import { getEnglishBookPurchaseLinks } from '@/lib/books/amazonBookSearch'
+import { resolveMediaBannerTheme, type MediaBannerTheme } from '@/lib/contentBanner'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -60,6 +61,7 @@ export interface ContentDetailData {
     bookEditions?: ContentBookEdition[]
     editionLocale?: 'ko' | 'en'
     enrichmentPending?: boolean
+    mediaBannerTheme?: MediaBannerTheme
   }
   userRecord: {
     id: string
@@ -281,6 +283,7 @@ async function fetchContentDataPublic(
       type: dbContent.type as ContentType,
       category: categoryId,
       metadata: dbMetadata,
+      mediaBannerTheme: resolveMediaBannerTheme(dbContent.type as ContentType, { ...fetchedMeta, ...storedMetadata }),
       purchaseEditionId: sourceEdition?.id,
       bookEditions: editionSet?.editions,
       ...(initial && needsMetadata
@@ -315,6 +318,7 @@ async function fetchContentDataPublic(
     releaseDate: apiContent.releaseDate || undefined,
     type: TYPE_MAP[category],
     category,
+    mediaBannerTheme: resolveMediaBannerTheme(TYPE_MAP[category], apiContent.metadata),
     metadata: TYPE_MAP[category] === 'BOOK'
       ? dropForeignDisplayText(selectedLanguage, withoutBookDescription(apiContent.metadata ?? {}))
       : apiContent.metadata || null,

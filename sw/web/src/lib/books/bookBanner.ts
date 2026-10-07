@@ -1,4 +1,5 @@
 import { resolveCelebWorld, type CelebWorldInput } from "@/lib/celeb/world";
+import { getHostedContentBannerImages } from "@/lib/contentBannerAssets";
 
 export const BOOK_BANNER_THEMES = [
   "ancient-archive", "chinese-classics", "western-classics",
@@ -47,5 +48,5 @@ export function resolveBookBannerTheme(readers: readonly CelebWorldInput[], rele
 }
 
 export function getBookBannerImages(theme: BookBannerTheme) {
-  return { pc: `/images/content/banners/${theme}-pc.webp`, mb: `/images/content/banners/${theme}-mb.webp` };
+  return getHostedContentBannerImages(theme);
 }

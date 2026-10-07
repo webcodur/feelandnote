@@ -33,7 +33,7 @@ export default function ContentInfoSection({ content, actions, editionSelection,
   const isSquare = content.type === "MUSIC";
   return (
     <div className={styles.hero} data-content-edition-info={content.purchaseEditionId ?? "work"}>
-      <ContentBanner theme={bannerTheme} mediaThumbnail={content.type === "BOOK" ? undefined : content.thumbnail} />
+      <ContentBanner type={content.type} theme={bannerTheme} metadata={metadata} mediaTheme={content.mediaBannerTheme} />
       <div className={styles.identity}>
         <div className={styles.coverColumn}>
           <div className={[styles.cover, isSquare && styles.squareCover].filter(Boolean).join(" ")}>

@@ -19,11 +19,13 @@ function load<T>(file: string, mocks: Record<string, unknown>): T {
 
 test('first content information returns without external enrichment, reviews, characters or curated queries', async () => {
   const unexpected = async () => { throw new Error('supplementary query blocked first paint') }
-  const row = { id, type: 'MUSIC', external_id: '123', external_source: 'itunes', metadata: {},
+  const row = { id, type: 'MUSIC', external_id: '123', external_source: 'itunes', metadata: {} as Record<string, unknown>,
     content_locales: [{ locale: 'ko', title: '말하는 대로', creator: '처진 달팽이' }] }
   let reads = 0
   const query = { select: () => query, eq: () => query, maybeSingle: async () => { reads++; return { data: row, error: null } } }
-  const action = load<{ getInitialPublicContentInfo: (id: string, locale: string) => Promise<{ title: string; enrichmentPending: boolean }> }>('./getContentDetail.ts', {
+  const action = load<{ getInitialPublicContentInfo: (id: string, locale: string) => Promise<{
+    title: string; enrichmentPending: boolean; mediaBannerTheme: string; metadata: Record<string, unknown>
+  }> }>('./getContentDetail.ts', {
     '@/lib/db/static': { createStaticClient: () => ({ from: () => query }) },
     '@/lib/db/server': {}, './getContentById': {}, '@/actions/user': {},
     './fetchContentMetadata': { fetchContentMetadata: unexpected },
@@ -43,6 +45,13 @@ test('first content information returns without external enrichment, reviews, ch
   assert.equal(content.title, '말하는 대로')
   assert.equal(content.enrichmentPending, true)
   assert.equal(reads, 1)
+  row.metadata.genre = '재즈'
+  const korean = await action.getInitialPublicContentInfo(id, 'ko')
+  assert.equal(korean.mediaBannerTheme, 'jazz')
+  const english = await action.getInitialPublicContentInfo(id, 'en')
+  assert.equal(english.metadata.genre, undefined)
+  assert.equal(english.mediaBannerTheme, 'jazz')
+  assert.equal(reads, 3)
 })
 
 test('viewer state restores saved reactions alongside the existing review', async () => {
@@ -130,7 +139,7 @@ test('content page renders its stable information shell without waiting for sect
   assert.equal(reads, 0)
   const child = shell.props.children as Element
   const result = await child.type(child.props)
-  const detail = (result.props.children as Element[]).find(element => element.type === Detail)!
+  const detail = (result.props.children as Element[]).find(element => (element.type as unknown) === Detail)!
   assert.equal(reads, 1)
   assert.deepEqual((detail.props.initialData as { initialReviews: unknown[] }).initialReviews, [])
   assert.ok(detail.props.relatedSections)
