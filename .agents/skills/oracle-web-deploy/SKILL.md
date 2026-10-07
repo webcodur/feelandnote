@@ -39,12 +39,10 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
    자체 콘솔을 가진 독립 프로세스로 띄우고 로그 파일을 감시한다.
 
    ```powershell
-   Start-Process cmd.exe -ArgumentList '/c', 'set "PATH=C:\Program Files\Git\usr\bin;%PATH%" && pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB > <로그 경로> 2>&1' -WorkingDirectory <저장소 루트> -WindowStyle Hidden -PassThru
+   Start-Process cmd.exe -ArgumentList '/c', 'pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB > <로그 경로> 2>&1' -WorkingDirectory <저장소 루트> -WindowStyle Hidden -PassThru
    ```
 
-   `PATH` 앞에 Git `usr\bin`을 얹는 이유: 아카이브 단계의 `tar --force-local`은 GNU tar 옵션이라
-   Windows 기본 bsdtar(`System32\tar.exe`)가 먼저 잡히면 「Option --force-local is not supported」로
-   빌드 뒤에 죽는다(26.09.17 실패 이력). 같은 이유로 execute 전 ssh 키
+   스크립트가 Git 설치 경로에서 GNU tar를 선택하고 빌드 전에 확인한다. execute 전 ssh 키
    `~/.ssh/feelandnote_oracle`의 ACL이 사용자 본인만 읽게 좁혀져 있어야 한다 — 샌드박스 그룹
    권한이 붙어 있으면 ssh가 키를 거부한다(`icacls <키> /inheritance:r /grant:r "%USERNAME%:F"`로 복구).
 5. 성공 출력의 `cloudflarePurgeRequired` 각 범위를 `pnpm purge:web:cloudflare -- --scope <범위> --execute`로

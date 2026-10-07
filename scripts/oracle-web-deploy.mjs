@@ -413,6 +413,19 @@ function assertStandaloneReady(standaloneRoot) {
 }
 
 function createIsolatedBuild(repoRoot, commit, releaseId) {
+  // Windows' built-in bsdtar cannot accept --force-local. Resolve GNU tar before
+  // spending time building, independently of the caller's PATH order.
+  const gitPaths = process.platform === 'win32'
+    ? run('where.exe', ['git']).stdout.split(/\r?\n/u).filter(Boolean)
+    : []
+  const tarCandidates = process.platform === 'win32'
+    ? gitPaths.flatMap((gitPath) => [1, 2].map((depth) => path.resolve(path.dirname(gitPath), ...Array(depth).fill('..'), 'usr/bin/tar.exe')))
+    : ['tar']
+  const archiveTar = tarCandidates.find((candidate) => (
+    (process.platform !== 'win32' || existsSync(candidate))
+    && run(candidate, ['--version'], { allowFailure: true }).stdout.includes('GNU tar')
+  ))
+  if (!archiveTar) throw new Error('GNU tar is required for release packaging; install Git for Windows or add GNU tar on Linux.')
   const taskRoot = mkdtempSync(path.join(tmpdir(), `feelandnote-oracle-${releaseId}-`))
   const worktreeRoot = path.join(taskRoot, 'worktree')
   const artifactsRoot = path.join(taskRoot, 'artifacts')
@@ -457,7 +470,7 @@ function createIsolatedBuild(repoRoot, commit, releaseId) {
     const archivePath = path.join(artifactsRoot, `${releaseId}.tar.gz`)
     const manifestPath = path.join(artifactsRoot, `${releaseId}.links.json`)
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
-    run('tar', ['--force-local', '--dereference', '-czf', archivePath, '-C', standaloneRoot, '.'], {
+    run(archiveTar, ['--force-local', '--dereference', '-czf', archivePath, '-C', standaloneRoot, '.'], {
       inherit: true,
     })
 
