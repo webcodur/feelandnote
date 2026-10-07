@@ -345,6 +345,33 @@ function copyRuntimeAssets(worktreeRoot, standaloneRoot) {
   cpSync(path.join(webRoot, DIST_DIR, 'static'), staticTarget, { recursive: true })
 }
 
+// Next serializes cacheHandler with the build host's path separator.
+// Linux must receive POSIX paths in both runtime configuration copies.
+export function normalizeStandaloneCacheHandler(appRoot) {
+  const manifestPath = path.join(appRoot, DIST_DIR, 'required-server-files.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  const handler = manifest.config?.cacheHandler
+  if (!handler) return null
+  const normalized = handler.replaceAll('\\', '/')
+  const expected = path.resolve(appRoot, 'scripts/shared-data-cache.cjs')
+  if (/^[a-z]:/iu.test(normalized) || path.posix.isAbsolute(normalized)
+      || normalized.includes('%') || path.resolve(appRoot, DIST_DIR, normalized) !== expected
+      || !existsSync(expected)) throw new Error('Unexpected standalone cache handler path')
+  const serverPath = path.join(appRoot, 'server.js')
+  const server = readFileSync(serverPath, 'utf8')
+  const field = /("cacheHandler"\s*:\s*)("(?:[^"\\]|\\.)*")/gu
+  const matches = [...server.matchAll(field)]
+  if (matches.length !== 1 || JSON.parse(matches[0][2]) !== handler) {
+    throw new Error('Standalone cache handler configuration copies differ')
+  }
+  if (handler !== normalized) {
+    manifest.config.cacheHandler = normalized
+    writeFileSync(manifestPath, JSON.stringify(manifest) + '\n')
+    writeFileSync(serverPath, server.replace(field, (_, prefix) => prefix + JSON.stringify(normalized)))
+  }
+  return normalized
+}
+
 function collectStandaloneLinks(repoRoot, standaloneRoot) {
   const links = []
   const pending = [standaloneRoot]
@@ -478,6 +505,7 @@ function createIsolatedBuild(repoRoot, commit, releaseId) {
     if (!existsSync(standaloneRoot)) throw new Error(`Standalone build is missing: ${standaloneRoot}`)
 
     copyRuntimeAssets(worktreeRoot, standaloneRoot)
+    normalizeStandaloneCacheHandler(path.join(standaloneRoot, WEB_RELATIVE_PATH))
     const removedSecrets = removeSecretFiles(standaloneRoot)
     const manifest = collectStandaloneLinks(worktreeRoot, standaloneRoot)
     assertStandaloneReady(standaloneRoot)
