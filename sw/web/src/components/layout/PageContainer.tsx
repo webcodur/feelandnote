@@ -4,12 +4,14 @@
   화면 종류별 본문 폭. 좌우 여백은 바깥 틀(LayoutMain: 16 · 24 · 40px)이 한 번만 준다 — 여기서 더하지 않는다.
   폭은 창을 따라 연속으로 변하고 상한에서만 멈춘다(계단식 container를 쓰지 않는다).
   - reading 720: 긴 글·기록관·검색처럼 한 줄 길이를 지켜야 하는 화면
-  - default 1200: 홈·허브·목록·인물 상세(옆 레일이 서는 1340px 이상에서는 판 자리만큼 좁아진다)
+  - detail: 인물 상세(기본 폭의 레일 여유를 지키며 상한을 제한한다)
+  - default 1200: 홈·허브·목록(옆 레일이 서는 1340px 이상에서는 판 자리만큼 좁아진다)
   - wide: 바깥 틀과 같은 폭이 필요한 화면
 */
 // default는 1200px이되, 오른쪽 스와이프 판이 서는 폭에서는 판 자리만큼 줄어든다(globals.css --content-max-default)
 const WIDTH_CLASS = {
   reading: "max-w-[720px]",
+  detail: "max-w-[min(1024px,var(--content-max-default))]",
   default: "max-w-[var(--content-max-default)]",
   wide: "max-w-none",
 } as const;
