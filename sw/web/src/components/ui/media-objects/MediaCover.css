@@ -1,7 +1,7 @@
 .media-context-cover {
   --mo-panel: #494038;
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  container-type: inline-size; perspective: 900px; isolation: isolate;
+  container-type: size; perspective: 900px; isolation: isolate;
   background: radial-gradient(ellipse at 42% 26%, #60564b, #494038 48%, #302a25);
 }
 /* 질감과 음영은 표지 뒤에만 깔아 포스터·책 표면에 겹치지 않는다. */
@@ -17,10 +17,11 @@
   box-shadow: inset 0 1px 0 #e4d2bd0d, inset 0 0 24px #17120e30;
 }
 .media-context-cover .mo-object { --object-size: 88cqw; }
-.media-context-book .mo-object { --object-size: 80cqw; }
-.media-context-music .mo-object { --object-size: 90cqw; }
-.media-context-game .mo-object { --object-size: 92cqw; }
-.media-context-video .mo-object { --object-size: 72cqw; }
+/* 짧은 카드에서도 확대 후 전체 실루엣이 들어오도록 세로 여백을 확보한다. */
+.media-context-book .mo-object { --object-size: min(80cqw, 53cqh); --mo-hover-grow: .18; }
+.media-context-music .mo-object { --object-size: min(90cqw, 65cqh); --mo-hover-grow: .06; }
+.media-context-game .mo-object { --object-size: min(92cqw, 68cqh); --mo-hover-grow: .04; }
+.media-context-video .mo-object { --object-size: min(72cqw, 47.5cqh); --mo-hover-grow: .14; }
 .media-context-cover .mo-disc-label strong { max-width: 80%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .mo-interaction-art { width: 100%; display: flex; justify-content: center; perspective: 900px; transform-style: preserve-3d; pointer-events: none; }
 .mo-interaction-control { position: absolute; inset: 0; z-index: 2; width: 100%; border: 0; color: #e4edf4; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
@@ -39,7 +40,10 @@
 }
 .mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .20 * var(--mo-hover-progress, 0))); transition: none; }
 .mo-interactive .mo-book { transition: none; }
-.mo-interactive .mo-object { transition: transform 100ms ease-out; }
+.mo-interactive .mo-object {
+  scale: calc(1 + var(--mo-hover-grow, 0) * var(--mo-hover-progress, 0));
+  transition: transform 100ms ease-out;
+}
 .mo-interaction-control[data-pressed='true'] .mo-object { transform: translateY(1px) scale(.975); }
 .mo-navigation-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; animation: mo-pending-reveal 0s 180ms forwards; }
 @keyframes mo-pending-reveal { to { opacity: 1; } }
