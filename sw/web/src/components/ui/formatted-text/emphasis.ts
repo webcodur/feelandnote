@@ -5,6 +5,14 @@
 const EMPHASIS_PATTERN = /("[^"\n]*"|“[^”\n]*”|(?<!(?![\uAC00-\uD7A3])[\p{L}\p{N}])'(?=\S)[^\n]*?'(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|‘[^\n]*?’(?!(?![\uAC00-\uD7A3])[\p{L}\p{N}])|『[^』\n]*』|《[^》\n]*》|「[^」\n]*」|〈[^〉\n]*〉|<[^>\n]*>|—[^—\n.!?]+—|(?<=\s)–[^–\n.!?]+–(?=\s|[.,;:!?]|$)|(?<!-)--[^\n.!?]+?--(?!-)|(?<![\p{L}\p{N}\p{M}])\p{L}[\p{L}\p{N}\p{M}’'·-]*[ \t]*\((?=[^()\n]*\p{L})[^()\n]+\))/gu;
 const TERM_PATTERN = /^(\p{L}[\p{L}\p{N}\p{M}’'·-]*)([ \t]*\(([^()\n]+)\))$/u;
 
+// 긴 인용·삽입구는 본문으로 읽는다. 작품명·괄호 용어는 이 상한의 대상이 아니다.
+const INLINE_EMPHASIS_MAX_LENGTH = 160;
+
+function allowsEmphasis(matched: string): boolean {
+  if (matched.startsWith("『") || matched.startsWith("《") || TERM_PATTERN.test(matched)) return true;
+  return Array.from(matched).length - (matched.startsWith("--") ? 4 : 2) <= INLINE_EMPHASIS_MAX_LENGTH;
+}
+
 interface TextPart {
   text: string;
   emphasis: boolean;
@@ -13,7 +21,9 @@ interface TextPart {
 
 /** 강조(인용·용어·삽입구) 조각의 원문 범위 — 청크로 자를 때 강조 쌍이 경계에서 끊기지 않게 넘겨준다 */
 export function emphasisSpans(text: string): { start: number; end: number }[] {
-  return Array.from(text.matchAll(EMPHASIS_PATTERN), (match) => ({ start: match.index, end: match.index + match[0].length }));
+  return Array.from(text.matchAll(EMPHASIS_PATTERN))
+    .filter((match) => allowsEmphasis(match[0]))
+    .map((match) => ({ start: match.index, end: match.index + match[0].length }));
 }
 
 /** 문단에서 맞춘 강조 조각의 정규화 부호 — 경계로 잘린 조각 가장자리에 온전한 인용과 같은 부호를 다시 입힐 때 쓴다 */
@@ -27,6 +37,7 @@ export function emphasisDelimiters(matched: string): { open: string; close: stri
 
 /** 문단에서 맞춘 강조 조각의 클래스 — 경계로 잘린 조각은 부호 쌍을 못 보니 쌍째 텍스트로 판정한다. 아래 렌더의 부호 규칙과 같은 분류다 */
 export function emphasisClassName(matched: string, highlightClassName?: string): string | undefined {
+  if (!allowsEmphasis(matched)) return undefined;
   if (
     (matched.startsWith('"') && matched.endsWith('"')) ||
     (matched.startsWith("“") && matched.endsWith("”"))
@@ -61,7 +72,7 @@ export function splitEmphasis(text: string): TextPart[] {
   for (let i = 0; i < parts.length; i++) {
     const term = i % 2 === 1 ? parts[i].match(TERM_PATTERN) : null;
     if (!term) {
-      result.push({ text: parts[i], emphasis: i % 2 === 1 });
+      result.push({ text: parts[i], emphasis: i % 2 === 1 && allowsEmphasis(parts[i]) });
       continue;
     }
 
@@ -84,4 +95,3 @@ export function splitEmphasis(text: string): TextPart[] {
   }
   return result;
 }
-

@@ -6,6 +6,9 @@ import { load } from "cheerio";
 
 import FormattedText from "./FormattedText";
 import ReadingHighlightText from "../shared/ReadingHighlightText";
+import { emphasisClassName, emphasisSpans } from "./formatted-text/emphasis";
+
+const LONG_BOOK_OVERVIEW = "Sinek is back to reveal the next step in creating happier and healthier organizations. He helps us understand, in simple terms, the biology of trust and cooperation and why they're essential to our success and fulfillment. Organizations that create environments in which trust and cooperation thrive vastly outperform their competition.";
 
 function renderText(text: string) {
   return renderToStaticMarkup(React.createElement(FormattedText, { text }));
@@ -33,6 +36,68 @@ test("straight and typographic double quotes share the same emphasis", () => {
   assert.equal((html.match(/font-medium text-accent-hover/g) ?? []).length, 2);
   assert.match(html, /“straight quote”/);
   assert.match(html, /“여닫는 quote”/);
+});
+
+test("long quoted book overviews stay plain with their punctuation and content intact", () => {
+  for (const [open, close, normalizedOpen, normalizedClose] of [
+    ['"', '"', '“', '”'], ['“', '”', '“', '”'],
+    ["'", "'", '‘', '’'], ['‘', '’', '‘', '’'],
+    ['「', '」', '‘', '’'], ['〈', '〉', '‘', '’'], ['<', '>', '‘', '’'],
+  ]) {
+    const text = `Overview: ${open}${LONG_BOOK_OVERVIEW}${close}`;
+    for (const render of [renderText, renderHighlightedTextWithStyle]) {
+      const html = render(text);
+      assert.doesNotMatch(html, /text-accent|text-3d-gold|font-medium|font-semibold|background-image/);
+      assert.equal(load(html).text(), `Overview: ${normalizedOpen}${LONG_BOOK_OVERVIEW}${normalizedClose}`);
+    }
+    assert.deepEqual(emphasisSpans(text), []);
+    assert.equal(emphasisClassName(`${open}${LONG_BOOK_OVERVIEW}${close}`), undefined);
+  }
+});
+
+test("short quotations and titles still stand out beside a long quoted overview", () => {
+  const html = renderText(`“${LONG_BOOK_OVERVIEW}” 다음은 “짧은 인용”과 《작품명》, 인공지능(AI).`);
+  const $ = load(html);
+  assert.equal($('.text-accent-hover').map((_, el) => $(el).text()).get().join(''), '“짧은 인용”인공지능');
+  assert.equal($('.text-white').text(), '《작품명》');
+  assert.equal($('.text-accent').text(), '(AI)');
+});
+
+test("long dash asides do not paint the surrounding paragraph", () => {
+  const aside = 'an organization where members trust one another and cooperate without fear '.repeat(4).trim();
+  for (const text of [`Books —${aside}— shaped him.`, `Books – ${aside} – shaped him.`, `Books --${aside}-- shaped him.`]) {
+    const html = renderText(text);
+    assert.doesNotMatch(html, /text-accent/);
+    assert.equal(load(html).text(), text);
+  }
+});
+
+test("active narration marks remain available inside a long plain quotation", () => {
+  const text = `“${LONG_BOOK_OVERVIEW}”`;
+  const start = text.indexOf('biology');
+  const end = start + 'biology of trust and cooperation'.length;
+  const $ = load(renderToStaticMarkup(React.createElement(FormattedText, { text, mark: { start, end } })));
+  assert.equal($('mark').text(), text.slice(start, end));
+  assert.ok($('mark').hasClass('text-inherit'));
+  assert.equal($('.text-accent-hover, .text-accent').length, 0);
+  assert.equal($.text(), text);
+});
+
+test("splitting a long quotation into playable sentences does not restore its gold emphasis", () => {
+  const text = `“${LONG_BOOK_OVERVIEW}”`;
+  const split = text.indexOf('He helps');
+  const $ = load(renderToStaticMarkup(React.createElement(ReadingHighlightText, {
+    text, mark: { start: split, end: text.length },
+    segments: [
+      { start: 0, end: 1, textStart: 0, textEnd: split },
+      { start: 1, end: 2, textStart: split, textEnd: text.length },
+    ],
+    onPlayFrom: () => {},
+  })));
+  assert.equal($('.text-accent-hover, .text-accent').length, 0);
+  assert.equal($('[role="button"]').length, 2);
+  assert.equal($('mark').text(), text.slice(split));
+  assert.equal($.text(), text);
 });
 
 test("typographic single quotes receive inline quote emphasis", () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { splitEmphasis } from "./emphasis";
+import { emphasisClassName, splitEmphasis } from "./emphasis";
 
 export interface FormattedTextProps {
   text: string | null | undefined;
@@ -30,16 +30,6 @@ export default function InlineFormattedText({
   if (!text) return null;
 
   const parts = splitEmphasis(text);
-  const doubleQuoteClass = highlightClassName
-    ? `font-semibold ${highlightClassName}`
-    : "font-medium text-accent-hover";
-  const bookTitleClass = highlightClassName
-    ? `font-bold ${highlightClassName}`
-    : "text-white font-bold";
-  const inlineQuoteClass = highlightClassName
-    ? `font-medium ${highlightClassName}`
-    : "font-serif text-accent";
-
   const lines = (value: string, keyPrefix: string) =>
     value.split("\n").map((line, j, arr) => (
       <React.Fragment key={`${keyPrefix}-${j}`}>
@@ -59,7 +49,7 @@ export default function InlineFormattedText({
         const partStart = partStarts[i];
 
         let rendered = part;
-        let partClass: string | undefined;
+        let partClass = emphasis ? emphasisClassName(part, highlightClassName) : undefined;
         if (term) {
           partClass = term === "name"
             ? `font-semibold ${highlightClassName ?? "text-accent-hover"}`
@@ -71,7 +61,6 @@ export default function InlineFormattedText({
           (part.startsWith("“") && part.endsWith("”"))
         ) {
           rendered = `“${part.slice(1, -1)}”`;
-          partClass = doubleQuoteClass;
         }
         // 대형 그룹: 『 』, 《 》 → 《 》로 출력
         else if (
@@ -79,7 +68,6 @@ export default function InlineFormattedText({
           (part.startsWith('《') && part.endsWith('》'))
         ) {
           rendered = `《${part.slice(1, -1)}》`;
-          partClass = bookTitleClass;
         }
         // 소형 그룹: 「 」, 〈 〉, < >, ' ' → ‘ ’로 출력
         else if (
@@ -90,16 +78,6 @@ export default function InlineFormattedText({
           (part.startsWith("‘") && part.endsWith("’"))
         ) {
           rendered = `‘${part.slice(1, -1)}’`;
-          partClass = inlineQuoteClass;
-        }
-        else if (
-          emphasis && (
-            (part.startsWith("—") && part.endsWith("—")) ||
-            (part.startsWith("–") && part.endsWith("–")) ||
-            (part.startsWith("--") && part.endsWith("--"))
-          )
-        ) {
-          partClass = inlineQuoteClass;
         }
 
         const emit = (value: string, marked: boolean, key: string) =>
