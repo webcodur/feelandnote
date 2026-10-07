@@ -14,6 +14,8 @@ import { hubSectionId } from "./hubSectionUtils";
 import { useTranslations } from "next-intl";
 
 interface HubSectionProps {
+  /** 상세 정보 화면에서 공용 번호·제목을 유지하며 여백을 줄인다. */
+  compact?: boolean;
   className?: string;
   tabIndex?: number;
   /** 목차가 가리키는 앵커 — 없으면 index·groupId로 hub-section-<i>를 단다 */
@@ -37,6 +39,7 @@ interface HubSectionProps {
 }
 
 export default function HubSection({
+  compact = false,
   className,
   tabIndex,
   id,
@@ -60,7 +63,7 @@ export default function HubSection({
   const TitleTag = titleAs ?? "h2";
 
   return (
-    <section id={sectionId} tabIndex={tabIndex} className={`w-full flex flex-col scroll-mt-20 ${hideDivider ? "pt-6 md:pt-8" : ""} ${className ?? ""}`}>
+    <section id={sectionId} tabIndex={tabIndex} className={`w-full flex flex-col scroll-mt-20 ${hideDivider && !compact ? "pt-6 md:pt-8" : ""} ${className ?? ""}`}>
       {/* 구획 사이 선 — 위 구획 끝에서 짧게 끊고(간격은 부모의 space-y), 아래 새 구획은 넉넉히 띄운다
           (platform-02-code-rules.md 「구분선」) */}
       {!hideDivider && <div className={`h-px w-full bg-line ${dividerClassName ?? "mb-12 md:mb-16"}`} />}
@@ -69,7 +72,7 @@ export default function HubSection({
           윗줄은 금선 사이 번호(「— 01 —」, 책의 장 번호 모양), 아랫줄은 제목 하나다(26.09.28 유저 선택).
           예전의 「1/3」 줄·제목 옆 번호·좌우 화살표는 걷었다 — 화살표는 바로 위 목차와 같은 이동을 되풀이했고,
           제목 옆 번호·화살표는 좌우 거리가 달라 머리 규격이 어긋나 보였다 */}
-      <div className="flex flex-col items-center text-center mb-6 md:mb-10 px-1 gap-2 md:gap-3">
+      <div className={`flex flex-col items-center text-center px-1 ${compact ? "mb-4 gap-1" : "mb-6 md:mb-10 gap-2 md:gap-3"}`}>
         {hasNumber ? (
           <div aria-hidden className="flex select-none items-center gap-2.5">
             <span className="h-0.5 w-6 rounded-full bg-accent" />
@@ -82,7 +85,7 @@ export default function HubSection({
           <div aria-hidden className="h-0.5 w-8 rounded-full bg-accent" />
         )}
 
-        <TitleTag className="break-keep text-center text-xl font-semibold tracking-tight text-text-primary md:text-2xl">
+        <TitleTag className={`break-keep text-center font-semibold tracking-tight text-text-primary ${compact ? "text-base md:text-lg" : "text-xl md:text-2xl"}`}>
           {title}
         </TitleTag>
 

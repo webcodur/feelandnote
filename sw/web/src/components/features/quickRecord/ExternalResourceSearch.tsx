@@ -48,29 +48,28 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
     }, [blogSearchResult, onResultsChange]);
 
     return (
-        <div className={`bg-bg-card/50 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-xl flex flex-col ${className}`}>
+        <div data-external-resource-search className={`min-w-0 bg-bg-card border border-line rounded-panel overflow-hidden flex flex-col ${className}`}>
             {!hideHeader && (
-                <div className="px-4 py-2 border-b border-white/5 bg-white/2 flex items-center justify-between shadow-sm shrink-0 min-h-[52px]">
-                    <div className="flex-1" /> {/* Left spacer */}
-                    <div className="flex-none flex items-center justify-center gap-2 text-white whitespace-nowrap px-4">
-                        <Search size={16} className="text-accent" />
-                        <span className="text-sm font-bold uppercase tracking-wider">{t("headerTitle")}</span>
+                <div className="relative px-3 py-3 border-b border-line bg-bg-raised flex items-center justify-center gap-2 shrink-0 min-h-[52px]">
+                    <div className={`min-w-0 flex items-center justify-center gap-2 text-text-primary ${blogSearchResult ? "px-9" : ""}`}>
+                        <Search size={16} className="shrink-0 text-accent" aria-hidden="true" />
+                        <span data-external-search-heading className="min-w-0 break-words text-center text-sm font-semibold leading-relaxed">{t("headerTitle")}</span>
                     </div>
-                    <div className="flex-1 flex justify-end">
                         {blogSearchResult && (
                             <button
+                                type="button"
                                 onClick={() => setBlogSearchResult(null)}
-                                className="p-1.5 rounded-lg hover:bg-white/10 hover:text-text-primary transition-colors"
+                                className="absolute right-1 top-1/2 -translate-y-1/2 size-11 flex items-center justify-center rounded-control text-text-secondary hover:bg-bg-card hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                                 title={t("resetResults")}
+                                aria-label={t("resetResults")}
                             >
                                 <X size={14} />
                             </button>
                         )}
-                    </div>
                 </div>
             )}
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
+            <div className="min-w-0 flex-1 overflow-y-auto custom-scrollbar p-3.5 md:p-4">
                 <div className="flex flex-col gap-6">
                     <SearchHelper
                         title={title}
@@ -94,14 +93,14 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                                         <button
                                             key={idx}
                                             onClick={() => setPreviewUrl({ url: item.link, title: item.title })}
-                                            className="flex flex-col gap-1.5 p-3.5 bg-white/5 hover:bg-white/10 rounded-xl group border border-white/5 hover:border-accent/20 text-left w-full"
+                                            className="flex flex-col gap-1.5 p-3.5 bg-bg-raised hover:bg-bg-stone-light rounded-card group border border-line hover:border-line-strong text-left w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                                         >
                                             <div className="flex items-center justify-between gap-2 w-full">
-                                                <h4 className="text-sm font-bold text-text-primary line-clamp-1 group-hover:text-accent transition-colors">
+                                                <h4 className="text-sm font-semibold text-text-primary line-clamp-1 group-hover:text-accent">
                                                     {item.title}
                                                 </h4>
                                             </div>
-                                            <p className="text-xs line-clamp-2 w-full leading-relaxed">
+                                            <p className="text-sm text-text-secondary line-clamp-2 w-full leading-relaxed">
                                                 {item.description}
                                             </p>
                                             <div className="flex items-center gap-2 text-[11px] mt-1">

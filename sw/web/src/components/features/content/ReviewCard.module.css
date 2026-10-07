@@ -1,0 +1,84 @@
+.card {
+  container-type: inline-size;
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-panel);
+  background: linear-gradient(145deg, var(--color-bg-raised), var(--color-bg-card) 55%);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-bg-secondary) 90%, transparent), inset 0 1px 0 var(--color-line);
+  transition: none;
+}
+.header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 14px;
+  padding: 0 18px 0 0;
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+  border-bottom: 1px solid var(--color-line);
+  background: linear-gradient(110deg, color-mix(in srgb, var(--color-bg-raised) 80%, transparent), transparent);
+}
+.avatarSlot { position: relative; width: 80px; min-width: 0; min-height: 80px; align-self: stretch; }
+.portrait {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0;
+  border-right: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-panel) 0 0 0;
+  background: var(--color-bg-secondary);
+  outline: none;
+}
+.portrait:hover { border-color: var(--color-accent); background: var(--color-bg-raised); }
+.portrait:active { background: var(--color-bg-main); }
+.portrait:focus-visible { border-color: var(--color-accent); box-shadow: inset 0 0 0 2px var(--color-accent); }
+.initial { display: grid; height: 100%; place-items: center; color: var(--color-text-secondary); font-size: 22px; }
+.identity { min-width: 0; display: grid; gap: 5px; align-self: center; padding-block: 16px; }
+.subtitle { color: var(--color-text-secondary); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; text-wrap: pretty; }
+.nameRow { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+.name, .nameLink { color: var(--color-text-primary); font-size: 18px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.nameLink { border-radius: var(--radius-control); outline: none; }
+.nameLink:hover { color: var(--color-accent); }
+.nameLink:active { color: var(--color-accent-hover); }
+.nameLink:focus-visible { box-shadow: 0 0 0 2px var(--color-accent); }
+.profession { display: inline-flex; align-items: center; justify-content: center; width: 25px; height: 25px; flex-shrink: 0; border: 1px solid var(--color-line); border-radius: 50%; background: var(--color-bg-raised); }
+.headerActions { display: flex; align-items: center; align-self: center; gap: 8px; padding-block: 16px; }
+.rating { display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; border: 1px solid var(--color-line); border-radius: 999px; background: var(--color-bg-secondary); color: var(--color-accent); font-size: 12px; font-weight: 500; }
+.source { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; padding-inline: 12px; border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-bg-card); box-shadow: inset 0 1px 0 var(--color-line); color: var(--color-text-secondary); font-size: 12px; font-weight: 500; }
+.source:hover { border-color: var(--color-line-strong); background: var(--color-bg-raised); color: var(--color-accent); }
+.source:active { background: var(--color-bg-secondary); }
+.body { padding: 16px 18px 18px; }
+.reading { min-width: 0; color: var(--color-text-secondary); font-size: 15px; line-height: 1.85; white-space: pre-wrap; overflow-wrap: anywhere; }
+.collapsed { position: relative; max-height: 24lh; overflow: hidden; }
+.collapsed::after { content: ""; position: absolute; inset: auto 0 0; height: 3lh; background: linear-gradient(transparent, var(--color-bg-card)); pointer-events: none; }
+.readMore { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; margin-top: 12px; border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-bg-raised); color: var(--color-text-secondary); font-size: 13px; outline: none; }
+.readMore:hover { border-color: var(--color-line-strong); background: var(--color-bg-secondary); color: var(--color-accent); }
+.readMore:active { background: var(--color-bg-main); }
+.readMore:focus-visible { box-shadow: 0 0 0 2px var(--color-accent); }
+.spoiler { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 44px; padding: 10px; border: 1px solid var(--color-line); border-radius: var(--radius-control); background: var(--color-bg-main); color: var(--color-text-secondary); font-size: 14px; outline: none; }
+.spoiler:hover { border-color: var(--color-line-strong); background: var(--color-bg-raised); color: var(--color-text-primary); }
+.spoiler:focus-visible, .hideSpoiler:focus-visible { box-shadow: 0 0 0 2px var(--color-accent); }
+.hideSpoiler { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; margin-inline-end: 6px; border-radius: var(--radius-control); background: var(--color-bg-raised); color: var(--color-text-secondary); vertical-align: middle; outline: none; }
+.hideSpoiler:hover { color: var(--color-accent); background: var(--color-bg-secondary); }
+.member { background: var(--color-bg-card); }
+.member .header { padding: 14px 18px; align-items: center; }
+.member .avatarSlot { width: 44px; height: 44px; min-height: 44px; align-self: center; }
+.member .portrait { position: relative; width: 44px; height: 44px; border: 1px solid var(--color-line-strong); border-radius: 50%; }
+.member .identity, .member .headerActions { padding-block: 0; }
+.member .name { font-size: 15px; }
+@container (max-width: 480px) {
+  .header { gap: 10px; padding: 0 14px 0 0; }
+  .avatarSlot { width: 64px; min-height: 72px; }
+  .identity { padding-block: 12px; gap: 3px; }
+  .subtitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+  .name, .nameLink { font-size: 16px; }
+  .headerActions { flex-direction: column; gap: 6px; padding-block: 12px; }
+  .source { padding-inline: 9px; }
+  .body { padding: 14px; }
+  .reading { font-size: 14px; line-height: 1.8; }
+  .member .header { padding: 12px 14px; }
+}

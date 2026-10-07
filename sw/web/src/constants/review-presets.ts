@@ -92,6 +92,10 @@ export const getAllCommonPresets = (): ReviewPreset[] => {
   return COMMON_PRESETS.flatMap(group => group.presets);
 };
 
+// 작품 상세에서는 공통 감상 중 하나만 고른다. 저장 값은 기존 키워드를 유지한다.
+export const SIMPLE_REVIEW_PRESETS = ["POS_02", "POS_03", "POS_04", "NEU_02", "NEG_01", "NEG_02"]
+  .map(id => getAllCommonPresets().find(preset => preset.id === id)!);
+
 // 특정 카테고리의 프리셋 반환
 export const getPresetsByCategory = (category: CategoryId): ReviewPreset[] => {
   return CATEGORY_PRESETS[category] || [];

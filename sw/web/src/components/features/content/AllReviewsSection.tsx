@@ -48,9 +48,9 @@ export default function AllReviewsSection({
   const isEmpty = reviews.length === 0;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {isEmpty && (
-        <div className="py-8 text-center text-text-secondary text-sm">
+        <div className="rounded-panel border border-line bg-bg-card px-4 py-6 text-center text-text-secondary text-sm">
           {t("noReviews")}
         </div>
       )}
@@ -60,7 +60,7 @@ export default function AllReviewsSection({
 
       {/* 더보기 */}
       {hasMore && (
-        <Button unstyled onClick={loadMoreReviews} disabled={isLoadingMore} className="flex items-center gap-1 mx-auto px-4 py-2 text-xs text-accent hover:text-accent-hover">
+        <Button unstyled onClick={loadMoreReviews} disabled={isLoadingMore} className="flex min-h-11 items-center gap-2 mx-auto rounded-control border border-line bg-bg-raised px-5 text-sm text-text-secondary hover:border-line-strong hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           {isLoadingMore ? <Loader2 size={14} className="animate-spin" /> : <><span>{t("loadMore")}</span><ArrowRight size={14} /></>}
         </Button>
       )}

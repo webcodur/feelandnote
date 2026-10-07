@@ -52,26 +52,26 @@ export default function SearchHelper({ title, type, onSearchResult }: SearchHelp
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="@container min-w-0 flex flex-col gap-4">
       <div>
         <div className="text-xs text-text-secondary mb-3 flex items-center gap-2">
           <span className="text-[13px]">{t("clickHint")}</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 @min-[240px]:grid-cols-2 gap-2">
           {presets.map((preset, idx) => (
             <button
               key={idx}
               onClick={() => handleInlineSearch(preset.query)}
               disabled={isLoading}
-              className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 hover:bg-accent/5 transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+              className="min-w-0 min-h-11 flex items-center justify-center gap-2 px-2 py-2 rounded-control bg-bg-raised border border-line hover:border-line-strong hover:bg-bg-stone-light group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isEn ? (
-                <ExternalLink size={12} className="group-hover:text-accent transition-colors" />
+                <ExternalLink size={12} className="shrink-0 text-text-secondary group-hover:text-accent" aria-hidden="true" />
               ) : (
-                <FileText size={12} className="group-hover:text-accent transition-colors" />
+                <FileText size={12} className="shrink-0 text-text-secondary group-hover:text-accent" aria-hidden="true" />
               )}
-              <span className="text-xs font-semibold text-text-primary group-hover:text-accent transition-colors">
+              <span className="min-w-0 break-words text-xs font-medium text-text-primary group-hover:text-accent">
                 {preset.label}
               </span>
             </button>

@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getInitialPublicContentInfo } from "@/actions/contents/getContentDetail";
+import { getBookBannerTheme } from "@/actions/contents/getBookBannerTheme";
 import {
   getAlternates,
   getCreativeWorkCreatorJsonLd,
@@ -120,6 +121,7 @@ async function ContentBody({ locale, contentId }: { locale: string; contentId: s
   if (!content) {
     return <ExternalContentDetailFallback contentId={contentId} />;
   }
+  const bannerTheme = content.type === "BOOK" ? await getBookBannerTheme(content.id) : "library";
 
   const canonicalUrl = getAlternates(
     `/content/${contentId}`,
@@ -151,6 +153,7 @@ async function ContentBody({ locale, contentId }: { locale: string; contentId: s
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <ContentDetailPage key={content.id}
+        bannerTheme={bannerTheme}
         initialData={{ content, userRecord: null, isLoggedIn: false, initialReviews: [], fictionCharacters: [], curatedEntries: [] }}
         relatedSections={<ContentRelatedSections contentId={content.id} locale={locale} />}
         reviewsSection={<ContentReviewsSection contentId={content.id} locale={locale} title={content.title} type={content.type} />} />

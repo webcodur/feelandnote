@@ -45,6 +45,35 @@ test('first content information returns without external enrichment, reviews, ch
   assert.equal(reads, 1)
 })
 
+test('viewer state restores saved reactions alongside the existing review', async () => {
+  let selected = ''
+  const row = { id: 'record-id', status: 'FINISHED', rating: 4.5, review: '기존 감상',
+    review_presets: ['유익해요'], is_spoiler: true, created_at: 'created', updated_at: 'updated' }
+  const query = {
+    select: (columns: string) => { selected = columns; return query },
+    eq: () => query, maybeSingle: async () => ({ data: row }),
+  }
+  const api = load<{ getContentViewerState: (id: string) => Promise<{ userRecord: {
+    reviewPresets: string[]; review: string; rating: number; isSpoiler: boolean
+  } }> }>('./getContentDetail.ts', {
+    '@/lib/db/server': { createClient: async () => ({ from: () => query }) },
+    '@/actions/user': { getProfile: async () => ({ id: 'member-id' }) },
+    '@/lib/db/static': {}, './getContentById': {}, './fetchContentMetadata': {}, './getReviewFeed': {},
+    '@/actions/figure-books/getFigureBooks': {}, '@/actions/figure-books/figureBookEditions': {},
+    '@/actions/figure-books/figureBookLocale': {}, '@/actions/library/curated': {},
+    'next-intl/server': {}, '@/lib/developer-mode': {}, '@/lib/cache': {},
+    '@/lib/utils/content-locale': {}, '@/lib/utils/content-locale-text': {},
+    './fetchBookMetadata': {}, '@/lib/utils/book-description': {},
+    '@/lib/books/contentEdition': {}, '@/lib/books/amazonBookSearch': {},
+  })
+  const result = await api.getContentViewerState(id)
+  assert.ok(selected.split(',').map(value => value.trim()).includes('review_presets'))
+  assert.deepEqual(result.userRecord.reviewPresets, ['유익해요'])
+  assert.equal(result.userRecord.review, '기존 감상')
+  assert.equal(result.userRecord.rating, 4.5)
+  assert.equal(result.userRecord.isSpoiler, true)
+})
+
 type Element = { type: (props: Record<string, unknown>) => Promise<Element> | Element; props: Record<string, unknown> }
 const pending = { PendingBlock: () => null, RetryBlock: () => null }
 

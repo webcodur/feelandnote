@@ -51,6 +51,8 @@ const SOURCE_CHIP_CLASS =
   "inline-flex max-w-full items-center gap-1.5 rounded-full border border-accent/40 bg-black/30 py-0.5 text-xs leading-5";
 
 interface BookIntroductionPanelProps {
+  /** 작품 상세에서는 긴 소개도 접지 않고 전문을 표시한다. */
+  showFullText?: boolean;
   contentType?: string;
   description: string;
   label: string;
@@ -77,6 +79,7 @@ interface SourceChipProps {
 }
 
 export default function BookIntroductionPanel({
+  showFullText = false,
   contentType = "BOOK",
   description,
   label,
@@ -98,10 +101,10 @@ export default function BookIntroductionPanel({
   const [isOpen, setIsOpen] = useState(false);
   const introText = normalizeIntroBreaks(description);
   // 상한 안이면 통째로 싣는다 — 잘림·끝 흐림·모달 조작을 아예 걷는다
-  const fitsInline = fitsInlineReadingText(introText, locale);
-  const canOpen = !fitsInline && (appearance === "plate" || showSource);
+  const fitsInline = showFullText || fitsInlineReadingText(introText, locale);
   /* ── 1. 넘침 측정 — 로딩 중이거나 상한 안의 전문 표시에는 재지 않는다 ── */
   const { ref: previewRef, isClipped } = useClippedText<HTMLParagraphElement>(introText, !loading && !fitsInline);
+  const canOpen = !fitsInline && (appearance === "plate" || showSource);
   const providerName =
     showSource && attribution?.provider
       ? INTRO_PROVIDER_HEADING_NAME[attribution.provider]?.[locale === "en" ? "en" : "ko"]
@@ -162,7 +165,7 @@ export default function BookIntroductionPanel({
                 wrapAroundMedia && "max-sm:overflow-clip max-sm:max-h-[calc(var(--intro-media-height)+5lh)] max-sm:text-sm max-sm:leading-relaxed",
               ],
               // 끝 흐림은 폭과 무관하게 글이 실제로 잘릴 때만 붙는다 — 좁은 화면의 네 줄 접힘도 같다
-              isClipped && "clip-fade-end",
+              !fitsInline && isClipped && "clip-fade-end",
               "text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
               canOpen && "cursor-pointer hover:brightness-125 active:brightness-125",
             )}
@@ -171,7 +174,7 @@ export default function BookIntroductionPanel({
             <FormattedText text={introText} layout={isDeveloperMode() ? "prose" : "inline"} />
           </p>
           {(appearance === "plain" || source.providerName || source.sourceUrl) && (
-            <div className={cn("mt-2 flex flex-wrap items-center gap-2", appearance === "plain" ? "justify-between" : "justify-end", fill.footer, wrapAroundMedia && "max-sm:clear-both max-sm:mt-3 max-sm:border-t max-sm:border-white/[0.08] max-sm:pt-2")}>
+            <div className={cn("mt-2 flex flex-wrap items-center gap-2", appearance === "plain" && !showFullText ? "justify-between" : "justify-end", fill.footer, wrapAroundMedia && "max-sm:clear-both max-sm:mt-3 max-sm:border-t max-sm:border-white/[0.08] max-sm:pt-2")}>
               {appearance === "plain" && canOpen && <button type="button" onClick={() => setIsOpen(true)} aria-haspopup="dialog" aria-expanded={isOpen}
                 className="inline-flex min-h-10 items-center gap-1 text-sm text-text-secondary outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
                 {t("sourceWorkIntroductionOpen")}<ArrowUpRight size={14} aria-hidden />

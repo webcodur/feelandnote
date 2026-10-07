@@ -1,18 +1,14 @@
-/*
-  파일명: /components/features/content/MyReviewSection.tsx
-  기능: 내 리뷰 작성/편집 섹션
-  책임: 별점, 스포일러 여부, 리뷰 텍스트 입력 및 저장을 처리한다.
-*/ // ------------------------------
 "use client";
 
-import { useState, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Loader2 } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { addContent } from "@/actions/contents/addContent";
 import { updateReview } from "@/actions/contents/updateReview";
-import ExternalResourceSearch from "../quickRecord/ExternalResourceSearch";
+import { SIMPLE_REVIEW_PRESETS } from "@/constants/review-presets";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
+import styles from "./ContentDetail.module.css";
 
 interface MyReviewSectionProps {
   content: ContentDetailData["content"];
@@ -20,131 +16,143 @@ interface MyReviewSectionProps {
   onRecordChange: (record: ContentDetailData["userRecord"]) => void;
 }
 
-export default function MyReviewSection({
-  content,
-  userRecord,
-  onRecordChange,
-}: MyReviewSectionProps) {
+// 직접 작성과 짧은 반응 중 하나로 기록한다. 반응 선택 중에도 직접 작성하던 초안은 보존한다.
+export default function MyReviewSection({ content, userRecord, onRecordChange }: MyReviewSectionProps) {
   const t = useTranslations("contentDetail.review");
+  const tError = useTranslations("actionErrors");
   const [isPending, startTransition] = useTransition();
-
+  const groupName = useId();
+  const savedReaction = SIMPLE_REVIEW_PRESETS.find(preset => userRecord?.reviewPresets
+    ?.some(value => value === preset.keyword || value === preset.id))?.id ?? null;
+  const [selection, setSelection] = useState<string | null>(savedReaction);
   const [rating, setRating] = useState<number | null>(userRecord?.rating ?? null);
-  const [review, setReview] = useState(userRecord?.review || "");
+  const [review, setReview] = useState(userRecord?.review ?? "");
   const [isSpoiler, setIsSpoiler] = useState(userRecord?.isSpoiler ?? false);
-
-  const hasRecord = !!userRecord;
-
-  const handleRatingChange = (star: number) => {
-    setRating(rating === star ? null : star);
-  };
-
-  const handleSpoilerChange = (checked: boolean) => {
-    setIsSpoiler(checked);
+  const [feedback, setFeedback] = useState<"saved" | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const selectedPreset = SIMPLE_REVIEW_PRESETS.find(preset => preset.id === selection);
+  const manualDisabled = isPending || !!selectedPreset;
+  const hasChanges = selectedPreset ? selection !== savedReaction
+    : selection !== savedReaction || rating !== (userRecord?.rating ?? null)
+      || review !== (userRecord?.review ?? "") || isSpoiler !== (userRecord?.isSpoiler ?? false);
+  const clearFeedback = () => { setFeedback(null); setError(null); };
+  const activateManualReview = () => {
+    if (selectedPreset && !isPending) {
+      setSelection(null);
+      clearFeedback();
+    }
   };
 
   const handleSave = () => {
+    if (!hasChanges || isPending) return;
     startTransition(async () => {
+      setFeedback(null);
+      setError(null);
       try {
         let userContentId = userRecord?.id;
-
-        // 기록이 없으면 먼저 생성
+        let existingRecord;
         if (!userContentId) {
-          const addResult = await addContent({
-            id: content.id,
-            type: content.type,
-            title: content.title,
-            creator: content.creator,
-            thumbnailUrl: content.thumbnail,
-            description: content.description,
-            releaseDate: content.releaseDate,
-            status: "FINISHED",
+          const added = await addContent({
+            id: content.id, type: content.type, title: content.title,
+            creator: content.creator, thumbnailUrl: content.thumbnail,
+            description: content.description, releaseDate: content.releaseDate,
           });
-          if (!addResult.success) {
-            console.error("기록 생성 실패:", addResult.message);
+          if (!added.success) {
+            setError(tError(added.error));
             return;
           }
-          userContentId = addResult.data.userContentId;
+          userContentId = added.data.userContentId;
+          existingRecord = added.data.existingRecord;
         }
-
-        // 리뷰 저장
-        const result = await updateReview({
-          userContentId,
-          rating,
-          review: review || null,
-          isSpoiler,
+        const reviewPresets = selectedPreset ? [selectedPreset.keyword] : [];
+        const nextRating = selectedPreset ? userRecord?.rating ?? existingRecord?.rating ?? null
+          : userRecord || rating !== null ? rating : existingRecord?.rating ?? null;
+        const nextReview = selectedPreset ? userRecord?.review ?? existingRecord?.review ?? null
+          : userRecord || review ? review.trim() || null : existingRecord?.review || null;
+        const nextSpoiler = selectedPreset ? userRecord?.isSpoiler ?? false : isSpoiler;
+        const result = await updateReview(selectedPreset ? { userContentId, reviewPresets }
+          : { userContentId, rating: nextRating, review: nextReview, isSpoiler: nextSpoiler, reviewPresets });
+        if (!result.success) {
+          setError(tError(result.error));
+          return;
+        }
+        onRecordChange({
+          id: userContentId,
+          status: userRecord?.status ?? "FINISHED",
+          rating: nextRating,
+          review: nextReview,
+          reviewPresets,
+          isSpoiler: nextSpoiler,
+          createdAt: userRecord?.createdAt ?? new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         });
-
-        if (result.success) {
-          onRecordChange({
-            id: userContentId,
-            status: userRecord?.status ?? "FINISHED",
-            rating,
-            review: review || null,
-            isSpoiler,
-            createdAt: userRecord?.createdAt ?? new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          });
+        if (!selectedPreset) {
+          setReview(nextReview ?? "");
+          setRating(nextRating);
         }
+        setFeedback("saved");
       } catch (err) {
-        console.error("리뷰 저장 실패:", err);
+        console.error("[MyReviewSection:reaction]", err);
+        setError(t("saveFailed"));
       }
     });
   };
 
   return (
-    <div className="pt-4 space-y-3">
-      {/* 별점 */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-text-secondary">{t("rating")}</span>
-        <div className="flex items-center gap-2">
-          <div className="flex gap-0.5">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Button
-                unstyled
-                key={star}
-                onClick={() => handleRatingChange(star)}
-                className={`text-lg ${(rating ?? 0) >= star ? "text-yellow-400" : "text-text-secondary hover:text-yellow-400/50"}`}
-              >
-                ★
+    <div className={styles.composer}>
+      <div className={styles.ratingRow} data-disabled={manualDisabled}>
+        <span className="text-sm text-text-secondary">{t("rating")}</span>
+        <div className="flex max-w-full flex-wrap items-center justify-end gap-2">
+          <div className="flex">
+            {[1, 2, 3, 4, 5].map(star => (
+              <Button unstyled key={star} type="button" disabled={manualDisabled}
+                onClick={() => { setRating(value => value === star ? null : star); clearFeedback(); }}
+                aria-label={`${t("rating")} ${star}`} aria-pressed={rating === star}
+                className={styles.ratingControl}>
+                <Star size={20} aria-hidden="true" className={(rating ?? 0) >= star ? "fill-accent text-accent" : ""} />
               </Button>
             ))}
           </div>
-          {rating && <span className="text-xs font-medium text-yellow-400">{rating}.0</span>}
+          {rating !== null && <span className="text-xs font-medium text-accent">{rating.toFixed(1)}</span>}
         </div>
       </div>
-
-      {/* 리뷰 텍스트 */}
-      <textarea
-        className="w-full h-32 bg-black/20 border border-border rounded-lg p-3 text-text-primary text-sm resize-y outline-none font-sans focus:border-accent placeholder:"
-        placeholder={t("placeholder")}
-        value={review}
-        onChange={(e) => setReview(e.target.value)}
-      />
-
-      {/* 하단: 스포일러 + 저장 */}
-      <div className="flex items-center justify-between">
-        <label className="flex items-center gap-1.5 cursor-pointer text-text-secondary text-xs">
-          <input
-            type="checkbox"
-            className="w-3.5 h-3.5 rounded"
-            checked={isSpoiler}
-            onChange={(e) => handleSpoilerChange(e.target.checked)}
-          />
+      <textarea aria-label={t("placeholder")} className={styles.reviewInput} placeholder={t("placeholder")}
+        value={review} disabled={isPending} readOnly={!!selectedPreset} data-reaction-selected={!!selectedPreset}
+        onFocus={activateManualReview} onClick={activateManualReview}
+        onChange={event => { setReview(event.target.value); clearFeedback(); }} />
+      <fieldset disabled={isPending} className={styles.reactionField}>
+        <legend className="sr-only">{t("quickReactions")}</legend>
+        <div className={styles.reactionGrid}>
+          {SIMPLE_REVIEW_PRESETS.map(preset => (
+            <label key={preset.id} className={styles.reactionOption}>
+              <input type="radio" name={groupName} value={preset.id}
+                checked={selection === preset.id}
+                onClick={() => { if (selection === preset.id) { setSelection(null); clearFeedback(); } }}
+                onChange={() => { setSelection(preset.id); clearFeedback(); }}
+                className={styles.reactionRadio} />
+              <span className={styles.reactionLabel}>{t(`reactions.${preset.id}`)}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <div className={styles.composerFooter}>
+        <label className={styles.spoilerToggle}>
+          <input type="checkbox" checked={isSpoiler} disabled={manualDisabled}
+            className="size-4 cursor-pointer accent-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            onChange={event => { setIsSpoiler(event.target.checked); clearFeedback(); }} />
           {t("containsSpoiler")}
         </label>
-        <Button variant="primary" size="sm" onClick={handleSave} disabled={isPending}>
-          {isPending ? <Loader2 size={14} className="animate-spin" /> : hasRecord ? t("save") : t("register")}
+        <Button variant="primary" size="sm" className="min-h-11 px-5" type="button"
+          data-save-review onClick={handleSave} disabled={isPending || !hasChanges}>
+          {isPending && <Loader2 size={14} className="animate-spin" aria-hidden="true" />}
+          {t("save")}
         </Button>
       </div>
-
-      {/* 외부 자료 검색 */}
-      <div className="pt-6 border-t border-white/5">
-        <ExternalResourceSearch 
-          title={content.title}
-          creator={content.creator}
-          type={content.type}
-          className="h-[450px]"
-        />
+      <div className={styles.reviewFeedback}>
+        <span role="status" aria-live="polite" className={styles.reactionStatus}>
+          {feedback === "saved" ? t("saved") : ""}
+        </span>
+        {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
       </div>
     </div>
   );

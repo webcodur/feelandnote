@@ -13,7 +13,7 @@ interface MyNoteSectionProps {
 
 export default function MyNoteSection({ contentId }: MyNoteSectionProps) {
   return (
-    <div className="pt-4">
+    <div>
       <MyNotePanel contentId={contentId} />
     </div>
   );

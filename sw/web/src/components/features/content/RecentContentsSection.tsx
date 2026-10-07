@@ -25,9 +25,10 @@ const TYPE_ICONS: Record<ContentType, typeof Book> = {
 
 interface RecentContentsSectionProps {
   items: RecentContentItem[];
+  hideTitle?: boolean;
 }
 
-export default function RecentContentsSection({ items }: RecentContentsSectionProps) {
+export default function RecentContentsSection({ items, hideTitle }: RecentContentsSectionProps) {
   const t = useTranslations("contentDetail");
   // 한 줄 넘김 선반 — 끌기는 마우스만 받고 터치는 브라우저 기본 스크롤이 담당한다. 규칙은 ui-rail 스킬이 쥔다
   const { ref: scrollRef, cursorClassName, dragProps, stopGlide } = useMouseDragScroll<HTMLDivElement>();
@@ -64,8 +65,8 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
   if (items.length === 0) return null;
 
   return (
-    <div className="mb-5 group/recent relative">
-      <p className="text-[11px] md:text-xs font-medium tracking-wide text-text-secondary mb-2.5">{t("recentContents")}</p>
+    <div className={`${hideTitle ? "" : "mb-5"} group/recent relative`}>
+      {!hideTitle && <p className="text-[11px] md:text-xs font-medium tracking-wide text-text-secondary mb-2.5">{t("recentContents")}</p>}
       {/* 좌우 넘김 버튼 — PC에서만, 즉각 축은 테두리·배경색, 페이드는 연출 축 */}
       <button
         type="button"
@@ -100,10 +101,10 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
             <Link
               key={item.id}
               href={href}
-              className="flex-shrink-0 snap-start w-[72px] md:w-[108px] lg:w-[120px] group"
+              className="flex-shrink-0 snap-start w-[72px] md:w-[108px] lg:w-[120px] group outline-none"
             >
               {/* 카드 — 즉각 축: 테두리·배경·제목색 (transition 없음) / 연출 축: 이미지 확대 (transition-transform) */}
-              <div className="relative w-[72px] h-[100px] md:w-[108px] md:h-[150px] lg:w-[120px] lg:h-[168px] rounded-xl overflow-hidden border border-white/10 bg-bg-secondary group-hover:border-accent/60 group-hover:bg-white/[0.04]">
+              <div className="relative w-[72px] h-[100px] md:w-[108px] md:h-[150px] lg:w-[120px] lg:h-[168px] rounded-card overflow-hidden border border-line-strong bg-bg-card shadow-md group-hover:border-accent group-hover:bg-bg-raised group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent">
                 {/* 이미지 — 연출 축만 transition */}
                 <div className="absolute inset-0 overflow-hidden">
                     <ContentCover
@@ -121,7 +122,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
                 {/* 내부 헤어라인 */}
                 <span aria-hidden className="pointer-events-none absolute inset-[2px] rounded-[10px] border border-white/[0.06]" />
               </div>
-              <p className="text-xs text-text-secondary line-clamp-2 leading-tight mt-1.5 group-hover:text-accent">
+              <p className="text-xs text-text-secondary line-clamp-2 leading-snug mt-2 group-hover:text-accent group-focus-visible:text-accent">
                 <NoEditionBadge contentType={item.type} badge={item.titleBadge} />
                 {item.title}
               </p>

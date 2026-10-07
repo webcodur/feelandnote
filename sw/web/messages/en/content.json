@@ -150,7 +150,7 @@
   },
   "contentDetail": {
     "back": "Go back",
-    "contentInfo": "Content Info",
+    "contentInfo": "Work information",
     "fictionCharacters": "Figures in This Work",
     "fictionCharactersCount": "{count}",
     "fictionCharactersIntro": "These figures either appear in this book or are directly related to it. Select a name to open the figure archive, or use the image icon to enlarge the image.",
@@ -194,7 +194,18 @@
       "placeholder": "Share your thoughts on this work freely.",
       "containsSpoiler": "Contains spoiler",
       "save": "Save",
-      "register": "Submit"
+      "register": "Submit",
+      "reactions": {
+        "POS_02": "Enjoyable",
+        "POS_03": "Informative",
+        "POS_04": "Moving",
+        "NEU_02": "Thought-provoking",
+        "NEG_01": "Challenging",
+        "NEG_02": "Boring"
+      },
+      "saved": "Review saved.",
+      "saveFailed": "Could not save your review. Please try again.",
+      "quickReactions": "Quick reactions"
     },
     "relativeTime": {
       "justNow": "Just now",

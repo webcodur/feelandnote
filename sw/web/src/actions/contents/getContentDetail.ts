@@ -66,6 +66,7 @@ export interface ContentDetailData {
     status: ContentStatus
     rating: number | null
     review: string | null
+    reviewPresets?: string[]
     isSpoiler: boolean
     createdAt: string
     updatedAt: string
@@ -367,7 +368,7 @@ async function fetchUserRecord(
   const db = await createClient()
   const { data } = await db
     .from('member_contents')
-    .select('id, status, rating, review, is_spoiler, created_at, updated_at')
+    .select('id, status, rating, review, review_presets, is_spoiler, created_at, updated_at')
     .eq('member_id', userId)
     .eq('content_id', contentId)
     .maybeSingle()
@@ -379,6 +380,7 @@ async function fetchUserRecord(
     status: data.status as ContentStatus,
     rating: data.rating,
     review: data.review,
+    reviewPresets: data.review_presets ?? [],
     isSpoiler: data.is_spoiler ?? false,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
