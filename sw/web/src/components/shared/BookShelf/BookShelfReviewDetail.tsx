@@ -15,13 +15,13 @@ interface Props {
   contentIds: string[];
   selectedIndex: number;
   expanded?: boolean;
-  reviewAside?: ReactNode;
+  reviewHeader?: ReactNode;
   recordIsComplete?: boolean;
   showMedia?: boolean;
 }
 
 /** 책장 감상 분류도 인물 상세의 작품 소개·감상배경·전문 모달을 그대로 쓴다. */
-export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex, expanded, reviewAside, recordIsComplete = false, showMedia = true }: Props) {
+export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex, expanded, reviewHeader, recordIsComplete = false, showMedia = true }: Props) {
   const placeholder = useMemo(() => mapPublicToUserContent([record], celebId)[0], [record, celebId]);
   const isActiveContent = useCallback((id: string) => id === record.content_id, [record.content_id]);
   const brief = useContentBrief(contentIds, selectedIndex, record.content_id, isActiveContent, true, undefined, true);
@@ -46,7 +46,7 @@ export default function BookShelfReviewDetail({ record, celebId, ownerNickname, 
         isActive
         ownerNickname={ownerNickname}
         expanded={expanded}
-        reviewAside={reviewAside}
+        reviewHeader={reviewHeader}
         showMedia={showMedia}
       />
     </div>

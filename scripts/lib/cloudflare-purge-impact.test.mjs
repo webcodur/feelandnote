@@ -371,3 +371,25 @@ test('daily review logic and home translations need no cached HTML purge', () =>
   assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/lib/reviews/featuredReview.ts', 'sw/web/src/actions/home/getCelebs.ts', 'sw/web/messages/ko/home.json', 'sw/web/messages/en/explore.json']).scopes, ['none']);
   assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/game/shared/ContentReviewModal.tsx', 'sw/web/src/components/shared/BookIntroductionPanel.tsx']).scopes, ['celeb','content']);
 });
+
+test('R2 genre banners and shared detail UI evict only their consuming detail HTML', () => {
+  const localSource = 'sw/web/public/images/content/banners/acoustic-mb.webp';
+  assert.deepEqual(classifyCloudflarePurgeImpact([localSource]).scopes, ['none']);
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/lib/contentBanner.ts',
+    'sw/web/src/lib/contentBannerAssets.ts',
+  ]).scopes, ['content']);
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/shared/BookShelf/BookShelfReviewDetail.tsx',
+  ]).scopes, ['celeb']);
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    localSource,
+    'sw/web/src/lib/contentBannerAssets.ts',
+    'sw/web/src/components/shared/DetailBanner.tsx',
+    'sw/web/src/components/shared/DetailBanner.module.css',
+    'sw/web/src/lib/reviews/featuredReviewAvailability.ts',
+  ]).scopes, ['celeb', 'content']);
+  assert.throws(() => classifyCloudflarePurgeImpact([
+    'sw/web/public/images/content/banners/unverified-mb.webp',
+  ]), /Unclassified public asset/);
+});

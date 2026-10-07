@@ -30,8 +30,8 @@ function colsFor(count: number) {
 
 /** 카드 한 장의 최소 높이. 아래 고스트 높이와 같은 값이어야 기다림이 실물과 겹친다.
  *  tailwind가 클래스를 정적으로 훑으므로 두 값을 문자열 그대로 적는다(보간 금지) */
-const CARD_MIN_H = "min-h-[68px]";
-const GHOST_H = "h-[68px]";
+const CARD_MIN_H = "min-h-[80px]";
+const GHOST_H = "h-[80px]";
 
 /** 이 격자가 채워지기를 기다리는 자리. 열 수·칸 높이가 실제 카드와 같다 */
 export function FigureLinkGridPending({
@@ -177,10 +177,10 @@ export default async function FigureLinkGrid({
               <Link
                 href={getCelebProfileUrl(figure)}
                 prefetch={false}
-                className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+                className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&_button]:text-xs`}
               >
                 {/* 얼굴이 카드 왼쪽 끝에서 위아래를 채운다 — 여백 없이 붙여 인물이 먼저 읽히게 한다 */}
-                <span className="relative w-12 shrink-0 overflow-hidden bg-bg-main">
+                <span className="relative w-14 shrink-0 overflow-hidden bg-bg-main">
                   {figure.avatar_url ? (
                     <CelebAvatarImage
                       src={figure.avatar_url}
@@ -196,11 +196,11 @@ export default async function FigureLinkGrid({
                   )}
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col justify-center px-3.5 py-2.5">
-                  <span className="truncate font-semibold text-text-primary group-hover:text-accent">
+                  <span className="truncate text-[17px] font-semibold text-text-primary group-hover:text-accent">
                     {name}
                   </span>
                   {(sub || foreignNationality) && (
-                    <span className="flex min-w-0 items-center gap-1 text-xs text-text-secondary">
+                    <span className="flex min-w-0 items-center gap-1 text-[13px] text-text-secondary">
                       {foreignNationality && (
                         <span className="max-w-[45%] shrink-0 truncate text-accent/80">
                           <NationalityText code={foreignNationality} />
@@ -215,7 +215,7 @@ export default async function FigureLinkGrid({
                 {figure.trendMatch ? (
                   <TrendMatchChip match={figure.trendMatch} name={name} variant="gold" className="mr-3.5 shrink-0 self-center" />
                 ) : figure.content_count !== undefined && figure.content_count > 0 && (
-                  <span className="flex shrink-0 items-center pr-3.5 text-xs font-medium tabular-nums text-text-secondary group-hover:text-accent">
+                  <span className="flex shrink-0 items-center pr-3.5 text-[13px] font-medium tabular-nums text-text-secondary group-hover:text-accent">
                     {figure.content_count}
                   </span>
                 )}

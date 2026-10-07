@@ -52,12 +52,13 @@ interface ContentIntroProps {
   isLoading: boolean;
   inlineLabel?: boolean;
   expanded?: boolean;
+  textLayout?: "inline" | "prose";
 }
 
-export default function ContentIntro({ brief, category, isLoading, inlineLabel = false, expanded = false }: ContentIntroProps) {
+export default function ContentIntro({ brief, category, isLoading, inlineLabel = false, expanded = false, textLayout }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
-  const layout = isDeveloperMode() ? "prose" : "inline";
+  const layout = textLayout ?? (isDeveloperMode() ? "prose" : "inline");
   const headingId = useId();
   const [pickedProvider, setPickedProvider] = useState<ContentIntroSource["provider"] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

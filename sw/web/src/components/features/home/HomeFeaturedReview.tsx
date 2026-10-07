@@ -40,17 +40,27 @@ export default function HomeFeaturedReview({ item }: { item: HomeFeaturedReviewD
   const focus = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
   const creator = item.content.creator?.replace(/\^/g, ", ") ?? null;
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
-  const figure = <div className="w-24 min-w-0 md:w-32" data-featured-figure-basics>
-    <Link href={figureHref} aria-label={item.figure.name} className={"group relative block aspect-[3/4] w-full overflow-hidden rounded-lg border border-line bg-portrait-stage hover:border-accent " + focus}>
+  const figure = <div className="flex min-w-0 items-center gap-3 sm:gap-4" data-featured-figure-basics>
+    <Link href={figureHref} aria-label={item.figure.name} className={"group relative block h-[86px] w-16 shrink-0 overflow-hidden rounded-lg border border-line bg-portrait-stage hover:border-accent " + focus}>
       <CelebImage src={item.figure.avatarUrl} alt={item.figure.name} shape="square" />
     </Link>
-    <Link href={figureHref} className={"mt-2 block text-balance break-keep rounded-sm text-center text-sm font-semibold leading-snug [overflow-wrap:anywhere] text-text-primary hover:text-accent " + focus}>{item.figure.name}</Link>
-    {item.figure.profession && <p className="mt-1 hidden break-words text-center text-xs leading-relaxed text-text-secondary md:block">{professionLabel(item.figure.profession)}</p>}
-    {(item.figure.profession || item.figure.nationality) && <div className="mt-1 flex items-center justify-center gap-1.5 text-xs leading-relaxed text-text-secondary md:mt-0.5">
-      {item.figure.profession && <span className="shrink-0 md:hidden" role="img" aria-label={professionLabel(item.figure.profession)} title={professionLabel(item.figure.profession)}><CelebProfessionMark profession={item.figure.profession} size={14} /></span>}
-      {item.figure.nationality && <NationalityText code={item.figure.nationality} />}
-    </div>}
-    {period && <p className="mt-0.5 hidden text-center text-xs leading-relaxed tabular-nums text-text-tertiary md:block">{period}</p>}
+    <div className="min-w-0 flex-1">
+      <Link href={figureHref} className={"inline-block break-keep rounded-sm text-base font-semibold leading-snug [overflow-wrap:anywhere] text-text-primary hover:text-accent " + focus}>{item.figure.name}</Link>
+      {(item.figure.profession || item.figure.nationality || period) && <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-relaxed text-text-secondary">
+        {item.figure.profession && <span className="inline-flex items-center gap-1.5">
+          <span role="img" aria-label={professionLabel(item.figure.profession)} title={professionLabel(item.figure.profession)}><CelebProfessionMark profession={item.figure.profession} size={14} /></span>
+          <span className="hidden md:inline">{professionLabel(item.figure.profession)}</span>
+        </span>}
+        {item.figure.nationality && <span className="inline-flex items-center gap-2">
+          {item.figure.profession && <span aria-hidden className="text-text-tertiary">·</span>}
+          <NationalityText code={item.figure.nationality} />
+        </span>}
+        {period && <span className="hidden items-center gap-2 tabular-nums text-text-tertiary md:inline-flex">
+          {(item.figure.profession || item.figure.nationality) && <span aria-hidden>·</span>}
+          {period}
+        </span>}
+      </div>}
+    </div>
   </div>;
 
   return (
@@ -72,7 +82,7 @@ export default function HomeFeaturedReview({ item }: { item: HomeFeaturedReviewD
       </div>
       <div className="overflow-hidden rounded-xl border border-white/20 bg-bg-card">
         <BookShelfReviewDetail record={book.readingRecord!} celebId={item.figure.id} ownerNickname={item.figure.name}
-          contentIds={contentIds} selectedIndex={0} expanded reviewAside={figure} recordIsComplete showMedia={false} />
+          contentIds={contentIds} selectedIndex={0} expanded reviewHeader={figure} recordIsComplete showMedia={false} />
       </div>
     </article>
   );

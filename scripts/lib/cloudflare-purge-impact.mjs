@@ -127,6 +127,8 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 책장 감상의 보관 HTML 소비자는 인물 상세뿐이다. 홈은 앞단 캐시가 없다.
+  'sw/web/src/components/shared/BookShelf/BookShelfReviewDetail.tsx',
   // Public shelf reads and approval badges affect the cached figure detail.
   'sw/web/src/actions/contents/getUserContents.ts',
   'sw/web/src/actions/contents/getCelebContentExpand.ts',
@@ -182,6 +184,9 @@ const CONTENT_PREFIXES = [
 ]
 
 const CONTENT_FILES = new Set([
+  // R2의 버전별 배너 주소와 장르 선택은 작품 상세에서만 소비한다.
+  'sw/web/src/lib/contentBanner.ts',
+  'sw/web/src/lib/contentBannerAssets.ts',
   'sw/web/src/actions/contents/getBookBannerTheme.ts',
   'sw/web/src/lib/books/bookBanner.ts',
   'sw/web/src/actions/contents/getContentById.ts',
@@ -192,6 +197,9 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // 이 배너의 실제 소비자는 CelebWorldBannerView와 ContentBanner 두 곳이다.
+  'sw/web/src/components/shared/DetailBanner.tsx',
+  'sw/web/src/components/shared/DetailBanner.module.css',
   // Reading, introductions and commerce are consumed by both detail families.
   'sw/web/src/components/features/game/shared/ContentReviewModal.tsx',
   'sw/web/src/components/shared/BookIntroductionPanel.tsx',
@@ -224,6 +232,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/quickRecord/ExternalResourceSearch.tsx',
   'sw/web/src/components/features/quickRecord/SearchHelper.tsx',
   'sw/web/src/lib/reviews/featuredReview.ts',
+  'sw/web/src/lib/reviews/featuredReviewAvailability.ts',
   'sw/web/src/actions/home/getCelebs.ts',
   'sw/web/src/actions/contents/addContent.ts',
   'sw/web/src/actions/contents/getMyContents.ts',
@@ -455,6 +464,12 @@ function classifyFile(file) {
     || matchesPrefix(file, CACHED_HTML_PREFIXES)
   ) {
     return ['cached-html']
+  }
+
+  // 신규 장르 배너의 로컬 원본은 런타임에서 읽지 않는다. contentBannerAssets가
+  // 해시를 포함한 R2 주소만 반환하고 로컬 fallback도 없으므로 퍼지가 필요 없다.
+  if (/^sw\/web\/public\/images\/content\/banners\/(?:acoustic|animation|cinema|classical|documentary|electronic|fantasy|game|historical|horror|jazz|live|music|racing|romance|science-fiction|sports|strategy|suspense)-(?:pc|mb)\.webp$/u.test(file)) {
+    return []
   }
 
   // Known work-detail artwork has its own asset prefix; never pretend HTML purging refreshes images.
