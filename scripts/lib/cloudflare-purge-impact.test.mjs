@@ -153,22 +153,16 @@ test('global runtime changes evict all cached HTML but not static chunks or SEO'
   assert.equal(JSON.stringify(plan).includes('sitemap'), false)
 })
 
-test('web package remains global while unknown feature and action paths widen to cached HTML', () => {
+test('web package remains global while unknown feature and action paths require investigation', () => {
   assert.deepEqual(
     classifyCloudflarePurgeImpact(['sw/web/package.json']).scopes,
     ['cached-html'],
   )
 
-  const plan = classifyCloudflarePurgeImpact([
+  for (const file of [
     'sw/web/src/actions/home/getCelebInfluence.ts',
     'sw/web/src/components/features/home/HomeHero.tsx',
-  ])
-
-  assert.deepEqual(plan.scopes, ['cached-html'])
-  assert.deepEqual(plan.unclassifiedPaths, [
-    'sw/web/src/actions/home/getCelebInfluence.ts',
-    'sw/web/src/components/features/home/HomeHero.tsx',
-  ])
+  ]) assert.throws(() => classifyCloudflarePurgeImpact([file]), /Unclassified web runtime path/)
 })
 
 test('known celeb-detail dependencies stay narrowly scoped and never widen on their own', () => {
@@ -181,15 +175,13 @@ test('known celeb-detail dependencies stay narrowly scoped and never widen on th
   assert.equal('unclassifiedPaths' in plan, false)
 })
 
-test('generic celeb internals widen to cached HTML and are reported as unclassified', () => {
+test('generic celeb internals require an explicit consumer-based rule', () => {
   for (const file of [
     'sw/web/src/actions/celebs/getCelebDirectory.ts',
     'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
     'sw/web/src/lib/celeb/world.ts',
   ]) {
-    const plan = classifyCloudflarePurgeImpact([file])
-    assert.deepEqual(plan.scopes, ['cached-html'])
-    assert.deepEqual(plan.unclassifiedPaths, [file])
+    assert.throws(() => classifyCloudflarePurgeImpact([file]), /Unclassified web runtime path/)
   }
 })
 
@@ -276,13 +268,9 @@ test('cached-html subsumes detail scopes while changed SEO remains independent',
   assert.equal(plan.prefixes.includes('feelandnote.com/celeb/'), true)
 })
 
-test('unclassified public runtime paths widen to cached HTML without escalating to a zone purge', () => {
+test('unclassified public runtime paths cannot silently purge cached HTML', () => {
   for (const file of ['sw/web/src/new-runtime-root.ts', 'sw/web/instrumentation.ts']) {
-    const plan = classifyCloudflarePurgeImpact([file])
-    assert.deepEqual(plan.scopes, ['cached-html'])
-    assert.deepEqual(plan.unclassifiedPaths, [file])
-    assert.equal(plan.emergencyZone, false)
-    assert.equal(JSON.stringify(plan).includes('emergency-zone'), false)
+    assert.throws(() => classifyCloudflarePurgeImpact([file]), /Unclassified web runtime path/)
   }
 
   // 자동 분류는 존 전체 비우기로 올라갈 수 없다.
@@ -290,6 +278,26 @@ test('unclassified public runtime paths widen to cached HTML without escalating 
     () => createCloudflarePurgePlan(['emergency-zone']),
     /manual-only/,
   )
+})
+
+test('home-only changes preserve cached detail HTML and shared data cache implementation does not change HTML', () => {
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/home/HomeFeaturedReview.tsx',
+    'sw/web/src/components/features/home/HomeFeaturedReviewSample.tsx',
+    'sw/web/src/components/features/home/HomeFreeBoardSection.tsx',
+    'sw/web/src/components/ui/cards/ContentCard/sections/StackedReviewLayout.tsx',
+    'sw/web/scripts/shared-data-cache.cjs',
+  ])
+  assert.deepEqual(plan.scopes, ['none'])
+  assert.deepEqual(plan.prefixes, [])
+  assert.deepEqual(plan.files, [])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/ui/media-objects/InteractiveMediaCover.tsx',
+    'sw/web/src/components/ui/media-objects/mediaGeometry.ts',
+  ]).scopes, ['celeb'])
+  assert.deepEqual(classifyCloudflarePurgeImpact([
+    'sw/web/src/components/features/commerce/PurchaseOpener.tsx',
+  ]).scopes, ['celeb', 'content'])
 })
 
 test('emergency zone purge is manual-only and requires an exact typed confirmation', () => {

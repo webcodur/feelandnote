@@ -162,6 +162,9 @@ const CELEB_FILES = new Set([
   'sw/web/src/lib/utils/editions.ts',
   // 원전·등장 작품 구획에 쓰는 작품별 표시 자료. 소비자는 인물 상세뿐이다.
   'sw/web/src/actions/figure-books/getFigureBookPresentations.ts',
+  // 입체 표지의 소비자는 홈·서재·실험실과 인물 상세 책장이다.
+  'sw/web/src/components/ui/media-objects/InteractiveMediaCover.tsx',
+  'sw/web/src/components/ui/media-objects/mediaGeometry.ts',
 ])
 
 const CONTENT_PREFIXES = [
@@ -188,6 +191,8 @@ const CELEB_AND_CONTENT_FILES = new Set([
   // 음성 배지와 본문 서식은 인물 상세와 작품 상세가 함께 그린다.
   'sw/web/src/components/ui/VoiceBadge.tsx',
   'sw/web/src/components/ui/FormattedText.tsx',
+  // 구매 조작은 인물 책장과 작품 상세에 함께 선다.
+  'sw/web/src/components/features/commerce/PurchaseOpener.tsx',
 ])
 
 const CACHED_HTML_AND_SEO_FILES = new Set([
@@ -201,6 +206,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // Remotion과 web-bo만 소비하며 public web HTML에는 들어오지 않는 공유 타이밍 계약이다.
   'packages/shared/src/lib/faction-scene-timing.ts',
   'sw/web/src/lib/cloudflarePurge.ts',
+  'sw/web/scripts/shared-data-cache.cjs',
+  'sw/web/scripts/check-standalone-runtime.mjs',
   // 아래 경로는 Cloudflare가 보관하지 않는 로그인·홈·서재·성향·실험실 런타임만 바꾼다.
   'sw/web/src/actions/auth/login.ts',
   'sw/web/src/actions/home/getCelebFeed.ts',
@@ -226,6 +233,11 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/features/home/HomeBrandHeader.tsx',
   'sw/web/src/components/features/home/HomeNoticeList.tsx',
   'sw/web/src/components/features/home/HomeNoticeSection.tsx',
+  'sw/web/src/components/features/home/HomeFeaturedReview.tsx',
+  'sw/web/src/components/features/home/HomeFeaturedReviewSample.tsx',
+  'sw/web/src/components/features/home/HomeFreeBoardSection.tsx',
+  // stacked 표현을 선택하는 곳은 TodayFigureSection(홈·오늘의 인물)뿐이다.
+  'sw/web/src/components/ui/cards/ContentCard/sections/StackedReviewLayout.tsx',
   'sw/web/src/components/features/home/IntroFrame.tsx',
   'sw/web/src/components/features/home/QuickRecordDock.tsx',
   // 오늘의 인물 구획은 홈과 explore/today에만 선다. 둘 다 보관 대상이 아니다.
@@ -361,11 +373,7 @@ function isTestOnlyPath(file) {
   )
 }
 
-// 규칙에 없는 공개 웹 경로가 떨어질 안전 스코프. 보관 중인 HTML을 전부 비우되
-// 존 전체 비우기(emergency-zone)로는 절대 올라가지 않는다.
-const UNCLASSIFIED_FALLBACK_SCOPE = 'cached-html'
-
-function classifyFile(file, unclassified) {
+function classifyFile(file) {
   if (
     !file
     || isTestOnlyPath(file)
@@ -423,13 +431,9 @@ function classifyFile(file, unclassified) {
     throw new Error(`Unclassified public asset path: ${file}`)
   }
 
-  // 규칙에 없는 공개 웹 경로. 예전에는 여기서 던져 배포를 막았지만 운영자는 매번
-  // --purge-scopes cached-html 을 손으로 넣어 통과시켰다. 넘치게 비우는 것은 캐시 미스
-  // 비용이고 덜 비우는 것은 낡은 화면을 내보내는 사고이므로, 가장 넓은 안전 스코프로
-  // 떨어뜨리고 그 경로를 계획에 남겨 규칙을 조일 수 있게 한다.
+  // 미분류 경로는 실제 소비자를 조사해 규칙을 추가한다. 자동 광역 퍼지는 하지 않는다.
   if (file.startsWith('sw/web/')) {
-    unclassified.push(file)
-    return [UNCLASSIFIED_FALLBACK_SCOPE]
+    throw new Error(`Unclassified web runtime path: ${file}`)
   }
 
   return []
@@ -481,19 +485,11 @@ export function classifyCloudflarePurgeImpact(changedFiles) {
   }
 
   const scopes = []
-  const unclassified = []
   for (const rawFile of changedFiles) {
     const file = normalizeGitPath(rawFile)
-    scopes.push(...classifyFile(file, unclassified))
+    scopes.push(...classifyFile(file))
   }
-
-  const plan = createCloudflarePurgePlan(scopes)
-  // 규칙에 없던 경로는 계획에 남겨 운영자가 보고 규칙을 조일 수 있게 한다. SEO 응답까지
-  // 바뀌는 변경이었다면 이 목록을 보고 --purge-scopes 로 seo 를 더한다.
-  // 하나도 없을 때는 필드를 만들지 않아 기존 계획 모양을 그대로 유지한다.
-  return unclassified.length
-    ? { ...plan, unclassifiedPaths: unique(unclassified) }
-    : plan
+  return createCloudflarePurgePlan(scopes)
 }
 
 export function createManualCloudflarePurgePlan(scope, confirmation = '') {

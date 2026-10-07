@@ -15,6 +15,7 @@ function assertMaterialFile(path, minimumBytes) {
 }
 
 assertMaterialFile(sharpBinary, 100_000)
+assertMaterialFile(join(webRoot, distDir, 'standalone', 'sw', 'web', 'scripts', 'shared-data-cache.cjs'), 100)
 
 const libvipsBinary = existsSync(libvipsDir)
   ? readdirSync(libvipsDir)
@@ -28,4 +29,4 @@ if (!libvipsBinary) {
 }
 assertMaterialFile(libvipsBinary, 1_000_000)
 
-console.log('[standalone-runtime] Oracle Linux sharp + libvips 포함 확인')
+console.log('[standalone-runtime] Oracle Linux sharp + libvips + shared data cache handler 포함 확인')

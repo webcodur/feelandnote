@@ -26,6 +26,7 @@ const SERVICE_NAME = 'feelandnote-web.service'
 const ENV_FILE = '/etc/feelandnote/web.env'
 const APP_RELATIVE_PATH = 'sw/web'
 const DIST_DIR = '.next-verify'
+const SHARED_DATA_CACHE_ROOT = '/opt/feelandnote/web/cache/data-v1'
 const RELEASE_METADATA_FILE = '.feelandnote-release.json'
 const SLOT_NAMES = ['blue', 'green']
 const CADDY_ADMIN_URL = 'http://127.0.0.1:2019'
@@ -38,6 +39,41 @@ export const CADDY_KEEPALIVE_MS = 4_000
 const CADDY_PASSIVE_MAX_FAILS = 1
 export const TRAFFIC_DRAIN_MS = 5_000
 export const STATIC_ASSET_RETENTION_MS = 35 * 24 * 60 * 60 * 1_000
+
+export function isDeploymentUnchanged(targetCommit, remote, trafficPolicyOnly = false) {
+  return !trafficPolicyOnly && targetCommit === remote.currentCommit
+    && remote.service === 'active' && remote.caddy === 'active'
+    && !remote.caddyConfigError && remote.caddyProxyPort === PRIMARY_PORT
+}
+
+export function linkSharedDataCache(appRoot, sharedRoot = SHARED_DATA_CACHE_ROOT) {
+  // An older commit may not yet contain the durable-invalidation handler.
+  if (!existsSync(path.join(appRoot, 'scripts', 'shared-data-cache.cjs'))) return null
+  const root = path.resolve(sharedRoot)
+  const cacheRoot = path.resolve(appRoot, DIST_DIR, 'cache')
+  if (root === cacheRoot || root.startsWith(cacheRoot + path.sep)) {
+    throw new Error('Shared data cache must live outside the release cache')
+  }
+  mkdirSync(root, { recursive: true, mode: 0o750 })
+  assertRealDirectory(root, 'Shared data cache root')
+  const fetchRoot = path.join(root, 'fetch-cache')
+  mkdirSync(fetchRoot, { recursive: true, mode: 0o750 })
+  assertRealDirectory(fetchRoot, 'Shared FETCH cache')
+  mkdirSync(cacheRoot, { recursive: true })
+  assertRealDirectory(cacheRoot, 'Release cache root')
+  const link = path.join(cacheRoot, 'fetch-cache')
+  if (existsSync(link)) {
+    if (lstatSync(link).isSymbolicLink()) {
+      if (realpathSync(link) !== realpathSync(fetchRoot)) throw new Error('Unexpected shared FETCH target')
+      return { root, fetchRoot }
+    }
+    assertRealDirectory(link, 'Packaged FETCH cache')
+    // Build-time data has no durable invalidation history. Do not import it.
+    rmSync(link, { recursive: true })
+  }
+  symlinkSync(fetchRoot, link, 'junction')
+  return { root, fetchRoot }
+}
 
 export function assertCanaryMemoryHeadroom(meminfo) {
   const availableKb = Number(meminfo.match(/^MemAvailable:\s+(\d+)\s+kB$/mu)?.[1])
@@ -1306,6 +1342,7 @@ function prepareRelease(releaseId, commit, archivePath, manifestPath) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
     const restoredLinks = restoreStandaloneLinks(stagingRoot, manifest)
     assertPreparedRelease(stagingRoot)
+    const sharedDataCache = linkSharedDataCache(path.join(stagingRoot, APP_RELATIVE_PATH))
     const retainedStaticAssets = currentPath
       ? mergeRetainedStaticAssets(
           path.join(currentPath, APP_RELATIVE_PATH, DIST_DIR, 'static'),
@@ -1320,7 +1357,7 @@ function prepareRelease(releaseId, commit, archivePath, manifestPath) {
     renameSync(stagingRoot, slotRoot)
     writeReleaseMetadata(slotRoot, { version: 1, slot, releaseId, commit })
     readReleaseMetadata(slotRoot, true)
-    return { slot, slotRoot, releaseId, commit, restoredLinks, retainedStaticAssets }
+    return { slot, slotRoot, releaseId, commit, restoredLinks, retainedStaticAssets, sharedDataCache }
   } catch (error) {
     if (existsSync(stagingRoot)) rmSync(stagingRoot, { recursive: true, force: true })
     throw error

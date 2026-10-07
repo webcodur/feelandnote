@@ -8,6 +8,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Oracle links only FETCH storage across slots; local dev/build keep Next defaults.
+  cacheHandler: process.env.NODE_ENV === 'production' ? path.resolve(process.cwd(), 'scripts/shared-data-cache.cjs') : undefined,
+  cacheMaxMemorySize: process.env.NODE_ENV === 'production' ? 0 : undefined,
   // 운영 진입점과 그 import 전체를 검사한다. 미연결 실험 코드는 개발용 전체 검사에 남긴다.
   typescript: { tsconfigPath: process.env.NODE_ENV === 'production' ? 'tsconfig.production.json' : undefined },
   // Next 기본 명단은 JS를 실행한다는 이유로 Googlebot을 뺀다. 그래서 메타데이터 해석이 늦은 요청에서는

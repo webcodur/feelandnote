@@ -24,6 +24,7 @@ import {
 import {
   createBridgeCaddyConfig,
   inspectCaddyProxyPort,
+  isDeploymentUnchanged,
   parseJpegDimensions,
   PRIMARY_PORT,
 } from './lib/oracle-web-remote.mjs'
@@ -615,6 +616,7 @@ async function main() {
   const deployedCommit = resolveDeployedCommit(repoRoot, remote)
   const purgePlan = createPurgePlan(repoRoot, deployedCommit, commit, config.purgeScopes)
   const remoteBranchContainsCommit = isOnRemoteBranch(repoRoot, commit)
+  const unchanged = isDeploymentUnchanged(commit, remote, config.trafficPolicyOnly)
   const plan = {
     mode: config.mode,
     targetCommit: commit,
@@ -632,12 +634,13 @@ async function main() {
     remoteBranchContainsCommit,
     purgePlan,
     trafficPolicyOnly: config.trafficPolicyOnly,
+    deploymentRequired: !unchanged,
   }
 
   if (config.mode === 'plan') {
     printPlan({
       ...plan,
-      nextCommand: config.trafficPolicyOnly
+      nextCommand: unchanged ? null : config.trafficPolicyOnly
         ? `pnpm deploy:web:oracle -- --traffic-policy-only --execute --confirm ${EXECUTE_CONFIRMATION} --purge-scopes none`
         : purgePlan.manualRequired
         ? `pnpm deploy:web:oracle -- --execute --confirm ${EXECUTE_CONFIRMATION} --purge-scopes <scope[,scope]>`
@@ -649,9 +652,6 @@ async function main() {
   if (config.mode === 'execute') {
     if (config.confirmation !== EXECUTE_CONFIRMATION) {
       throw new Error(`Execution requires --confirm ${EXECUTE_CONFIRMATION}`)
-    }
-    if (!remoteBranchContainsCommit && !config.allowUnpushed) {
-      throw new Error('Target commit is not on a remote branch. Push it first; --allow-unpushed requires explicit user authorization.')
     }
     if (remote.service !== 'active') {
       throw new Error(`Current production service is not active: ${remote.service}`)
@@ -669,6 +669,13 @@ async function main() {
     }
     if (purgePlan.manualRequired) {
       throw new Error(`Cloudflare purge impact needs an explicit --purge-scopes decision: ${purgePlan.error}`)
+    }
+    if (unchanged) {
+      printPlan({ ...plan, skipped: true, reason: 'Target commit is already active; no build, upload, restart, or purge is required.', cloudflarePurgeRequired: [] })
+      return
+    }
+    if (!remoteBranchContainsCommit && !config.allowUnpushed) {
+      throw new Error('Target commit is not on a remote branch. Push it first; --allow-unpushed requires explicit user authorization.')
     }
   }
 

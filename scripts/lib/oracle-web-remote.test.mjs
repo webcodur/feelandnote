@@ -31,6 +31,8 @@ import {
   inspectVersionedDeploymentHtml,
   inspectExploreWarmupHtml,
   inspectCaddyProxyPort,
+  isDeploymentUnchanged,
+  linkSharedDataCache,
   mergeRetainedStaticAssets,
   normalizeManifestPath,
   parseJpegDimensions,
@@ -43,6 +45,42 @@ import {
   verifyApplication,
   warmMainRoutes,
 } from './oracle-web-remote.mjs'
+
+test('same-commit deployment is skipped only for a healthy primary and does not skip policy maintenance', () => {
+  const healthy = { currentCommit: 'a'.repeat(40), service: 'active', caddy: 'active', caddyProxyPort: 3000 }
+  assert.equal(isDeploymentUnchanged(healthy.currentCommit, healthy), true)
+  assert.equal(isDeploymentUnchanged('b'.repeat(40), healthy), false)
+  assert.equal(isDeploymentUnchanged(healthy.currentCommit, healthy, true), false)
+  for (const patch of [{ service: 'failed' }, { caddy: 'inactive' }, { caddyProxyPort: 3100 }, { caddyConfigError: 'unverified' }]) {
+    assert.equal(isDeploymentUnchanged(healthy.currentCommit, { ...healthy, ...patch }), false)
+  }
+})
+
+test('both slots link to shared FETCH storage without importing build data or sharing HTML', t => {
+  const root = mkdtempSync(path.join(tmpdir(), 'fn-shared-fetch-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  const shared = path.join(root, 'cache/data-v1')
+  for (const slot of ['blue', 'green']) {
+    const app = path.join(root, 'slots', slot, 'sw/web')
+    mkdirSync(path.join(app, 'scripts'), { recursive: true })
+    writeFileSync(path.join(app, 'scripts/shared-data-cache.cjs'), 'handler')
+    const cache = path.join(app, '.next-verify/cache/fetch-cache')
+    mkdirSync(cache, { recursive: true })
+    writeFileSync(path.join(cache, 'build-only'), 'untracked invalidations')
+    const html = path.join(app, '.next-verify/server/app')
+    mkdirSync(html, { recursive: true })
+    writeFileSync(path.join(html, 'page.html'), slot)
+    assert.deepEqual(linkSharedDataCache(app, shared), { root: shared, fetchRoot: path.join(shared, 'fetch-cache') })
+    assert.equal(realpathSync(cache), realpathSync(path.join(shared, 'fetch-cache')))
+    assert.equal(existsSync(path.join(cache, 'build-only')), false)
+    assert.equal(readFileSync(path.join(html, 'page.html'), 'utf8'), slot)
+    assert.deepEqual(linkSharedDataCache(app, shared), { root: shared, fetchRoot: path.join(shared, 'fetch-cache') })
+  }
+  writeFileSync(path.join(shared, 'fetch-cache', 'runtime'), 'retained')
+  assert.equal(readFileSync(path.join(root, 'slots/green/sw/web/.next-verify/cache/fetch-cache/runtime'), 'utf8'), 'retained')
+  assert.equal(linkSharedDataCache(path.join(root, 'old-release'), shared), null)
+  assert.throws(() => linkSharedDataCache(path.join(root, 'slots/blue/sw/web'), path.join(root, 'slots/blue/sw/web/.next-verify/cache/nested')), /outside/)
+})
 
 test('canary admission uses reclaimable available RAM and rejects missing or insufficient headroom', () => {
   assert.doesNotThrow(() => assertCanaryMemoryHeadroom('MemFree: 10000 kB\nMemAvailable: 2000000 kB\n'))
