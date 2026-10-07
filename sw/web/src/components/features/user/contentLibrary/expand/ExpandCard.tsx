@@ -152,11 +152,9 @@ function ExpandCard({
             윗칸과 가로선·바탕색으로 갈라 놓되 같은 카드 안에 이어 붙인다 */}
         {showReview && (
         <section aria-label={reviewHeading} className={reviewHeader ? "border-t border-accent/25 bg-accent/[0.04]" : `flow-root border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:grid ${expanded ? "md:grid-cols-1" : "md:grid-cols-[12rem_minmax(0,1fr)]"} md:gap-x-5 md:px-5 md:py-6`}>
-          {reviewHeader && <div className="border-b border-accent/15 p-4 md:p-5">
-            <div className="mx-auto w-full min-w-0 max-w-[var(--reading-preview-max-width,100%)]">{reviewHeader}</div>
-          </div>}
           <div className={reviewHeader ? "p-4 md:p-5" : "contents"}>
           <div className={`min-w-0 ${expanded || reviewHeader ? "md:col-start-1" : "md:col-start-2"} mx-auto w-full max-w-[var(--reading-preview-max-width,100%)]`}>
+            {reviewHeader && <header className="mb-3">{reviewHeader}</header>}
             {item.rating != null && item.rating > 0 && (
               <span className="mb-2 flex items-center justify-center gap-1.5 text-sm font-medium text-text-secondary">
                 <Star size={13} className="fill-yellow-500 text-yellow-500" />

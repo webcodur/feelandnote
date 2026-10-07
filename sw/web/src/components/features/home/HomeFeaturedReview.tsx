@@ -40,13 +40,14 @@ export default function HomeFeaturedReview({ item }: { item: HomeFeaturedReviewD
   const focus = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
   const creator = item.content.creator?.replace(/\^/g, ", ") ?? null;
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
-  const figure = <div className="flex min-w-0 items-center gap-3 sm:gap-4" data-featured-figure-basics>
-    <Link href={figureHref} aria-label={item.figure.name} className={"group relative block h-[86px] w-16 shrink-0 overflow-hidden rounded-lg border border-line bg-portrait-stage hover:border-accent " + focus}>
-      <CelebImage src={item.figure.avatarUrl} alt={item.figure.name} shape="square" />
+  const figure = <div className="flex min-w-0 items-center gap-2 whitespace-nowrap leading-5" data-featured-figure-basics>
+    <Link href={figureHref} title={item.figure.name} className={"group inline-flex min-w-0 items-center gap-2 rounded-sm text-sm font-semibold text-text-primary hover:text-accent " + focus}>
+      <span className="relative block size-4 shrink-0 overflow-hidden rounded-full border border-line bg-portrait-stage group-hover:border-accent">
+        <CelebImage src={item.figure.avatarUrl} alt="" shape="circle" fallbackSize={10} />
+      </span>
+      <h4 className="truncate">{item.figure.name}</h4>
     </Link>
-    <div className="min-w-0 flex-1">
-      <Link href={figureHref} className={"inline-block break-keep rounded-sm text-base font-semibold leading-snug [overflow-wrap:anywhere] text-text-primary hover:text-accent " + focus}>{item.figure.name}</Link>
-      {(item.figure.profession || item.figure.nationality || period) && <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-relaxed text-text-secondary">
+    {(item.figure.profession || item.figure.nationality || period) && <div className="flex shrink-0 items-center gap-2 text-xs text-text-secondary">
         {item.figure.profession && <span className="inline-flex items-center gap-1.5">
           <span role="img" aria-label={professionLabel(item.figure.profession)} title={professionLabel(item.figure.profession)}><CelebProfessionMark profession={item.figure.profession} size={14} /></span>
           <span className="hidden md:inline">{professionLabel(item.figure.profession)}</span>
@@ -59,8 +60,7 @@ export default function HomeFeaturedReview({ item }: { item: HomeFeaturedReviewD
           {(item.figure.profession || item.figure.nationality) && <span aria-hidden>·</span>}
           {period}
         </span>}
-      </div>}
-    </div>
+    </div>}
   </div>;
 
   return (
