@@ -60,9 +60,11 @@ export function StatsBadge({
       <div className={`flex items-center gap-0.5 bg-black/70 backdrop-blur-sm px-1 py-0.5 md:px-1.5 rounded-md border border-white/10 shadow-lg ${onClick ? "hover:bg-accent hover:border-accent cursor-pointer group/stats" : ""}`}>
         <Crown size={9} className={`text-accent ${onClick ? "group-hover/stats:text-white" : ""}`} />
         <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{celebCount}</span>
-        <span className={` text-[11px] mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
-        <User size={9} className={`text-text-secondary ${onClick ? "group-hover/stats:text-white/80" : ""}`} />
-        <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
+        {userCount > 0 && <>
+          <span className={` text-[11px] mx-px ${onClick ? "group-hover/stats:text-white/60" : ""}`}>|</span>
+          <User size={9} className={`text-text-secondary ${onClick ? "group-hover/stats:text-white/80" : ""}`} />
+          <span className={`text-[11px] text-text-primary font-medium min-w-[10px] text-center ${onClick ? "group-hover/stats:text-white" : ""}`}>{userCount}</span>
+        </>}
       </div>
     </div>
   );

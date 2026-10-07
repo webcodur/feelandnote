@@ -37,7 +37,7 @@
   25% { transform: rotateX(calc(var(--film-rest-x) + var(--film-weight) * 4deg)) rotateZ(var(--film-rest-z)); }
   75% { transform: rotateX(calc(var(--film-rest-x) - var(--film-weight) * 2.6deg)) rotateZ(var(--film-rest-z)); }
 }
-.mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .075 * var(--mo-hover-progress, 0))); transition: none; }
+.mo-interactive .mo-disc { --mo-disc-offset: calc(var(--object-size) * (-.18 + .20 * var(--mo-hover-progress, 0))); transition: none; }
 .mo-interactive .mo-book { transition: none; }
 .mo-interactive .mo-object { transition: transform 100ms ease-out; }
 .mo-interaction-control[data-pressed='true'] .mo-object { transform: translateY(1px) scale(.975); }

@@ -72,7 +72,7 @@ async function fetchCelebFeed(
       source_url,
       updated_at,
       content:contents!celeb_contents_content_id_fkey!inner(
-        id, type, celeb_count, user_count:record_count,
+        id, type, celeb_count, user_count:member_count,
         content_locales(${CL_SELECT_LIST})
       ),
       celeb:celebs!celeb_contents_celeb_id_fkey!inner(
@@ -166,7 +166,7 @@ async function fetchCelebFeed(
 
 const getCelebFeedCached = unstable_cache(
   fetchCelebFeed,
-  ['celeb-feed-v2'],
+  ['celeb-feed-v3'],
   // celeb_contents·contents + celebs(공개 필터·표시 정보) 조인
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
