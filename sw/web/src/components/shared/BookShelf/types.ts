@@ -43,6 +43,7 @@ export interface BookShelfContext {
   kind: 'appeared' | 'authored' | 'read' | 'profession' | 'theme' | 'affiliation'
   /** 도서 감상을 함께 담는 책장은 해당 인물의 감상배경도 본문에 표시한다. */
   showReading?: boolean
+  expandedReading?: boolean
 }
 
 export interface BookShelfGroup {

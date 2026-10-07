@@ -8,12 +8,11 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { Avatar, BlurDissolve } from "@/components/ui";
-import { ContentCard } from "@/components/ui/cards";
+import BookShelfSelection from "@/components/shared/BookShelf/BookShelfSelection";
+import { homeReadingBook } from "@/components/features/home/homeReadingBook";
 import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
-import { cn } from "@/lib/utils";
 import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
-import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import type { ContentType } from "@/types/database";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -70,6 +69,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
     const t = useTranslations("todayFigure");
     const tProfession = useTranslations("profession");
     const locale = useLocale();
+    const [bookListOpen, setBookListOpen] = useState(false);
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
     // 선정 사유 마크 — 터치는 호버 툴팁이 없으므로 눌러 여는 말풍선을 둔다
     const [reasonOpen, setReasonOpen] = useState(false);
@@ -92,7 +92,7 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
     const filteredContents = categoryFilter
         ? contents.filter(c => c.type === categoryFilter)
         : contents;
-    // 홈은 티저다 — 두 행까지만 세우고 나머지는 상세(전체 보기)로 보낸다
+    // 홈에서 선정한 네 작품을 공통 책장으로 한 건씩 읽는다.
     const visibleContents = filteredContents.slice(0, 4);
     /* 수수료 안내 — 카드의 판매 단추 안에 묻지 않고 분류 칩 줄 끝에 둔다(인물 서재 조작대와 같은 규칙) */
 
@@ -186,50 +186,23 @@ export default function TodayFigureSection({ figure, contents, date, source, emb
 
                 {filteredContents.length > 0 ? (
                   <>
-                    <div className={cn(
-                        "grid gap-3 md:gap-4",
-                        "grid-cols-1 md:grid-cols-2"
-                    )}>
-                        {visibleContents.map((content) => {
-                          const localized = getLocalizedContent(content, locale);
-                          return (
-                            <ContentCard
-                                key={content.id}
-                                contentId={content.id}
-                                contentType={content.type as ContentType}
-                                title={localized.title}
-                                creator={localized.creator ?? undefined}
-                                thumbnail={content.thumbnail_url}
-                                rating={content.avg_rating ?? undefined}
-                                review={(locale === 'en' && content.review_en) ? content.review_en : (content.review ?? "")}
-                                isSpoiler={content.is_spoiler}
-                                sourceUrl={content.source_url ?? undefined}
-                                ownerNickname={displayName}
-                                reviewLayout="stacked"
-                                showHeader={false}
-                                recommendable={true}
-                                userContentId={content.user_content_id}
-                                titleBadge={content.title_badge}
-                                titleKo={content.title_ko}
-                                titleEn={content.title_en}
-                                creatorEn={content.creator_en}
-                                thumbnailEn={content.thumbnail_en}
-                                hasEnEdition={content.has_en_edition}
-                                posterFooterNode={
-                                    <ContentPurchaseAction
-                                        contentId={content.id}
-                                        type={content.type}
-                                        placement="home-today-figure"
-                                        title={localized.title}
-                                        creator={localized.creator}
-                                        thumbnail={content.thumbnail_url}
-                                        affiliateUrl={content.affiliate_url}
-                                    />
-                                }
-                            />
-                          );
+                    <BookShelfSelection
+                        selectionKey={figure.id + ':' + (categoryFilter ?? 'all')}
+                        intro={t("subtitle")}
+                        books={visibleContents.map((content) => {
+                            const localized = getLocalizedContent(content, locale);
+                            return homeReadingBook({
+                                id: content.id, type: content.type as ContentType, title: localized.title,
+                                creator: localized.creator, thumbnailUrl: locale === 'en' && content.thumbnail_en ? content.thumbnail_en : content.thumbnail_url,
+                                affiliateUrl: content.affiliate_url, titleBadge: content.title_badge,
+                            }, {
+                                id: content.user_content_id ?? content.id, review: content.review ?? null,
+                                reviewEn: content.review_en, sourceUrl: content.source_url, isSpoiler: content.is_spoiler,
+                            });
                         })}
-                    </div>
+                        context={{ kind: 'read', personId: figure.id, personName: displayName, expandedReading: true }}
+                        listOpen={bookListOpen} onListOpenChange={setBookListOpen}
+                    />
                     {visibleContents.map((content) => (
                       <DeveloperCollectionJourney
                         key={content.id}

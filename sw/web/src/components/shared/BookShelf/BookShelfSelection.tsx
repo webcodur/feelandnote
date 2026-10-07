@@ -142,7 +142,7 @@ export default function BookShelfSelection({ selectionKey, intro, listSubtitle, 
               className="mt-2 inline-block rounded text-xs text-accent underline underline-offset-4 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">{t('professionBookSource')}</SourceLink>}
           </div>}
           {showReview ? <BookShelfReviewDetail record={selected.readingRecord!} celebId={context!.personId!}
-            ownerNickname={context?.personName} contentIds={contentIds} selectedIndex={selectedIndex} /> : <>
+            ownerNickname={context?.personName} contentIds={contentIds} selectedIndex={selectedIndex} expanded={context?.expandedReading} /> : <>
             <BookShelfFeature source={source} sharedEditionKeys={sharedEditionKeys} loading={needsDetails && !current} />
             <BookShelfRelations key={detailKey} contentId={selected.id} bookTitle={source.title} context={context} readerIds={selected.readerIds} />
           </>}

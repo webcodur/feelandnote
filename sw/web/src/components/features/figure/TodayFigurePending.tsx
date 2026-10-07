@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/figure/TodayFigurePending.tsx
   기능: 오늘의 인물이 채워지기를 기다리는 자리
-  책임: TodayFigureSection과 같은 뼈대(가운데 인물 머리 + 2열 콘텐츠 카드)로 자리를 잡아
+  책임: TodayFigureSection과 같은 뼈대(가운데 인물 머리 + 한 작품을 읽는 책장)로 자리를 잡아
         내용이 들어올 때 화면이 튀지 않게 한다. 모양이 어긋나면 여기와 본체를 함께 고친다.
 */
 
@@ -28,7 +28,7 @@ export default function TodayFigurePending({ label }: { label?: string }) {
         <div className="mt-2 h-4 w-2/3 max-w-md rounded-lg border border-white/[0.06] bg-white/[0.03]" />
       </div>
 
-      {/* 서가 — 분류 칩 아래에 감상 카드가 두 열로 선다 */}
+      {/* 서가 — 분류 칩 아래에 한 작품의 소개와 감상이 선다 */}
       <div className="mx-auto min-h-[200px] w-full max-w-4xl">
         <div className="mb-4 flex justify-center gap-2 md:mb-5">
           {[0, 1, 2].map(i => <div key={i} className="h-8 w-20 rounded-full border border-white/[0.06] bg-white/[0.03]" />)}
@@ -36,9 +36,9 @@ export default function TodayFigurePending({ label }: { label?: string }) {
 
         <PendingBlock
           variant="grid"
-          cols="grid-cols-1 md:grid-cols-2"
+          cols="grid-cols-1"
           aspect={CARD_H}
-          count={4}
+          count={1}
           label={label}
         />
       </div>

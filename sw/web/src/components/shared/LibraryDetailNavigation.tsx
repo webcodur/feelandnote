@@ -73,6 +73,7 @@ interface HeaderProps {
   previousLabel: string;
   nextLabel: string;
   disabled: boolean;
+  hideArrows?: boolean;
   onPrevious: () => void;
   onNext: () => void;
   /** 제목 옆에 붙는 작은 조작(안내 아이콘 등). 제목이 길어 잘려도 자리를 지킨다 */
@@ -88,6 +89,7 @@ export function LibraryTitleHeader({
   previousLabel,
   nextLabel,
   disabled,
+  hideArrows = false,
   onPrevious,
   onNext,
   titleAddon,
@@ -96,14 +98,14 @@ export function LibraryTitleHeader({
 }: HeaderProps) {
   return (
     <header data-library-detail-header className={`col-start-1 row-start-1 flex h-[64px] min-h-[64px] items-stretch border-b border-white/[0.08] bg-bg-secondary/80 text-center md:col-start-2 md:flex md:flex-col md:justify-center ${indexControl ? "md:py-0" : "md:px-3 md:py-2"}`}>
-      <LibraryArrowButton
+      {!hideArrows && <LibraryArrowButton
         direction="previous"
         label={previousLabel}
         disabled={disabled}
         placement="header"
         testPrefix={testPrefix}
         onClick={onPrevious}
-      />
+      />}
       <div className={`min-w-0 flex-1 self-stretch md:w-full ${indexControl ? "" : "px-1 md:px-0"}`}>
         <div className="group/title relative flex h-full min-w-0 flex-col justify-center text-center">
           {indexControl && <LibraryTitleIndexButton title={title} control={indexControl} testPrefix={testPrefix} />}
@@ -125,14 +127,14 @@ export function LibraryTitleHeader({
           )}
         </div>
       </div>
-      <LibraryArrowButton
+      {!hideArrows && <LibraryArrowButton
         direction="next"
         label={nextLabel}
         disabled={disabled}
         placement="header"
         testPrefix={testPrefix}
         onClick={onNext}
-      />
+      />}
     </header>
   );
 }

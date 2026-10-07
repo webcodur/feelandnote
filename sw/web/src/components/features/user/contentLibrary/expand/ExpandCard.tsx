@@ -9,7 +9,7 @@
 */ // ------------------------------
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useState, type ReactNode } from "react";
 import { Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -47,6 +47,9 @@ interface ExpandCardProps {
   /** 이 감상배경을 남긴 인물 이름 */
   ownerNickname?: string;
   ownerAvatarUrl?: string | null;
+  /** 한 작품씩 읽는 홈 책장에서는 소개와 감상을 접지 않는다. */
+  expanded?: boolean;
+  reviewAside?: ReactNode;
 }
 
 function ExpandCard({
@@ -60,6 +63,8 @@ function ExpandCard({
   onRetryRecord,
   isActive,
   ownerNickname,
+  expanded = false,
+  reviewAside,
 }: ExpandCardProps) {
   const locale = useLocale();
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
@@ -72,10 +77,10 @@ function ExpandCard({
   const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
   const isSpoiler = item.is_spoiler ?? false;
   /* 인터뷰 전사 급 장문만 접어 모달로 보낸다. 그 외 감상배경은 통째로 보인다 */
-  const reviewTooLong = !!review && !fitsInlineReadingText(review, locale);
+  const reviewTooLong = !expanded && !!review && !fitsInlineReadingText(review, locale);
   /* 소개가 상한 안이면 통째로 싣는다 — 카드 격자도 그 길이를 따라 늘어야 해서 contain-size를 뗀다.
      상한을 넘는 장문만 칸 높이에 가둬 자른다 */
-  const introFitsInline = fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
+  const introFitsInline = expanded || fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
   const canExpandReview = !hasRecordError && !isRecordLoading && !!review && !isSpoiler;
   /* 감상배경 칸은 채울 것(글·별점·출처)이나 보여 줄 상태(불러오는 중·실패)가 하나도
      없을 때만 통째로 뺀다 — 소개만 남은 카드가 된다 */
@@ -131,7 +136,7 @@ function ExpandCard({
             ) : (
               <div className="sm:flex sm:h-full sm:flex-col">
                 <div className="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
-                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel />
+                  <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} inlineLabel expanded={expanded} />
                 </div>
               </div>
             )}
@@ -141,8 +146,9 @@ function ExpandCard({
         {/* 아래칸 — 이 인물이 왜 이 작품을 골랐는지. 이 서비스의 알맹이라
             윗칸과 가로선·바탕색으로 갈라 놓되 같은 카드 안에 이어 붙인다 */}
         {showReview && (
-        <section aria-label={reviewHeading} className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:grid md:grid-cols-[12rem_minmax(0,1fr)] md:gap-x-5 md:px-5 md:py-6">
-          <div className="min-w-0 md:col-start-2 md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]">
+        <section aria-label={reviewHeading} className={`flow-root border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:grid ${expanded && !reviewAside ? "md:grid-cols-1" : "md:grid-cols-[12rem_minmax(0,1fr)]"} md:gap-x-5 md:px-5 md:py-6`}>
+          {reviewAside && <div className="float-start mb-2 me-4 w-24 md:col-start-1 md:float-none md:m-0 md:flex md:w-full md:justify-center">{reviewAside}</div>}
+          <div className={`min-w-0 ${expanded && !reviewAside ? "md:col-start-1" : "md:col-start-2"} md:mx-auto md:w-full md:max-w-[var(--reading-preview-max-width,100%)]`}>
             {item.rating != null && item.rating > 0 && (
               <span className="mb-2 flex items-center justify-center gap-1.5 text-sm font-medium text-text-secondary">
                 <Star size={13} className="fill-yellow-500 text-yellow-500" />
@@ -183,7 +189,7 @@ function ExpandCard({
               ) : (
                 <div className="mx-auto min-w-0 w-full max-w-[var(--reading-preview-max-width,100%)]">
                   <div className={REVIEW_PREVIEW_TEXT_CLASS}>
-                    <span data-review-inline-marker className="font-semibold text-text-primary">{reviewInlineLabel}: </span>
+                    <span data-review-inline-marker className={`${reviewAside ? "hidden md:inline " : ""}font-semibold text-text-primary`}>{reviewInlineLabel}: </span>
                     <FormattedText text={review} />
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, type ReactNode } from "react";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import { mapPublicToUserContent } from "@/components/features/user/contentLibrary/contentLibraryTypes";
 import ExpandCard from "@/components/features/user/contentLibrary/expand/ExpandCard";
@@ -14,16 +14,19 @@ interface Props {
   ownerNickname?: string;
   contentIds: string[];
   selectedIndex: number;
+  expanded?: boolean;
+  reviewAside?: ReactNode;
+  recordIsComplete?: boolean;
 }
 
 /** 책장 감상 분류도 인물 상세의 작품 소개·감상배경·전문 모달을 그대로 쓴다. */
-export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex }: Props) {
+export default function BookShelfReviewDetail({ record, celebId, ownerNickname, contentIds, selectedIndex, expanded, reviewAside, recordIsComplete = false }: Props) {
   const placeholder = useMemo(() => mapPublicToUserContent([record], celebId)[0], [record, celebId]);
   const isActiveContent = useCallback((id: string) => id === record.content_id, [record.content_id]);
   const brief = useContentBrief(contentIds, selectedIndex, record.content_id, isActiveContent, true, undefined, true);
   // 명부의 감상 미리보기를 전문으로 오인하지 않고 상세 리뷰와 같은 공개 전문 조회를 쓴다.
   const nextContentId = contentIds.length > 1 ? contentIds[(selectedIndex + 1) % contentIds.length] : undefined;
-  const review = useCelebContentRecord(celebId, record.content_id, undefined, true, nextContentId);
+  const review = useCelebContentRecord(celebId, record.content_id, recordIsComplete ? placeholder : undefined, !recordIsComplete, nextContentId);
   const cardRef = useHeldHeight(brief.isLoading || review.isLoading);
   return (
     <div ref={cardRef} data-bookshelf-review data-content-id={record.content_id}
@@ -41,6 +44,8 @@ export default function BookShelfReviewDetail({ record, celebId, ownerNickname, 
         onRetryRecord={review.retry}
         isActive
         ownerNickname={ownerNickname}
+        expanded={expanded}
+        reviewAside={reviewAside}
       />
     </div>
   );

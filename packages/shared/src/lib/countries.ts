@@ -79,6 +79,8 @@ export function getCountryName(code: string): string {
 // 국가 코드 → 로케일 기반 국가명 (동기)
 export function getCountryNameByLocale(code: string, locale: string): string {
   if (!code) return ''
+  // 역사적 국적을 현재 국가명으로 바꾸거나 코드 그대로 내보내지 않는다.
+  if (code === 'SU') return locale === 'en' ? 'Soviet Union' : '소련'
   const country = getCountries().find((c) => c.code === code)
   if (!country) return code
   return locale === 'en' ? country.name_en : country.name

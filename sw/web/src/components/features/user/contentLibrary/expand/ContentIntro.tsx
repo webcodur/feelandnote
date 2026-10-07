@@ -51,9 +51,10 @@ interface ContentIntroProps {
   category: CategoryId;
   isLoading: boolean;
   inlineLabel?: boolean;
+  expanded?: boolean;
 }
 
-export default function ContentIntro({ brief, category, isLoading, inlineLabel = false }: ContentIntroProps) {
+export default function ContentIntro({ brief, category, isLoading, inlineLabel = false, expanded = false }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
   const layout = isDeveloperMode() ? "prose" : "inline";
@@ -88,7 +89,7 @@ export default function ContentIntro({ brief, category, isLoading, inlineLabel =
   const activeText = active ? normalizeContentIntroText(active.text) : null;
   const fullText = text ?? activeText;
   // 상한 안이면 통째로 싣고 잘림·모달 조작을 아예 두지 않는다 — 넘는 장문만 접는다
-  const fitsInline = fitsInlineReadingText(fullText, locale);
+  const fitsInline = expanded || fitsInlineReadingText(fullText, locale);
 
   // 짧아 다 보이는 글도 눌러 모달로 읽는다 — 모달은 잘린 글의 더보기가 아니라 다른 읽기 화면이다
   const openModal = () => setIsModalOpen(true);
