@@ -1,6 +1,23 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { FEATURED_REVIEW_COOLDOWN_DAYS, featuredReviewDay, featuredReviewCutoff, featuredReviewSchedule, selectFeaturedReview, type FeaturedReviewCandidate } from './featuredReview';
+import { FEATURED_REVIEW_COOLDOWN_DAYS, FEATURED_REVIEW_MIN_TEXT_LENGTH, featuredReviewDay, featuredReviewCutoff, featuredReviewHasEnoughText, featuredReviewTextLength, featuredReviewSchedule, selectFeaturedReview, type FeaturedReviewCandidate } from './featuredReview';
+
+test('both languages must have enough actual review text, including the exact boundary', () => {
+  const row = { review: '가'.repeat(FEATURED_REVIEW_MIN_TEXT_LENGTH.ko), review_en: 'a'.repeat(FEATURED_REVIEW_MIN_TEXT_LENGTH.en) };
+  assert.equal(featuredReviewHasEnoughText(row), true);
+  assert.equal(featuredReviewHasEnoughText({ ...row, review: row.review.slice(1) }), false);
+  assert.equal(featuredReviewHasEnoughText({ ...row, review_en: row.review_en.slice(1) }), false);
+  assert.equal(featuredReviewHasEnoughText({ ...row, review: null }), false);
+  assert.equal(featuredReviewHasEnoughText({ ...row, review_en: null }), false);
+});
+
+test('whitespace, invisible characters, emphasis and URLs cannot inflate review length', () => {
+  assert.equal(featuredReviewTextLength(' **가나**\n__다__\t~~라~~ \u200Bhttps://example.com/long-link'), 4);
+  assert.equal(featuredReviewTextLength('가'), 1);
+  assert.equal(featuredReviewTextLength('😀'), 1);
+  assert.equal(featuredReviewTextLength(undefined), 0);
+  assert.equal(featuredReviewHasEnoughText({ review: ' **가** '.repeat(249), review_en: 'a'.repeat(425) }), false);
+});
 
 function pool(count: number, approved = '2026-10-07T04:00:00.000Z'): FeaturedReviewCandidate[] {
   return Array.from({ length: count }, (_, i) => ({

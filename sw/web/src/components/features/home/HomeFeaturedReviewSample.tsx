@@ -6,7 +6,7 @@ import type { ContentType } from "@/types/database";
 import HomeFeaturedReview from "./HomeFeaturedReview";
 import { cachedDetail } from "@/lib/cache";
 import { CACHE_TAGS, FEATURED_REVIEWS_CACHE_ID } from "@feelandnote/shared/constants/cache-tags";
-import { featuredReviewDay, featuredReviewCutoff, selectFeaturedReview, type FeaturedReviewCandidate } from "@/lib/reviews/featuredReview";
+import { featuredReviewDay, featuredReviewCutoff, featuredReviewHasEnoughText, selectFeaturedReview, type FeaturedReviewCandidate } from "@/lib/reviews/featuredReview";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { availableFeaturedReviews, type FeaturedReviewBookCandidate } from "@/lib/reviews/featuredReviewAvailability";
 import { getCachedYes24BookDetail } from "@/lib/books/yes24DetailCache";
@@ -37,15 +37,16 @@ export default async function HomeFeaturedReviewSample() {
     .eq("user.publication_status", "active")
     .not("review", "is", null).neq("review", "")
     .not("review_en", "is", null).neq("review_en", "");
-  const candidates = await cachedDetail(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-index-v5-real-editions", day], async () => {
-    const selection = "id, celeb_id, content_id, review_approved_at, user:celebs!inner(publication_status), contents!inner(type, content_locales(locale,title,isbn,sources))";
+  const candidates = await cachedDetail(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-index-v6-review-length", day], async () => {
+    const selection = "id, celeb_id, content_id, review, review_en, review_approved_at, user:celebs!inner(publication_status), contents!inner(type, content_locales(locale,title,isbn,sources))";
     const candidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(selection)
       .lte("review_approved_at", featuredReviewCutoff(day)).order("id").range(from, to));
-    if (candidates.length) return candidates;
+    const eligible = candidates.filter(featuredReviewHasEnoughText);
+    if (eligible.length) return eligible;
     // 정오 이전 후보가 없는 첫날은 현재 검수 완료된 후보로 같은 날짜 순환을 시작한다.
     const firstDayCandidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(selection)
       .order("review_approved_at").order("id").range(from, to));
-    return firstDayCandidates;
+    return firstDayCandidates.filter(featuredReviewHasEnoughText);
   }, { extraTags: [CACHE_TAGS.CONTENTS] });
   let available: FeaturedReviewCandidate[] = [];
   if (yes24PurchaseEnabled(process.env)) {
@@ -62,7 +63,7 @@ export default async function HomeFeaturedReviewSample() {
     }, { extraTags: [CACHE_TAGS.CONTENTS] },
   ) : null;
   const review = (locale === "en" ? row?.review_en : row?.review)?.trim();
-  if (!row || !review) {
+  if (!row || !review || !featuredReviewHasEnoughText(row)) {
     const t = await getTranslations("home.featuredReview");
     return <p className="text-center text-sm text-text-secondary">{t("unavailable")}</p>;
   }

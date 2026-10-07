@@ -7,6 +7,7 @@ const KO = '9791191805086'
 const EN = '9780140443486'
 const book = (id: string): FeaturedReviewBookCandidate => ({
   id, celeb_id: 'figure', content_id: id, review_approved_at: '2026-10-01T00:00:00Z',
+  review: '가'.repeat(250), review_en: 'a'.repeat(425),
   contents: { content_locales: [
     { locale: 'ko', title: '논어', isbn: KO, creator: '공자', thumbnail_url: null },
     { locale: 'en', title: 'The Analects', isbn: EN, creator: 'Confucius', thumbnail_url: null },
@@ -51,4 +52,11 @@ test('duplicate ISBNs are queried once and upstream failures are excluded only f
     return detail(isbn)
   }), [])
   assert.equal((await availableFeaturedReviews([book('failure')], async isbn => detail(isbn))).length, 1)
+})
+
+test('short reviews in either language are rejected before any seller lookup', async () => {
+  const rows = [{ ...book('short-ko'), review: '가'.repeat(249) }, { ...book('short-en'), review_en: 'a'.repeat(424) }]
+  let calls = 0
+  assert.deepEqual(await availableFeaturedReviews(rows, async isbn => { calls++; return detail(isbn) }), [])
+  assert.equal(calls, 0)
 })

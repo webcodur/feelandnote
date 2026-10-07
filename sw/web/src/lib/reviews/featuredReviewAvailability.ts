@@ -1,8 +1,8 @@
 import { isDisplayTitleRow, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import { normalizePurchaseIsbn, type Yes24BookDetail } from '@/lib/books/yes24Purchase'
-import type { FeaturedReviewCandidate } from './featuredReview'
+import { featuredReviewHasEnoughText, type FeaturedReviewCandidate, type FeaturedReviewText } from './featuredReview'
 
-export interface FeaturedReviewBookCandidate extends FeaturedReviewCandidate {
+export interface FeaturedReviewBookCandidate extends FeaturedReviewCandidate, FeaturedReviewText {
   contents: { content_locales: ContentLocaleRow[] | null }
 }
 
@@ -20,7 +20,8 @@ export async function availableFeaturedReviews<T extends FeaturedReviewBookCandi
   candidates: readonly T[],
   readDetail: (isbn: string) => Promise<Yes24BookDetail | null>,
 ): Promise<T[]> {
-  const editions = candidates.map(row => ({ row, ko: featuredReviewEdition(row.contents.content_locales, 'ko'), en: featuredReviewEdition(row.contents.content_locales, 'en') }))
+  const editions = candidates.filter(featuredReviewHasEnoughText)
+    .map(row => ({ row, ko: featuredReviewEdition(row.contents.content_locales, 'ko'), en: featuredReviewEdition(row.contents.content_locales, 'en') }))
     .filter(entry => entry.ko && entry.en)
   const isbns = [...new Set(editions.flatMap(entry => [entry.ko!.isbn, entry.en!.isbn]))]
   const sale = new Map<string, boolean>()

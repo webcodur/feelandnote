@@ -9,7 +9,25 @@ export function featuredReviewCutoff(day: string): string {
 
 /** 어느 연속된 여섯 달도 포함하도록 가장 긴 반년인 184일을 확보한다. */
 export const FEATURED_REVIEW_COOLDOWN_DAYS = 184;
+/** 짧은 감상 기록을 홈의 읽을거리로 선정하지 않는다. 공백·서식·URL은 분량에서 뺀다. */
+export const FEATURED_REVIEW_MIN_TEXT_LENGTH = { ko: 250, en: 425 } as const;
 const DAY_MS = 86_400_000;
+
+export interface FeaturedReviewText {
+  review: string | null;
+  review_en: string | null;
+}
+
+export function featuredReviewTextLength(text: string | null | undefined): number {
+  return [...(text ?? "").normalize("NFC")
+    .replace(/https?:\/\/\S+|\*\*|__|~~|\s|[\u200B-\u200D\uFEFF]/gu, "")].length;
+}
+
+/** 한영 홈에서 같은 감상을 고르므로 두 본문의 최소 분량을 함께 확인한다. */
+export function featuredReviewHasEnoughText(row: FeaturedReviewText): boolean {
+  return featuredReviewTextLength(row.review) >= FEATURED_REVIEW_MIN_TEXT_LENGTH.ko
+    && featuredReviewTextLength(row.review_en) >= FEATURED_REVIEW_MIN_TEXT_LENGTH.en;
+}
 
 export interface FeaturedReviewCandidate {
   id: string;
