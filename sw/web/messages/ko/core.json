@@ -509,8 +509,8 @@
         "dot": "{index}번째 / 전체 {count}개"
       },
       "imageViewer": {
-        "previous": "?? ???",
-        "next": "?? ???"
+        "previous": "이전 이미지",
+        "next": "다음 이미지"
       }
     },
     "search": {
@@ -696,8 +696,8 @@
             "grows": "라운드마다 패턴이 길어집니다. (최대 {max}라운드)"
           },
           "controls": "모바일: 칸 터치 · PC: Q W E / A S D",
-          "round": "???",
-          "cell": "{n}? ?"
+          "round": "라운드",
+          "cell": "{n}번 칸"
         },
         "actions": {
           "assault": {
@@ -746,7 +746,7 @@
           "playerBraced": "버텨냈다! {damage} 피해.",
           "lull": "소강상태가 이어졌다."
         },
-        "vs": "?"
+        "vs": "대"
       },
       "dialogue": {
         "closeEsc": "닫기 (Esc)",
@@ -805,16 +805,16 @@
         "sfx": "사운드 이펙트",
         "sfxDesc": "효과음 (SFX)"
       },
-      "volume": "??",
+      "volume": "음량",
       "myth": {
-        "hubName": "?? ??",
-        "fixtureMode": "??? ?? {count}??? ?????.",
-        "notEnough": "??? ??? ??? ?????.",
-        "start": "?? ??",
-        "result": "??",
-        "newBest": "?? ?? ??",
-        "replay": "?? ??",
-        "toLobby": "?? ????"
+        "hubName": "신화 게임",
+        "fixtureMode": "예시 인물 {count}명으로 플레이합니다.",
+        "notEnough": "게임을 시작할 인물이 부족합니다.",
+        "start": "게임 시작",
+        "result": "결과",
+        "newBest": "최고 기록 경신",
+        "replay": "다시 하기",
+        "toLobby": "처음으로"
       }
     },
     "spectrum": {

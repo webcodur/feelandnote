@@ -122,7 +122,7 @@
       "method": {
         "BOOK": "ISBN으로 YES24 상품을 조회하고, 다른 서점은 준비된 링크로 연결합니다.",
         "GAME": "IGDB 판본 정보와 한국 스토어를 대조하고, 가격은 Steam 확인분만 표시합니다.",
-        "VIDEO": "?? ??? ?? ???? TMDB / JustWatch?? ???? TMDB ??? ?????.",
+        "VIDEO": "현재 국가의 감상 경로를 TMDB / JustWatch에서 조회하고 TMDB 안내로 연결합니다.",
         "MUSIC": "저장된 곡·앨범 ID를 Apple Music 주소와 대조합니다."
       },
       "phase": {
@@ -131,7 +131,7 @@
         "store": "한국 스토어의 판매·기종 확인 중",
         "edition": "관련 판본·합본의 판매 여부 확인 중",
         "catalog": "제목·식별자와 카탈로그 대조 중",
-        "providers": "?? ??? ???????? ??? ?? ?"
+        "providers": "현재 국가의 구독·대여·구매 경로 확인 중"
       },
       "progress": "{total}곳 중 {done}곳 조회 종료",
       "complete": "{total}곳 조회 종료",
@@ -139,13 +139,13 @@
       "failedStore": "조회에 실패했습니다.",
       "emptyStore": "확인된 연결이 없습니다.",
       "retryFailed": "실패한 곳만 다시 확인",
-      "watchProviders": "?? ??? ? TMDB / JustWatch",
+      "watchProviders": "감상 경로 · TMDB / JustWatch",
       "bookLoading": "ISBN으로 YES24 상품·제휴 연결 확인 중",
       "completeSingle": "조회 완료",
       "regionKR": "한국 기준",
-      "region": "{country} ??",
-      "amazonUSNotice": "Amazon.com(??)?? ?????. ?? ?? ??? ???? ???? ?? ??? ??? ??? ???.",
-      "gameRegionNotice": "??? ??? ?? ??? ?? ??? ?????. ?? ? ????? ?? ??? ??? ?? ?? ??? ??? ???."
+      "region": "{country} 기준",
+      "amazonUSNotice": "Amazon.com(미국)으로 연결됩니다. 배송 국가를 설정해 배송 가능 여부와 비용을 확인하세요.",
+      "gameRegionNotice": "표시된 가격과 혜택은 한국 스토어 기준입니다. 구매 전 계정 지역에 맞는 구매 가능 여부와 가격을 확인하세요."
     }
   },
   "contentDetail": {
