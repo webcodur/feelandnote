@@ -42,7 +42,7 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
    Start-Process cmd.exe -ArgumentList '/c', 'pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB > <로그 경로> 2>&1' -WorkingDirectory <저장소 루트> -WindowStyle Hidden -PassThru
    ```
 
-   스크립트가 Git 설치 경로에서 GNU tar를 선택하고 빌드 전에 확인한다. execute 전 ssh 키
+   스크립트가 Git 설치 경로에서 GNU tar·gzip을 선택하고 빌드 전에 확인한다. 압축 자식 프로세스에도 이 경로를 전달한다. execute 전 ssh 키
    `~/.ssh/feelandnote_oracle`의 ACL이 사용자 본인만 읽게 좁혀져 있어야 한다 — 샌드박스 그룹
    권한이 붙어 있으면 ssh가 키를 거부한다(`icacls <키> /inheritance:r /grant:r "%USERNAME%:F"`로 복구).
 5. 성공 출력의 `cloudflarePurgeRequired` 각 범위를 `pnpm purge:web:cloudflare -- --scope <범위> --execute`로

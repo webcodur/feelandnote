@@ -412,7 +412,7 @@ function assertStandaloneReady(standaloneRoot) {
   if (secrets.length) throw new Error(`Secret files remain in standalone: ${secrets.join(', ')}`)
 }
 
-function createIsolatedBuild(repoRoot, commit, releaseId) {
+function resolveArchiveTools() {
   // Windows' built-in bsdtar cannot accept --force-local. Resolve GNU tar before
   // spending time building, independently of the caller's PATH order.
   const gitPaths = process.platform === 'win32'
@@ -426,6 +426,21 @@ function createIsolatedBuild(repoRoot, commit, releaseId) {
     && run(candidate, ['--version'], { allowFailure: true }).stdout.includes('GNU tar')
   ))
   if (!archiveTar) throw new Error('GNU tar is required for release packaging; install Git for Windows or add GNU tar on Linux.')
+  const env = { ...process.env }
+  if (process.platform === 'win32') {
+    const pathKey = Object.keys(env).find((key) => key.toLowerCase() === 'path') ?? 'PATH'
+    env[pathKey] = `${path.dirname(archiveTar)}${path.delimiter}${env[pathKey] ?? ''}`
+  }
+  run(process.platform === 'win32' ? path.join(path.dirname(archiveTar), 'gzip.exe') : 'gzip', ['--version'], { env })
+  return { archiveTar, env }
+}
+
+export function createReleaseArchive(sourceRoot, archivePath, tools = resolveArchiveTools()) {
+  run(tools.archiveTar, ['--force-local', '--dereference', '-czf', archivePath, '-C', sourceRoot, '.'], { env: tools.env, inherit: true })
+}
+
+function createIsolatedBuild(repoRoot, commit, releaseId) {
+  const archiveTools = resolveArchiveTools()
   const taskRoot = mkdtempSync(path.join(tmpdir(), `feelandnote-oracle-${releaseId}-`))
   const worktreeRoot = path.join(taskRoot, 'worktree')
   const artifactsRoot = path.join(taskRoot, 'artifacts')
@@ -470,9 +485,7 @@ function createIsolatedBuild(repoRoot, commit, releaseId) {
     const archivePath = path.join(artifactsRoot, `${releaseId}.tar.gz`)
     const manifestPath = path.join(artifactsRoot, `${releaseId}.links.json`)
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
-    run(archiveTar, ['--force-local', '--dereference', '-czf', archivePath, '-C', standaloneRoot, '.'], {
-      inherit: true,
-    })
+    createReleaseArchive(standaloneRoot, archivePath, archiveTools)
 
     if (!existsSync(archivePath) || statSync(archivePath).size < 1_000_000) {
       throw new Error(`Release archive is missing or unexpectedly small: ${archivePath}`)
@@ -840,7 +853,7 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => {
   const context = error?.buildContext
   if (context) {
     try {
