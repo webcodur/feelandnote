@@ -8,6 +8,9 @@ import { cachedDetail } from "@/lib/cache";
 import { CACHE_TAGS, FEATURED_REVIEWS_CACHE_ID } from "@feelandnote/shared/constants/cache-tags";
 import { featuredReviewDay, featuredReviewCutoff, selectFeaturedReview, type FeaturedReviewCandidate } from "@/lib/reviews/featuredReview";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
+import { availableFeaturedReviews, type FeaturedReviewBookCandidate } from "@/lib/reviews/featuredReviewAvailability";
+import { getCachedYes24BookDetail } from "@/lib/books/yes24DetailCache";
+import { yes24PurchaseEnabled } from "@/lib/books/yes24Purchase";
 
 // 검수 완료 감상을 하루 한 편만 보여 준다. 선정은 한영 공통이며 반년 동안 같은 리뷰를 제외한다.
 
@@ -34,17 +37,22 @@ export default async function HomeFeaturedReviewSample() {
     .eq("user.publication_status", "active")
     .not("review", "is", null).neq("review", "")
     .not("review_en", "is", null).neq("review_en", "");
-  const candidates = await cachedDetail(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-index-v4-single-cooldown", day], async () => {
-    const selection = "id, celeb_id, content_id, review_approved_at, user:celebs!inner(publication_status), contents!inner(type)";
-    const candidates = await selectAllPages<FeaturedReviewCandidate>((from, to) => buildQuery(selection)
+  const candidates = await cachedDetail(CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-index-v5-real-editions", day], async () => {
+    const selection = "id, celeb_id, content_id, review_approved_at, user:celebs!inner(publication_status), contents!inner(type, content_locales(locale,title,isbn,sources))";
+    const candidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(selection)
       .lte("review_approved_at", featuredReviewCutoff(day)).order("id").range(from, to));
     if (candidates.length) return candidates;
     // 정오 이전 후보가 없는 첫날은 현재 검수 완료된 후보로 같은 날짜 순환을 시작한다.
-    const firstDayCandidates = await selectAllPages<FeaturedReviewCandidate>((from, to) => buildQuery(selection)
+    const firstDayCandidates = await selectAllPages<FeaturedReviewBookCandidate>((from, to) => buildQuery(selection)
       .order("review_approved_at").order("id").range(from, to));
     return firstDayCandidates;
   }, { extraTags: [CACHE_TAGS.CONTENTS] });
-  const selected = selectFeaturedReview(candidates, day);
+  let available: FeaturedReviewCandidate[] = [];
+  if (yes24PurchaseEnabled(process.env)) {
+    // ISBN별 성공 조회만 기존 하루 캐시에 남긴다. 실패로 줄어든 후보 집합은 저장하지 않는다.
+    available = await availableFeaturedReviews(candidates, getCachedYes24BookDetail);
+  }
+  const selected = selectFeaturedReview(available, day);
   const row = selected ? await cachedDetail(
     CACHE_TAGS.CELEBS, FEATURED_REVIEWS_CACHE_ID, ["home-approved-review-body-profile", day, selected.id], async () => {
       const { data, error } = await buildQuery("id, review, review_en, source_url, user:celebs!inner(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date), contents!inner(id, type, content_locales(" + CL_SELECT_LIST_WITH_AFFILIATE + ", isbn))")

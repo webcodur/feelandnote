@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import ContentCover from '@/components/ui/ContentCover'
+import ContentCoverFallback from '@/components/ui/ContentCoverFallback'
 import type { ContentImageProps } from '@/components/ui/ContentImage'
 import FilmStrip from './FilmStrip'
 import { DEFAULT_COVER_RATIOS } from './mediaGeometry'
@@ -27,31 +28,26 @@ type Props = {
   creator?: string
   style?: CSSProperties
   onImageLoad?: ContentImageProps['onLoad']
+  onImageError?: ContentImageProps['onError']
   cropped?: boolean
 }
 
-function Cover({ kind, image, showCover, title, creator, onImageLoad }: Pick<Props, 'kind' | 'image' | 'showCover' | 'title' | 'creator' | 'onImageLoad'>) {
+function Cover({ kind, image, showCover, title, onImageLoad, onImageError }: Pick<Props, 'kind' | 'image' | 'showCover' | 'title' | 'onImageLoad' | 'onImageError'>) {
   const item = MEDIA.find(item => item.kind === kind)!
   return (
     <div className={`mo-cover mo-cover-${kind}`}>
-      {showCover ? <ContentCover src={image} alt={title ?? item.title} dissolve={false} onLoad={onImageLoad} sizes="(max-width: 768px) 50vw, 25vw" fallback={
-        <div className="mo-sample-art">
-          <span className="mo-art-edition">FEEL & NOTE / SAMPLE</span>
-          <div className="mo-art-shape" aria-hidden="true" />
-          <strong>{title ?? item.title}</strong>
-          <span className="mo-art-credit">{creator ?? item.creator}</span>
-        </div>
-      } /> : <span className="mo-empty-cover">{item.label}<small>표지 없음</small></span>}
+      {showCover ? <ContentCover src={image} alt={title ?? item.title} dissolve={false} onLoad={onImageLoad} onError={onImageError} sizes="(max-width: 768px) 50vw, 25vw" /> : <span className="mo-empty-cover">{item.label}<small>표지 없음</small></span>}
     </div>
   )
 }
 
 // Book spine/page depth follows BookCard at 86a4fa121 and the existing Book3D experiment.
 // Film perforations follow VideoCard at 86a4fa121. Vinyl/cartridge are reconstructed from the brief.
-export function MediaObject({ kind, image, showCover, angle, spinning, compact = false, title, creator, style, onImageLoad, cropped }: Props) {
+export function MediaObject({ kind, image, showCover, angle, spinning, compact = false, title, style, onImageLoad, onImageError, cropped }: Props) {
   const item = MEDIA.find(item => item.kind === kind)!
   const objectStyle = { '--object-color': item.color, '--mo-cover-ratio': DEFAULT_COVER_RATIOS[kind], ...style } as CSSProperties
-  const cover = <Cover kind={kind} image={image} showCover={showCover} title={title} creator={creator} onImageLoad={onImageLoad} />
+  const cover = <Cover kind={kind} image={image} showCover={showCover} title={title} onImageLoad={onImageLoad} onImageError={onImageError} />
+  if (showCover && !image) return <ContentCoverFallback title={title ?? ''} />
   if (compact) return <div className={`mo-object mo-object-${kind} mo-object-compact`}
     style={objectStyle} data-cropped={cropped} aria-hidden="true">
     {kind === 'music' && <span className="mo-compact-record" />}
@@ -62,7 +58,7 @@ export function MediaObject({ kind, image, showCover, angle, spinning, compact =
       {kind === 'book' ? (
         <div className={`mo-book mo-book-${angle}`}>
           <div className="mo-book-front">{cover}</div>
-          <div className="mo-book-spine"><span>{title ?? item.title}</span><small>FEEL & NOTE</small></div>
+          <div className="mo-book-spine"><span>{title ?? item.title}</span></div>
           <div className="mo-book-pages" />
           <div className="mo-book-top" />
           <div className="mo-book-bottom" />

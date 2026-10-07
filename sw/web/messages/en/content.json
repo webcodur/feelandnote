@@ -147,7 +147,8 @@
       "region": "Availability in {country}",
       "amazonUSNotice": "Opens Amazon.com (US). Set your delivery country there to check shipping availability and costs.",
       "gameRegionNotice": "Prices and offers shown are from Korean stores. Check availability and pricing for your account region before buying."
-    }
+    },
+    "coverUnavailable": "Cover unavailable"
   },
   "contentDetail": {
     "back": "Go back",

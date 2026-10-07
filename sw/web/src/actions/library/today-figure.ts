@@ -8,8 +8,10 @@ import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback }
 import { createStaticClient } from '@/lib/db/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
-import { getKSTDateKey, dateKeyToSeed } from '@/lib/game/date-seed'
+import { getKSTDateKey } from '@/lib/game/date-seed'
 import { getVisitorCountry } from '@/lib/visitorCountryServer'
+import { coalescePublicRead } from '@/lib/coalescePublicRead'
+import { selectTodayFigure, TODAY_FIGURE_FALLBACK_COUNTRY, type TodayFigureCandidate } from '@/lib/celeb/todayFigureSelection'
 import { fetchFeatureExcludedCelebIds } from '@/lib/celeb-feature-exclusion'
 import { CL_SELECT_LIST_WITH_AFFILIATE, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
@@ -54,158 +56,55 @@ export interface TodayFigureResult extends TodayFigureData {
   date: string
 }
 
-/**
- * 오늘 생일인 인물 하나를 고른다. 없으면 null.
- *
- * 편성(`/api/cron/today-figure`)과 같은 규칙이다 — 생일자 중 공개 기록이 많은 순,
- * 5건 이상을 우선한다. 크론은 편성을 미리 저장해 두는 장치일 뿐이고, 생일 자체는
- * 날짜만으로 정해지므로 크론이 못 돌아도 화면은 생일을 알아볼 수 있어야 한다.
- */
-async function pickBirthdayCeleb(
-  db: StaticDatabaseClient,
-  today: string,
-  excluded: ReadonlySet<string>,
-): Promise<string | null> {
-  const monthDay = today.slice(5) // "MM-DD"
+/** All countries and languages share the same small candidate directory. */
+const getTodayFigureCandidates = unstable_cache(
+  coalescePublicRead(async (): Promise<TodayFigureCandidate[]> => {
+    const db = createStaticClient()
+    const [profiles, eligible, excluded] = await Promise.all([
+      selectAllPages<{ id: string; nationality: string | null; birth_date: string | null }>((from, to) => db
+        .from('celebs').select('id, nationality, birth_date')
+        .eq('publication_status', 'active')
+        .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
+        .order('id').range(from, to)),
+      selectAllPages<SeedEligibleRow>((from, to) => db.rpc('get_seed_eligible_celebs')
+        .order('celeb_id', { ascending: true }).range(from, to)),
+      fetchFeatureExcludedCelebIds(db),
+    ])
+    const counts = new Map(eligible.map(row => [row.celeb_id, row.content_count]))
+    return profiles.filter(row => counts.has(row.id) && !excluded.has(row.id))
+      .map(row => ({ ...row, content_count: counts.get(row.id)! }))
+  }),
+  ['today-figure-candidates-v1'],
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] },
+)
 
-  const { data: celebs, error: celebsError } = await db
-    .from('celebs')
-    .select('id')
-    .eq('publication_status', 'active')
-    // 신화·관계 인물은 목록에서 제외
-    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
-    .like('birth_date', `%-${monthDay}`)
+const getTodayFigurePick = unstable_cache(
+  coalescePublicRead(async (today: string, country: string) =>
+    selectTodayFigure(await getTodayFigureCandidates(), today, country)),
+  ['today-figure-country-pick-v4'],
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] },
+)
 
-  throwOnQueryError('getTodayFigure 생일 인물 조회', celebsError)
-
-  const ids = (celebs ?? []).map((c) => c.id).filter((id) => !excluded.has(id))
-  if (ids.length === 0) return null
-  const { data: contentRows, error: contentRowsError } = await db
-    .from('celeb_contents')
-    .select('celeb_id')
-    .in('celeb_id', ids)
-    .eq('status', 'FINISHED')
-    .eq('visibility', 'public')
-
-  throwOnQueryError('getTodayFigure 생일 인물 기록 조회', contentRowsError)
-
-  const counts = new Map<string, number>()
-  for (const row of contentRows ?? []) {
-    counts.set(row.celeb_id, (counts.get(row.celeb_id) ?? 0) + 1)
-  }
-
-  // 기록이 많은 순. 동수는 id 순으로 고정해 캐시 재생성 간에도 흔들리지 않게 한다
-  const sorted = [...ids].sort((a, b) => {
-    const diff = (counts.get(b) ?? 0) - (counts.get(a) ?? 0)
-    return diff !== 0 ? diff : a.localeCompare(b)
-  })
-
-  return sorted.find((id) => (counts.get(id) ?? 0) >= 5) ?? sorted[0]
-}
-
-/** Country candidates must still have five public finished records and pass feature exclusions. */
-async function pickRegionalFigure(db: StaticDatabaseClient, today: string, country: string): Promise<{ id: string; birthday: boolean } | null> {
-  const data = await selectAllPages<{ id: string; birth_date: string | null }>((from, to) => db.from('celebs').select('id, birth_date')
-    .eq('nationality', country).eq('publication_status', 'active')
-    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES]).order('id').range(from, to))
-  if (!data.length) return null
-  const [excluded, eligible] = await Promise.all([
-    fetchFeatureExcludedCelebIds(db),
-    selectAllPages<SeedEligibleRow>((from, to) => db.rpc('get_seed_eligible_celebs')
-      .order('celeb_id', { ascending: true }).range(from, to)),
-  ])
-  const localIds = new Set(data.map(row => row.id))
-  const candidates = eligible.filter(row => localIds.has(row.celeb_id) && !excluded.has(row.celeb_id))
-  if (!candidates.length) return null
-  const birthdays = new Set(data.filter(row => row.birth_date?.endsWith(today.slice(5))).map(row => row.id))
-  const birthday = candidates.filter(row => birthdays.has(row.celeb_id))
-    .sort((a, b) => b.content_count - a.content_count || a.celeb_id.localeCompare(b.celeb_id))[0]
-  if (birthday) return { id: birthday.celeb_id, birthday: true }
-  candidates.sort((a, b) => a.celeb_id.localeCompare(b.celeb_id))
-  return { id: candidates[(dateKeyToSeed(`${today}:${country}`) >>> 0) % candidates.length].celeb_id, birthday: false }
-}
-
-async function fetchTodayFigure(today: string, locale: string, country: string | null): Promise<TodayFigureData> {
-  const db = createStaticClient()
-
-  if (country) {
-    const regional = await pickRegionalFigure(db, today, country)
-    if (regional) {
-      const result = await fetchFigureContents(db, regional.id, locale)
-      if (result.figure && result.contents.length >= 5) {
-        return { ...result, source: { type: regional.birthday ? 'birthday' : 'seed', newsCount: 0 } }
-      }
-    }
-  }
-
-  const { data: dailyFigure, error: dailyFigureError } = await db
-    .from('daily_figures')
-    .select('celeb_id, source, news_count')
-    .eq('date', today)
-    .single()
-
-  // 「오늘 편성 없음」만 통과시킨다 — 조회 실패를 편성 없음으로 캐시하면 편성이 7일 동안 무시된다
-  throwOnQueryError('getTodayFigure 편성 조회', dailyFigureError, { ignoreCodes: [NO_ROWS_CODE] })
-
-  if (dailyFigure) {
-    const result = await fetchFigureContents(db, dailyFigure.celeb_id, locale)
-    return {
-      ...result,
-      source: {
-        type: dailyFigure.source as 'news' | 'seed' | 'birthday',
-        newsCount: dailyFigure.news_count || 0,
-      },
-    }
-  }
-
-  const seedSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
-
-  // 크론과 같은 명단이다 — 추천 노출 제외 인물은 생일·시드 어느 갈래로도 세우지 않는다
-  const excluded = await fetchFeatureExcludedCelebIds(db)
-
-  // 편성 행이 없어도 생일은 날짜만으로 정해진다 — 크론이 못 돌았다고 생일인 사람을
-  // 시드로 덮지 않는다. 크론과 같은 규칙(기록 많은 순, 5건 이상 우선)을 쓴다.
-  const birthdayFigure = await pickBirthdayCeleb(db, today, excluded)
-  if (birthdayFigure) {
-    const result = await fetchFigureContents(db, birthdayFigure, locale)
-    return { ...result, source: { type: 'birthday', newsCount: 0 } }
-  }
-
-  // 공개 감상 5개 이상 보유한 활성 셀럽만 RPC로 카운트 수신
-  // 후보가 천 명을 넘어 한 번에 받으면 1,000명에서 잘린다 — 나눠 받는다(26.09.14)
-  const eligibleData = (await selectAllPages<SeedEligibleRow>((from, to) => db
-    .rpc('get_seed_eligible_celebs')
-    .order('celeb_id', { ascending: true })
-    .range(from, to))).filter((row) => !excluded.has(row.celeb_id))
-
-  if (!eligibleData.length) {
-    return { figure: null, contents: [], source: seedSource }
-  }
-
-  // 시드 선택이 캐시 재생성 간에도 흔들리지 않도록 id 순으로 고정
-  const eligibleCelebs = [...eligibleData].sort((a, b) => a.celeb_id.localeCompare(b.celeb_id))
-
-  const seed = today.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1
-  const selectedIndex = seed % eligibleCelebs.length
-  const selected = eligibleCelebs[selectedIndex]
-
-  const result = await fetchFigureContents(db, selected.celeb_id, locale)
-  return { ...result, source: seedSource }
-}
-
-const getTodayFigureCached = unstable_cache(
-  fetchTodayFigure,
-  ['today-figure-v3-country'],
-  // daily_figures(BO 오늘의 인물 편성) + celebs + celeb_contents + celeb_dialogues
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
+// The same US fallback shares one profile/book payload across all visitor countries and dates.
+const getFigureContentsCached = unstable_cache(
+  coalescePublicRead(async (id: string, locale: string) => fetchFigureContents(createStaticClient(), id, locale)),
+  ['today-figure-contents-v4'],
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] },
 )
 
 export async function getTodayFigure(): Promise<TodayFigureResult> {
   const locale = await getLocale()
-  // 편성(크론)과 같은 KST 날짜를 써야 한다 — 기준이 어긋나면 편성을 못 찾고 seed로 흐른다
   const today = getKSTDateKey()
-  const country = await getVisitorCountry()
-  const result: TodayFigureData = await withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale, country), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
+  const country = await getVisitorCountry() ?? TODAY_FIGURE_FALLBACK_COUNTRY
+  const result: TodayFigureData = await withQueryFallback('getTodayFigure', async () => {
+    const selected = await getTodayFigurePick(today, country)
+    const source: TodayFigureSource = { type: selected?.birthday ? 'birthday' : 'seed', newsCount: 0 }
+    if (!selected) return { figure: null, contents: [], source }
+    const data = await getFigureContentsCached(selected.id, locale)
+    return data.figure && data.contents.length >= 5
+      ? { ...data, source }
+      : { figure: null, contents: [], source }
+  }, { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
   return { ...result, date: today }
 }
 

@@ -29,8 +29,8 @@ const SEO_PATH_PREFIXES = ['/seo-image/', '/sitemaps/']
 const PWA_PATHS = ['/sw.js', '/offline.html']
 const MAINTENANCE_PATH_PREFIX = '/maintenance/'
 
-// 과거 slug generated column이 강세부호를 보존하던 시기에 노출된 주소들이다.
-// 현재 ASCII 정규 slug로 308을 보내 검색엔진의 실패 URL과 신호를 합친다.
+// 이름 정정이나 중복 통합 전의 인물 주소를 현행 정규 프로필로 연결한다.
+// 308을 보내 검색엔진의 실패 URL과 신호를 합친다.
 const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
   'andré-gide': 'andre-gide',
   'camilo-josé-cela': 'camilo-jose-cela',
@@ -46,6 +46,7 @@ const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
   // 26.09.28 같은 사람의 중복 프로필을 하나로 합쳤다(히로히토 → 쇼와 천황).
   'emperor-hirohito': 'emperor-showa',
   'philip-henry-stanhope,-4th-earl-stanhope': 'philip-henry-stanhope',
+  'daron-acemoglu': 'daron-acemoğlu',
 }
 
 export async function middleware(request: NextRequest) {

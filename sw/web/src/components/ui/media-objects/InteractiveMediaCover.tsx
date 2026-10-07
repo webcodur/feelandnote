@@ -6,6 +6,7 @@ import { useLinkStatus } from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import PendingMark from '@/components/ui/pending/PendingMark'
+import ContentCoverFallback from '@/components/ui/ContentCoverFallback'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { MediaObject, type MediaKind } from './MediaObject'
 import useMediaGeometry from './useMediaGeometry'
@@ -116,6 +117,8 @@ function NavigatingMediaArtwork({ kind, image, title, creator, active, reducedMo
   const { ref: artworkRef, style: geometryStyle, onImageLoad, cropped, compact } = useMediaGeometry(kind, image, preferCompact)
   const progress = useSpring(0, { stiffness: 90, damping: 22 })
   const [settledFront, setSettledFront] = useState(false)
+  const [failedSrc, setFailedSrc] = useState<string | null>(null)
+  const missingCover = !image || image === failedSrc
   useEffect(() => {
     if (kind !== 'book' || compact || reducedMotion) return
     const start = progress.on('animationStart', () => setSettledFront(false))
@@ -126,12 +129,12 @@ function NavigatingMediaArtwork({ kind, image, title, creator, active, reducedMo
     progress.set(active && !reducedMotion && !compact ? 1 : 0)
   }, [active, reducedMotion, compact, progress])
 
-  return <motion.div ref={artworkRef} className="mo-interactive mo-interaction-art" data-loading={pending ? 'true' : 'false'}
+  return <motion.div ref={artworkRef} className={`mo-interactive mo-interaction-art${missingCover ? ' h-full' : ''}`} data-loading={pending ? 'true' : 'false'}
     data-compact={compact ? 'true' : 'false'} data-hovered={active && !compact ? 'true' : 'false'}
     data-book-flat={kind === 'book' && active && settledFront && !compact && !reducedMotion ? 'true' : 'false'} aria-busy={pending}
     style={{ '--mo-hover-progress': reducedMotion || compact ? 0 : progress } as MotionStyle}>
-    <MediaObject kind={kind} image={image} title={title} creator={creator} showCover angle="isometric" spinning={false}
-      compact={compact} style={geometryStyle} onImageLoad={onImageLoad} cropped={cropped} />
+    {missingCover ? <ContentCoverFallback title={title} /> : <MediaObject kind={kind} image={image} title={title} creator={creator} showCover angle="isometric" spinning={false}
+      compact={compact} style={geometryStyle} onImageLoad={onImageLoad} onImageError={() => setFailedSrc(image!)} cropped={cropped} />}
     {pending && <span className="mo-navigation-status" role="status">
       <PendingMark size="sm" />
       <span className="sr-only">{title} — {t('loading')}</span>
