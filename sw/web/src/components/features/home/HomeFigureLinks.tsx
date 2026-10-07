@@ -21,8 +21,8 @@ export const HOME_FIGURE_LINK_COUNT = 6;
  *  page.tsx의 FigureLinkGridPending에도 같은 값을 넘긴다 */
 export const HOME_FIGURE_LINK_COLS = "grid-cols-1 sm:grid-cols-2";
 
-/** 기록이 이만큼 쌓인 인물만 세운다 — 빈 상세로 보내면 링크가 신뢰를 깎는다 */
-const MIN_CONTENT_COUNT = 5;
+/** 기록이 있는 급상승 인물을 보여 주고, 기록이 전혀 없는 상세는 제외한다. */
+const MIN_CONTENT_COUNT = 1;
 
 export default async function HomeFigureLinks() {
   const [requestCookies, requestHeaders, t] = await Promise.all([cookies(), headers(), getTranslations("home.ui.trends")]);
