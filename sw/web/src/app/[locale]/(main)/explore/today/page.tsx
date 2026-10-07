@@ -6,7 +6,8 @@
 
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
 import { getTodayFigure } from "@/actions/library";
 
@@ -19,12 +20,12 @@ async function FigureContent() {
   const { figure, contents, date, source } = await getTodayFigure();
   if (!figure) return null;
   return (
-    <AsyncIntlProvider>
+    <>
       <TodayFigureSection figure={figure} contents={contents} date={date} source={source} />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
 export default function Page() {
-  return <FigureContent />;
+  return <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><FigureContent /></Lane>;
 }

@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getRequestUser } from "@/lib/db/server";
@@ -15,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return { title: t("userRecords", { nickname }) };
 }
 
-export default async function RecordsPage({ params }: PageProps) {
+async function RecordsPageBody({ params }: PageProps) {
   const { userId, locale } = await params;
   const { data: { user: currentUser } } = await getRequestUser();
 
@@ -25,4 +27,8 @@ export default async function RecordsPage({ params }: PageProps) {
   const nickname = profile.nickname ?? undefined;
 
   return <RecordsContent userId={userId} isOwner={isOwner} nickname={nickname} />;
+}
+
+export default function RecordsPage(props: PageProps) {
+  return <Lane fallback={<PendingBlock variant="grid" count={6} />}><RecordsPageBody {...props} /></Lane>;
 }

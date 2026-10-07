@@ -8,7 +8,8 @@
 import { redirect } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import AcademyLessonView from "@/components/features/library/academy/AcademyLessonView";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
 import { ACADEMY_CATEGORY_IDS } from "@/constants/libraryMuseum";
@@ -46,14 +47,14 @@ async function LessonContent({
   const { isSignedIn, progress } = await getAcademyLessonProgressState();
 
   return (
-    <AsyncIntlProvider>
+    <>
       <AcademyLessonView
         categoryId={categoryId}
         courseId={courseId}
         initialLessonProgress={progress}
         isSignedIn={isSignedIn}
       />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
@@ -75,5 +76,5 @@ export default async function AcademyCoursePage({
     return redirect({ href: `/explore/works/academy/${cat.id}/${cat.courses[0].id}`, locale });
   }
 
-  return <LessonContent categoryId={category} courseId={course} />;
+  return <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><LessonContent categoryId={category} courseId={course} /></Lane>;
 }

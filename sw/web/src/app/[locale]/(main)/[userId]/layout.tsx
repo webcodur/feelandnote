@@ -9,6 +9,8 @@ import PageBanner from "@/components/shared/PageBanner";
 import { BANNER_TITLE_CLASS } from "@/components/shared/bannerStyles";
 import { getRequestUser } from "@/lib/db/server";
 import MessageScope from "@/components/shared/MessageScope";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -61,7 +63,9 @@ async function UserLayoutBody({ children, params }: LayoutProps) {
 export default function UserLayout(props: LayoutProps) {
   return (
     <MessageScope>
-      <UserLayoutBody {...props} />
+      <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" className="mx-auto max-w-3xl my-8" />}>
+        <UserLayoutBody {...props} />
+      </Lane>
     </MessageScope>
   );
 }

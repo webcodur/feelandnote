@@ -18,6 +18,12 @@ import { ArrowLeft } from "lucide-react";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { getAboutShowcase } from "@/actions/policy/getAboutShowcase";
 import AboutBody, { SectionHead, SectionClose } from "./AboutBody";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
+
+async function AboutContent({ locale }: { locale: string }) {
+  return <AboutBody showcase={await getAboutShowcase(locale)} />;
+}
 
 export async function generateMetadata() {
   const t = await getTranslations("policy");
@@ -31,7 +37,6 @@ export async function generateMetadata() {
 export default async function AboutPage() {
   const t = await getTranslations("policy");
   const locale = await getLocale();
-  const showcase = await getAboutShowcase(locale);
   return (
     <div className="max-w-3xl mx-auto px-2 md:px-0 text-text-primary">
       {/* 되돌아가기 — 단일 화면이라 배너·브레드크럼 대신 조용한 문 하나만 둔다 */}
@@ -58,7 +63,7 @@ export default async function AboutPage() {
         </h1>
       </header>
 
-      <AboutBody showcase={showcase} />
+      <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><AboutContent locale={locale} /></Lane>
 
       {/* 운영 안내 · 문의 */}
       <section id="contact" className="mt-20 md:mt-28 pb-4 space-y-6 scroll-mt-24">

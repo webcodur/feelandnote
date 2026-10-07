@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
@@ -21,7 +23,7 @@ export async function generateMetadata({ params }: NoticeDetailPageProps): Promi
   return { title: `${notice.title} | ${t('title')}` }
 }
 
-export default async function NoticeDetailPage({ params }: NoticeDetailPageProps) {
+async function NoticeDetailPageBody({ params }: NoticeDetailPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
   const db = await createClient()
@@ -45,4 +47,8 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
       currentUserId={user?.id}
     />
   )
+}
+
+export default function NoticeDetailPage(props: Parameters<typeof NoticeDetailPageBody>[0]) {
+  return <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><NoticeDetailPageBody {...props} /></Lane>;
 }

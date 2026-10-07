@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
@@ -19,7 +21,7 @@ export async function generateMetadata({ params }: FreeDetailPageProps): Promise
   return { title: `${post.title} | ${t('freeBoard')}` }
 }
 
-export default async function FreeDetailPage({ params }: FreeDetailPageProps) {
+async function FreeDetailPageBody({ params }: FreeDetailPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
   const db = await createClient()
@@ -45,4 +47,8 @@ export default async function FreeDetailPage({ params }: FreeDetailPageProps) {
       isLoggedIn={!!user}
     />
   )
+}
+
+export default function FreeDetailPage(props: Parameters<typeof FreeDetailPageBody>[0]) {
+  return <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><FreeDetailPageBody {...props} /></Lane>;
 }

@@ -5,7 +5,6 @@
         본인이 자기 방명록을 열람할 때의 읽음 처리 쓰기도 여기서 한다.
 */ // ------------------------------
 
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { RetryBlock } from "@/components/ui/pending";
 import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
@@ -32,7 +31,7 @@ export async function GuestbookSection({ userId, isOwner, currentUserId }: Props
   }
 
   return (
-    <AsyncIntlProvider>
+    <>
       <GuestbookContent
         profileId={userId}
         currentUserId={currentUserId}
@@ -40,6 +39,6 @@ export async function GuestbookSection({ userId, isOwner, currentUserId }: Props
         initialEntries={result.entries}
         initialTotal={result.total}
       />
-    </AsyncIntlProvider>
+    </>
   );
 }

@@ -1,16 +1,16 @@
 import { resolve } from 'node:path'
-import { BOT_SIGNATURES, BROWSER_SIGNATURES } from '../sw/web/src/lib/render-mode'
+import { BOT_SIGNATURES, BROWSER_SIGNATURES } from '../sw/web/src/lib/render-user-agent'
 
 // 앱의 UA 판별과 앞단 캐시가 같은 서명을 쓴다. 봇에는 로딩 중인 HTML을 재사용하지 않는다.
 const containsAny = (values: readonly string[]) => `(${values.map(value => `lower(http.user_agent) contains ${JSON.stringify(value)}`).join(' or ')})`
 const paths = ['/celeb/', '/en/celeb/', '/content/', '/en/content/']
 const rule = {
   ref: 'bypass-detail-non-browser-v1',
-  description: 'Bypass streamed detail HTML cache for bots and unknown user agents',
+  description: 'Bypass streamed detail and timeline HTML cache for bots and unknown user agents',
   enabled: true,
   action: 'set_cache_settings',
   action_parameters: { cache: false },
-  expression: `(${paths.map(path => `starts_with(http.request.uri.path, ${JSON.stringify(path)})`).join(' or ')}) and (not (${containsAny(BROWSER_SIGNATURES)} and not ${containsAny(BOT_SIGNATURES)}))`,
+  expression: `(${paths.map(path => `starts_with(http.request.uri.path, ${JSON.stringify(path)})`).join(' or ')} or http.request.uri.path in {"/explore/timeline" "/en/explore/timeline"}) and (not (${containsAny(BROWSER_SIGNATURES)} and not ${containsAny(BOT_SIGNATURES)}))`,
 }
 
 async function main() {

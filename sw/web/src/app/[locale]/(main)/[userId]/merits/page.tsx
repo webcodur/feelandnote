@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import { getTranslations } from "next-intl/server";
 import { getRequestUser } from "@/lib/db/server";
 import { getAchievementData } from "@/actions/achievements";
@@ -14,7 +16,7 @@ interface PageProps {
   params: Promise<{ userId: string }>;
 }
 
-export default async function MeritsPage({ params }: PageProps) {
+async function MeritsPageBody({ params }: PageProps) {
   const { userId } = await params;
   const { data: { user: currentUser } } = await getRequestUser();
 
@@ -36,4 +38,8 @@ export default async function MeritsPage({ params }: PageProps) {
       isOwner={isOwner}
     />
   );
+}
+
+export default function MeritsPage(props: PageProps) {
+  return <Lane fallback={<PendingBlock variant="grid" count={6} />}><MeritsPageBody {...props} /></Lane>;
 }

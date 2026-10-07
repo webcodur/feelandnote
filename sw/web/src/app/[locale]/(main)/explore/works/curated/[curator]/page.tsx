@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 /*
   파일명: /app/(main)/explore/works/curated/[curator]/page.tsx
   기능: 선정 주체 상세
@@ -36,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ curator: 
   };
 }
 
-export default async function CuratorPage({ params, searchParams }: { params: Promise<{ curator: string }>; searchParams: Promise<{ media?: string; topic?: string }> }) {
+async function CuratorPageBody({ params, searchParams }: { params: Promise<{ curator: string }>; searchParams: Promise<{ media?: string; topic?: string }> }) {
   const { curator: slug } = await params;
   const curator = await getCuratorBySlug(slug);
   if (!curator) notFound();
@@ -48,4 +50,8 @@ export default async function CuratorPage({ params, searchParams }: { params: Pr
       <CuratorView curator={curator} initialBrowse={await searchParams} />
     </div>
   );
+}
+
+export default function CuratorPage(props: Parameters<typeof CuratorPageBody>[0]) {
+  return <Lane fallback={<PendingBlock variant="grid" count={12} />}><CuratorPageBody {...props} /></Lane>;
 }

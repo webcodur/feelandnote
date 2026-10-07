@@ -7,7 +7,8 @@
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import AtlasNavSections from "@/components/shared/atlasNav/AtlasNavSections";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import { hubAtlasNavItems } from "@/components/shared/hubSectionUtils";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
 import { REST_GAMES, REST_GROUP_ID, type GameId } from "@/constants/rest-games";
@@ -26,7 +27,7 @@ interface RestPageProps {
   searchParams: Promise<{ dev?: string }>;
 }
 
-export default async function RestPage({ searchParams }: RestPageProps) {
+async function RestPageBody({ searchParams }: RestPageProps) {
   const t = await getTranslations("rest.arena");
   const tHub = await getTranslations("rest.hub");
 
@@ -65,7 +66,7 @@ export default async function RestPage({ searchParams }: RestPageProps) {
 
   return (
     // 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다
-    <AsyncIntlProvider>
+    <>
       <div className="pb-[60px] min-[1340px]:pb-8">
         {/* 서브페이지 네비게이터 — 공용 아틀라스 목차(옆 레일·하단 띠) */}
         <AtlasNavSections items={atlasItems} />
@@ -83,6 +84,10 @@ export default async function RestPage({ searchParams }: RestPageProps) {
           devMode={devMode}
         />
       </div>
-    </AsyncIntlProvider>
+    </>
   );
+}
+
+export default function RestPage(props: RestPageProps) {
+  return <Lane fallback={<PendingBlock variant="grid" count={6} />}><RestPageBody {...props} /></Lane>;
 }

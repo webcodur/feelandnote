@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
@@ -21,7 +23,7 @@ export async function generateMetadata({ params }: FeedbackDetailPageProps): Pro
   return { title: `${feedback.title} | ${t('title')}` }
 }
 
-export default async function FeedbackDetailPage({ params }: FeedbackDetailPageProps) {
+async function FeedbackDetailPageBody({ params }: FeedbackDetailPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
   const db = await createClient()
@@ -48,4 +50,8 @@ export default async function FeedbackDetailPage({ params }: FeedbackDetailPageP
       currentUserId={user?.id}
     />
   )
+}
+
+export default function FeedbackDetailPage(props: Parameters<typeof FeedbackDetailPageBody>[0]) {
+  return <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><FeedbackDetailPageBody {...props} /></Lane>;
 }

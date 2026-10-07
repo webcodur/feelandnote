@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 /*
   파일명: /app/(main)/explore/works/curated/[curator]/[list]/page.tsx
   기능: 선정 목록 상세
@@ -67,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<{ curator: 
   };
 }
 
-export default async function CuratedListPage({
+async function CuratedListPageBody({
   params,
 }: {
   params: Promise<{ curator: string; list: string }>;
@@ -88,4 +90,8 @@ export default async function CuratedListPage({
       <CuratedListView list={list} />
     </div>
   );
+}
+
+export default function CuratedListPage(props: Parameters<typeof CuratedListPageBody>[0]) {
+  return <Lane fallback={<PendingBlock variant="grid" count={12} />}><CuratedListPageBody {...props} /></Lane>;
 }

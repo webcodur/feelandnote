@@ -5,9 +5,8 @@
         여기서 던지면 안 된다 — 구획 컴포넌트가 스스로 try/catch로 잡는다.
 */ // ------------------------------
 
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { RetryBlock } from "@/components/ui/pending";
-import { getFriends, getMyFollowing, getFollowers, getSimilarUsers } from "@/actions/user";
+import { getProfile, getFriends, getMyFollowing, getFollowers, getSimilarUsers } from "@/actions/user";
 import FriendsSectionBody from "@/components/features/user/explore/sections/FriendsSection";
 import FollowingSectionBody from "@/components/features/user/explore/sections/FollowingSection";
 import FollowersSectionBody from "@/components/features/user/explore/sections/FollowersSection";
@@ -31,9 +30,9 @@ export async function FriendsSection() {
   if (!result.success && !isUnauthorized(result.error)) return <RetryBlock />;
 
   return (
-    <AsyncIntlProvider>
+    <>
       <FriendsSectionBody friends={result.success ? result.data : []} />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
@@ -49,19 +48,26 @@ export async function FollowingSection() {
   if (!result.success && !isUnauthorized(result.error)) return <RetryBlock />;
 
   return (
-    <AsyncIntlProvider>
+    <>
       <FollowingSectionBody following={result.success ? result.data.filter((f) => !f.is_friend) : []} />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
 /** 팔로워 구획 — 로그인 상태가 아니면 빈 목록을 보여준다(실패가 아니다) */
-export async function FollowersSection({ profileId }: { profileId: string | null }) {
+export async function FollowersSection() {
+  let profileId: string | undefined;
+  try {
+    profileId = (await getProfile())?.id;
+  } catch (error) {
+    console.error("[agora/social] 프로필 조회 실패:", error);
+    return <RetryBlock />;
+  }
   if (!profileId) {
     return (
-      <AsyncIntlProvider>
+      <>
         <FollowersSectionBody followers={[]} />
-      </AsyncIntlProvider>
+      </>
     );
   }
 
@@ -75,9 +81,9 @@ export async function FollowersSection({ profileId }: { profileId: string | null
   if (!result.success) return <RetryBlock />;
 
   return (
-    <AsyncIntlProvider>
+    <>
       <FollowersSectionBody followers={result.data.filter((f) => !f.is_following)} />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
@@ -92,8 +98,8 @@ export async function SimilarSection() {
   }
 
   return (
-    <AsyncIntlProvider>
+    <>
       <SimilarSectionBody similarUsers={result.users} algorithm={result.algorithm} />
-    </AsyncIntlProvider>
+    </>
   );
 }

@@ -8,7 +8,8 @@
 
 import { permanentRedirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import PopularSection from "@/components/features/library/sections/PopularSection";
 import { getChosenLibrary, getProfessionContentCounts } from "@/actions/library";
 import { getPathname } from "@/i18n/navigation";
@@ -39,13 +40,17 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     permanentRedirect(getPathname({ href, locale: await getLocale() }));
   }
 
+  return <Lane fallback={<PendingBlock variant="grid" count={12} />}><PopularContent /></Lane>;
+}
+
+async function PopularContent() {
   const [initialClassicsData, professionCounts] = await Promise.all([
     getChosenLibrary({ page: 1, limit: 12 }),
     getProfessionContentCounts(),
   ]);
   return (
-    <AsyncIntlProvider>
+    <>
       <PopularSection initialClassicsData={initialClassicsData} professions={professionCounts.map(p => ({ profession: p.profession, count: p.count }))} />
-    </AsyncIntlProvider>
+    </>
   );
 }

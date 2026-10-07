@@ -5,7 +5,8 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import MuseumTimeline from "@/components/features/library/museum/MuseumTimeline";
 import getDeveloperProducts from "@/components/features/commerce/getDeveloperProducts";
 import { getLocalizedAlternates } from "@/lib/seo";
@@ -19,9 +20,9 @@ export async function generateMetadata() {
 async function MuseumContent({ cat, sub }: { cat?: string; sub?: string }) {
   const targetProducts = await getDeveloperProducts();
   return (
-    <AsyncIntlProvider>
+    <>
       <MuseumTimeline categoryId={cat} subCategoryId={sub} targetProducts={targetProducts} />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
@@ -31,7 +32,7 @@ export default async function MuseumPage({ searchParams }: { searchParams: Promi
   return (
     <div className="w-full pb-20">
       <WorksRevisionNotice section="museum" />
-      <MuseumContent cat={cat} sub={sub} />
+      <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-80" />}><MuseumContent cat={cat} sub={sub} /></Lane>
     </div>
   );
 }

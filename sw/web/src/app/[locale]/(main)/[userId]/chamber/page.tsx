@@ -1,3 +1,5 @@
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import { getTranslations } from "next-intl/server";
 import { getRequestUser } from "@/lib/db/server";
 import { getDetailedStats } from "@/actions/user";
@@ -16,7 +18,7 @@ interface PageProps {
   params: Promise<{ userId: string }>;
 }
 
-export default async function ChamberPage({ params }: PageProps) {
+async function ChamberPageBody({ params }: PageProps) {
   const { userId } = await params;
   const { data: { user: currentUser } } = await getRequestUser();
 
@@ -43,4 +45,8 @@ export default async function ChamberPage({ params }: PageProps) {
       <ProfileSettingsSection isEmailUser={isEmailUser} />
     </div>
   );
+}
+
+export default function ChamberPage(props: PageProps) {
+  return <Lane fallback={<PendingBlock variant="grid" count={6} />}><ChamberPageBody {...props} /></Lane>;
 }

@@ -6,7 +6,8 @@
 
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
+import Lane from "@/components/ui/pending/Lane";
+import { PendingBlock } from "@/components/ui/pending";
 import { getCelebFeed } from "@/actions/home";
 import CelebFeedSection from "@/components/features/agora/CelebFeedSection";
 
@@ -23,16 +24,16 @@ async function CelebFeedServer() {
   const celebFeedData = await getCelebFeed({ limit: 10 });
 
   return (
-    <AsyncIntlProvider>
+    <>
       <CelebFeedSection
         initialReviews={celebFeedData.reviews}
         initialCursor={celebFeedData.nextCursor}
         initialHasMore={celebFeedData.hasMore}
       />
-    </AsyncIntlProvider>
+    </>
   );
 }
 
 export default function CelebFeedPage() {
-  return <CelebFeedServer />;
+  return <Lane fallback={<PendingBlock variant="rows" count={5} />}><CelebFeedServer /></Lane>;
 }

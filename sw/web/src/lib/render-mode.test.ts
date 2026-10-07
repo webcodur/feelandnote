@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import { isBotUserAgent, isHumanBrowserUserAgent, shouldStreamForUserAgent } from './render-mode'
+import nextConfig from '../../next.config'
 
 const GOOGLEBOT_SMARTPHONE =
   'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.33 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
@@ -56,4 +57,29 @@ test('링크 미리보기 봇은 브라우저 서명이 있어도 완성 HTML을
   const ua = `${DESKTOP_CHROME} facebookexternalhit/1.1`
   assert.equal(shouldStreamForUserAgent(ua), false)
   assert.equal(isHumanBrowserUserAgent(ua), false)
+})
+
+test('카카오톡·네이버 인앱 브라우저를 서비스 이름만으로 봇으로 보지 않는다', () => {
+  for (const ua of [`${MOBILE_SAFARI} KAKAOTALK/26.1.0`, `${DESKTOP_CHROME} NAVER(inapp; search; 2000; 12.0.0)`]) {
+    assert.equal(shouldStreamForUserAgent(ua), true, ua)
+    assert.equal(isHumanBrowserUserAgent(ua), true, ua)
+  }
+})
+
+test('다음 검색봇과 카카오 미리보기 봇은 완성 HTML을 받는다', () => {
+  for (const ua of ['Mozilla/5.0 (compatible; Daum/4.1; +https://cs.daum.net/)', 'kakaotalk-scrap/1.0']) {
+    assert.equal(shouldStreamForUserAgent(ua), false, ua)
+    assert.equal(isHumanBrowserUserAgent(ua), false, ua)
+  }
+})
+
+test('전역 메타데이터 설정도 본문과 같은 봇을 기다리게 한다', () => {
+  const bots = [GOOGLEBOT_SMARTPHONE, YETI, CURL, 'TelegramBot', 'Google-InspectionTool/1.0', 'vkShare', 'Daum/4.1', 'ChatGPT-User/1.0', 'Claude-User/1.0', 'Perplexity-User/1.0', 'Amzn-User/1.0']
+  for (const ua of bots) {
+    assert.equal(shouldStreamForUserAgent(ua), false, ua)
+    assert.equal(nextConfig.htmlLimitedBots?.test(ua), true, ua)
+  }
+  for (const ua of [DESKTOP_CHROME, MOBILE_SAFARI, `${MOBILE_SAFARI} KAKAOTALK/26.1.0`, '', 'SomeUnknownAgent/1.0']) {
+    assert.equal(nextConfig.htmlLimitedBots?.test(ua), false, ua)
+  }
 })

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import Lane from "@/components/ui/pending/Lane";
 import { getTranslations } from "next-intl/server";
 import { getMemberRouteProfile } from "@/lib/profile-route";
 import { getLocalizedAlternates } from "@/lib/seo";
@@ -55,9 +55,9 @@ export default async function OverviewPage({ params }: PageProps) {
       isOwner={isOwner}
       guestbookCurrentUserId={currentUser?.id ?? null}
       guestbookSlot={
-        <Suspense fallback={<PendingBlock variant="rows" count={3} />}>
+        <Lane fallback={<PendingBlock variant="rows" count={3} />}>
           <GuestbookSection userId={userId} isOwner={isOwner} currentUserId={currentUser?.id ?? null} />
-        </Suspense>
+        </Lane>
       }
     />
   );
