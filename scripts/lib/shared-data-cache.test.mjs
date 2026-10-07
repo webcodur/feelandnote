@@ -11,8 +11,11 @@ import { linkSharedDataCache } from './oracle-web-remote.mjs'
 
 const handlerPath = path.resolve('sw/web/scripts/shared-data-cache.cjs')
 const require = createRequire(handlerPath)
+require('next/dist/server/node-environment-baseline')
 const Handler = require(handlerPath)
 const { IncrementalCache } = require('next/dist/server/lib/incremental-cache')
+const { unstable_cache } = require('next/dist/server/web/spec-extension/unstable-cache')
+const { workAsyncStorage } = require('next/dist/server/app-render/work-async-storage.external')
 const { tagsManifest, areTagsStale } = require('next/dist/server/lib/incremental-cache/tags-manifest.external')
 const KEY = 'a'.repeat(64)
 const execFileAsync = promisify(execFile)
@@ -54,6 +57,33 @@ test('FETCH survives slot replacement and a fresh process with the original age;
   await blue.set('sample/page', { kind: 'APP_ROUTE', body: Buffer.from('blue HTML'), headers: {} }, { fetchCache: false })
   assert.equal(await green.get('sample/page', { kind: 'APP_ROUTE' }), null)
   assert.equal(fs.existsSync(path.join(root, 'slots/blue/sw/web/.next-verify/server/app/sample/page.body')), true)
+})
+
+test('a query contract version bypasses old-shaped data across slots without discarding unrelated cache', async t => {
+  const { context } = fixture(t)
+  const invoke = async (slot, query) => {
+    const store = {
+      incrementalCache: new IncrementalCache({ ...context(slot), CurCacheHandler: Handler, requestHeaders: {}, getPrerenderManifest: () => ({ version: 4, routes: {}, dynamicRoutes: {}, notFoundRoutes: [], preview: { previewModeId: 'contract-test' } }) }),
+    }
+    const result = await workAsyncStorage.run(store, query)
+    await Promise.all(Object.values(store.pendingRevalidates ?? {}))
+    return result
+  }
+  let row = { name: 'old name' }
+  let reads = 0
+  // The wrapper stays identical when an imported query or DB function changes.
+  const query = async () => { reads++; return row }
+  const oldQuery = unstable_cache(query, ['contract-test-v1'], { revalidate: 3600, tags: ['contract-test'] })
+  assert.deepEqual(await invoke('blue', oldQuery), { name: 'old name' })
+  row = { displayName: 'new name' }
+  assert.deepEqual(await invoke('green', oldQuery), { name: 'old name' })
+  assert.equal(reads, 1)
+  const newQuery = unstable_cache(query, ['contract-test-v2'], { revalidate: 3600, tags: ['contract-test'] })
+  assert.deepEqual(await invoke('green', newQuery), { displayName: 'new name' })
+  assert.deepEqual(await invoke('green', newQuery), { displayName: 'new name' })
+  assert.equal(reads, 2)
+  assert.deepEqual(await invoke('blue', oldQuery), { name: 'old name' })
+  assert.equal(reads, 2)
 })
 
 test('immediate tag invalidation is visible across slots and after a restart; unrelated data is retained', async t => {

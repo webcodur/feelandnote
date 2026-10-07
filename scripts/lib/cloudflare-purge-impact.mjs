@@ -6,6 +6,7 @@ export const CLOUDFLARE_PURGE_SCOPES = Object.freeze([
   'none',
   'celeb',
   'content',
+  'content-banners',
   'seo',
   'cached-html',
   'emergency-zone',
@@ -30,6 +31,10 @@ const SCOPE_TARGETS = Object.freeze({
       `${SITE_HOST}/content/`,
       `${SITE_HOST}/en/content/`,
     ],
+    files: [],
+  }),
+  'content-banners': Object.freeze({
+    prefixes: [SITE_HOST + '/images/content/banners/'],
     files: [],
   }),
   seo: Object.freeze({
@@ -122,6 +127,10 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // Public shelf reads and approval badges affect the cached figure detail.
+  'sw/web/src/actions/contents/getUserContents.ts',
+  'sw/web/src/actions/contents/getCelebContentExpand.ts',
+  'sw/web/src/actions/contents/celebContentExpandRows.ts',
   // 세계관 배너와 스냅 캐러셀은 보관 대상 화면 중 인물 상세(히어로·스펙트럼)에만 실린다.
   'sw/web/src/components/features/celeb/CelebWorldBannerView.tsx',
   'sw/web/src/components/ui/SnapCarousel.tsx',
@@ -173,6 +182,8 @@ const CONTENT_PREFIXES = [
 ]
 
 const CONTENT_FILES = new Set([
+  'sw/web/src/actions/contents/getBookBannerTheme.ts',
+  'sw/web/src/lib/books/bookBanner.ts',
   'sw/web/src/actions/contents/getContentById.ts',
   'sw/web/src/actions/contents/getContentDetail.ts',
   'sw/web/src/actions/contents/getReviewFeed.ts',
@@ -181,6 +192,11 @@ const CONTENT_FILES = new Set([
 ])
 
 const CELEB_AND_CONTENT_FILES = new Set([
+  // Reading, introductions and commerce are consumed by both detail families.
+  'sw/web/src/components/features/game/shared/ContentReviewModal.tsx',
+  'sw/web/src/components/shared/BookIntroductionPanel.tsx',
+  'sw/web/src/components/features/commerce/ContentPurchaseAction.tsx',
+  'sw/web/src/components/features/commerce/BookPurchaseSummary.tsx',
   // 픽션 원전·등장인물은 인물 상세와 작품 상세 양쪽에서 렌더링한다.
   'sw/web/src/actions/figure-books/getFigureBooks.ts',
   // 위 조회에서 분해한 모듈이라 같은 두 화면에 걸린다.
@@ -204,6 +220,19 @@ const CACHED_HTML_AND_SEO_FILES = new Set([
 ])
 
 const NON_HTML_RUNTIME_FILES = new Set([
+  // External-resource searches are member record UI, never cached public detail HTML.
+  'sw/web/src/components/features/quickRecord/ExternalResourceSearch.tsx',
+  'sw/web/src/components/features/quickRecord/SearchHelper.tsx',
+  'sw/web/src/lib/reviews/featuredReview.ts',
+  'sw/web/src/actions/home/getCelebs.ts',
+  'sw/web/src/actions/contents/addContent.ts',
+  'sw/web/src/actions/contents/getMyContents.ts',
+  'sw/web/src/types/database.generated.ts',
+  // Home and exploration translations do not appear in cached detail HTML.
+  'sw/web/messages/ko/home.json',
+  'sw/web/messages/en/home.json',
+  'sw/web/messages/ko/explore.json',
+  'sw/web/messages/en/explore.json',
   // 배포 diff에 함께 들어오는 캐시 무효화 계약/호출부다. HTML 렌더 결과는 바꾸지 않는다.
   'packages/shared/src/constants/cache-tags.ts',
   // Remotion과 web-bo만 소비하며 public web HTML에는 들어오지 않는 공유 타이밍 계약이다.
@@ -426,6 +455,11 @@ function classifyFile(file) {
     || matchesPrefix(file, CACHED_HTML_PREFIXES)
   ) {
     return ['cached-html']
+  }
+
+  // Known work-detail artwork has its own asset prefix; never pretend HTML purging refreshes images.
+  if (/^sw\/web\/public\/images\/content\/banners\/(?:ancient-archive|chinese-classics|contemporary|early-modern|library|western-classics)-(?:pc|mb)\.webp$/u.test(file)) {
+    return ['content-banners']
   }
 
   // 공개 자산은 HTML 스코프로 갱신할 수 없다. 같은 URL을 덮어썼는지는 경로만으로

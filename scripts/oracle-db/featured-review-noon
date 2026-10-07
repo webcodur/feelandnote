@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# DB VM runs in UTC: the cron entry invokes this at 03:00 (12:00 Asia/Seoul).
+request_id=$(docker exec feelandnote-db psql -X -qAt -v ON_ERROR_STOP=1 -U postgres -d postgres -c "SELECT public.web_revalidate_send(ARRAY['celebs:featured-reviews']); SELECT currval('net.http_request_queue_id_seq');" | tr -d '[:space:]')
+case "$request_id" in ''|*[!0-9]*) logger -t feelandnote-featured-review 'Invalid revalidation request'; exit 1;; esac
+for attempt in 1 2 3 4 5; do
+  sleep 2
+  outcome=$(docker exec feelandnote-db psql -X -qAt -v ON_ERROR_STOP=1 -U postgres -d postgres -c "SELECT CASE WHEN status_code=200 AND content::jsonb->>'complete'='true' AND content::jsonb->'tags' ? 'celebs:featured-reviews' AND content::jsonb->'cloudflare'->'urls' @> '[\"https://feelandnote.com/\",\"https://feelandnote.com/en\"]'::jsonb THEN 'complete' ELSE 'failed' END FROM net._http_response WHERE id=$request_id;")
+  if [ "$outcome" = complete ]; then logger -t feelandnote-featured-review "Noon rotation cache refreshed ($request_id)"; exit 0; fi
+  if [ "$outcome" = failed ]; then logger -t feelandnote-featured-review "Noon rotation revalidation failed ($request_id)"; exit 1; fi
+done
+logger -t feelandnote-featured-review "Noon rotation response missing ($request_id)"
+exit 1

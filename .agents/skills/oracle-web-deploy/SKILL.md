@@ -13,7 +13,7 @@ description: Feel&Note 사용자 웹의 Oracle standalone 배포 계획, 패키�
 
 - 계획·상태 확인: 인자 없이 실행한다. 빌드·업로드·서비스 변경을 하지 않는다.
 - 패키징 검증: `--package-only`를 사용한다. 격리 worktree에서 커밋을 빌드하지만 Oracle을 바꾸지 않는다.
-- 실제 배포: 사용자가 이번 요청에서 운영 배포를 명시한 경우에만 `--execute`를 사용한다.
+- 실제 배포: `--execute`를 사용한다. 승인 해석은 [`agent-rules.md` 19-3](../../../docs/project/agent-rules.md#지시-해석)을 따른다.
 
 ```powershell
 pnpm deploy:web:oracle
@@ -25,11 +25,10 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
 
 ## 실행 판단
 
-배포 전에 변경한 기능의 실제 동작을 검수한다. UI 수정은 영향을 받는 PC·모바일 화면과 클릭·호버 동작까지 확인한다. 배포 검증 방식은 `docs/project/platform/platform-05-external-services.md`의 「Oracle 사용자 웹 운영」을 따르며, 사전 검수를 배포 후 장시간 관찰로 대신하지 않는다.
+배포 전에 변경한 기능의 실제 동작을 검수한다. UI 수정은 영향을 받는 PC·모바일 화면과 클릭·호버 동작까지 확인한다. DB·조회 개편은 `docs/project/platform/platform-05-external-services.md`의 「Oracle 사용자 웹 운영」에서 캐시 키 버전과 구버전 DB 호환 규칙을 확인한다. 배포 검증 방식도 해당 문서를 따르며, 사전 검수를 배포 후 장시간 관찰로 대신하지 않는다.
 
 1. 먼저 plan을 실행해 현재 release, 대상 커밋, 웹·Caddy 상태, Caddy upstream, canary 포트, Cloudflare 퍼지 계획을 읽는다. 정상 시작점은 Caddy가 기본 웹 포트를 가리키는 상태다. `deploymentRequired: false`이면 같은 커밋이 정상 운영 중이므로 배포를 끝낸다. 재빌드·재시작·퍼지를 하지 않는다.
-2. 대상 커밋이 원격 브랜치에 없으면 push 여부를 사용자에게 확인한다. `--allow-unpushed`는 사용자가
-   로컬 커밋 배포를 명시했을 때만 사용한다.
+2. plan의 `remoteBranchContainsCommit`을 확인하고, 승인된 방식에 따라 push 또는 `--allow-unpushed`로 진행한다.
 3. 퍼지 계획이 `manual-required`이면 미분류 파일의 실제 소비 화면을 조사해 `cloudflare-purge-impact.mjs`의 규칙을 보완한다. 이름이나 폴더만 보고 `cached-html`로 우회하지 않는다. 일회성 범위가 필요한 경우에도 조사 근거에 따라 `--purge-scopes <scope[,scope]>`를 명시한다. `emergency-zone`을 배포 편의로 선택하지 않는다.
 4. 실제 배포 권한이 있으면 execute를 한 번 실행한다. 스크립트가 build·비밀 파일 차단·junction
    복원·비활성 Blue/Green 슬롯 교체·canary·Caddy traffic bridge·검증·실패 롤백을 소유하므로 같은 절차를 임시 명령으로 다시 쓰지 않는다. 검증된 canary는 전환 동안 운영 트래픽을 받고, 기본 웹 프로세스가 준비된 뒤 Caddy가 원래 upstream으로 돌아간다.

@@ -1,0 +1,2 @@
+# The DB VM's system timezone is UTC; 03:00 UTC is noon in Korea.
+0 3 * * * root /usr/local/sbin/feelandnote-featured-review-noon

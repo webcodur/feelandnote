@@ -354,3 +354,20 @@ test('workflow is manual-only and keeps purge targets constrained', () => {
     /if jq -e '\.emergencyZone == true'[\s\S]*\{"purge_everything":true\}/u,
   )
 })
+
+
+test('content banner replacements purge their own asset prefix without SEO or unrelated assets', () => {
+  const plan = classifyCloudflarePurgeImpact(['sw/web/public/images/content/banners/ancient-archive-mb.webp']);
+  assert.deepEqual(plan.scopes, ['content-banners']);
+  assert.deepEqual(plan.prefixes, ['feelandnote.com/images/content/banners/']);
+  assert.deepEqual(plan.files, []);
+  const mixed = classifyCloudflarePurgeImpact(['sw/web/src/components/shared/HubSection.tsx', 'sw/web/public/images/content/banners/library-pc.webp']);
+  assert.deepEqual(mixed.scopes, ['content-banners', 'cached-html']);
+  assert.ok(!mixed.prefixes.some(prefix => prefix.includes('seo-image')));
+  assert.throws(() => classifyCloudflarePurgeImpact(['sw/web/public/images/content/banners/unknown.webp']), /Unclassified public asset/);
+});
+
+test('daily review logic and home translations need no cached HTML purge', () => {
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/lib/reviews/featuredReview.ts', 'sw/web/src/actions/home/getCelebs.ts', 'sw/web/messages/ko/home.json', 'sw/web/messages/en/explore.json']).scopes, ['none']);
+  assert.deepEqual(classifyCloudflarePurgeImpact(['sw/web/src/components/features/game/shared/ContentReviewModal.tsx', 'sw/web/src/components/shared/BookIntroductionPanel.tsx']).scopes, ['celeb','content']);
+});

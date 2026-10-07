@@ -13,6 +13,8 @@ on:
           - none
           - celeb
           - content
+          - content-banners
+          - content-banners
           - seo
           - cached-html
           - emergency-zone
@@ -63,6 +65,8 @@ jobs:
               . == "none"
               or . == "celeb"
               or . == "content"
+              or . == "content-banners"
+              or . == "content-banners"
               or . == "seo"
               or . == "cached-html"
               or . == "emergency-zone";
@@ -71,6 +75,8 @@ jobs:
               or . == "feelandnote.com/en/celeb/"
               or . == "feelandnote.com/content/"
               or . == "feelandnote.com/en/content/"
+              or . == "feelandnote.com/images/content/banners/"
+              or . == "feelandnote.com/images/content/banners/"
               or . == "feelandnote.com/seo-image/"
               or . == "feelandnote.com/sitemaps/";
             def allowed_file:
