@@ -57,8 +57,6 @@ test('current celeb-detail UI release evicts only the celeb detail family', () =
     'sw/web/src/components/shared/WorldGlobe/globeSpin.ts',
     'sw/web/src/actions/celebs/getCelebSidePresence.ts',
     'sw/web/src/actions/celebs/getContemporaries.ts',
-    'sw/web/src/components/features/celeb/CelebAffiliateBooks.tsx',
-    'sw/web/src/components/features/celeb/CelebAffiliateBooksLoadGate.ts',
   ])
 
   assert.deepEqual(plan.scopes, ['celeb'])
