@@ -36,6 +36,24 @@ test('rejects another region or apps masquerading as movies', () => {
   assert.throws(() => parseStoreChart(wrongMedia, 'ko', now), /media/)
 })
 
+test('keeps the official synopsis and optional release/genre metadata as plain text', () => {
+  const data = payload('en')
+  Object.assign(data.feed.entry[0], {
+    summary: { label: '<p>A story &amp; a city.</p><script>injected()</script><p>Another chapter.</p>' },
+    'im:releaseDate': { label: '2026-07-31T00:00:00-07:00' },
+    category: { attributes: { label: 'Action & Adventure' } },
+  })
+  const item = parseStoreChart(data, 'en', now).items[0]
+  assert.equal(item.description, 'A story & a city.\n\nAnother chapter.')
+  assert.equal(item.releaseDate, '2026-07-31')
+  assert.deepEqual(item.genres, ['Action & Adventure'])
+  Object.assign(data.feed.entry[0], { summary: { label: 123 }, 'im:releaseDate': { label: '2026-02-30' }, category: null })
+  const missing = parseStoreChart(data, 'en', now).items[0]
+  assert.equal(missing.description, null)
+  assert.equal(missing.releaseDate, null)
+  assert.deepEqual(missing.genres, [])
+})
+
 test('rejects expired, future, duplicate and unsafe feed data', () => {
   for (const date of [now - CHART_MAX_AGE_MS - 1, now + 300_001]) {
     const data = payload()

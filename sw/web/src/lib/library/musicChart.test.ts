@@ -44,6 +44,21 @@ test('rejects another country, stale/future charts, duplicate songs and mismatch
   assert.throws(() => parseMusicChart(image, 'ko', now), /artwork/)
 })
 
+test('shows only supplied song metadata without fabricating a description or including the root Music genre', () => {
+  const data = payload('us')
+  Object.assign(data.feed.results[0], { releaseDate: '2026-10-02', contentAdvisoryRating: 'Explict',
+    genres: [{ genreId: '34', name: 'Music' }, { genreId: '15', name: 'R&B/Soul' }, { genreId: '15', name: 'R&B/Soul' }] })
+  const item = parseMusicChart(data, 'en', now).items[0]
+  assert.equal(item.releaseDate, '2026-10-02')
+  assert.equal(item.explicit, true)
+  assert.deepEqual(item.genres, ['R&B/Soul'])
+  Object.assign(data.feed.results[0], { releaseDate: '2026-02-30', genres: [null, 1], contentAdvisoryRating: null })
+  const missing = parseMusicChart(data, 'en', now).items[0]
+  assert.equal(missing.releaseDate, null)
+  assert.equal(missing.explicit, false)
+  assert.deepEqual(missing.genres, [])
+})
+
 test('hides expired successful caches instead of showing them as current rankings', () => {
   const chart = parseMusicChart(payload(), 'ko', now)
   assert.equal(selectMusicChart(chart, now + 3600_001).isStale, true)

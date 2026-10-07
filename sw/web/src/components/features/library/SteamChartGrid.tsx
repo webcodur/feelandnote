@@ -15,6 +15,7 @@ export default function SteamChartGrid({ chart }: { chart: SteamChartSelection |
     <div className="space-y-5">
       <ChartShelf category="GAME" label={t("GAME.steam.title")} items={chart.items.map(item => ({
         ...item,
+        sourceUrl: item.url,
         creator: t("GAME.steam.players", { count: number.format(item.players) }),
         access: { links: [{ service: "steam", url: item.url, title: "", platforms: ["PC"] }] },
         footer: (

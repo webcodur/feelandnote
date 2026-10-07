@@ -114,11 +114,21 @@ export function IntroBadge({ onClick }: { onClick?: (e: React.MouseEvent) => voi
     /* data-no-drag — 가로 끌기 선반 안에 실리면 끌기 판정이 뱃지 클릭을 삼키므로, 뱃지 위의 누름은 끌기로 받지 않는다 */
     <div
       data-no-drag
-      className={`absolute bottom-1 right-1 flex items-center bg-black/70 backdrop-blur-sm px-1.5 py-0.5 md:px-2 rounded-md border border-white/10 shadow-lg ${onClick ? "cursor-pointer hover:bg-accent hover:border-accent group/intro" : ""}`}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      aria-haspopup={onClick ? "dialog" : undefined}
+      className={`absolute bottom-0 right-0 flex min-h-11 min-w-11 items-end justify-end pb-1 pe-1 outline-none ${onClick ? "cursor-pointer group/intro" : ""}`}
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
+      onKeyDown={onClick ? (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          event.currentTarget.click();
+        }
+      } : undefined}
     >
-      <span className={`text-[11px] text-text-primary font-medium ${onClick ? "group-hover/intro:text-white" : ""}`}>{t("badgeShort")}</span>
+      <span className={`rounded-md border border-white/10 bg-black/70 px-1.5 py-0.5 text-[11px] font-medium text-text-primary shadow-lg backdrop-blur-sm md:px-2 ${onClick ? "group-hover/intro:border-accent group-hover/intro:bg-accent group-hover/intro:text-bg-main group-focus-visible/intro:ring-2 group-focus-visible/intro:ring-accent" : ""}`}>{t("badgeShort")}</span>
     </div>
   );
 }

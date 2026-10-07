@@ -25,8 +25,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
-import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { isAccessType } from "@/lib/commerce/contentAccess";
 import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
 import { resolveContentIntroFullText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
@@ -268,7 +267,7 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
   const isRegistered = item.contentId != null;
   const href = isRegistered ? `/content/${item.contentId}?category=${category?.id ?? "book"}` : null;
   /* 한국어판 구매 버튼. 링크가 없어도 자리는 지킨다 */
-  const showPurchase = locale === "ko" && dbType === "BOOK";
+  const showPurchase = dbType === "BOOK";
   const showAccess = isRegistered && isAccessType(dbType);
   /* 상한 안의 소개는 통째로 늘어난다 — 상한을 넘는 장문만 칸 높이에 가둔다 */
   const introFitsInline = fitsInlineReadingText(resolveContentIntroFullText(brief), locale);
@@ -346,19 +345,18 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
           {showPurchase &&
             (item.contentId ? (
               /* 통합 구매 모듈 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다 */
-              <BookPurchaseSummary
+              <ContentPurchaseAction type="BOOK" placement="curated-expand"
                 contentId={item.contentId}
                 title={item.title}
                 creator={item.creator}
                 thumbnail={item.thumbnailUrl}
                 links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
-                full
               />
             ) : (
               <PendingSlot label={t("purchasePending")} tone="purchase" />
             ))}
           {showAccess && item.contentId && (
-            <ContentAccessPanel contentId={item.contentId} type={dbType} title={item.title} creator={item.creator} thumbnail={item.thumbnailUrl} placement="curated-expand" compact />
+            <ContentPurchaseAction contentId={item.contentId} type={dbType} title={item.title} creator={item.creator} thumbnail={item.thumbnailUrl} placement="curated-expand" />
           )}
         </div>
       </div>

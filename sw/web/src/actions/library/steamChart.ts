@@ -8,7 +8,7 @@ import type { ChartLanguage } from '@/lib/library/chartSources'
 
 const cachedSteamChart = unstable_cache(
   (language: ChartLanguage) => fetchSteamChart(rawFetch, language),
-  ['library-steam-player-chart-v2'],
+  ['library-steam-player-chart-v3'],
   { revalidate: STEAM_CHART_CACHE_SECONDS },
 )
 

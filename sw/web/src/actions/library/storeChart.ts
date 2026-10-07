@@ -9,7 +9,7 @@ import type { ChartLanguage } from '@/lib/library/chartSources'
 // 국가별로 나누며, 조회 실패로 마지막 정상 캐시를 덮어쓰지 않는다.
 const cachedStoreChart = unstable_cache(
   (language: ChartLanguage) => fetchStoreChart(rawFetch, language),
-  ['library-apple-movie-chart-v1'],
+  ['library-apple-movie-chart-v2'],
   { revalidate: STORE_CHART_CACHE_SECONDS },
 )
 

@@ -1,5 +1,6 @@
 import { CHART_MAX_AGE_MS, fetchChartJson } from './bestsellerFeed'
 import type { ChartLanguage } from './chartSources'
+import { chartDetailLabels, chartReleaseDate } from './chartDetailText'
 
 export const MUSIC_CHART_CACHE_SECONDS = 3600
 export const MUSIC_CHART_LIMIT = 10
@@ -10,6 +11,9 @@ export interface MusicChartItem {
   artist: string
   artwork: string | null
   url: string
+  releaseDate?: string | null
+  genres?: string[]
+  explicit?: boolean
 }
 export interface MusicChart {
   items: MusicChartItem[]
@@ -54,7 +58,16 @@ export function parseMusicChart(value: unknown, language: ChartLanguage, now = D
     if (destination.hostname !== 'music.apple.com' || !new RegExp(`^/${country}/(?:album|song)/`).test(destination.pathname) || !matchesSong) throw new Error('Invalid music chart destination')
     const cover = row.artworkUrl100 ? url(row.artworkUrl100) : null
     if (cover && !/^is\d+-ssl\.mzstatic\.com$/.test(cover.hostname)) throw new Error('Invalid music chart artwork')
-    return { id, rank: index + 1, title: text(row.name), artist: text(row.artistName), artwork: cover?.href ?? null, url: destination.href }
+    const genres = Array.isArray(row.genres) ? row.genres.flatMap(value => {
+      if (!value || typeof value !== 'object') return []
+      const genre = value as JsonObject
+      return genre.genreId === '34' ? [] : [genre.name]
+    }) : []
+    return {
+      id, rank: index + 1, title: text(row.name), artist: text(row.artistName), artwork: cover?.href ?? null, url: destination.href,
+      releaseDate: chartReleaseDate(row.releaseDate), genres: chartDetailLabels(genres),
+      explicit: row.contentAdvisoryRating === 'Explicit' || row.contentAdvisoryRating === 'Explict',
+    }
   })
   if (new Set(items.map(item => item.id)).size !== items.length) throw new Error('Duplicate music chart song')
   return { items, updatedAt: new Date(updated).toISOString(), fetchedAt: new Date(now).toISOString(), copyright: text(feed.copyright) }

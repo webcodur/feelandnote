@@ -51,7 +51,9 @@
       "releasedLabel": "Released",
       "genresLabel": "Genres",
       "badgeShort": "Intro",
-      "viewDetail": "View details"
+      "viewDetail": "View details",
+      "loading": "Loading work information",
+      "failed": "Work information could not be loaded."
     },
     "purchase": {
       "visitStore": "View on {store}",

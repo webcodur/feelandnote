@@ -110,7 +110,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
 
                         <div className="w-48">
                             <ContentPurchaseAction contentId={targetContent.contentId || targetContent.id} type={targetContent.type}
-                                title={targetContent.title} creator={targetContent.creator} thumbnail={targetContent.thumbnailUrl} placement="record-featured" />
+                                title={targetContent.title} creator={targetContent.creator} thumbnail={targetContent.thumbnailUrl} bookLocale={targetContent.bookLanguage} placement="record-featured" />
                         </div>
 
                         {/* Select Content Button */}

@@ -13,6 +13,7 @@ export default function MusicChartGrid({ chart }: { chart: MusicChartSelection |
     <div className="space-y-5">
       <ChartShelf category="MUSIC" label={t("MUSIC.title")} items={chart.items.map(item => ({
         ...item,
+        sourceUrl: item.url,
         artwork: item.artwork?.replace(/\/\d+x\d+bb\.(png|jpg)$/, "/400x400bb.$1") ?? null,
         creator: item.artist,
         access: { links: [{ service: "appleMusic", url: item.url, title: "", platforms: [] }] },

@@ -3,12 +3,10 @@
 import { useCallback, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
-import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_LABEL_STYLE, BOOK_PURCHASE_OPENER_STYLE, type AffiliateLink } from "@/constants/affiliatePlatforms";
-import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
-import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
-import { aladinBookLink, coupangBookLink, kyoboBookLink } from "@/lib/books/bookPurchaseRedirect";
-import { isYes24PurchaseRequest } from "@/lib/books/yes24Purchase";
+import { useLocale } from "next-intl";
+import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { getBookPurchaseLinks } from "@/lib/books/bookPurchaseLinks";
+import PurchaseOpener from "./PurchaseOpener";
 import { trackEvent } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
@@ -42,11 +40,6 @@ interface BookPurchaseSummaryProps {
   chipClassName?: string;
 }
 
-function isPurchaseUrl(url: string) {
-  // 서점 주소는 외부 http(s), 우리 구매 경유 주소(/api/books/purchase)는 슬래시 시작이다
-  return url.startsWith("https://") || url.startsWith("http://") || url.startsWith("/");
-}
-
 export default function BookPurchaseSummary({
   bookLocale,
   contentId,
@@ -65,88 +58,26 @@ export default function BookPurchaseSummary({
   const displayLocale = useLocale();
   const locale = bookLocale ?? displayLocale;
   const pathname = usePathname();
-  const tAccess = useTranslations("content.access");
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = useCallback(() => setIsOpen(false), []);
 
-  /* 구매 링크 — 한국어는 YES24 경유 주소를 맨 앞에 두고 교보문고·보유 서점을 잇는다.
-     영어는 아마존(상품 주소가 없으면 검색)이 기준이다 */
-  const links = useMemo<AffiliateLink[]>(() => {
-    if (!enabled) return [];
-    const usable = existingLinks.filter(
-      (link, index, all) =>
-        AFFILIATE_PLATFORMS[link.platform]?.locale === locale &&
-        isPurchaseUrl(link.url) &&
-        // 같은 서점이 겹쳐 실리면(판본 링크+작품 링크) 앞의 것만 남긴다
-        all.findIndex((other) => other.platform === link.platform) === index,
-    );
-    if (locale === "ko") {
-      // 경유 주소는 우리 작품(UUID)만 만든다 — 차트 항목의 yes24-… 같은 외부 id는 경유가 못 푼다
-      const ownId = contentId && isYes24PurchaseRequest(contentId, "ko", editionId) ? contentId : undefined;
-      const yes24 = yes24Href
-        ? { platform: "yes24" as const, url: yes24Href }
-        : ownId
-          ? { platform: "yes24" as const, url: getBookPurchaseHref(ownId, editionId, "yes24") }
-          : usable.find((link) => link.platform === "yes24");
-      const kyobo = usable.find((link) => link.platform === "kyobo")
-        ?? (ownId
-          ? { platform: "kyobo" as const, url: getBookPurchaseHref(ownId, editionId, "kyobo") }
-          : kyoboBookLink({ isbn, title, creator }));
-      // 쿠팡·알라딘 — 머천트 승인을 기다리는 동안은 수수료 없는 일반 링크로 먼저 선다.
-      // 우리 작품은 경유가 저장 ISBN을 풀고, 차트 항목은 ISBN·제목 검색으로 잇는다
-      const coupang = usable.find((link) => link.platform === "coupang")
-        ?? (ownId
-          ? { platform: "coupang" as const, url: getBookPurchaseHref(ownId, editionId, "coupang"), linkKind: "search" as const }
-          : coupangBookLink({ isbn, title, creator }));
-      const aladin = usable.find((link) => link.platform === "aladin")
-        ?? (ownId
-          ? { platform: "aladin" as const, url: getBookPurchaseHref(ownId, editionId, "aladin") }
-          : aladinBookLink({ isbn, title, creator }));
-      return [
-        ...(yes24 ? [yes24] : []),
-        ...(kyobo ? [kyobo] : []),
-        ...(coupang ? [coupang] : []),
-        ...(aladin ? [aladin] : []),
-        ...usable.filter((link) => link.platform !== "yes24" && link.platform !== "kyobo" && link.platform !== "coupang" && link.platform !== "aladin"),
-      ];
-    }
-    return getEnglishBookPurchaseLinks({ locale, title, creator, isbn, links: usable });
-  }, [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
+  const links = useMemo(() => enabled ? getBookPurchaseLinks({
+    locale, contentId, editionId, isbn, title, creator, links: existingLinks, yes24Href,
+  }) : [], [enabled, existingLinks, locale, yes24Href, contentId, editionId, isbn, title, creator]);
 
   if (!enabled || !links.length) return null;
 
   return (
     <div className={cn("@container/purchase min-w-0", className)}>
-        <button
-          type="button"
-          aria-haspopup="dialog"
-          aria-expanded={isOpen}
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            setIsOpen(true);
-            trackEvent("commerce_open", { screen: pathname, locale: displayLocale, book_locale: locale, store_count: links.length,
-              ...(contentId !== undefined && { content_id: contentId }),
-              ...(editionId !== undefined && { edition_id: editionId }) });
-          }}
-          className={cn(
-            "group/purchase relative flex h-11 cursor-pointer items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-md border px-1 [--purchase-label-scale:1.04] focus-visible:outline-none focus-visible:ring-2 @min-[160px]/purchase:gap-3 @min-[160px]/purchase:px-3 @min-[160px]/purchase:[--purchase-label-scale:1.07]",
-            BOOK_PURCHASE_OPENER_STYLE,
-            full ? "w-full" : "mx-auto w-fit max-w-full", chipClassName,
-          )}
-        >
-          <span className={cn(BOOK_PURCHASE_LABEL_STYLE, "shrink-0 text-[13px] font-semibold @min-[160px]/purchase:text-[15px]")}>
-            {tAccess("open")}
-          </span>
-          <span className="hidden items-center gap-2 border-s border-purchase-ink/30 ps-3 text-xs font-normal text-purchase-ink @min-[360px]/purchase:flex">
-            {links.map((link) => (
-              <span key={link.platform} className="whitespace-nowrap">
-                {AFFILIATE_PLATFORMS[link.platform].label}
-              </span>
-            ))}
-          </span>
-        </button>
+      <PurchaseOpener type="BOOK" expanded={isOpen} full={full} className={chipClassName}
+        stores={links.map(link => AFFILIATE_PLATFORMS[link.platform].label)}
+        onOpen={() => {
+          setIsOpen(true);
+          trackEvent("commerce_open", { screen: pathname, locale: displayLocale, book_locale: locale, store_count: links.length,
+            ...(contentId !== undefined && { content_id: contentId }),
+            ...(editionId !== undefined && { edition_id: editionId }) });
+        }} />
       {isOpen && <BookPurchaseModal bookLocale={bookLocale} title={title} creator={creator} thumbnail={thumbnail} isbn={isbn} links={links} onClose={closeModal} tracking={{ contentId, editionId }} />}
     </div>
   );

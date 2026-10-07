@@ -1,5 +1,6 @@
 import { CHART_MAX_AGE_MS, fetchChartJson } from './bestsellerFeed'
 import type { ChartLanguage } from './chartSources'
+import { chartDetailText, chartReleaseDate } from './chartDetailText'
 
 export const STORE_CHART_LIMIT = 10
 export const STORE_CHART_CACHE_SECONDS = 3600
@@ -10,6 +11,9 @@ export interface StoreChartItem {
   creator: string
   artwork: string | null
   url: string
+  description?: string | null
+  releaseDate?: string | null
+  genres?: string[]
 }
 export interface StoreChart {
   items: StoreChartItem[]
@@ -61,7 +65,13 @@ export function parseStoreChart(value: unknown, language: ChartLanguage, now = D
     const images = Array.isArray(row['im:image']) ? row['im:image'] : []
     const artwork = images.length ? url(label(images[images.length - 1])) : null
     if (artwork && !/^is\d+-ssl\.mzstatic\.com$/.test(artwork.hostname)) throw new Error('Invalid store chart artwork')
-    return { id, rank: index + 1, title: label(row['im:name']), creator: label(row['im:artist']), artwork: artwork?.href ?? null, url: destination.href }
+    const optionalLabel = (value: unknown) => value && typeof value === 'object' ? (value as JsonObject).label : null
+    const attributes = row.category && typeof row.category === 'object' ? (row.category as JsonObject).attributes : null
+    const genre = chartDetailText(attributes && typeof attributes === 'object' ? (attributes as JsonObject).label : null, 200)
+    return {
+      id, rank: index + 1, title: label(row['im:name']), creator: label(row['im:artist']), artwork: artwork?.href ?? null, url: destination.href,
+      description: chartDetailText(optionalLabel(row.summary)), releaseDate: chartReleaseDate(optionalLabel(row['im:releaseDate'])), genres: genre ? [genre] : [],
+    }
   })
   if (new Set(items.map(item => item.id)).size !== items.length) throw new Error('Duplicate store chart item')
   return { items, updatedAt: new Date(updated).toISOString(), fetchedAt: new Date(now).toISOString(), copyright: label(feed.rights) }

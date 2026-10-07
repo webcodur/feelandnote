@@ -32,7 +32,9 @@ export default function ChartSourceNotice({ category, source, meta }: Props) {
         {meta && <span aria-hidden className="text-text-tertiary">·</span>}
         <a href={source.url} target="_blank" rel="noopener noreferrer"
           className="inline-flex min-h-9 items-center rounded-control underline decoration-text-tertiary underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
-          {t("viewSourceAt", { source: t(`sources.${source.id}`) })}<ExternalLink size={11} aria-hidden="true" className="ms-0.5" />
+          {source.id === "apple-books"
+            ? `${tp("freshness.source")}: ${t(`sources.${source.id}`)}`
+            : t("viewSourceAt", { source: t(`sources.${source.id}`) })}<ExternalLink size={11} aria-hidden="true" className="ms-0.5" />
           <span className="sr-only">{tp("newTab")}</span>
         </a>
       </p>

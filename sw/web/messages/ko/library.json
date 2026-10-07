@@ -497,7 +497,11 @@
         "rating": "평점 {score}",
         "introduction": "책 소개",
         "source": "정보 제공: 예스24",
-        "failed": "책 정보를 불러오지 못했습니다."
+        "failed": "책 정보를 불러오지 못했습니다.",
+        "genre": "장르",
+        "loading": "책 정보를 불러오는 중",
+        "unavailable": "아직 제공되는 책 소개가 없습니다.",
+        "amazonStore": "Amazon.com · 미국 스토어"
       },
       "charts": {
         "categories": "베스트셀러 분야 선택",
@@ -545,7 +549,19 @@
           "apple-music": "Apple Music"
         },
         "sourcePending": "{source} · 준비 중",
-        "viewSourceAt": "{source}에서 원본 보기"
+        "viewSourceAt": "{source}에서 원본 보기",
+        "detail": {
+          "facts": "작품 정보",
+          "released": "공개일",
+          "developer": "개발사",
+          "advisory": "이용 안내",
+          "explicit": "노골적인 표현 포함",
+          "synopsis": "줄거리",
+          "aboutGame": "게임 소개",
+          "unavailable": "아직 제공되는 작품 소개가 없습니다.",
+          "musicReleased": "발매일",
+          "publisher": "배급사"
+        }
       },
       "showMoreRanks": "{from}~{to}위 더 보기",
       "classicsMetaTitle": "불후의 명작 - 가장 많은 인물이 감상한 작품",

@@ -11,11 +11,10 @@
 
 import { useState, type ReactNode } from "react";
 import { BookOpen, Film } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
-import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { isAccessType } from "@/lib/commerce/contentAccess";
 import ContentCard from "@/components/ui/cards/ContentCard";
 import ContentCover from "@/components/ui/ContentCover";
@@ -37,10 +36,12 @@ function CoverCard({
   item,
   notRegisteredLabel,
   isVideo,
+  purchaseNode,
 }: {
   item: CuratedListItem;
   notRegisteredLabel: string;
   isVideo: boolean;
+  purchaseNode?: ReactNode;
 }) {
   const yearBadge = item.year != null ? <CornerBadge>{item.year}</CornerBadge> : undefined;
 
@@ -81,11 +82,11 @@ function CoverCard({
     );
   }
 
-  // 우리가 가진 작품은 서비스 공통 작품 카드로 그린다 — 판 전환·감상한 사람 수·소개 모달을 그대로 받는다.
+  // 등록 작품은 공통 카드로 그린다 — 판 전환·감상 인원·구매 액션을 함께 받는다.
   return (
     <ContentCard
       contentId={item.contentId}
-      contentType={(item.contentType ?? undefined) as ContentType | undefined}
+      contentType={(item.contentType ?? (isVideo ? "VIDEO" : "BOOK")) as ContentType}
       title={item.title}
       titleBadge={item.titleBadge}
       creator={item.creator}
@@ -97,6 +98,7 @@ function CoverCard({
       thumbnailEn={item.thumbnailEn}
       hasEnEdition={item.hasEnEdition}
       overlayTopRight={yearBadge}
+      posterFooterNode={purchaseNode}
     />
   );
 }
@@ -113,9 +115,8 @@ interface CuratedTileGridProps {
 /** 감싸는 상자 격자 — 데스크톱 전량 격자와 모바일 구간 격자가 같은 상자를 쓴다 */
 export function CuratedTileGrid({ list, items, columnsClassName, children }: CuratedTileGridProps) {
   const t = useTranslations("library.curated");
-  const locale = useLocale();
-  /* 한국어판 구매 버튼. 링크가 없어도 자리는 지킨다 */
-  const showPurchase = locale === "ko" && list.contentType === "BOOK";
+  /* 도서는 한영 모두 구매 버튼을 둔다. 미등록 작품은 대기 자리를 지킨다 */
+  const showPurchase = list.contentType === "BOOK";
   const isVideo = list.contentType === "VIDEO";
 
   return (
@@ -127,37 +128,17 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
             key={item.id}
             className="flex h-full flex-col rounded-xl border border-white/[0.08] bg-black/25 p-1.5"
           >
-            <CoverCard item={item} notRegisteredLabel={t("notRegistered")} isVideo={isVideo} />
-            {item.contentId && isAccessType(item.contentType ?? list.contentType) && (
-              <div className="mt-auto pt-1.5">
-                <ContentAccessPanel contentId={item.contentId} type={item.contentType ?? list.contentType} title={item.title} creator={item.creator} thumbnail={item.thumbnailUrl} placement="curated-grid" compact />
-              </div>
-            )}
-            {showPurchase && (
-              <div className="mt-auto pt-1.5">
-                {item.contentId ? (
-                  /* 통합 구매 모듈 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다 */
-                  <BookPurchaseSummary
-                    contentId={item.contentId}
-                    title={item.title}
-                    creator={item.creator}
-                    thumbnail={item.thumbnailUrl}
-                    links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []}
-                    full
-                  />
-                ) : (
-                  <div
-                    aria-disabled="true"
-                    className={cn(
-                      "flex min-h-11 w-full items-center justify-center rounded-md border px-2 text-[11px] font-semibold",
-                      PURCHASE_PENDING_TONE_CLASS,
-                    )}
-                  >
-                    {t("purchasePending")}
-                  </div>
-                )}
-              </div>
-            )}
+            <CoverCard item={item} notRegisteredLabel={t("notRegistered")} isVideo={isVideo}
+              purchaseNode={item.contentId && (showPurchase || isAccessType(item.contentType ?? list.contentType))
+                ? <ContentPurchaseAction contentId={item.contentId} type={item.contentType ?? list.contentType}
+                  title={item.title} creator={item.creator} thumbnail={item.thumbnailUrl} placement="curated-grid"
+                  links={item.coupangUrl ? [{ platform: "coupang", url: item.coupangUrl }] : []} /> : undefined} />
+            {showPurchase && !item.contentId && <div className="mt-auto pt-1.5">
+              <div aria-disabled="true" className={cn(
+                "flex min-h-11 w-full items-center justify-center rounded-md border px-2 text-[11px] font-semibold",
+                PURCHASE_PENDING_TONE_CLASS)}>{t("purchasePending")}</div>
+            </div>}
+
           </div>
         ))}
       </div>

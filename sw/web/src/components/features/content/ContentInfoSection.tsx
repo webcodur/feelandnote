@@ -9,8 +9,7 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import ContentCover from "@/components/ui/ContentCover";
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
-import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import BookIntroductionPanel from "@/components/shared/BookIntroductionPanel";
 import {
   Book,
@@ -122,26 +121,10 @@ export default function ContentInfoSection({ content }: ContentInfoSectionProps)
           </div>
 
           {/* 모든 카테고리의 구매 및 감상 버튼은 표지 바로 아래에 둔다. */}
-          <BookPurchaseSummary
-            contentId={content.id}
-            editionId={content.purchaseEditionId}
+          <ContentPurchaseAction contentId={content.id} type={content.type} placement="content-detail"
+            editionId={content.purchaseEditionId} bookLocale={content.editionLocale}
             isbn={typeof content.metadata?.isbn === 'string' ? content.metadata.isbn : undefined}
-            bookLocale={content.editionLocale}
-            title={content.title}
-            creator={content.creator}
-            thumbnail={content.thumbnail}
-            links={content.affiliateLinks}
-            enabled={content.type === "BOOK"}
-          />
-          <ContentAccessPanel
-            contentId={content.id}
-            type={content.type}
-            title={content.title}
-            creator={content.creator}
-            thumbnail={content.thumbnail}
-            placement="content-detail"
-            compact
-          />
+            title={content.title} creator={content.creator} thumbnail={content.thumbnail} links={content.affiliateLinks} />
         </div>
 
         {/* 우측 메인 영역: 제목, 인라인 메타, 클린 소개 줄거리. 나란히 서는 폭부터 좌측 열 높이를 받아 소개 칸이 남는 높이를 채운다 */}

@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [공통] YES24 판매 정보 조회 — 요청 캐시 + 훅
  * - 데이터: getYes24SalesInfo(작품·판본) / getYes24SalesInfoByIsbn(외부 ISBN)
- * - 값표(Yes24Sales)와 구매 모듈(BookPurchaseSummary)이 같은 캐시를 나눠 쓴다
+ * - 구매 창(BookPurchaseModal)이 같은 판본의 판매 정보 요청을 공유한다
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -62,8 +62,4 @@ export function useYes24SalesState({ contentId, editionId, isbn, active }: UseYe
 
   const loading = active && (isbn != null || contentId != null) && result?.key !== key;
   return { loading, sales: active && result?.key === key ? result.sales : null };
-}
-
-export function useYes24Sales(options: UseYes24SalesOptions) {
-  return useYes24SalesState(options).sales;
 }

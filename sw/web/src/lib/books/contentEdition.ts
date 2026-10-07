@@ -16,6 +16,15 @@ export function getContentDetailHref(contentId: string, editionId?: number | str
   return `/content/${encodeURIComponent(contentId)}?${query}`
 }
 
+/** 카드에서 고른 언어를 상세로 넘긴다. 명시한 개별 판본 ID와 외부 목적지는 유지한다. */
+export function withContentBookLanguage(href: string | undefined, locale?: 'ko' | 'en'): string | undefined {
+  if (!href || !locale || !/^\/(?:ko\/|en\/)?content\/[^/?#]+(?:[?#]|$)/.test(href)) return href
+  const url = new URL(href, 'https://feelandnote.com')
+  if (url.searchParams.has('editionId')) return href
+  url.searchParams.set('bookLanguage', locale)
+  return `${url.pathname}${url.search}${url.hash}`
+}
+
 /** Missing edition fields stay missing; another edition's cover, ISBN or introduction is never borrowed. */
 export function applyContentBookEdition(content: ContentDetailData['content'], edition: ContentBookEdition): ContentDetailData['content'] {
   const metadata = { ...content.metadata }

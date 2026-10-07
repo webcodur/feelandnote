@@ -36,6 +36,20 @@ test('rejects stale or future rankings, duplicate identities, rank disorder, and
   }
 })
 
+test('joins Steam descriptions and creators by the verified app ID and tolerates absent optional data', () => {
+  const data = metadata()
+  Object.assign(data.response.store_items[2], { basic_info: {
+    short_description: '<p>A competitive game.</p><script>injected()</script>',
+    developers: [{ name: 'Valve' }, { name: 'Valve' }], publishers: [{ name: 'Valve' }],
+  } })
+  const items = assembleSteamChart(parseSteamRanks(ranks(), now), data, now).items
+  assert.equal(items[0].description, 'A competitive game.')
+  assert.deepEqual(items[0].developers, ['Valve'])
+  assert.deepEqual(items[0].publishers, ['Valve'])
+  assert.equal(items[1].description, null)
+  assert.deepEqual(items[1].developers, [])
+})
+
 test('never mixes another app or an injected image address into the chart', () => {
   const mismatched = metadata(); mismatched.response.store_items[0].appid = 999
   assert.throws(() => assembleSteamChart(parseSteamRanks(ranks(), now), mismatched, now), /identity/)
@@ -72,6 +86,7 @@ test('fetches a ranked snapshot then batches only those app IDs using the select
     assert.deepEqual(calls, [STEAM_CHART_URL, steamItemsUrl([730, 431960, 570], language)])
     const input = JSON.parse(new URL(calls[1]).searchParams.get('input_json')!)
     assert.equal(input.context.country_code, language === 'ko' ? 'KR' : 'US')
+    assert.equal(input.data_request.include_basic_info, true)
   }
   await assert.rejects(fetchSteamChart((async () => new Response('Unavailable', { status: 503 })) as typeof fetch, 'ko'), /HTTP/)
 })

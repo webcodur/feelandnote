@@ -2,8 +2,8 @@
   파일명: /components/features/library/BookChartGrid.tsx
   기능: 서재 베스트셀러 차트
   책임: 서점 차트(한국어 YES24 일별 종합·영어 Apple Books 유료 전자책)를 서비스 공통 상품 목록(AffiliateBookList)으로 그린다.
-        차트 항목은 우리 작품이 아니라 표지·YES24 단추는 서점 제휴 주소(없으면 상품 주소)를 열고,
-        작품 상세 대신 「책 정보」 단추가 YES24 상품 상세를 받아 모달(Yes24BookModal)로 띄운다.
+        차트 항목은 우리 작품이 아니라 카드가 책 정보 모달(Yes24BookModal)을 띄운다.
+        구매 모듈은 한국어에서 YES24 제휴 주소(없으면 상품 주소), 영어에서 제목·저자로 Amazon 도서 검색을 연다.
         도서만 20위까지 받아 오므로 처음에는 10위까지 보이고, 단추로 나머지를 펼친다 — 다른 분야(10위 안팎)와 첫 화면 길이를 맞춘다.
 */ // ------------------------------
 
@@ -61,6 +61,7 @@ export default function BookChartGrid({ items }: { items: BestsellerItem[] }) {
         platform={locale === "en" ? "amazon" : "yes24"}
         rankLabel={(rank) => t("rank", { rank })}
         onDetail={(book) => setOpenId(book.contentId)}
+        clickModalHasIntroduction
         hideHeading
       />
       {hidden.length > 0 && (

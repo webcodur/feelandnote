@@ -1,5 +1,6 @@
 import { CHART_REQUEST_BUDGET_MS, fetchChartJson } from './bestsellerFeed'
 import type { ChartLanguage } from './chartSources'
+import { chartDetailLabels, chartDetailText } from './chartDetailText'
 
 export const STEAM_CHART_URL = 'https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1/'
 export const STEAM_CHART_CACHE_SECONDS = 600
@@ -15,6 +16,9 @@ export interface SteamChartItem {
   url: string
   players: number
   peakPlayers: number
+  description?: string | null
+  developers?: string[]
+  publishers?: string[]
 }
 export interface SteamChart {
   items: SteamChartItem[]
@@ -71,7 +75,7 @@ function artwork(value: unknown, id: number): string | null {
 export function steamItemsUrl(ids: readonly number[], language: ChartLanguage): string {
   const input = { ids: ids.map(appid => ({ appid })), context: {
     language: language === 'ko' ? 'koreana' : 'english', country_code: language === 'ko' ? 'KR' : 'US',
-  }, data_request: { include_assets: true } }
+  }, data_request: { include_assets: true, include_basic_info: true } }
   return `https://api.steampowered.com/IStoreBrowseService/GetItems/v1/?input_json=${encodeURIComponent(JSON.stringify(input))}`
 }
 
@@ -92,7 +96,12 @@ export function assembleSteamChart(chart: ReturnType<typeof parseSteamRanks>, va
     if (!meta || meta.success !== 1 || meta.item_type !== 0 || meta.type !== 0) return []
     if (meta.appid !== row.id) throw new Error('Steam app identity mismatch')
     if (typeof meta.name !== 'string' || !meta.name.trim() || meta.name.length > 500) throw new Error('Invalid Steam title')
-    return [{ ...row, title: meta.name.trim(), artwork: artwork(meta.assets, row.id), url: `https://store.steampowered.com/app/${row.id}/` }]
+    const basic = meta.basic_info && typeof meta.basic_info === 'object' ? meta.basic_info as JsonObject : {}
+    const names = (value: unknown) => chartDetailLabels(Array.isArray(value) ? value.map(entry =>
+      entry && typeof entry === 'object' ? (entry as JsonObject).name : null) : [])
+    return [{ ...row, title: meta.name.trim(), artwork: artwork(meta.assets, row.id), url: `https://store.steampowered.com/app/${row.id}/`,
+      description: chartDetailText(basic.short_description), developers: names(basic.developers), publishers: names(basic.publishers),
+    }]
   }).slice(0, STEAM_CHART_LIMIT)
   if (!items.length) throw new Error('Empty Steam game chart')
   return { items, updatedAt: chart.updatedAt, fetchedAt: new Date(now).toISOString() }

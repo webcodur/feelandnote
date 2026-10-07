@@ -2,7 +2,7 @@
 
 블로그 [`blog.naver.com/dmx777`](https://blog.naver.com/dmx777)는 책과 인물에 관심 있는 독자가 필앤노트의 기록을 보고 책의 구매·광고 링크까지 도달하게 하는 입구다. 사이트 링크를 넣는 데서 끝내지 않고, 글에서 소개한 책과 인물의 기록이 실제 광고 링크까지 이어지는지 확인한다. 독자가 원문으로 들어올 수 있도록 블로그·카페 링크 공유와 외부 공유를 허용하며, 본문 전체를 복제하는 공유는 허용하지 않는다.
 
-현재 사이트는 인물 페이지 `/celeb/{slug}`의 서재(`#library`)에서 실제 감상 기록과 책별 구매 단추를 보여 준다. 작품 상세 `/content/{contentId}?category=book`에서도 구매 링크로 이어진다. 2026-09-18 실측: 구매 단추는 YES24가 항상 나오고, 쿠팡은 「쿠팡 구매 링크는 현재 재편 중입니다」 안내 상태다(`content_locales.affiliate_url`이 한국어 서지 19,279건 중 7건뿐). 글마다 소개할 책의 작품 상세가 열리고 YES24 단추와 인물의 감상이 실려 있는지 확인한다. 인물 하단 「관련 상품」에는 독서 기록 외의 연관 상품도 섞일 수 있어, 그 목록 전체를 그 인물이 읽은 책으로 소개하지 않는다. 구매 버튼 규칙은 [AffiliateBookAction.tsx](../../sw/web/src/components/features/user/contentLibrary/AffiliateBookAction.tsx)가 쥔다.
+현재 사이트는 인물 페이지 `/celeb/{slug}`의 서재(`#library`)에서 실제 감상 기록과 책별 구매 단추를 보여 준다. 작품 상세 `/content/{contentId}?category=book`에서도 구매 링크로 이어진다. 2026-09-18 실측: 구매 단추는 YES24가 항상 나오고, 쿠팡은 「쿠팡 구매 링크는 현재 재편 중입니다」 안내 상태다(`content_locales.affiliate_url`이 한국어 서지 19,279건 중 7건뿐). 글마다 소개할 책의 작품 상세가 열리고 YES24 단추와 인물의 감상이 실려 있는지 확인한다. 인물 하단 「관련 상품」에는 독서 기록 외의 연관 상품도 섞일 수 있어, 그 목록 전체를 그 인물이 읽은 책으로 소개하지 않는다. 구매 버튼 규칙은 [ContentPurchaseAction.tsx](../../sw/web/src/components/features/commerce/ContentPurchaseAction.tsx)가 쥔다.
 
 ## 왜 운영하는가
 

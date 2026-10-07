@@ -13,6 +13,7 @@ export default function StoreChartGrid({ chart }: { chart: StoreChartSelection |
     <div className="space-y-5">
       <ChartShelf category="VIDEO" label={t("VIDEO.title")} items={chart.items.map(item => ({
         ...item,
+        sourceUrl: item.url,
         artwork: item.artwork?.replace(/\/\d+x\d+bb\.(png|jpg)$/, "/400x600bb.$1") ?? null,
         access: { links: [{ service: "appleTv", url: item.url, title: "", platforms: [] }] },
       }))} />

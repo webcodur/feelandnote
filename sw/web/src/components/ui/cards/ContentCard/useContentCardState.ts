@@ -14,6 +14,8 @@ import { TYPE_ICONS, ASPECT_STYLES } from "./constants";
 import { useContentCounts } from "./hooks/useCelebCount";
 import { useEditionThumbnail } from "./hooks/useEditionThumbnail";
 import { hasReviewContent } from "./reviewContent";
+import { withContentBookLanguage } from "@/lib/books/contentEdition";
+import { shouldShowContentIntro } from "./introVisibility";
 
 // 같은 화면에 카드가 스무 장 서면 로그인 확인도 스무 번 나갔다 — 진행 중인 확인 하나를 카드들이 나눠 쓴다.
 // 끝나면 비워서 다음에 뜨는 카드는 새로 묻는다(로그인·로그아웃 뒤 상태를 오래 붙들지 않는다).
@@ -137,8 +139,9 @@ export function useContentCardState(props: ContentCardProps) {
     ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn, has_en_edition: hasEnEdition })
     : undefined;
   const showEditionToggle = !!editions && (!!editions.ko || !!editions.en || !!editions.confirmedNoEn);
-  const requestedEdition: Locale = locale === "en" ? "en" : "ko";
+  const requestedEdition: Locale = props.bookLocale ?? (locale === "en" ? "en" : "ko");
   const [activeEdition, setActiveEdition] = useState<Locale>(requestedEdition);
+  useEffect(() => { setActiveEdition(requestedEdition); }, [requestedEdition]);
 
   // 배지는 요청 locale의 제목에 대한 판정이다. 카드 안에서 반대 판으로 넘기면 붙이지 않는다.
   const displayTitleBadge = activeEdition === requestedEdition ? getBookTitleBadge(contentType, titleBadge) : null;
@@ -172,6 +175,9 @@ export function useContentCardState(props: ContentCardProps) {
 
   // 리뷰 모드 여부
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
+  const opensReview = isReviewMode || Boolean(forcePoster && displayReview && !selectable);
+  const hasCardAction = Boolean((selectable && onSelect) || opensReview || onClick);
+  const showIntro = shouldShowContentIntro({ ...props, opensReview });
 
   // 감상 내용이 실린 카드에만 출처를 요구한다 (headerNode 모드에서는 제외)
   useEffect(() => {
@@ -188,9 +194,12 @@ export function useContentCardState(props: ContentCardProps) {
   }, [contentId, effectsEnabled, headerNode, review, reviewPresets, sourceUrl, title, userContentId]);
 
   // 콘텐츠 상세 페이지 URL
-  const contentDetailUrl = contentId
+  const detailUrl = contentId
     ? `/content/${contentId}?category=${getCategoryByDbType(contentType)?.id || "book"}`
     : href;
+  const selectedBookLocale = contentType === "BOOK" ? (showEditionToggle ? activeEdition : props.bookLocale) : undefined;
+  const contentDetailUrl = withContentBookLanguage(detailUrl, selectedBookLocale);
+  const cardHref = withContentBookLanguage(href, selectedBookLocale);
 
   // 클릭 핸들러
   const handleClick = (e: React.MouseEvent) => {
@@ -229,6 +238,8 @@ export function useContentCardState(props: ContentCardProps) {
     isSelected,
     isSpoiler,
     showInfo,
+    showIntro,
+    hasCardAction,
     showGradient,
     forcePoster,
 
@@ -277,6 +288,7 @@ export function useContentCardState(props: ContentCardProps) {
     showImage,
     isReviewMode,
     contentDetailUrl,
+    cardHref,
     handleClick,
     selectableClass,
   };

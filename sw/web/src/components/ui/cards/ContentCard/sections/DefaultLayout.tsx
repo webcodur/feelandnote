@@ -20,7 +20,6 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     creator,
     href,
     selectable,
-    onClick,
     className,
   } = props;
 
@@ -69,7 +68,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
             group/card가 덮으면 아랫단에 올려도 카드가 함께 빛나 한 덩어리가 된다 */}
         <div className="relative group/card">
           <CornerAccents />
-          <Link href={href} className={containerClass} onClick={handleClick}>
+          <Link href={state.cardHref ?? href} className={`${containerClass} outline-none focus-visible:ring-2 focus-visible:ring-accent`} onClick={handleClick}>
             {cardContent}
           </Link>
         </div>
@@ -86,14 +85,15 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
       <div className="relative group/card">
         <CornerAccents />
         <div
-          className={containerClass}
+          className={`${containerClass} outline-none focus-visible:ring-2 focus-visible:ring-accent`}
           onClick={handleClick}
-          role={onClick ? "button" : undefined}
-          tabIndex={onClick ? 0 : undefined}
-          onKeyDown={onClick ? (e) => {
+          role={state.hasCardAction ? "button" : undefined}
+          tabIndex={state.hasCardAction ? 0 : undefined}
+          onKeyDown={state.hasCardAction ? (e) => {
+            if (e.target !== e.currentTarget) return;
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              onClick();
+              e.currentTarget.click();
             }
           } : undefined}
         >

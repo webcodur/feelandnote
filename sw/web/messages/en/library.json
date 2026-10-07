@@ -497,7 +497,11 @@
         "rating": "Rating {score}",
         "introduction": "About this book",
         "source": "Details from YES24",
-        "failed": "Couldn't load book details."
+        "failed": "Couldn't load book details.",
+        "genre": "Genre",
+        "loading": "Loading book details",
+        "unavailable": "No description is available for this book yet.",
+        "amazonStore": "Amazon.com · US store"
       },
       "charts": {
         "categories": "Choose a bestseller category",
@@ -545,7 +549,19 @@
           "apple-music": "Apple Music"
         },
         "sourcePending": "{source} · Coming soon",
-        "viewSourceAt": "View on {source}"
+        "viewSourceAt": "View on {source}",
+        "detail": {
+          "facts": "Work details",
+          "released": "Released",
+          "developer": "Developer",
+          "advisory": "Content advisory",
+          "explicit": "Explicit",
+          "synopsis": "Synopsis",
+          "aboutGame": "About this game",
+          "unavailable": "No description is available for this work yet.",
+          "musicReleased": "Released",
+          "publisher": "Publisher"
+        }
       },
       "showMoreRanks": "Show #{from}–{to}",
       "classicsMetaTitle": "Timeless Classics - Works Recorded by the Most Figures",

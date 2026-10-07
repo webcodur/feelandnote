@@ -153,7 +153,7 @@ export default function InfoPanel({
                         )}
                     </div>
                     <ContentPurchaseAction contentId={content.contentId} type={content.type} title={content.title}
-                        creator={content.creator} thumbnail={content.thumbnailUrl} placement="record-info" />
+                        creator={content.creator} thumbnail={content.thumbnailUrl} bookLocale={content.bookLanguage} placement="record-info" />
                     </div>
                     
                     {/* 2열: 상세 정보 (중앙 정렬) */}

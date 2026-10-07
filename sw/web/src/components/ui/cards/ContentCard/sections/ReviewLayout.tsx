@@ -44,7 +44,13 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
         {props.showHeader !== false && <CardHeader props={props} state={state} />}
         <div
           onClick={handleClick}
-          className="relative flex w-full flex-wrap items-stretch gap-3 p-2 cursor-pointer md:pb-[55px]"
+          role="button" tabIndex={0}
+          onKeyDown={event => {
+            if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) {
+              event.preventDefault(); event.currentTarget.click();
+            }
+          }}
+          className="relative flex w-full flex-wrap items-stretch gap-3 p-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent md:pb-[55px]"
         >
         {/* 썸네일 영역 */}
         <div className={`relative w-28 sm:w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>

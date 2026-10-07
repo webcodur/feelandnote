@@ -14,13 +14,17 @@ import type { ContentCardProps } from "./types";
 import { useContentCardState } from "./useContentCardState";
 import ReviewLayout from "./sections/ReviewLayout";
 import DefaultLayout from "./sections/DefaultLayout";
+import { ContentCardDisplayContext } from "./ContentCardDisplayContext";
 
 export default function ContentCard(props: ContentCardProps) {
   const state = useContentCardState(props);
 
-  if (state.isReviewMode) {
-    return <ReviewLayout props={props} state={state} />;
-  }
-
-  return <DefaultLayout props={props} state={state} />;
+  return <ContentCardDisplayContext.Provider value={{
+    contentId: props.contentId, title: state.displayTitle, creator: state.displayCreator,
+    thumbnail: state.displayThumbnail,
+    bookLocale: state.contentType === "BOOK" ? state.showEditionToggle ? state.activeEdition : props.bookLocale : undefined,
+    available: !state.editionUnavailable,
+  }}>
+    {state.isReviewMode ? <ReviewLayout props={props} state={state} /> : <DefaultLayout props={props} state={state} />}
+  </ContentCardDisplayContext.Provider>;
 }

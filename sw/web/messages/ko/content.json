@@ -51,7 +51,9 @@
       "releasedLabel": "출간·공개",
       "genresLabel": "장르",
       "badgeShort": "소개",
-      "viewDetail": "작품 상세 보기"
+      "viewDetail": "작품 상세 보기",
+      "loading": "작품 정보를 불러오는 중입니다",
+      "failed": "작품 정보를 불러오지 못했습니다."
     },
     "purchase": {
       "visitStore": "{store}에서 보기",

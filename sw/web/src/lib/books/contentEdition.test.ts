@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { applyContentBookEdition, getContentDetailHref, selectContentBookEdition, type ContentBookEdition } from './contentEdition'
+import { applyContentBookEdition, getContentDetailHref, selectContentBookEdition, withContentBookLanguage, type ContentBookEdition } from './contentEdition'
 import type { ContentDetailData } from '@/actions/contents/getContentDetail'
 import { attachFigureBookLocaleLinks, mergeFigureBookEditions, type FigureBookEditionRow, type FigureBookPurchaseOptionRow } from '@/actions/figure-books/figureBookLocale'
 
@@ -12,6 +12,14 @@ const content: ContentDetailData['content'] = { id: 'work-id', externalId: 'old-
   title: 'Default edition', creator: 'Default author', thumbnail: 'https://example.test/default-cover', description: 'Default introduction',
   metadata: { isbn: '9788991290808', publisher: 'Default publisher', link: 'https://example.test/default-book', original: 'keep' },
   purchaseEditionId: 1, bookEditions: [edition], affiliateLinks: [{ platform: 'coupang', url: 'https://example.test/default-product' }] }
+
+test('card edition language survives navigation while explicit edition IDs and other destinations stay intact', () => {
+  assert.equal(withContentBookLanguage('/content/work-id?category=book&bookLanguage=ko#reviews', 'en'), '/content/work-id?category=book&bookLanguage=en#reviews')
+  assert.equal(withContentBookLanguage('/en/content/work-id?category=book', 'ko'), '/en/content/work-id?category=book&bookLanguage=ko')
+  for (const href of ['/content/work-id?category=book&editionId=12', '/celeb/person', 'https://amazon.com/dp/123', '//example.com/content/id', undefined]) {
+    assert.equal(withContentBookLanguage(href, 'en'), href)
+  }
+})
 
 test('edition deep links carry only positive safe integer physical IDs; synthetic locale and absent IDs remain work links', () => {
   assert.equal(getContentDetailHref('work-id', 12), '/content/work-id?category=book&editionId=12')

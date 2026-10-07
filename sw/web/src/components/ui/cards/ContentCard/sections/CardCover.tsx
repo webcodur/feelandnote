@@ -55,8 +55,9 @@ export default function CardCover({ props, state, review = false }: {
       </div>
     )}
     {props.selectable && <SelectOverlay isSelected={isSelected} />}
-    {props.showIntro !== false && <IntroBadge onClick={(e) => {
-      e.preventDefault(); e.stopPropagation(); setShowIntroModal(true);
+    {state.showIntro && <IntroBadge onClick={(e) => {
+      e.preventDefault(); e.stopPropagation();
+      setShowIntroModal(true);
     }} />}
   </>;
 }

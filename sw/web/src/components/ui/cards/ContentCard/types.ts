@@ -72,8 +72,10 @@ export interface ContentCardProps {
   showHeader?: boolean;
   /** false면 좌하단 인원 구성 뱃지를 숨기고 자동 조회도 하지 않는다. 기본 true. */
   showStats?: boolean;
-  /** false면 작품 소개 단추를 숨긴다. 내부 작품 정보가 없는 외부 차트용. */
+  /** 기본 표시. 중간 모달에 같은 작품 소개가 있는 경우만 생략하며 상세 이동·감상·선택 카드에서는 유지한다. */
   showIntro?: boolean;
+  /** 카드 본체가 여는 중간 모달에서 작품 소개를 제공한다. href나 onClick의 존재로 추정하지 않는다. */
+  clickModalHasIntroduction?: boolean;
 
   // 리뷰 모드
   review?: string | null;
@@ -106,6 +108,8 @@ export interface ContentCardProps {
   thumbnailEn?: string | null;
   /** 영문판 존재 여부 (false=확인됨 없음, true/undefined=있거나 미확인) */
   hasEnEdition?: boolean | null;
+  /** 사이트 언어와 별개로 검색 등에서 선택한 도서 언어 */
+  bookLocale?: "ko" | "en";
 
   /** 작품 소개 폴백 — getContentBrief가 비어 있을 때(베스트셀러 ISBN 등) 모달에 바로 띄운다 */
   fallbackDescription?: string | null;

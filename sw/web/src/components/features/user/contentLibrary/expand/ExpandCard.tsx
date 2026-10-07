@@ -29,8 +29,7 @@ import { fitsInlineReadingText } from "@/constants/readingText";
 import { resolveContentIntroFullText } from "./contentIntroText";
 import ContentIntro from "./ContentIntro";
 import ReviewScrollBox, { REVIEW_PREVIEW_TEXT_CLASS } from "./ReviewScrollBox";
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
-import ContentAccessPanel from "@/components/features/commerce/ContentAccessPanel";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import { toAffiliateLinks } from "@/constants/affiliatePlatforms";
 
 interface ExpandCardProps {
@@ -112,23 +111,9 @@ function ExpandCard({
             </ContentCoverLink>
           </div>
 
-          {hasBookPurchase && (
-            <BookPurchaseSummary
-              contentId={item.content_id}
-              title={title}
-              creator={creator}
-              thumbnail={coverUrl}
-              links={purchaseLinks}
-              enabled
-              full
-              className="mt-1 w-full sm:col-span-2 sm:row-start-2 sm:mt-0 md:col-span-1 md:col-start-1 md:self-start"
-            />
-          )}
-          {!hasBookPurchase && (
-            <div className="mt-1 w-full sm:col-span-2 sm:row-start-2 sm:mt-0 md:col-span-1 md:col-start-1 md:self-start">
-              <ContentAccessPanel contentId={item.content_id} type={item.content.type} title={title} creator={creator} thumbnail={coverUrl} enabled={isActive} placement="library-expand" compact />
-            </div>
-          )}
+          <ContentPurchaseAction contentId={item.content_id} type={item.content.type} placement="library-expand"
+            title={title} creator={creator} thumbnail={coverUrl} links={purchaseLinks} enabled={hasBookPurchase || isActive}
+            className="mt-1 w-full sm:col-span-2 sm:row-start-2 sm:mt-0 md:col-span-1 md:col-start-1 md:self-start" />
           </div>
 
           {/* 상한 안의 소개는 통째로 늘어나고, 상한을 넘는 장문만 제 높이를 내지 않고(contain-size)

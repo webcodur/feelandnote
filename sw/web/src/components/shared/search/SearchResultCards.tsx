@@ -72,6 +72,7 @@ export function ContentResults({
             posterFooterNode={"contentId" in item && <ContentPurchaseAction contentId={item.contentId} type={contentType}
               title={item.title} creator={item.creator} thumbnail={thumbnail} placement="search-records" />}
             href={href}
+            bookLocale={bookLanguage}
             onClick={() => onBeforeNavigate?.(item)}
             saved={isSaved && showAddButton}
             addable={showAddButton && !isSaved && !isAdding && !!onAddContent}

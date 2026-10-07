@@ -2,15 +2,15 @@
   파일명: /components/shared/AffiliateBookList.tsx
   기능: 책 상품 선반 — 서비스 공통 작품 카드(ContentCard) 아래에 YES24·쿠팡·아마존 단추
   책임: 홈 추천도서, 인물 상세 「참고도서」, 세력도감 인물 모달·작품 선반, 서재 베스트셀러 차트가 같은 선반을 쓴다.
-        카드는 ContentCard 한 벌이다 — 표지 좌하단 인원 뱃지(감상 인물 명단), 우하단 소개 뱃지(작품 소개), 번역본 없음·절판 띠까지 공통 카드가 쥔다.
+        카드는 ContentCard 한 벌이다 — 표지 좌하단 인원 뱃지(감상 인물 명단), 번역본 없음·절판 띠까지 공통 카드가 쥔다.
         카드 본체는 언제나 「보기」다 — 우리 작품은 작품 상세로, 상세가 없는 외부 차트 항목은 onDetail이 띄우는 책 정보 모달로.
-        사러 가는 길은 카드 아래 판매처 단추 하나다. 우리 작품이 아닌 외부 차트 항목은 그 단추가 purchaseHref로 서점 제휴 주소를 연다.
+        사러 가는 길은 카드 아래 판매처 단추 하나다. 외부 차트 항목도 같은 구매 창에서 확인한 서점 링크를 고른다.
         groups를 넘기면 책의 종류가 갈리는 자리마다 세로 구분선이 서고, 누르면 좌우 구간의 뜻을 설명한다.
 */
 "use client";
 
 import { Fragment, useState, type ReactNode } from 'react'
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import ContentCard from '@/components/ui/cards/ContentCard'
 import Modal, { ModalBody } from '@/components/ui/Modal'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
@@ -33,6 +33,8 @@ interface AffiliateBookListProps {
   rankLabel?: (rank: number) => string
   /** 우리 작품 상세가 없는 목록(서재 차트) — 카드 본체가 상세 대신 이 함수를 불러 책 정보 모달을 띄운다. 인원 뱃지는 붙지 않는다 */
   onDetail?: (book: AffiliateBook) => void
+  /** onDetail 모달이 책 소개까지 제공할 때만 중복 INTRO를 생략한다. */
+  clickModalHasIntroduction?: boolean
   /** books와 같은 순서의 구간 정보 — 구간이 둘 이상일 때 경계에 세로 구분선을 세운다. count 합계는 books 길이와 같아야 한다 */
   groups?: { label: string; desc?: string; count: number }[]
   /** 구분선 접근성 문구·설명 모달 제목 (예: 「구분선의 뜻」) */
@@ -57,7 +59,7 @@ interface GroupBoundary {
   right: { label: string; desc?: string }
 }
 
-export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, groups, dividerTitle, scroll = false, mobileGrid = false, icon, cardBadge, headerTabs, compact = false }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, hideHeading = false, platform = 'yes24', rankLabel, onDetail, clickModalHasIntroduction, groups, dividerTitle, scroll = false, mobileGrid = false, icon, cardBadge, headerTabs, compact = false }: AffiliateBookListProps) {
   const [openBoundary, setOpenBoundary] = useState<GroupBoundary | null>(null)
   // 한 줄 넘김 선반 — 마우스로 잡아끌어 넘긴다(터치는 브라우저 기본 스크롤이 담당). 규칙은 ui-rail 스킬이 쥔다
   const { ref: railRef, cursorClassName, dragProps } = useMouseDragScroll<HTMLDivElement>()
@@ -112,27 +114,11 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
           const boundary = boundaryAt.get(index)
 
           // 사러 가는 길은 통합 구매 모듈 하나 — 값표+서점 마커를 누르면 서점 링크·주의 안내 창이 뜬다
-          const purchaseNode = platform === 'yes24' ? (
-            <BookPurchaseSummary
-              contentId={book.contentId}
-              editionId={book.editionId}
-              isbn={book.isbn}
-              title={book.title}
-              creator={book.creator}
-              thumbnail={book.thumbnail}
-              yes24Href={book.purchaseHref}
-              links={book.url ? [{ platform: 'coupang', url: book.url }] : []}
-              full
-            />
-          ) : book.url ? (
-            <BookPurchaseSummary
-              links={[{ platform: 'amazon', url: book.url }]}
-              title={book.title}
-              creator={book.creator}
-              thumbnail={book.thumbnail}
-              full
-            />
-          ) : undefined
+          const purchaseNode = <ContentPurchaseAction type="BOOK" placement="affiliate-books"
+            contentId={book.contentId} editionId={book.editionId} bookLocale={platform === 'amazon' ? 'en' : 'ko'}
+            isbn={book.isbn} title={book.title} creator={book.creator} thumbnail={book.thumbnail}
+            yes24Href={platform === 'yes24' ? book.purchaseHref : undefined}
+            links={book.url ? [{ platform: platform === 'amazon' ? 'amazon' : 'coupang', url: book.url }] : []} />
 
           return (
           <Fragment key={book.contentId}>
@@ -182,6 +168,7 @@ export default function AffiliateBookList({ books, heading, hideHeading = false,
               ) : undefined}
               href={onDetail ? undefined : getContentDetailHref(book.contentId, book.editionId)}
               onClick={onDetail ? () => onDetail(book) : undefined}
+              clickModalHasIntroduction={clickModalHasIntroduction}
               showHeader={false}
               showStats={!onDetail}
               fallbackDescription={book.description}

@@ -9,10 +9,12 @@ import { addContent } from "@/actions/contents/addContent";
 
 import TypeInfoModal from "../modals/TypeInfoModal";
 import ContentStatsModal from "../modals/ContentStatsModal";
-import ContentIntroModal from "../modals/ContentIntroModal";
+import dynamic from "next/dynamic";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
 import { useTranslations } from "next-intl";
+
+const ContentIntroModal = dynamic(() => import("../modals/ContentIntroModal"), { ssr: false });
 
 interface CardModalsProps {
   props: ContentCardProps;
@@ -82,7 +84,7 @@ export default function CardModals({ props, state }: CardModalsProps) {
         contentThumbnail={thumbnail}
         celebCount={effectiveCelebCount ?? 0}
       />
-      <ContentIntroModal
+      {showIntroModal && <ContentIntroModal
         isOpen={showIntroModal}
         onClose={() => setShowIntroModal(false)}
         contentId={contentId || ""}
@@ -90,10 +92,12 @@ export default function CardModals({ props, state }: CardModalsProps) {
         contentCreator={displayCreator}
         contentType={contentType}
         contentThumbnail={displayThumbnail}
+        bookLocale={state.showEditionToggle ? state.activeEdition : props.bookLocale}
+        purchaseEnabled={!state.editionUnavailable}
         fallbackDescription={fallbackDescription ?? null}
         fallbackMetadata={fallbackMetadata ?? null}
         detailHref={contentId ? contentDetailUrl : undefined}
-      />
+      />}
       {internalSaved && internalUserContentId && (
         <RecommendationModal
           isOpen={isRecommendModalOpen}

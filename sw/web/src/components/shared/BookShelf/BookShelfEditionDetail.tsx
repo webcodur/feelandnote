@@ -11,7 +11,7 @@ import BookShelfArrival from "./BookShelfArrival";
 import ContentIntro from "@/components/features/user/contentLibrary/expand/ContentIntro";
 import { normalizeContentIntroText } from "@/components/features/user/contentLibrary/expand/contentIntroText";
 import { fitsInlineReadingText } from "@/constants/readingText";
-import BookPurchaseSummary from "@/components/features/commerce/BookPurchaseSummary";
+import ContentPurchaseAction from "@/components/features/commerce/ContentPurchaseAction";
 import type { AffiliateLink } from "@/constants/affiliatePlatforms";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
@@ -44,8 +44,8 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
       isbn: source.isbn, publisher: source.publisher, releaseDate: source.releaseDate,
       description: source.description, bookIntroduction: source.bookIntroduction,
       introductionAttribution: source.introductionAttribution, platform: null, purchaseUrl: null,
-      affiliateLinks: source.affiliateLinks };
-  const introduction = useBookIntroduction(edition.bookIntroduction, locale, edition.description, lazyIntroduction);
+      affiliateLinks: source.affiliateLinks, locale: undefined };
+  const introduction = useBookIntroduction(edition.bookIntroduction, edition.locale ?? locale, edition.description, lazyIntroduction);
   const busy = loading || introduction.pending;
   /* 상한 안의 소개는 통째로 늘어난다 — 상한을 넘는 장문만 칸 높이에 가둔다 */
   const introFitsInline = fitsInlineReadingText(
@@ -74,7 +74,7 @@ export default function BookShelfEditionDetail({ source, edition: selectedEditio
               fallback={<BookOpenText size={28} className="absolute inset-0 m-auto text-text-tertiary" aria-hidden />} />
           </ContentCoverLink>
         </div></div>
-        <BookPurchaseSummary contentId={source.id} editionId={edition.id} isbn={edition.isbn ?? undefined}
+        <ContentPurchaseAction type="BOOK" placement="bookshelf-edition" bookLocale={edition.locale} contentId={source.id} editionId={edition.id} isbn={edition.isbn ?? undefined}
           title={edition.title || source.title} creator={edition.creator || source.creator}
           thumbnail={edition.thumbnailUrl} links={purchaseLinks}
           className="mt-1 w-full self-start sm:mt-0" />
