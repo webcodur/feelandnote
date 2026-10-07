@@ -14,7 +14,7 @@ interface SampleRow {
   review: string;
   review_en: string | null;
   source_url: string | null;
-  user: { id: string; slug: string | null; nickname: string; nickname_en: string | null; avatar_url: string | null };
+  user: { id: string; slug: string | null; nickname: string; nickname_en: string | null; avatar_url: string | null; profession: string | null; nationality: string | null; birth_date: string | null; death_date: string | null };
   contents: { id: string; type: ContentType; content_locales: Parameters<typeof flattenLocales>[0] };
 }
 
@@ -23,7 +23,7 @@ export default async function HomeFeaturedReviewSample() {
   const { data, error } = await createStaticClient()
     .from("celeb_contents")
     .select(
-      "id, review, review_en, source_url, user:celebs!inner(id, slug, nickname, nickname_en, avatar_url), contents!inner(id, type, content_locales(" + CL_SELECT_LIST_WITH_AFFILIATE + ", isbn))"
+      "id, review, review_en, source_url, user:celebs!inner(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date), contents!inner(id, type, content_locales(" + CL_SELECT_LIST_WITH_AFFILIATE + ", isbn))"
     )
     .eq("id", SAMPLE_REVIEW_ID)
     .eq("visibility", "public")
@@ -43,7 +43,7 @@ export default async function HomeFeaturedReviewSample() {
     id: row.id,
     review,
     sourceUrl: row.source_url,
-    figure: { id: row.user.id, slug: row.user.slug, name: locale === "en" ? row.user.nickname_en || row.user.nickname : row.user.nickname, avatarUrl: row.user.avatar_url },
+    figure: { id: row.user.id, slug: row.user.slug, name: locale === "en" ? row.user.nickname_en || row.user.nickname : row.user.nickname, avatarUrl: row.user.avatar_url, profession: row.user.profession, nationality: row.user.nationality, birthDate: row.user.birth_date, deathDate: row.user.death_date },
     content: { id: row.contents.id, type: row.contents.type, title: content.title, creator: content.creator, thumbnailUrl: content.thumbnail_url, isbn: content.isbn, affiliateUrl: content.affiliate_url },
   }} />;
 }

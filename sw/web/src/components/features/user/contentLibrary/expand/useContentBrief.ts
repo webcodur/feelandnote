@@ -47,8 +47,10 @@ export function useContentBrief(
   enabled = true,
   initialBrief?: ContentBrief | null,
   prefetchNext = false,
+  contentLocale?: string,
 ): ContentBriefState {
-  const locale = useLocale();
+  const displayLocale = useLocale();
+  const locale = contentLocale ?? displayLocale;
   const initialContentId = initialBrief?.contentId ?? null;
   const initialCacheKey = initialContentId ? `${locale}:${initialContentId}` : null;
   const canCommitInitial = initialBrief != null

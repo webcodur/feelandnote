@@ -108,3 +108,20 @@ test('모바일 LP는 표지 폭을 유지하고 남는 높이에만 판을 드�
     if (size.height <= size.width) near(totalHeight, sleeve)
   }
 })
+
+test('작은 PC 책 표지는 회전 없이 원본 비율로 표시한다', () => {
+  for (const compact of [false, true]) {
+    const size = { width: 96, height: 144 }
+    for (const ratio of [458 / 625, 458 / 668, 457 / 687]) {
+      const result = getMediaGeometry('book', ratio, size, compact)
+      assert.equal(result.compact, true)
+      assert.equal(result.cropped, false)
+      assert.equal(value(result, '--mo-image-fit'), 'contain')
+      const width = number(result, '--mo-compact-width') / 100 * size.width - 6
+      const height = number(result, '--mo-compact-height') / 100 * size.height
+      near(width / height, ratio)
+      assert.ok(width <= size.width && height <= size.height)
+    }
+  }
+  assert.equal(getMediaGeometry('book', 2 / 3, panel, false).compact, false)
+})

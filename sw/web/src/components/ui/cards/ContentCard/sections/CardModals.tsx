@@ -33,7 +33,6 @@ export default function CardModals({ props, state }: CardModalsProps) {
     modalZIndex,
     reviewPresets,
     fallbackDescription,
-    fallbackMetadata,
   } = props;
 
   const {
@@ -58,7 +57,6 @@ export default function CardModals({ props, state }: CardModalsProps) {
     setShowModal,
     displayTitle,
     displayCreator,
-    displayThumbnail,
     displayReview,
     contentDetailUrl,
     setInternalSaved,
@@ -89,14 +87,9 @@ export default function CardModals({ props, state }: CardModalsProps) {
         onClose={() => setShowIntroModal(false)}
         contentId={contentId || ""}
         contentTitle={displayTitle || title}
-        contentCreator={displayCreator}
         contentType={contentType}
-        contentThumbnail={displayThumbnail}
         bookLocale={state.showEditionToggle ? state.activeEdition : props.bookLocale}
-        purchaseEnabled={!state.editionUnavailable}
         fallbackDescription={fallbackDescription ?? null}
-        fallbackMetadata={fallbackMetadata ?? null}
-        detailHref={contentId ? contentDetailUrl : undefined}
       />}
       {internalSaved && internalUserContentId && (
         <RecommendationModal

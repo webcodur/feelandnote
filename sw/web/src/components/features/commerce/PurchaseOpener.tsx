@@ -25,7 +25,7 @@ export default function PurchaseOpener({ type, onOpen, expanded, full = true, st
       "group/purchase flex min-h-11 cursor-pointer items-center justify-center gap-1.5 overflow-hidden rounded-control border px-3 py-2.5 text-center text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent",
       full ? "w-full" : "mx-auto w-fit max-w-full",
       primary ? "border-accent bg-accent text-bg-main hover:border-accent-hover hover:bg-accent-hover"
-        : `h-11 whitespace-nowrap px-1.5 text-[11px] [--purchase-label-scale:1.04] @min-[128px]/purchase:text-xs @min-[160px]/purchase:gap-3 @min-[160px]/purchase:px-3 @min-[160px]/purchase:text-sm @min-[160px]/purchase:[--purchase-label-scale:1.07] ${BOOK_PURCHASE_OPENER_STYLE}`,
+        : `h-11 whitespace-nowrap px-1.5 text-sm [--purchase-label-scale:1.07] @min-[160px]/purchase:gap-3 @min-[160px]/purchase:px-3 ${BOOK_PURCHASE_OPENER_STYLE}`,
       className,
     )}>
     <span className={cn("min-w-0", !primary && BOOK_PURCHASE_LABEL_STYLE)}>{t("open")}</span>

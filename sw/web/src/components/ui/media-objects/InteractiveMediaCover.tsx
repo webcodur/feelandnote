@@ -112,8 +112,8 @@ function NavigatingMediaArtwork({ kind, image, title, creator, active, reducedMo
   const { pending } = useLinkStatus()
   const t = useTranslations('pending')
   // 모바일의 첫 렌더부터 표지 하나만 그린다. 터치 기기에서는 큰 화면이어도 같은 표현을 쓴다.
-  const compact = !useMediaQuery('(min-width: 768px) and (hover: hover) and (pointer: fine)')
-  const { ref: artworkRef, style: geometryStyle, onImageLoad, cropped } = useMediaGeometry(kind, image, compact)
+  const preferCompact = !useMediaQuery('(min-width: 768px) and (hover: hover) and (pointer: fine)')
+  const { ref: artworkRef, style: geometryStyle, onImageLoad, cropped, compact } = useMediaGeometry(kind, image, preferCompact)
   const progress = useSpring(0, { stiffness: 90, damping: 22 })
   const [settledFront, setSettledFront] = useState(false)
   useEffect(() => {

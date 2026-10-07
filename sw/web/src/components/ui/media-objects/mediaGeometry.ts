@@ -9,6 +9,7 @@ const clamp = (value: number, low: number, high: number) => Math.max(low, Math.m
 const MIN_RATIO = .45
 const MAX_RATIO = 2
 const MIN_COMPACT_COVERAGE = .60
+const MIN_3D_BOOK_WIDTH = 160
 const COMPACT_INSETS: Record<Exclude<MediaKind, 'music'>, Panel> = {
   book: { width: 6, height: 0 },
   game: { width: 10, height: 12 }, video: { width: 14, height: 0 },
@@ -17,6 +18,8 @@ const COMPACT_INSETS: Record<Exclude<MediaKind, 'music'>, Panel> = {
 export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefined, panel: Panel, compact: boolean) {
   const natural = sourceRatio && Number.isFinite(sourceRatio) && sourceRatio > 0 ? sourceRatio : DEFAULT_COVER_RATIOS[kind]
   const ratio = clamp(natural, MIN_RATIO, MAX_RATIO)
+  // 작은 표지는 PC에서도 회전 없이 정면으로 표시해 읽을 수 있는 폭을 확보한다.
+  compact ||= kind === 'book' && panel.width > 0 && panel.width < MIN_3D_BOOK_WIDTH
   const caseRatio = clamp(ratio * .77 / .90, .60, 1.50)
   const cropped = natural !== ratio || (kind === 'music' && (natural < .75 || natural > 4 / 3))
   const style: CSSProperties = {
@@ -26,7 +29,7 @@ export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefine
     '--mo-image-fit': kind === 'music' || kind === 'game' ? (cropped ? 'cover' : 'contain') : 'cover',
   } as CSSProperties
   const { width, height } = panel
-  if (width <= 0 || height <= 0) return { style, cropped }
+  if (width <= 0 || height <= 0) return { style, cropped, compact }
 
   if (compact) {
     if (kind === 'music') {
@@ -39,7 +42,7 @@ export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefine
         '--mo-image-fit': cropped ? 'cover' : 'contain',
         '--object-size': `${sleeve}px`,
       })
-      return { style, cropped }
+      return { style, cropped, compact }
     }
     const inset = COMPACT_INSETS[kind]
     const availableWidth = Math.max(1, width - inset.width)
@@ -53,7 +56,7 @@ export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefine
       '--mo-image-fit': preserve ? 'contain' : 'cover',
       '--object-size': `${preserve ? imageWidth + inset.width : width}px`,
     })
-    return { style, cropped: !preserve }
+    return { style, cropped: !preserve, compact }
   }
 
   let rest: number
@@ -82,5 +85,5 @@ export function getMediaGeometry(kind: MediaKind, sourceRatio: number | undefine
     '--mo-base-scale': baseScale, '--mo-hover-grow': kind === 'book' ? 1 - baseScale : scale - 1,
     '--mo-game-center-offset': .015 / caseRatio * scale,
   })
-  return { style, cropped }
+  return { style, cropped, compact }
 }
