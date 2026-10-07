@@ -367,7 +367,7 @@ function addFictionFactionGaps(profile: Row, placements: Row[], gaps: string[]) 
     return
   }
   for (const placement of placements) {
-    for (const field of ['short_desc', 'short_desc_en', 'long_desc', 'long_desc_en']) {
+    for (const field of ['long_desc', 'long_desc_en']) {
       if (blank(placement[field])) gaps.push(`faction:${field}`)
     }
     // inactive 인물은 hidden=true가 정상이다. false이면 일반 프로필보다 먼저 세력도감에 노출된다.
@@ -673,7 +673,7 @@ async function main() {
     byIds('celeb_relations_external', 'id,from_id', ids, 'from_id'),
     byIds(
       'faction_member_rows',
-      'lv2_id,celeb_id,short_desc,short_desc_en,long_desc,long_desc_en,hidden,member_id',
+      'lv2_id,celeb_id,long_desc,long_desc_en,hidden,member_id',
       ids,
     ),
   ])

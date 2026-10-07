@@ -28,8 +28,7 @@ export default function MythPersonDetail({ person, myth, onClose }: Props) {
   const monologue = useCelebVirtualMonologue(person.id);
   const [guideOpen, setGuideOpen] = useState(false);
   const [monologueOpen, setMonologueOpen] = useState(false);
-  /* 「이 신화에서의 역할」 섹션 — 테마별 긴 소개만 본문이 된다.
-     한 줄 역할(short_desc)은 인물 정의와 겹쳐 읽혀 표기하지 않는다 */
+  /* 「이 신화에서의 역할」 섹션 — 테마별 긴 소개만 본문이 된다. */
   const [longDescs, setLongDescs] = useState<{ mythId: string; byCeleb: FactionLongDescs } | null>(null);
   useEffect(() => {
     let alive = true;

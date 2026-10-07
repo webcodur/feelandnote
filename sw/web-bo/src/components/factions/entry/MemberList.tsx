@@ -77,9 +77,7 @@ export function MemberList({
     onMembersChange([...members, {
       celeb_id: celeb.id,
       lv2_id: lv2Id,
-      short_desc: null,
       long_desc: null,
-      short_desc_en: null,
       long_desc_en: null,
       image_url: null,
       hidden: false,
@@ -118,16 +116,14 @@ export function MemberList({
     onMembersChange(members.filter(c => c.celeb_id !== celebId))
   }
 
-  const handleDescChange = (celebId: string, field: 'short_desc' | 'long_desc' | 'short_desc_en' | 'long_desc_en', value: string) => {
+  const handleDescChange = (celebId: string, field: 'long_desc' | 'long_desc_en', value: string) => {
     onMembersChange(members.map(c => (c.celeb_id === celebId ? { ...c, [field]: value } : c)))
   }
 
   const handleSaveDesc = async (item: FactionMember) => {
     const result = await updateFactionMemberDesc(
       item.celeb_id, lv2Id,
-      item.short_desc?.trim() || null,
       item.long_desc?.trim() || null,
-      item.short_desc_en?.trim() || null,
       item.long_desc_en?.trim() || null,
     )
     if (!result.success) alert(result.error ?? '설명 저장 실패')
@@ -251,24 +247,6 @@ export function MemberList({
         </button>
       </div>
       <div className="mt-3 space-y-2 pl-11">
-        <div className="space-y-1">
-          <input
-            type="text"
-            value={item.short_desc ?? ''}
-            onChange={(e) => handleDescChange(item.celeb_id, 'short_desc', e.target.value)}
-            onBlur={() => handleSaveDesc(item)}
-            placeholder="짧은 문구 (예: 무에서 창조, 시대를 앞서감)"
-            className="w-full rounded-lg border border-border bg-bg-main px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent/50"
-          />
-          <input
-            type="text"
-            value={item.short_desc_en ?? ''}
-            onChange={(e) => handleDescChange(item.celeb_id, 'short_desc_en', e.target.value)}
-            onBlur={() => handleSaveDesc(item)}
-            placeholder="EN short desc (optional)"
-            className="w-full rounded-lg border border-border bg-bg-main px-3 py-2 text-xs text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
-          />
-        </div>
         <div className="space-y-1">
           <textarea
             value={item.long_desc ?? ''}

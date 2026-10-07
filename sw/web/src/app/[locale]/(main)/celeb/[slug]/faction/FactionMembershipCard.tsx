@@ -38,12 +38,6 @@ import CelebPersonPreviewButton from "../CelebPersonPreviewButton";
 /** 처음에 세우는 동료 인물 수 — 나머지는 「더 보기」로 펼친다 */
 const MEMBERS_PREVIEW = 12;
 
-/** 한글 이름 끝글자에 받침이 있으면 「과」를 붙인다 */
-const endsWithJong = (value: string) => {
-  const code = value.trim().charCodeAt(value.trim().length - 1);
-  return code >= 0xac00 && code <= 0xd7a3 && (code - 0xac00) % 28 !== 0;
-};
-
 interface FactionMembershipCardProps {
   /** 테마 정보와 전체 명단 */
   faction: FeaturedFaction;
@@ -92,12 +86,12 @@ export default function FactionMembershipCard({
   pendingMemberId = null,
 }: FactionMembershipCardProps) {
   const t = useTranslations("celebPage");
+  const tFaction = useTranslations("explore.faction");
   const isEn = locale === "en";
 
   const factionName = localizedFactionName(faction, locale);
   const descText = localizedFactionDescription(faction, locale) ?? "";
   const descParagraphs = splitReadableParagraphs(descText);
-  const roleShort = (isEn ? membership.roleShortEn?.trim() || membership.roleShort : membership.roleShort)?.trim() || null;
   const roleParagraphs = splitReadableParagraphs(
     (isEn ? membership.roleLongEn?.trim() || membership.roleLong : membership.roleLong) ?? "",
   );
@@ -122,14 +116,13 @@ export default function FactionMembershipCard({
   const showVoiceText = !!(descVoice && (descExpanded || !descClipped));
 
   const memberRole = (celeb: FeaturedCeleb) =>
-    ((isEn ? celeb.short_desc_en : celeb.short_desc) ??
-      (isEn ? celeb.title_en : celeb.title))?.trim() || null;
+    (isEn ? celeb.title_en || celeb.title : celeb.title)?.trim() || null;
   const memberName = (celeb: FeaturedCeleb) =>
     (isEn && celeb.nickname_en?.trim()) || celeb.nickname;
 
   const visibleMembers = membersExpanded ? members : members.slice(0, MEMBERS_PREVIEW);
   const hiddenCount = Math.max(0, members.length - MEMBERS_PREVIEW);
-  const hasRoleBlock = roleShort || roleParagraphs.length > 0 || membership.factionImageUrl;
+  const hasRoleBlock = roleParagraphs.length > 0 || membership.factionImageUrl;
 
   return (
     <div>
@@ -208,17 +201,7 @@ export default function FactionMembershipCard({
         <section className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 md:px-5 md:py-5">
           <div className="flex items-center justify-center gap-2.5">
             <h4 className="min-w-0 break-keep font-serif text-base font-bold leading-snug text-text-primary md:text-lg">
-              {isEn ? (
-                <>
-                  {factionName} and{" "}
-                  <span className="text-accent">&lsquo;{ownerName}&rsquo;</span>
-                </>
-              ) : (
-                <>
-                  「{factionName}」{endsWithJong(factionName) ? "과" : "와"}{" "}
-                  <span className="text-accent">&lsquo;{ownerName}&rsquo;</span>
-                </>
-              )}
+              {tFaction.rich("personInTheme", { theme: factionName, name: ownerName, accent: (chunks) => <span className="text-accent">{chunks}</span> })}
             </h4>
             <span className="relative block h-7 w-7 shrink-0 overflow-hidden rounded-full bg-white/[0.06] ring-1 ring-accent/45">
               {ownerAvatarUrl ? (
@@ -236,12 +219,7 @@ export default function FactionMembershipCard({
               )}
             </span>
           </div>
-          {roleShort && (
-            <p className="effect-engraved mx-auto mt-3.5 w-fit max-w-full break-keep rounded-lg border border-accent-dim/30 bg-black/30 px-3.5 py-2 text-center text-sm font-semibold leading-6 text-accent">
-              {roleShort}
-            </p>
-          )}
-          <div className={cn("flex items-start gap-4", (roleShort || roleParagraphs.length > 0) && "mt-4")}>
+          <div className={cn("flex items-start gap-4", (roleParagraphs.length > 0) && "mt-4")}>
             {membership.factionImageUrl && (
               <button
                 type="button"

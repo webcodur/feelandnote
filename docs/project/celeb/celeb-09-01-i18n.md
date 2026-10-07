@@ -45,7 +45,7 @@
 |---|---|
 | `celebs` | `title_en`, `bio_en` |
 | `celeb_persona.persona` | `rationale_en` |
-| `faction_members` | `short_desc_en`, `long_desc_en` |
+| `faction_members` | `long_desc_en` |
 | `celeb_contents` | `review_en` |
 | `celeb_relations` | `note_en` |
 | `celeb_relations_external` | `name_en`; QID의 공식 영문 라벨을 우선 사용 |

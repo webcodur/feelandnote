@@ -16,7 +16,7 @@ interface MythRow {
   theme_music: unknown; lead_person_ids: string[] | null;
 }
 interface MemberRow {
-  lv2_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null;
+  lv2_id: string; celeb_id: string; long_desc: string | null; long_desc_en: string | null;
   sort_order: number | null; image_url: string | null;
   group_name: string | null; group_name_en: string | null; group_position: number | null;
 }
@@ -49,7 +49,7 @@ export async function fetchMythSourceCatalog(): Promise<MythSourceCatalog> {
   if (mythIds.length === 0) return { myths: [], figures: [] };
 
   const members = await selectVisibleFactionMembers<MemberRow>(db,
-    "lv2_id,celeb_id,short_desc,short_desc_en,sort_order,image_url,group_name,group_name_en,group_position", mythIds);
+    "lv2_id,celeb_id,long_desc,long_desc_en,sort_order,image_url,group_name,group_name_en,group_position", mythIds);
   const { data: groupData, error: groupError } = await db.from("faction_lv3")
     .select("lv2_id,name,description,description_en").in("lv2_id", mythIds);
   if (groupError) throw new Error(`신화 그룹 조회 실패: ${groupError.message}`);
@@ -83,7 +83,7 @@ export async function fetchMythSourceCatalog(): Promise<MythSourceCatalog> {
       gender: person.gender === null ? null : GENDER[`${person.gender}`],
       avatarUrl: person.avatar_url, portraitUrl: person.portrait_url,
       roles: members.filter((row) => row.celeb_id === person.id).map((row) => ({
-        mythId: row.lv2_id, group: row.group_name?.trim() || null, summary: pair(row.short_desc, row.short_desc_en),
+        mythId: row.lv2_id, group: row.group_name?.trim() || null, summary: pair(row.long_desc, row.long_desc_en),
         imageUrl: row.image_url, order: row.sort_order ?? 0,
       })),
     })),

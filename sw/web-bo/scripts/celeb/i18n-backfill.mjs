@@ -346,7 +346,7 @@ async function buildTargets() {
 
   const assignmentRows = await selectByIds(
     "faction_members",
-    "id,celeb_id,lv2_id,short_desc,short_desc_en,long_desc,long_desc_en",
+    "id,celeb_id,lv2_id,long_desc,long_desc_en",
     ids,
   );
   const factionIds = [...new Set(assignmentRows.map((row) => row.lv2_id))];
@@ -365,12 +365,6 @@ async function buildTargets() {
       person: profile?.nickname_en || profile?.nickname,
       faction: faction?.name_en || faction?.name,
     };
-    if (hasText(row.short_desc) && !hasText(row.short_desc_en)) {
-      addText({
-        domain: "faction_short", table: "faction_members", rowId: row.id,
-        column: "short_desc_en", ko: row.short_desc, context,
-      });
-    }
     if (hasText(row.long_desc) && !hasText(row.long_desc_en)) {
       addText({
         domain: "faction_long", table: "faction_members", rowId: row.id,

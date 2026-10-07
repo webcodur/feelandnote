@@ -173,7 +173,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
                   aria-label={isFollowing ? t("followingLabel") : t("followLabel")}
                   title={`${isFollowing ? t("followingLabel") : t("followLabel")} · ${t("followerUnit", { count: celeb.follower_count || 0 })}`}
                   data-celeb-modal-follow
-                  className={`absolute -bottom-1 -right-1 z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-bg-main hover:bg-bg-card active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
+                  className={`absolute -top-1 -end-1 z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-bg-main hover:bg-bg-card active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
                     isFollowing
                       ? "border-accent/60 text-accent"
                       : "border-white/15 text-text-secondary hover:border-accent hover:text-accent"
@@ -352,7 +352,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, hideBirthDate
         isOpen={isFactionsModalOpen}
         onClose={() => setIsFactionsModalOpen(false)}
         factions={celeb.factions || []}
-        title={t("keywords", { name: displayNickname })}
+        personName={displayNickname}
         zIndex={zIndex ? zIndex + 1 : undefined}
       />
 

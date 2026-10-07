@@ -28,7 +28,6 @@ interface NewTag {
 }
 interface Assignment {
   tag: string | null; secondary: string | null; reason: string
-  short_desc?: string | null; short_desc_en?: string | null
   long_desc?: string | null; long_desc_en?: string | null
 }
 interface LedgerRow { nickname: string; celeb_id?: string; slug?: string }
@@ -157,7 +156,6 @@ async function main() {
     sortCursor.set(tag.id, next)
     rows.push({
       celeb_id: p.celeb_id, lv2_id: tag.id,
-      short_desc: p.rec.short_desc ?? null, short_desc_en: p.rec.short_desc_en ?? null,
       long_desc: p.rec.long_desc ?? null, long_desc_en: p.rec.long_desc_en ?? null,
       hidden: true, sort_order: next,
     })

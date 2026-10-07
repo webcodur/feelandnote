@@ -47,8 +47,6 @@ export interface FactionItem {
   factionImageUrl: string | null
   description: string | null
   description_en: string | null
-  roleShort: string | null
-  roleShortEn: string | null
   roleLong: string | null
   roleLongEn: string | null
   /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
@@ -59,8 +57,6 @@ interface FactionFactionAssignmentRow {
   lv2_id: string
   image_url: string | null
   sort_order: number | null
-  short_desc: string | null
-  short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   tag: {
@@ -241,7 +237,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     (async (): Promise<FactionFactionAssignmentRow[]> => {
       const { data: memberRows, error: memberRowsError } = await db
         .from('faction_member_rows')
-        .select('lv2_id, image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
+        .select('lv2_id, image_url, sort_order, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
         .order('sort_order', { ascending: true })
@@ -318,8 +314,6 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       factionImageUrl: a.image_url ?? null,
       description: a.tag.description ?? null,
       description_en: a.tag.description_en ?? null,
-      roleShort: a.short_desc ?? null,
-      roleShortEn: a.short_desc_en ?? null,
       roleLong: a.long_desc ?? null,
       roleLongEn: a.long_desc_en ?? null,
       music: toFactionMusic(a.tag.theme_music),

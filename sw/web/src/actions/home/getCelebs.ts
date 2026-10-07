@@ -207,8 +207,6 @@ interface CelebRow {
 interface FactionMemberRow {
   celeb_id: string
   lv2_id: string
-  short_desc: string | null
-  short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   sort_order: number | null
@@ -217,8 +215,6 @@ interface FactionMemberRow {
 // 인물 행 + 세력 정보 합성 행 (뷰 → faction_lv2 두 단계 조회 결과)
 interface FactionAssignmentJoinRow {
   celeb_id: string
-  short_desc: string | null
-  short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   sort_order: number | null
@@ -447,7 +443,7 @@ async function fetchCelebsPublic(
     (async (): Promise<FactionAssignmentJoinRow[]> => {
       const { data: memberRows, error: memberError } = await db
         .from('faction_member_rows')
-        .select('celeb_id, lv2_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
+        .select('celeb_id, lv2_id, long_desc, long_desc_en, sort_order')
         .in('celeb_id', celebIds)
         .eq('hidden', false)
         .overrideTypes<FactionMemberRow[], { merge: false }>()
@@ -465,8 +461,6 @@ async function fetchCelebsPublic(
 
       return memberRows.map((r) => ({
         celeb_id: r.celeb_id,
-        short_desc: r.short_desc,
-        short_desc_en: r.short_desc_en,
         long_desc: r.long_desc,
         long_desc_en: r.long_desc_en,
         sort_order: r.sort_order,
@@ -494,7 +488,7 @@ async function fetchCelebsPublic(
   factionJoinRows.forEach(item => {
     if (!item.faction) return
     const existing = factionMap[item.celeb_id] ?? []
-    existing.push({ ...item.faction, name_en: item.faction.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
+    existing.push({ ...item.faction, name_en: item.faction.name_en ?? null, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
     factionMap[item.celeb_id] = existing
     if (factionId && item.faction.id === factionId) {
       factionSortOrderMap[item.celeb_id] = item.sort_order ?? 0

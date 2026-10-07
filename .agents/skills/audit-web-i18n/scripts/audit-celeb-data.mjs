@@ -524,19 +524,11 @@ if (ids.length > 0) {
 
   const assignmentRows = await selectByCelebIds(
     "faction_members",
-    "id,celeb_id,short_desc,short_desc_en,long_desc,long_desc_en",
+    "id,celeb_id,long_desc,long_desc_en",
     ids,
   );
   for (const row of assignmentRows) {
     const context = slugContext(profileById, row.celeb_id, { rowId: row.id });
-    checkPair({
-      row,
-      ko: "short_desc",
-      en: "short_desc_en",
-      code: "FACTION_SHORT_DESC_EN_MISSING",
-      label: "Faction assignment summary",
-      context,
-    });
     checkPair({
       row,
       ko: "long_desc",

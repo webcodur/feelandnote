@@ -100,8 +100,6 @@ type LocaleRow = {
 type AssignmentRow = {
   lv2_id: string
   celeb_id: string
-  short_desc: string | null
-  short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
 }
@@ -209,7 +207,7 @@ async function main() {
   const assignments = await allRows<AssignmentRow>('faction_members', async (from, to) => {
     const { data, error } = await db
       .from('faction_members')
-      .select('lv2_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en')
+      .select('lv2_id, celeb_id, long_desc, long_desc_en')
       .order('lv2_id')
       .order('celeb_id')
       .range(from, to)
@@ -421,7 +419,6 @@ async function main() {
   const publicAssignments = assignments.filter(row => publicIds.has(row.celeb_id))
   const factionAssignmentAudit = {
     rows: publicAssignments.length,
-    shortMissingKo: publicAssignments.filter(row => !text(row.short_desc)).length,
     longMissingKo: publicAssignments.filter(row => !text(row.long_desc)).length,
   }
 

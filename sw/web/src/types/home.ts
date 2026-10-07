@@ -29,8 +29,6 @@ export interface CelebFactionInfo {
   is_featured: boolean
   /** 신화 갈래인가 — 신화는 /explore/myth/[slug]로 간다(세력도감 주소는 404) */
   is_myth?: boolean
-  short_desc: string | null  // 태그 부여 사유 (짧은 문구)
-  short_desc_en: string | null
   long_desc: string | null   // 태그 부여 상세 설명
   long_desc_en: string | null
 }

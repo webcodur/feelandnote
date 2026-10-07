@@ -55,6 +55,7 @@ export const BASE_MESSAGE_PATHS = [
   "explore.ui",
   // 헤더에서 어느 화면에서나 열 수 있는 CelebDetailModal의 공통 문구
   "home.ui",
+  "explore.faction.personInTheme",
   "celebPage.playGreetingVoice",
   "celebPage.dialogue_greeting",
   "celebPage.enlargePhoto",

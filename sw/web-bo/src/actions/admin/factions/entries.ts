@@ -56,9 +56,7 @@ export interface FactionEntry {
 export interface FactionMember {
   celeb_id: string
   lv2_id: string
-  short_desc: string | null
   long_desc: string | null
-  short_desc_en: string | null
   long_desc_en: string | null
   /** 세력별 인물 대표 화보 — 없으면 celebs.portrait_url을 쓴다 */
   image_url: string | null
@@ -87,8 +85,6 @@ interface MemberRow {
   lv2_id: string
   lv3_id: string | null
   celeb_id: string
-  short_desc: string | null
-  short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   image_url: string | null
@@ -471,7 +467,7 @@ export async function getFactionMembers(lv2Id: string): Promise<FactionMember[]>
 
   const { data, error } = await db
     .from('faction_member_rows')
-    .select('lv2_id, lv3_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, image_url, sort_order, hidden, member_id, group_name')
+    .select('lv2_id, lv3_id, celeb_id, long_desc, long_desc_en, image_url, sort_order, hidden, member_id, group_name')
     .eq('lv2_id', lv2Id)
     .order('sort_order', { ascending: true })
     .overrideTypes<MemberRow[], { merge: false }>()
@@ -507,9 +503,7 @@ export async function getFactionMembers(lv2Id: string): Promise<FactionMember[]>
   return rows.map(item => ({
     celeb_id: item.celeb_id,
     lv2_id: item.lv2_id,
-    short_desc: item.short_desc,
     long_desc: item.long_desc,
-    short_desc_en: item.short_desc_en ?? null,
     long_desc_en: item.long_desc_en ?? null,
     image_url: item.image_url ?? null,
     hidden: item.hidden === true,
@@ -526,15 +520,12 @@ export async function getFactionMembers(lv2Id: string): Promise<FactionMember[]>
 export async function updateFactionMemberDesc(
   celebId: string,
   lv2Id: string,
-  short_desc: string | null,
   long_desc: string | null,
-  short_desc_en?: string | null,
   long_desc_en?: string | null
 ): Promise<{ success: boolean; error?: string }> {
   const db = await createClient()
 
-  const updatePayload: Record<string, string | null> = { short_desc, long_desc }
-  if (short_desc_en !== undefined) updatePayload.short_desc_en = short_desc_en
+  const updatePayload: Record<string, string | null> = { long_desc }
   if (long_desc_en !== undefined) updatePayload.long_desc_en = long_desc_en
 
   const { data, error } = await db
@@ -625,7 +616,6 @@ export async function searchCelebsForFaction(
 export async function addCelebToFaction(
   celebId: string,
   lv2Id: string,
-  short_desc?: string | null,
   long_desc?: string | null
 ): Promise<{ success: boolean; error?: string; sort_order?: number }> {
   const db = await createClient()
@@ -646,7 +636,6 @@ export async function addCelebToFaction(
     .insert({
       celeb_id: celebId,
       lv2_id: lv2Id,
-      short_desc: short_desc || null,
       long_desc: long_desc || null,
       sort_order: nextSortOrder,
     })

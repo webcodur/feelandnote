@@ -68,10 +68,10 @@ async function fetchCelebModalPublic(
     (async (): Promise<CelebFactionInfo[]> => {
       const { data: memberRows, error: memberError } = await db
         .from('faction_member_rows')
-        .select('lv2_id, short_desc, short_desc_en, long_desc, long_desc_en')
+        .select('lv2_id, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
-        .overrideTypes<{ lv2_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null }[], { merge: false }>()
+        .overrideTypes<{ lv2_id: string; long_desc: string | null; long_desc_en: string | null }[], { merge: false }>()
       // 조회 실패를 "소속 없음"으로 캐시하지 않는다
       throwOnQueryError('getCelebForModal 세력도감 소속', memberError)
       if (!memberRows?.length) return []
@@ -96,8 +96,6 @@ async function fetchCelebModalPublic(
           slug: faction.slug ?? null,
           is_featured: faction.is_featured === true,
           is_myth: faction.is_myth === true,
-          short_desc: r.short_desc,
-          short_desc_en: r.short_desc_en,
           long_desc: r.long_desc,
           long_desc_en: r.long_desc_en,
         }]

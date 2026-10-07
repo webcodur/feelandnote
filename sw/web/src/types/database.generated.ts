@@ -2027,8 +2027,6 @@ export type Database = {
           long_desc_en: string | null
           lv2_id: string
           lv3_id: string | null
-          short_desc: string | null
-          short_desc_en: string | null
           sort_order: number
         }
         Insert: {
@@ -2041,8 +2039,6 @@ export type Database = {
           long_desc_en?: string | null
           lv2_id: string
           lv3_id?: string | null
-          short_desc?: string | null
-          short_desc_en?: string | null
           sort_order?: number
         }
         Update: {
@@ -2055,8 +2051,6 @@ export type Database = {
           long_desc_en?: string | null
           lv2_id?: string
           lv3_id?: string | null
-          short_desc?: string | null
-          short_desc_en?: string | null
           sort_order?: number
         }
         Relationships: [
@@ -3649,8 +3643,6 @@ export type Database = {
           lv2_id: string | null
           lv3_id: string | null
           member_id: string | null
-          short_desc: string | null
-          short_desc_en: string | null
           sort_order: number | null
         }
         Relationships: []

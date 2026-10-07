@@ -269,7 +269,6 @@ type Material = {
 type FactionContextRow = {
   celeb_id: string | null
   lv2_id: string | null
-  short_desc: string | null
   long_desc: string | null
   group_name: string | null
   group_name_en: string | null
@@ -288,7 +287,6 @@ type FactionContext = {
   themeSlug: string
   group: string | null
   groupEn: string | null
-  shortDescription: string | null
   longDescription: string | null
 }
 
@@ -454,7 +452,6 @@ function identityAnchors(profile: ProfileRow, contexts: FactionContext[]): strin
       context.theme,
       context.group,
       context.groupEn,
-      context.shortDescription,
       context.longDescription,
     ]),
   ].filter((value): value is string => Boolean(value?.trim()))
@@ -835,7 +832,7 @@ async function loadFactionContexts(): Promise<Map<string, FactionContext[]>> {
   const [members, tags] = await Promise.all([
     fetchAll<FactionContextRow>(
       'faction_member_rows',
-      'celeb_id,lv2_id,short_desc,long_desc,group_name,group_name_en',
+      'celeb_id,lv2_id,long_desc,group_name,group_name_en',
       (query) => query.order('celeb_id'),
     ),
     fetchAll<TagRow>('faction_lv2', 'id,name,name_en,slug', (query) => query.order('id')),
@@ -852,7 +849,6 @@ async function loadFactionContexts(): Promise<Map<string, FactionContext[]>> {
       themeSlug: tag.slug,
       group: member.group_name,
       groupEn: member.group_name_en,
-      shortDescription: member.short_desc,
       longDescription: member.long_desc,
     }
     contextsByProfile.set(member.celeb_id, [

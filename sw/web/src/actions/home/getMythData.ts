@@ -31,7 +31,7 @@ interface Lv2Row {
   published: boolean;
 }
 interface MemberRow {
-  lv2_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
+  lv2_id: string; celeb_id: string; long_desc: string | null; long_desc_en: string | null; sort_order: number | null;
   image_url: string | null;
   group_name: string | null; group_name_en: string | null; group_position: number | null;
 }
@@ -119,7 +119,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
   /* 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다. 신화 인원이 그 턱밑(26.09.14 약 1천 행)이다.
      차례는 sort_order가 쥔다 */
   const members = await selectVisibleFactionMembers<MemberRow>(db,
-    "lv2_id,celeb_id,short_desc,short_desc_en,sort_order,image_url,group_name,group_name_en,group_position", lv2Ids);
+    "lv2_id,celeb_id,long_desc,long_desc_en,sort_order,image_url,group_name,group_name_en,group_position", lv2Ids);
   const personIds = unique(members.map((member) => member.celeb_id));
   if (personIds.length === 0) return { regions: [], myths: [], people: [], works: [] };
 
@@ -196,7 +196,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
     const guideLocale = isEn && guideEn ? "en" as const : "ko" as const;
     const appearances = placements.map((placement) => ({
       mythId: placement.lv2_id,
-      summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
+      summary: (isEn ? placement.long_desc_en || placement.long_desc : placement.long_desc)?.trim() || null,
       /* 편마다 모습이 다른 인물의 신화 전용 사진 — 고르는 규칙은 화면의 mythLeadImage가 쥔다 */
       imageUrl: placement.image_url ?? null,
     }));
@@ -206,7 +206,7 @@ async function fetchMythData(locale: string): Promise<MythData> {
       headline: isEn ? profile.headline_en || profile.headline : profile.headline,
       bio: isEn ? profile.bio_en || profile.bio : profile.bio,
       reading: guide ? { guide, locale: guideLocale } : null, voiceV: profile.voice_v ?? 0,
-      summary: (isEn ? lead?.short_desc_en || lead?.short_desc : lead?.short_desc) ?? null,
+      summary: (isEn ? lead?.long_desc_en || lead?.long_desc : lead?.long_desc) ?? null,
       appearances,
       avatarUrl: profile.avatar_url, imageUrl, portraitUrl, images,
       mythIds: unique(placements.map((row) => row.lv2_id)), sourceIds }];

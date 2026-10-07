@@ -43,7 +43,7 @@ const myths = await must(db.from('faction_lv2')
   .eq('is_myth', true).eq('published', true).in('slug', Object.keys(MYTHS)).order('sort_order'))
 const mythIds = myths.map((m) => m.id)
 const members = await must(db.from('faction_member_rows')
-  .select('lv2_id,celeb_id,short_desc,short_desc_en,sort_order,image_url,group_name,group_name_en,group_position')
+  .select('lv2_id,celeb_id,long_desc,long_desc_en,sort_order,image_url,group_name,group_name_en,group_position')
   .eq('hidden', false).in('lv2_id', mythIds).order('lv2_id').order('sort_order').order('celeb_id'))
 const groupRows = await must(db.from('faction_lv3').select('lv2_id,name,description,description_en').in('lv2_id', mythIds))
 const allIds = [...new Set(members.map((m) => m.celeb_id))]
@@ -96,7 +96,7 @@ const fixture = {
       headline: pair(p.headline, p.headline_en), gender: p.gender === true ? 'male' : p.gender === false ? 'female' : null,
       avatarUrl: p.avatar_url, portraitUrl: p.portrait_url,
       roles: members.filter((row) => row.celeb_id === id).map((row) => ({
-        mythId: row.lv2_id, group: row.group_name?.trim() || null, summary: pair(row.short_desc, row.short_desc_en),
+        mythId: row.lv2_id, group: row.group_name?.trim() || null, summary: pair(row.long_desc, row.long_desc_en),
         imageUrl: row.image_url ?? null, order: row.sort_order ?? 0,
       })),
     }

@@ -22,8 +22,6 @@ export interface FeaturedCeleb {
   title_en: string | null
   profession: string | null
   speech_tone: string | null
-  short_desc: string | null
-  short_desc_en: string | null
   /* 긴 소개(long_desc)는 싣지 않는다 — 명단이 캐시 상한 2MB를 넘어 getFactionLongDescs가 테마별로 준다 */
   faction_image_url: string | null  // faction_members.image_url — 세력 전용 화보
   /**
@@ -71,8 +69,6 @@ export interface FeaturedFaction {
 interface MemberRow {
   lv2_id: string
   celeb_id: string
-  short_desc: string | null
-  short_desc_en: string | null
   image_url: string | null
   sort_order: number | null
   group_name: string | null
@@ -159,7 +155,7 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
   // 한 번에 읽던 때 테마를 전원 공개하자 3천 행을 넘어 모든 테마가 첫 그룹 몇 명만 받았다(26.09.14)
   const allAssignments = await selectVisibleFactionMembers<MemberRow>(
     db,
-    'celeb_id, lv2_id, short_desc, short_desc_en, image_url, sort_order, group_name, group_name_en, group_position',
+    'celeb_id, lv2_id, image_url, sort_order, group_name, group_name_en, group_position',
     lv2Ids,
   )
   const assignmentsByFaction: Record<string, MemberRow[]> = {}
@@ -210,8 +206,6 @@ async function fetchFactionMembers(lv2Ids: string[]): Promise<Record<string, Fea
         title_en: c.title_en ?? null,
         profession: c.profession,
         speech_tone: c.speech_tone ?? null,
-        short_desc: a.short_desc,
-        short_desc_en: a.short_desc_en,
         faction_image_url: a.image_url ?? null,
         group_label: a.group_name ?? null,
         group_label_en: a.group_name_en ?? null,

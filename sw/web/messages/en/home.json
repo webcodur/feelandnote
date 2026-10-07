@@ -84,7 +84,6 @@
       "contentReviewSpoiler": "This review contains spoilers. Click to reveal",
       "contentReviewMore": "See more of this figure's reviews on their page",
       "reviewCount": "{name}'s {count} records",
-      "keywords": "{name}'s Keywords",
       "followerUnit": "{count}",
       "loadMore": "Load more ({count} remaining)",
       "empty": {
@@ -109,7 +108,8 @@
       },
       "tags": {
         "noDescription": "No detailed description available.",
-        "goToFaction": "Go to faction page"
+        "goToFaction": "Go to faction page",
+        "atlasTitle": "People Atlas"
       },
       "banner": {
         "headline": "A Single Line Recorded, A Thousand Years of Echoes",
@@ -214,7 +214,8 @@
         "dailyInfoOpen": "About trends in Today's Picks",
         "dailyInfoTitle": "Today's Picks and search trends",
         "dailyInfoBody": "Today's Picks are drawn fresh each day. Figures whose names match search terms surging on Google Trends in {country} over the past {days} days get extra draws, so they reach the first page more often."
-      }
+      },
+      "affiliationsTitle": "{name}'s Affiliations"
     },
     "hub": {
       "todayFigure": "Today's Figure",

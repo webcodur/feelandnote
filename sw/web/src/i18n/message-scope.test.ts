@@ -50,7 +50,7 @@ for (const locale of ["ko", "en"] as const) {
   });
 
   test(`base message scope includes common celeb modal labels for ${locale}`, () => {
-    const scoped = pickMessages(loadMessages(locale, ["home", "celeb"]), BASE_MESSAGE_PATHS);
+    const scoped = pickMessages(loadMessages(locale, ["home", "celeb", "explore"]), BASE_MESSAGE_PATHS);
     const home = scoped.home as AbstractIntlMessages;
     const celebPage = scoped.celebPage as AbstractIntlMessages;
     const followLabel = (home.ui as AbstractIntlMessages | undefined)?.followLabel;
@@ -62,6 +62,11 @@ for (const locale of ["ko", "en"] as const) {
     ];
 
     assert.equal(typeof followLabel, "string");
+    const homeUi = home.ui as AbstractIntlMessages;
+    assert.equal(typeof homeUi.affiliationsTitle, "string");
+    assert.equal(typeof (homeUi.tags as AbstractIntlMessages).atlasTitle, "string");
+    const explore = scoped.explore as AbstractIntlMessages;
+    assert.equal(typeof (explore.faction as AbstractIntlMessages).personInTheme, "string");
     modalLabels.forEach((label) => assert.equal(typeof label, "string"));
 
     if (locale === "en") {

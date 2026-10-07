@@ -65,8 +65,7 @@ export default function FactionMemberModal({ factionId, factionName, celeb, meta
     locale,
   });
 
-  /* 테마별 긴 소개 — 테마 단위로 캐시된 묶음에서 꺼내 「{테마}에서의 {이름}」 섹션 본문이 된다.
-     한 줄 역할(short_desc)은 인물 정의와 겹쳐 읽혀 모달에 표기하지 않는다 */
+  /* 테마별 긴 소개 — 테마 단위로 캐시된 묶음에서 꺼내 「{테마}에서의 {이름}」 섹션 본문이 된다. */
   useEffect(() => {
     let alive = true;
     getFactionLongDescs(factionId)

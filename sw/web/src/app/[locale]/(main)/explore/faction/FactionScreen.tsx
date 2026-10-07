@@ -31,7 +31,6 @@ function buildEntryJsonLd(entry: FeaturedFaction, name: string, celebs: CelebPro
   const seoLocale = locale === "en" ? "en" : "ko";
   const pageUrl = getAlternates(`/explore/faction/${entry.slug}`, seoLocale).canonical;
   const description = localizedFactionDescription(entry, locale);
-  const members = new Map(entry.celebs.map((member) => [member.id, member]));
   return {
     "@context": "https://schema.org", "@type": "CollectionPage", "@id": pageUrl,
     url: pageUrl, name,
@@ -40,15 +39,12 @@ function buildEntryJsonLd(entry: FeaturedFaction, name: string, celebs: CelebPro
     mainEntity: {
       "@type": "ItemList", numberOfItems: celebs.length,
       itemListElement: celebs.map((celeb, index) => {
-        const member = members.get(celeb.id);
-        const role = (locale === "en" ? member?.short_desc_en : member?.short_desc)?.trim();
         return {
           "@type": "ListItem", position: index + 1,
           item: {
             "@type": "Person",
             name: (locale === "en" && celeb.nickname_en) || celeb.nickname,
             url: getAlternates(getCelebProfileUrl({ id: celeb.id, slug: celeb.slug }), seoLocale).canonical,
-            ...(role && { description: role }),
           },
         };
       }),
@@ -78,7 +74,7 @@ async function EntryBody({ entry, locale, withJsonLd, navigationTree, themeId, g
   const ordered = entry.celebs.flatMap((member) => byId.get(member.id) ?? []);
   const name = localizedFactionName(entry, locale);
   const hasGroups = buildFactionClusters(entry.celebs, locale).length > 1;
-  /* 인물 모달에는 진영만 넘긴다 — 한 줄 역할(short_desc)은 인물 정의와 겹쳐 읽혀
+  /* 인물 모달에는 진영만 넘긴다 — 테마별 긴 소개는 별도로 조회해
      모달에 싣지 않고, 테마 소개(long_desc)는 모달이 테마 단위 캐시로 따로 받는다 */
   const members = Object.fromEntries(entry.celebs.map((member) => [member.id, {
     group: hasGroups ? (locale === "en" ? member.group_label_en?.trim() || member.group_label : member.group_label) ?? null : null,
